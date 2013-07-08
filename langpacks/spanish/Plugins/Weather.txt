@@ -6,23 +6,77 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 ;file \plugins\Weather\res\resource.rc
+[Close]
+Cerrar
+[Options]
+Opciones
+[Options]
+Opciones
+[Visibility]
+Visibilidad
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Background colour]
+Color de fondo
+[Background colour]
+Colores de fondo
+[Text colour]
+Color del texto
+[Use Windows colours]
+Usar colores de Windows
+[seconds]
+segundo
+[Default]
+por defecto
+[Default]
+Predeterminado
+[Alerts]
+Alertas
+[Contact List]
+Lista de contactos
+[Reset]
+Restablecer
+[City:]
+Ciudad:
 [Show user detail]
 Mostrar detalles del usuario
 ;file \plugins\Weather\src\weather.cpp
 ;file \plugins\Weather\src\weather.h
 ;file \plugins\Weather\src\weather_addstn.cpp
 ;file \plugins\Weather\src\weather_contacts.cpp
+[Text Files]
+Archivos de texto
+[All Files]
+Todos los archivos
 ;file \plugins\Weather\src\weather_conv.cpp
 ;file \plugins\Weather\src\weather_data.cpp
 ;file \plugins\Weather\src\weather_http.cpp
 ;file \plugins\Weather\src\weather_icons.cpp
 ;file \plugins\Weather\src\weather_info.cpp
+[Name:]
+Nombre
+[bytes]
+Bytes
+[Description:]
+Descripción:
 ;file \plugins\Weather\src\weather_ini.cpp
 ;file \plugins\Weather\src\weather_mwin.cpp
 ;file \plugins\Weather\src\weather_opt.cpp
+[Network]
+Red
+[Network]
+red
+[General]
+General
+[General]
+General
 ;file \plugins\Weather\src\weather_popup.cpp
 ;file \plugins\Weather\src\weather_svcs.cpp
 ;file \plugins\Weather\src\weather_update.cpp
 ;file \plugins\Weather\src\weather_userinfo.cpp
+[Information]
+Información
 [More Info]
 Más información

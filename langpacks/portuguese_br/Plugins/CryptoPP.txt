@@ -2,7 +2,31 @@
 ;============================================================
 ;  File: CryptoPP.dll
 ;  Plugin: Crypto++
-;  Version: 1.0.4.5
+;  Version: 1.0.4.6
 ;  Authors: Baloo
 ;============================================================
 ;file \plugins\CryptoPP\src\GPGw\gpg.rc
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar

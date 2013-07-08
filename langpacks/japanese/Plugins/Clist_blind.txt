@@ -6,6 +6,20 @@
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 ;file \plugins\Clist_blind\res\resource.rc
+[Delete Contact]
+コンタクトの削除
+[Are you sure you want to delete %s?]
+%sを削除してよろしいですか？
+[This will erase all history and settings for this contact!]
+このコンタクトに対する全てのヒストリ及び設定を消去します！
+[Yes]
+はい
+[No]
+いいえ
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+履歴及び , 無視 / 可視設定を維持するためのみのリストを非表示
+[Hotkeys]
+ホットキー
 [Show/Hide:]
 表示 / 非表示 :
 [URL:]
@@ -14,7 +28,205 @@ URL:
 新規ブラウザウィンドウに開く
 [Show Options]
 オプションを表示
+[Hide offline users]
+オフラインユーザーを非表示
+[Hide empty groups]
+空のグループを非表示
+[Disable groups]
+グループを無効
+[Ask before deleting contacts]
+コンタクトを削除する前に確認する
+[Sort contacts by name]
+コンタクトを名前順に並べる
+[Sort contacts by status]
+コンタクトをステータス順に並べる
+[Sort contacts by protocol]
+コンタクトをプロトコル順に並べる
+[Single click interface]
+シングルクリックインターフェース
+[Always show status in tooltip]
+常にツールチップで状況を見る
+[Disable icon blinking]
+アイコン点滅を無効
+[ms delay]
+ミリ秒 遅延
+[Show]
+表示
+[icon when statuses differ]
+ステータスが異なる時のアイコン
+[Cycle icons every]
+アイコンの切り替え
+[seconds, when statuses differ]
+秒毎　ステータスが異なる時
+[Show multiple icons]
+複合アイコンを表示
+[Only when statuses differ]
+ステータスが異なる時のみ
+[Contact List]
+コンタクトリスト
+[System tray icon]
+システムトレイアイコン
+[System tray icon when using multiple protocols]
+複数プロトコル使用時のシステムトレイアイコン
+[Contact List Sorting]
+コンタクトリストの並び替え
+[Window]
+ウィンドウ
+[Always on top]
+常に一番前
+[Tool style main window]
+ツールスタイルのメインウィンドウ
+[Minimize to tray]
+トレイを最小化
+[Hide contact list after it has been idle for]
+使われなくなったコンタクトリストを非表示
+[seconds]
+秒
+[Automatically resize window to height of list]
+リストの高さで自動的にウィンドウの大きさを調整
+[maximum]
+最大
+[% of screen]
+%( 画面 )
+[Size upwards]
+サイズを上げる
+[Title bar text:]
+タイトルラベル
+[Fade contact list in/out]
+コンタクトリストをフェードイン/フェードアウト
+[Transparent contact list]
+コンタクトリストを透過表示にする
+[Inactive opacity:]
+非アクティブ不透明度 ：
+[Active opacity:]
+アクティブ不透明度 :
+[Show menu bar]
+メニューバーを表示
+[Easy move]
+簡易移動
+[Show title bar]
+タイトルバーを表示
+[If window is partially covered, bring to front instead of hiding]
+ウィンドウが一部隠れている場合 , 後方から前面に移動する
+[Show drop shadow (restart required)]
+ドロップシャドウを表示(要再起動)
+[Pin to desktop]
+デスクトップに固定
+[Items]
+アイテム
+['Hide Offline' means to hide:]
+' オフラインの非表示 ' で非表示にする対象 :
+[Groups]
+グループ
+[Show counts of number of contacts in a group]
+グループにあるコンタクトの総数を表示
+[Hide group counts when there are none online]
+オンラインユーザーがいない時グループ数を非表示
+[Sort groups alphabetically]
+アルファベット順にグループを並べる
+[Quicksearch in open groups only]
+オープングループのみのクイック検索
+[Group:]
+グループ :
+[Status Bar]
+ステータスバー
+[Show status bar]
+ステータスバーを表示
+[Show icons]
+アイコンを表示
+[Show protocol names]
+プロトコル名を表示
+[Show status text]
+ステータステキストを表示
+[Right click opens status menu]
+右クリックでステータスメニューを開く
+[Right click opens Miranda NG menu]
+右クリックで Miranda NG のメニューを開く
+[Make sections equal width]
+セクションの幅を同じにする
+[Show bevels on panels]
+パネルの面取りを表示
+[Show resize grip indicator]
+サイズ変更グリップインジケータを表示
+[E&xit]
+終了 (&x)
+[&Status]
+ステータス (&S)
+[&Offline\tCtrl+0]
+オフライン (&O)\tCtrl+0
+[On&line\tCtrl+1]
+オンライン (&l)\tCtrl+1
+[&Away\tCtrl+2]
+退出する (&A)\tCtrl+2
+[&NA\tCtrl+3]
+応答不可 (&N)\tCtrl+3
+[Occ&upied\tCtrl+4]
+取り込み中 (&u)\tCtrl+4
+[&DND\tCtrl+5]
+邪魔しないで (&D)\tCtrl+5
+[&Free for chat\tCtrl+6]
+チャット OK!(&F)\tCtrl+6
+[&Invisible\tCtrl+7]
+不可視 (&I)\tCtrl+7
+[On the &Phone\tCtrl+8]
+電話中 (&P)\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+昼食中 (&L)\tCtrl+9
+[Tray]
+トレイ
+[&Hide/Show]
+表示 / 非表示 (&H)
+[Nowhere]
+なし
+[&New Group]
+新規グループ (&N)
+[&Hide Offline Users]
+オフラインユーザーを非表示 (&H)
+[Hide &Offline Users out here]
+ここにいないオフラインユーザーを非表示 (&O)
+[Hide &Empty Groups]
+空のグループを非表示 (&E)
+[Disable &Groups]
+グループを無効 (&G)
+[Hide Miranda]
+Miranda を非表示
+[Group]
+グループ
+[&New Subgroup]
+新規サブグループ (&N)
+[&Hide Offline Users in here]
+ここのオフラインユーザーを非表示 (&H)
+[&Rename Group]
+グループ名を変更 (&R)
+[&Delete Group]
+グループを削除 (&D)
 ;file \plugins\Clist_blind\src\clcopts.cpp
+[Not focused]
+非フォーカス
+[Offline]
+オフライン
+[Online]
+オンライン
+[Away]
+離席中
+[NA]
+応答不可
+[Occupied]
+取り込み中
+[DND]
+邪魔しないで
+[Free for chat]
+チャット OK!
+[Invisible]
+不可視
+[Out to lunch]
+昼食中
+[On the phone]
+電話中
+[List]
+リスト
 ;file \plugins\Clist_blind\src\clistopts.cpp
+[Global]
+グローバル
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp

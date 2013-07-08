@@ -6,12 +6,54 @@
 ;  Authors: J. Schaal & S. Ellis
 ;============================================================
 ;file \plugins\MetaContacts\res\MetaContacts.rc
+[&Cancel]
+&Avbryt
+[Name:]
+Navn:
+[Name:]
+Navn:
+[Information]
+Informasjon
+[Contacts]
+Kontakter
+[&Apply]
+&Utfør
+[Options]
+Valg
+[Contact List]
+Kontaktliste
+[Default]
+Standard
 ;file \plugins\MetaContacts\src\addto.cpp
 ;file \plugins\MetaContacts\src\edit.cpp
+[(Unknown Contact)]
+(Ukjent Kontakt)
+[Yes]
+Ja
+[No]
+Nei
+[Contact]
+Kontakt
+[Protocol]
+Protokoll
 ;file \plugins\MetaContacts\src\icons.cpp
+[Edit]
+Rediger
+[Remove]
+Fjern
+[Remove]
+Fjern
 ;file \plugins\MetaContacts\src\metacontacts.h
 ;file \plugins\MetaContacts\src\meta_main.cpp
 ;file \plugins\MetaContacts\src\meta_menu.cpp
+[Error]
+Feil
 ;file \plugins\MetaContacts\src\meta_options.cpp
 ;file \plugins\MetaContacts\src\meta_services.cpp
+[Message from %s]
+Melding fra %s
+[General]
+Generelt
+[History]
+Historikk
 ;file \plugins\MetaContacts\src\meta_utils.cpp

@@ -10,12 +10,18 @@
 SMS reçu
 [&Reply]
 &Répondre
+[&Close]
+&Fermer
 [Read Next]
 Suivant
+[From:]
+De :
 [Message received:]
 Message reçu :
 [Send SMS]
 Envoyer SMS
+[To:]
+À :
 [Add number to list]
 Ajouter à la Liste
 [Save number]
@@ -24,10 +30,14 @@ Enregistrer
 Tapez un message :
 [Chars:]
 Lettres :
+[&Send]
+&Envoyer
 [SMS Message Didn't Send]
 Le SMS n'a pas été envoyé
 [&Try again]
 &Réessayer
+[&Cancel]
+&Annuler
 [The SMS message send timed out]
 L'envoi du SMS a expiré
 [SMS Plugin]
@@ -40,6 +50,8 @@ au début
 Où mettre la signature :
 [SMS Message Sent]
 Envoi d'un message SMS
+[&OK]
+OK
 [Message ID:]
 ID du message :
 [Source:]
@@ -56,6 +68,8 @@ Accusé de réception de %s
 [Received SMS Confirmation]
 Accusé de réception reçu
 ;file \plugins\SMS\src\senddlg.cpp
+[View User's History]
+Voir l'historique
 [Add Number To The Multiple List]
 Ajouter ce numéro à la Liste
 [Save Number To The User's Details Phonebook]
@@ -66,6 +80,8 @@ Voir/Cacher la Liste
 Voir combien de lettres ont été tapées
 [The SMS message send to %s timed out.]
 Échec de l'envoi du SMS à %s.
+[Invalid Phone Number]
+Numéro de téléphone invalide
 [Message is too long, press OK to continue.]
 Message trop long. Tapez OK pour continuer.
 [Error - Message too long]

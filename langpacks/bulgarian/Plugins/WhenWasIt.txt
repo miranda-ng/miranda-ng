@@ -6,13 +6,43 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
+[Popups]
+РopUps
+[Popups]
+РopUps
+[Sounds]
+Звук
+[Show]
+Показване
 [Timeout:]
 Времетраене:
+[seconds]
+секунди
+[In background]
+без фокусиране (на заден план)
+[Close]
+Затваряне
+[Description:]
+Описание:
+[Date:]
+Дата:
+[Delete]
+Изтриване
 ;file \plugins\WhenWasIt\src\dlg_handlers.cpp
+[Unknown]
+Неизвестно
+[Contact]
+Контакт
 [Age]
 Възраст
 ;file \plugins\WhenWasIt\src\hooked_events.cpp
+[Contacts]
+Контакти
 ;file \plugins\WhenWasIt\src\icons.cpp
 ;file \plugins\WhenWasIt\src\notifiers.cpp
 ;file \plugins\WhenWasIt\src\services.cpp
+[Error]
+Грешка
+[All Files]
+Всички файлове
 ;file \plugins\WhenWasIt\src\services.h

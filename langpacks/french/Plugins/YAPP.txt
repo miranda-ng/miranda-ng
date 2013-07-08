@@ -8,6 +8,8 @@
 ;file \plugins\YAPP\res\yapp.rc
 [Popup history]
 Historique des popups
+[Close]
+Fermer
 [Case sensitive]
 Respecter la casse
 [Never timeout]
@@ -45,14 +47,20 @@ Heure sur la gauche
 Heure sur la droite
 [Time above avatar]
 Heure sur l'avatar
+[Status]
+État
 [Full-screen app running]
 Programme en plein écran
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Vous ne pouvez pas régler le délai par défaut à 0.\nLa valeur a été resetée.
+[Error]
+Erreur
 ;file \plugins\YAPP\src\services.cpp
 ;file \plugins\YAPP\src\yapp.cpp
 [First line]
 Première ligne
+[Background]
+Arrière-plan
 ;file \plugins\YAPP\src\yapp_history_dlg.cpp
 [Copy title to clipboard]
 Copier le titre

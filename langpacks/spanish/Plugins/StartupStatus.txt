@@ -8,7 +8,55 @@
 [StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
 StartupStatus, le permite definir el estado Miranda debe establecer en el arranque, configurable por el protocolo.
 ;file \Plugins\StatusPlugins\resource.rc
+[General]
+General
+[General]
+General
+[Close]
+Cerrar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Profile]
+Perfil
+[Message]
+Mensaje
+[Set]
+Set
+[OK]
+OK
+[Other]
+Otros
+[Background colour]
+Color de fondo
+[Background colour]
+Colores de fondo
+[Text colour]
+Color del texto
+[Use Windows colours]
+Usar colores de Windows
+[Use default colours]
+Utilice los colores por defecto
+[Events]
+Eventos
+[Events]
+Eventos
+[Custom]
+Personalizado
+[Use %time% for the current time, %date% for the current date]
+Utilice %time% por el momento actual, %date% para la fecha actual
+[Accounts]
+Cuentas
+[Status]
+estado
+[Delete]
+Eliminar
+[seconds]
+segundo
 ;file \plugins\StatusPlugins\StartupStatus\options.cpp
+[None]
+ninguno
 [size: %d x %d]
 Tamaño: %d x %d
 [loc: %d x %d]
@@ -32,4 +80,32 @@ Pulsa el icono de barra de herramientas
 [Released toolbar icon]
 Publicada el icono de la barra de herramientas
 ;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+He estado fuera desde %time%.
+[Give it up, I'm not in!]
+Renunciar a ella, yo no estoy en!
+[Not right now.]
+No en este momento.
+[Give a guy some peace, would ya?]
+Dar un tipo un poco de paz, ya que?
+[I'm a chatbot!]
+Soy un chatbot!
+[Yep, I'm here.]
+Sí, estoy aquí.
+[Nope, not here.]
+No, no aquí.
+[I'm hiding from the mafia.]
+Me estoy escondiendo de la mafia.
+[That'll be the phone.]
+Eso va a ser el teléfono.
+[Mmm...food.]
+Mmm ... la comida.
+[idleeeeeeee]
+idleeeeeeee
+[idleeeeeeee]
+ocioso
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Protocol]
+Protocolo
+[Closing in %d]
+Cierre en %d

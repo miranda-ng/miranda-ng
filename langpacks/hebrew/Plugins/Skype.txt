@@ -2,21 +2,70 @@
 ;============================================================
 ;  File: Skype.dll
 ;  Plugin: Skype Protocol
-;  Version: 0.0.0.1
-;  Authors: Unsane, Mataes
+;  Version: 0.11.0.1
+;  Authors: unsane, mataes, ghazan
 ;============================================================
 ;file \protocols\Skype\res\Resource.rc
+[&Cancel]
+בטל
+[Add]
+הוסף
+[Password:]
+סיסמא:
+[&OK]
+&אישור
 [Enter password]
 הכנס סיסמה
+[OK]
+אישור
+[Cancel]
+ביטול
+[Date of birth:]
+:תאריך לידה
+[Homepage:]
+דף בית:
+[About:]
+:אודות
 ;file \protocols\Skype\src\skype.cpp
 ;file \protocols\Skype\src\skype_account.cpp
+;file \protocols\Skype\src\skype_blocked.cpp
+[Name]
+שם
+;file \protocols\Skype\src\skype_bookmarks.cpp
 ;file \protocols\Skype\src\skype_chat.cpp
+[&Add]
+&הוסף
 ;file \protocols\Skype\src\skype_contacts.cpp
 ;file \protocols\Skype\src\skype_dialogs.cpp
+[<not specified>]
+<לא מוגדר>
+[Male]
+זכר
+[Female]
+נקבה
 ;file \protocols\Skype\src\skype_events.cpp
+[Network]
+רשת
+[Contacts]
+אנשי קשר
+[General]
+כללי
 ;file \protocols\Skype\src\skype_icons.cpp
+[Contact]
+קשר
+[Delete]
+מחק
+;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
 ;file \protocols\Skype\src\skype_menus.cpp
+[Request authorization]
+בקשת אישור
+[Grant authorization]
+הענק אישור
+[Revoke authorization]
+בקש אישור שנית
+;file \protocols\Skype\src\skype_messages.cpp
 ;file \protocols\Skype\src\skype_netlib.cpp
 ;file \protocols\Skype\src\skype_proto.cpp
+;file \protocols\Skype\src\skype_transfers.cpp
 ;file \protocols\Skype\src\skype_utils.cpp

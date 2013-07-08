@@ -6,12 +6,20 @@
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
 ;file \plugins\MenuItemEx\res\resource.rc
+[&Send]
+שלח
+[&Cancel]
+בטל
 [Shown menu items]
 הצג פריטי תפריט
+[Visibility]
+ראות
 [Show alpha icons]
 הראה אייקוני אלפא
 [Hide from list]
 הסתר מהרשימה
+[Ignore]
+התעלם
 [Copy to Account (Ctrl+click for move to Account)]
 העתק לחשבון (Ctrl+click בשביל להעביר לחשבון)
 [Send 'You were added']
@@ -33,8 +41,28 @@
 [* Use Ctrl+click to see popup with the copied text]
 *   השתמש Ctrl+click בשביל לראות פופאפים עם הטקסט המועתק
 ;file \plugins\MenuItemEx\src\main.cpp
+[Always visible]
+תמיד נראה
 [Never visible]
 לא נראה לעולם
+[Messages]
+הודעות
+[URL]
+קישור
+[Files]
+קבצים
+[User Online]
+משתמש מחובר
+[You Were Added]
+אתה צורפת
+[Typing Notify]
+התראת כתיבה
+[Miranda NG]
+מירנדה
 [MenuItemEx]
 פריטי תפריט משתמש
+[Request authorization]
+בקשת אישור
 ;file \plugins\MenuItemEx\src\options.cpp
+[Customize]
+התאמה אישית

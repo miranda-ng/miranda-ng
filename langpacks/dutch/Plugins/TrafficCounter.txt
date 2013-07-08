@@ -6,6 +6,18 @@
 ;  Authors: Ghost, Mironych
 ;============================================================
 ;file \plugins\TrafficCounter\res\resource.rc
+[Custom]
+Aangepast
 ;file \plugins\TrafficCounter\src\options.cpp
+[General]
+Algemeen
+[Options]
+Opties
+[Popups]
+Popups
 ;file \plugins\TrafficCounter\src\statistics.cpp
+[Incoming]
+Binnenkomend
+[Outgoing]
+Uitgaand
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp

@@ -6,12 +6,18 @@
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 ;file \plugins\IEView\res\ieview.rc
+[Copy]
+复制
+[Select All]
+全选
 [Save Image As...]
 另存图片为...
 [Print]
 打印
 [Show source]
 显示源码
+[Options]
+选项
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
 当前支持 BBCode: [b][i][u][s][img][size][color][url]
 [Enable support for Flash files in smileys and BBCodes]
@@ -24,6 +30,8 @@
 替换用户名表情
 [Hide window border]
 隐藏窗口框线
+[Size:]
+大小: 
 [Compatibility Mode]
 兼容模式
 [Use External CSS]
@@ -32,12 +40,16 @@
 使用模板
 [Background image]
 背景图片
+[Scroll with text]
+与文本一起滚动
 [Template Options]
 模板选项
 [Use message grouping]
 使用消息群组功能
 [Show nicknames]
 显示昵称
+[Show seconds]
+显示秒数
 [Use long date format]
 使用长日期格式
 [Use relative timestamp]
@@ -45,7 +57,11 @@
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
 发送文件传输
+[Incoming File Transfer]
+传入文件传输
 ;file \plugins\IEView\src\HTMLBuilder.cpp
+[(Unknown Contact)]
+(未知联系人)
 [ requested authorisation]
  已请求授权
 [ was added.]
@@ -60,7 +76,27 @@
 %s 已离开.
 [The topic is %s.]
 主题为 %s.
+[Error]
+错误
 ;file \plugins\IEView\src\Options.cpp
+[General]
+常规
+[Message Log]
+消息记录
+[Group Chats]
+群组聊天
+[History]
+历史
+[Default]
+默认
+[Message Sessions]
+消息会话
+[All Files]
+所有文件
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+[File sent]
+已发送文件
+[File received]
+已接收文件
 ;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
 ;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

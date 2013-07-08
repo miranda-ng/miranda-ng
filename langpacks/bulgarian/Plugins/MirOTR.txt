@@ -48,6 +48,12 @@ OTR създаване на нов частен ключ
 Потвърждаване
 [Set unknown]
 Задай непознат
+[&Cancel]
+Отказ
+[&No]
+Не
+[&Yes]
+Да
 [OTR status]
 OTR състояние
 [&Start OTR session]
@@ -63,6 +69,10 @@ OTR състояние
 Включване на OTR шифроването
 [Stop OTR]
 Изключване на OTR шифроването
+[Yes]
+Да
+[No]
+Не
 [OTR status (Click for more options)]
 OTR състояние (натиснете за повече информация)
 [OTR Encryption: Disabled]
@@ -105,6 +115,8 @@ OTR информация
 Удостоверяване от %s
 [Authenticae %s]
 Удостоверяване на %s
+[Unknown]
+Неизвестно
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 Сега се използва ПОТВЪРДЕН отпечатък за OTR шифрованата сесия с "%s"
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
@@ -119,14 +131,22 @@ OTR частно
 OTR ненадеждно
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 Създаване на нов частен ключ за протокол "%s".\nМоля, изчакайте...
+[General]
+Основни
+[Contacts]
+Контакти
 [Fingerprints]
 Отпечатъци
+[Contact]
+Контакт
 [Policy]
 Политика
 [Verified]
 Потвърдено
 [Conv. HTML]
 Конверт. на HTML
+[Default]
+Стандарт
 [Generating new key for '%s'. Continue?]
 Наистина ли желаете да бъде създаден нов ключ за "%s"?
 [Removing key for '%s'. Continue?]

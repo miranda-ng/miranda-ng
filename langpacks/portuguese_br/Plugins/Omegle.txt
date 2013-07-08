@@ -9,6 +9,12 @@
 ;file \protocols\Omegle\src\chat.cpp
 ;file \protocols\Omegle\src\communication.cpp
 ;file \protocols\Omegle\src\connection.cpp
+[Connecting...]
+Conectando...
 ;file \protocols\Omegle\src\constants.h
 ;file \protocols\Omegle\src\proto.cpp
+[Network]
+Rede
+[Network]
+Rede
 ;file \protocols\Omegle\src\theme.cpp

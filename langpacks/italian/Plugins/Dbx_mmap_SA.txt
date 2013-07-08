@@ -6,6 +6,96 @@
 ;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
 ;============================================================
 ;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Install Database Settings]
+Installa la configurazione del DB
+[Yes]
+Sì
+[No]
+No
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Un file con una nuova configurazione del DB è stato inserito nella cartella di Miranda.
+[Do you want to import the settings now?]
+Vuoi importare la configurazione ora?
+[No to all]
+No a tutti
+[&View contents]
+&Visualizza contenuti
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+I sistemi di sicurezza per prevenire modifiche dannose sono all'opera e sarai avvisato in caso di modifiche non sicure.
+[Database Setting Change]
+Modifica configurazione DB
+[Database settings are being imported from]
+Sto importando la configurazione del DB da
+[This file wishes to change the setting]
+Questo file vuole modificare il parametro
+[to the value]
+al valore
+[Do you want to allow this change?]
+Vuoi permettere questa modifica?
+[&Allow all further changes to this section]
+&Permetti tutte le ulteriori modifiche a questa sezione
+[&Yes]
+&Sì
+[&No]
+&No
+[Cancel Import]
+Annulla importazione
+[Database Import Complete]
+Importazione database completata
+[The import has completed from]
+Completata l'importazione da
+[What do you want to do with the file now?]
+Cosa vuoi fare con il file ora?
+[&Recycle]
+&Cestina
+[&Delete]
+&Elimina
+[&Delete]
+&Elimina
+[&Delete]
+&Elimina
+[&Delete]
+&Cancella
+[&Delete]
+Elimina
+[&Move/Rename]
+&Sposta/Rinomina
+[&Leave]
+&Lascia
 ;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
 ;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
+[Name]
+Nome
+[Name]
+Nome
+[Name]
+Nome
+[Name]
+Nome
+[Version]
+Versione
+[Version]
+Versione
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
+[Error]
+Errore
+[Error]
+Errore

@@ -7,3 +7,7 @@
 ;============================================================
 ;file \plugins\Console\res\resource.rc
 ;file \plugins\Console\src\Console.cpp
+[Text]
+Tekst
+[All Files]
+Alle bestanden

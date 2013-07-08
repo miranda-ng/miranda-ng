@@ -7,5 +7,11 @@
 ;============================================================
 ;file \plugins\RecentContacts\res\resource.rc
 ;file \plugins\RecentContacts\src\options.cpp
+[Contacts]
+Contatos
+[Contacts]
+Contatos
 ;file \plugins\RecentContacts\src\RecentContacts.cpp
+[Contact]
+Contato
 ;file \plugins\RecentContacts\src\RecentContacts.h

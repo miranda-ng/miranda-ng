@@ -7,8 +7,16 @@
 ;============================================================
 ;file \plugins\StopSpamPlus\res\stopspam.rc
 ;file \plugins\StopSpamPlus\src\events.cpp
+[Message Sessions]
+Sessions de message
+[General]
+Général
+[Accounts]
+Comptes
 ;file \plugins\StopSpamPlus\src\headers.h
 ;file \plugins\StopSpamPlus\src\options.cpp
 ;file \plugins\StopSpamPlus\src\services.cpp
+[Complete]
+Terminé
 ;file \plugins\StopSpamPlus\src\settings.h
 ;file \plugins\StopSpamPlus\src\stopspam.cpp

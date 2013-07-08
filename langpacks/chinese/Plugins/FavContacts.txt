@@ -6,6 +6,8 @@
 ;  Authors: Victor Pavlychko
 ;============================================================
 ;file \plugins\FavContacts\res\resource.rc
+[Customize]
+自定义
 [Draw avatar border]
 绘制头像边框
 [Hide for transparent avatars]
@@ -28,6 +30,8 @@
 向右对齐
 [Dim idle contact icons]
 暗淡化闲置联系人图标
+[Show]
+状态不同时显示
 [recent contacts]
 最近联系人
 ;file \plugins\FavContacts\src\favlist.h
@@ -40,5 +44,9 @@
 选定联系人名称 (颜色)
 [Selected second line (color)]
 选定联系人第二行 (颜色)
+[Background]
+背景
 [Show favourite contacts]
 显示我的最爱
+[Contacts]
+联系人

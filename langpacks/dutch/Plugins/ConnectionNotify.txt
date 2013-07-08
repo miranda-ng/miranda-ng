@@ -6,5 +6,17 @@
 ;  Authors: MaKaR
 ;============================================================
 ;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
+[Background]
+Achtergrond
+[Text]
+Tekst
+[OK]
+OK
+[Cancel]
+Annuleren
 ;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+[Status]
+Status
+[Plugins]
+Plugins
 ;file \plugins\ConnectionNotify\src\filter.cpp

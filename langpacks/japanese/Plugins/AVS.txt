@@ -38,6 +38,10 @@
 アバターの大きさをプロトコルが許容する最大サイズにする
 [Contact picture]
 コンタクト画像
+[Delete]
+削除
+[Reset]
+リセット
 [Picture options]
 画像オプション
 [Protect the picture]
@@ -48,10 +52,20 @@
 画像の背景を透明にする
 [Use defaults]
 デフォルトを使用
+[OK]
+OK
+[Cancel]
+Cancel
+[Options]
+オプション
+[Background]
+背景
 [Points:]
 ポイント :
 [Color diff:]
 色差 :
+[Set]
+設定
 [Use per protocol avatars]
 プロトコル毎にアバターを使用
 ;file \plugins\AVS\src\acc.cpp
@@ -60,6 +74,16 @@
 ;file \plugins\AVS\src\main.cpp
 [Grow avatar to fit max allowed protocol size]
 アバターをプロトコルが許可する最大サイズにあわせる
+[All Files]
+全てのファイル
+[Windows Bitmaps]
+Windows 形式ビットマップ
+[JPEG Bitmaps]
+JPEG ビットマップ
+[GIF Bitmaps]
+GIF 形式
+[PNG Bitmaps]
+PNG 形式
 [Flash Animations]
 Flash アニメーション
 [XML Files]
@@ -70,6 +94,8 @@ XML ファイル
 %s にマイアバターを設定
 [Global avatar for %s accounts]
 %s アカウントのグローバルアバター
+[Contacts]
+コンタクト
 [Contact Avatars]
 コンタクトアバター
 [Own Avatars]

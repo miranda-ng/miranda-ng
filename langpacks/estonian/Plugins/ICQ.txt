@@ -6,14 +6,66 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\IcqOscarJ\res\resources.rc
+[Password:]
+Parool:
+[&Send]
+Saada
+[&Cancel]
+&Tühista
+[OK]
+OK
+[Cancel]
+Tühista
 [ICQ number:]
 ICQ number:
+[Port:]
+Port:
 [Direct connections]
 Otseühendused
+[Options]
+Valikud
+[Text Color]
+Teksti värv
+[Error]
+Viga
+[Use default colours]
+Kasuta vaikimisi värve
 [Protocol Version:]
 Protokolli versioon:
 [Idle since:]
 Tegevusetu alates:
+[Summary]
+Kokkuvõte
+[Nickname:]
+Hüüdnimi:
+[First name:]
+Eesnimi:
+[Last name:]
+Perenimi:
+[E-mail:]
+E-mail:
+[Gender:]
+Sugu:
+[Age:]
+Vanus:
+[Work]
+Töö
+[Company:]
+Firma:
+[Department:]
+Osakond:
+[Location]
+Asukoht
+[Country:]
+Riik
+[State:]
+Maakond:
+[City:]
+Linn
+[Other]
+Muu
+[Closing in %d]
+Sulgub %d s. pärast
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
 ;file \protocols\IcqOscarJ\src\fam_01service.cpp
 ;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
@@ -26,16 +78,36 @@ ICQ märkus
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
 ;file \protocols\IcqOscarJ\src\icq_constants.h
 ;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Estonia]
+Eesti
+[Female]
+Naine
+[Male]
+Mees
 ;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
 ;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
 ;file \protocols\IcqOscarJ\src\icq_menu.cpp
 ;file \protocols\IcqOscarJ\src\icq_opts.cpp
+[Network]
+Võrgustik
+[Contacts]
+Kontaktid
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 ;file \protocols\IcqOscarJ\src\icq_proto.cpp
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
 ;file \protocols\IcqOscarJ\src\icq_servlist.cpp
 ;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
+[Close]
+Sulge
+[** All contacts **]
+** Kõik kontaktid **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
+[On the phone]
+Telefonil
+[Typing]
+Trükkimine
+[None]
+Pole
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 ;file \protocols\IcqOscarJ\src\init.cpp
 ;file \protocols\IcqOscarJ\src\log.cpp
@@ -44,6 +116,8 @@ viga
 ;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
 ;file \protocols\IcqOscarJ\src\utilities.cpp
 ;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
+[Contact]
+Kontakt
 [Country]
 Riik
 [Spoken language 1]
@@ -62,3 +136,5 @@ Muuda ICQ detaile
 ;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
 ;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 ;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
+[<not specified>]
+<pole märgitud>

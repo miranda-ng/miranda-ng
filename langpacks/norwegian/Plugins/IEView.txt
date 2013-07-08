@@ -6,21 +6,59 @@
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 ;file \plugins\IEView\res\ieview.rc
+[Copy]
+Kopier
+[Copy]
+Kopier
+[Select All]
+Velg Alt
+[Options]
+Valg
 [Enable MathModule support]
 Aktiver MathModule støtte
+[Size:]
+Strl:
 [Background image]
 Bakgrunnsbilde
+[Scroll with text]
+Rull med tekst
 [Use message grouping]
 Bruk meldingsgruppering
+[Show seconds]
+Vis sekunder
 [Use long date format]
 Bruk langt datoformat
 [Use relative timestamp]
 Bruk relative tidspunkt
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Incoming File Transfer]
+Innkommende Filoverføringer
 ;file \plugins\IEView\src\HTMLBuilder.cpp
+[(Unknown Contact)]
+(Ukjent Kontakt)
 ;file \plugins\IEView\src\IEView.cpp
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[Error]
+Feil
 ;file \plugins\IEView\src\Options.cpp
+[General]
+Generelt
+[Message Log]
+Meldingslogg
+[Group Chats]
+Gruppesamtaler
+[History]
+Historikk
+[Default]
+Standard
+[Message Sessions]
+Meldingsøkter
+[All Files]
+Alle Filer
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+[File sent]
+Fil sendt
+[File received]
+Fil mottatt
 ;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
 ;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

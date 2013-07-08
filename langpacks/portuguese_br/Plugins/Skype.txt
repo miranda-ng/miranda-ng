@@ -2,19 +2,134 @@
 ;============================================================
 ;  File: Skype.dll
 ;  Plugin: Skype Protocol
-;  Version: 0.0.0.1
-;  Authors: Unsane, Mataes
+;  Version: 0.11.0.1
+;  Authors: unsane, mataes, ghazan
 ;============================================================
 ;file \protocols\Skype\res\Resource.rc
+[&Cancel]
+&Cancelar
+[Add]
+Adicionar
+[Add]
+Adicionar
+[&Create]
+&Criar
+[Password:]
+Senha:
+[Password:]
+Senha:
+[Password:]
+Senha:
+[Password:]
+Senha
+[Hint:]
+Dica:
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Date of birth:]
+Data de nascimento:
+[Gender:]
+Sexo:
+[About:]
+Sobre:
+[City:]
+Cidade:
+[State:]
+Estado:
+[Country:]
+País:
+[Timezone:]
+Fuso horário:
+[New password:]
+Nova senha:
 ;file \protocols\Skype\src\skype.cpp
 ;file \protocols\Skype\src\skype_account.cpp
+;file \protocols\Skype\src\skype_blocked.cpp
+[Name]
+Nome
+;file \protocols\Skype\src\skype_bookmarks.cpp
+[Conferences]
+Conferências
 ;file \protocols\Skype\src\skype_chat.cpp
+[&User details]
+&Detalhes de Usuário
+[Set &role]
+configurar &papel
+[&User]
+&Usuário
+[&Add]
+&Adicionar
+[&Add]
+&Adicionar
 ;file \protocols\Skype\src\skype_contacts.cpp
 ;file \protocols\Skype\src\skype_dialogs.cpp
+[Male]
+Masculino
+[Female]
+Feminino
 ;file \protocols\Skype\src\skype_events.cpp
+[Network]
+Rede
+[Network]
+Rede
+[Contacts]
+Contatos
+[Contacts]
+Contatos
+[General]
+Geral
+[General]
+Geral
+[General]
+Geral
 ;file \protocols\Skype\src\skype_icons.cpp
+[Contact]
+Contato
+[Delete]
+Excluir
+[Delete]
+Apagar
+[Delete]
+Apagar
+[Delete]
+Apagar
+[Delete]
+Excluir
+[Delete]
+Excluir
+;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
 ;file \protocols\Skype\src\skype_menus.cpp
+[Request authorization]
+Pedindo autorização
+[Grant authorization]
+Garantir autorização
+[Revoke authorization]
+Revogar autorização
+;file \protocols\Skype\src\skype_messages.cpp
 ;file \protocols\Skype\src\skype_netlib.cpp
 ;file \protocols\Skype\src\skype_proto.cpp
+;file \protocols\Skype\src\skype_transfers.cpp
 ;file \protocols\Skype\src\skype_utils.cpp

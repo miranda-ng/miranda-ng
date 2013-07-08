@@ -8,12 +8,16 @@
 ;file \plugins\Folders\res\folders.rc
 [Custom folders]
 Répertoires personnalisés
+[Edit]
+Éditer
 [Refresh preview]
 Rafraîchir l'aperçu
 [Variables help]
 Aide (variables)
 [Custom folders variables help]
 Aide sur les variables des répertoires personnalisés
+[Close]
+Fermer
 ;file \plugins\Folders\src\dlg_handlers.cpp
 [Some changes weren't saved. Apply the changes now ?]
 Certaines modifications n'ont pas été enregistrées. Voulez-vous les enregistrer maintenant ?
@@ -21,3 +25,5 @@ Certaines modifications n'ont pas été enregistrées. Voulez-vous les enregistr
 Modifications non sauvegardées
 [Folders]
 Répertoires
+[Customize]
+Apparence

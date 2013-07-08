@@ -6,6 +6,16 @@
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 ;file \plugins\TipperYM\res\resource.rc
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
+[Window]
+Janela
 [Max width:]
 Larg. máxima:
 [Max height:]
@@ -42,6 +52,30 @@ Configurações:
 Tradução:
 [Translation:]
 Tradução:
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [Item]
 Item
 [Value:]
@@ -50,10 +84,28 @@ Valor:
 Desenhe separador acima
 [Value on a new line]
 Valor em nova linha
+[Items]
+Itens
 [Substitutions]
 Substituições
+[Add]
+Adicionar
+[Add]
+Adicionar
+[Remove]
+Remover
+[Remove]
+Remover
+[Edit]
+Editar
+[Edit]
+Editar
+[Extra icons]
+Ícones extras
 [Enable SmileyAdd support]
 Ativar adição de smileys
+[Effects]
+Efeitos
 ;file \plugins\TipperYM\src\mir_smileys.cpp
 ;file \plugins\TipperYM\src\options.cpp
 [No icon]
@@ -62,20 +114,58 @@ Sem ícone
 Sem título
 [Centre]
 Centro
+[None]
+Nenhum
+[Customize]
+Personalizar
+[Customize]
+Personalizar
+[Customize]
+Personalizar
 ;file \plugins\TipperYM\src\options.h
+[Status]
+Status
 [Client]
 Cliente
 ;file \plugins\TipperYM\src\popwin.cpp
+[%s (locked)]
+%s (travado)
+[Other]
+Outros
 ;file \plugins\TipperYM\src\preset_items.cpp
+[Gender:]
+Sexo:
+[Idle]
+Inativo
 [Last message]
 Última mens.
+[Name]
+Nome
+[Name:]
+Nome:
+[Name:]
+Nome
+[Name:]
+Nome:
+[Time:]
+Tempo:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 ;file \plugins\TipperYM\src\tipper.cpp
+[Background]
+Fundo
+[Background]
+Fundo
+[Dividers]
+Divisórias
 [Values]
 Valores
 [Tipper]
 Tipper
 ;file \plugins\TipperYM\src\translations.cpp
+[Female]
+Feminino
+[Male]
+Masculino
 [[No translation]]
 <Sem tradução>
 [WORD to status description]

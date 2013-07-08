@@ -6,18 +6,58 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\JabberG\res\jabber.rc
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Type:]
+Tipo:
+[Type:]
+Tipo:
+[Type:]
+Tipo:
 [User:]
 Utente:
 [User:]
 Utente:
+[Password:]
+Password:
+[Password:]
+Password:
 [Resource:]
 Risorsa:
 [Register new user]
 Registra nuovo utente
+[Username:]
+Nome utente:
 [Priority:]
 Priorità:
 [List of public servers]
 Lista di server pubblici
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
 [Use SSL]
 Usa SSL
 [Unregister]
@@ -40,6 +80,20 @@ Trasporti di Jabber registrati
 Login
 [Log off]
 Logoff
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
 [Command]
 Comando
 [Instruction:]
@@ -48,20 +102,64 @@ Istruzione:
 Indirizzo 1:
 [Address2:]
 Indirizzo 2:
+[City:]
+Città:
+[State:]
+Provincia:
 [ZIP:]
 CAP:
+[Country:]
+Nazione:
+[First name:]
+Nome:
 [Middle:]
 Secondo nome:
+[Last name:]
+Cognome:
+[Date of birth:]
+Data nascita:
+[Date of birth:]
+Data di nascita:
 [YYYY-MM-DD]
 AAAA-MM-GG (1991-10-31)
+[Gender:]
+Sesso:
+[Homepage:]
+Pagina web:
+[Company:]
+Compagnia:
+[Department:]
+Dipartimento:
+[E-mail:]
+Email:
+[Phone:]
+Telefono:
 [Jabber vCard: Add Email Address]
 vCard Jabber: Aggiungi indirizzo email
 [Email address:]
 Indirizzo email:
+[Work]
+Lavoro
+[Work]
+Lavoro
 [Jabber vCard: Add Phone Number]
 vCard Jabber: Aggiungi numero di telefono
 [Phone number:]
 Num. telefono:
+[Fax]
+Fax
+[Delete]
+Elimina
+[Delete]
+Elimina
+[Delete]
+Cancella
+[Delete]
+Elimina
+[Description:]
+Descrizione:
+[Description:]
+Descrizione:
 [New Password:]
 Nuova password:
 [Room:]
@@ -70,6 +168,20 @@ Stanza:
 Registrazione agente di Jabber
 [Register]
 Registra
+[Nickname:]
+Nick:
+[URL]
+URL
+[Change %s Message]
+Modifica messaggio di %s
+[Closing in %d]
+Chiusura in %d sec
+[Closing in %d]
+Chiusura in %d
+[Closing in %d]
+Chiusura in %d
+[Authorization Request]
+Richiesta di autorizzazione
 ;file \protocols\JabberG\src\jabber.cpp
 ;file \protocols\JabberG\src\jabber.h
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
@@ -81,6 +193,36 @@ Nessun messaggio
 ;file \protocols\JabberG\src\jabber_caps.cpp
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 ;file \protocols\JabberG\src\jabber_chat.cpp
+[None]
+Nessuno
+[None]
+Nessuna
+[None]
+Nessuno
+[None]
+Nessuno
+[Owner]
+Proprietario
+[Online]
+Online
+[Online]
+Online
+[Away]
+Altrove
+[Away]
+Altrove
+[NA]
+Non disponibile
+[NA]
+Non disponibile
+[DND]
+Non disturbare
+[DND]
+Non disturbare
+[Free for chat]
+Disponibile per chat
+[Free for chat]
+Disponibile per chat
 ;file \protocols\JabberG\src\jabber_console.cpp
 ;file \protocols\JabberG\src\jabber_disco.cpp
 ;file \protocols\JabberG\src\jabber_disco.h
@@ -89,6 +231,8 @@ Nessun messaggio
 [Loading...]
 Caricamento...
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Notes]
+Note
 [Personal vCard]
 Biglietto da visita personale di Jabber
 ;file \protocols\JabberG\src\jabber_iqid.cpp
@@ -97,22 +241,72 @@ Registrazione effettuata con successo
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Request authorization]
+Richiesta di autorizzazione
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
+[To]
+A
+[To]
+A
 ;file \protocols\JabberG\src\jabber_notes.cpp
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [These changes will take effect the next time you connect to the Jabber network.]
 Queste modifiche avranno effetto a partire dalla prossima connessione alla rete di Jabber.
 [Jabber Protocol Option]
 Opzioni del protocollo Jabber
+[Messaging]
+Scambio messaggi
+[Other]
+Altro
+[Other]
+Altro
+[Other]
+Altro
+[Other]
+Varie
+[Other]
+Altro
 [Show transport agents on contact list]
 Mostra agenti di trasporto sulla lista dei contatti
 [Automatically add contact when accept authorization]
 Aggiungi automaticamente contatto dando l'autorizzazione
+[General]
+Generale
+[Connecting...]
+Connessione...
+[Network]
+Rete
+[Network]
+Rete
+[Network]
+Rete
+[Advanced]
+Avanzate
 ;file \protocols\JabberG\src\jabber_password.cpp
 ;file \protocols\JabberG\src\jabber_privacy.cpp
+[<none>]
+<nessuno>
 ;file \protocols\JabberG\src\jabber_proto.cpp
 ;file \protocols\JabberG\src\jabber_rc.cpp
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Invisible]
+Invisibile
+[Invisible]
+Invisibile
+[Offline]
+Offline
+[Offline]
+Offline
 ;file \protocols\JabberG\src\jabber_search.cpp
 ;file \protocols\JabberG\src\jabber_svc.cpp
 ;file \protocols\JabberG\src\jabber_thread.cpp
@@ -127,6 +321,26 @@ Richiesta istruzioni per la registrazione...
 [Sending registration information...]
 Invio informazioni sulla registrazione...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Message]
+Messaggio
+[Message]
+Messaggio
+[Message]
+Messaggio
+[<not specified>]
+<non specificato>
+[Version]
+Versione
+[Version]
+Versione
+[System]
+Sistema
+[Yes]
+Sì
+[No]
+No
+[Copy]
+Copia
 [Photo]
 Foto
 [Photo]
@@ -164,11 +378,25 @@ Errore del server remoto
 Servizio non disponibile
 [Remote server timeout]
 Nessuna risposta dal server remoto
+[Error]
+Errore
+[Error]
+Errore
 ;file \protocols\JabberG\src\jabber_vcard.cpp
+[Male]
+Maschio
+[Male]
+Maschio
+[Female]
+Femmina
+[Female]
+Femmina
 [Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
 Nur JPG, GIF und BMP-Dateien kleiner 40 KB werden unterstützt.
 [Jabber vCard]
 vCard di Jabber
+[Contacts]
+Contatti
 ;file \protocols\JabberG\src\jabber_ws.cpp
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Calm]

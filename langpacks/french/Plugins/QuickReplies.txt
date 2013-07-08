@@ -10,3 +10,5 @@
 [Button]
 Bouton
 ;file \plugins\QuickReplies\src\options.cpp
+[Message Sessions]
+Sessions de message

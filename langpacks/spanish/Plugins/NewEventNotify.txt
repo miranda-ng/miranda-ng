@@ -8,13 +8,33 @@
 ;file \plugins\NewEventNotify\res\resource.rc
 [General Options]
 Opciones generales
+[Message]
+Mensaje
+[URL]
+URL
+[File]
+Archivo
+[Text]
+Texto
+[Text]
+Texto
+[Background]
+Fondo
+[Background]
+Background
 [Left Click Actions]
 Izquierda Haga clic en Acciones
 [Right Click Actions]
 Derecho Haga clic en Acciones
+[Edit]
+Editar
 ;file \plugins\NewEventNotify\src\main.cpp
+[Message Session]
+Mensaje de sesión
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 ;file \plugins\NewEventNotify\src\neweventnotify.h
+[Contacts]
+Contactos
 [You were added!]
 Se han añadido!
 [ICQ Email express]

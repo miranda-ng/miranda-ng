@@ -16,6 +16,10 @@ Doorzichtigheid is proportioneel aan kleurverschil
 Bescherm de afbeelding om te voorkomen dat automatische avatars het overschrijven
 [Contact picture]
 Afbeelding persoon
+[Delete]
+Verwijderen
+[Reset]
+Terugzetten
 [Picture options]
 Afbeelding opties
 [Protect the picture]
@@ -26,12 +30,26 @@ Als verborgen instellen
 Achtergrond van afbeelding doorzichtig maken
 [Use defaults]
 Gebruik standaard
+[OK]
+OK
+[Cancel]
+Annuleren
+[Options]
+Opties
+[Background]
+Achtergrond
 [Points:]
 Punten:
 [Color diff:]
 Kleur verschil:
+[Set]
+Instellen
 ;file \plugins\AVS\src\acc.cpp
 ;file \plugins\AVS\src\main.cpp
+[All Files]
+Alle bestanden
+[Contacts]
+Personen
 ;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
 Avatar opties voor %s instellen

@@ -1,15 +1,63 @@
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
+[Password:]
+Парола:
+[Nick:]
+Прякор:
+[Options]
+Настройки
+[More options]
+Още опции
+[Files]
+Файлове
+[Apply]
+Прилагане
+[Remove]
+Премахване
+[Username:]
+Потребител:
 [Game]
 Игра
+[Name:]
+Име:
+[Port:]
+Порт:
+[Copy]
+Копиране
+[Cancel]
+Отказ
+[Search:]
+Търсене:
 ;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
+[All Files]
+Всички файлове
 ;file \protocols\Xfire\src\all_statusmsg.cpp
+[Yep, I'm here.]
+Да, тук съм.
+[I've been away since %time%.]
+Отсъствам от %time%.
+[Not right now.]
+Не точно сега.
+[Mmm...food.]
+Ммм... храна.
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
+[Username]
+Потребител
 ;file \protocols\Xfire\src\options.cpp
+[General]
+Основни
+[No]
+Не
+[<Root Group>]
+<Главна група>
+[Network]
+Мрежа
 ;file \protocols\Xfire\src\searching4games.cpp
 ;file \protocols\Xfire\src\userdetails.cpp
+[<not specified>]
+<неуточнено>
 ;file \protocols\Xfire\src\Xfire_game.cpp
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp

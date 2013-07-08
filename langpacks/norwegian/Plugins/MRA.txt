@@ -6,18 +6,90 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
+[E-mail:]
+E-post:
+[Password:]
+Passord:
+[Port:]
+Port:
+[Default]
+Standard
+[Background colour]
+Bakgrunnsfarge
+[Background colour]
+Bakgrunnsfarge
+[Font]
+Skrift
+[Summary]
+Sammendrag
+[Nickname:]
+Kallenavn:
+[First name:]
+Fornavn:
+[Last name:]
+Etternavn:
+[Gender:]
+Kjønn:
+[Age:]
+Alder:
+[Location]
+Plassering
+[Country:]
+Land:
+[State:]
+Stat:
+[City:]
+By:
 [Full e-mail:]
 E-post konto:
+[Text Color]
+TekstFarge
+[Closing in %d]
+Lukker om %d
+[Add]
+Legg til
+[Remove]
+Fjern
+[Remove]
+Fjern
+[OK]
+OK
+[Cancel]
+Avbryt
 ;file \protocols\MRA\src\MraAntiSpam.cpp
 ;file \protocols\MRA\src\MraAvatars.cpp
 ;file \protocols\MRA\src\MraChat.cpp
 ;file \protocols\MRA\src\MraConstans.h
+[Request authorization]
+Forespør godkjenning
+[Grant authorization]
+Godkjenn autorisasjon
 ;file \protocols\MRA\src\MraFilesQueue.cpp
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 ;file \protocols\MRA\src\MraIcons.cpp
+[Main Menu]
+Hovedmeny
 ;file \protocols\MRA\src\MraPopUp.cpp
+[None]
+Ingen
+[Information]
+Informasjon
+[Error]
+Feil
+[Popups]
+Popups
+[Popups]
+Popups
 ;file \protocols\MRA\src\MraProto.cpp
+[E-mail address]
+E-post adresse
 ;file \protocols\MRA\src\Mra_functions.cpp
 ;file \protocols\MRA\src\Mra_options.cpp
+[Network]
+Nettverk
+[Files]
+Filer
 ;file \protocols\MRA\src\Mra_proto.cpp
 ;file \protocols\MRA\src\Mra_svcs.cpp
+[On the phone]
+I Telefonen

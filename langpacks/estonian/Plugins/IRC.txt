@@ -6,20 +6,48 @@
 ;  Authors: Miranda team
 ;============================================================
 ;file \protocols\IRCG\res\IRC.rc
+[&Add]
+&Lisa
+[System]
+Süsteem
+[Other]
+Muu
+[Version]
+Versioon
 [&Refresh]
 Värskenda
+[&Close]
+&Sul&ge
+[Name]
+Nimi
+[&Cancel]
+&Tühista
 [Scripting support]
 Skriptimise toetus
+[Network]
+Võrgustik
+[&Join]
+&Ühine
 [&Clear all]
 Puhasta kõik
 [Send notice]
 Saada teavitus
+[Messages]
+Teated
+[Notices]
+Teavitused
 [Ignore events]
 Ignoreeri sündmusi
+[Password:]
+Parool:
 ;file \protocols\IRCG\src\clist.cpp
 ;file \protocols\IRCG\src\commandmonitor.cpp
 [IRC error]
 IRC viga
+[Unknown]
+Tundmatu
+[Ignore]
+Ignoreeri
 [IRC Error]
 IRC viga
 ;file \protocols\IRCG\src\input.cpp
@@ -27,7 +55,17 @@ IRC viga
 IRC hoiatus
 ;file \protocols\IRCG\src\irclib.cpp
 ;file \protocols\IRCG\src\ircproto.cpp
+[Information]
+Info
 ;file \protocols\IRCG\src\options.cpp
+[Add]
+Lisa
+[Apply]
+Rakenda
+[Rename]
+Nimeta ümber
+[Cancel]
+Tühista
 [Show channel]
 Kuva kanal
 ;file \protocols\IRCG\src\output.cpp
@@ -35,5 +73,7 @@ Kuva kanal
 [Set language]
 Sea keel
 ;file \protocols\IRCG\src\tools.cpp
+[Offline]
+Väljas
 ;file \protocols\IRCG\src\userinfo.cpp
 ;file \protocols\IRCG\src\windows.cpp

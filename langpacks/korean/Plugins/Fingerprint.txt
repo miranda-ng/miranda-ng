@@ -10,3 +10,5 @@
 ;file \plugins\FingerprintNG\src\finger_groups.h
 ;file \plugins\FingerprintNG\src\masks.cpp
 ;file \plugins\FingerprintNG\src\options.cpp
+[Icons]
+아이콘

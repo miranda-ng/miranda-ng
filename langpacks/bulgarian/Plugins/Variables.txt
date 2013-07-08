@@ -18,9 +18,17 @@
 Без задаване на контакт
 [Set to the following contact]
 Задаване за следния контакт
+[Close]
+Затваряне
+[Notes]
+Бележки
 ;file \plugins\Variables\src\help.cpp
 [Input]
 Въвеждане
+[Cancel]
+Отказ
+[Help]
+Помощ
 [Variables Help]
 За променливите
 ;file \plugins\Variables\src\options.cpp

@@ -6,8 +6,12 @@
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 ;file \plugins\Popup\res\resource.rc
+[Effects]
+Effekter
 [Live Preview]
 Forhåndsvis
+[History]
+Historikk
 [Enable popup history]
 Aktiver popup historikk
 [Store last]
@@ -18,6 +22,10 @@ Bruk History++ til loggvisning
 Tegn avatar rammer
 [Draw borders for semitransparent avatars too]
 Tegn rammer for delvis gjennomsiktige avatarer
+[pixels]
+pixler
+[pixels]
+piksler
 [Enable avatar updates]
 Aktiver avataroppdateringer
 [Miranda's window]
@@ -26,10 +34,16 @@ Mirandas vindu
 det aktive vinduet
 [Enable Win 9x/Me transparency]
 Aktiver Win 9x/Me gj.siktighet
+[opacity:]
+Uklarhet:
 [Opaque popups under cursor]
 Uklare popups u/
 [Limit window amount to:]
 Begrens vindu antall til:
+[Close]
+Lukk
+[General]
+Generelt
 [Enable popup actions]
 Aktiver popup hendelser
 [Popup Actions are those tiny buttons below notification text.]
@@ -76,6 +90,8 @@ Vis standard
 Uendelig popup forsinkelse
 [Popup delay:]
 Popup forsinkelse:
+[seconds]
+sekunder
 [Do not close hovered popups]
 Ikke lukk svevende popups
 [Dynamically resize the popups]
@@ -84,6 +100,8 @@ Dynamisk str.endring av popups
 Minimumsbredde
 [Maximum width]
 Maksimumsbredde
+[Position:]
+Posisjon:
 [Disable when:]
 Deaktiver dersom:
 [Always (has priority)]
@@ -91,6 +109,8 @@ Alltid (har prioritet)
 ;file \plugins\Popup\src\actions.cpp
 [User details]
 Brukerdetaljer
+[Contact menu]
+Kontaktmeny
 [Pin popup]
 Fest popup
 ;file \plugins\Popup\src\config.cpp
@@ -100,7 +120,19 @@ Fest popup
 Svevende Handling
 ;file \plugins\Popup\src\history.cpp
 ;file \plugins\Popup\src\icons.cpp
+[OK]
+OK
+[Cancel]
+Avbryt
+[User Details]
+Brukerdetaljer
 ;file \plugins\Popup\src\main.cpp
+[Actions]
+Handlinger
+[Contacts]
+Kontakter
+[Advanced]
+Avansert
 ;file \plugins\Popup\src\opt_adv.cpp
 ;file \plugins\Popup\src\opt_class.cpp
 ;file \plugins\Popup\src\opt_gen.cpp
@@ -117,10 +149,14 @@ vertikal
 ;file \plugins\Popup\src\opt_skins.cpp
 [Enable Aero Glass (Vista+)]
 Aktiver Aero Glass (Vista+)
+[Use Windows colours]
+Bruk Windowsfarger
 [Use advanced text render]
 Bruk avansert textgjengivelse
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
 ;file \plugins\Popup\src\services.cpp
+[Error]
+Feil
 ;file \plugins\Popup\src\skin.cpp
 ;file \plugins\Popup\src\srmm_menu.cpp

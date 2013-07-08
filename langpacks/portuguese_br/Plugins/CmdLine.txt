@@ -8,6 +8,10 @@
 ;file \plugins\CmdLine\MimCmd\src\commands.cpp
 ;file \plugins\CmdLine\MimCmd\src\MimCmd.cpp
 ;file \plugins\CmdLine\src\CmdLine.cpp
+[Error]
+Erro
+[Error]
+Erro
 ;file \plugins\CmdLine\src\mimcmd_data.h
 ;file \plugins\CmdLine\src\mimcmd_handlers.cpp
 ;file \plugins\CmdLine\src\services.cpp

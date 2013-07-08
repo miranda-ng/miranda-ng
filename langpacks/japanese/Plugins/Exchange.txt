@@ -1,0 +1,21 @@
+﻿#muuid {2fd0df15-7098-41ce-aa92-ff621806e38b}
+;============================================================
+;  File: Exchange.dll
+;  Plugin: Exchange
+;  Version: 0.1.3.4
+;  Authors: Cristian Libotean, Attila Vajda, MaKaR (NG)
+;============================================================
+;file \plugins\Exchange\res\exchange.rc
+[Close]
+閉じる
+[Username:]
+ユーザー名 :
+[Password:]
+パスワード :
+[seconds]
+秒
+;file \plugins\Exchange\src\dlg_handlers.cpp
+;file \plugins\Exchange\src\emails.cpp
+;file \plugins\Exchange\src\hooked_events.cpp
+[Plugins]
+プラグイン

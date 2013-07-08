@@ -1,16 +1,130 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: xStatus notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 ;file \plugins\NewXstatusNotify\res\resource.rc
+[Online]
+Online
+[Invisible]
+Invisível
+[Invisible]
+Invisível
+[Free for chat]
+Livre para conversar
+[Free for chat]
+Livre para conversar
+[Away]
+Ausente
+[Away]
+Ausente
+[Occupied]
+Ocupado
+[Occupied]
+Ocupado
+[DND]
+DND
+[DND]
+DND
+[Out to lunch]
+Saiu para almoço
+[On the phone]
+Ao telefone
+[Delete]
+Excluir
+[Delete]
+Apagar
+[Delete]
+Apagar
+[Delete]
+Apagar
+[Delete]
+Excluir
+[Delete]
+Excluir
+[Sounds]
+Sons
+[Background]
+Fundo
+[Background]
+Fundo
+[Text]
+Texto
+[Use custom colours]
+Usar cores personalizadas
+[Use Windows colours]
+Usar Janelas coloridas
+[Reset]
+Limpar
+[Reset]
+Padrão
+[Reset]
+Apagar
+[Reset]
+Apagar
+[Reset]
+Limpar
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[General]
+Geral
+[General]
+Geral
+[General]
+Geral
+[Accounts]
+Contas
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Status]
+Status
+[** All contacts **]
+** Todos os contatos **
+[** All contacts **]
+** Todos os contatos **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 ;file \plugins\NewXstatusNotify\src\main.cpp
+[Contact]
+Contato
 ;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+Todos os Arquivos
+[All Files]
+Todos os arquivos
+[All Files]
+Todos os Arquivos
+[Log]
+Registro
+[Protocol]
+Protocolo
+[Protocol]
+Protocolo
 ;file \plugins\NewXstatusNotify\src\popup.h
 ;file \plugins\NewXstatusNotify\src\utils.cpp
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[<unknown>]
+<desconhecido>
 ;file \plugins\NewXstatusNotify\src\xstatus.h

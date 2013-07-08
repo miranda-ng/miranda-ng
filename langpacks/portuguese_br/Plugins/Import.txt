@@ -56,6 +56,20 @@ Importando...
 Importação e Assistente
 [Import Information Wizard]
 Assistente do plugin de importação
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [Import all contacts and all messages]
 Importar todos os contatos e todas as mensagens
 [Import all contacts and all messages]
@@ -80,8 +94,20 @@ Novos contatos &&grupos
 Histórico do sistema
 [Select items to import:]
 Selecione os itens de importação:
+[Incoming]
+Recebendo
+[Outgoing]
+Enviando
 [Only since:]
 Somente a partir de:
+[Messages]
+Mensagens
+[Messages]
+Mensagens
+[File Transfers]
+Transferência de Arquivos
+[Other]
+Outros
 ;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 Evento ignorado de/para ele próprio
@@ -131,6 +157,12 @@ Ignorado %d duplicados.
 O arquivo indicado não existe. Verifique se introduziu corretamente o nome.
 [The given file does not exist. Please check that you have entered the name correctly.]
 O arquivo indicado não existe. Verifique se introduziu corretamente o nome.
+[All Files]
+Todos os Arquivos
+[All Files]
+Todos os arquivos
+[All Files]
+Todos os Arquivos
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Saltar grupo duplicado %s.

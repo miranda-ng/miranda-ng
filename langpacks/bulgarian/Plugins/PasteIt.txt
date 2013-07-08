@@ -18,6 +18,8 @@
 Настройки за уебстраницата
 [Web page to configure]
 Уебстраница за настройване
+[Configure]
+Настройване
 [Default formatting]
 Стандартно форматиране
 [Auto-detect format from file extension]
@@ -32,6 +34,10 @@
 Получаване на потребителски ключ
 [Configure formatting]
 Настройване на форматирането
+[Cancel]
+Отказ
+[Delete]
+Изтриване
 [Download more]
 Сваляне на още
 [Login to pastebin.com]
@@ -46,6 +52,8 @@
 ;file \plugins\PasteIt\src\PasteIt.cpp
 [Paste It - Select file]
 Paste It - Избиране на файл
+[Error]
+Грешка
 [Paste from clipboard]
 Поставяне от клипборда
 [Paste from file]

@@ -7,4 +7,16 @@
 ;============================================================
 ;file \plugins\IgnoreState\res\ignore.rc
 ;file \plugins\IgnoreState\src\main.cpp
+[Messages]
+Mensaje ventanas - IM
+[URL]
+URL
+[Files]
+Archivo
+[You Were Added]
+¿Era usted Añadido
+[Typing Notify]
+Escribiendo Notifiqueme
 ;file \plugins\IgnoreState\src\options.cpp
+[Icons]
+Iconos

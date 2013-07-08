@@ -6,16 +6,198 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\Clist_mw\res\resource.rc
+[Stretch to width]
+拉伸至宽度
+[Stretch to height]
+拉伸至高度
+[Tile horizontally]
+横向平铺
+[Tile vertically]
+纵向平铺
+[Scroll with text]
+与文本一起滚动
+[Stretch proportionally]
+按比例拉伸
+[Warning!\r\nThis MenuObject not support user defined options.]
+警告! \r\n此 MenuObject 不支持用户自定义选项. 
 [MenuObjects]
 菜单对象
 [MenuItems]
 菜单项目
 [InsertSeparator]
 插入分隔器
+[Service:]
+服务: 
+[Name:]
+名称: 
+[Set]
+设置
+[Default]
+默认
+[Delete Contact]
+删除联系人
+[No]
+否
+[Yes]
+是
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+仅从列表中隐藏, 保留联系人历史及忽略/可见性设置
+[Are you sure you want to delete %s?]
+您确定要删除 %s? 
+[This will erase all history and settings for this contact!]
+此操作将删除联系人所有历史及相关设置! 
+[Hide offline users]
+隐藏离线用户
+[Hide empty groups]
+隐藏空群组
+[Disable groups]
+禁用群组
+[Ask before deleting contacts]
+删除联系人前先询问
+[Always on top]
+始终置顶
+[Hide contact list after it has been idle for]
+空闲时隐藏联系人列表
+[seconds]
+秒
+[Sort contacts by name]
+联系人按名称排序
+[Sort contacts by status]
+联系人按状态排序
+[Sort contacts by protocol]
+联系人按协议排序
+[Single click interface]
+通过单击打开项目
+[Always show status in tooltip]
+始终在工具提示中显示状态
+[Disable icon blinking]
+禁用图标闪动
+[Show]
+状态不同时显示
+[icon when statuses differ]
+图标
+[Cycle icons every]
+状态不同时每
+[seconds, when statuses differ]
+秒循环图标
+[Show multiple icons]
+显示多个图标
+[Only when statuses differ]
+仅在状态不同时
+[Contact List]
+联系人列表
+[System tray icon]
+系统托盘图标
+[System tray icon when using multiple protocols]
+当使用多重协议时的系统托盘图标
+[Contact List Sorting]
+联系人列表排序
+[Pin to desktop]
+固定在桌面上
 [Rows]
 列数
+[Row height:]
+列高: 
+[pixels]
+像素
+[pixels]
+像素
+[Gamma correction]
+伽玛亮度校正
+[Window]
+窗口
+[Tool style main window]
+工具栏样式主窗口
+[Minimize to tray]
+最小化到托盘
+[Automatically resize window to height of list]
+自动调整窗口大小至列表高度
+[maximum]
+最多窗口的
+[% of screen]
+%
+[Size upwards]
+向上量度大小
+[Title bar text:]
+标题栏文本: 
+[Fade contact list in/out]
+联系人列表淡入/淡出
+[Transparent contact list]
+联系人列表透明化
+[Inactive opacity:]
+未激活时透明度: 
+[Active opacity:]
+激活时透明度: 
+[Show menu bar]
+显示菜单栏
+[Easy move]
+容易移动
+[Show title bar]
+显示标题栏
+[If window is partially covered, bring to front instead of hiding]
+如果窗口有部分被遮盖, 则以置顶代替隐藏
+[Items]
+项目
+[Show divider between online and offline contacts]
+在线与离线联系人之间显示分隔线
+[Hot track items as mouse passes over]
+鼠标在项目上移动时显示热跟踪
+[Disable drag and drop of items]
+禁用项目拖放
+[Disable rename of items by clicking twice]
+禁用项目双击重命名
+[Show selection even when list is not focused]
+当列表非焦点时仍显示被选定项目
+[Make selection highlight translucent]
+将选定项目突出显示透明
+['Hide Offline' means to hide:]
+'隐藏离线' 的意思是隐藏: 
+[Groups]
+群组
+[Draw a line alongside group names]
+群组名称之间画线
+[Show counts of number of contacts in a group]
+显示每个群组的联系人总数
+[Hide group counts when there are none online]
+群组内无人在线时隐藏总数
+[Sort groups alphabetically]
+群组按字母排序
+[Quicksearch in open groups only]
+仅在打开的群组内快速搜索
+[Indent groups by:]
+缩排群组: 
+[Visual]
+视觉
+[Scroll list smoothly]
+平滑滚动列表
+[Time:]
+时间: 
+[milliseconds]
+毫秒
+[Left margin:]
+左边界: 
+[Grey out entire list when:]
+下列清况将整个列表变灰: 
+[Dim idle contacts]
+暗淡化闲置联系人
+[Contact List Background]
+联系人列表背景
 [MetaContacts supporting]
 支持中继联系人
+[Status Bar]
+状态栏
+[Show status bar]
+显示状态栏
+[Show icons]
+显示图标
+[Show protocol names]
+显示协议名称
+[Show status text]
+显示状态文本
+[Right click opens status menu]
+点击右键打开状态菜单
+[Make sections equal width]
+将各部分设为相同宽度
 [Show size grip]
 显示调整大小把手
 [Show bevel effect on panels]
@@ -24,27 +206,139 @@
 使用连接图标
 [Use New Drawer for StatusBar]
 状态栏使用新绘制方法
+[E&xit]
+退出(&X)
+[&Status]
+状态(&S)
+[&Offline\tCtrl+0]
+离线(&O)\tCtrl+0
+[On&line\tCtrl+1]
+在线(&L)\tCtrl+1
+[&Away\tCtrl+2]
+外出(&A)\tCtrl+2
+[&NA\tCtrl+3]
+没空(&N)\tCtrl+3
+[Occ&upied\tCtrl+4]
+忙碌(&U)\tCtrl+4
+[&DND\tCtrl+5]
+请勿打扰(&D)\tCtrl+5
+[&Free for chat\tCtrl+6]
+自由聊天(&F)\tCtrl+6
+[&Invisible\tCtrl+7]
+隐身(&I)\tCtrl+7
+[On the &Phone\tCtrl+8]
+接听电话(&P)\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+外出用餐(&L)\tCtrl+9
+[Tray]
+托盘
+[&Hide/Show]
+隐藏/显示(&H)
+[&New Group]
+新增群组(&N)
+[&Hide Offline Users]
+隐藏离线用户(&H)
+[Hide &Offline Users out here]
+隐藏除此以外离线用户(&O)
+[Hide &Empty Groups]
+隐藏空群组(&E)
+[Disable &Groups]
+禁用群组(&G)
+[Hide Miranda]
+隐藏 Miranda
+[Group]
+群组
+[&New Subgroup]
+新增子群组(&N)
+[&Hide Offline Users in here]
+隐藏此处离线用户(&H)
+[&Rename Group]
+重命名群组(&R)
+[&Delete Group]
+删除群组(&D)
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
+[Customize]
+自定义
 [Backgrounds]
 背景
 ;file \plugins\Clist_mw\src\clcfonts.cpp
+[Standard contacts]
+标准联系人
+[Online contacts to whom you have a different visibility]
+与您有不同可见度的在线联系人
+[Offline contacts]
+离线联系人
+[Contacts which are 'not on list']
+ "不在列表" 中的联系人
+[Group member counts]
+群组成员数量
+[Dividers]
+分隔器
+[Offline contacts to whom you have a different visibility]
+与您有不同可见度的离线联系人
 [Status messages]
 状态消息
 [Group Closed]
 群组已关闭
 [Hover Contacts]
 联系人悬停
+[Background]
+背景
+[Selected Text]
+已选择文本
+[Hottrack Text]
+热跟踪文本
+[Quicksearch Text]
+快速搜索文本
 ;file \plugins\Clist_mw\src\clcopts.cpp
+[List]
+列表
+[List Background]
+列表背景
 [List MetaContacts]
 列出中继联系人
 [StatusBar Background]
 状态栏背景
+[Not focused]
+未获取焦点
+[Offline]
+离线
+[Online]
+在线
+[Away]
+外出
+[NA]
+不适用
+[Occupied]
+忙碌中
+[DND]
+请勿打扰
+[Free for chat]
+有空聊天
+[Invisible]
+隐身
+[Out to lunch]
+外出用餐
+[On the phone]
+接听电话
 ;file \plugins\Clist_mw\src\clistopts.cpp
+[Global]
+全局
 ;file \plugins\Clist_mw\src\clistsettings.cpp
+[(Unknown Contact)]
+(未知联系人)
 ;file \plugins\Clist_mw\src\clisttray.cpp
+[&Find/Add Contacts...]
+查找/添加联系人(&F)...
+[&Main Menu]
+主菜单(&M)
+[&Options...]
+选项(&O)...
 ;file \plugins\Clist_mw\src\clui.cpp
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp
 ;file \plugins\Clist_mw\src\keyboard.cpp
 ;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+[Frames]
+框架
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

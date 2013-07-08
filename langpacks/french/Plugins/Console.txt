@@ -13,5 +13,11 @@ Afficher/Cacher la console
 Cacher la console
 [Show Console]
 Afficher la console
+[Text]
+Texte
+[&Help]
+&Aide
 [Text Files (*.txt)]
 Fichier texte (*.txt)
+[All Files]
+Tous les fichiers

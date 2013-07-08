@@ -6,19 +6,55 @@
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 ;file \plugins\IEView\res\ieview.rc
+[Copy]
+コピー
+[Select All]
+全て選択
+[Options]
+オプション
 [Enable MathModule support]
 MathModule サポートを有効
+[Size:]
+サイズ :
+[Scroll with text]
+テキストに合わせてスクロール
 [Use message grouping]
 メッセージグループを使用
+[Show seconds]
+秒を表示
 [Use long date format]
 詳細日付表記を使用
 [Use relative timestamp]
 相対タイムスタンプを使用
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Incoming File Transfer]
+着信ファイル転送
 ;file \plugins\IEView\src\HTMLBuilder.cpp
+[(Unknown Contact)]
+( 不明なコンタクト )
 ;file \plugins\IEView\src\IEView.cpp
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[Error]
+エラー
 ;file \plugins\IEView\src\Options.cpp
+[General]
+全般
+[Message Log]
+メッセージログ
+[Group Chats]
+グループチャット
+[History]
+履歴
+[Default]
+デフォルト
+[Message Sessions]
+メッセージセッション
+[All Files]
+全てのファイル
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+[File sent]
+ファイル送信
+[File received]
+ファイル受信
 ;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
 ;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

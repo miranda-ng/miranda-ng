@@ -6,6 +6,8 @@
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Close]
+Cerrar
 [Search for:]
 Buscar:
 [Message direction]
@@ -28,8 +30,12 @@ Direcciones web sólo
 búsqueda profunda
 [Colour Select]
 Color Seleccionar
+[Incoming messages]
+Los mensajes entrantes
 [Plugin Default]
 Plugin por defecto
+[Outgoing messages]
+Mensajes salientes
 [Backgroundcolour]
 Color de fondo
 [Use Miranda Settings]
@@ -48,8 +54,16 @@ Guardar posición de la ventana de forma individual para cada contacto
 Mostrar ...
 [Parting line]
 Partiendo de línea
+[Timestamp]
+Marca de tiempo
 [Direction]
 Dirección
+[&File]
+&Archivo
+[&Close]
+&Cerrar
+[&Options]
+&Opciones
 [Message &Direction]
 Mensaje de Gestión
 [&Outgoing Messages Only]
@@ -64,6 +78,8 @@ Tipo de mensaje
 &Enviar a las direcciones sólo
 [&Clear Search Results]
 &Borrar los resultados de la búsqueda
+[&Search]
+&Búsqueda
 [Open in new Window]
 Abre en ventana nueva
 [Show Message]
@@ -73,6 +89,8 @@ Mostrar mensaje
 La historia está vacía!
 [There are no links in history!]
 No hay enlaces en la historia!
+[Error]
+Error 
 [incoming]
 entrantes
 [outgoing]
@@ -80,6 +98,8 @@ salientes
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
 [&Create Linklist]
 &Crear Linklist
+[History]
+Historia
 [Processing history...]
 Procesamiento de la historia ...
 [Could not create window!]

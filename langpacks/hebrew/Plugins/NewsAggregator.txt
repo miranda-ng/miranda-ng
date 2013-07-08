@@ -6,9 +6,27 @@
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 ;file \plugins\NewsAggregator\Res\Resource.rc
+[Add]
+הוסף
+[Remove]
+הסר
+[OK]
+אישור
+[Cancel]
+ביטול
+[URL]
+קישור
+[minutes]
+דקות
+[Reset]
+אפס
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 ;file \plugins\NewsAggregator\Src\Options.cpp
+[Error]
+שגיאה
+[Network]
+רשת
 ;file \plugins\NewsAggregator\Src\Services.cpp
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [Feed]

@@ -10,10 +10,18 @@
 メモの編集
 [Tags:]
 タグ :
+[OK]
+OK
+[Cancel]
+Cancel
+[Type:]
+タイプ :
 [User:]
 ユーザー :
 [Domain/Server:]
 ドメイン / サーバー :
+[Password:]
+パスワード :
 [Resource:]
 リソース :
 [Register new user]
@@ -32,12 +40,16 @@
 リストエディター\nサーバー側のコンタクトリストの表示と変更
 [Jabber]
 Jabber
+[Username:]
+ユーザー名 :
 [Priority:]
 優先度 :
 [Use hostname as resource]
 リソースとしてホスト名を使用
 [List of public servers]
 パブリックサーバーのリスト
+[Port:]
+ポート :
 [Use SSL]
 SSL を使用
 [Use TLS]
@@ -46,6 +58,8 @@ TLS を使用
 登録解除
 [Manually specify connection host]
 手動で接続ホストを指定
+[Host:]
+ホスト :
 [User directory:]
 ユーザーディレクトリー :
 [Language for human-readable resources:]
@@ -82,6 +96,8 @@ Jabber 転送の登録
 ログオフ
 [Register with a new service...]
 新規サービスを登録...
+[Close]
+閉じる
 [Command]
 コマンド
 [Jabber Form]
@@ -90,28 +106,58 @@ Jabber フォーム
 インストラクション :
 [Submit]
 送信
+[Complete]
+完了
 [Data form test]
 データフォームのテスト
 [Address1:]
 アドレス 1:
 [Address2:]
 アドレス 2:
+[City:]
+市 :
+[State:]
+州 :
 [ZIP:]
 郵便番号 :
+[Country:]
+国 :
+[First name:]
+名 :
 [Middle:]
 中 :
+[Last name:]
+名字 :
+[Date of birth:]
+誕生日 :
 [YYYY-MM-DD]
 YYYY-MM-DD
+[Gender:]
+性別 :
+[Homepage:]
+Homepage:
+[Company:]
+会社 :
+[Department:]
+部門 :
+[E-mail:]
+電子メール :
+[Phone:]
+電話 :
 [Jabber vCard: Add Email Address]
 Jabber vCard: 電子メールアドレスを追加
 [Email address:]
 電子メールアドレス
+[Work]
+仕事
 [X400]
 X400
 [Jabber vCard: Add Phone Number]
 Jabber vCard: 電話番号を追加
 [Phone number:]
 電話番号 :
+[Fax]
+Fax
 [Pager]
 ポケットベル
 [Text/Messaging]
@@ -126,6 +172,10 @@ ISDN
 PCS
 [Load]
 読み込み
+[Delete]
+削除
+[Description:]
+説明 :
 [Current Password:]
 現在のパスワード :
 [New Password:]
@@ -164,6 +214,8 @@ JID:
 < ルーム JID >\n送信グループチャット招待
 [Other JID:]
 その他の JID:
+[Add]
+追加
 [Invitation reason:]
 招待の理由 :
 [Groupchat Invitation]
@@ -174,16 +226,24 @@ JID:
 あなたは以下から会議室に招待されました :
 [with following reason:]
 次の理由により :
+[Nickname:]
+ニックネーム :
 [Jabber Bookmarks]
 Jabber ブックマーク
 [Server side bookmarks\nStore conference rooms and web links on server.]
 サーバー側ブックマーク\nサーバー上に会議室とウェブリンクを保存
+[Remove]
+削除
+[Edit]
+編集
 [Bookmark Details]
 ブックマークの詳細
 [Bookmark Type]
 ブックマーク型
 [Transport]
 転送
+[URL]
+URL
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
 自動的に参加 ( Miranda のオプションにある自動的にブックマークに参加を要有効 )
 [Room JID/ URL:]
@@ -228,6 +288,8 @@ Jabber ブックマーク
 それなら :
 [following stanza types:]
 次の区切り型 :
+[Messages]
+メッセージ
 [Incoming presence]
 着信出席通知
 [Outgoing presence]
@@ -244,6 +306,10 @@ Jabber ブックマーク
 リスト表示
 [Node:]
 ノード :
+[Change %s Message]
+%s メッセージを変更する
+[Closing in %d]
+%d 秒後に閉じる
 [Account type:]
 アカウント型 :
 [Register account now]
@@ -272,6 +338,8 @@ Jabber アカウント情報 :
 終了 :
 [Slap:]
 叩く :
+[Authorization Request]
+認証リクエスト
 [HTTP Authorization\nAccept or reject incoming request]
 HTTP 認証\n着信リクエストの承諾もしくは拒否
 [Someone (maybe you) has requested the following file:]
@@ -337,8 +405,12 @@ Jabber アドホックコマンド :
 [Enter the text you see]
 見えるテキストを入力してください
 ;file \protocols\JabberG\src\jabber_chat.cpp
+[None]
+なし
 [Member]
 メンバー
+[Owner]
+オーナー
 [Visitor]
 訪問者
 [Participant]
@@ -401,6 +473,16 @@ Jabber アドホックコマンド :
 ルームトピックをコピー
 [&Send presence]
 プレゼンスを送信 (&S)
+[Online]
+オンライン
+[Away]
+離席中
+[NA]
+応答不可
+[DND]
+邪魔しないで
+[Free for chat]
+チャット OK!
 [&User details]
 ユーザーの詳細情報 (&U)
 [Member &info]
@@ -521,6 +603,8 @@ Jabber エラー
 [Incoming groupchat invitation.]
 グループチャットの招待を着信しています
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Notes]
+メモ
 [Agents list]
 エージェントリスト
 [Transports]
@@ -617,6 +701,12 @@ Voice リスト
 [Http authentication request received]
 HTTP 認証リクエストを受信しました
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Request authorization]
+認証リクエスト
+[Grant authorization]
+権限の承認
+[Revoke authorization]
+認証の取消
 [Add to Bookmarks]
 ブックマークに追加
 [Commands]
@@ -657,6 +747,8 @@ Jabber リソース
 高優先度 ( サーバーの選択 )
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
+[To]
+宛
 [Both]
 両方
 ;file \protocols\JabberG\src\jabber_notes.cpp
@@ -673,6 +765,8 @@ Jabber リソース
 [Incoming note]
 着信メモ
 ;file \protocols\JabberG\src\jabber_opt.cpp
+[Nauru]
+ナウル
 [These changes will take effect the next time you connect to the Jabber network.]
 これらの変更は , 次回 Jabber ネットワークに接続した際に適用されます
 [Jabber Protocol Option]
@@ -689,6 +783,8 @@ Jabber プロトコルオプション
 パスワードの変更はオンラインの時のみ可能です
 [You must be online]
 オンラインになる必要があります
+[Messaging]
+メッセージング
 [Log chat state changes]
 チャットステータスの変更を記録
 [Log presence subscription state changes]
@@ -711,6 +807,8 @@ Jabber プロトコルオプション
 SASL 認証を無効 ( 古いサーバー用 )
 [Enable stream compression (if possible)]
 ストリーム圧縮を有効 ( 可能な場合 )
+[Other]
+その他
 [Enable remote controlling (from another resource of same JID only)]
 リモートコントロールを有効 ( 同じ JID の別のリソースからのみ )
 [Show transport agents on contact list]
@@ -735,6 +833,8 @@ XMPP リンク処理を有効 ( 要アソシエーションマネージャー )
 着信ファイル転送帯でのみ受信 ( 自分の IP を公開しない )
 [Accept HTTP Authentication requests (XEP-0070)]
 HTTP 認証リクエストを受信 (XEP-0070)
+[General]
+全般
 [Autoaccept multiuser chat invitations]
 マルチユーザーチャットの招待を自動受信
 [Automatically join bookmarks on login]
@@ -755,16 +855,26 @@ HTTP 認証リクエストを受信 (XEP-0070)
 所属変更
 [Role changes]
 役割変更
+[Status changes]
+ステータス変更
 [JID]
 JID
 [Nick Name]
 ニックネーム
+[Group]
+グループ
 [Subscription]
 予約
 [Uploading...]
 アップロード中...
 [XML for MS Excel (UTF-8 encoded)]
 MS Excel 用 XML ( UTF-8 エンコード )
+[Connecting...]
+接続中...
+[Network]
+ネットワーク
+[Advanced]
+詳細
 [Public XMPP Network]
 公共 XMPP ネットワーク
 [Secure XMPP Network]
@@ -839,6 +949,8 @@ JID の追加
 ** 予約 : 受信 **
 [** Subsription: none **]
 ** 予約: なし **
+[<none>]
+< なし >
 [allow ]
 許可 
 [deny ]
@@ -911,10 +1023,16 @@ Miranda NG を終了
 ステータス変更
 [Choose the status and status message]
 ステータスとステータスメッセージを選択
+[Status]
+ステータス
 [Extended Away (N/A)]
 離席中の拡張 ( 応答不可 )
 [Do Not Disturb]
 応答しない
+[Invisible]
+不可視
+[Offline]
+オフライン
 [Priority]
 優先度
 [Change global status]
@@ -991,8 +1109,16 @@ Miranda NG のシャットダウンを確認してください
 [Sending registration information...]
 登録情報を送信...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Message]
+メッセージ
+[<not specified>]
+< 指定なし >
 [Software]
 ソフトウェア
+[Version]
+バージョン
+[System]
+システム
 [Idle since]
 アイドルの時期
 [Client capabilities]
@@ -1009,6 +1135,10 @@ Miranda NG のシャットダウンを確認してください
 Miranda NG コアバージョン
 [Unicode build]
 Unicode ビルド
+[Yes]
+はい
+[No]
+いいえ
 [Alpha build]
 アルファビルド
 [Debug build]
@@ -1027,6 +1157,8 @@ Unicode ビルド
 最終アクティブリソース
 [Please switch online to see more details.]
 より詳細を見るにはオンラインに切り替えてください
+[Copy]
+コピー
 [Copy only this value]
 この値のみコピー
 [format]
@@ -1072,6 +1204,8 @@ Unicode ビルド
 サービスは利用できません
 [Remote server timeout]
 リモートサーバータイムアウト
+[Error]
+エラー
 [Unknown error message]
 不明なエラーメッセージ
 [Advanced Status]
@@ -1081,6 +1215,10 @@ Unicode ビルド
 [Set activity...]
 アクティビティの設定...
 ;file \protocols\JabberG\src\jabber_vcard.cpp
+[Male]
+男性
+[Female]
+女性
 [Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
 40KB 以下で JPG , GIF , BMP の画像ファイルのみサポート
 [Jabber vCard]
@@ -1089,6 +1227,8 @@ Jabber vCard
 Jabber vCard : 電子メールアドレスの編集
 [Jabber vCard: Edit Phone Number]
 Jabber vCard : 電話番号の編集
+[Contacts]
+コンタクト
 ;file \protocols\JabberG\src\jabber_ws.cpp
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Afraid]

@@ -6,6 +6,16 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MSN\res\msn.rc
+[Password:]
+비밀번호:
+[Nickname:]
+대화명:
+[OK]
+확인
+[Cancel]
+취소
+[&Cancel]
+&C 취소
 ;file \protocols\MSN\src\msn_chat.cpp
 ;file \protocols\MSN\src\msn_commands.cpp
 ;file \protocols\MSN\src\msn_errors.cpp
@@ -16,6 +26,8 @@
 ;file \protocols\MSN\src\msn_misc.cpp
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
+[Network]
+네트워크
 ;file \protocols\MSN\src\msn_p2p.cpp
 ;file \protocols\MSN\src\msn_proto.cpp
 ;file \protocols\MSN\src\msn_svcs.cpp

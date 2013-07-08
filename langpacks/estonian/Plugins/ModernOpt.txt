@@ -6,6 +6,22 @@
 ;  Authors: Victor Pavlychko, George Hazan
 ;============================================================
 ;file \plugins\ModernOpt\res\resource.rc
+[Miranda NG Options]
+Miranda NG valikud
+[OK]
+OK
+[Cancel]
+Tühista
+[Apply]
+Rakenda
 ;file \plugins\ModernOpt\src\modernopt.cpp
+[Accounts]
+Kontod
 [Style]
 Stiil
+[Contacts]
+Kontaktid
+[Ignore]
+Ignoreeri
+[Status]
+Staatus

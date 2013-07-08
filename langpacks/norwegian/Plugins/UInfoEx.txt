@@ -6,6 +6,48 @@
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 ;file \plugins\UserInfoEx\res\resource.rc
+[Updating]
+Oppdaterer
+[OK]
+OK
+[Cancel]
+Avbryt
+[Apply]
+Lagre
+[Nick:]
+Kallenavn:
+[First name:]
+Fornavn:
+[Last name:]
+Etternavn:
+[Female]
+Kvinne
+[Male]
+Mann
+[Street:]
+Gate:
+[Postal code:]
+Postnummer:
+[City:]
+By:
+[Country:]
+Land:
+[Timezone:]
+Tidssoner:
+[Company:]
+Bedrift:
+[Department:]
+Avdeling:
+[Position:]
+Posisjon:
+[Add Phone Number]
+Legg til Telefonnummer
+[Enter country, area code and phone number:]
+Skriv inn land, postnummer og telefonnummer
+[Or enter a full international number:]
+Eller skriv inn et internasjonalt nummer:
+[Phone can receive SMS text messages]
+Telefonen kan motta SMS tekstmeldinger
 [Show menu items]
 Vis menyelementer
 [Remind me]
@@ -24,10 +66,30 @@ Bursdags kompatibilitetsmodus:
 Utført automatisk backup og hold protokollbaserte bursdager oppdatert
 [Use ignore list]
 Bruk ignoreringsliste
+[Background colour]
+Bakgrunnsfarge
+[Background colour]
+Bakgrunnsfarge
+[Text colour]
+Tekstfarge
+[Use Windows colours]
+Bruk Windowsfarger
+[Use default colours]
+Bruk standardfarger
+[Custom]
+Selvvalgt
+[Custom]
+Selvvalgt
 [Show reminder messages as popups (if reminder is enabled)]
 Vis påminnelser som popups (om påminnelser er aktivert)
 [Anniversary popup colours]
 Årsdags popup farger
+[Homepage:]
+Webside:
+[Delete]
+Slett
+[Icons]
+Ikoner
 [Check file version of default IconPack to prevent wrong icon display]
 Sjekk filversjon eller standard IkonPakke for å hindre feilvisning
 [Display icons on each dialog button]
@@ -66,36 +128,82 @@ Vanlig
 Endre mine ICQ detaljer med UserInfoEx. (Deaktivert dersom ICQ ikke støtter det)
 [TreeView]
 Tre-utseende
+[None]
+Ingen
 [MainMenu]
 Hovedmeny
+[Off]
+Av
 [ContactMenu]
 Kontaktmeny
 [Extra Icons]
 Ekstra ikoner
+[Gender:]
+Kjønn:
 [Replace the following default icons:]
 Erstatt følgende standardikoner:
 [Phone]
 Telefon
 [E-Mail]
 E-Post
+[Age:]
+Alder:
 ;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+[Other]
+Annet
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+[Contact]
+Kontakt
 [Birthdays only]
 Kun bursdager
 [Anniversaries only]
 Kun årsdager
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+[Yes]
+Ja
+[No]
+Nei
+[Ignore]
+Ignorer
+[Error]
+Feil
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
+[General]
+Generelt
+[Work]
+Arbeid
+[Profile]
+Profil
+[Notes]
+Notater
+[Owner]
+Eier
 ;file \plugins\UserInfoEx\src\init.cpp
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Default]
+Standard
+[Fax]
+Faks
+[Add]
+Legg til
+[Edit]
+Rediger
+[Search]
+Søk
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
+[User &Details]
+Bruker &Detaljer
+[View/Change My &Details...]
+Se/Forandre Mine &Detaljer...
 ;file \plugins\UserInfoEx\src\psp_about.cpp
+[About:]
+Om:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
 ;file \plugins\UserInfoEx\src\psp_options.cpp
@@ -103,8 +211,16 @@ Kun årsdager
 Påminnelse deaktivert
 [everything]
 alt
+[Contacts]
+Kontakter
+[Advanced]
+Avansert
 [Details Dialog]
 Detaljer Dialog
+[Popups]
+Popups
+[Popups]
+Popups
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Culture & Literature]
@@ -144,7 +260,11 @@ Sport og atletisk
 [Home automation]
 Hjemme automatisering
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+['(Unknown Contact)']
+'(Ukjent Kontakt)'
 ;file \plugins\UserInfoEx\src\svc_email.cpp
+[Send e-mail]
+Send e-post
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
@@ -160,8 +280,12 @@ Bursdagspåminnelse: nært forestående
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
+[Miranda NG]
+Miranda NG
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
+[Complete]
+Ferdig
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

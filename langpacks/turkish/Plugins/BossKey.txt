@@ -8,5 +8,19 @@
 ;file \plugins\BossKeyPlus\res\BossKey.rc
 [Disable Sounds]
 Sesleri Kapat
+[Password:]
+Parola:
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
 ;file \plugins\BossKeyPlus\src\Options.cpp
+[Events]
+Etkinlikler
+[Advanced]
+Gelişmiş

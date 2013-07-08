@@ -6,28 +6,74 @@
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 ;file \plugins\TipperYM\res\resource.rc
+[Options]
+אפשרוית
+[Window]
+חלון
 [Module:]
 מודול:
 [Translation:]
 תרגום:
+[OK]
+אישור
+[Cancel]
+ביטול
+[Items]
+פריטים
+[Add]
+הוסף
+[Remove]
+הסר
+[Edit]
+ערוך
 [Separator]
 מפריד
 [Advanced options]
 אפשרויות מתקדמות
+[Extra icons]
+אייקונים נוספים
 [Enable SmileyAdd support]
 אפשר תמיכת SmileyAdd
+[Effects]
+אפקטים
 ;file \plugins\TipperYM\src\mir_smileys.cpp
 ;file \plugins\TipperYM\src\options.cpp
+[None]
+ללא
+[Customize]
+התאמה אישית
 [Content]
 תוכן
 ;file \plugins\TipperYM\src\options.h
+[Status]
+מצב
 [Client]
 לקוח
 ;file \plugins\TipperYM\src\popwin.cpp
+[Other]
+אחר
 ;file \plugins\TipperYM\src\preset_items.cpp
+[Homepage:]
+דף בית:
+[Idle]
+לא נמצא אוטומטי
+[Name]
+שם
+[Name:]
+שם:
+[Time:]
+זמן:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 ;file \plugins\TipperYM\src\tipper.cpp
+[Background]
+רקע
+[Dividers]
+חוצצים
 [Tipper]
 טיפפר
 ;file \plugins\TipperYM\src\translations.cpp
+[Female]
+נקבה
+[Male]
+זכר
 ;file \plugins\TipperYM\src\translations.h

@@ -6,9 +6,27 @@
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 ;file \plugins\NewEventNotify\res\resource.rc
+[Message]
+Съобщение
+[File]
+Файл
+[Text]
+Текст
+[Background]
+Фон
+[Edit]
+Редактиране
 ;file \plugins\NewEventNotify\src\main.cpp
+[Message Session]
+Разговор
 ;file \plugins\NewEventNotify\src\menuitem.cpp
+[Popups]
+РopUps
+[Popups]
+РopUps
 ;file \plugins\NewEventNotify\src\neweventnotify.h
+[Contacts]
+Контакти
 [You were added!]
 Вие бяхте добавен!
 [Requests your authorisation]

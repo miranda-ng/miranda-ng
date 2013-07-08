@@ -1,13 +1,67 @@
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
+[Password:]
+Jelszó:
+[Nick:]
+Becenév:
+[Options]
+Beállítások
+[More options]
+Több beállítás
+[Files]
+Fájlok
+[Apply]
+Alkalmaz
+[Remove]
+Eltávolítás
+[Username:]
+Felhasználónév:
+[Name:]
+Név:
+[Port:]
+Port:
+[Copy]
+Másol
+[OK]
+OK
+[Cancel]
+Mégsem
+[Search:]
+Keresés:
 ;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
+[All Files]
+Minden fájl
 ;file \protocols\Xfire\src\all_statusmsg.cpp
+[Yep, I'm here.]
+Igen, itt vagyok.
+[I've been away since %time%.]
+Távol vagyok ekkortól: %idõ%.
+[Give it up, I'm not in!]
+Add fel, nem vagyok itt!
+[Not right now.]
+Most ne.
+[Give a guy some peace, would ya?]
+Egy kis nyugalmat kérnék, okés?
+[That'll be the phone.]
+Csörög a telefonom.
+[Mmm...food.]
+Mmm...kaja.
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
 ;file \protocols\Xfire\src\options.cpp
+[General]
+Általános
+[No]
+Nem
+[<Root Group>]
+<Alap csoport>
+[Network]
+Hálózat
 ;file \protocols\Xfire\src\searching4games.cpp
 ;file \protocols\Xfire\src\userdetails.cpp
+[<not specified>]
+<nincs megadva>
 ;file \protocols\Xfire\src\Xfire_game.cpp
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp

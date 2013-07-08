@@ -10,6 +10,10 @@
 MSN
 [Live ID:]
 Live Kimlik:
+[Password:]
+Parola:
+[Nickname:]
+Kısa Ad:
 [Create a new Windows Live account]
 Yeni bir Windows Live hesabı oluşturun
 [Send message font color/size info inside messages]
@@ -22,6 +26,10 @@ Sunucu gruplarını yönet
 Yeni Hotmail geldiğinde şu uygulamayı çalıştır
 [Allow people on my contact list send messages to mobile device]
 Kişi listemdekilerin cep telefonuma ileti göndermelerine izin ver
+[Reset]
+Sıfırla
+[Reset]
+Sıfırla
 [Server List Manager]
 Sunucu Liste Yöneticisi
 [Contact is included into your server list]
@@ -40,12 +48,26 @@ Açılır pencere uyarılarını kapat
 Sistem tepsisi uyarılarını kapat
 [Ignore new messages not in Inbox folder]
 Gelen kutusu dışındakilere düşen iletileri yoksay
+[Other]
+Diğer
 [Enable 'Chat Session Established' popup]
 'Sohbet Oturumu Başlatıldı' açılan penceresini etkinleştir
 [Enable 'Contact left channel' popup]
 'Kişi kanaldan ayrıldı' açılan penceresini etkinleştir
 [Disable Contact List notifications]
 Kişi Listesi uyarılarını kapat
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
+[&Cancel]
+İ&ptal
+[Add]
+Ekle
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 Sohbet #
@@ -90,8 +112,12 @@ Netmeeting başlatmak için konuşmalısınız
 [&Start Netmeeting]
 Netmeeting &başlat
 ;file \protocols\MSN\src\msn_misc.cpp
+[Error]
+Hata
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
+[Profile]
+Profile
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 Sunucu gruplarını almak yeniden giriş yaptıktan sonra kişi listenizi değiştirebilir. Gruplarınızı sunucuya yüklemek istiyor musunuz?
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
@@ -106,6 +132,8 @@ Sunucu/port ayarını ben yapayım
 IP bilgisi yalnız girişten sonra görülebilir
 [MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
 MSN protokolünde ileti zaman aşımı 60 saniyeden küçük olamaz. Zaman aşımı değerini düzeltin.
+[Network]
+Ağ
 [Server list]
 Sunucudaki liste
 ;file \protocols\MSN\src\msn_p2p.cpp

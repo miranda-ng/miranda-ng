@@ -1,13 +1,57 @@
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
+[Password:]
+비밀번호:
+[Nick:]
+대화명:
+[Options]
+옵션
+[More options]
+추가 옵션
+[Apply]
+적용
+[Username:]
+유저명:
+[Port:]
+포트:
+[OK]
+확인
+[Cancel]
+취소
+[Search:]
+검색:
 ;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
+[All Files]
+모든 파일
 ;file \protocols\Xfire\src\all_statusmsg.cpp
+[Yep, I'm here.]
+네, 저 여기 있어요.
+[I've been away since %time%.]
+저는 %time% 이후부터 없었습니다.
+[Give it up, I'm not in!]
+단념하세요, 저는 자리에 없습니다!
+[Not right now.]
+당장은 안돼요.
+[Give a guy some peace, would ya?]
+조금만 기다려 주세요, 그러실꺼죠?
+[That'll be the phone.]
+전화중이예요.
+[Mmm...food.]
+냠냠.. 식사중이예요.
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
+[Username]
+유저명
 ;file \protocols\Xfire\src\options.cpp
+[No]
+아니오
+[Network]
+네트워크
 ;file \protocols\Xfire\src\searching4games.cpp
 ;file \protocols\Xfire\src\userdetails.cpp
+[<not specified>]
+<지정되지 않음>
 ;file \protocols\Xfire\src\Xfire_game.cpp
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp

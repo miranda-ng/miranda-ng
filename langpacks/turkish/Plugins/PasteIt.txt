@@ -6,8 +6,20 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 ;file \plugins\PasteIt\res\PasteIt.rc
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Delete]
+Sil
 ;file \plugins\PasteIt\src\Options.cpp
 ;file \plugins\PasteIt\src\PasteIt.cpp
+[Error]
+Hata
 ;file \plugins\PasteIt\src\PasteToWeb.cpp
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp

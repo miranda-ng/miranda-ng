@@ -6,4 +6,32 @@
 ;  Authors: perf
 ;============================================================
 ;file \plugins\TooltipNotify\res\main.rc
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Online]
+Çevrimiçi
+[Offline]
+Çevrimdışı
+[Typing]
+Yazıyor
+[sec]
+sn
+[Contacts]
+Kişiler
+[Idle]
+Boşta
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
+[Popups]
+Açılır Pencereler
+[** New contacts **]
+** Yeni kişiler **
+[** Unknown contacts **]
+** Bilinmeyen kişiler **
+[Unknown]
+Bilinmeyen

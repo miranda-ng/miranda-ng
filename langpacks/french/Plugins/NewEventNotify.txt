@@ -12,6 +12,14 @@ Options générales
 Désactiver les popups
 [Show Preview of Event in Popup]
 Aperçu d'évènement dans popup
+[URL]
+Lien
+[File]
+Fichier
+[Text]
+Texte
+[Background]
+Arrière-plan
 [Time to expires]
 Délai
 [Notify me of ...]
@@ -46,9 +54,13 @@ Nombre de messages affichés au début
 Dernier message en premier
 [Last message display last]
 Dernier message en dernier
+[Edit]
+Éditer
 [No popups for RSS contacts]
 Pas de popup pour les contacts RSS
 ;file \plugins\NewEventNotify\src\main.cpp
+[Message Session]
+Session message
 [Message Received]
 Message reçu
 ;file \plugins\NewEventNotify\src\menuitem.cpp

@@ -6,33 +6,97 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 ;file \plugins\BasicHistory\res\BasicHistory.rc
+[Message History]
+消息历史
 [Default Event Filter]
 默认事件过滤器
 [Show event icons]
 显示事件图标
+[Show names]
+显示名称
+[Show messages]
+显示消息
+[hours]
+小时
 [External CSS file]
 外部 CSS 文件
+[Name]
+名称
+[OK]
+确定
+[Cancel]
+取消
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
 [Open History]
 打开历史
+[View &History]
+查看历史(&H)
+[Incoming message]
+传入消息
+[Outgoing message]
+发送消息
 [Status change]
 状态变更
+[History]
+历史
 ;file \plugins\BasicHistory\src\EventList.cpp
 [All events]
 所有事件
+[History for %s]
+%s 的历史
+[System]
+系统
+[Invalid Message]
+无效消息
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
+[Open in &new window]
+在新窗口中打开(&N)
+[&Open in existing window]
+在已存在窗口中打开(&O)
+[&Copy link]
+复制链接(&C)
+[Copy]
+复制
+[Delete]
+删除
 [Reply &Quoted]
 引用回复
+[Delete Group]
+删除群组
+[Options]
+选项
 [Filters]
 过滤器
+[Fonts & Colors]
+字体及颜色
+[Icons]
+图标
+[Hotkeys]
+热键
+[Error]
+错误
 ;file \plugins\BasicHistory\src\Options.cpp
+[Message]
+消息
+[Link]
+链接
+[Authorization request]
+授权请求
 [You were added]
 您已被添加
 [SMTP Simple Email]
 SMTP 简单邮件
 [SMS message]
 SMS 消息
+[Messages]
+消息
+[Searching]
+正在搜索
+[Advanced]
+高级
+[Find]
+查找
 [Incoming events]
 传入事件
 [Outgoing events]
@@ -43,7 +107,11 @@ SMS 消息
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 ;file \plugins\BasicHistory\src\Scheduler.cpp
+[Contacts]
+联系人
 ;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
 找不到 "%s"
+[Search]
+搜索
 ;file \plugins\BasicHistory\src\TxtExport.cpp

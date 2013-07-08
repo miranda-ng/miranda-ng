@@ -6,10 +6,22 @@
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 ;file \plugins\NewsAggregator\Res\Resource.rc
+[Add]
+Добавяне
+[Remove]
+Премахване
+[Cancel]
+Отказ
 [Login]
 Вписване
+[Reset]
+Анулиране
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 ;file \plugins\NewsAggregator\Src\Options.cpp
+[Error]
+Грешка
+[Network]
+Мрежа
 ;file \plugins\NewsAggregator\Src\Services.cpp
 ;file \plugins\NewsAggregator\Src\Utils.cpp

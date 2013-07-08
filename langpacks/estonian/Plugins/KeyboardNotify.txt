@@ -6,5 +6,53 @@
 ;  Authors: TioDuke
 ;============================================================
 ;file \plugins\KeyboardNotify\res\resources.rc
+[Incoming messages]
+Sisenevad teated
+[seconds]
+sekundit
+[Online]
+Sees
+[Away]
+Eemal
+[Occupied]
+Hõivatud
+[NA]
+Pole kättesaadav
+[Free for chat]
+Vestluseks vaba
+[Invisible]
+Nähtamatu
+[On the phone]
+Telefonil
+[Out to lunch]
+Lõunastamas
+[Offline]
+Väljas
+[Add]
+Lisa
+[Delete]
+Kustuta
+[Export...]
+Eksport...
+[OK]
+OK
+[Cancel]
+Tühista
+[Ignore]
+Ignoreeri
 ;file \plugins\KeyboardNotify\src\ignore.cpp
+[** All contacts **]
+** Kõik kontaktid **
+[** Unknown contacts **]
+** Tundmatud kontaktid **
 ;file \plugins\KeyboardNotify\src\options.cpp
+[Events]
+Sündmused
+[Accounts]
+Kontod
+[Protocol]
+Protokoll
+[All Files]
+Kõik failid
+[None]
+Pole

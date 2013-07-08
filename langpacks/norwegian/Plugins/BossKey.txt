@@ -22,5 +22,15 @@ Når jeg er tilbake:
 Be om passord:
 [Change status back]
 Endre status tilbake
+[Password:]
+Passord:
+[OK]
+OK
+[Cancel]
+Avbryt
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
 ;file \plugins\BossKeyPlus\src\Options.cpp
+[Events]
+Hendelser
+[Advanced]
+Avansert

@@ -10,6 +10,10 @@
 Smilefjes kategorier
 [Specify Smiley Pack for each category]
 Angi Smilefjes pakke for hver kategori
+[Name:]
+Navn:
+[Name:]
+Navn:
 [Scale smiley to textheight]
 Endre smilefjes til teksthøyde
 [Disable custom smileys]
@@ -32,6 +36,12 @@ Innebygger Meldingsdialog Støtte
 ;file \plugins\SmileyAdd\src\download.cpp
 ;file \plugins\SmileyAdd\src\main.cpp
 ;file \plugins\SmileyAdd\src\options.cpp
+[Customize]
+Tilpass
+[Off]
+Av
+[All Files]
+Alle Filer
 ;file \plugins\SmileyAdd\src\services.cpp
 ;file \plugins\SmileyAdd\src\smileys.cpp
 ;file \plugins\SmileyAdd\src\smltool.cpp

@@ -6,20 +6,54 @@
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 ;file \plugins\Clist_modern\res\resource.rc
+[Show counts of number of contacts in a group]
+Partnerek számának megjelenítése a csoportokban
+[Hide group counts when there are none online]
+Csoport tagszám elrejtése, ha egy tag sem érhetõ el
 [1st:]
 elsõ:
 [2nd:]
 második:
 [3rd:]
 harmadik:
+[Always on top]
+Mindig legfelül
 [Hide contact list after ]
 Partnerlista elrejtése 
+[seconds]
+mp.
+[Fade contact list in/out]
+Partner-lista lassú fel/eltûnése
+[Transparent contact list]
+Átlátszó partnerlista
+[Inactive opacity:]
+Inaktív átlátszatlanság:
+[Active opacity:]
+Aktív átlátszatlanság:
 [Animate Avatars]
 Avatárok animálása
+[Show protocol names]
+Protokoll nevek mutatása
+[Show status text]
+Állapot szöveggel is
+[Stretch to width]
+Nyújtás a szélességhez
+[Stretch to height]
+Nyújtás a magassághoz
+[Tile horizontally]
+Osztás vízszintesen
+[Tile vertically]
+Osztás függõlegesen
+[Scroll with text]
+Görgetés a szöveggel
+[Stretch proportionally]
+Nyújtás arányosan
 [Use Windows Colors]
 Windows színek használata
 [Available skins]
 Elérhetõ bõrök
+[Apply]
+Alkalmaz
 [\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
 \n\n\nKérem válasszon az elérhetõ bõrök közül. \n\nVagy tallózon be egy másik bõrt.
 [Skin Preview]
@@ -30,22 +64,46 @@ FIGYELEM: \tA bõrök módosíthatják a jelenlegi profilt. A visszaállítás n
 * Az összes változás életbe lépéséhez talán újra kell indítani a programot
 [Available objects]
 Elérhetõ objektumok
+[Copy]
+Másol
+[Paste]
+Beszúrás
 [Object properties]
 Objektum tulajdonságok
 [Colour]
 Szín:
 [Image file and fitting mode]
 Képfájl és illeszkedés mójda
+[File]
+Fájl
 [Borders]
 Keretek
 [Fit mode]
 Fit mód
 [Fragment location]
 Töredékek helye
+[Position:]
+Pozíció:
+[Size:]
+Méret:
 [W x H: 0 x 0 pixels]
 Sz x M: 0 x 0 pixel
 [Show contacts in groups]
 Partnerek csoportokban
+[OK]
+OK
+[Cancel]
+Mégsem
+[Protocol]
+Protokoll
+[Group]
+Csoport
+[Status Bar]
+Állapotsáv
+[Show status bar]
+Állapotsor mutatása
+[Make sections equal width]
+Egyenlõ széles szakaszok
 [Space between]
 Helyköz
 [Vertical Align]
@@ -74,12 +132,42 @@ Normál állapot mutatása felsõ lapon
 Állapot felsõ lap átlátszatlansága 75%
 [Show unread emails (if supported)]
 Olvasatlan e-levelek mutatása (ha támogatott)
+[Right click opens status menu]
+Jobb katt az állapot menüt nyitja
 [Space on Left]
 Helyköz balra
 [Space on right]
 Helyköz jobbra
+[Delete Contact]
+Partner törlése
+[No]
+Nem
+[Yes]
+Igen
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Elrejtés a listáról csak azért, hogy az elõzmények és a beállításai megmaradjanak
+[Are you sure you want to delete %s?]
+Biztosan törölni akarod: %s?
+[This will erase all history and settings for this contact!]
+Ez törli a partner minden elõzményét és beállítását!
+[Hide offline users]
+Kilépett felhasználók elrejtése
+[Hide empty groups]
+Üres csoportok elrejtése
+[Disable groups]
+Csoportok kikapcsolása
+[Ask before deleting contacts]
+Partnerek törlésének megerõsítése
+[Contact List]
+Kapcsolati lista
+[Contact List Sorting]
+Kapcsolati lista sorrend
 [Place offline users out of groups]
 Kilépett partnerek legyenek a listákon kívül
+[Gamma correction]
+Gamma javítás
+[Default]
+Alap
 [Full selection]
 Teljes szekció
 [Less selection]
@@ -90,12 +178,22 @@ Nincs kijelölés
 Kijelölés módja
 [Bring to front if covered]
 Hozza elõtérbe, ha eltakarva
+[Automatically resize window to height of list]
+Ablak mérete kövesse a lista magasságát
+[maximum]
+maximum
+[% of screen]
+képernyõ %-a
+[Size upwards]
+Méret felfelé
 [Lock manual resize]
 Kézi átméretezés zárolása
 [Drag to ]
 Húzás 
 [Easy Scroll]
 Könnyû görgetés
+[Easy move]
+Könnyû mozgatás
 [x100 msec]
 x100 mp
 [show delay]
@@ -104,6 +202,10 @@ mutatás késleltetése
 eltüntetés késleltetése
 [Hide method]
 Elrejtés módja
+[pixels]
+képpont
+[pixels]
+pixel
 [keep on screen]
 képenyõn tartás
 [Snap to edges]
@@ -116,8 +218,62 @@ Mutatás automatikusan
 Mindig látható
 [Dock to sides]
 Dokkolás az oldalakhoz
+[Items]
+Elemek
+[Show divider between online and offline contacts]
+Elválasztó a kilépett és elérhetõ partnerek között
+[Hot track items as mouse passes over]
+Név kiemelése amikor elhalad fölötte az egér
+[Disable drag and drop of items]
+Fogd-és-vidd kikapcsolása
+[Disable rename of items by clicking twice]
+Kettõs kattintásra átnevezés kikapcsolása
+[Show selection even when list is not focused]
+Kijelölés mutatása nem aktív lista esetén is
+[Make selection highlight translucent]
+A kijelölés legyen áttetszõ
+[Dim idle contacts]
+Inaktív partnerek halványítása
+['Hide Offline' means to hide:]
+A 'kilépettek elrejtése' elrejti:
+[Groups]
+Csoportok
+[Draw a line alongside group names]
+Húzz egy vonalat a csoportok nevéhez
+[Sort groups alphabetically]
+Csoportok rendezése abc rendben
+[Quicksearch in open groups only]
+Gyorskeresés a nyitott csoportokban
+[Indent groups by:]
+Csoportok behúzása:
+[Visual]
+Látási
+[Scroll list smoothly]
+Lista finom görgetése
+[Time:]
+Idõ:
+[milliseconds]
+századmásodperc
 [Fade out entire list when:]
 Teljes lista kihalványítása, ha:
+[Single click interface]
+Egykattintásos felület
+[Always show status in tooltip]
+Mindig mutasd az állapotot gyorssúgóban
+[Disable icon blinking]
+Ikon villogás kikapcsolása
+[Show]
+Mutat
+[Cycle icons every]
+Ikonok ismétélse minden
+[seconds, when statuses differ]
+mp., ha eltérnek az állapotok
+[Show multiple icons]
+Többszörös ikonok megjelnítése
+[Only when statuses differ]
+Csak ha az állapotok eltérnek
+[System tray icon]
+Rendszer tálca ikon
 [System tray icon mode]
 Rendszertálca ikon mód
 [Use xStatus icon]
@@ -136,12 +292,26 @@ Alpartnerek behúzása:
 Csak akkor mutassa az idõt, ha eltér a jelenlegitõl
 [Show contact time as row item]
 Kapcsolat idõ, mint sor elem
+[Pin to desktop]
+Asztalhoz szegezés
 [Client area margins]
 Felhasználói terület margók
 [Thin border main window]
 Vékony keretes fõablak
 [Borderless main window]
 Keret nélküli fõablak
+[Show menu bar]
+Menüsor megjelnítése
+[Show title bar]
+Címsor mutatása
+[Title bar text:]
+Címsor szöveg:
+[Tool style main window]
+Eszköz stílusú fõ ablak
+[Minimize to tray]
+Minimalizálás tálcára
+[Frames]
+Keretek
 [Between frames:]
 Keretek között:
 [After captions:]
@@ -168,6 +338,8 @@ Vártozó sormagasság
 Bal elemek igazítás balra
 [Align right items to right]
 Jobb elemek igazítása jobbra
+[Left margin:]
+Bal margó:
 [Right margin:]
 Jobb margó:
 [Draw border on avatar]
@@ -220,6 +392,8 @@ Hosszú szövegek vágása 3 ponttal
 Felsõ hely:
 [Draw smileys on second line]
 Emotikonok a második sorban
+[Status]
+Állpot
 [XStatus has priority]
 XÁllapotnak prioritása van
 [Use 'XStatus: XMessage']
@@ -236,6 +410,8 @@ Felsõ/bal
 Alsó/Jobb
 [Position (vertical)]
 Pozíció (függõleges)
+[Options]
+Beállítások
 [Show Title]
 Cím mutatása
 [Locked]
@@ -264,8 +440,58 @@ Tartalmazó magasság:
 Sokszintû
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 A Beállítások lap felújítás alat áll. Kérem ne foglalkozzon az itt látott hibákkal.\nCsak felsõ-szintû megjegyzések alkalmazhatóak.
+[E&xit]
+&Kilépés
+[&Status]
+Álla&pot
+[&Offline\tCtrl+0]
+&Kilépett\tCtrl+0
+[On&line\tCtrl+1]
+&Elérhetõ\tCtrl+1
+[&Away\tCtrl+2]
+&Távol\tCtrl+2
+[&NA\tCtrl+3]
+&Nem elérhetõ\tCtrl+3
+[Occ&upied\tCtrl+4]
+El&foglalt\tCtrl+4
+[&DND\tCtrl+5]
+&Ne zavarjanak\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Csevegésre kész\tCtrl+6
+[&Invisible\tCtrl+7]
+&Láthatatlan\tCtrl+7
+[On the &Phone\tCtrl+8]
+Telefonál\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Ebédel\tCtrl+9
+[Tray]
+Tálca
+[&Hide/Show]
+&Elrejtés/megjelenítés
+[Nowhere]
+Sehol
+[&New Group]
+&Új csoport
+[&Hide Offline Users]
+Kilépett partnerek elrejtése
+[Hide &Offline Users out here]
+Kilépett felhasználók elrejtése idekinn
+[Hide &Empty Groups]
+Üres csoportok elrejtése
+[Disable &Groups]
+Csoportok kikapcsolása
+[Hide Miranda]
+Miranda elrejtése
+[&New Subgroup]
+Új alcsoport
+[&Hide Offline Users in here]
+Kilépett partnerek elrejtése itt
 [&Show Offline Users in here]
 Kilépett partnerek mutatása itt
+[&Rename Group]
+Csoport átnevezése
+[&Delete Group]
+&Csoport törlése
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List smileys]
 Kapcsolati lista emotikonok
@@ -292,6 +518,8 @@ MetaContact módosítása (mozgatás)
 [Do You want contact '%s' to be added to MetaContact '%s'?]
 Hozzáadja '%s' partnert '%s' Metapartnerekhez?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Standard contacts]
+Alapvetõ partnerek
 [Away contacts]
 Távol lévõ partnerek
 [DND contacts]
@@ -308,6 +536,12 @@ Láthatatlan partnerek
 Telefonáló partnerek
 [Out to lunch contacts]
 Ebédelõ partnerek
+[Offline contacts]
+Kilépett partnerek
+[Online contacts to whom you have a different visibility]
+Elérhetõ partnerek, akik eltérõen láthatnak
+[Offline contacts to whom you have a different visibility]
+Kilépett partnerek, akik eltérõen láthatnak
 [Contacts who are 'not on list']
 A listán nem szereplõ partnerek
 [Open groups]
@@ -318,6 +552,8 @@ Nyitott csoport tagszámok
 Zárt csoportok
 [Closed group member counts]
 Zárt csoport tagszámok
+[Dividers]
+Meghajtók
 [Third line]
 Harmadik sor
 [Status bar text]
@@ -326,6 +562,42 @@ Harmadik sor
 Esemény terület szöveg
 [Current view mode text]
 Aktuális nézet mód szöveg
+[Background]
+Háttér
+[General]
+Általános
+[List]
+Lista
+[Window]
+Ablak
+[List Background]
+Lista háttérszín
+[Not focused]
+Nem fókuszált
+[Offline]
+Kilépett
+[Online]
+Elérhetõ
+[Away]
+Távol
+[NA]
+NA
+[Occupied]
+Elfoglalt
+[DND]
+Ne zavarjanak
+[Free for chat]
+Csevegésre kész
+[Invisible]
+Láthatatlan
+[Out to lunch]
+Ebédel
+[On the phone]
+Telefonál
+[Name]
+Név
+[Global]
+Globális
 [Hide to tray]
 Elrejtés a tálcára
 [Behind left edge]
@@ -336,6 +608,8 @@ Jobb sarok mögött
 [No Events]
 Nincsenek események
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
+[None]
+Egyik sem
 [Contact rate None]
 Partner arány Nincs
 [Contact rate Low]
@@ -345,12 +619,24 @@ Partner arány Átlagos
 [Contact rate High]
 Partner arány Magas
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Text]
+Szöveg
+[Extra icons]
+Extra ikonok
 [Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
 Avatárok animálása (GDI+ és Avatár kiszolgáló modul - avs.dll - szükséges)
 [Row items]
 Sor elemek
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+[(Unknown Contact)]
+(ismeretlen partner)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
+[&Find/Add Contacts...]
+&Partnerek keresése/hozzáadása
+[&Main Menu]
+&Fõmenü
+[&Options...]
+&Beállítások...
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show Contact &Avatar]
 Partner Avatár mutatása
@@ -376,6 +662,10 @@ oszlop
 [Image size is]
 A kép mérete
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
+[You need an image services plugin to process PNG images.]
+Szükség van egy kép szolgáltatás beépülõre a PNG képek feldolgozásához.
+[Error]
+Hiba
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 Betöltés/Mentés
@@ -412,7 +702,12 @@ Alap bõr
 [<<Global>>]
 <<Globális>>
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[Main Menu]
+Fõmenü
+[Accounts]
+Fiókok
+[Find User]
+Felhasználó keresése
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Configuring view mode: %s]
 Nézet mód beállítása: %s
-;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

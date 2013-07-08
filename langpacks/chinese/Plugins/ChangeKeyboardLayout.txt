@@ -6,6 +6,8 @@
 ;  Authors: Yasnovidyashii
 ;============================================================
 ;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
+[Hotkeys]
+热键
 [Changing layout:]
 更改布局:
 ["Current word" mode]
@@ -14,6 +16,8 @@
 更改布局 (可选):
 [Inverting lettercase:]
 反转大小写:
+[Options]
+选项
 [Two-way changing layout (experimental)]
 双向修改布局 (实验性)
 [Log operations]
@@ -22,6 +26,8 @@
 复制结果至剪贴板
 [Strings for keyboard layouts]
 键盘布局字串
+[Default]
+默认
 [Invert current state]
 反转当前状态
 [Switch off]
@@ -36,6 +42,10 @@
 窗口颜色
 [Custom colours]
 自定义颜色
+[Text]
+文本
+[Custom]
+自定义
 ;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
 [ChangeKeyboardLayout]
 更改键盘布局
@@ -44,3 +54,7 @@
 更改布局
 [Changing Case]
 更改服务案例
+[Message Sessions]
+消息会话
+[Popups]
+弹出窗口

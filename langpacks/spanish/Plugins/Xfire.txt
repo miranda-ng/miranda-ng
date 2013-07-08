@@ -1,19 +1,85 @@
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
+[Password:]
+Contraseña:
+[Nick:]
+Nick:
+[Options]
+Opciones
+[Options]
+Opciones
+[More options]
+Más opciones
+[Files]
+Archivo
+[Apply]
+Aplicar
+[Remove]
+Quitar
+[Username:]
+Nombre de usuario:
+[Username:]
+Username:
 [Game]
 Juego
+[Name:]
+Nombre
+[Port:]
+Puerto:
+[Copy]
+Copiar
 [Join]
 Únete
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Search:]
+Buscar:
 ;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
+[All Files]
+Todos los archivos
 ;file \protocols\Xfire\src\all_statusmsg.cpp
+[Yep, I'm here.]
+Sí, estoy aquí.
+[I've been away since %time%.]
+He estado fuera desde %time%.
+[Give it up, I'm not in!]
+Renunciar a ella, yo no estoy en!
+[Not right now.]
+No en este momento.
+[Give a guy some peace, would ya?]
+Dar un tipo un poco de paz, ya que?
+[That'll be the phone.]
+Eso va a ser el teléfono.
+[Mmm...food.]
+Mmm ... la comida.
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
+[Username]
+Nombre de usuario
 ;file \protocols\Xfire\src\options.cpp
+[General]
+General
+[General]
+General
+[No]
+No
+[<Root Group>]
+Grupo Raíz
+[Network]
+Red
+[Network]
+red
 [StatusMsg]
 Statusmsg
 ;file \protocols\Xfire\src\searching4games.cpp
 ;file \protocols\Xfire\src\userdetails.cpp
+[<not specified>]
+<No se ha especificado>
 ;file \protocols\Xfire\src\Xfire_game.cpp
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp

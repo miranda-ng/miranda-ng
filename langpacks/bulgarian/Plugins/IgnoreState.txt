@@ -7,4 +7,16 @@
 ;============================================================
 ;file \plugins\IgnoreState\res\ignore.rc
 ;file \plugins\IgnoreState\src\main.cpp
+[Messages]
+Съобщения
+[Files]
+Файлове
+[User Online]
+Потребител "На линия"
+[You Were Added]
+Вие бяхте добавен
+[Typing Notify]
+Уведомяване при писане
 ;file \plugins\IgnoreState\src\options.cpp
+[Icons]
+Икони

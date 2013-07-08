@@ -6,4 +6,24 @@
 ;  Authors: Anar Ibragimoff
 ;============================================================
 ;file \plugins\YARelay\res\yaRelay.rc
+[Contact]
+Kapcsolat
+[Offline]
+Kilépett
+[Online]
+Elérhetõ
+[Away]
+Távol
+[NA]
+NA
+[Occupied]
+Elfoglalt
+[DND]
+Ne zavarjanak
+[Free for chat]
+Csevegésre kész
+[Invisible]
+Láthatatlan
 ;file \plugins\YARelay\src\options.cpp
+[Plugins]
+Beépülõk

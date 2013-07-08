@@ -8,16 +8,56 @@
 ;file \plugins\TabSRMM\res\chat.rc
 [You can add the user by user name or his id. Wildcards are allowed and recommended.]
 ユーザー名もしくはユーザー ID でユーザーの追加が可能です。ワイルドカードは許可及び推奨されています
+[OK]
+OK
+[Cancel]
+Cancel
 [  Show these events]
 これらのイベントを表示
+[Actions]
+アクション
+[Messages]
+メッセージ
+[Nick changes]
+ニックを変更
+[Users joining]
+ユーザーの参加
+[Users leaving]
+ユーザーの離席
+[Topic changes]
+トピック変更
+[Status changes]
+ステータス変更
+[Information]
+情報
+[Disconnects]
+切断
+[User kicks]
+ユーザー排除
+[Notices]
+通知
+[Tray]
+トレイ
+[Options]
+オプション
+[Add new rooms to group:]
+新しいルームをグループに追加 :
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
 チャット統合は無効です。ここで有効にできます。変更後にMirandaを「再起動する必要があります」\n\nここでグループチャットサポートを有効にする場合は , 標準チャットプラグインは「必ず」無効にしてください。そうしなければ全てのグループチャットは機能しません
 [Log files]
 ログファイル
+[Enable logging to disk]
+ディスクにログを残す
+[Log directory]
+ログフォルダー
 [Maximum size for log files (in kB)]
 ログファイルの最大サイズ (kB)
 [Group chat log formatting]
 グループチャットのログを初期化する
+[Your name]
+名前
+[Other name]
+その他の名前
 [Timestamp (window)]
 タイムスタンプ(ウィンドウ)
 [Timestamp (logfile)]
@@ -60,6 +100,54 @@
 単語に強調表示と , * や ? のようなワイルドカードが許可されている時 , 複数のエントリーは空白で分割します。もし自分のニックネームに強調表示のみを使用したい場合は空白のままにしてください
 [Highlight messages containing my own nick name]
 自分自身のニックネームを含むメッセージを強調表示
+[List]
+リスト
+[&Message]
+メッセージ (&M)
+[Log]
+ログ
+[Clear lo&g]
+ログをクリア (&g)
+[Co&py all]
+全てコピー (&p)
+[Word lookup]
+単語検索
+[Google]
+Google
+[Wikipedia]
+Wikipedia
+[Link]
+リンク
+[Open a &new browser window]
+新規ブラウザウィンドウを開く (&n)
+[&Open in current browser window]
+現在のブラウザウィンドウを開く (&O)
+[&Copy link]
+リンクをコピー (&C)
+[Message]
+メッセージ
+[Undo  ]
+取り消し　
+[Redo]
+やり直し
+[Copy]
+コピー
+[Cut]
+カット
+[Paste]
+ペースト
+[Select All]
+全て選択
+[Clear]
+クリア
+[Tabs]
+タブ
+[&Close tab]
+タブを閉じる (&C)
+[C&lose other tabs]
+他のタブを閉じる (&l)
+[&Open at this position]
+この位置に開く (&O)
 ;file \plugins\TabSRMM\res\resource.rc
 [TabSRMM exception]
 TabSRMM の例外
@@ -89,6 +177,8 @@ TabSRMM の例外
 詳細設定
 [Message send timeout]
 メッセージ送信タイムアウト
+[seconds]
+秒
 [Input history size]
 履歴サイズを入力
 [entries]
@@ -105,8 +195,14 @@ TabSRMM の例外
 メッセージのプレビューを以下に限定 :
 [Only show event notifications when my status is...]
 自分のステータスが以下の時のみイベント通知を表示...
+[Text]
+テキスト
+[Background]
+背景
 [Timeout (seconds, 0 = default, -1 = no timeout)]
 タイムアウト(秒, 0 = デフォルト, -1 = タイムアウトなし)
+[Group chats]
+グループチャット
 [Use the message log color theme for group chat popups]
 グループチャットポップアップでメッセージログカラーテーマを使用
 [No compatible popup plugin was found. The event notification\nsystem is not available.]
@@ -139,6 +235,8 @@ ANSI に強制して送信 / 受信
 現在の履歴のみ読み込む
 [Always trim message log to]
 常にメッセージログを以下に切り詰める :
+[Events]
+イベント
 [Only show tab bar when it's needed]
 必要時のみタブバーを表示
 [Container stays on top]
@@ -191,6 +289,8 @@ ANSI に強制して送信 / 受信
 現在値をグローバル設定として保存
 [When checked, this container will use private settings, otherwise settings are shared among containers.]
 チェックした時 , このコンテナにはプライベート設定が使用されます。さもなくば , 設定はコンテナ間で共有されます
+[Apply]
+適用
 [Tab location]
 タブの位置
 [When using the switch bar, use the following layout]
@@ -251,8 +351,20 @@ px
 標準テンプレート...
 [RTL templates...]
 RTL テンプレート...
+[Load History Events]
+イベント履歴を読み込む
+[Load unread events only]
+未読のイベントのみを読み込む
+[Load number of previous events]
+前のイベントを読み込む数
+[Load previous events less than]
+以下の前のイベントを読み込む
+[minutes old]
+分前
 [Global message log display]
 グローバルメッセージログ表示
+[Typing Notification]
+入力中通知
 [Send typing notifications to the following users when you are typing a message to the them:]
 以下のユーザーに対するメッセージを入力中の時 , 入力中通知を送信 :
 [          Show typing notifications in the message window]
@@ -263,6 +375,8 @@ RTL テンプレート...
           コンタクトリストとトレイに入力中通知を表示
 [Show typing notification when message dialog is open]
 メッセージダイアログが開いている時入力中通知を表示
+[Show typing notification when no message dialog is open]
+メッセージのないダイアログが開いたら , 入力中通知を表示
 [Show balloon tooltip in the system tray]
 バルーンツールチップをシステムトレイに表示
 [          Show popups when a user is typing]
@@ -283,6 +397,10 @@ ESC キーの動作
 コンテナを選択
 [Available containers]
 コンテナを利用可
+[Delete]
+削除
+[Rename]
+名前の変更
 [Create a new container]
 新規コンテナを作成
 [Create new]
@@ -295,6 +413,8 @@ IM チャットに表示
 ボタン間隔 :
 [Hide if there isn't enough space]
 十分な空間がない場合隠す
+[Reset]
+リセット
 [Insert Separator]
 セパレーターを挿入
 [Tabs should be used in the following way]
@@ -315,6 +435,8 @@ IM チャットに表示
 回
 [Flash interval]
 フラッシュ間隔
+[milliseconds]
+ミリ秒
 [Help on containers]
 コンテナについてのヘルプ
 [Windows Aero settings]
@@ -323,6 +445,8 @@ Windows Aero 設定
 Aero UI 要素を使用 ( カスタムスキンを使用していないときのみ )
 [Use Windows 7 task bar enhancements (restart required)]
 Windows 7 タスクバー拡張機能を使用 ( 要再起動 )
+[Popups]
+ポップアップ
 [...is &typing]
 ...は入力中 (&t)
 [...stopped t&yping]
@@ -337,12 +461,16 @@ Windows 7 タスクバー拡張機能を使用 ( 要再起動 )
 メインメニューにエントリーを表示 (&e)
 [From protocol]
 プロトコルから
+[Custom]
+カスタム
 [Edit template]
 テンプレートを編集
 [Get more help on variables]
 変数についてもっとヘルプを入手
 [Define up to 5 colors which you can use with some variables]
 いくつかの変数で使用可能な色を 5 つまで指定する
+[Close]
+閉じる
 [Update Preview]
 プレビューを更新
 [Save Template]
@@ -391,6 +519,8 @@ tabSRMM バージョン情報
 ファイルにエクスポート...
 [Import from a file...]
 ファイルからインポート...
+[Icons]
+アイコン
 [Event type icons in the message log]
 メッセージログのイベントタイプアイコン
 [Text symbols as event markers]
@@ -433,8 +563,14 @@ BBCODE をサポート
 ジョブの完了時にポップアップを表示
 [Do not show this message again]
 このメッセージを 2 度と表示しない
+[Yes]
+はい
+[No]
+いいえ
 [Message sending:]
 メッセージ送信 :
+[Window:]
+ウィンドウ :
 [Esc closes sessions (minimizes window, if disabled)]
 Esc キーでセッションを終了 ( 無効な場合はウィンドウを最小化 )
 [Always pop up and activate new windows]
@@ -447,6 +583,8 @@ Shift + Enter で送信
 Enter でメッセージを送信
 [Send message on double Enter]
 Enter 2 回でメッセージを送信
+[Minimize the message window on send]
+送信用メッセージウィンドウを最小化
 [Tabs:]
 タブ :
 [Use tabbed interface]
@@ -465,10 +603,20 @@ Enter 2 回でメッセージを送信
 ダイアログが開いている時アナウンスしない
 [Send message on Ctrl+Enter (always enabled)]
 Ctrl + Enter でメッセージを送信 ( 常に有効 )
+[&Copy]
+コピー (&C)
 [&Quote]
 引用 (&Q)
+[Co&py All]
+全てコピー (&p)
+[Select &All]
+全て選択(&A)
 [Freeze Log]
 ログを停止
+[Open in &new window]
+新規ウィンドウで開く
+[&Open in existing window]
+既存のウィンドウを開く (&O)
 [Editor]
 エディター
 [Paste formatted Text]
@@ -481,8 +629,6 @@ Ctrl + Enter でメッセージを送信 ( 常に有効 )
 全てを選択
 [Show Message Length Indicator]
 メッセージ長表記を表示
-[Tabmenu]
-タブメニュー
 [Leave Chat Room]
 チャットルームを離れる
 [Save Tab Position]
@@ -495,10 +641,10 @@ Ctrl + Enter でメッセージを送信 ( 常に有効 )
 コンテナオプション...
 [Close Container]
 コンテナを閉じる
-[Picmenu]
-ピックメニュー
 [Show Contact Picture]
 コンタクト画像を表示
+[Default]
+デフォルト
 [Hidden for this Contact]
 このコンタクトを隠す
 [Visible for this Contact]
@@ -509,16 +655,12 @@ Ctrl + Enter でメッセージを送信 ( 常に有効 )
 常にボタンバーを最大幅にする
 [Save this Picture As...]
 この画像に名前を付けて保存...
-[Logmenu]
-ログメニュー
 [&Message Log Settings]
 メッセージログ設定 (&M)
 [&Global...]
 グローバル (&G)...
 [&For this Contact...]
 このコンタクトについて (&F)...
-[Sendmenu]
-送信メニュー
 [Send &Default]
 デフォルトで送信 (&D)
 [Send to &multiple Users]
@@ -531,14 +673,16 @@ Ctrl + Enter でメッセージを送信 ( 常に有効 )
 ANSI に強制 (&A)
 [Send unsafe (ignore Timeouts)]
 安全ではない送信 ( タイムアウトを無視 )
-[Protomenu]
-プロトメニュー
 [Splitter Position]
 分割位置
+[Global]
+グローバル
 [Send Text Formatting]
 送信用テキストフォーマット
 [BBCode]
 BBCode
+[Off]
+オフ
 [This Contact]
 このコンタクト
 [Global Setting]
@@ -547,8 +691,6 @@ BBCode
 強制オフ
 [Unread Menu]
 未読メニュー
-[Traycontext]
-トレイコンテキスト
 [Recent Sessions]
 最近のセッション
 [Favorites]
@@ -563,6 +705,8 @@ BBCode
 全てのメッセージコンテナをリストア
 [Don't play Sounds]
 音声を鳴らさない
+[Font]
+フォント
 [Default Color]
 デフォルト色
 [Magenta]
@@ -579,14 +723,8 @@ Dummy
 コンタクトをお気に入りに追加
 [Remove Contact from Favorites]
 お気に入りからコンタクトを削除
-[Apparentmenu]
-ビジュアルメニュー
 [dummy]
 dummy
-[Panelpicmenu]
-パネルピックメニュー
-[Splitter context]
-コンテキストの分割
 [Set Position for this Session]
 このセッションの位置を設定
 [Set and Save for all Sessions]
@@ -609,6 +747,8 @@ dummy
 全ての複数送信ジョブをキャンセル
 [Copy Message to Clipboard]
 メッセージをクリップボードにコピー
+[&File]
+ファイル (&F)
 [Save Message Log As...]
 名前を付けてメッセージログを保存...
 [Close Message Session\tCtrl-W]
@@ -661,11 +801,15 @@ dummy
 全ての非アクティブセッション用ポップアップを表示
 [Save current Window Position as Default]
 現在のウィンドウ位置をデフォルトとして保存
+[Help]
+ヘルプ
 [About tabSRMM...]
 tabSRMM バージョン情報...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Message Log Options]
 メッセージログオプション
+[View User's History]
+ユーザーの履歴を表示
 [Edit user notes]
 ユーザーメモを編集
 ;file \plugins\TabSRMM\src\container.cpp
@@ -778,12 +922,28 @@ UID なし
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
 UID: %s ( SHIFT click -> クリップボードにコピー )\nユーザーの詳細情報はクリック\nこのコンタクトのお気に入りステータスを変更するにはドロップダウンをクリック
 ;file \plugins\TabSRMM\src\globals.cpp
+[Instant messages]
+インスタントメッセージ
+[Incoming (Focused Window)]
+着信 ( フォーカス中のウィンドウ )
+[Incoming (Unfocused Window)]
+着信 ( 非フォーカスウィンドウ )
+[Incoming (New Session)]
+着信 ( 新規セッション )
+[Outgoing]
+発信
+[Message send error]
+メッセージ送信エラー
 [No status message]
 ステータスメッセージなし
+[Other]
+その他
 [&Messaging settings...]
 メッセージングの設定 (&M)...
 [&Send later job list...]
 ジョブリストを後で送信 (&S)...
+[Message from %s]
+%s からのメッセージ
 [signed off.]
 サインオフしました
 [signed on and is now %s.]
@@ -902,6 +1062,8 @@ TabSRMM
 'ペーストして送信 ' 機能は無効です。' 全般 ' オプションのページにある ' メッセージの送信 ' セクションで有効にできます
 [Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
 nudge プラグインがインストールされていないか , もしくは微調整イベントをサポートしていないコンタクトのプロトコル
+['(Unknown Contact)']
+'( 不明なコンタクト )'
 [JPEG-compressed images]
 JPEG 圧縮画像
 ;file \plugins\TabSRMM\src\msglog.cpp
@@ -918,6 +1080,12 @@ IEView プラグイン
 History++ プラグイン
 [You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
 あなたはチャットウィンドウでのメッセージ履歴の表示用に外部プラグインの使用を選択しました。このページの設定のほとんどは標準メッセージログビューアー向けのみで効果がありません。メッセージログの外観を変更するには IEView もしくは History++ のいずれかで設定する必要があります
+[** New contacts **]
+** 新しいコンタクト **
+[** Unknown contacts **]
+** 不明なコンタクト **
+[Show balloon popup (unsupported system)]
+バルーンポップアップを表示 ( 未サポートシステム )
 [Always, but no popup when window is focused]
 ウィンドウがフォーカスされている時 , 常にポップアップしない
 [Only when no message window is open]
@@ -928,14 +1096,22 @@ History++ プラグイン
 ウィンドウをタスクバーで最小化
 [Close or hide window, depends on the close button setting above]
 ウィンドウを閉じるもしくは非表示は , 上記の閉じるボタンの設定に依存します
+[Message Sessions]
+メッセージセッション
+[General]
+全般
 [Tabs and layout]
 タブとレイアウト
 [Containers]
 コンテナ
 [Tool bar]
 ツールバー
+[Typing Notify]
+入力中通知
 [Window layout tweaks]
 ウィンドウレイアウト調整
+[Group Chats]
+グループチャット
 [Log formatting]
 ログ書式設定
 [Events and filters]
@@ -951,6 +1127,8 @@ History++ プラグイン
 引用テキスト
 [Save and close]
 保存して閉じる
+[Smiley button]
+顔文字ボタン
 [Format bold]
 太字形式
 [Format italic]
@@ -963,10 +1141,18 @@ History++ プラグイン
 フォント色
 [Format strike-through]
 取り消し線形式
+[Background colour]
+背景色
+[Room settings]
+ルーム設定
 [Event filter]
 イベントフィルター
 [Message delivery error]
 メッセージ配信エラー
+[Incoming message]
+着信メッセージ
+[Outgoing message]
+発信メッセージ
 [Statuschange]
 ステータス変更
 [Static container icon]
@@ -991,12 +1177,16 @@ History++ プラグイン
 フレーム 3
 [Frame 4]
 フレーム 4
+[Message Log]
+メッセージログ
 ;file \plugins\TabSRMM\src\msgs.h
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 %s 用コンテナを選択
 [You cannot delete the default container]
 デフォルトコンテナは削除できません
+[Error]
+エラー
 [You cannot rename the default container]
 デフォルトコンテナの名前変更はできません
 [This name is already in use]
@@ -1018,10 +1208,14 @@ History++ プラグイン
 中断
 [Pending]
 保留中
+[Contact]
+コンタクト
 [Original timestamp]
 オリジナルタイムスタンプ
 [Message text]
 メッセージテキスト
+[Status]
+ステータス
 [Last send info]
 最終送信情報
 [You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
@@ -1118,6 +1312,8 @@ RSS プロトコルからのイベントを通知しない
 返信を入力し始めたらコンタクト用ポップアップを削除
 [Remove popups for a contact when I send a reply]
 返信を送信したらコンタクト用ポップアップを削除
+[System tray icon]
+システムトレイアイコン
 [Left click actions (popups only)]
 左クリック操作 ( ポップアップのみ )
 [Right click actions (popups only)]
@@ -1134,6 +1330,12 @@ RSS プロトコルからのイベントを通知しない
 メッセージの送信中
 [Send on SHIFT - Enter]
 SHIFT - Enter で送信
+[Send message on 'Enter']
+エンターキーでメッセージ送信
+[Send message on double 'Enter']
+エンターキー 2 回でメッセージ送信
+[Close the message window on send]
+送信用メッセージウィンドウを閉じる
 [Always flash contact list and tray icon for new messages]
 新規メッセージ用トレイアイコンとコンタクトリストを常にフラッシュ
 [Delete temporary contacts on close]
@@ -1148,14 +1350,10 @@ SHIFT - Enter で送信
 メッセージログの外観
 [Support for external plugins]
 外部プラグインをサポート
-[Additional events to show]
-表示する追加イベント
 [Timestamp settings (note: timstamps also depend on your templates)]
 タイムスタンプ設定 ( 注意 : タイムスタンプもあなたのテンプレートに依存 )
 [Message log icons]
 メッセージログアイコン
-[Show file events]
-ファイルイベントを表示
 [Show dates in timestamps]
 タイムスタンプに日付を表示
 [Use contacts local time (if timezone info available)]
@@ -1249,8 +1447,34 @@ Aero プレビュー警告 | あなたは Aero プレビュー機能が有効な
 [TabSRMM warning message]
 TabSRMM 警告メッセージ
 ;file \plugins\TabSRMM\src\chat\clist.cpp
+[Join chat]
+チャットに参加
+[Open chat window]
+チャットウィンドウを開く
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 ;file \plugins\TabSRMM\src\chat\log.cpp
+[%s has joined]
+%s は参加しました
+[You have joined %s]
+あなたは %s に参加しました
+[%s has left]
+%s は離席しました
+[%s has disconnected]
+%s は切断しました
+[%s is now known as %s]
+%s は現在 %s です
+[You are now known as %s]
+あなたは現在 %s です
+[%s kicked %s]
+%s は %s を排除しました
+[Notice from %s: ]
+%s からの通知 :
+[ (set by %s on %s)]
+( %s を %s に設定)
+[ (set by %s)]
+( %s に設定)
+[<invalid>]
+< 不正 >
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 [Add user to highlight list]
 強調表示リストにユーザーを追加
@@ -1301,8 +1525,42 @@ Aero 光彩効果
 ホバー背景
 [Unread background]
 未読背景
+[Timestamp]
+タイムスタンプ
+[Others nicknames]
+その他のニックネーム
+[Your nickname]
+ニックネーム
+[User has joined]
+ユーザーは参加しました
+[User has left]
+ユーザーは離席しました
+[User has disconnected]
+ユーザーは切断しました
+[User kicked ...]
+ユーザーは排除されました...
+[User is now known as ...]
+ユーザーの現在の名称は次の通りです...
+[Notice from user]
+ユーザーからの通知
+[The topic is ...]
+トピックは...
+[Information messages]
+メッセージ情報
+[User enables status for ...]
+ユーザーは次のステータスを有効にしました...
+[User disables status for ...]
+ユーザーは次のステータスを無効にしました...
+[Action message]
+アクションメッセージ
+[Highlighted message]
+強調表示されたメッセージ
 [Chat log symbols (Webdings)]
 チャットログの記号 ( Webdings )
+[User list members (Online)]
+ユーザーリストメンバー ( オンライン )
+[User list members (away)]
+ユーザーリストメンバー ( 離席中 )
 [>> Outgoing misc events]
 >> 発信したその他のイベント
 [<< Incoming misc events]
@@ -1335,20 +1593,32 @@ Aero 光彩効果
 * 記号 ( 着信 )
 [* Symbols (outgoing)]
 * 記号 ( 発信 )
+[Protocol]
+プロトコル
 [Contacts local time]
 コンタクトの現地時間
 [Window caption (skinned mode)]
 ウィンドウの見出し ( スキンモード )
 [Open new chat rooms in the default container]
 デフォルトコンテナ内に新規チャットルームを開く
+[Flash window when someone speaks]
+誰かが発言中にウィンドウをフラッシュ
+[Flash window when a word is highlighted]
+単語が強調表示されたらウィンドウをフラッシュ
 [Create tabs or windows for highlight events]
 強調表示イベント用のタブもしくはウィンドウを作成
 [Activate chat window on highlight]
 アクティブなチャットウィンドウを強調表示
+[Show list of users in the chat room]
+チャットルームのユーザーリストを表示
 [Colorize nicknames in member list]
 メンバーリストのニックネームをカラー表示
+[Show button menus when right clicking the buttons]
+ボタンを右クリックした時メニューを表示
 [Show topic as status message on the contact list]
 コンタクトリストのステータスメッセージとしてトピックを表示
+[Do not pop up the window when joining a chat room]
+チャットルームに参加中はウィンドウをポップアップしない
 [Hide or show the window by double click in the contact list]
 コンタクトリストのダブルクリックでウィンドウの非表示もしくは表示
 [Sync splitter position with standard IM sessions]
@@ -1361,14 +1631,22 @@ Aero 光彩効果
 IRC スタイルのステータス表記をユーザーリストに使用
 [Use alternative sorting method in member list]
 メンバーリストで代替的なソート方式を使用
+[Prefix all events with a timestamp]
+全てのイベントの前にタイムスタンプを表示
 [Timestamp only when event time differs]
 イベント時間と異なるときのみタイムスタンプ
 [Timestamp has same color as the event]
 タイムスタンプはイベントと同色
+[Indent the second line of a message]
+メッセージの２行目をインデントする
+[Limit user names in the message log to 20 characters]
+メッセージログ中のユーザー名を 20 文字に制限
 [Add a colon (:) to auto-completed user names]
 自動補完されたユーザー名にコロン (:) を追加
 [Start private conversation on doubleclick in nick list (insert nick if unchecked)]
 ニックリストのダブルクリックでプライベートな会話を開始 ( 未チェック時はニックの挿入 )
+[Strip colors from messages in the log]
+ログのメッセージを単色表示にする
 [Use IRC style status indicators in the log]
 IRC スタイルのステータス表記をログに使用
 [Allow clickable user names in the message log]
@@ -1379,8 +1657,54 @@ IRC スタイルのステータス表記をログに使用
 チャットログにあるアイコンを10x10ピクセルに縮尺する
 [Support the math module plugin]
 数学モジュールプラグインをサポート
+[Window Icon]
+ウィンドウアイコン
+[Icon overlay]
+アイコンオーバーレイ
+[Status 1 (10x10)]
+ステータス 1(10x10)
+[Status 2 (10x10)]
+ステータス 2(10x10)
+[Status 3 (10x10)]
+ステータス 3(10x10)
+[Status 4 (10x10)]
+ステータス 4(10x10)
+[Status 5 (10x10)]
+ステータス 5(10x10)
+[Status 6 (10x10)]
+ステータス 6(10x10)
+[Message in (10x10)]
+受信メッセージ (10x10)
+[Message out (10x10)]
+送信メッセージ (10x10)
+[Action (10x10)]
+アクション (10x10)
+[Add Status (10x10)]
+ステータス追加(10x10)
 [Remove Status (10x10)]
 ステータス削除 (10x10)
+[Join (10x10)]
+参加 (10x10)
+[Leave (10x10)]
+離席 (10x10)
+[Quit (10x10)]
+終了 (10x10)
+[Kick (10x10)]
+排除 (10x10)
+[Notice (10x10)]
+通知 (10x10)
+[Nickchange (10x10)]
+ニック変更 (10x10)
+[Topic (10x10)]
+トピック (10x10)
+[Highlight (10x10)]
+強調表示 (10x10)
+[Information (10x10)]
+情報 (10x10)
+[Appearance and functionality of chat room windows]
+チャットルームウィンドウの外観と機能
+[Appearance of the message log]
+メッセージログの外観
 [Channel operators]
 チャンネルオペレーター
 [Half operators]
@@ -1399,22 +1723,76 @@ Voiced
 ユーザーリストの背景
 [year without century, 01-99]
 年 , 01-99
+[All Files]
+全てのファイル
+[Select Folder]
+フォルダーを選択
 [No markers]
 マーカーなし
 [Show as icons]
 アイコンとして表示
 [Show as text symbols]
 テキスト記号として表示
+[Message is highlighted]
+メッセージを強調表示
+[User has performed an action]
+ユーザーはアクションを実行しました
+[User has kicked some other user]
+ユーザーは他のユーザーを排除しました
+[User's status was changed]
+ユーザーステータスは変更されました
+[User has changed name]
+ユーザーは名前を変更しました
+[User has sent a notice]
+ユーザーは通知を送信しました
+[The topic has been changed]
+トピックは変更されています
 ;file \plugins\TabSRMM\src\chat\services.cpp
+[&Join]
+参加する (&J)
+[&Leave]
+終了する (&L)
 ;file \plugins\TabSRMM\src\chat\tools.cpp
+[%s wants your attention in %s]
+%s はあなたに %s について注意を求めています
+[%s speaks in %s]
+%s は %s で話します
+[%s has joined %s]
+%s は %s に参加しました
+[%s has left %s]
+%s は %s を離席しました
+[%s kicked %s from %s]
+%s は %s を %s から排除しました
+[Notice from %s]
+%s からの通知
+[Topic change in %s]
+%s のトピック変更
+[Information in %s]
+%s についての情報
 [%s%s says:%s %s]
 %s%s の発言 : %s %s
+[%s has left (%s)]
+%s は離席しました ( %s )
+[%s has disconnected (%s)]
+%s は切断しました ( %s )
+[%s kicked %s (%s)]
+%s は %s を排除しました ( %s )
+[Notice from %s: %s]
+%s からの通知 :%s
+[No word to look up]
+検索語なし
 [Highlight User...]
 ユーザーを強調表示...
 [Edit Highlight List...]
 強調表示リストを編集...
 ;file \plugins\TabSRMM\src\chat\window.cpp
+[Nick name]
+ニックネーム
 [Unique Id]
+固有 ID
+[Nick]
+ニックネーム
+[Unique id]
 固有 ID
 [%s: Chat Room (%u user%s)]
 %s : チャットルーム (%u ユーザー %s )
@@ -1422,6 +1800,10 @@ Voiced
 %s : チャットルーム (%u ユーザー %s )
 [, event filter active]
 , イベントフィルターはアクティブ
+[%s: Message Session]
+%s : メッセージセッション
+[%s: Message Session (%u users)]
+%s : メッセージセッション (%u ユーザー )
 [, %d %s, %d %s idle]
 , %d %s, %d %s アイドル
 [hour]

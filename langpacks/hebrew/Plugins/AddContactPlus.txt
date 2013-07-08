@@ -3,8 +3,30 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Biaіek
+;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
 ;file \plugins\AddContactPlus\res\resource.rc
+[Add Contact]
+הוסף איש קשר
+[Custom name:]
+שם מותאם אישית:
+[Group:]
+קבוצה:
+[Options]
+אפשרוית
+[Send "You were added"]
+"שלח "הוסיפו אותך לרשימה
+[Send authorization request]
+שלח בקשת אישור
+[Authorization Request]
+בקשת אישור
+[&Add]
+&הוסף
+[&Cancel]
+בטל
 ;file \plugins\AddContactPlus\src\addcontact.cpp
+[Please authorize my request and add me to your contact list.]
+אנא אשר את בקשתי להוסיף אותך לרשימה שלי.
+[None]
+ללא
 ;file \plugins\AddContactPlus\src\main.cpp

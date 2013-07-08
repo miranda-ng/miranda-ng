@@ -6,8 +6,22 @@
 ;  Authors: Miranda team
 ;============================================================
 ;file \plugins\Import\res\resource.rc
+[Cancel]
+Annuleren
+[Incoming]
+Binnenkomend
+[Outgoing]
+Uitgaand
+[Messages]
+Berichten
+[File Transfers]
+Bestandsoverdrachten
+[Other]
+Ander
 ;file \plugins\Import\src\import.cpp
 ;file \plugins\Import\src\main.cpp
 ;file \plugins\Import\src\miranda.cpp
+[All Files]
+Alle bestanden
 ;file \plugins\Import\src\utils.cpp
 ;file \plugins\Import\src\wizard.cpp

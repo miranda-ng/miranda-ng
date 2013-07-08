@@ -11,6 +11,16 @@
 [Use Miranda ignore settings for All Contacts]
 所有联系人使用 Miranda 忽略设置
 ;file \plugins\IgnoreState\src\main.cpp
+[Messages]
+消息
+[Files]
+文件
+[User Online]
+用户上线
+[You Were Added]
+您已被添加
+[Typing Notify]
+键入通知
 [Full Ignore]
 全部忽略
 [Partial Ignore]
@@ -18,3 +28,5 @@
 [Message Ignore]
 忽略消息
 ;file \plugins\IgnoreState\src\options.cpp
+[Icons]
+图标

@@ -22,9 +22,31 @@
 сваляне на библиотеката BASS
 [Play only if]
 При състояние
+[Offline]
+Извън линия
+[Online]
+На линия
+[Away]
+Отсъстващ
+[NA]
+Недостъпен
+[Occupied]
+Зает
+[DND]
+Не безпокойте
+[Free for chat]
+Готов за чат
+[Invisible]
+Невидим
+[On the phone]
+На телефона
+[Out to lunch]
+На обяд
 ;file \plugins\BASS_interface\src\Bass_interface.h
 ;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 Версия на библиотеката BASS: %d.%d.%d.%d
 [--default device--]
 --стандартно устройство--
+[Sounds]
+Звук

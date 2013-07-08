@@ -29,6 +29,8 @@ Advaimg ספריה לא נמצאה. בבקשה השג זאת מ nigtlies בשב�
 [Preview...]
 הראה לפני...
 ;file \plugins\SplashScreen\src\main.cpp
+[Error]
+שגיאה
 ;file \plugins\SplashScreen\src\options.cpp
 [Splash Screen]
 מסך פתיחה

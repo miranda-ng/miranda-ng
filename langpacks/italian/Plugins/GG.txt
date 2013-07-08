@@ -2,15 +2,115 @@
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: GG
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: 
 ;============================================================
 ;file \protocols\Gadu-Gadu\res\resource.rc
+[Password:]
+Password:
+[Password:]
+Password:
+[E-mail:]
+Email:
+[Create new account]
+Crea nuovo account
+[Options]
+Opzioni
+[Options]
+Opzioni
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Dovrai ricollegarti per rendere effettive le modifiche che hai fatto in questa pagina.
 [Advanced Configuration]
 Configurazione avanzata
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[First name:]
+Nome:
+[Last name:]
+Cognome:
+[Nickname:]
+Nick:
+[Gender:]
+Sesso:
+[City:]
+Città:
+[Description:]
+Descrizione:
+[Description:]
+Descrizione:
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[&Create]
+&Crea
+[&Close]
+&Chiudi
+[&Close]
+&Chiudi
+[&Close]
+&Chiudi
+[&Send]
+&Invia
+[&Send]
+&Invia
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
 ;file \protocols\Gadu-Gadu\src\core.cpp
+[Unknown]
+Sconosciuta
+[Unknown]
+Sconosciuto
+[Age:]
+Età:
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
+[Male]
+Maschio
+[Male]
+Maschio
+[Female]
+Femmina
+[Female]
+Femmina
+[<not specified>]
+<non specificato>
+[Network]
+Rete
+[Network]
+Rete
+[Network]
+Rete
+[General]
+Generale
+[Advanced]
+Avanzate
+[System tray icon]
+Icona nella tray di sistema
+[Ignore]
+Ignora
+[Ignore]
+Ignora
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
@@ -18,11 +118,21 @@ Configurazione avanzata
 ;file \protocols\Gadu-Gadu\src\icolib.cpp
 ;file \protocols\Gadu-Gadu\src\image.cpp
 ;file \protocols\Gadu-Gadu\src\import.cpp
+[All Files]
+Tutti i file
+[All Files]
+Tutti i file
+[All Files]
+Tutti i file
 [contacts]
 contatti
 ;file \protocols\Gadu-Gadu\src\links.cpp
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 ;file \protocols\Gadu-Gadu\src\popups.cpp
+[Error]
+Errore
+[Error]
+Errore
 ;file \protocols\Gadu-Gadu\src\services.cpp
 ;file \protocols\Gadu-Gadu\src\sessions.cpp
 ;file \protocols\Gadu-Gadu\src\token.cpp

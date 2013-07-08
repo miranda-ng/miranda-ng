@@ -6,7 +6,29 @@
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Search]
+Otsi
+[Close]
+Sulge
+[Incoming messages]
+Sisenevad teated
+[Outgoing messages]
+Väljundteated
+[Timestamp]
+Ajatempel
+[&File]
+&Fail
+[&Close]
+&Sul&ge
+[&Options]
+&Valikud
+[&Search]
+Otsi
 ;file \plugins\HistoryLinkListPlus\src\language.h
+[Error]
+Viga
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[History]
+Ajalugu
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 ;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp

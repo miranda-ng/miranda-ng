@@ -8,3 +8,7 @@
 ;file \plugins\ZeroNotification\res\ZeroNotify.rc
 ;file \plugins\ZeroNotification\src\common.h
 ;file \plugins\ZeroNotification\src\main.cpp
+[Plugins]
+Plugins
+[Plugins]
+Plugins

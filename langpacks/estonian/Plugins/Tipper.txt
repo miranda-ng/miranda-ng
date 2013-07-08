@@ -6,16 +6,60 @@
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 ;file \plugins\TipperYM\res\resource.rc
+[Options]
+Valikud
+[Window]
+Aken
 [Keep original avatar size]
 Hoia algset avatari suurust
+[OK]
+OK
+[Cancel]
+Tühista
+[Items]
+Elemendid
+[Add]
+Lisa
+[Remove]
+Eemalda
+[Extra icons]
+Ekstra ikoonid
+[Effects]
+Efektid
 ;file \plugins\TipperYM\src\mir_smileys.cpp
 ;file \plugins\TipperYM\src\options.cpp
+[None]
+Pole
+[Customize]
+Kohandamine
 ;file \plugins\TipperYM\src\options.h
+[Status]
+Staatus
 [Client]
 Klient
 ;file \plugins\TipperYM\src\popwin.cpp
+[Other]
+Muu
 ;file \plugins\TipperYM\src\preset_items.cpp
+[Gender:]
+Sugu:
+[Homepage:]
+Koduleht:
+[Idle]
+Tegevusetus
+[Name]
+Nimi
+[Name:]
+Nimi:
+[Time:]
+Aeg:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 ;file \plugins\TipperYM\src\tipper.cpp
+[Background]
+Taust
 ;file \plugins\TipperYM\src\translations.cpp
+[Female]
+Naine
+[Male]
+Mees
 ;file \plugins\TipperYM\src\translations.h

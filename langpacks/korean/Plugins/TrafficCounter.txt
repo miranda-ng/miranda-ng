@@ -7,5 +7,9 @@
 ;============================================================
 ;file \plugins\TrafficCounter\res\resource.rc
 ;file \plugins\TrafficCounter\src\options.cpp
+[Options]
+옵션
 ;file \plugins\TrafficCounter\src\statistics.cpp
+[Online]
+온라인
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp

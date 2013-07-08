@@ -3,13 +3,21 @@
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
 ;  Version: 1.9.0.4
-;  Authors: Bartosz 'Dezeath' Biaіek, Harven
+;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
 ;file \plugins\SimpleStatusMsg\res\resource.rc
+[%s Message for %s]
+%s 消息给 %s
+[&Cancel]
+取消(&C)
+[Retrieving %s message...]
+正在获取 %s 消息..
 [Co&py to Clipboard]
 复制到剪贴板(&P)
 [%s Message (%s)]
 %s 消息 (%s)
+[OK]
+确定
 [Retrieving status message for %s...]
 检索状态信息 %s...
 [Apply to all]
@@ -24,6 +32,8 @@
 永远设置相同信息
 [Do not set status message]
 不设置状态信息
+[Status Messages]
+状态消息
 [Pop up dialog asking for new message]
 弹出对话框询问新信息
 [Set an empty message]
@@ -38,6 +48,8 @@
 设置以下信息:
 [Put default message in message list]
 默认信息放于信息列表中
+[seconds]
+秒
 [Leave last played track's title after exiting the player]
 退出播放器后取消最后播放音轨标题
 [Show status list]
@@ -50,6 +62,8 @@
 按钮:
 [Show icons in message list]
 信息列表中显示图标
+[Other]
+其它
 [Store up to]
 最多保存
 [recent messages (0 = disable)]
@@ -80,9 +94,23 @@
 财富
 [More variables...]
 更多变量...
+[Cut]
+剪切
+[Copy]
+复制
+[Paste]
+粘贴
+[Delete]
+删除
+[Select All]
+全选
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [Failed to retrieve %s message.]
 检索 %s 消息失败.
+[&Close]
+关闭(&C)
+[Re&ad %s Message]
+阅读 %s 消息(&A)
 [Copy %s Message]
 复制 %s 信息
 [Re&ad Away Message]
@@ -94,6 +122,8 @@
 变更状态信息
 [Status Message...]
 状态信息...
+[%s (locked)]
+%s (已锁定)
 [External Applications\tretrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
 外部应用程序\t检索当前在 Winamp 中播放的歌曲名称(兼容简单状态消息)
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
@@ -103,6 +133,10 @@
 添加至预定义
 [OK (%d)]
 是 (%d)
+[Global]
+全局
+[Closing in %d]
+%d 秒关闭
 [Are you sure you want to clear status message history?]
 您确定想清除状态信息历史?
 [Confirm clearing history]
@@ -120,6 +154,12 @@
 确认清除预定义
 [<Last status>]
 <最后状态>
+[Status]
+状态
+[General]
+常规
+[Advanced]
+高级
 ;file \plugins\SimpleStatusMsg\src\utils.cpp
 [Recent Message]
 最近信息
@@ -127,3 +167,25 @@
 预定义信息
 [Go to URL in Away Message]
 至离开信息 URL
+[I've been away since %time%.]
+我已在 %time% 外出. 
+[Give it up, I'm not in!]
+放弃吧, 我不在! 
+[Not right now.]
+现在不行. 
+[Give a guy some peace, would ya?]
+给我一点安宁, 好吗? 
+[I'm a chatbot!]
+我是聊天机器人! 
+[Yep, I'm here.]
+是, 我在这里. 
+[Nope, not here.]
+不, 不在这里. 
+[I'm hiding from the mafia.]
+我现在正在躲仇家. 
+[That'll be the phone.]
+电话联系吧. 
+[Mmm...food.]
+嗯...食物. 
+[idleeeeeeee]
+闲置

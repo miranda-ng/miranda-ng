@@ -151,6 +151,8 @@ BASS 库路径 (默认为空)
 静音
 [mRadio volume control]
 mRadio 音量控制
+[Advanced]
+高级
 [OFF]
 关闭
 [Volume]

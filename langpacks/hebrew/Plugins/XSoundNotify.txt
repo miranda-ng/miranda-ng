@@ -6,6 +6,16 @@
 ;  Authors: Roman Torsten
 ;============================================================
 ;file \plugins\XSoundNotify\res\XSoundNotify.rc
+[Nick:]
+:כינוי
 [Choose]
 בחר
+[Reset]
+אפס
+[OK]
+אישור
+[Cancel]
+ביטול
 ;file \plugins\XSoundNotify\src\xsn_main.cpp
+[Sounds]
+צלילים

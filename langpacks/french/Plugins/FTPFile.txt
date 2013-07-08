@@ -8,16 +8,40 @@
 ;file \plugins\FTPFileYM\res\ftpfile.rc
 [Host name]
 Hôte
+[URL]
+Lien
 [Use passive mode]
 Utiliser le mode passif
+[Protocol]
+Protocole
+[Other]
+Autre
 [Speed:]
 Vitesse :
+[Summary]
+Résumé
+[To:]
+À :
+[Nick]
+Pseudo
+[Close]
+Fermer
+[Select All]
+Tout sélectionner
+[Cancel]
+Annuler
+[Rename]
+Renommer
+[Overwrite]
+Écraser
 ;file \plugins\FTPFileYM\src\dialog.cpp
 [User Info]
 Voir les détails du contact
 [%d hours]
 %d heures
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
+[Resume]
+Reprendre
 ;file \plugins\FTPFileYM\src\job_generic.cpp
 ;file \plugins\FTPFileYM\src\job_packer.cpp
 ;file \plugins\FTPFileYM\src\job_upload.cpp
@@ -25,5 +49,11 @@ Voir les détails du contact
 [Clear All]
 Tout effacer
 ;file \plugins\FTPFileYM\src\options.cpp
+[hours]
+heures
+[Accounts]
+Comptes
+[Advanced]
+Avancé
 ;file \plugins\FTPFileYM\src\serverlist.cpp
 ;file \plugins\FTPFileYM\src\utils.cpp

@@ -10,16 +10,48 @@
 Notificami ogni
 [kilobytes]
 kilobyte
+[minutes]
+minuti
+[Custom]
+Personalizzato
+[Custom]
+Ad hoc
 [Show now]
 Mostra ora
 ;file \plugins\TrafficCounter\src\options.cpp
+[General]
+Generale
 [Hide now]
 Nascondi ora
 [Month]
 mese
+[Options]
+Opzioni
+[Options]
+Opzioni
 [Traffic counter]
 Conteggio traffico
+[Popups]
+Popup
+[Popups]
+Popups
 ;file \plugins\TrafficCounter\src\statistics.cpp
+[Incoming]
+In entrata
+[Incoming]
+In arrivo
+[Outgoing]
+In uscita
+[Outgoing]
+In uscita
+[Online]
+Online
+[Online]
+Online
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Font]
+Carattere
+[Font]
+Carattere
 [Hide traffic window]
 Nascondi finestra traffico

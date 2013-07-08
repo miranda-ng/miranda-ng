@@ -7,4 +7,18 @@
 ;============================================================
 ;file \plugins\IgnoreState\res\ignore.rc
 ;file \plugins\IgnoreState\src\main.cpp
+[Messages]
+İletiler
+[URL]
+Web adresi
+[Files]
+Dosyalar
+[User Online]
+Kullanıcı Çevrimiçi
+[You Were Added]
+Eklendiniz
+[Typing Notify]
+Yazıyor Uyarısı
 ;file \plugins\IgnoreState\src\options.cpp
+[Icons]
+Simgeler

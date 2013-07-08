@@ -6,10 +6,36 @@
 ;  Authors: Ghost, Mironych
 ;============================================================
 ;file \plugins\TrafficCounter\res\resource.rc
+[Accounts]
+Contas
+[Custom]
+Padrão
 ;file \plugins\TrafficCounter\src\options.cpp
+[General]
+Geral
+[General]
+Geral
+[General]
+Geral
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
 [Statistics]
 Statistics
 ;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 Bytes
+[Incoming]
+Recebendo
+[Outgoing]
+Enviando
+[Online]
+Online
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Font]
+Fonte

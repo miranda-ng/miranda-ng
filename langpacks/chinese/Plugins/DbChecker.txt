@@ -6,8 +6,6 @@
 ;  Authors: George Hazan
 ;============================================================
 ;file \plugins\DbChecker\res\resource.rc
-[whiterect]
-仲裁员
 [Welcome to the Miranda Database Wizard]
 欢迎使用 Miranda 数据库向导
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
@@ -18,6 +16,8 @@
 此程序基于 GNU 通用公共许可证. 
 [Miranda Database Tool]
 Miranda 数据库工具
+[Cancel]
+取消
 [Select Miranda Profile]
 选择 Miranda 配置文件
 [You can choose the Miranda profile database to compact or repair.]
@@ -95,12 +95,16 @@ Miranda 数据库工具
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
 处理尚未完成, 如果您现在返回, 已作出变更将被回滚且原始数据库将被还原. 您仍然要返回吗? 
 ;file \plugins\DbChecker\src\selectdb.cpp
+[Error]
+错误
 [Total size]
 累计大小
 [Wasted]
 浪费
 [Miranda Databases (*.dat)]
 Miranda 数据库 (*.dat)
+[All Files]
+所有文件
 ;file \plugins\DbChecker\src\wizard.cpp
 ;file \plugins\DbChecker\src\worker.cpp
 [Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]

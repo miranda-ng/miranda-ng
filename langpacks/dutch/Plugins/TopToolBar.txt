@@ -6,5 +6,11 @@
 ;  Authors: Bethoven
 ;============================================================
 ;file \plugins\TopToolBar\res\main.rc
+[Set]
+Instellen
 ;file \plugins\TopToolBar\src\toolbar.cpp
+[Default]
+Standaard
 ;file \plugins\TopToolBar\src\ttbopt.cpp
+[Contact List]
+Persoon lijst

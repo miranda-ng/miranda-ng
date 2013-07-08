@@ -6,6 +6,14 @@
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 ;file \plugins\Sessions\res\Sessions.rc
+[Delete]
+Kustuta
+[&Cancel]
+&Tühista
+[OK]
+OK
+[Cancel]
+Tühista
 ;file \plugins\Sessions\Src\Main.cpp
 ;file \plugins\Sessions\Src\Options.cpp
 ;file \plugins\Sessions\Src\Utils.cpp

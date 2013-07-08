@@ -6,14 +6,26 @@
 ;  Authors: borkra
 ;============================================================
 ;file \plugins\CrashDumper\res\crshdmp.rc
+[Close]
+Затваряне
 [To File]
 Във файл
 [Support for miranda-vi.org]
 Поддръжка на miranda-vi.org
+[Username]
+Потребител
 [Upload automatically when changed]
 Автоматично качване при промяна
+[General]
+Основни
 [Use classic dates]
 Класическа дата
+[&Copy]
+Копиране
+[Co&py All]
+Копиране на всичко
+[Select &All]
+Маркиране на всичко
 ;file \plugins\CrashDumper\src\crshdmp.cpp
 [VersionInfo stored into file %s]
 Информация за версията е записана във файла %s
@@ -29,6 +41,8 @@
 Качване на информация за версията
 [Store to file]
 Запис като файл
+[Show]
+Показване
 [Show with DLLs]
 Показване и на DLLи
 [Open crash report directory]

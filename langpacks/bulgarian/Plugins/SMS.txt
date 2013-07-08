@@ -8,10 +8,24 @@
 ;file \plugins\SMS\res\resource.rc
 [&Reply]
 Отговор
+[&Close]
+Затваряне
+[From:]
+От:
+[To:]
+За:
+[&Send]
+Изпращане
+[&Cancel]
+Отказ
 [Source:]
 Източник:
 ;file \plugins\SMS\src\options.cpp
 ;file \plugins\SMS\src\receive.cpp
 ;file \plugins\SMS\src\recvdlg.cpp
 ;file \plugins\SMS\src\senddlg.cpp
+[View User's History]
+История на съобщенията
+[Invalid Phone Number]
+Невалиден телефонен номер
 ;file \plugins\SMS\src\SMS_svc.cpp

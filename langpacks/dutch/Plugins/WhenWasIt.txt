@@ -6,9 +6,39 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
+[Popups]
+Popups
+[Sounds]
+Geluiden
+[Show]
+Weergeven
+[seconds]
+seconden
+[Close]
+Sluit
+[OK]
+OK
+[Description:]
+Omschr.:
+[Date:]
+Datum:
+[Delete]
+Verwijderen
 ;file \plugins\WhenWasIt\src\dlg_handlers.cpp
+[Unknown]
+Onbekend
+[Protocol]
+Protocol
+[Contact]
+Persoon
 ;file \plugins\WhenWasIt\src\hooked_events.cpp
+[Contacts]
+Personen
 ;file \plugins\WhenWasIt\src\icons.cpp
 ;file \plugins\WhenWasIt\src\notifiers.cpp
 ;file \plugins\WhenWasIt\src\services.cpp
+[Error]
+Fout
+[All Files]
+Alle bestanden
 ;file \plugins\WhenWasIt\src\services.h

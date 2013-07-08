@@ -6,7 +6,29 @@
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Search]
+Keresés
+[Close]
+Bezárás
+[Incoming messages]
+Bejövõ üzenetek
+[Outgoing messages]
+Kimenõ üzenetek
+[Timestamp]
+Idõbélyeg
+[&File]
+&Fájl
+[&Close]
+&Bezárás
+[&Options]
+&Beállítások
+[&Search]
+&Keresés
 ;file \plugins\HistoryLinkListPlus\src\language.h
+[Error]
+Hiba
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[History]
+Elõzmény
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 ;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp

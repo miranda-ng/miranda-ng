@@ -6,9 +6,31 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Alarms\res\resource.rc
+[Delete]
+Kustuta
+[OK]
+OK
+[Cancel]
+Tühista
+[Description:]
+Kirjeldus:
+[Actions]
+Tegevused
+[&Delete]
+Kustuta
+[&Options...]
+&Valikud...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 ;file \plugins\Alarms\src\alarm_win.cpp
+[Background]
+Taust
+[Window]
+Aken
 ;file \plugins\Alarms\src\frame.cpp
 ;file \plugins\Alarms\src\icons.cpp
 ;file \plugins\Alarms\src\options.cpp
+[Error]
+Viga
+[Events]
+Sündmused

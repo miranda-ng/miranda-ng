@@ -8,6 +8,8 @@
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [WUMF: Current connections]
 WUMF: 当前连接
+[OK]
+确定
 [Popup delay settings]
 弹出窗口超时设定
 [Show infinitely]
@@ -41,10 +43,14 @@ WUMF: 当前连接
 [Show current connections]
 显示当前连接
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
+[File]
+文件
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Enable WUMF popups]
 启用 WUMF 弹出提示
 [Disable WUMF popups]
 禁用 WUMF 弹出提示
+[Popups]
+弹出窗口
 [WUMF: Show connections]
 WUMF: 显示连接

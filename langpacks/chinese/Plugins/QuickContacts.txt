@@ -14,6 +14,8 @@
 确认所有发出信息
 [recognize messages sent with hotkey only]
 仅用热键发出确认信息
+[Contacts]
+联系人
 [Show offline contacts on these protocols:]
 这些协议显示离线联系人:
 [But hide them if protocol is offline]

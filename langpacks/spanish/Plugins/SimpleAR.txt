@@ -10,3 +10,5 @@
 [Turn off Autoanswer]
 Apague Autoresponder
 ;file \plugins\SimpleAR\src\Options.cpp
+[Plugins]
+Plugins

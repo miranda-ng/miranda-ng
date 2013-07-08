@@ -6,12 +6,44 @@
 ;  Authors: J. Schaal & S. Ellis
 ;============================================================
 ;file \plugins\MetaContacts\res\MetaContacts.rc
+[&Cancel]
+Annuleren
+[Name:]
+Naam:
+[Information]
+Informatie
+[Contacts]
+Personen
+[Options]
+Opties
+[Contact List]
+Persoon lijst
+[Default]
+Standaard
 ;file \plugins\MetaContacts\src\addto.cpp
 ;file \plugins\MetaContacts\src\edit.cpp
+[(Unknown Contact)]
+(Onbekend Persoon)
+[Yes]
+Ja
+[No]
+Ne
+[Contact]
+Persoon
+[Protocol]
+Protocol
 ;file \plugins\MetaContacts\src\icons.cpp
+[Edit]
+Bewerken
 ;file \plugins\MetaContacts\src\metacontacts.h
 ;file \plugins\MetaContacts\src\meta_main.cpp
 ;file \plugins\MetaContacts\src\meta_menu.cpp
+[Error]
+Fout
 ;file \plugins\MetaContacts\src\meta_options.cpp
 ;file \plugins\MetaContacts\src\meta_services.cpp
+[General]
+Algemeen
+[History]
+Geschiedenis
 ;file \plugins\MetaContacts\src\meta_utils.cpp

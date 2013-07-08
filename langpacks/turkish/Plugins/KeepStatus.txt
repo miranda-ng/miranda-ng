@@ -6,7 +6,87 @@
 ;  Authors: P Boon
 ;============================================================
 ;file \Plugins\StatusPlugins\resource.rc
+[General]
+Genel
+[Close]
+Kapat
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Profile]
+Profile
+[Message]
+İleti
+[Set]
+Ayarla
+[OK]
+Tamam
+[Other]
+Diğer
+[Background colour]
+Art alan rengi
+[Background colour]
+Art alan rengi
+[Text colour]
+Yazı rengi
+[Text colour]
+Yazı rengi
+[Use Windows colours]
+Windows renklerini kullan
+[Use Windows colours]
+Windows renklerini kullan
+[Use default colours]
+Varsayılan renkleri kullan
+[Events]
+Etkinlikler
+[Custom]
+Kişisel
+[Use %time% for the current time, %date% for the current date]
+Şimdiki saat için %time%, tarih için %date% kullanın
+[Accounts]
+Hesaplar
+[Status]
+Durum
+[Delete]
+Sil
+[seconds]
+saniye
+[seconds]
+saniye
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
+[Protocol]
+Protokol
+[Advanced]
+Gelişmiş
+[Popups]
+Açılır Pencereler
 ;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+Bilgisayar başından kalktım: %time% 
+[Give it up, I'm not in!]
+Boşver ben yokum
+[Not right now.]
+Şimdi değil.
+[Give a guy some peace, would ya?]
+Bana biraz huzur ver
+[I'm a chatbot!]
+Ben bir sohbet robotuyum
+[Yep, I'm here.]
+Burdayım
+[Nope, not here.]
+Yokum yok.
+[I'm hiding from the mafia.]
+Mafyadan saklanıyorum
+[That'll be the phone.]
+Telefondayım
+[Mmm...food.]
+Mmm...yemek.
+[idleeeeeeee]
+Boştayım
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Closing in %d]
+Kapanıyor %d

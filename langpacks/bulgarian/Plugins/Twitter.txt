@@ -6,14 +6,30 @@
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 ;file \protocols\Twitter\res\twitter.rc
+[Username:]
+Потребител:
+[Cancel]
+Отказ
+[sec]
+сек
 [Use Popup colors]
 Цветове от Popup приставката
 [Use custom colors]
 Избор на цветове
+[Text]
+Текст
 [Timeouts]
 Времетраене
+[Custom]
+Избор
 ;file \protocols\Twitter\src\connection.cpp
 ;file \protocols\Twitter\src\proto.cpp
+[Network]
+Мрежа
+[Popups]
+РopUps
+[Popups]
+РopUps
 ;file \protocols\Twitter\src\theme.cpp
 [Visit Homepage]
 Отваряне на страницата

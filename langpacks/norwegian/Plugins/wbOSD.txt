@@ -8,5 +8,15 @@
 ;file \plugins\wbOSD\res\wbOSD.rc
 [Select font]
 Velg skrift
+[General]
+Generelt
+[Other]
+Annet
+[Show]
+Vis
+[Status changes]
+Statusendringer
 ;file \plugins\wbOSD\src\events.cpp
 ;file \plugins\wbOSD\src\options.cpp
+[Plugins]
+Tillegg

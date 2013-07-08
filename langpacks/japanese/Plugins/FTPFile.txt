@@ -6,12 +6,44 @@
 ;  Authors: yaho
 ;============================================================
 ;file \plugins\FTPFileYM\res\ftpfile.rc
+[URL]
+URL
+[Protocol]
+プロトコル
+[Other]
+その他
+[Summary]
+要約
+[To:]
+送信者 :
+[Nick]
+ニックネーム
+[Close]
+閉じる
+[Options]
+オプション
+[Select All]
+全て選択
+[OK]
+OK
+[Cancel]
+Cancel
+[Rename]
+名前の変更
+[Overwrite]
+上書き
 ;file \plugins\FTPFileYM\src\dialog.cpp
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
+[Resume]
+再開
 ;file \plugins\FTPFileYM\src\job_generic.cpp
 ;file \plugins\FTPFileYM\src\job_packer.cpp
 ;file \plugins\FTPFileYM\src\job_upload.cpp
 ;file \plugins\FTPFileYM\src\manager.cpp
 ;file \plugins\FTPFileYM\src\options.cpp
+[Accounts]
+アカウント
+[Advanced]
+詳細
 ;file \plugins\FTPFileYM\src\serverlist.cpp
 ;file \plugins\FTPFileYM\src\utils.cpp

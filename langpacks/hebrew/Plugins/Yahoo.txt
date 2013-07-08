@@ -6,6 +6,10 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\Yahoo\res\Yahoo.rc
+[Password:]
+סיסמא:
+[Nick:]
+:כינוי
 [Create a new Yahoo account using the Yahoo website]
 צור חשבון יאהו חדש בעזרת אתר יאהו
 [Use Yahoo Address Book (YAB)]
@@ -18,17 +22,37 @@
 יאהו יפן
 [Connection Settings]
 הגדרות חיבור
+[Port:]
+יציאה:
+[Reset]
+אפס
 [Yahoo Ignore List]
 רשימת התעלמות של יאהו
 [Ignore anyone who is not on my Yahoo buddy list ]
 התעלם מכל אחד שלא ברשימת החברים שלי ביאהו
 [Ignore only the people below: ]
 התעלם רק מהאנשים למטה:
+[&Add]
+&הוסף
+[OK]
+אישור
+[Cancel]
+ביטול
+[&Join]
+הצטרף
+[&Deny]
+&דחה
+[&Cancel]
+בטל
+[Add]
+הוסף
 ;file \protocols\Yahoo\src\avatar.cpp
 ;file \protocols\Yahoo\src\chat.cpp
 ;file \protocols\Yahoo\src\icolib.cpp
 [Mail]
 דואר
+[Profile]
+פרופיל
 [Address Book]
 ספר כתובות
 [Set Status]
@@ -36,9 +60,13 @@
 [Calendar]
 לוח שנה
 ;file \protocols\Yahoo\src\im.cpp
+[The message send timed out.]
+שליחת ההודעה התארכה יותר מהצפוי.
 ;file \protocols\Yahoo\src\links.cpp
 ;file \protocols\Yahoo\src\main.cpp
 ;file \protocols\Yahoo\src\options.cpp
+[Network]
+רשת
 ;file \protocols\Yahoo\src\proto.cpp
 [Yahoo Login Error]
 שגיאה בהתחברו ליאהו

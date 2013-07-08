@@ -6,6 +6,8 @@
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 ;file \plugins\TipperYM\res\resource.rc
+[Window]
+Fenêtre
 [Max width:]
 Largeur max :
 [Max height:]
@@ -30,6 +32,8 @@ Conserver la taille de l'avatar
 Module :
 [Translation:]
 Traduction :
+[Cancel]
+Annuler
 [Item]
 Évènement
 [Value:]
@@ -38,14 +42,26 @@ Valeur :
 Mettre une ligne en dessous
 [Value on a new line]
 Valeur sur une nouvelle ligne
+[Items]
+Objets
+[Add]
+Ajouter
+[Remove]
+Retirer
+[Edit]
+Éditer
 [Separator]
 Séparateur
 [Advanced options]
 Options avancées
+[Extra icons]
+Icônes d'accès rapide
 [Enable SmileyAdd support]
 Activer le support de SmileyAdd
 [Resize smileys]
 Redimensionner les avatars
+[Effects]
+Effets
 ;file \plugins\TipperYM\src\mir_smileys.cpp
 ;file \plugins\TipperYM\src\options.cpp
 [You must enter a label]
@@ -60,28 +76,58 @@ Sans icône
 Sans titre
 [Centre]
 Centré
+[None]
+Aucun
 [Fade]
 Fondu
+[Customize]
+Apparence
 [Content]
 Contenu
 ;file \plugins\TipperYM\src\options.h
+[Status]
+État
 ;file \plugins\TipperYM\src\popwin.cpp
+[%s (locked)]
+%s (verrouillé)
+[Other]
+Autre
 ;file \plugins\TipperYM\src\preset_items.cpp
+[Gender:]
+Sexe :
+[Homepage:]
+Page web :
+[Idle]
+Inactif
 [Idle:]
 Inactivité :
 [Last message]
 Dernier message
 [Last message: (%sys:last_msg_reltime% ago)]
 Dernier message : il y a %sys:last_msg_reltime%
+[Name]
+Nom
+[Name:]
+Nom :
+[Time:]
+Durée :
 [Sunrise:]
 Aube :
 [Sunset:]
 Aurore :
 ;file \plugins\TipperYM\src\skin_parser.cpp
 ;file \plugins\TipperYM\src\tipper.cpp
+[Background]
+Arrière-plan
+[Dividers]
+Séparateurs
 [Labels]
 Nom
 [Values]
 Valeurs
 ;file \plugins\TipperYM\src\translations.cpp
+[Female]
+Femme
+[Male]
+Homme
 ;file \plugins\TipperYM\src\translations.h

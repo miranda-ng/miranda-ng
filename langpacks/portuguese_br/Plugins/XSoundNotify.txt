@@ -6,4 +6,42 @@
 ;  Authors: Roman Torsten
 ;============================================================
 ;file \plugins\XSoundNotify\res\XSoundNotify.rc
+[Nick:]
+Apelido:
+[Reset]
+Limpar
+[Reset]
+Padrão
+[Reset]
+Apagar
+[Reset]
+Apagar
+[Reset]
+Limpar
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 ;file \plugins\XSoundNotify\src\xsn_main.cpp
+[Sounds]
+Sons

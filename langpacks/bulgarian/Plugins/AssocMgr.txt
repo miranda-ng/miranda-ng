@@ -19,6 +19,8 @@
 Грешка при асоцииране на файлов тип
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
 Възникна грешка при писане в регистъра за промяна на асоциация за файл/url адрес.\nПричина: %s
+[Unknown]
+Неизвестно
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
 Възникна грешка при писане в регистъра за промяна на списъка за автостартиране.\n\nПричина: %s
 [Associations]

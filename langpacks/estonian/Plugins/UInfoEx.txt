@@ -6,23 +6,111 @@
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 ;file \plugins\UserInfoEx\res\resource.rc
+[OK]
+OK
+[Cancel]
+Tühista
+[Apply]
+Rakenda
+[First name:]
+Eesnimi:
+[Last name:]
+Perenimi:
+[Female]
+Naine
+[Male]
+Mees
+[Street:]
+Tänav:
+[Postal code:]
+Postikood:
+[City:]
+Linn
+[Country:]
+Riik
+[Timezone:]
+Ajatsoon:
+[Company:]
+Firma:
+[Department:]
+Osakond:
+[Add Phone Number]
+Lisa telefoninumber
+[Enter country, area code and phone number:]
+Sisesta riik, ala kood ja telefoni nr:
+[Or enter a full international number:]
+Või sisesta täielik rahvusvaheline nr:
+[Background colour]
+Taustavärv
+[Text colour]
+Teksti värv
+[Use default colours]
+Kasuta vaikimisi värve
+[Homepage:]
+Koduleht:
+[Delete]
+Kustuta
+[Icons]
+Ikoonid
+[None]
+Pole
+[Gender:]
+Sugu:
+[Age:]
+Vanus:
 ;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+[Other]
+Muu
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+[Contact]
+Kontakt
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+[Yes]
+Jah
+[No]
+Ei
+[Ignore]
+Ignoreeri
+[Error]
+Viga
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
+[General]
+Üldine
+[Work]
+Töö
+[Profile]
+Profiil
+[Notes]
+Märkused
+[Owner]
+Omanik
 ;file \plugins\UserInfoEx\src\init.cpp
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Fax]
+Faks
+[Add]
+Lisa
+[Search]
+Otsi
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
+[User &Details]
+Kasutaja detailid
+[View/Change My &Details...]
+Vaata/muuda minu &detaile...
 ;file \plugins\UserInfoEx\src\psp_about.cpp
+[About:]
+Teave:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
 ;file \plugins\UserInfoEx\src\psp_options.cpp
+[Contacts]
+Kontaktid
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Movies/TV]
@@ -38,7 +126,11 @@ Uudised ja meedia
 [Business & Economy]
 Äri ja majandus
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+['(Unknown Contact)']
+'(Tundmatu kontakt)'
 ;file \plugins\UserInfoEx\src\svc_email.cpp
+[Send e-mail]
+Saada e-mail
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
@@ -48,6 +140,8 @@ Uudised ja meedia
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
+[Miranda NG]
+Miranda NG
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp

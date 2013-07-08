@@ -10,5 +10,15 @@
 מקש מסתיר
 [Disable Sounds]
 בטל צלילים
+[Password:]
+סיסמא:
+[OK]
+אישור
+[Cancel]
+ביטול
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
 ;file \plugins\BossKeyPlus\src\Options.cpp
+[Events]
+אירועים
+[Advanced]
+מתקדם

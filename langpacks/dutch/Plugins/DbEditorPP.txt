@@ -6,16 +6,42 @@
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 ;file \plugins\DbEditorPP\res\resource.rc
+[&Search]
+Zoeken
+[&Cancel]
+Annuleren
+[Background colour]
+Achtergrond kleur
+[OK]
+OK
+[Cancel]
+Annuleren
+[E&xit]
+Afsluiten
+[&Delete]
+Verwij&deren
+[&Rename]
+He&rnoemem
 ;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 ;file \plugins\DbEditorPP\src\exportimport.cpp
+[All Files]
+Alle bestanden
 ;file \plugins\DbEditorPP\src\findwindow.cpp
 ;file \plugins\DbEditorPP\src\icons.cpp
 ;file \plugins\DbEditorPP\src\main.cpp
 ;file \plugins\DbEditorPP\src\main_window.cpp
 ;file \plugins\DbEditorPP\src\modules.cpp
 ;file \plugins\DbEditorPP\src\moduletree.cpp
+[Contacts]
+Personen
 ;file \plugins\DbEditorPP\src\options.cpp
 ;file \plugins\DbEditorPP\src\settinglist.cpp
+[Name]
+Naam
+[Size]
+Grootte
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
+[Contact]
+Persoon

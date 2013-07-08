@@ -6,20 +6,88 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
+[E-mail:]
+Имейл:
+[Password:]
+Парола:
 [Configuration]
 Настройване
+[Port:]
+Порт:
+[Default]
+Стандарт
+[Background colour]
+Цвят на фона
+[Background colour]
+Фонов цвят
+[Font]
+Шрифт
+[Summary]
+Обобщение
+[Nickname:]
+Прякор:
+[First name:]
+Име:
+[Last name:]
+Фамилия:
+[Gender:]
+Пол:
+[Age:]
+Възраст:
+[Location]
+Местоположение
+[Country:]
+Държава:
+[State:]
+Област:
+[City:]
+Град:
 [Full e-mail:]
 E-поща:
+[Text Color]
+Цвят на текста
+[Closing in %d]
+Затваряне след %d
+[Add]
+Добавяне
+[Remove]
+Премахване
+[Cancel]
+Отказ
 ;file \protocols\MRA\src\MraAntiSpam.cpp
 ;file \protocols\MRA\src\MraAvatars.cpp
 ;file \protocols\MRA\src\MraChat.cpp
 ;file \protocols\MRA\src\MraConstans.h
+[Request authorization]
+Молба за упълномощаване
+[Grant authorization]
+Даване на пълномощно
 ;file \protocols\MRA\src\MraFilesQueue.cpp
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 ;file \protocols\MRA\src\MraIcons.cpp
+[Main Menu]
+Главно меню
 ;file \protocols\MRA\src\MraPopUp.cpp
+[None]
+Няма
+[Information]
+Информация
+[Error]
+Грешка
+[Popups]
+РopUps
+[Popups]
+РopUps
 ;file \protocols\MRA\src\MraProto.cpp
+[E-mail address]
+Имейл
 ;file \protocols\MRA\src\Mra_functions.cpp
 ;file \protocols\MRA\src\Mra_options.cpp
+[Network]
+Мрежа
+[Files]
+Файлове
 ;file \protocols\MRA\src\Mra_proto.cpp
 ;file \protocols\MRA\src\Mra_svcs.cpp
+[On the phone]
+На телефона

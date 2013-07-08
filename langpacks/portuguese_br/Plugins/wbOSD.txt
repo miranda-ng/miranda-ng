@@ -6,5 +6,23 @@
 ;  Authors: Andrej Krutak
 ;============================================================
 ;file \plugins\wbOSD\res\wbOSD.rc
+[General]
+Geral
+[General]
+Geral
+[General]
+Geral
+[Other]
+Outros
+[Show]
+Mostrar
+[Status changes]
+Alterações de Status
+[Status changes]
+Status alterado
 ;file \plugins\wbOSD\src\events.cpp
 ;file \plugins\wbOSD\src\options.cpp
+[Plugins]
+Plugins
+[Plugins]
+Plugins

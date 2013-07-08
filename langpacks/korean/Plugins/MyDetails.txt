@@ -6,7 +6,23 @@
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 ;file \plugins\MyDetails\res\resource.rc
+[Nickname:]
+대화명:
+[OK]
+확인
+[Cancel]
+취소
+[pixels]
+픽셀
+[seconds]
+초
 ;file \plugins\MyDetails\src\data.cpp
 ;file \plugins\MyDetails\src\frame.cpp
+[Status]
+상태
+[Background]
+배경
 ;file \plugins\MyDetails\src\mydetails.cpp
+[Contact List]
+대화 상대 목록
 ;file \plugins\MyDetails\src\options.cpp

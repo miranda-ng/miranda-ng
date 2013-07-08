@@ -12,10 +12,18 @@ Ajouter à un MetaContact existant
 Veuillez choisir un MetaContact :
 [&OK]
 OK
+[&Cancel]
+&Annuler
 [Sort Alphabetically]
 Trier alphabétiquement
 [Editing]
 Édition de la fiche MetaContact
+[Name:]
+Nom :
+[Information]
+Informations
+[&Apply]
+&Appliquer
 [&Set as Default]
 Par &Défaut
 [Move &Up]
@@ -48,6 +56,8 @@ Définir par défaut et fenêtre d'envoi
 Voir le menu du sous-contact
 [Show user information]
 Voir les infos du contact
+[Contact List]
+Liste de contacts
 [Display subcontact nickname]
 Voir le pseudo du sous-contact
 [Display subcontact display name]
@@ -72,6 +82,8 @@ Patienter pendant la suppression de l'historique.
 Priorités des sous-contacts
 [Rank:]
 Rang :
+[Default]
+Défaut
 [(Lower ranks are preferred)]
 (Les rangs bas sont prioritaires)
 [Copy subcontact history to MetaContact when creating or adding]
@@ -110,8 +122,16 @@ Pas de MetaContact sélectionné
 [Assignment failure]
 Assignement raté
 ;file \plugins\MetaContacts\src\edit.cpp
+[(Unknown Contact)]
+(Contact inconnu)
+[Yes]
+Oui
+[No]
+Non
 [Id]
 ID
+[Protocol]
+Protocole
 [Send Offline]
 Envoi hors ligne
 [Delete MetaContact?]
@@ -119,6 +139,10 @@ Supprimer ce MetaContact ?
 ;file \plugins\MetaContacts\src\icons.cpp
 [Convert to MetaContact]
 Convertir en MetaContact
+[Edit]
+Éditer
+[Remove]
+Retirer
 ;file \plugins\MetaContacts\src\metacontacts.h
 [You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
 Vous êtes sur le point d'enlever tous les contacts liés à ce MetaContact.\nCeci supprimera le MetaContact.\n\nVoulez-vous vraiment continuer ?
@@ -128,6 +152,8 @@ Erreur_base de donnée corrompue.\nPlugin désactivé.
 ;file \plugins\MetaContacts\src\meta_menu.cpp
 [There was a problem in assigning the contact to the MetaContact]
 Il y a eu un problème lors de l'assignation du contact à un MetaContact
+[Error]
+Erreur
 [This will remove the MetaContact permanently.\n\nProceed Anyway?]
 Ceci supprimera complètement le MetaContact, mais pas le contact en lui-même.\n\nVoulez-vous continuer ?
 [Remove from MetaContact]
@@ -138,6 +164,8 @@ Retirer du MetaContact
 ;file \plugins\MetaContacts\src\meta_services.cpp
 [No online contacts found.]
 Aucun contact en ligne trouvé.
+[Message from %s]
+Message de %s
 [Toggle MetaContacts Off]
 Désactiver MetaContact
 [Add to existing MetaContact...]
@@ -152,8 +180,12 @@ Effacer le MetaContact
 Contextuel
 [Toggle MetaContacts On]
 Activer MetaContact
+[General]
+Général
 [Priorities]
 Priorités
+[History]
+Historique
 ;file \plugins\MetaContacts\src\meta_utils.cpp
 [Could not get MetaContact id]
 N'a pas pu obtenir l'ID du MetaContact

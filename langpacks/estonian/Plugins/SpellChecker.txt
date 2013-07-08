@@ -6,6 +6,12 @@
 ;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
 ;============================================================
 ;file \plugins\SpellChecker\res\resource.rc
+[Remove]
+Eemalda
+[OK]
+OK
+[Cancel]
+Tühista
 ;file \plugins\SpellChecker\src\ardialog.cpp
 ;file \plugins\SpellChecker\src\dictionary.cpp
 ;file \plugins\SpellChecker\src\options.cpp

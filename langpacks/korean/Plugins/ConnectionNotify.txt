@@ -6,5 +6,15 @@
 ;  Authors: MaKaR
 ;============================================================
 ;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
+[Background]
+배경
+[OK]
+확인
+[Cancel]
+취소
 ;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+[Status]
+상태
+[Plugins]
+플러그인
 ;file \plugins\ConnectionNotify\src\filter.cpp

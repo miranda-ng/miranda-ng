@@ -2,27 +2,100 @@
 ;============================================================
 ;  File: Skype.dll
 ;  Plugin: Skype Protocol
-;  Version: 0.0.0.1
-;  Authors: Unsane, Mataes
+;  Version: 0.11.0.1
+;  Authors: unsane, mataes, ghazan
 ;============================================================
 ;file \protocols\Skype\res\Resource.rc
+[&Cancel]
+取消(&C)
+[Add]
+添加
+[&Create]
+建立(&C)
+[Password:]
+密码: 
+[&OK]
+确定(&O)
+[Set password]
+设置密码
+[Hint:]
+提示: 
 [Enter password]
 输入密码
+[OK]
+确定
+[Cancel]
+取消
 [Status text:]
 状态文本:
+[Date of birth:]
+出生日期: 
+[Gender:]
+性别: 
+[Homepage:]
+主页: 
+[About:]
+关于: 
+[City:]
+城市: 
+[State:]
+州: 
+[Country:]
+国家: 
+[Timezone:]
+时区: 
+[New password:]
+新密码: 
 ;file \protocols\Skype\src\skype.cpp
 ;file \protocols\Skype\src\skype_account.cpp
+;file \protocols\Skype\src\skype_blocked.cpp
+[Name]
+名称
+;file \protocols\Skype\src\skype_bookmarks.cpp
+[Conferences]
+会议
 ;file \protocols\Skype\src\skype_chat.cpp
+[&User details]
+用户详细资料(&U)
+[Set &role]
+设置角色(&R)
+[&User]
+用户(&U)
+[&Add]
+添加(&A)
 ;file \protocols\Skype\src\skype_contacts.cpp
 ;file \protocols\Skype\src\skype_dialogs.cpp
+[<not specified>]
+<未指定>
+[Male]
+男
+[Female]
+女
 ;file \protocols\Skype\src\skype_events.cpp
-[Incoming call]
-来电
+[Network]
+网络
+[Contacts]
+联系人
+[General]
+常规
 ;file \protocols\Skype\src\skype_icons.cpp
 [Call]
 呼叫
+[Contact]
+联络方式
+[Delete]
+删除
+;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
 ;file \protocols\Skype\src\skype_menus.cpp
+[Request authorization]
+要求授权
+[Grant authorization]
+准许授权
+[Revoke authorization]
+撤销授权
+;file \protocols\Skype\src\skype_messages.cpp
 ;file \protocols\Skype\src\skype_netlib.cpp
 ;file \protocols\Skype\src\skype_proto.cpp
+;file \protocols\Skype\src\skype_transfers.cpp
 ;file \protocols\Skype\src\skype_utils.cpp

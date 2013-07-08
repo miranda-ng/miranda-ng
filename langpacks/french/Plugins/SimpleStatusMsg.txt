@@ -3,26 +3,52 @@
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
 ;  Version: 1.9.0.4
-;  Authors: Bartosz 'Dezeath' Biaіek, Harven
+;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
 ;file \plugins\SimpleStatusMsg\res\resource.rc
+[%s Message for %s]
+Message %s pour %s
+[&Cancel]
+&Annuler
+[Retrieving %s message...]
+Récupération du message %s ...
 [Co&py to Clipboard]
 Co&pier dans le presse-papier
 [Retrieving status message for %s...]
 Récupération du message d'état de %s ...
 [Max length:]
 Taille maxi :
+[Status Messages]
+Messages d'état
 [Use last message]
 Utiliser le message précédent
 [Use last message set for this status]
 Utiliser le message précédent de cet état
+[seconds]
+secondes
 [Show status list]
 Afficher les états
 [Buttons:]
 Boutons :
+[Other]
+Autre
 [miliseconds]
 millisecondes
+[Cut]
+Couper
+[Copy]
+Copier
+[Paste]
+Coller
+[Delete]
+Effacer
+[Select All]
+Tout sélectionner
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
+[&Close]
+&Fermer
+[Re&ad %s Message]
+&Message d'état de "%s"
 [Copy %s Message]
 Copier le message %s
 [Re&ad Away Message]
@@ -32,6 +58,40 @@ Copier le message d'état
 ;file \plugins\SimpleStatusMsg\src\main.cpp
 [Change Status Message]
 Changer le message d'état
+[%s (locked)]
+%s (verrouillé)
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
+[Global]
+Général
+[Closing in %d]
+Fermeture dans %d
 ;file \plugins\SimpleStatusMsg\src\options.cpp
+[Status]
+État
+[General]
+Général
+[Advanced]
+Avancé
 ;file \plugins\SimpleStatusMsg\src\utils.cpp
+[I've been away since %time%.]
+Je suis absent depuis %time%.
+[Give it up, I'm not in!]
+Laisse tomber, je suis sorti !
+[Not right now.]
+Pas maintenant, merci.
+[Give a guy some peace, would ya?]
+Tu veux bien me laisser en paix ?
+[I'm a chatbot!]
+Je suis un robot de chat !
+[Yep, I'm here.]
+Oui, je suis là.
+[Nope, not here.]
+Non, absent.
+[I'm hiding from the mafia.]
+Je me cache de la mafia.
+[That'll be the phone.]
+Ce sera le téléphone.
+[Mmm...food.]
+Mmm... Manger.
+[idleeeeeeee]
+Occupééééé

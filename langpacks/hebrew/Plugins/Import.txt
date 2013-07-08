@@ -6,10 +6,24 @@
 ;  Authors: Miranda team
 ;============================================================
 ;file \plugins\Import\res\resource.rc
+[Cancel]
+ביטול
+[Incoming]
+נכנס
+[Outgoing]
+יוצא
+[Messages]
+הודעות
+[File Transfers]
+העברות קבצים
+[Other]
+אחר
 ;file \plugins\Import\src\import.cpp
 ;file \plugins\Import\src\main.cpp
 [&Import...]
 &ייבוא...
 ;file \plugins\Import\src\miranda.cpp
+[All Files]
+כל הקבצים
 ;file \plugins\Import\src\utils.cpp
 ;file \plugins\Import\src\wizard.cpp

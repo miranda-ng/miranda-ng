@@ -7,4 +7,8 @@
 ;============================================================
 ;file \plugins\YahooGroups\res\YahooGroups.rc
 ;file \plugins\YahooGroups\src\hooked_events.cpp
+[Plugins]
+Plugins
+[Plugins]
+Plugins
 ;file \plugins\YahooGroups\src\utils.cpp

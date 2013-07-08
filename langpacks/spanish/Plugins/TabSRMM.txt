@@ -8,16 +8,56 @@
 ;file \plugins\TabSRMM\res\chat.rc
 [You can add the user by user name or his id. Wildcards are allowed and recommended.]
 Usted puede agregar el usuario por su nombre de usuario o su identificación. Los comodines son permitidos y recomendados.
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [  Show these events]
 Mostrar los eventos
+[Actions]
+Acciones
+[Messages]
+Mensaje ventanas - IM
+[Users joining]
+Usuarios de unirse
+[Users leaving]
+Dejando a los usuarios
+[Topic changes]
+Tema cambios
+[Status changes]
+Cambiar estado
+[Information]
+Información
+[Disconnects]
+Desconecta
+[User kicks]
+El usuario comienza
+[Notices]
+Avisos
+[Options]
+Opciones
+[Options]
+Opciones
+[Add new rooms to group:]
+Añadir nuevas habitaciones en el grupo:
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
 integración El chat está inhabilitado. Usted puede habilitar aquí, y luego a NECESITA REINICIAR Miranda después de hacer este cambio.\n\nou debe deshabilitar el plugin estándar de chat cuando se habilita el chat de grupo de apoyo aquí. De lo contrario ningún grupo de chat a todos funcionen.
 [Log files]
 Los archivos de registro
+[Enable logging to disk]
+Habilitar el registro en el disco
+[Log directory]
+Registro de la guía
 [Maximum size for log files (in kB)]
 Tamaño máximo para los archivos de registro (en kB)
 [Group chat log formatting]
 Chat de grupo de registro de formato
+[Your name]
+Su nombre
+[Other name]
+El otro nombre
 [Timestamp (window)]
 Marca de tiempo (ventana)
 [Timestamp (logfile)]
@@ -62,6 +102,36 @@ Las palabras para destacar, como comodines * y ? están permitidas, las entradas
 Resaltar mensajes que contengan mi nombre propio nick
 [Highlight messages containing my own nick name]
 Resaltar mensajes que contengan mi nombre propio nick
+[List]
+Lista
+[&Message]
+&Mensaje
+[Log]
+Registrarse
+[Clear lo&g]
+Borrar registro
+[Co&py all]
+Co&pie todos
+[Open a &new browser window]
+Abra una &nueva ventana del navegador
+[&Open in current browser window]
+&Abre en ventana actual del navegador
+[&Copy link]
+&Copiar enlace
+[Message]
+Mensaje
+[Redo]
+Listo
+[Copy]
+Copiar
+[Cut]
+Cortar
+[Paste]
+Pegar
+[Select All]
+Seleccionar todo
+[Clear]
+Borrar
 ;file \plugins\TabSRMM\res\resource.rc
 [Customize the panel]
 Personalizar el panel
@@ -87,6 +157,8 @@ Muestra la imagen de este contacto
 ajustes avanzada]
 [Message send timeout]
 Enviar mensaje de tiempo de espera
+[seconds]
+segundo
 [Input history size]
 Entrada] tamaño de la historia
 [entries]
@@ -105,8 +177,18 @@ Caso, comunicará las opciones
 Límite de vista previa del mensaje de
 [Only show event notifications when my status is...]
 Mostrar sólo las notificaciones de eventos cuando mi estado es ...
+[Text]
+Texto
+[Text]
+Texto
+[Background]
+Fondo
+[Background]
+Background
 [Timeout (seconds, 0 = default, -1 = no timeout)]
 Tiempo de espera (segundos, 0 = por defecto, -1 = no hay tiempo de espera)
+[Group chats]
+Conversaciones en grupo
 [Use the message log color theme for group chat popups]
 Utilice el registro de mensajes color para chat de grupo pop-ups
 [No compatible popup plugin was found. The event notification\nsystem is not available.]
@@ -141,6 +223,10 @@ No haga caso de envío de los tiempos de espera
 Cargue sólo la historia real
 [Always trim message log to]
 Siempre corte mensaje de registro a
+[Events]
+Eventos
+[Events]
+Eventos
 [Only show tab bar when it's needed]
 Mostrar sólo la barra de pestañas cuando se necesita
 [Container stays on top]
@@ -191,6 +277,8 @@ Use el tamaño y la posición global de contenedores
 Guardar actual como global
 [When checked, this container will use private settings, otherwise settings are shared among containers.]
 Cuando se activa, este contenedor se utiliza la configuración privada, de lo contrario configuración se reparten entre los contenedores.
+[Apply]
+Aplicar
 [Tab location]
 Ficha ubicación
 [When using the switch bar, use the following layout]
@@ -251,8 +339,20 @@ Plantilla fija
 Plantillas estándar ...
 [RTL templates...]
 RTL plantillas ...
+[Load History Events]
+Eventos de carga de la Historia
+[Load unread events only]
+eventos de carga de mensajes no leídos sólo
+[Load number of previous events]
+Carga número de eventos anteriores
+[Load previous events less than]
+eventos de carga anteriores a menos de
+[minutes old]
+minutos de edad
 [Global message log display]
 mensaje global de la pantalla de registro
+[Typing Notification]
+Escribiendo notificación
 [Send typing notifications to the following users when you are typing a message to the them:]
 Enviar notificación de escritura a los siguientes usuarios cuando se está escribiendo un mensaje a los mismos:
 [          Show typing notifications in the message window]
@@ -263,6 +363,8 @@ Flash ventana de una vez en los eventos escribiendo (sólo si es intermitente ac
           Mostrar notificaciones a escribir en la lista de contactos y la bandeja
 [Show typing notification when message dialog is open]
 Mostrar una notificación cuando escribe de diálogo de mensaje está abierto
+[Show typing notification when no message dialog is open]
+Mostrar escribiendo una notificación cuando hay diálogo de mensajes es abierto]
 [Show balloon tooltip in the system tray]
 Globo Mostrar información sobre herramientas en la bandeja del sistema
 [          Show popups when a user is typing]
@@ -283,6 +385,10 @@ ESC comportamiento clave
 Seleccione el contenedor
 [Available containers]
 contenedores disponibles
+[Delete]
+Eliminar
+[Rename]
+Cambiar el nombre de
 [Create a new container]
 Crear un nuevo contenedor
 [Create new]
@@ -295,6 +401,8 @@ Ver en salas de chat
 Brecha entre los botones:
 [Hide if there isn't enough space]
 Ocultar si no hay suficiente espacio
+[Reset]
+Restablecer
 [Insert Separator]
 Inserte el separador
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
@@ -317,6 +425,8 @@ Flash contenedores
 tiempos
 [Flash interval]
 Flash intervalo
+[milliseconds]
+milisegundos
 [Help on containers]
 Ayuda en los contenedores
 [Windows Aero settings]
@@ -343,6 +453,8 @@ Sól&o una ventana emergente para cada contacto
 Mostrar la &entrada en el menú principal
 [From protocol]
 Del protocolo
+[Custom]
+Personalizado
 [Edit template]
 Editar plantilla
 [Double click a template to edit it. Select a template from the list box and click "Update Preview" to show a preview message.]
@@ -351,6 +463,8 @@ Haga doble clic en una plantilla para editarla. Seleccione una plantilla del cua
 Obtener ayuda sobre las variables
 [Define up to 5 colors which you can use with some variables]
 Definir hasta 5 colores que puede utilizar con algunas variables
+[Close]
+Cerrar
 [Update Preview]
 Actualizar vista previa
 [Save Template]
@@ -399,6 +513,8 @@ Puede exportar e importar todos los colores y la configuración de fuente aquí.
 Exportar a un archivo ...
 [Import from a file...]
 Importar desde un archivo ...
+[Icons]
+Iconos
 [Event type icons in the message log]
 Evento iconos tipo en el registro de mensajes
 [Text symbols as event markers]
@@ -441,8 +557,14 @@ Mostrar pop-ups para los trabajos no
 Mostrar pop-ups de los trabajos terminados
 [Do not show this message again]
 No mostrar este mensaje
+[Yes]
+Si
+[No]
+No
 [Message sending:]
 Envío de mensajes:
+[Window:]
+Window:
 [Esc closes sessions (minimizes window, if disabled)]
 Esc cierra sesiones (minimiza la ventana, si es discapacitado)
 [Always pop up and activate new windows]
@@ -453,6 +575,8 @@ Crear nuevas ventanas en estado minimizado
 Enviar enShift+Enter
 [Send message on double Enter]
 Enviar mensaje en doble Ingrese
+[Minimize the message window on send]
+Minimizar la ventana de mensaje al enviar
 [Tabs:]
 Aquí:
 [Use tabbed interface]
@@ -469,8 +593,18 @@ Historia:
 No anunciar al diálogo está abierto
 [Send message on Ctrl+Enter (always enabled)]
 Enviar mensaje en Ctrl+Enter (siempre está habilitado)
+[&Copy]
+&Copiar
+[Co&py All]
+Co&pie todos
+[Select &All]
+Seleccionar todo
 [Freeze Log]
 Congelación de registro
+[Open in &new window]
+Abre en ventana nueva y
+[&Open in existing window]
+&Abre en ventana existente
 [Paste formatted Text]
 Pegar texto con formato
 [Paste and Send immediately]
@@ -495,6 +629,10 @@ Opciones de contenedores ...
 Cerca de contenedores
 [Show Contact Picture]
 Mostrar Imagen del contacto
+[Default]
+por defecto
+[Default]
+Predeterminado
 [Hidden for this Contact]
 Oculto para este contacto
 [Visible for this Contact]
@@ -523,8 +661,12 @@ Enviar más tarde
 Fuerza ANSI
 [Send unsafe (ignore Timeouts)]
 Enviar inseguras (ignorar tiempos de espera)
+[Global]
+Global
 [Send Text Formatting]
 Enviar formato de texto
+[Off]
+off
 [This Contact]
 Este contacto
 [Global Setting]
@@ -547,6 +689,8 @@ Restaurar todos los contenedores de mensajes
 No reproducir sonidos
 [Be "Super Quiet"]
 Sea "Super Quiet"
+[Font]
+Fuentes
 [Default Color]
 Color predeterminado
 [Magenta]
@@ -583,6 +727,8 @@ Reanudar seleccionados
 Cancelar todos los trabajos Multisend
 [Copy Message to Clipboard]
 Una copia del mensaje al portapapeles
+[&File]
+&Archivo
 [Save Message Log As...]
 Entrar Guardar mensaje como ...
 [Close Message Session\tCtrl-W]
@@ -631,6 +777,8 @@ Mostrar ventanas emergentes, si la ventana está fuera de foco
 Mostrar pop-ups para todas las sesiones inactivas
 [Save current Window Position as Default]
 Guardar posición de la ventana actual como predeterminado
+[Help]
+Ayuda
 [About tabSRMM...]
 Acerca de tabSRMM ...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
@@ -658,6 +806,8 @@ Cita el último mensaje de texto o seleccionar
 Opciones de registro de mensajes
 [Message Log Options]
 Opciones de registro de mensajes
+[View User's History]
+Usuario Ver la Historia de
 [Edit user notes]
 Editar las notas de usuarios
 [Change background color]
@@ -770,12 +920,28 @@ No UID
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
 UID: %s (SHIFT click -> copy to clipboard)\nHaga clic para más detalles del usuario\nHaga clic en menú desplegable para cambiar el estado favorito de este contacto.
 ;file \plugins\TabSRMM\src\globals.cpp
+[Instant messages]
+Los mensajes instantáneos
+[Incoming (Focused Window)]
+Entrante (ventana enfocada)
+[Incoming (Unfocused Window)]
+Entrantes (Ventana Unfocused)
+[Incoming (New Session)]
+Entrantes (nueva sesión)
+[Outgoing]
+Salientes
+[Message send error]
+Enviar mensaje de error
 [No status message]
 No hay mensaje de estado
+[Other]
+Otros
 [&Messaging settings...]
 &Ajustes de mensajes ...
 [&Send later job list...]
 &Enviar lista de trabajos más adelante ...
+[Message from %s]
+Mensaje del %s
 [signed off.]
 firmado.
 [signed on and is now %s.]
@@ -924,6 +1090,8 @@ Configura tus Avatar ...
 La 'pasta y enviar "función está desactivada. Usted puede habilitar en la página "General" opciones en el 'Envío de mensajes' sección
 [Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
 O bien el empujón plugin no está instalado o protocolo del contacto no es compatible con el envío de un evento codazo.
+['(Unknown Contact)']
+'(Contacto desconocido)'
 ;file \plugins\TabSRMM\src\msglog.cpp
 ;file \plugins\TabSRMM\src\msgoptions.cpp
 [<no skin>]
@@ -938,6 +1106,14 @@ IEView plugin
 History++-Plugin
 [You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
 Ha elegido usar un plugin externo para visualizar el historial de mensajes en la ventana de chat. La mayor parte de la configuración de esta página son para el visor de mensajes de registro único estándar y no tendrá ningún efecto. Para cambiar la apariencia del registro de mensajes, debe configurar o IEView o Historia++
+[** New contacts **]
+** Nuevos contactos **
+[** Unknown contacts **]
+** ** Contactos Desconocida
+[Show balloon popup (unsupported system)]
+Mostrar globo emergente (sistema incompatible)
+[Show balloon popup (unsupported system)]
+Mostrar globo emergente (sistema incompatible)
 [Always, but no popup when window is focused]
 Siempre, pero no cuando la ventana emergente se centra
 [Only when no message window is open]
@@ -948,14 +1124,26 @@ Normal - ficha cerca, si es la última pestaña cerrada también cerca de la ven
 Minimizar la ventana a la barra de tareas
 [Close or hide window, depends on the close button setting above]
 Cerrar u ocultar la ventana, depende del botón de cierre de ajuste anterior
+[Message Sessions]
+Mensaje de Sesiones
+[General]
+General
+[General]
+General
 [Tabs and layout]
 Aquí y el diseño
 [Containers]
 Contenedores
 [Tool bar]
 Barra de herramientas
+[Typing Notify]
+Escribiendo Notifiqueme
 [Window layout tweaks]
 Ventana de ajustes de diseño
+[Group Chats]
+Conversaciones en grupo
+[Group Chats]
+Grupo de Foros
 [Log formatting]
 Registro de formato
 [Events and filters]
@@ -971,6 +1159,8 @@ Imagen de la placa
 Cita el texto
 [Save and close]
 Guarde y cierre
+[Smiley button]
+Smiley botón
 [Format bold]
 Formato de negrita
 [Format italic]
@@ -983,10 +1173,20 @@ Cara
 Color de la fuente
 [Format strike-through]
 Formato de huelga a través de
+[Background colour]
+Color de fondo
+[Background colour]
+Colores de fondo
+[Room settings]
+Configuración de sala
 [Event filter]
 Filtro de sucesos
 [Message delivery error]
 Mensaje de error de entrega
+[Incoming message]
+Mensaje entrante
+[Outgoing message]
+Mensaje saliente
 [Statuschange]
 Statuschange
 [Static container icon]
@@ -1003,6 +1203,8 @@ Flecha derecha
 Flecha arriba
 [Session List]
 Sesión Lista
+[Message Log]
+Registro de mensajes
 [Animated Tray]
 Animados bandeja
 [Clock symbol (for the info panel clock)]
@@ -1023,6 +1225,8 @@ Mensaje ventanas - groupchats
 Seleccione el contenedor de %s
 [You cannot delete the default container]
 Seleccione el contenedor de
+[Error]
+Error 
 [You cannot rename the default container]
 No se puede cambiar el nombre del contenedor predeterminado
 [This name is already in use]
@@ -1042,8 +1246,12 @@ Diferidos
 Suspendido
 [Pending]
 Pendientes
+[Contact]
+Póngase en contacto con
 [Original timestamp]
 Fecha y hora original
+[Status]
+estado
 [Last send info]
 Última enviar información
 [You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
@@ -1148,6 +1356,10 @@ Eliminar ventanas emergentes de un contacto cuando la ventana del mensaje se cen
 Eliminar ventanas emergentes de un contacto cuando comienza a escribir una respuesta
 [Remove popups for a contact when I send a reply]
 Eliminar ventanas emergentes de un contacto cuando envío una respuesta
+[System tray icon]
+Icono de la bandeja del sistema
+[System tray icon]
+Icono de la bandeja del sistema
 [Left click actions (popups only)]
 Izquierda haga clic en Acciones (pop-ups solamente)
 [Right click actions (popups only)]
@@ -1164,6 +1376,12 @@ Mensaje comportamiento de la ventana
 El envío de mensajes
 [Send on SHIFT - Enter]
 Enviar en SHIFT - Enter
+[Send message on 'Enter']
+Enviar mensaje de "Enter"
+[Send message on double 'Enter']
+Enviar mensaje de doble en "Entrada"]
+[Close the message window on send]
+Cierre la ventana de mensaje al enviar
 [Always flash contact list and tray icon for new messages]
 Siempre flash lista de contactos y el icono de la bandeja de mensajes nuevos
 [Delete temporary contacts on close]
@@ -1180,16 +1398,10 @@ Automáticamente copia el texto seleccionado
 Registro de mensajes apariencia
 [Support for external plugins]
 Soporte para plugins externos
-[Additional events to show]
-Los eventos adicionales para mostrar
 [Timestamp settings (note: timstamps also depend on your templates)]
 Timestamp configuración (Nota: marcas de tiempo también dependen de las plantillas)
 [Message log icons]
 Mensaje de registro de los iconos
-[Show file events]
-Mostrar eventos de archivo
-[Show file events]
-Mostrar eventos de archivo
 [Show dates in timestamps]
 Mostrar fechas en las marcas de tiempo
 [Use contacts local time (if timezone info available)]
@@ -1283,8 +1495,28 @@ Carga de un tema | Carga de un tema de color y la fuente puede sobrescribir la c
 [TabSRMM warning message]
 TabSRMM mensaje de advertencia
 ;file \plugins\TabSRMM\src\chat\clist.cpp
+[Join chat]
+Ingreso de chat
+[Open chat window]
+Abrir ventana de chat
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 ;file \plugins\TabSRMM\src\chat\log.cpp
+[%s has joined]
+%s se ha unido
+[You have joined %s]
+Usted se ha unido %s
+[%s has left]
+%s ha dejado
+[%s has disconnected]
+%s se ha desconectado
+[%s is now known as %s]
+%s ahora se conoce como %s
+[You are now known as %s]
+Usted es ahora conocido como %s
+[%s kicked %s]
+%s patadas %s
+[ (set by %s)]
+(Establecido por %s)
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 [Add user to highlight list]
 Añadir el usuario para resaltar la lista
@@ -1329,8 +1561,42 @@ Activa de fondo
 Cernía fondo
 [Unread background]
 Sin leer el fondo
+[Timestamp]
+Marca de tiempo
+[Others nicknames]
+Otros apodos
+[Your nickname]
+Su apodo
+[User has joined]
+El usuario se ha unido
+[User has left]
+El usuario ha dejado
+[User has disconnected]
+El usuario se ha desconectado
+[User kicked ...]
+Usuario patadas ...
+[User is now known as ...]
+El usuario está ahora conocido como ...
+[Notice from user]
+Comunicación de usuario
+[The topic is ...]
+El tema es ...
+[Information messages]
+Mensajes informativos
+[User enables status for ...]
+De usuario permite el estado de ...
+[User disables status for ...]
+Usuario deshabilita el estado de ...
+[Action message]
+Acción mensaje
+[Highlighted message]
+Destacados mensaje
 [Chat log symbols (Webdings)]
 Chat símbolos de registro (Webdings)
+[User list members (Online)]
+El usuario de la lista (en línea)
+[User list members (away)]
+El usuario de la lista (Alejado)
 [>> Outgoing misc events]
 >> Saliente eventos misc
 [<< Incoming misc events]
@@ -1359,20 +1625,32 @@ Chat símbolos de registro (Webdings)
 * Símbolos (entrante)
 [* Symbols (outgoing)]
 * Símbolos (saliente)
+[Protocol]
+Protocolo
 [Contacts local time]
 Contactos hora local
 [Window caption (skinned mode)]
 título de la ventana (en modo de piel)
 [Open new chat rooms in the default container]
 Abrir las salas de chat en el contenedor predeterminado
+[Flash window when someone speaks]
+ventana de Flash cuando alguien habla
+[Flash window when a word is highlighted]
+Flash ventana cuando una palabra se pone de relieve
 [Create tabs or windows for highlight events]
 Crear fichas o ventanas para resaltar eventos
 [Activate chat window on highlight]
 Activar la ventana de chat en relieve
+[Show list of users in the chat room]
+Mostrar lista de usuarios en el chat
 [Colorize nicknames in member list]
 Colorear apodos en la lista de miembros
+[Show button menus when right clicking the buttons]
+Mostrar menús botón cuando la derecha clic en los botones
 [Show topic as status message on the contact list]
 Mostrar tema como mensaje de estado en la lista de contactos
+[Do not pop up the window when joining a chat room]
+No aparecerá la ventana al unirse a una sala de chat
 [Hide or show the window by double click in the contact list]
 Ocultar o mostrar la ventana haciendo doble clic en la lista de contactos
 [Sync splitter position with standard IM sessions]
@@ -1385,14 +1663,22 @@ en contacto con la pantalla del icono de estado antes de icono de función de us
 El uso de IRC indicadores de estilo de estado en la lista de usuarios
 [Use alternative sorting method in member list]
 Utilice el método de clasificación alternativo en la lista de miembros
+[Prefix all events with a timestamp]
+Prefijo de todos los eventos con una marca de tiempo
 [Timestamp only when event time differs]
 Marca de tiempo sólo cuando el tiempo de sucesos es diferente
 [Timestamp has same color as the event]
 Marca de tiempo del mismo color que tiene el evento
+[Indent the second line of a message]
+indent la segunda línea de un mensaje
+[Limit user names in the message log to 20 characters]
+Limite los nombres de usuario en el registro de mensajes de 20 caracteres
 [Add a colon (:) to auto-completed user names]
 Añadir dos puntos (:-) para los nombres de usuario completa auto
 [Start private conversation on doubleclick in nick list (insert nick if unchecked)]
 Inicie la conversación privada en doble click en la lista de nick (nick insertar si no se controla)
+[Strip colors from messages in the log]
+Franja de colores de los mensajes en el registro de
 [Use IRC style status indicators in the log]
 El uso de IRC indicadores de estilo de estado en el registro
 [Allow clickable user names in the message log]
@@ -1403,12 +1689,38 @@ Colorear los nombres de usuario en el mensaje de registro
 Reducir los iconos de 10x10 píxeles en el registro de la charla
 [Support the math module plugin]
 Apoyo al módulo de matemáticas plugin
+[Window Icon]
+Icono de ventana
+[Icon overlay]
+Icono de superposición
+[Message in (10x10)]
+Mensaje en (10x10)
+[Message out (10x10)]
+Mensaje (10x10)
+[Action (10x10)]
+Acción (10x10)
+[Add Status (10x10)]
+Añadir el estado (10x10)
 [Remove Status (10x10)]
 Retire Estado (10x10)
+[Join (10x10)]
+Ingreso (10x10)
+[Leave (10x10)]
+Leave (10x10)
+[Quit (10x10)]
+Deja (10x10)
+[Nickchange (10x10)]
+NickChange (10x10)
 [Group chat windows]
 Grupo ventana de chat
 [Group chat log]
 Chat de grupo de registro
+[Appearance and functionality of chat room windows]
+Apariencia y funcionalidad de chat de ventanas de la sala
+[Appearance and functionality of chat room windows]
+Apariencia y funcionalidad de chat de ventanas de la sala
+[Appearance of the message log]
+Aspecto del registro de mensajes
 [Channel operators]
 Canal operadores
 [Half operators]
@@ -1427,27 +1739,81 @@ Resaltar la búsqueda incremental
 Lista de fondo
 [year without century, 01-99]
 año sin siglo, 01-99
+[All Files]
+Todos los archivos
+[Select Folder]
+Seleccionar carpeta
 [No markers]
 No hay marcadores
 [Show as icons]
 Mostrar como iconos
 [Show as text symbols]
 Mostrar como símbolos de texto
+[Message is highlighted]
+El mensaje se destacó
+[User has performed an action]
+El usuario ha realizado una acción
+[User has kicked some other user]
+El usuario ha iniciado algún otro usuario
+[User's status was changed]
+el estado del usuario se ha cambiado
+[User has changed name]
+El usuario ha cambiado de nombre
+[User has sent a notice]
+El usuario ha enviado una notificación
+[The topic has been changed]
+El tema ha sido cambiado
 ;file \plugins\TabSRMM\src\chat\services.cpp
+[&Leave]
+&Deja
 ;file \plugins\TabSRMM\src\chat\tools.cpp
+[%s wants your attention in %s]
+%s quiere su atención en %s
+[%s speaks in %s]
+%s habla en %s
+[%s has joined %s]
+%s se ha unido %s
+[%s has left %s]
+%s ha dejado %s
+[%s kicked %s from %s]
+%s patadas %s de %s
+[Notice from %s]
+Aviso de %s
+[Topic change in %s]
+Tema cambio en %s
+[Information in %s]
+Información en %s
 [%s%s says:%s %s]
 %s%s dice:%s %s
+[%s has left (%s)]
+%s ha dejado (%s)
+[%s has disconnected (%s)]
+%s se ha desconectado (%s)
+[%s kicked %s (%s)]
+%s patadas %s (%s)
+[Notice from %s: %s]
+Aviso de %s: %s
+[No word to look up]
+Ni una palabra para buscar
 [Highlight User...]
 Resalte el usuario ...
 [Edit Highlight List...]
 Seleccione Editar lista ...
 ;file \plugins\TabSRMM\src\chat\window.cpp
+[Nick name]
+Nick
+[Nick]
+Nick
 [%s: Chat Room (%u user%s)]
 %s: Chat (%u user%s)
 [%s: Chat Room (%u users%s)]
 %s: Chat(%u users%s)
 [, event filter active]
 , filtro de sucesos activo
+[%s: Message Session]
+%s: Mensaje de sesión
+[%s: Message Session (%u users)]
+%s: Mensaje de sesión (%u los usuarios)
 [, %d %s, %d %s idle]
 , %d %s, %d %s ocioso
 [hour]

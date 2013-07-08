@@ -16,14 +16,20 @@
 使用内置喇叭
 [Message debugging]
 消息调试
+[Port:]
+端口:
 [(Default is 12001)]
 (默认为 12001)
 [Allow actions to execute programs]
 允许执行程序操作
+[Password:]
+密码: 
 ;file \plugins\NotifyAnything\src\common.h
 [NotifyAnything]
 通知所有
 ;file \plugins\NotifyAnything\src\main.cpp
+[Error]
+错误
 ;file \plugins\NotifyAnything\src\options.cpp
 [LogService]
 日志服务
@@ -31,3 +37,5 @@
 日志 (*.log)\0*.log\0文本 (*.txt)\0*.txt\0所有文件 (*.*)\0*.*\0
 [Invalid port number]
 无效端口号
+[Plugins]
+插件

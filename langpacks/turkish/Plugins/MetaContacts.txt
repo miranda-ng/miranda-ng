@@ -6,12 +6,56 @@
 ;  Authors: J. Schaal & S. Ellis
 ;============================================================
 ;file \plugins\MetaContacts\res\MetaContacts.rc
+[&Cancel]
+İ&ptal
+[Name:]
+Ad:
+[Name:]
+Ad:
+[Information]
+Bilgi
+[Contacts]
+Kişiler
+[&Apply]
+Uygul&a
+[Options]
+Seçenekler
+[Options]
+Seçenekler
+[Contact List]
+Kişi Listesi
+[Contact List]
+Kişi Listesi
+[Default]
+Varsayılan
 ;file \plugins\MetaContacts\src\addto.cpp
 ;file \plugins\MetaContacts\src\edit.cpp
+[(Unknown Contact)]
+(Bilinmmeyen Kişi)
+[Yes]
+Evet
+[No]
+Hayır
+[Contact]
+Kişi
+[Protocol]
+Protokol
 ;file \plugins\MetaContacts\src\icons.cpp
+[Edit]
+Değiştir
+[Remove]
+Sil
 ;file \plugins\MetaContacts\src\metacontacts.h
 ;file \plugins\MetaContacts\src\meta_main.cpp
 ;file \plugins\MetaContacts\src\meta_menu.cpp
+[Error]
+Hata
 ;file \plugins\MetaContacts\src\meta_options.cpp
 ;file \plugins\MetaContacts\src\meta_services.cpp
+[Message from %s]
+%s ileti gönderdi
+[General]
+Genel
+[History]
+Geçmiş
 ;file \plugins\MetaContacts\src\meta_utils.cpp

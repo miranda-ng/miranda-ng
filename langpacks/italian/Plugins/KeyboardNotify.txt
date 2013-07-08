@@ -6,19 +6,127 @@
 ;  Authors: TioDuke
 ;============================================================
 ;file \plugins\KeyboardNotify\res\resources.rc
+[Incoming messages]
+Messaggi in entrata
 [Incoming files]
 File in entrata
 [Incoming URLs]
 URL in entrata
+[seconds]
+secondi
 [Only notify if status is]
 Notifica solo quando sono
+[Online]
+Online
+[Online]
+Online
+[Away]
+Altrove
+[Away]
+Altrove
+[Occupied]
+Occupato
+[Occupied]
+Occupato
+[NA]
+Non disponibile
+[NA]
+Non disponibile
+[DND]
+Non disturbare
+[DND]
+Non disturbare
+[Free for chat]
+Disponibile per chat
+[Free for chat]
+Disponibile per chat
+[Invisible]
+Invisibile
+[Invisible]
+Invisibile
+[On the phone]
+Al telefono
+[Out to lunch]
+Fuori a pranzo
+[minutes]
+minuti
+[Offline]
+Offline
+[Offline]
+Offline
 [Slow]
 Lento
+[&Preview]
+An&teprima
+[&Preview]
+Anteprima
+[Delete]
+Elimina
+[Delete]
+Elimina
+[Delete]
+Cancella
+[Delete]
+Elimina
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[The following events are being ignored:]
+I seguenti eventi sono attualmente ignorati:
 [Ignore messages]
 Ignora messaggi
 [Ignore URLs]
 Ignora URL
 [Ignore files]
 Ignora file
+[Ignore]
+Ignora
+[Ignore]
+Ignora
 ;file \plugins\KeyboardNotify\src\ignore.cpp
+[** All contacts **]
+** Tutti i contatti **
+[** Unknown contacts **]
+** Contatti sconosciuti **
 ;file \plugins\KeyboardNotify\src\options.cpp
+[Events]
+Eventi
+[Events]
+Eventi
+[Events]
+Eventi
+[Protocol]
+Protocollo
+[Protocol]
+Protocollo
+[Protocol]
+Protocollo
+[All Files]
+Tutti i file
+[All Files]
+Tutti i file
+[All Files]
+Tutti i file
+[None]
+Nessuno
+[None]
+Nessuna
+[None]
+Nessuno
+[None]
+Nessuno

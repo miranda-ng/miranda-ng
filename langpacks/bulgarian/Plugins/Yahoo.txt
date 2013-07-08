@@ -6,6 +6,10 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\Yahoo\res\Yahoo.rc
+[Password:]
+Парола:
+[Nick:]
+Прякор:
 [Create a new Yahoo account using the Yahoo website]
 Създаване на акаунт чрез сайта Yahoo.com
 [Use Yahoo Address Book (YAB)]
@@ -20,19 +24,37 @@
 Създаване на Yahoo акаунт
 [Connection Settings]
 Конфигуриране на връзката
+[Port:]
+Порт:
+[Reset]
+Анулиране
 [Yahoo Ignore List]
 Yahoo списък за игнориране
 [Ignore anyone who is not on my Yahoo buddy list ]
 Игнориране на всеки, който не е в списъка с контакти
 [Ignore only the people below: ]
 Игнориране само на следните хора:
+[&Add]
+Добавяне
 [Set Custom Status]
 Задаване на персонално състояние
+[Cancel]
+Отказ
+[&Join]
+Влизане
+[&Deny]
+Отхвърляне
+[&Cancel]
+Отказ
+[Add]
+Добавяне
 ;file \protocols\Yahoo\src\avatar.cpp
 ;file \protocols\Yahoo\src\chat.cpp
 ;file \protocols\Yahoo\src\icolib.cpp
 [Mail]
 Поща
+[Profile]
+Профил
 [Address Book]
 Kнига с адреси
 [Set Status]
@@ -65,6 +87,8 @@ Yahoo игнориране
 Необходимо е да сте свързани към Yahoo, за да редактирате списъка за игнориране.
 [Please select a buddy on the ignore list to remove.]
 Моля, изберете контакт, който да бъде премахнат от списъка за игнориране.
+[Network]
+Мрежа
 [Ignore List]
 Списък за игнориране
 ;file \protocols\Yahoo\src\proto.cpp

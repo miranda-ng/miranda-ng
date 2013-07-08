@@ -6,7 +6,15 @@
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
+[Background]
+Taust
+[Text]
+Tekst
+[sec]
+sek.
 [Notify always]
 Alati teavita
 ;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
 ;file \plugins\BuddyExpectator\src\options.cpp
+[Contacts]
+Kontaktid

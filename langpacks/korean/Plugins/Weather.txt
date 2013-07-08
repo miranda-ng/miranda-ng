@@ -6,19 +6,41 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 ;file \plugins\Weather\res\resource.rc
+[Close]
+닫기
+[Options]
+옵션
+[Visibility]
+가시성
+[Cancel]
+취소
+[seconds]
+초
+[Contact List]
+대화 상대 목록
+[City:]
+도시:
 ;file \plugins\Weather\src\weather.cpp
 ;file \plugins\Weather\src\weather.h
 ;file \plugins\Weather\src\weather_addstn.cpp
 ;file \plugins\Weather\src\weather_contacts.cpp
+[All Files]
+모든 파일
 ;file \plugins\Weather\src\weather_conv.cpp
 ;file \plugins\Weather\src\weather_data.cpp
 ;file \plugins\Weather\src\weather_http.cpp
 ;file \plugins\Weather\src\weather_icons.cpp
 ;file \plugins\Weather\src\weather_info.cpp
+[Description:]
+설명:
 ;file \plugins\Weather\src\weather_ini.cpp
 ;file \plugins\Weather\src\weather_mwin.cpp
 ;file \plugins\Weather\src\weather_opt.cpp
+[Network]
+네트워크
 ;file \plugins\Weather\src\weather_popup.cpp
 ;file \plugins\Weather\src\weather_svcs.cpp
 ;file \plugins\Weather\src\weather_update.cpp
 ;file \plugins\Weather\src\weather_userinfo.cpp
+[Information]
+정보

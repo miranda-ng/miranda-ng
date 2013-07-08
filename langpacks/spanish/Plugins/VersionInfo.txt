@@ -6,6 +6,16 @@
 ;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
 ;============================================================
 ;file \plugins\VersionInfo\res\resource.rc
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Username]
+Nombre de usuario
+[Close]
+Cerrar
 [&Copy text]
 &Copiar texto
 ;file \plugins\VersionInfo\src\CVersionInfo.cpp

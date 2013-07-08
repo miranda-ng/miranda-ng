@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MobileState.dll
 ;  Plugin: Mobile state
-;  Version: 0.0.1.1
+;  Version: 0.0.1.2
 ;  Authors: Robert Pösel
 ;============================================================
 ;file \plugins\MobileState\src\main.cpp

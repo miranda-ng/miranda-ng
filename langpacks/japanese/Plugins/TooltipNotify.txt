@@ -2,8 +2,32 @@
 ;============================================================
 ;  File: TooltipNotify.dll
 ;  Plugin: Tooltip notify
-;  Version: 0.6.0.47
+;  Version: 0.7.0.1
 ;  Authors: perf
 ;============================================================
 ;file \plugins\TooltipNotify\res\main.rc
+[OK]
+OK
+[Cancel]
+Cancel
+[Online]
+オンライン
+[Offline]
+オフライン
+[Typing]
+入力中
+[sec]
+秒
+[Contacts]
+コンタクト
+[Idle]
+アイドル
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
+[Popups]
+ポップアップ
+[** New contacts **]
+** 新しいコンタクト **
+[** Unknown contacts **]
+** 不明なコンタクト **
+[Unknown]
+不明

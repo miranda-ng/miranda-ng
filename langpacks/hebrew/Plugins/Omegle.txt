@@ -11,6 +11,10 @@
 [Stranger]
 מוזר
 ;file \protocols\Omegle\src\connection.cpp
+[Connecting...]
+...מתחבר
 ;file \protocols\Omegle\src\constants.h
 ;file \protocols\Omegle\src\proto.cpp
+[Network]
+רשת
 ;file \protocols\Omegle\src\theme.cpp

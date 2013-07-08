@@ -6,20 +6,60 @@
 ;  Authors: Merlin
 ;============================================================
 ;file \plugins\SendScreenshotPlus\res\resource.rc
+[OK]
+OK
+[None]
+ninguno
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Credits >]
+Créditos >
+[&Close]
+&Cerrar
+[Edit]
+Editar
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[An unknown error has occured.]
+Un error desconocido ha ocurrido.
+[Error]
+Error 
 ;file \plugins\SendScreenshotPlus\src\CSend.h
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
+[Yes]
+Si
+[No]
+No
+[Ignore]
+Ignorar
 ;file \plugins\SendScreenshotPlus\src\global.h
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
+[Default]
+por defecto
+[Default]
+Predeterminado
+[Help]
+Ayuda
 [Prev]
 Anterior
+[Apply]
+Aplicar
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
+[< Copyright]
+< Copyright
 [Copyright]
 Copyright
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
+[Window]
+Ventana
+[E-mail]
+E-Mail
+[Information]
+Información

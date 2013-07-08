@@ -10,6 +10,8 @@
 Info
 [Webpage]
 Page Web
+[Close]
+Fermer
 [Update weather information on startup]
 Mettre à jour la météo au démarrage
 [Update weather information every]
@@ -30,6 +32,8 @@ Température
 Symbole
 [Wind]
 Vent
+[Visibility]
+Visibilité
 [Pressure]
 Pression
 [Day/Month]
@@ -68,8 +72,18 @@ Autres options
 Prendre cette Station par défaut.
 [Disable automatic update for this station]
 Désactiver la mise à jour automatique pour cette Station.
+[Cancel]
+Annuler
 [Popup only when condition changes]
 Seulement si les conditions changent
+[Background colour]
+Couleur de fond
+[Background colour]
+Couleur de Fond : 
+[Text colour]
+Couleur du texte
+[Use Windows colours]
+Utiliser les couleurs Windows
 [Popup Actions]
 Action sur un popup
 [Left Click]
@@ -78,10 +92,18 @@ Gauche
 Droit
 [Popup Delay]
 Délai des popups
+[seconds]
+secondes
 [Popup Text]
 Texte des popups
+[Default]
+Défaut
 [Updates]
 Mise à jour
+[Alerts]
+Notifications
+[Contact List]
+Liste de contacts
 [Brief Info Title]
 Titre Court
 [Note Text]
@@ -92,6 +114,8 @@ Info supplémen.
 Log Externe
 [More Variables]
 Plus de variables
+[Reset]
+RAZ
 [Sunset]
 Coucher de soleil
 [Feel-like]
@@ -124,6 +148,8 @@ Nombre de fichiers INI
 Quantité de mémoire utilisée
 [Reload INI]
 Recharger l'INI
+[City:]
+Ville :
 [Open brief information]
 Ouvrir les infos brèves
 [Open complete forecast]
@@ -232,6 +258,10 @@ Prendre le nom de la ville d'après l'identifiant
 Information sur l'INI de Weather
 [View webpage]
 Site Web
+[Text Files]
+Fichiers txt
+[All Files]
+Tous les fichiers
 ;file \plugins\Weather\src\weather_conv.cpp
 [<unknown time>]
 <temps inconnu>
@@ -253,6 +283,8 @@ Connexions HTTP de Weather
 Le fichier INI correspondant à %s n'a pas été trouvé.
 [Weather INI information for "%s":]
 Information sur l'INI de Weather pour %s :
+[Name:]
+Nom :
 [Internal Name:]
 Nom Interne :
 [INI Version:]
@@ -263,6 +295,10 @@ Nom de fichier :
 Décompte d'article :
 [Memory Used:]
 Mémoire utilisée :
+[bytes]
+octets
+[Description:]
+Description :
 [Here is a list of custom variables that are currently available]
 Voici la liste des variables actuellement disponibles :
 ;file \plugins\Weather\src\weather_ini.cpp
@@ -274,6 +310,10 @@ Format ini invalide de : %s
 Toutes les données ont bien été mise à jour.
 ;file \plugins\Weather\src\weather_mwin.cpp
 ;file \plugins\Weather\src\weather_opt.cpp
+[Network]
+Réseau
+[General]
+Général
 [Weather Protocol Text Preview]
 Prévisualisation de Weather Protocole
 ;file \plugins\Weather\src\weather_popup.cpp
@@ -310,6 +350,8 @@ Impossible de retrouver la météo de %s
 Condition actuelles de %n
 [Last update on:   %u]
 Dernière mise à jour : %u
+[Information]
+Informations
 [Retrieving new data, please wait...]
 Réception des données, veuillez patienter...
 [More Info]

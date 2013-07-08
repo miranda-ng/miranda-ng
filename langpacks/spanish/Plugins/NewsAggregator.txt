@@ -6,12 +6,32 @@
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 ;file \plugins\NewsAggregator\Res\Resource.rc
+[Add]
+Agregar
+[Remove]
+Quitar
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[URL]
+URL
 [Login]
 Iniciar sesión
 [Visualization]
 Visualización
+[Reset]
+Restablecer
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 ;file \plugins\NewsAggregator\Src\Options.cpp
+[Error]
+Error 
+[Network]
+Red
+[Network]
+red
 ;file \plugins\NewsAggregator\Src\Services.cpp
 ;file \plugins\NewsAggregator\Src\Utils.cpp

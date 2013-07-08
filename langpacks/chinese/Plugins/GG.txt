@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: GG
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: 
 ;============================================================
 ;file \protocols\Gadu-Gadu\res\resource.rc
@@ -10,8 +10,18 @@
 Gadu-Gadu 用户详细资料
 [Gadu-Gadu Number:]
 Gadu-Gadu 号码: 
+[Password:]
+密码: 
+[E-mail:]
+邮件: 
+[Create new account]
+建立新帐号
+[Remove account]
+移除帐号
 [Retrieve password]
 取回密码
+[Options]
+选项
 [Friends only]
 仅朋友
 [Show offline users with status message as invisible in contact list]
@@ -22,6 +32,8 @@ Gadu-Gadu 号码:
 接收图片或接收图片后使用: 
 [Show links from unknown contacts]
 显示未知联系人链接
+[You will need to reconnect for the changes you have made on this page to take effect.]
+您需要重新连接才能让当前页变更生效. 
 [Conference policy]
 会议规则
 [if total participant count greater than:]
@@ -42,16 +54,36 @@ Gadu-Gadu 号码:
 使用 SSL 安全连接
 [Use direct connections]
 使用直接连接
+[Port:]
+端口:
 [Use forwarding]
 使用中转
+[Host:]
+主机: 
+[First name:]
+名字: 
+[Last name:]
+姓氏: 
 [Family name:]
 姓氏: 
+[Nickname:]
+昵称: 
+[Gender:]
+性别: 
+[City:]
+城市: 
 [Origin city:]
 籍贯: 
 [Birth year:]
 出生年份: 
+[Description:]
+描述: 
 [Enter token to continue]
 请输入标记继续
+[OK]
+确定
+[Cancel]
+取消
 [Create Gadu-Gadu account]
 建立 Gadu-Gadu 帐号
 [New password:]
@@ -60,24 +92,36 @@ Gadu-Gadu 号码:
 确认密码: 
 [New e-mail:]
 新邮件: 
+[&Create]
+建立(&C)
 [Remove Gadu-Gadu account]
 移除 Gadu-Gadu 帐号
 [Yes, I want to remove my account]
 是的, 我想移除我的帐号
+[Remove]
+移除
 [Change Gadu-Gadu password]
 变更 Gadu-Gadu 密码
 [Change Gadu-Gadu e-mail]
 变更 Gadu-Gadu 邮件
 [Age from:]
 年龄从: 
+[&Close]
+关闭(&C)
+[&Send]
+发送(&S)
 [Open new conference]
 开新会议
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
 ;file \protocols\Gadu-Gadu\src\core.cpp
+[Unknown]
+未知
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
 外部直连主机名称 %s 无效. 禁用外部主机转送. 
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 服务器主机名称 %s 无效. 使用网络所提供的默认主机名称. 
+[Age:]
+年龄: 
 [List import successful.]
 列表导入完成. 
 [List remove successful.]
@@ -85,8 +129,22 @@ Gadu-Gadu 号码:
 [List export successful.]
 列表导出完成. 
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
+[Male]
+男
+[Female]
+女
+[<not specified>]
+<未指定>
+[Network]
+网络
+[General]
+常规
+[Advanced]
+高级
 [<Last Status>]
 <最后状态>
+[System tray icon]
+系统托盘图标
 [Message with [img] BBCode]
 通信使用 [img] BBCode
 [You need to specify your registration e-mail first.]
@@ -97,6 +155,8 @@ Gadu-Gadu 号码:
 您应该在做出任何帐号永久变更前先断开连接. \n您想立即断开连接吗? 
 [Allow]
 允许
+[Ignore]
+忽略
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed memory]
@@ -180,6 +240,8 @@ Gadu-Gadu 号码
 您需要先连接才能从服务器导入/导出联系人. 
 [Text files]
 文本文件
+[All Files]
+所有文件
 [contacts]
 联系人
 [Import List From &Server]
@@ -197,6 +259,8 @@ Gadu-Gadu 号码
 [Password was sent to your e-mail.]
 密码已发送至您的邮箱. 
 ;file \protocols\Gadu-Gadu\src\popups.cpp
+[Error]
+错误
 ;file \protocols\Gadu-Gadu\src\services.cpp
 ;file \protocols\Gadu-Gadu\src\sessions.cpp
 ;file \protocols\Gadu-Gadu\src\token.cpp

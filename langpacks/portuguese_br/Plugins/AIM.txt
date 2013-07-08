@@ -8,6 +8,14 @@
 ;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 Detalhes do Usário AIM
+[Password:]
+Senha:
+[Password:]
+Senha:
+[Password:]
+Senha:
+[Password:]
+Senha
 [AIM Options]
 Opções AIM
 [Message Delivery Confirmation]
@@ -34,6 +42,18 @@ Força Proxy para Transferência de Arquivos
 Perfil de usuário 'Hiptop'
 [*Aim must be reconnected  for some option to take effect.]
 * Objetivo deve ser restabelecido por alguma opção para fazer efeito.
+[Port:]
+Porta:
+[Reset]
+Limpar
+[Reset]
+Padrão
+[Reset]
+Apagar
+[Reset]
+Apagar
+[Reset]
+Limpar
 [Save Profile]
 Salvar perfil
 [AIM Instant Idler]
@@ -46,6 +66,26 @@ Número de Minutos:
 Ativar
 [Unset Idle]
 Desativar
+[Add]
+Adicionar
+[Add]
+Adicionar
+[Remove]
+Remover
+[Remove]
+Remover
+[Idle]
+Inativo
+[&Join]
+&Agrupar
+[&Cancel]
+&Cancelar
+[E-mail]
+E-mail
+[&Deny]
+&Recusar
+[Message]
+Mensagem
 [Room]
 Salão
 ;file \protocols\AimOscar\src\avatars.cpp
@@ -59,6 +99,12 @@ Salão
 [No information has been provided by the server.]
 Nenhuma informação foi fornecida pelo servidor.
 ;file \protocols\AimOscar\src\theme.cpp
+[Profile]
+Perfil
+[Profile]
+Perfil
+[Bold]
+Negrito
 [Manage Account]
 Gerenciar conta
 [Instant Idle]
@@ -70,4 +116,8 @@ Ler Perfil
 [Add To Server List]
 Adicionar à lista de servidores
 ;file \protocols\AimOscar\src\ui.cpp
+[Network]
+Rede
+[Network]
+Rede
 ;file \protocols\AimOscar\src\utility.cpp

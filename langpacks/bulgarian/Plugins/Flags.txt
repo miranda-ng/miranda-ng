@@ -14,3 +14,5 @@
 "Непознато знаме", ако не може да се определи държавата
 ;file \plugins\CountryFlags\src\extraimg.cpp
 ;file \plugins\CountryFlags\src\options.cpp
+[Icons]
+Икони

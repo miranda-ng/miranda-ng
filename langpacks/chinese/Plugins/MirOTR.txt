@@ -20,18 +20,42 @@ OTR 正在生成私人密钥
 联系人离线时结束会话
 [Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
 超时则结束会话恢复明文(小心!)
+[&Cancel]
+取消(&C)
+[&OK]
+确定(&O)
+[&No]
+否(&N)
+[&Yes]
+是(&Y)
 ;file \plugins\MirOTR\MirOTR\src\language.h
 [Start OTR]
 开始 OTR
 [Stop OTR]
 停止 OTR
+[Yes]
+是
+[No]
+否
 [Beginning OTR encrypted session with '%s']
 '%s' 开始 OTR 加密会话
 [Beginning OTR encrypted session with '%s' (NOT VERIFIED)]
 '%s' 开始 OTR 加密会话(未核实)
 [OTR Information]
 OTR 信息
+[Unknown]
+未知
+[General]
+常规
+[Contacts]
+联系人
+[Contact]
+联络方式
+[Protocol]
+协议
 [Policy]
 策略
+[Default]
+默认
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
 ;file \plugins\MirOTR\MirOTR\src\options.cpp

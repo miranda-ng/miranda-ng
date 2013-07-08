@@ -1,30 +1,152 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: xStatus notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 ;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 Avvertimi quando un contatto si mette in uno di questi stati:
+[Online]
+Online
+[Online]
+Online
+[Offline]
+Offline
+[Offline]
+Offline
+[Invisible]
+Invisibile
+[Invisible]
+Invisibile
+[Free for chat]
+Disponibile per chat
+[Free for chat]
+Disponibile per chat
+[Away]
+Altrove
+[Away]
+Altrove
+[NA]
+Non disponibile
+[NA]
+Non disponibile
+[Occupied]
+Occupato
+[Occupied]
+Occupato
+[DND]
+Non disturbare
+[DND]
+Non disturbare
+[Out to lunch]
+Fuori a pranzo
+[On the phone]
+Al telefono
 [Always when changing from offline]
 Sempre, quando cambia da offline
 [Plugin activation]
 Attivazione plugin
+[Configure]
+Configura
 [Blink icon in the system tray]
 Icona lampeggiante nella SysTray
 [Use status icon]
 Utilizza icona di stato
+[Delete]
+Elimina
+[Delete]
+Elimina
+[Delete]
+Cancella
+[Delete]
+Elimina
 [Status Notify]
 Notifica stato
+[Sounds]
+Suoni
+[Sounds]
+Suoni
+[Sounds]
+Suoni
+[Popups]
+Popup
+[Popups]
+Popups
+[Background]
+Altro
+[Background]
+Sfondo
+[Background]
+Sfondo
+[Background]
+Altro
+[Background]
+Sfondo
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
+[Use Windows colours]
+Utilizza colori di Windows
+[Reset]
+Reimposta
+[Reset]
+Reimposta
+[Reset]
+Resetta
+[Reset]
+Reimposta
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[General]
+Generale
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
 [Sound for the status]
 Suono associato allo stato
+[** All contacts **]
+** Tutti i contatti **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
 (suono predefinito)
 ;file \plugins\NewXstatusNotify\src\main.cpp
+[Contact]
+Contatto
+[Contact]
+Contatti
 [(M) is back online!]
 è tornato online!
 [(F) is back online!]
@@ -100,7 +222,23 @@ Contatto: A pranzo
 [User: On The Phone]
 Contatto: Al telefono
 ;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+Tutti i file
+[All Files]
+Tutti i file
+[All Files]
+Tutti i file
+[Log]
+Registro (Log file)
+[Protocol]
+Protocollo
+[Protocol]
+Protocollo
+[Protocol]
+Protocollo
 ;file \plugins\NewXstatusNotify\src\popup.h
 ;file \plugins\NewXstatusNotify\src\utils.cpp
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[<unknown>]
+<avvistamento sconosciuto>
 ;file \plugins\NewXstatusNotify\src\xstatus.h

@@ -8,6 +8,8 @@
 ;file \plugins\KeyboardNotify\res\resources.rc
 [Events to react on]
 事件反应
+[Incoming messages]
+传入消息
 [Incoming files]
 传入文件
 [Incoming URLs]
@@ -24,6 +26,8 @@
 秒. 旧
 [Flash until]
 闪烁直到
+[seconds]
+秒
 [is re-attended]
 被注意到
 [Events are opened]
@@ -40,10 +44,30 @@
 所有其它情况
 [Only notify if status is]
 仅通知如状态为
+[Online]
+在线
+[Away]
+外出
+[Occupied]
+忙碌中
+[NA]
+不适用
+[DND]
+请勿打扰
+[Free for chat]
+有空聊天
+[Invisible]
+隐身
+[On the phone]
+接听电话
+[Out to lunch]
+外出用餐
 [Pending Events]
 等待事件
 [Remind me every]
 提醒我每
+[Offline]
+离线
 [xStatuses]
 扩展状态
 [Keys to flash]
@@ -68,26 +92,40 @@
 快速
 [Slow]
 慢速
+[&Preview]
+预览(&P)
 [Emulate keypresses (Use this option if you are using an USB keyboard)]
 模拟按键 (如您使用 USB 键盘则使用此选项)
 [Create/Edit Themes]
 创建/编辑 主题
 [Theme]
 主题
+[Add]
+添加
+[Delete]
+删除
 [Import/Export]
 导入/导出
+[Export...]
+导出...
 [Override existing]
 覆盖现有
 [Set program list]
 设置程序列表
 [Program]
 程序
+[OK]
+确定
+[Cancel]
+取消
 [Set LEDs for events]
 为事件设置 LED
 [Consider event opened after]
 考虑事件打开于
 [Use custom theme]
 使用自定义主题
+[The following events are being ignored:]
+这些事件将被忽略: 
 [Ignore messages]
 忽略消息
 [Ignore URLs]
@@ -96,9 +134,15 @@
 忽略文件
 [Ignore others]
 忽略其它
+[Ignore]
+忽略
 [Set xStatus list]
 设置扩展状态列表
 ;file \plugins\KeyboardNotify\src\ignore.cpp
+[** All contacts **]
+** 所有联系人 **
+[** Unknown contacts **]
+** 未知联系人 **
 ;file \plugins\KeyboardNotify\src\options.cpp
 [left->right]
 左->右
@@ -106,7 +150,17 @@
 右->左
 [left<->right]
 左<->右
+[Events]
+事件
+[Accounts]
+帐号
 [Themes]
 主题
+[Protocol]
+协议
 [Keyboard Notify Theme]
 键盘通知主题
+[All Files]
+所有文件
+[None]
+无

@@ -6,4 +6,30 @@
 ;  Authors: Angelo Luiz Tartari
 ;============================================================
 ;file \plugins\StatusChange\res\resource.rc
+[Offline]
+Kilépett
+[Online]
+Elérhetõ
+[Away]
+Távol
+[NA]
+NA
+[Occupied]
+Elfoglalt
+[DND]
+Ne zavarjanak
+[Free for chat]
+Csevegésre kész
+[Invisible]
+Láthatatlan
+[On the phone]
+Telefonál
+[Out to lunch]
+Ebédel
+[Message]
+Üzenet
+[URL]
+URL
 ;file \plugins\StatusChange\src\main.cpp
+[Status]
+Állpot

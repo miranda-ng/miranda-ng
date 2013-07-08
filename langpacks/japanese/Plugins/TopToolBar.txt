@@ -8,5 +8,11 @@
 ;file \plugins\TopToolBar\res\main.rc
 [Button width]
 ボタン幅
+[Set]
+設定
 ;file \plugins\TopToolBar\src\toolbar.cpp
+[Default]
+デフォルト
 ;file \plugins\TopToolBar\src\ttbopt.cpp
+[Contact List]
+コンタクトリスト

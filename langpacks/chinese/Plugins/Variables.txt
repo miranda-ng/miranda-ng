@@ -34,8 +34,14 @@
 标记 %subject% 转化为一个特殊联系人, 视该字符串解析情况而定. 使用此对话框将 %subject% 转化为模拟联系人. 一个使用此标记示例: !cinfo(%subject%,display).
 [The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.]
 标记 %extratext% 根据字符解析情况转化为字符串. 使用此对话框将 %extratext% 转化为模拟字符串.
+[Close]
+关闭
+[OK]
+确定
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
 变量插件转化不同标记至某一数值. 一个示例: 我正在运行 Miranda %mirandaversion%. 子串 %mirandaversion% 被转化为正确的版本号. 下方列表显示了所有可用标记.
+[Notes]
+便笺
 ;file \plugins\Variables\src\help.cpp
 [Token]
 标记
@@ -43,6 +49,10 @@
 标记
 [Input]
 输入
+[Cancel]
+取消
+[Help]
+说明
 [Variables Help]
 变量帮助
 ;file \plugins\Variables\src\options.cpp

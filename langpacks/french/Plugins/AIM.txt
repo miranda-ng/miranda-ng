@@ -8,6 +8,8 @@
 ;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 AIM
+[Password:]
+Passe :
 [Message Delivery Confirmation]
 Demander un accusé de réception
 [Do Not Autoreply When Away]
@@ -30,6 +32,10 @@ Options avancées
 Transfert de fichier par Proxy
 [*Aim must be reconnected  for some option to take effect.]
 *AIM doit être reconnecter pour valider certaines options.
+[Port:]
+Port :
+[Reset]
+RAZ
 [Save Profile]
 Enregistrer
 [AIM Instant Idler]
@@ -42,8 +48,20 @@ Nombre de minutes :
 Être inactif
 [Unset Idle]
 Être présent
+[Add]
+Ajouter
+[Remove]
+Retirer
+[Idle]
+Inactif
+[&Join]
+Re&joindre
+[&Cancel]
+&Annuler
 [Save Changes]
 Appliquer
+[&Deny]
+&Refuser
 ;file \protocols\AimOscar\src\avatars.cpp
 ;file \protocols\AimOscar\src\chat.cpp
 ;file \protocols\AimOscar\src\error.cpp
@@ -115,6 +133,10 @@ Impossible d'ajouter de contact car il nécessite une autorisation.
 [Item you want to modify not found in list.]
 Le contact que vous tentez de modifier n'est pas présent dans votre liste.
 ;file \protocols\AimOscar\src\theme.cpp
+[Profile]
+Profil
+[Bold]
+Gras
 [Manage Account]
 Configuration du compte
 [Instant Idle]
@@ -126,6 +148,8 @@ Voir le profil
 [Add To Server List]
 Ajouter à la liste du serveur
 ;file \protocols\AimOscar\src\ui.cpp
+[Network]
+Réseau
 ;file \protocols\AimOscar\src\utility.cpp
 [Please, enter a username in the options dialog.]
 Veuillez indiquer votre identifiant dans les options.

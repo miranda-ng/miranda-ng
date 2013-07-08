@@ -6,6 +6,10 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Alarms\res\resource.rc
+[Delete]
+Effacer
+[Edit]
+Éditer
 [Alarms]
 Alarmes
 [Use popup plugin]
@@ -28,6 +32,10 @@ Transparence (%) :
 Fenêtre d'alerte
 [Alarm]
 Alarme
+[Cancel]
+Annuler
+[Description:]
+Description :
 [Run command:]
 Lignes de commandes :
 [Parameters:]
@@ -62,6 +70,8 @@ Répéter
 &Suspendre
 [&Edit...]
 &Éditer...
+[&Delete]
+&Effacer
 [&New Alarm...]
 &Nouvelle Alarme...
 ;file \plugins\Alarms\src\alarmlist.cpp
@@ -73,11 +83,17 @@ Ajouter une alarme
 Exemple
 [Some example text. Example, example, example.]
 Quelques texte d'exemple. Exemple, exemple, exemple.
+[Background]
+Arrière-plan
+[Window]
+Fenêtre
 ;file \plugins\Alarms\src\frame.cpp
 [Hide Reminders]
 Cacher les rappels
 [Show Reminders]
 Voir les rappels
+[Frames]
+Cadres
 [Alarm Reminders]
 Rappels d'alarme
 ;file \plugins\Alarms\src\icons.cpp
@@ -94,5 +110,9 @@ Menu : Voir/Cacher les Rappels
 ;file \plugins\Alarms\src\options.cpp
 [Please enter a title for this alarm.]
 Indiquez un nom pour cette alarme.
+[Error]
+Erreur
 [The alarm time you have selected is in the past.]
 L'heure qui vous avez indiqué est dépassée.
+[Events]
+Évènements

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: GG
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: 
 ;============================================================
 ;file \protocols\Gadu-Gadu\res\resource.rc
@@ -10,6 +10,14 @@
 Identifiants Gadu-Gadu
 [Gadu-Gadu Number:]
 Numéro Gadu-Gadu :
+[Password:]
+Passe :
+[E-mail:]
+e-mail :
+[Create new account]
+Créer un compte
+[Remove account]
+Effacer ce compte
 [Retrieve password]
 Retrouver un mot de passe
 [Friends only]
@@ -20,6 +28,8 @@ Voir les contacts Hors ligne avec le motif d'invisibilité dans la liste
 Après déconnexion, se remettre dans l'état :
 [Receive image and after image is received use:]
 Receptionner les image, puis utiliser :
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Vous devrez vous reconnecter afin de valider les modifications de cette page.
 [Conference policy]
 Police
 [if total participant count greater than:]
@@ -40,16 +50,34 @@ Spécifier l'hôte du serveur de connexion
 Utiliser une connexion sécurisée SSL
 [Use direct connections]
 Utiliser une connexion directe
+[Port:]
+Port :
 [Use forwarding]
 Utiliser le \'forwarding\'
+[Host:]
+Hôte :
+[First name:]
+Prénom :
+[Last name:]
+Nom :
 [Family name:]
 Nom de Famille :
+[Nickname:]
+Pseudo :
+[Gender:]
+Sexe :
+[City:]
+Ville :
 [Origin city:]
 Ville d'origine :
 [Birth year:]
 Né en :
+[Description:]
+Description :
 [Enter token to continue]
 Entrer quelquechose pour continuer
+[Cancel]
+Annuler
 [Create Gadu-Gadu account]
 Créer un compte Gadu-Gadu.
 [New password:]
@@ -58,16 +86,24 @@ Nouveau mot de passe :
 Confirmer le passe :
 [New e-mail:]
 Nouvel e-mail :
+[&Create]
+&Créer
 [Remove Gadu-Gadu account]
 Effacer le compte Gadu-Gadu
 [Yes, I want to remove my account]
 Oui, je veux effacer mon compte
+[Remove]
+Retirer
 [Change Gadu-Gadu password]
 Changer le mot de passe Gadu-Gadu
 [Change Gadu-Gadu e-mail]
 Changer l'e-mail Gadu-Gadu
 [Age from:]
 Agé de :
+[&Close]
+&Fermer
+[&Send]
+&Envoyer
 [Open new conference]
 Ouvrir un chat
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
@@ -86,8 +122,12 @@ Impossible d'établir une connexion sécurisée.
 Le serveur déconnecté demande à ce que vous changiez d'e-mail.
 [Too many login attempts with invalid password.]
 Trop de tentative de connexion avec mot de passe erroné
+[Unknown]
+Inconnu
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 Nom d'Hôte du serveur %s invalide. Utilisez celui par défaut par le réseau.
+[Age:]
+Age :
 [List import successful.]
 Liste importée avec succès.
 [List remove successful.]
@@ -95,8 +135,22 @@ Liste effacée avec succès.
 [List export successful.]
 Liste exportée avec succès.
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
+[Male]
+Homme
+[Female]
+Femme
+[<not specified>]
+<non spécifié>
+[Network]
+Réseau
+[General]
+Général
+[Advanced]
+Avancé
 [<Last Status>]
 <Dernier État>
+[System tray icon]
+Icône de la barre des tâches
 [You need to specify your registration e-mail first.]
 Vous devez spécifier votre e-mail primaire d'enregistrement
 [Your password will be sent to your registration e-mail.\nDo you want to continue ?]
@@ -105,6 +159,8 @@ Votre mot de passe sera envoyé dans votre e-mail d'enregistrement.\nVoulez-vous
 Vous devez vous déconnecter avant de perdre définitivement les modifications de votre compte.\nVoulez-vous vous déconnecter maintenant ?
 [Allow]
 Autoriser
+[Ignore]
+Ignorer
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed memory]
@@ -176,6 +232,8 @@ L'image excède la restriction des 255 kb.
 Vous devez vous connecter afin d'importer/exporter vos contact sur le serveur.
 [Text files]
 Fichiers Texte
+[All Files]
+Tous les fichiers
 [Import List From &Server]
 Importer depuis un &Serveur
 [Import List From &Text File...]
@@ -191,6 +249,8 @@ Exporter la liste vers un fichier &Texte
 [Password was sent to your e-mail.]
 Votre mot de passe a été envoyé par e-mail.
 ;file \protocols\Gadu-Gadu\src\popups.cpp
+[Error]
+Erreur
 ;file \protocols\Gadu-Gadu\src\services.cpp
 ;file \protocols\Gadu-Gadu\src\sessions.cpp
 ;file \protocols\Gadu-Gadu\src\token.cpp

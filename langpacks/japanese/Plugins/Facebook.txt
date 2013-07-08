@@ -2,16 +2,28 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.0
+;  Version: 0.1.1.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 ;file \protocols\FacebookRM\res\facebook.rc
+[E-mail:]
+電子メール :
+[Password:]
+パスワード :
 [Create a new Facebook account]
 新規 Facebook アカウントを作成
 [What's on your mind?]
 今なにしてる ?
 [Share]
 シェア
+[Cancel]
+Cancel
+[User Details]
+ユーザーの詳細情報
+[Text]
+テキスト
+[Default]
+デフォルト
 [Advanced Settings]
 詳細設定
 ;file \protocols\FacebookRM\src\communication.cpp
@@ -29,6 +41,14 @@
 オフライン時はメッセージを送信できません
 ;file \protocols\FacebookRM\src\process.cpp
 ;file \protocols\FacebookRM\src\proto.cpp
+[Network]
+ネットワーク
+[Advanced]
+詳細
+[Popups]
+ポップアップ
+[Events]
+イベント
 ;file \protocols\FacebookRM\src\theme.cpp
 [Mind]
 投稿

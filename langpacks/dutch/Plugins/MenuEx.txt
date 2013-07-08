@@ -6,5 +6,25 @@
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
 ;file \plugins\MenuItemEx\res\resource.rc
+[&Send]
+Ver&sturen
+[&Cancel]
+Annuleren
+[Visibility]
+Zichtbaarheid
+[Ignore]
+Negeer
 ;file \plugins\MenuItemEx\src\main.cpp
+[Messages]
+Berichten
+[Files]
+Bestanden
+[User Online]
+Gebruiker Online
+[You Were Added]
+U bent toegevoegd
+[Typing Notify]
+Typen meldingen
 ;file \plugins\MenuItemEx\src\options.cpp
+[Customize]
+Aanpassen

@@ -6,10 +6,34 @@
 ;  Authors: sss
 ;============================================================
 ;file \plugins\New_GPG\res\new_gpg.rc
+[OK]
+אישור
+[Ignore]
+התעלם
+[Cancel]
+ביטול
+[Password:]
+סיסמא:
 ;file \plugins\New_GPG\src\init.cpp
 ;file \plugins\New_GPG\src\main.cpp
+[Name]
+שם
+[Accounts]
+חשבונות
+[Default]
+ברירת מחדל
+[Error]
+שגיאה
 [Accept]
 קבל
 ;file \plugins\New_GPG\src\messages.cpp
 ;file \plugins\New_GPG\src\options.cpp
+[Messages]
+הודעות
+[Advanced]
+מתקדם
+[Contact]
+קשר
+[Protocol]
+פרוטוקול
 ;file \plugins\New_GPG\src\utilities.cpp

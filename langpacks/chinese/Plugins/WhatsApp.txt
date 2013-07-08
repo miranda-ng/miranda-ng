@@ -1,0 +1,18 @@
+﻿#muuid {4f1ff7fa-4d75-44b9-93b0-2ced2e4f9e3e}
+;============================================================
+;  File: WhatsApp.dll
+;  Plugin: WhatsApp
+;  Version: 0.0.2.0
+;  Authors: Uli Hecht
+;============================================================
+;file \protocols\WhatsApp\res\whatsapp.rc
+[Cancel]
+取消
+[OK]
+确定
+;file \protocols\WhatsApp\src\connection.cpp
+[Please enter a password.]
+请输入密码.
+;file \protocols\WhatsApp\src\dialogs.cpp
+;file \protocols\WhatsApp\src\proto.cpp
+;file \protocols\WhatsApp\src\theme.cpp

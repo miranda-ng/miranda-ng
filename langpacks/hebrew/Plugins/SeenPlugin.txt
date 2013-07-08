@@ -24,26 +24,76 @@
 התעלם מאנשי קשר המתנתקים
 [Protocols to watch:]
 :פרוטוקולים להתייחסות
+[Text]
+טקסט
 [Popup Colors]
 צבעי פופאפ
+[Online]
+מחובר
+[Away]
+לא נמצא
+[NA]
+לא זמין
+[Occupied]
+עסוק
+[DND]
+לא להפריע
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדברת בטלפון
+[Out to lunch]
+אוכל ארוחת צהריים
+[Free for chat]
+פנוי לשיחה
+[Invisible]
+בלתי נראה
+[Offline]
+לא מחובר
 [Last seen plugin]
 פלאג נראה אחרון
+[OK]
+אישור
 [Alert when user status changes]
 הודע כאשר מצב איש הקשר משתנה
 ;file \plugins\SeenPlugin\src\history.cpp
+[View User's Details]
+הצג פרופיל משתמש
+[User Menu]
+תפריט משתמש
 ;file \plugins\SeenPlugin\src\main.cpp
 [LastSeen]
 נראה לאחרונה
 [Last seen]
 נראה לאחרונה
 ;file \plugins\SeenPlugin\src\menu.cpp
+[<none>]
+<ללא>
 ;file \plugins\SeenPlugin\src\options.cpp
+[Contacts]
+אנשי קשר
+[Popups]
+פופ אפ
 ;file \plugins\SeenPlugin\src\seen.h
 [day]
 יום
+[minutes]
+דקות
+[seconds]
+שניות
+[Status]
+מצב
+[Protocol]
+פרוטוקול
 [Note:]
 הערה:
 [Use]
 השתמש
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
+[Idle]
+לא נמצא אוטומטי
+[Unknown]
+לא ידוע

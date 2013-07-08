@@ -7,6 +7,10 @@
 ;============================================================
 ;file \plugins\AssocMgr\res\resource.rc
 ;file \plugins\AssocMgr\src\assoclist.cpp
+[Unknown]
+Sconosciuta
+[Unknown]
+Sconosciuto
 ;file \plugins\AssocMgr\src\dde.cpp
 ;file \plugins\AssocMgr\src\reg.cpp
 ;file \plugins\AssocMgr\src\test.cpp

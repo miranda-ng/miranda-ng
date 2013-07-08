@@ -6,8 +6,28 @@
 ;  Authors: sss
 ;============================================================
 ;file \plugins\New_GPG\res\new_gpg.rc
+[OK]
+OK
+[Ignore]
+Ignoreeri
+[Cancel]
+Tühista
+[Password:]
+Parool:
 ;file \plugins\New_GPG\src\init.cpp
 ;file \plugins\New_GPG\src\main.cpp
+[Name]
+Nimi
+[Accounts]
+Kontod
+[Error]
+Viga
 ;file \plugins\New_GPG\src\messages.cpp
 ;file \plugins\New_GPG\src\options.cpp
+[Messages]
+Teated
+[Contact]
+Kontakt
+[Protocol]
+Protokoll
 ;file \plugins\New_GPG\src\utilities.cpp

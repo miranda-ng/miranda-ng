@@ -10,6 +10,8 @@
 קטגוריות סמיילים
 [Specify Smiley Pack for each category]
 הגדרת חבילת סמיילים לכל קטגוריה
+[Name:]
+שם:
 [Replace only smileys surrounded by spaces]
 החלף רק סמיילים שמוקפים ברווח
 [Scale smiley to textheight]
@@ -52,6 +54,12 @@ SmileyAdd HTTP חיבורי
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
 סמיילים
+[Customize]
+התאמה אישית
+[Off]
+כבוי
+[All Files]
+כל הקבצים
 ;file \plugins\SmileyAdd\src\services.cpp
 ;file \plugins\SmileyAdd\src\smileys.cpp
 [Standard]

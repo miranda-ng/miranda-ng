@@ -14,9 +14,37 @@ Fixer la largeur
 Cacher les contacts
 [Hide when a fulscreen app is active]
 Cachez si une application est en plein écran
+[seconds]
+secondes
+[Single click interface]
+Clic simple
+[Dim idle contacts]
+Estomper les contacts inactifs
+[Background]
+Arrière-plan
+[Stretch to width]
+Étirer en largeur
+[Stretch to height]
+Étirer en hauteur
+[Tile horizontally]
+Paver horizontalement
+[Tile vertically]
+Paver verticalement
+[Stretch proportionally]
+Étirer proportionnellement
 [Opacity:]
 Opacité :
 ;file \plugins\FloatingContacts\src\main.cpp
+[Standard contacts]
+Contacts standards
+[Online contacts to whom you have a different visibility]
+Contacts En ligne pour lesquels vous avez une visibilité différente
+[Offline contacts]
+Contacts Hors ligne
+[Offline contacts to whom you have a different visibility]
+Contacts Hors ligne pour lesquels vous avez une visibilité différente
+[Contacts which are 'not on list']
+Contacts qui ne sont pas dans la liste
 [Floating contacts]
 Contacts flottants
 [Show all thumbs]
@@ -24,3 +52,5 @@ Afficher les pouces
 [Hide all thumbs]
 Cachez les pouces
 ;file \plugins\FloatingContacts\src\options.cpp
+[Contact List]
+Liste de contacts

@@ -8,6 +8,8 @@
 ;file \plugins\BuddyPounce\res\resource.rc
 [Confirm Pounce send]
 Confirmer l'envoi
+[Cancel]
+Annuler
 [Pounce being sent to]
 Pounce a envoyé à
 [The Message:]
@@ -20,8 +22,12 @@ Paramètres par défaut
 Paramétrages du texte.....
 [Contact To Send Pounce To]
 Envoyer Pounce au contact :
+[Advanced >>]
+Avancé >>
 [The Message]
 Le Message
+[Status]
+État
 [Use Advanced Dialog]
 Fonctions avancées
 [The Message:       (Characters:  )]
@@ -43,8 +49,20 @@ Fenêtre de confirmation
 Envoi si mon état est
 [Any]
 Hors ligne
+[Online]
+En ligne
+[Away]
+Absent
+[NA]
+Indisponible
+[Occupied]
+Occupé
+[DND]
+Ne pas déranger
 [Free For Chat]
 OK pour un chat
+[Invisible]
+Invisible
 [On The Phone]
 Au téléphone
 [Out To Lunch]
@@ -92,3 +110,5 @@ Envoi réussi du message à %s
 [Message failed to send to %s]
 Erreur d'envoi du message à %s
 ;file \plugins\BuddyPounce\src\main.cpp
+[Message Sessions]
+Sessions de message

@@ -6,5 +6,13 @@
 ;  Authors: Andrej Krutak
 ;============================================================
 ;file \plugins\wbOSD\res\wbOSD.rc
+[General]
+Üldine
+[Other]
+Muu
+[Show]
+Kuva
 ;file \plugins\wbOSD\src\events.cpp
 ;file \plugins\wbOSD\src\options.cpp
+[Plugins]
+Pluginad

@@ -8,11 +8,31 @@
 ;file \protocols\Yahoo\res\Yahoo.rc
 [ID:]
 ID:
+[Password:]
+Parool:
+[Port:]
+Port:
+[Reset]
+Algväärtusta
+[&Add]
+&Lisa
+[OK]
+OK
+[Cancel]
+Tühista
+[&Join]
+&Ühine
+[&Cancel]
+&Tühista
+[Add]
+Lisa
 ;file \protocols\Yahoo\src\avatar.cpp
 ;file \protocols\Yahoo\src\chat.cpp
 ;file \protocols\Yahoo\src\icolib.cpp
 [Mail]
 E-mail
+[Profile]
+Profiil
 [Address Book]
 Aadressiraamat
 [Set Status]
@@ -27,6 +47,8 @@ Yahoo viga
 ;file \protocols\Yahoo\src\options.cpp
 [YAHOO Options]
 YAHOO seaded
+[Network]
+Võrgustik
 ;file \protocols\Yahoo\src\proto.cpp
 [Yahoo Login Error]
 Yahoo logimise viga

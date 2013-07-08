@@ -6,5 +6,9 @@
 ;  Authors: StDenis
 ;============================================================
 ;file \plugins\MsgPopup\res\MsgPopup.rc
+[Background]
+Art Alan
 ;file \plugins\MsgPopup\src\main.cpp
+[Popups]
+Açılır Pencereler
 ;file \plugins\MsgPopup\src\options.cpp

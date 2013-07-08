@@ -6,6 +6,28 @@
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
 ;file \plugins\Nudge\res\resource.rc
+[Text]
+Tekst
+[Offline]
+Väljas
+[Online]
+Sees
+[Away]
+Eemal
+[NA]
+Pole kättesaadav
+[Occupied]
+Hõivatud
+[Free for chat]
+Vestluseks vaba
+[Invisible]
+Nähtamatu
+[On the phone]
+Telefonil
+[Out to lunch]
+Lõunastamas
 ;file \plugins\Nudge\src\main.cpp
 ;file \plugins\Nudge\src\nudge.cpp
 ;file \plugins\Nudge\src\options.cpp
+[Events]
+Sündmused

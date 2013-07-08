@@ -57,6 +57,8 @@
 Внос от файл
 [Forced Mono]
 Направи моно
+[Advanced]
+Разширени
 [OFF]
 Изкл.
 [Volume]

@@ -16,6 +16,8 @@ FTP 帐户
 上传后执行命令
 [Use passive mode]
 使用被动模式
+[Protocol]
+协议
 [Default FTP server]
 默认 FTP 服务器
 [File download link]
@@ -30,6 +32,8 @@ FTP 帐户
 使用子菜单 (重启生效)
 [Hide inactive accounts]
 隐藏非活动帐号
+[Other]
+其它
 [Automatically delete file from FTP server after (experimental):]
 完成后自动从 FTP 服务器删除文件 (实验):
 [ZIP support]
@@ -48,6 +52,16 @@ ZIP 支持
 速度: 
 [Remaining:]
 剩余:
+[Summary]
+总结
+[To:]
+给: 
+[Nick]
+昵称
+[Close]
+关闭
+[Options]
+选项
 [File Manager]
 文件管理器
 [User info]
@@ -56,6 +70,8 @@ ZIP 支持
 上传...
 [FTP File Manager]
 FTP 文件管理
+[Select All]
+全选
 [Deselect All]
 取消所有
 [Delete from list]
@@ -64,8 +80,16 @@ FTP 文件管理
 从 FTP 删除
 [Enter file name]
 输入文件名
+[OK]
+确定
+[Cancel]
+取消
 [File exists]
 文件已存在
+[Rename]
+重命名
+[Overwrite]
+下划线
 [File with the same name already exists on the server.]
 同名文件已存在于服务器上.
 [How to proceed?]
@@ -92,6 +116,8 @@ FTP 文件管理
 [Do you really want to cancel all running jobs?]
 您真的想取消所有正在运行任务?
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
+[Resume]
+恢复
 [FTP Server %d]
 FTP 服务器 %d
 [Upload file(s)]
@@ -179,5 +205,11 @@ FTP+SSL (显式)
 FTP+SSL (隐式)
 [SFTP (Secure FTP over SSH)]
 SFTP (安全 FTP 使用 SSH)
+[hours]
+小时
+[Accounts]
+帐号
+[Advanced]
+高级
 ;file \plugins\FTPFileYM\src\serverlist.cpp
 ;file \plugins\FTPFileYM\src\utils.cpp

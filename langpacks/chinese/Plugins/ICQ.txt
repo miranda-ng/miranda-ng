@@ -8,12 +8,22 @@
 ;file \protocols\IcqOscarJ\res\resources.rc
 [ICQ Number:]
 ICQ 号码:
+[Password:]
+密码: 
 [Create a new ICQ account]
 新建 ICQ 账号
+[&Send]
+发送(&S)
+[&Cancel]
+取消(&C)
 [Enter ICQ Password]
 输入 ICQ 密码
 [Enter a password for UIN %d:]
 请输入 UIN %d 的密码: 
+[OK]
+确定
+[Cancel]
+取消
 [ICQ number:]
 ICQ 号: 
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
@@ -22,6 +32,10 @@ ICQ 号:
 取回丢失密码或 ICQ 号
 [Create a new ICQ account using the ICQ website]
 使用 ICQ 网站建立新 ICQ 帐号
+[Port:]
+端口:
+[Default]
+默认
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
 提示: 使用端口 0 将连接至随机端口. 如果您的 HTTP 代理服务器连接有问题, 请尝试连接端口 80 或 443. 
 [Secure Connection (SSL)]
@@ -60,6 +74,8 @@ ICQ 头像
 当您连接至 ICQ 网络时, 无法启用/禁用服务器端联系人列表. 
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
 注意: 以星号标记选项具有严重的副作用, 可能最初在帮助中未明确说明.
+[Messaging]
+通信
 [Enable unicode messaging support]
 启用 Unicode 通信支持
 [Send all messages in unicode if possible]
@@ -118,18 +134,26 @@ P2P 通信
 仅答复可见联系人的状态消息请求
 [Some options are greyed out because they can only be changed when you are online.]
 一些选项已被禁用, 因为它们只能在您在线时才能变更. 
+[Options]
+选项
 [Enable popup support]
 启用弹出窗口支持
 [Display popup when spambot is detected]
 检测出滥发机器时显示弹出窗口
 [Look && Feel]
 外观及感觉
+[Text Color]
+文本颜色
+[Error]
+错误
 [Fatal]
 严重错误
 [Spam detected]
 检测出滥发机器
 [Use system &icons]
 使用系统图标(&I)
+[Use default colours]
+使用默认颜色
 [External IP:]
 外部 IP: 
 [Protocol Version:]
@@ -140,20 +164,58 @@ P2P 通信
 开机时间: 
 [Idle since:]
 闲置时间: 
+[Summary]
+总结
+[Nickname:]
+昵称: 
+[First name:]
+名字: 
+[Last name:]
+姓氏: 
+[E-mail:]
+邮件: 
+[Gender:]
+性别: 
+[Age:]
+年龄: 
+[Marital status:]
+婚姻状况: 
 [Keywords:]
 关键字: 
+[Work]
+工作
+[Company:]
+公司: 
+[Department:]
+部门: 
+[Position:]
+职务: 
 [Organisation:]
 组织: 
+[Location]
+位置
+[Country:]
+国家: 
+[State:]
+州: 
+[City:]
+城市: 
+[Background info]
+背景资料
 [Interests]
 兴趣
 [Category:]
 分类: 
+[Other]
+其它
 [Manage ICQ Server Contacts]
 管理 ICQ 服务器联系人
 [Select contacts to store:]
 请选择要保存的联系人
 [Synchronize]
 同步
+[Closing in %d]
+%d 秒关闭
 [Retrieving custom status details...]
 正在获取自定义状态详细资料...
 [Confirm Password Change]
@@ -284,8 +346,30 @@ ICQ 提示
 上传头像至服务器发生错误, 服务器拒绝接受图片. 
 ;file \protocols\IcqOscarJ\src\icq_constants.h
 ;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Afghanistan]
+阿富汗
+[Albania]
+阿尔巴尼亚
+[Algeria]
+阿尔及利亚
+[Andorra]
+安道尔共和国
+[Angola]
+安哥拉
+[Anguilla]
+安圭拉岛
+[Antigua and Barbuda]
+安提瓜和巴布达
+[Argentina]
+阿根廷
+[Armenia]
+亚美尼亚
+[Aruba]
+ 阿鲁巴岛 
 [Ascension Island]
 亚森松岛
+[Australia]
+澳大利亚
 [Australia, Antarctic Territory]
 澳大利亚, 南极领地
 [Australia, Christmas Island]
@@ -294,90 +378,440 @@ ICQ 提示
 澳大利亚, 科科斯 (基林) 群岛
 [Australia, Norfolk Island]
 澳大利亚, 诺福克岛
+[Austria]
+奥地利
+[Azerbaijan]
+阿塞拜疆
+[Bahamas]
+巴哈马群岛
+[Bahrain]
+巴林岛
+[Bangladesh]
+孟加拉国
+[Barbados]
+巴巴多斯
+[Belarus]
+白俄罗斯
+[Belgium]
+比利时
+[Belize]
+伯利兹
+[Benin]
+贝宁
+[Bermuda]
+百慕大群岛
+[Bhutan]
+不丹
 [Bolivia]
 玻利维亚
+[Bosnia and Herzegovina]
+波斯尼亚及黑塞哥维那
+[Botswana]
+博茨瓦纳
+[Brazil]
+巴西
 [British Virgin Islands]
 英属维京群岛
 [Brunei]
 文莱
+[Bulgaria]
+保加利亚
+[Burkina Faso]
+布基纳法索
+[Burundi]
+布隆迪
+[Cambodia]
+柬埔寨
+[Cameroon]
+喀麦隆
+[Canada]
+加拿大
 [Canary Islands]
 加那利群岛
 [Cape Verde Islands]
 佛得角群岛
+[Cayman Islands]
+开曼群岛
+[Central African Republic]
+中非共和国
+[Chad]
+乍得
 [Chile, Republic of]
 智利共和国
+[China]
+中国
+[Colombia]
+哥伦比亚
+[Comoros]
+科摩罗
 [Congo, Democratic Republic of (Zaire)]
 刚果民主共和国 (扎伊尔)
 [Congo, Republic of the]
 刚果共和国
+[Cook Islands]
+库克群岛
+[Costa Rica]
+哥斯达黎加
 [Cote d'Ivoire (Ivory Coast)]
 科特迪瓦(象牙海岸)
+[Croatia]
+克罗地亚
+[Cuba]
+古巴
 [Greek, Republic of South Cyprus]
 希腊, 南塞浦路斯共和国
+[Czech Republic]
+捷克共和国
+[Denmark]
+丹麦
 [Diego Garcia]
 迪戈加西亚岛
+[Djibouti]
+吉布提
+[Dominica]
+多米尼加
+[Dominican Republic]
+多米尼加共和国
+[Ecuador]
+厄瓜多尔
+[Egypt]
+埃及
+[El Salvador]
+萨尔瓦多
+[Equatorial Guinea]
+赤道几内亚
+[Eritrea]
+厄立特里亚
+[Estonia]
+爱沙尼亚
+[Ethiopia]
+埃塞俄比亚
 [Europe]
 欧洲
 [Faeroe Islands]
 法罗群岛
 [Falkland Islands]
 福克兰群岛
+[Fiji]
+斐济
+[Finland]
+芬兰
+[France]
+法国
 [French Antilles]
 法属安的列斯群岛
+[French Guiana]
+法属圭亚那
+[French Polynesia]
+法属玻里尼西亚
+[Gabon]
+加蓬
+[Gambia]
+冈比亚
+[Georgia]
+美国乔治亚州
+[Germany]
+德国
+[Ghana]
+加纳
+[Gibraltar]
+直布罗陀
+[Greece]
+希腊
+[Greenland]
+格陵兰
+[Grenada]
+格林纳达
+[Guadeloupe]
+瓜德罗普
 [Guam, US Territory of]
 美国领土关岛
+[Guatemala]
+危地马拉
+[Guinea]
+几内亚
+[Guinea-Bissau]
+几内亚比绍
+[Guyana]
+圭亚那
+[Haiti]
+海地
+[Honduras]
+洪都拉斯
+[Hong Kong]
+香港
+[Hungary]
+匈牙利
+[Iceland]
+冰岛
+[India]
+印度
+[Indonesia]
+印度尼西亚
 [Iran (Islamic Republic of)]
 伊朗 (伊斯兰共和国)
+[Iraq]
+伊拉克
+[Ireland]
+爱尔兰
+[Israel]
+以色列
+[Italy]
+意大利
+[Jamaica]
+牙买加
+[Japan]
+日本
+[Jordan]
+约旦
+[Kazakhstan]
+哈萨克
+[Kenya]
+肯尼亚
+[Kiribati]
+基里巴斯
 [Korea, North]
 北韩
 [Korea, South]
 南韩
+[Kuwait]
+科威特
+[Kyrgyzstan]
+吉尔吉斯斯坦
 [Laos]
 老挝
+[Latvia]
+拉脱维亚
+[Lebanon]
+黎巴嫩
+[Lesotho]
+莱索托
+[Liberia]
+利比里亚
 [Libyan Arab Jamahiriya]
 阿拉伯利比亚
+[Liechtenstein]
+列支敦士登
+[Lithuania]
+立陶宛
+[Luxembourg]
+卢森堡
 [Macau]
 澳门
 [Macedonia, Republic of]
 马其顿共和国
+[Madagascar]
+马达加斯加
+[Malawi]
+马拉维
+[Malaysia]
+马来西亚
+[Maldives]
+马尔代夫
+[Mali]
+马里
+[Malta]
+马耳他
+[Marshall Islands]
+马绍尔群岛
+[Martinique]
+马提尼克岛
+[Mauritania]
+毛里塔尼亚
+[Mauritius]
+毛里求斯
 [Mayotte Island]
 马约特岛
+[Mexico]
+墨西哥
+[Micronesia, Federated States of]
+密克罗西尼亚联邦国
+[Moldova, Republic of]
+摩尔多瓦共和国
+[Monaco]
+摩纳哥
+[Mongolia]
+蒙古
+[Montserrat]
+蒙特塞拉特岛
+[Morocco]
+摩洛哥
+[Mozambique]
+莫桑比克
+[Myanmar]
+缅甸
+[Namibia]
+纳米比亚
+[Nauru]
+瑙鲁
+[Nepal]
+尼泊尔
+[Netherlands]
+荷兰
 [Netherlands Antilles]
 荷兰安的列斯群岛
 [St. Maarten]
 圣马丁
+[Curacao]
+库拉索岛
 [Netherlands (Bonaire Island)]
 荷兰 (博内尔岛)
 [Netherlands (Saba Island)]
 荷兰 (萨巴岛)
 [Netherlands (St. Eustatius Island)]
 荷兰 (圣尤斯特歇斯岛)
+[New Caledonia]
+新喀里多尼亚
+[New Zealand]
+新西兰
+[Nicaragua]
+尼加拉瓜
+[Niger]
+尼日尔
+[Nigeria]
+尼日利亚
+[Niue]
+纽埃岛
 [Northern Mariana Islands, US Territory of]
 北马里亚纳群岛, 美属
+[Norway]
+挪威
+[Oman]
+阿曼
+[Pakistan]
+巴基斯坦
+[Palau]
+帕劳群岛
+[Panama]
+巴拿马
+[Papua New Guinea]
+巴布亚新几内亚
+[Paraguay]
+巴拉圭
+[Peru]
+秘鲁
+[Philippines]
+菲律宾
+[Poland]
+波兰
+[Portugal]
+葡萄牙
+[Puerto Rico]
+波多黎各
+[Qatar]
+卡塔尔
 [Reunion Island]
 留尼旺岛
+[Romania]
+罗马尼亚
 [Russia]
 俄罗斯
+[Rwanda]
+卢旺达
 [Samoa (USA)]
 萨摩亚 (美国)
 [Samoa, Western]
 萨摩亚, 西部
 [Saint Helena]
 圣赫勒拿岛
+[Saint Kitts and Nevis]
+圣克里斯托弗及尼维斯
+[Saint Lucia]
+ 圣卢西亚 
+[Saint Pierre and Miquelon]
+圣皮埃尔及密克隆
+[Saint Vincent and the Grenadines]
+圣文森特及格林纳丁斯
+[San Marino]
+圣马力诺
+[Sao Tome and Principe]
+圣多美和普林西比
+[Saudi Arabia]
+沙特阿拉伯
 [Scotland]
 苏格兰
+[Senegal]
+塞内加尔
+[Seychelles]
+塞舌尔
+[Sierra Leone]
+塞拉利昂
+[Singapore]
+新加坡
+[Slovakia]
+斯洛伐克
+[Slovenia]
+斯洛维尼亚
+[Solomon Islands]
+所罗门群岛
+[Somalia]
+索马里
+[South Africa]
+南非
+[Spain]
+西班牙
 [Spain, Canary Islands]
 西班牙, 加那利群岛
+[Sri Lanka]
+斯里兰卡
+[Sudan]
+苏丹
+[Suriname]
+苏里南
+[Swaziland]
+斯威士兰
+[Sweden]
+瑞典
+[Switzerland]
+瑞士
+[Syrian Arab Republic]
+阿拉伯叙利亚共和国
 [Taiwan]
 台湾
+[Tajikistan]
+塔吉克斯坦
 [Tanzania]
  坦桑尼亚 
+[Thailand]
+泰国
 [Timor, East]
 东帝汶, 东
+[Togo]
+多哥
+[Tokelau]
+托客劳群岛
+[Tonga]
+汤加
+[Trinidad and Tobago]
+特立尼达和多巴哥
+[Tunisia]
+突尼斯
+[Turkey]
+土耳其
 [Turkey, Republic of Northern Cyprus]
 土耳其, 北塞浦路斯共和国
+[Turkmenistan]
+土库曼斯坦
+[Turks and Caicos Islands]
+特克斯和凯科斯群岛
+[Tuvalu]
+图瓦卢
+[Uganda]
+乌干达
+[Ukraine]
+乌克兰
+[United Arab Emirates]
+阿拉伯联合酋长国
+[United Kingdom]
+英国
+[Uruguay]
+乌拉圭
 [USA]
 美国
+[Uzbekistan]
+乌兹别克斯坦
+[Vanuatu]
+瓦努阿图
 [Vatican City]
 梵蒂冈城
 [Venezuela]
@@ -392,6 +826,8 @@ ICQ 提示
 威尔士
 [Wallis and Futuna Islands]
 瓦利斯群岛和富图纳群岛
+[Yemen]
+也门
 [Yugoslavia]
 南斯拉夫
 [Serbia, Republic of]
@@ -400,6 +836,10 @@ ICQ 提示
 科索沃共和国
 [Montenegro, Republic of]
 黑山共和国
+[Zambia]
+赞比亚
+[Zimbabwe]
+津巴布韦
 [Audio and Visual]
 音频和视频
 [Business]
@@ -440,6 +880,10 @@ ICQ - 帮助
 以往工作地点
 [Past Organization]
 以往机构
+[Female]
+女
+[Male]
+男
 [Associated degree]
 相关程度
 [Bachelor's degree]
@@ -493,6 +937,12 @@ ICQ - 帮助
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 您的文件接收被中断, 因为 Miranda 无法写入目标文件. 您可能正尝试保存至只读文件夹. 
 ;file \protocols\IcqOscarJ\src\icq_menu.cpp
+[Request authorization]
+要求授权
+[Grant authorization]
+准许授权
+[Revoke authorization]
+撤销授权
 [Add to server list]
 加至服务器列表
 [Show custom status details]
@@ -510,6 +960,12 @@ ICQ - 帮助
 不要显示任何问题 (不推荐)
 [System default codepage]
 系统默认代码页
+[Network]
+网络
+[Contacts]
+联系人
+[Popups]
+弹出窗口
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 [Sample Note]
 范例通告
@@ -581,8 +1037,12 @@ Miranda 无法分配端口以监听客户端之间直接 P2P 连接. 您可使�
 正在删除群组 "%s"...
 [All operations complete]
 所有操作已完成
+[Close]
+关闭
 [You have to be online to sychronize the server-list !]
 您需要在线才能同步服务器列表! 
+[** All contacts **]
+** 所有联系人 **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [Taking a bath]
 正在洗澡
@@ -596,6 +1056,8 @@ Miranda 无法分配端口以监听客户端之间直接 P2P 连接. 您可使�
 拍摄中
 [Having fun]
 玩乐中
+[On the phone]
+接听电话
 [Gaming]
 正在游乐
 [Studying]
@@ -606,6 +1068,8 @@ Miranda 无法分配端口以监听客户端之间直接 P2P 连接. 您可使�
 身体不适
 [Surfing]
 沖浪中
+[Typing]
+键入中
 [Picnic]
 野餐
 [I'm high]
@@ -622,6 +1086,8 @@ Miranda 无法分配端口以监听客户端之间直接 P2P 连接. 您可使�
 写入
 [%s Custom Status]
 %s 自定义状态
+[None]
+无
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
 贺年卡: 
@@ -667,6 +1133,8 @@ Miranda 无法解析服务器名为数字地址. 通常可能是由于突然丢�
 [The checksum of file "%s" does not match, the file is probably damaged.]
 文件 "%s" 校验值不符, 文件可能已损坏. 
 ;file \protocols\IcqOscarJ\src\utilities.cpp
+[<invalid>]
+<无效>
 ;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
 [GMT-12:00 Eniwetok; Kwajalein]
 GMT-12:00 埃尼威托克; 夸贾林环礁
@@ -734,6 +1202,8 @@ GMT+12:00 奥克兰; 惠灵顿; 斐济; 堪察加半岛; 马绍尔群岛
 名字
 [Last name]
 姓氏
+[Contact]
+联络方式
 [Street]
 街道
 [City]
@@ -850,6 +1320,8 @@ ICQ 服务器不支持大于 8 个字符密码. 请使用较短的密码.
  (已建立 DC)
 [ScreenName:]
 显示名: 
+[<not specified>]
+<未指定>
 [Member since:]
 会员加入日期: 
 [%s Details]

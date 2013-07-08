@@ -8,8 +8,50 @@
 ;file \plugins\Clist_nicer\res\resource.rc
 [About CList Nicer+]
 Sobre o CList Nicer+
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
 [Clist Nicer+]
 Clist Nicer+
+[Version]
+Versão
+[Delete Contact]
+Excluir Contato
+[No]
+Não
+[No]
+Não
+[No]
+Não
+[Yes]
+Sim
+[Yes]
+Sim
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Esconder da lista apenas, manter histórico e config. de visibilidade
+[Are you sure you want to delete %s?]
+Você tem certeza que deseja excluir %s?
+[This will erase all history and settings for this contact!]
+Isto apagará todo histórico e configuraçõe para este contato!
+[Contact List]
+Lista de Contatos
+[Hide offline users]
+Ocultar usuários offline
+[Hide empty groups]
+Ocultar grupos vazios
+[Disable groups]
+Desativar grupos
+[Ask before deleting contacts]
+Perguntar antes de deletar contatos
+[Disable icon blinking]
+Desativar piscar ícone
 [Apply last active view mode ]
 Aplicar último modo de visualização ativo
 [Contact list layout]
@@ -18,18 +60,46 @@ Layout da Lista de Contatos
 Mostrar botões de menu e de status
 [Draw sunken edge]
 Desenhar borda submersa
+[System tray icon]
+Ícone da barra de tarefas
+[Single click interface]
+Interface de clique simples
+[Always show status in tooltip]
+Sempre mostrar o status na "dica de contexto"
 [Event area]
 Área de eventos
 [Set base visiblity on the frames menu]
 Definir base de visibilidade no menu de quadros
 [Auto mode]
 Modo Automático
+[System tray icon when using multiple protocols]
+Ícone da barra de tarefas quando usando múltiplos protocolos
+[Show]
+Mostrar
+[icon when statuses differ]
+ícones para diferenciar os status
+[Cycle icons every]
+Alternar ícones a cada
+[seconds, when statuses differ]
+segundos, para diferenciar status
+[Show multiple icons]
+Mostrar múltiplos ícones
+[Only when statuses differ]
+Só com status diferentes
 [Do not show system tray icon tooltips on mouse over]
 Não mostrar dicas ao passar o mouse no ícone na bandeja do sistema
+[Groups]
+Grupos
+[Draw a line alongside group names]
+Desenhar uma linha entorno de um grupo de nomes
 [Show number of contacts in a group]
 Mostrar o número de contatos em um grupo
 [Hide numbers when all offline]
 Ocultar quando todos os números estiverem offline
+[Sort groups alphabetically]
+Dispôr grupos em ordem alfabética
+[Quicksearch in open groups only]
+Pesquisa rápida somente nos grupos abertos
 [No expand/collapse icon]
 Não expandir/Colapso do ícone
 [Center groupnames horizontally]
@@ -42,10 +112,14 @@ Abertura da linha
 Altura mínima de linha:
 [Group row height]
 Agrupar altura da linha
+[Indent groups by:]
+Recortar grupos para:
 [Inner Row vertical padding]
 Inner Row padding vertical
 [Margins and spacing]
 Margens e espaçamento
+[Contact List Sorting]
+Dispor Contatos Por
 [First by]
 Primeiro por
 [Then by]
@@ -80,6 +154,8 @@ Show segunda linha do texto:
 Mostrar contatos com hora local
 [Only when timezone differs]
 Somente quando o fuso horário for diferente
+[Icons]
+Ícones
 [Show status icons]
 Ícones de Status Show
 [Centered when possible]
@@ -90,12 +166,42 @@ Sempre que possível, extrair ícones de status no espaço avatar
 Use meta-protocolo de ícones em vez de subcontatos
 [Use Overlay icons on avatars]
 Use sobreposição de ícones em avatares
+[Dim idle contacts]
+Desvanecer contatos inativos
 [Replace status icons with xStatus]
 Substitua os ícones de status com xStatus
+[Window]
+Janela
+[Always on top]
+Sempre no alto
+[Show menu bar]
+Exibir barra de menu
+[Easy move]
+Mover facilmente
 [Rounded border]
 Bordas arredondadas
 [Rounded border]
 Borda arredondada
+[Title bar text:]
+Texto da barra de título:
+[Pin to desktop]
+Unir à área de trabalho
+[Show drop shadow (restart required)]
+Mostrar sombra (necessário reiniciar)
+[Hide contact list after it has been idle for]
+Ocultar contato quando estiver indisponível
+[seconds]
+segundos
+[Automatically resize window to height of list]
+Redimensionar automaticamente a janela ao tamanho da lista
+[maximum]
+máximo
+[% of screen]
+% do ecrã
+[Size upwards]
+Ajustar para cima
+[If window is partially covered, bring to front instead of hiding]
+Se a janela estiver parcialmente oculta,puxá-la à frente em vez de a ocultar
 [Client margins]
 Margens do cliente
 [Embedded frames border]
@@ -104,22 +210,134 @@ Inserir bordas nas janelas
 Prender borda por
 [Gap between frames]
 Abrir entre os quadros
+[Transparent contact list]
+Lista de contatos tranparente
+[Inactive opacity:]
+Transp. inativa:
+[Active opacity:]
+Ativar opacidade:
+[Fade contact list in/out]
+Desvanecer lista no mostrar/ocultar
 [Fully transparent (like TweakUI)]
 Totalmente transparente (como o TweakUI)
+[Items]
+Itens
+[Show divider between online and offline contacts]
+Mostra divisão entre contatos online e offline
+[Hot track items as mouse passes over]
+Efeito 'rastro quente' nos itens ao passar o mouse
+[Disable drag and drop of items]
+Desativar arrastar e soltar items
+[Disable rename of items by clicking twice]
+Desabilitar renomear intem com duplo clique
+[Show selection even when list is not focused]
+Mostrar seleção quando a lista não estiver selecionada
+[Make selection highlight translucent]
+Destaque da seleção translúcida
 [Use full row for selection and hottracking]
 Use linha completa para a seleção e atalhos
 [Double click on avatar opens userinfo]
 Clique duas vezes no avatar abre informações do usuário
+[Scroll list smoothly]
+Rolar a lista suavemente
+[Time:]
+Tempo:
+[milliseconds]
+milisegundos
+[milliseconds]
+Milisegundos
+[milliseconds]
+milissegundos
+[Hide vertical scroll bar]
+Ocultar barra de rolagem vertical
+[Grey out entire list when:]
+Acinzentar lista quando
+[Contact List Background]
+Fundo dos Contatos
+[Use Windows colours]
+Usar Janelas coloridas
+[Background colour]
+Cor do fundo
+[Use background image]
+Usar imagem de fundo
+[Stretch to width]
+Esticar em largura
+[Stretch to width]
+Esticar em largura
+[Stretch to height]
+Esticar em altura
+[Stretch to height]
+Esticar em altura
+[Tile horizontally]
+Título horizontal
+[Tile horizontally]
+Título horizontal
+[Tile vertically]
+Título vertical
+[Tile vertically]
+Título vertical
+[Scroll with text]
+Rolar com texto
+[Scroll with text]
+Rolar com texto
+[Stretch proportionally]
+Esticar proporcionalmente
+[Stretch proportionally]
+Esticar proporcionalmente
 [Use these settings to skin the entire background]
 Use essas configurações para a skin do fundo inteiro
 [If you enable this, the background settings will affect the entire contact list frame.]
 Se você permitir isso, as configurações de fundo irão afetar a lista completa de contatos.
+[Status Bar]
+Barra de Status
+[Show status bar]
+Mostrar barra de status
+[Show icons]
+Mostrar ícones
+[Show icons]
+Mostrar ícones
+[Show protocol names]
+Exibir os nomes de protocolo
+[Show status text]
+Mostrar status
+[Right click opens status menu]
+Clique com o botão direito abre o menu de status
+[Right click opens Miranda NG menu]
+Clique com o botão direto abre o menu Miranda NG BR
+[Make sections equal width]
+Fazer seções de tamanhos iguais
+[Show bevels on panels]
+Mostrar painéis sobressaidos
+[Show resize grip indicator]
+Redimensionar
 [Draw background skin]
 Desenhar skin de fundo
 [Show ICQ extended status icons]
 Mostrar ícones de status extendido do ICQ
 [Mark protocols locked from global status changes]
 Marcar protocolos trancados para alterações do estado global
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Apply]
+Aplicar
+[Protocol]
+Protocolo
+[Protocol]
+Protocolo
+[Group]
+Grupo
 [Per contact skins:]
 Por skins dos contatos:
 [Contact list skin]
@@ -162,16 +380,24 @@ Carregar skin
 Exportar para arquivo de skin
 [Ignore these events]
 Ignorar esses eventos
+[Messages]
+Mensagens
+[Messages]
+Mensagens
 [Suppress auth requests]
 Cancelar pedido de autorização
 [Suppress added notifications]
 Reprimir adicionou notificações
 [Suppress online notifications]
 Notificações Repressão online
+[Visibility]
+Visibilidade
 [Appear always online]
 Aparecem sempre on-line
 [Appear always offline (block contact)]
 Aparecem sempre off-line (bloco de contato)
+[Other]
+Outros
 [Hide this contact from the list]
 Ocultar este contato da lista
 [Display options]
@@ -186,6 +412,54 @@ Mostrar linha 2:
 Desenhar ícone de sobreposição em avatar
 [Show local time]
 Mostrar a hora local
+[E&xit]
+&Sair
+[&Status]
+&Status
+[&Offline\tCtrl+0]
+&Offline\tCtrl+0
+[&Away\tCtrl+2]
+&Ausente\tCtrl+2
+[&NA\tCtrl+3]
+&NA\tCtrl+3
+[Occ&upied\tCtrl+4]
+Ocu&upado\tCtrl+4
+[&Free for chat\tCtrl+6]
+&Livre para conversar\tCtrl+6
+[&Invisible\tCtrl+7]
+&Invisível\tCtl+7
+[On the &Phone\tCtrl+8]
+Ao &Telefone\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Saiu para Almoço\tCtrl+9
+[Tray]
+Barra de tarefas
+[&Hide/Show]
+&Ocultar/Exibir
+[Nowhere]
+Em nenhum lado
+[Nowhere]
+Não está
+[&New Group]
+&Novo Grupo
+[&Hide Offline Users]
+&Ocultar usuários offline
+[Hide &Offline Users out here]
+&Ocultar Contatos Offline daqui
+[Hide &Empty Groups]
+&Ocultar Grupos Vazios
+[Disable &Groups]
+Desativar &Grupos
+[Hide Miranda]
+Ocultar Miranda
+[&New Subgroup]
+&Novo Subgrupo
+[&Hide Offline Users in here]
+&Ocultar usuários offline aqui
+[&Rename Group]
+&Renomer Grupo
+[&Delete Group]
+&Excluir Grupo
 [Move marked Contacts to this Group]
 Mover contatos marcados para este grupo
 [Show Status Icons]
@@ -197,6 +471,12 @@ Mostrar botões adicionais
 [Draw sunken Frame]
 Desenhar janela afundada
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+[General]
+Geral
+[General]
+Geral
+[General]
+Geral
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
@@ -207,6 +487,8 @@ Mostrar / ocultar os contatos offline
 Alternar modo de grupo
 [Find and add contacts]
 Localizar e adicionar contatos
+[Accounts]
+Contas
 [Open preferences]
 Abrir Preferências
 [Toggle sounds]
@@ -222,12 +504,46 @@ Selecione o modo de exibição
 [Clear view mode]
 Desmarque o Modo de exibição
 ;file \plugins\Clist_nicer\src\clcopts.cpp
+[Not focused]
+Não focalizado
+[Not focused]
+Não focalizado
+[Online]
+Online
+[Away]
+Ausente
+[Away]
+Ausente
+[Occupied]
+Ocupado
+[Occupied]
+Ocupado
+[DND]
+DND
+[DND]
+DND
+[Free for chat]
+Livre para conversar
+[Free for chat]
+Livre para conversar
+[Invisible]
+Invisível
+[Invisible]
+Invisível
+[Out to lunch]
+Saiu para almoço
+[On the phone]
+Ao telefone
 [Always Left]
 Sempre Esquerda
 [Always Right]
 Sempre Direita
 [Automatic (RTL)]
 Automático (RTL)
+[Name]
+Nome
+[Status]
+Status
 [Last Message]
 Última mensagem
 [Message Frequency]
@@ -250,8 +566,20 @@ Extrema direita
 Com Apelido - à direita
 [List layout]
 Lista de distribuição
+[Background]
+Fundo
+[Background]
+Fundo
+[Contacts]
+Contatos
+[Contacts]
+Contatos
 [Groups and layout]
 Grupos e layout
+[Advanced]
+Avançado
+[Advanced]
+Avançado
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 Adicionar permanente
@@ -272,6 +600,8 @@ Exibição de lista de contatos e ignorar as opções para %s
 [&Contact list settings...]
 &Lista de configurações de Contato ...
 ;file \plugins\Clist_nicer\src\clistopts.cpp
+[Global]
+Global
 ;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 Mostrar alternar online/offline
@@ -291,10 +621,34 @@ Configurar contas
 Abrir o menu principal
 [Set status modes]
 Definir os modos de status
+[Standard contacts]
+Contatos padrão
+[Online contacts to whom you have a different visibility]
+Contatos Online para quem a visibilidade é diferenciada
+[Offline contacts]
+Contatos offline
+[Offline contacts to whom you have a different visibility]
+Contatos Offline para quem a visibilidade é diferenciada
+[Contacts which are 'not on list']
+Contatos que estão 'sem lista'
+[Group member counts]
+Contagem de membros do grupo
+[Dividers]
+Divisórias
 [Frame titles]
 Títulos das janelas
 [Contact list local time]
 Tempo da lista de contato local
+[Selected Text]
+Texto Selecionado
+[Hottrack Text]
+Marcar texto
+[Hottrack Text]
+Texto Quente
+[Quicksearch Text]
+Pesquisa rápida do texto
+[Quicksearch Text]
+Texto de Pesquisa
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Tool Window]
 Janela de Ferramentas
@@ -319,8 +673,16 @@ Limpar Modo de Exibição Atual
 ;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&Skinned frame]
 &Aparência do quadro
+[Frames]
+Janelas
 [Skinned frame]
 Aparência do quadro
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[&Find/Add Contacts...]
+&Procurar/Adicionar Contatos...
+[&Main Menu]
+&Menu Principal
+[&Options...]
+&Opções...
 [&About the contact list...]
 &Sobre a lista de contato...

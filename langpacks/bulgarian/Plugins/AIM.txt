@@ -8,6 +8,8 @@
 ;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 AIM подробности за потребителя
+[Password:]
+Парола:
 [AIM Options]
 AIM настройки
 [Message Delivery Confirmation]
@@ -34,6 +36,10 @@ AIM настройки
 Задължително прехвърляне на файлове през прокси сървър
 [*Aim must be reconnected  for some option to take effect.]
 *Необходимо е Aim да се свърже наново, за да бъдат осъществени.
+[Port:]
+Порт:
+[Reset]
+Анулиране
 [Disable SSL]
 Изключване на SSL
 [Manage Server Groups]
@@ -60,22 +66,38 @@ AIM настройки
 Блокиране на всички потребители
 [Block only users below]
 Блокирай само следните потребители
+[Add]
+Добавяне
+[Remove]
+Премахване
+[Idle]
+Бездействие
 [Allow contacts to be notified of:]
 Известяване на контактите за:
 [Join Chat Room]
 Влизане в чат стая
 [Chat Room]
 Чат стая
+[&Join]
+Влизане
+[&Cancel]
+Отказ
 [Repeat]
 Повтаряне
 [*Passwords don't match.]
 *Паролите не съвпадат.
+[E-mail]
+Имейл
 [Confirm Account]
 Потвърдете акаунта
 [*Applied upon reconnect]
 *Приложимо при следващо свързване
 [Save Changes]
 Запис на промените
+[&Deny]
+Отхвърляне
+[Message]
+Съобщение
 [Room]
 Стая
 ;file \protocols\AimOscar\src\avatars.cpp
@@ -177,6 +199,8 @@ AIM настройки
 [Can't start the confirmation procedure.]
 Процедурата по потвърждаване не може да бъде стартирана.
 ;file \protocols\AimOscar\src\theme.cpp
+[Profile]
+Профил
 [AOL Mail]
 AOL поща
 [AIM Icon]
@@ -187,6 +211,8 @@ AIM икона
 Потвърдено
 [Not Confirmed]
 Непотвърдено
+[Bold]
+Удебеляване
 [Not Bold]
 Неполучер
 [Not Italic]
@@ -218,6 +244,8 @@ AIM икона
 [Add To Server List]
 Добавяне в списъка на сървъра
 ;file \protocols\AimOscar\src\ui.cpp
+[Network]
+Мрежа
 ;file \protocols\AimOscar\src\utility.cpp
 [Please, enter a username in the options dialog.]
 Моля, въведете потребителско име в прозореца на настройките.

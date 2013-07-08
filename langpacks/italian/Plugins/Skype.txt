@@ -2,21 +2,118 @@
 ;============================================================
 ;  File: Skype.dll
 ;  Plugin: Skype Protocol
-;  Version: 0.0.0.1
-;  Authors: Unsane, Mataes
+;  Version: 0.11.0.1
+;  Authors: unsane, mataes, ghazan
 ;============================================================
 ;file \protocols\Skype\res\Resource.rc
+[&Cancel]
+&Annulla
+[&Create]
+&Crea
+[Password:]
+Password:
+[Password:]
+Password:
+[&OK]
+&OK
 [Enter password]
 Inserisci la password
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Date of birth:]
+Data nascita:
+[Date of birth:]
+Data di nascita:
+[Gender:]
+Sesso:
+[Homepage:]
+Pagina web:
+[About:]
+Informazioni su:
+[City:]
+Città:
+[State:]
+Provincia:
+[Country:]
+Nazione:
+[Timezone:]
+Fuso orario:
 ;file \protocols\Skype\src\skype.cpp
 ;file \protocols\Skype\src\skype_account.cpp
+;file \protocols\Skype\src\skype_blocked.cpp
+[Name]
+Nome
+[Name]
+Nome
+[Name]
+Nome
+[Name]
+Nome
+;file \protocols\Skype\src\skype_bookmarks.cpp
 ;file \protocols\Skype\src\skype_chat.cpp
+[&Add]
+&Aggiungi
+[&Add]
+&Aggiungi
 ;file \protocols\Skype\src\skype_contacts.cpp
 ;file \protocols\Skype\src\skype_dialogs.cpp
+[<not specified>]
+<non specificato>
+[Male]
+Maschio
+[Male]
+Maschio
+[Female]
+Femmina
+[Female]
+Femmina
 ;file \protocols\Skype\src\skype_events.cpp
+[Network]
+Rete
+[Network]
+Rete
+[Network]
+Rete
+[Contacts]
+Contatti
+[General]
+Generale
 ;file \protocols\Skype\src\skype_icons.cpp
+[Contact]
+Contatto
+[Contact]
+Contatti
+[Delete]
+Elimina
+[Delete]
+Elimina
+[Delete]
+Cancella
+[Delete]
+Elimina
+;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
 ;file \protocols\Skype\src\skype_menus.cpp
+[Request authorization]
+Richiesta di autorizzazione
+;file \protocols\Skype\src\skype_messages.cpp
 ;file \protocols\Skype\src\skype_netlib.cpp
 ;file \protocols\Skype\src\skype_proto.cpp
+;file \protocols\Skype\src\skype_transfers.cpp
 ;file \protocols\Skype\src\skype_utils.cpp

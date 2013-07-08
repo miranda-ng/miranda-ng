@@ -1,12 +1,130 @@
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
+[Password:]
+Senha:
+[Password:]
+Senha:
+[Password:]
+Senha:
+[Password:]
+Senha
+[Nick:]
+Apelido:
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
+[More options]
+Mais opções
+[Files]
+Arquivos
+[Files]
+Arquivos
+[Files]
+Arquivos
+[Apply]
+Aplicar
+[Remove]
+Remover
+[Remove]
+Remover
+[Username:]
+Usuário:
+[Username:]
+Usuário:
+[Name:]
+Nome:
+[Name:]
+Nome
+[Name:]
+Nome:
+[Port:]
+Porta:
+[Copy]
+Copiar
+[Copy]
+Copiar
+[Copy]
+Copiar
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Search:]
+Pesquisar:
 ;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
+[All Files]
+Todos os Arquivos
+[All Files]
+Todos os arquivos
+[All Files]
+Todos os Arquivos
 ;file \protocols\Xfire\src\all_statusmsg.cpp
+[Yep, I'm here.]
+Sim, eu estou aqui.
+[Yep, I'm here.]
+Sim, estou aqui.
+[I've been away since %time%.]
+Eu estou ausente desde %time%.
+[Give it up, I'm not in!]
+Desista, eu não estou aqui!
+[Not right now.]
+Agora não.
+[Give a guy some peace, would ya?]
+Dê ao cara um pouco de paz, certo?
+[That'll be the phone.]
+É...utilize antes o telefone.
+[Mmm...food.]
+Mmm... comida.
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
+[Username]
+Usuário
 ;file \protocols\Xfire\src\options.cpp
+[General]
+Geral
+[General]
+Geral
+[General]
+Geral
+[No]
+Não
+[No]
+Não
+[No]
+Não
+[<Root Group>]
+<Grupo Raiz>
+[Network]
+Rede
+[Network]
+Rede
 ;file \protocols\Xfire\src\searching4games.cpp
 ;file \protocols\Xfire\src\userdetails.cpp
 ;file \protocols\Xfire\src\Xfire_game.cpp

@@ -31,8 +31,6 @@ Supprimer un contact
 &Non
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Effacer de la liste mais conserver son historique et ses options.
-[Use Options->Ignore (expert mode) to unhide contacts.]
-Visibilité des contacts : Évènements->Ignorer (mode expert).
 [Are you sure you want to delete %s?]
 Voulez-vous vraiment supprimer %s ?
 [This will erase all history and settings for this contact!]
@@ -687,6 +685,8 @@ Griser toute la liste quand :
 Arrière-plan de la liste
 [Background colour]
 Couleur de fond
+[Background colour]
+Couleur de Fond : 
 [Selection colour]
 Couleur de sélection
 [Use background image]
@@ -899,8 +899,6 @@ Taper 1 fois "Entrée" pour envoyer
 Décompte des caractères
 [Show warning when message has not been received after]
 M'alerter quand le message n'a pas été reçu après
-[seconds] 
-secondes
 [Support control up/down in message area to show previously sent messages]
 Permettre navigation haut/bas dans zone de texte pour voir mess. précédents
 [Delete temporary contacts when closing message window]
@@ -1751,8 +1749,6 @@ Veuillez autoriser ma demande et m'ajouter à votre liste de contact.
 [%s (locked)]
 %s (verrouillé)
 ;file \src\modules\clist\clistmod.cpp
-[This plugin requires db3x plugin version 0.5.1.0 or later]
-Ce plugin requière le plugin db3x version 0.5.1.0 ou plus
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (Contact inconnu)

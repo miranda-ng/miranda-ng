@@ -11,6 +11,10 @@
 [Stranger]
 陌生人
 ;file \protocols\Omegle\src\connection.cpp
+[Connecting...]
+连接中...
 ;file \protocols\Omegle\src\constants.h
 ;file \protocols\Omegle\src\proto.cpp
+[Network]
+网络
 ;file \protocols\Omegle\src\theme.cpp

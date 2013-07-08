@@ -8,12 +8,16 @@
 ;file \plugins\Folders\res\folders.rc
 [Custom folders]
 Carpetas personalizadas
+[Edit]
+Editar
 [Refresh preview]
 Actualizar vista previa
 [Variables help]
 Variables de ayudar a
 [Custom folders variables help]
 carpetas personalizadas variables ayuda
+[Close]
+Cerrar
 ;file \plugins\Folders\src\dlg_handlers.cpp
 [Some changes weren't saved. Apply the changes now ?]
 Algunos cambios no se guardaron. Aplicar los cambios ahora?

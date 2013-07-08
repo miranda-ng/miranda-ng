@@ -8,6 +8,10 @@
 ;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
 :שמור ל
+[OK]
+אישור
+[Cancel]
+ביטול
 [Text file]
 קובץ טקסט
 [DialogBox]
@@ -26,6 +30,8 @@
 גם העתק מידע לזיכרון
 [Upload site settings]
 טען הגדרות אתר
+[Username]
+שם משתמש
 [Highlight version number using]
 הדגש מספר גירסה בעזרת
 [Show disabled plugins too]
@@ -40,6 +46,8 @@
 הראה שפות מותקנות
 [Miranda Version Information]
 מירנדה מידע גירסה 
+[Close]
+סגור
 [&Copy text]
 &העתק טקסט
 [&Save to file]

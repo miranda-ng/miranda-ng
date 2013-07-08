@@ -6,22 +6,140 @@
 ;  Authors: Miranda NG Development Team
 ;============================================================
 ;file \plugins\Scriver\res\resource.rc
+[Cascade new windows]
+다단으로 새 창
+[Send message on 'Enter']
+엔터키로 메세지 보내기
+[Send message on double 'Enter']
+엔터키 두번으로 메세지 보내기
+[Show warning when message has not been received after]
+메세지가 다음 시간 이후에 도착하지 않으면 경고 보이기
+[seconds]
+초
+[Show status bar]
+상태바 보이기
+[Use the contact's status icon as the window icon]
+대화 상대의 상태 아이콘을 창 아이콘으로 사용
+[Message Window Event Log]
+메세지 창 이벤트 로그
+[Show icons]
+아이콘 보이기
+[Show names]
+이름 보이기
 [Typing Notification Options]
 입력 알림 옵션
+[Show typing notifications when a user is typing a message]
+유저가 메세지 입력중일 때 입력 알림 보이기
+[Show typing notification when no message dialog is open]
+어떤 메세지 대화 상자도 열려있지 않을 때 입력 알림 보이기
+[Flash in the system tray and in the contact list]
+대화 상대 목록과 시스템 트레이에서 깜빡이기
+[Show balloon popup]
+풍선 팝업 보이기
+[Cancel]
+취소
+[Yes]
+네
+[No]
+아니오
+[Information]
+정보
+[Options]
+옵션
+[pixels]
+픽셀
+[Location]
+지역
+[Background]
+배경
+[OK]
+확인
+[&Copy]
+&C 복사
+[Co&py All]
+&P 전체 복사
+[Select &All]
+&A 전체 선택
+[C&lear Log]
+&L 로그 청소
+[&Copy link]
+&C 링크 복사
+[Delete]
+삭제
+[List]
+목록
+[&Message]
+&M 메세지
 ;file \plugins\Scriver\src\globals.cpp
+[Bold]
+굵게
 ;file \plugins\Scriver\src\input.cpp
+[Messaging]
+메세징
 ;file \plugins\Scriver\src\msgdialog.cpp
+[Add Contact]
+대화 상대 추가
+[User Menu]
+유저 메뉴
+[Add Contact Permanently to List]
+대화 상대 목록에 추가
+[View User's Details]
+유저 세부사항 보기
+[View User's History]
+유저 히스토리 보기
 ;file \plugins\Scriver\src\msglog.cpp
 ;file \plugins\Scriver\src\msgoptions.cpp
+[Outgoing URL]
+보낸 URL
+[Incoming URL]
+받은 URL
+[Offline]
+오프라인
+[Online]
+온라인
+[Away]
+자리 비움
+[NA]
+응답없음
+[Occupied]
+다른 용무중
+[DND]
+수신 거부
+[Free for chat]
+대화 가능
+[Invisible]
+오프라인으로 표시
+[Out to lunch]
+식사중
+[On the phone]
+전화중
+[** New contacts **]
+** 새 대화 상대 **
+[** Unknown contacts **]
+** 알 수 없는 대화 상대 **
+[Typing Notify]
+입력 알림
 ;file \plugins\Scriver\src\msgs.cpp
+[Message from %s]
+%s 로부터 받은 메세지
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+riched20.dll를 찾을 수 없어 미란다 고유의 메세지 모듈을 읽어들일 수 없습니다. 만약 Windows 95 나 WINE 을 사용하신다면 반드시 riched20.dll을 설치해 주십시오. 미란다를 계속 실행하시려면 '네'를 누르세요.
 ;file \plugins\Scriver\src\msgtimedout.cpp
 ;file \plugins\Scriver\src\msgwindow.cpp
 ;file \plugins\Scriver\src\sendqueue.cpp
+[The message send timed out.]
+메세지 시간 초과
 ;file \plugins\Scriver\src\chat\clist.cpp
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\log.cpp
 ;file \plugins\Scriver\src\chat\main.cpp
+[&Leave]
+&L 남겨두기
 ;file \plugins\Scriver\src\chat\options.cpp
+[Select Folder]
+폴더 지정
 ;file \plugins\Scriver\src\chat\services.cpp
 ;file \plugins\Scriver\src\chat\tools.cpp
 ;file \plugins\Scriver\src\chat\window.cpp
+[Status]
+상태

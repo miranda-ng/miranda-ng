@@ -6,14 +6,60 @@
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 ;file \plugins\UserInfoEx\res\resource.rc
+[Updating]
+מעדכן
+[OK]
+אישור
+[Cancel]
+ביטול
+[Apply]
+החל
+[Nick:]
+:כינוי
+[Female]
+נקבה
+[Male]
+זכר
+[Position:]
+מיקום:
+[Add Phone Number]
+הוסף מספר טלפון
+[Enter country, area code and phone number:]
+:הזן ארץ, קידומת ומספר טלפון
+[Or enter a full international number:]
+:או הזן מספר בינלאומי מלא
+[Phone can receive SMS text messages]
+סמס יכול לקבל הודעות
+[Background colour]
+צבע רקע
+[Background colour]
+צבע רקע
+[Text colour]
+צבע טקסט
+[Use Windows colours]
+השתמש בצבעי חלונות
+[Use default colours]
+צבעי ברירת מחדל
+[Custom]
+מותאם
+[Homepage:]
+דף בית:
+[Delete]
+מחק
 [day(s)]
 יום(ים)
+[Icons]
+סמלים
 [Common]
 נפוץ
+[None]
+ללא
 [Show Menu Item]
 הראה תפריט פריטים
 [MainMenu]
 תפריט ראשי
+[Off]
+כבוי
 [ContactMenu]
 תפריט איש קשר
 [Extra Icons]
@@ -29,18 +75,64 @@
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+[Edit Phone Number]
+ערוך מספר טלפון
+[Other]
+אחר
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+[Contact]
+קשר
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+[Yes]
+כן
+[No]
+לא
+[Ignore]
+התעלם
+[Error]
+שגיאה
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
+[General]
+כללי
+[Work]
+עבודה
+[Profile]
+פרופיל
+[Notes]
+הערות
+[Owner]
+בעלים
 ;file \plugins\UserInfoEx\src\init.cpp
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Default]
+ברירת מחדל
+[Fax]
+פקס
+[Add]
+הוסף
+[Edit]
+ערוך
+[Search]
+חיפוש
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
+[User &Details]
+פרופיל &משתמש
+[View/Change My &Details...]
+...הצג/שנה את הפרופיל ש&לי
 ;file \plugins\UserInfoEx\src\psp_about.cpp
+[About:]
+:אודות
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
 ;file \plugins\UserInfoEx\src\psp_options.cpp
+[Contacts]
+אנשי קשר
+[Advanced]
+מתקדם
+[Popups]
+פופ אפ
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Culture & Literature]
@@ -80,7 +172,11 @@
 [Home automation]
 אוטומציה ביתית
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+['(Unknown Contact)']
+'(תוכן לא ידוע)'
 ;file \plugins\UserInfoEx\src\svc_email.cpp
+[Send e-mail]
+שלח אימייל
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
@@ -94,8 +190,12 @@
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
+[Miranda NG]
+מירנדה
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
+[Complete]
+הושלם
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

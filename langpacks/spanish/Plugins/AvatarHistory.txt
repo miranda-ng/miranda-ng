@@ -6,10 +6,26 @@
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
+[OK]
+OK
 [Enable tracking for these protocols:]
 Habilitar el seguimiento de estos protocolos:
+[Background colour]
+Color de fondo
+[Background colour]
+Colores de fondo
+[Text colour]
+Color del texto
+[Use Windows colours]
+Usar colores de Windows
+[Use default colours]
+Utilice los colores por defecto
 [From popup plugin]
 Desde emergente plugin
+[Custom]
+Personalizado
+[Actions]
+Acciones
 [On right click:]
 El botón derecho del ratón:
 [On left click:]
@@ -18,6 +34,8 @@ El botón izquierdo
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
 ;file \plugins\AvatarHistory\src\AvatarHistory.h
 ;file \plugins\AvatarHistory\src\icolib.cpp
+[History]
+Historia
 ;file \plugins\AvatarHistory\src\options.cpp
 [Test Contact]
 Prueba de contacto

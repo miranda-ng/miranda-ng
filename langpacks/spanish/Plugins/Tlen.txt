@@ -1,6 +1,20 @@
 ﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
 ;langpack template for Tlen
 ;file \protocols\Tlen\res\tlen.rc
+[Username:]
+Nombre de usuario:
+[Username:]
+Username:
+[Password:]
+Contraseña:
+[Create new account]
+Crear cuenta nueva
+[Options]
+Opciones
+[Options]
+Opciones
+[Port:]
+Puerto:
 [Enable encryption]
 Habilitar el cifrado
 [Proxy type:]
@@ -9,24 +23,78 @@ Tipo de proxy:
 Servidor proxy:]
 [Proxy requires authorization]
 El proxy requiere autorización
+[Background]
+Fondo
+[Background]
+Background
+[Text]
+Texto
+[Text]
+Texto
 [&Custom]
 &Personalizado
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Last name:]
+Apellido
+[E-mail:]
+E-Mail:
+[Gender:]
+Género
+[City:]
+Ciudad:
 [Save changes]
 Guardar los cambios
 [Avatar Options]
 Avatar Opciones
+[Nickname:]
+Nick:
+[Age:]
+edad
+[From:]
+De:
 ;file \protocols\Tlen\src\jabber_iqid.cpp
 [Tlen Authentication]
 El oxígeno de autenticación
 ;file \protocols\Tlen\src\jabber_opt.cpp
+[General]
+General
+[General]
+General
+[Advanced]
+Avanzada
+[Advanced]
+Avanzada
+[Network]
+Red
+[Network]
+red
 ;file \protocols\Tlen\src\jabber_svc.cpp
 ;file \protocols\Tlen\src\jabber_thread.cpp
 [Jabber Connection Error]
 Error de conexión Jabber
+[Windows]
+Windows
+[E-mail]
+E-Mail
 ;file \protocols\Tlen\src\jabber_ws.cpp
 ;file \protocols\Tlen\src\tlen.cpp
+[Group chats]
+Conversaciones en grupo
+[Request authorization]
+Solicitud de autorización
+[Grant authorization]
+Conceder la autorización
 ;file \protocols\Tlen\src\tlen_file.cpp
 ;file \protocols\Tlen\src\tlen_muc.cpp
 ;file \protocols\Tlen\src\tlen_picture.cpp
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 ;file \protocols\Tlen\src\tlen_voice.cpp
+[Default]
+por defecto
+[Default]
+Predeterminado

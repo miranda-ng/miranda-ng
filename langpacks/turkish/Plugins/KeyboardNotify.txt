@@ -6,5 +6,67 @@
 ;  Authors: TioDuke
 ;============================================================
 ;file \plugins\KeyboardNotify\res\resources.rc
+[Incoming messages]
+Alınan iletiler
+[seconds]
+saniye
+[seconds]
+saniye
+[Online]
+Çevrimiçi
+[Away]
+Uzakta
+[Occupied]
+Meşgul
+[NA]
+Bilinmiyor
+[DND]
+Dokunma
+[Free for chat]
+Sohbete uygun
+[Invisible]
+Görünmez
+[On the phone]
+Telefonda
+[Out to lunch]
+Yemekte
+[Offline]
+Çevrimdışı
+[&Preview]
+Ö&nizleme
+[Add]
+Ekle
+[Delete]
+Sil
+[Export...]
+Ver...
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
+[The following events are being ignored:]
+Şu etkinlikler yoksayılacak:
+[Ignore]
+Yoksay
 ;file \plugins\KeyboardNotify\src\ignore.cpp
+[** All contacts **]
+** Tüm kişiler **
+[** Unknown contacts **]
+** Bilinmeyen kişiler **
 ;file \plugins\KeyboardNotify\src\options.cpp
+[Events]
+Etkinlikler
+[Accounts]
+Hesaplar
+[Protocol]
+Protokol
+[All Files]
+Tüm Dosyalar
+[All Files]
+Tüm Dosyalar
+[None]
+Yok

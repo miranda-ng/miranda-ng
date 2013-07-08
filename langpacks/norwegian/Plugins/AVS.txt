@@ -34,6 +34,10 @@ Gjør avataren firkantet
 Endre avatarstørrelse til maks tillatt protokollstørrelse
 [Contact picture]
 Kontaktbilde
+[Delete]
+Slett
+[Reset]
+Nullstill
 [Picture options]
 Bildevalg
 [Protect the picture]
@@ -44,16 +48,36 @@ Sett som skjult
 Forsøk å gjøre bakgrunnsbildet gjennomsiktig
 [Use defaults]
 Bruk standarder
+[OK]
+OK
+[Cancel]
+Avbryt
+[Options]
+Valg
+[Background]
+Bakgrunn
 [Points:]
 Poeng:
 [Color diff:]
 Farge forskj.:
+[Set]
+Åpne
 [Use per protocol avatars]
 Bruk avatarer for hver protokoll
 ;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
 Protokollene har forskjellige avatarer
 ;file \plugins\AVS\src\main.cpp
+[All Files]
+Alle Filer
+[Windows Bitmaps]
+Vindu Bitmaps
+[JPEG Bitmaps]
+JPEG Bitmaps
+[GIF Bitmaps]
+GIF Bitmaps
+[PNG Bitmaps]
+PNG Bitmaps
 [Flash Animations]
 Flash Animasjoner
 [XML Files]
@@ -66,6 +90,8 @@ Sett Min Avatar for %s
 Mine Avatarer
 [My Global Avatar Cache]
 Min Globale Avatar Cache
+[Contacts]
+Kontakter
 [Contact Avatars]
 Kontakt Avatarer
 [Own Avatars]

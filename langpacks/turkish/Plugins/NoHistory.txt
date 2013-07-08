@@ -8,4 +8,12 @@
 ;file \plugins\NoHistory\res\NoHistory.rc
 ;file \plugins\NoHistory\src\dllmain.cpp
 ;file \plugins\NoHistory\src\icons.cpp
+[Clear]
+Temizle
+[Clear]
+Açık
 ;file \plugins\NoHistory\src\options.cpp
+[** All contacts **]
+** Tüm kişiler **
+[History]
+Geçmiş

@@ -32,8 +32,34 @@ Conde veces
 Protocolos a seguir:
 [Use popups]
 Utilice pop-ups
+[Text]
+Texto
+[Text]
+Texto
+[Online]
+En línea
+[Away]
+Alejado 
+[NA]
+NA
+[Occupied]
+Ocupado
+[DND]
+DND
+[On the phone]
+En el teléfono
+[Out to lunch]
+A almorzar
+[Free for chat]
+Gratuito de chat
+[Invisible]
+Invisible
+[Offline]
+Offline
 [Reset colors]
 Restablecer colores
+[OK]
+OK
 [You missed following contacts:]
 Te perdiste los siguientes contactos:
 [Alert when user status changes]
@@ -41,6 +67,10 @@ Alerta cuando el usuario cambia de estado
 ;file \plugins\SeenPlugin\src\history.cpp
 [last seen history]
 la historia vista por última vez
+[View User's Details]
+Para ver sus detalles
+[User Menu]
+Menú del Usuario
 [Send Instant Message]
 Enviar mensaje instantáneo
 ;file \plugins\SeenPlugin\src\main.cpp
@@ -55,7 +85,13 @@ El usuario conectados
 [Last seen]
 Visto por última vez
 ;file \plugins\SeenPlugin\src\menu.cpp
+[<unknown>]
+<desconocido>
+[<none>]
+<ninguno>
 ;file \plugins\SeenPlugin\src\options.cpp
+[Contacts]
+Contactos
 ;file \plugins\SeenPlugin\src\seen.h
 [Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
 Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T
@@ -83,6 +119,8 @@ día de la semana (abreviado)
 horas (24)
 [hours (12)]
 horas (12)
+[seconds]
+segundo
 [-- User --]
 -- Usuario --
 [username]
@@ -91,6 +129,10 @@ nombre de usuario
 Nick
 [UIN/handle]
 UIN / manipulador
+[Group]
+Grupo
+[Status]
+estado
 [Old status]
 Antiguo estado
 [external IP]
@@ -99,6 +141,8 @@ IP externa
 IP interna
 [Client info]
 Información del cliente
+[Protocol]
+Protocolo
 [-- Format --]
 -- Formato --
 [tabulator]
@@ -149,3 +193,7 @@ Nov.
 Dic.
 [<never seen>]
 <nunca visto>
+[Idle]
+Ocioso
+[Unknown]
+Desconocida

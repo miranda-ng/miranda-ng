@@ -8,8 +8,36 @@
 ;file \plugins\Clist_nicer\res\resource.rc
 [About CList Nicer+]
 Om CList Nicer+
+[OK]
+OK
 [Clist Nicer+]
 Clist Nicer+
+[Version]
+Versjon
+[Delete Contact]
+Slett Kontakt
+[No]
+Nei
+[Yes]
+Ja
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Skjules fra liste, slik at historikk og ignorerings/synbarhets innstillinger beholdes
+[Are you sure you want to delete %s?]
+Er du sikker på at du ønsker å slette %s?
+[This will erase all history and settings for this contact!]
+Dette vil slette all historikk og innstillinger for kontakten!
+[Contact List]
+Kontaktliste
+[Hide offline users]
+Skjul frakoblede brukere
+[Hide empty groups]
+Skjul tomme grupper
+[Disable groups]
+Deaktiver grupper
+[Ask before deleting contacts]
+Spør før sletting av kontakter
+[Disable icon blinking]
+Deaktiver ikonblinking
 [Apply last active view mode ]
 Bruk siste aktive filtermodus
 [Contact list layout]
@@ -18,18 +46,46 @@ Kontaktliste layout
 Vis meny og statusknapper
 [Draw sunken edge]
 Tegn nedsunket kant
+[System tray icon]
+Oppgavelinje ikon
+[Single click interface]
+Enkeltklikk grensesnitt
+[Always show status in tooltip]
+Alltid vis status i verktøytips
 [Event area]
 Hendelsesområde
 [Set base visiblity on the frames menu]
 Sett basis synligheten på rammemenyen
 [Auto mode]
 Automodus
+[System tray icon when using multiple protocols]
+Ikoner på oppgavelinjen ved bruk av flere protokoller
+[Show]
+Vis
+[icon when statuses differ]
+ikon når statusene er forskjellige
+[Cycle icons every]
+Visning av ikoner hvert
+[seconds, when statuses differ]
+sekund(er), når status er forskj.
+[Show multiple icons]
+Vis mange ikoner
+[Only when statuses differ]
+Bare når statusene er forskjellige
 [Do not show system tray icon tooltips on mouse over]
 Ikke vis oppgavelinjens ikontips ved mus-over
+[Groups]
+Grupper
+[Draw a line alongside group names]
+Tegn en linje langs gruppenavnene
 [Show number of contacts in a group]
 Vis antall kontakter i en gruppe
 [Hide numbers when all offline]
 Skjul numre når alle er frakoblet
+[Sort groups alphabetically]
+Sorter grupper alfabetisk
+[Quicksearch in open groups only]
+Hurtigsøk kun i åpne grupper
 [No expand/collapse icon]
 Ingen utvid/falle sammen ikon
 [Center groupnames horizontally]
@@ -42,10 +98,14 @@ Radmellomrom
 Minimum radhøyde:
 [Group row height]
 Gruppe radhøyde
+[Indent groups by:]
+Rykk inn grupper:
 [Inner Row vertical padding]
 Indre Rad vertikalt toppfyll
 [Margins and spacing]
 Marginer og mellomrom
+[Contact List Sorting]
+Kontaktliste sortering
 [First by]
 Først av
 [Then by]
@@ -80,6 +140,8 @@ Vis andre tekstlinje:
 Vis kontakters lokale tid
 [Only when timezone differs]
 Bare når tidssonen er annerledes
+[Icons]
+Ikoner
 [Show status icons]
 Vis statusikoner
 [Centered when possible]
@@ -90,10 +152,40 @@ Når mulig, tegn statusikoner på avatarplassen
 Bruk metakontaktprotokoll ikoner istedetfor underkontakter
 [Use Overlay icons on avatars]
 Bruk overlappingsikoner på avatarer
+[Dim idle contacts]
+Utydeliggjør inaktive kontakter
 [Replace status icons with xStatus]
 Erstatt statusikoner med xStatus
+[Window]
+Vindu
+[Always on top]
+Alltid øverst
+[Show menu bar]
+Vis menylinje
+[Easy move]
+Enkel flytting
 [Rounded border]
 Avrundede grenser
+[Title bar text:]
+Tittellinje tekst:
+[Pin to desktop]
+Lås til skrivebord
+[Show drop shadow (restart required)]
+Vis skygge (omstart påkrevet)
+[Hide contact list after it has been idle for]
+Skjul kontaktlisten om den har vært inaktiv for
+[seconds]
+sekunder
+[Automatically resize window to height of list]
+Juster størrelse på vindu automatisk etter listehøyde
+[maximum]
+maksimum
+[% of screen]
+% av skjerm
+[Size upwards]
+Størrelse oppover
+[If window is partially covered, bring to front instead of hiding]
+Hvis vindu er delvis dekket, hent det til fokus
 [Client margins]
 Klientmarginer
 [Embedded frames border]
@@ -102,22 +194,104 @@ Innlagte rammegrenser
 Klipp grense med
 [Gap between frames]
 Mellomrom mellom rammer
+[Transparent contact list]
+Gjennomsiktig kontaktliste
+[Inactive opacity:]
+Inaktiv uklarhet:
+[Active opacity:]
+Aktiv ugjennomsiktbarhet:
+[Fade contact list in/out]
+Gli kontaktlisten inn/ut
 [Fully transparent (like TweakUI)]
 Fullstendig gjennomskinnelig (som TweakUI)
+[Items]
+Elementer
+[Show divider between online and offline contacts]
+Vis skillelinje mellom på- og frakoblede kontakter
+[Hot track items as mouse passes over]
+Endre elementer når musen flyttes over
+[Disable drag and drop of items]
+Deaktiver dra og slipp av elementer
+[Disable rename of items by clicking twice]
+Deaktiver re-naming av elementer ved dobbeltklikk
+[Show selection even when list is not focused]
+Vis valg selv når listen ikke er i fokus
+[Make selection highlight translucent]
+Gjør valget gjennomskinnelig merket
 [Use full row for selection and hottracking]
 Bruk hele raden for velging og hottracking
 [Double click on avatar opens userinfo]
 Dobbeltklikk på avatar åpner brukerinfo
+[Visual]
+Visuell
+[Scroll list smoothly]
+Rull listen glatt
+[Time:]
+Tid:
+[milliseconds]
+millisekunder
+[Hide vertical scroll bar]
+Skjul vertikal scroll bar
+[Grey out entire list when:]
+Grå ut hele listen når:
+[Contact List Background]
+Kontaktliste bakgrunn
+[Use Windows colours]
+Bruk Windowsfarger
+[Background colour]
+Bakgrunnsfarge
+[Background colour]
+Bakgrunnsfarge
+[Use background image]
+Bruk bakgrunnsbilde
+[Stretch to width]
+Strekk til bredde
+[Stretch to height]
+Strekk til høyde
+[Tile horizontally]
+Still opp horisontalt
+[Tile vertically]
+Still opp vertikalt
+[Scroll with text]
+Rull med tekst
+[Stretch proportionally]
+Strekk proporsjonelt
 [Use these settings to skin the entire background]
 Bruk disse innstillingene for å endre hele bakgrunnen
 [If you enable this, the background settings will affect the entire contact list frame.]
 Hvis du aktiverer dette, vil bakgrunnsinnstillingene påvirke hele kontaktlisterammen.
+[Status Bar]
+Statuslinje
+[Show status bar]
+Vis statuslinje
+[Show icons]
+Vis ikoner
+[Show protocol names]
+Vis protokollnavn
+[Show status text]
+Vis statustekst
+[Right click opens status menu]
+Høyreklikk åpner statusmeny
+[Right click opens Miranda NG menu]
+Høyreklikk åpner Miranda NG meny
+[Make sections equal width]
+Samme bredde på seksjoner
+[Show resize grip indicator]
+Vis størrelsesendrings grep indikator
 [Draw background skin]
 Tegn bakgrunns-skin
 [Show ICQ extended status icons]
 Vis ICQ utvidet statusikoner
 [Mark protocols locked from global status changes]
 Merk protokoller låst for globale statusendringer
+[Cancel]
+Avbryt
+[Apply]
+Lagre
+[Protocol]
+Protokoll
+[Group]
+Gruppe
 [Per contact skins:]
 Pr. kontakt skins:
 [< Reload]
@@ -158,16 +332,22 @@ Hent fra skin-fil
 Eksporter til skin-fil
 [Ignore these events]
 Ignorer disse hendelsene
+[Messages]
+Meldinger
 [Suppress auth requests]
 Undertrykk godkj.forespørsler
 [Suppress added notifications]
 Undertrykk tillagte varsler
 [Suppress online notifications]
 Undertrykk påloggingsvarsler
+[Visibility]
+Synlighet
 [Appear always online]
 Vis alltid som påkoblet
 [Appear always offline (block contact)]
 Vis alltid som frakoblet (blokker kontakt)
+[Other]
+Annet
 [Hide this contact from the list]
 Skjul denne kontakten fra listen
 [Display options]
@@ -182,6 +362,54 @@ Vis 2. linje:
 Tegn overlappingsikon på avatar
 [Show local time]
 Vis lokal tid
+[E&xit]
+A&vslutt
+[&Status]
+&Status
+[&Offline\tCtrl+0]
+&Frakoblet\tCtrl+0
+[On&line\tCtrl+1]
+På&logget\tCtrl+1
+[&Away\tCtrl+2]
+&Borte\tCtrl+2
+[&NA\tCtrl+3]
+&Ikke Angitt\tCtrl+3
+[Occ&upied\tCtrl+4]
+Opp&tatt\tCtrl+4
+[&DND\tCtrl+5]
+&Ikke forstyrr\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Tilgjengelig for chat\tCtrl+6
+[&Invisible\tCtrl+7]
+&Usynlig\tCtrl+7
+[On the &Phone\tCtrl+8]
+I &Telefonen\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Ute til &Lunsj\tCtrl+9
+[&Hide/Show]
+&Skjul/Vis
+[Nowhere]
+Ingensteds
+[&New Group]
+&Ny Gruppe
+[&Hide Offline Users]
+&Skjul Frakoblede Brukere
+[Hide &Offline Users out here]
+Skjul &Frakoblede Brukere her ute
+[Hide &Empty Groups]
+Skjul &Tomme Grupper
+[Disable &Groups]
+Deaktiver &Grupper
+[Hide Miranda]
+Skjul Miranda
+[&New Subgroup]
+&Ny Undergruppe
+[&Hide Offline Users in here]
+&Skjul Frakoblede Brukere her
+[&Rename Group]
+&Gi gruppen nytt navn
+[&Delete Group]
+&Slett Gruppe
 [Move marked Contacts to this Group]
 Flytt markerte Kontakter til denne Gruppen
 [Show Status Icons]
@@ -193,6 +421,8 @@ Vis tilleggsknapper
 [Draw sunken Frame]
 Tegn nedsunket Ramme
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+[General]
+Generelt
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
@@ -218,12 +448,38 @@ Velg filtermodus
 [Clear view mode]
 Fjern filter
 ;file \plugins\Clist_nicer\src\clcopts.cpp
+[Not focused]
+Ikke fokusert
+[Offline]
+Frakoblet
+[Online]
+Pålogget
+[Away]
+Borte
+[NA]
+NA
+[Occupied]
+Opptatt
+[DND]
+Ikke forstyrr
+[Free for chat]
+Tilgjengelig for samtale
+[Invisible]
+Usynlig
+[Out to lunch]
+Ute til lunsj
+[On the phone]
+I Telefonen
 [Always Left]
 Alltid Venstre
 [Always Right]
 Alltid Høyre
 [Automatic (RTL)]
 Automatisk (RTL)
+[Name]
+Navn
+[Status]
+Status
 [Last Message]
 Siste Melding
 [Message Frequency]
@@ -242,8 +498,14 @@ Lengst høyre
 Med Kallenavn - høyre
 [List layout]
 Liste layout
+[Background]
+Bakgrunn
+[Contacts]
+Kontakter
 [Groups and layout]
 Grupper og layout
+[Advanced]
+Avansert
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 Legg til permanent
@@ -264,6 +526,8 @@ Kontaktlistens visnings og ignoreringsvalg for %s
 [&Contact list settings...]
 &Kontaktliste innstillinger...
 ;file \plugins\Clist_nicer\src\clistopts.cpp
+[Global]
+Global
 ;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 Bytter vis påkoblet/frakoblet
@@ -281,10 +545,28 @@ Lyder er av
 Åpne hovedmeny
 [Set status modes]
 Sett statusmodus
+[Standard contacts]
+Standard kontakter
+[Online contacts to whom you have a different visibility]
+Påloggede kontakter du har en annen synlighet ovenfor 
+[Offline contacts]
+Frakoblede kontakter
+[Offline contacts to whom you have a different visibility]
+Frakoblede brukere du har annen synlighet ovenfor
+[Contacts which are 'not on list']
+Kontakter som 'ikke er på liste'
+[Group member counts]
+Antall gruppemedlemmer
+[Dividers]
+Delere
 [Frame titles]
 Rammetitler
 [Contact list local time]
 Kontaktlistens lokale tid
+[Selected Text]
+Valgt Tekst
+[Quicksearch Text]
+Hurtigsøk Tekst
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Tool Window]
 Verktøyvindu
@@ -309,8 +591,16 @@ Fjern aktivt filter
 ;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&Skinned frame]
 &Skinnet ramme
+[Frames]
+Rammer
 [Skinned frame]
 Skinnet ramme
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[&Find/Add Contacts...]
+&Finn/Legg til Kontakter
+[&Main Menu]
+&Hovedmeny
+[&Options...]
+&Valg...
 [&About the contact list...]
 &Om kontaktlisten...

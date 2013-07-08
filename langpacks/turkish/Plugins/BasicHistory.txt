@@ -6,14 +6,80 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 ;file \plugins\BasicHistory\res\BasicHistory.rc
+[Message History]
+İleti Geçmişi
+[Show names]
+Adları göster
+[Show messages]
+İletileri göster
+[Name]
+Ad
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
+[View &History]
+Geçmişi &Göster
+[Incoming message]
+Alınan ileti
+[Outgoing message]
+Gönderilen ileti
+[History]
+Geçmiş
 ;file \plugins\BasicHistory\src\EventList.cpp
+[History for %s]
+%s geçmişi
+[System]
+Sistem
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
+[Open in &new window]
+Ye&ni pencerede aç
+[&Open in existing window]
+Var&olan pencerede aç
+[&Copy link]
+&Bağlantıyı kopyala
+[Copy]
+Kopyala
+[Delete]
+Sil
+[Delete Group]
+Grubu sil
+[Options]
+Seçenekler
+[Options]
+Seçenekler
+[Icons]
+Simgeler
+[Hotkeys]
+Kestirmeler
+[Error]
+Hata
 ;file \plugins\BasicHistory\src\Options.cpp
+[Message]
+İleti
+[Link]
+Bağlantı
+[Messages]
+İletiler
+[Searching]
+Aranıyor
+[Advanced]
+Gelişmiş
+[Find]
+Bul
 ;file \plugins\BasicHistory\src\Options.h
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 ;file \plugins\BasicHistory\src\Scheduler.cpp
+[Contacts]
+Kişiler
 ;file \plugins\BasicHistory\src\Searcher.cpp
+[Search]
+Ara
 ;file \plugins\BasicHistory\src\TxtExport.cpp

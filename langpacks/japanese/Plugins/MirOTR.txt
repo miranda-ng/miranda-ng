@@ -6,6 +6,28 @@
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 ;file \plugins\MirOTR\MirOTR\res\resource.rc
+[&Cancel]
+Cancel(&C)
+[&No]
+いいえ (&N)
+[&Yes]
+はい (&Y)
 ;file \plugins\MirOTR\MirOTR\src\language.h
+[Yes]
+はい
+[No]
+いいえ
+[Unknown]
+不明
+[General]
+全般
+[Contacts]
+コンタクト
+[Contact]
+コンタクト
+[Protocol]
+プロトコル
+[Default]
+デフォルト
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
 ;file \plugins\MirOTR\MirOTR\src\options.cpp

@@ -1,50 +1,100 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: xStatus notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 ;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 当联系人变更为这些状态时通知我
+[Online]
+在线
+[Offline]
+离线
+[Invisible]
+隐身
+[Free for chat]
+有空聊天
+[Away]
+外出
+[NA]
+不适用
+[Occupied]
+忙碌中
+[DND]
+请勿打扰
+[Out to lunch]
+外出用餐
+[On the phone]
+接听电话
 [Always when changing from offline]
 从离线变更时永远通知
 [Plugin activation]
 启用插件
 [Automatically turn off Popups and Sounds on status change]
 状态变更时自动关闭弹出及声音提示
+[Configure]
+设置
 [Blink icon in the system tray]
 在系统托盘闪动图标
 [Use status icon]
 使用状态图标
+[Delete]
+删除
 [Status Notify]
 状态通知
 [Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
 个性声音被禁用.\n\n启用他们, 可至选项 - 状态 - 通知, 启用 \n"使用个性声音" 选择框, 并重新打开此对话框.
+[Sounds]
+声音
+[Popups]
+弹出窗口
 [Disable all]
 禁用所有
+[Background]
+背景
+[Text]
+文本
+[Use custom colours]
+使用自定颜色
+[Use Windows colours]
+使用 Windows 颜色
 [Popup text]
 弹出文本
 [Read status message]
 阅读状态消息
 [Show status description]
 显示状态描述
+[Reset]
+重置
+[OK]
+确定
+[Cancel]
+取消
 [Extra status log]
 扩展状态日志
 [Enable logging extra status to message window]
 启用记录扩展状态至消息窗口
-[Ignore empty status messages]
-忽略空白状态消息
+[General]
+常规
+[Accounts]
+帐号
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Status]
+状态
 [Sound for the status]
 状态声音
+[** All contacts **]
+** 所有联系人 **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
 (默认声音)
 ;file \plugins\NewXstatusNotify\src\main.cpp
 [<no status message>]
 <无状态消息>
+[Contact]
+联络方式
 [playing]
 播放
 [%s is now %s]
@@ -126,13 +176,21 @@
 [User: On The Phone]
 用户: 接听电话
 ;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+所有文件
+[Log]
+记录
 [This is status message]
 这是状态消息
+[Protocol]
+协议
 ;file \plugins\NewXstatusNotify\src\popup.h
 ;file \plugins\NewXstatusNotify\src\utils.cpp
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
 [Xstatus]
 扩展状态
+[<unknown>]
+<未知>
 ;file \plugins\NewXstatusNotify\src\xstatus.h
 [changed his/her status message to %n]
 更改他/她的状态信息为 %n

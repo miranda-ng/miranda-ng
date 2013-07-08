@@ -24,3 +24,5 @@
 [Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
 快速回复\r\n左键 - 打开菜单\r\n右键 - 选项页
 ;file \plugins\QuickReplies\src\options.cpp
+[Message Sessions]
+消息会话

@@ -6,18 +6,50 @@
 ;  Authors: Merlin
 ;============================================================
 ;file \plugins\SendScreenshotPlus\res\resource.rc
+[None]
+Няма
+[Cancel]
+Отказ
+[Credits >]
+Заслуги >
+[&Close]
+Затваряне
+[Edit]
+Редактиране
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[Error]
+Грешка
 ;file \plugins\SendScreenshotPlus\src\CSend.h
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
+[Yes]
+Да
+[No]
+Не
+[Ignore]
+Игнориране
 ;file \plugins\SendScreenshotPlus\src\global.h
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
+[Default]
+Стандарт
+[Help]
+Помощ
 [Prev]
 Предишно
+[Apply]
+Прилагане
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
+[< Copyright]
+< Copyright
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
+[Window]
+Прозорец
+[E-mail]
+Имейл
+[Information]
+Информация

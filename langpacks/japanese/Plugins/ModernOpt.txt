@@ -10,12 +10,30 @@
 Miranda NG 公式ウェブサイトにアクセス
 [Sample page]
 サンプルページ
+[Miranda NG Options]
+Miranda NG オプション
 [Use arrow keys to choose category]
 カテゴリーの選択にカーソルキーを使用
+[OK]
+OK
+[Cancel]
+Cancel
+[Apply]
+適用
 [Switch to classic options]
 クラシックオプションに切り替え
+[Advanced]
+詳細
 ;file \plugins\ModernOpt\src\modernopt.cpp
+[Accounts]
+アカウント
 [Style]
 スタイル
+[Contacts]
+コンタクト
+[Ignore]
+無視
+[Status]
+ステータス
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
 ここで保存されていない変更があります\n切り替える前に設定を適用しますか ?

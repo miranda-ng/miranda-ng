@@ -6,18 +6,90 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
+[E-mail:]
+E-posta:
+[Password:]
+Parola:
+[Port:]
+Port:
+[Default]
+Varsayılan
+[Background colour]
+Art alan rengi
+[Background colour]
+Art alan rengi
+[Font]
+Yazı tipi
+[Summary]
+Özet
+[Nickname:]
+Kısa Ad:
+[First name:]
+İlk ad:
+[Last name:]
+Soyadı:
+[Gender:]
+Cinsiyet:
+[Age:]
+Yaş:
+[Location]
+Yerleşim
+[Country:]
+Ülke:
+[State:]
+Şehir:
+[City:]
+Şehir:
 [Full e-mail:]
 Tam e-posta:
+[Text Color]
+Yazı Rengi
+[Closing in %d]
+Kapanıyor %d
+[Add]
+Ekle
+[Remove]
+Sil
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
 ;file \protocols\MRA\src\MraAntiSpam.cpp
 ;file \protocols\MRA\src\MraAvatars.cpp
 ;file \protocols\MRA\src\MraChat.cpp
 ;file \protocols\MRA\src\MraConstans.h
+[Request authorization]
+İzin iste
+[Grant authorization]
+İzin ver
 ;file \protocols\MRA\src\MraFilesQueue.cpp
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 ;file \protocols\MRA\src\MraIcons.cpp
+[Main Menu]
+Ana Menü
 ;file \protocols\MRA\src\MraPopUp.cpp
+[None]
+Yok
+[Information]
+Bilgi
+[Error]
+Hata
+[Popups]
+Açılır Pencereler
 ;file \protocols\MRA\src\MraProto.cpp
+[E-mail address]
+E-posta adresi
 ;file \protocols\MRA\src\Mra_functions.cpp
 ;file \protocols\MRA\src\Mra_options.cpp
+[Network]
+Ağ
+[Files]
+Dosyalar
 ;file \protocols\MRA\src\Mra_proto.cpp
 ;file \protocols\MRA\src\Mra_svcs.cpp
+[On the phone]
+Telefonda

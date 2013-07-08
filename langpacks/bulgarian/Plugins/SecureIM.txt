@@ -6,9 +6,39 @@
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
 ;file \plugins\SecureIM\res\resource.rc
+[sec]
+сек
+[Text]
+Текст
+[Events]
+Събития
+[Username:]
+Потребител:
+[Password:]
+Парола:
+[Cancel]
+Отказ
+[Status]
+Състояние
 ;file \plugins\SecureIM\src\language.cpp
+[General]
+Основни
+[Name]
+Име
+[Off]
+Изкл.
 ;file \plugins\SecureIM\src\loadicons.cpp
+[Contact List]
+Списък с контакти
+[Popups]
+РopUps
+[Popups]
+РopUps
 ;file \plugins\SecureIM\src\main.cpp
+[Icons]
+Икони
 ;file \plugins\SecureIM\src\options.cpp
+[Executable Files]
+Изпълними файлове
 ;file \plugins\SecureIM\src\popupOptions.cpp
 ;file \plugins\SecureIM\src\svcs_srmm.cpp

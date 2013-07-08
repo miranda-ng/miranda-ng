@@ -1,24 +1,60 @@
 ﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
 ;langpack template for Tlen
 ;file \protocols\Tlen\res\tlen.rc
+[Username:]
+שם משתמש:
+[Password:]
+סיסמא:
+[Create new account]
+צור חשבון חדש
+[Options]
+אפשרוית
+[Port:]
+יציאה:
 [Proxy type:]
 סוג פרוקסי:
 [Proxy server:]
 שרת פרוקסי:
 [Proxy requires authorization]
 השרת דורש אימות
+[Background]
+רקע
+[Text]
+טקסט
+[OK]
+אישור
+[Cancel]
+ביטול
 [Avatar Options]
 אפשרויות תמונה
+[Nickname:]
+כינוי:
 [Quality]
 איכות
 ;file \protocols\Tlen\src\jabber_iqid.cpp
 ;file \protocols\Tlen\src\jabber_opt.cpp
+[General]
+כללי
+[Advanced]
+מתקדם
+[Network]
+רשת
 ;file \protocols\Tlen\src\jabber_svc.cpp
 ;file \protocols\Tlen\src\jabber_thread.cpp
+[Windows]
+חלונות
+[E-mail]
+אימייל
 ;file \protocols\Tlen\src\jabber_ws.cpp
 ;file \protocols\Tlen\src\tlen.cpp
+[Request authorization]
+בקשת אישור
+[Grant authorization]
+הענק אישור
 ;file \protocols\Tlen\src\tlen_file.cpp
 ;file \protocols\Tlen\src\tlen_muc.cpp
 ;file \protocols\Tlen\src\tlen_picture.cpp
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 ;file \protocols\Tlen\src\tlen_voice.cpp
+[Default]
+ברירת מחדל

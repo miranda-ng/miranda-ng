@@ -14,6 +14,34 @@ Ativar substituição automática
 Editar...
 [Edit...]
 Editar...
+[Remove]
+Remover
+[Remove]
+Remover
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [Spell Checker]
 Corretor Ortográfico
 [Spell Checker]
@@ -30,6 +58,10 @@ Ignorar palavrar em CAIXA ALTA
 Perguntar antes de enviar uma mensagem com erros
 [Download more dictionaries]
 Baixar mais dicionários
+[Advanced]
+Avançado
+[Advanced]
+Avançado
 [Underline type:]
 Escrever sublinhado:
 [Underline type:]
@@ -51,6 +83,8 @@ Evite remover subclassicação (a verificação de textos longos pode ser lenta)
 ;file \plugins\SpellChecker\src\ardialog.cpp
 ;file \plugins\SpellChecker\src\dictionary.cpp
 ;file \plugins\SpellChecker\src\options.cpp
+[Message Sessions]
+Sessões de mensagem
 [Auto-replacements]
 Substituição automática
 [Line]

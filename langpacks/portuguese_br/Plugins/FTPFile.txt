@@ -6,12 +6,82 @@
 ;  Authors: yaho
 ;============================================================
 ;file \plugins\FTPFileYM\res\ftpfile.rc
+[Protocol]
+Protocolo
+[Protocol]
+Protocolo
+[Other]
+Outros
+[Summary]
+Resumo
+[To:]
+Para:
+[Nick]
+Apelido
+[Nick]
+Apelido
+[Close]
+Fechar
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
+[Select All]
+Selecionar Tudo
+[Select All]
+Selecionar Tudo
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Rename]
+Renomear
+[Rename]
+Renomear
+[Overwrite]
+Substituir
+[Overwrite]
+Escrever por cima
 ;file \plugins\FTPFileYM\src\dialog.cpp
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
+[Resume]
+Continuar
+[Resume]
+Continuar
 ;file \plugins\FTPFileYM\src\job_generic.cpp
 ;file \plugins\FTPFileYM\src\job_packer.cpp
 ;file \plugins\FTPFileYM\src\job_upload.cpp
 ;file \plugins\FTPFileYM\src\manager.cpp
 ;file \plugins\FTPFileYM\src\options.cpp
+[Accounts]
+Contas
+[Advanced]
+Avançado
+[Advanced]
+Avançado
 ;file \plugins\FTPFileYM\src\serverlist.cpp
 ;file \plugins\FTPFileYM\src\utils.cpp

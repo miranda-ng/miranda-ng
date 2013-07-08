@@ -6,7 +6,39 @@
 ;  Authors: P Boon
 ;============================================================
 ;file \plugins\Variables\res\Variables.rc
+[Close]
+Fechar
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Notes]
+Notas
+[Notes]
+Notas
 ;file \plugins\Variables\src\help.cpp
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Help]
+Ajuda
 ;file \plugins\Variables\src\options.cpp
 ;file \plugins\Variables\src\parse_alias.cpp
 ;file \plugins\Variables\src\parse_external.cpp

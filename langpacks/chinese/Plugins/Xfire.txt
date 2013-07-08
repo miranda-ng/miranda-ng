@@ -1,8 +1,12 @@
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
+[Password:]
+密码: 
 [Loginname:]
 登录名:
+[Nick:]
+昵称: 
 [Current Protocolversion:]
 当前协议版本:
 [Note: You can only change these settings, if you are connected to Xfire.]
@@ -31,6 +35,10 @@
 显示呢称当可用时
 [Show friends of my friends]
 显示我的好友的好友
+[Options]
+选项
+[More options]
+更多选项
 [Gameicon:]
 游戏图标:
 [Voiceicon:]
@@ -43,6 +51,8 @@
 自动扫描游戏:
 [Main group for Friends of Friends:]
 好友之好友的主群组:
+[Files]
+文件
 [Blocked User List]
 封锁用户列表
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
@@ -67,20 +77,38 @@
 游戏:
 [Dont detect this game as running]
 不要检测此游戏是否运行
+[Apply]
+应用
 [Dont set status message for other protocols]
 其它协议不要设置状态信息
+[Remove]
+移除
+[Username:]
+用户名: 
 [Game]
 游戏
 [Voicechat]
 语音聊天
+[Name:]
+名称: 
+[Port:]
+端口:
 [Userdetails]
 用户详细资料
+[Copy]
+复制
 [Enter Password]
 输入密码
 [Join]
 加入
+[OK]
+确定
+[Cancel]
+取消
 [Add Game]
 添加游戏
+[Search:]
+搜索: 
 [Game exe:]
 游戏 exe:
 [Browse ...]
@@ -91,11 +119,27 @@
 搜索游戏 ...
 ;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
+[All Files]
+所有文件
 [XFire Options]
 XFire 选项
 [Please choose one game in the list!]
 请于列表选择一个游戏!
 ;file \protocols\Xfire\src\all_statusmsg.cpp
+[Yep, I'm here.]
+是, 我在这里. 
+[I've been away since %time%.]
+我已在 %time% 外出. 
+[Give it up, I'm not in!]
+放弃吧, 我不在! 
+[Not right now.]
+现在不行. 
+[Give a guy some peace, would ya?]
+给我一点安宁, 好吗? 
+[That'll be the phone.]
+电话联系吧. 
+[Mmm...food.]
+嗯...食物. 
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
 [Login failed.]
@@ -130,6 +174,8 @@ XFire 官方网站(&C)
 重新扫描我的游戏(&R) ...
 [XFire does not support offline messaging!]
 XFire 不支持离线消息!
+[Username]
+用户名
 [Unable to connect to XFire.]
 无法连接至 XFire.
 [No Loginname is set!]
@@ -145,6 +191,8 @@ XFire 不支持离线消息!
 禁用头像
 [Use alternate way for Avatar download]
 头像下载使用替换路径
+[General]
+常规
 [Automatically reconnect on protocol version changes]
 协议版本改变时自动重连
 [No Ip/Port in StatusMsg]
@@ -189,8 +237,14 @@ XFire 不支持离线消息!
 这些变更需重连 XFire 网络才能生效
 [Messagebox]
 消息盒
+[No]
+否
 [On every start]
 每次开始
+[<Root Group>]
+<根群组>
+[Network]
+网络
 [Blocklist / Games]
 黑名单 / 游戏
 [StatusMsg]
@@ -199,6 +253,8 @@ XFire 不支持离线消息!
 [Games found:%s%s]
 游戏已找到:%s%s
 ;file \protocols\Xfire\src\userdetails.cpp
+[<not specified>]
+<未指定>
 ;file \protocols\Xfire\src\Xfire_game.cpp
 [Start game]
 开始游戏

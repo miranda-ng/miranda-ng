@@ -6,8 +6,18 @@
 ;  Authors: Deathdemon
 ;============================================================
 ;file \plugins\ClientChangeNotify\res\Resources.rc
+[OK]
+OK
 [Enable notification]
 Habilita la notificación
+[Background]
+Fondo
+[Background]
+Background
+[Text]
+Texto
+[Text]
+Texto
 ;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]

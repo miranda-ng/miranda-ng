@@ -22,6 +22,10 @@
 Питане за парола:
 [Change status back]
 Задаване на старото състояние
+[Password:]
+Парола:
+[Cancel]
+Отказ
 [Windows is inactive]
 Няма активност в Windows от
 [Hide Miranda when:]
@@ -42,3 +46,7 @@ Miranda NG е заключена.\nВъведете паролата за отк
 [Hide/Show Miranda]
 Скриване/Показване на Miranda
 ;file \plugins\BossKeyPlus\src\Options.cpp
+[Events]
+Събития
+[Advanced]
+Разширени

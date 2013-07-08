@@ -6,8 +6,32 @@
 ;  Authors: sss
 ;============================================================
 ;file \plugins\New_GPG\res\new_gpg.rc
+[OK]
+OK
+[Ignore]
+無視
+[Cancel]
+Cancel
+[Password:]
+パスワード :
 ;file \plugins\New_GPG\src\init.cpp
 ;file \plugins\New_GPG\src\main.cpp
+[Name]
+名前
+[Accounts]
+アカウント
+[Default]
+デフォルト
+[Error]
+エラー
 ;file \plugins\New_GPG\src\messages.cpp
 ;file \plugins\New_GPG\src\options.cpp
+[Messages]
+メッセージ
+[Advanced]
+詳細
+[Contact]
+コンタクト
+[Protocol]
+プロトコル
 ;file \plugins\New_GPG\src\utilities.cpp

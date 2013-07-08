@@ -6,16 +6,198 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\Clist_mw\res\resource.rc
+[Stretch to width]
+幅を拡大
+[Stretch to height]
+高さを拡大
+[Tile horizontally]
+水平にタイル表示
+[Tile vertically]
+垂直にタイル表示
+[Scroll with text]
+テキストに合わせてスクロール
+[Stretch proportionally]
+比例して拡大
+[Warning!\r\nThis MenuObject not support user defined options.]
+警告 !\r\nこのメニューオブジェクトはユーザーの定義したオプションではサポートされていません
 [MenuObjects]
 メニューオブジェクト
 [MenuItems]
 メニュー項目
 [InsertSeparator]
 セパレーターを挿入
+[Service:]
+サービス :
+[Name:]
+名前 :
+[Set]
+設定
+[Default]
+デフォルト
+[Delete Contact]
+コンタクトの削除
+[No]
+いいえ
+[Yes]
+はい
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+履歴及び , 無視 / 可視設定を維持するためのみのリストを非表示
+[Are you sure you want to delete %s?]
+%sを削除してよろしいですか？
+[This will erase all history and settings for this contact!]
+このコンタクトに対する全てのヒストリ及び設定を消去します！
+[Hide offline users]
+オフラインユーザーを非表示
+[Hide empty groups]
+空のグループを非表示
+[Disable groups]
+グループを無効
+[Ask before deleting contacts]
+コンタクトを削除する前に確認する
+[Always on top]
+常に一番前
+[Hide contact list after it has been idle for]
+使われなくなったコンタクトリストを非表示
+[seconds]
+秒
+[Sort contacts by name]
+コンタクトを名前順に並べる
+[Sort contacts by status]
+コンタクトをステータス順に並べる
+[Sort contacts by protocol]
+コンタクトをプロトコル順に並べる
+[Single click interface]
+シングルクリックインターフェース
+[Always show status in tooltip]
+常にツールチップで状況を見る
+[Disable icon blinking]
+アイコン点滅を無効
+[Show]
+表示
+[icon when statuses differ]
+ステータスが異なる時のアイコン
+[Cycle icons every]
+アイコンの切り替え
+[seconds, when statuses differ]
+秒毎　ステータスが異なる時
+[Show multiple icons]
+複合アイコンを表示
+[Only when statuses differ]
+ステータスが異なる時のみ
+[Contact List]
+コンタクトリスト
+[System tray icon]
+システムトレイアイコン
+[System tray icon when using multiple protocols]
+複数プロトコル使用時のシステムトレイアイコン
+[Contact List Sorting]
+コンタクトリストの並び替え
+[Pin to desktop]
+デスクトップに固定
 [Rows]
 行
+[Row height:]
+行の高さ :
+[pixels]
+ピクセル
+[pixels]
+ピクセル
+[Gamma correction]
+ガンマ補正
+[Window]
+ウィンドウ
+[Tool style main window]
+ツールスタイルのメインウィンドウ
+[Minimize to tray]
+トレイを最小化
+[Automatically resize window to height of list]
+リストの高さで自動的にウィンドウの大きさを調整
+[maximum]
+最大
+[% of screen]
+%( 画面 )
+[Size upwards]
+サイズを上げる
+[Title bar text:]
+タイトルラベル
+[Fade contact list in/out]
+コンタクトリストをフェードイン/フェードアウト
+[Transparent contact list]
+コンタクトリストを透過表示にする
+[Inactive opacity:]
+非アクティブ不透明度 ：
+[Active opacity:]
+アクティブ不透明度 :
+[Show menu bar]
+メニューバーを表示
+[Easy move]
+簡易移動
+[Show title bar]
+タイトルバーを表示
+[If window is partially covered, bring to front instead of hiding]
+ウィンドウが一部隠れている場合 , 後方から前面に移動する
+[Items]
+アイテム
+[Show divider between online and offline contacts]
+オンラインとオフラインのコンタクトの間に境界線を表示
+[Hot track items as mouse passes over]
+マウスの動きにあわせてアイテムをホットトラック
+[Disable drag and drop of items]
+アイテムのドラッグ＆ドロップを無効
+[Disable rename of items by clicking twice]
+ダブルクリックでアイテム名を変更しない
+[Show selection even when list is not focused]
+リストがフォーカスされていない場合も選択を表示
+[Make selection highlight translucent]
+選択したものを半透明で強調表示
+['Hide Offline' means to hide:]
+' オフラインの非表示 ' で非表示にする対象 :
+[Groups]
+グループ
+[Draw a line alongside group names]
+グループ名に平行して線を引く
+[Show counts of number of contacts in a group]
+グループにあるコンタクトの総数を表示
+[Hide group counts when there are none online]
+オンラインユーザーがいない時グループ数を非表示
+[Sort groups alphabetically]
+アルファベット順にグループを並べる
+[Quicksearch in open groups only]
+オープングループのみのクイック検索
+[Indent groups by:]
+グループのインデント ：
+[Visual]
+ビジュアル
+[Scroll list smoothly]
+リストをなめらかにスクロール
+[Time:]
+時間 :
+[milliseconds]
+ミリ秒
+[Left margin:]
+左マージン :
+[Grey out entire list when:]
+リスト全体を灰色表示する :
+[Dim idle contacts]
+不要のコンタクトを暗くする
+[Contact List Background]
+コンタクトリストの背景
 [MetaContacts supporting]
 メタコンタクトをサポート
+[Status Bar]
+ステータスバー
+[Show status bar]
+ステータスバーを表示
+[Show icons]
+アイコンを表示
+[Show protocol names]
+プロトコル名を表示
+[Show status text]
+ステータステキストを表示
+[Right click opens status menu]
+右クリックでステータスメニューを開く
+[Make sections equal width]
+セクションの幅を同じにする
 [Show size grip]
 サイズグリップを表示
 [Show bevel effect on panels]
@@ -24,29 +206,143 @@
 接続中アイコンを使用
 [Use New Drawer for StatusBar]
 ステータスバーに新規引出しを使用
+[E&xit]
+終了 (&x)
+[&Status]
+ステータス (&S)
+[&Offline\tCtrl+0]
+オフライン (&O)\tCtrl+0
+[On&line\tCtrl+1]
+オンライン (&l)\tCtrl+1
+[&Away\tCtrl+2]
+退出する (&A)\tCtrl+2
+[&NA\tCtrl+3]
+応答不可 (&N)\tCtrl+3
+[Occ&upied\tCtrl+4]
+取り込み中 (&u)\tCtrl+4
+[&DND\tCtrl+5]
+邪魔しないで (&D)\tCtrl+5
+[&Free for chat\tCtrl+6]
+チャット OK!(&F)\tCtrl+6
+[&Invisible\tCtrl+7]
+不可視 (&I)\tCtrl+7
+[On the &Phone\tCtrl+8]
+電話中 (&P)\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+昼食中 (&L)\tCtrl+9
+[Tray]
+トレイ
+[&Hide/Show]
+表示 / 非表示 (&H)
+[Nowhere]
+なし
+[&New Group]
+新規グループ (&N)
+[&Hide Offline Users]
+オフラインユーザーを非表示 (&H)
+[Hide &Offline Users out here]
+ここにいないオフラインユーザーを非表示 (&O)
+[Hide &Empty Groups]
+空のグループを非表示 (&E)
+[Disable &Groups]
+グループを無効 (&G)
+[Hide Miranda]
+Miranda を非表示
+[Group]
+グループ
+[&New Subgroup]
+新規サブグループ (&N)
+[&Hide Offline Users in here]
+ここのオフラインユーザーを非表示 (&H)
+[&Rename Group]
+グループ名を変更 (&R)
+[&Delete Group]
+グループを削除 (&D)
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
+[Customize]
+カスタマイズ
 [Backgrounds]
 背景
 ;file \plugins\Clist_mw\src\clcfonts.cpp
+[Standard contacts]
+標準コンタクト
+[Online contacts to whom you have a different visibility]
+異なる可視設定のユーザーに対するオンラインコンタクト
+[Offline contacts]
+オフラインコンタクト
+[Contacts which are 'not on list']
+' リストにない ' コンタクト
+[Group member counts]
+グループメンバー数
+[Dividers]
+境界線
+[Offline contacts to whom you have a different visibility]
+異なる可視設定のユーザーに対するオフラインコンタクト
 [Status messages]
 ステータスメッセージ
 [Group Closed]
 グループを閉じる
 [Hover Contacts]
 ホバーコンタクト
+[Background]
+背景
+[Selected Text]
+選択されたテキスト
+[Hottrack Text]
+ホットトラックテキスト
+[Quicksearch Text]
+クイック検索テキスト
 ;file \plugins\Clist_mw\src\clcopts.cpp
+[List]
+リスト
+[List Background]
+リストの背景
 [List MetaContacts]
 メタコンタクトのリスト
 [StatusBar Background]
 ステータスバーの背景
+[Not focused]
+非フォーカス
+[Offline]
+オフライン
+[Online]
+オンライン
+[Away]
+離席中
+[NA]
+応答不可
+[Occupied]
+取り込み中
+[DND]
+邪魔しないで
+[Free for chat]
+チャット OK!
+[Invisible]
+不可視
+[Out to lunch]
+昼食中
+[On the phone]
+電話中
 ;file \plugins\Clist_mw\src\clistopts.cpp
+[Global]
+グローバル
 ;file \plugins\Clist_mw\src\clistsettings.cpp
 [_NoProtocol_]
 プロトコルなし
+[(Unknown Contact)]
+( 不明なコンタクト )
 ;file \plugins\Clist_mw\src\clisttray.cpp
+[&Find/Add Contacts...]
+コンタクトを検索 / 追加 (&F)...
+[&Main Menu]
+メインメニュー (&M)
+[&Options...]
+オプション (&O)...
 ;file \plugins\Clist_mw\src\clui.cpp
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp
 ;file \plugins\Clist_mw\src\keyboard.cpp
 ;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+[Frames]
+フレーム
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

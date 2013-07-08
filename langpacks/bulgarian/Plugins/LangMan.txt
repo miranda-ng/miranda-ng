@@ -6,23 +6,39 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 ;file \plugins\LangMan\res\resource.rc
+[Author(s):]
+Автор(и):
+[E-mail:]
+Имейл:
 [Last modified using:]
 Посл. промяна с:
+[Date:]
+Дата:
 [Locale:]
 Език:
 [Download more Language Packs]
 Сваляне на още езикови пакети
+[Please restart Miranda NG for your changes to take effect.]
+Моля, рестартирайте Miranda NG, за да бъдат осъществени промените.
 ;file \plugins\LangMan\src\main.cpp
 ;file \plugins\LangMan\src\options.cpp
 [All installed plugins are included.]
 Всички инсталирани приставки са включени.
 [(incompatible)]
 (несъвместимо)
+[Unknown]
+Неизвестно
 [Current]
 Текущ
 [Installed Languages]
 Инсталирани езикови пакети
+[File]
+Файл
 [built-in]
 Вграден
+[&Remove...]
+Премахване...
 [Languages]
 Езици
+[Customize]
+Персонализиране

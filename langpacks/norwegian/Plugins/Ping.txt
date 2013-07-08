@@ -6,10 +6,38 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Ping\res\ping.rc
+[Network]
+Nettverk
+[Popups]
+Popups
+[Popups]
+Popups
+[Row height:]
+Radhøyde:
+[Add]
+Legg til
+[Remove]
+Fjern
+[Remove]
+Fjern
+[Edit]
+Rediger
+[OK]
+OK
+[Cancel]
+Avbryt
+[Port:]
+Port:
+[Contact]
+Kontakt
 ;file \plugins\Ping\src\menu.cpp
 ;file \plugins\Ping\src\options.cpp
+[<none>]
+<ingen>
 ;file \plugins\Ping\src\ping.cpp
 ;file \plugins\Ping\src\pinggraph.cpp
 ;file \plugins\Ping\src\pingthread.cpp
 ;file \plugins\Ping\src\rawping.cpp
 ;file \plugins\Ping\src\utils.cpp
+[Unknown]
+Ukjent

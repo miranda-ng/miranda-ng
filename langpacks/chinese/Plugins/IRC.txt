@@ -6,6 +6,10 @@
 ;  Authors: Miranda team
 ;============================================================
 ;file \protocols\IRCG\res\IRC.rc
+[&Add]
+添加(&A)
+[&Edit]
+编辑(&E)
 [&Del]
 删除(&D)
 [only while connecting]
@@ -36,6 +40,8 @@
 互联网地址
 [Port range]
 端口范围
+[Nick]
+昵称
 [User ID (Ident)]
 用户 ID (识别)
 [Full name (e-mail)]
@@ -46,10 +52,14 @@
 替换昵称
 [Ident]
 识别
+[System]
+系统
 [Default network]
 默认网络
 [User info - Required]
 用户信息 - 必需
+[Other]
+其它
 [Reconnect]
 重新连接
 [Wait (s)]
@@ -64,12 +74,18 @@
 不检查如多于 (用户): 
 [User information]
 用户信息
+[Version]
+版本
 [Userinfo]
 用户信息
 [&Refresh]
 刷新(&R)
 [&Query]
 查询(&Q)
+[&Close]
+关闭(&C)
+[Name]
+名称
 [Channels]
 频道
 [Away Info]
@@ -78,6 +94,10 @@
 服务器已返回此信息. 请注意这些信息可能有误导或虚假成份. 
 [CTCP information]
 CTCP 信息
+[&OK]
+确定(&O)
+[&Cancel]
+取消(&C)
 [Perform]
 执行
 [&Set]
@@ -94,12 +114,20 @@ CTCP 信息
 启用自动检测 UTF8
 [Add server]
 添加服务器
+[On]
+打开
+[Off]
+关闭
 [Host address]
 主机地址
 [Server description]
 服务器介绍
+[Network]
+网络
 [Channels on server]
 服务器频道
+[&Join]
+加入(&J)
 [Filter by]
 过滤于
 [C&onnect]
@@ -172,6 +200,8 @@ C2C 聊天
 发送公告
 [CTCP Chat Request]
 CTCP 聊天请求
+[&Deny]
+拒绝(&D)
 [Enable (*)]
 启用 (*)
 [Ignore channel messages by default]
@@ -186,6 +216,10 @@ CTCP 聊天请求
 忽略用户
 [(*) Queries from users on your contactlist are never ignored]
 (*) 联系人列表中用户所发查询永不忽略
+[Messages]
+消息
+[Notices]
+公告
 [Ignore mask ( nick!user@host )]
 忽略掩码 ( 昵称!用户@主机 )
 [Network (*)]
@@ -194,6 +228,8 @@ CTCP 聊天请求
 忽略事件
 [(*) blank to set this mask for all networks]
 (*) 留空将此掩码应用至所有网络
+[Password:]
+密码: 
 [Alternate nick]
 互换昵称
 ;file \protocols\IRCG\src\clist.cpp
@@ -246,8 +282,12 @@ CTCP %s 回复由 %s: %s
 变更昵称
 [IRC error]
 IRC 错误
+[Unknown]
+未知
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
 请输入主机掩码 (昵称!用户@主机)\n注意! 联系人列表中的用户是永不忽略的
+[Ignore]
+忽略
 [Please enter the reason]
 请输入原因
 [Ban'n Kick]
@@ -309,6 +349,8 @@ DCC 错误: 无法监听端口
 [DCC ERROR: Unable to bind local port for passive filetransfer]
 DOC 错误: 无法绑定本地端口进行被动文件传输
 ;file \protocols\IRCG\src\ircproto.cpp
+[Information]
+信息
 [DCC ERROR: No valid files specified]
 DCC 错误: 未指定有效文件
 [DCC reversed file transfer request sent to %s [%s]]
@@ -326,6 +368,16 @@ DCC 聊天连接尚未使用
 [Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 无法建立连接! 您尚未完成所有必需项 (昵称, 用户 ID 及 m_name). 
 ;file \protocols\IRCG\src\options.cpp
+[Add]
+添加
+[Apply]
+应用
+[Rename]
+重命名
+[Edit]
+编辑
+[Cancel]
+取消
 [Channel list]
 频道列表
 [Quick connect]
@@ -382,6 +434,8 @@ DCC 聊天连接尚未使用
 编辑忽略
 [DCC'n CTCP]
 DCC 及 CTCP
+[Advanced]
+高级
 ;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
 %s 发出 WallOps: 
@@ -577,6 +631,8 @@ WhoIs 信息(&W)
 [Reconnecting to]
 正在重新连接至
 ;file \protocols\IRCG\src\tools.cpp
+[Offline]
+离线
 ;file \protocols\IRCG\src\userinfo.cpp
 ;file \protocols\IRCG\src\windows.cpp
 [Channel]

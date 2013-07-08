@@ -10,16 +10,28 @@
 次の場合自動的にウィンドウをポップアップ
 [and stay minimized]
 その時最小化する
+[Cascade new windows]
+新規ウィンドウをカスケード表示
 [Save size and location for each contact]
 コンタクト毎に大きさと位置を保存
 [Minimize on send]
 送信時に最小化
 [Hide windows on close]
 閉じる時ウィンドウを非表示
+[Send message on 'Enter']
+エンターキーでメッセージ送信
+[Send message on double 'Enter']
+エンターキー 2 回でメッセージ送信
 [Remember unsent messages]
 未送信メッセージを記憶
 [Delete temporary contacts on closing]
 閉じる時一時的なコンタクトを削除
+[Show warning when message has not been received after]
+次の秒数経過してもメッセージが届かない場合警告を表示
+[seconds]
+秒
+[Tabs]
+タブ
 [Enable tabs]
 タブを有効
 [Tabs at bottom]
@@ -38,20 +50,32 @@
 ウィンドウ毎のグループチャットタブの数を以下に制限 :
 [Show titlebar]
 タイトルバーを表示
+[Show status bar]
+ステータスバーを表示
 [Show toolbar]
 ツールバーを表示
 [Show infobar]
 情報バーを表示
+[Use the contact's status icon as the window icon]
+コンタクトステータスアイコンをウィンドウアイコンとして使用
 [Show progress indicator]
 進行状況インジケータを表示
 [Min input area size]
 入力エリアのサイズを最小化
+[Message Window Event Log]
+メッセージウィンドウのイベントログ
 [Enable IEView]
 IEView を有効
+[Show icons]
+アイコンを表示
+[Show seconds]
+秒を表示
 [Long date format]
 詳細日付形式
 [Relative date]
 相対日付
+[Show names]
+名前を表示
 [Enable message grouping]
 メッセージのグループ化を有効
 [Mark follow-up msgs with timestamp]
@@ -74,12 +98,40 @@ IEView を有効
 過去のイベント
 [Typing Notification Options]
 入力中通知オプション
+[Send typing notifications to the following users when you are typing a message to them:]
+メッセージを入力中に , 入力中通知を送信するユーザー :
 [Show typing notification switch in the status bar]
 ステータスバーに入力中通知の切り替えを表示
+[Show typing notifications when a user is typing a message]
+ユーザーがメッセージを入力中に入力通知を表示
 [Update message window icons when a user is typing]
 ユーザーが入力中の時メッセージウィンドウのアイコンを更新する
+[Show typing notification when no message dialog is open]
+メッセージのないダイアログが開いたら , 入力中通知を表示
+[Flash in the system tray and in the contact list]
+システムトレイとコンタクトリストをフラッシュ
+[Show balloon popup]
+バルーンポップアップを表示
+[Send Error]
+エラーを送信
+[An error has occured. The protocol reported the following error:]
+エラーが発生しました。エラー内容 :
+[while sending the following message:]
+次のメッセージの送信中 :
+[Try again]
+再試行
+[Cancel]
+Cancel
+[Message Session]
+メッセージセッション
+[&U]
+&U
+[&D]
+&D
 [&E]
 &E
+[&H]
+&H
 [&Q]
 &Q
 [Send To All Tabs]
@@ -88,18 +140,100 @@ IEView を有効
 あなたは全ての開いているタブにメッセージを送信しようとしています。\n実行してよろしいですか ?
 [Remember my choice for this container]
 このコンテナに関する自分の選択を記憶する
+[Yes]
+はい
+[No]
+いいえ
+[Show these events only:]
+以下のイベントのみ表示 :
+[Actions]
+アクション
+[Messages]
+メッセージ
+[Nick changes]
+ニックを変更
+[Users joining]
+ユーザーの参加
+[Users leaving]
+ユーザーの離席
+[Topic changes]
+トピック変更
+[Status changes]
+ステータス変更
+[Information]
+情報
+[Disconnects]
+切断
+[User kicks]
+ユーザー排除
+[Notices]
+通知
+[Options]
+オプション
+[Other]
+その他
+[Add new rooms to group:]
+新しいルームをグループに追加 :
 [User list row height]
 ユーザーリストの行の高さ
+[pixels]
+ピクセル
+[pixels]
+ピクセル
+[Log Options]
+ログオプション
+[Your name]
+名前
+[Other name]
+その他の名前
+[Timestamp]
+タイムスタンプ
+[Log timestamp]
+ログタイムスタンプ
+[Limit log text to (events):]
+ログテキストの制限 (イベント) :
+[Enable highlighting]
+強調表示を有効
+[Words to highlight (wildcards allowed)]
+単語を強調表示 ( ワイルドカード使用可 )
 [Save logs]
 ログを保存
+[Location]
+場所
 [Trim to]
 トリムする
 [kB]
 kB
 [Group Chat]
 グループチャット
+[Use same style as in the message log]
+メッセージログと同じスタイルを使用
+[Use default colours]
+デフォルト色を使用
+[Use custom colours]
+カスタム色を使用
+[Text]
+テキスト
+[Background]
+背景
+[Timeout (s)]
+タイムアウト ( 秒 )
 [(0 means default setting, -1 means indefinite time)]
 ( 0 はデフォルト設定 , -1 は無制限 )
+[OK]
+OK
+[Log]
+ログ
+[&Copy]
+コピー (&C)
+[Co&py All]
+全てコピー (&p)
+[Select &All]
+全て選択(&A)
+[Word lookup]
+単語検索
+[Google]
+Google
 [Bing]
 Bing
 [Wikipedia (en)]
@@ -110,11 +244,45 @@ Google マップ
 Google 翻訳
 [Foodnetwork]
 Foodnetwork
+[C&lear Log]
+ログを消去する (&l)
+[&Open link]
+リンクを開く (&O)
+[&Copy link]
+リンクをコピー (&C)
+[Message]
+メッセージ
+[Undo]
+取り消し
+[Redo]
+やり直し
+[Cut]
+カット
+[Copy]
+コピー
+[Paste]
+ペースト
+[Paste && Send]
+ペーストして送信
+[Delete]
+削除
+[Clear]
+クリア
+[List]
+リスト
+[&Message]
+メッセージ (&M)
+[Clear lo&g]
+ログをクリア (&g)
+[Co&py all]
+全てコピー (&p)
 ;file \plugins\Scriver\src\globals.cpp
 [User's details]
 ユーザーの詳細情報
 [User's history]
 ユーザーの履歴
+[Smiley button]
+顔文字ボタン
 [User is typing]
 ユーザーは入力中です
 [Typing notification off]
@@ -129,48 +297,292 @@ Unicode オフ
 引用ボタン
 [Close button]
 閉じるボタン
-[Status 2 (10x10]
-ステータス 2 (10x10)
+[Icon overlay]
+アイコンオーバーレイ
+[Incoming message (10x10)]
+着信メッセージ (10x10)
+[Outgoing message (10x10)]
+発信メッセージ (10x10)
+[Notice (10x10)]
+通知 (10x10)
+[Window Icon]
+ウィンドウアイコン
+[Text colour]
+テキスト色
+[Background colour]
+背景色
+[Bold]
+太字
+[Italics]
+イタリック体
+[Underlined]
+下線付
+[Room history]
+ルーム履歴
+[Room settings]
+ルーム設定
+[Event filter disabled]
+イベントフィルターを無効化
+[Event filter enabled]
+イベントフィルターを有効化
+[Hide userlist]
+ユーザーリストを非表示
+[Show userlist]
+ユーザーリストを表示
+[Status 1 (10x10)]
+ステータス 1(10x10)
+[Status 2 (10x10)]
+ステータス 2(10x10)
+[Status 3 (10x10)]
+ステータス 3(10x10)
+[Status 4 (10x10)]
+ステータス 4(10x10)
+[Status 5 (10x10)]
+ステータス 5(10x10)
+[Status 6 (10x10)]
+ステータス 6(10x10)
+[Message in (10x10)]
+受信メッセージ (10x10)
+[Message out (10x10)]
+送信メッセージ (10x10)
+[Action (10x10)]
+アクション (10x10)
+[Add Status (10x10)]
+ステータス追加(10x10)
+[Remove status (10x10)]
+ステータス削除(10x10)
+[Join (10x10)]
+参加 (10x10)
+[Leave (10x10)]
+離席 (10x10)
+[Quit (10x10)]
+終了 (10x10)
+[Kick (10x10)]
+排除 (10x10)
+[Nickchange (10x10)]
+ニック変更 (10x10)
+[Topic (10x10)]
+トピック (10x10)
+[Highlight (10x10)]
+強調表示 (10x10)
+[Information (10x10)]
+情報 (10x10)
+[Group Chats]
+グループチャット
 ;file \plugins\Scriver\src\input.cpp
+[Messaging]
+メッセージング
 ;file \plugins\Scriver\src\msgdialog.cpp
+[Add Contact]
+コンタクトを追加
+[User Menu]
+ユーザーメニュー
+[User Details]
+ユーザーの詳細情報
+[History]
+履歴
+[No word to look up]
+検索語なし
+[Add Contact Permanently to List]
+コンタクトを完全にリストに追加
+[View User's Details]
+ユーザーの詳細情報を表示
+[View User's History]
+ユーザーの履歴を表示
 [Quote Text]
 テキストを引用
 [User Menu - %s]
 ユーザーメニュー - %s
+[signed off (was %s)]
+サインオフ (%s)
+[signed on (%s)]
+サインオン (%s)
+[is now %s (was %s)]
+は現在 %s (旧 %s)
 [Sending in progress: %d message(s) left...]
 送信の進捗状況: 残り %dメッセージ...
+[%s is typing a message...]
+%s はメッセージを入力中...
+[Last message received on %s at %s.]
+最終メッセージを%s %sに受信
 ;file \plugins\Scriver\src\msglog.cpp
+[File sent]
+ファイル送信
+[File received]
+ファイル受信
 ;file \plugins\Scriver\src\msgoptions.cpp
+[General]
+全般
 [Event Log]
 イベントログ
 [Group Chat Log]
 グループチャットログ
+[Outgoing messages]
+発信メッセージ
+[Incoming messages]
+着信メッセージ
+[Outgoing name]
+発信名
+[Outgoing time]
+発信時間
+[Outgoing colon]
+発信コロン
+[Incoming name]
+名前を着信
+[Incoming time]
+時間を着信
+[Incoming colon]
+着信コロン
+[Message area]
+メッセージエリア
+[Outgoing URL]
+発信 URL
+[Incoming URL]
+着信 URL
 [Infobar contact name]
 情報バーのコンタクト名
 [Infobar background]
 情報バーの背景
 [Infobar status message]
 情報バーのステータスメッセージ
+[Others nicknames]
+その他のニックネーム
+[Your nickname]
+ニックネーム
+[User has joined]
+ユーザーは参加しました
+[User has left]
+ユーザーは離席しました
+[User has disconnected]
+ユーザーは切断しました
+[User kicked ...]
+ユーザーは排除されました...
+[User is now known as ...]
+ユーザーの現在の名称は次の通りです...
+[Notice from user]
+ユーザーからの通知
+[Incoming message]
+着信メッセージ
+[Outgoing message]
+発信メッセージ
+[The topic is ...]
+トピックは...
+[Information messages]
+メッセージ情報
+[User enables status for ...]
+ユーザーは次のステータスを有効にしました...
+[User disables status for ...]
+ユーザーは次のステータスを無効にしました...
+[Action message]
+アクションメッセージ
+[Highlighted message]
+強調表示されたメッセージ
+[Message typing area]
+メッセージ入力エリア
 [Message background]
 メッセージの背景
 [User list members (online)]
 ユーザーリストのメンバー ( オンライン )
 [User list background]
 ユーザーリストの背景
+[User list members (away)]
+ユーザーリストメンバー ( 離席中 )
 [User list lines]
 ユーザーリストの線
 [User list background (selected)]
 ユーザーリストの背景 ( 選択済 )
+[Offline]
+オフライン
+[Online]
+オンライン
+[Away]
+離席中
+[NA]
+応答不可
+[Occupied]
+取り込み中
+[DND]
+邪魔しないで
+[Free for chat]
+チャット OK!
+[Invisible]
+不可視
+[Out to lunch]
+昼食中
+[On the phone]
+電話中
+[** New contacts **]
+** 新しいコンタクト **
+[** Unknown contacts **]
+** 不明なコンタクト **
+[Show balloon popup (unsupported system)]
+バルーンポップアップを表示 ( 未サポートシステム )
+[Message Sessions]
+メッセージセッション
+[Typing Notify]
+入力中通知
 ;file \plugins\Scriver\src\msgs.cpp
+[Message from %s]
+%s からのメッセージ
+[%s is typing a message]
+%s はメッセージを入力中
+[Typing Notification]
+入力中通知
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda は組み込みメッセージモジュールの読み込みができませんでした。riched20.dll が見つかりません。Windows 95 か WINE を使用中の場合は , riched20.dll がインストールされているかどうか確認してください。Miranda の読み込みを続けるには「はい」を押してください。
+[Instant messages]
+インスタントメッセージ
+[Incoming (Focused Window)]
+着信 ( フォーカス中のウィンドウ )
+[Incoming (Unfocused Window)]
+着信 ( 非フォーカスウィンドウ )
+[Incoming (New Session)]
+着信 ( 新規セッション )
+[Outgoing]
+発信
 ;file \plugins\Scriver\src\msgtimedout.cpp
+[An unknown error has occured.]
+不明なエラーが発生しました
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]
 常に前面
 ;file \plugins\Scriver\src\sendqueue.cpp
+[The message send timed out.]
+メッセージの送信はタイムアウトしました
 ;file \plugins\Scriver\src\chat\clist.cpp
+[Join chat]
+チャットに参加
+[Open chat window]
+チャットウィンドウを開く
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\log.cpp
+[%s has joined]
+%s は参加しました
+[You have joined %s]
+あなたは %s に参加しました
+[%s has left]
+%s は離席しました
+[%s has disconnected]
+%s は切断しました
+[%s is now known as %s]
+%s は現在 %s です
+[You are now known as %s]
+あなたは現在 %s です
+[%s kicked %s]
+%s は %s を排除しました
+[Notice from %s]
+%s からの通知
+[ (set by %s on %s)]
+( %s を %s に設定)
+[ (set by %s)]
+( %s に設定)
+[<invalid>]
+< 不正 >
 ;file \plugins\Scriver\src\chat\main.cpp
+[&Join]
+参加する (&J)
+[&Leave]
+終了する (&L)
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 誰かが話したらフラッシュ
@@ -192,16 +604,150 @@ Unicode オフ
 コンタクトステータスを表示 ( サポート時 )
 [Display contact status icon before role icon]
 役割アイコンの前にコンタクトステータスアイコンを表示
+[Prefix all events with a timestamp]
+全てのイベントの前にタイムスタンプを表示
+[Only prefix with timestamp if it has changed]
+変更された場合タイムスタンプのみプレフィックス
 [Timestamp has same colour as event]
 タイムスタンプをイベントと同じ色にする
+[Indent the second line of a message]
+メッセージの２行目をインデントする
 [Limit user names to 20 characters]
 ユーザー名を 20 文字に制限
 [Strip colors from messages]
 メッセージを単色表示にする
+[Show topic changes]
+トピックの変更を表示
+[Show users joining]
+参加したユーザーを表示
+[Show users disconnecting]
+切断したユーザーを表示
+[Show messages]
+メッセージを表示
+[Show actions]
+アクションを表示
+[Show users leaving]
+離席したユーザーを表示
+[Show users being kicked]
+排除されたユーザーを表示
+[Show notices]
+通知を表示
+[Show users changing name]
+名前変更したユーザーを表示
+[Show information messages]
+情報メッセージを表示
+[Show status changes of users]
+ユーザーのステータス変更を表示
+[Show icons in tray only when the chat room is not active]
+チャットルームがアクティブではないときだけトレイにアイコンを表示
+[Show icon in tray for topic changes]
+トレイにトピック変更アイコンを表示
+[Show icon in tray for users joining]
+トレイに参加アイコンを表示
+[Show icon in tray for users disconnecting]
+トレイに通信切断アイコンを表示
+[Show icon in tray for messages]
+トレイにメッセージアイコンを表示
+[Show icon in tray for actions]
+トレイに行動アイコンを表示
+[Show icon in tray for highlights]
+トレイに強調表示アイコンを表示
+[Show icon in tray for users leaving]
+トレイに離席アイコンを表示
+[Show icon in tray for users kicking other user]
+トレイにユーザー排除アイコンを表示
+[Show icon in tray for notices ]
+トレイに通知アイコンを表示
+[Show icon in tray for name changes]
+トレイに名前変更アイコンを表示
+[Show icon in tray for information messages]
+トレイに情報メッセージアイコンを表示
+[Show icon in tray for status changes]
+トレイにステータス変更アイコンを表示
 [Appearance and functionality of chat windows]
 チャットウィンドウの外観と機能
+[Icons to display in the tray]
+トレイ表示用アイコン
 [year without century, 01-  99]
 年 , 01-  99
+[Select Folder]
+フォルダーを選択
+[Popups]
+ポップアップ
+[Group chats]
+グループチャット
+[Message is highlighted]
+メッセージを強調表示
+[User has performed an action]
+ユーザーはアクションを実行しました
+[User has kicked some other user]
+ユーザーは他のユーザーを排除しました
+[User's status was changed]
+ユーザーステータスは変更されました
+[User has changed name]
+ユーザーは名前を変更しました
+[User has sent a notice]
+ユーザーは通知を送信しました
+[The topic has been changed]
+トピックは変更されています
 ;file \plugins\Scriver\src\chat\services.cpp
 ;file \plugins\Scriver\src\chat\tools.cpp
+[%s wants your attention in %s]
+%s はあなたに %s について注意を求めています
+[%s speaks in %s]
+%s は %s で話します
+[%s has joined %s]
+%s は %s に参加しました
+[%s has left %s]
+%s は %s を離席しました
+[%s kicked %s from %s]
+%s は %s を %s から排除しました
+[Topic change in %s]
+%s のトピック変更
+[Information in %s]
+%s についての情報
+[%s says: %s]
+%s の発言 : %s
+[%s has left (%s)]
+%s は離席しました ( %s )
+[%s has disconnected (%s)]
+%s は切断しました ( %s )
+[%s kicked %s (%s)]
+%s は %s を排除しました ( %s )
+[Notice from %s: %s]
+%s からの通知 :%s
 ;file \plugins\Scriver\src\chat\window.cpp
+[Insert a smiley]
+顔文字を挿入
+[Make the text bold (CTRL+B)]
+テキストを太字にする (CTRL+B)
+[Make the text italicized (CTRL+I)]
+テキストを斜体にする (CTRL+I)
+[Make the text underlined (CTRL+U)]
+テキストに下線を引く (CTRL+U)
+[Select a background color for the text (CTRL+L)]
+テキストの背景色を選択 (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+テキストの文字色を選択 (CTRL+K)
+[Show the history (CTRL+H)]
+履歴を表示 (CTRL+H)
+[Show/hide the nicklist (CTRL+N)]
+ニックリストを表示 / 非表示 (CTRL+N)
+[Control this room (CTRL+O)]
+このルームを管理する (CTRL+O)
+[Enable/disable the event filter (CTRL+F)]
+イベントフィルターの有効 / 無効 (CTRL+F)
+[Nick name]
+ニックネーム
+[Unique id]
+固有 ID
+[Status]
+ステータス
+[%s: Chat Room (%u user)]
+%s : チャットルーム (%u ユーザー )
+[%s: Chat Room (%u users)]
+%s : チャットルーム (%u ユーザー )
+[%s: Message Session]
+%s : メッセージセッション
+[%s: Message Session (%u users)]
+%s : メッセージセッション (%u ユーザー )

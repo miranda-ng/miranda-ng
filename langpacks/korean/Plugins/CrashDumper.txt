@@ -6,7 +6,19 @@
 ;  Authors: borkra
 ;============================================================
 ;file \plugins\CrashDumper\res\crshdmp.rc
+[Close]
+닫기
+[Username]
+유저명
+[&Copy]
+&C 복사
+[Co&py All]
+&P 전체 복사
+[Select &All]
+&A 전체 선택
 ;file \plugins\CrashDumper\src\crshdmp.cpp
+[Show]
+보이기
 ;file \plugins\CrashDumper\src\crshdmp_icons.cpp
 ;file \plugins\CrashDumper\src\exhndlr.cpp
 ;file \plugins\CrashDumper\src\ui.cpp

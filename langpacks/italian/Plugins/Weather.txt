@@ -10,8 +10,28 @@
 Info rapide
 [Webpage]
 Pagina web
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Options]
+Opzioni
+[Options]
+Opzioni
 [Update weather information every]
 Aggiorna informazioni meteo ogni
+[minutes]
+minuti
 [Consider weather info updated only when condition and temperature are changed]
 Considera le info meteo aggiornate solo se condizioni e temperatura sono cambiate
 [Remove old data when updating]
@@ -24,6 +44,8 @@ Segno gradi:
 Vento
 [knots]
 nodi
+[Visibility]
+Visibilità
 [miles]
 miglia
 [Pressure]
@@ -56,8 +78,28 @@ Altre opzioni
 Imposta come stazione predefinita
 [Disable automatic update for this station]
 Disattiva aggiornamento automatico per questa stazione
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
 [Popup only when condition changes]
 Popup solo al cambiare delle condizioni
+[Background colour]
+Colore di sfondo
+[Text colour]
+Colore del testo
+[Use Windows colours]
+Utilizza colori di Windows
 [Popup Actions]
 Azioni popup al click
 [Left Click]
@@ -66,8 +108,16 @@ Tasto sx
 Tasto dx 
 [Popup Delay]
 Ritardo popup
+[seconds]
+secondi
 [Popup Text]
 Testo popup
+[Default]
+Predefinito
+[Default]
+Predefinito
+[Contact List]
+Lista dei contatti
 [Brief Info Title]
 Titolo Info rapide
 [Note Text]
@@ -78,6 +128,14 @@ Testo extra
 Log esterno
 [More Variables]
 Variabili aggiuntive
+[Reset]
+Reimposta
+[Reset]
+Reimposta
+[Reset]
+Resetta
+[Reset]
+Reimposta
 [Sunset]
 Tramonto
 [Feel-like]
@@ -92,6 +150,8 @@ Alba
 T condens.
 [Humidity]
 Umidità
+[City:]
+Città:
 [Open brief information]
 Apri informazioni rapide
 [Open complete forecast]
@@ -136,6 +196,16 @@ Ottieni il nome della città dall'ID
 Informazioni su INI meteorologici
 [View webpage]
 Visualizza pagina web
+[Text Files]
+File di testo
+[Text Files]
+Files di Testo
+[All Files]
+Tutti i file
+[All Files]
+Tutti i file
+[All Files]
+Tutti i file
 ;file \plugins\Weather\src\weather_conv.cpp
 [<unknown time>]
 <ora sconosciuta>
@@ -151,6 +221,12 @@ Errore nell'ottenere i dati: %s
 Connessioni HTTP per il meteo
 ;file \plugins\Weather\src\weather_icons.cpp
 ;file \plugins\Weather\src\weather_info.cpp
+[Name:]
+Nome:
+[Name:]
+Nome:
+[Name:]
+Nome:
 [Internal Name:]
 Nome interno:
 [INI Version:]
@@ -161,6 +237,14 @@ Nome file:
 Numero voci:
 [Memory Used:]
 Memoria utilizzata:
+[bytes]
+byte
+[bytes]
+byte
+[Description:]
+Descrizione:
+[Description:]
+Descrizione:
 [Here is a list of custom variables that are currently available]
 Ecco una lista delle variabili personalizzate attualmente disponibili:
 ;file \plugins\Weather\src\weather_ini.cpp
@@ -172,6 +256,18 @@ Formato ini non valido per: %s
 Tutti i file dati aggiornati sono stati ricaricati.
 ;file \plugins\Weather\src\weather_mwin.cpp
 ;file \plugins\Weather\src\weather_opt.cpp
+[Network]
+Rete
+[Network]
+Rete
+[Network]
+Rete
+[General]
+Generale
+[Popups]
+Popup
+[Popups]
+Popups
 [Weather Protocol Text Preview]
 Anteprima del testo del protocollo meteo
 ;file \plugins\Weather\src\weather_popup.cpp
@@ -208,5 +304,9 @@ Impossibile recuperare informazioni meteo per %s
 ;file \plugins\Weather\src\weather_userinfo.cpp
 [Current condition for %n]
 Condizione attuali a %n
+[Information]
+Informazione
+[Information]
+Informazione
 [More Info]
 Altre info

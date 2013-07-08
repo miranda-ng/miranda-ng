@@ -6,6 +6,36 @@
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
 ;file \plugins\ContactsPlus\res\contacts.rc
+[&A]
+&A
+[&D]
+&D
+[&H]
+&H
+[&Send]
+&Send
+[Cancel]
+Avbryt
+[&Add]
+&Legg til
+[Close]
+Lukk
+[An error has occured. The protocol reported the following error:]
+En feil har inntruffet. Protokollen rapporterte følgende feil:
+[Try again]
+Forsøk igjen
+[User Details]
+Brukerdetaljer
 ;file \plugins\ContactsPlus\src\main.cpp
+[Contacts]
+Kontakter
 ;file \plugins\ContactsPlus\src\receive.cpp
+[Add Contact Permanently to List]
+Legg til Kontakt Permanent til Listen
+[View User's Details]
+Se Brukerens Detaljer
+[View User's History]
+Se Brukerens Historikk
+[User Menu]
+Brukermeny
 ;file \plugins\ContactsPlus\src\send.cpp

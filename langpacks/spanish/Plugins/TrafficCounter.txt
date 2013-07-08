@@ -6,8 +6,28 @@
 ;  Authors: Ghost, Mironych
 ;============================================================
 ;file \plugins\TrafficCounter\res\resource.rc
+[Accounts]
+Cuentas
+[Custom]
+Personalizado
 ;file \plugins\TrafficCounter\src\options.cpp
+[General]
+General
+[General]
+General
+[Options]
+Opciones
+[Options]
+Opciones
 [Statistics]
 Estadísticas
 ;file \plugins\TrafficCounter\src\statistics.cpp
+[Incoming]
+Entrantes
+[Outgoing]
+Salientes
+[Online]
+En línea
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Font]
+Fuentes

@@ -3,15 +3,25 @@
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
 ;  Version: 1.9.0.4
-;  Authors: Bartosz 'Dezeath' Biaіek, Harven
+;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
 ;file \plugins\SimpleStatusMsg\res\resource.rc
+[%s Message for %s]
+%s Melding til %s
+[&Cancel]
+&Avbryt
+[Retrieving %s message...]
+Henter %s melding...
+[OK]
+OK
 [Max length:]
 Maks lengde:
 [Pop up dialog box]
 Popp opp dialogbox
 [Do not set status message]
 Ikke sett statusmelding
+[Status Messages]
+Statusmeldinger
 [Pop up dialog asking for new message]
 Popp opp dialogspørsmål for ny melding
 [Set an empty message]
@@ -24,6 +34,8 @@ Bruk siste melding
 Bruk forrige melding for denne status
 [Put default message in message list]
 Sett standardmelding fra meldingslisten
+[seconds]
+sekunder
 [Show status list]
 Vis statusliste
 [Show icons in status list]
@@ -32,20 +44,72 @@ Vis ikoner i statusliste
 Knapper:
 [Show icons in message list]
 Vis ikoner i meldingsliste
+[Other]
+Annet
 [Store up to]
 Lagre opp til
 [Automatically close dialog window after]
 Automatisk lukk dialogvindu etter
 [Clear Predefined]
 Tøm Forh.def.
+[Cut]
+Klipp ut
+[Copy]
+Kopier
+[Copy]
+Kopier
+[Paste]
+Lim inn
+[Delete]
+Slett
+[Select All]
+Velg Alt
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
+[&Close]
+&Lukk
+[Re&ad %s Message]
+Le&s %s Melding
 [Re&ad Away Message]
 Le&s Bortemelding
 ;file \plugins\SimpleStatusMsg\src\main.cpp
+[%s (locked)]
+%s (låst)
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
+[Global]
+Global
+[Closing in %d]
+Lukker om %d
 ;file \plugins\SimpleStatusMsg\src\options.cpp
 [Flat, next to cancel button]
 Flat, vedsiden av avbr. knapp
 [Show in message list]
 Vis i meldingslisten
+[Status]
+Status
+[General]
+Generelt
+[Advanced]
+Avansert
 ;file \plugins\SimpleStatusMsg\src\utils.cpp
+[I've been away since %time%.]
+Jeg har vært borte siden %time%
+[Give it up, I'm not in!]
+Gi opp, Jeg er ikke her!
+[Not right now.]
+Ikke akkurat nå.
+[Give a guy some peace, would ya?]
+Gi en kar litt fred da, gidder du?
+[I'm a chatbot!]
+Jeg er en chatbot!
+[Yep, I'm here.]
+Ja, jeg er her.
+[Nope, not here.]
+Nope, ikke her.
+[I'm hiding from the mafia.]
+Jeg gjemmer meg for mafiaen.
+[That'll be the phone.]
+Det må være telefonen.
+[Mmm...food.]
+Mmm... mat.
+[idleeeeeeee]
+chiiiiller'n

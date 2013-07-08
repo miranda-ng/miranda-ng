@@ -6,27 +6,197 @@
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 ;file \plugins\UserInfoEx\res\resource.rc
+[Updating]
+in aggiornamento
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Apply]
+Applica
+[Nick:]
+Nick:
+[Nick:]
+Nick:
+[First name:]
+Nome:
+[Last name:]
+Cognome:
+[Female]
+Femmina
+[Female]
+Femmina
+[Male]
+Maschio
+[Male]
+Maschio
+[Street:]
+Via:
+[Postal code:]
+Codice postale:
+[City:]
+Città:
+[Country:]
+Nazione:
+[Timezone:]
+Fuso orario:
+[Company:]
+Compagnia:
+[Department:]
+Dipartimento:
+[Position:]
+Posizione:
+[Add Phone Number]
+Aggiungi numero di telefono
+[Enter country, area code and phone number:]
+Inserisci nazione, prefisso e numero di telefono:
+[Or enter a full international number:]
+Oppure inserisci un numero internazionale completo:
+[Phone can receive SMS text messages]
+Il telefono può ricevere messaggi SMS
+[Background colour]
+Colore di sfondo
+[Text colour]
+Colore del testo
+[Use Windows colours]
+Utilizza colori di Windows
+[Custom]
+Personalizzato
+[Custom]
+Ad hoc
+[Homepage:]
+Pagina web:
+[Delete]
+Elimina
+[Delete]
+Elimina
+[Delete]
+Cancella
+[Delete]
+Elimina
 [Show &during the next]
 Mostra quelli nei prossimi
 [day(s)]
 giorno(i)
+[Icons]
+Icone
+[Icons]
+Icone
+[None]
+Nessuno
+[None]
+Nessuna
+[None]
+Nessuno
+[None]
+Nessuno
+[Gender:]
+Sesso:
+[Age:]
+Età:
 ;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
+[Unspecified]
+Non specificato
+[Unspecified]
+Non specificato
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+[Edit Phone Number]
+Modifica numero di telefono
+[Other]
+Altro
+[Other]
+Altro
+[Other]
+Altro
+[Other]
+Varie
+[Other]
+Altro
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+[Contact]
+Contatto
+[Contact]
+Contatti
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+[Yes]
+Sì
+[No]
+No
+[Ignore]
+Ignora
+[Ignore]
+Ignora
+[Error]
+Errore
+[Error]
+Errore
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
+[General]
+Generale
+[Work]
+Lavoro
+[Work]
+Lavoro
+[Profile]
+Profilo
+[Profile]
+Profilo
+[Profile]
+Profilo
+[Notes]
+Note
+[Owner]
+Proprietario
 ;file \plugins\UserInfoEx\src\init.cpp
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Default]
+Predefinito
+[Default]
+Predefinito
+[Fax]
+Fax
+[Search]
+Ricerca
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
+[User &Details]
+&Dettagli utente
+[User &Details]
+&Dettagli utente
+[View/Change My &Details...]
+Visualizza/Modifica i miei &dettagli...
 ;file \plugins\UserInfoEx\src\psp_about.cpp
+[About:]
+Informazioni su:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
 ;file \plugins\UserInfoEx\src\psp_options.cpp
+[Contacts]
+Contatti
+[Advanced]
+Avanzate
+[Popups]
+Popup
+[Popups]
+Popups
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Culture & Literature]
@@ -66,7 +236,11 @@ Sport e atletica
 [Home automation]
 Automazione domestica
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+['(Unknown Contact)']
+'(Contatto sconosciuto)'
 ;file \plugins\UserInfoEx\src\svc_email.cpp
+[Send e-mail]
+Invia email
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 ;file \plugins\UserInfoEx\src\svc_phone.cpp

@@ -8,6 +8,34 @@
 ;file \plugins\MirOTR\MirOTR\res\resource.rc
 [Manual]
 Manual de
+[&Cancel]
+&Cancelar
+[&OK]
+&OK
+[&No]
+&No
+[&Yes]
+&Si
 ;file \plugins\MirOTR\MirOTR\src\language.h
+[Yes]
+Si
+[No]
+No
+[Unknown]
+Desconocida
+[General]
+General
+[General]
+General
+[Contacts]
+Contactos
+[Contact]
+Póngase en contacto con
+[Protocol]
+Protocolo
+[Default]
+por defecto
+[Default]
+Predeterminado
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
 ;file \plugins\MirOTR\MirOTR\src\options.cpp

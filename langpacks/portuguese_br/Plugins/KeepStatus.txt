@@ -6,7 +6,127 @@
 ;  Authors: P Boon
 ;============================================================
 ;file \Plugins\StatusPlugins\resource.rc
+[General]
+Geral
+[General]
+Geral
+[General]
+Geral
+[Close]
+Fechar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Profile]
+Perfil
+[Profile]
+Perfil
+[Message]
+Mensagem
+[Set]
+Configurar
+[Set]
+Configurar
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Other]
+Outros
+[Background colour]
+Cor do fundo
+[Text colour]
+Texto colorido
+[Use Windows colours]
+Usar Janelas coloridas
+[Use default colours]
+Usar cores padrão
+[Events]
+Eventos
+[Events]
+Eventos
+[Events]
+Eventos
+[Events]
+Eventos
+[Events]
+Eventos
+[Custom]
+Padrão
+[Use %time% for the current time, %date% for the current date]
+Usar %time% para o tempo atual,%date% para a data atual
+[Use %time% for the current time, %date% for the current date]
+Usar %tempo% para tempo atual, %data% para data atual
+[Accounts]
+Contas
+[Status]
+Status
+[Delete]
+Excluir
+[Delete]
+Apagar
+[Delete]
+Apagar
+[Delete]
+Apagar
+[Delete]
+Excluir
+[Delete]
+Excluir
+[seconds]
+segundos
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
+[Protocol]
+Protocolo
+[Protocol]
+Protocolo
+[Advanced]
+Avançado
+[Advanced]
+Avançado
 ;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+Eu estou ausente desde %time%.
+[Give it up, I'm not in!]
+Desista, eu não estou aqui!
+[Not right now.]
+Agora não.
+[Give a guy some peace, would ya?]
+Dê ao cara um pouco de paz, certo?
+[I'm a chatbot!]
+Eu sou um chatbot!
+[Yep, I'm here.]
+Sim, eu estou aqui.
+[Yep, I'm here.]
+Sim, estou aqui.
+[Nope, not here.]
+Não, não estou aqui.
+[I'm hiding from the mafia.]
+Eu estou escondido da máfia.
+[That'll be the phone.]
+É...utilize antes o telefone.
+[Mmm...food.]
+Mmm... comida.
+[idleeeeeeee]
+Ocupadoooooo
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Closing in %d]
+Fechando em %d

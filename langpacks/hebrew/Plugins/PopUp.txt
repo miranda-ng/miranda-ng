@@ -6,10 +6,14 @@
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 ;file \plugins\Popup\res\resource.rc
+[Effects]
+אפקטים
 [Live Preview]
 הראה לפני לייב
 [Size && Position]
 גודל && מיקום
+[History]
+היסטוריה\n
 [Enable popup history]
 אפשר היסטוריית פופאפ
 [Store last]
@@ -20,6 +24,10 @@
 צייר גבולות אוואטר
 [Draw borders for semitransparent avatars too]
 צייר גבולות גם בשביל אוואטרים חצי שקופים
+[pixels]
+פיקסלים
+[pixels]
+פיקסלים
 [Enable avatar updates]
 אפשר עדכוני אוואטרים
 [Start the popups in the monitor with]
@@ -28,6 +36,8 @@
 חלון מירנדה
 [the active window]
 חלון פעיל
+[opacity:]
+טישטוש
 [Opaque popups under cursor]
 עמעם פופאפ תחת מצביע עכבר
 [Limit window amount to:]
@@ -36,6 +46,10 @@
 * - בנוי-בפנים סקין
 [Popup Area]
 איזור פופאפ
+[Close]
+סגור
+[General]
+כללי
 [Enable popup actions]
 אפשר פעולות פופאפ
 [Popup Actions are those tiny buttons below notification text.]
@@ -84,6 +98,8 @@
 השהיית פופאפ אינסופית
 [Popup delay:]
 השהיית פופאפ
+[seconds]
+שניות
 [Do not close hovered popups]
 אל תסגור פופאפים מרחפים
 [Dynamically resize the popups]
@@ -92,6 +108,8 @@
 רווח מינימלי
 [Maximum width]
 רווח מקסימלי
+[Position:]
+מיקום:
 [Layout:]
 סידור:
 [Reorder Popups]
@@ -103,6 +121,8 @@
 ;file \plugins\Popup\src\actions.cpp
 [User details]
 פרטי משתמש
+[Contact menu]
+תפריט משתמש
 [Pin popup]
 נעץ פואפ
 ;file \plugins\Popup\src\config.cpp
@@ -118,6 +138,10 @@
 רענן רשימת סקין
 [Popup Placement]
  מיקום פופאפ
+[OK]
+אישור
+[Cancel]
+ביטול
 [Popup Group]
 קבוצת פואפ
 [Favorite Contact]
@@ -132,7 +156,15 @@
 נעץ פופאפ
 [Pinned Popup]
 פופאפ מקובע
+[User Details]
+פרופיל משתמש
 ;file \plugins\Popup\src\main.cpp
+[Actions]
+פעולות
+[Contacts]
+אנשי קשר
+[Advanced]
+מתקדם
 [Popup Plus]
 פופאפ פלוס
 ;file \plugins\Popup\src\opt_adv.cpp
@@ -157,11 +189,15 @@
 פשוט תעיף מבט בסקין הזה... ;)
 [Enable Aero Glass (Vista+)]
 אפשר מראה אירו (Vista+)
+[Use Windows colours]
+השתמש בצבעי חלונות
 [Use advanced text render]
 השתמש ברינדור טקסט מתקדם
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
 ;file \plugins\Popup\src\services.cpp
+[Error]
+שגיאה
 ;file \plugins\Popup\src\skin.cpp
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Popup Mode: Auto]

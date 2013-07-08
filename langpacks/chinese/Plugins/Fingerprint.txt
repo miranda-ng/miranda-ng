@@ -10,7 +10,11 @@
 ;file \plugins\FingerprintNG\src\finger_groups.h
 [Pack overlays]
 包覆盖
+[Protocol]
+协议
 ;file \plugins\FingerprintNG\src\masks.cpp
 [Undetected client]
 未知客户端
 ;file \plugins\FingerprintNG\src\options.cpp
+[Icons]
+图标

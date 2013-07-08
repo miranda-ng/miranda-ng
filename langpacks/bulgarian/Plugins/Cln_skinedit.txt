@@ -6,4 +6,6 @@
 ;  Authors: Nightwish, Pixel
 ;============================================================
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+[General]
+Основни
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp

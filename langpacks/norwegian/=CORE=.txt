@@ -1,24 +1,124 @@
 ﻿;file \src\resource.rc
+[OK]
+OK
+[Cancel]
+Avbryt
 [Add %s]
 Legg til %s
+[&Add]
+&Legg til
+[&Cancel]
+&Avbryt
+[Send authorization request]
+Send autorisasjons forespørsel
+[Custom name:]
+Selvvalgt navn:
+[Group:]
+Gruppe:
+[Options]
+Valg
+[Authorization Request]
+Godkjenningsforespørsel
+[Delete Contact]
+Slett Kontakt
+[&Yes]
+&Ja
+[&No]
+&Nei
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Skjules fra liste, slik at historikk og ignorerings/synbarhets innstillinger beholdes
+[Are you sure you want to delete %s?]
+Er du sikker på at du ønsker å slette %s?
+[This will erase all history and settings for this contact!]
+Dette vil slette all historikk og innstillinger for kontakten!
 [Contact Display Options]
 Valg for Kontaktvisning
 [Miranda NG Profile Manager]
 Miranda NG Profilmanager
 [&Run]
 &Kjør
+[&Exit]
+&Avslutt
 [Find/Add Contacts]
 Finn/Legg til Kontakter
+[Search:]
+Søk:
+[E-mail address]
+E-post adresse
+[Name]
+Navn
+[Nick:]
+Kallenavn:
 [First:]
 Først:
 [Last:]
 Siste:
+[Advanced]
+Avansert
+[Advanced >>]
+Avansert >>
+[&Search]
+&Søk
+[More options]
+Flere innstillinger
 [Add to list]
 Legg til i listen
+[Custom]
+Selvvalgt
+[Custom]
+Selvvalgt
+[Apply]
+Lagre
 [Please select a subentry from the list]
 Vennligst velg en underkategori fra listen
+[Install Database Settings]
+Installere Database Innstillinger
+[Yes]
+Ja
+[No]
+Nei
+[A file containing new database settings has been placed in the Miranda NG directory.]
+En fil som inneholder nye databaseinnstillinger har blitt plassert i Miranda mappen
+[Do you want to import the settings now?]
+Ønsker du å importere innstillingene nå?
+[No to all]
+Nei til alt
+[&View contents]
+&Se innhold
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Sikkerhetssystemer som hindrer ondskapsfulle endringer er på plass og du vil bli advart om endringer som ikke er kjent å være sikre.
+[Database Setting Change]
+Database Innstillingsendring
+[Database settings are being imported from]
+Databaseinnstillinger blir importert fra
+[This file wishes to change the setting]
+Denne filen ønsker å forandre innstillingen
+[to the value]
+til verdien
+[Do you want to allow this change?]
+Ønsker du å tillate denne endringen?
+[&Allow all further changes to this section]
+&Tillat alle videre endringer i denne delen
+[Cancel Import]
+Avbryt Importering
+[Database Import Complete]
+Import av Database ferdig
+[The import has completed from]
+Import er fullført fra
+[What do you want to do with the file now?]
+Hva ønsker du å gjøre med filen nå?
+[&Recycle]
+&Slett
+[&Delete]
+&Slett
+[&Move/Rename]
+&Flytt/Gi nytt navn
+[&Leave]
+&Forlat
 [Netlib Log Options]
 Netlib Logg Valg
+[Show]
+Vis
 [Received bytes]
 Mottatte bytes
 [Sent bytes]
@@ -31,22 +131,34 @@ Auto-oppdag tekst
 Logg til
 [OutputDebugString()]
 OutputDebugString()
+[File]
+Fil
 [Run now]
 Kjør nå
 [Show this dialog box when Miranda NG starts]
 Vis denne dialogboksen når Miranda NG Starter
 [Save as default]
 Lagre som standard
+[Sounds]
+Lyder
 [&Change...]
 &Endre...
+[&Preview]
+&Vis
 [Download more sounds]
 Last ned flere lyder
 [Sound Information]
 Lydinformasjon
 [Location:]
 Plassering:
+[Name:]
+Navn:
+[Name:]
+Navn:
 [Enable sound events]
 Aktiver lydhendelser
+[Icons]
+Ikoner
 [Show category:]
 Vis kategori:
 [&Load icon set...]
@@ -55,16 +167,32 @@ Vis kategori:
 &Importer ikoner >>
 [Download more icons]
 Last ned flere ikoner
+[The following events are being ignored:]
+Følgende hendelser blir ignorert:
+[Messages]
+Meldinger
+[URLs]
+URLer
+[Files]
+Filer
 [Online Notification]
 Påloggingsvarsel
 [Auth Requests]
 Godkjenningsforespørsler
 [All Events]
 Alle Hendelser
+[None]
+Ingen
 [Only the ticked contacts will be shown on the main contact list]
 Bare den avmerkede kontakten vil vises i hovedkontaktlisten 
+[Ignore]
+Ignorer
 [Added Notification]
 La til Varsling
+[Typing]
+Skriving
+[Visibility]
+Synlighet
 [You are visible to this person even when in invisible mode]
 Du er synlig for denne personen selv i usynlig modus
 [You are never visible to this person]
@@ -79,6 +207,8 @@ Dra ikoner til hovedlisten for å tilordne dem:
 Importer flere
 [To main icons]
 Til hovedikoner
+[To]
+Til
 [<< &Import]
 << &Importer
 [To default status icons]
@@ -89,8 +219,18 @@ Loggføring..
 Utgående Koblinger
 [Use proxy server]
 Bruk proxy server
+[Type:]
+Type:
+[Host:]
+Vert:
+[Port:]
+Port:
 [(often %d)]
 (ofte %d)
+[Username:]
+Brukernavn:
+[Password:]
+Passord:
 [Resolve hostnames through proxy]
 Finn vertsnavn gjennom proxy
 [Port Range:]
@@ -101,8 +241,12 @@ Eksempel: 1050-1070, 2000-2010, 2500
 Innkommende Koblinger
 [Enable UPnP port mapping]
 Aktiver UPnP port mapping
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Du må koble til på nytt for at endringene du har gjort på denne siden vil aktiveres.
 [Please complete the following form to create a new user profile]
 Vennligst fyll ut følgende skjema for å lage ny brukerprofil
+[Profile]
+Profil
 [e.g. Workplace]
 eks. Arbeidsplass
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
@@ -111,18 +255,44 @@ Du kan velge å bruke en annen profildriver enn den som er standard, den kan til
 eks. Miranda Database
 [Driver]
 Driver
+[Description:]
+Beskrivelse:
+[Author(s):]
+Forfatter:
+[E-mail:]
+E-post:
+[Homepage:]
+Webside:
+[Unique ID:]
+Unik ID:
+[Copyright:]
+Copyright:
+[Please restart Miranda NG for your changes to take effect.]
+Vennligst start Miranda NG på nytt for at endringene skal tre i kraft
 [Fonts and Colors]
 Skrift og Farger
+[Undo]
+Omgjør
+[Reset]
+Nullstill
+[Export...]
+Eksporter..
 [Color/Background]
 Farge/Bakgrunn
+[Text Color]
+TekstFarge
 [Choose Font]
 Velg Skrift
+[Font]
+Skrift
 [&Font:]
 &Skrift:
 [Font st&yle:]
 Skrift st&il:
 [&Size:]
 &Størrelse:
+[Effects]
+Effekter
 [Stri&keout]
 Gjenn&omstrek
 [&Underline]
@@ -135,20 +305,90 @@ Prøve
 AaBbYyZz
 [Sc&ript:]
 Sk&ript:
+[&Apply]
+&Utfør
+[&Help]
+&Hjelp
+[Warning!\r\nThis MenuObject not support user defined options.]
+Advarsel!\r\n\Dette MenyObjekt støtter ikke brukerdefinerte valg.
 [Insert separator]
 Sett inn skille
+[Service:]
+Tjeneste:
+[Default]
+Standard
+[Set]
+Åpne
 [Note: Miranda NG will have to be restarted for changes to take effect.]
 Merk: Miranda NG må restartes for at endringene skal aktiveres.
-[IconOptions]
-Ikonvalg
+[Add]
+Legg til
+[Remove]
+Fjern
+[Remove]
+Fjern
+[Hotkeys]
+Snarveier
+[&Edit]
+&Rediger
+[Miranda NG]
+Miranda NG
+[opacity:]
+Uklarhet:
+[&Hide/Show]
+&Skjul/Vis
+[E&xit]
+A&vslutt
+[Nowhere]
+Ingensteds
+[&New Group]
+&Ny Gruppe
+[&Hide Offline Users]
+&Skjul Frakoblede Brukere
+[Hide &Offline Users out here]
+Skjul &Frakoblede Brukere her ute
+[Hide &Empty Groups]
+Skjul &Tomme Grupper
+[Disable &Groups]
+Deaktiver &Grupper
+[Hide Miranda]
+Skjul Miranda
+[Group]
+Gruppe
+[&New Subgroup]
+&Ny Undergruppe
+[&Hide Offline Users in here]
+&Skjul Frakoblede Brukere her
+[&Rename Group]
+&Gi gruppen nytt navn
+[&Delete Group]
+&Slett Gruppe
 [&Reset to default]
 &Tilbakestill til standard
 [find/add]
 finn/legg til
 [&Add to List]
 &Legg til i Liste
+[User &Details]
+Bruker &Detaljer
 [Send &Message]
 Send &Melding
+[Log]
+Logg
+[&Copy]
+&Kopier
+[Co&py All]
+Ko&pier Alt
+[Select &All]
+Velg &Alt
+[C&lear Log]
+K&larer Logg
+[Open in &new window]
+Åpne i &nytt vindu
+[&Open in existing window]
+&Åpne i eksisterende vindu
+[&Copy link]
+&Kopier link
 [Cancel Change]
 Avbryt Endring
 [&Reset To Default]
@@ -156,11 +396,25 @@ Avbryt Endring
 ;file \src\core\stdauth\resource.rc
 [&Authorize]
 &Godkjenn
+[&Deny]
+&Avslå
 [&I]
 &I
 [Reason:]
 Grunn:
+[You Were Added]
+Du Ble Lagt til
+[&Close]
+&Lukk
+[&U]
+&U
 ;file \src\core\stdaway\resource.rc
+[%s Message for %s]
+%s Melding til %s
+[Retrieving %s message...]
+Henter %s melding...
+[Status Messages]
+Statusmeldinger
 [Do not reply to requests for this message]
 Ikke svar på forespørsler for denne meldingen
 [Do not pop up dialog asking for new message]
@@ -169,39 +423,371 @@ Ikke sprett opp dialog som spør etter ny melding
 Som standard, bruk den samme meldingen som sist
 [By default, use this message:]
 Bruk denne meldingen som standard:
+[Use %time% for the current time, %date% for the current date]
+Bruk %time% for nåværende tid, %date% for nåværende dato
+[Change %s Message]
+Forandre %s Melding
+[Closing in %d]
+Lukker om %d
 ;file \src\core\stdchat\res\chat.rc
+[&Send]
+&Send
+[Show these events only:]
+Vis bare følgende hendelser:
+[Actions]
+Handlinger
+[Nick changes]
+Kallenavnendringer
+[Users joining]
+Brukere som joiner
+[Users leaving]
+Brukere forlater
+[Topic changes]
+Overskriftforandringer
+[Status changes]
+Statusendringer
+[Information]
+Informasjon
+[Disconnects]
+Kobler fra
+[User kicks]
+Bruker kicker
+[Notices]
+Varsler
+[Log Options]
+Loggvalg
+[Log timestamp]
+Logg tidsstempel
+[Timestamp]
+Tidsmerknad
+[Other name]
+Annet navn
+[Your name]
+Ditt navn
+[Enable highlighting]
+Aktiver fremheving
+[Limit log text to (events):]
+Begrens loggtekst til (hendelser):
 [Trim to (kB)]
 Begrens til (kB)
+[Words to highlight (wildcards allowed)]
+Ord som skal merkes (jokertegn er tillatt)
+[Enable logging to disk]
+Aktiver logging til disk
+[Log directory]
+Loggmappe
+[Other]
+Annet
+[Add new rooms to group:]
+Legg til nye rom til gruppen
 [Userlist row distance (pixels):]
 Brukerliste radavstand (piksler):
+[Use same style as in the message log]
+Bruk samme stil som i samtaleloggen
+[Use default colours]
+Bruk standardfarger
+[Use custom colours]
+Bruk selvvalgte farger
 [Popups for the Chat plugin]
 Popups for Chat plugin
+[Timeout (s)]
+Tidsutkobling (s)
+[Text]
+Tekst
+[Background]
+Bakgrunn
+[List]
+Liste
+[&Message]
+&Skriv til
+[Clear lo&g]
+Fjern lo&gg
+[Co&py all]
+Ko&pier alt
+[Word lookup]
+Ord oppslag
+[Google]
+Google
+[Wikipedia]
+Wikipedia
+[Link]
+Link
+[Open a &new browser window]
+Åpne et &nytt nettleservindu
+[&Open in current browser window]
+&Åpne i nåværende nettleservindu
+[Message]
+Melding
+[Message]
+Melding
+[Undo  ]
+Omgjør  
+[Redo]
+Gjør om
+[Copy]
+Kopier
+[Copy]
+Kopier
+[Cut]
+Klipp ut
+[Paste]
+Lim inn
+[Select All]
+Velg Alt
+[Clear]
+Fjern:
+[Tabs]
+Faner
+[&Close tab]
+&Lukk fane
+[C&lose other tabs]
+L&ukk andre faner
+[&Open at this position]
+&Åpne ved denne posisjonen
 ;file \src\core\stdclist\res\resource.rc
+[Hide offline users]
+Skjul frakoblede brukere
+[Hide empty groups]
+Skjul tomme grupper
+[Disable groups]
+Deaktiver grupper
+[Ask before deleting contacts]
+Spør før sletting av kontakter
+[Sort contacts by name]
+Sorter kontakter ved navn
+[Sort contacts by status]
+Sorter kontakter ved status
+[Sort contacts by protocol]
+Sorter kontakter ved protokoll
+[Single click interface]
+Enkeltklikk grensesnitt
+[Always show status in tooltip]
+Alltid vis status i verktøytips
+[Disable icon blinking]
+Deaktiver ikonblinking
+[ms delay]
+ms forsinkelse
+[icon when statuses differ]
+ikon når statusene er forskjellige
+[Cycle icons every]
+Visning av ikoner hvert
+[seconds, when statuses differ]
+sekund(er), når status er forskj.
+[Show multiple icons]
+Vis mange ikoner
+[Only when statuses differ]
+Bare når statusene er forskjellige
+[Contact List]
+Kontaktliste
+[System tray icon]
+Oppgavelinje ikon
+[System tray icon when using multiple protocols]
+Ikoner på oppgavelinjen ved bruk av flere protokoller
+[Contact List Sorting]
+Kontaktliste sortering
+[Window]
+Vindu
+[Always on top]
+Alltid øverst
+[Tool style main window]
+Verktøy type hovedvindu
+[Minimize to tray]
+Minimer til oppgavelinje
+[Show menu bar]
+Vis menylinje
+[Easy move]
+Enkel flytting
+[Show title bar]
+Vis tittelbar
+[Title bar text:]
+Tittellinje tekst:
+[Show drop shadow (restart required)]
+Vis skygge (omstart påkrevet)
+[Pin to desktop]
+Lås til skrivebord
+[Hide contact list after it has been idle for]
+Skjul kontaktlisten om den har vært inaktiv for
+[seconds]
+sekunder
+[Automatically resize window to height of list]
+Juster størrelse på vindu automatisk etter listehøyde
+[maximum]
+maksimum
+[% of screen]
+% av skjerm
+[Size upwards]
+Størrelse oppover
+[If window is partially covered, bring to front instead of hiding]
+Hvis vindu er delvis dekket, hent det til fokus
+[Fade contact list in/out]
+Gli kontaktlisten inn/ut
+[Transparent contact list]
+Gjennomsiktig kontaktliste
+[Inactive opacity:]
+Inaktiv uklarhet:
+[Active opacity:]
+Aktiv ugjennomsiktbarhet:
+[Items]
+Elementer
+[Show divider between online and offline contacts]
+Vis skillelinje mellom på- og frakoblede kontakter
+[Hot track items as mouse passes over]
+Endre elementer når musen flyttes over
+[Disable drag and drop of items]
+Deaktiver dra og slipp av elementer
+[Disable rename of items by clicking twice]
+Deaktiver re-naming av elementer ved dobbeltklikk
+[Show selection even when list is not focused]
+Vis valg selv når listen ikke er i fokus
+[Make selection highlight translucent]
+Gjør valget gjennomskinnelig merket
+[Dim idle contacts]
+Utydeliggjør inaktive kontakter
+['Hide Offline' means to hide:]
+'Skjul frakoblet' skjuler:
+[Groups]
+Grupper
+[Draw a line alongside group names]
+Tegn en linje langs gruppenavnene
+[Show counts of number of contacts in a group]
+Vis antall kontakter i en gruppe
+[Hide group counts when there are none online]
+Skjul telling av grupper når ingen er påkoblet
+[Sort groups alphabetically]
+Sorter grupper alfabetisk
+[Quicksearch in open groups only]
+Hurtigsøk kun i åpne grupper
+[Indent groups by:]
+Rykk inn grupper:
+[pixels]
+pixler
+[pixels]
+piksler
+[Visual]
+Visuell
+[Scroll list smoothly]
+Rull listen glatt
+[Time:]
+Tid:
+[milliseconds]
+millisekunder
+[Left margin:]
+Venstremargin
+[Hide vertical scroll bar]
+Skjul vertikal scroll bar
+[Row height:]
+Radhøyde:
+[Gamma correction]
+Gammakorreksjon
+[Grey out entire list when:]
+Grå ut hele listen når:
+[Contact List Background]
+Kontaktliste bakgrunn
+[Background colour]
+Bakgrunnsfarge
+[Background colour]
+Bakgrunnsfarge
 [Selection colour]
 Utvalgsfarge
+[Use background image]
+Bruk bakgrunnsbilde
+[Stretch to width]
+Strekk til bredde
+[Stretch to height]
+Strekk til høyde
+[Tile horizontally]
+Still opp horisontalt
+[Tile vertically]
+Still opp vertikalt
+[Scroll with text]
+Rull med tekst
+[Stretch proportionally]
+Strekk proporsjonelt
+[Use Windows colours]
+Bruk Windowsfarger
+[Status Bar]
+Statuslinje
+[Show status bar]
+Vis statuslinje
+[Show icons]
+Vis ikoner
+[Show protocol names]
+Vis protokollnavn
+[Show status text]
+Vis statustekst
+[Right click opens status menu]
+Høyreklikk åpner statusmeny
+[Right click opens Miranda NG menu]
+Høyreklikk åpner Miranda NG meny
+[Make sections equal width]
+Samme bredde på seksjoner
+[Show resize grip indicator]
+Vis størrelsesendrings grep indikator
+[&Status]
+&Status
+[&Offline\tCtrl+0]
+&Frakoblet\tCtrl+0
+[On&line\tCtrl+1]
+På&logget\tCtrl+1
+[&Away\tCtrl+2]
+&Borte\tCtrl+2
+[&NA\tCtrl+3]
+&Ikke Angitt\tCtrl+3
+[Occ&upied\tCtrl+4]
+Opp&tatt\tCtrl+4
+[&DND\tCtrl+5]
+&Ikke forstyrr\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Tilgjengelig for chat\tCtrl+6
+[&Invisible\tCtrl+7]
+&Usynlig\tCtrl+7
+[On the &Phone\tCtrl+8]
+I &Telefonen\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Ute til &Lunsj\tCtrl+9
 ;file \src\core\stdfile\resource.rc
 [Send File(s)]
 Send Fil(er)
+[To:]
+Til:
 [File(s):]
 Fil(er):
 [&Choose Again...]
 &Velg på Nytt...
 [Total size:]
 Total størrelse:
+[&D]
+&D
+[&H]
+&H
+[Incoming File Transfer]
+Innkommende Filoverføringer
 [A&ccept]
 A&ksepter
 [&Decline]
 &Avslå
+[From:]
+Fra:
+[Date:]
+Dato:
 [Files:]
 Filer:
 [Save to:]
 Lagre til:
+[&A]
+&A
+[Contact menu]
+Kontaktmeny
 [Open folder]
 Åpne mappe
 [File Already Exists]
 Filen Eksisterer Fra Før
+[Resume]
+Gjenoppta
 [Resume all]
 Gjenoppta alle
+[Overwrite]
+Overskriv
 [Overwrite all]
 Overskriv alt
 [Save as...]
@@ -214,6 +800,8 @@ Avbryt overførsel
 Du er i ferd med å motta filen
 [Existing file]
 Eksisterende fil
+[Size:]
+Strl:
 [Last modified:]
 Sist modifisert:
 [Open file]
@@ -222,6 +810,10 @@ Sist modifisert:
 Filegenskaper
 [File being received]
 Filen mottas
+[File Transfers]
+Filoverføringer
+[Close]
+Lukk
 [Receiving files]
 Mottar filer
 [Received files folder:]
@@ -257,9 +849,13 @@ Du vil alltid bli spurt angående filer fra de som ikke er i kontaktlisten din
 ;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 Om Miranda NG
+[Credits >]
+Takk >
 ;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 Bli inaktiv hvis følgende ikke brukes:
+[Windows]
+Windows
 [Miranda]
 Miranda
 [Become idle if the screen saver is active]
@@ -279,16 +875,30 @@ Ikke sett status tilbake til pålogget ved retur fra inaktivitet
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Automatisk sprett opp vindu når:
+[Close the message window on send]
+Lukk samtalevinduet ved sending
+[Minimize the message window on send]
+Minimer samtalevindu ved sending
+[Use the contact's status icon as the window icon]
+Bruk kontaktens status ikon som vindu ikon
 [Save the window size and location individually for each contact]
 Lagre vindusstørrelsen og plasseringen individuelt for hver kontakt
+[Cascade new windows]
+Kaskade nye vinduer
 [Show 'Send' button]
 Vis 'Send' knapp
 [Show username on top row]
 Vis brukernavn på øverste rad
 [Show toolbar buttons on top row]
 Vis verktøylinjeknapper på øverste rad
+[Send message on double 'Enter']
+Send melding ved dobbel 'Enter'
+[Send message on 'Enter']
+Send melding ved 'Enter'
 [Show character count]
 Vis antall tegn
+[Show warning when message has not been received after]
+Vis advarsel når meldingen ikke har blitt mottatt etter
 [Support control up/down in message area to show previously sent messages]
 Støtte kontroll opp/ned i meldingsområdet for å vise tidligere sendte meldinger
 [Delete temporary contacts when closing message window]
@@ -297,40 +907,126 @@ Slett midlertidige kontakter når samtalevinduet lukkes
 Aktiver avatarstøtte i samtalevinduet
 [Limit avatar height to ]
 Begrens avatarhøyde til 
-[pixels]
-pixler
+[Send Error]
+Sendefeil
+[An error has occured. The protocol reported the following error:]
+En feil har inntruffet. Protokollen rapporterte følgende feil:
+[while sending the following message:]
+under sending av følgende melding:
+[Try again]
+Forsøk igjen
+[Message Session]
+Meldingsøkt
+[Message Window Event Log]
+Meldingsvindu Hendelseslogg
+[Show names]
+Vis navn
 [Show timestamp]
 Vis tidsmerknad
 [Show dates]
 Vis datoer
+[Load unread events only]
+Last kun inn ulese hendelser 
+[Load number of previous events]
+Last inn antall tidligere hendelser
+[Load previous events less than]
+Last inn hendelser mindre enn
+[minutes old]
+minutter gamle
 [Show status changes]
 Vis statusforandringer
+[Show seconds]
+Vis sekunder
+[Load History Events]
+Last Historikkhendelser
+[Send typing notifications to the following users when you are typing a message to them:]
+Sender skrivevarsel til følgende brukere når du skriver meldinger til dem:
+[Show typing notifications when a user is typing a message]
+Vis skrivevarsler når en bruker skriver en melding
 [Update inactive message window icons when a user is typing]
 Oppdater inaktive meldingsvinduikoner når en bruker skriver
+[Show typing notification when no message dialog is open]
+Vis skrivevarsler når ingen samtaledialoger er åpne
+[Flash in the system tray and in the contact list]
+Blink i oppgavelinjen og i kontaktlisten
+[Show balloon popup]
+Vis ballong popup
+[Delete]
+Slett
 ;file \src\core\stduihist\resource.rc
+[Find]
+Finn
 [&Find Next]
 &Finn Neste
 [Find What:]
 Finn følgende:
+[Message History]
+Samtalehistorikk
+[&Find...]
+&Finn...
 ;file \src\core\stduserinfo\resource.rc
+[Add Phone Number]
+Legg til Telefonnummer
+[Enter country, area code and phone number:]
+Skriv inn land, postnummer og telefonnummer
+[Or enter a full international number:]
+Eller skriv inn et internasjonalt nummer:
+[Phone can receive SMS text messages]
+Telefonen kan motta SMS tekstmeldinger
 [Add E-Mail Address]
 Legg til E-Post Adresse
 [%s: User Details]
 %s: Brukerdetaljer
 [Update Now]
 Oppdater Nå
+[Updating]
+Oppdaterer
+[Nickname:]
+Kallenavn:
+[First name:]
+Fornavn:
+[Gender:]
+Kjønn:
+[Last name:]
+Etternavn:
+[Age:]
+Alder:
+[Date of birth:]
+Fødselsdato:
+[Phone:]
+Telefon:
 [Web page:]
 Nettside:
 [Past background:]
 Tidligere bakgrunn:
 [Interests:]
 Interesser:
+[About:]
+Om:
 [My notes:]
 Mine Notater:
+[Street:]
+Gate:
+[City:]
+By:
+[State:]
+Stat:
+[Postal code:]
+Postnummer:
+[Country:]
+Land:
 [Spoken languages:]
 Talte språk:
+[Timezone:]
+Tidssoner:
 [Local time:]
 Lokal Tid:
+[Company:]
+Bedrift:
+[Department:]
+Avdeling:
+[Position:]
+Posisjon:
 [Website:]
 Nettside:
 ;file \src\core\stdauth\auth.cpp
@@ -340,15 +1036,105 @@ Nettside:
 %u ber om godkjenning
 [%u added you to their contact list]
 %u la deg til i deres kontaktliste
+[Alerts]
+Varsler
 ;file \src\core\stdauth\authdialogs.cpp
+[View User's Details]
+Se Brukerens Detaljer
+[Add Contact Permanently to List]
+Legg til Kontakt Permanent til Listen
 [(Unknown)]
 (Ukjent)
 ;file \src\core\stdaway\awaymsg.cpp
+[Re&ad %s Message]
+Le&s %s Melding
 ;file \src\core\stdaway\sendmsg.cpp
+[I've been away since %time%.]
+Jeg har vært borte siden %time%
+[Give it up, I'm not in!]
+Gi opp, Jeg er ikke her!
+[Not right now.]
+Ikke akkurat nå.
+[Give a guy some peace, would ya?]
+Gi en kar litt fred da, gidder du?
+[I'm a chatbot!]
+Jeg er en chatbot!
+[Yep, I'm here.]
+Ja, jeg er her.
+[Nope, not here.]
+Nope, ikke her.
+[I'm hiding from the mafia.]
+Jeg gjemmer meg for mafiaen.
+[That'll be the phone.]
+Det må være telefonen.
+[Mmm...food.]
+Mmm... mat.
+[idleeeeeeee]
+chiiiiller'n
+[Status]
+Status
 ;file \src\core\stdchat\src\clist.cpp
 ;file \src\core\stdchat\src\colorchooser.cpp
+[Text colour]
+Tekstfarge
 ;file \src\core\stdchat\src\log.cpp
+[%s has joined]
+%s har joinet kanalen
+[You have joined %s]
+Du har joinet %s
+[%s has left]
+%s har forlatt kanalen
+[%s has disconnected]
+%s har koblet fra
+[%s is now known as %s]
+%s er nå kjent som %s
+[You are now known as %s]
+Du er nå kjent som %s
+[%s kicked %s]
+%s kicket %s
+[Notice from %s: ]
+Varsel fra %s;
+[ (set by %s)]
+ (satt av %s)
 ;file \src\core\stdchat\src\options.cpp
+[Others nicknames]
+Andres kallenavn
+[Your nickname]
+Ditt kallenavn
+[User has joined]
+Bruker har joinet
+[User has left]
+Bruker har forlatt
+[User has disconnected]
+Bruker har koblet fra
+[User kicked ...]
+Bruker kicket ...
+[User is now known as ...]
+Bruker er nå kjent som ...
+[Notice from user]
+Varsel fra bruker
+[Incoming message]
+Innkommende melding
+[Outgoing message]
+Utgående melding
+[The topic is ...]
+Overskriften er ...
+[Information messages]
+Informasjonsmeldinger
+[User enables status for ...]
+Bruker aktiverer status for ...
+[User disables status for ...]
+Bruker deaktiverer status for ...
+[Action message]
+Handlingsmelding
+[Highlighted message]
+Markert melding
+[Message typing area]
+Skriveområde for meldinger
+[User list members (Online)]
+Brukerliste medlemmer (Online)
+[User list members (away)]
+Brukerliste medlemmer (borte)
 [Use a tabbed interface]
 Bruk grensesnitt med faner
 [Close tab on doubleclick]
@@ -361,12 +1147,20 @@ Vis faner nederst
 Send meldinger ved å trykke på Enter
 [Send message by pressing the Enter key twice]
 Send meldinger ved å trykke to ganger på Enter
+[Flash window when someone speaks]
+Blink vindu når noen snakker
+[Flash window when a word is highlighted]
+Blink vindu når et ord blir markert
+[Show list of users in the chat room]
+Vis brukerliste i samtalerommet
 [Show button for sending messages]
 Vis knapp for sending av meldinger
 [Show buttons for controlling the chat room]
 Vis knapper for kontroll av samtalerom
 [Show buttons for formatting the text you are typing]
 Vis knapper for formatering av teksten du skriver
+[Show button menus when right clicking the buttons]
+Vis knappemenyer ved høyreklikk på knappene
 [Show new windows cascaded]
 Vis nye vinduer i hurtigfaner
 [Save the size and position of chat rooms]
@@ -375,14 +1169,48 @@ Lagre størrelse og posisjon på samtalerom
 Vis overskriften til rommet på kontaktlisten din (hvis støttet)
 [Do not play sounds when the chat room is focused]
 Ikke spill lyder når samtalerommet er fokusert
+[Do not pop up the window when joining a chat room]
+Ikke sprett opp vinduet ved joining av samtalerom
 [Toggle the visible state when double clicking in the contact list]
 Bytt den synlige tilstanden ved dobbeltklikking i kontaktlisten
 [Show contact statuses if protocol supports them]
 Vis kontaktstatuser hvis protokollen støtter det
 [Display contact status icon before user role icon]
 Vis kontaktstatus ikon før brukerrolle ikon
+[Prefix all events with a timestamp]
+Vis tidspunkt foran alle hendelser
+[Only prefix with timestamp if it has changed]
+Bare nevn ved tidspunkt hvis det har blitt forandret
 [Timestamp has same colour as the event]
 Tidsmerknad har samme farge som hendelsen
+[Indent the second line of a message]
+Rykk inn andre linjen av en melding
+[Limit user names in the message log to 20 characters]
+Begrens brukernavn i meldingsloggen til 20 tegn
+[Strip colors from messages in the log]
+Fjern farger fra meldinger i loggen
+[Show topic changes]
+Vis overskriftsforandringer
+[Show users joining]
+Vis brukere som joiner
+[Show users disconnecting]
+Vis brukere som kobler fra
+[Show messages]
+Vis meldinger
+[Show actions]
+Vis handlinger
+[Show users leaving]
+Vis brukere som forlater
+[Show users being kicked]
+Vis brukere som kickes
+[Show notices]
+Vis varsler
+[Show users changing name]
+Vis brukere som forandrer navn
+[Show information messages]
+Vis informasjonsmeldinger
+[Show status changes of users]
+Vis statusforandringer til brukere
 [Show icon for topic changes]
 Vis ikon for overskriftforandringer
 [Show icon for users joining]
@@ -407,6 +1235,32 @@ Vis ikon for navneforandringer
 Vis ikon for informasjonsmeldinger
 [Show icon for status changes]
 Vis ikon for statusforandringer
+[Show icons in tray only when the chat room is not active]
+Vis ikoner i oppgavelinje kun når samtalerommet ikke er aktivt
+[Show icon in tray for topic changes]
+Vis ikon i oppgavelinje for overskriftforandringer
+[Show icon in tray for users joining]
+Vis ikon i oppgavelinje for brukere som joiner
+[Show icon in tray for users disconnecting]
+Vis ikon i oppgavelinje for brukere som kobler fra
+[Show icon in tray for messages]
+Vis ikon i oppgavelinje for meldinger
+[Show icon in tray for actions]
+Vis ikon i oppgavelinje for handlinger
+[Show icon in tray for highlights]
+Vis ikon i oppgavelinje for høydepunkter
+[Show icon in tray for users leaving]
+Vis ikon i oppgavelinje for brukere som forlater
+[Show icon in tray for users kicking other user]
+Vis ikon i oppgavelinje for brukere som kicker annen bruker
+[Show icon in tray for notices ]
+Vis ikon i oppgavelinje for varsler
+[Show icon in tray for name changes]
+Vis ikon i oppgavelinje for navneforandringer
+[Show icon in tray for information messages]
+Vis ikon i oppgavelinje for informasjonsmeldinger
+[Show icon in tray for status changes]
+Vis ikon i oppgavelinje for statusforandringer
 [Chat Module]
 Samtalemodul
 [Message Background]
@@ -415,38 +1269,266 @@ Melding Bakgrunn
 Brukerliste Bakgrunn
 [Userlist Lines]
 Brukerliste Linjer
+[Window Icon]
+Vindu Ikon
+[Bold]
+Fet
+[Italics]
+Kursiver
+[Underlined]
+Understreket
+[Smiley button]
+Smiley knapp
+[Room history]
+Romhistorikk
+[Room settings]
+Rominnstillinger
+[Event filter disabled]
+Hendelsesfilter deaktivert
+[Event filter enabled]
+Hendelsesfilter aktivert
+[Hide userlist]
+Skjul brukerliste
+[Show userlist]
+Vis brukerliste
+[Icon overlay]
+Ikonoverlapping
+[Status 1 (10x10)]
+Status 1 (10x10)
+[Status 2 (10x10)]
+Status 2 (10x10)
+[Status 3 (10x10)]
+Status 3 (10x10)
+[Status 4 (10x10)]
+Status 4 (10x10)
+[Status 5 (10x10)]
+Status 5 (10x10)
+[Status 6 (10x10)]
+Status 6 (10x10)
+[Message in (10x10)]
+Melding inn (10x10)
+[Message out (10x10)]
+Melding ut (10x10)
+[Action (10x10)]
+Handling (10x10)
+[Add Status (10x10)]
+Legg til Status (10x10)
+[Remove status (10x10)]
+Fjern status (10x10)
+[Join (10x10)]
+Join (10x10)
+[Leave (10x10)]
+Forlat (10x10)
+[Quit (10x10)]
+Avslutt (10x10)
+[Kick (10x10)]
+Kick (10x10)
+[Nickchange (10x10)]
+Kallenavnendring (10x10)
+[Notice (10x10)]
+Varsel (10x10)
+[Topic (10x10)]
+Overskrift (10x10)
+[Highlight (10x10)]
+Markering (10x10)
+[Information (10x10)]
+Informasjon (10x10)
+[Messaging]
+Melding
+[Group Chats]
+Gruppesamtaler
 [Options for using a tabbed interface]
 Valg for bruk av grensesnitt med faner
+[Appearance and functionality of chat room windows]
+Utseende og funksjonalitet til chat-rom vinduene
+[Appearance of the message log]
+Utseendet til samtaleloggen
 [Icons to display in the message log]
 Ikoner å vise i samtaleloggen
+[Icons to display in the tray]
+Ikoner å vise i oppgavelinjen
+[Select Folder]
+Velg Mapper
+[Message Sessions]
+Meldingsøkter
+[Group chats]
+Gruppesamtaler
+[General]
+Generelt
 [Chat Log]
 Samtalelogg
 [Chat]
 Chat
+[Popups]
+Popups
+[Popups]
+Popups
+[Message is highlighted]
+Melding er markert
+[User has performed an action]
+Bruker har utført en handling
+[User has kicked some other user]
+Bruker har kicket en annen bruker
+[User's status was changed]
+Brukerens status ble endret
+[User has changed name]
+Bruker har endret navn
+[User has sent a notice]
+Bruker har sendt et varsel
+[The topic has been changed]
+Overskriften har blitt forandret
 ;file \src\core\stdchat\src\services.cpp
+[&Join]
+&Join
 ;file \src\core\stdchat\src\tools.cpp
+[%s wants your attention in %s]
+%s ønsker din oppmerksomhet i %s
+[%s speaks in %s]
+%s snakker i %s
+[%s has joined %s]
+%s har joinet %s
+[%s has left %s]
+%s har forlatt %s
+[%s kicked %s from %s]
+%s kicket %s fra %s
+[Notice from %s]
+Varsel fra %s
+[Topic change in %s]
+Overskriftsendring om %s
+[Information in %s]
+Informasjon i %s
+[%s says: %s]
+%s sier: %s
+[%s has left (%s)]
+%s har forlatt (%s)
+[%s has disconnected (%s)]
+%s har koblet fra (%s)
+[%s kicked %s (%s)]
+%s kicket %s (%s)
+[Notice from %s: %s]
+Varsel fra %s: %s
+[No word to look up]
+Ingen ord å slå opp
 ;file \src\core\stdchat\src\window.cpp
+[Insert a smiley]
+Sett inn en smiley
+[Make the text bold (CTRL+B)]
+Gjør teksten fet (CTRL+B)
+[Make the text italicized (CTRL+I)]
+Gjør teksten kursiv (CTRL+I)
+[Make the text underlined (CTRL+U)]
+Gjør teksten understreket (CTRL+U)
+[Select a background color for the text (CTRL+L)]
+Velg en bakgrunnsfarge for teksten (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+Velg en forgrunnsfarge for teksten (CTRL+K)
+[Show the history (CTRL+H)]
+Vis historikken (CTRL+H)
+[Show/hide the nicklist (CTRL+N)]
+Vis/skjul kallenavnlisten (CTRL+N)
+[Control this room (CTRL+O)]
+Kontroller dette rommet (CTRL+O)
+[Enable/disable the event filter (CTRL+F)]
+Aktiver/deaktiver hendelsesfilteret (CTRL+F)
 [Close current tab (CTRL+F4)]
 Lukk denne fanen (CTRL+F4)
+[%s: Chat Room (%u user)]
+%s: Samtalerom (%u bruker)
+[%s: Chat Room (%u users)]
+%s: Samtalerom (%u brukere)
+[%s: Message Session]
+%s: Meldingsøkt
+[%s: Message Session (%u users)]
+%s: Meldingsøkt (%u brukere)
+[Nick name]
+Kallenavn
+[Unique id]
+Unik id
 ;file \src\core\stdclist\src\clcfonts.cpp
+[Standard contacts]
+Standard kontakter
+[Online contacts to whom you have a different visibility]
+Påloggede kontakter du har en annen synlighet ovenfor 
+[Offline contacts]
+Frakoblede kontakter
+[Contacts which are 'not on list']
+Kontakter som 'ikke er på liste'
+[Group member counts]
+Antall gruppemedlemmer
+[Dividers]
+Delere
+[Offline contacts to whom you have a different visibility]
+Frakoblede brukere du har annen synlighet ovenfor
+[Selected Text]
+Valgt Tekst
+[Quicksearch Text]
+Hurtigsøk Tekst
 ;file \src\core\stdclist\src\clcopts.cpp
+[Not focused]
+Ikke fokusert
+[Offline]
+Frakoblet
+[Online]
+Pålogget
+[Away]
+Borte
+[NA]
+NA
+[Occupied]
+Opptatt
+[DND]
+Ikke forstyrr
+[Free for chat]
+Tilgjengelig for samtale
+[Invisible]
+Usynlig
+[Out to lunch]
+Ute til lunsj
+[On the phone]
+I Telefonen
+[List Background]
+Listebakgrunn
 ;file \src\core\stdclist\src\clistopts.cpp
+[Global]
+Global
 ;file \src\core\stdclist\src\cluiopts.cpp
 ;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 Bruker har ikke registrert en e-post adresse
+[Send e-mail]
+Send e-post
 [&E-mail]
 &E-post
 ;file \src\core\stdfile\file.cpp
 [File from %s]
 Fil fra %s
+[bytes]
+bytes
+[&File]
+&Fil
+[Incoming]
+Innkommende
+[Complete]
+Ferdig
+[Error]
+Feil
 [Denied]
 Avslått
 ;file \src\core\stdfile\fileexistsdlg.cpp
 [%s File]
 %s Fil
+[All Files]
+Alle Filer
 ;file \src\core\stdfile\fileopts.cpp
+[Executable Files]
+Kjørbare Filer
+[Events]
+Hendelser
 ;file \src\core\stdfile\filerecvdlg.cpp
+[View User's History]
+Se Brukerens Historikk
+[User Menu]
+Brukermeny
 [Cancelled]
 Avbrutt
 ;file \src\core\stdfile\filesenddlg.cpp
@@ -465,10 +1547,14 @@ Forespørsel sendt, venter på svar...
 Venter på kobling...
 [Unable to initiate transfer.]
 Kan ikke starte overføring.
+[sec]
+sek
 [remaining]
 gjenstår
 [Decision sent]
 Avgjørelse sendt
+[Connecting...]
+Kobler til...
 [Connecting to proxy...]
 Kobler til proxy...
 [Connected]
@@ -488,6 +1574,8 @@ Skanner etter virus...
 [Transfer and virus scan complete]
 Overføring og virusskann ferdig
 ;file \src\core\stdfile\ftmanager.cpp
+[Outgoing]
+Utgående
 ;file \src\core\stdhelp\about.cpp
 ;file \src\core\stdhelp\help.cpp
 [&About...]
@@ -497,33 +1585,109 @@ Overføring og virusskann ferdig
 [&Report Bug]
 &Rapporter Feil
 ;file \src\core\stdidle\idle.cpp
+[Idle]
+Inaktivitet
 ;file \src\core\stdmsg\src\cmdlist.cpp
+[The message send timed out.]
+Meldingssendingen timet ut.
 ;file \src\core\stdmsg\src\globals.cpp
+[Incoming message (10x10)]
+Innkommende melding (10x10)
+[Outgoing message (10x10)]
+Utgående melding (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
+[Last message received on %s at %s.]
+Siste melding mottatt den %s kl. %s.
+[signed off (was %s)]
+koblet fra (var %s)
+[signed on (%s)]
+koblet på (%s)
+[is now %s (was %s)]
+er nå %s (var %s)
+[%s is typing a message...]
+%s skriver en melding...
 ;file \src\core\stdmsg\src\msglog.cpp
+[File sent]
+Fil sendt
+[File received]
+Fil mottatt
 ;file \src\core\stdmsg\src\msgoptions.cpp
+[Outgoing messages]
+Utgående meldinger
+[Incoming messages]
+Innkommende meldinger
+[Outgoing name]
+Utgående navn
+[Outgoing time]
+Utgående tid
+[Outgoing colon]
+Utgående kolonne
+[Incoming name]
+Innkommende navn
+[Incoming time]
+Innkommende tid
+[Incoming colon]
+Innkommende kolon
+[Message area]
+Samtaleområde
+[Message Log]
+Meldingslogg
+[** New contacts **]
+** Nye kontakter **
+[** Unknown contacts **]
+** Ukjente kontakter **
+[Show balloon popup (unsupported system)]
+Vis ballong popup (ustøttet system)
 [Messaging Log]
 Meldingslogg
+[Typing Notify]
+Skrivevarsling
 ;file \src\core\stdmsg\src\msgs.cpp
+[Message from %s]
+Melding fra %s
+[%s is typing a message]
+%s skriver en melding
+[Typing Notification]
+Skrivevarsling
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda kunne ikke laste inn den innebygde meldingsmodulen, riched20.dll mangler. Hvis du bruker Windows 95 eller WINE vennligst sørg for at du har riched20.dll installert. Trykk 'Ja' for å fortsette å laste Miranda.
+[Incoming (Focused Window)]
+Innkommende (Fokusert Vindu)
+[Incoming (Unfocused Window)]
+Innkommende (Ufokusert Vindu)
+[Incoming (New Session)]
+Innkommende (Ny Samtaleøkt)
 ;file \src\core\stdmsg\src\msgtimedout.cpp
+[An unknown error has occured.]
+En ukjent feil har inntruffet
 ;file \src\core\stduihist\history.cpp
 [Outgoing Message]
 Utgående Melding
 [Incoming Message]
 Innkommende Melding
+[Outgoing URL]
+Utgående URL
+[Incoming URL]
+Innkommende URL
 [Outgoing File]
 Utgående Fil
 [Incoming File]
 Innkommende Fil
+[History for %s]
+Historikk for %s
 [Are you sure you want to delete this history item?]
 Er du sikker på at du vil slette denne historikk forekomsten?
 [Delete History]
 Slett Historikk
+[View &History]
+Se &Historikk
 ;file \src\core\stdurl\url.cpp
 [URL from %s]
 URL fra %s
 [Web Page Address (&URL)]
 Web-adresse (&URL)
+[URL]
+URL
 ;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 Send URL til
@@ -534,10 +1698,14 @@ Sending utløp
 Rediger E-Post Adresse
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 Telefonnummeret bør begynne med et + og bestå av numre, mellomrom, klammer og bindestrek.
+[Invalid Phone Number]
+Feil Telefonnummer
 [Primary]
 Hovednummer
 [Custom %d]
 Selvvalgt %d
+[Fax]
+Faks
 [Mobile]
 Mobil
 [Work Phone]
@@ -545,43 +1713,85 @@ Telefon Arbeid
 [Work Fax]
 Fax Jobb
 ;file \src\core\stduserinfo\stdinfo.cpp
+[Male]
+Mann
+[Female]
+Kvinne
+[<not specified>]
+<ikke spesifisert>
+[Summary]
+Sammendrag
+[Contact]
+Kontakt
+[Location]
+Plassering
+[Work]
+Arbeid
+[Notes]
+Notater
 ;file \src\core\stduserinfo\userinfo.cpp
+[Owner]
+Eier
+[View/Change My &Details...]
+Se/Forandre Mine &Detaljer...
 ;file \src\core\stduseronline\useronline.cpp
 [%s is Online]
 %s er Pålogget
 ;file \src\modules\addcontact\addcontact.cpp
+[Add Contact]
+Legg til Kontakt
+[Please authorize my request and add me to your contact list.]
+Vennligst godta min forespørsel og legg meg til i din kontaktliste.
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 [Custom status]
 Selvvalgt status
+[%s (locked)]
+%s (låst)
 ;file \src\modules\clist\clistmod.cpp
-[This plugin requires db3x plugin version 0.5.1.0 or later]
-Dette tillegget krever db3x plugin versjon 0.5.1.0 eller nyere
 ;file \src\modules\clist\clistsettings.cpp
+[(Unknown Contact)]
+(Ukjent Kontakt)
 ;file \src\modules\clist\clisttray.cpp
+[&Main Menu]
+&Hovedmeny
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Denne kontakten er på et lynmeldingssystem som lagrer kontaktlisten på en sentral server. Kontakten vil bli fjernet fra serveren og fra kontaktlisten din neste gang du kobler til det nettverket.
 [De&lete]
 Sl&ett
+[&Rename]
+&Gi nytt navn
 [&Add permanently to list]
 &Legg til i liste permanent
 ;file \src\modules\clist\contacts.cpp
 [My custom name (not moveable)]
 Mitt valgte navn (ikke flyttbart)
+[Nick]
+Kallenavn
 [FirstName]
 Fornavn
+[E-mail]
+E-post
 [LastName]
 Etternavn
+[Username]
+Brukernavn
 [FirstName LastName]
 Fornavn Etternavn
+['(Unknown Contact)']
+'(Ukjent Kontakt)'
 ;file \src\modules\clist\genmenu.cpp
 ;file \src\modules\clist\genmenuopt.cpp
 [Menus]
 Menyer
+[Customize]
+Tilpass
 ;file \src\modules\clist\groups.cpp
 [New Group]
 Ny Gruppe
+[Delete Group]
+Slett Gruppe
 [You already have a group with that name. Please enter a unique name for the group.]
 Du har allerede en gruppe med det navnet. Vennligst skriv inn et unikt navn for gruppen.
 [Rename Group]
@@ -592,6 +1802,8 @@ Denne gruppen
 ;file \src\modules\clist\movetogroup.cpp
 [&Move to Group]
 &Flytt til Gruppe
+[<Root Group>]
+<Root Gruppe>
 ;file \src\modules\database\database.cpp
 [No profile support installed!]
 Ingen profilstøtte er installert!
@@ -609,8 +1821,12 @@ Problem ved profilflytting
 Kunne ikke opprette profilen '%s', feilen var %x
 [Problem creating profile]
 Problem ved opprettelse av profil
+[&Create]
+&Lag
 [<In Use>]
 <I Bruk>
+[Size]
+Størrelse
 [Created]
 Opprettet
 [My Profiles]
@@ -622,15 +1838,23 @@ Ny Profil
 [Chat Activity]
 Samtaleaktivitet
 ;file \src\modules\extraicons\options_ei.cpp
+[Extra icons]
+Ekstra ikoner
 ;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Du har ikke skrevet noe i søkefeltet. Vennligst skriv en søkestreng og prøv på nytt.
+[Search]
+Søk
 [Results]
 Resultater
 [There are no results to display.]
 Det er ingen resultater å vise.
+[Searching]
+Søker
 [All Networks]
 Alle Nettverk
+[&Find/Add Contacts...]
+&Finn/Legg til Kontakter
 ;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Kunne ikke starte et søk på '%s', det oppstod et problem - er %s tikoblet?
@@ -647,6 +1871,8 @@ Problem med søk
 [No users found]
 Ingen brukere funnet
 ;file \src\modules\fonts\FontOptions.cpp
+[<none>]
+<ingen>
 [Fonts]
 Skrifter
 ;file \src\modules\fonts\FontService.cpp
@@ -654,6 +1880,10 @@ Skrifter
 [Icon Sets]
 Ikonpakker
 ;file \src\modules\ignore\ignore.cpp
+[** All contacts **]
+** Alle kontakter **
+[Contacts]
+Kontakter
 ;file \src\modules\netlib\netliblog.cpp
 [Select where log file will be created]
 Velg hvor loggfilen skal opprettes
@@ -662,10 +1892,16 @@ Velg program som skal kjøres
 ;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <Alle koblinger>
+[Network]
+Nettverk
 ;file \src\modules\netlib\netlibssl.cpp
 ;file \src\modules\options\options.cpp
 [<all modules>]
 <Alle moduler>
+[Miranda NG Options]
+Miranda NG Innstillinger
+[&Options...]
+&Valg...
 ;file \src\modules\plugins\newplugins.cpp
 ['%s' is disabled, re-enable?]
 '%s' er deaktivert, re-aktiver?
@@ -676,19 +1912,43 @@ Kan ikke starte noen av de installerte kontaktliste tilleggene, Jeg ignorerte og
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Tillegg
+[Version]
+Versjon
+[Plugins]
+Tillegg
 ;file \src\modules\protocols\protoopts.cpp
+[Create new account]
+Lag ny konto
+[Edit]
+Rediger
+[Protocol]
+Protokoll
+[Rename]
+Gi nytt navn
+[Configure]
+Konfigurer
 [&Accounts...]
 &Kontoer...
 ;file \src\modules\skin\hotkey_opts.cpp
+[System]
+System
 ;file \src\modules\skin\skinicons.cpp
+[User Online]
+Bruker Pålogget
 [Group (Open)]
 Gruppe (Åpen)
 [Group (Closed)]
 Gruppe (Stengt)
 [Connecting]
 Kobler til
+[User Details]
+Brukerdetaljer
+[History]
+Historikk
 [Down Arrow]
 Pil Ned
+[Find User]
+Finn Bruker
 [Send E-mail]
 Send E-post
 [SMS]
@@ -699,6 +1959,8 @@ Søk Alle
 Tikk
 [No Tick]
 Ingen Tikk
+[Help]
+Hjelp
 [Miranda Website]
 Miranda Webside
 [Small Dot]
@@ -715,14 +1977,40 @@ ANSI plugin
 Kjørende tillegg
 [Unloaded plugin]
 Avslått Plugin
+[Main Menu]
+Hovedmeny
+[On]
+På
+[Off]
+Av
+[Frames]
+Rammer
+[Request authorization]
+Forespør godkjenning
+[Grant authorization]
+Godkjenn autorisasjon
+[Revoke authorization]
+Tilbakekall godkjenning
 [%s Icons]
 %s Ikoner
 [Main Icons]
 Hovedikoner
 ;file \src\modules\skin\sounds.cpp
 ;file \src\modules\utils\bmpfilter.cpp
+[You need an image services plugin to process PNG images.]
+Du trenger en bildetjeneste plugin for å behandle PNG bilder.
 [All Bitmaps]
 Alle Bitmaps
+[Windows Bitmaps]
+Vindu Bitmaps
+[JPEG Bitmaps]
+JPEG Bitmaps
+[GIF Bitmaps]
+GIF Bitmaps
+[PNG Bitmaps]
+PNG Bitmaps
 ;file \src\modules\utils\timezones.cpp
 ;file \src\modules\utils\utils.cpp
+[Unknown]
+Ukjent
 ;file \src\modules\visibility\visibility.cpp

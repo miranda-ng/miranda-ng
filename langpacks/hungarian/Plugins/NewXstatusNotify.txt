@@ -1,16 +1,74 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: xStatus notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 ;file \plugins\NewXstatusNotify\res\resource.rc
+[Online]
+Elérhetõ
+[Offline]
+Kilépett
+[Invisible]
+Láthatatlan
+[Free for chat]
+Csevegésre kész
+[Away]
+Távol
+[NA]
+NA
+[Occupied]
+Elfoglalt
+[DND]
+Ne zavarjanak
+[Out to lunch]
+Ebédel
+[On the phone]
+Telefonál
+[Delete]
+Törlés
+[Sounds]
+Hangok
+[Popups]
+Felugrók
+[Background]
+Háttér
+[Text]
+Szöveg
+[Use custom colours]
+Egyedi színek használata
+[Use Windows colours]
+Windows színek használata
+[Reset]
+Alapraállítás
+[OK]
+OK
+[Cancel]
+Mégsem
+[General]
+Általános
+[Accounts]
+Fiókok
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Status]
+Állpot
+[** All contacts **]
+** Minden új partner **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 ;file \plugins\NewXstatusNotify\src\main.cpp
+[Contact]
+Kapcsolat
 ;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+Minden fájl
+[Log]
+Napló
+[Protocol]
+Protokoll
 ;file \plugins\NewXstatusNotify\src\popup.h
 ;file \plugins\NewXstatusNotify\src\utils.cpp
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[<unknown>]
+<ismeretlen>
 ;file \plugins\NewXstatusNotify\src\xstatus.h

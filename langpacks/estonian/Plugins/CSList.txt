@@ -6,5 +6,21 @@
 ;  Authors: Mataes, jarvis
 ;============================================================
 ;file \plugins\CSList\res\cslist.rc
+[Cancel]
+Tühista
 ;file \plugins\CSList\src\cslist.cpp
+[Status]
+Staatus
+[Add]
+Lisa
+[Message]
+Teade
 ;file \plugins\CSList\src\cslist.h
+[Main Menu]
+Põhimenüü
+[Remove]
+Eemalda
+[Clear]
+Puhasta
+[Set]
+Sea

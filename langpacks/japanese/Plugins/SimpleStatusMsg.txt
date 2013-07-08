@@ -3,11 +3,73 @@
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
 ;  Version: 1.9.0.4
-;  Authors: Bartosz 'Dezeath' Biaіek, Harven
+;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
 ;file \plugins\SimpleStatusMsg\res\resource.rc
+[%s Message for %s]
+%s メッセージ 宛先 %s
+[&Cancel]
+Cancel(&C)
+[Retrieving %s message...]
+%s メッセージを復活...
+[OK]
+OK
+[Status Messages]
+ステータスメッセージ
+[seconds]
+秒
+[Other]
+その他
+[Cut]
+カット
+[Copy]
+コピー
+[Paste]
+ペースト
+[Delete]
+削除
+[Select All]
+全て選択
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
+[&Close]
+閉じる (&C)
+[Re&ad %s Message]
+%s メッセージを読む (&a)
 ;file \plugins\SimpleStatusMsg\src\main.cpp
+[%s (locked)]
+%s ( ロック中 )
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
+[Global]
+グローバル
+[Closing in %d]
+%d 秒後に閉じる
 ;file \plugins\SimpleStatusMsg\src\options.cpp
+[Status]
+ステータス
+[General]
+全般
+[Advanced]
+詳細
 ;file \plugins\SimpleStatusMsg\src\utils.cpp
+[I've been away since %time%.]
+%time% から離席中です
+[Give it up, I'm not in!]
+返事できません
+[Not right now.]
+%time% から取り込み中です
+[Give a guy some peace, would ya?]
+邪魔しないでください
+[I'm a chatbot!]
+チャットしたいな !
+[Yep, I'm here.]
+%time% から在席中です
+[Nope, not here.]
+いや , ここにはいないよ
+[I'm hiding from the mafia.]
+マフィアから隠れてるところだ
+[That'll be the phone.]
+電話中です
+[Mmm...food.]
+おいしいね...これ
+[idleeeeeeee]
+暇だよ

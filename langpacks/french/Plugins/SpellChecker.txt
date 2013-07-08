@@ -8,9 +8,17 @@
 ;file \plugins\SpellChecker\res\resource.rc
 [Edit...]
 Éditer...
+[Remove]
+Retirer
+[Cancel]
+Annuler
+[Advanced]
+Avancé
 ;file \plugins\SpellChecker\src\ardialog.cpp
 ;file \plugins\SpellChecker\src\dictionary.cpp
 ;file \plugins\SpellChecker\src\options.cpp
+[Message Sessions]
+Sessions de message
 [Line]
 Ligne
 [Thick]

@@ -10,10 +10,14 @@
 コンテンツとスタイル
 [Go to Customize > Fonts && Colors for fonts and colors options]
 フォントと色のオプション設定で カスタマイズ > フォントと色 に移動
+[Effects]
+効果
 [Live Preview]
 リアルタイムプレビュー
 [Size && Position]
 大きさと位置
+[History]
+履歴
 [Enable popup history]
 ポップアップ履歴を有効
 [Store last]
@@ -24,6 +28,10 @@
 アバターの枠線を描画
 [Draw borders for semitransparent avatars too]
 半透明アバターに対する枠線も描画
+[pixels]
+ピクセル
+[pixels]
+ピクセル
 [Enable avatar updates]
 アバター更新を有効
 [Start the popups in the monitor with]
@@ -34,10 +42,14 @@ Miranda のウィンドウ
 アクティブウィンドウ
 [Enable Win 9x/Me transparency]
 Win 9x/Me で透明度を有効
+[opacity:]
+不透明度 :
 [Opaque popups under cursor]
 カーソル下のポップアップを不透明
 [Slide Popup]
 スライドポップアップ
+[Effect:]
+効果 :
 [Time (out):]
 時間(アウト)
 [Limit window amount to:]
@@ -52,6 +64,10 @@ Win 9x/Me で透明度を有効
 ポップアップ間の距離
 [Configure popup area]
 ポップアップエリアの設定
+[Close]
+閉じる
+[General]
+全般
 [Enable popup actions]
 ポップアップ操作を有効
 [Popup Actions are those tiny buttons below notification text.]
@@ -114,6 +130,8 @@ IM コンタクトのみに情報とメニューを追加
 ポップアップ遅延を無制限
 [Popup delay:]
 ポップアップ遅延 :
+[seconds]
+秒
 [Do not close hovered popups]
 ホバーポップアップを閉じない
 [Dynamically resize the popups]
@@ -122,6 +140,8 @@ IM コンタクトのみに情報とメニューを追加
 最小幅
 [Maximum width]
 最大幅
+[Position:]
+位置 :
 [Layout:]
 レイアウト :
 [Reorder Popups]
@@ -139,6 +159,8 @@ IM コンタクトのみに情報とメニューを追加
 クイック返信
 [User details]
 ユーザーの詳細情報
+[Contact menu]
+コンタクトメニュー
 [Pin popup]
 固定ポップアップ
 ;file \plugins\Popup\src\config.cpp
@@ -158,7 +180,19 @@ IM コンタクトのみに情報とメニューを追加
 [Popup History message]
 履歴メッセージをポップアップ
 ;file \plugins\Popup\src\icons.cpp
+[OK]
+OK
+[Cancel]
+Cancel
+[User Details]
+ユーザーの詳細情報
 ;file \plugins\Popup\src\main.cpp
+[Actions]
+アクション
+[Contacts]
+コンタクト
+[Advanced]
+詳細
 [Popup Plus]
 Popup Plus
 ;file \plugins\Popup\src\opt_adv.cpp
@@ -185,11 +219,15 @@ Popup Plus 警告
 スキンプレビュー
 [Just take a look at this skin... ;)]
 このスキンで見てみる... ;)
+[Use Windows colours]
+ウィンドウ色を使用
 [Refresh List]
 更新リスト
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
 ;file \plugins\Popup\src\services.cpp
+[Error]
+エラー
 ;file \plugins\Popup\src\skin.cpp
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Popup Mode: Auto]

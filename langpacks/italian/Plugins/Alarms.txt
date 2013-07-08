@@ -6,9 +6,83 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Alarms\res\resource.rc
+[Delete]
+Elimina
+[Delete]
+Elimina
+[Delete]
+Cancella
+[Delete]
+Elimina
+[minutes]
+minuti
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Description:]
+Descrizione:
+[Description:]
+Descrizione:
+[Actions]
+Azioni
+[&Delete]
+&Elimina
+[&Delete]
+&Elimina
+[&Delete]
+&Elimina
+[&Delete]
+&Cancella
+[&Delete]
+Elimina
+[&Options...]
+&Opzioni...
+[&Options...]
+&Opzioni...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 ;file \plugins\Alarms\src\alarm_win.cpp
+[Background]
+Altro
+[Background]
+Sfondo
+[Background]
+Sfondo
+[Background]
+Altro
+[Background]
+Sfondo
+[Window]
+Finestra
+[Window]
+Finestra
 ;file \plugins\Alarms\src\frame.cpp
+[Frames]
+Frame
 ;file \plugins\Alarms\src\icons.cpp
 ;file \plugins\Alarms\src\options.cpp
+[Error]
+Errore
+[Error]
+Errore
+[Events]
+Eventi
+[Events]
+Eventi
+[Events]
+Eventi

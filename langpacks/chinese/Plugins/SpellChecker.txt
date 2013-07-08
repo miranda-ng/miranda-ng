@@ -12,6 +12,8 @@
 启用自动替换
 [Edit...]
 编辑: 
+[Remove]
+移除
 [Add auto-replace word]
 添加自动替换单词
 [Wrong word:]
@@ -22,6 +24,10 @@
 修正:
 [Use variables in correction]
 校正使用变量
+[OK]
+确定
+[Cancel]
+取消
 [Spell Checker]
 拼写检查
 [Default language:]
@@ -36,6 +42,8 @@
 发送消息前提示拼写错误
 [Download more dictionaries]
 下载更多辞典
+[Advanced]
+高级
 [Underline type:]
 下划线类型:
 [Show corrections in submenu]
@@ -63,6 +71,8 @@
 更正不等于错字!
 ;file \plugins\SpellChecker\src\dictionary.cpp
 ;file \plugins\SpellChecker\src\options.cpp
+[Message Sessions]
+消息会话
 [Auto-replacements]
 自动替换
 [Line]

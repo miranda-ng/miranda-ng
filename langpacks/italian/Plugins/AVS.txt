@@ -6,6 +6,78 @@
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 ;file \plugins\AVS\res\avs.rc
+[Delete]
+Elimina
+[Delete]
+Elimina
+[Delete]
+Cancella
+[Delete]
+Elimina
+[Reset]
+Reimposta
+[Reset]
+Reimposta
+[Reset]
+Resetta
+[Reset]
+Reimposta
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Options]
+Opzioni
+[Options]
+Opzioni
+[Background]
+Altro
+[Background]
+Sfondo
+[Background]
+Sfondo
+[Background]
+Altro
+[Background]
+Sfondo
+[Set]
+Imposta
+[Set]
+Imposta
 ;file \plugins\AVS\src\acc.cpp
 ;file \plugins\AVS\src\main.cpp
+[All Files]
+Tutti i file
+[All Files]
+Tutti i file
+[All Files]
+Tutti i file
+[Windows Bitmaps]
+Bitmap di Windows
+[Windows Bitmaps]
+Bitmap di Windows
+[JPEG Bitmaps]
+Immagini JPEG
+[JPEG Bitmaps]
+Bitmap JPEG
+[GIF Bitmaps]
+Immagini GIF
+[GIF Bitmaps]
+Bitmap GIF
+[Contacts]
+Contatti
 ;file \plugins\AVS\src\options.cpp

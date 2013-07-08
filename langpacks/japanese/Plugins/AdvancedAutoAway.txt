@@ -6,6 +6,72 @@
 ;  Authors: P Boon
 ;============================================================
 ;file \Plugins\StatusPlugins\resource.rc
+[General]
+全般
+[Close]
+閉じる
+[Cancel]
+Cancel
+[Profile]
+プロファイル
+[Message]
+メッセージ
+[Set]
+設定
+[OK]
+OK
+[Other]
+その他
+[Background colour]
+背景色
+[Text colour]
+テキスト色
+[Use Windows colours]
+ウィンドウ色を使用
+[Use default colours]
+デフォルト色を使用
+[Events]
+イベント
+[Custom]
+カスタム
+[Use %time% for the current time, %date% for the current date]
+現在の時間として %time%, 現在の日付として %date% を使用
+[Accounts]
+アカウント
+[Status]
+ステータス
+[Delete]
+削除
+[seconds]
+秒
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
+[Status Messages]
+ステータスメッセージ
 ;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+%time% から離席中です
+[Give it up, I'm not in!]
+返事できません
+[Not right now.]
+%time% から取り込み中です
+[Give a guy some peace, would ya?]
+邪魔しないでください
+[I'm a chatbot!]
+チャットしたいな !
+[Yep, I'm here.]
+%time% から在席中です
+[Nope, not here.]
+いや , ここにはいないよ
+[I'm hiding from the mafia.]
+マフィアから隠れてるところだ
+[That'll be the phone.]
+電話中です
+[Mmm...food.]
+おいしいね...これ
+[idleeeeeeee]
+暇だよ
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Protocol]
+プロトコル
+[Closing in %d]
+%d 秒後に閉じる

@@ -6,9 +6,41 @@
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
 ;file \plugins\SecureIM\res\resource.rc
+[sec]
+sek
+[Text]
+Tekst
+[Events]
+Hendelser
+[Username:]
+Brukernavn:
+[Password:]
+Passord:
+[OK]
+OK
+[Cancel]
+Avbryt
+[Status]
+Status
 ;file \plugins\SecureIM\src\language.cpp
+[General]
+Generelt
+[Name]
+Navn
+[Off]
+Av
 ;file \plugins\SecureIM\src\loadicons.cpp
+[Contact List]
+Kontaktliste
+[Popups]
+Popups
+[Popups]
+Popups
 ;file \plugins\SecureIM\src\main.cpp
+[Icons]
+Ikoner
 ;file \plugins\SecureIM\src\options.cpp
+[Executable Files]
+Kjørbare Filer
 ;file \plugins\SecureIM\src\popupOptions.cpp
 ;file \plugins\SecureIM\src\svcs_srmm.cpp

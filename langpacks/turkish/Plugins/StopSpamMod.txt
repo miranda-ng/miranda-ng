@@ -8,3 +8,13 @@
 ;file \plugins\StopSpamMod\res\stopspam.rc
 ;file \plugins\StopSpamMod\src\init.cpp
 ;file \plugins\StopSpamMod\src\options.cpp
+[Message Sessions]
+İleti Oturumları
+[General]
+Genel
+[Messages]
+İletiler
+[Accounts]
+Hesaplar
+[Advanced]
+Gelişmiş

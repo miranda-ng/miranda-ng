@@ -6,8 +6,26 @@
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
 ;file \protocols\AimOscar\res\aim.rc
+[Password:]
+Wachtwoord:
 [Advanced Options]
 Geavanceerde opties
+[Port:]
+Poort:
+[Reset]
+Terugzetten
+[Add]
+Toevoegen
+[Idle]
+Rustig
+[&Join]
+Binnengaan
+[&Cancel]
+Annuleren
+[&Deny]
+Weigeren
+[Message]
+Bericht
 ;file \protocols\AimOscar\src\avatars.cpp
 ;file \protocols\AimOscar\src\chat.cpp
 ;file \protocols\AimOscar\src\error.cpp
@@ -17,5 +35,11 @@ Geavanceerde opties
 ;file \protocols\AimOscar\src\proto.cpp
 ;file \protocols\AimOscar\src\server.cpp
 ;file \protocols\AimOscar\src\theme.cpp
+[Profile]
+Profiel
+[Bold]
+Vet
 ;file \protocols\AimOscar\src\ui.cpp
+[Network]
+Netwerk
 ;file \protocols\AimOscar\src\utility.cpp

@@ -6,19 +6,77 @@
 ;  Authors: TioDuke
 ;============================================================
 ;file \plugins\KeyboardNotify\res\resources.rc
+[Incoming messages]
+הודעות נכנסות
 [Incoming files]
 קבצים מתקבלים
 [Incoming URLs]
 קישורים נכנסים
+[seconds]
+שניות
 [Only notify if status is]
 הודע רק כאשר המצב הוא
+[Online]
+מחובר
+[Away]
+לא נמצא
+[Occupied]
+עסוק
+[NA]
+לא זמין
+[DND]
+לא להפריע
+[Free for chat]
+פנוי לשיחה
+[Invisible]
+בלתי נראה
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדברת בטלפון
+[Out to lunch]
+אוכל ארוחת צהריים
+[minutes]
+דקות
+[Offline]
+לא מחובר
 [Slow]
 איטי
+[&Preview]
+הש&מע
+[Add]
+הוסף
+[Delete]
+מחק
+[OK]
+אישור
+[Cancel]
+ביטול
+[The following events are being ignored:]
+אתה מתעלם מהאירועים הבאים:
 [Ignore messages]
 התעלם מהודעות
 [Ignore URLs]
 התעלם מקישורים
 [Ignore files]
 התעלם מקבצים
+[Ignore]
+התעלם
 ;file \plugins\KeyboardNotify\src\ignore.cpp
+[** All contacts **]
+** כל הרשימה **
+[** Unknown contacts **]
+**אנשי קשר לא ידועים**
 ;file \plugins\KeyboardNotify\src\options.cpp
+[Events]
+אירועים
+[Accounts]
+חשבונות
+[Protocol]
+פרוטוקול
+[All Files]
+כל הקבצים
+[None]
+ללא

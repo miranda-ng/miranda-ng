@@ -2,21 +2,92 @@
 ;============================================================
 ;  File: Skype.dll
 ;  Plugin: Skype Protocol
-;  Version: 0.0.0.1
-;  Authors: Unsane, Mataes
+;  Version: 0.11.0.1
+;  Authors: unsane, mataes, ghazan
 ;============================================================
 ;file \protocols\Skype\res\Resource.rc
+[&Cancel]
+Отказ
+[Add]
+Добавяне
+[&Create]
+Създаване
+[Password:]
+Парола:
+[Set password]
+Задаване на парола
+[Hint:]
+Съвет:
 [Enter password]
 Въведете на парола
+[Cancel]
+Отказ
+[Date of birth:]
+Рожден ден:
+[Gender:]
+Пол:
+[Homepage:]
+Страница:
+[About:]
+Относно:
+[City:]
+Град:
+[State:]
+Област:
+[Country:]
+Държава:
+[Timezone:]
+Часови пояс:
+[New password:]
+Нова парола:
 ;file \protocols\Skype\src\skype.cpp
 ;file \protocols\Skype\src\skype_account.cpp
+;file \protocols\Skype\src\skype_blocked.cpp
+[Name]
+Име
+;file \protocols\Skype\src\skype_bookmarks.cpp
+[Conferences]
+Конференции
 ;file \protocols\Skype\src\skype_chat.cpp
+[&User details]
+Подробности за потребителя
+[Set &role]
+Задаване на роля
+[&User]
+Потребител
+[&Add]
+Добавяне
 ;file \protocols\Skype\src\skype_contacts.cpp
 ;file \protocols\Skype\src\skype_dialogs.cpp
+[<not specified>]
+<неуточнено>
+[Male]
+Мъж
+[Female]
+Жена
 ;file \protocols\Skype\src\skype_events.cpp
+[Network]
+Мрежа
+[Contacts]
+Контакти
+[General]
+Основни
 ;file \protocols\Skype\src\skype_icons.cpp
+[Contact]
+Контакт
+[Delete]
+Изтриване
+;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
 ;file \protocols\Skype\src\skype_menus.cpp
+[Request authorization]
+Молба за упълномощаване
+[Grant authorization]
+Даване на пълномощно
+[Revoke authorization]
+Отнемане на пълномощното
+;file \protocols\Skype\src\skype_messages.cpp
 ;file \protocols\Skype\src\skype_netlib.cpp
 ;file \protocols\Skype\src\skype_proto.cpp
+;file \protocols\Skype\src\skype_transfers.cpp
 ;file \protocols\Skype\src\skype_utils.cpp

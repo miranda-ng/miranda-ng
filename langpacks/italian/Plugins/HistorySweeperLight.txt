@@ -14,3 +14,5 @@ Pulisci lo storico per questi contatti:
 Usa la modalità NON SICURA (pulizia più veloce, ma pericolosa per il DB)
 ;file \plugins\HistorySweeperLight\src\main.cpp
 ;file \plugins\HistorySweeperLight\src\options.cpp
+[History]
+Storico

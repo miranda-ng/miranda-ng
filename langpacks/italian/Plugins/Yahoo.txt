@@ -6,16 +6,78 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\Yahoo\res\Yahoo.rc
+[Password:]
+Password:
+[Password:]
+Password:
+[Nick:]
+Nick:
+[Nick:]
+Nick:
 [Create a new Yahoo account using the Yahoo website]
 Creare una nuova registrazione a Yahoo usando il sito web
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Reset]
+Reimposta
+[Reset]
+Reimposta
+[Reset]
+Resetta
+[Reset]
+Reimposta
+[&Add]
+&Aggiungi
+[&Add]
+&Aggiungi
 [Set Custom Status]
 Imposta Stati Personalizzati
 [Show as busy]
 Mostra come 'Occupato'
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[&Join]
+&Unisciti
+[&Deny]
+&Nega
+[&Cancel]
+&Annulla
 ;file \protocols\Yahoo\src\avatar.cpp
 ;file \protocols\Yahoo\src\chat.cpp
 ;file \protocols\Yahoo\src\icolib.cpp
+[Profile]
+Profilo
+[Profile]
+Profilo
+[Profile]
+Profilo
 ;file \protocols\Yahoo\src\im.cpp
+[The message send timed out.]
+Il tempo per l'invio del messaggio è scaduto.
 ;file \protocols\Yahoo\src\links.cpp
 ;file \protocols\Yahoo\src\main.cpp
 ;file \protocols\Yahoo\src\options.cpp
@@ -23,6 +85,12 @@ Mostra come 'Occupato'
 Queste modifiche avranno effetto a partire dalla prossima connessione alla rete di Yahoo.
 [YAHOO Options]
 Impostazioni Yahoo
+[Network]
+Rete
+[Network]
+Rete
+[Network]
+Rete
 ;file \protocols\Yahoo\src\proto.cpp
 [Yahoo Login Error]
 Yahoo Errore di Connessione

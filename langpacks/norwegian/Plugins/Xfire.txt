@@ -1,13 +1,75 @@
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
+[Password:]
+Passord:
+[Nick:]
+Kallenavn:
+[Options]
+Valg
+[More options]
+Flere innstillinger
+[Files]
+Filer
+[Apply]
+Lagre
+[Remove]
+Fjern
+[Remove]
+Fjern
+[Username:]
+Brukernavn:
+[Name:]
+Navn:
+[Name:]
+Navn:
+[Port:]
+Port:
+[Copy]
+Kopier
+[Copy]
+Kopier
+[OK]
+OK
+[Cancel]
+Avbryt
+[Search:]
+Søk:
 ;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
+[All Files]
+Alle Filer
 ;file \protocols\Xfire\src\all_statusmsg.cpp
+[Yep, I'm here.]
+Ja, jeg er her.
+[I've been away since %time%.]
+Jeg har vært borte siden %time%
+[Give it up, I'm not in!]
+Gi opp, Jeg er ikke her!
+[Not right now.]
+Ikke akkurat nå.
+[Give a guy some peace, would ya?]
+Gi en kar litt fred da, gidder du?
+[That'll be the phone.]
+Det må være telefonen.
+[Mmm...food.]
+Mmm... mat.
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
+[Username]
+Brukernavn
 ;file \protocols\Xfire\src\options.cpp
+[General]
+Generelt
+[No]
+Nei
+[<Root Group>]
+<Root Gruppe>
+[Network]
+Nettverk
 ;file \protocols\Xfire\src\searching4games.cpp
 ;file \protocols\Xfire\src\userdetails.cpp
+[<not specified>]
+<ikke spesifisert>
 ;file \protocols\Xfire\src\Xfire_game.cpp
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp

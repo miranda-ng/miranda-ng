@@ -40,6 +40,10 @@
 重新设置头像以符合协议允许最大尺寸
 [Contact picture]
 联系人图片
+[Delete]
+删除
+[Reset]
+重置
 [Picture options]
 图片选项
 [Protect the picture]
@@ -50,10 +54,20 @@
 尝试图片背景透明
 [Use defaults]
 使用默认值
+[OK]
+确定
+[Cancel]
+取消
+[Options]
+选项
+[Background]
+背景
 [Points:]
 点数: 
 [Color diff:]
 颜色差异: 
+[Set]
+设置
 [Use per protocol avatars]
 每个协议使用不同头像
 ;file \plugins\AVS\src\acc.cpp
@@ -62,6 +76,16 @@
 ;file \plugins\AVS\src\main.cpp
 [Grow avatar to fit max allowed protocol size]
 扩展头像以适合协议允许最大尺寸
+[All Files]
+所有文件
+[Windows Bitmaps]
+Windows 位图
+[JPEG Bitmaps]
+JPEG 位图
+[GIF Bitmaps]
+GIF 位图
+[PNG Bitmaps]
+PNG 位图
 [Flash Animations]
 Flash 动态
 [XML Files]
@@ -72,6 +96,8 @@ XML 文件
 为 %s 设定我的头像
 [My Avatars]
 我的头像
+[Contacts]
+联系人
 [Contact Avatars]
 联系人头像
 [Own Avatars]

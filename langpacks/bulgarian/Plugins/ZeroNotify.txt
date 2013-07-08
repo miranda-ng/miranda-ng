@@ -16,3 +16,5 @@
 Без - в списъка:
 ;file \plugins\ZeroNotification\src\common.h
 ;file \plugins\ZeroNotification\src\main.cpp
+[Plugins]
+Приставки

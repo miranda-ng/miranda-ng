@@ -1,6 +1,14 @@
 ﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
 ;langpack template for Tlen
 ;file \protocols\Tlen\res\tlen.rc
+[Username:]
+用户名: 
+[Password:]
+密码: 
+[Create new account]
+建立新帐号
+[Options]
+选项
 [Leave status message after disconnection]
 断开后留下状态信息
 [Ignore advertisements]
@@ -29,6 +37,8 @@
 专家选项
 [Connection Host:]
 连接主机:
+[Port:]
+端口:
 [Enable encryption]
 启用加密
 [Enable Always Visible and Never Visible]
@@ -47,12 +57,30 @@ P2P 连接
 邮件通知
 [Enable incoming mail notification]
 启用传入邮件通知
+[Background]
+背景
+[Text]
+文本
 [&Custom]
 自定义(&C)
 [P&ermanent]
 永久(&E)
+[OK]
+确定
+[Cancel]
+取消
+[First name:]
+名字: 
+[Last name:]
+姓氏: 
+[E-mail:]
+邮件: 
+[Gender:]
+性别: 
 [Year of birth:]
 出生年份:
+[City:]
+城市: 
 [School:]
 学校:
 [Looking for:]
@@ -77,6 +105,10 @@ Tlen 登录:
 系统: 
 [Personal Information]
 个人信息
+[Nickname:]
+昵称: 
+[Age:]
+年龄: 
 [Extra Search Criterias]
 附加搜索条件
 [Plan:]
@@ -91,12 +123,20 @@ Tlen 语音聊天
 出
 [Tlen Voice Chat Invitation]
 Tlen 语音聊天聊天邀请
+[From:]
+从: 
 [The following invitation to join a voice chat is received.]
 收到以下邀请, 邀请您加入语音聊天.
 ;file \protocols\Tlen\src\jabber_iqid.cpp
 [Tlen Authentication]
 Tlen 验证
 ;file \protocols\Tlen\src\jabber_opt.cpp
+[General]
+常规
+[Advanced]
+高级
+[Network]
+网络
 [These changes will take effect the next time you connect to the Tlen network.]
 这些变化将在您下次连接至 Tlen 网络时生效.
 [Tlen Protocol Option]
@@ -129,16 +169,22 @@ Tlen 登录
 ;file \protocols\Tlen\src\jabber_thread.cpp
 [Jabber Connection Error]
 Jabber 连接错误
+[Windows]
+窗口
 [%s Web Messages]
 %s 网络信息
 [Web message]
 网络信息
+[E-mail]
+邮件
 [An alert has been received.]
 警报已收到
 [Private conference]
 私人会议
 ;file \protocols\Tlen\src\jabber_ws.cpp
 ;file \protocols\Tlen\src\tlen.cpp
+[Group chats]
+群组聊天
 [Tlen chats]
 Tlen 聊天
 [Voice chat]
@@ -157,6 +203,10 @@ Tlen 聊天
 发送图片
 [Voice Chat]
 语音聊天
+[Request authorization]
+要求授权
+[Grant authorization]
+准许授权
 ;file \protocols\Tlen\src\tlen_file.cpp
 [1 File]
 1 文件
@@ -200,3 +250,5 @@ Tlen 聊天
 ...错误...
 [...Denied...]
 ...拒绝...
+[Default]
+默认

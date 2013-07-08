@@ -6,7 +6,11 @@
 ;  Authors: Nikolay Redko
 ;============================================================
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
+[OK]
+OK
 [Use windows colors]
 Utilice las ventanas colores
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
+[File]
+Archivo
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp

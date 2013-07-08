@@ -6,4 +6,32 @@
 ;  Authors: Angelo Luiz Tartari
 ;============================================================
 ;file \plugins\StatusChange\res\resource.rc
+[Offline]
+Frakoblet
+[Online]
+Pålogget
+[Away]
+Borte
+[NA]
+NA
+[Occupied]
+Opptatt
+[DND]
+Ikke forstyrr
+[Free for chat]
+Tilgjengelig for samtale
+[Invisible]
+Usynlig
+[On the phone]
+I Telefonen
+[Out to lunch]
+Ute til lunsj
+[Message]
+Melding
+[Message]
+Melding
+[URL]
+URL
 ;file \plugins\StatusChange\src\main.cpp
+[Status]
+Status

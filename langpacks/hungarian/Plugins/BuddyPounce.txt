@@ -6,5 +6,27 @@
 ;  Authors: Jonathan Gordon
 ;============================================================
 ;file \plugins\BuddyPounce\res\resource.rc
+[Cancel]
+Mégsem
+[OK]
+OK
+[Advanced >>]
+Haladó >>
+[Status]
+Állpot
 ;file \plugins\BuddyPounce\src\dialog.cpp
+[Online]
+Elérhetõ
+[Away]
+Távol
+[NA]
+NA
+[Occupied]
+Elfoglalt
+[DND]
+Ne zavarjanak
+[Invisible]
+Láthatatlan
 ;file \plugins\BuddyPounce\src\main.cpp
+[Message Sessions]
+Üzenet mukamenetek

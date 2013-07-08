@@ -6,8 +6,20 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\JabberG\res\jabber.rc
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Type:]
+Tip:
 [User:]
 Kullanıcı:
+[Password:]
+Parola:
 [Resource:]
 Kaynak:
 [Register new user]
@@ -22,12 +34,16 @@ Arama hizmeti
 Liste Düzenleyici
 [Jabber]
 Jabber
+[Username:]
+Kullanıcı Adı:
 [Priority:]
 Öncelik:
 [Use hostname as resource]
 Sunucu adını kaynak olarak kullan
 [List of public servers]
 Açık sunucuların listesi
+[Port:]
+Port:
 [Use SSL]
 SSL Kullan
 [Use TLS]
@@ -36,6 +52,8 @@ TLS Kullan
 Kayıdı sil
 [Manually specify connection host]
 Bağlantı sunucusunu el ile belirt
+[Host:]
+Sunucu:
 [User directory:]
 Kullanıcı klasörü:
 [Language for human-readable resources:]
@@ -72,6 +90,8 @@ Giriş
 Çıkış
 [Register with a new service...]
 Yeni bir hizmetle kayıt ol...
+[Close]
+Kapat
 [Command]
 Komut
 [Jabber Form]
@@ -80,28 +100,58 @@ Jabber Form
 Açıklama:
 [Submit]
 Gönder
+[Complete]
+Tamamlandı
 [Data form test]
 Sınama verisi
 [Address1:]
 Adres1:
 [Address2:]
 Adres2:
+[City:]
+Şehir:
+[State:]
+Şehir:
 [ZIP:]
 Posta kodu:
+[Country:]
+Ülke:
+[First name:]
+İlk ad:
 [Middle:]
 Orta:
+[Last name:]
+Soyadı:
+[Date of birth:]
+Doğum Tarihi
 [YYYY-MM-DD]
 YYYY-AA-GG
+[Gender:]
+Cinsiyet:
+[Homepage:]
+Ana sayfa:
+[Company:]
+Firma:
+[Department:]
+Bölüm:
+[E-mail:]
+E-posta:
+[Phone:]
+Telefon:
 [Jabber vCard: Add Email Address]
 Jabber sKart: E-posta adresi ekle
 [Email address:]
 E-posta adresi:
+[Work]
+İş
 [X400]
 X400
 [Jabber vCard: Add Phone Number]
 Jabber sKart: Telefon numarası ekle
 [Phone number:]
 Telefon numarası
+[Fax]
+Faks
 [Pager]
 Çağrı cihazı
 [Text/Messaging]
@@ -116,6 +166,12 @@ ISDN
 PCS
 [Load]
 Yükle
+[Delete]
+Sil
+[Description:]
+Açıklama:
+[Description:]
+Açıklama:
 [Current Password:]
 Şimdiki Parola:
 [New Password:]
@@ -148,14 +204,24 @@ JID:
 Kayıt Ol
 [Other JID:]
 Başka JID:
+[Add]
+Ekle
+[Nickname:]
+Kısa Ad:
 [Jabber Bookmarks]
 Jabber Yer İmleri
+[Remove]
+Sil
+[Edit]
+Değiştir
 [Bookmark Details]
 Yer İmi Detayları
 [Bookmark Type]
 Yer İmi Tipi
 [Transport]
 Aktarım
+[URL]
+Web adresi
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
 Kendin-katıl (Miranda seçeneklerinden Kendiliğinden Katıl Yer İmleri açık olmalı)
 [Room JID/ URL:]
@@ -198,6 +264,8 @@ Eğer:
 Sonra:
 [following stanza types:]
 izleyen kıta tipleri:
+[Messages]
+İletiler
 [Incoming presence]
 Gelen varlık
 [Outgoing presence]
@@ -214,6 +282,10 @@ Ağaç olarak göster
 Liste olarak göster
 [Node:]
 Düğüm:
+[Change %s Message]
+%s iletisini değiştir
+[Closing in %d]
+Kapanıyor %d
 [Account type:]
 Hesap tipi:
 [Register account now]
@@ -238,6 +310,8 @@ Sohbet seçenekleri
 Çık:
 [Slap:]
 Tokat:
+[Authorization Request]
+Yetkilendirme İsteği
 [Someone (maybe you) has requested the following file:]
 Biri (belki siz) şu dosyayı istedi:
 [Request was sent from JID:]
@@ -291,8 +365,12 @@ Konferanslar
 ;file \protocols\JabberG\src\jabber_caps.cpp
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 ;file \protocols\JabberG\src\jabber_chat.cpp
+[None]
+Yok
 [Member]
 Üye
+[Owner]
+Sahibi
 [Visitor]
 Ziyaretçi
 [Participant]
@@ -353,6 +431,16 @@ Bağlantı&lar
 Oda &JID kopyala
 [Copy room topic]
 Oda başlığını kopyala
+[Online]
+Çevrimiçi
+[Away]
+Uzakta
+[NA]
+Bilinmiyor
+[DND]
+Dokunma
+[Free for chat]
+Sohbete uygun
 [&User details]
 K&llanıcı detayları
 [Member &info]
@@ -457,6 +545,8 @@ Oda listesi indirilirken bekleyin.
 [Bookmarks...]
 Yer İmleri...
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Notes]
+Notlar
 [Agents list]
 Ajan listesi
 [Transports]
@@ -549,6 +639,12 @@ Siliniyor
 [Http authentication request received]
 Http yetkilendirme isteği alındı
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Request authorization]
+İzin iste
+[Grant authorization]
+İzin ver
+[Revoke authorization]
+İzni kaldır
 [Add to Bookmarks]
 Yer İmlerine Ekle
 [Commands]
@@ -585,8 +681,12 @@ Henüz etkinlik yok, sunucunun tercihini kullanın
 En yüksek öncelik (sunucunun tercihi)
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
+[To]
+Kime
 ;file \protocols\JabberG\src\jabber_notes.cpp
 ;file \protocols\JabberG\src\jabber_opt.cpp
+[Nauru]
+Nauru
 [These changes will take effect the next time you connect to the Jabber network.]
 Bu değişiklikler Jabber ağına yeniden bağlandığınızda etkin olacak.
 [Jabber Protocol Option]
@@ -595,6 +695,8 @@ Jabbet Protokol Seçeneği
 Bu işlem hesabınızı kapatacak ve listeniz gibi sunucuda saklanan tüm bilgileri silecek. Bunu yapmaya hazır mısınız?
 [Account removal warning]
 Hesap silme uyarısı
+[Messaging]
+İletişim
 [Log chat state changes]
 Sohbet durum değişikliklerini günlükle
 [Log presence subscription state changes]
@@ -611,6 +713,8 @@ Sunucu seçenekleri
 SASL yetkilendirmeyi kapat (eski sunucular için)
 [Enable stream compression (if possible)]
 Akış sıkıştırmayı aç (olasıysa)
+[Other]
+Diğer
 [Enable remote controlling (from another resource of same JID only)]
 Uzaktan denetimi etkinleştir (Yalnız aynı JID ile başka kaynaktan )
 [Show transport agents on contact list]
@@ -627,6 +731,8 @@ Sürüm yanıtlarında işletim sistemi bilgisini göster
 Yalnız banttan gelen dosya aktarımlarını onayla (kendi IP adresini gösterme)
 [Accept HTTP Authentication requests (XEP-0070)]
 HTTP izin isteklerini onayla (XEP-0070)
+[General]
+Genel
 [Autoaccept multiuser chat invitations]
 Çok kişili sohbet çağrılarını kendin onayla
 [Automatically join bookmarks on login]
@@ -647,12 +753,22 @@ Oda yapılandırması değişiklikleri
 Bağlılık değişikliği
 [Role changes]
 Rol değişiklikleri
+[Status changes]
+Durum değişikliği
 [JID]
 JID
+[Group]
+Grup
 [Subscription]
 Abonelik
 [Uploading...]
 Yükleniyor...
+[Connecting...]
+Bağlanıyor...
+[Network]
+Ağ
+[Advanced]
+Gelişmiş
 [Public XMPP Network]
 Kamusal XMPP Ağı
 [Secure XMPP Network]
@@ -725,6 +841,8 @@ Listeyi sil
 ** Abonelik: şundan **
 [** Subsription: none **]
 ** Abonelik: yok **
+[<none>]
+<hiçbiri>
 [allow ]
 izin 
 [deny ]
@@ -769,6 +887,12 @@ Kişisel listeler kayıt edilmedi, değişiklikleri kaydetmeden çıkılsın mı
 Lüste Düzenleyici...
 ;file \protocols\JabberG\src\jabber_proto.cpp
 ;file \protocols\JabberG\src\jabber_rc.cpp
+[Status]
+Durum
+[Invisible]
+Görünmez
+[Offline]
+Çevrimdışı
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Hata %s %s\r\nBaşka bir sunucu seçin
@@ -811,12 +935,24 @@ Kayıt bilgisi isteniyor...
 [Sending registration information...]
 Kayıt bilgisi gönderiliyor...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Message]
+İleti
+[<not specified>]
+<belirtilmemiş>
 [Software]
 Yazılım
+[Version]
+Sürüm
+[System]
+Sistem
 [Idle since]
 Şu kadardır boşta
 [Client capabilities]
 İstemci yetenekleri
+[Yes]
+Evet
+[No]
+Hayır
 [Last logoff time]
 Son çıkış zamanı
 [Uptime]
@@ -829,6 +965,8 @@ Son çıkış zamanı
 Son etkin kaynak
 [Please switch online to see more details.]
 daha fazla bilgi için çevrim içi olun.
+[Copy]
+Kopyala
 [Copy only this value]
 Yalnız bu değeri kopyala
 [format]
@@ -842,11 +980,17 @@ Bilinmeyen biçim
 [Photo]
 Fotoğraf
 ;file \protocols\JabberG\src\jabber_util.cpp
+[Error]
+Hata
 [Unknown error message]
 Bilinmeyen hata iletisi
 [Advanced Status]
 Gelişmiş Durum
 ;file \protocols\JabberG\src\jabber_vcard.cpp
+[Male]
+Erkek
+[Female]
+Kadın
 [Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
 Yalnızca 40 KB'tan küçük JPG, GIF, ve BMP resim dosyaları desteklenir.
 [Jabber vCard]
@@ -855,6 +999,8 @@ Jabber sKart
 Jabber sKart: E-posta Adresini Değiştir
 [Jabber vCard: Edit Phone Number]
 Jabber sKart: Telefon Numarasını Değiştir
+[Contacts]
+Kişiler
 ;file \protocols\JabberG\src\jabber_ws.cpp
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Afraid]

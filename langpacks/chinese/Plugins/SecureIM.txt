@@ -30,6 +30,8 @@
 在环境菜单中显示模式
 [Key Exchange Timeout :]
 密钥交换超时: 
+[sec]
+秒
 [Offline Key Timeout :]
 离线密钥超时: 
 [Split Messages]
@@ -62,12 +64,16 @@ RSA 密钥
 密钥分配
 [Save Pass]
 保存密码
+[Text]
+文本
 [Key agreement colors]
 密钥呼应颜色
 [Secure connection colors]
 安全连接颜色
 [Send/Receive encrypted colors]
 发送/接收已加密内容颜色
+[Events]
+事件
 [Time in Seconds]
 时间以秒单位
 [Show a popup on established connection]
@@ -84,12 +90,22 @@ RSA 密钥
 每次安全接收时显示弹出窗口
 [Please type in your password]
 请输入您的密码
+[Username:]
+用户名: 
+[Password:]
+密码: 
+[OK]
+确定
+[Cancel]
+取消
 [SecureIM plugin Passphrase of private key]
 SecureIM 插件私钥通行码
 [Enter passphrase for the secret key:]
 输入私匙通行码:
 [Native SecureIM]
 内置的 SecureIM
+[Status]
+状态
 [Always Try to Establish Secure IM]
 永远尝试建立 Secure IM
 [Secure IM Enabled]
@@ -113,6 +129,12 @@ Secure IM 已禁用
 [Delete public key]
 删除公匙
 ;file \plugins\SecureIM\src\language.cpp
+[General]
+常规
+[Name]
+名称
+[Off]
+关闭
 [Always try]
 永远尝试
 [Create SecureIM connection]
@@ -124,6 +146,8 @@ SecureIM 模式 (原始)
 [SecureIM status (disabled)]
 SecureIM 状态 (禁用)
 ;file \plugins\SecureIM\src\loadicons.cpp
+[Contact List]
+联系人列表
 [Connection Disabled]
 连接禁用
 [Connection Established]
@@ -134,6 +158,8 @@ SecureIM 状态 (禁用)
 建立安全连接
 [Message Window]
 消息窗口
+[Popups]
+弹出窗口
 [Secure Connection Disabled]
 安全连接已禁用
 [Secure Connection Established]
@@ -157,6 +183,8 @@ GPG 模式
 [RSA/AES mode]
 RSA/AES 模式
 ;file \plugins\SecureIM\src\main.cpp
+[Icons]
+图标
 [Incoming Secure Message]
 传入安全消息
 [Outgoing Secure Message]
@@ -164,6 +192,8 @@ RSA/AES 模式
 [SecureIM status]
 SecureIM 状态
 ;file \plugins\SecureIM\src\options.cpp
+[Executable Files]
+可执行文件
 [Select GnuPG Executable]
 选择 GnuPG 可执行文件
 ;file \plugins\SecureIM\src\popupOptions.cpp

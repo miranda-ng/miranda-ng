@@ -6,10 +6,16 @@
 ;  Authors: vu1tur
 ;============================================================
 ;file \plugins\Spamotron\res\spamotron.rc
+[Outgoing message]
+Message envoyé
 [Enable popup notifications]
 Activer les notifications par popup
+[Background]
+Arrière-plan
 ;file \plugins\Spamotron\src\bayes.cpp
 ;file \plugins\Spamotron\src\common.h
 ;file \plugins\Spamotron\src\options.cpp
+[Message Sessions]
+Sessions de message
 ;file \plugins\Spamotron\src\spamotron.cpp
 ;file \plugins\Spamotron\src\utils.cpp

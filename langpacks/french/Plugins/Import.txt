@@ -34,6 +34,8 @@ Miranda a trouvé les profils Miranda avec les noms suivants. Veuillez sélectio
 Importation...
 [Import Information Wizard]
 Assistant d'importation d'informations
+[Cancel]
+Annuler
 [Import all contacts and all messages]
 Importer tous les contacts et messages
 [Only import contacts]
@@ -50,8 +52,16 @@ Nouv. contacts && groupes
 Historique du système
 [Select items to import:]
 Sélectionnez les éléments à importer
+[Incoming]
+Entrant
+[Outgoing]
+Sortant
 [Only since:]
 Seulement depuis :
+[File Transfers]
+Transferts de fichiers
+[Other]
+Autre
 ;file \plugins\Import\src\import.cpp
 ;file \plugins\Import\src\main.cpp
 [&Import...]
@@ -59,5 +69,7 @@ Seulement depuis :
 ;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 Le fichier donné n'existe pas. Veuillez vérifier que vous avez entré correctement le nom.
+[All Files]
+Tous les fichiers
 ;file \plugins\Import\src\utils.cpp
 ;file \plugins\Import\src\wizard.cpp

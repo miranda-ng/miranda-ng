@@ -6,8 +6,20 @@
 ;  Authors: perf
 ;============================================================
 ;file \plugins\TooltipNotify\res\main.rc
+[OK]
+אישור
+[Cancel]
+ביטול
+[Online]
+מחובר
+[Offline]
+לא מחובר
 [All other]
 כל השאר
+[Typing]
+מקליד
+[sec]
+שניות
 [Duration]
 משך ראות סרגל
 [Show tooltip for]
@@ -24,6 +36,18 @@
 מיקום אוטומטי
 [Transparent tooltip]
 שקיפות סרגל
+[Contacts]
+אנשי קשר
+[Idle]
+לא נמצא אוטומטי
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Tooltip Notify]
 סרגל התראות
+[Popups]
+פופ אפ
+[** New contacts **]
+**אנשי קשר חדשים**
+[** Unknown contacts **]
+**אנשי קשר לא ידועים**
+[Unknown]
+לא ידוע

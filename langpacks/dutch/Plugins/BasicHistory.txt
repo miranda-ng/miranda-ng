@@ -6,19 +6,69 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 ;file \plugins\BasicHistory\res\BasicHistory.rc
+[Message History]
+Bericht geschiedenis
 [Show event icons]
 Gebeurtenis iconen weergeven
+[Show names]
+Namen weergeven
+[Show messages]
+Berichten weergeven
+[Name]
+Naam
+[OK]
+OK
+[Cancel]
+Annuleren
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
+[View &History]
+Gesc&hiedenis bekijken
+[Incoming message]
+Binnenkomend bericht
+[Outgoing message]
+Uitgaand bericht
+[History]
+Geschiedenis
 ;file \plugins\BasicHistory\src\EventList.cpp
+[History for %s]
+Geschiedenis voor %s
+[System]
+Systeem
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
+[Open in &new window]
+In &nieuw scherm openen
+[&Open in existing window]
+In bestaand scherm &openen
+[&Copy link]
+Link kopiëreren
+[Copy]
+Kopiëren
+[Delete]
+Verwijderen
 [Reply &Quoted]
 Antwoord met quote
+[Options]
+Opties
+[Icons]
+Iconen
+[Hotkeys]
+Sneltoetsen
+[Error]
+Fout
 ;file \plugins\BasicHistory\src\Options.cpp
+[Message]
+Bericht
 [SMTP Simple Email]
 SMTP eenvoudige e-mail
 [SMS message]
 SMS bericht
+[Messages]
+Berichten
+[Advanced]
+Geavanceerd
+[Find]
+Vinden
 [Incoming events]
 Binnenkomende gebeurtenissen
 [Outgoing events]
@@ -27,7 +77,11 @@ Uitgaande gebeurtenissen
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 ;file \plugins\BasicHistory\src\Scheduler.cpp
+[Contacts]
+Personen
 ;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
 "%s" niet gevonden
+[Search]
+Zoeken
 ;file \plugins\BasicHistory\src\TxtExport.cpp

@@ -10,6 +10,10 @@
 ;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
 输出至: 
+[OK]
+确定
+[Cancel]
+取消
 [Text file]
 文本文件
 [MessageBox]
@@ -34,6 +38,8 @@
 同时将信息复制到剪贴板
 [Upload site settings]
 上传站点设置
+[Username]
+用户名
 [Highlight version number using]
 突出显示正在使用版本号
 [Show disabled plugins too]
@@ -48,6 +54,8 @@
 显示已安装语言
 [Miranda Version Information]
 Miranda 版本消息
+[Close]
+关闭
 [&Copy text]
 复制文本(&C)
 [&Save to file]

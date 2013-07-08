@@ -6,16 +6,56 @@
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 ;file \plugins\TabSRMM\res\chat.rc
+[OK]
+OK
+[Cancel]
+Mégsem
 [  Show these events]
   Alábbi események mutatása
+[Actions]
+Akciók
+[Messages]
+Üzenetek
+[Nick changes]
+Becenév változások
+[Users joining]
+Csatlakozások
+[Users leaving]
+Lecsatlakozások
+[Topic changes]
+Téma változások
+[Status changes]
+Állapotváltozások
+[Information]
+Információ
+[Disconnects]
+Kilépések
+[User kicks]
+Felhasználó kirúgja
+[Notices]
+Megjegyzések
+[Tray]
+Tálca
+[Options]
+Beállítások
+[Add new rooms to group:]
+Új szobák hozzáadása a csoporthoz:
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
 Csevegés integráció kikapcsolva. Itt engedélyezheti, ezután újra kell indítani a Mirandát.\n\nKi kell kapcsolni az alap csevegõ beépülõt, ha engedélyezni a csoportos csevegést itt. Különben nem mûködhet a csoportos csevegés.
 [Log files]
 Naplók
+[Enable logging to disk]
+Naplózás a lemezre
+[Log directory]
+Napló könyvtár
 [Maximum size for log files (in kB)]
 Maximális naplófájlméret (KiB)
 [Group chat log formatting]
 Csevegés napló csoportosítása
+[Your name]
+Neve
+[Other name]
+Másik név
 [Timestamp (window)]
 Idõbélyeg (ablak)
 [Timestamp (logfile)]
@@ -24,11 +64,61 @@ Idõbélyeg (naplófájl)
 Események maximális száma az üzenet ablakban
 [Groupchat userlist row height (pixels)]
 Csoporos csevegés partnerlista sormagasság (pixelben)
+[List]
+Lista
+[&Message]
+Üzenet
+[Log]
+Napló
+[Clear lo&g]
+Napló ürítése
+[Co&py all]
+Mindet másol
+[Word lookup]
+Szó keresés
+[Google]
+Google
+[Wikipedia]
+Wikipedia
+[Link]
+Hivatkozás
+[Open a &new browser window]
+Új böngészõablak megnyitása
+[&Open in current browser window]
+Megnyitás az aktuális böngészõ ablakban
+[&Copy link]
+&Link másolása
+[Message]
+Üzenet
+[Undo  ]
+Visszavonás  
+[Redo]
+Újra
+[Copy]
+Másol
+[Cut]
+Kivág
+[Paste]
+Beszúrás
+[Select All]
+Összes kijelölése
+[Clear]
+Töröl
+[Tabs]
+Fülek
+[&Close tab]
+&Fül bezárása
+[C&lose other tabs]
+Többi fül bezárása
+[&Open at this position]
+Megnyitás ebben a pozícióban
 ;file \plugins\TabSRMM\res\resource.rc
 [Advanced tweaks]
 Haladó beállítások
 [Message send timeout]
 Üzenetküldési idõtúllépés
+[seconds]
+mp.
 [Input history size]
 Beviteli elõzmények mérete
 [entries]
@@ -43,8 +133,14 @@ Visszaállítás (biztonságos) alapértelmezettre
 Esemény értesítés beállítások
 [Limit message preview to]
 Üzenet elõnézet korlátozása
+[Text]
+Szöveg
+[Background]
+Háttér
 [Timeout (seconds, 0 = default, -1 = no timeout)]
 Idõtúllépés (másodpercek, 0 = alapért., -1 = nincs idõtúllépés)
+[Group chats]
+Csoportos csevegés
 [All modes]
 Minden mód
 [Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.]
@@ -69,6 +165,8 @@ Idõtúllépés küldésének mellõzése
 Csak az aktuális elõzmény betöltése
 [Always trim message log to]
 Üzenetnapló vágása mindig
+[Events]
+Események
 [Only show tab bar when it's needed]
 Fülsor mutatása csak ha szükség van rá
 [Container stays on top]
@@ -101,6 +199,8 @@ Címsor elrejtése
 Általános befoglaló méret és helyzet használata
 [Save current as global]
 Jelenlegi mentése általánosként
+[Apply]
+Alkalmaz
 [Show contact avatars]
 Partner avatarjának mutatása
 [Show my own avatars]
@@ -125,8 +225,20 @@ Sablon készletek
 Standard sablonok...
 [RTL templates...]
 RTL sablonok...
+[Load History Events]
+Elõzmény események betöltése
+[Load unread events only]
+Csak olvasatlan események betöltése
+[Load number of previous events]
+Betöltendõ elõzõ események száma
+[Load previous events less than]
+Betöltendõ elõzõ események max száma
+[minutes old]
+perces
 [Global message log display]
 Általános üzenetnapló megjelenítés
+[Typing Notification]
+Gépelés értesítés
 [Send typing notifications to the following users when you are typing a message to the them:]
 Gépelési értesítés küldése a következõ partnereknek, ha nekik gépelsz üzenetet:
 [          Show typing notifications in the message window]
@@ -137,6 +249,8 @@ Ablak felvillantása egyszer gépelési eseményeknél (csak aktivált felvillan
            Gépelési értesítések mutatása a partnerlistában és a tálcán
 [Show typing notification when message dialog is open]
 Gépelési értesítés mutatása, ha az üzenetpárbeszéd nyitva
+[Show typing notification when no message dialog is open]
+Gépelés értesítés mutatás, ha nincs nyitva a párbeszédablak
 [Show balloon tooltip in the system tray]
 Buboréksúgó mutatása a rendszertálcán
 [          Show popups when a user is typing]
@@ -155,10 +269,16 @@ Becenevek korlátozása füleken
 Befoglaló kiválasztása
 [Available containers]
 Elérhetõ befoglalók
+[Delete]
+Törlés
+[Rename]
+Átnevezés
 [Create a new container]
 Új befoglaló létrehozása
 [Create new]
 Új létrehozása
+[Reset]
+Alapraállítás
 [Insert Separator]
 Elválasztó beszúrása
 [Container flashing]
@@ -169,8 +289,12 @@ Befoglalók felvillantása
 idõk
 [Flash interval]
 Villogás sebessége
+[milliseconds]
+századmásodperc
 [Help on containers]
 Segítség befoglalókhoz
+[Popups]
+Felugrók
 [...is &typing]
 ...&gépel
 [...stopped t&yping]
@@ -185,12 +309,16 @@ Csak egy &felugró minden egyes partnerhez
 Be&jegyzés mutatása a fõmenüben
 [From protocol]
 Protokollból
+[Custom]
+Egyedi
 [Edit template]
 Sablon szerkesztése
 [Get more help on variables]
 Segítség változókhoz
 [Define up to 5 colors which you can use with some variables]
 Max. 5 szín meghatározása használathoz pár változattal
+[Close]
+Bezárás
 [Update Preview]
 Elõnézet frissítése
 [Save Template]
@@ -217,6 +345,8 @@ a tabSRMM-rõl
 Betûtípus és szín betöltése bõrbõl
 [Load templates provided by skin (use with care, will overwrite your templates)]
 Sablonok betöltése bõrbõl (óvatosan használd, mert felülírja a sablonjaidat)
+[Icons]
+Ikonok
 [Use different icons to mark incoming and outgoing messages]
 Eltérõ ikonok használata bejövõ és kimenõ üzenetekhez
 [Date and time]
@@ -243,10 +373,26 @@ Visszaállítás általános beállításokra
 Itt beállíthatsz saját üzenetnaplóbeállításokat ehhez a partnerhez. A kitöltött mezõk az általános beállításokat követik, amik megtalálhatók itt:Üzenet munkamenetek->Üzenetnapló
 [Use normal templates (uncheck to use simple templates)]
 Normál sablonok használata (különben egyszerû sablonok)
+[Yes]
+Igen
+[No]
+Nem
+[Minimize the message window on send]
+Üzenet ablak minimalizálása küldéskor
+[&Copy]
+&Másol
 [&Quote]
 &Idézés
+[Co&py All]
+Mindet másol
+[Select &All]
+&Összes kijelölése
 [Freeze Log]
 Napló befagyasztása
+[Open in &new window]
+Megnyitás &új ablakban
+[&Open in existing window]
+Megnyitás létezõ ablakban
 [Editor]
 Szerkesztõ
 [Paste formatted Text]
@@ -259,8 +405,6 @@ Beillesztés és azonnali küldés
 Összes kijelölése
 [Show Message Length Indicator]
 Üzenethossz kijelzõ mutatása
-[Tabmenu]
-Fülmenü
 [Leave Chat Room]
 Csevegõ szoba elhagyása
 [Save Tab Position]
@@ -273,10 +417,10 @@ Befoglalóhoz csatolás...
 Befoglaló beállítások...
 [Close Container]
 Befoglaló bezárása
-[Picmenu]
-Képmenü
 [Show Contact Picture]
 Partner képének mutatása
+[Default]
+Alap
 [Hidden for this Contact]
 Rejtett ennek a partnernek
 [Visible for this Contact]
@@ -287,16 +431,12 @@ Partner képének beállításai...
 A gombsor mindig teljes szélességben tartása
 [Save this Picture As...]
 Kép mentése másként...
-[Logmenu]
-Naplómenü
 [&Message Log Settings]
 &Üzenetnapló beállítások
 [&Global...]
 &Általános...
 [&For this Contact...]
 &Ehhez a partnerhez...
-[Sendmenu]
-Küldés menü
 [Send &Default]
 Alapér&telmezett küldése
 [Send to &multiple Users]
@@ -309,12 +449,14 @@ Küldés &késõbb
 Kényszerített &ANSI
 [Send unsafe (ignore Timeouts)]
 Küldés nem biztonságos (idõtúllépések mellõzése)
-[Protomenu]
-Protokoll menü
+[Global]
+Globális
 [Send Text Formatting]
 Szövegformázás küldése
 [BBCode]
 BBkód
+[Off]
+Ki
 [This Contact]
 Ez a partner
 [Global Setting]
@@ -323,8 +465,6 @@ Globális beállítás
 Mindig Ki
 [Unread Menu]
 Olvasatlan menü
-[Traycontext]
-Tálcakörnyezet
 [Recent Sessions]
 Utóbbi munkamenet
 [Favorites]
@@ -339,6 +479,8 @@ Nincs automatikus ablaklétrehozás
 Minden üzenet befoglaló helyreállítása
 [Don't play Sounds]
 Nincs hanglejátszás
+[Font]
+Betûtípus
 [Default Color]
 Alapértelmezett szín
 [Magenta]
@@ -355,12 +497,6 @@ Nincs megnyitott üzenet munkamenet
 Partner hozzáadása a Kedvencekhez
 [Remove Contact from Favorites]
 Partner eltávolítása a Kedvencekbõl
-[Apparentmenu]
-Helyi menü
-[Panelpicmenu]
-Panelkép menü
-[Splitter context]
-Elválasztó környezet
 [Set Position for this Session]
 Aktuális munkamenet helyzetének beállításai
 [Set and Save for all Sessions]
@@ -369,6 +505,8 @@ Beállítás és mentés minden munkamenetre
 Beállítás és mentés csak erre a partnerre
 [Revert to old Position]
 Visszaállítás korábbi helyzetbe
+[&File]
+&Fájl
 [Save Message Log As...]
 Üzenetnapló mentése másként...
 [Close Message Session\tCtrl-W]
@@ -417,11 +555,15 @@ Felugrók mutatása ha az ablak nem aktív
 Felugrók mutatása minden inaktív munkamenethez
 [Save current Window Position as Default]
 Aktuális ablak helyzetének mentése alapértelmezettként
+[Help]
+Súgó
 [About tabSRMM...]
 a tabSRMM-rõl...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Message Log Options]
 Üzenetnapló beállítások
+[View User's History]
+Felhasználó elõzményeinek megtekintése
 ;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 Címsor elrejtése
@@ -468,10 +610,22 @@ Gépelés értesítés állapota: %s.
 [Last received: %s at %s]
 Utolsó fogadva: %s napon %s idõpontban
 ;file \plugins\TabSRMM\src\globals.cpp
+[Incoming (Focused Window)]
+Bejövõ (kijelölt ablak)
+[Incoming (Unfocused Window)]
+Bejövõ (kijelöletlen ablak)
+[Incoming (New Session)]
+Bejövõ (új munkamenet)
+[Outgoing]
+Kimenõ
+[Other]
+Egyéb
 [TABSRMM: Typing]
 TABSRMM: Gépel
 [&Messaging settings...]
 &Üzenetbeállítások...
+[Message from %s]
+Üzenet tõle: %s
 [signed off.]
 kijelentkezett.
 [signed on and is now %s.]
@@ -524,22 +678,38 @@ Partner képének mentése
 A fájl már létezik. Felülírod?
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
 A 'beillesztés és küldés' opció ki van kapcsolva. Bekapcsolás az 'Általános' beállítások oldal 'Üzenetküldés' részlegében
+['(Unknown Contact)']
+'(ismeretlen partner)'
 ;file \plugins\TabSRMM\src\msglog.cpp
 ;file \plugins\TabSRMM\src\msgoptions.cpp
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
 El kívánod olvasni a téma üzenetsablonjait is?\nFigyelem: Ez felülírja az elmentett sablonkészletet, ami jelentõsen befolyásolhatja az üzenetablak kinézetét.\nVálaszd a mégsem-et a betöltés törléséhez.
 [Load theme]
 Téma betöltése
+[** New contacts **]
+** Új partnerek **
+[** Unknown contacts **]
+** Ismeretlen partnerek **
+[Show balloon popup (unsupported system)]
+Buboréksúgó megjelenik (nem-támogatott rendszer)
 [Always, but no popup when window is focused]
 Mindig, de nincs felugró ablak, ha az ablak aktív
 [Only when no message window is open]
 Csak ha nincs nyitva üzenetablak
+[Message Sessions]
+Üzenet mukamenetek
+[General]
+Általános
 [Tabs and layout]
 Fülek és nézet
 [Containers]
 Befoglalók
 [Tool bar]
 Fülsor
+[Typing Notify]
+Gépelés értesítés
+[Group Chats]
+Csoportos csevegések
 [Log formatting]
 Napló formázása
 [Highlighting]
@@ -551,6 +721,8 @@ Kiemelés
 Szöveg idézése
 [Save and close]
 Mentés és bezárás
+[Smiley button]
+Emotikon gomb
 [Format bold]
 Félkövér
 [Format italic]
@@ -563,8 +735,16 @@ Betûkép
 Betûszín
 [Format strike-through]
 Áthúzott
+[Background colour]
+Háttérszín
+[Room settings]
+Szoba beállítások
 [Message delivery error]
 Üzenetküldés sikertelen
+[Incoming message]
+Bejövõ üzenet
+[Outgoing message]
+Kimenõ üzenet
 [Statuschange]
 Állapotváltás
 [Static container icon]
@@ -587,17 +767,25 @@ Munkamenet lista
 3-as keret
 [Frame 4]
 4-es keret
+[Message Log]
+Üzenet napló
 ;file \plugins\TabSRMM\src\msgs.h
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Befoglaló kiválasztása ehhez: %s
 [You cannot delete the default container]
 Az alapértelmezett befoglaló nem törölhetõ.
+[Error]
+Hiba
 [You cannot rename the default container]
 Az alapértelmezett befoglaló nem átnevezhetõ.
 [This name is already in use]
 Ez a név már használatban van
 ;file \plugins\TabSRMM\src\sendlater.cpp
+[Contact]
+Kapcsolat
+[Status]
+Állpot
 ;file \plugins\TabSRMM\src\sendqueue.cpp
 [A message delivery has failed.\nClick to open the message window.]
 Egy üzenetküldés sikertelen volt.\nKattints az üzenetablak megnyitásához.
@@ -624,6 +812,14 @@ Minden üzenetbefoglalót be kell zárni a bõr váltásához\nFolytatod?
 [Change skin]
 Bõr váltása
 ;file \plugins\TabSRMM\src\translator.cpp
+[System tray icon]
+Rendszer tálca ikon
+[Send message on 'Enter']
+Üzenet küldése 'Enter'-re
+[Send message on double 'Enter']
+Üzenet küldése dupla 'Enter'-re
+[Close the message window on send]
+Üzenet ablak bezárása küldéskor
 ;file \plugins\TabSRMM\src\trayicon.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
@@ -647,12 +843,70 @@ Elõzmény++ kényszerítése
 IEView kényszerítése
 ;file \plugins\TabSRMM\src\utils.cpp
 ;file \plugins\TabSRMM\src\chat\clist.cpp
+[Join chat]
+Csatlakozás csevegéshez
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 ;file \plugins\TabSRMM\src\chat\log.cpp
+[%s has joined]
+%s csatlakozott
+[You have joined %s]
+Csatlakozott ehhez: %s
+[%s has left]
+%s elment
+[%s has disconnected]
+%s kilépett
+[%s is now known as %s]
+%s új neve: %s
+[You are now known as %s]
+Az új beceneve: %s
+[%s kicked %s]
+%s kirúgta õt: %s
+[Notice from %s: ]
+Megjegyzés %s feladótól:
+[ (set by %s on %s)]
+ (beállította: %s, ekkor: %s)
+[ (set by %s)]
+ (beállította: %s)
+[<invalid>]
+<érvénytelen>
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 ;file \plugins\TabSRMM\src\chat\options.cpp
+[Timestamp]
+Idõbélyeg
+[Others nicknames]
+Többiek becenevei
+[Your nickname]
+Beceneve
+[User has joined]
+Felhasználó csatlakozott
+[User has left]
+Felhasználó lecsatlakozott
+[User has disconnected]
+Felhasználó kilépett
+[User kicked ...]
+Felhasználó kirúgta ...
+[User is now known as ...]
+A felhasználó új neve ...
+[Notice from user]
+Megjegyzés a felhasználótól
+[The topic is ...]
+A téma ...
+[Information messages]
+Információs üzenetek
+[User enables status for ...]
+Felhasználó bekapcsolja az állapotot ...
+[User disables status for ...]
+Felhasználó kikapcsolja az állapotot ...
+[Action message]
+Akció üzenet
+[Highlighted message]
+Kiemelt üzenet
 [Chat log symbols (Webdings)]
 Csevegés napló szimbólumok (Webdings)
+[User list members (Online)]
+Felhasználó-listatagok (elérhetõ)
+[User list members (away)]
+Felhasználó-listatagok (távol)
 [>> Outgoing misc events]
 >> Kimenõ egyéb esemény
 [<< Incoming misc events]
@@ -681,28 +935,94 @@ Csevegés napló szimbólumok (Webdings)
 * Szimbólumok (bejövõ)
 [* Symbols (outgoing)]
 * Szimbólumok (kimenõ)
+[Protocol]
+Protokoll
 [Contacts local time]
 Partnerek helyi ideje
 [Window caption (skinned mode)]
 Ablak felirat (bõrös mód)
 [Open new chat rooms in the default container]
 Új csevegõszobák megnyitása az alap tartalmazóban
+[Flash window when someone speaks]
+Ablak felvillantása, ha valaki beszél
+[Flash window when a word is highlighted]
+Ablak felvillantása, ha egy szót kijelöl
 [Activate chat window on highlight]
 Csevegõ ablak aktiválása kiemeléskor
+[Show list of users in the chat room]
+Felhasználók listájának megjelenítése a csevegõ szobákban
 [Colorize nicknames in member list]
 Becenevek színezése a tagok névsorában
+[Show button menus when right clicking the buttons]
+Gomb menük megjelnítése a gombok jobb kattintásakor
+[Do not pop up the window when joining a chat room]
+Ne ugorjon elõ az ablak, amikor csatlakozom egy szobához
 [Sync splitter position with standard IM sessions]
 Elválasztó pozíció szinkronizálás az alap IM munkamenettel
 [Use alternative sorting method in member list]
 Alternatív rendezési mód a taglistában
+[Prefix all events with a timestamp]
+Minden esemény elõtt legyen idõbélyeg
+[Indent the second line of a message]
+Az üzenet 2. sorának behúzása
+[Limit user names in the message log to 20 characters]
+Felhasználónevek maximalizálása a naplóban 20 karakterre
 [Start private conversation on doubleclick in nick list (insert nick if unchecked)]
 Privát beszélgetés becenéven kettõskattintásra (egyébként becenév beszúrása)
+[Strip colors from messages in the log]
+Színek eltávolítása a napló üzetekbõl
 [Use IRC style status indicators in the log]
 IRC stílusú állapotjelzõk a naplóban
 [Scale down icons to 10x10 pixels in the chat log]
 Ikonok kicsinyítése 10x10 pixelre a naplóban
+[Window Icon]
+Ablak ikon
+[Icon overlay]
+Ikon felület
+[Status 1 (10x10)]
+Állapot 1 (10x10)
+[Status 2 (10x10)]
+Állapot 2 (10x10)
+[Status 3 (10x10)]
+Állapot 3 (10x10)
+[Status 4 (10x10)]
+Állapot 4 (10x10)
+[Status 5 (10x10)]
+Állapot 5 (10x10)
+[Status 6 (10x10)]
+Állapot 6 (10x10)
+[Message in (10x10)]
+Üzenet bejövõ (10x10)
+[Message out (10x10)]
+Üzenet kimenõ (10x10)
+[Action (10x10)]
+Akció (10x10)
+[Add Status (10x10)]
+Új állapot (10x10)
 [Remove Status (10x10)]
 Eltávolítás állapot (10x10)
+[Join (10x10)]
+Csatlakozás (10x10)
+[Leave (10x10)]
+Elhagyás (10x10)
+[Quit (10x10)]
+Kiléps (10x10)
+[Kick (10x10)]
+Kirúgás (10x10)
+[Notice (10x10)]
+Megjegyzés (10x10)
+[Nickchange (10x10)]
+Becenévváltozás (10x10)
+[Topic (10x10)]
+Téma (10x10)
+[Highlight (10x10)]
+Kiemelés (10x10)
+[Information (10x10)]
+Információ (10x10)
+[Appearance and functionality of chat room windows]
+Csevegõablakok megjelenése és mûködése
+[Appearance of the message log]
+Napló üzenet megjelenése
 [Channel operators]
 Csatorna operátorok
 [Half operators]
@@ -717,15 +1037,73 @@ Kiterjesztett mód 2
 Kijelölés háttere
 [Incremental search highlight]
 Folytatólagos keresés kiemelés
+[All Files]
+Minden fájl
+[Select Folder]
+Mappa kijelölése
+[Message is highlighted]
+Üzenet kiemelve
+[User has performed an action]
+Felhasználó végrehajtott egy akciót
+[User has kicked some other user]
+Felhasználó kirúgott egy másik felhasználót
+[User's status was changed]
+A felhasználó állapota megváltozott
+[User has changed name]
+Felhasználó nevet változtatott
+[User has sent a notice]
+Felhasználó megjegyzést küldött
+[The topic has been changed]
+A téma megváltozott
 ;file \plugins\TabSRMM\src\chat\services.cpp
+[&Join]
+&Csatlakozás
+[&Leave]
+&Kilépés
 ;file \plugins\TabSRMM\src\chat\tools.cpp
+[%s wants your attention in %s]
+%s szertné a figyelmedet itt: %s
+[%s speaks in %s]
+%s beszél %s
+[%s has joined %s]
+%s csatlakozott %s
+[%s has left %s]
+%s elment %s
+[%s kicked %s from %s]
+%s kirúgta õt: %s (innen: %s)
+[Notice from %s]
+Megjegyzés tõle: %s
+[Topic change in %s]
+Táma változás %s
+[Information in %s]
+Információ %s
+[%s has left (%s)]
+%s elment (%s)
+[%s has disconnected (%s)]
+%s kilépett (%s)
+[%s kicked %s (%s)]
+%s kirúgta õt: %s (%s)
+[Notice from %s: %s]
+Megjegyzés %s feladótól: %s
+[No word to look up]
+Nincs feloldandó szó
 ;file \plugins\TabSRMM\src\chat\window.cpp
+[Nick name]
+Becenév
+[Nick]
+Becenév
+[Unique id]
+Egyedi azonosító
 [%s: Chat Room (%u user%s)]
 %s: csevegõszoba (%u felhasználó%s)
 [%s: Chat Room (%u users%s)]
 %s: csevegõszoba (%u felhasználó%s)
 [, event filter active]
 , esemény szûrõ aktív
+[%s: Message Session]
+%s: üzenet kezelés
+[%s: Message Session (%u users)]
+%s: üzenet kezelés (%u felhasználó)
 [The filter canoot be enabled, because there are no event types selected either global or for this chat room]
 A szûrõt nem lehet bekapcsolni, mert nincs kiválasztva esemény típus se globálisan se ehhez a szobához
 [Event filter error]

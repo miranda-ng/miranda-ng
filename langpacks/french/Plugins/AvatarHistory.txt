@@ -26,8 +26,20 @@ Surveiller les protocoles suivants :
 Les MetaContacts ont un traitement spécial : l'info est copiée aux sous-contacts (les notifications des MetaContacts seront ignorées)
 [Show popup when a contact change his avatar]
 Afficher un popup au changement d'avatar
+[Background colour]
+Couleur de fond
+[Background colour]
+Couleur de Fond : 
+[Text colour]
+Couleur du texte
+[Use Windows colours]
+Utiliser les couleurs Windows
+[Use default colours]
+Couleurs par défaut
 [From popup plugin]
 Comme le plugin Popup
+[Custom]
+Défini
 [On right click:]
 Clic droit :
 [On left click:]
@@ -84,6 +96,8 @@ a effacé son avatar
 [changed his/her avatar]
 a changé d'avatar
 ;file \plugins\AvatarHistory\src\icolib.cpp
+[History]
+Historique
 ;file \plugins\AvatarHistory\src\options.cpp
 [Show avatar history]
 Afficher l'historique des avatars

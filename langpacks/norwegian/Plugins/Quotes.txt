@@ -6,16 +6,42 @@
 ;  Authors: Dioksin
 ;============================================================
 ;file \plugins\Quotes\res\Forex.rc
+[OK]
+OK
+[Log]
+Logg
+[Cancel]
+Avbryt
+[Close]
+Lukk
+[Use default colours]
+Bruk standardfarger
+[Background colour]
+Bakgrunnsfarge
+[Background colour]
+Bakgrunnsfarge
+[Text colour]
+Tekstfarge
+[Custom]
+Selvvalgt
+[Custom]
+Selvvalgt
+[&Add]
+&Legg til
 ;file \plugins\Quotes\src\Chart.h
 ;file \plugins\Quotes\src\CommonOptionDlg.cpp
 ;file \plugins\Quotes\src\CurrencyConverter.cpp
 ;file \plugins\Quotes\src\Forex.cpp
+[Network]
+Nettverk
 ;file \plugins\Quotes\src\HTTPSession.cpp
 ;file \plugins\Quotes\src\IconLib.cpp
 ;file \plugins\Quotes\src\ImportExport.cpp
 ;file \plugins\Quotes\src\ModuleInfo.cpp
 ;file \plugins\Quotes\src\QuoteChart.cpp
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderBase.cpp
+;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 ;file \plugins\Quotes\src\SettingsDlg.cpp

@@ -6,9 +6,39 @@
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
 ;file \plugins\SecureIM\res\resource.rc
+[sec]
+秒
+[Text]
+テキスト
+[Events]
+イベント
+[Username:]
+ユーザー名 :
+[Password:]
+パスワード :
+[OK]
+OK
+[Cancel]
+Cancel
+[Status]
+ステータス
 ;file \plugins\SecureIM\src\language.cpp
+[General]
+全般
+[Name]
+名前
+[Off]
+オフ
 ;file \plugins\SecureIM\src\loadicons.cpp
+[Contact List]
+コンタクトリスト
+[Popups]
+ポップアップ
 ;file \plugins\SecureIM\src\main.cpp
+[Icons]
+アイコン
 ;file \plugins\SecureIM\src\options.cpp
+[Executable Files]
+実行可能ファイル
 ;file \plugins\SecureIM\src\popupOptions.cpp
 ;file \plugins\SecureIM\src\svcs_srmm.cpp

@@ -9,4 +9,6 @@
 [Use windows colors]
 Utiliser les couleurs de Windows
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
+[File]
+Fichier
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp

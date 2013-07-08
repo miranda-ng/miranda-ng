@@ -15,9 +15,13 @@
 [Format of date and time\n(Look to readme for placeholders help)]
 格式化日期及时间\n(占位符相关请查看帮助)
 ;file \plugins\RecentContacts\src\options.cpp
+[Contacts]
+联系人
 ;file \plugins\RecentContacts\src\RecentContacts.cpp
 [Main icon]
 主图标
+[Contact]
+联络方式
 [Ignore Contact]
 忽略联系人
 [Show Contact]

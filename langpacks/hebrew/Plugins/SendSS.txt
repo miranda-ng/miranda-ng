@@ -6,6 +6,12 @@
 ;  Authors: Merlin
 ;============================================================
 ;file \plugins\SendScreenshotPlus\res\resource.rc
+[OK]
+אישור
+[None]
+ללא
+[Cancel]
+ביטול
 [Time (secs) :]
 זמן (בשניות) :
 [Send B&y :]
@@ -20,24 +26,48 @@
 פתח שנית
 [&Capture]
 &לכד
+[&Close]
+סגור
+[Edit]
+ערוך
 [Caption :]
 איזור לכידה :
 [Size (HxW) :]
 גודל (HxW) :
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[Error]
+שגיאה
 ;file \plugins\SendScreenshotPlus\src\CSend.h
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
+[Yes]
+כן
+[No]
+לא
+[Ignore]
+התעלם
 ;file \plugins\SendScreenshotPlus\src\global.h
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Send Screenshot]
 שלח תמונת מסך
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
+[Default]
+ברירת מחדל
+[Help]
+עזרה
+[Apply]
+החל
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
+[Window]
+חלון
+[E-mail]
+אימייל
 [ImageShack]
 בקתת תמונה
+[Information]
+מידע

@@ -6,23 +6,85 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
+[E-mail:]
+e-mail :
+[Password:]
+Passe :
 [Configuration]
 Configuration
+[Port:]
+Port :
+[Default]
+Défaut
+[Background colour]
+Couleur de fond
+[Background colour]
+Couleur de Fond : 
+[Font]
+Police
+[Summary]
+Résumé
+[Nickname:]
+Pseudo :
+[First name:]
+Prénom :
+[Last name:]
+Nom :
+[Gender:]
+Sexe :
+[Age:]
+Age :
+[Location]
+Lieu
+[Country:]
+Pays :
+[State:]
+État :
+[City:]
+Ville :
 [Full e-mail:]
 e-mail :
+[Text Color]
+Texte
+[Closing in %d]
+Fermeture dans %d
+[Add]
+Ajouter
+[Remove]
+Retirer
+[Cancel]
+Annuler
 ;file \protocols\MRA\src\MraAntiSpam.cpp
 ;file \protocols\MRA\src\MraAvatars.cpp
 ;file \protocols\MRA\src\MraChat.cpp
 ;file \protocols\MRA\src\MraConstans.h
+[Request authorization]
+Demander l'autorisation
+[Grant authorization]
+Accorder l'autorisation
 ;file \protocols\MRA\src\MraFilesQueue.cpp
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 ;file \protocols\MRA\src\MraIcons.cpp
+[Main Menu]
+Menu principal
 ;file \protocols\MRA\src\MraPopUp.cpp
+[None]
+Aucun
+[Information]
+Informations
+[Error]
+Erreur
 ;file \protocols\MRA\src\MraProto.cpp
+[E-mail address]
+e-mail 
 ;file \protocols\MRA\src\Mra_functions.cpp
 ;file \protocols\MRA\src\Mra_options.cpp
+[Network]
+Réseau
 [Connections]
 Connexions
+[Files]
+Fichiers
 ;file \protocols\MRA\src\Mra_proto.cpp
 ;file \protocols\MRA\src\Mra_svcs.cpp
 [Duck]
@@ -31,3 +93,5 @@ Canard
 Bureau
 [Beer]
 Bière
+[On the phone]
+Au téléphone

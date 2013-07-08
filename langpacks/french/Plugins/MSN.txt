@@ -6,6 +6,10 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MSN\res\msn.rc
+[Password:]
+Passe :
+[Nickname:]
+Pseudo :
 [Send message font color/size info inside messages]
 Envoyer les infos de couleur/taille dans les messages
 [Disable all contacts not included into my contact list]
@@ -18,6 +22,8 @@ Lancer l'application suivante quand un Hotmail arrive :
 Autoriser les contacts de ma liste à m'envoyer des messages sur mon portable
 [Gateway:]
 Passage :
+[Reset]
+RAZ
 [Server List Manager]
 Gestion de la liste du serveur
 [Contact is included into your server list]
@@ -28,10 +34,18 @@ Contact autorisé
 Contact bloqué
 [Somebody included you in his/her server list]
 Vous êtes dans la liste de ce contact
+[Other]
+Autre
 [Enable 'Chat Session Established' popup]
 Activer le popup "La connexion au salon est établie"
 [Enable 'Contact left channel' popup]
 Activer le popup "Le contact a quitter le salon"
+[Cancel]
+Annuler
+[&Cancel]
+&Annuler
+[Add]
+Ajouter
 ;file \protocols\MSN\src\msn_chat.cpp
 ;file \protocols\MSN\src\msn_commands.cpp
 [Contact tried to open an audio conference (currently not supported)]
@@ -74,8 +88,12 @@ Vous devez parler pour lancer Netmeeting
 [&Start Netmeeting]
 Lancer &Netmeeting
 ;file \protocols\MSN\src\msn_misc.cpp
+[Error]
+Erreur
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
+[Profile]
+Profil
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 L'importation des groupes du serveur devrait changer l'apparence de votre liste de contacts à la prochaine connexion. Voulez-vous enregistrer vos groupes sur le serveur ?
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
@@ -86,6 +104,8 @@ Options MSN
 Port et hôte automatique
 [Manually specify host/port]
 Port et hôte manuel
+[Network]
+Réseau
 [Server list]
 Liste côté serveur
 ;file \protocols\MSN\src\msn_p2p.cpp

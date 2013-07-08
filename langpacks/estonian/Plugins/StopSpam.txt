@@ -7,6 +7,12 @@
 ;============================================================
 ;file \plugins\StopSpamPlus\res\stopspam.rc
 ;file \plugins\StopSpamPlus\src\events.cpp
+[General]
+Üldine
+[Messages]
+Teated
+[Accounts]
+Kontod
 ;file \plugins\StopSpamPlus\src\headers.h
 ;file \plugins\StopSpamPlus\src\options.cpp
 ;file \plugins\StopSpamPlus\src\services.cpp

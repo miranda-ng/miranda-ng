@@ -2,13 +2,55 @@
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: GG
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: 
 ;============================================================
 ;file \protocols\Gadu-Gadu\res\resource.rc
+[Password:]
+סיסמא:
+[Create new account]
+צור חשבון חדש
+[Options]
+אפשרוית
+[You will need to reconnect for the changes you have made on this page to take effect.]
+.אתה תצטרך להתחבר מחדש בכדי שהשינויים יקחו תוקף
+[Port:]
+יציאה:
+[Nickname:]
+כינוי:
+[Description:]
+תיאור:
+[OK]
+אישור
+[Cancel]
+ביטול
+[Remove]
+הסר
+[&Close]
+סגור
+[&Send]
+שלח
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
 ;file \protocols\Gadu-Gadu\src\core.cpp
+[Unknown]
+לא ידוע
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
+[Male]
+זכר
+[Female]
+נקבה
+[<not specified>]
+<לא מוגדר>
+[Network]
+רשת
+[General]
+כללי
+[Advanced]
+מתקדם
+[System tray icon]
+סמל מגש המערכת
+[Ignore]
+התעלם
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
@@ -16,9 +58,13 @@
 ;file \protocols\Gadu-Gadu\src\icolib.cpp
 ;file \protocols\Gadu-Gadu\src\image.cpp
 ;file \protocols\Gadu-Gadu\src\import.cpp
+[All Files]
+כל הקבצים
 ;file \protocols\Gadu-Gadu\src\links.cpp
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 ;file \protocols\Gadu-Gadu\src\popups.cpp
+[Error]
+שגיאה
 ;file \protocols\Gadu-Gadu\src\services.cpp
 ;file \protocols\Gadu-Gadu\src\sessions.cpp
 [Whois]

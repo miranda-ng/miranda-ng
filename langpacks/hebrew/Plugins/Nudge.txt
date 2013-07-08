@@ -26,8 +26,34 @@
 הרשה לשלוח נדנוד אחד לאותו משתמש כל :\n
 [* Nudge sending delay is hardcoded and cannot be changed.]
 * זמן שליחת נדנוד הוא גורם קבוע ולא ניתן לשינוי.
+[Text]
+טקסט
 [Allow nudges when you're:]
 אפשר נדנוד כאשר אתה:
+[Offline]
+לא מחובר
+[Online]
+מחובר
+[Away]
+לא נמצא
+[NA]
+לא זמין
+[Occupied]
+עסוק
+[DND]
+לא להפריע
+[Free for chat]
+פנוי לשיחה
+[Invisible]
+בלתי נראה
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדברת בטלפון
+[Out to lunch]
+אוכל ארוחת צהריים
 [Shaking Clist Options]
 Clist אפשרויות הרעדת
 [Number of moves]
@@ -43,5 +69,7 @@ Clist אפשרויות הרעדת
 נדנד כברירת מחדל
 ;file \plugins\Nudge\src\nudge.cpp
 ;file \plugins\Nudge\src\options.cpp
+[Events]
+אירועים
 [Window Shaking]
 חלון רועד

@@ -6,13 +6,41 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Alarms\res\resource.rc
+[Delete]
+מחק
+[Edit]
+ערוך
+[minutes]
+דקות
+[OK]
+אישור
+[Cancel]
+ביטול
+[Description:]
+תיאור:
+[Actions]
+פעולות
 [Once]
 פעם אחת
 [&Edit...]
 &ערוך...
+[&Delete]
+&מחק
+[&Options...]
+...אפשרויו&ת
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 ;file \plugins\Alarms\src\alarm_win.cpp
+[Background]
+רקע
+[Window]
+חלון
 ;file \plugins\Alarms\src\frame.cpp
+[Frames]
+מבנה רשימה
 ;file \plugins\Alarms\src\icons.cpp
 ;file \plugins\Alarms\src\options.cpp
+[Error]
+שגיאה
+[Events]
+אירועים

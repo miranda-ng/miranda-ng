@@ -6,12 +6,36 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Ping\res\ping.rc
+[Network]
+רשת
+[Popups]
+פופ אפ
 [Interface]
 ממשק
+[Row height:]
+גודל גובה:
+[Add]
+הוסף
+[Remove]
+הסר
+[Edit]
+ערוך
+[OK]
+אישור
+[Cancel]
+ביטול
+[Port:]
+יציאה:
+[Contact]
+קשר
 ;file \plugins\Ping\src\menu.cpp
 ;file \plugins\Ping\src\options.cpp
+[<none>]
+<ללא>
 ;file \plugins\Ping\src\ping.cpp
 ;file \plugins\Ping\src\pinggraph.cpp
 ;file \plugins\Ping\src\pingthread.cpp
 ;file \plugins\Ping\src\rawping.cpp
 ;file \plugins\Ping\src\utils.cpp
+[Unknown]
+לא ידוע

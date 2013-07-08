@@ -6,8 +6,30 @@
 ;  Authors: sss
 ;============================================================
 ;file \plugins\New_GPG\res\new_gpg.rc
+[OK]
+OK
+[Ignore]
+Ignorer
+[Cancel]
+Avbryt
+[Password:]
+Passord:
 ;file \plugins\New_GPG\src\init.cpp
 ;file \plugins\New_GPG\src\main.cpp
+[Name]
+Navn
+[Default]
+Standard
+[Error]
+Feil
 ;file \plugins\New_GPG\src\messages.cpp
 ;file \plugins\New_GPG\src\options.cpp
+[Messages]
+Meldinger
+[Advanced]
+Avansert
+[Contact]
+Kontakt
+[Protocol]
+Protokoll
 ;file \plugins\New_GPG\src\utilities.cpp

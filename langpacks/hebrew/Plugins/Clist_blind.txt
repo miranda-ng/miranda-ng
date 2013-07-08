@@ -6,6 +6,18 @@
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 ;file \plugins\Clist_blind\res\resource.rc
+[Delete Contact]
+מחיקת איש קשר
+[Are you sure you want to delete %s?]
+?האם את בטוח שברצונך למחוק את %s  
+[Yes]
+כן
+[No]
+לא
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+הסתר אותו מרשימה בלבד, בכדי לשמור את ההיסטוריה שלהם והגדרות התעלמות/ראות
+[Hotkeys]
+מקשי קיצור
 [Show/Hide:]
 הסתר/הראה:
 [URL:]
@@ -14,7 +26,205 @@
 פתח בחלון דפדפן חדש
 [Show Options]
 הראה אפשרויות
+[Hide offline users]
+הסתר משתמשים לא מחוברים
+[Hide empty groups]
+הסתר קבוצות ריקות
+[Disable groups]
+בטל קבוצות
+[Ask before deleting contacts]
+שאל לפני מחיקת אנשי קשר
+[Sort contacts by name]
+סדר אנשי קשר לפי שם
+[Sort contacts by status]
+סדר אנשי קשר לפי מצב
+[Sort contacts by protocol]
+סדר אנשי קשר לפי פרוטוקול
+[Single click interface]
+ממשק לחיצה אחת
+[Always show status in tooltip]
+הראה מצב תמיד בסרגל הכלים
+[Disable icon blinking]
+בטל הבהוב סמל
+[ms delay]
+דחיה במילי שניות
+[Show]
+הראה
+[icon when statuses differ]
+כאשר המצבים שונים
+[Cycle icons every]
+שנה סמל כל
+[seconds, when statuses differ]
+שניות, כשהמצב שונה
+[Show multiple icons]
+הראה מספר סמלים
+[Only when statuses differ]
+רק כשהמצבים שונים
+[Contact List]
+רשימת אנשי קשר
+[System tray icon]
+סמל מגש המערכת
+[System tray icon when using multiple protocols]
+סמל מגש המערכת כשמשתמשים במספר פרוטוקולים
+[Contact List Sorting]
+סדר רשימה
+[Window]
+חלון
+[Always on top]
+מעל הכול
+[Tool style main window]
+חלון ראשי כסרגל כלים
+[Minimize to tray]
+מזער למגש המערכת
+[Hide contact list after it has been idle for]
+הסתר רשימה אחרי שלא נבחרה במשך
+[seconds]
+שניות
+[Automatically resize window to height of list]
+שנה גודל חלון אוטומטית שיתאים לגובה הרשימה
+[maximum]
+מקסימום
+[% of screen]
+% של מסך
+[Size upwards]
+שנה לכיוון מעלה
+[Title bar text:]
+טקסט כותרת חלון:
+[Fade contact list in/out]
+העבר את הרשימה בפנים/בחוץ
+[Transparent contact list]
+חלון שקוף
+[Inactive opacity:]
+כשלא פעיל:
+[Active opacity:]
+כשפעיל:
+[Show menu bar]
+הראה את התפריט
+[Easy move]
+תזוזה קלה
+[Show title bar]
+הראה כותרת חלון
+[If window is partially covered, bring to front instead of hiding]
+אם החלון מכוסה חלקית, הבא מעל הכול במקום להסתיר
+[Show drop shadow (restart required)]
+(הראה צל (דורש הפעלה מחדש
+[Pin to desktop]
+הצמד לשולחן העבודה
+[Items]
+פריטים
+['Hide Offline' means to hide:]
+הסתר 'לא מחובר' הכוונה הסתר:
+[Groups]
+קבוצות
+[Show counts of number of contacts in a group]
+הראה מספר אנשי קשר בקבוצה
+[Hide group counts when there are none online]
+הסתר מספרי קבוצות כשאף אחד לא מחובר
+[Sort groups alphabetically]
+סדר קבוצות לפי א,ב,ג
+[Quicksearch in open groups only]
+חיפוש-מהיר בקבוצות פתוחות בלבד
+[Group:]
+קבוצה:
+[Status Bar]
+שורת מצב
+[Show status bar]
+הצג את שורת המצב
+[Show icons]
+הראה סמלים
+[Show protocol names]
+הצג את שמות הפרוטוקולים
+[Show status text]
+הצג מצב
+[Right click opens status menu]
+לחיצה ימנית פותחת תפריט המצב\n
+[Right click opens Miranda NG menu]
+לחיצה ימנית פותחת את תפריט מירנדה
+[Make sections equal width]
+עשה שהאיזורים יהיו שווים
+[Show bevels on panels]
+הראה שיפועים בפאנלים
+[Show resize grip indicator]
+הראה סמן אחיזת הגדלה
+[E&xit]
+&יציאה
+[&Status]
+מצב
+[&Offline\tCtrl+0]
+לא מ&חובר\tCtrl+0
+[On&line\tCtrl+1]
+מח&ובר\tCtrl+1
+[&Away\tCtrl+2]
+&לא נמצא\tCtrl+2
+[&NA\tCtrl+3]
+לא &זמין\tCtrl+3
+[Occ&upied\tCtrl+4]
+&עסוק\tCtrl+4
+[&DND\tCtrl+5]
+&לא להפריע\tCtrl+5
+[&Free for chat\tCtrl+6]
+&פנוי לשיחה\tCtrl+6
+[&Invisible\tCtrl+7]
+&בלתי נראה\tCtrl+7
+[On the &Phone\tCtrl+8]
+&מדבר בטלפון\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+או&כל ארוחת צהריים\tCtrl+9
+[Tray]
+נסה
+[&Hide/Show]
+&הצג/הסתר
+[&New Group]
+&קבוצה חדשה
+[&Hide Offline Users]
+הס&תר משתמשים לא מחוברים
+[Hide &Offline Users out here]
+הסתר משתמשים לא מחוב&רים כאן
+[Hide &Empty Groups]
+הסתר &קבוצות ריקות
+[Disable &Groups]
+בטל קבו&צות
+[Hide Miranda]
+הסתר את המירנדה
+[&New Subgroup]
+&תת קבוצה חדשה
+[&Hide Offline Users in here]
+הסתר מ&שתמשים לא מחוברים כאן
+[&Rename Group]
+ש&נה שם קבוצה
+[&Delete Group]
+&מחק קבוצה
 ;file \plugins\Clist_blind\src\clcopts.cpp
+[Not focused]
+לא נבחר
+[Offline]
+לא מחובר
+[Online]
+מחובר
+[Away]
+לא נמצא
+[NA]
+לא זמין
+[Occupied]
+עסוק
+[DND]
+לא להפריע
+[Free for chat]
+פנוי לשיחה
+[Invisible]
+בלתי נראה
+[Out to lunch]
+אוכל ארוחת צהריים
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדברת בטלפון
+[List]
+רשימה
 ;file \plugins\Clist_blind\src\clistopts.cpp
+[Global]
+כולל
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp

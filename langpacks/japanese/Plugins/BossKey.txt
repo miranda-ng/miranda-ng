@@ -6,5 +6,15 @@
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 ;file \plugins\BossKeyPlus\res\BossKey.rc
+[Password:]
+パスワード :
+[OK]
+OK
+[Cancel]
+Cancel
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
 ;file \plugins\BossKeyPlus\src\Options.cpp
+[Events]
+イベント
+[Advanced]
+詳細

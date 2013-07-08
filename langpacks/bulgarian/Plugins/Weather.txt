@@ -10,6 +10,10 @@
 Кратка инф.
 [Webpage]
 уебстраница
+[Close]
+Затваряне
+[Options]
+Настройки
 [Update weather information on startup]
 Обновяване на атмосферната информацията при стартиране
 [Update weather information every]
@@ -36,6 +40,8 @@
 Символ градус:
 [Wind]
 Вятър
+[Visibility]
+Видимост
 [km]
 км
 [miles]
@@ -82,8 +88,18 @@ URL за още инф.
 Без автоматично обновяване за метеостанцията
 [Disable Popup for this station]
 Без Popup за станцията
+[Cancel]
+Отказ
 [Popup only when condition changes]
 Popup само при промяна на условията
+[Background colour]
+Цвят на фона
+[Background colour]
+Фонов цвят
+[Text colour]
+Цвят на текста
+[Use Windows colours]
+Цветове от Windows
 [Popup Actions]
 Popup Действия
 [Left Click]
@@ -92,10 +108,18 @@ Popup Действия
 Десен бутон
 [Popup Delay]
 Popup времетраене
+[seconds]
+секунди
 [Popup Text]
 Popup текст
+[Default]
+Стандарт
 [Updates]
 Обновления
+[Alerts]
+Уведомявания
+[Contact List]
+Списък с контакти
 [Brief Info Title]
 Заглавие
 [Note Text]
@@ -106,6 +130,8 @@ Popup текст
 Външен дневник
 [More Variables]
 Още променливи
+[Reset]
+Анулиране
 [Sunset]
 Залез
 [Feel-like]
@@ -138,6 +164,8 @@ Popup текст
 Общо използвана памет
 [Reload INI]
 Презареждане
+[City:]
+Град:
 [Open brief information]
 Отваряне на кратка прогноза
 [Open complete forecast]
@@ -222,6 +250,10 @@ HTTP грешка: Услугата не е налична (503)
 Метео-INI информация
 [View webpage]
 Преглед на уебстраницата
+[Text Files]
+Текстови файлове
+[All Files]
+Всички файлове
 ;file \plugins\Weather\src\weather_conv.cpp
 [<unknown time>]
 <неизвестно време>
@@ -251,6 +283,8 @@ HTTP връзки на метео протокола
 Не е открит съответният .INI файл за "%s".
 [Weather INI information for "%s":]
 Метео-INI информация за "%s":
+[Name:]
+Име:
 [Internal Name:]
 Вътрешно име:
 [INI Version:]
@@ -261,6 +295,10 @@ HTTP връзки на метео протокола
 Брой елементи:
 [Memory Used:]
 Използвана памет:
+[bytes]
+байта
+[Description:]
+Описание:
 [Here is a list of custom variables that are currently available]
 Списък на наличните променливи
 ;file \plugins\Weather\src\weather_ini.cpp
@@ -276,6 +314,14 @@ HTTP връзки на метео протокола
 [Frame Title Font]
 Шрифт за заглавие на рамките
 ;file \plugins\Weather\src\weather_opt.cpp
+[Network]
+Мрежа
+[General]
+Основни
+[Popups]
+РopUps
+[Popups]
+РopUps
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\tтекущи условия\n%d\tтекуща дата\n%e\tточка на оросяване\n%f\tусеща се като\n%h\tмаксимална\n%i\tвятър (посока)\n%l\tминимална\n%m\tвлажност\n%n\tиме на станцията\n%p\tатм. налягане\n%r\tизгрев\n%s\tstation ID\n%t\tтемпература\n%u\tобновено на\n%v\tвидимост\n%w\tвятър (скорост)\n%y\tзалез
 ;file \plugins\Weather\src\weather_popup.cpp
@@ -316,6 +362,8 @@ ID на станцията
 Обновено в:   %u
 [Variable]
 Променливо
+[Information]
+Информация
 [Retrieving new data, please wait...]
 Извличане на нови данни, моля изчакайте...
 [More Info]

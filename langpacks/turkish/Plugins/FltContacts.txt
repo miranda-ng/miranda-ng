@@ -6,7 +6,45 @@
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
 ;file \plugins\FloatingContacts\res\fltcnt.rc
+[pixels]
+piksel
+[pixels]
+piksel
+[seconds]
+saniye
+[seconds]
+saniye
+[Single click interface]
+Arayüz tek tıkla işlesin
+[Dim idle contacts]
+Boştaki kişileri kıs
+[Background]
+Art Alan
+[Stretch to width]
+Genişliği Gerdir
+[Stretch to height]
+Yüksekliği Gerdir
+[Tile horizontally]
+Yatay döşe
+[Tile vertically]
+Dikey döşe
+[Stretch proportionally]
+Oransal Gerdir
 ;file \plugins\FloatingContacts\src\main.cpp
+[Standard contacts]
+Standart kişiler
+[Online contacts to whom you have a different visibility]
+Farklı görünürlüğe sahip olduğunuz çevrimiçi kişiler
+[Offline contacts]
+Çevrimdışı kişiler
+[Offline contacts to whom you have a different visibility]
+Farklı görünürlükte olduğunuz çevrimdışı kişiler 
+[Contacts which are 'not on list']
+'listede olmayan' kişiler
 [Floating contacts]
 Yüzen kişiler
 ;file \plugins\FloatingContacts\src\options.cpp
+[Contact List]
+Kişi Listesi
+[Contact List]
+Kişi Listesi

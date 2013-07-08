@@ -6,25 +6,77 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 ;file \plugins\BasicHistory\res\BasicHistory.rc
+[Message History]
+היסטורית הודעות
 [Show event icons]
 הראה אייקוני אירועים
+[Show names]
+הראה שמות
+[Show messages]
+הראה הודעות
 [External CSS file]
 חיצוני CSS קובץ
+[Name]
+שם
+[OK]
+אישור
+[Cancel]
+ביטול
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
+[View &History]
+הצד היסטוריה
+[Incoming message]
+הודעה נכנסת
+[Outgoing message]
+הודעה יוצאת
+[History]
+היסטוריה\n
 ;file \plugins\BasicHistory\src\EventList.cpp
 [All events]
 כל האירועים
+[History for %s]
+%s היסטוריה עבור
+[System]
+מערכת
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
+[Open in &new window]
+&פתח בחלון חדש
+[&Open in existing window]
+פ&תח בחלון קיים
+[&Copy link]
+ה&עתק קישור
+[Copy]
+העתק
+[Delete]
+מחק
 [Reply &Quoted]
 הגב &ציטוט
+[Options]
+אפשרוית
+[Icons]
+סמלים
+[Hotkeys]
+מקשי קיצור
+[Error]
+שגיאה
 ;file \plugins\BasicHistory\src\Options.cpp
+[Message]
+הודעה
+[Link]
+קישור
 [You were added]
 הוסיפו אותך לרשימה
 [SMTP Simple Email]
 SMTP אימייל פשוט
 [SMS message]
 סמס הודעת
+[Messages]
+הודעות
+[Advanced]
+מתקדם
+[Find]
+חפש
 [Incoming events]
 אירועים נכנסים
 [Outgoing events]
@@ -33,5 +85,9 @@ SMTP אימייל פשוט
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 ;file \plugins\BasicHistory\src\Scheduler.cpp
+[Contacts]
+אנשי קשר
 ;file \plugins\BasicHistory\src\Searcher.cpp
+[Search]
+חיפוש
 ;file \plugins\BasicHistory\src\TxtExport.cpp

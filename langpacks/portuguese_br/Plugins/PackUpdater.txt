@@ -8,8 +8,24 @@
 ;file \plugins\PackUpdater\Res\Resource.rc
 [View info]
 Exibir informações
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [Pack update options]
 Opções de atualização
+[Text]
+Texto
 ;file \plugins\PackUpdater\Src\Events.cpp
 [Check for pack updates]
 Verificar atualizações

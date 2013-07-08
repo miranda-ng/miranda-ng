@@ -6,12 +6,72 @@
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 ;file \plugins\YAMN\res\YAMN.rc
+[OK]
+OK
+[Description:]
+Leírás:
+[Copyright:]
+Szerzõi jog:
+[Message]
+Üzenet
+[Password:]
+Jelszó:
+[Port:]
+Port:
+[Default]
+Alap
+[Name:]
+Név:
+[Options]
+Beállítások
+[Cancel]
+Mégsem
+[Offline]
+Kilépett
+[Online]
+Elérhetõ
+[Away]
+Távol
+[Occupied]
+Elfoglalt
+[DND]
+Ne zavarjanak
+[Free for chat]
+Csevegésre kész
+[Invisible]
+Láthatatlan
+[On the phone]
+Telefonál
+[Out to lunch]
+Ebédel
+[Background colour]
+Háttérszín
+[Text colour]
+Szövegszín
 ;file \plugins\YAMN\src\main.cpp
 ;file \plugins\YAMN\src\main.h
 ;file \plugins\YAMN\src\services.cpp
+[Nick]
+Becenév
 ;file \plugins\YAMN\src\browser\badconnect.cpp
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[Select All]
+Összes kijelölése
+[Size]
+Méret
 ;file \plugins\YAMN\src\mails\mime.cpp
 ;file \plugins\YAMN\src\proto\netlib.cpp
 ;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[Network]
+Hálózat
+[Accounts]
+Fiókok
+[General]
+Általános
+[Plugins]
+Beépülõk
+[Popups]
+Felugrók
+[All Files]
+Minden fájl

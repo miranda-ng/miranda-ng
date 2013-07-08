@@ -2,10 +2,22 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.0
+;  Version: 0.1.1.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 ;file \protocols\FacebookRM\res\facebook.rc
+[E-mail:]
+E-levél
+[Password:]
+Jelszó:
+[Cancel]
+Mégsem
+[User Details]
+Felhasználó részletek
+[Text]
+Szöveg
+[Default]
+Alap
 ;file \protocols\FacebookRM\src\communication.cpp
 ;file \protocols\FacebookRM\src\connection.cpp
 ;file \protocols\FacebookRM\src\constants.h
@@ -15,4 +27,12 @@
 ;file \protocols\FacebookRM\src\messages.cpp
 ;file \protocols\FacebookRM\src\process.cpp
 ;file \protocols\FacebookRM\src\proto.cpp
+[Network]
+Hálózat
+[Advanced]
+Haladó
+[Popups]
+Felugrók
+[Events]
+Események
 ;file \protocols\FacebookRM\src\theme.cpp

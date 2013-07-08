@@ -6,13 +6,27 @@
 ;  Authors: borkra
 ;============================================================
 ;file \plugins\CrashDumper\res\crshdmp.rc
+[Close]
+סגור
+[Username]
+שם משתמש
 [Upload automatically when changed]
 העלה אוטומטית כשמשתנה
+[General]
+כללי
+[&Copy]
+ה&עתק
+[Co&py All]
+העת&ק הכול
+[Select &All]
+&בחר הכול
 ;file \plugins\CrashDumper\src\crshdmp.cpp
 [Version Information To File]
 גירסת מידע לקובץ 
 [Upload Version Information]
 העלה מידע על גירסה
+[Show]
+הראה
 ;file \plugins\CrashDumper\src\crshdmp_icons.cpp
 [Crash Dumper]
 קראש דאמפר

@@ -6,6 +6,10 @@
 ;  Authors: Miranda team
 ;============================================================
 ;file \protocols\IRCG\res\IRC.rc
+[&Add]
+&Ajouter
+[&Edit]
+&Modifier
 [&Del]
 &Effacer
 [only while connecting]
@@ -36,6 +40,8 @@ Mise à jour de l'état dans la nicklist
 Adresse Internet
 [Port range]
 Ports
+[Nick]
+Pseudo
 [User ID (Ident)]
 Identifiant
 [Full name (e-mail)]
@@ -46,10 +52,14 @@ Nom du Serveur
 Pseudo alternatif
 [Ident]
 Ident.
+[System]
+Système
 [Default network]
 Réseau par défaut
 [User info - Required]
 Info usager - Obligatoire
+[Other]
+Autre
 [Reconnect]
 Reconnexion
 [Wait (s)]
@@ -70,6 +80,10 @@ Info usager
 &Actualiser
 [&Query]
 &Demande
+[&Close]
+&Fermer
+[Name]
+Nom
 [Channels]
 Canaux
 [Away Info]
@@ -78,6 +92,10 @@ Info d'inactivité
 Le serveur a retourné l'information suivante. Veuillez noter que cette information peut être trompeuse ou falsifiée
 [CTCP information]
 Information CTCP
+[&OK]
+OK
+[&Cancel]
+&Annuler
 [Perform]
 Action
 [&Set]
@@ -94,8 +112,12 @@ Page de code du serveur :
 Auto-détection de l'UTF8
 [Add server]
 Ajouter serveur
+[Network]
+Réseau
 [Channels on server]
 Canaux sur le serveur
+[&Join]
+Re&joindre
 [C&onnect]
 &Connecter
 [Hostmask]
@@ -162,6 +184,8 @@ Accepter automatiq. de :
 Envoyer une notice
 [CTCP Chat Request]
 Requêtes CTCP
+[&Deny]
+&Refuser
 [Enable (*)]
 Activer (*)
 [Ignore channel messages by default]
@@ -176,6 +200,8 @@ Ignorer les requêtes de DCC Chat venant de contacts inconnus
 Ignorer les usagers
 [(*) Queries from users on your contactlist are never ignored]
 (*) Ne jamais ignorer les messages privés d'utilisateurs de la liste de contacts
+[Notices]
+Notifications
 [Ignore mask ( nick!user@host )]
 Ignorer masque ( nick!user@host )
 [Network (*)]
@@ -184,6 +210,8 @@ Réseau (*)
 Ignorer les évènements
 [(*) blank to set this mask for all networks]
 (*) laisser vide pour couvrir tous les réseaux
+[Password:]
+Passe :
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 Requête de chat CTCP de %s
@@ -232,8 +260,12 @@ Terminé : %u canaux
 Changer le pseudo
 [IRC error]
 Erreur IRC
+[Unknown]
+Inconnu
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
 Entrer le masque d'hôte nick!user@host)\nNote : les contacts de votre liste ne seront jamais ignorés
+[Ignore]
+Ignorer
 [Please enter the reason]
 Indiquer le motif
 [Ban'n Kick]
@@ -289,6 +321,8 @@ Saisir commande
 Veuillez saisir la réponse
 ;file \protocols\IRCG\src\irclib.cpp
 ;file \protocols\IRCG\src\ircproto.cpp
+[Information]
+Informations
 [DCC ERROR: No valid files specified]
 Erreur DCC : Fichiers spécifiés invalide
 [DCC reversed file transfer request sent to %s [%s]]
@@ -304,6 +338,16 @@ La connexion de chat DCC est inactive
 [Please choose an IRC-network to go online. This network will be the default.]
 Veuillez choisir un réseau IRC pour vous connecter. Il deviendra celui par défaut.
 ;file \protocols\IRCG\src\options.cpp
+[Add]
+Ajouter
+[Apply]
+Appliquer
+[Rename]
+Renommer
+[Edit]
+Éditer
+[Cancel]
+Annuler
 [Channel list]
 Liste des salons
 [Quick connect]
@@ -344,6 +388,8 @@ Ajouter un nouvel ignoré
 Effacer cet ignoré
 [Ignore mask]
 Ignorer le masque
+[Advanced]
+Avancé
 ;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
 WallOps de %stify
@@ -445,6 +491,8 @@ Se connecte à
 [Reconnecting to]
 Connexion à
 ;file \protocols\IRCG\src\tools.cpp
+[Offline]
+Hors ligne
 ;file \protocols\IRCG\src\userinfo.cpp
 ;file \protocols\IRCG\src\windows.cpp
 [Channel]

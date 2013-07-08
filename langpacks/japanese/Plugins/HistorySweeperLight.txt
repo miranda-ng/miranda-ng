@@ -8,3 +8,5 @@
 ;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
 ;file \plugins\HistorySweeperLight\src\main.cpp
 ;file \plugins\HistorySweeperLight\src\options.cpp
+[History]
+履歴

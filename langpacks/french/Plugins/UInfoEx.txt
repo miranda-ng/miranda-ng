@@ -12,26 +12,68 @@
 Origine
 [&Update]
 &Mettre à jour
+[Updating]
+Mise à jour
+[Cancel]
+Annuler
+[Apply]
+Appliquer
+[Nick:]
+Pseudo :
+[First name:]
+Prénom :
 [Second name:]
 Second prénom :
+[Last name:]
+Nom :
+[Female]
+Femme
+[Male]
+Homme
+[Marital status:]
+Situation :
 [Partner:]
 Concubin :
 [Language skills]
 Langues parlées
+[Street:]
+Rue :
+[Postal code:]
+Code postal :
+[City:]
+Ville :
 [County/State:]
 Pays/État :
+[Country:]
+Pays :
 [Contact added to ContactList:]
 Contact ajouté :
 [Your contact's local time is:]
 Heure locale de votre contact :
+[Timezone:]
+Fuseau horaire :
+[Company:]
+Entreprise :
+[Department:]
+Département :
 [Office:]
 Bureau :
+[Position:]
+Position :
 [Superior:]
 Supérieur :
 [Assistant:]
 Assistant :
+[Add Phone Number]
+Ajouter le téléphone
 [Enter a category for this number:]
 Entrer une catégorie pour ce numéro :
+[Enter country, area code and phone number:]
+Entrer le pays, le code de la zone et le numéro de téléphone :
+[Or enter a full international number:]
+Ou entrer un numéro international entier :
+[Phone can receive SMS text messages]
+Ce téléphone peut recevoir des SMS
 [Add E-Mail]
 Ajouter un e-mail
 [Enter a representitive name for the e-mail address here.]
@@ -44,6 +86,8 @@ Afficher le menu
 Me prévenir
 [days before.]
 jours avant.
+[hours]
+heures
 [Icon flashing on event]
 Faire clignoter l'icône
 [Perform check on each startup]
@@ -56,16 +100,32 @@ Compatibilité des anniversaires :
 Utiliser la liste des ignorés
 [Birthday popup colours]
 Popups des anniversaires
+[Background colour]
+Couleur de fond
+[Background colour]
+Couleur de Fond : 
+[Text colour]
+Couleur du texte
+[Use Windows colours]
+Utiliser les couleurs Windows
+[Use default colours]
+Couleurs par défaut
+[Custom]
+Défini
 [Show reminder messages as popups (if reminder is enabled)]
 Montrer les messages de rappel dans des popups (si rappel activé)
 [Anniversary popup colours]
 Couleurs des popup d'anniversaire
+[Homepage:]
+Page web :
 [Add Affiliation]
 Ajouter organisation
 [Add Past]
 Ajouter un Passé
 [Add Interest]
 Ajouter un intérêt
+[Delete]
+Effacer
 [Enter a name for the anniversary here please:]
 veuillez indiquer un nom d'anniversaire :
 [Anniversary list]
@@ -84,6 +144,8 @@ moyenne d'age :
 Afficher &le(s) prochain(s)
 [day(s)]
 jour(s)
+[Icons]
+Icônes
 [Check file version of default IconPack to prevent wrong icon display]
 Vérifier la version du Pack d'icône pour éviter tout défaut d'affichage
 [Display icons on each dialog button]
@@ -120,6 +182,8 @@ Commun
 Changer mes détails ICQ avec UserInfoEx (désactivé si ICQ le ne supporte pas)
 [Setting/Event (20/100)]
 Option/Évènement (20/100)
+[None]
+Aucun
 [MainMenu]
 Menu principal
 [Ex-/Import items]
@@ -128,6 +192,8 @@ Menu principal
 Menu du contact
 [Extra Icons]
 Icônes d'accès rapide
+[Gender:]
+Sexe :
 [Replace the following default icons:]
 Remplacer les icônes par défaut suivants :
 [Phone]
@@ -136,6 +202,8 @@ Téléphone
 e-mail
 [Show 'Restart' menu item]
 Ajouter 'Relancer' dans le menu
+[Age:]
+Age :
 [Zodiac:]
 Zodiaque :
 [What do you want to export?]
@@ -188,9 +256,13 @@ Voir les éléments :
 Ajouter un anniversaire
 [Delete an existing anniversary]
 Effacer un anniversaire existant
+[Unspecified]
+Non spécifié
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Edit E-Mail]
 Éditer l'e-mail
+[Edit Phone Number]
+Éditer le numéro de téléphone
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
 Le numéro de téléphone doit commencer par un + et être ne peut contenir\nque des nombres, espaces, parenthèses et traits d'union.
 [Choose the item to display.]
@@ -203,6 +275,8 @@ Ajout d'un détail personnalisé
 Effacer la sélection
 [Do you really want to delete the current selected item?\n\t%s\n\t%s]
 Voulez-vous vraiment effacer les réglages sélectionnés ?\n\t%s\n\t%s
+[Other]
+Autre
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [Age/Nr.]
@@ -214,6 +288,14 @@ Seulement les fêtes
 [Disabled reminder]
 Désactiver les rappels
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+[Yes]
+Oui
+[No]
+Non
+[Ignore]
+Ignorer
+[Error]
+Erreur
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [Upload Details]
 Mise à jour des détails
@@ -221,12 +303,20 @@ Mise à jour des détails
 Vous n'êtes actuellement pas connecté à ICQ.\nVous devez être connecté afin de mettre à jour les infos sur le serveur.\nVos changements ne seront que sauvegardés dans votre profil Miranda.
 [Uploading]
 Mise à jour...
+[General]
+Général
 [Contact (private)]
 Contact (privé)
 [Anniversaries]
 Anniversaires
+[Work]
+Travail
 [Contact (Work)]
 Contact (professionnel)
+[Profile]
+Profil
+[Owner]
+Propriétaire
 [Upload ICQ Details]
 Mise à jour des détails ICQ
 [Upload failed]
@@ -239,14 +329,26 @@ Vous détails non pas été mis à jour.\nIls ont seulement été écrits dans v
 Pseudo - nom
 [Marital status]
 État civil
+[Default]
+Défaut
 [Custom Phone]
 Téléphone
 [e-mail]
 e-mail
+[Add]
+Ajouter
+[Edit]
+Éditer
+[Search]
+Recherche
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
 Attention : La version de votre pack d'icônes n'est pas prévue pour votre UserInfoEx actuel.\nCertaines images peuvent ne pas s'afficher correctement.
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
+[User &Details]
+&Détails du contact
+[View/Change My &Details...]
+Voir/Changer mes &détails...
 [Export all contacts]
 Exporter tous les contacts
 [Import all contacts]
@@ -258,6 +360,8 @@ Informations avancées
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
 Mes notes :
+[About:]
+À propos :
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid Description first!]
 Veuillez commencer par entrer une description valide !
@@ -277,6 +381,8 @@ Rappels désactivés
 Seulement les anniversaires
 [everything]
 tout
+[Advanced]
+Avancé
 [Details Dialog]
 Détails de la fenêtre
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
@@ -330,7 +436,11 @@ Sport & Athlétisme
 [Home automation]
 Maison automatisée
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+['(Unknown Contact)']
+'(Contacts Inconnus)'
 ;file \plugins\UserInfoEx\src\svc_email.cpp
+[Send e-mail]
+Envoyer un e-mail
 [Memory allocation error!]
 Erreur d'allocution de mémoire !
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
@@ -381,5 +491,7 @@ Importer les détails depuis un vCard
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Contact: %s (%S)]
 Contact : %s (%S)
+[Complete]
+Terminé
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

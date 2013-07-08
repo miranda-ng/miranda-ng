@@ -2,21 +2,92 @@
 ;============================================================
 ;  File: Skype.dll
 ;  Plugin: Skype Protocol
-;  Version: 0.0.0.1
-;  Authors: Unsane, Mataes
+;  Version: 0.11.0.1
+;  Authors: unsane, mataes, ghazan
 ;============================================================
 ;file \protocols\Skype\res\Resource.rc
+[&Cancel]
+Cancel(&C)
+[Add]
+追加
+[&Create]
+作成 (&C)
+[Password:]
+パスワード :
+[Hint:]
+ヒント :
 [Enter password]
 パスワードを入力してください
+[OK]
+OK
+[Cancel]
+Cancel
+[Date of birth:]
+誕生日 :
+[Gender:]
+性別 :
+[Homepage:]
+Homepage:
+[About:]
+バージョン情報 :
+[City:]
+市 :
+[State:]
+州 :
+[Country:]
+国 :
+[Timezone:]
+タイムゾーン :
+[New password:]
+新規パスワード :
 ;file \protocols\Skype\src\skype.cpp
 ;file \protocols\Skype\src\skype_account.cpp
+;file \protocols\Skype\src\skype_blocked.cpp
+[Name]
+名前
+;file \protocols\Skype\src\skype_bookmarks.cpp
+[Conferences]
+会議
 ;file \protocols\Skype\src\skype_chat.cpp
+[&User details]
+ユーザーの詳細情報 (&U)
+[Set &role]
+役割の設定 (&r)
+[&User]
+ユーザー (&U)
+[&Add]
+追加 (&A)
 ;file \protocols\Skype\src\skype_contacts.cpp
 ;file \protocols\Skype\src\skype_dialogs.cpp
+[<not specified>]
+< 指定なし >
+[Male]
+男性
+[Female]
+女性
 ;file \protocols\Skype\src\skype_events.cpp
+[Network]
+ネットワーク
+[Contacts]
+コンタクト
+[General]
+全般
 ;file \protocols\Skype\src\skype_icons.cpp
+[Contact]
+コンタクト
+[Delete]
+削除
+;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
 ;file \protocols\Skype\src\skype_menus.cpp
+[Request authorization]
+認証リクエスト
+[Grant authorization]
+権限の承認
+[Revoke authorization]
+認証の取消
+;file \protocols\Skype\src\skype_messages.cpp
 ;file \protocols\Skype\src\skype_netlib.cpp
 ;file \protocols\Skype\src\skype_proto.cpp
+;file \protocols\Skype\src\skype_transfers.cpp
 ;file \protocols\Skype\src\skype_utils.cpp

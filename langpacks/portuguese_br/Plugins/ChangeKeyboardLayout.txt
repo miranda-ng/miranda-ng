@@ -6,5 +6,29 @@
 ;  Authors: Yasnovidyashii
 ;============================================================
 ;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
+[Hotkeys]
+Atalhos
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
+[Default]
+Padrão
+[Default]
+Padrão
+[Default]
+Padrão
+[Default]
+Padrão
+[Text]
+Texto
+[Custom]
+Padrão
 ;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
+[Message Sessions]
+Sessões de mensagem

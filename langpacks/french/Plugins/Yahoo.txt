@@ -8,6 +8,10 @@
 ;file \protocols\Yahoo\res\Yahoo.rc
 [ID:]
 ID :
+[Password:]
+Passe :
+[Nick:]
+Pseudo :
 [Create a new Yahoo account using the Yahoo website]
 Créer un nouveau compte depuis le site de Yahoo
 [Use Yahoo Address Book (YAB)]
@@ -18,12 +22,28 @@ Afficher les notifications
 Voir les erreurs
 [Yahoo Japan]
 Yahoo Japon
+[Port:]
+Port :
+[Reset]
+RAZ
 [Yahoo Ignore List]
 Liste des contacts à ignorer
+[&Add]
+&Ajouter
 [Set Custom Status]
 Personnaliser le message d'état
 [Show as busy]
 Signaler comme occupé
+[Cancel]
+Annuler
+[&Join]
+Re&joindre
+[&Deny]
+&Refuser
+[&Cancel]
+&Annuler
+[Add]
+Ajouter
 ;file \protocols\Yahoo\src\avatar.cpp
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
@@ -31,6 +51,8 @@ Signaler comme occupé
 ;file \protocols\Yahoo\src\icolib.cpp
 [Mail]
 e-mail
+[Profile]
+Profil
 [Address Book]
 Carnet d'adresses
 [Calendar]
@@ -38,6 +60,8 @@ Calendrier
 ;file \protocols\Yahoo\src\im.cpp
 [Yahoo Error]
 Erreur Yahoo
+[The message send timed out.]
+Délai d'envoi du message expiré
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 Message trop grand : Les messages de Yahoo sont limités à 800 caractères de type UTF8
 ;file \protocols\Yahoo\src\links.cpp
@@ -59,6 +83,8 @@ Ce contact est déjà dans votre liste.
 Vous devez être connecté à Yahoo afin de retirer un contact de la liste.
 [Please select a buddy on the ignore list to remove.]
 Vous devez sélectionner un contact dans la liste des ignorés afin de l'y retirer.
+[Network]
+Réseau
 ;file \protocols\Yahoo\src\proto.cpp
 [Please enter your yahoo id in Options/Network/Yahoo]
 Veuillez entrer votre ID Yahoo dans Options/Réseaux/Yahoo

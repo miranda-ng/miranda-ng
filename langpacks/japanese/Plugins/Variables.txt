@@ -6,9 +6,19 @@
 ;  Authors: P Boon
 ;============================================================
 ;file \plugins\Variables\res\Variables.rc
+[Close]
+閉じる
+[OK]
+OK
+[Notes]
+メモ
 ;file \plugins\Variables\src\help.cpp
 [Token]
 トークン
+[Cancel]
+Cancel
+[Help]
+ヘルプ
 ;file \plugins\Variables\src\options.cpp
 ;file \plugins\Variables\src\parse_alias.cpp
 ;file \plugins\Variables\src\parse_external.cpp

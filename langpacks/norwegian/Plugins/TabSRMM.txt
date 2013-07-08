@@ -6,17 +6,109 @@
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 ;file \plugins\TabSRMM\res\chat.rc
+[OK]
+OK
+[Cancel]
+Avbryt
 [  Show these events]
   Vis følgende hendelser
+[Actions]
+Handlinger
+[Messages]
+Meldinger
+[Nick changes]
+Kallenavnendringer
+[Users joining]
+Brukere som joiner
+[Users leaving]
+Brukere forlater
+[Topic changes]
+Overskriftforandringer
+[Status changes]
+Statusendringer
+[Information]
+Informasjon
+[Disconnects]
+Kobler fra
+[User kicks]
+Bruker kicker
+[Notices]
+Varsler
+[Options]
+Valg
+[Add new rooms to group:]
+Legg til nye rom til gruppen
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
 Chat integrering er deaktivert. Du kan aktivere det her, og deretter MÅ du starte Miranda på nytt etter å ha gjort endringen.\n\nDu MÅ deaktivere standardchat tillegget når du aktiverer støtte for gruppechat. Hvis ikke fungerer kanskje ikke gruppechaten.
+[Enable logging to disk]
+Aktiver logging til disk
+[Log directory]
+Loggmappe
 [Group chat log formatting]
 Gruppechat logg formatering
+[Your name]
+Ditt navn
+[Other name]
+Annet navn
 [Groupchat userlist row height (pixels)]
 Gruppechat brukerlistens radhøyde (piksler)
+[List]
+Liste
+[&Message]
+&Skriv til
+[Log]
+Logg
+[Clear lo&g]
+Fjern lo&gg
+[Co&py all]
+Ko&pier alt
+[Word lookup]
+Ord oppslag
+[Google]
+Google
+[Wikipedia]
+Wikipedia
+[Link]
+Link
+[Open a &new browser window]
+Åpne et &nytt nettleservindu
+[&Open in current browser window]
+&Åpne i nåværende nettleservindu
+[&Copy link]
+&Kopier link
+[Message]
+Melding
+[Message]
+Melding
+[Undo  ]
+Omgjør  
+[Redo]
+Gjør om
+[Copy]
+Kopier
+[Copy]
+Kopier
+[Cut]
+Klipp ut
+[Paste]
+Lim inn
+[Select All]
+Velg Alt
+[Clear]
+Fjern:
+[Tabs]
+Faner
+[&Close tab]
+&Lukk fane
+[C&lose other tabs]
+L&ukk andre faner
+[&Open at this position]
+&Åpne ved denne posisjonen
 ;file \plugins\TabSRMM\res\resource.rc
 [Message send timeout]
 Melding sendingsutløp
+[seconds]
+sekunder
 [Input history size]
 Inndata historikk størrelse
 [entries]
@@ -25,6 +117,12 @@ treff
 Hendelsevarslingsvalg
 [Limit message preview to]
 Begrens forhåndsvisning av melding til
+[Text]
+Tekst
+[Background]
+Bakgrunn
+[Group chats]
+Gruppesamtaler
 [All modes]
 Alle moduser
 [Send text formatting method]
@@ -45,6 +143,8 @@ Tving ANSI send / motta
 Ignorer sendingsutløp
 [Always trim message log to]
 Alltid beskjær meldingslogg til
+[Events]
+Hendelser
 [Only show tab bar when it's needed]
 Bare vis fanelinjen når den er nødvendig
 [Container stays on top]
@@ -77,6 +177,8 @@ Skjul tittellinjen
 Bruk global Beholderstørrelse og posisjon
 [Save current as global]
 Lagre nåværende som global
+[Apply]
+Lagre
 [Show contact avatars]
 Vis kontaktavatarer
 [Show my own avatars]
@@ -99,14 +201,28 @@ Mal pakker
 Standardmaler...
 [RTL templates...]
 RTL maler...
+[Load History Events]
+Last Historikkhendelser
+[Load unread events only]
+Last kun inn ulese hendelser 
+[Load number of previous events]
+Last inn antall tidligere hendelser
+[Load previous events less than]
+Last inn hendelser mindre enn
+[minutes old]
+minutter gamle
 [Global message log display]
 Global meldingslogg visning
+[Typing Notification]
+Skrivevarsling
 [Send typing notifications to the following users when you are typing a message to the them:]
 Send skrivevarslinger til følgende brukere når du skriver meldinger til dem:
 [Flash window once on typing events (only if flashing enabled)]
 Blink vindu en gang ved skrivehendelser (blinking må være aktivert)
 [Show typing notification when message dialog is open]
 Vis skrivevarsling når meldingsdialogen er åpen
+[Show typing notification when no message dialog is open]
+Vis skrivevarsler når ingen samtaledialoger er åpne
 [Tab options]
 Fanevalg
 [Miscellaneous options]
@@ -119,10 +235,16 @@ Begrens kallenavn i fanen til
 Velg beholder
 [Available containers]
 Tilgjengelige beholdere
+[Delete]
+Slett
+[Rename]
+Gi nytt navn
 [Create a new container]
 Opprett en ny beholder
 [Create new]
 Opprett ny
+[Reset]
+Nullstill
 [Container flashing]
 Beholderblinking
 [Flash containers]
@@ -131,12 +253,22 @@ Blink beholdere
 ganger
 [Flash interval]
 Blinkeintervall
+[milliseconds]
+millisekunder
+[Popups]
+Popups
+[Popups]
+Popups
 [&Use Windows colours]
 &Bruk Windowsfarger
 [...is typing]
 ...skriver
 [From protocol]
 Fra protokoll
+[Custom]
+Selvvalgt
+[Custom]
+Selvvalgt
 [...stopped typing]
 ...stoppet å skrive
 [Edit template]
@@ -145,6 +277,8 @@ Rediger mal
 Få mer hjelp med variabler
 [Define up to 5 colors which you can use with some variables]
 Definer opp til 5 farger som du kan bruke ved hjelp av variabler
+[Close]
+Lukk
 [Update Preview]
 Oppdater Visning
 [Save Template]
@@ -171,10 +305,28 @@ Om tabSRMM
 Last inn skrifter og farger levert av skin
 [Load templates provided by skin (use with care, will overwrite your templates)]
 Last inn maler gitt av skin (bruk med varsomhet, vil overskrive malene)
+[Icons]
+Ikoner
+[Yes]
+Ja
+[No]
+Nei
 [Create new windows in minimized state]
 Opprett nye vinduer i mimimert tilstand
+[Minimize the message window on send]
+Minimer samtalevindu ved sending
+[&Copy]
+&Kopier
+[Co&py All]
+Ko&pier Alt
+[Select &All]
+Velg &Alt
 [Freeze Log]
 Frys Logg
+[Open in &new window]
+Åpne i &nytt vindu
+[&Open in existing window]
+&Åpne i eksisterende vindu
 [Editor]
 Editor
 [Paste formatted Text]
@@ -187,8 +339,6 @@ Kopier alt
 Velg alt
 [Show Message Length Indicator]
 Vis Meldingslengde indikator
-[Tabmenu]
-Fanemeny
 [Leave Chat Room]
 Forlat Samtalerom
 [Save Tab Position]
@@ -201,10 +351,10 @@ Fest til Beholder...
 Beholdervalg...
 [Close Container]
 Lukk Beholder
-[Picmenu]
-Picmeny
 [Show Contact Picture]
 Vis Kontaktbilde
+[Default]
+Standard
 [Hidden for this Contact]
 Skjult for denne Kontakten
 [Visible for this Contact]
@@ -215,10 +365,6 @@ Kontaktbilde Innstillinger...
 Alltid hold knappelinjen på full bredde
 [Save this Picture As...]
 Lagre dette Bilde Som...
-[Logmenu]
-Loggmeny
-[Sendmenu]
-Sendmeny
 [Send &Default]
 Send &Standard
 [Send to &multiple Users]
@@ -231,12 +377,14 @@ Send &Senere
 Tving &ANSI
 [Send unsafe (ignore Timeouts)]
 Send usikkert (ignorer tidsutløp)
-[Protomenu]
-Protomeny
+[Global]
+Global
 [Send Text Formatting]
 Send tekstformatering
 [BBCode]
 BBKode
+[Off]
+Av
 [This Contact]
 Denne Kontakten
 [Global Setting]
@@ -245,8 +393,6 @@ Global Innstilling
 Tving Av
 [Unread Menu]
 Ulest Meny
-[Traycontext]
-Oppgavelinjesammenheng
 [Recent Sessions]
 Nylige Økter
 [Favorites]
@@ -261,6 +407,8 @@ Skjul alle meldingsbeholdere
 Tilbakestill alle Meldingsbeholdere
 [Don't play Sounds]
 Ikke spill Lyder
+[Font]
+Skrift
 [Default Color]
 Standard Farge
 [Magenta]
@@ -277,12 +425,6 @@ Ingen Meldingsøkter åpnet
 Legg Kontakter til Favoritter
 [Remove Contact from Favorites]
 Fjern Kontakt fra Favoritter
-[Apparentmenu]
-Tydeligmeny
-[Panelpicmenu]
-Panelpicmeny
-[Splitter context]
-Spalter sammenheng
 [Set Position for this Session]
 Sett Posisjon for denne økten
 [Set and Save for all Sessions]
@@ -291,6 +433,8 @@ Sett og Lagre for alle økter
 Sett og Lagre kun for denne Kontakten
 [Revert to old Position]
 Tilbake til gammel Posisjon
+[&File]
+&Fil
 [Save Message Log As...]
 Lagre Meldingslogg Som...
 [Close Message Session\tCtrl-W]
@@ -335,11 +479,15 @@ Vis Popups hvis vindu er ufoksert
 Vis Popups for alle inaktive økter
 [Save current Window Position as Default]
 Lagre nåværende Vindusposisjon som Standard
+[Help]
+Hjelp
 [About tabSRMM...]
 Om tabSRMM...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Message Log Options]
 Meldingslogg Valg
+[View User's History]
+Se Brukerens Historikk
 ;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 Skjul tittellinje
@@ -390,6 +538,18 @@ Nye meldinger:
 [Last received: %s at %s]
 Sist mottatt: %s kl. %s
 ;file \plugins\TabSRMM\src\globals.cpp
+[Incoming (Focused Window)]
+Innkommende (Fokusert Vindu)
+[Incoming (Unfocused Window)]
+Innkommende (Ufokusert Vindu)
+[Incoming (New Session)]
+Innkommende (Ny Samtaleøkt)
+[Outgoing]
+Utgående
+[Other]
+Annet
+[Message from %s]
+Melding fra %s
 [signed off.]
 koblet fra.
 [signed on and is now %s.]
@@ -440,16 +600,32 @@ Lagre kontaktbilde
 Filen eksisterer. Ønsker du å overskrive den?
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
 'Lim og send' er deaktivert. Du kan aktivere dette ved å velge 'Generelt' som ligger i valgene under 'Sende Meldinger'.
+['(Unknown Contact)']
+'(Ukjent Kontakt)'
 ;file \plugins\TabSRMM\src\msglog.cpp
 ;file \plugins\TabSRMM\src\msgoptions.cpp
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
 Ønsker du å også lese meldingsmaler fra temaet?\nAdvarsel: Dette vil overskrive den lagrede malen som kan påvirke utseendet til meldingsvinduet ditt.\nVelg avbryt for å ikke laste inn noe i det hele tatt.
 [Load theme]
 Last tema
+[** New contacts **]
+** Nye kontakter **
+[** Unknown contacts **]
+** Ukjente kontakter **
+[Show balloon popup (unsupported system)]
+Vis ballong popup (ustøttet system)
+[Message Sessions]
+Meldingsøkter
+[General]
+Generelt
 [Tabs and layout]
 Faner og layout
 [Containers]
 Beholdere
+[Typing Notify]
+Skrivevarsling
+[Group Chats]
+Gruppesamtaler
 [Choose status modes]
 Velg statusmoduser
 ;file \plugins\TabSRMM\src\msgs.cpp
@@ -457,6 +633,8 @@ Velg statusmoduser
 Siter tekst
 [Save and close]
 Lagre og lukk
+[Smiley button]
+Smiley knapp
 [Format bold]
 Fet type
 [Format italic]
@@ -467,8 +645,18 @@ Understreket type
 Skriftutseende
 [Font color]
 Skriftfarge
+[Background colour]
+Bakgrunnsfarge
+[Background colour]
+Bakgrunnsfarge
+[Room settings]
+Rominnstillinger
 [Message delivery error]
 Meldingsleverings feil
+[Incoming message]
+Innkommende melding
+[Outgoing message]
+Utgående melding
 [Statuschange]
 Statusendring
 [Static container icon]
@@ -491,17 +679,25 @@ Ramme 2
 Ramme 3
 [Frame 4]
 Ramme 4
+[Message Log]
+Meldingslogg
 ;file \plugins\TabSRMM\src\msgs.h
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Velg beholder for %s
 [You cannot delete the default container]
 Du kan ikke slette standardbeholderen
+[Error]
+Feil
 [You cannot rename the default container]
 Du kan ikke endre navnet på standardbeholderen
 [This name is already in use]
 Dette navnet er allerede i bruk
 ;file \plugins\TabSRMM\src\sendlater.cpp
+[Contact]
+Kontakt
+[Status]
+Status
 ;file \plugins\TabSRMM\src\sendqueue.cpp
 [A message delivery has failed.\nClick to open the message window.]
 En meldingslevering feilet.\nKlikk for å åpne meldingsvinduet.
@@ -544,6 +740,8 @@ Vis overskrifter
 Avvis hendelse
 [Dismiss event]
 Avvis hendelse
+[System tray icon]
+Oppgavelinje ikon
 [Left click actions (popups only)]
 Venstreklikkvalg (kun popups)
 [Right click actions (popups only)]
@@ -558,6 +756,12 @@ Meldingsvindu oppførsel
 Sende meldinger
 [Send on SHIFT - Enter]
 Send ved SHIFT - Enter
+[Send message on 'Enter']
+Send melding ved 'Enter'
+[Send message on double 'Enter']
+Send melding ved dobbel 'Enter'
+[Close the message window on send]
+Lukk samtalevinduet ved sending
 [Always flash contact list and tray icon for new messages]
 Alltid tøm kontaktliste og oppgavelinjeikon for nye meldinger
 [Delete temporary contacts on close]
@@ -595,12 +799,64 @@ Tving IEView
 ;file \plugins\TabSRMM\src\chat\clist.cpp
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 ;file \plugins\TabSRMM\src\chat\log.cpp
+[%s has joined]
+%s har joinet kanalen
+[You have joined %s]
+Du har joinet %s
+[%s has left]
+%s har forlatt kanalen
+[%s has disconnected]
+%s har koblet fra
+[%s is now known as %s]
+%s er nå kjent som %s
+[You are now known as %s]
+Du er nå kjent som %s
+[%s kicked %s]
+%s kicket %s
+[Notice from %s: ]
+Varsel fra %s;
+[ (set by %s)]
+ (satt av %s)
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 ;file \plugins\TabSRMM\src\chat\options.cpp
 [Log background]
 Loggbakgrunn
+[Timestamp]
+Tidsmerknad
+[Others nicknames]
+Andres kallenavn
+[Your nickname]
+Ditt kallenavn
+[User has joined]
+Bruker har joinet
+[User has left]
+Bruker har forlatt
+[User has disconnected]
+Bruker har koblet fra
+[User kicked ...]
+Bruker kicket ...
+[User is now known as ...]
+Bruker er nå kjent som ...
+[Notice from user]
+Varsel fra bruker
+[The topic is ...]
+Overskriften er ...
+[Information messages]
+Informasjonsmeldinger
+[User enables status for ...]
+Bruker aktiverer status for ...
+[User disables status for ...]
+Bruker deaktiverer status for ...
+[Action message]
+Handlingsmelding
+[Highlighted message]
+Markert melding
 [Chat log symbols (Webdings)]
 Samtalelogg symboler (Webdings)
+[User list members (Online)]
+Brukerliste medlemmer (Online)
+[User list members (away)]
+Brukerliste medlemmer (borte)
 [>> Outgoing misc events]
 >> Utgående div. hendelser
 [<< Incoming misc events]
@@ -629,14 +885,80 @@ Samtalelogg symboler (Webdings)
 * Symboler (innkommende)
 [* Symbols (outgoing)]
 * Symboler (utgående)
+[Protocol]
+Protokoll
 [Open new chat rooms in the default container]
 Åpne nye samtalerom i standardbeholderen
+[Flash window when someone speaks]
+Blink vindu når noen snakker
+[Flash window when a word is highlighted]
+Blink vindu når et ord blir markert
+[Show list of users in the chat room]
+Vis brukerliste i samtalerommet
+[Show button menus when right clicking the buttons]
+Vis knappemenyer ved høyreklikk på knappene
+[Do not pop up the window when joining a chat room]
+Ikke sprett opp vinduet ved joining av samtalerom
 [Sync splitter position with standard IM sessions]
 Synk delerposisjonen med standard IM økter
+[Prefix all events with a timestamp]
+Vis tidspunkt foran alle hendelser
+[Indent the second line of a message]
+Rykk inn andre linjen av en melding
+[Limit user names in the message log to 20 characters]
+Begrens brukernavn i meldingsloggen til 20 tegn
+[Strip colors from messages in the log]
+Fjern farger fra meldinger i loggen
 [Scale down icons to 10x10 pixels in the chat log]
 Skaler ned ikoner til 10x10 piksler i samtaleloggen
+[Window Icon]
+Vindu Ikon
+[Icon overlay]
+Ikonoverlapping
+[Status 1 (10x10)]
+Status 1 (10x10)
+[Status 2 (10x10)]
+Status 2 (10x10)
+[Status 3 (10x10)]
+Status 3 (10x10)
+[Status 4 (10x10)]
+Status 4 (10x10)
+[Status 5 (10x10)]
+Status 5 (10x10)
+[Status 6 (10x10)]
+Status 6 (10x10)
+[Message in (10x10)]
+Melding inn (10x10)
+[Message out (10x10)]
+Melding ut (10x10)
+[Action (10x10)]
+Handling (10x10)
+[Add Status (10x10)]
+Legg til Status (10x10)
 [Remove Status (10x10)]
 Fjern status (10x10)
+[Join (10x10)]
+Join (10x10)
+[Leave (10x10)]
+Forlat (10x10)
+[Quit (10x10)]
+Avslutt (10x10)
+[Kick (10x10)]
+Kick (10x10)
+[Notice (10x10)]
+Varsel (10x10)
+[Nickchange (10x10)]
+Kallenavnendring (10x10)
+[Topic (10x10)]
+Overskrift (10x10)
+[Highlight (10x10)]
+Markering (10x10)
+[Information (10x10)]
+Informasjon (10x10)
+[Appearance and functionality of chat room windows]
+Utseende og funksjonalitet til chat-rom vinduene
+[Appearance of the message log]
+Utseendet til samtaleloggen
 [Channel operators]
 Kanaloperatører
 [Half operators]
@@ -651,15 +973,73 @@ Utvidet modus 2
 Utvalgsbakgrunn
 [Userlist background]
 Brukerlistebakgrunn
+[All Files]
+Alle Filer
+[Select Folder]
+Velg Mapper
+[Message is highlighted]
+Melding er markert
+[User has performed an action]
+Bruker har utført en handling
+[User has kicked some other user]
+Bruker har kicket en annen bruker
+[User's status was changed]
+Brukerens status ble endret
+[User has changed name]
+Bruker har endret navn
+[User has sent a notice]
+Bruker har sendt et varsel
+[The topic has been changed]
+Overskriften har blitt forandret
 ;file \plugins\TabSRMM\src\chat\services.cpp
+[&Join]
+&Join
+[&Leave]
+&Forlat
 ;file \plugins\TabSRMM\src\chat\tools.cpp
+[%s wants your attention in %s]
+%s ønsker din oppmerksomhet i %s
+[%s speaks in %s]
+%s snakker i %s
+[%s has joined %s]
+%s har joinet %s
+[%s has left %s]
+%s har forlatt %s
+[%s kicked %s from %s]
+%s kicket %s fra %s
+[Notice from %s]
+Varsel fra %s
+[Topic change in %s]
+Overskriftsendring om %s
+[Information in %s]
+Informasjon i %s
+[%s has left (%s)]
+%s har forlatt (%s)
+[%s has disconnected (%s)]
+%s har koblet fra (%s)
+[%s kicked %s (%s)]
+%s kicket %s (%s)
+[Notice from %s: %s]
+Varsel fra %s: %s
+[No word to look up]
+Ingen ord å slå opp
 ;file \plugins\TabSRMM\src\chat\window.cpp
+[Nick name]
+Kallenavn
+[Nick]
+Kallenavn
+[Unique id]
+Unik id
 [%s: Chat Room (%u user%s)]
 %s: Samtalerom (%u bruker%s
 [%s: Chat Room (%u users%s)]
 %s: Samtalerom (%u brukere%s)
 [, event filter active]
 , hendelserilter aktivt
+[%s: Message Session]
+%s: Meldingsøkt
+[%s: Message Session (%u users)]
+%s: Meldingsøkt (%u brukere)
 [The filter canoot be enabled, because there are no event types selected either global or for this chat room]
 Filteret kan ikke aktiveres fordi det ikke er valgt noen hendelsestyper hverken globalt eller for dette samtalerommet.
 [Event filter error]

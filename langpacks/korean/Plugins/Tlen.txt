@@ -1,16 +1,52 @@
 ﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
 ;langpack template for Tlen
 ;file \protocols\Tlen\res\tlen.rc
+[Username:]
+유저명:
+[Password:]
+비밀번호:
+[Options]
+옵션
+[Port:]
+포트:
 [Proxy type:]
 프록시 형식:
 [Proxy server:]
 프록시 서버:
 [Proxy requires authorization]
 프록시 권한 필요
+[Background]
+배경
+[OK]
+확인
+[Cancel]
+취소
+[First name:]
+이름:
+[Last name:]
+성:
+[E-mail:]
+이메일:
+[Gender:]
+성:
+[City:]
+도시:
+[Nickname:]
+대화명:
+[Age:]
+나이:
 ;file \protocols\Tlen\src\jabber_iqid.cpp
 ;file \protocols\Tlen\src\jabber_opt.cpp
+[Advanced]
+고급
+[Network]
+네트워크
 ;file \protocols\Tlen\src\jabber_svc.cpp
 ;file \protocols\Tlen\src\jabber_thread.cpp
+[Windows]
+창
+[E-mail]
+이메일
 ;file \protocols\Tlen\src\jabber_ws.cpp
 ;file \protocols\Tlen\src\tlen.cpp
 ;file \protocols\Tlen\src\tlen_file.cpp

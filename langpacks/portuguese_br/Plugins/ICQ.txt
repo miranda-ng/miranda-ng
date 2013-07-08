@@ -6,10 +6,50 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\IcqOscarJ\res\resources.rc
+[Password:]
+Senha:
+[Password:]
+Senha:
+[Password:]
+Senha:
+[Password:]
+Senha
+[&Send]
+&Enviar
+[&Send]
+Enviar
+[&Send]
+&Enviar
+[&Cancel]
+&Cancelar
 [Enter ICQ Password]
 Digite a Senha ICQ
 [Enter a password for UIN %d:]
 Digite uma senha para UIN% d:
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [ICQ number:]
 Número ICQ:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
@@ -18,6 +58,16 @@ Dica: Se você não digitar sua senha aqui, Miranda vai pedir a senha toda vez q
 Recuperar uma senha perdida ou número de ICQ
 [Create a new ICQ account using the ICQ website]
 Criar uma nova conta ICQ usando o site ICQ
+[Port:]
+Porta:
+[Default]
+Padrão
+[Default]
+Padrão
+[Default]
+Padrão
+[Default]
+Padrão
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
 Dica: Use porta 0 para conectar em uma porta aleatória. Tente porta 80 ou 443 se você está tendo problemas para se conectar a um servidor proxy HTTP.
 [Secure (MD5) login]
@@ -54,6 +104,8 @@ Você vai precisar se reconectar à rede de ICQ para que as alterações feitas 
 Você não pode ativar/ esativar o servidor lista de contatos do lado enquanto você estiver conectado à rede ICQ.
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
 Nota: As opções marcadas com um asterisco têm importantes efeitos colaterais ou ressalvas que não podem ser inicialmente aparente documentado na ajuda.
+[Messaging]
+Mensagem
 [Enable unicode messaging support]
 Ativar suporte a mensagens unicode
 [Send all messages in unicode if possible]
@@ -104,18 +156,34 @@ Só responder a solicitações de status de mensagens de usuários na minha list
 Só responder à solicitação de status de mensagem de contatos visíveis
 [Some options are greyed out because they can only be changed when you are online.]
 Algumas opções estão acinzentadas, porque eles só podem ser alterados quando você está online.
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
 [Enable popup support]
 Ativar suporte a popup
 [Display popup when spambot is detected]
 Mostrar popup quando spambot é detectada
 [Look && Feel]
 &Visual
+[Text Color]
+Cor do Texto
+[Error]
+Erro
+[Error]
+Erro
 [Fatal]
 Fatal
 [Spam detected]
 Spam detectado
 [Use system &icons]
 Use o sistema e ícones
+[Use default colours]
+Usar cores padrão
 [UIN:]
 UIN:
 [External IP:]
@@ -128,20 +196,60 @@ Usuário do Cliente:
 Sistema ativo desde:
 [Idle since:]
 Inativo desde:
+[Summary]
+Resumo
+[Nickname:]
+Apelido:
+[Nickname:]
+Apelido:
+[First name:]
+Primeiro nome:
+[Last name:]
+Sobrenome:
+[E-mail:]
+E-mail:
+[E-mail:]
+E-mail:
+[Gender:]
+Sexo:
+[Age:]
+idade:
+[Marital status:]
+Estado Civil:
 [Keywords:]
 Palavras-chave:
+[Work]
+Trabalho
+[Company:]
+Companhia:
+[Department:]
+Departamento:
+[Position:]
+Posição:
 [Organisation:]
 Organização:
+[Location]
+Localidade
+[Country:]
+País:
+[State:]
+Estado:
+[City:]
+Cidade:
 [Interests]
 Interesses
 [Category:]
 Categoria:
+[Other]
+Outros
 [Manage ICQ Server Contacts]
 Gerenciar Servidor de Contatos ICQ
 [Select contacts to store:]
 Selecione os contatos para armazenar:
 [Synchronize]
 Sincronizar
+[Closing in %d]
+Fechando em %d
 [Retrieving custom status details...]
 Recuperando detalhes do status personalizado...
 [Confirm Password Change]
@@ -260,66 +368,436 @@ Erro ao realizar upload do avatar para o servidor, o servidor está temporariame
 Erro ao realizar upload do avatar para o servidor, o servidor recusou a aceitar a imagem.
 ;file \protocols\IcqOscarJ\src\icq_constants.h
 ;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Afghanistan]
+Afeganistão
+[Albania]
+Albânia
+[Algeria]
+Argélia
+[Andorra]
+Andorra
+[Angola]
+Angola
+[Anguilla]
+Anguilla
+[Antigua and Barbuda]
+Antígua e Barbuda
+[Argentina]
+Argentina
+[Armenia]
+Armênia
+[Aruba]
+Aruba
 [Ascension Island]
 Ilhas Ascensão
+[Australia]
+Austrália
+[Austria]
+Áustria
+[Azerbaijan]
+Azerbaijão
+[Bahamas]
+Bahamas
+[Bahrain]
+Bahrein
+[Bangladesh]
+Bangladesh
+[Barbados]
+Barbados
+[Belarus]
+Bielorússia
+[Belgium]
+Bélgica
+[Belize]
+Belize
+[Benin]
+Benin
+[Bermuda]
+Bermudas
+[Bhutan]
+Butão
 [Bolivia]
 Bolívia
+[Bosnia and Herzegovina]
+Bósnia-Herzegovina
+[Botswana]
+Botsuana
+[Brazil]
+Brasil
 [British Virgin Islands]
 Ilhas Virgens Britânicas
 [Brunei]
 Brunei
+[Bulgaria]
+Bulgária
+[Burkina Faso]
+Burkina Fasso
+[Burundi]
+Burundi
+[Cambodia]
+Camboja
+[Cameroon]
+Camarões
+[Canada]
+Canadá
 [Canary Islands]
 Ilhas Canárias
 [Cape Verde Islands]
 Ilhas de Cabo Verde
+[Cayman Islands]
+Ilhas Caimã
+[Central African Republic]
+República Centro Africana
+[Chad]
+Chade
 [Chile, Republic of]
 Republica do Chile
+[China]
+China
+[Colombia]
+Colômbia
+[Comoros]
+Comores
 [Congo, Democratic Republic of (Zaire)]
 Congo, República Democrática do (Zaire)
 [Congo, Republic of the]
 Congo, República do
+[Cook Islands]
+Ilhas Cook
+[Costa Rica]
+Costa Rica
 [Cote d'Ivoire (Ivory Coast)]
 Costa do Marfim
+[Croatia]
+Croácia
+[Cuba]
+Cuba
+[Czech Republic]
+República Tcheca
+[Denmark]
+Dinamarca
 [Diego Garcia]
 Diego Garcia
+[Djibouti]
+Djibuti
+[Dominica]
+Dominica
+[Dominican Republic]
+República Dominicana
+[Ecuador]
+Equador
+[Egypt]
+Egito
+[El Salvador]
+El Salvador
+[Equatorial Guinea]
+Guiné Equatorial
+[Eritrea]
+Eritréia
+[Estonia]
+Estónia
+[Ethiopia]
+Etiópia
 [Faeroe Islands]
 Ilhas Faroé
 [Falkland Islands]
 Ilhas Malvinas
+[Fiji]
+Fiji
+[Finland]
+Finlândia
+[France]
+França
 [French Antilles]
 Antilhas Francesas
+[French Guiana]
+Guiana Francesa
+[French Polynesia]
+Polinésia Francesa
+[Gabon]
+Gabão
+[Gambia]
+Gâmbia
+[Georgia]
+Geórgia
+[Germany]
+Alemanha
+[Ghana]
+Gana
+[Gibraltar]
+Gibraltar
+[Greece]
+Grécia
+[Greenland]
+Groelândia
+[Grenada]
+Granada
+[Guadeloupe]
+Guadalupe
 [Guam, US Territory of]
 Guam, território dos EUA
+[Guatemala]
+Guatemala
+[Guinea]
+Guiné
+[Guinea-Bissau]
+Guiné-Bissau
+[Guyana]
+Guiana
+[Haiti]
+Haiti
+[Honduras]
+Honduras
+[Hong Kong]
+Hong Kong
+[Hungary]
+Hungria
+[Iceland]
+Islândia
+[India]
+Índia
+[Indonesia]
+Indonésia
 [Iran (Islamic Republic of)]
 Irã (República Islâmica do)
+[Iraq]
+Iraque
+[Ireland]
+Irlanda
+[Israel]
+Israel
+[Italy]
+Itália
+[Jamaica]
+Jamaica
+[Japan]
+Japão
+[Jordan]
+Jordânia
+[Kazakhstan]
+Casaquistão
+[Kenya]
+Quênia
+[Kiribati]
+Kiribati
 [Korea, North]
 Coreia do Norte
 [Korea, South]
 Coreia do Sul
+[Kuwait]
+Kuwait
+[Kyrgyzstan]
+Quirguistão
 [Laos]
 Laos
+[Latvia]
+Letônia
+[Lebanon]
+Líbano
+[Lesotho]
+Lesoto
+[Liberia]
+Libéria
 [Libyan Arab Jamahiriya]
 Jamahiriya Árabe Líbia
+[Liechtenstein]
+Liechtenstein
+[Lithuania]
+Lituânia
+[Luxembourg]
+Luxemburgo
 [Macau]
 Macau
+[Madagascar]
+Madagascar
+[Malawi]
+Malawi
+[Malaysia]
+Malásia
+[Maldives]
+Maldivas
+[Mali]
+Mali
+[Malta]
+Malta
+[Marshall Islands]
+Ilhas Marshall
+[Martinique]
+Martinica
+[Mauritania]
+Mauritânia
+[Mauritius]
+Maurício
 [Mayotte Island]
 Ilha Mayotte
+[Mexico]
+México
+[Micronesia, Federated States of]
+Micronésia, Estados Federados da
+[Moldova, Republic of]
+Moldávia, República da
+[Monaco]
+Mônaco
+[Mongolia]
+Mongólia
+[Montserrat]
+Montserrat
+[Morocco]
+Marrocos
+[Mozambique]
+Moçambique
+[Myanmar]
+Myanmar
+[Namibia]
+Namíbia
+[Nauru]
+Nauru
+[Nepal]
+Nepal
+[Netherlands]
+Holanda
 [Netherlands Antilles]
 Antilhas Holandesas
+[New Caledonia]
+Nova Caledônia
+[New Zealand]
+Nova Zelândia
+[Nicaragua]
+Nicarágua
+[Niger]
+Níger
+[Nigeria]
+Nigéria
+[Niue]
+Niue
+[Norway]
+Noruega
+[Oman]
+Omã
+[Pakistan]
+Paquistão
+[Palau]
+Palau
+[Panama]
+Panamá
+[Papua New Guinea]
+Papua Nova Guiné
+[Paraguay]
+Paraguai
+[Peru]
+Peru
+[Philippines]
+Filipinas
+[Poland]
+Polônia
+[Portugal]
+Portugal
+[Puerto Rico]
+Porto Rico
+[Qatar]
+Catar
 [Reunion Island]
 Ilha da Reunião
+[Romania]
+Romênia
 [Russia]
 Rússia
+[Rwanda]
+Ruanda
 [Saint Helena]
 Santa Helena
+[Saint Kitts and Nevis]
+São Cristóvão e Névis
+[Saint Lucia]
+Santa Lúcia
+[Saint Pierre and Miquelon]
+Saint Pierre e Miquelon
+[Saint Vincent and the Grenadines]
+São Vicente e Granadinas
+[San Marino]
+San Marino
+[Sao Tome and Principe]
+São Tomé e Príncipe
+[Saudi Arabia]
+Arábia Saudita
 [Scotland]
 Escócia
+[Senegal]
+Senegal
+[Seychelles]
+Seychelles
+[Sierra Leone]
+Serra Leoa
+[Singapore]
+Cingapura
+[Slovakia]
+Eslováquia
+[Slovenia]
+Eslovênia
+[Solomon Islands]
+Ilhas Salomão
+[Somalia]
+Somália
+[South Africa]
+África do Sul
+[Spain]
+Espanha
+[Sri Lanka]
+Sri Lanka
+[Sudan]
+Sudão
+[Suriname]
+Suriname
+[Swaziland]
+Suazilândia
+[Sweden]
+Suécia
+[Switzerland]
+Suíça
+[Syrian Arab Republic]
+República Árabe da Síria
 [Taiwan]
 Taiwan
+[Tajikistan]
+Tadjiquistão
 [Tanzania]
 Tanzânia
+[Thailand]
+Tailândia
+[Togo]
+Togo
+[Tokelau]
+Tokelau
+[Tonga]
+Tonga
+[Trinidad and Tobago]
+Trinidad e Tobago
+[Tunisia]
+Tunísia
+[Turkey]
+Turquia
+[Turkmenistan]
+Turcomenistão
+[Turks and Caicos Islands]
+Ilhas Turks e Caicos
+[Tuvalu]
+Tuvalu
+[Uganda]
+Uganda
+[Ukraine]
+Ucrânia
+[United Arab Emirates]
+Emirados Árabes Unidos
+[United Kingdom]
+Reino Unido
+[Uruguay]
+Uruguai
 [USA]
 E.U.A.
+[Uzbekistan]
+Uzbequistão
+[Vanuatu]
+Vanuatu
 [Vatican City]
 Cidade do Vaticano
 [Venezuela]
@@ -332,14 +810,24 @@ Ilhas Virgens (E.U.A.)
 Gales
 [Wallis and Futuna Islands]
 Ilhas Wallis e Futuna
+[Yemen]
+Iêmen
 [Yugoslavia]
 Jugoslávia
+[Zambia]
+Zâmbia
+[Zimbabwe]
+Zimbábue
 [Business]
 Negócio
 [Past Work Place]
 Último Lugar de Trabalho
 [Past Organization]
 Última Organização
+[Female]
+Feminino
+[Male]
+Masculino
 [60-above]
 60-acima
 ;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
@@ -349,6 +837,12 @@ O envio de arquivos foi abortado porque um dos arquivos selecionados para serem 
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 A recepção do arquivo foi abortada porque o Miranda não conseguiu abrir a pasta de destino. Poderá estar a tentar guarda-lo numa uma pasta protegida contra escrita.
 ;file \protocols\IcqOscarJ\src\icq_menu.cpp
+[Request authorization]
+Pedindo autorização
+[Grant authorization]
+Garantir autorização
+[Revoke authorization]
+Revogar autorização
 [Add to server list]
 Adicionar a lista servidor
 [Show custom status details]
@@ -370,6 +864,14 @@ Sistema codepage padrão
 Sistema de codificação usual
 [System default codepage]
 Sistema codepage padrão
+[Network]
+Rede
+[Network]
+Rede
+[Contacts]
+Contatos
+[Contacts]
+Contatos
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 [Sample Note]
 Amostra de Nota
@@ -425,8 +927,14 @@ Apagar %s da lista invisível...
 Limpeza de grupos
 [All operations complete]
 Todas as operações completas
+[Close]
+Fechar
 [You have to be online to sychronize the server-list !]
 Você tem que estar online para sincronizar o servidor-lista!
+[** All contacts **]
+** Todos os contatos **
+[** All contacts **]
+** Todos os contatos **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [Taking a bath]
 Tomando um banho
@@ -440,6 +948,8 @@ Vendo TV
 Rodagem
 [Having fun]
 Brincando
+[On the phone]
+Ao telefone
 [Gaming]
 Jogando
 [Studying]
@@ -450,6 +960,8 @@ Shopping
 Enjoos
 [Surfing]
 Surfando
+[Typing]
+Escrevendo
 [Picnic]
 Picnic
 [I'm high]
@@ -460,6 +972,8 @@ Ser ou não ser
 Vendo pro7 na TV
 [%s Custom Status]
 %s Status Padrão
+[None]
+Nenhum
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
 Cartão de visita:
@@ -600,6 +1114,8 @@ Pessoal
 Nome
 [Last name]
 Sobrenome
+[Contact]
+Contato
 [Street]
 Street
 [City]

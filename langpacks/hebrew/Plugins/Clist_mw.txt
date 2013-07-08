@@ -6,29 +6,315 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\Clist_mw\res\resource.rc
+[Stretch to width]
+מתח לאורך
+[Stretch to height]
+מתח לגובה
+[Tile horizontally]
+פרוש לגובה
+[Tile vertically]
+פרוש לרוחב
+[Scroll with text]
+גלול עם טקסט
+[Stretch proportionally]
+מתח פרופורצית
 [MenuObjects]
 אובייקטי תפריטים
 [MenuItems]
 פריטי תפריטים
 [InsertSeparator]
 הכנס קו מפריד
+[Service:]
+שרות:
+[Name:]
+שם:
+[Set]
+החל
+[Default]
+ברירת מחדל
+[Delete Contact]
+מחיקת איש קשר
+[No]
+לא
+[Yes]
+כן
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+הסתר אותו מרשימה בלבד, בכדי לשמור את ההיסטוריה שלהם והגדרות התעלמות/ראות
+[Are you sure you want to delete %s?]
+?האם את בטוח שברצונך למחוק את %s  
+[Hide offline users]
+הסתר משתמשים לא מחוברים
+[Hide empty groups]
+הסתר קבוצות ריקות
+[Disable groups]
+בטל קבוצות
+[Ask before deleting contacts]
+שאל לפני מחיקת אנשי קשר
+[Always on top]
+מעל הכול
+[Hide contact list after it has been idle for]
+הסתר רשימה אחרי שלא נבחרה במשך
+[seconds]
+שניות
+[Sort contacts by name]
+סדר אנשי קשר לפי שם
+[Sort contacts by status]
+סדר אנשי קשר לפי מצב
+[Sort contacts by protocol]
+סדר אנשי קשר לפי פרוטוקול
+[Single click interface]
+ממשק לחיצה אחת
+[Always show status in tooltip]
+הראה מצב תמיד בסרגל הכלים
+[Disable icon blinking]
+בטל הבהוב סמל
+[Show]
+הראה
+[icon when statuses differ]
+כאשר המצבים שונים
+[Cycle icons every]
+שנה סמל כל
+[seconds, when statuses differ]
+שניות, כשהמצב שונה
+[Show multiple icons]
+הראה מספר סמלים
+[Only when statuses differ]
+רק כשהמצבים שונים
+[Contact List]
+רשימת אנשי קשר
+[System tray icon]
+סמל מגש המערכת
+[System tray icon when using multiple protocols]
+סמל מגש המערכת כשמשתמשים במספר פרוטוקולים
+[Contact List Sorting]
+סדר רשימה
+[Pin to desktop]
+הצמד לשולחן העבודה
 [Rows]
 שורות
+[Row height:]
+גודל גובה:
+[pixels]
+פיקסלים
+[pixels]
+פיקסלים
+[Gamma correction]
+תיקון גמא:
+[Window]
+חלון
+[Tool style main window]
+חלון ראשי כסרגל כלים
+[Minimize to tray]
+מזער למגש המערכת
+[Automatically resize window to height of list]
+שנה גודל חלון אוטומטית שיתאים לגובה הרשימה
+[maximum]
+מקסימום
+[% of screen]
+% של מסך
+[Size upwards]
+שנה לכיוון מעלה
+[Title bar text:]
+טקסט כותרת חלון:
+[Fade contact list in/out]
+העבר את הרשימה בפנים/בחוץ
+[Transparent contact list]
+חלון שקוף
+[Inactive opacity:]
+כשלא פעיל:
+[Active opacity:]
+כשפעיל:
+[Show menu bar]
+הראה את התפריט
+[Easy move]
+תזוזה קלה
+[Show title bar]
+הראה כותרת חלון
+[If window is partially covered, bring to front instead of hiding]
+אם החלון מכוסה חלקית, הבא מעל הכול במקום להסתיר
+[Items]
+פריטים
+[Show divider between online and offline contacts]
+הראה חוצץ בין אנשי קשר מחוברים ולא מחוברים
+[Hot track items as mouse passes over]
+עקוב אחרי פריטים כשהעכבר עובר מעליהם
+[Disable drag and drop of items]
+בטל גרירה ועזיבה של פריטים
+[Disable rename of items by clicking twice]
+בטל שינוי של של פריטים על ידי לחיצה פעמיים
+[Show selection even when list is not focused]
+הראה בחירה אפילו כשהרשימה אינה נבחרת
+[Make selection highlight translucent]
+עשה שרקע הבחירה יהיה שקוף
+['Hide Offline' means to hide:]
+הסתר 'לא מחובר' הכוונה הסתר:
+[Groups]
+קבוצות
+[Draw a line alongside group names]
+שרטט קו לצד שמות הקבוצות
+[Show counts of number of contacts in a group]
+הראה מספר אנשי קשר בקבוצה
+[Hide group counts when there are none online]
+הסתר מספרי קבוצות כשאף אחד לא מחובר
+[Sort groups alphabetically]
+סדר קבוצות לפי א,ב,ג
+[Quicksearch in open groups only]
+חיפוש-מהיר בקבוצות פתוחות בלבד
+[Indent groups by:]
+הרווח בין הקבוצות:
+[Visual]
+ויזואלי
+[Scroll list smoothly]
+גרור רשימה באופן חלק
+[Time:]
+זמן:
+[milliseconds]
+מילישניות:
+[Left margin:]
+לשמאל:
+[Grey out entire list when:]
+האפר את כל הרשימה כש:
+[Dim idle contacts]
+הקהה אנשי קשר בלתי פעילים
+[Contact List Background]
+רקע רשימת אנשי קשר
+[Status Bar]
+שורת מצב
+[Show status bar]
+הצג את שורת המצב
+[Show icons]
+הראה סמלים
+[Show protocol names]
+הצג את שמות הפרוטוקולים
+[Show status text]
+הצג מצב
+[Right click opens status menu]
+לחיצה ימנית פותחת תפריט המצב\n
+[Make sections equal width]
+עשה שהאיזורים יהיו שווים
 [Use connecting Icon]
 השתמש באייקון התחברות
+[E&xit]
+&יציאה
+[&Status]
+מצב
+[&Offline\tCtrl+0]
+לא מ&חובר\tCtrl+0
+[On&line\tCtrl+1]
+מח&ובר\tCtrl+1
+[&Away\tCtrl+2]
+&לא נמצא\tCtrl+2
+[&NA\tCtrl+3]
+לא &זמין\tCtrl+3
+[Occ&upied\tCtrl+4]
+&עסוק\tCtrl+4
+[&DND\tCtrl+5]
+&לא להפריע\tCtrl+5
+[&Free for chat\tCtrl+6]
+&פנוי לשיחה\tCtrl+6
+[&Invisible\tCtrl+7]
+&בלתי נראה\tCtrl+7
+[On the &Phone\tCtrl+8]
+&מדבר בטלפון\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+או&כל ארוחת צהריים\tCtrl+9
+[Tray]
+נסה
+[&Hide/Show]
+&הצג/הסתר
+[&New Group]
+&קבוצה חדשה
+[&Hide Offline Users]
+הס&תר משתמשים לא מחוברים
+[Hide &Offline Users out here]
+הסתר משתמשים לא מחוב&רים כאן
+[Hide &Empty Groups]
+הסתר &קבוצות ריקות
+[Disable &Groups]
+בטל קבו&צות
+[Hide Miranda]
+הסתר את המירנדה
+[&New Subgroup]
+&תת קבוצה חדשה
+[&Hide Offline Users in here]
+הסתר מ&שתמשים לא מחוברים כאן
+[&Rename Group]
+ש&נה שם קבוצה
+[&Delete Group]
+&מחק קבוצה
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
+[Customize]
+התאמה אישית
 [Backgrounds]
 רקעים
 ;file \plugins\Clist_mw\src\clcfonts.cpp
+[Standard contacts]
+אנשי קשר רגילים
+[Online contacts to whom you have a different visibility]
+אנשי קשר מחוברים שלהם יש לך הגדרות ראות אחרות.
+[Offline contacts]
+אנשי קשר לא מחוברים
+[Contacts which are 'not on list']
+אנשי קשר שלא נמצאים ברשימה
+[Group member counts]
+מספר חבריי קבוצה
+[Dividers]
+חוצצים
+[Offline contacts to whom you have a different visibility]
+אנשי קשר לא מחוברים שלהם יש לך הגדרות ראות אחרות.
+[Background]
+רקע
 ;file \plugins\Clist_mw\src\clcopts.cpp
+[List]
+רשימה
+[List Background]
+רקע הרשימה
 [StatusBar Background]
 רקע שורת מצב
+[Not focused]
+לא נבחר
+[Offline]
+לא מחובר
+[Online]
+מחובר
+[Away]
+לא נמצא
+[NA]
+לא זמין
+[Occupied]
+עסוק
+[DND]
+לא להפריע
+[Free for chat]
+פנוי לשיחה
+[Invisible]
+בלתי נראה
+[Out to lunch]
+אוכל ארוחת צהריים
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדברת בטלפון
 ;file \plugins\Clist_mw\src\clistopts.cpp
+[Global]
+כולל
 ;file \plugins\Clist_mw\src\clistsettings.cpp
+[(Unknown Contact)]
+(איש קשר לא מוכר)
 ;file \plugins\Clist_mw\src\clisttray.cpp
+[&Find/Add Contacts...]
+&מצא/הוסף משתמשים
+[&Main Menu]
+&תפריט ראשי
+[&Options...]
+...אפשרויו&ת
 ;file \plugins\Clist_mw\src\clui.cpp
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp
 ;file \plugins\Clist_mw\src\keyboard.cpp
 ;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+[Frames]
+מבנה רשימה
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

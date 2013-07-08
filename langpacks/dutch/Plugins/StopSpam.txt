@@ -7,8 +7,14 @@
 ;============================================================
 ;file \plugins\StopSpamPlus\res\stopspam.rc
 ;file \plugins\StopSpamPlus\src\events.cpp
+[General]
+Algemeen
+[Messages]
+Berichten
 ;file \plugins\StopSpamPlus\src\headers.h
 ;file \plugins\StopSpamPlus\src\options.cpp
 ;file \plugins\StopSpamPlus\src\services.cpp
+[Complete]
+Voltooid
 ;file \plugins\StopSpamPlus\src\settings.h
 ;file \plugins\StopSpamPlus\src\stopspam.cpp

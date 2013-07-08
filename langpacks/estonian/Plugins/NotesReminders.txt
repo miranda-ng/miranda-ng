@@ -6,9 +6,29 @@
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 ;file \plugins\NotesAndReminders\res\resource.rc
+[None]
+Pole
+[&Close]
+&Sul&ge
+[Reset]
+Algväärtusta
+[Text Color]
+Teksti värv
+[Font]
+Font
+[Undo]
+Ennista
+[&Copy]
+Kopeeri
 ;file \plugins\NotesAndReminders\src\globals.h
 ;file \plugins\NotesAndReminders\src\hotkeys.cpp
 ;file \plugins\NotesAndReminders\src\main.cpp
+[Plugins]
+Pluginad
+[Alerts]
+Alarmid
 ;file \plugins\NotesAndReminders\src\notes.cpp
+[Notes]
+Märkused
 ;file \plugins\NotesAndReminders\src\options.cpp
 ;file \plugins\NotesAndReminders\src\reminders.cpp

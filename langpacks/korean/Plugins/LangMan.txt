@@ -6,5 +6,13 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 ;file \plugins\LangMan\res\resource.rc
+[E-mail:]
+이메일:
+[Date:]
+날짜:
 ;file \plugins\LangMan\src\main.cpp
 ;file \plugins\LangMan\src\options.cpp
+[Unknown]
+알 수 없음
+[File]
+파일

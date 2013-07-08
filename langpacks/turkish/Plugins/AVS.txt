@@ -34,6 +34,12 @@ Avatar kare olsun
 Avatar'ı izin verilen en büyük protokol boyutuna göre ayarla
 [Contact picture]
 Kişi resmi
+[Delete]
+Sil
+[Reset]
+Sıfırla
+[Reset]
+Sıfırla
 [Picture options]
 Resim seçenekleri
 [Protect the picture]
@@ -44,16 +50,44 @@ Gizle
 Resim art alanını saydam yapmayı dene
 [Use defaults]
 Varsayılanı kullan
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Options]
+Seçenekler
+[Options]
+Seçenekler
+[Background]
+Art Alan
 [Points:]
 Puanlar:
 [Color diff:]
 Renk farkı
+[Set]
+Ayarla
 [Use per protocol avatars]
 Her protokolün kendi avatarını kullan
 ;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
 Protokollerin farklı avatarları var
 ;file \plugins\AVS\src\main.cpp
+[All Files]
+Tüm Dosyalar
+[All Files]
+Tüm Dosyalar
+[Windows Bitmaps]
+Windows Bitmapları
+[JPEG Bitmaps]
+JPEG bitmap
+[GIF Bitmaps]
+GIF Bitmap
+[PNG Bitmaps]
+PNG Bitmap
 [Flash Animations]
 Flash Animasyonlar
 [XML Files]
@@ -66,6 +100,8 @@ Avatar'ımı Ayarla
 Avatarlarım
 [My Global Avatar Cache]
 Genel Avatar Ara Belleğim
+[Contacts]
+Kişiler
 [Contact Avatars]
 Kişi Avatarları
 [Own Avatars]

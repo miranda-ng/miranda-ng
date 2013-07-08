@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: GG
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: 
 ;============================================================
 ;file \protocols\Gadu-Gadu\res\resource.rc
@@ -10,8 +10,18 @@
 Gadu-Gadu подробности за потребителя
 [Gadu-Gadu Number:]
 Gadu-Gadu номер:
+[Password:]
+Парола:
+[E-mail:]
+Имейл:
+[Create new account]
+Създаване на акаунт
+[Remove account]
+Премахване на акаунта
 [Retrieve password]
 Забравена парола
+[Options]
+Настройки
 [Friends only]
 Само приятели
 [Show offline users with status message as invisible in contact list]
@@ -20,6 +30,8 @@ Gadu-Gadu номер:
 След получаване на изображение:
 [Show links from unknown contacts]
 Показване на хипервръзки от непознати контакти
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Необходимо е да се свържете на ново, за да бъдат осъществени промените направени тук.
 [Conference policy]
 Правила за конференции
 [if total participant count greater than:]
@@ -36,14 +48,32 @@ Gadu-Gadu номер:
 Защитаване на връзка с SSL
 [Use direct connections]
 Ползване на директна връзка
+[Port:]
+Порт:
 [Use forwarding]
 Ползване на препращане
+[Host:]
+Хост:
+[First name:]
+Име:
+[Last name:]
+Фамилия:
 [Family name:]
 Фамилно име:
+[Nickname:]
+Прякор:
+[Gender:]
+Пол:
+[City:]
+Град:
 [Origin city:]
 Роден град:
 [Birth year:]
 Година на раждане:
+[Description:]
+Описание:
+[Cancel]
+Отказ
 [Create Gadu-Gadu account]
 Създаване на Gadu-Gadu акаунт
 [Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
@@ -54,12 +84,16 @@ Gadu-Gadu номер:
 Потвърдете паролата:
 [New e-mail:]
 Нов имейл:
+[&Create]
+Създаване
 [Remove Gadu-Gadu account]
 Премахване на Gadu-Gadu акаунт
 [Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
 Премахни Gadu-Gaduакаунт\nИзтриване на акаунт от Gadu-Gadu
 [Yes, I want to remove my account]
 Да желая акаунта да бъде премахнат.
+[Remove]
+Премахване
 [Change Gadu-Gadu password]
 Промяна на Gadu-Gadu парола
 [Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
@@ -70,6 +104,10 @@ Gadu-Gadu номер:
 Промени Gadu-Gadu имейл\nПроменяне на текущата ел. поща, която ползвате в Gadu-Gadu
 [Age from:]
 Възраст от:
+[&Close]
+Затваряне
+[&Send]
+Изпращане
 [Open new conference]
 Отваряне на нова конференция
 [Open new conference\nSelect conference participants]
@@ -82,6 +120,10 @@ Gadu-Gadu номер:
 Отписване от всички сесии
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
 ;file \protocols\Gadu-Gadu\src\core.cpp
+[Unknown]
+Неизвестно
+[Age:]
+Възраст:
 [List import successful.]
 Внасянето на списъка приключи успешно.
 [List remove successful.]
@@ -91,8 +133,22 @@ Gadu-Gadu номер:
 [Incoming image]
 Входящо изображение
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
+[Male]
+Мъж
+[Female]
+Жена
+[<not specified>]
+<неуточнено>
+[Network]
+Мрежа
+[General]
+Основни
+[Advanced]
+Разширени
 [<Last Status>]
 <Последно състояние>
+[System tray icon]
+Икона в трея
 [Message with [img] BBCode]
 Съобщение съдържащо "[img]" BBCode
 [You need to specify your registration e-mail first.]
@@ -103,6 +159,8 @@ Gadu-Gadu номер:
 Необходимо е да излезете от мрежата преди да промените акаунта за постоянно.\nЖелаете ли да излезете сега?
 [Allow]
 Позволи
+[Ignore]
+Игнориране
 [Your details has been uploaded to the public directory.]
 Вашите подробности са качени в публичната директория.
 [You have to be logged in before you can change your details.]
@@ -182,6 +240,8 @@ Gadu-Gadu номер
 Трябва да сте свързани преди да можете да внасяте/изнасяте контакти към/от сървъра.
 [Text files]
 Текстови файлове
+[All Files]
+Всички файлове
 [contacts]
 контакти
 [Import List From &Server]
@@ -199,6 +259,8 @@ Gadu-Gadu номер
 [Password was sent to your e-mail.]
 Паролата е изпратена на вашия имейл.
 ;file \protocols\Gadu-Gadu\src\popups.cpp
+[Error]
+Грешка
 ;file \protocols\Gadu-Gadu\src\services.cpp
 ;file \protocols\Gadu-Gadu\src\sessions.cpp
 [Client Name]

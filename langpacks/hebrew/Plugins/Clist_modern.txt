@@ -16,20 +16,76 @@
 סרגל מצבים:
 [List content:]
 רשימת תוכן:
+[Show counts of number of contacts in a group]
+הראה מספר אנשי קשר בקבוצה
+[Hide group counts when there are none online]
+הסתר מספרי קבוצות כשאף אחד לא מחובר
+[Always on top]
+מעל הכול
 [Hide contact list after ]
 החבא רשימת משתמשים אחרי
+[seconds]
+שניות
+[Fade contact list in/out]
+העבר את הרשימה בפנים/בחוץ
+[Transparent contact list]
+חלון שקוף
+[Inactive opacity:]
+כשלא פעיל:
+[Active opacity:]
+כשפעיל:
 [Animate Avatars]
 הנפש אוואטרים
 [Show contact time in list]
 הראה זמן משתמש ברשימה
 [Compact mode]
 מצב קומפקטי
+[Show protocol names]
+הצג את שמות הפרוטוקולים
+[Show status text]
+הצג מצב
+[Stretch to width]
+מתח לאורך
+[Stretch to height]
+מתח לגובה
+[Tile horizontally]
+פרוש לגובה
+[Tile vertically]
+פרוש לרוחב
+[Scroll with text]
+גלול עם טקסט
+[Stretch proportionally]
+מתח פרופורצית
 [Use Windows Colors]
 השתמש בצבעי חלונות
+[Apply]
+החל
+[Copy]
+העתק
+[Paste]
+הדבק
 [Colour]
 צבע
+[File]
+קובץ
 [Borders]
 גבולות
+[Position:]
+מיקום:
+[Size:]
+גודל:
+[OK]
+אישור
+[Cancel]
+ביטול
+[Protocol]
+פרוטוקול
+[Status Bar]
+שורת מצב
+[Show status bar]
+הצג את שורת המצב
+[Make sections equal width]
+עשה שהאיזורים יהיו שווים
 [Space between]
 רווח בין
 [Vertical Align]
@@ -58,12 +114,40 @@
 אטימות מצב פרוש היא 75%
 [Show unread emails (if supported)]
 הראה אימיילים חדשים אם נתמך\n
+[Right click opens status menu]
+לחיצה ימנית פותחת תפריט המצב\n
 [Space on Left]
 רווח בשמאל
 [Space on right]
 רווח בימין
+[Delete Contact]
+מחיקת איש קשר
+[No]
+לא
+[Yes]
+כן
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+הסתר אותו מרשימה בלבד, בכדי לשמור את ההיסטוריה שלהם והגדרות התעלמות/ראות
+[Are you sure you want to delete %s?]
+?האם את בטוח שברצונך למחוק את %s  
+[Hide offline users]
+הסתר משתמשים לא מחוברים
+[Hide empty groups]
+הסתר קבוצות ריקות
+[Disable groups]
+בטל קבוצות
+[Ask before deleting contacts]
+שאל לפני מחיקת אנשי קשר
+[Contact List]
+רשימת אנשי קשר
+[Contact List Sorting]
+סדר רשימה
 [Place offline users out of groups]
 שים משתמשים לא מחוברים מחוץ לקבוצות
+[Gamma correction]
+תיקון גמא:
+[Default]
+ברירת מחדל
 [Full selection]
 בחירה מלאה
 [Less selection]
@@ -74,12 +158,22 @@
 מצב בחירה
 [Bring to front if covered]
 הבא לקדימה אם כוסה
+[Automatically resize window to height of list]
+שנה גודל חלון אוטומטית שיתאים לגובה הרשימה
+[maximum]
+מקסימום
+[% of screen]
+% של מסך
+[Size upwards]
+שנה לכיוון מעלה
 [Lock manual resize]
 נעל הגדלה ידנית
 [Drag to ]
 גרור ל
 [Easy Scroll]
 גלגול קל
+[Easy move]
+תזוזה קלה
 [x100 msec]
 x100 מילי שניות
 [show delay]
@@ -88,6 +182,10 @@ x100 מילי שניות
 החבא השהייה
 [Hide method]
 שיטות החבאה
+[pixels]
+פיקסלים
+[pixels]
+פיקסלים
 [keep on screen]
 שמור על מסך
 [Snap to edges]
@@ -100,8 +198,62 @@ x100 מילי שניות
  תמיד נראה
 [Dock to sides]
 עגן לצדדים
+[Items]
+פריטים
+[Show divider between online and offline contacts]
+הראה חוצץ בין אנשי קשר מחוברים ולא מחוברים
+[Hot track items as mouse passes over]
+עקוב אחרי פריטים כשהעכבר עובר מעליהם
+[Disable drag and drop of items]
+בטל גרירה ועזיבה של פריטים
+[Disable rename of items by clicking twice]
+בטל שינוי של של פריטים על ידי לחיצה פעמיים
+[Show selection even when list is not focused]
+הראה בחירה אפילו כשהרשימה אינה נבחרת
+[Make selection highlight translucent]
+עשה שרקע הבחירה יהיה שקוף
+[Dim idle contacts]
+הקהה אנשי קשר בלתי פעילים
+['Hide Offline' means to hide:]
+הסתר 'לא מחובר' הכוונה הסתר:
+[Groups]
+קבוצות
+[Draw a line alongside group names]
+שרטט קו לצד שמות הקבוצות
+[Sort groups alphabetically]
+סדר קבוצות לפי א,ב,ג
+[Quicksearch in open groups only]
+חיפוש-מהיר בקבוצות פתוחות בלבד
+[Indent groups by:]
+הרווח בין הקבוצות:
+[Visual]
+ויזואלי
+[Scroll list smoothly]
+גרור רשימה באופן חלק
+[Time:]
+זמן:
+[milliseconds]
+מילישניות:
 [Fade out entire list when:]
 הדהה החוצה פריטי רשימה כאשר:
+[Single click interface]
+ממשק לחיצה אחת
+[Always show status in tooltip]
+הראה מצב תמיד בסרגל הכלים
+[Disable icon blinking]
+בטל הבהוב סמל
+[Show]
+הראה
+[Cycle icons every]
+שנה סמל כל
+[seconds, when statuses differ]
+שניות, כשהמצב שונה
+[Show multiple icons]
+הראה מספר סמלים
+[Only when statuses differ]
+רק כשהמצבים שונים
+[System tray icon]
+סמל מגש המערכת
 [System tray icon mode]
 מצב אייקון סרגל מערכת
 [Use xStatus icon]
@@ -120,12 +272,26 @@ x100 מילי שניות
 הראה זמן רק אם הוא שונה מהמזמן הנוכחי
 [Show contact time as row item]
 הראה זמן חיבור כפריט שורה
+[Pin to desktop]
+הצמד לשולחן העבודה
 [Client area margins]
 גבולות איזור לקוח
 [Thin border main window]
 גבול דק חלון ראשי
 [Borderless main window]
 חלון ראשי ללא גבולות
+[Show menu bar]
+הראה את התפריט
+[Show title bar]
+הראה כותרת חלון
+[Title bar text:]
+טקסט כותרת חלון:
+[Tool style main window]
+חלון ראשי כסרגל כלים
+[Minimize to tray]
+מזער למגש המערכת
+[Frames]
+מבנה רשימה
 [Between frames:]
 בין פריימים:
 [After captions:]
@@ -152,6 +318,8 @@ x100 מילי שניות
 סדר פריטי שמאל לשמאל
 [Align right items to right]
 סדר פריטי ימין לימין
+[Left margin:]
+לשמאל:
 [Right margin:]
 מיזוג ימני:
 [Draw border on avatar]
@@ -206,6 +374,8 @@ x100 מילי שניות
 מרווח עליון:
 [Draw smileys on second line]
 צייר סמיילים בשורה השניה
+[Status]
+מצב
 [XStatus has priority]
 XStatus יש עדיפות
 [Use 'XStatus: XMessage']
@@ -216,18 +386,116 @@ XStatus יש עדיפות
 הראה שורה שלישית
 [Draw smileys on third line]
 צייר סמיילים בשורה שלישית
+[Options]
+אפשרוית
 [Locked]
 נעול
+[E&xit]
+&יציאה
+[&Status]
+מצב
+[&Offline\tCtrl+0]
+לא מ&חובר\tCtrl+0
+[On&line\tCtrl+1]
+מח&ובר\tCtrl+1
+[&Away\tCtrl+2]
+&לא נמצא\tCtrl+2
+[&NA\tCtrl+3]
+לא &זמין\tCtrl+3
+[Occ&upied\tCtrl+4]
+&עסוק\tCtrl+4
+[&DND\tCtrl+5]
+&לא להפריע\tCtrl+5
+[&Free for chat\tCtrl+6]
+&פנוי לשיחה\tCtrl+6
+[&Invisible\tCtrl+7]
+&בלתי נראה\tCtrl+7
+[On the &Phone\tCtrl+8]
+&מדבר בטלפון\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+או&כל ארוחת צהריים\tCtrl+9
+[Tray]
+נסה
+[&Hide/Show]
+&הצג/הסתר
+[&New Group]
+&קבוצה חדשה
+[&Hide Offline Users]
+הס&תר משתמשים לא מחוברים
+[Hide &Offline Users out here]
+הסתר משתמשים לא מחוב&רים כאן
+[Hide &Empty Groups]
+הסתר &קבוצות ריקות
+[Disable &Groups]
+בטל קבו&צות
+[Hide Miranda]
+הסתר את המירנדה
+[&New Subgroup]
+&תת קבוצה חדשה
+[&Hide Offline Users in here]
+הסתר מ&שתמשים לא מחוברים כאן
+[&Rename Group]
+ש&נה שם קבוצה
+[&Delete Group]
+&מחק קבוצה
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List smileys]
 סמיילים של רשימת משתמשים
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Standard contacts]
+אנשי קשר רגילים
 [Away contacts]
 תוכן לא נמצא
 [NA contacts]
 תכנים לא זמינים
+[Offline contacts]
+אנשי קשר לא מחוברים
+[Online contacts to whom you have a different visibility]
+אנשי קשר מחוברים שלהם יש לך הגדרות ראות אחרות.
+[Offline contacts to whom you have a different visibility]
+אנשי קשר לא מחוברים שלהם יש לך הגדרות ראות אחרות.
 [Open groups]
 פתח קבוצות
+[Dividers]
+חוצצים
+[Background]
+רקע
+[General]
+כללי
+[List]
+רשימה
+[Window]
+חלון
+[List Background]
+רקע הרשימה
+[Not focused]
+לא נבחר
+[Offline]
+לא מחובר
+[Online]
+מחובר
+[Away]
+לא נמצא
+[NA]
+לא זמין
+[Occupied]
+עסוק
+[DND]
+לא להפריע
+[Free for chat]
+פנוי לשיחה
+[Invisible]
+בלתי נראה
+[Out to lunch]
+אוכל ארוחת צהריים
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדברת בטלפון
+[Name]
+שם
 [Name (use locale settings)]
 שם השתמש בהגדרות מקומיות
 [Last message time]
@@ -236,6 +504,8 @@ XStatus יש עדיפות
 קצב
 [-Nothing-]
 -כלום-
+[Global]
+כולל
 [Hide to tray]
 החבא במגש מערכת
 [Behind left edge]
@@ -246,6 +516,8 @@ XStatus יש עדיפות
 [No Events]
 ללא אירועים
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
+[None]
+ללא
 [Low]
 נמוך
 [High]
@@ -259,6 +531,10 @@ XStatus יש עדיפות
 [Contact rate High]
 קצב חיבור גבוה
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Text]
+טקסט
+[Extra icons]
+אייקונים נוספים
 [Left align group names]
 סדר לשמאל שמות קבוצה
 [Center group names]
@@ -272,7 +548,15 @@ XStatus יש עדיפות
 [Third Line]
 שורה שלישית
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+[(Unknown Contact)]
+(איש קשר לא מוכר)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
+[&Find/Add Contacts...]
+&מצא/הוסף משתמשים
+[&Main Menu]
+&תפריט ראשי
+[&Options...]
+...אפשרויו&ת
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 ;file \plugins\Clist_modern\src\modern_cluiframes.cpp
 ;file \plugins\Clist_modern\src\modern_groupmenu.cpp
@@ -280,6 +564,8 @@ XStatus יש עדיפות
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 ;file \plugins\Clist_modern\src\modern_skineditor.cpp
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
+[Error]
+שגיאה
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
@@ -288,16 +574,22 @@ XStatus יש עדיפות
 [Center]
 מרכז
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[Main Menu]
+תפריט ראשי
 [Main menu]
 תפריט ראשי
 [Status Menu]
 תפריט מצבים
+[Accounts]
+חשבונות
 [Accounts...]
 ...חשבונות
 [Show/Hide offline contacts]
 הראה/החבא משתמשים לא מחוברים
 [Show offline contacts]
 הראה משתמשים מנותקים\n
+[Find User]
+מצא משתמש
 [Use/Disable groups]
 השתמש/בטל קבוצות
 [Use groups]
@@ -309,4 +601,3 @@ XStatus יש עדיפות
 [Minimize]
 מזער
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
-;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

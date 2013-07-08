@@ -6,10 +6,22 @@
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 ;file \plugins\YAMN\res\YAMN.rc
+[OK]
+אישור
 [Installed plugins]
 פלאגים מותקנים
+[Description:]
+תיאור:
+[Copyright:]
+זכויות:
 [Check this account]
 בדוק חשבון זה
+[Message]
+הודעה
+[Password:]
+סיסמא:
+[Port:]
+יציאה:
 [Startup check]
 בדיקה בפתיחה
 [Check from menu]
@@ -22,6 +34,36 @@
 התראה בסמל סרגל אם נכשל
 [Reset counter]
 אפס ספירה
+[Default]
+ברירת מחדל
+[Name:]
+שם:
+[Options]
+אפשרוית
+[Cancel]
+ביטול
+[Offline]
+לא מחובר
+[Online]
+מחובר
+[Away]
+לא נמצא
+[Occupied]
+עסוק
+[DND]
+לא להפריע
+[Free for chat]
+פנוי לשיחה
+[Invisible]
+בלתי נראה
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדברת בטלפון
+[Out to lunch]
+אוכל ארוחת צהריים
 [TopToolBar button "Check mail"]
 כפתור סרגל כלים עליון לבדיקת דואר
 [Single popup]
@@ -38,18 +80,42 @@
 התראת כשל בחיבור
 [Popup notification if failed]
 התראה בפופ אפ אם נכשל
+[Background colour]
+צבע רקע
+[Background colour]
+צבע רקע
+[Text colour]
+צבע טקסט
 ;file \plugins\YAMN\src\main.cpp
 ;file \plugins\YAMN\src\main.h
 ;file \plugins\YAMN\src\services.cpp
+[Nick]
+כינוי
 ;file \plugins\YAMN\src\browser\badconnect.cpp
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
 [Value]
 ערך
+[Select All]
+בחר הכל
+[Size]
+גודל
 ;file \plugins\YAMN\src\mails\mime.cpp
 [Part]
 חלק
 ;file \plugins\YAMN\src\proto\netlib.cpp
 ;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[Network]
+רשת
+[Accounts]
+חשבונות
+[General]
+כללי
+[Plugins]
+תוספים
+[Popups]
+פופ אפ
 [No account selected]
 אף חשבון לא נבחר
+[All Files]
+כל הקבצים

@@ -6,6 +6,12 @@
 ;  Authors: Miranda team
 ;============================================================
 ;file \protocols\IRCG\res\IRC.rc
+[&Add]
+&Adicionar
+[&Add]
+&Adicionar
+[&Edit]
+&Editar
 [&Del]
 &Apagar
 [only while connecting]
@@ -36,6 +42,10 @@ Atualização de status no canal lista de apelidos
 Endereço da Internet
 [Port range]
 Intervalo de porta
+[Nick]
+Apelido
+[Nick]
+Apelido
 [User ID (Ident)]
 ID de Usuário (Identificação)
 [Full name (e-mail)]
@@ -46,10 +56,16 @@ Nome do servidor
 Apelido Alternativo
 [Ident]
 Identificação
+[System]
+Sistema
+[System]
+Sistema
 [Default network]
 Rede padrão
 [User info - Required]
 Informação do utilizador - Obrigatório
+[Other]
+Outros
 [Reconnect]
 Reconectar
 [Wait (s)]
@@ -64,12 +80,18 @@ Verifique a cada (s):
 Não verificar se mais de (utilizadores):
 [User information]
 Informação do usuário
+[Version]
+Versão
 [Userinfo]
 Informação do usuário
 [&Refresh]
 &Atualizar
 [&Query]
 &Pergunta
+[&Close]
+&Fechar
+[Name]
+Nome
 [Channels]
 Canais
 [Away Info]
@@ -78,6 +100,8 @@ Sempre mostrar informação
 O servidor retornou a seguinte informação. Por favor, note que esta informação pode ser enganosa e/ou falsificada
 [CTCP information]
 Informações CTCP
+[&Cancel]
+&Cancelar
 [Perform]
 Realizar
 [&Set]
@@ -94,8 +118,20 @@ Página de código do servidor:
 Ativar autodetecção UTF8
 [Add server]
 Adicionar servidor
+[On]
+Ligado
+[Off]
+Desligado
+[Off]
+Desligado
+[Network]
+Rede
+[Network]
+Rede
 [Channels on server]
 Canais no servidor
+[&Join]
+&Agrupar
 [C&onnect]
 Conectado
 [Hostmask]
@@ -166,6 +202,8 @@ Auto-aceitar a partir de:
 Enviar notícias
 [CTCP Chat Request]
 CTCP pedido de bate-papo
+[&Deny]
+&Recusar
 [Enable (*)]
 Ativar (*)
 [Ignore channel messages by default]
@@ -180,6 +218,12 @@ Ignorar os pedidos de bate-papos DCC de contatos desconhecidos
 Ignorar usuários
 [(*) Queries from users on your contactlist are never ignored]
 (*) Consultas de usuários em sua lista de contatos nunca são ignoradas
+[Messages]
+Mensagens
+[Messages]
+Mensagens
+[Notices]
+Notificações
 [CTCP]
 CTCP
 [DCC]
@@ -192,6 +236,14 @@ Rede (*)
 Ignorar eventos
 [(*) blank to set this mask for all networks]
 (*) Em branco para definir essa máscara para todas as redes
+[Password:]
+Senha:
+[Password:]
+Senha:
+[Password:]
+Senha:
+[Password:]
+Senha
 [Alternate nick]
 Apelido suprente
 ;file \protocols\IRCG\src\clist.cpp
@@ -244,8 +296,12 @@ Feito: canais %u
 Alterar apelido
 [IRC error]
 Erro IRC
+[Unknown]
+Desconhecido
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
 Por favor, indique a máscara host (apelido do usuário! @ Host)\nNOTA! Contatos na sua lista de contatos nunca são ignoradas
+[Ignore]
+Ignorar
 [Please enter the reason]
 Por favor, indique o motivo
 [Ban'n Kick]
@@ -303,6 +359,8 @@ Por favor, indique a resposta
 [DCC ERROR: Unable to bind local port for passive filetransfer]
 ERRO DCC: Não é possível vincular porta local para transferência de arquivos passiva
 ;file \protocols\IRCG\src\ircproto.cpp
+[Information]
+Informação
 [DCC ERROR: No valid files specified]
 ERRO DCC: Nenhum arquivo válido especificado
 [DCC reversed file transfer request sent to %s [%s]]
@@ -320,6 +378,34 @@ Por favor, escolha uma rede de IRC para estar online. Esta rede será a padrão.
 [Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 A conexão não pode ser estabelecida! Você não completou todos os campos necessários (Apelido, ID de usuário e m_nome).
 ;file \protocols\IRCG\src\options.cpp
+[Add]
+Adicionar
+[Add]
+Adicionar
+[Apply]
+Aplicar
+[Rename]
+Renomear
+[Rename]
+Renomear
+[Edit]
+Editar
+[Edit]
+Editar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [Channel list]
 Lista de canais
 [Quick connect]
@@ -370,6 +456,10 @@ Adicionar ignorar
 Editar ignorar
 [DCC'n CTCP]
 DCC no CTCP
+[Advanced]
+Avançado
+[Advanced]
+Avançado
 ;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
 WallOps(msg de operadores) de %s:

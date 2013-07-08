@@ -6,10 +6,24 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\IcqOscarJ\res\resources.rc
+[Password:]
+Parola:
+[&Send]
+&Gönder
+[&Cancel]
+İ&ptal
 [Enter ICQ Password]
 ICQ parolasını yazın
 [Enter a password for UIN %d:]
 %d UIN için parolayı yazın:
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
 [ICQ number:]
 ICQ numarası:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
@@ -18,6 +32,10 @@ ICQ numarası:
 Kayıp parola veya ICQ numarası sor
 [Create a new ICQ account using the ICQ website]
 ICQ web sitesinden yeni bir ICQ hesabı oluştur
+[Port:]
+Port:
+[Default]
+Varsayılan
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
 İpucu: Rastgele bir porta bağlanmak için 0 yazın. Http vekil sunucu üzerinden bağlanmakta sorun yaşıyorsanız 80 veya 443 kullanın.
 [Secure (MD5) login]
@@ -54,6 +72,8 @@ Yaptığınız değişikliklerin etkili olması için ICQ ağına yeniden bağla
 ICQ ağına bağlıyken sunucu kişi listesini açıp/kapatmazsınız.
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
 Not: Yıldız ile işaretlenmiş seçeneklerin henüz belgelenmemiş önemli yan etkileri olabilir.
+[Messaging]
+İletişim
 [Enable unicode messaging support]
 Unikod ileti desteğini aç
 [Send all messages in unicode if possible]
@@ -106,18 +126,28 @@ Yalnız kişi listemdekilerin durum iletisi isteklerini yanıtla
 Yalnız göründüğüm kişilerin durum iletisi isteklerini yanıtla
 [Some options are greyed out because they can only be changed when you are online.]
 Bazı seçenekler yalnız çevrim içi olduğunuzda değiştirilebileceğinden dolayı devre dışı 
+[Options]
+Seçenekler
+[Options]
+Seçenekler
 [Enable popup support]
 Açılır pencere desteğini aç
 [Display popup when spambot is detected]
 Spambot algılandığında açılır pencerede göster
 [Look && Feel]
 Görünüş ve His
+[Text Color]
+Yazı Rengi
+[Error]
+Hata
 [Fatal]
 Ölümcül
 [Spam detected]
 Spam algılandı
 [Use system &icons]
 Sistem s&imgelerini kullan
+[Use default colours]
+Varsayılan renkleri kullan
 [UIN:]
 UIN:
 [External IP:]
@@ -130,20 +160,56 @@ Kullanıcı İstemcisi:
 Şu zamandan beri çalışıyor:
 [Idle since:]
 Şu zamandan beri boşta:
+[Summary]
+Özet
+[Nickname:]
+Kısa Ad:
+[First name:]
+İlk ad:
+[Last name:]
+Soyadı:
+[E-mail:]
+E-posta:
+[Gender:]
+Cinsiyet:
+[Age:]
+Yaş:
+[Marital status:]
+Medeni hal:
 [Keywords:]
 Anahtar Kelimeler:
+[Work]
+İş
+[Company:]
+Firma:
+[Department:]
+Bölüm:
+[Position:]
+Konum:
 [Organisation:]
 Kurum:
+[Location]
+Yerleşim
+[Country:]
+Ülke:
+[State:]
+Şehir:
+[City:]
+Şehir:
 [Interests]
 İlgi Alanları
 [Category:]
 Kategori:
+[Other]
+Diğer
 [Manage ICQ Server Contacts]
 ICQ Sunucu Kişilerini Yönet
 [Select contacts to store:]
 Saklanacak kişileri seçin:
 [Synchronize]
 eşleştir
+[Closing in %d]
+Kapanıyor %d
 [Retrieving custom status details...]
 Özel durum detayları alınıyor...
 [Confirm Password Change]
@@ -264,66 +330,436 @@ Avatar sunucuya yüklenemedi, sunucu geçici olarak devre dışı.
 Avatar sunucuya yüklenemedi, sunucu resmi kabul etmedi.
 ;file \protocols\IcqOscarJ\src\icq_constants.h
 ;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Afghanistan]
+Afganistan
+[Albania]
+Arnavutluk
+[Algeria]
+Cezayir
+[Andorra]
+Andora
+[Angola]
+Angola
+[Anguilla]
+Angilla
+[Antigua and Barbuda]
+Antik ve Barbuda
+[Argentina]
+Arjantin
+[Armenia]
+Ermenistan
+[Aruba]
+Aruba
 [Ascension Island]
 Askensiyon Adaları
+[Australia]
+Avustralya
+[Austria]
+Avusturya
+[Azerbaijan]
+Azerbeycan
+[Bahamas]
+Bahamalar
+[Bahrain]
+Bahreyn
+[Bangladesh]
+Bangladeş
+[Barbados]
+Barbados
+[Belarus]
+Beyaz Rusya
+[Belgium]
+Belçika
+[Belize]
+Beliz
+[Benin]
+Benin
+[Bermuda]
+Bermuda
+[Bhutan]
+Butan
 [Bolivia]
 Bolivya
+[Bosnia and Herzegovina]
+Bosna Hersek
+[Botswana]
+Botswana
+[Brazil]
+Brezilya
 [British Virgin Islands]
 İngiliz Virgin Adaları
 [Brunei]
 Brunei
+[Bulgaria]
+Bulgaristan
+[Burkina Faso]
+Burkina Faso
+[Burundi]
+Burundi
+[Cambodia]
+Kamboçya
+[Cameroon]
+Kamerun
+[Canada]
+Kanada
 [Canary Islands]
 Kanarya Adaları
 [Cape Verde Islands]
 Cape Verde Adaları
+[Cayman Islands]
+Kayman Adaları
+[Central African Republic]
+Orta Afrika Cumhuriyeti
+[Chad]
+Çad
 [Chile, Republic of]
 Şili Cumhuriyeti
+[China]
+Çin
+[Colombia]
+Kolombiya
+[Comoros]
+Komor
 [Congo, Democratic Republic of (Zaire)]
 Demokratik kongo Cumhuriyeti (Zaire)
 [Congo, Republic of the]
 Kongo Cumhuriyeti
+[Cook Islands]
+Kook Adaları
+[Costa Rica]
+Kosta Rika
 [Cote d'Ivoire (Ivory Coast)]
 Cote d'Ivoire (Ivory Coast)
+[Croatia]
+Hırvatistan
+[Cuba]
+Küba
+[Czech Republic]
+Çek Cumhuriyeti
+[Denmark]
+Danimarka
 [Diego Garcia]
 Diego Garcia
+[Djibouti]
+Djibouti
+[Dominica]
+Dominika
+[Dominican Republic]
+Dominik Cumhuriyeti
+[Ecuador]
+Ekvator
+[Egypt]
+Mısır
+[El Salvador]
+El Salvador
+[Equatorial Guinea]
+Gine Ekvator
+[Eritrea]
+Eritre
+[Estonia]
+Estonya
+[Ethiopia]
+Etyopya
 [Faeroe Islands]
 Faeroe Adaları
 [Falkland Islands]
 Falkland Adaları
+[Fiji]
+Fiji
+[Finland]
+Finlandiya
+[France]
+Fransa
 [French Antilles]
 Fransız Antilleri
+[French Guiana]
+Fransız Guyanası
+[French Polynesia]
+Fransız Polinezyası
+[Gabon]
+Gabon
+[Gambia]
+Gambia
+[Georgia]
+Gürcistan
+[Germany]
+Almanya
+[Ghana]
+Gana
+[Gibraltar]
+Gibraltar
+[Greece]
+Yunanistan
+[Greenland]
+Grönland
+[Grenada]
+Granada
+[Guadeloupe]
+Guadalup
 [Guam, US Territory of]
 Guam, Amerikan bölgesi
+[Guatemala]
+Guatemala
+[Guinea]
+Gine
+[Guinea-Bissau]
+Gine-Bissau
+[Guyana]
+Guyana
+[Haiti]
+Haiti
+[Honduras]
+Honduras
+[Hong Kong]
+Hong Kong
+[Hungary]
+Macaristan
+[Iceland]
+İzlanda
+[India]
+Hindistan
+[Indonesia]
+Endonezya
 [Iran (Islamic Republic of)]
 İran İslam Cumhuriyeti
+[Iraq]
+Irak
+[Ireland]
+İrlanda
+[Israel]
+İsrail
+[Italy]
+İtalya
+[Jamaica]
+Jamaika
+[Japan]
+Japonya
+[Jordan]
+Ürdün
+[Kazakhstan]
+Kazakistan
+[Kenya]
+Kenya
+[Kiribati]
+Kiribati
 [Korea, North]
 Kuzey Kore
 [Korea, South]
 Güney Kore
+[Kuwait]
+Kuveyt
+[Kyrgyzstan]
+Kırgızistan
 [Laos]
 Laos
+[Latvia]
+Latviya
+[Lebanon]
+Lübnan
+[Lesotho]
+Lesoto
+[Liberia]
+Liberya
 [Libyan Arab Jamahiriya]
 Libya Arap Cemahiriyesi
+[Liechtenstein]
+Lihtenştayn
+[Lithuania]
+Litvanya
+[Luxembourg]
+Lüksemburg
 [Macau]
 Makau
+[Madagascar]
+Madagaskar
+[Malawi]
+Malawi
+[Malaysia]
+Malezya
+[Maldives]
+Maldivler
+[Mali]
+Mali
+[Malta]
+Malta
+[Marshall Islands]
+Marşal Adaları
+[Martinique]
+Martinik
+[Mauritania]
+Moritanya
+[Mauritius]
+Mauritius
 [Mayotte Island]
 Mayot Adaları
+[Mexico]
+Meksika
+[Micronesia, Federated States of]
+Mikronezya Federal Eyaleti
+[Moldova, Republic of]
+Moldova Cumhuriyeti
+[Monaco]
+Monako
+[Mongolia]
+Mongolya
+[Montserrat]
+Monserrat
+[Morocco]
+Fas
+[Mozambique]
+Mozambik
+[Myanmar]
+Myanmar
+[Namibia]
+Namibya
+[Nauru]
+Nauru
+[Nepal]
+Nepal
+[Netherlands]
+Hollanda
 [Netherlands Antilles]
 Hollanda Antilleri
+[New Caledonia]
+Yeni Kaledonya
+[New Zealand]
+Yeni Zelanda
+[Nicaragua]
+Nikaragua
+[Niger]
+Nijer
+[Nigeria]
+Nijerya
+[Niue]
+Niue
+[Norway]
+Norveç
+[Oman]
+Umman
+[Pakistan]
+Pakistan
+[Palau]
+Palau
+[Panama]
+Panama
+[Papua New Guinea]
+Papua Yeni Gine
+[Paraguay]
+Paraguay
+[Peru]
+Peru
+[Philippines]
+Filipinler
+[Poland]
+Polonya
+[Portugal]
+Portekiz
+[Puerto Rico]
+Puerto Riko
+[Qatar]
+Katar
 [Reunion Island]
 Reunion Adası
+[Romania]
+Romanya
 [Russia]
 Rusya
+[Rwanda]
+Ruanda
 [Saint Helena]
 Sen Helen
+[Saint Kitts and Nevis]
+Sen Kitts ve Nevis
+[Saint Lucia]
+Sen Lucia
+[Saint Pierre and Miquelon]
+sen Piyer ve Mikuelon
+[Saint Vincent and the Grenadines]
+Sen Vincent ve Grenadinler
+[San Marino]
+San Marino
+[Sao Tome and Principe]
+Sao Tome ve Principe
+[Saudi Arabia]
+Suudi Arabistan
 [Scotland]
 İskoçya
+[Senegal]
+Senegal
+[Seychelles]
+Seyşeller
+[Sierra Leone]
+Sierra Leone
+[Singapore]
+Singapur
+[Slovakia]
+Slovakya
+[Slovenia]
+Slovenya
+[Solomon Islands]
+Solomon Adaları
+[Somalia]
+Somali
+[South Africa]
+Güney Afrika
+[Spain]
+İspanya
+[Sri Lanka]
+Sri Lanka
+[Sudan]
+Sudan
+[Suriname]
+Surinam
+[Swaziland]
+Swaziland
+[Sweden]
+İsveç
+[Switzerland]
+İsviçre
+[Syrian Arab Republic]
+Siryan Arap Cumhuriyeti
 [Taiwan]
 Tayvan
+[Tajikistan]
+Tacikistan
 [Tanzania]
 Tanzanya
+[Thailand]
+Tayland
+[Togo]
+Togo
+[Tokelau]
+Tokalu
+[Tonga]
+Tonga
+[Trinidad and Tobago]
+Trinidad ve Tobago
+[Tunisia]
+Tunus
+[Turkey]
+Türkiye
+[Turkmenistan]
+Türkmenistan
+[Turks and Caicos Islands]
+Turks ve Caicos Adaları
+[Tuvalu]
+Tuvalu
+[Uganda]
+Uganda
+[Ukraine]
+Ukrayna
+[United Arab Emirates]
+Birleşik Arap Emirlikleri
+[United Kingdom]
+Birleşik Krallık
+[Uruguay]
+Uruguay
 [USA]
 ABD
+[Uzbekistan]
+Özbekistan
+[Vanuatu]
+Vanuatu
 [Vatican City]
 Vatikan
 [Venezuela]
@@ -334,14 +770,24 @@ Vietnam
 Galler
 [Wallis and Futuna Islands]
 Wallis ve Futuna Adaları
+[Yemen]
+Yemen
 [Yugoslavia]
 Yugoslavya
+[Zambia]
+Zambia
+[Zimbabwe]
+Zimbabve
 [Business]
 İş
 [Past Work Place]
 Eski İşyeri
 [Past Organization]
 Eski Organizasyon
+[Female]
+Kadın
+[Male]
+Erkek
 [60-above]
 60 üzeri
 ;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
@@ -351,6 +797,12 @@ Dosya gönderme işleminiz kesildi çünkü seçtiğiniz dosyalar diskten okunam
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 Dosya alma işleminiz kesildi çünkü Miranda hedef dosyayı yazmak için açamadı. Dosyayı salt okunur bir klasöre kaydetmeye çalışıyor olabilirsiniz.
 ;file \protocols\IcqOscarJ\src\icq_menu.cpp
+[Request authorization]
+İzin iste
+[Grant authorization]
+İzin ver
+[Revoke authorization]
+İzni kaldır
 [Add to server list]
 Sunucu listesine ekle
 [Show custom status details]
@@ -368,6 +820,12 @@ Kullanıcı müdahalesi gerektiren sorunları göster
 Hiç bir sorunu gösterme (önerilmez)
 [System default codepage]
 Varsayılan sistem kod sayfası
+[Network]
+Ağ
+[Contacts]
+Kişiler
+[Popups]
+Açılır Pencereler
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 [Sample Note]
 Örnek Not
@@ -429,8 +887,12 @@ Yükleme grubu yok
 Gruplar temizleniyor
 [All operations complete]
 Tüm işlemler tamamlandı
+[Close]
+Kapat
 [You have to be online to sychronize the server-list !]
 Sunucu listesini eşleştirmek için çevrim içi olmalısınız!
+[** All contacts **]
+** Tüm kişiler **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [Taking a bath]
 Duştayım
@@ -444,6 +906,8 @@ TV seyrediyorum
 Av
 [Having fun]
 Eğleniyorum
+[On the phone]
+Telefonda
 [Gaming]
 Oyundayım
 [Studying]
@@ -454,6 +918,8 @@ Alışveriş
 Hastayım
 [Surfing]
 Geziniyorum
+[Typing]
+Yazıyor
 [Picnic]
 Piknik
 [I'm high]
@@ -464,6 +930,8 @@ Olmak ya da olmamak
 Pro7 seyrediyorum
 [%s Custom Status]
 %s Kişisel Durum
+[None]
+Yok
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
 Kutlama kartı:
@@ -505,6 +973,8 @@ Dosya aktarımı sırasında bağlantı kesildi.
 [File transfer negotiation failed for unknown reason.]
 Bilinmeyen bir nedenle dosya aktarımı iletişimi yapılamadı.
 ;file \protocols\IcqOscarJ\src\utilities.cpp
+[<invalid>]
+<geçersiz>
 ;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
 [GMT-12:00 Eniwetok; Kwajalein]
 GMT-12:00 Eniwetok; Kwajalein
@@ -610,6 +1080,8 @@ Kişisel
 Ad
 [Last name]
 Soyad
+[Contact]
+Kişi
 [Street]
 Adres
 [City]
@@ -716,5 +1188,7 @@ YÜKLENEMEDİ
  (DC Kuruldu)
 [ScreenName:]
 Ekran Adı:
+[<not specified>]
+<belirtilmemiş>
 [Member since:]
 Üyelik:

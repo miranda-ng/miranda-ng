@@ -8,12 +8,22 @@
 ;file \protocols\IcqOscarJ\res\resources.rc
 [ICQ Number:]
 ICQ 番号 :
+[Password:]
+パスワード :
 [Create a new ICQ account]
 新規 ICQ アカウントを作成
+[&Send]
+送信 (&S)
+[&Cancel]
+Cancel(&C)
 [Enter ICQ Password]
 ICQ パスワードを入力
 [Enter a password for UIN %d:]
 UIN %d のパスワードを入力 :
+[OK]
+OK
+[Cancel]
+Cancel
 [ICQ number:]
 ICQ 番号 :
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
@@ -22,6 +32,10 @@ ICQ 番号 :
 忘れたパスワードもしくは ICQ 番号を回復する
 [Create a new ICQ account using the ICQ website]
 ICQ のウェブサイトを使用して新規 ICQ アカウントを作成
+[Port:]
+ポート :
+[Default]
+デフォルト
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
 ヒント : ポート 0 を使用するとランダムなポートに接続します。もし http プロキシサーバーを経由して接続する際に問題が生じる場合は , ポート 80 もしくはポート 443 で試してみてください
 [Secure Connection (SSL)]
@@ -60,6 +74,8 @@ ICQ アバター
 ICQ ネットワークに接続している間はサーバー側のコンタクトリストの有効 / 無効の切り替えができません
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
 注意 : アスタリスクで印がついているオプションには , 重要な副作用もしくはヘルプの最初に明記されていない注意事項があります
+[Messaging]
+メッセージング
 [Enable unicode messaging support]
 unicodeメッセージサポートを有効
 [Send all messages in unicode if possible]
@@ -120,18 +136,26 @@ AIM コンタクトサポートを有効
 可視コンタクトからのステータスメッセージリクエストにのみ返信
 [Some options are greyed out because they can only be changed when you are online.]
 オンライン時にのみ変更可能なオプション類は灰色表示されています
+[Options]
+オプション
 [Enable popup support]
 ポップアップサポートを有効
 [Display popup when spambot is detected]
 スパムボットを検出したときポップアップを表示
 [Look && Feel]
 外観
+[Text Color]
+テキスト色
+[Error]
+エラー
 [Fatal]
 致命的エラー
 [Spam detected]
 スパムを検出
 [Use system &icons]
 システムアイコンを使用 (&i)
+[Use default colours]
+デフォルト色を使用
 [UIN:]
 UIN :
 [External IP:]
@@ -144,20 +168,58 @@ UIN :
 システム起動時期 :
 [Idle since:]
 アイドル時期 :
+[Summary]
+要約
+[Nickname:]
+ニックネーム :
+[First name:]
+名 :
+[Last name:]
+名字 :
+[E-mail:]
+電子メール :
+[Gender:]
+性別 :
+[Age:]
+年齢 :
+[Marital status:]
+結婚歴 :
 [Keywords:]
 キーワード :
+[Work]
+仕事
+[Company:]
+会社 :
+[Department:]
+部門 :
+[Position:]
+位置 :
 [Organisation:]
 組織 :
+[Location]
+場所
+[Country:]
+国 :
+[State:]
+州 :
+[City:]
+市 :
+[Background info]
+背景情報
 [Interests]
 興味
 [Category:]
 カテゴリー :
+[Other]
+その他
 [Manage ICQ Server Contacts]
 ICQ サーバーのコンタクトを管理
 [Select contacts to store:]
 保存するコンタクトを選択 :
 [Synchronize]
 同期
+[Closing in %d]
+%d 秒後に閉じる
 [Retrieving custom status details...]
 カスタムステータスの詳細を回復する...
 [Confirm Password Change]
@@ -280,8 +342,30 @@ ICQ 注記
 エラー サーバーにアバターをアップロードしましたが , サーバーは画像の受信を拒否しました
 ;file \protocols\IcqOscarJ\src\icq_constants.h
 ;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Afghanistan]
+アフガニスタン
+[Albania]
+アルバニア
+[Algeria]
+アルジェリア
+[Andorra]
+アンドラ
+[Angola]
+アンゴラ
+[Anguilla]
+アングィラ島
+[Antigua and Barbuda]
+アンチグアバーブーダ
+[Argentina]
+アルゼンチン
+[Armenia]
+アルメニア
+[Aruba]
+アルバ
 [Ascension Island]
 アセンション島
+[Australia]
+オーストラリア
 [Australia, Antarctic Territory]
 オーストラリア南極領土
 [Australia, Christmas Island]
@@ -290,90 +374,440 @@ ICQ 注記
 オーストラリア , ココス(キーリング)諸島
 [Australia, Norfolk Island]
 オーストラリア , ノーフォーク島
+[Austria]
+オーストリア
+[Azerbaijan]
+アゼルバイジャン
+[Bahamas]
+バハマ
+[Bahrain]
+バーレーン
+[Bangladesh]
+バングラディシュ
+[Barbados]
+バルバドス
+[Belarus]
+ベラルーシ
+[Belgium]
+ベルギー
+[Belize]
+ベリーズ
+[Benin]
+ベナン
+[Bermuda]
+バミューダ諸島
+[Bhutan]
+ブータン
 [Bolivia]
 ボリビア
+[Bosnia and Herzegovina]
+ボスニア・ヘルツェゴビナ
+[Botswana]
+ボスワナ
+[Brazil]
+ブラジル
 [British Virgin Islands]
 英領ヴァージン諸島
 [Brunei]
 ブルネイ
+[Bulgaria]
+ブルガリア
+[Burkina Faso]
+ブルキナファソ
+[Burundi]
+ブルンジ
+[Cambodia]
+カンボジア
+[Cameroon]
+カメルーン
+[Canada]
+カナダ
 [Canary Islands]
 カナリア諸島
 [Cape Verde Islands]
 カーボベルデ諸島
+[Cayman Islands]
+ケイマン諸島
+[Central African Republic]
+中央アフリカ共和国
+[Chad]
+チャド
 [Chile, Republic of]
 チリ共和国
+[China]
+中国
+[Colombia]
+コロンビア
+[Comoros]
+コモロ
 [Congo, Democratic Republic of (Zaire)]
 コンゴ民主共和国(ザイール)
 [Congo, Republic of the]
 コンゴ共和国
+[Cook Islands]
+クック諸島
+[Costa Rica]
+コスタリカ
 [Cote d'Ivoire (Ivory Coast)]
 コートジボワール(アイボリー・コースト)
+[Croatia]
+クロアチア
+[Cuba]
+キューバ
 [Greek, Republic of South Cyprus]
 ギリシャ , 南キプロス共和国
+[Czech Republic]
+チェコ共和国
+[Denmark]
+デンマーク
 [Diego Garcia]
 ジエゴ・ガルシア島
+[Djibouti]
+ジブチ
+[Dominica]
+ドミニカ
+[Dominican Republic]
+ドミニカ共和国
+[Ecuador]
+エクアドル
+[Egypt]
+エジプト
+[El Salvador]
+エルサルバドル
+[Equatorial Guinea]
+赤道ギニア
+[Eritrea]
+エリトリア
+[Estonia]
+エストニア
+[Ethiopia]
+エチオピア
 [Europe]
 ヨーロッパ
 [Faeroe Islands]
 フェロー諸島
 [Falkland Islands]
 フォークランド諸島
+[Fiji]
+フィジー
+[Finland]
+フィンランド
+[France]
+フランス
 [French Antilles]
 仏領アンティル諸島
+[French Guiana]
+仏領ギアナ
+[French Polynesia]
+仏領ポリネシア
+[Gabon]
+ガボン
+[Gambia]
+ガンビア
+[Georgia]
+グルジア
+[Germany]
+ドイツ
+[Ghana]
+ガーナ
+[Gibraltar]
+ジブラルタル
+[Greece]
+ギリシャ
+[Greenland]
+グリーンランド
+[Grenada]
+グレナダ
+[Guadeloupe]
+グアドループ島
 [Guam, US Territory of]
 米領グアム
+[Guatemala]
+グアテマラ
+[Guinea]
+ギニア
+[Guinea-Bissau]
+ギニアビサウ
+[Guyana]
+ガイアナ
+[Haiti]
+ハイチ
+[Honduras]
+ホンデュラス
+[Hong Kong]
+香港
+[Hungary]
+ハンガリー
+[Iceland]
+アイスランド
+[India]
+インド
+[Indonesia]
+インドネシア
 [Iran (Islamic Republic of)]
 イラン ( イスラム共和国 )
+[Iraq]
+イラク
+[Ireland]
+アイルランド
+[Israel]
+イスラエル
+[Italy]
+イタリア
+[Jamaica]
+ジャマイカ
+[Japan]
+日本
+[Jordan]
+ヨルダン
+[Kazakhstan]
+カザフスタン
+[Kenya]
+ケニア
+[Kiribati]
+キリバス
 [Korea, North]
 北朝鮮
 [Korea, South]
 韓国
+[Kuwait]
+クウェート
+[Kyrgyzstan]
+キルギスタン
 [Laos]
 ラオス
+[Latvia]
+ラトビア
+[Lebanon]
+レバノン
+[Lesotho]
+レソト
+[Liberia]
+リベリア
 [Libyan Arab Jamahiriya]
 リビア・アラブ国
+[Liechtenstein]
+リヒテンシュタイン
+[Lithuania]
+リトアニア
+[Luxembourg]
+ルクセンブルグ
 [Macau]
 マカオ
 [Macedonia, Republic of]
 マケドニア
+[Madagascar]
+マダガスカル
+[Malawi]
+マラウイ
+[Malaysia]
+マレーシア
+[Maldives]
+モルディブ
+[Mali]
+マリ
+[Malta]
+マルタ
+[Marshall Islands]
+マーシャル諸島
+[Martinique]
+マルティニーク島
+[Mauritania]
+モーリタニア
+[Mauritius]
+モーリシャス
 [Mayotte Island]
 マヨット島
+[Mexico]
+メキシコ
+[Micronesia, Federated States of]
+ミクロネシア連邦
+[Moldova, Republic of]
+モルドバ共和国
+[Monaco]
+モナコ
+[Mongolia]
+モンゴル
+[Montserrat]
+モントセラト
+[Morocco]
+モロッコ
+[Mozambique]
+モザンビーク
+[Myanmar]
+ミャンマー
+[Namibia]
+ナミビア
+[Nauru]
+ナウル
+[Nepal]
+ネパール
+[Netherlands]
+オランダ
 [Netherlands Antilles]
 オランダ領アンティル
 [St. Maarten]
 シントマールテン島
+[Curacao]
+キュラソー島
 [Netherlands (Bonaire Island)]
 オランダ ( ボネール島 )
 [Netherlands (Saba Island)]
 オランダ ( サバ島 )
 [Netherlands (St. Eustatius Island)]
 オランダ ( シントユースタティウス島 )
+[New Caledonia]
+ニューカレドニア
+[New Zealand]
+ニュージーランド
+[Nicaragua]
+ニカラグア
+[Niger]
+ニジェール
+[Nigeria]
+ナイジェリア
+[Niue]
+ニウエ
 [Northern Mariana Islands, US Territory of]
 米領北マリアナ諸島連邦
+[Norway]
+ノルウェイ
+[Oman]
+オマーン
+[Pakistan]
+パキスタン
+[Palau]
+パラオ
+[Panama]
+パナマ
+[Papua New Guinea]
+パプアニューギニア
+[Paraguay]
+パラグアイ
+[Peru]
+ペルー
+[Philippines]
+フィリピン
+[Poland]
+ポーランド
+[Portugal]
+ポルトガル
+[Puerto Rico]
+プエルトリコ
+[Qatar]
+カタール
 [Reunion Island]
 レユニオン島
+[Romania]
+ルーマニア
 [Russia]
 ロシア
+[Rwanda]
+ルワンダ
 [Samoa (USA)]
 米サモア
 [Samoa, Western]
 西サモア
 [Saint Helena]
 セント・ヘレナ島
+[Saint Kitts and Nevis]
+セントクリストファー・ネイビス
+[Saint Lucia]
+セントルシア
+[Saint Pierre and Miquelon]
+サンピエール島・ミクロン島
+[Saint Vincent and the Grenadines]
+セントビンセントおよびグレナディーン諸島
+[San Marino]
+サン・マリノ
+[Sao Tome and Principe]
+サントメプリンシペ
+[Saudi Arabia]
+サウジアラビア
 [Scotland]
 スコットランド
+[Senegal]
+セネガル
+[Seychelles]
+セイシェル
+[Sierra Leone]
+シエラ・レオネ
+[Singapore]
+シンガポール
+[Slovakia]
+スロバキア
+[Slovenia]
+スロベニア
+[Solomon Islands]
+ソロモン諸島
+[Somalia]
+ソマリア
+[South Africa]
+南アフリカ
+[Spain]
+スペイン
 [Spain, Canary Islands]
 スペイン , カナリア諸島
+[Sri Lanka]
+スリランカ
+[Sudan]
+スーダン
+[Suriname]
+スリナム
+[Swaziland]
+スワジランド
+[Sweden]
+スウェーデン
+[Switzerland]
+スイス
+[Syrian Arab Republic]
+シリアアラブ共和国
 [Taiwan]
 台湾
+[Tajikistan]
+タジキスタン
 [Tanzania]
 タンザニア
+[Thailand]
+タイ
 [Timor, East]
 東ティモール
+[Togo]
+トーゴ
+[Tokelau]
+トケラウ諸島
+[Tonga]
+トンガ
+[Trinidad and Tobago]
+トリニダード・トバゴ
+[Tunisia]
+チュニジア
+[Turkey]
+トルコ
 [Turkey, Republic of Northern Cyprus]
 北キプロス・トルコ共和国
+[Turkmenistan]
+トルクメニスタン
+[Turks and Caicos Islands]
+タークス・カイコス諸島
+[Tuvalu]
+ツバル
+[Uganda]
+ウガンダ
+[Ukraine]
+ウクライナ
+[United Arab Emirates]
+アラブ首長国連邦
+[United Kingdom]
+イギリス
+[Uruguay]
+ウルグアイ
 [USA]
 アメリカ
+[Uzbekistan]
+ウズベキスタン
+[Vanuatu]
+バヌアツ
 [Vatican City]
 バチカン市国
 [Venezuela]
@@ -388,6 +822,8 @@ ICQ 注記
 ウェールズ
 [Wallis and Futuna Islands]
 ウォリス・フトゥーナ諸島
+[Yemen]
+イエメン
 [Yugoslavia]
 ユーゴスラビア
 [Serbia, Republic of]
@@ -396,6 +832,10 @@ ICQ 注記
 コソボ共和国
 [Montenegro, Republic of]
 モンテネグロ共和国
+[Zambia]
+ザンビア
+[Zimbabwe]
+ジンバブエ
 [Audio and Visual]
 オーディオとビジュアル
 [Business]
@@ -436,6 +876,10 @@ ICQ - ヘルプ
 過去の職場
 [Past Organization]
 過去の組織
+[Female]
+女性
+[Male]
+男性
 [Associated degree]
 準学士号
 [Bachelor's degree]
@@ -489,6 +933,12 @@ ICQ - ヘルプ
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 Miranda が保存ファイルを書込みモードで開くことができなかったため , ファイル受信に失敗しました。読み取り専用フォルダーに保存しようとした可能性があります。
 ;file \protocols\IcqOscarJ\src\icq_menu.cpp
+[Request authorization]
+認証リクエスト
+[Grant authorization]
+権限の承認
+[Revoke authorization]
+認証の取消
 [Add to server list]
 サーバーリストに追加
 [Show custom status details]
@@ -508,6 +958,12 @@ ICQ プロファイルを開く
 問題を一切表示しない ( 非推奨 )
 [System default codepage]
 システムデフォルトコードページ
+[Network]
+ネットワーク
+[Contacts]
+コンタクト
+[Popups]
+ポップアップ
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 [Sample Note]
 サンプル 通知
@@ -573,8 +1029,12 @@ ICQ サーバーへの接続が失敗したため終了しました
 グループを空にする
 [All operations complete]
 全ての作業は完了しました
+[Close]
+閉じる
 [You have to be online to sychronize the server-list !]
 サーバーリストを同期するにはオンラインになる必要があります
+[** All contacts **]
+** 全てのコンタクト **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [Taking a bath]
 入浴
@@ -588,6 +1048,8 @@ ICQ サーバーへの接続が失敗したため終了しました
 撮影中
 [Having fun]
 楽しいね
+[On the phone]
+電話中
 [Gaming]
 ゲーム
 [Studying]
@@ -598,6 +1060,8 @@ ICQ サーバーへの接続が失敗したため終了しました
 具合悪い
 [Surfing]
 サーフィン
+[Typing]
+入力中
 [Picnic]
 ピクニック
 [I'm high]
@@ -706,6 +1170,8 @@ ICQ サーバーへの接続が失敗したため終了しました
 書いてる
 [%s Custom Status]
 %s カスタムステータス
+[None]
+なし
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
 グリーティングカード :
@@ -747,6 +1213,8 @@ Miranda はサーバー名から IP アドレスへの解決ができません�
 [File transfer negotiation failed for unknown reason.]
 ファイル転送ネゴシエーションは不明な理由で失敗しました
 ;file \protocols\IcqOscarJ\src\utilities.cpp
+[<invalid>]
+< 不正 >
 ;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
 [GMT-12:00 Eniwetok; Kwajalein]
 GMT-12:00 エニウェトク ; クワゼリン
@@ -852,6 +1320,8 @@ GMT+12:00 オークランド ; ウェリントン ; フィジー ; カムチャ�
 名前
 [Last name]
 名字
+[Contact]
+コンタクト
 [Street]
 通り
 [City]
@@ -968,6 +1438,8 @@ UIN %u のパスワードを入力 :
 ( DC 接続確立 )
 [ScreenName:]
 スクリーン名 :
+[<not specified>]
+< 指定なし >
 [Member since:]
 加入時期 :
 [%s Details]

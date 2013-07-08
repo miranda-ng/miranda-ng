@@ -6,5 +6,27 @@
 ;  Authors: tico-tico
 ;============================================================
 ;file \plugins\BASS_interface\res\Bass.rc
+[Offline]
+Çevrimdışı
+[Online]
+Çevrimiçi
+[Away]
+Uzakta
+[NA]
+Bilinmiyor
+[Occupied]
+Meşgul
+[DND]
+Dokunma
+[Free for chat]
+Sohbete uygun
+[Invisible]
+Görünmez
+[On the phone]
+Telefonda
+[Out to lunch]
+Yemekte
 ;file \plugins\BASS_interface\src\Bass_interface.h
 ;file \plugins\BASS_interface\src\Main.cpp
+[Sounds]
+Sesler

@@ -2,19 +2,82 @@
 ;============================================================
 ;  File: Skype.dll
 ;  Plugin: Skype Protocol
-;  Version: 0.0.0.1
-;  Authors: Unsane, Mataes
+;  Version: 0.11.0.1
+;  Authors: unsane, mataes, ghazan
 ;============================================================
 ;file \protocols\Skype\res\Resource.rc
+[&Cancel]
+&Avbryt
+[Add]
+Legg til
+[&Create]
+&Lag
+[Password:]
+Passord:
+[OK]
+OK
+[Cancel]
+Avbryt
+[Date of birth:]
+Fødselsdato:
+[Gender:]
+Kjønn:
+[Homepage:]
+Webside:
+[About:]
+Om:
+[City:]
+By:
+[State:]
+Stat:
+[Country:]
+Land:
+[Timezone:]
+Tidssoner:
 ;file \protocols\Skype\src\skype.cpp
 ;file \protocols\Skype\src\skype_account.cpp
+;file \protocols\Skype\src\skype_blocked.cpp
+[Name]
+Navn
+;file \protocols\Skype\src\skype_bookmarks.cpp
 ;file \protocols\Skype\src\skype_chat.cpp
+[&User details]
+&Brukerdetaljer
+[&User]
+&Bruker
+[&Add]
+&Legg til
 ;file \protocols\Skype\src\skype_contacts.cpp
 ;file \protocols\Skype\src\skype_dialogs.cpp
+[<not specified>]
+<ikke spesifisert>
+[Male]
+Mann
+[Female]
+Kvinne
 ;file \protocols\Skype\src\skype_events.cpp
+[Network]
+Nettverk
+[Contacts]
+Kontakter
+[General]
+Generelt
 ;file \protocols\Skype\src\skype_icons.cpp
+[Contact]
+Kontakt
+[Delete]
+Slett
+;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
 ;file \protocols\Skype\src\skype_menus.cpp
+[Request authorization]
+Forespør godkjenning
+[Grant authorization]
+Godkjenn autorisasjon
+[Revoke authorization]
+Tilbakekall godkjenning
+;file \protocols\Skype\src\skype_messages.cpp
 ;file \protocols\Skype\src\skype_netlib.cpp
 ;file \protocols\Skype\src\skype_proto.cpp
+;file \protocols\Skype\src\skype_transfers.cpp
 ;file \protocols\Skype\src\skype_utils.cpp

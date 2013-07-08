@@ -6,5 +6,31 @@
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
 ;file \plugins\MenuItemEx\res\resource.rc
+[&Send]
+送信 (&S)
+[&Cancel]
+Cancel(&C)
+[Visibility]
+可視状態
+[Ignore]
+無視
 ;file \plugins\MenuItemEx\src\main.cpp
+[Messages]
+メッセージ
+[URL]
+URL
+[Files]
+ファイル
+[User Online]
+オンラインユーザー
+[You Were Added]
+あなたは追加されました
+[Typing Notify]
+入力中通知
+[Miranda NG]
+Miranda NG
+[Request authorization]
+認証リクエスト
 ;file \plugins\MenuItemEx\src\options.cpp
+[Customize]
+カスタマイズ

@@ -8,10 +8,58 @@
 ;file \plugins\SeenPlugin\res\resource.rc
 [Show icon]
 Vis ikon
+[Text]
+Tekst
+[Online]
+Pålogget
+[Away]
+Borte
+[NA]
+NA
+[Occupied]
+Opptatt
+[DND]
+Ikke forstyrr
+[On the phone]
+I Telefonen
+[Out to lunch]
+Ute til lunsj
+[Free for chat]
+Tilgjengelig for samtale
+[Invisible]
+Usynlig
+[Offline]
+Frakoblet
+[OK]
+OK
 ;file \plugins\SeenPlugin\src\history.cpp
+[View User's Details]
+Se Brukerens Detaljer
+[User Menu]
+Brukermeny
 ;file \plugins\SeenPlugin\src\main.cpp
 ;file \plugins\SeenPlugin\src\menu.cpp
+[<none>]
+<ingen>
 ;file \plugins\SeenPlugin\src\options.cpp
+[Contacts]
+Kontakter
+[Popups]
+Popups
+[Popups]
+Popups
 ;file \plugins\SeenPlugin\src\seen.h
+[seconds]
+sekunder
+[Group]
+Gruppe
+[Status]
+Status
+[Protocol]
+Protokoll
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
+[Idle]
+Inaktivitet
+[Unknown]
+Ukjent

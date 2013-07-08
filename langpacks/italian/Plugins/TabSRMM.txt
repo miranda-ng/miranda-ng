@@ -6,26 +6,240 @@
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 ;file \plugins\TabSRMM\res\chat.rc
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Actions]
+Azioni
+[Information]
+Informazione
+[Information]
+Informazione
+[Options]
+Opzioni
+[Options]
+Opzioni
+[List]
+Lista
+[&Message]
+&Messaggio
+[&Message]
+&Messaggio
+[&Message]
+&Messaggio
+[Log]
+Registro (Log file)
+[Link]
+Collegamento
+[Link]
+Collegamento
+[&Copy link]
+&Copia collegamento
+[&Copy link]
+&Copia link
+[Message]
+Messaggio
+[Message]
+Messaggio
+[Message]
+Messaggio
+[Copy]
+Copia
+[Select All]
+Seleziona Tutto
+[Clear]
+Terso
 ;file \plugins\TabSRMM\res\resource.rc
+[seconds]
+secondi
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
+[Background]
+Altro
+[Background]
+Sfondo
+[Background]
+Sfondo
+[Background]
+Altro
+[Background]
+Sfondo
+[Events]
+Eventi
+[Events]
+Eventi
+[Events]
+Eventi
+[Apply]
+Applica
 [(0 = no limit)]
 (0 = nessun limite)
+[Load History Events]
+Carica eventi storici
+[Load unread events only]
+Carica solo eventi non letti
+[Load number of previous events]
+Carica numero di eventi precedenti
+[Load previous events less than]
+Carica eventi risalenti ad almeno
+[minutes old]
+minuti fa
+[Typing Notification]
+Notifica digitazione
 [Send typing notifications to the following users when you are typing a message to the them:]
 Invia le notifiche di digitazione agli utenti seguenti quando sto digitando un messaggio per loro:
+[Show typing notification when no message dialog is open]
+Mostra notifica digit. quando nessuna finestra messaggi è aperta
+[Delete]
+Elimina
+[Delete]
+Elimina
+[Delete]
+Cancella
+[Delete]
+Elimina
+[Reset]
+Reimposta
+[Reset]
+Reimposta
+[Reset]
+Resetta
+[Reset]
+Reimposta
+[milliseconds]
+millisecondi
+[milliseconds]
+millisecondi
+[Popups]
+Popup
+[Popups]
+Popups
 [U&se Popup colours]
 Utilizza plugin Popup
 [&Use Windows colours]
 &Utilizza i colori di Windows
 [&Use Windows colours]
 Utilizza i colori di Windows
+[Custom]
+Personalizzato
+[Custom]
+Ad hoc
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Icons]
+Icone
+[Icons]
+Icone
+[Yes]
+Sì
+[No]
+No
 [Send message on Enter]
 Invia messaggio con Invio
+[Minimize the message window on send]
+Minimizza la finestra del messaggio all'invio
+[&Copy]
+&Copy
+[&Copy]
+&Copia
+[&Copy]
+&Copia
+[Co&py All]
+Co&pia tutto
+[Co&py All]
+Co&pia tutto
+[Select &All]
+Seleziona &tutto
+[Select &All]
+Selezion&a tutto
+[Open in &new window]
+Apri in una nuova &finestra
+[Open in &new window]
+Apri in una &nuova finestra
+[&Open in existing window]
+&Apri in una finestra esistente
+[&Open in existing window]
+&Apri in una finestra esistente
+[Default]
+Predefinito
+[Default]
+Predefinito
+[Global]
+Globale
+[Font]
+Carattere
+[Font]
+Carattere
+[&File]
+&File
+[Help]
+Aiuto
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
+[View User's History]
+Visualizza storico utente
+[View User's History]
+Visualizza storico utente
 ;file \plugins\TabSRMM\src\container.cpp
 ;file \plugins\TabSRMM\src\containeroptions.cpp
 ;file \plugins\TabSRMM\src\controls.cpp
 ;file \plugins\TabSRMM\src\eventpopups.cpp
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 ;file \plugins\TabSRMM\src\globals.cpp
+[Outgoing]
+In uscita
+[Outgoing]
+In uscita
+[Message send error]
+Errore nell'invio del messaggio
+[Other]
+Altro
+[Other]
+Altro
+[Other]
+Altro
+[Other]
+Varie
+[Other]
+Altro
+[Message from %s]
+Messaggio da %s
+[Message from %s]
+Messaggio da %s
 ;file \plugins\TabSRMM\src\hotkeyhandler.cpp
 ;file \plugins\TabSRMM\src\infopanel.cpp
 ;file \plugins\TabSRMM\src\mim.cpp
@@ -34,12 +248,48 @@ Invia messaggio con Invio
 [The message send timed out]
 Tempo massimo di invio messaggio scaduto
 ;file \plugins\TabSRMM\src\msgdlgutils.cpp
+['(Unknown Contact)']
+'(Contatto sconosciuto)'
 ;file \plugins\TabSRMM\src\msglog.cpp
 ;file \plugins\TabSRMM\src\msgoptions.cpp
+[** New contacts **]
+** Nuovi contatti **
+[** Unknown contacts **]
+** Contatti sconosciuti **
+[Show balloon popup (unsupported system)]
+Mostra popup (sistema non supportato)
+[General]
+Generale
+[Typing Notify]
+Notifica digitazione
 ;file \plugins\TabSRMM\src\msgs.cpp
+[Background colour]
+Colore di sfondo
+[Incoming message]
+Messaggio in arrivo
+[Outgoing message]
+Messaggio in uscita
 ;file \plugins\TabSRMM\src\msgs.h
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
+[Error]
+Errore
+[Error]
+Errore
 ;file \plugins\TabSRMM\src\sendlater.cpp
+[Contact]
+Contatto
+[Contact]
+Contatti
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
 ;file \plugins\TabSRMM\src\sendqueue.cpp
 ;file \plugins\TabSRMM\src\sidebar.cpp
 ;file \plugins\TabSRMM\src\srmm.cpp
@@ -48,8 +298,14 @@ Tempo massimo di invio messaggio scaduto
 ;file \plugins\TabSRMM\src\themeio.cpp
 ;file \plugins\TabSRMM\src\themes.cpp
 ;file \plugins\TabSRMM\src\translator.cpp
-[Show file events]
-Mostra eventi di file
+[System tray icon]
+Icona nella tray di sistema
+[Send message on 'Enter']
+Invia messaggio con 'Invio'
+[Send message on double 'Enter']
+Invia messaggio con un doppio 'Invio'
+[Close the message window on send]
+Chiudi la finestra del messaggio all'invio
 ;file \plugins\TabSRMM\src\trayicon.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 ;file \plugins\TabSRMM\src\userprefs.cpp
@@ -57,12 +313,76 @@ Mostra eventi di file
 ;file \plugins\TabSRMM\src\chat\clist.cpp
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 ;file \plugins\TabSRMM\src\chat\log.cpp
+[%s is now known as %s]
+%s è ora conosciuto come %s
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 ;file \plugins\TabSRMM\src\chat\options.cpp
+[Others nicknames]
+Altri nickname
+[Your nickname]
+Il tuo nickname
+[User has joined]
+L'utente ha fatto ingresso
+[User has left]
+L'utente è uscito
+[User has disconnected]
+Utente scollegato
+[User is now known as ...]
+L'utente è ora conosciuto come ...
+[Information messages]
+Messaggi informativi
+[User enables status for ...]
+Abilitare stato dell'utente per ...
+[User disables status for ...]
+Disabilitare stato dell'utente per ...
+[Protocol]
+Protocollo
+[Protocol]
+Protocollo
+[Protocol]
+Protocollo
+[Flash window when someone speaks]
+Animare la finestra quando qualcuno parla
+[Show list of users in the chat room]
+Mostra lista degli utenti nella chat room
+[Show button menus when right clicking the buttons]
+Mostra i pulsanti del menù cliccando con il tasto destro del mouse
+[Do not pop up the window when joining a chat room]
+Non far comparire la finestra in primo piano quando si entra in una chat room
+[Prefix all events with a timestamp]
+Anteponi a tutti gli eventi data ed ora
+[Indent the second line of a message]
+Indenta la seconda linea di un messaggio
+[Appearance and functionality of chat room windows]
+Aspetto e funzionalità delle finestre chat room
+[All Files]
+Tutti i file
+[All Files]
+Tutti i file
+[All Files]
+Tutti i file
+[Select Folder]
+Seleziona cartella
+[Select Folder]
+Seleziona cartella
 ;file \plugins\TabSRMM\src\chat\services.cpp
+[&Join]
+&Unisciti
+[&Leave]
+&Lascia
 ;file \plugins\TabSRMM\src\chat\tools.cpp
+[%s speaks in %s]
+%s discute in %s
+[%s kicked %s from %s]
+%s ha espulso %s da %s
+[Notice from %s]
+Notifica da %s
 ;file \plugins\TabSRMM\src\chat\window.cpp
+[Nick]
+Nick
 [hour]
 ora
+[minutes]
+minuti
 [minute]
 minuto

@@ -6,8 +6,36 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\IcqOscarJ\res\resources.rc
+[Password:]
+Password:
+[Password:]
+Password:
+[&Send]
+&Invia
+[&Send]
+&Invia
+[&Cancel]
+&Annulla
 [Enter ICQ Password]
 Inserisci la Password di ICQ
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
 [ICQ number:]
 Numero ICQ:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
@@ -16,6 +44,20 @@ Suggerimento: se non provvedete ad inserire la vostra password qui, Miranda vi r
 Recupera la password o un numero ICQ perso
 [Create a new ICQ account using the ICQ website]
 Crea un nuovo account ICQ utilizzando il sito di ICQ
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Default]
+Predefinito
+[Default]
+Predefinito
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
 Specificate la porta 0 per connettervi ad una porta casuale. Usate le porte 80 o 443 se avete problemi a connettervi attraverso un proxy server http.
 [Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
@@ -46,6 +88,8 @@ Le modifiche fatte su questa pagina richiedono la riconnessione alla rete ICQ pe
 Non puoi attivare/disattivare la lista dei contatti sul server mentre sei connesso alla rete ICQ.
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
 Nota: Le opzioni marcate con un asterisco hanno importanti effetti o avvertenze che potrebbero apparentemente non essere documentate nell'aiuto.
+[Messaging]
+Scambio messaggi
 [Direct connections]
 Connessioni dirette
 [Allowing direct connections will expose your IP address but may be necessary for some ICQ features to work properly.]
@@ -70,24 +114,80 @@ Permetti agli altri di vedere il mio indirizzo email primario
 Replica solo a richieste sullo stato da parte di utenti sulla mia lista contatti
 [Only reply to status message request from visible contacts]
 Replica solo a richieste sullo stato da parte di contatti visibili
+[Options]
+Opzioni
+[Options]
+Opzioni
+[Error]
+Errore
+[Error]
+Errore
 [UIN:]
 UIN:
 [External IP:]
 IP Esterno:
 [System up since:]
 Pc acceso il:
+[Summary]
+Sommario
+[Nickname:]
+Nick:
+[First name:]
+Nome:
+[Last name:]
+Cognome:
+[E-mail:]
+Email:
+[Gender:]
+Sesso:
+[Age:]
+Età:
 [Keywords:]
 Keyword:
+[Work]
+Lavoro
+[Work]
+Lavoro
+[Company:]
+Compagnia:
+[Department:]
+Dipartimento:
+[Position:]
+Posizione:
 [Organisation:]
 Organizzazione:
+[Location]
+Provenienza
+[Country:]
+Nazione:
+[State:]
+Provincia:
+[City:]
+Città:
 [Interests]
 Interessi
 [Category:]
 Categoria:
+[Other]
+Altro
+[Other]
+Altro
+[Other]
+Altro
+[Other]
+Varie
+[Other]
+Altro
 [Manage ICQ Server Contacts]
 Amministra contatti del server di ICQ
 [Select contacts to store:]
 Seleziona contatti da memorizzare
+[Closing in %d]
+Chiusura in %d sec
+[Closing in %d]
+Chiusura in %d
+[Closing in %d]
+Chiusura in %d
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to ICQ communication server]
 Impossibile collegarsi al server di communicazione di ICQ
@@ -118,50 +218,216 @@ Nota di ICQ
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
 ;file \protocols\IcqOscarJ\src\icq_constants.h
 ;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Antigua and Barbuda]
+Antigua e Barbuda
 [Ascension Island]
 Isole Ascensione
+[Belarus]
+Bielorussia
+[Belgium]
+Belgio
+[Bosnia and Herzegovina]
+Bosnia Herzegovina
+[Brazil]
+Brasile
 [British Virgin Islands]
 Isole Vergini Britanniche
+[Cambodia]
+Cambogia
+[Cameroon]
+Camerun
 [Canary Islands]
 Isole Canarie
 [Cape Verde Islands]
 Capo Verde
+[Cayman Islands]
+Isole Cayman
+[Central African Republic]
+Repubblica Centroafricana
+[Chad]
+Ciad
 [Chile, Republic of]
 Cile
+[China]
+Cina
+[Comoros]
+Comore
 [Congo, Democratic Republic of (Zaire)]
 Congo, Repubblica Democratica del(Zaire)
 [Congo, Republic of the]
 Congo, Repubblica del
+[Cook Islands]
+Isole Cook
 [Cote d'Ivoire (Ivory Coast)]
 Costa d'Avorio
+[Croatia]
+Croazia
+[Czech Republic]
+Repubblica Ceca
+[Denmark]
+Danimarca
+[Djibouti]
+Gibuti
+[Dominican Republic]
+Repubblica Dominicana
+[Egypt]
+Egitto
+[Equatorial Guinea]
+Guinea Equatoriale
+[Ethiopia]
+Etiopia
 [Faeroe Islands]
 Isole Faeroe
 [Falkland Islands]
 Isole Falkland
+[Fiji]
+Figi
+[Finland]
+Finlandia
+[France]
+Francia
 [French Antilles]
 Antille Francesi
+[French Guiana]
+Guiana Francese
+[French Polynesia]
+Polinesia Francese
+[Germany]
+Germania
+[Gibraltar]
+Gibilterra
+[Greece]
+Grecia
+[Greenland]
+Groenlandia
+[Guadeloupe]
+Guadalupa
 [Guam, US Territory of]
 Guam, Territorio USA di
+[Hungary]
+Ungheria
+[Iceland]
+Islanda
 [Iran (Islamic Republic of)]
 Iran (Repubblica Islamica di)
+[Ireland]
+Irlanda
+[Israel]
+Israele
+[Italy]
+Italia
+[Jamaica]
+Giamaica
+[Japan]
+Giappone
+[Jordan]
+Giordania
 [Korea, North]
 Corea del Nord
 [Korea, South]
 Corea del Sud
+[Latvia]
+Lettonia
+[Lebanon]
+Libano
 [Libyan Arab Jamahiriya]
 Libia
+[Lithuania]
+Lituania
+[Luxembourg]
+Lussemburgo
 [Macau]
 Macao
+[Malaysia]
+Malesia
+[Maldives]
+Maldive
+[Marshall Islands]
+Isole Marshall
+[Martinique]
+Martinica
 [Mayotte Island]
 Isole Mayotte
+[Mexico]
+Messico
+[Micronesia, Federated States of]
+Micronesia, Stati Federati della
+[Moldova, Republic of]
+Moldavia
+[Morocco]
+Marocco
+[Mozambique]
+Mozambico
+[Netherlands]
+Paesi Bassi
 [Netherlands Antilles]
 Antille Olandesi
+[New Caledonia]
+Nuova Caledonia
+[New Zealand]
+Nuova Zelanda
+[Norway]
+Norvegia
+[Papua New Guinea]
+Papua Nuova Guinea
+[Philippines]
+Filippine
+[Poland]
+Polonia
+[Portugal]
+Portogallo
+[Puerto Rico]
+Porto Rico
 [Reunion Island]
 Isole Riunione
+[Rwanda]
+Ruanda
 [Saint Helena]
 Sant'Elena
+[Saint Kitts and Nevis]
+San Kitts e Nevis
+[Saint Lucia]
+Santa Lucia
+[Saint Pierre and Miquelon]
+San Pierre e Miquelon
+[Saint Vincent and the Grenadines]
+San Vincent e le Grenadine
+[Sao Tome and Principe]
+San Tomé e Principe
+[Saudi Arabia]
+Arabia Saudita
 [Scotland]
 Scozia
+[Slovakia]
+Slovacchia
+[Solomon Islands]
+Isole Solomone
+[South Africa]
+Sud Africa
+[Spain]
+Spagna
+[Sweden]
+Svezia
+[Switzerland]
+Svizzera
+[Syrian Arab Republic]
+Siria
+[Tajikistan]
+Tagikistan
+[Thailand]
+Tailandia
+[Trinidad and Tobago]
+Trinidad e Tobago
+[Turkey]
+Turchia
+[Turks and Caicos Islands]
+Isole Turks e Caicos
+[Ukraine]
+Ucraina
+[United Arab Emirates]
+Emirati Arabi Uniti
+[United Kingdom]
+Regno Unito
 [USA]
 Stati Uniti d'America
 [Vatican City]
@@ -176,6 +442,14 @@ Isole Wallis e Futuna
 Precedente occupazione
 [Past Organization]
 Precedente organizzazione
+[Female]
+Femmina
+[Female]
+Femmina
+[Male]
+Maschio
+[Male]
+Maschio
 [60-above]
 60 e oltre
 ;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
@@ -185,6 +459,8 @@ Il tuo trasferimento file è stato interrotto perchè uno dei file selezionati p
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 La ricezione del file è stata annullata perchè Miranda non ha potuto aprire la cartella di destinazione in scrittura. Potresti aver tentato di utilizzare una cartella di sola lettura.
 ;file \protocols\IcqOscarJ\src\icq_menu.cpp
+[Request authorization]
+Richiesta di autorizzazione
 ;file \protocols\IcqOscarJ\src\icq_opts.cpp
 [Display all problems]
 Mostra tutti i problemi
@@ -194,6 +470,18 @@ Mostra problemi causanti una possibile perdita di dati
 Mostra spiegazioni per disconnessione
 [Display problems requiring user intervention]
 Mostra problemi richiedenti l'intervento dell'utente
+[Network]
+Rete
+[Network]
+Rete
+[Network]
+Rete
+[Contacts]
+Contatti
+[Popups]
+Popup
+[Popups]
+Popups
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 ;file \protocols\IcqOscarJ\src\icq_proto.cpp
 [You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
@@ -213,7 +501,33 @@ Upload %s in corso...
 Eliminazione %s in corso...
 [All operations complete]
 Tutte le operazioni completate
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[** All contacts **]
+** Tutti i contatti **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
+[On the phone]
+Al telefono
+[None]
+Nessuno
+[None]
+Nessuna
+[None]
+Nessuno
+[None]
+Nessuno
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 ;file \protocols\IcqOscarJ\src\init.cpp
 ;file \protocols\IcqOscarJ\src\log.cpp
@@ -244,6 +558,10 @@ Personale
 Nome
 [Last name]
 Cognome
+[Contact]
+Contatto
+[Contact]
+Contatti
 [Street]
 Via
 [City]
@@ -312,3 +630,5 @@ Non sei connesso alla rete ICQ. Devi essere in linea per aggiornare i tuoi dati 
 [Enter a password for UIN %u:]
 Inserisci una password per l'UIN %u:
 ;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
+[<not specified>]
+<non specificato>

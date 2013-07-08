@@ -26,10 +26,14 @@
 כתובת אינטרנט
 [No control when Away/NA]
 ללא פיקוח בלא נמצא/זמין
+[&Copy link]
+ה&עתק קישור
 ;file \plugins\HTTPServer\src\Glob.h
 ;file \plugins\HTTPServer\src\GuiElements.cpp
 [HTTP Server]
 שיתוף קבצים
+[Network]
+רשת
 ;file \plugins\HTTPServer\src\HttpUser.cpp
 ;file \plugins\HTTPServer\src\main.cpp
 [Disable HTTP server]

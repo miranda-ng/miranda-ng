@@ -6,12 +6,38 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Ping\res\ping.rc
+[Network]
+Red
+[Network]
+red
 [Reply]
 Responder
+[Row height:]
+Alto de fila:
+[Add]
+Agregar
+[Remove]
+Quitar
+[Edit]
+Editar
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Port:]
+Puerto:
+[Contact]
+Póngase en contacto con
 ;file \plugins\Ping\src\menu.cpp
 ;file \plugins\Ping\src\options.cpp
+[<none>]
+<ninguno>
 ;file \plugins\Ping\src\ping.cpp
 ;file \plugins\Ping\src\pinggraph.cpp
 ;file \plugins\Ping\src\pingthread.cpp
 ;file \plugins\Ping\src\rawping.cpp
 ;file \plugins\Ping\src\utils.cpp
+[Unknown]
+Desconocida

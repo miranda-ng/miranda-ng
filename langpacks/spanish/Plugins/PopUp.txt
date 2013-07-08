@@ -12,10 +12,14 @@ Provee servicios de notificación emergente para los plugins diferentes.
 Contenido && Estilo
 [Go to Customize > Fonts && Colors for fonts and colors options]
 Vaya a Personalizar > Fuentes && Colores de fuentes y opciones de colores
+[Effects]
+Efectos
 [Live Preview]
 Live Preview
 [Size && Position]
 Tamaño && Posición
+[History]
+Historia
 [Enable popup history]
 Habilitar la historia emergente
 [Store last]
@@ -26,6 +30,10 @@ Utilice History++ para hacer registro
 Dibuje las fronteras avatar
 [Draw borders for semitransparent avatars too]
 Dibuje las fronteras para los avatares semitransparentes demasiado
+[pixels]
+Pixel
+[pixels]
+Pixel
 [Enable avatar updates]
 Habilitar las actualizaciones avatar
 [Start the popups in the monitor with]
@@ -36,10 +44,14 @@ ventana de Miranda
 la ventana activa
 [Enable Win 9x/Me transparency]
 Permitir la transparencia de Windows 9x/Me
+[opacity:]
+opacidad:
 [Opaque popups under cursor]
 Opaco ventanas emergentes bajo el cursor
 [Slide Popup]
 Deslice Popup
+[Effect:]
+Efecto:
 [Time (out):]
 Tiempo (a):
 [Limit window amount to:]
@@ -54,6 +66,12 @@ Pixel
 Distancia entre pop-ups
 [Configure popup area]
 Configurar la zona emergente
+[Close]
+Cerrar
+[General]
+General
+[General]
+General
 [Enable popup actions]
 Habilitar las acciones emergentes
 [Popup Actions are those tiny buttons below notification text.]
@@ -114,6 +132,8 @@ Mostrar por defecto
 Infinito demora popup
 [Popup delay:]
 Popup demora:
+[seconds]
+segundo
 [Do not close hovered popups]
 No flotaba cerca de pop-ups
 [Dynamically resize the popups]
@@ -122,6 +142,8 @@ Dinámicamente el tamaño de las ventanas emergentes
 Ancho mínimo
 [Maximum width]
 Anchura máxima
+[Position:]
+Posición:
 [Layout:]
 Diseño:
 [Reorder Popups]
@@ -139,6 +161,8 @@ No sobrescribir
 Rápida respuesta
 [User details]
 Usuario detalles
+[Contact menu]
+contacto menú
 [Pin popup]
 Pin emergente
 ;file \plugins\Popup\src\config.cpp
@@ -174,6 +198,12 @@ Con "pantalla completa" superposición
 Actualizar la lista de la piel
 [Popup Placement]
 Emergente de ubicación
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [Popup Group]
 Grupo de pop-ups
 [Favorite Contact]
@@ -188,9 +218,21 @@ Rápida respuesta
 Pin Popup
 [Pinned Popup]
 Pinned Popup
+[User Details]
+Información del usuario
+[User Details]
+Datos del Usuario
 [Add Contact Permanently]
 Añadir un contacto permanente
 ;file \plugins\Popup\src\main.cpp
+[Actions]
+Acciones
+[Contacts]
+Contactos
+[Advanced]
+Avanzada
+[Advanced]
+Avanzada
 ;file \plugins\Popup\src\opt_adv.cpp
 [Fade in/out]
 Fade in / out
@@ -229,6 +271,8 @@ Mostrar reloj
 no rectangulares
 [Enable Aero Glass (Vista+)]
 Activar Aero Glass (Vista+)
+[Use Windows colours]
+Usar colores de Windows
 [Use advanced text render]
 Uso avanzado representar texto
 [Refresh List]
@@ -236,6 +280,8 @@ Actualizar lista]
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
 ;file \plugins\Popup\src\services.cpp
+[Error]
+Error 
 ;file \plugins\Popup\src\skin.cpp
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Popup Mode: Auto]

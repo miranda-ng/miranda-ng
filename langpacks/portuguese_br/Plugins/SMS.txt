@@ -8,8 +8,30 @@
 ;file \plugins\SMS\res\resource.rc
 [&Reply]
 &Responder
+[&Close]
+&Fechar
+[From:]
+De:
+[To:]
+Para:
+[&H]
+&H
+[&Send]
+&Enviar
+[&Send]
+Enviar
+[&Send]
+&Enviar
+[&Cancel]
+&Cancelar
 ;file \plugins\SMS\src\options.cpp
 ;file \plugins\SMS\src\receive.cpp
 ;file \plugins\SMS\src\recvdlg.cpp
 ;file \plugins\SMS\src\senddlg.cpp
+[View User's History]
+Exibir Histórico do Usuário
+[View User's History]
+Exibir Histórico do Usuário
+[Invalid Phone Number]
+Número de Telefone Inválido
 ;file \plugins\SMS\src\SMS_svc.cpp

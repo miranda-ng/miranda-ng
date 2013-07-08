@@ -6,6 +6,14 @@
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 ;file \plugins\NewsAggregator\Res\Resource.rc
+[Add]
+添加
+[Remove]
+移除
+[OK]
+确定
+[Cancel]
+取消
 [Authentication]
 认证
 [Use &authentication]
@@ -18,11 +26,17 @@
 使用下列格式显示新闻: 
 [All item's tags are valid. Put them between #. Example: #<author>#]
 所有项目标签都是有效的. 请将他们放于 # 之间. 例如: #<author>#
+[Reset]
+重置
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 ;file \plugins\NewsAggregator\Src\Options.cpp
+[Error]
+错误
 [Wait...]
 稍候...
+[Network]
+网络
 ;file \plugins\NewsAggregator\Src\Services.cpp
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [Feed]

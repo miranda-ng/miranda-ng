@@ -42,3 +42,13 @@
 ;file \plugins\StopSpamMod\src\options.cpp
 [Congratulations! You just passed human/robot test. Now you can write me a message.]
 恭喜! 您刚通过了 人/机 测试. 现在您可以给我发消息了.
+[Message Sessions]
+消息会话
+[General]
+常规
+[Messages]
+消息
+[Accounts]
+帐号
+[Advanced]
+高级

@@ -6,8 +6,26 @@
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 ;file \plugins\Msg_Export\res\resource.rc
+[Help]
+Spikker
+[&Find...]
+&Otsi...
+[&Close]
+&Sul&ge
+[User &Details]
+Kasutaja detailid
+[Copy]
+Kopeeri
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 ;file \plugins\Msg_Export\src\Glob.h
 ;file \plugins\Msg_Export\src\main.cpp
 ;file \plugins\Msg_Export\src\options.cpp
+[File]
+Fail
+[History]
+Ajalugu
+[General]
+Üldine
 ;file \plugins\Msg_Export\src\utils.cpp
+[(Unknown Contact)]
+Tundmatu kontakt

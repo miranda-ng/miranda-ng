@@ -6,13 +6,209 @@
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 ;file \plugins\Clist_blind\res\resource.rc
+[Delete Contact]
+대화 상대 삭제
+[Are you sure you want to delete %s?]
+%s 를 삭제하시겠습니까?
+[This will erase all history and settings for this contact!]
+이 대화 상대의 모든 히스토리와 설정을 삭제할 것입니다!
+[Yes]
+네
+[No]
+아니오
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+목록에서만 숨기기 위해서는 사용자의 히스토리와 차단여부/공개 설정을 유지하세요.
+[Hotkeys]
+단축키
 [Show/Hide:]
 보이기/숨기기:
 [Open in new browser window]
 새 브라우저 창 열기
 [Show Options]
 옵션 보이기
+[Hide offline users]
+오프라인 유저 숨기기
+[Hide empty groups]
+빈 그룹 숨기기
+[Disable groups]
+그룹 표시 안함
+[Ask before deleting contacts]
+대화 상대 삭제시 물어보기
+[Sort contacts by name]
+이름순으로 정렬
+[Sort contacts by status]
+상태순으로 정렬
+[Sort contacts by protocol]
+프로토콜순으로 정렬
+[Single click interface]
+원클릭 인터페이스
+[Always show status in tooltip]
+툴팁에 항상 상태 보이기
+[Disable icon blinking]
+아이콘 움직임 사용안함
+[Show]
+보이기
+[icon when statuses differ]
+상태가 바뀔 때 아이콘
+[Cycle icons every]
+아이콘 계속 순환
+[seconds, when statuses differ]
+초, 상태가 바뀔 때만
+[Show multiple icons]
+다중 아이콘 보이기?
+[Only when statuses differ]
+상태가 바뀔 때만
+[Contact List]
+대화 상대 목록
+[System tray icon]
+시스템 트레이 아이콘
+[System tray icon when using multiple protocols]
+다중 프로토콜 사용시 시스템 트레이 아이콘
+[Contact List Sorting]
+대화 상대 목록 정렬
+[Window]
+윈도우
+[Always on top]
+항상 맨 위에
+[Tool style main window]
+메인 창 툴 스타일
+[Minimize to tray]
+트레이로 최소화
+[Hide contact list after it has been idle for]
+다음 시간 동안 무작업시 대화 상대 목록 숨기기
+[seconds]
+초
+[Automatically resize window to height of list]
+자동으로 목록의 길이를 윈도우에 맞춤
+[maximum]
+최대
+[% of screen]
+스크린의 %
+[Size upwards]
+위로 늘리기
+[Title bar text:]
+타이틀바 텍스트:
+[Fade contact list in/out]
+대화 상대 목록 페이드 인/아웃
+[Transparent contact list]
+대화 상대 목록 투명도
+[Inactive opacity:]
+비활성창 투명도:
+[Active opacity:]
+활성창 투명도:
+[Show menu bar]
+메뉴바 보이기
+[Easy move]
+쉬운 이동
+[Show title bar]
+타이틀바 보이기
+[If window is partially covered, bring to front instead of hiding]
+창이 부분적으로 보이지 않으면, 숨기기 대신 앞으로 가져옵니다.
+[Items]
+아이템
+['Hide Offline' means to hide:]
+'오프라인 숨기기'는 숨김을 의미:
+[Groups]
+그룹
+[Show counts of number of contacts in a group]
+그룹 안의 대화 상대 숫자 보여주기
+[Hide group counts when there are none online]
+아무도 온라인 하지 않았을 시 그룹 숨기기
+[Sort groups alphabetically]
+알파벳순으로 그룹 정렬
+[Quicksearch in open groups only]
+열린 그룹에서만 때른 검색
+[Group:]
+그룹:
+[Status Bar]
+상태바
+[Show status bar]
+상태바 보이기
+[Show icons]
+아이콘 보이기
+[Show protocol names]
+프로토콜명 보이기
+[Show status text]
+상태 텍스트 보이기
+[Right click opens status menu]
+오른쪽 클릭으로 상태 메뉴 열기
+[Right click opens Miranda NG menu]
+오른쪽 클릭으로 미란다 IM 메뉴 열기
+[Make sections equal width]
+선택물을 같은 넓이로 만들기
+[E&xit]
+&x 끝내기
+[&Status]
+&S 상태
+[&Offline\tCtrl+0]
+&O 오프라인\tCtrl+0
+[On&line\tCtrl+1]
+&L 접속\tCtrl+1
+[&Away\tCtrl+2]
+&A 자리 비움\tCtrl+2
+[&NA\tCtrl+3]
+&N 응답 없음\tCtrl+3
+[Occ&upied\tCtrl+4]
+&u 다른 용무중\tCtrl+4
+[&DND\tCtrl+5]
+&D 수신 거부\tCtrl+5
+[&Free for chat\tCtrl+6]
+&F 대화 가능\tCtrl+6
+[&Invisible\tCtrl+7]
+&I 오프라인 표시\tCtrl+7
+[On the &Phone\tCtrl+8]
+&P 통화중\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+&L 식사중\tCtrl+9
+[&Hide/Show]
+&H 숨기기/보이기
+[&New Group]
+&N 새 그룹
+[&Hide Offline Users]
+&H 오프라인 유저 숨기기
+[Hide &Offline Users out here]
+&O 밖의 오프라인 유저 숨기기
+[Hide &Empty Groups]
+&E 빈 그룹 표시 안함
+[Disable &Groups]
+&G 그룹 표시 안함
+[Hide Miranda]
+미란다 숨기기
+[&New Subgroup]
+&N 새 하위 그룹
+[&Hide Offline Users in here]
+&H 이곳의 오프라인 유저 숨기기
+[&Rename Group]
+&R 그룹명 바꾸기
+[&Delete Group]
+&D 그룹 삭제
 ;file \plugins\Clist_blind\src\clcopts.cpp
+[Not focused]
+포커스 되지 않음
+[Offline]
+오프라인
+[Online]
+온라인
+[Away]
+자리 비움
+[NA]
+응답없음
+[Occupied]
+다른 용무중
+[DND]
+수신 거부
+[Free for chat]
+대화 가능
+[Invisible]
+오프라인으로 표시
+[Out to lunch]
+식사중
+[On the phone]
+전화중
+[List]
+목록
 ;file \plugins\Clist_blind\src\clistopts.cpp
+[Global]
+전체
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp

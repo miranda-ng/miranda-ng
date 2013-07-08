@@ -12,6 +12,8 @@
 Включване на автоматичното заместването
 [Edit...]
 Редактиране
+[Remove]
+Премахване
 [Add auto-replace word]
 Добавяне на дума за автоматично заменяне
 [Wrong word:]
@@ -22,6 +24,8 @@
 Поправка:
 [Use variables in correction]
 Ползване на променливи
+[Cancel]
+Отказ
 [Default language:]
 Стандартен език:
 [Auto-replace words with dictionary suggestions]
@@ -34,6 +38,8 @@
 Запитване преди изпращане на съобщение с правописни грешки
 [Download more dictionaries]
 Сваляне на още речници
+[Advanced]
+Разширени
 [Underline type:]
 Вид подчертаване:
 [Show corrections in submenu]
@@ -59,6 +65,8 @@
 Не сте попълнили полето "Поправка"
 ;file \plugins\SpellChecker\src\dictionary.cpp
 ;file \plugins\SpellChecker\src\options.cpp
+[Message Sessions]
+Разговори
 [Auto-replacements]
 Автоматичното заместване
 [Line]

@@ -10,6 +10,40 @@
 Alterar Meu Apelido
 [Set My Nickname]
 Configurar Meu Apelido
+[Nickname:]
+Apelido:
+[Nickname:]
+Apelido:
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[General]
+Geral
+[General]
+Geral
+[General]
+Geral
 [RTL]
 RTL
 [RTL]
@@ -54,6 +88,10 @@ Direita:
 Definir tamanho:
 [Custom size:]
 Personalizar tamanho:
+[pixels]
+pixels
+[pixels]
+pixels
 [Allow it to grow]
 Permitir que ela cresça
 [Allow it to grow]
@@ -62,12 +100,12 @@ Permitir expansão
 Usar espaço livre (sob o avatar) para outros textos
 [Use free space (under avatar) to other texts]
 Usar o espaço livre (sob o avatar) para outros textos
+[seconds]
+segundos
 [Set My Status Message for All Status]
 Configura Minha mensagem de Status para Todos os Status
 [Status Message:]
 Mensgem de Status
-[Status popup]
-Popup do status
 [&Away]
 &Sempre
 [&NA]
@@ -84,8 +122,6 @@ Oc&upado
 Ao tele&fone
 [Out to &Lunch]
 Saiu para &Almoço
-[Context popup]
-Popup de contexto
 [Set My Avatar...]
 Configurar Meu Avatar...
 [Set My Avatar...]
@@ -100,18 +136,18 @@ Configurar Minha Mensagem de Status...
 Configurar Minha Mensagem de Status...
 [Enable Listening To]
 Ativar Ouvir para
-[Nick popup]
-Popup do Apelido
-[Status message popup]
-Popup da mensgem de status
-[Avatar popup]
-Avatar popup
 ;file \plugins\MyDetails\src\data.cpp
 ;file \plugins\MyDetails\src\frame.cpp
+[Status]
+Status
 [My Details]
 Meus detalhes
 [My Details]
 Meus Detalhes
+[Background]
+Fundo
+[Background]
+Fundo
 [Show My Details]
 Mostrar Meus Detalhes
 [Enable Listening To for %s]
@@ -145,4 +181,6 @@ Você pode configurar imagens para serem usados como avatar padrão para contato
 Mostrar próximo protocolo
 [Show next protocol]
 Exibir próximo protocolo
+[Contact List]
+Lista de Contatos
 ;file \plugins\MyDetails\src\options.cpp

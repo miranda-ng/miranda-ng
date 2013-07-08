@@ -18,6 +18,10 @@
 启动延时
 [User Sessions Management]
 使用会话管理
+[Edit]
+编辑
+[Delete]
+删除
 [Action on Exit]
 退出操作
 [Save Current Session]
@@ -36,6 +40,8 @@
 还原会话
 [&Restore Session]
 还原会话(&R)
+[&Cancel]
+取消(&C)
 [Choose session to restore from the list:]
 从列表中选择要还原的会话:
 [Del]
@@ -50,6 +56,10 @@
 保存并关闭
 [Sessions Manager]
 会话管理
+[OK]
+确定
+[Cancel]
+取消
 [Save your current session?]
 保存您的当前会话?
 ;file \plugins\Sessions\Src\Main.cpp
@@ -74,4 +84,6 @@
 [Load last session]
 加载最后会话
 ;file \plugins\Sessions\Src\Options.cpp
+[Message Sessions]
+消息会话
 ;file \plugins\Sessions\Src\Utils.cpp

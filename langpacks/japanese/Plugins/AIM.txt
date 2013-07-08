@@ -10,6 +10,8 @@
 AIM ユーザー詳細
 [Screen Name:]
 スクリーン名 :
+[Password:]
+パスワード :
 [AIM Options]
 AIM オプション
 [Message Delivery Confirmation]
@@ -38,6 +40,10 @@ AIM オプション
 Sidekick / Hiptop ユーザーを装う
 [*Aim must be reconnected  for some option to take effect.]
 * Aim にいくつかのオプションを反映させるには再接続が必要です
+[Port:]
+ポート :
+[Reset]
+リセット
 [Disable SSL]
 SSL を無効
 [Manage Server Groups]
@@ -70,12 +76,22 @@ AIM インスタントアイドラー
 全てのユーザーをブロック
 [Block only users below]
 以下のユーザーのみブロック
+[Add]
+追加
+[Remove]
+削除
+[Idle]
+アイドル
 [Allow contacts to be notified of:]
 以下で通知されるコンタクトを許可 :
 [Join Chat Room]
 チャットルームに参加
 [Chat Room]
 チャットルーム
+[&Join]
+参加する (&J)
+[&Cancel]
+Cancel(&C)
 [This allows access to user defined chat rooms. To access predefined chat rooms use web links]
 定義されたチャットルームにユーザーのアクセスを許可します。定義済のチャットルームにアクセスするにはウェブリンクを使用してください
 [Original]
@@ -84,12 +100,18 @@ AIM インスタントアイドラー
 繰り返し
 [*Passwords don't match.]
 * パスワードが一致しません
+[E-mail]
+電子メール
 [Confirm Account]
 アカウントの確認
 [*Applied upon reconnect]
 * 再接続時に適用されます
 [Save Changes]
 変更を保存
+[&Deny]
+拒否 (&D)
+[Message]
+メッセージ
 [Room]
 ルーム
 ;file \protocols\AimOscar\src\avatars.cpp
@@ -275,6 +297,8 @@ DNS エラー
 [Can't start the confirmation procedure.]
 確認プロシージャを開始できません
 ;file \protocols\AimOscar\src\theme.cpp
+[Profile]
+プロファイル
 [AOL Mail]
 AOL メール
 [AIM Icon]
@@ -291,6 +315,8 @@ AOL ボット
 AOL
 [Foreground Color]
 前景色
+[Bold]
+太字
 [Not Bold]
 太字なし
 [Not Italic]
@@ -326,6 +352,8 @@ HTML を削除してメッセージを読む (&H)
 [Add To Server List]
 サーバーリストに追加
 ;file \protocols\AimOscar\src\ui.cpp
+[Network]
+ネットワーク
 [Join me in this buddy chat!]
 メンバーチャットに参加させてください !
 ;file \protocols\AimOscar\src\utility.cpp

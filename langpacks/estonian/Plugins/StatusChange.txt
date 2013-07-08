@@ -6,4 +6,28 @@
 ;  Authors: Angelo Luiz Tartari
 ;============================================================
 ;file \plugins\StatusChange\res\resource.rc
+[Offline]
+Väljas
+[Online]
+Sees
+[Away]
+Eemal
+[NA]
+Pole kättesaadav
+[Occupied]
+Hõivatud
+[Free for chat]
+Vestluseks vaba
+[Invisible]
+Nähtamatu
+[On the phone]
+Telefonil
+[Out to lunch]
+Lõunastamas
+[Message]
+Teade
+[URL]
+URL
 ;file \plugins\StatusChange\src\main.cpp
+[Status]
+Staatus

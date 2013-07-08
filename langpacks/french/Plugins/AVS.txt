@@ -32,6 +32,10 @@ Avatar en carré
 Redimensionner l'avatar pour correspondre au protocole
 [Contact picture]
 Avatar
+[Delete]
+Effacer
+[Reset]
+RAZ
 [Picture options]
 Options de l'image
 [Protect the picture]
@@ -42,16 +46,32 @@ Régler comme "caché"
 Tenter de rendre l'arrière-plan transparent
 [Use defaults]
 Par défaut
+[Cancel]
+Annuler
+[Background]
+Arrière-plan
 [Points:]
 Point :
 [Color diff:]
 Couleurs :
+[Set]
+OK
 [Use per protocol avatars]
 Un avatar par protocole
 ;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
 Les protocoles ont différents avatars
 ;file \plugins\AVS\src\main.cpp
+[All Files]
+Tous les fichiers
+[Windows Bitmaps]
+Bitmap Windows
+[JPEG Bitmaps]
+Images JPEG
+[GIF Bitmaps]
+Images GIF
+[PNG Bitmaps]
+Images PNG
 [Flash Animations]
 Animations Flash
 [XML Files]

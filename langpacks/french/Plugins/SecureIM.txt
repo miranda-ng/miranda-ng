@@ -22,6 +22,8 @@ Désactiver le cryptage pour les jeux
 Toujours activer si possible
 [Key Exchange Timeout :]
 Délai d'envoi des clef :
+[sec]
+secondes
 [Offline Key Timeout :]
 Clef hors-ligne expir. :
 [Load &Private key]
@@ -30,12 +32,16 @@ Charger une clef privée
 Programme :
 [Home Directory:]
 Page web :
+[Text]
+Texte
 [Key agreement colors]
 Clef publique
 [Secure connection colors]
 Connexions sécurisées
 [Send/Receive encrypted colors]
 Envoi/Réception des encryptés
+[Events]
+Évènements
 [Time in Seconds]
 Durée (s)
 [Show a popup on established connection]
@@ -52,6 +58,14 @@ Afficher un popup dés envoi sécurisé
 Afficher un popup dés réception sécurisée
 [Please type in your password]
 VEuillez taper un mot de passe
+[Username:]
+Identifiant :
+[Password:]
+Passe :
+[Cancel]
+Annuler
+[Status]
+État
 [Always Try to Establish Secure IM]
 Toujours tenter le cryptage
 [Secure IM Enabled]
@@ -61,13 +75,23 @@ Désactiver Secure IM
 [Set key]
 Envoyer une clef
 ;file \plugins\SecureIM\src\language.cpp
+[General]
+Général
+[Name]
+Nom
 [(none)]
 (aucun)
 ;file \plugins\SecureIM\src\loadicons.cpp
+[Contact List]
+Liste de contacts
 [Message Window]
 Fenêtre de message
 ;file \plugins\SecureIM\src\main.cpp
+[Icons]
+Icônes
 ;file \plugins\SecureIM\src\options.cpp
+[Executable Files]
+Fichiers exécutables
 ;file \plugins\SecureIM\src\popupOptions.cpp
 [Key Popup]
 Clef sécurisée

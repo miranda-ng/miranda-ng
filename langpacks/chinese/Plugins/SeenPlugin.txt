@@ -32,12 +32,36 @@
 要监视协议: 
 [Use popups]
 使用弹出窗口
+[Text]
+文本
 [Popup Colors]
 弹出窗口颜色
+[Online]
+在线
+[Away]
+外出
+[NA]
+不适用
+[Occupied]
+忙碌中
+[DND]
+请勿打扰
+[On the phone]
+接听电话
+[Out to lunch]
+外出用餐
+[Free for chat]
+有空聊天
+[Invisible]
+隐身
+[Offline]
+离线
 [Reset colors]
 重置颜色
 [Last seen plugin]
 最后看见插件
+[OK]
+确定
 [You missed following contacts:]
 您错过了这些联系人: 
 [Test\nTest]
@@ -47,6 +71,10 @@
 ;file \plugins\SeenPlugin\src\history.cpp
 [last seen history]
 最后看见历史
+[View User's Details]
+查看用户详细资料
+[User Menu]
+用户菜单
 [Send Instant Message]
 发送立即消息
 ;file \plugins\SeenPlugin\src\main.cpp
@@ -63,7 +91,15 @@
 [Last seen]
 最后看见
 ;file \plugins\SeenPlugin\src\menu.cpp
+[<unknown>]
+<未知>
+[<none>]
+<无>
 ;file \plugins\SeenPlugin\src\options.cpp
+[Contacts]
+联系人
+[Popups]
+弹出窗口
 ;file \plugins\SeenPlugin\src\seen.h
 [-- Date --]
 -- 日期 --
@@ -91,6 +127,8 @@
 时 (12)
 [AM/PM]
 上/下午
+[seconds]
+秒
 [-- User --]
 -- 用户 --
 [username]
@@ -99,6 +137,10 @@
 呢称
 [UIN/handle]
 UIN/处理
+[Group]
+群组
+[Status]
+状态
 [Old status]
 旧状态
 [external IP]
@@ -107,6 +149,8 @@ UIN/处理
 内部 IP
 [Client info]
 客户端信息
+[Protocol]
+协议
 [-- Format --]
 -- 格式 --
 [tabulator]
@@ -125,3 +169,7 @@ UIN/处理
 ;file \plugins\SeenPlugin\src\utils.cpp
 [<never seen>]
 <从未见过>
+[Idle]
+闲置
+[Unknown]
+未知

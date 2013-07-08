@@ -6,6 +6,10 @@
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 ;file \plugins\NewEventNotify\res\resource.rc
+[File]
+파일
+[Background]
+배경
 ;file \plugins\NewEventNotify\src\main.cpp
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 ;file \plugins\NewEventNotify\src\neweventnotify.h

@@ -9,5 +9,7 @@
 ;file \protocols\GTalkExt\src\menu.cpp
 ;file \protocols\GTalkExt\src\notifications.cpp
 ;file \protocols\GTalkExt\src\options.cpp
+[Network]
+Réseau
 ;file \protocols\GTalkExt\src\options.h
 ;file \protocols\GTalkExt\src\tipper_items.cpp

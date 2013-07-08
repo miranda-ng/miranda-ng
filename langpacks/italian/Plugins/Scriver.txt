@@ -6,24 +6,354 @@
 ;  Authors: Miranda NG Development Team
 ;============================================================
 ;file \plugins\Scriver\res\resource.rc
+[Cascade new windows]
+Nuove finestre a cascata
+[Send message on 'Enter']
+Invia messaggio con 'Invio'
+[Send message on double 'Enter']
+Invia messaggio con un doppio 'Invio'
+[Show warning when message has not been received after]
+Mostra avviso se il messaggio non è stato ricevuto dopo
+[seconds]
+secondi
+[Show status bar]
+Mostra barra di stato
+[Use the contact's status icon as the window icon]
+Utilizza come icona della finestra l'icona di stato del contatto
+[Message Window Event Log]
+Log degli eventi della finestra messaggi
+[Show icons]
+Mostra icone
+[Show names]
+Mostra nomi
+[minutes]
+minuti
 [Typing Notification Options]
 Opzioni per la notifica della digitazione
+[Send typing notifications to the following users when you are typing a message to them:]
+Invia notifiche agli utenti seguenti quando stai scrivendo messaggi a loro diretti:
+[Show typing notifications when a user is typing a message]
+Mostra notifiche digit. quando un utente sta digitando un messaggio
+[Show typing notification when no message dialog is open]
+Mostra notifica digit. quando nessuna finestra messaggi è aperta
+[Flash in the system tray and in the contact list]
+Lampeggia nella tray di sistema e nella lista dei contatti
+[Show balloon popup]
+Mostra popup
+[An error has occured. The protocol reported the following error:]
+C'è stato un errore. Il protocollo ha riferito l'errore seguente:
+[Try again]
+Prova di nuovo
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Message Session]
+Sessione messaggi
+[Yes]
+Sì
+[No]
+No
+[Actions]
+Azioni
+[Information]
+Informazione
+[Information]
+Informazione
+[Options]
+Opzioni
+[Options]
+Opzioni
+[Other]
+Altro
+[Other]
+Altro
+[Other]
+Altro
+[Other]
+Varie
+[Other]
+Altro
+[pixels]
+pixel
+[pixels]
+pixel
+[Location]
+Provenienza
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
+[Background]
+Altro
+[Background]
+Sfondo
+[Background]
+Sfondo
+[Background]
+Altro
+[Background]
+Sfondo
+[OK]
+OK
+[OK]
+OK
+[Log]
+Registro (Log file)
+[&Copy]
+&Copy
+[&Copy]
+&Copia
+[&Copy]
+&Copia
+[Co&py All]
+Co&pia tutto
+[Co&py All]
+Co&pia tutto
+[Select &All]
+Seleziona &tutto
+[Select &All]
+Selezion&a tutto
+[C&lear Log]
+Pu&lisci log
+[C&lear Log]
+Pu&lisci log
+[&Copy link]
+&Copia collegamento
+[&Copy link]
+&Copia link
+[Message]
+Messaggio
+[Message]
+Messaggio
+[Message]
+Messaggio
+[Undo]
+Ripristina
+[Copy]
+Copia
+[Delete]
+Elimina
+[Delete]
+Elimina
+[Delete]
+Cancella
+[Delete]
+Elimina
+[Clear]
+Terso
+[List]
+Lista
+[&Message]
+&Messaggio
+[&Message]
+&Messaggio
+[&Message]
+&Messaggio
 ;file \plugins\Scriver\src\globals.cpp
+[Text colour]
+Colore del testo
+[Background colour]
+Colore di sfondo
+[Bold]
+Grassetto
 ;file \plugins\Scriver\src\input.cpp
+[Messaging]
+Scambio messaggi
 ;file \plugins\Scriver\src\msgdialog.cpp
+[Add Contact]
+Aggiungi contatto
+[User Menu]
+Menu utente
+[User Menu]
+Menu utente
+[User Details]
+Dettagli utente
+[History]
+Storico
+[Add Contact Permanently to List]
+Aggiungi contatto definitivamente alla lista
+[View User's Details]
+Visualizza dettagli utente
+[View User's Details]
+Visualizza dettagli utente
+[View User's History]
+Visualizza storico utente
+[View User's History]
+Visualizza storico utente
+[%s is typing a message...]
+%s sta digitando un messaggio...
+[Last message received on %s at %s.]
+Ultimo messaggio ricevuto il %s alle %s.
 ;file \plugins\Scriver\src\msglog.cpp
 ;file \plugins\Scriver\src\msgoptions.cpp
+[General]
+Generale
+[Outgoing messages]
+Messaggi in uscita
+[Incoming messages]
+Messaggi in entrata
+[Outgoing name]
+Nome in uscita
+[Outgoing time]
+Tempo in uscita
+[Outgoing colon]
+Colonna in uscita
+[Incoming name]
+Nome in entrata
+[Incoming time]
+Tempo in entrata
+[Incoming colon]
+Colonna in entrata
+[Outgoing URL]
+URL in uscita
+[Incoming URL]
+URL in entrata
+[Others nicknames]
+Altri nickname
+[Your nickname]
+Il tuo nickname
+[User has joined]
+L'utente ha fatto ingresso
+[User has left]
+L'utente è uscito
+[User has disconnected]
+Utente scollegato
+[User is now known as ...]
+L'utente è ora conosciuto come ...
+[Incoming message]
+Messaggio in arrivo
+[Outgoing message]
+Messaggio in uscita
+[Information messages]
+Messaggi informativi
+[User enables status for ...]
+Abilitare stato dell'utente per ...
+[User disables status for ...]
+Disabilitare stato dell'utente per ...
 [User list background]
 Sfondo lista utenti
+[Offline]
+Offline
+[Offline]
+Offline
+[Online]
+Online
+[Online]
+Online
+[Away]
+Altrove
+[Away]
+Altrove
+[NA]
+Non disponibile
+[NA]
+Non disponibile
+[Occupied]
+Occupato
+[Occupied]
+Occupato
+[DND]
+Non disturbare
+[DND]
+Non disturbare
+[Free for chat]
+Disponibile per chat
+[Free for chat]
+Disponibile per chat
+[Invisible]
+Invisibile
+[Invisible]
+Invisibile
+[Out to lunch]
+Fuori a pranzo
+[On the phone]
+Al telefono
+[** New contacts **]
+** Nuovi contatti **
+[** Unknown contacts **]
+** Contatti sconosciuti **
+[Show balloon popup (unsupported system)]
+Mostra popup (sistema non supportato)
+[Typing Notify]
+Notifica digitazione
 ;file \plugins\Scriver\src\msgs.cpp
+[Message from %s]
+Messaggio da %s
+[Message from %s]
+Messaggio da %s
+[%s is typing a message]
+%s sta digitando un messaggio
+[Typing Notification]
+Notifica digitazione
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda non è riuscito a caricare il modulo per i messaggi predefinito, il file riched20.dll è mancante. Se stai utilizzando Windows 95 o WINE assicurati di averlo installato. Premi 'Sì' per continuare a caricare Miranda.
+[Outgoing]
+In uscita
+[Outgoing]
+In uscita
 ;file \plugins\Scriver\src\msgtimedout.cpp
 ;file \plugins\Scriver\src\msgwindow.cpp
 ;file \plugins\Scriver\src\sendqueue.cpp
+[The message send timed out.]
+Il tempo per l'invio del messaggio è scaduto.
 ;file \plugins\Scriver\src\chat\clist.cpp
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\log.cpp
+[%s is now known as %s]
+%s è ora conosciuto come %s
+[Notice from %s]
+Notifica da %s
 ;file \plugins\Scriver\src\chat\main.cpp
+[&Join]
+&Unisciti
+[&Leave]
+&Lascia
 ;file \plugins\Scriver\src\chat\options.cpp
+[Prefix all events with a timestamp]
+Anteponi a tutti gli eventi data ed ora
+[Only prefix with timestamp if it has changed]
+Anteponi data ed ora solo se queste sono cambiate
+[Indent the second line of a message]
+Indenta la seconda linea di un messaggio
+[Select Folder]
+Seleziona cartella
+[Select Folder]
+Seleziona cartella
+[Popups]
+Popup
+[Popups]
+Popups
 ;file \plugins\Scriver\src\chat\services.cpp
 ;file \plugins\Scriver\src\chat\tools.cpp
+[%s speaks in %s]
+%s discute in %s
+[%s kicked %s from %s]
+%s ha espulso %s da %s
 ;file \plugins\Scriver\src\chat\window.cpp
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato

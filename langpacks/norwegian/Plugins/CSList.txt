@@ -6,5 +6,25 @@
 ;  Authors: Mataes, jarvis
 ;============================================================
 ;file \plugins\CSList\res\cslist.rc
+[Cancel]
+Avbryt
 ;file \plugins\CSList\src\cslist.cpp
+[Status]
+Status
+[Add]
+Legg til
+[Message]
+Melding
+[Message]
+Melding
 ;file \plugins\CSList\src\cslist.h
+[Main Menu]
+Hovedmeny
+[Remove]
+Fjern
+[Remove]
+Fjern
+[Clear]
+Fjern:
+[Set]
+Åpne

@@ -6,6 +6,20 @@
 ;  Authors: Ghost, Mironych
 ;============================================================
 ;file \plugins\TrafficCounter\res\resource.rc
+[Accounts]
+Kontod
 ;file \plugins\TrafficCounter\src\options.cpp
+[General]
+Üldine
+[Options]
+Valikud
 ;file \plugins\TrafficCounter\src\statistics.cpp
+[Incoming]
+Sisenev
+[Outgoing]
+Väljuv
+[Online]
+Sees
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Font]
+Font

@@ -6,12 +6,44 @@
 ;  Authors: yaho
 ;============================================================
 ;file \plugins\FTPFileYM\res\ftpfile.rc
+[URL]
+URL
+[Protocol]
+Protokoll
+[Other]
+Egyéb
+[Summary]
+Összesítés
+[To:]
+Címzett:
+[Nick]
+Becenév
+[Close]
+Bezárás
+[Options]
+Beállítások
+[Select All]
+Összes kijelölése
+[OK]
+OK
+[Cancel]
+Mégsem
+[Rename]
+Átnevezés
+[Overwrite]
+Felülírás
 ;file \plugins\FTPFileYM\src\dialog.cpp
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
+[Resume]
+Visszaállítás
 ;file \plugins\FTPFileYM\src\job_generic.cpp
 ;file \plugins\FTPFileYM\src\job_packer.cpp
 ;file \plugins\FTPFileYM\src\job_upload.cpp
 ;file \plugins\FTPFileYM\src\manager.cpp
 ;file \plugins\FTPFileYM\src\options.cpp
+[Accounts]
+Fiókok
+[Advanced]
+Haladó
 ;file \plugins\FTPFileYM\src\serverlist.cpp
 ;file \plugins\FTPFileYM\src\utils.cpp

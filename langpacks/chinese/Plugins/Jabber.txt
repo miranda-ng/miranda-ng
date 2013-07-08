@@ -10,8 +10,16 @@
 编辑笔记
 [Tags:]
 标签:
+[OK]
+确定
+[Cancel]
+取消
+[Type:]
+类型: 
 [User:]
 用户: 
+[Password:]
+密码: 
 [Resource:]
 资源
 [Register new user]
@@ -26,12 +34,16 @@
 名册编辑器
 [Roster editor\nView and modify your server-side contact list.]
 名册编辑\n查看及修改您的服务器端联系人列表.
+[Username:]
+用户名: 
 [Priority:]
 优先级
 [Use hostname as resource]
 使用主机名称作为资源
 [List of public servers]
 公共服务器列表
+[Port:]
+端口:
 [Use SSL]
 使用 SSL
 [Use TLS]
@@ -40,6 +52,8 @@
 解除注册
 [Manually specify connection host]
 自行指定连接主机
+[Host:]
+主机: 
 [User directory:]
 用户目录: 
 [Language for human-readable resources:]
@@ -76,6 +90,8 @@ Jabber 服务器:
 注销
 [Register with a new service...]
 注册新服务...
+[Close]
+关闭
 [Command]
 命令
 [Jabber Form]
@@ -84,24 +100,54 @@ Jabber 表单
 操作指南: 
 [Submit]
 提交
+[Complete]
+完成
 [Data form test]
 资料表单测试
 [Address1:]
 地址 1: 
 [Address2:]
 地址 2: 
+[City:]
+城市: 
+[State:]
+州: 
 [ZIP:]
 邮政编码: 
+[Country:]
+国家: 
+[First name:]
+名字: 
 [Middle:]
 中间名: 
+[Last name:]
+姓氏: 
+[Date of birth:]
+出生日期: 
+[Gender:]
+性别: 
+[Homepage:]
+主页: 
+[Company:]
+公司: 
+[Department:]
+部门: 
+[E-mail:]
+邮件: 
+[Phone:]
+电话: 
 [Jabber vCard: Add Email Address]
 Jabber vCard: 添加邮箱地址
 [Email address:]
 邮箱地址: 
+[Work]
+工作
 [Jabber vCard: Add Phone Number]
 Jabber vCard: 添加电话号码
 [Phone number:]
 电话号码: 
+[Fax]
+传真
 [Pager]
 寻呼机
 [Text/Messaging]
@@ -110,6 +156,10 @@ Jabber vCard: 添加电话号码
 调制解调器
 [Load]
 加载
+[Delete]
+删除
+[Description:]
+描述: 
 [Current Password:]
 当前密码: 
 [New Password:]
@@ -146,6 +196,8 @@ Jabber 代理注册
 <房间 JID>\n发送群聊邀请.
 [Other JID:]
 其它 JID: 
+[Add]
+添加
 [Invitation reason:]
 邀请原因:
 [Groupchat Invitation]
@@ -156,10 +208,16 @@ Jabber 代理注册
 邀请您的会议室
 [with following reason:]
 以下原因:
+[Nickname:]
+昵称: 
 [Jabber Bookmarks]
 Jabber 书签
 [Server side bookmarks\nStore conference rooms and web links on server.]
 服务器端书签\n保存会议室及网络链接至服务器.
+[Remove]
+移除
+[Edit]
+编辑
 [Bookmark Details]
 书签详细资料
 [Bookmark Type]
@@ -210,6 +268,8 @@ Jabber 书签
 那么: 
 [following stanza types:]
 以下节类型: 
+[Messages]
+消息
 [Incoming presence]
 传入知会
 [Outgoing presence]
@@ -226,6 +286,10 @@ Jabber 书签
 列表方式查看
 [Node:]
 节点: 
+[Change %s Message]
+变更 %s 消息
+[Closing in %d]
+%d 秒关闭
 [Account type:]
 帐号类型: 
 [Register account now]
@@ -252,6 +316,8 @@ Jabber 帐号信息:
 离开: 
 [Slap:]
 掌击: 
+[Authorization Request]
+授权请求
 [HTTP Authorization\nAccept or reject incoming request]
 HTTP 授权\n同意或拒绝收到的请求
 [Someone (maybe you) has requested the following file:]
@@ -319,8 +385,12 @@ Jabber 特别命令于
 ;file \protocols\JabberG\src\jabber_caps.cpp
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 ;file \protocols\JabberG\src\jabber_chat.cpp
+[None]
+无
 [Member]
 会员
+[Owner]
+所有者
 [Visitor]
 访客
 [Participant]
@@ -385,6 +455,16 @@ Jabber 特别命令于
 复制房间主题
 [&Send presence]
 发送状态(&S)
+[Online]
+在线
+[Away]
+外出
+[NA]
+不适用
+[DND]
+请勿打扰
+[Free for chat]
+有空聊天
 [&User details]
 用户详细资料(&U)
 [Member &info]
@@ -511,6 +591,8 @@ Jabber 错误
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [transport]
 传输
+[Notes]
+便笺
 [Agents list]
 代理列表
 [Transports]
@@ -609,6 +691,12 @@ Jabber 书签错误
 [Http authentication request received]
 已接收 Http 认证请求
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Request authorization]
+要求授权
+[Grant authorization]
+准许授权
+[Revoke authorization]
+撤销授权
 [Add to Bookmarks]
 加至书签
 [Commands]
@@ -657,6 +745,8 @@ Jabber 资源
 最高优先级 (服务器的选择)
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
+[To]
+至
 [Both]
 两者
 ;file \protocols\JabberG\src\jabber_notes.cpp
@@ -825,6 +915,8 @@ Jabber 资源
 马耳他语
 [Moldavian]
 摩尔多瓦语
+[Nauru]
+瑙鲁
 [Navajo; Navaho]
 纳瓦霍语
 [Ndebele, South; South Ndebele]
@@ -933,6 +1025,8 @@ Jabber 协议选项
 当您在线时可修改您的密码
 [You must be online]
 您必须在线
+[Messaging]
+通信
 [Log chat state changes]
 记录聊天状态变更
 [Log presence subscription state changes]
@@ -955,6 +1049,8 @@ Jabber 协议选项
 禁用 SASL 认证 (针对旧服务器)
 [Enable stream compression (if possible)]
 启用流压缩 (如可用)
+[Other]
+其它
 [Enable remote controlling (from another resource of same JID only)]
 启用远程控制 (仅从相同 JID 其它资源)
 [Show transport agents on contact list]
@@ -977,6 +1073,8 @@ Jabber 协议选项
 仅接收内送的文件传输 (不透露己方 IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 接收 HTTP 认证请求 (XEP-0070)
+[General]
+常规
 [Autoaccept multiuser chat invitations]
 自动接受多用户聊天邀请
 [Automatically join bookmarks on login]
@@ -997,12 +1095,22 @@ Jabber 协议选项
 关联性变更
 [Role changes]
 角色变更
+[Status changes]
+状态变更
 [Nick Name]
 呢称
+[Group]
+群组
 [Subscription]
 订阅
 [Uploading...]
 上传中...
+[Connecting...]
+连接中...
+[Network]
+网络
+[Advanced]
+高级
 [Public XMPP Network]
 公共 XMPP 网络
 [Secure XMPP Network]
@@ -1073,6 +1181,8 @@ Facebook 聊天
 ** 订阅: 从 **
 [** Subsription: none **]
 ** 订阅: 无 **
+[<none>]
+<无>
 [allow ]
 允许
 [deny ]
@@ -1141,10 +1251,16 @@ Facebook 聊天
 变更状态
 [Choose the status and status message]
 选择状态及状态信息
+[Status]
+状态
 [Extended Away (N/A)]
 扩展离开 (不适用)
 [Do Not Disturb]
 请勿打扰
+[Invisible]
+隐身
+[Offline]
+离线
 [Priority]
 优先级
 [Change global status]
@@ -1221,8 +1337,16 @@ Facebook 聊天
 [Sending registration information...]
 正在发送注册信息...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Message]
+消息
+[<not specified>]
+<未指定>
 [Software]
 软件
+[Version]
+版本
+[System]
+系统
 [Idle since]
 闲置于
 [Client capabilities]
@@ -1239,6 +1363,10 @@ Facebook 聊天
 Miranda NG 核心版本
 [Unicode build]
 Unicode 版本
+[Yes]
+是
+[No]
+否
 [Alpha build]
 Alpha 版本
 [Debug build]
@@ -1257,6 +1385,8 @@ Debug 版本
 最后活动资源
 [Please switch online to see more details.]
 请切换为在线以查看更多详细资料. 
+[Copy]
+复制
 [Copy only this value]
 仅复制此值
 [format]
@@ -1302,6 +1432,8 @@ Debug 版本
 服务不可用
 [Remote server timeout]
 远程服务器超时
+[Error]
+错误
 [Unknown error message]
 未知错误消息
 [Advanced Status]
@@ -1311,12 +1443,18 @@ Debug 版本
 [Set activity...]
 设为活动...
 ;file \protocols\JabberG\src\jabber_vcard.cpp
+[Male]
+男
+[Female]
+女
 [Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
 仅支持发送小于 40KB 的 JPG, GIF, 和 BMP 图片文件. 
 [Jabber vCard: Edit Email Address]
 Jabber vCard: 编辑邮箱地址
 [Jabber vCard: Edit Phone Number]
 Jabber vCard: 编辑电话号码
+[Contacts]
+联系人
 ;file \protocols\JabberG\src\jabber_ws.cpp
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Afraid]

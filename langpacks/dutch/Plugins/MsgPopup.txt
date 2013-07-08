@@ -6,5 +6,9 @@
 ;  Authors: StDenis
 ;============================================================
 ;file \plugins\MsgPopup\res\MsgPopup.rc
+[Background]
+Achtergrond
 ;file \plugins\MsgPopup\src\main.cpp
+[Popups]
+Popups
 ;file \plugins\MsgPopup\src\options.cpp

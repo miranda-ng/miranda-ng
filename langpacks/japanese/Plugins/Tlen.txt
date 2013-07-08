@@ -1,14 +1,54 @@
 ﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
 ;langpack template for Tlen
 ;file \protocols\Tlen\res\tlen.rc
+[Username:]
+ユーザー名 :
+[Password:]
+パスワード :
+[Create new account]
+新規アカウントを作成する
+[Options]
+オプション
+[Port:]
+ポート :
+[Background]
+背景
+[Text]
+テキスト
+[OK]
+OK
+[Cancel]
+Cancel
+[First name:]
+名 :
+[Last name:]
+名字 :
+[E-mail:]
+電子メール :
+[Gender:]
+性別 :
+[City:]
+市 :
 [Save changes]
 変更を保存
 [Software:]
 ソフトウェア :
 [System:]
 システム :
+[Nickname:]
+ニックネーム :
+[Age:]
+年齢 :
+[From:]
+送信者 :
 ;file \protocols\Tlen\src\jabber_iqid.cpp
 ;file \protocols\Tlen\src\jabber_opt.cpp
+[General]
+全般
+[Advanced]
+詳細
+[Network]
+ネットワーク
 ;file \protocols\Tlen\src\jabber_svc.cpp
 ;file \protocols\Tlen\src\jabber_thread.cpp
 [Jabber Connection Error]
@@ -25,10 +65,22 @@ Windows 95
 Windows 98
 [Windows ME]
 Windows ME
+[Windows]
+Windows
+[E-mail]
+電子メール
 ;file \protocols\Tlen\src\jabber_ws.cpp
 ;file \protocols\Tlen\src\tlen.cpp
+[Group chats]
+グループチャット
+[Request authorization]
+認証リクエスト
+[Grant authorization]
+権限の承認
 ;file \protocols\Tlen\src\tlen_file.cpp
 ;file \protocols\Tlen\src\tlen_muc.cpp
 ;file \protocols\Tlen\src\tlen_picture.cpp
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 ;file \protocols\Tlen\src\tlen_voice.cpp
+[Default]
+デフォルト

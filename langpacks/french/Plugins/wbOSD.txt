@@ -8,6 +8,14 @@
 ;file \plugins\wbOSD\res\wbOSD.rc
 [Select font]
 Police
+[General]
+Général
+[Other]
+Autre
+[Show]
+Afficher
+[Status changes]
+Changements d'état
 ;file \plugins\wbOSD\src\events.cpp
 [%s is %s]
 %s est %s

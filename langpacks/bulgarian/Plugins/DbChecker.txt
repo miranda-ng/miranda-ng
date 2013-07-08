@@ -14,6 +14,8 @@
 Натиснете "Напред >", за да продължите.
 [This programme is licenced under the terms of the GNU General Public License.]
 Тази програма е лицензирана според условията на GNU General Public License.
+[Cancel]
+Отказ
 [Select Miranda Profile]
 Изберете профил за Miranda
 [You can choose the Miranda profile database to compact or repair.]
@@ -87,12 +89,16 @@ Miranda ще зареди профила, който бе обработен.
 [Click Next to continue]
 Натиснете "Напред >", за да продължите
 ;file \plugins\DbChecker\src\selectdb.cpp
+[Error]
+Грешка
 [Total size]
 Общ размер
 [Wasted]
 Пропиляно
 [Miranda Databases (*.dat)]
 Бази от данни на Miranda(*.dat)
+[All Files]
+Всички файлове
 ;file \plugins\DbChecker\src\wizard.cpp
 ;file \plugins\DbChecker\src\worker.cpp
 [%s\\Backup (%d) of %s]

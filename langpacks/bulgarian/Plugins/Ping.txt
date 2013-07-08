@@ -6,10 +6,34 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Ping\res\ping.rc
+[Network]
+Мрежа
+[Popups]
+РopUps
+[Popups]
+РopUps
+[Row height:]
+Ред (височина):
+[Add]
+Добавяне
+[Remove]
+Премахване
+[Edit]
+Редактиране
+[Cancel]
+Отказ
+[Port:]
+Порт:
+[Contact]
+Контакт
 ;file \plugins\Ping\src\menu.cpp
 ;file \plugins\Ping\src\options.cpp
+[<none>]
+<няма>
 ;file \plugins\Ping\src\ping.cpp
 ;file \plugins\Ping\src\pinggraph.cpp
 ;file \plugins\Ping\src\pingthread.cpp
 ;file \plugins\Ping\src\rawping.cpp
 ;file \plugins\Ping\src\utils.cpp
+[Unknown]
+Неизвестно

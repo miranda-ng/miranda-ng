@@ -8,10 +8,14 @@
 ;file \plugins\FileAsMessage\res\resources.rc
 [Filename:]
 文件名称: 
+[Size:]
+大小: 
 [Chunk size]
 块大小
 [Delays between sends]
 发送延迟
+[bytes]
+字节
 [Transfer settings]
 传输设置
 [Unsent]
@@ -33,10 +37,14 @@
 大小: %d 字节
 [Request sent. Awaiting of acceptance..]
 请求已发送. 等待接受..
+[Sending...]
+发送中...
 [Received successfully]
 接收成功
 [Requesting of missing chunks]
 请求无效块
+[Receiving...]
+接收...
 [Sent successfully]
 发送成功
 [Incoming file request. Do you want proceed?]
@@ -66,4 +74,6 @@
 ;file \plugins\FileAsMessage\src\main.cpp
 [Revive]
 恢复
+[Plugins]
+插件
 ;file \plugins\FileAsMessage\src\main.h

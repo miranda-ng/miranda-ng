@@ -1,14 +1,66 @@
 ﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
 ;langpack template for Tlen
 ;file \protocols\Tlen\res\tlen.rc
+[Username:]
+Brukernavn:
+[Password:]
+Passord:
+[Create new account]
+Lag ny konto
+[Options]
+Valg
+[Port:]
+Port:
+[Background]
+Bakgrunn
+[Text]
+Tekst
+[OK]
+OK
+[Cancel]
+Avbryt
+[First name:]
+Fornavn:
+[Last name:]
+Etternavn:
+[E-mail:]
+E-post:
+[Gender:]
+Kjønn:
+[City:]
+By:
+[Nickname:]
+Kallenavn:
+[Age:]
+Alder:
+[From:]
+Fra:
 ;file \protocols\Tlen\src\jabber_iqid.cpp
 ;file \protocols\Tlen\src\jabber_opt.cpp
+[General]
+Generelt
+[Advanced]
+Avansert
+[Network]
+Nettverk
 ;file \protocols\Tlen\src\jabber_svc.cpp
 ;file \protocols\Tlen\src\jabber_thread.cpp
+[Windows]
+Windows
+[E-mail]
+E-post
 ;file \protocols\Tlen\src\jabber_ws.cpp
 ;file \protocols\Tlen\src\tlen.cpp
+[Group chats]
+Gruppesamtaler
+[Request authorization]
+Forespør godkjenning
+[Grant authorization]
+Godkjenn autorisasjon
 ;file \protocols\Tlen\src\tlen_file.cpp
 ;file \protocols\Tlen\src\tlen_muc.cpp
 ;file \protocols\Tlen\src\tlen_picture.cpp
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 ;file \protocols\Tlen\src\tlen_voice.cpp
+[Default]
+Standard

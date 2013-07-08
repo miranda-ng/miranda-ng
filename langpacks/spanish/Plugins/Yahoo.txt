@@ -6,6 +6,10 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\Yahoo\res\Yahoo.rc
+[Password:]
+Contraseña:
+[Nick:]
+Nick:
 [Create a new Yahoo account using the Yahoo website]
 Crear una nueva cuenta de Yahoo con el sitio web de Yahoo
 [Use Yahoo Address Book (YAB)]
@@ -20,21 +24,41 @@ Mostrar errores
 Crear una nueva cuenta de Yahoo
 [Connection Settings]
 Ajustes de conexión
+[Port:]
+Puerto:
+[Reset]
+Restablecer
 [Yahoo Ignore List]
 Yahoo lista de ignorados
 [Ignore anyone who is not on my Yahoo buddy list ]
 No haga caso de alguien que no está en mi lista de contactos de Yahoo
 [Ignore only the people below: ]
 No haga caso a continuación sólo las personas:
+[&Add]
+&Agregar
 [Set Custom Status]
 Ajuste personalizado de estado
 [Show as busy]
 Mostrar como ocupado
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[&Deny]
+&Negar
+[&Cancel]
+&Cancelar
+[Add]
+Agregar
 ;file \protocols\Yahoo\src\avatar.cpp
 ;file \protocols\Yahoo\src\chat.cpp
 ;file \protocols\Yahoo\src\icolib.cpp
 [Mail]
 E-Mail
+[Profile]
+Perfil
 [Address Book]
 Libreta de direcciones
 [Set Status]
@@ -44,6 +68,8 @@ Calendario
 ;file \protocols\Yahoo\src\im.cpp
 [Yahoo Error]
 Yahoo Error
+[The message send timed out.]
+El mensaje que envía el tiempo de espera.
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 El mensaje es demasiado largo: Mensajes de Yahoo están limitados a 800 caracteres UTF8
 ;file \protocols\Yahoo\src\links.cpp
@@ -67,6 +93,10 @@ El amigo ya está en la lista de ignorados.
 Usted necesita estar conectado a Yahoo a quitar de la lista de ignorados.
 [Please select a buddy on the ignore list to remove.]
 Por favor, seleccione un amigo en la lista de ignorados para eliminar.
+[Network]
+Red
+[Network]
+red
 [Ignore List]
 La lista de ignorados
 ;file \protocols\Yahoo\src\proto.cpp

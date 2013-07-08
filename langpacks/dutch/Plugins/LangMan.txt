@@ -6,5 +6,17 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 ;file \plugins\LangMan\res\resource.rc
+[Author(s):]
+Maker(s):
+[Date:]
+Datum:
+[Please restart Miranda NG for your changes to take effect.]
+Herstart Miranda NG op de wijzigingen actief te maken.
 ;file \plugins\LangMan\src\main.cpp
 ;file \plugins\LangMan\src\options.cpp
+[Unknown]
+Onbekend
+[File]
+Bestand
+[Customize]
+Aanpassen

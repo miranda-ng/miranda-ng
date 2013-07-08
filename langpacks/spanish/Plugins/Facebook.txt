@@ -2,16 +2,28 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.0
+;  Version: 0.1.1.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 ;file \protocols\FacebookRM\res\facebook.rc
+[E-mail:]
+E-Mail:
+[Password:]
+Contraseña:
 [Create a new Facebook account]
 Crear una nueva cuenta de Facebook
 [What's on your mind?]
 ¿Qué hay en tu mente ?
 [Share]
 Compartir
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[User Details]
+Información del usuario
+[User Details]
+Datos del Usuario
 [Automatically set 'Ignore status change' flag]
 Se ajusta automáticamente " No haga caso de cambio de estado " bandera
 [Contacts Settings]
@@ -20,6 +32,14 @@ Contactos Configuración
 El uso más grandes avatares
 [Load contacts with 'On the Mobile' status]
 Carga de los contactos con ' El móvil ' estado de
+[Text]
+Texto
+[Text]
+Texto
+[Default]
+por defecto
+[Default]
+Predeterminado
 [News feeds]
 Noticias RSS
 [Client notifications]
@@ -47,10 +67,10 @@ También desconecte cuando se va a conversar en línea
 [Map non-standard statuses to Invisible (instead of Online)]
 Mapa no estándar estados a Invisible (en lugar de en línea)
 ;file \protocols\FacebookRM\src\communication.cpp
-[Login error: Some Facebook things are required.]
-Error de inicio de sesión: Algunas cosas de Facebook son obligatorios.
 [Your account requires HTTPS connection. Activating.]
 Su cuenta requiere una conexión HTTPS. Activación.
+[Login error: Some Facebook things are required.]
+Error de inicio de sesión: Algunas cosas de Facebook son obligatorios.
 [Login error: Captcha code is required. Bad login credentials?]
 Inicio de sesión de error : Código Captcha es necesario. Las credenciales de inicio de sesión Bad ?
 [Login error, probably bad login credentials.]
@@ -99,6 +119,18 @@ No se puede obtener la conexión Netlib para Facebook
 Noticias RSS
 [Other Event]
 otros eventos
+[Network]
+Red
+[Network]
+red
+[Advanced]
+Avanzada
+[Advanced]
+Avanzada
+[Events]
+Eventos
+[Events]
+Eventos
 ;file \protocols\FacebookRM\src\theme.cpp
 [Mind]
 Mente
@@ -106,5 +138,3 @@ Mente
 Solicitud de amistad
 [Mind...]
 Mente...
-[Visit Profile]
-Visita el perfil

@@ -8,19 +8,35 @@
 [Helps you manage Language Packs of different languages.]
 Vous permet de choisir entre différents packs de traduction (LangPack).
 ;file \plugins\LangMan\res\resource.rc
+[Author(s):]
+Auteur(s) :
+[E-mail:]
+e-mail :
 [Last modified using:]
 Pour :
+[Date:]
+Date :
 [Locale:]
 Locale :
 [Download more Language Packs]
 Télécharger plus de pack de traduction
+[Please restart Miranda NG for your changes to take effect.]
+Relancer Miranda NG pour que vos changements prennent effets.
 ;file \plugins\LangMan\src\main.cpp
 ;file \plugins\LangMan\src\options.cpp
 [All installed plugins are included.]
 Tous les plugins installés sont traduit.
+[Unknown]
+Inconnu
 [Current]
 Actuel
 [Installed Languages]
 Langues installées
+[File]
+Fichier
+[&Remove...]
+&Effacer...
 [Languages]
 Langages
+[Customize]
+Apparence

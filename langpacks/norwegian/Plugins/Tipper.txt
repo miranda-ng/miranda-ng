@@ -6,6 +6,10 @@
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 ;file \plugins\TipperYM\res\resource.rc
+[Options]
+Valg
+[Window]
+Vindu
 [Max width:]
 Maks bredde:
 [Max height:]
@@ -40,16 +44,34 @@ Tittel innrykk:
 Verdi innrykk:
 [Inner avatar padding:]
 Indre avatar fyll:
+[OK]
+OK
+[Cancel]
+Avbryt
+[Items]
+Elementer
 [Substitutions]
 Bytter
+[Add]
+Legg til
+[Remove]
+Fjern
+[Remove]
+Fjern
+[Edit]
+Rediger
 [Advanced options]
 Avanserte valg
 [Retrieve XStatus details if auto-retrieve is disabled]
 Hent XStatus detaljer dersom auto-innhenting er deaktivert
+[Extra icons]
+Ekstra ikoner
 [Enable SmileyAdd support]
 Aktiver SmileyAdd støtte
 [Resize smileys]
 Endre smiley strl
+[Effects]
+Effekter
 [Favourite contacts]
 Favorittkontakter
 [Favourite contacts]
@@ -62,10 +84,14 @@ Ingen ikon
 Ingen tittel
 [Centre]
 Midten
+[None]
+Ingen
 [Animation]
 Bevegelse
 [Fade]
 Uttoning
+[Customize]
+Tilpass
 [Content]
 Innhold
 [Tray tooltip]
@@ -77,6 +103,8 @@ Ekstra
 Antall kontakter
 [Logon time]
 Påloggingstid
+[Status]
+Status
 [Miranda uptime]
 Miranda oppetid
 [Clist event]
@@ -84,13 +112,35 @@ Clist hendelse
 [Client]
 Klient
 ;file \plugins\TipperYM\src\popwin.cpp
+[%s (locked)]
+%s (låst)
+[Other]
+Annet
 ;file \plugins\TipperYM\src\preset_items.cpp
+[Gender:]
+Kjønn:
+[Homepage:]
+Webside:
+[Idle]
+Inaktivitet
 [Idle:]
 Tomgang:
 [Last message: (%sys:last_msg_reltime% ago)]
 Siste melding: (%sys: last_msg_reltime% siden)
+[Name]
+Navn
+[Name:]
+Navn:
+[Name:]
+Navn:
+[Time:]
+Tid:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 ;file \plugins\TipperYM\src\tipper.cpp
+[Background]
+Bakgrunn
+[Dividers]
+Delere
 [Labels]
 Etiketter
 [Values]
@@ -98,4 +148,8 @@ Verdier
 [Tray title]
 Oppgavelinje tittel
 ;file \plugins\TipperYM\src\translations.cpp
+[Female]
+Kvinne
+[Male]
+Mann
 ;file \plugins\TipperYM\src\translations.h

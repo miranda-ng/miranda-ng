@@ -10,6 +10,10 @@
 מסנג'ר
 [Live ID:]
 ת.ד. לייב:
+[Password:]
+סיסמא:
+[Nickname:]
+כינוי:
 [Create a new Windows Live account]
 צור חשבון וינדוז לייב חדש
 [Send message font color/size info inside messages]
@@ -22,6 +26,8 @@
 הרץ את התוכנה הבאה כאשר דואר חדש מגיע
 [Allow people on my contact list send messages to mobile device]
 אפשר לאנשים ברשימת המשתמשים שלי לשלוח הודעות למכשיר נייד
+[Reset]
+אפס
 [Server List Manager]
 מנהל רשימת שרת
 [Contact is included into your server list]
@@ -40,12 +46,22 @@
 בטל הודעות מגש מערכת
 [Ignore new messages not in Inbox folder]
 התעלם מהודעות חדשות שלא בתיקית דואר נכנס
+[Other]
+אחר
 [Enable 'Chat Session Established' popup]
 אפשר פופאפ פגישת צ'אט הוקמה
 [Enable 'Contact left channel' popup]
 אפשר פופאפ משתמש עזב ערוץ
 [Disable Contact List notifications]
 בטל הודעות רשימת משתמשים
+[OK]
+אישור
+[Cancel]
+ביטול
+[&Cancel]
+בטל
+[Add]
+הוסף
 ;file \protocols\MSN\src\msn_chat.cpp
 ;file \protocols\MSN\src\msn_commands.cpp
 [Chat session established by my request]
@@ -62,12 +78,18 @@
 אימייל שלא נקרא זמין: %d בדואר נכנס וב %d תיקיות אחרות).
 ;file \protocols\MSN\src\msn_menu.cpp
 ;file \protocols\MSN\src\msn_misc.cpp
+[Error]
+שגיאה
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
+[Profile]
+פרופיל
 [Automatically obtain host/port]
 אוטומטית השג הוסט/פורט
 [Manually specify host/port]
 ציין ידנית הוסט/פורט
+[Network]
+רשת
 ;file \protocols\MSN\src\msn_p2p.cpp
 ;file \protocols\MSN\src\msn_proto.cpp
 [%s plugin HTTPS connections]

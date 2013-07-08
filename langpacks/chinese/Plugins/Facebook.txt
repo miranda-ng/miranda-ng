@@ -2,16 +2,28 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.0
+;  Version: 0.1.1.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 ;file \protocols\FacebookRM\res\facebook.rc
+[E-mail:]
+邮件: 
+[Password:]
+密码: 
 [Create a new Facebook account]
 新建 Facebook 账号
 [What's on your mind?]
 您的想法?
 [Share]
 分享
+[Cancel]
+取消
+[User Details]
+用户详细资料
+[Text]
+文本
+[Default]
+默认
 [News feeds]
 新闻订阅
 [Client notifications]
@@ -61,6 +73,14 @@ Facebook 发生一些问题. 可能有一些重大更新, 请等待更新.
 新闻订阅
 [Other Event]
 其它事件
+[Network]
+网络
+[Advanced]
+高级
+[Popups]
+弹出窗口
+[Events]
+事件
 ;file \protocols\FacebookRM\src\theme.cpp
 [Mind]
 想法

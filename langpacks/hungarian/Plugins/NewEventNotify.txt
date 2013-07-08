@@ -6,9 +6,27 @@
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 ;file \plugins\NewEventNotify\res\resource.rc
+[Message]
+Üzenet
+[URL]
+URL
+[File]
+Fájl
+[Text]
+Szöveg
+[Background]
+Háttér
+[Edit]
+Szerkeszt
 ;file \plugins\NewEventNotify\src\main.cpp
+[Message Session]
+Üzenet mukamenet
 ;file \plugins\NewEventNotify\src\menuitem.cpp
+[Popups]
+Felugrók
 ;file \plugins\NewEventNotify\src\neweventnotify.h
+[Contacts]
+Partnerek
 ;file \plugins\NewEventNotify\src\options.cpp
 ;file \plugins\NewEventNotify\src\popup.cpp
 [This is a sample message event :-)]

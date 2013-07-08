@@ -6,6 +6,10 @@
 ;  Authors: Miranda team
 ;============================================================
 ;file \protocols\IRCG\res\IRC.rc
+[&Add]
+&Legg til
+[&Edit]
+&Rediger
 [&Del]
 &Del
 [only while connecting]
@@ -36,6 +40,8 @@ Oppdater statuser i kanalens kallenavnliste
 Internettadresse
 [Port range]
 Portområde
+[Nick]
+Kallenavn
 [User ID (Ident)]
 Bruker ID (Ident)
 [Full name (e-mail)]
@@ -46,10 +52,14 @@ Server navn
 Alternativt kallenavn
 [Ident]
 Ident
+[System]
+System
 [Default network]
 Standard nettverk
 [User info - Required]
 Brukerinfo - Påkrevd
+[Other]
+Annet
 [Reconnect]
 Koble på nytt
 [Wait (s)]
@@ -64,12 +74,18 @@ Sjekk hvert (s):
 Ikke sjekk hvis flere enn (brukere):
 [User information]
 Brukerinformasjon
+[Version]
+Versjon
 [Userinfo]
 Brukerinfo
 [&Refresh]
 &Oppdater
 [&Query]
 &Forespørsel
+[&Close]
+&Lukk
+[Name]
+Navn
 [Channels]
 Kanaler
 [Away Info]
@@ -78,6 +94,8 @@ Borte Info
 Serveren returnerte den følgende informasjonen. Vennligst merk at denne informasjonen kan være misvisende og/eller forfalsket
 [CTCP information]
 CTCP informasjon
+[&Cancel]
+&Avbryt
 [Perform]
 Utfør
 [&Set]
@@ -88,8 +106,16 @@ UTfør ved hendelse:
 Scripting support
 [Add server]
 Legg til server
+[On]
+På
+[Off]
+Av
+[Network]
+Nettverk
 [Channels on server]
 Kanaler på server
+[&Join]
+&Join
 [C&onnect]
 K&oble til
 [Hostmask]
@@ -158,6 +184,8 @@ Auto-aksept fra:
 Send varsel
 [CTCP Chat Request]
 CTCP samtaleforespørsel
+[&Deny]
+&Avslå
 [Enable (*)]
 Aktiver (*)
 [Ignore channel messages by default]
@@ -172,6 +200,10 @@ Ignorer DCC Chat forespørsler fra ukjente kontakter
 Ignorer brukere
 [(*) Queries from users on your contactlist are never ignored]
 (*) Forespørsler fra brukere på kontaktlisten din ignoreres aldri
+[Messages]
+Meldinger
+[Notices]
+Varsler
 [CTCP]
 CTCP
 [DCC]
@@ -184,6 +216,8 @@ Nettverk (*)
 Ignorer hendelser
 [(*) blank to set this mask for all networks]
 (*) tomt for å sette masken for alle nettverk
+[Password:]
+Passord:
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 CTCP samtale forespørsel fra %s
@@ -232,8 +266,12 @@ Ferdig: %u kanaler
 Forandre kallenavn
 [IRC error]
 IRC feil
+[Unknown]
+Ukjent
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
 Vennglist skriv inn vertsmasken (kallenavn!bruker@vert)\nMERK! Kontakter i kontaktlisten din ignoreres aldri
+[Ignore]
+Ignorer
 [Please enter the reason]
 Vennligst skriv inn grunn
 [Ban'n Kick]
@@ -289,6 +327,8 @@ Input kommando
 Vennligst skriv inn svaret
 ;file \protocols\IRCG\src\irclib.cpp
 ;file \protocols\IRCG\src\ircproto.cpp
+[Information]
+Informasjon
 [DCC ERROR: No valid files specified]
 DCC ERROR: Ingen gyldige filer spesifisert
 [DCC reversed file transfer request sent to %s [%s]]
@@ -304,6 +344,16 @@ DCC samtaleforbindelsen er ikke aktiv
 [Please choose an IRC-network to go online. This network will be the default.]
 Vennligst velg et IRC-nettverk å koble deg til. Dette nettverket vil bli satt som standard.
 ;file \protocols\IRCG\src\options.cpp
+[Add]
+Legg til
+[Apply]
+Lagre
+[Rename]
+Gi nytt navn
+[Edit]
+Rediger
+[Cancel]
+Avbryt
 [Channel list]
 Kanal liste
 [Quick connect]
@@ -348,6 +398,8 @@ Fjern denne ignoreringen
 Ignorer maske
 [DCC'n CTCP]
 DCC og CTCP
+[Advanced]
+Avansert
 ;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
 WallOps fra %s:
@@ -441,6 +493,8 @@ Kobler til
 [Reconnecting to]
 Kobler på nytt til
 ;file \protocols\IRCG\src\tools.cpp
+[Offline]
+Frakoblet
 ;file \protocols\IRCG\src\userinfo.cpp
 ;file \protocols\IRCG\src\windows.cpp
 [Channel]

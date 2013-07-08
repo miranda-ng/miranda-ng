@@ -10,6 +10,10 @@
 概要情報
 [Webpage]
 ウェブページ
+[Close]
+閉じる
+[Options]
+オプション
 [Update weather information on startup]
 起動時に天気情報を更新
 [Update weather information every]
@@ -44,6 +48,8 @@ m/s
 mph
 [knots]
 ノット
+[Visibility]
+可視状態
 [km]
 km
 [miles]
@@ -96,8 +102,16 @@ URL の詳細情報
 デフォルトの気象台として設定
 [Disable automatic update for this station]
 この気象台に対する自動更新を無効
+[Cancel]
+Cancel
 [Popup only when condition changes]
 天気に変化があった時のみポップアップ
+[Background colour]
+背景色
+[Text colour]
+テキスト色
+[Use Windows colours]
+ウィンドウ色を使用
 [Popup Actions]
 ポップアップ操作
 [Left Click]
@@ -106,10 +120,18 @@ URL の詳細情報
 右クリック
 [Popup Delay]
 ポップアップ遅延
+[seconds]
+秒
 [Popup Text]
 ポップアップ文字
+[Default]
+デフォルト
 [Updates]
 更新
+[Alerts]
+アラート
+[Contact List]
+コンタクトリスト
 [Brief Info Title]
 概要情報タイトル
 [Note Text]
@@ -120,6 +142,8 @@ URL の詳細情報
 外部ログ
 [More Variables]
 追加変数
+[Reset]
+リセット
 [Sunset]
 日の入り
 [Feel-like]
@@ -154,6 +178,8 @@ Weather プロトコルはあなたのコンピュータ上に保存されてい
 使用済みメモリの総容量
 [Reload INI]
 INI を再読み込み
+[City:]
+市 :
 [Open brief information]
 概要情報を開く
 [Open complete forecast]
@@ -260,6 +286,10 @@ ID から都市名を取得
 Weather INI 情報
 [View webpage]
 ウェブページを表示
+[Text Files]
+テキストファイル
+[All Files]
+全てのファイル
 ;file \plugins\Weather\src\weather_conv.cpp
 [mb]
 mb
@@ -293,6 +323,8 @@ Weather 更新
 [No Popup]
 ポップアップしない
 ;file \plugins\Weather\src\weather_info.cpp
+[Name:]
+名前 :
 [Internal Name:]
 内部名 :
 [INI Version:]
@@ -303,6 +335,10 @@ INI バージョン :
 項目数 :
 [Memory Used:]
 使用済みメモリ :
+[bytes]
+バイト
+[Description:]
+説明 :
 [Here is a list of custom variables that are currently available]
 現在利用可能なカスタム変数のリスト
 ;file \plugins\Weather\src\weather_ini.cpp
@@ -314,6 +350,12 @@ INI バージョン :
 全ての更新データは再読み込みされました
 ;file \plugins\Weather\src\weather_mwin.cpp
 ;file \plugins\Weather\src\weather_opt.cpp
+[Network]
+ネットワーク
+[General]
+全般
+[Popups]
+ポップアップ
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\t現在の状況\n%d\t現在の日付\n%e\t露点\n%f\t体感気温\n%h\t今日の最高気温\n%i\t風向\n%l\t今日の最低気温\n%m\t湿度\n%n\t気象台名\n%p\t気圧\n%r\t日の出時間\n%s\t気象台 ID\n%t\t気温\n%u\t更新時間\n%v\t視界\n%w\t風速\n%y\t日の入り
 [Weather Protocol Text Preview]
@@ -358,6 +400,8 @@ Weather 通知
 最終更新 :   %u
 [Variable]
 変数
+[Information]
+情報
 [Retrieving new data, please wait...]
 新規データを取得中です。お待ちください...
 [More Info]

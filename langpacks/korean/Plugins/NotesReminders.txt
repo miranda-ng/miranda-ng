@@ -6,9 +6,19 @@
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 ;file \plugins\NotesAndReminders\res\resource.rc
+[None]
+없음
+[&Close]
+&C 닫기
+[&Copy]
+&C 복사
 ;file \plugins\NotesAndReminders\src\globals.h
 ;file \plugins\NotesAndReminders\src\hotkeys.cpp
 ;file \plugins\NotesAndReminders\src\main.cpp
+[Plugins]
+플러그인
 ;file \plugins\NotesAndReminders\src\notes.cpp
+[Notes]
+메모
 ;file \plugins\NotesAndReminders\src\options.cpp
 ;file \plugins\NotesAndReminders\src\reminders.cpp

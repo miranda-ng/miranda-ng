@@ -6,10 +6,58 @@
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 ;file \plugins\SeenPlugin\res\resource.rc
+[Text]
+Szöveg
+[Online]
+Elérhetõ
+[Away]
+Távol
+[NA]
+NA
+[Occupied]
+Elfoglalt
+[DND]
+Ne zavarjanak
+[On the phone]
+Telefonál
+[Out to lunch]
+Ebédel
+[Free for chat]
+Csevegésre kész
+[Invisible]
+Láthatatlan
+[Offline]
+Kilépett
+[OK]
+OK
 ;file \plugins\SeenPlugin\src\history.cpp
+[View User's Details]
+Felhasználó részletinek megtekintése
+[User Menu]
+Felhasználó menü
 ;file \plugins\SeenPlugin\src\main.cpp
 ;file \plugins\SeenPlugin\src\menu.cpp
+[<unknown>]
+<ismeretlen>
+[<none>]
+<nincs>
 ;file \plugins\SeenPlugin\src\options.cpp
+[Contacts]
+Partnerek
+[Popups]
+Felugrók
 ;file \plugins\SeenPlugin\src\seen.h
+[seconds]
+mp.
+[Group]
+Csoport
+[Status]
+Állpot
+[Protocol]
+Protokoll
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
+[Idle]
+Tétlen
+[Unknown]
+Ismeretlen

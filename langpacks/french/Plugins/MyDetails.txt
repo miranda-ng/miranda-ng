@@ -8,6 +8,12 @@
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Changer mon pseudo
+[Nickname:]
+Pseudo :
+[Cancel]
+Annuler
+[General]
+Général
 [RTL]
 Lecture inversée
 [Align text to right]
@@ -34,6 +40,8 @@ Taille :
 Permettre l'agrandissement
 [Use free space (under avatar) to other texts]
 Utiliser l'espace libre sous l'avatar pour d'autres textes
+[seconds]
+secondes
 [Set My Status Message for All Status]
 Changer le message pour tous les états
 [Status Message:]
@@ -68,8 +76,12 @@ Afficher ce que l'autre écoute
 [<no status name>]
 <aucun état>
 ;file \plugins\MyDetails\src\frame.cpp
+[Status]
+État
 [My Details]
 Mes détails
+[Background]
+Arrière-plan
 [Show My Details]
 Afficher mes détails
 [Enable Listening To for %s]
@@ -89,4 +101,6 @@ Changer mon pseudo pour %s
 Changer mon message d'état pour %s
 [Show next protocol]
 Protocole suivant
+[Contact List]
+Liste de contacts
 ;file \plugins\MyDetails\src\options.cpp

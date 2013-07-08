@@ -6,6 +6,18 @@
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 ;file \plugins\Sessions\res\Sessions.rc
+[Edit]
+Szerkeszt
+[Delete]
+Törlés
+[&Cancel]
+&Mégse
+[OK]
+OK
+[Cancel]
+Mégsem
 ;file \plugins\Sessions\Src\Main.cpp
 ;file \plugins\Sessions\Src\Options.cpp
+[Message Sessions]
+Üzenet mukamenetek
 ;file \plugins\Sessions\Src\Utils.cpp

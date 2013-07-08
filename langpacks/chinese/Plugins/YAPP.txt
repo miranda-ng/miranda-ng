@@ -8,6 +8,8 @@
 ;file \plugins\YAPP\res\yapp.rc
 [Popup history]
 弹出窗口历史
+[Close]
+关闭
 [Case sensitive]
 区分大小写
 [Never timeout]
@@ -18,6 +20,8 @@
 宽度: 
 [Maximum height:]
 最大高度: 
+[Options]
+选项
 [Transparent background]
 透明背景
 [Disable when]
@@ -49,14 +53,22 @@ YAPP 弹出窗口
 时间在右方
 [Time above avatar]
 时间在头像上面
+[Status]
+状态
 [Full-screen app running]
 全屏应用程序运行中
 [You cannot set a default timeout of 0.\nValue has been reset.]
 您无法设置 0 为默认超时. \n此值已被重置. 
+[Error]
+错误
+[Popups]
+弹出窗口
 ;file \plugins\YAPP\src\services.cpp
 ;file \plugins\YAPP\src\yapp.cpp
 [First line]
 第一行
+[Background]
+背景
 [Title underline]
 标题加下划线
 ;file \plugins\YAPP\src\yapp_history_dlg.cpp

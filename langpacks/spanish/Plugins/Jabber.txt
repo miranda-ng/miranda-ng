@@ -10,8 +10,18 @@
 Editar Nota
 [Tags:]
 Etiquetas:
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Type:]
+Tipo:
 [User:]
 Usuario
+[Password:]
+Contraseña:
 [Resource:]
 Recursos:
 [Register new user]
@@ -26,12 +36,18 @@ servicio de búsqueda
 Editor de listas
 [Roster editor\nView and modify your server-side contact list.]
 Lista editor\nVer y modificar la lista de contactos del lado del servidor.
+[Username:]
+Nombre de usuario:
+[Username:]
+Username:
 [Priority:]
 Prioridad:
 [Use hostname as resource]
 Utilice el nombre de host como recurso
 [List of public servers]
 Lista de servidores públicos
+[Port:]
+Puerto:
 [Use SSL]
 Usar SSL
 [Use TLS]
@@ -74,30 +90,64 @@ Entrar en
 Cierre la sesión
 [Register with a new service...]
 Registro con un nuevo servicio ...
+[Close]
+Cerrar
 [Instruction:]
 Instrucción:
 [Submit]
 Enviar
+[Complete]
+Completa
 [Address1:]
 Dirección 1:
 [Address2:]
 Dirección 2:
+[City:]
+Ciudad:
+[State:]
+Estado:
 [ZIP:]
 ZIP:
+[Country:]
+País:
 [Middle:]
 Medio:
+[Last name:]
+Apellido
+[Date of birth:]
+Fecha de nacimiento:
 [YYYY-MM-DD]
 JJJJ-MM-TT (1991-10-31)
+[Gender:]
+Género
+[Homepage:]
+Homepage:
+[Company:]
+Empresa:
+[Department:]
+Departamento:
+[E-mail:]
+E-Mail:
+[Phone:]
+Teléfono:
 [Jabber vCard: Add Email Address]
 Jabber vCard: Añadir dirección de correo electrónico
 [Email address:]
 E-Mail-dirección:
+[Work]
+Trabajo
 [Jabber vCard: Add Phone Number]
 Jabber vCard: 
 [Phone number:]
 Número de teléfono: 
+[Fax]
+Fax
 [Load]
 De carga
+[Delete]
+Eliminar
+[Description:]
+Descripción:
 [Current Password:]
 Contraseña actual:
 [New Password:]
@@ -124,16 +174,26 @@ Registrarse
 Invitar a usuarios
 [Other JID:]
 Otros JID:
+[Add]
+Agregar
 [Invitation reason:]
 Invitación de la razón:
+[Nickname:]
+Nick:
 [Jabber Bookmarks]
 Jabber Favoritos
 [Server side bookmarks\nStore conference rooms and web links on server.]
 marcadores del lado del servidor \\ habitaciones nStore conferencias y enlaces a las webs en el servidor.
+[Remove]
+Quitar
+[Edit]
+Editar
 [Bookmark Details]
 Agregar a favoritos Detalles
 [Bookmark Type]
 Agregar a favoritos Tipo
+[URL]
+URL
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
 Auto-join (unir automáticamente marcadores deben estar habilitadas en las opciones de Miranda)
 [Room JID/ URL:]
@@ -160,6 +220,8 @@ Si:
 Entonces:
 [following stanza types:]
 siguientes tipos de estrofa:
+[Messages]
+Mensaje ventanas - IM
 [Incoming presence]
 Entrantes presencia
 [Outgoing presence]
@@ -174,6 +236,10 @@ Descubrimiento de servicios
 Visualizar como árbol
 [View as list]
 Ver como lista
+[Change %s Message]
+Cambiar %s Mensaje
+[Closing in %d]
+Cierre en %d
 [Member Information]
 Información de los miembros
 [Member Information\n<user id>]
@@ -186,6 +252,8 @@ Afiliación:
 Opciones de chat
 [Custom messages]
 Benutzerdefinierte Nachrichten
+[Authorization Request]
+Solicitud de Autorización
 [HTTP Authorization\nAccept or reject incoming request]
 HTTP de autorización\nAceptar o rechazar la solicitud de entrada
 [Someone (maybe you) has requested the following file:]
@@ -241,8 +309,12 @@ Conferencias
 ;file \protocols\JabberG\src\jabber_caps.cpp
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 ;file \protocols\JabberG\src\jabber_chat.cpp
+[None]
+ninguno
 [Member]
 Miembros
+[Owner]
+Propietario
 [Visitor]
 Visitante
 [Participant]
@@ -301,6 +373,16 @@ Copia Sala &JID
 Copia tema Sala
 [&Send presence]
 &Enviar presencia
+[Online]
+En línea
+[Away]
+Alejado 
+[NA]
+NA
+[DND]
+DND
+[Free for chat]
+Gratuito de chat
 [&User details]
 Usuario &detalles
 [Member &info]
@@ -419,6 +501,8 @@ Marcadores ...
 [Incoming groupchat invitation.]
 Entrantes invitación grupo de charla.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Notes]
+Notas
 [Agents list]
 Agentes de la lista
 [Transports]
@@ -509,6 +593,10 @@ Administrador de la lista
 Propietario de la lista
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Request authorization]
+Solicitud de autorización
+[Grant authorization]
+Conceder la autorización
 [Add to Bookmarks]
 Añadir a Favoritos
 [Commands]
@@ -557,6 +645,8 @@ No hay actividad, sin embargo, el uso del servidor de su elección
 La prioridad más alta (a elección del servidor)]
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
+[To]
+Para
 ;file \protocols\JabberG\src\jabber_notes.cpp
 [Incoming note from %s]
 Entrantes nota de %s
@@ -583,6 +673,8 @@ Las contraseñas no coinciden.
 Esta operación va a matar a su cuenta, la lista y todos otra información almacenada en el servidor. ¿Estás listo para hacer eso?
 [Account removal warning]
 Cuenta la eliminación de advertencia
+[Messaging]
+Mensajería
 [Log chat state changes]
 Registro de conversación cambios de estado
 [Log presence subscription state changes]
@@ -605,6 +697,8 @@ Las opciones de servidor
 Deshabilitar la autenticación SASL (para servidores de edad)
 [Enable stream compression (if possible)]
 Habilitar compresión de flujo (si es posible)
+[Other]
+Otros
 [Enable remote controlling (from another resource of same JID only)]
 Habilitar el control remoto (desde otro recurso de la JID mismo solamente)
 [Show transport agents on contact list]
@@ -627,6 +721,10 @@ Mostrar información sobre el sistema operativo en versión respuestas
 Aceptar sólo en la banda de transferencia de archivos de entrada (no revelan propia IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 Aceptar peticiones de autenticación HTTP (XEP-0070)
+[General]
+General
+[General]
+General
 [Autoaccept multiuser chat invitations]
 Autoaccept multiusuario invitaciones para chatear
 [Automatically join bookmarks on login]
@@ -647,12 +745,26 @@ Sala de los cambios de configuración
 Afiliación cambios
 [Role changes]
 Papel cambios
+[Status changes]
+Cambiar estado
 [Nick Name]
 Nick
+[Group]
+Grupo
 [Subscription]
 Suscripción
 [XML for MS Excel (UTF-8 encoded)]
 XML for MS Excel (UTF-8 encoded)
+[Connecting...]
+Conectando ...
+[Network]
+Red
+[Network]
+red
+[Advanced]
+Avanzada
+[Advanced]
+Avanzada
 [Public XMPP Network]
 Public XMPP Network
 [Secure XMPP Network]
@@ -719,6 +831,8 @@ Borrar lista
 ** Subsription: de **
 [** Subsription: none **]
  **Subsription: ninguno **
+[<none>]
+<ninguno>
 [allow ]
 permiten 
 [deny ]
@@ -775,6 +889,12 @@ Reenvío de mensajes no leídos
 Deja groupchats
 [Choose the status and status message]
 Elige el mensaje de estado y el estado
+[Status]
+estado
+[Invisible]
+Invisible
+[Offline]
+Offline
 [Priority]
 Prioridad
 [Set the desired options]
@@ -815,8 +935,14 @@ Solicitud de registro de instrucciones ...
 [Sending registration information...]
 registro de envío de la información ...]
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Message]
+Mensaje
+[<not specified>]
+<No se ha especificado>
 [Software]
 Software
+[Version]
+Versión
 [Idle since]
 Inactivo desde
 [Client capabilities]
@@ -829,6 +955,10 @@ Sistema operativo
 Versión del sistema operativo
 [Software version]
 Versión de software
+[Yes]
+Si
+[No]
+No
 [Tune]
 Melodía
 [Last logoff time]
@@ -839,6 +969,8 @@ Cierre de sesión mensaje
 <no hay información disponible>
 [Last active resource]
 Último recurso activo
+[Copy]
+Copiar
 [Copy only this value]
 Copiar sólo este valor
 [<Photo not available while offline>]
@@ -880,6 +1012,8 @@ Error en el servidor remoto
 Servicio no disponible
 [Remote server timeout]
 Tiempo de espera del servidor remoto
+[Error]
+Error 
 [Advanced Status]
 Estado avanzado
 [Set mood...]
@@ -887,12 +1021,18 @@ Establecer el estado de ánimo ...
 [Set activity...]
 Establecer la actividad ...
 ;file \protocols\JabberG\src\jabber_vcard.cpp
+[Male]
+masculino
+[Female]
+Hombre
 [Jabber vCard]
 Jabber vCard
 [Jabber vCard: Edit Email Address]
 Jabber vCard: Editar dirección de correo electrónico
 [Jabber vCard: Edit Phone Number]
 Jabber vCard: Editar número de teléfono
+[Contacts]
+Contactos
 ;file \protocols\JabberG\src\jabber_ws.cpp
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Set Mood]

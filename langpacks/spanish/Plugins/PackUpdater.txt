@@ -6,6 +6,14 @@
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
 ;file \plugins\PackUpdater\Res\Resource.rc
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Text]
+Texto
+[Text]
+Texto
 ;file \plugins\PackUpdater\Src\Events.cpp
 ;file \plugins\PackUpdater\Src\Notifications.cpp
 [Current Version]

@@ -14,10 +14,14 @@ Database Editor++ Търсене и заместване
 Точно съвпадение
 [Setting Name]
 Име
+[&Search]
+Търсене
 [Found field]
 Намерено поле
 [&Replace]
 Замяна
+[&Cancel]
+Отказ
 [Search For]
 Търсене на
 [In:]
@@ -45,6 +49,8 @@ Database Editor++ Търсене и заместване
 [Popup timeout (0 for infinite)]
 Popup времетраене (0=безкрайност)
 [Background colour]
+Цвят на фона
+[Background colour]
 Фонов цвят
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
 Поставете \\ преди интервал в името на модул, напр. "ааа\\ ббб"
@@ -54,6 +60,8 @@ Popup времетраене (0=безкрайност)
 Име на модула за добавяне
 [Add to all contacts (Includes Settings)]
 Добавяне във всички контакти (и настройки)
+[Cancel]
+Отказ
 [Edit Setting]
 Редактиране
 [Value Name:]
@@ -76,6 +84,8 @@ Popup времетраене (0=безкрайност)
 Презареждане на модулите
 [Refresh &Settings]
 Презареждане на настройките
+[E&xit]
+Изход
 [&Actions]
 Действия
 [&Search and Replace]
@@ -98,6 +108,8 @@ Popup времетраене (0=безкрайност)
 От файл
 [From pasted &text]
 От поставен текст
+[&Options]
+Настройки
 [&Sort by protocol]
 Сортиране по протокол
 [Show &All]
@@ -130,6 +142,10 @@ Unicode
 Шифроване на низа
 [&Watch]
 Наблюдение
+[&Delete]
+Изтриване
+[&Rename]
+Преименуване
 [Copy To Contact]
 Копиране в контакт
 [Export Module]
@@ -150,16 +166,12 @@ Unicode
 Добавяне на модул
 [Export Settings]
 Изнасяне на настройките
-[Contacts menu]
-Меню на контактите
 [Export Contacts]
 Изнасяне на контактите
 [Import Contacts]
 Внасяне на контакти
 [Export Module from all contacts]
 Износ на модула от всички контакти
-[new item]
-нов елемент
 [Reload Watch List]
 Обновяване списъка за наблюдение
 ;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
@@ -202,6 +214,8 @@ Unicode
 [Delete module from Database... Loading]
 Изтриване на модула от Database... Зареждане
 ;file \plugins\DbEditorPP\src\exportimport.cpp
+[All Files]
+Всички файлове
 [Error Loading Module List]
 Грешка при зареждане на списъка с модули
 [Couldn't open file for writing]
@@ -252,13 +266,23 @@ Unicode
 Зареждане на модулите...
 [Module tree not found]
 Дървото на модулът не е открито
+[Contacts]
+Контакти
 ;file \plugins\DbEditorPP\src\options.cpp
 ;file \plugins\DbEditorPP\src\settinglist.cpp
+[Name]
+Име
 [Data]
 Данни
+[Size]
+Размер
 [<unsupported>]
 <не се поддържа>
+[<unknown>]
+<неизвестно>
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
+[Contact]
+Контакт
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
 Промяна в базата от данни: \nМодул: "%s" , Настройка: "%s"\nНова стойност: (BYTE) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]

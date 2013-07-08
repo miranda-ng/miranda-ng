@@ -14,14 +14,34 @@ Génération d'une nouvelle clef privée - veuillez patienter...
 Politique par défaut
 [Manual]
 Manuel
+[&Cancel]
+&Annuler
+[&OK]
+OK
+[&No]
+&Non
+[&Yes]
+&Oui
 ;file \plugins\MirOTR\MirOTR\src\language.h
 [Start OTR]
 Cryptage OTR
 [Stop OTR]
 Stopper le Cryptage OTR
+[Yes]
+Oui
+[No]
+Non
 [OTR Information]
 TOR - Informations
+[Unknown]
+Inconnu
+[General]
+Général
+[Protocol]
+Protocole
 [Policy]
 Politique
+[Default]
+Défaut
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
 ;file \plugins\MirOTR\MirOTR\src\options.cpp

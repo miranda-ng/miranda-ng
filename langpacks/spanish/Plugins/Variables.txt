@@ -34,13 +34,25 @@ Se establece en el siguiente contacto
 El token %subject% se traduce en un contacto especial, que depende de la situación en la que se analiza la cadena. Utilice este cuadro de diálogo para simular el contacto al que %subject% traduce. Un ejemplo de utilización de este símbolo es: CINFO(%subject%,display).
 [The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.]
 El token %extratext% se traduce en una cadena que depende de la situación en la que se analiza la cadena. Utilice este cuadro de diálogo para simular la cadena a la que%extratext% traduce.
+[Close]
+Cerrar
+[OK]
+OK
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
 Las variables plugin fichas traduce diferentes en un determinado valor. Un ejemplo es: me estoy quedando Miranda %mirandaversion%. La subcadena %mirandaversion% se traducirá en el número de versión correcta. La siguiente lista muestra todas las fichas disponibles.
+[Notes]
+Notas
 ;file \plugins\Variables\src\help.cpp
 [--- Special characters ---\r\n\r\nThe following characters have a special meaning in a formatting string:\r\n\r\n?<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will be parsed again. Example: Today is ?cdate(yyyy/MM/dd).\r\n\r\n!<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will not be parsed again. Example: Message waiting: !message(,first,rcvd,unread).\r\n\r\n%<field>%\r\nThis will parse the given field. Example: I installed Miranda at: %mirandapath%.\r\n\r\n`<string>`\r\nThis will not parse the given string, any function, field or special character in the string will shown in the result without being translated. Example: Use `%mirandapath%` to show the installation path.\r\n\r\n#<comment>\r\nThis will add a comment in the formatting string. Everything from the # character to the end of the line will be removed. Example: %dbprofile% #this is a useless comment.\r\n\r\n\r\n--- Contacts ---\r\n\r\nWhenever a functions requires a contact as an argument, you can specify it in two ways:\r\n\r\n(1) Using a unique id (UIN for ICQ, email for MSN) or, a protocol id followed by a unique id in the form <PROTOID:UNIQUEID>, for example <MSN:miranda@hotmail.com> or <ICQ:123456789>.\r\n\r\n(2) Using the contact function:\r\n?contact(x,y)\r\nA contact will be searched which will have value x for its property y, y can be one of the following:\r\nfirst, last, nick, email, id or display\r\n\r\nFor example: ?contact(miranda@hotmail.com,email) or ?contact(Miranda,nick). The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.]
 --- Los caracteres especiales ---\r\n\r\nLos siguientes caracteres tienen un significado especial en una cadena de formato:\r\n\r\n?<function>(<arguments>)\r\nEsta analizará la función de vista de los argumentos, el resultado será analizado de nuevo. Ejemplo: Hoy es?cdate(yyyy/MM/dd).\r\n\r\n!<function>(<arguments>)\r\nEsta analizará la función de vista de los argumentos, el resultado no se va a analizar de nuevo. Ejemplo: de mensaje en espera: mensaje(,first,rcvd,unread).\r\n\r\n%<field>%\r\nEsto analizar el campo dado. Ejemplo: He instalado Miranda: %mirandapath%.\r\n\r\n`<string>`\r\nEsto no va a analizar la cadena dada, cualquier campo de la función, o un carácter especial en la cadena se muestra en el resultado sin ser traducido. Ejemplo: Utilice `%mirandapath%` para mostrar la ruta de instalación.\r\n\r\n#<comment>\r\nEsto agregará un comentario en la cadena de formato. Todo, desde el # character hasta el final de la línea serán eliminados. Ejemplo: %dbprofile% #this is a useless comment.\r\n\r\n\r\n--- Contacts ---\r\n\r\nSiempre que una función requiere un contacto como un argumento, se puede especificar de dos maneras:\r\n\r\n(1) Using a unique id (UIN for ICQ, email for MSN) o, un protocolo de Identificación seguido de un identificador único en forma <PROTOID:UNIQUEID>, for example <MSN:miranda@hotmail.com> or <ICQ:123456789>.\r\n\r\n(2) Using the contact function:\r\n?contact(x,y)\r\nA contact will be searched which will have value x for its property y, y can be one of the following:\r\nfirst, last, nick, email, id or display\r\n\r\nFor example: ?contact(miranda@hotmail.com,email) or ?contact(Miranda,nick). The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.
 [Input]
 De entrada
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Help]
+Ayuda
 [Variables Help]
 Variables de Ayuda
 ;file \plugins\Variables\src\options.cpp

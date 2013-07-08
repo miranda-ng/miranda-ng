@@ -16,6 +16,10 @@ Para continuar, haga clic en Siguiente.]
 Este programa está disponible bajo los términos de la GNU General Public License
 [Miranda Database Tool]
 Miranda Database Tool
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [Select Miranda Profile]
 Seleccione Miranda Perfil
 [You can choose the Miranda profile database to compact or repair.]
@@ -93,10 +97,14 @@ Tratamiento no ha terminado todavía, si se cancela ahora, entonces los cambios 
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
 Tratamiento no ha terminado todavía, si usted vuelve ahora a continuación, los cambios que actualmente han sido realizados se deshace y la base de datos original será restaurado. ¿Todavía quieres volver?
 ;file \plugins\DbChecker\src\selectdb.cpp
+[Error]
+Error 
 [Total size]
 Tamaño total
 [Wasted]
 Perdido
+[All Files]
+Todos los archivos
 ;file \plugins\DbChecker\src\wizard.cpp
 ;file \plugins\DbChecker\src\worker.cpp
 [Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]

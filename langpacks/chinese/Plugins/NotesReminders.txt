@@ -28,20 +28,32 @@
 触发时间及日期: 
 [Reminder Note:]
 提醒笔记: 
+[None]
+无
 [&Add Reminder]
 添加提醒(&A)
+[&Close]
+关闭(&C)
 [&View Reminders]
 查看提醒(&V)
 [&Dismiss]
 关闭
 [Add New]
 添加新项目
-[Context Menu Reminder ListView]
-环境菜单提醒列表查看
 [Context Menu Note Popup]
 环境菜单笔记弹出窗口
 [&New Note]
 新增笔记(&N)
+[Reset]
+重置
+[Text Color]
+文本颜色
+[Font]
+字体
+[Undo]
+撤销
+[&Copy]
+复制(&C)
 [&Paste]
 粘贴(&P)
 [C&ut]
@@ -59,17 +71,25 @@
 删除所有提醒
 [Sticky Notes]
 便签
+[Plugins]
+插件
 [Add New Note]
 添加新笔记
 [Add New Reminder]
 添加新提醒
+[Alerts]
+提醒
 [Notes && Reminders]
 笔记及提醒
 [&Delete All Notes]
 删除所有笔记(&D)
 ;file \plugins\NotesAndReminders\src\notes.cpp
+[Notes]
+便笺
 ;file \plugins\NotesAndReminders\src\options.cpp
 ;file \plugins\NotesAndReminders\src\reminders.cpp
+[Default]
+默认
 [Reminder text]
 提醒文本
 [Date of activation]

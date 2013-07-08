@@ -6,16 +6,204 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\Clist_mw\res\resource.rc
+[Stretch to width]
+Genişliği Gerdir
+[Stretch to height]
+Yüksekliği Gerdir
+[Tile horizontally]
+Yatay döşe
+[Tile vertically]
+Dikey döşe
+[Scroll with text]
+Yazıyla kaydır
+[Stretch proportionally]
+Oransal Gerdir
+[Warning!\r\nThis MenuObject not support user defined options.]
+Dikkat!\r\nB MenüNesnesi kullanıcı tanımlı seçenekleri desteklemiyor.
 [MenuObjects]
 MenuNesneleri
 [MenuItems]
 MenüÖgeleri
 [InsertSeparator]
 AyıraçEkle
+[Service:]
+Hizmet:
+[Name:]
+Ad:
+[Name:]
+Ad:
+[Set]
+Ayarla
+[Default]
+Varsayılan
+[Delete Contact]
+Kişiyi sil
+[No]
+Hayır
+[Yes]
+Evet
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Sadece listeden gizle, geçmiş ve yoksay/görünürlük ayarlarını tut
+[Are you sure you want to delete %s?]
+%s ögesini silmek istediğinize emin misiniz?
+[This will erase all history and settings for this contact!]
+Bu işlem bu kişinin tüm geçmişini ve ayarlarını silecek!
+[Hide offline users]
+Çevrimdışıları gizle
+[Hide empty groups]
+Boş grupları gizle
+[Disable groups]
+Grupları devredışı bırak
+[Ask before deleting contacts]
+Kişileri silmeden önce sor
+[Always on top]
+Her zaman üstte
+[Hide contact list after it has been idle for]
+Şu kadar boş kaldıktan sonra kişi listesini gizle
+[seconds]
+saniye
+[seconds]
+saniye
+[Sort contacts by name]
+Kişileri ada göre diz
+[Sort contacts by status]
+Kişileri duruma göre diz
+[Sort contacts by protocol]
+Kişileri protokole göre diz
+[Single click interface]
+Arayüz tek tıkla işlesin
+[Always show status in tooltip]
+Durumu her zaman araç iletisinde göster
+[Disable icon blinking]
+Simgenin yanıp sönmesini önle
+[Show]
+Göster
+[icon when statuses differ]
+durumlar farklıyken simgeyi göster
+[Cycle icons every]
+Simgeleri şu arayla çevir
+[seconds, when statuses differ]
+saniye, durumlar farklıyken
+[Show multiple icons]
+Çoklu simgeleri göster
+[Only when statuses differ]
+Sadece durumlar farklı ise
+[Contact List]
+Kişi Listesi
+[Contact List]
+Kişi Listesi
+[System tray icon]
+Sistem tepsisi simgesi
+[System tray icon when using multiple protocols]
+Bir kaç protokol kullanırken sistem tepsisi simgesi
+[Contact List Sorting]
+Kişi Listesi Sıralaması
+[Pin to desktop]
+Masa üstüne iğnele
 [Rows]
 Satırlar
+[Row height:]
+Satır yüksekliği:
+[pixels]
+piksel
+[pixels]
+piksel
+[Gamma correction]
+Gamma düzeltmesi
+[Window]
+Pencere
+[Tool style main window]
+Araç stili ana pencere
+[Minimize to tray]
+Sistem tepsisine küçült
+[Automatically resize window to height of list]
+Pencereyi listenin yüksekliğine boyutlandır
+[maximum]
+en çok
+[% of screen]
+ekran yüzdesi
+[Size upwards]
+Şundan büyük
+[Title bar text:]
+Başlık çubuğu yazısı:
+[Fade contact list in/out]
+Kişi listesine giriş/çıkışta sönükleştir
+[Transparent contact list]
+Saydam kişi listesi
+[Inactive opacity:]
+Etkin değil matlığı:
+[Active opacity:]
+Etkin matlık:
+[Show menu bar]
+Menü çubuğunu göster
+[Easy move]
+Kolay taşı
+[Show title bar]
+Başlık çubuğunu göster
+[If window is partially covered, bring to front instead of hiding]
+Pencere kısmen örtülmüşse gizlemek yerine öne getir.
+[Items]
+Ögeler
+[Show divider between online and offline contacts]
+Çevrimiçi ve çevrimdışı kişiler arasında ayıraç göster
+[Hot track items as mouse passes over]
+Fare üzerinden geçtiğinde ögeleri izle
+[Disable drag and drop of items]
+Ögelerin sürüklenip bıraılmasını önle
+[Disable rename of items by clicking twice]
+İki kez tıklandığında öge yeniden adlandırmayı önle
+[Show selection even when list is not focused]
+Listeye odaklanılmamışsa bile seçimi göster
+[Make selection highlight translucent]
+Seçilenler yarı saydam olsun
+['Hide Offline' means to hide:]
+'Çevrimdışıları gizle' şunları gizler:
+[Groups]
+Gruplar
+[Draw a line alongside group names]
+Grup adları boyunca çizgi çek
+[Show counts of number of contacts in a group]
+Gruptaki kişi sayısını göster
+[Hide group counts when there are none online]
+Hiç kimse çevrim içi değilken grup sayılarını gizle
+[Sort groups alphabetically]
+Grupları alfabetik olarak diz
+[Quicksearch in open groups only]
+Yalnız açık gruplarda hızlı ara
+[Indent groups by:]
+Grupları şununla içe al:
+[Visual]
+Görsel
+[Scroll list smoothly]
+Listeyi düzgün kaydır
+[Time:]
+Zaman:
+[milliseconds]
+milisaniye
+[Left margin:]
+Sol boşluk:
+[Grey out entire list when:]
+Şu olduğunda tüm listeyi karart:
+[Dim idle contacts]
+Boştaki kişileri kıs
+[Contact List Background]
+Kişi Listesi Art Alanı
 [MetaContacts supporting]
 MetaKişiler destekleniyor
+[Status Bar]
+Durum Çubuğu
+[Show status bar]
+Durum çubuğunu göster
+[Show icons]
+Simgeleri göster
+[Show protocol names]
+Protokol adlarını göster
+[Show status text]
+Durum yazısını göster
+[Right click opens status menu]
+Sağ tık durum menüsünü açsın
+[Make sections equal width]
+Bölümler eşit genişlikte olsun
 [Show size grip]
 boyut kavraması kullan
 [Show bevel effect on panels]
@@ -24,29 +212,143 @@ Panellerde yuvarlatma etkisi kullan
 Bağlanıyor simgesini kullan
 [Use New Drawer for StatusBar]
 Drum Çubuğu için yeni çizimi kullan
+[E&xit]
+Çı&kış
+[&Status]
+&Durum
+[&Offline\tCtrl+0]
+Ç&evrimdışı/tCtrl+0
+[On&line\tCtrl+1]
+Ç&evrimiçi\tCtrl+1
+[&Away\tCtrl+2]
+Uz&akta\tCtrl+2
+[&NA\tCtrl+3]
+Uygu&n değil/tCtrl+3
+[Occ&upied\tCtrl+4]
+Meşg&ul\tCtrl+4
+[&DND\tCtrl+5]
+&DND\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Sohbete uygun\tCtrl+6
+[&Invisible\tCtrl+7]
+&Görünmez\tCtrl+7
+[On the &Phone\tCtrl+8]
+Tele&fonda\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+&Yemekte\tCtrl+9
+[Tray]
+Tepsi
+[&Hide/Show]
+&Gizle/Göster
+[Nowhere]
+Hiç bir yer
+[&New Group]
+Ye&ni Grup
+[&Hide Offline Users]
+Ç&evrimdışı Kişileri Gizle
+[Hide &Offline Users out here]
+Çevrimdışıları &buranın dışında gizle
+[Hide &Empty Groups]
+Boş Grupları Gizl&e
+[Disable &Groups]
+&Grupları Devredışı Bırak
+[Hide Miranda]
+Miranda'yı Gizle
+[Group]
+Grup
+[&New Subgroup]
+Ye&ni Alt Grup
+[&Hide Offline Users in here]
+&Buradaki çevrimdışıları gizle
+[&Rename Group]
+Grubu Yeniden Adlandı&r
+[&Delete Group]
+&Grubu Sil
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
+[Customize]
+Kişiselleştir
 [Backgrounds]
 Art alanlar
 ;file \plugins\Clist_mw\src\clcfonts.cpp
+[Standard contacts]
+Standart kişiler
+[Online contacts to whom you have a different visibility]
+Farklı görünürlüğe sahip olduğunuz çevrimiçi kişiler
+[Offline contacts]
+Çevrimdışı kişiler
+[Contacts which are 'not on list']
+'listede olmayan' kişiler
+[Group member counts]
+Grup üyelerinin sayısı
+[Dividers]
+Ayıraçlar
+[Offline contacts to whom you have a different visibility]
+Farklı görünürlükte olduğunuz çevrimdışı kişiler 
 [Status messages]
 Durum iletileri
 [Group Closed]
 Grup Kapatıldı
 [Hover Contacts]
 Kişilerin Üzerine
+[Background]
+Art Alan
+[Selected Text]
+Seçili yazı
+[Hottrack Text]
+Sıcak takip yazısı
+[Quicksearch Text]
+Hızlı arama yazısı
 ;file \plugins\Clist_mw\src\clcopts.cpp
+[List]
+Liste
+[List Background]
+Liste Art Alanı
 [List MetaContacts]
 KişiVerisini Listele
 [StatusBar Background]
 Durum Çubuğu Art Alanı
+[Not focused]
+Odaklanmamış
+[Offline]
+Çevrimdışı
+[Online]
+Çevrimiçi
+[Away]
+Uzakta
+[NA]
+Bilinmiyor
+[Occupied]
+Meşgul
+[DND]
+Dokunma
+[Free for chat]
+Sohbete uygun
+[Invisible]
+Görünmez
+[Out to lunch]
+Yemekte
+[On the phone]
+Telefonda
 ;file \plugins\Clist_mw\src\clistopts.cpp
+[Global]
+Genel
 ;file \plugins\Clist_mw\src\clistsettings.cpp
 [_NoProtocol_]
 _ProtokolYok_
+[(Unknown Contact)]
+(Bilinmmeyen Kişi)
 ;file \plugins\Clist_mw\src\clisttray.cpp
+[&Find/Add Contacts...]
+&Kişi Ara/Bul...
+[&Main Menu]
+Ana &Menü
+[&Options...]
+&Seçenekler...
 ;file \plugins\Clist_mw\src\clui.cpp
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp
 ;file \plugins\Clist_mw\src\keyboard.cpp
 ;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+[Frames]
+Çerçeveler
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

@@ -6,6 +6,18 @@
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 ;file \protocols\FacebookRM\res\facebook.rc
+[E-mail:]
+E-post:
+[Password:]
+Passord:
+[Cancel]
+Avbryt
+[User Details]
+Brukerdetaljer
+[Text]
+Tekst
+[Default]
+Standard
 ;file \protocols\FacebookRM\src\communication.cpp
 ;file \protocols\FacebookRM\src\connection.cpp
 ;file \protocols\FacebookRM\src\constants.h
@@ -15,4 +27,14 @@
 ;file \protocols\FacebookRM\src\messages.cpp
 ;file \protocols\FacebookRM\src\process.cpp
 ;file \protocols\FacebookRM\src\proto.cpp
+[Network]
+Nettverk
+[Advanced]
+Avansert
+[Popups]
+Popups
+[Popups]
+Popups
+[Events]
+Hendelser
 ;file \protocols\FacebookRM\src\theme.cpp

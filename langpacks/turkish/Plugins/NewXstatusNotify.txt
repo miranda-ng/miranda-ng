@@ -1,16 +1,86 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: xStatus notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 ;file \plugins\NewXstatusNotify\res\resource.rc
+[Online]
+Çevrimiçi
+[Offline]
+Çevrimdışı
+[Invisible]
+Görünmez
+[Free for chat]
+Sohbete uygun
+[Away]
+Uzakta
+[NA]
+Bilinmiyor
+[Occupied]
+Meşgul
+[DND]
+Dokunma
+[Out to lunch]
+Yemekte
+[On the phone]
+Telefonda
+[Delete]
+Sil
+[Sounds]
+Sesler
+[Popups]
+Açılır Pencereler
+[Background]
+Art Alan
+[Text]
+Yazı
+[Use custom colours]
+Kişisel renkleri kullan
+[Use Windows colours]
+Windows renklerini kullan
+[Use Windows colours]
+Windows renklerini kullan
+[Reset]
+Sıfırla
+[Reset]
+Sıfırla
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
+[General]
+Genel
+[Accounts]
+Hesaplar
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Status]
+Durum
+[** All contacts **]
+** Tüm kişiler **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 ;file \plugins\NewXstatusNotify\src\main.cpp
+[Contact]
+Kişi
 ;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+Tüm Dosyalar
+[All Files]
+Tüm Dosyalar
+[Log]
+Günlük
+[Log]
+Günlük
+[Protocol]
+Protokol
 ;file \plugins\NewXstatusNotify\src\popup.h
 ;file \plugins\NewXstatusNotify\src\utils.cpp
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[<unknown>]
+<bilinmiyor>
 ;file \plugins\NewXstatusNotify\src\xstatus.h

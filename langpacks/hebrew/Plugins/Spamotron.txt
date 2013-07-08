@@ -6,10 +6,20 @@
 ;  Authors: vu1tur
 ;============================================================
 ;file \plugins\Spamotron\res\spamotron.rc
+[Outgoing message]
+הודעה יוצאת
+[Background]
+רקע
 ;file \plugins\Spamotron\src\bayes.cpp
 ;file \plugins\Spamotron\src\common.h
 ;file \plugins\Spamotron\src\options.cpp
 [Simple]
 פשוט
+[Message Sessions]
+חלון הודעות
+[Messages]
+הודעות
+[Popups]
+פופ אפ
 ;file \plugins\Spamotron\src\spamotron.cpp
 ;file \plugins\Spamotron\src\utils.cpp

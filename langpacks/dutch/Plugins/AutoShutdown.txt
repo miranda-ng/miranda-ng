@@ -6,9 +6,25 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 ;file \plugins\AutoShutdown\res\resource.rc
+[seconds]
+seconden
+[Configure]
+Instellen
+[OK]
+OK
+[Cancel]
+Annuleren
 ;file \plugins\AutoShutdown\src\frame.cpp
+[Background]
+Achtergrond
 ;file \plugins\AutoShutdown\src\main.cpp
 ;file \plugins\AutoShutdown\src\options.cpp
+[Events]
+Gebeurtenissen
 ;file \plugins\AutoShutdown\src\settingsdlg.cpp
 ;file \plugins\AutoShutdown\src\shutdownsvc.cpp
+[Unknown]
+Onbekend
+[Alerts]
+Waarschuwingen
 ;file \plugins\AutoShutdown\src\utils.cpp

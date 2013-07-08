@@ -6,23 +6,97 @@
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 ;file \plugins\TabSRMM\res\chat.rc
+[Cancel]
+Annuler
 [  Show these events]
  Afficher ces événements
+[Nick changes]
+Changements de pseudo
+[Users joining]
+Arrivée d'usagers
+[Users leaving]
+Départ d'usagers
+[Topic changes]
+Changements de sujet
+[Status changes]
+Changements d'état
+[Information]
+Informations
+[Disconnects]
+Déconnexions
+[User kicks]
+Kicks d'usagers
+[Notices]
+Notifications
+[Tray]
+Tray
+[Add new rooms to group:]
+Ajouter salons au groupe :
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
 L'intégration du Chat est désactivée. Vous pouvez l'activer d'ici, ensuite vous DEVREZ RELANCER MIRANDA pour valider ce changement.\n\nVous DEVEZ également désactiver le plugin standard de Chat. Sinon, aucuns Chat ne fonctionnera.
+[Enable logging to disk]
+Sauvegarde du journal
+[Log directory]
+Répertoire :
 [Maximum size for log files (in kB)]
 Taille maxi du journal (en kb)
+[Your name]
+Votre nom
+[Other name]
+Autre nom
 [Timestamp (window)]
 Horodatage (fenêtre)
 [Timestamp (logfile)]
 Horodatage (journal)
 [Maximum number of events in the message window]
 Nombre maxi d'évènements dans la fenêtre de message
+[List]
+Liste
+[Log]
+Journal
+[Clear lo&g]
+Effacer le journal
+[Co&py all]
+&Tout copier
+[Word lookup]
+Consultation de mot
+[Link]
+Lien
+[Open a &new browser window]
+Ouvrir &nouvelle fenêtre de navigateur
+[&Open in current browser window]
+&Ouvrir dans la fenêtre active du navigateur
+[&Copy link]
+&Copier le lien
+[Undo  ]
+Annuler
+[Redo]
+Refaire
+[Copy]
+Copier
+[Cut]
+Couper
+[Paste]
+Coller
+[Select All]
+Tout sélectionner
+[Clear]
+Effacer
+[Tabs]
+Onglets
+[&Close tab]
+Fermer l'onglet
+[C&lose other tabs]
+Fermer les autres onglets
+[&Open at this position]
+Ouvrir à cet endroit
 ;file \plugins\TabSRMM\res\resource.rc
 [Advanced tweaks]
 Réglages avancés
 [Message send timeout]
 Délai d'envoi des messages
+[seconds]
+secondes
 [Input history size]
 Nombre d'entrées dans l'historique
 [entries]
@@ -37,8 +111,14 @@ Paramètres par défaut
 Options de notification d'évènement
 [Limit message preview to]
 Aperçu des messages limité à
+[Text]
+Texte
+[Background]
+Arrière-plan
 [Timeout (seconds, 0 = default, -1 = no timeout)]
 Délai (en secondes, 0=par défaut, -1=permanent)
+[Group chats]
+Chats
 [All modes]
 Tous les modes
 [Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.]
@@ -65,6 +145,8 @@ Ignorer l'envoi de timeouts
 Charger uniquement l'historique en cours
 [Always trim message log to]
 Toujours fixer à 
+[Events]
+Évènements
 [Only show tab bar when it's needed]
 Voir la barre d'onglet si nécessaire
 [Container stays on top]
@@ -97,6 +179,8 @@ Cacher la barre de titre
 Taille/position générale des conteneurs
 [Save current as global]
 Sauver en 'Paramètres généraux'
+[Apply]
+Appliquer
 [Show contact avatars]
 Afficher l'avatar des contacts
 [Show my own avatars]
@@ -117,8 +201,20 @@ Modèle
 Modèles standards...
 [RTL templates...]
 Modèles DàG...
+[Load History Events]
+Derniers échanges
+[Load unread events only]
+Voir seulement les messages non lus
+[Load number of previous events]
+Voir les x derniers évènements
+[Load previous events less than]
+Voir les évènements ayant moins de
+[minutes old]
+minutes
 [Global message log display]
 Plugin pour l'historique
+[Typing Notification]
+Notification de frappe
 [Send typing notifications to the following users when you are typing a message to the them:]
 Envoyez la notification de frappe aux contacts suivants quand vous leur écrivez un message :
 [          Show typing notifications in the message window]
@@ -129,6 +225,8 @@ La fenêtre clignote une fois (seulement si clignotement activé)
           Afficher la notification de frappe dans liste de contact et Systray
 [Show typing notification when message dialog is open]
 Afficher la notification de frappe quand une fenêtre est ouverte
+[Show typing notification when no message dialog is open]
+Afficher une notification quand aucune fenêtre n'est ouverte
 [Show balloon tooltip in the system tray]
 Afficher une bulle d'info dans le Systray
 [          Show popups when a user is typing]
@@ -147,10 +245,16 @@ Limiter pseudo dans l'onglet à
 Sélection d'un Conteneur
 [Available containers]
 Conteneurs disponibles
+[Delete]
+Effacer
+[Rename]
+Renommer
 [Create a new container]
 Création d'un nouveau conteneur
 [Create new]
 Créer un nouveau
+[Reset]
+RAZ
 [Insert Separator]
 Insérer un séparateur
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
@@ -163,6 +267,8 @@ Clignotement des conteneurs
 fois
 [Flash interval]
 Intervalle de clignotement
+[milliseconds]
+millisecondes
 [...is &typing]
 ... vous &écrit
 [...stopped t&yping]
@@ -177,6 +283,8 @@ Seulement &un popup par contact
 Voir dans le &Menu de Miranda
 [From protocol]
 Comme le Protocole
+[Custom]
+Défini
 [Edit template]
 Éditer le modèle
 [Double click a template to edit it. Select a template from the list box and click "Update Preview" to show a preview message.]
@@ -185,6 +293,8 @@ Double-cliquer sur un modèle pour l'éditer. Sélectionner un modèle dans la l
 Plus d'aide sur les variables
 [Define up to 5 colors which you can use with some variables]
 Définir jusqu'à 5 couleurs à utiliser avec les variables
+[Close]
+Fermer
 [Update Preview]
 Mise à jour de l'aperçu
 [Save Template]
@@ -207,6 +317,8 @@ Note : certains paramètres n'affecteront pas les conteneurs ouverts.
 Charger les police et couleur du skin
 [Load templates provided by skin (use with care, will overwrite your templates)]
 Utiliser le modèle du skin (attention, ceci remplacera votre modèle)
+[Icons]
+Icônes
 [Use different icons to mark incoming and outgoing messages]
 Utiliser des icônes différents pour les messages entrants et sortants
 [Date and time]
@@ -225,14 +337,30 @@ Support du BBCODE
 Lecture inversée par défaut
 [Use normal templates (uncheck to use simple templates)]
 Utiliser des modèles clssiques (décochez afin d'utiliser des modèles simples)
+[Yes]
+Oui
+[No]
+Non
 [Create new windows in minimized state]
 Créer les nouvelles fenêtres mais minimisées
+[Minimize the message window on send]
+Réduire la fenêtre à l'envoi
 [Notifications:]
 Notifications :
+[&Copy]
+&Copier
 [&Quote]
 &Citer
+[Co&py All]
+&Tout copier
+[Select &All]
+Tout &sélectionner
 [Freeze Log]
 Figer les messages
+[Open in &new window]
+Ouvrir dans une nouvelle fenêtre
+[&Open in existing window]
+Ouvrir dans une fenêtre existante
 [Editor]
 Éditeur
 [Paste formatted Text]
@@ -259,6 +387,8 @@ Options du conteneur...
 Fermer le conteneur
 [Show Contact Picture]
 Afficher l'avatar du contact
+[Default]
+Défaut
 [Hidden for this Contact]
 Cacher, pour ce contact
 [Visible for this Contact]
@@ -269,8 +399,6 @@ Paramètres de l'avatar du contact
 Largeur maximum de la barre de boutons
 [Save this Picture As...]
 Sauver cette image sous ...
-[Sendmenu]
-Menu envoi
 [Send &Default]
 Envoi &normal
 [Send to &multiple Users]
@@ -283,6 +411,8 @@ Envoyer aux contacts du &conteneur
 Envoyer en &Ansi
 [Send unsafe (ignore Timeouts)]
 Envoi incertain (ignorer les délais)
+[Global]
+Général
 [Send Text Formatting]
 Formatage du texte
 [This Contact]
@@ -309,6 +439,8 @@ Restaurer tous les conteneurs
 Aucun sons
 [Be "Super Quiet"]
 Être "super silencieux"
+[Font]
+Police
 [Default Color]
 Couleur par défaut
 [Magenta]
@@ -331,6 +463,8 @@ Régler et sauver la position pour toutes les sessions
 Régler et sauver la position pour ce contact
 [Revert to old Position]
 Revenir à l'ancienne position
+[&File]
+&Fichier
 [Save Message Log As...]
 Enregistrer sous...
 [Close Message Session\tCtrl-W]
@@ -379,6 +513,8 @@ Afficher popups si fenêtre cachée
 Voir les popups des sessions inactives
 [Save current Window Position as Default]
 Sauver la position actuelle de la fenêtre
+[Help]
+Aide
 [About tabSRMM...]
 À propos de TabSRMM
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
@@ -402,6 +538,8 @@ Envoyer le message\nCliquez sur la flèche pour les options d'envois
 Citer le dernier message ou le texte sélectionné
 [Message Log Options]
 Options
+[View User's History]
+Voir l'historique
 [Change background color]
 Couleur de fond
 [Toggle nick list]
@@ -464,6 +602,18 @@ Nouveaux messages :
 [Last received: %s at %s]
 Dernière réception : le %s à %s
 ;file \plugins\TabSRMM\src\globals.cpp
+[Incoming (Focused Window)]
+Entrant (fenêtre active)
+[Incoming (Unfocused Window)]
+Entrant (fenêtre inactive)
+[Incoming (New Session)]
+Entrant (nouvelle session)
+[Outgoing]
+Sortant
+[Other]
+Autre
+[Message from %s]
+Message de %s
 [signed off.]
 déconnecté.
 [signed on and is now %s.]
@@ -522,6 +672,8 @@ Sauver l'image du contact
 Le fichier existe déjà, Voulez-vous l'écraser ?
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
 La fonction "coller et envoyer" est désactivée. Vous pouvez l'activer dans les options générales, section 'Envoi de messages'
+['(Unknown Contact)']
+'(Contacts Inconnus)'
 ;file \plugins\TabSRMM\src\msglog.cpp
 ;file \plugins\TabSRMM\src\msgoptions.cpp
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
@@ -532,16 +684,30 @@ Charger un thème
 Plugin IEView
 [History++ plugin]
 plugin History++
+[** New contacts **]
+** Nouveaux contacts **
+[** Unknown contacts **]
+** Contacts inconnus **
+[Show balloon popup (unsupported system)]
+Afficher les popups (système non supporté)
 [Always, but no popup when window is focused]
 Toujours, mais sans popup si fenêtre au 1ier plan
 [Only when no message window is open]
 Seulement si la fenêtre de message est fermée
+[Message Sessions]
+Sessions de message
+[General]
+Général
 [Tabs and layout]
 Onglets
 [Containers]
 Conteneurs
 [Tool bar]
 Barre d'outils
+[Typing Notify]
+Notification de frappe
+[Group Chats]
+Groupe Chats
 [Choose status modes]
 Choisir les modes d'état...
 ;file \plugins\TabSRMM\src\msgs.cpp
@@ -549,6 +715,8 @@ Choisir les modes d'état...
 Citation
 [Save and close]
 Sauver puis fermer
+[Smiley button]
+Boutons des smileys
 [Format bold]
 Gras
 [Format italic]
@@ -561,8 +729,18 @@ Police
 Couleur
 [Format strike-through]
 Style de barré
+[Background colour]
+Couleur de fond
+[Background colour]
+Couleur de Fond : 
+[Room settings]
+Paramètres du salon
 [Message delivery error]
 Échec d'envoi du message
+[Incoming message]
+Message reçu
+[Outgoing message]
+Message envoyé
 [Statuschange]
 Changement d'état
 [Static container icon]
@@ -585,12 +763,16 @@ Image 2
 Image 3
 [Frame 4]
 Image 4
+[Message Log]
+Historique récent
 ;file \plugins\TabSRMM\src\msgs.h
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Choisir le conteneur de %s
 [You cannot delete the default container]
 Vous ne pouvez pas effacer le conteneur par défaut
+[Error]
+Erreur
 [You cannot rename the default container]
 Vous ne pouvez pas renommer le conteneur par défaut
 [This name is already in use]
@@ -598,6 +780,8 @@ Ce nom est déjà utilisé
 ;file \plugins\TabSRMM\src\sendlater.cpp
 [Message text]
 Message
+[Status]
+État
 ;file \plugins\TabSRMM\src\sendqueue.cpp
 [A message delivery has failed.\nClick to open the message window.]
 Échec d'envoi du message.\nCliquer pour ouvrir la fenêtre de message.
@@ -640,6 +824,8 @@ Voir les en-têtes
 Ouvrir l'évènement
 [Dismiss event]
 Désactiver l'évènement
+[System tray icon]
+Icône de la barre des tâches
 [Left click actions (popups only)]
 Actions du clic gauche (popups uniquement)
 [Right click actions (popups only)]
@@ -654,6 +840,12 @@ Comportement de la fenêtre des messages
 Envoi de messages
 [Send on SHIFT - Enter]
 Taper "Shift" + "Entrée" pour envoyer
+[Send message on 'Enter']
+Taper 1 fois "Entrée" pour envoyer
+[Send message on double 'Enter']
+Taper 2 fois "Entrée" pour envoyer
+[Close the message window on send]
+Fermer la fenêtre à l'envoi
 [Always flash contact list and tray icon for new messages]
 Toujours clignoter la liste de contacts et le Systray pour les nouveaux messages
 [Delete temporary contacts on close]
@@ -668,8 +860,6 @@ Apparence de l'historique récent
 Support des plugins externes
 [Timestamp settings (note: timstamps also depend on your templates)]
 Configuration de l'horodatage (dépend également de vos modèles)
-[Show file events]
-Voir les fichiers
 [Show dates in timestamps]
 Afficher les dates dans l'horodatage
 [Use contacts local time (if timezone info available)]
@@ -725,12 +915,68 @@ Forcer History++
 Utiliser IEView
 ;file \plugins\TabSRMM\src\utils.cpp
 ;file \plugins\TabSRMM\src\chat\clist.cpp
+[Join chat]
+Joindre un salon
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 ;file \plugins\TabSRMM\src\chat\log.cpp
+[%s has joined]
+%s est arrivé
+[You have joined %s]
+Vous avez rejoint %s
+[%s has left]
+%s est sorti
+[%s has disconnected]
+%s s'est déconnecté
+[%s is now known as %s]
+%s est devenu %s
+[You are now known as %s]
+Vous êtes connu en tant que %s
+[%s kicked %s]
+%s a exclu %s
+[Notice from %s: ]
+Notice de %s : 
+[ (set by %s)]
+ (réglé par %s)
+[<invalid>]
+<invalide>
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 ;file \plugins\TabSRMM\src\chat\options.cpp
 [Log background]
 Fond du journal
+[Timestamp]
+Heure
+[Others nicknames]
+Autres pseudos
+[Your nickname]
+Mon pseudo
+[User has joined]
+Usager est entré
+[User has left]
+Usager sortant
+[User has disconnected]
+Usager s'est déconnecté
+[User kicked ...]
+Usager exclu...
+[User is now known as ...]
+L'usager est devenu ...
+[Notice from user]
+Notice de l'usager
+[The topic is ...]
+Le sujet est...
+[Information messages]
+Messages d'info
+[User enables status for ...]
+L'usager active l'état pour ...
+[User disables status for ...]
+L'usager désactive l'état pour ...
+[Action message]
+Message d'action
+[Highlighted message]
+Message surligné
+[User list members (Online)]
+Liste des usagers (en ligne)
+[User list members (away)]
+Liste des usagers (absents)
 [>> Outgoing misc events]
 >> Évènements divers sortants
 [<< Incoming misc events]
@@ -759,16 +1005,80 @@ Fond du journal
 * Symboles (reçus)
 [* Symbols (outgoing)]
 * Symboles (envoyés)
+[Protocol]
+Protocole
 [Contacts local time]
 Heure locale du contact
 [Open new chat rooms in the default container]
 Ouvrir les salons de chat dans le container par défaut
+[Flash window when someone speaks]
+Fenêtre clignotante quand quelqu'un parle
+[Flash window when a word is highlighted]
+Fenêtre clignotante quand un mot est surligné
+[Show list of users in the chat room]
+Voir la liste des présents d'un salon
+[Show button menus when right clicking the buttons]
+Afficher les menus des boutons par un clic droit dessus
+[Do not pop up the window when joining a chat room]
+Ne pas afficher automatiquement la fenêtre en joignant un salon
 [Sync splitter position with standard IM sessions]
 Synchroniser la position du séparateur avec les fenêtres standards
+[Prefix all events with a timestamp]
+Afficher date/heure pour tous les évènements
+[Indent the second line of a message]
+Mettre la deuxième ligne d'un message en retrait
+[Limit user names in the message log to 20 characters]
+Limiter les noms à 20 caractères dans la fenêtre de discussion
 [Start private conversation on doubleclick in nick list (insert nick if unchecked)]
 Démarrer une conversation sur double-clic dans la liste des noms (insère le nom si décoché)
+[Strip colors from messages in the log]
+Retirer la couleur des messages dans le journal
 [Scale down icons to 10x10 pixels in the chat log]
 Réduire les icônes à 10x10 pixels dans la fenêtre de chat
+[Window Icon]
+Icônes de la fenêtre
+[Icon overlay]
+Surimpression d'icône
+[Status 1 (10x10)]
+État 1 (10x10)
+[Status 2 (10x10)]
+État 2 (10x10)
+[Status 3 (10x10)]
+État 3 (10x10)
+[Status 4 (10x10)]
+État 4 (10x10)
+[Status 5 (10x10)]
+État 5 (10x10)
+[Status 6 (10x10)]
+État 6 (10x10)
+[Message in (10x10)]
+Message reçu (10x10)
+[Message out (10x10)]
+Message envoyé (10x10)
+[Action (10x10)]
+Action (10x10)
+[Add Status (10x10)]
+Ajouter un état (10x10)
+[Join (10x10)]
+Rejoindre (10x10)
+[Leave (10x10)]
+Partir (10x10)
+[Quit (10x10)]
+Quitter (10x10)
+[Kick (10x10)]
+Botter (10x10)
+[Notice (10x10)]
+Note (10x10)
+[Nickchange (10x10)]
+Changer de pseudo (10x10)
+[Topic (10x10)]
+Sujet (10x10)
+[Highlight (10x10)]
+Surligner (10x10)
+[Appearance and functionality of chat room windows]
+Apparence et fonctionnalités des fenêtres de salon
+[Appearance of the message log]
+Apparence du journal des messages
 [Channel operators]
 OP du salon
 [Half operators]
@@ -781,14 +1091,74 @@ Mode étendu 1
 Choix du fond
 [Userlist background]
 Fond de la liste
+[All Files]
+Tous les fichiers
+[Select Folder]
+Sélectionnez un répertoire
+[Message is highlighted]
+Message surligné
+[User has performed an action]
+L'usager a effectué une action
+[User has kicked some other user]
+Usager a exclu un autre usager
+[User's status was changed]
+L'état du contact a changé
+[User has changed name]
+Usagé a changé de nom
+[User has sent a notice]
+Usager a envoyé une notice
+[The topic has been changed]
+Le sujet a été changé
 ;file \plugins\TabSRMM\src\chat\services.cpp
+[&Join]
+Re&joindre
+[&Leave]
+&Quitter
 ;file \plugins\TabSRMM\src\chat\tools.cpp
+[%s wants your attention in %s]
+%s demande votre attention dans %s
+[%s speaks in %s]
+% cause dans %s
+[%s has joined %s]
+%s a rejoint %s
+[%s has left %s]
+%s est parti de %s
+[%s kicked %s from %s]
+%s a été kické de %s
+[Notice from %s]
+Note de %s
+[Topic change in %s]
+Changement de sujet dans %s
+[Information in %s]
+Informations dans %s
+[%s has left (%s)]
+%s est parti (%s)
+[%s has disconnected (%s)]
+%s s'est déconnecté (%s)
+[%s kicked %s (%s)]
+%s a kické %s (%s)
+[Notice from %s: %s]
+Notice de %s : %s
+[No word to look up]
+Aucun mot à chercher
 ;file \plugins\TabSRMM\src\chat\window.cpp
+[Nick name]
+Pseudo
+[Nick]
+Pseudo
+[Unique id]
+ID unique
 [%s: Chat Room (%u user%s)]
 %s : Salon de Chat (%u contact%s)
 [%s: Chat Room (%u users%s)]
 %s: Salon de Chat (%u contact%s)
 [, event filter active]
 , filtre d'évènement actif
+[%s: Message Session]
+%s: Session de message
+[%s: Message Session (%u users)]
+%s: Session de message (%u usagers)
+[hours]
+heures
 [Event filter error]
 Erreur dans le filtre d'évènements

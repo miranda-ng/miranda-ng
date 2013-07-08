@@ -6,16 +6,66 @@
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 ;file \plugins\TipperYM\res\resource.rc
+[Options]
+Beállítások
+[Window]
+Ablak
 [Keep original avatar size]
 Eredeti avatárméret mgtartása
+[OK]
+OK
+[Cancel]
+Mégsem
+[Items]
+Elemek
+[Add]
+Új
+[Remove]
+Eltávolítás
+[Edit]
+Szerkeszt
+[Extra icons]
+Extra ikonok
+[Effects]
+Effektek
 ;file \plugins\TipperYM\src\mir_smileys.cpp
 ;file \plugins\TipperYM\src\options.cpp
+[None]
+Egyik sem
+[Customize]
+Testreszabás
 ;file \plugins\TipperYM\src\options.h
+[Status]
+Állpot
 [Client]
 Kliens
 ;file \plugins\TipperYM\src\popwin.cpp
+[%s (locked)]
+%s (kizárva)
+[Other]
+Egyéb
 ;file \plugins\TipperYM\src\preset_items.cpp
+[Gender:]
+Nem:
+[Homepage:]
+Honlap
+[Idle]
+Tétlen
+[Name]
+Név
+[Name:]
+Név:
+[Time:]
+Idõ:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 ;file \plugins\TipperYM\src\tipper.cpp
+[Background]
+Háttér
+[Dividers]
+Meghajtók
 ;file \plugins\TipperYM\src\translations.cpp
+[Female]
+Nõ
+[Male]
+Férfi
 ;file \plugins\TipperYM\src\translations.h

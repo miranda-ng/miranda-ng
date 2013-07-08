@@ -8,8 +8,24 @@
 ;file \plugins\SMS\res\resource.rc
 [&Reply]
 &Válasz
+[&Close]
+&Bezárás
+[From:]
+Küldõ:
+[To:]
+Címzett:
+[&H]
+&H
+[&Send]
+&Küldés
+[&Cancel]
+&Mégse
 ;file \plugins\SMS\src\options.cpp
 ;file \plugins\SMS\src\receive.cpp
 ;file \plugins\SMS\src\recvdlg.cpp
 ;file \plugins\SMS\src\senddlg.cpp
+[View User's History]
+Felhasználó elõzményeinek megtekintése
+[Invalid Phone Number]
+Érvénytelen telefonszám
 ;file \plugins\SMS\src\SMS_svc.cpp

@@ -3,13 +3,77 @@
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
 ;  Version: 1.9.0.4
-;  Authors: Bartosz 'Dezeath' Biaіek, Harven
+;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
 ;file \plugins\SimpleStatusMsg\res\resource.rc
+[%s Message for %s]
+%s ileti %s için
+[&Cancel]
+İ&ptal
+[Retrieving %s message...]
+%s ileti alınıyor...
+[OK]
+Tamam
+[Status Messages]
+Durum İletileri
+[seconds]
+saniye
+[seconds]
+saniye
+[Other]
+Diğer
+[Cut]
+Kes
+[Copy]
+Kopyala
+[Paste]
+Yapıştır
+[Delete]
+Sil
+[Select All]
+Tümünü Seç
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
+[&Close]
+&Kapat
+[Re&ad %s Message]
+%s iletisini &oku
 [Re&ad Away Message]
 Uzakta iletisini &oku
 ;file \plugins\SimpleStatusMsg\src\main.cpp
+[%s (locked)]
+%s (kilitli)
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
+[Global]
+Genel
+[Closing in %d]
+Kapanıyor %d
 ;file \plugins\SimpleStatusMsg\src\options.cpp
+[Status]
+Durum
+[General]
+Genel
+[Advanced]
+Gelişmiş
 ;file \plugins\SimpleStatusMsg\src\utils.cpp
+[I've been away since %time%.]
+Bilgisayar başından kalktım: %time% 
+[Give it up, I'm not in!]
+Boşver ben yokum
+[Not right now.]
+Şimdi değil.
+[Give a guy some peace, would ya?]
+Bana biraz huzur ver
+[I'm a chatbot!]
+Ben bir sohbet robotuyum
+[Yep, I'm here.]
+Burdayım
+[Nope, not here.]
+Yokum yok.
+[I'm hiding from the mafia.]
+Mafyadan saklanıyorum
+[That'll be the phone.]
+Telefondayım
+[Mmm...food.]
+Mmm...yemek.
+[idleeeeeeee]
+Boştayım

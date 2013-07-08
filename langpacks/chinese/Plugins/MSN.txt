@@ -6,6 +6,10 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MSN\res\msn.rc
+[Password:]
+密码: 
+[Nickname:]
+昵称: 
 [Create a new Windows Live account]
 新建 Windows Live 帐号
 [Send message font color/size info inside messages]
@@ -22,6 +26,8 @@
 直接:
 [Gateway:]
 网关:
+[Reset]
+重置
 [Server List Manager]
 服务器列表管理员
 [Contact is on your local list]
@@ -40,12 +46,18 @@
 禁用任务栏通知
 [Ignore new messages not in Inbox folder]
 忽略非收信箱目录的新邮件
+[Other]
+其它
 [Enable 'Chat Session Established' popup]
 启用 '已建立聊天会话' 弹出窗口
 [Enable 'Contact left channel' popup]
 启用 '联系人离开频道' 弹出窗口
 [Disable Contact List notifications]
 禁用联系人列表通知
+[OK]
+确定
+[Cancel]
+取消
 [Mobile Device (used for SMS)]
 移动设备 (用于 SMS)
 [Spouse/Partner]
@@ -58,6 +70,10 @@ MSN 删除联系人
 从 Hotmail 地址簿中移除
 [Block Contact]
 封锁联系人
+[&Cancel]
+取消(&C)
+[Add]
+添加
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 聊天 #
@@ -120,10 +136,14 @@ MSN 聊天
 [&Start Netmeeting]
 启动 Netmeeting(&S)
 ;file \protocols\MSN\src\msn_misc.cpp
+[Error]
+错误
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
 [Hotmail Inbox]
 Hotmail 收信箱
+[Profile]
+配置文件
 [MSN Services]
 MSN 服务器
 [Invite to chat]
@@ -150,6 +170,8 @@ MSN 选项
 IP 信息仅登录后才能使用
 [MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
 MSN 协议要求消息超时不低于 60 秒. 请修正超时值. 
+[Network]
+网络
 [Server list]
 服务器列表
 ;file \protocols\MSN\src\msn_p2p.cpp

@@ -6,4 +6,10 @@
 ;  Authors: Cristian Libotean, Miranda NG Team
 ;============================================================
 ;file \plugins\Folders\res\folders.rc
+[Edit]
+Szerkeszt
+[Close]
+Bezárás
 ;file \plugins\Folders\src\dlg_handlers.cpp
+[Customize]
+Testreszabás

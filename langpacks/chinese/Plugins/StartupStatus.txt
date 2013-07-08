@@ -8,7 +8,49 @@
 [StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
 StartupStatus, 允许您定义 Miranda 启动时应设置状态, 可为每个协议设置. 
 ;file \Plugins\StatusPlugins\resource.rc
+[General]
+常规
+[Close]
+关闭
+[Cancel]
+取消
+[Profile]
+配置文件
+[Message]
+消息
+[Set]
+设置
+[OK]
+确定
+[Other]
+其它
+[Background colour]
+背景颜色
+[Background colour]
+背景颜色
+[Text colour]
+文本颜色
+[Use Windows colours]
+使用 Windows 颜色
+[Use default colours]
+使用默认颜色
+[Events]
+事件
+[Custom]
+自定义
+[Use %time% for the current time, %date% for the current date]
+请使用 %time% 作为当前时间, %date% 作为当前日期
+[Accounts]
+帐号
+[Status]
+状态
+[Delete]
+删除
+[seconds]
+秒
 ;file \plugins\StatusPlugins\StartupStatus\options.cpp
+[None]
+无
 [size: %d x %d]
 大小: %d x %d
 [loc: %d x %d]
@@ -30,4 +72,30 @@ StartupStatus, 允许您定义 Miranda 启动时应设置状态, 可为每个协
 限制最多 6 个菜单项目
 ;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
 ;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+我已在 %time% 外出. 
+[Give it up, I'm not in!]
+放弃吧, 我不在! 
+[Not right now.]
+现在不行. 
+[Give a guy some peace, would ya?]
+给我一点安宁, 好吗? 
+[I'm a chatbot!]
+我是聊天机器人! 
+[Yep, I'm here.]
+是, 我在这里. 
+[Nope, not here.]
+不, 不在这里. 
+[I'm hiding from the mafia.]
+我现在正在躲仇家. 
+[That'll be the phone.]
+电话联系吧. 
+[Mmm...food.]
+嗯...食物. 
+[idleeeeeeee]
+闲置
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Protocol]
+协议
+[Closing in %d]
+%d 秒关闭

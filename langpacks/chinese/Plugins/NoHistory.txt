@@ -20,4 +20,10 @@
 [History Disabled]
 禁用历史
 ;file \plugins\NoHistory\src\icons.cpp
+[Clear]
+晴
 ;file \plugins\NoHistory\src\options.cpp
+[** All contacts **]
+** 所有联系人 **
+[History]
+历史

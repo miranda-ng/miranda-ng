@@ -1,13 +1,57 @@
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
+[Password:]
+Parool:
+[Options]
+Valikud
+[More options]
+Veel valikuid
+[Files]
+Failid
+[Apply]
+Rakenda
+[Remove]
+Eemalda
+[Username:]
+Kasutajanimi:
+[Name:]
+Nimi:
+[Port:]
+Port:
+[Copy]
+Kopeeri
+[OK]
+OK
+[Cancel]
+Tühista
+[Search:]
+Otsi:
 ;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
+[All Files]
+Kõik failid
 ;file \protocols\Xfire\src\all_statusmsg.cpp
+[Yep, I'm here.]
+Jah, ma olen siin.
+[Not right now.]
+Mitte praegu
+[Mmm...food.]
+Mmm...söök
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
 ;file \protocols\Xfire\src\options.cpp
+[General]
+Üldine
+[No]
+Ei
+[<Root Group>]
+Juurgrupp
+[Network]
+Võrgustik
 ;file \protocols\Xfire\src\searching4games.cpp
 ;file \protocols\Xfire\src\userdetails.cpp
+[<not specified>]
+<pole märgitud>
 ;file \protocols\Xfire\src\Xfire_game.cpp
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp

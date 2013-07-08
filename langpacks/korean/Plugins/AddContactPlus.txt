@@ -3,8 +3,28 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Biaіek
+;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
 ;file \plugins\AddContactPlus\res\resource.rc
+[Add Contact]
+대화 상대 추가
+[Custom name:]
+임의 지정 이름:
+[Group:]
+그룹:
+[Options]
+옵션
+[Send authorization request]
+권한 요청 보내기
+[Authorization Request]
+권한 요청
+[&Add]
+&A 추가
+[&Cancel]
+&C 취소
 ;file \plugins\AddContactPlus\src\addcontact.cpp
+[Please authorize my request and add me to your contact list.]
+내 요청에 권한을 주고 나를 당신의 대화 상대 목록에 추가해 주세요.
+[None]
+없음
 ;file \plugins\AddContactPlus\src\main.cpp

@@ -3,8 +3,30 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Biaіek
+;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
 ;file \plugins\AddContactPlus\res\resource.rc
+[Add Contact]
+Kişi Ekle
+[Custom name:]
+Kişisel ad:
+[Group:]
+Grup:
+[Options]
+Seçenekler
+[Options]
+Seçenekler
+[Send authorization request]
+izin isteği gönder
+[Authorization Request]
+Yetkilendirme İsteği
+[&Add]
+&Ekle
+[&Cancel]
+İ&ptal
 ;file \plugins\AddContactPlus\src\addcontact.cpp
+[Please authorize my request and add me to your contact list.]
+Lütfen isteğimi yanıtlayıp beni kişi listenize ekleyin.
+[None]
+Yok
 ;file \plugins\AddContactPlus\src\main.cpp

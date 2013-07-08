@@ -6,6 +6,28 @@
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 ;file \plugins\MirOTR\MirOTR\res\resource.rc
+[&Cancel]
+&Mégse
+[&No]
+&Nem
+[&Yes]
+&Igen
 ;file \plugins\MirOTR\MirOTR\src\language.h
+[Yes]
+Igen
+[No]
+Nem
+[Unknown]
+Ismeretlen
+[General]
+Általános
+[Contacts]
+Partnerek
+[Contact]
+Kapcsolat
+[Protocol]
+Protokoll
+[Default]
+Alap
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
 ;file \plugins\MirOTR\MirOTR\src\options.cpp

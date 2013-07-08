@@ -6,6 +6,14 @@
 ;  Authors: Cristian Libotean, Attila Vajda, MaKaR (NG)
 ;============================================================
 ;file \plugins\Exchange\res\exchange.rc
+[Close]
+Fermer
+[Username:]
+Identifiant :
+[Password:]
+Passe :
+[seconds]
+secondes
 ;file \plugins\Exchange\src\dlg_handlers.cpp
 ;file \plugins\Exchange\src\emails.cpp
 ;file \plugins\Exchange\src\hooked_events.cpp

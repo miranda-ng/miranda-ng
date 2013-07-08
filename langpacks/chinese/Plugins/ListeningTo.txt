@@ -22,6 +22,8 @@
 当没有设置其它扩展状态时, 设置扩展状态为音乐并显示聆听信息
 [If XStatus is Music, show listening info]
 当扩展状态是音乐时, 显示聆听信息
+[Contacts]
+联系人
 [Apply template for info from contacts (overrides contacts template)]
 应用模板至联系人信息 (覆盖联系人模板)
 [Get info from WATrack plugin]
@@ -36,6 +38,8 @@ foobar2000 (需要手动安装插件)
 其它播放程序
 [Ask for new info every]
 询问新信息于每
+[seconds]
+秒
 [Allow auto-loading plugins into players (affect players with *)]
 允许自动加载插件至播放程序中 (影响有 * 标记播放程序)
 [Template:]
@@ -104,6 +108,12 @@ foobar2000 (需要手动安装插件)
 [Enable/Disable sending Listening To info (to all protocols)]
 启用/禁用发送聆听信息 (到所有协议)
 ;file \plugins\ListeningTo\src\options.cpp
+[<Unknown>]
+<未知>
+[Status]
+状态
+[General]
+常规
 [Players]
 播放器
 ;file \plugins\ListeningTo\src\players\generic.cpp

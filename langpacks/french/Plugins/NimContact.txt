@@ -16,6 +16,8 @@ Lien
 Effacer la sélection
 [file(#)]
 fichier
+[URL]
+Lien
 [Update URL every]
 Màj toutes les 
 [Intervals]
@@ -24,6 +26,8 @@ Intervalle
 Bulle de contact
 [other settings]
 Autres réglages
+[Link]
+Lien
 [Program parameters:]
 Paramètres :
 [O&pen File]
@@ -32,6 +36,8 @@ Ouvrir &fichier
 Ouvrir &répertoire
 [CList Settings]
 Options de la liste de contacts
+[Group:]
+Groupe :
 [Status Icon]
 Icône d'état
 [Group\\Sub-Group]
@@ -44,6 +50,10 @@ Sauf si le protocole Non-IM est Hors ligne
 Faire un ligne
 [&Test String]
 &Tester
+[&Exit]
+&Quitter
+[Help]
+Aide
 [Help!!!]
 Aide!!!
 [Copy / Export contact]
@@ -55,6 +65,8 @@ Copier/Exporter le contact
 [EXAMPLE: %fn1,%fn2]
 EXEMPLE : %fn1,%fn2
 ;file \plugins\Non-IM Contact\src\contactinfo.cpp
+[Select Folder]
+Sélectionnez un répertoire
 [New Non-IM Contact]
 Nouveau contact non-IM
 ;file \plugins\Non-IM Contact\src\dialog.cpp

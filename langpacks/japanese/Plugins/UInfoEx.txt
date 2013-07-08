@@ -6,33 +6,153 @@
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 ;file \plugins\UserInfoEx\res\resource.rc
+[Updating]
+更新中
+[OK]
+OK
+[Cancel]
+Cancel
+[Apply]
+適用
+[Nick:]
+ニック :
+[First name:]
+名 :
+[Last name:]
+名字 :
+[Female]
+女性
+[Male]
+男性
+[Marital status:]
+結婚歴 :
+[Street:]
+通り :
+[Postal code:]
+郵便番号 :
+[City:]
+市 :
+[Country:]
+国 :
+[Timezone:]
+タイムゾーン :
+[Company:]
+会社 :
+[Department:]
+部門 :
+[Position:]
+位置 :
+[Add Phone Number]
+電話番号を追加
+[Enter country, area code and phone number:]
+国 , 地域コード , 電話番号を入力 :
+[Or enter a full international number:]
+もしくは , 国際番号を全て入力
+[Phone can receive SMS text messages]
+SMS テキストメッセージを受信できる電話
+[Background colour]
+背景色
+[Text colour]
+テキスト色
+[Use Windows colours]
+ウィンドウ色を使用
+[Use default colours]
+デフォルト色を使用
+[Custom]
+カスタム
+[Homepage:]
+Homepage:
+[Delete]
+削除
+[Icons]
+アイコン
+[None]
+なし
+[Off]
+オフ
 [Extra Icons]
 その他アイコン
+[Gender:]
+性別 :
 [E-Mail]
 電子メール
 [Show 'Restart' menu item]
 メニュー項目に ' 再起動 ' を表示
+[Age:]
+年齢 :
 ;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
+[Unspecified]
+未指定
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+[Edit Phone Number]
+電話番号を編集
+[Other]
+その他
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+[Contact]
+コンタクト
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+[Yes]
+はい
+[No]
+いいえ
+[Ignore]
+無視
+[Error]
+エラー
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
+[General]
+全般
+[Work]
+仕事
+[Profile]
+プロファイル
+[Notes]
+メモ
+[Owner]
+オーナー
 ;file \plugins\UserInfoEx\src\init.cpp
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Default]
+デフォルト
+[Fax]
+Fax
+[Add]
+追加
+[Edit]
+編集
+[Search]
+検索
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
+[User &Details]
+ユーザーの詳細情報 (&D)
+[View/Change My &Details...]
+詳細情報の表示 / 変更 (&D)...
 ;file \plugins\UserInfoEx\src\psp_about.cpp
+[About:]
+バージョン情報 :
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
 ;file \plugins\UserInfoEx\src\psp_options.cpp
+[Contacts]
+コンタクト
+[Advanced]
+詳細
+[Popups]
+ポップアップ
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+['(Unknown Contact)']
+'( 不明なコンタクト )'
 ;file \plugins\UserInfoEx\src\svc_email.cpp
+[Send e-mail]
+電子メールの送信
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
@@ -42,8 +162,12 @@
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
+[Miranda NG]
+Miranda NG
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
+[Complete]
+完了
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

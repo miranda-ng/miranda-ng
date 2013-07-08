@@ -2,19 +2,88 @@
 ;============================================================
 ;  File: Skype.dll
 ;  Plugin: Skype Protocol
-;  Version: 0.0.0.1
-;  Authors: Unsane, Mataes
+;  Version: 0.11.0.1
+;  Authors: unsane, mataes, ghazan
 ;============================================================
 ;file \protocols\Skype\res\Resource.rc
+[&Cancel]
+&Mégse
+[Add]
+Új
+[&Create]
+&Létrehoz
+[Password:]
+Jelszó:
+[Hint:]
+Tipp:
+[OK]
+OK
+[Cancel]
+Mégsem
+[Date of birth:]
+Született:
+[Gender:]
+Nem:
+[Homepage:]
+Honlap
+[About:]
+Névjegy
+[City:]
+Város:
+[State:]
+Állapot:
+[Country:]
+Ország:
+[Timezone:]
+Idõzóna:
+[New password:]
+Új jelszó:
 ;file \protocols\Skype\src\skype.cpp
 ;file \protocols\Skype\src\skype_account.cpp
+;file \protocols\Skype\src\skype_blocked.cpp
+[Name]
+Név
+;file \protocols\Skype\src\skype_bookmarks.cpp
+[Conferences]
+Konferenciák
 ;file \protocols\Skype\src\skype_chat.cpp
+[&User details]
+&Felhasználó részletek
+[Set &role]
+&Feladat beállítása
+[&Add]
+&Új
 ;file \protocols\Skype\src\skype_contacts.cpp
 ;file \protocols\Skype\src\skype_dialogs.cpp
+[<not specified>]
+<nincs megadva>
+[Male]
+Férfi
+[Female]
+Nõ
 ;file \protocols\Skype\src\skype_events.cpp
+[Network]
+Hálózat
+[Contacts]
+Partnerek
+[General]
+Általános
 ;file \protocols\Skype\src\skype_icons.cpp
+[Contact]
+Kapcsolat
+[Delete]
+Törlés
+;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
 ;file \protocols\Skype\src\skype_menus.cpp
+[Request authorization]
+Engedély kérés
+[Grant authorization]
+Engedély megadása
+[Revoke authorization]
+Engedély visszavonása
+;file \protocols\Skype\src\skype_messages.cpp
 ;file \protocols\Skype\src\skype_netlib.cpp
 ;file \protocols\Skype\src\skype_proto.cpp
+;file \protocols\Skype\src\skype_transfers.cpp
 ;file \protocols\Skype\src\skype_utils.cpp

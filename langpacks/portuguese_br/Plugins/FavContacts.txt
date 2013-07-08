@@ -6,5 +6,21 @@
 ;  Authors: Victor Pavlychko
 ;============================================================
 ;file \plugins\FavContacts\res\resource.rc
+[Customize]
+Personalizar
+[Customize]
+Personalizar
+[Customize]
+Personalizar
+[Show]
+Mostrar
 ;file \plugins\FavContacts\src\favlist.h
 ;file \plugins\FavContacts\src\main.cpp
+[Background]
+Fundo
+[Background]
+Fundo
+[Contacts]
+Contatos
+[Contacts]
+Contatos

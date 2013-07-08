@@ -7,4 +7,18 @@
 ;============================================================
 ;file \plugins\IgnoreState\res\ignore.rc
 ;file \plugins\IgnoreState\src\main.cpp
+[Messages]
+Üzenetek
+[URL]
+URL
+[Files]
+Fájlok
+[User Online]
+Felhasználó online
+[You Were Added]
+Hozzáadásra Kerültél
+[Typing Notify]
+Gépelés értesítés
 ;file \plugins\IgnoreState\src\options.cpp
+[Icons]
+Ikonok

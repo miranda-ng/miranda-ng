@@ -10,6 +10,8 @@
 Smiley categorieën
 [Specify Smiley Pack for each category]
 Smiley Pack opgeven voor elke categorie
+[Name:]
+Naam:
 [Scale smiley to textheight]
 Smiley naar teksthoogte schalen
 [Animate]
@@ -30,6 +32,12 @@ Smiley selectiescherm tonen
 ;file \plugins\SmileyAdd\src\download.cpp
 ;file \plugins\SmileyAdd\src\main.cpp
 ;file \plugins\SmileyAdd\src\options.cpp
+[Customize]
+Aanpassen
+[Off]
+Uit
+[All Files]
+Alle bestanden
 ;file \plugins\SmileyAdd\src\services.cpp
 ;file \plugins\SmileyAdd\src\smileys.cpp
 ;file \plugins\SmileyAdd\src\smltool.cpp

@@ -6,6 +6,12 @@
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 ;file \plugins\TipperYM\res\resource.rc
+[Options]
+Opciones
+[Options]
+Opciones
+[Window]
+Ventana
 [Max width:]
 Ancho máximo:
 [Max height:]
@@ -48,6 +54,12 @@ Póngase en contacto con módulo de protocolo
 Marco o el prefijo:
 [Translation:]
 Traducción:
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [Item]
 Del artículo
 [Value:]
@@ -60,14 +72,24 @@ Valor en una nueva línea
 Preset elementos:
 [Parse Tipper variables first]
 Analizar Volquete primeras variables
+[Items]
+Artículos
 [Substitutions]
 Sustituciones
+[Add]
+Agregar
+[Remove]
+Quitar
+[Edit]
+Editar
 [Separator]
 Separador
 [Advanced options]
 Opciones avanzadas
 [Retrieve XStatus details if auto-retrieve is disabled]
 Recuperar los detalles XStatus si la auto-recuperación está desactivado
+[Extra icons]
+Extraicons
 [Smileys support]
 Smileys apoyo
 [Enable SmileyAdd support]
@@ -86,6 +108,8 @@ barra de estado y la bandeja de información sobre herramientas
 Límite de mensajes de estado en la información sobre herramientas barra de estado y la bandeja a:
 [Disable in invisible status]
 Deshabilitar en estado invisible
+[Effects]
+Efectos
 [Animation speed:]
 Velocidad de la animación:
 [No preview]
@@ -140,6 +164,8 @@ Sin título
 Centro
 [Max avatar size:]
 Tamaño máximo del avatar:
+[None]
+ninguno
 [Fade]
 Fade
 [Content]
@@ -157,6 +183,8 @@ Protocolo de estado de bloqueo
 Tiempo de inicio de sesión
 [Unread emails]
 Sin leer mensajes de correo electrónico
+[Status]
+estado
 [Miranda uptime]
 Miranda el tiempo de actividad
 [Clist event]
@@ -166,6 +194,8 @@ Jabber actividad
 [Client]
 Cliente
 ;file \plugins\TipperYM\src\popwin.cpp
+[%s (locked)]
+%s (Cerrado)
 [ ago]
 Hace
 [Log on:]
@@ -180,11 +210,19 @@ Copiar todos los elementos con etiquetas
 Copiar todos los elementos
 [Copy avatar]
 Copiar avatar
+[Other]
+Otros
 [Miranda uptime:]
 Miranda tiempo de actividad:
 ;file \plugins\TipperYM\src\preset_items.cpp
+[Gender:]
+Género
+[Homepage:]
+Homepage:
 [Identifier]
 Identificar
+[Idle]
+Ocioso
 [IP internal]
 IP interna
 [IP internal:]
@@ -193,6 +231,10 @@ IP interna:
 del último mensaje
 [Last message: (%sys:last_msg_reltime% ago)]
 del último mensaje: (%sys:last_msg_reltime% ago)
+[Name]
+Nombre
+[Name:]
+Nombre
 [Number of received messages]
 Número de mensajes recibidos
 [Number of msg [IN]:]
@@ -201,6 +243,8 @@ Número de msg [EN]:
 Número de mensajes enviada
 [Number of msg [OUT]:]
 Número de msg [OUT]:
+[Time:]
+Fecha y hora:
 [XStatus title:]
 XStatus título:
 [XStatus text]
@@ -241,6 +285,12 @@ Viento:
 [# Solid color fill]
 # Sólido color de relleno
 ;file \plugins\TipperYM\src\tipper.cpp
+[Background]
+Fondo
+[Background]
+Background
+[Dividers]
+Divisores
 [Labels]
 Etiquetas
 [Values]
@@ -248,6 +298,10 @@ Valores
 [Tray title]
 Bandeja título
 ;file \plugins\TipperYM\src\translations.cpp
+[Female]
+Hombre
+[Male]
+masculino
 [[No translation]]
 No hay traducción
 [WORD to status description]

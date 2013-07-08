@@ -6,9 +6,225 @@
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 ;file \plugins\Clist_blind\res\resource.rc
+[Delete Contact]
+Kişiyi sil
+[Are you sure you want to delete %s?]
+%s ögesini silmek istediğinize emin misiniz?
+[This will erase all history and settings for this contact!]
+Bu işlem bu kişinin tüm geçmişini ve ayarlarını silecek!
+[Yes]
+Evet
+[No]
+Hayır
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Sadece listeden gizle, geçmiş ve yoksay/görünürlük ayarlarını tut
+[Hotkeys]
+Kestirmeler
 [URL:]
 Web Adresi:
+[Hide offline users]
+Çevrimdışıları gizle
+[Hide empty groups]
+Boş grupları gizle
+[Disable groups]
+Grupları devredışı bırak
+[Ask before deleting contacts]
+Kişileri silmeden önce sor
+[Sort contacts by name]
+Kişileri ada göre diz
+[Sort contacts by status]
+Kişileri duruma göre diz
+[Sort contacts by protocol]
+Kişileri protokole göre diz
+[Single click interface]
+Arayüz tek tıkla işlesin
+[Always show status in tooltip]
+Durumu her zaman araç iletisinde göster
+[Disable icon blinking]
+Simgenin yanıp sönmesini önle
+[ms delay]
+ms gecikme
+[Show]
+Göster
+[icon when statuses differ]
+durumlar farklıyken simgeyi göster
+[Cycle icons every]
+Simgeleri şu arayla çevir
+[seconds, when statuses differ]
+saniye, durumlar farklıyken
+[Show multiple icons]
+Çoklu simgeleri göster
+[Only when statuses differ]
+Sadece durumlar farklı ise
+[Contact List]
+Kişi Listesi
+[Contact List]
+Kişi Listesi
+[System tray icon]
+Sistem tepsisi simgesi
+[System tray icon when using multiple protocols]
+Bir kaç protokol kullanırken sistem tepsisi simgesi
+[Contact List Sorting]
+Kişi Listesi Sıralaması
+[Window]
+Pencere
+[Always on top]
+Her zaman üstte
+[Tool style main window]
+Araç stili ana pencere
+[Minimize to tray]
+Sistem tepsisine küçült
+[Hide contact list after it has been idle for]
+Şu kadar boş kaldıktan sonra kişi listesini gizle
+[seconds]
+saniye
+[seconds]
+saniye
+[Automatically resize window to height of list]
+Pencereyi listenin yüksekliğine boyutlandır
+[maximum]
+en çok
+[% of screen]
+ekran yüzdesi
+[Size upwards]
+Şundan büyük
+[Title bar text:]
+Başlık çubuğu yazısı:
+[Fade contact list in/out]
+Kişi listesine giriş/çıkışta sönükleştir
+[Transparent contact list]
+Saydam kişi listesi
+[Inactive opacity:]
+Etkin değil matlığı:
+[Active opacity:]
+Etkin matlık:
+[Show menu bar]
+Menü çubuğunu göster
+[Easy move]
+Kolay taşı
+[Show title bar]
+Başlık çubuğunu göster
+[If window is partially covered, bring to front instead of hiding]
+Pencere kısmen örtülmüşse gizlemek yerine öne getir.
+[Show drop shadow (restart required)]
+Bırakma gölgesini göster (yeniden başlatmalısınız)
+[Pin to desktop]
+Masa üstüne iğnele
+[Items]
+Ögeler
+['Hide Offline' means to hide:]
+'Çevrimdışıları gizle' şunları gizler:
+[Groups]
+Gruplar
+[Show counts of number of contacts in a group]
+Gruptaki kişi sayısını göster
+[Hide group counts when there are none online]
+Hiç kimse çevrim içi değilken grup sayılarını gizle
+[Sort groups alphabetically]
+Grupları alfabetik olarak diz
+[Quicksearch in open groups only]
+Yalnız açık gruplarda hızlı ara
+[Group:]
+Grup:
+[Status Bar]
+Durum Çubuğu
+[Show status bar]
+Durum çubuğunu göster
+[Show icons]
+Simgeleri göster
+[Show protocol names]
+Protokol adlarını göster
+[Show status text]
+Durum yazısını göster
+[Right click opens status menu]
+Sağ tık durum menüsünü açsın
+[Right click opens Miranda NG menu]
+Sağ tık Miranda NG Menüsünü açsın
+[Make sections equal width]
+Bölümler eşit genişlikte olsun
+[Show bevels on panels]
+Panellerde eğim göster
+[Show resize grip indicator]
+Yeniden boyutlandır kavrama simgesini göster
+[E&xit]
+Çı&kış
+[&Status]
+&Durum
+[&Offline\tCtrl+0]
+Ç&evrimdışı/tCtrl+0
+[On&line\tCtrl+1]
+Ç&evrimiçi\tCtrl+1
+[&Away\tCtrl+2]
+Uz&akta\tCtrl+2
+[&NA\tCtrl+3]
+Uygu&n değil/tCtrl+3
+[Occ&upied\tCtrl+4]
+Meşg&ul\tCtrl+4
+[&DND\tCtrl+5]
+&DND\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Sohbete uygun\tCtrl+6
+[&Invisible\tCtrl+7]
+&Görünmez\tCtrl+7
+[On the &Phone\tCtrl+8]
+Tele&fonda\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+&Yemekte\tCtrl+9
+[Tray]
+Tepsi
+[&Hide/Show]
+&Gizle/Göster
+[Nowhere]
+Hiç bir yer
+[&New Group]
+Ye&ni Grup
+[&Hide Offline Users]
+Ç&evrimdışı Kişileri Gizle
+[Hide &Offline Users out here]
+Çevrimdışıları &buranın dışında gizle
+[Hide &Empty Groups]
+Boş Grupları Gizl&e
+[Disable &Groups]
+&Grupları Devredışı Bırak
+[Hide Miranda]
+Miranda'yı Gizle
+[Group]
+Grup
+[&New Subgroup]
+Ye&ni Alt Grup
+[&Hide Offline Users in here]
+&Buradaki çevrimdışıları gizle
+[&Rename Group]
+Grubu Yeniden Adlandı&r
+[&Delete Group]
+&Grubu Sil
 ;file \plugins\Clist_blind\src\clcopts.cpp
+[Not focused]
+Odaklanmamış
+[Offline]
+Çevrimdışı
+[Online]
+Çevrimiçi
+[Away]
+Uzakta
+[NA]
+Bilinmiyor
+[Occupied]
+Meşgul
+[DND]
+Dokunma
+[Free for chat]
+Sohbete uygun
+[Invisible]
+Görünmez
+[Out to lunch]
+Yemekte
+[On the phone]
+Telefonda
+[List]
+Liste
 ;file \plugins\Clist_blind\src\clistopts.cpp
+[Global]
+Genel
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp

@@ -2,16 +2,24 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.0
+;  Version: 0.1.1.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 ;file \protocols\FacebookRM\res\facebook.rc
+[E-mail:]
+Имейл:
+[Password:]
+Парола:
 [Create a new Facebook account]
 Създаване на Facebook акаунт
 [What's on your mind?]
 Какво мислите?
 [Share]
 Сподели
+[Cancel]
+Отказ
+[User Details]
+Подробности за потребителя
 [Automatically set 'Ignore status change' flag]
 Автозадаване на флаг "Игнориране промените на състояния"
 [Contacts Settings]
@@ -20,6 +28,10 @@
 Ползване на по-големи аватари
 [Load contacts with 'On the Mobile' status]
 Зареждай и контакти със състояние "На мобилния"
+[Text]
+Текст
+[Default]
+Стандарт
 [News feeds]
 Новини
 [Client notifications]
@@ -43,10 +55,10 @@
 [Map non-standard statuses to Invisible (instead of Online)]
 Ползване на състояние Невидим вместо "На линия" при нестандартно за Facebook състояние
 ;file \protocols\FacebookRM\src\communication.cpp
-[Login error: Some Facebook things are required.]
-Грешка при вписване: Необходими са някой неща за Facebook.
 [Your account requires HTTPS connection. Activating.]
 Акаунтът изисква HTTPS връзка. Активиране.
+[Login error: Some Facebook things are required.]
+Грешка при вписване: Необходими са някой неща за Facebook.
 [Login error: Captcha code is required. Bad login credentials?]
 Грешка при вписване: Необходим е Captcha код. Сгрешени данни за вписване?
 [Login error, probably bad login credentials.]
@@ -87,6 +99,16 @@
 Новина
 [Other Event]
 Друго събитие
+[Network]
+Мрежа
+[Advanced]
+Разширени
+[Popups]
+РopUps
+[Popups]
+РopUps
+[Events]
+Събития
 ;file \protocols\FacebookRM\src\theme.cpp
 [Mind]
 Мисли си
@@ -94,5 +116,3 @@
 Молба за приятелство
 [Mind...]
 Мисля...
-[Visit Profile]
-Отваряне на профила

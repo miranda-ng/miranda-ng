@@ -24,8 +24,22 @@
 Следене на следните протоколи:
 [Show popup when a contact change his avatar]
 popup когато контакта промени аватара си
+[Background colour]
+Цвят на фона
+[Background colour]
+Фонов цвят
+[Text colour]
+Цвят на текста
+[Use Windows colours]
+Цветове от Windows
+[Use default colours]
+Стандартни цветове
 [From popup plugin]
 От приставката popup
+[Custom]
+Избор
+[Actions]
+Действия
 [On right click:]
 Десен бутон:
 [On left click:]
@@ -82,11 +96,17 @@ popup когато контакта промени аватара си
 [changed his/her avatar]
 промени своя аватар
 ;file \plugins\AvatarHistory\src\icolib.cpp
+[History]
+История
 ;file \plugins\AvatarHistory\src\options.cpp
 [Show avatar history]
 Показване на история за аватара
 [Show contact history]
 Показване на история за контакта
+[Popups]
+РopUps
+[Popups]
+РopUps
 [Avatar Change]
 Промяна на аватар
 ;file \plugins\AvatarHistory\src\utils.cpp

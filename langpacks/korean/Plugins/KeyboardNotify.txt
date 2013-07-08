@@ -6,11 +6,55 @@
 ;  Authors: TioDuke
 ;============================================================
 ;file \plugins\KeyboardNotify\res\resources.rc
+[seconds]
+초
+[Online]
+온라인
+[Away]
+자리 비움
+[Occupied]
+다른 용무중
+[NA]
+응답없음
+[DND]
+수신 거부
+[Free for chat]
+대화 가능
+[Invisible]
+오프라인으로 표시
+[On the phone]
+전화중
+[Out to lunch]
+식사중
+[Offline]
+오프라인
+[&Preview]
+&P 미리듣기
+[Delete]
+삭제
+[OK]
+확인
+[Cancel]
+취소
+[The following events are being ignored:]
+아래 이벤트들은 무시한 것들입니다:
 [Ignore messages]
 무시한 메세지
 [Ignore URLs]
 무시한 URL
 [Ignore files]
 무시한 파일
+[Ignore]
+무시
 ;file \plugins\KeyboardNotify\src\ignore.cpp
+[** All contacts **]
+** 모든 대화 상대 **
+[** Unknown contacts **]
+** 알 수 없는 대화 상대 **
 ;file \plugins\KeyboardNotify\src\options.cpp
+[Events]
+이벤트
+[All Files]
+모든 파일
+[None]
+없음

@@ -7,4 +7,18 @@
 ;============================================================
 ;file \plugins\IgnoreState\res\ignore.rc
 ;file \plugins\IgnoreState\src\main.cpp
+[Messages]
+Teated
+[URL]
+URL
+[Files]
+Failid
+[User Online]
+Kasutaja sees
+[You Were Added]
+Sa oled lisatud
+[Typing Notify]
+Trükkimise teavitus
 ;file \plugins\IgnoreState\src\options.cpp
+[Icons]
+Ikoonid

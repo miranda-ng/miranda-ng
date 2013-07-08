@@ -9,3 +9,11 @@
 ;file \plugins\Console\src\Console.cpp
 [Console]
 Consola
+[Text]
+Texto
+[Text]
+Texto
+[&Help]
+&Ayuda
+[All Files]
+Todos los archivos

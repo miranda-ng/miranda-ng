@@ -8,6 +8,46 @@
 [KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
 KeepStatus, 一个连接检查插件, 可与 (或不与) StartupStatus 及/或 AdvancedAutoAway 一起使用. 
 ;file \Plugins\StatusPlugins\resource.rc
+[General]
+常规
+[Close]
+关闭
+[Cancel]
+取消
+[Profile]
+配置文件
+[Message]
+消息
+[Set]
+设置
+[OK]
+确定
+[Other]
+其它
+[Background colour]
+背景颜色
+[Background colour]
+背景颜色
+[Text colour]
+文本颜色
+[Use Windows colours]
+使用 Windows 颜色
+[Use default colours]
+使用默认颜色
+[Events]
+事件
+[Custom]
+自定义
+[Use %time% for the current time, %date% for the current date]
+请使用 %time% 作为当前时间, %date% 作为当前日期
+[Accounts]
+帐号
+[Status]
+状态
+[Delete]
+删除
+[seconds]
+秒
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 [KeepStatus]
 保持状态
@@ -36,5 +76,35 @@ KeepStatus, 一个连接检查插件, 可与 (或不与) StartupStatus 及/或 A
 [Giving up]
 正在放弃
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
+[Protocol]
+协议
+[Advanced]
+高级
+[Popups]
+弹出窗口
 ;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+我已在 %time% 外出. 
+[Give it up, I'm not in!]
+放弃吧, 我不在! 
+[Not right now.]
+现在不行. 
+[Give a guy some peace, would ya?]
+给我一点安宁, 好吗? 
+[I'm a chatbot!]
+我是聊天机器人! 
+[Yep, I'm here.]
+是, 我在这里. 
+[Nope, not here.]
+不, 不在这里. 
+[I'm hiding from the mafia.]
+我现在正在躲仇家. 
+[That'll be the phone.]
+电话联系吧. 
+[Mmm...food.]
+嗯...食物. 
+[idleeeeeeee]
+闲置
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Closing in %d]
+%d 秒关闭

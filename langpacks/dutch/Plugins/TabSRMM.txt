@@ -6,14 +6,138 @@
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 ;file \plugins\TabSRMM\res\chat.rc
+[OK]
+OK
+[Cancel]
+Annuleren
+[Messages]
+Berichten
+[Nick changes]
+Bijnaam wijzigingen
+[Status changes]
+Status wijzigingen
+[Information]
+Informatie
+[Notices]
+Meldingen
+[Options]
+Opties
+[Add new rooms to group:]
+Nieuwe ruimtes toevoegen aan groep:
+[Enable logging to disk]
+Log naar schijf inschakelen
+[Log directory]
+Log directory
+[Your name]
+Uw naam
+[Other name]
+Andere naam
+[List]
+Lijst
+[&Message]
+Bericht
+[Log]
+Loggen
+[Clear lo&g]
+Lo&g opschonen
+[Co&py all]
+Alles ko&piëren
+[Open a &new browser window]
+Een &nieuw browser scherm openen
+[&Open in current browser window]
+On huidige browser scherm &openen
+[&Copy link]
+Link kopiëreren
+[Message]
+Bericht
+[Undo  ]
+Ongedaan maken
+[Redo]
+Opnieuw
+[Copy]
+Kopiëren
+[Cut]
+Knippen
+[Paste]
+Plakken
+[Select All]
+Alles selecteren
+[Clear]
+Opschonen
+[&Close tab]
+Tab sluiten
+[C&lose other tabs]
+Andere tabs sluiten
+[&Open at this position]
+&Op deze positie toevoegen
 ;file \plugins\TabSRMM\res\resource.rc
+[seconds]
+seconden
+[Text]
+Tekst
+[Background]
+Achtergrond
+[Events]
+Gebeurtenissen
+[Apply]
+Toepassen
+[Load History Events]
+Geschiedenis gebeurtenissen laden
+[Load unread events only]
+Alleen ongelezen gebeurtenissen laden
+[Load number of previous events]
+Aantal van vorige gebeurtenissen laden
+[Load previous events less than]
+Vorige gebeurtenissen laden minder dan
+[minutes old]
+minuten oud
+[Show typing notification when no message dialog is open]
+Typen melding weergeven waneer er geen berichtenscherm open is
+[Delete]
+Verwijderen
+[Reset]
+Terugzetten
+[milliseconds]
+milliseconden
+[Popups]
+Popups
 [U&se Popup colours]
 Popup kleuren gebruiken
 [&Use Windows colours]
 Windows kleuren gebr&uik
 [&Use Windows colours]
 Windows kleuren gebr&uiken
+[Custom]
+Aangepast
+[Close]
+Sluit
+[Icons]
+Iconen
+[Yes]
+Ja
+[No]
+Ne
+[Minimize the message window on send]
+Het berichtenscherm bij versturen minimaliseren
+[&Copy]
+Kopiëren
+[Co&py All]
+Alles ko&piëren
+[Select &All]
+&Alles selecteren
+[Open in &new window]
+In &nieuw scherm openen
+[&Open in existing window]
+In bestaand scherm &openen
+[Default]
+Standaard
+[Off]
+Uit
+[&File]
+Bestand
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
+[View User's History]
+Geschiedenis van de gebruiker bekijken
 ;file \plugins\TabSRMM\src\container.cpp
 ;file \plugins\TabSRMM\src\containeroptions.cpp
 ;file \plugins\TabSRMM\src\controls.cpp
@@ -22,18 +146,50 @@ Windows kleuren gebr&uiken
 Binnenkomend bestand
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 ;file \plugins\TabSRMM\src\globals.cpp
+[Incoming (Focused Window)]
+Binnenkomend (Actief scherm)
+[Incoming (Unfocused Window)]
+Binnenkomend (Niet actief scherm)
+[Incoming (New Session)]
+Binnenkomend (Nieuwe sessie)
+[Outgoing]
+Uitgaand
+[Other]
+Ander
 ;file \plugins\TabSRMM\src\hotkeyhandler.cpp
 ;file \plugins\TabSRMM\src\infopanel.cpp
 ;file \plugins\TabSRMM\src\mim.cpp
 ;file \plugins\TabSRMM\src\modplus.cpp
 ;file \plugins\TabSRMM\src\msgdialog.cpp
 ;file \plugins\TabSRMM\src\msgdlgutils.cpp
+['(Unknown Contact)']
+'(Onbekend Persoon)'
 ;file \plugins\TabSRMM\src\msglog.cpp
 ;file \plugins\TabSRMM\src\msgoptions.cpp
+[** New contacts **]
+** Nieuwe Personen **
+[** Unknown contacts **]
+** Onbekende personen **
+[General]
+Algemeen
+[Typing Notify]
+Typen meldingen
 ;file \plugins\TabSRMM\src\msgs.cpp
+[Background colour]
+Achtergrond kleur
+[Incoming message]
+Binnenkomend bericht
+[Outgoing message]
+Uitgaand bericht
 ;file \plugins\TabSRMM\src\msgs.h
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
+[Error]
+Fout
 ;file \plugins\TabSRMM\src\sendlater.cpp
+[Contact]
+Persoon
+[Status]
+Status
 ;file \plugins\TabSRMM\src\sendqueue.cpp
 ;file \plugins\TabSRMM\src\sidebar.cpp
 ;file \plugins\TabSRMM\src\srmm.cpp
@@ -44,6 +200,14 @@ Binnenkomend bestand
 ;file \plugins\TabSRMM\src\translator.cpp
 [Show headers]
 Koppen weergeven
+[System tray icon]
+Systeemvak icoon
+[Send message on 'Enter']
+Bericht op 'Enter' versturen
+[Send message on double 'Enter']
+Bericht op dubble 'Enter' versturen
+[Close the message window on send]
+Het berichtenscherm bij versturen sluiten
 ;file \plugins\TabSRMM\src\trayicon.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 ;file \plugins\TabSRMM\src\userprefs.cpp
@@ -51,12 +215,132 @@ Koppen weergeven
 ;file \plugins\TabSRMM\src\chat\clist.cpp
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 ;file \plugins\TabSRMM\src\chat\log.cpp
+[%s has joined]
+%s komt binnen
+[%s has left]
+%s is weg gegaan
+[%s has disconnected]
+%s heeft de verbinding verbroken
+[%s is now known as %s]
+%s is nu bekend als %s
+[%s kicked %s]
+%s trapt %s weg
+[ (set by %s)]
+ (ingesteld door %s)
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 ;file \plugins\TabSRMM\src\chat\options.cpp
 [Log background]
 Log achtergrond
+[Timestamp]
+Tijdstempel
+[Others nicknames]
+Bijnamen van anderen
+[Your nickname]
+Uw bijnaam
+[User has joined]
+Gebruiker komt binnen
+[User has left]
+Gebruiker is weg gegaan
+[User has disconnected]
+Gebruiker heeft de verbinding verbroken
+[User kicked ...]
+Gebruiker weggetrapt ...
+[User is now known as ...]
+Gebruiker is nu bekend als ...
+[Notice from user]
+Melding van gebruiker
+[The topic is ...]
+Het onderwerp is ...
+[Information messages]
+Informatie berichten
+[User enables status for ...]
+Gebruiker schakeld status in voor ...
+[User disables status for ...]
+Gebruiker schakeld status uit voor ...
+[Action message]
+Actie bericht
+[Highlighted message]
+Opgelichte berichten
+[User list members (Online)]
+Gebruikerlijst leden (Online)
+[User list members (away)]
+Gebruikerlijst leden (afwezig)
+[Protocol]
+Protocol
+[Flash window when someone speaks]
+Scherm knipperen wanneer iemand praat
+[Flash window when a word is highlighted]
+Scherm knipperen wanneer een woord is opgelicht
+[Show list of users in the chat room]
+Lijst van gebruikers weergeven in de geprekruimte
+[Show button menus when right clicking the buttons]
+Knop menus weergeven bij rechtermuis-klik op de knoppen
+[Do not pop up the window when joining a chat room]
+Geen scherm openen bij binnenkomst van een gespreksruimte
+[Prefix all events with a timestamp]
+Voor alle gebeurtenissen een tijdstempel zetten
+[Indent the second line of a message]
+De tweede lijn van een bericht inspringen
+[Limit user names in the message log to 20 characters]
+Gebruikersnamen in de berichten log beperken tot 20 karakters
+[Strip colors from messages in the log]
+De kleuren uit berichten in de log halen
+[Appearance and functionality of chat room windows]
+Uiterlijk en functionaliteit van schermen van Gespreksruimte
+[Appearance of the message log]
+Uiterlijk van het bericht log
 [Userlist background]
 Gebruikerslijst achtergrond
+[All Files]
+Alle bestanden
+[Select Folder]
+Folder selecteren
+[Message is highlighted]
+Bericht is opgelicht
+[User has performed an action]
+Gebruiker heeft een actie gedaan
+[User has kicked some other user]
+Gebruiker heeft een andere gebruiker weggetrapt
+[User has changed name]
+Gebruiker heeft naam gewijzigd
+[User has sent a notice]
+Gebruiker heeft een melding gestuurd
+[The topic has been changed]
+Het onderwerp is veranderd
 ;file \plugins\TabSRMM\src\chat\services.cpp
+[&Join]
+Binnengaan
+[&Leave]
+&Laten staan
 ;file \plugins\TabSRMM\src\chat\tools.cpp
+[%s wants your attention in %s]
+%s heeft uw aandacht nodig in %s
+[%s speaks in %s]
+%s spreekt in %s
+[%s has joined %s]
+%s komt binnen in %s
+[%s has left %s]
+%s is weggegaan uit %s
+[%s kicked %s from %s]
+%s heeft %s weggetrapt van %s
+[Notice from %s]
+Melding van %s
+[Topic change in %s]
+Onderwerp wijziging in %s
+[Information in %s]
+Informatie in %s
+[%s has disconnected (%s)]
+%s heeft de verbinding verbroken (%s)
+[%s kicked %s (%s)]
+%s heeft %s weggetrapt (%s)
+[Notice from %s: %s]
+Melding van %s: %s
+[No word to look up]
+Geen woord om op te zoeken
 ;file \plugins\TabSRMM\src\chat\window.cpp
+[Nick]
+Bijnaam
+[%s: Message Session]
+%s: Bericht sessie
+[%s: Message Session (%u users)]
+%s: Bericht sessie (%u gebruikers)

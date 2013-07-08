@@ -6,7 +6,17 @@
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 ;file \plugins\ListeningTo\res\resource.rc
+[Contacts]
+コンタクト
+[seconds]
+秒
 ;file \plugins\ListeningTo\src\listeningto.cpp
 ;file \plugins\ListeningTo\src\options.cpp
+[<Unknown>]
+< 不明 >
+[Status]
+ステータス
+[General]
+全般
 ;file \plugins\ListeningTo\src\players\generic.cpp
 ;file \plugins\ListeningTo\src\players\wmp.cpp

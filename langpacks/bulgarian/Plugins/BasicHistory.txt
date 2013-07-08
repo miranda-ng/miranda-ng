@@ -6,23 +6,81 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 ;file \plugins\BasicHistory\res\BasicHistory.rc
+[Message History]
+История на съобщенията
 [Show event icons]
 Показване на икони за събитията
+[Show names]
+Показване на имена
+[Show messages]
+Съобщение
+[Name]
+Име
+[Cancel]
+Отказ
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
+[View &History]
+Преглед на историята
+[Incoming message]
+Входящо съобщение
+[Outgoing message]
+Изходящо съобщение
 [Status change]
 Промяна на състояние
+[History]
+История
 ;file \plugins\BasicHistory\src\EventList.cpp
 [All events]
 Всички събития
+[History for %s]
+История за %s
+[Invalid Message]
+Невалидно съобщение
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
+[Open in &new window]
+Отваряне в нов прозорец
+[&Open in existing window]
+Отваряне в съществуващ прозорец
+[&Copy link]
+Копиране на връзката
+[Copy]
+Копиране
+[Delete]
+Изтриване
 [Reply &Quoted]
 Цитиране
+[Delete Group]
+Изтриване на групата
+[Options]
+Настройки
 [Filters]
 Филтри
+[Fonts & Colors]
+Шрифтове и цветове
+[Icons]
+Икони
+[Hotkeys]
+Клавишни комбинации
+[Error]
+Грешка
 ;file \plugins\BasicHistory\src\Options.cpp
+[Message]
+Съобщение
+[Link]
+Връзка
+[Authorization request]
+Молба за упълномощаване
 [SMS message]
 SMS съобщение
+[Messages]
+Съобщения
+[Searching]
+Търсене
+[Advanced]
+Разширени
+[Find]
+Намери
 [Show/Hide Contacts]
 Показване/Скриване на контактите
 [Incoming events]
@@ -33,7 +91,11 @@ SMS съобщение
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 ;file \plugins\BasicHistory\src\Scheduler.cpp
+[Contacts]
+Контакти
 ;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
 "%s" не е открито
+[Search]
+Търсене
 ;file \plugins\BasicHistory\src\TxtExport.cpp

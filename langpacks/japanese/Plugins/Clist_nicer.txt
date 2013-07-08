@@ -8,8 +8,36 @@
 ;file \plugins\Clist_nicer\res\resource.rc
 [About CList Nicer+]
 CList Nicer+ バージョン情報
+[OK]
+OK
 [Clist Nicer+]
 Clist Nicer+
+[Version]
+バージョン
+[Delete Contact]
+コンタクトの削除
+[No]
+いいえ
+[Yes]
+はい
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+履歴及び , 無視 / 可視設定を維持するためのみのリストを非表示
+[Are you sure you want to delete %s?]
+%sを削除してよろしいですか？
+[This will erase all history and settings for this contact!]
+このコンタクトに対する全てのヒストリ及び設定を消去します！
+[Contact List]
+コンタクトリスト
+[Hide offline users]
+オフラインユーザーを非表示
+[Hide empty groups]
+空のグループを非表示
+[Disable groups]
+グループを無効
+[Ask before deleting contacts]
+コンタクトを削除する前に確認する
+[Disable icon blinking]
+アイコン点滅を無効
 [Apply last active view mode ]
 表示モードの最終動作を適用
 [Contact list layout]
@@ -18,18 +46,46 @@ Clist Nicer+
 メニューとステータスボタンを表示
 [Draw sunken edge]
 くぼみエッジを描画
+[System tray icon]
+システムトレイアイコン
+[Single click interface]
+シングルクリックインターフェース
+[Always show status in tooltip]
+常にツールチップで状況を見る
 [Event area]
 イベントエリア
 [Set base visiblity on the frames menu]
 フレームメニューで基本可視状態設定
 [Auto mode]
 自動モード
+[System tray icon when using multiple protocols]
+複数プロトコル使用時のシステムトレイアイコン
+[Show]
+表示
+[icon when statuses differ]
+ステータスが異なる時のアイコン
+[Cycle icons every]
+アイコンの切り替え
+[seconds, when statuses differ]
+秒毎　ステータスが異なる時
+[Show multiple icons]
+複合アイコンを表示
+[Only when statuses differ]
+ステータスが異なる時のみ
 [Do not show system tray icon tooltips on mouse over]
 マウスが上にあるシステムトレイアイコンのツールチップを表示しない
+[Groups]
+グループ
+[Draw a line alongside group names]
+グループ名に平行して線を引く
 [Show number of contacts in a group]
 グループ内のコンタクトの数を表示
 [Hide numbers when all offline]
 全てオフラインの時は数を表示しない
+[Sort groups alphabetically]
+アルファベット順にグループを並べる
+[Quicksearch in open groups only]
+オープングループのみのクイック検索
 [No expand/collapse icon]
 アイコンの展開 / 折り畳みを行わない
 [Center groupnames horizontally]
@@ -42,10 +98,14 @@ Clist Nicer+
 行の高さの最小値 :
 [Group row height]
 グループの行の高さ
+[Indent groups by:]
+グループのインデント ：
 [Inner Row vertical padding]
 行の内側の垂直間隔
 [Margins and spacing]
 マージンと空白
+[Contact List Sorting]
+コンタクトリストの並び替え
 [First by]
 第 1 条件
 [Then by]
@@ -82,6 +142,8 @@ Clist Nicer+
 現地時間でコンタクトを表示
 [Only when timezone differs]
 タイムゾーンが異なるときのみ
+[Icons]
+アイコン
 [Show status icons]
 ステータスアイコンを表示
 [Centered when possible]
@@ -92,10 +154,40 @@ Clist Nicer+
 メタコンタクトプロトコルアイコンをサブコンタクトの代わりに使用
 [Use Overlay icons on avatars]
 アバター上にオーバーレイアイコンを使用
+[Dim idle contacts]
+不要のコンタクトを暗くする
 [Replace status icons with xStatus]
 ステータスアイコンを xStatus で置き換える
+[Window]
+ウィンドウ
+[Always on top]
+常に一番前
+[Show menu bar]
+メニューバーを表示
+[Easy move]
+簡易移動
 [Rounded border]
 丸みのある枠線
+[Title bar text:]
+タイトルラベル
+[Pin to desktop]
+デスクトップに固定
+[Show drop shadow (restart required)]
+ドロップシャドウを表示(要再起動)
+[Hide contact list after it has been idle for]
+使われなくなったコンタクトリストを非表示
+[seconds]
+秒
+[Automatically resize window to height of list]
+リストの高さで自動的にウィンドウの大きさを調整
+[maximum]
+最大
+[% of screen]
+%( 画面 )
+[Size upwards]
+サイズを上げる
+[If window is partially covered, bring to front instead of hiding]
+ウィンドウが一部隠れている場合 , 後方から前面に移動する
 [Always Hide On Taskbar]
 常にタスクバー上に隠す
 [Client margins]
@@ -106,22 +198,104 @@ Clist Nicer+
 枠線で切り抜く :
 [Gap between frames]
 フレームの間隔
+[Transparent contact list]
+コンタクトリストを透過表示にする
+[Inactive opacity:]
+非アクティブ不透明度 ：
+[Active opacity:]
+アクティブ不透明度 :
+[Fade contact list in/out]
+コンタクトリストをフェードイン/フェードアウト
 [Fully transparent (like TweakUI)]
 完全に透過させる ( TweakUI 風 )
+[Items]
+アイテム
+[Show divider between online and offline contacts]
+オンラインとオフラインのコンタクトの間に境界線を表示
+[Hot track items as mouse passes over]
+マウスの動きにあわせてアイテムをホットトラック
+[Disable drag and drop of items]
+アイテムのドラッグ＆ドロップを無効
+[Disable rename of items by clicking twice]
+ダブルクリックでアイテム名を変更しない
+[Show selection even when list is not focused]
+リストがフォーカスされていない場合も選択を表示
+[Make selection highlight translucent]
+選択したものを半透明で強調表示
 [Use full row for selection and hottracking]
 選択とホットトラッキング用に全ての行を使用
 [Double click on avatar opens userinfo]
 アバター上のダブルクリックでユーザー情報が開く
+[Visual]
+ビジュアル
+[Scroll list smoothly]
+リストをなめらかにスクロール
+[Time:]
+時間 :
+[milliseconds]
+ミリ秒
+[Hide vertical scroll bar]
+垂直方向のスクロールバーを非表示
+[Grey out entire list when:]
+リスト全体を灰色表示する :
+[Contact List Background]
+コンタクトリストの背景
+[Use Windows colours]
+ウィンドウ色を使用
+[Background colour]
+背景色
+[Use background image]
+背景に画像を使用
+[Stretch to width]
+幅を拡大
+[Stretch to height]
+高さを拡大
+[Tile horizontally]
+水平にタイル表示
+[Tile vertically]
+垂直にタイル表示
+[Scroll with text]
+テキストに合わせてスクロール
+[Stretch proportionally]
+比例して拡大
 [Use these settings to skin the entire background]
 スキンの背景全体にこれらの設定を使用
 [If you enable this, the background settings will affect the entire contact list frame.]
 これを有効にすると , 背景の設定は全てのコンタクトリストフレームに影響します。
+[Status Bar]
+ステータスバー
+[Show status bar]
+ステータスバーを表示
+[Show icons]
+アイコンを表示
+[Show protocol names]
+プロトコル名を表示
+[Show status text]
+ステータステキストを表示
+[Right click opens status menu]
+右クリックでステータスメニューを開く
+[Right click opens Miranda NG menu]
+右クリックで Miranda NG のメニューを開く
+[Make sections equal width]
+セクションの幅を同じにする
+[Show bevels on panels]
+パネルの面取りを表示
+[Show resize grip indicator]
+サイズ変更グリップインジケータを表示
 [Draw background skin]
 背景スキンを描画
 [Show ICQ extended status icons]
 ICQ 拡張ステータスアイコンを表示
 [Mark protocols locked from global status changes]
 グローバル設定の変更でロックされたプロトコルに印をつける
+[Cancel]
+Cancel
+[Apply]
+適用
+[Protocol]
+プロトコル
+[Group]
+グループ
 [Per contact skins:]
 コンタクト毎のスキン :
 [< Reload]
@@ -162,16 +336,22 @@ ICQ 拡張ステータスアイコンを表示
 スキンファイルをエクスポート
 [Ignore these events]
 これらのイベントを無視
+[Messages]
+メッセージ
 [Suppress auth requests]
 認証リクエストを表示しない
 [Suppress added notifications]
 追加された通知を表示しない
 [Suppress online notifications]
 オンライン通知を表示しない
+[Visibility]
+可視状態
 [Appear always online]
 常にオンラインにみせる
 [Appear always offline (block contact)]
 常にオフラインにみせる ( ブロックコンタクト )
+[Other]
+その他
 [Hide this contact from the list]
 このコンタクトをリストから非表示にする
 [To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
@@ -188,6 +368,56 @@ ICQ 拡張ステータスアイコンを表示
 アバターにオーバーレイアイコンを描画
 [Show local time]
 現地時間を表示
+[E&xit]
+終了 (&x)
+[&Status]
+ステータス (&S)
+[&Offline\tCtrl+0]
+オフライン (&O)\tCtrl+0
+[On&line\tCtrl+1]
+オンライン (&l)\tCtrl+1
+[&Away\tCtrl+2]
+退出する (&A)\tCtrl+2
+[&NA\tCtrl+3]
+応答不可 (&N)\tCtrl+3
+[Occ&upied\tCtrl+4]
+取り込み中 (&u)\tCtrl+4
+[&DND\tCtrl+5]
+邪魔しないで (&D)\tCtrl+5
+[&Free for chat\tCtrl+6]
+チャット OK!(&F)\tCtrl+6
+[&Invisible\tCtrl+7]
+不可視 (&I)\tCtrl+7
+[On the &Phone\tCtrl+8]
+電話中 (&P)\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+昼食中 (&L)\tCtrl+9
+[Tray]
+トレイ
+[&Hide/Show]
+表示 / 非表示 (&H)
+[Nowhere]
+なし
+[&New Group]
+新規グループ (&N)
+[&Hide Offline Users]
+オフラインユーザーを非表示 (&H)
+[Hide &Offline Users out here]
+ここにいないオフラインユーザーを非表示 (&O)
+[Hide &Empty Groups]
+空のグループを非表示 (&E)
+[Disable &Groups]
+グループを無効 (&G)
+[Hide Miranda]
+Miranda を非表示
+[&New Subgroup]
+新規サブグループ (&N)
+[&Hide Offline Users in here]
+ここのオフラインユーザーを非表示 (&H)
+[&Rename Group]
+グループ名を変更 (&R)
+[&Delete Group]
+グループを削除 (&D)
 [Move marked Contacts to this Group]
 このグループに印をつけたコンタクトを移動
 [Show Status Icons]
@@ -199,6 +429,8 @@ ICQ 拡張ステータスアイコンを表示
 [Draw sunken Frame]
 くぼみフレームを描画
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+[General]
+全般
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
@@ -209,6 +441,8 @@ ICQ 拡張ステータスアイコンを表示
 グループモードの切り替え
 [Find and add contacts]
 コンタクトを検索して追加
+[Accounts]
+アカウント
 [Open preferences]
 プリファレンスを開く
 [Toggle sounds]
@@ -224,12 +458,38 @@ tabSRMMメニュー
 [Clear view mode]
 表示モードをクリア
 ;file \plugins\Clist_nicer\src\clcopts.cpp
+[Not focused]
+非フォーカス
+[Offline]
+オフライン
+[Online]
+オンライン
+[Away]
+離席中
+[NA]
+応答不可
+[Occupied]
+取り込み中
+[DND]
+邪魔しないで
+[Free for chat]
+チャット OK!
+[Invisible]
+不可視
+[Out to lunch]
+昼食中
+[On the phone]
+電話中
 [Always Left]
 常に左
 [Always Right]
 常に右
 [Automatic (RTL)]
 自動 (RTL)
+[Name]
+名前
+[Status]
+ステータス
 [Last Message]
 最終メッセージ
 [Message Frequency]
@@ -252,10 +512,16 @@ RTL テキストのみ
 ニックネーム付 - 右
 [List layout]
 リストのレイアウト
+[Background]
+背景
 [Contact rows]
 コンタクトの行
+[Contacts]
+コンタクト
 [Groups and layout]
 グループとレイアウト
+[Advanced]
+詳細
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 完全に追加
@@ -276,6 +542,8 @@ RTL テキストのみ
 [&Contact list settings...]
 コンタクトリストの設定...(&C)
 ;file \plugins\Clist_nicer\src\clistopts.cpp
+[Global]
+グローバル
 ;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 オンライン / オフライン表示の切り替え
@@ -297,10 +565,30 @@ tabSRMM メニューを表示
 メインメニューを開く
 [Set status modes]
 ステータスモードの設定
+[Standard contacts]
+標準コンタクト
+[Online contacts to whom you have a different visibility]
+異なる可視設定のユーザーに対するオンラインコンタクト
+[Offline contacts]
+オフラインコンタクト
+[Offline contacts to whom you have a different visibility]
+異なる可視設定のユーザーに対するオフラインコンタクト
+[Contacts which are 'not on list']
+' リストにない ' コンタクト
+[Group member counts]
+グループメンバー数
+[Dividers]
+境界線
 [Frame titles]
 フレームタイトル
 [Contact list local time]
 コンタクトリストの現地時間
+[Selected Text]
+選択されたテキスト
+[Hottrack Text]
+ホットトラックテキスト
+[Quicksearch Text]
+クイック検索テキスト
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Tool Window]
 ツールウィンドウ
@@ -325,8 +613,16 @@ Clist ドッキング
 ;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&Skinned frame]
 フレームにスキンを使用 (&S)
+[Frames]
+フレーム
 [Skinned frame]
 フレームにスキンを使用
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[&Find/Add Contacts...]
+コンタクトを検索 / 追加 (&F)...
+[&Main Menu]
+メインメニュー (&M)
+[&Options...]
+オプション (&O)...
 [&About the contact list...]
 コンタクトリストのバージョン情報 (&A)...

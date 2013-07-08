@@ -10,18 +10,40 @@
 Envoi des contacts
 [Choose contacts to be send:]
 Choisir contacts à envoyer :
+[&Send]
+&Envoyer
+[Cancel]
+Annuler
 [Received contacts]
 Réception de contacts
 [Add to &group:]
 Ajouter au &groupe :
+[&Add]
+&Ajouter
+[Close]
+Fermer
 [Contacts send error]
 Erreur dans l'envoi de contacts
+[An error has occured. The protocol reported the following error:]
+Une erreur s'est produite. Le protocole a rapporté l'erreur suivante :
+[Try again]
+Réessayer
 [Add to List]
 Ajouter à ma liste
+[User Details]
+Détails du contact
 ;file \plugins\ContactsPlus\src\main.cpp
 [Incoming Contacts]
 Contacts entrants
 [Outgoing Contacts]
 Envoi de contacts
 ;file \plugins\ContactsPlus\src\receive.cpp
+[Add Contact Permanently to List]
+Ajouter le contact à la liste
+[View User's Details]
+Voir les détails du contact
+[View User's History]
+Voir l'historique
+[User Menu]
+Menu Contact
 ;file \plugins\ContactsPlus\src\send.cpp

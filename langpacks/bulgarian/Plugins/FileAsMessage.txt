@@ -6,6 +6,16 @@
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 ;file \plugins\FileAsMessage\res\resources.rc
+[Size:]
+Размер:
+[bytes]
+байта
 ;file \plugins\FileAsMessage\src\dialog.cpp
+[Sending...]
+Изпращане...
+[Receiving...]
+Получаване...
 ;file \plugins\FileAsMessage\src\main.cpp
+[Plugins]
+Приставки
 ;file \plugins\FileAsMessage\src\main.h

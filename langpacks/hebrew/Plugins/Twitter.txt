@@ -6,6 +6,22 @@
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 ;file \protocols\Twitter\res\twitter.rc
+[Username:]
+שם משתמש:
+[Cancel]
+ביטול
+[sec]
+שניות
+[Text]
+טקסט
+[Custom]
+מותאם
+[OK]
+אישור
 ;file \protocols\Twitter\src\connection.cpp
 ;file \protocols\Twitter\src\proto.cpp
+[Network]
+רשת
+[Popups]
+פופ אפ
 ;file \protocols\Twitter\src\theme.cpp

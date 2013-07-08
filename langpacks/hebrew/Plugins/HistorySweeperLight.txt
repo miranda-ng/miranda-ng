@@ -12,3 +12,5 @@
 השתמש במצב לא בטוח מנקה מהר ככל האפשר אבל מסוכן לבסיס נתונים
 ;file \plugins\HistorySweeperLight\src\main.cpp
 ;file \plugins\HistorySweeperLight\src\options.cpp
+[History]
+היסטוריה\n

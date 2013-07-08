@@ -25,6 +25,8 @@ Types de fichier
 Erreur d'association de fichier
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
 Il s'est produit une erreur lors de la modification de l'association du type fichier/URL dans la base de registre.\nMotif : %s
+[Unknown]
+Inconnu
 [Autostart Error]
 Erreur de lancement automatique
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]

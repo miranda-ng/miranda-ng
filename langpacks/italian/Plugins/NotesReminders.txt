@@ -26,8 +26,22 @@ Aggiungi Promemoria
 Suona all'Ora && Data:
 [Reminder Note:]
 Nota Promemoria:
+[None]
+Nessuno
+[None]
+Nessuna
+[None]
+Nessuno
+[None]
+Nessuno
 [&Add Reminder]
 &Aggiungi Promemoria
+[&Close]
+&Chiudi
+[&Close]
+&Chiudi
+[&Close]
+&Chiudi
 [&View Reminders]
 &Guarda Promemoria
 [&Dismiss]
@@ -36,6 +50,26 @@ Nota Promemoria:
 Nuovo...
 [&New Note]
 &Nuova Nota
+[Reset]
+Reimposta
+[Reset]
+Reimposta
+[Reset]
+Resetta
+[Reset]
+Reimposta
+[Font]
+Carattere
+[Font]
+Carattere
+[Undo]
+Ripristina
+[&Copy]
+&Copy
+[&Copy]
+&Copia
+[&Copy]
+&Copia
 [&Paste]
 &Incolla
 [C&ut]
@@ -51,6 +85,14 @@ Note & Promemoria
 ;file \plugins\NotesAndReminders\src\main.cpp
 [Delete All Reminders]
 Cancella Tutti i Promemoria
+[Plugins]
+Plugin
+[Plugins]
+Plugin
+[Plugins]
+Plugin
+[Plugins]
+Plugin
 [Add New Note]
 Aggiungi nuova nota
 [Add New Reminder]
@@ -60,8 +102,14 @@ Note && Promemoria
 [&Delete All Notes]
 &Cancella Tutte le Note
 ;file \plugins\NotesAndReminders\src\notes.cpp
+[Notes]
+Note
 ;file \plugins\NotesAndReminders\src\options.cpp
 ;file \plugins\NotesAndReminders\src\reminders.cpp
+[Default]
+Predefinito
+[Default]
+Predefinito
 [Reminder text]
 Testo promemoria
 [Date of activation]

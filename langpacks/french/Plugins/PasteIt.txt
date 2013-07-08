@@ -6,12 +6,20 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 ;file \plugins\PasteIt\res\PasteIt.rc
+[Configure]
+Configurer
+[Cancel]
+Annuler
+[Delete]
+Effacer
 [User name]
 Utilisateur
 ;file \plugins\PasteIt\src\Options.cpp
 [Web page]
 Page Web
 ;file \plugins\PasteIt\src\PasteIt.cpp
+[Error]
+Erreur
 ;file \plugins\PasteIt\src\PasteToWeb.cpp
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp

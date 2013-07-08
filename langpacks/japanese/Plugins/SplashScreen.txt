@@ -7,5 +7,9 @@
 ;============================================================
 ;file \plugins\SplashScreen\res\splash.rc
 ;file \plugins\SplashScreen\src\main.cpp
+[Error]
+エラー
 ;file \plugins\SplashScreen\src\options.cpp
+[Sound Files]
+音声ファイル
 ;file \plugins\SplashScreen\src\services.cpp

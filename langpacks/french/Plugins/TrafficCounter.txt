@@ -6,15 +6,21 @@
 ;  Authors: Ghost, Mironych
 ;============================================================
 ;file \plugins\TrafficCounter\res\resource.rc
+[Accounts]
+Comptes
 [Notify me on every]
 Me notifier tou(te)s les
 [kilobytes]
 kilo-octets
 [Popup timeout]
 Durée du popup
+[Custom]
+Défini
 [Show now]
 Voir maintenant
 ;file \plugins\TrafficCounter\src\options.cpp
+[General]
+Général
 [Show tooltip in traffic window]
 Afficher les outils dans la fenêtre de trafic
 [Hide now]
@@ -28,7 +34,15 @@ Statistiques
 ;file \plugins\TrafficCounter\src\statistics.cpp
 [MB]
 Mo
+[Incoming]
+Entrant
+[Outgoing]
+Sortant
+[Online]
+En ligne
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Font]
+Police
 [Hide traffic window]
 Cacher la fenêtre du trafic
 [Clear the current (Now:) value]

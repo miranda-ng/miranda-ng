@@ -1,28 +1,74 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: xStatus notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 ;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 Notifier quand un contact change pour un de ces états
+[Online]
+En ligne
+[Offline]
+Hors ligne
+[Invisible]
+Invisible
+[Free for chat]
+OK pour un chat
+[Away]
+Absent
+[NA]
+Indisponible
+[Occupied]
+Occupé
+[DND]
+Ne pas déranger
+[Out to lunch]
+Parti manger
+[On the phone]
+Au téléphone
 [Always when changing from offline]
 Notifier dés qu'un contact se connecte
 [Plugin activation]
 Activation du plugin
+[Configure]
+Configurer
 [Blink icon in the system tray]
 Faire clignoter l'icône du systray
 [Use status icon]
 Utiliser l'icône d'état
+[Delete]
+Effacer
 [Status Notify]
 Notification d'état
+[Sounds]
+Sons
+[Background]
+Arrière-plan
+[Text]
+Texte
+[Use custom colours]
+Couleurs personnalisées
+[Use Windows colours]
+Utiliser les couleurs Windows
 [Read status message]
 Lire le message d'état
+[Reset]
+RAZ
+[Cancel]
+Annuler
+[General]
+Général
+[Accounts]
+Comptes
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Status]
+État
 [Sound for the status]
 Son pour l'état
+[** All contacts **]
+** Tous les contacts **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
 (son par défaut)
@@ -108,7 +154,15 @@ est au téléphone
 [User: On The Phone]
 Contact : Au Téléphone
 ;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+Tous les fichiers
+[Log]
+Journal
+[Protocol]
+Protocole
 ;file \plugins\NewXstatusNotify\src\popup.h
 ;file \plugins\NewXstatusNotify\src\utils.cpp
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[<unknown>]
+<inconnu>
 ;file \plugins\NewXstatusNotify\src\xstatus.h

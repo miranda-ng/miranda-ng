@@ -6,8 +6,28 @@
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 ;file \protocols\Twitter\res\twitter.rc
+[Username:]
+Brukernavn:
+[Cancel]
+Avbryt
+[sec]
+sek
 [Use custom colors]
 Bruk egne farger
+[Text]
+Tekst
+[Custom]
+Selvvalgt
+[Custom]
+Selvvalgt
+[OK]
+OK
 ;file \protocols\Twitter\src\connection.cpp
 ;file \protocols\Twitter\src\proto.cpp
+[Network]
+Nettverk
+[Popups]
+Popups
+[Popups]
+Popups
 ;file \protocols\Twitter\src\theme.cpp

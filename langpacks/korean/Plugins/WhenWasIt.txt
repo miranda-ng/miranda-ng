@@ -6,9 +6,31 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
+[Sounds]
+사운드
+[Show]
+보이기
+[seconds]
+초
+[Close]
+닫기
+[OK]
+확인
+[Description:]
+설명:
+[Date:]
+날짜:
+[Delete]
+삭제
 ;file \plugins\WhenWasIt\src\dlg_handlers.cpp
+[Unknown]
+알 수 없음
+[Contact]
+연락처
 ;file \plugins\WhenWasIt\src\hooked_events.cpp
 ;file \plugins\WhenWasIt\src\icons.cpp
 ;file \plugins\WhenWasIt\src\notifiers.cpp
 ;file \plugins\WhenWasIt\src\services.cpp
+[All Files]
+모든 파일
 ;file \plugins\WhenWasIt\src\services.h

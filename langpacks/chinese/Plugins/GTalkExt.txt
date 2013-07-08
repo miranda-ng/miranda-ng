@@ -11,5 +11,9 @@
 ;file \protocols\GTalkExt\src\menu.cpp
 ;file \protocols\GTalkExt\src\notifications.cpp
 ;file \protocols\GTalkExt\src\options.cpp
+[Popups]
+弹出窗口
+[Network]
+网络
 ;file \protocols\GTalkExt\src\options.h
 ;file \protocols\GTalkExt\src\tipper_items.cpp

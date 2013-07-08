@@ -6,17 +6,53 @@
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 ;file \plugins\IEView\res\ieview.rc
+[Copy]
+Másol
+[Select All]
+Összes kijelölése
+[Options]
+Beállítások
+[Size:]
+Méret:
+[Scroll with text]
+Görgetés a szöveggel
 [Use message grouping]
 Üzenetek csoportosítása
+[Show seconds]
+Másodpercek mutatása
 [Use long date format]
 Hosszú dátumformátum
 [Use relative timestamp]
 Relatív idõbélyegek
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Incoming File Transfer]
+Bejövõ Fájlátvitel
 ;file \plugins\IEView\src\HTMLBuilder.cpp
+[(Unknown Contact)]
+(ismeretlen partner)
 ;file \plugins\IEView\src\IEView.cpp
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[Error]
+Hiba
 ;file \plugins\IEView\src\Options.cpp
+[General]
+Általános
+[Message Log]
+Üzenet napló
+[Group Chats]
+Csoportos csevegések
+[History]
+Elõzmény
+[Default]
+Alap
+[Message Sessions]
+Üzenet mukamenetek
+[All Files]
+Minden fájl
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+[File sent]
+Fájl elküldve
+[File received]
+Fájl fogadva
 ;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
 ;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

@@ -14,16 +14,24 @@
 互换阴影
 [Shadow align]
 阴影对齐
+[General]
+常规
 [Shadow distance:]
 阴影距离: 
+[Other]
+其它
 [Alpha:]
 亮度: 
 [Announce]
 宣布
 [Timeout (ms):]
 超时 (毫秒): 
+[Show]
+状态不同时显示
 [Show events]
 显示事件
+[Status changes]
+状态变更
 [Show testing OSD]
 显示测试 OSD
 [Show my status changes]
@@ -38,3 +46,5 @@
 [%s is %s]
 %s 现为 %s
 ;file \plugins\wbOSD\src\options.cpp
+[Plugins]
+插件

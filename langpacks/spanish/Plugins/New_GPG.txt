@@ -6,10 +6,40 @@
 ;  Authors: sss
 ;============================================================
 ;file \plugins\New_GPG\res\new_gpg.rc
+[OK]
+OK
+[Ignore]
+Ignorar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Password:]
+Contraseña:
 ;file \plugins\New_GPG\src\init.cpp
 ;file \plugins\New_GPG\src\main.cpp
+[Name]
+Nombre
+[Accounts]
+Cuentas
+[Default]
+por defecto
+[Default]
+Predeterminado
+[Error]
+Error 
 [Accept]
 Aceptar
 ;file \plugins\New_GPG\src\messages.cpp
 ;file \plugins\New_GPG\src\options.cpp
+[Messages]
+Mensaje ventanas - IM
+[Advanced]
+Avanzada
+[Advanced]
+Avanzada
+[Contact]
+Póngase en contacto con
+[Protocol]
+Protocolo
 ;file \plugins\New_GPG\src\utilities.cpp

@@ -1,13 +1,77 @@
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
+[Password:]
+Parola:
+[Nick:]
+Kısa Ad:
+[Options]
+Seçenekler
+[Options]
+Seçenekler
+[More options]
+Diğer seçenekler
+[Files]
+Dosyalar
+[Apply]
+Uygula
+[Remove]
+Sil
+[Username:]
+Kullanıcı Adı:
+[Name:]
+Ad:
+[Name:]
+Ad:
+[Port:]
+Port:
+[Copy]
+Kopyala
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Search:]
+Ara:
 ;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
+[All Files]
+Tüm Dosyalar
+[All Files]
+Tüm Dosyalar
 ;file \protocols\Xfire\src\all_statusmsg.cpp
+[Yep, I'm here.]
+Burdayım
+[I've been away since %time%.]
+Bilgisayar başından kalktım: %time% 
+[Give it up, I'm not in!]
+Boşver ben yokum
+[Not right now.]
+Şimdi değil.
+[Give a guy some peace, would ya?]
+Bana biraz huzur ver
+[That'll be the phone.]
+Telefondayım
+[Mmm...food.]
+Mmm...yemek.
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
 ;file \protocols\Xfire\src\options.cpp
+[General]
+Genel
+[No]
+Hayır
+[<Root Group>]
+<Kök Grup>
+[Network]
+Ağ
 ;file \protocols\Xfire\src\searching4games.cpp
 ;file \protocols\Xfire\src\userdetails.cpp
+[<not specified>]
+<belirtilmemiş>
 ;file \protocols\Xfire\src\Xfire_game.cpp
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp

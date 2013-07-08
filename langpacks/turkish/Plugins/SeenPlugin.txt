@@ -6,10 +6,60 @@
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 ;file \plugins\SeenPlugin\res\resource.rc
+[Text]
+Yazı
+[Online]
+Çevrimiçi
+[Away]
+Uzakta
+[NA]
+Bilinmiyor
+[Occupied]
+Meşgul
+[DND]
+Dokunma
+[On the phone]
+Telefonda
+[Out to lunch]
+Yemekte
+[Free for chat]
+Sohbete uygun
+[Invisible]
+Görünmez
+[Offline]
+Çevrimdışı
+[OK]
+Tamam
 ;file \plugins\SeenPlugin\src\history.cpp
+[View User's Details]
+Kullanıcı Detaylarını Göster
+[User Menu]
+Kullanıcı Menüsü
 ;file \plugins\SeenPlugin\src\main.cpp
 ;file \plugins\SeenPlugin\src\menu.cpp
+[<unknown>]
+<bilinmiyor>
+[<none>]
+<hiçbiri>
 ;file \plugins\SeenPlugin\src\options.cpp
+[Contacts]
+Kişiler
+[Popups]
+Açılır Pencereler
 ;file \plugins\SeenPlugin\src\seen.h
+[seconds]
+saniye
+[seconds]
+saniye
+[Group]
+Grup
+[Status]
+Durum
+[Protocol]
+Protokol
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
+[Idle]
+Boşta
+[Unknown]
+Bilinmeyen

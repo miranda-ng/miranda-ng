@@ -6,11 +6,61 @@
 ;  Authors: TioDuke
 ;============================================================
 ;file \plugins\KeyboardNotify\res\resources.rc
+[Incoming messages]
+Входящите съобщения
 [Incoming files]
 Входящи файлове
 [Incoming URLs]
 Входящи URL адреси
+[seconds]
+секунди
 [Only notify if status is]
 Само при състояние
+[Online]
+На линия
+[Away]
+Отсъстващ
+[Occupied]
+Зает
+[NA]
+Недостъпен
+[DND]
+Не безпокойте
+[Free for chat]
+Готов за чат
+[Invisible]
+Невидим
+[On the phone]
+На телефона
+[Out to lunch]
+На обяд
+[Offline]
+Извън линия
+[&Preview]
+Образец
+[Add]
+Добавяне
+[Delete]
+Изтриване
+[Export...]
+Износ...
+[Cancel]
+Отказ
+[The following events are being ignored:]
+Следните събития ще бъдат игнорирани:
+[Ignore]
+Игнориране
 ;file \plugins\KeyboardNotify\src\ignore.cpp
+[** All contacts **]
+** Всички контакти **
+[** Unknown contacts **]
+** Непознати контакти **
 ;file \plugins\KeyboardNotify\src\options.cpp
+[Events]
+Събития
+[Accounts]
+Акаунти
+[All Files]
+Всички файлове
+[None]
+Няма

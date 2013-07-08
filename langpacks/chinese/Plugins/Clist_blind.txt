@@ -6,6 +6,20 @@
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 ;file \plugins\Clist_blind\res\resource.rc
+[Delete Contact]
+删除联系人
+[Are you sure you want to delete %s?]
+您确定要删除 %s? 
+[This will erase all history and settings for this contact!]
+此操作将删除联系人所有历史及相关设置! 
+[Yes]
+是
+[No]
+否
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+仅从列表中隐藏, 保留联系人历史及忽略/可见性设置
+[Hotkeys]
+热键
 [Show/Hide:]
 显示/隐藏: 
 [Read Message:]
@@ -18,14 +32,210 @@
 在新浏览器窗口中打开
 [Show Options]
 显示选项
+[Hide offline users]
+隐藏离线用户
+[Hide empty groups]
+隐藏空群组
+[Disable groups]
+禁用群组
+[Ask before deleting contacts]
+删除联系人前先询问
+[Sort contacts by name]
+联系人按名称排序
+[Sort contacts by status]
+联系人按状态排序
+[Sort contacts by protocol]
+联系人按协议排序
+[Single click interface]
+通过单击打开项目
+[Always show status in tooltip]
+始终在工具提示中显示状态
+[Disable icon blinking]
+禁用图标闪动
+[ms delay]
+毫秒延迟
+[Show]
+状态不同时显示
+[icon when statuses differ]
+图标
+[Cycle icons every]
+状态不同时每
+[seconds, when statuses differ]
+秒循环图标
+[Show multiple icons]
+显示多个图标
+[Only when statuses differ]
+仅在状态不同时
+[Contact List]
+联系人列表
+[System tray icon]
+系统托盘图标
+[System tray icon when using multiple protocols]
+当使用多重协议时的系统托盘图标
+[Contact List Sorting]
+联系人列表排序
+[Window]
+窗口
+[Always on top]
+始终置顶
+[Tool style main window]
+工具栏样式主窗口
+[Minimize to tray]
+最小化到托盘
+[Hide contact list after it has been idle for]
+空闲时隐藏联系人列表
+[seconds]
+秒
+[Automatically resize window to height of list]
+自动调整窗口大小至列表高度
+[maximum]
+最多窗口的
+[% of screen]
+%
+[Size upwards]
+向上量度大小
+[Title bar text:]
+标题栏文本: 
+[Fade contact list in/out]
+联系人列表淡入/淡出
+[Transparent contact list]
+联系人列表透明化
+[Inactive opacity:]
+未激活时透明度: 
+[Active opacity:]
+激活时透明度: 
+[Show menu bar]
+显示菜单栏
+[Easy move]
+容易移动
+[Show title bar]
+显示标题栏
+[If window is partially covered, bring to front instead of hiding]
+如果窗口有部分被遮盖, 则以置顶代替隐藏
+[Show drop shadow (restart required)]
+使用下拉阴影 (需要重启)
+[Pin to desktop]
+固定在桌面上
+[Items]
+项目
+['Hide Offline' means to hide:]
+'隐藏离线' 的意思是隐藏: 
+[Groups]
+群组
+[Show counts of number of contacts in a group]
+显示每个群组的联系人总数
+[Hide group counts when there are none online]
+群组内无人在线时隐藏总数
+[Sort groups alphabetically]
+群组按字母排序
+[Quicksearch in open groups only]
+仅在打开的群组内快速搜索
+[Group:]
+群组: 
+[Status Bar]
+状态栏
+[Show status bar]
+显示状态栏
+[Show icons]
+显示图标
+[Show protocol names]
+显示协议名称
+[Show status text]
+显示状态文本
+[Right click opens status menu]
+点击右键打开状态菜单
+[Right click opens Miranda NG menu]
+点击右键打开 Miranda NG 菜单
+[Make sections equal width]
+将各部分设为相同宽度
+[Show bevels on panels]
+显示面板斜角
+[Show resize grip indicator]
+显示调整大小箭头
+[E&xit]
+退出(&X)
+[&Status]
+状态(&S)
+[&Offline\tCtrl+0]
+离线(&O)\tCtrl+0
+[On&line\tCtrl+1]
+在线(&L)\tCtrl+1
+[&Away\tCtrl+2]
+外出(&A)\tCtrl+2
+[&NA\tCtrl+3]
+没空(&N)\tCtrl+3
+[Occ&upied\tCtrl+4]
+忙碌(&U)\tCtrl+4
+[&DND\tCtrl+5]
+请勿打扰(&D)\tCtrl+5
+[&Free for chat\tCtrl+6]
+自由聊天(&F)\tCtrl+6
+[&Invisible\tCtrl+7]
+隐身(&I)\tCtrl+7
+[On the &Phone\tCtrl+8]
+接听电话(&P)\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+外出用餐(&L)\tCtrl+9
+[Tray]
+托盘
+[&Hide/Show]
+隐藏/显示(&H)
+[&New Group]
+新增群组(&N)
+[&Hide Offline Users]
+隐藏离线用户(&H)
+[Hide &Offline Users out here]
+隐藏除此以外离线用户(&O)
+[Hide &Empty Groups]
+隐藏空群组(&E)
+[Disable &Groups]
+禁用群组(&G)
+[Hide Miranda]
+隐藏 Miranda
+[Group]
+群组
+[&New Subgroup]
+新增子群组(&N)
+[&Hide Offline Users in here]
+隐藏此处离线用户(&H)
+[&Rename Group]
+重命名群组(&R)
+[&Delete Group]
+删除群组(&D)
 ;file \plugins\Clist_blind\src\clcopts.cpp
+[Not focused]
+未获取焦点
+[Offline]
+离线
+[Online]
+在线
+[Away]
+外出
+[NA]
+不适用
+[Occupied]
+忙碌中
+[DND]
+请勿打扰
+[Free for chat]
+有空聊天
+[Invisible]
+隐身
+[Out to lunch]
+外出用餐
+[On the phone]
+接听电话
 [Group: %name% %count% [%mode%]]
 群组: %name% %count% [%mode%]
 [Divider: %s]
 分隔物: %s
 [Info: %s]
 信息: %s
+[List]
+列表
 ;file \plugins\Clist_blind\src\clistopts.cpp
+[Global]
+全局
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp
 [Expanded]

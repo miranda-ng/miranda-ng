@@ -3,8 +3,22 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Biaіek
+;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
 ;file \plugins\AddContactPlus\res\resource.rc
+[Custom name:]
+Eigen naam:
+[Group:]
+Groep:
+[Options]
+Opties
+[Send authorization request]
+Autorisatie verzoek versturen
+[Authorization Request]
+Autorisatie verzoek
+[&Add]
+Toevoegen
+[&Cancel]
+Annuleren
 ;file \plugins\AddContactPlus\src\addcontact.cpp
 ;file \plugins\AddContactPlus\src\main.cpp

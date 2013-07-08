@@ -6,8 +6,28 @@
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 ;file \plugins\Msg_Export\res\resource.rc
+[Help]
+Súgó
+[&Find...]
+&Keresés...
+[&Close]
+&Bezárás
+[User &Details]
+Felhasználó &részletek
+[Copy]
+Másol
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 ;file \plugins\Msg_Export\src\Glob.h
 ;file \plugins\Msg_Export\src\main.cpp
 ;file \plugins\Msg_Export\src\options.cpp
+[File]
+Fájl
+[Nick]
+Becenév
+[History]
+Elõzmény
+[General]
+Általános
 ;file \plugins\Msg_Export\src\utils.cpp
+[(Unknown Contact)]
+(ismeretlen partner)

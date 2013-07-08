@@ -18,7 +18,13 @@
 הוסף כפתור
 [Name: ]
 שם:
+[Set]
+החל
 ;file \plugins\TopToolBar\src\toolbar.cpp
+[Default]
+ברירת מחדל
 [TopToolBar]
 סרגל כלים
 ;file \plugins\TopToolBar\src\ttbopt.cpp
+[Contact List]
+רשימת אנשי קשר

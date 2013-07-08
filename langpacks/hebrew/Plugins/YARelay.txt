@@ -6,4 +6,24 @@
 ;  Authors: Anar Ibragimoff
 ;============================================================
 ;file \plugins\YARelay\res\yaRelay.rc
+[Contact]
+קשר
+[Offline]
+לא מחובר
+[Online]
+מחובר
+[Away]
+לא נמצא
+[NA]
+לא זמין
+[Occupied]
+עסוק
+[DND]
+לא להפריע
+[Free for chat]
+פנוי לשיחה
+[Invisible]
+בלתי נראה
 ;file \plugins\YARelay\src\options.cpp
+[Plugins]
+תוספים

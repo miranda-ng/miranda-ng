@@ -6,10 +6,52 @@
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 ;file \plugins\SeenPlugin\res\resource.rc
+[Text]
+Tekst
+[Online]
+Sees
+[Away]
+Eemal
+[NA]
+Pole kättesaadav
+[Occupied]
+Hõivatud
+[On the phone]
+Telefonil
+[Out to lunch]
+Lõunastamas
+[Free for chat]
+Vestluseks vaba
+[Invisible]
+Nähtamatu
+[Offline]
+Väljas
+[OK]
+OK
 ;file \plugins\SeenPlugin\src\history.cpp
+[View User's Details]
+Vaata kasutaja detaile
 ;file \plugins\SeenPlugin\src\main.cpp
 ;file \plugins\SeenPlugin\src\menu.cpp
+[<unknown>]
+<tundmatu>
+[<none>]
+<pole>
 ;file \plugins\SeenPlugin\src\options.cpp
+[Contacts]
+Kontaktid
 ;file \plugins\SeenPlugin\src\seen.h
+[seconds]
+sekundit
+[Group]
+Grupp
+[Status]
+Staatus
+[Protocol]
+Protokoll
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
+[Idle]
+Tegevusetus
+[Unknown]
+Tundmatu

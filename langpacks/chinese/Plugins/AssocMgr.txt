@@ -25,6 +25,8 @@
 文件关联错误
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
 修改文件/URL 关联写入注册表时出现错误.\n原因: %s
+[Unknown]
+未知
 [Autostart Error]
 自动启用错误
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]

@@ -6,6 +6,60 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\JabberG\res\jabber.rc
+[OK]
+확인
+[Cancel]
+취소
+[Type:]
+종류:
+[Password:]
+비밀번호:
+[Username:]
+유저명:
+[Port:]
+포트:
+[Close]
+닫기
+[City:]
+도시:
+[State:]
+주:
+[Country:]
+국가:
+[First name:]
+이름:
+[Last name:]
+성:
+[Date of birth:]
+생일:
+[Gender:]
+성:
+[Homepage:]
+홈페이지:
+[Company:]
+회사:
+[Department:]
+부서:
+[E-mail:]
+이메일:
+[Phone:]
+전화번호:
+[Work]
+직업
+[Fax]
+팩스
+[Delete]
+삭제
+[Description:]
+설명:
+[Nickname:]
+대화명:
+[Change %s Message]
+%s 메세지 변경
+[Closing in %d]
+%d 에서 닫는중
+[Authorization Request]
+권한 요청
 ;file \protocols\JabberG\src\jabber.cpp
 ;file \protocols\JabberG\src\jabber.h
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
@@ -15,12 +69,28 @@
 ;file \protocols\JabberG\src\jabber_caps.cpp
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 ;file \protocols\JabberG\src\jabber_chat.cpp
+[None]
+없음
+[Owner]
+소유자
+[Online]
+온라인
+[Away]
+자리 비움
+[NA]
+응답없음
+[DND]
+수신 거부
+[Free for chat]
+대화 가능
 ;file \protocols\JabberG\src\jabber_console.cpp
 ;file \protocols\JabberG\src\jabber_disco.cpp
 ;file \protocols\JabberG\src\jabber_disco.h
 ;file \protocols\JabberG\src\jabber_form2.cpp
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Notes]
+메모
 ;file \protocols\JabberG\src\jabber_iqid.cpp
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
@@ -29,16 +99,44 @@
 ;file \protocols\JabberG\src\jabber_misc.cpp
 ;file \protocols\JabberG\src\jabber_notes.cpp
 ;file \protocols\JabberG\src\jabber_opt.cpp
+[Messaging]
+메세징
+[Connecting...]
+접속중...
+[Network]
+네트워크
+[Advanced]
+고급
 ;file \protocols\JabberG\src\jabber_password.cpp
 ;file \protocols\JabberG\src\jabber_privacy.cpp
+[<none>]
+<없음>
 ;file \protocols\JabberG\src\jabber_proto.cpp
 ;file \protocols\JabberG\src\jabber_rc.cpp
+[Status]
+상태
+[Invisible]
+오프라인으로 표시
+[Offline]
+오프라인
 ;file \protocols\JabberG\src\jabber_search.cpp
 ;file \protocols\JabberG\src\jabber_svc.cpp
 ;file \protocols\JabberG\src\jabber_thread.cpp
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
+[<not specified>]
+<지정되지 않음>
+[Version]
+버전
+[Yes]
+네
+[No]
+아니오
 ;file \protocols\JabberG\src\jabber_util.cpp
 ;file \protocols\JabberG\src\jabber_vcard.cpp
+[Male]
+남자
+[Female]
+여자
 ;file \protocols\JabberG\src\jabber_ws.cpp
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 ;file \protocols\JabberG\src\ui_utils.cpp

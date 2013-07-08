@@ -8,6 +8,8 @@
 ;file \plugins\TrafficCounter\res\resource.rc
 [Selected totals]
 Общо за избраните
+[Accounts]
+Акаунти
 [Clear statistics]
 Изчистване
 [Notify me on every]
@@ -16,6 +18,8 @@
 килобайта
 [Popup timeout]
 Popup времетраене
+[Custom]
+Избор
 [Show now]
 Покажи сега
 [Space between lines:]
@@ -35,6 +39,8 @@ Popup времетраене
 Текущо време "На линия"
 [Total online]
 Общо време "На линия"
+[General]
+Основни
 [Draw frame as skin element]
 Добавяне на рамката като елемент на облика
 [Show tooltip in traffic window]
@@ -51,10 +57,16 @@ Popup времетраене
 Месец
 [Year]
 Година
+[Options]
+Настройки
 [Traffic counter]
 Брояч на трафика
 [Statistics]
 Статистика
+[Popups]
+РopUps
+[Popups]
+РopUps
 ;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 Байта
@@ -64,13 +76,21 @@ Popup времетраене
 Почасово
 [Period]
 Период
+[Incoming]
+Входящи
+[Outgoing]
+Изходящи
 [Sum]
 Сума
+[Online]
+На линия
 [Now traffic statistics for selected accounts will be cleared.\nContinue?]
 Трафик статистиката за всички протоколи ще бъде изчистена.\nСъгласни ли сте?
 [Couldn't read statistics file]
 Статистиката не може да бъде прочетена
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Font]
+Шрифт
 [Hide traffic window]
 Скриване на трафик прозореца
 [Clear the current (Now:) value]

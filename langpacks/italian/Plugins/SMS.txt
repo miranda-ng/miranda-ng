@@ -8,8 +8,18 @@
 ;file \plugins\SMS\res\resource.rc
 [&Reply]
 &Rispondi
+[&Close]
+&Chiudi
+[&Close]
+&Chiudi
+[&Close]
+&Chiudi
+[From:]
+Da:
 [Send SMS]
 Spedisci SMS
+[To:]
+A:
 [Add number to list]
 Aggiungi numero alla lista
 [Save number]
@@ -18,6 +28,12 @@ Salva numero
 Multiplo >>
 [Chars:]
 Carat.:
+[&Send]
+&Invia
+[&Send]
+&Invia
+[&Cancel]
+&Annulla
 [SMS Plugin]
 Plugin SMS
 [Begining]
@@ -26,10 +42,18 @@ All'inizio
 Alla fine
 [Put signature at the:]
 Metti la firma:
+[&OK]
+&OK
 ;file \plugins\SMS\src\options.cpp
 ;file \plugins\SMS\src\receive.cpp
 ;file \plugins\SMS\src\recvdlg.cpp
 ;file \plugins\SMS\src\senddlg.cpp
+[View User's History]
+Visualizza storico utente
+[View User's History]
+Visualizza storico utente
+[Invalid Phone Number]
+Numero di telefono non valido
 [<< Single]
 << Singolo
 ;file \plugins\SMS\src\SMS_svc.cpp

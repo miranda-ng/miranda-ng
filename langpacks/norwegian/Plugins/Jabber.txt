@@ -6,16 +6,86 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\JabberG\res\jabber.rc
+[OK]
+OK
+[Cancel]
+Avbryt
+[Type:]
+Type:
+[Password:]
+Passord:
+[Username:]
+Brukernavn:
+[Port:]
+Port:
+[Host:]
+Vert:
+[Close]
+Lukk
+[Complete]
+Ferdig
+[City:]
+By:
+[State:]
+Stat:
+[Country:]
+Land:
+[First name:]
+Fornavn:
+[Last name:]
+Etternavn:
+[Date of birth:]
+Fødselsdato:
+[Gender:]
+Kjønn:
+[Homepage:]
+Webside:
+[Company:]
+Bedrift:
+[Department:]
+Avdeling:
+[E-mail:]
+E-post:
+[Phone:]
+Telefon:
+[Work]
+Arbeid
+[Fax]
+Faks
+[Delete]
+Slett
+[Description:]
+Beskrivelse:
 [JID List]
 JID Liste
 [Jabber Agent Registration]
 Jabber Agentregistrering
 [Register]
 Registrer
+[Add]
+Legg til
+[Nickname:]
+Kallenavn:
+[Remove]
+Fjern
+[Remove]
+Fjern
+[Edit]
+Rediger
+[URL]
+URL
 [Privacy Lists]
 Privatlister
+[Messages]
+Meldinger
 [Service Discovery]
 Tjeneste Oppdagelse
+[Change %s Message]
+Forandre %s Melding
+[Closing in %d]
+Lukker om %d
+[Authorization Request]
+Godkjenningsforespørsel
 ;file \protocols\JabberG\src\jabber.cpp
 ;file \protocols\JabberG\src\jabber.h
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
@@ -27,6 +97,20 @@ Ingen melding
 ;file \protocols\JabberG\src\jabber_caps.cpp
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 ;file \protocols\JabberG\src\jabber_chat.cpp
+[None]
+Ingen
+[Owner]
+Eier
+[Online]
+Pålogget
+[Away]
+Borte
+[NA]
+NA
+[DND]
+Ikke forstyrr
+[Free for chat]
+Tilgjengelig for samtale
 [&User details]
 &Brukerdetaljer
 ;file \protocols\JabberG\src\jabber_console.cpp
@@ -37,6 +121,8 @@ Legg til på tavle
 ;file \protocols\JabberG\src\jabber_form2.cpp
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Notes]
+Notater
 [Personal vCard]
 Personlig vCard
 [Login/logout]
@@ -49,24 +135,82 @@ Registrering vellykket
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Request authorization]
+Forespør godkjenning
+[Grant authorization]
+Godkjenn autorisasjon
+[Revoke authorization]
+Tilbakekall godkjenning
 [Add to Bookmarks]
 Legg til Bokmerker
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
+[To]
+Til
 ;file \protocols\JabberG\src\jabber_notes.cpp
 ;file \protocols\JabberG\src\jabber_opt.cpp
+[Messaging]
+Melding
+[Other]
+Annet
+[General]
+Generelt
+[Status changes]
+Statusendringer
+[Group]
+Gruppe
+[Connecting...]
+Kobler til...
+[Network]
+Nettverk
+[Advanced]
+Avansert
 ;file \protocols\JabberG\src\jabber_password.cpp
 ;file \protocols\JabberG\src\jabber_privacy.cpp
+[<none>]
+<ingen>
 ;file \protocols\JabberG\src\jabber_proto.cpp
 ;file \protocols\JabberG\src\jabber_rc.cpp
+[Status]
+Status
+[Invisible]
+Usynlig
+[Offline]
+Frakoblet
 ;file \protocols\JabberG\src\jabber_search.cpp
 ;file \protocols\JabberG\src\jabber_svc.cpp
 ;file \protocols\JabberG\src\jabber_thread.cpp
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Message]
+Melding
+[Message]
+Melding
+[<not specified>]
+<ikke spesifisert>
+[Version]
+Versjon
+[System]
+System
+[Yes]
+Ja
+[No]
+Nei
+[Copy]
+Kopier
+[Copy]
+Kopier
 [Photo]
 Foto
 ;file \protocols\JabberG\src\jabber_util.cpp
+[Error]
+Feil
 ;file \protocols\JabberG\src\jabber_vcard.cpp
+[Male]
+Mann
+[Female]
+Kvinne
+[Contacts]
+Kontakter
 ;file \protocols\JabberG\src\jabber_ws.cpp
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 ;file \protocols\JabberG\src\ui_utils.cpp

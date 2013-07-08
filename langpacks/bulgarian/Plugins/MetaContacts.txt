@@ -6,14 +6,50 @@
 ;  Authors: J. Schaal & S. Ellis
 ;============================================================
 ;file \plugins\MetaContacts\res\MetaContacts.rc
+[&Cancel]
+Отказ
+[Name:]
+Име:
+[Information]
+Информация
+[Contacts]
+Контакти
+[&Apply]
+Прилагане
+[Options]
+Настройки
 [Context Menu]
 Контекстно меню
+[Contact List]
+Списък с контакти
+[Default]
+Стандарт
 ;file \plugins\MetaContacts\src\addto.cpp
 ;file \plugins\MetaContacts\src\edit.cpp
+[(Unknown Contact)]
+(Непознат контакт)
+[Yes]
+Да
+[No]
+Не
+[Contact]
+Контакт
 ;file \plugins\MetaContacts\src\icons.cpp
+[Edit]
+Редактиране
+[Remove]
+Премахване
 ;file \plugins\MetaContacts\src\metacontacts.h
 ;file \plugins\MetaContacts\src\meta_main.cpp
 ;file \plugins\MetaContacts\src\meta_menu.cpp
+[Error]
+Грешка
 ;file \plugins\MetaContacts\src\meta_options.cpp
 ;file \plugins\MetaContacts\src\meta_services.cpp
+[Message from %s]
+Съобщение от %s
+[General]
+Основни
+[History]
+История
 ;file \plugins\MetaContacts\src\meta_utils.cpp

@@ -1,12 +1,62 @@
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
+[Password:]
+Wachtwoord:
+[Nick:]
+Bijnaam:
+[Options]
+Opties
+[More options]
+Meer opties
+[Files]
+Bestanden
+[Apply]
+Toepassen
+[Username:]
+Gebruikersnaam:
+[Name:]
+Naam:
+[Port:]
+Poort:
+[Copy]
+Kopiëren
+[OK]
+OK
+[Cancel]
+Annuleren
+[Search:]
+Zoeken:
 ;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
+[All Files]
+Alle bestanden
 ;file \protocols\Xfire\src\all_statusmsg.cpp
+[Yep, I'm here.]
+Ja, hier ben ik.
+[I've been away since %time%.]
+Ik ben weg sinds %time%.
+[Give it up, I'm not in!]
+Geef het op, ik ben er niet!
+[Not right now.]
+Nu even niet.
+[Give a guy some peace, would ya?]
+Gun een man zijn rust, wil je?
+[That'll be the phone.]
+Dat zal de telefoon zijn.
+[Mmm...food.]
+Mmm...eten.
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
+[Username]
+Gebruikersnaam
 ;file \protocols\Xfire\src\options.cpp
+[General]
+Algemeen
+[No]
+Ne
+[Network]
+Netwerk
 ;file \protocols\Xfire\src\searching4games.cpp
 ;file \protocols\Xfire\src\userdetails.cpp
 ;file \protocols\Xfire\src\Xfire_game.cpp

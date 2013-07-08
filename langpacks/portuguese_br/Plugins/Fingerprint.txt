@@ -8,5 +8,11 @@
 ;file \plugins\FingerprintNG\res\resource.rc
 ;file \plugins\FingerprintNG\src\fingerprint.cpp
 ;file \plugins\FingerprintNG\src\finger_groups.h
+[Protocol]
+Protocolo
+[Protocol]
+Protocolo
 ;file \plugins\FingerprintNG\src\masks.cpp
 ;file \plugins\FingerprintNG\src\options.cpp
+[Icons]
+Ícones

@@ -8,10 +8,14 @@
 ;file \plugins\Popup\res\resource.rc
 [Content && Style]
 Contenu && Style
+[Effects]
+Effets
 [Live Preview]
 Aperçu
 [Size && Position]
 Taille && Position
+[History]
+Historique
 [Enable popup history]
 Activer l'historique des popups
 [Store last]
@@ -32,6 +36,8 @@ la fenêtre de Miranda
 la fenêtre active
 [Enable Win 9x/Me transparency]
 Transparence (9x-ME)
+[opacity:]
+opacité :
 [Opaque popups under cursor]
 Rendre opaques popups survolés
 [Limit window amount to:]
@@ -42,6 +48,10 @@ Nombre maximum de popups :
 Aspect
 [Configure popup area]
 Configuration du popup
+[Close]
+Fermer
+[General]
+Général
 [Enable popup actions]
 Activer les actions sur popups
 [Popup Actions are those tiny buttons below notification text.]
@@ -90,6 +100,8 @@ Ne plus afficher
 Affichage permanent
 [Popup delay:]
 Délai des popups :
+[seconds]
+secondes
 [Do not close hovered popups]
 Ne pas fermer les popups survolés
 [Dynamically resize the popups]
@@ -98,6 +110,8 @@ Réajustement auto. des popups
 Largeur minimum
 [Maximum width]
 Largeur maximum
+[Position:]
+Position :
 [Layout:]
 Disposition
 [Reorder Popups]
@@ -109,6 +123,8 @@ Toujours (en priorité)
 ;file \plugins\Popup\src\actions.cpp
 [User details]
 Détails du contact
+[Contact menu]
+Menu Contact
 ;file \plugins\Popup\src\config.cpp
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
 Test de l'aperçu pour le réglage des popups. Ceci est supposé être assez long pour ne pas tenir sur une seule ligne...
@@ -126,15 +142,21 @@ Exemple de message d'erreur
 Rafraîchir la liste des skins
 [Popup Placement]
 Emplacement
+[Cancel]
+Annuler
 [Blocked Contact]
 Contact bloqué
 [Pin Popup]
 Verrouiller le popup
 [Pinned Popup]
 Popup verrouillé
+[User Details]
+Détails du contact
 [Add Contact Permanently]
 Ajouter le contact
 ;file \plugins\Popup\src\main.cpp
+[Advanced]
+Avancé
 ;file \plugins\Popup\src\opt_adv.cpp
 ;file \plugins\Popup\src\opt_class.cpp
 ;file \plugins\Popup\src\opt_gen.cpp
@@ -155,6 +177,8 @@ Aperçu du Skin
 Pris juste pour voir le Skin...  ;-)
 [Enable Aero Glass (Vista+)]
 Activer Aero Glass (Vista)
+[Use Windows colours]
+Utiliser les couleurs Windows
 [Use advanced text render]
 Rendu avancé du texte
 [Global settings]
@@ -164,5 +188,7 @@ Rafraîchir
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
 ;file \plugins\Popup\src\services.cpp
+[Error]
+Erreur
 ;file \plugins\Popup\src\skin.cpp
 ;file \plugins\Popup\src\srmm_menu.cpp

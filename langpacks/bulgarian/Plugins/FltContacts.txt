@@ -6,9 +6,43 @@
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
 ;file \plugins\FloatingContacts\res\fltcnt.rc
+[pixels]
+пиксела
+[pixels]
+пиксела
+[seconds]
+секунди
+[Single click interface]
+Интерфейс с едно натискане
+[Dim idle contacts]
+Потъмняване на бездействащите контакти
+[Background]
+Фон
+[Stretch to width]
+Разтягане на ширина
+[Stretch to height]
+Разтягане на височина
+[Tile horizontally]
+Мозаично по хоризонтала
+[Tile vertically]
+Мозаично по вертикала
+[Stretch proportionally]
+Пропорционално разтягане
 [Opacity:]
 Плътност:
 ;file \plugins\FloatingContacts\src\main.cpp
+[Standard contacts]
+Стандартни контакти
+[Online contacts to whom you have a different visibility]
+Контакти, към които имате различна видимост
+[Offline contacts]
+Контакти "Извън линия"
+[Offline contacts to whom you have a different visibility]
+Контакти "Извън линия", към които имате различна видимост
+[Contacts which are 'not on list']
+Контакти, които не са в списъка
 [Floating contacts]
 Плаващи контакти
 ;file \plugins\FloatingContacts\src\options.cpp
+[Contact List]
+Списък с контакти

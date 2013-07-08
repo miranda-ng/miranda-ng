@@ -6,6 +6,20 @@
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 ;file \plugins\Clist_blind\res\resource.rc
+[Delete Contact]
+Slett Kontakt
+[Are you sure you want to delete %s?]
+Er du sikker på at du ønsker å slette %s?
+[This will erase all history and settings for this contact!]
+Dette vil slette all historikk og innstillinger for kontakten!
+[Yes]
+Ja
+[No]
+Nei
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Skjules fra liste, slik at historikk og ignorerings/synbarhets innstillinger beholdes
+[Hotkeys]
+Snarveier
 [Show/Hide:]
 Vis/Skjul:
 [Read Message:]
@@ -18,7 +32,201 @@ URL:
 Åpne i nytt nettleservindu
 [Show Options]
 Vis Valg
+[Hide offline users]
+Skjul frakoblede brukere
+[Hide empty groups]
+Skjul tomme grupper
+[Disable groups]
+Deaktiver grupper
+[Ask before deleting contacts]
+Spør før sletting av kontakter
+[Sort contacts by name]
+Sorter kontakter ved navn
+[Sort contacts by status]
+Sorter kontakter ved status
+[Sort contacts by protocol]
+Sorter kontakter ved protokoll
+[Single click interface]
+Enkeltklikk grensesnitt
+[Always show status in tooltip]
+Alltid vis status i verktøytips
+[Disable icon blinking]
+Deaktiver ikonblinking
+[ms delay]
+ms forsinkelse
+[Show]
+Vis
+[icon when statuses differ]
+ikon når statusene er forskjellige
+[Cycle icons every]
+Visning av ikoner hvert
+[seconds, when statuses differ]
+sekund(er), når status er forskj.
+[Show multiple icons]
+Vis mange ikoner
+[Only when statuses differ]
+Bare når statusene er forskjellige
+[Contact List]
+Kontaktliste
+[System tray icon]
+Oppgavelinje ikon
+[System tray icon when using multiple protocols]
+Ikoner på oppgavelinjen ved bruk av flere protokoller
+[Contact List Sorting]
+Kontaktliste sortering
+[Window]
+Vindu
+[Always on top]
+Alltid øverst
+[Tool style main window]
+Verktøy type hovedvindu
+[Minimize to tray]
+Minimer til oppgavelinje
+[Hide contact list after it has been idle for]
+Skjul kontaktlisten om den har vært inaktiv for
+[seconds]
+sekunder
+[Automatically resize window to height of list]
+Juster størrelse på vindu automatisk etter listehøyde
+[maximum]
+maksimum
+[% of screen]
+% av skjerm
+[Size upwards]
+Størrelse oppover
+[Title bar text:]
+Tittellinje tekst:
+[Fade contact list in/out]
+Gli kontaktlisten inn/ut
+[Transparent contact list]
+Gjennomsiktig kontaktliste
+[Inactive opacity:]
+Inaktiv uklarhet:
+[Active opacity:]
+Aktiv ugjennomsiktbarhet:
+[Show menu bar]
+Vis menylinje
+[Easy move]
+Enkel flytting
+[Show title bar]
+Vis tittelbar
+[If window is partially covered, bring to front instead of hiding]
+Hvis vindu er delvis dekket, hent det til fokus
+[Show drop shadow (restart required)]
+Vis skygge (omstart påkrevet)
+[Pin to desktop]
+Lås til skrivebord
+[Items]
+Elementer
+['Hide Offline' means to hide:]
+'Skjul frakoblet' skjuler:
+[Groups]
+Grupper
+[Show counts of number of contacts in a group]
+Vis antall kontakter i en gruppe
+[Hide group counts when there are none online]
+Skjul telling av grupper når ingen er påkoblet
+[Sort groups alphabetically]
+Sorter grupper alfabetisk
+[Quicksearch in open groups only]
+Hurtigsøk kun i åpne grupper
+[Group:]
+Gruppe:
+[Status Bar]
+Statuslinje
+[Show status bar]
+Vis statuslinje
+[Show icons]
+Vis ikoner
+[Show protocol names]
+Vis protokollnavn
+[Show status text]
+Vis statustekst
+[Right click opens status menu]
+Høyreklikk åpner statusmeny
+[Right click opens Miranda NG menu]
+Høyreklikk åpner Miranda NG meny
+[Make sections equal width]
+Samme bredde på seksjoner
+[Show resize grip indicator]
+Vis størrelsesendrings grep indikator
+[E&xit]
+A&vslutt
+[&Status]
+&Status
+[&Offline\tCtrl+0]
+&Frakoblet\tCtrl+0
+[On&line\tCtrl+1]
+På&logget\tCtrl+1
+[&Away\tCtrl+2]
+&Borte\tCtrl+2
+[&NA\tCtrl+3]
+&Ikke Angitt\tCtrl+3
+[Occ&upied\tCtrl+4]
+Opp&tatt\tCtrl+4
+[&DND\tCtrl+5]
+&Ikke forstyrr\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Tilgjengelig for chat\tCtrl+6
+[&Invisible\tCtrl+7]
+&Usynlig\tCtrl+7
+[On the &Phone\tCtrl+8]
+I &Telefonen\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Ute til &Lunsj\tCtrl+9
+[&Hide/Show]
+&Skjul/Vis
+[Nowhere]
+Ingensteds
+[&New Group]
+&Ny Gruppe
+[&Hide Offline Users]
+&Skjul Frakoblede Brukere
+[Hide &Offline Users out here]
+Skjul &Frakoblede Brukere her ute
+[Hide &Empty Groups]
+Skjul &Tomme Grupper
+[Disable &Groups]
+Deaktiver &Grupper
+[Hide Miranda]
+Skjul Miranda
+[Group]
+Gruppe
+[&New Subgroup]
+&Ny Undergruppe
+[&Hide Offline Users in here]
+&Skjul Frakoblede Brukere her
+[&Rename Group]
+&Gi gruppen nytt navn
+[&Delete Group]
+&Slett Gruppe
 ;file \plugins\Clist_blind\src\clcopts.cpp
+[Not focused]
+Ikke fokusert
+[Offline]
+Frakoblet
+[Online]
+Pålogget
+[Away]
+Borte
+[NA]
+NA
+[Occupied]
+Opptatt
+[DND]
+Ikke forstyrr
+[Free for chat]
+Tilgjengelig for samtale
+[Invisible]
+Usynlig
+[Out to lunch]
+Ute til lunsj
+[On the phone]
+I Telefonen
+[List]
+Liste
 ;file \plugins\Clist_blind\src\clistopts.cpp
+[Global]
+Global
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp

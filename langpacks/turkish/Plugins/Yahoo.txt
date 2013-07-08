@@ -8,6 +8,10 @@
 ;file \protocols\Yahoo\res\Yahoo.rc
 [ID:]
 Kimlik:
+[Password:]
+Parola:
+[Nick:]
+Kısa Ad:
 [Create a new Yahoo account using the Yahoo website]
 Yahoo web sitesini kullanarak yeni bir Yahoo hesabı oluştur
 [Use Yahoo Address Book (YAB)]
@@ -18,17 +22,43 @@ Yahoo uyarılarını göster
 Hataları Göster
 [Yahoo Japan]
 Yahoo Japan
+[Port:]
+Port:
+[Reset]
+Sıfırla
+[Reset]
+Sıfırla
 [Yahoo Ignore List]
 Yahoo Yoksay Listesi
+[&Add]
+&Ekle
 [Set Custom Status]
 Kişisel Durum Seç
 [Show as busy]
 Meşgul olarak göster
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
+[&Join]
+&Katıl
+[&Deny]
+Re&ddet
+[&Cancel]
+İ&ptal
+[Add]
+Ekle
 ;file \protocols\Yahoo\src\avatar.cpp
 ;file \protocols\Yahoo\src\chat.cpp
 ;file \protocols\Yahoo\src\icolib.cpp
 [Mail]
 Posta
+[Profile]
+Profile
 [Address Book]
 Adres Defteri
 [Set Status]
@@ -38,6 +68,8 @@ Takvim
 ;file \protocols\Yahoo\src\im.cpp
 [Yahoo Error]
 Yahoo Hatası
+[The message send timed out.]
+İleti zaman aşımına uğradığından gönderilemedi.
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 İleti çok uzun: Yahoo iletileri 800 UTF8 karakteri ile sınırlıdır
 ;file \protocols\Yahoo\src\links.cpp
@@ -59,6 +91,8 @@ Bu ahbap zaten yoksay listesinde.
 Yoksay listesinden çıkarabilmek için Yahoo ağına bağlı olmalısınız.
 [Please select a buddy on the ignore list to remove.]
 Lütfen yoksayma listesinden çıkarılacak bir ahbap seçin.
+[Network]
+Ağ
 ;file \protocols\Yahoo\src\proto.cpp
 [Please enter your yahoo id in Options/Network/Yahoo]
 Lütfen Seçenekler/Ağ/Yahoo bölümüne Yahoo kimliğinizi yazın

@@ -6,7 +6,11 @@
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 ;file \plugins\ListeningTo\res\resource.rc
+[seconds]
+초
 ;file \plugins\ListeningTo\src\listeningto.cpp
 ;file \plugins\ListeningTo\src\options.cpp
+[Status]
+상태
 ;file \plugins\ListeningTo\src\players\generic.cpp
 ;file \plugins\ListeningTo\src\players\wmp.cpp

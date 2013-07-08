@@ -6,7 +6,21 @@
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
+[Background]
+Háttér
+[Text]
+Szöveg
+[Default]
+Alap
+[Custom]
+Egyedi
+[sec]
+mp.
 [Notify always]
 Mindig értesítsen
 ;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
 ;file \plugins\BuddyExpectator\src\options.cpp
+[Contacts]
+Partnerek
+[Popups]
+Felugrók

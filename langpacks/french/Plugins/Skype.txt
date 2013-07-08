@@ -2,21 +2,86 @@
 ;============================================================
 ;  File: Skype.dll
 ;  Plugin: Skype Protocol
-;  Version: 0.0.0.1
-;  Authors: Unsane, Mataes
+;  Version: 0.11.0.1
+;  Authors: unsane, mataes, ghazan
 ;============================================================
 ;file \protocols\Skype\res\Resource.rc
+[&Cancel]
+&Annuler
+[Add]
+Ajouter
+[&Create]
+&Créer
+[Password:]
+Passe :
+[&OK]
+OK
+[Hint:]
+Info :
 [Enter password]
 Entrez le passe
+[Cancel]
+Annuler
+[Date of birth:]
+Anniversaire :
+[Gender:]
+Sexe :
+[Homepage:]
+Page web :
+[About:]
+À propos :
+[City:]
+Ville :
+[State:]
+État :
+[Country:]
+Pays :
+[Timezone:]
+Fuseau horaire :
+[New password:]
+Nouveau mot de passe :
 ;file \protocols\Skype\src\skype.cpp
 ;file \protocols\Skype\src\skype_account.cpp
+;file \protocols\Skype\src\skype_blocked.cpp
+[Name]
+Nom
+;file \protocols\Skype\src\skype_bookmarks.cpp
+[Conferences]
+Conférences
 ;file \protocols\Skype\src\skype_chat.cpp
+[&User details]
+&Détails contact
+[&User]
+&Contact
+[&Add]
+&Ajouter
 ;file \protocols\Skype\src\skype_contacts.cpp
 ;file \protocols\Skype\src\skype_dialogs.cpp
+[<not specified>]
+<non spécifié>
+[Male]
+Homme
+[Female]
+Femme
 ;file \protocols\Skype\src\skype_events.cpp
+[Network]
+Réseau
+[General]
+Général
 ;file \protocols\Skype\src\skype_icons.cpp
+[Delete]
+Effacer
+;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
 ;file \protocols\Skype\src\skype_menus.cpp
+[Request authorization]
+Demander l'autorisation
+[Grant authorization]
+Accorder l'autorisation
+[Revoke authorization]
+Enlever l'autorisation
+;file \protocols\Skype\src\skype_messages.cpp
 ;file \protocols\Skype\src\skype_netlib.cpp
 ;file \protocols\Skype\src\skype_proto.cpp
+;file \protocols\Skype\src\skype_transfers.cpp
 ;file \protocols\Skype\src\skype_utils.cpp

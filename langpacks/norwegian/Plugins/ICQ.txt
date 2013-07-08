@@ -6,10 +6,68 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\IcqOscarJ\res\resources.rc
+[Password:]
+Passord:
+[&Send]
+&Send
+[&Cancel]
+&Avbryt
+[OK]
+OK
+[Cancel]
+Avbryt
 [ICQ number:]
 ICQ nummer:
+[Port:]
+Port:
+[Default]
+Standard
+[Messaging]
+Melding
+[Options]
+Valg
+[Text Color]
+TekstFarge
+[Error]
+Feil
+[Use default colours]
+Bruk standardfarger
 [Idle since:]
 Inaktiv siden:
+[Summary]
+Sammendrag
+[Nickname:]
+Kallenavn:
+[First name:]
+Fornavn:
+[Last name:]
+Etternavn:
+[E-mail:]
+E-post:
+[Gender:]
+Kjønn:
+[Age:]
+Alder:
+[Work]
+Arbeid
+[Company:]
+Bedrift:
+[Department:]
+Avdeling:
+[Position:]
+Posisjon:
+[Location]
+Plassering
+[Country:]
+Land:
+[State:]
+Stat:
+[City:]
+By:
+[Other]
+Annet
+[Closing in %d]
+Lukker om %d
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
 ;file \protocols\IcqOscarJ\src\fam_01service.cpp
 ;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
@@ -24,18 +82,46 @@ Inaktiv siden:
 Tidligere arbeidsplass
 [Past Organization]
 Tidligere organisasjon
+[Female]
+Kvinne
+[Male]
+Mann
 ;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
 ;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
 ;file \protocols\IcqOscarJ\src\icq_menu.cpp
+[Request authorization]
+Forespør godkjenning
+[Grant authorization]
+Godkjenn autorisasjon
+[Revoke authorization]
+Tilbakekall godkjenning
 ;file \protocols\IcqOscarJ\src\icq_opts.cpp
+[Network]
+Nettverk
+[Contacts]
+Kontakter
+[Popups]
+Popups
+[Popups]
+Popups
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 ;file \protocols\IcqOscarJ\src\icq_proto.cpp
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
 ;file \protocols\IcqOscarJ\src\icq_servlist.cpp
 ;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
+[Close]
+Lukk
+[** All contacts **]
+** Alle kontakter **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
+[On the phone]
+I Telefonen
+[Typing]
+Skriving
 [%s Custom Status]
 %s Selvvalgt Status
+[None]
+Ingen
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 ;file \protocols\IcqOscarJ\src\init.cpp
 ;file \protocols\IcqOscarJ\src\log.cpp
@@ -44,6 +130,8 @@ Tidligere organisasjon
 ;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
 [Personal]
 Personlig
+[Contact]
+Kontakt
 ;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
 [Change ICQ Details]
 Forandre ICQ Detaljer
@@ -52,3 +140,5 @@ Forandre ICQ Detaljer
 ;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
 ;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 ;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
+[<not specified>]
+<ikke spesifisert>

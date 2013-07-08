@@ -6,6 +6,18 @@
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 ;file \protocols\FacebookRM\res\facebook.rc
+[E-mail:]
+e-mail :
+[Password:]
+Passe :
+[Cancel]
+Annuler
+[User Details]
+Détails du contact
+[Text]
+Texte
+[Default]
+Défaut
 [Advanced Settings]
 Options Avancées
 ;file \protocols\FacebookRM\src\communication.cpp
@@ -19,4 +31,10 @@ Options Avancées
 Vous ne pouvez pas envoyer de message si vous êtes Hors ligne.
 ;file \protocols\FacebookRM\src\process.cpp
 ;file \protocols\FacebookRM\src\proto.cpp
+[Network]
+Réseau
+[Advanced]
+Avancé
+[Events]
+Évènements
 ;file \protocols\FacebookRM\src\theme.cpp

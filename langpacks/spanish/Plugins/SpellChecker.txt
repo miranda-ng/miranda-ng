@@ -14,6 +14,8 @@ Reemplazos
 Activar Auto-recambios
 [Edit...]
 Editar...
+[Remove]
+Quitar
 [Add auto-replace word]
 Añadir automáticamente sustituir la palabra
 [Wrong word:]
@@ -24,6 +26,12 @@ No hay separadores y todos los caracteres en minúsculas
 Corrección:
 [Use variables in correction]
 Usar variables en la corrección
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [Spell Checker]
 Corrector ortográfico
 [Default language:]
@@ -38,6 +46,10 @@ Omitir palabras en MAYÚSCULAS
 Preguntar antes de enviar un mensaje con errores de ortografía
 [Download more dictionaries]
 Descargar más diccionarios
+[Advanced]
+Avanzada
+[Advanced]
+Avanzada
 [Underline type:]
 Subrayado escriba:
 [Show corrections in submenu]
@@ -63,6 +75,8 @@ Corrección incorrecto
 La corrección no puede estar vacío!
 ;file \plugins\SpellChecker\src\dictionary.cpp
 ;file \plugins\SpellChecker\src\options.cpp
+[Message Sessions]
+Mensaje de Sesiones
 [Auto-replacements]
 Auto-recambios
 [Line]

@@ -6,12 +6,50 @@
 ;  Authors: J. Schaal & S. Ellis
 ;============================================================
 ;file \plugins\MetaContacts\res\MetaContacts.rc
+[&Cancel]
+Cancel(&C)
+[Name:]
+名前 :
+[Information]
+情報
+[Contacts]
+コンタクト
+[&Apply]
+適用 (&A)
+[Options]
+オプション
+[Contact List]
+コンタクトリスト
+[Default]
+デフォルト
 ;file \plugins\MetaContacts\src\addto.cpp
 ;file \plugins\MetaContacts\src\edit.cpp
+[(Unknown Contact)]
+( 不明なコンタクト )
+[Yes]
+はい
+[No]
+いいえ
+[Contact]
+コンタクト
+[Protocol]
+プロトコル
 ;file \plugins\MetaContacts\src\icons.cpp
+[Edit]
+編集
+[Remove]
+削除
 ;file \plugins\MetaContacts\src\metacontacts.h
 ;file \plugins\MetaContacts\src\meta_main.cpp
 ;file \plugins\MetaContacts\src\meta_menu.cpp
+[Error]
+エラー
 ;file \plugins\MetaContacts\src\meta_options.cpp
 ;file \plugins\MetaContacts\src\meta_services.cpp
+[Message from %s]
+%s からのメッセージ
+[General]
+全般
+[History]
+履歴
 ;file \plugins\MetaContacts\src\meta_utils.cpp

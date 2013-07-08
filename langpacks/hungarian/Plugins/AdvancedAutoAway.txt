@@ -6,6 +6,72 @@
 ;  Authors: P Boon
 ;============================================================
 ;file \Plugins\StatusPlugins\resource.rc
+[General]
+Általános
+[Close]
+Bezárás
+[Cancel]
+Mégsem
+[Profile]
+Profil
+[Message]
+Üzenet
+[Set]
+Beállít
+[OK]
+OK
+[Other]
+Egyéb
+[Background colour]
+Háttérszín
+[Text colour]
+Szövegszín
+[Use Windows colours]
+Windows színek használata
+[Use default colours]
+Alap színek használata
+[Events]
+Események
+[Custom]
+Egyedi
+[Use %time% for the current time, %date% for the current date]
+%idõ% használata a jelenlegi idõhöz, és %dátum% a jelenlegi dátumhoz
+[Accounts]
+Fiókok
+[Status]
+Állpot
+[Delete]
+Törlés
+[seconds]
+mp.
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
+[Status Messages]
+Állapot Üzenetek
 ;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+Távol vagyok ekkortól: %idõ%.
+[Give it up, I'm not in!]
+Add fel, nem vagyok itt!
+[Not right now.]
+Most ne.
+[Give a guy some peace, would ya?]
+Egy kis nyugalmat kérnék, okés?
+[I'm a chatbot!]
+Csevegõrobot vagyok!
+[Yep, I'm here.]
+Igen, itt vagyok.
+[Nope, not here.]
+Nem, nem vagyok itt.
+[I'm hiding from the mafia.]
+A maffia elõl rejtõzök.
+[That'll be the phone.]
+Csörög a telefonom.
+[Mmm...food.]
+Mmm...kaja.
+[idleeeeeeee]
+Inaktíííííív
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Protocol]
+Protokoll
+[Closing in %d]
+Bezárás %d

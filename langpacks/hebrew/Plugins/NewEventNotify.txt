@@ -12,6 +12,16 @@
 בטל זמנית פופאפי אירועים
 [Show Preview of Event in Popup]
 הצג תצוגה מקדימה של פופאפי אירועים
+[Message]
+הודעה
+[URL]
+קישור
+[File]
+קובץ
+[Text]
+טקסט
+[Background]
+רקע
 [Notify me of ...]
 הודע לי על...
 [Left Click Actions]
@@ -28,11 +38,19 @@
 פתח את חלון המענה במקום לקרוא את ההודעה
 [Show Date]
 הראה תאריך
+[Edit]
+ערוך
 [No popups for RSS contacts]
 RSS ללא פופאפים  לאנשי קשר מסוג
 ;file \plugins\NewEventNotify\src\main.cpp
+[Message Session]
+חלון הודעות
 ;file \plugins\NewEventNotify\src\menuitem.cpp
+[Popups]
+פופ אפ
 ;file \plugins\NewEventNotify\src\neweventnotify.h
+[Contacts]
+אנשי קשר
 ;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 התראת אירועים

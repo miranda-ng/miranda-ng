@@ -8,6 +8,14 @@
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Sett Mitt Kallenavn
+[Nickname:]
+Kallenavn:
+[OK]
+OK
+[Cancel]
+Avbryt
+[General]
+Generelt
 [Align text to right]
 Still tekst mot høyre
 [Auto-resize frame]
@@ -28,16 +36,20 @@ Venstre:
 Høyre:
 [Custom size:]
 Selvvalgt størrelse:
+[pixels]
+pixler
+[pixels]
+piksler
 [Allow it to grow]
 Tillat den å øke
 [Use free space (under avatar) to other texts]
 Bruk ledig plass (under avatar) til andre tekster
+[seconds]
+sekunder
 [Set My Status Message for All Status]
 Sett Min Statusmelding for Alle Statuser
 [Status Message:]
 Statusmelding:
-[Status popup]
-Status popup
 [&Offline]
 &Frakoblet
 [On&line]
@@ -58,26 +70,22 @@ Opp&tatt
 I &Telefonen
 [Out to &Lunch]
 Ute til &Lunsj
-[Context popup]
-Sammenheng popup
 [Set My Avatar...]
 Sett Min Avatar...
 [Set My Nickname...]
 Sett Mitt Kallenavn...
 [Set My Status Message...]
 Sett Min Statusmelding...
-[Nick popup]
-Kallenavn popup
-[Status message popup]
-Statusmelding popup
-[Avatar popup]
-Avatar popup
 ;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 <ingen statusnavn>
 ;file \plugins\MyDetails\src\frame.cpp
+[Status]
+Status
 [My Details]
 Mine Detaljer
+[Background]
+Bakgrunn
 [Show My Details]
 Vis Mine Detaljer
 [Set My Avatar for %s...]
@@ -95,4 +103,6 @@ Sett Mitt Kallenavn for %s
 Sett Min Statusmelding for %s
 [Show next protocol]
 Vis neste protokoll
+[Contact List]
+Kontaktliste
 ;file \plugins\MyDetails\src\options.cpp

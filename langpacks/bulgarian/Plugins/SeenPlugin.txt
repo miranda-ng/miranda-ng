@@ -28,8 +28,30 @@
 Протоколи за наблюдаване:
 [Use popups]
 Ползване на popups
+[Text]
+Текст
 [Popup Colors]
 Popup цветове
+[Online]
+На линия
+[Away]
+Отсъстващ
+[NA]
+Недостъпен
+[Occupied]
+Зает
+[DND]
+Не безпокойте
+[On the phone]
+На телефона
+[Out to lunch]
+На обяд
+[Free for chat]
+Готов за чат
+[Invisible]
+Невидим
+[Offline]
+Извън линия
 [Reset colors]
 Анулиране
 [You missed following contacts:]
@@ -39,6 +61,10 @@ Popup цветове
 [Alert when user status changes]
 Уведомяване, ако контакта смени състоянието си
 ;file \plugins\SeenPlugin\src\history.cpp
+[View User's Details]
+Подробности за потребителя
+[User Menu]
+Потребителско меню
 ;file \plugins\SeenPlugin\src\main.cpp
 [User status change]
 Потребител промени състоянието си
@@ -51,7 +77,17 @@ Popup цветове
 [Last seen]
 Последно видян
 ;file \plugins\SeenPlugin\src\menu.cpp
+[<unknown>]
+<неизвестно>
+[<none>]
+<няма>
 ;file \plugins\SeenPlugin\src\options.cpp
+[Contacts]
+Контакти
+[Popups]
+РopUps
+[Popups]
+РopUps
 ;file \plugins\SeenPlugin\src\seen.h
 [-- Date --]
 -- Дата --
@@ -79,12 +115,18 @@ Popup цветове
 часове (12)
 [AM/PM]
 AM/PM
+[seconds]
+секунди
 [-- User --]
 -- Потребител --
 [username]
 потребителско име
 [nick]
 прякор
+[Group]
+Група
+[Status]
+Състояние
 [Old status]
 Старо състояние
 [external IP]
@@ -105,3 +147,7 @@ AM/PM
 вместо
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
+[Idle]
+Бездействие
+[Unknown]
+Неизвестно

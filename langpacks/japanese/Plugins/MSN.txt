@@ -10,6 +10,10 @@
 MSN
 [Live ID:]
 Live ID:
+[Password:]
+パスワード :
+[Nickname:]
+ニックネーム :
 [Create a new Windows Live account]
 新規 Windows Live アカウントを作成
 [Send message font color/size info inside messages]
@@ -26,6 +30,8 @@ Live ID:
 直接 :
 [Gateway:]
 ゲートウェイ :
+[Reset]
+リセット
 [Server List Manager]
 サーバーリスト管理
 [Contact is on your local list]
@@ -46,12 +52,18 @@ Hotmail
 トレイ通知を無効
 [Ignore new messages not in Inbox folder]
 受信トレイフォルダーにない新規メッセージを無視
+[Other]
+その他
 [Enable 'Chat Session Established' popup]
 ' チャットセッションの接続確立 ' ポップアップを有効
 [Enable 'Contact left channel' popup]
 ' チャンネルに残っているコンタクト ' ポップアップを有効
 [Disable Contact List notifications]
 コンタクトリスト通知を無効
+[OK]
+OK
+[Cancel]
+Cancel
 [Mobile Device (used for SMS)]
 モバイルデバイス ( SMS 用に使用 )
 [Spouse/Partner]
@@ -66,6 +78,10 @@ Hotmail アドレスブックから削除
 コンタクトをブロック
 [Live ID]
 Live ID
+[&Cancel]
+Cancel(&C)
+[Add]
+追加
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 チャット #
@@ -130,10 +146,14 @@ Live アラートのセットアップ (&A)
 [&Start Netmeeting]
 Netmeeting の開始 (&S)
 ;file \protocols\MSN\src\msn_misc.cpp
+[Error]
+エラー
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
 [Hotmail Inbox]
 Hotmail 受信箱
+[Profile]
+プロファイル
 [MSN Services]
 MSN サービス
 [Invite to chat]
@@ -160,6 +180,8 @@ MSN オプション
 IP 情報はログイン後のみ利用可能です
 [MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
 MSN プロトコルはメッセージタイムアウトに 60 秒以上を必要とします。タイムアウトの値を修正してください
+[Network]
+ネットワーク
 [Server list]
 サーバーリスト
 ;file \protocols\MSN\src\msn_p2p.cpp

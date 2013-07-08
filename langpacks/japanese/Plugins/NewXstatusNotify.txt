@@ -1,16 +1,76 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: xStatus notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 ;file \plugins\NewXstatusNotify\res\resource.rc
+[Online]
+オンライン
+[Offline]
+オフライン
+[Invisible]
+不可視
+[Free for chat]
+チャット OK!
+[Away]
+離席中
+[NA]
+応答不可
+[Occupied]
+取り込み中
+[DND]
+邪魔しないで
+[Out to lunch]
+昼食中
+[On the phone]
+電話中
+[Configure]
+設定
+[Delete]
+削除
+[Sounds]
+音声
+[Popups]
+ポップアップ
+[Background]
+背景
+[Text]
+テキスト
+[Use custom colours]
+カスタム色を使用
+[Use Windows colours]
+ウィンドウ色を使用
+[Reset]
+リセット
+[OK]
+OK
+[Cancel]
+Cancel
+[General]
+全般
+[Accounts]
+アカウント
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Status]
+ステータス
+[** All contacts **]
+** 全てのコンタクト **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 ;file \plugins\NewXstatusNotify\src\main.cpp
+[Contact]
+コンタクト
 ;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+全てのファイル
+[Log]
+ログ
+[Protocol]
+プロトコル
 ;file \plugins\NewXstatusNotify\src\popup.h
 ;file \plugins\NewXstatusNotify\src\utils.cpp
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[<unknown>]
+< 不明 >
 ;file \plugins\NewXstatusNotify\src\xstatus.h

@@ -3,8 +3,28 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Biaіek
+;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
 ;file \plugins\AddContactPlus\res\resource.rc
+[Add Contact]
+コンタクトを追加
+[Custom name:]
+カスタム名 :
+[Group:]
+グループ :
+[Options]
+オプション
+[Send authorization request]
+認証リクエストを送信
+[Authorization Request]
+認証リクエスト
+[&Add]
+追加 (&A)
+[&Cancel]
+Cancel(&C)
 ;file \plugins\AddContactPlus\src\addcontact.cpp
+[Please authorize my request and add me to your contact list.]
+リクエストを認証して , 私をあなたのコンタクトリストに追加してください
+[None]
+なし
 ;file \plugins\AddContactPlus\src\main.cpp

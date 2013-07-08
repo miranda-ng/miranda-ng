@@ -6,6 +6,18 @@
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 ;file \plugins\Sessions\res\Sessions.rc
+[Edit]
+Rediger
+[Delete]
+Slett
+[&Cancel]
+&Avbryt
+[OK]
+OK
+[Cancel]
+Avbryt
 ;file \plugins\Sessions\Src\Main.cpp
 ;file \plugins\Sessions\Src\Options.cpp
+[Message Sessions]
+Meldingsøkter
 ;file \plugins\Sessions\Src\Utils.cpp

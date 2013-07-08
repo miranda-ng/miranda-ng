@@ -6,19 +6,53 @@
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 ;file \plugins\Popup\res\resource.rc
+[Effects]
+Effektek
+[History]
+Elõzmény
+[pixels]
+képpont
+[pixels]
+pixel
+[Close]
+Bezárás
+[General]
+Általános
+[seconds]
+mp.
+[Position:]
+Pozíció:
 ;file \plugins\Popup\src\actions.cpp
+[Contact menu]
+Partner Menü
 ;file \plugins\Popup\src\config.cpp
 ;file \plugins\Popup\src\effects.cpp
 ;file \plugins\Popup\src\font.cpp
 ;file \plugins\Popup\src\history.cpp
 ;file \plugins\Popup\src\icons.cpp
+[OK]
+OK
+[Cancel]
+Mégsem
+[User Details]
+Felhasználó részletek
 ;file \plugins\Popup\src\main.cpp
+[Actions]
+Akciók
+[Contacts]
+Partnerek
+[Advanced]
+Haladó
 ;file \plugins\Popup\src\opt_adv.cpp
 ;file \plugins\Popup\src\opt_class.cpp
 ;file \plugins\Popup\src\opt_gen.cpp
 ;file \plugins\Popup\src\opt_skins.cpp
+[Use Windows colours]
+Windows színek használata
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
 ;file \plugins\Popup\src\services.cpp
+[Error]
+Hiba
 ;file \plugins\Popup\src\skin.cpp
 ;file \plugins\Popup\src\srmm_menu.cpp

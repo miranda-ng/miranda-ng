@@ -6,6 +6,18 @@
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
 ;file \protocols\AimOscar\res\aim.rc
+[Password:]
+비밀번호:
+[Port:]
+포트:
+[Idle]
+무작업 상태
+[&Cancel]
+&C 취소
+[E-mail]
+이메일
+[&Deny]
+&D 거부
 ;file \protocols\AimOscar\src\avatars.cpp
 ;file \protocols\AimOscar\src\chat.cpp
 ;file \protocols\AimOscar\src\error.cpp
@@ -15,5 +27,9 @@
 ;file \protocols\AimOscar\src\proto.cpp
 ;file \protocols\AimOscar\src\server.cpp
 ;file \protocols\AimOscar\src\theme.cpp
+[Bold]
+굵게
 ;file \protocols\AimOscar\src\ui.cpp
+[Network]
+네트워크
 ;file \protocols\AimOscar\src\utility.cpp

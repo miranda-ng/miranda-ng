@@ -24,6 +24,12 @@
 需要密码:
 [Change status back]
 恢复状态为
+[Password:]
+密码: 
+[OK]
+确定
+[Cancel]
+取消
 [Windows is inactive]
 窗口激活
 [Hide Miranda when:]
@@ -48,3 +54,7 @@ Miranda NG 已锁定.\n输入密码解锁.
 [BossKey\tget the BossKey name]
 BossKey\tget 老板键名称
 ;file \plugins\BossKeyPlus\src\Options.cpp
+[Events]
+事件
+[Advanced]
+高级

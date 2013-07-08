@@ -16,8 +16,12 @@ Nombre del módulo
 Concordancia exacta
 [Setting Name]
 Marco Nombre
+[&Search]
+&Búsqueda
 [&Replace]
 &Reemplazar
+[&Cancel]
+&Cancelar
 [Search For]
 Buscar
 [Replace With]
@@ -45,6 +49,8 @@ Los cambios en esta lista tendrá efecto la próxima vez miranda comienza
 [Popup timeout (0 for infinite)]
 tiempo de espera de pop-ups (0 para infinito)
 [Background colour]
+Color de fondo
+[Background colour]
 Colores de fondo
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
 Si el nombre del módulo tiene un espacio en él, poner un \\ antes de que el espacio. por ejemplo, "aaa\\ bbb"
@@ -54,6 +60,12 @@ Agregue un módulo al contacto
 Añadir un módulo denominado
 [Add to all contacts (Includes Settings)]
 Añadir a todos los contactos (Incluye configuración)
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [Edit Setting]
 Editar Marco
 [Value Name:]
@@ -84,6 +96,8 @@ Pegar los ajustes para importar aquí.
 &Actualizar los módulos
 [Refresh &Settings]
 Actualizar Configuración
+[E&xit]
+&Salir
 [&Actions]
 &Acciones
 [&Search and Replace]
@@ -106,6 +120,8 @@ Todos los contactos
 De un archivo
 [From pasted &text]
 Desde el texto pegado
+[&Options]
+&Opciones
 [&Sort by protocol]
 &Ordenar por protocolo
 [Show &All]
@@ -122,8 +138,6 @@ Editar palabras en Hex
 &Editar DWords en Hex
 [&Restore position]
 &Restaurar la posición
-[Item context]
-Elemento de contexto
 [&Edit / Rename]
 &Editar / Cambiar nombre
 [NEW]
@@ -144,8 +158,10 @@ Descifrar cadena
 Cifrar String
 [&Watch]
 &Ver
-[Null Mod context]
-Nulo Mod contexto
+[&Delete]
+&Eliminar
+[&Rename]
+&Cambiar el nombre de
 [Copy To Contact]
 Copiar en contacto
 [Export Module]
@@ -166,18 +182,12 @@ Desde el texto pegado
 &Agregar módulo
 [Export Settings]
 NULL el menú de contactos
-[Contacts menu]
-Contactos del menú
 [Export Contacts]
 Exportar contactos
 [Import Contacts]
 Importar contactos
-[Contact Mod context]
-Póngase en contacto con Mod contexto
 [Export Module from all contacts]
 Módulo de exportación de todos los contactos
-[new item]
-nuevo tema
 [Watch Window]
 Ventana Inspección
 [Reload Watch List]
@@ -222,6 +232,8 @@ Eliminar del módulo de base de datos
 [Delete module from Database... Loading]
 Eliminar del módulo de base de datos ... Cargando]
 ;file \plugins\DbEditorPP\src\exportimport.cpp
+[All Files]
+Todos los archivos
 [Error Loading Module List]
 Error al cargar lista de módulos
 [Couldn't open file for writing]
@@ -274,12 +286,18 @@ Confirmar Eliminar contacto
 contactos Cargando ...
 [Loading modules...]
 módulos de carga ...
+[Contacts]
+Contactos
 [Add module to contact "%s"]
 Agregar módulo para contactar con
 ;file \plugins\DbEditorPP\src\options.cpp
 ;file \plugins\DbEditorPP\src\settinglist.cpp
+[Name]
+Nombre
 [Data]
 Datos
+[Size]
+Tamaño
 [BLOB]
 BLOB
 [BYTE]
@@ -294,7 +312,11 @@ CUERDAS
 Unicode
 [<unsupported>]
 <sin apoyo>
+[<unknown>]
+<desconocido>
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
+[Contact]
+Póngase en contacto con
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
 database Marco cambiado: \nMódulo: "%s" , Marco: "%s"\nNuevo valor: (BYTE) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]

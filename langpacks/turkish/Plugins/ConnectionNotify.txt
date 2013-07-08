@@ -6,5 +6,21 @@
 ;  Authors: MaKaR
 ;============================================================
 ;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
+[Background]
+Art Alan
+[Text]
+Yazı
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
 ;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+[Status]
+Durum
+[Plugins]
+Eklentiler
 ;file \plugins\ConnectionNotify\src\filter.cpp

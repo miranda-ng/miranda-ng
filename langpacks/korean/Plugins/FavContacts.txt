@@ -6,5 +6,9 @@
 ;  Authors: Victor Pavlychko
 ;============================================================
 ;file \plugins\FavContacts\res\resource.rc
+[Show]
+보이기
 ;file \plugins\FavContacts\src\favlist.h
 ;file \plugins\FavContacts\src\main.cpp
+[Background]
+배경

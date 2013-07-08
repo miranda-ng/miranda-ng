@@ -6,6 +6,16 @@
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
 ;file \plugins\Db_autobackups\src\backup.cpp
+[All Files]
+Tüm Dosyalar
+[All Files]
+Tüm Dosyalar
 ;file \plugins\Db_autobackups\src\main.cpp
 ;file \plugins\Db_autobackups\src\options.cpp

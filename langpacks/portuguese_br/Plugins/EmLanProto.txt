@@ -6,4 +6,12 @@
 ;  Authors: kva
 ;============================================================
 ;file \protocols\EmLanProto\res\amdproto.rc
+[Your name]
+Seu nome
+[Your name]
+Seu nome
 ;file \protocols\EmLanProto\src\amdproto.cpp
+[Network]
+Rede
+[Network]
+Rede

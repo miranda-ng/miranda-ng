@@ -6,9 +6,21 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 ;file \plugins\AutoShutdown\res\resource.rc
+[seconds]
+초
+[OK]
+확인
+[Cancel]
+취소
 ;file \plugins\AutoShutdown\src\frame.cpp
+[Background]
+배경
 ;file \plugins\AutoShutdown\src\main.cpp
 ;file \plugins\AutoShutdown\src\options.cpp
+[Events]
+이벤트
 ;file \plugins\AutoShutdown\src\settingsdlg.cpp
 ;file \plugins\AutoShutdown\src\shutdownsvc.cpp
+[Unknown]
+알 수 없음
 ;file \plugins\AutoShutdown\src\utils.cpp

@@ -6,5 +6,37 @@
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
 ;file \plugins\FloatingContacts\res\fltcnt.rc
+[pixels]
+픽셀
+[seconds]
+초
+[Single click interface]
+원클릭 인터페이스
+[Dim idle contacts]
+희미한 무작업 상태의 대화 상대
+[Background]
+배경
+[Stretch to width]
+가로로 늘리기
+[Stretch to height]
+세로로 늘리기
+[Tile horizontally]
+가로 바둑판식 형태로
+[Tile vertically]
+새로 바둑판식 형태로
+[Stretch proportionally]
+알맞게 늘리기
 ;file \plugins\FloatingContacts\src\main.cpp
+[Standard contacts]
+기본 대화 상대
+[Online contacts to whom you have a different visibility]
+다른 가시성을 지니고 있는 온라인 대화 상대
+[Offline contacts]
+오프라인 대화 상대
+[Offline contacts to whom you have a different visibility]
+다른 가시성을 지니고 있는 오프라인 대화 상대
+[Contacts which are 'not on list']
+'목록에 없는' 대화 상대
 ;file \plugins\FloatingContacts\src\options.cpp
+[Contact List]
+대화 상대 목록

@@ -6,16 +6,74 @@
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 ;file \plugins\TipperYM\res\resource.rc
+[Options]
+Seçenekler
+[Options]
+Seçenekler
+[Window]
+Pencere
 [Keep original avatar size]
 Gerçek avatar boyutunu tut
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Items]
+Ögeler
+[Add]
+Ekle
+[Remove]
+Sil
+[Edit]
+Değiştir
+[Extra icons]
+Fazladan simgeler
+[Effects]
+Etkiler
 ;file \plugins\TipperYM\src\mir_smileys.cpp
 ;file \plugins\TipperYM\src\options.cpp
+[None]
+Yok
+[Customize]
+Kişiselleştir
 ;file \plugins\TipperYM\src\options.h
+[Status]
+Durum
 [Client]
 Kullanıcı
 ;file \plugins\TipperYM\src\popwin.cpp
+[%s (locked)]
+%s (kilitli)
+[Other]
+Diğer
 ;file \plugins\TipperYM\src\preset_items.cpp
+[Gender:]
+Cinsiyet:
+[Homepage:]
+Ana sayfa:
+[Idle]
+Boşta
+[Name]
+Ad
+[Name:]
+Ad:
+[Name:]
+Ad:
+[Time:]
+Zaman:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 ;file \plugins\TipperYM\src\tipper.cpp
+[Background]
+Art Alan
+[Dividers]
+Ayıraçlar
 ;file \plugins\TipperYM\src\translations.cpp
+[Female]
+Kadın
+[Male]
+Erkek
 ;file \plugins\TipperYM\src\translations.h

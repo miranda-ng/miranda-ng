@@ -6,8 +6,26 @@
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 ;file \plugins\NewEventNotify\res\resource.rc
+[Message]
+メッセージ
+[URL]
+URL
+[File]
+ファイル
+[Text]
+テキスト
+[Background]
+背景
+[Edit]
+編集
 ;file \plugins\NewEventNotify\src\main.cpp
+[Message Session]
+メッセージセッション
 ;file \plugins\NewEventNotify\src\menuitem.cpp
+[Popups]
+ポップアップ
 ;file \plugins\NewEventNotify\src\neweventnotify.h
+[Contacts]
+コンタクト
 ;file \plugins\NewEventNotify\src\options.cpp
 ;file \plugins\NewEventNotify\src\popup.cpp

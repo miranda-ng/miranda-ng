@@ -40,6 +40,10 @@ Hacer la plaza avatar
 Cambiar el tamaño del avatar para adaptarse a máximo tamaño permitido protocolo
 [Contact picture]
 Póngase en contacto con foto
+[Delete]
+Eliminar
+[Reset]
+Restablecer
 [Picture options]
 Opciones de imagen
 [Protect the picture]
@@ -50,10 +54,26 @@ Establecer como oculta
 Trate de hacer una imagen de fondo transparente
 [Use defaults]
 Utilizar las opciones predeterminadas
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Options]
+Opciones
+[Options]
+Opciones
+[Background]
+Fondo
+[Background]
+Background
 [Points:]
 Puntos:
 [Color diff:]
 Color de esta:
+[Set]
+Set
 [Use per protocol avatars]
 El uso por los avatares de protocolo
 ;file \plugins\AVS\src\acc.cpp
@@ -62,6 +82,14 @@ Protocolos diferentes avatares
 ;file \plugins\AVS\src\main.cpp
 [Grow avatar to fit max allowed protocol size]
 Avatar de crecer para adaptarse a máximo tamaño permitido protocolo
+[All Files]
+Todos los archivos
+[Windows Bitmaps]
+Los mapas de bits de Windows
+[JPEG Bitmaps]
+JPEG 
+[GIF Bitmaps]
+GIF 
 [Set My Avatar]
 Establecer Mi Avatar
 [Set My Avatar for %s]
@@ -70,6 +98,8 @@ Establecer Mi Avatar de %s
 Mis Avatars
 [My Global Avatar Cache]
 Mi caché Avatar Global
+[Contacts]
+Contactos
 [Contact Avatars]
 Póngase en contacto con Avatares
 [Own Avatars]

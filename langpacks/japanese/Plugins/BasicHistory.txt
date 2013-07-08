@@ -6,21 +6,81 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 ;file \plugins\BasicHistory\res\BasicHistory.rc
+[Message History]
+メッセージ履歴
 [Show event icons]
 イベントアイコンを表示
+[Show names]
+名前を表示
+[Show messages]
+メッセージを表示
+[Name]
+名前
+[OK]
+OK
+[Cancel]
+Cancel
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
+[View &History]
+履歴の表示 (&H)
+[Incoming message]
+着信メッセージ
+[Outgoing message]
+発信メッセージ
+[History]
+履歴
 ;file \plugins\BasicHistory\src\EventList.cpp
+[History for %s]
+%s の履歴
+[System]
+システム
+[Invalid Message]
+不正なメッセージ
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
+[Open in &new window]
+新規ウィンドウで開く
+[&Open in existing window]
+既存のウィンドウを開く (&O)
+[&Copy link]
+リンクをコピー (&C)
+[Copy]
+コピー
+[Delete]
+削除
 [Reply &Quoted]
 引用して返信 (&Q)
+[Delete Group]
+グループの削除
+[Options]
+オプション
 [Filters]
 フィルター
+[Fonts & Colors]
+フォントと色
+[Icons]
+アイコン
+[Hotkeys]
+ホットキー
+[Error]
+エラー
 ;file \plugins\BasicHistory\src\Options.cpp
+[Message]
+メッセージ
+[Link]
+リンク
 [SMTP Simple Email]
 SMTP 電子メール
 [SMS message]
 SMS メッセージ
+[Messages]
+メッセージ
+[Searching]
+検索中
+[Advanced]
+詳細
+[Find]
+検索
 [Incoming events]
 着信イベント
 [Outgoing events]
@@ -29,7 +89,11 @@ SMS メッセージ
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 ;file \plugins\BasicHistory\src\Scheduler.cpp
+[Contacts]
+コンタクト
 ;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
 "%s" が見つかりません
+[Search]
+検索
 ;file \plugins\BasicHistory\src\TxtExport.cpp

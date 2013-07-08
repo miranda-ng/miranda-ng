@@ -6,6 +6,16 @@
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 ;file \plugins\Sessions\res\Sessions.rc
+[Edit]
+Bewerken
+[Delete]
+Verwijderen
+[&Cancel]
+Annuleren
+[OK]
+OK
+[Cancel]
+Annuleren
 ;file \plugins\Sessions\Src\Main.cpp
 ;file \plugins\Sessions\Src\Options.cpp
 ;file \plugins\Sessions\Src\Utils.cpp

@@ -6,8 +6,28 @@
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 ;file \plugins\Msg_Export\res\resource.rc
+[Help]
+Yardım
+[&Find...]
+&Bul...
+[&Close]
+&Kapat
+[User &Details]
+Kişi &Detayları
+[Copy]
+Kopyala
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 ;file \plugins\Msg_Export\src\Glob.h
 ;file \plugins\Msg_Export\src\main.cpp
 ;file \plugins\Msg_Export\src\options.cpp
+[File]
+Dosya
+[Nick]
+Kısa ad
+[History]
+Geçmiş
+[General]
+Genel
 ;file \plugins\Msg_Export\src\utils.cpp
+[(Unknown Contact)]
+(Bilinmmeyen Kişi)

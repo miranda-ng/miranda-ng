@@ -10,13 +10,43 @@
 Afficher l'icône
 [Variable list]
 Liste variables
+[Text]
+Texte
 [Popup Colors]
 Couleurs des popups
+[Online]
+En ligne
+[Away]
+Absent
+[NA]
+Indisponible
+[Occupied]
+Occupé
+[DND]
+Ne pas déranger
+[On the phone]
+Au téléphone
+[Out to lunch]
+Parti manger
+[Free for chat]
+OK pour un chat
+[Invisible]
+Invisible
+[Offline]
+Hors ligne
 ;file \plugins\SeenPlugin\src\history.cpp
+[View User's Details]
+Voir les détails du contact
+[User Menu]
+Menu Contact
 [Send Instant Message]
 Envoyer un message instantané
 ;file \plugins\SeenPlugin\src\main.cpp
 ;file \plugins\SeenPlugin\src\menu.cpp
+[<unknown>]
+<inconnu>
+[<none>]
+<aucun>
 ;file \plugins\SeenPlugin\src\options.cpp
 ;file \plugins\SeenPlugin\src\seen.h
 [year (4 digits)]
@@ -41,10 +71,18 @@ jour (court)
 heure (24)
 [hours (12)]
 heure (12)
+[seconds]
+secondes
 [username]
 Identifiant
 [nick]
 Speudo
+[Group]
+Groupe
+[Status]
+État
+[Protocol]
+Protocole
 [tabulator]
 tabulation
 [line break]
@@ -53,3 +91,7 @@ limite
 Utiliser
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
+[Idle]
+Inactif
+[Unknown]
+Inconnu

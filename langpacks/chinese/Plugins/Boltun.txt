@@ -18,6 +18,8 @@ Boltun 离开时与所有人自动聊天
 警告联系人 Boltun 开始聊天
 [Mark replied messages as read]
 标记回复消息为已读
+[sec]
+秒
 [Warning text]
 警告文本
 [Time before the answer]
@@ -41,6 +43,8 @@ Boltun 离开时与所有人自动聊天
 [Don't use "I don't understand"-like answers]
 不要使用 "我不清楚"-为答案
 ;file \plugins\Boltun\src\boltun.h
+[All Files]
+所有文件
 [Boltun/Auto Chat]
 Boltun/自动聊天
 [Boltun/Not to Chat]

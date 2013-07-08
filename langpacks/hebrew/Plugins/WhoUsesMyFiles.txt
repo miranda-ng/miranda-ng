@@ -6,7 +6,13 @@
 ;  Authors: Nikolay Redko
 ;============================================================
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
+[OK]
+אישור
 [Use windows colors]
 השתמש בצבעי חלונות
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
+[File]
+קובץ
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
+[Popups]
+פופ אפ

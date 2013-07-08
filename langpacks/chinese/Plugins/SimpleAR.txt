@@ -24,3 +24,5 @@
 ;file \plugins\SimpleAR\src\Options.cpp
 [Simple Auto Replier]
 简易自动回复插件
+[Plugins]
+插件

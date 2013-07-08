@@ -5,28 +5,132 @@ Hesap adını yazın (örneğin google hesabım)
 Protokol tipini seç
 [Specify the internal account name (optional)]
 İç hesap adını belirt (isteğe bağlı)
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
 [Add %s]
 %s ekle 
+[&Add]
+&Ekle
+[&Cancel]
+İ&ptal
+[Send authorization request]
+izin isteği gönder
+[Custom name:]
+Kişisel ad:
+[Group:]
+Grup:
+[Options]
+Seçenekler
+[Options]
+Seçenekler
+[Authorization Request]
+Yetkilendirme İsteği
+[Delete Contact]
+Kişiyi sil
+[&Yes]
+&Evet
+[&No]
+&Hayır
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Sadece listeden gizle, geçmiş ve yoksay/görünürlük ayarlarını tut
+[Are you sure you want to delete %s?]
+%s ögesini silmek istediğinize emin misiniz?
+[This will erase all history and settings for this contact!]
+Bu işlem bu kişinin tüm geçmişini ve ayarlarını silecek!
 [Contact Display Options]
 Kişi görünüm seçenekleri
 [Miranda NG Profile Manager]
 Miranda NG Profil Yöneticisi
 [&Run]
 Çalıştı&r
+[&Exit]
+Çı&kış
 [Start in Service Mode with]
 Şununla Hizmet Kipinde başlat
 [Find/Add Contacts]
 Kişi Bul/Ekle
+[Search:]
+Ara:
+[E-mail address]
+E-posta adresi
+[Name]
+Ad
+[Nick:]
+Kısa Ad:
 [First:]
 İlk:
 [Last:]
 Son:
+[Advanced]
+Gelişmiş
+[Advanced >>]
+Gelişmiş >>
+[&Search]
+&Ara
+[More options]
+Diğer seçenekler
 [Add to list]
 Listeye Ekle
+[Custom]
+Kişisel
+[Apply]
+Uygula
 [Please select a subentry from the list]
 Listeden bir alt giriş seçin
+[Install Database Settings]
+Veritabanı Ayarlarını Kur
+[Yes]
+Evet
+[No]
+Hayır
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Yeni veritabanı ayarlarını içeren bir dosya Miranda NG klasörüne yerleştirildi.
+[Do you want to import the settings now?]
+Ayarları şimdi almak istiyor musunuz?
+[No to all]
+Tümüne hayır
+[&View contents]
+İçeri&kleri göster
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Tehlikeli değişiklikleri engelleyen bir güvenlik sistemi var ve güvenli olmayan değişiklikleri yapmadan önce uyarılacaksınız.
+[Database Setting Change]
+Veritabanı Ayarları Değişti
+[Database settings are being imported from]
+Veritabanı ayarları şuradan alındı
+[This file wishes to change the setting]
+Bu dosya ayarın değiştirilmesini gerektiriyor
+[to the value]
+değerine
+[Do you want to allow this change?]
+Bu değişikliği onaylıyor musunuz?
+[&Allow all further changes to this section]
+Bu bölümde sonr&aki tüm değişikliklere izin ver
+[Cancel Import]
+Al işlemini iptal et
+[Database Import Complete]
+Veritabanı Alındı
+[The import has completed from]
+Şuradan alma tamamlandı
+[What do you want to do with the file now?]
+Dosyayla şimdi ne yapmak istiyorsunuz?
+[&Recycle]
+Tek&rarla
+[&Delete]
+&Sil
+[&Move/Rename]
+&Taşı/Yeniden adlandır
+[&Leave]
+Ayrı&l
 [Netlib Log Options]
 Netlib Günlük Seçenekleri
+[Show]
+Göster
 [Received bytes]
 Alınan bayt
 [Sent bytes]
@@ -43,6 +147,8 @@ Kendiliğinden tanınan yazılar
 Günlükle
 [OutputDebugString()]
 OutputDebugString()
+[File]
+Dosya
 [Run now]
 Şimdi çalıştır
 [Show this dialog box when Miranda NG starts]
@@ -51,16 +157,26 @@ Miranda NG başladığında şu yazıyı göster
 varsayılan olarak kaydet
 [SSL Traffic]
 SSL Trafiği
+[Sounds]
+Sesler
 [&Change...]
 &Değiştir...
+[&Preview]
+Ö&nizleme
 [Download more sounds]
 Başka sesler indir
 [Sound Information]
 Ses Bilgisi
 [Location:]
 Yer:
+[Name:]
+Ad:
+[Name:]
+Ad:
 [Enable sound events]
 Sesli uyarıları etkinleştir
+[Icons]
+Simgeler
 [Show category:]
 Kategori göster:
 [&Load icon set...]
@@ -69,16 +185,34 @@ Simge seti yük&le...
 Simgeleri &Al >>
 [Download more icons]
 Başka simgeler indir
+[The following events are being ignored:]
+Şu etkinlikler yoksayılacak:
+[Messages]
+İletiler
+[URLs]
+Web adresleri
+[Files]
+Dosyalar
 [Online Notification]
 Çevrim İçi Uyarısı
 [Auth Requests]
 İzin İstekleri
 [All Events]
 Tüm Etkinlikler
+[None]
+Yok
 [Only the ticked contacts will be shown on the main contact list]
 Yalnız işaretlenmiş kişiler ana kişi listesinde gösterilecek
+[Ignore]
+Yoksay
 [Added Notification]
 Eklendi Uyarısı
+[Typing]
+Yazıyor
+[Visibility]
+Görünürlük
+[Visibility]
+Görüş
 [You are visible to this person even when in invisible mode]
 Bu kişiye Görünmez kipte dahi görün
 [You are never visible to this person]
@@ -93,6 +227,8 @@ Simgeleri ilişkilendirmek için ana listeye sürükleyin:
 Çoklu al
 [To main icons]
 Asıl simgelere
+[To]
+Kime
 [<< &Import]
 << A&l
 [To default status icons]
@@ -103,8 +239,18 @@ Günlükleme...
 Gönderilen Bağlantılar
 [Use proxy server]
 Vekil sunucu kullan
+[Type:]
+Tip:
+[Host:]
+Sunucu:
+[Port:]
+Port:
 [(often %d)]
 (sıklıkla %d)
+[Username:]
+Kullanıcı Adı:
+[Password:]
+Parola:
 [Resolve hostnames through proxy]
 Sunucu adlarını vekil üzerinden çöz
 [Port Range:]
@@ -115,8 +261,12 @@ Port Aralığı:
 Alınan Bağlantılar
 [Enable UPnP port mapping]
 UPnP port haritalamayı etkinleştir
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Bu sayfada yaptığınız değişikliklerin etkin olması için yeniden bağlanmanız gerekiyor.
 [Please complete the following form to create a new user profile]
 Yeni bir kullanıcı profili oluşturmak için aşağıdaki formu doldurun
+[Profile]
+Profile
 [e.g. Workplace]
 örnek işyeri
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
@@ -125,18 +275,48 @@ Varsayılandan farklı bir profil sürücüsü seçebilirsiniz, bu daha geniş o
 örenek Miranda Veritabanı
 [Driver]
 Sürücü
+[Description:]
+Açıklama:
+[Description:]
+Açıklama:
+[Author(s):]
+Yazarlar:
+[E-mail:]
+E-posta:
+[Homepage:]
+Ana sayfa:
+[Unique ID:]
+Tekil Kimlik:
+[Copyright:]
+Haklar:
+[Please restart Miranda NG for your changes to take effect.]
+Değişikliklerin etkin olması için Miranda'yı yeniden başlatın.
 [Fonts and Colors]
 Yazı Tipi ve Renkler
+[Undo]
+Geri Al
+[Reset]
+Sıfırla
+[Reset]
+Sıfırla
+[Export...]
+Ver...
 [Color/Background]
 Renk/Art Alan
+[Text Color]
+Yazı Rengi
 [Choose Font]
 Yazı tipini seç
+[Font]
+Yazı tipi
 [&Font:]
 &Yazı tipi:
 [Font st&yle:]
 &Yazı Tipi:
 [&Size:]
 &Boyut:
+[Effects]
+Etkiler
 [Stri&keout]
 &Vuruş
 [&Underline]
@@ -149,18 +329,38 @@ Yazı tipini seç
 AaBbYyZz
 [Sc&ript:]
 Sc&ript:
+[&Apply]
+Uygul&a
+[&Help]
+&Yardım
+[Warning!\r\nThis MenuObject not support user defined options.]
+Dikkat!\r\nB MenüNesnesi kullanıcı tanımlı seçenekleri desteklemiyor.
 [Insert separator]
 Ayıraç ekle
+[Service:]
+Hizmet:
+[Default]
+Varsayılan
+[Set]
+Ayarla
 [Note: Miranda NG will have to be restarted for changes to take effect.]
 Not: Değişikliklerin etkin olması için Miranda NG yeniden başlatılacak.
 [Key Bindings]
 Anahtar Bağlantılar
 [Shortcut:]
 Kısayol:
+[Add]
+Ekle
+[Remove]
+Sil
 [Undo Changes]
 Geri Al
 [Reset To Default]
 Varsayılana Döndür
+[Hotkeys]
+Kestirmeler
+[Accounts]
+Hesaplar
 [Account information:]
 Hesap bilgisi
 [Additional:]
@@ -171,20 +371,76 @@ Ağı yapılandır...
 Başka protokoller al...
 [&Add...]
 &Ekle...
+[&Edit]
+Düz&elt
+[&Options]
+&Seçenekler
 [&Upgrade]
 &Güncelle
+[&Remove...]
+&Sil...
+[Miranda NG]
+Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG yeniden başlatılıyor.\nLütfen bekleyin...
-[IconOptions]
-SimgeSeçenkleri
+[Tray]
+Tepsi
+[&Hide/Show]
+&Gizle/Göster
+[E&xit]
+Çı&kış
+[Nowhere]
+Hiç bir yer
+[&New Group]
+Ye&ni Grup
+[&Hide Offline Users]
+Ç&evrimdışı Kişileri Gizle
+[Hide &Offline Users out here]
+Çevrimdışıları &buranın dışında gizle
+[Hide &Empty Groups]
+Boş Grupları Gizl&e
+[Disable &Groups]
+&Grupları Devredışı Bırak
+[Hide Miranda]
+Miranda'yı Gizle
+[Group]
+Grup
+[&New Subgroup]
+Ye&ni Alt Grup
+[&Hide Offline Users in here]
+&Buradaki çevrimdışıları gizle
+[&Rename Group]
+Grubu Yeniden Adlandı&r
+[&Delete Group]
+&Grubu Sil
 [&Reset to default]
 Va&rsayılana döndür
 [find/add]
 bul/ekle
 [&Add to List]
 Listeye &Ekle
+[User &Details]
+Kişi &Detayları
 [Send &Message]
 İleti &Gönder
+[Log]
+Günlük
+[Log]
+Günlük
+[&Copy]
+&Kopyala
+[Co&py All]
+Tümünü Ko&pyala
+[Select &All]
+&Tümünü Seç
+[C&lear Log]
+Gün&lüğü temizle
+[Open in &new window]
+Ye&ni pencerede aç
+[&Open in existing window]
+Var&olan pencerede aç
+[&Copy link]
+&Bağlantıyı kopyala
 [Cancel Change]
 Değişikliği iptal et
 [&Reset To Default]
@@ -192,13 +448,27 @@ Va&rsayılana Döndür
 ;file \src\core\stdauth\resource.rc
 [&Authorize]
 İzin &Ver
+[&Deny]
+Re&ddet
 [Decide &Later]
 Sonra Karar &Ver
 [&I]
 &I
 [Reason:]
 Gerekçe:
+[You Were Added]
+Eklendiniz
+[&Close]
+&Kapat
+[&U]
+&U
 ;file \src\core\stdaway\resource.rc
+[%s Message for %s]
+%s ileti %s için
+[Retrieving %s message...]
+%s ileti alınıyor...
+[Status Messages]
+Durum İletileri
 [Do not reply to requests for this message]
 Bu durumdayken istekleri yanıtlama 
 [Do not pop up dialog asking for new message]
@@ -207,33 +477,367 @@ Yeni durum için açılan pencere olmasın
 Varsayılan olarak son defaki iletiyi kullan
 [By default, use this message:]
 Varsayılan olarak bu iletiyi kullan:
+[Use %time% for the current time, %date% for the current date]
+Şimdiki saat için %time%, tarih için %date% kullanın
+[Change %s Message]
+%s iletisini değiştir
+[Closing in %d]
+Kapanıyor %d
 ;file \src\core\stdchat\res\chat.rc
+[&Send]
+&Gönder
+[Show these events only:]
+Yalnız şu olayları göster:
+[Actions]
+Eylemler
+[Nick changes]
+Kısa ad değişti
+[Users joining]
+Kişiler katıldı
+[Users leaving]
+Kişiler ayrıldı
+[Topic changes]
+Başlık değişti
+[Status changes]
+Durum değişikliği
+[Information]
+Bilgi
+[Disconnects]
+Bağlantıyı keser
+[User kicks]
+Kişi tekmeledi
+[Notices]
+Uyarılar
+[Log Options]
+Günlük Seçenekleri
+[Log timestamp]
+Günlük zaman damgası
+[Timestamp]
+Zaman Damgası
+[Other name]
+Diğer ad
+[Your name]
+Adınız
+[Enable highlighting]
+Vurgulamayı etkinleştir
+[Limit log text to (events):]
+Günlük yazısını sınırla (etkinlikler):
 [Trim to (kB)]
 Şuna indir (kB)
+[Words to highlight (wildcards allowed)]
+Vurgulanacak kelimeler (arama işaretleri geçerli)
+[Enable logging to disk]
+Diske günlüklemeyi etkinleştir
+[Log directory]
+Günlük klasörü
+[Other]
+Diğer
+[Add new rooms to group:]
+Gruba yeni odalar ekle:
 [Userlist row distance (pixels):]
 Kişi listesi satır aralığı (piksel):
+[Use same style as in the message log]
+Aynı stili ileti günlüğünde kullan
+[Use default colours]
+Varsayılan renkleri kullan
+[Use custom colours]
+Kişisel renkleri kullan
 [Popups for the Chat plugin]
 Sohbet eklentisi için açılır pencereler
+[Timeout (s)]
+Zamanaşımı (s)
+[Text]
+Yazı
+[Background]
+Art Alan
+[List]
+Liste
+[&Message]
+İl&eti
+[Clear lo&g]
+&Günlüğü temizle
+[Co&py all]
+Tümünü ko&pyala
+[Word lookup]
+Kelime arama
+[Google]
+Google
+[Wikipedia]
+Wikipedia
+[Link]
+Bağlantı
+[Open a &new browser window]
+Ye&ni bir tarayıcı penceresi aç
+[&Open in current browser window]
+Geçerli &web tarayıcı penceresinde aç
+[Message]
+İleti
+[Undo  ]
+Geri Al 
+[Redo]
+Yeniden
+[Copy]
+Kopyala
+[Cut]
+Kes
+[Paste]
+Yapıştır
+[Select All]
+Tümünü Seç
+[Clear]
+Temizle
+[Clear]
+Açık
+[Tabs]
+Sekmeler
+[&Close tab]
+&Kapat ayracı
+[C&lose other tabs]
+Diğer sekme&leri kapat
+[&Open at this position]
+Bu k&onumda aç
 ;file \src\core\stdclist\res\resource.rc
+[Hide offline users]
+Çevrimdışıları gizle
+[Hide empty groups]
+Boş grupları gizle
+[Disable groups]
+Grupları devredışı bırak
+[Ask before deleting contacts]
+Kişileri silmeden önce sor
+[Sort contacts by name]
+Kişileri ada göre diz
+[Sort contacts by status]
+Kişileri duruma göre diz
+[Sort contacts by protocol]
+Kişileri protokole göre diz
+[Single click interface]
+Arayüz tek tıkla işlesin
+[Always show status in tooltip]
+Durumu her zaman araç iletisinde göster
+[Disable icon blinking]
+Simgenin yanıp sönmesini önle
+[ms delay]
+ms gecikme
+[icon when statuses differ]
+durumlar farklıyken simgeyi göster
+[Cycle icons every]
+Simgeleri şu arayla çevir
+[seconds, when statuses differ]
+saniye, durumlar farklıyken
+[Show multiple icons]
+Çoklu simgeleri göster
+[Only when statuses differ]
+Sadece durumlar farklı ise
+[Contact List]
+Kişi Listesi
+[Contact List]
+Kişi Listesi
+[System tray icon]
+Sistem tepsisi simgesi
+[System tray icon when using multiple protocols]
+Bir kaç protokol kullanırken sistem tepsisi simgesi
+[Contact List Sorting]
+Kişi Listesi Sıralaması
+[Window]
+Pencere
+[Always on top]
+Her zaman üstte
+[Tool style main window]
+Araç stili ana pencere
+[Minimize to tray]
+Sistem tepsisine küçült
+[Show menu bar]
+Menü çubuğunu göster
+[Easy move]
+Kolay taşı
+[Show title bar]
+Başlık çubuğunu göster
+[Title bar text:]
+Başlık çubuğu yazısı:
+[Show drop shadow (restart required)]
+Bırakma gölgesini göster (yeniden başlatmalısınız)
+[Pin to desktop]
+Masa üstüne iğnele
+[Hide contact list after it has been idle for]
+Şu kadar boş kaldıktan sonra kişi listesini gizle
+[seconds]
+saniye
+[seconds]
+saniye
+[Automatically resize window to height of list]
+Pencereyi listenin yüksekliğine boyutlandır
+[maximum]
+en çok
+[% of screen]
+ekran yüzdesi
+[Size upwards]
+Şundan büyük
+[If window is partially covered, bring to front instead of hiding]
+Pencere kısmen örtülmüşse gizlemek yerine öne getir.
+[Fade contact list in/out]
+Kişi listesine giriş/çıkışta sönükleştir
+[Transparent contact list]
+Saydam kişi listesi
+[Inactive opacity:]
+Etkin değil matlığı:
+[Active opacity:]
+Etkin matlık:
+[Items]
+Ögeler
+[Show divider between online and offline contacts]
+Çevrimiçi ve çevrimdışı kişiler arasında ayıraç göster
+[Hot track items as mouse passes over]
+Fare üzerinden geçtiğinde ögeleri izle
+[Disable drag and drop of items]
+Ögelerin sürüklenip bıraılmasını önle
+[Disable rename of items by clicking twice]
+İki kez tıklandığında öge yeniden adlandırmayı önle
+[Show selection even when list is not focused]
+Listeye odaklanılmamışsa bile seçimi göster
+[Make selection highlight translucent]
+Seçilenler yarı saydam olsun
+[Dim idle contacts]
+Boştaki kişileri kıs
+['Hide Offline' means to hide:]
+'Çevrimdışıları gizle' şunları gizler:
+[Groups]
+Gruplar
+[Draw a line alongside group names]
+Grup adları boyunca çizgi çek
+[Show counts of number of contacts in a group]
+Gruptaki kişi sayısını göster
+[Hide group counts when there are none online]
+Hiç kimse çevrim içi değilken grup sayılarını gizle
+[Sort groups alphabetically]
+Grupları alfabetik olarak diz
+[Quicksearch in open groups only]
+Yalnız açık gruplarda hızlı ara
+[Indent groups by:]
+Grupları şununla içe al:
+[pixels]
+piksel
+[pixels]
+piksel
+[Visual]
+Görsel
+[Scroll list smoothly]
+Listeyi düzgün kaydır
+[Time:]
+Zaman:
+[milliseconds]
+milisaniye
+[Left margin:]
+Sol boşluk:
+[Hide vertical scroll bar]
+Dikey kaydırma çubuğunu gizle
+[Row height:]
+Satır yüksekliği:
+[Gamma correction]
+Gamma düzeltmesi
+[Grey out entire list when:]
+Şu olduğunda tüm listeyi karart:
+[Contact List Background]
+Kişi Listesi Art Alanı
+[Background colour]
+Art alan rengi
+[Background colour]
+Art alan rengi
 [Selection colour]
 Seçim rengi
+[Use background image]
+Art alan resmi göster
+[Stretch to width]
+Genişliği Gerdir
+[Stretch to height]
+Yüksekliği Gerdir
+[Tile horizontally]
+Yatay döşe
+[Tile vertically]
+Dikey döşe
+[Scroll with text]
+Yazıyla kaydır
+[Stretch proportionally]
+Oransal Gerdir
+[Use Windows colours]
+Windows renklerini kullan
+[Use Windows colours]
+Windows renklerini kullan
+[Status Bar]
+Durum Çubuğu
+[Show status bar]
+Durum çubuğunu göster
+[Show icons]
+Simgeleri göster
+[Show protocol names]
+Protokol adlarını göster
+[Show status text]
+Durum yazısını göster
+[Right click opens status menu]
+Sağ tık durum menüsünü açsın
+[Right click opens Miranda NG menu]
+Sağ tık Miranda NG Menüsünü açsın
+[Make sections equal width]
+Bölümler eşit genişlikte olsun
+[Show bevels on panels]
+Panellerde eğim göster
+[Show resize grip indicator]
+Yeniden boyutlandır kavrama simgesini göster
+[&Status]
+&Durum
+[&Offline\tCtrl+0]
+Ç&evrimdışı/tCtrl+0
+[On&line\tCtrl+1]
+Ç&evrimiçi\tCtrl+1
+[&Away\tCtrl+2]
+Uz&akta\tCtrl+2
+[&NA\tCtrl+3]
+Uygu&n değil/tCtrl+3
+[Occ&upied\tCtrl+4]
+Meşg&ul\tCtrl+4
+[&DND\tCtrl+5]
+&DND\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Sohbete uygun\tCtrl+6
+[&Invisible\tCtrl+7]
+&Görünmez\tCtrl+7
+[On the &Phone\tCtrl+8]
+Tele&fonda\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+&Yemekte\tCtrl+9
 ;file \src\core\stdfile\resource.rc
 [Send File(s)]
 Dosya Gönder
+[To:]
+Kime:
 [File(s):]
 Dosya:
 [&Choose Again...]
 &Yeniden Seç...
 [Total size:]
 Toplam boyut:
+[&D]
+&D
+[&H]
+&H
+[Incoming File Transfer]
+Size Dosya Gönderildi
 [A&ccept]
 &Onayla
 [&Decline]
 Re&ddet
+[From:]
+Kimden:
+[Date:]
+Tarih:
 [Files:]
 Dosyalar:
 [Save to:]
 Şuraya Kaydet:
+[&A]
+&A
+[Contact menu]
+Kişiler menüsü
 [Open...]
 Aç...
 [Open folder]
@@ -244,8 +848,12 @@ Aktarım tamamlandı, dosyayı aç.
 Hiç veri aktarılmadı
 [File Already Exists]
 Dosya Zaten Var
+[Resume]
+Sürdür
 [Resume all]
 Hepsini sürdür
+[Overwrite]
+Üstüne Yaz
 [Overwrite all]
 Tümünün üstüne yaz
 [Save as...]
@@ -258,6 +866,8 @@ Aktarımı iptal et
 Dosya almak üzeresiniz
 [Existing file]
 Varolan dosya
+[Size:]
+Boyut:
 [Last modified:]
 Son değişiklik:
 [Open file]
@@ -266,8 +876,12 @@ Dosya aç
 Dosya özellikleri
 [File being received]
 Dosya alınıyor
+[File Transfers]
+Dosya Aktarımları
 [Clear completed]
 Tamamlananları sil
+[Close]
+Kapat
 [Receiving files]
 Dosya alımları
 [Received files folder:]
@@ -305,9 +919,13 @@ Kişi listenizde olmayanlardan gelen dosyalar için her zaman onayınız sorulac
 ;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 Miranda NG Hakkında
+[Credits >]
+Emekçiler >
 ;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 Şuna dokunulmadıysa boşta duruma geç:
+[Windows]
+Windows
 [Miranda]
 Miranda
 [Become idle if the screen saver is active]
@@ -329,16 +947,30 @@ Boşta Seçenekleri
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Şu olduğunda pencere kendiliğinden açılsın:
+[Close the message window on send]
+Gönderdikten sonra ileti penceresini kapat
+[Minimize the message window on send]
+Gönderdikten sonra ileti penceresini küçült
+[Use the contact's status icon as the window icon]
+Kişinin durum simgesini pencere simgesi olarak kullan
 [Save the window size and location individually for each contact]
 Her kişi için pencere boyutu ve konumunu ayrıca kaydet
+[Cascade new windows]
+Yeni pencereleri diz
 [Show 'Send' button]
 'Gönder' düğmesini göster
 [Show username on top row]
 Kişi adını en üst satırda göster
 [Show toolbar buttons on top row]
 Araç çubuğu düğmelerini en üst satırda göster
+[Send message on double 'Enter']
+İletileri çift 'Enter' ile gönder 
+[Send message on 'Enter']
+İletileri 'Enter' ile gönder
 [Show character count]
 karakter sayısını göster
+[Show warning when message has not been received after]
+İleti şundan sonra alınamadığında uyarı göster
 [Support control up/down in message area to show previously sent messages]
 Önceden gönderilmiş iletilere bakmak için ctrl + yukarı/aşağı destekle
 [Delete temporary contacts when closing message window]
@@ -347,40 +979,128 @@ karakter sayısını göster
 İleti penceresinde avatar desteğini etkinleştir
 [Limit avatar height to ]
 Avatar yüksekliğini sınırla
-[pixels]
-piksel
+[Send Error]
+Gönderme Hatası
+[An error has occured. The protocol reported the following error:]
+Bir hata oldu. Protokol şu hatayı verdi:
+[while sending the following message:]
+şu ileti gönderilirken:
+[Try again]
+Yeniden dene
+[Message Session]
+İleti Oturumu
+[Message Window Event Log]
+İleti Penceresi Etkinlik Günlüğü
+[Show names]
+Adları göster
 [Show timestamp]
 Zaman damgasını göster
 [Show dates]
 Tarihleri göster
+[Load unread events only]
+Sadece okunmamış etkinlikleri yükle
+[Load number of previous events]
+Yüklenecek önceki etkinlik sayısı
+[Load previous events less than]
+Şu kadar önceki olayları yükle
+[minutes old]
+dakika önceki
 [Show status changes]
 Durum değişikliklerini göster
+[Show seconds]
+Saniyeleri göster
+[Load History Events]
+Geçmiş Etkinlikleri Yükle
+[Send typing notifications to the following users when you are typing a message to them:]
+Şu kullanıcılara ileti yazarken yazma uyarılarını gönder:
+[Show typing notifications when a user is typing a message]
+Bir kişi bir ileti yazarken yazma uyarılarını göster
 [Update inactive message window icons when a user is typing]
 Etkin olmayan pencerelerde de kişi yazarken simgeleri güncelle
+[Show typing notification when no message dialog is open]
+Hiç bir ileti penceresi açık değilken yazma uyarılarını göster
+[Flash in the system tray and in the contact list]
+Sistem tepsisi ve kişi listesinde yanıp sön
+[Show balloon popup]
+Balon açılır pencere göster
+[Delete]
+Sil
 ;file \src\core\stduihist\resource.rc
+[Find]
+Bul
 [&Find Next]
 &Sonrakini Bul
 [Find What:]
 Şunu Bul:
+[Message History]
+İleti Geçmişi
+[&Find...]
+&Bul...
 ;file \src\core\stduserinfo\resource.rc
+[Add Phone Number]
+Telefon numarası ekle
+[Enter country, area code and phone number:]
+Ülke, bölge kodu ve telefon numarasını yazın:
+[Or enter a full international number:]
+Veya uluslar arası tam numarayı yazın:
+[Phone can receive SMS text messages]
+Telefon SMS iletilerini alabilir
 [Add E-Mail Address]
 E-Posta adresi ekle
 [%s: User Details]
 %s: Kullanıcı Detayları
 [Update Now]
 Şimdi Güncelle
+[Updating]
+Güncelleniyor
+[Nickname:]
+Kısa Ad:
+[First name:]
+İlk ad:
+[Gender:]
+Cinsiyet:
+[Last name:]
+Soyadı:
+[Age:]
+Yaş:
+[Date of birth:]
+Doğum Tarihi
+[Marital status:]
+Medeni hal:
+[Phone:]
+Telefon:
 [Web page:]
 Web sayfası:
 [Past background:]
 Eski art alan:
 [Interests:]
 İlgi Alanları:
+[About:]
+Hakkında:
 [My notes:]
 Notlarım:
+[Street:]
+Sokak:
+[City:]
+Şehir:
+[State:]
+Şehir:
+[Postal code:]
+Posta kodu:
+[Country:]
+Ülke:
 [Spoken languages:]
 Konuşulan diller:
+[Timezone:]
+Saat Dilimi:
 [Local time:]
 Yerel saat:
+[Company:]
+Firma:
+[Department:]
+Bölüm:
+[Position:]
+Konum:
 [Website:]
 Websitesi:
 ;file \src\core\stdauth\auth.cpp
@@ -390,15 +1110,115 @@ Websitesi:
 %u izninizi istiyor
 [%u added you to their contact list]
 %u sizi kişi listelerine ekledi
+[Alerts]
+Alarmlar
+[Alerts]
+Alarmlar
 ;file \src\core\stdauth\authdialogs.cpp
+[View User's Details]
+Kullanıcı Detaylarını Göster
+[Add Contact Permanently to List]
+Kişiyi listeye kalıcı olarak ekle
 [(Unknown)]
 (Bilinmiyor)
 ;file \src\core\stdaway\awaymsg.cpp
+[Re&ad %s Message]
+%s iletisini &oku
 ;file \src\core\stdaway\sendmsg.cpp
+[I've been away since %time%.]
+Bilgisayar başından kalktım: %time% 
+[Give it up, I'm not in!]
+Boşver ben yokum
+[Not right now.]
+Şimdi değil.
+[Give a guy some peace, would ya?]
+Bana biraz huzur ver
+[I'm a chatbot!]
+Ben bir sohbet robotuyum
+[Yep, I'm here.]
+Burdayım
+[Nope, not here.]
+Yokum yok.
+[I'm hiding from the mafia.]
+Mafyadan saklanıyorum
+[That'll be the phone.]
+Telefondayım
+[Mmm...food.]
+Mmm...yemek.
+[idleeeeeeee]
+Boştayım
+[Status]
+Durum
 ;file \src\core\stdchat\src\clist.cpp
+[Join chat]
+Sohbete katıl
 ;file \src\core\stdchat\src\colorchooser.cpp
+[Text colour]
+Yazı rengi
+[Text colour]
+Yazı rengi
 ;file \src\core\stdchat\src\log.cpp
+[%s has joined]
+%s katıldı
+[You have joined %s]
+%s katıldınız
+[%s has left]
+%s ayrıldı
+[%s has disconnected]
+%s bağlantısı kesildi
+[%s is now known as %s]
+%s %s olarak biliniyor
+[You are now known as %s]
+Artık %s olarak biliniyorsunuz
+[%s kicked %s]
+%s tekmelendi %s
+[Notice from %s: ]
+%s dikkat çekti:
+[ (set by %s on %s)]
+%s tarafından %s saatinde ayarlandı
+[ (set by %s)]
+%s tarafından ayarlandı
+[<invalid>]
+<geçersiz>
 ;file \src\core\stdchat\src\options.cpp
+[Others nicknames]
+Diğerlerinin kısa adları
+[Your nickname]
+Kısa adınız
+[User has joined]
+Kişi katıldı
+[User has left]
+Kişi ayrıldı
+[User has disconnected]
+Kişinin bağlantısı kesildi
+[User kicked ...]
+Kişi tekmelendi ...
+[User is now known as ...]
+Kişi şu şekilde biliniyor ...
+[Notice from user]
+Kullanıcı dikkat çekti
+[Incoming message]
+Alınan ileti
+[Outgoing message]
+Gönderilen ileti
+[The topic is ...]
+Başlık şudur...
+[Information messages]
+Bilgi iletileri
+[User enables status for ...]
+Kişinin şu durumları etkin ...
+[User disables status for ...]
+Kişinin şu durumları devre dışı ... 
+[Action message]
+Eylem iletisi
+[Highlighted message]
+Vurgulanan ileti
+[Message typing area]
+İleti yazma alanı
+[User list members (Online)]
+Kişi listesi üyeleri (Çevrimiçi)
+[User list members (away)]
+Kişi listesi üyeleri (Uzakta)
 [Use a tabbed interface]
 Sekmeli arayüzü kullan
 [Close tab on doubleclick]
@@ -411,12 +1231,20 @@ Sekmeleri altta göster
 İletileri Enter tuşuna basıldığında gönder
 [Send message by pressing the Enter key twice]
 İletileri Enter tuşuna iki kere basıldığında gönder
+[Flash window when someone speaks]
+Biri konuşurken pencere yanıp sönsün
+[Flash window when a word is highlighted]
+Bir kelime vurgulandığında pencere yanıp sönsün
+[Show list of users in the chat room]
+Sohbet odasındaki kişilerin listesini göster
 [Show button for sending messages]
 İleti göndermek için düğmeyi göster
 [Show buttons for controlling the chat room]
 Sohbet odasını denetleyen düğmeleri göster
 [Show buttons for formatting the text you are typing]
 Yazdığınız yazıyı biçimlendirme düğmelerini göster
+[Show button menus when right clicking the buttons]
+Düğmelere sağ tıklandığında düğme menüsünü göster
 [Show new windows cascaded]
 Yeni pencereleri arka arkaya göster
 [Save the size and position of chat rooms]
@@ -425,14 +1253,48 @@ Sohbet odalarının boyut ve konumlarını kaydet
 Odanın başlığını kişi listemde göster (destekleniyorsa)
 [Do not play sounds when the chat room is focused]
 Sohbet odasına tıklandığında sesleri çalma
+[Do not pop up the window when joining a chat room]
+Sohbet odasına katılındığında pencereyi açma
 [Toggle the visible state when double clicking in the contact list]
 Kişi listesine çift tıklandığında görünür durumunu değiştir
 [Show contact statuses if protocol supports them]
 Protokol destekliyorsa kişi durumlarını göster
 [Display contact status icon before user role icon]
 Kişi durum simgesini rol simgesinden önce göster
+[Prefix all events with a timestamp]
+Tüm etkinliklerin önüne zaman damgası ekle
+[Only prefix with timestamp if it has changed]
+Zaman değiştiğinde zaman damgasını öne ekle
 [Timestamp has same colour as the event]
 Zaman damgası etkinlik ile aynı renkte olsun
+[Indent the second line of a message]
+İletinin ikinci satırını içe al
+[Limit user names in the message log to 20 characters]
+İleti günlüğünde kullanıcı adlarını 20 karakterle sınırla
+[Strip colors from messages in the log]
+Günlükteki iletilere renkleri koyma
+[Show topic changes]
+Başlık değişikliklerini göster
+[Show users joining]
+Katılan kişileri göster
+[Show users disconnecting]
+Bağlantısı kesilen kişileri göster
+[Show messages]
+İletileri göster
+[Show actions]
+Eylemleri göster
+[Show users leaving]
+Ayrılan kişileri göster
+[Show users being kicked]
+Tekmelenen kişileri göster
+[Show notices]
+Uyarıları göster
+[Show users changing name]
+Adlarını değiştiren kişileri göster
+[Show information messages]
+Bilgi iletilerini göster
+[Show status changes of users]
+Kişilerin durum değişikliklerini göster
 [Show icon for topic changes]
 Başlık değişiklikleri için simge göster
 [Show icon for users joining]
@@ -457,6 +1319,32 @@ Ad değişiklikleri için simge göster
 Bilgi iletileri için simge göster
 [Show icon for status changes]
 Durum değişiklikleri için simge göster
+[Show icons in tray only when the chat room is not active]
+Yalnız sohbet odası etkin değilken simgeleri sistem tepsisinde göster
+[Show icon in tray for topic changes]
+Başlık değişiklikleri için sistem tepsisinde simge göster
+[Show icon in tray for users joining]
+Katılan kullanıcılar için sistem tepsisinde simge göster
+[Show icon in tray for users disconnecting]
+Bağlantısı kesilen kişiler için sistem tepsisinde simge göster
+[Show icon in tray for messages]
+İletiler için sistem tepsisinde simge göster
+[Show icon in tray for actions]
+Eylemler için sistem tepsisinde simge göster
+[Show icon in tray for highlights]
+Vurgular için sistem tepsisinde simge göster
+[Show icon in tray for users leaving]
+Ayrılan kullanıcılar için sistem tepsisinde simge göster
+[Show icon in tray for users kicking other user]
+Başka birini tekmeleyen kişiler için sistem bildirim alanında simge göster
+[Show icon in tray for notices ]
+Uyarılar için sistem tepsisinde simge göster
+[Show icon in tray for name changes]
+Ad değişiklikleri için sistem tepsisinde simge göster
+[Show icon in tray for information messages]
+Bilgi iletileri için sistem tepsisinde simge göster
+[Show icon in tray for status changes]
+Durum değişiklikleri için sistem tepsisinde simge göster
 [Chat Module]
 Sohbet Modülü
 [Message Background]
@@ -467,40 +1355,272 @@ Kişi Listesi Art Alanı
 Kişi Listesi Satırları
 [Userlist Background (selected)]
 Kişi Listesi Art Alanı (seçili)
+[Window Icon]
+Pencere Simgesi
+[Bold]
+Koyu
+[Italics]
+Yatık
+[Underlined]
+Altıçizilmiş
+[Smiley button]
+Gülen yüz düğmesi
+[Room history]
+Oda geçmişi
+[Room settings]
+Oda ayarları
+[Event filter disabled]
+Etkinlik süzgeci devre dışı
+[Event filter enabled]
+Etkinlik süzgeci devrede
+[Hide userlist]
+Kişi listesini gizle
+[Show userlist]
+Kişi listesini göster
+[Icon overlay]
+Simge üstüste
+[Status 1 (10x10)]
+Durum 1 (10x10)
+[Status 2 (10x10)]
+Durum 2 (10x10)
+[Status 3 (10x10)]
+Durum 3 (10x10)
+[Status 4 (10x10)]
+Durum 4 (10x10)
+[Status 5 (10x10)]
+Durum 5 (10x10)
+[Status 6 (10x10)]
+Durum 6 (10x10)
+[Message in (10x10)]
+Gelen ileti (10x10)
+[Message out (10x10)]
+Giden ileti (10x10)
+[Action (10x10)]
+Eylem (10x10)
+[Add Status (10x10)]
+Durum Ekle (10x10)
+[Remove status (10x10)]
+Durumu sil (10x10)
+[Join (10x10)]
+Katıl (10x10)
+[Leave (10x10)]
+Ayrıl (10x10)
+[Quit (10x10)]
+Çık (10x10)
+[Kick (10x10)]
+Tekme (10x10)
+[Nickchange (10x10)]
+Kısa ad değiştir (10x10)
+[Notice (10x10)]
+Dikkat (10x10)
+[Topic (10x10)]
+Başlık (10x10)
+[Highlight (10x10)]
+Vurgula (10x10)
+[Information (10x10)]
+Bilgi (10x10)
+[Messaging]
+İletişim
+[Group Chats]
+Grup Sohbetleri
 [Options for using a tabbed interface]
 Sekmeli arayüz seçenekleri
+[Appearance and functionality of chat room windows]
+Sohbet odası pencerelerinin görünümü ve işlevleri
+[Appearance of the message log]
+İleti günlüğünün görünümü
 [Icons to display in the message log]
 İleti günlüğünde gösterilecek simgeler
+[Icons to display in the tray]
+Sistem tepsisinde gösterilecek simgeler
+[Select Folder]
+Klasör Seç
+[Message Sessions]
+İleti Oturumları
+[Group chats]
+Grup Sohbetleri
+[General]
+Genel
 [Chat Log]
 Sohbet Günlüğü
 [Chat]
 Sohbet
+[Popups]
+Açılır Pencereler
+[Message is highlighted]
+İleti vurgulandı
+[User has performed an action]
+Kişi bir eylem yaptı
+[User has kicked some other user]
+Kişi başka birini tekmeledi
+[User's status was changed]
+Kişinin durumu değişti
+[User has changed name]
+Kişi adını değiştirdi
+[User has sent a notice]
+Kişi bir uyarı gönderdi
+[The topic has been changed]
+Başlık değiştirildi
 ;file \src\core\stdchat\src\services.cpp
+[&Join]
+&Katıl
 ;file \src\core\stdchat\src\tools.cpp
+[%s wants your attention in %s]
+%s %s içine dikkatinizi çekiyor
+[%s speaks in %s]
+%s %s içinde konuşuyor
+[%s has joined %s]
+%s katıldı %s
+[%s has left %s]
+%s ayrıldı %s
+[%s kicked %s from %s]
+%s tekmelendi %s şuradan %s
+[Notice from %s]
+%s dikkat çekti
+[Topic change in %s]
+Başlık değişti %s
+[Information in %s]
+%s için bilgi
+[%s says: %s]
+%s yazdı: %s
+[%s has left (%s)]
+%s ayrıldı (%s)
+[%s has disconnected (%s)]
+%s bağlantısı kesildi (%s)
+[%s kicked %s (%s)]
+%s tekmelendi %s (%s)
+[Notice from %s: %s]
+%s dikkat çekti: %s
+[No word to look up]
+Aranacak kelime yok
 ;file \src\core\stdchat\src\window.cpp
+[Insert a smiley]
+Gülen yüz ekle
+[Make the text bold (CTRL+B)]
+Yazı koyu olsun (CTRL+B)
+[Make the text italicized (CTRL+I)]
+Yazı yatık olsun (CTRL+I)
+[Make the text underlined (CTRL+U)]
+Yazının altı çizilsin (CTRL+U)
+[Select a background color for the text (CTRL+L)]
+Yazı için art alan rengi seçin (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+Yazı rengini seçin (CTRL+K)
+[Show the history (CTRL+H)]
+Geçmişi göster (CTRL+H)
+[Show/hide the nicklist (CTRL+N)]
+Kısa adları göster/gizle (CTRL+N)
+[Control this room (CTRL+O)]
+Bu odayı denetle (CTRL+O)
+[Enable/disable the event filter (CTRL+F)]
+Etkinlik süzgecini aç/kapa (CTRL+F)
 [Close current tab (CTRL+F4)]
 Geçerli sekmeyi kapat (CTRL+F4)
+[%s: Chat Room (%u user)]
+%s: Sohbet Odası (%u kullanıcı)
+[%s: Chat Room (%u users)]
+%s: Sohbet Odası (%u kullanıcı)
+[%s: Message Session]
+%s: İleti Oturumu
+[%s: Message Session (%u users)]
+%s: İleti Oturumu (%u kullanıcı)
+[Nick name]
+Kısa ad
+[Unique id]
+Tekil kod
 ;file \src\core\stdclist\src\clcfonts.cpp
+[Standard contacts]
+Standart kişiler
+[Online contacts to whom you have a different visibility]
+Farklı görünürlüğe sahip olduğunuz çevrimiçi kişiler
+[Offline contacts]
+Çevrimdışı kişiler
+[Contacts which are 'not on list']
+'listede olmayan' kişiler
+[Group member counts]
+Grup üyelerinin sayısı
+[Dividers]
+Ayıraçlar
+[Offline contacts to whom you have a different visibility]
+Farklı görünürlükte olduğunuz çevrimdışı kişiler 
+[Selected Text]
+Seçili yazı
+[Hottrack Text]
+Sıcak takip yazısı
+[Quicksearch Text]
+Hızlı arama yazısı
 ;file \src\core\stdclist\src\clcopts.cpp
+[Not focused]
+Odaklanmamış
+[Offline]
+Çevrimdışı
+[Online]
+Çevrimiçi
+[Away]
+Uzakta
+[NA]
+Bilinmiyor
+[Occupied]
+Meşgul
+[DND]
+Dokunma
+[Free for chat]
+Sohbete uygun
+[Invisible]
+Görünmez
+[Out to lunch]
+Yemekte
+[On the phone]
+Telefonda
+[List Background]
+Liste Art Alanı
 ;file \src\core\stdclist\src\clistopts.cpp
+[Global]
+Genel
 ;file \src\core\stdclist\src\cluiopts.cpp
 ;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 Kullanıcı bir e-posta adresi kaydetmemiş
+[Send e-mail]
+E-posta gönder
 [&E-mail]
 &E-posta
 ;file \src\core\stdfile\file.cpp
 [File from %s]
 %s tarafından gelen dosya
+[bytes]
+bayt
+[bytes]
+bayt
+[&File]
+&Dosya
 [File &Transfers...]
 Dosya Ak&tarımları...
+[Incoming]
+Alınan
+[Complete]
+Tamamlandı
+[Error]
+Hata
 [Denied]
 Red edildi
 ;file \src\core\stdfile\fileexistsdlg.cpp
 [%s File]
 %s dosya
+[All Files]
+Tüm Dosyalar
+[All Files]
+Tüm Dosyalar
 ;file \src\core\stdfile\fileopts.cpp
+[Executable Files]
+Çalıştırılabilir Dosyalar
+[Events]
+Etkinlikler
 ;file \src\core\stdfile\filerecvdlg.cpp
+[View User's History]
+Kullanıcı Geçmişini Göster
+[User Menu]
+Kullanıcı Menüsü
 [Cancelled]
 İptal Edilen
 ;file \src\core\stdfile\filesenddlg.cpp
@@ -515,9 +1635,15 @@ Bu dosya henüz virüslere karşı taranmadı. Açmak istediğinize emin misiniz
 Size dosya gönderildi
 [of]
  / 
+[sec]
+sn
 [remaining]
 kalan
+[Connecting...]
+Bağlanıyor...
 ;file \src\core\stdfile\ftmanager.cpp
+[Outgoing]
+Gönderilen
 ;file \src\core\stdhelp\about.cpp
 ;file \src\core\stdhelp\help.cpp
 [&About...]
@@ -527,33 +1653,109 @@ H&akkında
 [&Report Bug]
 Hata &Raporla
 ;file \src\core\stdidle\idle.cpp
+[Idle]
+Boşta
 ;file \src\core\stdmsg\src\cmdlist.cpp
+[The message send timed out.]
+İleti zaman aşımına uğradığından gönderilemedi.
 ;file \src\core\stdmsg\src\globals.cpp
+[Incoming message (10x10)]
+Alınan ileti (10x10)
+[Outgoing message (10x10)]
+Gönderilen ileti (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
+[Last message received on %s at %s.]
+%s tarafından son ileti %s saatinde alındı
+[signed off (was %s)]
+çevrimdışı (%s idi)
+[signed on (%s)]
+çevrimiçi (%s)
+[is now %s (was %s)]
+şimdi %s (%s idi)
+[%s is typing a message...]
+%s bir ileti yazıyor...
 ;file \src\core\stdmsg\src\msglog.cpp
+[File sent]
+Dosya gönderildi
+[File received]
+Dosya alındı
 ;file \src\core\stdmsg\src\msgoptions.cpp
+[Outgoing messages]
+Gönderilen iletiler
+[Incoming messages]
+Alınan iletiler
+[Outgoing name]
+Gönderilen ad
+[Outgoing time]
+Gönderilen zaman
+[Outgoing colon]
+Gönderilen sütunu
+[Incoming name]
+Alınan ad
+[Incoming time]
+Alınan saat
+[Incoming colon]
+Alınan sütun
+[Message area]
+İleti alanı
+[Message Log]
+İleti Günlüğü
+[** New contacts **]
+** Yeni kişiler **
+[** Unknown contacts **]
+** Bilinmeyen kişiler **
+[Show balloon popup (unsupported system)]
+Balon açılır pencere göster (desteklenmeyen sistem)
 [Messaging Log]
 İletişim Günlüğü
+[Typing Notify]
+Yazıyor Uyarısı
 ;file \src\core\stdmsg\src\msgs.cpp
+[Message from %s]
+%s ileti gönderdi
+[%s is typing a message]
+%s bir ileti yazıyor
+[Typing Notification]
+Yazıyor Uyarısı
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda kendi ileti modülünü yükleyemedi. riched20.dll dosyası kayıp. Windows 95 veya WINE kullanıyorsanız lütfen riched20.dll dosyasının kurulu olduğundan emin olun. Miranda'yı yüklemeye devam etmek için 'Evet'e tıklayın.
+[Incoming (Focused Window)]
+Alınan (Odaklanmış Pencere)
+[Incoming (Unfocused Window)]
+Alınan (Odaklanmamış Pencere)
+[Incoming (New Session)]
+Alınan (Yeni Oturum)
 ;file \src\core\stdmsg\src\msgtimedout.cpp
+[An unknown error has occured.]
+Bilinmeyen bir hata oldu.
 ;file \src\core\stduihist\history.cpp
 [Outgoing Message]
 Gönderilen İleti
 [Incoming Message]
 Alınan İleti
+[Outgoing URL]
+Gönderilen web adresi
+[Incoming URL]
+Alınan URL
 [Outgoing File]
 Gönderilen Dosya
 [Incoming File]
 Alınan Dosya
+[History for %s]
+%s geçmişi
 [Are you sure you want to delete this history item?]
 Bu geçmiş ögesini silmek istediğinizden emin misiniz?
 [Delete History]
 Geçmişi Sil
+[View &History]
+Geçmişi &Göster
 ;file \src\core\stdurl\url.cpp
 [URL from %s]
 %s web adresi gönderdi
 [Web Page Address (&URL)]
 Web Sayfası Adresi (&URL)
+[URL]
+Web adresi
 ;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 Adresi şuna gönder
@@ -564,10 +1766,14 @@ Zamanaşımından gönderilemedi
 E-posta Adresini Değiştir
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 Telefon numarası + ile başlar ve yalnız rakamları, boşlukları ve tireleri içerebilir
+[Invalid Phone Number]
+Geçersiz Telefon Numarası
 [Primary]
 Öncelikli
 [Custom %d]
 Kişisel %d
+[Fax]
+Faks
 [Mobile]
 Cep
 [Work Phone]
@@ -575,35 +1781,75 @@ Cep
 [Work Fax]
 İş Faksı
 ;file \src\core\stduserinfo\stdinfo.cpp
+[Male]
+Erkek
+[Female]
+Kadın
+[<not specified>]
+<belirtilmemiş>
+[Summary]
+Özet
+[Contact]
+Kişi
+[Location]
+Yerleşim
+[Work]
+İş
+[Notes]
+Notlar
 ;file \src\core\stduserinfo\userinfo.cpp
+[Owner]
+Sahibi
+[View/Change My &Details...]
+Bilgilerimi Göster/&Değiştir...
 ;file \src\core\stduseronline\useronline.cpp
 [%s is Online]
 %s Çevrimiçi
 ;file \src\modules\addcontact\addcontact.cpp
+[Add Contact]
+Kişi Ekle
+[Please authorize my request and add me to your contact list.]
+Lütfen isteğimi yanıtlayıp beni kişi listenize ekleyin.
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 [Custom status]
 Kişisel durum
+[%s (locked)]
+%s (kilitli)
 ;file \src\modules\clist\clistmod.cpp
-[This plugin requires db3x plugin version 0.5.1.0 or later]
-Bu eklenti db3x eklentisi sürüm 0.5.1.0 veya daha yenisine gerek duyuyor
 ;file \src\modules\clist\clistsettings.cpp
+[(Unknown Contact)]
+(Bilinmmeyen Kişi)
 ;file \src\modules\clist\clisttray.cpp
+[&Main Menu]
+Ana &Menü
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Bu kişi, kişi listesini merkez bir sunucu üzerinde tutan bir iletişim sisteminde. Bu kişi ağa yeniden bağlandığınızda sunucudan ve kişi listenizden kaldırılacak. 
 [De&lete]
 Si&l
+[&Rename]
+Yeniden adlandı&r
 [&Add permanently to list]
 Listeye k&alıcı olarak ekle
 ;file \src\modules\clist\contacts.cpp
+[Nick]
+Kısa ad
+[E-mail]
+E-posta
+['(Unknown Contact)']
+'(Bilinmeyen Kişi)'
 ;file \src\modules\clist\genmenu.cpp
 ;file \src\modules\clist\genmenuopt.cpp
 [Menus]
 Menüler
+[Customize]
+Kişiselleştir
 ;file \src\modules\clist\groups.cpp
 [New Group]
 Yeni Grup
+[Delete Group]
+Grubu sil
 [You already have a group with that name. Please enter a unique name for the group.]
 Bu adla bir grubunuz var. Bu grup için farklı bir ad yazın.
 [Rename Group]
@@ -614,6 +1860,8 @@ Bu grup
 ;file \src\modules\clist\movetogroup.cpp
 [&Move to Group]
 Gruba &Taşı
+[<Root Group>]
+<Kök Grup>
 ;file \src\modules\database\database.cpp
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
 Miranda hiç bir profil eklentisi kurulmamış olduğundan '%s' ögesini açamadı.\ndbx_3x.dll veya eşdeğerini kurmalısınız.
@@ -633,8 +1881,12 @@ Profil taşınırken hata oldu
 '%s' profili %x hatasıyla oluşturulamadı
 [Problem creating profile]
 Profil üretilirken hata oldu
+[&Create]
+&Oluştur
 [<In Use>]
 <Kullanımda>
+[Size]
+Boyut
 [Created]
 Oluşturuldu
 [My Profiles]
@@ -646,17 +1898,25 @@ Yeni Profil
 [Chat Activity]
 Sohbet Etkinliği
 ;file \src\modules\extraicons\options_ei.cpp
+[Extra icons]
+Fazladan simgeler
 ;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Arama alanını doldurmadınız. Aranacak kelimeleri yazın ve yeniden deneyin.
+[Search]
+Ara
 [Results]
 Sonuçlar
 [There are no results to display.]
 Gösterilecek bir sonuç bulunamadı.
+[Searching]
+Aranıyor
 [All Networks]
 Tüm Ağlar
 [Handle]
 Sap
+[&Find/Add Contacts...]
+&Kişi Ara/Bul...
 ;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 '%s' üzerinde bir arama başlatılamadı. Bir sorun var - %s bağlı mı?
@@ -673,6 +1933,10 @@ Arama ile ilgili sorun
 [No users found]
 Hiç kullanıcı bulunamadı
 ;file \src\modules\fonts\FontOptions.cpp
+[<none>]
+<hiçbiri>
+[Text Files]
+Yazı Dosyaları
 [Fonts]
 Yazı tipleri
 ;file \src\modules\fonts\FontService.cpp
@@ -680,6 +1944,10 @@ Yazı tipleri
 [Icon Sets]
 Simge Setleri
 ;file \src\modules\ignore\ignore.cpp
+[** All contacts **]
+** Tüm kişiler **
+[Contacts]
+Kişiler
 ;file \src\modules\netlib\netliblog.cpp
 [(Miranda Core Logging)]
 Miranda Çekirdeği Günlüğü
@@ -690,12 +1958,18 @@ Günlük dosyasının nerede oluşturulacağını seçin
 ;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <Tüm Bağlantılar>
+[Network]
+Ağ
 ;file \src\modules\netlib\netlibssl.cpp
 ;file \src\modules\options\options.cpp
 [<all modules>]
 <tüm modüller>
 [%s options]
 %s ayarları
+[Miranda NG Options]
+Miranda NG Ayarları
+[&Options...]
+&Seçenekler...
 ;file \src\modules\plugins\newplugins.cpp
 ['%s' is disabled, re-enable?]
 '%s' devre dışı, etkinleştirilsin mi?
@@ -708,15 +1982,31 @@ Kurulu kişi listesi eklentilerinden hiçbiri ayarlar gözardı edilmesine rağm
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Eklenti
+[Version]
+Sürüm
+[Plugins]
+Eklentiler
 ;file \src\modules\protocols\protoopts.cpp
+[Create new account]
+Yeni hesap oluştur
 [Editing account]
 Hesabı değiştir
 [Upgrading account]
 Hesap yükseltiliyor
 [Account is disabled. Please activate it to access options.]
 Hesap devre dışı. Lütfen erişim seçeneklerinden etkinleştirin.
+[Edit]
+Değiştir
+[Remove account]
+Hesabı sil
+[Protocol]
+Protokol
 [Account ID]
 Hesap Kodu
+[<unknown>]
+<bilinmiyor>
+[Rename]
+Yeniden Adlandır
 [Account %s is being deleted]
 %s hesabı silindi
 [&Accounts...]
@@ -726,15 +2016,25 @@ Hesap Kodu
 Kısayolu kaldır
 [Add another shortcut]
 Yeni bir kısayol ekle
+[System]
+Sistem
 ;file \src\modules\skin\skinicons.cpp
+[User Online]
+Kullanıcı Çevrimiçi
 [Group (Open)]
 Grup (Açık)
 [Group (Closed)]
 Grup (Kapalı)
 [Connecting]
 Bağlanıyor
+[User Details]
+Kullanıcı Detayları
+[History]
+Geçmiş
 [Down Arrow]
 Aşağı Ok
+[Find User]
+Kullanıcı Bul
 [Send E-mail]
 E-posta Gönder
 [SMS]
@@ -745,6 +2045,8 @@ Tümünü Ara
 İşaretli
 [No Tick]
 İşaretsiz
+[Help]
+Yardım
 [Miranda Website]
 Miranda Websitesi
 [Small Dot]
@@ -765,22 +2067,426 @@ Kaldırılan eklenti
 GösterGizle
 [Exit]
 Çıkış
+[Main Menu]
+Ana Menü
+[On]
+Açık
+[Off]
+Kapalı
+[Frames]
+Çerçeveler
+[Request authorization]
+İzin iste
+[Grant authorization]
+İzin ver
+[Revoke authorization]
+İzni kaldır
 [%s Icons]
 %s Simgeler
 ;file \src\modules\skin\sounds.cpp
 ;file \src\modules\utils\bmpfilter.cpp
+[You need an image services plugin to process PNG images.]
+PNG resimleri işlemek için resim hizmeti eklentisine gerek duyuyorsunuz.
 [All Bitmaps]
 Tüm bitmaplar
+[Windows Bitmaps]
+Windows Bitmapları
+[JPEG Bitmaps]
+JPEG bitmap
+[GIF Bitmaps]
+GIF Bitmap
+[PNG Bitmaps]
+PNG Bitmap
 ;file \src\modules\utils\timezones.cpp
 ;file \src\modules\utils\utils.cpp
+[Unspecified]
+Belirtilmemiş
+[Unknown]
+Bilinmeyen
+[Afghanistan]
+Afganistan
+[Albania]
+Arnavutluk
+[Algeria]
+Cezayir
 [American Samoa]
 Amerikan Samoa
+[Andorra]
+Andora
+[Angola]
+Angola
+[Anguilla]
+Angilla
+[Antigua and Barbuda]
+Antik ve Barbuda
+[Argentina]
+Arjantin
+[Armenia]
+Ermenistan
+[Aruba]
+Aruba
+[Australia]
+Avustralya
+[Austria]
+Avusturya
+[Azerbaijan]
+Azerbeycan
+[Bahamas]
+Bahamalar
+[Bahrain]
+Bahreyn
+[Bangladesh]
+Bangladeş
+[Barbados]
+Barbados
+[Belarus]
+Beyaz Rusya
+[Belgium]
+Belçika
+[Belize]
+Beliz
+[Benin]
+Benin
+[Bermuda]
+Bermuda
+[Bhutan]
+Butan
+[Bosnia and Herzegovina]
+Bosna Hersek
+[Botswana]
+Botswana
+[Brazil]
+Brezilya
+[Bulgaria]
+Bulgaristan
+[Burkina Faso]
+Burkina Faso
+[Burundi]
+Burundi
+[Cambodia]
+Kamboçya
+[Cameroon]
+Kamerun
+[Canada]
+Kanada
+[Cayman Islands]
+Kayman Adaları
+[Central African Republic]
+Orta Afrika Cumhuriyeti
+[Chad]
+Çad
+[China]
+Çin
 [Christmas Island]
 Christmas Adası
 [Cocos (Keeling) Islands]
 Kokos (Keeling) Adaları
+[Colombia]
+Kolombiya
+[Comoros]
+Komor
+[Cook Islands]
+Kook Adaları
+[Costa Rica]
+Kosta Rika
+[Croatia]
+Hırvatistan
+[Cuba]
+Küba
 [Cyprus]
 Kıbrıs
+[Czech Republic]
+Çek Cumhuriyeti
+[Denmark]
+Danimarka
+[Djibouti]
+Djibouti
+[Dominica]
+Dominika
+[Dominican Republic]
+Dominik Cumhuriyeti
+[Ecuador]
+Ekvator
+[Egypt]
+Mısır
+[El Salvador]
+El Salvador
+[Equatorial Guinea]
+Gine Ekvator
+[Eritrea]
+Eritre
+[Estonia]
+Estonya
+[Ethiopia]
+Etyopya
+[Fiji]
+Fiji
+[Finland]
+Finlandiya
+[France]
+Fransa
+[French Guiana]
+Fransız Guyanası
+[French Polynesia]
+Fransız Polinezyası
+[Gabon]
+Gabon
+[Gambia]
+Gambia
+[Georgia]
+Gürcistan
+[Germany]
+Almanya
+[Ghana]
+Gana
+[Gibraltar]
+Gibraltar
+[Greece]
+Yunanistan
+[Greenland]
+Grönland
+[Grenada]
+Granada
+[Guadeloupe]
+Guadalup
+[Guatemala]
+Guatemala
+[Guinea]
+Gine
+[Guinea-Bissau]
+Gine-Bissau
+[Guyana]
+Guyana
+[Haiti]
+Haiti
+[Honduras]
+Honduras
+[Hong Kong]
+Hong Kong
+[Hungary]
+Macaristan
+[Iceland]
+İzlanda
+[India]
+Hindistan
+[Indonesia]
+Endonezya
+[Iraq]
+Irak
+[Ireland]
+İrlanda
+[Israel]
+İsrail
+[Italy]
+İtalya
+[Jamaica]
+Jamaika
+[Japan]
+Japonya
+[Jordan]
+Ürdün
+[Kazakhstan]
+Kazakistan
+[Kenya]
+Kenya
+[Kiribati]
+Kiribati
+[Kuwait]
+Kuveyt
+[Kyrgyzstan]
+Kırgızistan
+[Latvia]
+Latviya
+[Lebanon]
+Lübnan
+[Lesotho]
+Lesoto
+[Liberia]
+Liberya
+[Liechtenstein]
+Lihtenştayn
+[Lithuania]
+Litvanya
+[Luxembourg]
+Lüksemburg
+[Madagascar]
+Madagaskar
+[Malawi]
+Malawi
+[Malaysia]
+Malezya
+[Maldives]
+Maldivler
+[Mali]
+Mali
+[Malta]
+Malta
+[Marshall Islands]
+Marşal Adaları
+[Martinique]
+Martinik
+[Mauritania]
+Moritanya
+[Mauritius]
+Mauritius
+[Mexico]
+Meksika
+[Micronesia, Federated States of]
+Mikronezya Federal Eyaleti
+[Moldova, Republic of]
+Moldova Cumhuriyeti
+[Monaco]
+Monako
+[Mongolia]
+Mongolya
+[Montserrat]
+Monserrat
+[Morocco]
+Fas
+[Mozambique]
+Mozambik
+[Myanmar]
+Myanmar
+[Namibia]
+Namibya
+[Nauru]
+Nauru
+[Nepal]
+Nepal
+[Netherlands]
+Hollanda
+[New Caledonia]
+Yeni Kaledonya
+[New Zealand]
+Yeni Zelanda
+[Nicaragua]
+Nikaragua
+[Niger]
+Nijer
+[Nigeria]
+Nijerya
+[Niue]
+Niue
 [Norfolk Island]
 Norfolk Adaları
+[Norway]
+Norveç
+[Oman]
+Umman
+[Pakistan]
+Pakistan
+[Palau]
+Palau
+[Panama]
+Panama
+[Papua New Guinea]
+Papua Yeni Gine
+[Paraguay]
+Paraguay
+[Peru]
+Peru
+[Philippines]
+Filipinler
+[Poland]
+Polonya
+[Portugal]
+Portekiz
+[Puerto Rico]
+Puerto Riko
+[Qatar]
+Katar
+[Romania]
+Romanya
+[Rwanda]
+Ruanda
+[Saint Kitts and Nevis]
+Sen Kitts ve Nevis
+[Saint Lucia]
+Sen Lucia
+[Saint Pierre and Miquelon]
+sen Piyer ve Mikuelon
+[Saint Vincent and the Grenadines]
+Sen Vincent ve Grenadinler
+[San Marino]
+San Marino
+[Sao Tome and Principe]
+Sao Tome ve Principe
+[Saudi Arabia]
+Suudi Arabistan
+[Senegal]
+Senegal
+[Seychelles]
+Seyşeller
+[Sierra Leone]
+Sierra Leone
+[Singapore]
+Singapur
+[Slovakia]
+Slovakya
+[Slovenia]
+Slovenya
+[Solomon Islands]
+Solomon Adaları
+[Somalia]
+Somali
+[South Africa]
+Güney Afrika
+[Spain]
+İspanya
+[Sri Lanka]
+Sri Lanka
+[Sudan]
+Sudan
+[Suriname]
+Surinam
+[Swaziland]
+Swaziland
+[Sweden]
+İsveç
+[Switzerland]
+İsviçre
+[Syrian Arab Republic]
+Siryan Arap Cumhuriyeti
+[Tajikistan]
+Tacikistan
+[Thailand]
+Tayland
+[Togo]
+Togo
+[Tokelau]
+Tokalu
+[Tonga]
+Tonga
+[Trinidad and Tobago]
+Trinidad ve Tobago
+[Tunisia]
+Tunus
+[Turkey]
+Türkiye
+[Turkmenistan]
+Türkmenistan
+[Turks and Caicos Islands]
+Turks ve Caicos Adaları
+[Tuvalu]
+Tuvalu
+[Uganda]
+Uganda
+[Ukraine]
+Ukrayna
+[United Arab Emirates]
+Birleşik Arap Emirlikleri
+[United Kingdom]
+Birleşik Krallık
+[Uruguay]
+Uruguay
+[Uzbekistan]
+Özbekistan
+[Vanuatu]
+Vanuatu
+[Yemen]
+Yemen
+[Zambia]
+Zambia
+[Zimbabwe]
+Zimbabve
 ;file \src\modules\visibility\visibility.cpp

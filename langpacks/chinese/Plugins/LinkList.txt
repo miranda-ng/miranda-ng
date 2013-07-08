@@ -6,6 +6,10 @@
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Search]
+搜索
+[Close]
+关闭
 [Search for:]
 搜索: 
 [Message direction]
@@ -28,8 +32,12 @@
 深度搜索
 [Colour Select]
 选择颜色
+[Incoming messages]
+传入消息
 [Plugin Default]
 插件默认值
+[Outgoing messages]
+发送的消息
 [Backgroundcolour]
 背景颜色
 [Use Miranda Settings]
@@ -48,8 +56,16 @@
 显示...
 [Parting line]
 分界线
+[Timestamp]
+时间戳
 [Direction]
 方向
+[&File]
+文件(&F)
+[&Close]
+关闭(&C)
+[&Options]
+选项(&O)
 [Message &Direction]
 消息方向(&D)
 [&Outgoing Messages Only]
@@ -64,6 +80,8 @@
 仅邮箱地址(&M)
 [&Clear Search Results]
 清除搜索结果(&C)
+[&Search]
+搜索(&S)
 [link]
 链接
 [Open in new Window]
@@ -77,6 +95,8 @@
 历史为空!
 [There are no links in history!]
 历史中无链接!
+[Error]
+错误
 [incoming]
 传入
 [outgoing]
@@ -84,6 +104,8 @@
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
 [&Create Linklist]
 创建链接列表(&C)
+[History]
+历史
 [Processing history...]
 处理历史中...
 [Could not create window!]

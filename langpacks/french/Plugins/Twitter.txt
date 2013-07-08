@@ -6,6 +6,18 @@
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 ;file \protocols\Twitter\res\twitter.rc
+[Username:]
+Identifiant :
+[Cancel]
+Annuler
+[sec]
+secondes
+[Text]
+Texte
+[Custom]
+Défini
 ;file \protocols\Twitter\src\connection.cpp
 ;file \protocols\Twitter\src\proto.cpp
+[Network]
+Réseau
 ;file \protocols\Twitter\src\theme.cpp

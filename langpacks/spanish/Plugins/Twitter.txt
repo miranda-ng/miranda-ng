@@ -8,6 +8,14 @@
 ;file \protocols\Twitter\res\twitter.rc
 [Create a new Twitter account]
 Crear una nueva cuenta de Twitter
+[Username:]
+Nombre de usuario:
+[Username:]
+Username:
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [Misc. Options]
 Misc. Opciones
 [Use group chat for Twitter feed]
@@ -18,20 +26,34 @@ URL base:
 Tasa de votación:
 [Once every]
 Una vez cada
+[sec]
+seg
 [Enable popup notifications for Tweets]
 Habilitar las notificaciones emergentes para Tweets
 [Use Popup colors]
 Utilice colores Popup
 [Use custom colors]
 Usar colores personalizados
+[Text]
+Texto
+[Text]
+Texto
 [Timeouts]
 Tiempos de espera
+[Custom]
+Personalizado
 [But not during sign-on]
 Pero no durante el inicio de sesión
+[OK]
+OK
 ;file \protocols\Twitter\src\connection.cpp
 ;file \protocols\Twitter\src\proto.cpp
 [Send Tweet...]
 Enviar Tweet ...
+[Network]
+Red
+[Network]
+red
 ;file \protocols\Twitter\src\theme.cpp
 [Visit Homepage]
 Visita la Página de inicio

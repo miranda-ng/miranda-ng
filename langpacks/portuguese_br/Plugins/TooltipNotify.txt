@@ -6,4 +6,54 @@
 ;  Authors: perf
 ;============================================================
 ;file \plugins\TooltipNotify\res\main.rc
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Online]
+Online
+[Typing]
+Escrevendo
+[sec]
+seg
+[Contacts]
+Contatos
+[Contacts]
+Contatos
+[Idle]
+Inativo
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
+[** New contacts **]
+** Novos contatos **
+[** New contacts **]
+** Novos contatos **
+[** New contacts **]
+** Novos contatos **
+[** Unknown contacts **]
+** Contatos desconhecidos **
+[** Unknown contacts **]
+** Contatos desconhecidos ** 
+[** Unknown contacts **]
+** Contatos desconhecidos **
+[Unknown]
+Desconhecido

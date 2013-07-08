@@ -6,12 +6,20 @@
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
 ;file \plugins\MenuItemEx\res\resource.rc
+[&Send]
+Изпращане
+[&Cancel]
+Отказ
 [Shown menu items]
 Показвани елементи в менюто
+[Visibility]
+Видимост
 [Show alpha icons]
 Показване на алфа икони
 [Hide from list]
 Скриване от списъка
+[Ignore]
+Игнориране
 [Copy to Account (Ctrl+click for move to Account)]
 Копиране на акаунта (Ctrl+ляв бутон за преместване в Акаунт)
 [Send 'You were added']
@@ -43,12 +51,28 @@
 Текст на дейността
 [Show in list]
 Показване в списъка
+[Always visible]
+Винаги видимо
 [Never visible]
 Никога видимо
 [Copy to Account]
 Копиране в Акаунт
+[Messages]
+Съобщения
+[Files]
+Файлове
+[User Online]
+Потребител "На линия"
+[You Were Added]
+Вие бяхте добавен
+[Typing Notify]
+Уведомяване при писане
 [Do you want to send authorization request\nto new contact?]
 Желаете ли да бъде изпратена молба за упълномощаване до\nновия контакт?
 [Open ignore settings]
 Отваряне настройките за игнориране
+[Request authorization]
+Молба за упълномощаване
 ;file \plugins\MenuItemEx\src\options.cpp
+[Customize]
+Персонализиране

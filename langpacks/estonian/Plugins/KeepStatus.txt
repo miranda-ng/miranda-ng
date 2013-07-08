@@ -6,7 +6,49 @@
 ;  Authors: P Boon
 ;============================================================
 ;file \Plugins\StatusPlugins\resource.rc
+[General]
+Üldine
+[Close]
+Sulge
+[Cancel]
+Tühista
+[Profile]
+Profiil
+[Message]
+Teade
+[Set]
+Sea
+[OK]
+OK
+[Other]
+Muu
+[Background colour]
+Taustavärv
+[Text colour]
+Teksti värv
+[Use default colours]
+Kasuta vaikimisi värve
+[Events]
+Sündmused
+[Accounts]
+Kontod
+[Status]
+Staatus
+[Delete]
+Kustuta
+[seconds]
+sekundit
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
+[Protocol]
+Protokoll
 ;file \Plugins\StatusPlugins\commonstatus.cpp
+[Not right now.]
+Mitte praegu
+[Yep, I'm here.]
+Jah, ma olen siin.
+[Mmm...food.]
+Mmm...söök
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Closing in %d]
+Sulgub %d s. pärast

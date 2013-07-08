@@ -1,14 +1,102 @@
 ﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
 ;langpack template for Tlen
 ;file \protocols\Tlen\res\tlen.rc
+[Username:]
+Usuário:
+[Username:]
+Usuário:
+[Password:]
+Senha:
+[Password:]
+Senha:
+[Password:]
+Senha:
+[Password:]
+Senha
+[Create new account]
+Criar nova conta
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
+[Port:]
+Porta:
 [Proxy requires authorization]
 Proxy requer autorização
+[Background]
+Fundo
+[Background]
+Fundo
+[Text]
+Texto
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[First name:]
+Primeiro nome:
+[Last name:]
+Sobrenome:
+[E-mail:]
+E-mail:
+[E-mail:]
+E-mail:
+[Gender:]
+Sexo:
+[City:]
+Cidade:
 [Save changes]
 Salvar alterações
 [Avatar Options]
 Avatar Opções
+[Nickname:]
+Apelido:
+[Nickname:]
+Apelido:
+[Age:]
+idade:
+[From:]
+De:
 ;file \protocols\Tlen\src\jabber_iqid.cpp
 ;file \protocols\Tlen\src\jabber_opt.cpp
+[General]
+Geral
+[General]
+Geral
+[General]
+Geral
+[Advanced]
+Avançado
+[Advanced]
+Avançado
+[Network]
+Rede
+[Network]
+Rede
 ;file \protocols\Tlen\src\jabber_svc.cpp
 ;file \protocols\Tlen\src\jabber_thread.cpp
 [Jabber Connection Error]
@@ -27,10 +115,32 @@ Windows 95
 Windows 98
 [Windows ME]
 Windows ME
+[Windows]
+Janelas
+[Windows]
+Windows
+[E-mail]
+E-mail
 ;file \protocols\Tlen\src\jabber_ws.cpp
 ;file \protocols\Tlen\src\tlen.cpp
+[Group chats]
+Bate-papo em grupo
+[Group chats]
+Grupos de chat
+[Request authorization]
+Pedindo autorização
+[Grant authorization]
+Garantir autorização
 ;file \protocols\Tlen\src\tlen_file.cpp
 ;file \protocols\Tlen\src\tlen_muc.cpp
 ;file \protocols\Tlen\src\tlen_picture.cpp
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 ;file \protocols\Tlen\src\tlen_voice.cpp
+[Default]
+Padrão
+[Default]
+Padrão
+[Default]
+Padrão
+[Default]
+Padrão

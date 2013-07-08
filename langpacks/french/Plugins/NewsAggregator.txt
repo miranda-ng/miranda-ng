@@ -6,6 +6,14 @@
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 ;file \plugins\NewsAggregator\Res\Resource.rc
+[Add]
+Ajouter
+[Remove]
+Retirer
+[Cancel]
+Annuler
+[URL]
+Lien
 [Authentication]
 Authentification
 [Use &authentication]
@@ -16,11 +24,17 @@ Visualisation
 Afficher les nouveaux au format suivant :
 [All item's tags are valid. Put them between #. Example: #<author>#]
 Tous les tags sont valides. Mettez les entre #. Exemple : #<author>#
+[Reset]
+RAZ
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 ;file \plugins\NewsAggregator\Src\Options.cpp
+[Error]
+Erreur
 [Wait...]
 Patientez...
+[Network]
+Réseau
 ;file \plugins\NewsAggregator\Src\Services.cpp
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [Feed]

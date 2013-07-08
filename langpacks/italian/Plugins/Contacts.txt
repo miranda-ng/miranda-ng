@@ -6,6 +6,64 @@
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
 ;file \plugins\ContactsPlus\res\contacts.rc
+[&Send]
+&Invia
+[&Send]
+&Invia
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[&Add]
+&Aggiungi
+[&Add]
+&Aggiungi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[An error has occured. The protocol reported the following error:]
+C'è stato un errore. Il protocollo ha riferito l'errore seguente:
+[Try again]
+Prova di nuovo
+[User Details]
+Dettagli utente
 ;file \plugins\ContactsPlus\src\main.cpp
+[Contacts]
+Contatti
 ;file \plugins\ContactsPlus\src\receive.cpp
+[Add Contact Permanently to List]
+Aggiungi contatto definitivamente alla lista
+[View User's Details]
+Visualizza dettagli utente
+[View User's Details]
+Visualizza dettagli utente
+[View User's History]
+Visualizza storico utente
+[View User's History]
+Visualizza storico utente
+[User Menu]
+Menu utente
+[User Menu]
+Menu utente
 ;file \plugins\ContactsPlus\src\send.cpp

@@ -6,11 +6,33 @@
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 ;file \plugins\NewEventNotify\res\resource.rc
+[Message]
+Melding
+[Message]
+Melding
+[URL]
+URL
+[File]
+Fil
+[Text]
+Tekst
+[Background]
+Bakgrunn
 [Show Date]
 Vis Dato
+[Edit]
+Rediger
 ;file \plugins\NewEventNotify\src\main.cpp
+[Message Session]
+Meldingsøkt
 ;file \plugins\NewEventNotify\src\menuitem.cpp
+[Popups]
+Popups
+[Popups]
+Popups
 ;file \plugins\NewEventNotify\src\neweventnotify.h
+[Contacts]
+Kontakter
 ;file \plugins\NewEventNotify\src\options.cpp
 ;file \plugins\NewEventNotify\src\popup.cpp
 [This is a sample message event :-)]

@@ -8,8 +8,36 @@
 ;file \plugins\Clist_nicer\res\resource.rc
 [About CList Nicer+]
 A CList Nicer+ névjegye
+[OK]
+OK
 [Clist Nicer+]
 Clist Nicer+
+[Version]
+Verzió
+[Delete Contact]
+Partner törlése
+[No]
+Nem
+[Yes]
+Igen
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Elrejtés a listáról csak azért, hogy az elõzmények és a beállításai megmaradjanak
+[Are you sure you want to delete %s?]
+Biztosan törölni akarod: %s?
+[This will erase all history and settings for this contact!]
+Ez törli a partner minden elõzményét és beállítását!
+[Contact List]
+Kapcsolati lista
+[Hide offline users]
+Kilépett felhasználók elrejtése
+[Hide empty groups]
+Üres csoportok elrejtése
+[Disable groups]
+Csoportok kikapcsolása
+[Ask before deleting contacts]
+Partnerek törlésének megerõsítése
+[Disable icon blinking]
+Ikon villogás kikapcsolása
 [Apply last active view mode ]
 Utolsó aktív nézet mód alkalmazása
 [Contact list layout]
@@ -18,18 +46,46 @@ Partnerlista felosztás
 Menü és állapotgombok mutatása
 [Draw sunken edge]
 Besüllyesztett sarok rajzolása
+[System tray icon]
+Rendszer tálca ikon
+[Single click interface]
+Egykattintásos felület
+[Always show status in tooltip]
+Mindig mutasd az állapotot gyorssúgóban
 [Event area]
 Esemény terület
 [Set base visiblity on the frames menu]
 Alap láthatóság megadása a keretek menühöz
 [Auto mode]
 Auto mód
+[System tray icon when using multiple protocols]
+Rendszer tálca ikon több protokoll használata esetén
+[Show]
+Mutat
+[icon when statuses differ]
+ikon, ha az állapotok eltérnek
+[Cycle icons every]
+Ikonok ismétélse minden
+[seconds, when statuses differ]
+mp., ha eltérnek az állapotok
+[Show multiple icons]
+Többszörös ikonok megjelnítése
+[Only when statuses differ]
+Csak ha az állapotok eltérnek
 [Do not show system tray icon tooltips on mouse over]
 Ne legyen buborékinfó a tálcaikonhoz
+[Groups]
+Csoportok
+[Draw a line alongside group names]
+Húzz egy vonalat a csoportok nevéhez
 [Show number of contacts in a group]
 Partnerek számának mutása a csoportokban
 [Hide numbers when all offline]
 Számok elrejtése, ha mind kilépett
+[Sort groups alphabetically]
+Csoportok rendezése abc rendben
+[Quicksearch in open groups only]
+Gyorskeresés a nyitott csoportokban
 [No expand/collapse icon]
 Nincs kibont/becsuk ikon
 [Center groupnames horizontally]
@@ -42,10 +98,14 @@ Sorköz
 Minimális sormagasság:
 [Group row height]
 Csoport sor magasság
+[Indent groups by:]
+Csoportok behúzása:
 [Inner Row vertical padding]
 Belsõ sor függõleges térköz
 [Margins and spacing]
 Margók és térközök
+[Contact List Sorting]
+Kapcsolati lista sorrend
 [First by]
 Elsõ
 [Then by]
@@ -80,6 +140,8 @@ Második szövegsor mutatása:
 Partner helyi idõ mutatása
 [Only when timezone differs]
 Csak ha eltérõ az idõzóna
+[Icons]
+Ikonok
 [Show status icons]
 Állapot ikonok mutatása
 [Centered when possible]
@@ -90,10 +152,40 @@ Ha lehetséges, állapot ikon rajzolása az avatár helyére
 Metakapcsolat protokoll ikonok a részkapcsolatok helyett
 [Use Overlay icons on avatars]
 Felület ikonok az avatárokon
+[Dim idle contacts]
+Inaktív partnerek halványítása
 [Replace status icons with xStatus]
 Állapot ikonok lecserélése XStatus-ra
+[Window]
+Ablak
+[Always on top]
+Mindig legfelül
+[Show menu bar]
+Menüsor megjelnítése
+[Easy move]
+Könnyû mozgatás
 [Rounded border]
 Kerekített keret
+[Title bar text:]
+Címsor szöveg:
+[Pin to desktop]
+Asztalhoz szegezés
+[Show drop shadow (restart required)]
+Árnyék vetése (újraindítás szükséges)
+[Hide contact list after it has been idle for]
+Partnerlista elretése, ennyi eseménytelenség után:
+[seconds]
+mp.
+[Automatically resize window to height of list]
+Ablak mérete kövesse a lista magasságát
+[maximum]
+maximum
+[% of screen]
+képernyõ %-a
+[Size upwards]
+Méret felfelé
+[If window is partially covered, bring to front instead of hiding]
+Ha az ablak részben eltakart, akkor jöjjön elõre
 [Client margins]
 Kliens margók
 [Embedded frames border]
@@ -102,22 +194,102 @@ Beágyazott keretek körvonal
 Keret levágás ennyivel
 [Gap between frames]
 Hézag a keretek között
+[Transparent contact list]
+Átlátszó partnerlista
+[Inactive opacity:]
+Inaktív átlátszatlanság:
+[Active opacity:]
+Aktív átlátszatlanság:
+[Fade contact list in/out]
+Partner-lista lassú fel/eltûnése
 [Fully transparent (like TweakUI)]
 Teljesen átlátszó (mint a TweakUI)
+[Items]
+Elemek
+[Show divider between online and offline contacts]
+Elválasztó a kilépett és elérhetõ partnerek között
+[Hot track items as mouse passes over]
+Név kiemelése amikor elhalad fölötte az egér
+[Disable drag and drop of items]
+Fogd-és-vidd kikapcsolása
+[Disable rename of items by clicking twice]
+Kettõs kattintásra átnevezés kikapcsolása
+[Show selection even when list is not focused]
+Kijelölés mutatása nem aktív lista esetén is
+[Make selection highlight translucent]
+A kijelölés legyen áttetszõ
 [Use full row for selection and hottracking]
 Teljes sor a kijelöléshez és gyorskövetéshez
 [Double click on avatar opens userinfo]
 Duplakatt az avatáron mutatja a felhasználó infóit
+[Visual]
+Látási
+[Scroll list smoothly]
+Lista finom görgetése
+[Time:]
+Idõ:
+[milliseconds]
+századmásodperc
+[Hide vertical scroll bar]
+Függõleges görgõ elrejtése
+[Grey out entire list when:]
+Teljes lista kiszürkítése, ha:
+[Contact List Background]
+Kapcsolati lista háttér
+[Use Windows colours]
+Windows színek használata
+[Background colour]
+Háttérszín
+[Use background image]
+Háttérkép használata
+[Stretch to width]
+Nyújtás a szélességhez
+[Stretch to height]
+Nyújtás a magassághoz
+[Tile horizontally]
+Osztás vízszintesen
+[Tile vertically]
+Osztás függõlegesen
+[Scroll with text]
+Görgetés a szöveggel
+[Stretch proportionally]
+Nyújtás arányosan
 [Use these settings to skin the entire background]
 Alábbi beállítások használata a teljes háttér bõrözéséhez
 [If you enable this, the background settings will affect the entire contact list frame.]
 Ha ezt bekapcsolod, a háttér beállítás az egész partnerlista keretre érvényes lesz
+[Status Bar]
+Állapotsáv
+[Show status bar]
+Állapotsor mutatása
+[Show icons]
+Ikonok megjelenítése
+[Show protocol names]
+Protokoll nevek mutatása
+[Show status text]
+Állapot szöveggel is
+[Right click opens status menu]
+Jobb katt az állapot menüt nyitja
+[Make sections equal width]
+Egyenlõ széles szakaszok
+[Show bevels on panels]
+Besüllyestett panelek
+[Show resize grip indicator]
+Átméretezés fogóka megjelnítése
 [Draw background skin]
 Háttér bõr rajzolása
 [Show ICQ extended status icons]
 Kiterjesztett ICQ állapot ikonok
 [Mark protocols locked from global status changes]
 Globális állapotváltozást nem követõ protokollok
+[Cancel]
+Mégsem
+[Apply]
+Alkalmaz
+[Protocol]
+Protokoll
+[Group]
+Csoport
 [Per contact skins:]
 Partenkénti bõrök:
 [< Reload]
@@ -158,16 +330,22 @@ Betöltés bõr fájlból
 Exportálás bõr fájlba
 [Ignore these events]
 Alábbi események mellõzése
+[Messages]
+Üzenetek
 [Suppress auth requests]
 Felhatalmazásai kérések elnyomása
 [Suppress added notifications]
 Hozzáadva üzenetek elnyomása
 [Suppress online notifications]
 Elérhetõ üzenetek elnyomása
+[Visibility]
+Láthatóság
 [Appear always online]
 Tûnjön mindig elérhetõnek
 [Appear always offline (block contact)]
 Tûnjön mindig kilépettnek (partner blokkolása)
+[Other]
+Egyéb
 [Hide this contact from the list]
 E partner elrejtése a listáról
 [To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
@@ -184,6 +362,56 @@ Második sor:
 Ikon az avatár fölé
 [Show local time]
 Helyi idõ mutatása
+[E&xit]
+&Kilépés
+[&Status]
+Álla&pot
+[&Offline\tCtrl+0]
+&Kilépett\tCtrl+0
+[On&line\tCtrl+1]
+&Elérhetõ\tCtrl+1
+[&Away\tCtrl+2]
+&Távol\tCtrl+2
+[&NA\tCtrl+3]
+&Nem elérhetõ\tCtrl+3
+[Occ&upied\tCtrl+4]
+El&foglalt\tCtrl+4
+[&DND\tCtrl+5]
+&Ne zavarjanak\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Csevegésre kész\tCtrl+6
+[&Invisible\tCtrl+7]
+&Láthatatlan\tCtrl+7
+[On the &Phone\tCtrl+8]
+Telefonál\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Ebédel\tCtrl+9
+[Tray]
+Tálca
+[&Hide/Show]
+&Elrejtés/megjelenítés
+[Nowhere]
+Sehol
+[&New Group]
+&Új csoport
+[&Hide Offline Users]
+Kilépett partnerek elrejtése
+[Hide &Offline Users out here]
+Kilépett felhasználók elrejtése idekinn
+[Hide &Empty Groups]
+Üres csoportok elrejtése
+[Disable &Groups]
+Csoportok kikapcsolása
+[Hide Miranda]
+Miranda elrejtése
+[&New Subgroup]
+Új alcsoport
+[&Hide Offline Users in here]
+Kilépett partnerek elrejtése itt
+[&Rename Group]
+Csoport átnevezése
+[&Delete Group]
+&Csoport törlése
 [Move marked Contacts to this Group]
 Kijelölt partnerek mozgatása ebbe a csoportba
 [Show Status Icons]
@@ -195,6 +423,8 @@ További gombok mutatása
 [Draw sunken Frame]
 Besüllyesztett keret rajzolása
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+[General]
+Általános
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
@@ -205,6 +435,8 @@ Kilépett partnerek mutatása/elrejtése
 Csoport mód váltogatása
 [Find and add contacts]
 Partner keresése és felvétele
+[Accounts]
+Fiókok
 [Open preferences]
 Beállítások megnyitása
 [Toggle sounds]
@@ -220,12 +452,38 @@ Nézet mód kiválasztása
 [Clear view mode]
 Nézet mód ürítése
 ;file \plugins\Clist_nicer\src\clcopts.cpp
+[Not focused]
+Nem fókuszált
+[Offline]
+Kilépett
+[Online]
+Elérhetõ
+[Away]
+Távol
+[NA]
+NA
+[Occupied]
+Elfoglalt
+[DND]
+Ne zavarjanak
+[Free for chat]
+Csevegésre kész
+[Invisible]
+Láthatatlan
+[Out to lunch]
+Ebédel
+[On the phone]
+Telefonál
 [Always Left]
 Mindig balra
 [Always Right]
 Mindig jobbra
 [Automatic (RTL)]
 Automatikus (RTL)
+[Name]
+Név
+[Status]
+Állpot
 [Last Message]
 Utolsó üzenet
 [Message Frequency]
@@ -248,8 +506,14 @@ Messze jobbra
 Becenévvel - jobb
 [List layout]
 Lista nézet
+[Background]
+Háttér
+[Contacts]
+Partnerek
 [Groups and layout]
 Csoportok és nézet
+[Advanced]
+Haladó
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 Végleges hozzáadás
@@ -270,6 +534,8 @@ Partnerlista nézet és hanyagolás beállítások %s
 [&Contact list settings...]
 Partnerlista beállítások
 ;file \plugins\Clist_nicer\src\clistopts.cpp
+[Global]
+Globális
 ;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 Elérhetõ/kilépett mutatás váltogatása
@@ -289,10 +555,30 @@ Fiókok beállítása
 Fõmenü megnyitása
 [Set status modes]
 Állapot módok megadása
+[Standard contacts]
+Alapvetõ partnerek
+[Online contacts to whom you have a different visibility]
+Elérhetõ partnerek, akik eltérõen láthatnak
+[Offline contacts]
+Kilépett partnerek
+[Offline contacts to whom you have a different visibility]
+Kilépett partnerek, akik eltérõen láthatnak
+[Contacts which are 'not on list']
+Partnerek, akik 'nincsenek a listán'
+[Group member counts]
+Csoport tagszámok
+[Dividers]
+Meghajtók
 [Frame titles]
 Keret címek
 [Contact list local time]
 Partnerlista helyi idõ
+[Selected Text]
+Kijelölt Szöveg
+[Hottrack Text]
+Gyorkövetés szöveg
+[Quicksearch Text]
+Gyorskeresés szöveg
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Tool Window]
 Eszköz ablak
@@ -317,8 +603,16 @@ Aktuális nézet mód ürítése
 ;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&Skinned frame]
 Bõrözött keret
+[Frames]
+Keretek
 [Skinned frame]
 Bõrözött keret
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[&Find/Add Contacts...]
+&Partnerek keresése/hozzáadása
+[&Main Menu]
+&Fõmenü
+[&Options...]
+&Beállítások...
 [&About the contact list...]
 A partnerlista &névjegye...

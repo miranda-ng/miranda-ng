@@ -8,3 +8,11 @@
 ;file \plugins\StopSpamMod\res\stopspam.rc
 ;file \plugins\StopSpamMod\src\init.cpp
 ;file \plugins\StopSpamMod\src\options.cpp
+[Message Sessions]
+Meldingsøkter
+[General]
+Generelt
+[Messages]
+Meldinger
+[Advanced]
+Avansert

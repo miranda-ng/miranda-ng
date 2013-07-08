@@ -6,7 +6,25 @@
 ;  Authors: Yasnovidyashii
 ;============================================================
 ;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
+[Hotkeys]
+Teclas de acceso directo
+[Options]
+Opciones
+[Options]
+Opciones
+[Default]
+por defecto
+[Default]
+Predeterminado
 [Windows colours]
 Ventanas de colores
+[Text]
+Texto
+[Text]
+Texto
+[Custom]
+Personalizado
 ;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
+[Message Sessions]
+Mensaje de Sesiones

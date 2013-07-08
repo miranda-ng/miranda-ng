@@ -6,8 +6,66 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\JabberG\res\jabber.rc
+[OK]
+OK
+[Cancel]
+Annuleren
+[Type:]
+Type:
+[Password:]
+Wachtwoord:
+[Username:]
+Gebruikersnaam:
+[Port:]
+Poort:
+[Close]
+Sluit
+[Complete]
+Voltooid
+[City:]
+Plaats:
+[State:]
+Provincie:
+[Country:]
+Land:
+[First name:]
+Voornaam:
+[Last name:]
+Achternaam:
+[Date of birth:]
+Geboortedatum:
+[Gender:]
+Geslacht:
+[Company:]
+Bedrijf:
+[Department:]
+Afdeling
+[Phone:]
+Telefoon:
+[Work]
+Werk
+[Fax]
+Fax
+[Delete]
+Verwijderen
+[Description:]
+Omschr.:
 [Bookmarks]
 Bladwijzers
+[Add]
+Toevoegen
+[Nickname:]
+Bijnaam:
+[Edit]
+Bewerken
+[Messages]
+Berichten
+[Change %s Message]
+%s bericht wijzigen
+[Closing in %d]
+Sluiten in %d
+[Authorization Request]
+Autorisatie verzoek
 ;file \protocols\JabberG\src\jabber.cpp
 ;file \protocols\JabberG\src\jabber.h
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
@@ -17,6 +75,16 @@ Bladwijzers
 ;file \protocols\JabberG\src\jabber_caps.cpp
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 ;file \protocols\JabberG\src\jabber_chat.cpp
+[Owner]
+Eigenaar
+[Away]
+Afwezig
+[NA]
+Niet beschikbaar
+[DND]
+Niet storen
+[Free for chat]
+Beschikbaar voor gesprek
 [&User details]
 Gebr&uiker details
 ;file \protocols\JabberG\src\jabber_console.cpp
@@ -27,24 +95,70 @@ Gebr&uiker details
 [Loading...]
 Bezig met laden...
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Notes]
+Notities
 ;file \protocols\JabberG\src\jabber_iqid.cpp
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 ;file \protocols\JabberG\src\jabber_menu.cpp
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
+[To]
+Aan
 ;file \protocols\JabberG\src\jabber_notes.cpp
 ;file \protocols\JabberG\src\jabber_opt.cpp
+[Messaging]
+Berichtgeving
+[Other]
+Ander
+[General]
+Algemeen
+[Status changes]
+Status wijzigingen
+[Group]
+Groep
+[Network]
+Netwerk
+[Advanced]
+Geavanceerd
 ;file \protocols\JabberG\src\jabber_password.cpp
 ;file \protocols\JabberG\src\jabber_privacy.cpp
+[<none>]
+<geen>
 ;file \protocols\JabberG\src\jabber_proto.cpp
 ;file \protocols\JabberG\src\jabber_rc.cpp
+[Status]
+Status
+[Invisible]
+Onzichtbaar
+[Offline]
+Offline
 ;file \protocols\JabberG\src\jabber_search.cpp
 ;file \protocols\JabberG\src\jabber_svc.cpp
 ;file \protocols\JabberG\src\jabber_thread.cpp
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Message]
+Bericht
+[Version]
+Versie
+[System]
+Systeem
+[Yes]
+Ja
+[No]
+Ne
+[Copy]
+Kopiëren
 ;file \protocols\JabberG\src\jabber_util.cpp
+[Error]
+Fout
 ;file \protocols\JabberG\src\jabber_vcard.cpp
+[Male]
+Man
+[Female]
+Vrouw
+[Contacts]
+Personen
 ;file \protocols\JabberG\src\jabber_ws.cpp
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 ;file \protocols\JabberG\src\ui_utils.cpp

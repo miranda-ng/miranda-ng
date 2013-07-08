@@ -6,7 +6,19 @@
 ;  Authors: borkra
 ;============================================================
 ;file \plugins\CrashDumper\res\crshdmp.rc
+[Close]
+Bezárás
+[General]
+Általános
+[&Copy]
+&Másol
+[Co&py All]
+Mindet másol
+[Select &All]
+&Összes kijelölése
 ;file \plugins\CrashDumper\src\crshdmp.cpp
+[Show]
+Mutat
 ;file \plugins\CrashDumper\src\crshdmp_icons.cpp
 ;file \plugins\CrashDumper\src\exhndlr.cpp
 ;file \plugins\CrashDumper\src\ui.cpp

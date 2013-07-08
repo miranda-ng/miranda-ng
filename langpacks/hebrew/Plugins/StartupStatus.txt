@@ -6,7 +6,49 @@
 ;  Authors: P Boon
 ;============================================================
 ;file \Plugins\StatusPlugins\resource.rc
+[General]
+כללי
+[Close]
+סגור
+[Cancel]
+ביטול
+[Profile]
+פרופיל
+[Message]
+הודעה
+[Set]
+החל
+[OK]
+אישור
+[Other]
+אחר
+[Background colour]
+צבע רקע
+[Background colour]
+צבע רקע
+[Text colour]
+צבע טקסט
+[Use Windows colours]
+השתמש בצבעי חלונות
+[Use default colours]
+צבעי ברירת מחדל
+[Events]
+אירועים
+[Custom]
+מותאם
+[Use %time% for the current time, %date% for the current date]
+לקביעת הזמן והתאריך הנוכחיים %date% -ו %time% השתמש ב
+[Accounts]
+חשבונות
+[Status]
+מצב
+[Delete]
+מחק
+[seconds]
+שניות
 ;file \plugins\StatusPlugins\StartupStatus\options.cpp
+[None]
+ללא
 [size: %d x %d]
 גודל: %d x %d
 [loc: %d x %d]
@@ -20,4 +62,28 @@
 ;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
 ;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
 ;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+אני לא נמצא מ-%time%.
+[Give it up, I'm not in!]
+וותרו כבר, אני לא כאן!
+[Not right now.]
+לא עכשיו.
+[Give a guy some peace, would ya?]
+?אפשר לתת לבן אדם קצת אויר
+[I'm a chatbot!]
+!אני רובוט צ'יטוט
+[Yep, I'm here.]
+כן, אני כאן.
+[Nope, not here.]
+לא, לא כאטן.
+[I'm hiding from the mafia.]
+מסתתר מהמאפיה.
+[That'll be the phone.]
+בטלפון
+[Mmm...food.]
+הממ... אוכל.
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Protocol]
+פרוטוקול
+[Closing in %d]
+סוגר תוך %d

@@ -6,7 +6,29 @@
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Search]
+Ara
+[Close]
+Kapat
+[Incoming messages]
+Alınan iletiler
+[Outgoing messages]
+Gönderilen iletiler
+[Timestamp]
+Zaman Damgası
+[&File]
+&Dosya
+[&Close]
+&Kapat
+[&Options]
+&Seçenekler
+[&Search]
+&Ara
 ;file \plugins\HistoryLinkListPlus\src\language.h
+[Error]
+Hata
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[History]
+Geçmiş
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 ;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp

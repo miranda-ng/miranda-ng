@@ -8,6 +8,16 @@
 ;file \plugins\FileAsMessage\res\resources.rc
 [Filename:]
 Nombre del archivo:
+[Size:]
+Tamaño
+[bytes]
+Bytes
 ;file \plugins\FileAsMessage\src\dialog.cpp
+[Sending...]
+El envío de ...
+[Receiving...]
+Recepción de ...
 ;file \plugins\FileAsMessage\src\main.cpp
+[Plugins]
+Plugins
 ;file \plugins\FileAsMessage\src\main.h

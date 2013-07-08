@@ -6,20 +6,276 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\Clist_mw\res\resource.rc
+[Stretch to width]
+Tot breedte uitrekken
+[Stretch to height]
+Tot hoogte uitrekken
+[Tile horizontally]
+Naast elkaar
+[Tile vertically]
+Onder elkaar
+[Scroll with text]
+Met tekst scrollen
+[Stretch proportionally]
+Proportioneel uitrekken
 [MenuObjects]
 Menuobjecten
 [InsertSeparator]
 Voegverdelertoe
+[Name:]
+Naam:
+[Set]
+Instellen
+[Default]
+Standaard
+[Delete Contact]
+Contact verwijderen
+[No]
+Ne
+[Yes]
+Ja
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Verberg alleen van lijst, zodat de geschiedenis en negeer/zichtbaarheid instellingen bewaard blijven
+[Are you sure you want to delete %s?]
+Weet u zeker dat u %s wilt verwijderen?
+[This will erase all history and settings for this contact!]
+Dit zal alle geschiedenis en instellingen verwijderen voor deze persoon!
+[Hide offline users]
+Offline gebruikers verbergen
+[Hide empty groups]
+Lege groepen verbergen
+[Disable groups]
+Groepen uitschakelen
+[Ask before deleting contacts]
+Vraag voor het verwijderen van personen
+[Always on top]
+Altijd bovenop
+[Hide contact list after it has been idle for]
+Lijst verbergen nadat het rustig is voor
+[seconds]
+seconden
+[Sort contacts by name]
+Personen op naam sorteren
+[Sort contacts by status]
+Personen op status sorteren
+[Sort contacts by protocol]
+Personen op protocol sorteren
+[Single click interface]
+Enkele-klik interface
+[Always show status in tooltip]
+Status altijd in tooltip weergeven
+[Disable icon blinking]
+Knipperend icoon uitschakelen
+[Show]
+Weergeven
+[icon when statuses differ]
+icoon wanneer statussen verschillen
+[Cycle icons every]
+Verander iconen iedere
+[seconds, when statuses differ]
+seconden, wanneer statussen verschillen
+[Show multiple icons]
+Meerdere iconen weergeven
+[Only when statuses differ]
+Alleen wanneer statussen verschillen
+[Contact List]
+Persoon lijst
+[System tray icon]
+Systeemvak icoon
+[System tray icon when using multiple protocols]
+Systeemvak icoon bij gebruik meedere protocollen
+[Contact List Sorting]
+Persoon lijst sortering
+[Pin to desktop]
+Op desktop vastzetten
 [Rows]
 Rijen
+[Row height:]
+Rij hoogte:
+[Gamma correction]
+Gamma correctie
+[Window]
+Scherm
+[Minimize to tray]
+Naar systeemvak minimaliseren
+[Automatically resize window to height of list]
+Hoogte van de lijst autmatisch aanpassen
+[maximum]
+maximum
+[% of screen]
+% van het scherm
+[Size upwards]
+Omhoog vergrootten
+[Title bar text:]
+Titelbalk tekst:
+[Transparent contact list]
+Doorzichtig persoon lijst
+[Inactive opacity:]
+Inactief ondoorlatendheid:
+[Active opacity:]
+Actief ondoorlatendheid
+[Show menu bar]
+Menu balk weergeven
+[Easy move]
+Makkelijk verplaatsen
+[Show title bar]
+Titelbalk weergeven
+[If window is partially covered, bring to front instead of hiding]
+Als scherm gedeeltelijk bedekt is, breng naar voren in plaats van verbergen
+[Show divider between online and offline contacts]
+Verdeler tussen online en offline personen weergeven
+[Hot track items as mouse passes over]
+Hot track items wanneer de muis erover gaat
+[Disable drag and drop of items]
+Drag and drop voor items uitschakelen
+[Disable rename of items by clicking twice]
+Items hernoemen door dubbelklik uitschakelen
+[Show selection even when list is not focused]
+Selectie weergeven zelfs wanneer lijst geen focus heeft
+[Make selection highlight translucent]
+Selectie oplichting doorzichtig maken
+['Hide Offline' means to hide:]
+'Verberg Offline' betekent verberg:
+[Groups]
+Groepen
+[Draw a line alongside group names]
+Een lijn bij groepnamen tekenen
+[Show counts of number of contacts in a group]
+Aantallen van aantal personen in een groep weergeven
+[Hide group counts when there are none online]
+Groep aantallen wanneer er niemand online is verbergen
+[Sort groups alphabetically]
+Groepen alfabetisch sorteren
+[Quicksearch in open groups only]
+Snelzoeken alleen in open groepen
+[Indent groups by:]
+Spring groepen in bij:
+[Visual]
+Visueel
+[Scroll list smoothly]
+Lijst vloeiend scrollen
+[Time:]
+Tijd:
+[milliseconds]
+milliseconden
+[Left margin:]
+Linker marge:
+[Grey out entire list when:]
+Gehele lijst grijs maken wanneer:
+[Dim idle contacts]
+Rustige personen donker maken
+[Contact List Background]
+Persoon lijst achtergrond
+[Status Bar]
+Status balk
+[Show status bar]
+Status balk weergeven
+[Show icons]
+Iconen weergeven
+[Show protocol names]
+Protocol namen weergeven
+[Show status text]
+Status tekst weergeven
+[Right click opens status menu]
+Rechts klikken opent status menu
+[Make sections equal width]
+Selecties even groot maken
 [Use connecting Icon]
 Verbinden icoon gebruiken
+[E&xit]
+Afsluiten
+[&Away\tCtrl+2]
+Afwezig\tCtrl+2
+[&NA\tCtrl+3]
+&Niet beschikbaar\tCtrl+3
+[Occ&upied\tCtrl+4]
+Bezet\tCtrl+4
+[&DND\tCtrl+5]
+Niet storen\tCtrl+5
+[&Free for chat\tCtrl+6]
+Beschikbaar voor gesprek\tCtrl+6
+[&Invisible\tCtrl+7]
+Onz&ichtbaar\tCtrl+7
+[On the &Phone\tCtrl+8]
+Aan de telefoon\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Aan het lunchen\tCtrl+9
+[&Hide/Show]
+Verbergen/Weergeven
+[&New Group]
+&Nieuwe Groep
+[&Hide Offline Users]
+Offline gebruikers verbergen
+[Hide &Offline Users out here]
+&Offline gebruikers hierbuiten verbergen
+[Hide &Empty Groups]
+L&ege groepen verbergen
+[Disable &Groups]
+&Groepen uitschakelen
+[Hide Miranda]
+Miranda verbergen
+[Group]
+Groep
+[&New Subgroup]
+&Nieuw Subgroep
+[&Hide Offline Users in here]
+&Offline gebruikers hierbinnen verbergen
+[&Rename Group]
+G&roep hernoemen
+[&Delete Group]
+Groep verwij&deren
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
+[Customize]
+Aanpassen
 ;file \plugins\Clist_mw\src\clcfonts.cpp
+[Standard contacts]
+Standaard personen
+[Online contacts to whom you have a different visibility]
+Online personen met een andere zichtbaarheid
+[Offline contacts]
+Offline personen
+[Contacts which are 'not on list']
+Personen die 'niet op de lijst' staan
+[Dividers]
+Verdelers
+[Offline contacts to whom you have a different visibility]
+Offline personen met een andere zichtbaarheid
+[Background]
+Achtergrond
 ;file \plugins\Clist_mw\src\clcopts.cpp
+[List]
+Lijst
+[List Background]
+Lijst achtergrond
+[Not focused]
+Geen focus
+[Offline]
+Offline
+[Away]
+Afwezig
+[NA]
+Niet beschikbaar
+[Occupied]
+Bezet
+[DND]
+Niet storen
+[Free for chat]
+Beschikbaar voor gesprek
+[Invisible]
+Onzichtbaar
+[Out to lunch]
+Aan het lunchen
+[On the phone]
+Aan de telefoon
 ;file \plugins\Clist_mw\src\clistopts.cpp
 ;file \plugins\Clist_mw\src\clistsettings.cpp
+[(Unknown Contact)]
+(Onbekend Persoon)
 ;file \plugins\Clist_mw\src\clisttray.cpp
+[&Find/Add Contacts...]
+Personen zoeken/toevoegen...
+[&Options...]
+&Opties...
 ;file \plugins\Clist_mw\src\clui.cpp
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp

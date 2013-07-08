@@ -6,6 +6,24 @@
 ;  Authors: Ghost, Mironych
 ;============================================================
 ;file \plugins\TrafficCounter\res\resource.rc
+[Accounts]
+Fiókok
+[Custom]
+Egyedi
 ;file \plugins\TrafficCounter\src\options.cpp
+[General]
+Általános
+[Options]
+Beállítások
+[Popups]
+Felugrók
 ;file \plugins\TrafficCounter\src\statistics.cpp
+[Incoming]
+Bejövõ
+[Outgoing]
+Kimenõ
+[Online]
+Elérhetõ
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Font]
+Betûtípus

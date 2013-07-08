@@ -24,3 +24,5 @@
 ;file \plugins\ZeroNotification\src\main.cpp
 [Zero Notifications]
 0 通知
+[Plugins]
+插件

@@ -10,3 +10,11 @@
 Réponse :
 ;file \plugins\StopSpamMod\src\init.cpp
 ;file \plugins\StopSpamMod\src\options.cpp
+[Message Sessions]
+Sessions de message
+[General]
+Général
+[Accounts]
+Comptes
+[Advanced]
+Avancé

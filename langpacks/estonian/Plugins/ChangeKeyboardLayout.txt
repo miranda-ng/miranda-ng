@@ -6,5 +6,11 @@
 ;  Authors: Yasnovidyashii
 ;============================================================
 ;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
+[Hotkeys]
+Kiirklahvid
+[Options]
+Valikud
+[Text]
+Tekst
 ;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp

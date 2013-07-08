@@ -53,8 +53,14 @@
 Miranda 控制台
 [Console]
 控制台
+[Text]
+文本
+[&Help]
+说明(&H)
 [Text Files (*.txt)]
 文本文件 (*.txt)
+[All Files]
+所有文件
 [Save selection to file]
 保存选定至文件
 [Save log to file]

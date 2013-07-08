@@ -9,3 +9,9 @@
 ;file \plugins\Console\src\Console.cpp
 [Console]
 קונסול
+[Text]
+טקסט
+[&Help]
+&עזרה
+[All Files]
+כל הקבצים

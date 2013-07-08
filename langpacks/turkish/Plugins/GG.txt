@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: GG
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: 
 ;============================================================
 ;file \protocols\Gadu-Gadu\res\resource.rc
@@ -10,8 +10,20 @@
 Gadu-Gadu Kullanıcı Detayları
 [Gadu-Gadu Number:]
 Gadu-Gadu Numarası:
+[Password:]
+Parola:
+[E-mail:]
+E-posta:
+[Create new account]
+Yeni hesap oluştur
+[Remove account]
+Hesabı sil
 [Retrieve password]
 Parolayı öğren
+[Options]
+Seçenekler
+[Options]
+Seçenekler
 [Friends only]
 Yalnız arkadaşlar
 [Show offline users with status message as invisible in contact list]
@@ -20,6 +32,8 @@ Kişi listesindeki çevrim dışı kişileri görünmez kişilerle göster
 Bağlantı kesildikten sonra uzakta durum iletisi şu olsun:
 [Receive image and after image is received use:]
 Resmi al ve aldıktan sonra kullan:
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Bu sayfada yaptığınız değişikliklerin etkin olması için yeniden bağlanmanız gerekiyor.
 [Conference policy]
 Konferans politikası
 [if total participant count greater than:]
@@ -40,16 +54,42 @@ Bağlanılacak sunucuları elle belirle
 SSL güvenli bağlantı kullan
 [Use direct connections]
 Doğrudan bağlantılar kullan
+[Port:]
+Port:
 [Use forwarding]
 İletmeyi kullan
+[Host:]
+Sunucu:
+[First name:]
+İlk ad:
+[Last name:]
+Soyadı:
 [Family name:]
 Soyadı:
+[Nickname:]
+Kısa Ad:
+[Gender:]
+Cinsiyet:
+[City:]
+Şehir:
 [Origin city:]
 Doğum yeri:
 [Birth year:]
 Doğum yılı:
+[Description:]
+Açıklama:
+[Description:]
+Açıklama:
 [Enter token to continue]
 Devam etmek için işareti yazın
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
 [Create Gadu-Gadu account]
 Gadu-Gadu hesabı oluştur
 [New password:]
@@ -58,24 +98,36 @@ Yeni parola:
 Parolayı onayla:
 [New e-mail:]
 Yeni e-posta:
+[&Create]
+&Oluştur
 [Remove Gadu-Gadu account]
 Gadu-Gadu hesabını sil
 [Yes, I want to remove my account]
 Evet, hesabımı silmek istiyorum
+[Remove]
+Sil
 [Change Gadu-Gadu password]
 Gadu-Gadu parolasını değiştir
 [Change Gadu-Gadu e-mail]
 Gadu-Gadu e-postasını değiştir
 [Age from:]
 Şu yaştan
+[&Close]
+&Kapat
+[&Send]
+&Gönder
 [Open new conference]
 Yeni konferans aç
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
 ;file \protocols\Gadu-Gadu\src\core.cpp
+[Unknown]
+Bilinmeyen
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
 Dışarıda doğrudan bağlantı sunucusu %s geçersiz. Dış sunucu yönlendirme kapatılıyor.
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 Sunucu adı %s geçersiz. Ağ tarafından verilen varsayılan sunucu adı kullanılıyor.
+[Age:]
+Yaş:
 [List import successful.]
 Liste alındı.
 [List remove successful.]
@@ -83,8 +135,22 @@ Liste silindi
 [List export successful.]
 Liste verildi.
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
+[Male]
+Erkek
+[Female]
+Kadın
+[<not specified>]
+<belirtilmemiş>
+[Network]
+Ağ
+[General]
+Genel
+[Advanced]
+Gelişmiş
 [<Last Status>]
 <Son Durum>
+[System tray icon]
+Sistem tepsisi simgesi
 [You need to specify your registration e-mail first.]
 Öncelikle kayıt için e-posta adresinizi belirtmelisiniz.
 [Your password will be sent to your registration e-mail.\nDo you want to continue ?]
@@ -93,6 +159,8 @@ Parolanız kayıt e-posta adresinize gönderilecek.\Devam etmek istiyor musunuz?
 Hesabınızda kalıcı değişiklikler yapmadan önce bağlantınızı kesmelisiniz.\nŞimdi bağlantınızı kesmek isitiyor musunuz?
 [Allow]
 İzin Ver
+[Ignore]
+Yoksay
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed connecting]
@@ -166,6 +234,10 @@ Resim izin verilen büyüklüğü aşıyor (255 KB).
 Sunucu listesinde kişileri alıp/vermeden önce bağlanmış olmalısınız.
 [Text files]
 Yazı dosyaları
+[All Files]
+Tüm Dosyalar
+[All Files]
+Tüm Dosyalar
 [contacts]
 kişiler
 [Import List From &Server]
@@ -183,6 +255,8 @@ Lis&teyi Yazı Dosyasına Ver...
 [Password was sent to your e-mail.]
 Parolanız e-postanıza gönderildi.
 ;file \protocols\Gadu-Gadu\src\popups.cpp
+[Error]
+Hata
 ;file \protocols\Gadu-Gadu\src\services.cpp
 ;file \protocols\Gadu-Gadu\src\sessions.cpp
 ;file \protocols\Gadu-Gadu\src\token.cpp

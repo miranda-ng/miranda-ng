@@ -1,29 +1,55 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: xStatus notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 ;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 Notifique cuando un contacto cambia a uno de estos estados
+[Online]
+En línea
+[Offline]
+Offline
+[Invisible]
+Invisible
+[Free for chat]
+Gratuito de chat
+[Away]
+Alejado 
+[NA]
+NA
+[Occupied]
+Ocupado
+[DND]
+DND
+[Out to lunch]
+A almorzar
+[On the phone]
+En el teléfono
 [Always when changing from offline]
 Siempre cuando se cambia de línea
 [Plugin activation]
 Plugin de activación
 [Automatically turn off Popups and Sounds on status change]
 Se apagan automáticamente los pop-ups y sonidos en el cambio de estado
+[Configure]
+Configurar
 [Blink icon in the system tray]
 Blink icono en la bandeja del sistema
 [Use status icon]
 Utilice el icono de estado
 [Use individual sounds]
 Use sonidos individuales
+[Delete]
+Eliminar
 [Status Notify]
 Estado Notifiqueme
 [Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
 sonidos individuales son discapacitados.\n\nPara activarlas, ve a Opciones - Estado - Notificar, permiten \n"Use sonidos individuales" casilla, y vuelva a abrir este diálogo.
+[Sounds]
+Sonidos
 [Extra status notify]
 Extra estado de notificar a
 [Extra status logging]
@@ -32,6 +58,18 @@ Extra registro de estado
 Deshabilitar todas las
 [Enable all]
 Habilitar todas las
+[Background]
+Fondo
+[Background]
+Background
+[Text]
+Texto
+[Text]
+Texto
+[Use custom colours]
+Usar colores personalizados
+[Use Windows colours]
+Usar colores de Windows
 [Use Popup colours]
 Utilice colores Popup
 [Read status message]
@@ -54,6 +92,14 @@ Eliminar:
 Nuevo mensaje:
 [New status:]
 Nuevo estado:
+[Reset]
+Restablecer
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [Disable globally]
 Desactivar el mundo
 [Disable only if I change global status]
@@ -70,17 +116,29 @@ Mantenga los acontecimientos de la historia
 Prevenir los registros idénticos
 [On opening ML:]
 Al abrir ML:
+[General]
+General
+[General]
+General
+[Accounts]
+Cuentas
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Status]
+estado
 [Sound for the status]
 De sonido para el estado
 [From offline]
 Desde fuera de línea
+[** All contacts **]
+** Todos los contactos **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
 (Sonido por defecto)
 ;file \plugins\NewXstatusNotify\src\main.cpp
 [<no status message>]
 <ningún mensaje sobre su estado>
+[Contact]
+Póngase en contacto con
 [%s is now %s]
 %s es ahora %s
 [(M) is back online!]
@@ -178,6 +236,10 @@ Extra estado retirado
 [Toggle status notification]
 Activar notificación de estado
 ;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+Todos los archivos
+[Log]
+Registrarse
 [This is status message]
 Este es el mensaje de estado
 [Do you want to reset all templates to default?]
@@ -188,11 +250,15 @@ Restablecer plantillas
 Mostrar las variables disponibles
 [Reset all templates to default]
 Restablecer todas las plantillas por defecto
+[Protocol]
+Protocolo
 ;file \plugins\NewXstatusNotify\src\popup.h
 ;file \plugins\NewXstatusNotify\src\utils.cpp
 [Can't open the log file!]
 No se puede abrir el archivo de registro!
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[<unknown>]
+<desconocido>
 ;file \plugins\NewXstatusNotify\src\xstatus.h
 [changed %N to: %T%D%I]
 cambiado %N to: %T%D%I

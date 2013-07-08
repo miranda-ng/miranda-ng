@@ -8,3 +8,13 @@
 ;file \plugins\StopSpamMod\res\stopspam.rc
 ;file \plugins\StopSpamMod\src\init.cpp
 ;file \plugins\StopSpamMod\src\options.cpp
+[Message Sessions]
+חלון הודעות
+[General]
+כללי
+[Messages]
+הודעות
+[Accounts]
+חשבונות
+[Advanced]
+מתקדם

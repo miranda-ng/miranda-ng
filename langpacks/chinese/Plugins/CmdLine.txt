@@ -28,6 +28,8 @@ Miranda 已被关闭或发生错误正在等待结果, 无法处理请求.
 [Unknown command '%s'.\n]
 未知命令 '%s'.\n
 ;file \plugins\CmdLine\src\CmdLine.cpp
+[Error]
+错误
 ;file \plugins\CmdLine\src\mimcmd_data.h
 ;file \plugins\CmdLine\src\mimcmd_handlers.cpp
 [Command '%s' is not currently supported.]

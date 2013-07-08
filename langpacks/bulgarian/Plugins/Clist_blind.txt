@@ -6,8 +6,216 @@
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 ;file \plugins\Clist_blind\res\resource.rc
+[Delete Contact]
+Изтриване на контакта
+[Are you sure you want to delete %s?]
+Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
+[This will erase all history and settings for this contact!]
+Ще бъде изтрита изтрита историята и настройките за контакта!
+[Yes]
+Да
+[No]
+Не
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Скриване (запазва историята и настройките за игнориране/видимост)
+[Hotkeys]
+Клавишни комбинации
+[Hide offline users]
+Скриване на контактите "Извън линия"
+[Hide empty groups]
+Скриване на празните групи
+[Disable groups]
+Без групи
+[Ask before deleting contacts]
+Запитване преди изтриване на контакт
+[Sort contacts by name]
+име
+[Sort contacts by status]
+състояние
+[Sort contacts by protocol]
+протокол
+[Single click interface]
+Интерфейс с едно натискане
+[Always show status in tooltip]
+Показване на състоянието в подсказка
+[Disable icon blinking]
+Без мигане на икони
+[ms delay]
+мс времетраене
+[Show]
+Показване
+[icon when statuses differ]
+икона при различни състояния
+[Cycle icons every]
+Смяна на иконата всеки
+[seconds, when statuses differ]
+секунди, при различни състояния
+[Show multiple icons]
+Всички икони
+[Only when statuses differ]
+Само при различни състояния
+[Contact List]
+Списък с контакти
+[System tray icon]
+Икона в трея
+[System tray icon when using multiple protocols]
+Режим на иконата в трея, когато се използват няколко протокола
+[Contact List Sorting]
+Сортиране на списъка с контакти по:
+[Window]
+Прозорец
+[Always on top]
+Винаги отгоре
+[Minimize to tray]
+Минимизиране в трея
+[Hide contact list after it has been idle for]
+Скриване на списъка след бездействие за:
+[seconds]
+секунди
+[Automatically resize window to height of list]
+Автооразмеряване към височината на списъка
+[maximum]
+максимум
+[% of screen]
+% от екрана
+[Size upwards]
+Оразмеряване нагоре
+[Title bar text:]
+Заглавна лента:
+[Fade contact list in/out]
+Избледняване/Изсветляване на списъка
+[Transparent contact list]
+Прозрачност на списъка с контакти
+[Inactive opacity:]
+Неактивен прозорец:
+[Active opacity:]
+Активен прозорец:
+[Show menu bar]
+Лента за менюто
+[Easy move]
+Лесно местене
+[Show title bar]
+Заглавна лента
+[If window is partially covered, bring to front instead of hiding]
+Извеждане на прозорецът отпред, ако е частично покрит, вместо скриване
+[Show drop shadow (restart required)]
+Сенки под менютата (изисква рестарт)
+[Pin to desktop]
+Прилепване към работния плот
+[Items]
+Елементи
+['Hide Offline' means to hide:]
+Скриване като извън линия:
+[Groups]
+Групи
+[Show counts of number of contacts in a group]
+Показване на броя контакти в група
+[Hide group counts when there are none online]
+Скриване на броя, когато всички са "Извън линия"
+[Sort groups alphabetically]
+Сортиране на групите по азбучен ред
+[Quicksearch in open groups only]
+Бързо търсене само в отворените групи
+[Group:]
+Група:
+[Status Bar]
+Лента за състояние
+[Show status bar]
+Показване на лента за състояние
+[Show icons]
+Показване на икони
+[Show protocol names]
+Показване името на протокола
+[Show status text]
+Показване на текст за състоянието
+[Right click opens status menu]
+Десен бутон = меню на състоянието
+[Right click opens Miranda NG menu]
+Десен бутон отваря главното меню
+[Make sections equal width]
+Еднакво широки панели
+[Show bevels on panels]
+Разделител между панелите
+[Show resize grip indicator]
+Индикатор за ръчна промяна на размера
+[E&xit]
+Изход
+[&Status]
+Състояние
+[&Offline\tCtrl+0]
+Извън линия\tCtrl+0
+[On&line\tCtrl+1]
+На линия\tCtrl+1
+[&Away\tCtrl+2]
+Отсъстващ\tCtrl+2
+[&NA\tCtrl+3]
+Недостъпен\tCtrl+3
+[Occ&upied\tCtrl+4]
+Зает\tCtrl+4
+[&DND\tCtrl+5]
+Не безпокойте\tCtrl+5
+[&Free for chat\tCtrl+6]
+Готов за чат\tCtrl+6
+[&Invisible\tCtrl+7]
+Невидим\tCtrl+7
+[On the &Phone\tCtrl+8]
+На телефона\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+На обяд\tCtrl+9
+[Tray]
+Трей
+[&Hide/Show]
+Показване/Скриване
+[&New Group]
+Нова група
+[&Hide Offline Users]
+Скриване на контактите "Извън линия"
+[Hide &Offline Users out here]
+Скриване на контактите "Извън линия" тук
+[Hide &Empty Groups]
+Скриване на празните групи
+[Disable &Groups]
+Без групи
+[Hide Miranda]
+Скриване на Miranda
+[Group]
+Група
+[&New Subgroup]
+Нова подгрупа
+[&Hide Offline Users in here]
+Скриване на контактите "Извън линия" тук
+[&Rename Group]
+Преименуване на групата
+[&Delete Group]
+Изтриване на групата
 ;file \plugins\Clist_blind\src\clcopts.cpp
+[Not focused]
+Дефокусирано
+[Offline]
+Извън линия
+[Online]
+На линия
+[Away]
+Отсъстващ
+[NA]
+Недостъпен
+[Occupied]
+Зает
+[DND]
+Не безпокойте
+[Free for chat]
+Готов за чат
+[Invisible]
+Невидим
+[Out to lunch]
+На обяд
+[On the phone]
+На телефона
+[List]
+Списък
 ;file \plugins\Clist_blind\src\clistopts.cpp
+[Global]
+Общо
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp
 [Expanded]

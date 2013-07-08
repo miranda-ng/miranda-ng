@@ -6,12 +6,18 @@
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 ;file \plugins\IEView\res\ieview.rc
+[Copy]
+Копиране
+[Select All]
+Избор - всичко
 [Save Image As...]
 Запис на изображението като...
 [Print]
 Отпечатване
 [Show source]
 Показване на кода
+[Options]
+Настройки
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
 Поддържат се следните BBCodes: [b][i][u][s][img][size][color][url]
 [Enable support for Flash files in smileys and BBCodes]
@@ -22,6 +28,8 @@
 Замяна на усмивките в потребителските имена
 [Hide window border]
 Без рамка на прозореца
+[Size:]
+Размер:
 [Compatibility Mode]
 Режим на съвместимост
 [Use External CSS]
@@ -30,12 +38,16 @@
 Ползване на шаблон
 [Background image]
 Фоново изображение
+[Scroll with text]
+Придвижване с текста
 [Template Options]
 Настройки на шаблоните
 [Use message grouping]
 Групиране на съобщенията
 [Show nicknames]
 Показване на прякори
+[Show seconds]
+Показване на секунди
 [Use long date format]
 Дълг формат за датата
 [Use relative timestamp]
@@ -43,14 +55,38 @@
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
 Изходящо прехвърляне на файл
+[Incoming File Transfer]
+Входящ файл
 ;file \plugins\IEView\src\HTMLBuilder.cpp
+[(Unknown Contact)]
+(Непознат контакт)
 [ requested authorisation]
  заявено упълномощаване
 [ was added.]
  беше добавен.
 ;file \plugins\IEView\src\IEView.cpp
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[Error]
+Грешка
 ;file \plugins\IEView\src\Options.cpp
+[General]
+Основни
+[Message Log]
+Дневник за съобщения
+[Group Chats]
+Групови чатове
+[History]
+История
+[Default]
+Стандарт
+[Message Sessions]
+Разговори
+[All Files]
+Всички файлове
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+[File sent]
+Файлът е изпратен
+[File received]
+Файлът е получен
 ;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
 ;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

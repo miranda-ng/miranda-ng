@@ -8,8 +8,24 @@
 ;file \plugins\SMS\res\resource.rc
 [&Reply]
 &Yanıtla
+[&Close]
+&Kapat
+[From:]
+Kimden:
+[To:]
+Kime:
+[&H]
+&H
+[&Send]
+&Gönder
+[&Cancel]
+İ&ptal
 ;file \plugins\SMS\src\options.cpp
 ;file \plugins\SMS\src\receive.cpp
 ;file \plugins\SMS\src\recvdlg.cpp
 ;file \plugins\SMS\src\senddlg.cpp
+[View User's History]
+Kullanıcı Geçmişini Göster
+[Invalid Phone Number]
+Geçersiz Telefon Numarası
 ;file \plugins\SMS\src\SMS_svc.cpp

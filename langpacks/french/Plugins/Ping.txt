@@ -12,6 +12,8 @@ Délai entre chaque requêtes (secs) :
 Délai d'échec (secs) :
 [Log Filename:]
 Sauver dans :
+[Network]
+Réseau
 [Reply]
 Réponse
 [Block Repetitions]
@@ -20,16 +22,28 @@ Pas de répétitions
 Ne pas changer d'icône pendant le test
 [Use the Customize/Fonts options to change text size and colour.]
 Aller dans Apparence => Polices pour changer la taille et la couleur de la police de caractères.
+[Row height:]
+Hauteur de ligne :
 [Repeats for success/failure:]
 Répéter si succès/échec:
 [Attach to contact list]
 Attacher à la liste de contacts
 [Use CSV format]
 Utiliser le CSV
+[Add]
+Ajouter
+[Remove]
+Retirer
+[Edit]
+Éditer
+[Cancel]
+Annuler
 [Address:]
 Adresse :
 [TCP Connect]
 Connexion TCP
+[Port:]
+Port :
 [Control Protocol:]
 Protocole :
 [Set my status to:]
@@ -52,6 +66,8 @@ Activer tous les pings
 [Disable All Pings]
 Désactiver tous les pings
 ;file \plugins\Ping\src\options.cpp
+[<none>]
+<aucun>
 [<all>]
 <tout>
 ;file \plugins\Ping\src\ping.cpp
@@ -73,6 +89,8 @@ Le serveur %s, demande à ce que vous réduisez vos demandes de ping.
 ;file \plugins\Ping\src\utils.cpp
 [Unknown Address]
 Adresse inconnue
+[Unknown]
+Inconnu
 [Responding]
 Réponse en cours
 [Not Responding]

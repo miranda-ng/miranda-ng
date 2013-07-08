@@ -10,6 +10,8 @@
 自定义状态列表
 [No items available in the database.\nClick the Add button to define some.]
 数据库中无可用项.\n单击添加按钮可定义.
+[Cancel]
+取消
 [List settings]
 列表设置
 [Confirm deletion of items]
@@ -17,19 +19,31 @@
 [Remember last window position]
 记住最后窗口位置
 ;file \plugins\CSList\src\cslist.cpp
+[Status]
+状态
 [Add new item]
 添加新项
+[Add]
+添加
 [Modify item]
 修改项目
+[Modify]
+修改
 [Regular statuses]
 常规状态
+[Message]
+消息
 [Do you want old database entries to be deleted after Import?]
 您是否想将旧数据库条目导入后删除?
 ;file \plugins\CSList\src\cslist.h
+[Main Menu]
+主菜单
 [Modify selected item]
 修改选定项
 [Delete selected item]
 删除选定项
+[Remove]
+移除
 [Set/unset current item as favorite]
 设置/取消 当前项至收藏夹
 [Undo changes]
@@ -42,5 +56,9 @@
 关闭未更改自定义状态
 [Clear custom status (reset to None) and close]
 清除自定义状态 (重置为空) 并关闭
+[Clear]
+晴
 [Set custom status to selected one and close]
 设置选定项自定义状态并关闭
+[Set]
+设置

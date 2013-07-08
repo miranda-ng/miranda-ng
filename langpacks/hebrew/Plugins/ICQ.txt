@@ -6,6 +6,16 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\IcqOscarJ\res\resources.rc
+[Password:]
+סיסמא:
+[&Send]
+שלח
+[&Cancel]
+בטל
+[OK]
+אישור
+[Cancel]
+ביטול
 [ICQ number:]
 מספר:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
@@ -14,6 +24,10 @@
 השג סיסמא אבודה או מספר איי סי קיו
 [Create a new ICQ account using the ICQ website]
 צור חשבון חדש בעזרת האתר של איי סי קיו
+[Port:]
+יציאה:
+[Default]
+ברירת מחדל
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
 רמז: השתמש בפורט 0 כדי להתקשר בפורט אקראי. נסה את פורט 80 או .http את פורט 443 אם יש לך בעיות להתקשר דרך שרת פרוקסי
 [Secure (MD5) login]
@@ -50,6 +64,8 @@
 .אתה לא יכול לאפשר/לבטל את רשימת השרת בזמן שאתה מחובר לרשת האיי סי קיו
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
 הערה: לאפשרויות האלה המסומנות בכוכבית יש השפעות חד צדדיות שלא מתוארות  .בעזרה
+[Messaging]
+הודעות
 [Enable unicode messaging support]
 אפשר תמיכה בשליחת הודעות יוניקוד
 [Send all messages in unicode if possible]
@@ -102,18 +118,26 @@
 הגב רק לבקשת הודעות מצב ממשתמשים נראים
 [Some options are greyed out because they can only be changed when you are online.]
 .חלק מהאפשרויות נחסמו לשינוי כיוון שאתה צריך להיות מחובר על מנת לשנות אותן
+[Options]
+אפשרוית
 [Enable popup support]
 אפשר תמיכת פופאפ
 [Display popup when spambot is detected]
 הצג פופאפ כשבוט ספאם מתגלה
 [Look && Feel]
 ראה && הרגש
+[Text Color]
+צבע טקסט
+[Error]
+שגיאה
 [Fatal]
 קריטי
 [Spam detected]
 ספאם נתגלה
 [Use system &icons]
 השתמש ב&אייקוני מערכת
+[Use default colours]
+צבעי ברירת מחדל
 [UIN:]
 מספר:
 [External IP:]
@@ -126,12 +150,26 @@
 המערכת דלוקה מ:
 [Idle since:]
 לא נמצא מ:
+[Summary]
+סיכום
+[Nickname:]
+כינוי:
+[Work]
+עבודה
+[Position:]
+מיקום:
+[Location]
+מיקום
+[Other]
+אחר
 [Manage ICQ Server Contacts]
 נהל אנשי הקשר בשרת איי סי קיו
 [Select contacts to store:]
 :בחר אנשי קשר לאחסון
 [Synchronize]
 סנכרן
+[Closing in %d]
+סוגר תוך %d
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to ICQ communication server]
 לא ניתן להתחבר לשרת התקשורת של איי סי קיו
@@ -168,6 +206,10 @@
 מקום עבודה קודם
 [Past Organization]
 אירגון בעבר
+[Female]
+נקבה
+[Male]
+זכר
 [60-above]
 +60
 ;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
@@ -177,6 +219,12 @@
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 .מירנדה לא מצליחה לשמור את הקובץ אותו אתה מנסה לקבל, ייתכן ומדובר בספריה בעלת הרשאת קריאה בלבד
 ;file \protocols\IcqOscarJ\src\icq_menu.cpp
+[Request authorization]
+בקשת אישור
+[Grant authorization]
+הענק אישור
+[Revoke authorization]
+בקש אישור שנית
 [Add to server list]
 הוסף לרשימת שרת
 [Show custom status details]
@@ -192,6 +240,12 @@
 הצג בעיות הדורשות התערבות משתמש
 [System default codepage]
 קוד דף ברירת מערכת
+[Network]
+רשת
+[Contacts]
+אנשי קשר
+[Popups]
+פופ אפ
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 ;file \protocols\IcqOscarJ\src\icq_proto.cpp
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
@@ -211,6 +265,10 @@
 ...מוחק את %s
 [All operations complete]
 כל הפעולות הושלמו
+[Close]
+סגור
+[** All contacts **]
+** כל הרשימה **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [Taking a bath]
 מתקלח
@@ -224,6 +282,12 @@
 יורה
 [Having fun]
 עושה חיים
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדברת בטלפון
 [Gaming]
 משחק
 [Studying]
@@ -234,6 +298,8 @@
 מרגיש חולה
 [Surfing]
 גולש
+[Typing]
+מקליד
 [Picnic]
 פינית
 [I'm high]
@@ -244,6 +310,8 @@
 צופה פרו7 בטלוויזיה
 [%s Custom Status]
 %s מצבים מוגדרים אישית
+[None]
+ללא
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 ;file \protocols\IcqOscarJ\src\init.cpp
 ;file \protocols\IcqOscarJ\src\log.cpp
@@ -270,9 +338,13 @@
 שם פרטי
 [Last name]
 שם משפחה
+[Contact]
+קשר
 ;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
 ;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
 ;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
 ;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
 ;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 ;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
+[<not specified>]
+<לא מוגדר>

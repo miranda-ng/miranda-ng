@@ -6,39 +6,217 @@
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 ;file \plugins\UserInfoEx\res\resource.rc
+[Updating]
+Atualizando
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Apply]
+Aplicar
+[Nick:]
+Apelido:
+[First name:]
+Primeiro nome:
+[Last name:]
+Sobrenome:
+[Female]
+Feminino
+[Male]
+Masculino
+[Marital status:]
+Estado Civil:
+[Street:]
+Rua:
+[Postal code:]
+Código Postal:
+[City:]
+Cidade:
+[Country:]
+País:
+[Timezone:]
+Fuso horário:
+[Company:]
+Companhia:
+[Department:]
+Departamento:
+[Position:]
+Posição:
+[Add Phone Number]
+Adicionar Telefone
+[Enter country, area code and phone number:]
+Digite país, código de área do número de telefone:
+[Or enter a full international number:]
+Ou digite um número internacional inteiro:
+[Phone can receive SMS text messages]
+Telefone pode receber mensagens de texto SMS
+[Background colour]
+Cor do fundo
+[Text colour]
+Texto colorido
+[Use Windows colours]
+Usar Janelas coloridas
+[Use default colours]
+Usar cores padrão
+[Custom]
+Padrão
+[Delete]
+Excluir
+[Delete]
+Apagar
+[Delete]
+Apagar
+[Delete]
+Apagar
+[Delete]
+Excluir
+[Delete]
+Excluir
+[Icons]
+Ícones
 [Common]
 Comum
 [Common]
 Common
+[None]
+Nenhum
 [MainMenu]
 Menu Principal
+[Off]
+Desligado
+[Off]
+Desligado
 [ContactMenu]
 Menu de Contatos
 [Extra Icons]
 Ícones Extras
+[Gender:]
+Sexo:
 [Phone]
 Telefone
 [E-Mail]
 E-Mail
 [Show 'Restart' menu item]
 Mostrar menu 'Reiniciar'
+[Age:]
+idade:
 ;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
+[Unspecified]
+Indefinido
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+[Other]
+Outros
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+[Contact]
+Contato
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+[Yes]
+Sim
+[Yes]
+Sim
+[No]
+Não
+[No]
+Não
+[No]
+Não
+[Ignore]
+Ignorar
+[Error]
+Erro
+[Error]
+Erro
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
+[General]
+Geral
+[General]
+Geral
+[General]
+Geral
+[Work]
+Trabalho
+[Profile]
+Perfil
+[Profile]
+Perfil
+[Notes]
+Notas
+[Notes]
+Notas
+[Owner]
+Proprietário
 ;file \plugins\UserInfoEx\src\init.cpp
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Default]
+Padrão
+[Default]
+Padrão
+[Default]
+Padrão
+[Default]
+Padrão
+[Fax]
+Fax
+[Add]
+Adicionar
+[Add]
+Adicionar
+[Edit]
+Editar
+[Edit]
+Editar
+[Search]
+Pesquisa
+[Search]
+Procurar
+[Search]
+Pesquisar
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
+[User &Details]
+&Detalhes do Usuário
+[View/Change My &Details...]
+Ver/Mudar Meus &Detalhes ...
+[View/Change My &Details...]
+Exibir/Alterar Meus &Detalhes...
 ;file \plugins\UserInfoEx\src\psp_about.cpp
+[About:]
+Sobre:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
 ;file \plugins\UserInfoEx\src\psp_options.cpp
+[Contacts]
+Contatos
+[Contacts]
+Contatos
+[Advanced]
+Avançado
+[Advanced]
+Avançado
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Culture & Literature]
@@ -78,7 +256,15 @@ Esporte e atletismo
 [Home automation]
 Automação residencial
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+['(Unknown Contact)']
+'(Contato Desconhecido)'
+['(Unknown Contact)']
+'(Contato Desconhecido)'
+['(Unknown Contact)']
+'(Contato Desconhecido)'
 ;file \plugins\UserInfoEx\src\svc_email.cpp
+[Send e-mail]
+Enviar e-mail
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
@@ -88,8 +274,12 @@ Automação residencial
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
+[Miranda NG]
+Miranda NG BR
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
+[Complete]
+Completo
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

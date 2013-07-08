@@ -20,3 +20,5 @@
 [Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
 Quick Replies\r\nЛяв бутон отваря менюто\r\nДесен бутон отваря настройките
 ;file \plugins\QuickReplies\src\options.cpp
+[Message Sessions]
+Разговори

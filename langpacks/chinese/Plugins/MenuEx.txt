@@ -6,12 +6,20 @@
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
 ;file \plugins\MenuItemEx\res\resource.rc
+[&Send]
+发送(&S)
+[&Cancel]
+取消(&C)
 [Shown menu items]
 显示菜单项
+[Visibility]
+可见性
 [Show alpha icons]
 显示 Alpha 图标
 [Hide from list]
 从列表中隐藏
+[Ignore]
+忽略
 [Copy to Account (Ctrl+click for move to Account)]
 复制到账号 (Ctrl+点击移动至账号)
 [Send 'You were added']
@@ -47,16 +55,32 @@
 活动文本
 [Show in list]
 在列表中显示
+[Always visible]
+永远可见
 [Never visible]
 永不可见
 [Copy to Account]
 复制到账号
 [Copy xStatus Message]
 复制扩展状态消息
+[Messages]
+消息
+[Files]
+文件
+[User Online]
+用户上线
+[You Were Added]
+您已被添加
+[Typing Notify]
+键入通知
 [Do you want to send authorization request\nto new contact?]
 您是否想发送授权请求\n至新联系人?
 [MenuItemEx]
 扩展菜单
 [Open ignore settings]
 打开忽略设置
+[Request authorization]
+要求授权
 ;file \plugins\MenuItemEx\src\options.cpp
+[Customize]
+自定义

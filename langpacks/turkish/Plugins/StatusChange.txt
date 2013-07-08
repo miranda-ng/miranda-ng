@@ -6,4 +6,30 @@
 ;  Authors: Angelo Luiz Tartari
 ;============================================================
 ;file \plugins\StatusChange\res\resource.rc
+[Offline]
+Çevrimdışı
+[Online]
+Çevrimiçi
+[Away]
+Uzakta
+[NA]
+Bilinmiyor
+[Occupied]
+Meşgul
+[DND]
+Dokunma
+[Free for chat]
+Sohbete uygun
+[Invisible]
+Görünmez
+[On the phone]
+Telefonda
+[Out to lunch]
+Yemekte
+[Message]
+İleti
+[URL]
+Web adresi
 ;file \plugins\StatusChange\src\main.cpp
+[Status]
+Durum

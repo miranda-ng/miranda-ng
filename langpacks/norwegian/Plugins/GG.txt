@@ -2,19 +2,79 @@
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: GG
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: 
 ;============================================================
 ;file \protocols\Gadu-Gadu\res\resource.rc
+[Password:]
+Passord:
+[E-mail:]
+E-post:
+[Create new account]
+Lag ny konto
+[Options]
+Valg
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Du må koble til på nytt for at endringene du har gjort på denne siden vil aktiveres.
+[Port:]
+Port:
+[Host:]
+Vert:
+[First name:]
+Fornavn:
+[Last name:]
+Etternavn:
+[Nickname:]
+Kallenavn:
+[Gender:]
+Kjønn:
+[City:]
+By:
+[Description:]
+Beskrivelse:
+[OK]
+OK
+[Cancel]
+Avbryt
+[&Create]
+&Lag
+[Remove]
+Fjern
+[Remove]
+Fjern
+[&Close]
+&Lukk
+[&Send]
+&Send
 [Open new conference]
 Åpne ny konferanse
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
 ;file \protocols\Gadu-Gadu\src\core.cpp
+[Unknown]
+Ukjent
+[Age:]
+Alder:
 [List import successful.]
 Listeimportering fullført
 [List export successful.]
 Listeeksportering fullført
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
+[Male]
+Mann
+[Female]
+Kvinne
+[<not specified>]
+<ikke spesifisert>
+[Network]
+Nettverk
+[General]
+Generelt
+[Advanced]
+Avansert
+[System tray icon]
+Oppgavelinje ikon
+[Ignore]
+Ignorer
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
@@ -22,9 +82,13 @@ Listeeksportering fullført
 ;file \protocols\Gadu-Gadu\src\icolib.cpp
 ;file \protocols\Gadu-Gadu\src\image.cpp
 ;file \protocols\Gadu-Gadu\src\import.cpp
+[All Files]
+Alle Filer
 ;file \protocols\Gadu-Gadu\src\links.cpp
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 ;file \protocols\Gadu-Gadu\src\popups.cpp
+[Error]
+Feil
 ;file \protocols\Gadu-Gadu\src\services.cpp
 ;file \protocols\Gadu-Gadu\src\sessions.cpp
 ;file \protocols\Gadu-Gadu\src\token.cpp

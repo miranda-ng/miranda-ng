@@ -10,14 +10,40 @@
 Şu olduğunda pencere açılsın
 [and stay minimized]
 ve küçültümüş olarak kal
+[Cascade new windows]
+Yeni pencereleri diz
 [Save size and location for each contact]
 Her kişi için boyut ve konumu kaydet
+[Send message on 'Enter']
+İletileri 'Enter' ile gönder
+[Send message on double 'Enter']
+İletileri çift 'Enter' ile gönder 
+[Show warning when message has not been received after]
+İleti şundan sonra alınamadığında uyarı göster
+[seconds]
+saniye
+[seconds]
+saniye
+[Tabs]
+Sekmeler
 [Tabs at bottom]
 Sekmeler altta
 [Limit names on tabs to]
 Sekme adlarını şuna sınırla
+[Show status bar]
+Durum çubuğunu göster
+[Use the contact's status icon as the window icon]
+Kişinin durum simgesini pencere simgesi olarak kullan
+[Message Window Event Log]
+İleti Penceresi Etkinlik Günlüğü
 [Enable IEView]
 IE Görünümünü Etkinleştir
+[Show icons]
+Simgeleri göster
+[Show seconds]
+Saniyeleri göster
+[Show names]
+Adları göster
 [Mark follow-up msgs with timestamp]
 İzleme iletilerine zaman damgası koy
 [Start message text on a new line]
@@ -26,12 +52,44 @@ IE Görünümünü Etkinleştir
 Yazıyı içe al
 [Typing Notification Options]
 Yazıyor Uyarısı Seçenekleri
+[Send typing notifications to the following users when you are typing a message to them:]
+Şu kullanıcılara ileti yazarken yazma uyarılarını gönder:
 [Show typing notification switch in the status bar]
 Yazıyor uyarısı düğmesini durum çubuğunda göster
+[Show typing notifications when a user is typing a message]
+Bir kişi bir ileti yazarken yazma uyarılarını göster
 [Update message window icons when a user is typing]
 Bir kişi yazarken ileti penceresi simgelerini güncelle
+[Show typing notification when no message dialog is open]
+Hiç bir ileti penceresi açık değilken yazma uyarılarını göster
+[Flash in the system tray and in the contact list]
+Sistem tepsisi ve kişi listesinde yanıp sön
+[Show balloon popup]
+Balon açılır pencere göster
+[Send Error]
+Gönderme Hatası
+[An error has occured. The protocol reported the following error:]
+Bir hata oldu. Protokol şu hatayı verdi:
+[while sending the following message:]
+şu ileti gönderilirken:
+[Try again]
+Yeniden dene
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Message Session]
+İleti Oturumu
+[&U]
+&U
+[&D]
+&D
 [&E]
 &E
+[&H]
+&H
 [&Q]
 &Q
 [Send To All Tabs]
@@ -40,11 +98,129 @@ Tüm Sekmelere Gönder
 Tüm açık sekmelere bir ileti göndermek üzeresiniz.\nEmin misiniz?
 [Remember my choice for this container]
 Bu kutu için seçenekleri hatırla
+[Yes]
+Evet
+[No]
+Hayır
+[Show these events only:]
+Yalnız şu olayları göster:
+[Actions]
+Eylemler
+[Messages]
+İletiler
+[Nick changes]
+Kısa ad değişti
+[Users joining]
+Kişiler katıldı
+[Users leaving]
+Kişiler ayrıldı
+[Topic changes]
+Başlık değişti
+[Status changes]
+Durum değişikliği
+[Information]
+Bilgi
+[Disconnects]
+Bağlantıyı keser
+[User kicks]
+Kişi tekmeledi
+[Notices]
+Uyarılar
+[Options]
+Seçenekler
+[Options]
+Seçenekler
+[Other]
+Diğer
+[Add new rooms to group:]
+Gruba yeni odalar ekle:
+[pixels]
+piksel
+[pixels]
+piksel
+[Log Options]
+Günlük Seçenekleri
+[Your name]
+Adınız
+[Other name]
+Diğer ad
+[Timestamp]
+Zaman Damgası
+[Log timestamp]
+Günlük zaman damgası
+[Limit log text to (events):]
+Günlük yazısını sınırla (etkinlikler):
+[Enable highlighting]
+Vurgulamayı etkinleştir
+[Words to highlight (wildcards allowed)]
+Vurgulanacak kelimeler (arama işaretleri geçerli)
+[Location]
+Yerleşim
+[Use same style as in the message log]
+Aynı stili ileti günlüğünde kullan
+[Use default colours]
+Varsayılan renkleri kullan
+[Use custom colours]
+Kişisel renkleri kullan
+[Text]
+Yazı
+[Background]
+Art Alan
+[Timeout (s)]
+Zamanaşımı (s)
+[OK]
+Tamam
+[Log]
+Günlük
+[Log]
+Günlük
+[&Copy]
+&Kopyala
+[Co&py All]
+Tümünü Ko&pyala
+[Select &All]
+&Tümünü Seç
+[Word lookup]
+Kelime arama
+[Google]
+Google
+[C&lear Log]
+Gün&lüğü temizle
+[&Copy link]
+&Bağlantıyı kopyala
+[Message]
+İleti
+[Undo]
+Geri Al
+[Redo]
+Yeniden
+[Cut]
+Kes
+[Copy]
+Kopyala
+[Paste]
+Yapıştır
+[Delete]
+Sil
+[Clear]
+Temizle
+[Clear]
+Açık
+[List]
+Liste
+[&Message]
+İl&eti
+[Clear lo&g]
+&Günlüğü temizle
+[Co&py all]
+Tümünü ko&pyala
 ;file \plugins\Scriver\src\globals.cpp
 [User's details]
 Kullanıcı detayları
 [User's history]
 Kullanıcı geçmişi
+[Smiley button]
+Gülen yüz düğmesi
 [User is typing]
 Kullanıcı yazıyor
 [Typing notification off]
@@ -59,37 +235,417 @@ Gönderiliyor
 Alıntı düğmesi
 [Close button]
 Kapat düğmesi
+[Icon overlay]
+Simge üstüste
+[Incoming message (10x10)]
+Alınan ileti (10x10)
+[Outgoing message (10x10)]
+Gönderilen ileti (10x10)
+[Notice (10x10)]
+Dikkat (10x10)
+[Window Icon]
+Pencere Simgesi
+[Text colour]
+Yazı rengi
+[Text colour]
+Yazı rengi
+[Background colour]
+Art alan rengi
+[Background colour]
+Art alan rengi
+[Bold]
+Koyu
+[Italics]
+Yatık
+[Underlined]
+Altıçizilmiş
+[Room history]
+Oda geçmişi
+[Room settings]
+Oda ayarları
+[Event filter disabled]
+Etkinlik süzgeci devre dışı
+[Event filter enabled]
+Etkinlik süzgeci devrede
+[Hide userlist]
+Kişi listesini gizle
+[Show userlist]
+Kişi listesini göster
+[Status 1 (10x10)]
+Durum 1 (10x10)
+[Status 2 (10x10)]
+Durum 2 (10x10)
+[Status 3 (10x10)]
+Durum 3 (10x10)
+[Status 4 (10x10)]
+Durum 4 (10x10)
+[Status 5 (10x10)]
+Durum 5 (10x10)
+[Status 6 (10x10)]
+Durum 6 (10x10)
+[Message in (10x10)]
+Gelen ileti (10x10)
+[Message out (10x10)]
+Giden ileti (10x10)
+[Action (10x10)]
+Eylem (10x10)
+[Add Status (10x10)]
+Durum Ekle (10x10)
+[Remove status (10x10)]
+Durumu sil (10x10)
+[Join (10x10)]
+Katıl (10x10)
+[Leave (10x10)]
+Ayrıl (10x10)
+[Quit (10x10)]
+Çık (10x10)
+[Kick (10x10)]
+Tekme (10x10)
+[Nickchange (10x10)]
+Kısa ad değiştir (10x10)
+[Topic (10x10)]
+Başlık (10x10)
+[Highlight (10x10)]
+Vurgula (10x10)
+[Information (10x10)]
+Bilgi (10x10)
+[Group Chats]
+Grup Sohbetleri
 ;file \plugins\Scriver\src\input.cpp
+[Messaging]
+İletişim
 ;file \plugins\Scriver\src\msgdialog.cpp
+[Add Contact]
+Kişi Ekle
+[User Menu]
+Kullanıcı Menüsü
+[User Details]
+Kullanıcı Detayları
+[History]
+Geçmiş
+[No word to look up]
+Aranacak kelime yok
+[Add Contact Permanently to List]
+Kişiyi listeye kalıcı olarak ekle
+[View User's Details]
+Kullanıcı Detaylarını Göster
+[View User's History]
+Kullanıcı Geçmişini Göster
 [Quote Text]
 Yazı Alıntıla
 [User Menu - %s]
 Kullanıcı Menüsü - %s
+[signed off (was %s)]
+çevrimdışı (%s idi)
+[signed on (%s)]
+çevrimiçi (%s)
+[is now %s (was %s)]
+şimdi %s (%s idi)
 [Sending in progress: %d message(s) left...]
 Gönderiliyor: %d ileti kaldı...
+[%s is typing a message...]
+%s bir ileti yazıyor...
+[Last message received on %s at %s.]
+%s tarafından son ileti %s saatinde alındı
 ;file \plugins\Scriver\src\msglog.cpp
+[File sent]
+Dosya gönderildi
+[File received]
+Dosya alındı
 ;file \plugins\Scriver\src\msgoptions.cpp
+[General]
+Genel
+[Outgoing messages]
+Gönderilen iletiler
+[Incoming messages]
+Alınan iletiler
+[Outgoing name]
+Gönderilen ad
+[Outgoing time]
+Gönderilen zaman
+[Outgoing colon]
+Gönderilen sütunu
+[Incoming name]
+Alınan ad
+[Incoming time]
+Alınan saat
+[Incoming colon]
+Alınan sütun
+[Message area]
+İleti alanı
+[Outgoing URL]
+Gönderilen web adresi
+[Incoming URL]
+Alınan URL
+[Others nicknames]
+Diğerlerinin kısa adları
+[Your nickname]
+Kısa adınız
+[User has joined]
+Kişi katıldı
+[User has left]
+Kişi ayrıldı
+[User has disconnected]
+Kişinin bağlantısı kesildi
+[User kicked ...]
+Kişi tekmelendi ...
+[User is now known as ...]
+Kişi şu şekilde biliniyor ...
+[Notice from user]
+Kullanıcı dikkat çekti
+[Incoming message]
+Alınan ileti
+[Outgoing message]
+Gönderilen ileti
+[The topic is ...]
+Başlık şudur...
+[Information messages]
+Bilgi iletileri
+[User enables status for ...]
+Kişinin şu durumları etkin ...
+[User disables status for ...]
+Kişinin şu durumları devre dışı ... 
+[Action message]
+Eylem iletisi
+[Highlighted message]
+Vurgulanan ileti
+[Message typing area]
+İleti yazma alanı
 [Message background]
 İleti art alanı
 [User list members (online)]
 Kişi listesi üyeleri (çevrimiçi)
 [User list background]
 Kişi listesi art alanı
+[User list members (away)]
+Kişi listesi üyeleri (Uzakta)
 [User list lines]
 Kişi listesi satırları
 [User list background (selected)]
 Kişi listesi art alanı (seçili)
+[Offline]
+Çevrimdışı
+[Online]
+Çevrimiçi
+[Away]
+Uzakta
+[NA]
+Bilinmiyor
+[Occupied]
+Meşgul
+[DND]
+Dokunma
+[Free for chat]
+Sohbete uygun
+[Invisible]
+Görünmez
+[Out to lunch]
+Yemekte
+[On the phone]
+Telefonda
+[** New contacts **]
+** Yeni kişiler **
+[** Unknown contacts **]
+** Bilinmeyen kişiler **
+[Show balloon popup (unsupported system)]
+Balon açılır pencere göster (desteklenmeyen sistem)
+[Message Sessions]
+İleti Oturumları
+[Typing Notify]
+Yazıyor Uyarısı
 ;file \plugins\Scriver\src\msgs.cpp
+[Message from %s]
+%s ileti gönderdi
+[%s is typing a message]
+%s bir ileti yazıyor
+[Typing Notification]
+Yazıyor Uyarısı
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda kendi ileti modülünü yükleyemedi. riched20.dll dosyası kayıp. Windows 95 veya WINE kullanıyorsanız lütfen riched20.dll dosyasının kurulu olduğundan emin olun. Miranda'yı yüklemeye devam etmek için 'Evet'e tıklayın.
+[Incoming (Focused Window)]
+Alınan (Odaklanmış Pencere)
+[Incoming (Unfocused Window)]
+Alınan (Odaklanmamış Pencere)
+[Incoming (New Session)]
+Alınan (Yeni Oturum)
+[Outgoing]
+Gönderilen
 ;file \plugins\Scriver\src\msgtimedout.cpp
+[An unknown error has occured.]
+Bilinmeyen bir hata oldu.
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]
 Her zaman üstte
 ;file \plugins\Scriver\src\sendqueue.cpp
+[The message send timed out.]
+İleti zaman aşımına uğradığından gönderilemedi.
 ;file \plugins\Scriver\src\chat\clist.cpp
+[Join chat]
+Sohbete katıl
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\log.cpp
+[%s has joined]
+%s katıldı
+[You have joined %s]
+%s katıldınız
+[%s has left]
+%s ayrıldı
+[%s has disconnected]
+%s bağlantısı kesildi
+[%s is now known as %s]
+%s %s olarak biliniyor
+[You are now known as %s]
+Artık %s olarak biliniyorsunuz
+[%s kicked %s]
+%s tekmelendi %s
+[Notice from %s]
+%s dikkat çekti
+[ (set by %s on %s)]
+%s tarafından %s saatinde ayarlandı
+[ (set by %s)]
+%s tarafından ayarlandı
+[<invalid>]
+<geçersiz>
 ;file \plugins\Scriver\src\chat\main.cpp
+[&Join]
+&Katıl
+[&Leave]
+Ayrı&l
 ;file \plugins\Scriver\src\chat\options.cpp
+[Prefix all events with a timestamp]
+Tüm etkinliklerin önüne zaman damgası ekle
+[Only prefix with timestamp if it has changed]
+Zaman değiştiğinde zaman damgasını öne ekle
+[Indent the second line of a message]
+İletinin ikinci satırını içe al
+[Show topic changes]
+Başlık değişikliklerini göster
+[Show users joining]
+Katılan kişileri göster
+[Show users disconnecting]
+Bağlantısı kesilen kişileri göster
+[Show messages]
+İletileri göster
+[Show actions]
+Eylemleri göster
+[Show users leaving]
+Ayrılan kişileri göster
+[Show users being kicked]
+Tekmelenen kişileri göster
+[Show notices]
+Uyarıları göster
+[Show users changing name]
+Adlarını değiştiren kişileri göster
+[Show information messages]
+Bilgi iletilerini göster
+[Show status changes of users]
+Kişilerin durum değişikliklerini göster
+[Show icons in tray only when the chat room is not active]
+Yalnız sohbet odası etkin değilken simgeleri sistem tepsisinde göster
+[Show icon in tray for topic changes]
+Başlık değişiklikleri için sistem tepsisinde simge göster
+[Show icon in tray for users joining]
+Katılan kullanıcılar için sistem tepsisinde simge göster
+[Show icon in tray for users disconnecting]
+Bağlantısı kesilen kişiler için sistem tepsisinde simge göster
+[Show icon in tray for messages]
+İletiler için sistem tepsisinde simge göster
+[Show icon in tray for actions]
+Eylemler için sistem tepsisinde simge göster
+[Show icon in tray for highlights]
+Vurgular için sistem tepsisinde simge göster
+[Show icon in tray for users leaving]
+Ayrılan kullanıcılar için sistem tepsisinde simge göster
+[Show icon in tray for users kicking other user]
+Başka birini tekmeleyen kişiler için sistem bildirim alanında simge göster
+[Show icon in tray for notices ]
+Uyarılar için sistem tepsisinde simge göster
+[Show icon in tray for name changes]
+Ad değişiklikleri için sistem tepsisinde simge göster
+[Show icon in tray for information messages]
+Bilgi iletileri için sistem tepsisinde simge göster
+[Show icon in tray for status changes]
+Durum değişiklikleri için sistem tepsisinde simge göster
+[Icons to display in the tray]
+Sistem tepsisinde gösterilecek simgeler
+[Select Folder]
+Klasör Seç
+[Popups]
+Açılır Pencereler
+[Group chats]
+Grup Sohbetleri
+[Message is highlighted]
+İleti vurgulandı
+[User has performed an action]
+Kişi bir eylem yaptı
+[User has kicked some other user]
+Kişi başka birini tekmeledi
+[User's status was changed]
+Kişinin durumu değişti
+[User has changed name]
+Kişi adını değiştirdi
+[User has sent a notice]
+Kişi bir uyarı gönderdi
+[The topic has been changed]
+Başlık değiştirildi
 ;file \plugins\Scriver\src\chat\services.cpp
 ;file \plugins\Scriver\src\chat\tools.cpp
+[%s wants your attention in %s]
+%s %s içine dikkatinizi çekiyor
+[%s speaks in %s]
+%s %s içinde konuşuyor
+[%s has joined %s]
+%s katıldı %s
+[%s has left %s]
+%s ayrıldı %s
+[%s kicked %s from %s]
+%s tekmelendi %s şuradan %s
+[Topic change in %s]
+Başlık değişti %s
+[Information in %s]
+%s için bilgi
+[%s says: %s]
+%s yazdı: %s
+[%s has left (%s)]
+%s ayrıldı (%s)
+[%s has disconnected (%s)]
+%s bağlantısı kesildi (%s)
+[%s kicked %s (%s)]
+%s tekmelendi %s (%s)
+[Notice from %s: %s]
+%s dikkat çekti: %s
 ;file \plugins\Scriver\src\chat\window.cpp
+[Insert a smiley]
+Gülen yüz ekle
+[Make the text bold (CTRL+B)]
+Yazı koyu olsun (CTRL+B)
+[Make the text italicized (CTRL+I)]
+Yazı yatık olsun (CTRL+I)
+[Make the text underlined (CTRL+U)]
+Yazının altı çizilsin (CTRL+U)
+[Select a background color for the text (CTRL+L)]
+Yazı için art alan rengi seçin (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+Yazı rengini seçin (CTRL+K)
+[Show the history (CTRL+H)]
+Geçmişi göster (CTRL+H)
+[Show/hide the nicklist (CTRL+N)]
+Kısa adları göster/gizle (CTRL+N)
+[Control this room (CTRL+O)]
+Bu odayı denetle (CTRL+O)
+[Enable/disable the event filter (CTRL+F)]
+Etkinlik süzgecini aç/kapa (CTRL+F)
+[Nick name]
+Kısa ad
+[Unique id]
+Tekil kod
+[Status]
+Durum
+[%s: Chat Room (%u user)]
+%s: Sohbet Odası (%u kullanıcı)
+[%s: Chat Room (%u users)]
+%s: Sohbet Odası (%u kullanıcı)
+[%s: Message Session]
+%s: İleti Oturumu
+[%s: Message Session (%u users)]
+%s: İleti Oturumu (%u kullanıcı)

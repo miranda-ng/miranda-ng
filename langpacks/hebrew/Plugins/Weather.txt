@@ -10,10 +10,16 @@
 תקציר מידע
 [Webpage]
 אתר בית
+[Close]
+סגור
+[Options]
+אפשרוית
 [Update weather information on startup]
 עדכן מידע מזג אוויר בהפעלה
 [Update weather information every]
 עדכן מידע מזג אויר כל
+[minutes]
+דקות
 [Consider weather info updated only when condition and temperature are changed]
 החשב שמידע מזג אויר עודכן רק כאשר יש שינוי בטמפרטורה ובמצב
 [Remove old data when updating]
@@ -42,6 +48,8 @@
 מטר לשעה
 [knots]
 קליקים
+[Visibility]
+ראות
 [km]
 ק"מ
 [miles]
@@ -86,8 +94,18 @@ URL עוד מידע
 קבע מיקום כברירת מחדל
 [Disable automatic update for this station]
 בטל עדכון אוטומטי למיקום זה
+[Cancel]
+ביטול
 [Popup only when condition changes]
 פופ אפ רק כאשר מצב משתנה
+[Background colour]
+צבע רקע
+[Background colour]
+צבע רקע
+[Text colour]
+צבע טקסט
+[Use Windows colours]
+השתמש בצבעי חלונות
 [Popup Actions]
 פעולות פופ אפ
 [Left Click]
@@ -96,10 +114,18 @@ URL עוד מידע
 קליק ימני
 [Popup Delay]
 השהיית פופ אפ
+[seconds]
+שניות
 [Popup Text]
 טקסט פופאפ
+[Default]
+ברירת מחדל
 [Updates]
 עדכונים
+[Alerts]
+אזהרות
+[Contact List]
+רשימת אנשי קשר
 [Brief Info Title]
 כותרת מידע
 [Note Text]
@@ -110,6 +136,8 @@ URL עוד מידע
 יומן חיצוני
 [More Variables]
 עוד משתנים
+[Reset]
+אפס
 [Sunset]
 שקיעה
 [Sunrise]
@@ -142,6 +170,8 @@ URL עוד מידע
 [Weather Protocol]
 פרוטוקול מזג אוויר
 ;file \plugins\Weather\src\weather_contacts.cpp
+[All Files]
+כל הקבצים
 ;file \plugins\Weather\src\weather_conv.cpp
 [<Error>]
 <שגיאה>
@@ -163,11 +193,23 @@ URL עוד מידע
 [No Popup]
 ללא פופאפ
 ;file \plugins\Weather\src\weather_info.cpp
+[Name:]
+שם:
+[bytes]
+בייטים
+[Description:]
+תיאור:
 [Here is a list of custom variables that are currently available]
 הנה רשימה של משתנים מותאמים אישית שכרגע זמינים
 ;file \plugins\Weather\src\weather_ini.cpp
 ;file \plugins\Weather\src\weather_mwin.cpp
 ;file \plugins\Weather\src\weather_opt.cpp
+[Network]
+רשת
+[General]
+כללי
+[Popups]
+פופ אפ
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\tמצב נוכחי\n%d\tתאריך נוכחי\n%e\tנקודת טל\n%f\tמרגיש כמו \n%h\tהיום גבוה\n%i\tכיוון רוח\n%l\tהיום נמוך\n%m\tלחות\n%n\tשם תחנה\n%p\tלחץ אטמוספרי\n%r\tזמן זריחה\n%s\tת.ז. תחנה\n%t\tטמפרטורה\n%u\tזמן עדכון\n%v\tראות\n%w\tמהירות רוח\n%y\tשקיעה
 ;file \plugins\Weather\src\weather_popup.cpp
@@ -204,5 +246,7 @@ URL עוד מידע
 ;file \plugins\Weather\src\weather_userinfo.cpp
 [Variable]
 משתנה
+[Information]
+מידע
 [More Info]
 מידע נוסף

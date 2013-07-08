@@ -6,8 +6,32 @@
 ;  Authors: George Hazan
 ;============================================================
 ;file \plugins\DbChecker\res\resource.rc
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
 ;file \plugins\DbChecker\src\finished.cpp
 ;file \plugins\DbChecker\src\progress.cpp
 ;file \plugins\DbChecker\src\selectdb.cpp
+[Error]
+Errore
+[Error]
+Errore
+[All Files]
+Tutti i file
+[All Files]
+Tutti i file
+[All Files]
+Tutti i file
 ;file \plugins\DbChecker\src\wizard.cpp
 ;file \plugins\DbChecker\src\worker.cpp

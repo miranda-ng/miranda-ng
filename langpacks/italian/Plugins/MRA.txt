@@ -6,18 +6,122 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
+[E-mail:]
+Email:
+[Password:]
+Password:
+[Password:]
+Password:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Default]
+Predefinito
+[Default]
+Predefinito
+[Background colour]
+Colore di sfondo
+[Font]
+Carattere
+[Font]
+Carattere
+[Summary]
+Sommario
+[Nickname:]
+Nick:
+[First name:]
+Nome:
+[Last name:]
+Cognome:
+[Gender:]
+Sesso:
+[Age:]
+Età:
+[Location]
+Provenienza
+[Country:]
+Nazione:
+[State:]
+Provincia:
+[City:]
+Città:
 [Full e-mail:]
 Email completa:
+[Closing in %d]
+Chiusura in %d sec
+[Closing in %d]
+Chiusura in %d
+[Closing in %d]
+Chiusura in %d
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
 ;file \protocols\MRA\src\MraAntiSpam.cpp
 ;file \protocols\MRA\src\MraAvatars.cpp
 ;file \protocols\MRA\src\MraChat.cpp
 ;file \protocols\MRA\src\MraConstans.h
+[Request authorization]
+Richiesta di autorizzazione
 ;file \protocols\MRA\src\MraFilesQueue.cpp
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 ;file \protocols\MRA\src\MraIcons.cpp
 ;file \protocols\MRA\src\MraPopUp.cpp
+[None]
+Nessuno
+[None]
+Nessuna
+[None]
+Nessuno
+[None]
+Nessuno
+[Information]
+Informazione
+[Information]
+Informazione
+[Error]
+Errore
+[Error]
+Errore
+[Popups]
+Popup
+[Popups]
+Popups
 ;file \protocols\MRA\src\MraProto.cpp
+[E-mail address]
+Indirizzo email
 ;file \protocols\MRA\src\Mra_functions.cpp
 ;file \protocols\MRA\src\Mra_options.cpp
+[Network]
+Rete
+[Network]
+Rete
+[Network]
+Rete
+[Files]
+File
 ;file \protocols\MRA\src\Mra_proto.cpp
 ;file \protocols\MRA\src\Mra_svcs.cpp
+[On the phone]
+Al telefono

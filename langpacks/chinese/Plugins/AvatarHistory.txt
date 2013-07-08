@@ -22,14 +22,30 @@
 记录此联系人头像变更至历史
 [Show popups for this user]
 为此用户显示弹出窗口
+[OK]
+确定
 [Enable tracking for these protocols:]
 启用以下协议追踪: 
 [MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
 中继联系人有特别处理方法: 资料永远从子联系人复制 (中继联系人发出通知会被忽略)
 [Show popup when a contact change his avatar]
 联系人变更头像时显示弹出窗口
+[Background colour]
+背景颜色
+[Background colour]
+背景颜色
+[Text colour]
+文本颜色
+[Use Windows colours]
+使用 Windows 颜色
+[Use default colours]
+使用默认颜色
 [From popup plugin]
 从弹出窗口插件
+[Custom]
+自定义
+[Actions]
+操作
 [On right click:]
 按右键时: 
 [On left click:]
@@ -86,6 +102,8 @@
 [changed his/her avatar]
 变更他/她的头像
 ;file \plugins\AvatarHistory\src\icolib.cpp
+[History]
+历史
 ;file \plugins\AvatarHistory\src\options.cpp
 [Show avatar history]
 显示头像历史
@@ -95,6 +113,8 @@
 测试联系人
 [Test description]
 测试描述
+[Popups]
+弹出窗口
 [Avatar Change]
 头像变更
 ;file \plugins\AvatarHistory\src\utils.cpp

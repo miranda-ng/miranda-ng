@@ -6,20 +6,56 @@
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 ;file \plugins\Clist_modern\res\resource.rc
+[Show counts of number of contacts in a group]
+Gruptaki kişi sayısını göster
+[Hide group counts when there are none online]
+Hiç kimse çevrim içi değilken grup sayılarını gizle
 [1st:]
 1.:
 [2nd:]
 2.:
 [3rd:]
 3.:
+[Always on top]
+Her zaman üstte
 [Hide contact list after ]
 Şu kadar süre sonra gizle
+[seconds]
+saniye
+[seconds]
+saniye
+[Fade contact list in/out]
+Kişi listesine giriş/çıkışta sönükleştir
+[Transparent contact list]
+Saydam kişi listesi
+[Inactive opacity:]
+Etkin değil matlığı:
+[Active opacity:]
+Etkin matlık:
 [Animate Avatars]
 Avatarları Oynat
+[Show protocol names]
+Protokol adlarını göster
+[Show status text]
+Durum yazısını göster
+[Stretch to width]
+Genişliği Gerdir
+[Stretch to height]
+Yüksekliği Gerdir
+[Tile horizontally]
+Yatay döşe
+[Tile vertically]
+Dikey döşe
+[Scroll with text]
+Yazıyla kaydır
+[Stretch proportionally]
+Oransal Gerdir
 [Use Windows Colors]
 Windows Renklerini Kullan
 [Available skins]
 Geçerli temalar
+[Apply]
+Uygula
 [\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
 \n\n\nLütfen uygun temalardan birini seçin. \n\nListelenmeyen temalar için web'e bakın.
 [Skin Preview]
@@ -30,22 +66,50 @@ UYARI: \tTemalar kullanımdaki profilinizi değiştirebilir ve geri alınamayabi
 * Tüm değişikliklerin etkin olması için yeniden başlatmanız gerekebilir
 [Available objects]
 Geçerli nesneler
+[Copy]
+Kopyala
+[Paste]
+Yapıştır
 [Object properties]
 Nesne özellikleri
 [Colour]
 Renk
 [Image file and fitting mode]
 resim dosyasyı ve sığma kipi
+[File]
+Dosya
 [Borders]
 Sınırlar
 [Fit mode]
 Sığma kipi
 [Fragment location]
 Yerleşimi böl
+[Position:]
+Konum:
+[Size:]
+Boyut:
 [W x H: 0 x 0 pixels]
 G x Y: 0 x piksel
 [Show contacts in groups]
 Kişileri gruplayarak göster
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Protocol]
+Protokol
+[Group]
+Grup
+[Status Bar]
+Durum Çubuğu
+[Show status bar]
+Durum çubuğunu göster
+[Make sections equal width]
+Bölümler eşit genişlikte olsun
 [Space between]
 Aradaki boşluk
 [Vertical Align]
@@ -74,12 +138,44 @@ Normal drumu katman olarak göster
 Durum katmanı matlığı %75
 [Show unread emails (if supported)]
 Okunmamış e-postaları göster (destekleniyorsa)
+[Right click opens status menu]
+Sağ tık durum menüsünü açsın
 [Space on Left]
 Soldaki boşluk
 [Space on right]
 Sağdaki boşluk
+[Delete Contact]
+Kişiyi sil
+[No]
+Hayır
+[Yes]
+Evet
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Sadece listeden gizle, geçmiş ve yoksay/görünürlük ayarlarını tut
+[Are you sure you want to delete %s?]
+%s ögesini silmek istediğinize emin misiniz?
+[This will erase all history and settings for this contact!]
+Bu işlem bu kişinin tüm geçmişini ve ayarlarını silecek!
+[Hide offline users]
+Çevrimdışıları gizle
+[Hide empty groups]
+Boş grupları gizle
+[Disable groups]
+Grupları devredışı bırak
+[Ask before deleting contacts]
+Kişileri silmeden önce sor
+[Contact List]
+Kişi Listesi
+[Contact List]
+Kişi Listesi
+[Contact List Sorting]
+Kişi Listesi Sıralaması
 [Place offline users out of groups]
 Çevrimdışılar grupların dışında görünsün
+[Gamma correction]
+Gamma düzeltmesi
+[Default]
+Varsayılan
 [Full selection]
 Tümünü seç
 [Less selection]
@@ -90,12 +186,22 @@ Seçim yok
 Seçim Kipi
 [Bring to front if covered]
 Örtüldüyse öne getir
+[Automatically resize window to height of list]
+Pencereyi listenin yüksekliğine boyutlandır
+[maximum]
+en çok
+[% of screen]
+ekran yüzdesi
+[Size upwards]
+Şundan büyük
 [Lock manual resize]
 El ile boyutlandırmayı kilitle
 [Drag to ]
 Şuna sürükle
 [Easy Scroll]
 Kolay Kaydır
+[Easy move]
+Kolay taşı
 [x100 msec]
 x100 ms
 [show delay]
@@ -104,6 +210,10 @@ görünme gecikmesi
 gizlenme gecikmesi
 [Hide method]
 Gizleme yöntemi
+[pixels]
+piksel
+[pixels]
+piksel
 [keep on screen]
 ekranda tut
 [Snap to edges]
@@ -116,8 +226,62 @@ Kendiliğinden göster
 Her zaman görünür
 [Dock to sides]
 Yanlara yanaştır
+[Items]
+Ögeler
+[Show divider between online and offline contacts]
+Çevrimiçi ve çevrimdışı kişiler arasında ayıraç göster
+[Hot track items as mouse passes over]
+Fare üzerinden geçtiğinde ögeleri izle
+[Disable drag and drop of items]
+Ögelerin sürüklenip bıraılmasını önle
+[Disable rename of items by clicking twice]
+İki kez tıklandığında öge yeniden adlandırmayı önle
+[Show selection even when list is not focused]
+Listeye odaklanılmamışsa bile seçimi göster
+[Make selection highlight translucent]
+Seçilenler yarı saydam olsun
+[Dim idle contacts]
+Boştaki kişileri kıs
+['Hide Offline' means to hide:]
+'Çevrimdışıları gizle' şunları gizler:
+[Groups]
+Gruplar
+[Draw a line alongside group names]
+Grup adları boyunca çizgi çek
+[Sort groups alphabetically]
+Grupları alfabetik olarak diz
+[Quicksearch in open groups only]
+Yalnız açık gruplarda hızlı ara
+[Indent groups by:]
+Grupları şununla içe al:
+[Visual]
+Görsel
+[Scroll list smoothly]
+Listeyi düzgün kaydır
+[Time:]
+Zaman:
+[milliseconds]
+milisaniye
 [Fade out entire list when:]
 Şu olduğunda tüm listeyi söndür:
+[Single click interface]
+Arayüz tek tıkla işlesin
+[Always show status in tooltip]
+Durumu her zaman araç iletisinde göster
+[Disable icon blinking]
+Simgenin yanıp sönmesini önle
+[Show]
+Göster
+[Cycle icons every]
+Simgeleri şu arayla çevir
+[seconds, when statuses differ]
+saniye, durumlar farklıyken
+[Show multiple icons]
+Çoklu simgeleri göster
+[Only when statuses differ]
+Sadece durumlar farklı ise
+[System tray icon]
+Sistem tepsisi simgesi
 [System tray icon mode]
 Sistem tepsisi simge kipi
 [Use xStatus icon]
@@ -136,12 +300,26 @@ At kişileri içe al:
 Saati yalnız kullanılan saatten farklıysa göster
 [Show contact time as row item]
 Kişi saatini satır ögesi olarak göster
+[Pin to desktop]
+Masa üstüne iğnele
 [Client area margins]
 Kullanıcı alanı boşlukları
 [Thin border main window]
 Ana pencere ince sınır
 [Borderless main window]
 Sınırsız ana pencere
+[Show menu bar]
+Menü çubuğunu göster
+[Show title bar]
+Başlık çubuğunu göster
+[Title bar text:]
+Başlık çubuğu yazısı:
+[Tool style main window]
+Araç stili ana pencere
+[Minimize to tray]
+Sistem tepsisine küçült
+[Frames]
+Çerçeveler
 [Between frames:]
 Çerçeveler arası:
 [After captions:]
@@ -168,6 +346,8 @@ Değişken satır yüksekliği
 Sol ögeleri sola yasla
 [Align right items to right]
 Sağ ögeleri sağa yasla
+[Left margin:]
+Sol boşluk:
 [Right margin:]
 Sağ boşluk:
 [Draw border on avatar]
@@ -220,6 +400,8 @@ Uzun yazıları elipsle sınırla
 Üst boşluk:
 [Draw smileys on second line]
 Gülen yüzleri ikinci satıra yerleştir
+[Status]
+Durum
 [XStatus has priority]
 xDurum'un önceliği var
 [Use 'XStatus: XMessage']
@@ -236,6 +418,10 @@ Gülen yüzleri üçüncü satıra yerleştir
 Alt/Sağ
 [Position (vertical)]
 Konum (dikey)
+[Options]
+Seçenekler
+[Options]
+Seçenekler
 [Show Title]
 Başlığı Göster
 [Locked]
@@ -264,8 +450,58 @@ Kutu yüksekliği:
 Katmanlı
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 SEÇENEK SAYFASI TASARLANIYOR Lütfen bu bölümle ilgili sorunları göndermeyin.\n Yalnız üst düzey tasarım yorumları kabul edilebilir.
+[E&xit]
+Çı&kış
+[&Status]
+&Durum
+[&Offline\tCtrl+0]
+Ç&evrimdışı/tCtrl+0
+[On&line\tCtrl+1]
+Ç&evrimiçi\tCtrl+1
+[&Away\tCtrl+2]
+Uz&akta\tCtrl+2
+[&NA\tCtrl+3]
+Uygu&n değil/tCtrl+3
+[Occ&upied\tCtrl+4]
+Meşg&ul\tCtrl+4
+[&DND\tCtrl+5]
+&DND\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Sohbete uygun\tCtrl+6
+[&Invisible\tCtrl+7]
+&Görünmez\tCtrl+7
+[On the &Phone\tCtrl+8]
+Tele&fonda\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+&Yemekte\tCtrl+9
+[Tray]
+Tepsi
+[&Hide/Show]
+&Gizle/Göster
+[Nowhere]
+Hiç bir yer
+[&New Group]
+Ye&ni Grup
+[&Hide Offline Users]
+Ç&evrimdışı Kişileri Gizle
+[Hide &Offline Users out here]
+Çevrimdışıları &buranın dışında gizle
+[Hide &Empty Groups]
+Boş Grupları Gizl&e
+[Disable &Groups]
+&Grupları Devredışı Bırak
+[Hide Miranda]
+Miranda'yı Gizle
+[&New Subgroup]
+Ye&ni Alt Grup
+[&Hide Offline Users in here]
+&Buradaki çevrimdışıları gizle
 [&Show Offline Users in here]
 &Buradaki çevrimdışıları göster
+[&Rename Group]
+Grubu Yeniden Adlandı&r
+[&Delete Group]
+&Grubu Sil
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List smileys]
 Kişi Listesi gülen yüzler
@@ -292,6 +528,8 @@ MetaKişiler değiştiriliyor (taşınıyor)
 [Do You want contact '%s' to be added to MetaContact '%s'?]
 '%s' kişisinin '%s' Metakişisine eklenmesini istiyor musunuz?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Standard contacts]
+Standart kişiler
 [Away contacts]
 Uzaktaki Kişiler
 [DND contacts]
@@ -308,6 +546,12 @@ Görünmeyen kişiler
 Telefondaki kişiler
 [Out to lunch contacts]
 Yemekteki kişiler
+[Offline contacts]
+Çevrimdışı kişiler
+[Online contacts to whom you have a different visibility]
+Farklı görünürlüğe sahip olduğunuz çevrimiçi kişiler
+[Offline contacts to whom you have a different visibility]
+Farklı görünürlükte olduğunuz çevrimdışı kişiler 
 [Contacts who are 'not on list']
 'Listede değil' kişiler
 [Open groups]
@@ -318,6 +562,8 @@ Açık grup üye sayıları
 Kapalı gruplar
 [Closed group member counts]
 Kapalı grup üye sayıları
+[Dividers]
+Ayıraçlar
 [Third line]
 Üçüncü satır
 [Status bar text]
@@ -326,6 +572,42 @@ Durum çubuğu yazısı
 Etkinlik alanı yazısı
 [Current view mode text]
 Kullanımdaki görünüm kipi yazısı
+[Background]
+Art Alan
+[General]
+Genel
+[List]
+Liste
+[Window]
+Pencere
+[List Background]
+Liste Art Alanı
+[Not focused]
+Odaklanmamış
+[Offline]
+Çevrimdışı
+[Online]
+Çevrimiçi
+[Away]
+Uzakta
+[NA]
+Bilinmiyor
+[Occupied]
+Meşgul
+[DND]
+Dokunma
+[Free for chat]
+Sohbete uygun
+[Invisible]
+Görünmez
+[Out to lunch]
+Yemekte
+[On the phone]
+Telefonda
+[Name]
+Ad
+[Global]
+Genel
 [Hide to tray]
 Sistem tepsisine gizle
 [Behind left edge]
@@ -336,6 +618,8 @@ Sağ eşiğin arkasında
 [No Events]
 Etkinlik Yok
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
+[None]
+Yok
 [Contact rate None]
 Kişi derecelendirmesi Yok
 [Contact rate Low]
@@ -345,12 +629,24 @@ Kişi derecelendirmesi Orta
 [Contact rate High]
 Kişi derecelendirmesi Yüksek
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Text]
+Yazı
+[Extra icons]
+Fazladan simgeler
 [Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
 Avatarları Oynat (GDI+ ve Avatar hizmet modülü (avs.dll) gereklidir)
 [Row items]
 Satır Ögeleri
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+[(Unknown Contact)]
+(Bilinmmeyen Kişi)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
+[&Find/Add Contacts...]
+&Kişi Ara/Bul...
+[&Main Menu]
+Ana &Menü
+[&Options...]
+&Seçenekler...
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show Contact &Avatar]
 Kişi Resmini &Göster
@@ -376,6 +672,10 @@ sütunlar
 [Image size is]
 Resim boyutu
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
+[You need an image services plugin to process PNG images.]
+PNG resimleri işlemek için resim hizmeti eklentisine gerek duyuyorsunuz.
+[Error]
+Hata
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 Yükle/Kaydet
@@ -410,12 +710,18 @@ Varsayılan Tema
 [<<Global>>]
 <<Genel>>
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[Main Menu]
+Ana Menü
 [Main menu]
 Ana Menü
+[Accounts]
+Hesaplar
 [Accounts...]
 Hesaplar...
 [Show offline contacts]
 Çevrim Dışı Kişileri Göster
+[Find User]
+Kullanıcı Bul
 [Use groups]
 Grupla
 [Disable Groups]
@@ -423,4 +729,3 @@ Grupları Kaldır
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Configuring view mode: %s]
 %s görünüm kipi yapılandırılıyor
-;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

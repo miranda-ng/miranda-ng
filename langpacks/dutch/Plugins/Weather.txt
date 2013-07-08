@@ -6,19 +6,59 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 ;file \plugins\Weather\res\resource.rc
+[Close]
+Sluit
+[Options]
+Opties
+[Visibility]
+Zichtbaarheid
+[Cancel]
+Annuleren
+[Background colour]
+Achtergrond kleur
+[Text colour]
+Tekst kleur
+[Use Windows colours]
+Windows kleuren gebruiken
+[seconds]
+seconden
+[Default]
+Standaard
+[Alerts]
+Waarschuwingen
+[Contact List]
+Persoon lijst
+[Reset]
+Terugzetten
+[City:]
+Plaats:
 ;file \plugins\Weather\src\weather.cpp
 ;file \plugins\Weather\src\weather.h
 ;file \plugins\Weather\src\weather_addstn.cpp
 ;file \plugins\Weather\src\weather_contacts.cpp
+[All Files]
+Alle bestanden
 ;file \plugins\Weather\src\weather_conv.cpp
 ;file \plugins\Weather\src\weather_data.cpp
 ;file \plugins\Weather\src\weather_http.cpp
 ;file \plugins\Weather\src\weather_icons.cpp
 ;file \plugins\Weather\src\weather_info.cpp
+[Name:]
+Naam:
+[Description:]
+Omschr.:
 ;file \plugins\Weather\src\weather_ini.cpp
 ;file \plugins\Weather\src\weather_mwin.cpp
 ;file \plugins\Weather\src\weather_opt.cpp
+[Network]
+Netwerk
+[General]
+Algemeen
+[Popups]
+Popups
 ;file \plugins\Weather\src\weather_popup.cpp
 ;file \plugins\Weather\src\weather_svcs.cpp
 ;file \plugins\Weather\src\weather_update.cpp
 ;file \plugins\Weather\src\weather_userinfo.cpp
+[Information]
+Informatie

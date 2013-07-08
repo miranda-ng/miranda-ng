@@ -14,20 +14,40 @@ Kustuta vaikimisi pilt
 Kuva hoiatusteated
 [Resize the avatar to fit max allowed protocol size]
 Muuda avatari suurust, et mahtuda protokolli maks. suurusesse.
+[Delete]
+Kustuta
+[Reset]
+Algväärtusta
 [Picture options]
 Pildi valikud
 [Try to make picture background transparent]
 Proovi teha pildi taust läbipaistvaks
 [Use defaults]
 Kasuta vaikeväärtusi
+[OK]
+OK
+[Cancel]
+Tühista
+[Options]
+Valikud
+[Background]
+Taust
+[Set]
+Sea
 ;file \plugins\AVS\src\acc.cpp
 ;file \plugins\AVS\src\main.cpp
+[All Files]
+Kõik failid
+[JPEG Bitmaps]
+JPEG bittraster
 [XML Files]
 XML-fail
 [Set My Avatar]
 Sea minu avatar
 [My Avatars]
 Minu avatarid
+[Contacts]
+Kontaktid
 [Contact Avatars]
 Kontaktide avatarid
 [Own Avatars]

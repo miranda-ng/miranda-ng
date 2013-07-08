@@ -6,10 +6,34 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Ping\res\ping.rc
+[Network]
+ネットワーク
+[Popups]
+ポップアップ
+[Row height:]
+行の高さ :
+[Add]
+追加
+[Remove]
+削除
+[Edit]
+編集
+[OK]
+OK
+[Cancel]
+Cancel
+[Port:]
+ポート :
+[Contact]
+コンタクト
 ;file \plugins\Ping\src\menu.cpp
 ;file \plugins\Ping\src\options.cpp
+[<none>]
+< なし >
 ;file \plugins\Ping\src\ping.cpp
 ;file \plugins\Ping\src\pinggraph.cpp
 ;file \plugins\Ping\src\pingthread.cpp
 ;file \plugins\Ping\src\rawping.cpp
 ;file \plugins\Ping\src\utils.cpp
+[Unknown]
+不明

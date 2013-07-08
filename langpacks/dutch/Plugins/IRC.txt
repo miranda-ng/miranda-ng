@@ -6,6 +6,10 @@
 ;  Authors: Miranda team
 ;============================================================
 ;file \protocols\IRCG\res\IRC.rc
+[&Add]
+Toevoegen
+[&Edit]
+B&ewerken
 [&Del]
 Verwij&deren
 [only while connecting]
@@ -30,6 +34,8 @@ Automatisch binnengaan bij uitnodiging
 Internet adres
 [Port range]
 Poort bereik
+[Nick]
+Bijnaam
 [User ID (Ident)]
 Gebruikers ID
 [Full name (e-mail)]
@@ -40,10 +46,14 @@ Server naam
 Alternatieve bijnaam
 [Ident]
 Identificatie
+[System]
+Systeem
 [Default network]
 Standaard netwerk
 [User info - Required]
 Gebruikers info - Verplicht
+[Other]
+Ander
 [Reconnect]
 Opnieuw verbinden
 [Wait (s)]
@@ -54,12 +64,18 @@ Opnieuw proberen
 Vrees de apen!!!
 [User information]
 Gebruikers informatie
+[Version]
+Versie
 [Userinfo]
 Gebruikersinfo
 [&Refresh]
 Ve&rversen
 [&Query]
 &Query
+[&Close]
+Sluiten
+[Name]
+Naam
 [Channels]
 Kanalen
 [Away Info]
@@ -68,14 +84,24 @@ Afweigheidsinformatie
 De server heeft de volgende informatie teruggeven. Let er op dat deze informatie misleidend en/of vals kan zijn
 [CTCP information]
 CTCP informatie
+[&Cancel]
+Annuleren
 [Perform]
 Optreden
 [&Set]
 In&stellen
 [Add server]
 Server toevoegen
+[On]
+Aan
+[Off]
+Uit
+[Network]
+Netwerk
 [Channels on server]
 Kanalen op server
+[&Join]
+Binnengaan
 [C&onnect]
 Verbinden
 [Hostmask]
@@ -136,6 +162,14 @@ Pakket grootte (b):
 Verkrijg IP adres van server
 [CTCP Chat Request]
 CTCP gesprekverzoek
+[&Deny]
+Weigeren
+[Messages]
+Berichten
+[Notices]
+Meldingen
+[Password:]
+Wachtwoord:
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 CTCP gesprek verzoek van %s
@@ -180,6 +214,10 @@ Klaar: %u kanalen
 Bijnaam wijzigen
 [IRC error]
 IRC fout
+[Unknown]
+Onbekend
+[Ignore]
+Negeer
 [Please enter the reason]
 Vul aub een reden in
 [Ban'n Kick]
@@ -225,6 +263,8 @@ Opdracht invoeren
 Vul aub het antwoord in
 ;file \protocols\IRCG\src\irclib.cpp
 ;file \protocols\IRCG\src\ircproto.cpp
+[Information]
+Informatie
 [DCC ERROR: No valid files specified]
 DCC ERROR: Geen geldige bestanden opgegeven
 [DCC reversed file transfer request sent to %s [%s]]
@@ -240,6 +280,14 @@ De dcc gesprek verbinding is niet actief
 [Please choose an IRC-network to go online. This network will be the default.]
 Kies aub een IRC netwerk om mee online te gaan. Dit netwerk zal de standaard worden.
 ;file \protocols\IRCG\src\options.cpp
+[Add]
+Toevoegen
+[Apply]
+Toepassen
+[Edit]
+Bewerken
+[Cancel]
+Annuleren
 [Quick connect]
 Snel verbinden
 [Please complete all fields]
@@ -266,6 +314,8 @@ Server bewerken
 Klik om opdrachten in te stellen die worden uitgevoerd voor deze gebeurtenis
 [Click to delete the commands for this event]
 Klik om de opdrachten te verwijderen voor deze gebeurtenis
+[Advanced]
+Geavanceerd
 ;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
 WallOps van %s:
@@ -335,6 +385,8 @@ Verbinding maken met
 [Reconnecting to]
 Opnieuw verbinden met
 ;file \protocols\IRCG\src\tools.cpp
+[Offline]
+Offline
 ;file \protocols\IRCG\src\userinfo.cpp
 ;file \protocols\IRCG\src\windows.cpp
 [Channel]

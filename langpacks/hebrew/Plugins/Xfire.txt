@@ -1,15 +1,67 @@
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
+[Password:]
+סיסמא:
+[Nick:]
+:כינוי
+[Options]
+אפשרוית
+[More options]
+עוד אפשרויות
+[Files]
+קבצים
+[Apply]
+החל
+[Remove]
+הסר
+[Username:]
+שם משתמש:
+[Name:]
+שם:
+[Port:]
+יציאה:
+[Copy]
+העתק
 [Join]
 הצטרף
+[OK]
+אישור
+[Cancel]
+ביטול
 ;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
+[All Files]
+כל הקבצים
 ;file \protocols\Xfire\src\all_statusmsg.cpp
+[Yep, I'm here.]
+כן, אני כאן.
+[I've been away since %time%.]
+אני לא נמצא מ-%time%.
+[Give it up, I'm not in!]
+וותרו כבר, אני לא כאן!
+[Not right now.]
+לא עכשיו.
+[Give a guy some peace, would ya?]
+?אפשר לתת לבן אדם קצת אויר
+[That'll be the phone.]
+בטלפון
+[Mmm...food.]
+הממ... אוכל.
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
+[Username]
+שם משתמש
 ;file \protocols\Xfire\src\options.cpp
+[General]
+כללי
+[No]
+לא
+[Network]
+רשת
 ;file \protocols\Xfire\src\searching4games.cpp
 ;file \protocols\Xfire\src\userdetails.cpp
+[<not specified>]
+<לא מוגדר>
 ;file \protocols\Xfire\src\Xfire_game.cpp
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp

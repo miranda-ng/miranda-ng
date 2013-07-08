@@ -6,9 +6,35 @@
 ;  Authors: Jonathan Gordon
 ;============================================================
 ;file \plugins\Non-IM Contact\res\resource.rc
+[Link]
+Atalho
+[Group:]
+Grupo:
+[&Exit]
+&Sair
+[&Exit]
+&Sair
+[Help]
+Ajuda
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
 ;file \plugins\Non-IM Contact\src\contactinfo.cpp
+[Select Folder]
+Selecionar Pasta
 ;file \plugins\Non-IM Contact\src\dialog.cpp
 ;file \plugins\Non-IM Contact\src\files.cpp
 ;file \plugins\Non-IM Contact\src\http.cpp
 ;file \plugins\Non-IM Contact\src\main.cpp
+[Plugins]
+Plugins
+[Plugins]
+Plugins
 ;file \plugins\Non-IM Contact\src\namereplacing.cpp

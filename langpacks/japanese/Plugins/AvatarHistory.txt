@@ -6,9 +6,27 @@
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
+[OK]
+OK
+[Background colour]
+背景色
+[Text colour]
+テキスト色
+[Use Windows colours]
+ウィンドウ色を使用
+[Use default colours]
+デフォルト色を使用
+[Custom]
+カスタム
+[Actions]
+アクション
 ;file \plugins\AvatarHistory\src\AvatarDlg.cpp
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
 ;file \plugins\AvatarHistory\src\AvatarHistory.h
 ;file \plugins\AvatarHistory\src\icolib.cpp
+[History]
+履歴
 ;file \plugins\AvatarHistory\src\options.cpp
+[Popups]
+ポップアップ
 ;file \plugins\AvatarHistory\src\utils.cpp

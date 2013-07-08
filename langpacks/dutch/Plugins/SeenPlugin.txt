@@ -6,10 +6,54 @@
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 ;file \plugins\SeenPlugin\res\resource.rc
+[Text]
+Tekst
+[Away]
+Afwezig
+[NA]
+Niet beschikbaar
+[Occupied]
+Bezet
+[DND]
+Niet storen
+[On the phone]
+Aan de telefoon
+[Out to lunch]
+Aan het lunchen
+[Free for chat]
+Beschikbaar voor gesprek
+[Invisible]
+Onzichtbaar
+[Offline]
+Offline
+[OK]
+OK
 ;file \plugins\SeenPlugin\src\history.cpp
+[View User's Details]
+Details van de gebruiker bekijken
+[User Menu]
+Gebruikersmenu
 ;file \plugins\SeenPlugin\src\main.cpp
 ;file \plugins\SeenPlugin\src\menu.cpp
+[<none>]
+<geen>
 ;file \plugins\SeenPlugin\src\options.cpp
+[Contacts]
+Personen
+[Popups]
+Popups
 ;file \plugins\SeenPlugin\src\seen.h
+[seconds]
+seconden
+[Group]
+Groep
+[Status]
+Status
+[Protocol]
+Protocol
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
+[Idle]
+Rustig
+[Unknown]
+Onbekend

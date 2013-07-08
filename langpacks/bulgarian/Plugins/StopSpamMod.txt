@@ -44,3 +44,13 @@
 StopSpam: изпратете съобщение и отговорете на въпроса. /English: send a message and reply to a anti-spam bot question.
 [Congratulations! You just passed human/robot test. Now you can write me a message.]
 Поздравления! Преминахте теста. Вече можете да изпратите съобщението си. /English: You just passed human/robot test. Now you can write me a message.
+[Message Sessions]
+Разговори
+[General]
+Основни
+[Messages]
+Съобщения
+[Accounts]
+Акаунти
+[Advanced]
+Разширени

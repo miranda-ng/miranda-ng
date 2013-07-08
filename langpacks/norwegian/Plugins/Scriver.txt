@@ -8,14 +8,38 @@
 ;file \plugins\Scriver\res\resource.rc
 [Automatically pop up the window when]
 Automatisk sprett opp vinduet når
+[Cascade new windows]
+Kaskade nye vinduer
 [Save size and location for each contact]
 Lagre størrelse og plassering for hver kontakt
+[Send message on 'Enter']
+Send melding ved 'Enter'
+[Send message on double 'Enter']
+Send melding ved dobbel 'Enter'
+[Show warning when message has not been received after]
+Vis advarsel når meldingen ikke har blitt mottatt etter
+[seconds]
+sekunder
+[Tabs]
+Faner
 [Tabs at bottom]
 Faner på bunnen
 [Limit names on tabs to]
 Begrens navn på faner til
+[Show status bar]
+Vis statuslinje
+[Use the contact's status icon as the window icon]
+Bruk kontaktens status ikon som vindu ikon
+[Message Window Event Log]
+Meldingsvindu Hendelseslogg
 [Enable IEView]
 Aktiver IEView
+[Show icons]
+Vis ikoner
+[Show seconds]
+Vis sekunder
+[Show names]
+Vis navn
 [Mark follow-up msgs with timestamp]
 Marker følg-opp meldinger med tidspunkt
 [Start message text on a new line]
@@ -24,19 +48,163 @@ Begynn meldingstekst på en ny linje
 Rykk inn tekst
 [Typing Notification Options]
 Valg for Skrivevarsling
+[Send typing notifications to the following users when you are typing a message to them:]
+Sender skrivevarsel til følgende brukere når du skriver meldinger til dem:
+[Show typing notifications when a user is typing a message]
+Vis skrivevarsler når en bruker skriver en melding
 [Update message window icons when a user is typing]
 Oppdater meldingsvinduikoner når en bruker skriver
+[Show typing notification when no message dialog is open]
+Vis skrivevarsler når ingen samtaledialoger er åpne
+[Flash in the system tray and in the contact list]
+Blink i oppgavelinjen og i kontaktlisten
+[Show balloon popup]
+Vis ballong popup
+[Send Error]
+Sendefeil
+[An error has occured. The protocol reported the following error:]
+En feil har inntruffet. Protokollen rapporterte følgende feil:
+[while sending the following message:]
+under sending av følgende melding:
+[Try again]
+Forsøk igjen
+[Cancel]
+Avbryt
+[Message Session]
+Meldingsøkt
+[&U]
+&U
+[&D]
+&D
+[&H]
+&H
 [Send To All Tabs]
 Send Til Alle Faner
 [You are about to send a message to all open tabs.\nAre you sure ?]
 Du er i ferd med å sende en melding til alle åpne faner.\nEr du sikker?
 [Remember my choice for this container]
 Husk mitt valg for denne beholderen
+[Yes]
+Ja
+[No]
+Nei
+[Show these events only:]
+Vis bare følgende hendelser:
+[Actions]
+Handlinger
+[Messages]
+Meldinger
+[Nick changes]
+Kallenavnendringer
+[Users joining]
+Brukere som joiner
+[Users leaving]
+Brukere forlater
+[Topic changes]
+Overskriftforandringer
+[Status changes]
+Statusendringer
+[Information]
+Informasjon
+[Disconnects]
+Kobler fra
+[User kicks]
+Bruker kicker
+[Notices]
+Varsler
+[Options]
+Valg
+[Other]
+Annet
+[Add new rooms to group:]
+Legg til nye rom til gruppen
+[pixels]
+pixler
+[pixels]
+piksler
+[Log Options]
+Loggvalg
+[Your name]
+Ditt navn
+[Other name]
+Annet navn
+[Timestamp]
+Tidsmerknad
+[Log timestamp]
+Logg tidsstempel
+[Limit log text to (events):]
+Begrens loggtekst til (hendelser):
+[Enable highlighting]
+Aktiver fremheving
+[Words to highlight (wildcards allowed)]
+Ord som skal merkes (jokertegn er tillatt)
+[Location]
+Plassering
+[Use same style as in the message log]
+Bruk samme stil som i samtaleloggen
+[Use default colours]
+Bruk standardfarger
+[Use custom colours]
+Bruk selvvalgte farger
+[Text]
+Tekst
+[Background]
+Bakgrunn
+[Timeout (s)]
+Tidsutkobling (s)
+[OK]
+OK
+[Log]
+Logg
+[&Copy]
+&Kopier
+[Co&py All]
+Ko&pier Alt
+[Select &All]
+Velg &Alt
+[Word lookup]
+Ord oppslag
+[Google]
+Google
+[C&lear Log]
+K&larer Logg
+[&Copy link]
+&Kopier link
+[Message]
+Melding
+[Message]
+Melding
+[Undo]
+Omgjør
+[Redo]
+Gjør om
+[Cut]
+Klipp ut
+[Copy]
+Kopier
+[Copy]
+Kopier
+[Paste]
+Lim inn
+[Delete]
+Slett
+[Clear]
+Fjern:
+[List]
+Liste
+[&Message]
+&Skriv til
+[Clear lo&g]
+Fjern lo&gg
+[Co&py all]
+Ko&pier alt
 ;file \plugins\Scriver\src\globals.cpp
 [User's details]
 Brukerens detaljer
 [User's history]
 Brukerens historikk
+[Smiley button]
+Smiley knapp
 [User is typing]
 Brukeren skriver
 [Unicode is on]
@@ -49,29 +217,403 @@ Sender
 Siter knapp
 [Close button]
 Lukk knapp
+[Icon overlay]
+Ikonoverlapping
+[Incoming message (10x10)]
+Innkommende melding (10x10)
+[Outgoing message (10x10)]
+Utgående melding (10x10)
+[Notice (10x10)]
+Varsel (10x10)
+[Window Icon]
+Vindu Ikon
+[Text colour]
+Tekstfarge
+[Background colour]
+Bakgrunnsfarge
+[Background colour]
+Bakgrunnsfarge
+[Bold]
+Fet
+[Italics]
+Kursiver
+[Underlined]
+Understreket
+[Room history]
+Romhistorikk
+[Room settings]
+Rominnstillinger
+[Event filter disabled]
+Hendelsesfilter deaktivert
+[Event filter enabled]
+Hendelsesfilter aktivert
+[Hide userlist]
+Skjul brukerliste
+[Show userlist]
+Vis brukerliste
+[Status 1 (10x10)]
+Status 1 (10x10)
+[Status 2 (10x10)]
+Status 2 (10x10)
+[Status 3 (10x10)]
+Status 3 (10x10)
+[Status 4 (10x10)]
+Status 4 (10x10)
+[Status 5 (10x10)]
+Status 5 (10x10)
+[Status 6 (10x10)]
+Status 6 (10x10)
+[Message in (10x10)]
+Melding inn (10x10)
+[Message out (10x10)]
+Melding ut (10x10)
+[Action (10x10)]
+Handling (10x10)
+[Add Status (10x10)]
+Legg til Status (10x10)
+[Remove status (10x10)]
+Fjern status (10x10)
+[Join (10x10)]
+Join (10x10)
+[Leave (10x10)]
+Forlat (10x10)
+[Quit (10x10)]
+Avslutt (10x10)
+[Kick (10x10)]
+Kick (10x10)
+[Nickchange (10x10)]
+Kallenavnendring (10x10)
+[Topic (10x10)]
+Overskrift (10x10)
+[Highlight (10x10)]
+Markering (10x10)
+[Information (10x10)]
+Informasjon (10x10)
+[Group Chats]
+Gruppesamtaler
 ;file \plugins\Scriver\src\input.cpp
+[Messaging]
+Melding
 ;file \plugins\Scriver\src\msgdialog.cpp
+[Add Contact]
+Legg til Kontakt
+[User Menu]
+Brukermeny
+[User Details]
+Brukerdetaljer
+[History]
+Historikk
+[No word to look up]
+Ingen ord å slå opp
+[Add Contact Permanently to List]
+Legg til Kontakt Permanent til Listen
+[View User's Details]
+Se Brukerens Detaljer
+[View User's History]
+Se Brukerens Historikk
 [Quote Text]
 Siter Tekst
 [User Menu - %s]
 Brukermeny - %s
+[signed off (was %s)]
+koblet fra (var %s)
+[signed on (%s)]
+koblet på (%s)
+[is now %s (was %s)]
+er nå %s (var %s)
 [Sending in progress: %d message(s) left...]
 Sender: %s melding(er) igjen...
+[%s is typing a message...]
+%s skriver en melding...
+[Last message received on %s at %s.]
+Siste melding mottatt den %s kl. %s.
 ;file \plugins\Scriver\src\msglog.cpp
+[File sent]
+Fil sendt
+[File received]
+Fil mottatt
 ;file \plugins\Scriver\src\msgoptions.cpp
+[General]
+Generelt
+[Outgoing messages]
+Utgående meldinger
+[Incoming messages]
+Innkommende meldinger
+[Outgoing name]
+Utgående navn
+[Outgoing time]
+Utgående tid
+[Outgoing colon]
+Utgående kolonne
+[Incoming name]
+Innkommende navn
+[Incoming time]
+Innkommende tid
+[Incoming colon]
+Innkommende kolon
+[Message area]
+Samtaleområde
+[Outgoing URL]
+Utgående URL
+[Incoming URL]
+Innkommende URL
+[Others nicknames]
+Andres kallenavn
+[Your nickname]
+Ditt kallenavn
+[User has joined]
+Bruker har joinet
+[User has left]
+Bruker har forlatt
+[User has disconnected]
+Bruker har koblet fra
+[User kicked ...]
+Bruker kicket ...
+[User is now known as ...]
+Bruker er nå kjent som ...
+[Notice from user]
+Varsel fra bruker
+[Incoming message]
+Innkommende melding
+[Outgoing message]
+Utgående melding
+[The topic is ...]
+Overskriften er ...
+[Information messages]
+Informasjonsmeldinger
+[User enables status for ...]
+Bruker aktiverer status for ...
+[User disables status for ...]
+Bruker deaktiverer status for ...
+[Action message]
+Handlingsmelding
+[Highlighted message]
+Markert melding
+[Message typing area]
+Skriveområde for meldinger
 [Message background]
 Meldingsbakgrunn
+[User list members (away)]
+Brukerliste medlemmer (borte)
+[Offline]
+Frakoblet
+[Online]
+Pålogget
+[Away]
+Borte
+[NA]
+NA
+[Occupied]
+Opptatt
+[DND]
+Ikke forstyrr
+[Free for chat]
+Tilgjengelig for samtale
+[Invisible]
+Usynlig
+[Out to lunch]
+Ute til lunsj
+[On the phone]
+I Telefonen
+[** New contacts **]
+** Nye kontakter **
+[** Unknown contacts **]
+** Ukjente kontakter **
+[Show balloon popup (unsupported system)]
+Vis ballong popup (ustøttet system)
+[Message Sessions]
+Meldingsøkter
+[Typing Notify]
+Skrivevarsling
 ;file \plugins\Scriver\src\msgs.cpp
+[Message from %s]
+Melding fra %s
+[%s is typing a message]
+%s skriver en melding
+[Typing Notification]
+Skrivevarsling
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda kunne ikke laste inn den innebygde meldingsmodulen, riched20.dll mangler. Hvis du bruker Windows 95 eller WINE vennligst sørg for at du har riched20.dll installert. Trykk 'Ja' for å fortsette å laste Miranda.
+[Incoming (Focused Window)]
+Innkommende (Fokusert Vindu)
+[Incoming (Unfocused Window)]
+Innkommende (Ufokusert Vindu)
+[Incoming (New Session)]
+Innkommende (Ny Samtaleøkt)
+[Outgoing]
+Utgående
 ;file \plugins\Scriver\src\msgtimedout.cpp
+[An unknown error has occured.]
+En ukjent feil har inntruffet
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]
 Alltid På Topp
 ;file \plugins\Scriver\src\sendqueue.cpp
+[The message send timed out.]
+Meldingssendingen timet ut.
 ;file \plugins\Scriver\src\chat\clist.cpp
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\log.cpp
+[%s has joined]
+%s har joinet kanalen
+[You have joined %s]
+Du har joinet %s
+[%s has left]
+%s har forlatt kanalen
+[%s has disconnected]
+%s har koblet fra
+[%s is now known as %s]
+%s er nå kjent som %s
+[You are now known as %s]
+Du er nå kjent som %s
+[%s kicked %s]
+%s kicket %s
+[Notice from %s]
+Varsel fra %s
+[ (set by %s)]
+ (satt av %s)
 ;file \plugins\Scriver\src\chat\main.cpp
+[&Join]
+&Join
+[&Leave]
+&Forlat
 ;file \plugins\Scriver\src\chat\options.cpp
+[Prefix all events with a timestamp]
+Vis tidspunkt foran alle hendelser
+[Only prefix with timestamp if it has changed]
+Bare nevn ved tidspunkt hvis det har blitt forandret
+[Indent the second line of a message]
+Rykk inn andre linjen av en melding
+[Show topic changes]
+Vis overskriftsforandringer
+[Show users joining]
+Vis brukere som joiner
+[Show users disconnecting]
+Vis brukere som kobler fra
+[Show messages]
+Vis meldinger
+[Show actions]
+Vis handlinger
+[Show users leaving]
+Vis brukere som forlater
+[Show users being kicked]
+Vis brukere som kickes
+[Show notices]
+Vis varsler
+[Show users changing name]
+Vis brukere som forandrer navn
+[Show information messages]
+Vis informasjonsmeldinger
+[Show status changes of users]
+Vis statusforandringer til brukere
+[Show icons in tray only when the chat room is not active]
+Vis ikoner i oppgavelinje kun når samtalerommet ikke er aktivt
+[Show icon in tray for topic changes]
+Vis ikon i oppgavelinje for overskriftforandringer
+[Show icon in tray for users joining]
+Vis ikon i oppgavelinje for brukere som joiner
+[Show icon in tray for users disconnecting]
+Vis ikon i oppgavelinje for brukere som kobler fra
+[Show icon in tray for messages]
+Vis ikon i oppgavelinje for meldinger
+[Show icon in tray for actions]
+Vis ikon i oppgavelinje for handlinger
+[Show icon in tray for highlights]
+Vis ikon i oppgavelinje for høydepunkter
+[Show icon in tray for users leaving]
+Vis ikon i oppgavelinje for brukere som forlater
+[Show icon in tray for users kicking other user]
+Vis ikon i oppgavelinje for brukere som kicker annen bruker
+[Show icon in tray for notices ]
+Vis ikon i oppgavelinje for varsler
+[Show icon in tray for name changes]
+Vis ikon i oppgavelinje for navneforandringer
+[Show icon in tray for information messages]
+Vis ikon i oppgavelinje for informasjonsmeldinger
+[Show icon in tray for status changes]
+Vis ikon i oppgavelinje for statusforandringer
+[Icons to display in the tray]
+Ikoner å vise i oppgavelinjen
+[Select Folder]
+Velg Mapper
+[Popups]
+Popups
+[Popups]
+Popups
+[Group chats]
+Gruppesamtaler
+[Message is highlighted]
+Melding er markert
+[User has performed an action]
+Bruker har utført en handling
+[User has kicked some other user]
+Bruker har kicket en annen bruker
+[User's status was changed]
+Brukerens status ble endret
+[User has changed name]
+Bruker har endret navn
+[User has sent a notice]
+Bruker har sendt et varsel
+[The topic has been changed]
+Overskriften har blitt forandret
 ;file \plugins\Scriver\src\chat\services.cpp
 ;file \plugins\Scriver\src\chat\tools.cpp
+[%s wants your attention in %s]
+%s ønsker din oppmerksomhet i %s
+[%s speaks in %s]
+%s snakker i %s
+[%s has joined %s]
+%s har joinet %s
+[%s has left %s]
+%s har forlatt %s
+[%s kicked %s from %s]
+%s kicket %s fra %s
+[Topic change in %s]
+Overskriftsendring om %s
+[Information in %s]
+Informasjon i %s
+[%s says: %s]
+%s sier: %s
+[%s has left (%s)]
+%s har forlatt (%s)
+[%s has disconnected (%s)]
+%s har koblet fra (%s)
+[%s kicked %s (%s)]
+%s kicket %s (%s)
+[Notice from %s: %s]
+Varsel fra %s: %s
 ;file \plugins\Scriver\src\chat\window.cpp
+[Insert a smiley]
+Sett inn en smiley
+[Make the text bold (CTRL+B)]
+Gjør teksten fet (CTRL+B)
+[Make the text italicized (CTRL+I)]
+Gjør teksten kursiv (CTRL+I)
+[Make the text underlined (CTRL+U)]
+Gjør teksten understreket (CTRL+U)
+[Select a background color for the text (CTRL+L)]
+Velg en bakgrunnsfarge for teksten (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+Velg en forgrunnsfarge for teksten (CTRL+K)
+[Show the history (CTRL+H)]
+Vis historikken (CTRL+H)
+[Show/hide the nicklist (CTRL+N)]
+Vis/skjul kallenavnlisten (CTRL+N)
+[Control this room (CTRL+O)]
+Kontroller dette rommet (CTRL+O)
+[Enable/disable the event filter (CTRL+F)]
+Aktiver/deaktiver hendelsesfilteret (CTRL+F)
+[Nick name]
+Kallenavn
+[Unique id]
+Unik id
+[Status]
+Status
+[%s: Chat Room (%u user)]
+%s: Samtalerom (%u bruker)
+[%s: Chat Room (%u users)]
+%s: Samtalerom (%u brukere)
+[%s: Message Session]
+%s: Meldingsøkt
+[%s: Message Session (%u users)]
+%s: Meldingsøkt (%u brukere)

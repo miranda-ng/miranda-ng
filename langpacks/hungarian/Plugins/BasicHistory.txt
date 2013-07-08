@@ -6,14 +6,74 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 ;file \plugins\BasicHistory\res\BasicHistory.rc
+[Message History]
+üzenet Elõzmény
+[Show names]
+nevek mutatása
+[Show messages]
+Üzenetek megjelenítése
+[Name]
+Név
+[OK]
+OK
+[Cancel]
+Mégsem
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
+[View &History]
+&Elõzmény megtekintése
+[Incoming message]
+Bejövõ üzenet
+[Outgoing message]
+Kimenõ üzenet
+[History]
+Elõzmény
 ;file \plugins\BasicHistory\src\EventList.cpp
+[History for %s]
+Elõzmény ehhez: %s
+[System]
+Rendszer
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
+[Open in &new window]
+Megnyitás &új ablakban
+[&Open in existing window]
+Megnyitás létezõ ablakban
+[&Copy link]
+&Link másolása
+[Copy]
+Másol
+[Delete]
+Törlés
+[Delete Group]
+Csoport törlése
+[Options]
+Beállítások
+[Icons]
+Ikonok
+[Hotkeys]
+Gyorsbillentyûk
+[Error]
+Hiba
 ;file \plugins\BasicHistory\src\Options.cpp
+[Message]
+Üzenet
+[Link]
+Hivatkozás
+[Messages]
+Üzenetek
+[Searching]
+Keresés
+[Advanced]
+Haladó
+[Find]
+Keresés
 ;file \plugins\BasicHistory\src\Options.h
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 ;file \plugins\BasicHistory\src\Scheduler.cpp
+[Contacts]
+Partnerek
 ;file \plugins\BasicHistory\src\Searcher.cpp
+[Search]
+Keresés
 ;file \plugins\BasicHistory\src\TxtExport.cpp

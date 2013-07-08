@@ -6,12 +6,66 @@
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 ;file \plugins\YAMN\res\YAMN.rc
+[OK]
+OK
+[Description:]
+Omschr.:
+[Message]
+Bericht
+[Password:]
+Wachtwoord:
+[Port:]
+Poort:
+[Default]
+Standaard
+[Name:]
+Naam:
+[Options]
+Opties
+[Cancel]
+Annuleren
+[Offline]
+Offline
+[Away]
+Afwezig
+[Occupied]
+Bezet
+[DND]
+Niet storen
+[Free for chat]
+Beschikbaar voor gesprek
+[Invisible]
+Onzichtbaar
+[On the phone]
+Aan de telefoon
+[Out to lunch]
+Aan het lunchen
+[Background colour]
+Achtergrond kleur
+[Text colour]
+Tekst kleur
 ;file \plugins\YAMN\src\main.cpp
 ;file \plugins\YAMN\src\main.h
 ;file \plugins\YAMN\src\services.cpp
+[Nick]
+Bijnaam
 ;file \plugins\YAMN\src\browser\badconnect.cpp
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[Select All]
+Alles selecteren
+[Size]
+Grootte
 ;file \plugins\YAMN\src\mails\mime.cpp
 ;file \plugins\YAMN\src\proto\netlib.cpp
 ;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[Network]
+Netwerk
+[General]
+Algemeen
+[Plugins]
+Plugins
+[Popups]
+Popups
+[All Files]
+Alle bestanden

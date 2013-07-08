@@ -11,4 +11,6 @@
 ;file \protocols\Omegle\src\connection.cpp
 ;file \protocols\Omegle\src\constants.h
 ;file \protocols\Omegle\src\proto.cpp
+[Network]
+Netwerk
 ;file \protocols\Omegle\src\theme.cpp

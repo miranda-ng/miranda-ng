@@ -20,3 +20,5 @@
 [Auth State]
 Auth מצב
 ;file \plugins\AuthState\src\options.cpp
+[Icons]
+סמלים

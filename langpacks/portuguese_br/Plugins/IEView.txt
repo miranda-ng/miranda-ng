@@ -6,6 +6,24 @@
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 ;file \plugins\IEView\res\ieview.rc
+[Copy]
+Copiar
+[Copy]
+Copiar
+[Copy]
+Copiar
+[Select All]
+Selecionar Tudo
+[Select All]
+Selecionar Tudo
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
 [Enable support for Flash files in smileys and BBCodes]
 Ativar suporte para Arquivos Flash em smileys e BBCodes
 [Enable workaround for PNG transparency]
@@ -18,6 +36,8 @@ Ativar o suporte ao MathModule
 Substituir smileys no nome de usuários
 [Hide window border]
 Ocultar borda da janela
+[Size:]
+Tamanho:
 [Compatibility Mode]
 Modo de Compatibilidade
 [Use External CSS]
@@ -26,6 +46,10 @@ Usar CSS Externo
 Usar Modelos
 [Background image]
 Imagem de fundo
+[Scroll with text]
+Rolar com texto
+[Scroll with text]
+Rolar com texto
 [Template Options]
 Opções do Modelo
 [Use message grouping]
@@ -34,6 +58,10 @@ Usar o agrupamento de mensagens
 Usar mensagem de grupo
 [Show nicknames]
 Exibir apelidos
+[Show seconds]
+Mostrar segundos
+[Show seconds]
+Exibir segundos
 [Use long date format]
 Usar formato de data longo
 [Use long date format]
@@ -43,10 +71,62 @@ Usar marca horária relativa
 [Use relative timestamp]
 Usar marca horária relativa
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Incoming File Transfer]
+Recebimento de Transfrência de Arquivo
 ;file \plugins\IEView\src\HTMLBuilder.cpp
+[(Unknown Contact)]
+(Contato Desconhecido)
+[(Unknown Contact)]
+<desconhecido>
 ;file \plugins\IEView\src\IEView.cpp
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[Error]
+Erro
+[Error]
+Erro
 ;file \plugins\IEView\src\Options.cpp
+[General]
+Geral
+[General]
+Geral
+[General]
+Geral
+[Message Log]
+Reg. de Mensagem
+[Message Log]
+Reg. de Mensagem
+[Group Chats]
+Grupo Bate-papo
+[Group Chats]
+Grupos de Conversa
+[Group Chats]
+Grupos de Chats
+[History]
+Histórico
+[History]
+Histórico
+[History]
+Histórico
+[Default]
+Padrão
+[Default]
+Padrão
+[Default]
+Padrão
+[Default]
+Padrão
+[Message Sessions]
+Sessões de mensagem
+[All Files]
+Todos os Arquivos
+[All Files]
+Todos os arquivos
+[All Files]
+Todos os Arquivos
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+[File sent]
+Arquivo enviado
+[File received]
+Arquivo recebido
 ;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
 ;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

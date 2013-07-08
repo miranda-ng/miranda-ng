@@ -8,5 +8,51 @@
 ;file \plugins\BossKeyPlus\res\BossKey.rc
 [Disable Sounds]
 Desativar Sons
+[Password:]
+Senha:
+[Password:]
+Senha:
+[Password:]
+Senha:
+[Password:]
+Senha
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
 ;file \plugins\BossKeyPlus\src\Options.cpp
+[Events]
+Eventos
+[Events]
+Eventos
+[Events]
+Eventos
+[Events]
+Eventos
+[Events]
+Eventos
+[Advanced]
+Avançado
+[Advanced]
+Avançado

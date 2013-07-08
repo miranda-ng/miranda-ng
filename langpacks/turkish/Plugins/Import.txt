@@ -28,6 +28,12 @@ Daha sonra bu yardımcıyı yeniden kullanmak isterseniz Seçenekler/Eklentiler 
 Alınıyor...
 [Import Information Wizard]
 Bilgi Al Yardımcısı
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
 [Import all contacts and all messages]
 Tüm kişileri ve iletileri al
 [Only import contacts]
@@ -44,8 +50,20 @@ Yeni kişiler && gruplar
 Sistem geçmişi
 [Select items to import:]
 Alınacak ögeleri seçin:
+[Incoming]
+Alınan
+[Outgoing]
+Gönderilen
 [Only since:]
 Yalnız şu zamandan:
+[Messages]
+İletiler
+[URLs]
+Web adresleri
+[File Transfers]
+Dosya Aktarımları
+[Other]
+Diğer
 ;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 Kendine/Kendinden etkinlik yoksayıldı
@@ -91,6 +109,10 @@ Al işlemi %d saniyede tamamlandı.
 ;file \plugins\Import\src\miranda.cpp
 [The given file does not exist. Please check that you have entered the name correctly.]
 Belirttiğiniz dosya bulunamadı. Adını doğru yazdığınızdan emin olun.
+[All Files]
+Tüm Dosyalar
+[All Files]
+Tüm Dosyalar
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Çift grup %s atlandı

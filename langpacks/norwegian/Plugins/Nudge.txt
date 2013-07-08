@@ -6,6 +6,30 @@
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
 ;file \plugins\Nudge\res\resource.rc
+[Text]
+Tekst
+[Offline]
+Frakoblet
+[Online]
+Pålogget
+[Away]
+Borte
+[NA]
+NA
+[Occupied]
+Opptatt
+[DND]
+Ikke forstyrr
+[Free for chat]
+Tilgjengelig for samtale
+[Invisible]
+Usynlig
+[On the phone]
+I Telefonen
+[Out to lunch]
+Ute til lunsj
 ;file \plugins\Nudge\src\main.cpp
 ;file \plugins\Nudge\src\nudge.cpp
 ;file \plugins\Nudge\src\options.cpp
+[Events]
+Hendelser

@@ -6,16 +6,66 @@
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 ;file \plugins\TipperYM\res\resource.rc
+[Options]
+オプション
+[Window]
+ウィンドウ
+[OK]
+OK
+[Cancel]
+Cancel
+[Items]
+アイテム
+[Add]
+追加
+[Remove]
+削除
+[Edit]
+編集
+[Extra icons]
+追加アイコン
 [Enable SmileyAdd support]
 SmileyAdd サポートを有効
+[Effects]
+効果
 ;file \plugins\TipperYM\src\mir_smileys.cpp
 ;file \plugins\TipperYM\src\options.cpp
+[None]
+なし
+[Customize]
+カスタマイズ
 ;file \plugins\TipperYM\src\options.h
+[Status]
+ステータス
 [Client]
 クライアント
 ;file \plugins\TipperYM\src\popwin.cpp
+[%s (locked)]
+%s ( ロック中 )
+[Other]
+その他
 ;file \plugins\TipperYM\src\preset_items.cpp
+[Gender:]
+性別 :
+[Homepage:]
+Homepage:
+[Idle]
+アイドル
+[Name]
+名前
+[Name:]
+名前 :
+[Time:]
+時間 :
 ;file \plugins\TipperYM\src\skin_parser.cpp
 ;file \plugins\TipperYM\src\tipper.cpp
+[Background]
+背景
+[Dividers]
+境界線
 ;file \plugins\TipperYM\src\translations.cpp
+[Female]
+女性
+[Male]
+男性
 ;file \plugins\TipperYM\src\translations.h

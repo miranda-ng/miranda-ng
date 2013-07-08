@@ -7,4 +7,18 @@
 ;============================================================
 ;file \plugins\IgnoreState\res\ignore.rc
 ;file \plugins\IgnoreState\src\main.cpp
+[Messages]
+Meldinger
+[URL]
+URL
+[Files]
+Filer
+[User Online]
+Bruker Pålogget
+[You Were Added]
+Du Ble Lagt til
+[Typing Notify]
+Skrivevarsling
 ;file \plugins\IgnoreState\src\options.cpp
+[Icons]
+Ikoner

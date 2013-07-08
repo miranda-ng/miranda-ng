@@ -6,23 +6,75 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 ;file \plugins\BasicHistory\res\BasicHistory.rc
+[Message History]
+Historique des messages
 [Show event icons]
 Voir l'icône des évènements
+[Show names]
+Voir les noms
+[Show messages]
+Afficher les messages
+[hours]
+heures
 [External CSS file]
 Fichier CSS externe
+[Name]
+Nom
+[Cancel]
+Annuler
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
+[View &History]
+Voir l'&historique
+[Incoming message]
+Message reçu
+[Outgoing message]
+Message envoyé
 [Status change]
 Changement d'état
 [Find Next]
 &Suivant
 [Find Previous]
 Précédent
+[History]
+Historique
 ;file \plugins\BasicHistory\src\EventList.cpp
+[History for %s]
+Historique de %s
+[System]
+Système
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
+[Open in &new window]
+Ouvrir dans une nouvelle fenêtre
+[&Open in existing window]
+Ouvrir dans une fenêtre existante
+[&Copy link]
+&Copier le lien
+[Copy]
+Copier
+[Delete]
+Effacer
 [Reply &Quoted]
 Répondre en citant
+[Delete Group]
+Effacer un groupe
+[Fonts & Colors]
+Police et couleur
+[Icons]
+Icônes
+[Hotkeys]
+Raccourcis clavier
+[Error]
+Erreur
 ;file \plugins\BasicHistory\src\Options.cpp
+[Link]
+Lien
+[Searching]
+Recherche en cours...
+[Advanced]
+Avancé
+[Find]
+Chercher
 [Incoming events]
 Éléments reçus
 [Outgoing events]
@@ -34,4 +86,6 @@ Répondre en citant
 ;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
 "%s" non trouvé
+[Search]
+Recherche
 ;file \plugins\BasicHistory\src\TxtExport.cpp

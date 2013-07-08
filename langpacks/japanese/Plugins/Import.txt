@@ -28,6 +28,8 @@ Miranda NG データベースから
 インポート中...
 [Import Information Wizard]
 インポート情報ウィザード
+[Cancel]
+Cancel
 [Import all contacts and all messages]
 全てのコンタクトとメッセージをインポートする
 [Only import contacts]
@@ -44,8 +46,20 @@ Miranda NG データベースから
 システム履歴
 [Select items to import:]
 インポートする項目を選択 :
+[Incoming]
+着信
+[Outgoing]
+発信
 [Only since:]
 時期のみ :
+[Messages]
+メッセージ
+[URLs]
+URL
+[File Transfers]
+ファイル転送
+[Other]
+その他
 ;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 自分から / へのイベントを無視
@@ -93,6 +107,8 @@ Miranda NG データベースから
 与えられたファイル名が存在しません。正しく入力されたか確認してください
 [Miranda NG database]
 Miranda NG データベース
+[All Files]
+全てのファイル
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 複製した %s グループをスキップ中

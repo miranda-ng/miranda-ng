@@ -6,12 +6,64 @@
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 ;file \plugins\YAMN\res\YAMN.rc
+[OK]
+OK
+[Description:]
+Kirjeldus:
+[Copyright:]
+Kopeerimisõigused:
+[Message]
+Teade
+[Password:]
+Parool:
+[Port:]
+Port:
+[Name:]
+Nimi:
+[Options]
+Valikud
+[Cancel]
+Tühista
+[Offline]
+Väljas
+[Online]
+Sees
+[Away]
+Eemal
+[Occupied]
+Hõivatud
+[Free for chat]
+Vestluseks vaba
+[Invisible]
+Nähtamatu
+[On the phone]
+Telefonil
+[Out to lunch]
+Lõunastamas
+[Background colour]
+Taustavärv
+[Text colour]
+Teksti värv
 ;file \plugins\YAMN\src\main.cpp
 ;file \plugins\YAMN\src\main.h
 ;file \plugins\YAMN\src\services.cpp
 ;file \plugins\YAMN\src\browser\badconnect.cpp
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[Select All]
+Vali kõik
+[Size]
+Suurus
 ;file \plugins\YAMN\src\mails\mime.cpp
 ;file \plugins\YAMN\src\proto\netlib.cpp
 ;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[Network]
+Võrgustik
+[Accounts]
+Kontod
+[General]
+Üldine
+[Plugins]
+Pluginad
+[All Files]
+Kõik failid

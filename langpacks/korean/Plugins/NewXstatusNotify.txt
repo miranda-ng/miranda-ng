@@ -1,15 +1,53 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: xStatus notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 ;file \plugins\NewXstatusNotify\res\resource.rc
+[Online]
+온라인
+[Offline]
+오프라인
+[Invisible]
+오프라인으로 표시
+[Free for chat]
+대화 가능
+[Away]
+자리 비움
+[NA]
+응답없음
+[Occupied]
+다른 용무중
+[DND]
+수신 거부
+[Out to lunch]
+식사중
+[On the phone]
+전화중
+[Delete]
+삭제
+[Sounds]
+사운드
+[Background]
+배경
+[OK]
+확인
+[Cancel]
+취소
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Status]
+상태
+[** All contacts **]
+** 모든 대화 상대 **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 ;file \plugins\NewXstatusNotify\src\main.cpp
+[Contact]
+연락처
 ;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+모든 파일
 ;file \plugins\NewXstatusNotify\src\popup.h
 ;file \plugins\NewXstatusNotify\src\utils.cpp
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp

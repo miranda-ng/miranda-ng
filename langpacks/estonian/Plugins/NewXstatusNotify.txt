@@ -1,16 +1,64 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: xStatus notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 ;file \plugins\NewXstatusNotify\res\resource.rc
+[Online]
+Sees
+[Offline]
+Väljas
+[Invisible]
+Nähtamatu
+[Free for chat]
+Vestluseks vaba
+[Away]
+Eemal
+[NA]
+Pole kättesaadav
+[Occupied]
+Hõivatud
+[Out to lunch]
+Lõunastamas
+[On the phone]
+Telefonil
+[Delete]
+Kustuta
+[Sounds]
+Helid
+[Background]
+Taust
+[Text]
+Tekst
+[Reset]
+Algväärtusta
+[OK]
+OK
+[Cancel]
+Tühista
+[General]
+Üldine
+[Accounts]
+Kontod
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Status]
+Staatus
+[** All contacts **]
+** Kõik kontaktid **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 ;file \plugins\NewXstatusNotify\src\main.cpp
+[Contact]
+Kontakt
 ;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+Kõik failid
+[Protocol]
+Protokoll
 ;file \plugins\NewXstatusNotify\src\popup.h
 ;file \plugins\NewXstatusNotify\src\utils.cpp
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[<unknown>]
+<tundmatu>
 ;file \plugins\NewXstatusNotify\src\xstatus.h

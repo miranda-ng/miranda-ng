@@ -7,3 +7,5 @@
 ;============================================================
 ;file \plugins\SkypeStatusChange\res\SkypeStatusChange.rc
 ;file \plugins\SkypeStatusChange\src\options.cpp
+[Plugins]
+Pluginad

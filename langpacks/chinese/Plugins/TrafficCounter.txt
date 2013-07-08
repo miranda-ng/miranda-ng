@@ -8,6 +8,8 @@
 ;file \plugins\TrafficCounter\res\resource.rc
 [Selected totals]
 选定总数
+[Accounts]
+帐号
 [Clear statistics]
 清除统计
 [Notify me on every]
@@ -16,6 +18,8 @@
 KB
 [Popup timeout]
 弹出窗口超时
+[Custom]
+自定义
 [Show now]
 马上显示
 [Space between lines:]
@@ -33,6 +37,8 @@ KB
 当前在线
 [Total online]
 在线总计
+[General]
+常规
 [Draw frame as skin element]
 绘制框架类皮肤元素
 [Show tooltip in traffic window]
@@ -49,10 +55,14 @@ KB
 月
 [Year]
 年
+[Options]
+选项
 [Traffic counter]
 流量统计
 [Statistics]
 统计
+[Popups]
+弹出窗口
 ;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 字节
@@ -62,8 +72,14 @@ KB
 每小时
 [Period]
 时期
+[Incoming]
+传入
+[Outgoing]
+发送
 [Sum]
 总计
+[Online]
+在线
 [Now traffic statistics for selected accounts will be cleared.\nContinue?]
 现在选定帐号流量统计将被清除.\n继续?
 [Couldn't read statistics file]
@@ -71,6 +87,8 @@ KB
 [Traffic Counter]
 流量统计
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Font]
+字体
 [Show/Hide frame]
 显示/隐藏框架
 [Hide traffic window]

@@ -6,12 +6,58 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\JabberG\res\jabber.rc
+[OK]
+אישור
+[Cancel]
+ביטול
+[Type:]
+סוג:
 [User:]
 :משתמש
+[Password:]
+סיסמא:
+[Username:]
+שם משתמש:
+[Port:]
+יציאה:
+[Close]
+סגור
 [Command]
 פקודה
+[Complete]
+הושלם
+[Date of birth:]
+:תאריך לידה
+[Homepage:]
+דף בית:
+[Work]
+עבודה
+[Fax]
+פקס
+[Delete]
+מחק
+[Description:]
+תיאור:
 [Bookmarks]
 מועדפים
+[Add]
+הוסף
+[Nickname:]
+כינוי:
+[Remove]
+הסר
+[Edit]
+ערוך
+[URL]
+קישור
+[Messages]
+הודעות
+[Change %s Message]
+שנה הודעת %s
+[Closing in %d]
+סוגר תוך %d
+[Authorization Request]
+בקשת אישור
 ;file \protocols\JabberG\src\jabber.cpp
 ;file \protocols\JabberG\src\jabber.h
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
@@ -21,6 +67,20 @@
 ;file \protocols\JabberG\src\jabber_caps.cpp
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 ;file \protocols\JabberG\src\jabber_chat.cpp
+[None]
+ללא
+[Owner]
+בעלים
+[Online]
+מחובר
+[Away]
+לא נמצא
+[NA]
+לא זמין
+[DND]
+לא להפריע
+[Free for chat]
+פנוי לשיחה
 ;file \protocols\JabberG\src\jabber_console.cpp
 ;file \protocols\JabberG\src\jabber_disco.cpp
 ;file \protocols\JabberG\src\jabber_disco.h
@@ -29,26 +89,80 @@
 [Loading...]
 טוענים...
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Notes]
+הערות
 ;file \protocols\JabberG\src\jabber_iqid.cpp
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Request authorization]
+בקשת אישור
+[Grant authorization]
+הענק אישור
+[Revoke authorization]
+בקש אישור שנית
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
+[To]
+עבור
 ;file \protocols\JabberG\src\jabber_notes.cpp
 ;file \protocols\JabberG\src\jabber_opt.cpp
+[Messaging]
+הודעות
+[Other]
+אחר
+[General]
+כללי
+[Status changes]
+שינויי מצב
+[Connecting...]
+...מתחבר
+[Network]
+רשת
+[Advanced]
+מתקדם
 ;file \protocols\JabberG\src\jabber_password.cpp
 ;file \protocols\JabberG\src\jabber_privacy.cpp
+[<none>]
+<ללא>
 ;file \protocols\JabberG\src\jabber_proto.cpp
 ;file \protocols\JabberG\src\jabber_rc.cpp
+[Status]
+מצב
+[Invisible]
+בלתי נראה
+[Offline]
+לא מחובר
 ;file \protocols\JabberG\src\jabber_search.cpp
 ;file \protocols\JabberG\src\jabber_svc.cpp
 ;file \protocols\JabberG\src\jabber_thread.cpp
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Message]
+הודעה
+[<not specified>]
+<לא מוגדר>
+[Version]
+גרסה
+[System]
+מערכת
+[Yes]
+כן
+[No]
+לא
+[Copy]
+העתק
 [Photo]
 תמונה
 ;file \protocols\JabberG\src\jabber_util.cpp
+[Error]
+שגיאה
 ;file \protocols\JabberG\src\jabber_vcard.cpp
+[Male]
+זכר
+[Female]
+נקבה
+[Contacts]
+אנשי קשר
 ;file \protocols\JabberG\src\jabber_ws.cpp
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Neutral]

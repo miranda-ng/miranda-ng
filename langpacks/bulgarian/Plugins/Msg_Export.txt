@@ -10,6 +10,8 @@
 UTF8 за нови файлове
 [Append extra new line]
 Допълнителен ред
+[Help]
+Помощ
 [Export all history]
 Износ на история
 [Export directory]
@@ -24,6 +26,10 @@ UTF8 за нови файлове
 Разглеждане на файловете
 [Exporting old messages]
 Изнасяне на старите съобщение
+[&Find...]
+Търсене...
+[&Close]
+Затваряне
 [When filename changes]
 При промяна името на файл
 [Prompt for action]
@@ -34,11 +40,15 @@ UTF8 за нови файлове
 При изтриване на потребител
 [Delete file]
 Изтриване на файла
-[UserList]
-Списък с прякори
+[User &Details]
+Подробности за потребителя
 [Set to default filename]
 Стандартно име на файла
+[Copy]
+Копиране
 ;file \plugins\Msg_Export\src\FileViewer.cpp
+[Failed to create file]
+Грешка при създаването на файла
 ;file \plugins\Msg_Export\src\Glob.h
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
@@ -46,10 +56,20 @@ UTF8 за нови файлове
 ;file \plugins\Msg_Export\src\options.cpp
 [Max line width must be at least %d]
 Максималната ширина на ред трябва да е поне %d
+[File]
+Файл
+[Nick]
+Прякор
 [Select Destination Directory]
 Изберете директория
 [Export Protocols]
 Протоколи за изнасяне
+[History]
+История
+[General]
+Основни
 ;file \plugins\Msg_Export\src\utils.cpp
+[(Unknown Contact)]
+(Непознат контакт)
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Неуспешен опит за преименуване на файл\n\nот:\t%s\nна:\t%s\n\nГрешка: %s

@@ -2,13 +2,59 @@
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: GG
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: 
 ;============================================================
 ;file \protocols\Gadu-Gadu\res\resource.rc
+[Password:]
+Wachtwoord:
+[Options]
+Opties
+[You will need to reconnect for the changes you have made on this page to take effect.]
+U moet opnieuw verbinden om de wijzigingen die u gemaakt heeft op deze pagina in te laten gaan.
+[Port:]
+Poort:
+[First name:]
+Voornaam:
+[Last name:]
+Achternaam:
+[Nickname:]
+Bijnaam:
+[Gender:]
+Geslacht:
+[City:]
+Plaats:
+[Description:]
+Omschr.:
+[OK]
+OK
+[Cancel]
+Annuleren
+[&Close]
+Sluiten
+[&Send]
+Ver&sturen
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
 ;file \protocols\Gadu-Gadu\src\core.cpp
+[Unknown]
+Onbekend
+[Age:]
+Leeftijd:
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
+[Male]
+Man
+[Female]
+Vrouw
+[Network]
+Netwerk
+[General]
+Algemeen
+[Advanced]
+Geavanceerd
+[System tray icon]
+Systeemvak icoon
+[Ignore]
+Negeer
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
@@ -16,9 +62,13 @@
 ;file \protocols\Gadu-Gadu\src\icolib.cpp
 ;file \protocols\Gadu-Gadu\src\image.cpp
 ;file \protocols\Gadu-Gadu\src\import.cpp
+[All Files]
+Alle bestanden
 ;file \protocols\Gadu-Gadu\src\links.cpp
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 ;file \protocols\Gadu-Gadu\src\popups.cpp
+[Error]
+Fout
 ;file \protocols\Gadu-Gadu\src\services.cpp
 ;file \protocols\Gadu-Gadu\src\sessions.cpp
 ;file \protocols\Gadu-Gadu\src\token.cpp

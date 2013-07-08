@@ -6,5 +6,17 @@
 ;  Authors: Mataes, jarvis
 ;============================================================
 ;file \plugins\CSList\res\cslist.rc
+[Cancel]
+Annuleren
 ;file \plugins\CSList\src\cslist.cpp
+[Status]
+Status
+[Add]
+Toevoegen
+[Message]
+Bericht
 ;file \plugins\CSList\src\cslist.h
+[Clear]
+Opschonen
+[Set]
+Instellen

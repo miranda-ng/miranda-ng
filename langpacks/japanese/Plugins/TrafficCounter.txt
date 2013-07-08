@@ -6,6 +6,24 @@
 ;  Authors: Ghost, Mironych
 ;============================================================
 ;file \plugins\TrafficCounter\res\resource.rc
+[Accounts]
+アカウント
+[Custom]
+カスタム
 ;file \plugins\TrafficCounter\src\options.cpp
+[General]
+全般
+[Options]
+オプション
+[Popups]
+ポップアップ
 ;file \plugins\TrafficCounter\src\statistics.cpp
+[Incoming]
+着信
+[Outgoing]
+発信
+[Online]
+オンライン
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Font]
+フォント

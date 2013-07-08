@@ -6,7 +6,41 @@
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
 ;file \plugins\FloatingContacts\res\fltcnt.rc
+[pixels]
+képpont
+[pixels]
+pixel
+[seconds]
+mp.
+[Single click interface]
+Egykattintásos felület
+[Dim idle contacts]
+Inaktív partnerek halványítása
+[Background]
+Háttér
+[Stretch to width]
+Nyújtás a szélességhez
+[Stretch to height]
+Nyújtás a magassághoz
+[Tile horizontally]
+Osztás vízszintesen
+[Tile vertically]
+Osztás függõlegesen
+[Stretch proportionally]
+Nyújtás arányosan
 ;file \plugins\FloatingContacts\src\main.cpp
+[Standard contacts]
+Alapvetõ partnerek
+[Online contacts to whom you have a different visibility]
+Elérhetõ partnerek, akik eltérõen láthatnak
+[Offline contacts]
+Kilépett partnerek
+[Offline contacts to whom you have a different visibility]
+Kilépett partnerek, akik eltérõen láthatnak
+[Contacts which are 'not on list']
+Partnerek, akik 'nincsenek a listán'
 [Floating contacts]
 Lebegõ partnerek
 ;file \plugins\FloatingContacts\src\options.cpp
+[Contact List]
+Kapcsolati lista

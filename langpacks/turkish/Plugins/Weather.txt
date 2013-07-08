@@ -10,6 +10,12 @@
 Kısa Bilgi
 [Webpage]
 Web Sitesi
+[Close]
+Kapat
+[Options]
+Seçenekler
+[Options]
+Seçenekler
 [Update weather information on startup]
 Hava durumunu açılışta güncelle
 [Update weather information every]
@@ -42,6 +48,10 @@ m/sn
 mph
 [knots]
 knots
+[Visibility]
+Görünürlük
+[Visibility]
+Görüş
 [km]
 km
 [miles]
@@ -94,8 +104,26 @@ Diğer Seçenekler
 Varsayılan istasyon olarak seç
 [Disable automatic update for this station]
 Bu istasyon için kendiliğinden güncellemeyi kapat
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
 [Popup only when condition changes]
 Yalnız hava durumu değiştiğinde açılsın
+[Background colour]
+Art alan rengi
+[Background colour]
+Art alan rengi
+[Text colour]
+Yazı rengi
+[Text colour]
+Yazı rengi
+[Use Windows colours]
+Windows renklerini kullan
+[Use Windows colours]
+Windows renklerini kullan
 [Popup Actions]
 Açılan Pencere Eylemleri
 [Left Click]
@@ -104,12 +132,26 @@ Sol Tık
 Sağ Tık
 [Popup Delay]
 Açılan Pencere Gecikmesi
+[seconds]
+saniye
+[seconds]
+saniye
 [Popup Text]
 Açılan Pencere Yazısı
 [Popup Text]
 Açılır Pencere Yazısı
+[Default]
+Varsayılan
 [Updates]
 Güncellemeler
+[Alerts]
+Alarmlar
+[Alerts]
+Alarmlar
+[Contact List]
+Kişi Listesi
+[Contact List]
+Kişi Listesi
 [Brief Info Title]
 Kısa Bilgi Başlığı
 [Note Text]
@@ -120,6 +162,10 @@ Tüm Bilgiler
 Dış Günlük
 [More Variables]
 Diğer Değişkenler
+[Reset]
+Sıfırla
+[Reset]
+Sıfırla
 [Sunset]
 Günbatımı
 [Feel-like]
@@ -146,6 +192,8 @@ Mİranda dosya listesinden bir weather ini dosyası indirmek için buraya tıkla
 Yeni ini dosyasındaki veriyi belleğe yüklemek için buraya tıklayın
 [Add new weather station and close this dialog]
 Yeni istasyonu yükleyin ve bu pencereyi kapatın
+[City:]
+Şehir:
 [Open brief information]
 Kısa bilgileri aç
 [Open complete forecast]
@@ -248,6 +296,12 @@ Koddan şehir adını bul
 Weather INI bilgisi
 [View webpage]
 Web sayfasını göster
+[Text Files]
+Yazı Dosyaları
+[All Files]
+Tüm Dosyalar
+[All Files]
+Tüm Dosyalar
 ;file \plugins\Weather\src\weather_conv.cpp
 [mb]
 mb
@@ -271,6 +325,10 @@ Veri alınırken hata oldu: %s
 Hava Durumu HTTP bağlantıları
 ;file \plugins\Weather\src\weather_icons.cpp
 ;file \plugins\Weather\src\weather_info.cpp
+[Name:]
+Ad:
+[Name:]
+Ad:
 [Internal Name:]
 İç Ad:
 [INI Version:]
@@ -281,6 +339,14 @@ Dosya Adı:
 Öge Sayısı:
 [Memory Used:]
 Kullanılan Bellek:
+[bytes]
+bayt
+[bytes]
+bayt
+[Description:]
+Açıklama:
+[Description:]
+Açıklama:
 [Here is a list of custom variables that are currently available]
 Kullanabileceğiniz tüm özel değişkenlerin listesini burada görebilirsiniz
 ;file \plugins\Weather\src\weather_ini.cpp
@@ -292,6 +358,12 @@ Güncelleme veri dosyası bulunamadı. Lütfen plugins\\weather klasörünü den
 Tüm güncelleme verisi yeniden yüklendi.
 ;file \plugins\Weather\src\weather_mwin.cpp
 ;file \plugins\Weather\src\weather_opt.cpp
+[Network]
+Ağ
+[General]
+Genel
+[Popups]
+Açılır Pencereler
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\tşimdiki durum\n%d\tşimdiki tarih\n%e\tyoğuşma\n%f\thissedilen sıcaklık\n%h\tbugün en yüksek\n%i\trüzgar doğrultusu\n%l\tbugün en düşük\n%m\tnem\n%n\tistasyon adı\n%p\tbasınç\n%r\tgündoğumu\n%s\tistasyon kodu\n%t\tsıcaklık\n%u\tgüncelleme\n%v\tgörüş\n%w\trüzgar hızı\n%y\tgünbatımı
 [Weather Protocol Text Preview]
@@ -330,5 +402,7 @@ Hava Durumu Uyarıcı
 ;file \plugins\Weather\src\weather_userinfo.cpp
 [Current condition for %n]
 %n için şimdiki durum
+[Information]
+Bilgi
 [More Info]
 Diğer Bilgiler

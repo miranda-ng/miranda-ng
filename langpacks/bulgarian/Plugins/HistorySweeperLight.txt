@@ -16,3 +16,5 @@
 ;file \plugins\HistorySweeperLight\src\options.cpp
 [*** System History ***]
 *** История на системата ***
+[History]
+История

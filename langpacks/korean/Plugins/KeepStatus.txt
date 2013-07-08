@@ -6,7 +6,49 @@
 ;  Authors: P Boon
 ;============================================================
 ;file \Plugins\StatusPlugins\resource.rc
+[Close]
+닫기
+[Cancel]
+취소
+[OK]
+확인
+[Events]
+이벤트
+[Use %time% for the current time, %date% for the current date]
+현재 날짜로 %date%, 현재 시간으로 %time% 사용
+[Status]
+상태
+[Delete]
+삭제
+[seconds]
+초
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
+[Advanced]
+고급
 ;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+저는 %time% 이후부터 없었습니다.
+[Give it up, I'm not in!]
+단념하세요, 저는 자리에 없습니다!
+[Not right now.]
+당장은 안돼요.
+[Give a guy some peace, would ya?]
+조금만 기다려 주세요, 그러실꺼죠?
+[I'm a chatbot!]
+저는 자동 응답기랍니다.
+[Yep, I'm here.]
+네, 저 여기 있어요.
+[Nope, not here.]
+아니오, 여기 없어요.
+[I'm hiding from the mafia.]
+숨어있습니다.
+[That'll be the phone.]
+전화중이예요.
+[Mmm...food.]
+냠냠.. 식사중이예요.
+[idleeeeeeee]
+무작업 상태
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Closing in %d]
+%d 에서 닫는중

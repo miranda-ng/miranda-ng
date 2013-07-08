@@ -6,8 +6,20 @@
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 ;file \plugins\Sessions\res\Sessions.rc
+[Edit]
+ערוך
+[Delete]
+מחק
+[&Cancel]
+בטל
 [Del]
 מחק
+[OK]
+אישור
+[Cancel]
+ביטול
 ;file \plugins\Sessions\Src\Main.cpp
 ;file \plugins\Sessions\Src\Options.cpp
+[Message Sessions]
+חלון הודעות
 ;file \plugins\Sessions\Src\Utils.cpp

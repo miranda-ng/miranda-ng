@@ -6,12 +6,18 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MSN\res\msn.rc
+[Password:]
+Wachtwoord:
+[Nickname:]
+Bijnaam:
 [Send message font color/size info inside messages]
 Lettertype grootte/kleur informatie binnenin berichten versturen
 [Disable all contacts not included into my contact list]
 Alle personen niet in mijn lijst uitschakelen
 [Manage server groups]
 Server groepen beheren
+[Reset]
+Terugzetten
 [Server List Manager]
 Server lijst beheerder
 [Contact is included into your server list]
@@ -22,6 +28,16 @@ Toegestane (actieve) persoon
 Geblokkeerd persoon
 [Somebody included you in his/her server list]
 Iemand heeft u toegevoegd aan zijn/haar server lijst
+[Other]
+Ander
+[OK]
+OK
+[Cancel]
+Annuleren
+[&Cancel]
+Annuleren
+[Add]
+Toevoegen
 ;file \protocols\MSN\src\msn_chat.cpp
 ;file \protocols\MSN\src\msn_commands.cpp
 [Contact tried to open an audio conference (currently not supported)]
@@ -44,12 +60,18 @@ Hotmail van %s
 [You must be talking to start Netmeeting]
 U moet aan het praten zijn om Netmeeting te starten
 ;file \protocols\MSN\src\msn_misc.cpp
+[Error]
+Fout
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
+[Profile]
+Profiel
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 Het importeren van server groepen kan uw lijst layout wijzigen na de volgende login. Wilt u uw groepen uploaden naar de server?
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
 De wijzigingen die u heeft gemaakt vereisen dat u opnieuw verbinding maakt met het MSN Messenger netwerk voordat ze effect hebben
+[Network]
+Netwerk
 [Server list]
 Server lijst
 ;file \protocols\MSN\src\msn_p2p.cpp

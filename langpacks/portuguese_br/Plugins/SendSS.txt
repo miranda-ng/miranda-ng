@@ -6,6 +6,32 @@
 ;  Authors: Merlin
 ;============================================================
 ;file \plugins\SendScreenshotPlus\res\resource.rc
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[None]
+Nenhum
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [Ti&med capture]
 Captura temporizada
 [Time (secs) :]
@@ -24,6 +50,12 @@ Apagar depois de enviar
 &Capturar
 [&Capture]
 Capturar
+[&Close]
+&Fechar
+[Edit]
+Editar
+[Edit]
+Editar
 [C&lient Area]
 Área cliente
 [Caption :]
@@ -31,6 +63,12 @@ Título :
 [Size (HxW) :]
 Tamanho (AxL) :
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[An unknown error has occured.]
+Ocorreu um erro desconhecido.
+[Error]
+Erro
+[Error]
+Erro
 ;file \plugins\SendScreenshotPlus\src\CSend.h
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
@@ -39,6 +77,18 @@ Tamanho (AxL) :
 Não foi possível iniciar o plugin HTTP Server.
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
+[Yes]
+Sim
+[Yes]
+Sim
+[No]
+Não
+[No]
+Não
+[No]
+Não
+[Ignore]
+Ignorar
 ;file \plugins\SendScreenshotPlus\src\global.h
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Could not create main dialog.]
@@ -50,10 +100,28 @@ Enviar foto do desktop
 [Take a screenshot]
 Tirar foto da tela
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
+[Default]
+Padrão
+[Default]
+Padrão
+[Default]
+Padrão
+[Default]
+Padrão
+[Help]
+Ajuda
+[Apply]
+Aplicar
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&&Drop the target on the desired window.]
 Arraste&&Solte o alvo na janela deseja.
+[Window]
+Janela
+[E-mail]
+E-mail
+[Information]
+Informação
 [Select a target window.]
 Selecione uma janela primeiro.

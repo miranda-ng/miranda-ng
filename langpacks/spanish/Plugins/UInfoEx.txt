@@ -12,28 +12,76 @@ Editar Información de Contacto
 Origen
 [&Update]
 &Actualizar
+[Updating]
+Actualización
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Apply]
+Aplicar
+[Nick:]
+Nick:
 [Second name:]
 El segundo nombre:
+[Last name:]
+Apellido
+[Female]
+Hombre
+[Male]
+masculino
 [Language skills]
 Conocimiento de idiomas
+[Street:]
+Calle:
+[Postal code:]
+Código postal:
+[City:]
+Ciudad:
 [County/State:]
 Condado / Estado:
+[Country:]
+País:
 [Contact added to ContactList:]
 Contacto agregado a Lista de contactos:
 [Just from the beginning.]
 Sólo desde el principio.
 [Your contact's local time is:]
 Su contacto con la hora local es:
+[Timezone:]
+Zona horaria:
+[Company:]
+Empresa:
+[Department:]
+Departamento:
 [Office:]
 Oficina:
+[Position:]
+Posición:
 [Superior:]
 Superior:
 [Assistant:]
 Asistente:
+[Add Phone Number]
+Agregar Número de teléfono
 [Enter your phone number\nand don't worry about formating.]
 Ingrese su número de teléfono\ny no te preocupes por el formateo.
 [Enter a category for this number:]
 Escriba una categoría para este número:
+[Enter country, area code and phone number:]
+Introduzca el país, código de área y número de teléfono:
+[Enter country, area code and phone number:]
+Introduzca el país, código de área y número de teléfono:
+[Or enter a full international number:]
+O escriba un número internacional completo:
+[Or enter a full international number:]
+O escriba un número internacional completo:
+[Phone can receive SMS text messages]
+Teléfono puede recibir mensajes de texto SMS
+[Phone can receive SMS text messages]
+perfeccionar puede recibir mensajes de texto SMS
 [Add E-Mail]
 Agregar E-Mail
 [Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
@@ -62,6 +110,18 @@ Automáticamente copias de seguridad y mantener cumpleaños protocolo basado has
 Utilice la lista de ignorados
 [Birthday popup colours]
 colores cumpleaños emergente
+[Background colour]
+Color de fondo
+[Background colour]
+Colores de fondo
+[Text colour]
+Color del texto
+[Use Windows colours]
+Usar colores de Windows
+[Use default colours]
+Utilice los colores por defecto
+[Custom]
+Personalizado
 [Show reminder messages as popups (if reminder is enabled)]
 Mostrar mensajes de aviso como pop-ups (si está habilitado recordatorio)
 [Anniversary popup colours]
@@ -70,12 +130,16 @@ colores Aniversario emergente
 Vuelva a colocar los cuadros de diálogo progreso con pop-ups
 [Replace message boxes with popups]
 Vuelva a colocar las cajas de mensajes con pop-ups
+[Homepage:]
+Homepage:
 [Add Affiliation]
 Añadir Afiliación
 [Add Past]
 Añadir pasado
 [Add Interest]
 Añadir Interés
+[Delete]
+Eliminar
 [Anniversary Editor]
 Aniversario del Editor
 [Anniversary Editor\nAdd/Edit your anniversary here.]
@@ -100,6 +164,8 @@ edad media:
 día (s))
 [Popup this dialog on a contact's anniversary]
 Este cuadro de diálogo emergente en el aniversario de un contacto
+[Icons]
+Iconos
 [Check file version of default IconPack to prevent wrong icon display]
 Compruebe la versión del archivo Iconpack predeterminada para evitar mostrar un icono incorrecto
 [Display icons on each dialog button]
@@ -142,10 +208,14 @@ TreeView
 Adaptar las páginas propertysheet a modo de aerodinámica.
 [Importing...\nPlease wait!]
 Importación de ...\nPor favor, espere!
+[None]
+ninguno
 [MainMenu]
 Menú Principal
 [Cascade:]
 Cataratas:
+[Off]
+off
 [Ex-/Import items]
 elementos Ex-/Import
 [ContactMenu]
@@ -154,6 +224,8 @@ Contacto Menú
 AccountMenu
 [Extra Icons]
 Extraicons
+[Gender:]
+Género
 [Replace the following default icons:]
 Vuelva a colocar los iconos por defecto siguientes:
 [E-Mail]
@@ -162,6 +234,8 @@ E-Mail
 'Reiniciar' Mostrar el elemento de menú
 [Use Zodiac as default avatar]
 Uso del zodiaco como avatar por defecto
+[Age:]
+edad
 [Zodiac:]
 Signo del zodíaco:
 [Use global reminder settings.]
@@ -240,9 +314,13 @@ El tipo de plantilla de diálogo ya no es compatible
 Añadir un nuevo aniversario
 [Delete an existing anniversary]
 Eliminar un aniversario existentes
+[Unspecified]
+Sin especificar
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Edit E-Mail]
 Editar E-Mail
+[Edit Phone Number]
+Editar número de teléfono
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
 El número de teléfono debe comenzar con una + y consisten en\nnúmeros, espacios, paréntesis y guiones solamente.
 [Choose the item to display.]
@@ -257,12 +335,16 @@ Eliminar el elemento seleccionado.
 CRÍTICA: No se puede modificar un ingreso actual!\nEsto no debería ocurrir!
 [Do you really want to delete the current selected item?\n\t%s\n\t%s]
 ¿Estás seguro que quieres eliminar el elemento seleccionado en ese momento?\n\t%s\n\t%s
+[Other]
+Otros
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 [<Unspecified>]
 <Sin especificar>
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 ETA
+[Contact]
+Póngase en contacto con
 [Age/Nr.]
 Edad / n º.
 [Birthdays only]
@@ -274,6 +356,14 @@ recordatorio de movilidad reducida
 [Popup Anniversary list]
 Popup lista Aniversario
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+[Yes]
+Si
+[No]
+No
+[Ignore]
+Ignorar
+[Error]
+Error 
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [Protocol '%s' is offline]
 Protocolo '%s' no está en línea
@@ -291,12 +381,24 @@ No se pudo encontrar el protocolo de contacto. Tal vez no está activo!
 Ninguna página se han añadido. Cancelación de la creación de diálogo
 [Details dialog failed to be created. Returning error is %d.]
 Detalles de diálogo no pudo ser creado. Volviendo de error es %d.
+[General]
+General
+[General]
+General
 [Contact (private)]
 Contacto (privada)
 [Anniversaries]
 Aniversarios
+[Work]
+Trabajo
 [Contact (Work)]
 Contacto (Trabajo)
+[Profile]
+Perfil
+[Notes]
+Notas
+[Owner]
+Propietario
 [Upload ICQ Details]
 Subir ICQ Detalles
 [Upload failed]
@@ -313,6 +415,10 @@ Estado civil
 Exportación: Módulos
 [Export: Folder]
 Exportación: Carpeta
+[Default]
+por defecto
+[Default]
+Predeterminado
 [Details Infobar]
 Detalles barra de información
 [Phone Infobar]
@@ -327,10 +433,16 @@ Importar vCard
 Aniversario barra de información
 [Goto]
 Ir
+[Fax]
+Fax
 [Custom Phone]
 Teléfono personalizada
 [e-mail]
 E-Mail
+[Add]
+Agregar
+[Edit]
+Editar
 [Ex-/Import]
 Ex-/Import
 [Backup Birthday]
@@ -381,10 +493,14 @@ Advertencia: la versión de su Iconpack actual difiere de la UserInfoEx uno est�
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
 Ex-/Import contacto
+[User &Details]
+Usuario &detalles
 [&Export User Details]
 &Exportar Datos del usuario
 [&Import User Details]
 &Datos de importación de usuario
+[View/Change My &Details...]
+Ver/Cambiar mi &Detalles ...
 [Export all contacts]
 Exportar todos los contactos
 [Import all contacts]
@@ -402,6 +518,8 @@ Extendido UserInfo
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
 Mis notas:
+[About:]
+Acerca de:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid Description first!]
 Por favor, introduzca una descripción válida primero!
@@ -429,6 +547,12 @@ todo
 UserInfo (por defecto)
 [This is the reminder message]
 Este es el mensaje recordatorio
+[Contacts]
+Contactos
+[Advanced]
+Avanzada
+[Advanced]
+Avanzada
 [Details Dialog]
 Detalles de diálogo
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
@@ -450,7 +574,11 @@ Eliminar una entrada
 ¿Estás seguro que quieres eliminar esta entrada?
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+['(Unknown Contact)']
+'(Contacto desconocido)'
 ;file \plugins\UserInfoEx\src\svc_email.cpp
+[Send e-mail]
+Enviar por e-mail
 [Memory allocation error!]
 Error de asignación de memoria!
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
@@ -519,6 +647,8 @@ Importar los detalles del usuario de VCard
 El archivo seleccionado no es válido, XMLCard
 [The version of the XMLCard is not supported by UserInfoEx]
 La versión de la XMLCard no es compatible con UserInfoEx
+[Complete]
+Completa
 [Owner contact successfully imported.]
 contacto del propietario importado correctamente.
 [Selected XMLCard does not contain an owner contact!]

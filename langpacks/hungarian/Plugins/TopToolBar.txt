@@ -8,5 +8,11 @@
 ;file \plugins\TopToolBar\res\main.rc
 [Button width]
 Gomb szélesség
+[Set]
+Beállít
 ;file \plugins\TopToolBar\src\toolbar.cpp
+[Default]
+Alap
 ;file \plugins\TopToolBar\src\ttbopt.cpp
+[Contact List]
+Kapcsolati lista

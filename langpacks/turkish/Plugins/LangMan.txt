@@ -6,5 +6,21 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 ;file \plugins\LangMan\res\resource.rc
+[Author(s):]
+Yazarlar:
+[E-mail:]
+E-posta:
+[Date:]
+Tarih:
+[Please restart Miranda NG for your changes to take effect.]
+Değişikliklerin etkin olması için Miranda'yı yeniden başlatın.
 ;file \plugins\LangMan\src\main.cpp
 ;file \plugins\LangMan\src\options.cpp
+[Unknown]
+Bilinmeyen
+[File]
+Dosya
+[&Remove...]
+&Sil...
+[Customize]
+Kişiselleştir

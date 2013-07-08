@@ -12,6 +12,10 @@
 粘在一起
 [Use fixed width]
 使用固定宽度
+[pixels]
+像素
+[pixels]
+像素
 [Hide all contacts]
 隐藏所有联系人
 [Hide when a fulscreen app is active]
@@ -20,11 +24,39 @@
 置前
 [Bring to front every]
 置前每
+[seconds]
+秒
 [Hide when contact list is shown]
 联系人列表显示时隐藏
+[Single click interface]
+通过单击打开项目
+[Dim idle contacts]
+暗淡化闲置联系人
+[Background]
+背景
+[Stretch to width]
+拉伸至宽度
+[Stretch to height]
+拉伸至高度
+[Tile horizontally]
+横向平铺
+[Tile vertically]
+纵向平铺
+[Stretch proportionally]
+按比例拉伸
 [Opacity:]
 不透明度: 
 ;file \plugins\FloatingContacts\src\main.cpp
+[Standard contacts]
+标准联系人
+[Online contacts to whom you have a different visibility]
+与您有不同可见度的在线联系人
+[Offline contacts]
+离线联系人
+[Offline contacts to whom you have a different visibility]
+与您有不同可见度的离线联系人
+[Contacts which are 'not on list']
+ "不在列表" 中的联系人
 [Floating contacts]
 浮动联系人
 [Show all thumbs]
@@ -38,5 +70,7 @@
 ;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
 浮动联系人
+[Contact List]
+联系人列表
 [Main Features]
 主要功能

@@ -8,6 +8,14 @@
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Becenevem bállítása
+[Nickname:]
+Becenév
+[OK]
+OK
+[Cancel]
+Mégsem
+[General]
+Általános
 [RTL]
 RTL
 [Align text to right]
@@ -30,16 +38,20 @@ Bal:
 Jobb:
 [Custom size:]
 Egyedi méret:
+[pixels]
+képpont
+[pixels]
+pixel
 [Allow it to grow]
 Növekedhet
 [Use free space (under avatar) to other texts]
 Hely az avatár alatt a többi szöveg elõtt
+[seconds]
+mp.
 [Set My Status Message for All Status]
 Állapot üzenet beállítása minden állapothoz
 [Status Message:]
 Állapot üzenet:
-[Status popup]
-Állapot felugró
 [&Offline]
 &Kilépett
 [On&line]
@@ -60,26 +72,22 @@ El&foglalt
 &Telefonál
 [Out to &Lunch]
 Ebé&del
-[Context popup]
-Helyi menü
 [Set My Avatar...]
 Avatarom beállítása...
 [Set My Nickname...]
 Becenevem beállítása
 [Set My Status Message...]
 Állapot üzenetem beállítása...
-[Nick popup]
-Becenév felugró
-[Status message popup]
-Állapot üzenet felugró
-[Avatar popup]
-Avatár felugró
 ;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 <nincs állapot név>
 ;file \plugins\MyDetails\src\frame.cpp
+[Status]
+Állpot
 [My Details]
 Adataim
+[Background]
+Háttér
 [Show My Details]
 Részleteim megjelenítése
 [Set My Avatar for %s...]
@@ -97,4 +105,6 @@ Becenevem beállítása %s részére
 Állapot üzenetem beállítása %s részére
 [Show next protocol]
 Következõ protokoll mutatása
+[Contact List]
+Kapcsolati lista
 ;file \plugins\MyDetails\src\options.cpp

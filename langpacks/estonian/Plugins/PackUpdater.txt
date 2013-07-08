@@ -6,6 +6,10 @@
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
 ;file \plugins\PackUpdater\Res\Resource.rc
+[Cancel]
+Tühista
+[Text]
+Tekst
 ;file \plugins\PackUpdater\Src\Events.cpp
 ;file \plugins\PackUpdater\Src\Notifications.cpp
 ;file \plugins\PackUpdater\Src\Notifications.h

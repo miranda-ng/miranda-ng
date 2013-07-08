@@ -10,10 +10,16 @@
 Редактиране на бележка
 [Tags:]
 Тагове:
+[Cancel]
+Отказ
+[Type:]
+Тип:
 [User:]
 Потребител:
 [Domain/Server:]
 Сървър/Домейн:
+[Password:]
+Парола:
 [Resource:]
 Източник:
 [Register new user]
@@ -28,12 +34,16 @@
 Редактор на списъка с хора
 [Roster editor\nView and modify your server-side contact list.]
 Редактор на списъка с хора\nПрегледайте и променете списъка с хора на сървъра.
+[Username:]
+Потребител:
 [Priority:]
 Предимство:
 [Use hostname as resource]
 Името на хоста като източник
 [List of public servers]
 Публични сървъри
+[Port:]
+Порт:
 [Use SSL]
 Ползване на SSL
 [Use TLS]
@@ -42,6 +52,8 @@
 Премахване
 [Manually specify connection host]
 Ръчно задаване на хост
+[Host:]
+Хост:
 [User directory:]
 Директория на потребителя:
 [Language for human-readable resources:]
@@ -76,6 +88,8 @@ Jabber сървър:
 Отписване
 [Register with a new service...]
 Регистриране в нова услуга...
+[Close]
+Затваряне
 [Command]
 Команда
 [Jabber Form]
@@ -84,22 +98,52 @@ Jabber формуляр
 Инструкции:
 [Submit]
 Пращане
+[Complete]
+Завършен
 [Address1:]
 Адрес 1:
 [Address2:]
 Адрес 2:
+[City:]
+Град:
+[State:]
+Област:
 [ZIP:]
 Пощенски код:
+[Country:]
+Държава:
+[First name:]
+Име:
 [Middle:]
 Презиме:
+[Last name:]
+Фамилия:
+[Date of birth:]
+Рожден ден:
+[Gender:]
+Пол:
+[Homepage:]
+Страница:
+[Company:]
+Фирма:
+[Department:]
+Отдел:
+[E-mail:]
+Имейл:
+[Phone:]
+Телефон:
 [Jabber vCard: Add Email Address]
 Jabber vCard: Добавяне на имейл
 [Email address:]
 Имейл:
+[Work]
+Работа
 [Jabber vCard: Add Phone Number]
 Jabber vCard: Добавяне на телефон
 [Phone number:]
 Тел. номер:
+[Fax]
+Факс
 [Pager]
 Пейджър
 [Text/Messaging]
@@ -108,6 +152,10 @@ Jabber vCard: Добавяне на телефон
 Модем
 [Load]
 Зареди
+[Delete]
+Изтриване
+[Description:]
+Описание:
 [Current Password:]
 Текуща парола:
 [New Password:]
@@ -144,6 +192,8 @@ JID списък
 <room jid>\nИзпращане на покана за групов чат.
 [Other JID:]
 Друг JID:
+[Add]
+Добавяне
 [Invitation reason:]
 Причина за поканата:
 [Groupchat Invitation]
@@ -154,10 +204,16 @@ JID списък
 Поканени сте в конферентна стая от
 [with following reason:]
 със следната причина:
+[Nickname:]
+Прякор:
 [Jabber Bookmarks]
 Jabber отметки
 [Server side bookmarks\nStore conference rooms and web links on server.]
 Отметки на сървъра\nСъхранете конферентните стаи и хипервръзките си на сървъра.
+[Remove]
+Премахване
+[Edit]
+Редактиране
 [Bookmark Details]
 Подробности за отметката
 [Bookmark Type]
@@ -208,6 +264,8 @@ JID на стаята/URL:
 Тогава:
 [following stanza types:]
 следния тип събития:
+[Messages]
+Съобщения
 [Incoming presence]
 Входящо присъствие
 [Outgoing presence]
@@ -224,6 +282,10 @@ JID на стаята/URL:
 Преглед като списък
 [Node:]
 Възел:
+[Change %s Message]
+Промяна на текста "%s"
+[Closing in %d]
+Затваряне след %d
 [Account type:]
 Тип на акаунта:
 [Register account now]
@@ -252,6 +314,8 @@ JID на стаята/URL:
 Изход:
 [Slap:]
 Шамар:
+[Authorization Request]
+Молба за упълномощаване
 [HTTP Authorization\nAccept or reject incoming request]
 HTTP упълномощаване\nПриемете или отхвърлете запитването
 [Request was sent from JID:]
@@ -309,8 +373,12 @@ XML конзола
 [Enter the text you see]
 Въведете текста, който виждате
 ;file \protocols\JabberG\src\jabber_chat.cpp
+[None]
+Няма
 [Member]
 Член
+[Owner]
+Собственик
 [Visitor]
 Посетител
 [Participant]
@@ -371,6 +439,16 @@ XML конзола
 Копиране на темата
 [&Send presence]
 Изпращане на присъствие
+[Online]
+На линия
+[Away]
+Отсъстващ
+[NA]
+Недостъпен
+[DND]
+Не безпокойте
+[Free for chat]
+Готов за чат
 [&User details]
 Подробности за потребителя
 [Member &info]
@@ -475,6 +553,8 @@ Jabber грешка
 [Incoming groupchat invitation.]
 Входяща покана за групов чат.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Notes]
+Бележки
 [Agents list]
 Списък с агенти
 [Transports]
@@ -567,6 +647,12 @@ Jabber удостоверяване
 Премахване...
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Request authorization]
+Молба за упълномощаване
+[Grant authorization]
+Даване на пълномощно
+[Revoke authorization]
+Отнемане на пълномощното
 [Add to Bookmarks]
 Добавяне в отметките
 [Commands]
@@ -613,6 +699,8 @@ Jabber източник
 Най-голямо предимство (сървърът избира)
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
+[To]
+За
 [Both]
 И двамата
 ;file \protocols\JabberG\src\jabber_notes.cpp
@@ -629,6 +717,8 @@ Jabber източник
 [Incoming note]
 Входяща бележка
 ;file \protocols\JabberG\src\jabber_opt.cpp
+[Nauru]
+Науру
 [These changes will take effect the next time you connect to the Jabber network.]
 Промените ще бъдат осъществени при следващо свързване с мрежата Jabber.
 [Jabber Protocol Option]
@@ -645,6 +735,8 @@ Jabber източник
 Можете да промените паролата си само когато сте на линия
 [You must be online]
 Трябва да сте на линия
+[Messaging]
+Съобщения
 [Log chat state changes]
 Записване на промените в състоянието на чата
 [Log presence subscription state changes]
@@ -663,6 +755,8 @@ Jabber източник
 Изключване на SASL удостоверяването (за стари сървъри)
 [Enable stream compression (if possible)]
 Компресиране на потока (ако е възможно) - спестява трафик
+[Other]
+Друго
 [Enable remote controlling (from another resource of same JID only)]
 Включване на дистанционно управление (контролиране от отдалечен източник, за същия JID)
 [Show transport agents on contact list]
@@ -685,6 +779,8 @@ Jabber източник
 Показване на информация за операционната ви система в отговор на заявки за версията
 [Accept HTTP Authentication requests (XEP-0070)]
 Приемане на HTTP молби за удостоверяване (XEP-0070)
+[General]
+Основни
 [Autoaccept multiuser chat invitations]
 Автоматично приемане на покани за конференция
 [Automatically join bookmarks on login]
@@ -705,16 +801,24 @@ Jabber източник
 Промяна на ранг
 [Role changes]
 Промяна на роля
-[Filter history messages]
-Филтрирай старите съобщения
+[Status changes]
+Промяна на състояние
 [Nick Name]
 Прякор
+[Group]
+Група
 [Subscription]
 Пълномощно
 [Uploading...]
 Качване...
 [XML for MS Excel (UTF-8 encoded)]
 XML за MS Excel (кодиран с UTF-8)
+[Connecting...]
+Свързване...
+[Network]
+Мрежа
+[Advanced]
+Разширени
 [Public XMPP Network]
 Публична XMPP мрежа
 [Secure XMPP Network]
@@ -787,6 +891,8 @@ Vkontakte
 ** Упълномощаване: от **
 [** Subsription: none **]
 ** Упълномощаване: няма **
+[<none>]
+<няма>
 [allow ]
 позволяване
 [deny ]
@@ -857,8 +963,14 @@ Vkontakte
 Промяна на състояние
 [Choose the status and status message]
 Изберете състояние и текст
+[Status]
+Състояние
 [Do Not Disturb]
 Не безпокойте
+[Invisible]
+Невидим
+[Offline]
+Извън линия
 [Priority]
 Предимство
 [Change global status]
@@ -923,8 +1035,14 @@ Vkontakte
 [Sending registration information...]
 Изпращане на регистрационната информация...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Message]
+Съобщение
+[<not specified>]
+<неуточнено>
 [Software]
 Софтуер
+[Version]
+Версия
 [Idle since]
 Бездейства от
 [Client capabilities]
@@ -941,6 +1059,10 @@ Vkontakte
 Версия на Miranda NG
 [Unicode build]
 Unicode компилация
+[Yes]
+Да
+[No]
+Не
 [Alpha build]
 Alpha компилация
 [Debug build]
@@ -957,6 +1079,8 @@ Debug компилация
 Последно активен източник
 [Please switch online to see more details.]
 Моля, преминете на линия за повече подробности.
+[Copy]
+Копиране
 [Copy only this value]
 Копиране само на избраната стойност
 [format]
@@ -970,6 +1094,8 @@ Debug компилация
 [Photo]
 Снимка
 ;file \protocols\JabberG\src\jabber_util.cpp
+[Error]
+Грешка
 [Unknown error message]
 Непознато съобщение за грешка
 [Advanced Status]
@@ -979,12 +1105,18 @@ Debug компилация
 [Set activity...]
 Избор на дейност...
 ;file \protocols\JabberG\src\jabber_vcard.cpp
+[Male]
+Мъж
+[Female]
+Жена
 [Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
 Поддържат се само JPG, GIF и BMP изображения, по-малки от 40kB
 [Jabber vCard: Edit Email Address]
 Jabber vCard: Редактиране адреса на имейла
 [Jabber vCard: Edit Phone Number]
 Jabber vCard: Редактиране на телефонен номер
+[Contacts]
+Контакти
 ;file \protocols\JabberG\src\jabber_ws.cpp
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Afraid]

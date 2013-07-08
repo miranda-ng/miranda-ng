@@ -6,6 +6,30 @@
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
 ;file \plugins\Nudge\res\resource.rc
+[Text]
+Szöveg
+[Offline]
+Kilépett
+[Online]
+Elérhetõ
+[Away]
+Távol
+[NA]
+NA
+[Occupied]
+Elfoglalt
+[DND]
+Ne zavarjanak
+[Free for chat]
+Csevegésre kész
+[Invisible]
+Láthatatlan
+[On the phone]
+Telefonál
+[Out to lunch]
+Ebédel
 ;file \plugins\Nudge\src\main.cpp
 ;file \plugins\Nudge\src\nudge.cpp
 ;file \plugins\Nudge\src\options.cpp
+[Events]
+Események

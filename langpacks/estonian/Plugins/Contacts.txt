@@ -6,6 +6,24 @@
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
 ;file \plugins\ContactsPlus\res\contacts.rc
+[&Send]
+Saada
+[Cancel]
+Tühista
+[&Add]
+&Lisa
+[Close]
+Sulge
+[Try again]
+Proovi uuesti
+[User Details]
+Kasutaja detailid
 ;file \plugins\ContactsPlus\src\main.cpp
+[Contacts]
+Kontaktid
 ;file \plugins\ContactsPlus\src\receive.cpp
+[View User's Details]
+Vaata kasutaja detaile
+[View User's History]
+Vaata kasutaja ajalugu
 ;file \plugins\ContactsPlus\src\send.cpp

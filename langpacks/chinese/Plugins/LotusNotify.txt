@@ -13,6 +13,16 @@
 设置弹出提示颜色
 [Popup options]
 弹出窗口选项
+[Background]
+背景
+[Text]
+文本
 [min.]
 分钟
+[Password:]
+密码: 
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
+[Status]
+状态
+[Plugins]
+插件

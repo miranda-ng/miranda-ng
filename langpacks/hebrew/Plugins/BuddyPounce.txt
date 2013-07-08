@@ -6,7 +6,27 @@
 ;  Authors: Jonathan Gordon
 ;============================================================
 ;file \plugins\BuddyPounce\res\resource.rc
+[Cancel]
+ביטול
+[OK]
+אישור
+[Status]
+מצב
 ;file \plugins\BuddyPounce\src\dialog.cpp
+[Online]
+מחובר
+[Away]
+לא נמצא
+[NA]
+לא זמין
+[Occupied]
+עסוק
+[DND]
+לא להפריע
+[Invisible]
+בלתי נראה
 [From Offline]
 ממצב לא מחובר
 ;file \plugins\BuddyPounce\src\main.cpp
+[Message Sessions]
+חלון הודעות

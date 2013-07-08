@@ -9,4 +9,10 @@
 [Use windows colors]
 Цветове от Windows
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
+[File]
+Файл
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
+[Popups]
+РopUps
+[Popups]
+РopUps

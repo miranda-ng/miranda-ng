@@ -12,5 +12,35 @@ BossKey
 Disattiva suoni
 [Disable Sounds]
 Disattiva Suoni
+[Password:]
+Password:
+[Password:]
+Password:
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
 ;file \plugins\BossKeyPlus\src\Options.cpp
+[Events]
+Eventi
+[Events]
+Eventi
+[Events]
+Eventi
+[Advanced]
+Avanzate

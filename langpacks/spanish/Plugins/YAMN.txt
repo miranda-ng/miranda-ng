@@ -6,18 +6,88 @@
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 ;file \plugins\YAMN\res\YAMN.rc
+[OK]
+OK
+[Description:]
+Descripción:
+[Copyright:]
+Copyright:
+[Message]
+Mensaje
 [User Name:]
 Nombre de usuario:
+[Password:]
+Contraseña:
+[Port:]
+Puerto:
+[Default]
+por defecto
+[Default]
+Predeterminado
+[Name:]
+Nombre
+[Options]
+Opciones
+[Options]
+Opciones
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Offline]
+Offline
+[Online]
+En línea
+[Away]
+Alejado 
+[Occupied]
+Ocupado
+[DND]
+DND
+[Free for chat]
+Gratuito de chat
+[Invisible]
+Invisible
+[On the phone]
+En el teléfono
+[Out to lunch]
+A almorzar
+[Background colour]
+Color de fondo
+[Background colour]
+Colores de fondo
+[Text colour]
+Color del texto
 ;file \plugins\YAMN\src\main.cpp
 ;file \plugins\YAMN\src\main.h
 ;file \plugins\YAMN\src\services.cpp
+[Nick]
+Nick
 ;file \plugins\YAMN\src\browser\badconnect.cpp
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
 [Value]
 Valor
+[Select All]
+Seleccionar todo
+[Size]
+Tamaño
 ;file \plugins\YAMN\src\mails\mime.cpp
 ;file \plugins\YAMN\src\proto\netlib.cpp
 ;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 Desconectado
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[Network]
+Red
+[Network]
+red
+[Accounts]
+Cuentas
+[General]
+General
+[General]
+General
+[Plugins]
+Plugins
+[All Files]
+Todos los archivos

@@ -6,8 +6,32 @@
 ;  Authors: sss
 ;============================================================
 ;file \plugins\New_GPG\res\new_gpg.rc
+[OK]
+OK
+[Ignore]
+Mellõz
+[Cancel]
+Mégsem
+[Password:]
+Jelszó:
 ;file \plugins\New_GPG\src\init.cpp
 ;file \plugins\New_GPG\src\main.cpp
+[Name]
+Név
+[Accounts]
+Fiókok
+[Default]
+Alap
+[Error]
+Hiba
 ;file \plugins\New_GPG\src\messages.cpp
 ;file \plugins\New_GPG\src\options.cpp
+[Messages]
+Üzenetek
+[Advanced]
+Haladó
+[Contact]
+Kapcsolat
+[Protocol]
+Protokoll
 ;file \plugins\New_GPG\src\utilities.cpp

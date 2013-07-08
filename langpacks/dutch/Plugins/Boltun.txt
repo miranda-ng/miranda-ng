@@ -9,3 +9,5 @@
 [Reload]
 Herladen
 ;file \plugins\Boltun\src\boltun.h
+[All Files]
+Alle bestanden

@@ -6,6 +6,8 @@
 ;  Authors: Victor Pavlychko
 ;============================================================
 ;file \plugins\FavContacts\res\resource.rc
+[Customize]
+Персонализиране
 [Draw avatar border]
 Рамка на аватарите
 [px.]
@@ -22,5 +24,11 @@
 Многоколонно меню
 [Configure fonts and colors...]
 Настройване на цвят и шрифт...
+[Show]
+Показване
 ;file \plugins\FavContacts\src\favlist.h
 ;file \plugins\FavContacts\src\main.cpp
+[Background]
+Фон
+[Contacts]
+Контакти

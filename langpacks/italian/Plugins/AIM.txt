@@ -8,16 +8,56 @@
 ;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 Dettagli utente AIM
+[Password:]
+Password:
+[Password:]
+Password:
 [Advanced Options]
 Opzioni avanzate
 [Advanced Options]
 Opzioni avanzate
 [Advanced Options]
 Opzioni avanzate
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Reset]
+Reimposta
+[Reset]
+Reimposta
+[Reset]
+Resetta
+[Reset]
+Reimposta
 [Save Profile]
 Salva profilo
+[Idle]
+Inattivo
+[Idle]
+Inattivo
+[&Join]
+&Unisciti
+[&Cancel]
+&Annulla
+[E-mail]
+Email
 [Save Changes]
 Salva modifiche
+[&Deny]
+&Nega
+[Message]
+Messaggio
+[Message]
+Messaggio
+[Message]
+Messaggio
 ;file \protocols\AimOscar\src\avatars.cpp
 ;file \protocols\AimOscar\src\chat.cpp
 ;file \protocols\AimOscar\src\error.cpp
@@ -27,5 +67,19 @@ Salva modifiche
 ;file \protocols\AimOscar\src\proto.cpp
 ;file \protocols\AimOscar\src\server.cpp
 ;file \protocols\AimOscar\src\theme.cpp
+[Profile]
+Profilo
+[Profile]
+Profilo
+[Profile]
+Profilo
+[Bold]
+Grassetto
 ;file \protocols\AimOscar\src\ui.cpp
+[Network]
+Rete
+[Network]
+Rete
+[Network]
+Rete
 ;file \protocols\AimOscar\src\utility.cpp

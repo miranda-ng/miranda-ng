@@ -32,5 +32,11 @@ ToptoolBar - лентата с инструменти, в която может�
 Изтиване на бутона
 [Name: ]
 Име:
+[Set]
+Задай
 ;file \plugins\TopToolBar\src\toolbar.cpp
+[Default]
+Стандарт
 ;file \plugins\TopToolBar\src\ttbopt.cpp
+[Contact List]
+Списък с контакти

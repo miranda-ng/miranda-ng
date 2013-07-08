@@ -6,5 +6,13 @@
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 ;file \plugins\BossKeyPlus\res\BossKey.rc
+[Password:]
+Parool:
+[OK]
+OK
+[Cancel]
+Tühista
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
 ;file \plugins\BossKeyPlus\src\Options.cpp
+[Events]
+Sündmused

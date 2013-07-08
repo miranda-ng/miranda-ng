@@ -6,6 +6,20 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Alarms\res\resource.rc
+[Delete]
+Eliminar
+[Edit]
+Editar
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Description:]
+Descripción:
+[Actions]
+Acciones
 [Parameters:]
 Parámetros:
 [Speak]
@@ -14,9 +28,27 @@ Hablar
 Una vez
 [&Edit...]
 &Editar
+[&Delete]
+&Eliminar
+[&Options...]
+&Opciones ...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 ;file \plugins\Alarms\src\alarm_win.cpp
+[Background]
+Fondo
+[Background]
+Background
+[Window]
+Ventana
 ;file \plugins\Alarms\src\frame.cpp
+[Frames]
+Marcos
 ;file \plugins\Alarms\src\icons.cpp
 ;file \plugins\Alarms\src\options.cpp
+[Error]
+Error 
+[Events]
+Eventos
+[Events]
+Eventos

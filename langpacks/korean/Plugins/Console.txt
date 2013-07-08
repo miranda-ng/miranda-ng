@@ -9,3 +9,7 @@
 ;file \plugins\Console\src\Console.cpp
 [Console]
 콘솔
+[&Help]
+&H 도움말
+[All Files]
+모든 파일

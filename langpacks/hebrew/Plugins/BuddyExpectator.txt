@@ -6,9 +6,23 @@
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
+[Background]
+רקע
+[Text]
+טקסט
+[Default]
+ברירת מחדל
+[Custom]
+מותאם
+[sec]
+שניות
 [Notify always]
 הודע תמיד
 ;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
 [Hide contact]
 הסתר איש קשר
 ;file \plugins\BuddyExpectator\src\options.cpp
+[Contacts]
+אנשי קשר
+[Popups]
+פופ אפ

@@ -6,5 +6,17 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 ;file \plugins\LangMan\res\resource.rc
+[E-mail:]
+Email:
+[Date:]
+Data:
+[Date:]
+Data:
 ;file \plugins\LangMan\src\main.cpp
 ;file \plugins\LangMan\src\options.cpp
+[Unknown]
+Sconosciuta
+[Unknown]
+Sconosciuto
+[File]
+File

@@ -6,14 +6,74 @@
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 ;file \plugins\YAMN\res\YAMN.rc
+[OK]
+OK
+[Description:]
+説明 :
+[Copyright:]
+著作権 :
+[Message]
+メッセージ
 [User Name:]
 ユーザー名 :
+[Password:]
+パスワード :
+[Port:]
+ポート :
+[Default]
+デフォルト
+[Name:]
+名前 :
+[Options]
+オプション
+[Cancel]
+Cancel
+[Offline]
+オフライン
+[Online]
+オンライン
+[Away]
+離席中
+[Occupied]
+取り込み中
+[DND]
+邪魔しないで
+[Free for chat]
+チャット OK!
+[Invisible]
+不可視
+[On the phone]
+電話中
+[Out to lunch]
+昼食中
+[Background colour]
+背景色
+[Text colour]
+テキスト色
 ;file \plugins\YAMN\src\main.cpp
 ;file \plugins\YAMN\src\main.h
 ;file \plugins\YAMN\src\services.cpp
+[Nick]
+ニックネーム
 ;file \plugins\YAMN\src\browser\badconnect.cpp
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[Select All]
+全て選択
+[Size]
+サイズ
 ;file \plugins\YAMN\src\mails\mime.cpp
 ;file \plugins\YAMN\src\proto\netlib.cpp
 ;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[Network]
+ネットワーク
+[Accounts]
+アカウント
+[General]
+全般
+[Plugins]
+プラグイン
+[Popups]
+ポップアップ
+[All Files]
+全てのファイル

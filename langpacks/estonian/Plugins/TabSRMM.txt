@@ -6,7 +6,69 @@
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 ;file \plugins\TabSRMM\res\chat.rc
+[OK]
+OK
+[Cancel]
+Tühista
+[Actions]
+Tegevused
+[Messages]
+Teated
+[Information]
+Info
+[Notices]
+Teavitused
+[Options]
+Valikud
+[Enable logging to disk]
+Võimalda kettale logimine
+[Log directory]
+Logimise kataloog
+[Your name]
+Sinu nimi
+[List]
+Nimekiri
+[&Message]
+Teade
+[Clear lo&g]
+Puhasta logi
+[Co&py all]
+Kopeeri kõik
+[Google]
+Google
+[Wikipedia]
+Wikipedia
+[Link]
+Link
+[&Copy link]
+Kopeeri link
+[Message]
+Teade
+[Undo  ]
+Ennista 
+[Copy]
+Kopeeri
+[Cut]
+Lõika
+[Paste]
+Pane
+[Select All]
+Vali kõik
+[Clear]
+Puhasta
+[&Close tab]
+Sulge sakk
 ;file \plugins\TabSRMM\res\resource.rc
+[seconds]
+sekundit
+[Text]
+Tekst
+[Background]
+Taust
+[Group chats]
+Grupivestlused
+[Events]
+Sündmused
 [Hide the status bar]
 Peida olekuriba
 [Hide the menu bar]
@@ -17,31 +79,79 @@ Peida tööriistariba
 Kuva infopaneel
 [Hide title bar]
 Peida tiitelriba
+[Apply]
+Rakenda
 [Message window options]
 Teadeteakna valikud
 [Left/Right]
 Vasak/parem
+[Load History Events]
+Laadi ajaloo seaded
+[Load unread events only]
+Laadi ainult lugemata sündmused
+[minutes old]
+minutit vana
+[Typing Notification]
+Trükkimisest teavitamine
+[Show typing notification when no message dialog is open]
+Kuva trükkimise teavitus, kui teateaken ei ole avatud
 [Tab options]
 Sakkide valikud
 [Miscellaneous options]
 Muud valikud
+[Delete]
+Kustuta
+[Rename]
+Nimeta ümber
+[Reset]
+Algväärtusta
 [Insert Separator]
 Lisa eraldaja
+[milliseconds]
+millisekundit
+[Close]
+Sulge
+[Icons]
+Ikoonid
 [Support BBCODE]
 Toeta BBCODE
+[Yes]
+Jah
+[No]
+Ei
+[&Copy]
+Kopeeri
+[Co&py All]
+Kopeeri kõik
+[Select &All]
+Vali &kõik
+[Open in &new window]
+Ava uues aknas
+[&Open in existing window]
+Ava olemas olevas aknas
 [Leave Chat Room]
 Lahku jututoast
 [Show Contact Picture]
 Kuva kontakti pilt
+[Global]
+Globaalne
 [BBCode]
 BBCode
 [Global Setting]
 Globaalsed seaded
 [Favorites]
 Lemmikud
+[Font]
+Font
+[&File]
+&Fail
 [Show Tool Bar]
 Kuva tööriistariba
+[Help]
+Spikker
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
+[View User's History]
+Vaata kasutaja ajalugu
 ;file \plugins\TabSRMM\src\container.cpp
 ;file \plugins\TabSRMM\src\containeroptions.cpp
 ;file \plugins\TabSRMM\src\controls.cpp
@@ -50,6 +160,12 @@ Kuva tööriistariba
 Uued teated: 
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 ;file \plugins\TabSRMM\src\globals.cpp
+[Outgoing]
+Väljuv
+[Other]
+Muu
+[Message from %s]
+Teade %s'lt
 ;file \plugins\TabSRMM\src\hotkeyhandler.cpp
 ;file \plugins\TabSRMM\src\infopanel.cpp
 ;file \plugins\TabSRMM\src\mim.cpp
@@ -66,16 +182,42 @@ Viga sihtkataloogi loomisel
 Salvesta kontatki pilt
 [The file exists. Do you want to overwrite it?]
 Fail eksisteerib. Kas soovid üle kirjutada?
+['(Unknown Contact)']
+'(Tundmatu kontakt)'
 ;file \plugins\TabSRMM\src\msglog.cpp
 ;file \plugins\TabSRMM\src\msgoptions.cpp
+[** New contacts **]
+** Uued kontaktid **
+[** Unknown contacts **]
+** Tundmatud kontaktid **
+[General]
+Üldine
+[Typing Notify]
+Trükkimise teavitus
 ;file \plugins\TabSRMM\src\msgs.cpp
 [Save and close]
 Salvesta ja sulge
 [Font color]
 Fondi värv
+[Background colour]
+Taustavärv
+[Room settings]
+Jututoa seaded
+[Incoming message]
+Sisenev teade
+[Outgoing message]
+Väljundteade
+[Message Log]
+Teadete logi
 ;file \plugins\TabSRMM\src\msgs.h
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
+[Error]
+Viga
 ;file \plugins\TabSRMM\src\sendlater.cpp
+[Contact]
+Kontakt
+[Status]
+Staatus
 ;file \plugins\TabSRMM\src\sendqueue.cpp
 ;file \plugins\TabSRMM\src\sidebar.cpp
 ;file \plugins\TabSRMM\src\srmm.cpp
@@ -86,6 +228,12 @@ Fondi värv
 [Change skin]
 Muuda nahk
 ;file \plugins\TabSRMM\src\translator.cpp
+[Send message on 'Enter']
+Saada teade 'Enter' vajutamisel
+[Send message on double 'Enter']
+Saada teade topelt 'Enter' vajutamisel
+[Close the message window on send]
+Sulge teate aken peale saatmist
 ;file \plugins\TabSRMM\src\trayicon.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [Enable &typing notification]
@@ -105,8 +253,34 @@ Alati väljas
 ;file \plugins\TabSRMM\src\chat\log.cpp
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 ;file \plugins\TabSRMM\src\chat\options.cpp
+[Timestamp]
+Ajatempel
+[Your nickname]
+Sinu hüüdnimi
+[User has joined]
+Kasutas ühines
+[User has left]
+Kasutaja lahkus
 [* Error and warning Messages]
 * Vea- ja hoiatusteated
+[Protocol]
+Protokoll
+[Appearance and functionality of chat room windows]
+Jututoa akende välisilme ja funktsionaalsus
+[Appearance of the message log]
+Teadete logi välisilme
+[All Files]
+Kõik failid
+[Select Folder]
+Vali kaust
 ;file \plugins\TabSRMM\src\chat\services.cpp
+[&Join]
+&Ühine
+[&Leave]
+Lahku
 ;file \plugins\TabSRMM\src\chat\tools.cpp
 ;file \plugins\TabSRMM\src\chat\window.cpp
+[Nick name]
+Hüüdnimi
+[Unique id]
+Unikaalne id

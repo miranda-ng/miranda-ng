@@ -9,6 +9,48 @@
 ;file \plugins\LotusNotify\res\LotusNotify.rc
 [Show error messages]
 Mostra messaggi di errore
+[Background]
+Altro
+[Background]
+Sfondo
+[Background]
+Sfondo
+[Background]
+Altro
+[Background]
+Sfondo
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
 [min.]
 min.
+[Password:]
+Password:
+[Password:]
+Password:
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Plugins]
+Plugin
+[Plugins]
+Plugin
+[Plugins]
+Plugin
+[Plugins]
+Plugin

@@ -6,6 +6,10 @@
 ;  Authors: Miranda team
 ;============================================================
 ;file \protocols\IRCG\res\IRC.rc
+[&Add]
+&הוסף
+[&Edit]
+ערוך&
 [only while connecting]
 רק אם אני מחובר
 [Rejoin channel if kicked]
@@ -20,46 +24,94 @@
 כתובת אינטרנט
 [Port range]
 טווח פורטים
+[Nick]
+כינוי
 [User ID (Ident)]
 מזהה משתמש
 [Server name]
 שם שרת
 [Alternative nick]
 כינוי חלופי
+[System]
+מערכת
 [Default network]
 רשת ברירת מחדל
 [User info - Required]
 אינפ' משתמש - נדרשת
+[Other]
+אחר
 [Reconnect]
 התחברות מחדש
 [Wait (s)]
 המתן (s)
+[Version]
+גרסה
 [&Refresh]
 &רענן
+[&Close]
+סגור
+[Name]
+שם
+[&OK]
+&אישור
+[&Cancel]
+בטל
 [Add server]
 הוסף שרת
+[On]
+פועל
+[Off]
+כבוי
+[Network]
+רשת
 [Channels on server]
 ערוצים בשרת
+[&Join]
+הצטרף
 [C&onnect]
 התחבר
 [Secret]
 חשאי
+[&Deny]
+&דחה
+[Messages]
+הודעות
+[Password:]
+סיסמא:
 ;file \protocols\IRCG\src\clist.cpp
 ;file \protocols\IRCG\src\commandmonitor.cpp
 [Change nickname]
 שנה כינוי
+[Unknown]
+לא ידוע
+[Ignore]
+התעלם
 ;file \protocols\IRCG\src\input.cpp
 [Input command]
 הכנסת פקודה
 ;file \protocols\IRCG\src\irclib.cpp
 ;file \protocols\IRCG\src\ircproto.cpp
+[Information]
+מידע
 ;file \protocols\IRCG\src\options.cpp
+[Add]
+הוסף
+[Apply]
+החל
+[Rename]
+שנה שם
+[Edit]
+ערוך
+[Cancel]
+ביטול
 [Channel list]
 רשימת הערוצים
 [Quick connect]
 התחברות מהירה
 [Show channel]
 הראה ערוץ
+[Advanced]
+מתקדם
 ;file \protocols\IRCG\src\output.cpp
 [%s invites you to %s]
 %s מזמין אותך ל %s
@@ -75,6 +127,8 @@
 [Kick]
 בעט
 ;file \protocols\IRCG\src\tools.cpp
+[Offline]
+לא מחובר
 ;file \protocols\IRCG\src\userinfo.cpp
 ;file \protocols\IRCG\src\windows.cpp
 [Channel]

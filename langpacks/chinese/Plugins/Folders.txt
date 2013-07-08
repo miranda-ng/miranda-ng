@@ -8,12 +8,16 @@
 ;file \plugins\Folders\res\folders.rc
 [Custom folders]
 自定义文件夹
+[Edit]
+编辑
 [Refresh preview]
 刷新预览
 [Variables help]
 变量说明
 [Custom folders variables help]
 自定义文件夹变量说明
+[Close]
+关闭
 ;file \plugins\Folders\src\dlg_handlers.cpp
 [Some changes weren't saved. Apply the changes now ?]
 某些变更尚未保存. 现在要应用变更吗? 
@@ -21,3 +25,5 @@
 变更尚未保存
 [Folders]
 文件夹
+[Customize]
+自定义

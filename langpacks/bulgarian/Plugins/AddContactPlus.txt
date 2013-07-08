@@ -3,12 +3,34 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Biaіek
+;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
 ;file \plugins\AddContactPlus\res\resource.rc
+[Add Contact]
+Добавяне на контакт
+[Custom name:]
+Избор на име:
+[Group:]
+Група:
+[Options]
+Настройки
 [Add temporarily]
 Добави временно
+[Send "You were added"]
+Изпращане на съобщение "Вие бяхте добавен(а)"
+[Send authorization request]
+Изпрати молба за упълномощаване
+[Authorization Request]
+Молба за упълномощаване
+[&Add]
+Добавяне
+[&Cancel]
+Отказ
 ;file \plugins\AddContactPlus\src\addcontact.cpp
+[Please authorize my request and add me to your contact list.]
+Моля, приемете моята молба за упълномощаване и ме добавете в списъка си с контакти.
+[None]
+Няма
 ;file \plugins\AddContactPlus\src\main.cpp
 [AddContact+]
 AddContact+

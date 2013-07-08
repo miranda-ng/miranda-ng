@@ -6,9 +6,23 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 ;file \plugins\AutoShutdown\res\resource.rc
+[seconds]
+sekundit
+[OK]
+OK
+[Cancel]
+Tühista
 ;file \plugins\AutoShutdown\src\frame.cpp
+[Background]
+Taust
 ;file \plugins\AutoShutdown\src\main.cpp
 ;file \plugins\AutoShutdown\src\options.cpp
+[Events]
+Sündmused
 ;file \plugins\AutoShutdown\src\settingsdlg.cpp
 ;file \plugins\AutoShutdown\src\shutdownsvc.cpp
+[Unknown]
+Tundmatu
+[Alerts]
+Alarmid
 ;file \plugins\AutoShutdown\src\utils.cpp

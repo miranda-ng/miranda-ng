@@ -8,6 +8,34 @@
 ;file \plugins\Clist_nicer\res\resource.rc
 [About CList Nicer+]
 关于 CList Nicer+
+[OK]
+确定
+[Version]
+版本
+[Delete Contact]
+删除联系人
+[No]
+否
+[Yes]
+是
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+仅从列表中隐藏, 保留联系人历史及忽略/可见性设置
+[Are you sure you want to delete %s?]
+您确定要删除 %s? 
+[This will erase all history and settings for this contact!]
+此操作将删除联系人所有历史及相关设置! 
+[Contact List]
+联系人列表
+[Hide offline users]
+隐藏离线用户
+[Hide empty groups]
+隐藏空群组
+[Disable groups]
+禁用群组
+[Ask before deleting contacts]
+删除联系人前先询问
+[Disable icon blinking]
+禁用图标闪动
 [Apply last active view mode ]
 应用最后使用的查看模式
 [Contact list layout]
@@ -16,18 +44,46 @@
 显示菜单及状态按钮
 [Draw sunken edge]
 绘制凹陷边缘
+[System tray icon]
+系统托盘图标
+[Single click interface]
+通过单击打开项目
+[Always show status in tooltip]
+始终在工具提示中显示状态
 [Event area]
 事件区域
 [Set base visiblity on the frames menu]
 在框架菜单里设置基本可见性
 [Auto mode]
 自动模式
+[System tray icon when using multiple protocols]
+当使用多重协议时的系统托盘图标
+[Show]
+状态不同时显示
+[icon when statuses differ]
+图标
+[Cycle icons every]
+状态不同时每
+[seconds, when statuses differ]
+秒循环图标
+[Show multiple icons]
+显示多个图标
+[Only when statuses differ]
+仅在状态不同时
 [Do not show system tray icon tooltips on mouse over]
 不要在鼠标经过系统托盘时显示工具提示
+[Groups]
+群组
+[Draw a line alongside group names]
+群组名称之间画线
 [Show number of contacts in a group]
 显示群组中联系人数量
 [Hide numbers when all offline]
 当全部离线时隐藏数量
+[Sort groups alphabetically]
+群组按字母排序
+[Quicksearch in open groups only]
+仅在打开的群组内快速搜索
 [No expand/collapse icon]
 无展开/折叠图标
 [Center groupnames horizontally]
@@ -40,10 +96,14 @@
 最小行高: 
 [Group row height]
 群组行高
+[Indent groups by:]
+缩排群组: 
 [Inner Row vertical padding]
 内部行垂直补位
 [Margins and spacing]
 边界及间距
+[Contact List Sorting]
+联系人列表排序
 [First by]
 首先是
 [Then by]
@@ -80,6 +140,8 @@
 显示联系人本地时间
 [Only when timezone differs]
 仅在时区不同时
+[Icons]
+图标
 [Show status icons]
 显示状态图标
 [Centered when possible]
@@ -90,10 +152,40 @@
 使用中继联系人协议图标取代子联系人
 [Use Overlay icons on avatars]
 在头像使用层叠图标
+[Dim idle contacts]
+暗淡化闲置联系人
 [Replace status icons with xStatus]
 以扩展状态替换状态图标
+[Window]
+窗口
+[Always on top]
+始终置顶
+[Show menu bar]
+显示菜单栏
+[Easy move]
+容易移动
 [Rounded border]
 圆角边框
+[Title bar text:]
+标题栏文本: 
+[Pin to desktop]
+固定在桌面上
+[Show drop shadow (restart required)]
+使用下拉阴影 (需要重启)
+[Hide contact list after it has been idle for]
+空闲时隐藏联系人列表
+[seconds]
+秒
+[Automatically resize window to height of list]
+自动调整窗口大小至列表高度
+[maximum]
+最多窗口的
+[% of screen]
+%
+[Size upwards]
+向上量度大小
+[If window is partially covered, bring to front instead of hiding]
+如果窗口有部分被遮盖, 则以置顶代替隐藏
 [Always Hide On Taskbar]
 永远隐藏于任务栏
 [Client margins]
@@ -104,22 +196,106 @@
 附着边框
 [Gap between frames]
 框架间距
+[Transparent contact list]
+联系人列表透明化
+[Inactive opacity:]
+未激活时透明度: 
+[Active opacity:]
+激活时透明度: 
+[Fade contact list in/out]
+联系人列表淡入/淡出
 [Fully transparent (like TweakUI)]
 完全透明 (类似 TweakUI)
+[Items]
+项目
+[Show divider between online and offline contacts]
+在线与离线联系人之间显示分隔线
+[Hot track items as mouse passes over]
+鼠标在项目上移动时显示热跟踪
+[Disable drag and drop of items]
+禁用项目拖放
+[Disable rename of items by clicking twice]
+禁用项目双击重命名
+[Show selection even when list is not focused]
+当列表非焦点时仍显示被选定项目
+[Make selection highlight translucent]
+将选定项目突出显示透明
 [Use full row for selection and hottracking]
 选定及热跟随时使用整行
 [Double click on avatar opens userinfo]
 在头像上点击两下打开用户信息
+[Visual]
+视觉
+[Scroll list smoothly]
+平滑滚动列表
+[Time:]
+时间: 
+[milliseconds]
+毫秒
+[Hide vertical scroll bar]
+隐藏垂直滚动条
+[Grey out entire list when:]
+下列清况将整个列表变灰: 
+[Contact List Background]
+联系人列表背景
+[Use Windows colours]
+使用 Windows 颜色
+[Background colour]
+背景颜色
+[Background colour]
+背景颜色
+[Use background image]
+使用背景图片
+[Stretch to width]
+拉伸至宽度
+[Stretch to height]
+拉伸至高度
+[Tile horizontally]
+横向平铺
+[Tile vertically]
+纵向平铺
+[Scroll with text]
+与文本一起滚动
+[Stretch proportionally]
+按比例拉伸
 [Use these settings to skin the entire background]
 使用这些设置绘制整个背景
 [If you enable this, the background settings will affect the entire contact list frame.]
 如果您启用此选项, 背景设置将影响整个联系人列表框架. 
+[Status Bar]
+状态栏
+[Show status bar]
+显示状态栏
+[Show icons]
+显示图标
+[Show protocol names]
+显示协议名称
+[Show status text]
+显示状态文本
+[Right click opens status menu]
+点击右键打开状态菜单
+[Right click opens Miranda NG menu]
+点击右键打开 Miranda NG 菜单
+[Make sections equal width]
+将各部分设为相同宽度
+[Show bevels on panels]
+显示面板斜角
+[Show resize grip indicator]
+显示调整大小箭头
 [Draw background skin]
 绘制背景皮肤
 [Show ICQ extended status icons]
 显示 ICQ 扩展状态图标
 [Mark protocols locked from global status changes]
 协议标记锁定为全局状态变更
+[Cancel]
+取消
+[Apply]
+应用
+[Protocol]
+协议
+[Group]
+群组
 [Per contact skins:]
 每位联系人皮肤: 
 [< Reload]
@@ -160,16 +336,22 @@
 导出至皮肤文件
 [Ignore these events]
 忽略这些事件
+[Messages]
+消息
 [Suppress auth requests]
 阻止授权请求
 [Suppress added notifications]
 阻止被加入通知
 [Suppress online notifications]
 阻止上线通知
+[Visibility]
+可见性
 [Appear always online]
 永远显示为在线
 [Appear always offline (block contact)]
 永远显示为离线 (封锁联系人)
+[Other]
+其它
 [Hide this contact from the list]
 从列表隐藏此联系人
 [To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
@@ -186,6 +368,54 @@
 在头像上绘制层叠图标
 [Show local time]
 显示本地时间
+[E&xit]
+退出(&X)
+[&Status]
+状态(&S)
+[&Offline\tCtrl+0]
+离线(&O)\tCtrl+0
+[On&line\tCtrl+1]
+在线(&L)\tCtrl+1
+[&Away\tCtrl+2]
+外出(&A)\tCtrl+2
+[&NA\tCtrl+3]
+没空(&N)\tCtrl+3
+[Occ&upied\tCtrl+4]
+忙碌(&U)\tCtrl+4
+[&DND\tCtrl+5]
+请勿打扰(&D)\tCtrl+5
+[&Free for chat\tCtrl+6]
+自由聊天(&F)\tCtrl+6
+[&Invisible\tCtrl+7]
+隐身(&I)\tCtrl+7
+[On the &Phone\tCtrl+8]
+接听电话(&P)\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+外出用餐(&L)\tCtrl+9
+[Tray]
+托盘
+[&Hide/Show]
+隐藏/显示(&H)
+[&New Group]
+新增群组(&N)
+[&Hide Offline Users]
+隐藏离线用户(&H)
+[Hide &Offline Users out here]
+隐藏除此以外离线用户(&O)
+[Hide &Empty Groups]
+隐藏空群组(&E)
+[Disable &Groups]
+禁用群组(&G)
+[Hide Miranda]
+隐藏 Miranda
+[&New Subgroup]
+新增子群组(&N)
+[&Hide Offline Users in here]
+隐藏此处离线用户(&H)
+[&Rename Group]
+重命名群组(&R)
+[&Delete Group]
+删除群组(&D)
 [Move marked Contacts to this Group]
 将已标记联系人移到此群组
 [Show Status Icons]
@@ -197,6 +427,8 @@
 [Draw sunken Frame]
 绘制凹陷框架
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+[General]
+常规
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
@@ -207,6 +439,8 @@
 切换群组模式
 [Find and add contacts]
 查找并添加联系人
+[Accounts]
+帐号
 [Open preferences]
 打开参数选项
 [Toggle sounds]
@@ -222,12 +456,38 @@ tabSRMM 菜单
 [Clear view mode]
 清除查看模式
 ;file \plugins\Clist_nicer\src\clcopts.cpp
+[Not focused]
+未获取焦点
+[Offline]
+离线
+[Online]
+在线
+[Away]
+外出
+[NA]
+不适用
+[Occupied]
+忙碌中
+[DND]
+请勿打扰
+[Free for chat]
+有空聊天
+[Invisible]
+隐身
+[Out to lunch]
+外出用餐
+[On the phone]
+接听电话
 [Always Left]
 永远在左方
 [Always Right]
 永远在右方
 [Automatic (RTL)]
 自动 (由右向左)
+[Name]
+名称
+[Status]
+状态
 [Last Message]
 最后消息
 [Message Frequency]
@@ -250,10 +510,16 @@ tabSRMM 菜单
 含昵称 - 右
 [List layout]
 列表布局
+[Background]
+背景
 [Contact rows]
 联系人行
+[Contacts]
+联系人
 [Groups and layout]
 群组及布局
+[Advanced]
+高级
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 永久添加
@@ -274,6 +540,8 @@ tabSRMM 菜单
 [&Contact list settings...]
 联系人列表设置...
 ;file \plugins\Clist_nicer\src\clistopts.cpp
+[Global]
+全局
 ;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 切换显示在线/离线
@@ -299,10 +567,30 @@ tabSRMM 菜单
 所要求动作需要选定一个有效联系人. 请从联系人列表选定一个联系人并重试
 [Parameter mismatch]
 参数不匹配
+[Standard contacts]
+标准联系人
+[Online contacts to whom you have a different visibility]
+与您有不同可见度的在线联系人
+[Offline contacts]
+离线联系人
+[Offline contacts to whom you have a different visibility]
+与您有不同可见度的离线联系人
+[Contacts which are 'not on list']
+ "不在列表" 中的联系人
+[Group member counts]
+群组成员数量
+[Dividers]
+分隔器
 [Frame titles]
 框架标题
 [Contact list local time]
 联系人列表本地时间
+[Selected Text]
+已选择文本
+[Hottrack Text]
+热跟踪文本
+[Quicksearch Text]
+快速搜索文本
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Tool Window]
 工具窗口
@@ -329,8 +617,16 @@ tabSRMM 菜单
 ;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&Skinned frame]
 框架使用皮肤(&S)
+[Frames]
+框架
 [Skinned frame]
 框架使用皮肤
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[&Find/Add Contacts...]
+查找/添加联系人(&F)...
+[&Main Menu]
+主菜单(&M)
+[&Options...]
+选项(&O)...
 [&About the contact list...]
 关于联系人列表(&A)...

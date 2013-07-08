@@ -14,6 +14,10 @@ Ping 间延时 (秒):
 Ping 超时 (秒):
 [Log Filename:]
 日志文件名:
+[Network]
+网络
+[Popups]
+弹出窗口
 [Reply]
 回复
 [Block Repetitions]
@@ -24,18 +28,32 @@ Ping 超时 (秒):
 测试时不改变图标
 [Use the Customize/Fonts options to change text size and colour.]
 使用自定义/字体选项改变文本大小及颜色.
+[Row height:]
+列高: 
 [Repeats for success/failure:]
 重复成功/失败:
 [Attach to contact list]
 附加至联系人列表
 [Use CSV format]
 使用 CSV 格式
+[Add]
+添加
+[Remove]
+移除
+[Edit]
+编辑
 [Edit Host]
 编辑 Host
+[OK]
+确定
+[Cancel]
+取消
 [Address:]
 地址:
 [TCP Connect]
 TCP 连接
+[Port:]
+端口:
 [Control Protocol:]
 控制协议:
 [Set my status to:]
@@ -44,6 +62,8 @@ TCP 连接
 成功且我的状态为:
 [Execute the following command on double-click:]
 双击执行下列命令:
+[Contact]
+联络方式
 [(Optional) Command Parameters:]
 (可选) 命令参数:
 [Graph]
@@ -60,6 +80,8 @@ TCP 连接
 [Disable All Pings]
 禁用所有 Pings
 ;file \plugins\Ping\src\options.cpp
+[<none>]
+<无>
 [<all>]
 <所有>
 [Hosts]
@@ -97,6 +119,8 @@ Ping 插件
 ;file \plugins\Ping\src\utils.cpp
 [Unknown Address]
 未知地址
+[Unknown]
+未知
 [Responding]
 响应
 [Not Responding]

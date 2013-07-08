@@ -6,6 +6,14 @@
 ;  Authors: Deathdemon
 ;============================================================
 ;file \plugins\ClientChangeNotify\res\Resources.rc
+[OK]
+OK
+[Background]
+背景
+[Text]
+テキスト
 ;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
+[Popups]
+ポップアップ
 ;file \plugins\ClientChangeNotify\src\Misc.h
 ;file \plugins\ClientChangeNotify\src\OptDlg.cpp

@@ -6,5 +6,23 @@
 ;  Authors: Yasnovidyashii
 ;============================================================
 ;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
+[Hotkeys]
+Snarveier
+[Options]
+Valg
+[Default]
+Standard
+[Text]
+Tekst
+[Custom]
+Selvvalgt
+[Custom]
+Selvvalgt
 ;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
+[Message Sessions]
+Meldingsøkter
+[Popups]
+Popups
+[Popups]
+Popups

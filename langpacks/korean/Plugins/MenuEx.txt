@@ -6,5 +6,19 @@
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
 ;file \plugins\MenuItemEx\res\resource.rc
+[&Send]
+&S 보내기
+[&Cancel]
+&C 취소
+[Visibility]
+가시성
+[Ignore]
+무시
 ;file \plugins\MenuItemEx\src\main.cpp
+[You Were Added]
+당신은 추가되었습니다.
+[Typing Notify]
+입력 알림
+[Miranda NG]
+미란다 IM
 ;file \plugins\MenuItemEx\src\options.cpp

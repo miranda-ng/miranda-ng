@@ -6,7 +6,21 @@
 ;  Authors: borkra
 ;============================================================
 ;file \plugins\CrashDumper\res\crshdmp.rc
+[Close]
+Sluit
+[Username]
+Gebruikersnaam
+[General]
+Algemeen
+[&Copy]
+Kopiëren
+[Co&py All]
+Alles ko&piëren
+[Select &All]
+&Alles selecteren
 ;file \plugins\CrashDumper\src\crshdmp.cpp
+[Show]
+Weergeven
 ;file \plugins\CrashDumper\src\crshdmp_icons.cpp
 ;file \plugins\CrashDumper\src\exhndlr.cpp
 ;file \plugins\CrashDumper\src\ui.cpp

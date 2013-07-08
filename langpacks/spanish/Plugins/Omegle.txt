@@ -11,6 +11,12 @@
 [Stranger]
 Extraño
 ;file \protocols\Omegle\src\connection.cpp
+[Connecting...]
+Conectando ...
 ;file \protocols\Omegle\src\constants.h
 ;file \protocols\Omegle\src\proto.cpp
+[Network]
+Red
+[Network]
+red
 ;file \protocols\Omegle\src\theme.cpp

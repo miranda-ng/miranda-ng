@@ -6,10 +6,30 @@
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
 ;file \protocols\AimOscar\res\aim.rc
+[Password:]
+Parool:
 [Convert Incoming Messages to BBCode]
 Konverteeri sisenev teade BBCode'i
+[Port:]
+Port:
+[Reset]
+Algväärtusta
 [Set Idle]
 Sea tegevusetuks
+[Add]
+Lisa
+[Remove]
+Eemalda
+[Idle]
+Tegevusetus
+[&Join]
+&Ühine
+[&Cancel]
+&Tühista
+[E-mail]
+E-mail
+[Message]
+Teade
 ;file \protocols\AimOscar\src\avatars.cpp
 ;file \protocols\AimOscar\src\chat.cpp
 ;file \protocols\AimOscar\src\error.cpp
@@ -19,7 +39,13 @@ Sea tegevusetuks
 ;file \protocols\AimOscar\src\proto.cpp
 ;file \protocols\AimOscar\src\server.cpp
 ;file \protocols\AimOscar\src\theme.cpp
+[Profile]
+Profiil
+[Bold]
+Rasvane
 [Add To Server List]
 Lisa serverinimekirja
 ;file \protocols\AimOscar\src\ui.cpp
+[Network]
+Võrgustik
 ;file \protocols\AimOscar\src\utility.cpp

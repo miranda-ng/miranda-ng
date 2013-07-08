@@ -14,28 +14,70 @@
 Родом от
 [&Update]
 Обновяване
+[Updating]
+Актуализиране
+[Cancel]
+Отказ
+[Apply]
+Прилагане
+[Nick:]
+Прякор:
+[First name:]
+Име:
 [Second name:]
 Презиме:
+[Last name:]
+Фамилия:
+[Female]
+Жена
+[Male]
+Мъж
+[Marital status:]
+Брачно състояние:
 [Partner:]
 Партньор:
 [Language skills]
 Езикови умения
+[Street:]
+Улица:
+[Postal code:]
+Пощенски код:
+[City:]
+Град:
 [County/State:]
 Област:
+[Country:]
+Държава:
 [Contact added to ContactList:]
 Добавен в списъка на
 [Just from the beginning.]
 От началото
 [Your contact's local time is:]
 Местно време на контакта:
+[Timezone:]
+Часови пояс:
+[Company:]
+Фирма:
+[Department:]
+Отдел:
 [Office:]
 Офис:
+[Position:]
+Позиция:
 [Assistant:]
 Помощник:
+[Add Phone Number]
+Добавяне на телефонен номер
 [Enter your phone number\nand don't worry about formating.]
 Въведете телефонния номер,\nбез да се тревожите за формата.
 [Enter a category for this number:]
 Въведете категория за телефона:
+[Enter country, area code and phone number:]
+Въведете код на държавата, областта и тел. номер:
+[Or enter a full international number:]
+Или въведете целия международен номер:
+[Phone can receive SMS text messages]
+Телефонът може да получава SMS съобщения
 [Add E-Mail]
 Добавяне на имейл
 [Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
@@ -60,6 +102,18 @@
 Ползване на списък за игнориране
 [Birthday popup colours]
 popup за рожден ден
+[Background colour]
+Цвят на фона
+[Background colour]
+Фонов цвят
+[Text colour]
+Цвят на текста
+[Use Windows colours]
+Цветове от Windows
+[Use default colours]
+Стандартни цветове
+[Custom]
+Избор
 [Show reminder messages as popups (if reminder is enabled)]
 Показване на съобщенията за напомняне като popups (ако напомнянето е включено)
 [Anniversary popup colours]
@@ -68,12 +122,16 @@ popup за годишнина
 Замяна на прозореца за напредък с popups
 [Replace message boxes with popups]
 Замяна на текстовите кутии с popups
+[Homepage:]
+Страница:
 [Add Affiliation]
 Добави сдружение
 [Add Past]
 Добави минало
 [Add Interest]
 Добави интерес
+[Delete]
+Изтриване
 [Anniversary Editor]
 Редактиране на годишнина
 [Anniversary Editor\nAdd/Edit your anniversary here.]
@@ -100,6 +158,8 @@ popup за годишнина
 ден (дни)
 [Popup this dialog on a contact's anniversary]
 Изскачане на прозореца при годишнина на контакт
+[Icons]
+Икони
 [Check file version of default IconPack to prevent wrong icon display]
 Проверяване версията на пакета икони (to prevent wrong icon display)
 [Display icons on each dialog button]
@@ -134,12 +194,16 @@ popup за годишнина
 Промяна на ICQ подробностите с UserInfoEx. (Изключено, ако ICQ не го поддържа)
 [Importing...\nPlease wait!]
 Внасяне...\nМоля, изчакайте!
+[None]
+Няма
 [Show Menu Item]
 Елементи в менютата
 [MainMenu]
 Главно меню
 [Cascade:]
 Каскадно:
+[Off]
+Изкл.
 [Ex-/Import items]
 Елементи износ/внос
 [ContactMenu]
@@ -148,6 +212,8 @@ popup за годишнина
 Меню на акаунтите
 [Extra Icons]
 Допълнителни икони
+[Gender:]
+Пол:
 [Replace the following default icons:]
 Замяна на следните стандартни икони:
 [Phone]
@@ -160,6 +226,8 @@ popup за годишнина
 Ползване на задията за аватар
 [Use &unknown flag if country can not be determined]
 "Непознато знаме", ако не може да се определи държавата
+[Age:]
+Възраст:
 [Zodiac:]
 Зодия:
 [Use global reminder settings.]
@@ -224,9 +292,13 @@ popup за годишнина
 Добавяне на нова годишнина
 [Delete an existing anniversary]
 Изтриване на годишнината
+[Unspecified]
+Неуточнено
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Edit E-Mail]
 Редактиране на имейл
+[Edit Phone Number]
+Редактиране на телефонния номер
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
 Телефонният номер трябва да започва с "+" и да съдържа само\nцифри, интервали, скоби и тирета.
 [Choose the item to display.]
@@ -239,12 +311,16 @@ popup за годишнина
 Изтриване на избрания елемент
 [Do you really want to delete the current selected item?\n\t%s\n\t%s]
 Наистина ли желаете избраният елемент да бъде изтрит?\n\t%s\n\t%s
+[Other]
+Друго
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 [<Unspecified>]
 <Неуточнено>
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 Още
+[Contact]
+Контакт
 [Age/Nr.]
 Години/№
 [Birthdays only]
@@ -256,6 +332,14 @@ popup за годишнина
 [Popup Anniversary list]
 Показване на годишнините
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+[Yes]
+Да
+[No]
+Не
+[Ignore]
+Игнориране
+[Error]
+Грешка
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [Protocol '%s' is offline]
 Протоколът "%s" е извън линия
@@ -269,12 +353,22 @@ popup за годишнина
 Не е възможно да бъде намерен протокола на контакта. Вероятно е неактивен.
 [Details dialog failed to be created. Returning error is %d.]
 Прозорецът с подробности не може да бъде създаден поради следната грешка: %d.
+[General]
+Основни
 [Contact (private)]
 Данни (Лични)
 [Anniversaries]
 Годишнини
+[Work]
+Работа
 [Contact (Work)]
 Данни (Работни)
+[Profile]
+Профил
+[Notes]
+Бележки
+[Owner]
+Собственик
 [Upload ICQ Details]
 Качване на ICQ подробности
 [Upload failed]
@@ -289,6 +383,8 @@ popup за годишнина
 Износ: Модули
 [Export: Folder]
 Износ: Папка
+[Default]
+Стандарт
 [Details Infobar]
 Подробности в информационната лента
 [Phone Infobar]
@@ -301,10 +397,18 @@ popup за годишнина
 Внасяне от VCard
 [Anniversary Infobar]
 Годишнина в информационната лента
+[Fax]
+Факс
 [Custom Phone]
 Зададен телефон
 [e-mail]
 имейл
+[Add]
+Добавяне
+[Edit]
+Редактиране
+[Search]
+Търсене
 [Ex-/Import]
 Износ/Внос
 [Backup Birthday]
@@ -359,10 +463,14 @@ popup за годишнина
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
 Износ/Внос на контакта
+[User &Details]
+Подробности за потребителя
 [&Export User Details]
 Износ на подробности за потребителя
 [&Import User Details]
 Внос на подробности за потребителя
+[View/Change My &Details...]
+Преглед/Промяна на личните данни
 [Export all contacts]
 Изнасяне на всички контакти
 [Import all contacts]
@@ -380,6 +488,8 @@ popup за годишнина
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
 Мои бележки:
+[About:]
+Относно:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid Description first!]
 Първо трябва да въведете валидно описание!
@@ -405,8 +515,16 @@ popup за годишнина
 Всичко
 [This is the reminder message]
 Това е съобщение за напомняне
+[Contacts]
+Контакти
+[Advanced]
+Разширени
 [Details Dialog]
 Прозорец за подробности
+[Popups]
+РopUps
+[Popups]
+РopUps
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Affiliation]
 Сдружение
@@ -462,7 +580,11 @@ popup за годишнина
 [sen.]
 старши
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+['(Unknown Contact)']
+"(Непознат контакт)"
 ;file \plugins\UserInfoEx\src\svc_email.cpp
+[Send e-mail]
+Изпращане на е-писмо
 [Memory allocation error!]
 Грешка при заделянето на памет!
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
@@ -555,6 +677,8 @@ popup за годишнина
 Избраният файл (XMLCard) е невалиден
 [The version of the XMLCard is not supported by UserInfoEx]
 Версията на XMLCard не се поддържа от UserInfoEx
+[Complete]
+Завършен
 [Import took %f msec]
 Внасянето отне %f мсек
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]

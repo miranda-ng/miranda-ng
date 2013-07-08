@@ -30,6 +30,8 @@
 联系人工具提示
 [other settings]
 其它设置
+[Link]
+链接
 [Program parameters:]
 程序参数: 
 [O&pen File]
@@ -38,6 +40,8 @@
 打开文件夹(&P)
 [CList Settings]
 联系人列表设置
+[Group:]
+群组: 
 [Status Icon]
 状态图标
 [Group\\Sub-Group]
@@ -66,12 +70,18 @@
 字符串制作器
 [&Test String]
 测试字符串(&T)
+[&Exit]
+退出(&E)
 [String to test]
 测试的字符串
 [Returns....]
 返回...
+[Help]
+说明
 [Help!!!]
 救我!!!
+[OK]
+确定
 [Copy / Export contact]
 复制 / 导出联系人
 [&Export Non-IM Contact]
@@ -83,6 +93,8 @@
 [EXAMPLE: %fn1,%fn2]
 例如: %fn1,%fn2
 ;file \plugins\Non-IM Contact\src\contactinfo.cpp
+[Select Folder]
+选择文件夹
 [New Non-IM Contact]
 新增非即时通信联系人
 ;file \plugins\Non-IM Contact\src\dialog.cpp
@@ -123,6 +135,8 @@ csv(分隔符X) 说明...\r\n分隔符可是 "tab" 或 "space" 或任何单一�
 [Non-IM Contacts]
 非即时通信联系人
 ;file \plugins\Non-IM Contact\src\main.cpp
+[Plugins]
+插件
 [Non-IM Contact]
 非即时通讯联系人
 [&Non-IM Contact]

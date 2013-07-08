@@ -6,6 +6,22 @@
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 ;file \plugins\Sessions\res\Sessions.rc
+[Edit]
+Değiştir
+[Delete]
+Sil
+[&Cancel]
+İ&ptal
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
 ;file \plugins\Sessions\Src\Main.cpp
 ;file \plugins\Sessions\Src\Options.cpp
+[Message Sessions]
+İleti Oturumları
 ;file \plugins\Sessions\Src\Utils.cpp

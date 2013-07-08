@@ -12,8 +12,12 @@
 局域网设置
 [Use computer name]
 使用计算机名称
+[Your name]
+您的名称
 [Select your name]
 选择您的名字
 ;file \protocols\EmLanProto\src\amdproto.cpp
 [E-mage LAN protocol]
 E-mage 局域网协议
+[Network]
+网络

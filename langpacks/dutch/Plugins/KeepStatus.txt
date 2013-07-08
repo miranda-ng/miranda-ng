@@ -6,7 +6,73 @@
 ;  Authors: P Boon
 ;============================================================
 ;file \Plugins\StatusPlugins\resource.rc
+[General]
+Algemeen
+[Close]
+Sluit
+[Cancel]
+Annuleren
+[Profile]
+Profiel
+[Message]
+Bericht
+[Set]
+Instellen
+[OK]
+OK
+[Other]
+Ander
+[Background colour]
+Achtergrond kleur
+[Text colour]
+Tekst kleur
+[Use Windows colours]
+Windows kleuren gebruiken
+[Use default colours]
+Standaard kleuren gebruiken
+[Events]
+Gebeurtenissen
+[Custom]
+Aangepast
+[Use %time% for the current time, %date% for the current date]
+Gebruik %time% voor de huidige tijd, %date% voor de huidige datum
+[Status]
+Status
+[Delete]
+Verwijderen
+[seconds]
+seconden
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
+[Protocol]
+Protocol
+[Advanced]
+Geavanceerd
+[Popups]
+Popups
 ;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+Ik ben weg sinds %time%.
+[Give it up, I'm not in!]
+Geef het op, ik ben er niet!
+[Not right now.]
+Nu even niet.
+[Give a guy some peace, would ya?]
+Gun een man zijn rust, wil je?
+[I'm a chatbot!]
+Ik ben een gesprekbot!
+[Yep, I'm here.]
+Ja, hier ben ik.
+[Nope, not here.]
+Nee, hier niet.
+[I'm hiding from the mafia.]
+Ik verstop me voor de mafia.
+[That'll be the phone.]
+Dat zal de telefoon zijn.
+[Mmm...food.]
+Mmm...eten.
+[idleeeeeeee]
+ruuuuustig
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Closing in %d]
+Sluiten in %d

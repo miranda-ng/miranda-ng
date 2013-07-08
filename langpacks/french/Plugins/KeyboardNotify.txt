@@ -8,6 +8,8 @@
 ;file \plugins\KeyboardNotify\res\resources.rc
 [Events to react on]
 Réagi au évènements suivants
+[Incoming messages]
+Messages reçus
 [Incoming files]
 Fichiers entrants
 [Incoming URLs]
@@ -22,6 +24,8 @@ Si fenêtre de message ouverte
 si le dernier à
 [sec. old]
 secondes
+[seconds]
+secondes
 [Events are opened]
 Ouverture de l'évènement
 [Notify when]
@@ -34,8 +38,28 @@ Programmes définis en route
 Aux autres situations
 [Only notify if status is]
 Prévenir seulement si l'état est
+[Online]
+En ligne
+[Away]
+Absent
+[Occupied]
+Occupé
+[NA]
+Indisponible
+[DND]
+Ne pas déranger
+[Free for chat]
+OK pour un chat
+[Invisible]
+Invisible
+[On the phone]
+Au téléphone
+[Out to lunch]
+Parti manger
 [Remind me every]
 Notifier toutes les
+[Offline]
+Hors ligne
 [Custom theme]
 Personnaliser le thème
 [Wait before starting flashing]
@@ -46,25 +70,43 @@ Vitesse du clignotement
 Rapide
 [Slow]
 Lent
+[&Preview]
+&Aperçu
 [Emulate keypresses (Use this option if you are using an USB keyboard)]
 Émuler la pression des touches (utile en cas de clavier USB)
 [Create/Edit Themes]
 Créer/Modifier les thèmes
 [Theme]
 Thème
+[Add]
+Ajouter
+[Delete]
+Effacer
 [Import/Export]
 Importer/Exporter
+[Export...]
+Exportation...
 [Program]
 Programme
+[Cancel]
+Annuler
 [Use custom theme]
 Thème personnalisé
+[The following events are being ignored:]
+Les évènements suivants sont ignorés :
 [Ignore messages]
 Ignorer les messages
 [Ignore URLs]
 Ignorer les liens
 [Ignore files]
 Ignorer les fichiers
+[Ignore]
+Ignorer
 ;file \plugins\KeyboardNotify\src\ignore.cpp
+[** All contacts **]
+** Tous les contacts **
+[** Unknown contacts **]
+** Contacts inconnus **
 ;file \plugins\KeyboardNotify\src\options.cpp
 [left->right]
 gauche->droite
@@ -72,5 +114,15 @@ gauche->droite
 droite->gauche
 [left<->right]
 gauche<->droite
+[Events]
+Évènements
+[Accounts]
+Comptes
 [Themes]
 Thèmes
+[Protocol]
+Protocole
+[All Files]
+Tous les fichiers
+[None]
+Aucun

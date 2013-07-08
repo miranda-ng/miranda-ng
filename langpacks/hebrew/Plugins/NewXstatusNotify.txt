@@ -1,17 +1,75 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: xStatus notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 ;file \plugins\NewXstatusNotify\res\resource.rc
-[Ignore empty status messages]
-התעלם מהודעות מצב ריקות
+[Online]
+מחובר
+[Offline]
+לא מחובר
+[Invisible]
+בלתי נראה
+[Free for chat]
+פנוי לשיחה
+[Away]
+לא נמצא
+[NA]
+לא זמין
+[Occupied]
+עסוק
+[DND]
+לא להפריע
+[Out to lunch]
+אוכל ארוחת צהריים
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדברת בטלפון
+[Delete]
+מחק
+[Sounds]
+צלילים
+[Popups]
+פופ אפ
+[Background]
+רקע
+[Text]
+טקסט
+[Use custom colours]
+צבעים מותאמים אישית
+[Use Windows colours]
+השתמש בצבעי חלונות
+[Reset]
+אפס
+[OK]
+אישור
+[Cancel]
+ביטול
+[General]
+כללי
+[Accounts]
+חשבונות
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Status]
+מצב
+[** All contacts **]
+** כל הרשימה **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 ;file \plugins\NewXstatusNotify\src\main.cpp
+[Contact]
+קשר
 ;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+כל הקבצים
+[Log]
+יומן
+[Protocol]
+פרוטוקול
 ;file \plugins\NewXstatusNotify\src\popup.h
 ;file \plugins\NewXstatusNotify\src\utils.cpp
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp

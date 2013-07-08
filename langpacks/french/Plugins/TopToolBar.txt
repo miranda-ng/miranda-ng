@@ -18,5 +18,11 @@ Ajouter
 Ajouter Fonction
 [Name: ]
 Nom :
+[Set]
+OK
 ;file \plugins\TopToolBar\src\toolbar.cpp
+[Default]
+Défaut
 ;file \plugins\TopToolBar\src\ttbopt.cpp
+[Contact List]
+Liste de contacts

@@ -14,6 +14,8 @@ Arrêt Système
 &Demander confirmation avant de fermer
 [&Countdown starts at:]
 &Compte à rebours à :
+[seconds]
+secondes
 [Shutdown Events]
 Évènements d'extinction
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
@@ -42,6 +44,8 @@ Extinction dans :
 À la réception d'un message contenant le texte suivant :
 [Shutdown when Miranda NG becomes &idle]
 Quand Miranda NG devient inactif
+[Configure]
+Configurer
 [Shutdown when &prozessor usage drops below:]
 Extinction si la charge processeur descend à :
 [(current: 0%)]
@@ -52,6 +56,8 @@ Quand tous vos contacts sont déconnectés
 Éteindre quand tous les fichiers auront été transféré
 [&Action:]
 &Action :
+[Cancel]
+Annuler
 [Unsaved data in open applications except Miranda NG might get lost.]
 Données non sauvées dans des programmes ouverts (exepté Miranda-IM).
 [Please click "Cancel" if you would like to abort the process.]
@@ -71,10 +77,14 @@ Figer le compte à rebours
 &Annuler le compte à rebours
 [Countdown on Frame]
 Compte à rebours en image
+[Background]
+Arrière-plan
 [Progress Bar]
 Progression
 ;file \plugins\AutoShutdown\src\main.cpp
 ;file \plugins\AutoShutdown\src\options.cpp
+[Events]
+Évènements
 ;file \plugins\AutoShutdown\src\settingsdlg.cpp
 [(current: %u%%)]
 (actuel : %u%%)
@@ -103,6 +113,8 @@ Extinction Automatique...
 Erreur de Automatic Shutdown
 [The shutdown process failed!\nReason: %s]
 La procédure d'extinction a échouée !\nMotif :%s
+[Unknown]
+Inconnu
 [Miranda NG is going to be automatically closed in %u second(s).]
 Miranda-IM va être fermé automatiquement dans %u seconde(s).
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
@@ -157,6 +169,8 @@ Sauvegarde la session actuelle de Windows sur le disque dur, de sorte que le cou
 Verrouille l'ordinateur (ou plutôt Windows).  Pour le déverrouiller, vous devrez vous identifier (login et mot de passe Windows).
 [Sets all protocols to offline and closes all RAS connections.]
 Vous déconnecte de tous vos protocoles et coupe votre connexion Internet.
+[Alerts]
+Notifications
 [Automatic Shutdown Countdown]
 Compte à rebours de Automatic Shutdown
 ;file \plugins\AutoShutdown\src\utils.cpp

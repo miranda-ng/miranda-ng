@@ -10,6 +10,8 @@
 顔文字カテゴリー
 [Specify Smiley Pack for each category]
 カテゴリー毎に顔文字パックを指定
+[Name:]
+名前 :
 [Replace only smileys surrounded by spaces]
 空白で囲まれた顔文字のみ置換
 [Scale smiley to textheight]
@@ -52,8 +54,14 @@ SmileyAdd HTTP 接続
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
 顔文字
+[Customize]
+カスタマイズ
+[Off]
+オフ
 [Smiley Packs]
 顔文字パック
+[All Files]
+全てのファイル
 ;file \plugins\SmileyAdd\src\services.cpp
 ;file \plugins\SmileyAdd\src\smileys.cpp
 [There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]

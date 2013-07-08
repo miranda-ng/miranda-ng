@@ -10,12 +10,22 @@
 Choix des contacts...
 [Allow tooltip notifications for the following users:]
 Autoriser les bulle d'info pour les contacts suivants :
+[Cancel]
+Annuler
 [Notify upon the following events]
 Notifier les évènements suivants
+[Online]
+En ligne
+[Offline]
+Hors ligne
 [All other]
 Les autres
+[Typing]
+Écrit
 [Suppress notifications upon connection for]
 Ne pas notifier à la connexion pendant :
+[sec]
+secondes
 [Duration]
 Durée
 [Show tooltip for]
@@ -36,6 +46,14 @@ Auto-positionnement
 Transparent
 [Transparent tooltip]
 Bulle transparente
+[Idle]
+Inactif
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
+[** New contacts **]
+** Nouveaux contacts **
+[** Unknown contacts **]
+** Contacts inconnus **
+[Unknown]
+Inconnu
 [is]
 est

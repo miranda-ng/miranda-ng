@@ -6,6 +6,54 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\IcqOscarJ\res\resources.rc
+[Password:]
+비밀번호:
+[&Send]
+&S 보내기
+[&Cancel]
+&C 취소
+[OK]
+확인
+[Cancel]
+취소
+[Port:]
+포트:
+[Messaging]
+메세징
+[Options]
+옵션
+[Summary]
+요약
+[Nickname:]
+대화명:
+[First name:]
+이름:
+[Last name:]
+성:
+[E-mail:]
+이메일:
+[Gender:]
+성:
+[Age:]
+나이:
+[Work]
+직업
+[Company:]
+회사:
+[Department:]
+부서:
+[Position:]
+위치:
+[Location]
+지역
+[Country:]
+국가:
+[State:]
+주:
+[City:]
+도시:
+[Closing in %d]
+%d 에서 닫는중
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
 ;file \protocols\IcqOscarJ\src\fam_01service.cpp
 ;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
@@ -16,25 +64,43 @@
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
 ;file \protocols\IcqOscarJ\src\icq_constants.h
 ;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Female]
+여자
+[Male]
+남자
 ;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
 ;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
 ;file \protocols\IcqOscarJ\src\icq_menu.cpp
 ;file \protocols\IcqOscarJ\src\icq_opts.cpp
+[Network]
+네트워크
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 ;file \protocols\IcqOscarJ\src\icq_proto.cpp
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
 ;file \protocols\IcqOscarJ\src\icq_servlist.cpp
 ;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
+[Close]
+닫기
+[** All contacts **]
+** 모든 대화 상대 **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
+[On the phone]
+전화중
+[None]
+없음
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 ;file \protocols\IcqOscarJ\src\init.cpp
 ;file \protocols\IcqOscarJ\src\log.cpp
 ;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
 ;file \protocols\IcqOscarJ\src\utilities.cpp
 ;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
+[Contact]
+연락처
 ;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
 ;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
 ;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
 ;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
 ;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 ;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
+[<not specified>]
+<지정되지 않음>

@@ -6,6 +6,10 @@
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 ;file \plugins\DbEditorPP\res\resource.rc
+[&Search]
+&Søk
+[&Cancel]
+&Avbryt
 [Restore last opened position]
 Gjenopprett sist brukte posisjon
 [Use known modules list]
@@ -22,16 +26,38 @@ Sett et mellomrom eller komma mellom hvert modulnavn
 Endringer i denne listen vil synes neste gang Miranda starter
 [Background colour]
 Bakgrunnsfarge
+[Background colour]
+Bakgrunnsfarge
+[OK]
+OK
+[Cancel]
+Avbryt
+[E&xit]
+A&vslutt
+[&Delete]
+&Slett
+[&Rename]
+&Gi nytt navn
 ;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 ;file \plugins\DbEditorPP\src\exportimport.cpp
+[All Files]
+Alle Filer
 ;file \plugins\DbEditorPP\src\findwindow.cpp
 ;file \plugins\DbEditorPP\src\icons.cpp
 ;file \plugins\DbEditorPP\src\main.cpp
 ;file \plugins\DbEditorPP\src\main_window.cpp
 ;file \plugins\DbEditorPP\src\modules.cpp
 ;file \plugins\DbEditorPP\src\moduletree.cpp
+[Contacts]
+Kontakter
 ;file \plugins\DbEditorPP\src\options.cpp
 ;file \plugins\DbEditorPP\src\settinglist.cpp
+[Name]
+Navn
+[Size]
+Størrelse
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
+[Contact]
+Kontakt

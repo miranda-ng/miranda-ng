@@ -9,7 +9,11 @@
 [Recent Contacts]
 אנשי קשר אחרונים
 ;file \plugins\RecentContacts\src\options.cpp
+[Contacts]
+אנשי קשר
 ;file \plugins\RecentContacts\src\RecentContacts.cpp
+[Contact]
+קשר
 [Ignore Contact]
 התעלמות
 ;file \plugins\RecentContacts\src\RecentContacts.h

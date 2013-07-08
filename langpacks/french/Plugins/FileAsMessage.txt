@@ -8,10 +8,14 @@
 ;file \plugins\FileAsMessage\res\resources.rc
 [Filename:]
 Fichier :
+[Size:]
+Taille :
 [Chunk size]
 Taille des morceaux
 [Delays between sends]
 Délai entre 2 envois
+[bytes]
+octets
 [Transfer settings]
 Configuration de transferts
 [Unsent]
@@ -31,10 +35,14 @@ Impossible d'ouvrir le fichier
 Taille : %d octets
 [Request sent. Awaiting of acceptance..]
 Requête envoyée. Attente de confirmation...
+[Sending...]
+Envoi en cours
 [Received successfully]
 Reçu avec succès
 [Requesting of missing chunks]
 En requête de parties manquantes
+[Receiving...]
+Réception...
 [Sent successfully]
 Envoi réussi
 [Incoming file request. Do you want proceed?]

@@ -8,4 +8,6 @@
 ;file \plugins\QuickMessages\res\quickmessages.rc
 ;file \plugins\QuickMessages\src\main.cpp
 ;file \plugins\QuickMessages\src\options.cpp
+[Message Sessions]
+Sessions de message
 ;file \plugins\QuickMessages\src\Utils.cpp

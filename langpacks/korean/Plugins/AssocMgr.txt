@@ -7,6 +7,8 @@
 ;============================================================
 ;file \plugins\AssocMgr\res\resource.rc
 ;file \plugins\AssocMgr\src\assoclist.cpp
+[Unknown]
+알 수 없음
 ;file \plugins\AssocMgr\src\dde.cpp
 ;file \plugins\AssocMgr\src\reg.cpp
 ;file \plugins\AssocMgr\src\test.cpp

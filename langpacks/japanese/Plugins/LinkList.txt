@@ -6,9 +6,31 @@
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Search]
+検索
+[Close]
+閉じる
 [Message direction]
 メッセージの方向
+[Incoming messages]
+着信メッセージ
+[Outgoing messages]
+発信メッセージ
+[Timestamp]
+タイムスタンプ
+[&File]
+ファイル (&F)
+[&Close]
+閉じる (&C)
+[&Options]
+オプション (&O)
+[&Search]
+検索 (&S)
 ;file \plugins\HistoryLinkListPlus\src\language.h
+[Error]
+エラー
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[History]
+履歴
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 ;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp

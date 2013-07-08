@@ -6,11 +6,71 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
+[Sounds]
+Sons
+[Show]
+Mostrar
+[seconds]
+segundos
+[Close]
+Fechar
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Description:]
+Descrição
+[Date:]
+Data:
+[Date:]
+Data
+[Date:]
+Data:
+[Delete]
+Excluir
+[Delete]
+Apagar
+[Delete]
+Apagar
+[Delete]
+Apagar
+[Delete]
+Excluir
+[Delete]
+Excluir
 ;file \plugins\WhenWasIt\src\dlg_handlers.cpp
+[Unknown]
+Desconhecido
+[Protocol]
+Protocolo
+[Protocol]
+Protocolo
+[Contact]
+Contato
 [Age]
 Idade
 ;file \plugins\WhenWasIt\src\hooked_events.cpp
+[Contacts]
+Contatos
+[Contacts]
+Contatos
 ;file \plugins\WhenWasIt\src\icons.cpp
 ;file \plugins\WhenWasIt\src\notifiers.cpp
 ;file \plugins\WhenWasIt\src\services.cpp
+[Error]
+Erro
+[Error]
+Erro
+[All Files]
+Todos os Arquivos
+[All Files]
+Todos os arquivos
+[All Files]
+Todos os Arquivos
 ;file \plugins\WhenWasIt\src\services.h

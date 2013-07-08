@@ -8,4 +8,16 @@
 ;file \plugins\NoHistory\res\NoHistory.rc
 ;file \plugins\NoHistory\src\dllmain.cpp
 ;file \plugins\NoHistory\src\icons.cpp
+[Clear]
+Limpar
 ;file \plugins\NoHistory\src\options.cpp
+[** All contacts **]
+** Todos os contatos **
+[** All contacts **]
+** Todos os contatos **
+[History]
+Histórico
+[History]
+Histórico
+[History]
+Histórico

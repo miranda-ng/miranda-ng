@@ -15,5 +15,7 @@ ms
 [Preview...]
 Aperçu...
 ;file \plugins\SplashScreen\src\main.cpp
+[Error]
+Erreur
 ;file \plugins\SplashScreen\src\options.cpp
 ;file \plugins\SplashScreen\src\services.cpp

@@ -6,8 +6,50 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
+[E-mail:]
+E-mail:
+[Password:]
+Parool:
+[Port:]
+Port:
+[Background colour]
+Taustavärv
+[Font]
+Font
+[Summary]
+Kokkuvõte
+[Nickname:]
+Hüüdnimi:
+[First name:]
+Eesnimi:
+[Last name:]
+Perenimi:
+[Gender:]
+Sugu:
+[Age:]
+Vanus:
+[Location]
+Asukoht
+[Country:]
+Riik
+[State:]
+Maakond:
+[City:]
+Linn
 [Full e-mail:]
 Täis-e-mail:
+[Text Color]
+Teksti värv
+[Closing in %d]
+Sulgub %d s. pärast
+[Add]
+Lisa
+[Remove]
+Eemalda
+[OK]
+OK
+[Cancel]
+Tühista
 ;file \protocols\MRA\src\MraAntiSpam.cpp
 ;file \protocols\MRA\src\MraAvatars.cpp
 ;file \protocols\MRA\src\MraChat.cpp
@@ -15,9 +57,25 @@ Täis-e-mail:
 ;file \protocols\MRA\src\MraFilesQueue.cpp
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 ;file \protocols\MRA\src\MraIcons.cpp
+[Main Menu]
+Põhimenüü
 ;file \protocols\MRA\src\MraPopUp.cpp
+[None]
+Pole
+[Information]
+Info
+[Error]
+Viga
 ;file \protocols\MRA\src\MraProto.cpp
+[E-mail address]
+E-maili aadress
 ;file \protocols\MRA\src\Mra_functions.cpp
 ;file \protocols\MRA\src\Mra_options.cpp
+[Network]
+Võrgustik
+[Files]
+Failid
 ;file \protocols\MRA\src\Mra_proto.cpp
 ;file \protocols\MRA\src\Mra_svcs.cpp
+[On the phone]
+Telefonil

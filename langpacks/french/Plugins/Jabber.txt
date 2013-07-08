@@ -6,18 +6,28 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\JabberG\res\jabber.rc
+[Cancel]
+Annuler
+[Type:]
+Type :
 [User:]
 Contact :
+[Password:]
+Passe :
 [Resource:]
 Ressource :
 [Register new user]
 Créer ce compte
 [Search service]
 Recherche
+[Username:]
+Identifiant :
 [Priority:]
 Priorité :
 [List of public servers]
 Liste des serveurs publics
+[Port:]
+Port :
 [Use SSL]
 Connexion SSL
 [Use TLS]
@@ -26,6 +36,8 @@ Connexion TLS
 Désenregistrer
 [Manually specify connection host]
 Indiquer l'hôte manuellement
+[Host:]
+Hôte :
 [User directory:]
 Adresse utilisateur :
 [Allow file sending through direct peer-to-peer connection]
@@ -58,32 +70,66 @@ Connexion
 Déconnexion
 [Register with a new service...]
 Enregistrer avec nouv. service
+[Close]
+Fermer
 [Command]
 Commande
 [Instruction:]
 Instruction :
 [Submit]
 Soumettre
+[Complete]
+Terminé
 [Address1:]
 Adresse1 :
 [Address2:]
 Adresse2 :
+[City:]
+Ville :
+[State:]
+État :
 [ZIP:]
 Code postal :
+[Country:]
+Pays :
+[First name:]
+Prénom :
 [Middle:]
 Altern :
+[Last name:]
+Nom :
+[Date of birth:]
+Anniversaire :
 [YYYY-MM-DD]
 AAAA-MM-DD
+[Gender:]
+Sexe :
+[Homepage:]
+Page web :
+[Company:]
+Entreprise :
+[Department:]
+Département :
+[E-mail:]
+e-mail :
+[Phone:]
+Téléphone :
 [Jabber vCard: Add Email Address]
 Détails Jabber : Ajout d'un e-mail
 [Email address:]
 e-mail :
+[Work]
+Travail
 [Jabber vCard: Add Phone Number]
 Détails Jabber : Ajout d'un téléphone
 [Phone number:]
 Téléphone :
 [Load]
 Charger
+[Delete]
+Effacer
+[Description:]
+Description :
 [Current Password:]
 Passe actuel :
 [New Password:]
@@ -108,12 +154,22 @@ JID :
 Enregistrer
 [Other JID:]
 Autre ID :
+[Add]
+Ajouter
+[Nickname:]
+Pseudo :
 [Jabber Bookmarks]
 Favoris Jabber
+[Remove]
+Retirer
+[Edit]
+Éditer
 [Bookmark Details]
 Détails du favori
 [Bookmark Type]
 Type du favori
+[URL]
+Lien
 [Room JID/ URL:]
 Salon / URL :
 [Bookmark Name:]
@@ -128,10 +184,16 @@ et :
 Nom de la nouvelle liste :
 [Enter the name of the new list:]
 Nom de la nouvelle liste :
+[Change %s Message]
+Changer le message de \"%s\"
+[Closing in %d]
+Fermeture dans %d
 [Account type:]
 Type de compte :
 [Register account now]
 Enregistrer le compte
+[Authorization Request]
+Demande d'autorisation
 [Authorize]
 Autoriser
 [Deny]
@@ -165,8 +227,12 @@ Conférences
 ;file \protocols\JabberG\src\jabber_caps.cpp
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 ;file \protocols\JabberG\src\jabber_chat.cpp
+[None]
+Aucun
 [Member]
 Membre
+[Owner]
+Propriétaire
 [Visitor]
 Visiteur
 [Moderator]
@@ -175,6 +241,16 @@ Modérateur
 Visiteurs
 [Moderators]
 Modérateurs
+[Online]
+En ligne
+[Away]
+Absent
+[NA]
+Indisponible
+[DND]
+Ne pas déranger
+[Free for chat]
+OK pour un chat
 [&User details]
 &Détails contact
 [&Copy to clipboard]
@@ -241,6 +317,12 @@ Liste des admins
 Suppression
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Request authorization]
+Demander l'autorisation
+[Grant authorization]
+Accorder l'autorisation
+[Revoke authorization]
+Enlever l'autorisation
 [Add to Bookmarks]
 Ajouter aux favoris
 [Commands]
@@ -255,6 +337,8 @@ Dernière activité
 Haute priorité (choix du serveur)
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
+[To]
+Vers
 [Both]
 les 2
 ;file \protocols\JabberG\src\jabber_notes.cpp
@@ -303,6 +387,8 @@ Frison occidental
 Peul
 [Georgian]
 Géorgien
+[Nauru]
+Nauru
 [These changes will take effect the next time you connect to the Jabber network.]
 Ces changements ne prendront effet qu'à la prochaine connexion au réseau Jabber.
 [Jabber Protocol Option]
@@ -311,26 +397,42 @@ Options du protocole Jabber
 Cette opération détruira votre compte, rôle, et toutes informations relatives à votre compte stockées sur le serveur. Voulez-vous vraiment détruire entièrement votre compte ?
 [Account removal warning]
 Avertissement d'effacement de comtpe
+[Messaging]
+Envoi de message
 [Server options]
 Options du serveur
 [Disable SASL authentication (for old servers)]
 Désactiver l'authentification SASL (pour les anciens serveurs)
 [Enable stream compression (if possible)]
 Activer la compression du Stream (si disponible)
+[Other]
+Autre
 [Show transport agents on contact list]
 Voir les services de transports dans ma liste de contact
 [Automatically add contact when accept authorization]
 Ajouter auto. un contact après une autorisation acceptée
+[General]
+Général
 [Autoaccept multiuser chat invitations]
 Accepter automatiquement les invitations des utilisateurs d'une conférence
 [Automatically join conferences on login]
 Rejoindre automatiquement une conférence à la connexion
+[Status changes]
+Changements d'état
 [JID]
 JID 
 [Nick Name]
 Pseudo
+[Group]
+Groupe
 [Uploading...]
 Mise à jour...
+[Connecting...]
+Connexion en cours...
+[Network]
+Réseau
+[Advanced]
+Avancé
 ;file \protocols\JabberG\src\jabber_password.cpp
 [Set New Password for]
 Changer le mot de passe de
@@ -349,6 +451,8 @@ Ajouter une règle
 Effacer la règle
 [Remove list]
 Effacer
+[<none>]
+<aucun>
 [Else ]
 Sinon 
 [then ]
@@ -359,6 +463,12 @@ puis
 Quitter Miranda-IM
 [Change Status]
 Changerl'état
+[Status]
+État
+[Invisible]
+Invisible
+[Offline]
+Hors ligne
 [%d message(s) to be forwarded]
 %d message(s) à envoyer
 [%d message(s) forwarded]
@@ -389,6 +499,16 @@ Erreur : Connexion perdue
 [Sending registration information...]
 Envoi des infos d'enregistrement...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
+[<not specified>]
+<non spécifié>
+[System]
+Système
+[Yes]
+Oui
+[No]
+Non
+[Copy]
+Copier
 [Unknown format]
 Format inconnu
 [<Photo not available while offline>]
@@ -428,9 +548,15 @@ Erreur du serveur distant
 Service indisponible
 [Remote server timeout]
 Délai du serveur distant dépassé
+[Error]
+Erreur
 [Unknown error message]
 Erreur de message inconnu
 ;file \protocols\JabberG\src\jabber_vcard.cpp
+[Male]
+Homme
+[Female]
+Femme
 [Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
 Seules les images JPG, GIF, et BMP de moins de 40ko sont supportées.
 [Jabber vCard]

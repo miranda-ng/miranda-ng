@@ -10,6 +10,16 @@
 Ajouter un évènement (icône clignotant) au contact
 [Open User Details]
 Ouvrir les détails du contact
+[Background]
+Arrière-plan
+[Text]
+Texte
+[Default]
+Défaut
+[Custom]
+Défini
+[sec]
+secondes
 [Notify always]
 Toujours notifier
 ;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp

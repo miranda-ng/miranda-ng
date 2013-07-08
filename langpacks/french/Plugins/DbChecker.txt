@@ -6,8 +6,14 @@
 ;  Authors: George Hazan
 ;============================================================
 ;file \plugins\DbChecker\res\resource.rc
+[Cancel]
+Annuler
 ;file \plugins\DbChecker\src\finished.cpp
 ;file \plugins\DbChecker\src\progress.cpp
 ;file \plugins\DbChecker\src\selectdb.cpp
+[Error]
+Erreur
+[All Files]
+Tous les fichiers
 ;file \plugins\DbChecker\src\wizard.cpp
 ;file \plugins\DbChecker\src\worker.cpp

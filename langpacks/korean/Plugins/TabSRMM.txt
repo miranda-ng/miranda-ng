@@ -6,30 +6,108 @@
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 ;file \plugins\TabSRMM\res\chat.rc
+[OK]
+확인
+[Cancel]
+취소
+[Information]
+정보
+[Options]
+옵션
+[List]
+목록
+[&Message]
+&M 메세지
+[&Copy link]
+&C 링크 복사
 ;file \plugins\TabSRMM\res\resource.rc
+[seconds]
+초
+[Background]
+배경
+[Events]
+이벤트
+[Apply]
+적용
+[Load History Events]
+히스토리 이벤트 불러오기
+[Load unread events only]
+읽지 않은 이벤트만 불러오기
+[Load number of previous events]
+이전 이벤트 개수 로드
+[Load previous events less than]
+이전 이벤트 불러오기 
+[minutes old]
+분 이전 것만
 [Send typing notifications to the following users when you are typing a message to the them:]
 당신이 그들에게 메세지를 입력중일 때 다음의 유저들에게 입력 알림을 보냅니다:
+[Show typing notification when no message dialog is open]
+어떤 메세지 대화 상자도 열려있지 않을 때 입력 알림 보이기
+[Delete]
+삭제
+[milliseconds]
+밀리초
+[Close]
+닫기
+[Icons]
+아이콘
+[Yes]
+네
+[No]
+아니오
+[Minimize the message window on send]
+보낸 후에 메세지 창 최소화
+[&Copy]
+&C 복사
 [&Quote]
 &Q 인용
+[Co&py All]
+&P 전체 복사
+[Select &All]
+&A 전체 선택
+[Open in &new window]
+&N 새 창으로 열기
+[&Open in existing window]
+&O 기존 창으로 열기
+[Global]
+전체
+[&File]
+&F 파일
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
+[View User's History]
+유저 히스토리 보기
 ;file \plugins\TabSRMM\src\container.cpp
 ;file \plugins\TabSRMM\src\containeroptions.cpp
 ;file \plugins\TabSRMM\src\controls.cpp
 ;file \plugins\TabSRMM\src\eventpopups.cpp
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 ;file \plugins\TabSRMM\src\globals.cpp
+[Message from %s]
+%s 로부터 받은 메세지
 ;file \plugins\TabSRMM\src\hotkeyhandler.cpp
 ;file \plugins\TabSRMM\src\infopanel.cpp
 ;file \plugins\TabSRMM\src\mim.cpp
 ;file \plugins\TabSRMM\src\modplus.cpp
 ;file \plugins\TabSRMM\src\msgdialog.cpp
 ;file \plugins\TabSRMM\src\msgdlgutils.cpp
+['(Unknown Contact)']
+'(알 수 없는 대화 상대)'
 ;file \plugins\TabSRMM\src\msglog.cpp
 ;file \plugins\TabSRMM\src\msgoptions.cpp
+[** New contacts **]
+** 새 대화 상대 **
+[** Unknown contacts **]
+** 알 수 없는 대화 상대 **
+[Typing Notify]
+입력 알림
 ;file \plugins\TabSRMM\src\msgs.cpp
 ;file \plugins\TabSRMM\src\msgs.h
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 ;file \plugins\TabSRMM\src\sendlater.cpp
+[Contact]
+연락처
+[Status]
+상태
 ;file \plugins\TabSRMM\src\sendqueue.cpp
 ;file \plugins\TabSRMM\src\sidebar.cpp
 ;file \plugins\TabSRMM\src\srmm.cpp
@@ -38,8 +116,14 @@
 ;file \plugins\TabSRMM\src\themeio.cpp
 ;file \plugins\TabSRMM\src\themes.cpp
 ;file \plugins\TabSRMM\src\translator.cpp
-[Show file events]
-파일 이벤트 보이기
+[System tray icon]
+시스템 트레이 아이콘
+[Send message on 'Enter']
+엔터키로 메세지 보내기
+[Send message on double 'Enter']
+엔터키 두번으로 메세지 보내기
+[Close the message window on send]
+보낸 후에 메세지 창 닫기
 ;file \plugins\TabSRMM\src\trayicon.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 ;file \plugins\TabSRMM\src\userprefs.cpp
@@ -49,6 +133,14 @@
 ;file \plugins\TabSRMM\src\chat\log.cpp
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 ;file \plugins\TabSRMM\src\chat\options.cpp
+[All Files]
+모든 파일
+[Select Folder]
+폴더 지정
 ;file \plugins\TabSRMM\src\chat\services.cpp
+[&Leave]
+&L 남겨두기
 ;file \plugins\TabSRMM\src\chat\tools.cpp
 ;file \plugins\TabSRMM\src\chat\window.cpp
+[Nick]
+대화명

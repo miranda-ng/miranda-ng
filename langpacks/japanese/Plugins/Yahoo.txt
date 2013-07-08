@@ -8,6 +8,10 @@
 ;file \protocols\Yahoo\res\Yahoo.rc
 [ID:]
 ID:
+[Password:]
+パスワード :
+[Nick:]
+ニック :
 [Create a new Yahoo account using the Yahoo website]
 Yahoo ウェブサイトを使用して新規 Yahoo アカウントを作成
 [Use Yahoo Address Book (YAB)]
@@ -24,22 +28,40 @@ Yahoo Japan
 新規 Yahoo アカウントを作成
 [Connection Settings]
 接続設定
+[Port:]
+ポート :
+[Reset]
+リセット
 [Yahoo Ignore List]
 Yahoo 無視リスト
 [Ignore anyone who is not on my Yahoo buddy list ]
 自分の Yahoo メンバーリストにない人は全て無視する
 [Ignore only the people below: ]
 以下の人々のみ無視 :
+[&Add]
+追加 (&A)
 [Set Custom Status]
 カスタムステータスを設定
 [Show as busy]
 多忙と表示
+[OK]
+OK
+[Cancel]
+Cancel
+[&Join]
+参加する (&J)
+[&Deny]
+拒否 (&D)
 [Denial Message]
 メッセージを拒否
 [Invitation Message]
 招待メッセージ
 [Host]
 ホスト
+[&Cancel]
+Cancel(&C)
+[Add]
+追加
 ;file \protocols\Yahoo\src\avatar.cpp
 ;file \protocols\Yahoo\src\chat.cpp
 [%s denied invitation with message: %s]
@@ -51,6 +73,8 @@ Yahoo 無視リスト
 ;file \protocols\Yahoo\src\icolib.cpp
 [Mail]
 メール
+[Profile]
+プロファイル
 [Address Book]
 アドレスブック
 [Set Status]
@@ -60,6 +84,8 @@ Yahoo 無視リスト
 ;file \protocols\Yahoo\src\im.cpp
 [Yahoo Error]
 Yahoo エラー
+[The message send timed out.]
+メッセージの送信はタイムアウトしました
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 メッセージが長すぎます : Yahoo メッセージは UTF8 で 800 文字に制限されています
 ;file \protocols\Yahoo\src\links.cpp
@@ -85,6 +111,8 @@ Yahoo 無視
 無視リストから削除するには , Yahoo に接続する必要があります
 [Please select a buddy on the ignore list to remove.]
 無視リストから削除するメンバーを選択してください
+[Network]
+ネットワーク
 [Ignore List]
 無視リスト
 ;file \protocols\Yahoo\src\proto.cpp

@@ -6,22 +6,76 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
+[Password:]
+סיסמא:
+[Port:]
+יציאה:
+[Default]
+ברירת מחדל
+[Background colour]
+צבע רקע
+[Background colour]
+צבע רקע
+[Font]
+גופן
+[Summary]
+סיכום
+[Nickname:]
+כינוי:
+[Location]
+מיקום
 [Full e-mail:]
 כתובת אימייל מלאה:
+[Text Color]
+צבע טקסט
+[Closing in %d]
+סוגר תוך %d
+[Add]
+הוסף
+[Remove]
+הסר
+[OK]
+אישור
+[Cancel]
+ביטול
 ;file \protocols\MRA\src\MraAntiSpam.cpp
 ;file \protocols\MRA\src\MraAvatars.cpp
 ;file \protocols\MRA\src\MraChat.cpp
 ;file \protocols\MRA\src\MraConstans.h
+[Request authorization]
+בקשת אישור
+[Grant authorization]
+הענק אישור
 ;file \protocols\MRA\src\MraFilesQueue.cpp
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 ;file \protocols\MRA\src\MraIcons.cpp
+[Main Menu]
+תפריט ראשי
 ;file \protocols\MRA\src\MraPopUp.cpp
+[None]
+ללא
+[Information]
+מידע
+[Error]
+שגיאה
+[Popups]
+פופ אפ
 ;file \protocols\MRA\src\MraProto.cpp
 ;file \protocols\MRA\src\Mra_functions.cpp
 ;file \protocols\MRA\src\Mra_options.cpp
+[Network]
+רשת
+[Files]
+קבצים
 ;file \protocols\MRA\src\Mra_proto.cpp
 ;file \protocols\MRA\src\Mra_svcs.cpp
 [Duck]
 ברווז
 [Beer]
 בירה
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדברת בטלפון

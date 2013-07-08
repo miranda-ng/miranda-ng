@@ -36,6 +36,8 @@
 Внасяне...
 [Import Information Wizard]
 Помощник за внасяне
+[Cancel]
+Отказ
 [Import all contacts and all messages]
 Внос на всички контакти и съобщения
 [Only import contacts]
@@ -52,8 +54,20 @@
 Системна история
 [Select items to import:]
 Изберете елементи за внасяне:
+[Incoming]
+Входящи
+[Outgoing]
+Изходящи
 [Only since:]
 Само от:
+[Messages]
+Съобщения
+[URLs]
+URL адреси
+[File Transfers]
+Обмен на файлове
+[Other]
+Друго
 ;file \plugins\Import\src\import.cpp
 [Skipping contact with no protocol]
 Пропуснати контакти без протокол.
@@ -93,6 +107,8 @@
 Miranda внос
 [Miranda NG database]
 База от данни на Miranda NG
+[All Files]
+Всички файлове
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Пропускане на дублираща се група %s.

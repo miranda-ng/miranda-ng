@@ -6,20 +6,54 @@
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 ;file \plugins\Clist_modern\res\resource.rc
+[Show counts of number of contacts in a group]
+Vis antall kontakter i en gruppe
+[Hide group counts when there are none online]
+Skjul telling av grupper når ingen er påkoblet
 [1st:]
 1.:
 [2nd:]
 2.:
 [3rd:]
 3. :
+[Always on top]
+Alltid øverst
 [Hide contact list after ]
 Skjul kontaktlisten etter
+[seconds]
+sekunder
+[Fade contact list in/out]
+Gli kontaktlisten inn/ut
+[Transparent contact list]
+Gjennomsiktig kontaktliste
+[Inactive opacity:]
+Inaktiv uklarhet:
+[Active opacity:]
+Aktiv ugjennomsiktbarhet:
 [Animate Avatars]
 Beveg Avatarer
+[Show protocol names]
+Vis protokollnavn
+[Show status text]
+Vis statustekst
+[Stretch to width]
+Strekk til bredde
+[Stretch to height]
+Strekk til høyde
+[Tile horizontally]
+Still opp horisontalt
+[Tile vertically]
+Still opp vertikalt
+[Scroll with text]
+Rull med tekst
+[Stretch proportionally]
+Strekk proporsjonelt
 [Use Windows Colors]
 Bruk Windowsfarger
 [Available skins]
 Tilgjengelig skins
+[Apply]
+Lagre
 [\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
 \n\n\nVennligst velg et tilgjengelig skin. \n\nEller bla etter et skin som ikke står i listen.
 [Skin Preview]
@@ -30,20 +64,46 @@ ADVARSEL: \tSkins kan endre din nåværende profil. Gjenoppretting er ikke mulig
 * Omstart kan være nødvendig før endringene tas i bruk
 [Available objects]
 Tilgjengelige objekter
+[Copy]
+Kopier
+[Copy]
+Kopier
+[Paste]
+Lim inn
 [Object properties]
 Objektegenskaper
 [Colour]
 Farge
 [Image file and fitting mode]
 Bildefil og tilpasningsmodus
+[File]
+Fil
 [Borders]
 Grenser
 [Fit mode]
 Tilpasningsmodus
 [Fragment location]
 Fragment lokalisering
+[Position:]
+Posisjon:
+[Size:]
+Strl:
 [W x H: 0 x 0 pixels]
 B x H: 0 x 0 piksler
+[OK]
+OK
+[Cancel]
+Avbryt
+[Protocol]
+Protokoll
+[Group]
+Gruppe
+[Status Bar]
+Statuslinje
+[Show status bar]
+Vis statuslinje
+[Make sections equal width]
+Samme bredde på seksjoner
 [Space between]
 Space mellom
 [Multiline status bar:]
@@ -58,8 +118,38 @@ Vis vanlig status som overlapping
 Status overlappings-uklarhet er 75%
 [Show unread emails (if supported)]
 Vis ulest epost (hvis støttet)
+[Right click opens status menu]
+Høyreklikk åpner statusmeny
+[Delete Contact]
+Slett Kontakt
+[No]
+Nei
+[Yes]
+Ja
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Skjules fra liste, slik at historikk og ignorerings/synbarhets innstillinger beholdes
+[Are you sure you want to delete %s?]
+Er du sikker på at du ønsker å slette %s?
+[This will erase all history and settings for this contact!]
+Dette vil slette all historikk og innstillinger for kontakten!
+[Hide offline users]
+Skjul frakoblede brukere
+[Hide empty groups]
+Skjul tomme grupper
+[Disable groups]
+Deaktiver grupper
+[Ask before deleting contacts]
+Spør før sletting av kontakter
+[Contact List]
+Kontaktliste
+[Contact List Sorting]
+Kontaktliste sortering
 [Place offline users out of groups]
 Plasser frakoblede brukere utenfor gr.
+[Gamma correction]
+Gammakorreksjon
+[Default]
+Standard
 [Full selection]
 Fullstendig utvalg
 [Less selection]
@@ -70,10 +160,20 @@ Ingen valg
 Utvalgsmodus
 [Bring to front if covered]
 Hent frem hvis tildekket
+[Automatically resize window to height of list]
+Juster størrelse på vindu automatisk etter listehøyde
+[maximum]
+maksimum
+[% of screen]
+% av skjerm
+[Size upwards]
+Størrelse oppover
 [Lock manual resize]
 Lås manuell størrelse
 [Drag to ]
 Dra til 
+[Easy move]
+Enkel flytting
 [x100 msec]
 x100 msek
 [show delay]
@@ -82,6 +182,10 @@ vis forsinkelse
 skjul forsinkelse
 [Hide method]
 Skjul metode
+[pixels]
+pixler
+[pixels]
+piksler
 [keep on screen]
 behold på skjerm
 [Snap to edges]
@@ -92,8 +196,62 @@ Hendelsesvarsel område
 Vis automatisk
 [Always Visible]
 Alltid Synlig
+[Items]
+Elementer
+[Show divider between online and offline contacts]
+Vis skillelinje mellom på- og frakoblede kontakter
+[Hot track items as mouse passes over]
+Endre elementer når musen flyttes over
+[Disable drag and drop of items]
+Deaktiver dra og slipp av elementer
+[Disable rename of items by clicking twice]
+Deaktiver re-naming av elementer ved dobbeltklikk
+[Show selection even when list is not focused]
+Vis valg selv når listen ikke er i fokus
+[Make selection highlight translucent]
+Gjør valget gjennomskinnelig merket
+[Dim idle contacts]
+Utydeliggjør inaktive kontakter
+['Hide Offline' means to hide:]
+'Skjul frakoblet' skjuler:
+[Groups]
+Grupper
+[Draw a line alongside group names]
+Tegn en linje langs gruppenavnene
+[Sort groups alphabetically]
+Sorter grupper alfabetisk
+[Quicksearch in open groups only]
+Hurtigsøk kun i åpne grupper
+[Indent groups by:]
+Rykk inn grupper:
+[Visual]
+Visuell
+[Scroll list smoothly]
+Rull listen glatt
+[Time:]
+Tid:
+[milliseconds]
+millisekunder
 [Fade out entire list when:]
 Gli ut hele listen når:
+[Single click interface]
+Enkeltklikk grensesnitt
+[Always show status in tooltip]
+Alltid vis status i verktøytips
+[Disable icon blinking]
+Deaktiver ikonblinking
+[Show]
+Vis
+[Cycle icons every]
+Visning av ikoner hvert
+[seconds, when statuses differ]
+sekund(er), når status er forskj.
+[Show multiple icons]
+Vis mange ikoner
+[Only when statuses differ]
+Bare når statusene er forskjellige
+[System tray icon]
+Oppgavelinje ikon
 [Use xStatus icon]
 Bruk xStatus ikon
 [only when statuses differ]
@@ -110,12 +268,26 @@ Underkontakter innrykk:
 Vis tid bare hvis den er forskjellig fra nåværende tid
 [Show contact time as row item]
 Vis kontaktens tid som rad-element
+[Pin to desktop]
+Lås til skrivebord
 [Client area margins]
 Marginer i Klientområdet
 [Thin border main window]
 Tynn grense hovedvindu
 [Borderless main window]
 Grensefritt hovedvindu
+[Show menu bar]
+Vis menylinje
+[Show title bar]
+Vis tittelbar
+[Title bar text:]
+Tittellinje tekst:
+[Tool style main window]
+Verktøy type hovedvindu
+[Minimize to tray]
+Minimer til oppgavelinje
+[Frames]
+Rammer
 [Between frames:]
 Mellom rammer:
 [Gaps]
@@ -140,6 +312,8 @@ Variabel radhøyde
 Still venstre elementer mot venstre
 [Align right items to right]
 Still høyre elementer mot høyre
+[Left margin:]
+Venstremargin
 [Right margin:]
 Høyre margin:
 [Draw border on avatar]
@@ -190,6 +364,8 @@ Beskjær lang tekst med ellipse
 Topp space:
 [Draw smileys on second line]
 Tegn smileyer på andre linje
+[Status]
+Status
 [XStatus has priority]
 XStatus har prioritet
 [Use 'XStatus: XMessage']
@@ -206,6 +382,8 @@ Topp/Venstre
 Bunn/Høyre
 [Position (vertical)]
 Plassering (vertikal)
+[Options]
+Valg
 [Show Title]
 Vis Tittel
 [Locked]
@@ -234,12 +412,62 @@ Beholderhøyde:
 Lagvis
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 VALG SIDEN ER UNDER KONSTRUKSJON Vennligst IKKE si fra om noen problemer her.\n Bare høy-nivå designkommentarer tas imot.
+[E&xit]
+A&vslutt
+[&Status]
+&Status
+[&Offline\tCtrl+0]
+&Frakoblet\tCtrl+0
+[On&line\tCtrl+1]
+På&logget\tCtrl+1
+[&Away\tCtrl+2]
+&Borte\tCtrl+2
+[&NA\tCtrl+3]
+&Ikke Angitt\tCtrl+3
+[Occ&upied\tCtrl+4]
+Opp&tatt\tCtrl+4
+[&DND\tCtrl+5]
+&Ikke forstyrr\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Tilgjengelig for chat\tCtrl+6
+[&Invisible\tCtrl+7]
+&Usynlig\tCtrl+7
+[On the &Phone\tCtrl+8]
+I &Telefonen\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Ute til &Lunsj\tCtrl+9
+[&Hide/Show]
+&Skjul/Vis
+[Nowhere]
+Ingensteds
+[&New Group]
+&Ny Gruppe
+[&Hide Offline Users]
+&Skjul Frakoblede Brukere
+[Hide &Offline Users out here]
+Skjul &Frakoblede Brukere her ute
+[Hide &Empty Groups]
+Skjul &Tomme Grupper
+[Disable &Groups]
+Deaktiver &Grupper
+[Hide Miranda]
+Skjul Miranda
+[&New Subgroup]
+&Ny Undergruppe
+[&Hide Offline Users in here]
+&Skjul Frakoblede Brukere her
 [&Show Offline Users in here]
 &Vis frakoblede Brukere
+[&Rename Group]
+&Gi gruppen nytt navn
+[&Delete Group]
+&Slett Gruppe
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List smileys]
 Kontaktliste smileyer
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Standard contacts]
+Standard kontakter
 [Away contacts]
 Borte-kontakter
 [DND contacts]
@@ -256,6 +484,12 @@ Usynlige kontakter
 I telefonen-kontakter
 [Out to lunch contacts]
 Ute til lunsj-kontakter
+[Offline contacts]
+Frakoblede kontakter
+[Online contacts to whom you have a different visibility]
+Påloggede kontakter du har en annen synlighet ovenfor 
+[Offline contacts to whom you have a different visibility]
+Frakoblede brukere du har annen synlighet ovenfor
 [Contacts who are 'not on list']
 Kontakter som er 'ikke på listen'
 [Open groups]
@@ -266,6 +500,8 @@ Antall medlemmer i åpne grupper
 Lukkede grupper
 [Closed group member counts]
 Antall medlemmer i lukkede grupper
+[Dividers]
+Delere
 [Third line]
 Tredje linje
 [Status bar text]
@@ -274,6 +510,42 @@ Statuslinjetekst
 Filterområde tekst
 [Current view mode text]
 Aktiv filter tekst
+[Background]
+Bakgrunn
+[General]
+Generelt
+[List]
+Liste
+[Window]
+Vindu
+[List Background]
+Listebakgrunn
+[Not focused]
+Ikke fokusert
+[Offline]
+Frakoblet
+[Online]
+Pålogget
+[Away]
+Borte
+[NA]
+NA
+[Occupied]
+Opptatt
+[DND]
+Ikke forstyrr
+[Free for chat]
+Tilgjengelig for samtale
+[Invisible]
+Usynlig
+[Out to lunch]
+Ute til lunsj
+[On the phone]
+I Telefonen
+[Name]
+Navn
+[Global]
+Global
 [Hide to tray]
 Skjul til oppgavelinje
 [Behind left edge]
@@ -284,7 +556,13 @@ Bak høyre kant
 [No Events]
 Ingen Hendelser
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
+[None]
+Ingen
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Text]
+Tekst
+[Extra icons]
+Ekstra ikoner
 [Left align group names]
 Venstrejustèr gruppenavn
 [Center group names]
@@ -298,7 +576,15 @@ Tredje Linje
 [Row items]
 Radelementer
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+[(Unknown Contact)]
+(Ukjent Kontakt)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
+[&Find/Add Contacts...]
+&Finn/Legg til Kontakter
+[&Main Menu]
+&Hovedmeny
+[&Options...]
+&Valg...
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show Contact &Avatar]
 Vis Kontakt &Avatar
@@ -324,6 +610,10 @@ kolonner
 [Image size is]
 Bildestørrelsen er
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
+[You need an image services plugin to process PNG images.]
+Du trenger en bildetjeneste plugin for å behandle PNG bilder.
+[Error]
+Feil
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 Load/Lagre
@@ -358,10 +648,14 @@ Standard Skin
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[Main Menu]
+Hovedmeny
 [Status Menu]
 Statusmeny
 [Show/Hide offline contacts]
 Vis/Skjul frakoblede kontakter
+[Find User]
+Finn Bruker
 [Use/Disable groups]
 Bruk/Deaktiver grupper
 [Enable/Disable sounds]
@@ -371,4 +665,3 @@ Minimer
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Configuring view mode: %s]
 Konfigurerer filter: %s
-;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

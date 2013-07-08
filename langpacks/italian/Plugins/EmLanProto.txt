@@ -7,3 +7,9 @@
 ;============================================================
 ;file \protocols\EmLanProto\res\amdproto.rc
 ;file \protocols\EmLanProto\src\amdproto.cpp
+[Network]
+Rete
+[Network]
+Rete
+[Network]
+Rete

@@ -6,6 +6,16 @@
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 ;file \plugins\Sessions\res\Sessions.rc
+[Edit]
+Редактиране
+[Delete]
+Изтриване
+[&Cancel]
+Отказ
+[Cancel]
+Отказ
 ;file \plugins\Sessions\Src\Main.cpp
 ;file \plugins\Sessions\Src\Options.cpp
+[Message Sessions]
+Разговори
 ;file \plugins\Sessions\Src\Utils.cpp

@@ -6,7 +6,25 @@
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Search]
+חיפוש
+[Close]
+סגור
+[Incoming messages]
+הודעות נכנסות
+[Outgoing messages]
+הודעות יוצאות
+[Timestamp]
+חותמת זמן
+[&File]
+קובץ
+[&Close]
+סגור
 ;file \plugins\HistoryLinkListPlus\src\language.h
+[Error]
+שגיאה
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[History]
+היסטוריה\n
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 ;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp

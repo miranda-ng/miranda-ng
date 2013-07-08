@@ -6,9 +6,21 @@
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
+[OK]
+OK
+[Background colour]
+Taustavärv
+[Text colour]
+Teksti värv
+[Use default colours]
+Kasuta vaikimisi värve
+[Actions]
+Tegevused
 ;file \plugins\AvatarHistory\src\AvatarDlg.cpp
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
 ;file \plugins\AvatarHistory\src\AvatarHistory.h
 ;file \plugins\AvatarHistory\src\icolib.cpp
+[History]
+Ajalugu
 ;file \plugins\AvatarHistory\src\options.cpp
 ;file \plugins\AvatarHistory\src\utils.cpp

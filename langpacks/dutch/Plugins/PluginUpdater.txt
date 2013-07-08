@@ -2,11 +2,23 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.1.1
+;  Version: 0.1.1.4
 ;  Authors: Mataes, George Hazan
 ;============================================================
 ;file \plugins\PluginUpdater\res\Resource.rc
+[Cancel]
+Annuleren
+[Text]
+Tekst
+[Popups]
+Popups
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp
+[Plugins]
+Plugins
+[Icons]
+Iconen
+[Other]
+Ander
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 ;file \plugins\PluginUpdater\src\Options.cpp
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp

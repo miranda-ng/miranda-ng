@@ -10,10 +10,18 @@ Provê um serviço notificações popup para diferentes plugins
 ;file \plugins\Popup\res\resource.rc
 [Content && Style]
 Conteúdo e Estilo
+[Effects]
+Efeitos
 [Live Preview]
 Previsão
 [Size && Position]
 Tamanho e posição
+[History]
+Histórico
+[History]
+Histórico
+[History]
+Histórico
 [Enable popup history]
 Habilitar histórico de popup
 [Store last]
@@ -24,6 +32,10 @@ Usar History++ para renderizar o log
 Mostrar bordas do avatar
 [Draw borders for semitransparent avatars too]
 Mostrar bordas para avatares semitransparentes também
+[pixels]
+pixels
+[pixels]
+pixels
 [Enable avatar updates]
 Ativar atualização de avatar
 [Start the popups in the monitor with]
@@ -34,6 +46,8 @@ A janela do Miranda
 A janela ativa
 [Enable Win 9x/Me transparency]
 Ativar trasparência no Win 9x/Me
+[opacity:]
+Opacidade
 [Opaque popups under cursor]
 Popups opacos sob o cursor
 [Limit window amount to:]
@@ -46,6 +60,14 @@ Janela limitada a:
 Pixels
 [Configure popup area]
 Configurar área de popup
+[Close]
+Fechar
+[General]
+Geral
+[General]
+Geral
+[General]
+Geral
 [Enable popup actions]
 Ativar ações popup
 [Popup Actions are those tiny buttons below notification text.]
@@ -96,6 +118,8 @@ Mostrar padrão
 Demora infinita do popup
 [Popup delay:]
 Demora do popup
+[seconds]
+segundos
 [Do not close hovered popups]
 Não fechar popups flutuantes
 [Dynamically resize the popups]
@@ -104,6 +128,8 @@ Redimensionar popups dinamicamente
 Largura minima
 [Maximum width]
 Largura máxima
+[Position:]
+Posição:
 [Layout:]
 Formato
 [Reorder Popups]
@@ -117,6 +143,8 @@ Sempre (tem prioridade)
 Resposta rápida
 [User details]
 Detalhes do usuário
+[Contact menu]
+Menu de contato
 [Pin popup]
 Fixar popup
 ;file \plugins\Popup\src\config.cpp
@@ -146,6 +174,30 @@ Com sobre posição de tela cheia
 Recarregar lista de capas
 [Popup Placement]
 Localização do popup
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [Popup Group]
 Grupo do popup
 [Favorite Contact]
@@ -158,9 +210,25 @@ Contatos bloqueados
 Fixar popup
 [Pinned Popup]
 Popup fixo
+[User Details]
+Detalhes do Usuário
+[User Details]
+Detalhes do usuário
+[User Details]
+Detalhes do Usuário
 [Add Contact Permanently]
 Adicionar contato permanentemente
 ;file \plugins\Popup\src\main.cpp
+[Actions]
+Ações
+[Contacts]
+Contatos
+[Contacts]
+Contatos
+[Advanced]
+Avançado
+[Advanced]
+Avançado
 ;file \plugins\Popup\src\opt_adv.cpp
 ;file \plugins\Popup\src\opt_class.cpp
 ;file \plugins\Popup\src\opt_gen.cpp
@@ -185,6 +253,8 @@ Apenas dê uma olhada nessa capa...
 Mostrar rélogio
 [Enable Aero Glass (Vista+)]
 Ativar Aero Glass (Vista+)
+[Use Windows colours]
+Usar Janelas coloridas
 [Use advanced text render]
 Usar renderizador de texto avançado
 [Refresh List]
@@ -192,5 +262,9 @@ Recarregar lista
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
 ;file \plugins\Popup\src\services.cpp
+[Error]
+Erro
+[Error]
+Erro
 ;file \plugins\Popup\src\skin.cpp
 ;file \plugins\Popup\src\srmm_menu.cpp

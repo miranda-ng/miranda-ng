@@ -8,6 +8,8 @@
 ;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
 Enregistrer vers :
+[Cancel]
+Annuler
 [Text file]
 Fichier texte
 [DialogBox]
@@ -30,6 +32,8 @@ Demander à chaque fois
 Copier aussi dans le presse-papier
 [Upload site settings]
 Configuration du site
+[Username]
+ID
 [Highlight version number using]
 Surligner les numéros de version
 [Show disabled plugins too]
@@ -44,6 +48,8 @@ Afficher l'ID des plugins
 Afficher toutes les langues installées
 [Miranda Version Information]
 Information de Version de Miranda
+[Close]
+Fermer
 [&Copy text]
 &Copier
 [&Save to file]

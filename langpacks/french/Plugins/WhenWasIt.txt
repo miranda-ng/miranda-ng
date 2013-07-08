@@ -10,21 +10,39 @@
 Pas de popups pour les sous-contacts
 [Popup mouse click]
 Action de la souris
+[Sounds]
+Sons
 [Play sounds when there are]
 Jouer un son si y en a.
 [hours]
 heures
 [Only notify once per day.]
 Une seule fois par jour.
+[Show]
+Afficher
 [Timeout:]
 Délai :
+[seconds]
+secondes
 [Birthday list]
 Liste de anniversaires
+[Close]
+Fermer
 [Manage anniversaries]
 Gestion des fêtes
+[Description:]
+Description :
+[Date:]
+Date :
+[Delete]
+Effacer
 ;file \plugins\WhenWasIt\src\dlg_handlers.cpp
 [%S protocol]
 %S protocole
+[Unknown]
+Inconnu
+[Protocol]
+Protocole
 ;file \plugins\WhenWasIt\src\hooked_events.cpp
 [Check for birthdays]
 Vérifier si anniversaire
@@ -51,4 +69,8 @@ Anniversaire - %s
 Début du rafraîchissement
 [Done refreshing user details]
 Rafraîchissement terminé
+[Error]
+Erreur
+[All Files]
+Tous les fichiers
 ;file \plugins\WhenWasIt\src\services.h

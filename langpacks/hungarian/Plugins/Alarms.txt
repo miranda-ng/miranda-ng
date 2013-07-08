@@ -6,9 +6,35 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Alarms\res\resource.rc
+[Delete]
+Törlés
+[Edit]
+Szerkeszt
+[OK]
+OK
+[Cancel]
+Mégsem
+[Description:]
+Leírás:
+[Actions]
+Akciók
+[&Delete]
+&Törlés
+[&Options...]
+&Beállítások...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 ;file \plugins\Alarms\src\alarm_win.cpp
+[Background]
+Háttér
+[Window]
+Ablak
 ;file \plugins\Alarms\src\frame.cpp
+[Frames]
+Keretek
 ;file \plugins\Alarms\src\icons.cpp
 ;file \plugins\Alarms\src\options.cpp
+[Error]
+Hiba
+[Events]
+Események

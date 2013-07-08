@@ -6,6 +6,10 @@
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 ;file \plugins\FileAsMessage\res\resources.rc
+[Size:]
+Suurus:
 ;file \plugins\FileAsMessage\src\dialog.cpp
 ;file \plugins\FileAsMessage\src\main.cpp
+[Plugins]
+Pluginad
 ;file \plugins\FileAsMessage\src\main.h

@@ -6,5 +6,9 @@
 ;  Authors: Bethoven
 ;============================================================
 ;file \plugins\TopToolBar\res\main.rc
+[Set]
+Sea
 ;file \plugins\TopToolBar\src\toolbar.cpp
 ;file \plugins\TopToolBar\src\ttbopt.cpp
+[Contact List]
+Kontaktide nimekiri

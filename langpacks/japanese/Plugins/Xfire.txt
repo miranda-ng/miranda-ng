@@ -1,13 +1,67 @@
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
+[Password:]
+パスワード :
+[Nick:]
+ニック :
+[Options]
+オプション
+[More options]
+追加オプション
+[Files]
+ファイル
+[Apply]
+適用
+[Remove]
+削除
+[Username:]
+ユーザー名 :
+[Name:]
+名前 :
+[Port:]
+ポート :
+[Copy]
+コピー
+[OK]
+OK
+[Cancel]
+Cancel
+[Search:]
+検索 :
 ;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
+[All Files]
+全てのファイル
 ;file \protocols\Xfire\src\all_statusmsg.cpp
+[Yep, I'm here.]
+%time% から在席中です
+[I've been away since %time%.]
+%time% から離席中です
+[Give it up, I'm not in!]
+返事できません
+[Not right now.]
+%time% から取り込み中です
+[Give a guy some peace, would ya?]
+邪魔しないでください
+[That'll be the phone.]
+電話中です
+[Mmm...food.]
+おいしいね...これ
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
 ;file \protocols\Xfire\src\options.cpp
+[General]
+全般
+[No]
+いいえ
+[<Root Group>]
+< ルートグループ >
+[Network]
+ネットワーク
 ;file \protocols\Xfire\src\searching4games.cpp
 ;file \protocols\Xfire\src\userdetails.cpp
+[<not specified>]
+< 指定なし >
 ;file \protocols\Xfire\src\Xfire_game.cpp
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp

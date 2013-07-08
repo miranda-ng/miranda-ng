@@ -6,27 +6,141 @@
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 ;file \plugins\UserInfoEx\res\resource.rc
+[Updating]
+Frissítés
+[OK]
+OK
+[Cancel]
+Mégsem
+[Apply]
+Alkalmaz
+[Nick:]
+Becenév:
+[First name:]
+Keresztnév:
+[Last name:]
+Utolsó név:
+[Female]
+Nõ
+[Male]
+Férfi
+[Marital status:]
+Családi állapot:
+[Street:]
+Utca:
+[Postal code:]
+Irányítószám:
+[City:]
+Város:
+[Country:]
+Ország:
+[Timezone:]
+Idõzóna:
+[Company:]
+Cég:
+[Department:]
+Részleg:
+[Position:]
+Pozíció:
+[Add Phone Number]
+Telefonszám hozzáadása
+[Enter country, area code and phone number:]
+Add meg az országot, irányítószámot és telefonszámot:
+[Or enter a full international number:]
+Vagy adj meg egy teljes nemzetközi számot:
+[Phone can receive SMS text messages]
+A telefon képes SMS szöveges üzenetek fogadására
+[Background colour]
+Háttérszín
+[Text colour]
+Szövegszín
+[Use Windows colours]
+Windows színek használata
+[Use default colours]
+Alap színek használata
+[Custom]
+Egyedi
+[Homepage:]
+Honlap
+[Delete]
+Törlés
+[Icons]
+Ikonok
+[None]
+Egyik sem
+[Off]
+Ki
+[Gender:]
+Nem:
 [Phone]
 Telefon
 [E-Mail]
 E-levél
+[Age:]
+Életkor
 ;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
+[Unspecified]
+Nem meghatározott
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+[Other]
+Egyéb
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+[Contact]
+Kapcsolat
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+[Yes]
+Igen
+[No]
+Nem
+[Ignore]
+Mellõz
+[Error]
+Hiba
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
+[General]
+Általános
+[Work]
+Munka
+[Profile]
+Profil
+[Notes]
+Megjegyzések
+[Owner]
+Tulaj
 ;file \plugins\UserInfoEx\src\init.cpp
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Default]
+Alap
+[Fax]
+Fax
+[Add]
+Új
+[Edit]
+Szerkeszt
+[Search]
+Keresés
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
+[User &Details]
+Felhasználó &részletek
+[View/Change My &Details...]
+Saját &Részletek megtekintése/módosítása...
 ;file \plugins\UserInfoEx\src\psp_about.cpp
+[About:]
+Névjegy
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
 ;file \plugins\UserInfoEx\src\psp_options.cpp
+[Contacts]
+Partnerek
+[Advanced]
+Haladó
+[Popups]
+Felugrók
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Culture & Literature]
@@ -66,7 +180,11 @@ Sport és atlétika
 [Home automation]
 Otthon gépesítés
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+['(Unknown Contact)']
+'(ismeretlen partner)'
 ;file \plugins\UserInfoEx\src\svc_email.cpp
+[Send e-mail]
+e-mail küldése
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
@@ -79,5 +197,7 @@ Otthon gépesítés
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
+[Complete]
+Teljes
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

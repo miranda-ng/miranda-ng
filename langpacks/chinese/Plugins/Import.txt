@@ -34,6 +34,8 @@ Miranda 已找到下列名称的 Miranda 配置文件. 请选择您想导入的�
 导入中...
 [Import Information Wizard]
 导入信息向导
+[Cancel]
+取消
 [Import all contacts and all messages]
 导入所有联系人和所有消息
 [Only import contacts]
@@ -52,8 +54,20 @@ Miranda 已找到下列名称的 Miranda 配置文件. 请选择您想导入的�
 系统历史
 [Select items to import:]
 选择要导入项目: 
+[Incoming]
+传入
+[Outgoing]
+发送
 [Only since:]
 仅从: 
+[Messages]
+消息
+[URLs]
+网址
+[File Transfers]
+文件传输
+[Other]
+其它
 ;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 忽略发/送给自己的事件
@@ -101,6 +115,8 @@ Miranda 已找到下列名称的 Miranda 配置文件. 请选择您想导入的�
 指定文件不存在. 请确定输入名称正确. 
 [Miranda NG database]
 Miranda NG 数据库
+[All Files]
+所有文件
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 正在跳过重复群组 %s. 

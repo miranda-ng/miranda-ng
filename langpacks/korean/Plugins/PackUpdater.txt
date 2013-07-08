@@ -6,6 +6,8 @@
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
 ;file \plugins\PackUpdater\Res\Resource.rc
+[Cancel]
+취소
 ;file \plugins\PackUpdater\Src\Events.cpp
 ;file \plugins\PackUpdater\Src\Notifications.cpp
 ;file \plugins\PackUpdater\Src\Notifications.h

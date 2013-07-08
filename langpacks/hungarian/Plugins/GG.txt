@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: GG
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: 
 ;============================================================
 ;file \protocols\Gadu-Gadu\res\resource.rc
@@ -10,8 +10,18 @@
 Gadu-Gadu felhasználó részletek
 [Gadu-Gadu Number:]
 Gadu-Gadu szám:
+[Password:]
+Jelszó:
+[E-mail:]
+E-levél
+[Create new account]
+Új fiók létrehozása
+[Remove account]
+Fiók eltávolítása
 [Retrieve password]
 Jelszó helyreállítása
+[Options]
+Beállítások
 [Friends only]
 Csak barátok
 [Show offline users with status message as invisible in contact list]
@@ -20,6 +30,8 @@ A kijelentkezett felhasználók megjelenítése láthatatlanként a partnerlist�
 Kapcsolódás bontása után maradjon a Távol állapotüzenet
 [Receive image and after image is received use:]
 Kép letöltése és letöltés utáni használata:
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Újra kell csatlakozni, hogy az oldalon végrehajtott módosítások érvényesüljenek.
 [Conference policy]
 Konferencia szabályok
 [if total participant count greater than:]
@@ -40,16 +52,36 @@ Kapcsolati szerver gépeinek kézi beállítása
 SSL biztonságos kapcsolat használata
 [Use direct connections]
 Direkt kapcsolatok használata
+[Port:]
+Port:
 [Use forwarding]
 Küldés használata
+[Host:]
+Gép:
+[First name:]
+Keresztnév:
+[Last name:]
+Utolsó név:
 [Family name:]
 Vezetéknév:
+[Nickname:]
+Becenév
+[Gender:]
+Nem:
+[City:]
+Város:
 [Origin city:]
 Származási hely:
 [Birth year:]
 Születési év:
+[Description:]
+Leírás:
 [Enter token to continue]
 Kód megadása folytatáshoz
+[OK]
+OK
+[Cancel]
+Mégsem
 [Create Gadu-Gadu account]
 Gadu-Gadu fiók létrehozása
 [New password:]
@@ -58,24 +90,36 @@ Gadu-Gadu fiók létrehozása
 Jelszó megerõsítése:
 [New e-mail:]
 Új e-mail:
+[&Create]
+&Létrehoz
 [Remove Gadu-Gadu account]
 Gadu-Gadu fiók eltávolítása
 [Yes, I want to remove my account]
 Igen, el kívánom távolítani a fiókom
+[Remove]
+Eltávolítás
 [Change Gadu-Gadu password]
 Gadu-Gadu jelszó módosítása
 [Change Gadu-Gadu e-mail]
 Gadu-Gadu e-mail módosítása
 [Age from:]
 Kor ettõl:
+[&Close]
+&Bezárás
+[&Send]
+&Küldés
 [Open new conference]
 Új konferencia indítása
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
 ;file \protocols\Gadu-Gadu\src\core.cpp
+[Unknown]
+Ismeretlen
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
 Külsõ direkt kapcsolat gépneve %s érvénytelen. Külsõ gép továbbítás kikapcsolása.
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 Szerver gépneve %s érvénytelen. Hálózat által nyújtot alapért. gépnév használata.
+[Age:]
+Életkor
 [List import successful.]
 Lista importálása sikeres.
 [List remove successful.]
@@ -83,8 +127,22 @@ Lista eltávolítása sikeres.
 [List export successful.]
 Lista exportálás sikeres.
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
+[Male]
+Férfi
+[Female]
+Nõ
+[<not specified>]
+<nincs megadva>
+[Network]
+Hálózat
+[General]
+Általános
+[Advanced]
+Haladó
 [<Last Status>]
 <Utolsó állapot>
+[System tray icon]
+Rendszer tálca ikon
 [You need to specify your registration e-mail first.]
 Elõször határozd meg a regisztrációs e-mail címed.
 [Your password will be sent to your registration e-mail.\nDo you want to continue ?]
@@ -93,6 +151,8 @@ A jelszavad elküdjük a regisztrációs e-mail címedre.\nFolytatod?
 Bontsd a kapcsolatot, mielõtt a fiókodban végleges változásokat tennél.\nSzeretnéd most bontani a kapcsolatot?
 [Allow]
 Engedélyezés
+[Ignore]
+Mellõz
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed connecting]
@@ -166,6 +226,8 @@ A kép túllépi a megengedett 255 KB-os méretet.
 Kapcsolódva kell lenned partnerek importálásához/exportálásához a szerverre/rõl.
 [Text files]
 Szövegfájlok
+[All Files]
+Minden fájl
 [contacts]
 Partnerek
 [Import List From &Server]
@@ -183,6 +245,8 @@ Lista exportálása szö&vegfájlba...
 [Password was sent to your e-mail.]
 A jelszó elküldésre került az e-mailedre.
 ;file \protocols\Gadu-Gadu\src\popups.cpp
+[Error]
+Hiba
 ;file \protocols\Gadu-Gadu\src\services.cpp
 ;file \protocols\Gadu-Gadu\src\sessions.cpp
 ;file \protocols\Gadu-Gadu\src\token.cpp

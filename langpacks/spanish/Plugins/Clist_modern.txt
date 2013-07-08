@@ -14,24 +14,60 @@ Lista de clasificación:
 Barra de estado:
 [List content:]
 Lista de contenido:
+[Show counts of number of contacts in a group]
+Mostrar la cuenta del número de contactos en un grupo
+[Hide group counts when there are none online]
+Ocultar grupo cuenta cuando no hay ninguna línea
 [1st:]
 1.:
 [2nd:]
  2.:
 [3rd:]
 3.:
+[Always on top]
+Siempre en la parte superior
 [Hide contact list after ]
 Ocultar la lista de contactos después de
+[seconds]
+segundo
+[Fade contact list in/out]
+Fade lista de contactos de entrada / salida
+[Transparent contact list]
+Transparente lista de contactos
+[Inactive opacity:]
+Inactivo opacidad:
+[Active opacity:]
+Active la opacidad:
 [Animate Avatars]
 Animar Avatares
 [Show contact time in list]
 Mostrar el tiempo de contacto en la lista
 [Compact mode]
 Modo compacto
+[Show protocol names]
+Mostrar nombres de protocolo
+[Show status text]
+Mostrar texto de estado
+[Stretch to width]
+Estiramiento de ancho
+[Stretch to height]
+Estiramiento de la altura
+[Tile horizontally]
+Mosaico horizontal
+[Tile vertically]
+Mosaico vertical
+[Scroll with text]
+Vaya con el texto
+[Scroll with text]
+Vaya con el texto
+[Stretch proportionally]
+Estire proporcionalmente
 [Use Windows Colors]
 Usar colores de Windows
 [Available skins]
 pieles disponibles
+[Apply]
+Aplicar
 [\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
 \n\n\nPor favor seleccione uno de los skins disponibles. \n\nO vea no para la piel en la lista.
 [Skin Preview]
@@ -42,22 +78,48 @@ ADVERTENCIA: \tkins puede modificar su perfil actual. Con esto no es posible.\n\
 * Reinicie puedan ser necesarios para todos los cambios surtan efecto
 [Available objects]
 Objetos disponibles
+[Copy]
+Copiar
+[Paste]
+Pegar
 [Object properties]
 Propiedades de los objetos
 [Colour]
 Color
 [Image file and fitting mode]
 Imagen de archivo y el modo de ajuste
+[File]
+Archivo
 [Borders]
 Bordes
 [Fit mode]
 Ajustar el modo de
 [Fragment location]
 Fragmento ubicación
+[Position:]
+Posición:
+[Size:]
+Tamaño
 [W x H: 0 x 0 pixels]
 W x H: 0 x 0 Pixel
 [Show contacts in groups]
 Mostrar los contactos en grupos
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Protocol]
+Protocolo
+[Group]
+Grupo
+[Status Bar]
+Barra de estado
+[Show status bar]
+Mostrar barra de estado
+[Make sections equal width]
+Haga secciones anchura igual
 [Space between]
 Espacio entre
 [Vertical Align]
@@ -88,12 +150,44 @@ Mostrar normal condición de superposición
 opacidad de estado de superposición es 75% 
 [Show unread emails (if supported)]
 Mostrar mensajes de correo electrónico sin leer (si es compatible)
+[Right click opens status menu]
+Haga clic derecho abre el menú de estado
 [Space on Left]
 El espacio en la izquierda
 [Space on right]
 Espacio a la derecha
+[Delete Contact]
+Eliminar contacto
+[No]
+No
+[Yes]
+Si
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Ocultar la lista única, a fin de mantener su historia e ignorar / Opciones de visibilidad
+[Are you sure you want to delete %s?]
+¿Está seguro que desea eliminar %s?
+[This will erase all history and settings for this contact!]
+Esto borrará toda la historia y la configuración de este contacto!
+[Hide offline users]
+Ocultar usuarios Offline
+[Hide empty groups]
+Ocultar vacío grupos
+[Disable groups]
+Desactivar los grupos
+[Ask before deleting contacts]
+Preguntar antes de eliminar contactos
+[Contact List]
+Lista de contactos
+[Contact List Sorting]
+Póngase en contacto con la lista de clasificación
 [Place offline users out of groups]
 Coloque los usuarios en línea de los grupos
+[Gamma correction]
+Corrección de gamma
+[Default]
+por defecto
+[Default]
+Predeterminado
 [Full selection]
 selección completa
 [Less selection]
@@ -104,12 +198,22 @@ No hay selección
 Selección del modo de
 [Bring to front if covered]
 Traer al frente si están cubiertos
+[Automatically resize window to height of list]
+Automáticamente cambiar el tamaño de la ventana a la altura de la lista
+[maximum]
+máximo
+[% of screen]
+% de la pantalla
+[Size upwards]
+Tamaño hacia arriba
 [Lock manual resize]
 Bloqueo manual de cambiar el tamaño
 [Drag to ]
 Arrastre
 [Easy Scroll]
 Easy Scroll
+[Easy move]
+Fácil de mover
 [x100 msec]
 x100 ms
 [show delay]
@@ -118,6 +222,10 @@ mostrar el resultado de retraso
 ocultar retraso
 [Hide method]
 Ocultar método
+[pixels]
+Pixel
+[pixels]
+Pixel
 [keep on screen]
 mantener en la pantalla
 [Snap to edges]
@@ -132,8 +240,64 @@ Siempre visible
 Dock a los lados
 [and minimum]
 y mínimo
+[Items]
+Artículos
+[Show divider between online and offline contacts]
+Mostrar divisor entre los contactos en línea y fuera de línea
+[Hot track items as mouse passes over]
+Caliente seguimiento de los elementos como el ratón pasa por encima de
+[Disable drag and drop of items]
+Desactivar arrastrar y soltar elementos de
+[Disable rename of items by clicking twice]
+Deshabilitar cambiar el nombre de los elementos, haga clic dos veces
+[Show selection even when list is not focused]
+Mostrar selección aún cuando la lista no se centra
+[Make selection highlight translucent]
+Haga la selección resaltar translúcida
+[Dim idle contacts]
+Dim inactivo contactos
+['Hide Offline' means to hide:]
+'Ocultar Fuera de línea "significa que ocultar:
+[Groups]
+Grupos
+[Draw a line alongside group names]
+Dibuja una línea al lado de los nombres de grupo
+[Sort groups alphabetically]
+Ordenar grupos alfabéticamente
+[Quicksearch in open groups only]
+Búsqueda rápida en grupos abiertos sólo]
+[Indent groups by:]
+Guión por grupos:
+[Visual]
+Visual
+[Scroll list smoothly]
+Recorra la lista sin problemas
+[Time:]
+Fecha y hora:
+[milliseconds]
+milisegundos
 [Fade out entire list when:]
 Fade lista a cabo todo cuando:
+[Single click interface]
+interfaz de un solo clic
+[Always show status in tooltip]
+Mostrar siempre en estado de descripción
+[Disable icon blinking]
+Deshabilitar el icono parpadea
+[Show]
+mostrar
+[Cycle icons every]
+Ciclo de todos los iconos
+[seconds, when statuses differ]
+segundo, cuando estados diferentes
+[Show multiple icons]
+Mostrar iconos múltiples
+[Only when statuses differ]
+Sólo cuando estados diferentes
+[System tray icon]
+Icono de la bandeja del sistema
+[System tray icon]
+Icono de la bandeja del sistema
 [System tray icon mode]
 la bandeja del sistema icono de modo de
 [Use xStatus icon]
@@ -152,12 +316,26 @@ Subcontacts guión:
 Mostrar sólo el tiempo si es diferente de la hora actual
 [Show contact time as row item]
 Mostrar el tiempo de contacto como elemento de la fila
+[Pin to desktop]
+Anclar al escritorio
 [Client area margins]
 Márgenes del área de cliente
 [Thin border main window]
 Delgada ventana principal frontera
 [Borderless main window]
 ventana sin bordes principales
+[Show menu bar]
+Mostrar barra de menús
+[Show title bar]
+Mostrar barra de título
+[Title bar text:]
+Título del texto de la barra:
+[Tool style main window]
+Herramienta de estilo de la ventana principal
+[Minimize to tray]
+Minimizar a la bandeja
+[Frames]
+Marcos
 [Between frames:]
 Entre bastidores:
 [After captions:]
@@ -184,6 +362,8 @@ altura de la fila variable
 Alinear a la izquierda los elementos a la izquierda
 [Align right items to right]
 Alinear los elementos derecho a la derecha
+[Left margin:]
+Margen izquierdo:
 [Right margin:]
 Margen derecho:
 [Draw border on avatar]
@@ -238,6 +418,8 @@ Recorte de texto largo con puntos suspensivos
 espacio superior:
 [Draw smileys on second line]
 Dibuje caritas en la segunda línea
+[Status]
+estado
 [XStatus has priority]
 XStatus tiene prioridad
 [Use 'XStatus: XMessage']
@@ -248,6 +430,10 @@ Use 'XStatus: XMessage'
 Mostrar tercera línea
 [Draw smileys on third line]
 Dibuje caritas en la tercera línea
+[Options]
+Opciones
+[Options]
+Opciones
 [Add container]
 Añadir contenedor
 [Remove container]
@@ -264,8 +450,34 @@ Ancho de la cubeta:
 Contenedor de altura:
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 OPCIÓN DE PÁGINA ESTÁ EN CONSTRUCCIÓN Por favor, no se dan cuenta acerca de los problemas aquí.\n Solamente los comentarios de alto nivel de diseño son aplicables.
+[E&xit]
+&Salir
+[&Hide/Show]
+&Mostrar / Ocultar
+[Nowhere]
+En ninguna parte
+[&New Group]
+&Nuevo grupo
+[&Hide Offline Users]
+&Ocultar usuarios fuera de línea
+[Hide &Offline Users out here]
+Ocultar &Usuarios en línea aquí
+[Hide &Empty Groups]
+Ocultar &Grupos de vacío
+[Disable &Groups]
+Desactivar &Grupos
+[Hide Miranda]
+Ocultar Miranda
+[&New Subgroup]
+&Nueva Subgrupo]
+[&Hide Offline Users in here]
+&Ocultar usuarios desconectados aquí
 [&Show Offline Users in here]
 &Mostrar usuarios desconectados aquí
+[&Rename Group]
+&Cambiar el nombre de Grupo
+[&Delete Group]
+&Eliminar Grouw
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Status Overlay]
 Estado de superposición
@@ -294,12 +506,16 @@ Metacontactos Cambio (Movimiento)
 [Do You want contact '%s' to be added to MetaContact '%s'?]
 ¿Quieres ponerte en contacto con '%s' que se añade a MetaContact '%s'?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Contact names]
+Póngase en contacto con los nombres
 [Row Items]
 Fila artículos
 [Frame texts]
 Marco de los textos
 [Special colours]
 Colores especiales
+[Standard contacts]
+Normal contactos
 [Away contacts]
 Lejos contactos
 [DND contacts]
@@ -316,6 +532,12 @@ contactos Invisible
 En los contactos del teléfono
 [Out to lunch contacts]
 A cabo contactos almuerzo
+[Offline contacts]
+Contactos en línea
+[Online contacts to whom you have a different visibility]
+contactos en línea a los que tienen una visibilidad diferente
+[Offline contacts to whom you have a different visibility]
+contactos fuera de línea a la que usted tiene una visibilidad diferente
 [Contacts who are 'not on list']
 Los contactos que están ", no en la lista '
 [Open groups]
@@ -326,6 +548,8 @@ miembro Open grupo cuenta
 Grupos cerrados
 [Closed group member counts]
 miembro del grupo cerrado cuenta
+[Dividers]
+Divisores
 [Third line]
 Tercera línea
 [Status bar text]
@@ -334,6 +558,10 @@ Texto de la barra de estado
 Evento área de texto
 [Current view mode text]
 Vista actual de modo de texto
+[Background]
+Fondo
+[Background]
+Background
 [Hot text]
 Caliente el texto
 [Quick search text]
@@ -348,6 +576,40 @@ Marco de texto del título
 Barra de estado de texto
 [3rd party frames transparent back colour]
 3 º partido de vuelta de color transparente
+[General]
+General
+[General]
+General
+[List]
+Lista
+[Window]
+Ventana
+[List Background]
+De Fondo
+[Not focused]
+No se centra
+[Offline]
+Offline
+[Online]
+En línea
+[Away]
+Alejado 
+[NA]
+NA
+[Occupied]
+Ocupado
+[DND]
+DND
+[Free for chat]
+Gratuito de chat
+[Invisible]
+Invisible
+[Out to lunch]
+A almorzar
+[On the phone]
+En el teléfono
+[Name]
+Nombre
 [Name (use locale settings)]
 Nombre (configuración de uso local)
 [Last message time]
@@ -358,6 +620,8 @@ Nombre de la cuenta
 Tasa
 [-Nothing-]
 -Nada-
+[Global]
+Global
 [Hide to tray]
 Ocultar a la bandeja
 [Behind left edge]
@@ -370,6 +634,8 @@ No hay eventos
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
 &Póngase en contacto con la tasa
+[None]
+ninguno
 [Low]
 Baja
 [Medium]
@@ -387,6 +653,12 @@ Póngase en contacto con alta tasa de
 [Show even if offline]
 Mostrar aunque en línea
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Text]
+Texto
+[Text]
+Texto
+[Extra icons]
+Extraicons
 [Left align group names]
 Alinear a la izquierda los nombres de grupo
 [Center group names]
@@ -404,7 +676,15 @@ Tercera Línea
 [Row items]
 Fila de elementos
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+[(Unknown Contact)]
+(contacto desconocido)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
+[&Find/Add Contacts...]
+&Buscar/Agregar contactos ...
+[&Main Menu]
+&Menú Principal
+[&Options...]
+&Opciones ...
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show Contact &Avatar]
 Mostrar Avatar Contacto
@@ -448,6 +728,8 @@ Azulejos Ambas direcciones
 [Image size is]
 Tamaño de la imagen es
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
+[Error]
+Error 
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 Cargar / Guardar
@@ -484,16 +766,22 @@ Por defecto la piel
 [Center]
 Centro
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[Main Menu]
+Menú Principal
 [Main menu]
 Menú Principal
 [Status Menu]
 Menú Estado
+[Accounts]
+Cuentas
 [Accounts...]
 Cuentas ...
 [Show/Hide offline contacts]
 Mostrar / Ocultar contactos en línea
 [Show offline contacts]
 Mostrar los contactos en línea
+[Find User]
+Buscar usuario
 [Use/Disable groups]
 Utilice / Desactivar grupos
 [Use groups]
@@ -507,4 +795,3 @@ Reducir al mínimo
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Configuring view mode: %s]
 Configuración de modo de vista: %s
-;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

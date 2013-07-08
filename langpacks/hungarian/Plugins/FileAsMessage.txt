@@ -6,6 +6,12 @@
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 ;file \plugins\FileAsMessage\res\resources.rc
+[Size:]
+Méret:
+[bytes]
+bájt
 ;file \plugins\FileAsMessage\src\dialog.cpp
 ;file \plugins\FileAsMessage\src\main.cpp
+[Plugins]
+Beépülõk
 ;file \plugins\FileAsMessage\src\main.h

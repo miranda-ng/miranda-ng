@@ -64,6 +64,28 @@ Redimensionar o avatar para caber no limite do tamanho do protocolo
 Imagem do contato
 [Contact picture]
 Imagem do contato
+[Delete]
+Excluir
+[Delete]
+Apagar
+[Delete]
+Apagar
+[Delete]
+Apagar
+[Delete]
+Excluir
+[Delete]
+Excluir
+[Reset]
+Limpar
+[Reset]
+Padrão
+[Reset]
+Apagar
+[Reset]
+Apagar
+[Reset]
+Limpar
 [Picture options]
 Opções de imagem
 [Picture options]
@@ -84,6 +106,42 @@ Fundo da imagem transparente
 Usar padrão
 [Use defaults]
 Usar padrão
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
+[Background]
+Fundo
+[Background]
+Fundo
 [Points:]
 Pontos
 [Points:]
@@ -92,6 +150,10 @@ Pontos:
 Dif. de Cor:
 [Color diff:]
 Diferença de cor:
+[Set]
+Configurar
+[Set]
+Configurar
 [Use per protocol avatars]
 Usar avatares por protocolo
 [Use per protocol avatars]
@@ -104,6 +166,28 @@ Os protocolos tem diferentes avatares
 ;file \plugins\AVS\src\main.cpp
 [Grow avatar to fit max allowed protocol size]
 Redimensionar o avatar para ajustar o tamanho máximo permitido para o protocolo
+[All Files]
+Todos os Arquivos
+[All Files]
+Todos os arquivos
+[All Files]
+Todos os Arquivos
+[Windows Bitmaps]
+Janelas Bitmaps
+[Windows Bitmaps]
+Bitmaps do Windows
+[JPEG Bitmaps]
+Bitmaps JPEG
+[JPEG Bitmaps]
+Imagens JPEG
+[GIF Bitmaps]
+Bitmaps GIF
+[GIF Bitmaps]
+Imagens GIF
+[PNG Bitmaps]
+Bitmaps PNG
+[PNG Bitmaps]
+Imagens PNG
 [Flash Animations]
 Piscar Animações
 [Flash Animations]
@@ -126,6 +210,10 @@ Meus Avatares
 Meu Cache do Avatar Global
 [My Global Avatar Cache]
 Meu Cache do Avatar Global
+[Contacts]
+Contatos
+[Contacts]
+Contatos
 [Contact Avatars]
 Avatares do contato
 [Contact Avatars]

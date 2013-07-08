@@ -8,6 +8,8 @@
 ;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
 Извеждане в:
+[Cancel]
+Отказ
 [Text file]
 Текстови файл
 [Select output:]
@@ -28,6 +30,8 @@
 Копиране на информацията и в клипборда
 [Upload site settings]
 Настройки за качване
+[Username]
+Потребител
 [Highlight version number using]
 Отличаване на версията чрез
 [Show disabled plugins too]
@@ -38,6 +42,8 @@
 Показване на UUIDs на приставките
 [Show installed languages]
 Показване на инсталираните езици
+[Close]
+Затваряне
 [&Copy text]
 Копиране на текста
 [&Save to file]

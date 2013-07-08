@@ -6,5 +6,29 @@
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
 ;file \plugins\MenuItemEx\res\resource.rc
+[&Send]
+Saada
+[&Cancel]
+&Tühista
+[Visibility]
+Nähtavus
+[Ignore]
+Ignoreeri
 ;file \plugins\MenuItemEx\src\main.cpp
+[Messages]
+Teated
+[URL]
+URL
+[Files]
+Failid
+[User Online]
+Kasutaja sees
+[You Were Added]
+Sa oled lisatud
+[Typing Notify]
+Trükkimise teavitus
+[Miranda NG]
+Miranda NG
 ;file \plugins\MenuItemEx\src\options.cpp
+[Customize]
+Kohandamine

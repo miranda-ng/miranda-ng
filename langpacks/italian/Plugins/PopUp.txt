@@ -6,10 +6,38 @@
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 ;file \plugins\Popup\res\resource.rc
+[Effects]
+Effetti
+[History]
+Storico
+[pixels]
+pixel
+[pixels]
+pixel
 [Miranda's window]
 la finestra di Miranda
 [the active window]
 la finestra attiva
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[Close]
+Chiudi
+[General]
+Generale
+[seconds]
+secondi
+[Position:]
+Posizione:
 [Disable when:]
 Disattiva quando:
 ;file \plugins\Popup\src\actions.cpp
@@ -20,13 +48,45 @@ Dettagli utente
 ;file \plugins\Popup\src\font.cpp
 ;file \plugins\Popup\src\history.cpp
 ;file \plugins\Popup\src\icons.cpp
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[User Details]
+Dettagli utente
 ;file \plugins\Popup\src\main.cpp
+[Actions]
+Azioni
+[Contacts]
+Contatti
+[Advanced]
+Avanzate
 ;file \plugins\Popup\src\opt_adv.cpp
 ;file \plugins\Popup\src\opt_class.cpp
 ;file \plugins\Popup\src\opt_gen.cpp
 ;file \plugins\Popup\src\opt_skins.cpp
+[Use Windows colours]
+Utilizza colori di Windows
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
 ;file \plugins\Popup\src\services.cpp
+[Error]
+Errore
+[Error]
+Errore
 ;file \plugins\Popup\src\skin.cpp
 ;file \plugins\Popup\src\srmm_menu.cpp

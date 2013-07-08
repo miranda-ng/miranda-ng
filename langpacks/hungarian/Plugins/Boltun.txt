@@ -6,4 +6,8 @@
 ;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
 ;============================================================
 ;file \plugins\Boltun\res\Boltun.rc
+[sec]
+mp.
 ;file \plugins\Boltun\src\boltun.h
+[All Files]
+Minden fájl

@@ -10,6 +10,12 @@
 Categorias de Smiley
 [Specify Smiley Pack for each category]
 Especifique Smiley Pack para cada categoria
+[Name:]
+Nome:
+[Name:]
+Nome
+[Name:]
+Nome:
 [Replace only smileys surrounded by spaces]
 Substituir somente smileys rodeado por espaços
 [Scale smiley to textheight]
@@ -58,8 +64,24 @@ Apenas uma instância de SmileyAdd poderia ser executado.\nRemove ocorrências d
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
 Smileys
+[Customize]
+Personalizar
+[Customize]
+Personalizar
+[Customize]
+Personalizar
+[Off]
+Desligado
+[Off]
+Desligado
 [Smiley Packs]
 Smiley Packs
+[All Files]
+Todos os Arquivos
+[All Files]
+Todos os arquivos
+[All Files]
+Todos os Arquivos
 ;file \plugins\SmileyAdd\src\services.cpp
 ;file \plugins\SmileyAdd\src\smileys.cpp
 [Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]

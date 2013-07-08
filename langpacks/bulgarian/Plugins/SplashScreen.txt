@@ -23,5 +23,9 @@
 [Preview...]
 Образец...
 ;file \plugins\SplashScreen\src\main.cpp
+[Error]
+Грешка
 ;file \plugins\SplashScreen\src\options.cpp
+[Sound Files]
+Файлове със звуци
 ;file \plugins\SplashScreen\src\services.cpp

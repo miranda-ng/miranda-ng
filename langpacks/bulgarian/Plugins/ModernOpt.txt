@@ -12,14 +12,30 @@
 Посетете официалната страница на Miranda NG
 [Sample page]
 Примерна страница
+[Miranda NG Options]
+Miranda NG настройки
 [Use arrow keys to choose category]
 Използвайте стрелките, за да изберете категория
+[Cancel]
+Отказ
+[Apply]
+Прилагане
 [Switch to classic options]
 Класически вид на настройките
+[Advanced]
+Разширени
 ;file \plugins\ModernOpt\src\modernopt.cpp
+[Accounts]
+Акаунти
 [Style]
 Стил
+[Contacts]
+Контакти
 [Chats]
 Разговори
+[Ignore]
+Игнориране
+[Status]
+Състояние
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
 Направените промени не бяха запаметени.\nЖелаете ли да бъдат приложени преди да продължите?

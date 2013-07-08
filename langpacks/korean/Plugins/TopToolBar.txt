@@ -8,3 +8,5 @@
 ;file \plugins\TopToolBar\res\main.rc
 ;file \plugins\TopToolBar\src\toolbar.cpp
 ;file \plugins\TopToolBar\src\ttbopt.cpp
+[Contact List]
+대화 상대 목록

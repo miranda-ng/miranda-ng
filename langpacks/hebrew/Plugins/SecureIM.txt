@@ -6,11 +6,41 @@
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
 ;file \plugins\SecureIM\res\resource.rc
+[sec]
+שניות
+[Text]
+טקסט
+[Events]
+אירועים
+[Username:]
+שם משתמש:
+[Password:]
+סיסמא:
+[OK]
+אישור
+[Cancel]
+ביטול
+[Status]
+מצב
 ;file \plugins\SecureIM\src\language.cpp
+[General]
+כללי
+[Name]
+שם
+[Off]
+כבוי
 ;file \plugins\SecureIM\src\loadicons.cpp
+[Contact List]
+רשימת אנשי קשר
 [Message Window]
 חלון הודעה
+[Popups]
+פופ אפ
 ;file \plugins\SecureIM\src\main.cpp
+[Icons]
+סמלים
 ;file \plugins\SecureIM\src\options.cpp
+[Executable Files]
+קבצי תוכניות
 ;file \plugins\SecureIM\src\popupOptions.cpp
 ;file \plugins\SecureIM\src\svcs_srmm.cpp

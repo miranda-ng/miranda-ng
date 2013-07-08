@@ -6,10 +6,58 @@
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 ;file \plugins\SeenPlugin\res\resource.rc
+[Text]
+テキスト
+[Online]
+オンライン
+[Away]
+離席中
+[NA]
+応答不可
+[Occupied]
+取り込み中
+[DND]
+邪魔しないで
+[On the phone]
+電話中
+[Out to lunch]
+昼食中
+[Free for chat]
+チャット OK!
+[Invisible]
+不可視
+[Offline]
+オフライン
+[OK]
+OK
 ;file \plugins\SeenPlugin\src\history.cpp
+[View User's Details]
+ユーザーの詳細情報を表示
+[User Menu]
+ユーザーメニュー
 ;file \plugins\SeenPlugin\src\main.cpp
 ;file \plugins\SeenPlugin\src\menu.cpp
+[<unknown>]
+< 不明 >
+[<none>]
+< なし >
 ;file \plugins\SeenPlugin\src\options.cpp
+[Contacts]
+コンタクト
+[Popups]
+ポップアップ
 ;file \plugins\SeenPlugin\src\seen.h
+[seconds]
+秒
+[Group]
+グループ
+[Status]
+ステータス
+[Protocol]
+プロトコル
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
+[Idle]
+アイドル
+[Unknown]
+不明

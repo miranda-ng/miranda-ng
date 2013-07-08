@@ -21,3 +21,5 @@ Minimiza en la bandeja del sistema
 [Opened]
 Abierto
 ;file \plugins\StartPosition\src\main.cpp
+[Contact List]
+Lista de contactos

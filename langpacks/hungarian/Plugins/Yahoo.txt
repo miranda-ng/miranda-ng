@@ -8,6 +8,10 @@
 ;file \protocols\Yahoo\res\Yahoo.rc
 [ID:]
 Azonosító:
+[Password:]
+Jelszó:
+[Nick:]
+Becenév:
 [Create a new Yahoo account using the Yahoo website]
 Új Yahoo fiók létrehozása Yahoo weboldal használatával
 [Use Yahoo Address Book (YAB)]
@@ -18,12 +22,30 @@ Yahoo értesítések megjelenítése
 Hibák mutatása
 [Yahoo Japan]
 Yahoo Japán
+[Port:]
+Port:
+[Reset]
+Alapraállítás
 [Yahoo Ignore List]
 Yahoo Elvetési Lista
+[&Add]
+&Új
 [Set Custom Status]
 Egyéni Állapot beállítása
 [Show as busy]
 Elfoglaltnak mutatás
+[OK]
+OK
+[Cancel]
+Mégsem
+[&Join]
+&Csatlakozás
+[&Deny]
+Visszautasít
+[&Cancel]
+&Mégse
+[Add]
+Új
 ;file \protocols\Yahoo\src\avatar.cpp
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
@@ -31,6 +53,8 @@ Konferenciameghívást kaptál ebbe a szobába: %s ezzel az üzenettel: %s
 ;file \protocols\Yahoo\src\icolib.cpp
 [Mail]
 E-mail
+[Profile]
+Profil
 [Address Book]
 Címtár
 [Set Status]
@@ -40,6 +64,8 @@ Naptár
 ;file \protocols\Yahoo\src\im.cpp
 [Yahoo Error]
 Yahoo hiba
+[The message send timed out.]
+Az üzenetküldés idõtúlépés miatt meghiúsult.
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 Túl hosszú az üzenet: Yahho üzenetek korlátozva vannak 800 UTF8 karakterre
 ;file \protocols\Yahoo\src\links.cpp
@@ -61,6 +87,8 @@ A haver már az elvetési listádon van.
 Kapcsolódva kell lenned a Yahoo-hoz elvetési listáról történõ eltávolításhoz.
 [Please select a buddy on the ignore list to remove.]
 Válassz egy havert az elvetési listán az eltávolításhoz.
+[Network]
+Hálózat
 ;file \protocols\Yahoo\src\proto.cpp
 [Please enter your yahoo id in Options/Network/Yahoo]
 Kérlek add meg a yahoo azonosítód a Beállítások/Hálózat/Yahoo menüben

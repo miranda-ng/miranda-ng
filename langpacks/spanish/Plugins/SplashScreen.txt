@@ -27,5 +27,9 @@ la colección de Advaimg no se encuentra. Por favor lo consigue desde nigtlies p
 [Preview...]
 Prevista
 ;file \plugins\SplashScreen\src\main.cpp
+[Error]
+Error 
 ;file \plugins\SplashScreen\src\options.cpp
+[Sound Files]
+Archivos sonoros
 ;file \plugins\SplashScreen\src\services.cpp

@@ -12,27 +12,45 @@
 访问 Miranda NG 官方主页
 [Sample page]
 示例页面
+[Miranda NG Options]
+Miranda NG 选项
 [Use arrow keys to choose category]
 使用方向键选择分类
+[OK]
+确定
+[Cancel]
+取消
+[Apply]
+应用
 [Switch to classic options]
 切换至经典选项
+[Advanced]
+高级
 ;file \plugins\ModernOpt\src\modernopt.cpp
 [Miranda NG configuration center]
 Miranda NG 配置中心
+[Accounts]
+帐号
 [Setup your account information to start messaging.]
 设置您的账号信息以便开始聊天.
 [Style]
 样式
 [Change the look of Miranda NG according to your taste.]
 更改 Miranda NG 外观以适合您的口味.
+[Contacts]
+联系人
 [Configure behaviour of your contact list.]
 配置您的联系人列表行为.
 [Chats]
 聊天
 [Customize look&&feel of your chat windows here.]
 自定义您的聊天窗口外观及体验.
+[Ignore]
+忽略
 [Ban those users and events, you are annoyed with.]
 您可在此封锁那些另人恼火的用户及事件.
+[Status]
+状态
 [Set your status messages and idle reporting.]
 设置您的状态信息及闲置报告.
 [Addons]

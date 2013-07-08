@@ -8,10 +8,14 @@
 ;file \plugins\BuddyPounce\res\resource.rc
 [Confirm Pounce send]
 确认发送突袭
+[Cancel]
+取消
 [Pounce being sent to]
 突袭将发送至
 [Buddy Pounce]
 好友突袭
+[OK]
+确定
 [The Message:]
 消息: 
 [Delete Pounce]
@@ -24,8 +28,12 @@
 联系人发送突袭给
 [<< Simple]
 << 简单
+[Advanced >>]
+高级 >>
 [The Message]
 消息
+[Status]
+状态
 [Use Advanced Dialog]
 使用高级对话框
 [The Message:       (Characters:  )]
@@ -47,8 +55,20 @@
 发送当我的状态是
 [Any]
 任何
+[Online]
+在线
+[Away]
+外出
+[NA]
+不适用
+[Occupied]
+忙碌中
+[DND]
+请勿打扰
 [Free For Chat]
 有空聊天
+[Invisible]
+隐身
 [On The Phone]
 接听电话
 [Out To Lunch]
@@ -96,3 +116,5 @@
 [Message failed to send to %s]
 发送给 %s 消息已失败
 ;file \plugins\BuddyPounce\src\main.cpp
+[Message Sessions]
+消息会话

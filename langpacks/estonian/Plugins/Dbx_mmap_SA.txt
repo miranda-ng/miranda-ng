@@ -6,6 +6,40 @@
 ;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
 ;============================================================
 ;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
+[OK]
+OK
+[Cancel]
+Tühista
+[Remove]
+Eemalda
+[Yes]
+Jah
+[No]
+Ei
+[Do you want to import the settings now?]
+Kas Sa tahad praegu importida seadeid?
+[No to all]
+Ei kõigile
+[&Yes]
+&Jah
+[&No]
+&Ei
+[Cancel Import]
+Tühista import
+[&Delete]
+Kustuta
+[&Move/Rename]
+Teisalda/nimeta ümber
+[&Leave]
+Lahku
+[Unique ID:]
+Unikaalne ID:
 ;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
 ;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
+[Name]
+Nimi
+[Version]
+Versioon
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
+[Error]
+Viga

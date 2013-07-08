@@ -6,6 +6,26 @@
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 ;file \protocols\Twitter\res\twitter.rc
+[Username:]
+Kullanıcı Adı:
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
+[sec]
+sn
+[Text]
+Yazı
+[Custom]
+Kişisel
+[OK]
+Tamam
 ;file \protocols\Twitter\src\connection.cpp
 ;file \protocols\Twitter\src\proto.cpp
+[Network]
+Ağ
+[Popups]
+Açılır Pencereler
 ;file \protocols\Twitter\src\theme.cpp

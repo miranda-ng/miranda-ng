@@ -3,8 +3,28 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Biaіek
+;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
 ;file \plugins\AddContactPlus\res\resource.rc
+[Add Contact]
+Új partner
+[Custom name:]
+Egyéni név:
+[Group:]
+Csoport:
+[Options]
+Beállítások
+[Send authorization request]
+Meghatalmazási kérelem küldése
+[Authorization Request]
+Engedélyezési kérés
+[&Add]
+&Új
+[&Cancel]
+&Mégse
 ;file \plugins\AddContactPlus\src\addcontact.cpp
+[Please authorize my request and add me to your contact list.]
+Kérlek engedélyezd a kérelmemet és adj hozzá a kapcsolati listádhoz.
+[None]
+Egyik sem
 ;file \plugins\AddContactPlus\src\main.cpp

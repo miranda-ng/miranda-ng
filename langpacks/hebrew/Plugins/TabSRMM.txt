@@ -6,9 +6,65 @@
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 ;file \plugins\TabSRMM\res\chat.rc
+[OK]
+אישור
+[Cancel]
+ביטול
+[Actions]
+פעולות
+[Messages]
+הודעות
+[Nick changes]
+שינויי כינוי
+[Status changes]
+שינויי מצב
+[Information]
+מידע
+[Tray]
+נסה
+[Options]
+אפשרוית
+[Add new rooms to group:]
+הוסף חדרים לקבוצה:
+[Enable logging to disk]
+אפשר שמירה לדיסק
+[Log directory]
+מיקום יומן
+[Your name]
+השם שלך
+[Other name]
+שם אחר
+[List]
+רשימה
+[&Message]
+הודעה
+[Log]
+יומן
+[Link]
+קישור
+[&Copy link]
+ה&עתק קישור
+[Message]
+הודעה
+[Redo]
+עשה שוב
+[Copy]
+העתק
+[Cut]
+גזור
+[Paste]
+הדבק
+[Select All]
+בחר הכל
+[Clear]
+בהיר
+[Tabs]
+טאבים
 ;file \plugins\TabSRMM\res\resource.rc
 [Message send timeout]
 השהיית הודעה שנשלחה
+[seconds]
+שניות
 [Input history size]
 הכנס גודל היסטוריה
 [entries]
@@ -17,6 +73,10 @@
 אפשרויות התראת אירוע
 [Limit message preview to]
 הגבל תצוגת הודעה מקדימה
+[Text]
+טקסט
+[Background]
+רקע
 [All modes]
 כל המצבים
 [Send text formatting method]
@@ -27,6 +87,8 @@
 השתמש במיקום קו הפרדה פרטי
 [Contact is a favorite contact]
 איש קשר הוא איש קשר מועדף
+[Events]
+אירועים
 [Only show tab bar when it's needed]
 הראה סרגל טאבים רק כשדרוש
 [Container stays on top]
@@ -55,6 +117,8 @@
 הסתר כותרת
 [Save current as global]
 שמור נוכחי כגלובלי
+[Apply]
+החל
 [Message window options]
 אפשרויות חלון הודעה
 [Indent values]
@@ -65,10 +129,24 @@
 ...תבניות סטנדרטיות
 [RTL templates...]
 ...RTL תבניות
+[Load History Events]
+הראה אירועי היסטוריה
+[Load unread events only]
+טען אירועים שלא נקראו בלבד
+[Load number of previous events]
+טען מספר אירועים קודמים
+[Load previous events less than]
+טען אירועים קודמים שזמנם פחות מ
+[minutes old]
+דקות
+[Typing Notification]
+התראת כתיבה
 [Send typing notifications to the following users when you are typing a message to the them:]
 שלח התראות כתיבה למשתמשים הבאים:
 [Flash window once on typing events (only if flashing enabled)]
 (הבהב חלון פעם אחת באירוע כתיבה (רק אם ההיבהוב מופעל
+[Show typing notification when no message dialog is open]
+הצג התראה כאשר חלון השיחה סגור
 [Tab options]
 אפשרויות טאב
 [Miscellaneous options]
@@ -79,10 +157,16 @@
 הגבל כינויים בטאבים ל
 [Available containers]
 חלון שיחה זמין
+[Delete]
+מחק
+[Rename]
+שנה שם
 [Create a new container]
 צור חלון חדש
 [Create new]
 צור חדש
+[Reset]
+אפס
 [Container flashing]
 היבהוב חלון טאב
 [Flash containers]
@@ -91,6 +175,10 @@
 פעמים
 [Flash interval]
 הפסקות היבהוב
+[milliseconds]
+מילישניות:
+[Popups]
+פופ אפ
 [...is &typing]
 ...&מקליד
 [...stopped t&yping]
@@ -105,12 +193,16 @@
 הראה &כפתור בתפריט הראשי
 [From protocol]
 מהפרוטוקול
+[Custom]
+מותאם
 [Edit template]
 ערוך תבנית
 [Get more help on variables]
 השג עזרה נוספת במשתנים
 [Define up to 5 colors which you can use with some variables]
 הגדר עד 5 צבעים שתוכל להשתמש בהם עם כמה משתנים
+[Close]
+סגור
 [Update Preview]
 עדכן תצוגה מקדימה
 [Save Template]
@@ -123,32 +215,56 @@
 חיצוני
 [NOTE: some settings will not affect open containers.]
 .הערה: חלק מההגדרות לא ישפיעו על חלונות הודעה פתוחים
+[Icons]
+סמלים
 [Use contacts local time]
 השתמש בזמן המקומי של אנשי הקשר
 [Indent message body]
 הפרד את גוף ההודעה
 [RTL is default text direction]
 כתיבה מימין לשמאל כברירת מחדל
+[Yes]
+כן
+[No]
+לא
 [Send message on Enter]
 שלח הודעה באנטר
 [Send message on double Enter]
 שלח הודעה באנטר כפול
+[Minimize the message window on send]
+מזער את חלון ההודעה בשליחת ההודעה
 [Notifications:]
 התראות:
+[&Copy]
+ה&עתק
 [&Quote]
 &ציטוט
+[Co&py All]
+העת&ק הכול
+[Select &All]
+&בחר הכול
+[Open in &new window]
+&פתח בחלון חדש
+[&Open in existing window]
+פ&תח בחלון קיים
 [Attach to Container...]
 ...הוסף לחלון טאב
 [Container Options...]
 ...הגדרות חלון טאב
 [Close Container]
 סגור חלון טאב
+[Default]
+ברירת מחדל
 [Always keep the button bar at full width]
 שמור על סרגל הכפתורים ברוחב מלא
+[Global]
+כולל
 [Send Text Formatting]
 שלח תבנית טקססט
 [BBCode]
 BB קוד
+[Off]
+כבוי
 [This Contact]
 איש קשר זה
 [Global Setting]
@@ -171,10 +287,14 @@ BB קוד
 אל תשמיע צלילים
 [Be "Super Quiet"]
 "תהיה "סופר שקט
+[Font]
+גופן
 [Add Contact to Favorites]
 הוסף איש קשר למועדפים
 [Remove Contact from Favorites]
 הסר איש קשר מהמועדפים
+[&File]
+קובץ
 [Save Message Log As...]
 ...שמור יומן הודעה כ
 [Show Menu Bar]
@@ -209,6 +329,8 @@ BB קוד
 הראה פופאפים לכל החלונות הלא פעילים
 [Save current Window Position as Default]
 שמור מיקום חלון נוכחי כברירת מחדל
+[Help]
+עזרה
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Bold text]
 מודגש
@@ -220,6 +342,8 @@ BB קוד
 צטט הודעה אחרונה או טקסט מסומן
 [Message Log Options]
 אפשרויות יומן הודעות
+[View User's History]
+הצג היסטוריה עם משתמש
 ;file \plugins\TabSRMM\src\container.cpp
 [Hide titlebar]
 הסתר כותרת
@@ -250,6 +374,20 @@ BB קוד
 קובץ נכנס
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 ;file \plugins\TabSRMM\src\globals.cpp
+[Incoming (Focused Window)]
+(נכנסות (חלון ממוקד
+[Incoming (Unfocused Window)]
+(נכנסות (חלון לא ממוקד
+[Incoming (New Session)]
+(נכנסות (חלון חדש
+[Outgoing]
+יוצא
+[Message send error]
+שגיאה בשליחת ההודעה
+[Other]
+אחר
+[Message from %s]
+הודעה מ%s
 ;file \plugins\TabSRMM\src\hotkeyhandler.cpp
 ;file \plugins\TabSRMM\src\infopanel.cpp
 [Use Global Setting]
@@ -262,28 +400,64 @@ BB קוד
 [The message send timed out]
 שליחת ההודעה נכשלה
 ;file \plugins\TabSRMM\src\msgdlgutils.cpp
+['(Unknown Contact)']
+'(תוכן לא ידוע)'
 ;file \plugins\TabSRMM\src\msglog.cpp
 ;file \plugins\TabSRMM\src\msgoptions.cpp
 [IEView plugin]
 IEViewפלאג ה
+[** New contacts **]
+**אנשי קשר חדשים**
+[** Unknown contacts **]
+**אנשי קשר לא ידועים**
+[Show balloon popup (unsupported system)]
+(הצג חלונות פופאפ (מערכת בלתי נתמכת
+[Message Sessions]
+חלון הודעות
+[General]
+כללי
 [Tabs and layout]
 טאב ומערך
 [Containers]
 חלונות טאב
 [Tool bar]
 סרגל כלים
+[Typing Notify]
+התראת כתיבה
+[Group Chats]
+צ'אט קבוצתי
 [Choose status modes]
 בחר מצבי סטטוס
 ;file \plugins\TabSRMM\src\msgs.cpp
+[Smiley button]
+כפתור סמיילים
+[Background colour]
+צבע רקע
+[Background colour]
+צבע רקע
+[Room settings]
+הגדרות חדר
+[Incoming message]
+הודעה נכנסת
+[Outgoing message]
+הודעה יוצאת
+[Message Log]
+יומן הודעה
 ;file \plugins\TabSRMM\src\msgs.h
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [You cannot delete the default container]
 אתה לא יכול למחוק את הגדרות חלון השיחה
+[Error]
+שגיאה
 [You cannot rename the default container]
 אתה לא יכול לשנות את שם חלון השיחה
 [This name is already in use]
 השם נמצא בשימוש
 ;file \plugins\TabSRMM\src\sendlater.cpp
+[Contact]
+קשר
+[Status]
+מצב
 ;file \plugins\TabSRMM\src\sendqueue.cpp
 [A message delivery has failed.\nClick to open the message window.]
 שליחת ההודעה נכשלה. לחץ לפתחית חלון השיחה
@@ -310,6 +484,8 @@ RSS אל תודיע אל אירועים מפרוטוקולי
 פתח אירוע
 [Dismiss event]
 סלק אירוע
+[System tray icon]
+סמל מגש המערכת
 [Left click actions (popups only)]
 (פעולות קליק שמאלי (רק פופאפים
 [Right click actions (popups only)]
@@ -324,6 +500,12 @@ RSS אל תודיע אל אירועים מפרוטוקולי
 שליחת הודעות
 [Send on SHIFT - Enter]
 אנטר SHIFT שלח הודעות בלחיצה
+[Send message on 'Enter']
+'שלח הודעות בלחיצה על 'אנטר
+[Send message on double 'Enter']
+שלח הודעות בלחיצה כפולה על 'אנטר'
+[Close the message window on send]
+סגור את חלון ההודעה בשליחת ההודעה
 [Delete temporary contacts on close]
 מחוק אנשי קשר זמניים בסגירה
 [Automatically copy selected text]
@@ -332,8 +514,6 @@ RSS אל תודיע אל אירועים מפרוטוקולי
 מראה יומן הודעה
 [Support for external plugins]
 תמיכה לפלאגים חיצוניים
-[Show file events]
-הראה אירועי קבצים
 [Draw grid lines]
 צייר רשת קווים
 [Use Incoming/Outgoing Icons]
@@ -367,10 +547,46 @@ IEView כפה
 ;file \plugins\TabSRMM\src\chat\clist.cpp
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 ;file \plugins\TabSRMM\src\chat\log.cpp
+[%s is now known as %s]
+%s ידוע כ %s
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 ;file \plugins\TabSRMM\src\chat\options.cpp
 [Log background]
 רקע יומן
+[Timestamp]
+חותמת זמן
+[Others nicknames]
+כינויים של אחרים
+[Your nickname]
+הכינוי שלך
+[User has joined]
+משתמש הצטרף
+[User has left]
+משתמש עזב
+[User has disconnected]
+משתמש התנתק
+[User kicked ...]
+...משתמש הועף
+[User is now known as ...]
+...המשתמש ידוע כעת כ
+[Notice from user]
+הערה ממשתמש
+[The topic is ...]
+...הנושא הוא
+[Information messages]
+הודעות מידע
+[User enables status for ...]
+משתמש אפשר מצב בשביל...
+[User disables status for ...]
+משתמש ביטל מצב בשביל...
+[Action message]
+הודעת פעולה
+[Highlighted message]
+הודעה מודגשת
+[User list members (Online)]
+רשימת חברים של המשתמש (שמחוברים)
+[User list members (away)]
+רשימת חברים של המשתמש (במצב לא נמצא)
 [>> Outgoing misc events]
 << אירועים יוצאים
 [<< Incoming misc events]
@@ -399,10 +615,86 @@ IEView כפה
 * (סמלים (נכנסים
 [* Symbols (outgoing)]
 * (סמלים (יוצאים
+[Protocol]
+פרוטוקול
 [Contacts local time]
 זמן מקומי של אנשי קשר
+[Flash window when someone speaks]
+הבהב חלון כשמישהו מדבר
+[Flash window when a word is highlighted]
+הבהב חלון כשמילה מודגשת
+[Show list of users in the chat room]
+הראה רשימת משתמשים בחדר הצ'אט
+[Show button menus when right clicking the buttons]
+הראה כפתור תפריטים בקליק ימני על הכפתורים
+[Do not pop up the window when joining a chat room]
+אל תקפיץ את החלון בהצטרפות לחדר צ'אט
+[Prefix all events with a timestamp]
+תקן מראש את כל האירועים עם חותמת זמן
+[Indent the second line of a message]
+לחתוך את הקו השני של הודעה
+[Limit user names in the message log to 20 characters]
+הגבל שמות משתמש בלוג ההודעות ל 20 תווים
+[Strip colors from messages in the log]
+הורד צבעים מהודעות ביומן
+[Enable the 'event filter' for new rooms]
+אפשר את 'מסנן האירועים' לחדרים חדשים
+[Icon overlay]
+מעל אייקון
+[Status 1 (10x10)]
+מצב 1 (10x10)
+[Status 2 (10x10)]
+מצב 2 (10x10)
+[Status 3 (10x10)]
+מצב 3 (10x10)
+[Status 4 (10x10)]
+מצב 4 (10x10)
+[Status 5 (10x10)]
+מצב 5 (10x10)
+[Status 6 (10x10)]
+מצב 6 (10x10)
+[Join (10x10)]
+הצטרף (10x10)
+[Quit (10x10)]
+צא (10x10)
+[Kick (10x10)]
+בעט (10x10)
+[Highlight (10x10)]
+הדגש (10x10)
+[Information (10x10)]
+מידע (10x10)
+[Appearance and functionality of chat room windows]
+מראה ותפקוד של חלונות חדרי הצ'אט
+[Appearance of the message log]
+מראה של יומן ההודעות
 [Userlist background]
 רקע רשימה
+[All Files]
+כל הקבצים
+[Select Folder]
+בחר תיקייה
+[Message is highlighted]
+הודעה מודגשת
+[User has performed an action]
+משתמש ביצע פעולה
+[User has kicked some other user]
+משתמש העיף משתמש אחר
+[User has changed name]
+משתמש החליף שם
+[User has sent a notice]
+משתמש שלח הערה
+[The topic has been changed]
+נושא השתנה
 ;file \plugins\TabSRMM\src\chat\services.cpp
+[&Join]
+הצטרף
+[&Leave]
+&עזוב
 ;file \plugins\TabSRMM\src\chat\tools.cpp
+[%s kicked %s from %s]
+%s מ %s נבעט %s
 ;file \plugins\TabSRMM\src\chat\window.cpp
+[Nick]
+כינוי
+[minutes]
+דקות

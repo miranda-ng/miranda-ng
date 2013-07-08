@@ -6,6 +6,36 @@
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
 ;file \plugins\ContactsPlus\res\contacts.rc
+[&A]
+&A
+[&D]
+&D
+[&H]
+&H
+[&Send]
+送信 (&S)
+[Cancel]
+Cancel
+[&Add]
+追加 (&A)
+[Close]
+閉じる
+[An error has occured. The protocol reported the following error:]
+エラーが発生しました。エラー内容 :
+[Try again]
+再試行
+[User Details]
+ユーザーの詳細情報
 ;file \plugins\ContactsPlus\src\main.cpp
+[Contacts]
+コンタクト
 ;file \plugins\ContactsPlus\src\receive.cpp
+[Add Contact Permanently to List]
+コンタクトを完全にリストに追加
+[View User's Details]
+ユーザーの詳細情報を表示
+[View User's History]
+ユーザーの履歴を表示
+[User Menu]
+ユーザーメニュー
 ;file \plugins\ContactsPlus\src\send.cpp

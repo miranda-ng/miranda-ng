@@ -9,5 +9,7 @@
 [Display time:]
 Visningstid:
 ;file \plugins\SplashScreen\src\main.cpp
+[Error]
+Feil
 ;file \plugins\SplashScreen\src\options.cpp
 ;file \plugins\SplashScreen\src\services.cpp

@@ -5,30 +5,130 @@
 选择协议类型
 [Specify the internal account name (optional)]
 指定内部帐号名称 (选填)
+[OK]
+确定
+[Cancel]
+取消
 [Add %s]
 添加 %s
+[&Add]
+添加(&A)
+[&Cancel]
+取消(&C)
+[Send "You were added"]
+发送 "您已被添加" 
+[Send authorization request]
+发送授权请求
+[Custom name:]
+自定义名称: 
+[Group:]
+群组: 
+[Options]
+选项
+[Authorization Request]
+授权请求
+[Delete Contact]
+删除联系人
+[&Yes]
+是(&Y)
+[&No]
+否(&N)
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+仅从列表中隐藏, 保留联系人历史及忽略/可见性设置
+[Are you sure you want to delete %s?]
+您确定要删除 %s? 
+[This will erase all history and settings for this contact!]
+此操作将删除联系人所有历史及相关设置! 
 [Contact Display Options]
 联系人显示选项
 [Miranda NG Profile Manager]
 Miranda NG 配置文件管理员
 [&Run]
 运行(&R)
+[&Exit]
+退出(&E)
 [Start in Service Mode with]
 启动服务模式于
 [Find/Add Contacts]
 查找/添加联系人
+[Search:]
+搜索: 
+[E-mail address]
+邮箱地址
+[Name]
+名称
+[Nick:]
+昵称: 
 [First:]
 名字: 
 [Last:]
 姓氏: 
+[Advanced]
+高级
+[Advanced >>]
+高级 >>
+[&Search]
+搜索(&S)
+[More options]
+更多选项
 [Add to list]
 加至列表
+[Custom]
+自定义
 [Find/Add Contacts\nHere you can add contacts to your contact list]
 查找/添加联系人\n您可由此添加联系人至列表
+[Apply]
+应用
 [Please select a subentry from the list]
 请在列表中选择一个子项目
+[Install Database Settings]
+安装数据库设置
+[Yes]
+是
+[No]
+否
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Miranda NG 目录下有包含新数据库设置的文件. 
+[Do you want to import the settings now?]
+您想现在导入这些设置吗? 
+[No to all]
+全部否
+[&View contents]
+查看内容(&V)
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+防恶意变更安全系统已启用, 任何无法确知是否安全的变更, 都将警告. 
+[Database Setting Change]
+数据库设置变更
+[Database settings are being imported from]
+数据库设置正准备导入于
+[This file wishes to change the setting]
+此文件希望变更设置
+[to the value]
+的值
+[Do you want to allow this change?]
+您是否允许此项变更? 
+[&Allow all further changes to this section]
+允许此部分中所有其它变更(&A)
+[Cancel Import]
+取消导入
+[Database Import Complete]
+数据库导入完成
+[The import has completed from]
+导入已完成于
+[What do you want to do with the file now?]
+您现在想对此文件做什么? 
+[&Recycle]
+循环使用(&R)
+[&Delete]
+删除(&D)
+[&Move/Rename]
+移动/重命名(&L)
+[&Leave]
+离开(&L)
 [Netlib Log Options]
 Netlib 记录选项
+[Show]
+状态不同时显示
 [Received bytes]
 收到字节
 [Sent bytes]
@@ -43,6 +143,8 @@ Netlib 记录选项
 呼叫模块的名称
 [Log to]
 记录至
+[File]
+文件
 [Run now]
 立即运行
 [Show this dialog box when Miranda NG starts]
@@ -51,16 +153,24 @@ Miranda NG 启动时显示此对话框
 保存为默认值
 [SSL Traffic]
 SSL 传输
+[Sounds]
+声音
 [&Change...]
 变更(&C)
+[&Preview]
+预览(&P)
 [Download more sounds]
 下载更多声音
 [Sound Information]
 声音信息
 [Location:]
 位置: 
+[Name:]
+名称: 
 [Enable sound events]
 启用声音事件
+[Icons]
+图标
 [Show category:]
 显示分类: 
 [&Load icon set...]
@@ -69,16 +179,32 @@ SSL 传输
 导入图标(&I) >>
 [Download more icons]
 下载更多图标
+[The following events are being ignored:]
+这些事件将被忽略: 
+[Messages]
+消息
+[URLs]
+网址
+[Files]
+文件
 [Online Notification]
 上线通知
 [Auth Requests]
 认证请求
 [All Events]
 所有事件
+[None]
+无
 [Only the ticked contacts will be shown on the main contact list]
 仅选定联系人会出现于主要联系人列表中
+[Ignore]
+忽略
 [Added Notification]
 已加入通知
+[Typing]
+键入中
+[Visibility]
+可见性
 [You are visible to this person even when in invisible mode]
 当您在隐身模式时此人仍然能看见您
 [You are never visible to this person]
@@ -93,6 +219,8 @@ SSL 传输
 多重导入
 [To main icons]
 至主图标
+[To]
+至
 [<< &Import]
 << 导入(&I)
 [To default status icons]
@@ -103,8 +231,18 @@ SSL 传输
 发送连接
 [Use proxy server]
 使用代理服务器
+[Type:]
+类型: 
+[Host:]
+主机: 
+[Port:]
+端口:
 [(often %d)]
 (通常是 %d)
+[Username:]
+用户名: 
+[Password:]
+密码: 
 [Resolve hostnames through proxy]
 通过代理服务器解析主机名称
 [Port Range:]
@@ -117,8 +255,12 @@ SSL 传输
 传入连接
 [Enable UPnP port mapping]
 启用 UPnP 端口对应
+[You will need to reconnect for the changes you have made on this page to take effect.]
+您需要重新连接才能让当前页变更生效. 
 [Please complete the following form to create a new user profile]
 请填写以下表格以创建新配置文件
+[Profile]
+配置文件
 [e.g. Workplace]
 例如工作地点
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
@@ -127,14 +269,38 @@ SSL 传输
 例如 Miranda 数据库
 [Driver]
 驱动程序
+[Description:]
+描述: 
+[Author(s):]
+作者: 
+[E-mail:]
+邮件: 
+[Homepage:]
+主页: 
+[Unique ID:]
+独有 ID: 
+[Copyright:]
+版权: 
+[Please restart Miranda NG for your changes to take effect.]
+请重启 Miranda NG 让您的变更生效. 
 [Fonts and Colors]
 字体及颜色
+[Undo]
+撤销
+[Reset]
+重置
+[Export...]
+导出...
 [Color/Background]
 颜色/背景
 [Text Effect]
 文本特效
+[Text Color]
+文本颜色
 [Choose Font]
 选择字体
+[Font]
+字体
 [&Font:]
 字体(&F): 
 [Font st&yle:]
@@ -143,6 +309,8 @@ SSL 传输
 \n此字体禁用样式和效果.
 [&Size:]
 大小(&S): 
+[Effects]
+效果
 [Stri&keout]
 删除线(&K)
 [&Underline]
@@ -153,6 +321,10 @@ SSL 传输
 范例
 [Sc&ript:]
 字符集(&R): 
+[&Apply]
+应用(&A)
+[&Help]
+说明(&H)
 [Menu Objects]
 菜单对象
 [Menu Items]
@@ -163,8 +335,16 @@ SSL 传输
 移至主菜单
 [Move to the status bar]
 移至状态栏
+[Warning!\r\nThis MenuObject not support user defined options.]
+警告! \r\n此 MenuObject 不支持用户自定义选项. 
 [Insert separator]
 插入分隔器
+[Service:]
+服务: 
+[Default]
+默认
+[Set]
+设置
 [Account Order && Visibility]
 帐号顺序及可见
 [Note: Miranda NG will have to be restarted for changes to take effect.]
@@ -173,10 +353,18 @@ SSL 传输
 按键绑定
 [Shortcut:]
 快速键: 
+[Add]
+添加
+[Remove]
+移除
 [Undo Changes]
 撤销变更
 [Reset To Default]
 重置为默认值
+[Hotkeys]
+热键
+[Accounts]
+帐号
 [Accounts\nConfigure your IM accounts]
 账号\n配置您的 IM 账号
 [Account information:]
@@ -189,8 +377,14 @@ SSL 传输
 获得更多协议...
 [&Add...]
 添加(&A)...
+[&Edit]
+编辑(&E)
+[&Options]
+选项(&O)
 [&Upgrade]
 升级(&U)
+[&Remove...]
+移除(&R)...
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG 正准备重启. \n请稍候...
 [Error Console]
@@ -217,24 +411,72 @@ Miranda NG 正准备重启. \n请稍候...
 选择您想忽略的事件:
 [Font Effect]
 字体特效
+[Effect:]
+特效:
 [Base colour:]
 基色:
+[opacity:]
+不透明度:
 [Secondary colour:]
 辅助色:
 [Select the extra icons to be shown in the contact list:]
 选择的额外图标将显示于联系人列表中:
 [* only the first %d icons will be shown]
 * 将仅显示前 %d 个图标
-[IconOptions]
-图标选项
+[Tray]
+托盘
+[&Hide/Show]
+隐藏/显示(&H)
+[E&xit]
+退出(&X)
+[&New Group]
+新增群组(&N)
+[&Hide Offline Users]
+隐藏离线用户(&H)
+[Hide &Offline Users out here]
+隐藏除此以外离线用户(&O)
+[Hide &Empty Groups]
+隐藏空群组(&E)
+[Disable &Groups]
+禁用群组(&G)
+[Hide Miranda]
+隐藏 Miranda
+[Group]
+群组
+[&New Subgroup]
+新增子群组(&N)
+[&Hide Offline Users in here]
+隐藏此处离线用户(&H)
+[&Rename Group]
+重命名群组(&R)
+[&Delete Group]
+删除群组(&D)
 [&Reset to default]
 重置为默认值
 [find/add]
 查找/添加
 [&Add to List]
 加至列表(&A)
+[User &Details]
+用户详细资料(&D)
 [Send &Message]
 发送消息(&M)
+[Log]
+记录
+[&Copy]
+复制(&C)
+[Co&py All]
+全部复制(&C)
+[Select &All]
+全选(&C)
+[C&lear Log]
+清除记录(&L)
+[Open in &new window]
+在新窗口中打开(&N)
+[&Open in existing window]
+在已存在窗口中打开(&O)
+[&Copy link]
+复制链接(&C)
 [Cancel Change]
 取消变更
 [&Reset To Default]
@@ -244,6 +486,8 @@ Miranda NG 正准备重启. \n请稍候...
 ;file \src\core\stdauth\resource.rc
 [&Authorize]
 授权(&A)
+[&Deny]
+拒绝(&D)
 [Decide &Later]
 稍后决定(&L)
 [Reason:]
@@ -252,52 +496,382 @@ Miranda NG 正准备重启. \n请稍候...
 拒绝原因:
 [Add to contact list if authorized]
 如已授权则添加至联系人列表
+[You Were Added]
+您已被添加
+[&Close]
+关闭(&C)
 ;file \src\core\stdaway\resource.rc
+[%s Message for %s]
+%s 消息给 %s
+[Retrieving %s message...]
+正在获取 %s 消息..
+[Status Messages]
+状态消息
 [Do not reply to requests for this message]
 请勿回复此消息的请求
 [By default, use the same message as last time]
 默认使用与最后一次相同的消息
 [By default, use this message:]
 默认使用此消息: 
+[Use %time% for the current time, %date% for the current date]
+请使用 %time% 作为当前时间, %date% 作为当前日期
 [Status messages:]
 状态消息:
+[Change %s Message]
+变更 %s 消息
+[Closing in %d]
+%d 秒关闭
 ;file \src\core\stdchat\res\chat.rc
+[&Send]
+发送(&S)
+[Show these events only:]
+仅显示下列事件: 
+[Actions]
+操作
+[Nick changes]
+昵称变更
+[Users joining]
+用户加入
+[Users leaving]
+用户离开
+[Topic changes]
+主题变更
+[Status changes]
+状态变更
+[Information]
+信息
+[Disconnects]
+断开连接
+[User kicks]
+用户被踢走
+[Notices]
+公告
+[Log Options]
+记录选项
+[Log timestamp]
+记录时间戳
+[Timestamp]
+时间戳
+[Other name]
+其它名称
+[Your name]
+您的名称
+[Enable highlighting]
+启用突出显示
+[Limit log text to (events):]
+限制记录文本为 (事件): 
 [Trim to (kB)]
 截短为 (kB)
+[Words to highlight (wildcards allowed)]
+突出显示字词 (允许通配符)
+[Enable logging to disk]
+启用记录到磁盘
+[Log directory]
+记录目录
+[Other]
+其它
+[Add new rooms to group:]
+添加新房间到群组: 
 [Userlist row distance (pixels):]
 用户列表列间距 (像素): 
+[Use same style as in the message log]
+消息记录使用相同的样式
+[Use default colours]
+使用默认颜色
+[Use custom colours]
+使用自定颜色
 [Popups for the Chat plugin]
 聊天插件弹出窗口
+[Timeout (s)]
+超时 (秒)
+[Text]
+文本
+[Background]
+背景
+[List]
+列表
+[&Message]
+消息(&M)
+[Clear lo&g]
+清除记录(&G)
+[Co&py all]
+全部复制(&P)
+[Word lookup]
+字词检索
+[Wikipedia]
+维基百科
+[Link]
+链接
+[Open a &new browser window]
+打开新浏览器窗口(&N)
+[&Open in current browser window]
+在当前浏览器窗口中打开(&O)
+[Message]
+消息
+[Undo  ]
+撤销
+[Redo]
+重做
+[Copy]
+复制
+[Cut]
+剪切
+[Paste]
+粘贴
+[Select All]
+全选
+[Clear]
+晴
+[Tabs]
+标签
+[&Close tab]
+关闭标签(&C)
+[C&lose other tabs]
+关闭其它标签(&L)
+[&Open at this position]
+在当前位置打开(&O)
 ;file \src\core\stdclist\res\resource.rc
+[Hide offline users]
+隐藏离线用户
+[Hide empty groups]
+隐藏空群组
+[Disable groups]
+禁用群组
+[Ask before deleting contacts]
+删除联系人前先询问
+[Sort contacts by name]
+联系人按名称排序
+[Sort contacts by status]
+联系人按状态排序
+[Sort contacts by protocol]
+联系人按协议排序
+[Single click interface]
+通过单击打开项目
+[Always show status in tooltip]
+始终在工具提示中显示状态
+[Disable icon blinking]
+禁用图标闪动
+[ms delay]
+毫秒延迟
+[icon when statuses differ]
+图标
+[Cycle icons every]
+状态不同时每
+[seconds, when statuses differ]
+秒循环图标
+[Show multiple icons]
+显示多个图标
+[Only when statuses differ]
+仅在状态不同时
+[Contact List]
+联系人列表
+[System tray icon]
+系统托盘图标
+[System tray icon when using multiple protocols]
+当使用多重协议时的系统托盘图标
+[Contact List Sorting]
+联系人列表排序
+[Window]
+窗口
+[Always on top]
+始终置顶
+[Tool style main window]
+工具栏样式主窗口
+[Minimize to tray]
+最小化到托盘
+[Show menu bar]
+显示菜单栏
+[Easy move]
+容易移动
+[Show title bar]
+显示标题栏
+[Title bar text:]
+标题栏文本: 
+[Show drop shadow (restart required)]
+使用下拉阴影 (需要重启)
+[Pin to desktop]
+固定在桌面上
+[Hide contact list after it has been idle for]
+空闲时隐藏联系人列表
+[seconds]
+秒
+[Automatically resize window to height of list]
+自动调整窗口大小至列表高度
+[maximum]
+最多窗口的
+[% of screen]
+%
+[Size upwards]
+向上量度大小
+[If window is partially covered, bring to front instead of hiding]
+如果窗口有部分被遮盖, 则以置顶代替隐藏
 [Enable docking]
 启用停靠
+[Fade contact list in/out]
+联系人列表淡入/淡出
+[Transparent contact list]
+联系人列表透明化
+[Inactive opacity:]
+未激活时透明度: 
+[Active opacity:]
+激活时透明度: 
+[Items]
+项目
+[Show divider between online and offline contacts]
+在线与离线联系人之间显示分隔线
+[Hot track items as mouse passes over]
+鼠标在项目上移动时显示热跟踪
+[Disable drag and drop of items]
+禁用项目拖放
+[Disable rename of items by clicking twice]
+禁用项目双击重命名
+[Show selection even when list is not focused]
+当列表非焦点时仍显示被选定项目
+[Make selection highlight translucent]
+将选定项目突出显示透明
+[Dim idle contacts]
+暗淡化闲置联系人
+['Hide Offline' means to hide:]
+'隐藏离线' 的意思是隐藏: 
+[Groups]
+群组
+[Draw a line alongside group names]
+群组名称之间画线
+[Show counts of number of contacts in a group]
+显示每个群组的联系人总数
+[Hide group counts when there are none online]
+群组内无人在线时隐藏总数
+[Sort groups alphabetically]
+群组按字母排序
+[Quicksearch in open groups only]
+仅在打开的群组内快速搜索
+[Indent groups by:]
+缩排群组: 
+[pixels]
+像素
+[pixels]
+像素
+[Visual]
+视觉
+[Scroll list smoothly]
+平滑滚动列表
+[Time:]
+时间: 
+[milliseconds]
+毫秒
+[Left margin:]
+左边界: 
+[Hide vertical scroll bar]
+隐藏垂直滚动条
+[Row height:]
+列高: 
+[Gamma correction]
+伽玛亮度校正
+[Grey out entire list when:]
+下列清况将整个列表变灰: 
+[Contact List Background]
+联系人列表背景
+[Background colour]
+背景颜色
+[Background colour]
+背景颜色
 [Selection colour]
 选择颜色
+[Use background image]
+使用背景图片
+[Stretch to width]
+拉伸至宽度
+[Stretch to height]
+拉伸至高度
+[Tile horizontally]
+横向平铺
+[Tile vertically]
+纵向平铺
+[Scroll with text]
+与文本一起滚动
+[Stretch proportionally]
+按比例拉伸
+[Use Windows colours]
+使用 Windows 颜色
+[Status Bar]
+状态栏
+[Show status bar]
+显示状态栏
+[Show icons]
+显示图标
+[Show protocol names]
+显示协议名称
+[Show status text]
+显示状态文本
+[Right click opens status menu]
+点击右键打开状态菜单
+[Right click opens Miranda NG menu]
+点击右键打开 Miranda NG 菜单
+[Make sections equal width]
+将各部分设为相同宽度
+[Show bevels on panels]
+显示面板斜角
+[Show resize grip indicator]
+显示调整大小箭头
 [Ordering:]
 排序:
 [Contact list:]
 联系人列表:
 [If window is partially covered, bring iy to front]
 如窗口被部分覆盖, 则置顶
+[Window:]
+窗口:
 [Contact list background:]
 联系人列表背景:
+[&Status]
+状态(&S)
+[&Offline\tCtrl+0]
+离线(&O)\tCtrl+0
+[On&line\tCtrl+1]
+在线(&L)\tCtrl+1
+[&Away\tCtrl+2]
+外出(&A)\tCtrl+2
+[&NA\tCtrl+3]
+没空(&N)\tCtrl+3
+[Occ&upied\tCtrl+4]
+忙碌(&U)\tCtrl+4
+[&DND\tCtrl+5]
+请勿打扰(&D)\tCtrl+5
+[&Free for chat\tCtrl+6]
+自由聊天(&F)\tCtrl+6
+[&Invisible\tCtrl+7]
+隐身(&I)\tCtrl+7
+[On the &Phone\tCtrl+8]
+接听电话(&P)\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+外出用餐(&L)\tCtrl+9
 ;file \src\core\stdfile\resource.rc
 [Send File(s)]
 发送文件
+[To:]
+给: 
 [File(s):]
 文件: 
 [&Choose Again...]
 再次选择(&C)...
 [Total size:]
 累计大小: 
+[Incoming File Transfer]
+传入文件传输
 [A&ccept]
 接受(&C)
 [&Decline]
 拒绝(&D)
+[From:]
+从: 
+[Date:]
+日期:
 [Files:]
 文件: 
 [Save to:]
 保存至: 
+[Contact menu]
+联系人菜单
 [Open...]
 打开...
 [Open folder]
@@ -308,8 +882,12 @@ Miranda NG 正准备重启. \n请稍候...
 无已传输资料
 [File Already Exists]
 文件已存在
+[Resume]
+恢复
 [Resume all]
 全部恢复
+[Overwrite]
+下划线
 [Overwrite all]
 全部覆盖
 [Save as...]
@@ -324,6 +902,8 @@ Miranda NG 正准备重启. \n请稍候...
 正准备接收文件
 [Existing file]
 已存在文件
+[Size:]
+大小: 
 [Last modified:]
 最后修改于: 
 [Open file]
@@ -332,8 +912,12 @@ Miranda NG 正准备重启. \n请稍候...
 文件属性
 [File being received]
 准备接收文件
+[File Transfers]
+文件传输
 [Clear completed]
 清除已完成项目
+[Close]
+关闭
 [Receiving files]
 接收文件
 [Received files folder:]
@@ -375,9 +959,13 @@ Miranda NG 正准备重启. \n请稍候...
 ;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 关于 Miranda NG
+[Credits >]
+贡献者 >
 ;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 下列无故离开情况变为闲置: 
+[Windows]
+窗口
 [Become idle if the screen saver is active]
 屏幕保护程序启用时变为闲置
 [Become idle if a terminal session is disconnected]
@@ -403,16 +991,32 @@ Miranda NG 正准备重启. \n请稍候...
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 自动弹出窗口当: 
+[In background]
+在背景
+[Close the message window on send]
+发送时关闭消息窗口
+[Minimize the message window on send]
+发送时最小化消息窗口
+[Use the contact's status icon as the window icon]
+使用联系人状态图标作为窗口图标
 [Save the window size and location individually for each contact]
 为每个联系人单独保存窗口大小和位置
+[Cascade new windows]
+层叠新窗口
 [Show 'Send' button]
 显示 "发送" 按钮
 [Show username on top row]
 最顶行显示用户名
 [Show toolbar buttons on top row]
 最顶行显示工具栏按钮
+[Send message on double 'Enter']
+按两次 "Enter" 发送消息
+[Send message on 'Enter']
+按 "Enter" 发送消息
 [Show character count]
 显示字符总数
+[Show warning when message has not been received after]
+显示警告当消息未能接收于
 [Support control up/down in message area to show previously sent messages]
 支持在消息发送区域上/下控制显示以往发出的消息
 [Delete temporary contacts when closing message window]
@@ -421,32 +1025,86 @@ Miranda NG 正准备重启. \n请稍候...
 启用消息窗口头像支持
 [Limit avatar height to ]
 限制头像高度为
-[pixels]
-像素
 [Max Number of Flashes]
 最大闪动次数
+[Send Error]
+发送错误
+[An error has occured. The protocol reported the following error:]
+发生错误. 协议已回报了此错误: 
+[while sending the following message:]
+发送下列消息时: 
+[Try again]
+再试一次
+[Message Session]
+消息会话
+[Message Window Event Log]
+通信窗口事件记录
+[Show names]
+显示名称
 [Show timestamp]
 显示时间戳
 [Show dates]
 显示日期
+[Load unread events only]
+仅加载未读事件
+[Load number of previous events]
+加载以往事件数量
+[Load previous events less than]
+加载少于
+[minutes old]
+分钟前
 [Show status changes]
 显示状态变更
+[Show seconds]
+显示秒数
+[Load History Events]
+加载历史事件
 [Show Formatting]
 显示格式
+[Send typing notifications to the following users when you are typing a message to them:]
+当您键入消息时, 发送键入通知给这些用户: 
+[Show typing notifications when a user is typing a message]
+当用户键入消息时显示键入通知
 [Update inactive message window icons when a user is typing]
 当用户键入时更新非活动消息窗口图标
+[Show typing notification when no message dialog is open]
+没有打开消息对话框时显示键入通知
+[Flash in the system tray and in the contact list]
+闪动系统托盘和联系人列表
+[Show balloon popup]
+显示气球式弹出窗口
 [Save the window position for each contact]
 每联系人独立保存自有窗口位置
 [Message window behaviour:]
 消息窗口行为:
 [Messaging:]
 消息:
+[&Open link]
+打开链接(&O)
+[Paste && Send]
+粘贴 && 发送
+[Delete]
+删除
 ;file \src\core\stduihist\resource.rc
+[Find]
+查找
 [&Find Next]
 找下一个(&F)
 [Find What:]
 查找什么: 
+[Message History]
+消息历史
+[&Find...]
+查找(&F)...
 ;file \src\core\stduserinfo\resource.rc
+[Add Phone Number]
+添加电话号码
+[Enter country, area code and phone number:]
+请输入国家, 区号及电话号码: 
+[Or enter a full international number:]
+或输入完整的国际号码: 
+[Phone can receive SMS text messages]
+此电话号码可接收 SMS 文本消息
 [Add E-Mail Address]
 添加邮箱地址
 [%s: User Details]
@@ -455,20 +1113,58 @@ Miranda NG 正准备重启. \n请稍候...
 %s\n查看个人用户详细资料及其它
 [Update Now]
 立即更新
+[Updating]
+更新中
+[Nickname:]
+昵称: 
+[First name:]
+名字: 
+[Gender:]
+性别: 
+[Last name:]
+姓氏: 
+[Age:]
+年龄: 
+[Date of birth:]
+出生日期: 
+[Marital status:]
+婚姻状况: 
+[Phone:]
+电话: 
 [Web page:]
 网页: 
 [Past background:]
 过往背景: 
 [Interests:]
 兴趣: 
+[About:]
+关于: 
 [My notes:]
 我的便笺: 
+[Street:]
+街道: 
+[City:]
+城市: 
+[State:]
+州: 
+[Postal code:]
+邮政编码: 
+[Country:]
+国家: 
 [Spoken languages:]
 口语: 
+[Timezone:]
+时区: 
 [Local time:]
 本地时间: 
 [Set custom time zone]
 设置自定义时区
+[Company:]
+公司: 
+[Department:]
+部门: 
+[Position:]
+职务: 
 [Website:]
 网站: 
 ;file \src\core\stdauth\auth.cpp
@@ -480,9 +1176,19 @@ Miranda NG 正准备重启. \n请稍候...
 %s 将您加至他们的联系人列表
 [%u added you to their contact list]
 %u 已将您加至联系人列表中
+[Alerts]
+提醒
+[Authorization request]
+授权请求
 [Added event]
 添加事件
 ;file \src\core\stdauth\authdialogs.cpp
+[View User's Details]
+查看用户详细资料
+[Add Contact Permanently to List]
+将联系人永久加至列表
+[<Unknown>]
+<未知>
 [%s added you to the contact list\n%u (%s) on %s]
 %s 已将您添加至联系人列表\n%u (%s) 于 %s
 [%s added you to the contact list\n%u on %s]
@@ -502,13 +1208,111 @@ Miranda NG 正准备重启. \n请稍候...
 [Feature is not supported by protocol]
 此功能协议尚不支持
 ;file \src\core\stdaway\awaymsg.cpp
+[Re&ad %s Message]
+阅读 %s 消息(&A)
 [Re&ad Status Message]
 阅读状态消息(&A)
 ;file \src\core\stdaway\sendmsg.cpp
+[I've been away since %time%.]
+我已在 %time% 外出. 
+[Give it up, I'm not in!]
+放弃吧, 我不在! 
+[Not right now.]
+现在不行. 
+[Give a guy some peace, would ya?]
+给我一点安宁, 好吗? 
+[I'm a chatbot!]
+我是聊天机器人! 
+[Yep, I'm here.]
+是, 我在这里. 
+[Nope, not here.]
+不, 不在这里. 
+[I'm hiding from the mafia.]
+我现在正在躲仇家. 
+[That'll be the phone.]
+电话联系吧. 
+[Mmm...food.]
+嗯...食物. 
+[idleeeeeeee]
+闲置
+[Status]
+状态
 ;file \src\core\stdchat\src\clist.cpp
+[Join chat]
+加入聊天
+[Open chat window]
+打开聊天窗口
 ;file \src\core\stdchat\src\colorchooser.cpp
+[Text colour]
+文本颜色
 ;file \src\core\stdchat\src\log.cpp
+[%s has joined]
+%s 已加入
+[You have joined %s]
+您已加入 %s
+[%s has left]
+%s 已离开
+[%s has disconnected]
+%s 已断开连接
+[%s is now known as %s]
+%s 现在改名为 %s
+[You are now known as %s]
+您现在被称为 %s
+[%s kicked %s]
+%s 已被踢走 %s
+[Notice from %s: ]
+%s 的公告: 
+[The topic is '%s%s']
+主题为 '%s%s'
+[ (set by %s on %s)]
+ (由 %s 设置于 %s)
+[ (set by %s)]
+ (由 %s 设置)
+[%s enables '%s' status for %s]
+%s 启用 '%s' 状态于 %s
+[%s disables '%s' status for %s]
+%s 禁用 '%s' 状态于 %s
+[<invalid>]
+<无效>
 ;file \src\core\stdchat\src\options.cpp
+[Others nicknames]
+其它昵称
+[Your nickname]
+您的昵称
+[User has joined]
+用户已加入
+[User has left]
+用户已离开
+[User has disconnected]
+用户已断线
+[User kicked ...]
+用户已被踢走...
+[User is now known as ...]
+用户现在改名为 ...
+[Notice from user]
+用户公告
+[Incoming message]
+传入消息
+[Outgoing message]
+发送消息
+[The topic is ...]
+主题是 ...
+[Information messages]
+信息消息
+[User enables status for ...]
+用户启用状态为 ...
+[User disables status for ...]
+用户禁用状态为 ...
+[Action message]
+操作消息
+[Highlighted message]
+突出显示消息
+[Message typing area]
+消息键入区域
+[User list members (Online)]
+用户列表成员 (在线)
+[User list members (away)]
+用户列表成员 (外出)
 [Use a tabbed interface]
 使用标签界面
 [Close tab on doubleclick]
@@ -521,12 +1325,20 @@ Miranda NG 正准备重启. \n请稍候...
 按下 Enter 键时发送消息
 [Send message by pressing the Enter key twice]
 按下 Enter 键两次时发送消息
+[Flash window when someone speaks]
+有人说话时闪动窗口
+[Flash window when a word is highlighted]
+有字词被突出显示时闪动窗口
+[Show list of users in the chat room]
+在聊天室中显示用户列表
 [Show button for sending messages]
 显示消息发送按钮
 [Show buttons for controlling the chat room]
 显示聊天室控制按钮
 [Show buttons for formatting the text you are typing]
 显示输入样式按钮
+[Show button menus when right clicking the buttons]
+在按钮上点击右键时显示按钮功能菜单
 [Show new windows cascaded]
 层叠新窗口
 [Save the size and position of chat rooms]
@@ -535,16 +1347,52 @@ Miranda NG 正准备重启. \n请稍候...
 在您的联系人列表显示房间主题 (如果支持)
 [Do not play sounds when the chat room is focused]
 聊天室获取焦点时不要播放音效
+[Do not pop up the window when joining a chat room]
+加入聊天室时不要显示弹出窗口
 [Toggle the visible state when double clicking in the contact list]
 在联系人列表上双击切换可见状态
 [Show contact statuses if protocol supports them]
 如协议支持则显示联系人状态
 [Display contact status icon before user role icon]
 在用户角色图标前显示联系人状态图标
+[Prefix all events with a timestamp]
+在所有事件前加上时间戳
+[Only prefix with timestamp if it has changed]
+有变化时才加上时间戳
 [Timestamp has same colour as the event]
 时间戳与事件使用相同的颜色
+[Indent the second line of a message]
+缩排消息第二行
+[Limit user names in the message log to 20 characters]
+限制消息记录中用户名长度在 20 个字符内
 [Add ':' to auto-completed user names]
 添加 ':' 至自动完成用户名
+[Strip colors from messages in the log]
+在记录中去除消息颜色
+[Enable the 'event filter' for new rooms]
+新房间启用 '事件过滤器'
+[Show topic changes]
+显示主题变更
+[Show users joining]
+显示用户加入
+[Show users disconnecting]
+显示用户断线
+[Show messages]
+显示消息
+[Show actions]
+显示操作
+[Show users leaving]
+显示用户离开
+[Show users being kicked]
+显示用户被踢走
+[Show notices]
+显示公告
+[Show users changing name]
+显示用户改名
+[Show information messages]
+显示信息消息
+[Show status changes of users]
+显示用户状态变更
 [Show icon for topic changes]
 显示主题变更图标
 [Show icon for users joining]
@@ -569,6 +1417,32 @@ Miranda NG 正准备重启. \n请稍候...
 显示信息消息图标
 [Show icon for status changes]
 显示状态变更图标
+[Show icons in tray only when the chat room is not active]
+仅聊天室未激活时才在系统托盘显示图标
+[Show icon in tray for topic changes]
+标题变更时在系统托盘显示图标
+[Show icon in tray for users joining]
+用户加入时在系统托盘显示图标
+[Show icon in tray for users disconnecting]
+用户断开连接时在系统托盘显示图标
+[Show icon in tray for messages]
+在系统托盘显示消息图标
+[Show icon in tray for actions]
+在系统托盘显示操作图标
+[Show icon in tray for highlights]
+在系统托盘显示突出显示图标
+[Show icon in tray for users leaving]
+在系统托盘显示用户离开图标
+[Show icon in tray for users kicking other user]
+在系统托盘显示用户踢走其他用户图标
+[Show icon in tray for notices ]
+在系统托盘显示公告图标
+[Show icon in tray for name changes]
+在系统托盘显示名称变更图标
+[Show icon in tray for information messages]
+在系统托盘显示信息消息图标
+[Show icon in tray for status changes]
+在系统托盘显示状态变更图标
 [Chat Module]
 聊天模块
 [Message Background]
@@ -579,44 +1453,284 @@ Miranda NG 正准备重启. \n请稍候...
 用户列表线条
 [Userlist Background (selected)]
 用户列表背景 (已选定)
+[Window Icon]
+窗口图标
+[Bold]
+粗体
+[Italics]
+斜体
+[Underlined]
+下划线
+[Smiley button]
+表情按钮
+[Room history]
+房间历史
+[Room settings]
+房间设置
+[Event filter disabled]
+事件过滤器已禁用
+[Event filter enabled]
+事件过滤器已启用
+[Hide userlist]
+隐藏用户列表
+[Show userlist]
+显示用户列表
+[Icon overlay]
+图标重叠
+[Status 1 (10x10)]
+状态 1 (10x10)
+[Status 2 (10x10)]
+状态 2 (10x10)
+[Status 3 (10x10)]
+状态 3 (10x10)
+[Status 4 (10x10)]
+状态 4 (10x10)
+[Status 5 (10x10)]
+状态 5 (10x10)
+[Status 6 (10x10)]
+状态 6 (10x10)
+[Message in (10x10)]
+收到消息 (10x10)
+[Message out (10x10)]
+发送消息 (10x10)
+[Action (10x10)]
+操作 (10x10)
+[Add Status (10x10)]
+加入状态 (10x10)
+[Remove status (10x10)]
+移除状态 (10x10)
+[Join (10x10)]
+加入 (10x10)
+[Leave (10x10)]
+离开 (10x10)
+[Quit (10x10)]
+结束 (10x10)
+[Kick (10x10)]
+踢走 (10x10)
+[Nickchange (10x10)]
+昵称变更 (10x10)
+[Notice (10x10)]
+公告 (10x10)
+[Topic (10x10)]
+主题 (10x10)
+[Highlight (10x10)]
+突出显示 (10x10)
+[Information (10x10)]
+信息 (10x10)
+[Messaging]
+通信
+[Group Chats]
+群组聊天
 [Group Chats Log]
 群组聊天记录
 [Options for using a tabbed interface]
 使用标签界面选项
+[Appearance and functionality of chat room windows]
+聊天室窗口外观及功能
+[Appearance of the message log]
+消息记录外观
+[Default events to show in new chat rooms if the 'event filter' is enabled]
+如 '事件过滤器' 已启用, 则在新聊天室中显示预设事件
 [Icons to display in the message log]
 在消息记录中显示图标
+[Icons to display in the tray]
+在系统托盘中显示图标
+[Select Folder]
+选择文件夹
+[Message Sessions]
+消息会话
+[Group chats]
+群组聊天
+[General]
+常规
 [Chat Log]
 聊天记录
 [Chat]
 聊天
+[Popups]
+弹出窗口
+[Message is highlighted]
+突出显示消息
+[User has performed an action]
+用户已运行一个操作
+[User has kicked some other user]
+用户已踢走其他用户
+[User's status was changed]
+用户状态已变更
+[User has changed name]
+用户已改名
+[User has sent a notice]
+用户已发送公告
+[The topic has been changed]
+主题已变更
 ;file \src\core\stdchat\src\services.cpp
+[&Join]
+加入(&J)
 ;file \src\core\stdchat\src\tools.cpp
+[%s wants your attention in %s]
+%s 需要您注意 %s
+[%s speaks in %s]
+%s 在 %s 说话
+[%s has joined %s]
+%s 已加入 %s
+[%s has left %s]
+%s 已离开 %s
+[%s kicked %s from %s]
+%s 已踢走 %s 从 %s
+[Notice from %s]
+%s 发出公告
+[Topic change in %s]
+%s 主题变更
+[Information in %s]
+%s 的信息
+[%s enables '%s' status for %s in %s]
+%s 启用 '%s' 状态于 %s 在 %s
+[%s disables '%s' status for %s in %s]
+%s 禁用 '%s' 状态于 %s 在 %s
+[%s says: %s]
+%s 说: %s
+[%s has left (%s)]
+%s 已离开 (%s)
+[%s has disconnected (%s)]
+%s 已断开连接 (%s)
+[%s kicked %s (%s)]
+%s 已踢走 %s (%s)
+[Notice from %s: %s]
+%s 公告: %s
+[The topic is '%s']
+主题为 '%s'
+[The topic is '%s' (set by %s)]
+主题为 '%s' (%s 设置)
+[Look up '%s':]
+查看 '%s':
+[No word to look up]
+无可查找字词
 ;file \src\core\stdchat\src\window.cpp
+[Insert a smiley]
+插入表情
+[Make the text bold (CTRL+B)]
+使文本粗体 (CTRL+B)
+[Make the text italicized (CTRL+I)]
+使文本斜体 (CTRL+I)
+[Make the text underlined (CTRL+U)]
+使文本下划线 (CTRL+U)
+[Select a background color for the text (CTRL+L)]
+为文本选择背景颜色 (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+为文本选择前景颜色 (CTRL+K)
+[Show the history (CTRL+H)]
+显示历史 (CTRL+H)
+[Show/hide the nicklist (CTRL+N)]
+显示/隐藏昵称列表 (CTRL+N)
+[Control this room (CTRL+O)]
+控制此房间 (CTRL+O)
+[Enable/disable the event filter (CTRL+F)]
+启用/禁用事件过滤器 (CTRL+F)
 [Close current tab (CTRL+F4)]
 关闭当前标签 (CTRL+F4)
+[%s: Chat Room (%u user)]
+%s: 聊天室 (%u 个用户)
+[%s: Chat Room (%u users)]
+%s: 聊天室 (%u 个用户)
+[%s: Message Session]
+%s: 消息会话
+[%s: Message Session (%u users)]
+%s: 消息会话 (%u 个用户)
+[Nick name]
+昵称
+[Unique id]
+独有 ID
 ;file \src\core\stdclist\src\clcfonts.cpp
+[Standard contacts]
+标准联系人
+[Online contacts to whom you have a different visibility]
+与您有不同可见度的在线联系人
+[Offline contacts]
+离线联系人
+[Contacts which are 'not on list']
+ "不在列表" 中的联系人
+[Group member counts]
+群组成员数量
+[Dividers]
+分隔器
+[Offline contacts to whom you have a different visibility]
+与您有不同可见度的离线联系人
+[Selected Text]
+已选择文本
+[Hottrack Text]
+热跟踪文本
+[Quicksearch Text]
+快速搜索文本
 ;file \src\core\stdclist\src\clcopts.cpp
+[Not focused]
+未获取焦点
+[Offline]
+离线
+[Online]
+在线
+[Away]
+外出
+[NA]
+不适用
+[Occupied]
+忙碌中
+[DND]
+请勿打扰
+[Free for chat]
+有空聊天
+[Invisible]
+隐身
+[Out to lunch]
+外出用餐
+[On the phone]
+接听电话
+[List Background]
+列表背景
 ;file \src\core\stdclist\src\clistopts.cpp
+[Global]
+全局
 ;file \src\core\stdclist\src\cluiopts.cpp
 ;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 用户尚未登记邮箱地址
+[Send e-mail]
+发送邮件
 [&E-mail]
 邮件(&E)
 ;file \src\core\stdfile\file.cpp
 [File from %s]
 从 %s 收到的文件
+[bytes]
+字节
+[&File]
+文件(&F)
 [File &Transfers...]
 文件传输(&T)...
+[Incoming]
+传入
+[Complete]
+完成
+[Error]
+错误
 [Denied]
 已拒绝
 ;file \src\core\stdfile\fileexistsdlg.cpp
 [%s File]
 %s 文件
+[All Files]
+所有文件
 ;file \src\core\stdfile\fileopts.cpp
+[Executable Files]
+可执行文件
+[Events]
+事件
 ;file \src\core\stdfile\filerecvdlg.cpp
 [My Received Files]
 我收到的文件
+[View User's History]
+查看用户历史
+[User Menu]
+用户菜单
 [Cancelled]
 已取消
 ;file \src\core\stdfile\filesenddlg.cpp
@@ -637,10 +1751,14 @@ Miranda NG 正准备重启. \n请稍候...
 正在等待连接...
 [Unable to initiate transfer.]
 无法初始化传输
+[sec]
+秒
 [remaining]
 剩余
 [Decision sent]
 决定已发出
+[Connecting...]
+连接中...
 [Connecting to proxy...]
 正在连接至代理服务器...
 [Connected]
@@ -651,6 +1769,10 @@ Miranda NG 正准备重启. \n请稍候...
 移至下一个文件...
 [File already exists]
 文件已存在
+[Sending...]
+发送中...
+[Receiving...]
+接收...
 [File transfer denied]
 文件传输已被拒绝
 [File transfer failed]
@@ -666,7 +1788,11 @@ Miranda NG 正准备重启. \n请稍候...
 [Transfer and virus scan complete]
 传输及病毒扫描完成
 ;file \src\core\stdfile\ftmanager.cpp
+[Outgoing]
+发送
 ;file \src\core\stdhelp\about.cpp
+[< Copyright]
+< 版权所有
 ;file \src\core\stdhelp\help.cpp
 [&About...]
 关于(&A)...
@@ -677,28 +1803,108 @@ Miranda NG 主页(&M)
 [&Report Bug]
 汇报缺陷(&R)
 ;file \src\core\stdidle\idle.cpp
+[Idle]
+闲置
 ;file \src\core\stdmsg\src\cmdlist.cpp
+[The message send timed out.]
+发送消息已超时. 
 ;file \src\core\stdmsg\src\globals.cpp
+[Incoming message (10x10)]
+传入消息 (10x10)
+[Outgoing message (10x10)]
+发送消息 (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
+[Last message received on %s at %s.]
+最后消息接收于 %s %s. 
+[signed off (was %s)]
+已注销 (之前是 %s)
+[signed on (%s)]
+已登录 (%s)
+[is now %s (was %s)]
+现在 %s (之前是 %s)
+[%s is typing a message...]
+%s 正在键入消息...
 ;file \src\core\stdmsg\src\msglog.cpp
+[File sent]
+已发送文件
+[File received]
+已接收文件
 ;file \src\core\stdmsg\src\msgoptions.cpp
+[Outgoing messages]
+发送的消息
+[Incoming messages]
+传入消息
+[Outgoing name]
+发送名称
+[Outgoing time]
+发送时间
+[Outgoing colon]
+发送时区
+[Incoming name]
+传入名称
+[Incoming time]
+传入时间
+[Incoming colon]
+传入时区
+[Message area]
+消息区域
+[Message Log]
+消息记录
+[** New contacts **]
+** 新联系人 **
+[** Unknown contacts **]
+** 未知联系人 **
+[Show balloon popup (unsupported system)]
+显示气球式弹出窗口 (不受支持的系统)
 [Messaging Log]
 通信记录
+[Typing Notify]
+键入通知
 ;file \src\core\stdmsg\src\msgs.cpp
+[Message from %s]
+从 %s 收到的消息
+[%s is typing a message]
+%s 正在键入消息
+[Typing Notification]
+键入通知
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda 无法加载内置消息模块, riched20.dll 丢失. 如您在使用 Windows 95 或 WINE 请确认已安装 riched20.dll. 按下 '是' 继续加载 Miranda.
+[Instant messages]
+即时消息
+[Incoming (Focused Window)]
+传入 (窗口获取焦点)
+[Incoming (Unfocused Window)]
+传入 (窗口未获取焦点)
+[Incoming (New Session)]
+传入 (新会话)
+[Message send error]
+消息发送错误
 ;file \src\core\stdmsg\src\msgtimedout.cpp
+[An unknown error has occured.]
+发生未知错误
 ;file \src\core\stduihist\history.cpp
+[Invalid Message]
+无效消息
 [Outgoing Message]
 外出消息
 [Incoming Message]
 传入消息
+[Outgoing URL]
+发送网址
+[Incoming URL]
+传入网址
 [Outgoing File]
 发送文件
 [Incoming File]
 传入文件
+[History for %s]
+%s 的历史
 [Are you sure you want to delete this history item?]
 您确定要删除此历史项目? 
 [Delete History]
 删除历史
+[View &History]
+查看历史(&H)
 ;file \src\core\stdurl\url.cpp
 [URL from %s]
 从 %s 收到的网址
@@ -712,12 +1918,18 @@ Miranda NG 主页(&M)
 ;file \src\core\stduserinfo\contactinfo.cpp
 [Edit E-Mail Address]
 编辑邮箱地址
+[Edit Phone Number]
+编辑电话号码
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 电话号码应以 + 开头, 由数字, 空格, 括号及直线组成. 
+[Invalid Phone Number]
+无效电话号码
 [Primary]
 主要
 [Custom %d]
 自定义 %d
+[Fax]
+传真
 [Mobile]
 手机
 [Work Phone]
@@ -725,47 +1937,91 @@ Miranda NG 主页(&M)
 [Work Fax]
 工作传真
 ;file \src\core\stduserinfo\stdinfo.cpp
+[Male]
+男
+[Female]
+女
+[<not specified>]
+<未指定>
+[Summary]
+总结
+[Contact]
+联络方式
+[Location]
+位置
+[Work]
+工作
+[Background info]
+背景资料
+[Notes]
+便笺
 ;file \src\core\stduserinfo\userinfo.cpp
+[Owner]
+所有者
+[View/Change My &Details...]
+查看/变更我的详细资料(&D)...
 ;file \src\core\stduseronline\useronline.cpp
 [%s is Online]
 %s 现在上线
 ;file \src\modules\addcontact\addcontact.cpp
+[Add Contact]
+添加联系人
+[Please authorize my request and add me to your contact list.]
+请授权我的请求, 并将我加至您的联系人列表中. 
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 [Custom status]
 自定义状态
+[%s (locked)]
+%s (已锁定)
 ;file \src\modules\clist\clistmod.cpp
-[This plugin requires db3x plugin version 0.5.1.0 or later]
-此插件需 db3x 插件 0.5.1.0 或更新版本
 ;file \src\modules\clist\clistsettings.cpp
+[(Unknown Contact)]
+(未知联系人)
 ;file \src\modules\clist\clisttray.cpp
+[&Main Menu]
+主菜单(&M)
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 此联系人保存于即时通信系统中央服务器的联系人列表中. 下次登录时将从服务器和您的联系人列表中移除此联系人. 
 [De&lete]
 删除(&L)
+[&Rename]
+重命名(&R)
 [&Add permanently to list]
 永久加至列表(&A)
 ;file \src\modules\clist\contacts.cpp
 [My custom name (not moveable)]
 我的自定义名称 (不可移动)
+[Nick]
+昵称
 [FirstName]
 名字
+[E-mail]
+邮件
 [LastName]
 姓氏
+[Username]
+用户名
 [FirstName LastName]
 名字 姓氏
 ['(Unknown Contact)' (not moveable)]
  "(未知联系人)"  (不可移动)
+['(Unknown Contact)']
+'(未知联系人)'
 ;file \src\modules\clist\genmenu.cpp
 ;file \src\modules\clist\genmenuopt.cpp
 [Menus]
 菜单
+[Customize]
+自定义
 ;file \src\modules\clist\groups.cpp
 [New Group]
 新增群组
 [Are you sure you want to delete group '%s'?  This operation can not be undone.]
 您确定想删除群组 '%s'?  此操作不可恢复.
+[Delete Group]
+删除群组
 [You already have a group with that name. Please enter a unique name for the group.]
 您已有同名群组. 请为群组输入独有的名称. 
 [Rename Group]
@@ -784,6 +2040,8 @@ Miranda NG 主页(&M)
 ;file \src\modules\clist\movetogroup.cpp
 [&Move to Group]
 移至群组
+[<Root Group>]
+<根群组>
 ;file \src\modules\database\database.cpp
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
 Miranda 无法打开 '%s', 因为您没有安装任何配置文件插件. \n您需要安装 dbx_3x.dll 或类似插件. 
@@ -819,10 +2077,14 @@ Miranda 无法打开此配置文件
 无法建立配置文件 '%s', 错误 %x
 [Problem creating profile]
 建立配置文件出现问题
+[&Create]
+建立(&C)
 [<In Use>]
 <使用中>
 [Are you sure you want to remove profile "%s"?]
 您确定想移除配置文件 "%s"?
+[Size]
+大小
 [Created]
 建立于
 [Run]
@@ -842,17 +2104,25 @@ Miranda 配置文件从
 [Chat Activity]
 聊天活动
 ;file \src\modules\extraicons\options_ei.cpp
+[Extra icons]
+额外图标
 ;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 您尚未填写检索字段. 请输入搜索条件重试. 
+[Search]
+搜索
 [Results]
 结果
 [There are no results to display.]
 无可显示结果. 
+[Searching]
+正在搜索
 [All Networks]
 所有网络
 [Handle]
 处理
+[&Find/Add Contacts...]
+查找/添加联系人(&F)...
 ;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 无法在 '%s' 启动搜索, 出现问题 - %s 是否已连接? 
@@ -869,6 +2139,10 @@ Miranda 配置文件从
 [No users found]
 没有找到用户
 ;file \src\modules\fonts\FontOptions.cpp
+[Failed to create file]
+创建文件失败
+[<none>]
+<无>
 [Shadow at left]
 阴影在左侧
 [Shadow at right]
@@ -883,8 +2157,12 @@ Miranda 配置文件从
 细外线
 [Contour heavy]
 粗外线
+[Text Files]
+文本文件
 [Error writing file]
 写文件错误
+[Fonts & Colors]
+字体及颜色
 [Sample Text]
 示例文本
 [Fonts]
@@ -900,6 +2178,10 @@ Miranda 配置文件从
 [Icon Sets]
 图标集
 ;file \src\modules\ignore\ignore.cpp
+[** All contacts **]
+** 所有联系人 **
+[Contacts]
+联系人
 ;file \src\modules\netlib\netliblog.cpp
 [No times]
 无时间
@@ -918,6 +2200,8 @@ Miranda 配置文件从
 ;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <所有连接>
+[Network]
+网络
 ;file \src\modules\netlib\netlibssl.cpp
 [Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package]
 客户端无法解码主机信息. 可能原因: 主机不支持 SSL 或需要不存在的安全包
@@ -928,6 +2212,10 @@ Miranda 配置文件从
 加载... %d%%
 [%s options]
 %s 选项
+[Miranda NG Options]
+Miranda NG 选项
+[&Options...]
+选项(&O)...
 ;file \src\modules\plugins\newplugins.cpp
 [Fatal error]
 致命错误
@@ -946,7 +2234,13 @@ Miranda 配置文件从
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 插件
+[Version]
+版本
+[Plugins]
+插件
 ;file \src\modules\protocols\protoopts.cpp
+[Create new account]
+建立新帐号
 [Editing account]
 编辑帐号
 [Upgrading account]
@@ -955,14 +2249,26 @@ Miranda 配置文件从
 帐号已被禁用. 请激活以存取选项. 
 [New account]
 新帐号
+[Edit]
+编辑
+[Remove account]
+移除帐号
 [Configure...]
 配置...
 [Upgrade account]
 更新帐号
+[Protocol]
+协议
 [Account ID]
 帐号 ID
+[<unknown>]
+<未知>
 [Protocol is not loaded.]
 协议未加载.
+[Rename]
+重命名
+[Configure]
+设置
 [Upgrade]
 升级
 [Account %s is being deleted]
@@ -978,23 +2284,35 @@ Miranda 配置文件从
 添加其它快速键
 [Scope:]
 范围:
+[System]
+系统
 [Actions:]
 操作:
 [Add binding]
 添加绑定
+[Modify]
+修改
 [System scope]
 System 范围
 [Miranda scope]
 Miranda 范围
 ;file \src\modules\skin\skinicons.cpp
+[User Online]
+用户上线
 [Group (Open)]
 群组 (打开)
 [Group (Closed)]
 群组 (关闭)
 [Connecting]
 连接中
+[User Details]
+用户详细资料
+[History]
+历史
 [Down Arrow]
 向下箭头
+[Find User]
+查找用户
 [Send E-mail]
 发送邮件
 [Search All]
@@ -1003,6 +2321,8 @@ Miranda 范围
 选定
 [No Tick]
 未选定
+[Help]
+说明
 [Miranda Website]
 Miranda 网站
 [Small Dot]
@@ -1023,14 +2343,26 @@ ANSI 插件
 显示隐藏
 [Exit]
 离开
+[Main Menu]
+主菜单
 [Leave chat]
 离开聊天室
 [Move to Group]
 移至群组
+[On]
+打开
+[Off]
+关闭
+[Frames]
+框架
+[Request authorization]
+要求授权
 [Grant authorization]
 准许授权
 [Revoke authorization]
 撤销授权
+[Always visible]
+永远可见
 [Locked status]
 锁定状态
 [Status Icons]
@@ -1041,24 +2373,416 @@ ANSI 插件
 主要图标
 ;file \src\modules\skin\sounds.cpp
 ;file \src\modules\utils\bmpfilter.cpp
+[You need an image services plugin to process PNG images.]
+您需要图片服务插件处理 PNG 图片. 
 [All Bitmaps]
 所有位图
+[Windows Bitmaps]
+Windows 位图
+[JPEG Bitmaps]
+JPEG 位图
+[GIF Bitmaps]
+GIF 位图
+[PNG Bitmaps]
+PNG 位图
 ;file \src\modules\utils\timezones.cpp
 [<unspecified>]
 <未指定>
 ;file \src\modules\utils\utils.cpp
+[Unspecified]
+未指定
+[Unknown]
+未知
+[Afghanistan]
+阿富汗
+[Albania]
+阿尔巴尼亚
+[Algeria]
+阿尔及利亚
 [American Samoa]
 美属萨摩亚群岛
+[Andorra]
+安道尔共和国
+[Angola]
+安哥拉
+[Anguilla]
+安圭拉岛
+[Antigua and Barbuda]
+安提瓜和巴布达
+[Argentina]
+阿根廷
+[Armenia]
+亚美尼亚
+[Aruba]
+ 阿鲁巴岛 
+[Australia]
+澳大利亚
+[Austria]
+奥地利
+[Azerbaijan]
+阿塞拜疆
+[Bahamas]
+巴哈马群岛
+[Bahrain]
+巴林岛
+[Bangladesh]
+孟加拉国
+[Barbados]
+巴巴多斯
+[Belarus]
+白俄罗斯
+[Belgium]
+比利时
+[Belize]
+伯利兹
+[Benin]
+贝宁
+[Bermuda]
+百慕大群岛
+[Bhutan]
+不丹
+[Bosnia and Herzegovina]
+波斯尼亚及黑塞哥维那
+[Botswana]
+博茨瓦纳
+[Brazil]
+巴西
+[Bulgaria]
+保加利亚
+[Burkina Faso]
+布基纳法索
+[Burundi]
+布隆迪
+[Cambodia]
+柬埔寨
+[Cameroon]
+喀麦隆
+[Canada]
+加拿大
+[Cayman Islands]
+开曼群岛
+[Central African Republic]
+中非共和国
+[Chad]
+乍得
+[China]
+中国
 [Christmas Island]
 圣诞岛
 [Cocos (Keeling) Islands]
 科科斯(基林)群岛
+[Colombia]
+哥伦比亚
+[Comoros]
+科摩罗
+[Cook Islands]
+库克群岛
+[Costa Rica]
+哥斯达黎加
+[Croatia]
+克罗地亚
+[Cuba]
+古巴
+[Curacao]
+库拉索岛
 [Cyprus]
 塞浦路斯
+[Czech Republic]
+捷克共和国
+[Denmark]
+丹麦
+[Djibouti]
+吉布提
+[Dominica]
+多米尼加
+[Dominican Republic]
+多米尼加共和国
+[Ecuador]
+厄瓜多尔
+[Egypt]
+埃及
+[El Salvador]
+萨尔瓦多
+[Equatorial Guinea]
+赤道几内亚
+[Eritrea]
+厄立特里亚
+[Estonia]
+爱沙尼亚
+[Ethiopia]
+埃塞俄比亚
 [Falkland Islands (Malvinas)]
 福克兰群岛 (马尔维纳斯群岛)
 [Faroe Islands]
 法罗群岛
+[Fiji]
+斐济
+[Finland]
+芬兰
+[France]
+法国
+[French Guiana]
+法属圭亚那
+[French Polynesia]
+法属玻里尼西亚
+[Gabon]
+加蓬
+[Gambia]
+冈比亚
+[Georgia]
+美国乔治亚州
+[Germany]
+德国
+[Ghana]
+加纳
+[Gibraltar]
+直布罗陀
+[Greece]
+希腊
+[Greenland]
+格陵兰
+[Grenada]
+格林纳达
+[Guadeloupe]
+瓜德罗普
+[Guatemala]
+危地马拉
+[Guinea]
+几内亚
+[Guinea-Bissau]
+几内亚比绍
+[Guyana]
+圭亚那
+[Haiti]
+海地
+[Honduras]
+洪都拉斯
+[Hong Kong]
+香港
+[Hungary]
+匈牙利
+[Iceland]
+冰岛
+[India]
+印度
+[Indonesia]
+印度尼西亚
+[Iraq]
+伊拉克
+[Ireland]
+爱尔兰
+[Israel]
+以色列
+[Italy]
+意大利
+[Jamaica]
+牙买加
+[Japan]
+日本
+[Jordan]
+约旦
+[Kazakhstan]
+哈萨克
+[Kenya]
+肯尼亚
+[Kiribati]
+基里巴斯
+[Kuwait]
+科威特
+[Kyrgyzstan]
+吉尔吉斯斯坦
+[Latvia]
+拉脱维亚
+[Lebanon]
+黎巴嫩
+[Lesotho]
+莱索托
+[Liberia]
+利比里亚
+[Liechtenstein]
+列支敦士登
+[Lithuania]
+立陶宛
+[Luxembourg]
+卢森堡
+[Madagascar]
+马达加斯加
+[Malawi]
+马拉维
+[Malaysia]
+马来西亚
+[Maldives]
+马尔代夫
+[Mali]
+马里
+[Malta]
+马耳他
+[Marshall Islands]
+马绍尔群岛
+[Martinique]
+马提尼克岛
+[Mauritania]
+毛里塔尼亚
+[Mauritius]
+毛里求斯
+[Mexico]
+墨西哥
+[Micronesia, Federated States of]
+密克罗西尼亚联邦国
+[Moldova, Republic of]
+摩尔多瓦共和国
+[Monaco]
+摩纳哥
+[Mongolia]
+蒙古
+[Montserrat]
+蒙特塞拉特岛
+[Morocco]
+摩洛哥
+[Mozambique]
+莫桑比克
+[Myanmar]
+缅甸
+[Namibia]
+纳米比亚
+[Nauru]
+瑙鲁
+[Nepal]
+尼泊尔
+[Netherlands]
+荷兰
+[New Caledonia]
+新喀里多尼亚
+[New Zealand]
+新西兰
+[Nicaragua]
+尼加拉瓜
+[Niger]
+尼日尔
+[Nigeria]
+尼日利亚
+[Niue]
+纽埃岛
 [Norfolk Island]
 诺福克岛
+[Norway]
+挪威
+[Oman]
+阿曼
+[Pakistan]
+巴基斯坦
+[Palau]
+帕劳群岛
+[Panama]
+巴拿马
+[Papua New Guinea]
+巴布亚新几内亚
+[Paraguay]
+巴拉圭
+[Peru]
+秘鲁
+[Philippines]
+菲律宾
+[Poland]
+波兰
+[Portugal]
+葡萄牙
+[Puerto Rico]
+波多黎各
+[Qatar]
+卡塔尔
+[Romania]
+罗马尼亚
+[Rwanda]
+卢旺达
+[Saint Kitts and Nevis]
+圣克里斯托弗及尼维斯
+[Saint Lucia]
+ 圣卢西亚 
+[Saint Pierre and Miquelon]
+圣皮埃尔及密克隆
+[Saint Vincent and the Grenadines]
+圣文森特及格林纳丁斯
+[San Marino]
+圣马力诺
+[Sao Tome and Principe]
+圣多美和普林西比
+[Saudi Arabia]
+沙特阿拉伯
+[Senegal]
+塞内加尔
+[Seychelles]
+塞舌尔
+[Sierra Leone]
+塞拉利昂
+[Singapore]
+新加坡
+[Slovakia]
+斯洛伐克
+[Slovenia]
+斯洛维尼亚
+[Solomon Islands]
+所罗门群岛
+[Somalia]
+索马里
+[South Africa]
+南非
+[Spain]
+西班牙
+[Sri Lanka]
+斯里兰卡
+[Sudan]
+苏丹
+[Suriname]
+苏里南
+[Swaziland]
+斯威士兰
+[Sweden]
+瑞典
+[Switzerland]
+瑞士
+[Syrian Arab Republic]
+阿拉伯叙利亚共和国
+[Tajikistan]
+塔吉克斯坦
+[Thailand]
+泰国
+[Togo]
+多哥
+[Tokelau]
+托客劳群岛
+[Tonga]
+汤加
+[Trinidad and Tobago]
+特立尼达和多巴哥
+[Tunisia]
+突尼斯
+[Turkey]
+土耳其
+[Turkmenistan]
+土库曼斯坦
+[Turks and Caicos Islands]
+特克斯和凯科斯群岛
+[Tuvalu]
+图瓦卢
+[Uganda]
+乌干达
+[Ukraine]
+乌克兰
+[United Arab Emirates]
+阿拉伯联合酋长国
+[United Kingdom]
+英国
+[Uruguay]
+乌拉圭
+[Uzbekistan]
+乌兹别克斯坦
+[Vanuatu]
+瓦努阿图
+[Yemen]
+也门
+[Zambia]
+赞比亚
+[Zimbabwe]
+津巴布韦
 ;file \src\modules\visibility\visibility.cpp

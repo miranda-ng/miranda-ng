@@ -6,5 +6,45 @@
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
 ;file \plugins\MenuItemEx\res\resource.rc
+[&Send]
+&Enviar
+[&Send]
+Enviar
+[&Send]
+&Enviar
+[&Cancel]
+&Cancelar
+[Visibility]
+Visibilidade
+[Ignore]
+Ignorar
 ;file \plugins\MenuItemEx\src\main.cpp
+[Messages]
+Mensagens
+[Messages]
+Mensagens
+[Files]
+Arquivos
+[Files]
+Arquivos
+[Files]
+Arquivos
+[User Online]
+Usuário Online
+[User Online]
+Usuário Online
+[You Were Added]
+Você foi adicionado
+[Typing Notify]
+Escrevendo Notificação
+[Miranda NG]
+Miranda NG BR
+[Request authorization]
+Pedindo autorização
 ;file \plugins\MenuItemEx\src\options.cpp
+[Customize]
+Personalizar
+[Customize]
+Personalizar
+[Customize]
+Personalizar

@@ -18,4 +18,10 @@ Désactiver l'historique
 [History Enabled]
 Historique activé
 ;file \plugins\NoHistory\src\icons.cpp
+[Clear]
+Effacer
 ;file \plugins\NoHistory\src\options.cpp
+[** All contacts **]
+** Tous les contacts **
+[History]
+Historique

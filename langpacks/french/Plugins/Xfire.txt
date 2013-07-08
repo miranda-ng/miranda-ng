@@ -1,17 +1,69 @@
 ﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
+[Password:]
+Passe :
+[Nick:]
+Pseudo :
+[More options]
+Plus d'options
+[Files]
+Fichiers
+[Apply]
+Appliquer
+[Remove]
+Retirer
+[Username:]
+Identifiant :
 [Game]
 Jeu
+[Name:]
+Nom :
+[Port:]
+Port :
+[Copy]
+Copier
 [Join]
 Rejoindre
+[Cancel]
+Annuler
+[Search:]
+Chercher :
 ;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
+[All Files]
+Tous les fichiers
 ;file \protocols\Xfire\src\all_statusmsg.cpp
+[Yep, I'm here.]
+Oui, je suis là.
+[I've been away since %time%.]
+Je suis absent depuis %time%.
+[Give it up, I'm not in!]
+Laisse tomber, je suis sorti !
+[Not right now.]
+Pas maintenant, merci.
+[Give a guy some peace, would ya?]
+Tu veux bien me laisser en paix ?
+[That'll be the phone.]
+Ce sera le téléphone.
+[Mmm...food.]
+Mmm... Manger.
 ;file \protocols\Xfire\src\iniupdater.cpp
 ;file \protocols\Xfire\src\main.cpp
+[Username]
+ID
 ;file \protocols\Xfire\src\options.cpp
+[General]
+Général
+[No]
+Non
+[<Root Group>]
+<sans groupe>
+[Network]
+Réseau
 ;file \protocols\Xfire\src\searching4games.cpp
 ;file \protocols\Xfire\src\userdetails.cpp
+[<not specified>]
+<non spécifié>
 ;file \protocols\Xfire\src\Xfire_game.cpp
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp

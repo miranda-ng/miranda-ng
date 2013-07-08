@@ -6,8 +6,36 @@
 ;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
 ;============================================================
 ;file \plugins\VersionInfo\res\resource.rc
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [Text file]
 Arquivo de texto
+[Username]
+Usuário
+[Close]
+Fechar
 ;file \plugins\VersionInfo\src\CVersionInfo.cpp
 ;file \plugins\VersionInfo\src\dlgHandlers.cpp
 ;file \plugins\VersionInfo\src\hooked_events.cpp

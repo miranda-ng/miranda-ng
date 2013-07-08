@@ -12,5 +12,21 @@ Cambio de estado
 Predeterminadas mensaje de estado
 [Disable Sounds]
 Desactivar los sonidos
+[Password:]
+Contraseña:
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
 ;file \plugins\BossKeyPlus\src\Options.cpp
+[Events]
+Eventos
+[Events]
+Eventos
+[Advanced]
+Avanzada
+[Advanced]
+Avanzada

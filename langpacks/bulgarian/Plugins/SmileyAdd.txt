@@ -10,6 +10,8 @@
 Категории усмивки
 [Specify Smiley Pack for each category]
 Различен пакет усмивки за всяка категория
+[Name:]
+Име:
 [Replace only smileys surrounded by spaces]
 Замяна само на усмивки оградени от интервал
 [Scale smiley to textheight]
@@ -50,8 +52,14 @@ HTTP връзки на SmileyAdd
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
 Усмивки
+[Customize]
+Персонализиране
+[Off]
+Изкл.
 [Smiley Packs]
 Пакети усмивки
+[All Files]
+Всички файлове
 ;file \plugins\SmileyAdd\src\services.cpp
 ;file \plugins\SmileyAdd\src\smileys.cpp
 [There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]

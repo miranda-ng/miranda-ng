@@ -8,12 +8,32 @@
 ;file \protocols\AimOscar\res\aim.rc
 [Screen Name:]
 Nombre de pantalla:
+[Password:]
+Contraseña:
 [Disable Avatars]
 Deshabilitar Avatares
 [Advanced Options]
 Opciones avanzadas
+[Port:]
+Puerto:
+[Reset]
+Restablecer
+[Add]
+Agregar
+[Remove]
+Quitar
+[Idle]
+Ocioso
+[&Cancel]
+&Cancelar
+[E-mail]
+E-Mail
 [Save Changes]
 Guardar cambios
+[&Deny]
+&Negar
+[Message]
+Mensaje
 ;file \protocols\AimOscar\src\avatars.cpp
 ;file \protocols\AimOscar\src\chat.cpp
 ;file \protocols\AimOscar\src\error.cpp
@@ -25,7 +45,15 @@ Guardar cambios
 %s Conexión de cliente a cliente-
 ;file \protocols\AimOscar\src\server.cpp
 ;file \protocols\AimOscar\src\theme.cpp
+[Profile]
+Perfil
 [Foreground Color]
 Color de primer plano
+[Bold]
+Bold
 ;file \protocols\AimOscar\src\ui.cpp
+[Network]
+Red
+[Network]
+red
 ;file \protocols\AimOscar\src\utility.cpp

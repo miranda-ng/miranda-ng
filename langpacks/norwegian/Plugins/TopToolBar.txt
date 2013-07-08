@@ -8,5 +8,11 @@
 ;file \plugins\TopToolBar\res\main.rc
 [Button width]
 Knappebredde
+[Set]
+Åpne
 ;file \plugins\TopToolBar\src\toolbar.cpp
+[Default]
+Standard
 ;file \plugins\TopToolBar\src\ttbopt.cpp
+[Contact List]
+Kontaktliste

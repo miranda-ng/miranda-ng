@@ -6,6 +6,38 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
+[E-mail:]
+이메일:
+[Password:]
+비밀번호:
+[Port:]
+포트:
+[Summary]
+요약
+[Nickname:]
+대화명:
+[First name:]
+이름:
+[Last name:]
+성:
+[Gender:]
+성:
+[Age:]
+나이:
+[Location]
+지역
+[Country:]
+국가:
+[State:]
+주:
+[City:]
+도시:
+[Closing in %d]
+%d 에서 닫는중
+[OK]
+확인
+[Cancel]
+취소
 ;file \protocols\MRA\src\MraAntiSpam.cpp
 ;file \protocols\MRA\src\MraAvatars.cpp
 ;file \protocols\MRA\src\MraChat.cpp
@@ -14,8 +46,18 @@
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 ;file \protocols\MRA\src\MraIcons.cpp
 ;file \protocols\MRA\src\MraPopUp.cpp
+[None]
+없음
+[Information]
+정보
 ;file \protocols\MRA\src\MraProto.cpp
+[E-mail address]
+이메일 주소
 ;file \protocols\MRA\src\Mra_functions.cpp
 ;file \protocols\MRA\src\Mra_options.cpp
+[Network]
+네트워크
 ;file \protocols\MRA\src\Mra_proto.cpp
 ;file \protocols\MRA\src\Mra_svcs.cpp
+[On the phone]
+전화중

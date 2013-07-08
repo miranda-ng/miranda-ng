@@ -18,6 +18,8 @@ Ajouter une ligne de plus
 Utiliser << et >>
 [Auto filename]
 Nommage auto
+[Help]
+Aide
 [Export all history]
 Tout exporter
 [Export directory]
@@ -36,8 +38,12 @@ Visionneur
 Exportation des anciens messages
 [History file for %s (%s format %s)]
 Fichier d'historique de %s (%s format %s)
+[&Find...]
+&Chercher ...
 [&External]
 &Externe
+[&Close]
+&Fermer
 [When filename changes]
 Si le contact change de nom
 [Prompt for action]
@@ -48,12 +54,14 @@ Renommer le fichier
 Si le contact est effacé
 [Delete file]
 Effacer le fichier
-[UserList]
-Liste de contacts
+[User &Details]
+&Détails du contact
 [Export selected]
 Exporter la sélection
 [Set to default filename]
 Remettre le nom de fichier par défaut
+[Copy]
+Copier
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Search string was not found !]
 Ligne recherchée non trouvée !
@@ -63,6 +71,8 @@ Couleur...
 Police...
 [Syntax highlight]
 Surligner un contact
+[Failed to create file]
+Échec de la création du fichier
 ;file \plugins\Msg_Export\src\Glob.h
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
@@ -80,6 +90,10 @@ La largeur maximum de ligne doit être au moins de %d
 Vous devez relancer Miranda pour changer la gestion de l'historique
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
 N'a pas trouvé Msg_Export.dll Veuillez localisé Msg_Export.txt manuellement.
+[File]
+Fichier
+[Nick]
+Pseudo
 [You have unapplyed changes do you wish to apply these first ?]
 Vous avez restauré les changements, voulez-vous d'abord les enregistrer ?
 [Select Destination Directory]
@@ -88,7 +102,13 @@ Choix du répertoire de destination
 Exporter les protocoles
 [Message export]
 Message Export
+[History]
+Historique
+[General]
+Général
 ;file \plugins\Msg_Export\src\utils.cpp
+[(Unknown Contact)]
+(Contact inconnu)
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Échec du renommage/déplacement du fichier\n\nde:\t%s\n en :\t%s\n\nErreur : %s
 [Failed to open or create file :\n]

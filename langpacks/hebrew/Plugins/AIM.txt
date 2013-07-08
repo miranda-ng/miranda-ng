@@ -10,6 +10,8 @@
 AIM פרטי משתמש
 [Screen Name:]
 שם מסך:
+[Password:]
+סיסמא:
 [AIM Options]
 AIM אפשרויות
 [Message Delivery Confirmation]
@@ -36,6 +38,10 @@ AIM אפשרויות
 הסתר כ Sidekick/Hiptop משתמש
 [*Aim must be reconnected  for some option to take effect.]
 *Aim חייב להתנתק ולהתחבר מחדש בשביל שהשינויים יתרחשו.
+[Port:]
+יציאה:
+[Reset]
+אפס
 [Disable SSL]
 בטל SSL
 [Manage Server Groups]
@@ -54,6 +60,22 @@ AIM אפשרויות
 חסום את כל המשתמשים
 [Block only users below]
 חסום רק משתמשים שלמטה
+[Add]
+הוסף
+[Remove]
+הסר
+[Idle]
+לא נמצא אוטומטי
+[&Join]
+הצטרף
+[&Cancel]
+בטל
+[E-mail]
+אימייל
+[&Deny]
+&דחה
+[Message]
+הודעה
 ;file \protocols\AimOscar\src\avatars.cpp
 ;file \protocols\AimOscar\src\chat.cpp
 ;file \protocols\AimOscar\src\error.cpp
@@ -65,6 +87,8 @@ AIM אפשרויות
 %s חיבור לקוח-ללקוח
 ;file \protocols\AimOscar\src\server.cpp
 ;file \protocols\AimOscar\src\theme.cpp
+[Profile]
+פרופיל
 [AIM Icon]
 איים אייקון\n
 [AOL Bot]
@@ -73,6 +97,8 @@ AOL בוט
 אושר
 [Not Confirmed]
 לא אושר
+[Bold]
+בולט
 [Not Bold]
 לא בולט
 [Not Subscript]
@@ -82,4 +108,6 @@ AOL בוט
 [Read Profile]
 קרא פרופיל
 ;file \protocols\AimOscar\src\ui.cpp
+[Network]
+רשת
 ;file \protocols\AimOscar\src\utility.cpp

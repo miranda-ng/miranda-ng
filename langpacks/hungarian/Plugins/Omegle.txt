@@ -9,6 +9,10 @@
 ;file \protocols\Omegle\src\chat.cpp
 ;file \protocols\Omegle\src\communication.cpp
 ;file \protocols\Omegle\src\connection.cpp
+[Connecting...]
+Kapcsolódás...
 ;file \protocols\Omegle\src\constants.h
 ;file \protocols\Omegle\src\proto.cpp
+[Network]
+Hálózat
 ;file \protocols\Omegle\src\theme.cpp

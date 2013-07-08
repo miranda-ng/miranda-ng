@@ -14,24 +14,68 @@ Oorsprong
 Oorsprong
 [&Update]
 &Bijwerken
+[Updating]
+Bijwerken
+[OK]
+OK
+[Cancel]
+Annuleren
+[Apply]
+Toepassen
+[Nick:]
+Bijnaam:
+[First name:]
+Voornaam:
 [Second name:]
 Tweede naam:
+[Last name:]
+Achternaam:
+[Female]
+Vrouw
+[Male]
+Man
+[Marital status:]
+Trouw status:
 [Partner:]
 Partner:
 [Language skills]
 Taalvaardigheden
+[Street:]
+Straat:
+[Postal code:]
+Postcode:
+[City:]
+Plaats:
 [County/State:]
 Provincie:
+[Country:]
+Land:
 [Your contact's local time is:]
 De plaatselijke tijd van uw peroon is:
+[Timezone:]
+Tijdzone:
+[Company:]
+Bedrijf:
+[Department:]
+Afdeling
 [Office:]
 Kantoor:
+[Position:]
+Positie:
 [Superior:]
 Leidinggevende:
 [Assistant:]
 Assistent:
+[Add Phone Number]
+Telefoonnummer toevoegen:
 [Enter a category for this number:]
 Vul een category in voor dit nummer:
+[Enter country, area code and phone number:]
+Vul een land, regio en telefoonnummer in:
+[Or enter a full international number:]
+Of vul een volledig internationaal nummer in:
+[Phone can receive SMS text messages]
+Telefoon kan SMS tekst berichten ontvangen
 [Add E-Mail]
 E-mail toevoegen
 [Enter a representitive name for the e-mail address here.]
@@ -56,6 +100,16 @@ Birthday compatibiliteits modus:
 Automatisch backups maken en protocol gebaseerde verjaardagen up to date houden
 [Birthday popup colours]
 Verjaardag popup kleuren
+[Background colour]
+Achtergrond kleur
+[Text colour]
+Tekst kleur
+[Use Windows colours]
+Windows kleuren gebruiken
+[Use default colours]
+Standaard kleuren gebruiken
+[Custom]
+Aangepast
 [Show reminder messages as popups (if reminder is enabled)]
 Herinneringsberichten als popups weergeven (als herinnering is ingeschakeld)
 [Anniversary popup colours]
@@ -66,6 +120,8 @@ Betrokkenheid toevoegen
 Verleden toevoegen
 [Add Interest]
 Interesse toevoegen
+[Delete]
+Verwijderen
 [Enter a name for the anniversary here please:]
 Vul hier een naam voor het feest in aub:
 [Anniversary list]
@@ -82,6 +138,8 @@ man:
 aantal personen:
 [average age:]
 gemiddelde leeftijd:
+[Icons]
+Iconen
 [Check file version of default IconPack to prevent wrong icon display]
 Voorkom verkeerde weergave van iconen (controleer bestandsversie van standaard IconPack)
 [Display icons on each dialog button]
@@ -114,14 +172,20 @@ Informatie van een SubContact van een MetaContact
 Algemeen
 [MainMenu]
 Hoofdmenu
+[Off]
+Uit
 [ContactMenu]
 Persoonmenu
 [Extra Icons]
 Extra iconen
+[Gender:]
+Geslacht:
 [Phone]
 Telefoon
 [Show 'Restart' menu item]
 'Herstarten' menu item weergeven
+[Age:]
+Leeftijd:
 [Select Modules]
 Modules selecteren
 [Check all]
@@ -182,9 +246,13 @@ Het scherm template type wordt niet langer ondersteund
 Een nieuw feest toevoegen
 [Delete an existing anniversary]
 Een bestaand feest verwijderen
+[Unspecified]
+Niet opgegeven
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Edit E-Mail]
 E-Mail bewerken
+[Edit Phone Number]
+Telefoonnummer bewerken
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
 Het telefoonnummer moet beginnen met een + en alleen bestaan uit\nnummer, spaties, haakjes en koppeltekens.
 [Choose the item to display.]
@@ -199,15 +267,27 @@ Het geselecteerde item verwijderen.
 KRITIEK: Kan huidige record niet bewerken!\nDit moet niet gebeuren!
 [Do you really want to delete the current selected item?\n\t%s\n\t%s]
 Wilt u echt het huidig geselecteerde item verwijderen?\n\t%s\n\t%s
+[Other]
+Ander
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 ETA
+[Contact]
+Persoon
 [Age/Nr.]
 Leeftijd/Nr.
 [Anniversaries only]
 Alleen feesten
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+[Yes]
+Ja
+[No]
+Ne
+[Ignore]
+Negeer
+[Error]
+Fout
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [Protocol '%s' is offline]
 Protocol '%s' is offline
@@ -223,12 +303,22 @@ Maken van afbeeldingenlijst gefaald!
 Geen pagina's toegevoegd. Scherm aanmaken geannuleerd!
 [Details dialog failed to be created. Returning error is %d.]
 Details scherm gefaald aan te maken. Fout is %d.
+[General]
+Algemeen
 [Contact (private)]
 Contact (prive)
 [Anniversaries]
 Feesten
+[Work]
+Werk
 [Contact (Work)]
 Contact (Werk)
+[Profile]
+Profiel
+[Notes]
+Notities
+[Owner]
+Eigenaar
 [Upload ICQ Details]
 ICQ details uploaden
 [Upload failed]
@@ -243,6 +333,8 @@ IM naamgeving
 Exporteren: Modules
 [Export: Folder]
 Exporteren: Folder
+[Default]
+Standaard
 [Details Infobar]
 Details infobalk
 [Phone Infobar]
@@ -255,10 +347,18 @@ VCard exporteren
 Feest infobalk
 [Goto]
 Ga naar
+[Fax]
+Fax
 [Custom Phone]
 Aangepast nummer
 [e-mail]
 e-mail
+[Add]
+Toevoegen
+[Edit]
+Bewerken
+[Search]
+Zoeken
 [Birthday tomorrow]
 Verjaardag morgen
 [Birthday in 2 days]
@@ -305,10 +405,14 @@ Feest later
 Waarschuwing: Uw huidige versie van IconPack is verschillen dan degene UserInfoEx is voor ontwikkeld.\nSommige iconen kunnen niet goed worden weergegeven
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
+[User &Details]
+Gebruikers &details
 [&Export User Details]
 Gebruiker details &exporteren
 [&Import User Details]
 Gebruiker details &importeren
+[View/Change My &Details...]
+Mijn &details bekijken/wijzigen...
 [Export all contacts]
 Alle personen exporteren
 [Import all contacts]
@@ -322,6 +426,8 @@ Extended UserInfo
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
 Mijn notities:
+[About:]
+Over:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid Description first!]
 Aub eerst een geldige omschrijving invullen!
@@ -345,8 +451,14 @@ Herinnereing uitgeschakeld
 Alleen verjaardagen
 [everything]
 alles
+[Contacts]
+Personen
+[Advanced]
+Geavanceerd
 [Details Dialog]
 Details scherm
+[Popups]
+Popups
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Affiliation]
 Betrokkenheid
@@ -368,7 +480,11 @@ jun.
 [sen.]
 sen.
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+['(Unknown Contact)']
+'(Onbekend Persoon)'
 ;file \plugins\UserInfoEx\src\svc_email.cpp
+[Send e-mail]
+E-mail versturen
 [Memory allocation error!]
 Geheugen allocatie fout!
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
@@ -427,6 +543,8 @@ Gebruiker details van VCard importeren
 Het geselecteerde bestand is geen geldig XMLCard
 [The version of the XMLCard is not supported by UserInfoEx]
 De versie van XMLCard is niet ondersteund door UserInfoEx
+[Complete]
+Voltooid
 [Owner contact successfully imported.]
 Eigenaar persoon succesvol geimporteerd.
 [Selected XMLCard does not contain an owner contact!]

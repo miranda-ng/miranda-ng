@@ -8,6 +8,10 @@
 ;file \plugins\YAMN\res\YAMN.rc
 [Installed plugins]
 Plugins installés
+[Description:]
+Description :
+[Copyright:]
+Copyright :
 [Check this account]
 Vérifier ce compte
 [Check interval [min]:]
@@ -20,8 +24,12 @@ Remplacer le pseudo
 Désactiver les évènements
 [User Name:]
 Votre nom :
+[Password:]
+Passe :
 [Codepage:]
 Codepage :
+[Port:]
+Port :
 [Disable STLS]
 Désactiver STLS
 [Startup check]
@@ -38,8 +46,32 @@ Message de notification d'erreur
 Icône systray de notification d'erreur
 [Reset counter]
 Reset du compteur
+[Default]
+Défaut
+[Name:]
+Nom :
 [Check while ...]
 Vérification pendant...
+[Cancel]
+Annuler
+[Offline]
+Hors ligne
+[Online]
+En ligne
+[Away]
+Absent
+[Occupied]
+Occupé
+[DND]
+Ne pas déranger
+[Free for chat]
+OK pour un chat
+[Invisible]
+Invisible
+[On the phone]
+Au téléphone
+[Out to lunch]
+Parti manger
 [YAMN General Options]
 Options de YAMN
 [TopToolBar button "Check mail"]
@@ -70,6 +102,12 @@ Message persistant
 Notifications, erreur de connexion
 [Popup notification if failed]
 Popup de notification d'erreur
+[Background colour]
+Couleur de fond
+[Background colour]
+Couleur de Fond : 
+[Text colour]
+Couleur du texte
 ;file \plugins\YAMN\src\main.cpp
 [Check &mail (All Account)]
 Relever les e-mail (tous les comptes)
@@ -87,6 +125,8 @@ YAMN : nouvel e-mail
 [YAMN: connect failed]
 YAMN : échec connexion
 ;file \plugins\YAMN\src\services.cpp
+[Nick]
+Pseudo
 [No new mail message]
 Pas de nouveaux e-mail
 ;file \plugins\YAMN\src\browser\badconnect.cpp
@@ -111,6 +151,10 @@ Valeur
 Lancer l'application
 [Delete selected]
 Supprimer la sélection
+[Select All]
+Tout sélectionner
+[Size]
+Taille
 [Do you really want to delete %d selected mails?]
 Voulez-vous vraiment supprimer les %d e-mails sélectionnés ?
 [Delete confirmation]
@@ -193,10 +237,18 @@ Lecture de données SSL impossible.
 [Error %d-%d-%d-%d:]
 Erreur %d-%d-%d-%d :
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[Network]
+Réseau
+[Accounts]
+Comptes
+[General]
+Général
 [No account selected]
 Aucun compte sélectionné
 [Time left to next check [s]: %d]
 Prochaine vérification : [s]: %d
+[All Files]
+Tous les fichiers
 [Select executable used for notification]
 Sélectionnez le programme utilisé pour la notification
 [Do you really want to delete this account?]

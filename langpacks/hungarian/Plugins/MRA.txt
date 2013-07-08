@@ -6,18 +6,84 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
+[E-mail:]
+E-levél
+[Password:]
+Jelszó:
+[Port:]
+Port:
+[Default]
+Alap
+[Background colour]
+Háttérszín
+[Font]
+Betûtípus
+[Summary]
+Összesítés
+[Nickname:]
+Becenév
+[First name:]
+Keresztnév:
+[Last name:]
+Utolsó név:
+[Gender:]
+Nem:
+[Age:]
+Életkor
+[Location]
+Helyzet
+[Country:]
+Ország:
+[State:]
+Állapot:
+[City:]
+Város:
 [Full e-mail:]
 Teljes e-mail:
+[Text Color]
+Szövegszín
+[Closing in %d]
+Bezárás %d
+[Add]
+Új
+[Remove]
+Eltávolítás
+[OK]
+OK
+[Cancel]
+Mégsem
 ;file \protocols\MRA\src\MraAntiSpam.cpp
 ;file \protocols\MRA\src\MraAvatars.cpp
 ;file \protocols\MRA\src\MraChat.cpp
 ;file \protocols\MRA\src\MraConstans.h
+[Request authorization]
+Engedély kérés
+[Grant authorization]
+Engedély megadása
 ;file \protocols\MRA\src\MraFilesQueue.cpp
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 ;file \protocols\MRA\src\MraIcons.cpp
+[Main Menu]
+Fõmenü
 ;file \protocols\MRA\src\MraPopUp.cpp
+[None]
+Egyik sem
+[Information]
+Információ
+[Error]
+Hiba
+[Popups]
+Felugrók
 ;file \protocols\MRA\src\MraProto.cpp
+[E-mail address]
+E-levél cím
 ;file \protocols\MRA\src\Mra_functions.cpp
 ;file \protocols\MRA\src\Mra_options.cpp
+[Network]
+Hálózat
+[Files]
+Fájlok
 ;file \protocols\MRA\src\Mra_proto.cpp
 ;file \protocols\MRA\src\Mra_svcs.cpp
+[On the phone]
+Telefonál

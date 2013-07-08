@@ -26,8 +26,32 @@ Permitir el envío de* un empujón para el mismo contacto cada:
 Deje de recibir un codazo del mismo contacto cada:
 [* Nudge sending delay is hardcoded and cannot be changed.]
 * Empujar demora el envío está codificado y no se puede cambiar.
+[Text]
+Texto
+[Text]
+Texto
 [Allow nudges when you're:]
 Permitir codazos cuando estás:
+[Offline]
+Offline
+[Online]
+En línea
+[Away]
+Alejado 
+[NA]
+NA
+[Occupied]
+Ocupado
+[DND]
+DND
+[Free for chat]
+Gratuito de chat
+[Invisible]
+Invisible
+[On the phone]
+En el teléfono
+[Out to lunch]
+A almorzar
 [Shaking Clist Options]
 Sacudir Opciones Clist
 [Number of moves]
@@ -45,5 +69,9 @@ Empujar como predeterminado
 [You received a nudge]
 Usted recibió un codazo
 ;file \plugins\Nudge\src\options.cpp
+[Events]
+Eventos
+[Events]
+Eventos
 [Window Shaking]
 Ventana de agitación

@@ -6,11 +6,41 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
+[Popups]
+Felugrók
+[Sounds]
+Hangok
+[Show]
+Mutat
+[seconds]
+mp.
+[Close]
+Bezárás
+[OK]
+OK
+[Description:]
+Leírás:
+[Date:]
+Dátum:
+[Delete]
+Törlés
 ;file \plugins\WhenWasIt\src\dlg_handlers.cpp
+[Unknown]
+Ismeretlen
+[Protocol]
+Protokoll
+[Contact]
+Kapcsolat
 [Age]
 Kor
 ;file \plugins\WhenWasIt\src\hooked_events.cpp
+[Contacts]
+Partnerek
 ;file \plugins\WhenWasIt\src\icons.cpp
 ;file \plugins\WhenWasIt\src\notifiers.cpp
 ;file \plugins\WhenWasIt\src\services.cpp
+[Error]
+Hiba
+[All Files]
+Minden fájl
 ;file \plugins\WhenWasIt\src\services.h

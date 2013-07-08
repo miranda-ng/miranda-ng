@@ -6,10 +6,30 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Ping\res\ping.rc
+[Network]
+Võrgustik
+[Row height:]
+Rea kõrgus:
+[Add]
+Lisa
+[Remove]
+Eemalda
+[OK]
+OK
+[Cancel]
+Tühista
+[Port:]
+Port:
+[Contact]
+Kontakt
 ;file \plugins\Ping\src\menu.cpp
 ;file \plugins\Ping\src\options.cpp
+[<none>]
+<pole>
 ;file \plugins\Ping\src\ping.cpp
 ;file \plugins\Ping\src\pinggraph.cpp
 ;file \plugins\Ping\src\pingthread.cpp
 ;file \plugins\Ping\src\rawping.cpp
 ;file \plugins\Ping\src\utils.cpp
+[Unknown]
+Tundmatu

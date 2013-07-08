@@ -6,4 +6,6 @@
 ;  Authors: Cristian Libotean, Miranda NG Team
 ;============================================================
 ;file \plugins\Folders\res\folders.rc
+[Close]
+닫기
 ;file \plugins\Folders\src\dlg_handlers.cpp

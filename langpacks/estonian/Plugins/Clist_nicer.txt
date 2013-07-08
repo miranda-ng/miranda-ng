@@ -6,31 +6,189 @@
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 ;file \plugins\Clist_nicer\res\resource.rc
+[OK]
+OK
+[Version]
+Versioon
+[Delete Contact]
+Kustuta kontakt
+[No]
+Ei
+[Yes]
+Jah
+[Contact List]
+Kontaktide nimekiri
+[Hide offline users]
+Peida väljas olevad kasutajad
+[Hide empty groups]
+Peida tühjad grupid
+[Show]
+Kuva
+[Groups]
+Grupid
+[Sort groups alphabetically]
+Sorteeri grupid tähestikuliselt
+[Contact List Sorting]
+Kontaktide nimekirja sorteerimine
 [Radius]
 Raadius
+[Icons]
+Ikoonid
+[Window]
+Aken
+[Always on top]
+Alati pealmine
+[Show menu bar]
+Kuva menüürida
+[Title bar text:]
+Tiitelriba tekst:
+[seconds]
+sekundit
+[maximum]
+maksimum
+[Transparent contact list]
+Läbipaistev kontaktinimekiri
+[Inactive opacity:]
+Mitteaktiivse läbipaistmatus:
+[Active opacity:]
+Aktiivse läbipaistmatus:
+[Items]
+Elemendid
+[Time:]
+Aeg:
+[milliseconds]
+millisekundit
+[Contact List Background]
+Kontaktide nimekirja taust
+[Background colour]
+Taustavärv
+[Use background image]
+Kasuta taustapilti
+[Status Bar]
+Olekuriba
+[Show status bar]
+Kuva olekuriba
+[Show icons]
+Kuva ikoonid
+[Show protocol names]
+Kuva protokolli nimed
+[Show status text]
+Kuva oleku tekst
+[Right click opens status menu]
+Parem klikk avab olekumenüü
+[Right click opens Miranda NG menu]
+Parem klikk avab Miranda NG menüü
+[Make sections equal width]
+Tee sektsioonid võrdse laiusega
+[Cancel]
+Tühista
+[Apply]
+Rakenda
+[Protocol]
+Protokoll
+[Group]
+Grupp
 [Contact list skin]
 Kontaktide nimekirja nahk
 [Apply skin now]
 Kasuta nahka
 [Corner radius]
 Nurga raadius
+[Messages]
+Teated
+[Visibility]
+Nähtavus
+[Other]
+Muu
 [Display options]
 Kuvamise valikud
 [Show Avatar:]
 Kuva avatar:
 [Show local time]
 Kuva kohalik aeg
+[E&xit]
+Välju
+[&Status]
+&Olek
+[&Offline\tCtrl+0]
+Väljas\tCtrl+0
+[On&line\tCtrl+1]
+Sees\tCtrl+1
+[&Away\tCtrl+2]
+Eemal\tCtrl+2
+[&NA\tCtrl+3]
+Pole kättesaadav\tCtrl+3
+[&Free for chat\tCtrl+6]
+Vestluseks vaba\tCtrl+6
+[&Invisible\tCtrl+7]
+&Nähtamatu\tCtrl+7
+[On the &Phone\tCtrl+8]
+Telefonil\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Lõunastamas\tCtrl+9
+[&Hide/Show]
+Kuva/&Peida
+[&New Group]
+Uus grupp
+[&Hide Offline Users]
+Peida väljas olevad kasutajad
+[Hide &Empty Groups]
+Peida tühjad grupid
+[Hide Miranda]
+Peida Miranda
+[&New Subgroup]
+Uus alamgrupp
+[&Hide Offline Users in here]
+Peida siin väljas kasutajad
+[&Rename Group]
+Nimeta grupp ümber
+[&Delete Group]
+Kustuta grupp
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+[General]
+Üldine
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Kuva menüü
+[Accounts]
+Kontod
 ;file \plugins\Clist_nicer\src\clcopts.cpp
+[Offline]
+Väljas
+[Online]
+Sees
+[Away]
+Eemal
+[NA]
+Pole kättesaadav
+[Occupied]
+Hõivatud
+[Free for chat]
+Vestluseks vaba
+[Invisible]
+Nähtamatu
+[Out to lunch]
+Lõunastamas
+[On the phone]
+Telefonil
+[Name]
+Nimi
+[Status]
+Staatus
+[Background]
+Taust
+[Contacts]
+Kontaktid
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 ;file \plugins\Clist_nicer\src\clistopts.cpp
+[Global]
+Globaalne
 ;file \plugins\Clist_nicer\src\clui.cpp
 [Sounds are off]
 Helid on väljas
+[Offline contacts]
+Väljas olevad kontaktid
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 ;file \plugins\Clist_nicer\src\Docking.cpp
 ;file \plugins\Clist_nicer\src\extBackg.cpp
@@ -38,3 +196,9 @@ Helid on väljas
 ;file \plugins\Clist_nicer\src\viewmodes.cpp
 ;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[&Find/Add Contacts...]
+Otsi/lisa kontakte...
+[&Main Menu]
+Põhimenüü
+[&Options...]
+&Valikud...

@@ -6,37 +6,329 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\Clist_mw\res\resource.rc
+[Stretch to width]
+Разтягане на ширина
+[Stretch to height]
+Разтягане на височина
+[Tile horizontally]
+Мозаично по хоризонтала
+[Tile vertically]
+Мозаично по вертикала
+[Scroll with text]
+Придвижване с текста
+[Stretch proportionally]
+Пропорционално разтягане
+[Warning!\r\nThis MenuObject not support user defined options.]
+Внимание!\r\nТова меню не поддържа дефиниране на елементи от потребителя.
 [MenuObjects]
 Менюта
 [MenuItems]
 Елементи на менюто
 [InsertSeparator]
 Вмъкване на разделител
+[Service:]
+Услуга:
+[Name:]
+Име:
+[Set]
+Задай
+[Default]
+Стандарт
+[Delete Contact]
+Изтриване на контакта
+[No]
+Не
+[Yes]
+Да
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Скриване (запазва историята и настройките за игнориране/видимост)
+[Are you sure you want to delete %s?]
+Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
+[This will erase all history and settings for this contact!]
+Ще бъде изтрита изтрита историята и настройките за контакта!
+[Hide offline users]
+Скриване на контактите "Извън линия"
+[Hide empty groups]
+Скриване на празните групи
+[Disable groups]
+Без групи
+[Ask before deleting contacts]
+Запитване преди изтриване на контакт
+[Always on top]
+Винаги отгоре
+[Hide contact list after it has been idle for]
+Скриване на списъка след бездействие за:
+[seconds]
+секунди
+[Sort contacts by name]
+име
+[Sort contacts by status]
+състояние
+[Sort contacts by protocol]
+протокол
+[Single click interface]
+Интерфейс с едно натискане
+[Always show status in tooltip]
+Показване на състоянието в подсказка
+[Disable icon blinking]
+Без мигане на икони
+[Show]
+Показване
+[icon when statuses differ]
+икона при различни състояния
+[Cycle icons every]
+Смяна на иконата всеки
+[seconds, when statuses differ]
+секунди, при различни състояния
+[Show multiple icons]
+Всички икони
+[Only when statuses differ]
+Само при различни състояния
+[Contact List]
+Списък с контакти
+[System tray icon]
+Икона в трея
+[System tray icon when using multiple protocols]
+Режим на иконата в трея, когато се използват няколко протокола
+[Contact List Sorting]
+Сортиране на списъка с контакти по:
+[Pin to desktop]
+Прилепване към работния плот
 [Rows]
 Редове
+[Row height:]
+Ред (височина):
+[pixels]
+пиксела
+[pixels]
+пиксела
+[Gamma correction]
+Корекция на гамата
+[Window]
+Прозорец
+[Minimize to tray]
+Минимизиране в трея
+[Automatically resize window to height of list]
+Автооразмеряване към височината на списъка
+[maximum]
+максимум
+[% of screen]
+% от екрана
+[Size upwards]
+Оразмеряване нагоре
+[Title bar text:]
+Заглавна лента:
+[Fade contact list in/out]
+Избледняване/Изсветляване на списъка
+[Transparent contact list]
+Прозрачност на списъка с контакти
+[Inactive opacity:]
+Неактивен прозорец:
+[Active opacity:]
+Активен прозорец:
+[Show menu bar]
+Лента за менюто
+[Easy move]
+Лесно местене
+[Show title bar]
+Заглавна лента
+[If window is partially covered, bring to front instead of hiding]
+Извеждане на прозорецът отпред, ако е частично покрит, вместо скриване
+[Items]
+Елементи
+[Show divider between online and offline contacts]
+Разделител м/у контактите "На/Извън линия"
+[Hot track items as mouse passes over]
+Изтъкване на посочените с курсора елементи
+[Disable drag and drop of items]
+Без влачене на елементите
+[Disable rename of items by clicking twice]
+Без преименуване чрез двукратно натискане
+[Show selection even when list is not focused]
+Показване на маркираното при дефокусиран списък
+[Make selection highlight translucent]
+Полупрозрачност на отличения текст
+['Hide Offline' means to hide:]
+Скриване като извън линия:
+[Groups]
+Групи
+[Draw a line alongside group names]
+Добавяне на линия до имената на групите
+[Show counts of number of contacts in a group]
+Показване на броя контакти в група
+[Hide group counts when there are none online]
+Скриване на броя, когато всички са "Извън линия"
+[Sort groups alphabetically]
+Сортиране на групите по азбучен ред
+[Quicksearch in open groups only]
+Бързо търсене само в отворените групи
+[Indent groups by:]
+Отстъп на групите:
+[Visual]
+Визуално
+[Scroll list smoothly]
+Плавно придвижване
+[Time:]
+Време:
+[milliseconds]
+милисекунди
+[Left margin:]
+Ляв ръб:
+[Grey out entire list when:]
+Посивяване на списъка, когато:
+[Dim idle contacts]
+Потъмняване на бездействащите контакти
+[Contact List Background]
+Фон на списъка с контакти
 [MetaContacts supporting]
 Поддържа метаконтакти
+[Status Bar]
+Лента за състояние
+[Show status bar]
+Показване на лента за състояние
+[Show icons]
+Показване на икони
+[Show protocol names]
+Показване името на протокола
+[Show status text]
+Показване на текст за състоянието
+[Right click opens status menu]
+Десен бутон = меню на състоянието
+[Make sections equal width]
+Еднакво широки панели
 [Use connecting Icon]
 Ползване на икона за свързване
+[E&xit]
+Изход
+[&Status]
+Състояние
+[&Offline\tCtrl+0]
+Извън линия\tCtrl+0
+[On&line\tCtrl+1]
+На линия\tCtrl+1
+[&Away\tCtrl+2]
+Отсъстващ\tCtrl+2
+[&NA\tCtrl+3]
+Недостъпен\tCtrl+3
+[Occ&upied\tCtrl+4]
+Зает\tCtrl+4
+[&DND\tCtrl+5]
+Не безпокойте\tCtrl+5
+[&Free for chat\tCtrl+6]
+Готов за чат\tCtrl+6
+[&Invisible\tCtrl+7]
+Невидим\tCtrl+7
+[On the &Phone\tCtrl+8]
+На телефона\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+На обяд\tCtrl+9
+[Tray]
+Трей
+[&Hide/Show]
+Показване/Скриване
+[&New Group]
+Нова група
+[&Hide Offline Users]
+Скриване на контактите "Извън линия"
+[Hide &Offline Users out here]
+Скриване на контактите "Извън линия" тук
+[Hide &Empty Groups]
+Скриване на празните групи
+[Disable &Groups]
+Без групи
+[Hide Miranda]
+Скриване на Miranda
+[Group]
+Група
+[&New Subgroup]
+Нова подгрупа
+[&Hide Offline Users in here]
+Скриване на контактите "Извън линия" тук
+[&Rename Group]
+Преименуване на групата
+[&Delete Group]
+Изтриване на групата
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
+[Customize]
+Персонализиране
 [Backgrounds]
 Фон
 ;file \plugins\Clist_mw\src\clcfonts.cpp
+[Standard contacts]
+Стандартни контакти
+[Online contacts to whom you have a different visibility]
+Контакти, към които имате различна видимост
+[Offline contacts]
+Контакти "Извън линия"
+[Contacts which are 'not on list']
+Контакти, които не са в списъка
+[Group member counts]
+Брой контакти в групата
+[Dividers]
+Разделители
+[Offline contacts to whom you have a different visibility]
+Контакти "Извън линия", към които имате различна видимост
 [Status messages]
 Текст за състояние
 [Group Closed]
 Затворена група
 [Hover Contacts]
 Контакт под курсора
+[Background]
+Фон
+[Selected Text]
+Маркиран текст
+[Hottrack Text]
+Посочен текст
+[Quicksearch Text]
+Бързо търсен текст
 ;file \plugins\Clist_mw\src\clcopts.cpp
+[List]
+Списък
+[List Background]
+Фон на списъка
 [StatusBar Background]
 Фон на лентата за състояние
+[Not focused]
+Дефокусирано
+[Offline]
+Извън линия
+[Online]
+На линия
+[Away]
+Отсъстващ
+[NA]
+Недостъпен
+[Occupied]
+Зает
+[DND]
+Не безпокойте
+[Free for chat]
+Готов за чат
+[Invisible]
+Невидим
+[Out to lunch]
+На обяд
+[On the phone]
+На телефона
 ;file \plugins\Clist_mw\src\clistopts.cpp
+[Global]
+Общо
 ;file \plugins\Clist_mw\src\clistsettings.cpp
+[(Unknown Contact)]
+(Непознат контакт)
 ;file \plugins\Clist_mw\src\clisttray.cpp
+[&Find/Add Contacts...]
+Търсене/Добавяне на контакти
+[&Main Menu]
+Главно меню
+[&Options...]
+Настройки...
 ;file \plugins\Clist_mw\src\clui.cpp
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp
 ;file \plugins\Clist_mw\src\keyboard.cpp
 ;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+[Frames]
+Рамки
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

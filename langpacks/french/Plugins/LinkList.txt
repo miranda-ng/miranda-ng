@@ -6,9 +6,29 @@
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Search]
+Recherche
+[Close]
+Fermer
 [Message direction]
 Sens du messsage
+[Incoming messages]
+Messages reçus
+[Outgoing messages]
+Messages envoyés
+[Timestamp]
+Heure
+[&File]
+&Fichier
+[&Close]
+&Fermer
+[&Search]
+&Recherche
 ;file \plugins\HistoryLinkListPlus\src\language.h
+[Error]
+Erreur
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[History]
+Historique
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 ;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp

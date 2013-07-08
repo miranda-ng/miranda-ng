@@ -6,6 +6,40 @@
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
 ;file \plugins\ContactsPlus\res\contacts.rc
+[&A]
+&A
+[&D]
+&D
+[&H]
+&H
+[&Send]
+&Gönder
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
+[&Add]
+&Ekle
+[Close]
+Kapat
+[An error has occured. The protocol reported the following error:]
+Bir hata oldu. Protokol şu hatayı verdi:
+[Try again]
+Yeniden dene
+[User Details]
+Kullanıcı Detayları
 ;file \plugins\ContactsPlus\src\main.cpp
+[Contacts]
+Kişiler
 ;file \plugins\ContactsPlus\src\receive.cpp
+[Add Contact Permanently to List]
+Kişiyi listeye kalıcı olarak ekle
+[View User's Details]
+Kullanıcı Detaylarını Göster
+[View User's History]
+Kullanıcı Geçmişini Göster
+[User Menu]
+Kullanıcı Menüsü
 ;file \plugins\ContactsPlus\src\send.cpp

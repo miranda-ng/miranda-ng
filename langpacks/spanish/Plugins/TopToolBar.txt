@@ -8,5 +8,13 @@
 ;file \plugins\TopToolBar\res\main.rc
 [Button width]
 Botón de ancho
+[Set]
+Set
 ;file \plugins\TopToolBar\src\toolbar.cpp
+[Default]
+por defecto
+[Default]
+Predeterminado
 ;file \plugins\TopToolBar\src\ttbopt.cpp
+[Contact List]
+Lista de contactos

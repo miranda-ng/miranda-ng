@@ -6,18 +6,82 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 ;file \plugins\BasicHistory\res\BasicHistory.rc
+[Message History]
+Samtalehistorikk
 [Show event icons]
 Vis hendelsesikoner
+[Show names]
+Vis navn
+[Show messages]
+Vis meldinger
+[Name]
+Navn
+[OK]
+OK
+[Cancel]
+Avbryt
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
+[View &History]
+Se &Historikk
+[Incoming message]
+Innkommende melding
+[Outgoing message]
+Utgående melding
+[History]
+Historikk
 ;file \plugins\BasicHistory\src\EventList.cpp
+[History for %s]
+Historikk for %s
+[System]
+System
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
+[Open in &new window]
+Åpne i &nytt vindu
+[&Open in existing window]
+&Åpne i eksisterende vindu
+[&Copy link]
+&Kopier link
+[Copy]
+Kopier
+[Copy]
+Kopier
+[Delete]
+Slett
+[Delete Group]
+Slett Gruppe
+[Options]
+Valg
+[Icons]
+Ikoner
+[Hotkeys]
+Snarveier
+[Error]
+Feil
 ;file \plugins\BasicHistory\src\Options.cpp
+[Message]
+Melding
+[Message]
+Melding
+[Link]
+Link
 [SMTP Simple Email]
 SMTP Enkel Epost
+[Messages]
+Meldinger
+[Searching]
+Søker
+[Advanced]
+Avansert
+[Find]
+Finn
 ;file \plugins\BasicHistory\src\Options.h
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 ;file \plugins\BasicHistory\src\Scheduler.cpp
+[Contacts]
+Kontakter
 ;file \plugins\BasicHistory\src\Searcher.cpp
+[Search]
+Søk
 ;file \plugins\BasicHistory\src\TxtExport.cpp

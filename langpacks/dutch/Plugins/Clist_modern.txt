@@ -6,30 +6,86 @@
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 ;file \plugins\Clist_modern\res\resource.rc
+[Show counts of number of contacts in a group]
+Aantallen van aantal personen in een groep weergeven
+[Hide group counts when there are none online]
+Groep aantallen wanneer er niemand online is verbergen
 [1st:]
 1e:
 [2nd:]
 2e:
 [3rd:]
 3e:
+[Always on top]
+Altijd bovenop
 [Hide contact list after ]
 Lijst verbergen na
+[seconds]
+seconden
+[Transparent contact list]
+Doorzichtig persoon lijst
+[Inactive opacity:]
+Inactief ondoorlatendheid:
+[Active opacity:]
+Actief ondoorlatendheid
+[Show protocol names]
+Protocol namen weergeven
+[Show status text]
+Status tekst weergeven
+[Stretch to width]
+Tot breedte uitrekken
+[Stretch to height]
+Tot hoogte uitrekken
+[Tile horizontally]
+Naast elkaar
+[Tile vertically]
+Onder elkaar
+[Scroll with text]
+Met tekst scrollen
+[Stretch proportionally]
+Proportioneel uitrekken
 [Available skins]
 Beschikbare skins
+[Apply]
+Toepassen
 [Available objects]
 Beschikbare objecten
+[Copy]
+Kopiëren
+[Paste]
+Plakken
 [Object properties]
 Object eigenschappen
 [Colour]
 Kleur
 [Image file and fitting mode]
 Afbeeldingbestand en pas modus
+[File]
+Bestand
 [Borders]
 Randen
 [Fit mode]
 Pas  modus
 [Fragment location]
 Framgent locatie
+[Position:]
+Positie:
+[Size:]
+Grootte:
+[OK]
+OK
+[Cancel]
+Annuleren
+[Protocol]
+Protocol
+[Group]
+Groep
+[Status Bar]
+Status balk
+[Show status bar]
+Status balk weergeven
+[Make sections equal width]
+Selecties even groot maken
 [Show xStatus icon]
 xStatus icoon weergeven
 [Show both icons]
@@ -38,8 +94,38 @@ Beide iconen weergeven
 Normale status als overlay weergeven
 [Show normal status as overlay]
 Normale status als overlay weergeven
+[Right click opens status menu]
+Rechts klikken opent status menu
+[Delete Contact]
+Contact verwijderen
+[No]
+Ne
+[Yes]
+Ja
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Verberg alleen van lijst, zodat de geschiedenis en negeer/zichtbaarheid instellingen bewaard blijven
+[Are you sure you want to delete %s?]
+Weet u zeker dat u %s wilt verwijderen?
+[This will erase all history and settings for this contact!]
+Dit zal alle geschiedenis en instellingen verwijderen voor deze persoon!
+[Hide offline users]
+Offline gebruikers verbergen
+[Hide empty groups]
+Lege groepen verbergen
+[Disable groups]
+Groepen uitschakelen
+[Ask before deleting contacts]
+Vraag voor het verwijderen van personen
+[Contact List]
+Persoon lijst
+[Contact List Sorting]
+Persoon lijst sortering
 [Place offline users out of groups]
 Offline gebruikers buiten groepen plaatsen
+[Gamma correction]
+Gamma correctie
+[Default]
+Standaard
 [Full selection]
 Volledige selectie
 [Less selection]
@@ -50,10 +136,20 @@ Geen selectie
 Selectie modus
 [Bring to front if covered]
 Naar voren halen wanneer bedekt
+[Automatically resize window to height of list]
+Hoogte van de lijst autmatisch aanpassen
+[maximum]
+maximum
+[% of screen]
+% van het scherm
+[Size upwards]
+Omhoog vergrootten
 [Lock manual resize]
 Handmatige resize vergrendelen
 [Easy Scroll]
 Eenvoudig scrollen
+[Easy move]
+Makkelijk verplaatsen
 [show delay]
 vertraging weergeven
 [hide delay]
@@ -70,8 +166,60 @@ Gebeurtenis meldingen gebied
 Automatisch weergeven
 [Always Visible]
 Altijd zichtbaar
+[Show divider between online and offline contacts]
+Verdeler tussen online en offline personen weergeven
+[Hot track items as mouse passes over]
+Hot track items wanneer de muis erover gaat
+[Disable drag and drop of items]
+Drag and drop voor items uitschakelen
+[Disable rename of items by clicking twice]
+Items hernoemen door dubbelklik uitschakelen
+[Show selection even when list is not focused]
+Selectie weergeven zelfs wanneer lijst geen focus heeft
+[Make selection highlight translucent]
+Selectie oplichting doorzichtig maken
+[Dim idle contacts]
+Rustige personen donker maken
+['Hide Offline' means to hide:]
+'Verberg Offline' betekent verberg:
+[Groups]
+Groepen
+[Draw a line alongside group names]
+Een lijn bij groepnamen tekenen
+[Sort groups alphabetically]
+Groepen alfabetisch sorteren
+[Quicksearch in open groups only]
+Snelzoeken alleen in open groepen
+[Indent groups by:]
+Spring groepen in bij:
+[Visual]
+Visueel
+[Scroll list smoothly]
+Lijst vloeiend scrollen
+[Time:]
+Tijd:
+[milliseconds]
+milliseconden
 [Fade out entire list when:]
 Volledige lijst grijs maken wanneer:
+[Single click interface]
+Enkele-klik interface
+[Always show status in tooltip]
+Status altijd in tooltip weergeven
+[Disable icon blinking]
+Knipperend icoon uitschakelen
+[Show]
+Weergeven
+[Cycle icons every]
+Verander iconen iedere
+[seconds, when statuses differ]
+seconden, wanneer statussen verschillen
+[Show multiple icons]
+Meerdere iconen weergeven
+[Only when statuses differ]
+Alleen wanneer statussen verschillen
+[System tray icon]
+Systeemvak icoon
 [Use xStatus icon]
 xStatus icoon gebruiken
 [only when statuses differ]
@@ -82,10 +230,20 @@ Aanvullend spul
 Tijd alleen weergeven wanneer deze verschillend is van de huidige tijd
 [Show contact time as row item]
 Persoon tijd als rij item weergeven
+[Pin to desktop]
+Op desktop vastzetten
 [Thin border main window]
 Hoofdscherm met dunne rand
 [Borderless main window]
 Hoofdscherm zonder rand
+[Show menu bar]
+Menu balk weergeven
+[Show title bar]
+Titelbalk weergeven
+[Title bar text:]
+Titelbalk tekst:
+[Minimize to tray]
+Naar systeemvak minimaliseren
 [Order of items:]
 Volgorde van items:
 [Min row height:]
@@ -98,6 +256,8 @@ Variabele rij hoogte
 Lijn linker items links uit
 [Align right items to right]
 Lijn rechter items rechts uit
+[Left margin:]
+Linker marge:
 [Right margin:]
 Rechter marge:
 [Draw border on avatar]
@@ -140,16 +300,62 @@ Lange tekst inkorten met cirkels
 Boven ruimte:
 [Draw smileys on second line]
 Teken smileys op de tweede lijn
+[Status]
+Status
 [XStatus has priority]
 XStatus heeft prioriteit
 [Use 'XStatus: XMessage']
 'XStatus: XMessage' gebruiken
 [Show third line]
 Derde lijn weergeven
+[Options]
+Opties
+[E&xit]
+Afsluiten
+[&Away\tCtrl+2]
+Afwezig\tCtrl+2
+[&NA\tCtrl+3]
+&Niet beschikbaar\tCtrl+3
+[Occ&upied\tCtrl+4]
+Bezet\tCtrl+4
+[&DND\tCtrl+5]
+Niet storen\tCtrl+5
+[&Free for chat\tCtrl+6]
+Beschikbaar voor gesprek\tCtrl+6
+[&Invisible\tCtrl+7]
+Onz&ichtbaar\tCtrl+7
+[On the &Phone\tCtrl+8]
+Aan de telefoon\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Aan het lunchen\tCtrl+9
+[&Hide/Show]
+Verbergen/Weergeven
+[&New Group]
+&Nieuwe Groep
+[&Hide Offline Users]
+Offline gebruikers verbergen
+[Hide &Offline Users out here]
+&Offline gebruikers hierbuiten verbergen
+[Hide &Empty Groups]
+L&ege groepen verbergen
+[Disable &Groups]
+&Groepen uitschakelen
+[Hide Miranda]
+Miranda verbergen
+[&New Subgroup]
+&Nieuw Subgroep
+[&Hide Offline Users in here]
+&Offline gebruikers hierbinnen verbergen
 [&Show Offline Users in here]
 Offline gebruiker&s hierbinnen weergeven
+[&Rename Group]
+G&roep hernoemen
+[&Delete Group]
+Groep verwij&deren
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Standard contacts]
+Standaard personen
 [Away contacts]
 Personen afwezig
 [DND contacts]
@@ -166,6 +372,12 @@ Personen Onzichtbaar
 Personen Aan de telefoon
 [Out to lunch contacts]
 Personen Aan het lunchen
+[Offline contacts]
+Offline personen
+[Online contacts to whom you have a different visibility]
+Online personen met een andere zichtbaarheid
+[Offline contacts to whom you have a different visibility]
+Offline personen met een andere zichtbaarheid
 [Open groups]
 Open groepen
 [Open group member counts]
@@ -174,12 +386,46 @@ Open groep lid telling
 Gesloten groepen
 [Closed group member counts]
 Gesloten groep lid telling
+[Dividers]
+Verdelers
 [Third line]
 Derde lijn
 [Status bar text]
 Statusbalk tekst
 [Event area text]
 Gebeurtenisgebied tekst
+[Background]
+Achtergrond
+[General]
+Algemeen
+[List]
+Lijst
+[Window]
+Scherm
+[List Background]
+Lijst achtergrond
+[Not focused]
+Geen focus
+[Offline]
+Offline
+[Away]
+Afwezig
+[NA]
+Niet beschikbaar
+[Occupied]
+Bezet
+[DND]
+Niet storen
+[Free for chat]
+Beschikbaar voor gesprek
+[Invisible]
+Onzichtbaar
+[Out to lunch]
+Aan het lunchen
+[On the phone]
+Aan de telefoon
+[Name]
+Naam
 [Last message time]
 Tijd laatste bericht
 [-Nothing-]
@@ -193,6 +439,10 @@ Achter rechter rand
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Text]
+Tekst
+[Extra icons]
+Extra iconen
 [Left align group names]
 Groepnamen links uitlijnen
 [Center group names]
@@ -208,7 +458,13 @@ Derde lijn
 [Row items]
 Rij items
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+[(Unknown Contact)]
+(Onbekend Persoon)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
+[&Find/Add Contacts...]
+Personen zoeken/toevoegen...
+[&Options...]
+&Opties...
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 ;file \plugins\Clist_modern\src\modern_cluiframes.cpp
 ;file \plugins\Clist_modern\src\modern_groupmenu.cpp
@@ -232,6 +488,8 @@ Stapel vertikaal, strek horizontaal
 [Tile Both directions]
 Stapel beide richtingen
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
+[Error]
+Fout
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 Laden/Opslaan
@@ -245,4 +503,3 @@ Standaard Skin
 Midden
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
-;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

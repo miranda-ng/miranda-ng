@@ -6,7 +6,47 @@
 ;  Authors: P Boon
 ;============================================================
 ;file \Plugins\StatusPlugins\resource.rc
+[General]
+Основни
+[Close]
+Затваряне
+[Cancel]
+Отказ
+[Profile]
+Профил
+[Message]
+Съобщение
+[Set]
+Задай
+[Other]
+Друго
+[Background colour]
+Цвят на фона
+[Background colour]
+Фонов цвят
+[Text colour]
+Цвят на текста
+[Use Windows colours]
+Цветове от Windows
+[Use default colours]
+Стандартни цветове
+[Events]
+Събития
+[Custom]
+Избор
+[Use %time% for the current time, %date% for the current date]
+Използвайте %time% и %date% за текущ час и дата.
+[Accounts]
+Акаунти
+[Status]
+Състояние
+[Delete]
+Изтриване
+[seconds]
+секунди
 ;file \plugins\StatusPlugins\StartupStatus\options.cpp
+[None]
+Няма
 [size: %d x %d]
 размер: %d x %d
 [loc: %d x %d]
@@ -26,4 +66,18 @@
 6 е максималният брой елементи в менюто
 ;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
 ;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+Отсъствам от %time%.
+[Not right now.]
+Не точно сега.
+[Yep, I'm here.]
+Да, тук съм.
+[Nope, not here.]
+Не, не съм тук.
+[I'm hiding from the mafia.]
+Крия се от мафията.
+[Mmm...food.]
+Ммм... храна.
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Closing in %d]
+Затваряне след %d

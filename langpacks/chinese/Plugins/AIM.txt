@@ -10,6 +10,8 @@
 AIM 用户详细资料
 [Screen Name:]
 显示名:
+[Password:]
+密码: 
 [AIM Options]
 AIM 选项
 [Message Delivery Confirmation]
@@ -38,6 +40,10 @@ AIM 选项
 伪装成 Sidekick/Hiptop 用户
 [*Aim must be reconnected  for some option to take effect.]
 *Aim 必须重新连接才能使某些选项生效. 
+[Port:]
+端口:
+[Reset]
+重置
 [Disable SSL]
 禁用 SSL
 [Manage Server Groups]
@@ -70,12 +76,22 @@ AIM 立即闲置
 阻止所有用户
 [Block only users below]
 仅阻止以下用户
+[Add]
+添加
+[Remove]
+移除
+[Idle]
+闲置
 [Allow contacts to be notified of:]
 允许联系人通知于:
 [Join Chat Room]
 加入聊天室
 [Chat Room]
 聊天室
+[&Join]
+加入(&J)
+[&Cancel]
+取消(&C)
 [This allows access to user defined chat rooms. To access predefined chat rooms use web links]
 此操作将允许访问用户定义聊天室. 要访问预定义聊天室可使用网络链接
 [Original]
@@ -84,12 +100,18 @@ AIM 立即闲置
 重复
 [*Passwords don't match.]
 *密码不匹配.
+[E-mail]
+邮件
 [Confirm Account]
 确认帐户
 [*Applied upon reconnect]
 *重连后生效
 [Save Changes]
 保存变更
+[&Deny]
+拒绝(&D)
+[Message]
+消息
 [Room]
 房间
 ;file \protocols\AimOscar\src\avatars.cpp
@@ -277,6 +299,8 @@ DNS 故障.
 [Can't start the confirmation procedure.]
 无法启动确认程序.
 ;file \protocols\AimOscar\src\theme.cpp
+[Profile]
+配置文件
 [AOL Mail]
 AOL 邮箱
 [AIM Icon]
@@ -289,6 +313,8 @@ AOL 机器人
 未确认
 [Foreground Color]
 前景颜色
+[Bold]
+粗体
 [Not Bold]
 非粗体
 [Not Italic]
@@ -324,6 +350,8 @@ AIM 扩展状态
 [Add To Server List]
 加至服务器列表
 ;file \protocols\AimOscar\src\ui.cpp
+[Network]
+网络
 [Join me in this buddy chat!]
 和我一起私聊!
 ;file \protocols\AimOscar\src\utility.cpp

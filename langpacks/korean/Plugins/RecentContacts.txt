@@ -8,4 +8,6 @@
 ;file \plugins\RecentContacts\res\resource.rc
 ;file \plugins\RecentContacts\src\options.cpp
 ;file \plugins\RecentContacts\src\RecentContacts.cpp
+[Contact]
+연락처
 ;file \plugins\RecentContacts\src\RecentContacts.h

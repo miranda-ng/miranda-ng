@@ -6,7 +6,17 @@
 ;  Authors: P Boon
 ;============================================================
 ;file \plugins\Variables\res\Variables.rc
+[Close]
+Sulge
+[OK]
+OK
+[Notes]
+Märkused
 ;file \plugins\Variables\src\help.cpp
+[Cancel]
+Tühista
+[Help]
+Spikker
 ;file \plugins\Variables\src\options.cpp
 ;file \plugins\Variables\src\parse_alias.cpp
 ;file \plugins\Variables\src\parse_external.cpp

@@ -8,14 +8,66 @@
 ;file \plugins\MetaContacts\res\MetaContacts.rc
 [&OK]
 &OK
+[&Cancel]
+&Annulla
+[Name:]
+Nome:
+[Name:]
+Nome:
+[Name:]
+Nome:
+[Information]
+Informazione
+[Information]
+Informazione
+[Contacts]
+Contatti
+[Options]
+Opzioni
+[Options]
+Opzioni
 [Function]
 Funzione
+[Contact List]
+Lista dei contatti
+[Default]
+Predefinito
+[Default]
+Predefinito
 ;file \plugins\MetaContacts\src\addto.cpp
 ;file \plugins\MetaContacts\src\edit.cpp
+[(Unknown Contact)]
+(Contatto sconosciuto)
+[Yes]
+Sì
+[No]
+No
+[Contact]
+Contatto
+[Contact]
+Contatti
+[Protocol]
+Protocollo
+[Protocol]
+Protocollo
+[Protocol]
+Protocollo
 ;file \plugins\MetaContacts\src\icons.cpp
 ;file \plugins\MetaContacts\src\metacontacts.h
 ;file \plugins\MetaContacts\src\meta_main.cpp
 ;file \plugins\MetaContacts\src\meta_menu.cpp
+[Error]
+Errore
+[Error]
+Errore
 ;file \plugins\MetaContacts\src\meta_options.cpp
 ;file \plugins\MetaContacts\src\meta_services.cpp
+[Message from %s]
+Messaggio da %s
+[Message from %s]
+Messaggio da %s
+[General]
+Generale
+[History]
+Storico
 ;file \plugins\MetaContacts\src\meta_utils.cpp

@@ -8,6 +8,18 @@
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Configurar mi Nickname
+[Nickname:]
+Nick:
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[General]
+General
+[General]
+General
 [Align text to right]
 Alinear texto a la derecha
 [Auto-resize frame]
@@ -28,16 +40,20 @@ Izquierda:
 derecha:
 [Custom size:]
 Tamaño personalizado:
+[pixels]
+Pixel
+[pixels]
+Pixel
 [Allow it to grow]
 Deje que crezca
 [Use free space (under avatar) to other texts]
 Utilice el espacio libre (en avatar) a otros textos
+[seconds]
+segundo
 [Set My Status Message for All Status]
 Establecer el estado de mi mensaje para todos los Estado
 [Status Message:]
 Mensaje de estado:
-[Status popup]
-Situación emergente
 [&Away]
 &Alejado
 [&NA]
@@ -54,8 +70,6 @@ Ocupada
 En el teléfono
 [Out to &Lunch]
 He salido a comer
-[Context popup]
-Contexto emergente
 [Set My Avatar...]
 Establecer Mi Avatar ...
 [Set My Nickname...]
@@ -64,18 +78,18 @@ Configurar mi Nickname ...
 Establecer mi mensaje de estado ...
 [Enable Listening To]
 Habilitar escuchando
-[Nick popup]
-Nick emergente
-[Status message popup]
-Situación emergente mensaje
-[Avatar popup]
-Avatar emergente
 ;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 <sin nombre del estado>
 ;file \plugins\MyDetails\src\frame.cpp
+[Status]
+estado
 [My Details]
 Mis datos
+[Background]
+Fondo
+[Background]
+Background
 [Show My Details]
 Mostrar detalles
 [Enable Listening To for %s]
@@ -99,4 +113,6 @@ Establecer mi apodo para %s
 Establecer el estado de mi Mensaje para la %s
 [Show next protocol]
 Mostrar el próximo protocolo de
+[Contact List]
+Lista de contactos
 ;file \plugins\MyDetails\src\options.cpp

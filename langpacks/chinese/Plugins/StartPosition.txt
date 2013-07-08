@@ -21,3 +21,5 @@
 [Opened]
 已打开
 ;file \plugins\StartPosition\src\main.cpp
+[Contact List]
+联系人列表

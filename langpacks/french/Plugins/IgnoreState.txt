@@ -7,4 +7,16 @@
 ;============================================================
 ;file \plugins\IgnoreState\res\ignore.rc
 ;file \plugins\IgnoreState\src\main.cpp
+[URL]
+Lien
+[Files]
+Fichiers
+[User Online]
+Utilisateur en ligne
+[You Were Added]
+Vous avez été ajouté
+[Typing Notify]
+Notification de frappe
 ;file \plugins\IgnoreState\src\options.cpp
+[Icons]
+Icônes

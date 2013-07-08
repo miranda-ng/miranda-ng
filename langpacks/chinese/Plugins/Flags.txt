@@ -16,3 +16,5 @@
 如国籍无法确定则使用未知国旗(&U)
 ;file \plugins\CountryFlags\src\extraimg.cpp
 ;file \plugins\CountryFlags\src\options.cpp
+[Icons]
+图标

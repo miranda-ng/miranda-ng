@@ -10,8 +10,46 @@
 Opzioni generali
 [General Options]
 Opzioni generali
+[Message]
+Messaggio
+[Message]
+Messaggio
+[Message]
+Messaggio
+[URL]
+URL
+[File]
+File
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
+[Background]
+Altro
+[Background]
+Sfondo
+[Background]
+Sfondo
+[Background]
+Altro
+[Background]
+Sfondo
 ;file \plugins\NewEventNotify\src\main.cpp
+[Message Session]
+Sessione messaggi
 ;file \plugins\NewEventNotify\src\menuitem.cpp
+[Popups]
+Popup
+[Popups]
+Popups
 ;file \plugins\NewEventNotify\src\neweventnotify.h
+[Contacts]
+Contatti
 ;file \plugins\NewEventNotify\src\options.cpp
 ;file \plugins\NewEventNotify\src\popup.cpp

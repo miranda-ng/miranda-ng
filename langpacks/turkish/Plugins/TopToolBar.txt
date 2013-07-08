@@ -8,5 +8,13 @@
 ;file \plugins\TopToolBar\res\main.rc
 [Button width]
 Düğme genişliği
+[Set]
+Ayarla
 ;file \plugins\TopToolBar\src\toolbar.cpp
+[Default]
+Varsayılan
 ;file \plugins\TopToolBar\src\ttbopt.cpp
+[Contact List]
+Kişi Listesi
+[Contact List]
+Kişi Listesi

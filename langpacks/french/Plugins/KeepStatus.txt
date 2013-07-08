@@ -6,6 +6,42 @@
 ;  Authors: P Boon
 ;============================================================
 ;file \Plugins\StatusPlugins\resource.rc
+[General]
+Général
+[Close]
+Fermer
+[Cancel]
+Annuler
+[Profile]
+Profil
+[Set]
+OK
+[Other]
+Autre
+[Background colour]
+Couleur de fond
+[Background colour]
+Couleur de Fond : 
+[Text colour]
+Couleur du texte
+[Use Windows colours]
+Utiliser les couleurs Windows
+[Use default colours]
+Couleurs par défaut
+[Events]
+Évènements
+[Custom]
+Défini
+[Use %time% for the current time, %date% for the current date]
+Utiliser %time% et %date% pour l'heure et la date actuelles.
+[Accounts]
+Comptes
+[Status]
+État
+[Delete]
+Effacer
+[seconds]
+secondes
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 [%s Connected from another location]
 %s est connecté depuis un autre site
@@ -30,5 +66,33 @@ L'état est réglé
 [Giving up]
 Abandon
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
+[Protocol]
+Protocole
+[Advanced]
+Avancé
 ;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+Je suis absent depuis %time%.
+[Give it up, I'm not in!]
+Laisse tomber, je suis sorti !
+[Not right now.]
+Pas maintenant, merci.
+[Give a guy some peace, would ya?]
+Tu veux bien me laisser en paix ?
+[I'm a chatbot!]
+Je suis un robot de chat !
+[Yep, I'm here.]
+Oui, je suis là.
+[Nope, not here.]
+Non, absent.
+[I'm hiding from the mafia.]
+Je me cache de la mafia.
+[That'll be the phone.]
+Ce sera le téléphone.
+[Mmm...food.]
+Mmm... Manger.
+[idleeeeeeee]
+Occupééééé
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Closing in %d]
+Fermeture dans %d

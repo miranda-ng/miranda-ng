@@ -6,6 +6,12 @@
 ;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
 ;============================================================
 ;file \plugins\SpellChecker\res\resource.rc
+[OK]
+확인
+[Cancel]
+취소
+[Advanced]
+고급
 ;file \plugins\SpellChecker\src\ardialog.cpp
 ;file \plugins\SpellChecker\src\dictionary.cpp
 ;file \plugins\SpellChecker\src\options.cpp

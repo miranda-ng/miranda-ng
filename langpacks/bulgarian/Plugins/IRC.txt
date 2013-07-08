@@ -6,6 +6,10 @@
 ;  Authors: Miranda team
 ;============================================================
 ;file \protocols\IRCG\res\IRC.rc
+[&Add]
+Добавяне
+[&Edit]
+Редактиране
 [&Del]
 Изтриване
 [only while connecting]
@@ -34,6 +38,8 @@
 Интернет адрес
 [Port range]
 Портов обхват
+[Nick]
+Прякор
 [Full name (e-mail)]
 Име (имейл)
 [Server name]
@@ -44,6 +50,8 @@
 Стандартна мрежа
 [User info - Required]
 Необходима информация
+[Other]
+Друго
 [Reconnect]
 Повторно свързване
 [Wait (s)]
@@ -56,16 +64,24 @@
 Без проверка ако потр. са > от:
 [User information]
 Подробности за потребителя
+[Version]
+Версия
 [&Refresh]
 Обновяване
 [&Query]
 Съобщение
+[&Close]
+Затваряне
+[Name]
+Име
 [Channels]
 Канали
 [The server returned the following information. Please note that this information might be misleading and/or falsified]
 Следната информация е предоставена от сървъра. ! Внимание - може да е подвеждаща и/или фалшифицирана.
 [CTCP information]
 CTCP информация
+[&Cancel]
+Отказ
 [Perform]
 Изпълнение на
 [&Set]
@@ -82,12 +98,20 @@ CTCP информация
 Автоматично засичане на UTF8
 [Add server]
 Добавяне на сървър
+[On]
+Включено
+[Off]
+Изкл.
 [Host address]
 Адрес на хоста
 [Server description]
 Описание на сървъра
+[Network]
+Мрежа
 [Channels on server]
 Канали на сървъра
+[&Join]
+Влизане
 [Filter by]
 Филтриране по
 [C&onnect]
@@ -148,6 +172,8 @@ CTCP информация
 Изпращане на известие
 [CTCP Chat Request]
 CTCP чат заявка
+[&Deny]
+Отхвърляне
 [Enable (*)]
 Включване*
 [Ignore channel messages by default]
@@ -162,10 +188,16 @@ CTCP чат заявка
 Игнориране на потребители
 [(*) Queries from users on your contactlist are never ignored]
 (*) Запитванията от контакти в списъка ви няма да бъдат игнорирани
+[Messages]
+Съобщения
+[Notices]
+Известия
 [Network (*)]
 Мрежа*
 [Ignore events]
 Игнорирани събития
+[Password:]
+Парола:
 [Alternate nick]
 Заместващ прякор
 ;file \protocols\IRCG\src\clist.cpp
@@ -198,6 +230,10 @@ CTCP %s отговор от %s: %s
 Промяна на прякора
 [IRC error]
 IRC грешка
+[Unknown]
+Неизвестно
+[Ignore]
+Игнориране
 [Please enter the reason]
 Моля, въведете причина
 [Ban'n Kick]
@@ -231,6 +267,8 @@ IRC предупреждение
 Моля, въведете отговор
 ;file \protocols\IRCG\src\irclib.cpp
 ;file \protocols\IRCG\src\ircproto.cpp
+[Information]
+Информация
 [DCC file transfer request sent to %s [%s]]
 Изпратена е DCC заявка за прехвърляне на файл до %s [%s]
 [The protocol is not online]
@@ -240,6 +278,16 @@ IRC предупреждение
 [Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 Връзката не може да бъде осъществена. Не са попълнени всички необходими полета (Прякор, User ID и m_name).
 ;file \protocols\IRCG\src\options.cpp
+[Add]
+Добавяне
+[Apply]
+Прилагане
+[Rename]
+Преименуване
+[Edit]
+Редактиране
+[Cancel]
+Отказ
 [Channel list]
 Списък с канали
 [Quick connect]
@@ -292,6 +340,8 @@ IRC предупреждение
 Добавяне на игнориране
 [Edit ignore]
 Редактиране на игнориране
+[Advanced]
+Разширени
 ;file \protocols\IRCG\src\output.cpp
 [%s invites you to %s]
 %s ви кани в %s
@@ -467,6 +517,8 @@ Voice (имащ право да говори)
 [Reconnecting to]
 Повторно свързване към
 ;file \protocols\IRCG\src\tools.cpp
+[Offline]
+Извън линия
 ;file \protocols\IRCG\src\userinfo.cpp
 ;file \protocols\IRCG\src\windows.cpp
 [Channel]

@@ -6,8 +6,16 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
+[E-mail:]
+邮件: 
+[Password:]
+密码: 
 [Configuration]
 设置
+[Port:]
+端口:
+[Default]
+默认
 [Disable spam check]
 禁用垃圾信息检查
 [Notify about new mail if increment]
@@ -16,8 +24,34 @@
 新邮件托盘图标
 [Click to Inbox]
 点击打开收信箱
+[Background colour]
+背景颜色
+[Background colour]
+背景颜色
+[Font]
+字体
+[Summary]
+总结
+[Nickname:]
+昵称: 
+[First name:]
+名字: 
+[Last name:]
+姓氏: 
+[Gender:]
+性别: 
+[Age:]
+年龄: 
 [from:]
 从:
+[Location]
+位置
+[Country:]
+国家: 
+[State:]
+州: 
+[City:]
+城市: 
 [Enable avatars support (loading)]
 启用头像支持(加载中)
 [Updates check interval, min]
@@ -58,6 +92,10 @@
 找回丢失的密码
 [Popup settings]
 弹出设置
+[Text Color]
+文本颜色
+[Closing in %d]
+%d 秒关闭
 [Enable Anti Spam]
 启用垃圾信息检查
 [Check temp contacts]
@@ -74,19 +112,47 @@
 向服务器发送垃圾邮件报告
 [Bad words list]
 不良词汇列表
+[Add]
+添加
+[Remove]
+移除
+[OK]
+确定
+[Cancel]
+取消
 [Select e-mail]
 选择邮箱
 ;file \protocols\MRA\src\MraAntiSpam.cpp
 ;file \protocols\MRA\src\MraAvatars.cpp
 ;file \protocols\MRA\src\MraChat.cpp
 ;file \protocols\MRA\src\MraConstans.h
+[Request authorization]
+要求授权
+[Grant authorization]
+准许授权
 ;file \protocols\MRA\src\MraFilesQueue.cpp
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 ;file \protocols\MRA\src\MraIcons.cpp
+[Main Menu]
+主菜单
 ;file \protocols\MRA\src\MraPopUp.cpp
+[None]
+无
+[Information]
+信息
+[Error]
+错误
+[Popups]
+弹出窗口
 ;file \protocols\MRA\src\MraProto.cpp
+[E-mail address]
+邮箱地址
 ;file \protocols\MRA\src\Mra_functions.cpp
 ;file \protocols\MRA\src\Mra_options.cpp
+[Network]
+网络
+[Files]
+文件
 ;file \protocols\MRA\src\Mra_proto.cpp
 ;file \protocols\MRA\src\Mra_svcs.cpp
 [Duck]
@@ -95,3 +161,5 @@
 办公室
 [Beer]
 啤酒
+[On the phone]
+接听电话

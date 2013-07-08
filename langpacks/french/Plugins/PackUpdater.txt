@@ -6,6 +6,10 @@
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
 ;file \plugins\PackUpdater\Res\Resource.rc
+[Cancel]
+Annuler
+[Text]
+Texte
 ;file \plugins\PackUpdater\Src\Events.cpp
 ;file \plugins\PackUpdater\Src\Notifications.cpp
 [Current Version]
@@ -14,5 +18,7 @@ Votre version
 Nouvelle version
 ;file \plugins\PackUpdater\Src\Notifications.h
 ;file \plugins\PackUpdater\Src\Options.cpp
+[hours]
+heures
 ;file \plugins\PackUpdater\Src\PackUpdater.cpp
 ;file \plugins\PackUpdater\Src\Utils.cpp

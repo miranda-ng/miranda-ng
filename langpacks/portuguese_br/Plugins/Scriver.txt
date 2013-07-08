@@ -10,14 +10,46 @@
 Automaticamente abrir a janela popup quando
 [and stay minimized]
 e fique minimizado
+[Cascade new windows]
+Novas janelas em cascata
 [Save size and location for each contact]
 Guardar tamanho e localização para cada contato
+[Send message on 'Enter']
+Enviar mensagem no Enter
+[Send message on 'Enter']
+Enviar mensagem clicando em 'Enter'
+[Send message on double 'Enter']
+Enviar mensagem no duplo Enter
+[Send message on double 'Enter']
+Enviar mensagem no duplo 'Enter'
+[Show warning when message has not been received after]
+Mostrar aviso quando a mensagem não for recebida após:
+[seconds]
+segundos
+[Tabs]
+Abas
 [Tabs at bottom]
 Abas na parte inferior
 [Limit names on tabs to]
 Limite de nomes nas guias para
+[Show status bar]
+Mostrar barra de status
+[Use the contact's status icon as the window icon]
+Utilize os ícones de status na janela de mensagens
+[Message Window Event Log]
+Registro de Eventos da Janela de Mensagens
 [Enable IEView]
 Habilitar IEView
+[Show icons]
+Mostrar ícones
+[Show icons]
+Mostrar ícones
+[Show seconds]
+Mostrar segundos
+[Show seconds]
+Exibir segundos
+[Show names]
+Exibir nomes
 [Mark follow-up msgs with timestamp]
 Marcar seguimento msgs com hora e data
 [Start message text on a new line]
@@ -26,12 +58,54 @@ Iniciar o texto da mensagem em uma nova linha
 Recuo de texto
 [Typing Notification Options]
 Escrevendo Opções de Notificação
+[Send typing notifications to the following users when you are typing a message to them:]
+Enviar notificação de escrita para os seguintes usuários quando lhes escrever uma mensagem:
 [Show typing notification switch in the status bar]
 Mostrar Alternar notificação de digitação na barra de status
+[Show typing notifications when a user is typing a message]
+Mostrar notificação quando um usuário estiver escrevendo uma mensagem
 [Update message window icons when a user is typing]
 Atualizar mensagem da janela de ícones quando um usuário está digitando
+[Show typing notification when no message dialog is open]
+Mostrar notificação quando nenhum diálogo de msg estiver aberto
+[Show typing notification when no message dialog is open]
+Mostrar digitando notificação quando nenhuma mensagem de diálogo está aberta
+[Flash in the system tray and in the contact list]
+Piscar ícone na barra de tarefas e na lista de contatos
+[Show balloon popup]
+Mostra popup
+[Send Error]
+Enviar Erro
+[An error has occured. The protocol reported the following error:]
+Ocorreu um erro. O protocolo reportou o seguinte erro:
+[while sending the following message:]
+enquanto enviando a seguinte mensagem:
+[Try again]
+Tentar novamente
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Message Session]
+Sessão de Mensagem
+[&U]
+&U
+[&D]
+&D
 [&E]
 &E
+[&H]
+&H
 [&Q]
 &Q
 [Send To All Tabs]
@@ -40,11 +114,185 @@ Enviar A Todas as Abas
 Você está prestes a enviar uma mensagem para todos as abas abertas.\nTem certeza?
 [Remember my choice for this container]
 Lembrar minha escolha para o recipiente
+[Yes]
+Sim
+[Yes]
+Sim
+[No]
+Não
+[No]
+Não
+[No]
+Não
+[Show these events only:]
+Mostrar somente estes eventos:
+[Actions]
+Ações
+[Messages]
+Mensagens
+[Messages]
+Mensagens
+[Nick changes]
+Alterar Apelido
+[Nick changes]
+Nick alterado
+[Users joining]
+Usuário entrou
+[Users leaving]
+Usuário saiu
+[Topic changes]
+O tópico mudou
+[Status changes]
+Alterações de Status
+[Status changes]
+Status alterado
+[Information]
+Informação
+[Disconnects]
+Desconectados
+[User kicks]
+Ignorar usuário
+[Notices]
+Notificações
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
+[Other]
+Outros
+[Add new rooms to group:]
+Adicionar novas salas ao grupo:
+[Add new rooms to group:]
+Adicionar novas salas para o grupo
+[pixels]
+pixels
+[pixels]
+pixels
+[Log Options]
+Opções de Registro
+[Your name]
+Seu nome
+[Your name]
+Seu nome
+[Other name]
+Outro nome
+[Other name]
+Outro nome
+[Timestamp]
+Número
+[Log timestamp]
+Registro de tempo
+[Limit log text to (events):]
+Limitar registro para (eventos):
+[Enable highlighting]
+Ativar destaque
+[Enable highlighting]
+Habilitar destaque
+[Words to highlight (wildcards allowed)]
+Palavras para destacar (permitidos 'wilcards')
+[Words to highlight (wildcards allowed)]
+Palavras para destacar (wildcards permitidos)
+[Location]
+Localidade
+[Use same style as in the message log]
+Usar estilo igual ao do registro de mensagens
+[Use default colours]
+Usar cores padrão
+[Use custom colours]
+Usar cores personalizadas
+[Text]
+Texto
+[Background]
+Fundo
+[Background]
+Fundo
+[Timeout (s)]
+Tempo final (s)
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Log]
+Registro
+[&Copy]
+&Copiar
+[&Copy]
+&Copiar
+[Co&py All]
+Co&piar Tudo
+[Select &All]
+Selecionar &Tudo
+[Select &All]
+Selecionar &tudo
+[Word lookup]
+Visual da Palavra
+[Google]
+Google
+[C&lear Log]
+L&impar Registro
+[&Copy link]
+&Copiar link
+[Message]
+Mensagem
+[Undo]
+Desfazer
+[Undo]
+Desfazer
+[Redo]
+Refazer
+[Cut]
+Recortar
+[Cut]
+Recortar
+[Cut]
+Recortar
+[Copy]
+Copiar
+[Copy]
+Copiar
+[Copy]
+Copiar
+[Paste]
+Colar
+[Delete]
+Excluir
+[Delete]
+Apagar
+[Delete]
+Apagar
+[Delete]
+Apagar
+[Delete]
+Excluir
+[Delete]
+Excluir
+[Clear]
+Limpar
+[List]
+Lista
+[&Message]
+&Mensagem
+[Clear lo&g]
+Limpar R&egistro
+[Co&py all]
+Co&piar tudo
 ;file \plugins\Scriver\src\globals.cpp
 [User's details]
 Detalhes do Usuário
 [User's history]
 Histórico do usuário
+[Smiley button]
+Botão Smiley
 [User is typing]
 Usuário está digitando
 [Typing notification off]
@@ -59,37 +307,503 @@ Enviando
 Botão de Citação
 [Close button]
 Botão Fechar
+[Icon overlay]
+Sobreposição do ícone
+[Incoming message (10x10)]
+Mensagens de entrada (10x10)
+[Outgoing message (10x10)]
+Mensagem de saída (10x10)
+[Notice (10x10)]
+Notificação (10X10)
+[Window Icon]
+Janela do Ícone
+[Text colour]
+Texto colorido
+[Background colour]
+Cor do fundo
+[Bold]
+Negrito
+[Italics]
+Itálicos
+[Underlined]
+Sublinhado
+[Room history]
+Histórico da Sala
+[Room settings]
+Histórico de configurações
+[Event filter disabled]
+Filtro de eventos desabilitado
+[Event filter enabled]
+Filtro de eventos ativado
+[Hide userlist]
+Ocultar lista
+[Show userlist]
+Mostrar lista de usuários
+[Message in (10x10)]
+Mensagem em (10X10)
+[Message out (10x10)]
+Mensagem ao sair (10x10)
+[Action (10x10)]
+Ação (10X10)
+[Add Status (10x10)]
+Adicionar Status (10X10)
+[Remove status (10x10)]
+Remover status (10x10)
+[Join (10x10)]
+Juntar (10X10)
+[Leave (10x10)]
+Deixar (10X10)
+[Quit (10x10)]
+Sair (10x10)
+[Kick (10x10)]
+'Chutar'(10X10)
+[Nickchange (10x10)]
+Mudar apelido (10x10)
+[Topic (10x10)]
+Tópico (10X10)
+[Highlight (10x10)]
+Destacar (10X10)
+[Information (10x10)]
+informação (10x10)
+[Group Chats]
+Grupo Bate-papo
+[Group Chats]
+Grupos de Conversa
+[Group Chats]
+Grupos de Chats
 ;file \plugins\Scriver\src\input.cpp
+[Messaging]
+Mensagem
 ;file \plugins\Scriver\src\msgdialog.cpp
+[Add Contact]
+Adicionar Contato
+[User Menu]
+Menu do Usuário
+[User Menu]
+Menu do Usuário
+[User Details]
+Detalhes do Usuário
+[User Details]
+Detalhes do usuário
+[User Details]
+Detalhes do Usuário
+[History]
+Histórico
+[History]
+Histórico
+[History]
+Histórico
+[No word to look up]
+Sem palavras para procurar
+[Add Contact Permanently to List]
+Adicionar contato permanentemente a Lista
+[View User's Details]
+Ver detalhes do usuário
+[View User's History]
+Exibir Histórico do Usuário
+[View User's History]
+Exibir Histórico do Usuário
 [Quote Text]
 Citar Texto
 [User Menu - %s]
 Menu do Usuário - %s
+[signed off (was %s)]
+saiu (era %s)
+[signed on (%s)]
+entrou em (%s)
+[is now %s (was %s)]
+Agora é %s (era %s)
 [Sending in progress: %d message(s) left...]
 Enviando em andamento: a mensagen(s) %d à esquerda ...
+[%s is typing a message...]
+%s está escrevendo uma mensagem...
+[Last message received on %s at %s.]
+Última mensagem recebida em %s às %s.
 ;file \plugins\Scriver\src\msglog.cpp
+[File sent]
+Arquivo enviado
+[File received]
+Arquivo recebido
 ;file \plugins\Scriver\src\msgoptions.cpp
+[General]
+Geral
+[General]
+Geral
+[General]
+Geral
+[Outgoing messages]
+Enviando mensagens
+[Incoming messages]
+Mensagens recebidas
+[Outgoing name]
+Enviando nome
+[Outgoing time]
+Enviando tempo
+[Outgoing colon]
+Enviando pontos
+[Incoming name]
+Nome de entrada
+[Incoming time]
+Tempo de entrada
+[Incoming colon]
+Pontos de entrada
+[Message area]
+Área de mensagem
+[Outgoing URL]
+Enviando URL
+[Incoming URL]
+Recebendo URL
+[Others nicknames]
+Outros apelidos
+[Your nickname]
+Seu apelido
+[User has joined]
+O usuário entrou
+[User has left]
+O usuário saíu
+[User has disconnected]
+Usuário desconectado
+[User kicked ...]
+Usuário ignorado ...
+[User is now known as ...]
+O Usuário agora é conhecido como ...
+[Notice from user]
+Notificação do usuário
+[Incoming message]
+Mensagem recebida
+[Incoming message]
+Mensagem chegando
+[Outgoing message]
+Enviando mensagem
+[Outgoing message]
+Mensagem saindo
+[The topic is ...]
+O tópico está ...
+[Information messages]
+Mensagens de informação
+[User enables status for ...]
+O usuário ativa o status para ...
+[User disables status for ...]
+o usuário desativa o status para ...
+[Action message]
+Mensagem de ação
+[Highlighted message]
+Mensagem destacada
+[Message typing area]
+Área de redação da mensagem
 [Message background]
 Mensagem de fundo
 [User list members (online)]
 Membros da lista de usuários (online)
 [User list background]
 Fundo da lista de usuários
+[User list members (away)]
+Membros da lista (Desligados)
+[User list members (away)]
+Membros da lista (Desligados)
 [User list lines]
 Linhas da lista de usuário
 [User list background (selected)]
 Fundo da lista de usuário (selecionada)
+[Online]
+Online
+[Away]
+Ausente
+[Away]
+Ausente
+[Occupied]
+Ocupado
+[Occupied]
+Ocupado
+[DND]
+DND
+[DND]
+DND
+[Free for chat]
+Livre para conversar
+[Free for chat]
+Livre para conversar
+[Invisible]
+Invisível
+[Invisible]
+Invisível
+[Out to lunch]
+Saiu para almoço
+[On the phone]
+Ao telefone
+[** New contacts **]
+** Novos contatos **
+[** New contacts **]
+** Novos contatos **
+[** New contacts **]
+** Novos contatos **
+[** Unknown contacts **]
+** Contatos desconhecidos **
+[** Unknown contacts **]
+** Contatos desconhecidos ** 
+[** Unknown contacts **]
+** Contatos desconhecidos **
+[Show balloon popup (unsupported system)]
+Mostrar popup (sistema não suportado)
+[Message Sessions]
+Sessões de mensagem
+[Typing Notify]
+Escrevendo Notificação
 ;file \plugins\Scriver\src\msgs.cpp
+[Message from %s]
+Mensagem de %s
+[%s is typing a message]
+%s está escrevendo uma mensagem
+[%s is typing a message]
+%s está escrevendo uma mensagem
+[Typing Notification]
+Escrevendo Notificação
+[Typing Notification]
+Digitação de notificação
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda não pôde carregar o plugin Chat porque o Microsoft Rich Edit v 3 não foi encontrado.\nSe estiver a usar o Windows 95/98/NT ou WINE por favor, atualize o seu 'Rich Edit control'.\n\nPretende descarregar a atualização agora?
+[Incoming (Focused Window)]
+Recebendo (janela visível)
+[Incoming (Unfocused Window)]
+Recebendo (janela não visível)
+[Incoming (New Session)]
+Recebendo (Nova Sessão)
+[Outgoing]
+Enviando
 ;file \plugins\Scriver\src\msgtimedout.cpp
+[An unknown error has occured.]
+Ocorreu um erro desconhecido.
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]
 Sempre No Topo
 ;file \plugins\Scriver\src\sendqueue.cpp
+[The message send timed out.]
+Esgotado o tempo para enviar a mensagem.
 ;file \plugins\Scriver\src\chat\clist.cpp
+[Join chat]
+Entrar no bate-papo
+[Join chat]
+Entrar no chat
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\log.cpp
+[%s has joined]
+%s acabou de entrar
+[You have joined %s]
+Entrou em %s
+[You have joined %s]
+Entrou em
+[%s has left]
+%s saiu
+[%s has disconnected]
+% desconectado
+[%s is now known as %s]
+%s é agora conhecido como %s
+[You are now known as %s]
+Vocês está conhecido agora com %s
+[%s kicked %s]
+%s agora é conhecido como %s
+[Notice from %s]
+Notificação de %s
+[ (set by %s on %s)]
+(definido por %s sobre %s)
+[ (set by %s)]
+(definido por %s)
 ;file \plugins\Scriver\src\chat\main.cpp
+[&Join]
+&Agrupar
+[&Leave]
+&Deixar
 ;file \plugins\Scriver\src\chat\options.cpp
+[Prefix all events with a timestamp]
+Usar 'timestamp' antecedendo todos os eventos
+[Prefix all events with a timestamp]
+Prefixo de todos os eventos com um timestamp
+[Only prefix with timestamp if it has changed]
+Só anteceder com 'timestamp' só se este tiver mudado
+[Only prefix with timestamp if it has changed]
+Apenas prefixo com hora e data, se mudou
+[Indent the second line of a message]
+Recortar segunda linha de uma mensagem
+[Indent the second line of a message]
+Recuo a segunda linha de uma mensagem
+[Show topic changes]
+Mostrar alteração de tópico
+[Show topic changes]
+Mostrar alterações de tópico
+[Show users joining]
+Mostrar usuários entrando
+[Show users joining]
+Mostrar usuários entrando
+[Show users disconnecting]
+Mostrar usários desconectando
+[Show users disconnecting]
+Mostrar usuários que desconectar
+[Show messages]
+Exibir mensagens
+[Show messages]
+Mostrar as mensagens
+[Show actions]
+Mostrar Ações
+[Show actions]
+Mostrar ações
+[Show users leaving]
+Mostrar usuários saindo
+[Show users leaving]
+Mostrar usuários saindo
+[Show users being kicked]
+Mostrar usuários sendo bloqueados
+[Show users being kicked]
+Mostrar usuários sendo chutado
+[Show notices]
+Exibir Notificações
+[Show notices]
+Mostrar avisos
+[Show users changing name]
+Mostrar usuários alterando o nome
+[Show users changing name]
+Mostrar usuários que mudar o nome
+[Show information messages]
+Exibir mensagens de informação
+[Show information messages]
+Mostrar mensagens de informação
+[Show status changes of users]
+Mostrar alteração de status de usuários
+[Show status changes of users]
+Mostrar alterações do status de usuários
+[Show icons in tray only when the chat room is not active]
+Mostrar ícone na barra de tarefas se a janela de conversa estiver inativa
+[Show icons in tray only when the chat room is not active]
+Mostrar ícones na bandeja apenas quando a sala de chat não está ativa
+[Show icon in tray for topic changes]
+Mostrar ícone na barra de tarefas para mudança de tópico
+[Show icon in tray for topic changes]
+Mostrar ícone na bandeja para mudanças de tópico
+[Show icon in tray for users joining]
+Mostrar ícone na barra de tarefas para usuários a entrarem na sala
+[Show icon in tray for users joining]
+Mostrar ícone na bandeja para usuários juntando
+[Show icon in tray for users disconnecting]
+Mostrar ícone na barra de tarefas para usuários a desligarem-se
+[Show icon in tray for users disconnecting]
+Mostrar ícone na bandeja para os usuários desconectando
+[Show icon in tray for messages]
+Mostrar ícone na barra de tarefas para mensagens
+[Show icon in tray for messages]
+Mostrar ícone na bandeja para mensagens
+[Show icon in tray for actions]
+Mostrar ícone na barra de tarefas para ações
+[Show icon in tray for actions]
+Mostrar ícone na bandeja para as ações
+[Show icon in tray for highlights]
+Mostrar ícone na barra de tarefas para palavras destacadas
+[Show icon in tray for highlights]
+Mostrar ícone na bandeja para destaques
+[Show icon in tray for users leaving]
+Mostrar ícone na barra de tarefas para usuários a sairem
+[Show icon in tray for users leaving]
+Mostrar ícone na bandeja para os usuários saindo
+[Show icon in tray for users kicking other user]
+Mostrar ícone na barra de tarefas para usuários 'chutando' outros usuários
+[Show icon in tray for users kicking other user]
+Mostrar ícone na bandeja para usuários chutando outro usuário
+[Show icon in tray for notices ]
+Mostrar ícone na barra de tarefas para notificações
+[Show icon in tray for notices ]
+Mostrar ícone na bandeja de anúncios
+[Show icon in tray for name changes]
+Mostrar ícone na na barra de tarefas para mudanças de nome
+[Show icon in tray for name changes]
+Mostrar ícone na bandeja para mudanças de nome
+[Show icon in tray for information messages]
+Mostrar ícone na barra de tarefas para mensagens de informação
+[Show icon in tray for information messages]
+Mostrar ícone na bandeja para mensagens de informação
+[Show icon in tray for status changes]
+Mostrar ícone na barra de tarefas para mudanças de status
+[Show icon in tray for status changes]
+Mostrar ícone na bandeja para mudanças de status
+[Icons to display in the tray]
+Ícones a serem exibidos na barra de tarefas
+[Default events to show in new chat rooms if the 'event filter' is enabled]
+Eventos padrão para mostrar em novas salas de chat, se o 'filtro de evento' está habilitado
+[Select Folder]
+Selecionar Pasta
+[Group chats]
+Bate-papo em grupo
+[Group chats]
+Grupos de chat
+[Message is highlighted]
+A mensagem está destacada
+[User has performed an action]
+O usuário executou uma ação
+[User has kicked some other user]
+O usuário ignorou um outro usuário
+[User's status was changed]
+O status do usuário foi alterado
+[User has changed name]
+O usuário mudou o nome
+[User has sent a notice]
+Usuário enviou uma notícia
+[The topic has been changed]
+O tópico foi mudado
 ;file \plugins\Scriver\src\chat\services.cpp
 ;file \plugins\Scriver\src\chat\tools.cpp
+[%s wants your attention in %s]
+%s pede sua atenção em %s
+[%s speaks in %s]
+%s fala em %s
+[%s has joined %s]
+%s acabou de entrar %s
+[%s has left %s]
+%s deixou o canal %s
+[%s kicked %s from %s]
+%s é agora conhecido como %s para %s
+[Topic change in %s]
+O tópico mudou em %s
+[Information in %s]
+Informação in %s
+[%s says: %s]
+%s diz: %s
+[%s has left (%s)]
+%s saiu (%s)
+[%s has disconnected (%s)]
+% desconectado (%s)
+[%s kicked %s (%s)]
+%s agora é conhecido como %s (%s)
+[Notice from %s: %s]
+Notificação de %s: %s
 ;file \plugins\Scriver\src\chat\window.cpp
+[Insert a smiley]
+Inserir smiley
+[Make the text bold (CTRL+B)]
+Negritar texto (CTRL+B)
+[Make the text italicized (CTRL+I)]
+Colocar texto em itálico (CTRL+I)
+[Make the text underlined (CTRL+U)]
+Sublinhar texto (CTRL+U)
+[Select a background color for the text (CTRL+L)]
+Selecionar uma cor de fundo para o texto (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+Selecionar uma cor para o texto (CTRL+L)
+[Show the history (CTRL+H)]
+Mostrar histórico (CTRL+H)
+[Show/hide the nicklist (CTRL+N)]
+Mostrar/ocultar a lista de apelidos (CTRL+N)
+[Control this room (CTRL+O)]
+Controlar esta sala (CTRL+O)
+[Enable/disable the event filter (CTRL+F)]
+Ativar/desativar o filtro de eventos (CTRL+F)
+[Nick name]
+Apelido
+[Unique id]
+ID único
+[Status]
+Status
+[%s: Chat Room (%u user)]
+%s: Sala de Bate-papo (%u usuário)
+[%s: Chat Room (%u users)]
+%s: Sala de Bate-papo (%u usuários)
+[%s: Message Session]
+%s: Sessões de Mensagens
+[%s: Message Session (%u users)]
+%s: Sessões de Mensagens (%u usuários)

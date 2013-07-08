@@ -8,6 +8,8 @@
 ;file \plugins\YAPP\res\yapp.rc
 [Popup history]
 Рopup история
+[Close]
+Затваряне
 [Never timeout]
 Безкрайно
 [Set timeout:]
@@ -16,6 +18,8 @@
 Ширина:
 [Maximum height:]
 Макс. височина:
+[Options]
+Настройки
 [Transparent background]
 Прозрачен фон
 [Disable when]
@@ -41,12 +45,22 @@
 Час вдясно
 [Time above avatar]
 Час над аватара
+[Status]
+Състояние
 [Full-screen app running]
 Приложение на цял екран
+[Error]
+Грешка
+[Popups]
+РopUps
+[Popups]
+РopUps
 ;file \plugins\YAPP\src\services.cpp
 ;file \plugins\YAPP\src\yapp.cpp
 [First line]
 Първи ред
+[Background]
+Фон
 [Title underline]
 Подчертаване на заглавието
 ;file \plugins\YAPP\src\yapp_history_dlg.cpp

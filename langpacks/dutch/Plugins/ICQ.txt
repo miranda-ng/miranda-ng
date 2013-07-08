@@ -6,6 +6,62 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\IcqOscarJ\res\resources.rc
+[Password:]
+Wachtwoord:
+[&Send]
+Ver&sturen
+[&Cancel]
+Annuleren
+[OK]
+OK
+[Cancel]
+Annuleren
+[Port:]
+Poort:
+[Default]
+Standaard
+[Messaging]
+Berichtgeving
+[Options]
+Opties
+[Error]
+Fout
+[Use default colours]
+Standaard kleuren gebruiken
+[Summary]
+Samenvatting
+[Nickname:]
+Bijnaam:
+[First name:]
+Voornaam:
+[Last name:]
+Achternaam:
+[Gender:]
+Geslacht:
+[Age:]
+Leeftijd:
+[Marital status:]
+Trouw status:
+[Work]
+Werk
+[Company:]
+Bedrijf:
+[Department:]
+Afdeling
+[Position:]
+Positie:
+[Location]
+Locatie
+[Country:]
+Land:
+[State:]
+Provincie:
+[City:]
+Plaats:
+[Other]
+Ander
+[Closing in %d]
+Sluiten in %d
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
 ;file \protocols\IcqOscarJ\src\fam_01service.cpp
 ;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
@@ -16,24 +72,42 @@
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
 ;file \protocols\IcqOscarJ\src\icq_constants.h
 ;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Female]
+Vrouw
+[Male]
+Man
 ;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
 ;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
 ;file \protocols\IcqOscarJ\src\icq_menu.cpp
 ;file \protocols\IcqOscarJ\src\icq_opts.cpp
 [System default codepage]
 Standaard systeem codepage
+[Network]
+Netwerk
+[Contacts]
+Personen
+[Popups]
+Popups
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 ;file \protocols\IcqOscarJ\src\icq_proto.cpp
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
 ;file \protocols\IcqOscarJ\src\icq_servlist.cpp
 ;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
+[Close]
+Sluit
+[** All contacts **]
+** Alle personen **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
+[On the phone]
+Aan de telefoon
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 ;file \protocols\IcqOscarJ\src\init.cpp
 ;file \protocols\IcqOscarJ\src\log.cpp
 ;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
 ;file \protocols\IcqOscarJ\src\utilities.cpp
 ;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
+[Contact]
+Persoon
 ;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
 ;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
 ;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp

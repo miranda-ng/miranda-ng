@@ -1,22 +1,116 @@
 ﻿;file \src\resource.rc
+[OK]
+확인
+[Cancel]
+취소
 [Add %s]
 %s 추가
+[&Add]
+&A 추가
+[&Cancel]
+&C 취소
+[Send authorization request]
+권한 요청 보내기
+[Custom name:]
+임의 지정 이름:
+[Group:]
+그룹:
+[Options]
+옵션
+[Authorization Request]
+권한 요청
+[Delete Contact]
+대화 상대 삭제
+[&Yes]
+&Y 네
+[&No]
+&N 아니오
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+목록에서만 숨기기 위해서는 사용자의 히스토리와 차단여부/공개 설정을 유지하세요.
+[Are you sure you want to delete %s?]
+%s 를 삭제하시겠습니까?
+[This will erase all history and settings for this contact!]
+이 대화 상대의 모든 히스토리와 설정을 삭제할 것입니다!
 [Contact Display Options]
 대화 상대 표시 옵션
 [Miranda NG Profile Manager]
 미란다 IM 프로필 매니저
 [Find/Add Contacts]
 대화 상대 찾기/추가
+[Search:]
+검색:
+[E-mail address]
+이메일 주소
+[Name]
+이름
+[Nick:]
+대화명:
 [First:]
 이름:
 [Last:]
 성:
+[Advanced]
+고급
+[Advanced >>]
+고급 >>
+[&Search]
+&S 찾기
+[More options]
+추가 옵션
 [Add to list]
 목록에 추가
+[Apply]
+적용
 [Please select a subentry from the list]
 목록에서 하위 엔트리를 선택해 주세요
+[Install Database Settings]
+데이터베이스 설정 설치
+[Yes]
+네
+[No]
+아니오
+[A file containing new database settings has been placed in the Miranda NG directory.]
+새 데이터베이스 설정을 포함하고 있는 파일은 미란다 IM 디렉토리에 있습니다.
+[Do you want to import the settings now?]
+지금 설정을 가져오시겠습니까?
+[No to all]
+모두 아니오
+[&View contents]
+&V 내용 보기
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+보안 시스템은 안전하지 않다고 생각되어지는 변경을 경고 하기 이전에 악의가 있는 변경을 차단합니다.
+[Database Setting Change]
+데이터베이스 설정 변경
+[Database settings are being imported from]
+데이터베이스 설정을 가져오게 됩니다
+[This file wishes to change the setting]
+이 파일은 설정을 바꿀 것입니다.
+[to the value]
+값에
+[Do you want to allow this change?]
+이 변경을 허락하시겠습니까?
+[&Allow all further changes to this section]
+&A 이 섹션 이외의 모든 변경 허락
+[Cancel Import]
+가져오기 취소
+[Database Import Complete]
+데이터베이스 가져오기 완료
+[The import has completed from]
+가져오기가 완료되었습니다
+[What do you want to do with the file now?]
+이 파일로 무엇을 하시겠습니까?
+[&Recycle]
+&R 재생
+[&Delete]
+&D 삭제
+[&Move/Rename]
+&M 이동/이름 변경
+[&Leave]
+&L 남겨두기
 [Netlib Log Options]
 Netlib 로그 옵션
+[Show]
+보이기
 [Received bytes]
 받은 bytes
 [Sent bytes]
@@ -31,16 +125,24 @@ Netlib 로그 옵션
 모듈명 호출
 [OutputDebugString()]
 디버그 구문 내보내기()
+[File]
+파일
 [Run now]
 지금 실행
 [Show this dialog box when Miranda NG starts]
 미란다 IM 시작시 이 대화 상자 보이기
 [Save as default]
 기본값으로 저장
+[Sounds]
+사운드
 [&Change...]
 &C 변경...
+[&Preview]
+&P 미리듣기
 [Download more sounds]
 더 많은 사운드 다운로드
+[Icons]
+아이콘
 [Show category:]
 카테고리 보이기:
 [&Load icon set...]
@@ -49,8 +151,16 @@ Netlib 로그 옵션
 &I 아이콘 불러오기 >>
 [Download more icons]
 더 많은 아이콘 다운로드
+[The following events are being ignored:]
+아래 이벤트들은 무시한 것들입니다:
+[None]
+없음
 [Only the ticked contacts will be shown on the main contact list]
 체크된 대화 상대만이 메인 대화 상대 목록에 보이게 됩니다
+[Ignore]
+무시
+[Visibility]
+가시성
 [You are visible to this person even when in invisible mode]
 비공개 상태에 있을 때라도 이 사람에게는 보이도록 합니다.
 [You are never visible to this person]
@@ -71,24 +181,96 @@ Netlib 로그 옵션
 기본 상태 아이콘으로
 [Use proxy server]
 프록시 서버 사용
+[Type:]
+종류:
+[Port:]
+포트:
 [(often %d)]
 (%d 마다)
+[Username:]
+유저명:
+[Password:]
+비밀번호:
 [Resolve hostnames through proxy]
 프록시를 통해 호스트명 분석
 [Example: 1050-1070, 2000-2010, 2500]
 예: 1050-1070, 2000-2010, 2500
+[Description:]
+설명:
+[E-mail:]
+이메일:
+[Homepage:]
+홈페이지:
+[Copyright:]
+저작권:
+[&Help]
+&H 도움말
+[Hotkeys]
+단축키
+[Miranda NG]
+미란다 IM
+[&Hide/Show]
+&H 숨기기/보이기
+[E&xit]
+&x 끝내기
+[&New Group]
+&N 새 그룹
+[&Hide Offline Users]
+&H 오프라인 유저 숨기기
+[Hide &Offline Users out here]
+&O 밖의 오프라인 유저 숨기기
+[Hide &Empty Groups]
+&E 빈 그룹 표시 안함
+[Disable &Groups]
+&G 그룹 표시 안함
+[Hide Miranda]
+미란다 숨기기
+[&New Subgroup]
+&N 새 하위 그룹
+[&Hide Offline Users in here]
+&H 이곳의 오프라인 유저 숨기기
+[&Rename Group]
+&R 그룹명 바꾸기
+[&Delete Group]
+&D 그룹 삭제
 [&Reset to default]
 &R 기본으로 재설정
 [&Add to List]
 &A 목록에 추가
+[User &Details]
+&D 사용자 정보
 [Send &Message]
 &M 메세지 보내기
+[&Copy]
+&C 복사
+[Co&py All]
+&P 전체 복사
+[Select &All]
+&A 전체 선택
+[C&lear Log]
+&L 로그 청소
+[Open in &new window]
+&N 새 창으로 열기
+[&Open in existing window]
+&O 기존 창으로 열기
+[&Copy link]
+&C 링크 복사
 ;file \src\core\stdauth\resource.rc
 [&Authorize]
 &A 인증
+[&Deny]
+&D 거부
 [Reason:]
 이유:
+[You Were Added]
+당신은 추가되었습니다.
+[&Close]
+&C 닫기
 ;file \src\core\stdaway\resource.rc
+[%s Message for %s]
+%s 를 위한 메세지 %s
+[Status Messages]
+상태 메세지
 [Do not reply to requests for this message]
 이 메세지 요청에 답장 안함
 [Do not pop up dialog asking for new message]
@@ -97,8 +279,202 @@ Netlib 로그 옵션
 기본값으로, 지난 번과 같은 메세지를 사용
 [By default, use this message:]
 기본값으로, 이 메세지 사용
+[Use %time% for the current time, %date% for the current date]
+현재 날짜로 %date%, 현재 시간으로 %time% 사용
+[Change %s Message]
+%s 메세지 변경
+[Closing in %d]
+%d 에서 닫는중
 ;file \src\core\stdchat\res\chat.rc
+[&Send]
+&S 보내기
+[Information]
+정보
+[Background]
+배경
+[List]
+목록
+[&Message]
+&M 메세지
 ;file \src\core\stdclist\res\resource.rc
+[Hide offline users]
+오프라인 유저 숨기기
+[Hide empty groups]
+빈 그룹 숨기기
+[Disable groups]
+그룹 표시 안함
+[Ask before deleting contacts]
+대화 상대 삭제시 물어보기
+[Sort contacts by name]
+이름순으로 정렬
+[Sort contacts by status]
+상태순으로 정렬
+[Sort contacts by protocol]
+프로토콜순으로 정렬
+[Single click interface]
+원클릭 인터페이스
+[Always show status in tooltip]
+툴팁에 항상 상태 보이기
+[Disable icon blinking]
+아이콘 움직임 사용안함
+[icon when statuses differ]
+상태가 바뀔 때 아이콘
+[Cycle icons every]
+아이콘 계속 순환
+[seconds, when statuses differ]
+초, 상태가 바뀔 때만
+[Show multiple icons]
+다중 아이콘 보이기?
+[Only when statuses differ]
+상태가 바뀔 때만
+[Contact List]
+대화 상대 목록
+[System tray icon]
+시스템 트레이 아이콘
+[System tray icon when using multiple protocols]
+다중 프로토콜 사용시 시스템 트레이 아이콘
+[Contact List Sorting]
+대화 상대 목록 정렬
+[Window]
+윈도우
+[Always on top]
+항상 맨 위에
+[Tool style main window]
+메인 창 툴 스타일
+[Minimize to tray]
+트레이로 최소화
+[Show menu bar]
+메뉴바 보이기
+[Easy move]
+쉬운 이동
+[Show title bar]
+타이틀바 보이기
+[Title bar text:]
+타이틀바 텍스트:
+[Hide contact list after it has been idle for]
+다음 시간 동안 무작업시 대화 상대 목록 숨기기
+[seconds]
+초
+[Automatically resize window to height of list]
+자동으로 목록의 길이를 윈도우에 맞춤
+[maximum]
+최대
+[% of screen]
+스크린의 %
+[Size upwards]
+위로 늘리기
+[If window is partially covered, bring to front instead of hiding]
+창이 부분적으로 보이지 않으면, 숨기기 대신 앞으로 가져옵니다.
+[Fade contact list in/out]
+대화 상대 목록 페이드 인/아웃
+[Transparent contact list]
+대화 상대 목록 투명도
+[Inactive opacity:]
+비활성창 투명도:
+[Active opacity:]
+활성창 투명도:
+[Items]
+아이템
+[Show divider between online and offline contacts]
+온라인과 오프라인 대화 상대 사이에 분할선 보이기
+[Hot track items as mouse passes over]
+마우스가 지나가면 핫 트랙 아이템으로
+[Disable drag and drop of items]
+아이템 드래그 앤 드롭 사용안함
+[Disable rename of items by clicking twice]
+더블 클릭으로 아이템명 바꾸기 사용안함
+[Show selection even when list is not focused]
+목록에 포커싱이 되있지 않을 때도 선택물 보이기
+[Make selection highlight translucent]
+선택시 반투명 하이라이트 합니다.
+[Dim idle contacts]
+희미한 무작업 상태의 대화 상대
+['Hide Offline' means to hide:]
+'오프라인 숨기기'는 숨김을 의미:
+[Groups]
+그룹
+[Draw a line alongside group names]
+그룹명과 나란히 선을 끌어다 놓으세요.
+[Show counts of number of contacts in a group]
+그룹 안의 대화 상대 숫자 보여주기
+[Hide group counts when there are none online]
+아무도 온라인 하지 않았을 시 그룹 숨기기
+[Sort groups alphabetically]
+알파벳순으로 그룹 정렬
+[Quicksearch in open groups only]
+열린 그룹에서만 때른 검색
+[Indent groups by:]
+들여쓴 그룹:
+[pixels]
+픽셀
+[Visual]
+표시
+[Scroll list smoothly]
+목록을 부드럽게 스크롤
+[Time:]
+시간:
+[milliseconds]
+밀리초
+[Left margin:]
+왼쪽 여백:
+[Row height:]
+행 높이:
+[Gamma correction]
+감마 수정
+[Grey out entire list when:]
+전체 목록이 회색으로 됐을 때:
+[Contact List Background]
+대화 상대 목록 배경
+[Stretch to width]
+가로로 늘리기
+[Stretch to height]
+세로로 늘리기
+[Tile horizontally]
+가로 바둑판식 형태로
+[Tile vertically]
+새로 바둑판식 형태로
+[Scroll with text]
+텍스와 함께 스크롤
+[Stretch proportionally]
+알맞게 늘리기
+[Status Bar]
+상태바
+[Show status bar]
+상태바 보이기
+[Show icons]
+아이콘 보이기
+[Show protocol names]
+프로토콜명 보이기
+[Show status text]
+상태 텍스트 보이기
+[Right click opens status menu]
+오른쪽 클릭으로 상태 메뉴 열기
+[Right click opens Miranda NG menu]
+오른쪽 클릭으로 미란다 IM 메뉴 열기
+[Make sections equal width]
+선택물을 같은 넓이로 만들기
+[&Status]
+&S 상태
+[&Offline\tCtrl+0]
+&O 오프라인\tCtrl+0
+[On&line\tCtrl+1]
+&L 접속\tCtrl+1
+[&Away\tCtrl+2]
+&A 자리 비움\tCtrl+2
+[&NA\tCtrl+3]
+&N 응답 없음\tCtrl+3
+[Occ&upied\tCtrl+4]
+&u 다른 용무중\tCtrl+4
+[&DND\tCtrl+5]
+&D 수신 거부\tCtrl+5
+[&Free for chat\tCtrl+6]
+&F 대화 가능\tCtrl+6
+[&Invisible\tCtrl+7]
+&I 오프라인 표시\tCtrl+7
+[On the &Phone\tCtrl+8]
+&P 통화중\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+&L 식사중\tCtrl+9
 ;file \src\core\stdfile\resource.rc
 [Send File(s)]
 파일 보내기(s)
@@ -108,10 +484,14 @@ Netlib 로그 옵션
 &C 다시 선택...
 [Total size:]
 전체 크기:
+[Incoming File Transfer]
+받은 파일 전송
 [A&ccept]
 &C 승인
 [&Decline]
 &D 거절
+[Date:]
+날짜:
 [Files:]
 파일:
 [Save to:]
@@ -120,8 +500,12 @@ Netlib 로그 옵션
 폴더 열기
 [File Already Exists]
 이미 존재하는 파일
+[Resume]
+이어받기
 [Resume all]
 전부 이어받기
+[Overwrite]
+덮어쓰기
 [Overwrite all]
 전부 덮어쓰기
 [Save as...]
@@ -134,6 +518,8 @@ Netlib 로그 옵션
 파일을 막 받으려 합니다
 [Existing file]
 존재하는 파일
+[Size:]
+크기:
 [Last modified:]
 최근 수정:
 [Open file]
@@ -142,6 +528,10 @@ Netlib 로그 옵션
 파일 속성
 [File being received]
 받아진 파일
+[File Transfers]
+파일 전송
+[Close]
+닫기
 [Receiving files]
 받은 파일
 [Received files folder:]
@@ -178,6 +568,8 @@ Netlib 로그 옵션
 [About Miranda NG]
 미란다 IM에 대하여
 ;file \src\core\stdidle\resource.rc
+[Windows]
+창
 [Miranda]
 미란다
 [minute(s)]
@@ -185,44 +577,130 @@ Netlib 로그 옵션
 [Change my status mode to:]
 내 상태 변경:
 ;file \src\core\stdmsg\res\resource.rc
+[Close the message window on send]
+보낸 후에 메세지 창 닫기
+[Minimize the message window on send]
+보낸 후에 메세지 창 최소화
+[Use the contact's status icon as the window icon]
+대화 상대의 상태 아이콘을 창 아이콘으로 사용
 [Save the window size and location individually for each contact]
 각각의 대화 상대에 따라 창 크기와 위치를 개별적으로 저장
+[Cascade new windows]
+다단으로 새 창
 [Show 'Send' button]
 '보내기' 버튼 보이기
 [Show username on top row]
 맨 윗 줄에 유저명 보이기
 [Show toolbar buttons on top row]
 맨 윗 줄에 도구바 버튼 보이기
+[Send message on double 'Enter']
+엔터키 두번으로 메세지 보내기
+[Send message on 'Enter']
+엔터키로 메세지 보내기
 [Show character count]
 문자 수 보이기
+[Show warning when message has not been received after]
+메세지가 다음 시간 이후에 도착하지 않으면 경고 보이기
+[Message Window Event Log]
+메세지 창 이벤트 로그
+[Show names]
+이름 보이기
 [Show dates]
 날짜 보이기
+[Load unread events only]
+읽지 않은 이벤트만 불러오기
+[Load number of previous events]
+이전 이벤트 개수 로드
+[Load previous events less than]
+이전 이벤트 불러오기 
+[minutes old]
+분 이전 것만
+[Load History Events]
+히스토리 이벤트 불러오기
+[Show typing notifications when a user is typing a message]
+유저가 메세지 입력중일 때 입력 알림 보이기
 [Update inactive message window icons when a user is typing]
 유저가 입력중일 때 비활성화된 메세지 창 아이콘 업데이트
+[Show typing notification when no message dialog is open]
+어떤 메세지 대화 상자도 열려있지 않을 때 입력 알림 보이기
+[Flash in the system tray and in the contact list]
+대화 상대 목록과 시스템 트레이에서 깜빡이기
+[Show balloon popup]
+풍선 팝업 보이기
+[Delete]
+삭제
 ;file \src\core\stduihist\resource.rc
+[Find]
+찾기
 [&Find Next]
 &F 다음 찾기
 [Find What:]
 검색어:
+[Message History]
+메세지 히스토리
+[&Find...]
+&F 찾기...
 ;file \src\core\stduserinfo\resource.rc
+[Add Phone Number]
+전화번호 추가
+[Enter country, area code and phone number:]
+국가, 지역 코드, 전화번호 입력:
+[Or enter a full international number:]
+전체 국가 번호 입력:
+[Phone can receive SMS text messages]
+전화로 SMS 문자 메세지를 받을 수 있음
 [Add E-Mail Address]
 이메일 주소 추가
 [%s: User Details]
 %s: 유저 세부사항
 [Update Now]
 지금 업데이트
+[Nickname:]
+대화명:
+[First name:]
+이름:
+[Gender:]
+성:
+[Last name:]
+성:
+[Age:]
+나이:
+[Date of birth:]
+생일:
+[Phone:]
+전화번호:
 [Web page:]
 웹페이지:
 [Past background:]
 과거 배경:
 [Interests:]
 취미:
+[About:]
+정보:
 [My notes:]
 내 노트:
+[Street:]
+거리:
+[City:]
+도시:
+[State:]
+주:
+[Postal code:]
+우편번호:
+[Country:]
+국가:
 [Spoken languages:]
 사용 언어:
+[Timezone:]
+시간대:
 [Local time:]
 지역 시간:
+[Company:]
+회사:
+[Department:]
+부서:
+[Position:]
+위치:
 [Website:]
 웹사이트:
 ;file \src\core\stdauth\auth.cpp
@@ -231,34 +709,124 @@ Netlib 로그 옵션
 [%u added you to their contact list]
 %u가 당신을 대화 상대 목록에 추가했습니다
 ;file \src\core\stdauth\authdialogs.cpp
+[View User's Details]
+유저 세부사항 보기
+[Add Contact Permanently to List]
+대화 상대 목록에 추가
 [(Unknown)]
 (알 수 없음)
 ;file \src\core\stdaway\awaymsg.cpp
+[Re&ad %s Message]
+&a %s 메세지 읽기
 ;file \src\core\stdaway\sendmsg.cpp
+[I've been away since %time%.]
+저는 %time% 이후부터 없었습니다.
+[Give it up, I'm not in!]
+단념하세요, 저는 자리에 없습니다!
+[Not right now.]
+당장은 안돼요.
+[Give a guy some peace, would ya?]
+조금만 기다려 주세요, 그러실꺼죠?
+[I'm a chatbot!]
+저는 자동 응답기랍니다.
+[Yep, I'm here.]
+네, 저 여기 있어요.
+[Nope, not here.]
+아니오, 여기 없어요.
+[I'm hiding from the mafia.]
+숨어있습니다.
+[That'll be the phone.]
+전화중이예요.
+[Mmm...food.]
+냠냠.. 식사중이예요.
+[idleeeeeeee]
+무작업 상태
+[Status]
+상태
 ;file \src\core\stdchat\src\clist.cpp
 ;file \src\core\stdchat\src\colorchooser.cpp
 ;file \src\core\stdchat\src\log.cpp
 ;file \src\core\stdchat\src\options.cpp
+[Bold]
+굵게
+[Messaging]
+메세징
+[Select Folder]
+폴더 지정
 ;file \src\core\stdchat\src\services.cpp
 ;file \src\core\stdchat\src\tools.cpp
 ;file \src\core\stdchat\src\window.cpp
 ;file \src\core\stdclist\src\clcfonts.cpp
+[Standard contacts]
+기본 대화 상대
+[Online contacts to whom you have a different visibility]
+다른 가시성을 지니고 있는 온라인 대화 상대
+[Offline contacts]
+오프라인 대화 상대
+[Contacts which are 'not on list']
+'목록에 없는' 대화 상대
+[Group member counts]
+그룹 멤버 숫자
+[Dividers]
+분리자
+[Offline contacts to whom you have a different visibility]
+다른 가시성을 지니고 있는 오프라인 대화 상대
 ;file \src\core\stdclist\src\clcopts.cpp
+[Not focused]
+포커스 되지 않음
+[Offline]
+오프라인
+[Online]
+온라인
+[Away]
+자리 비움
+[NA]
+응답없음
+[Occupied]
+다른 용무중
+[DND]
+수신 거부
+[Free for chat]
+대화 가능
+[Invisible]
+오프라인으로 표시
+[Out to lunch]
+식사중
+[On the phone]
+전화중
+[List Background]
+목록 배경
 ;file \src\core\stdclist\src\clistopts.cpp
+[Global]
+전체
 ;file \src\core\stdclist\src\cluiopts.cpp
 ;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 유저가 이메일 주소를 등록하지 않았습니다
+[Send e-mail]
+이메일 보내기
 [&E-mail]
 &E 이메일
 ;file \src\core\stdfile\file.cpp
 [File from %s]
 %s 로부터 파일
+[&File]
+&F 파일
 ;file \src\core\stdfile\fileexistsdlg.cpp
 [%s File]
 %s 파일
+[All Files]
+모든 파일
 ;file \src\core\stdfile\fileopts.cpp
+[Executable Files]
+실행 파일
+[Events]
+이벤트
 ;file \src\core\stdfile\filerecvdlg.cpp
+[View User's History]
+유저 히스토리 보기
+[User Menu]
+유저 메뉴
 [Cancelled]
 취소됨
 ;file \src\core\stdfile\filesenddlg.cpp
@@ -277,10 +845,14 @@ Netlib 로그 옵션
 접속을 기다리는 중...
 [Unable to initiate transfer.]
 전송을 시작할 수 없습니다.
+[sec]
+초
 [remaining]
 남은 시간
 [Decision sent]
 보낼 파일 결정
+[Connecting...]
+접속중...
 [Connected]
 접속됨
 [Initialising...]
@@ -305,28 +877,50 @@ Netlib 로그 옵션
 [&Report Bug]
 &R 버그 리포트
 ;file \src\core\stdidle\idle.cpp
+[Idle]
+무작업 상태
 ;file \src\core\stdmsg\src\cmdlist.cpp
+[The message send timed out.]
+메세지 시간 초과
 ;file \src\core\stdmsg\src\globals.cpp
 ;file \src\core\stdmsg\src\msgdialog.cpp
 ;file \src\core\stdmsg\src\msglog.cpp
 ;file \src\core\stdmsg\src\msgoptions.cpp
+[** New contacts **]
+** 새 대화 상대 **
+[** Unknown contacts **]
+** 알 수 없는 대화 상대 **
 [Messaging Log]
 메세징 로그
+[Typing Notify]
+입력 알림
 ;file \src\core\stdmsg\src\msgs.cpp
+[Message from %s]
+%s 로부터 받은 메세지
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+riched20.dll를 찾을 수 없어 미란다 고유의 메세지 모듈을 읽어들일 수 없습니다. 만약 Windows 95 나 WINE 을 사용하신다면 반드시 riched20.dll을 설치해 주십시오. 미란다를 계속 실행하시려면 '네'를 누르세요.
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 ;file \src\core\stduihist\history.cpp
 [Outgoing Message]
 보낸 메세지
 [Incoming Message]
 받은 메세지
+[Outgoing URL]
+보낸 URL
+[Incoming URL]
+받은 URL
 [Outgoing File]
 보낸 파일
 [Incoming File]
 받은 파일
+[History for %s]
+%s 의 지난 메세지
 [Are you sure you want to delete this history item?]
 이 히스토리 파일을 정말 지우시겠습니까?
 [Delete History]
 히스토리 지우기
+[View &History]
+&H 지난 메세지 보기
 ;file \src\core\stdurl\url.cpp
 [URL from %s]
 %s 로부터 받은 URL
@@ -336,43 +930,87 @@ Netlib 로그 옵션
 [Send timed out]
 시간 초과
 ;file \src\core\stduserinfo\contactinfo.cpp
+[Edit Phone Number]
+전화번호 수정
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 전화번호는 a로 시작 해야만 하고 오직 숫자, 빈칸, 괄호, 하이픈으로만 이루어져야 합니다.
+[Invalid Phone Number]
+잘못된 전화번호
 [Primary]
 첫째
 [Custom %d]
 임의 지정 %d
+[Fax]
+팩스
 [Mobile]
 휴대폰
 ;file \src\core\stduserinfo\stdinfo.cpp
+[Male]
+남자
+[Female]
+여자
+[<not specified>]
+<지정되지 않음>
+[Summary]
+요약
+[Contact]
+연락처
+[Location]
+지역
+[Work]
+직업
+[Notes]
+메모
 ;file \src\core\stduserinfo\userinfo.cpp
+[Owner]
+소유자
+[View/Change My &Details...]
+&D 내 정보 보기/바꾸기
 ;file \src\core\stduseronline\useronline.cpp
 [%s is Online]
 %s이(가) 온라인
 ;file \src\modules\addcontact\addcontact.cpp
+[Add Contact]
+대화 상대 추가
+[Please authorize my request and add me to your contact list.]
+내 요청에 권한을 주고 나를 당신의 대화 상대 목록에 추가해 주세요.
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 ;file \src\modules\clist\clistmod.cpp
 ;file \src\modules\clist\clistsettings.cpp
+[(Unknown Contact)]
+(알 수 없는 대화 상대)
 ;file \src\modules\clist\clisttray.cpp
+[&Main Menu]
+&M 메인 메뉴
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 이 대화상대는 이 대화 상대 목록이 저장된 중앙 서버의 인스턴트 메세징 시스템에 있습니다.  그리고 다음에 네트워크 접속 시 대화 상대는 당신의 대화 상대 목록에서 삭제됩니다.
 [De&lete]
 &I 삭제
+[&Rename]
+&R 이름 바꾸기
 [&Add permanently to list]
 &A 목록에 영구히 추가
 ;file \src\modules\clist\contacts.cpp
 [My custom name (not moveable)]
 내 임의 지정 이름 (이동 불가능)
+[Nick]
+대화명
 [FirstName]
 이름
+[E-mail]
+이메일
 [LastName]
 성
+[Username]
+유저명
 [FirstName LastName]
 이름 성
 ['(Unknown Contact)' (not moveable)]
 '(알 수 없는 대화 상대)' (이동 불가능)
+['(Unknown Contact)']
+'(알 수 없는 대화 상대)'
 ;file \src\modules\clist\genmenu.cpp
 ;file \src\modules\clist\genmenuopt.cpp
 ;file \src\modules\clist\groups.cpp
@@ -389,20 +1027,28 @@ Netlib 로그 옵션
 ;file \src\modules\database\database.cpp
 ;file \src\modules\database\dbini.cpp
 ;file \src\modules\database\profilemanager.cpp
+[Size]
+크기
 ;file \src\modules\extraicons\DefaultExtraIcons.cpp
 ;file \src\modules\extraicons\extraicons.cpp
 ;file \src\modules\extraicons\options_ei.cpp
 ;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 검색 필드가 채워지지 않았습니다. 검색어를 입력하고 다시 시도해 주세요.
+[Search]
+찾기
 [Results]
 결과
 [There are no results to display.]
 표시할 결과가 없습니다.
+[Searching]
+찾는중
 [All Networks]
 전체 네트워크
 [Handle]
 이름
+[&Find/Add Contacts...]
+&F 찾기/대화 상대 추가...
 ;file \src\modules\findadd\searchresults.cpp
 [1 %s user found]
 1 %s 유저를 찾았습니다
@@ -413,6 +1059,8 @@ Netlib 로그 옵션
 [No users found]
 유저를 찾지 못했습니다
 ;file \src\modules\fonts\FontOptions.cpp
+[<none>]
+<없음>
 [Fonts]
 폰트
 ;file \src\modules\fonts\FontService.cpp
@@ -420,6 +1068,8 @@ Netlib 로그 옵션
 [Icon Sets]
 아이콘 셋
 ;file \src\modules\ignore\ignore.cpp
+[** All contacts **]
+** 모든 대화 상대 **
 ;file \src\modules\netlib\netliblog.cpp
 [Select where log file will be created]
 로그 파일이 생성될 위치 지정
@@ -428,10 +1078,20 @@ Netlib 로그 옵션
 ;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <모든 접속>
+[Network]
+네트워크
 ;file \src\modules\netlib\netlibssl.cpp
 ;file \src\modules\options\options.cpp
+[Miranda NG Options]
+미란다 IM 옵션
+[&Options...]
+&O 옵션...
 ;file \src\modules\plugins\newplugins.cpp
 ;file \src\modules\plugins\pluginopts.cpp
+[Version]
+버전
+[Plugins]
+플러그인
 ;file \src\modules\protocols\protoopts.cpp
 ;file \src\modules\skin\hotkey_opts.cpp
 ;file \src\modules\skin\skinicons.cpp
@@ -447,6 +1107,14 @@ Netlib 로그 옵션
 ;file \src\modules\utils\bmpfilter.cpp
 [All Bitmaps]
 모든 비트맵
+[Windows Bitmaps]
+윈도우즈 비트맵
+[JPEG Bitmaps]
+JPEG 비트맵
+[GIF Bitmaps]
+GIF 비트맵
 ;file \src\modules\utils\timezones.cpp
 ;file \src\modules\utils\utils.cpp
+[Unknown]
+알 수 없음
 ;file \src\modules\visibility\visibility.cpp

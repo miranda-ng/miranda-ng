@@ -6,10 +6,34 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Ping\res\ping.rc
+[Network]
+Hálózat
+[Popups]
+Felugrók
+[Row height:]
+Sormagasság:
+[Add]
+Új
+[Remove]
+Eltávolítás
+[Edit]
+Szerkeszt
+[OK]
+OK
+[Cancel]
+Mégsem
+[Port:]
+Port:
+[Contact]
+Kapcsolat
 ;file \plugins\Ping\src\menu.cpp
 ;file \plugins\Ping\src\options.cpp
+[<none>]
+<nincs>
 ;file \plugins\Ping\src\ping.cpp
 ;file \plugins\Ping\src\pinggraph.cpp
 ;file \plugins\Ping\src\pingthread.cpp
 ;file \plugins\Ping\src\rawping.cpp
 ;file \plugins\Ping\src\utils.cpp
+[Unknown]
+Ismeretlen

@@ -7,5 +7,9 @@
 ;============================================================
 ;file \plugins\RecentContacts\res\resource.rc
 ;file \plugins\RecentContacts\src\options.cpp
+[Contacts]
+Partnerek
 ;file \plugins\RecentContacts\src\RecentContacts.cpp
+[Contact]
+Kapcsolat
 ;file \plugins\RecentContacts\src\RecentContacts.h

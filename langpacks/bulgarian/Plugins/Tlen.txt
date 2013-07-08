@@ -1,24 +1,72 @@
 ﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
 ;langpack template for Tlen
 ;file \protocols\Tlen\res\tlen.rc
+[Username:]
+Потребител:
+[Password:]
+Парола:
+[Create new account]
+Създаване на акаунт
+[Options]
+Настройки
+[Port:]
+Порт:
 [Enable encryption]
 Шифроване на базата от данни
+[Background]
+Фон
+[Text]
+Текст
 [&From Popup plugin]
 От приставката Popup
 [&Custom]
 Избор
 [P&ermanent]
 Постоянно
+[Cancel]
+Отказ
+[First name:]
+Име:
+[Last name:]
+Фамилия:
+[E-mail:]
+Имейл:
+[Gender:]
+Пол:
+[City:]
+Град:
 [Avatar Options]
 Настройки на аватара
+[Nickname:]
+Прякор:
+[Age:]
+Възраст:
+[From:]
+От:
 ;file \protocols\Tlen\src\jabber_iqid.cpp
 ;file \protocols\Tlen\src\jabber_opt.cpp
+[General]
+Основни
+[Advanced]
+Разширени
+[Network]
+Мрежа
 ;file \protocols\Tlen\src\jabber_svc.cpp
 ;file \protocols\Tlen\src\jabber_thread.cpp
+[E-mail]
+Имейл
 ;file \protocols\Tlen\src\jabber_ws.cpp
 ;file \protocols\Tlen\src\tlen.cpp
+[Group chats]
+Групови чатове
+[Request authorization]
+Молба за упълномощаване
+[Grant authorization]
+Даване на пълномощно
 ;file \protocols\Tlen\src\tlen_file.cpp
 ;file \protocols\Tlen\src\tlen_muc.cpp
 ;file \protocols\Tlen\src\tlen_picture.cpp
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 ;file \protocols\Tlen\src\tlen_voice.cpp
+[Default]
+Стандарт

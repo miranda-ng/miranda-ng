@@ -6,10 +6,30 @@
 ;  Authors: Dioksin
 ;============================================================
 ;file \plugins\Quotes\res\Forex.rc
+[Log]
+Journal
+[Cancel]
+Annuler
+[Close]
+Fermer
+[Use default colours]
+Couleurs par défaut
+[Background colour]
+Couleur de fond
+[Background colour]
+Couleur de Fond : 
+[Text colour]
+Couleur du texte
+[Custom]
+Défini
+[&Add]
+&Ajouter
 ;file \plugins\Quotes\src\Chart.h
 ;file \plugins\Quotes\src\CommonOptionDlg.cpp
 ;file \plugins\Quotes\src\CurrencyConverter.cpp
 ;file \plugins\Quotes\src\Forex.cpp
+[Network]
+Réseau
 ;file \plugins\Quotes\src\HTTPSession.cpp
 ;file \plugins\Quotes\src\IconLib.cpp
 ;file \plugins\Quotes\src\ImportExport.cpp
@@ -18,6 +38,8 @@
 [Log File]
 Journal
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderBase.cpp
+;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 ;file \plugins\Quotes\src\SettingsDlg.cpp

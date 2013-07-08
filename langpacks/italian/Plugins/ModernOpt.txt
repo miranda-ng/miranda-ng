@@ -6,6 +6,46 @@
 ;  Authors: Victor Pavlychko, George Hazan
 ;============================================================
 ;file \plugins\ModernOpt\res\resource.rc
+[Miranda NG Options]
+Opzioni di Miranda NG
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Apply]
+Applica
+[Advanced]
+Avanzate
 ;file \plugins\ModernOpt\src\modernopt.cpp
 [Style]
 Stile
+[Contacts]
+Contatti
+[Ignore]
+Ignora
+[Ignore]
+Ignora
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato

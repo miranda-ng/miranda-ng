@@ -6,9 +6,39 @@
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
 ;file \plugins\SecureIM\res\resource.rc
+[sec]
+mp.
+[Text]
+Szöveg
+[Events]
+Események
+[Username:]
+Felhasználónév:
+[Password:]
+Jelszó:
+[OK]
+OK
+[Cancel]
+Mégsem
+[Status]
+Állpot
 ;file \plugins\SecureIM\src\language.cpp
+[General]
+Általános
+[Name]
+Név
+[Off]
+Ki
 ;file \plugins\SecureIM\src\loadicons.cpp
+[Contact List]
+Kapcsolati lista
+[Popups]
+Felugrók
 ;file \plugins\SecureIM\src\main.cpp
+[Icons]
+Ikonok
 ;file \plugins\SecureIM\src\options.cpp
+[Executable Files]
+Végrehajható fájlok
 ;file \plugins\SecureIM\src\popupOptions.cpp
 ;file \plugins\SecureIM\src\svcs_srmm.cpp

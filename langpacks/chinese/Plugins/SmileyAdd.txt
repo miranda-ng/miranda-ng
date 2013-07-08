@@ -10,6 +10,8 @@
 表情分类
 [Specify Smiley Pack for each category]
 为每个分类指定表情包
+[Name:]
+名称: 
 [Replace only smileys surrounded by spaces]
 仅替换以空格包围表情
 [Scale smiley to textheight]
@@ -58,8 +60,14 @@ SmileyAdd 不能被重复加载.\n请删除 'Plugins' 目录下的重复文件.
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
 表情
+[Customize]
+自定义
+[Off]
+关闭
 [Smiley Packs]
 表情包
+[All Files]
+所有文件
 ;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 协议特定

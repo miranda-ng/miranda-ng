@@ -8,6 +8,10 @@
 ;file \protocols\MSN\res\msn.rc
 [MSN]
 MSN
+[Password:]
+Jelszó:
+[Nickname:]
+Becenév
 [Send message font color/size info inside messages]
 Üzenet betûszín-/méret infó küldése üzeneten belül
 [Disable all contacts not included into my contact list]
@@ -18,6 +22,8 @@ Szerver csoportok kezelése
 A következõ alkalmazást futtassa új Hotmail érkezésekor
 [Allow people on my contact list send messages to mobile device]
 A kapcsolati listámon szereplõ emberek küldhetnek üzenetet mobil eszközre
+[Reset]
+Alapraállítás
 [Server List Manager]
 Szerver Lsita Kezelõ
 [Contact is included into your server list]
@@ -30,10 +36,20 @@ Blokkolt partner
 Valaki hozzáadott a szerverlistájához
 [Hotmail]
 Hotmail
+[Other]
+Egyéb
 [Enable 'Chat Session Established' popup]
 'Csevegés Munkamenet létrejött' felugró bekapcsolása
 [Enable 'Contact left channel' popup]
 'Partner elhagyta a csatornát' felugró bekapcsolása
+[OK]
+OK
+[Cancel]
+Mégsem
+[&Cancel]
+&Mégse
+[Add]
+Új
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 Csevegés #
@@ -78,8 +94,12 @@ Beszélgetésben kell lenned Nettalálkozó indításához
 [&Start Netmeeting]
 &Nettalálkozó indítása
 ;file \protocols\MSN\src\msn_misc.cpp
+[Error]
+Hiba
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
+[Profile]
+Profil
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 A szervercsoportok importálása a kapcsolati listád szerkezetét módosíthatja a következõ belépéskor. Feltöltöd a saját csoportjaid a szerverre?
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
@@ -94,6 +114,8 @@ Gép/Port beállítása manuálisan
 IP infó csak belépés után elérhetõ
 [MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
 MSN Protokollnál szükséges, hogy az üzenet idõkeret ne legyen kevesebb, mint 60 mp.. Javítsd az idõkeret értéket.
+[Network]
+Hálózat
 [Server list]
 Szerver lista
 ;file \protocols\MSN\src\msn_p2p.cpp

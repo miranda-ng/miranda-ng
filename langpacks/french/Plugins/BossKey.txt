@@ -18,7 +18,15 @@ Quand je reviens :
 Mot de passe :
 [Change status back]
 Remettre l'état précédent
+[Password:]
+Passe :
+[Cancel]
+Annuler
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
 [Hide Miranda NG]
 Cacher Miranda-IM
 ;file \plugins\BossKeyPlus\src\Options.cpp
+[Events]
+Évènements
+[Advanced]
+Avancé

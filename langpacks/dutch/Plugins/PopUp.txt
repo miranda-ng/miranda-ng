@@ -6,6 +6,10 @@
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 ;file \plugins\Popup\res\resource.rc
+[Effects]
+Effecten
+[History]
+Geschiedenis
 [Draw avatar borders]
 Randen van avatar tekenen
 [Draw borders for semitransparent avatars too]
@@ -14,10 +18,20 @@ Ook randen voor halfdoorzichtige avatars tekenen
 Miranda's scherm
 [the active window]
 het actieve scherm
+[opacity:]
+ondoorlatendheid:
+[Close]
+Sluit
+[General]
+Algemeen
 [Infinite popup delay]
 Oneindige popup vertraging
+[seconds]
+seconden
 [Do not close hovered popups]
 Geen popups sluiten waar de muis boven staat
+[Position:]
+Positie:
 [Disable when:]
 Uitschakelen wanneer:
 ;file \plugins\Popup\src\actions.cpp
@@ -26,13 +40,27 @@ Uitschakelen wanneer:
 ;file \plugins\Popup\src\font.cpp
 ;file \plugins\Popup\src\history.cpp
 ;file \plugins\Popup\src\icons.cpp
+[OK]
+OK
+[Cancel]
+Annuleren
+[User Details]
+Gebruikersdetails
 ;file \plugins\Popup\src\main.cpp
+[Contacts]
+Personen
+[Advanced]
+Geavanceerd
 ;file \plugins\Popup\src\opt_adv.cpp
 ;file \plugins\Popup\src\opt_class.cpp
 ;file \plugins\Popup\src\opt_gen.cpp
 ;file \plugins\Popup\src\opt_skins.cpp
+[Use Windows colours]
+Windows kleuren gebruiken
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
 ;file \plugins\Popup\src\services.cpp
+[Error]
+Fout
 ;file \plugins\Popup\src\skin.cpp
 ;file \plugins\Popup\src\srmm_menu.cpp

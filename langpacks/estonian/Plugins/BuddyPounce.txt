@@ -6,5 +6,21 @@
 ;  Authors: Jonathan Gordon
 ;============================================================
 ;file \plugins\BuddyPounce\res\resource.rc
+[Cancel]
+Tühista
+[OK]
+OK
+[Status]
+Staatus
 ;file \plugins\BuddyPounce\src\dialog.cpp
+[Online]
+Sees
+[Away]
+Eemal
+[NA]
+Pole kättesaadav
+[Occupied]
+Hõivatud
+[Invisible]
+Nähtamatu
 ;file \plugins\BuddyPounce\src\main.cpp

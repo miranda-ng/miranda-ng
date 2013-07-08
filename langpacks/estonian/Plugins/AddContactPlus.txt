@@ -3,8 +3,20 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Biaіek
+;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
 ;file \plugins\AddContactPlus\res\resource.rc
+[Add Contact]
+Lisa kontakt
+[Group:]
+Grupp:
+[Options]
+Valikud
+[&Add]
+&Lisa
+[&Cancel]
+&Tühista
 ;file \plugins\AddContactPlus\src\addcontact.cpp
+[None]
+Pole
 ;file \plugins\AddContactPlus\src\main.cpp

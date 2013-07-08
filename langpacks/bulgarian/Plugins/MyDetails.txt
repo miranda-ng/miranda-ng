@@ -8,6 +8,12 @@
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Задаване на прякор
+[Nickname:]
+Прякор:
+[Cancel]
+Отказ
+[General]
+Основни
 [RTL]
 Л<Д
 [Align text to right]
@@ -30,16 +36,20 @@
 Дясно:
 [Custom size:]
 Задаване на размер:
+[pixels]
+пиксела
+[pixels]
+пиксела
 [Allow it to grow]
 Възможност за увеличаване
 [Use free space (under avatar) to other texts]
 Ползване на мястото под аватара за друг текст
+[seconds]
+секунди
 [Set My Status Message for All Status]
 Текст за състояние за всички състояния
 [Status Message:]
 Текст за състояние:
-[Status popup]
-popup за състояние
 [&Offline]
 Извън линия
 [On&line]
@@ -68,16 +78,14 @@ popup за състояние
 Задаване на текст за състояние...
 [Enable Listening To]
 Включване на "Слуша"
-[Nick popup]
-popup за прякор
-[Status message popup]
-popup с текст за състояние
-[Avatar popup]
-Аватар popup
 ;file \plugins\MyDetails\src\data.cpp
 ;file \plugins\MyDetails\src\frame.cpp
+[Status]
+Състояние
 [My Details]
 Моите детайли
+[Background]
+Фон
 [Show My Details]
 Показване на моите детайли
 [Enable Listening To for %s]
@@ -101,4 +109,6 @@ popup с текст за състояние
 Текст за състояние "%s"
 [Show next protocol]
 Показване на следващия протокол
+[Contact List]
+Списък с контакти
 ;file \plugins\MyDetails\src\options.cpp

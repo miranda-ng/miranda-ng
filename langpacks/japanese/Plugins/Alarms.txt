@@ -6,9 +6,35 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Alarms\res\resource.rc
+[Delete]
+削除
+[Edit]
+編集
+[OK]
+OK
+[Cancel]
+Cancel
+[Description:]
+説明 :
+[Actions]
+アクション
+[&Delete]
+削除 (&D)
+[&Options...]
+オプション (&O)...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 ;file \plugins\Alarms\src\alarm_win.cpp
+[Background]
+背景
+[Window]
+ウィンドウ
 ;file \plugins\Alarms\src\frame.cpp
+[Frames]
+フレーム
 ;file \plugins\Alarms\src\icons.cpp
 ;file \plugins\Alarms\src\options.cpp
+[Error]
+エラー
+[Events]
+イベント

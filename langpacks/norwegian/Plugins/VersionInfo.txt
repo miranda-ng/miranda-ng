@@ -8,6 +8,10 @@
 ;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
 Utdata til:
+[OK]
+OK
+[Cancel]
+Avbryt
 [DialogBox]
 Dialogboks
 [Upload to site]
@@ -24,6 +28,8 @@ Spør hver gang
 Kopier også til utklippstavlen
 [Upload site settings]
 Opplastingsinnstillinger
+[Username]
+Brukernavn
 [Highlight version number using]
 Marker versjonsnummer med
 [Show disabled plugins too]
@@ -34,6 +40,8 @@ Undertrykk header informasjon
 Vis tilleggs UUIDer
 [Show installed languages]
 Vis installerte språk
+[Close]
+Lukk
 ;file \plugins\VersionInfo\src\CVersionInfo.cpp
 ;file \plugins\VersionInfo\src\dlgHandlers.cpp
 ;file \plugins\VersionInfo\src\hooked_events.cpp

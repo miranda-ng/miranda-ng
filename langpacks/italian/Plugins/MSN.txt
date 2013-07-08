@@ -6,10 +6,54 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MSN\res\msn.rc
+[Password:]
+Password:
+[Password:]
+Password:
+[Nickname:]
+Nick:
 [Send message font color/size info inside messages]
 Invia info su colore e dimensioni messaggio all'interno dei messaggi
 [Disable all contacts not included into my contact list]
 Disattiva tutti i contatti non inclusi nella mia lista contatti
+[Reset]
+Reimposta
+[Reset]
+Reimposta
+[Reset]
+Resetta
+[Reset]
+Reimposta
+[Other]
+Altro
+[Other]
+Altro
+[Other]
+Altro
+[Other]
+Varie
+[Other]
+Altro
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[&Cancel]
+&Annulla
 ;file \protocols\MSN\src\msn_chat.cpp
 ;file \protocols\MSN\src\msn_commands.cpp
 [MSN Protocol]
@@ -26,10 +70,26 @@ Hotmail da %s
 [&Start Netmeeting]
 &Avvia NetMeeting
 ;file \protocols\MSN\src\msn_misc.cpp
+[Error]
+Errore
+[Error]
+Errore
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
+[Profile]
+Profilo
+[Profile]
+Profilo
+[Profile]
+Profilo
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
 Le modifiche fatte richiedono la riconnessione alla rete MSN per essere attivate
+[Network]
+Rete
+[Network]
+Rete
+[Network]
+Rete
 ;file \protocols\MSN\src\msn_p2p.cpp
 ;file \protocols\MSN\src\msn_proto.cpp
 ;file \protocols\MSN\src\msn_svcs.cpp

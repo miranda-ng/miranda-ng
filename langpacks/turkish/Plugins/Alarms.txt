@@ -6,9 +6,41 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Alarms\res\resource.rc
+[Delete]
+Sil
+[Edit]
+Değiştir
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Description:]
+Açıklama:
+[Description:]
+Açıklama:
+[Actions]
+Eylemler
+[&Delete]
+&Sil
+[&Options...]
+&Seçenekler...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 ;file \plugins\Alarms\src\alarm_win.cpp
+[Background]
+Art Alan
+[Window]
+Pencere
 ;file \plugins\Alarms\src\frame.cpp
+[Frames]
+Çerçeveler
 ;file \plugins\Alarms\src\icons.cpp
 ;file \plugins\Alarms\src\options.cpp
+[Error]
+Hata
+[Events]
+Etkinlikler

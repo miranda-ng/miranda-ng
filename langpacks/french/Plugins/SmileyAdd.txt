@@ -10,6 +10,8 @@
 Catégories de smileys
 [Specify Smiley Pack for each category]
 Spécifier un pack de smileys par catégorie
+[Name:]
+Nom :
 [Replace only smileys surrounded by spaces]
 Ne remplacer que les smileys entouré d'espace
 [Scale smiley to textheight]
@@ -44,8 +46,12 @@ Assigner à une catégorie de smileys
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Un seul fois SmileyAdd peut être exécuté à la fois.\nEffacer le doublon du répertoire 'Plugins'
 ;file \plugins\SmileyAdd\src\options.cpp
+[Customize]
+Apparence
 [Smiley Packs]
 Pack de Smiley
+[All Files]
+Tous les fichiers
 ;file \plugins\SmileyAdd\src\services.cpp
 ;file \plugins\SmileyAdd\src\smileys.cpp
 [There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]

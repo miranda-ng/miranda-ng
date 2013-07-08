@@ -6,13 +6,51 @@
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
 ;file \plugins\SecureIM\res\resource.rc
+[sec]
+seg
+[Text]
+Texto
+[Text]
+Texto
+[Events]
+Eventos
+[Events]
+Eventos
+[Username:]
+Nombre de usuario:
+[Username:]
+Username:
+[Password:]
+Contraseña:
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Status]
+estado
 ;file \plugins\SecureIM\src\language.cpp
+[General]
+General
+[General]
+General
+[Name]
+Nombre
+[Off]
+off
 [(none)]
 (ninguno)
 ;file \plugins\SecureIM\src\loadicons.cpp
+[Contact List]
+Lista de contactos
 [Message Window]
 Ventana de mensajes
 ;file \plugins\SecureIM\src\main.cpp
+[Icons]
+Iconos
 ;file \plugins\SecureIM\src\options.cpp
+[Executable Files]
+Los archivos ejecutables
 ;file \plugins\SecureIM\src\popupOptions.cpp
 ;file \plugins\SecureIM\src\svcs_srmm.cpp

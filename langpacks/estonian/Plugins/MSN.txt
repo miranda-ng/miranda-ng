@@ -8,6 +8,12 @@
 ;file \protocols\MSN\res\msn.rc
 [MSN]
 MSN
+[Password:]
+Parool:
+[Nickname:]
+Hüüdnimi:
+[Reset]
+Algväärtusta
 [Server List Manager]
 Serveri nimekirja haldur
 [Contact is included into your server list]
@@ -20,6 +26,16 @@ Blokeeritud kontakt
 Sa sisaldud tema serveri nimekirjas
 [Hotmail]
 Hotmail
+[Other]
+Muu
+[OK]
+OK
+[Cancel]
+Tühista
+[&Cancel]
+&Tühista
+[Add]
+Lisa
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 Vestlus #
@@ -46,14 +62,20 @@ Teema: %s
 [&Start Netmeeting]
 Alusta Netmeeting't
 ;file \protocols\MSN\src\msn_misc.cpp
+[Error]
+Viga
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
+[Profile]
+Profiil
 [MSN Options]
 MSN valikud
 [Automatically obtain host/port]
 Automaatselt saa host/port
 [Manually specify host/port]
 Määra käsitsi host/port
+[Network]
+Võrgustik
 [Server list]
 Serveri nimekiri
 ;file \protocols\MSN\src\msn_p2p.cpp

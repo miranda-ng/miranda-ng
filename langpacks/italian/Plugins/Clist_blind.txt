@@ -6,6 +6,22 @@
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 ;file \plugins\Clist_blind\res\resource.rc
+[Delete Contact]
+Elimina contatto
+[Are you sure you want to delete %s?]
+Sei sicuro di voler eliminare %s?
+[This will erase all history and settings for this contact!]
+Questo eliminerà tutta la cronologia e le impostazioni per questo contatto!
+[Yes]
+Sì
+[No]
+No
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Nascondi solo dalla lista, così da mantenere storico e impostazioni sulla visibilità
+[Hotkeys]
+Scorciatoie
+[Hotkeys]
+Scorciatoie
 [Show/Hide:]
 Mostra/Nascondi:
 [URL:]
@@ -14,7 +30,211 @@ URL:
 Apri in una nuova finestra del browser
 [Show Options]
 Mostra opzioni
+[Hide offline users]
+Nascondi utenti offline
+[Hide empty groups]
+Nascondi i gruppi vuoti
+[Disable groups]
+Disattiva gruppi
+[Ask before deleting contacts]
+Chiedi conferma per cancellazione
+[Sort contacts by name]
+Ordina i contatti per nome
+[Sort contacts by status]
+Ordina i contatti per stato
+[Sort contacts by protocol]
+Ordina i contatti per protocollo
+[Single click interface]
+Usa un singolo click
+[Always show status in tooltip]
+Mostra sempre lo stato in tooltip
+[Disable icon blinking]
+Disattiva lamp. icona
+[Show]
+Mostra
+[Show]
+Mostra
+[Show]
+Mostra
+[icon when statuses differ]
+come icona se stati diversi
+[Cycle icons every]
+Cicla le icone ogni
+[seconds, when statuses differ]
+secondi, quando gli stati sono diversi
+[Show multiple icons]
+Mostra icone multiple
+[Only when statuses differ]
+Solo quando gli stati sono diversi
+[Contact List]
+Lista dei contatti
+[System tray icon]
+Icona nella tray di sistema
+[System tray icon when using multiple protocols]
+Icona nella tray utilizzando protocolli multipli
+[Contact List Sorting]
+Ordinamento lista contatti
+[Window]
+Finestra
+[Window]
+Finestra
+[Always on top]
+Sempre in primo piano
+[Always on top]
+Sempre in primo piano
+[Tool style main window]
+Finestra principale 'alternativa'
+[Minimize to tray]
+Minimizza nella tray
+[Hide contact list after it has been idle for]
+Nascondi lista dei contatti se inattiva per
+[seconds]
+secondi
+[Automatically resize window to height of list]
+Ridimensiona automaticamente altezza lista
+[maximum]
+al massimo
+[% of screen]
+% dello schermo
+[Size upwards]
+Ridimensiona verso l'alto
+[Title bar text:]
+TestoBarraTitolo
+[Fade contact list in/out]
+Dissolvenza in entrata/uscita
+[Transparent contact list]
+Lista contatti trasparente
+[Inactive opacity:]
+Opacità inattiva:
+[Active opacity:]
+Opacità attiva:
+[Show menu bar]
+Mostra barra menu
+[Easy move]
+Spostamento facilitato
+[Show title bar]
+Mostra barra del titolo
+[If window is partially covered, bring to front instead of hiding]
+Se la finestra è in parte coperta, portala in primo piano invece di nasconderla
+[Items]
+Elementi
+['Hide Offline' means to hide:]
+'Nascondi Offline' significa nascondere:
+[Groups]
+Gruppi
+[Show counts of number of contacts in a group]
+Mostra conteggio del numero dei contatti in un gruppo
+[Hide group counts when there are none online]
+Nascondi conteggio del gruppo se nessuno è online
+[Sort groups alphabetically]
+Gruppi in ordine alfabetico
+[Quicksearch in open groups only]
+Ricerca veloce solo nei gruppi aperti
+[Group:]
+Gruppo:
+[Status Bar]
+Barra di stato
+[Show status bar]
+Mostra barra di stato
+[Show icons]
+Mostra icone
+[Show protocol names]
+Mostra i nomi dei protocolli
+[Show status text]
+Mostra il testo con lo stato
+[Right click opens status menu]
+Il click destro apre il menu di stato
+[Right click opens Miranda NG menu]
+Il click destro apre il menu di Miranda
+[Make sections equal width]
+Rendi le sezioni larghe uguali
+[E&xit]
+&Esci
+[&Status]
+&Stato
+[&Offline\tCtrl+0]
+&Offline\tCtrl+0
+[On&line\tCtrl+1]
+On&line\tCtrl+1
+[&Away\tCtrl+2]
+&Altrove\tCtrl+2
+[&NA\tCtrl+3]
+&Non Disponibile\tCtrl+3
+[Occ&upied\tCtrl+4]
+Occ&upato\tCtrl+4
+[&DND\tCtrl+5]
+Non &Disturbare\tCtrl+5
+[&Free for chat\tCtrl+6]
+Disponibile &per chat\tCtrl+6
+[&Invisible\tCtrl+7]
+&Invisibile\tCtrl+7
+[On the &Phone\tCtrl+8]
+Al &telefono\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Fuori a pran&zo\tCtrl+9
+[&Hide/Show]
+&Nascondi/Mostra
+[&New Group]
+Nuovo &gruppo
+[&Hide Offline Users]
+Nascondi &utenti offline
+[Hide &Offline Users out here]
+Nascondi utenti &offline fuori da qui
+[Hide &Empty Groups]
+Nascondi gruppi &vuoti
+[Disable &Groups]
+Disattiva &gruppi
+[&New Subgroup]
+&Nuovo sottogruppo
+[&Hide Offline Users in here]
+Nascondi utenti &offline qui dentro
+[&Rename Group]
+&Rinomina gruppo
+[&Delete Group]
+&Elimina gruppo
 ;file \plugins\Clist_blind\src\clcopts.cpp
+[Not focused]
+Non in primo piano
+[Offline]
+Offline
+[Offline]
+Offline
+[Online]
+Online
+[Online]
+Online
+[Away]
+Altrove
+[Away]
+Altrove
+[NA]
+Non disponibile
+[NA]
+Non disponibile
+[Occupied]
+Occupato
+[Occupied]
+Occupato
+[DND]
+Non disturbare
+[DND]
+Non disturbare
+[Free for chat]
+Disponibile per chat
+[Free for chat]
+Disponibile per chat
+[Invisible]
+Invisibile
+[Invisible]
+Invisibile
+[Out to lunch]
+Fuori a pranzo
+[On the phone]
+Al telefono
+[List]
+Lista
 ;file \plugins\Clist_blind\src\clistopts.cpp
+[Global]
+Globale
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp

@@ -8,6 +8,10 @@
 ;file \protocols\MSN\res\msn.rc
 [MSN]
 MSN
+[Password:]
+Passord:
+[Nickname:]
+Kallenavn:
 [Send message font color/size info inside messages]
 Send informasjon om meldingers font farge/størrelse i meldingene
 [Disable all contacts not included into my contact list]
@@ -18,6 +22,8 @@ Behandle servergrupper
 Kjør følgende program når det kommer ny Hotmail
 [Allow people on my contact list send messages to mobile device]
 Tillat mine kontakter å sende meldinger til min mobile enhet
+[Reset]
+Nullstill
 [Server List Manager]
 Serverlistebehandling
 [Contact is included into your server list]
@@ -30,10 +36,20 @@ Blokkert kontakt
 Noen la deg til på sin serverliste
 [Hotmail]
 Hotmail
+[Other]
+Annet
 [Enable 'Chat Session Established' popup]
 Aktiver 'Samtaleøkt opprettet' popup
 [Enable 'Contact left channel' popup]
 Aktiver 'Kontakten forlot kanalen' popup
+[OK]
+OK
+[Cancel]
+Avbryt
+[&Cancel]
+&Avbryt
+[Add]
+Legg til
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 Samtale #
@@ -78,8 +94,12 @@ Du må snakke for å starte Nettmøte
 [&Start Netmeeting]
 &Start Nettmøte
 ;file \protocols\MSN\src\msn_misc.cpp
+[Error]
+Feil
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
+[Profile]
+Profil
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 Servergruppeimportering kan forandre kontaktliste layouten din etter din neste pålogging. Ønsker du å laste opp gruppene dine til serveren?
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
@@ -92,6 +112,8 @@ Finn vertsadresse/port automatisk
 Manuelt spesifiser vertsadresse/port
 [IP info available only after login]
 IP informasjon bare tilgjengelig etter pålogging
+[Network]
+Nettverk
 [Server list]
 Serverliste
 ;file \protocols\MSN\src\msn_p2p.cpp

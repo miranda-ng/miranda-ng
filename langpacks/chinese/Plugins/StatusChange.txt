@@ -6,10 +6,32 @@
 ;  Authors: Angelo Luiz Tartari
 ;============================================================
 ;file \plugins\StatusChange\res\resource.rc
+[Offline]
+离线
+[Online]
+在线
+[Away]
+外出
+[NA]
+不适用
+[Occupied]
+忙碌中
+[DND]
+请勿打扰
+[Free for chat]
+有空聊天
+[Invisible]
+隐身
+[On the phone]
+接听电话
+[Out to lunch]
+外出用餐
 [On events...]
 于事件...
 [Receive]
 接收
+[Message]
+消息
 [...change status to...]
 ...更改状态为...
 [... if status is...]
@@ -17,3 +39,5 @@
 ;file \plugins\StatusChange\src\main.cpp
 [Status Change]
 状态变更
+[Status]
+状态

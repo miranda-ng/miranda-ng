@@ -6,8 +6,12 @@
 ;  Authors: Dioksin
 ;============================================================
 ;file \plugins\Quotes\res\Forex.rc
+[OK]
+确定
 [Use contact specific settings]
 使用联系人私有设置
+[Log]
+记录
 [Use &Internal History]
 使用网络历史(&I)
 [&Format:]
@@ -34,6 +38,8 @@
 显示弹出窗口(&P)
 [Show Popup Window Only if Value &Changed]
 仅数值变化时显示弹出窗口(&C)
+[Cancel]
+取消
 [Popup settings...]
 弹出设置...
 [Currency Converter]
@@ -42,6 +48,18 @@
 至(&T):
 [&Swap]
 交换(&S)
+[Close]
+关闭
+[Use default colours]
+使用默认颜色
+[Background colour]
+背景颜色
+[Background colour]
+背景颜色
+[Text colour]
+文本颜色
+[Custom]
+自定义
 [&Choose Quotes to watch in contact list:]
 选择显示于联系人列表中的监视报价(&C):
 [&Refresh Quotes Every:]
@@ -60,6 +78,8 @@
 先前汇率:
 [&Convert:]
 兑换(&C):
+[&Add]
+添加(&A)
 [&Watched currency rates:]
 监视汇率(&W):
 [&Refresh Rates Every:]
@@ -88,6 +108,8 @@
 打开日志文件...
 [Chart...]
 图表...
+[Network]
+网络
 ;file \plugins\Quotes\src\HTTPSession.cpp
 [Quotes HTTP connections]
 报价 HTTP 连接
@@ -106,6 +128,8 @@
 [Log File]
 日志文件
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderBase.cpp
+;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Symbol]

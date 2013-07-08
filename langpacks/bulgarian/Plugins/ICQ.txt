@@ -8,12 +8,20 @@
 ;file \protocols\IcqOscarJ\res\resources.rc
 [ICQ Number:]
 ICQ номер:
+[Password:]
+Парола:
 [Create a new ICQ account]
 Създаване на ICQ акаунт
+[&Send]
+Изпращане
+[&Cancel]
+Отказ
 [Enter ICQ Password]
 Въведете ICQ парола
 [Enter a password for UIN %d:]
 Въведете парола за UIN %d:
+[Cancel]
+Отказ
 [ICQ number:]
 ICQ номер:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
@@ -22,6 +30,10 @@ ICQ номер:
 Получаване на забравена парола или ICQ номер
 [Create a new ICQ account using the ICQ website]
 Създаване на ICQ акаунт чрез сайта ICQ
+[Port:]
+Порт:
+[Default]
+Стандарт
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
 Съвет: Използвайте порт 0, за да се свържете чрез случаен порт. Пробвайте порт 80 или 443, ако имате проблеми със свърването през http прокси сървър.
 [Secure Connection (SSL)]
@@ -58,6 +70,8 @@ ICQ аватари
 Не можете да включвате/изключвате списъка на сървъра, докато сте свързани към мрежата ICQ.
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
 Бележка: Опциите отбелязани със звездичка (*) имат значими странични ефекти, които може да не са добре отразени в помощната документация.
+[Messaging]
+Съобщения
 [Enable unicode messaging support]
 Включване на поддръжката на Unicode съобщения
 [Send all messages in unicode if possible]
@@ -116,14 +130,22 @@ ICQ аватари
 Споделяне на текста за състояние само с видимите контакти
 [Some options are greyed out because they can only be changed when you are online.]
 Сивите настройки могат да бъдат променяни само когато сте на линия.
+[Options]
+Настройки
 [Enable popup support]
 Включване на поддръжката на popups
 [Display popup when spambot is detected]
 Изобразяване на popup при засичане на СПАМ бот
+[Text Color]
+Цвят на текста
+[Error]
+Грешка
 [Spam detected]
 Засечен е спам
 [Use system &icons]
 Ползване на системните икони
+[Use default colours]
+Стандартни цветове
 [External IP:]
 Външно IP:
 [Protocol Version:]
@@ -134,20 +156,58 @@ ICQ аватари
 Системата работи от:
 [Idle since:]
 Бездейства от:
+[Summary]
+Обобщение
+[Nickname:]
+Прякор:
+[First name:]
+Име:
+[Last name:]
+Фамилия:
+[E-mail:]
+Имейл:
+[Gender:]
+Пол:
+[Age:]
+Възраст:
+[Marital status:]
+Брачно състояние:
 [Keywords:]
 Търси:
+[Work]
+Работа
+[Company:]
+Фирма:
+[Department:]
+Отдел:
+[Position:]
+Позиция:
 [Organisation:]
 Организация:
+[Location]
+Местоположение
+[Country:]
+Държава:
+[State:]
+Област:
+[City:]
+Град:
+[Background info]
+Биографични данни
 [Interests]
 Интереси
 [Category:]
 Категория:
+[Other]
+Друго
 [Manage ICQ Server Contacts]
 Управление на ICQ контактите на сървъра
 [Select contacts to store:]
 Изберете кои контакти да се съхраняват:
 [Synchronize]
 Синхронизиране
+[Closing in %d]
+Затваряне след %d
 [Retrieving custom status details...]
 Извличане на подробности за персонално състояние...
 [Confirm Password Change]
@@ -256,8 +316,30 @@ ICQ бележка
 Грешка при качването на аватара. Сървъра не приема изображението.
 ;file \protocols\IcqOscarJ\src\icq_constants.h
 ;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
+[Afghanistan]
+Афганистан
+[Albania]
+Албания
+[Algeria]
+Алжир
+[Andorra]
+Андора
+[Angola]
+Ангола
+[Anguilla]
+Ангила
+[Antigua and Barbuda]
+Антигуа и Барбуда
+[Argentina]
+Аржентина
+[Armenia]
+Армения
+[Aruba]
+Аруба
 [Ascension Island]
 остров Възнесение (Ascension)
+[Australia]
+Австралия
 [Australia, Antarctic Territory]
 Австралия, антарктическа територия
 [Australia, Christmas Island]
@@ -266,90 +348,440 @@ ICQ бележка
 Кокосови (Кийлинг) острови (Австралия)
 [Australia, Norfolk Island]
 остров Норфолк (Австралия)
+[Austria]
+Австрия
+[Azerbaijan]
+Азербайджан
+[Bahamas]
+Бахамски острови
+[Bahrain]
+Бахрейн
+[Bangladesh]
+Бангладеш
+[Barbados]
+Барбадос
+[Belarus]
+Беларус
+[Belgium]
+Белгия
+[Belize]
+Белийз
+[Benin]
+Бенин
+[Bermuda]
+Бермуда
+[Bhutan]
+Бутан
 [Bolivia]
 Боливия
+[Bosnia and Herzegovina]
+Босна и Херцеговина
+[Botswana]
+Ботсуана
+[Brazil]
+Бразилия
 [British Virgin Islands]
 Британски Вирджински острови
 [Brunei]
 Бруней
+[Bulgaria]
+България
+[Burkina Faso]
+Буркина Фасо
+[Burundi]
+Бурунди
+[Cambodia]
+Камбоджа
+[Cameroon]
+Камерун
+[Canada]
+Канада
 [Canary Islands]
 Канарски острови
 [Cape Verde Islands]
 острови Кабо Верде
+[Cayman Islands]
+Кайманови острови
+[Central African Republic]
+Централноафриканска република
+[Chad]
+Чад
 [Chile, Republic of]
 Чили
+[China]
+Китай
+[Colombia]
+Колумбия
+[Comoros]
+Коморски острови
 [Congo, Democratic Republic of (Zaire)]
 Демократична република Конго (Заир)
 [Congo, Republic of the]
 Република Конго
+[Cook Islands]
+острови Кук (Cook)
+[Costa Rica]
+Коста Рика
 [Cote d'Ivoire (Ivory Coast)]
 Кот д’Ивоар (Ivory Coast)
+[Croatia]
+Хърватия
+[Cuba]
+Куба
 [Greek, Republic of South Cyprus]
 Южнокипърска гръцка република
+[Czech Republic]
+Чешка република
+[Denmark]
+Дания
 [Diego Garcia]
 Диего Гарсия
+[Djibouti]
+Джибути
+[Dominica]
+Доминика
+[Dominican Republic]
+Доминиканска република
+[Ecuador]
+Еквадор
+[Egypt]
+Египет
+[El Salvador]
+Ел Салвадор
+[Equatorial Guinea]
+Екваториална Гвинея
+[Eritrea]
+Еритрея
+[Estonia]
+Естония
+[Ethiopia]
+Етиопия
 [Europe]
 Европа
 [Faeroe Islands]
 Фарьорски острови
 [Falkland Islands]
 Фолкландски острови
+[Fiji]
+Фиджи
+[Finland]
+Финландия
+[France]
+Франция
 [French Antilles]
 Френски Антили
+[French Guiana]
+Френска Гвиана
+[French Polynesia]
+Френска Полинезия
+[Gabon]
+Габон
+[Gambia]
+Гамбия
+[Georgia]
+Грузия
+[Germany]
+Германия
+[Ghana]
+Гана
+[Gibraltar]
+Гибралтар
+[Greece]
+Гърция
+[Greenland]
+Гренландия
+[Grenada]
+Гренада
+[Guadeloupe]
+Гваделупа
 [Guam, US Territory of]
 Гуам, Територия на САЩ
+[Guatemala]
+Гватемала
+[Guinea]
+Гвинея
+[Guinea-Bissau]
+Гвинея Бисау
+[Guyana]
+Гвияна
+[Haiti]
+Хаити
+[Honduras]
+Хондурас
+[Hong Kong]
+Хонконг
+[Hungary]
+Унгария
+[Iceland]
+Исландия
+[India]
+Индия
+[Indonesia]
+Индонезия
 [Iran (Islamic Republic of)]
 Иран (Ислямска република)
+[Iraq]
+Ирак
+[Ireland]
+Ирландия
+[Israel]
+Израел
+[Italy]
+Италия
+[Jamaica]
+Ямайка
+[Japan]
+Япония
+[Jordan]
+Йордания
+[Kazakhstan]
+Казахстан
+[Kenya]
+Кения
+[Kiribati]
+Кирибати
 [Korea, North]
 Северна Корея
 [Korea, South]
 Южна Корея
+[Kuwait]
+Кувейт
+[Kyrgyzstan]
+Киргизстан
 [Laos]
 Лаос
+[Latvia]
+Латвия
+[Lebanon]
+Ливан
+[Lesotho]
+Лесото
+[Liberia]
+Либерия
 [Libyan Arab Jamahiriya]
 Либия (Арабска джамахирия)
+[Liechtenstein]
+Лихтенщайн
+[Lithuania]
+Литва
+[Luxembourg]
+Люксембург
 [Macau]
 Макао
 [Macedonia, Republic of]
 Македония
+[Madagascar]
+Мадагаскар
+[Malawi]
+Малави
+[Malaysia]
+Малайзия
+[Maldives]
+Малдиви
+[Mali]
+Мали
+[Malta]
+Малта
+[Marshall Islands]
+Маршалови острови
+[Martinique]
+Мартиника
+[Mauritania]
+Мавритания
+[Mauritius]
+Мавриций
 [Mayotte Island]
 остров Майот
+[Mexico]
+Мексико
+[Micronesia, Federated States of]
+Микронезия
+[Moldova, Republic of]
+Молдова
+[Monaco]
+Монако
+[Mongolia]
+Монголия
+[Montserrat]
+Монсерат
+[Morocco]
+Мароко
+[Mozambique]
+Мозамбик
+[Myanmar]
+Мианмар
+[Namibia]
+Намибия
+[Nauru]
+Науру
+[Nepal]
+Непал
+[Netherlands]
+Нидерландия (Холандия)
 [Netherlands Antilles]
 Нидерландски Антили
 [St. Maarten]
 сен Мартен
+[Curacao]
+Кюрасао
 [Netherlands (Bonaire Island)]
 Нидерландски Антили (сейнт Бонер)
 [Netherlands (Saba Island)]
 Нидерландски Антили (сейнт Саба)
 [Netherlands (St. Eustatius Island)]
 Нидерландски Антили (сейнт Еустациус)
+[New Caledonia]
+Нова Каледония
+[New Zealand]
+Нова Зеландия
+[Nicaragua]
+Никарагуа
+[Niger]
+Нигер
+[Nigeria]
+Нигерия
+[Niue]
+Ниуе
 [Northern Mariana Islands, US Territory of]
 Северни Мариански острови, територия на САЩ
+[Norway]
+Норвегия
+[Oman]
+Оман
+[Pakistan]
+Пакистан
+[Palau]
+Палау
+[Panama]
+Панама
+[Papua New Guinea]
+Папуа-Нова Гвинея
+[Paraguay]
+Парагвай
+[Peru]
+Перу
+[Philippines]
+Филипини
+[Poland]
+Полша
+[Portugal]
+Португалия
+[Puerto Rico]
+Пуерто Рико
+[Qatar]
+Катар
 [Reunion Island]
 остров Реюнион
+[Romania]
+Румъния
 [Russia]
 Русия
+[Rwanda]
+Руанда
 [Samoa (USA)]
 Американска Самоа
 [Samoa, Western]
 Западна Самоа
 [Saint Helena]
 сейнт Елена
+[Saint Kitts and Nevis]
+сейнт Китс и Нейвис
+[Saint Lucia]
+сейнт Лусия
+[Saint Pierre and Miquelon]
+сен Пиер и Микелон
+[Saint Vincent and the Grenadines]
+сейнт Винсънт и Гренадини
+[San Marino]
+Сан Марино
+[Sao Tome and Principe]
+Сао Томе и Принсипи
+[Saudi Arabia]
+Саудитска Арабия
 [Scotland]
 Шотландия
+[Senegal]
+Сенегал
+[Seychelles]
+Сейшелски острови
+[Sierra Leone]
+Сиера Леоне
+[Singapore]
+Сингапур
+[Slovakia]
+Словакия
+[Slovenia]
+Словения
+[Solomon Islands]
+Соломонови острови
+[Somalia]
+Сомалия
+[South Africa]
+Южна Африка
+[Spain]
+Испания
 [Spain, Canary Islands]
 Канарски острови (Испания)
+[Sri Lanka]
+Шри Ланка
+[Sudan]
+Судан
+[Suriname]
+Суринам
+[Swaziland]
+Свазиленд
+[Sweden]
+Швеция
+[Switzerland]
+Швейцария
+[Syrian Arab Republic]
+Сирия
 [Taiwan]
 Тайван
+[Tajikistan]
+Таджикистан
 [Tanzania]
 Танзания
+[Thailand]
+Тайланд
 [Timor, East]
 Източен Тимор
+[Togo]
+Того
+[Tokelau]
+Токелау
+[Tonga]
+Тонга
+[Trinidad and Tobago]
+Тринидад и Тобаго
+[Tunisia]
+Тунис
+[Turkey]
+Турция
 [Turkey, Republic of Northern Cyprus]
 Севернокипърска турска република
+[Turkmenistan]
+Туркменистан
+[Turks and Caicos Islands]
+острови Търкс и Кайкос
+[Tuvalu]
+Тувалу
+[Uganda]
+Уганда
+[Ukraine]
+Украйна
+[United Arab Emirates]
+Обединени арабски емирства
+[United Kingdom]
+Обединено кралство
+[Uruguay]
+Уругвай
 [USA]
 САЩ
+[Uzbekistan]
+Узбекистан
+[Vanuatu]
+Вануату
 [Vatican City]
 Ватикана
 [Venezuela]
@@ -364,6 +796,8 @@ ICQ бележка
 Уелс
 [Wallis and Futuna Islands]
 острови Уолис и Футуна
+[Yemen]
+Йемен
 [Yugoslavia]
 Югославия
 [Serbia, Republic of]
@@ -372,6 +806,10 @@ ICQ бележка
 Косово
 [Montenegro, Republic of]
 Черна гора
+[Zambia]
+Замбия
+[Zimbabwe]
+Зимбабве
 [Audio and Visual]
 Аудио и видео
 [Business]
@@ -410,6 +848,10 @@ ICQ - помощ
 Минали работни места
 [Past Organization]
 Минала организация
+[Female]
+Жена
+[Male]
+Мъж
 [Associated degree]
 Специалист по... (Associated degree)
 [Bachelor's degree]
@@ -455,6 +897,12 @@ ICQ - помощ
 [Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 Прехвърлянето е прекратено поради липса на един от избраните файлове. Вероятно сте изтрили или преместили файла.
 ;file \protocols\IcqOscarJ\src\icq_menu.cpp
+[Request authorization]
+Молба за упълномощаване
+[Grant authorization]
+Даване на пълномощно
+[Revoke authorization]
+Отнемане на пълномощното
 [Add to server list]
 Добавяне в списъка на сървъра
 [Show custom status details]
@@ -474,6 +922,14 @@ ICQ - помощ
 Без изобразяване на съобщения (не е препоръчително)
 [System default codepage]
 Станд. кодова таблица на системата
+[Network]
+Мрежа
+[Contacts]
+Контакти
+[Popups]
+РopUps
+[Popups]
+РopUps
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 [Sample Note]
 Пример за бележка
@@ -537,8 +993,12 @@ ICQ - помощ
 Изтриване на група "%s"...
 [All operations complete]
 Всички действия завършиха
+[Close]
+Затваряне
 [You have to be online to sychronize the server-list !]
 Трябва да сте на линия за синхронизиране на списъка на сървъра !
+[** All contacts **]
+** Всички контакти **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [Taking a bath]
 Къпе се
@@ -552,6 +1012,8 @@ ICQ - помощ
 Снима
 [Having fun]
 Забавлява се
+[On the phone]
+На телефона
 [Gaming]
 Играе
 [Studying]
@@ -562,6 +1024,8 @@ ICQ - помощ
 Болен
 [Surfing]
 Сърфира
+[Typing]
+Пише
 [Picnic]
 Пикник
 [To be or not to be]
@@ -656,6 +1120,8 @@ ICQ - помощ
 Пише
 [%s Custom Status]
 %s персонално състояние
+[None]
+Няма
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
 Поздравителна картичка:
@@ -689,6 +1155,8 @@ ICQ грешка
 [Connection lost during file transfer.]
 Загубена връзка по време на прехвърлянето на файла.
 ;file \protocols\IcqOscarJ\src\utilities.cpp
+[<invalid>]
+<невалидно>
 ;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
 [GMT-12:00 Eniwetok; Kwajalein]
 GMT-12:00 Eniwetok; Кваджалин
@@ -756,6 +1224,8 @@ GMT+12:00 Оукланд; Уелингтън; Фиджи; Камчатка; Ма
 Име
 [Last name]
 Фамилия
+[Contact]
+Контакт
 [Street]
 Улица
 [City]
@@ -868,6 +1338,8 @@ ICQ сървъра не поддържа пароли по-дълги от 8 з�
 [Enter a password for UIN %u:]
 Въведете нова парола за UIN %u:
 ;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
+[<not specified>]
+<неуточнено>
 [Member since:]
 Член от:
 [%s Details]

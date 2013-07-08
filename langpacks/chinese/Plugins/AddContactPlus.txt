@@ -3,10 +3,32 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Biaіek
+;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
 ;file \plugins\AddContactPlus\res\resource.rc
+[Add Contact]
+添加联系人
+[Custom name:]
+自定义名称: 
+[Group:]
+群组: 
+[Options]
+选项
+[Send "You were added"]
+发送 "您已被添加" 
+[Send authorization request]
+发送授权请求
+[Authorization Request]
+授权请求
+[&Add]
+添加(&A)
+[&Cancel]
+取消(&C)
 ;file \plugins\AddContactPlus\src\addcontact.cpp
+[Please authorize my request and add me to your contact list.]
+请授权我的请求, 并将我加至您的联系人列表中. 
+[None]
+无
 ;file \plugins\AddContactPlus\src\main.cpp
 [AddContact+]
 添加联系人

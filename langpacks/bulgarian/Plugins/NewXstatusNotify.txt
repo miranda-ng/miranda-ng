@@ -1,33 +1,71 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: xStatus notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 ;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 Уведомяване, ако контакт промени състоянието си на:
+[Online]
+На линия
+[Offline]
+Извън линия
+[Invisible]
+Невидим
+[Free for chat]
+Готов за чат
+[Away]
+Отсъстващ
+[NA]
+Недостъпен
+[Occupied]
+Зает
+[DND]
+Не безпокойте
+[Out to lunch]
+На обяд
+[On the phone]
+На телефона
 [Always when changing from offline]
 Винаги при промяна от "Извън линия"
 [Plugin activation]
 Активиране на приставката
 [Automatically turn off Popups and Sounds on status change]
 Изключване на Popups и звука при промяна на състоянието
+[Configure]
+Настройване
 [Blink icon in the system tray]
 Мигане на иконата в трея
 [Use status icon]
 Показване на икона за състоянието
 [Use individual sounds]
 Ползване на индивидуални звуци
+[Delete]
+Изтриване
 [Status Notify]
 Уведомяване за състояния
 [Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
 Индивидуалните звукове са изключени.\n\nЗа да да ги включите отидете в Настройки>Състояние>Уведомяване и включете \n"Ползване на индивидуален звук", след което отворете наново прозореца.
+[Sounds]
+Звук
+[Popups]
+РopUps
+[Popups]
+РopUps
 [Disable all]
 Изкл. на всички
 [Enable all]
 Вкл. на всички
+[Background]
+Фон
+[Text]
+Текст
+[Use custom colours]
+Зададени цветове
+[Use Windows colours]
+Цветове от Windows
 [Use Popup colours]
 От Popup приставката
 [Popup text]
@@ -54,6 +92,10 @@
 Нов текст:
 [New status:]
 Ново състояние:
+[Reset]
+Анулиране
+[Cancel]
+Отказ
 [Disable globally]
 Изключване за всички
 [Disable only if I change global status]
@@ -68,13 +110,23 @@
 Запазване на събитията в историята
 [Prevent identical logs]
 Предотвратяване на идентичните дневници
+[General]
+Основни
+[Accounts]
+Акаунти
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Status]
+Състояние
 [Sound for the status]
 Звук за състоянието
 [From offline]
 От "Извън линия"
+[** All contacts **]
+** Всички контакти **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 ;file \plugins\NewXstatusNotify\src\main.cpp
+[Contact]
+Контакт
 [%s is now %s]
 %s сега е %s
 [%s, %s. %s changed to: %s (was: %s).\r\n]
@@ -172,6 +224,10 @@
 [Extra status removed]
 Премахване на допълнително състояние
 ;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+Всички файлове
+[Log]
+Дневник
 [This is status message]
 Това е текст за състояние
 [Do you want to reset all templates to default?]
@@ -189,6 +245,8 @@
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
 [Xstatus]
 хСъстояние
+[<unknown>]
+<неизвестно>
 [%s, %s. %s removed %s.\r\n]
 %s, %s. %s премахна състоянието си "%s".\r\n
 [%s, %s. %s changed %s to: %s.\r\n]

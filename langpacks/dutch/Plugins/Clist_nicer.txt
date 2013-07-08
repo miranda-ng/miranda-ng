@@ -6,15 +6,267 @@
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 ;file \plugins\Clist_nicer\res\resource.rc
+[OK]
+OK
+[Version]
+Versie
+[Delete Contact]
+Contact verwijderen
+[No]
+Ne
+[Yes]
+Ja
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Verberg alleen van lijst, zodat de geschiedenis en negeer/zichtbaarheid instellingen bewaard blijven
+[Are you sure you want to delete %s?]
+Weet u zeker dat u %s wilt verwijderen?
+[This will erase all history and settings for this contact!]
+Dit zal alle geschiedenis en instellingen verwijderen voor deze persoon!
+[Contact List]
+Persoon lijst
+[Hide offline users]
+Offline gebruikers verbergen
+[Hide empty groups]
+Lege groepen verbergen
+[Disable groups]
+Groepen uitschakelen
+[Ask before deleting contacts]
+Vraag voor het verwijderen van personen
+[Disable icon blinking]
+Knipperend icoon uitschakelen
+[System tray icon]
+Systeemvak icoon
+[Single click interface]
+Enkele-klik interface
+[Always show status in tooltip]
+Status altijd in tooltip weergeven
+[System tray icon when using multiple protocols]
+Systeemvak icoon bij gebruik meedere protocollen
+[Show]
+Weergeven
+[icon when statuses differ]
+icoon wanneer statussen verschillen
+[Cycle icons every]
+Verander iconen iedere
+[seconds, when statuses differ]
+seconden, wanneer statussen verschillen
+[Show multiple icons]
+Meerdere iconen weergeven
+[Only when statuses differ]
+Alleen wanneer statussen verschillen
+[Groups]
+Groepen
+[Draw a line alongside group names]
+Een lijn bij groepnamen tekenen
+[Sort groups alphabetically]
+Groepen alfabetisch sorteren
+[Quicksearch in open groups only]
+Snelzoeken alleen in open groepen
+[Indent groups by:]
+Spring groepen in bij:
+[Contact List Sorting]
+Persoon lijst sortering
+[Icons]
+Iconen
+[Dim idle contacts]
+Rustige personen donker maken
+[Window]
+Scherm
+[Always on top]
+Altijd bovenop
+[Show menu bar]
+Menu balk weergeven
+[Easy move]
+Makkelijk verplaatsen
+[Title bar text:]
+Titelbalk tekst:
+[Pin to desktop]
+Op desktop vastzetten
+[Hide contact list after it has been idle for]
+Lijst verbergen nadat het rustig is voor
+[seconds]
+seconden
+[Automatically resize window to height of list]
+Hoogte van de lijst autmatisch aanpassen
+[maximum]
+maximum
+[% of screen]
+% van het scherm
+[Size upwards]
+Omhoog vergrootten
+[If window is partially covered, bring to front instead of hiding]
+Als scherm gedeeltelijk bedekt is, breng naar voren in plaats van verbergen
+[Transparent contact list]
+Doorzichtig persoon lijst
+[Inactive opacity:]
+Inactief ondoorlatendheid:
+[Active opacity:]
+Actief ondoorlatendheid
+[Show divider between online and offline contacts]
+Verdeler tussen online en offline personen weergeven
+[Hot track items as mouse passes over]
+Hot track items wanneer de muis erover gaat
+[Disable drag and drop of items]
+Drag and drop voor items uitschakelen
+[Disable rename of items by clicking twice]
+Items hernoemen door dubbelklik uitschakelen
+[Show selection even when list is not focused]
+Selectie weergeven zelfs wanneer lijst geen focus heeft
+[Make selection highlight translucent]
+Selectie oplichting doorzichtig maken
+[Visual]
+Visueel
+[Scroll list smoothly]
+Lijst vloeiend scrollen
+[Time:]
+Tijd:
+[milliseconds]
+milliseconden
+[Grey out entire list when:]
+Gehele lijst grijs maken wanneer:
+[Contact List Background]
+Persoon lijst achtergrond
+[Use Windows colours]
+Windows kleuren gebruiken
+[Background colour]
+Achtergrond kleur
+[Use background image]
+Achtergrondplaatje gebruiken
+[Stretch to width]
+Tot breedte uitrekken
+[Stretch to height]
+Tot hoogte uitrekken
+[Tile horizontally]
+Naast elkaar
+[Tile vertically]
+Onder elkaar
+[Scroll with text]
+Met tekst scrollen
+[Stretch proportionally]
+Proportioneel uitrekken
+[Status Bar]
+Status balk
+[Show status bar]
+Status balk weergeven
+[Show icons]
+Iconen weergeven
+[Show protocol names]
+Protocol namen weergeven
+[Show status text]
+Status tekst weergeven
+[Right click opens status menu]
+Rechts klikken opent status menu
+[Right click opens Miranda NG menu]
+Rechts klikken opent Miranda NG menu
+[Make sections equal width]
+Selecties even groot maken
+[Cancel]
+Annuleren
+[Apply]
+Toepassen
+[Protocol]
+Protocol
+[Group]
+Groep
+[Messages]
+Berichten
 [Suppress auth requests]
 Auth verzoek onderdrukken
+[Visibility]
+Zichtbaarheid
+[Other]
+Ander
+[E&xit]
+Afsluiten
+[&Away\tCtrl+2]
+Afwezig\tCtrl+2
+[&NA\tCtrl+3]
+&Niet beschikbaar\tCtrl+3
+[Occ&upied\tCtrl+4]
+Bezet\tCtrl+4
+[&DND\tCtrl+5]
+Niet storen\tCtrl+5
+[&Free for chat\tCtrl+6]
+Beschikbaar voor gesprek\tCtrl+6
+[&Invisible\tCtrl+7]
+Onz&ichtbaar\tCtrl+7
+[On the &Phone\tCtrl+8]
+Aan de telefoon\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Aan het lunchen\tCtrl+9
+[&Hide/Show]
+Verbergen/Weergeven
+[&New Group]
+&Nieuwe Groep
+[&Hide Offline Users]
+Offline gebruikers verbergen
+[Hide &Offline Users out here]
+&Offline gebruikers hierbuiten verbergen
+[Hide &Empty Groups]
+L&ege groepen verbergen
+[Disable &Groups]
+&Groepen uitschakelen
+[Hide Miranda]
+Miranda verbergen
+[&New Subgroup]
+&Nieuw Subgroep
+[&Hide Offline Users in here]
+&Offline gebruikers hierbinnen verbergen
+[&Rename Group]
+G&roep hernoemen
+[&Delete Group]
+Groep verwij&deren
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+[General]
+Algemeen
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 ;file \plugins\Clist_nicer\src\clcopts.cpp
+[Not focused]
+Geen focus
+[Offline]
+Offline
+[Away]
+Afwezig
+[NA]
+Niet beschikbaar
+[Occupied]
+Bezet
+[DND]
+Niet storen
+[Free for chat]
+Beschikbaar voor gesprek
+[Invisible]
+Onzichtbaar
+[Out to lunch]
+Aan het lunchen
+[On the phone]
+Aan de telefoon
+[Name]
+Naam
+[Status]
+Status
+[Background]
+Achtergrond
+[Contacts]
+Personen
+[Advanced]
+Geavanceerd
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 ;file \plugins\Clist_nicer\src\clistopts.cpp
 ;file \plugins\Clist_nicer\src\clui.cpp
+[Standard contacts]
+Standaard personen
+[Online contacts to whom you have a different visibility]
+Online personen met een andere zichtbaarheid
+[Offline contacts]
+Offline personen
+[Offline contacts to whom you have a different visibility]
+Offline personen met een andere zichtbaarheid
+[Contacts which are 'not on list']
+Personen die 'niet op de lijst' staan
+[Dividers]
+Verdelers
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 ;file \plugins\Clist_nicer\src\Docking.cpp
 ;file \plugins\Clist_nicer\src\extBackg.cpp
@@ -22,3 +274,7 @@ Auth verzoek onderdrukken
 ;file \plugins\Clist_nicer\src\viewmodes.cpp
 ;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[&Find/Add Contacts...]
+Personen zoeken/toevoegen...
+[&Options...]
+&Opties...

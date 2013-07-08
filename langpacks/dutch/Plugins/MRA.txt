@@ -6,8 +6,44 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
+[Password:]
+Wachtwoord:
+[Port:]
+Poort:
+[Default]
+Standaard
+[Background colour]
+Achtergrond kleur
+[Summary]
+Samenvatting
+[Nickname:]
+Bijnaam:
+[First name:]
+Voornaam:
+[Last name:]
+Achternaam:
+[Gender:]
+Geslacht:
+[Age:]
+Leeftijd:
+[Location]
+Locatie
+[Country:]
+Land:
+[State:]
+Provincie:
+[City:]
+Plaats:
 [Full e-mail:]
 Volledige e-mail:
+[Closing in %d]
+Sluiten in %d
+[Add]
+Toevoegen
+[OK]
+OK
+[Cancel]
+Annuleren
 ;file \protocols\MRA\src\MraAntiSpam.cpp
 ;file \protocols\MRA\src\MraAvatars.cpp
 ;file \protocols\MRA\src\MraChat.cpp
@@ -16,8 +52,22 @@ Volledige e-mail:
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 ;file \protocols\MRA\src\MraIcons.cpp
 ;file \protocols\MRA\src\MraPopUp.cpp
+[Information]
+Informatie
+[Error]
+Fout
+[Popups]
+Popups
 ;file \protocols\MRA\src\MraProto.cpp
+[E-mail address]
+E-mail adres
 ;file \protocols\MRA\src\Mra_functions.cpp
 ;file \protocols\MRA\src\Mra_options.cpp
+[Network]
+Netwerk
+[Files]
+Bestanden
 ;file \protocols\MRA\src\Mra_proto.cpp
 ;file \protocols\MRA\src\Mra_svcs.cpp
+[On the phone]
+Aan de telefoon

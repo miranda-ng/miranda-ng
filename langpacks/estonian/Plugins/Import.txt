@@ -10,10 +10,24 @@
 Importimine lõpetatud
 [&Filename:]
 Faili nimi:
+[Cancel]
+Tühista
 [Import all contacts and all messages]
 Impordi kõik kontaktid ja kõik teated
 [System history]
 Süsteemi ajalugu
+[Incoming]
+Sisenev
+[Outgoing]
+Väljuv
+[Messages]
+Teated
+[URLs]
+URL-id
+[File Transfers]
+Failide ülekanded
+[Other]
+Muu
 ;file \plugins\Import\src\import.cpp
 [Added contact %u (found in history)]
 Lisatud kontakt %u (leitud ajaloost)
@@ -29,5 +43,7 @@ Importimine teostatud %d sekundiga.
 [&Import...]
 &Import...
 ;file \plugins\Import\src\miranda.cpp
+[All Files]
+Kõik failid
 ;file \plugins\Import\src\utils.cpp
 ;file \plugins\Import\src\wizard.cpp

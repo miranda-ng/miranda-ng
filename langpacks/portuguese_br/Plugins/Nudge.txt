@@ -24,8 +24,36 @@ Permitir chamar a atenção do mesmo contato a cada:
 Permitir 'ser chamado a atenção' do mesmo contato a cada:
 [* Nudge sending delay is hardcoded and cannot be changed.]
 *Chamar a atenção está inserido no código e não pode ser mudado.
+[Text]
+Texto
 [Allow nudges when you're:]
 Permitir 'chamar atenção' quando está:
+[Online]
+Online
+[Away]
+Ausente
+[Away]
+Ausente
+[Occupied]
+Ocupado
+[Occupied]
+Ocupado
+[DND]
+DND
+[DND]
+DND
+[Free for chat]
+Livre para conversar
+[Free for chat]
+Livre para conversar
+[Invisible]
+Invisível
+[Invisible]
+Invisível
+[On the phone]
+Ao telefone
+[Out to lunch]
+Saiu para almoço
 [Shaking Clist Options]
 Opções de tremor da Lista de Contatos
 [Number of moves]
@@ -41,5 +69,15 @@ Chamar a Atenção
 'Chamar a atenção' como Padrão
 ;file \plugins\Nudge\src\nudge.cpp
 ;file \plugins\Nudge\src\options.cpp
+[Events]
+Eventos
+[Events]
+Eventos
+[Events]
+Eventos
+[Events]
+Eventos
+[Events]
+Eventos
 [Window Shaking]
 Tremor da Janela

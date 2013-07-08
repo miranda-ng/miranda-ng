@@ -6,6 +6,8 @@
 ;  Authors: Ricardo Pescuma Domenecci, Heiko Schillinger
 ;============================================================
 ;file \plugins\QuickContacts\res\resource.rc
+[Contacts]
+אנשי קשר
 ;file \plugins\QuickContacts\src\options.cpp
 ;file \plugins\QuickContacts\src\quickcontacts.cpp
 [Send URL]

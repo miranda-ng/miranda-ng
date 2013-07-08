@@ -68,6 +68,8 @@ URL 地址
 移除共享(&R)
 [&Open in Browser]
 在浏览器中打开(&O)
+[&Copy link]
+复制链接(&C)
 ;file \plugins\HTTPServer\src\Glob.h
 ;file \plugins\HTTPServer\src\GuiElements.cpp
 [Share Current Directory]
@@ -102,6 +104,8 @@ IP 地址:
 您需要重启 Miranda 以改变主菜单
 [HTTP Server]
 HTTP 服务器
+[Network]
+网络
 [HTTP Share new file]
 HTTP 分享新文件
 ;file \plugins\HTTPServer\src\HttpUser.cpp

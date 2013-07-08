@@ -2,8 +2,32 @@
 ;============================================================
 ;  File: TooltipNotify.dll
 ;  Plugin: Tooltip notify
-;  Version: 0.6.0.47
+;  Version: 0.7.0.1
 ;  Authors: perf
 ;============================================================
 ;file \plugins\TooltipNotify\res\main.rc
+[Cancel]
+Отказ
+[Online]
+На линия
+[Offline]
+Извън линия
+[Typing]
+Пише
+[sec]
+сек
+[Contacts]
+Контакти
+[Idle]
+Бездействие
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
+[Popups]
+РopUps
+[Popups]
+РopUps
+[** New contacts **]
+** Нови контакти **
+[** Unknown contacts **]
+** Непознати контакти **
+[Unknown]
+Неизвестно

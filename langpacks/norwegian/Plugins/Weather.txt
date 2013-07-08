@@ -6,19 +6,67 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 ;file \plugins\Weather\res\resource.rc
+[Close]
+Lukk
+[Options]
+Valg
+[Visibility]
+Synlighet
+[Cancel]
+Avbryt
+[Background colour]
+Bakgrunnsfarge
+[Background colour]
+Bakgrunnsfarge
+[Text colour]
+Tekstfarge
+[Use Windows colours]
+Bruk Windowsfarger
+[seconds]
+sekunder
+[Default]
+Standard
+[Alerts]
+Varsler
+[Contact List]
+Kontaktliste
+[Reset]
+Nullstill
+[City:]
+By:
 ;file \plugins\Weather\src\weather.cpp
 ;file \plugins\Weather\src\weather.h
 ;file \plugins\Weather\src\weather_addstn.cpp
 ;file \plugins\Weather\src\weather_contacts.cpp
+[All Files]
+Alle Filer
 ;file \plugins\Weather\src\weather_conv.cpp
 ;file \plugins\Weather\src\weather_data.cpp
 ;file \plugins\Weather\src\weather_http.cpp
 ;file \plugins\Weather\src\weather_icons.cpp
 ;file \plugins\Weather\src\weather_info.cpp
+[Name:]
+Navn:
+[Name:]
+Navn:
+[bytes]
+bytes
+[Description:]
+Beskrivelse:
 ;file \plugins\Weather\src\weather_ini.cpp
 ;file \plugins\Weather\src\weather_mwin.cpp
 ;file \plugins\Weather\src\weather_opt.cpp
+[Network]
+Nettverk
+[General]
+Generelt
+[Popups]
+Popups
+[Popups]
+Popups
 ;file \plugins\Weather\src\weather_popup.cpp
 ;file \plugins\Weather\src\weather_svcs.cpp
 ;file \plugins\Weather\src\weather_update.cpp
 ;file \plugins\Weather\src\weather_userinfo.cpp
+[Information]
+Informasjon

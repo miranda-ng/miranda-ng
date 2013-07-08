@@ -8,10 +8,34 @@
 ;file \plugins\ContactsPlus\res\contacts.rc
 [Choose contacts to be send:]
 :בחר אנשי קשר לשלוח
+[&Send]
+שלח
+[Cancel]
+ביטול
+[&Add]
+&הוסף
+[Close]
+סגור
+[An error has occured. The protocol reported the following error:]
+התרחשה שגיאה. הפרוטוקול דיווח את השגיאה הבאה:
+[Try again]
+נסה שנית
+[User Details]
+פרופיל משתמש
 ;file \plugins\ContactsPlus\src\main.cpp
+[Contacts]
+אנשי קשר
 [Incoming Contacts]
 אנשי קשר נכנסים
 [Outgoing Contacts]
 אנשי קשר יוצאים
 ;file \plugins\ContactsPlus\src\receive.cpp
+[Add Contact Permanently to List]
+הוסף איש קשר בקביעות לרשימה
+[View User's Details]
+הצג פרופיל משתמש
+[View User's History]
+הצג היסטוריה עם משתמש
+[User Menu]
+תפריט משתמש
 ;file \plugins\ContactsPlus\src\send.cpp

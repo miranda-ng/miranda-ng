@@ -22,6 +22,26 @@ bass 内部频道最大数量:
 下载 Bass 库
 [Play only if]
 播放仅当
+[Offline]
+离线
+[Online]
+在线
+[Away]
+外出
+[NA]
+不适用
+[Occupied]
+忙碌中
+[DND]
+请勿打扰
+[Free for chat]
+有空聊天
+[Invisible]
+隐身
+[On the phone]
+接听电话
+[Out to lunch]
+外出用餐
 ;file \plugins\BASS_interface\src\Bass_interface.h
 [Bass Interface]
 Bass 接口
@@ -30,3 +50,5 @@ Bass 接口
 un4seen's bass 版本: %d.%d.%d.%d
 [--default device--]
 --默认设备--
+[Sounds]
+声音

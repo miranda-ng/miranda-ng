@@ -6,6 +6,20 @@
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 ;file \protocols\Twitter\res\twitter.rc
+[Username:]
+Gebruikersnaam:
+[Cancel]
+Annuleren
+[Text]
+Tekst
+[Custom]
+Aangepast
+[OK]
+OK
 ;file \protocols\Twitter\src\connection.cpp
 ;file \protocols\Twitter\src\proto.cpp
+[Network]
+Netwerk
+[Popups]
+Popups
 ;file \protocols\Twitter\src\theme.cpp

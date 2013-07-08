@@ -6,5 +6,9 @@
 ;  Authors: Mataes, jarvis
 ;============================================================
 ;file \plugins\CSList\res\cslist.rc
+[Cancel]
+취소
 ;file \plugins\CSList\src\cslist.cpp
+[Status]
+상태
 ;file \plugins\CSList\src\cslist.h

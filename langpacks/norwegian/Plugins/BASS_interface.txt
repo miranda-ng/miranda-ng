@@ -6,5 +6,27 @@
 ;  Authors: tico-tico
 ;============================================================
 ;file \plugins\BASS_interface\res\Bass.rc
+[Offline]
+Frakoblet
+[Online]
+Pålogget
+[Away]
+Borte
+[NA]
+NA
+[Occupied]
+Opptatt
+[DND]
+Ikke forstyrr
+[Free for chat]
+Tilgjengelig for samtale
+[Invisible]
+Usynlig
+[On the phone]
+I Telefonen
+[Out to lunch]
+Ute til lunsj
 ;file \plugins\BASS_interface\src\Bass_interface.h
 ;file \plugins\BASS_interface\src\Main.cpp
+[Sounds]
+Lyder

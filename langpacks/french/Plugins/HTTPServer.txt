@@ -40,6 +40,8 @@ Créer un XML (mode compatible)
 Créer un XML
 [&Open in Browser]
 &Ouvrir dans le navigateur
+[&Copy link]
+&Copier le lien
 ;file \plugins\HTTPServer\src\Glob.h
 ;file \plugins\HTTPServer\src\GuiElements.cpp
 [Max Downloads]
@@ -52,6 +54,8 @@ Terminé
 Vitesse
 [HTTP Server]
 Serveur HTTP
+[Network]
+Réseau
 ;file \plugins\HTTPServer\src\HttpUser.cpp
 ;file \plugins\HTTPServer\src\main.cpp
 [Disable HTTP server]

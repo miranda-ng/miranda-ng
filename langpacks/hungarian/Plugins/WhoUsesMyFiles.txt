@@ -6,7 +6,13 @@
 ;  Authors: Nikolay Redko
 ;============================================================
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
+[OK]
+OK
 [Use windows colors]
 Windows színek használata
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
+[File]
+Fájl
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
+[Popups]
+Felugrók

@@ -6,7 +6,27 @@
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 ;file \plugins\MyDetails\res\resource.rc
+[Nickname:]
+כינוי:
+[OK]
+אישור
+[Cancel]
+ביטול
+[General]
+כללי
+[pixels]
+פיקסלים
+[pixels]
+פיקסלים
+[seconds]
+שניות
 ;file \plugins\MyDetails\src\data.cpp
 ;file \plugins\MyDetails\src\frame.cpp
+[Status]
+מצב
+[Background]
+רקע
 ;file \plugins\MyDetails\src\mydetails.cpp
+[Contact List]
+רשימת אנשי קשר
 ;file \plugins\MyDetails\src\options.cpp

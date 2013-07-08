@@ -6,6 +6,12 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 ;file \plugins\PasteIt\res\PasteIt.rc
+[OK]
+확인
+[Cancel]
+취소
+[Delete]
+삭제
 ;file \plugins\PasteIt\src\Options.cpp
 ;file \plugins\PasteIt\src\PasteIt.cpp
 ;file \plugins\PasteIt\src\PasteToWeb.cpp

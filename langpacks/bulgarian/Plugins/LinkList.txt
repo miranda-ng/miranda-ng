@@ -6,9 +6,31 @@
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Search]
+Търсене
+[Close]
+Затваряне
 [Message direction]
 Посока на текста
+[Incoming messages]
+Входящите съобщения
+[Outgoing messages]
+Изходящи съобщения
+[Timestamp]
+Времева марка
+[&File]
+Файл
+[&Close]
+Затваряне
+[&Options]
+Настройки
+[&Search]
+Търсене
 ;file \plugins\HistoryLinkListPlus\src\language.h
+[Error]
+Грешка
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[History]
+История
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 ;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp

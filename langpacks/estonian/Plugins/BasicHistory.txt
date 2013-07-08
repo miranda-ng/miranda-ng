@@ -6,14 +6,70 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 ;file \plugins\BasicHistory\res\BasicHistory.rc
+[Show names]
+Kuva nimed
+[Show messages]
+Kuva teated
+[Name]
+Nimi
+[OK]
+OK
+[Cancel]
+Tühista
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
+[View &History]
+Vaata ajalugu
+[Incoming message]
+Sisenev teade
+[Outgoing message]
+Väljundteade
+[History]
+Ajalugu
 ;file \plugins\BasicHistory\src\EventList.cpp
+[History for %s]
+%s ajalugu
+[System]
+Süsteem
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
+[Open in &new window]
+Ava uues aknas
+[&Open in existing window]
+Ava olemas olevas aknas
+[&Copy link]
+Kopeeri link
+[Copy]
+Kopeeri
+[Delete]
+Kustuta
+[Delete Group]
+Kustuta grupp
+[Options]
+Valikud
+[Icons]
+Ikoonid
+[Hotkeys]
+Kiirklahvid
+[Error]
+Viga
 ;file \plugins\BasicHistory\src\Options.cpp
+[Message]
+Teade
+[Link]
+Link
+[Messages]
+Teated
+[Searching]
+Otsimine
+[Find]
+Otsi
 ;file \plugins\BasicHistory\src\Options.h
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 ;file \plugins\BasicHistory\src\Scheduler.cpp
+[Contacts]
+Kontaktid
 ;file \plugins\BasicHistory\src\Searcher.cpp
+[Search]
+Otsi
 ;file \plugins\BasicHistory\src\TxtExport.cpp

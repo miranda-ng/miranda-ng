@@ -6,6 +6,10 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MSN\res\msn.rc
+[Password:]
+Contraseña:
+[Nickname:]
+Nick:
 [Create a new Windows Live account]
 Crear una nueva cuenta de Windows Live
 [Send message font color/size info inside messages]
@@ -20,6 +24,8 @@ Ejecutar la aplicación siguiente cuando llegue el nuevo Hotmail
 Permitir que la gente en mi lista de contactos enviar mensajes a dispositivos móviles
 [Direct:]
 Directo:
+[Reset]
+Restablecer
 [Server List Manager]
 Administrador de servidores Lista
 [Contact is on your local list]
@@ -38,18 +44,30 @@ Desactivar las notificaciones de pop-ups
 Desactivar las notificaciones de la bandeja
 [Ignore new messages not in Inbox folder]
 No haga caso de los nuevos mensajes no en carpeta Bandeja de entrada
+[Other]
+Otros
 [Enable 'Chat Session Established' popup]
 Activar popup 'Sesión de Chat de plantilla'
 [Enable 'Contact left channel' popup]
 Habilitar 'Contacto del canal izquierdo' popup
 [Disable Contact List notifications]
 Deshabilitar la lista de notificaciones de contacto
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [MSN Delete Contact]
 MSN Eliminar contacto
 [Remove from Hotmail Address book]
 Borrar de la libreta de direcciones de Hotmail
 [Block Contact]
 Bloque de contacto
+[&Cancel]
+&Cancelar
+[Add]
+Agregar
 ;file \protocols\MSN\src\msn_chat.cpp
 ;file \protocols\MSN\src\msn_commands.cpp
 [Contact tried to open an audio conference (currently not supported)]
@@ -94,10 +112,14 @@ Configuración de Live &Alerts
 [&Start Netmeeting]
 &Inicio Netmeeting
 ;file \protocols\MSN\src\msn_misc.cpp
+[Error]
+Error 
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
 [Hotmail Inbox]
 Bandeja de entrada de Hotmail
+[Profile]
+Perfil
 [MSN Services]
 MSN Servicios
 [Invite to chat]
@@ -120,6 +142,10 @@ Especificar manualmente host / puerto
 IP información disponible sólo después de anunciarse
 [MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
 MSN Protocolo requiere tiempo de espera de mensaje para ser no menos de 60 seg. Corrija el valor de tiempo de espera.
+[Network]
+Red
+[Network]
+red
 [Server list]
 Servidor de listas
 ;file \protocols\MSN\src\msn_p2p.cpp

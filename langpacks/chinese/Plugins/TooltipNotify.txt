@@ -2,18 +2,30 @@
 ;============================================================
 ;  File: TooltipNotify.dll
 ;  Plugin: Tooltip notify
-;  Version: 0.6.0.47
+;  Version: 0.7.0.1
 ;  Authors: perf
 ;============================================================
 [Shows a small tooltip above system tray area when a contact status is changed.]
 当联系人状态改变时显示一个小工具提示于系统托盘区域.
 ;file \plugins\TooltipNotify\res\main.rc
+[OK]
+确定
+[Cancel]
+取消
 [Notify upon the following events]
 以下事件显示通知
+[Online]
+在线
+[Offline]
+离线
 [All other]
 所有其它
+[Typing]
+键入中
 [Suppress notifications upon connection for]
 禁止通知当连接于
+[sec]
+秒
 [Prefix proto name]
 前缀名称
 [Duration]
@@ -38,6 +50,10 @@
 透明输入
 [Transparent tooltip]
 透明工具提示
+[Contacts]
+联系人
+[Idle]
+闲置
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Tooltip Notify]
 工具提示通知
@@ -51,3 +67,11 @@
 工具提示通知: 其它
 [Tooltip Notify: Typing]
 工具提示通知: 输入中
+[Popups]
+弹出窗口
+[** New contacts **]
+** 新联系人 **
+[** Unknown contacts **]
+** 未知联系人 **
+[Unknown]
+未知

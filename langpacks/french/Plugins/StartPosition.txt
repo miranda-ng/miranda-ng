@@ -21,3 +21,5 @@ Minimisé dans le Systray
 [Opened]
 Ouvert
 ;file \plugins\StartPosition\src\main.cpp
+[Contact List]
+Liste de contacts

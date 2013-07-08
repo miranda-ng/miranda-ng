@@ -6,5 +6,25 @@
 ;  Authors: Jonathan Gordon
 ;============================================================
 ;file \plugins\BuddyPounce\res\resource.rc
+[Cancel]
+취소
+[OK]
+확인
+[Advanced >>]
+고급 >>
+[Status]
+상태
 ;file \plugins\BuddyPounce\src\dialog.cpp
+[Online]
+온라인
+[Away]
+자리 비움
+[NA]
+응답없음
+[Occupied]
+다른 용무중
+[DND]
+수신 거부
+[Invisible]
+오프라인으로 표시
 ;file \plugins\BuddyPounce\src\main.cpp

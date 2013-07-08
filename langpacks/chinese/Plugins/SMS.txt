@@ -10,12 +10,18 @@
 已传入 SMS
 [&Reply]
 回复(&R)
+[&Close]
+关闭(&C)
 [Read Next]
 读下一个
+[From:]
+从: 
 [Message received:]
 已接收消息: 
 [Send SMS]
 发送 SMS
+[To:]
+给: 
 [Add number to list]
 将号码加至列表
 [Save number]
@@ -26,10 +32,14 @@
 请输入消息: 
 [Chars:]
 字数: 
+[&Send]
+发送(&S)
 [SMS Message Didn't Send]
 SMS 消息尚未发出
 [&Try again]
 重试(&T)
+[&Cancel]
+取消(&C)
 [The SMS message send timed out]
 SMS 消息发送已超时
 [SMS Plugin]
@@ -44,6 +54,8 @@ SMS 插件
 使用签名
 [SMS Message Sent]
 SMS 消息已发出
+[&OK]
+确定(&O)
 [Message ID:]
 消息 ID: 
 [Source:]
@@ -62,6 +74,8 @@ SMS 消息已发出
 [Received SMS Confirmation]
 已传入 SMS 确认
 ;file \plugins\SMS\src\senddlg.cpp
+[View User's History]
+查看用户历史
 [Add Number To The Multiple List]
 将号码加至多重列表
 [Save Number To The User's Details Phonebook]
@@ -72,6 +86,8 @@ SMS 消息已发出
 显示您键入字符数量
 [The SMS message send to %s timed out.]
 发送给 %s 的 SMS 消息已经超时. 
+[Invalid Phone Number]
+无效电话号码
 [Message is too long, press OK to continue.]
 消息过长, 请按 "确定" 继续. 
 [Error - Message too long]

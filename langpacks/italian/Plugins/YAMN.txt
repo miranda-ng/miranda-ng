@@ -6,10 +6,40 @@
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 ;file \plugins\YAMN\res\YAMN.rc
+[OK]
+OK
+[OK]
+OK
+[Description:]
+Descrizione:
+[Description:]
+Descrizione:
+[Copyright:]
+Copyright:
 [Check this account]
 Controlla questo account
 [Check interval [min]:]
 Intervallo controllo [min]:
+[Message]
+Messaggio
+[Message]
+Messaggio
+[Message]
+Messaggio
+[Password:]
+Password:
+[Password:]
+Password:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
+[Port:]
+Porta:
 [Startup check]
 Controllo all'avvio
 [Check from menu]
@@ -22,6 +52,66 @@ Notifica con messaggio se errore
 Notifica nell'icona della tray se errore
 [Reset counter]
 Reimposta contatore
+[Default]
+Predefinito
+[Default]
+Predefinito
+[Name:]
+Nome:
+[Name:]
+Nome:
+[Name:]
+Nome:
+[Options]
+Opzioni
+[Options]
+Opzioni
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Offline]
+Offline
+[Offline]
+Offline
+[Online]
+Online
+[Online]
+Online
+[Away]
+Altrove
+[Away]
+Altrove
+[Occupied]
+Occupato
+[Occupied]
+Occupato
+[DND]
+Non disturbare
+[DND]
+Non disturbare
+[Free for chat]
+Disponibile per chat
+[Free for chat]
+Disponibile per chat
+[Invisible]
+Invisibile
+[Invisible]
+Invisibile
+[On the phone]
+Al telefono
+[Out to lunch]
+Fuori a pranzo
 [Single popup]
 Popup singolo
 [Multi popup]
@@ -34,11 +124,17 @@ Popup se non ci sono msg
 Notifiche di fallimento connessione
 [Popup notification if failed]
 Notifica con popup se errore
+[Background colour]
+Colore di sfondo
+[Text colour]
+Colore del testo
 ;file \plugins\YAMN\src\main.cpp
 ;file \plugins\YAMN\src\main.h
 [YAMN: connect failed]
 YAMN: connessione fallita
 ;file \plugins\YAMN\src\services.cpp
+[Nick]
+Nick
 ;file \plugins\YAMN\src\browser\badconnect.cpp
 [ - connection error]
  - errore nella connessione
@@ -47,6 +143,16 @@ YAMN: connessione fallita
 Esegui programma
 [Delete selected]
 Elimina selezionato
+[Select All]
+Seleziona Tutto
+[Size]
+Dimensioni
+[Size]
+Dimensioni
+[Size]
+Dimensioni
+[Size]
+Dimensione
 [Do you really want to delete %d selected mails?]
 Sei sicuro di voler eliminare %d messaggi selezionati?
 [Delete confirmation]
@@ -83,10 +189,36 @@ Eliminazione spam
 [Server does not support APOP authorization.]
 Il server non supporta l'autorizzazione APOP.
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[Network]
+Rete
+[Network]
+Rete
+[Network]
+Rete
+[General]
+Generale
+[Plugins]
+Plugin
+[Plugins]
+Plugin
+[Plugins]
+Plugin
+[Plugins]
+Plugin
+[Popups]
+Popup
+[Popups]
+Popups
 [No account selected]
 Nessun account selezionato
 [Time left to next check [s]: %d]
 Tempo prima del prossimo controllo: %d
+[All Files]
+Tutti i file
+[All Files]
+Tutti i file
+[All Files]
+Tutti i file
 [Select executable used for notification]
 Seleziona eseguibile utilizzato per la notifica
 [Please wait while no account is in use.]

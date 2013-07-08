@@ -16,10 +16,14 @@
 完全符合
 [Setting Name]
 设置名称
+[&Search]
+搜索(&S)
 [Found field]
 查找范围
 [&Replace]
 替换(&R)
+[&Cancel]
+取消(&C)
 [Search For]
 搜索项目
 [In:]
@@ -50,6 +54,8 @@
 弹出窗口超时 (0 代表无限)
 [Background colour]
 背景颜色
+[Background colour]
+背景颜色
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
 如模块名称含空格, 请在空格前放置 \\. 例如 "aaa\\ bbb"
 [Add a module to contact]
@@ -58,6 +64,10 @@
 添加模块名称
 [Add to all contacts (Includes Settings)]
 加至所有联系人 (包括设置)
+[OK]
+确定
+[Cancel]
+取消
 [Edit Setting]
 编辑设置
 [Value Name:]
@@ -90,6 +100,8 @@
 刷新模块(&R)
 [Refresh &Settings]
 刷新设置(&S)
+[E&xit]
+退出(&X)
 [&Actions]
 操作(&A)
 [&Search and Replace]
@@ -112,6 +124,8 @@
 从文件(&F)
 [From pasted &text]
 粘贴文本从(&T)
+[&Options]
+选项(&O)
 [&Sort by protocol]
 按协议排序(&S)
 [Show &All]
@@ -128,8 +142,6 @@
 以十六进制编辑 &Dwords
 [&Restore position]
 还原位置(&R)
-[Item context]
-项目环境
 [&Edit / Rename]
 编辑/重命名(&E)
 [NEW]
@@ -156,8 +168,10 @@
 加密字符串
 [&Watch]
 监视(&W)
-[Null Mod context]
-空模块环境
+[&Delete]
+删除(&D)
+[&Rename]
+重命名(&R)
 [Copy To Contact]
 复制到联系人
 [Export Module]
@@ -176,22 +190,14 @@
 粘贴文本从
 [&Add Module]
 添加模块(&A)
-[NULL contact menu]
-空联系菜单
 [Export Settings]
 导出设置
-[Contacts menu]
-联系人菜单
 [Export Contacts]
 导出联系人
 [Import Contacts]
 导入联系人
-[Contact Mod context]
-联系人模块环境
 [Export Module from all contacts]
 从所有联系人导出模块
-[new item]
-新增项目
 [Watch Window]
 监视窗口
 [Reload Watch List]
@@ -238,6 +244,8 @@
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 INI 文件
+[All Files]
+所有文件
 [Error Loading Module List]
 加载模块列表发生错误
 [Couldn't open file for writing]
@@ -302,14 +310,20 @@ INI 文件
 加载模块...
 [Module tree not found]
 模块树未找到
+[Contacts]
+联系人
 [HANDLE]
 处理
 [Add module to contact "%s"]
 添加模块至联系人 "%s"
 ;file \plugins\DbEditorPP\src\options.cpp
 ;file \plugins\DbEditorPP\src\settinglist.cpp
+[Name]
+名称
 [Data]
 资料
+[Size]
+大小
 [BYTE]
 字节
 [WORD]
@@ -320,7 +334,11 @@ INI 文件
 字符串
 [<unsupported>]
 <不支持>
+[<unknown>]
+<未知>
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
+[Contact]
+联络方式
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
 数据库设置已变更: \n模块: "%s", 设置: "%s"\n新值: (BYTE) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]

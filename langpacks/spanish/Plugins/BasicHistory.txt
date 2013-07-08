@@ -6,22 +6,86 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 ;file \plugins\BasicHistory\res\BasicHistory.rc
+[Message History]
+Historial de mensajes
+[Show names]
+Mostrar nombres
+[Show messages]
+Mostrar mensajes
 [External CSS file]
 Archivo CSS externo
+[Name]
+Nombre
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
+[View &History]
+Ver &Historia
+[Incoming message]
+Mensaje entrante
+[Outgoing message]
+Mensaje saliente
 [Status change]
 Cambiar estado
+[History]
+Historia
 ;file \plugins\BasicHistory\src\EventList.cpp
 [All events]
 Todos los eventos
+[History for %s]
+Historia de %s
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
+[Open in &new window]
+Abre en ventana nueva y
+[&Open in existing window]
+&Abre en ventana existente
+[&Copy link]
+&Copiar enlace
+[Copy]
+Copiar
+[Delete]
+Eliminar
+[Delete Group]
+Eliminar grupo
+[Options]
+Opciones
+[Options]
+Opciones
 [Filters]
 Filtros
+[Fonts & Colors]
+Fuentes y colores
+[Icons]
+Iconos
+[Hotkeys]
+Teclas de acceso directo
+[Error]
+Error 
 ;file \plugins\BasicHistory\src\Options.cpp
+[Message]
+Mensaje
+[Authorization request]
+Solicitud de autorización
+[Messages]
+Mensaje ventanas - IM
+[Searching]
+Búsqueda
+[Advanced]
+Avanzada
+[Advanced]
+Avanzada
+[Find]
+Buscar
 ;file \plugins\BasicHistory\src\Options.h
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 ;file \plugins\BasicHistory\src\Scheduler.cpp
+[Contacts]
+Contactos
 ;file \plugins\BasicHistory\src\Searcher.cpp
 ;file \plugins\BasicHistory\src\TxtExport.cpp

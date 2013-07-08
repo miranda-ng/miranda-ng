@@ -6,12 +6,50 @@
 ;  Authors: J. Schaal & S. Ellis
 ;============================================================
 ;file \plugins\MetaContacts\res\MetaContacts.rc
+[&Cancel]
+&Mégse
+[Name:]
+Név:
+[Information]
+Információ
+[Contacts]
+Partnerek
+[&Apply]
+&Alkalmazás
+[Options]
+Beállítások
+[Contact List]
+Kapcsolati lista
+[Default]
+Alap
 ;file \plugins\MetaContacts\src\addto.cpp
 ;file \plugins\MetaContacts\src\edit.cpp
+[(Unknown Contact)]
+(ismeretlen partner)
+[Yes]
+Igen
+[No]
+Nem
+[Contact]
+Kapcsolat
+[Protocol]
+Protokoll
 ;file \plugins\MetaContacts\src\icons.cpp
+[Edit]
+Szerkeszt
+[Remove]
+Eltávolítás
 ;file \plugins\MetaContacts\src\metacontacts.h
 ;file \plugins\MetaContacts\src\meta_main.cpp
 ;file \plugins\MetaContacts\src\meta_menu.cpp
+[Error]
+Hiba
 ;file \plugins\MetaContacts\src\meta_options.cpp
 ;file \plugins\MetaContacts\src\meta_services.cpp
+[Message from %s]
+Üzenet tõle: %s
+[General]
+Általános
+[History]
+Elõzmény
 ;file \plugins\MetaContacts\src\meta_utils.cpp

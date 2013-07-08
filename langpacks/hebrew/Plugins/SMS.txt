@@ -8,10 +8,18 @@
 ;file \plugins\SMS\res\resource.rc
 [&Reply]
 &הגב
+[&Close]
+סגור
 [Send SMS]
 סמס שלח
+[To:]
+אל:
 [Enter message:]
 הודעה:
+[&Send]
+שלח
+[&Cancel]
+בטל
 [SMS Plugin]
 סמס שליחת
 [Begining]
@@ -20,10 +28,16 @@
 סוף
 [Put signature at the:]
 שים חתימה ב:
+[&OK]
+&אישור
 [Source:]
 מקור:
 ;file \plugins\SMS\src\options.cpp
 ;file \plugins\SMS\src\receive.cpp
 ;file \plugins\SMS\src\recvdlg.cpp
 ;file \plugins\SMS\src\senddlg.cpp
+[View User's History]
+הצג היסטוריה עם משתמש
+[Invalid Phone Number]
+מספר טלפון שגוי
 ;file \plugins\SMS\src\SMS_svc.cpp

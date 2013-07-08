@@ -6,6 +6,10 @@
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 ;file \plugins\TipperYM\res\resource.rc
+[Options]
+选项
+[Window]
+窗口
 [Max width:]
 最大宽度: 
 [Max height:]
@@ -40,6 +44,10 @@
 设置或前缀
 [Translation:]
 翻译: 
+[OK]
+确定
+[Cancel]
+取消
 [Item]
 项目
 [Value:]
@@ -48,16 +56,28 @@
 在上面绘制横线
 [Value on a new line]
 数值放于新行
+[Items]
+项目
 [Substitutions]
 替换
+[Add]
+添加
+[Remove]
+移除
+[Edit]
+编辑
 [Separator]
 分隔器
+[Extra icons]
+额外图标
 [Enable SmileyAdd support]
 启用 SmileyAdd 支持
 [Status bar and tray tooltip]
 状态栏及托盘提示
 [Limit status messages in status bar and tray tooltips to:]
 限制状态栏状态信息及托盘提示为:
+[Effects]
+效果
 [Hide offline protocols]
 隐藏离线协议
 ;file \plugins\TipperYM\src\mir_smileys.cpp
@@ -76,6 +96,10 @@
 中间
 [Max avatar size:]
 最大头像大小: 
+[None]
+无
+[Customize]
+自定义
 [Content]
 内容
 ;file \plugins\TipperYM\src\options.h
@@ -87,6 +111,8 @@
 登录时间
 [Unread emails]
 未读邮件
+[Status]
+状态
 [Miranda uptime]
 运行时间
 [Clist event]
@@ -96,18 +122,42 @@ Jabber 活动
 [Client]
 客户端
 ;file \plugins\TipperYM\src\popwin.cpp
+[%s (locked)]
+%s (已锁定)
+[Other]
+其它
 ;file \plugins\TipperYM\src\preset_items.cpp
+[Gender:]
+性别: 
+[Homepage:]
+主页: 
+[Idle]
+闲置
+[Name]
+名称
+[Name:]
+名称: 
+[Time:]
+时间: 
 [Sunrise:]
 日出: 
 [Sunset:]
 日落: 
 ;file \plugins\TipperYM\src\skin_parser.cpp
 ;file \plugins\TipperYM\src\tipper.cpp
+[Background]
+背景
+[Dividers]
+分隔器
 [Labels]
 标签
 [Values]
 数值
 ;file \plugins\TipperYM\src\translations.cpp
+[Female]
+女
+[Male]
+男
 [WORD to status description]
 字至状态描述
 [DWORD timestamp to time]

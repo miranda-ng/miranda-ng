@@ -26,8 +26,12 @@ Ajout d'un Rappel
 Heure && Date d'alerte :
 [Reminder Note:]
 Note de Rappel :
+[None]
+Aucun
 [&Add Reminder]
 &Ajouter le Rappel
+[&Close]
+&Fermer
 [&View Reminders]
 &Voir les Rappels
 [&Dismiss]
@@ -36,6 +40,16 @@ Note de Rappel :
 Ajouter
 [&New Note]
 &Nouvelle Note
+[Reset]
+RAZ
+[Text Color]
+Texte
+[Font]
+Police
+[Undo]
+Annuler
+[&Copy]
+&Copier
 [&Paste]
 C&oller
 [C&ut]
@@ -55,6 +69,8 @@ supprimer tous les rappels
 Ajouter une note
 [Add New Reminder]
 Nouveau rappel
+[Alerts]
+Notifications
 [Notes && Reminders]
 Notes && Rappels
 [&Delete All Notes]
@@ -74,6 +90,8 @@ Argent
 Eau
 ;file \plugins\NotesAndReminders\src\options.cpp
 ;file \plugins\NotesAndReminders\src\reminders.cpp
+[Default]
+Défaut
 [Reminder text]
 Texte du rappel
 [Date of activation]

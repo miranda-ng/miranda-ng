@@ -12,10 +12,14 @@
 内容及样式
 [Go to Customize > Fonts && Colors for fonts and colors options]
 至自定义 > 字体及颜色选项
+[Effects]
+效果
 [Live Preview]
 实况预览
 [Size && Position]
 大小及位置
+[History]
+历史
 [Enable popup history]
 启用弹出窗口历史
 [Store last]
@@ -26,6 +30,10 @@
 绘制头像边框
 [Draw borders for semitransparent avatars too]
 半透明头像也绘制边框
+[pixels]
+像素
+[pixels]
+像素
 [Enable avatar updates]
 启用头像更新
 [Start the popups in the monitor with]
@@ -36,10 +44,14 @@ Miranda 窗口屏幕
 当前窗口屏幕
 [Enable Win 9x/Me transparency]
 启用 Win 9x/Me 透明
+[opacity:]
+不透明度:
 [Opaque popups under cursor]
 光标指向时不透明化
 [Slide Popup]
 幻灯片式弹出提示
+[Effect:]
+特效:
 [Time (out):]
 时间 (出):
 [Limit window amount to:]
@@ -54,6 +66,10 @@ Miranda 窗口屏幕
 弹出窗口间隔
 [Configure popup area]
 配置弹出窗口区域
+[Close]
+关闭
+[General]
+常规
 [Enable popup actions]
 启用弹出窗口操作
 [Popup Actions are those tiny buttons below notification text.]
@@ -116,6 +132,8 @@ Miranda 窗口屏幕
 无限弹出窗口延时
 [Popup delay:]
 弹出窗口延时:
+[seconds]
+秒
 [Do not close hovered popups]
 不要关闭鼠标下弹出窗口
 [Dynamically resize the popups]
@@ -124,6 +142,8 @@ Miranda 窗口屏幕
 最小宽度
 [Maximum width]
 最大宽度
+[Position:]
+职务: 
 [Layout:]
 布局:
 [Reorder Popups]
@@ -141,6 +161,8 @@ Miranda 窗口屏幕
 快速回复
 [User details]
 用户详细资料
+[Contact menu]
+联系人菜单
 [Pin popup]
 弹出窗口别针
 ;file \plugins\Popup\src\config.cpp
@@ -174,6 +196,10 @@ Miranda 窗口屏幕
 刷新皮肤列表
 [Popup Placement]
 弹出窗口方位
+[OK]
+确定
+[Cancel]
+取消
 [Popup Group]
 弹出窗口群组
 [Favorite Contact]
@@ -188,9 +214,17 @@ Miranda 窗口屏幕
 弹出窗口别针
 [Pinned Popup]
 固定弹出窗口
+[User Details]
+用户详细资料
 [Add Contact Permanently]
 永久添加联系人
 ;file \plugins\Popup\src\main.cpp
+[Actions]
+操作
+[Contacts]
+联系人
+[Advanced]
+高级
 ;file \plugins\Popup\src\opt_adv.cpp
 [Fade in/out]
 淡入/淡出
@@ -221,6 +255,8 @@ Popup Plus 警告
 下拉阴影效果
 [non rectangular]
 非矩形
+[Use Windows colours]
+使用 Windows 颜色
 [Global settings]
 全局设置
 [Refresh List]
@@ -228,6 +264,8 @@ Popup Plus 警告
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
 ;file \plugins\Popup\src\services.cpp
+[Error]
+错误
 ;file \plugins\Popup\src\skin.cpp
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Popup Mode: Auto]

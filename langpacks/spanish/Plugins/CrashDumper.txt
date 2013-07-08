@@ -6,16 +6,30 @@
 ;  Authors: borkra
 ;============================================================
 ;file \plugins\CrashDumper\res\crshdmp.rc
+[Close]
+Cerrar
 [To File]
 Para Archivo
 [Support for miranda-vi.org]
 Apoyo a la miranda-vi.org
+[Username]
+Nombre de usuario
 [Upload automatically when changed]
 Cargar automáticamente cuando cambia
+[General]
+General
+[General]
+General
 [Use classic dates]
 Utilizar fechas clásico
 [Create reports in subfolders naming as current date]
 Creación de informes en las subcarpetas de nombres como la fecha actual
+[&Copy]
+&Copiar
+[Co&py All]
+Co&pie todos
+[Select &All]
+Seleccionar todo
 ;file \plugins\CrashDumper\src\crshdmp.cpp
 [VersionInfo stored into file %s]
 VersionInfo almacenados en el archivo %s
@@ -29,6 +43,8 @@ Mostrar información de versión
 Cargar información de versión
 [Store to file]
 Tienda de archivo
+[Show]
+mostrar
 [Show with DLLs]
 Mostrar con archivos DLL
 [Open crash report directory]

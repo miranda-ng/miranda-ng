@@ -8,6 +8,8 @@
 ;file \plugins\Dbx_tree\res\dbConfig.rc
 [dbxTree Profile Wizard]
 dbxTree 配置文件向导
+[Cancel]
+取消
 [Next >]
 下一个 >
 [< Prev]

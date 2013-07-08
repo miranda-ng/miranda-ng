@@ -6,6 +6,28 @@
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
 ;file \plugins\Nudge\res\resource.rc
+[Text]
+Tekst
+[Offline]
+Offline
+[Away]
+Afwezig
+[NA]
+Niet beschikbaar
+[Occupied]
+Bezet
+[DND]
+Niet storen
+[Free for chat]
+Beschikbaar voor gesprek
+[Invisible]
+Onzichtbaar
+[On the phone]
+Aan de telefoon
+[Out to lunch]
+Aan het lunchen
 ;file \plugins\Nudge\src\main.cpp
 ;file \plugins\Nudge\src\nudge.cpp
 ;file \plugins\Nudge\src\options.cpp
+[Events]
+Gebeurtenissen

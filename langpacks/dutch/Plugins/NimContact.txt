@@ -6,9 +6,19 @@
 ;  Authors: Jonathan Gordon
 ;============================================================
 ;file \plugins\Non-IM Contact\res\resource.rc
+[Group:]
+Groep:
+[&Exit]
+Afsluiten
+[OK]
+OK
 ;file \plugins\Non-IM Contact\src\contactinfo.cpp
+[Select Folder]
+Folder selecteren
 ;file \plugins\Non-IM Contact\src\dialog.cpp
 ;file \plugins\Non-IM Contact\src\files.cpp
 ;file \plugins\Non-IM Contact\src\http.cpp
 ;file \plugins\Non-IM Contact\src\main.cpp
+[Plugins]
+Plugins
 ;file \plugins\Non-IM Contact\src\namereplacing.cpp

@@ -6,12 +6,88 @@
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 ;file \plugins\YAMN\res\YAMN.rc
+[OK]
+Tamam
+[Description:]
+Açıklama:
+[Description:]
+Açıklama:
+[Copyright:]
+Haklar:
+[Message]
+İleti
+[Password:]
+Parola:
+[Port:]
+Port:
+[Default]
+Varsayılan
+[Name:]
+Ad:
+[Name:]
+Ad:
+[Options]
+Seçenekler
+[Options]
+Seçenekler
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Offline]
+Çevrimdışı
+[Online]
+Çevrimiçi
+[Away]
+Uzakta
+[Occupied]
+Meşgul
+[DND]
+Dokunma
+[Free for chat]
+Sohbete uygun
+[Invisible]
+Görünmez
+[On the phone]
+Telefonda
+[Out to lunch]
+Yemekte
+[Background colour]
+Art alan rengi
+[Background colour]
+Art alan rengi
+[Text colour]
+Yazı rengi
+[Text colour]
+Yazı rengi
 ;file \plugins\YAMN\src\main.cpp
 ;file \plugins\YAMN\src\main.h
 ;file \plugins\YAMN\src\services.cpp
+[Nick]
+Kısa ad
 ;file \plugins\YAMN\src\browser\badconnect.cpp
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[Select All]
+Tümünü Seç
+[Size]
+Boyut
 ;file \plugins\YAMN\src\mails\mime.cpp
 ;file \plugins\YAMN\src\proto\netlib.cpp
 ;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[Network]
+Ağ
+[Accounts]
+Hesaplar
+[General]
+Genel
+[Plugins]
+Eklentiler
+[Popups]
+Açılır Pencereler
+[All Files]
+Tüm Dosyalar
+[All Files]
+Tüm Dosyalar

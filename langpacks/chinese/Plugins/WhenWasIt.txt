@@ -8,12 +8,16 @@
 [Notifies you of upcoming birthdays.]
 通知您即将到来的生日.
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
+[Popups]
+弹出窗口
 [Don't show popups for subcontacts]
 子联系人不要显示弹出窗口
 [Show popup when no birthdays are near]
 生日临近时显示弹出窗口
 [Popup mouse click]
 弹出窗口鼠标点击
+[Sounds]
+声音
 [Play sounds when there are]
 播放声音当
 [days or less to birthday.]
@@ -30,20 +34,36 @@
 默认使用
 [to save birthday data.]
 保存至生日数据.
+[Show]
+状态不同时显示
 [in birthday list window]
 在生日列表窗口中
 [Timeout:]
 超时: 
+[seconds]
+秒
 [Notify for]
 通知为
 [afterwards]
 然后
+[In background]
+在背景
 [Birthday list]
 生日列表
+[Close]
+关闭
 [Set birthday:]
 设置生日:
+[OK]
+确定
 [Manage anniversaries]
 管理周年纪念
+[Description:]
+描述: 
+[Date:]
+日期:
+[Delete]
+删除
 [Upcoming birthdays]
 即将到来生日
 ;file \plugins\WhenWasIt\src\dlg_handlers.cpp
@@ -71,8 +91,14 @@ mBirthday 模块
 为 %s 设置生日:
 [%S protocol]
 %S 协议
+[Unknown]
+未知
 [Birthday list (%d)]
 生日列表 (%d)
+[Protocol]
+协议
+[Contact]
+联络方式
 [Age]
 年龄
 [Closing in %d seconds]
@@ -82,6 +108,8 @@ mBirthday 模块
 ;file \plugins\WhenWasIt\src\hooked_events.cpp
 [Check for birthdays]
 检查生日
+[Contacts]
+联系人
 [Birthday near]
 生日临近
 [Birthdays (When Was It)]
@@ -129,12 +157,16 @@ WhenWasIt 生日提醒
 开始刷新用户详细资料
 [Done refreshing user details]
 刷新用户详细资料完成
+[Error]
+错误
 [Please select a file to import birthdays from ...]
 请选择从何文件导入生日 ...
 [Importing birthdays from file: %s]
 导入生日于文件: %s
 [Done importing birthdays]
 导入生日完成
+[All Files]
+所有文件
 [Please select a file to export birthdays to ...]
 请选择导出生日至何文件 ...
 [Exporting birthdays to file: %s]

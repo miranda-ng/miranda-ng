@@ -6,7 +6,25 @@
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
+[Background]
+Bakgrunn
+[Text]
+Tekst
+[Default]
+Standard
+[Custom]
+Selvvalgt
+[Custom]
+Selvvalgt
+[sec]
+sek
 [Notify always]
 Varsle alltid
 ;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
 ;file \plugins\BuddyExpectator\src\options.cpp
+[Contacts]
+Kontakter
+[Popups]
+Popups
+[Popups]
+Popups

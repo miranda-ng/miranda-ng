@@ -6,11 +6,39 @@
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 ;file \plugins\IEView\res\ieview.rc
+[Copy]
+Kopeeri
+[Select All]
+Vali kõik
+[Options]
+Valikud
+[Size:]
+Suurus:
+[Show seconds]
+Kuva sekundid
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Incoming File Transfer]
+Siseneva faili ülekanne
 ;file \plugins\IEView\src\HTMLBuilder.cpp
+[(Unknown Contact)]
+Tundmatu kontakt
 ;file \plugins\IEView\src\IEView.cpp
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[Error]
+Viga
 ;file \plugins\IEView\src\Options.cpp
+[General]
+Üldine
+[Message Log]
+Teadete logi
+[History]
+Ajalugu
+[All Files]
+Kõik failid
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+[File sent]
+Fail saadetud
+[File received]
+Fail vastu võetud
 ;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
 ;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

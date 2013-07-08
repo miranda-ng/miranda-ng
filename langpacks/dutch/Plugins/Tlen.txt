@@ -1,14 +1,50 @@
 ﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
 ;langpack template for Tlen
 ;file \protocols\Tlen\res\tlen.rc
+[Username:]
+Gebruikersnaam:
+[Password:]
+Wachtwoord:
+[Options]
+Opties
+[Port:]
+Poort:
 [Proxy requires authorization]
 Proxy vereist autorisatie
+[Background]
+Achtergrond
+[Text]
+Tekst
 [&Custom]
 Aangepast
 [P&ermanent]
 P&ermanent
+[OK]
+OK
+[Cancel]
+Annuleren
+[First name:]
+Voornaam:
+[Last name:]
+Achternaam:
+[Gender:]
+Geslacht:
+[City:]
+Plaats:
+[Nickname:]
+Bijnaam:
+[Age:]
+Leeftijd:
+[From:]
+Van:
 ;file \protocols\Tlen\src\jabber_iqid.cpp
 ;file \protocols\Tlen\src\jabber_opt.cpp
+[General]
+Algemeen
+[Advanced]
+Geavanceerd
+[Network]
+Netwerk
 ;file \protocols\Tlen\src\jabber_svc.cpp
 ;file \protocols\Tlen\src\jabber_thread.cpp
 ;file \protocols\Tlen\src\jabber_ws.cpp
@@ -18,3 +54,5 @@ P&ermanent
 ;file \protocols\Tlen\src\tlen_picture.cpp
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 ;file \protocols\Tlen\src\tlen_voice.cpp
+[Default]
+Standaard

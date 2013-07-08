@@ -6,14 +6,52 @@
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 ;file \plugins\Clist_modern\res\resource.rc
+[Always on top]
+Alati pealmine
+[seconds]
+sekundit
+[Transparent contact list]
+Läbipaistev kontaktinimekiri
+[Inactive opacity:]
+Mitteaktiivse läbipaistmatus:
+[Active opacity:]
+Aktiivse läbipaistmatus:
 [Animate Avatars]
 Animeeri avatare
+[Show protocol names]
+Kuva protokolli nimed
+[Show status text]
+Kuva oleku tekst
 [Available skins]
 Saadaval nahad
+[Apply]
+Rakenda
+[Copy]
+Kopeeri
+[Paste]
+Pane
 [Object properties]
 Objekti omadused
 [Colour]
 Värv
+[File]
+Fail
+[Size:]
+Suurus:
+[OK]
+OK
+[Cancel]
+Tühista
+[Protocol]
+Protokoll
+[Group]
+Grupp
+[Status Bar]
+Olekuriba
+[Show status bar]
+Kuva olekuriba
+[Make sections equal width]
+Tee sektsioonid võrdse laiusega
 [Vertical Align]
 Vertikaalne joondus
 [Multiline status bar:]
@@ -24,12 +62,58 @@ Sea valikud kontopõhiselt
 Kuva mõlemad ikoonid
 [Show unread emails (if supported)]
 Kuva lugemata e-mailid (kui toetatud)
+[Right click opens status menu]
+Parem klikk avab olekumenüü
+[Delete Contact]
+Kustuta kontakt
+[No]
+Ei
+[Yes]
+Jah
+[Hide offline users]
+Peida väljas olevad kasutajad
+[Hide empty groups]
+Peida tühjad grupid
+[Contact List]
+Kontaktide nimekiri
+[Contact List Sorting]
+Kontaktide nimekirja sorteerimine
+[Gamma correction]
+Gamma parandus
+[maximum]
+maksimum
+[pixels]
+pikselit
+[pixels]
+pikselit
 [Show automaticaly]
 Kuva automaatselt
 [Always Visible]
 Alati nähtav
+[Items]
+Elemendid
+['Hide Offline' means to hide:]
+'Peida väljasolevad' tähendab peita:
+[Groups]
+Grupid
+[Sort groups alphabetically]
+Sorteeri grupid tähestikuliselt
+[Time:]
+Aeg:
+[milliseconds]
+millisekundit
+[Show]
+Kuva
+[Show menu bar]
+Kuva menüürida
+[Show title bar]
+Kuva tiitelriba
+[Title bar text:]
+Tiitelriba tekst:
 [Min row height:]
 Min. rea kõrgus:
+[Left margin:]
+Vasak ääris:
 [Round corners of avatars]
 Ümarda avataride nurkasid
 [Protocol status icon]
@@ -40,29 +124,119 @@ kõrgus
 Peida ikoon, kui avatar kuvatud
 [Hide groups icon]
 Peida gruppide ikoon
+[Status]
+Staatus
 [Position (vertical)]
 Asukoht (vertikaalne)
+[Options]
+Valikud
 [Show Title]
 Kuva tiitel
 [Locked]
 Lukustatud
 [Vertical align:]
 Vertikaalne joondus:
+[E&xit]
+Välju
+[&Status]
+&Olek
+[&Offline\tCtrl+0]
+Väljas\tCtrl+0
+[On&line\tCtrl+1]
+Sees\tCtrl+1
+[&Away\tCtrl+2]
+Eemal\tCtrl+2
+[&NA\tCtrl+3]
+Pole kättesaadav\tCtrl+3
+[&Free for chat\tCtrl+6]
+Vestluseks vaba\tCtrl+6
+[&Invisible\tCtrl+7]
+&Nähtamatu\tCtrl+7
+[On the &Phone\tCtrl+8]
+Telefonil\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Lõunastamas\tCtrl+9
+[&Hide/Show]
+Kuva/&Peida
+[&New Group]
+Uus grupp
+[&Hide Offline Users]
+Peida väljas olevad kasutajad
+[Hide &Empty Groups]
+Peida tühjad grupid
+[Hide Miranda]
+Peida Miranda
+[&New Subgroup]
+Uus alamgrupp
+[&Hide Offline Users in here]
+Peida siin väljas kasutajad
 [&Show Offline Users in here]
 Kuva siin väljas kasutajad
+[&Rename Group]
+Nimeta grupp ümber
+[&Delete Group]
+Kustuta grupp
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Away contacts]
 Eemal kontaktid
 [Invisible contacts]
 Nähtamatud kontaktid
+[Offline contacts]
+Väljas olevad kontaktid
+[Background]
+Taust
+[General]
+Üldine
+[List]
+Nimekiri
+[Window]
+Aken
+[List Background]
+Nimekirjade taust
+[Offline]
+Väljas
+[Online]
+Sees
+[Away]
+Eemal
+[NA]
+Pole kättesaadav
+[Occupied]
+Hõivatud
+[Free for chat]
+Vestluseks vaba
+[Invisible]
+Nähtamatu
+[Out to lunch]
+Lõunastamas
+[On the phone]
+Telefonil
+[Name]
+Nimi
+[Global]
+Globaalne
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
 [No Events]
 Pole sündmusi
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
+[None]
+Pole
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Text]
+Tekst
+[Extra icons]
+Ekstra ikoonid
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+[(Unknown Contact)]
+Tundmatu kontakt
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
+[&Find/Add Contacts...]
+Otsi/lisa kontakte...
+[&Main Menu]
+Põhimenüü
+[&Options...]
+&Valikud...
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show Contact &Avatar]
 Kuva kontakti &avatar
@@ -82,6 +256,8 @@ veerud
 [Image size is]
 Pildi suurus on
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
+[Error]
+Viga
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Warning!]
 Hoiatus!
@@ -96,5 +272,10 @@ Vaikimisi nahk
 [<<Global>>]
 <<Globaalne>>
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[Main Menu]
+Põhimenüü
+[Accounts]
+Kontod
+[Find User]
+Otsi kasutajat
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
-;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

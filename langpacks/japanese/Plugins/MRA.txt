@@ -6,18 +6,84 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
+[E-mail:]
+電子メール :
+[Password:]
+パスワード :
+[Port:]
+ポート :
+[Default]
+デフォルト
+[Background colour]
+背景色
+[Font]
+フォント
+[Summary]
+要約
+[Nickname:]
+ニックネーム :
+[First name:]
+名 :
+[Last name:]
+名字 :
+[Gender:]
+性別 :
+[Age:]
+年齢 :
+[Location]
+場所
+[Country:]
+国 :
+[State:]
+州 :
+[City:]
+市 :
 [Full e-mail:]
 完全な電子メール:
+[Text Color]
+テキスト色
+[Closing in %d]
+%d 秒後に閉じる
+[Add]
+追加
+[Remove]
+削除
+[OK]
+OK
+[Cancel]
+Cancel
 ;file \protocols\MRA\src\MraAntiSpam.cpp
 ;file \protocols\MRA\src\MraAvatars.cpp
 ;file \protocols\MRA\src\MraChat.cpp
 ;file \protocols\MRA\src\MraConstans.h
+[Request authorization]
+認証リクエスト
+[Grant authorization]
+権限の承認
 ;file \protocols\MRA\src\MraFilesQueue.cpp
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 ;file \protocols\MRA\src\MraIcons.cpp
+[Main Menu]
+メインメニュー
 ;file \protocols\MRA\src\MraPopUp.cpp
+[None]
+なし
+[Information]
+情報
+[Error]
+エラー
+[Popups]
+ポップアップ
 ;file \protocols\MRA\src\MraProto.cpp
+[E-mail address]
+電子メールアドレス
 ;file \protocols\MRA\src\Mra_functions.cpp
 ;file \protocols\MRA\src\Mra_options.cpp
+[Network]
+ネットワーク
+[Files]
+ファイル
 ;file \protocols\MRA\src\Mra_proto.cpp
 ;file \protocols\MRA\src\Mra_svcs.cpp
+[On the phone]
+電話中

@@ -14,12 +14,32 @@ Attiva messaggi offline protetti
 Attiva trasferimento file protetto
 [Key Exchange Timeout :]
 Timeout scambio chiave:
+[sec]
+sec
+[sec]
+Sec
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
 [Key agreement colors]
 Colori scambio chiave
 [Secure connection colors]
 Colori connessione protetta
 [Send/Receive encrypted colors]
 Colori invio/ricezione protetta
+[Events]
+Eventi
+[Events]
+Eventi
+[Events]
+Eventi
 [Time in Seconds]
 Secondi
 [Show a popup on key send]
@@ -30,6 +50,40 @@ Mostra un popup alla ricezione della chiave
 Mostra un popup ad ogni invio protetto
 [Show a popup on each secure receive]
 Mostra un popup ad ogni ricezione protetta
+[Username:]
+Nome utente:
+[Password:]
+Password:
+[Password:]
+Password:
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
 [Always Try to Establish Secure IM]
 Cerca sempre di stabilire una connessione protetta
 [Secure IM Enabled]
@@ -53,6 +107,16 @@ SecureIM disattivato...
 Invio messaggio...
 [Message Received...]
 Messaggio ricevuto...
+[General]
+Generale
+[Name]
+Nome
+[Name]
+Nome
+[Name]
+Nome
+[Name]
+Nome
 [Always try]
 Prova sempre
 [Create SecureIM connection]
@@ -62,8 +126,20 @@ Disattiva connessione SecureIM
 [Disable SecureIM connection]
 Disattiva connessione SecureIM
 ;file \plugins\SecureIM\src\loadicons.cpp
+[Contact List]
+Lista dei contatti
+[Popups]
+Popup
+[Popups]
+Popups
 ;file \plugins\SecureIM\src\main.cpp
+[Icons]
+Icone
+[Icons]
+Icone
 ;file \plugins\SecureIM\src\options.cpp
+[Executable Files]
+File eseguibili
 ;file \plugins\SecureIM\src\popupOptions.cpp
 [Secure Popup]
 Popup protetto

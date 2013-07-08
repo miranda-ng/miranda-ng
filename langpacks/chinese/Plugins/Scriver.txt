@@ -10,16 +10,28 @@
 自动弹出窗口当
 [and stay minimized]
 并保持最小化
+[Cascade new windows]
+层叠新窗口
 [Save size and location for each contact]
 为每位联系人保存大小及位置
 [Minimize on send]
 发送时最小化
 [Hide windows on close]
 关闭时隐藏窗口
+[Send message on 'Enter']
+按 "Enter" 发送消息
+[Send message on double 'Enter']
+按两次 "Enter" 发送消息
 [Remember unsent messages]
 记住未发送信息
 [Delete temporary contacts on closing]
 关闭时删除临时联系人
+[Show warning when message has not been received after]
+显示警告当消息未能接收于
+[seconds]
+秒
+[Tabs]
+标签
 [Enable tabs]
 启用标签
 [Always show tab bar]
@@ -40,18 +52,30 @@
 群组聊天每窗口限制标签数量为
 [Show titlebar]
 显示标题栏
+[Show status bar]
+显示状态栏
 [Show toolbar]
 显示工具栏
 [Show infobar]
 显示信息栏
+[Use the contact's status icon as the window icon]
+使用联系人状态图标作为窗口图标
 [Show progress indicator]
 显示进度指示器
+[Message Window Event Log]
+通信窗口事件记录
 [Enable IEView]
 启用 IEView
+[Show icons]
+显示图标
+[Show seconds]
+显示秒数
 [Long date format]
 长日期格式
 [Relative date]
 相对日期
+[Show names]
+显示名称
 [Enable message grouping]
 启用消息分组
 [Mark follow-up msgs with timestamp]
@@ -74,33 +98,169 @@
 最后事件
 [Typing Notification Options]
 键入通知选项
+[Send typing notifications to the following users when you are typing a message to them:]
+当您键入消息时, 发送键入通知给这些用户: 
 [Show typing notification switch in the status bar]
 在状态栏显示键入通知开关
+[Show typing notifications when a user is typing a message]
+当用户键入消息时显示键入通知
 [Update message window icons when a user is typing]
 用户键入时更新消息窗口图标
+[Show typing notification when no message dialog is open]
+没有打开消息对话框时显示键入通知
+[Flash in the system tray and in the contact list]
+闪动系统托盘和联系人列表
+[Show balloon popup]
+显示气球式弹出窗口
+[Send Error]
+发送错误
+[An error has occured. The protocol reported the following error:]
+发生错误. 协议已回报了此错误: 
+[while sending the following message:]
+发送下列消息时: 
+[Try again]
+再试一次
+[Cancel]
+取消
+[Message Session]
+消息会话
 [Send To All Tabs]
 发送到所有标签
 [You are about to send a message to all open tabs.\nAre you sure ?]
 您正准备发送消息至所有已打开标签. \n您确定吗? 
 [Remember my choice for this container]
 记住针对此容器的决定
+[Yes]
+是
+[No]
+否
+[Show these events only:]
+仅显示下列事件: 
+[Actions]
+操作
+[Messages]
+消息
+[Nick changes]
+昵称变更
+[Users joining]
+用户加入
+[Users leaving]
+用户离开
+[Topic changes]
+主题变更
+[Status changes]
+状态变更
+[Information]
+信息
+[Disconnects]
+断开连接
+[User kicks]
+用户被踢走
+[Notices]
+公告
+[Options]
+选项
+[Other]
+其它
+[Add new rooms to group:]
+添加新房间到群组: 
 [User list row height]
 用户列表行高
+[pixels]
+像素
+[pixels]
+像素
+[Log Options]
+记录选项
+[Your name]
+您的名称
+[Other name]
+其它名称
+[Timestamp]
+时间戳
+[Log timestamp]
+记录时间戳
+[Limit log text to (events):]
+限制记录文本为 (事件): 
+[Enable highlighting]
+启用突出显示
+[Words to highlight (wildcards allowed)]
+突出显示字词 (允许通配符)
 [Save logs]
 保存记录
+[Location]
+位置
 [Trim to]
 截断为
 [Group Chat]
 群组聊天
+[Use same style as in the message log]
+消息记录使用相同的样式
+[Use default colours]
+使用默认颜色
+[Use custom colours]
+使用自定颜色
+[Text]
+文本
+[Background]
+背景
+[Timeout (s)]
+超时 (秒)
 [(0 means default setting, -1 means indefinite time)]
 (0 默认设置, -1 无时间限制)
+[OK]
+确定
+[Log]
+记录
+[&Copy]
+复制(&C)
+[Co&py All]
+全部复制(&C)
+[Select &All]
+全选(&C)
+[Word lookup]
+字词检索
 [Wikipedia (en)]
 维基百科(en)
+[C&lear Log]
+清除记录(&L)
+[&Open link]
+打开链接(&O)
+[&Copy link]
+复制链接(&C)
+[Message]
+消息
+[Undo]
+撤销
+[Redo]
+重做
+[Cut]
+剪切
+[Copy]
+复制
+[Paste]
+粘贴
+[Paste && Send]
+粘贴 && 发送
+[Delete]
+删除
+[Clear]
+晴
+[List]
+列表
+[&Message]
+消息(&M)
+[Clear lo&g]
+清除记录(&G)
+[Co&py all]
+全部复制(&P)
 ;file \plugins\Scriver\src\globals.cpp
 [User's details]
 用户详细资料
 [User's history]
 用户历史
+[Smiley button]
+表情按钮
 [User is typing]
 用户键入中
 [Typing notification off]
@@ -115,9 +275,83 @@ Unicode 已关闭
 引用按钮
 [Close button]
 关闭按钮
-[Status 2 (10x10]
-状态 2 (10x10
+[Icon overlay]
+图标重叠
+[Incoming message (10x10)]
+传入消息 (10x10)
+[Outgoing message (10x10)]
+发送消息 (10x10)
+[Notice (10x10)]
+公告 (10x10)
+[Window Icon]
+窗口图标
+[Text colour]
+文本颜色
+[Background colour]
+背景颜色
+[Background colour]
+背景颜色
+[Bold]
+粗体
+[Italics]
+斜体
+[Underlined]
+下划线
+[Room history]
+房间历史
+[Room settings]
+房间设置
+[Event filter disabled]
+事件过滤器已禁用
+[Event filter enabled]
+事件过滤器已启用
+[Hide userlist]
+隐藏用户列表
+[Show userlist]
+显示用户列表
+[Status 1 (10x10)]
+状态 1 (10x10)
+[Status 2 (10x10)]
+状态 2 (10x10)
+[Status 3 (10x10)]
+状态 3 (10x10)
+[Status 4 (10x10)]
+状态 4 (10x10)
+[Status 5 (10x10)]
+状态 5 (10x10)
+[Status 6 (10x10)]
+状态 6 (10x10)
+[Message in (10x10)]
+收到消息 (10x10)
+[Message out (10x10)]
+发送消息 (10x10)
+[Action (10x10)]
+操作 (10x10)
+[Add Status (10x10)]
+加入状态 (10x10)
+[Remove status (10x10)]
+移除状态 (10x10)
+[Join (10x10)]
+加入 (10x10)
+[Leave (10x10)]
+离开 (10x10)
+[Quit (10x10)]
+结束 (10x10)
+[Kick (10x10)]
+踢走 (10x10)
+[Nickchange (10x10)]
+昵称变更 (10x10)
+[Topic (10x10)]
+主题 (10x10)
+[Highlight (10x10)]
+突出显示 (10x10)
+[Information (10x10)]
+信息 (10x10)
+[Group Chats]
+群组聊天
 ;file \plugins\Scriver\src\input.cpp
+[Messaging]
+通信
 [Navigate: Previous Tab]
 导航: 上一个标签
 [Navigate: Next Tab]
@@ -147,44 +381,224 @@ Unicode 已关闭
 ;file \plugins\Scriver\src\msgdialog.cpp
 [Smiley]
 表情
+[Add Contact]
+添加联系人
+[User Menu]
+用户菜单
+[User Details]
+用户详细资料
+[History]
+历史
+[Look up '%s':]
+查看 '%s':
+[No word to look up]
+无可查找字词
+[Add Contact Permanently to List]
+将联系人永久加至列表
+[View User's Details]
+查看用户详细资料
+[View User's History]
+查看用户历史
 [Quote Text]
 引用文本
 [User Menu - %s]
 用户菜单 - %s
+[signed off (was %s)]
+已注销 (之前是 %s)
+[signed on (%s)]
+已登录 (%s)
+[is now %s (was %s)]
+现在 %s (之前是 %s)
 [Sending in progress: %d message(s) left...]
 发送中: 尚余 %d 个消息
+[%s is typing a message...]
+%s 正在键入消息...
+[Last message received on %s at %s.]
+最后消息接收于 %s %s. 
 ;file \plugins\Scriver\src\msglog.cpp
+[File sent]
+已发送文件
+[File received]
+已接收文件
 ;file \plugins\Scriver\src\msgoptions.cpp
+[General]
+常规
 [Event Log]
 事件记录
 [Group Chat Log]
 群组聊天记录
+[Outgoing messages]
+发送的消息
+[Incoming messages]
+传入消息
+[Outgoing name]
+发送名称
+[Outgoing time]
+发送时间
+[Outgoing colon]
+发送时区
+[Incoming name]
+传入名称
+[Incoming time]
+传入时间
+[Incoming colon]
+传入时区
+[Message area]
+消息区域
+[Outgoing URL]
+发送网址
+[Incoming URL]
+传入网址
 [Infobar contact name]
 信息栏 联系人名称
 [Infobar background]
 信息栏背景
 [Infobar status message]
 信息栏 状态消息
+[Others nicknames]
+其它昵称
+[Your nickname]
+您的昵称
+[User has joined]
+用户已加入
+[User has left]
+用户已离开
+[User has disconnected]
+用户已断线
+[User kicked ...]
+用户已被踢走...
+[User is now known as ...]
+用户现在改名为 ...
+[Notice from user]
+用户公告
+[Incoming message]
+传入消息
+[Outgoing message]
+发送消息
+[The topic is ...]
+主题是 ...
+[Information messages]
+信息消息
+[User enables status for ...]
+用户启用状态为 ...
+[User disables status for ...]
+用户禁用状态为 ...
+[Action message]
+操作消息
+[Highlighted message]
+突出显示消息
+[Message typing area]
+消息键入区域
 [Message background]
 消息背景
 [User list members (online)]
 用户列表成员 (在线)
 [User list background]
 用户列表背景
+[User list members (away)]
+用户列表成员 (外出)
 [User list lines]
 用户列表线条
 [User list background (selected)]
 用户列表背景 (已选择)
+[Offline]
+离线
+[Online]
+在线
+[Away]
+外出
+[NA]
+不适用
+[Occupied]
+忙碌中
+[DND]
+请勿打扰
+[Free for chat]
+有空聊天
+[Invisible]
+隐身
+[Out to lunch]
+外出用餐
+[On the phone]
+接听电话
+[** New contacts **]
+** 新联系人 **
+[** Unknown contacts **]
+** 未知联系人 **
+[Show balloon popup (unsupported system)]
+显示气球式弹出窗口 (不受支持的系统)
+[Message Sessions]
+消息会话
+[Typing Notify]
+键入通知
 ;file \plugins\Scriver\src\msgs.cpp
+[Message from %s]
+从 %s 收到的消息
+[%s is typing a message]
+%s 正在键入消息
+[Typing Notification]
+键入通知
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Miranda 无法加载内置消息模块, riched20.dll 丢失. 如您在使用 Windows 95 或 WINE 请确认已安装 riched20.dll. 按下 '是' 继续加载 Miranda.
+[Instant messages]
+即时消息
+[Incoming (Focused Window)]
+传入 (窗口获取焦点)
+[Incoming (Unfocused Window)]
+传入 (窗口未获取焦点)
+[Incoming (New Session)]
+传入 (新会话)
+[Outgoing]
+发送
 ;file \plugins\Scriver\src\msgtimedout.cpp
+[An unknown error has occured.]
+发生未知错误
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]
 永远置顶
 ;file \plugins\Scriver\src\sendqueue.cpp
+[The message send timed out.]
+发送消息已超时. 
 ;file \plugins\Scriver\src\chat\clist.cpp
+[Join chat]
+加入聊天
+[Open chat window]
+打开聊天窗口
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\log.cpp
+[%s has joined]
+%s 已加入
+[You have joined %s]
+您已加入 %s
+[%s has left]
+%s 已离开
+[%s has disconnected]
+%s 已断开连接
+[%s is now known as %s]
+%s 现在改名为 %s
+[You are now known as %s]
+您现在被称为 %s
+[%s kicked %s]
+%s 已被踢走 %s
+[Notice from %s]
+%s 发出公告
+[The topic is '%s%s']
+主题为 '%s%s'
+[ (set by %s on %s)]
+ (由 %s 设置于 %s)
+[ (set by %s)]
+ (由 %s 设置)
+[%s enables '%s' status for %s]
+%s 启用 '%s' 状态于 %s
+[%s disables '%s' status for %s]
+%s 禁用 '%s' 状态于 %s
+[<invalid>]
+<无效>
 ;file \plugins\Scriver\src\chat\main.cpp
+[&Join]
+加入(&J)
+[&Leave]
+离开(&L)
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 有人发言时闪动
@@ -208,22 +622,166 @@ Unicode 已关闭
 在角色图标前显示联系人状态图标
 [Add ':' to auto-completed names]
 添加 ':' 至自动完成名称
+[Prefix all events with a timestamp]
+在所有事件前加上时间戳
+[Only prefix with timestamp if it has changed]
+有变化时才加上时间戳
 [Timestamp has same colour as event]
 时间戳与事件相同颜色
+[Indent the second line of a message]
+缩排消息第二行
 [Limit user names to 20 characters]
 用户名限制在 20 字符内
 [Strip colors from messages]
 消息有彩色条纹
 [Enable 'event filter' for new rooms]
 新房间启用 '事件过滤'
+[Show topic changes]
+显示主题变更
+[Show users joining]
+显示用户加入
+[Show users disconnecting]
+显示用户断线
+[Show messages]
+显示消息
+[Show actions]
+显示操作
+[Show users leaving]
+显示用户离开
+[Show users being kicked]
+显示用户被踢走
+[Show notices]
+显示公告
+[Show users changing name]
+显示用户改名
+[Show information messages]
+显示信息消息
+[Show status changes of users]
+显示用户状态变更
+[Show icons in tray only when the chat room is not active]
+仅聊天室未激活时才在系统托盘显示图标
+[Show icon in tray for topic changes]
+标题变更时在系统托盘显示图标
+[Show icon in tray for users joining]
+用户加入时在系统托盘显示图标
+[Show icon in tray for users disconnecting]
+用户断开连接时在系统托盘显示图标
+[Show icon in tray for messages]
+在系统托盘显示消息图标
+[Show icon in tray for actions]
+在系统托盘显示操作图标
+[Show icon in tray for highlights]
+在系统托盘显示突出显示图标
+[Show icon in tray for users leaving]
+在系统托盘显示用户离开图标
+[Show icon in tray for users kicking other user]
+在系统托盘显示用户踢走其他用户图标
+[Show icon in tray for notices ]
+在系统托盘显示公告图标
+[Show icon in tray for name changes]
+在系统托盘显示名称变更图标
+[Show icon in tray for information messages]
+在系统托盘显示信息消息图标
+[Show icon in tray for status changes]
+在系统托盘显示状态变更图标
 [Appearance and functionality of chat windows]
 群组窗口外观及功能
+[Icons to display in the tray]
+在系统托盘中显示图标
 [year without century, 01-  99]
 2 位年份, 01-  99
+[Default events to show in new chat rooms if the 'event filter' is enabled]
+如 '事件过滤器' 已启用, 则在新聊天室中显示预设事件
+[Select Folder]
+选择文件夹
+[Popups]
+弹出窗口
+[Group chats]
+群组聊天
+[Message is highlighted]
+突出显示消息
+[User has performed an action]
+用户已运行一个操作
+[User has kicked some other user]
+用户已踢走其他用户
+[User's status was changed]
+用户状态已变更
+[User has changed name]
+用户已改名
+[User has sent a notice]
+用户已发送公告
+[The topic has been changed]
+主题已变更
 ;file \plugins\Scriver\src\chat\services.cpp
 [Server: %s]
 服务器: %s
 ;file \plugins\Scriver\src\chat\tools.cpp
+[%s wants your attention in %s]
+%s 需要您注意 %s
+[%s speaks in %s]
+%s 在 %s 说话
+[%s has joined %s]
+%s 已加入 %s
+[%s has left %s]
+%s 已离开 %s
+[%s kicked %s from %s]
+%s 已踢走 %s 从 %s
+[Topic change in %s]
+%s 主题变更
+[Information in %s]
+%s 的信息
+[%s enables '%s' status for %s in %s]
+%s 启用 '%s' 状态于 %s 在 %s
+[%s disables '%s' status for %s in %s]
+%s 禁用 '%s' 状态于 %s 在 %s
+[%s says: %s]
+%s 说: %s
+[%s has left (%s)]
+%s 已离开 (%s)
+[%s has disconnected (%s)]
+%s 已断开连接 (%s)
+[%s kicked %s (%s)]
+%s 已踢走 %s (%s)
+[Notice from %s: %s]
+%s 公告: %s
+[The topic is '%s']
+主题为 '%s'
+[The topic is '%s' (set by %s)]
+主题为 '%s' (%s 设置)
 ;file \plugins\Scriver\src\chat\window.cpp
 [Manager]
 经理
+[Insert a smiley]
+插入表情
+[Make the text bold (CTRL+B)]
+使文本粗体 (CTRL+B)
+[Make the text italicized (CTRL+I)]
+使文本斜体 (CTRL+I)
+[Make the text underlined (CTRL+U)]
+使文本下划线 (CTRL+U)
+[Select a background color for the text (CTRL+L)]
+为文本选择背景颜色 (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+为文本选择前景颜色 (CTRL+K)
+[Show the history (CTRL+H)]
+显示历史 (CTRL+H)
+[Show/hide the nicklist (CTRL+N)]
+显示/隐藏昵称列表 (CTRL+N)
+[Control this room (CTRL+O)]
+控制此房间 (CTRL+O)
+[Enable/disable the event filter (CTRL+F)]
+启用/禁用事件过滤器 (CTRL+F)
+[Nick name]
+昵称
+[Unique id]
+独有 ID
+[Status]
+状态
+[%s: Chat Room (%u user)]
+%s: 聊天室 (%u 个用户)
+[%s: Chat Room (%u users)]
+%s: 聊天室 (%u 个用户)
+[%s: Message Session]
+%s: 消息会话
+[%s: Message Session (%u users)]
+%s: 消息会话 (%u 个用户)

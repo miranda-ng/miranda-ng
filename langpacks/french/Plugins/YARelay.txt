@@ -12,6 +12,22 @@ Envoyer le message à ...
 Tous le monde
 [Forward when your status is...]
 Envoyer si vous êtes ...
+[Offline]
+Hors ligne
+[Online]
+En ligne
+[Away]
+Absent
+[NA]
+Indisponible
+[Occupied]
+Occupé
+[DND]
+Ne pas déranger
+[Free for chat]
+OK pour un chat
+[Invisible]
+Invisible
 [Forward messages to...]
 Transférer les messages à...
 [%u - user nick;   %i - uin;    %t - time;   \r%d - date;   %m - message]

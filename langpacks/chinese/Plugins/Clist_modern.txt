@@ -16,24 +16,58 @@
 状态栏:
 [List content:]
 列表联系人:
+[Show counts of number of contacts in a group]
+显示每个群组的联系人总数
+[Hide group counts when there are none online]
+群组内无人在线时隐藏总数
 [1st:]
 一:
 [2nd:]
 二:
 [3rd:]
 三:
+[Always on top]
+始终置顶
 [Hide contact list after ]
 隐藏联系人列表于
+[seconds]
+秒
+[Fade contact list in/out]
+联系人列表淡入/淡出
+[Transparent contact list]
+联系人列表透明化
+[Inactive opacity:]
+未激活时透明度: 
+[Active opacity:]
+激活时透明度: 
 [Animate Avatars]
 动态头像
 [Show contact time in list]
 在列表中显示联系人时间
 [Compact mode]
 精简模式
+[Show protocol names]
+显示协议名称
+[Show status text]
+显示状态文本
+[Stretch to width]
+拉伸至宽度
+[Stretch to height]
+拉伸至高度
+[Tile horizontally]
+横向平铺
+[Tile vertically]
+纵向平铺
+[Scroll with text]
+与文本一起滚动
+[Stretch proportionally]
+按比例拉伸
 [Use Windows Colors]
 使用 Windows 颜色
 [Available skins]
 可用皮肤
+[Apply]
+应用
 [\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
 \n\n\n请选择一个可用皮肤. \n\n或浏览未在列表中的皮肤. 
 [Skin Preview]
@@ -44,22 +78,46 @@
 * 可能需要重启才能让所有变更生效
 [Available objects]
 可使用对象
+[Copy]
+复制
+[Paste]
+粘贴
 [Object properties]
 对象属性
 [Colour]
 颜色
 [Image file and fitting mode]
 图片文件及适合模式
+[File]
+文件
 [Borders]
 框线
 [Fit mode]
 适合模式
 [Fragment location]
 片段位置
+[Position:]
+职务: 
+[Size:]
+大小: 
 [W x H: 0 x 0 pixels]
 W x H: 0 x 0 像素
 [Show contacts in groups]
 在群组中显示联系人
+[OK]
+确定
+[Cancel]
+取消
+[Protocol]
+协议
+[Group]
+群组
+[Status Bar]
+状态栏
+[Show status bar]
+显示状态栏
+[Make sections equal width]
+将各部分设为相同宽度
 [Space between]
 间距
 [Vertical Align]
@@ -92,12 +150,42 @@ W x H: 0 x 0 像素
 状态层叠不透明度为 75%
 [Show unread emails (if supported)]
 显示未读邮件 (仅支持时)
+[Right click opens status menu]
+点击右键打开状态菜单
 [Space on Left]
 空白在左侧
 [Space on right]
 空白在右侧
+[Delete Contact]
+删除联系人
+[No]
+否
+[Yes]
+是
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+仅从列表中隐藏, 保留联系人历史及忽略/可见性设置
+[Are you sure you want to delete %s?]
+您确定要删除 %s? 
+[This will erase all history and settings for this contact!]
+此操作将删除联系人所有历史及相关设置! 
+[Hide offline users]
+隐藏离线用户
+[Hide empty groups]
+隐藏空群组
+[Disable groups]
+禁用群组
+[Ask before deleting contacts]
+删除联系人前先询问
+[Contact List]
+联系人列表
+[Contact List Sorting]
+联系人列表排序
 [Place offline users out of groups]
 将离线用户置于群组外
+[Gamma correction]
+伽玛亮度校正
+[Default]
+默认
 [Full selection]
 整行选择
 [Less selection]
@@ -108,12 +196,22 @@ W x H: 0 x 0 像素
 选择模式
 [Bring to front if covered]
 被遮盖时置顶
+[Automatically resize window to height of list]
+自动调整窗口大小至列表高度
+[maximum]
+最多窗口的
+[% of screen]
+%
+[Size upwards]
+向上量度大小
 [Lock manual resize]
 锁定手动变更大小
 [Drag to ]
 拖放到
 [Easy Scroll]
 容易滚动
+[Easy move]
+容易移动
 [x100 msec]
 x100 毫秒
 [show delay]
@@ -122,6 +220,10 @@ x100 毫秒
 隐藏延时
 [Hide method]
 隐藏方法
+[pixels]
+像素
+[pixels]
+像素
 [keep on screen]
 保持在屏幕上
 [Snap to edges]
@@ -136,8 +238,62 @@ x100 毫秒
 吸附边缘
 [and minimum]
 最少
+[Items]
+项目
+[Show divider between online and offline contacts]
+在线与离线联系人之间显示分隔线
+[Hot track items as mouse passes over]
+鼠标在项目上移动时显示热跟踪
+[Disable drag and drop of items]
+禁用项目拖放
+[Disable rename of items by clicking twice]
+禁用项目双击重命名
+[Show selection even when list is not focused]
+当列表非焦点时仍显示被选定项目
+[Make selection highlight translucent]
+将选定项目突出显示透明
+[Dim idle contacts]
+暗淡化闲置联系人
+['Hide Offline' means to hide:]
+'隐藏离线' 的意思是隐藏: 
+[Groups]
+群组
+[Draw a line alongside group names]
+群组名称之间画线
+[Sort groups alphabetically]
+群组按字母排序
+[Quicksearch in open groups only]
+仅在打开的群组内快速搜索
+[Indent groups by:]
+缩排群组: 
+[Visual]
+视觉
+[Scroll list smoothly]
+平滑滚动列表
+[Time:]
+时间: 
+[milliseconds]
+毫秒
 [Fade out entire list when:]
 将整个列表淡出当: 
+[Single click interface]
+通过单击打开项目
+[Always show status in tooltip]
+始终在工具提示中显示状态
+[Disable icon blinking]
+禁用图标闪动
+[Show]
+状态不同时显示
+[Cycle icons every]
+状态不同时每
+[seconds, when statuses differ]
+秒循环图标
+[Show multiple icons]
+显示多个图标
+[Only when statuses differ]
+仅在状态不同时
+[System tray icon]
+系统托盘图标
 [System tray icon mode]
 系统托盘图标模式
 [Use xStatus icon]
@@ -156,12 +312,26 @@ x100 毫秒
 仅与当前时间不同时才显示时间
 [Show contact time as row item]
 以列项目显示联系人时间
+[Pin to desktop]
+固定在桌面上
 [Client area margins]
 客户端区域边界
 [Thin border main window]
 主窗口细框线
 [Borderless main window]
 主窗口无框线
+[Show menu bar]
+显示菜单栏
+[Show title bar]
+显示标题栏
+[Title bar text:]
+标题栏文本: 
+[Tool style main window]
+工具栏样式主窗口
+[Minimize to tray]
+最小化到托盘
+[Frames]
+框架
 [Between frames:]
 框架间: 
 [After captions:]
@@ -188,6 +358,8 @@ x100 毫秒
 左对齐左侧项目
 [Align right items to right]
 右对齐右侧项目
+[Left margin:]
+左边界: 
 [Right margin:]
 右边界: 
 [Draw border on avatar]
@@ -242,6 +414,8 @@ x100 毫秒
 顶部空间: 
 [Draw smileys on second line]
 在第二行绘制表情
+[Status]
+状态
 [XStatus has priority]
 扩展状态优先
 [Use 'XStatus: XMessage']
@@ -258,6 +432,8 @@ x100 毫秒
 下/右
 [Position (vertical)]
 位置 (垂直)
+[Options]
+选项
 [Show Title]
 显示标题
 [Locked]
@@ -286,8 +462,56 @@ x100 毫秒
 层叠
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 此选项页尚在开发中, 请忽视此处的任何问题. \n仅适用于高层次设计意见. 
+[E&xit]
+退出(&X)
+[&Status]
+状态(&S)
+[&Offline\tCtrl+0]
+离线(&O)\tCtrl+0
+[On&line\tCtrl+1]
+在线(&L)\tCtrl+1
+[&Away\tCtrl+2]
+外出(&A)\tCtrl+2
+[&NA\tCtrl+3]
+没空(&N)\tCtrl+3
+[Occ&upied\tCtrl+4]
+忙碌(&U)\tCtrl+4
+[&DND\tCtrl+5]
+请勿打扰(&D)\tCtrl+5
+[&Free for chat\tCtrl+6]
+自由聊天(&F)\tCtrl+6
+[&Invisible\tCtrl+7]
+隐身(&I)\tCtrl+7
+[On the &Phone\tCtrl+8]
+接听电话(&P)\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+外出用餐(&L)\tCtrl+9
+[Tray]
+托盘
+[&Hide/Show]
+隐藏/显示(&H)
+[&New Group]
+新增群组(&N)
+[&Hide Offline Users]
+隐藏离线用户(&H)
+[Hide &Offline Users out here]
+隐藏除此以外离线用户(&O)
+[Hide &Empty Groups]
+隐藏空群组(&E)
+[Disable &Groups]
+禁用群组(&G)
+[Hide Miranda]
+隐藏 Miranda
+[&New Subgroup]
+新增子群组(&N)
+[&Hide Offline Users in here]
+隐藏此处离线用户(&H)
 [&Show Offline Users in here]
 在此显示离线用户(&S)
+[&Rename Group]
+重命名群组(&R)
+[&Delete Group]
+删除群组(&D)
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List smileys]
 联系人列表表情
@@ -314,6 +538,8 @@ x100 毫秒
 [Do You want contact '%s' to be added to MetaContact '%s'?]
 您想将联系人 '%s' 加至中继联系人 '%s' 移除 '%s'? 
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Standard contacts]
+标准联系人
 [Away contacts]
 外出的联系人
 [DND contacts]
@@ -330,6 +556,12 @@ x100 毫秒
 接听电话的联系人
 [Out to lunch contacts]
 外出用餐的联系人
+[Offline contacts]
+离线联系人
+[Online contacts to whom you have a different visibility]
+与您有不同可见度的在线联系人
+[Offline contacts to whom you have a different visibility]
+与您有不同可见度的离线联系人
 [Contacts who are 'not on list']
 '不在列表中' 的联系人
 [Open groups]
@@ -340,6 +572,8 @@ x100 毫秒
 已关闭群组
 [Closed group member counts]
 已关闭群组成员数量
+[Dividers]
+分隔器
 [Third line]
 第三行
 [Status bar text]
@@ -348,6 +582,8 @@ x100 毫秒
 事件区域文本
 [Current view mode text]
 当前查看模式文本
+[Background]
+背景
 [Hot text]
 热文
 [Quick search text]
@@ -362,6 +598,38 @@ x100 毫秒
 状态栏文本
 [3rd party frames transparent back colour]
 第三方框架使用透明背景色
+[General]
+常规
+[List]
+列表
+[Window]
+窗口
+[List Background]
+列表背景
+[Not focused]
+未获取焦点
+[Offline]
+离线
+[Online]
+在线
+[Away]
+外出
+[NA]
+不适用
+[Occupied]
+忙碌中
+[DND]
+请勿打扰
+[Free for chat]
+有空聊天
+[Invisible]
+隐身
+[Out to lunch]
+外出用餐
+[On the phone]
+接听电话
+[Name]
+名称
 [Name (use locale settings)]
 名称 (使用语系设置)
 [Last message time]
@@ -372,6 +640,8 @@ x100 毫秒
 等级
 [-Nothing-]
 -无-
+[Global]
+全局
 [Hide to tray]
 隐藏至托盘
 [Behind left edge]
@@ -382,6 +652,8 @@ x100 毫秒
 [No Events]
 没有事件
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
+[None]
+无
 [Low]
 最低
 [Medium]
@@ -397,6 +669,10 @@ x100 毫秒
 [Contact rate High]
 联系人等级 高
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Text]
+文本
+[Extra icons]
+额外图标
 [Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
 动态头像 (需要 GDI+ 和头像服务模块 avs.dll)
 [Left align group names]
@@ -416,7 +692,15 @@ x100 毫秒
 [Row items]
 行内对象
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+[(Unknown Contact)]
+(未知联系人)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
+[&Find/Add Contacts...]
+查找/添加联系人(&F)...
+[&Main Menu]
+主菜单(&M)
+[&Options...]
+选项(&O)...
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show Contact &Avatar]
 显示联系人头像(&A)
@@ -446,6 +730,10 @@ x100 毫秒
 [Image size is]
 图片大小为
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
+[You need an image services plugin to process PNG images.]
+您需要图片服务插件处理 PNG 图片. 
+[Error]
+错误
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 加载/保存
@@ -492,8 +780,14 @@ Angeli-Ka (图形), FYR (模板)
 [Center]
 中间
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[Main Menu]
+主菜单
+[Accounts]
+帐号
 [Show offline contacts]
 显示离线联系人
+[Find User]
+查找用户
 [Use groups]
 使用群组
 [Minimize]
@@ -501,4 +795,3 @@ Angeli-Ka (图形), FYR (模板)
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Configuring view mode: %s]
 正在设置查看模式: %s
-;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

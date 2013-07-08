@@ -6,27 +6,151 @@
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 ;file \plugins\UserInfoEx\res\resource.rc
+[Updating]
+Güncelleniyor
+[OK]
+Tamam
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Apply]
+Uygula
+[Nick:]
+Kısa Ad:
+[First name:]
+İlk ad:
+[Last name:]
+Soyadı:
+[Female]
+Kadın
+[Male]
+Erkek
+[Marital status:]
+Medeni hal:
+[Street:]
+Sokak:
+[Postal code:]
+Posta kodu:
+[City:]
+Şehir:
+[Country:]
+Ülke:
+[Timezone:]
+Saat Dilimi:
+[Company:]
+Firma:
+[Department:]
+Bölüm:
+[Position:]
+Konum:
+[Add Phone Number]
+Telefon numarası ekle
+[Enter country, area code and phone number:]
+Ülke, bölge kodu ve telefon numarasını yazın:
+[Or enter a full international number:]
+Veya uluslar arası tam numarayı yazın:
+[Phone can receive SMS text messages]
+Telefon SMS iletilerini alabilir
+[Background colour]
+Art alan rengi
+[Background colour]
+Art alan rengi
+[Text colour]
+Yazı rengi
+[Text colour]
+Yazı rengi
+[Use Windows colours]
+Windows renklerini kullan
+[Use Windows colours]
+Windows renklerini kullan
+[Use default colours]
+Varsayılan renkleri kullan
+[Custom]
+Kişisel
+[Homepage:]
+Ana sayfa:
+[Delete]
+Sil
+[Icons]
+Simgeler
+[None]
+Yok
+[Off]
+Kapalı
+[Gender:]
+Cinsiyet:
 [Phone]
 Telefon
 [E-Mail]
 E-posta
+[Age:]
+Yaş:
 ;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
+[Unspecified]
+Belirtilmemiş
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+[Other]
+Diğer
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+[Contact]
+Kişi
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+[Yes]
+Evet
+[No]
+Hayır
+[Ignore]
+Yoksay
+[Error]
+Hata
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
+[General]
+Genel
+[Work]
+İş
+[Profile]
+Profile
+[Notes]
+Notlar
+[Owner]
+Sahibi
 ;file \plugins\UserInfoEx\src\init.cpp
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Default]
+Varsayılan
+[Fax]
+Faks
+[Add]
+Ekle
+[Edit]
+Değiştir
+[Search]
+Ara
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
+[User &Details]
+Kişi &Detayları
+[View/Change My &Details...]
+Bilgilerimi Göster/&Değiştir...
 ;file \plugins\UserInfoEx\src\psp_about.cpp
+[About:]
+Hakkında:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
 ;file \plugins\UserInfoEx\src\psp_options.cpp
+[Contacts]
+Kişiler
+[Advanced]
+Gelişmiş
+[Popups]
+Açılır Pencereler
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Culture & Literature]
@@ -66,7 +190,11 @@ Spor ve atletizm
 [Home automation]
 Ev otomasyonu
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+['(Unknown Contact)']
+'(Bilinmeyen Kişi)'
 ;file \plugins\UserInfoEx\src\svc_email.cpp
+[Send e-mail]
+E-posta gönder
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
@@ -76,8 +204,12 @@ Ev otomasyonu
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
+[Miranda NG]
+Miranda NG
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
+[Complete]
+Tamamlandı
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

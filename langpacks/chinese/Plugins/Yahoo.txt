@@ -6,6 +6,10 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\Yahoo\res\Yahoo.rc
+[Password:]
+密码: 
+[Nick:]
+昵称: 
 [Create a new Yahoo account using the Yahoo website]
 使用 Yahoo 网站建立新 Yahoo 帐号
 [Use Yahoo Address Book (YAB)]
@@ -22,18 +26,36 @@ Yahoo 日本
 新建 Yahoo 账号
 [Connection Settings]
 连接设置
+[Port:]
+端口:
+[Reset]
+重置
 [Yahoo Ignore List]
 Yahoo 忽略列表
 [Ignore anyone who is not on my Yahoo buddy list ]
 忽略所有非 Yahoo 好友列表成员者
 [Ignore only the people below: ]
 仅忽略以下人: 
+[&Add]
+添加(&A)
 [Set Custom Status]
 设置自定义状态
 [Show as busy]
 显示为忙碌
+[OK]
+确定
+[Cancel]
+取消
+[&Join]
+加入(&J)
+[&Deny]
+拒绝(&D)
 [Host]
 主机
+[&Cancel]
+取消(&C)
+[Add]
+添加
 ;file \protocols\Yahoo\src\avatar.cpp
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
@@ -41,6 +63,8 @@ Yahoo 忽略列表
 ;file \protocols\Yahoo\src\icolib.cpp
 [Mail]
 邮箱
+[Profile]
+配置文件
 [Address Book]
 地址本
 [Set Status]
@@ -50,6 +74,8 @@ Yahoo 忽略列表
 ;file \protocols\Yahoo\src\im.cpp
 [Yahoo Error]
 Yahoo 错误
+[The message send timed out.]
+发送消息已超时. 
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 消息过长: Yahoo 消息仅限 800 个 UTF8 字符
 ;file \protocols\Yahoo\src\links.cpp
@@ -73,6 +99,8 @@ Yahoo 忽略
 您需要连接至 Yahoo 才能从忽略列表中移除. 
 [Please select a buddy on the ignore list to remove.]
 请在忽略列表中选择要移除的好友. 
+[Network]
+网络
 [Ignore List]
 忽略列表
 ;file \protocols\Yahoo\src\proto.cpp

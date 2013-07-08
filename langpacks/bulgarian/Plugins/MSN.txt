@@ -6,6 +6,10 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\MSN\res\msn.rc
+[Password:]
+Парола:
+[Nickname:]
+Прякор:
 [Create a new Windows Live account]
 Създаване на Windows Live акаунт
 [Send message font color/size info inside messages]
@@ -22,6 +26,8 @@
 Директно:
 [Gateway:]
 Шлюз:
+[Reset]
+Анулиране
 [Server List Manager]
 Диспечер на сървърния списък
 [Contact is on your local list]
@@ -38,12 +44,16 @@
 Без уведомяване в трея
 [Ignore new messages not in Inbox folder]
 Игнориране на писмата в папки различни от Inbox
+[Other]
+Друго
 [Enable 'Chat Session Established' popup]
 popup при установяване на разговор
 [Enable 'Contact left channel' popup]
 popup при излизане на контакт от канал
 [Disable Contact List notifications]
 Без уведомяване в списъка с контакти
+[Cancel]
+Отказ
 [Mobile Device (used for SMS)]
 Мобилно устройство (използва се за SMS-и)
 [Spouse/Partner]
@@ -56,6 +66,10 @@ MSN изтриване на контакт
 Премахване от книгата с адреси в Hotmail
 [Block Contact]
 Блокиране на контакта
+[&Cancel]
+Отказ
+[Add]
+Добавяне
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 Чат №
@@ -106,8 +120,12 @@ Hotmail от %s
 [&Start Netmeeting]
 Иницииране на Netmeeting
 ;file \protocols\MSN\src\msn_misc.cpp
+[Error]
+Грешка
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
+[Profile]
+Профил
 [MSN Services]
 MSN услуги
 [Invite to chat]
@@ -130,6 +148,8 @@ MSN настройки
 IP информацията е налична само след вписване
 [MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
 Протоколът MSN изисква закъснението за съобщения да е не по-малко от 60 секунди. Поправете стойността.
+[Network]
+Мрежа
 [Server list]
 Списък на сървъра
 ;file \protocols\MSN\src\msn_p2p.cpp

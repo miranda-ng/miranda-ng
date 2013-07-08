@@ -6,9 +6,33 @@
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 ;file \plugins\NewEventNotify\res\resource.rc
+[Message]
+Mensagem
+[File]
+Arquivo
+[File]
+Arquivo
+[File]
+Arquivo
+[Text]
+Texto
+[Background]
+Fundo
+[Background]
+Fundo
+[Edit]
+Editar
+[Edit]
+Editar
 ;file \plugins\NewEventNotify\src\main.cpp
+[Message Session]
+Sessão de Mensagem
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 ;file \plugins\NewEventNotify\src\neweventnotify.h
+[Contacts]
+Contatos
+[Contacts]
+Contatos
 [Requests your authorisation]
 Seus pedidos de autorização
 [ICQ Web pager]

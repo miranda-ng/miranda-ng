@@ -6,11 +6,23 @@
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 ;file \plugins\IEView\res\ieview.rc
+[Options]
+옵션
+[Size:]
+크기:
+[Scroll with text]
+텍스와 함께 스크롤
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Incoming File Transfer]
+받은 파일 전송
 ;file \plugins\IEView\src\HTMLBuilder.cpp
+[(Unknown Contact)]
+(알 수 없는 대화 상대)
 ;file \plugins\IEView\src\IEView.cpp
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 ;file \plugins\IEView\src\Options.cpp
+[All Files]
+모든 파일
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 ;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
 ;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

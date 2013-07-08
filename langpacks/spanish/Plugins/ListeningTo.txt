@@ -6,9 +6,19 @@
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 ;file \plugins\ListeningTo\res\resource.rc
+[Contacts]
+Contactos
+[seconds]
+segundo
 [Template:]
 Plantilla:
 ;file \plugins\ListeningTo\src\listeningto.cpp
 ;file \plugins\ListeningTo\src\options.cpp
+[Status]
+estado
+[General]
+General
+[General]
+General
 ;file \plugins\ListeningTo\src\players\generic.cpp
 ;file \plugins\ListeningTo\src\players\wmp.cpp

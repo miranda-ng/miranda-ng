@@ -8,3 +8,11 @@
 ;file \plugins\SimpleAR\res\Resource.rc
 ;file \plugins\SimpleAR\src\Main.cpp
 ;file \plugins\SimpleAR\src\Options.cpp
+[Plugins]
+Plugin
+[Plugins]
+Plugin
+[Plugins]
+Plugin
+[Plugins]
+Plugin

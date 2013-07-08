@@ -6,7 +6,15 @@
 ;  Authors: P Boon
 ;============================================================
 ;file \plugins\Variables\res\Variables.rc
+[Close]
+Sluit
+[OK]
+OK
+[Notes]
+Notities
 ;file \plugins\Variables\src\help.cpp
+[Cancel]
+Annuleren
 ;file \plugins\Variables\src\options.cpp
 ;file \plugins\Variables\src\parse_alias.cpp
 ;file \plugins\Variables\src\parse_external.cpp

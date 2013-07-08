@@ -6,6 +6,32 @@
 ;  Authors: Angelo Luiz Tartari
 ;============================================================
 ;file \plugins\StatusChange\res\resource.rc
+[Offline]
+Offline
+[Online]
+En línea
+[Away]
+Alejado 
+[NA]
+NA
+[Occupied]
+Ocupado
+[DND]
+DND
+[Free for chat]
+Gratuito de chat
+[Invisible]
+Invisible
+[On the phone]
+En el teléfono
+[Out to lunch]
+A almorzar
+[Message]
+Mensaje
+[URL]
+URL
 ;file \plugins\StatusChange\src\main.cpp
 [Status Change]
 Cambiar estado
+[Status]
+estado

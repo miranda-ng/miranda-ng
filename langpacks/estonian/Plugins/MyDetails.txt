@@ -8,10 +8,24 @@
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Sea minu hüüdnimi
+[Nickname:]
+Hüüdnimi:
+[OK]
+OK
+[Cancel]
+Tühista
+[General]
+Üldine
 [Left:]
 Vasak:
 [Right:]
 Parem:
+[pixels]
+pikselit
+[pixels]
+pikselit
+[seconds]
+sekundit
 [Status Message:]
 Oleku teade:
 [&Offline]
@@ -38,9 +52,15 @@ Sea minu avatar...
 Sea minu hüüdnimi...
 ;file \plugins\MyDetails\src\data.cpp
 ;file \plugins\MyDetails\src\frame.cpp
+[Status]
+Staatus
 [My Details]
 Minu detailid
+[Background]
+Taust
 [Show My Details]
 Kuva minu detailid
 ;file \plugins\MyDetails\src\mydetails.cpp
+[Contact List]
+Kontaktide nimekiri
 ;file \plugins\MyDetails\src\options.cpp

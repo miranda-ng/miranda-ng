@@ -6,24 +6,402 @@
 ;  Authors: Miranda NG Development Team
 ;============================================================
 ;file \plugins\Scriver\res\resource.rc
+[Cascade new windows]
+Nieuwe schermen stapelen
+[Send message on 'Enter']
+Bericht op 'Enter' versturen
+[Send message on double 'Enter']
+Bericht op dubble 'Enter' versturen
+[Show warning when message has not been received after]
+Waarschuwing weergeven wanneer bericht niet is ontvangen na
+[seconds]
+seconden
+[Show status bar]
+Status balk weergeven
+[Use the contact's status icon as the window icon]
+Het status icoon van de persoon gebruiken als het scherm icoon
+[Message Window Event Log]
+Berichten scherm gebreurtenis log
+[Show icons]
+Iconen weergeven
+[Show seconds]
+Seconden weergeven
+[Show names]
+Namen weergeven
 [Typing Notification Options]
 Typen meldingen opties
+[Send typing notifications to the following users when you are typing a message to them:]
+Typen meldingen naar de volgende gebruikers versturen wanneer u een bericht naar hen aan het typen bent:
+[Show typing notifications when a user is typing a message]
+Typen meldingen weergeven wanneer een persoon een bericht aan het typen is
+[Show typing notification when no message dialog is open]
+Typen melding weergeven waneer er geen berichtenscherm open is
+[Flash in the system tray and in the contact list]
+In het systeemvak en in de lijst knipperen
+[Show balloon popup]
+Baloon popup weergeven
+[Cancel]
+Annuleren
+[Yes]
+Ja
+[No]
+Ne
+[Messages]
+Berichten
+[Nick changes]
+Bijnaam wijzigingen
+[Status changes]
+Status wijzigingen
+[Information]
+Informatie
+[Notices]
+Meldingen
+[Options]
+Opties
+[Other]
+Ander
+[Add new rooms to group:]
+Nieuwe ruimtes toevoegen aan groep:
+[Log Options]
+Log opties
+[Your name]
+Uw naam
+[Other name]
+Andere naam
+[Timestamp]
+Tijdstempel
+[Log timestamp]
+Log tijdstempel
+[Limit log text to (events):]
+Log tekst beperken tot (gebeurtenissen):
+[Enable highlighting]
+Oplichting inschakelen
+[Words to highlight (wildcards allowed)]
+Woorden om op te lichten (jokertekens toegestaan)
+[Location]
+Locatie
+[Use same style as in the message log]
+Dezelfde stijl als in het bericht log gebruiken
+[Use default colours]
+Standaard kleuren gebruiken
+[Use custom colours]
+Aangepaste kleuren gebruiken
+[Text]
+Tekst
+[Background]
+Achtergrond
+[Timeout (s)]
+Timeout (s)
+[OK]
+OK
+[Log]
+Loggen
+[&Copy]
+Kopiëren
+[Co&py All]
+Alles ko&piëren
+[Select &All]
+&Alles selecteren
+[C&lear Log]
+Log opschonen
+[&Copy link]
+Link kopiëreren
+[Message]
+Bericht
+[Undo]
+Ongedaan maken
+[Redo]
+Opnieuw
+[Cut]
+Knippen
+[Copy]
+Kopiëren
+[Paste]
+Plakken
+[Delete]
+Verwijderen
+[Clear]
+Opschonen
+[List]
+Lijst
+[&Message]
+Bericht
+[Clear lo&g]
+Lo&g opschonen
+[Co&py all]
+Alles ko&piëren
 ;file \plugins\Scriver\src\globals.cpp
+[Text colour]
+Tekst kleur
+[Background colour]
+Achtergrond kleur
+[Bold]
+Vet
 ;file \plugins\Scriver\src\input.cpp
+[Messaging]
+Berichtgeving
 ;file \plugins\Scriver\src\msgdialog.cpp
+[User Menu]
+Gebruikersmenu
+[User Details]
+Gebruikersdetails
+[History]
+Geschiedenis
+[No word to look up]
+Geen woord om op te zoeken
+[Add Contact Permanently to List]
+Persoon permanent aan lijst toevoegen
+[View User's Details]
+Details van de gebruiker bekijken
+[View User's History]
+Geschiedenis van de gebruiker bekijken
+[%s is typing a message...]
+%s is een bericht aan het typen...
+[Last message received on %s at %s.]
+Laatste bericht ontvangen op %s om %s.
 ;file \plugins\Scriver\src\msglog.cpp
 ;file \plugins\Scriver\src\msgoptions.cpp
+[General]
+Algemeen
+[Outgoing messages]
+Uitgaande berichten
+[Incoming messages]
+Binnenkomende berichten
+[Outgoing name]
+Uitgaande naam
+[Outgoing time]
+Uitgaande tijd
+[Outgoing colon]
+Uitgaande colon
+[Incoming name]
+Binnenkomende naam
+[Incoming time]
+Binnenkomende tijd
+[Incoming colon]
+Binnenkomende colon
+[Message area]
+Berichtruimte
+[Others nicknames]
+Bijnamen van anderen
+[Your nickname]
+Uw bijnaam
+[User has joined]
+Gebruiker komt binnen
+[User has left]
+Gebruiker is weg gegaan
+[User has disconnected]
+Gebruiker heeft de verbinding verbroken
+[User kicked ...]
+Gebruiker weggetrapt ...
+[User is now known as ...]
+Gebruiker is nu bekend als ...
+[Notice from user]
+Melding van gebruiker
+[Incoming message]
+Binnenkomend bericht
+[Outgoing message]
+Uitgaand bericht
+[The topic is ...]
+Het onderwerp is ...
+[Information messages]
+Informatie berichten
+[User enables status for ...]
+Gebruiker schakeld status in voor ...
+[User disables status for ...]
+Gebruiker schakeld status uit voor ...
+[Action message]
+Actie bericht
+[Highlighted message]
+Opgelichte berichten
+[Message typing area]
+Bericht typen gebied
 [Message background]
 Bericht achtergrond
+[User list members (away)]
+Gebruikerlijst leden (afwezig)
+[Offline]
+Offline
+[Away]
+Afwezig
+[NA]
+Niet beschikbaar
+[Occupied]
+Bezet
+[DND]
+Niet storen
+[Free for chat]
+Beschikbaar voor gesprek
+[Invisible]
+Onzichtbaar
+[Out to lunch]
+Aan het lunchen
+[On the phone]
+Aan de telefoon
+[** New contacts **]
+** Nieuwe Personen **
+[** Unknown contacts **]
+** Onbekende personen **
+[Typing Notify]
+Typen meldingen
 ;file \plugins\Scriver\src\msgs.cpp
+[Incoming (Focused Window)]
+Binnenkomend (Actief scherm)
+[Incoming (Unfocused Window)]
+Binnenkomend (Niet actief scherm)
+[Incoming (New Session)]
+Binnenkomend (Nieuwe sessie)
+[Outgoing]
+Uitgaand
 ;file \plugins\Scriver\src\msgtimedout.cpp
 ;file \plugins\Scriver\src\msgwindow.cpp
 ;file \plugins\Scriver\src\sendqueue.cpp
 ;file \plugins\Scriver\src\chat\clist.cpp
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\log.cpp
+[%s has joined]
+%s komt binnen
+[%s has left]
+%s is weg gegaan
+[%s has disconnected]
+%s heeft de verbinding verbroken
+[%s is now known as %s]
+%s is nu bekend als %s
+[%s kicked %s]
+%s trapt %s weg
+[Notice from %s]
+Melding van %s
+[ (set by %s)]
+ (ingesteld door %s)
 ;file \plugins\Scriver\src\chat\main.cpp
+[&Join]
+Binnengaan
+[&Leave]
+&Laten staan
 ;file \plugins\Scriver\src\chat\options.cpp
+[Prefix all events with a timestamp]
+Voor alle gebeurtenissen een tijdstempel zetten
+[Only prefix with timestamp if it has changed]
+Alleen een tijdstempel toevoegen als het veranderd is
+[Indent the second line of a message]
+De tweede lijn van een bericht inspringen
+[Show topic changes]
+Onderwerp wijzigingen weergeven
+[Show users joining]
+Binnenkomende gebruikers weergeven
+[Show users disconnecting]
+Gebruikers met verbroken verbindingen weergeven
+[Show messages]
+Berichten weergeven
+[Show actions]
+Acties weergeven
+[Show users leaving]
+Vertrekkende gebruikers weergeven
+[Show users being kicked]
+Gebruikers die worden weggetrapt weergeven
+[Show notices]
+Meldingen weergeven
+[Show users changing name]
+Gebruikers die hun naam wijzigen weergeven
+[Show information messages]
+Informatie berichten weergeven
+[Show status changes of users]
+Status wijziging van gebruikers weergeven
+[Show icons in tray only when the chat room is not active]
+Iconen alleen in systeemvak wanneer de gespreksruimte niet actief is weergeven
+[Show icon in tray for topic changes]
+Icoon in systeemvak voor onderwerp wijzigingen weergeven
+[Show icon in tray for users joining]
+Icoon in systeemvak voor binnenkomende gebruikers weergeven
+[Show icon in tray for users disconnecting]
+Icoon in systeemvak voor gebruikers met verbroken verbindingen weergeven
+[Show icon in tray for messages]
+Icoon in systeemvak voor berichten weergeven
+[Show icon in tray for actions]
+Icoon in systeemvak voor acties weergeven
+[Show icon in tray for highlights]
+Icoon in systeemvak voor oplichtingen weergeven
+[Show icon in tray for users leaving]
+Icoon in systeemvak voor vertrekkende gebruikers weergeven
+[Show icon in tray for users kicking other user]
+Icoon in systeemvak voor gebruikers die andere gebruikers wegtrappen weergeven
+[Show icon in tray for notices ]
+Icoon in systeemvak meldingen weergeven
+[Show icon in tray for name changes]
+Icoon in systeemvak naamwijzigingen weergeven
+[Show icon in tray for information messages]
+Icoon in systeemvak informatie berichten weergeven
+[Show icon in tray for status changes]
+Icoon in systeemvak status wijzigingen weergeven
+[Icons to display in the tray]
+Iconen om weer te geven in het systeemvak
+[Select Folder]
+Folder selecteren
+[Popups]
+Popups
+[Message is highlighted]
+Bericht is opgelicht
+[User has performed an action]
+Gebruiker heeft een actie gedaan
+[User has kicked some other user]
+Gebruiker heeft een andere gebruiker weggetrapt
+[User has changed name]
+Gebruiker heeft naam gewijzigd
+[User has sent a notice]
+Gebruiker heeft een melding gestuurd
+[The topic has been changed]
+Het onderwerp is veranderd
 ;file \plugins\Scriver\src\chat\services.cpp
 ;file \plugins\Scriver\src\chat\tools.cpp
+[%s wants your attention in %s]
+%s heeft uw aandacht nodig in %s
+[%s speaks in %s]
+%s spreekt in %s
+[%s has joined %s]
+%s komt binnen in %s
+[%s has left %s]
+%s is weggegaan uit %s
+[%s kicked %s from %s]
+%s heeft %s weggetrapt van %s
+[Topic change in %s]
+Onderwerp wijziging in %s
+[Information in %s]
+Informatie in %s
+[%s says: %s]
+%s zegt: %s
+[%s has disconnected (%s)]
+%s heeft de verbinding verbroken (%s)
+[%s kicked %s (%s)]
+%s heeft %s weggetrapt (%s)
+[Notice from %s: %s]
+Melding van %s: %s
 ;file \plugins\Scriver\src\chat\window.cpp
+[Insert a smiley]
+Een smiley toevoegen
+[Make the text bold (CTRL+B)]
+De tekst vet maken(CTRL+B)
+[Make the text italicized (CTRL+I)]
+De tekst cursief maken(CTRL+I)
+[Make the text underlined (CTRL+U)]
+De tekst onderstrepen (CTRL+U)
+[Select a background color for the text (CTRL+L)]
+Een achtergrond kleur voor de tekst selecteren (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+Een voorgrond kleur voor de tekst selecteren (CTRL+K)
+[Show the history (CTRL+H)]
+De geschiedenis weergeven (CTRL+H)
+[Show/hide the nicklist (CTRL+N)]
+De bijnaamlijst weergeven/verbergen
+[Control this room (CTRL+O)]
+Deze ruimte controleren (CTRL+O)
+[Enable/disable the event filter (CTRL+F)]
+De gebeurtenis filter in-/uitschakelen (CTRL+O)
+[Status]
+Status
+[%s: Chat Room (%u user)]
+%s: Gespreksruimte (%u gebruiker)
+[%s: Chat Room (%u users)]
+%s: Gespreksruimte (%u gebruikers)
+[%s: Message Session]
+%s: Bericht sessie
+[%s: Message Session (%u users)]
+%s: Bericht sessie (%u gebruikers)

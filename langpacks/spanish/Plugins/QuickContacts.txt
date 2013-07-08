@@ -14,6 +14,8 @@ Habilitar el último enviado a
 reconocer todos los mensajes enviados
 [recognize messages sent with hotkey only]
 reconocer los mensajes enviados con tecla de acceso directo sólo
+[Contacts]
+Contactos
 [Show offline contacts on these protocols:]
 Mostrar los contactos fuera de línea en estos protocolos:
 [But hide them if protocol is offline]

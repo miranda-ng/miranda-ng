@@ -6,11 +6,57 @@
 ;  Authors: TioDuke
 ;============================================================
 ;file \plugins\KeyboardNotify\res\resources.rc
+[Incoming messages]
+Binnenkomende berichten
+[seconds]
+seconden
+[Away]
+Afwezig
+[Occupied]
+Bezet
+[NA]
+Niet beschikbaar
+[DND]
+Niet storen
+[Free for chat]
+Beschikbaar voor gesprek
+[Invisible]
+Onzichtbaar
+[On the phone]
+Aan de telefoon
+[Out to lunch]
+Aan het lunchen
+[Offline]
+Offline
+[Add]
+Toevoegen
+[Delete]
+Verwijderen
+[Export...]
+Exporteren...
+[OK]
+OK
+[Cancel]
+Annuleren
+[The following events are being ignored:]
+De volgende gebeurtenissen worden genegeerd:
 [Ignore messages]
 Berichten negeren
 [Ignore URLs]
 URLs negeren
 [Ignore files]
 Bestanden negeren
+[Ignore]
+Negeer
 ;file \plugins\KeyboardNotify\src\ignore.cpp
+[** All contacts **]
+** Alle personen **
+[** Unknown contacts **]
+** Onbekende personen **
 ;file \plugins\KeyboardNotify\src\options.cpp
+[Events]
+Gebeurtenissen
+[Protocol]
+Protocol
+[All Files]
+Alle bestanden

@@ -6,6 +6,12 @@
 ;  Authors: Miranda team
 ;============================================================
 ;file \protocols\IRCG\res\IRC.rc
+[&Add]
+&Aggiungi
+[&Add]
+&Aggiungi
+[&Edit]
+&Modifica
 [only while connecting]
 solo mentre mi sto connettendo
 [Force visible (-i)]
@@ -24,16 +30,30 @@ Unisciti automaticamente su invito
 Indirizzo internet
 [Port range]
 Range porte
+[Nick]
+Nick
 [User ID (Ident)]
 ID Utente (Ident)
 [Server name]
 Nome server
 [Alternative nick]
 Nick alternativo
+[System]
+Sistema
 [Default network]
 Rete predefinita
 [User info - Required]
 Informazioni utente - Richieste
+[Other]
+Altro
+[Other]
+Altro
+[Other]
+Altro
+[Other]
+Varie
+[Other]
+Altro
 [Reconnect]
 Riconnetti
 [Wait (s)]
@@ -44,20 +64,50 @@ Numero tentativi
 Informazioni utente
 [User information]
 Informazioni utente
+[Version]
+Versione
+[Version]
+Versione
 [&Refresh]
 &Aggiorna
 [&Refresh]
 &Aggiorna
+[&Close]
+&Chiudi
+[&Close]
+&Chiudi
+[&Close]
+&Chiudi
+[Name]
+Nome
+[Name]
+Nome
+[Name]
+Nome
+[Name]
+Nome
 [Channels]
 Canali
 [Away Info]
 Info Altrove
+[&OK]
+&OK
+[&Cancel]
+&Annulla
 [&Set]
 &Imposta
 [Add server]
 Aggiungi server
+[Network]
+Rete
+[Network]
+Rete
+[Network]
+Rete
 [Channels on server]
 Canali sul server
+[&Join]
+&Unisciti
 [C&onnect]
 C&onnetti
 [&Clear all]
@@ -90,6 +140,12 @@ Modalità utente
 Modalità canale
 [Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
 Utilizza le opzioni per impostare le modalità per questo canale. Di solito dovrai essere op o superiore per farlo.
+[&Deny]
+&Nega
+[Password:]
+Password:
+[Password:]
+Password:
 ;file \protocols\IRCG\src\clist.cpp
 ;file \protocols\IRCG\src\commandmonitor.cpp
 [Downloading list (%u%%) - %u channels]
@@ -102,6 +158,14 @@ Completato - %u canali
 (troncato probabilmente dal server)
 [Change nickname]
 Cambia nick
+[Unknown]
+Sconosciuta
+[Unknown]
+Sconosciuto
+[Ignore]
+Ignora
+[Ignore]
+Ignora
 ;file \protocols\IRCG\src\input.cpp
 [The buddy check function is enabled]
 La funzione di controllo automatico dei tuoi amici è ora attivata
@@ -127,9 +191,29 @@ Comando di input
 Inserisci per favore la risposta
 ;file \protocols\IRCG\src\irclib.cpp
 ;file \protocols\IRCG\src\ircproto.cpp
+[Information]
+Informazione
+[Information]
+Informazione
 [The protocol is not online]
 Il protocollo non è online
 ;file \protocols\IRCG\src\options.cpp
+[Apply]
+Applica
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
 [Channel list]
 Lista canali
 [Quick connect]
@@ -146,6 +230,8 @@ Completa per favore tutti i campi
 Desideri eliminare\r\n%s
 [Delete server]
 Elimina server
+[Advanced]
+Avanzate
 ;file \protocols\IRCG\src\output.cpp
 [%s invites you to %s]
 %s ti invita a %s
@@ -165,6 +251,10 @@ Espulsione
 [&Control]
 &Controllo
 ;file \protocols\IRCG\src\tools.cpp
+[Offline]
+Offline
+[Offline]
+Offline
 ;file \protocols\IRCG\src\userinfo.cpp
 ;file \protocols\IRCG\src\windows.cpp
 [Channel]

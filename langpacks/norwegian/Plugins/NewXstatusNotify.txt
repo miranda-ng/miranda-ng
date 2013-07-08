@@ -1,23 +1,61 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: xStatus notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 ;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 Varsle når en kontakt endrer til følgende status
+[Online]
+Pålogget
+[Offline]
+Frakoblet
+[Invisible]
+Usynlig
+[Free for chat]
+Tilgjengelig for samtale
+[Away]
+Borte
+[NA]
+NA
+[Occupied]
+Opptatt
+[DND]
+Ikke forstyrr
+[Out to lunch]
+Ute til lunsj
+[On the phone]
+I Telefonen
 [Always when changing from offline]
 Alltid når tilbake fra frakoblet
 [Plugin activation]
 Tillegg aktivering
+[Configure]
+Konfigurer
 [Blink icon in the system tray]
 Blink ikon på oppgavelinjen
 [Use status icon]
 Bruk statusikon
 [Use individual sounds]
 Bruk individuelle lyder
+[Delete]
+Slett
+[Sounds]
+Lyder
+[Popups]
+Popups
+[Popups]
+Popups
+[Background]
+Bakgrunn
+[Text]
+Tekst
+[Use custom colours]
+Bruk selvvalgte farger
+[Use Windows colours]
+Bruk Windowsfarger
 [Use Popup colours]
 Bruk Popupfarger
 [Read status message]
@@ -30,9 +68,23 @@ Popups når kontakten endrer til:
 Vis kontakt gruppenavn
 [Use alternative descriptions]
 Bruk alternative beskrivelser
+[Reset]
+Nullstill
+[OK]
+OK
+[Cancel]
+Avbryt
+[General]
+Generelt
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Status]
+Status
+[** All contacts **]
+** Alle kontakter **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 ;file \plugins\NewXstatusNotify\src\main.cpp
+[Contact]
+Kontakt
 [User: Online]
 Bruker: Påkoblet
 [User: Offline]
@@ -54,6 +106,12 @@ Bruker: Ute Til Lunsj
 [User: On The Phone]
 Bruker: I Telefonen
 ;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+Alle Filer
+[Log]
+Logg
+[Protocol]
+Protokoll
 ;file \plugins\NewXstatusNotify\src\popup.h
 ;file \plugins\NewXstatusNotify\src\utils.cpp
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp

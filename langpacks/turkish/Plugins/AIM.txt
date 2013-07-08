@@ -8,6 +8,8 @@
 ;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 AIM Kullanıcı Detayları
+[Password:]
+Parola:
 [AIM Options]
 AIM Seçenekleri
 [Message Delivery Confirmation]
@@ -36,6 +38,12 @@ Vekil Dosya Aktarımını Dayat
 Yadımcı Kişi Olarak Maskele
 [*Aim must be reconnected  for some option to take effect.]
 * Ayarların etkin olması için AIM'e yeniden bağlanmalısınız.
+[Port:]
+Port:
+[Reset]
+Sıfırla
+[Reset]
+Sıfırla
 [Save Profile]
 Profili Kaydet
 [AIM Instant Idler]
@@ -48,6 +56,22 @@ Dakika:
 Boşta Ayarla
 [Unset Idle]
 Boştayı Kaldır
+[Add]
+Ekle
+[Remove]
+Sil
+[Idle]
+Boşta
+[&Join]
+&Katıl
+[&Cancel]
+İ&ptal
+[E-mail]
+E-posta
+[&Deny]
+Re&ddet
+[Message]
+İleti
 ;file \protocols\AimOscar\src\avatars.cpp
 ;file \protocols\AimOscar\src\chat.cpp
 ;file \protocols\AimOscar\src\error.cpp
@@ -61,6 +85,10 @@ Kendiliğinden-Yanıt:
 [No information has been provided by the server.]
 Sunucudan hiç bilgi gelmedi.
 ;file \protocols\AimOscar\src\theme.cpp
+[Profile]
+Profile
+[Bold]
+Koyu
 [Manage Account]
 Hesabı Yönet
 [Instant Idle]
@@ -72,4 +100,6 @@ Profili Oku
 [Add To Server List]
 Sunucudaki Listeye Ekle
 ;file \protocols\AimOscar\src\ui.cpp
+[Network]
+Ağ
 ;file \protocols\AimOscar\src\utility.cpp

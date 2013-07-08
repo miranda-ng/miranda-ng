@@ -8,7 +8,19 @@
 ;file \plugins\wbOSD\res\wbOSD.rc
 [Select font]
 Seleccione la fuente
+[General]
+General
+[General]
+General
+[Other]
+Otros
 [Announce]
 Anunciar
+[Show]
+mostrar
+[Status changes]
+Cambiar estado
 ;file \plugins\wbOSD\src\events.cpp
 ;file \plugins\wbOSD\src\options.cpp
+[Plugins]
+Plugins

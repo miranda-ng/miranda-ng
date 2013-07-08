@@ -7,4 +7,12 @@
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 ;file \plugins\LotusNotify\res\LotusNotify.rc
+[Background]
+Arrière-plan
+[Text]
+Texte
+[Password:]
+Passe :
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
+[Status]
+État

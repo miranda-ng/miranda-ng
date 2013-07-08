@@ -12,10 +12,20 @@
 请选择一位中继联系人: 
 [&OK]
 确定(&O)
+[&Cancel]
+取消(&C)
 [Sort Alphabetically]
 按字母顺序排序
 [Editing]
 编辑
+[Name:]
+名称: 
+[Information]
+信息
+[Contacts]
+联系人
+[&Apply]
+应用(&A)
 [&Set as Default]
 设为默认值(&S)
 [Move &Up]
@@ -30,6 +40,8 @@
 接收消息时设置默认联系人
 [Always send to default contact if not offline]
 非离线则永远发送给默认联系人
+[Options]
+选项
 [Suppress status notification for subcontacts]
 阻止子联系人状态通知
 [Context Menu]
@@ -48,6 +60,8 @@
 显示子联系人环境菜单
 [Show user information]
 使用用户信息
+[Contact List]
+联系人列表
 [Display subcontact nickname]
 显示子联系人昵称
 [Display subcontact display name]
@@ -72,6 +86,8 @@
 子联系人优先级
 [Rank:]
 排名: 
+[Default]
+默认
 [(Lower ranks are preferred)]
 (首选低排名)
 [Copy subcontact history to MetaContact when creating or adding]
@@ -108,6 +124,16 @@
 [Assignment failure]
 关联失败
 ;file \plugins\MetaContacts\src\edit.cpp
+[(Unknown Contact)]
+(未知联系人)
+[Yes]
+是
+[No]
+否
+[Contact]
+联络方式
+[Protocol]
+协议
 [Send Offline]
 离线发送
 [Delete MetaContact?]
@@ -121,8 +147,12 @@
 转换为中继联系人
 [Add to Existing]
 加入已存在
+[Edit]
+编辑
 [Set to Default]
 设为默认
+[Remove]
+移除
 ;file \plugins\MetaContacts\src\metacontacts.h
 [You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
 您要移除所有关联至此中继联系人者. \n这样将删除此中继联系人. \n\n仍要继续? 
@@ -132,6 +162,8 @@
 ;file \plugins\MetaContacts\src\meta_menu.cpp
 [There was a problem in assigning the contact to the MetaContact]
 指派中继联系人时发生错误
+[Error]
+错误
 [This will remove the MetaContact permanently.\n\nProceed Anyway?]
 此操作将永久移除中继联系人. \n\n仍要继续? 
 [Remove from MetaContact]
@@ -144,6 +176,8 @@
 中继 ID
 [No online contacts found.]
 找不到任何联系人. 
+[Message from %s]
+从 %s 收到的消息
 [Toggle MetaContacts Off]
 切换中继联系人关闭
 [Add to existing MetaContact...]
@@ -158,8 +192,12 @@
 环境
 [Toggle MetaContacts On]
 切换中继联系人打开
+[General]
+常规
 [Priorities]
 优先级
+[History]
+历史
 ;file \plugins\MetaContacts\src\meta_utils.cpp
 [Could not get MetaContact id]
 无法获取中继联系人 ID

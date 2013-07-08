@@ -12,4 +12,10 @@
 [History Disabled]
 Без съхраняване на история
 ;file \plugins\NoHistory\src\icons.cpp
+[Clear]
+Изчистване
 ;file \plugins\NoHistory\src\options.cpp
+[** All contacts **]
+** Всички контакти **
+[History]
+История

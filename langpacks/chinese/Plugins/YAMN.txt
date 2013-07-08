@@ -6,12 +6,20 @@
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 ;file \plugins\YAMN\res\YAMN.rc
+[OK]
+确定
 [Installed plugins]
 已安装插件
+[Description:]
+描述: 
+[Copyright:]
+版权: 
 [Check this account]
 检查此帐号
 [Check interval [min]:]
 检查间隔 [分钟]: 
+[Message]
+消息
 [Tray Icon]
 托盘图标
 [Execute Application]
@@ -24,8 +32,12 @@
 禁用事件
 [User Name:]
 用户名:
+[Password:]
+密码: 
 [Codepage:]
 代码页:
+[Port:]
+端口:
 [Disable STLS]
 禁用 STLS
 [Startup check]
@@ -44,8 +56,34 @@
 失败时发出系统托盘通知
 [Reset counter]
 重置计数器
+[Default]
+默认
+[Name:]
+名称: 
+[Options]
+选项
 [Check while ...]
 检查当...
+[Cancel]
+取消
+[Offline]
+离线
+[Online]
+在线
+[Away]
+外出
+[Occupied]
+忙碌中
+[DND]
+请勿打扰
+[Free for chat]
+有空聊天
+[Invisible]
+隐身
+[On the phone]
+接听电话
+[Out to lunch]
+外出用餐
 [YAMN General Options]
 YAMN 常规选项
 [TopToolBar button "Check mail"]
@@ -84,6 +122,12 @@ TopToolBar "检查邮件" 按钮
 失败时发出弹出窗口通知
 [..s Popup duration]
 ..s 弹出窗口持续
+[Background colour]
+背景颜色
+[Background colour]
+背景颜色
+[Text colour]
+文本颜色
 ;file \plugins\YAMN\src\main.cpp
 [Check &mail (All Account)]
 检查邮件(&M 所有帐号)
@@ -103,6 +147,8 @@ YAMN: 新邮件
 [YAMN: connect failed]
 YAMN: 连接已失败
 ;file \plugins\YAMN\src\services.cpp
+[Nick]
+昵称
 [No new mail message]
 无新邮件
 ;file \plugins\YAMN\src\browser\badconnect.cpp
@@ -129,6 +175,10 @@ YAMN: 连接已失败
 运行应用程序
 [Delete selected]
 删除已选项目
+[Select All]
+全选
+[Size]
+大小
 [Do you really want to delete %d selected mails?]
 您真的想删除 %d 个已选定邮件? 
 [Delete confirmation]
@@ -215,12 +265,24 @@ DNS 查找出错.
 [Error %d-%d-%d-%d:]
 错误 %d-%d-%d-%d: 
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[Network]
+网络
+[Accounts]
+帐号
+[General]
+常规
+[Plugins]
+插件
+[Popups]
+弹出窗口
 [No account selected]
 尚未选定帐号
 [Time left to next check [s]: %d]
 下次检查剩余时间 [秒]: %d
 [New Account]
 新帐号
+[All Files]
+所有文件
 [Select executable used for notification]
 选择通知时使用的可执行文件
 [Do you really want to delete this account?]

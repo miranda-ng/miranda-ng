@@ -6,20 +6,122 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 ;file \plugins\BasicHistory\res\BasicHistory.rc
+[Message History]
+Storico messaggi
 [Show event icons]
 Mostra icone eventi
+[Show names]
+Mostra nomi
+[Name]
+Nome
+[Name]
+Nome
+[Name]
+Nome
+[Name]
+Nome
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
+[View &History]
+&Visualizza storico
+[View &History]
+Guarda &Storico
+[Incoming message]
+Messaggio in arrivo
+[Outgoing message]
+Messaggio in uscita
+[History]
+Storico
 ;file \plugins\BasicHistory\src\EventList.cpp
 [All events]
 Tutti gli eventi
+[History for %s]
+Storico di %s
+[System]
+Sistema
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
+[Open in &new window]
+Apri in una nuova &finestra
+[Open in &new window]
+Apri in una &nuova finestra
+[&Open in existing window]
+&Apri in una finestra esistente
+[&Open in existing window]
+&Apri in una finestra esistente
+[&Copy link]
+&Copia collegamento
+[&Copy link]
+&Copia link
+[Copy]
+Copia
+[Delete]
+Elimina
+[Delete]
+Elimina
+[Delete]
+Cancella
+[Delete]
+Elimina
+[Options]
+Opzioni
+[Options]
+Opzioni
+[Icons]
+Icone
+[Icons]
+Icone
+[Hotkeys]
+Scorciatoie
+[Hotkeys]
+Scorciatoie
+[Error]
+Errore
+[Error]
+Errore
 ;file \plugins\BasicHistory\src\Options.cpp
+[Message]
+Messaggio
+[Message]
+Messaggio
+[Message]
+Messaggio
+[Link]
+Collegamento
+[Link]
+Collegamento
+[Searching]
+Ricerca in corso su
+[Advanced]
+Avanzate
+[Find]
+Trova
 ;file \plugins\BasicHistory\src\Options.h
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 ;file \plugins\BasicHistory\src\Scheduler.cpp
+[Contacts]
+Contatti
 ;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
 %s non trovato
+[Search]
+Ricerca
 ;file \plugins\BasicHistory\src\TxtExport.cpp

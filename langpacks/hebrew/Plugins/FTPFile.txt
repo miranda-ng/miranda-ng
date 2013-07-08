@@ -6,14 +6,42 @@
 ;  Authors: yaho
 ;============================================================
 ;file \plugins\FTPFileYM\res\ftpfile.rc
+[URL]
+קישור
+[Protocol]
+פרוטוקול
+[Other]
+אחר
 [Speed:]
 מהירות:
+[Summary]
+סיכום
+[To:]
+אל:
+[Nick]
+כינוי
+[Close]
+סגור
+[Options]
+אפשרוית
+[Select All]
+בחר הכל
+[OK]
+אישור
+[Cancel]
+ביטול
+[Rename]
+שנה שם
+[Overwrite]
+מחק
 ;file \plugins\FTPFileYM\src\dialog.cpp
 [%d minutes]
 %d דקות
 [%d hours]
 %d שעות
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
+[Resume]
+המשך
 ;file \plugins\FTPFileYM\src\job_generic.cpp
 ;file \plugins\FTPFileYM\src\job_packer.cpp
 ;file \plugins\FTPFileYM\src\job_upload.cpp
@@ -21,5 +49,11 @@
 [Clear All]
 נקה הכל
 ;file \plugins\FTPFileYM\src\options.cpp
+[minutes]
+דקות
+[Accounts]
+חשבונות
+[Advanced]
+מתקדם
 ;file \plugins\FTPFileYM\src\serverlist.cpp
 ;file \plugins\FTPFileYM\src\utils.cpp

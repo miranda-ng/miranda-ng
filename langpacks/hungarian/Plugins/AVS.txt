@@ -34,6 +34,10 @@ Legyen az avatar négyzetes
 Avatar átméretezése, hogy passzoljon a protokol max mérethez
 [Contact picture]
 Kapcsolat képe
+[Delete]
+Törlés
+[Reset]
+Alapraállítás
 [Picture options]
 Kép beállítások
 [Protect the picture]
@@ -44,16 +48,36 @@ Beállítás rejtettnek
 Próbálja átlátszóvá tenni a kép hátterét
 [Use defaults]
 Alapértékek használata
+[OK]
+OK
+[Cancel]
+Mégsem
+[Options]
+Beállítások
+[Background]
+Háttér
 [Points:]
 Pontok:
 [Color diff:]
 Színkülönbség:
+[Set]
+Beállít
 [Use per protocol avatars]
 Protokollonként eltérõ avatár
 ;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
 A protokolloknal eltérõ avatarjai vannak
 ;file \plugins\AVS\src\main.cpp
+[All Files]
+Minden fájl
+[Windows Bitmaps]
+Windows bitképek
+[JPEG Bitmaps]
+JPEG bitképek
+[GIF Bitmaps]
+GIF bitképek
+[PNG Bitmaps]
+PNG bitképek
 [Flash Animations]
 Flash animációk
 [XML Files]
@@ -66,6 +90,8 @@ Avatarom beállítása %s részére
 Avatarjaim
 [My Global Avatar Cache]
 Globális avatár táram
+[Contacts]
+Partnerek
 [Contact Avatars]
 Partner avatárok
 [Own Avatars]

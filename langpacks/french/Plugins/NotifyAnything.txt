@@ -6,6 +6,12 @@
 ;  Authors: Daniel Wesslen, Korney San
 ;============================================================
 ;file \plugins\NotifyAnything\res\NotifyAnything.rc
+[Port:]
+Port :
+[Password:]
+Passe :
 ;file \plugins\NotifyAnything\src\common.h
 ;file \plugins\NotifyAnything\src\main.cpp
+[Error]
+Erreur
 ;file \plugins\NotifyAnything\src\options.cpp

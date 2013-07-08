@@ -20,6 +20,28 @@ Message envoyé
 Message reçu
 [Allow receiving one nudge from the same contact every :]
 Autoriser la réception d'un wizz du même contact toutes les 
+[Text]
+Texte
+[Offline]
+Hors ligne
+[Online]
+En ligne
+[Away]
+Absent
+[NA]
+Indisponible
+[Occupied]
+Occupé
+[DND]
+Ne pas déranger
+[Free for chat]
+OK pour un chat
+[Invisible]
+Invisible
+[On the phone]
+Au téléphone
+[Out to lunch]
+Parti manger
 [Shaking Clist Options]
 Tremblement de la liste de contacts
 [Width of move]
@@ -35,5 +57,7 @@ Vous avez reçu un wizz
 [You sent a nudge]
 Vous avez envoyé un wizz
 ;file \plugins\Nudge\src\options.cpp
+[Events]
+Évènements
 [Window Shaking]
 Tremblement des fenêtres

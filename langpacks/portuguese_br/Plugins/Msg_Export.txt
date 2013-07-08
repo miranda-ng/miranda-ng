@@ -6,8 +6,48 @@
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 ;file \plugins\Msg_Export\res\resource.rc
+[Help]
+Ajuda
+[&Find...]
+&Encontrar...
+[&Close]
+&Fechar
+[User &Details]
+&Detalhes do Usuário
+[Copy]
+Copiar
+[Copy]
+Copiar
+[Copy]
+Copiar
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 ;file \plugins\Msg_Export\src\Glob.h
 ;file \plugins\Msg_Export\src\main.cpp
 ;file \plugins\Msg_Export\src\options.cpp
+[File]
+Arquivo
+[File]
+Arquivo
+[File]
+Arquivo
+[Nick]
+Apelido
+[Nick]
+Apelido
+[History]
+Histórico
+[History]
+Histórico
+[History]
+Histórico
+[General]
+Geral
+[General]
+Geral
+[General]
+Geral
 ;file \plugins\Msg_Export\src\utils.cpp
+[(Unknown Contact)]
+(Contato Desconhecido)
+[(Unknown Contact)]
+<desconhecido>

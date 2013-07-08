@@ -6,14 +6,76 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\JabberG\res\jabber.rc
+[OK]
+OK
+[Cancel]
+Tühista
+[Type:]
+Tüüp:
+[Password:]
+Parool:
+[Username:]
+Kasutajanimi:
+[Port:]
+Port:
+[Host:]
+Host:
+[Close]
+Sulge
+[City:]
+Linn
+[State:]
+Maakond:
+[Country:]
+Riik
+[First name:]
+Eesnimi:
+[Last name:]
+Perenimi:
+[Date of birth:]
+Sünniaeg:
+[Gender:]
+Sugu:
+[Homepage:]
+Koduleht:
+[Company:]
+Firma:
+[Department:]
+Osakond:
+[E-mail:]
+E-mail:
+[Phone:]
+Telefon:
+[Work]
+Töö
 [Phone number:]
 Telefoninumber:
+[Fax]
+Faks
+[Delete]
+Kustuta
+[Description:]
+Kirjeldus:
 [Recently visited chatrooms:]
 Viimati külastatud jututoad:
 [Bookmarks]
 Lemmikud
+[Add]
+Lisa
+[Nickname:]
+Hüüdnimi:
+[Remove]
+Eemalda
+[URL]
+URL
+[Messages]
+Teated
 [Service Discovery]
 Teenuse avastamine
+[Change %s Message]
+Muuda "%s" teadet
+[Closing in %d]
+Sulgub %d s. pärast
 [Chat options]
 Vestluse valikud
 [XML Console]
@@ -27,8 +89,20 @@ XML-konsool
 ;file \protocols\JabberG\src\jabber_caps.cpp
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 ;file \protocols\JabberG\src\jabber_chat.cpp
+[None]
+Pole
+[Owner]
+Omanik
 [&Room options]
 Jututoa valikud
+[Online]
+Sees
+[Away]
+Eemal
+[NA]
+Pole kättesaadav
+[Free for chat]
+Vestluseks vaba
 ;file \protocols\JabberG\src\jabber_console.cpp
 [Jabber Error]
 Jabber'i viga
@@ -39,6 +113,8 @@ Jabber'i viga
 [Loading...]
 Laadimine
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Notes]
+Märkused
 [Apply filter]
 Rakenda filtrit
 [Reset filter]
@@ -53,20 +129,60 @@ Algväärtusta filter
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Server options]
 Serveri valikud
+[Other]
+Muu
+[General]
+Üldine
+[Group]
+Grupp
+[Connecting...]
+Ühendumine...
+[Network]
+Võrgustik
 ;file \protocols\JabberG\src\jabber_password.cpp
 ;file \protocols\JabberG\src\jabber_privacy.cpp
+[<none>]
+<pole>
 ;file \protocols\JabberG\src\jabber_proto.cpp
 ;file \protocols\JabberG\src\jabber_rc.cpp
+[Status]
+Staatus
+[Invisible]
+Nähtamatu
+[Offline]
+Väljas
 ;file \protocols\JabberG\src\jabber_search.cpp
 ;file \protocols\JabberG\src\jabber_svc.cpp
 ;file \protocols\JabberG\src\jabber_thread.cpp
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Message]
+Teade
+[<not specified>]
+<pole märgitud>
+[Version]
+Versioon
+[System]
+Süsteem
+[Yes]
+Jah
+[No]
+Ei
+[Copy]
+Kopeeri
 [Photo]
 Foto
 ;file \protocols\JabberG\src\jabber_util.cpp
+[Error]
+Viga
 ;file \protocols\JabberG\src\jabber_vcard.cpp
+[Male]
+Mees
+[Female]
+Naine
 [Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
 Toetatakse ainult JPG, GIF ja BMP pildifailid, mis väiksemad kui 40KB.
+[Contacts]
+Kontaktid
 ;file \protocols\JabberG\src\jabber_ws.cpp
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 ;file \protocols\JabberG\src\ui_utils.cpp

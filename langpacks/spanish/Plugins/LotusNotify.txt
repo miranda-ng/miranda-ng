@@ -9,4 +9,18 @@
 ;file \plugins\LotusNotify\res\LotusNotify.rc
 [Popup options]
 Popup opciones
+[Background]
+Fondo
+[Background]
+Background
+[Text]
+Texto
+[Text]
+Texto
+[Password:]
+Contraseña:
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
+[Status]
+estado
+[Plugins]
+Plugins

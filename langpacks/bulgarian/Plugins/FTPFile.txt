@@ -30,6 +30,8 @@ FTP акаунт
 Ползване на подменю (изисква рестарт)
 [Hide inactive accounts]
 Скриване на изключените акаунти от менюто
+[Other]
+Друго
 [Automatically delete file from FTP server after (experimental):]
 Автоматично изтриване на файловете от FTP сървъра след (експериментално):
 [ZIP support]
@@ -48,6 +50,16 @@ FTP акаунт
 Скорост:
 [Remaining:]
 Остават:
+[Summary]
+Обобщение
+[To:]
+За:
+[Nick]
+Прякор
+[Close]
+Затваряне
+[Options]
+Настройки
 [File Manager]
 Диспечер на файлове
 [User info]
@@ -56,6 +68,8 @@ FTP акаунт
 КАЧВАНЕ...
 [FTP File Manager]
 FTP File диспечер
+[Select All]
+Избор - всичко
 [Deselect All]
 Размаркирай всички
 [Delete from list]
@@ -64,8 +78,14 @@ FTP File диспечер
 Изтриване от FTP
 [Enter file name]
 Въведете име на файла
+[Cancel]
+Отказ
 [File exists]
 Файлът съществува
+[Rename]
+Преименуване
+[Overwrite]
+Презаписване
 [File with the same name already exists on the server.]
 На сървъра съществува файл със същото име.
 [How to proceed?]
@@ -92,6 +112,8 @@ FTP File диспечер
 [Do you really want to cancel all running jobs?]
 Наистина ли желаете всички текущи задачи да бъдат отменени?
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
+[Resume]
+Продължаване
 [FTP Server %d]
 FTP сървър %d
 [Upload file(s)]
@@ -181,5 +203,9 @@ FTP+SSL (Explicit)
 FTP+SSL (Implicit)
 [SFTP (Secure FTP over SSH)]
 SFTP (Secure FTP over SSH)
+[Accounts]
+Акаунти
+[Advanced]
+Разширени
 ;file \plugins\FTPFileYM\src\serverlist.cpp
 ;file \plugins\FTPFileYM\src\utils.cpp

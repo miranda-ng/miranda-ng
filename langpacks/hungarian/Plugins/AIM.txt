@@ -8,6 +8,8 @@
 ;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 AIM felhasználó részletek
+[Password:]
+Jelszó:
 [AIM Options]
 AIM beállítások
 [Message Delivery Confirmation]
@@ -34,6 +36,10 @@ Proxy fájlátvitelek kényszerítése
 Álcázás oldal-csúszkás/kinyitható felhasználóként
 [*Aim must be reconnected  for some option to take effect.]
 *Aim újracsatlakoztatása szükséges néhány beállítás életbelépéséhez.
+[Port:]
+Port:
+[Reset]
+Alapraállítás
 [Save Profile]
 Profil mentése
 [AIM Instant Idler]
@@ -46,6 +52,22 @@ Percek száma:
 Idle beállítása
 [Unset Idle]
 Idle kikapcsolása
+[Add]
+Új
+[Remove]
+Eltávolítás
+[Idle]
+Tétlen
+[&Join]
+&Csatlakozás
+[&Cancel]
+&Mégse
+[E-mail]
+E-levél
+[&Deny]
+Visszautasít
+[Message]
+Üzenet
 ;file \protocols\AimOscar\src\avatars.cpp
 ;file \protocols\AimOscar\src\chat.cpp
 ;file \protocols\AimOscar\src\error.cpp
@@ -59,6 +81,10 @@ Auto-válasz:
 [No information has been provided by the server.]
 Nincs információ a szervertõl.
 ;file \protocols\AimOscar\src\theme.cpp
+[Profile]
+Profil
+[Bold]
+Félkövér
 [Manage Account]
 Fiók kezelése
 [Instant Idle]
@@ -70,4 +96,6 @@ Profil megtekintése
 [Add To Server List]
 Szerverlistához adás
 ;file \protocols\AimOscar\src\ui.cpp
+[Network]
+Hálózat
 ;file \protocols\AimOscar\src\utility.cpp

@@ -6,6 +6,10 @@
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 ;file \plugins\IEView\res\ieview.rc
+[Copy]
+Copier
+[Select All]
+Tout sélectionner
 [Save Image As...]
 Sauver l'image sous ...
 [Print]
@@ -24,6 +28,8 @@ Activer le support de MathModule
 Mettre des smiley dans les pseudos
 [Hide window border]
 Cacher les bordures
+[Size:]
+Taille :
 [Compatibility Mode]
 Mode compatibilité
 [Use External CSS]
@@ -32,12 +38,16 @@ Utiliser un CSS externe
 Utiliser les modèles
 [Background image]
 Image de fond
+[Scroll with text]
+Défiler avec le texte
 [Template Options]
 Options des modèles
 [Use message grouping]
 Grouper les messages
 [Show nicknames]
 Voir les pseudos
+[Show seconds]
+Voir les secondes
 [Use long date format]
 Utiliser date long format
 [Use relative timestamp]
@@ -45,7 +55,11 @@ Utiliser la date relative
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
 Transfert de fichiers sortants
+[Incoming File Transfer]
+Transfert de fichier entrant
 ;file \plugins\IEView\src\HTMLBuilder.cpp
+[(Unknown Contact)]
+(Contact inconnu)
 ;file \plugins\IEView\src\IEView.cpp
 [ERROR]
 ERREUR
@@ -56,7 +70,27 @@ ERREUR
 %s est parti.
 [The topic is %s.]
 Le sujet est %s.
+[Error]
+Erreur
 ;file \plugins\IEView\src\Options.cpp
+[General]
+Général
+[Message Log]
+Historique récent
+[Group Chats]
+Groupe Chats
+[History]
+Historique
+[Default]
+Défaut
+[Message Sessions]
+Sessions de message
+[All Files]
+Tous les fichiers
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+[File sent]
+Fichier envoyé
+[File received]
+Fichier reçu
 ;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
 ;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

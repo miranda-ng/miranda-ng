@@ -8,19 +8,37 @@
 ;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
 פתח את האתר הרשמי של מירנדה
+[Miranda NG Options]
+אפשרויות מירנדה
+[OK]
+אישור
+[Cancel]
+ביטול
+[Apply]
+החל
 [Switch to classic options]
 החלף לממשק אפשרויות קלאסי
+[Advanced]
+מתקדם
 ;file \plugins\ModernOpt\src\modernopt.cpp
+[Accounts]
+חשבונות
 [Setup your account information to start messaging.]
 הגדר את מידע החשבונות שלך בשביל להתחיל להתכתב.
 [Style]
 עיצוב
 [Change the look of Miranda NG according to your taste.]
 שנה את המראה של מירנדה בהתאם לטעם האישי שלך.
+[Contacts]
+אנשי קשר
 [Configure behaviour of your contact list.]
 הגדר התנהגות של רשימת המשתמשים שלך.
+[Ignore]
+התעלם
 [Ban those users and events, you are annoyed with.]
 חסום את המשתמשים והאירועים האלה, שמטרידים אותך.
+[Status]
+מצב
 [Set your status messages and idle reporting.]
 הגדר את מצב ההודעות שלך והשבת דיווח.
 [Addons]

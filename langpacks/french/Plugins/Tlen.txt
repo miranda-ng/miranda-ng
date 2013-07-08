@@ -1,6 +1,12 @@
 ﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
 ;langpack template for Tlen
 ;file \protocols\Tlen\res\tlen.rc
+[Username:]
+Identifiant :
+[Password:]
+Passe :
+[Create new account]
+Créer un compte
 [Leave status message after disconnection]
 Garder message d'état après déconnexion
 [Ignore advertisements]
@@ -23,6 +29,8 @@ Lecteur :
 Options expert
 [Connection Host:]
 Connexion sur l'hôte :
+[Port:]
+Port :
 [Enable encryption]
 Activer le cryptage
 [Enable Always Visible and Never Visible]
@@ -39,10 +47,26 @@ Serveur Proxy :
 Proxy demandant une identification
 [Enable incoming mail notification]
 Activer la notification de mail
+[Background]
+Arrière-plan
+[Text]
+Texte
 [&Custom]
 &Défini
+[Cancel]
+Annuler
+[First name:]
+Prénom :
+[Last name:]
+Nom :
+[E-mail:]
+e-mail :
+[Gender:]
+Sexe :
 [Year of birth:]
 Année de naiss. :
+[City:]
+Ville :
 [School:]
 École :
 [Looking for:]
@@ -65,6 +89,10 @@ Client :
 Système :
 [Personal Information]
 Infos personnelles
+[Nickname:]
+Pseudo :
+[Age:]
+Age :
 [Extra Search Criterias]
 Recherche Supplémentaire
 [Plan:]
@@ -79,12 +107,20 @@ Entrée
 Sortie
 [Tlen Voice Chat Invitation]
 Invitation à un chat vocal Tlen
+[From:]
+De :
 [The following invitation to join a voice chat is received.]
 L'invitation suivante à un chat vocal, a été reçue.
 ;file \protocols\Tlen\src\jabber_iqid.cpp
 [Tlen Authentication]
 Authentification Tlen
 ;file \protocols\Tlen\src\jabber_opt.cpp
+[General]
+Général
+[Advanced]
+Avancé
+[Network]
+Réseau
 [These changes will take effect the next time you connect to the Tlen network.]
 Certains changements ne prendront effets qu'à la reconnexion au réseau Tlen.
 [Tlen Protocol Option]
@@ -115,6 +151,8 @@ login Tlen
 ;file \protocols\Tlen\src\jabber_thread.cpp
 [Jabber Connection Error]
 Erreur lors de la connexion à Jabber
+[Windows]
+Windows
 [%s Web Messages]
 %s messages web
 [Web message]
@@ -125,6 +163,8 @@ Vous avez reçu une alerte.
 Chat privé
 ;file \protocols\Tlen\src\jabber_ws.cpp
 ;file \protocols\Tlen\src\tlen.cpp
+[Group chats]
+Chats
 [Microphone]
 Micro
 [Speaker]
@@ -135,6 +175,10 @@ e-mail entrant
 Alerte
 [Voice Chat]
 Chat Vocal
+[Request authorization]
+Demander l'autorisation
+[Grant authorization]
+Accorder l'autorisation
 ;file \protocols\Tlen\src\tlen_file.cpp
 [1 File]
 1 fichier
@@ -178,3 +222,5 @@ Code erreur inconnu : %d
 ...Erreur...
 [...Denied...]
 ...Refusée...
+[Default]
+Défaut

@@ -14,5 +14,15 @@ Ordine pulsanti:
 Agg. separatore
 [Add Launch]
 Aggiungi pulsante
+[Set]
+Imposta
+[Set]
+Imposta
 ;file \plugins\TopToolBar\src\toolbar.cpp
+[Default]
+Predefinito
+[Default]
+Predefinito
 ;file \plugins\TopToolBar\src\ttbopt.cpp
+[Contact List]
+Lista dei contatti

@@ -6,16 +6,40 @@
 ;  Authors: sss
 ;============================================================
 ;file \plugins\New_GPG\res\new_gpg.rc
+[OK]
+确定
+[Ignore]
+忽略
+[Cancel]
+取消
 [Real name:]
 真名:
 [Comment:]
 注释:
+[Password:]
+密码: 
 ;file \plugins\New_GPG\src\init.cpp
 ;file \plugins\New_GPG\src\main.cpp
+[Name]
+名称
+[Accounts]
+帐号
+[Default]
+默认
+[Error]
+错误
 [Replace]
 替换
 [Accept]
 接受
 ;file \plugins\New_GPG\src\messages.cpp
 ;file \plugins\New_GPG\src\options.cpp
+[Messages]
+消息
+[Advanced]
+高级
+[Contact]
+联络方式
+[Protocol]
+协议
 ;file \plugins\New_GPG\src\utilities.cpp

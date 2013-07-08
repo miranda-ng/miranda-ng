@@ -6,6 +6,36 @@
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
 ;file \plugins\ContactsPlus\res\contacts.rc
+[&A]
+&A
+[&D]
+&D
+[&H]
+&H
+[&Send]
+&Küldés
+[Cancel]
+Mégsem
+[&Add]
+&Új
+[Close]
+Bezárás
+[An error has occured. The protocol reported the following error:]
+Hiba történt. A protokol az alábbi hibát jelentette:
+[Try again]
+Újra próbál
+[User Details]
+Felhasználó részletek
 ;file \plugins\ContactsPlus\src\main.cpp
+[Contacts]
+Partnerek
 ;file \plugins\ContactsPlus\src\receive.cpp
+[Add Contact Permanently to List]
+Partner végleges hozzáadása a listához
+[View User's Details]
+Felhasználó részletinek megtekintése
+[View User's History]
+Felhasználó elõzményeinek megtekintése
+[User Menu]
+Felhasználó menü
 ;file \plugins\ContactsPlus\src\send.cpp

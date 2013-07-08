@@ -6,6 +6,22 @@
 ;  Authors: Victor Pavlychko, George Hazan
 ;============================================================
 ;file \plugins\ModernOpt\res\resource.rc
+[OK]
+OK
+[Cancel]
+Mégsem
+[Apply]
+Alkalmaz
+[Advanced]
+Haladó
 ;file \plugins\ModernOpt\src\modernopt.cpp
+[Accounts]
+Fiókok
 [Style]
 Stílus
+[Contacts]
+Partnerek
+[Ignore]
+Mellõz
+[Status]
+Állpot

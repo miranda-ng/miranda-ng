@@ -1,0 +1,28 @@
+﻿#muuid {4bb5b4aa-c364-4f23-9746-d5b708a286a5}
+;============================================================
+;  File: ConnectionNotify.dll
+;  Plugin: ConnectionNotify
+;  Version: 0.1.0.5
+;  Authors: MaKaR
+;============================================================
+;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
+[Set popup colours]
+设置弹出提示颜色
+[Popup options]
+弹出窗口选项
+[Background]
+背景
+[Text]
+文本
+[Filters]
+过滤器
+[OK]
+确定
+[Cancel]
+取消
+;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+[Status]
+状态
+[Plugins]
+插件
+;file \plugins\ConnectionNotify\src\filter.cpp

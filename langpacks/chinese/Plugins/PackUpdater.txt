@@ -8,10 +8,16 @@
 ;file \plugins\PackUpdater\Res\Resource.rc
 [View info]
 查看信息
+[Cancel]
+取消
 [PackUpdater has detected updated versions\nof the following Miranda components:]
 PackUpdater 检测到以下\nMiranda 插件版本更新:
 [Pack update options]
 包更新选项
+[Text]
+文本
+[Popups]
+弹出窗口
 ;file \plugins\PackUpdater\Src\Events.cpp
 [Check for pack updates]
 检查包更新
@@ -26,6 +32,8 @@ PackUpdater 检测到以下\nMiranda 插件版本更新:
 下载包更新...
 ;file \plugins\PackUpdater\Src\Notifications.h
 ;file \plugins\PackUpdater\Src\Options.cpp
+[hours]
+小时
 ;file \plugins\PackUpdater\Src\PackUpdater.cpp
 ;file \plugins\PackUpdater\Src\Utils.cpp
 [Name of Update's file is not supported.]

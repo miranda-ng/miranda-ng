@@ -8,6 +8,14 @@
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 设置我的昵称
+[Nickname:]
+昵称: 
+[OK]
+确定
+[Cancel]
+取消
+[General]
+常规
 [RTL]
 由右至左
 [Align text to right]
@@ -30,18 +38,22 @@
 右: 
 [Custom size:]
 自定义大小: 
+[pixels]
+像素
+[pixels]
+像素
 [Allow it to grow]
 允许扩张
 [Use free space (under avatar) to other texts]
 使用空闲空间 (头像下方) 给其它文本
+[seconds]
+秒
 [Show account name]
 显示账号名称
 [Set My Status Message for All Status]
 为所有状态设置我的状态消息
 [Status Message:]
 状态消息: 
-[Status popup]
-状态弹出窗口
 [&Offline]
 离线(&O)
 [On&line]
@@ -62,8 +74,6 @@
 接听电话(&P)
 [Out to &Lunch]
 外出用餐(&L)
-[Context popup]
-环境弹出窗口
 [Set My Avatar...]
 设置我的头像...
 [Set My Nickname...]
@@ -72,20 +82,16 @@
 设置我的状态消息...
 [Enable Listening To]
 启用正在聆听功能
-[Nick popup]
-昵称弹出窗口
-[Status message popup]
-状态消息弹出窗口
-[Avatar popup]
-头像弹出窗口
-[ListeningTo popup]
-正在聆听弹出窗口
 ;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 <无状态名称>
 ;file \plugins\MyDetails\src\frame.cpp
+[Status]
+状态
 [My Details]
 我的详细资料
+[Background]
+背景
 [Avatar Border]
 头像边框
 [Show My Details]
@@ -111,4 +117,6 @@
 设置我的 %s 状态消息
 [Show next protocol]
 显示下一个协议
+[Contact List]
+联系人列表
 ;file \plugins\MyDetails\src\options.cpp

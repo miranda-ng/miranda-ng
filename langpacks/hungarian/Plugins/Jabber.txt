@@ -6,8 +6,16 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\JabberG\res\jabber.rc
+[OK]
+OK
+[Cancel]
+Mégsem
+[Type:]
+Típus:
 [User:]
 Felhasználó:
+[Password:]
+Jelszó:
 [Resource:]
 Forrás:
 [Register new user]
@@ -22,12 +30,16 @@ Keresési szolgáltatás
 Névjegyzék Szerkesztõ
 [Jabber]
 Jabber
+[Username:]
+Felhasználónév:
 [Priority:]
 Elsõbbség:
 [Use hostname as resource]
 Gépnév használata forrásként
 [List of public servers]
 Publikus szerverek listája
+[Port:]
+Port:
 [Use SSL]
 SSL használata
 [Use TLS]
@@ -36,6 +48,8 @@ TLS használata
 Regisztráció megszüntetése
 [Manually specify connection host]
 Kapcsolati gép beállítása manuálisan
+[Host:]
+Gép:
 [User directory:]
 Felhasználói könyvtár:
 [Language for human-readable resources:]
@@ -72,6 +86,8 @@ Bejelentkezés
 Kijelentkezés
 [Register with a new service...]
 Regisztrálás új szolgáltatással...
+[Close]
+Bezárás
 [Command]
 Parancs
 [Jabber Form]
@@ -80,28 +96,58 @@ Jabber ûrlap
 Utasítás:
 [Submit]
 Engedélyezés
+[Complete]
+Teljes
 [Data form test]
 Adatok a tesztrõl
 [Address1:]
 Cím1:
 [Address2:]
 Cím2:
+[City:]
+Város:
+[State:]
+Állapot:
 [ZIP:]
 IRSZ:
+[Country:]
+Ország:
+[First name:]
+Keresztnév:
 [Middle:]
 Közép:
+[Last name:]
+Utolsó név:
+[Date of birth:]
+Született:
 [YYYY-MM-DD]
 ÉÉÉÉ-HH-NN
+[Gender:]
+Nem:
+[Homepage:]
+Honlap
+[Company:]
+Cég:
+[Department:]
+Részleg:
+[E-mail:]
+E-levél
+[Phone:]
+Telefon:
 [Jabber vCard: Add Email Address]
 Jabber vCard: E-mail cím megadása
 [Email address:]
 E-mail cím:
+[Work]
+Munka
 [X400]
 X400
 [Jabber vCard: Add Phone Number]
 Jabber vCard: Telefonszám megadása
 [Phone number:]
 Telefonszám:
+[Fax]
+Fax
 [Pager]
 Csipogó
 [Text/Messaging]
@@ -116,6 +162,10 @@ ISDN
 PCS
 [Load]
 Betöltés
+[Delete]
+Törlés
+[Description:]
+Leírás:
 [Current Password:]
 Jelenlegi jelszó:
 [New Password:]
@@ -148,14 +198,24 @@ JID:
 Regisztrálás
 [Other JID:]
 Másik JID:
+[Add]
+Új
+[Nickname:]
+Becenév
 [Jabber Bookmarks]
 Jabber könyvjelzõk
+[Remove]
+Eltávolítás
+[Edit]
+Szerkeszt
 [Bookmark Details]
 Könyvjelzõ részletek
 [Bookmark Type]
 Könyvjelzõ típus
 [Transport]
 Átvitel
+[URL]
+URL
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
 Auto-csatlakozás (könyvjelzõk auto-csatolását a Miranda beállításokban engedélyezni kell)
 [Room JID/ URL:]
@@ -198,6 +258,8 @@ Ha:
 Akkor:
 [following stanza types:]
 következõ strófa típusok:
+[Messages]
+Üzenetek
 [Incoming presence]
 Bejövõ jelenlét
 [Outgoing presence]
@@ -214,6 +276,10 @@ Megtekintés faként
 Megtekintés listaként
 [Node:]
 Csomópont:
+[Change %s Message]
+Változtat %s üzenet
+[Closing in %d]
+Bezárás %d
 [Account type:]
 Fiók típus:
 [Register account now]
@@ -238,6 +304,8 @@ Egyéni üzenetek
 Kilépés:
 [Slap:]
 Csapás:
+[Authorization Request]
+Engedélyezési kérés
 [Someone (maybe you) has requested the following file:]
 Valaki (talán te) a következõ fájlt kérte:
 [Request was sent from JID:]
@@ -291,8 +359,12 @@ Konferenciák
 ;file \protocols\JabberG\src\jabber_caps.cpp
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 ;file \protocols\JabberG\src\jabber_chat.cpp
+[None]
+Egyik sem
 [Member]
 Tag
+[Owner]
+Tulaj
 [Visitor]
 Látogató
 [Participant]
@@ -353,6 +425,16 @@ Lin&kek
 Csevegés &JID másolása
 [Copy room topic]
 Szoba téma másolása
+[Online]
+Elérhetõ
+[Away]
+Távol
+[NA]
+NA
+[DND]
+Ne zavarjanak
+[Free for chat]
+Csevegésre kész
 [&User details]
 &Felhasználó részletek
 [Member &info]
@@ -457,6 +539,8 @@ Kérlek add meg elõbb a csoportos csevegés könyvtárát.
 [Bookmarks...]
 Könyvjelzõk...
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Notes]
+Megjegyzések
 [Agents list]
 Ügynök lista
 [Transports]
@@ -549,6 +633,12 @@ Eltávolítás
 [Http authentication request received]
 Http meghatalmazási kérelem fogadva
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Request authorization]
+Engedély kérés
+[Grant authorization]
+Engedély megadása
+[Revoke authorization]
+Engedély visszavonása
 [Add to Bookmarks]
 Hozzáadás könyvjelzõkhöz
 [Commands]
@@ -585,8 +675,12 @@ Nincs aktivitás még, használd a szerver választását
 Legmagasabb prioritás (szerver választása)
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
+[To]
+Címzett
 ;file \protocols\JabberG\src\jabber_notes.cpp
 ;file \protocols\JabberG\src\jabber_opt.cpp
+[Nauru]
+Nauru
 [These changes will take effect the next time you connect to the Jabber network.]
 Ezek a módosítások a következõ Jabber hálózathoz történõ csatlakozáskor lépnek életbe.
 [Jabber Protocol Option]
@@ -595,6 +689,8 @@ Jabber Protokoll Beállítások
 Ez a mûvelet megsemmisíti a fiókod, a névjegyzéked és minden más a szerveren tárolt információt. Biztosan ezt akarod?
 [Account removal warning]
 Fiók eltávolítási figyelmeztetés
+[Messaging]
+Üzenés
 [Log chat state changes]
 Csevegés állapotváltozások naplózása
 [Log presence subscription state changes]
@@ -611,6 +707,8 @@ Szervek beállítások
 SASL meghatalmazás tiltása (régi szerverekhez)
 [Enable stream compression (if possible)]
 Folyam-tömörítés bekapcsolása (ha lehetséges)
+[Other]
+Egyéb
 [Enable remote controlling (from another resource of same JID only)]
 Távoli irányítás bekapcsolása (csak más forrás megegyezõ JID-jérõl)
 [Show transport agents on contact list]
@@ -627,6 +725,8 @@ Operációs rendszer információnak mutatása a verzióválaszokban
 Csak csoportban jövõ fájlátvitelek elfogadása (ne fedd fel az IP-m)
 [Accept HTTP Authentication requests (XEP-0070)]
 HTTP Meghatalmazás kérelmek elfogadása (XEP-0070)
+[General]
+Általános
 [Autoaccept multiuser chat invitations]
 Több-felhasználós csevegés meghívások auto-elfogadása
 [Automatically join bookmarks on login]
@@ -647,12 +747,22 @@ Szoba szerkezet változások
 Kapcsolódási módosítások
 [Role changes]
 Feladat változások
+[Status changes]
+Állapotváltozások
 [JID]
 JID
+[Group]
+Csoport
 [Subscription]
 Hozzájárulás
 [Uploading...]
 Betöltés...
+[Connecting...]
+Kapcsolódás...
+[Network]
+Hálózat
+[Advanced]
+Haladó
 [Public XMPP Network]
 Nyilvános XMPP Hálózat
 [Secure XMPP Network]
@@ -725,6 +835,8 @@ Lista eltávolítása
 ** Hozzájárulás: ettõl: **
 [** Subsription: none **]
 ** Hozzájárulás: egyik sem **
+[<none>]
+<nincs>
 [allow ]
 engedélyezés 
 [deny ]
@@ -769,6 +881,12 @@ Lista mentése nem lehetséges, mert jelenleg offline módban vagy.
 Lista Szerkesztõ...
 ;file \protocols\JabberG\src\jabber_proto.cpp
 ;file \protocols\JabberG\src\jabber_rc.cpp
+[Status]
+Állpot
+[Invisible]
+Láthatatlan
+[Offline]
+Kilépett
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 %s %s hiba\r\nKérlek válassz másik szervert
@@ -811,12 +929,24 @@ Regisztrációs utasítás kérése...
 [Sending registration information...]
 Regisztrációs információ küldése...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Message]
+Üzenet
+[<not specified>]
+<nincs megadva>
 [Software]
 Szoftver
+[Version]
+Verzió
+[System]
+Rendszer
 [Idle since]
 Inaktív ekkortól:
 [Client capabilities]
 Kliens adottságok
+[Yes]
+Igen
+[No]
+Nem
 [Last logoff time]
 Utolsó kijelentkezési idõ
 [Uptime]
@@ -829,6 +959,8 @@ Kijelentkezési üzenet
 Utolsó aktív forrás
 [Please switch online to see more details.]
 Kérlek lépj be több részlet megtekintéséhez.
+[Copy]
+Másol
 [Copy only this value]
 Csak ezt az értéket másolja
 [format]
@@ -842,11 +974,17 @@ Ismeretlen formátum
 [Photo]
 Kép
 ;file \protocols\JabberG\src\jabber_util.cpp
+[Error]
+Hiba
 [Unknown error message]
 Ismeretlen hiba üzenet
 [Advanced Status]
 Haladó Állapot
 ;file \protocols\JabberG\src\jabber_vcard.cpp
+[Male]
+Férfi
+[Female]
+Nõ
 [Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
 Csak a 40 KB-nál kisebb JPG, GIF, és BMP képfájlok támogatottak.
 [Jabber vCard]
@@ -855,6 +993,8 @@ Jabber VCard
 Jabber vCard: E-mailcím szerkesztése
 [Jabber vCard: Edit Phone Number]
 Jabber vCard: Telefonszám szerkesztése
+[Contacts]
+Partnerek
 ;file \protocols\JabberG\src\jabber_ws.cpp
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Afraid]

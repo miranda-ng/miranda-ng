@@ -8,6 +8,8 @@
 ;file \plugins\Quotes\res\Forex.rc
 [Use contact specific settings]
 Ползване на частните настройки за контакта
+[Log]
+Дневник
 [Use &Internal History]
 Ползване на историята
 [&Format:]
@@ -34,6 +36,8 @@
 Показване на Popup прозорец
 [Show Popup Window Only if Value &Changed]
 Показване на popup само при промяна на стойността
+[Cancel]
+Отказ
 [Popup settings...]
 Popup настройки...
 [Currency Converter]
@@ -44,6 +48,8 @@ Popup настройки...
 Размяна
 [Info provided by <a href="http://www.google.com">Google</a>]
 Източник на информацията Google
+[Close]
+Затваряне
 [Chart]
 Диаграма
 [Info provided by <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>]
@@ -52,8 +58,18 @@ Popup настройки...
 Извличане на данни от:
 [Popup Window Settings]
 Настройки на Popup прозореца
+[Use default colours]
+Стандартни цветове
 [Use user-defined colours]
 Избор на цветове
+[Background colour]
+Цвят на фона
+[Background colour]
+Фонов цвят
+[Text colour]
+Цвят на текста
+[Custom]
+Избор
 [Do not add to popup's history]
 Без добавяне към popup историята
 [&Choose Quotes to watch in contact list:]
@@ -76,6 +92,8 @@ Popup настройки...
 Предишен курс:
 [&Convert:]
 Превръщане на:
+[&Add]
+Добавяне
 [&Watched currency rates:]
 Наблюдавани валутни курсове:
 [&Refresh Rates Every:]
@@ -104,6 +122,8 @@ Quote\\Инф. за курса
 [Enter positive number.]
 Въведете положително число.
 ;file \plugins\Quotes\src\Forex.cpp
+[Network]
+Мрежа
 ;file \plugins\Quotes\src\HTTPSession.cpp
 [Quotes HTTP connections]
 HTTP връзки на Quotes
@@ -118,6 +138,14 @@ Xml файлове (*.xml)
 Зареждането на приставката Quotes е невъзможно. Липсва Microsoft HTML parser.
 ;file \plugins\Quotes\src\QuoteChart.cpp
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderBase.cpp
+[Enter log file name.]
+Въведете име на дневника.
+[Enter log file format.]
+Въведете формат за името.
+[Enter history format.]
+Въведете формат за историята.
+;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Symbol]
@@ -161,9 +189,3 @@ Xml файлове (*.xml)
 [Previous Close]
 Цена при предходното затваряне
 ;file \plugins\Quotes\src\SettingsDlg.cpp
-[Enter log file name.]
-Въведете име на дневника.
-[Enter log file format.]
-Въведете формат за името.
-[Enter history format.]
-Въведете формат за историята.

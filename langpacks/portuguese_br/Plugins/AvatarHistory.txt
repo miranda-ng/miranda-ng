@@ -6,9 +6,37 @@
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Background colour]
+Cor do fundo
+[Text colour]
+Texto colorido
+[Use Windows colours]
+Usar Janelas coloridas
+[Use default colours]
+Usar cores padrão
+[Custom]
+Padrão
+[Actions]
+Ações
 ;file \plugins\AvatarHistory\src\AvatarDlg.cpp
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
 ;file \plugins\AvatarHistory\src\AvatarHistory.h
 ;file \plugins\AvatarHistory\src\icolib.cpp
+[History]
+Histórico
+[History]
+Histórico
+[History]
+Histórico
 ;file \plugins\AvatarHistory\src\options.cpp
 ;file \plugins\AvatarHistory\src\utils.cpp

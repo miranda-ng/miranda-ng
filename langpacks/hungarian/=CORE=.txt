@@ -5,26 +5,122 @@ Add meg a fiók nevét (pl. Saját Google)
 Protokolltípus választása
 [Specify the internal account name (optional)]
 Belsõ fióknév megadása (tetszõleges)
+[OK]
+OK
+[Cancel]
+Mégsem
 [Add %s]
 Új %s
+[&Add]
+&Új
+[&Cancel]
+&Mégse
+[Send authorization request]
+Meghatalmazási kérelem küldése
+[Custom name:]
+Egyéni név:
+[Group:]
+Csoport:
+[Options]
+Beállítások
+[Authorization Request]
+Engedélyezési kérés
+[Delete Contact]
+Partner törlése
+[&Yes]
+&Igen
+[&No]
+&Nem
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Elrejtés a listáról csak azért, hogy az elõzmények és a beállításai megmaradjanak
+[Are you sure you want to delete %s?]
+Biztosan törölni akarod: %s?
+[This will erase all history and settings for this contact!]
+Ez törli a partner minden elõzményét és beállítását!
 [Contact Display Options]
 Partner Megjelenítési Beállítások
 [&Run]
 Futtatás
+[&Exit]
+&Kilépés
 [Start in Service Mode with]
 Szolgáltatás Módban kezdés ezzel:
 [Find/Add Contacts]
 Partnerek Keresése/Hozzáadása
+[Search:]
+Keresés:
+[E-mail address]
+E-levél cím
+[Name]
+Név
+[Nick:]
+Becenév:
 [First:]
 Elsõ:
 [Last:]
 Utolsó:
+[Advanced]
+Haladó
+[Advanced >>]
+Haladó >>
+[&Search]
+&Keresés
+[More options]
+Több beállítás
 [Add to list]
 Hozzáadás listához
+[Custom]
+Egyedi
+[Apply]
+Alkalmaz
 [Please select a subentry from the list]
 Kérlek válassz egy almenüt a listából
+[Install Database Settings]
+Adatbázis beállítások telepítése
+[Yes]
+Igen
+[No]
+Nem
+[Do you want to import the settings now?]
+Akarod most importálni a beállításokat?
+[No to all]
+Nem, mindre
+[&View contents]
+Tartalom megtekintése
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Veszélyes változásokat figyelõ biztonsági rendszer van üzemben, és figyelmeztetni fognak a nem biztonságok változások elõtt.
+[Database Setting Change]
+Adatbázis beállítás módosult
+[Database settings are being imported from]
+Adatbázis importálása innen:
+[This file wishes to change the setting]
+Az a fájl szeretné módosítani a beállítást
+[to the value]
+érték
+[Do you want to allow this change?]
+Engedélyezed ezt a változást?
+[&Allow all further changes to this section]
+Minden további változtatás engedélyezése e részlegben
+[Cancel Import]
+Importálás megszakítása
+[Database Import Complete]
+Adatbázis importálás kész
+[The import has completed from]
+Az importálás befejezõdött innen:
+[What do you want to do with the file now?]
+Most mit szeretne tenni a fájllal?
+[&Recycle]
+Újrahasznosít
+[&Delete]
+&Törlés
+[&Move/Rename]
+Mozgat/átnevez
+[&Leave]
+&Kilépés
 [Netlib Log Options]
 Netlib napló beállítások
+[Show]
+Mutat
 [Received bytes]
 Fogadott bájtok
 [Sent bytes]
@@ -41,20 +137,30 @@ Modulok nevének hívása
 Belépés ide:
 [OutputDebugString()]
 OutputDebugString()
+[File]
+Fájl
 [Run now]
 Futtatás most
 [Save as default]
 Mentés alapért.-ként
+[Sounds]
+Hangok
 [&Change...]
 &Módosítás...
+[&Preview]
+&Elõnézet
 [Download more sounds]
 Több hang letöltése
 [Sound Information]
 Hang Információ
 [Location:]
 Elhelyezkedés:
+[Name:]
+Név:
 [Enable sound events]
 Hangesemények bekapcsolása
+[Icons]
+Ikonok
 [Show category:]
 Kategória mutatása:
 [&Load icon set...]
@@ -63,16 +169,32 @@ Ikonkészlet &betöltése...
 &Ikonok importálása >>
 [Download more icons]
 Több ikon letöltése
+[The following events are being ignored:]
+A következõ események elvetése:
+[Messages]
+Üzenetek
+[URLs]
+URlek
+[Files]
+Fájlok
 [Online Notification]
 Online Értesítések
 [Auth Requests]
 Meghat. Kérelmek
 [All Events]
 Összes Esemény
+[None]
+Egyik sem
 [Only the ticked contacts will be shown on the main contact list]
 Csak a kipipált partnerek láthatóak a fõ kapcsolati listán
+[Ignore]
+Mellõz
 [Added Notification]
 Hozzáadott értesítés
+[Typing]
+Gépelés
+[Visibility]
+Láthatóság
 [You are visible to this person even when in invisible mode]
 Ennek a személynek még láthatatlan módban is látható vagy
 [You are never visible to this person]
@@ -87,6 +209,8 @@ Ikonok áthelyezése a fõ listába kiosztáshoz:
 Több importálása
 [To main icons]
 Fõ ikonokhoz
+[To]
+Címzett
 [<< &Import]
 << &Importálás
 [To default status icons]
@@ -97,8 +221,18 @@ Belépés...
 Kimenõ Kapcsolatok
 [Use proxy server]
 Proxyszerver használata
+[Type:]
+Típus:
+[Host:]
+Gép:
+[Port:]
+Port:
 [(often %d)]
 (gyakran %s)
+[Username:]
+Felhasználónév:
+[Password:]
+Jelszó:
 [Resolve hostnames through proxy]
 Gépnevek meghatározása proxyn keresztül
 [Port Range:]
@@ -109,8 +243,12 @@ Példa: 1050-1070, 2000-2010, 2500
 Bejövõ Kapcsolatok
 [Enable UPnP port mapping]
 UPnP port térképezés bekapcsolása
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Újra kell csatlakozni, hogy az oldalon végrehajtott módosítások érvényesüljenek.
 [Please complete the following form to create a new user profile]
 Kérlek töltsd ki a következõ nyomtatványt új felhasználói prpfil létrehozásához
+[Profile]
+Profil
 [e.g. Workplace]
 pl. Munkahely
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
@@ -119,18 +257,42 @@ Választhatsz az alapért.-tõl eltérõ profilmeghajtót is, ez több jellemzõ
 pl. Miranda Adatbázis
 [Driver]
 Meghajtó
+[Description:]
+Leírás:
+[Author(s):]
+Szerzõ(k):
+[E-mail:]
+E-levél
+[Homepage:]
+Honlap
+[Unique ID:]
+Egyéni azonosító:
+[Copyright:]
+Szerzõi jog:
 [Fonts and Colors]
 Betûtípusok és Színek
+[Undo]
+Visszavonás
+[Reset]
+Alapraállítás
+[Export...]
+Exportálás...
 [Color/Background]
 Szín/Háttér
+[Text Color]
+Szövegszín
 [Choose Font]
 Betûtípus választása
+[Font]
+Betûtípus
 [&Font:]
 &Betûtípus:
 [Font st&yle:]
 Betûtípus s&tílus:
 [&Size:]
 &Méret:
+[Effects]
+Effektek
 [Stri&keout]
 Áthú&zott
 [&Underline]
@@ -143,16 +305,36 @@ Minta
 AaBbYyZz
 [Sc&ript:]
 Szk&ript:
+[&Apply]
+&Alkalmazás
+[&Help]
+&Súgó
+[Warning!\r\nThis MenuObject not support user defined options.]
+Figyelem!\r\nEz a MenuObject nem támogat felhasználói beállításokat.
 [Insert separator]
 Elválasztó beszúrása
+[Service:]
+Szolgáltatás:
+[Default]
+Alap
+[Set]
+Beállít
 [Key Bindings]
 Billentyû társítások
 [Shortcut:]
 Parancsikon:
+[Add]
+Új
+[Remove]
+Eltávolítás
 [Undo Changes]
 Változások visszavonása
 [Reset To Default]
 Visszaállítás Alapért.-re
+[Hotkeys]
+Gyorsbillentyûk
+[Accounts]
+Fiókok
 [Account information:]
 Fiók információ:
 [Additional:]
@@ -163,18 +345,70 @@ Hálózat beállítása...
 Több protokoll...
 [&Add...]
 &Hozzáadás...
+[&Edit]
+Szerkeszt
+[&Options]
+&Beállítások
 [&Upgrade]
 &Feljavítás
-[IconOptions]
-IkonBeállítások
+[&Remove...]
+&Eltávolítás...
+[Tray]
+Tálca
+[&Hide/Show]
+&Elrejtés/megjelenítés
+[E&xit]
+&Kilépés
+[Nowhere]
+Sehol
+[&New Group]
+&Új csoport
+[&Hide Offline Users]
+Kilépett partnerek elrejtése
+[Hide &Offline Users out here]
+Kilépett felhasználók elrejtése idekinn
+[Hide &Empty Groups]
+Üres csoportok elrejtése
+[Disable &Groups]
+Csoportok kikapcsolása
+[Hide Miranda]
+Miranda elrejtése
+[Group]
+Csoport
+[&New Subgroup]
+Új alcsoport
+[&Hide Offline Users in here]
+Kilépett partnerek elrejtése itt
+[&Rename Group]
+Csoport átnevezése
+[&Delete Group]
+&Csoport törlése
 [&Reset to default]
 &Visszaállítás alapért.-re
 [find/add]
 keresés/hozzáadás
 [&Add to List]
 &Hozzáadás Listához
+[User &Details]
+Felhasználó &részletek
 [Send &Message]
 &Üzenet küldése
+[Log]
+Napló
+[&Copy]
+&Másol
+[Co&py All]
+Mindet másol
+[Select &All]
+&Összes kijelölése
+[C&lear Log]
+Napló törlése
+[Open in &new window]
+Megnyitás &új ablakban
+[&Open in existing window]
+Megnyitás létezõ ablakban
+[&Copy link]
+&Link másolása
 [Cancel Change]
 Változtatás Elvetése
 [&Reset To Default]
@@ -182,11 +416,25 @@ Változtatás Elvetése
 ;file \src\core\stdauth\resource.rc
 [&Authorize]
 &Meghatalmazás
+[&Deny]
+Visszautasít
 [&I]
 &I
 [Reason:]
 Indok:
+[You Were Added]
+Hozzáadásra Kerültél
+[&Close]
+&Bezárás
+[&U]
+&U
 ;file \src\core\stdaway\resource.rc
+[%s Message for %s]
+%s Üzenet ennek: %s
+[Retrieving %s message...]
+%s üzenet helyreállítása...
+[Status Messages]
+Állapot Üzenetek
 [Do not reply to requests for this message]
 Ne válaszoljon kérelmekre ehhez az üzenethez
 [Do not pop up dialog asking for new message]
@@ -195,33 +443,355 @@ Ne legyen felugró párbeszéd új üzenet kérésére
 Alapért. szerint használd ua. üzenetet, mint legutóbb
 [By default, use this message:]
 Alapért. szerint használd ezt az üzenetet:
+[Use %time% for the current time, %date% for the current date]
+%idõ% használata a jelenlegi idõhöz, és %dátum% a jelenlegi dátumhoz
+[Change %s Message]
+Változtat %s üzenet
+[Closing in %d]
+Bezárás %d
 ;file \src\core\stdchat\res\chat.rc
+[&Send]
+&Küldés
+[Show these events only:]
+Csak az alábbi események mutatása:
+[Actions]
+Akciók
+[Nick changes]
+Becenév változások
+[Users joining]
+Csatlakozások
+[Users leaving]
+Lecsatlakozások
+[Topic changes]
+Téma változások
+[Status changes]
+Állapotváltozások
+[Information]
+Információ
+[Disconnects]
+Kilépések
+[User kicks]
+Felhasználó kirúgja
+[Notices]
+Megjegyzések
+[Log Options]
+Napló beállítások
+[Log timestamp]
+Napló idõbélyeg
+[Timestamp]
+Idõbélyeg
+[Other name]
+Másik név
+[Your name]
+Neve
+[Enable highlighting]
+Kielemés bekapcsolása
+[Limit log text to (events):]
+Napló szövegek behatárolása (események):
 [Trim to (kB)]
 Max (kB)
+[Words to highlight (wildcards allowed)]
+Kiemelendõ szavak (helyettesítõk használhatóak)
+[Enable logging to disk]
+Naplózás a lemezre
+[Log directory]
+Napló könyvtár
+[Other]
+Egyéb
+[Add new rooms to group:]
+Új szobák hozzáadása a csoporthoz:
 [Userlist row distance (pixels):]
 Felhasználó-lista sor távolság (képpont):
+[Use same style as in the message log]
+Azonos stílus, mint az üzenet naplóban
+[Use default colours]
+Alap színek használata
+[Use custom colours]
+Egyedi színek használata
 [Popups for the Chat plugin]
 Felugrók a csevegés beépülõhöz
+[Timeout (s)]
+Idõtúllépés (mp)
+[Text]
+Szöveg
+[Background]
+Háttér
+[List]
+Lista
+[&Message]
+Üzenet
+[Clear lo&g]
+Napló ürítése
+[Co&py all]
+Mindet másol
+[Word lookup]
+Szó keresés
+[Google]
+Google
+[Wikipedia]
+Wikipedia
+[Link]
+Hivatkozás
+[Open a &new browser window]
+Új böngészõablak megnyitása
+[&Open in current browser window]
+Megnyitás az aktuális böngészõ ablakban
+[Message]
+Üzenet
+[Undo  ]
+Visszavonás  
+[Redo]
+Újra
+[Copy]
+Másol
+[Cut]
+Kivág
+[Paste]
+Beszúrás
+[Select All]
+Összes kijelölése
+[Clear]
+Töröl
+[Tabs]
+Fülek
+[&Close tab]
+&Fül bezárása
+[C&lose other tabs]
+Többi fül bezárása
+[&Open at this position]
+Megnyitás ebben a pozícióban
 ;file \src\core\stdclist\res\resource.rc
+[Hide offline users]
+Kilépett felhasználók elrejtése
+[Hide empty groups]
+Üres csoportok elrejtése
+[Disable groups]
+Csoportok kikapcsolása
+[Ask before deleting contacts]
+Partnerek törlésének megerõsítése
+[Sort contacts by name]
+Partnerek rendezése név szerint
+[Sort contacts by status]
+Partnerek rendezése állapot szerint
+[Sort contacts by protocol]
+Partnerek rendezése protokoll szerint
+[Single click interface]
+Egykattintásos felület
+[Always show status in tooltip]
+Mindig mutasd az állapotot gyorssúgóban
+[Disable icon blinking]
+Ikon villogás kikapcsolása
+[ms delay]
+e.mp késleltetés
+[icon when statuses differ]
+ikon, ha az állapotok eltérnek
+[Cycle icons every]
+Ikonok ismétélse minden
+[seconds, when statuses differ]
+mp., ha eltérnek az állapotok
+[Show multiple icons]
+Többszörös ikonok megjelnítése
+[Only when statuses differ]
+Csak ha az állapotok eltérnek
+[Contact List]
+Kapcsolati lista
+[System tray icon]
+Rendszer tálca ikon
+[System tray icon when using multiple protocols]
+Rendszer tálca ikon több protokoll használata esetén
+[Contact List Sorting]
+Kapcsolati lista sorrend
+[Window]
+Ablak
+[Always on top]
+Mindig legfelül
+[Tool style main window]
+Eszköz stílusú fõ ablak
+[Minimize to tray]
+Minimalizálás tálcára
+[Show menu bar]
+Menüsor megjelnítése
+[Easy move]
+Könnyû mozgatás
+[Show title bar]
+Címsor mutatása
+[Title bar text:]
+Címsor szöveg:
+[Show drop shadow (restart required)]
+Árnyék vetése (újraindítás szükséges)
+[Pin to desktop]
+Asztalhoz szegezés
+[Hide contact list after it has been idle for]
+Partnerlista elretése, ennyi eseménytelenség után:
+[seconds]
+mp.
+[Automatically resize window to height of list]
+Ablak mérete kövesse a lista magasságát
+[maximum]
+maximum
+[% of screen]
+képernyõ %-a
+[Size upwards]
+Méret felfelé
+[If window is partially covered, bring to front instead of hiding]
+Ha az ablak részben eltakart, akkor jöjjön elõre
+[Fade contact list in/out]
+Partner-lista lassú fel/eltûnése
+[Transparent contact list]
+Átlátszó partnerlista
+[Inactive opacity:]
+Inaktív átlátszatlanság:
+[Active opacity:]
+Aktív átlátszatlanság:
+[Items]
+Elemek
+[Show divider between online and offline contacts]
+Elválasztó a kilépett és elérhetõ partnerek között
+[Hot track items as mouse passes over]
+Név kiemelése amikor elhalad fölötte az egér
+[Disable drag and drop of items]
+Fogd-és-vidd kikapcsolása
+[Disable rename of items by clicking twice]
+Kettõs kattintásra átnevezés kikapcsolása
+[Show selection even when list is not focused]
+Kijelölés mutatása nem aktív lista esetén is
+[Make selection highlight translucent]
+A kijelölés legyen áttetszõ
+[Dim idle contacts]
+Inaktív partnerek halványítása
+['Hide Offline' means to hide:]
+A 'kilépettek elrejtése' elrejti:
+[Groups]
+Csoportok
+[Draw a line alongside group names]
+Húzz egy vonalat a csoportok nevéhez
+[Show counts of number of contacts in a group]
+Partnerek számának megjelenítése a csoportokban
+[Hide group counts when there are none online]
+Csoport tagszám elrejtése, ha egy tag sem érhetõ el
+[Sort groups alphabetically]
+Csoportok rendezése abc rendben
+[Quicksearch in open groups only]
+Gyorskeresés a nyitott csoportokban
+[Indent groups by:]
+Csoportok behúzása:
+[pixels]
+képpont
+[pixels]
+pixel
+[Visual]
+Látási
+[Scroll list smoothly]
+Lista finom görgetése
+[Time:]
+Idõ:
+[milliseconds]
+századmásodperc
+[Left margin:]
+Bal margó:
+[Hide vertical scroll bar]
+Függõleges görgõ elrejtése
+[Row height:]
+Sormagasság:
+[Gamma correction]
+Gamma javítás
+[Grey out entire list when:]
+Teljes lista kiszürkítése, ha:
+[Contact List Background]
+Kapcsolati lista háttér
+[Background colour]
+Háttérszín
 [Selection colour]
 Kijelölés színe
+[Use background image]
+Háttérkép használata
+[Stretch to width]
+Nyújtás a szélességhez
+[Stretch to height]
+Nyújtás a magassághoz
+[Tile horizontally]
+Osztás vízszintesen
+[Tile vertically]
+Osztás függõlegesen
+[Scroll with text]
+Görgetés a szöveggel
+[Stretch proportionally]
+Nyújtás arányosan
+[Use Windows colours]
+Windows színek használata
+[Status Bar]
+Állapotsáv
+[Show status bar]
+Állapotsor mutatása
+[Show icons]
+Ikonok megjelenítése
+[Show protocol names]
+Protokoll nevek mutatása
+[Show status text]
+Állapot szöveggel is
+[Right click opens status menu]
+Jobb katt az állapot menüt nyitja
+[Make sections equal width]
+Egyenlõ széles szakaszok
+[Show bevels on panels]
+Besüllyestett panelek
+[Show resize grip indicator]
+Átméretezés fogóka megjelnítése
+[&Status]
+Álla&pot
+[&Offline\tCtrl+0]
+&Kilépett\tCtrl+0
+[On&line\tCtrl+1]
+&Elérhetõ\tCtrl+1
+[&Away\tCtrl+2]
+&Távol\tCtrl+2
+[&NA\tCtrl+3]
+&Nem elérhetõ\tCtrl+3
+[Occ&upied\tCtrl+4]
+El&foglalt\tCtrl+4
+[&DND\tCtrl+5]
+&Ne zavarjanak\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Csevegésre kész\tCtrl+6
+[&Invisible\tCtrl+7]
+&Láthatatlan\tCtrl+7
+[On the &Phone\tCtrl+8]
+Telefonál\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Ebédel\tCtrl+9
 ;file \src\core\stdfile\resource.rc
 [Send File(s)]
 Fájl(ok) Küldése
+[To:]
+Címzett:
 [File(s):]
 Fájl(ok):
 [&Choose Again...]
 &Válassz Újra...
 [Total size:]
 Teljes méret:
+[&D]
+&D
+[&H]
+&H
+[Incoming File Transfer]
+Bejövõ Fájlátvitel
 [A&ccept]
 El&fogadás
 [&Decline]
 Elutasít
+[From:]
+Küldõ:
+[Date:]
+Dátum:
 [Files:]
 Fájlok:
 [Save to:]
 Mentés ide:
+[&A]
+&A
+[Contact menu]
+Partner Menü
 [Open...]
 Megnyitás...
 [Open folder]
@@ -232,8 +802,12 @@ Mappa megnyitása
 Nincs átvitt adat
 [File Already Exists]
 A Fájl Már Létezik
+[Resume]
+Visszaállítás
 [Resume all]
 Összes visszaállítása
+[Overwrite]
+Felülírás
 [Overwrite all]
 Összes felülírása
 [Save as...]
@@ -246,6 +820,8 @@ Mentés másként...
 A fájl érkezik
 [Existing file]
 Létezõ fájl
+[Size:]
+Méret:
 [Last modified:]
 Utoljára módosítva:
 [Open file]
@@ -254,8 +830,12 @@ Fájl megnyitása
 Fájl tulajdonságok
 [File being received]
 Fájl érkezik
+[File Transfers]
+Fájl átvitelek
 [Clear completed]
 Törlés befejezõdött
+[Close]
+Bezárás
 [Receiving files]
 Fájlok fogadása
 [Received files folder:]
@@ -291,9 +871,13 @@ Kérdezz engem
 [You will always be asked about files from people not on your contact list]
 A kapcsolati listádon nem szereplõktõl érkezõ fájlokról mindig megkérdezünk
 ;file \src\core\stdhelp\resource.rc
+[Credits >]
+Köszönet >
 ;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 Inaktívvá válás ha a következõ gazdátlan marad:
+[Windows]
+Windows
 [Miranda]
 Miranda
 [Become idle if the screen saver is active]
@@ -315,16 +899,30 @@ Inaktív Beállítások
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Automatikus felugrás ekkor:
+[Close the message window on send]
+Üzenet ablak bezárása küldéskor
+[Minimize the message window on send]
+Üzenet ablak minimalizálása küldéskor
+[Use the contact's status icon as the window icon]
+Legyen a partner állapot ikonja az párbeszéd-ablak ikonja
 [Save the window size and location individually for each contact]
 Minden partnerhez külön mentse az ablak méretét és helyét
+[Cascade new windows]
+Új ablakok lépcsõzetes rendezése
 [Show 'Send' button]
 Mutassa az 'Elküldés' gombot
 [Show username on top row]
 Felhasználónév mutatása a felsõ sorban
 [Show toolbar buttons on top row]
 Eszköztár gombok mutatása a felsõ sorban
+[Send message on double 'Enter']
+Üzenet küldése dupla 'Enter'-re
+[Send message on 'Enter']
+Üzenet küldése 'Enter'-re
 [Show character count]
 Karakterszám mutatása
+[Show warning when message has not been received after]
+Figyelmeztetés, ha az üzenet nem érekzik meg ... idõ alatt
 [Support control up/down in message area to show previously sent messages]
 Control fel/le támogatása az elõzõleg elküldött üzenetek mutatásához
 [Delete temporary contacts when closing message window]
@@ -333,40 +931,128 @@ Control fel/le támogatása az elõzõleg elküldött üzenetek mutatásához
 Avatarok az üzenet ablakokban
 [Limit avatar height to ]
 Avatár maximális magassága 
-[pixels]
-képpont
+[Send Error]
+Hiba küldése
+[An error has occured. The protocol reported the following error:]
+Hiba történt. A protokol az alábbi hibát jelentette:
+[while sending the following message:]
+amíg elküldi az alábbi üzenetet:
+[Try again]
+Újra próbál
+[Message Session]
+Üzenet mukamenet
+[Message Window Event Log]
+Üzenet ablak párbeszéd része
+[Show names]
+nevek mutatása
 [Show timestamp]
 Idõbélyeg mutatása
 [Show dates]
 Dátumok megjelenítése
+[Load unread events only]
+Csak olvasatlan események betöltése
+[Load number of previous events]
+Betöltendõ elõzõ események száma
+[Load previous events less than]
+Betöltendõ elõzõ események max száma
+[minutes old]
+perces
 [Show status changes]
 Állapotváltozások mutatása
+[Show seconds]
+Másodpercek mutatása
+[Load History Events]
+Elõzmény események betöltése
+[Send typing notifications to the following users when you are typing a message to them:]
+Gépelési értesítés küldése az alábbi felhasználóknak, ha üzenetet gépelsz nekik.
+[Show typing notifications when a user is typing a message]
+Értesítés gépelésrõl, ha egy felhasználó üzetet gépel
 [Update inactive message window icons when a user is typing]
 Inaktív üzenet alblak ikonon frissítése, ha a felhasználó gépel
+[Show typing notification when no message dialog is open]
+Gépelés értesítés mutatás, ha nincs nyitva a párbeszédablak
+[Flash in the system tray and in the contact list]
+Villogás a tálcán és a kapcsolati listában
+[Show balloon popup]
+Buboréksúgó megjelenik
+[Delete]
+Törlés
 ;file \src\core\stduihist\resource.rc
+[Find]
+Keresés
 [&Find Next]
 Következõ &Keresése
 [Find What:]
 Keresés Erre:
+[Message History]
+üzenet Elõzmény
+[&Find...]
+&Keresés...
 ;file \src\core\stduserinfo\resource.rc
+[Add Phone Number]
+Telefonszám hozzáadása
+[Enter country, area code and phone number:]
+Add meg az országot, irányítószámot és telefonszámot:
+[Or enter a full international number:]
+Vagy adj meg egy teljes nemzetközi számot:
+[Phone can receive SMS text messages]
+A telefon képes SMS szöveges üzenetek fogadására
 [Add E-Mail Address]
 E-mail cím hozzáadása
 [%s: User Details]
 %s: Felhasználó Részletek
 [Update Now]
 Frissítés Most
+[Updating]
+Frissítés
+[Nickname:]
+Becenév
+[First name:]
+Keresztnév:
+[Gender:]
+Nem:
+[Last name:]
+Utolsó név:
+[Age:]
+Életkor
+[Date of birth:]
+Született:
+[Marital status:]
+Családi állapot:
+[Phone:]
+Telefon:
 [Web page:]
 Weblap:
 [Past background:]
 Elõzõ háttér:
 [Interests:]
 Érdeklõdési körök:
+[About:]
+Névjegy
 [My notes:]
 Jegyzeteim:
+[Street:]
+Utca:
+[City:]
+Város:
+[State:]
+Állapot:
+[Postal code:]
+Irányítószám:
+[Country:]
+Ország:
 [Spoken languages:]
 Beszélt nyelvek:
+[Timezone:]
+Idõzóna:
 [Local time:]
 Helyi idõ:
+[Company:]
+Cég:
+[Department:]
+Részleg:
+[Position:]
+Pozíció:
 [Website:]
 Weboldal:
 ;file \src\core\stdauth\auth.cpp
@@ -376,15 +1062,111 @@ Weboldal:
 %u meghatalmazást kér
 [%u added you to their contact list]
 %u hozzáadott a kapcsolati listájához
+[Alerts]
+Riasztások
 ;file \src\core\stdauth\authdialogs.cpp
+[View User's Details]
+Felhasználó részletinek megtekintése
+[Add Contact Permanently to List]
+Partner végleges hozzáadása a listához
 [(Unknown)]
 (Ismeretlen)
 ;file \src\core\stdaway\awaymsg.cpp
+[Re&ad %s Message]
+%s Üzenet o&lvasása
 ;file \src\core\stdaway\sendmsg.cpp
+[I've been away since %time%.]
+Távol vagyok ekkortól: %idõ%.
+[Give it up, I'm not in!]
+Add fel, nem vagyok itt!
+[Not right now.]
+Most ne.
+[Give a guy some peace, would ya?]
+Egy kis nyugalmat kérnék, okés?
+[I'm a chatbot!]
+Csevegõrobot vagyok!
+[Yep, I'm here.]
+Igen, itt vagyok.
+[Nope, not here.]
+Nem, nem vagyok itt.
+[I'm hiding from the mafia.]
+A maffia elõl rejtõzök.
+[That'll be the phone.]
+Csörög a telefonom.
+[Mmm...food.]
+Mmm...kaja.
+[idleeeeeeee]
+Inaktíííííív
+[Status]
+Állpot
 ;file \src\core\stdchat\src\clist.cpp
+[Join chat]
+Csatlakozás csevegéshez
 ;file \src\core\stdchat\src\colorchooser.cpp
+[Text colour]
+Szövegszín
 ;file \src\core\stdchat\src\log.cpp
+[%s has joined]
+%s csatlakozott
+[You have joined %s]
+Csatlakozott ehhez: %s
+[%s has left]
+%s elment
+[%s has disconnected]
+%s kilépett
+[%s is now known as %s]
+%s új neve: %s
+[You are now known as %s]
+Az új beceneve: %s
+[%s kicked %s]
+%s kirúgta õt: %s
+[Notice from %s: ]
+Megjegyzés %s feladótól:
+[ (set by %s on %s)]
+ (beállította: %s, ekkor: %s)
+[ (set by %s)]
+ (beállította: %s)
+[<invalid>]
+<érvénytelen>
 ;file \src\core\stdchat\src\options.cpp
+[Others nicknames]
+Többiek becenevei
+[Your nickname]
+Beceneve
+[User has joined]
+Felhasználó csatlakozott
+[User has left]
+Felhasználó lecsatlakozott
+[User has disconnected]
+Felhasználó kilépett
+[User kicked ...]
+Felhasználó kirúgta ...
+[User is now known as ...]
+A felhasználó új neve ...
+[Notice from user]
+Megjegyzés a felhasználótól
+[Incoming message]
+Bejövõ üzenet
+[Outgoing message]
+Kimenõ üzenet
+[The topic is ...]
+A téma ...
+[Information messages]
+Információs üzenetek
+[User enables status for ...]
+Felhasználó bekapcsolja az állapotot ...
+[User disables status for ...]
+Felhasználó kikapcsolja az állapotot ...
+[Action message]
+Akció üzenet
+[Highlighted message]
+Kiemelt üzenet
+[Message typing area]
+Üzenet beviteli terület
+[User list members (Online)]
+Felhasználó-listatagok (elérhetõ)
+[User list members (away)]
+Felhasználó-listatagok (távol)
 [Use a tabbed interface]
 Füles kezelõfelület használata
 [Close tab on doubleclick]
@@ -397,12 +1179,20 @@ Fülek mutatása alul
 Üzenet küldése az Enter billentyû megnyomásakor
 [Send message by pressing the Enter key twice]
 Üzenet küldése az Enter billentyû kétszeri megnyomásakor
+[Flash window when someone speaks]
+Ablak felvillantása, ha valaki beszél
+[Flash window when a word is highlighted]
+Ablak felvillantása, ha egy szót kijelöl
+[Show list of users in the chat room]
+Felhasználók listájának megjelenítése a csevegõ szobákban
 [Show button for sending messages]
 Elküld gomb megjelenítése
 [Show buttons for controlling the chat room]
 Csevegõ szobákon vezérlõgombok megjelenítése
 [Show buttons for formatting the text you are typing]
 Szöveg formázó gombok megjelnítése
+[Show button menus when right clicking the buttons]
+Gomb menük megjelnítése a gombok jobb kattintásakor
 [Show new windows cascaded]
 Új ablakok megjelenítése lépcsõzetesen
 [Save the size and position of chat rooms]
@@ -411,14 +1201,48 @@ Csevegõ szobák helyének és méretének megjegyzése
 Csevegõ szoba témájának mutatása a kapcsolati listán (ha támogatott)
 [Do not play sounds when the chat room is focused]
 Ne legyenek hangok, ha a csevegõ ablak elõtérben van
+[Do not pop up the window when joining a chat room]
+Ne ugorjon elõ az ablak, amikor csatlakozom egy szobához
 [Toggle the visible state when double clicking in the contact list]
 Láthatósági állapot váltogatása a partnerlistán kettõskaatintáskor
 [Show contact statuses if protocol supports them]
 Partner állapotainak megjelenítése, ha a protokoll támogatja
 [Display contact status icon before user role icon]
 Állapot ikon megjelenítése a felhasználónév elõtt
+[Prefix all events with a timestamp]
+Minden esemény elõtt legyen idõbélyeg
+[Only prefix with timestamp if it has changed]
+Csak akkor van idõbélyeg, ha az változott
 [Timestamp has same colour as the event]
 Az idõbélyegnak és az eseménynek azonos a színe
+[Indent the second line of a message]
+Az üzenet 2. sorának behúzása
+[Limit user names in the message log to 20 characters]
+Felhasználónevek maximalizálása a naplóban 20 karakterre
+[Strip colors from messages in the log]
+Színek eltávolítása a napló üzetekbõl
+[Show topic changes]
+Témaváltozások mutatása
+[Show users joining]
+Csatlakozó felhasználók mutatása
+[Show users disconnecting]
+Kilépõ felhasználók mutatása
+[Show messages]
+Üzenetek megjelenítése
+[Show actions]
+Akciók megjelennek
+[Show users leaving]
+Lecsatlakozó felhasználók mutatása
+[Show users being kicked]
+Éppen kirúgott felhasználók mutatása
+[Show notices]
+Megjegyzések mutatása
+[Show users changing name]
+Nevet váltó felhasználók mutatása
+[Show information messages]
+Információs üzenetek megjelenítése
+[Show status changes of users]
+Felhasználók állapotváltozásainak mutatása
 [Show icon for topic changes]
 Témaváltozások ikon megjelenítése
 [Show icon for users joining]
@@ -443,6 +1267,32 @@ Névváltozások ikon megjelenítése
 Információs üzenetek ikon megjelenítése
 [Show icon for status changes]
 Állapotváltozások ikon megjelenítése
+[Show icons in tray only when the chat room is not active]
+Ikonok megjelenítése a tálcán, csak ha a csevegõ szoba nem aktív
+[Show icon in tray for topic changes]
+Ikon megjelenítse a tálcán témaváltozásokhoz
+[Show icon in tray for users joining]
+Ikon megjelenítse a tálcán csatlakozó felhasználókhoz
+[Show icon in tray for users disconnecting]
+Ikon megjelenítse a tálcán kilépõ felhasználókhoz
+[Show icon in tray for messages]
+Ikon megjelenítse a tálcán üzenetekhez
+[Show icon in tray for actions]
+Ikon megjelenítse a tálcán eseményekhez
+[Show icon in tray for highlights]
+Ikon megjelenítse a tálcán kiemelésekhez
+[Show icon in tray for users leaving]
+Ikon megjelenítse a tálcán kilépõ felhasználókhoz
+[Show icon in tray for users kicking other user]
+Ikon megjelenítse a tálcán egymást kirúgó felhasználókhoz
+[Show icon in tray for notices ]
+Ikon megjelenítse a tálcán megjegyzésekhez
+[Show icon in tray for name changes]
+Ikon megjelenítse a tálcán névváltozásokhoz
+[Show icon in tray for information messages]
+Ikon megjelenítse a tálcán információs üzenetekhez
+[Show icon in tray for status changes]
+Ikon megjelenítse a tálcán állapotváltozásokhoz
 [Chat Module]
 Csevegés modul
 [Message Background]
@@ -453,38 +1303,266 @@ Partnerlista hátér
 Partnerlist vonalak
 [Userlist Background (selected)]
 Partnerlista hátér (kijelölt)
+[Window Icon]
+Ablak ikon
+[Bold]
+Félkövér
+[Italics]
+Dõlt
+[Underlined]
+Aláhúzott
+[Smiley button]
+Emotikon gomb
+[Room history]
+Szoba történet
+[Room settings]
+Szoba beállítások
+[Event filter disabled]
+Esemény szûrõ kikapcsolva
+[Event filter enabled]
+Esemény szûrõ bekapcsolva
+[Hide userlist]
+Felhasználólist elrejtése
+[Show userlist]
+Felhasználólista mutatása
+[Icon overlay]
+Ikon felület
+[Status 1 (10x10)]
+Állapot 1 (10x10)
+[Status 2 (10x10)]
+Állapot 2 (10x10)
+[Status 3 (10x10)]
+Állapot 3 (10x10)
+[Status 4 (10x10)]
+Állapot 4 (10x10)
+[Status 5 (10x10)]
+Állapot 5 (10x10)
+[Status 6 (10x10)]
+Állapot 6 (10x10)
+[Message in (10x10)]
+Üzenet bejövõ (10x10)
+[Message out (10x10)]
+Üzenet kimenõ (10x10)
+[Action (10x10)]
+Akció (10x10)
+[Add Status (10x10)]
+Új állapot (10x10)
+[Remove status (10x10)]
+Állapot eltávolítása (10x10)
+[Join (10x10)]
+Csatlakozás (10x10)
+[Leave (10x10)]
+Elhagyás (10x10)
+[Quit (10x10)]
+Kiléps (10x10)
+[Kick (10x10)]
+Kirúgás (10x10)
+[Nickchange (10x10)]
+Becenévváltozás (10x10)
+[Notice (10x10)]
+Megjegyzés (10x10)
+[Topic (10x10)]
+Téma (10x10)
+[Highlight (10x10)]
+Kiemelés (10x10)
+[Information (10x10)]
+Információ (10x10)
+[Messaging]
+Üzenés
+[Group Chats]
+Csoportos csevegések
 [Options for using a tabbed interface]
 Füles felület beállításai
+[Appearance and functionality of chat room windows]
+Csevegõablakok megjelenése és mûködése
+[Appearance of the message log]
+Napló üzenet megjelenése
 [Icons to display in the message log]
 Üzenet-naplóban megjelenítendõ ikonok
+[Icons to display in the tray]
+Tálcán megjelenítendõ ikonok
+[Select Folder]
+Mappa kijelölése
+[Message Sessions]
+Üzenet mukamenetek
+[Group chats]
+Csoportos csevegés
+[General]
+Általános
 [Chat Log]
 Csevegés napló
 [Chat]
 Csevegés
+[Popups]
+Felugrók
+[Message is highlighted]
+Üzenet kiemelve
+[User has performed an action]
+Felhasználó végrehajtott egy akciót
+[User has kicked some other user]
+Felhasználó kirúgott egy másik felhasználót
+[User's status was changed]
+A felhasználó állapota megváltozott
+[User has changed name]
+Felhasználó nevet változtatott
+[User has sent a notice]
+Felhasználó megjegyzést küldött
+[The topic has been changed]
+A téma megváltozott
 ;file \src\core\stdchat\src\services.cpp
+[&Join]
+&Csatlakozás
 ;file \src\core\stdchat\src\tools.cpp
+[%s wants your attention in %s]
+%s szertné a figyelmedet itt: %s
+[%s speaks in %s]
+%s beszél %s
+[%s has joined %s]
+%s csatlakozott %s
+[%s has left %s]
+%s elment %s
+[%s kicked %s from %s]
+%s kirúgta õt: %s (innen: %s)
+[Notice from %s]
+Megjegyzés tõle: %s
+[Topic change in %s]
+Táma változás %s
+[Information in %s]
+Információ %s
+[%s says: %s]
+%s azt mondja, hogy: %s
+[%s has left (%s)]
+%s elment (%s)
+[%s has disconnected (%s)]
+%s kilépett (%s)
+[%s kicked %s (%s)]
+%s kirúgta õt: %s (%s)
+[Notice from %s: %s]
+Megjegyzés %s feladótól: %s
+[No word to look up]
+Nincs feloldandó szó
 ;file \src\core\stdchat\src\window.cpp
+[Insert a smiley]
+Emotikon beszúrása
+[Make the text bold (CTRL+B)]
+Legyen a szöveg félkövér (CTRL+B)
+[Make the text italicized (CTRL+I)]
+Legyen a szöveg dõlt (CTRL+I)
+[Make the text underlined (CTRL+U)]
+Legyen a szöveg aláhúzva (CTRL+U)
+[Select a background color for the text (CTRL+L)]
+Válasszon háttérszínt a szövegnek (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+Válasszon színt a szövegnek (CTRL+K)
+[Show the history (CTRL+H)]
+Elõzmények mutatása (CTRL+H)
+[Show/hide the nicklist (CTRL+N)]
+Becenévlista mutatása/elrejtése (CTRL+N)
+[Control this room (CTRL+O)]
+Szoba vezérlése (CTRL+O)
+[Enable/disable the event filter (CTRL+F)]
+Esemény szûrõ be/kikapcsolása
 [Close current tab (CTRL+F4)]
 Aktuális fül bezárása (CTRL+F4)
+[%s: Chat Room (%u user)]
+%s: csevegõ szoba (%u felhsználó)
+[%s: Chat Room (%u users)]
+%s: csevegõ szoba (%u felhsználó)
+[%s: Message Session]
+%s: üzenet kezelés
+[%s: Message Session (%u users)]
+%s: üzenet kezelés (%u felhasználó)
+[Nick name]
+Becenév
+[Unique id]
+Egyedi azonosító
 ;file \src\core\stdclist\src\clcfonts.cpp
+[Standard contacts]
+Alapvetõ partnerek
+[Online contacts to whom you have a different visibility]
+Elérhetõ partnerek, akik eltérõen láthatnak
+[Offline contacts]
+Kilépett partnerek
+[Contacts which are 'not on list']
+Partnerek, akik 'nincsenek a listán'
+[Group member counts]
+Csoport tagszámok
+[Dividers]
+Meghajtók
+[Offline contacts to whom you have a different visibility]
+Kilépett partnerek, akik eltérõen láthatnak
+[Selected Text]
+Kijelölt Szöveg
+[Hottrack Text]
+Gyorkövetés szöveg
+[Quicksearch Text]
+Gyorskeresés szöveg
 ;file \src\core\stdclist\src\clcopts.cpp
+[Not focused]
+Nem fókuszált
+[Offline]
+Kilépett
+[Online]
+Elérhetõ
+[Away]
+Távol
+[NA]
+NA
+[Occupied]
+Elfoglalt
+[DND]
+Ne zavarjanak
+[Free for chat]
+Csevegésre kész
+[Invisible]
+Láthatatlan
+[Out to lunch]
+Ebédel
+[On the phone]
+Telefonál
+[List Background]
+Lista háttérszín
 ;file \src\core\stdclist\src\clistopts.cpp
+[Global]
+Globális
 ;file \src\core\stdclist\src\cluiopts.cpp
 ;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 A felhasználónak nincs regisztrált e-mailcíme
+[Send e-mail]
+e-mail küldése
 [&E-mail]
 &e-mail
 ;file \src\core\stdfile\file.cpp
 [File from %s]
 Fájl innen: %s
+[bytes]
+bájt
+[&File]
+&Fájl
+[Incoming]
+Bejövõ
+[Complete]
+Teljes
+[Error]
+Hiba
 [Denied]
 Megtagadva
 ;file \src\core\stdfile\fileexistsdlg.cpp
 [%s File]
 %s fájl
+[All Files]
+Minden fájl
 ;file \src\core\stdfile\fileopts.cpp
+[Executable Files]
+Végrehajható fájlok
+[Events]
+Események
 ;file \src\core\stdfile\filerecvdlg.cpp
+[View User's History]
+Felhasználó elõzményeinek megtekintése
+[User Menu]
+Felhasználó menü
 [Cancelled]
 Törölve
 ;file \src\core\stdfile\filesenddlg.cpp
@@ -499,9 +1577,15 @@ Ezen a fájlon még nem lett víruskeresés lefuttatva. Biztosan meg akarod nyit
 Érkezett fájl
 [of]
 /
+[sec]
+mp.
 [remaining]
 hátralévõ
+[Connecting...]
+Kapcsolódás...
 ;file \src\core\stdfile\ftmanager.cpp
+[Outgoing]
+Kimenõ
 ;file \src\core\stdhelp\about.cpp
 ;file \src\core\stdhelp\help.cpp
 [&About...]
@@ -509,33 +1593,109 @@ hátralévõ
 [&Report Bug]
 Rovar &jelentése
 ;file \src\core\stdidle\idle.cpp
+[Idle]
+Tétlen
 ;file \src\core\stdmsg\src\cmdlist.cpp
+[The message send timed out.]
+Az üzenetküldés idõtúlépés miatt meghiúsult.
 ;file \src\core\stdmsg\src\globals.cpp
+[Incoming message (10x10)]
+Bejövõ üzenet (10x10)
+[Outgoing message (10x10)]
+Kimenõ üzenet (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
+[Last message received on %s at %s.]
+Utolsó üzenet fogadva, nap: %s, idõpont: %s.
+[signed off (was %s)]
+kijelentkezett (korábban: %s)
+[signed on (%s)]
+bejelentkezett (ekkor: %s)
+[is now %s (was %s)]
+most %s (régebben: %s)
+[%s is typing a message...]
+%s gépel...
 ;file \src\core\stdmsg\src\msglog.cpp
+[File sent]
+Fájl elküldve
+[File received]
+Fájl fogadva
 ;file \src\core\stdmsg\src\msgoptions.cpp
+[Outgoing messages]
+Kimenõ üzenetek
+[Incoming messages]
+Bejövõ üzenetek
+[Outgoing name]
+Kimenõ név
+[Outgoing time]
+Kimenõ idõ
+[Outgoing colon]
+Kimenõ pontosvesszõ
+[Incoming name]
+Bejövõ név
+[Incoming time]
+Bejövõ idõ
+[Incoming colon]
+Bejövõ kettõspont
+[Message area]
+Üzenet terület
+[Message Log]
+Üzenet napló
+[** New contacts **]
+** Új partnerek **
+[** Unknown contacts **]
+** Ismeretlen partnerek **
+[Show balloon popup (unsupported system)]
+Buboréksúgó megjelenik (nem-támogatott rendszer)
 [Messaging Log]
 Üzenet napló
+[Typing Notify]
+Gépelés értesítés
 ;file \src\core\stdmsg\src\msgs.cpp
+[Message from %s]
+Üzenet tõle: %s
+[%s is typing a message]
+%s gépel
+[Typing Notification]
+Gépelés értesítés
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Nem sikerült betölteni a beépített üzenõ modult, a riched20.dll hiányzik. Ha Windows 95-t vagy WINE-t használ, gyõzõdjön meg róla, hogy a fájl telepítve van. Kattintson az 'Igen' gombra a betöltés folytatásához.
+[Incoming (Focused Window)]
+Bejövõ (kijelölt ablak)
+[Incoming (Unfocused Window)]
+Bejövõ (kijelöletlen ablak)
+[Incoming (New Session)]
+Bejövõ (új munkamenet)
 ;file \src\core\stdmsg\src\msgtimedout.cpp
+[An unknown error has occured.]
+Ismeretlen hiba történt.
 ;file \src\core\stduihist\history.cpp
 [Outgoing Message]
 Kimenõ üzenet
 [Incoming Message]
 Bejövõ üzenet
+[Outgoing URL]
+Kimenõ URL
+[Incoming URL]
+Bejövõ URL
 [Outgoing File]
 Kimenõ fájl
 [Incoming File]
 Bejövõ fájl
+[History for %s]
+Elõzmény ehhez: %s
 [Are you sure you want to delete this history item?]
 Biztosan el kívánod távolítani ezt az elõzményelemet?
 [Delete History]
 Elõzmény törlése
+[View &History]
+&Elõzmény megtekintése
 ;file \src\core\stdurl\url.cpp
 [URL from %s]
 URl innen: %s
 [Web Page Address (&URL)]
 Weboldal cím (&URL)
+[URL]
+URL
 ;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 URL küldése ide:
@@ -546,10 +1706,14 @@ Küldés elévült
 E-mail cím szerkesztése
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 A telefonszámnak +-szal kell kezdõdnie és számokból, szóközökbõl, kötõjelekbõl és zárójelekbõl állhat.
+[Invalid Phone Number]
+Érvénytelen telefonszám
 [Primary]
 Elsõdleges
 [Custom %d]
 Egyéni &d
+[Fax]
+Fax
 [Mobile]
 Mobil
 [Work Phone]
@@ -557,35 +1721,75 @@ Munakhelyi telefon
 [Work Fax]
 Munkahelyi fax
 ;file \src\core\stduserinfo\stdinfo.cpp
+[Male]
+Férfi
+[Female]
+Nõ
+[<not specified>]
+<nincs megadva>
+[Summary]
+Összesítés
+[Contact]
+Kapcsolat
+[Location]
+Helyzet
+[Work]
+Munka
+[Notes]
+Megjegyzések
 ;file \src\core\stduserinfo\userinfo.cpp
+[Owner]
+Tulaj
+[View/Change My &Details...]
+Saját &Részletek megtekintése/módosítása...
 ;file \src\core\stduseronline\useronline.cpp
 [%s is Online]
 %s online
 ;file \src\modules\addcontact\addcontact.cpp
+[Add Contact]
+Új partner
+[Please authorize my request and add me to your contact list.]
+Kérlek engedélyezd a kérelmemet és adj hozzá a kapcsolati listádhoz.
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 [Custom status]
 Egyéni állapot
+[%s (locked)]
+%s (kizárva)
 ;file \src\modules\clist\clistmod.cpp
-[This plugin requires db3x plugin version 0.5.1.0 or later]
-Ennek a beépülõnek szüksége van a db3x 0.5.1.0 vagy újabb beépülõre
 ;file \src\modules\clist\clistsettings.cpp
+[(Unknown Contact)]
+(ismeretlen partner)
 ;file \src\modules\clist\clisttray.cpp
+[&Main Menu]
+&Fõmenü
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Ez a felhasználó olyan üzenetküldõ rendszeren van, ami egy központi szerveren tárolja a kapcsolati listáját. A partner eltávolításra kerül a szerverrõl és a kapcsolati listádról a következõ csatlakozásodkor.
 [De&lete]
 Tör&lés
+[&Rename]
+&Átnevezés
 [&Add permanently to list]
 Végleges &hozzáadás listához
 ;file \src\modules\clist\contacts.cpp
+[Nick]
+Becenév
+[E-mail]
+E-levél
+['(Unknown Contact)']
+'(ismeretlen partner)'
 ;file \src\modules\clist\genmenu.cpp
 ;file \src\modules\clist\genmenuopt.cpp
 [Menus]
 Menük
+[Customize]
+Testreszabás
 ;file \src\modules\clist\groups.cpp
 [New Group]
 Új csoport
+[Delete Group]
+Csoport törlése
 [You already have a group with that name. Please enter a unique name for the group.]
 Már van ilyen néven csoport. Kérem adjon meg egy edefi nevet a csoportnak.
 [Rename Group]
@@ -596,6 +1800,8 @@ Ez a csoport
 ;file \src\modules\clist\movetogroup.cpp
 [&Move to Group]
 Csoporthoz &adás
+[<Root Group>]
+<Alap csoport>
 ;file \src\modules\database\database.cpp
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
 Miranda nem tudja megnyitni '%s'-t, mert nincs telepítve profil beépülõ.\nTelepítsd a dbx_3x.dll-t, vagy ennek megfelelõt.
@@ -615,8 +1821,12 @@ probléma profil mozgatása során
 '%s' profil létrehozása sikertelen, a hiba %x
 [Problem creating profile]
 Probléma profil létrehozása során
+[&Create]
+&Létrehoz
 [<In Use>]
 <Használatban>
+[Size]
+Méret
 [Created]
 Létrehozva
 [My Profiles]
@@ -628,17 +1838,25 @@ Profiljaim
 [Chat Activity]
 Cset elérhetõség
 ;file \src\modules\extraicons\options_ei.cpp
+[Extra icons]
+Extra ikonok
 ;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Nem töltötted ki a keresési mezõt. Kérlek adj meg egy keresési kifejezést és próbáld újra.
+[Search]
+Keresés
 [Results]
 Eredmények
 [There are no results to display.]
 Nincs megjeleníthetõ eredmény.
+[Searching]
+Keresés
 [All Networks]
 Összes Hálózat
 [Handle]
 Kezelés
+[&Find/Add Contacts...]
+&Partnerek keresése/hozzáadása
 ;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 '%s' átkutatása sikertelen, hiba lépett fel - %s csatlakozva van? 
@@ -655,6 +1873,8 @@ Hiba a keresés során
 [No users found]
 Nincs talált felhasználó
 ;file \src\modules\fonts\FontOptions.cpp
+[<none>]
+<nincs>
 [Fonts]
 Betûtípusok
 ;file \src\modules\fonts\FontService.cpp
@@ -662,6 +1882,10 @@ Betûtípusok
 [Icon Sets]
 Ikon beállítások
 ;file \src\modules\ignore\ignore.cpp
+[** All contacts **]
+** Minden új partner **
+[Contacts]
+Partnerek
 ;file \src\modules\netlib\netliblog.cpp
 [Select where log file will be created]
 Válaszd ki a naplófájl létrehozási helyét
@@ -670,12 +1894,16 @@ Válaszd ki a futtatni kívánt programot
 ;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <Összes kapcsolat>
+[Network]
+Hálózat
 ;file \src\modules\netlib\netlibssl.cpp
 ;file \src\modules\options\options.cpp
 [<all modules>]
 <összes modul>
 [%s options]
 %s beállítások
+[&Options...]
+&Beállítások...
 ;file \src\modules\plugins\newplugins.cpp
 ['%s' is disabled, re-enable?]
 '%s' kikapcsolva, bekapcsolod?
@@ -688,15 +1916,31 @@ A telepített kapcsolati lista beépülõk indítása sikertelen, a kedvezménye
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Beépülõ
+[Version]
+Verzió
+[Plugins]
+Beépülõk
 ;file \src\modules\protocols\protoopts.cpp
+[Create new account]
+Új fiók létrehozása
 [Editing account]
 Hozzáférés szerkesztése
 [Upgrading account]
 Fiók feljavítása
 [Account is disabled. Please activate it to access options.]
 Fiók kikapcsolva. Kérlek aktiváld a beállítások eléréséhez.
+[Edit]
+Szerkeszt
+[Remove account]
+Fiók eltávolítása
+[Protocol]
+Protokoll
 [Account ID]
 Fiók azonosító
+[<unknown>]
+<ismeretlen>
+[Rename]
+Átnevezés
 [Account %s is being deleted]
 %s fiók törlése
 [&Accounts...]
@@ -706,15 +1950,25 @@ Fiók azonosító
 Parancsikon eltávolítása
 [Add another shortcut]
 Új rövidítés hozzáadása
+[System]
+Rendszer
 ;file \src\modules\skin\skinicons.cpp
+[User Online]
+Felhasználó online
 [Group (Open)]
 Csoport (Nyitott)
 [Group (Closed)]
 Csoport (Zárt)
 [Connecting]
 Csatlakozás
+[User Details]
+Felhasználó részletek
+[History]
+Elõzmény
 [Down Arrow]
 Le Nyíl
+[Find User]
+Felhasználó keresése
 [Send E-mail]
 E-mail küldése
 [SMS]
@@ -725,6 +1979,8 @@ SMS
 Pipa
 [No Tick]
 Nincs Pipa
+[Help]
+Súgó
 [Miranda Website]
 Miranda Weboldal
 [Small Dot]
@@ -745,22 +2001,426 @@ Futó beépülõ
 MutatRejt
 [Exit]
 Kilépés
+[Main Menu]
+Fõmenü
+[On]
+Be
+[Off]
+Ki
+[Frames]
+Keretek
+[Request authorization]
+Engedély kérés
+[Grant authorization]
+Engedély megadása
+[Revoke authorization]
+Engedély visszavonása
 [%s Icons]
 %s Ikonok
 ;file \src\modules\skin\sounds.cpp
 ;file \src\modules\utils\bmpfilter.cpp
+[You need an image services plugin to process PNG images.]
+Szükség van egy kép szolgáltatás beépülõre a PNG képek feldolgozásához.
 [All Bitmaps]
 összes bitkép
+[Windows Bitmaps]
+Windows bitképek
+[JPEG Bitmaps]
+JPEG bitképek
+[GIF Bitmaps]
+GIF bitképek
+[PNG Bitmaps]
+PNG bitképek
 ;file \src\modules\utils\timezones.cpp
 ;file \src\modules\utils\utils.cpp
+[Unspecified]
+Nem meghatározott
+[Unknown]
+Ismeretlen
+[Afghanistan]
+Afganisztán
+[Albania]
+Albánia
+[Algeria]
+Algéria
 [American Samoa]
 Szamoa
+[Andorra]
+Andorra
+[Angola]
+Angola
+[Anguilla]
+Anguilla
+[Antigua and Barbuda]
+Antigua és Barbuda
+[Argentina]
+Argentína
+[Armenia]
+Örményország
+[Aruba]
+Aruba
+[Australia]
+Ausztrália
+[Austria]
+Ausztria
+[Azerbaijan]
+Azerbajdzsán
+[Bahamas]
+Bahama-szigetek
+[Bahrain]
+Bahrein
+[Bangladesh]
+Banglades
+[Barbados]
+Barbadosz
+[Belarus]
+Fehéroroszország
+[Belgium]
+Belgium
+[Belize]
+Belize
+[Benin]
+Benin
+[Bermuda]
+Berbuda
+[Bhutan]
+Bhután
+[Bosnia and Herzegovina]
+Bosznia-Hercegovina
+[Botswana]
+Botswana
+[Brazil]
+Brazília
+[Bulgaria]
+Bulgária
+[Burkina Faso]
+Burkina Faso
+[Burundi]
+Burundi
+[Cambodia]
+Kambodzsa
+[Cameroon]
+Kamerun
+[Canada]
+Kanada
+[Cayman Islands]
+Kajmán-szigetek
+[Central African Republic]
+Közép-Afrika
+[Chad]
+Csád
+[China]
+Kínai Népköztársaság
 [Christmas Island]
 Karácsony-sziget
 [Cocos (Keeling) Islands]
 Kókusz-szigetek
+[Colombia]
+Kolumbia
+[Comoros]
+Comore-szigetek
+[Cook Islands]
+Cook-szigetek
+[Costa Rica]
+Costa Rica
+[Croatia]
+Horvátország
+[Cuba]
+Kubai Köztársaság
 [Cyprus]
 Ciprus
+[Czech Republic]
+Cseh Köztársaság
+[Denmark]
+Dánia
+[Djibouti]
+Dzsibuti
+[Dominica]
+Dominikai Közösség
+[Dominican Republic]
+Dominikai Köztársaság
+[Ecuador]
+Equador
+[Egypt]
+Egyiptom
+[El Salvador]
+Salvador
+[Equatorial Guinea]
+Egyenlítõi Guinea
+[Eritrea]
+Eritrea
+[Estonia]
+Észtország
+[Ethiopia]
+Etiópia
+[Fiji]
+Fidzsi-szigetek
+[Finland]
+Finnország
+[France]
+Franciaország
+[French Guiana]
+Francia Guyana
+[French Polynesia]
+Francia Polinézia
+[Gabon]
+Gabon
+[Gambia]
+Gambia
+[Georgia]
+Grúzia
+[Germany]
+Németország
+[Ghana]
+Ghána
+[Gibraltar]
+Gibraltár
+[Greece]
+Görögország
+[Greenland]
+Grönland
+[Grenada]
+Grenada
+[Guadeloupe]
+Guadeloupe
+[Guatemala]
+Guatemala
+[Guinea]
+Guinea
+[Guinea-Bissau]
+Guinea-Bissau
+[Guyana]
+Guyana
+[Haiti]
+Haiti
+[Honduras]
+Honduras
+[Hong Kong]
+Hongkong
+[Hungary]
+Magyarország
+[Iceland]
+Izland
+[India]
+India
+[Indonesia]
+Indonézia
+[Iraq]
+Irak
+[Ireland]
+Írország
+[Israel]
+Izrael
+[Italy]
+Olaszország
+[Jamaica]
+Jamaica
+[Japan]
+Japán
+[Jordan]
+Jordánia
+[Kazakhstan]
+Kazahsztán
+[Kenya]
+Kenya
+[Kiribati]
+Kiribati
+[Kuwait]
+Kuvait
+[Kyrgyzstan]
+Kirgizisztán
+[Latvia]
+Lettország
+[Lebanon]
+Libanon
+[Lesotho]
+Lesotho
+[Liberia]
+Libéria
+[Liechtenstein]
+Liechtenstein
+[Lithuania]
+Litvánia
+[Luxembourg]
+Luxemburg
+[Madagascar]
+Madagaszkár
+[Malawi]
+Malawi
+[Malaysia]
+Malaysia
+[Maldives]
+Maldív-szigetek
+[Mali]
+Mali
+[Malta]
+Málta
+[Marshall Islands]
+Marshall-szigetek
+[Martinique]
+Martinique
+[Mauritania]
+Mauritánia
+[Mauritius]
+Mauritius
+[Mexico]
+Mexikó
+[Micronesia, Federated States of]
+Mikronézia
+[Moldova, Republic of]
+Moldova
+[Monaco]
+Monaco
+[Mongolia]
+Mongólia
+[Montserrat]
+Montserrat
+[Morocco]
+Marokkó
+[Mozambique]
+Mozambik
+[Myanmar]
+Mianmar
+[Namibia]
+Namíbia
+[Nauru]
+Nauru
+[Nepal]
+Nepál
+[Netherlands]
+Hollandia
+[New Caledonia]
+Új-Kaledónia
+[New Zealand]
+Új-Zéland
+[Nicaragua]
+Nicaragua
+[Niger]
+Niger
+[Nigeria]
+Nigéria
+[Niue]
+Niue
 [Norfolk Island]
 Norfolk szigetek
+[Norway]
+Norvégia
+[Oman]
+Omán
+[Pakistan]
+Pakisztán
+[Palau]
+Palau
+[Panama]
+Panama
+[Papua New Guinea]
+Pápua Új-Guinea
+[Paraguay]
+Paraguay
+[Peru]
+Peru
+[Philippines]
+Fülöp-szigetek
+[Poland]
+Lengyelország
+[Portugal]
+Portugália
+[Puerto Rico]
+Puerto Rico
+[Qatar]
+Quatar
+[Romania]
+Románia
+[Rwanda]
+Ruanda
+[Saint Kitts and Nevis]
+Saint Kitts és Nevis
+[Saint Lucia]
+Saint Lucia
+[Saint Pierre and Miquelon]
+Saint Pierre és Miquelon
+[Saint Vincent and the Grenadines]
+Saint Vincent Grenada
+[San Marino]
+San Marino
+[Sao Tome and Principe]
+Sao Tome és Principe
+[Saudi Arabia]
+Szaúd-Arábia
+[Senegal]
+Szenegál
+[Seychelles]
+Sexcelle-szigetek
+[Sierra Leone]
+Sierra Leone
+[Singapore]
+Szingapúr
+[Slovakia]
+Szlovákia
+[Slovenia]
+Szlovénia
+[Solomon Islands]
+Salamon-szigetek
+[Somalia]
+Szomália
+[South Africa]
+Dél-Afrika
+[Spain]
+Spanyolország
+[Sri Lanka]
+Srí Lanka
+[Sudan]
+Szudán
+[Suriname]
+Suriname
+[Swaziland]
+Szváziföld
+[Sweden]
+Svédország
+[Switzerland]
+Svájc
+[Syrian Arab Republic]
+Szíria
+[Tajikistan]
+Tadzsikisztán
+[Thailand]
+Thaiföld
+[Togo]
+Togo
+[Tokelau]
+Tokelau-szigetek
+[Tonga]
+Tonga
+[Trinidad and Tobago]
+Trinidad és Tobago
+[Tunisia]
+Tunézia
+[Turkey]
+Törökország
+[Turkmenistan]
+Türkmenisztán
+[Turks and Caicos Islands]
+Turks- és Caicos-szigetek
+[Tuvalu]
+Tuvalu
+[Uganda]
+Uganda
+[Ukraine]
+Ukrajna
+[United Arab Emirates]
+Egyesült Arab Emírségek
+[United Kingdom]
+Egyesült Királyság
+[Uruguay]
+Uruguay
+[Uzbekistan]
+Üzbegisztán
+[Vanuatu]
+Vanuatu
+[Yemen]
+Jemen
+[Zambia]
+Zambia
+[Zimbabwe]
+Zimbabwe
 ;file \src\modules\visibility\visibility.cpp

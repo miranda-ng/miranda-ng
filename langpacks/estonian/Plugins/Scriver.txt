@@ -6,18 +6,210 @@
 ;  Authors: Miranda NG Development Team
 ;============================================================
 ;file \plugins\Scriver\res\resource.rc
+[Send message on 'Enter']
+Saada teade 'Enter' vajutamisel
+[Send message on double 'Enter']
+Saada teade topelt 'Enter' vajutamisel
+[Show warning when message has not been received after]
+Kuva hoiatus, kui teadet ei ole saadud peale
+[seconds]
+sekundit
+[Show status bar]
+Kuva olekuriba
 [Enable IEView]
 Võimalda IEView
+[Show icons]
+Kuva ikoonid
+[Show seconds]
+Kuva sekundid
+[Show names]
+Kuva nimed
 [Typing Notification Options]
 Trükkimise teavituste valikud
+[Show typing notifications when a user is typing a message]
+Kuva trükkimise teavitused kui kasutaja trükib teadet
+[Show typing notification when no message dialog is open]
+Kuva trükkimise teavitus, kui teateaken ei ole avatud
+[Send Error]
+Saada viga
+[Try again]
+Proovi uuesti
+[Cancel]
+Tühista
+[Yes]
+Jah
+[No]
+Ei
+[Show these events only:]
+Kuva ainult need sündmused:
+[Actions]
+Tegevused
+[Messages]
+Teated
+[Information]
+Info
+[Notices]
+Teavitused
+[Options]
+Valikud
+[Other]
+Muu
+[pixels]
+pikselit
+[pixels]
+pikselit
+[Log Options]
+Logimise valikud
+[Your name]
+Sinu nimi
+[Timestamp]
+Ajatempel
+[Enable highlighting]
+Võimalda esiletõst
+[Location]
+Asukoht
+[Use default colours]
+Kasuta vaikimisi värve
+[Text]
+Tekst
+[Background]
+Taust
+[OK]
+OK
+[&Copy]
+Kopeeri
+[Co&py All]
+Kopeeri kõik
+[Select &All]
+Vali &kõik
+[Google]
+Google
+[C&lear Log]
+Puhasta logi
+[&Copy link]
+Kopeeri link
+[Message]
+Teade
+[Undo]
+Ennista
+[Cut]
+Lõika
+[Copy]
+Kopeeri
+[Paste]
+Pane
+[Delete]
+Kustuta
+[Clear]
+Puhasta
+[List]
+Nimekiri
+[&Message]
+Teade
+[Clear lo&g]
+Puhasta logi
+[Co&py all]
+Kopeeri kõik
 ;file \plugins\Scriver\src\globals.cpp
 [Sending]
 Saatmine
+[Text colour]
+Teksti värv
+[Background colour]
+Taustavärv
+[Bold]
+Rasvane
+[Underlined]
+Allajoonitud
+[Room history]
+Jututoa ajalugu
+[Room settings]
+Jututoa seaded
+[Event filter enabled]
+Sündmuste filter võimaldatud
 ;file \plugins\Scriver\src\input.cpp
 ;file \plugins\Scriver\src\msgdialog.cpp
+[Add Contact]
+Lisa kontakt
+[User Details]
+Kasutaja detailid
+[History]
+Ajalugu
+[View User's Details]
+Vaata kasutaja detaile
+[View User's History]
+Vaata kasutaja ajalugu
+[Last message received on %s at %s.]
+Viimane teade saadud %s kell %s.
 ;file \plugins\Scriver\src\msglog.cpp
+[File sent]
+Fail saadetud
+[File received]
+Fail vastu võetud
 ;file \plugins\Scriver\src\msgoptions.cpp
+[General]
+Üldine
+[Outgoing messages]
+Väljundteated
+[Incoming messages]
+Sisenevad teated
+[Outgoing name]
+Väljundteate nimi
+[Outgoing time]
+Väljundteate aeg
+[Outgoing colon]
+Väljundteate koolon
+[Incoming name]
+Sisendteate nimi
+[Incoming time]
+Sisendteate aeg
+[Incoming colon]
+Sisendteate koolon
+[Message area]
+Teate ala
+[Incoming URL]
+Sisendteate URL
+[Your nickname]
+Sinu hüüdnimi
+[User has joined]
+Kasutas ühines
+[User has left]
+Kasutaja lahkus
+[Incoming message]
+Sisenev teade
+[Outgoing message]
+Väljundteade
+[Offline]
+Väljas
+[Online]
+Sees
+[Away]
+Eemal
+[NA]
+Pole kättesaadav
+[Occupied]
+Hõivatud
+[Free for chat]
+Vestluseks vaba
+[Invisible]
+Nähtamatu
+[Out to lunch]
+Lõunastamas
+[On the phone]
+Telefonil
+[** New contacts **]
+** Uued kontaktid **
+[** Unknown contacts **]
+** Tundmatud kontaktid **
+[Typing Notify]
+Trükkimise teavitus
 ;file \plugins\Scriver\src\msgs.cpp
+[Message from %s]
+Teade %s'lt
+[Typing Notification]
+Trükkimisest teavitamine
+[Outgoing]
+Väljuv
 ;file \plugins\Scriver\src\msgtimedout.cpp
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]
@@ -27,7 +219,45 @@ Alati pealmine
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\log.cpp
 ;file \plugins\Scriver\src\chat\main.cpp
+[&Join]
+&Ühine
+[&Leave]
+Lahku
 ;file \plugins\Scriver\src\chat\options.cpp
+[Show users joining]
+Kuva kasutajate ühinemised
+[Show messages]
+Kuva teated
+[Show actions]
+Kuva tegevused
+[Show users leaving]
+Kuva kasutajate lahkumised
+[Show status changes of users]
+Kuva kasutajate olekute muutused
+[Select Folder]
+Vali kaust
+[Group chats]
+Grupivestlused
 ;file \plugins\Scriver\src\chat\services.cpp
 ;file \plugins\Scriver\src\chat\tools.cpp
+[%s says: %s]
+%s ütles: %s
 ;file \plugins\Scriver\src\chat\window.cpp
+[Make the text bold (CTRL+B)]
+Tee tekst rasvaseks (CTRL+B)
+[Make the text italicized (CTRL+I)]
+Tee tekst kursiivituks (CTRL+I)
+[Make the text underlined (CTRL+U)]
+Tee tekst alla kriipsutatuks (CTRL+U)
+[Show the history (CTRL+H)]
+Kuva ajalugu (CTRL+H)
+[Nick name]
+Hüüdnimi
+[Unique id]
+Unikaalne id
+[Status]
+Staatus
+[%s: Chat Room (%u user)]
+%s: Jututuba (%u kasutaja)
+[%s: Chat Room (%u users)]
+%s: Jututuba (%u kasutajat)

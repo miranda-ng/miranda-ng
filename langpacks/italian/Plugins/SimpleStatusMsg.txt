@@ -3,13 +3,99 @@
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
 ;  Version: 1.9.0.4
-;  Authors: Bartosz 'Dezeath' Biaіek, Harven
+;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
 ;file \plugins\SimpleStatusMsg\res\resource.rc
+[%s Message for %s]
+Messaggio di '%s' per %s
+[&Cancel]
+&Annulla
+[Retrieving %s message...]
+Recupero messaggio di %s...
+[OK]
+OK
+[OK]
+OK
+[Status Messages]
+Messaggi di stato
+[seconds]
+secondi
+[Other]
+Altro
+[Other]
+Altro
+[Other]
+Altro
+[Other]
+Varie
+[Other]
+Altro
+[Copy]
+Copia
+[Delete]
+Elimina
+[Delete]
+Elimina
+[Delete]
+Cancella
+[Delete]
+Elimina
+[Select All]
+Seleziona Tutto
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
+[&Close]
+&Chiudi
+[&Close]
+&Chiudi
+[&Close]
+&Chiudi
+[Re&ad %s Message]
+Leggi mess&aggio di %s
 [Re&ad Away Message]
 Leggi mess&aggio di Altrove
 ;file \plugins\SimpleStatusMsg\src\main.cpp
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
+[Global]
+Globale
+[Closing in %d]
+Chiusura in %d sec
+[Closing in %d]
+Chiusura in %d
+[Closing in %d]
+Chiusura in %d
 ;file \plugins\SimpleStatusMsg\src\options.cpp
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[General]
+Generale
+[Advanced]
+Avanzate
 ;file \plugins\SimpleStatusMsg\src\utils.cpp
+[I've been away since %time%.]
+Sono via dalle %time%
+[Give it up, I'm not in!]
+Rinuncia, non ci sono!
+[Not right now.]
+Non ora.
+[Give a guy some peace, would ya?]
+Datemi un po' di pace, per favore!
+[I'm a chatbot!]
+Chatto come una macchina!
+[Yep, I'm here.]
+Sì, ci sono.
+[Nope, not here.]
+No, non ci sono.
+[I'm hiding from the mafia.]
+Mi sto nascondendo dalla mafia... shhh...
+[That'll be the phone.]
+Telefono.
+[Mmm...food.]
+Mmm... cibo...

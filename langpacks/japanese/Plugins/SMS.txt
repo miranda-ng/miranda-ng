@@ -8,8 +8,24 @@
 ;file \plugins\SMS\res\resource.rc
 [&Reply]
 返信 (&R)
+[&Close]
+閉じる (&C)
+[From:]
+送信者 :
+[To:]
+送信者 :
+[&H]
+&H
+[&Send]
+送信 (&S)
+[&Cancel]
+Cancel(&C)
 ;file \plugins\SMS\src\options.cpp
 ;file \plugins\SMS\src\receive.cpp
 ;file \plugins\SMS\src\recvdlg.cpp
 ;file \plugins\SMS\src\senddlg.cpp
+[View User's History]
+ユーザーの履歴を表示
+[Invalid Phone Number]
+電話番号が不正です
 ;file \plugins\SMS\src\SMS_svc.cpp

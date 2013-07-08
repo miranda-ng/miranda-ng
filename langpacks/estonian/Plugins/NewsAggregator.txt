@@ -6,8 +6,24 @@
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 ;file \plugins\NewsAggregator\Res\Resource.rc
+[Add]
+Lisa
+[Remove]
+Eemalda
+[OK]
+OK
+[Cancel]
+Tühista
+[URL]
+URL
+[Reset]
+Algväärtusta
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 ;file \plugins\NewsAggregator\Src\Options.cpp
+[Error]
+Viga
+[Network]
+Võrgustik
 ;file \plugins\NewsAggregator\Src\Services.cpp
 ;file \plugins\NewsAggregator\Src\Utils.cpp

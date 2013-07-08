@@ -6,5 +6,59 @@
 ;  Authors: TioDuke
 ;============================================================
 ;file \plugins\KeyboardNotify\res\resources.rc
+[Incoming messages]
+着信メッセージ
+[seconds]
+秒
+[Online]
+オンライン
+[Away]
+離席中
+[Occupied]
+取り込み中
+[NA]
+応答不可
+[DND]
+邪魔しないで
+[Free for chat]
+チャット OK!
+[Invisible]
+不可視
+[On the phone]
+電話中
+[Out to lunch]
+昼食中
+[Offline]
+オフライン
+[&Preview]
+プレビュー (&P)
+[Add]
+追加
+[Delete]
+削除
+[Export...]
+エクスポート...
+[OK]
+OK
+[Cancel]
+Cancel
+[The following events are being ignored:]
+無視するイベントを選択 :
+[Ignore]
+無視
 ;file \plugins\KeyboardNotify\src\ignore.cpp
+[** All contacts **]
+** 全てのコンタクト **
+[** Unknown contacts **]
+** 不明なコンタクト **
 ;file \plugins\KeyboardNotify\src\options.cpp
+[Events]
+イベント
+[Accounts]
+アカウント
+[Protocol]
+プロトコル
+[All Files]
+全てのファイル
+[None]
+なし

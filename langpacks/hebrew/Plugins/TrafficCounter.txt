@@ -6,8 +6,28 @@
 ;  Authors: Ghost, Mironych
 ;============================================================
 ;file \plugins\TrafficCounter\res\resource.rc
+[Accounts]
+חשבונות
+[minutes]
+דקות
+[Custom]
+מותאם
 ;file \plugins\TrafficCounter\src\options.cpp
+[General]
+כללי
+[Options]
+אפשרוית
+[Popups]
+פופ אפ
 ;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 ביטים
+[Incoming]
+נכנס
+[Outgoing]
+יוצא
+[Online]
+מחובר
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Font]
+גופן

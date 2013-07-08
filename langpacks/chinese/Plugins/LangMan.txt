@@ -8,23 +8,39 @@
 [Helps you manage Language Packs of different languages.]
 帮助您管理不同语言包. 
 ;file \plugins\LangMan\res\resource.rc
+[Author(s):]
+作者: 
+[E-mail:]
+邮件: 
 [Last modified using:]
 最后修改时使用: 
+[Date:]
+日期:
 [Locale:]
 语系: 
 [Download more Language Packs]
 下载更多语言包
+[Please restart Miranda NG for your changes to take effect.]
+请重启 Miranda NG 让您的变更生效. 
 ;file \plugins\LangMan\src\main.cpp
 ;file \plugins\LangMan\src\options.cpp
 [All installed plugins are included.]
 包含所有已安装插件. 
 [(incompatible)]
 (不兼容)
+[Unknown]
+未知
 [Current]
 当前
 [Installed Languages]
 安装语言
+[File]
+文件
 [built-in]
 内建
+[&Remove...]
+移除(&R)...
 [Languages]
 语言
+[Customize]
+自定义

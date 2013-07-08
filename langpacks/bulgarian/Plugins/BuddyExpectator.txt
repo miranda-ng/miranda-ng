@@ -6,7 +6,23 @@
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
+[Background]
+Фон
+[Text]
+Текст
+[Default]
+Стандарт
+[Custom]
+Избор
+[sec]
+сек
 [Notify always]
 Уведомяване всякога
 ;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
 ;file \plugins\BuddyExpectator\src\options.cpp
+[Contacts]
+Контакти
+[Popups]
+РopUps
+[Popups]
+РopUps

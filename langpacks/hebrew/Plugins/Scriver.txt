@@ -10,16 +10,28 @@
 אוטומטית פתח את החלון כאשר
 [and stay minimized]
 והישאר ממוזער
+[Cascade new windows]
+סדר חלונות חדשים
 [Save size and location for each contact]
 שמור גודל ומיקום בשביל כל איש קשר\n
 [Minimize on send]
 מזער בזמן שליחה
 [Hide windows on close]
 הסתר חלון בזמן סגירה
+[Send message on 'Enter']
+'שלח הודעות בלחיצה על 'אנטר
+[Send message on double 'Enter']
+שלח הודעות בלחיצה כפולה על 'אנטר'
 [Remember unsent messages]
 זכור הודעות שלא נשלחו
 [Delete temporary contacts on closing]
 מחק תכנים זמניים בזמן סגירה
+[Show warning when message has not been received after]
+הצג אזהרה כאשר ההודעה לא התקבלה אחרי
+[seconds]
+שניות
+[Tabs]
+טאבים
 [Enable tabs]
 אפשר טאבים
 [Always show tab bar]
@@ -38,18 +50,30 @@
 הגבל מספר קבוצות צ'אטים בחלון ל
 [Show titlebar]
 הראה סרגל כותרת
+[Show status bar]
+הצג את שורת המצב
 [Show toolbar]
 הראה סרגל כלים
 [Show infobar]
 הראה סרגל מידע
+[Use the contact's status icon as the window icon]
+השתמש בסמל המצב של איש בקשר כסמל של חלון ההודעות
 [Show progress indicator]
 הראה סמן התקדמות
+[Message Window Event Log]
+חלון יומן הודעות
 [Enable IEView]
 אפשר IEview
+[Show icons]
+הראה סמלים
+[Show seconds]
+הראה שניות
 [Long date format]
 פורמט תאריך ארוך
 [Relative date]
 תאריך יחסי
+[Show names]
+הראה שמות
 [Enable message grouping]
 אפשר קיבוץ הודעות
 [Mark follow-up msgs with timestamp]
@@ -68,27 +92,137 @@
 אחרון
 [Events in the last]
 אירועים לאחרונה
+[minutes]
+דקות
 [Typing Notification Options]
 אפשרוית התראת כתיבה
 [Show typing notification switch in the status bar]
 הראה מתג הודעות כתיבה בסרגל המצבים
+[Show typing notifications when a user is typing a message]
+הצג התראת כתיבה כאשר משתמש כותב
 [Update message window icons when a user is typing]
 עדכון אייקון חלון הודעות כאשר משתמש מקליד
+[Show typing notification when no message dialog is open]
+הצג התראה כאשר חלון השיחה סגור
+[Flash in the system tray and in the contact list]
+הבהב במגש המערכת וברשימת אנשי הקשר
+[Show balloon popup]
+הצג בחלון פופ אפ
+[An error has occured. The protocol reported the following error:]
+התרחשה שגיאה. הפרוטוקול דיווח את השגיאה הבאה:
+[Try again]
+נסה שנית
+[Cancel]
+ביטול
+[Message Session]
+חלון הודעות
+[Yes]
+כן
+[No]
+לא
+[Actions]
+פעולות
+[Messages]
+הודעות
+[Nick changes]
+שינויי כינוי
+[Status changes]
+שינויי מצב
+[Information]
+מידע
+[Options]
+אפשרוית
+[Other]
+אחר
+[Add new rooms to group:]
+הוסף חדרים לקבוצה:
 [User list row height]
 גובה שורת רשימת משתמש\n
+[pixels]
+פיקסלים
+[pixels]
+פיקסלים
+[Log Options]
+אפשרויות יומן
+[Your name]
+השם שלך
+[Other name]
+שם אחר
+[Timestamp]
+חותמת זמן
+[Log timestamp]
+יומן חותמת זמן
+[Limit log text to (events):]
+הגבל אירועי יומן ל:
+[Enable highlighting]
+אפשר הדגשה
+[Words to highlight (wildcards allowed)]
+מילים להדגיש כרטיס חופשי מותר
 [Save logs]
 שמור לוגים
+[Location]
+מיקום
 [Trim to]
 גזום ל
 [Group Chat]
 קבוצת צ'אט
+[Use same style as in the message log]
+עיצוב דומה כמו ביומן ההודעות
+[Use default colours]
+צבעי ברירת מחדל
+[Use custom colours]
+צבעים מותאמים אישית
+[Text]
+טקסט
+[Background]
+רקע
+[Timeout (s)]
+(פסק זמן (ש
 [(0 means default setting, -1 means indefinite time)]
   0 אומר הגדרות ברירת מחדל    \n-1 אומר זמן ללא הגבלה\n\n\n\n\n\n\n
+[OK]
+אישור
+[Log]
+יומן
+[&Copy]
+ה&עתק
+[Co&py All]
+העת&ק הכול
+[Select &All]
+&בחר הכול
+[C&lear Log]
+&נקה יומן
+[&Copy link]
+ה&עתק קישור
+[Message]
+הודעה
+[Undo]
+בטל
+[Redo]
+עשה שוב
+[Cut]
+גזור
+[Copy]
+העתק
+[Paste]
+הדבק
+[Paste && Send]
+הדבק && שלח
+[Delete]
+מחק
+[Clear]
+בהיר
+[List]
+רשימה
+[&Message]
+הודעה
 ;file \plugins\Scriver\src\globals.cpp
 [User's details]
 פרטי המשתמש
 [User's history]
 היסטורית משתמשים
+[Smiley button]
+כפתור סמיילים
 [User is typing]
 משתמש מקליד
 [Unicode is on]
@@ -101,26 +235,212 @@
 כפתור ציטוט
 [Close button]
 כפתור סגירה
+[Icon overlay]
+מעל אייקון
+[Text colour]
+צבע טקסט
+[Background colour]
+צבע רקע
+[Background colour]
+צבע רקע
+[Bold]
+בולט
+[Underlined]
+עם קו תחתון
+[Room history]
+היסטורית חדר
+[Room settings]
+הגדרות חדר
+[Event filter enabled]
+חוסם אירועים הופעל
+[Hide userlist]
+החבא רשימת משתמשים
+[Show userlist]
+הראה רשימת משתמשים
+[Status 1 (10x10)]
+מצב 1 (10x10)
+[Status 2 (10x10)]
+מצב 2 (10x10)
+[Status 3 (10x10)]
+מצב 3 (10x10)
+[Status 4 (10x10)]
+מצב 4 (10x10)
+[Status 5 (10x10)]
+מצב 5 (10x10)
+[Status 6 (10x10)]
+מצב 6 (10x10)
+[Remove status (10x10)]
+הסר מצב (10x10)
+[Join (10x10)]
+הצטרף (10x10)
+[Quit (10x10)]
+צא (10x10)
+[Kick (10x10)]
+בעט (10x10)
+[Highlight (10x10)]
+הדגש (10x10)
+[Information (10x10)]
+מידע (10x10)
+[Group Chats]
+צ'אט קבוצתי
 ;file \plugins\Scriver\src\input.cpp
+[Messaging]
+הודעות
 ;file \plugins\Scriver\src\msgdialog.cpp
+[Add Contact]
+הוסף איש קשר
+[User Menu]
+תפריט משתמש
+[User Details]
+פרופיל משתמש
+[History]
+היסטוריה\n
+[Add Contact Permanently to List]
+הוסף איש קשר בקביעות לרשימה
+[View User's Details]
+הצג פרופיל משתמש
+[View User's History]
+הצג היסטוריה עם משתמש
 [Quote Text]
 צטט
 [User Menu - %s]
 תפריט משתמש - %s
+[signed off (was %s)]
+התנתק (היה %s)
+[%s is typing a message...]
+%s כותב/ת הודעה...
+[Last message received on %s at %s.]
+ההודעה האחרונה התקבלה ב %s בשעה %s.
 ;file \plugins\Scriver\src\msglog.cpp
 ;file \plugins\Scriver\src\msgoptions.cpp
+[General]
+כללי
+[Outgoing messages]
+הודעות יוצאות
+[Incoming messages]
+הודעות נכנסות
+[Outgoing name]
+שם שנשלח
+[Outgoing time]
+זמן שנשלח
+[Outgoing colon]
+נקודותיים שנשלחים
+[Incoming name]
+שם שמתקבל
+[Incoming time]
+זמן שמתקבל
+[Incoming colon]
+נקודתיים שמתקבלים
+[Outgoing URL]
+קישור יוצא
+[Incoming URL]
+קישור נכנס
+[Others nicknames]
+כינויים של אחרים
+[Your nickname]
+הכינוי שלך
+[User has joined]
+משתמש הצטרף
+[User has left]
+משתמש עזב
+[User has disconnected]
+משתמש התנתק
+[User kicked ...]
+...משתמש הועף
+[User is now known as ...]
+...המשתמש ידוע כעת כ
+[Notice from user]
+הערה ממשתמש
+[Incoming message]
+הודעה נכנסת
+[Outgoing message]
+הודעה יוצאת
+[The topic is ...]
+...הנושא הוא
+[Information messages]
+הודעות מידע
+[User enables status for ...]
+משתמש אפשר מצב בשביל...
+[User disables status for ...]
+משתמש ביטל מצב בשביל...
+[Action message]
+הודעת פעולה
+[Highlighted message]
+הודעה מודגשת
+[Message typing area]
+אזור כתיבת ההודעה
 [Message background]
 רקע הודעה
+[User list members (away)]
+רשימת חברים של המשתמש (במצב לא נמצא)
+[Offline]
+לא מחובר
+[Online]
+מחובר
+[Away]
+לא נמצא
+[NA]
+לא זמין
+[Occupied]
+עסוק
+[DND]
+לא להפריע
+[Free for chat]
+פנוי לשיחה
+[Invisible]
+בלתי נראה
+[Out to lunch]
+אוכל ארוחת צהריים
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדבר בטלפון
+[On the phone]
+מדברת בטלפון
+[** New contacts **]
+**אנשי קשר חדשים**
+[** Unknown contacts **]
+**אנשי קשר לא ידועים**
+[Show balloon popup (unsupported system)]
+(הצג חלונות פופאפ (מערכת בלתי נתמכת
+[Message Sessions]
+חלון הודעות
+[Typing Notify]
+התראת כתיבה
 ;file \plugins\Scriver\src\msgs.cpp
+[Message from %s]
+הודעה מ%s
+[%s is typing a message]
+מקליד הודעה %s
+[Typing Notification]
+התראת כתיבה
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+מירנדה לא יכלה לטעון את מודול ההודעות, riched20.dll חסר. אם אתה משתמש ב Windows 95 או ב WINE אנא וודא שיש לך את riched20.dll מותקן. לחץ ב 'כן' בכדי להמשיך לטעון את מירנדה.
+[Incoming (Focused Window)]
+(נכנסות (חלון ממוקד
+[Incoming (Unfocused Window)]
+(נכנסות (חלון לא ממוקד
+[Incoming (New Session)]
+(נכנסות (חלון חדש
+[Outgoing]
+יוצא
 ;file \plugins\Scriver\src\msgtimedout.cpp
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]
 תמיד עליון
 ;file \plugins\Scriver\src\sendqueue.cpp
+[The message send timed out.]
+שליחת ההודעה התארכה יותר מהצפוי.
 ;file \plugins\Scriver\src\chat\clist.cpp
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\log.cpp
+[%s is now known as %s]
+%s ידוע כ %s
 ;file \plugins\Scriver\src\chat\main.cpp
+[&Join]
+הצטרף
+[&Leave]
+&עזוב
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 הבהב בזמן שמישהו מדבר
@@ -144,16 +464,94 @@
 הצג אייקוני מצבי אנשי קשר לפני תפקיד אייקון
 [Add ':' to auto-completed names]
 הוסף ':' לשמות מושלמים אוטומטית
+[Prefix all events with a timestamp]
+תקן מראש את כל האירועים עם חותמת זמן
+[Only prefix with timestamp if it has changed]
+תקן מראש עם חותמת זמן רק אם שונה
 [Timestamp has same colour as event]
 לחתימת זמן יש אותו צבע כמו אירוע
+[Indent the second line of a message]
+לחתוך את הקו השני של הודעה
 [Limit user names to 20 characters]
 הגבל שמות משתמש ל 20 תווים
 [Strip colors from messages]
 הסר צבעים מהודעות
 [Enable 'event filter' for new rooms]
 אפשר 'מסנן אירועים' לחדרים חדשים
+[Show topic changes]
+הראה שינויי נושא
+[Show users joining]
+הראה משתמשים שמתחברים
+[Show users disconnecting]
+הראה משתמשים שמתנתקים
+[Show messages]
+הראה הודעות
+[Show actions]
+הראה פעולות
+[Show users leaving]
+הראה משתמשים שעוזבים
+[Show users being kicked]
+הראה משתמשים שמועפים
+[Show notices]
+הראה הערות
+[Show users changing name]
+הראה משתמשים מחליפים שמות
+[Show information messages]
+הראה שינויי מידע
+[Show status changes of users]
+הראה שינויי מצב של משתמשים
+[Show icons in tray only when the chat room is not active]
+הראה אייקונים בסרגל רק כשחדר הצ'אט לא פעיל
+[Show icon in tray for topic changes]
+הראה בסרגל אייקון לשינויי נושא
+[Show icon in tray for users joining]
+הראה בסרגל אייקון למשתמשים שמתחברים
+[Show icon in tray for users disconnecting]
+הראה בסרגל אייקון למשתמשים שמתנתקים
+[Show icon in tray for messages]
+הראה בסרגל אייקון להודעות
+[Show icon in tray for actions]
+הראה בסרגל אייקון לפעולות
+[Show icon in tray for highlights]
+הראה בסרגל אייקון למודגשים
+[Show icon in tray for users leaving]
+הראה בסרגל אייקון למשתמשים שעוזבים
+[Show icon in tray for users kicking other user]
+הראה בסרגל אייקון למשתמשים שמעיפים משתמש אחר
+[Show icon in tray for notices ]
+הראה אייקון במגש מערכת בשביל הודעות
+[Show icon in tray for name changes]
+הראה בסרגל אייקון לשינויי שמות
+[Show icon in tray for information messages]
+הראה בסרגל אייקון לשינויי מידע
+[Show icon in tray for status changes]
+הראה בסרגל אייקון לשינויי מצב
 [Appearance and functionality of chat windows]
 מראה ושימושיות של חלונות צ'אט
+[Icons to display in the tray]
+אייקונים להצגה בסרגל
+[Default events to show in new chat rooms if the 'event filter' is enabled]
+הראה אירועי ברירת מחדל בחדרי צ'אט חדשים אם 'מסנן האירועים' פעיל
+[Select Folder]
+בחר תיקייה
+[Popups]
+פופ אפ
+[Message is highlighted]
+הודעה מודגשת
+[User has performed an action]
+משתמש ביצע פעולה
+[User has kicked some other user]
+משתמש העיף משתמש אחר
+[User has changed name]
+משתמש החליף שם
+[User has sent a notice]
+משתמש שלח הערה
+[The topic has been changed]
+נושא השתנה
 ;file \plugins\Scriver\src\chat\services.cpp
 ;file \plugins\Scriver\src\chat\tools.cpp
+[%s kicked %s from %s]
+%s מ %s נבעט %s
 ;file \plugins\Scriver\src\chat\window.cpp
+[Status]
+מצב

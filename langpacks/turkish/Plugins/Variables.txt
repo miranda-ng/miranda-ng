@@ -6,7 +6,21 @@
 ;  Authors: P Boon
 ;============================================================
 ;file \plugins\Variables\res\Variables.rc
+[Close]
+Kapat
+[OK]
+Tamam
+[Notes]
+Notlar
 ;file \plugins\Variables\src\help.cpp
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Cancel]
+İptal
+[Help]
+Yardım
 ;file \plugins\Variables\src\options.cpp
 ;file \plugins\Variables\src\parse_alias.cpp
 ;file \plugins\Variables\src\parse_external.cpp

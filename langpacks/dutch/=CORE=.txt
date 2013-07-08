@@ -27,8 +27,6 @@ Ja
 &Nee
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Verberg alleen van lijst, zodat de geschiedenis en negeer/zichtbaarheid instellingen bewaard blijven
-[Use Options->Ignore (expert mode) to unhide contacts.]
-Gebruik Opties->Negeren (expert modus) om verborgen personen te tonen
 [Are you sure you want to delete %s?]
 Weet u zeker dat u %s wilt verwijderen?
 [This will erase all history and settings for this contact!]

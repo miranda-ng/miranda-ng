@@ -8,10 +8,66 @@
 ;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
 [Login to Miranda NG]
 登录至 Miranda NG
+[OK]
+确定
+[Cancel]
+取消
+[Remove]
+移除
+[Install Database Settings]
+安装数据库设置
+[Yes]
+是
+[No]
+否
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Miranda NG 目录下有包含新数据库设置的文件. 
+[Do you want to import the settings now?]
+您想现在导入这些设置吗? 
+[No to all]
+全部否
+[&View contents]
+查看内容(&V)
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+防恶意变更安全系统已启用, 任何无法确知是否安全的变更, 都将警告. 
+[Database Setting Change]
+数据库设置变更
+[Database settings are being imported from]
+数据库设置正准备导入于
+[This file wishes to change the setting]
+此文件希望变更设置
+[to the value]
+的值
+[Do you want to allow this change?]
+您是否允许此项变更? 
+[&Allow all further changes to this section]
+允许此部分中所有其它变更(&A)
+[&Yes]
+是(&Y)
+[&No]
+否(&N)
+[Cancel Import]
+取消导入
+[Database Import Complete]
+数据库导入完成
+[The import has completed from]
+导入已完成于
+[What do you want to do with the file now?]
+您现在想对此文件做什么? 
+[&Recycle]
+循环使用(&R)
+[&Delete]
+删除(&D)
+[&Move/Rename]
+移动/重命名(&L)
+[&Leave]
+离开(&L)
 [Database encryption]
 数据库加密
 [Site:]
 位置:
+[Unique ID:]
+独有 ID: 
 ;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
 [Database is Secured MMAP database]
 此数据库为 Secured MMAP 格式
@@ -24,6 +80,10 @@ Secured MMAP: 授权成功
 数据库功能
 [Set password]
 设置密码
+[Name]
+名称
+[Version]
+版本
 [Please type in your password for]
 请输入您的密码于
 [Too many errors!]
@@ -37,6 +97,8 @@ Secured MMAP: 授权成功
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
 [Sorry, but your database encrypted with unknown module]
 很抱歉, 您的数据库加密模块未知
+[Error]
+错误
 [Crypto modules not found]
 Crypto 模块未找到
 [DB is already secured!]

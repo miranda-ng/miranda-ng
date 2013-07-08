@@ -26,6 +26,8 @@ Másik &profil...
 Importálás...
 [Import Information Wizard]
 Importálás információ varázsló
+[Cancel]
+Mégsem
 [Import all contacts and all messages]
 Minden partner és üzenet importálása
 [Only import contacts]
@@ -42,8 +44,20 @@ Válassza ezt, ha csak a partnereket szeretné importálni, az üzenet történe
 Rendszer történet
 [Select items to import:]
 Importálandó elemek kijelölése:
+[Incoming]
+Bejövõ
+[Outgoing]
+Kimenõ
 [Only since:]
 Csak ez óta:
+[Messages]
+Üzenetek
+[URLs]
+URlek
+[File Transfers]
+Fájl átvitelek
+[Other]
+Egyéb
 ;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 Saját magunkat érintõ esemény hanyagolva
@@ -91,6 +105,8 @@ Kihagyva %d azonos elem.
 A megadott fájl nem létezik. Kérem ellenõrizze a fájlnév helyességét.
 [Miranda Import]
 Miranda importálás
+[All Files]
+Minden fájl
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Duplikált csoport %s hanyagolva.

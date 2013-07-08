@@ -101,6 +101,10 @@ Modelo de mensagem de status
 Preparar equalizador
 [Export All]
 Exportar Todos
+[Advanced]
+Avançado
+[Advanced]
+Avançado
 [Volume]
 Volume
 [Equalizer]

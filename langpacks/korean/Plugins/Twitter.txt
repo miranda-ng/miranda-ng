@@ -6,6 +6,16 @@
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 ;file \protocols\Twitter\res\twitter.rc
+[Username:]
+유저명:
+[Cancel]
+취소
+[sec]
+초
+[OK]
+확인
 ;file \protocols\Twitter\src\connection.cpp
 ;file \protocols\Twitter\src\proto.cpp
+[Network]
+네트워크
 ;file \protocols\Twitter\src\theme.cpp

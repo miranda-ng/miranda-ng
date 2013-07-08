@@ -58,4 +58,6 @@
 输入数值
 [You win!]
 您胜利了! 
+[Message Sessions]
+消息会话
 ;file \plugins\QuickMessages\src\Utils.cpp

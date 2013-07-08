@@ -10,6 +10,8 @@
 Smiley Categorías
 [Specify Smiley Pack for each category]
 Especifique Smiley Pack para cada categoría
+[Name:]
+Nombre
 [Replace only smileys surrounded by spaces]
 Reemplace sólo emoticonos rodeado de espacios
 [Scale smiley to textheight]
@@ -56,8 +58,12 @@ Asignar Categoría Smiley
 [Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 Sólo una instancia de SmileyAdd podría ser ejecutado.\nEliminar instancias duplicadas del directorio 'plugins'
 ;file \plugins\SmileyAdd\src\options.cpp
+[Off]
+off
 [Smiley Packs]
 Smiley Pack
+[All Files]
+Todos los archivos
 ;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 Protocolo específico

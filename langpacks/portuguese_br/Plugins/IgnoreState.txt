@@ -7,4 +7,24 @@
 ;============================================================
 ;file \plugins\IgnoreState\res\ignore.rc
 ;file \plugins\IgnoreState\src\main.cpp
+[Messages]
+Mensagens
+[Messages]
+Mensagens
+[Files]
+Arquivos
+[Files]
+Arquivos
+[Files]
+Arquivos
+[User Online]
+Usuário Online
+[User Online]
+Usuário Online
+[You Were Added]
+Você foi adicionado
+[Typing Notify]
+Escrevendo Notificação
 ;file \plugins\IgnoreState\src\options.cpp
+[Icons]
+Ícones

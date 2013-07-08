@@ -6,8 +6,78 @@
 ;  Authors: P Boon
 ;============================================================
 ;file \Plugins\StatusPlugins\resource.rc
+[General]
+Generelt
+[Close]
+Lukk
+[Cancel]
+Avbryt
+[Profile]
+Profil
+[Message]
+Melding
+[Message]
+Melding
+[Set]
+Åpne
+[OK]
+OK
+[Other]
+Annet
+[Background colour]
+Bakgrunnsfarge
+[Background colour]
+Bakgrunnsfarge
+[Text colour]
+Tekstfarge
+[Use Windows colours]
+Bruk Windowsfarger
+[Use default colours]
+Bruk standardfarger
+[Events]
+Hendelser
+[Custom]
+Selvvalgt
+[Custom]
+Selvvalgt
+[Use %time% for the current time, %date% for the current date]
+Bruk %time% for nåværende tid, %date% for nåværende dato
+[Status]
+Status
+[Delete]
+Slett
+[seconds]
+sekunder
 ;file \plugins\StatusPlugins\StartupStatus\options.cpp
+[None]
+Ingen
 ;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
 ;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
 ;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+Jeg har vært borte siden %time%
+[Give it up, I'm not in!]
+Gi opp, Jeg er ikke her!
+[Not right now.]
+Ikke akkurat nå.
+[Give a guy some peace, would ya?]
+Gi en kar litt fred da, gidder du?
+[I'm a chatbot!]
+Jeg er en chatbot!
+[Yep, I'm here.]
+Ja, jeg er her.
+[Nope, not here.]
+Nope, ikke her.
+[I'm hiding from the mafia.]
+Jeg gjemmer meg for mafiaen.
+[That'll be the phone.]
+Det må være telefonen.
+[Mmm...food.]
+Mmm... mat.
+[idleeeeeeee]
+chiiiiller'n
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Protocol]
+Protokoll
+[Closing in %d]
+Lukker om %d

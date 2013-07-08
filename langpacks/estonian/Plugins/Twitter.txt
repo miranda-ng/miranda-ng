@@ -6,6 +6,18 @@
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 ;file \protocols\Twitter\res\twitter.rc
+[Username:]
+Kasutajanimi:
+[Cancel]
+Tühista
+[sec]
+sek.
+[Text]
+Tekst
+[OK]
+OK
 ;file \protocols\Twitter\src\connection.cpp
 ;file \protocols\Twitter\src\proto.cpp
+[Network]
+Võrgustik
 ;file \protocols\Twitter\src\theme.cpp

@@ -8,10 +8,14 @@
 ;file \plugins\Folders\res\folders.rc
 [Custom folders]
 Персонални папки
+[Edit]
+Редактиране
 [Refresh preview]
 Обновяване
 [Variables help]
 За променливите
+[Close]
+Затваряне
 ;file \plugins\Folders\src\dlg_handlers.cpp
 [Some changes weren't saved. Apply the changes now ?]
 Някои промени не бяха запаметени. Желаете ли да бъдат приложени въпреки това?
@@ -19,3 +23,5 @@
 Промените не бяха запаметени
 [Folders]
 Папки
+[Customize]
+Персонализиране

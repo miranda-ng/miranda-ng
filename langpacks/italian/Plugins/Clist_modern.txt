@@ -6,19 +6,377 @@
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 ;file \plugins\Clist_modern\res\resource.rc
+[Show counts of number of contacts in a group]
+Mostra conteggio del numero dei contatti in un gruppo
+[Hide group counts when there are none online]
+Nascondi conteggio del gruppo se nessuno è online
+[Always on top]
+Sempre in primo piano
+[Always on top]
+Sempre in primo piano
+[seconds]
+secondi
+[Fade contact list in/out]
+Dissolvenza in entrata/uscita
+[Transparent contact list]
+Lista contatti trasparente
+[Inactive opacity:]
+Opacità inattiva:
+[Active opacity:]
+Opacità attiva:
+[Show protocol names]
+Mostra i nomi dei protocolli
+[Show status text]
+Mostra il testo con lo stato
+[Stretch to width]
+Allarga
+[Stretch to height]
+Allunga
+[Tile horizontally]
+Mosaico orizzontale
+[Tile vertically]
+Mosaico verticale
+[Scroll with text]
+Scorri assieme al testo
+[Stretch proportionally]
+Mantieni le proporzioni
+[Apply]
+Applica
+[Copy]
+Copia
 [Colour]
 Colore
+[File]
+File
+[Position:]
+Posizione:
+[Size:]
+Dimensioni:
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Cancel]
+Annulla
+[Protocol]
+Protocollo
+[Protocol]
+Protocollo
+[Protocol]
+Protocollo
+[Status Bar]
+Barra di stato
+[Show status bar]
+Mostra barra di stato
+[Make sections equal width]
+Rendi le sezioni larghe uguali
 [Show protocol icon]
 Mostra l'icona del protocollo
+[Right click opens status menu]
+Il click destro apre il menu di stato
+[Delete Contact]
+Elimina contatto
+[No]
+No
+[Yes]
+Sì
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Nascondi solo dalla lista, così da mantenere storico e impostazioni sulla visibilità
+[Are you sure you want to delete %s?]
+Sei sicuro di voler eliminare %s?
+[This will erase all history and settings for this contact!]
+Questo eliminerà tutta la cronologia e le impostazioni per questo contatto!
+[Hide offline users]
+Nascondi utenti offline
+[Hide empty groups]
+Nascondi i gruppi vuoti
+[Disable groups]
+Disattiva gruppi
+[Ask before deleting contacts]
+Chiedi conferma per cancellazione
+[Contact List]
+Lista dei contatti
+[Contact List Sorting]
+Ordinamento lista contatti
+[Gamma correction]
+Correggi la gamma dei colori
+[Default]
+Predefinito
+[Default]
+Predefinito
+[Automatically resize window to height of list]
+Ridimensiona automaticamente altezza lista
+[maximum]
+al massimo
+[% of screen]
+% dello schermo
+[Size upwards]
+Ridimensiona verso l'alto
+[Easy move]
+Spostamento facilitato
+[pixels]
+pixel
+[pixels]
+pixel
+[Items]
+Elementi
+[Show divider between online and offline contacts]
+Divisorio tra contatti in linea e non in linea
+[Hot track items as mouse passes over]
+Evidenziazione al passaggio del mouse
+[Disable drag and drop of items]
+Disattiva 'drag and drop' degli elementi
+[Disable rename of items by clicking twice]
+Disattiva doppio click per rinominare
+[Show selection even when list is not focused]
+Mostra selez. anche quando lista non in primo piano
+[Make selection highlight translucent]
+Rendi traslucenti le selezioni evidenziate
+[Dim idle contacts]
+Abbassa i contatti inattivi
+['Hide Offline' means to hide:]
+'Nascondi Offline' significa nascondere:
+[Groups]
+Gruppi
+[Draw a line alongside group names]
+Linea a fianco del nome del gruppo
+[Sort groups alphabetically]
+Gruppi in ordine alfabetico
+[Quicksearch in open groups only]
+Ricerca veloce solo nei gruppi aperti
+[Indent groups by:]
+Rientra gruppi di:
+[Visual]
+Visualizzazione
+[Scroll list smoothly]
+Scorri lista in modo continuo
+[Time:]
+Tempo:
+[milliseconds]
+millisecondi
+[milliseconds]
+millisecondi
+[Single click interface]
+Usa un singolo click
+[Always show status in tooltip]
+Mostra sempre lo stato in tooltip
+[Disable icon blinking]
+Disattiva lamp. icona
+[Show]
+Mostra
+[Show]
+Mostra
+[Show]
+Mostra
+[Cycle icons every]
+Cicla le icone ogni
+[seconds, when statuses differ]
+secondi, quando gli stati sono diversi
+[Show multiple icons]
+Mostra icone multiple
+[Only when statuses differ]
+Solo quando gli stati sono diversi
+[System tray icon]
+Icona nella tray di sistema
+[Show menu bar]
+Mostra barra menu
+[Show title bar]
+Mostra barra del titolo
+[Title bar text:]
+TestoBarraTitolo
+[Tool style main window]
+Finestra principale 'alternativa'
+[Minimize to tray]
+Minimizza nella tray
+[Frames]
+Frame
+[Left margin:]
+Margine sinistro
 [Max width]
 Larg. max
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Status]
+Stato
+[Options]
+Opzioni
+[Options]
+Opzioni
+[E&xit]
+&Esci
+[&Status]
+&Stato
+[&Offline\tCtrl+0]
+&Offline\tCtrl+0
+[On&line\tCtrl+1]
+On&line\tCtrl+1
+[&Away\tCtrl+2]
+&Altrove\tCtrl+2
+[&NA\tCtrl+3]
+&Non Disponibile\tCtrl+3
+[Occ&upied\tCtrl+4]
+Occ&upato\tCtrl+4
+[&DND\tCtrl+5]
+Non &Disturbare\tCtrl+5
+[&Free for chat\tCtrl+6]
+Disponibile &per chat\tCtrl+6
+[&Invisible\tCtrl+7]
+&Invisibile\tCtrl+7
+[On the &Phone\tCtrl+8]
+Al &telefono\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Fuori a pran&zo\tCtrl+9
+[&Hide/Show]
+&Nascondi/Mostra
+[&New Group]
+Nuovo &gruppo
+[&Hide Offline Users]
+Nascondi &utenti offline
+[Hide &Offline Users out here]
+Nascondi utenti &offline fuori da qui
+[Hide &Empty Groups]
+Nascondi gruppi &vuoti
+[Disable &Groups]
+Disattiva &gruppi
+[&New Subgroup]
+&Nuovo sottogruppo
+[&Hide Offline Users in here]
+Nascondi utenti &offline qui dentro
+[&Rename Group]
+&Rinomina gruppo
+[&Delete Group]
+&Elimina gruppo
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
+[Standard contacts]
+Contatti standard
+[Offline contacts]
+Contatti non connessi
+[Online contacts to whom you have a different visibility]
+Contatti online per cui hai una visibilità differente
+[Offline contacts to whom you have a different visibility]
+Contatti offline per cui hai una visibilità differente
+[Dividers]
+Divisori
+[Background]
+Altro
+[Background]
+Sfondo
+[Background]
+Sfondo
+[Background]
+Altro
+[Background]
+Sfondo
+[General]
+Generale
+[List]
+Lista
+[Window]
+Finestra
+[Window]
+Finestra
+[List Background]
+Lista - Sfondo
+[Not focused]
+Non in primo piano
+[Offline]
+Offline
+[Offline]
+Offline
+[Online]
+Online
+[Online]
+Online
+[Away]
+Altrove
+[Away]
+Altrove
+[NA]
+Non disponibile
+[NA]
+Non disponibile
+[Occupied]
+Occupato
+[Occupied]
+Occupato
+[DND]
+Non disturbare
+[DND]
+Non disturbare
+[Free for chat]
+Disponibile per chat
+[Free for chat]
+Disponibile per chat
+[Invisible]
+Invisibile
+[Invisible]
+Invisibile
+[Out to lunch]
+Fuori a pranzo
+[On the phone]
+Al telefono
+[Name]
+Nome
+[Name]
+Nome
+[Name]
+Nome
+[Name]
+Nome
+[Global]
+Globale
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
+[None]
+Nessuno
+[None]
+Nessuna
+[None]
+Nessuno
+[None]
+Nessuno
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
+[Text]
+Testo
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
+[(Unknown Contact)]
+(Contatto sconosciuto)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
+[&Find/Add Contacts...]
+&Trova/Aggiungi contatti...
+[&Main Menu]
+&Menu principale
+[&Options...]
+&Opzioni...
+[&Options...]
+&Opzioni...
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 ;file \plugins\Clist_modern\src\modern_cluiframes.cpp
 ;file \plugins\Clist_modern\src\modern_groupmenu.cpp
@@ -26,9 +384,12 @@ Larg. max
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 ;file \plugins\Clist_modern\src\modern_skineditor.cpp
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
+[Error]
+Errore
+[Error]
+Errore
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
-;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

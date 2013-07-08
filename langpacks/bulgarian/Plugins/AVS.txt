@@ -34,20 +34,42 @@
 Изграждане на квадратен аватар
 [Resize the avatar to fit max allowed protocol size]
 Оразмеряване на аватара до максималния размер за протокола
+[Delete]
+Изтриване
+[Reset]
+Анулиране
 [Picture options]
 Конфигуриране на картинка
 [Set as hidden]
 Скриване от списъка
 [Use defaults]
 Стандартно
+[Cancel]
+Отказ
+[Options]
+Настройки
+[Background]
+Фон
 [Points:]
 Точки:
+[Set]
+Задай
 [Use per protocol avatars]
 Отделен аватар за всеки протокол
 ;file \plugins\AVS\src\acc.cpp
 ;file \plugins\AVS\src\main.cpp
 [Grow avatar to fit max allowed protocol size]
 Увеличаване на аватара до максималния размер за протокола
+[All Files]
+Всички файлове
+[Windows Bitmaps]
+BMP изображения
+[JPEG Bitmaps]
+JPEG изображения
+[GIF Bitmaps]
+GIF изображения
+[PNG Bitmaps]
+PNG изображения
 [Flash Animations]
 Flash анимации
 [XML Files]
@@ -56,6 +78,8 @@ XML файлове
 Задаване на мой аватар
 [Set My Avatar for %s]
 Задаване на мой аватар за %s
+[Contacts]
+Контакти
 [Contact Avatars]
 Аватари на контактите
 [Own Avatars]

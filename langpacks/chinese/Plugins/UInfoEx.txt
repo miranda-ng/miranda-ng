@@ -12,26 +12,70 @@
 来源
 [&Update]
 更新(&U)
+[Updating]
+更新中
+[OK]
+确定
+[Cancel]
+取消
+[Apply]
+应用
+[Nick:]
+昵称: 
+[First name:]
+名字: 
 [Second name:]
 中名: 
+[Last name:]
+姓氏: 
+[Female]
+女
+[Male]
+男
+[Marital status:]
+婚姻状况: 
 [Partner:]
 伙伴: 
 [Language skills]
 语言技巧
+[Street:]
+街道: 
+[Postal code:]
+邮政编码: 
+[City:]
+城市: 
 [County/State:]
 国家/县: 
+[Country:]
+国家: 
 [Contact added to ContactList:]
 联系人已加至联系人列表: 
 [Your contact's local time is:]
 您的联系人本地时间为: 
+[Timezone:]
+时区: 
+[Company:]
+公司: 
+[Department:]
+部门: 
 [Office:]
 办工室: 
+[Position:]
+职务: 
 [Superior:]
 上级: 
 [Assistant:]
 助理: 
+[Add Phone Number]
+添加电话号码
 [Enter a category for this number:]
 请输入此号码分类: 
+[Enter country, area code and phone number:]
+请输入国家, 区号及电话号码: 
+[Or enter a full international number:]
+或输入完整的国际号码: 
+[Phone can receive SMS text messages]
+此电话号码可接收 SMS 文本消息
 [Add E-Mail]
 添加邮箱
 [Enter a representitive name for the e-mail address here.]
@@ -44,6 +88,8 @@
 提醒我
 [days before.]
 天之前. 
+[hours]
+小时
 [Icon flashing on event]
 有事件时闪动图标
 [Perform check on each startup]
@@ -58,16 +104,32 @@
 使用忽略列表
 [Birthday popup colours]
 生日弹出窗口颜色
+[Background colour]
+背景颜色
+[Background colour]
+背景颜色
+[Text colour]
+文本颜色
+[Use Windows colours]
+使用 Windows 颜色
+[Use default colours]
+使用默认颜色
+[Custom]
+自定义
 [Show reminder messages as popups (if reminder is enabled)]
 弹出窗口显示提醒消息 (如提醒已启用)
 [Anniversary popup colours]
 周年弹出窗口颜色
+[Homepage:]
+主页: 
 [Add Affiliation]
 添加从属关系
 [Add Past]
 添加过去
 [Add Interest]
 添加兴趣
+[Delete]
+删除
 [Enter a name for the anniversary here please:]
 请在此输入周年纪念名称: 
 [Anniversary list]
@@ -90,6 +152,8 @@
 天(&D)
 [Popup this dialog on a contact's anniversary]
 联系人周年纪念时弹出此对话框
+[Icons]
+图标
 [Check file version of default IconPack to prevent wrong icon display]
 检查默认图标包文件版本以防止显示错误图标
 [Display icons on each dialog button]
@@ -128,14 +192,20 @@
 使用 UserInfoEx 变更我的 ICQ 详细资料. (如 ICQ 不支持时请禁用)
 [Setting/Event (20/100)]
 设置/事件 (20/100)
+[None]
+无
 [MainMenu]
 主菜单
+[Off]
+关闭
 [Ex-/Import items]
 导出/导入项目
 [ContactMenu]
 联系人菜单
 [Extra Icons]
 额外图标
+[Gender:]
+性别: 
 [Replace the following default icons:]
 替换这些默认图标: 
 [Phone]
@@ -146,6 +216,8 @@
 显示 '重启' 菜单项目
 [Use &unknown flag if country can not be determined]
 如不能确定国籍则使用未知标志(&U)
+[Age:]
+年龄: 
 [Zodiac:]
 生肖: 
 [Refresh Contact Details]
@@ -218,9 +290,13 @@
 添加新周年纪念
 [Delete an existing anniversary]
 删除已存在周年纪念
+[Unspecified]
+未指定
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Edit E-Mail]
 编辑 E-Mail
+[Edit Phone Number]
+编辑电话号码
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
 电话号码应该由 + 开始, 由数字, 空格, 括号及连字符号组成. 
 [Choose the item to display.]
@@ -235,8 +311,12 @@
 关键: 无法修改记录!\n这是本不该发生的!
 [Do you really want to delete the current selected item?\n\t%s\n\t%s]
 您真的要删除当前所选定项目? \n\t%s\n\t%s
+[Other]
+其它
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+[Contact]
+联络方式
 [Birthdays only]
 仅生日
 [Anniversaries only]
@@ -244,6 +324,14 @@
 [Disabled reminder]
 禁用提醒器
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+[Yes]
+是
+[No]
+否
+[Ignore]
+忽略
+[Error]
+错误
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [Upload Details]
 上传详细资料
@@ -251,8 +339,18 @@
 您当前尚未连接至 ICQ 网络. \n您必须先上线才能更新服务器信息. \n\n您的变更将仅保存至数据库中. 
 [Uploading]
 上传中
+[General]
+常规
 [Anniversaries]
 周年
+[Work]
+工作
+[Profile]
+配置文件
+[Notes]
+便笺
+[Owner]
+所有者
 ;file \plugins\UserInfoEx\src\init.cpp
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [IM Naming]
@@ -263,6 +361,8 @@ IM 命名
 导出: 模块
 [Export: Folder]
 导出: 文件夹
+[Default]
+默认
 [Details Infobar]
 详细资料信息栏
 [Phone Infobar]
@@ -277,10 +377,18 @@ IM 命名
 周年纪念信息栏
 [Goto]
 转到
+[Fax]
+传真
 [Custom Phone]
 自定义电话
 [e-mail]
 邮箱
+[Add]
+添加
+[Edit]
+编辑
+[Search]
+搜索
 [Ex-/Import]
 导出/导入
 [Backup Birthday]
@@ -337,6 +445,10 @@ IM 命名
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
 导出/入联系人
+[User &Details]
+用户详细资料(&D)
+[View/Change My &Details...]
+查看/变更我的详细资料(&D)...
 [Export all contacts]
 导出所有联系人
 [Import all contacts]
@@ -350,6 +462,8 @@ IM 命名
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
 我的便笺: 
+[About:]
+关于: 
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid Description first!]
 请先输入有效描述!
@@ -371,8 +485,14 @@ IM 命名
 仅生日时
 [everything]
 任何项目
+[Contacts]
+联系人
+[Advanced]
+高级
 [Details Dialog]
 详细资料对话框
+[Popups]
+弹出窗口
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Affiliation]
 联系
@@ -432,7 +552,11 @@ TmplPast 工作地点
 [TmplPast Organization]
 TmplPast 组织
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+['(Unknown Contact)']
+'(未知联系人)'
 ;file \plugins\UserInfoEx\src\svc_email.cpp
+[Send e-mail]
+发送邮件
 [Memory allocation error!]
 内存分配错误! 
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
@@ -531,6 +655,8 @@ Miranda 必须在线才能刷新联系人信息!
 选定文件为无效 XMLCard
 [The version of the XMLCard is not supported by UserInfoEx]
 UserInfoEx 不支持此版本 XMLCard
+[Complete]
+完成
 [Owner contact successfully imported.]
 所有联系人成功导入.
 [Selected XMLCard does not contain an owner contact!]

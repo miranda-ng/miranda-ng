@@ -6,4 +6,26 @@
 ;  Authors: perf
 ;============================================================
 ;file \plugins\TooltipNotify\res\main.rc
+[OK]
+OK
+[Cancel]
+Tühista
+[Online]
+Sees
+[Offline]
+Väljas
+[Typing]
+Trükkimine
+[sec]
+sek.
+[Contacts]
+Kontaktid
+[Idle]
+Tegevusetus
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
+[** New contacts **]
+** Uued kontaktid **
+[** Unknown contacts **]
+** Tundmatud kontaktid **
+[Unknown]
+Tundmatu

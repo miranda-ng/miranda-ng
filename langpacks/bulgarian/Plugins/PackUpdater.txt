@@ -8,6 +8,8 @@
 ;file \plugins\PackUpdater\Res\Resource.rc
 [View info]
 Повече инф.
+[Cancel]
+Отказ
 [PackUpdater has detected updated versions\nof the following Miranda components:]
 През PackUpdater са налични актуализации \nза следните компоненти на Miranda NG:
 [Pack update options]
@@ -16,6 +18,12 @@
 Напомняне за неинсталирани актуализации
 [Message boxes]
 Текстови кутии
+[Text]
+Текст
+[Popups]
+РopUps
+[Popups]
+РopUps
 ;file \plugins\PackUpdater\Src\Events.cpp
 ;file \plugins\PackUpdater\Src\Notifications.cpp
 [Current Version]

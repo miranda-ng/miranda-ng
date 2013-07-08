@@ -6,5 +6,9 @@
 ;  Authors: Nikolay Redko
 ;============================================================
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
+[OK]
+확인
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
+[File]
+파일
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp

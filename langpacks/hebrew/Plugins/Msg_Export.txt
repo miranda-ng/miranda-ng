@@ -14,12 +14,32 @@
 הוסף קו נוסף חדש
 [Auto filename]
 שם קובץ אוטומטי
+[Help]
+עזרה
 [Export all history]
 יצוא כל ההיסטוריה
 [Export directory]
 יצוא לתיקייה
+[&Find...]
+...&חפש
+[&Close]
+סגור
+[User &Details]
+פרופיל &משתמש
+[Copy]
+העתק
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 ;file \plugins\Msg_Export\src\Glob.h
 ;file \plugins\Msg_Export\src\main.cpp
 ;file \plugins\Msg_Export\src\options.cpp
+[File]
+קובץ
+[Nick]
+כינוי
+[History]
+היסטוריה\n
+[General]
+כללי
 ;file \plugins\Msg_Export\src\utils.cpp
+[(Unknown Contact)]
+(איש קשר לא מוכר)

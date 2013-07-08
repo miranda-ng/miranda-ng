@@ -6,6 +6,10 @@
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 ;file \plugins\TipperYM\res\resource.rc
+[Options]
+Настройки
+[Window]
+Прозорец
 [Max width:]
 Макс. ширина:
 [Max height:]
@@ -44,6 +48,8 @@
 Настройка (представка):
 [Translation:]
 Превод:
+[Cancel]
+Отказ
 [Item]
 Елемент
 [Value:]
@@ -52,14 +58,24 @@
 Добавяне на линия отгоре
 [Value on a new line]
 Стойността на нов ред
+[Items]
+Елементи
 [Substitutions]
 Замествания
+[Add]
+Добавяне
+[Remove]
+Премахване
+[Edit]
+Редактиране
 [Separator]
 Разделител
 [Advanced options]
 Разширени настройки
 [Retrieve XStatus details if auto-retrieve is disabled]
 Извличане на подробности за хСъстояние при изключено автоизвличане
+[Extra icons]
+Допълнителни икони
 [Smileys support]
 Поддръжка на Smileys
 [Enable SmileyAdd support]
@@ -74,6 +90,8 @@
 Подсказки в лентата за състояние и трея
 [Limit status messages in status bar and tray tooltips to:]
 Ограничаване на текста за състояние в подсказките до:
+[Effects]
+Ефекти
 [Animation speed:]
 Скорост на анимирането:
 [No preview]
@@ -126,10 +144,14 @@ Tipper усмивки
 Център
 [Max avatar size:]
 Аватар (макс. р-р):
+[None]
+Няма
 [Animation]
 Анимиране
 [Fade]
 Избледняване
+[Customize]
+Персонализиране
 [Content]
 Съдържание
 [Tray tooltip]
@@ -143,6 +165,8 @@ Tipper усмивки
 Време на вписване
 [Unread emails]
 Непрочетени имейли
+[Status]
+Състояние
 [Miranda uptime]
 Miranda работи от
 [Jabber activity]
@@ -150,6 +174,8 @@ Jabber дейност
 [Client]
 Клиент
 ;file \plugins\TipperYM\src\popwin.cpp
+[%s (locked)]
+%s (заключен)
 [ ago]
  преди
 [Unread emails:]
@@ -172,11 +198,19 @@ Jabber дейност
 <Няма стойност>
 [Fav. contacts]
 Любими контакти
+[Other]
+Друго
 [Miranda uptime:]
 Miranda работи от:
 ;file \plugins\TipperYM\src\preset_items.cpp
+[Gender:]
+Пол:
+[Homepage:]
+Страница:
 [Identifier]
 Идентификатор
+[Idle]
+Бездействие
 [Idle:]
 Бездействие:
 [IP internal]
@@ -187,6 +221,10 @@ Miranda работи от:
 Последно съобщение
 [Last message: (%sys:last_msg_reltime% ago)]
 Последно съобщение: (преди %sys:last_msg_reltime%)
+[Name]
+Име
+[Name:]
+Име:
 [Number of received messages]
 Брой получени съобщения
 [Number of msg [IN]:]
@@ -195,6 +233,8 @@ Miranda работи от:
 Брой изпратени съобщения
 [Number of msg [OUT]:]
 Брой съобщения (изходящи):
+[Time:]
+Време:
 [XStatus title:]
 хСъстояние:
 [XStatus text]
@@ -237,6 +277,10 @@ Miranda работи от:
 [# Solid color fill]
 # запълване с плътен цвят
 ;file \plugins\TipperYM\src\tipper.cpp
+[Background]
+Фон
+[Dividers]
+Разделители
 [Labels]
 Етикети
 [Values]
@@ -244,4 +288,8 @@ Miranda работи от:
 [Tray title]
 Имена на протоколите в трея
 ;file \plugins\TipperYM\src\translations.cpp
+[Female]
+Жена
+[Male]
+Мъж
 ;file \plugins\TipperYM\src\translations.h

@@ -2,9 +2,11 @@
 ;============================================================
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
-;  Version: 0.0.2.0
+;  Version: 0.0.2.1
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 ;file \plugins\AuthState\res\authstate.rc
 ;file \plugins\AuthState\src\main.cpp
 ;file \plugins\AuthState\src\options.cpp
+[Icons]
+Iconos

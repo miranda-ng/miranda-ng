@@ -10,14 +10,38 @@
 Ablak automatikusan felugrik, ha
 [and stay minimized]
 és a tálcára kicsinyít
+[Cascade new windows]
+Új ablakok lépcsõzetes rendezése
 [Save size and location for each contact]
 Minden partnerhez mentse a méretet és helyet
+[Send message on 'Enter']
+Üzenet küldése 'Enter'-re
+[Send message on double 'Enter']
+Üzenet küldése dupla 'Enter'-re
+[Show warning when message has not been received after]
+Figyelmeztetés, ha az üzenet nem érekzik meg ... idõ alatt
+[seconds]
+mp.
+[Tabs]
+Fülek
 [Tabs at bottom]
 Fülek alul
 [Limit names on tabs to]
 Névhoz behatárolása füleken
+[Show status bar]
+Állapotsor mutatása
+[Use the contact's status icon as the window icon]
+Legyen a partner állapot ikonja az párbeszéd-ablak ikonja
+[Message Window Event Log]
+Üzenet ablak párbeszéd része
 [Enable IEView]
 IEnézet bekapcsolása
+[Show icons]
+Ikonok megjelenítése
+[Show seconds]
+Másodpercek mutatása
+[Show names]
+nevek mutatása
 [Mark follow-up msgs with timestamp]
 Követõ üzenetek megjelölése idõbélyeggel
 [Start message text on a new line]
@@ -26,12 +50,40 @@ Követõ üzenetek megjelölése idõbélyeggel
 Szöveg behúzása
 [Typing Notification Options]
 Gépelés értesítés beállítások
+[Send typing notifications to the following users when you are typing a message to them:]
+Gépelési értesítés küldése az alábbi felhasználóknak, ha üzenetet gépelsz nekik.
 [Show typing notification switch in the status bar]
 Gépelési értesítés váltó mutatása az állapotsávban
+[Show typing notifications when a user is typing a message]
+Értesítés gépelésrõl, ha egy felhasználó üzetet gépel
 [Update message window icons when a user is typing]
 Csevegõ ablak ikon frissítése a partner gépelésekor
+[Show typing notification when no message dialog is open]
+Gépelés értesítés mutatás, ha nincs nyitva a párbeszédablak
+[Flash in the system tray and in the contact list]
+Villogás a tálcán és a kapcsolati listában
+[Show balloon popup]
+Buboréksúgó megjelenik
+[Send Error]
+Hiba küldése
+[An error has occured. The protocol reported the following error:]
+Hiba történt. A protokol az alábbi hibát jelentette:
+[while sending the following message:]
+amíg elküldi az alábbi üzenetet:
+[Try again]
+Újra próbál
+[Cancel]
+Mégsem
+[Message Session]
+Üzenet mukamenet
+[&U]
+&U
+[&D]
+&D
 [&E]
 &E
+[&H]
+&H
 [&Q]
 &Q
 [Send To All Tabs]
@@ -40,11 +92,123 @@ Küldés minden fülön
 Miden nyitott fülre megy az aktuális üzenet.\nBiztosan ezt akarja?
 [Remember my choice for this container]
 Választás megjegyzése ehhez a befoglalóhoz
+[Yes]
+Igen
+[No]
+Nem
+[Show these events only:]
+Csak az alábbi események mutatása:
+[Actions]
+Akciók
+[Messages]
+Üzenetek
+[Nick changes]
+Becenév változások
+[Users joining]
+Csatlakozások
+[Users leaving]
+Lecsatlakozások
+[Topic changes]
+Téma változások
+[Status changes]
+Állapotváltozások
+[Information]
+Információ
+[Disconnects]
+Kilépések
+[User kicks]
+Felhasználó kirúgja
+[Notices]
+Megjegyzések
+[Options]
+Beállítások
+[Other]
+Egyéb
+[Add new rooms to group:]
+Új szobák hozzáadása a csoporthoz:
+[pixels]
+képpont
+[pixels]
+pixel
+[Log Options]
+Napló beállítások
+[Your name]
+Neve
+[Other name]
+Másik név
+[Timestamp]
+Idõbélyeg
+[Log timestamp]
+Napló idõbélyeg
+[Limit log text to (events):]
+Napló szövegek behatárolása (események):
+[Enable highlighting]
+Kielemés bekapcsolása
+[Words to highlight (wildcards allowed)]
+Kiemelendõ szavak (helyettesítõk használhatóak)
+[Location]
+Helyzet
+[Use same style as in the message log]
+Azonos stílus, mint az üzenet naplóban
+[Use default colours]
+Alap színek használata
+[Use custom colours]
+Egyedi színek használata
+[Text]
+Szöveg
+[Background]
+Háttér
+[Timeout (s)]
+Idõtúllépés (mp)
+[OK]
+OK
+[Log]
+Napló
+[&Copy]
+&Másol
+[Co&py All]
+Mindet másol
+[Select &All]
+&Összes kijelölése
+[Word lookup]
+Szó keresés
+[Google]
+Google
+[C&lear Log]
+Napló törlése
+[&Copy link]
+&Link másolása
+[Message]
+Üzenet
+[Undo]
+Visszavonás
+[Redo]
+Újra
+[Cut]
+Kivág
+[Copy]
+Másol
+[Paste]
+Beszúrás
+[Delete]
+Törlés
+[Clear]
+Töröl
+[List]
+Lista
+[&Message]
+Üzenet
+[Clear lo&g]
+Napló ürítése
+[Co&py all]
+Mindet másol
 ;file \plugins\Scriver\src\globals.cpp
 [User's details]
 Felhasználó részletei
 [User's history]
 Felhasználó elõzményei
+[Smiley button]
+Emotikon gomb
 [User is typing]
 A partner gépel
 [Typing notification off]
@@ -59,37 +223,413 @@ Küldés
 Idézés gomb
 [Close button]
 Bezárás gomb
+[Icon overlay]
+Ikon felület
+[Incoming message (10x10)]
+Bejövõ üzenet (10x10)
+[Outgoing message (10x10)]
+Kimenõ üzenet (10x10)
+[Notice (10x10)]
+Megjegyzés (10x10)
+[Window Icon]
+Ablak ikon
+[Text colour]
+Szövegszín
+[Background colour]
+Háttérszín
+[Bold]
+Félkövér
+[Italics]
+Dõlt
+[Underlined]
+Aláhúzott
+[Room history]
+Szoba történet
+[Room settings]
+Szoba beállítások
+[Event filter disabled]
+Esemény szûrõ kikapcsolva
+[Event filter enabled]
+Esemény szûrõ bekapcsolva
+[Hide userlist]
+Felhasználólist elrejtése
+[Show userlist]
+Felhasználólista mutatása
+[Status 1 (10x10)]
+Állapot 1 (10x10)
+[Status 2 (10x10)]
+Állapot 2 (10x10)
+[Status 3 (10x10)]
+Állapot 3 (10x10)
+[Status 4 (10x10)]
+Állapot 4 (10x10)
+[Status 5 (10x10)]
+Állapot 5 (10x10)
+[Status 6 (10x10)]
+Állapot 6 (10x10)
+[Message in (10x10)]
+Üzenet bejövõ (10x10)
+[Message out (10x10)]
+Üzenet kimenõ (10x10)
+[Action (10x10)]
+Akció (10x10)
+[Add Status (10x10)]
+Új állapot (10x10)
+[Remove status (10x10)]
+Állapot eltávolítása (10x10)
+[Join (10x10)]
+Csatlakozás (10x10)
+[Leave (10x10)]
+Elhagyás (10x10)
+[Quit (10x10)]
+Kiléps (10x10)
+[Kick (10x10)]
+Kirúgás (10x10)
+[Nickchange (10x10)]
+Becenévváltozás (10x10)
+[Topic (10x10)]
+Téma (10x10)
+[Highlight (10x10)]
+Kiemelés (10x10)
+[Information (10x10)]
+Információ (10x10)
+[Group Chats]
+Csoportos csevegések
 ;file \plugins\Scriver\src\input.cpp
+[Messaging]
+Üzenés
 ;file \plugins\Scriver\src\msgdialog.cpp
+[Add Contact]
+Új partner
+[User Menu]
+Felhasználó menü
+[User Details]
+Felhasználó részletek
+[History]
+Elõzmény
+[No word to look up]
+Nincs feloldandó szó
+[Add Contact Permanently to List]
+Partner végleges hozzáadása a listához
+[View User's Details]
+Felhasználó részletinek megtekintése
+[View User's History]
+Felhasználó elõzményeinek megtekintése
 [Quote Text]
 Szöveg idézése
 [User Menu - %s]
 Felhasználómenü - %s
+[signed off (was %s)]
+kijelentkezett (korábban: %s)
+[signed on (%s)]
+bejelentkezett (ekkor: %s)
+[is now %s (was %s)]
+most %s (régebben: %s)
 [Sending in progress: %d message(s) left...]
 Küldés folyamatban: %s üzenet van hátra...
+[%s is typing a message...]
+%s gépel...
+[Last message received on %s at %s.]
+Utolsó üzenet fogadva, nap: %s, idõpont: %s.
 ;file \plugins\Scriver\src\msglog.cpp
+[File sent]
+Fájl elküldve
+[File received]
+Fájl fogadva
 ;file \plugins\Scriver\src\msgoptions.cpp
+[General]
+Általános
+[Outgoing messages]
+Kimenõ üzenetek
+[Incoming messages]
+Bejövõ üzenetek
+[Outgoing name]
+Kimenõ név
+[Outgoing time]
+Kimenõ idõ
+[Outgoing colon]
+Kimenõ pontosvesszõ
+[Incoming name]
+Bejövõ név
+[Incoming time]
+Bejövõ idõ
+[Incoming colon]
+Bejövõ kettõspont
+[Message area]
+Üzenet terület
+[Outgoing URL]
+Kimenõ URL
+[Incoming URL]
+Bejövõ URL
+[Others nicknames]
+Többiek becenevei
+[Your nickname]
+Beceneve
+[User has joined]
+Felhasználó csatlakozott
+[User has left]
+Felhasználó lecsatlakozott
+[User has disconnected]
+Felhasználó kilépett
+[User kicked ...]
+Felhasználó kirúgta ...
+[User is now known as ...]
+A felhasználó új neve ...
+[Notice from user]
+Megjegyzés a felhasználótól
+[Incoming message]
+Bejövõ üzenet
+[Outgoing message]
+Kimenõ üzenet
+[The topic is ...]
+A téma ...
+[Information messages]
+Információs üzenetek
+[User enables status for ...]
+Felhasználó bekapcsolja az állapotot ...
+[User disables status for ...]
+Felhasználó kikapcsolja az állapotot ...
+[Action message]
+Akció üzenet
+[Highlighted message]
+Kiemelt üzenet
+[Message typing area]
+Üzenet beviteli terület
 [Message background]
 Üzenet háttér
 [User list members (online)]
 Felhasználó lista tagok (elérhetõ)
 [User list background]
 Felhasználólista háttér
+[User list members (away)]
+Felhasználó-listatagok (távol)
 [User list lines]
 Felhasználó lista vonalak
 [User list background (selected)]
 Felhasználólista háttér (kijelölt)
+[Offline]
+Kilépett
+[Online]
+Elérhetõ
+[Away]
+Távol
+[NA]
+NA
+[Occupied]
+Elfoglalt
+[DND]
+Ne zavarjanak
+[Free for chat]
+Csevegésre kész
+[Invisible]
+Láthatatlan
+[Out to lunch]
+Ebédel
+[On the phone]
+Telefonál
+[** New contacts **]
+** Új partnerek **
+[** Unknown contacts **]
+** Ismeretlen partnerek **
+[Show balloon popup (unsupported system)]
+Buboréksúgó megjelenik (nem-támogatott rendszer)
+[Message Sessions]
+Üzenet mukamenetek
+[Typing Notify]
+Gépelés értesítés
 ;file \plugins\Scriver\src\msgs.cpp
+[Message from %s]
+Üzenet tõle: %s
+[%s is typing a message]
+%s gépel
+[Typing Notification]
+Gépelés értesítés
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+Nem sikerült betölteni a beépített üzenõ modult, a riched20.dll hiányzik. Ha Windows 95-t vagy WINE-t használ, gyõzõdjön meg róla, hogy a fájl telepítve van. Kattintson az 'Igen' gombra a betöltés folytatásához.
+[Incoming (Focused Window)]
+Bejövõ (kijelölt ablak)
+[Incoming (Unfocused Window)]
+Bejövõ (kijelöletlen ablak)
+[Incoming (New Session)]
+Bejövõ (új munkamenet)
+[Outgoing]
+Kimenõ
 ;file \plugins\Scriver\src\msgtimedout.cpp
+[An unknown error has occured.]
+Ismeretlen hiba történt.
 ;file \plugins\Scriver\src\msgwindow.cpp
 [Always On Top]
 Mindig felül
 ;file \plugins\Scriver\src\sendqueue.cpp
+[The message send timed out.]
+Az üzenetküldés idõtúlépés miatt meghiúsult.
 ;file \plugins\Scriver\src\chat\clist.cpp
+[Join chat]
+Csatlakozás csevegéshez
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\log.cpp
+[%s has joined]
+%s csatlakozott
+[You have joined %s]
+Csatlakozott ehhez: %s
+[%s has left]
+%s elment
+[%s has disconnected]
+%s kilépett
+[%s is now known as %s]
+%s új neve: %s
+[You are now known as %s]
+Az új beceneve: %s
+[%s kicked %s]
+%s kirúgta õt: %s
+[Notice from %s]
+Megjegyzés tõle: %s
+[ (set by %s on %s)]
+ (beállította: %s, ekkor: %s)
+[ (set by %s)]
+ (beállította: %s)
+[<invalid>]
+<érvénytelen>
 ;file \plugins\Scriver\src\chat\main.cpp
+[&Join]
+&Csatlakozás
+[&Leave]
+&Kilépés
 ;file \plugins\Scriver\src\chat\options.cpp
+[Prefix all events with a timestamp]
+Minden esemény elõtt legyen idõbélyeg
+[Only prefix with timestamp if it has changed]
+Csak akkor van idõbélyeg, ha az változott
+[Indent the second line of a message]
+Az üzenet 2. sorának behúzása
+[Show topic changes]
+Témaváltozások mutatása
+[Show users joining]
+Csatlakozó felhasználók mutatása
+[Show users disconnecting]
+Kilépõ felhasználók mutatása
+[Show messages]
+Üzenetek megjelenítése
+[Show actions]
+Akciók megjelennek
+[Show users leaving]
+Lecsatlakozó felhasználók mutatása
+[Show users being kicked]
+Éppen kirúgott felhasználók mutatása
+[Show notices]
+Megjegyzések mutatása
+[Show users changing name]
+Nevet váltó felhasználók mutatása
+[Show information messages]
+Információs üzenetek megjelenítése
+[Show status changes of users]
+Felhasználók állapotváltozásainak mutatása
+[Show icons in tray only when the chat room is not active]
+Ikonok megjelenítése a tálcán, csak ha a csevegõ szoba nem aktív
+[Show icon in tray for topic changes]
+Ikon megjelenítse a tálcán témaváltozásokhoz
+[Show icon in tray for users joining]
+Ikon megjelenítse a tálcán csatlakozó felhasználókhoz
+[Show icon in tray for users disconnecting]
+Ikon megjelenítse a tálcán kilépõ felhasználókhoz
+[Show icon in tray for messages]
+Ikon megjelenítse a tálcán üzenetekhez
+[Show icon in tray for actions]
+Ikon megjelenítse a tálcán eseményekhez
+[Show icon in tray for highlights]
+Ikon megjelenítse a tálcán kiemelésekhez
+[Show icon in tray for users leaving]
+Ikon megjelenítse a tálcán kilépõ felhasználókhoz
+[Show icon in tray for users kicking other user]
+Ikon megjelenítse a tálcán egymást kirúgó felhasználókhoz
+[Show icon in tray for notices ]
+Ikon megjelenítse a tálcán megjegyzésekhez
+[Show icon in tray for name changes]
+Ikon megjelenítse a tálcán névváltozásokhoz
+[Show icon in tray for information messages]
+Ikon megjelenítse a tálcán információs üzenetekhez
+[Show icon in tray for status changes]
+Ikon megjelenítse a tálcán állapotváltozásokhoz
+[Icons to display in the tray]
+Tálcán megjelenítendõ ikonok
+[Select Folder]
+Mappa kijelölése
+[Popups]
+Felugrók
+[Group chats]
+Csoportos csevegés
+[Message is highlighted]
+Üzenet kiemelve
+[User has performed an action]
+Felhasználó végrehajtott egy akciót
+[User has kicked some other user]
+Felhasználó kirúgott egy másik felhasználót
+[User's status was changed]
+A felhasználó állapota megváltozott
+[User has changed name]
+Felhasználó nevet változtatott
+[User has sent a notice]
+Felhasználó megjegyzést küldött
+[The topic has been changed]
+A téma megváltozott
 ;file \plugins\Scriver\src\chat\services.cpp
 ;file \plugins\Scriver\src\chat\tools.cpp
+[%s wants your attention in %s]
+%s szertné a figyelmedet itt: %s
+[%s speaks in %s]
+%s beszél %s
+[%s has joined %s]
+%s csatlakozott %s
+[%s has left %s]
+%s elment %s
+[%s kicked %s from %s]
+%s kirúgta õt: %s (innen: %s)
+[Topic change in %s]
+Táma változás %s
+[Information in %s]
+Információ %s
+[%s says: %s]
+%s azt mondja, hogy: %s
+[%s has left (%s)]
+%s elment (%s)
+[%s has disconnected (%s)]
+%s kilépett (%s)
+[%s kicked %s (%s)]
+%s kirúgta õt: %s (%s)
+[Notice from %s: %s]
+Megjegyzés %s feladótól: %s
 ;file \plugins\Scriver\src\chat\window.cpp
+[Insert a smiley]
+Emotikon beszúrása
+[Make the text bold (CTRL+B)]
+Legyen a szöveg félkövér (CTRL+B)
+[Make the text italicized (CTRL+I)]
+Legyen a szöveg dõlt (CTRL+I)
+[Make the text underlined (CTRL+U)]
+Legyen a szöveg aláhúzva (CTRL+U)
+[Select a background color for the text (CTRL+L)]
+Válasszon háttérszínt a szövegnek (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+Válasszon színt a szövegnek (CTRL+K)
+[Show the history (CTRL+H)]
+Elõzmények mutatása (CTRL+H)
+[Show/hide the nicklist (CTRL+N)]
+Becenévlista mutatása/elrejtése (CTRL+N)
+[Control this room (CTRL+O)]
+Szoba vezérlése (CTRL+O)
+[Enable/disable the event filter (CTRL+F)]
+Esemény szûrõ be/kikapcsolása
+[Nick name]
+Becenév
+[Unique id]
+Egyedi azonosító
+[Status]
+Állpot
+[%s: Chat Room (%u user)]
+%s: csevegõ szoba (%u felhsználó)
+[%s: Chat Room (%u users)]
+%s: csevegõ szoba (%u felhsználó)
+[%s: Message Session]
+%s: üzenet kezelés
+[%s: Message Session (%u users)]
+%s: üzenet kezelés (%u felhasználó)

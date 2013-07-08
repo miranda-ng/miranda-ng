@@ -8,8 +8,14 @@
 [Helps you manage Language Packs of different languages.]
 Le ayuda a administrar paquetes de idioma de las lenguas diferentes.
 ;file \plugins\LangMan\res\resource.rc
+[Author(s):]
+Autor (s):
+[E-mail:]
+E-Mail:
 [Last modified using:]
 Última modificación mediante:
+[Date:]
+Fecha:
 [Locale:]
 Local:
 [Download more Language Packs]
@@ -18,9 +24,15 @@ Descargar más paquetes de idioma
 ;file \plugins\LangMan\src\options.cpp
 [All installed plugins are included.]
 Todos los plugins instalados están incluidos.
+[Unknown]
+Desconocida
 [Current]
 Actual
 [Installed Languages]
 Instalado Idiomas
+[File]
+Archivo
+[&Remove...]
+&Eliminar ...
 [Languages]
 Idioma

@@ -6,4 +6,30 @@
 ;  Authors: perf
 ;============================================================
 ;file \plugins\TooltipNotify\res\main.rc
+[OK]
+OK
+[Cancel]
+Avbryt
+[Online]
+Pålogget
+[Offline]
+Frakoblet
+[Typing]
+Skriving
+[sec]
+sek
+[Contacts]
+Kontakter
+[Idle]
+Inaktivitet
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
+[Popups]
+Popups
+[Popups]
+Popups
+[** New contacts **]
+** Nye kontakter **
+[** Unknown contacts **]
+** Ukjente kontakter **
+[Unknown]
+Ukjent

@@ -6,6 +6,30 @@
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 ;file \plugins\MirOTR\MirOTR\res\resource.rc
+[&Cancel]
+בטל
+[&OK]
+&אישור
+[&No]
+&לא
+[&Yes]
+&כן
 ;file \plugins\MirOTR\MirOTR\src\language.h
+[Yes]
+כן
+[No]
+לא
+[Unknown]
+לא ידוע
+[General]
+כללי
+[Contacts]
+אנשי קשר
+[Contact]
+קשר
+[Protocol]
+פרוטוקול
+[Default]
+ברירת מחדל
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
 ;file \plugins\MirOTR\MirOTR\src\options.cpp

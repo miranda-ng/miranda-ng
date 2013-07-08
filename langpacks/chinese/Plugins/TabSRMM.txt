@@ -8,16 +8,56 @@
 ;file \plugins\TabSRMM\res\chat.rc
 [You can add the user by user name or his id. Wildcards are allowed and recommended.]
 您可使用用户名或 ID 添加新用户. 允许并推荐使用通配符.
+[OK]
+确定
+[Cancel]
+取消
 [  Show these events]
   显示这些事件
+[Actions]
+操作
+[Messages]
+消息
+[Nick changes]
+昵称变更
+[Users joining]
+用户加入
+[Users leaving]
+用户离开
+[Topic changes]
+主题变更
+[Status changes]
+状态变更
+[Information]
+信息
+[Disconnects]
+断开连接
+[User kicks]
+用户被踢走
+[Notices]
+公告
+[Tray]
+托盘
+[Options]
+选项
+[Add new rooms to group:]
+添加新房间到群组: 
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
 聊天整合已禁用. 您可由此启用, 变更后 "必须重启" Miranda 生效. \n\n在此启用群组聊天支持后, 您 "必须" 禁用标准聊天插件. 否则都不能正常工作. 
 [Log files]
 日志文件
+[Enable logging to disk]
+启用记录到磁盘
+[Log directory]
+记录目录
 [Maximum size for log files (in kB)]
 日志文件最大容量 (KB)
 [Group chat log formatting]
 群组聊天记录格式化
+[Your name]
+您的名称
+[Other name]
+其它名称
 [Timestamp (window)]
 时间戳 (窗口)
 [Timestamp (logfile)]
@@ -60,6 +100,52 @@
 突出显示字词, 允许通配符像 * 和 ?, 用空格分隔多个条目. 如果您只想突出显示自己的呢称请留空.
 [Highlight messages containing my own nick name]
 突出显示消息中自己的呢称
+[List]
+列表
+[&Message]
+消息(&M)
+[Log]
+记录
+[Clear lo&g]
+清除记录(&G)
+[Co&py all]
+全部复制(&P)
+[Word lookup]
+字词检索
+[Wikipedia]
+维基百科
+[Link]
+链接
+[Open a &new browser window]
+打开新浏览器窗口(&N)
+[&Open in current browser window]
+在当前浏览器窗口中打开(&O)
+[&Copy link]
+复制链接(&C)
+[Message]
+消息
+[Undo  ]
+撤销
+[Redo]
+重做
+[Copy]
+复制
+[Cut]
+剪切
+[Paste]
+粘贴
+[Select All]
+全选
+[Clear]
+晴
+[Tabs]
+标签
+[&Close tab]
+关闭标签(&C)
+[C&lose other tabs]
+关闭其它标签(&L)
+[&Open at this position]
+在当前位置打开(&O)
 ;file \plugins\TabSRMM\res\resource.rc
 [TabSRMM exception]
 TabSRMM 异常
@@ -89,6 +175,8 @@ TabSRMM 异常
 高级调整
 [Message send timeout]
 消息发送超时
+[seconds]
+秒
 [Input history size]
 输入历史大小
 [entries]
@@ -105,8 +193,14 @@ TabSRMM 异常
 限制消息预览至
 [Only show event notifications when my status is...]
 显示事件通知仅当状态为...
+[Text]
+文本
+[Background]
+背景
 [Timeout (seconds, 0 = default, -1 = no timeout)]
 超时 (秒, 0 = 默认值, -1 = 不超时)
+[Group chats]
+群组聊天
 [Use the message log color theme for group chat popups]
 群组聊天弹出提示使用消息记录颜色主题
 [No compatible popup plugin was found. The event notification\nsystem is not available.]
@@ -141,6 +235,8 @@ ANSI 代码页
 仅加载实际历史
 [Always trim message log to]
 永远将记录截短为
+[Events]
+事件
 [Only show tab bar when it's needed]
 仅需要时才显示标签栏
 [Container stays on top]
@@ -191,6 +287,8 @@ ANSI 代码页
 保存当前设置为全局设置
 [When checked, this container will use private settings, otherwise settings are shared among containers.]
 当选择时, 此容器将使用私有设置, 否则容器间共享设置.
+[Apply]
+应用
 [Tab location]
 标签位置
 [When using the switch bar, use the following layout]
@@ -249,8 +347,20 @@ ANSI 代码页
 标准模板...
 [RTL templates...]
 由右至左模板...
+[Load History Events]
+加载历史事件
+[Load unread events only]
+仅加载未读事件
+[Load number of previous events]
+加载以往事件数量
+[Load previous events less than]
+加载少于
+[minutes old]
+分钟前
 [Global message log display]
 全局消息记录显示
+[Typing Notification]
+键入通知
 [Send typing notifications to the following users when you are typing a message to the them:]
 当您正在键入消息时, 发送键入通知给这些用户: 
 [          Show typing notifications in the message window]
@@ -261,6 +371,8 @@ ANSI 代码页
           在联系人列表及系统托盘显示键入通知
 [Show typing notification when message dialog is open]
 当消息对话框打开时显示键入通知
+[Show typing notification when no message dialog is open]
+没有打开消息对话框时显示键入通知
 [Show balloon tooltip in the system tray]
 在系统托盘显示气泡式提示
 [          Show popups when a user is typing]
@@ -281,6 +393,10 @@ ESC 键行为
 选择容器
 [Available containers]
 可用容器
+[Delete]
+删除
+[Rename]
+重命名
 [Create a new container]
 建立新容器
 [Create new]
@@ -293,6 +409,8 @@ ESC 键行为
 按钮间隔:
 [Hide if there isn't enough space]
 如无足够空间则隐藏
+[Reset]
+重置
 [Insert Separator]
 插件分隔器
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
@@ -315,8 +433,12 @@ ESC 键行为
 次
 [Flash interval]
 闪动间隔
+[milliseconds]
+毫秒
 [Help on containers]
 容器的说明
+[Popups]
+弹出窗口
 [...is &typing]
 ...正在键入(&T)
 [...stopped t&yping]
@@ -331,6 +453,8 @@ ESC 键行为
 在主菜单中显示项目(&E)
 [From protocol]
 从协议获取
+[Custom]
+自定义
 [Edit template]
 编辑模板
 [Double click a template to edit it. Select a template from the list box and click "Update Preview" to show a preview message.]
@@ -339,6 +463,8 @@ ESC 键行为
 获取更多变量说明
 [Define up to 5 colors which you can use with some variables]
 定义最多 5 种可用于某些变量的颜色
+[Close]
+关闭
 [Update Preview]
 更新模板
 [Save Template]
@@ -387,6 +513,8 @@ ESC 键行为
 导出至文件...
 [Import from a file...]
 从文件导入...
+[Icons]
+图标
 [Event type icons in the message log]
 消息记录中使用事件类型图标
 [Text symbols as event markers]
@@ -429,8 +557,14 @@ ESC 键行为
 已完成任务显示弹出提示
 [Do not show this message again]
 不要再次显示此消息
+[Yes]
+是
+[No]
+否
 [Message sending:]
 消息发送:
+[Window:]
+窗口:
 [Esc closes sessions (minimizes window, if disabled)]
 Esc 关闭会话 (如禁用则最小化窗口)
 [Always pop up and activate new windows]
@@ -443,6 +577,8 @@ Shift+Enter 发送
 回车发送消息
 [Send message on double Enter]
 按两下回车发送消息
+[Minimize the message window on send]
+发送时最小化消息窗口
 [Tabs:]
 标签:
 [Use tabbed interface]
@@ -461,10 +597,20 @@ Shift+Enter 发送
 对话框打开时不通告
 [Send message on Ctrl+Enter (always enabled)]
 Ctrl+Enter 发送消息 (总是启用)
+[&Copy]
+复制(&C)
 [&Quote]
 引用(&Q)
+[Co&py All]
+全部复制(&C)
+[Select &All]
+全选(&C)
 [Freeze Log]
 冻结记录
+[Open in &new window]
+在新窗口中打开(&N)
+[&Open in existing window]
+在已存在窗口中打开(&O)
 [Editor]
 编辑器
 [Paste formatted Text]
@@ -491,6 +637,8 @@ Ctrl+Enter 发送消息 (总是启用)
 关闭容器
 [Show Contact Picture]
 显示联系人图片
+[Default]
+默认
 [Hidden for this Contact]
 对此联系人隐藏
 [Visible for this Contact]
@@ -521,8 +669,12 @@ Ctrl+Enter 发送消息 (总是启用)
 非安全发送 (忽略超时)
 [Splitter Position]
 分隔器位置
+[Global]
+全局
 [Send Text Formatting]
 发送文本格式
+[Off]
+关闭
 [This Contact]
 此联系人
 [Global Setting]
@@ -531,8 +683,6 @@ Ctrl+Enter 发送消息 (总是启用)
 强制关闭
 [Unread Menu]
 未读菜单
-[Traycontext]
-托盘环境
 [Recent Sessions]
 最近会话
 [Favorites]
@@ -549,6 +699,8 @@ Ctrl+Enter 发送消息 (总是启用)
 禁止播放声音
 [Be "Super Quiet"]
 "超级安静"
+[Font]
+字体
 [Default Color]
 默认颜色
 [Magenta]
@@ -565,8 +717,6 @@ Ctrl+Enter 发送消息 (总是启用)
 将联系人加至我的最爱
 [Remove Contact from Favorites]
 将联系人从我的最爱移除
-[Splitter context]
-分割器环境
 [Set Position for this Session]
 为此会话设置位置
 [Set and Save for all Sessions]
@@ -589,6 +739,8 @@ Ctrl+Enter 发送消息 (总是启用)
 取消所有多重发送任务
 [Copy Message to Clipboard]
 复制信息至剪贴板
+[&File]
+文件(&F)
 [Save Message Log As...]
 消息记录另存为...
 [Close Message Session\tCtrl-W]
@@ -639,6 +791,8 @@ Ctrl+Enter 发送消息 (总是启用)
 所有未激活会话显示弹出窗口
 [Save current Window Position as Default]
 保存当前窗口位置为默认值
+[Help]
+说明
 [About tabSRMM...]
 关于 tabSRMM...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
@@ -662,6 +816,8 @@ Ctrl+Enter 发送消息 (总是启用)
 引用最后消息或选定文本
 [Message Log Options]
 消息记录选项
+[View User's History]
+查看用户历史
 [Edit user notes]
 编辑用户说明
 [Change background color]
@@ -782,14 +938,30 @@ UID: %s (按 SHIFT 点击 -> 复制到剪贴板)\n点击显示用户详细信息
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
 UID: %s (按 SHIFT 点击 -> 复制到剪贴板)\n点击显示用户详细信息\n右击显示中继联系人控制\n点击下拉更改此联系人收藏状态.
 ;file \plugins\TabSRMM\src\globals.cpp
+[Instant messages]
+即时消息
+[Incoming (Focused Window)]
+传入 (窗口获取焦点)
+[Incoming (Unfocused Window)]
+传入 (窗口未获取焦点)
+[Incoming (New Session)]
+传入 (新会话)
+[Outgoing]
+发送
+[Message send error]
+消息发送错误
 [No status message]
 无状态消息
+[Other]
+其它
 [TABSRMM: Typing]
 TABSRMM: 键入中
 [&Messaging settings...]
 通信设置(&M)...
 [&Send later job list...]
 稍后发送作业队列(&S)...
+[Message from %s]
+从 %s 收到的消息
 [signed off.]
 已注销. 
 [signed on and is now %s.]
@@ -942,6 +1114,8 @@ tabSRMM 信息
  "粘贴并发送" 功能已关闭. 您可以由 "选项 -> 发送消息 -> 常规" 里启用. 
 [Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
 无论闪屏插件未安装或联系人协议不支持发送闪屏事件.
+['(Unknown Contact)']
+'(未知联系人)'
 ;file \plugins\TabSRMM\src\msglog.cpp
 ;file \plugins\TabSRMM\src\msgoptions.cpp
 [<no skin>]
@@ -956,6 +1130,12 @@ IEView 插件
 History++ 插件
 [You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
 您选择使用一个外部插件显示聊天窗口消息历史. 此页面上多数设置是针对标准日志查看器, 将无任何效果. 要更改消息日志外观, 您必须配备 IEView 或 History++.
+[** New contacts **]
+** 新联系人 **
+[** Unknown contacts **]
+** 未知联系人 **
+[Show balloon popup (unsupported system)]
+显示气球式弹出窗口 (不受支持的系统)
 [Always, but no popup when window is focused]
 永远, 但窗口获取焦点时不显示弹出窗口
 [Only when no message window is open]
@@ -966,14 +1146,22 @@ History++ 插件
 最小化窗口至任务栏
 [Close or hide window, depends on the close button setting above]
 关闭或隐藏窗口, 依赖于上面按钮关闭设置
+[Message Sessions]
+消息会话
+[General]
+常规
 [Tabs and layout]
 标签及布局
 [Containers]
 容器
 [Tool bar]
 工具栏
+[Typing Notify]
+键入通知
 [Window layout tweaks]
 窗口布局调整
+[Group Chats]
+群组聊天
 [Log formatting]
 记录格式
 [Events and filters]
@@ -989,6 +1177,8 @@ History++ 插件
 引用文本
 [Save and close]
 保存并关闭
+[Smiley button]
+表情按钮
 [Format bold]
 粗体格式
 [Format italic]
@@ -1001,10 +1191,20 @@ History++ 插件
 字体颜色
 [Format strike-through]
 格式删除线
+[Background colour]
+背景颜色
+[Background colour]
+背景颜色
+[Room settings]
+房间设置
 [Event filter]
 事件过滤器
 [Message delivery error]
 消息传递错误
+[Incoming message]
+传入消息
+[Outgoing message]
+发送消息
 [Statuschange]
 状态变更
 [Static container icon]
@@ -1029,6 +1229,8 @@ History++ 插件
 框架 3
 [Frame 4]
 框架 4
+[Message Log]
+消息记录
 [Clock symbol (for the info panel clock)]
 时钟符号 (用于信息面板时钟)
 [Feature disabled (used as overlay)]
@@ -1041,6 +1243,8 @@ History++ 插件
 选择 %s 容器
 [You cannot delete the default container]
 您无法删除默认容器
+[Error]
+错误
 [You cannot rename the default container]
 您无法重命名默认容器
 [This name is already in use]
@@ -1062,10 +1266,14 @@ History++ 插件
 暂停
 [Pending]
 等待中
+[Contact]
+联络方式
 [Original timestamp]
 原时间戳
 [Message text]
 消息文本
+[Status]
+状态
 [Last send info]
 最后发送信息
 [You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
@@ -1172,6 +1380,8 @@ tabSRMM 消息 (%s)
 当我开始输入回复时移除联系人弹出提示
 [Remove popups for a contact when I send a reply]
 当我发送回复时移除联系人弹出提示
+[System tray icon]
+系统托盘图标
 [Left click actions (popups only)]
 左键操作 (仅弹出窗口)
 [Right click actions (popups only)]
@@ -1188,6 +1398,12 @@ tabSRMM 消息 (%s)
 发送消息
 [Send on SHIFT - Enter]
 SHIFT - Enter 发送
+[Send message on 'Enter']
+按 "Enter" 发送消息
+[Send message on double 'Enter']
+按两次 "Enter" 发送消息
+[Close the message window on send]
+发送时关闭消息窗口
 [Always flash contact list and tray icon for new messages]
 新消息到来时永远闪动联系人列表和托盘图标
 [Delete temporary contacts on close]
@@ -1202,14 +1418,10 @@ SHIFT - Enter 发送
 消息记录外观
 [Support for external plugins]
 支持外部插件
-[Additional events to show]
-额外事件显示
 [Timestamp settings (note: timstamps also depend on your templates)]
 时间戳设置 (注意: 时间戳也取决于您的模板)
 [Message log icons]
 消息记录图标
-[Show file events]
-显示文件事件
 [Show dates in timestamps]
 在时间戳显示日期
 [Use contacts local time (if timezone info available)]
@@ -1307,8 +1519,40 @@ Aero peek 警告|您已启用 Aero Peek 功能并加载了自定义容器窗口�
 [TabSRMM warning message]
 TabSRMM 警告信息
 ;file \plugins\TabSRMM\src\chat\clist.cpp
+[Join chat]
+加入聊天
+[Open chat window]
+打开聊天窗口
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 ;file \plugins\TabSRMM\src\chat\log.cpp
+[%s has joined]
+%s 已加入
+[You have joined %s]
+您已加入 %s
+[%s has left]
+%s 已离开
+[%s has disconnected]
+%s 已断开连接
+[%s is now known as %s]
+%s 现在改名为 %s
+[You are now known as %s]
+您现在被称为 %s
+[%s kicked %s]
+%s 已被踢走 %s
+[Notice from %s: ]
+%s 的公告: 
+[The topic is '%s%s']
+主题为 '%s%s'
+[ (set by %s on %s)]
+ (由 %s 设置于 %s)
+[ (set by %s)]
+ (由 %s 设置)
+[%s enables '%s' status for %s]
+%s 启用 '%s' 状态于 %s
+[%s disables '%s' status for %s]
+%s 禁用 '%s' 状态于 %s
+[<invalid>]
+<无效>
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 [Add user to highlight list]
 添加用户至突出显示列表
@@ -1363,8 +1607,42 @@ Aero 发光效果
 悬停背景
 [Unread background]
 未读背景
+[Timestamp]
+时间戳
+[Others nicknames]
+其它昵称
+[Your nickname]
+您的昵称
+[User has joined]
+用户已加入
+[User has left]
+用户已离开
+[User has disconnected]
+用户已断线
+[User kicked ...]
+用户已被踢走...
+[User is now known as ...]
+用户现在改名为 ...
+[Notice from user]
+用户公告
+[The topic is ...]
+主题是 ...
+[Information messages]
+信息消息
+[User enables status for ...]
+用户启用状态为 ...
+[User disables status for ...]
+用户禁用状态为 ...
+[Action message]
+操作消息
+[Highlighted message]
+突出显示消息
 [Chat log symbols (Webdings)]
 聊天记录符号 (Webdings)
+[User list members (Online)]
+用户列表成员 (在线)
+[User list members (away)]
+用户列表成员 (外出)
 [>> Outgoing misc events]
 >> 发送杂项事件
 [<< Incoming misc events]
@@ -1397,20 +1675,32 @@ Aero 发光效果
 * 符号 (传入)
 [* Symbols (outgoing)]
 * 符号 (发送)
+[Protocol]
+协议
 [Contacts local time]
 联系人本地时间
 [Window caption (skinned mode)]
 窗口标题 (皮肤模式)
 [Open new chat rooms in the default container]
 在默认容器中打开新聊天室
+[Flash window when someone speaks]
+有人说话时闪动窗口
+[Flash window when a word is highlighted]
+有字词被突出显示时闪动窗口
 [Create tabs or windows for highlight events]
 突出显示事件创建标签或窗口
 [Activate chat window on highlight]
 激活聊天窗口时突出显示
+[Show list of users in the chat room]
+在聊天室中显示用户列表
 [Colorize nicknames in member list]
 在成员列表中将昵称着色
+[Show button menus when right clicking the buttons]
+在按钮上点击右键时显示按钮功能菜单
 [Show topic as status message on the contact list]
 联系人列表中显示主题为状态消息
+[Do not pop up the window when joining a chat room]
+加入聊天室时不要显示弹出窗口
 [Hide or show the window by double click in the contact list]
 联系人列表中双击隐藏或显示窗口
 [Sync splitter position with standard IM sessions]
@@ -1423,14 +1713,24 @@ Aero 发光效果
 用户列表中使用 IRC 风格状态指示器
 [Use alternative sorting method in member list]
 在成员列表中使用交替排序法
+[Prefix all events with a timestamp]
+在所有事件前加上时间戳
 [Timestamp only when event time differs]
 仅事件时间不同时显示时间戳
 [Timestamp has same color as the event]
 时间戳使用相同颜色类似事件
+[Indent the second line of a message]
+缩排消息第二行
+[Limit user names in the message log to 20 characters]
+限制消息记录中用户名长度在 20 个字符内
 [Add a colon (:) to auto-completed user names]
 添加一个冒号 (:) 至自动完成用户名
 [Start private conversation on doubleclick in nick list (insert nick if unchecked)]
 在昵称列表上双击开始私聊 (不选时插入昵称)
+[Strip colors from messages in the log]
+在记录中去除消息颜色
+[Enable the 'event filter' for new rooms]
+新房间启用 '事件过滤器'
 [Use IRC style status indicators in the log]
 在记录中使用 IRC 样式状态指示器
 [Allow clickable user names in the message log]
@@ -1441,8 +1741,54 @@ Aero 发光效果
 在聊天记录中将图标缩放为 10x10 像素
 [Support the math module plugin]
 支持公式编辑器插件
+[Window Icon]
+窗口图标
+[Icon overlay]
+图标重叠
+[Status 1 (10x10)]
+状态 1 (10x10)
+[Status 2 (10x10)]
+状态 2 (10x10)
+[Status 3 (10x10)]
+状态 3 (10x10)
+[Status 4 (10x10)]
+状态 4 (10x10)
+[Status 5 (10x10)]
+状态 5 (10x10)
+[Status 6 (10x10)]
+状态 6 (10x10)
+[Message in (10x10)]
+收到消息 (10x10)
+[Message out (10x10)]
+发送消息 (10x10)
+[Action (10x10)]
+操作 (10x10)
+[Add Status (10x10)]
+加入状态 (10x10)
 [Remove Status (10x10)]
 移除状态 (10x10)
+[Join (10x10)]
+加入 (10x10)
+[Leave (10x10)]
+离开 (10x10)
+[Quit (10x10)]
+结束 (10x10)
+[Kick (10x10)]
+踢走 (10x10)
+[Notice (10x10)]
+公告 (10x10)
+[Nickchange (10x10)]
+昵称变更 (10x10)
+[Topic (10x10)]
+主题 (10x10)
+[Highlight (10x10)]
+突出显示 (10x10)
+[Information (10x10)]
+信息 (10x10)
+[Appearance and functionality of chat room windows]
+聊天室窗口外观及功能
+[Appearance of the message log]
+消息记录外观
 [Channel operators]
 频道操作员
 [Half operators]
@@ -1463,29 +1809,99 @@ Aero 发光效果
 用户列表背景
 [year without century, 01-99]
 2 位年份, 01-99
+[All Files]
+所有文件
+[Select Folder]
+选择文件夹
 [No markers]
 无标记
 [Show as icons]
 显示为图标
 [Show as text symbols]
 显示为文本符号
+[Message is highlighted]
+突出显示消息
+[User has performed an action]
+用户已运行一个操作
+[User has kicked some other user]
+用户已踢走其他用户
+[User's status was changed]
+用户状态已变更
+[User has changed name]
+用户已改名
+[User has sent a notice]
+用户已发送公告
+[The topic has been changed]
+主题已变更
 ;file \plugins\TabSRMM\src\chat\services.cpp
+[&Join]
+加入(&J)
+[&Leave]
+离开(&L)
 ;file \plugins\TabSRMM\src\chat\tools.cpp
+[%s wants your attention in %s]
+%s 需要您注意 %s
+[%s speaks in %s]
+%s 在 %s 说话
+[%s has joined %s]
+%s 已加入 %s
+[%s has left %s]
+%s 已离开 %s
+[%s kicked %s from %s]
+%s 已踢走 %s 从 %s
+[Notice from %s]
+%s 发出公告
+[Topic change in %s]
+%s 主题变更
+[Information in %s]
+%s 的信息
+[%s enables '%s' status for %s in %s]
+%s 启用 '%s' 状态于 %s 在 %s
+[%s disables '%s' status for %s in %s]
+%s 禁用 '%s' 状态于 %s 在 %s
+[%s has left (%s)]
+%s 已离开 (%s)
+[%s has disconnected (%s)]
+%s 已断开连接 (%s)
+[%s kicked %s (%s)]
+%s 已踢走 %s (%s)
+[Notice from %s: %s]
+%s 公告: %s
+[The topic is '%s']
+主题为 '%s'
+[The topic is '%s' (set by %s)]
+主题为 '%s' (%s 设置)
+[Look up '%s':]
+查看 '%s':
+[No word to look up]
+无可查找字词
 [Highlight User...]
 突出显示用户...
 [Edit Highlight List...]
 编辑高亮列表...
 ;file \plugins\TabSRMM\src\chat\window.cpp
+[Nick name]
+昵称
 [Unique Id]
 唯一 Id
+[Nick]
+昵称
+[Unique id]
+独有 ID
 [%s: Chat Room (%u user%s)]
 %s: 聊天室 (%u 用户%s)
 [%s: Chat Room (%u users%s)]
 %s: 聊天室 (%u 用户%s)
 [, event filter active]
 , 事件过滤已激活
+[%s: Message Session]
+%s: 消息会话
+[%s: Message Session (%u users)]
+%s: 消息会话 (%u 个用户)
 [, %d %s, %d %s idle]
 , %d %s, %d %s 闲置
+[hours]
+小时
 [hour]
 小时
 [minute]

@@ -6,13 +6,33 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\Yahoo\res\Yahoo.rc
+[Password:]
+비밀번호:
+[Nick:]
+대화명:
+[Port:]
+포트:
+[&Add]
+&A 추가
+[OK]
+확인
+[Cancel]
+취소
+[&Deny]
+&D 거부
+[&Cancel]
+&C 취소
 ;file \protocols\Yahoo\src\avatar.cpp
 ;file \protocols\Yahoo\src\chat.cpp
 ;file \protocols\Yahoo\src\icolib.cpp
 ;file \protocols\Yahoo\src\im.cpp
+[The message send timed out.]
+메세지 시간 초과
 ;file \protocols\Yahoo\src\links.cpp
 ;file \protocols\Yahoo\src\main.cpp
 ;file \protocols\Yahoo\src\options.cpp
+[Network]
+네트워크
 ;file \protocols\Yahoo\src\proto.cpp
 ;file \protocols\Yahoo\src\services.cpp
 ;file \protocols\Yahoo\src\webcam.cpp

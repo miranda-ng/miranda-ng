@@ -6,12 +6,18 @@
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 ;file \plugins\IEView\res\ieview.rc
+[Copy]
+העתק
+[Select All]
+בחר הכל
 [Save Image As...]
 שמור תמונה כ...
 [Print]
 הדפס
 [Show source]
 הראה מקור
+[Options]
+אפשרוית
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
 ברגע זה קודי BB הבאים נתמכים: [b][i][u][s][img][size][color][url]
 [Enable support for Flash files in smileys and BBCodes]
@@ -24,6 +30,8 @@ BB אפשר תמיכה בקבצי פלאש בסמיילים וקודי
 אפשר סמיילים בכינויי משתמשים
 [Hide window border]
 הסתר גבול חלון
+[Size:]
+גודל:
 [Compatibility Mode]
 מצב תאימות
 [Use External CSS]
@@ -32,23 +40,47 @@ BB אפשר תמיכה בקבצי פלאש בסמיילים וקודי
 השתמש בתבנית
 [Background image]
 תמונת רקע
+[Scroll with text]
+גלול עם טקסט
 [Template Options]
 תבנית אפשרויות
 [Use message grouping]
 השתמש בקיבוץ הודעות
 [Show nicknames]
 הראה כינויים
+[Show seconds]
+הראה שניות
 [Use long date format]
 השתמש בתבנית תאריך ארוכה
 [Use relative timestamp]
 השתמש בחותמת זמן יחסית
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Incoming File Transfer]
+העברה קבצים נכנסת
 ;file \plugins\IEView\src\HTMLBuilder.cpp
+[(Unknown Contact)]
+(איש קשר לא מוכר)
 ;file \plugins\IEView\src\IEView.cpp
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[Error]
+שגיאה
 ;file \plugins\IEView\src\Options.cpp
+[General]
+כללי
+[Message Log]
+יומן הודעה
+[Group Chats]
+צ'אט קבוצתי
+[History]
+היסטוריה\n
+[Default]
+ברירת מחדל
+[Message Sessions]
+חלון הודעות
 [IEView]
 מראה אקספלורר
+[All Files]
+כל הקבצים
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 ;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
 ;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

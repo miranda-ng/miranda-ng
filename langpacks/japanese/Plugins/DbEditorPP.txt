@@ -6,18 +6,48 @@
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 ;file \plugins\DbEditorPP\res\resource.rc
+[&Search]
+検索 (&S)
+[&Cancel]
+Cancel(&C)
+[Background colour]
+背景色
+[OK]
+OK
+[Cancel]
+Cancel
 [&Main]
 メイン (&M)
+[E&xit]
+終了 (&x)
+[&Options]
+オプション (&O)
+[&Delete]
+削除 (&D)
+[&Rename]
+名前変更 (&R)
 ;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 ;file \plugins\DbEditorPP\src\exportimport.cpp
+[All Files]
+全てのファイル
 ;file \plugins\DbEditorPP\src\findwindow.cpp
 ;file \plugins\DbEditorPP\src\icons.cpp
 ;file \plugins\DbEditorPP\src\main.cpp
 ;file \plugins\DbEditorPP\src\main_window.cpp
 ;file \plugins\DbEditorPP\src\modules.cpp
 ;file \plugins\DbEditorPP\src\moduletree.cpp
+[Contacts]
+コンタクト
 ;file \plugins\DbEditorPP\src\options.cpp
 ;file \plugins\DbEditorPP\src\settinglist.cpp
+[Name]
+名前
+[Size]
+サイズ
+[<unknown>]
+< 不明 >
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
+[Contact]
+コンタクト

@@ -6,13 +6,25 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\YAPP\res\yapp.rc
+[Close]
+סגור
 [Width:]
 רוחב:
+[Options]
+אפשרוית
 [Disable when]
 בטל כש
 ;file \plugins\YAPP\src\icons.cpp
 ;file \plugins\YAPP\src\notify_imp.cpp
 ;file \plugins\YAPP\src\options.cpp
+[Status]
+מצב
+[Error]
+שגיאה
+[Popups]
+פופ אפ
 ;file \plugins\YAPP\src\services.cpp
 ;file \plugins\YAPP\src\yapp.cpp
+[Background]
+רקע
 ;file \plugins\YAPP\src\yapp_history_dlg.cpp

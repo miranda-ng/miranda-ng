@@ -6,10 +6,74 @@
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 ;file \plugins\SeenPlugin\res\resource.rc
+[Text]
+Texto
+[Online]
+Online
+[Away]
+Ausente
+[Away]
+Ausente
+[Occupied]
+Ocupado
+[Occupied]
+Ocupado
+[DND]
+DND
+[DND]
+DND
+[On the phone]
+Ao telefone
+[Out to lunch]
+Saiu para almoço
+[Free for chat]
+Livre para conversar
+[Free for chat]
+Livre para conversar
+[Invisible]
+Invisível
+[Invisible]
+Invisível
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
 ;file \plugins\SeenPlugin\src\history.cpp
+[View User's Details]
+Ver detalhes do usuário
+[User Menu]
+Menu do Usuário
+[User Menu]
+Menu do Usuário
 ;file \plugins\SeenPlugin\src\main.cpp
 ;file \plugins\SeenPlugin\src\menu.cpp
+[<unknown>]
+<desconhecido>
 ;file \plugins\SeenPlugin\src\options.cpp
+[Contacts]
+Contatos
+[Contacts]
+Contatos
 ;file \plugins\SeenPlugin\src\seen.h
+[seconds]
+segundos
+[Group]
+Grupo
+[Status]
+Status
+[Protocol]
+Protocolo
+[Protocol]
+Protocolo
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
+[Idle]
+Inativo
+[Unknown]
+Desconhecido

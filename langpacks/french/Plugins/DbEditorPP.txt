@@ -16,10 +16,14 @@ Module
 Mot entier
 [Setting Name]
 Réglage
+[&Search]
+&Recherche
 [Found field]
 Champ trouvé
 [&Replace]
 &Remplacer
+[&Cancel]
+&Annuler
 [Search For]
 Recherche de
 [In:]
@@ -47,6 +51,8 @@ Les changements ne prendront effet qu'après un redémarrage de Miranda
 [Popup timeout (0 for infinite)]
 Délai du Popup (0 pour infini) :
 [Background colour]
+Couleur de fond
+[Background colour]
 Couleur de Fond : 
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
 Si le nom du module contient un espace, insérer \\ avant l'espace (ex "aaa\\ bbb")
@@ -54,6 +60,8 @@ Si le nom du module contient un espace, insérer \\ avant l'espace (ex "aaa\\ bb
 Ajouter un module au contact
 [Add a module named]
 Ajouter module nommé
+[Cancel]
+Annuler
 [Edit Setting]
 Modifier réglage
 [Value Name:]
@@ -78,6 +86,8 @@ Coller les réglages à importer ici.
 Actualiser les modules
 [Refresh &Settings]
 Actualiser les réglages
+[E&xit]
+&Quitter
 [&Search and Replace]
 &Rechercher et remplacer...
 [&Delete Module]
@@ -114,8 +124,6 @@ Afficher uniquement ceux non chargés
 Éditer &Dwords en Hexadécimal
 [&Restore position]
 &Restaurer la position
-[Item context]
-Contexte objet
 [&Edit / Rename]
 &Modifier / Renommer
 [NEW]
@@ -136,6 +144,10 @@ Décoder chaîne
 Encoder chaîne
 [&Watch]
 &Surveiller
+[&Delete]
+&Effacer
+[&Rename]
+&Renommer
 [Copy To Contact]
 Copier vers le contact
 [Export Module]
@@ -154,20 +166,14 @@ Fichier texte
 Coller le texte
 [&Add Module]
 &Ajouter un module
-[NULL contact menu]
-Menu contact NULL
 [Export Settings]
 Exporter réglages
-[Contacts menu]
-Menu des contacts
 [Export Contacts]
 Exporter les contacts
 [Import Contacts]
 Importer des contacts
 [Export Module from all contacts]
 Exporter les modules de tous les contacts
-[new item]
-nouvel objet
 [Watch Window]
 Fenêtre de surveillance
 [Reload Watch List]
@@ -208,6 +214,8 @@ Supprime le module de la base de données
 [Delete module from Database... Loading]
 Supprime le module de la base de données... Mise à jour
 ;file \plugins\DbEditorPP\src\exportimport.cpp
+[All Files]
+Tous les fichiers
 [Error Loading Module List]
 Erreur de chargement liste de modules
 [Couldn't open file for writing]
@@ -272,10 +280,16 @@ Arborescence du Module non trouvée
 Ajouter module au contact "%s"
 ;file \plugins\DbEditorPP\src\options.cpp
 ;file \plugins\DbEditorPP\src\settinglist.cpp
+[Name]
+Nom
 [Data]
 Données
+[Size]
+Taille
 [<unsupported>]
 <non supporté>
+[<unknown>]
+<inconnu>
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
 Réglage de base de données modifié : \nModule "%s" , Réglage : "%s"\nNouvelle valeur : (BYTE) %d

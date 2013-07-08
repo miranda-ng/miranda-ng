@@ -10,10 +10,14 @@
 Съдържание и стил
 [Go to Customize > Fonts && Colors for fonts and colors options]
 Персонализиране>Шрифтове за избор на шрифтове и цветове
+[Effects]
+Ефекти
 [Live Preview]
 Образец
 [Size && Position]
 Размер и позиция
+[History]
+История
 [Enable popup history]
 Включване на popup историята
 [Store last]
@@ -22,6 +26,10 @@
 Рамка на аватарите
 [Draw borders for semitransparent avatars too]
 Рамка и за полупрозрачните аватари
+[pixels]
+пиксела
+[pixels]
+пиксела
 [Enable avatar updates]
 Актуализиране на аватарите
 [Start the popups in the monitor with]
@@ -32,10 +40,14 @@
 активният прозорец
 [Enable Win 9x/Me transparency]
 Включване на Win 9x/Me прозрачност
+[opacity:]
+плътност:
 [Opaque popups under cursor]
 Уплътняване при посочване
 [Slide Popup]
 Плъзгане на popup-овете
+[Effect:]
+Ефект:
 [Time (out):]
 Избледняване:
 [Limit window amount to:]
@@ -50,6 +62,10 @@
 Разстояние между popup-овете
 [Configure popup area]
 Настройване на popup полето
+[Close]
+Затваряне
+[General]
+Основни
 [Enable popup actions]
 Включване на popup действията
 [Popup Actions are those tiny buttons below notification text.]
@@ -106,6 +122,8 @@ Popup действията са малките бутони под текста.
 Безкрайна продължителност
 [Popup delay:]
 Времетраене:
+[seconds]
+секунди
 [Do not close hovered popups]
 Без затваряне при посочване
 [Dynamically resize the popups]
@@ -114,6 +132,8 @@ Popup действията са малките бутони под текста.
 Мин. ширина
 [Maximum width]
 Макс. ширина
+[Position:]
+Позиция:
 [Layout:]
 Изглед:
 [Reorder Popups]
@@ -129,6 +149,8 @@ Popup действията са малките бутони под текста.
 Бърз отговор
 [User details]
 Подробности за потребителя
+[Contact menu]
+Меню на контактите
 [Pin popup]
 Прилепване на popup-а
 ;file \plugins\Popup\src\config.cpp
@@ -148,6 +170,8 @@ Popup действията са малките бутони под текста.
 Обновяване на списъка с облици
 [Popup Placement]
 Popup позиция
+[Cancel]
+Отказ
 [Popup Group]
 Popup група
 [Favorite Contact]
@@ -160,9 +184,17 @@ Popup група
 Прилепване на popup-а
 [Pinned Popup]
 Прилепен popup
+[User Details]
+Подробности за потребителя
 [Add Contact Permanently]
 Добавяне на контакта за постоянно
 ;file \plugins\Popup\src\main.cpp
+[Actions]
+Действия
+[Contacts]
+Контакти
+[Advanced]
+Разширени
 ;file \plugins\Popup\src\opt_adv.cpp
 [Fade in/out]
 Избледняване/Изсветляване
@@ -187,11 +219,15 @@ Popup Plus Предупреждение
 Просто погледнете този облик... ;)
 [Show clock]
 Показване на часа
+[Use Windows colours]
+Цветове от Windows
 [Refresh List]
 Обновяване на списъка
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
 ;file \plugins\Popup\src\services.cpp
+[Error]
+Грешка
 ;file \plugins\Popup\src\skin.cpp
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Popup Mode: Auto]

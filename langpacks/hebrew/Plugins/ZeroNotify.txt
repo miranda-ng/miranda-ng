@@ -10,3 +10,5 @@
 ;file \plugins\ZeroNotification\src\main.cpp
 [Zero Notifications]
 אפס הודעות מצב
+[Plugins]
+תוספים

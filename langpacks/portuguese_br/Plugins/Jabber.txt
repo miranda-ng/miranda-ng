@@ -6,8 +6,42 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\JabberG\res\jabber.rc
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Type:]
+Escrever:
 [User:]
 Usuário:
+[Password:]
+Senha:
+[Password:]
+Senha:
+[Password:]
+Senha:
+[Password:]
+Senha
 [Resource:]
 Recursos:
 [Register new user]
@@ -22,12 +56,18 @@ Serviço de pesquisa
 Editor de Registro
 [Jabber]
 Jabber
+[Username:]
+Usuário:
+[Username:]
+Usuário:
 [Priority:]
 Prioridade:
 [Use hostname as resource]
 Usar hostname como recurso
 [List of public servers]
 Lista dos servidores públicos
+[Port:]
+Porta:
 [Use SSL]
 Usar SSL
 [Use TLS]
@@ -72,6 +112,8 @@ Registrar
 Registro desligado
 [Register with a new service...]
 Registrar com um novo serviço...
+[Close]
+Fechar
 [Command]
 Comando
 [Jabber Form]
@@ -80,28 +122,58 @@ Jabber Formulário
 Instrução:
 [Submit]
 Enviar
+[Complete]
+Completo
 [Data form test]
 Dados de teste de formulário
 [Address1:]
 Endereço1:
 [Address2:]
 Endereço2:
+[City:]
+Cidade:
+[State:]
+Estado:
 [ZIP:]
 CEP:
+[Country:]
+País:
+[First name:]
+Primeiro nome:
 [Middle:]
 Médio:
+[Last name:]
+Sobrenome:
+[Date of birth:]
+Data de nascimento:
 [YYYY-MM-DD]
 AAAA-MM-DD
+[Gender:]
+Sexo:
+[Company:]
+Companhia:
+[Department:]
+Departamento:
+[E-mail:]
+E-mail:
+[E-mail:]
+E-mail:
+[Phone:]
+Telefone:
 [Jabber vCard: Add Email Address]
 Jabber vCard: Adicionar E-mail
 [Email address:]
 Email:
+[Work]
+Trabalho
 [X400]
 X400
 [Jabber vCard: Add Phone Number]
 Jabber vCard: Acrescentar o número de telefone
 [Phone number:]
 Telefone:
+[Fax]
+Fax
 [Pager]
 Pager
 [Text/Messaging]
@@ -116,6 +188,20 @@ ISDN
 PCS
 [Load]
 Carregar
+[Delete]
+Excluir
+[Delete]
+Apagar
+[Delete]
+Apagar
+[Delete]
+Apagar
+[Delete]
+Excluir
+[Delete]
+Excluir
+[Description:]
+Descrição
 [Current Password:]
 Senha atual:
 [New Password:]
@@ -150,8 +236,24 @@ JID:
 Registro
 [Other JID:]
 Outros JID:
+[Add]
+Adicionar
+[Add]
+Adicionar
+[Nickname:]
+Apelido:
+[Nickname:]
+Apelido:
 [Jabber Bookmarks]
 Jabber Favoritos
+[Remove]
+Remover
+[Remove]
+Remover
+[Edit]
+Editar
+[Edit]
+Editar
 [Bookmark Details]
 Detalhes das Preferências
 [Bookmark Type]
@@ -200,6 +302,10 @@ Se:
 Então:
 [following stanza types:]
 seguintes tipos de estrofe:
+[Messages]
+Mensagens
+[Messages]
+Mensagens
 [Incoming presence]
 Chegando presença
 [Outgoing presence]
@@ -216,6 +322,10 @@ Exibir como árvore
 Exibir como lista
 [Node:]
 Nó:
+[Change %s Message]
+Alterar mensagem %s
+[Closing in %d]
+Fechando em %d
 [Account type:]
 Tipo de conta:
 [Register account now]
@@ -240,6 +350,8 @@ Mensagens personalizadas
 Sair:
 [Slap:]
 Lançar:
+[Authorization Request]
+Pedido de Autorização
 [Someone (maybe you) has requested the following file:]
 Alguém (talvez você) pediu o seguinte arquivo:
 [Request was sent from JID:]
@@ -293,8 +405,12 @@ Conferências
 ;file \protocols\JabberG\src\jabber_caps.cpp
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 ;file \protocols\JabberG\src\jabber_chat.cpp
+[None]
+Nenhum
 [Member]
 Membro
+[Owner]
+Proprietário
 [Visitor]
 Visitante
 [Participant]
@@ -355,6 +471,20 @@ Lin&ks
 Copiar sala &JID
 [Copy room topic]
 Copiar tópico da sala
+[Online]
+Online
+[Away]
+Ausente
+[Away]
+Ausente
+[DND]
+DND
+[DND]
+DND
+[Free for chat]
+Livre para conversar
+[Free for chat]
+Livre para conversar
 [&User details]
 &Detalhes de Usuário
 [Member &info]
@@ -459,6 +589,10 @@ Por favor, especifique diretório do grupo de bate-papo primeiro.
 [Bookmarks...]
 Marcadores...
 ;file \protocols\JabberG\src\jabber_icolib.cpp
+[Notes]
+Notas
+[Notes]
+Notas
 [Agents list]
 Lista de agentes
 [Transports]
@@ -551,6 +685,12 @@ Remover
 [Http authentication request received]
 Http recebeu pedido de autenticação
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Request authorization]
+Pedindo autorização
+[Grant authorization]
+Garantir autorização
+[Revoke authorization]
+Revogar autorização
 [Add to Bookmarks]
 Adicionar para Marcadores
 [Commands]
@@ -587,8 +727,14 @@ Nenhuma atividade ainda, a escolha o servidor para uso
 Escolha a máxima prioridade do servidor (a)
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
+[To]
+Para
+[To]
+Até
 ;file \protocols\JabberG\src\jabber_notes.cpp
 ;file \protocols\JabberG\src\jabber_opt.cpp
+[Nauru]
+Nauru
 [These changes will take effect the next time you connect to the Jabber network.]
 Essas mudanças terão efeito na próxima vez que você se conectar à rede Jabber.
 [Jabber Protocol Option]
@@ -597,6 +743,8 @@ Opção do protocolo Jabber
 Esta operação irá matar a sua conta, lista e todas as informações armazenadas em outro servidor. Você está pronto para fazer isso?
 [Account removal warning]
 Aviso de remoção de conta
+[Messaging]
+Mensagem
 [Log chat state changes]
 Registrar mudanças de status no bate-papo
 [Log presence subscription state changes]
@@ -613,6 +761,8 @@ Opções de servidor
 Desativar autenticação SASL (para servidores antigos)
 [Enable stream compression (if possible)]
 Ativar compressão de fluxo (se possível)
+[Other]
+Outros
 [Enable remote controlling (from another resource of same JID only)]
 Ativar controle remoto (de outro recurso da mesma JID somente)
 [Show transport agents on contact list]
@@ -629,6 +779,12 @@ Mostrar informações sobre o sistema operacional em versão de respostas
 Aceitar apenas em banda entrada de transferência de arquivos(não divulgar próprio IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 Aceitar solicitações de autenticação HTTP (XEP-0070)
+[General]
+Geral
+[General]
+Geral
+[General]
+Geral
 [Autoaccept multiuser chat invitations]
 Automaticamente aceitar convites de bate-papo
 [Automatically join bookmarks on login]
@@ -649,12 +805,28 @@ Alterações de configuração da sala
 Mudanças de filiação
 [Role changes]
 Mudanças de papel
+[Status changes]
+Alterações de Status
+[Status changes]
+Status alterado
 [JID]
 JID
+[Group]
+Grupo
 [Subscription]
 Assinatura
 [Uploading...]
 Enviando...
+[Connecting...]
+Conectando...
+[Network]
+Rede
+[Network]
+Rede
+[Advanced]
+Avançado
+[Advanced]
+Avançado
 [Public XMPP Network]
 Rede Pública XMPP
 [Secure XMPP Network]
@@ -771,6 +943,12 @@ Não foi possível salvar a lista porque você está atualmente offline.
 Editor de Lista...
 ;file \protocols\JabberG\src\jabber_proto.cpp
 ;file \protocols\JabberG\src\jabber_rc.cpp
+[Status]
+Status
+[Invisible]
+Invisível
+[Invisible]
+Invisível
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Erro %s %s\r\nPor favor escolha outro servidor
@@ -811,12 +989,30 @@ Mensagem redirecionada a partir de: %s\r\n%s
 [Sending registration information...]
 Envio de informações de registro...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
+[Message]
+Mensagem
 [Software]
 Software
+[Version]
+Versão
+[System]
+Sistema
+[System]
+Sistema
 [Idle since]
 Inativo desde
 [Client capabilities]
 Recursos de cliente
+[Yes]
+Sim
+[Yes]
+Sim
+[No]
+Não
+[No]
+Não
+[No]
+Não
 [Last logoff time]
 Últim hora de saída
 [Uptime]
@@ -827,6 +1023,12 @@ Mensagem de Saída
 Recurso ativo a última vez
 [Please switch online to see more details.]
 Selecione on-line para ver mais detalhes.
+[Copy]
+Copiar
+[Copy]
+Copiar
+[Copy]
+Copiar
 [Copy only this value]
 Copie apenas este valor
 [format]
@@ -836,11 +1038,19 @@ Formato Desconhecido
 [Photo]
 Foto
 ;file \protocols\JabberG\src\jabber_util.cpp
+[Error]
+Erro
+[Error]
+Erro
 [Unknown error message]
 Mensagem de erro desconhecido
 [Advanced Status]
 Status avançado
 ;file \protocols\JabberG\src\jabber_vcard.cpp
+[Male]
+Masculino
+[Female]
+Feminino
 [Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
 Só JPG, GIF e BMP arquivos de imagem menores que 40 KB são suportados.
 [Jabber vCard]
@@ -849,6 +1059,10 @@ VCard Jabber
 Jabber vCard: Editar endereço de E-mail
 [Jabber vCard: Edit Phone Number]
 Jabber vCard: Editar número de telefone
+[Contacts]
+Contatos
+[Contacts]
+Contatos
 ;file \protocols\JabberG\src\jabber_ws.cpp
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Afraid]

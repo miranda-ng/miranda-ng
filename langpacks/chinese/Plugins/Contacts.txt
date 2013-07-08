@@ -10,22 +10,46 @@
 发送联系人
 [Choose contacts to be send:]
 选择要发送的联系人:
+[&Send]
+发送(&S)
+[Cancel]
+取消
 [Received contacts]
 接收联系人
 [Add to &group:]
 加至群组(&G):
+[&Add]
+添加(&A)
 [&Details]
 详细资料(&D)
+[Close]
+关闭
 [Contacts send error]
 联系人发送错误
+[An error has occured. The protocol reported the following error:]
+发生错误. 协议已回报了此错误: 
+[Try again]
+再试一次
 [Add to List]
 加至列表
+[User Details]
+用户详细资料
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]
 联系人接收于
+[Contacts]
+联系人
 [Incoming Contacts]
 传入联系人
 [Outgoing Contacts]
 发出联系人
 ;file \plugins\ContactsPlus\src\receive.cpp
+[Add Contact Permanently to List]
+将联系人永久加至列表
+[View User's Details]
+查看用户详细资料
+[View User's History]
+查看用户历史
+[User Menu]
+用户菜单
 ;file \plugins\ContactsPlus\src\send.cpp

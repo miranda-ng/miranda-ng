@@ -9,3 +9,5 @@
 ;file \plugins\NoHistory\src\dllmain.cpp
 ;file \plugins\NoHistory\src\icons.cpp
 ;file \plugins\NoHistory\src\options.cpp
+[** All contacts **]
+** 모든 대화 상대 **

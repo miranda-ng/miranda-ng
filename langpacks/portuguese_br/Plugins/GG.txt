@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: GG
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: 
 ;============================================================
 ;file \protocols\Gadu-Gadu\res\resource.rc
@@ -10,8 +10,32 @@
 Detalhes do Usuário Gadu-Gadu
 [Gadu-Gadu Number:]
 Número Gadu-Gadu:
+[Password:]
+Senha:
+[Password:]
+Senha:
+[Password:]
+Senha:
+[Password:]
+Senha
+[E-mail:]
+E-mail:
+[E-mail:]
+E-mail:
+[Create new account]
+Criar nova conta
+[Remove account]
+Remover conta
 [Retrieve password]
 Recuperar senha
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
+[Options]
+Opções
 [Friends only]
 Só Amigos
 [Show offline users with status message as invisible in contact list]
@@ -20,6 +44,8 @@ Mostrar utilizadores offline com mensagem de status como invisível na lista de 
 Após a desconexão deixar sem mensagem de status:
 [Receive image and after image is received use:]
 Receber imagem e depois que a imagem for recebida usar:
+[You will need to reconnect for the changes you have made on this page to take effect.]
+É necessário reconectar para alterar as alterações realizadas nesta página para terem efeito.
 [Conference policy]
 Política de Conferência
 [if total participant count greater than:]
@@ -40,16 +66,56 @@ Manualmente especificar ligação com servidores hosts
 Usar conexão segura SSL
 [Use direct connections]
 Usar conexões diretas
+[Port:]
+Porta:
 [Use forwarding]
 Usar encaminhamento
+[First name:]
+Primeiro nome:
+[Last name:]
+Sobrenome:
 [Family name:]
 Apelido:
+[Nickname:]
+Apelido:
+[Nickname:]
+Apelido:
+[Gender:]
+Sexo:
+[City:]
+Cidade:
 [Origin city:]
 Cidade de origem:
 [Birth year:]
 Ano de nascimento:
+[Description:]
+Descrição
 [Enter token to continue]
 Digite a marca para continuar
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [Create Gadu-Gadu account]
 Criar conta Gadu-Gadu
 [New password:]
@@ -58,24 +124,42 @@ Nova senha:
 Confirmar senha:
 [New e-mail:]
 Novo e-mail:
+[&Create]
+&Criar
 [Remove Gadu-Gadu account]
 Remover conta Gadu-Gadu
 [Yes, I want to remove my account]
 Sim, quero remover a minha conta
+[Remove]
+Remover
+[Remove]
+Remover
 [Change Gadu-Gadu password]
 Alterar senha Gadu-Gadu
 [Change Gadu-Gadu e-mail]
 Alterar e-mail Gadu-Gadu
 [Age from:]
 Idade de:
+[&Close]
+&Fechar
+[&Send]
+&Enviar
+[&Send]
+Enviar
+[&Send]
+&Enviar
 [Open new conference]
 Abrir nova conferência
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
 ;file \protocols\Gadu-Gadu\src\core.cpp
+[Unknown]
+Desconhecido
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
 Conexões externo direto hostname %s é inválido. Desativando encaminhamento de host externo.
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 Servidor hostname %s é inválido. Usando o hostname padrão fornecido pela rede.
+[Age:]
+idade:
 [List import successful.]
 Lista importada com sucesso.
 [List remove successful.]
@@ -83,6 +167,28 @@ Remover lista bem sucedido.
 [List export successful.]
 Lista exportada com sucesso.
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
+[Male]
+Masculino
+[Female]
+Feminino
+[Network]
+Rede
+[Network]
+Rede
+[General]
+Geral
+[General]
+Geral
+[General]
+Geral
+[Advanced]
+Avançado
+[Advanced]
+Avançado
+[System tray icon]
+Ícone da barra de tarefas
+[Ignore]
+Ignorar
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
@@ -146,6 +252,12 @@ Imagem excede o tamanho máximo permitido de 255 KB.
 Você tem de estar conectado antes que você possa importar/exportar contatos de/para o servidor.
 [Text files]
 Arquivos de texto
+[All Files]
+Todos os Arquivos
+[All Files]
+Todos os arquivos
+[All Files]
+Todos os Arquivos
 [contacts]
 contatos
 [Import List From &Server]
@@ -163,6 +275,10 @@ List & Export To Text File ...
 [Password was sent to your e-mail.]
 A senha foi enviada para o e-mail.
 ;file \protocols\Gadu-Gadu\src\popups.cpp
+[Error]
+Erro
+[Error]
+Erro
 ;file \protocols\Gadu-Gadu\src\services.cpp
 ;file \protocols\Gadu-Gadu\src\sessions.cpp
 ;file \protocols\Gadu-Gadu\src\token.cpp

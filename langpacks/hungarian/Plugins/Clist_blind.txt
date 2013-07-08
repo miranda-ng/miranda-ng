@@ -6,9 +6,219 @@
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 ;file \plugins\Clist_blind\res\resource.rc
+[Delete Contact]
+Partner törlése
+[Are you sure you want to delete %s?]
+Biztosan törölni akarod: %s?
+[This will erase all history and settings for this contact!]
+Ez törli a partner minden elõzményét és beállítását!
+[Yes]
+Igen
+[No]
+Nem
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Elrejtés a listáról csak azért, hogy az elõzmények és a beállításai megmaradjanak
+[Hotkeys]
+Gyorsbillentyûk
 [URL:]
 URL:
+[Hide offline users]
+Kilépett felhasználók elrejtése
+[Hide empty groups]
+Üres csoportok elrejtése
+[Disable groups]
+Csoportok kikapcsolása
+[Ask before deleting contacts]
+Partnerek törlésének megerõsítése
+[Sort contacts by name]
+Partnerek rendezése név szerint
+[Sort contacts by status]
+Partnerek rendezése állapot szerint
+[Sort contacts by protocol]
+Partnerek rendezése protokoll szerint
+[Single click interface]
+Egykattintásos felület
+[Always show status in tooltip]
+Mindig mutasd az állapotot gyorssúgóban
+[Disable icon blinking]
+Ikon villogás kikapcsolása
+[ms delay]
+e.mp késleltetés
+[Show]
+Mutat
+[icon when statuses differ]
+ikon, ha az állapotok eltérnek
+[Cycle icons every]
+Ikonok ismétélse minden
+[seconds, when statuses differ]
+mp., ha eltérnek az állapotok
+[Show multiple icons]
+Többszörös ikonok megjelnítése
+[Only when statuses differ]
+Csak ha az állapotok eltérnek
+[Contact List]
+Kapcsolati lista
+[System tray icon]
+Rendszer tálca ikon
+[System tray icon when using multiple protocols]
+Rendszer tálca ikon több protokoll használata esetén
+[Contact List Sorting]
+Kapcsolati lista sorrend
+[Window]
+Ablak
+[Always on top]
+Mindig legfelül
+[Tool style main window]
+Eszköz stílusú fõ ablak
+[Minimize to tray]
+Minimalizálás tálcára
+[Hide contact list after it has been idle for]
+Partnerlista elretése, ennyi eseménytelenség után:
+[seconds]
+mp.
+[Automatically resize window to height of list]
+Ablak mérete kövesse a lista magasságát
+[maximum]
+maximum
+[% of screen]
+képernyõ %-a
+[Size upwards]
+Méret felfelé
+[Title bar text:]
+Címsor szöveg:
+[Fade contact list in/out]
+Partner-lista lassú fel/eltûnése
+[Transparent contact list]
+Átlátszó partnerlista
+[Inactive opacity:]
+Inaktív átlátszatlanság:
+[Active opacity:]
+Aktív átlátszatlanság:
+[Show menu bar]
+Menüsor megjelnítése
+[Easy move]
+Könnyû mozgatás
+[Show title bar]
+Címsor mutatása
+[If window is partially covered, bring to front instead of hiding]
+Ha az ablak részben eltakart, akkor jöjjön elõre
+[Show drop shadow (restart required)]
+Árnyék vetése (újraindítás szükséges)
+[Pin to desktop]
+Asztalhoz szegezés
+[Items]
+Elemek
+['Hide Offline' means to hide:]
+A 'kilépettek elrejtése' elrejti:
+[Groups]
+Csoportok
+[Show counts of number of contacts in a group]
+Partnerek számának megjelenítése a csoportokban
+[Hide group counts when there are none online]
+Csoport tagszám elrejtése, ha egy tag sem érhetõ el
+[Sort groups alphabetically]
+Csoportok rendezése abc rendben
+[Quicksearch in open groups only]
+Gyorskeresés a nyitott csoportokban
+[Group:]
+Csoport:
+[Status Bar]
+Állapotsáv
+[Show status bar]
+Állapotsor mutatása
+[Show icons]
+Ikonok megjelenítése
+[Show protocol names]
+Protokoll nevek mutatása
+[Show status text]
+Állapot szöveggel is
+[Right click opens status menu]
+Jobb katt az állapot menüt nyitja
+[Make sections equal width]
+Egyenlõ széles szakaszok
+[Show bevels on panels]
+Besüllyestett panelek
+[Show resize grip indicator]
+Átméretezés fogóka megjelnítése
+[E&xit]
+&Kilépés
+[&Status]
+Álla&pot
+[&Offline\tCtrl+0]
+&Kilépett\tCtrl+0
+[On&line\tCtrl+1]
+&Elérhetõ\tCtrl+1
+[&Away\tCtrl+2]
+&Távol\tCtrl+2
+[&NA\tCtrl+3]
+&Nem elérhetõ\tCtrl+3
+[Occ&upied\tCtrl+4]
+El&foglalt\tCtrl+4
+[&DND\tCtrl+5]
+&Ne zavarjanak\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Csevegésre kész\tCtrl+6
+[&Invisible\tCtrl+7]
+&Láthatatlan\tCtrl+7
+[On the &Phone\tCtrl+8]
+Telefonál\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Ebédel\tCtrl+9
+[Tray]
+Tálca
+[&Hide/Show]
+&Elrejtés/megjelenítés
+[Nowhere]
+Sehol
+[&New Group]
+&Új csoport
+[&Hide Offline Users]
+Kilépett partnerek elrejtése
+[Hide &Offline Users out here]
+Kilépett felhasználók elrejtése idekinn
+[Hide &Empty Groups]
+Üres csoportok elrejtése
+[Disable &Groups]
+Csoportok kikapcsolása
+[Hide Miranda]
+Miranda elrejtése
+[Group]
+Csoport
+[&New Subgroup]
+Új alcsoport
+[&Hide Offline Users in here]
+Kilépett partnerek elrejtése itt
+[&Rename Group]
+Csoport átnevezése
+[&Delete Group]
+&Csoport törlése
 ;file \plugins\Clist_blind\src\clcopts.cpp
+[Not focused]
+Nem fókuszált
+[Offline]
+Kilépett
+[Online]
+Elérhetõ
+[Away]
+Távol
+[NA]
+NA
+[Occupied]
+Elfoglalt
+[DND]
+Ne zavarjanak
+[Free for chat]
+Csevegésre kész
+[Invisible]
+Láthatatlan
+[Out to lunch]
+Ebédel
+[On the phone]
+Telefonál
+[List]
+Lista
 ;file \plugins\Clist_blind\src\clistopts.cpp
+[Global]
+Globális
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp

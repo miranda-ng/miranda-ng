@@ -6,6 +6,26 @@
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
 ;file \plugins\ContactsPlus\res\contacts.rc
+[&Send]
+Ver&sturen
+[Cancel]
+Annuleren
+[&Add]
+Toevoegen
+[Close]
+Sluit
+[User Details]
+Gebruikersdetails
 ;file \plugins\ContactsPlus\src\main.cpp
+[Contacts]
+Personen
 ;file \plugins\ContactsPlus\src\receive.cpp
+[Add Contact Permanently to List]
+Persoon permanent aan lijst toevoegen
+[View User's Details]
+Details van de gebruiker bekijken
+[View User's History]
+Geschiedenis van de gebruiker bekijken
+[User Menu]
+Gebruikersmenu
 ;file \plugins\ContactsPlus\src\send.cpp

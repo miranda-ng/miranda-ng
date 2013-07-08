@@ -6,5 +6,11 @@
 ;  Authors: Nikolay Redko
 ;============================================================
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
+[OK]
+OK
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
+[File]
+Bestand
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
+[Popups]
+Popups

@@ -6,6 +6,10 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Alarms\res\resource.rc
+[Delete]
+删除
+[Edit]
+编辑
 [Alarms]
 闹钟
 [Use popup plugin]
@@ -32,6 +36,14 @@
 除闲置外不要获取焦点
 [Alarm]
 闹钟
+[OK]
+确定
+[Cancel]
+取消
+[Description:]
+描述: 
+[Actions]
+操作
 [Run command:]
 运行命令: 
 [Parameters:]
@@ -68,6 +80,10 @@
 暂停(&S)
 [&Edit...]
 编辑(&E)...
+[&Delete]
+删除(&D)
+[&Options...]
+选项(&O)...
 [&New Alarm...]
 新增闹钟(&N)...
 ;file \plugins\Alarms\src\alarmlist.cpp
@@ -79,11 +95,17 @@
 范例闹钟
 [Some example text. Example, example, example.]
 一些范例文本. 范例, 范例, 范例. 
+[Background]
+背景
+[Window]
+窗口
 ;file \plugins\Alarms\src\frame.cpp
 [Hide Reminders]
 隐藏提醒项目
 [Show Reminders]
 显示提醒项目
+[Frames]
+框架
 [Alarm Reminders]
 警告提醒
 ;file \plugins\Alarms\src\icons.cpp
@@ -100,5 +122,9 @@
 ;file \plugins\Alarms\src\options.cpp
 [Please enter a title for this alarm.]
 请输入此警告标题. 
+[Error]
+错误
 [The alarm time you have selected is in the past.]
 您所选择警告时间已是过去. 
+[Events]
+事件

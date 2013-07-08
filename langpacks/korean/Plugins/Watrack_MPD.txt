@@ -8,3 +8,5 @@
 ;file \plugins\Watrack_MPD\res\watrack_mpd.rc
 ;file \plugins\Watrack_MPD\src\init.cpp
 ;file \plugins\Watrack_MPD\src\options.cpp
+[Plugins]
+플러그인

@@ -6,11 +6,45 @@
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 ;file \plugins\IEView\res\ieview.rc
+[Copy]
+Copia
+[Select All]
+Seleziona Tutto
+[Options]
+Opzioni
+[Options]
+Opzioni
+[Size:]
+Dimensioni:
+[Scroll with text]
+Scorri assieme al testo
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Incoming File Transfer]
+Trasferimento file in entrata
 ;file \plugins\IEView\src\HTMLBuilder.cpp
+[(Unknown Contact)]
+(Contatto sconosciuto)
 ;file \plugins\IEView\src\IEView.cpp
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[Error]
+Errore
+[Error]
+Errore
 ;file \plugins\IEView\src\Options.cpp
+[General]
+Generale
+[History]
+Storico
+[Default]
+Predefinito
+[Default]
+Predefinito
+[All Files]
+Tutti i file
+[All Files]
+Tutti i file
+[All Files]
+Tutti i file
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 ;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
 ;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

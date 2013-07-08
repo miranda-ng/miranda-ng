@@ -8,6 +8,8 @@
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Backup progress]
 进行备份
+[Cancel]
+取消
 [Automatic Backups]
 自动备份
 [Number of backups to keep:]
@@ -27,6 +29,8 @@
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Miranda Databases]
 Miranda 数据库
+[All Files]
+所有文件
 [Backup in Progress]
 备份进行中
 [Rotating backup files...]

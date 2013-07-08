@@ -6,4 +6,22 @@
 ;  Authors: perf
 ;============================================================
 ;file \plugins\TooltipNotify\res\main.rc
+[OK]
+OK
+[Cancel]
+Annuleren
+[Offline]
+Offline
+[Contacts]
+Personen
+[Idle]
+Rustig
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
+[Popups]
+Popups
+[** New contacts **]
+** Nieuwe Personen **
+[** Unknown contacts **]
+** Onbekende personen **
+[Unknown]
+Onbekend

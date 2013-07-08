@@ -8,19 +8,39 @@
 [Support for new options design.]
 Apoyo para el diseño de nuevas opciones.
 ;file \plugins\ModernOpt\res\resource.rc
+[OK]
+OK
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
+[Apply]
+Aplicar
 [Switch to classic options]
 Cambiar a opciones clásicas
+[Advanced]
+Avanzada
+[Advanced]
+Avanzada
 ;file \plugins\ModernOpt\src\modernopt.cpp
+[Accounts]
+Cuentas
 [Setup your account information to start messaging.]
 la instalación de información de la cuenta para iniciar la mensajería.
 [Style]
 Estilo
+[Contacts]
+Contactos
 [Configure behaviour of your contact list.]
 Configurar el comportamiento de su lista de contactos.
 [Customize look&&feel of your chat windows here.]
 Personaliza el aspecto y la sensación de su y ventanas de chat aquí.
+[Ignore]
+Ignorar
 [Ban those users and events, you are annoyed with.]
 Prohibición de los usuarios y eventos, le molestan los.
+[Status]
+estado
 [Set your status messages and idle reporting.]
 Fije su mensaje de estado y presentación de informes de ralentí.
 [Addons]

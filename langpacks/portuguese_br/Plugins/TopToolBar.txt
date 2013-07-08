@@ -10,5 +10,19 @@
 Largura do botão
 [Button width]
 Largura do botão
+[Set]
+Configurar
+[Set]
+Configurar
 ;file \plugins\TopToolBar\src\toolbar.cpp
+[Default]
+Padrão
+[Default]
+Padrão
+[Default]
+Padrão
+[Default]
+Padrão
 ;file \plugins\TopToolBar\src\ttbopt.cpp
+[Contact List]
+Lista de Contatos

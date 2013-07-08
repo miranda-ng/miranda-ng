@@ -32,6 +32,10 @@ Miranda ha encontrado perfiles de Miranda con los siguientes nombres. Por favor,
 Ahora la importación de ...
 [Import Information Wizard]
 Asistente para importación de la Información
+[Cancel]
+Cancelar
+[Cancel]
+Cancelar
 [Import all contacts and all messages]
 Importar todos los contactos y mensajes de todos los
 [Only import contacts]
@@ -48,8 +52,18 @@ Nuevos contactos && grupos
 Sistema de la historia
 [Select items to import:]
 Seleccionar elementos para la importación:
+[Incoming]
+Entrantes
+[Outgoing]
+Salientes
 [Only since:]
 Sólo a partir de:
+[Messages]
+Mensaje ventanas - IM
+[File Transfers]
+Transferencias de archivos
+[Other]
+Otros
 ;file \plugins\Import\src\import.cpp
 [Skipping system history import.]
 Saltarse el sistema de importación de la historia.
@@ -69,5 +83,7 @@ Saltado %d duplicados y %d eventos filtrados.
 El archivo dado no existe. Por favor, compruebe que ha introducido el nombre correctamente.
 [Miranda Import]
 Miranda-IM-Import
+[All Files]
+Todos los archivos
 ;file \plugins\Import\src\utils.cpp
 ;file \plugins\Import\src\wizard.cpp

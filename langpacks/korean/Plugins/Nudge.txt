@@ -6,6 +6,28 @@
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
 ;file \plugins\Nudge\res\resource.rc
+[Offline]
+오프라인
+[Online]
+온라인
+[Away]
+자리 비움
+[NA]
+응답없음
+[Occupied]
+다른 용무중
+[DND]
+수신 거부
+[Free for chat]
+대화 가능
+[Invisible]
+오프라인으로 표시
+[On the phone]
+전화중
+[Out to lunch]
+식사중
 ;file \plugins\Nudge\src\main.cpp
 ;file \plugins\Nudge\src\nudge.cpp
 ;file \plugins\Nudge\src\options.cpp
+[Events]
+이벤트

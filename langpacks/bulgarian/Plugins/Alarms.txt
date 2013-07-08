@@ -6,15 +6,39 @@
 ;  Authors: Scott Ellis
 ;============================================================
 ;file \plugins\Alarms\res\resource.rc
+[Delete]
+Изтриване
+[Edit]
+Редактиране
 [Alarms]
 Аларми
 [Alarm]
 Аларма
+[Cancel]
+Отказ
+[Description:]
+Описание:
+[Actions]
+Действия
 [Once]
 Веднъж
+[&Delete]
+Изтриване
+[&Options...]
+Настройки...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 ;file \plugins\Alarms\src\alarm_win.cpp
+[Background]
+Фон
+[Window]
+Прозорец
 ;file \plugins\Alarms\src\frame.cpp
+[Frames]
+Рамки
 ;file \plugins\Alarms\src\icons.cpp
 ;file \plugins\Alarms\src\options.cpp
+[Error]
+Грешка
+[Events]
+Събития

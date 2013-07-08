@@ -1,30 +1,78 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: xStatus notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 ;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 Een melding geven wanneer een persoon veranderd naar een van deze statussen
+[Offline]
+Offline
+[Invisible]
+Onzichtbaar
+[Free for chat]
+Beschikbaar voor gesprek
+[Away]
+Afwezig
+[NA]
+Niet beschikbaar
+[Occupied]
+Bezet
+[DND]
+Niet storen
+[Out to lunch]
+Aan het lunchen
+[On the phone]
+Aan de telefoon
 [Always when changing from offline]
 Altijd bij wijzigen van offline
 [Plugin activation]
 Plugin activatie
+[Configure]
+Instellen
 [Blink icon in the system tray]
 Icoon knipperen in het systeemvak
 [Use status icon]
 Status icoon gebruiken
+[Delete]
+Verwijderen
 [Status Notify]
 Status melding
+[Sounds]
+Geluiden
+[Popups]
+Popups
+[Background]
+Achtergrond
+[Text]
+Tekst
+[Use custom colours]
+Aangepaste kleuren gebruiken
+[Use Windows colours]
+Windows kleuren gebruiken
+[Reset]
+Terugzetten
+[OK]
+OK
+[Cancel]
+Annuleren
+[General]
+Algemeen
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Status]
+Status
 [Sound for the status]
 Geluid voor de status
+[** All contacts **]
+** Alle personen **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
 (standaard geluid)
 ;file \plugins\NewXstatusNotify\src\main.cpp
+[Contact]
+Persoon
 [(M) is back online!]
 hij is terug online!
 [(F) is back online!]
@@ -102,6 +150,12 @@ Gebruiker: Aan de telefoon
 [User: from offline (has priority!)]
 Gebruiker: van offline (heeft prioriteit!)
 ;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+Alle bestanden
+[Log]
+Loggen
+[Protocol]
+Protocol
 ;file \plugins\NewXstatusNotify\src\popup.h
 ;file \plugins\NewXstatusNotify\src\utils.cpp
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
