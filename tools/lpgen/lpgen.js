@@ -530,8 +530,8 @@ array.push(";============================================================");
 //push results of regexp vars into array
 if (filename) array.push(";  File: "+filename[1]); else array.push(";  File: "+plugin+".dll");
 if (pluginname) array.push(";  Plugin: "+pluginname[1]); else array.push(";  Plugin: "+plugin);
-if (MAJOR_VERSION) array.push(";  Version: "+MAJOR_VERSION[1]+"."+MINOR_VERSION[1]+"."+RELEASE_NUM[1]+"."+BUILD_NUM[1]);
 if (VERSION_STRING) array.push(";  Version: "+VERSION_STRING[1]);
+if (MAJOR_VERSION && !VERSION_STRING) array.push(";  Version: "+MAJOR_VERSION[1]+"."+MINOR_VERSION[1]+"."+RELEASE_NUM[1]+"."+BUILD_NUM[1]);
 if (!MAJOR_VERSION && !VERSION_STRING) array.push(";  Version: x.x.x.x");
 if (author) array.push(";  Authors: "+fixHexa(author[1])); else array.push(";  Authors: ");
 //add a header end mark
