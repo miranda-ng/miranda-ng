@@ -395,7 +395,7 @@ Další možnosti
 [For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org]
 Pro další funkce je potřeba mít doplněk MetaContacts.\n\nhttp://miranda-ng.org
 [Allow internal requesting of status message text]
-Povolit interní požadavky o text stavové zprávy
+Povolit interní požadavky o text zprávy stavu
 [Subcontacts indent:]
 Odsazení podkontaktů:
 [Remove status message if contact became offline]
@@ -535,15 +535,15 @@ Stavy
 [Nickname]
 Přezdívka
 [Status Message]
-Stavová zpráva
+Zpráva stavu
 [Listening to]
 Poslech hudby
 [Contact time]
 Čas
 [Show status if there is no status message]
-Zobrazit stav pokud není zadána stavová zpráva
+Zobrazit stav pokud není zadána zpráva stavu
 [Show listening to if there is no status message]
-Zobrazit informace o hudbě pokud není zadána stavová zpráva
+Zobrazit informace o hudbě pokud není zadána zpráva stavu
 [XStatus has priority]
 Preferovat rozšířený stav
 [Use 'XStatus: XMessage']

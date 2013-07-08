@@ -143,7 +143,7 @@ Povolit všem zjištění aktuálního stavu z webu (online/offline, funkce Web 
 [Allow others to view my primary e-mail address]
 Povolit všem zjištění primární elektronické adresy
 [Only reply to status message requests from users on my contact list]
-Zjištění stavové zprávy povolit pouze lidem v seznamu kontaktů
+Zjištění zprávy stavu povolit pouze lidem v seznamu kontaktů
 [Only reply to status message request from visible contacts]
 Z výše uvedených pouze těm, kteří jsou momentálně viditelní
 [Some options are greyed out because they can only be changed when you are online.]
@@ -1041,7 +1041,7 @@ esperanto
 [Estonian]
 estonština
 [Farsi]
-
+perština
 [Finnish]
 finština
 [French]
@@ -1121,7 +1121,7 @@ svahilština
 [Tagalog]
 tagalština
 [Taiwanese]
-
+tchaiwanština
 [Tamil]
 tamilština
 [Tatar]

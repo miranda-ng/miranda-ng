@@ -20,7 +20,7 @@ Z&obrazit v historii
 [Drop down arrow]
 Šipka další nabídky
 [Status message changes]
-Změny stavové zprávy
+Změny zprávy stavu
 [&Pseudo-edit]
 &Pseudo-editace
 [Pseudo-edit mode...]

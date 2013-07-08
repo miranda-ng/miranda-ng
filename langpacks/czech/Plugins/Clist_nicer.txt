@@ -682,7 +682,7 @@ Vždy skrýt
 [When space is available]
 Pokud to místo dovolí
 [When needed by status message]
-Pokud to vyžaduje stavová zpráva
+Pokud to vyžaduje zpráva stavu
 [Contact list display and ignore options for %s]
 Možnosti zobrazení a filtrování: %s
 [&Contact list settings...]

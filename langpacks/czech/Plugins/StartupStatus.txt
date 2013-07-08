@@ -197,7 +197,7 @@ Zapnout kontrolu
 [Disable checking]
 Vypnout kontrolu
 [Set status message]
-Nastavit stavové zprávy
+Nastavit zprávy stavu
 [Status]
 Stavy
 [Add...]

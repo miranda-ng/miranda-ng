@@ -57,7 +57,7 @@ OK
 [Cancel]
 Zrušit
 [Status text:]
-Stavová zpráva:
+Zpráva stavu:
 [Online since:]
 Online od:
 [Last event date:]

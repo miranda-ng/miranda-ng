@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Shows and allows you to edit your details for all protocols.]
-
+Zobrazuje a umožňuje upravit vaše detaily pro všechny účty.
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Nastavit přezdívku
@@ -19,25 +19,25 @@ Zrušit
 [General]
 Obecné
 [...avatar]
-
+...avatar
 [RTL]
 Psát zprava doleva
 [Align text to right]
 Zarovnat text doprava
 [...nickname]
-
+...přezdívka
 [Auto-resize frame]
 Měnit velikost okna
 [Use contact list smileys]
 Použít smajlíky pro kontakty
 [...status]
-
+...stav
 [Replace Smileys]
 Vykreslovat smajlíky
 [Resize Smileys]
 Měnit velikost smajlíků
 [...status message]
-
+...zpráva stavu
 [Top:]
 Nahoře:
 [Bottom:]
@@ -55,7 +55,7 @@ pix.
 [Allow it to grow]
 Povolit zvětšování
 [Draw border]
-
+Vykreslit rámeček
 [Round corners]
 Zaoblit rohy
 [Custom corner size:]
@@ -63,23 +63,23 @@ Velikost zakulacení:
 [Use free space (under avatar) to other texts]
 Využít místo pod avatarem pro další texty
 [Global On...]
-
+Globální pro...
 [Frame Options]
-
+Možnosti rámečku
 [Cycle through accounts every:]
-
+Přepínat mezi účty každých:
 [seconds]
-sek.
+sekund
 [Account]
 Účet
 [Show account name]
-
+Zobrazit název účtu
 [Show account cycle button]
-
+Zobrazit tlačítka pro přepínání účtů
 [Set My Status Message for All Status]
 Nastavit zprávu pro všechny stavy
 [Status Message:]
-Stavová zpráva:
+Zpráva stavu:
 [&Offline]
 &Offline
 [On&line]
@@ -109,13 +109,13 @@ Změnit stavovou zprávu...
 [Enable Listening To]
 Povolit doplněk Listening To
 [Show next account]
-
+Zobrazit další účet
 [Show previous account]
-
+Zobrazit předchozí účet
 [Cycle through accounts]
-
+Přepínat mezi účty
 [Don't cycle through accounts]
-
+Nepřepínat mezi účty
 ;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 <stav není zadaný>
@@ -125,7 +125,7 @@ Přezdívka
 [Status]
 Stavy
 [Status Message]
-Stavová zpráva
+Zpráva stavu
 [Listening To]
 Poslech hudby
 [My Details]

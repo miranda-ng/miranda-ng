@@ -6,26 +6,26 @@
 ;  Authors: Mataes, tico-tico, Tim
 ;============================================================
 [Allows to switch a layout or transliterate or invert case of the entered text in the message window with SmileyAdd support.]
-
+Umožňuje přepnout rozvržení nebo transliterovat nebo invertovat velikost zadaného textu v komunikačním okně s podporou smajlíků.
 ;file \plugins\TranslitSwitcher\src\Layoutproc.cpp
 [TranslitSwitcher]
-
+TranslitPřepínač
 ;file \plugins\TranslitSwitcher\src\TranslitSwitcher.cpp
 [Switch Layout and Send]
-
+Přepnout rozvržení a odeslat
 [Translit and Send]
-
+Transliterovat a odeslat
 [Invert Case and Send]
-
+Invertovat velikost a odeslat
 [Convert All / Selected]
-
+Konvertovat vše / vybrané
 [Convert Last / Selected]
-
+Konvertovat poslední / vybrané
 [Translit All / Selected]
-
+Transliterovat vše / vybrané
 [Translit Last / Selected]
-
+Transliterovat poslední / vybrané
 [Invert Case All / Selected]
-
+Invertovat velikost všeho / vybraného
 [Invert Case Last / Selected]
-
+Invertovat velikost posledního / vybraného

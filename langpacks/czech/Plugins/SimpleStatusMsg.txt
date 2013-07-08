@@ -21,7 +21,7 @@ Zko&pírovat
 [OK]
 OK
 [Retrieving status message for %s...]
-Zjišťování stavové zprávy pro '%s'...
+Zjišťování zprávy stavu pro '%s'...
 [Behaviour on status change]
 
 [Apply to all]
@@ -207,7 +207,7 @@ Změnit zprávu stavu
 [Open Status Message Dialog]
 
 [Status Message]
-Stavová zpráva
+Zpráva stavu
 [Status Message...]
 Zpráva stavu...
 [%s (locked)]
@@ -249,7 +249,7 @@ Moderní, vedle tlačítka Zrušit
 [Show in message list]
 Zobrazit v seznamu zpráv
 [Are you sure you want to clear predefined status messages?]
-Určitě chcete smazat všechny předdefinované stavové zprávy?
+Určitě chcete smazat všechny předdefinované zprávy stavu?
 [Confirm clearing predefined]
 Potvrdit smazání předdefinovaných
 [<Last status>]

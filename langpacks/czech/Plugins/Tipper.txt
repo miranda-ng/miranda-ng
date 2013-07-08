@@ -87,7 +87,7 @@ Předdefinované položky:
 [Variables]
 Proměnné
 [Parse Tipper variables first]
-
+Zpracovat nejdříve proměnné Tipperu
 [Items]
 Položky
 [Substitutions]
@@ -121,7 +121,7 @@ Použít smajlíky protokolu
 [Replace only isolated smileys]
 Nahradit jen oddělené smajlíky
 [Retrieve new status message]
-
+Načíst novou zprávu stavu
 [Show tooltip after all content is ready (avatar && status message)]
 Zobrazit tip až po načtení celého obsahu (avatar && zpráva stavu)
 [Status bar and tray tooltip]
@@ -131,7 +131,7 @@ Omezit délku zprávy stavu v tipech stavového řádku a oznamovací oblasti na
 [characters]
 znaků
 [Disable in invisible status]
-
+Zakázat ve stavu Neviditelný
 [Skins]
 Skiny
 [Opacity(%):]
@@ -147,7 +147,7 @@ Stín
 [Round corners (window)]
 Zaoblit rohy oken
 [Aero Glass (Vista+)]
-
+Aego Glass (Vista+)
 [Animation speed:]
 Rychlost animace:
 [Preview]
@@ -290,12 +290,12 @@ Klient
 ;file \plugins\TipperYM\src\popwin.cpp
 [%s (locked)]
 %s (uzamčený)
-[ ago]
- 
+[%s ago]
+před %s
 [Log on:]
 Přihlášení:
 [Log off:]
-
+Odhlášení:
 [Unread emails:]
 Nepřečtené e-maily:
 [Status:]
@@ -317,9 +317,9 @@ Zkopírovat všechny položky
 [Copy avatar]
 Zkopírovat avatar
 [<No Label>: ]
-
+<bez titulku>: 
 [<No Value>]
-
+<bez hodnoty>
 [Fav. contacts]
 Oblíbené kontakty
 [Other]
@@ -345,8 +345,6 @@ Dom. stránka
 WWW:
 [Identifier]
 Identifikátor
-[%sys:uidname|UID^!MetaContacts%:]
-
 [Idle]
 Nečinnost
 [Idle:]
@@ -388,80 +386,80 @@ Zpráva rozšířeného stavu
 [XStatus text:]
 Zpráva rozšířeného stavu:
 [[jabber.dll] Activity title]
-
+[jabber.dll] Název aktivity
 [Activity title:]
 Název aktivity:
 [[jabber.dll] Activity text]
-
+[jabber.dll] Zpráva aktivity
 [Activity text:]
 Zpráva aktivity:
 [[menuex.dll] Logon time]
-
+[menuex.dll] Čas přihlášení
 [Logon time:]
-
+Čas přihlášení:
 [[menuex.dll] Logoff time]
-
+[menuex.dll] Čas odhlášení
 [Logoff time:]
-
+Čas odhlášení:
 [[seenplugin.dll] Last seen time]
-
+[seenplugin.dll] Naposledy spatřen
 [Last seen time:]
 Naposledy spatřen:
 [[seenplugin.dll] Last seen status]
-
+[seenplugin.dll] Naposledy spatřený stav
 [Last seen status:]
 Naposledy spatřený stav:
 [[weather.dll] Condition]
-
+[weather.dll] Situace
 [Condition:]
 Situace:
 [[weather.dll] Humidity]
-
+[weather.dll] Vlhkost
 [Humidity:]
 Vlhkost:
 [[weather.dll] Max/Min temperature]
-
+[weather.dll] Max/min teplota
 [Max/Min:]
-
+Max/Min:
 [[weather.dll] Moon]
-
+[weather.dll] Měsíc
 [Moon:]
 Měsíc:
 [[weather.dll] Pressure]
-
+[weather.dll] Tlak
 [Pressure:]
 Tlak:
 [[weather.dll] Sunrise]
-
+[weather.dll] Východ slunce
 [Sunrise:]
 Východ slunce:
 [[weather.dll] Sunset]
-
+[weather.dll] Západ slunce
 [Sunset:]
 Západ slunce:
 [[weather.dll] Temperature]
-
+[weather.dll] Teplota
 [Temperature:]
 Teplota:
 [[weather.dll] Update time]
-
+[weather.dll] Čas aktualizace
 [Update time:]
 Čas aktualizace:
 [[weather.dll] UV Index]
-
+[weather.dll] UV Index
 [UV Index:]
 UV Index:
 [[weather.dll] Visibility]
-
+[weather.dll] Viditelnost
 [Visibility:]
 Viditelnost:
 [[weather.dll] Wind]
-
+[weather.dll] Vítr
 [Wind:]
 Vítr:
 ;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
-# Celkové Vyplnění barvou
+# Vyplnění plnou barvou
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Pozadí
@@ -574,7 +572,7 @@ esperanto
 [Estonian]
 estonština
 [Farsi]
-
+perština
 [Finnish]
 finština
 [French]
@@ -654,7 +652,7 @@ svahilština
 [Tagalog]
 tagalština
 [Taiwanese]
-
+tchaiwanština
 [Tamil]
 tamilština
 [Tatar]

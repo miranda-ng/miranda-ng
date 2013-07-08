@@ -6,7 +6,7 @@
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
-
+Umožňuje odeslat zprávu kontaktům při změně jejich stavu.
 ;file \plugins\BuddyPounce\res\resource.rc
 [Confirm Pounce send]
 Potvrzení odeslání
@@ -49,11 +49,11 @@ Zobrazit více možností
 [The Message:       (Characters:  )]
 Zpráva:       (Počet znaků:  )
 [Default Settings]
-
+Výchozí nastavení
 [Show Delivery Messages]
 Informovat o doručení
 [These settings are also used when sending a "Simple" pounce]
-
+Tyto nastavení jsou použity také při odeslání jediné zprávy
 ;file \plugins\BuddyPounce\src\dialog.cpp
 [Send If My Status Is...]
 Odesílání ve stavu...
@@ -112,23 +112,23 @@ Do 'Jsem na obědě'
 [The Message    (%d Characters)]
 Zpráva (počet znaků: %d)
 [Couldnt Allocate enough memory]
-
+Nelze alokovat dostatek paměti
 [error......]
-
+chyba......
 [The Message    (0 Characters)]
-
+Zpráva (počet znaků: 0)
 [Reuse this message? (0 to use it once)]
-
+Použít tuto zprávu znovu? (0 pro použití pouze jednou)
 [Times]
 Čas ve světě
 [Giveup after.. (0 to not giveup)]
-
+Vzdát po... (0 pro nevzdávat)
 [Days]
 Dnů
 [Show confirmation window? (0 to not Show)]
-
+Zobrazit potvrzovací okno? (0 pro nezobrazovat)
 [Seconds to wait before sending]
-
+Počet sekund pro čekání před odesláním
 [Pounce being sent to %s in %d seconds]
 Zpráva (adresát: %s, bude odesláno za %d sek.)
 [Retry]

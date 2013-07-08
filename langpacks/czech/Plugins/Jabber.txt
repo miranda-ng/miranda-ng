@@ -1294,7 +1294,7 @@ Naposledy aktivní
 [Highest priority (server's choice)]
 Nejvyšší priorita (dle serveru)
 [Status Message]
-Stavová zpráva
+Zpráva stavu
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [CHAT plugin is required for conferences. Install it before chatting]

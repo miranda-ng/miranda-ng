@@ -215,7 +215,7 @@ Přejete si zrušit vaše přátelství s '%s'?
 [Facebook icon]
 Ikona Facebooku
 [Mind]
-Stavová zpráva
+Zpráva stavu
 [Poke]
 Šťouchnout
 [Newsfeed]
@@ -235,7 +235,7 @@ Požádat o přátelství
 [Approve friendship]
 Potvrdit přátelství
 [Mind...]
-Stavová zpráva...
+Zpráva stavu...
 [Services...]
 Služby
 [Refresh Buddy List]

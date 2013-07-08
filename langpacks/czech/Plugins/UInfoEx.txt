@@ -762,7 +762,7 @@ esperanto
 [Estonian]
 estonština
 [Farsi]
-
+perština
 [Finnish]
 finština
 [French]
@@ -842,7 +842,7 @@ svahilština
 [Tagalog]
 tagalština
 [Taiwanese]
-
+tchaiwanština
 [Tamil]
 tamilština
 [Tatar]

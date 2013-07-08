@@ -51,7 +51,7 @@ Zešednout neaktivní kontakty
 [Border]
 Okraj
 [Draw border]
-
+Vykreslit rámeček
 [Left-top edge's color:]
 
 [Right-bottom edge's color:]

@@ -9,7 +9,6 @@
 [Bring to front every]
 [Hide when contact list is shown]
 [Idle contacts]
-[Draw border]
 [Left-top edge's color:]
 [Right-bottom edge's color:]
 [Show all thumbs]

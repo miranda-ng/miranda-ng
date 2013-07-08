@@ -140,7 +140,7 @@ Ukončit nahrávání
 [Record]
 Nahrávat
 [Status message template]
-Šablona stavové zprávy
+Šablona zprávy stavu
 [Equalizer presets]
 Předvolby ekvalizéru
 [Export All]
