@@ -203,8 +203,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Удалить статусное сообщение, если контакт оффлайн
 [Use improved search method in contactlist]
 Поиск по списку с фильтрацией результатов
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org]
-Для дополнительных возможностей загрузите плагин MetaContacts.\nhttp://miranda-ng.org
+[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
+Для дополнительных возможностей загрузите плагин MetaContacts.\nhttp://miranda-ng.org/p/MetaContacts/
 [MetaContacts stuff]
 Метаконтакты
 [Use 'Meta' protocol icons for Metacontacts]

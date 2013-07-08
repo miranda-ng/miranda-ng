@@ -38,8 +38,8 @@
 Файл уже есть. Перезаписать?
 [Request sent. Awaiting of acceptance..]
 Запрос послан. Ждем ответа...
-[If you see this "garbage", probably you have no "fileAsMessage" plugin installed, see http://miranda-im.org/download/details.php?action=viewfile&id=1811 for more information and download.]
-Если вы видите этот "мусор", значит у вас нет плагина "fileAsMessage". Посетите http://miranda-ng.org/
+[If you see this "garbage", probably you have no "fileAsMessage" plugin installed, see http://miranda-ng.org/p/FileAsMessage/ for more information and download.]
+Если вы видите этот "мусор", значит у вас нет плагина "fileAsMessage". Посетите http://miranda-ng.org/p/FileAsMessage/
 [Size: %d bytes]
 Размер: %d байт
 [Couldn't open a file]
