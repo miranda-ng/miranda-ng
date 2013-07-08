@@ -150,7 +150,7 @@
 [Client]
 ;file \plugins\TipperYM\src\popwin.cpp
 [%s (locked)]
-[ ago]
+[%s ago]
 [Log on:]
 [Log off:]
 [Unread emails:]
@@ -178,7 +178,6 @@
 [Homepage]
 [Homepage:]
 [Identifier]
-[%sys:uidname|UID^!MetaContacts%:]
 [Idle]
 [Idle:]
 [IP]

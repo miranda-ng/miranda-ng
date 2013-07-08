@@ -10572,7 +10572,6 @@
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
 ;  Version: 0.1.21.0
-;  Version: 0.1.21.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 [Notify about new mail in Lotus Database]
@@ -10828,7 +10827,6 @@
 ;============================================================
 ;  File: MirFox.dll
 ;  Plugin: MirFox
-;  Version: 0.5.0.0
 ;  Version: 0.5.0.0
 ;  Authors: Szymon Tokarz
 ;============================================================
@@ -13653,7 +13651,7 @@
 [Next item]
 [Open main window]
 [Frame background]
-﻿#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+﻿#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
 ;============================================================
 ;  File: Quotes.dll
 ;  Plugin: Quotes
@@ -17419,7 +17417,7 @@
 [Client]
 ;file \plugins\TipperYM\src\popwin.cpp
 [%s (locked)]
-[ ago]
+[%s ago]
 [Log on:]
 [Log off:]
 [Unread emails:]
@@ -17447,7 +17445,6 @@
 [Homepage]
 [Homepage:]
 [Identifier]
-[%sys:uidname|UID^!MetaContacts%:]
 [Idle]
 [Idle:]
 [IP]
