@@ -271,7 +271,7 @@ BEGIN
     CONTROL         "Show menu bar",IDC_SHOWMAINMENU,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,49,128,10
     CONTROL         "Easy move",IDC_CLIENTDRAG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,61,128,10
     CONTROL         "Show title bar",IDC_SHOWCAPTION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,73,128,10
-    CONTROL         "If window is partially covered, bring iy to front",IDC_BRINGTOFRONT,
+    CONTROL         "If window is partially covered, bring it to front",IDC_BRINGTOFRONT,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,194,85,175,10
     EDITTEXT        IDC_TITLETEXT,91,156,72,12,ES_AUTOHSCROLL | NOT WS_VISIBLE
     CONTROL         "Show drop shadow (restart required)",IDC_DROPSHADOW,
