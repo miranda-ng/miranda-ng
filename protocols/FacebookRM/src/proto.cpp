@@ -107,8 +107,6 @@ FacebookProto::~FacebookProto()
 	CloseHandle(facy.buddies_lock_);
 	CloseHandle(facy.send_message_lock_);
 	CloseHandle(facy.fcb_conn_lock_);
-
-	ProtoDestructor(this);
 }
 
 //////////////////////////////////////////////////////////////////////////////

@@ -89,8 +89,6 @@ TwitterProto::~TwitterProto()
 	CloseHandle(twitter_lock_);
 	CloseHandle(avatar_lock_);
 	CloseHandle(signon_lock_);
-
-	ProtoDestructor(this);
 }
 
 // *************************

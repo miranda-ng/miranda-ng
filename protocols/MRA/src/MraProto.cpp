@@ -81,8 +81,6 @@ CMraProto::~CMraProto()
 	MraFilesQueueDestroy(hFilesQueueHandle);
 	MraSendQueueDestroy(hSendQueueHandle);
 	DeleteCriticalSection(&csCriticalSectionSend);
-
-	ProtoDestructor(this);
 }
 
 INT_PTR CMraProto::MraCreateAccMgrUI(WPARAM wParam,LPARAM lParam)

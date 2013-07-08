@@ -42,8 +42,6 @@ CSkypeProto::~CSkypeProto()
 		::mir_free(this->password);
 		this->password = NULL;
 	}
-
-	::ProtoDestructor(this);
 }
 
 HANDLE __cdecl CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT* psr)

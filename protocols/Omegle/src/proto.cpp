@@ -78,8 +78,6 @@ OmegleProto::~OmegleProto( )
 	CloseHandle( this->facy.connection_lock_ );
 
 	mir_free( this->facy.nick_ );
-
-	ProtoDestructor(this);
 }
 
 //////////////////////////////////////////////////////////////////////////////
