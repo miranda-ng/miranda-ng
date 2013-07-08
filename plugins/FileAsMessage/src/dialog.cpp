@@ -431,7 +431,7 @@ void FILEECHO::sendReq()
 
 	_snprintf(sendbuf, sizeof(sendbuf), Translate("Size: %d bytes"), fileSize);
 	SetDlgItemText(hDlg, IDC_FILESIZE, sendbuf);
-	_snprintf(sendbuf, sizeof(sendbuf), "?%c%c%d:%d " NOPLUGIN_MESSAGE, asBinary+'0', codeSymb, chunkCount, fileSize);
+	_snprintf(sendbuf, sizeof(sendbuf), "?%c%c%d:%d \n" NOPLUGIN_MESSAGE, asBinary+'0', codeSymb, chunkCount, fileSize);
 	sendCmd(0, CMD_REQ, sendbuf, filename);
 
 	SetDlgItemText(hDlg, IDC_STATUS, Translate("Request sent. Awaiting of acceptance.."));

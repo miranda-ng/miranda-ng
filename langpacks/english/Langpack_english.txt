@@ -5888,7 +5888,7 @@
 [File As Message...]
 ;file \plugins\FileAsMessage\src\main.h
 [File As Message]
-[\nIf you see this "garbage", probably you "                         "have no "fileAsMessage" plugin installed, see "						 "http://miranda-ng.org/ for more information and download.]
+[If you see this "garbage", probably you have no "fileAsMessage" plugin installed, see http://miranda-ng.org/ for more information and download.]
 ﻿#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
 ;============================================================
 ;  File: Fingerprint.dll
