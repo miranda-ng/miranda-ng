@@ -24,7 +24,7 @@
 #define __DESC						"StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol."
 #define __AUTHOR					"P Boon"
 #define __AUTHOREMAIL				"unregistered@users.sourceforge.net"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/StartupStatus/"
 #define __COPYRIGHT					"(c) 2003-08 P. Boon, 2008-11 George Hazan"
 
 // other stuff for Version resource

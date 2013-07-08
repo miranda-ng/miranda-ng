@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Allows you to send a message to contacts if they change status."
 #define __AUTHOR					"Jonathan Gordon"
 #define __AUTHOREMAIL				"jdgordy@gmail.com"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/BuddyPounce/"
 #define __COPYRIGHT					"© 2004 Jonathan Gordon"

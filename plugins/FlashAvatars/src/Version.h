@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Loads and displays flash avatars."
 #define __AUTHOR					"Big Muscle"
 #define __AUTHOREMAIL				""
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/FlashAvatars/"
 #define __COPYRIGHT					"© 2000-2009 Miranda-IM project"

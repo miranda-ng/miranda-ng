@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Spell checker for the message windows. Uses Hunspell to do the checking."
 #define __AUTHOR					"Ricardo Pescuma Domenecci, FREAK_THEMIGHTY"
 #define __AUTHOREMAIL				"pescuma@miranda-im.org"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/SpellChecker/"
 #define __COPYRIGHT					"© 2006-2010 Ricardo Pescuma Domenecci"

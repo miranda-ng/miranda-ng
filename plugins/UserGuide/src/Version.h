@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"This plug-in adds the main menu item used to view miranda-im pack user guide."
 #define __AUTHOR					"Yasnovidyashii"
 #define __AUTHOREMAIL				"yasnovidyashii@gmail.com"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/UserGuide/"
 #define __COPYRIGHT					"© 2009 Mikhail Yuriev"

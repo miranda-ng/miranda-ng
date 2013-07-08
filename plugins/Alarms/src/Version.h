@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Sets once-off, daily, weekly and weekday alarms."
 #define __AUTHOR					"Scott Ellis"
 #define __AUTHOREMAIL				"mail@scottellis.com.au"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/Alarms/"
 #define __COPYRIGHT					"© 2005 Scott Ellis"

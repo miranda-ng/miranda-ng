@@ -11,5 +11,5 @@
 #define __DESCRIPTION 				"Provides extended Miranda database support."
 #define __AUTHOR					"Michael 'Protogenes' Kunz"
 #define __AUTHOREMAIL				"Michael.Kunz@s2005.TU-Chemnitz.de"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/Dbx_tree/"
 #define __COPYRIGHT					"© 2007 - 2010 Michael 'Protogenes' Kunz"

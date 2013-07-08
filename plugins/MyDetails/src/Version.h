@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Shows and allows you to edit your details for all protocols."
 #define __AUTHOR					"Ricardo Pescuma Domenecci, Drugwash"
 #define __AUTHOREMAIL				""
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/MyDetails/"
 #define __COPYRIGHT					"© 2005-2008 Ricardo Pescuma Domenecci, Drugwash"

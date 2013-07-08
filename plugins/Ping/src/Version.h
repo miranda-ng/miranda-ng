@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Ping labelled IP addresses or domain names."
 #define __AUTHOR					"Scott Ellis"
 #define __AUTHOREMAIL				"mail@scottellis.com.au"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/Ping/"
 #define __COPYRIGHT					"© 2005 Scott Ellis"

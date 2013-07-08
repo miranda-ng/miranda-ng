@@ -6,9 +6,9 @@
 #define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
 
 #define __PLUGIN_NAME				"TopToolBar"
-#define __FILENAME					"TopToolbar.dll"
+#define __FILENAME					"TopToolBar.dll"
 #define __DESCRIPTION 				"ToptoolBar adds buttons in top frame for fast access."
 #define __AUTHOR					"Bethoven"
 #define __AUTHOREMAIL				"Bethoven@mailgate.ru"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/TopToolBar/"
 #define __COPYRIGHT					"© 2003-2008 Bethoven"

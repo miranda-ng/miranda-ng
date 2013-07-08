@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions."
 #define __AUTHOR					"Anar Ibragimoff, sje, Thief"
 #define __AUTHOREMAIL				"thief@miranda.im"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/BuddyExpectator/"
 #define __COPYRIGHT					"© 2005 Anar Ibragimoff, 2006 Scott Ellis, 2007-2009 Alexander Turyak"

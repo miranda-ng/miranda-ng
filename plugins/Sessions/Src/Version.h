@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Sessions Manager for Miranda NG."
 #define __AUTHOR					"MaD_CLuSTeR"
 #define __AUTHOREMAIL				"daniok@yandex.ru"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/Sessions/"
 #define __COPYRIGHT					"© 2007-2008 Danil Mozhar"

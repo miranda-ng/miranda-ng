@@ -10,5 +10,5 @@
 #define __DESCRIPTION             "Plugin updater for Miranda NG."
 #define __AUTHOR                  "Mataes, George Hazan"
 #define __AUTHOREMAIL             "mataes2007@gmail.com"
-#define __AUTHORWEB               "http://miranda-ng.org/"
+#define __AUTHORWEB               "http://miranda-ng.org/p/PluginUpdater/"
 #define __COPYRIGHT               "© 2012 Mataes, George Hazan"

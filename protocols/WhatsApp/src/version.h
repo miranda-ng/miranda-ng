@@ -12,5 +12,5 @@
 #define __DESCRIPTION 				"WhatsApp protocol support for Miranda NG."
 #define __AUTHOR					"Uli Hecht"
 #define __AUTHOREMAIL				""
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/WhatsApp/"
 #define __COPYRIGHT					"© 2013 Uli Hecht"

@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __AUTHOR                "MaKaR"
 #define __AUTHOREMAIL           "makar@poczta.of.pl"
 #define __COPYRIGHT             "© 2011-2013 MaKaRSoFT"
-#define __AUTHORWEB             "http://maciej.wycik.pl/miranda"
+#define __AUTHORWEB             "http://miranda-ng.org/p/ConnectionNotify/"
 
 #define __PLUGIN_DISPLAY_NAME   "ConnectionNotify"
 

@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Shows currency rates and economic quotes."
 #define __AUTHOR					"Dioksin"
 #define __AUTHOREMAIL				"dioksin@ua.fm"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/Quotes/"
 #define __COPYRIGHT					"Don't worry!"

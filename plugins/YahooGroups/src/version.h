@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __DESCRIPTION 				"This plugin imports and creates the Yahoo groups defined in Yahoo Messenger."
 #define __AUTHOR					"Cristian Libotean"
 #define __AUTHOREMAIL				"eblis102@yahoo.com"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/YahooGroups/"
 #define __COPYRIGHT					"© 2007 Cristian Libotean"
 
 #endif //M_CMDLINE_VERSION_H

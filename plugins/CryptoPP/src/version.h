@@ -13,5 +13,5 @@
 #define __DESCRIPTION 				"Crypto++ library for SecureIM plugin."
 #define __AUTHOR					"Baloo"
 #define __AUTHOREMAIL				"baloo@bk.ru"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/CryptoPP/"
 #define __COPYRIGHT					"© 2006-09 Baloo"

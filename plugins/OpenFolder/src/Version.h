@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Adds a menu/toobar item which opens the main Miranda NG folder."
 #define __AUTHOR					"jarvis, Kreisquadratur"
 #define __AUTHOREMAIL				"jarvis@jabber.cz, djui@kreisquadratur.de"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/OpenFolder/"
 #define __COPYRIGHT					"© 2008 jarvis, © 2004 Kreisquadratur"

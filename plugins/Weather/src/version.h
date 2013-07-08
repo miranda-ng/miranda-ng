@@ -10,5 +10,5 @@
 #define __DESCRIPTION             "Retrieves weather information and displays it in your contact list."
 #define __AUTHOR                  "Miranda NG Team"
 #define __AUTHOREMAIL             ""
-#define __AUTHORWEB               "http://miranda-ng.org/"
+#define __AUTHORWEB               "http://miranda-ng.org/p/Weather/"
 #define __COPYRIGHT               "© 2002-2005 NoName, 2005-2010 Boris Krasnovskiy, 2012 Miranda NG Team"

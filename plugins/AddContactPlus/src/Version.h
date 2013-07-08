@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Provides the ability to quickly add new contacts."
 #define __AUTHOR					"Bartosz 'Dezeath' Bialek"
 #define __AUTHOREMAIL				"dezred@gmail.com"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/AddContactPlus/"
 #define __COPYRIGHT					"© 2007-2013 Bartosz 'Dezeath' Bialek, Miranda NG Team"

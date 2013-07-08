@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Provides a simple way to set status and away messages."
 #define __AUTHOR					"Bartosz 'Dezeath' Bialek, Harven"
 #define __AUTHOREMAIL				"dezred@gmail.com"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/SimpleStatusMsg/"
 #define __COPYRIGHT					"© 2006-2011 Bartosz Bialek, 2005 Harven"

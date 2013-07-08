@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least."
 #define __AUTHOR					"ValeraVi, Kildor"
 #define __AUTHOREMAIL				"kostia@ngs.ru"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/RecentContacts/"
 #define __COPYRIGHT					"© 2005 ValeraVi, © 2009 Kildor"

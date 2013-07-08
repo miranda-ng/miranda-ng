@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Console log window for Miranda."
 #define __AUTHOR					"Bio"
 #define __AUTHOREMAIL				"bio@ktaspb.ru"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/Console/"
 #define __COPYRIGHT					"© 2005-2012 Bio"

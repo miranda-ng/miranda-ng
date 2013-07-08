@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Anti-spam plugin with captcha and Bayes filtering."
 #define __AUTHOR					"vu1tur"
 #define __AUTHOREMAIL				"to@vu1tur.eu.org"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/Spamotron/"
 #define __COPYRIGHT					"© 2010-2013 vu1tur"

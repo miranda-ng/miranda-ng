@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Open contact-specific windows by hotkey."
 #define __AUTHOR					"Ricardo Pescuma Domenecci, Heiko Schillinger"
 #define __AUTHOREMAIL				"pescuma@miranda-im.org"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/QuickContacts/"
 #define __COPYRIGHT					"© 2007-2009 Ricardo Pescuma Domenecci"

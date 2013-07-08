@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Displays contacts, event notifications, protocol status with MW modifications."
 #define __AUTHOR					""
 #define __AUTHOREMAIL				"bethoven@mailgate.ru"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/Clist_mw/"
 #define __COPYRIGHT					"Copyright 2000-2010 Miranda IM project, 2012 Miranda NG project."

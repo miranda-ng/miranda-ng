@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Smiley support for Miranda NG."
 #define __AUTHOR					"Peacow, nightwish, bid, borkra"
 #define __AUTHOREMAIL				"borkra@miranda-im.org"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/SmileyAdd/"
 #define __COPYRIGHT					"© 2004 - 2012 Boris Krasnovskiy, portions by Rein-Peter de Boer"

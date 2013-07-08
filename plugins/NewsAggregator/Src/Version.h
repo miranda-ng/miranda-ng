@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"RSS/Atom news aggregator."
 #define __AUTHOR					"Mataes, FREAK_THEMIGHTY"
 #define __AUTHOREMAIL				"mataes2007@gmail.com"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/NewsAggregator/"
 #define __COPYRIGHT					"© 2012 Mataes, FREAK_THEMIGHTY"

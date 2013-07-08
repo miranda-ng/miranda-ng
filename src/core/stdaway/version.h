@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Core module for the away messages processing."
 #define __AUTHOR                 "Miranda NG Development Team"
 #define __AUTHOREMAIL				""
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/StdAway/"
 #define __COPYRIGHT					"© 2012 Miranda NG Development Team"

@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Plugin replaces MessageBoxes [whose have only OK button] into Popups."
 #define __AUTHOR					"StDenis"
 #define __AUTHOREMAIL				"stdenformiranda@fromru.com"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/MsgPopup/"
 #define __COPYRIGHT					"© 2004 Denis Stanishevskiy"

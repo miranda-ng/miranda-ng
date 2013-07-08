@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Scriver - send and receive instant messages."
 #define __AUTHOR					"Miranda NG Development Team"
 #define __AUTHOREMAIL				"the_leech@users.berlios.de"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/Scriver/"
 #define __COPYRIGHT					"© 2000-2012 Miranda IM Project, 2012-2013 Miranda NG Project"

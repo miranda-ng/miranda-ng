@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Handles listening information to/for contacts."
 #define __AUTHOR					"Ricardo Pescuma Domenecci"
 #define __AUTHOREMAIL				""
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/ListeningTo/"
 #define __COPYRIGHT					"© 2006-2009 Ricardo Pescuma Domenecci"

@@ -31,5 +31,5 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __DESCRIPTION 				"Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen."
 #define __AUTHOR					"H. Herkenrath"
 #define __AUTHOREMAIL				"hrathh@users.sourceforge.net"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/AssocMgr/"
 #define __COPYRIGHT					"© 2005-2007 H. Herkenrath"

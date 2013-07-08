@@ -10,5 +10,5 @@
 #define __DESCRIPTION				"Forwards messages to some contact when you are not available."
 #define __AUTHOR					"Anar Ibragimoff"
 #define __AUTHOREMAIL				"ai91@mail.ru"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/YARelay/"
 #define __COPYRIGHT					"© 2005 Anar Ibragimoff"

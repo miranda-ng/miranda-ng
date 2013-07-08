@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Provides extended options for sound notifications."
 #define __AUTHOR					"Roman Torsten"
 #define __AUTHOREMAIL				"rs_torsten-public@yahoo.com"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/XSoundNotify/"
 #define __COPYRIGHT					"© 2011 Roman Torsten"

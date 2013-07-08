@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation."
 #define __AUTHOR					"Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven"
 #define __AUTHOREMAIL				"ashpynov@gmail.com"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/Clist_modern/"
 #define __COPYRIGHT					"Copyright 2000-2010 Miranda-IM project"

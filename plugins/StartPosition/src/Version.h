@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Plugin supports starting position of Contact List relative to the the taskbar and screen side."
 #define __AUTHOR					"Felipe Brahm - souFrag"
 #define __AUTHOREMAIL				"felipebrahm@gmail.com"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/StartPosition/"
 #define __COPYRIGHT					"©2005-2008 Felipe Brahm - souFrag"

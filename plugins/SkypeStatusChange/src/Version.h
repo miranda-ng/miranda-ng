@@ -10,5 +10,5 @@
 #define __DESCRIPTION        "Skype Status Change according to miranda-Status."
 #define __AUTHOR             "Dioksin"
 #define __AUTHOREMAIL        "dioksin@ua.fm"
-#define __AUTHORWEB          "http://miranda-ng.org/"
+#define __AUTHORWEB          "http://miranda-ng.org/p/SkypeStatusChange/"
 #define __COPYRIGHT          "© 2009-2010 Dioksin"

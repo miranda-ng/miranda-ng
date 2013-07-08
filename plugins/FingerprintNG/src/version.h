@@ -29,5 +29,5 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define __DESCRIPTION             "Fingerprint NG (client version) icons module for Miranda NG."
 #define __AUTHOR                  "faith_healer, ghazan, mataes"
 #define __AUTHOREMAIL             "faith_healer@miranda.im"
-#define __AUTHORWEB               "http://miranda-ng.org/"
+#define __AUTHORWEB               "http://miranda-ng.org/p/Fingerprint/"
 #define __COPYRIGHT               "© 2006-12 ghazan, mataes, HierOS, FYR, Bio, nullbie, faith_healer and all respective contributors."

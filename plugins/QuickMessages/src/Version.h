@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Plugin for quick insert pre-defined messages in message input area."
 #define __AUTHOR					"MaD_CLuSTeR"
 #define __AUTHOREMAIL				"daniok@yandex.ru"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/QuickMessages/"
 #define __COPYRIGHT					"© 2008 Danil Mozhar"

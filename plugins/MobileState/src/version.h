@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Plugin shows mobile icon in contact list next to contacts which are using mobile client."
 #define __AUTHOR					"Robert P\xf6" "sel"
 #define __AUTHOREMAIL				"robyer@seznam.cz"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/MobileState/"
 #define __COPYRIGHT					"© 2012-13 Robert P\xf6" "sel"

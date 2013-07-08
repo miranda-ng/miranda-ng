@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"File tranfer by using the messaging services - as plain text."
 #define __AUTHOR					"Denis Stanishevskiy"
 #define __AUTHOREMAIL				"stdenformiranda@fromru.com"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/FileAsMessage/"
 #define __COPYRIGHT					"© 2004 Denis Stanishevskiy"

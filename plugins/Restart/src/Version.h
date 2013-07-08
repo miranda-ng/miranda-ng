@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Adds Restart menu item."
 #define __AUTHOR					"eugene.nv"
 #define __AUTHOREMAIL				"ep@eugn.me"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/Restart/"
 #define __COPYRIGHT					"© 2008 - 2013 eugene.nv"

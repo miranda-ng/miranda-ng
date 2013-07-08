@@ -16,6 +16,6 @@
 #define __DESCRIPTION 				"Omegle protocol support for Miranda NG."
 #define __AUTHOR					"Robert P\xf6" "sel"
 #define __AUTHOREMAIL				"robyer@seznam.cz"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/Omegle/"
 #define __COPYRIGHT					"© 2011-13 Robert P\xf6" "sel"
 

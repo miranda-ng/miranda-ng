@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Allows inline skin item editing for clist nicer."
 #define __AUTHOR					"Nightwish, Pixel"
 #define __AUTHOREMAIL				""
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/Cln_skinedit/"
 #define __COPYRIGHT					"Copyright 2000-2006 Miranda-IM project"

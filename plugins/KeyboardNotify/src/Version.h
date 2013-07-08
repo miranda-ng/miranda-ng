@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Flashes your keyboard LEDs when a message has arrived."
 #define __AUTHOR					"TioDuke"
 #define __AUTHOREMAIL				"tioduke@yahoo.ca"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/KeyboardNotify/"
 #define __COPYRIGHT					"© 2002-2003 Martin \xd6" "berg, 2004 Std, 2005-2008 TioDuke"

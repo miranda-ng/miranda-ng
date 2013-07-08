@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Support for new options design."
 #define __AUTHOR					"Victor Pavlychko, George Hazan"
 #define __AUTHOREMAIL				"ghazan@miranda-ng.org"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/ModernOpt/"
 #define __COPYRIGHT					"© 2009 Victor Pavlychko, George Hazan"

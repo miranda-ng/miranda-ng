@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Helps you manage Language Packs of different languages."
 #define __AUTHOR					"H. Herkenrath"
 #define __AUTHOREMAIL				"hrathh@users.sourceforge.net"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/LangMan/"
 #define __COPYRIGHT					"© 2005-2007 H. Herkenrath"

@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Merges contacts from the same or different protocols into one."
 #define __AUTHOR					"J. Schaal & S. Ellis"
 #define __AUTHOREMAIL				"mail@scottellis.com.au"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/MetaContacts/"
 #define __COPYRIGHT					"© 2005,2006 Scott Ellis"

@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"New GPG encryption support plugin, based on code from old GPG plugin and SecureIM."
 #define __AUTHOR					"sss"
 #define __AUTHOREMAIL				"sss123next@list.ru"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/New_GPG/"
 #define __COPYRIGHT					"© 2010-2012 sss"

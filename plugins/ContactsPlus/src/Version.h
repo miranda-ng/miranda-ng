@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Allows you to send and receive contacts."
 #define __AUTHOR					"Joe Kucera, Todor Totev"
 #define __AUTHOREMAIL				"jokusoftware@miranda-im.org"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/Contacts/"
 #define __COPYRIGHT					"(C) 2004-2008 Joe Kucera, Original Code (C) 2002 Dominus Procellarum"

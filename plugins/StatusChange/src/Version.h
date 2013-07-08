@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Change status when you send/receive an event."
 #define __AUTHOR					"Angelo Luiz Tartari"
 #define __AUTHOREMAIL				"corsario-br@users.sourceforge.net"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/StatusChange/"
 #define __COPYRIGHT					"© 2002 Angelo Luiz Tartari"

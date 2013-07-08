@@ -10,5 +10,5 @@
 #define __DESCRIPTION 				"Music Player Daemon support for Watrack."
 #define __AUTHOR					"sss"
 #define __AUTHOREMAIL				"sss123next@list.ru"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/Watrack_MPD/"
 #define __COPYRIGHT					"© 2009 sss"
