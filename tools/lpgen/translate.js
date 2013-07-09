@@ -63,6 +63,10 @@ stream.Charset = "utf-8";
 CoreTranslateDict=WScript.CreateObject("Scripting.Dictionary");
 DupesTranslateDict=WScript.CreateObject("Scripting.Dictionary");
 LangpackTranslateDict=WScript.CreateObject("Scripting.Dictionary");
+//init arrays for translated core & full langpack file
+Translated_Core_Array=new Array;
+UnTranslated_Core_Array=new Array;
+full_langpack_array=new Array;
 
 //*********************************************************************************//
 //                         Checking command line parameters                       *//
@@ -79,23 +83,24 @@ if (WScript.Arguments.Named.Item("untranslated")) {
     untranslated=true;
     UnTranslatedPath=WScript.Arguments.Named.Item("untranslated")
     if (WScript.Arguments.Named.Item("untranslated").toLowerCase()!="yes") {
-		CreateFldr(UnTranslatedPath);
+        CreateFldr(UnTranslatedPath);
         }
     };
 
 // if console pararm /outpfile:"\path\filename.txt" given, put it to var outfile.
 if (WScript.Arguments.Named.Item("outfile")) {
     outfile=true;
+    //path to full langpack file
     full_langpack_file=WScript.Arguments.Named.Item("outfile");
     }
 // if param /out specified, build a path and put it into var.
 if (WScript.Arguments.Named.Item("out")) {
     var out=WScript.Arguments.Named.Item("out");
-	var OutPlugins=FSO.BuildPath(out,"Plugins");
-	var OutWeather=FSO.BuildPath(out,"Weather");
+    var OutPlugins=FSO.BuildPath(out,"Plugins");
+    var OutWeather=FSO.BuildPath(out,"Weather");
     CreateFldr(out);
-	CreateFldr(OutPlugins);
-	CreateFldr(OutWeather);
+    CreateFldr(OutPlugins);
+    CreateFldr(OutWeather);
     };
     
 //If script run by double click, open choose folder dialog to choose plugin folder to parse. If Cancel pressed, quit script.
@@ -112,6 +117,7 @@ if (WScript.Arguments.Named.Item("sourcelang")) {
     var translated_weather=FSO.BuildPath(langpack_path,"Weather");
     var translated_core=FSO.BuildPath(langpack_path,"=CORE=.txt");
     var translated_dupes=FSO.BuildPath(langpack_path,"=DUPES=.txt");
+    var langpack_head=FSO.BuildPath(langpack_path,"=HEAD=.txt");
     var translated_langpack=FSO.BuildPath(langpack_path,("langpack_"+sourcelang+".txt"));
     if (log) WScript.Echo("Translating to "+sourcelang);
 }
@@ -153,18 +159,27 @@ if (WScript.Arguments.Named.Item("plugin")) {
 checkparams();
 if (log) WScript.Echo("Translation begin");
 
+//Add a =HEAD=.txt into FullLangpack Array if file exist
+if (outfile && FSO.FileExists(langpack_head)) {
+    //open file
+    stream.Open();
+    stream.LoadFromFile(langpack_head);
+    //read file into var
+    var headertext=stream.ReadText();
+    full_langpack_array.push(headertext);
+    stream.Close();
+    }
+
 //Generate translation dictionaries from /core, /dupes and /langpack files.
 GenerateDictionaries ();
 
-//Array for translated core & full langpack file
-Translated_Core_Array=new Array;
-UnTranslated_Core_Array=new Array;
-full_langpack_array=new Array;
 if (log) WScript.Echo("Translating Core");
 //Call function for translate core template
 TranslateTemplateFile(FSO.BuildPath(trunk,"langpacks\\english\\=CORE=.txt"),Translated_Core_Array,UnTranslated_Core_Array);
 //output core file, if needed.
 OutputFiles(Translated_Core_Array,UnTranslated_Core_Array,"","=CORE=.txt")
+
+
 //Init array of template files
 TemplateFilesArray=new Array;
 //Init array of weather.ini translation files
@@ -207,27 +222,27 @@ function ProcessFiles (FilesEnum) {
      //output files, if need
      OutputFiles(TranslatedTemplate,UnTranslatedStrings,FSO.GetBaseName(FSO.GetParentFolderName(curfile)),FSO.GetFileName(curfile))
      //move to next file
-	 if (FSO.GetBaseName(curfile)=="Weather") {
-		ProcessFiles(WeatherFilesEnum);
-		}
+     if (FSO.GetBaseName(curfile)=="Weather") {
+        ProcessFiles(WeatherFilesEnum);
+        }
      FilesEnum.moveNext();
     };
 }
 
 //Create Folder function, if folder does not exist.
 function CreateFldr(FolderPathName) {
-	if (!FSO.FolderExists(FolderPathName)) {
-		var CreatedFolder=FSO.CreateFolder(FolderPathName);
-		if (log) WScript.Echo("Folder created: "+CreatedFolder);}
+    if (!FSO.FolderExists(FolderPathName)) {
+        var CreatedFolder=FSO.CreateFolder(FolderPathName);
+        if (log) WScript.Echo("Folder created: "+CreatedFolder);}
 }
 //output to files. Checking params, and output file(s).
 function OutputFiles(TranslatedArray,UntranslatedArray,FolderName,FileName) {
-	//clear var outpath
-	var outpath;
-	//outpath is a /out:"path" + FolderName
-	outpath=FSO.BuildPath(out,FolderName);
+    //clear var outpath
+    var outpath;
+    //outpath is a /out:"path" + FolderName
+    outpath=FSO.BuildPath(out,FolderName);
     //define default path to files in "langpacks\english\plugins"
-	TraslatedTemplateFile=trunk+"\\langpacks\\english\\plugins\\translated_"+FileName
+    TraslatedTemplateFile=trunk+"\\langpacks\\english\\plugins\\translated_"+FileName
     UnTranslatedFile=trunk+"\\langpacks\\english\\plugins\\untranslated_"+FileName
     
     //redefine path to files, if /out specified
@@ -251,7 +266,7 @@ function OutputFiles(TranslatedArray,UntranslatedArray,FolderName,FileName) {
         }
     
     // output translated file if /out and /outfile ommited, or if /out specified
-    if ((!out && !outfile) || out) {	
+    if ((!out && !outfile) || out) {
         if (log) WScript.Echo("Output to file:  "+TraslatedTemplateFile);
         WriteToUnicodeFile(TranslatedArray,TraslatedTemplateFile);
         }
@@ -330,9 +345,9 @@ while ((string = find.exec(translatefiletext)) != null) {
     //first match as original string [....], is a key of dictionary, second match is a translation - item of key in dictionary 
     var key=string[1];
     var item=string[2];
-	//ignore "translations" (wrongly parsed untranslated strings) begining and ending with []
-	if (item.match(/^\[.*\]$/))
-		continue;
+    //ignore "translations" (wrongly parsed untranslated strings) begining and ending with []
+    if (item.match(/^\[.*\]$/))
+        continue;
     //add key-item pair into dictionary, if not exists already
     if (!dictionary.Exists(key))
         dictionary.Add(key,item);
