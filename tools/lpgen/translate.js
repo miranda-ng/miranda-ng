@@ -10,7 +10,7 @@
 //* Usage:     cscript /nologo translate.js /core:"path\=core=.txt" use core file         *//
 //* Usage:     cscript /nologo translate.js /dupes:"path\=dupes=.txt" use dupes file      *//
 //* Usage:     cscript /nologo translate.js /sourcelang:"language" instead of /path+/core *//
-//* Usage:     cscript /nologo translate.js /out:"path\plugins" output result to folder   *//
+//* Usage:     cscript /nologo translate.js /out:"path\folder" output result to folder    *//
 //* Usage:     cscript /nologo translate.js /outfile:"path\file" output result to one file*//
 //* Usage:     cscript /nologo translate.js /langpack:"path\lang.txt" - Full langpack     *//
 //* Usage:     cscript /nologo translate.js /noref:"yes" - remove ref. ";file path\file"  *//
@@ -79,9 +79,7 @@ if (WScript.Arguments.Named.Item("untranslated")) {
     untranslated=true;
     UnTranslatedPath=WScript.Arguments.Named.Item("untranslated")
     if (WScript.Arguments.Named.Item("untranslated").toLowerCase()!="yes") {
-        if (!FSO.FolderExists(UnTranslatedPath)) {
-        WScript.Echo("Output folder "+UnTranslatedPath+" does not exist!\nPlease, create it first!");
-        WScript.Quit();}
+		CreateFldr(UnTranslatedPath);
         }
     };
 
@@ -93,9 +91,11 @@ if (WScript.Arguments.Named.Item("outfile")) {
 // if param /out specified, build a path and put it into var.
 if (WScript.Arguments.Named.Item("out")) {
     var out=WScript.Arguments.Named.Item("out");
-    if (!FSO.FolderExists(out)) {
-        WScript.Echo("Output folder "+out+" does not exist!\nPlease, create it first!");
-        WScript.Quit();}
+	var OutPlugins=FSO.BuildPath(out,"Plugins");
+	var OutWeather=FSO.BuildPath(out,"Weather");
+    CreateFldr(out);
+	CreateFldr(OutPlugins);
+	CreateFldr(OutWeather);
     };
     
 //If script run by double click, open choose folder dialog to choose plugin folder to parse. If Cancel pressed, quit script.
@@ -109,6 +109,7 @@ if (WScript.Arguments.Named.Item("sourcelang")) {
     var sourcelang=WScript.Arguments.Named.Item("sourcelang");
     var langpack_path=FSO.BuildPath(FSO.BuildPath(trunk,"langpacks"),sourcelang);
     var translated_plugins=FSO.BuildPath(langpack_path,"Plugins");
+    var translated_weather=FSO.BuildPath(langpack_path,"Weather");
     var translated_core=FSO.BuildPath(langpack_path,"=CORE=.txt");
     var translated_dupes=FSO.BuildPath(langpack_path,"=DUPES=.txt");
     var translated_langpack=FSO.BuildPath(langpack_path,("langpack_"+sourcelang+".txt"));
@@ -163,29 +164,21 @@ if (log) WScript.Echo("Translating Core");
 //Call function for translate core template
 TranslateTemplateFile(FSO.BuildPath(trunk,"langpacks\\english\\=CORE=.txt"),Translated_Core_Array,UnTranslated_Core_Array);
 //output core file, if needed.
-OutputFiles(Translated_Core_Array,UnTranslated_Core_Array,"=CORE=.txt")
+OutputFiles(Translated_Core_Array,UnTranslated_Core_Array,"","=CORE=.txt")
 //Init array of template files
 TemplateFilesArray=new Array;
+//Init array of weather.ini translation files
+WeatherFilesArray=new Array;
 //Find all template files and put them to array
 FindFiles(FSO.BuildPath(trunk,"langpacks\\english\\plugins\\"),"\\.txt$",TemplateFilesArray)
-//create enumerator filesenum from filelist
-filesenum=new Enumerator(TemplateFilesArray);
-//cycle through file list
- while (!filesenum.atEnd()) {
-     //intit Array with translated strings and untranslated stings
-     TranslatedTemplate=new Array;
-     UnTranslatedStrings=new Array;
-     //curfile is our current file in files enumerator
-     curfile=filesenum.item();
-     //Log output to console
-     if (log) WScript.Echo("translating:     "+curfile);
-     //now put strings from template and translations into array
-     TranslateTemplateFile(curfile,TranslatedTemplate,UnTranslatedStrings);
-     //output files, if need
-     OutputFiles(TranslatedTemplate,UnTranslatedStrings,FSO.GetFileName(curfile))
-     //move to next file
-     filesenum.moveNext();
-    };
+//Find all weather.ini template files and add them into array
+FindFiles(FSO.BuildPath(trunk,"langpacks\\english\\Weather\\"),"\\.txt$",WeatherFilesArray)
+//Build enumerator for each file array
+TemplateFilesEnum=new Enumerator(TemplateFilesArray);
+WeatherFilesEnum=new Enumerator(WeatherFilesArray);
+//Run processing files one-by-one;
+ProcessFiles(TemplateFilesEnum);
+
 //if output to one langpack file, write a final array Translated_Core_Array into UTF-8 file with BOM
 if (outfile) {
     WriteToUnicodeFile(full_langpack_array,full_langpack_file);
@@ -198,15 +191,48 @@ if (log) WScript.Echo("Translation end");
 //                                    Functions                                   *//
 //*********************************************************************************//
 
+//Process files one-by-one using enummerator
+function ProcessFiles (FilesEnum) {
+//cycle through file list
+ while (!FilesEnum.atEnd()) {
+     //intit Array with translated strings and untranslated stings
+     TranslatedTemplate=new Array;
+     UnTranslatedStrings=new Array;
+     //curfile is our current file in files enumerator
+     curfile=FilesEnum.item();
+     //Log output to console
+     if (log) WScript.Echo("translating:     "+curfile);
+     //now put strings from template and translations into array
+     TranslateTemplateFile(curfile,TranslatedTemplate,UnTranslatedStrings);
+     //output files, if need
+     OutputFiles(TranslatedTemplate,UnTranslatedStrings,FSO.GetBaseName(FSO.GetParentFolderName(curfile)),FSO.GetFileName(curfile))
+     //move to next file
+	 if (FSO.GetBaseName(curfile)=="Weather") {
+		ProcessFiles(WeatherFilesEnum);
+		}
+     FilesEnum.moveNext();
+    };
+}
+
+//Create Folder function, if folder does not exist.
+function CreateFldr(FolderPathName) {
+	if (!FSO.FolderExists(FolderPathName)) {
+		var CreatedFolder=FSO.CreateFolder(FolderPathName);
+		if (log) WScript.Echo("Folder created: "+CreatedFolder);}
+}
 //output to files. Checking params, and output file(s).
-function OutputFiles(TranslatedArray,UntranslatedArray,FileName) {
+function OutputFiles(TranslatedArray,UntranslatedArray,FolderName,FileName) {
+	//clear var outpath
+	var outpath;
+	//outpath is a /out:"path" + FolderName
+	outpath=FSO.BuildPath(out,FolderName);
     //define default path to files in "langpacks\english\plugins"
-    TraslatedTemplateFile=trunk+"\\langpacks\\english\\plugins\\translated_"+FileName
+	TraslatedTemplateFile=trunk+"\\langpacks\\english\\plugins\\translated_"+FileName
     UnTranslatedFile=trunk+"\\langpacks\\english\\plugins\\untranslated_"+FileName
     
     //redefine path to files, if /out specified
     if (out) {
-        TraslatedTemplateFile=out+"\\"+FileName;
+        TraslatedTemplateFile=FSO.BuildPath(outpath,FileName);
         UnTranslatedFile=out+"\\untranslated_"+FileName;
         }
         
@@ -215,17 +241,17 @@ function OutputFiles(TranslatedArray,UntranslatedArray,FileName) {
         TraslatedTemplateFile=trunk+"\\langpacks\\english\\translated_"+FileName;
         UnTranslatedFile=trunk+"\\langpacks\\english\\untranslated_"+FileName;
         if (out) {
-            //if /out:"/path/plugins" specified redefine path of translated and untranslated =CORE=.txt file to parent folder of specified path
-            TraslatedTemplateFile=FSO.BuildPath(FSO.GetParentFolderName(out),FileName);
-            //if /untranslated:"yes" specified, redefine untranslated core to parent folder, same as above.
-            UnTranslatedFile=FSO.BuildPath(FSO.GetParentFolderName(out),"untranslated_"+FileName);
+            // if /out:"/path/folder" specified redefine path of translated and untranslated =CORE=.txt file to parent folder of specified path
+            TraslatedTemplateFile=FSO.BuildPath(outpath,FileName);
+            // if /untranslated:"yes" specified, redefine untranslated core to parent folder, same as above.
+            UnTranslatedFile=FSO.BuildPath(outpath,"untranslated_"+FileName);
             }
-        //if /untralsated:"path/plugins" specified, redefine to parent folder with name "=CORE=.txt"
-        if (untranslated && (UnTranslatedPath!="yes")) UnTranslatedFile=FSO.BuildPath(FSO.GetParentFolderName(UnTranslatedPath),FileName);
+        // if /untralsated:"path" specified, redefine path to untranslated "=CORE=.txt"
+        if (untranslated && (UnTranslatedPath!="yes")) UnTranslatedFile=FSO.BuildPath(UnTranslatedPath,FileName);
         }
     
     // output translated file if /out and /outfile ommited, or if /out specified
-    if ((!out && !outfile) || out) {
+    if ((!out && !outfile) || out) {	
         if (log) WScript.Echo("Output to file:  "+TraslatedTemplateFile);
         WriteToUnicodeFile(TranslatedArray,TraslatedTemplateFile);
         }
