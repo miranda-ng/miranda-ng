@@ -320,26 +320,26 @@ Doplňky
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
 
 ;file \plugins\Popup\src\opt_gen.cpp
-[/Offline]
-
-[/Online]
-
-[/Invisible]
-
-[/Away]
-
-[/NA]
-
-[/Occupied]
-
-[/DND]
-
-[/Free for chat]
-
-[/Out to lunch]
-
-[/On the phone]
-
+[Offline]
+Offline
+[Online]
+Online
+[Invisible]
+Neviditelný
+[Away]
+Na chvíli pryč
+[NA]
+Nejsem tady
+[Occupied]
+Nemám čas
+[DND]
+Nerušit!
+[Free for chat]
+Mám volno
+[Out to lunch]
+Jsem na obědě
+[On the phone]
+Mám telefon
 [Width]
 Šířka
 [upper left corner]

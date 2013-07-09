@@ -6,24 +6,24 @@
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
 [Floating Contacts plugin for Miranda.]
-
+Plovoucí kontakty pro Mirandu.
 ;file \plugins\FloatingContacts\res\fltcnt.rc
 [Hiding contacts]
-
+Skrývání kontaktů
 [Hide offline contacts]
 Skrýt uživatele offline
 [Stick together]
-Lepit k sobě
+Přichytávat k sobě
 [Use fixed width]
-
+Použít pevnou šířku
 [pixels]
-pix.
+pixelů
 [Hide all contacts]
-
+Skrýt všechny kontakty
 [Hide when a fulscreen app is active]
-
+Skrýt v režimu na celou obrazovku
 [Show tooltips*]
-
+Zobrazovat tipy*
 [ms]
 ms
 [Tooltips]
@@ -33,29 +33,29 @@ Ostatní
 [0 = Default]
 0 = výchozí
 [*requires Tipper plugin]
-
+* vyžaduje doplněk Tipper
 [Bring to front]
-
+Přenést do popředí
 [Bring to front every]
-
+Přenést do popředí každých
 [seconds]
-sek.
+sekund
 [Hide when contact list is shown]
-
+Skrýt při zobrazeném seznamu kontaktů
 [Single click interface]
 Zařídit vše jedním kliknutím myši
 [Dim idle contacts]
 Zešednout neaktivní kontakty
 [Idle contacts]
-
+Neaktivní kontakty
 [Border]
 Okraj
 [Draw border]
 Vykreslit rámeček
 [Left-top edge's color:]
-
+Barva levého horního okraje:
 [Right-bottom edge's color:]
-
+Barva pravého spodního okraje:
 [Background]
 Pozadí
 [Background colour:]
@@ -88,16 +88,16 @@ Kontakty, které "nejsou v seznamu"
 [Floating contacts]
 Plovoucí kontakty
 [Show all thumbs]
-
+Zobrazit všechny
 [Hide all thumbs]
-
+Skrýt všechny
 [Remove thumb]
-
+Odebrat plovoucí kontakt
 [Show/Hide all thumbs]
-
+Zobrazit/skrýt všechny plovoucí kontakty
 ;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
-
+Plovoucí kontakty
 [Contact List]
 Seznam kontaktů
 [Main Features]

@@ -42,14 +42,6 @@ Tlačítka
 
 [- Contact display name]
 
-[%t]
-
-[%c]
-
-[%P]
-
-[%n]
-
 [Tips:]
 
 [*Rename menu item into "---" to insert separator]
@@ -58,11 +50,7 @@ Tlačítka
 
 [- Contact first name]
 
-[%F]
-
 [- Contact last name]
-
-[%L]
 
 ;file \plugins\QuickMessages\src\main.cpp
 [Quick Messages]

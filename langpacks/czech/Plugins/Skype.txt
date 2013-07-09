@@ -122,8 +122,6 @@ Výchozí skupina:
 Blokovat
 [Block this person]
 Blkovat tohoto uživatele
-[%s]
-%s
 [Remove from your Contact List]
 Odstranit ze seznamu kontaktů
 [Abuse]

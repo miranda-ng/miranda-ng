@@ -6,62 +6,62 @@
 ;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico
 ;============================================================
 [This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.]
-
+Tento doplněk umožňuje mazat systémovou historii, historii vybraných nebo všech kontaktů. Je možné mazat pouze historii starší než zvolený počet dní a také je možné nastavit mazání při spuštění/vypnutí Mirandy NG.
 ;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
 [History Sweeper Light]
-
+Čistič historie
 [Sweep history for this contacts:]
-Odstranit historii vybraným kontaktům:
+Odstranit historii těchto kontaktů:
 [Action 1]
-
+Akce 1
 [Action 2]
-
+Akce 2
 [Sweep on closing message window]
 Vymazat po zavření komunikačního okna
 [Clicking on the icon in the status bar will change settings]
-
+Kliknutí na ikonu ve stavové liště změníte nastavení
 [Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
 Použít ZRYCHLENÉ mazání (v některých případech může mít nežádoucí účinky)
 ;file \plugins\HistorySweeperLight\src\main.cpp
 [Keep all events]
-
+Ponechat všechny události
 [Delete all events]
-
+Smazat všechny události
 ;file \plugins\HistorySweeperLight\src\options.cpp
 [Delete older than 1 day]
-
+Smazat starší než 1 den
 [Delete older than 3 days]
-
+Smazat starší než 3 dny
 [Delete older than 7 days]
-
+Smazat starší než 7 dní
 [Delete older than 2 weeks (14 days)]
-
+Smazat starší než 2 týdny (14 dní)
 [Delete older than 1 month (30 days)]
-
+Smazat starší než 1 měsíc (30 dní)
 [Delete older than 3 months (90 days)]
-
+Smazat starší než 3 měsíce (90 dní)
 [Delete older than 6 months (180 days)]
-
+Smazat starší než 6 měsíců (180 dní)
 [Delete older than 1 year (365 days)]
-
+Smazat starší než 1 rok (365 dní)
 [Keep 1 last event]
-
+Ponechat 1 poslední událost
 [Keep 2 last events]
-
+Ponechat 2 poslední události
 [Keep 5 last events]
-
+Ponechat 5 posledních událostí
 [Keep 10 last events]
-
+Ponechat 10 posledních událostí
 [Keep 20 last events]
-
+Ponechat 20 posledních událostí
 [Keep 50 last events]
-
+Ponechat 50 posledních událostí
 [Default Action]
-
+Výchozí akce
 [Delete All]
 Smazat vše
 [*** Defaut Action ***]
-
+*** výchozí akce ***
 [*** System History ***]
 *** historie systému ***
 [History]

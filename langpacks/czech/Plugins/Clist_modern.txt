@@ -392,8 +392,8 @@ Skrýt podkontakty offline
 Další možnosti metakontaktů
 [Additional stuff]
 Další možnosti
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org]
-Pro další funkce je potřeba mít doplněk MetaContacts.\n\nhttp://miranda-ng.org
+[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
+Pro další funkce je potřeba mít doplněk MetaContacts.\n\nhttp://miranda-ng.org/p/MetaContacts/
 [Allow internal requesting of status message text]
 Povolit interní požadavky o text zprávy stavu
 [Subcontacts indent:]

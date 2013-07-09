@@ -6,10 +6,10 @@
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [File tranfer by using the messaging services - as plain text.]
-
+Přenos souborů použitím komunikačních služeb - jako čistý text.
 ;file \plugins\FileAsMessage\res\resources.rc
 [fileAsMessage]
-
+Soubor jako zpráva
 [Filename:]
 Název souboru:
 [Size:]
@@ -37,10 +37,10 @@ Přijato
 [Use only alphanumeric encoding on transfer]
 Při přenosu použít jen alfanum. kódování
 [Extra options: Events > File Transfers, "Receiving files" group]
-
+Další možnosti: Události > Přenos souborů, skupina "Příjem souborů"
 ;file \plugins\FileAsMessage\src\dialog.cpp
 [File already exists. Overwrite?]
-
+Soubor již existuje. Přepsat?
 [Couldn't open a file]
 Nelze otevřít soubor
 [Size: %d bytes]
@@ -58,7 +58,7 @@ Příjem dat...
 [Sent successfully]
 Přenos dat úspěšně dokončen
 [Unknown command for "" SERVICE_TITLE "" was received]
-
+Byl přijat neznámý příkaz pro "" SERVICE_TITLE ""
 [Incoming file request. Do you want proceed?]
 Žádost o přenos souboru. Chcete pokračovat?
 [Cancelled by remote user]
@@ -89,7 +89,7 @@ Přehrát
 [Pause]
 Pozastavit
 [Revive]
-
+Obnovit
 [Stop]
 Zastavit
 [Main]
@@ -100,6 +100,6 @@ Doplňky
 Soubor jako zpráva...
 ;file \plugins\FileAsMessage\src\main.h
 [File As Message]
-
-[\nIf you see this "garbage", probably you "                         "have no "fileAsMessage" plugin installed, see "						 "http://miranda-ng.org/ for more information and download.]
-
+Soubor jako zpráva
+[If you see this "garbage", probably you have no "fileAsMessage" plugin installed, see http://miranda-ng.org/p/FileAsMessage/ for more information and download.]
+Pokud vidíte tyto "nesmysly", nejspíše nemáte nainstalován doplněk "Soubor jako zpráva", navštivte http://miranda-ng.org/p/FileAsMessage/ pro více informací a stažení.

@@ -1,6 +1,6 @@
 ﻿#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
 ;============================================================
-;  File: TopToolbar.dll
+;  File: TopToolBar.dll
 ;  Plugin: TopToolBar
 ;  Version: 0.8.0.3
 ;  Authors: Bethoven

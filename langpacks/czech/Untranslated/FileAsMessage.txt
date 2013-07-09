@@ -1,8 +1,0 @@
-﻿[File tranfer by using the messaging services - as plain text.]
-[fileAsMessage]
-[Extra options: Events > File Transfers, "Receiving files" group]
-[File already exists. Overwrite?]
-[Unknown command for "" SERVICE_TITLE "" was received]
-[Revive]
-[File As Message]
-[\nIf you see this "garbage", probably you "                         "have no "fileAsMessage" plugin installed, see "						 "http://miranda-ng.org/ for more information and download.]

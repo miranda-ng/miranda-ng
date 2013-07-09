@@ -1,7 +1,11 @@
 ﻿Miranda Language Pack Version 1
 Language: Czech (CZ)
 Locale: 0405
-Authors: Vít Šindlář, sir-qwerty, Martin Koníček, Aleš Studený, madmojo, Dave-Dave, Tur McDonnel, waclaw, Lev, Pavel Svátek, Mareman, Richard Nižnik, Laslo Gogolak, Petr Hanuš, churchyard, tapin, Soustruh, Libor Polčák, Jiří Kocman, MiSHAK, Robyer, Fille, Jake
-Author-email: <sindlarv (zavináč) centrum (tečka) cz> (viz http://miranda.kvalitne.cz)
-Last-Modified-Using: Miranda IM 0.9.47 nebo novější
-; FLID: Czech (čeština, testovací verze) 2.19.29.75
+Authors: Robert Pösel (Robyer)
+Author-email: robyer@seznam.cz
+Last-Modified-Using: Miranda NG 0.94.5
+
+; Based on translation for Miranda IM (viz http://miranda.kvalitne.cz):
+;	Authors: Vít Šindlář, sir-qwerty, Martin Koníček, Aleš Studený, madmojo, Dave-Dave, Tur McDonnel, waclaw, Lev, Pavel Svátek, Mareman, Richard Nižnik, Laslo Gogolak, Petr Hanuš, churchyard, tapin, Soustruh, Libor Polčák, Jiří Kocman, MiSHAK, Robyer, Fille, Jake
+;	Author-email: <sindlarv (zavináč) centrum (tečka) cz>
+

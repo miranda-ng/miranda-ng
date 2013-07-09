@@ -118,25 +118,7 @@ Stav:
 Nastavení pro každý protokol zvlášť
 [Pop up dialog asking for status message]
 
-[%time%]
-
-[%date%]
-
-[%winampsong%]
-
-[%rand(x,y)%]
-
-[%randmsg%]
-
-[%randdefmsg%]
-
 [Fortune]
-
-[%fortunemsg%]
-
-[%protofortunemsg%]
-
-[%statusfortunemsg%]
 
 [?cinfo(contact,property)]
 
