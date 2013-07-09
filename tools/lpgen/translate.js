@@ -6,10 +6,11 @@
 //* Usage:     cscript /nologo translate.js  to run generation in batches                 *//
 //* Usage:     cscript /nologo translate.js /log:"yes" to enable console logging          *//
 //* Usage:     cscript /nologo translate.js /plugin:"path\file" for one template          *//
-//* Usage:     cscript /nologo translate.js /path:"path\plugins" translated plugins folder*//
-//* Usage:     cscript /nologo translate.js /core:"path\=core=.txt" use core file         *//
+//* Usage:     cscript /nologo translate.js /path:"path\to\folder" folder with .\Plugins, *//
+//* .\Weather subfolders and =CORE=.txt file                                              *//
 //* Usage:     cscript /nologo translate.js /dupes:"path\=dupes=.txt" use dupes file      *//
-//* Usage:     cscript /nologo translate.js /sourcelang:"language" instead of /path+/core *//
+//* Usage:     cscript /nologo translate.js /sourcelang:"language" instead of /path param *//
+//* if your .\Plugins, .\Weather, =CORE=.txt and langpack_%lang%.txt in trunk .\langpacks *//
 //* Usage:     cscript /nologo translate.js /out:"path\folder" output result to folder    *//
 //* Usage:     cscript /nologo translate.js /outfile:"path\file" output result to one file*//
 //* Usage:     cscript /nologo translate.js /langpack:"path\lang.txt" - Full langpack     *//
@@ -20,10 +21,10 @@
 //* /TabSRMM.txt strings will be checked in file named TabSRMM.txt in folder from /path:  *//
 //* if you specify a "path" - /path:"path\folder", so look in path\folder\TabSRMM.txt     *//
 //* 2) If not find in step 1), check a string in file DUPES, specified in /dupes parameter*//
-//* 3) If still not found, try to find trasnlation in /core file                          *//
+//* 3) If still not found, try to find trasnlation in =CORE=.txt file                     *//
 //* 4) Still no luck? Well, check a /langpack:"/path/lang.txt" as a last place.           *//
-//* Example1:  cscript /nologo translate.js /core:"path\lang.txt" /path:"path/german"     *//
-//* will translate english templates using plugins translation from path\german and if    *//
+//* Example1:  cscript /nologo translate.js /langpack:"path\lang.txt" /path:"path/german" *//
+//* will translate english templates using .\plugins translation from path\german and if  *//
 //* translation not found, try to find translation in path\lang.txt                       *//
 //* Example2:  cscript /nologo translate.js /plugin:"path\file" /langpack:"path\lang.txt" *//
 //* will translate path\file using translation from path\lang.txt                         *//
@@ -109,7 +110,7 @@ if (WScript.FullName.toLowerCase().charAt(WScript.FullName.length - 11)=="w") {
    WScript.Quit();
 }
 
-//when /sourcelang specified, setup all source files already existed in trunk. Usefull for running translate.js from trunk. Currenly seldom languages have same files structure, thus it is much more easier to just specify a language folder name, instead of specifying /core, /path, /dupes, /langpack.
+//when /sourcelang specified, setup all source files already existed in trunk. Usefull for running translate.js from trunk. Currenly seldom languages have same files structure, thus it is much more easier to just specify a language folder name, instead of specifying /path, /dupes, /langpack.
 if (WScript.Arguments.Named.Item("sourcelang")) {
     var sourcelang=WScript.Arguments.Named.Item("sourcelang");
     var langpack_path=FSO.BuildPath(FSO.BuildPath(trunk,"langpacks"),sourcelang);
@@ -170,7 +171,7 @@ if (outfile && FSO.FileExists(langpack_head)) {
     stream.Close();
     }
 
-//Generate translation dictionaries from /core, /dupes and /langpack files.
+//Generate translation dictionaries from /path, /dupes and /langpack files.
 GenerateDictionaries ();
 
 if (log) WScript.Echo("Translating Core");
@@ -284,7 +285,7 @@ function OutputFiles(TranslatedArray,UntranslatedArray,FolderName,FileName) {
      
 }
 
-//when /core: and /path: are NOT specified, thus we don't have any langpack file(s) to get translated strings. Thus all other job are useless
+//when /sourcelang: and /path: are NOT specified, thus we don't have any langpack file(s) to get translated strings. Thus all other job are useless
 function checkparams() { 
 if (!WScript.Arguments.Named.Item("langpack") & !WScript.Arguments.Named.Item("path") & !sourcelang)  {
     WScript.Echo("you didn't specify /langpack:\"/path/to/langpack.txt\", /path:\"/path/to/plugnis/\"  or /sourcelang:\"language\" parameter, there is no files with translated strings!");
@@ -311,11 +312,15 @@ if (sourcelang) {
     GenerateTransalteDict(translated_langpack,LangpackTranslateDict);
 }
 //process a dictionaries creation with switch-specified pathes
-if (WScript.Arguments.Named.Item("core")) {
-    //Check file /core:"path" exist or not
-    CheckFileExist(WScript.Arguments.Named.Item("core"));
-    //Generate dictionanry
-    GenerateTransalteDict(WScript.Arguments.Named.Item("core"),CoreTranslateDict);
+if (WScript.Arguments.Named.Item("path")) {
+    //Check file =CORE=.txt and =DUPES=.txt exist in /path:"path" or not
+    PathToCore=FSO.BuildPath(WScript.Arguments.Named.Item("path"),"\\=CORE=.txt")
+    PathToDupes=FSO.BuildPath(WScript.Arguments.Named.Item("path"),"\\=DUPES=.txt")
+    CheckFileExist(PathToCore);
+    CheckFileExist(PathToDupes);
+    //Generate dictionanries
+    GenerateTransalteDict(PathToCore,CoreTranslateDict);
+    GenerateTransalteDict(PathToDupes,DupesTranslateDict);
     }
 if (WScript.Arguments.Named.Item("dupes")) {
     CheckFileExist(WScript.Arguments.Named.Item("dupes"));
@@ -370,11 +375,11 @@ function TranslateTemplateFile(Template_file,translated_array,untranslated_array
  //Init PluginTranslate Dictionary from plugins translate file
  var PluginTranslateDict=WScript.CreateObject("Scripting.Dictionary");
  //if /sourcelang specified, use it for search plugin translation.
- if (sourcelang) GenerateTransalteDict(FSO.BuildPath(translated_plugins,FSO.GetFileName(Template_file)),PluginTranslateDict);
+ if (sourcelang) GenerateTransalteDict(FSO.BuildPath(langpack_path,(FSO.GetBaseName(FSO.GetParentFolderName(Template_file))+"\\"+FSO.GetFileName(Template_file))),PluginTranslateDict);
  // if /path:"" specified, this is a folder with plugin translations, use it to find out our translation.
  if (WScript.Arguments.Named.Item("path")) {
     //Generate PluginTranslate Dictionary
-    GenerateTransalteDict(FSO.BuildPath(WScript.Arguments.Named.Item("path"),FSO.GetFileName(Template_file)),PluginTranslateDict);
+    GenerateTransalteDict(FSO.BuildPath(WScript.Arguments.Named.Item("path"),(FSO.GetBaseName(FSO.GetParentFolderName(Template_file))+"\\"+FSO.GetFileName(Template_file))),PluginTranslateDict);
  }
  //If file zero size, return;
  if (FSO.GetFile(Template_file).Size==0) return;  
