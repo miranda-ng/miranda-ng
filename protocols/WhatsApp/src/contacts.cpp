@@ -705,16 +705,14 @@ void __cdecl WhatsAppProto::SendCreateGroupWorker(void* data)
 	}
 }
 
-int __cdecl WhatsAppProto::OnChangeGroupSubject(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl WhatsAppProto::OnChangeGroupSubject(WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv;
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 	input_box* ib = new input_box;
 
 	if (db_get_s(hContact, m_szModuleName, WHATSAPP_KEY_PUSH_NAME, &dbv, DBVT_WCHAR))
-	{
 		ib->defaultValue = _T("");
-	}
 	else
 	{
 		ib->defaultValue = dbv.ptszVal;
@@ -735,7 +733,7 @@ int __cdecl WhatsAppProto::OnChangeGroupSubject(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int __cdecl WhatsAppProto::OnLeaveGroup(WPARAM wParam, LPARAM)
+INT_PTR __cdecl WhatsAppProto::OnLeaveGroup(WPARAM wParam, LPARAM)
 {
 	DBVARIANT dbv;
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);

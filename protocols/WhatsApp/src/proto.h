@@ -3,10 +3,10 @@
 
 class WASocketConnection;
 
-class WhatsAppProto : public PROTO_INTERFACE, public WAListener, public WAGroupListener
+class WhatsAppProto : public PROTO<WhatsAppProto>, public WAListener, public WAGroupListener
 {
 public:
-	WhatsAppProto( const char *proto_name, const TCHAR *username );
+	WhatsAppProto(const char *proto_name, const TCHAR *username);
 	~WhatsAppProto( );
 
 	inline const char* ModuleName( ) const
@@ -95,8 +95,8 @@ public:
 
    INT_PTR __cdecl OnAddContactToGroup(WPARAM, LPARAM, LPARAM);
    INT_PTR __cdecl OnRemoveContactFromGroup(WPARAM, LPARAM, LPARAM);
-   int __cdecl OnChangeGroupSubject(WPARAM, LPARAM);
-   int __cdecl OnLeaveGroup(WPARAM, LPARAM);
+   INT_PTR __cdecl OnChangeGroupSubject(WPARAM, LPARAM);
+   INT_PTR __cdecl OnLeaveGroup(WPARAM, LPARAM);
 
    // Loops
    bool NegotiateConnection();

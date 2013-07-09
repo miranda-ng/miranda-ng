@@ -45,7 +45,7 @@ int WhatsAppProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 	LOG("");
 	int msgId = ++(this->msgId);
 
-	ForkThread( &WhatsAppProto::SendMsgWorker, this, new send_direct(hContact, msg, (HANDLE) msgId, flags & IS_CHAT));
+	ForkThread( &WhatsAppProto::SendMsgWorker, new send_direct(hContact, msg, (HANDLE) msgId, flags & IS_CHAT));
 	return this->msgIdHeader + msgId;
 }
 
@@ -134,7 +134,7 @@ void WhatsAppProto::onIsTyping(const std::string& paramString, bool paramBoolean
 int WhatsAppProto::UserIsTyping(HANDLE hContact,int type)
 { 
 	if (hContact && isOnline())
-		ForkThread(&WhatsAppProto::SendTypingWorker, this, new send_typing(hContact, type));
+		ForkThread(&WhatsAppProto::SendTypingWorker, new send_typing(hContact, type));
 
 	return 0;
 }

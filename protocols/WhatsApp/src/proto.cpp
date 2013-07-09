@@ -1,9 +1,8 @@
 #include "common.h"
 
-WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username)
+WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
+	PROTO<WhatsAppProto>(proto_name, username)
 {
-	ProtoConstructor(this, proto_name, username);
-
 	this->challenge = new std::vector<unsigned char>;
 	this->msgId = 0;
 	this->msgIdHeader = time(NULL);
@@ -63,8 +62,6 @@ WhatsAppProto::~WhatsAppProto()
 
 	if (this->challenge != NULL)
 		delete this->challenge;
-
-	ProtoDestructor(this);
 }
 
 DWORD_PTR WhatsAppProto::GetCaps( int type, HANDLE hContact )
@@ -161,8 +158,7 @@ HANDLE WhatsAppProto::SearchBasic( const PROTOCHAR* id )
 		return 0;
 
 	TCHAR* email = mir_tstrdup(id);
-	ForkThread(&WhatsAppProto::SearchAckThread, this, (void*)email);
-
+	ForkThread(&WhatsAppProto::SearchAckThread, email);
 	return email;
 }
 

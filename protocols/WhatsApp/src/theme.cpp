@@ -53,7 +53,7 @@ static WhatsAppProto* GetInstanceByHContact(HANDLE hContact)
 	return 0;
 }
 
-template<int (__cdecl WhatsAppProto::*Fcn)(WPARAM,LPARAM)>
+template<INT_PTR (__cdecl WhatsAppProto::*Fcn)(WPARAM,LPARAM)>
 INT_PTR GlobalService(WPARAM wParam,LPARAM lParam)
 {
 	WhatsAppProto *proto = GetInstanceByHContact(reinterpret_cast<HANDLE>(wParam));
@@ -67,7 +67,6 @@ INT_PTR GlobalServiceParam(WPARAM wParam,LPARAM lParam, LPARAM lParam2)
 	return proto ? (proto->*Fcn)(wParam,lParam,lParam2) : 0;
 }
 
-
 static int PrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {
 	for (size_t i=0; i<SIZEOF(g_hContactMenuItems); i++)
@@ -79,7 +78,7 @@ static int PrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 
 void WhatsAppProto::InitContactMenus()
 {
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
+	::HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
 	CLISTMENUITEM mi = {sizeof(mi)};
 
