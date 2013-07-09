@@ -1,0 +1,146 @@
+﻿;============================================================
+;  File: Intellicast.ini
+;  Module: weather
+;============================================================
+[Ceiling]
+
+[Mon]
+Po
+[Tue]
+Út
+[Wed]
+St
+[Thu]
+Čt
+[Fri]
+Pá
+[Sat]
+So
+[Sun]
+Ne
+[Full]
+úplněk
+[Sunny]
+slunečno
+[Waning Crescent]
+couvá (srpek)
+[Waning Gibbous]
+couvá
+[Waxing Crescent]
+dorůstá (srpek)
+[Waxing Gibbous]
+dorůstá
+[Last Quarter]
+poslední čtvrť
+[First Quarter]
+první čtvrť
+[Partly Sunny]
+částečně slunečno
+[Mostly Sunny]
+převážně slunečno
+[Partly Cloudy]
+částečně oblačno
+[Mostly Cloudy]
+převážně oblačno
+[Mostly Clear]
+převážně jasno
+[Scattered Thunderstorms]
+proměnlivé bouřky
+[Feel]
+Subj.
+[Forecast Day 1]
+
+[Forecast Day 2]
+
+[Forecast Day 3]
+
+[Forecast Day 4]
+
+[Forecast Day 5]
+
+[Forecast Day 6]
+
+[Forecast Day 7]
+
+[Forecast Day 8]
+
+[Forecast Day 9]
+
+[Forecast Day 10]
+
+[Forecast today]
+
+[Heat Index]
+Teplotní index
+[Moon]
+
+[MoonRise]
+
+[MoonSet]
+
+[Update1]
+
+[Update2]
+
+[Wind Chill]
+
+[Wind Direction]
+Směr větru
+[Wind Speed]
+Rychlost větru
+[N]
+S
+[W]
+Z
+[S]
+J
+[E]
+V
+[NW]
+SZ
+[NE]
+SV
+[SW]
+JZ
+[SE]
+JV
+[NNW]
+SSZ
+[NNE]
+SSV
+[SSW]
+JJZ
+[SSE]
+JJV
+[ENE]
+VSV
+[WSW]
+ZJZ
+[WNW]
+ZSZ
+[ESE]
+VJV
+[WindDir1]
+
+[WindDir2]
+
+[Broken Clouds]
+
+[Scattered Clouds]
+střídavě oblačno
+[North]
+Severní
+[East]
+Východní
+[South]
+Jižní
+[West]
+Západní
+[Northwest]
+Severozápadní
+[Northeast]
+Severovýchodní
+[Southwest]
+Jihozápadní
+[Southeast]
+Jihovýchodní

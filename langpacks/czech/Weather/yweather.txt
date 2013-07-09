@@ -1,0 +1,102 @@
+﻿;============================================================
+;  File: yweather.ini
+;  Module: weather
+;============================================================
+[Feel]
+Subj.
+[Forecast Day 1]
+
+[Forecast Day 1 Condition]
+
+[Forecast Day 1 Date]
+
+[Forecast Day 1 Day]
+
+[Forecast Day 1 High]
+
+[Forecast Day 1 Low]
+
+[Heat Index]
+Teplotní index
+[Wind Direction]
+Směr větru
+[Wind Speed]
+Rychlost větru
+[Wind Direction Degrees]
+
+[Mon]
+Po
+[Tue]
+Út
+[Wed]
+St
+[Thu]
+Čt
+[Fri]
+Pá
+[Sat]
+So
+[Sun]
+Ne
+[Sunny]
+slunečno
+[Partly Sunny]
+částečně slunečno
+[Mostly Sunny]
+převážně slunečno
+[Partly Cloudy]
+částečně oblačno
+[Mostly Cloudy]
+převážně oblačno
+[Mostly Clear]
+převážně jasno
+[N]
+S
+[W]
+Z
+[S]
+J
+[E]
+V
+[NW]
+SZ
+[NE]
+SV
+[SW]
+JZ
+[SE]
+JV
+[NNW]
+SSZ
+[NNE]
+SSV
+[SSW]
+JJZ
+[SSE]
+JJV
+[ENE]
+VSV
+[WSW]
+ZJZ
+[WNW]
+ZSZ
+[ESE]
+VJV
+[Scattered Clouds]
+střídavě oblačno
+[North]
+Severní
+[East]
+Východní
+[South]
+Jižní
+[West]
+Západní
+[Northwest]
+Severozápadní
+[Northeast]
+Severovýchodní
+[Southwest]
+Jihozápadní
+[Southeast]
+Jihovýchodní

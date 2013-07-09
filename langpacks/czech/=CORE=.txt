@@ -857,7 +857,7 @@ Zobrazit tlač. změny velik.
 Způsob řazení
 [Contact list:]
 Seznam kontaktů
-[If window is partially covered, bring it to front]
+[If window is partially covered, bring iy to front]
 Je-li okno částečně zakryto, zobrazit na popředí
 [Window:]
 Okno

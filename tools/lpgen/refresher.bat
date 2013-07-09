@@ -72,33 +72,39 @@ cd "..\..\tools\lpgen\"
 
 mkdir "Plugins"
 mkdir "Untranslated"
+mkdir "Weather"
 
 if "%phase%" == "0" (
 	echo Loading strings from old langpack...
-	cscript /nologo translate.js /out:"Plugins" /untranslated:"Untranslated" /outfile:"langpack_%language%.txt" /path:"..\..\langpacks\%language%\Plugins" /core:"..\..\langpacks\%language%\=CORE=.txt" /langpack:"..\..\langpacks\%language%\%oldLangpackPath%"
+	cscript /nologo translate.js /out:".\" /untranslated:"Untranslated" /outfile:"Langpack_%language%.txt" /path:"..\..\langpacks\%language%\" /langpack:"..\..\langpacks\%language%\%oldLangpackPath%"
 ) else (
-	REM load strings from recently created langpack (also to distribute strings between files)
-	cscript /nologo translate.js /out:"Plugins" /untranslated:"Untranslated" /outfile:"langpack_%language%.txt" /path:"..\..\langpacks\%language%\Plugins" /core:"..\..\langpacks\%language%\=CORE=.txt" /langpack:"..\..\langpacks\%language%\Langpack_%language%.txt"
+	REM load strings from recently created langpack (also to distribute strings between files) and create final langpack
+	cscript /nologo translate.js /out:".\" /untranslated:"Untranslated" /outfile:"Langpack_%language%.txt" /sourcelang:"czech"
 )
-	
+
+rm -r "../../langpacks/%language%/Weather"
 rm -r "../../langpacks/%language%/Plugins"
 rm -r "../../langpacks/%language%/Untranslated"
 rm -r "../../langpacks/%language%/=CORE=.txt"
 rm -r "../../langpacks/%language%/Langpack_%language%.txt"
 
+mkdir "..\..\langpacks\%language%\Weather"
 mkdir "..\..\langpacks\%language%\Plugins"
 mkdir "..\..\langpacks\%language%\Untranslated"
+copy "Weather\" "..\..\langpacks\%language%\Weather\"
 copy "Plugins\" "..\..\langpacks\%language%\Plugins\"
 copy "Untranslated\" "..\..\langpacks\%language%\Untranslated\"
 copy "=CORE=.txt" "..\..\langpacks\%language%\=CORE=.txt"
+copy "Langpack_%language%.txt" "..\..\langpacks\%language%\Langpack_%language%.txt"
 
+rm -r "Weather"
 rm -r "Plugins"
 rm -r "Untranslated"
 rm "=CORE=.txt"
 rm "Langpack_%language%.txt"
 
-cd "..\..\langpacks\tool\"
-LangpackSuite.exe \q \p%language%
+REM cd "..\..\langpacks\tool\"
+REM LangpackSuite.exe \q \p%language%
 
 if not "%phase%" == "1" (
 	echo Loading strings from new langpack...

@@ -1,0 +1,37 @@
+(system) tray - oznamovací oblast
+Autoreply - automatická odpovìï
+Avatar - avatar (avatara, avatarù, avataøi)
+Code page - kódová stránka
+Contact list - seznam kontaktù
+Drop down - šipka
+Fatal error - katastrofální selhání
+Frames, windows - rámeèky
+Hotkey - klávesová zkratka
+Icon library, icon pack - knihovna ikon
+Idle - neèinnost
+Idle contacts - neaktivní kontakty
+Item - položka
+Langpack - jazykový balíèek
+Log - záznam
+Main menu - hlavní nabídka
+Message log - záznam komunikace
+Message window - komunikaèní okno
+Nick - pøezdívka
+PopUp - oznámení
+Reset to default - obnovit výchozí
+Session nebo message session, conversation - rozhovor
+Smiley library - knihovna smajlíkù
+Status - stav
+Status bar - stavová lišta
+Status message - zpráva stavu
+Subcontact - podkontakt
+Tab - panel
+Task bar - hlavní panel
+Timestamp - èasový údaj
+Titlebar - záhlaví okna
+Toolbar - tlaèítková lišta
+Tooltip - tip
+Userinfoex, extended user info - detaily uživatele
+View mode - pohled
+Xstatus - rozšíøený stav
+Xstatus message - zpráva rozšíøeného stavu
