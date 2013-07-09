@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
-
+Přijímá informace o počasí a zobrazuje je ve vašem seznamu kontaktů.
 ;file \plugins\Weather\res\resource.rc
 [Update]
 Aktualizovat
@@ -85,7 +85,7 @@ beze změny
 [ft]
 
 [m]
-
+m
 [Do not append units to values]
 Nezobrazovat jednotky
 [Do not display fractional values]
@@ -333,7 +333,7 @@ Aktuální situace: %n, %u
 [%c, %t\nToday:  High %h, Low %l]
 %c, %t\nDnes:  Max. %h, min. %l
 [Temperature: %[Temperature]]
-
+Teplota: %[Temperature]]
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Aktuální informace o počasí pro %s.
@@ -380,7 +380,7 @@ mm
 [<Error>]
 <chyba>
 [HTTP Error %i]
-
+HTTP chyba %i
 ;file \plugins\Weather\src\weather_data.cpp
 [<Enter city name here>]
 <zde zadejte město>

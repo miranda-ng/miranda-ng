@@ -25,7 +25,7 @@ slabý déšť
 [Light Showers Rain]
 slabé přeháňky a déšť
 [Showers Rain]
-
+dešťová přeháňka
 [Shallow Fog]
 slabá mlha
 [Snow]
@@ -105,29 +105,29 @@ noc
 [Feel]
 Subj.
 [Forcast Update]
-
+Aktualizace předpovědi
 [Forcast Update VAR]
 
 [Forecast Day 0]
-
+Předpověď na dnešní den
 [Forecast Day 1]
-
+Předpověď na 1. den
 [Forecast Day 2]
-
+Předpověď na 2. den
 [Forecast Day 3]
-
+Předpověď na 3. den
 [Forecast Day 4]
-
+Předpověď na 4. den
 [Forecast Day 5]
-
+Předpověď na 5. den
 [Forecast Day 6]
-
+Předpověď na 6. den
 [Forecast Day 7]
-
+Předpověď na 7. den
 [Forecast Day 8]
-
+Předpověď na 8. den
 [Forecast Day 9]
-
+Předpověď na 9. den
 [N/A%]
 
 [Heat Index]
@@ -139,7 +139,7 @@ Teplotní index
 [Local Time]
 Místní čas
 [Moon]
-
+Měsíc
 [Observatory]
 
 [Pressure Tendency]
@@ -147,19 +147,19 @@ Místní čas
 [Update VAR]
 
 [UV]
-
+UV
 [UV Index]
-
+UV index
 [UVI]
-
+UVI
 [Wind Direction]
 Směr větru
 [Wind Direction DEG]
-
+Směr větru (stupně)
 [Wind Speed]
 Rychlost větru
 [WindDir]
-
+Směr větru
 [Cloudy]
 oblačno
 [Scattered Snow Showers]
@@ -301,7 +301,7 @@ oblačno a větrno
 [Light Drizzle And Windy]
 slabé mrholení / větrno
 [Light Drizzle And Fog]
-
+slabé mrholení / hustá mlha
 [Fog And Windy]
 hustá mlha / větrno
 [Light Snow Early]
@@ -309,7 +309,7 @@ k ránu slabé sněžení
 [Heavy Snow]
 silné sněžení
 [Snow Early]
-K ránu sněžení
+k ránu sněžení
 [Light Snow Late]
 později slabé sněžení
 [Snow And Sleet]

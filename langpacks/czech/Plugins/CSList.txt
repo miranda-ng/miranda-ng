@@ -6,16 +6,16 @@
 ;  Authors: Mataes, jarvis
 ;============================================================
 [This plugin offers simple management functions to keep your extra statuses on one place.]
-
+Tento doplněk umožňuje jednoduchou správu vašich rozšířených stavů z jednoho místa.
 ;file \plugins\CSList\res\cslist.rc
 [Custom Status List]
 Seznam rozš. stavů
 [No items available in the database.\nClick the Add button to define some.]
-Žádné položky nenalezeny.\nKlikněte na tlačítko Přidat pro vytvoření nové.
+Žádné stavy v databázi nebyly nenalezeny.\nKlikněte na tlačítko Přidat pro vytvoření nového.
 [Add/Modify Custom Status]
-
+Přidat/upravit rozšířený stav
 [Add/Modify]
-
+Přidat/upravit
 [Cancel]
 Zrušit
 [List settings]
@@ -23,11 +23,11 @@ Nastavení seznamu
 [Confirm deletion of items]
 Potvrdit smazání položek
 [Delete entries in Custom status menu after Import]
-
+Po dokončení smazat vaše stavy z nabídky rozšířených stavů
 [Remember last window position]
 Pamatovat poslední pozici okna
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
-
+Pozn.: Položky v menu budou zobrazeny pokud bude správně nastaven alespoň jeden účet. Zkontrolujte zda máte aspoň jeden účet s vyplněným identifikátorem.
 ;file \plugins\CSList\src\cslist.cpp
 [Status]
 Stavy
@@ -36,25 +36,25 @@ Přidat nový stav
 [Add]
 Přidat
 [Modify item]
-
+Upravit položku
 [Modify]
 Upravit
 [Warning]
 Upozornění
 [This field doesn't accept string longer than %d characters. The string will be truncated.]
-
+Do tohoto pole nemůžou být zadány řetězce delší než %d znaků. Zadaný řetězec bude zkrácen.
 [Favourites]
 Oblíbené
 [Regular statuses]
-
+Běžné stavy
 [Title]
 Název
 [Message]
 Zpráva
 [Do you really want to delete selected item?]
-Opravdu chcete odstranit vybranou položku?
+Opravdu chcete odstranit vybraný stav?
 [Do you want old database entries to be deleted after Import?]
-
+Přejete si smazat staré záznamy z databáze po dokončení importování?
 ;file \plugins\CSList\src\cslist.h
 [Main Menu]
 Hlavní nabídka
@@ -73,7 +73,7 @@ Oblíbené
 [Undo changes]
 Vrátit změny
 [Import statuses from database]
-Vložit stavy z databáze
+Importovat stavy z databáze
 [Import]
 Importovat
 [Filter list]

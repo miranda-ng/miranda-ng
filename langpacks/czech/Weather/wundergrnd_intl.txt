@@ -37,7 +37,7 @@ slabé přeháňky a déšť
 [Light Showers Snow]
 
 [Showers Rain]
-
+dešťová přeháňka
 [Shallow Fog]
 slabá mlha
 [Snow]
@@ -55,7 +55,7 @@ Stoupá
 [Steady]
 Ustálený
 [Stable]
-
+Stabilní
 [Falling]
 Klesá
 [Var]
@@ -115,7 +115,7 @@ dorůstá
 [Longitude]
 
 [Day Length]
-
+Délka dne
 [Chance Of Rain 20% Chance Of Precipitation]
 
 [Chance Of Rain 30% Chance Of Precipitation]
@@ -167,89 +167,89 @@ dorůstá
 [Chance Of Snow 50% Chance Of Precipitation]
 
 [Forecast Day 1 Condition]
-
+Předpověď na 1. den - počasí
 [Forecast Day 1 Day]
-
+Předpověď na 1. den - denní
 [Forecast Day 1 High]
-
+Předpověď na 1. den - nejvyšší
 [Forecast Day 1 Low]
-
+Předpověď na 1. den - nejnižší
 [Forecast Day 1 Night Text]
-
+Předpověď na 1. den - noční informace
 [Forecast Day 1 Text]
-
+Předpověď na 1. den - informace
 [Forecast Day 1]
-
+Předpověď na 1. den
 [Forecast Day 2 Condition]
-
+Předpověď na 2. den - počasí
 [Forecast Day 2 Day]
-
+Předpověď na 2. den - denní
 [Forecast Day 2 High]
-
+Předpověď na 2. den - nejvyšší
 [Forecast Day 2 Low]
-
+Předpověď na 2. den - nejnižší
 [Forecast Day 2 Night Text]
-
+Předpověď na 2. den - noční informace
 [Forecast Day 2 Text]
-
+Předpověď na 2. den - informace
 [Forecast Day 2]
-
+Předpověď na 2. den
 [Forecast Day 3 Condition]
-
+Předpověď na 3. den - počasí
 [Forecast Day 3 Day]
-
+Předpověď na 3. den - denní
 [Forecast Day 3 High]
-
+Předpověď na 3. den - nejvyšší
 [Forecast Day 3 Low]
-
+Předpověď na 3. den - nejnižší
 [Forecast Day 3 Night Text]
-
+Předpověď na 3. den - noční informace
 [Forecast Day 3 Text]
-
+Předpověď na 3. den - informace
 [Forecast Day 3]
-
+Předpověď na 3. den
 [Forecast Day 4 Condition]
-
+Předpověď na 4. den - počasí
 [Forecast Day 4 Day]
-
+Předpověď na 4. den - denní
 [Forecast Day 4 High]
-
+Předpověď na 4. den - nejvyšší
 [Forecast Day 4 Low]
-
+Předpověď na 4. den - nejnižší
 [Forecast Day 4 Night Text]
-
+Předpověď na 4. den - noční informace
 [Forecast Day 4 Text]
-
+Předpověď na 4. den - informace
 [Forecast Day 4]
-
+Předpověď na 4. den
 [Forecast Day 5 Condition]
-
+Předpověď na 5. den - počasí
 [Forecast Day 5 Day]
-
+Předpověď na 5. den - denní
 [Forecast Day 5 High]
-
+Předpověď na 5. den - nejvyšší
 [Forecast Day 5 Low]
-
+Předpověď na 5. den - nejnižší
 [Forecast Day 5 Night Text]
-
+Předpověď na 5. den - noční informace
 [Forecast Day 5 Text]
-
+Předpověď na 5. den - informace
 [Forecast Day 5]
-
+Předpověď na 5. den
 [Wind Direction]
 Směr větru
 [Wind Speed]
 Rychlost větru
 [Wind Direction DEG]
-
+Směr větru (stupně)
 [Max]
-
+Max
 [Min]
-
+Min
 [Moon]
-
+Měsíc
 [UV Index]
-
+UV index
 [Scattered Clouds]
 střídavě oblačno
 [North]
@@ -447,7 +447,7 @@ Subj.
 [Alert]
 Upozornění
 [longer]
-
+delší
 [Heat Index]
 Teplotní index
 [Visible Light Length]
@@ -459,7 +459,7 @@ Teplotní index
 [Clear]
 jasno
 [shorter]
-
+kratší
 [T-Storms 50% Chance Of Precipitation]
 
 [Light Showers Rain Snow]

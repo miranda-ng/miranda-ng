@@ -9,13 +9,13 @@
 
 ;file \plugins\YARelay\res\yaRelay.rc
 [Forward messages from...]
-
+Přeposílat zprávy od...
 [Everyone]
-
+Kdokoliv
 [Contact]
 Kontakt
 [Forward when your status is...]
-
+Přeposílat pokud je stav...
 [Offline]
 Offline
 [Online]
@@ -33,27 +33,27 @@ Mám volno
 [Invisible]
 Neviditelný
 [Forward messages to...]
-
+Přeposílat zprávy na...
 [Template]
 Šablona
 [%u - user nick;   %i - uin;    %t - time;   \r%d - date;   %m - message]
-
+%u - přezdívka;   %i - ID;     %t - čas;    \r%d - datum;  %m - zpráva
 [Forwarding options]
-
+Možnosti přeposílání
 [Split message (%m)]
-
+Rozdělit zprávu (%m)
 [Send only first]
-
+Odeslat pouze první
 [Max size of split part (chars)]
-
+Maximální velikost rozdělené části (znaků)
 [Mark received messages as 'read']
-
+Označit přijaté zprávy jako přečtené
 [Save sent messages in recipient's history]
-
+Uložit odeslané zprávy do historie příjemce
 [split parts (0 = all)]
 
 [Note: Max size - it's a size of %m parameter]
-
+Pozn.: Maximální velikost je velikost parametru %m
 [Note: messages from this contact will not be forwarded]
 
 ;file \plugins\YARelay\src\options.cpp

@@ -5,17 +5,17 @@
 [Feel]
 Subj.
 [Forecast Day 1]
-
+Předpověď na 1. den
 [Forecast Day 1 Condition]
-
+Předpověď na 1. den - počasí
 [Forecast Day 1 Date]
-
+Předpověď na 1. den - datum
 [Forecast Day 1 Day]
-
+Předpověď na 1. den - denní
 [Forecast Day 1 High]
-
+Předpověď na 1. den - nejvyšší
 [Forecast Day 1 Low]
-
+Předpověď na 1. den - nejnižší
 [Heat Index]
 Teplotní index
 [Wind Direction]
@@ -23,7 +23,7 @@ Směr větru
 [Wind Speed]
 Rychlost větru
 [Wind Direction Degrees]
-
+Směr větru (stupně)
 [Mon]
 Po
 [Tue]

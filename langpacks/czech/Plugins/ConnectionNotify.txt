@@ -17,9 +17,9 @@ Pozadí
 [Text]
 Text
 [Close after: ]
-
+Zavřít po: 
 [sec.(0 default, -1 disabled)]
-
+sek. (0 výchozí, -1 vypnuto)
 [Settings]
 Nastavení
 [try resolve addresses]
@@ -31,23 +31,23 @@ Verze:
 [Attempt interval (ms.)]
 
 [X]
-
+X
 [Online mean]
-
+Online znamená
 [Filters]
 Filtry
 [DN]
-
+Níž
 [UP]
-
+Výš
 [Rule editor]
 
 [Application name]
 Jméno aplikace
 [Local IP:Port]
-
+Lokální IP:port
 [Action:]
-
+Akce:
 [OK]
 OK
 [Cancel]
@@ -55,16 +55,16 @@ Zrušit
 [* and ? wildcard characters also available (for port enter number or *)]
 
 [Remote IP:Port]
-
+Vzdálená IP:port
 ;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
 [Always show popup]
-
+Vždy zobrazit oznámení
 [Never show popup]
-
+Nikdy nezobrazovat oznámení
 [Status]
 Stavy
 [Application]
-
+Aplikace
 [Internal socket]
 
 [External socket]

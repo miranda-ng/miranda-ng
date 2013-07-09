@@ -17,7 +17,7 @@ Zrušit
 [Text file]
 Textový soubor
 [MessageBox]
-
+Informační okno
 [DialogBox]
 Dialogové okno
 [Output Debug String]
@@ -51,7 +51,7 @@ Zvýraznit číslo verze pomocí
 [Show disabled plugins too]
 Vypsat i neaktivní doplňky
 [Attempt to find unloadable plugins]
-
+Pokusit se zjistit i neplatné doplňky
 [Suppress header information]
 Nevypisovat informace o doplňku a autorech
 [Enable debug messages]
@@ -74,9 +74,9 @@ Nahrát na server
 [If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
 V případě, že ohlásíte chybu pomocí tohoto formuláře, nezapomeňte se občas podívat na webovou stránku doplňku.\nJe velmi pravděpodobné, že programátoři vás budou žádat o upřesnění nebo jinou pomoc.\nV mnoha případech se bez vaší asistence chybu nepodaří opravit.
 [Information successfully written to file: "%s".]
-
+Informace byly úspěšně zapsány do souboru: "%s".
 [Error during the creation of file "%s". Disk may be full or write protected.]
-
+Chyba při vytváření souboru "%s". Disk může být zaplněn nebo chráněn proti zápisu.
 [The clipboard is not available, retry.]
 Chyba při práci se schránkou. Zkuste později.
 [Information successfully copied into clipboard.]
@@ -87,10 +87,10 @@ Určit pomocí doplňku Folders
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 
 [Show plugin UUIDs ?]
-
+Zobrazit UUID doplňků
 ;file \plugins\VersionInfo\src\hooked_events.cpp
 [VersionInfo]
-
+Informace o verzi
 [Output folder]
 Výstupní složka
 [Version Information]

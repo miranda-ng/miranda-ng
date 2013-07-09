@@ -1,0 +1,8 @@
+﻿[Forcast Update VAR]
+[N/A%]
+[Latitude]
+[Longitude]
+[Observatory]
+[Pressure Tendency]
+[Update VAR]
+[Jun]
