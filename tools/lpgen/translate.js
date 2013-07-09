@@ -295,7 +295,7 @@ if (!WScript.Arguments.Named.Item("langpack") & !WScript.Arguments.Named.Item("p
 
 //Check file existense. If file not found, quit.
 function CheckFileExist(file) {
-    if (!FSO.FileExists(file)) {
+    if (!FSO.FileExists(file) && log) {
         WScript.Echo("Can't find "+file)
         };
 }
