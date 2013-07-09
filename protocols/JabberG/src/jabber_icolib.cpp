@@ -396,18 +396,18 @@ INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM wParam, LPARAM)
 	if ( !hContact)
 		return -1;
 
-	if ( !JGetByte(hContact, "IsTransported", 0))
+	if ( !getByte(hContact, "IsTransported", 0))
 		return -1;
 
 	DBVARIANT dbv;
-	if (JGetStringT(hContact, "Transport", &dbv))
+	if (getTString(hContact, "Transport", &dbv))
 		return -1;
 
 	int iID = GetTransportProtoID(dbv.ptszVal);
 	db_free(&dbv);
 	if (iID >= 0) {
 		WORD Status = ID_STATUS_OFFLINE;
-		Status = JGetWord(hContact, "Status", ID_STATUS_OFFLINE);
+		Status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 		if (Status < ID_STATUS_OFFLINE)
 			Status = ID_STATUS_OFFLINE;
 		else if (Status > ID_STATUS_INVISIBLE)
@@ -449,12 +449,12 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const TCHAR *jid, HANDLE hContact
 	if (m_lstTransports.getIndex(domain) == -1) {
 		if (isAgent) {
 			m_lstTransports.insert(mir_tstrdup(domain));
-			JSetByte(hContact, "IsTransport", 1);
+			setByte(hContact, "IsTransport", 1);
 	}	}
 
 	if (isTransported) {
-		JSetStringT(hContact, "Transport", domain);
-		JSetByte(hContact, "IsTransported", 1);
+		setTString(hContact, "Transport", domain);
+		setByte(hContact, "IsTransported", 1);
 	}
 	return isTransported;
 }
@@ -463,7 +463,7 @@ void CJabberProto::CheckAllContactsAreTransported()
 {
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DBVARIANT dbv;
-		if ( !JGetStringT(hContact, "jid", &dbv)) {
+		if ( !getTString(hContact, "jid", &dbv)) {
 			DBCheckIsTransportedContact(dbv.ptszVal, hContact);
 			db_free(&dbv);
 		}

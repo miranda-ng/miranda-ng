@@ -90,21 +90,6 @@ struct CMraProto : public PROTO<CMraProto>
 	__forceinline void mraDelValue(HANDLE Contact, const char *valueName) {
 		db_unset(Contact, m_szModuleName, valueName); }
 
-	__forceinline DWORD mraGetDword(HANDLE Contact, const char *valueName, DWORD parDefltValue) {
-		return db_get_dw(Contact, m_szModuleName, valueName, parDefltValue); }
-	__forceinline void mraSetDword(HANDLE Contact, const char *valueName, DWORD parValue) {
-		db_set_dw(Contact, m_szModuleName, valueName, parValue); }
-
-	__forceinline WORD mraGetWord(HANDLE Contact, const char *valueName, WORD parDefltValue) {
-		return db_get_w(Contact, m_szModuleName, valueName, parDefltValue); }
-	__forceinline void mraSetWord(HANDLE Contact, const char *valueName, WORD parValue) {
-		db_set_w(Contact, m_szModuleName, valueName, parValue); }
-
-	__forceinline BYTE mraGetByte(HANDLE Contact, const char *valueName, BYTE parDefltValue) {
-		return db_get_b(Contact, m_szModuleName, valueName, parDefltValue); }
-	__forceinline void mraSetByte(HANDLE Contact, const char *valueName, BYTE parValue) {
-		db_set_b(Contact, m_szModuleName, valueName, parValue); }
-
 	__forceinline BOOL mraGetStaticStringA(HANDLE Contact, const char *ValueName, char *Ret, size_t RetBuffSize, size_t *pRetBuffSize) {
 		return DB_GetStaticStringA(Contact, m_szModuleName, ValueName, Ret, RetBuffSize, pRetBuffSize); }
 	__forceinline BOOL mraGetStaticStringW(HANDLE Contact, const char *ValueName, WCHAR *Ret, size_t RetBuffSize, size_t *pRetBuffSize) {

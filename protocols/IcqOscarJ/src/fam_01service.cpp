@@ -103,8 +103,8 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 			cookie_servlist_action* ack;
 			DWORD dwCookie;
 
-			DWORD dwLastUpdate = getSettingDword(NULL, "SrvLastUpdate", 0);
-			WORD wRecordCount = getSettingWord(NULL, "SrvRecordCount", 0);
+			DWORD dwLastUpdate = getDword("SrvLastUpdate", 0);
+			WORD wRecordCount = getWord("SrvRecordCount", 0);
 
 			// CLI_REQLISTS - we want to use SSI
 #ifdef _DEBUG
@@ -294,14 +294,14 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 
 				// Save external IP
 				dwValue = chain->getDWord(0x0A, 1); 
-				setSettingDword(NULL, "IP", dwValue);
+				setDword("IP", dwValue);
 
 				// Save member since timestamp
 				dwValue = chain->getDWord(0x05, 1); 
-				if (dwValue) setSettingDword(NULL, "MemberTS", dwValue);
+				if (dwValue) setDword("MemberTS", dwValue);
 
 				dwValue = chain->getDWord(0x03, 1);
-				setSettingDword(NULL, "LogonTS", dwValue ? dwValue : time(NULL));
+				setDword("LogonTS", dwValue ? dwValue : time(NULL));
 
 				disposeChain(&chain);
 
@@ -453,7 +453,7 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 #endif
 				  if (m_bAvatarsEnabled && !info->bMyAvatarInited) // signal the server after login
 				  { // this refreshes avatar state - it used to work automatically, but now it does not
-					  if (getSettingByte(NULL, "ForceOurAvatar", 0))
+					  if (getByte("ForceOurAvatar", 0))
 					  { // keep our avatar
 						  TCHAR *file = GetOwnAvatarFileName();
 						  SetMyAvatar(0, (LPARAM)file);
@@ -557,18 +557,18 @@ char* CIcqProto::buildUinList(int subtype, WORD wMaxLen, HANDLE* hContactResume)
 			{
 
 			case BUL_VISIBLE:
-				add = ID_STATUS_ONLINE == getSettingWord(hContact, "ApparentMode", 0);
+				add = ID_STATUS_ONLINE == getWord(hContact, "ApparentMode", 0);
 				break;
 
 			case BUL_INVISIBLE:
-				add = ID_STATUS_OFFLINE == getSettingWord(hContact, "ApparentMode", 0);
+				add = ID_STATUS_OFFLINE == getWord(hContact, "ApparentMode", 0);
 				break;
 
 			case BUL_TEMPVISIBLE:
-				add = getSettingByte(hContact, "TemporaryVisible", 0);
+				add = getByte(hContact, "TemporaryVisible", 0);
 				// clear temporary flag
 				// Here we assume that all temporary contacts will be in one packet
-				setSettingByte(hContact, "TemporaryVisible", 0);
+				setByte(hContact, "TemporaryVisible", 0);
 				break;
 
 			default:
@@ -577,8 +577,8 @@ char* CIcqProto::buildUinList(int subtype, WORD wMaxLen, HANDLE* hContactResume)
 				// If we are in SS mode, we only add those contacts that are
 				// not in our SS list, or are awaiting authorization, to our
 				// client side list
-				if (m_bSsiEnabled && getSettingWord(hContact, DBSETTING_SERVLIST_ID, 0) &&
-					!getSettingByte(hContact, "Auth", 0))
+				if (m_bSsiEnabled && getWord(hContact, DBSETTING_SERVLIST_ID, 0) &&
+					!getByte(hContact, "Auth", 0))
 					add = 0;
 
 				// Never add hidden contacts to CS list
@@ -841,7 +841,7 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 		packWord(&packet, wStatus);                 // Status
 		packTLVWord(&packet, 0x0008, 0x0A06);       // TLV 8: Independent Status Messages
 		packDWord(&packet, 0x000c0025);             // TLV C: Direct connection info
-		packDWord(&packet, getSettingDword(NULL, "RealIP", 0));
+		packDWord(&packet, getDword("RealIP", 0));
 		packDWord(&packet, nPort);
 		packByte(&packet, DC_TYPE);                 // TCP/FLAG firewall settings
 		packWord(&packet, ICQ_VERSION);
@@ -877,8 +877,8 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 				packBuffer(&packet, (LPBYTE)szMoodData, wStatusMoodLen); // Mood
 
 			// Save current status note & mood
-			setSettingStringUtf(NULL, DBSETTING_STATUS_NOTE, szStatusNote);
-			setSettingString(NULL, DBSETTING_STATUS_MOOD, szMoodData);
+			db_set_utf(NULL, m_szModuleName, DBSETTING_STATUS_NOTE, szStatusNote);
+			setString(DBSETTING_STATUS_MOOD, szMoodData);
 		}
 		// Release memory
 		SAFE_FREE(&szStatusNote);

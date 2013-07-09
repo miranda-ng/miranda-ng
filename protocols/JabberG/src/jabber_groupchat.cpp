@@ -134,19 +134,19 @@ struct JabberGcRecentInfo
 		cleanup();
 
 		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_server", iRecent);
-		if ( !ppro->JGetStringT(NULL, setting, &dbv)) {
+		if ( !ppro->getTString(NULL, setting, &dbv)) {
 			server = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
 
 		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_room", iRecent);
-		if ( !ppro->JGetStringT(NULL, setting, &dbv)) {
+		if ( !ppro->getTString(NULL, setting, &dbv)) {
 			room = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
 
 		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_nick", iRecent);
-		if ( !ppro->JGetStringT(NULL, setting, &dbv)) {
+		if ( !ppro->getTString(NULL, setting, &dbv)) {
 			nick = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -163,19 +163,19 @@ struct JabberGcRecentInfo
 
 		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_server", iRecent);
 		if (server)
-			ppro->JSetStringT(NULL, setting, server);
+			ppro->setTString(NULL, setting, server);
 		else
 			ppro->JDeleteSetting(NULL, setting);
 
 		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_room", iRecent);
 		if (room)
-			ppro->JSetStringT(NULL, setting, room);
+			ppro->setTString(NULL, setting, room);
 		else
 			ppro->JDeleteSetting(NULL, setting);
 
 		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_nick", iRecent);
 		if (nick)
-			ppro->JSetStringT(NULL, setting, nick);
+			ppro->setTString(NULL, setting, nick);
 		else
 			ppro->JDeleteSetting(NULL, setting);
 
@@ -230,18 +230,18 @@ INT_PTR __cdecl CJabberProto::OnJoinChat(WPARAM wParam, LPARAM)
 {
 	DBVARIANT nick, jid;
 	HANDLE hContact = (HANDLE)wParam;
-	if (JGetStringT(hContact, "ChatRoomID", &jid))
+	if (getTString(hContact, "ChatRoomID", &jid))
 		return 0;
 
-	if (JGetStringT(hContact, "MyNick", &nick))
-		if (JGetStringT(NULL, "Nick", &nick)) {
+	if (getTString(hContact, "MyNick", &nick))
+		if (getTString(NULL, "Nick", &nick)) {
 			db_free(&jid);
 			return 0;
 		}
 
 	TCHAR *password = JGetStringCrypt(hContact, "LoginPassword");
 
-	if (JGetWord(hContact, "Status", 0) != ID_STATUS_ONLINE) {
+	if (getWord(hContact, "Status", 0) != ID_STATUS_ONLINE) {
 		if ( !jabberChatDllPresent)
 			JabberChatDllError();
 		else {
@@ -261,10 +261,10 @@ INT_PTR __cdecl CJabberProto::OnLeaveChat(WPARAM wParam, LPARAM)
 {
 	DBVARIANT jid;
 	HANDLE hContact = (HANDLE)wParam;
-	if (JGetStringT(hContact, "ChatRoomID", &jid))
+	if (getTString(hContact, "ChatRoomID", &jid))
 		return 0;
 
-	if (JGetWord(hContact, "Status", 0) != ID_STATUS_OFFLINE) {
+	if (getWord(hContact, "Status", 0) != ID_STATUS_OFFLINE) {
 		JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_CHATROOM, jid.ptszVal);
 		if (item != NULL)
 			GcQuit(item, 0, NULL);
@@ -501,7 +501,7 @@ void CJabberDlgGcJoin::OnInitDialog()
 	}
 
 	DBVARIANT dbv;
-	if ( !m_proto->JGetStringT(NULL, "Nick", &dbv)) {
+	if ( !m_proto->getTString(NULL, "Nick", &dbv)) {
 		SetDlgItemText(m_hwnd, IDC_NICK, dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -891,7 +891,7 @@ void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM* item, const TCHAR *ol
 
 				HANDLE hContact = HContactFromJID(item->jid);
 				if (hContact != NULL)
-					JSetStringT(hContact, "MyNick", newNick);
+					setTString(hContact, "MyNick", newNick);
 			}
 
 			GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CHUID };
@@ -1056,12 +1056,12 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 		// update clist status
 		HANDLE hContact = HContactFromJID(from);
 		if (hContact != NULL)
-			JSetWord(hContact, "Status", status);
+			setWord(hContact, "Status", status);
 
 		// Update room status
 		//if (item->status != ID_STATUS_ONLINE) {
 		//	item->status = ID_STATUS_ONLINE;
-		//	JSetWord(hContact, "Status", (WORD)ID_STATUS_ONLINE);
+		//	setWord(hContact, "Status", (WORD)ID_STATUS_ONLINE);
 		//	JabberLog("Room %s online", from);
 		//}
 
@@ -1122,7 +1122,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 
 		HANDLE hContact = HContactFromJID(from);
 		if (hContact != NULL)
-			JSetWord(hContact, "Status", ID_STATUS_OFFLINE);
+			setWord(hContact, "Status", ID_STATUS_OFFLINE);
 	}
 
 	// processing room errors

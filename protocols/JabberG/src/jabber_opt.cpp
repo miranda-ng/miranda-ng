@@ -346,7 +346,7 @@ static void sttStoreJidFromUI(CJabberProto *ppro, CCtrlEdit &txtUsername, CCtrlC
 	int len = lstrlen(user) + lstrlen(server) + 2;
 	TCHAR *jid = (TCHAR *)mir_alloc(len * sizeof(TCHAR));
 	mir_sntprintf(jid, len, _T("%s@%s"), user, server);
-	ppro->JSetStringT(NULL, "jid", jid);
+	ppro->setTString(NULL, "jid", jid);
 	mir_free(jid);
 	mir_free(server);
 	mir_free(user);
@@ -526,7 +526,7 @@ protected:
 		{
 			TCHAR *szLanguageCode = (TCHAR *)m_cbLocale.GetItemData(index);
 			if (szLanguageCode) {
-				m_proto->JSetStringT(NULL, "XmlLang", szLanguageCode);
+				m_proto->setTString(NULL, "XmlLang", szLanguageCode);
 
 				mir_free(m_proto->m_tszSelectedLang);
 				m_proto->m_tszSelectedLang = mir_tstrdup(szLanguageCode);
@@ -871,11 +871,11 @@ public:
 					HANDLE hContact = m_proto->HContactFromJID(item->jid);
 					if (hContact != NULL) {
 						if (bChecked) {
-							if (item->itemResource.status != m_proto->JGetWord(hContact, "Status", ID_STATUS_OFFLINE)) {
-								m_proto->JSetWord(hContact, "Status", (WORD)item->itemResource.status);
+							if (item->itemResource.status != m_proto->getWord(hContact, "Status", ID_STATUS_OFFLINE)) {
+								m_proto->setWord(hContact, "Status", (WORD)item->itemResource.status);
 						}	}
-						else if (m_proto->JGetWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
-							m_proto->JSetWord(hContact, "Status", ID_STATUS_OFFLINE);
+						else if (m_proto->getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+							m_proto->setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			}	}	}
 		}
 
@@ -1059,7 +1059,7 @@ void CJabberProto::_RosterHandleGetRequest(HXML node)
 		// now it is require to process whole contact list to add not in roster contacts
 		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			DBVARIANT dbv;
-			if ( !JGetStringT(hContact, "jid", &dbv)) {
+			if ( !getTString(hContact, "jid", &dbv)) {
 				LVFINDINFO lvfi={0};
 				lvfi.flags = LVFI_STRING;
 				lvfi.psz = dbv.ptszVal;
@@ -1777,11 +1777,11 @@ protected:
 					db_free(&dbv);
 				}
 
-				m_txtPort.SetInt(m_proto->JGetWord(NULL, "ManualPort", m_txtPort.GetInt()));
+				m_txtPort.SetInt(m_proto->getWord("ManualPort", m_txtPort.GetInt()));
 			} else
 			{
 				int defPort = m_txtPort.GetInt();
-				int port = m_proto->JGetWord(NULL, "Port", defPort);
+				int port = m_proto->getWord("Port", defPort);
 
 				if (port != defPort)
 				{
@@ -1844,7 +1844,7 @@ protected:
 			break;
 
 		case ACC_GTALK:
-			m_proto->JSetWord(NULL, "Priority", 24);
+			m_proto->setWord("Priority", 24);
 			{
 				int port = m_txtPort.GetInt();
 				if (port == 443 || port == 5223)
@@ -1882,15 +1882,15 @@ protected:
 		if ((m_chkManualHost.GetState() == BST_CHECKED) && lstrcmpA(server, manualServer))
 		{
 			m_proto->m_options.ManualConnect = TRUE;
-			m_proto->JSetString(NULL, "ManualHost", manualServer);
-			m_proto->JSetWord(NULL, "ManualPort", m_txtPort.GetInt());
-			m_proto->JSetWord(NULL, "Port", m_txtPort.GetInt());
+			m_proto->setString("ManualHost", manualServer);
+			m_proto->setWord("ManualPort", m_txtPort.GetInt());
+			m_proto->setWord("Port", m_txtPort.GetInt());
 		} else
 		{
 			m_proto->m_options.ManualConnect = FALSE;
 			m_proto->JDeleteSetting(NULL, "ManualHost");
 			m_proto->JDeleteSetting(NULL, "ManualPort");
-			m_proto->JSetWord(NULL, "Port", m_txtPort.GetInt());
+			m_proto->setWord("Port", m_txtPort.GetInt());
 		}
 
 		sttStoreJidFromUI(m_proto, m_txtUsername, m_cbServer);

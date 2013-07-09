@@ -31,10 +31,10 @@ void CYahooProto::logoff_buddies()
 {
 	//set all contacts to 'offline'
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		SetWord( hContact, "Status", ID_STATUS_OFFLINE );
-		SetDword(hContact, "IdleTS", 0);
-		SetDword(hContact, "PictLastCheck", 0);
-		SetDword(hContact, "PictLoading", 0);
+		setWord( hContact, "Status", ID_STATUS_OFFLINE );
+		setDword(hContact, "IdleTS", 0);
+		setDword(hContact, "PictLastCheck", 0);
+		setDword(hContact, "PictLoading", 0);
 		db_unset(hContact, "CList", "StatusMsg");
 		db_unset(hContact, m_szModuleName, "YMsg");
 		db_unset(hContact, m_szModuleName, "YGMsg");
@@ -97,9 +97,9 @@ int __cdecl CYahooProto::OnContactDeleted( WPARAM wParam, LPARAM lParam )
 		return 0;
 	}
 	
-	if (!GetString(hContact, YAHOO_LOGINID, &dbv)) {
+	if (!getString(hContact, YAHOO_LOGINID, &dbv)) {
 		DebugLog("[YahooContactDeleted] Removing %s", dbv.pszVal);
-		remove_buddy(dbv.pszVal, GetWord(hContact, "yprotoid", 0));
+		remove_buddy(dbv.pszVal, getWord(hContact, "yprotoid", 0));
 		
 		db_free( &dbv );
 	} else {
@@ -136,7 +136,7 @@ static INT_PTR CALLBACK DlgProcSetCustStat(HWND hwndDlg, UINT msg, WPARAM wParam
 				EnableWindow( GetDlgItem( hwndDlg, IDOK ), FALSE );
 			}
 
-			CheckDlgButton( hwndDlg, IDC_CUSTSTATBUSY,  ppro->GetByte("BusyCustStat", 0));
+			CheckDlgButton( hwndDlg, IDC_CUSTSTATBUSY,  ppro->getByte("BusyCustStat", 0));
 		}
 		return TRUE;
 
@@ -151,8 +151,8 @@ static INT_PTR CALLBACK DlgProcSetCustStat(HWND hwndDlg, UINT msg, WPARAM wParam
 				GetDlgItemTextA( hwndDlg, IDC_CUSTSTAT, str, sizeof( str ));
 
 				/* Save it for later use */
-				ppro->SetString( YAHOO_CUSTSTATDB, str );
-				ppro->SetByte("BusyCustStat", ( BYTE )IsDlgButtonChecked( hwndDlg, IDC_CUSTSTATBUSY ));
+				ppro->setString( YAHOO_CUSTSTATDB, str );
+				ppro->setByte("BusyCustStat", ( BYTE )IsDlgButtonChecked( hwndDlg, IDC_CUSTSTATBUSY ));
 
 				/* set for Idle/AA */
 				if (ppro->m_startMsg) mir_free(ppro->m_startMsg);
@@ -220,7 +220,7 @@ void CYahooProto::OpenURL(const char *url, int autoLogin)
 
 	DebugLog("[YahooOpenURL] url: %s Auto Login: %d", url, autoLogin);
 	
-	if (autoLogin && GetByte("MailAutoLogin", 0) && m_bLoggedIn && m_id > 0) {
+	if (autoLogin && getByte("MailAutoLogin", 0) && m_bLoggedIn && m_id > 0) {
 		char  *y, *t, *u;
 		
 		y = yahoo_urlencode(yahoo_get_cookie(m_id, "y"));
@@ -253,11 +253,11 @@ INT_PTR __cdecl CYahooProto::OnShowProfileCommand( WPARAM wParam, LPARAM lParam 
 	/**
 	 * We don't show profile for users using other IM clients through the IM server bridge
 	 */
-	if (GetWord(( HANDLE )wParam, "yprotoid", 0) != 0) {
+	if (getWord(( HANDLE )wParam, "yprotoid", 0) != 0) {
 		return 0;
 	}
 	
-	if (GetString((HANDLE)wParam, YAHOO_LOGINID, &dbv))
+	if (getString((HANDLE)wParam, YAHOO_LOGINID, &dbv))
 		return 0;
 		
 	_snprintf( tUrl, sizeof( tUrl ), "http://profiles.yahoo.com/%s", dbv.pszVal  );
@@ -280,7 +280,7 @@ INT_PTR __cdecl CYahooProto::OnShowMyProfileCommand( WPARAM wParam, LPARAM lPara
 {
 	DBVARIANT dbv;
 	
-	if ( GetString( YAHOO_LOGINID, &dbv ) != 0)	{
+	if ( getString( YAHOO_LOGINID, &dbv ) != 0)	{
 		ShowError( TranslateT("Yahoo Error"), TranslateT("Please enter your yahoo id in Options/Network/Yahoo"));
 		return 0;
 	}
@@ -298,7 +298,7 @@ INT_PTR __cdecl CYahooProto::OnShowMyProfileCommand( WPARAM wParam, LPARAM lPara
 //=======================================================
 INT_PTR __cdecl CYahooProto::OnGotoMailboxCommand( WPARAM wParam, LPARAM lParam )
 {
-	if (GetByte("YahooJapan", 0))
+	if (getByte("YahooJapan", 0))
 		OpenURL("http://mail.yahoo.co.jp/", 1);
 	else
 		OpenURL("http://mail.yahoo.com/", 1);
@@ -502,7 +502,7 @@ int __cdecl CYahooProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 		return 0;
 	}
 
-	Menu_ShowItem(hShowProfileMenuItem, GetWord(hContact, "yprotoid", 0) == 0);
+	Menu_ShowItem(hShowProfileMenuItem, getWord(hContact, "yprotoid", 0) == 0);
 	return 0;
 }
 

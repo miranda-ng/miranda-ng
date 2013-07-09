@@ -44,7 +44,7 @@ int CJabberProto::OnContactDeleted(WPARAM wParam, LPARAM)
 		return 0;
 
 	DBVARIANT dbv;
-	if ( !JGetStringT((HANDLE)wParam, JGetByte((HANDLE) wParam, "ChatRoom", 0)?(char*)"ChatRoomID":(char*)"jid", &dbv)) {
+	if ( !getTString((HANDLE)wParam, getByte((HANDLE) wParam, "ChatRoom", 0)?(char*)"ChatRoomID":(char*)"jid", &dbv)) {
 		if (ListExist(LIST_ROSTER, dbv.ptszVal)) {
 			if ( !_tcschr(dbv.ptszVal, _T('@'))) {
 				TCHAR szStrippedJid[JABBER_MAX_JID_LEN];
@@ -85,7 +85,7 @@ static TCHAR* sttSettingToTchar(DBCONTACTWRITESETTING* cws)
 void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING* cws, HANDLE hContact)
 {
 	DBVARIANT jid, dbv;
-	if (JGetStringT(hContact, "jid", &jid))
+	if (getTString(hContact, "jid", &jid))
 		return;
 
 	JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_ROSTER, jid.ptszVal);
@@ -98,7 +98,7 @@ void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING* cws, HANDLE hCon
 		nick = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
 	}
-	else if ( !JGetStringT(hContact, "Nick", &dbv)) {
+	else if ( !getTString(hContact, "Nick", &dbv)) {
 		nick = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -127,7 +127,7 @@ void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING* cws, HANDLE hCon
 void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING* cws, HANDLE hContact)
 {
 	DBVARIANT jid;
-	if (JGetStringT(hContact, "jid", &jid))
+	if (getTString(hContact, "jid", &jid))
 		return;
 
 	JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_ROSTER, jid.ptszVal);
@@ -157,7 +157,7 @@ void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING* cws, HANDL
 		return;
 
 	DBVARIANT jid, dbv;
-	if (JGetStringT(hContact, "jid", &jid))
+	if (getTString(hContact, "jid", &jid))
 		return;
 
 	TCHAR *nick;
@@ -166,7 +166,7 @@ void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING* cws, HANDL
 		nick = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
 	}
-	else if ( !JGetStringT(hContact, "Nick", &dbv)) {
+	else if ( !getTString(hContact, "Nick", &dbv)) {
 		nick = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
 	}

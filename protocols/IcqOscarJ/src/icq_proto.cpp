@@ -443,7 +443,7 @@ int CIcqProto::Authorize( HANDLE hDbEvent )
 
 		icq_sendAuthResponseServ(uin, uid, 1, _T(""));
 
-		deleteSetting(hContact, "Grant");
+		db_unset(hContact, m_szModuleName, "Grant");
 
 		return 0; // Success
 	}
@@ -697,7 +697,7 @@ DWORD_PTR __cdecl CIcqProto::GetCaps( int type, HANDLE hContact )
 			PF1_ADDED | PF1_CONTACT;
 		if (!m_bAimEnabled)
 			nReturn |= PF1_NUMERICUSERID;
-		if (m_bSsiEnabled && getSettingByte(NULL, "ServerAddRemove", DEFAULT_SS_ADDSERVER))
+		if (m_bSsiEnabled && getByte("ServerAddRemove", DEFAULT_SS_ADDSERVER))
 			nReturn |= PF1_SERVERCLIST;
 		break;
 
@@ -739,7 +739,7 @@ DWORD_PTR __cdecl CIcqProto::GetCaps( int type, HANDLE hContact )
 	case PFLAG_MAXCONTACTSPERPACKET:
 		if ( hContact )
 		{ // determine per contact
-			BYTE bClientId = getSettingByte(hContact, "ClientID", CLID_GENERIC);
+			BYTE bClientId = getByte(hContact, "ClientID", CLID_GENERIC);
 
 			if (bClientId == CLID_MIRANDA)
 			{
@@ -1386,7 +1386,7 @@ HANDLE __cdecl CIcqProto::SendFile( HANDLE hContact, const TCHAR* szDescription,
 
 			if (dwUin)
 			{
-				WORD wClientVersion = getSettingWord(hContact, "Version", 7);
+				WORD wClientVersion = getWord(hContact, "Version", 7);
 
 				if (wClientVersion < 7)
 					NetLog_Server("IcqSendFile() can't send to version %u", wClientVersion);
@@ -1514,7 +1514,7 @@ int __cdecl CIcqProto::SendMsg( HANDLE hContact, int flags, const char* pszSrc )
 		BOOL oldAnsi = plain_ascii || !m_bUtfEnabled ||
 			(!(flags & (PREF_UTF | PREF_UNICODE)) && m_bUtfEnabled == 1) ||
 			!CheckContactCapabilities(hContact, CAPF_UTF) ||
-			!getSettingByte(hContact, "UnicodeSend", 1);
+			!getByte(hContact, "UnicodeSend", 1);
 
 		if (m_bTempVisListEnabled && m_iStatus == ID_STATUS_INVISIBLE)
 			makeContactTemporaryVisible(hContact);  // make us temporarily visible to contact
@@ -1568,8 +1568,8 @@ int __cdecl CIcqProto::SendMsg( HANDLE hContact, int flags, const char* pszSrc )
 
 			if (!dwUin || !CheckContactCapabilities(hContact, CAPF_SRV_RELAY) ||
 				wRecipientStatus == ID_STATUS_OFFLINE || wRecipientStatus == ID_STATUS_INVISIBLE ||
-				getSettingByte(hContact, "OnlyServerAcks", getSettingByte(NULL, "OnlyServerAcks", DEFAULT_ONLYSERVERACKS)) ||
-				!getSettingByte(hContact, "SlowSend", getSettingByte(NULL, "SlowSend", DEFAULT_SLOWSEND)))
+				getByte(hContact, "OnlyServerAcks", getByte("OnlyServerAcks", DEFAULT_ONLYSERVERACKS)) ||
+				!getByte(hContact, "SlowSend", getByte("SlowSend", DEFAULT_SLOWSEND)))
 			{
 				/// TODO: add support for RTL & user customizable font
 				{
@@ -1798,12 +1798,12 @@ int __cdecl CIcqProto::SetApparentMode( HANDLE hContact, int mode )
 		// Only 3 modes are supported
 		if (mode == 0 || mode == ID_STATUS_ONLINE || mode == ID_STATUS_OFFLINE)
 		{
-			int oldMode = getSettingWord(hContact, "ApparentMode", 0);
+			int oldMode = getWord(hContact, "ApparentMode", 0);
 
 			// Don't send redundant updates
 			if (mode != oldMode)
 			{
-				setSettingWord(hContact, "ApparentMode", (WORD)mode);
+				setWord(hContact, "ApparentMode", (WORD)mode);
 
 				// Not being online is only an error when in SS mode. This is not handled
 				// yet so we just ignore this for now.
@@ -1811,17 +1811,17 @@ int __cdecl CIcqProto::SetApparentMode( HANDLE hContact, int mode )
 				{
 					if (oldMode != 0)
 					{ // Remove from old list
-						if (oldMode == ID_STATUS_OFFLINE && getSettingWord(hContact, DBSETTING_SERVLIST_IGNORE, 0))
+						if (oldMode == ID_STATUS_OFFLINE && getWord(hContact, DBSETTING_SERVLIST_IGNORE, 0))
 						{ // Need to remove Ignore item as well
-							icq_removeServerPrivacyItem(hContact, uin, uid, getSettingWord(hContact, DBSETTING_SERVLIST_IGNORE, 0), SSI_ITEM_IGNORE);
+							icq_removeServerPrivacyItem(hContact, uin, uid, getWord(hContact, DBSETTING_SERVLIST_IGNORE, 0), SSI_ITEM_IGNORE);
 
-							setSettingWord(hContact, DBSETTING_SERVLIST_IGNORE, 0);
+							setWord(hContact, DBSETTING_SERVLIST_IGNORE, 0);
 						}
 						icq_sendChangeVisInvis(hContact, uin, uid, oldMode==ID_STATUS_OFFLINE, 0);
 					}
 					if (mode != 0)
 					{ // Add to new list
-						if (mode==ID_STATUS_OFFLINE && getSettingWord(hContact, DBSETTING_SERVLIST_IGNORE, 0))
+						if (mode==ID_STATUS_OFFLINE && getWord(hContact, DBSETTING_SERVLIST_IGNORE, 0))
 							return 0; // Success: offline by ignore item
 
 						icq_sendChangeVisInvis(hContact, uin, uid, mode==ID_STATUS_OFFLINE, 1);
@@ -1884,7 +1884,7 @@ int __cdecl CIcqProto::SetStatus(int iNewStatus)
 		return 0;
 
 	// clear custom status on status change
-	if (getSettingByte(NULL, "XStatusReset", DEFAULT_XSTATUS_RESET))
+	if (getByte("XStatusReset", DEFAULT_XSTATUS_RESET))
 		setXStatusEx(0, 0);
 
 	// New status is OFFLINE
@@ -2098,10 +2098,10 @@ HANDLE __cdecl CIcqProto::GetAwayMsg( HANDLE hContact )
 			}
 			if (CheckContactCapabilities(hContact, CAPF_STATUS_MESSAGES))
 				return (HANDLE)icq_sendGetAwayMsgServExt(hContact, dwUin, szUID, wMessageType,
-				(WORD)(getSettingWord(hContact, "Version", 0)==9?9:ICQ_VERSION)); // Success
+				(WORD)(getWord(hContact, "Version", 0)==9?9:ICQ_VERSION)); // Success
 			else
 				return (HANDLE)icq_sendGetAwayMsgServ(hContact, dwUin, wMessageType,
-				(WORD)(getSettingWord(hContact, "Version", 0)==9?9:ICQ_VERSION)); // Success
+				(WORD)(getWord(hContact, "Version", 0)==9?9:ICQ_VERSION)); // Success
 		}
 	}
 	else

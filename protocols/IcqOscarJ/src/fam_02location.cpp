@@ -188,7 +188,7 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, WORD wLen, DWORD dwCookie
 					if (pTLV && pTLV->wLen > 0) // store client capabilities
 						db_set_blob(hContact, m_szModuleName, "CapBuf", pTLV->pData, pTLV->wLen);
 					else
-						deleteSetting(hContact, "CapBuf");
+						db_unset(hContact, m_szModuleName, "CapBuf");
 
 					pTLV = pChain->getTLV(0x01, 1);
 					if (pTLV && (pTLV->wLen >= 1))
@@ -212,7 +212,7 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, WORD wLen, DWORD dwCookie
 					disposeChain(&pChain);
 				}
 
-				setSettingString(hContact, "About", szMsg);
+				setString(hContact, "About", szMsg);
 				ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1 ,0);
 
 				SAFE_FREE((void**)&szMsg);

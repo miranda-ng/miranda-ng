@@ -474,7 +474,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 		if ( !dat->item) {
 			DBVARIANT dbv = {0};
-			if (dat->ppro->JGetStringT(dat->hContact, "jid", &dbv))
+			if (dat->ppro->getTString(dat->hContact, "jid", &dbv))
 				break;
 
 			if ( !(dat->item = dat->ppro->ListGetItemPtr(LIST_VCARD_TEMP, dbv.ptszVal)))
@@ -569,7 +569,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				dat->ppro = (CJabberProto*)(CJabberProto*)((PSHNOTIFY*)lParam)->lParam;
 				if (dat->hContact != NULL) {
 					DBVARIANT dbv = {0};
-					if (dat->ppro->JGetStringT(dat->hContact, "jid", &dbv))
+					if (dat->ppro->getTString(dat->hContact, "jid", &dbv))
 						break;
 
 					if ( !(dat->item = dat->ppro->ListGetItemPtr(LIST_VCARD_TEMP, dbv.ptszVal)))
@@ -654,7 +654,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 				photoInfo->hBitmap = NULL;
 			}
 			ShowWindow(GetDlgItem(hwndDlg, IDC_SAVE), SW_HIDE);
-			if ( !photoInfo->ppro->JGetStringT(photoInfo->hContact, "jid", &dbv)) {
+			if ( !photoInfo->ppro->getTString(photoInfo->hContact, "jid", &dbv)) {
 				TCHAR* jid = dbv.ptszVal;
 				if ((item = photoInfo->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid)) == NULL)
 					item = photoInfo->ppro->ListGetItemPtr(LIST_ROSTER, jid);
@@ -687,7 +687,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 				TCHAR szFileName[MAX_PATH];
 				DWORD n;
 
-				if (photoInfo->ppro->JGetStringT(photoInfo->hContact, "jid", &dbv))
+				if (photoInfo->ppro->getTString(photoInfo->hContact, "jid", &dbv))
 					break;
 
 				TCHAR* jid = dbv.ptszVal;

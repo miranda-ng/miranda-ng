@@ -98,11 +98,11 @@ INT_PTR CALLBACK icq_FirstRunDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			{
         char str[128];
         GetDlgItemTextA(hwndDlg, IDC_UIN, str, sizeof(str));
-        ppro->setSettingDword(NULL, UNIQUEIDSETTING, atoi(str));
+        ppro->setDword(UNIQUEIDSETTING, atoi(str));
         GetDlgItemTextA(hwndDlg, IDC_PW, str, sizeof(ppro->m_szPassword));
         strcpy(ppro->m_szPassword, str);
         CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(ppro->m_szPassword), (LPARAM) str);
-        ppro->setSettingString(NULL, "Password", str);
+        ppro->setString("Password", str);
       }
       break;
 

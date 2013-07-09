@@ -54,10 +54,50 @@ struct  PROTO_INTERFACE : public MZeroedObject
 	char*  m_szModuleName;
 	HANDLE m_hProtoIcon;
 
-	INT_PTR __forceinline ProtoBroadcastAck(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam)
-	{
-		return ::ProtoBroadcastAck(m_szModuleName, hContact, type, hResult, hProcess, lParam);
-	}
+	//////////////////////////////////////////////////////////////////////////////////////
+	// Helpers
+
+	__forceinline INT_PTR ProtoBroadcastAck(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam)
+	{	return ::ProtoBroadcastAck(m_szModuleName, hContact, type, hResult, hProcess, lParam); }
+
+	__forceinline bool getBool(const char *name, bool defaultValue) { return ProtoGetBool0(this, name, defaultValue); }
+	__forceinline bool getBool(HANDLE hContact, const char *name, bool defaultValue) { return ProtoGetBool(this, hContact, name, defaultValue); }
+
+	__forceinline int getByte(const char *name, BYTE defaultValue) { return ProtoGetByte0(this, name, defaultValue); }
+	__forceinline int getByte(HANDLE hContact, const char *name, BYTE defaultValue) { return ProtoGetByte(this, hContact, name, defaultValue); }
+
+	__forceinline int getWord(const char *name, WORD defaultValue) { return ProtoGetWord0(this, name, defaultValue); }
+	__forceinline int getWord(HANDLE hContact, const char *name, WORD defaultValue) { return ProtoGetWord(this, hContact, name, defaultValue); }
+
+	__forceinline DWORD getDword(const char *name, DWORD defaultValue) { return ProtoGetDword0(this, name, defaultValue); }
+	__forceinline DWORD getDword(HANDLE hContact, const char *name, DWORD defaultValue) { return ProtoGetDword(this, hContact, name, defaultValue); }
+
+	__forceinline int getString(const char *name, DBVARIANT *result) { return ProtoGetString0(this, name, result); }
+	__forceinline int getString(HANDLE hContact, const char *name, DBVARIANT *result) { return ProtoGetString(this, hContact, name, result); }
+
+	__forceinline int getTString(const char *name, DBVARIANT *result) { return ProtoGetTString0(this, name, result); }
+	__forceinline int getTString(HANDLE hContact, const char *name, DBVARIANT *result) { return ProtoGetTString(this, hContact, name, result); }
+
+	__forceinline char* getStringA(const char *name) { return ProtoGetStringA0(this, name); }
+	__forceinline char* getStringA(HANDLE hContact, const char *name) { return ProtoGetStringA(this, hContact, name); }
+
+	__forceinline void setByte(const char *name, BYTE value) { ProtoSetByte0(this, name, value); }
+	__forceinline void setByte(HANDLE hContact, const char *name, BYTE value) { ProtoSetByte(this, hContact, name, value); }
+
+	__forceinline void setWord(const char *name, WORD value) { ProtoSetWord0(this, name, value); }
+	__forceinline void setWord(HANDLE hContact, const char *name, WORD value) { ProtoSetWord(this, hContact, name, value); }
+
+	__forceinline void setDword(const char *name, DWORD value) { ProtoSetDword0(this, name, value); }
+	__forceinline void setDword(HANDLE hContact, const char *name, DWORD value) { ProtoSetDword(this, hContact, name, value); }
+
+	__forceinline void setString(const char *name, const char* value) { ProtoSetString0(this, name, value); }
+	__forceinline void setString(HANDLE hContact, const char *name, const char* value) { ProtoSetString(this, hContact, name, value); }
+
+	__forceinline void setTString(const char *name, const TCHAR* value) { ProtoSetTString0(this, name, value); }
+	__forceinline void setTString(HANDLE hContact, const char *name, const TCHAR* value) { ProtoSetTString(this, hContact, name, value); }
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// Virtual functions
 
 	virtual	HANDLE   __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr) = 0;
 	virtual	HANDLE   __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) = 0;
@@ -121,21 +161,21 @@ public:
 	}
 
 	typedef int (__cdecl T::*MyEventFunc)(WPARAM, LPARAM);
-	void __forceinline HookEvent(const char* name, MyEventFunc pFunc)
+	__forceinline void HookEvent(const char *name, MyEventFunc pFunc)
 	{	::ProtoHookEvent(this, name, (ProtoEventFunc)pFunc); } 
 
 	typedef void (__cdecl T::*MyThreadFunc)(void*);
-	void __forceinline ForkThread(MyThreadFunc pFunc, void *param)
+	__forceinline void ForkThread(MyThreadFunc pFunc, void *param)
 	{	::ProtoForkThread(this, (ProtoThreadFunc)pFunc, param); } 
 	HANDLE __forceinline ForkThreadEx(MyThreadFunc pFunc, void *param, UINT *pThreadId)
 	{	return ::ProtoForkThreadEx(this, (ProtoThreadFunc)pFunc, param, pThreadId); } 
 
 	typedef INT_PTR (__cdecl T::*MyServiceFunc)(WPARAM, LPARAM);
-	void __forceinline CreateService(const char *name, MyServiceFunc pFunc)
+	__forceinline void CreateService(const char *name, MyServiceFunc pFunc)
 	{  ::ProtoCreateService(this, name, (ProtoServiceFunc)pFunc); }
 
 	typedef INT_PTR (__cdecl T::*MyServiceFuncParam)(WPARAM, LPARAM, LPARAM);
-	void __forceinline CreateServiceParam(const char *name, MyServiceFuncParam pFunc, LPARAM param)
+	__forceinline void CreateServiceParam(const char *name, MyServiceFuncParam pFunc, LPARAM param)
 	{  ::ProtoCreateServiceParam(this, name, (ProtoServiceFuncParam)pFunc, param); }
 };
 #endif // M_PROTOINT_H__

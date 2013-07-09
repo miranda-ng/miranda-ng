@@ -38,7 +38,7 @@ INT_PTR CIcqProto::AddServerContact(WPARAM wParam, LPARAM lParam)
 	if (!m_bSsiEnabled) return 0;
 
 	// Does this contact have a UID?
-	if (!getContactUid((HANDLE)wParam, &dwUin, &szUid) && !getSettingWord((HANDLE)wParam, DBSETTING_SERVLIST_ID, 0) && !getSettingWord((HANDLE)wParam, DBSETTING_SERVLIST_IGNORE, 0))
+	if (!getContactUid((HANDLE)wParam, &dwUin, &szUid) && !getWord((HANDLE)wParam, DBSETTING_SERVLIST_ID, 0) && !getWord((HANDLE)wParam, DBSETTING_SERVLIST_IGNORE, 0))
 	{ /// TODO: remove possible 0x6A TLV in contact server-list data!!!
 		// Read group from DB
 		char *pszGroup = getContactCListGroup((HANDLE)wParam);
@@ -194,7 +194,7 @@ INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM lParam)
 			nItems += ppackTLVWordStringItemFromDB(&pBlock, &cbBlock, "CompanyFax", 0x6E, 0x64, 0x05);
 			ppackTLVBlockItems(&buf, &buflen, 0xC8, &nItems, &pBlock, (WORD*)&cbBlock, FALSE);
 
-			ppackTLVByte(&buf, &buflen, 0x1EA, getSettingByte(NULL, "AllowSpam", 0));
+			ppackTLVByte(&buf, &buflen, 0x1EA, getByte("AllowSpam", 0));
 		}
 
 		if (wParam & CIXT_BASIC)
@@ -207,16 +207,16 @@ INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM lParam)
 
 		if (wParam & CIXT_MORE)
 		{
-			b = getSettingByte(NULL, "Gender", 0);
+			b = getByte("Gender", 0);
 			ppackTLVByte(&buf, &buflen, 0x82, (BYTE)(b ? (b == 'M' ? 2 : 1) : 0));
 
 			ppackTLVDateFromDB(&buf, &buflen, "BirthYear", "BirthMonth", "BirthDay", 0x1A4);
 
-			ppackTLVWord(&buf, &buflen, 0xAA, getSettingByte(NULL, "Language1", 0));
-			ppackTLVWord(&buf, &buflen, 0xB4, getSettingByte(NULL, "Language2", 0));
-			ppackTLVWord(&buf, &buflen, 0xBE, getSettingByte(NULL, "Language3", 0));
+			ppackTLVWord(&buf, &buflen, 0xAA, getByte("Language1", 0));
+			ppackTLVWord(&buf, &buflen, 0xB4, getByte("Language2", 0));
+			ppackTLVWord(&buf, &buflen, 0xBE, getByte("Language3", 0));
 
-			ppackTLVWord(&buf, &buflen, 0x12C, getSettingByte(NULL, "MaritalStatus", 0));
+			ppackTLVWord(&buf, &buflen, 0x12C, getByte("MaritalStatus", 0));
 		}
 
 		if (wParam & CIXT_WORK)
@@ -230,16 +230,16 @@ INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM lParam)
 			ppackTLVStringUtfFromDB(&pBlock, &cbBlock, "Company", 0x6E);
 			ppackTLVStringUtfFromDB(&pBlock, &cbBlock, "CompanyDepartment", 0x7D);
 			ppackTLVStringFromDB(&pBlock, &cbBlock, "CompanyHomepage", 0x78);
-			ppackTLVWord(&pBlock, &cbBlock, 0x82, getSettingWord(NULL, "CompanyIndustry", 0));
+			ppackTLVWord(&pBlock, &cbBlock, 0x82, getWord("CompanyIndustry", 0));
 			ppackTLVStringUtfFromDB(&pBlock, &cbBlock, "CompanyStreet", 0xAA);
 			ppackTLVStringUtfFromDB(&pBlock, &cbBlock, "CompanyCity", 0xB4);
 			ppackTLVStringUtfFromDB(&pBlock, &cbBlock, "CompanyState", 0xBE);
 			ppackTLVStringUtfFromDB(&pBlock, &cbBlock, "CompanyZIP", 0xC8);
-			ppackTLVDWord(&pBlock, &cbBlock, 0xD2, getSettingWord(NULL, "CompanyCountry", 0));
+			ppackTLVDWord(&pBlock, &cbBlock, 0xD2, getWord("CompanyCountry", 0));
 			/// TODO: pack unknown data (need to preserve them in Block Items)
 			ppackTLVBlockItems(&buf, &buflen, 0x118, &nItems, &pBlock, (WORD*)&cbBlock, TRUE);
 
-			//			ppackTLVWord(&buf, &buflen, getSettingWord(NULL, "CompanyOccupation", 0), TLV_OCUPATION, 1); // Lost In Conversion
+			//			ppackTLVWord(&buf, &buflen, getWord("CompanyOccupation", 0), TLV_OCUPATION, 1); // Lost In Conversion
 		}
 
 		if (wParam & CIXT_EDUCATION)
@@ -249,10 +249,10 @@ INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM lParam)
 			int nItems = 1;
 
 			// Studies
-			ppackTLVWord(&pBlock, &cbBlock, 0x64, getSettingWord(NULL, "StudyLevel", 0));
+			ppackTLVWord(&pBlock, &cbBlock, 0x64, getWord("StudyLevel", 0));
 			ppackTLVStringUtfFromDB(&pBlock, &cbBlock, "StudyInstitute", 0x6E);
 			ppackTLVStringUtfFromDB(&pBlock, &cbBlock, "StudyDegree", 0x78);
-			ppackTLVWord(&pBlock, &cbBlock, 0x8C, getSettingWord(NULL, "StudyYear", 0));
+			ppackTLVWord(&pBlock, &cbBlock, 0x8C, getWord("StudyYear", 0));
 			ppackTLVBlockItems(&buf, &buflen, 0x10E, &nItems, &pBlock, (WORD*)&cbBlock, TRUE);
 		}
 
@@ -267,7 +267,7 @@ INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM lParam)
 			ppackTLVStringUtfFromDB(&pBlock, &cbBlock, "City", 0x6E);
 			ppackTLVStringUtfFromDB(&pBlock, &cbBlock, "State", 0x78);
 			ppackTLVStringUtfFromDB(&pBlock, &cbBlock, "ZIP", 0x82);
-			ppackTLVDWord(&pBlock, &cbBlock, 0x8C, getSettingWord(NULL, "Country", 0));
+			ppackTLVDWord(&pBlock, &cbBlock, 0x8C, getWord("Country", 0));
 			ppackTLVBlockItems(&buf, &buflen, 0x96, &nItems, &pBlock, (WORD*)&cbBlock, TRUE);
 
 			nItems = 1;
@@ -275,13 +275,13 @@ INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM lParam)
 			ppackTLVStringUtfFromDB(&pBlock, &cbBlock, "OriginStreet", 0x64);
 			ppackTLVStringUtfFromDB(&pBlock, &cbBlock, "OriginCity", 0x6E);
 			ppackTLVStringUtfFromDB(&pBlock, &cbBlock, "OriginState", 0x78);
-			ppackTLVDWord(&pBlock, &cbBlock, 0x8C, getSettingWord(NULL, "OriginCountry", 0));
+			ppackTLVDWord(&pBlock, &cbBlock, 0x8C, getWord("OriginCountry", 0));
 			ppackTLVBlockItems(&buf, &buflen, 0xA0, &nItems, &pBlock, (WORD*)&cbBlock, TRUE);
 
 			ppackTLVStringFromDB(&buf, &buflen, "Homepage", 0xFA);
 
 			// Timezone
-			WORD wTimezone = getSettingByte(NULL, "Timezone", 0);
+			WORD wTimezone = getByte("Timezone", 0);
 			if ((wTimezone & 0x0080) == 0x80) wTimezone |= 0xFF00; // extend signed number
 			ppackTLVWord(&buf, &buflen, 0x17C, wTimezone);
 		}
@@ -293,10 +293,10 @@ INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM lParam)
 			int nItems = 0;
 
 			// Interests
-			nItems += ppackTLVWordStringUtfItemFromDB(&pBlock, &cbBlock, "Interest0Text", 0x6E, 0x64, getSettingWord(NULL, "Interest0Cat", 0));
-			nItems += ppackTLVWordStringUtfItemFromDB(&pBlock, &cbBlock, "Interest1Text", 0x6E, 0x64, getSettingWord(NULL, "Interest1Cat", 0));
-			nItems += ppackTLVWordStringUtfItemFromDB(&pBlock, &cbBlock, "Interest2Text", 0x6E, 0x64, getSettingWord(NULL, "Interest2Cat", 0));
-			nItems += ppackTLVWordStringUtfItemFromDB(&pBlock, &cbBlock, "Interest3Text", 0x6E, 0x64, getSettingWord(NULL, "Interest3Cat", 0));
+			nItems += ppackTLVWordStringUtfItemFromDB(&pBlock, &cbBlock, "Interest0Text", 0x6E, 0x64, getWord("Interest0Cat", 0));
+			nItems += ppackTLVWordStringUtfItemFromDB(&pBlock, &cbBlock, "Interest1Text", 0x6E, 0x64, getWord("Interest1Cat", 0));
+			nItems += ppackTLVWordStringUtfItemFromDB(&pBlock, &cbBlock, "Interest2Text", 0x6E, 0x64, getWord("Interest2Cat", 0));
+			nItems += ppackTLVWordStringUtfItemFromDB(&pBlock, &cbBlock, "Interest3Text", 0x6E, 0x64, getWord("Interest3Cat", 0));
 			ppackTLVBlockItems(&buf, &buflen, 0x122, &nItems, &pBlock, (WORD*)&cbBlock, FALSE);
 
 
@@ -401,7 +401,7 @@ INT_PTR CIcqProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		return GAIR_NOAVATAR; // we do not support avatars for invalid contacts
 	}
 
-	int dwPaFormat = getSettingByte(pai->hContact, "AvatarType", PA_FORMAT_UNKNOWN);
+	int dwPaFormat = getByte(pai->hContact, "AvatarType", PA_FORMAT_UNKNOWN);
 
 	if (dwPaFormat != PA_FORMAT_UNKNOWN)
 	{ // we know the format, test file
@@ -476,7 +476,7 @@ INT_PTR CIcqProto::GrantAuthorization(WPARAM wParam, LPARAM lParam)
 		// send without reason, do we need any ?
 		icq_sendGrantAuthServ(dwUin, szUid, NULL);
 		// auth granted, remove contact menu item
-		deleteSetting((HANDLE)wParam, "Grant");
+		db_unset((HANDLE)wParam, m_szModuleName, "Grant");
 	}
 
 	return 0;
@@ -489,7 +489,7 @@ int CIcqProto::OnIdleChanged(WPARAM wParam, LPARAM lParam)
 
 	if (bPrivacy) return 0;
 
-	setSettingDword(NULL, "IdleTS", bIdle ? time(0) : 0);
+	setDword("IdleTS", bIdle ? time(0) : 0);
 
 	if (m_bTempVisListEnabled) // remove temporary visible users
 		sendEntireListServ(ICQ_BOS_FAMILY, ICQ_CLI_REMOVETEMPVISIBLE, BUL_TEMPVISIBLE);
@@ -607,7 +607,7 @@ INT_PTR CIcqProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 	}
 	else
 	{ // delete user avatar
-		deleteSetting(NULL, "AvatarFile");
+		db_unset(NULL, m_szModuleName, "AvatarFile");
 		setSettingBlob(NULL, "AvatarHash", hashEmptyAvatar, 9);
 		updateServAvatarHash(hashEmptyAvatar, 9); // set blank avatar
 		iRet = 0;
@@ -622,9 +622,9 @@ INT_PTR CIcqProto::SetNickName(WPARAM wParam, LPARAM lParam)
 		return 0; // failure
 
 	if (wParam & SMNN_UNICODE)
-		setSettingStringW(NULL, "Nick", (WCHAR*)lParam);
+		setTString("Nick", (WCHAR*)lParam);
 	else
-		setSettingString(NULL, "Nick", (char*)lParam);
+		setString("Nick", (char*)lParam);
 
 	return ChangeInfoEx(CIXT_BASIC, 0);
 }
@@ -701,7 +701,7 @@ void CIcqProto::ICQAddRecvEvent(HANDLE hContact, WORD wType, PROTORECVEVENT* pre
 		//setContactHidden(hContact, 0);
 
 		// if the contact was hidden, add to client-list if not in server-list authed
-		if (!getSettingWord(hContact, DBSETTING_SERVLIST_ID, 0) || getSettingByte(hContact, "Auth", 0))
+		if (!getWord(hContact, DBSETTING_SERVLIST_ID, 0) || getByte(hContact, "Auth", 0))
 		{
 			getContactUid(hContact, &dwUin, &szUid);
 			icq_sendNewContact(dwUin, szUid); /// FIXME

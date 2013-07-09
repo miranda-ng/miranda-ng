@@ -488,26 +488,26 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 	// Save contacts details in database
 	if (hContact != NULL)
 	{
-		setSettingDword(hContact,   "LogonTS",      dwOnlineSince);
-		setSettingDword(hContact,   "AwayTS",       dwAwaySince);
-		setSettingDword(hContact,   "IdleTS", tIdleTS);
+		setDword(hContact,   "LogonTS",      dwOnlineSince);
+		setDword(hContact,   "AwayTS",       dwAwaySince);
+		setDword(hContact,   "IdleTS", tIdleTS);
 
 		if (dwMemberSince)
-			setSettingDword(hContact, "MemberTS",     dwMemberSince);
+			setDword(hContact, "MemberTS",     dwMemberSince);
 
 		if (nIsICQ)
 		{ // on AIM these are not used
-			setSettingDword(hContact, "DirectCookie", dwDirectConnCookie);
-			setSettingByte(hContact,  "DCType",       (BYTE)nTCPFlag);
-			setSettingWord(hContact,  "UserPort",     (WORD)(dwPort & 0xffff));
-			setSettingWord(hContact,  "Version",      wVersion);
+			setDword(hContact, "DirectCookie", dwDirectConnCookie);
+			setByte(hContact,  "DCType",       (BYTE)nTCPFlag);
+			setWord(hContact,  "UserPort",     (WORD)(dwPort & 0xffff));
+			setWord(hContact,  "Version",      wVersion);
 		}
 		else
 		{
-			deleteSetting(hContact,   "DirectCookie");
-			deleteSetting(hContact,   "DCType");
-			deleteSetting(hContact,   "UserPort");
-			deleteSetting(hContact,   "Version");
+			db_unset(hContact, m_szModuleName,   "DirectCookie");
+			db_unset(hContact, m_szModuleName,   "DCType");
+			db_unset(hContact, m_szModuleName,   "UserPort");
+			db_unset(hContact, m_szModuleName,   "Version");
 		}
 
 		if (!szClient)
@@ -517,23 +517,23 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 		}
 		if (szClient != (char*)-1)
 		{
-			setSettingStringUtf(hContact, "MirVer",   szClient);
-			setSettingByte(hContact,  "ClientID",     bClientId);
+			db_set_utf(hContact, m_szModuleName, "MirVer", szClient);
+			setByte(hContact,  "ClientID",     bClientId);
 		}
 
 		if (wOldStatus == ID_STATUS_OFFLINE)
 		{
-			setSettingDword(hContact, "IP",           dwIP);
-			setSettingDword(hContact, "RealIP",       dwRealIP);
+			setDword(hContact, "IP",           dwIP);
+			setDword(hContact, "RealIP",       dwRealIP);
 		}
 		else
 		{ // if not first notification only write significant information
 			if (dwIP)
-				setSettingDword(hContact, "IP",         dwIP);
+				setDword(hContact, "IP",         dwIP);
 			if (dwRealIP)
-				setSettingDword(hContact, "RealIP",     dwRealIP);
+				setDword(hContact, "RealIP",     dwRealIP);
 		}
-		setSettingWord(hContact,  "Status", (WORD)IcqStatusToMiranda(wStatus));
+		setWord(hContact,  "Status", (WORD)IcqStatusToMiranda(wStatus));
 
 		// Update info?
 		if (dwUIN)
@@ -562,12 +562,12 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 
 	if (szClient == cliSpamBot)
 	{
-		if (getSettingByte(NULL, "KillSpambots", DEFAULT_KILLSPAM_ENABLED) && db_get_b(hContact, "CList", "NotOnList", 0))
+		if (getByte("KillSpambots", DEFAULT_KILLSPAM_ENABLED) && db_get_b(hContact, "CList", "NotOnList", 0))
 		{ // kill spammer
 			icq_DequeueUser(dwUIN);
 			icq_sendRemoveContact(dwUIN, NULL);
 			AddToSpammerList(dwUIN);
-			if (getSettingByte(NULL, "PopupsSpamEnabled", DEFAULT_SPAM_POPUPS_ENABLED))
+			if (getByte("PopupsSpamEnabled", DEFAULT_SPAM_POPUPS_ENABLED))
 				ShowPopupMsg(hContact, LPGEN("Spambot Detected"), LPGEN("Contact deleted & further events blocked."), POPTYPE_SPAM);
 			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 
@@ -649,8 +649,8 @@ void CIcqProto::handleUserOffline(BYTE *buf, WORD wLen)
 			parseStatusNote(dwUIN, szUID, hContact, pChain);
 
 			// Update status times
-			setSettingDword(hContact, "IdleTS", 0);
-			setSettingDword(hContact, "AwayTS", dwAwaySince);
+			setDword(hContact, "IdleTS", 0);
+			setDword(hContact, "AwayTS", dwAwaySince);
 
 			// Clear custom status & mood
 			char tmp = NULL;
@@ -660,11 +660,11 @@ void CIcqProto::handleUserOffline(BYTE *buf, WORD wLen)
 			{
 				NetLog_Server("%s went offline.", strUID(dwUIN, szUID));
 
-				setSettingWord(hContact, "Status", ID_STATUS_OFFLINE);
+				setWord(hContact, "Status", ID_STATUS_OFFLINE);
 				// close Direct Connections to that user
 				CloseContactDirectConns(hContact);
 				// Reset DC status
-				setSettingByte(hContact, "DCStatus", 0);
+				setByte(hContact, "DCStatus", 0);
 			}
 #ifdef _DEBUG
 			else
@@ -735,20 +735,20 @@ void CIcqProto::parseStatusNote(DWORD dwUin, char *szUid, HANDLE hContact, oscar
 			}
 		}
 		// Check if the status note was changed
-		if (dwStatusNoteTS > getSettingDword(hContact, DBSETTING_STATUS_NOTE_TIME, 0))
+		if (dwStatusNoteTS > getDword(hContact, DBSETTING_STATUS_NOTE_TIME, 0))
 		{
 			DBVARIANT dbv = {DBVT_DELETED};
 
-			if (strlennull(szStatusNote) || (!getSettingString(hContact, DBSETTING_STATUS_NOTE, &dbv) && (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8) && strlennull(dbv.pszVal)))
+			if (strlennull(szStatusNote) || (!getString(hContact, DBSETTING_STATUS_NOTE, &dbv) && (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8) && strlennull(dbv.pszVal)))
 				NetLog_Server("%s changed status note to \"%s\"", strUID(dwUin, szUid), szStatusNote ? szStatusNote : "");
 
 			db_free(&dbv);
 
 			if (szStatusNote)
-				setSettingStringUtf(hContact, DBSETTING_STATUS_NOTE, szStatusNote);
+				db_set_utf(hContact, m_szModuleName, DBSETTING_STATUS_NOTE, szStatusNote);
 			else
-				deleteSetting(hContact, DBSETTING_STATUS_NOTE);
-			setSettingDword(hContact, DBSETTING_STATUS_NOTE_TIME, dwStatusNoteTS);
+				db_unset(hContact, m_szModuleName, DBSETTING_STATUS_NOTE);
+			setDword(hContact, DBSETTING_STATUS_NOTE_TIME, dwStatusNoteTS);
 
 			if (getContactXStatus(hContact) != 0 || !CheckContactCapabilities(hContact, CAPF_STATUS_MESSAGES)) {
 				setStatusMsgVar(hContact, szStatusNote, false);
@@ -765,8 +765,8 @@ void CIcqProto::parseStatusNote(DWORD dwUin, char *szUid, HANDLE hContact, oscar
 		if (getContactStatus(hContact) == ID_STATUS_OFFLINE)
 		{
 			setStatusMsgVar(hContact, NULL, false);
-			deleteSetting(hContact, DBSETTING_STATUS_NOTE);
-			setSettingDword(hContact, DBSETTING_STATUS_NOTE_TIME, dwStatusNoteTS);
+			db_unset(hContact, m_szModuleName, DBSETTING_STATUS_NOTE);
+			setDword(hContact, DBSETTING_STATUS_NOTE_TIME, dwStatusNoteTS);
 		}
 	}
 }

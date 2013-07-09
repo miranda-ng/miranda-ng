@@ -7,8 +7,8 @@
 #endif // _MSC_VER > 1000
 
 #define PA_FORMAT_DEFAULT	255 // return file name of def avatar
-#define GetContactAvatarFormat(hContact, dwDefaultFormat)	mraGetByte(hContact, "AvatarType", dwDefaultFormat)
-#define SetContactAvatarFormat(hContact, dwFormat)			mraSetByte(hContact, "AvatarType", (BYTE)dwFormat)
+#define GetContactAvatarFormat(hContact, dwDefaultFormat)	getByte(hContact, "AvatarType", dwDefaultFormat)
+#define SetContactAvatarFormat(hContact, dwFormat)			setByte(hContact, "AvatarType", (BYTE)dwFormat)
 
 INT_PTR CALLBACK MraAvatarsQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 

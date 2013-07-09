@@ -265,28 +265,18 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 				if (icq)
 					setString(hContact, "Transport", "ICQ");
 				else
-					deleteSetting(hContact, "Transport" );
+					db_unset(hContact, m_szModuleName, "Transport" );
 
 				if (admin_aol)
-				{
 					setByte(hContact, AIM_KEY_AC, ACCOUNT_TYPE_ADMIN);
-				}
 				else if (aol)
-				{
 					setByte(hContact, AIM_KEY_AC, ACCOUNT_TYPE_AOL);	
-				}
 				else if (icq)
-				{
 					setByte(hContact, AIM_KEY_AC, ACCOUNT_TYPE_ICQ);	
-				}
 				else if (unconfirmed)
-				{
 					setByte(hContact, AIM_KEY_AC, ACCOUNT_TYPE_UNCONFIRMED);
-				}
 				else
-				{
 					setByte(hContact, AIM_KEY_AC, ACCOUNT_TYPE_CONFIRMED);
-				}
 
 				if (bot)
 				{

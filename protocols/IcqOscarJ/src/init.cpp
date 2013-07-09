@@ -140,14 +140,14 @@ void CIcqProto::UpdateGlobalSettings()
 	char szServer[MAX_PATH] = "";
 	getSettingStringStatic(NULL, "OscarServer", szServer, MAX_PATH);
 
-	m_bSecureConnection = getSettingByte(NULL, "SecureConnection", DEFAULT_SECURE_CONNECTION);
+	m_bSecureConnection = getByte("SecureConnection", DEFAULT_SECURE_CONNECTION);
 	if (szServer[0]) {
 		if (strstr(szServer, "aol.com"))
-			setSettingString(NULL, "OscarServer", m_bSecureConnection ? DEFAULT_SERVER_HOST_SSL : DEFAULT_SERVER_HOST);
+			setString("OscarServer", m_bSecureConnection ? DEFAULT_SERVER_HOST_SSL : DEFAULT_SERVER_HOST);
 
 		if (m_bSecureConnection && !_strnicmp(szServer, "login.", 6)) {
-			setSettingString(NULL, "OscarServer", DEFAULT_SERVER_HOST_SSL);
-			setSettingWord(NULL, "OscarPort", DEFAULT_SERVER_PORT_SSL);
+			setString("OscarServer", DEFAULT_SERVER_HOST_SSL);
+			setWord("OscarPort", DEFAULT_SERVER_PORT_SSL);
 		}
 	}
 
@@ -162,16 +162,16 @@ void CIcqProto::UpdateGlobalSettings()
 		else m_bGatewayMode = 0;
 	}
 
-	m_bSecureLogin = getSettingByte(NULL, "SecureLogin", DEFAULT_SECURE_LOGIN);
-	m_bLegacyFix = getSettingByte(NULL, "LegacyFix", DEFAULT_LEGACY_FIX);
-	m_bAimEnabled = getSettingByte(NULL, "AimEnabled", DEFAULT_AIM_ENABLED);
-	m_bUtfEnabled = getSettingByte(NULL, "UtfEnabled", DEFAULT_UTF_ENABLED);
-	m_wAnsiCodepage = getSettingWord(NULL, "AnsiCodePage", DEFAULT_ANSI_CODEPAGE);
-	m_bDCMsgEnabled = getSettingByte(NULL, "DirectMessaging", DEFAULT_DCMSG_ENABLED);
-	m_bTempVisListEnabled = getSettingByte(NULL, "TempVisListEnabled", DEFAULT_TEMPVIS_ENABLED);
-	m_bSsiEnabled = getSettingByte(NULL, "UseServerCList", DEFAULT_SS_ENABLED);
+	m_bSecureLogin = getByte("SecureLogin", DEFAULT_SECURE_LOGIN);
+	m_bLegacyFix = getByte("LegacyFix", DEFAULT_LEGACY_FIX);
+	m_bAimEnabled = getByte("AimEnabled", DEFAULT_AIM_ENABLED);
+	m_bUtfEnabled = getByte("UtfEnabled", DEFAULT_UTF_ENABLED);
+	m_wAnsiCodepage = getWord("AnsiCodePage", DEFAULT_ANSI_CODEPAGE);
+	m_bDCMsgEnabled = getByte("DirectMessaging", DEFAULT_DCMSG_ENABLED);
+	m_bTempVisListEnabled = getByte("TempVisListEnabled", DEFAULT_TEMPVIS_ENABLED);
+	m_bSsiEnabled = getByte("UseServerCList", DEFAULT_SS_ENABLED);
 	m_bSsiSimpleGroups = FALSE; /// TODO: enable, after server-list revolution is over
-	m_bAvatarsEnabled = getSettingByte(NULL, "AvatarsEnabled", DEFAULT_AVATARS_ENABLED);
-	m_bXStatusEnabled = getSettingByte(NULL, "XStatusEnabled", DEFAULT_XSTATUS_ENABLED);
-	m_bMoodsEnabled = getSettingByte(NULL, "MoodsEnabled", DEFAULT_MOODS_ENABLED);
+	m_bAvatarsEnabled = getByte("AvatarsEnabled", DEFAULT_AVATARS_ENABLED);
+	m_bXStatusEnabled = getByte("XStatusEnabled", DEFAULT_XSTATUS_ENABLED);
+	m_bMoodsEnabled = getByte("MoodsEnabled", DEFAULT_MOODS_ENABLED);
 }

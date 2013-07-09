@@ -452,36 +452,6 @@ struct CAimProto : public PROTO<CAimProto>
 	unsigned short* get_members_of_group(unsigned short group_id, unsigned short& size);
 
 	void   ShowPopup( const char* msg, int flags, char* url = 0 );
-
-	//////////////////////////////////////////////////////////////////////////////////////
-	HANDLE CreateProtoEvent(const char* szEvent);
-
-	int    deleteSetting(HANDLE hContact, const char* setting);
-
-	bool   getBool(HANDLE hContact, const char* name, bool defaultValue);
-	int    getByte(const char* name, BYTE defaultValue );
-	int    getByte(HANDLE hContact, const char* name, BYTE defaultValue);
-	int    getDword(const char* name, DWORD defaultValue);
-	int    getDword(HANDLE hContact, const char* name, DWORD defaultValue);
-	int    getString(const char* name, DBVARIANT*);
-	int    getString(HANDLE hContact, const char* name, DBVARIANT*);
-	int    getTString(const char* name, DBVARIANT*);
-	int    getTString(HANDLE hContact, const char* name, DBVARIANT*);
-	WORD   getWord(const char* name, WORD defaultValue);
-	WORD   getWord(HANDLE hContact, const char* name, WORD defaultValue);
-	char*  getSetting(HANDLE hContact, const char* setting);
-	char*  getSetting(const char* setting);
-
-	void   setByte(const char* name, BYTE value);
-	void   setByte(HANDLE hContact, const char* name, BYTE value);
-	void   setDword(const char* name, DWORD value);
-	void   setDword(HANDLE hContact, const char* name, DWORD value);
-	void   setString(const char* name, const char* value);
-	void   setString(HANDLE hContact, const char* name, const char* value);
-	void   setTString(const char* name, const TCHAR* value);
-	void   setTString(HANDLE hContact, const char* name, const TCHAR* value);
-	void   setWord(const char* name, WORD value);
-	void   setWord(HANDLE hContact, const char* name, WORD value);
 };
 
 #endif

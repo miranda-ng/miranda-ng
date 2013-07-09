@@ -620,7 +620,7 @@ int CIcqProto::parseUserInfoRecord(HANDLE hContact, oscar_tlv *pData, UserInfoRe
 			for (int j = 0; j < nRecordDef; j++) {
 				char szItemKey[MAX_PATH];
 				null_snprintf(szItemKey, MAX_PATH, pRecordDef[j].szDbSetting, i);
-				deleteSetting(hContact, szItemKey);
+				db_unset(hContact, m_szModuleName, szItemKey);
 			}
 
 	return nRecords;
@@ -925,20 +925,20 @@ void CIcqProto::parseDirectoryUserDetailsData(HANDLE hContact, oscar_tlv_chain *
 		}
 		else
 		{ // Remove old data when phones not available
-			deleteSetting(hContact, "Phone");
-			deleteSetting(hContact, "CompanyPhone");
-			deleteSetting(hContact, "Cellular");
-			deleteSetting(hContact, "Fax");
-			deleteSetting(hContact, "CompanyFax");
+			db_unset(hContact, m_szModuleName, "Phone");
+			db_unset(hContact, m_szModuleName, "CompanyPhone");
+			db_unset(hContact, m_szModuleName, "Cellular");
+			db_unset(hContact, m_szModuleName, "Fax");
+			db_unset(hContact, m_szModuleName, "CompanyFax");
 		}
 	}
 	else
 	{ // Remove old data when phones not available
-		deleteSetting(hContact, "Phone");
-		deleteSetting(hContact, "CompanyPhone");
-		deleteSetting(hContact, "Cellular");
-		deleteSetting(hContact, "Fax");
-		deleteSetting(hContact, "CompanyFax");
+		db_unset(hContact, m_szModuleName, "Phone");
+		db_unset(hContact, m_szModuleName, "CompanyPhone");
+		db_unset(hContact, m_szModuleName, "Cellular");
+		db_unset(hContact, m_szModuleName, "Fax");
+		db_unset(hContact, m_szModuleName, "CompanyFax");
 	}
 	// Emails
 	parseUserInfoRecord(hContact, cDetails->getTLV(0x8C, 1), rEmail, SIZEOF(rEmail), 4);
@@ -952,13 +952,13 @@ void CIcqProto::parseDirectoryUserDetailsData(HANDLE hContact, oscar_tlv_chain *
 	switch (cDetails->getNumber(0x82, 1))
 	{
 	case 1: 
-		setSettingByte(hContact, "Gender", 'F');
+		setByte(hContact, "Gender", 'F');
 		break;
 	case 2:
-		setSettingByte(hContact, "Gender", 'M');
+		setByte(hContact, "Gender", 'M');
 		break;
 	default:
-		deleteSetting(hContact, "Gender");
+		db_unset(hContact, m_szModuleName, "Gender");
 	}
 
 	writeDbInfoSettingTLVStringUtf(hContact, "Homepage", cDetails, 0xFA);
@@ -996,7 +996,7 @@ void CIcqProto::parseDirectoryUserDetailsData(HANDLE hContact, oscar_tlv_chain *
 
 	if (!hContact)
 	{
-		setSettingByte(hContact, "Auth", !cDetails->getByte(0x19A, 1));
+		setByte(hContact, "Auth", !cDetails->getByte(0x19A, 1));
 		writeDbInfoSettingTLVByte(hContact, "WebAware", cDetails, 0x212);
 		writeDbInfoSettingTLVByte(hContact, "AllowSpam", cDetails, 0x1EA);
 	}
@@ -1008,12 +1008,12 @@ void CIcqProto::parseDirectoryUserDetailsData(HANDLE hContact, oscar_tlv_chain *
 		int nAge = calcAgeFromBirthDate(cDetails->getDouble(0x1A4, 1));
 
 		if (nAge)
-			setSettingWord(hContact, "Age", nAge);
+			setWord(hContact, "Age", nAge);
 		else
-			deleteSetting(hContact, "Age");
+			db_unset(hContact, m_szModuleName, "Age");
 	}
 	else // we do not need to calculate age for owner
-		deleteSetting(hContact, "Age");
+		db_unset(hContact, m_szModuleName, "Age");
 
 	{ // Save user info last update time and privacy token
 		double dInfoTime;
@@ -1030,7 +1030,7 @@ void CIcqProto::parseDirectoryUserDetailsData(HANDLE hContact, oscar_tlv_chain *
 		else if (bHasMetaToken || !hContact)
 			writeDbInfoSettingTLVDouble(hContact, DBSETTING_METAINFO_SAVED, cDetails, 0x1CC);
 		else
-			setSettingDword(hContact, DBSETTING_METAINFO_SAVED, time(NULL));
+			setDword(hContact, DBSETTING_METAINFO_SAVED, time(NULL));
 	}
 
 	if (wReplySubType == META_DIRECTORY_RESPONSE)

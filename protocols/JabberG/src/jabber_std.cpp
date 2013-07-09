@@ -30,16 +30,6 @@ void CJabberProto::JDeleteSetting(HANDLE hContact, const char* valueName)
    db_unset(hContact, m_szModuleName, valueName);
 }
 
-DWORD CJabberProto::JGetByte(HANDLE hContact, const char* valueName, int parDefltValue)
-{
-	return db_get_b(hContact, m_szModuleName, valueName, parDefltValue);
-}
-
-DWORD CJabberProto::JGetDword(HANDLE hContact, const char* valueName, DWORD parDefltValue)
-{
-	return db_get_dw(hContact, m_szModuleName, valueName, parDefltValue);
-}
-
 int CJabberProto::JGetStaticString(const char* valueName, HANDLE hContact, char* dest, int dest_len)
 {
 	DBVARIANT dbv;
@@ -62,15 +52,10 @@ int CJabberProto::JGetStringUtf(HANDLE hContact, char* valueName, DBVARIANT* dbv
 	return db_get_utf(hContact, m_szModuleName, valueName, dbv);
 }
 
-int CJabberProto::JGetStringT(HANDLE hContact, char* valueName, DBVARIANT* dbv)
-{
-	return db_get_ts(hContact, m_szModuleName, valueName, dbv);
-}
-
 TCHAR *CJabberProto::JGetStringT(HANDLE hContact, char* valueName)
 {
 	DBVARIANT dbv = {0};
-	if (JGetStringT(hContact, valueName, &dbv))
+	if (getTString(hContact, valueName, &dbv))
 		return NULL;
 
 	TCHAR *res = mir_tstrdup(dbv.ptszVal);
@@ -86,17 +71,12 @@ TCHAR *CJabberProto::JGetStringT(HANDLE hContact, char* valueName, TCHAR *&out)
 TCHAR *CJabberProto::JGetStringT(HANDLE hContact, char* valueName, TCHAR *buf, int size)
 {
 	DBVARIANT dbv = {0};
-	if (JGetStringT(hContact, valueName, &dbv))
+	if (getTString(hContact, valueName, &dbv))
 		return NULL;
 
 	lstrcpyn(buf, dbv.ptszVal, size);
 	db_free(&dbv);
 	return buf;
-}
-
-WORD CJabberProto::JGetWord(HANDLE hContact, const char* valueName, int parDefltValue)
-{
-	return db_get_w(hContact, m_szModuleName, valueName, parDefltValue);
 }
 
 void CJabberProto::JLoginFailed(int errorCode)
@@ -105,40 +85,9 @@ void CJabberProto::JLoginFailed(int errorCode)
 	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, errorCode);
 }
 
-/*
-DWORD CJabberProto::JSetByte(const char* valueName, int parValue)
-{
-	return db_set_b(NULL, m_szModuleName, valueName, parValue);
-}
-*/
-DWORD CJabberProto::JSetByte(HANDLE hContact, const char* valueName, int parValue)
-{
-	return db_set_b(hContact, m_szModuleName, valueName, parValue);
-}
-
-DWORD CJabberProto::JSetDword(HANDLE hContact, const char* valueName, DWORD parValue)
-{
-	return db_set_dw(hContact, m_szModuleName, valueName, parValue);
-}
-
-DWORD CJabberProto::JSetString(HANDLE hContact, const char* valueName, const char* parValue)
-{
-	return db_set_s(hContact, m_szModuleName, valueName, parValue);
-}
-
-DWORD CJabberProto::JSetStringT(HANDLE hContact, const char* valueName, const TCHAR *parValue)
-{
-	return db_set_ts(hContact, m_szModuleName, valueName, parValue);
-}
-
 DWORD CJabberProto::JSetStringUtf(HANDLE hContact, const char* valueName, const char* parValue)
 {
 	return db_set_utf(hContact, m_szModuleName, valueName, parValue);
-}
-
-DWORD CJabberProto::JSetWord(HANDLE hContact, const char* valueName, int parValue)
-{
-	return db_set_w(hContact, m_szModuleName, valueName, parValue);
 }
 
 // save/load crypted strings
@@ -166,7 +115,7 @@ DWORD CJabberProto::JSetStringCrypt(HANDLE hContact, char *valueName, const TCHA
 {
 	char *tmp = mir_utf8encodeT(parValue);
 	sttCryptString(tmp);
-	DWORD res = JSetString(hContact, valueName, tmp);
+	setString(hContact, valueName, tmp);
 	mir_free(tmp);
-	return res;
+	return 0;
 }

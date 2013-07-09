@@ -95,7 +95,7 @@ void CAimProto::aim_connection_authorization(void)
 		goto exit;
 
 	mir_free(username);
-	username = getSetting(AIM_KEY_SN);
+	username = getStringA(AIM_KEY_SN);
 	if (username == NULL)
 		goto exit;
 

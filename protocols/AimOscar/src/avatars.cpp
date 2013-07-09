@@ -22,12 +22,12 @@ void __cdecl CAimProto::avatar_request_thread(void* param)
 {
 	HANDLE hContact = (HANDLE)param;
 
-	char *sn = getSetting(hContact, AIM_KEY_SN);
+	char *sn = getStringA(hContact, AIM_KEY_SN);
 	LOG("Starting avatar request thread for %s)", sn);
 
 	if (wait_conn(hAvatarConn, hAvatarEvent, 0x10))
 	{
-		char *hash_str = getSetting(hContact, AIM_KEY_AH);
+		char *hash_str = getStringA(hContact, AIM_KEY_AH);
 		char type = getByte(hContact, AIM_KEY_AHT, 1);
 
 		size_t len = (strlen(hash_str) + 1) / 2;
@@ -67,7 +67,7 @@ void CAimProto::avatar_request_handler(HANDLE hContact, char* hash, unsigned cha
 		type = hash_lg ? 12 : 1;
 	}
 
-	char* saved_hash = getSetting(hContact, AIM_KEY_AH);
+	char* saved_hash = getStringA(hContact, AIM_KEY_AH);
 	if (hash && _stricmp(hash, "0201d20472") && _stricmp(hash, "2b00003341")) //gaim default icon fix- we don't want their blank icon displaying.
 	{
 		if (_strcmps(saved_hash, hash))
@@ -82,8 +82,8 @@ void CAimProto::avatar_request_handler(HANDLE hContact, char* hash, unsigned cha
 	{
 		if (saved_hash)
 		{
-			deleteSetting(hContact, AIM_KEY_AHT);
-			deleteSetting(hContact, AIM_KEY_AH);
+			db_unset(hContact, m_szModuleName, AIM_KEY_AHT);
+			db_unset(hContact, m_szModuleName, AIM_KEY_AH);
 
 			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 		}
@@ -112,7 +112,7 @@ void CAimProto::avatar_retrieval_handler(const char* sn, const char* hash, const
 			_close(fileId);
 			res = true;
 
-			char *my_sn = getSetting(AIM_KEY_SN);
+			char *my_sn = getStringA(AIM_KEY_SN);
 			if (!_strcmps(sn, my_sn))
 				CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 			mir_free(my_sn);

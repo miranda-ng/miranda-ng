@@ -627,8 +627,8 @@ MIR_CORE_DLL(bool) ProtoGetBool(struct PROTO_INTERFACE *pThis, HANDLE hContact, 
 MIR_CORE_DLL(int) ProtoGetByte0(struct PROTO_INTERFACE *pThis, const char* name, BYTE defaultValue);
 MIR_CORE_DLL(int) ProtoGetByte(struct PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, BYTE defaultValue);
 
-MIR_CORE_DLL(int) ProtoGetDword0(struct PROTO_INTERFACE *pThis, const char* name, DWORD defaultValue);
-MIR_CORE_DLL(int) ProtoGetDword(struct PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, DWORD defaultValue);
+MIR_CORE_DLL(DWORD) ProtoGetDword0(struct PROTO_INTERFACE *pThis, const char* name, DWORD defaultValue);
+MIR_CORE_DLL(DWORD) ProtoGetDword(struct PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, DWORD defaultValue);
 
 MIR_CORE_DLL(int) ProtoGetString0(struct PROTO_INTERFACE *pThis, const char* name, DBVARIANT* result);
 MIR_CORE_DLL(int) ProtoGetString(struct PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, DBVARIANT* result);

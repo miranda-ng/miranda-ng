@@ -505,28 +505,6 @@ struct CIrcProto : public PROTO<CIrcProto>
 	CMString GetNextUserhostReason(int type);
 	CMString PeekAtReasons(int type);
 
-	int      getByte( const char* name, BYTE defaultValue );
-	int      getByte( HANDLE hContact, const char* name, BYTE defaultValue );
-	int      getDword( const char* name, DWORD defaultValue );
-	int      getDword( HANDLE hContact, const char* name, DWORD defaultValue );
-	int      getString( const char* name, DBVARIANT* );
-	int      getString( HANDLE hContact, const char* name, DBVARIANT* );
-	int      getTString( const char* name, DBVARIANT* );
-	int      getTString( HANDLE hContact, const char* name, DBVARIANT* );
-	int      getWord( const char* name, WORD defaultValue );
-	int      getWord( HANDLE hContact, const char* name, WORD defaultValue );
-
-	void     setByte( const char* name, BYTE value );
-	void     setByte( HANDLE hContact, const char* name, BYTE value );
-	void     setDword( const char* name, DWORD value );
-	void     setDword( HANDLE hContact, const char* name, DWORD value );
-	void     setString( const char* name, const char* value );
-	void     setString( HANDLE hContact, const char* name, const char* value );
-	void     setTString( const char* name, const TCHAR* value );
-	void     setTString( HANDLE hContact, const char* name, const TCHAR* value );
-	void     setWord( const char* name, int value );
-	void     setWord( HANDLE hContact, const char* name, int value );
-
 	// userinfo.cpp
 	void __cdecl AckUserInfoSearch( void* hContact );
 

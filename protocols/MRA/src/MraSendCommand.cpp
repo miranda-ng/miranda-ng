@@ -107,7 +107,7 @@ DWORD CMraProto::MraMessageW(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType,
 		lpszMessageRTF = (LPSTR)mir_calloc(dwRFTBuffSize);
 		ptrA lpbRTFData((char*)mir_calloc(dwRFTBuffSize));
 		if (lpszMessageRTF && lpbRTFData) {
-			DWORD dwBackColour = mraGetDword(NULL, "RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR);
+			DWORD dwBackColour = getDword(NULL, "RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR);
 			lpbDataCurrent = (LPBYTE)lpszMessageRTF;
 
 			WideCharToMultiByte(MRA_CODE_PAGE, 0, lpwszMessage, dwMessageSize, (LPSTR)lpbRTFData, dwRFTBuffSize, NULL, NULL);
@@ -133,7 +133,7 @@ DWORD CMraProto::MraMessageW(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType,
 			ptrA lpbRTFData((char*)mir_calloc(dwRFTBuffSize));
 			if (lpszMessageRTF && lpbRTFData) {
 				if ( !MraConvertToRTFW(lpwszMessage, dwMessageSize, (LPSTR)lpbRTFData, dwRFTBuffSize, &dwRTFDataSize)) {
-					DWORD dwBackColour = mraGetDword(NULL, "RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR);
+					DWORD dwBackColour = getDword(NULL, "RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR);
 					lpbDataCurrent = (LPBYTE)lpszMessageRTF;
 
 					SetUL(&lpbDataCurrent, 2);

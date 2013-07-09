@@ -355,11 +355,11 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	if ((hContact=(HANDLE)wParam) == NULL)
 		return 0;
 
-	BYTE bIsChatRoom  = (BYTE)JGetByte(hContact, "ChatRoom", 0);
-	BYTE bIsTransport = (BYTE)JGetByte(hContact, "IsTransport", 0);
+	BYTE bIsChatRoom  = (BYTE)getByte(hContact, "ChatRoom", 0);
+	BYTE bIsTransport = (BYTE)getByte(hContact, "IsTransport", 0);
 
 	if ((bIsChatRoom == GCW_CHATROOM) || bIsChatRoom == 0) {
-		if ( !JGetStringT(hContact, bIsChatRoom?(char*)"ChatRoomID":(char*)"jid", &dbv)) {
+		if ( !getTString(hContact, bIsChatRoom?(char*)"ChatRoomID":(char*)"jid", &dbv)) {
 			db_free(&dbv);
 			Menu_ShowItem(g_hMenuConvert, TRUE);
 
@@ -382,7 +382,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	}
 
 	if (bIsChatRoom) {
-		if ( !JGetStringT(hContact, "ChatRoomID", &dbv)) {
+		if ( !getTString(hContact, "ChatRoomID", &dbv)) {
 			Menu_ShowItem(g_hMenuRosterAdd, FALSE);
 
 			if (ListGetItemPtr(LIST_BOOKMARK, dbv.ptszVal) == NULL)
@@ -401,7 +401,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 		Menu_ShowItem(g_hMenuRefresh, TRUE);
 	}
 
-	if ( !JGetStringT(hContact, "jid", &dbv)) {
+	if ( !getTString(hContact, "jid", &dbv)) {
 		JabberCapsBits jcb = GetTotalJidCapabilites(dbv.ptszVal);
 		JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
 		db_free(&dbv);
@@ -486,14 +486,14 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 
 INT_PTR __cdecl CJabberProto::OnMenuConvertChatContact(WPARAM wParam, LPARAM)
 {
-	BYTE bIsChatRoom = (BYTE)JGetByte((HANDLE) wParam, "ChatRoom", 0);
+	BYTE bIsChatRoom = (BYTE)getByte((HANDLE) wParam, "ChatRoom", 0);
 	if ((bIsChatRoom == GCW_CHATROOM) || bIsChatRoom == 0) {
 		DBVARIANT dbv;
-		if ( !JGetStringT((HANDLE) wParam, (bIsChatRoom == GCW_CHATROOM)?(char*)"ChatRoomID":(char*)"jid", &dbv)) {
+		if ( !getTString((HANDLE) wParam, (bIsChatRoom == GCW_CHATROOM)?(char*)"ChatRoomID":(char*)"jid", &dbv)) {
 			JDeleteSetting((HANDLE) wParam, (bIsChatRoom == GCW_CHATROOM)?"ChatRoomID":"jid");
-			JSetStringT((HANDLE) wParam, (bIsChatRoom != GCW_CHATROOM)?"ChatRoomID":"jid", dbv.ptszVal);
+			setTString((HANDLE) wParam, (bIsChatRoom != GCW_CHATROOM)?"ChatRoomID":"jid", dbv.ptszVal);
 			db_free(&dbv);
-			JSetByte((HANDLE) wParam, "ChatRoom", (bIsChatRoom == GCW_CHATROOM)?0:GCW_CHATROOM);
+			setByte((HANDLE) wParam, "ChatRoom", (bIsChatRoom == GCW_CHATROOM)?0:GCW_CHATROOM);
 	}	}
 	return 0;
 }
@@ -502,7 +502,7 @@ INT_PTR __cdecl CJabberProto::OnMenuRosterAdd(WPARAM wParam, LPARAM)
 {
 	DBVARIANT dbv;
 	if ( !wParam) return 0; // we do not add ourself to the roster. (buggy situation - should not happen)
-	if ( JGetStringT((HANDLE)wParam, "ChatRoomID", &dbv)) return 0;
+	if ( getTString((HANDLE)wParam, "ChatRoomID", &dbv)) return 0;
 
 	TCHAR *roomID = NEWTSTR_ALLOCA(dbv.ptszVal);
 	db_free(&dbv);
@@ -514,7 +514,7 @@ INT_PTR __cdecl CJabberProto::OnMenuRosterAdd(WPARAM wParam, LPARAM)
 			group = NEWTSTR_ALLOCA(dbv.ptszVal);
 			db_free(&dbv);
 		}
-		if ( !JGetStringT((HANDLE)wParam, "Nick", &dbv)) {
+		if ( !getTString((HANDLE)wParam, "Nick", &dbv)) {
 			nick = NEWTSTR_ALLOCA(dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -525,7 +525,7 @@ INT_PTR __cdecl CJabberProto::OnMenuRosterAdd(WPARAM wParam, LPARAM)
 				item = (JABBER_LIST_ITEM*)mir_calloc(sizeof(JABBER_LIST_ITEM));
 				item->jid = mir_tstrdup(roomID);
 				item->name = mir_tstrdup(nick);
-				if ( !JGetStringT((HANDLE)wParam, "MyNick", &dbv)) {
+				if ( !getTString((HANDLE)wParam, "MyNick", &dbv)) {
 					item->nick = mir_tstrdup(dbv.ptszVal);
 					db_free(&dbv);
 				}
@@ -545,7 +545,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleRequestAuth(WPARAM wParam, LPARAM)
 	DBVARIANT dbv;
 
 	if ((hContact=(HANDLE)wParam)!=NULL && m_bJabberOnline) {
-		if ( !JGetStringT(hContact, "jid", &dbv)) {
+		if ( !getTString(hContact, "jid", &dbv)) {
 			m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), dbv.ptszVal) << XATTR(_T("type"), _T("subscribe")));
 			db_free(&dbv);
 	}	}
@@ -559,7 +559,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleGrantAuth(WPARAM wParam, LPARAM)
 	DBVARIANT dbv;
 
 	if ((hContact=(HANDLE)wParam)!=NULL && m_bJabberOnline) {
-		if ( !JGetStringT(hContact, "jid", &dbv)) {
+		if ( !getTString(hContact, "jid", &dbv)) {
 			m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), dbv.ptszVal) << XATTR(_T("type"), _T("subscribed")));
 			db_free(&dbv);
 	}	}
@@ -573,7 +573,7 @@ INT_PTR __cdecl CJabberProto::OnMenuRevokeAuth(WPARAM wParam, LPARAM)
 	DBVARIANT dbv;
 
 	if ((hContact=(HANDLE)wParam) != NULL && m_bJabberOnline) {
-		if ( !JGetStringT(hContact, "jid", &dbv)) {
+		if ( !getTString(hContact, "jid", &dbv)) {
 			m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), dbv.ptszVal) << XATTR(_T("type"), _T("unsubscribed")));
 			db_free(&dbv);
 	}	}
@@ -584,11 +584,11 @@ INT_PTR __cdecl CJabberProto::OnMenuRevokeAuth(WPARAM wParam, LPARAM)
 INT_PTR __cdecl CJabberProto::OnMenuTransportLogin(WPARAM wParam, LPARAM)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	if ( !JGetByte(hContact, "IsTransport", 0))
+	if ( !getByte(hContact, "IsTransport", 0))
 		return 0;
 
 	DBVARIANT jid;
-	if (JGetStringT(hContact, "jid", &jid))
+	if (getTString(hContact, "jid", &jid))
 		return 0;
 
 	JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_ROSTER, jid.ptszVal);
@@ -606,11 +606,11 @@ INT_PTR __cdecl CJabberProto::OnMenuTransportLogin(WPARAM wParam, LPARAM)
 INT_PTR __cdecl CJabberProto::OnMenuTransportResolve(WPARAM wParam, LPARAM)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	if ( !JGetByte(hContact, "IsTransport", 0))
+	if ( !getByte(hContact, "IsTransport", 0))
 		return 0;
 
 	DBVARIANT jid;
-	if ( !JGetStringT(hContact, "jid", &jid)) {
+	if ( !getTString(hContact, "jid", &jid)) {
 		ResolveTransportNicks(jid.ptszVal);
 		db_free(&jid);
 	}
@@ -624,12 +624,12 @@ INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd(WPARAM wParam, LPARAM)
 		return 0; // we do not add ourself to the roster. (buggy situation - should not happen)
 
 	DBVARIANT dbv;
-	if ( !JGetStringT(hContact, "ChatRoomID", &dbv)) {
+	if ( !getTString(hContact, "ChatRoomID", &dbv)) {
 		TCHAR *roomID = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
 		if (ListGetItemPtr(LIST_BOOKMARK, roomID) == NULL) {
 			TCHAR *nick = 0;
-			if ( !JGetStringT(hContact, "Nick", &dbv)) {
+			if ( !getTString(hContact, "Nick", &dbv)) {
 				nick = mir_tstrdup(dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -638,7 +638,7 @@ INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd(WPARAM wParam, LPARAM)
 			item->jid = mir_tstrdup(roomID);
 			item->name = pcli->pfnGetContactDisplayName(hContact, 0);
 			item->type = _T("conference");
-			if ( !JGetStringT(hContact, "MyNick", &dbv)) {
+			if ( !getTString(hContact, "MyNick", &dbv)) {
 				item->nick = mir_tstrdup(dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -821,7 +821,7 @@ void CJabberProto::MenuInit()
 		Menu_AddProtoMenuItem(&mi);
 	}
 
-	UpdatePriorityMenu((short)JGetWord(NULL, "Priority", 0));
+	UpdatePriorityMenu((short)getWord("Priority", 0));
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// finalize status menu
@@ -839,10 +839,10 @@ INT_PTR CJabberProto::OnMenuSetPriority(WPARAM, LPARAM, LPARAM dwDelta)
 {
 	int iDelta = (int)dwDelta;
 	short priority = 0;
-	priority = (short)JGetWord(NULL, "Priority", 0) + iDelta;
+	priority = (short)getWord("Priority", 0) + iDelta;
 	if (priority > 127) priority = 127;
 	else if (priority < -128) priority = -128;
-	JSetWord(NULL, "Priority", priority);
+	setWord("Priority", priority);
 	SendPresence(m_iStatus, true);
 	return 0;
 }
@@ -1055,7 +1055,7 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 			bSupportTyping = dbv.bVal == 1;
 			db_free(&dbv);
 		}
-		if (bSupportTyping && !JGetStringT(event->hContact, "jid", &dbv)) {
+		if (bSupportTyping && !getTString(event->hContact, "jid", &dbv)) {
 			TCHAR jid[ JABBER_MAX_JID_LEN ];
 			GetClientJID(dbv.ptszVal, jid, SIZEOF(jid));
 			db_free(&dbv);
@@ -1086,7 +1086,7 @@ int CJabberProto::OnProcessSrmmIconClick(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	DBVARIANT dbv;
-	if (JGetStringT(hContact, "jid", &dbv))
+	if (getTString(hContact, "jid", &dbv))
 		return 0;
 
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
@@ -1145,7 +1145,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleResource(WPARAM wParam, LPARAM, LPARAM
 	HANDLE hContact = (HANDLE)wParam;
 
 	DBVARIANT dbv;
-	if (JGetStringT(hContact, "jid", &dbv))
+	if (getTString(hContact, "jid", &dbv))
 		return 0;
 
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
@@ -1182,10 +1182,10 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleDirectPresence(WPARAM wParam, LPARAM l
 	TCHAR *jid, text[ 1024 ];
 
 	DBVARIANT dbv;
-	int result = JGetStringT(hContact, "jid", &dbv);
+	int result = getTString(hContact, "jid", &dbv);
 	if (result)
 	{
-		result = JGetStringT(hContact, "ChatRoomID", &dbv);
+		result = getTString(hContact, "ChatRoomID", &dbv);
 		if (result) return 0;
 
 		JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_CHATROOM, dbv.ptszVal);

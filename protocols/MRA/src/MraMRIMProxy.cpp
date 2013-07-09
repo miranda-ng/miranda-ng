@@ -111,7 +111,7 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 		if (pmmpd->malAddrList.dwAddrCount) {
 			pmmpd->hConnection = NULL;
 			bIsHTTPSProxyUsed = IsHTTPSProxyUsed(hNetlibUser);
-			dwConnectReTryCount = mraGetDword(NULL, "ConnectReTryCountMRIMProxy", MRA_DEFAULT_CONN_RETRY_COUNT_MRIMPROXY);
+			dwConnectReTryCount = getDword(NULL, "ConnectReTryCountMRIMProxy", MRA_DEFAULT_CONN_RETRY_COUNT_MRIMPROXY);
 			nloc.cbSize = sizeof(nloc);
 			nloc.flags = NLOCF_V2;
 			nloc.timeout = ((MRA_TIMEOUT_DIRECT_CONN-1)/(pmmpd->malAddrList.dwAddrCount*dwConnectReTryCount));// -1 сек чтобы был запас

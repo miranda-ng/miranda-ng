@@ -112,7 +112,7 @@ void CAimProto::start_connection(void *arg)
 
 		bool use_ssl = !getByte(AIM_KEY_DSSL, 0);
 
-		char* login_url = getSetting(AIM_KEY_HN);
+		char* login_url = getStringA(AIM_KEY_HN);
 		if (login_url == NULL) login_url = mir_strdup(use_ssl ? AIM_DEFAULT_SERVER : AIM_DEFAULT_SERVER_NS);
 
 		hServerConn = aim_connect(login_url, get_default_port(), use_ssl, login_url);
@@ -292,7 +292,7 @@ void CAimProto::add_contact_to_group(HANDLE hContact, const char* new_group)
 		LOG("Removing buddy %s:%u %s:%u from the serverside list", dbv.pszVal, item_id, old_group, old_group_id);
 		aim_delete_contact(hServerConn, seqno, dbv.pszVal, item_id, old_group_id, 0, is_not_in_list);
 		update_server_group(old_group, old_group_id);
-		deleteSetting(hContact, AIM_KEY_NIL);
+		db_unset(hContact, m_szModuleName, AIM_KEY_NIL);
 	}
 
 	aim_ssi_update(hServerConn, seqno, false);
@@ -516,7 +516,7 @@ int CAimProto::deleteBuddyId(HANDLE hContact, int i)
 {
 	char item[sizeof(AIM_KEY_BI)+10];
 	mir_snprintf(item, sizeof(AIM_KEY_BI)+10, AIM_KEY_BI"%d", i);
-	return deleteSetting(hContact, item);
+	return db_unset(hContact, m_szModuleName, item);
 }
 
 unsigned short CAimProto::getGroupId(HANDLE hContact, int i)
@@ -537,7 +537,7 @@ int CAimProto::deleteGroupId(HANDLE hContact, int i)
 {
 	char item[sizeof(AIM_KEY_GI)+10];
 	mir_snprintf(item, sizeof(AIM_KEY_GI)+10, AIM_KEY_GI"%d", i);
-	return deleteSetting(hContact, item);
+	return db_unset(hContact, m_szModuleName, item);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -698,109 +698,4 @@ unsigned short get_random(void)
 	CallService(MS_UTILS_GETRANDOM, sizeof(id), (LPARAM)&id);
 	id &= 0x7fff;
 	return id;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Standard functions
-
-int CAimProto::deleteSetting(HANDLE hContact, const char* setting)
-{   return db_unset(hContact, m_szModuleName, setting);
-}
-
-bool CAimProto::getBool(HANDLE hContact, const char* name, bool defaultValue)
-{	return db_get_b(hContact, m_szModuleName, name, defaultValue) != 0;
-}
-
-int CAimProto::getByte(const char* name, BYTE defaultValue)
-{	return db_get_b(NULL, m_szModuleName, name, defaultValue);
-}
-
-int CAimProto::getByte(HANDLE hContact, const char* name, BYTE defaultValue)
-{	return db_get_b(hContact, m_szModuleName, name, defaultValue);
-}
-
-int CAimProto::getDword(const char* name, DWORD defaultValue)
-{	return db_get_dw(NULL, m_szModuleName, name, defaultValue);
-}
-
-int CAimProto::getDword(HANDLE hContact, const char* name, DWORD defaultValue)
-{	return db_get_dw(hContact, m_szModuleName, name, defaultValue);
-}
-
-int CAimProto::getString(const char* name, DBVARIANT* result)
-{	return db_get_s(NULL, m_szModuleName, name, result);
-}
-
-int CAimProto::getString(HANDLE hContact, const char* name, DBVARIANT* result)
-{	return db_get_s(hContact, m_szModuleName, name, result);
-}
-
-int CAimProto::getTString(const char* name, DBVARIANT* result)
-{	return db_get_ts(NULL, m_szModuleName, name, result);
-}
-
-int CAimProto::getTString(HANDLE hContact, const char* name, DBVARIANT* result)
-{	return db_get_ts(hContact, m_szModuleName, name, result);
-}
-
-WORD CAimProto::getWord(const char* name, WORD defaultValue)
-{	return (WORD)db_get_w(NULL, m_szModuleName, name, defaultValue);
-}
-
-WORD CAimProto::getWord(HANDLE hContact, const char* name, WORD defaultValue)
-{	return (WORD)db_get_w(hContact, m_szModuleName, name, defaultValue);
-}
-
-char* CAimProto::getSetting(HANDLE hContact, const char* setting)
-{
-	DBVARIANT dbv;
-	return db_get_s(hContact, m_szModuleName, setting, &dbv) ? 
-		NULL : dbv.pszVal;
-}
-
-char* CAimProto::getSetting(const char* setting)
-{
-	DBVARIANT dbv;
-	return db_get_s(NULL, m_szModuleName, setting, &dbv) ? 
-		NULL : dbv.pszVal;
-}
-
-void CAimProto::setByte(const char* name, BYTE value)
-{	db_set_b(NULL, m_szModuleName, name, value);
-}
-
-void CAimProto::setByte(HANDLE hContact, const char* name, BYTE value)
-{	db_set_b(hContact, m_szModuleName, name, value);
-}
-
-void CAimProto::setDword(const char* name, DWORD value)
-{	db_set_dw(NULL, m_szModuleName, name, value);
-}
-
-void CAimProto::setDword(HANDLE hContact, const char* name, DWORD value)
-{	db_set_dw(hContact, m_szModuleName, name, value);
-}
-
-void CAimProto::setString(const char* name, const char* value)
-{	db_set_s(NULL, m_szModuleName, name, value);
-}
-
-void CAimProto::setString(HANDLE hContact, const char* name, const char* value)
-{	db_set_s(hContact, m_szModuleName, name, value);
-}
-
-void CAimProto::setTString(const char* name, const TCHAR* value)
-{	db_set_ts(NULL, m_szModuleName, name, value);
-}
-
-void CAimProto::setTString(HANDLE hContact, const char* name, const TCHAR* value)
-{	db_set_ts(hContact, m_szModuleName, name, value);
-}
-
-void CAimProto::setWord(const char* name, WORD value)
-{	db_set_w(NULL, m_szModuleName, name, value);
-}
-
-void CAimProto::setWord(HANDLE hContact, const char* name, WORD value)
-{	db_set_w(hContact, m_szModuleName, name, value);
 }

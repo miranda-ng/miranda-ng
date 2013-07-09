@@ -572,7 +572,7 @@ int __cdecl CAimProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 		ForkThread(&CAimProto::msg_ack_success, msg_ack);
 	}
 
-	char *sn = getSetting(hContact, AIM_KEY_SN);
+	char *sn = getStringA(hContact, AIM_KEY_SN);
 	if (sn == NULL)
 	{
 		msg_ack_param *msg_ack = (msg_ack_param*)mir_calloc(sizeof(msg_ack_param));

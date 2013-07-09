@@ -179,7 +179,7 @@ CJabberProto::CJabberProto(const char* aProtoName, const TCHAR *aUserName) :
 	db_set_resident(m_szModuleName, "Grant");
 
 	DBVARIANT dbv;
-	if ( !JGetStringT(NULL, "XmlLang", &dbv)) {
+	if ( !getTString(NULL, "XmlLang", &dbv)) {
 		m_tszSelectedLang = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -312,11 +312,11 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		SetContactOfflineStatus(hContact);
 
-		if ( !JGetByte(hContact, "IsTransport", 0))
+		if ( !getByte(hContact, "IsTransport", 0))
 			continue;
 			
 		DBVARIANT dbv;
-		if ( !JGetStringT(hContact, "jid", &dbv)) {
+		if ( !getTString(hContact, "jid", &dbv)) {
 			TCHAR* domain = NEWTSTR_ALLOCA(dbv.ptszVal);
 			TCHAR* resourcepos = _tcschr(domain, '/');
 			if (resourcepos != NULL)
@@ -382,10 +382,10 @@ HANDLE CJabberProto::AddToListByJID(const TCHAR *newJid, DWORD flags)
 		Log("Add new jid to contact jid = %S", jid);
 		hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName);
-		JSetStringT(hContact, "jid", jid);
+		setTString(hContact, "jid", jid);
 		if ((nick=JabberNickFromJID(newJid)) == NULL)
 			nick = mir_tstrdup(newJid);
-//		JSetStringT(hContact, "Nick", nick);
+//		setTString(hContact, "Nick", nick);
 		mir_free(nick);
 		mir_free(jid);
 
@@ -695,7 +695,7 @@ DWORD_PTR __cdecl CJabberProto::GetCaps(int type, HANDLE hContact)
 	case PFLAG_MAXCONTACTSPERPACKET:
 		{
 			DBVARIANT dbv;
-			if (JGetStringT(hContact, "jid", &dbv))
+			if (getTString(hContact, "jid", &dbv))
 				return 0;
 			TCHAR szClientJid[ JABBER_MAX_JID_LEN ];
 			GetClientJID(dbv.ptszVal, szClientJid, SIZEOF(szClientJid));
@@ -717,10 +717,10 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 
 	int result = 1;
 	DBVARIANT dbv;
-	if (JGetByte(hContact, "ChatRoom", 0))
+	if (getByte(hContact, "ChatRoom", 0))
 		return 1;
 
-	if ( !JGetStringT(hContact, "jid", &dbv)) {
+	if ( !getTString(hContact, "jid", &dbv)) {
 		if (m_ThreadInfo) {
 			TCHAR jid[ JABBER_MAX_JID_LEN ];
 			GetClientJID(dbv.ptszVal, jid, SIZEOF(jid));
@@ -988,7 +988,7 @@ int __cdecl CJabberProto::RecvUrl(HANDLE /*hContact*/, PROTORECVEVENT*)
 int __cdecl CJabberProto::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList)
 {
 	DBVARIANT dbv;
-	if ( !m_bJabberOnline || JGetStringT(hContact, "jid", &dbv))
+	if ( !m_bJabberOnline || getTString(hContact, "jid", &dbv))
 		return 0;
 
 	TCHAR szClientJid[ JABBER_MAX_JID_LEN ];
@@ -1004,7 +1004,7 @@ int __cdecl CJabberProto::SendContacts(HANDLE hContact, int flags, int nContacts
 	HXML x = m << XCHILDNS(_T("x"), _T(JABBER_FEAT_ROSTER_EXCHANGE));
 
 	for (int i = 0; i < nContacts; i++) {
-		if ( !JGetStringT(hContactsList[i], "jid", &dbv)) {
+		if ( !getTString(hContactsList[i], "jid", &dbv)) {
 			x << XCHILD(_T("item")) << XATTR(_T("action"), _T("add")) <<
 				XATTR(_T("jid"), dbv.ptszVal);
 			db_free(&dbv);
@@ -1025,11 +1025,11 @@ HANDLE __cdecl CJabberProto::SendFile(HANDLE hContact, const TCHAR *szDescriptio
 {
 	if ( !m_bJabberOnline) return 0;
 
-	if (JGetWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 		return 0;
 
 	DBVARIANT dbv;
-	if (JGetStringT(hContact, "jid", &dbv))
+	if (getTString(hContact, "jid", &dbv))
 		return 0;
 
 	int i, j;
@@ -1210,7 +1210,7 @@ int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc
 		// if message sent to groupchat
 		!lstrcmp(msgType, _T("groupchat")) ||
 		// if message delivery check disabled in settings
-		!m_options.MsgAck || !JGetByte(hContact, "MsgAck", TRUE))
+		!m_options.MsgAck || !getByte(hContact, "MsgAck", TRUE))
 	{
 		if ( !lstrcmp(msgType, _T("groupchat")))
 			xmlAddAttr(m, _T("to"), (TCHAR*)ptszJid);
@@ -1254,16 +1254,16 @@ int __cdecl CJabberProto::SetApparentMode(HANDLE hContact, int mode)
 	if (mode != 0 && mode != ID_STATUS_ONLINE && mode != ID_STATUS_OFFLINE)
 		return 1;
 
-	int oldMode = JGetWord(hContact, "ApparentMode", 0);
+	int oldMode = getWord(hContact, "ApparentMode", 0);
 	if (mode == oldMode)
 		return 1;
 
-	JSetWord(hContact, "ApparentMode", (WORD)mode);
+	setWord(hContact, "ApparentMode", (WORD)mode);
 	if ( !m_bJabberOnline)
 		return 0;
 
 	DBVARIANT dbv;
-	if ( !JGetStringT(hContact, "jid", &dbv)) {
+	if ( !getTString(hContact, "jid", &dbv)) {
 		TCHAR* jid = dbv.ptszVal;
 		switch (mode) {
 		case ID_STATUS_ONLINE:
@@ -1346,7 +1346,7 @@ void __cdecl CJabberProto::GetAwayMsgThread(void* hContact)
 	int i, msgCount;
 	size_t len;
 
-	if ( !JGetStringT(hContact, "jid", &dbv)) {
+	if ( !getTString(hContact, "jid", &dbv)) {
 		if ((item = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal)) != NULL) {
 			db_free(&dbv);
 			if (item->resourceCount > 0) {
@@ -1483,7 +1483,7 @@ int __cdecl CJabberProto::UserIsTyping(HANDLE hContact, int type)
 	if ( !m_bJabberOnline) return 0;
 
 	DBVARIANT dbv;
-	if (JGetStringT(hContact, "jid", &dbv))
+	if (getTString(hContact, "jid", &dbv))
 		return 0;
 
 	JABBER_LIST_ITEM *item;

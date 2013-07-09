@@ -440,7 +440,7 @@ static void clist_chat_invite_send(HANDLE hItem, HWND hwndList, YList* &who, cha
 				else 
 				{
 					DBVARIANT dbv;
-					if (!ppro->GetString(hItem, YAHOO_LOGINID, &dbv))
+					if (!ppro->getString(hItem, YAHOO_LOGINID, &dbv))
 						who = y_list_append(who, dbv.pszVal);
 				}
 			}
@@ -469,8 +469,8 @@ static void clist_chat_invite_send(HANDLE hItem, HWND hwndList, YList* &who, cha
 
 static void ClistValidateContact(HANDLE hItem, HWND hwndList, CYahooProto* ppro)
 {
-	if (!ppro->IsMyContact(hItem) || ppro->GetByte(hItem, "ChatRoom", 0) || 
-		ppro->GetWord(hItem, "Status", ID_STATUS_OFFLINE) == ID_STATUS_ONTHEPHONE)
+	if (!ppro->IsMyContact(hItem) || ppro->getByte(hItem, "ChatRoom", 0) || 
+		ppro->getWord(hItem, "Status", ID_STATUS_OFFLINE) == ID_STATUS_ONTHEPHONE)
 		SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
 }
 

@@ -151,14 +151,14 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM* item)
 					db_set_ts(hContact, "CList", "MyHandle", bookmark->name);
 			}
 
-		if ( !JGetStringT(hContact, "MyNick", &dbv)) {
+		if ( !getTString(hContact, "MyNick", &dbv)) {
 			if ( !lstrcmp(dbv.ptszVal, szNick))
 				JDeleteSetting(hContact, "MyNick");
 			else
-				JSetStringT(hContact, "MyNick", item->nick);
+				setTString(hContact, "MyNick", item->nick);
 			db_free(&dbv);
 		}
-		else JSetStringT(hContact, "MyNick", item->nick);
+		else setTString(hContact, "MyNick", item->nick);
 
 		TCHAR *passw = JGetStringCrypt(hContact, "LoginPassword");
 		if (lstrcmp_null(passw, item->password)) {
@@ -820,7 +820,7 @@ public:
 			if (int hItem = SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0)) {
 				if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 					DBVARIANT dbv={0};
-					m_proto->JGetStringT(hContact, "jid", &dbv);
+					m_proto->getTString(hContact, "jid", &dbv);
 					if (dbv.ptszVal && (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR))
 						InviteUser(dbv.ptszVal, text);
 					db_free(&dbv);
@@ -1477,12 +1477,12 @@ static void sttSendPrivateMessage(CJabberProto* ppro, JABBER_LIST_ITEM* item, co
 	if (hContact != NULL) {
 		for (int i=0; i < item->resourceCount; i++) {
 			if (_tcsicmp(item->resource[i].resourceName, nick) == 0) {
-				ppro->JSetWord(hContact, "Status", item->resource[i].status);
+				ppro->setWord(hContact, "Status", item->resource[i].status);
 				break;
 		}	}
 
 		db_set_b(hContact, "CList", "Hidden", 1);
-		ppro->JSetStringT(hContact, "Nick", nick);
+		ppro->setTString(hContact, "Nick", nick);
 		db_set_dw(hContact, "Ignore", "Mask1", 0);
 		CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
 }	}

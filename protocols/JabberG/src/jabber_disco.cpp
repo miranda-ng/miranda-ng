@@ -407,7 +407,7 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 					if (_tcschr(item->jid, '@')==NULL && _tcschr(item->jid, '/')==NULL && item->subscription!=SUB_NONE) {
 						HANDLE hContact = HContactFromJID(item->jid);
 						if (hContact != NULL)
-							JSetByte(hContact, "IsTransport", TRUE);
+							setByte(hContact, "IsTransport", TRUE);
 
 						if (m_lstTransports.getIndex(item->jid) == -1)
 							m_lstTransports.insert(mir_tstrdup(item->jid));
@@ -440,18 +440,18 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 		}
 		else if ( !lstrcmp(szJid, _T(SD_FAKEJID_FAVORITES))) {
 			sttBrowseMode = SD_BROWSE_FAVORITES;
-			int count = JGetDword(NULL, "discoWnd_favCount", 0);
+			int count = getDword(NULL, "discoWnd_favCount", 0);
 			for (int i = 0; i < count; i++)
 			{
 				DBVARIANT dbv;
 				char setting[MAXMODULELABELLENGTH];
 				mir_snprintf(setting, sizeof(setting), "discoWnd_favName_%d", i);
-				if ( !JGetStringT(NULL, setting, &dbv)) {
+				if ( !getTString(NULL, setting, &dbv)) {
 					DBVARIANT dbvJid, dbvNode;
 					mir_snprintf(setting, sizeof(setting), "discoWnd_favJID_%d", i);
-					JGetStringT(NULL, setting, &dbvJid);
+					getTString(NULL, setting, &dbvJid);
 					mir_snprintf(setting, sizeof(setting), "discoWnd_favNode_%d", i);
-					JGetStringT(NULL, setting, &dbvNode);
+					getTString(NULL, setting, &dbvNode);
 					CJabberSDNode* pNode = m_SDManager.AddPrimaryNode(dbvJid.ptszVal, dbvNode.ptszVal, dbv.ptszVal);
 					SendBothRequests(pNode, NULL);
 					db_free(&dbv);
@@ -803,13 +803,13 @@ void CJabberDlgDiscovery::btnGoHome_OnClick(CCtrlButton *)
 void CJabberDlgDiscovery::btnBookmarks_OnClick(CCtrlButton *)
 {
 	HMENU hMenu = CreatePopupMenu();
-	int count = m_proto->JGetDword(NULL, "discoWnd_favCount", 0);
+	int count = m_proto->getDword(NULL, "discoWnd_favCount", 0);
 	for (int i = 0; i < count; i++)
 	{
 		DBVARIANT dbv;
 		char setting[MAXMODULELABELLENGTH];
 		mir_snprintf(setting, sizeof(setting), "discoWnd_favName_%d", i);
-		if ( !m_proto->JGetStringT(NULL, setting, &dbv))
+		if ( !m_proto->getTString(NULL, setting, &dbv))
 		{
 			HMENU hSubMenu = CreatePopupMenu();
 			AppendMenu(hSubMenu, MF_STRING, 100+i*10+0, TranslateT("Navigate"));
@@ -861,10 +861,10 @@ void CJabberDlgDiscovery::btnBookmarks_OnClick(CCtrlButton *)
 			DBVARIANT dbv;
 			char setting[MAXMODULELABELLENGTH];
 			mir_snprintf(setting, sizeof(setting), "discoWnd_favJID_%d", res);
-			if ( !m_proto->JGetStringT(NULL, setting, &dbv)) SetDlgItemText(m_hwnd, IDC_COMBO_JID, dbv.ptszVal);
+			if ( !m_proto->getTString(NULL, setting, &dbv)) SetDlgItemText(m_hwnd, IDC_COMBO_JID, dbv.ptszVal);
 			db_free(&dbv);
 			mir_snprintf(setting, sizeof(setting), "discoWnd_favNode_%d", res);
-			if ( !m_proto->JGetStringT(NULL, setting, &dbv)) SetDlgItemText(m_hwnd, IDC_COMBO_NODE, dbv.ptszVal);
+			if ( !m_proto->getTString(NULL, setting, &dbv)) SetDlgItemText(m_hwnd, IDC_COMBO_NODE, dbv.ptszVal);
 			db_free(&dbv);
 
 			PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_BUTTON_BROWSE, 0), 0);
@@ -872,7 +872,7 @@ void CJabberDlgDiscovery::btnBookmarks_OnClick(CCtrlButton *)
 	} else
 	if (res == 1)
 	{
-		int count = m_proto->JGetDword(NULL, "discoWnd_favCount", 0);
+		int count = m_proto->getDword(NULL, "discoWnd_favCount", 0);
 		for (int i = 0; i < count; i++)
 		{
 			char setting[MAXMODULELABELLENGTH];
@@ -1368,14 +1368,14 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		case SD_ACT_FAVORITE:
 		{
 			char setting[MAXMODULELABELLENGTH];
-			int count = JGetDword(NULL, "discoWnd_favCount", 0);
+			int count = getDword(NULL, "discoWnd_favCount", 0);
 			mir_snprintf(setting, sizeof(setting), "discoWnd_favName_%d", count);
-			JSetStringT(NULL, setting, pNode->GetName() ? pNode->GetName() : pNode->GetJid());
+			setTString(NULL, setting, pNode->GetName() ? pNode->GetName() : pNode->GetJid());
 			mir_snprintf(setting, sizeof(setting), "discoWnd_favJID_%d", count);
-			JSetStringT(NULL, setting, pNode->GetJid());
+			setTString(NULL, setting, pNode->GetJid());
 			mir_snprintf(setting, sizeof(setting), "discoWnd_favNode_%d", count);
-			JSetStringT(NULL, setting, pNode->GetNode() ? pNode->GetNode() : _T(""));
-			JSetDword(NULL, "discoWnd_favCount", ++count);
+			setTString(NULL, setting, pNode->GetNode() ? pNode->GetNode() : _T(""));
+			setDword(NULL, "discoWnd_favCount", ++count);
 			break;
 		}
 
@@ -1394,7 +1394,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		case SD_ACT_PROXY:
 			m_options.BsDirect = FALSE;
 			m_options.BsProxyManual = TRUE;
-			JSetStringT(NULL, "BsProxyServer", pNode->GetJid());
+			setTString(NULL, "BsProxyServer", pNode->GetJid());
 			break;
 
 		case SD_ACT_JOIN:

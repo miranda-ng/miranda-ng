@@ -181,7 +181,7 @@ void CYahooProto::stealth(const char *buddy, int add)
 
 	/* Safety check, don't dereference Invalid pointers */
 	if (m_id > 0)
-		yahoo_set_stealth(m_id, buddy, GetWord(getbuddyH(buddy), "yprotoid", 0), add);
+		yahoo_set_stealth(m_id, buddy, getWord(getbuddyH(buddy), "yprotoid", 0), add);
 }
 
 void CYahooProto::remove_buddy(const char *who, int protocol)
@@ -241,7 +241,7 @@ void CYahooProto::AddBuddy(HANDLE hContact, const char *group, const TCHAR *msg)
 	
 	No refresh needed. */
 	
-	if (!GetString(hContact, YAHOO_LOGINID, &dbv))
+	if (!getString(hContact, YAHOO_LOGINID, &dbv))
 	{
 		who = strdup(dbv.pszVal);
 		db_free(&dbv);
@@ -249,10 +249,10 @@ void CYahooProto::AddBuddy(HANDLE hContact, const char *group, const TCHAR *msg)
 	else
 		return;
 
-	protocol = GetWord(hContact, "yprotoid", 0);
+	protocol = getWord(hContact, "yprotoid", 0);
 	u_msg = mir_utf8encodeT(msg);
 
-	if (!GetString(hContact, "MyIdentity", &dbv))
+	if (!getString(hContact, "MyIdentity", &dbv))
 	{
 		ident = strdup(dbv.pszVal);
 		db_free(&dbv);
@@ -286,7 +286,7 @@ HANDLE CYahooProto::getbuddyH(const char *yahoo_id)
 {
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DBVARIANT dbv;
-		if (GetString(hContact, YAHOO_LOGINID, &dbv))
+		if (getString(hContact, YAHOO_LOGINID, &dbv))
 			continue;
 
 		int tCompareResult = lstrcmpiA( dbv.pszVal, yahoo_id );
@@ -321,7 +321,7 @@ HANDLE CYahooProto::add_buddy( const char *yahoo_id, const char *yahoo_name, int
 	LOG(("[add_buddy] Adding buddy id: %s (Nick: %s), flags: %lu", yid, yahoo_name, flags));
 	hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact,(LPARAM)m_szModuleName);
-	SetString( hContact, YAHOO_LOGINID, yid );
+	setString( hContact, YAHOO_LOGINID, yid );
 	Set_Protocol( hContact, protocol );
 
 	if (lstrlenA(yahoo_name) > 0)
@@ -378,13 +378,13 @@ void CYahooProto::ext_status_changed(const char *who, int protocol, int stat, co
 	}
 	
 	if (!mobile)
-		SetWord(hContact, "Status", yahoo_to_miranda_status(stat,away));
+		setWord(hContact, "Status", yahoo_to_miranda_status(stat,away));
 	else
-		SetWord(hContact, "Status", ID_STATUS_ONTHEPHONE);
+		setWord(hContact, "Status", ID_STATUS_ONTHEPHONE);
 	
-	SetWord(hContact, "YStatus", stat);
-	SetWord(hContact, "YAway", away);
-	SetWord(hContact, "Mobile", mobile);
+	setWord(hContact, "YStatus", stat);
+	setWord(hContact, "YAway", away);
+	setWord(hContact, "Mobile", mobile);
 
 	if (msg) {
 		YAHOO_DEBUGLOG("[ext_status_changed] %s custom message '%s'", who, msg);
@@ -517,7 +517,7 @@ void CYahooProto::ext_status_logon(const char *who, int protocol, int stat, cons
 		}
 
 		if (s != NULL) 
-			SetString( hContact, "MirVer", s);
+			setString( hContact, "MirVer", s);
 		else
 			db_unset( hContact, m_szModuleName, "MirVer");
 	
@@ -604,7 +604,7 @@ void CYahooProto::ext_got_stealth(char *stealthlist)
 
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DBVARIANT dbv;
-		if (GetString( hContact, YAHOO_LOGINID, &dbv))
+		if (getString( hContact, YAHOO_LOGINID, &dbv))
 			continue;
 
 		found = 0;
@@ -622,13 +622,13 @@ void CYahooProto::ext_got_stealth(char *stealthlist)
 		if (found) { /* we have him on our Stealth List */
 			YAHOO_DEBUGLOG("Setting STEALTH for id = %s", dbv.pszVal);
 			/* need to set the ApparentMode thingy */
-			if (ID_STATUS_OFFLINE != GetWord(hContact, "ApparentMode", 0))
-				GetWord(hContact, "ApparentMode", ID_STATUS_OFFLINE);
+			if (ID_STATUS_OFFLINE != getWord(hContact, "ApparentMode", 0))
+				getWord(hContact, "ApparentMode", ID_STATUS_OFFLINE);
 
 		} else { /* he is not on the Stealth List */
 			//LOG(("Resetting STEALTH for id = %s", dbv.pszVal));
 			/* need to delete the ApparentMode thingy */
-			if (GetWord(hContact, "ApparentMode", 0))
+			if (getWord(hContact, "ApparentMode", 0))
 				db_unset(hContact, m_szModuleName, "ApparentMode");
 		}
 
@@ -670,19 +670,19 @@ void CYahooProto::ext_got_buddies(YList * buds)
 		if (bud->stealth) { /* we have him on our Stealth List */
 			YAHOO_DEBUGLOG("Setting STEALTH for id = %s", bud->id);
 			/* need to set the ApparentMode thingy */
-			if (ID_STATUS_OFFLINE != GetWord(hContact, "ApparentMode", 0))
-				SetWord(hContact, "ApparentMode", (WORD) ID_STATUS_OFFLINE);
+			if (ID_STATUS_OFFLINE != getWord(hContact, "ApparentMode", 0))
+				setWord(hContact, "ApparentMode", (WORD) ID_STATUS_OFFLINE);
 
 		} else { /* he is not on the Stealth List */
 			//LOG(("Resetting STEALTH for id = %s", dbv.pszVal));
 			/* need to delete the ApparentMode thingy */
-			if (GetWord(hContact, "ApparentMode", 0))
+			if (getWord(hContact, "ApparentMode", 0))
 				db_unset(hContact, m_szModuleName, "ApparentMode");
 		}
 
 		//if (bud->auth)
 		//	YAHOO_DEBUGLOG("Auth request waiting for: %s", bud->id );
-		SetByte(hContact, "YAuth", bud->auth);
+		setByte(hContact, "YAuth", bud->auth);
 
 		if (bud->real_name) {
 			YAHOO_DEBUGLOG("id = %s name = %s", bud->id, bud->real_name);
@@ -699,18 +699,18 @@ void CYahooProto::ext_got_buddies(YList * buds)
 				SetStringUtf( hContact, "LastName", bud->yab_entry->lname);
 
 			if (bud->yab_entry->email) 
-				SetString( hContact, "e-mail", bud->yab_entry->email);
+				setString( hContact, "e-mail", bud->yab_entry->email);
 
 			if (bud->yab_entry->mphone) 
-				SetString( hContact, "Cellular", bud->yab_entry->mphone);
+				setString( hContact, "Cellular", bud->yab_entry->mphone);
 
 			if (bud->yab_entry->hphone) 
-				SetString( hContact, "Phone", bud->yab_entry->hphone);
+				setString( hContact, "Phone", bud->yab_entry->hphone);
 
 			if (bud->yab_entry->wphone) 
-				SetString( hContact, "CompanyPhone", bud->yab_entry->wphone);
+				setString( hContact, "CompanyPhone", bud->yab_entry->wphone);
 
-			SetWord( hContact, "YabID", bud->yab_entry->dbid);
+			setWord( hContact, "YabID", bud->yab_entry->dbid);
 		}
 	}
 	
@@ -812,11 +812,11 @@ void CYahooProto::ext_contact_added(const char *myid, const char *who, const cha
 		SetStringUtf(hContact, "Nick", nick);
 
 	if (strcmp(myid, m_yahoo_id))
-		SetString(hContact, "MyIdentity", myid);
+		setString(hContact, "MyIdentity", myid);
 	else
 		db_unset(hContact, m_szModuleName, "MyIdentity");
 
-	//SetWord(hContact, "yprotoid", protocol);
+	//setWord(hContact, "yprotoid", protocol);
 	Set_Protocol(hContact, protocol);
 
 	pre.flags			= PREF_UTF;
@@ -911,7 +911,7 @@ void CYahooProto::ext_game_notify(const char *me, const char *who, int stat, con
 		return;
 
 	if (stat == 2) 
-		SetString(hContact, "YGMsg", "");
+		setString(hContact, "YGMsg", "");
 	else if (msg) {
 		const char *l = msg, *u = NULL;
 		char *z, *c;
@@ -970,7 +970,7 @@ void CYahooProto::ext_game_notify(const char *me, const char *who, int stat, con
 
 	} else {
 		/* ? no information / reset custom message */
-		SetString(hContact, "YGMsg", "");
+		setString(hContact, "YGMsg", "");
 	}
 }
 
@@ -981,7 +981,7 @@ void CYahooProto::ext_mail_notify(const char *from, const char *subj, int cnt)
 	if (cnt > 0) {
 		SkinPlaySound("mail");
 	
-		if (!GetByte("DisableYahoomail", 0)) {    
+		if (!getByte("DisableYahoomail", 0)) {    
 			TCHAR z[MAX_SECONDLINE], title[MAX_CONTACTNAME];
 			
 			if (from == NULL) {
@@ -1092,7 +1092,7 @@ void CYahooProto::ext_got_ping(const char *errormsg)
 			/**
 			 * Now load the YAB.
 			 */
-			if (GetByte("UseYAB", 1 )) {
+			if (getByte("UseYAB", 1 )) {
 				LOG(("[ext_got_ping] GET YAB"));
 				if (m_iStatus != ID_STATUS_OFFLINE)
 					mir_forkthread(yahoo_get_yab_thread, (void *)m_id);
@@ -1116,7 +1116,7 @@ void CYahooProto::ext_login_response(int succ, const char *url)
 		
 		c = yahoo_get_pw_token(m_id);
 		
-		SetString(YAHOO_PWTOKEN, c);
+		setString(YAHOO_PWTOKEN, c);
 		
 		LOG(("PW Token-> %s", c));
 		return;
@@ -1513,7 +1513,7 @@ void CYahooProto::ext_login(enum yahoo_status login_mode)
 	NETLIBHTTPREQUEST nlhr={0},*nlhrReply;
 	char z[4096];
 
-	wsprintfA(z, "http://%s%s", GetByte("YahooJapan",0) != 0 ? "cs1.msg.vip.ogk.yahoo.co.jp" : "vcs.msg.yahoo.com", "/capacity");
+	wsprintfA(z, "http://%s%s", getByte("YahooJapan",0) != 0 ? "cs1.msg.vip.ogk.yahoo.co.jp" : "vcs.msg.yahoo.com", "/capacity");
 	nlhr.cbSize		= sizeof(nlhr);
 	nlhr.requestType= REQUEST_GET;
 	nlhr.flags		= NLHRF_HTTP11;
@@ -1545,21 +1545,21 @@ void CYahooProto::ext_login(enum yahoo_status login_mode)
 	} 
 	
 	if 	(host[0] == '\0') {
-		if (!GetString(YAHOO_LOGINSERVER, &dbv)) {
+		if (!getString(YAHOO_LOGINSERVER, &dbv)) {
 			mir_snprintf(host, sizeof(host), "%s", dbv.pszVal);
 			db_free(&dbv);
 		}
 		else {
 			snprintf(host, sizeof(host), "%s", 
-							GetByte("YahooJapan",0) != 0 ? YAHOO_DEFAULT_JAPAN_LOGIN_SERVER :
+							getByte("YahooJapan",0) != 0 ? YAHOO_DEFAULT_JAPAN_LOGIN_SERVER :
 															YAHOO_DEFAULT_LOGIN_SERVER
 					);
 		}
 	}
 	
-	lstrcpynA(fthost,GetByte("YahooJapan",0)?"filetransfer.msg.yahoo.co.jp":"filetransfer.msg.yahoo.com" , sizeof(fthost));
-	lstrcpynA(login_host,GetByte("YahooJapan",0)?"login.yahoo.co.jp":"login.yahoo.com" , sizeof(login_host));	
-	port = GetWord(NULL, YAHOO_LOGINPORT, YAHOO_DEFAULT_PORT);
+	lstrcpynA(fthost,getByte("YahooJapan",0)?"filetransfer.msg.yahoo.co.jp":"filetransfer.msg.yahoo.com" , sizeof(fthost));
+	lstrcpynA(login_host,getByte("YahooJapan",0)?"login.yahoo.co.jp":"login.yahoo.com" , sizeof(login_host));	
+	port = getWord(NULL, YAHOO_LOGINPORT, YAHOO_DEFAULT_PORT);
 	
 #ifdef HTTP_GATEWAY			
 	nlus.cbSize = sizeof( nlus );
@@ -1575,7 +1575,7 @@ void CYahooProto::ext_login(enum yahoo_status login_mode)
 		"pager_host", host,
 		"pager_port", port,
 		"filetransfer_host", fthost,
-		"picture_checksum", GetDword("AvatarHash", -1),
+		"picture_checksum", getDword("AvatarHash", -1),
 #ifdef HTTP_GATEWAY			
 		"web_messenger", iHTTPGateway,
 #endif

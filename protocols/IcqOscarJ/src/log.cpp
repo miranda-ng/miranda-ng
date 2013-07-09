@@ -46,7 +46,7 @@ void __cdecl CIcqProto::icq_LogMessageThread(void* arg)
 	if (!err)
 		return;
 
-	if (bPopupService && getSettingByte(NULL, "PopupsLogEnabled", DEFAULT_LOG_POPUPS_ENABLED))
+	if (bPopupService && getByte("PopupsLogEnabled", DEFAULT_LOG_POPUPS_ENABLED))
 	{
 		ShowPopupMsg(NULL, err->szTitle, err->szMsg, err->bLevel); 
 
@@ -69,10 +69,10 @@ void CIcqProto::icq_LogMessage(int level, const char *szMsg)
 {
 	NetLog_Server("%s", szMsg);
 
-	int displayLevel = getSettingByte(NULL, "ShowLogLevel", LOG_WARNING);
+	int displayLevel = getByte("ShowLogLevel", LOG_WARNING);
 	if (level >= displayLevel)
 	{
-		if (!bErrorBoxVisible || !getSettingByte(NULL, "IgnoreMultiErrorBox", 0))
+		if (!bErrorBoxVisible || !getByte("IgnoreMultiErrorBox", 0))
 		{ 
 			// error not shown or allowed multi - show messagebox
 			LogMessageInfo *lmi = (LogMessageInfo*)SAFE_MALLOC(sizeof(LogMessageInfo));

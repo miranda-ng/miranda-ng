@@ -139,7 +139,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	GetAvatarFileName(AI->hContact, tszFileName, SIZEOF(tszFileName));
 	_tcsncpy(AI->filename, tszFileName, SIZEOF(AI->filename));
 
-	AI->format = (AI->hContact == NULL) ? PA_FORMAT_PNG : JGetByte(AI->hContact, "AvatarType", 0);
+	AI->format = (AI->hContact == NULL) ? PA_FORMAT_PNG : getByte(AI->hContact, "AvatarType", 0);
 
 	if (::_taccess(AI->filename, 0) == 0) {
 		char szSavedHash[ 256 ];
@@ -151,10 +151,10 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	if ((wParam & GAIF_FORCE) != 0 && AI->hContact != NULL && m_bJabberOnline) {
 		DBVARIANT dbv;
-		if ( !JGetStringT(AI->hContact, "jid", &dbv)) {
+		if ( !getTString(AI->hContact, "jid", &dbv)) {
 			JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
 			if (item != NULL) {
-				BOOL isXVcard = JGetByte(AI->hContact, "AvatarXVcard", 0);
+				BOOL isXVcard = getByte(AI->hContact, "AvatarXVcard", 0);
 
 				TCHAR szJid[ JABBER_MAX_JID_LEN ];
 				if (item->resourceCount != NULL && !isXVcard) {
@@ -338,7 +338,7 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 		}
 		delete[] pResult;
 
-		JSetString(NULL, "AvatarSaved", buf);
+		setString("AvatarSaved", buf);
 	}
 
 	return 0;
@@ -351,7 +351,7 @@ INT_PTR __cdecl CJabberProto::JabberSetNickname(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR *nickname = (wParam & SMNN_UNICODE) ? mir_u2t((WCHAR *) lParam) : mir_a2t((char *) lParam);
 
-	JSetStringT(NULL, "Nick", nickname);
+	setTString(NULL, "Nick", nickname);
 	SetServerVcard(FALSE, _T(""));
 	return 0;
 }
@@ -590,7 +590,7 @@ INT_PTR __cdecl CJabberProto::JabberSendNudge(WPARAM wParam, LPARAM)
 
 	HANDLE hContact = (HANDLE)wParam;
 	DBVARIANT dbv;
-	if ( !JGetStringT(hContact, "jid", &dbv)) {
+	if ( !getTString(hContact, "jid", &dbv)) {
 		TCHAR tszJid[ JABBER_MAX_JID_LEN ];
 		TCHAR *szResource = ListGetBestClientResourceNamePtr(dbv.ptszVal);
 		if (szResource)
@@ -788,7 +788,7 @@ HANDLE CJabberSysInterface::ContactFromJID(LPCTSTR jid)
 
 LPTSTR CJabberSysInterface::ContactToJID(HANDLE hContact)
 {
-	return m_psProto->JGetStringT(hContact, m_psProto->JGetByte(hContact, "ChatRoom", 0) ? "ChatRoomID" : "jid");
+	return m_psProto->JGetStringT(hContact, m_psProto->getByte(hContact, "ChatRoom", 0) ? "ChatRoomID" : "jid");
 }
 
 LPTSTR CJabberSysInterface::GetBestResourceName(LPCTSTR jid)

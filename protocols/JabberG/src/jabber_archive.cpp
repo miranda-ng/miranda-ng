@@ -42,7 +42,7 @@ void CJabberProto::RetrieveMessageArchive(HANDLE hContact, JABBER_LIST_ITEM *pIt
 	XmlNodeIq iq(_T("get"), iqId);
 	HXML list = iq << XCHILDNS( _T("list"), _T(JABBER_FEAT_ARCHIVE)) << XATTR(_T("with"), pItem->jid);
 
-	time_t tmLast = JGetDword(hContact, "LastCollection", 0);
+	time_t tmLast = getDword(hContact, "LastCollection", 0);
 	if (tmLast) {
 		TCHAR buf[40];
 		list << XATTR(_T("start"), time2str(tmLast, buf, SIZEOF(buf)));
@@ -79,7 +79,7 @@ void CJabberProto::OnIqResultGetCollectionList(HXML iqNode)
 			if ((hContact = HContactFromJID(with)) == NULL)
 				continue;
 
-			tmLast = JGetDword(hContact, "LastCollection", 0);
+			tmLast = getDword(hContact, "LastCollection", 0);
 		}
 
 		int iqId = SerialNext();
@@ -91,7 +91,7 @@ void CJabberProto::OnIqResultGetCollectionList(HXML iqNode)
 		time_t tmThis = str2time(start);
 		if ( tmThis > tmLast) {
 			tmLast = tmThis;
-			JSetDword(hContact, "LastCollection", tmLast+1);
+			setDword(hContact, "LastCollection", tmLast+1);
 		}
 	}
 }

@@ -245,7 +245,7 @@ NextVal:
 					if (strcmpnull(szOldXName, szXName))
 						bChanged = TRUE;
 					SAFE_FREE(&szOldXName);
-					setSettingStringUtf(hContact, DBSETTING_XSTATUS_NAME, szXName);
+					db_set_utf(hContact, m_szModuleName, DBSETTING_XSTATUS_NAME, szXName);
 					SAFE_FREE(&szXName);
 					*szEnd = ' ';
 				}
@@ -262,7 +262,7 @@ NextVal:
 					if (strcmpnull(szOldXMsg, szXMsg))
 						bChanged = TRUE;
 					SAFE_FREE(&szOldXMsg);
-					setSettingStringUtf(hContact, DBSETTING_XSTATUS_MSG, szXMsg);
+					db_set_utf(hContact, m_szModuleName, DBSETTING_XSTATUS_MSG, szXMsg);
 					SAFE_FREE(&szXMsg);
 				}
 				ProtoBroadcastAck(hContact, ICQACKTYPE_XSTATUS_RESPONSE, ACKRESULT_SUCCESS, (HANDLE)wCookie, 0);

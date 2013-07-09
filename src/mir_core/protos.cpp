@@ -160,11 +160,11 @@ MIR_CORE_DLL(int) ProtoGetByte(PROTO_INTERFACE *pThis, HANDLE hContact, const ch
 {	return db_get_b(hContact, pThis->m_szModuleName, name, defaultValue);
 }
 
-MIR_CORE_DLL(int) ProtoGetDword0(PROTO_INTERFACE *pThis, const char* name, DWORD defaultValue)
+MIR_CORE_DLL(DWORD) ProtoGetDword0(PROTO_INTERFACE *pThis, const char* name, DWORD defaultValue)
 {	return db_get_dw(NULL, pThis->m_szModuleName, name, defaultValue);
 }
 
-MIR_CORE_DLL(int) ProtoGetDword(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, DWORD defaultValue)
+MIR_CORE_DLL(DWORD) ProtoGetDword(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, DWORD defaultValue)
 {	return db_get_dw(hContact, pThis->m_szModuleName, name, defaultValue);
 }
 

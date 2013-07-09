@@ -23,7 +23,7 @@ void CYahooProto::send_msg(const char *id, int protocol, const char *msg, int ut
 {
 	LOG(("[send_msg] Who: %s: protocol: %d Msg: '%s', utf: %d", id, protocol, msg, utf8));
 	
-	int buddy_icon = (GetDword("AvatarHash", 0) != 0) ? 2: 0;
+	int buddy_icon = (getDword("AvatarHash", 0) != 0) ? 2: 0;
 	yahoo_send_im(m_id, NULL, id, protocol, msg, utf8, buddy_icon);
 }
 
@@ -51,7 +51,7 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 		return;
 	}
 
-	if (GetByte("IgnoreUnknown", 0)) {
+	if (getByte("IgnoreUnknown", 0)) {
 
 		/*
 		* Check our buddy list to see if we have it there. And if it's not on the list then we don't accept any IMs.
@@ -101,7 +101,7 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 	LOG(("%s: %s", who, umsg));
 
 	HANDLE hContact = add_buddy(who, who, protocol, PALF_TEMPORARY);
-	//SetWord(hContact, "yprotoid", protocol);
+	//setWord(hContact, "yprotoid", protocol);
 	Set_Protocol(hContact, protocol);
 
 	PROTORECVEVENT pre;
@@ -194,8 +194,8 @@ int __cdecl CYahooProto::SendMsg( HANDLE hContact, int flags, const char* pszSrc
 	}
 
 	DBVARIANT dbv;
-	if (!GetString( hContact, YAHOO_LOGINID, &dbv)) {
-		send_msg(dbv.pszVal, GetWord( hContact, "yprotoid", 0), msg, 1);
+	if (!getString( hContact, YAHOO_LOGINID, &dbv)) {
+		send_msg(dbv.pszVal, getWord( hContact, "yprotoid", 0), msg, 1);
 
 		ForkThread( &CYahooProto::im_sendacksuccess, hContact );
 
@@ -239,8 +239,8 @@ INT_PTR __cdecl CYahooProto::SendNudge(WPARAM wParam, LPARAM lParam)
 	}
 
 	DBVARIANT dbv;
-	if (!GetString(hContact, YAHOO_LOGINID, &dbv)) {
-		send_msg(dbv.pszVal, GetWord(hContact, "yprotoid", 0), "<ding>", 0);
+	if (!getString(hContact, YAHOO_LOGINID, &dbv)) {
+		send_msg(dbv.pszVal, getWord(hContact, "yprotoid", 0), "<ding>", 0);
 		db_free(&dbv);
 
 		ForkThread( &CYahooProto::im_sendacksuccess, hContact );

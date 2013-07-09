@@ -79,7 +79,7 @@ static INT_PTR CALLBACK JabberPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			mir_sntprintf(text, SIZEOF(text), _T("%s %s"), TranslateT("Enter password for"), (TCHAR*)param->ptszJid);
 			SetDlgItemText(hwndDlg, IDC_JID, text);
 
-			int bSavePassword = param->pro->JGetByte(NULL, "SaveSessionPassword", 0);
+			int bSavePassword = param->pro->getByte(NULL, "SaveSessionPassword", 0);
 			CheckDlgButton(hwndDlg, IDC_SAVEPASSWORD, (bSavePassword) ? BST_CHECKED : BST_UNCHECKED);
 		}
 		return TRUE;
@@ -91,12 +91,12 @@ static INT_PTR CALLBACK JabberPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			break;
 		case IDOK:
 			param->saveOnlinePassword = IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD);
-			param->pro->JSetByte(NULL, "SaveSessionPassword", param->saveOnlinePassword);
+			param->pro->setByte(NULL, "SaveSessionPassword", param->saveOnlinePassword);
 
 			GetDlgItemText(hwndDlg, IDC_PASSWORD, param->onlinePassword, SIZEOF(param->onlinePassword));
 			{
 				BOOL savePassword = IsDlgButtonChecked(hwndDlg, IDC_SAVE_PERM);
-				param->pro->JSetByte(NULL, "SavePassword", savePassword);
+				param->pro->setByte(NULL, "SavePassword", savePassword);
 				if (savePassword) {
 					param->pro->JSetStringCrypt(NULL,"LoginPassword",param->onlinePassword);
 					param->saveOnlinePassword = TRUE;
@@ -264,9 +264,9 @@ void CJabberProto::ServerThread(ThreadData* info)
 			info->manualHost[SIZEOF(info->manualHost)-1] = '\0';
 			db_free(&dbv);
 		}
-		info->port = JGetWord(NULL, "ManualPort", JABBER_DEFAULT_PORT);
+		info->port = getWord("ManualPort", JABBER_DEFAULT_PORT);
 	}
-	else info->port = JGetWord(NULL, "Port", JABBER_DEFAULT_PORT);
+	else info->port = getWord("Port", JABBER_DEFAULT_PORT);
 
 	info->useSSL = m_options.UseSSL;
 
@@ -291,7 +291,7 @@ LBL_Exit:
 		if (m_szStreamId) mir_free(m_szStreamId);
 		m_szStreamId = NULL;
 
-		if ( !JGetStringT(NULL, "LoginName", &dbv)) {
+		if ( !getTString(NULL, "LoginName", &dbv)) {
 			_tcsncpy(info->username, dbv.ptszVal, SIZEOF(info->username)-1);
 			db_free(&dbv);
 		}
@@ -299,7 +299,7 @@ LBL_Exit:
 		if (*rtrimt(info->username) == '\0') {
 			DWORD dwSize = SIZEOF(info->username);
 			if (GetUserName(info->username, &dwSize))
-				JSetStringT(NULL, "LoginName", info->username);
+				setTString(NULL, "LoginName", info->username);
 			else
 				info->username[0] = 0;
 		}
@@ -326,7 +326,7 @@ LBL_FatalError:
 		}
 
 		if (m_options.HostNameAsResource == FALSE) {
-			if ( !JGetStringT(NULL, "Resource", &dbv)) {
+			if ( !getTString(NULL, "Resource", &dbv)) {
 				_tcsncpy(info->resource, dbv.ptszVal, SIZEOF(info->resource) - 1);
 				db_free(&dbv);
 			}
@@ -461,7 +461,7 @@ LBL_FatalError:
 			m_szJabberJID = (TCHAR*)mir_alloc(sizeof(TCHAR)*(len+1));
 			mir_sntprintf(m_szJabberJID, len+1, _T("%s@%S"), info->username, info->server);
 			m_bSendKeepAlive = m_options.KeepAlive != 0;
-			JSetStringT(NULL, "jid", m_szJabberJID); // store jid in database
+			setTString(NULL, "jid", m_szJabberJID); // store jid in database
 		}
 
 		xmlStreamInitializeNow(info);
@@ -914,7 +914,7 @@ void CJabberProto::OnProcessSuccess(HXML node, ThreadData* info)
 
 		Log("Success: Logged-in.");
 		if ( db_get_s(NULL, m_szModuleName, "Nick", &dbv))
-			JSetStringT(NULL, "Nick", info->username);
+			setTString(NULL, "Nick", info->username);
 		else
 			db_free(&dbv);
 		xmlStreamInitialize("after successful sasl");
@@ -1099,7 +1099,7 @@ HANDLE CJabberProto::CreateTemporaryContact(const TCHAR *szJid, JABBER_LIST_ITEM
 
 		for (int i=0; i < chatItem->resourceCount; i++) {
 			if ( !lstrcmp(chatItem->resource[i].resourceName, p)) {
-				JSetWord(hContact, "Status", chatItem->resource[i].status);
+				setWord(hContact, "Status", chatItem->resource[i].status);
 				break;
 			}
 		}
@@ -1578,8 +1578,8 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 	else JDeleteSetting(hContact, DBSETTING_DISPLAY_UID);
 
 	if (_tcschr(jid, '@') != NULL || m_options.ShowTransport == TRUE)
-		if (JGetWord(hContact, "Status", ID_STATUS_OFFLINE) != status)
-			JSetWord(hContact, "Status", (WORD)status);
+		if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != status)
+			setWord(hContact, "Status", (WORD)status);
 
 	if (status == ID_STATUS_OFFLINE)
 	{ // remove x-status icon
@@ -1680,10 +1680,10 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 					if ((xNode = xmlGetChild(xNode , "hash")) != NULL && xmlGetText(xNode) != NULL) {
 						JDeleteSetting(hContact,"AvatarXVcard");
 						Log("AvatarXVcard deleted");
-						JSetStringT(hContact, "AvatarHash", xmlGetText(xNode));
+						setTString(hContact, "AvatarHash", xmlGetText(xNode));
 						hasAvatar = true;
 						DBVARIANT dbv;
-						int result = JGetStringT(hContact, "AvatarSaved", &dbv);
+						int result = getTString(hContact, "AvatarSaved", &dbv);
 						if (result || lstrcmp(dbv.ptszVal, xmlGetText(xNode))) {
 							Log("Avatar was changed");
 							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, NULL);
@@ -1700,12 +1700,12 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 						if ((xNode = xmlGetChild(xNode , "photo")) != NULL) {
 							LPCTSTR txt = xmlGetText(xNode);
 							if (txt != NULL && txt[0] != 0) {
-								JSetByte(hContact, "AvatarXVcard", 1);
+								setByte(hContact, "AvatarXVcard", 1);
 								Log("AvatarXVcard set");
-								JSetStringT(hContact, "AvatarHash", txt);
+								setTString(hContact, "AvatarHash", txt);
 								hasAvatar = true;
 								DBVARIANT dbv;
-								int result = JGetStringT(hContact, "AvatarSaved", &dbv);
+								int result = getTString(hContact, "AvatarSaved", &dbv);
 								if (result || lstrcmp(dbv.ptszVal, txt)) {
 									Log("Avatar was changed. Using vcard-temp:x:update");
 									ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, NULL);
@@ -1720,7 +1720,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 				Log("Has no avatar");
 				JDeleteSetting(hContact, "AvatarHash");
 				DBVARIANT dbv = {0};
-				if ( !JGetStringT(hContact, "AvatarSaved", &dbv)) {
+				if ( !getTString(hContact, "AvatarSaved", &dbv)) {
 					db_free(&dbv);
 					JDeleteSetting(hContact, "AvatarSaved");
 					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, NULL);

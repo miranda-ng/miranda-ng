@@ -567,31 +567,10 @@ struct CMsnProto : public PROTO<CMsnProto>
 	TCHAR* GetContactNameT(HANDLE hContact);
 	void   deleteSetting(HANDLE hContact, const char* valueName);
 
-	int    getByte(const char* name, BYTE defaultValue);
-	int    getByte(HANDLE hContact, const char* name, BYTE defaultValue);
-	int    getDword(const char* name, DWORD defaultValue);
-	int    getDword(HANDLE hContact, const char* name, DWORD defaultValue);
 	int    getStaticString(HANDLE hContact, const char* valueName, char* dest, unsigned dest_len);
-	int    getString(const char* name, DBVARIANT*);
-	int    getString(HANDLE hContact, const char* name, DBVARIANT*);
-	int    getTString(const char* name, DBVARIANT*);
-	int    getTString(HANDLE hContact, const char* name, DBVARIANT*);
 	int    getStringUtf(HANDLE hContact, const char* name, DBVARIANT* result);
 	int    getStringUtf(const char* name, DBVARIANT* result);
-	WORD   getWord(const char* name, WORD defaultValue);
-	WORD   getWord(HANDLE hContact, const char* name, WORD defaultValue);
-
-	void   setByte(const char* name, BYTE value);
-	void   setByte(HANDLE hContact, const char* name, BYTE value);
-	void   setDword(const char* name, DWORD value);
-	void   setDword(HANDLE hContact, const char* name, DWORD value);
-	void   setString(const char* name, const char* value);
-	void   setString(HANDLE hContact, const char* name, const char* value);
 	void   setStringUtf(HANDLE hContact, const char* name, const char* value);
-	void   setTString(const char* name, const TCHAR* value);
-	void   setTString(HANDLE hContact, const char* name, const TCHAR* value);
-	void   setWord(const char* name, WORD value);
-	void   setWord(HANDLE hContact, const char* name, WORD value);
 };
 
 extern OBJLIST<CMsnProto> g_Instances;

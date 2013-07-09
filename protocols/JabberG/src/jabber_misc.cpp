@@ -120,7 +120,7 @@ void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)
 {
 	HANDLE hContact = DBCreateContact(jid, NULL, TRUE, TRUE);
 	JDeleteSetting(hContact, "Hidden");
-	//JSetStringT(hContact, "Nick", nick);
+	//setTString(hContact, "Nick", nick);
 
 	char* szJid = mir_utf8encodeT(jid);
 	char* szNick = mir_utf8encodeT(nick);
@@ -175,7 +175,7 @@ HANDLE CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL t
 	// We can't use JabberHContactFromJID() here because of the stripResource option
 	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DBVARIANT dbv;
-		if ( !JGetStringT(hContact, "jid", &dbv)) {
+		if ( !getTString(hContact, "jid", &dbv)) {
 			p = dbv.ptszVal;
 			if (p && _tcslen(p) >= len && (p[len]=='\0'||p[len]=='/') && !_tcsnicmp(p, s, len)) {
 				db_free(&dbv);
@@ -188,9 +188,9 @@ HANDLE CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL t
 	if (hContact == NULL) {
 		hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName);
-		JSetStringT(hContact, "jid", s);
+		setTString(hContact, "jid", s);
 		if (nick != NULL && *nick != '\0')
-			JSetStringT(hContact, "Nick", nick);
+			setTString(hContact, "Nick", nick);
 		if (temporary)
 			db_set_b(hContact, "CList", "NotOnList", 1);
 		else
@@ -268,7 +268,7 @@ void CJabberProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbL
 	pszDest[ tPathLen++ ] = '\\';
 
 	char* szFileType = NULL;
-	switch(JGetByte(hContact, "AvatarType", PA_FORMAT_PNG)) {
+	switch(getByte(hContact, "AvatarType", PA_FORMAT_PNG)) {
 		case PA_FORMAT_JPEG: szFileType = "jpg";   break;
 		case PA_FORMAT_PNG:  szFileType = "png";   break;
 		case PA_FORMAT_GIF:  szFileType = "gif";   break;
@@ -317,13 +317,13 @@ void CJabberProto::ResolveTransportNicks(const TCHAR *jid)
 		hContact = (HANDLE)db_find_first(m_szModuleName);
 
 	for (; hContact != NULL; hContact = db_find_next(hContact, m_szModuleName)) {
-		if ( !JGetByte(hContact, "IsTransported", 0))
+		if ( !getByte(hContact, "IsTransported", 0))
 			continue;
 
 		DBVARIANT dbv, nick;
-		if (JGetStringT(hContact, "jid", &dbv))
+		if (getTString(hContact, "jid", &dbv))
 			continue;
-		if (JGetStringT(hContact, "Nick", &nick)) {
+		if (getTString(hContact, "Nick", &nick)) {
 			db_free(&dbv);
 			continue;
 		}
@@ -545,18 +545,18 @@ void CJabberProto::UpdateMirVer(HANDLE hContact, JABBER_RESOURCE_STATUS *resourc
 	TCHAR szMirVer[ 512 ];
 	FormatMirVer(resource, szMirVer, SIZEOF(szMirVer));
 	if (szMirVer[0])
-		JSetStringT(hContact, "MirVer", szMirVer);
+		setTString(hContact, "MirVer", szMirVer);
 //	else
 //		JDeleteSetting(hContact, "MirVer");
 
 	DBVARIANT dbv;
-	if ( !JGetStringT(hContact, "jid", &dbv)) {
+	if ( !getTString(hContact, "jid", &dbv)) {
 		TCHAR szFullJid[ JABBER_MAX_JID_LEN ];
 		if (resource->resourceName)
 			mir_sntprintf(szFullJid, SIZEOF(szFullJid), _T("%s/%s"), dbv.ptszVal, resource->resourceName);
 		else
 			lstrcpyn(szFullJid, dbv.ptszVal, SIZEOF(szFullJid));
-		JSetStringT(hContact, DBSETTING_DISPLAY_UID, szFullJid);
+		setTString(hContact, DBSETTING_DISPLAY_UID, szFullJid);
 		db_free(&dbv);
 	}
 }
@@ -566,36 +566,36 @@ void CJabberProto::UpdateSubscriptionInfo(HANDLE hContact, JABBER_LIST_ITEM *ite
 	switch (item->subscription)
 	{
 	case SUB_TO:
-		JSetStringT(hContact, "SubscriptionText", TranslateT("To"));
-		JSetString(hContact, "Subscription", "to");
-		JSetByte(hContact, "Auth", 0);
-		JSetByte(hContact, "Grant", 1);
+		setTString(hContact, "SubscriptionText", TranslateT("To"));
+		setString(hContact, "Subscription", "to");
+		setByte(hContact, "Auth", 0);
+		setByte(hContact, "Grant", 1);
 		break;
 	case SUB_FROM:
-		JSetStringT(hContact, "SubscriptionText", TranslateT("From"));
-		JSetString(hContact, "Subscription", "from");
-		JSetByte(hContact, "Auth", 1);
-		JSetByte(hContact, "Grant", 0);
+		setTString(hContact, "SubscriptionText", TranslateT("From"));
+		setString(hContact, "Subscription", "from");
+		setByte(hContact, "Auth", 1);
+		setByte(hContact, "Grant", 0);
 		break;
 	case SUB_BOTH:
-		JSetStringT(hContact, "SubscriptionText", TranslateT("Both"));
-		JSetString(hContact, "Subscription", "both");
-		JSetByte(hContact, "Auth", 0);
-		JSetByte(hContact, "Grant", 0);
+		setTString(hContact, "SubscriptionText", TranslateT("Both"));
+		setString(hContact, "Subscription", "both");
+		setByte(hContact, "Auth", 0);
+		setByte(hContact, "Grant", 0);
 		break;
 	case SUB_NONE:
-		JSetStringT(hContact, "SubscriptionText", TranslateT("None"));
-		JSetString(hContact, "Subscription", "none");
-		JSetByte(hContact, "Auth", 1);
-		JSetByte(hContact, "Grant", 1);
+		setTString(hContact, "SubscriptionText", TranslateT("None"));
+		setString(hContact, "Subscription", "none");
+		setByte(hContact, "Auth", 1);
+		setByte(hContact, "Grant", 1);
 		break;
 	}
 }
 
 void CJabberProto::SetContactOfflineStatus(HANDLE hContact)
 {
-	if (JGetWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
-		JSetWord(hContact, "Status", ID_STATUS_OFFLINE);
+	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+		setWord(hContact, "Status", ID_STATUS_OFFLINE);
 
 	JDeleteSetting(hContact, DBSETTING_XSTATUSID);
 	JDeleteSetting(hContact, DBSETTING_XSTATUSNAME);

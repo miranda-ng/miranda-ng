@@ -104,7 +104,7 @@ void NetLog_CapabilityChange(CIcqProto *ppro, const char *szChange, DWORD fdwCap
 // Deletes all oscar capabilities for a given contact
 void CIcqProto::ClearAllContactCapabilities(HANDLE hContact)
 {
-	setSettingDword(hContact, DBSETTING_CAPABILITIES, 0);
+	setDword(hContact, DBSETTING_CAPABILITIES, 0);
 }
 
 
@@ -112,7 +112,7 @@ void CIcqProto::ClearAllContactCapabilities(HANDLE hContact)
 void CIcqProto::ClearContactCapabilities(HANDLE hContact, DWORD fdwCapabilities)
 {
 	// Get current capability flags
-	DWORD fdwContactCaps =  getSettingDword(hContact, DBSETTING_CAPABILITIES, 0);
+	DWORD fdwContactCaps =  getDword(hContact, DBSETTING_CAPABILITIES, 0);
 
 	if (fdwContactCaps != (fdwContactCaps & ~fdwCapabilities))
 	{ 
@@ -123,7 +123,7 @@ void CIcqProto::ClearContactCapabilities(HANDLE hContact, DWORD fdwCapabilities)
 		fdwContactCaps &= ~fdwCapabilities;
 
 		// And write it back to disk
-		setSettingDword(hContact, DBSETTING_CAPABILITIES, fdwContactCaps);
+		setDword(hContact, DBSETTING_CAPABILITIES, fdwContactCaps);
 	}
 }
 
@@ -132,7 +132,7 @@ void CIcqProto::ClearContactCapabilities(HANDLE hContact, DWORD fdwCapabilities)
 void CIcqProto::SetContactCapabilities(HANDLE hContact, DWORD fdwCapabilities)
 {
 	// Get current capability flags
-	DWORD fdwContactCaps =  getSettingDword(hContact, DBSETTING_CAPABILITIES, 0);
+	DWORD fdwContactCaps =  getDword(hContact, DBSETTING_CAPABILITIES, 0);
 
 	if (fdwContactCaps != (fdwContactCaps | fdwCapabilities))
 	{ 
@@ -143,7 +143,7 @@ void CIcqProto::SetContactCapabilities(HANDLE hContact, DWORD fdwCapabilities)
 		fdwContactCaps |= fdwCapabilities;
 
 		// And write it back to disk
-		setSettingDword(hContact, DBSETTING_CAPABILITIES, fdwContactCaps);
+		setDword(hContact, DBSETTING_CAPABILITIES, fdwContactCaps);
 	}
 }
 
@@ -152,7 +152,7 @@ void CIcqProto::SetContactCapabilities(HANDLE hContact, DWORD fdwCapabilities)
 BOOL CIcqProto::CheckContactCapabilities(HANDLE hContact, DWORD fdwCapabilities)
 {
 	// Get current capability flags
-	DWORD fdwContactCaps =  getSettingDword(hContact, DBSETTING_CAPABILITIES, 0);
+	DWORD fdwContactCaps =  getDword(hContact, DBSETTING_CAPABILITIES, 0);
 
 	// Check if all requested capabilities are supported
 	if ((fdwContactCaps & fdwCapabilities) == fdwCapabilities)
@@ -221,7 +221,7 @@ DWORD GetCapabilitiesFromBuffer(BYTE *pBuffer, int nLength)
 void CIcqProto::AddCapabilitiesFromBuffer(HANDLE hContact, BYTE *pBuffer, int nLength)
 {
 	// Get current capability flags
-	DWORD fdwContactCaps = getSettingDword(hContact, DBSETTING_CAPABILITIES, 0);
+	DWORD fdwContactCaps = getDword(hContact, DBSETTING_CAPABILITIES, 0);
 	// Get capability flags from buffer
 	DWORD fdwCapabilities = GetCapabilitiesFromBuffer(pBuffer, nLength);
 
@@ -234,7 +234,7 @@ void CIcqProto::AddCapabilitiesFromBuffer(HANDLE hContact, BYTE *pBuffer, int nL
 		fdwContactCaps |= fdwCapabilities;
 
 		// And write them back to database
-		setSettingDword(hContact, DBSETTING_CAPABILITIES, fdwContactCaps);
+		setDword(hContact, DBSETTING_CAPABILITIES, fdwContactCaps);
 	}
 }
 
@@ -244,7 +244,7 @@ void CIcqProto::AddCapabilitiesFromBuffer(HANDLE hContact, BYTE *pBuffer, int nL
 void CIcqProto::SetCapabilitiesFromBuffer(HANDLE hContact, BYTE *pBuffer, int nLength, BOOL bReset)
 {
 	// Get current capability flags
-	DWORD fdwContactCaps = bReset ? 0 : getSettingDword(hContact, DBSETTING_CAPABILITIES, 0);
+	DWORD fdwContactCaps = bReset ? 0 : getDword(hContact, DBSETTING_CAPABILITIES, 0);
 	// Get capability flags from buffer
 	DWORD fdwCapabilities = GetCapabilitiesFromBuffer(pBuffer, nLength);
 
@@ -266,6 +266,6 @@ void CIcqProto::SetCapabilitiesFromBuffer(HANDLE hContact, BYTE *pBuffer, int nL
 		fdwContactCaps |= fdwCapabilities;
 
 		// And write them back to database
-		setSettingDword(hContact, DBSETTING_CAPABILITIES, fdwContactCaps);
+		setDword(hContact, DBSETTING_CAPABILITIES, fdwContactCaps);
 	}
 }

@@ -32,11 +32,11 @@
 
 
 #ifdef _UNICODE
-  #define getSettingStringT getSettingStringW
-  #define setSettingStringT setSettingStringW
+  #define getTString getSettingStringW
+  #define setSettingStringT setTString
 #else
-  #define getSettingStringT getSettingString
-  #define setSettingStringT setSettingString
+  #define getTString getString
+  #define setSettingStringT setString
 #endif
 
 #endif /* __ICQ_DB_H */

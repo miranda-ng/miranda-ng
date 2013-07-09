@@ -186,11 +186,11 @@ void CMraProto::MraAddrListStoreToContact(HANDLE hContact, MRA_ADDR_LIST *pmalAd
 	if (!pmalAddrList->dwAddrCount)
 		return;
 
-	mraSetDword(hContact, "OldIP", mraGetDword(hContact, "IP", 0));
-	mraSetDword(hContact, "IP", HTONL(pmalAddrList->pmaliAddress[0].dwAddr));
+	setDword(hContact, "OldIP", getDword(hContact, "IP", 0));
+	setDword(hContact, "IP", HTONL(pmalAddrList->pmaliAddress[0].dwAddr));
 	if (pmalAddrList->dwAddrCount > 1) {
-		mraSetDword(hContact, "OldRealIP", mraGetDword(hContact, "RealIP", 0));
-		mraSetDword(hContact, "RealIP", HTONL(pmalAddrList->pmaliAddress[1].dwAddr));
+		setDword(hContact, "OldRealIP", getDword(hContact, "RealIP", 0));
+		setDword(hContact, "RealIP", HTONL(pmalAddrList->pmaliAddress[1].dwAddr));
 	}
 }
 
@@ -343,7 +343,7 @@ DWORD CMraProto::GetContactFlags(HANDLE hContact)
 		CHAR szEMail[MAX_EMAIL_LEN];
 		size_t dwEMailSize;
 
-		dwRet = mraGetDword(hContact, "ContactFlags", 0);
+		dwRet = getDword(hContact, "ContactFlags", 0);
 		dwRet &= ~(CONTACT_FLAG_REMOVED|CONTACT_FLAG_GROUP|CONTACT_FLAG_INVISIBLE|CONTACT_FLAG_VISIBLE|CONTACT_FLAG_IGNORE|CONTACT_FLAG_SHADOW|CONTACT_FLAG_MULTICHAT);
 		dwRet |= CONTACT_FLAG_UNICODE_NAME;
 
@@ -357,7 +357,7 @@ DWORD CMraProto::GetContactFlags(HANDLE hContact)
 
 		if (db_get_b(hContact, "CList", "Hidden", 0)) dwRet |= CONTACT_FLAG_SHADOW;
 
-		switch (mraGetWord(hContact, "ApparentMode", 0)) {
+		switch (getWord(hContact, "ApparentMode", 0)) {
 		case ID_STATUS_OFFLINE:
 			dwRet |= CONTACT_FLAG_INVISIBLE;
 			break;
@@ -376,7 +376,7 @@ DWORD CMraProto::SetContactFlags(HANDLE hContact, DWORD dwContactFlag)
 	if ( !IsContactMra(hContact))
 		return ERROR_INVALID_HANDLE;
 
-	mraSetDword(hContact, "ContactFlags", dwContactFlag);
+	setDword(hContact, "ContactFlags", dwContactFlag);
 
 	if (dwContactFlag&CONTACT_FLAG_SHADOW)
 		db_set_b(hContact, "CList", "Hidden", 1);
@@ -385,13 +385,13 @@ DWORD CMraProto::SetContactFlags(HANDLE hContact, DWORD dwContactFlag)
 
 	switch (dwContactFlag&(CONTACT_FLAG_INVISIBLE|CONTACT_FLAG_VISIBLE)) {
 	case CONTACT_FLAG_INVISIBLE:
-		mraSetWord(hContact, "ApparentMode", ID_STATUS_OFFLINE);
+		setWord(hContact, "ApparentMode", ID_STATUS_OFFLINE);
 		break;
 	case CONTACT_FLAG_VISIBLE:
-		mraSetWord(hContact, "ApparentMode", ID_STATUS_ONLINE);
+		setWord(hContact, "ApparentMode", ID_STATUS_ONLINE);
 		break;
 	default:
-		mraSetWord(hContact, "ApparentMode", 0);
+		setWord(hContact, "ApparentMode", 0);
 		break;
 	}
 
@@ -409,11 +409,11 @@ DWORD CMraProto::GetContactBasicInfoW(HANDLE hContact, DWORD *pdwID, DWORD *pdwG
 		return ERROR_INVALID_HANDLE;
 
 	if (pdwID)
-		*pdwID = mraGetDword(hContact, "ContactID", -1);
+		*pdwID = getDword(hContact, "ContactID", -1);
 	if (pdwGroupID)
-		*pdwGroupID = mraGetDword(hContact, "GroupID", -1);
+		*pdwGroupID = getDword(hContact, "GroupID", -1);
 	if (pdwContactSeverFlags)
-		*pdwContactSeverFlags = mraGetDword(hContact, "ContactSeverFlags", 0);
+		*pdwContactSeverFlags = getDword(hContact, "ContactSeverFlags", 0);
 	if (pdwStatus)
 		*pdwStatus = MraGetContactStatus(hContact);
 	if (pdwContactFlag)
@@ -447,11 +447,11 @@ DWORD CMraProto::SetContactBasicInfoW(HANDLE hContact, DWORD dwSetInfoFlags, DWO
 
 	// LOCK
 	if (dwSetInfoFlags & SCBIFSI_LOCK_CHANGES_EVENTS)
-		mraSetDword(hContact, "HooksLocked", TRUE);
+		setDword(hContact, "HooksLocked", TRUE);
 
 	// поля которые нужны, и изменения которых не отслеживаются
 	if (dwFlags & SCBIF_ID)
-		mraSetDword(hContact, "ContactID", dwID);
+		setDword(hContact, "ContactID", dwID);
 
 	if (dwFlags & SCBIF_EMAIL)
 		if (lpszEMail && dwEMailSize)
@@ -459,7 +459,7 @@ DWORD CMraProto::SetContactBasicInfoW(HANDLE hContact, DWORD dwSetInfoFlags, DWO
 
 	// поля изменения которых отслеживаются
 	if (dwFlags & SCBIF_GROUP_ID)
-		mraSetDword(hContact, "GroupID", dwGroupID);
+		setDword(hContact, "GroupID", dwGroupID);
 
 	if (dwFlags & SCBIF_NICK) {
 		if ((dwFlags & SCBIF_FLAG) && ((dwContactFlag&CONTACT_FLAG_UNICODE_NAME) == 0))
@@ -504,7 +504,7 @@ DWORD CMraProto::SetContactBasicInfoW(HANDLE hContact, DWORD dwSetInfoFlags, DWO
 		SetContactFlags(hContact, dwContactFlag);
 
 	if (dwFlags & SCBIF_SERVER_FLAG)
-		mraSetDword(hContact, "ContactSeverFlags", dwContactSeverFlags);
+		setDword(hContact, "ContactSeverFlags", dwContactSeverFlags);
 
 	if (dwFlags & SCBIF_STATUS)
 		MraSetContactStatus(hContact, dwStatus);
@@ -512,7 +512,7 @@ DWORD CMraProto::SetContactBasicInfoW(HANDLE hContact, DWORD dwSetInfoFlags, DWO
 	SetExtraIcons(hContact);
 	// UNLOCK
 	if (dwSetInfoFlags & SCBIFSI_LOCK_CHANGES_EVENTS)
-		mraSetDword(hContact, "HooksLocked", FALSE);
+		setDword(hContact, "HooksLocked", FALSE);
 
 	return 0;
 }
@@ -607,17 +607,17 @@ BOOL CMraProto::MraUpdateContactInfo(HANDLE hContact)
 
 DWORD CMraProto::MraContactCapabilitiesGet(HANDLE hContact)
 {
-	return mraGetDword(hContact, DBSETTING_CAPABILITIES, 0);
+	return getDword(hContact, DBSETTING_CAPABILITIES, 0);
 }
 
 void CMraProto::MraContactCapabilitiesSet(HANDLE hContact, DWORD dwFutureFlags)
 {
-	mraSetDword(hContact, DBSETTING_CAPABILITIES, dwFutureFlags);
+	setDword(hContact, DBSETTING_CAPABILITIES, dwFutureFlags);
 }
 
 DWORD CMraProto::MraGetContactStatus(HANDLE hContact)
 {
-	return mraGetWord(hContact, "Status", ID_STATUS_OFFLINE);
+	return getWord(hContact, "Status", ID_STATUS_OFFLINE);
 }
 
 DWORD CMraProto::MraSetContactStatus(HANDLE hContact, DWORD dwNewStatus)
@@ -634,7 +634,7 @@ DWORD CMraProto::MraSetContactStatus(HANDLE hContact, DWORD dwNewStatus)
 		{
 			if (hContact)
 			{
-				mraSetByte(hContact, DBSETTING_XSTATUSID, MRA_MIR_XSTATUS_NONE);
+				setByte(hContact, DBSETTING_XSTATUSID, MRA_MIR_XSTATUS_NONE);
 				mraDelValue(hContact, DBSETTING_XSTATUSNAME);
 				mraDelValue(hContact, DBSETTING_XSTATUSMSG);
 				mraDelValue(hContact, DBSETTING_BLOGSTATUSTIME);
@@ -644,7 +644,7 @@ DWORD CMraProto::MraSetContactStatus(HANDLE hContact, DWORD dwNewStatus)
 				MraContactCapabilitiesSet(hContact, 0);
 				if (bChatAgent) MraChatSessionDestroy(hContact);
 			}
-			mraSetDword(hContact, "LogonTS", 0);
+			setDword(hContact, "LogonTS", 0);
 			mraDelValue(hContact, "IP");
 			mraDelValue(hContact, "RealIP");
 		}else {
@@ -652,15 +652,15 @@ DWORD CMraProto::MraSetContactStatus(HANDLE hContact, DWORD dwNewStatus)
 			{
 				DWORD dwTime = (DWORD)_time32(NULL);
 
-				mraSetDword(hContact, "LogonTS", dwTime);
-				mraSetDword(hContact, "OldLogonTS", dwTime);
+				setDword(hContact, "LogonTS", dwTime);
+				setDword(hContact, "OldLogonTS", dwTime);
 
 				if (bChatAgent) MraChatSessionNew(hContact);
 			}
 			MraAvatarsQueueGetAvatarSimple(hAvatarsQueueHandle, 0, hContact, 0);
 		}
 
-		mraSetWord(hContact, "Status", (WORD)dwNewStatus);
+		setWord(hContact, "Status", (WORD)dwNewStatus);
 	}
 	return(dwOldStatus);
 }
@@ -670,7 +670,7 @@ void CMraProto::MraUpdateEmailStatus(LPSTR lpszFrom, size_t dwFromSize, LPSTR lp
 	BOOL bTrayIconNewMailNotify;
 	WCHAR szStatusText[MAX_SECONDLINE];
 
-	bTrayIconNewMailNotify = mraGetByte(NULL, "TrayIconNewMailNotify", MRA_DEFAULT_TRAYICON_NEW_MAIL_NOTIFY);
+	bTrayIconNewMailNotify = getByte(NULL, "TrayIconNewMailNotify", MRA_DEFAULT_TRAYICON_NEW_MAIL_NOTIFY);
 
 	if (dwEmailMessagesUnread)
 	{
@@ -714,7 +714,7 @@ void CMraProto::MraUpdateEmailStatus(LPSTR lpszFrom, size_t dwFromSize, LPSTR lp
 			cle.pszService = "";
 			cle.ptszTooltip = szStatusText;
 
-			if (mraGetByte(NULL, "TrayIconNewMailClkToInbox", MRA_DEFAULT_TRAYICON_NEW_MAIL_CLK_TO_INBOX))
+			if (getByte(NULL, "TrayIconNewMailClkToInbox", MRA_DEFAULT_TRAYICON_NEW_MAIL_CLK_TO_INBOX))
 			{
 				strncpy(szServiceFunction, m_szModuleName, MAX_PATH);
 				pszServiceFunctionName = szServiceFunction+strlen(m_szModuleName);
@@ -733,7 +733,7 @@ void CMraProto::MraUpdateEmailStatus(LPSTR lpszFrom, size_t dwFromSize, LPSTR lp
 			MraPopupShowFromAgentW(MRA_POPUP_TYPE_EMAIL_STATUS, (MRA_POPUP_ALLOW_ENTER), szStatusText);
 		}
 	}else {
-		if (mraGetByte(NULL, "IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY))
+		if (getByte(NULL, "IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY))
 		{
 			if (bTrayIconNewMailNotify) CallService(MS_CLIST_REMOVEEVENT, 0, (LPARAM)m_szModuleName);
 			PUDeletePopup(hWndEMailPopupStatus);
@@ -1304,7 +1304,7 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg, UINT message, WPARAM w
 			}
 			else SendMessage(hWndDlg, WM_SETTEXT, 0, (LPARAM)TranslateW(L"Set my blog status"));
 
-			DWORD dwTime = dat->ppro->mraGetDword(dat->hContact, DBSETTING_BLOGSTATUSTIME, 0);
+			DWORD dwTime = dat->ppro->getDword(dat->hContact, DBSETTING_BLOGSTATUSTIME, 0);
 			if (dwTime && MakeLocalSystemTimeFromTime32(dwTime, &stBlogStatusTime))
 				mir_sntprintf(szBuff, SIZEOF(szBuff), L"%s: %04ld.%02ld.%02ld %02ld:%02ld", TranslateW(L"Writed"), stBlogStatusTime.wYear, stBlogStatusTime.wMonth, stBlogStatusTime.wDay, stBlogStatusTime.wHour, stBlogStatusTime.wMinute);
 			else
@@ -1552,7 +1552,7 @@ BOOL CMraProto::SetPassDB(LPSTR lpszBuff, size_t dwBuffSize)
 		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, SHA1HashSize);
 
 
-		mraSetDword(NULL, "pCryptVer", MRA_PASS_CRYPT_VER);
+		setDword(NULL, "pCryptVer", MRA_PASS_CRYPT_VER);
 		mraWriteContactSettingBlob(NULL, "pCryptData", btRandomData, sizeof(btRandomData));
 		mraWriteContactSettingBlob(NULL, "pCryptPass", btCryptedPass, sizeof(btCryptedPass));
 
@@ -1569,7 +1569,7 @@ BOOL CMraProto::GetPassDB_v1(LPSTR lpszBuff, size_t dwBuffSize, size_t *pdwBuffS
 	char szEMail[MAX_EMAIL_LEN] = {0};
 	size_t dwRandomDataSize, dwCryptedPass, dwEMailSize, dwPassSize;
 
-	if (mraGetDword(NULL, "pCryptVer", 0) == 1)
+	if (getDword(NULL, "pCryptVer", 0) == 1)
 	if (mraGetContactSettingBlob(NULL, "pCryptData", btRandomData, sizeof(btRandomData), &dwRandomDataSize))
 	if (dwRandomDataSize == sizeof(btRandomData))
 	if (mraGetContactSettingBlob(NULL, "pCryptPass", btCryptedPass, sizeof(btCryptedPass), &dwCryptedPass))
@@ -1606,7 +1606,7 @@ BOOL CMraProto::GetPassDB_v2(LPSTR lpszBuff, size_t dwBuffSize, size_t *pdwBuffS
 	char szEMail[MAX_EMAIL_LEN] = {0};
 	size_t dwRandomDataSize, dwCryptedPass, dwEMailSize, dwPassSize;
 
-	if (mraGetDword(NULL, "pCryptVer", 0) == 2)
+	if (getDword(NULL, "pCryptVer", 0) == 2)
 	if (mraGetContactSettingBlob(NULL, "pCryptData", btRandomData, sizeof(btRandomData), &dwRandomDataSize))
 	if (dwRandomDataSize == sizeof(btRandomData))
 	if (mraGetContactSettingBlob(NULL, "pCryptPass", btCryptedPass, sizeof(btCryptedPass), &dwCryptedPass))
@@ -1641,7 +1641,7 @@ BOOL CMraProto::GetPassDB(LPSTR lpszBuff, size_t dwBuffSize, size_t *pdwBuffSize
 		mraGetStaticStringA(NULL, "Pass", lpszBuff, dwBuffSize, pdwBuffSize);
 		return TRUE;
 	#else
-		switch (mraGetDword(NULL, "pCryptVer", 0)) {
+		switch (getDword(NULL, "pCryptVer", 0)) {
 		case 1:
 			return GetPassDB_v1(lpszBuff, dwBuffSize, pdwBuffSize);
 		case 2:

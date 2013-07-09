@@ -293,9 +293,9 @@ void CJabberDlgBookmarks::OnInitDialog()
 	ImageList_AddIcon_Icolib(hIml, m_proto->LoadIconEx("group"));
 	ImageList_AddIcon_Icolib(hIml, LoadSkinnedIcon(SKINICON_EVENT_URL));
 
-	m_lvBookmarks.AddColumn(0, TranslateT("Bookmark Name"),			m_proto->JGetWord(NULL, "bookmarksWnd_cx0", 120));
-	m_lvBookmarks.AddColumn(1, TranslateT("Address (JID or URL)"),	m_proto->JGetWord(NULL, "bookmarksWnd_cx1", 210));
-	m_lvBookmarks.AddColumn(2, TranslateT("Nickname"),				m_proto->JGetWord(NULL, "bookmarksWnd_cx2", 90));
+	m_lvBookmarks.AddColumn(0, TranslateT("Bookmark Name"),        m_proto->getWord("bookmarksWnd_cx0", 120));
+	m_lvBookmarks.AddColumn(1, TranslateT("Address (JID or URL)"), m_proto->getWord("bookmarksWnd_cx1", 210));
+	m_lvBookmarks.AddColumn(2, TranslateT("Nickname"),             m_proto->getWord("bookmarksWnd_cx2", 90));
 
 	m_lvBookmarks.EnableGroupView(TRUE);
 	m_lvBookmarks.AddGroup(0, TranslateT("Conferences"));
@@ -309,11 +309,11 @@ void CJabberDlgBookmarks::OnClose()
 	LVCOLUMN lvc = {0};
 	lvc.mask = LVCF_WIDTH;
 	m_lvBookmarks.GetColumn(0, &lvc);
-	m_proto->JSetWord(NULL, "bookmarksWnd_cx0", lvc.cx);
+	m_proto->setWord("bookmarksWnd_cx0", lvc.cx);
 	m_lvBookmarks.GetColumn(1, &lvc);
-	m_proto->JSetWord(NULL, "bookmarksWnd_cx1", lvc.cx);
+	m_proto->setWord("bookmarksWnd_cx1", lvc.cx);
 	m_lvBookmarks.GetColumn(2, &lvc);
-	m_proto->JSetWord(NULL, "bookmarksWnd_cx2", lvc.cx);
+	m_proto->setWord("bookmarksWnd_cx2", lvc.cx);
 
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "bookmarksWnd_");
 

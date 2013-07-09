@@ -381,7 +381,7 @@ void CJabberDlgConsole::OnInitDialog()
 
 	DBVARIANT dbv;
 	*m_proto->m_filterInfo.pattern = 0;
-	if ( !m_proto->JGetStringT(NULL, "consoleWnd_fpattern", &dbv)) {
+	if ( !m_proto->getTString(NULL, "consoleWnd_fpattern", &dbv)) {
 		lstrcpyn(m_proto->m_filterInfo.pattern, dbv.ptszVal, SIZEOF(m_proto->m_filterInfo.pattern));
 		db_free(&dbv);
 	}
@@ -433,7 +433,7 @@ void CJabberDlgConsole::OnClose()
 	db_set_b(NULL, m_proto->m_szModuleName, "consoleWnd_presence", m_proto->m_filterInfo.presence);
 	db_set_b(NULL, m_proto->m_szModuleName, "consoleWnd_iq", m_proto->m_filterInfo.iq);
 	db_set_b(NULL, m_proto->m_szModuleName, "consoleWnd_ftype", m_proto->m_filterInfo.type);
-	m_proto->JSetStringT(NULL, "consoleWnd_fpattern", m_proto->m_filterInfo.pattern);
+	m_proto->setTString(NULL, "consoleWnd_fpattern", m_proto->m_filterInfo.pattern);
 
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "consoleWnd_");
 	DestroyWindow(m_hwnd);

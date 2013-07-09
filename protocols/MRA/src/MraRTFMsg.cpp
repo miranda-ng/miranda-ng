@@ -213,7 +213,7 @@ DWORD CMraProto::MraConvertToRTFW(LPCWSTR lpwszMessage, size_t dwMessageSize, LP
 
 	WideCharToMultiByte(MRA_CODE_PAGE, 0, lpwszMessage, dwMessageSize, lpszMessage, (dwMessageSize+32), NULL, NULL);
 
-	dwRTFFontColour = mraGetDword(NULL, "RTFFontColour", MRA_DEFAULT_RTF_FONT_COLOUR);
+	dwRTFFontColour = getDword(NULL, "RTFFontColour", MRA_DEFAULT_RTF_FONT_COLOUR);
 	if ( !mraGetContactSettingBlob(NULL, "RTFFont", &lf, sizeof(LOGFONT), NULL)) {
 		HDC hDC = GetDC(NULL);// kegl
 		lf.lfCharSet = MRA_DEFAULT_RTF_FONT_CHARSET;

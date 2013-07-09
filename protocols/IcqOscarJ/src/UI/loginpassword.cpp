@@ -52,7 +52,7 @@ INT_PTR CALLBACK LoginPasswdDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			SendDlgItemMessage(hwndDlg, IDC_LOGINPW, EM_LIMITTEXT, PASSWORDMAXLEN - 1, 0);
 
-			CheckDlgButton(hwndDlg, IDC_SAVEPASS, ppro->getSettingByte(NULL, "RememberPass", 0));
+			CheckDlgButton(hwndDlg, IDC_SAVEPASS, ppro->getByte("RememberPass", 0));
 		}
 		break;
 
@@ -69,7 +69,7 @@ INT_PTR CALLBACK LoginPasswdDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		switch (LOWORD(wParam)) {
 		case IDOK:
 			ppro->m_bRememberPwd = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SAVEPASS);
-			ppro->setSettingByte(NULL, "RememberPass", ppro->m_bRememberPwd);
+			ppro->setByte("RememberPass", ppro->m_bRememberPwd);
 
 			GetDlgItemTextA(hwndDlg, IDC_LOGINPW, ppro->m_szPassword, sizeof(ppro->m_szPassword));
 

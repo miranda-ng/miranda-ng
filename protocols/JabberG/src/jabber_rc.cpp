@@ -312,7 +312,7 @@ int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhoc
 
 		// priority
 		TCHAR szPriority[ 256 ];
-		mir_sntprintf(szPriority, SIZEOF(szPriority), _T("%d"), (short)JGetWord(NULL, "Priority", 5));
+		mir_sntprintf(szPriority, SIZEOF(szPriority), _T("%d"), (short)getWord("Priority", 5));
 		xNode << XCHILD(_T("field")) << XATTR(_T("label"), TranslateT("Priority")) << XATTR(_T("type"), _T("text-single"))
 			<< XATTR(_T("var"), _T("status-priority")) << XCHILD(_T("value"), szPriority);
 
@@ -370,7 +370,7 @@ int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhoc
 		}
 
 		if (priority >= -128 && priority <= 127)
-			JSetWord(NULL, "Priority", (WORD)priority);
+			setWord("Priority", (WORD)priority);
 
 		const TCHAR *szStatusMessage = NULL;
 		fieldNode = xmlGetChildByTag(xNode, "field", "var", _T("status-message"));
@@ -479,7 +479,7 @@ int CJabberProto::RcGetUnreadEventsCount()
 	int nEventsSent = 0;
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DBVARIANT dbv;
-		if ( !JGetStringT(hContact, "jid", &dbv)) {
+		if ( !getTString(hContact, "jid", &dbv)) {
 			HANDLE hDbEvent = db_event_firstUnread(hContact);
 			while (hDbEvent) {
 				DBEVENTINFO dbei = { sizeof(dbei) };
@@ -570,7 +570,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 		int nEventsSent = 0;
 		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			DBVARIANT dbv;
-			if ( JGetStringT(hContact, "jid", &dbv))
+			if ( getTString(hContact, "jid", &dbv))
 				continue;
 				
 			HANDLE hDbEvent = db_event_firstUnread(hContact);

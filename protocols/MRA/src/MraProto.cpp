@@ -63,7 +63,7 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	hExtraInfo = ExtraIcon_Register("MRAStatus", LPGEN("Mail.ru extra info"), "mra_xstatus49");
 
 	bHideXStatusUI = FALSE;
-	m_iXStatus = mraGetByte(NULL, DBSETTING_XSTATUSID, MRA_MIR_XSTATUS_NONE);
+	m_iXStatus = getByte(NULL, DBSETTING_XSTATUSID, MRA_MIR_XSTATUS_NONE);
 	if ( !IsXStatusValid(m_iXStatus))
 		m_iXStatus = MRA_MIR_XSTATUS_NONE;
 
@@ -417,7 +417,7 @@ int CMraProto::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* h
 					}
 				}
 
-				bSlowSend = mraGetByte(NULL, "SlowSend", MRA_DEFAULT_SLOW_SEND);
+				bSlowSend = getByte(NULL, "SlowSend", MRA_DEFAULT_SLOW_SEND);
 				iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_CONTACTS, MESSAGE_FLAG_CONTACT, szEMail, dwEMailSize, lpwszData, (lpwszDataCurrent-lpwszData), NULL, 0);
 				if (bSlowSend == FALSE)
 					ProtoBroadcastAck(hContact, ACKTYPE_CONTACTS, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
@@ -468,8 +468,8 @@ int CMraProto::SendMsg(HANDLE hContact, int flags, const char *lpszMessage)
 
 	size_t dwEMailSize;
 	if ( mraGetStaticStringA(hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize)) {
-		BOOL bSlowSend = mraGetByte(NULL, "SlowSend", MRA_DEFAULT_SLOW_SEND);
-		if ( mraGetByte(NULL, "RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE) && (MraContactCapabilitiesGet(hContact) & FEATURE_FLAG_RTF_MESSAGE))
+		BOOL bSlowSend = getByte(NULL, "SlowSend", MRA_DEFAULT_SLOW_SEND);
+		if ( getByte(NULL, "RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE) && (MraContactCapabilitiesGet(hContact) & FEATURE_FLAG_RTF_MESSAGE))
 			dwFlags |= MESSAGE_FLAG_RTF;
 
 		iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_MESSAGE, dwFlags, szEMail, dwEMailSize, lpwszMessage, lstrlen(lpwszMessage), NULL, 0);
@@ -490,7 +490,7 @@ int CMraProto::SetApparentMode(HANDLE hContact, int mode)
 
 	// Only 3 modes are supported
 	if (hContact && (mode == 0 || mode == ID_STATUS_ONLINE || mode == ID_STATUS_OFFLINE)) {
-		DWORD dwOldMode = mraGetWord(hContact, "ApparentMode", 0);
+		DWORD dwOldMode = getWord(hContact, "ApparentMode", 0);
 
 		// Dont send redundant updates
 		if (mode != dwOldMode) {
@@ -598,7 +598,7 @@ HANDLE CMraProto::GetAwayMsg(HANDLE hContact)
 
 	if ( mraGetStaticStringW(hContact, DBSETTING_BLOGSTATUS, szBlogStatus, SIZEOF(szBlogStatus), NULL)) {
 		SYSTEMTIME tt = {0};
-		dwTime = mraGetDword(hContact, DBSETTING_BLOGSTATUSTIME, 0);
+		dwTime = getDword(hContact, DBSETTING_BLOGSTATUSTIME, 0);
 		if (dwTime && MakeLocalSystemTimeFromTime32(dwTime, &tt))
 			mir_sntprintf(szTime, SIZEOF(szTime), _T("%04ld.%02ld.%02ld %02ld:%02ld: "), tt.wYear, tt.wMonth, tt.wDay, tt.wHour, tt.wMinute);
 		else

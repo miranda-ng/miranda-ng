@@ -54,63 +54,11 @@ int DebugLog( const char *fmt, ... )
 	return CallService(MS_NETLIB_LOG, (WPARAM)g_hNetlibUser, (LPARAM)str);
 }
 
-int CYahooProto::GetByte( const char* valueName, int parDefltValue )
-{
-	return db_get_b( NULL, m_szModuleName, valueName, parDefltValue );
-}
-
-int CYahooProto::SetByte( const char* valueName, int parValue )
-{
-	return db_set_b( NULL, m_szModuleName, valueName, parValue );
-}
-
-int CYahooProto::GetByte( HANDLE hContact, const char* valueName, int parDefltValue )
-{
-	return db_get_b( hContact, m_szModuleName, valueName, parDefltValue );
-}
-
-int CYahooProto::SetByte( HANDLE hContact, const char* valueName, int parValue )
-{
-	return db_set_b( hContact, m_szModuleName, valueName, parValue );
-}
-
-
-DWORD CYahooProto::GetDword( HANDLE hContact, const char* valueName, DWORD parDefltValue )
-{
-	return db_get_dw( hContact, m_szModuleName, valueName, parDefltValue );
-}
-
-DWORD CYahooProto::SetDword( const char* valueName, DWORD parValue )
-{
-	return db_set_dw( NULL, m_szModuleName, valueName, parValue);
-}
-
-DWORD CYahooProto::GetDword( const char* valueName, DWORD parDefltValue )
-{
-	return db_get_dw( NULL, m_szModuleName, valueName, parDefltValue );
-}
-
-DWORD CYahooProto::SetDword( HANDLE hContact, const char* valueName, DWORD parValue )
-{
-	return db_set_dw( hContact, m_szModuleName, valueName, parValue);
-}
-
-
-WORD CYahooProto::SetWord( HANDLE hContact, const char* valueName, int parValue )
-{
-	return db_set_w( hContact, m_szModuleName, valueName, parValue );
-}
-
-WORD CYahooProto::GetWord( HANDLE hContact, const char* valueName, int parDefltValue )
-{
-	return db_get_w( hContact, m_szModuleName, valueName, parDefltValue );
-}
-
 DWORD CYahooProto::Set_Protocol( HANDLE hContact, int protocol )
 {
 	char *s=NULL;
 	
-	SetWord(hContact, "yprotoid", protocol);
+	setWord(hContact, "yprotoid", protocol);
 	
 	switch (protocol) {
 		case YAHOO_IM_YAHOO: s = "Yahoo"; break; /* Yahoo, nothing special here */
@@ -120,34 +68,14 @@ DWORD CYahooProto::Set_Protocol( HANDLE hContact, int protocol )
 	} 
 	
 	if (protocol != YAHOO_IM_YAHOO)
-		SetString(hContact, "MirVer", s);
+		setString(hContact, "MirVer", s);
 	
-	SetString(hContact, "Transport", s);
+	setString(hContact, "Transport", s);
 	return 0;
-}
-
-int CYahooProto::GetString(const char* name, DBVARIANT* result)
-{	return db_get_s(NULL, m_szModuleName, name, result);
-}
-
-int CYahooProto::GetString(HANDLE hContact, const char* name, DBVARIANT* result)
-{	return db_get_s(hContact, m_szModuleName, name, result);
 }
 
 int CYahooProto::GetStringUtf(HANDLE hContact, const char* name, DBVARIANT* result)
 {	return db_get_utf(hContact, m_szModuleName, name, result);
-}
-
-void CYahooProto::SetString(const char* name, const char* value)
-{	db_set_s(NULL, m_szModuleName, name, value);
-}
-
-void CYahooProto::SetString( HANDLE hContact, const char* name, const char* value)
-{	db_set_s(hContact, m_szModuleName, name, value);
-}
-
-void CYahooProto::SetStringT( HANDLE hContact, const char* name, const TCHAR* value)
-{	db_set_ts(hContact, m_szModuleName, name, value);
 }
 
 DWORD CYahooProto::SetStringUtf(HANDLE hContact, const char* valueName, const char* parValue)
@@ -234,7 +162,7 @@ int CYahooProto::ShowNotification(const TCHAR *title, const TCHAR *info, DWORD f
 
 void CYahooProto::ShowError(const TCHAR *title, const TCHAR *buff)
 {
-	if ( GetByte("ShowErrors", 1)) 
+	if ( getByte("ShowErrors", 1)) 
 		if ( !ShowPopup(title, buff, NULL))
 			ShowNotification(title, buff, NIIF_ERROR);
 }
@@ -249,8 +177,8 @@ int __cdecl CYahooProto::OnSettingChanged(WPARAM wParam, LPARAM lParam)
 		DebugLog("DB Setting changed.  YAHOO user's visible setting changed.");
 
 		DBVARIANT dbv;
-		if (!GetString((HANDLE)wParam, YAHOO_LOGINID, &dbv)) {
-			int iAdd = (ID_STATUS_OFFLINE == GetWord((HANDLE) wParam, "ApparentMode", 0));
+		if (!getString((HANDLE)wParam, YAHOO_LOGINID, &dbv)) {
+			int iAdd = (ID_STATUS_OFFLINE == getWord((HANDLE) wParam, "ApparentMode", 0));
 			stealth(dbv.pszVal, iAdd);
 			db_free(&dbv);
 		}

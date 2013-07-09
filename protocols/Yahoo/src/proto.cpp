@@ -210,7 +210,7 @@ int CYahooProto::Authorize( HANDLE hdbe )
 		if (who) {
 			ptrA myid( db_get_sa(hContact, m_szModuleName, "MyIdentity"));
 			DebugLog("Accepting buddy:%s", who);
-			accept(myid, who, GetWord(hContact, "yprotoid", 0));
+			accept(myid, who, getWord(hContact, "yprotoid", 0));
 		}
 	}
 
@@ -257,7 +257,7 @@ int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 			ptrA u_reason( mir_utf8encodeT(reason));
 
 			DebugLog("Rejecting buddy:%s msg: %s", who, u_reason);
-			reject(myid, who, GetWord(hContact, "yprotoid", 0), u_reason);
+			reject(myid, who, getWord(hContact, "yprotoid", 0), u_reason);
 			CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
 		}
 	}
@@ -412,9 +412,9 @@ int __cdecl CYahooProto::SetApparentMode( HANDLE hContact, int mode )
 	if (mode && mode != ID_STATUS_OFFLINE)
 		return 1;
 
-	int oldMode = GetWord(hContact, "ApparentMode", 0);
+	int oldMode = getWord(hContact, "ApparentMode", 0);
 	if (mode != oldMode)
-		SetWord(hContact, "ApparentMode", mode);
+		setWord(hContact, "ApparentMode", mode);
 	return 1;
 }
 
@@ -442,7 +442,7 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 		/*
 		* Load Yahoo ID from the database.
 		*/
-		if (!GetString(YAHOO_LOGINID, &dbv)) {
+		if (!getString(YAHOO_LOGINID, &dbv)) {
 			if (lstrlenA(dbv.pszVal) > 0) {
 				lstrcpynA(m_yahoo_id, dbv.pszVal, 255);
 			} else
@@ -456,7 +456,7 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 		if (err) {
 			lstrcpynA(errmsg, Translate("Please enter your yahoo id in Options/Network/Yahoo"), 80);
 		} else {
-			if (!GetString(YAHOO_PASSWORD, &dbv)) {
+			if (!getString(YAHOO_PASSWORD, &dbv)) {
 				CallService(MS_DB_CRYPT_DECODESTRING, lstrlenA(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 				if (lstrlenA(dbv.pszVal) > 0) {
 					lstrcpynA(m_password, dbv.pszVal, 255);
@@ -485,7 +485,7 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 
 		FREE(m_pw_token); // No Token yet.
 
-		if (!GetString(YAHOO_PWTOKEN, &dbv)) {
+		if (!getString(YAHOO_PWTOKEN, &dbv)) {
 			if (lstrlenA(dbv.pszVal) > 0) {
 				m_pw_token = strdup(dbv.pszVal);
 			}
@@ -531,7 +531,7 @@ void __cdecl CYahooProto::get_status_thread(HANDLE hContact)
 	Sleep( 150 );
 
 	/* Check Yahoo Games Message */
-	if (!GetString(hContact, "YGMsg", &dbv)) {
+	if (!getString(hContact, "YGMsg", &dbv)) {
 		gm = strdup(dbv.pszVal);
 
 		db_free( &dbv );
@@ -543,7 +543,7 @@ void __cdecl CYahooProto::get_status_thread(HANDLE hContact)
 
 		db_free( &dbv );
 	} else {
-		WORD status = GetWord(hContact, "YStatus", YAHOO_STATUS_OFFLINE);
+		WORD status = getWord(hContact, "YStatus", YAHOO_STATUS_OFFLINE);
 		sm = yahoo_status_code( yahoo_status( status ));
 		if (sm) sm = strdup(sm); /* we need this to go global FREE later */
 	}
@@ -588,7 +588,7 @@ HANDLE __cdecl CYahooProto::GetAwayMsg( HANDLE hContact )
 	DebugLog("[YahooGetAwayMessage] ");
 
 	if (hContact && m_bLoggedIn) {
-		if (GetWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+		if (getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 			return 0; /* user offline, what Status message? */
 
 		ForkThread(&CYahooProto::get_status_thread, hContact);
@@ -688,9 +688,9 @@ int __cdecl CYahooProto::UserIsTyping( HANDLE hContact, int type )
 		return 0;
 
 	DBVARIANT dbv;
-	if (!GetString(hContact, YAHOO_LOGINID, &dbv)) {
+	if (!getString(hContact, YAHOO_LOGINID, &dbv)) {
 		if (type == PROTOTYPE_SELFTYPING_OFF || type == PROTOTYPE_SELFTYPING_ON) {
-			sendtyping(dbv.pszVal, GetWord(hContact, "yprotoid", 0), type == PROTOTYPE_SELFTYPING_ON?1:0);
+			sendtyping(dbv.pszVal, getWord(hContact, "yprotoid", 0), type == PROTOTYPE_SELFTYPING_ON?1:0);
 		}
 		db_free(&dbv);
 	}
@@ -741,20 +741,20 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 			DBVARIANT dbv;
-			if ( !ppro->GetString(YAHOO_LOGINID, &dbv))
+			if ( !ppro->getString(YAHOO_LOGINID, &dbv))
 			{
 				SetDlgItemTextA(hwndDlg, IDC_HANDLE, dbv.pszVal);
 				db_free(&dbv);
 			}
 
-			if ( !ppro->GetString(YAHOO_PASSWORD, &dbv))
+			if ( !ppro->getString(YAHOO_PASSWORD, &dbv))
 			{
 				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
 				db_free(&dbv);
 			}
 
-			SetButtonCheck( hwndDlg, IDC_YAHOO_JAPAN, ppro->GetByte("YahooJapan", 0));
+			SetButtonCheck( hwndDlg, IDC_YAHOO_JAPAN, ppro->getByte("YahooJapan", 0));
 			return TRUE;
 		}
 
@@ -792,17 +792,17 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			dbv.pszVal = NULL;
 
-			if ( ppro->GetString( YAHOO_LOGINID, &dbv ) || lstrcmpA( str, dbv.pszVal ))
+			if ( ppro->getString( YAHOO_LOGINID, &dbv ) || lstrcmpA( str, dbv.pszVal ))
 				reconnectRequired = TRUE;
 
 			if ( dbv.pszVal != NULL)
 				db_free( &dbv );
 
-			ppro->SetString(YAHOO_LOGINID, str);
+			ppro->setString(YAHOO_LOGINID, str);
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(str));
 
 			dbv.pszVal = NULL;
-			if ( ppro->GetString( YAHOO_PASSWORD, &dbv ) || lstrcmpA( str, dbv.pszVal ))
+			if ( ppro->getString( YAHOO_PASSWORD, &dbv ) || lstrcmpA( str, dbv.pszVal ))
 				reconnectRequired = TRUE;
 			if ( dbv.pszVal != NULL)
 				db_free( &dbv );
@@ -812,8 +812,8 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			}
 
 			CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), (LPARAM) str);
-			ppro->SetString(YAHOO_PASSWORD, str);
-			ppro->SetByte("YahooJapan", ( BYTE )IsDlgButtonChecked( hwndDlg, IDC_YAHOO_JAPAN ));
+			ppro->setString(YAHOO_PASSWORD, str);
+			ppro->setByte("YahooJapan", ( BYTE )IsDlgButtonChecked( hwndDlg, IDC_YAHOO_JAPAN ));
 
 			if ( reconnectRequired && ppro->m_bLoggedIn )
 				MessageBoxA( hwndDlg, Translate("The changes you have made require you to reconnect to the Yahoo network before they take effect"), Translate("YAHOO Options"), MB_OK );

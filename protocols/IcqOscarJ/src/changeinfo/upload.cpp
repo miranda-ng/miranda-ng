@@ -87,7 +87,7 @@ int ChangeInfoData::UploadSettings(void)
 
 				CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(ptmp), (LPARAM)ptmp);
 
-				ppro->setSettingString(NULL, "Password", ptmp);
+				ppro->setString("Password", ptmp);
 			}
 		}
 	}

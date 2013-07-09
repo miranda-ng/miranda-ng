@@ -214,7 +214,7 @@ void CJabberProto::OnLoggedIn()
 		SendGetVcard(m_szJabberJID);
 	else if (strcmp(m_ThreadInfo->server, szServerName))
 		SendGetVcard(m_szJabberJID);
-	JSetString(NULL, "LastLoggedServer", m_ThreadInfo->server);
+	setString("LastLoggedServer", m_ThreadInfo->server);
 
 	m_pepServices.ResetPublishAll();
 }
@@ -282,8 +282,8 @@ void CJabberProto::OnIqResultSetAuth(HXML iqNode)
 
 	if ( !lstrcmp(type, _T("result"))) {
 		DBVARIANT dbv;
-		if (JGetStringT(NULL, "Nick", &dbv))
-			JSetStringT(NULL, "Nick", m_ThreadInfo->username);
+		if (getTString(NULL, "Nick", &dbv))
+			setTString(NULL, "Nick", m_ThreadInfo->username);
 		else
 			db_free(&dbv);
 
@@ -463,7 +463,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 
 		if (name != NULL) {
 			DBVARIANT dbNick;
-			if ( !JGetStringT(hContact, "Nick", &dbNick)) {
+			if ( !getTString(hContact, "Nick", &dbNick)) {
 				if (lstrcmp(nick, dbNick.ptszVal) != 0)
 					db_set_ts(hContact, "CList", "MyHandle", nick);
 				else
@@ -475,7 +475,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 		}
 		else db_unset(hContact, "CList", "MyHandle");
 
-		if (JGetByte(hContact, "ChatRoom", 0)) {
+		if (getByte(hContact, "ChatRoom", 0)) {
 			GCSESSION gcw = {0};
 			gcw.cbSize = sizeof(GCSESSION);
 			gcw.iType = GCW_CHATROOM;
@@ -514,9 +514,9 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 
 		if (hContact != NULL) {
 			if (bIsTransport)
-				JSetByte(hContact, "IsTransport", TRUE);
+				setByte(hContact, "IsTransport", TRUE);
 			else
-				JSetByte(hContact, "IsTransport", FALSE);
+				setByte(hContact, "IsTransport", FALSE);
 		}
 
 		const TCHAR *imagepath = xmlGetAttrValue(itemNode, _T("vz:img"));
@@ -604,7 +604,7 @@ void CJabberProto::OnIqResultSetRegister(HXML iqNode)
 	if ( !lstrcmp(type, _T("result"))) {
 		HANDLE hContact = HContactFromJID(from);
 		if (hContact != NULL)
-			JSetByte(hContact, "IsTransport", TRUE);
+			setByte(hContact, "IsTransport", TRUE);
 
 		if (m_hwndRegProgress)
 			SendMessage(m_hwndRegProgress, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)TranslateT("Registration successful"));
@@ -685,7 +685,7 @@ LBL_Ret:
 	}
 	else {
 		DBVARIANT dbv;
-		if ( !JGetStringT(hContact, "jid", &dbv)) {
+		if ( !getTString(hContact, "jid", &dbv)) {
 			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
 			if (item == NULL) {
 				item = ListAdd(LIST_VCARD_TEMP, jid); // adding to the temp list to store information about photo
@@ -792,13 +792,13 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 				if ( !_tcscmp(xmlGetName(n), _T("FN"))) {
 					if (xmlGetText(n) != NULL) {
 						hasFn = TRUE;
-						JSetStringT(hContact, "FullName", xmlGetText(n));
+						setTString(hContact, "FullName", xmlGetText(n));
 					}
 				}
 				else if ( !lstrcmp(xmlGetName(n), _T("NICKNAME"))) {
 					if (xmlGetText(n) != NULL) {
 						hasNick = TRUE;
-						JSetStringT(hContact, "Nick", xmlGetText(n));
+						setTString(hContact, "Nick", xmlGetText(n));
 					}
 				}
 				else if ( !lstrcmp(xmlGetName(n), _T("N"))) {
@@ -806,15 +806,15 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 					if ( !hasGiven && !hasFamily && !hasMiddle) {
 						if ((m=xmlGetChild(n , "GIVEN")) != NULL && xmlGetText(m)!=NULL) {
 							hasGiven = TRUE;
-							JSetStringT(hContact, "FirstName", xmlGetText(m));
+							setTString(hContact, "FirstName", xmlGetText(m));
 						}
 						if ((m=xmlGetChild(n , "FAMILY")) != NULL && xmlGetText(m)!=NULL) {
 							hasFamily = TRUE;
-							JSetStringT(hContact, "LastName", xmlGetText(m));
+							setTString(hContact, "LastName", xmlGetText(m));
 						}
 						if ((m=xmlGetChild(n , "MIDDLE")) != NULL && xmlGetText(m) != NULL) {
 							hasMiddle = TRUE;
-							JSetStringT(hContact, "MiddleName", xmlGetText(m));
+							setTString(hContact, "MiddleName", xmlGetText(m));
 					}	}
 				}
 				else if ( !lstrcmp(xmlGetName(n), _T("EMAIL"))) {
@@ -830,7 +830,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 								sprintf(text, "e-mail%d", nEmail-1);
 						}
 						else sprintf(text, "e-mail%d", nEmail);
-						JSetStringT(hContact, text, xmlGetText(m));
+						setTString(hContact, text, xmlGetText(m));
 
 						if (hContact == NULL) {
 							sprintf(text, "e-mailFlag%d", nEmail);
@@ -839,7 +839,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 							if (xmlGetChild(n , "WORK") != NULL) nFlag |= JABBER_VCEMAIL_WORK;
 							if (xmlGetChild(n , "INTERNET") != NULL) nFlag |= JABBER_VCEMAIL_INTERNET;
 							if (xmlGetChild(n , "X400") != NULL) nFlag |= JABBER_VCEMAIL_X400;
-							JSetWord(NULL, text, nFlag);
+							setWord(text, nFlag);
 						}
 						nEmail++;
 					}
@@ -850,9 +850,9 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 						if (hContact != NULL) {
 							if (_stscanf(xmlGetText(n), _T("%d-%d-%d"), &nYear, &nMonth, &nDay) == 3) {
 								hasBday = TRUE;
-								JSetWord(hContact, "BirthYear", (WORD)nYear);
-								JSetByte(hContact, "BirthMonth", (BYTE) nMonth);
-								JSetByte(hContact, "BirthDay", (BYTE) nDay);
+								setWord(hContact, "BirthYear", (WORD)nYear);
+								setByte(hContact, "BirthMonth", (BYTE) nMonth);
+								setByte(hContact, "BirthDay", (BYTE) nDay);
 
 								SYSTEMTIME sToday = {0};
 								GetLocalTime(&sToday);
@@ -860,12 +860,12 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 								if (sToday.wMonth < nMonth || (sToday.wMonth == nMonth && sToday.wDay < nDay))
 									nAge--;
 								if (nAge)
-									JSetWord(hContact, "Age", (WORD)nAge);
+									setWord(hContact, "Age", (WORD)nAge);
 							}
 						}
 						else {
 							hasBday = TRUE;
-							JSetStringT(NULL, "BirthDate", xmlGetText(n));
+							setTString(NULL, "BirthDate", xmlGetText(n));
 					}	}
 				}
 				else if ( !lstrcmp(xmlGetName(n), _T("GENDER"))) {
@@ -874,12 +874,12 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 						if (hContact != NULL) {
 							if (xmlGetText(n)[0] && strchr("mMfF", xmlGetText(n)[0])!=NULL) {
 								hasGender = TRUE;
-								JSetByte(hContact, "Gender", (BYTE) toupper(xmlGetText(n)[0]));
+								setByte(hContact, "Gender", (BYTE) toupper(xmlGetText(n)[0]));
 							}
 						}
 						else {
 							hasGender = TRUE;
-							JSetStringT(NULL, "GenderString", xmlGetText(n));
+							setTString(NULL, "GenderString", xmlGetText(n));
 					}	}
 				}
 				else if ( !lstrcmp(xmlGetName(n), _T("ADR"))) {
@@ -896,34 +896,34 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 								else
 									_tcsncpy(text, xmlGetText(m), SIZEOF(text));
 								text[SIZEOF(text)-1] = '\0';
-								JSetStringT(hContact, "Street", text);
+								setTString(hContact, "Street", text);
 							}
 							else {
-								JSetStringT(hContact, "Street", xmlGetText(m));
+								setTString(hContact, "Street", xmlGetText(m));
 								if ((m=xmlGetChild(n , "EXTADR")) == NULL)
 									m = xmlGetChild(n , "EXTADD");
 								if (m!=NULL && xmlGetText(m)!=NULL) {
 									hasHomeStreet2 = TRUE;
-									JSetStringT(hContact, "Street2", xmlGetText(m));
+									setTString(hContact, "Street2", xmlGetText(m));
 						}	}	}
 
 						if ((m=xmlGetChild(n , "LOCALITY"))!=NULL && xmlGetText(m)!=NULL) {
 							hasHomeLocality = TRUE;
-							JSetStringT(hContact, "City", xmlGetText(m));
+							setTString(hContact, "City", xmlGetText(m));
 						}
 						if ((m=xmlGetChild(n , "REGION"))!=NULL && xmlGetText(m)!=NULL) {
 							hasHomeRegion = TRUE;
-							JSetStringT(hContact, "State", xmlGetText(m));
+							setTString(hContact, "State", xmlGetText(m));
 						}
 						if ((m=xmlGetChild(n , "PCODE"))!=NULL && xmlGetText(m)!=NULL) {
 							hasHomePcode = TRUE;
-							JSetStringT(hContact, "ZIP", xmlGetText(m));
+							setTString(hContact, "ZIP", xmlGetText(m));
 						}
 						if ((m=xmlGetChild(n , "CTRY"))==NULL || xmlGetText(m)==NULL)	// Some bad client use <COUNTRY/> instead of <CTRY/>
 							m = xmlGetChild(n , "COUNTRY");
 						if (m!=NULL && xmlGetText(m)!=NULL) {
 							hasHomeCtry = TRUE;
-							JSetStringT(hContact, "Country", xmlGetText(m));
+							setTString(hContact, "Country", xmlGetText(m));
 					}	}
 
 					if ( !hasWork && xmlGetChild(n , "WORK")!=NULL) {
@@ -939,34 +939,34 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 								else
 									_tcsncpy(text, xmlGetText(m), SIZEOF(text));
 								text[SIZEOF(text)-1] = '\0';
-								JSetStringT(hContact, "CompanyStreet", text);
+								setTString(hContact, "CompanyStreet", text);
 							}
 							else {
-								JSetStringT(hContact, "CompanyStreet", xmlGetText(m));
+								setTString(hContact, "CompanyStreet", xmlGetText(m));
 								if ((m=xmlGetChild(n , "EXTADR")) == NULL)
 									m = xmlGetChild(n , "EXTADD");
 								if (m!=NULL && xmlGetText(m)!=NULL) {
 									hasWorkStreet2 = TRUE;
-									JSetStringT(hContact, "CompanyStreet2", xmlGetText(m));
+									setTString(hContact, "CompanyStreet2", xmlGetText(m));
 						}	}	}
 
 						if ((m=xmlGetChild(n , "LOCALITY"))!=NULL && xmlGetText(m)!=NULL) {
 							hasWorkLocality = TRUE;
-							JSetStringT(hContact, "CompanyCity", xmlGetText(m));
+							setTString(hContact, "CompanyCity", xmlGetText(m));
 						}
 						if ((m=xmlGetChild(n , "REGION"))!=NULL && xmlGetText(m)!=NULL) {
 							hasWorkRegion = TRUE;
-							JSetStringT(hContact, "CompanyState", xmlGetText(m));
+							setTString(hContact, "CompanyState", xmlGetText(m));
 						}
 						if ((m=xmlGetChild(n , "PCODE"))!=NULL && xmlGetText(m)!=NULL) {
 							hasWorkPcode = TRUE;
-							JSetStringT(hContact, "CompanyZIP", xmlGetText(m));
+							setTString(hContact, "CompanyZIP", xmlGetText(m));
 						}
 						if ((m=xmlGetChild(n , "CTRY"))==NULL || xmlGetText(m)==NULL)	// Some bad client use <COUNTRY/> instead of <CTRY/>
 							m = xmlGetChild(n , "COUNTRY");
 						if (m!=NULL && xmlGetText(m)!=NULL) {
 							hasWorkCtry = TRUE;
-							JSetStringT(hContact, "CompanyCountry", xmlGetText(m));
+							setTString(hContact, "CompanyCountry", xmlGetText(m));
 					}	}
 				}
 				else if ( !lstrcmp(xmlGetName(n), _T("TEL"))) {
@@ -975,11 +975,11 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 						if (hContact != NULL) {
 							if ( !hasFax && xmlGetChild(n , "FAX")!=NULL) {
 								hasFax = TRUE;
-								JSetStringT(hContact, "Fax", xmlGetText(m));
+								setTString(hContact, "Fax", xmlGetText(m));
 							}
 							else if ( !hasCell && xmlGetChild(n , "CELL")!=NULL) {
 								hasCell = TRUE;
-								JSetStringT(hContact, "Cellular", xmlGetText(m));
+								setTString(hContact, "Cellular", xmlGetText(m));
 							}
 							else if ( !hasPhone &&
 								(xmlGetChild(n , "HOME")!=NULL ||
@@ -995,13 +995,13 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 								  xmlGetChild(n , "ISDN")==NULL &&
 								  xmlGetChild(n , "PCS")==NULL))) {
 								hasPhone = TRUE;
-								JSetStringT(hContact, "Phone", xmlGetText(m));
+								setTString(hContact, "Phone", xmlGetText(m));
 							}
 						}
 						else {
 							char text[ 100 ];
 							sprintf(text, "Phone%d", nPhone);
-							JSetStringT(NULL, text, xmlGetText(m));
+							setTString(NULL, text, xmlGetText(m));
 
 							sprintf(text, "PhoneFlag%d", nPhone);
 							int nFlag = 0;
@@ -1017,7 +1017,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 							if (xmlGetChild(n ,"MODEM") != NULL) nFlag |= JABBER_VCTEL_MODEM;
 							if (xmlGetChild(n ,"ISDN") != NULL) nFlag |= JABBER_VCTEL_ISDN;
 							if (xmlGetChild(n ,"PCS") != NULL) nFlag |= JABBER_VCTEL_PCS;
-							JSetWord(NULL, text, nFlag);
+							setWord(text, nFlag);
 							nPhone++;
 					}	}
 				}
@@ -1025,37 +1025,37 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 					// Homepage
 					if ( !hasUrl && xmlGetText(n)!=NULL) {
 						hasUrl = TRUE;
-						JSetStringT(hContact, "Homepage", xmlGetText(n));
+						setTString(hContact, "Homepage", xmlGetText(n));
 					}
 				}
 				else if ( !lstrcmp(xmlGetName(n), _T("ORG"))) {
 					if ( !hasOrgname && !hasOrgunit) {
 						if ((m=xmlGetChild(n ,"ORGNAME"))!=NULL && xmlGetText(m)!=NULL) {
 							hasOrgname = TRUE;
-							JSetStringT(hContact, "Company", xmlGetText(m));
+							setTString(hContact, "Company", xmlGetText(m));
 						}
 						if ((m=xmlGetChild(n ,"ORGUNIT"))!=NULL && xmlGetText(m)!=NULL) {	// The real vCard can have multiple <ORGUNIT/> but we will only display the first one
 							hasOrgunit = TRUE;
-							JSetStringT(hContact, "CompanyDepartment", xmlGetText(m));
+							setTString(hContact, "CompanyDepartment", xmlGetText(m));
 					}	}
 				}
 				else if ( !lstrcmp(xmlGetName(n), _T("ROLE"))) {
 					if ( !hasRole && xmlGetText(n)!=NULL) {
 						hasRole = TRUE;
-						JSetStringT(hContact, "Role", xmlGetText(n));
+						setTString(hContact, "Role", xmlGetText(n));
 					}
 				}
 				else if ( !lstrcmp(xmlGetName(n), _T("TITLE"))) {
 					if ( !hasTitle && xmlGetText(n)!=NULL) {
 						hasTitle = TRUE;
-						JSetStringT(hContact, "CompanyPosition", xmlGetText(n));
+						setTString(hContact, "CompanyPosition", xmlGetText(n));
 					}
 				}
 				else if ( !lstrcmp(xmlGetName(n), _T("DESC"))) {
 					if ( !hasDesc && xmlGetText(n)!=NULL) {
 						hasDesc = TRUE;
 						TCHAR* szMemo = JabberUnixToDosT(xmlGetText(n));
-						JSetStringT(hContact, "About", szMemo);
+						setTString(hContact, "About", szMemo);
 						mir_free(szMemo);
 					}
 				}
@@ -1068,7 +1068,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 			TCHAR *nick = JGetStringT(hContact, "Nick");
 			TCHAR *jidNick = JabberNickFromJID(jid);
 			if ( !nick || (jidNick && !_tcsicmp(nick, jidNick)))
-				JSetStringT(hContact, "Nick", name);
+				setTString(hContact, "Nick", name);
 
 			mir_free(jidNick);
 			mir_free(nick);
@@ -1370,7 +1370,7 @@ void CJabberProto::OnIqResultGetVCardAvatar(HXML iqNode)
 	if (xmlGetChildCount(vCard) == 0) {
 		JDeleteSetting(hContact, "AvatarHash");
 		DBVARIANT dbv = {0};
-		if ( !JGetStringT(hContact, "AvatarSaved", &dbv)) {
+		if ( !getTString(hContact, "AvatarSaved", &dbv)) {
 			db_free(&dbv);
 			JDeleteSetting(hContact, "AvatarSaved");
 			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, NULL);
@@ -1386,7 +1386,7 @@ void CJabberProto::OnIqResultGetVCardAvatar(HXML iqNode)
 	if (n == NULL)
 		return;
 
-	JSetByte(hContact, "AvatarXVcard", 1);
+	setByte(hContact, "AvatarXVcard", 1);
 	OnIqResultGotAvatar(hContact, n, mimeType);
 }
 
@@ -1513,12 +1513,12 @@ LBL_ErrFormat:
 	AI.format = pictureType;
 	AI.hContact = hContact;
 
-	if (JGetByte(hContact, "AvatarType", PA_FORMAT_UNKNOWN) != (unsigned char)pictureType) {
+	if (getByte(hContact, "AvatarType", PA_FORMAT_UNKNOWN) != (unsigned char)pictureType) {
 		GetAvatarFileName(hContact, tszFileName, SIZEOF(tszFileName));
 		DeleteFile(tszFileName);
 	}
 
-	JSetByte(hContact, "AvatarType", pictureType);
+	setByte(hContact, "AvatarType", pictureType);
 
 	char buffer[ 41 ];
 	mir_sha1_byte_t digest[20];
@@ -1536,7 +1536,7 @@ LBL_ErrFormat:
 	if (out != NULL) {
 		fwrite(body, resultLen, 1, out);
 		fclose(out);
-		JSetString(hContact, "AvatarSaved", buffer);
+		setString(hContact, "AvatarSaved", buffer);
 		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&AI), NULL);
 		Log("Broadcast new avatar: %s",AI.filename);
 	}
@@ -1702,11 +1702,11 @@ void CJabberProto::OnIqResultEntityTime(HXML pIqNode, CJabberIqInfo* pInfo)
 			if (GetTimeZoneInformation(&tzinfo) == TIME_ZONE_ID_DAYLIGHT)
 				nTz -= tzinfo.DaylightBias / 30;
 
-			JSetByte(pInfo->m_hContact, "Timezone", (signed char)nTz);
+			setByte(pInfo->m_hContact, "Timezone", (signed char)nTz);
 
 			LPCTSTR szTz = XPathFmt(pIqNode, _T("time[@xmlns='%s']/tz"), _T(JABBER_FEAT_ENTITY_TIME));
 			if (szTz)
-				JSetStringT(pInfo->m_hContact, "TzName", szTz);
+				setTString(pInfo->m_hContact, "TzName", szTz);
 			else
 				JDeleteSetting(pInfo->m_hContact, "TzName");
 			return;
@@ -1714,7 +1714,7 @@ void CJabberProto::OnIqResultEntityTime(HXML pIqNode, CJabberIqInfo* pInfo)
 	}
 	else if (pInfo->m_nIqType == JABBER_IQ_TYPE_ERROR)
 	{
-		if (JGetWord(pInfo->m_hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+		if (getWord(pInfo->m_hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 			return;
 	}
 

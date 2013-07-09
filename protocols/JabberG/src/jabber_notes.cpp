@@ -856,7 +856,7 @@ INT_PTR __cdecl CJabberProto::OnMenuSendNote(WPARAM wParam, LPARAM)
 	if ( !wParam) return 0;
 
 	TCHAR szClientJid[ JABBER_MAX_JID_LEN ];
-	GetClientJID(JGetStringT((HANDLE)wParam, "jid"), szClientJid, SIZEOF(szClientJid));
+	GetClientJID( JGetStringT((HANDLE)wParam, "jid"), szClientJid, SIZEOF(szClientJid));
 
 	CNoteItem *pItem = new CNoteItem(NULL, szClientJid);
 	CJabberDlgBase *pDlg = new CJabberDlgNoteItem(this, pItem, &CJabberProto::ProcessOutgoingNote);

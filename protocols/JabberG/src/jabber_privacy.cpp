@@ -434,7 +434,7 @@ public:
 
 				for (HANDLE hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
 					DBVARIANT dbv;
-					if ( !m_proto->JGetStringT(hContact, "jid", &dbv)) {
+					if ( !m_proto->getTString(hContact, "jid", &dbv)) {
 						SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_ADDSTRING, 0, (LPARAM)dbv.ptszVal);
 						db_free(&dbv);
 					}
@@ -1569,8 +1569,8 @@ void CJabberDlgPrivacyLists::CListBuildList(HWND hwndList, CPrivacyList *pList)
 		hItem = m_clcClist.FindContact(hContact);
 
 		DBVARIANT dbv = {0};
-		if (m_proto->JGetStringT(hContact, "jid", &dbv))
-			if (m_proto->JGetStringT(hContact, "ChatRoomID", &dbv))
+		if (m_proto->getTString(hContact, "jid", &dbv))
+			if (m_proto->getTString(hContact, "ChatRoomID", &dbv))
 				continue;
 
 		szJid = dbv.ptszVal;

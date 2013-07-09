@@ -131,7 +131,7 @@ void CMraProto::SetExtraIcons(HANDLE hContact)
 	DWORD dwXStatus = MRA_MIR_XSTATUS_NONE;
 
 	if (m_bLoggedIn) {
-		dwXStatus = mraGetByte(hContact, DBSETTING_XSTATUSID, MRA_MIR_XSTATUS_NONE);
+		dwXStatus = getByte(hContact, DBSETTING_XSTATUSID, MRA_MIR_XSTATUS_NONE);
 		if (dwID == -1)
 			dwIconID = (dwContactSeverFlags == -1) ? ADV_ICON_DELETED : ADV_ICON_NOT_ON_SERVER;
 		else {
@@ -270,7 +270,7 @@ INT_PTR CMraProto::MraRequestAuthorization(WPARAM wParam, LPARAM lParam)
 		if (dwMessageSize) {
 			HANDLE hContact = (HANDLE)wParam;
 			if ( mraGetStaticStringA(hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize)) {
-				BOOL bSlowSend = mraGetByte(NULL, "SlowSend", MRA_DEFAULT_SLOW_SEND);
+				BOOL bSlowSend = getByte(NULL, "SlowSend", MRA_DEFAULT_SLOW_SEND);
 				int iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_AUTHREQ, MESSAGE_FLAG_AUTHORIZE, szEMail, dwEMailSize, wszAuthMessage, dwMessageSize, NULL, 0);
 				if (bSlowSend == FALSE)
 					ProtoBroadcastAck(hContact, ACKTYPE_AUTHREQ, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
@@ -456,7 +456,7 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 
 	if (hContact) {
 		// это наш контакт, он не временный (есть в списке на сервере) и его обновление разрешено
-		if ( IsContactMra(hContact) && !db_get_b(hContact, "CList", "NotOnList", 0) && mraGetDword(hContact, "HooksLocked", FALSE) == FALSE) {
+		if ( IsContactMra(hContact) && !db_get_b(hContact, "CList", "NotOnList", 0) && getDword(hContact, "HooksLocked", FALSE) == FALSE) {
 			CHAR szEMail[MAX_EMAIL_LEN], szPhones[MAX_EMAIL_LEN];
 			WCHAR wszNick[MAX_EMAIL_LEN];
 			DWORD dwID, dwGroupID, dwContactFlag;
@@ -769,7 +769,7 @@ DWORD CMraProto::MraSetXStatusInternal(DWORD dwXStatus)
 	}
 
 	dwOldStatusMode = InterlockedExchange((volatile LONG*)&m_iXStatus, dwXStatus);
-	mraSetByte(NULL, DBSETTING_XSTATUSID, (BYTE)dwXStatus);
+	setByte(NULL, DBSETTING_XSTATUSID, (BYTE)dwXStatus);
 
 	MraSendNewStatus(m_iStatus, dwXStatus, NULL, 0, NULL, 0);
 
@@ -968,7 +968,7 @@ DWORD CMraProto::MraSendNewStatus(DWORD dwStatusMir, DWORD dwXStatusMir, LPCWSTR
 		}
 	}
 
-	MraChangeStatusW(dwStatus, lpcszStatusUri[dwXStatus], lstrlenA(lpcszStatusUri[dwXStatus]), lpwszStatusTitle, dwStatusTitleSize, lpwszStatusDesc, dwStatusDescSize, ((mraGetByte(NULL, "RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE)? FEATURE_FLAG_RTF_MESSAGE:0)|MRA_FEATURE_FLAGS));
+	MraChangeStatusW(dwStatus, lpcszStatusUri[dwXStatus], lstrlenA(lpcszStatusUri[dwXStatus]), lpwszStatusTitle, dwStatusTitleSize, lpwszStatusDesc, dwStatusDescSize, ((getByte(NULL, "RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE)? FEATURE_FLAG_RTF_MESSAGE:0)|MRA_FEATURE_FLAGS));
 	return 0;
 }
 

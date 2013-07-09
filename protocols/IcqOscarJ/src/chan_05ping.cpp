@@ -40,7 +40,7 @@ void __cdecl CIcqProto::KeepAliveThread(void *arg)
 {
 	serverthread_info *info = (serverthread_info*)arg;
 	icq_packet packet;
-	DWORD dwInterval = getSettingDword(NULL, "KeepAliveInterval", KEEPALIVE_INTERVAL);
+	DWORD dwInterval = getDword("KeepAliveInterval", KEEPALIVE_INTERVAL);
 
 	NetLog_Server("Keep alive thread starting.");
 
@@ -77,7 +77,7 @@ void CIcqProto::StartKeepAlive(serverthread_info *info)
 	if (info->hKeepAliveEvent) // start only once
 		return;
 
-	if (getSettingByte(NULL, "KeepAlive", DEFAULT_KEEPALIVE_ENABLED))
+	if (getByte("KeepAlive", DEFAULT_KEEPALIVE_ENABLED))
 		CloseHandle( ForkThreadEx(&CIcqProto::KeepAliveThread, info, 0));
 }
 

@@ -597,11 +597,11 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 						// Add the jid (with empty resource) to Miranda contact list.
 						hContact = DBCreateContact(jid, nick, FALSE, FALSE);
 					}
-					else JSetStringT(hContact, "jid", jid);
+					else setTString(hContact, "jid", jid);
 
 					if (name != NULL) {
 						DBVARIANT dbnick;
-						if ( !JGetStringT(hContact, "Nick", &dbnick)) {
+						if ( !getTString(hContact, "Nick", &dbnick)) {
 							if (_tcscmp(nick, dbnick.ptszVal) != 0)
 								db_set_ts(hContact, "CList", "MyHandle", nick);
 							else
@@ -640,7 +640,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 					SetContactOfflineStatus(hContact);
 					ListRemove(LIST_ROSTER, jid);
 			}	}
-			else if (JGetByte(hContact, "ChatRoom", 0))
+			else if (getByte(hContact, "ChatRoom", 0))
 				db_unset(hContact, "CList", "Hidden");
 			else
 				UpdateSubscriptionInfo(hContact, item);

@@ -285,7 +285,7 @@ void CJabberDlgPepSimple::cbModes_OnChange(CCtrlData *)
 	if ((m_prevSelected >= 0) && (m_modes[m_cbModes.GetItemData(m_prevSelected)].m_id >= 0)) {
 		TCHAR *txt = m_txtDescription.GetText();
 		mir_snprintf(szSetting, SIZEOF(szSetting), "PepMsg_%s", m_modes[m_cbModes.GetItemData(m_prevSelected)].m_name);
-		m_proto->JSetStringT(NULL, szSetting, txt);
+		m_proto->setTString(NULL, szSetting, txt);
 		mir_free(txt);
 	}
 
@@ -294,7 +294,7 @@ void CJabberDlgPepSimple::cbModes_OnChange(CCtrlData *)
 		mir_snprintf(szSetting, SIZEOF(szSetting), "PepMsg_%s", m_modes[m_cbModes.GetItemData(m_prevSelected)].m_name);
 
 		DBVARIANT dbv;
-		if ( !m_proto->JGetStringT(NULL, szSetting, &dbv)) {
+		if ( !m_proto->getTString(NULL, szSetting, &dbv)) {
 			m_txtDescription.SetText(dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -726,10 +726,10 @@ void CPepMood::SetMood(HANDLE hContact, const TCHAR *szMood, const TCHAR *szText
 	else SetExtraIcon(hContact, mood < 0 ? NULL : g_arrMoods[mood].szTag);
 
 	if (szMood) {
-		m_proto->JSetByte(hContact, DBSETTING_XSTATUSID, mood);
-		m_proto->JSetStringT(hContact, DBSETTING_XSTATUSNAME, TranslateTS(g_arrMoods[mood].szName));
+		m_proto->setByte(hContact, DBSETTING_XSTATUSID, mood);
+		m_proto->setTString(hContact, DBSETTING_XSTATUSNAME, TranslateTS(g_arrMoods[mood].szName));
 		if (szText)
-			m_proto->JSetStringT(hContact, DBSETTING_XSTATUSMSG, szText);
+			m_proto->setTString(hContact, DBSETTING_XSTATUSMSG, szText);
 		else
 			m_proto->JDeleteSetting(hContact, DBSETTING_XSTATUSMSG);
 
@@ -1234,7 +1234,7 @@ void CJabberProto::SetContactTune(HANDLE hContact, LPCTSTR szArtist, LPCTSTR szL
 		mir_sntprintf(szListeningTo, 2047, _T("%s - %s"), szTitle ? szTitle : _T(""), szArtist ? szArtist : _T(""));
 	}
 
-	JSetStringT(hContact, "ListeningTo", szListeningTo);
+	setTString(hContact, "ListeningTo", szListeningTo);
 
 	char tuneIcon[128];
 	mir_snprintf(tuneIcon, SIZEOF(tuneIcon), "%s_%s", m_szModuleName, "main");

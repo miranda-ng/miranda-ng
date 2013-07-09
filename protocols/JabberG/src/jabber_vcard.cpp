@@ -595,7 +595,7 @@ static INT_PTR CALLBACK EditEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				}	}
 				GetDlgItemText(hwndDlg, IDC_EMAIL, text, SIZEOF(text));
 				mir_snprintf(idstr, SIZEOF(idstr), "e-mail%d", dat->id);
-				dat->ppro->JSetStringT(NULL, idstr, text);
+				dat->ppro->setTString(NULL, idstr, text);
 
 				nFlag = 0;
 				if (IsDlgButtonChecked(hwndDlg, IDC_HOME)) nFlag |= JABBER_VCEMAIL_HOME;
@@ -603,7 +603,7 @@ static INT_PTR CALLBACK EditEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				if (IsDlgButtonChecked(hwndDlg, IDC_INTERNET)) nFlag |= JABBER_VCEMAIL_INTERNET;
 				if (IsDlgButtonChecked(hwndDlg, IDC_X400)) nFlag |= JABBER_VCEMAIL_X400;
 				mir_snprintf(idstr, SIZEOF(idstr), "e-mailFlag%d", dat->id);
-				dat->ppro->JSetWord(NULL, idstr, nFlag);
+				dat->ppro->setWord(idstr, nFlag);
 			}
 			// fall through
 		case IDCANCEL:
@@ -636,7 +636,7 @@ static INT_PTR CALLBACK EditPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					SetDlgItemTextA(hwndDlg, IDC_PHONE, dbv.pszVal);
 					db_free(&dbv);
 					wsprintfA(idstr, "PhoneFlag%d", dat->id);
-					nFlag = dat->ppro->JGetWord(NULL, idstr, 0);
+					nFlag = dat->ppro->getWord(idstr, 0);
 					if (nFlag & JABBER_VCTEL_HOME) CheckDlgButton(hwndDlg, IDC_HOME, TRUE);
 					if (nFlag & JABBER_VCTEL_WORK) CheckDlgButton(hwndDlg, IDC_WORK, TRUE);
 					if (nFlag & JABBER_VCTEL_VOICE) CheckDlgButton(hwndDlg, IDC_VOICE, TRUE);
@@ -670,7 +670,7 @@ static INT_PTR CALLBACK EditPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				}
 				GetDlgItemTextA(hwndDlg, IDC_PHONE, text, SIZEOF(text));
 				wsprintfA(idstr, "Phone%d", dat->id);
-				dat->ppro->JSetString(NULL, idstr, text);
+				dat->ppro->setString(idstr, text);
 				nFlag = 0;
 				if (IsDlgButtonChecked(hwndDlg, IDC_HOME)) nFlag |= JABBER_VCTEL_HOME;
 				if (IsDlgButtonChecked(hwndDlg, IDC_WORK)) nFlag |= JABBER_VCTEL_WORK;
@@ -685,7 +685,7 @@ static INT_PTR CALLBACK EditPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				if (IsDlgButtonChecked(hwndDlg, IDC_ISDN)) nFlag |= JABBER_VCTEL_ISDN;
 				if (IsDlgButtonChecked(hwndDlg, IDC_PCS)) nFlag |= JABBER_VCTEL_PCS;
 				wsprintfA(idstr, "PhoneFlag%d", dat->id);
-				dat->ppro->JSetWord(NULL, idstr, nFlag);
+				dat->ppro->setWord(idstr, nFlag);
 			}
 			// fall through
 		case IDCANCEL:
@@ -875,12 +875,12 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 								wsprintfA(idstr, szIdTemplate, i+1);
 								if ( db_get_s(NULL, ppro->m_szModuleName, idstr, &dbv)) break;
 								wsprintfA(idstr,szIdTemplate,i);
-								ppro->JSetString(NULL, idstr, dbv.pszVal);
+								ppro->setString(idstr, dbv.pszVal);
 								wsprintfA(idstr, szFlagTemplate, i+1);
 								db_free(&dbv);
-								nFlag = ppro->JGetWord(NULL, idstr, 0);
+								nFlag = ppro->getWord(idstr, 0);
 								wsprintfA(idstr, szFlagTemplate, i);
-								ppro->JSetWord(NULL, idstr, nFlag);
+								ppro->setWord(idstr, nFlag);
 							}
 							wsprintfA(idstr, szIdTemplate, i);
 							ppro->JDeleteSetting(NULL, idstr);
@@ -934,44 +934,44 @@ void CJabberProto::SaveVcardToDB(HWND hwndPage, int iPage)
 	switch (iPage) {
 	case 0:
 		GetDlgItemText(hwndPage, IDC_FULLNAME, text, SIZEOF(text));
-		JSetStringT(NULL, "FullName", text);
+		setTString(NULL, "FullName", text);
 		GetDlgItemText(hwndPage, IDC_NICKNAME, text, SIZEOF(text));
-		JSetStringT(NULL, "Nick", text);
+		setTString(NULL, "Nick", text);
 		GetDlgItemText(hwndPage, IDC_FIRSTNAME, text, SIZEOF(text));
-		JSetStringT(NULL, "FirstName", text);
+		setTString(NULL, "FirstName", text);
 		GetDlgItemText(hwndPage, IDC_MIDDLE, text, SIZEOF(text));
-		JSetStringT(NULL, "MiddleName", text);
+		setTString(NULL, "MiddleName", text);
 		GetDlgItemText(hwndPage, IDC_LASTNAME, text, SIZEOF(text));
-		JSetStringT(NULL, "LastName", text);
+		setTString(NULL, "LastName", text);
 		GetDlgItemText(hwndPage, IDC_BIRTH, text, SIZEOF(text));
-		JSetStringT(NULL, "BirthDate", text);
+		setTString(NULL, "BirthDate", text);
 		switch(SendMessage(GetDlgItem(hwndPage, IDC_GENDER), CB_GETCURSEL, 0, 0)) {
-			case 0:	JSetString(NULL, "GenderString", "Male");   break;
-			case 1:	JSetString(NULL, "GenderString", "Female"); break;
-			default: JSetString(NULL, "GenderString", "");       break;
+			case 0:	setString("GenderString", "Male");   break;
+			case 1:	setString("GenderString", "Female"); break;
+			default: setString("GenderString", "");       break;
 		}
 		GetDlgItemText(hwndPage, IDC_OCCUPATION, text, SIZEOF(text));
-		JSetStringT(NULL, "Role", text);
+		setTString(NULL, "Role", text);
 		GetDlgItemText(hwndPage, IDC_HOMEPAGE, text, SIZEOF(text));
-		JSetStringT(NULL, "Homepage", text);
+		setTString(NULL, "Homepage", text);
 		break;
 
 	// Page 1: Home
 	case 1:
 		GetDlgItemText(hwndPage, IDC_ADDRESS1, text, SIZEOF(text));
-		JSetStringT(NULL, "Street", text);
+		setTString(NULL, "Street", text);
 		GetDlgItemText(hwndPage, IDC_ADDRESS2, text, SIZEOF(text));
-		JSetStringT(NULL, "Street2", text);
+		setTString(NULL, "Street2", text);
 		GetDlgItemText(hwndPage, IDC_CITY, text, SIZEOF(text));
-		JSetStringT(NULL, "City", text);
+		setTString(NULL, "City", text);
 		GetDlgItemText(hwndPage, IDC_STATE, text, SIZEOF(text));
-		JSetStringT(NULL, "State", text);
+		setTString(NULL, "State", text);
 		GetDlgItemText(hwndPage, IDC_ZIP, text, SIZEOF(text));
-		JSetStringT(NULL, "ZIP", text);
+		setTString(NULL, "ZIP", text);
 		{
 			int i = SendMessage(GetDlgItem(hwndPage, IDC_COUNTRY), CB_GETCURSEL, 0, 0);
 			TCHAR *country = mir_a2t((i) ? g_countries[i+2].szName : g_countries[1].szName);
-			JSetStringT(NULL, "Country", country);
+			setTString(NULL, "Country", country);
 			mir_free(country);
 		}
 		break;
@@ -979,25 +979,25 @@ void CJabberProto::SaveVcardToDB(HWND hwndPage, int iPage)
 	// Page 2: Work
 	case 2:
 		GetDlgItemText(hwndPage, IDC_COMPANY, text, SIZEOF(text));
-		JSetStringT(NULL, "Company", text);
+		setTString(NULL, "Company", text);
 		GetDlgItemText(hwndPage, IDC_DEPARTMENT, text, SIZEOF(text));
-		JSetStringT(NULL, "CompanyDepartment", text);
+		setTString(NULL, "CompanyDepartment", text);
 		GetDlgItemText(hwndPage, IDC_TITLE, text, SIZEOF(text));
-		JSetStringT(NULL, "CompanyPosition", text);
+		setTString(NULL, "CompanyPosition", text);
 		GetDlgItemText(hwndPage, IDC_ADDRESS1, text, SIZEOF(text));
-		JSetStringT(NULL, "CompanyStreet", text);
+		setTString(NULL, "CompanyStreet", text);
 		GetDlgItemText(hwndPage, IDC_ADDRESS2, text, SIZEOF(text));
-		JSetStringT(NULL, "CompanyStreet2", text);
+		setTString(NULL, "CompanyStreet2", text);
 		GetDlgItemText(hwndPage, IDC_CITY, text, SIZEOF(text));
-		JSetStringT(NULL, "CompanyCity", text);
+		setTString(NULL, "CompanyCity", text);
 		GetDlgItemText(hwndPage, IDC_STATE, text, SIZEOF(text));
-		JSetStringT(NULL, "CompanyState", text);
+		setTString(NULL, "CompanyState", text);
 		GetDlgItemText(hwndPage, IDC_ZIP, text, SIZEOF(text));
-		JSetStringT(NULL, "CompanyZIP", text);
+		setTString(NULL, "CompanyZIP", text);
 		{
 			int i = SendMessage(GetDlgItem(hwndPage, IDC_COUNTRY), CB_GETCURSEL, 0, 0);
 			TCHAR *country = mir_a2t((i) ? g_countries[i+2].szName : g_countries[1].szName);
-			JSetStringT(NULL, "CompanyCountry", country);
+			setTString(NULL, "CompanyCountry", country);
 			mir_free(country);
 		}
 		break;
@@ -1008,7 +1008,7 @@ void CJabberProto::SaveVcardToDB(HWND hwndPage, int iPage)
 	// Page 4: Note
 	case 4:
 		GetDlgItemText(hwndPage, IDC_DESC, text, SIZEOF(text));
-		JSetStringT(NULL, "About", text);
+		setTString(NULL, "About", text);
 		break;
 
 	// Page 5: Contacts
@@ -1113,7 +1113,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 		AppendVcardFromDB(n, "NUMBER", idstr);
 
 		wsprintfA(idstr, "PhoneFlag%d", i);
-		nFlag = JGetWord(NULL, idstr, 0);
+		nFlag = getWord(idstr, 0);
 		if (nFlag & JABBER_VCTEL_HOME)  n << XCHILD(_T("HOME"));
 		if (nFlag & JABBER_VCTEL_WORK)  n << XCHILD(_T("WORK"));
 		if (nFlag & JABBER_VCTEL_VOICE) n << XCHILD(_T("VOICE"));
@@ -1191,8 +1191,8 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 								CopyFile(szFileName, szAvatarName, FALSE);
 							}
 
-							JSetString(NULL, "AvatarHash", buf);
-							JSetString(NULL, "AvatarSaved", buf);
+							setString("AvatarHash", buf);
+							setString("AvatarSaved", buf);
 					}	}
 					mir_free(buffer);
 				}

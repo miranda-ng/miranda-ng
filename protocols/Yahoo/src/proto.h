@@ -224,27 +224,8 @@ struct CYahooProto : public PROTO<CYahooProto>
 	int     __cdecl  OnUserInfoInit( WPARAM wParam, LPARAM lParam );
 
 	//====| util.cpp |====================================================================
-	int  GetByte( const char* valueName, int parDefltValue );
-	int  SetByte( const char* valueName, int parValue );
-	int  GetByte( HANDLE hContact, const char* valueName, int parDefltValue );
-	int  SetByte( HANDLE hContact, const char* valueName, int parValue );
-
-	int    GetString( const char* name, DBVARIANT* );
-	int    GetString( HANDLE hContact, const char* name, DBVARIANT* );
 	int    GetStringUtf( HANDLE hContact, const char* name, DBVARIANT* );
-
-	void   SetString( const char* name, const char* value );
-	void   SetString( HANDLE hContact, const char* name, const char* value );
-	void   SetStringT( HANDLE hContact, const char* name, const TCHAR* value );
 	DWORD  SetStringUtf( HANDLE hContact, const char* valueName, const char* parValue );
-
-	DWORD  GetDword( const char* valueName, DWORD parDefltValue );
-	DWORD  SetDword( const char* valueName, DWORD parValue );
-	DWORD  GetDword( HANDLE hContact, const char* valueName, DWORD parDefltValue );
-	DWORD  SetDword( HANDLE hContact, const char* valueName, DWORD parValue );
-
-	WORD   GetWord( HANDLE hContact, const char* valueName, int parDefltValue );
-	WORD   SetWord( HANDLE hContact, const char* valueName, int parValue );
 
 	DWORD  Set_Protocol( HANDLE hContact, int protocol );
 

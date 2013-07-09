@@ -76,15 +76,15 @@ HANDLE CJabberProto::ChatRoomHContactFromJID(const TCHAR *jid)
 
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DBVARIANT dbv;
-		int result = JGetStringT(hContact, "ChatRoomID", &dbv);
+		int result = getTString(hContact, "ChatRoomID", &dbv);
 		if (result)
-			result = JGetStringT(hContact, "jid", &dbv);
+			result = getTString(hContact, "jid", &dbv);
 
 		if ( !result) {
 			int result;
 			result = lstrcmpi(jid, dbv.ptszVal);
 			db_free(&dbv);
-			if ( !result && JGetByte(hContact, "ChatRoom", 0) != 0)
+			if ( !result && getByte(hContact, "ChatRoom", 0) != 0)
 				return hContact;
 	}	}
 
@@ -106,9 +106,9 @@ HANDLE CJabberProto::HContactFromJID(const TCHAR *jid , BOOL bStripResource)
 		int result;
 		//safer way to check UID (coz some contact have both setting from convert to chat)
 		if (db_get_b(hContact, m_szModuleName, "ChatRoom",0))
-			result = JGetStringT(hContact, "ChatRoomID", &dbv);
+			result = getTString(hContact, "ChatRoomID", &dbv);
 		else
-			result = JGetStringT(hContact, "jid", &dbv);
+			result = getTString(hContact, "jid", &dbv);
 
 		if ( !result) {
 			int result;
@@ -116,7 +116,7 @@ HANDLE CJabberProto::HContactFromJID(const TCHAR *jid , BOOL bStripResource)
 				result = lstrcmpi(jid, dbv.ptszVal);
 			else {
 				if (bStripResource == 3) {
-					if (JGetByte(hContact, "ChatRoom", 0))
+					if (getByte(hContact, "ChatRoom", 0))
 						result = lstrcmpi(jid, dbv.ptszVal);  // for chat room we have to have full contact matched
 					else if (TRUE)
 						result = _tcsnicmp(jid, dbv.ptszVal, _tcslen(dbv.ptszVal));
@@ -186,7 +186,7 @@ JABBER_RESOURCE_STATUS* CJabberProto::ResourceInfoFromJID(const TCHAR *jid)
 JABBER_LIST_ITEM* CJabberProto::GetItemFromContact(HANDLE hContact)
 {
 	DBVARIANT dbv;
-	if (JGetStringT(hContact, "jid", &dbv))
+	if (getTString(hContact, "jid", &dbv))
 		return NULL;
 
 	JABBER_LIST_ITEM *pItem = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
@@ -611,7 +611,7 @@ void CJabberProto::SendVisibleInvisiblePresence(BOOL invisible)
 		if (hContact == NULL)
 			continue;
 
-		WORD apparentMode = JGetWord(hContact, "ApparentMode", 0);
+		WORD apparentMode = getWord(hContact, "ApparentMode", 0);
 		if (invisible==TRUE && apparentMode==ID_STATUS_OFFLINE)
 			m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), item->jid) << XATTR(_T("type"), _T("invisible")));
 		else if (invisible==FALSE && apparentMode==ID_STATUS_ONLINE)
@@ -791,7 +791,7 @@ void CJabberProto::SendPresenceTo(int status, TCHAR* to, HXML extra, const TCHAR
 	if ( !m_bJabberOnline) return;
 
 	// Send <presence/> update for status (we won't handle ID_STATUS_OFFLINE here)
-	short iPriority = (short)JGetWord(NULL, "Priority", 0);
+	short iPriority = (short)getWord("Priority", 0);
 	UpdatePriorityMenu(iPriority);
 
 	TCHAR szPriority[40];
@@ -1181,7 +1181,7 @@ void CJabberProto::ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *par
 		DBVARIANT dbv;
 		char setting[MAXMODULELABELLENGTH];
 		mir_snprintf(setting, sizeof(setting), "%s%d", param, i);
-		if ( !JGetStringT(NULL, setting, &dbv)) {
+		if ( !getTString(NULL, setting, &dbv)) {
 			SendDlgItemMessage(hwndDlg, idcCombo, CB_ADDSTRING, 0, (LPARAM)dbv.ptszVal);
 			db_free(&dbv);
 	}	}
@@ -1201,11 +1201,11 @@ void CJabberProto::ComboAddRecentString(HWND hwndDlg, UINT idcCombo, char *param
 	if ((id = SendDlgItemMessage(hwndDlg, idcCombo, CB_FINDSTRING, (WPARAM)-1, (LPARAM)_T(""))) != CB_ERR)
 		SendDlgItemMessage(hwndDlg, idcCombo, CB_DELETESTRING, id, 0);
 
-	id = JGetByte(NULL, param, 0);
+	id = getByte(NULL, param, 0);
 	char setting[MAXMODULELABELLENGTH];
 	mir_snprintf(setting, sizeof(setting), "%s%d", param, id);
-	JSetStringT(NULL, setting, string);
-	JSetByte(NULL, param, (id+1)%recentCount);
+	setTString(NULL, setting, string);
+	setByte(NULL, param, (id+1)%recentCount);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1775,12 +1775,12 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 					AI.format = pictureType;
 					AI.hContact = avs[i].hContact;
 
-					if (JGetByte(AI.hContact, "AvatarType", PA_FORMAT_UNKNOWN) != (unsigned char)pictureType) {
+					if (getByte(AI.hContact, "AvatarType", PA_FORMAT_UNKNOWN) != (unsigned char)pictureType) {
 						GetAvatarFileName(AI.hContact, tszFileName, SIZEOF(tszFileName));
 						DeleteFile(tszFileName);
 					}
 
-					JSetByte(AI.hContact, "AvatarType", pictureType);
+					setByte(AI.hContact, "AvatarType", pictureType);
 
 					char cmpsha[ 41 ];
 					char buffer[ 41 ];
@@ -1800,7 +1800,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 						if (out != NULL) {
 							fwrite(res->pData, res->dataLength, 1, out);
 							fclose(out);
-							JSetString(AI.hContact, "AvatarSaved", buffer);
+							setString(AI.hContact, "AvatarSaved", buffer);
 							ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
 							Log("Broadcast new avatar: %s",AI.filename);
 						}

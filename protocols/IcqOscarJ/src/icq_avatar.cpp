@@ -101,7 +101,7 @@ TCHAR* CIcqProto::GetOwnAvatarFileName()
 {
 	DBVARIANT dbvFile = {DBVT_DELETED};
 
-	if (!getSettingStringT(NULL, "AvatarFile", &dbvFile))
+	if (!getTString(NULL, "AvatarFile", &dbvFile))
 	{
 		TCHAR tmp[MAX_PATH * 2];
 		PathToAbsoluteT(dbvFile.ptszVal, tmp);
@@ -422,7 +422,7 @@ void CIcqProto::handleAvatarOwnerHash(WORD wItemID, BYTE bFlags, BYTE *pData, BY
 					} // check if we had set any avatar if yes set our, if not download from server
 					else if (memcmp(hash, pData + 4, 0x10))
 					{ // we have different avatar, sync that
-						if (m_bSsiEnabled && getSettingByte(NULL, "ForceOurAvatar", 1))
+						if (m_bSsiEnabled && getByte("ForceOurAvatar", 1))
 						{ // we want our avatar, update hash
 							DWORD dwPaFormat = DetectAvatarFormat(file);
 							BYTE *pHash = (BYTE*)_alloca(0x14);
@@ -592,7 +592,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, HANDLE hContac
 	{ // check settings, should we request avatar immediatelly?
 		DBVARIANT dbv = {DBVT_DELETED};
 		TCHAR tszAvatar[MAX_PATH * 2 +4];
-		BYTE bAutoLoad = getSettingByte(NULL, "AvatarsAutoLoad", DEFAULT_LOAD_AVATARS);
+		BYTE bAutoLoad = getByte("AvatarsAutoLoad", DEFAULT_LOAD_AVATARS);
 
 		if ((avatarType == AVATAR_HASH_STATIC || avatarType == AVATAR_HASH_MINI) && cbAvatarHash == 0x09 && !memcmp(pAvatarHash + 4, hashEmptyAvatar + 4, 0x05))
 		{ // empty avatar - unlink image, clear hash
@@ -604,7 +604,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, HANDLE hContac
 				db_free(&dbv);
 				NetLog_Server("%s has removed Avatar.", strUID(dwUIN, szUID));
 
-				deleteSetting(hContact, "AvatarHash");
+				db_unset(hContact, m_szModuleName, "AvatarHash");
 				ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 			}
 #ifdef _DEBUG
@@ -621,7 +621,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, HANDLE hContac
 			// check saved hash and file, if equal only store hash
 			if (!avatarState)
 			{ // hashes are the same
-				int dwPaFormat = getSettingByte(hContact, "AvatarType", PA_FORMAT_UNKNOWN);
+				int dwPaFormat = getByte(hContact, "AvatarType", PA_FORMAT_UNKNOWN);
 
 				GetFullAvatarFileName(dwUIN, szUID, dwPaFormat, tszAvatar, MAX_PATH * 2);
 				if (_taccess(tszAvatar, 0) == 0)
@@ -671,7 +671,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, HANDLE hContac
 				// we should have file, check if the file really exists
 				if (!avatarState)
 				{
-					int dwPaFormat = getSettingByte(hContact, "AvatarType", PA_FORMAT_UNKNOWN);
+					int dwPaFormat = getByte(hContact, "AvatarType", PA_FORMAT_UNKNOWN);
 					if (dwPaFormat == PA_FORMAT_UNKNOWN)
 					{ // we do not know the format, get avatar again
 #ifdef _DEBUG
@@ -755,7 +755,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, HANDLE hContac
 			db_free(&dbv);
 			NetLog_Server("%s has removed Avatar.", strUID(dwUIN, szUID));
 
-			deleteSetting(hContact, "AvatarHash");
+			db_unset(hContact, m_szModuleName, "AvatarHash");
 			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 		}
 #ifdef _DEBUG
@@ -1243,7 +1243,7 @@ void avatars_server_connection::connectionThread()
 	// This is the "infinite" loop that receives the packets from the ICQ avatar server
 	NETLIBPACKETRECVER packetRecv = {0};
 	DWORD wLastKeepAlive = 0; // we send keep-alive at most one per 30secs
-	DWORD dwKeepAliveInterval = ppro->getSettingDword(NULL, "KeepAliveInterval", KEEPALIVE_INTERVAL);
+	DWORD dwKeepAliveInterval = ppro->getDword("KeepAliveInterval", KEEPALIVE_INTERVAL);
 
 	hPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)hConnection, 65536);
 	packetRecv.cbSize = sizeof(packetRecv);
@@ -1273,7 +1273,7 @@ void avatars_server_connection::connectionThread()
 #endif
 				if (GetTickCount() > wLastKeepAlive)
 				{ // limit frequency (HACK: on some systems select() does not work well)
-					if (!ppro->m_bGatewayMode && ppro->getSettingByte(NULL, "KeepAlive", DEFAULT_KEEPALIVE_ENABLED))
+					if (!ppro->m_bGatewayMode && ppro->getByte("KeepAlive", DEFAULT_KEEPALIVE_ENABLED))
 					{ // send keep-alive packet
 						icq_packet packet;
 
@@ -1637,7 +1637,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 				{ // store to file...
 					int aValid = 1;
 
-					if (pCookieData->hashlen == 0x14 && pCookieData->hash[3] == 0x10 && ppro->getSettingByte(NULL, "StrictAvatarCheck", DEFAULT_AVATARS_CHECK))
+					if (pCookieData->hashlen == 0x14 && pCookieData->hash[3] == 0x10 && ppro->getByte("StrictAvatarCheck", DEFAULT_AVATARS_CHECK))
 					{ // check only standard hashes
 						mir_md5_state_t state;
 						mir_md5_byte_t digest[16];
@@ -1659,7 +1659,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 						_tcscpy(tszImageFile, pCookieData->szFile);
 						AddAvatarExt(dwPaFormat, tszImageFile);
 
-						ppro->setSettingByte(pCookieData->hContact, "AvatarType", (BYTE)dwPaFormat);
+						ppro->setByte(pCookieData->hContact, "AvatarType", (BYTE)dwPaFormat);
 						ai.format = dwPaFormat; // set the format
 						lstrcpyn(ai.filename, tszImageFile, SIZEOF(ai.filename));
 

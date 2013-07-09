@@ -197,13 +197,13 @@ int CIcqProto::OnPreBuildContactMenu(WPARAM wParam, LPARAM)
 		DWORD dwUin = getContactUin(hContact);
 
 		Menu_ShowItem(g_hContactMenuItems[ICMI_AUTH_REQUEST],
-			dwUin && (bCtrlPressed || (getSettingByte((HANDLE)wParam, "Auth", 0) && getSettingWord((HANDLE)wParam, DBSETTING_SERVLIST_ID, 0))));
-		Menu_ShowItem(g_hContactMenuItems[ICMI_AUTH_GRANT], dwUin && (bCtrlPressed || getSettingByte((HANDLE)wParam, "Grant", 0)));
+			dwUin && (bCtrlPressed || (getByte((HANDLE)wParam, "Auth", 0) && getWord((HANDLE)wParam, DBSETTING_SERVLIST_ID, 0))));
+		Menu_ShowItem(g_hContactMenuItems[ICMI_AUTH_GRANT], dwUin && (bCtrlPressed || getByte((HANDLE)wParam, "Grant", 0)));
 		Menu_ShowItem(g_hContactMenuItems[ICMI_AUTH_REVOKE],
-			dwUin && (bCtrlPressed || (getSettingByte(NULL, "PrivacyItems", 0) && !getSettingByte((HANDLE)wParam, "Grant", 0))));
+			dwUin && (bCtrlPressed || (getByte("PrivacyItems", 0) && !getByte((HANDLE)wParam, "Grant", 0))));
 		Menu_ShowItem(g_hContactMenuItems[ICMI_ADD_TO_SERVLIST],
-			m_bSsiEnabled && !getSettingWord((HANDLE)wParam, DBSETTING_SERVLIST_ID, 0) &&
-			!getSettingWord((HANDLE)wParam, DBSETTING_SERVLIST_IGNORE, 0) &&
+			m_bSsiEnabled && !getWord((HANDLE)wParam, DBSETTING_SERVLIST_ID, 0) &&
+			!getWord((HANDLE)wParam, DBSETTING_SERVLIST_IGNORE, 0) &&
 			!db_get_b(hContact, "CList", "NotOnList", 0));
 	}
 

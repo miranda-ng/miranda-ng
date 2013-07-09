@@ -27,7 +27,6 @@
 // -----------------------------------------------------------------------------
 #include "icqoscar.h"
 
-
 void ChangeInfoData::LoadSettingsFromDb(int keepChanged)
 {
 	for (int i=0; i < settingCount; i++) 
@@ -86,14 +85,12 @@ void ChangeInfoData::LoadSettingsFromDb(int keepChanged)
 	}
 }
 
-
 void ChangeInfoData::FreeStoredDbSettings(void)
 {
 	for (int i=0; i < settingCount; i++ )
 		if (setting[i].dbType == DBVT_ASCIIZ || setting[i].dbType == DBVT_UTF8)
 			SAFE_FREE((void**)&settingData[i].value);
 }
-
 
 int ChangeInfoData::ChangesMade(void)
 {
@@ -102,7 +99,6 @@ int ChangeInfoData::ChangesMade(void)
 			return 1;
 	return 0;
 }
-
 
 void ChangeInfoData::ClearChangeFlags(void)
 {
@@ -163,17 +159,16 @@ static INT_PTR CALLBACK PwConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	return FALSE;
 }
 
-
 int ChangeInfoData::SaveSettingsToDb(HWND hwndDlg)
 {
 	int ret = 1;
 
 	for (int i = 0; i < settingCount; i++) 
-  {
+	{
 		if (!settingData[i].changed) continue;
 		if (!(setting[i].displayType & LIF_ZEROISVALID) && settingData[i].value==0)
-    {
-			ppro->deleteSetting(NULL, setting[i].szDbSetting);
+		{
+			db_unset(NULL, ppro->m_szModuleName, setting[i].szDbSetting);
 			continue;
 		}
 		switch(setting[i].dbType) {
@@ -198,25 +193,25 @@ int ChangeInfoData::SaveSettingsToDb(HWND hwndDlg)
 			}
 			else {
 				if (*(char*)settingData[i].value)
-					ppro->setSettingStringUtf(NULL, setting[i].szDbSetting, (char*)settingData[i].value);
+					db_set_utf(NULL, ppro->m_szModuleName, setting[i].szDbSetting, (char*)settingData[i].value);
 				else
-					ppro->deleteSetting(NULL, setting[i].szDbSetting);
+					db_unset(NULL, ppro->m_szModuleName, setting[i].szDbSetting);
 			}
 			break;
 
-    case DBVT_UTF8:
+		case DBVT_UTF8:
 			if (*(char*)settingData[i].value)
-				ppro->setSettingStringUtf(NULL, setting[i].szDbSetting, (char*)settingData[i].value);
+				db_set_utf(NULL, ppro->m_szModuleName, setting[i].szDbSetting, (char*)settingData[i].value);
 			else
-				ppro->deleteSetting(NULL, setting[i].szDbSetting);
-      break;
+				db_unset(NULL, ppro->m_szModuleName, setting[i].szDbSetting);
+			break;
 
 		case DBVT_WORD:
-			ppro->setSettingWord(NULL, setting[i].szDbSetting, (WORD)settingData[i].value);
+			ppro->setWord(setting[i].szDbSetting, (WORD)settingData[i].value);
 			break;
 
 		case DBVT_BYTE:
-			ppro->setSettingByte(NULL, setting[i].szDbSetting, (BYTE)settingData[i].value);
+			ppro->setByte(setting[i].szDbSetting, (BYTE)settingData[i].value);
 			break;
 		}
 	}

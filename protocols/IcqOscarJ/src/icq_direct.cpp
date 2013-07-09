@@ -161,10 +161,10 @@ BOOL CIcqProto::IsDirectConnectionOpen(HANDLE hContact, int type, int bPassive)
 	{ // do not try to open DC to offline contact
 		if (getContactStatus(hContact) == ID_STATUS_OFFLINE) return FALSE;
 		// do not try to open DC if previous attempt was not successfull
-		if (getSettingByte(hContact, "DCStatus", 0)) return FALSE;
+		if (getByte(hContact, "DCStatus", 0)) return FALSE;
 
 		// Set DC status as tried
-		setSettingByte(hContact, "DCStatus", 1);
+		setByte(hContact, "DCStatus", 1);
 		// Create a new connection
 		OpenDirectConnection(hContact, DIRECTCONN_STANDARD, NULL);
 	}
@@ -233,12 +233,12 @@ void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
 	if (!dc.incoming)
 	{
 		dc.type = dtsi->type;
-		dc.dwRemoteExternalIP = getSettingDword(dtsi->hContact, "IP", 0);
-		dc.dwRemoteInternalIP = getSettingDword(dtsi->hContact, "RealIP", 0);
-		dc.dwRemotePort = getSettingWord(dtsi->hContact, "UserPort", 0);
+		dc.dwRemoteExternalIP = getDword(dtsi->hContact, "IP", 0);
+		dc.dwRemoteInternalIP = getDword(dtsi->hContact, "RealIP", 0);
+		dc.dwRemotePort = getWord(dtsi->hContact, "UserPort", 0);
 		dc.dwRemoteUin = getContactUin(dtsi->hContact);
-		dc.dwConnectionCookie = getSettingDword(dtsi->hContact, "DirectCookie", 0);
-		dc.wVersion = getSettingWord(dtsi->hContact, "Version", 0);
+		dc.dwConnectionCookie = getDword(dtsi->hContact, "DirectCookie", 0);
+		dc.wVersion = getWord(dtsi->hContact, "Version", 0);
 
 		if (!dc.dwRemoteExternalIP && !dc.dwRemoteInternalIP)
 		{ // we do not have any ip, do not try to connect
@@ -278,8 +278,8 @@ void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
 	SAFE_FREE((void**)&dtsi);
 
 	// Load local IP information
-	dc.dwLocalExternalIP = getSettingDword(NULL, "IP", 0);
-	dc.dwLocalInternalIP = getSettingDword(NULL, "RealIP", 0);
+	dc.dwLocalExternalIP = getDword("IP", 0);
+	dc.dwLocalInternalIP = getDword("RealIP", 0);
 
 	// Create outgoing DC
 	if (!dc.incoming)
@@ -338,7 +338,7 @@ void __cdecl CIcqProto::icq_directThread( directthreadstartinfo *dtsi )
 				}
 			}
 			else // Set DC status to failed
-				setSettingByte(dc.hContact, "DCStatus", 2);
+				setByte(dc.hContact, "DCStatus", 2);
 
 			if (dc.type == DIRECTCONN_REVERSE) // failed reverse connection
 			{ // announce we failed
@@ -648,7 +648,7 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 
 				if (dc->incoming)
 				{ // this is the first PEER_INIT with our cookie
-					if (dwCookie != getSettingDword(hContact, "DirectCookie", 0))
+					if (dwCookie != getDword(hContact, "DirectCookie", 0))
 					{
 						NetLog_Direct("Error: Received PEER_INIT with broken cookie");
 						CloseDirectConnection(dc);
@@ -693,8 +693,8 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 			{ // store good IP info
 				dc->hContact = hContact;
 				dc->dwConnectionCookie = dwCookie;
-				setSettingDword(dc->hContact, "IP", dc->dwRemoteExternalIP); 
-				setSettingDword(dc->hContact, "RealIP", dc->dwRemoteInternalIP);
+				setDword(dc->hContact, "IP", dc->dwRemoteExternalIP); 
+				setDword(dc->hContact, "RealIP", dc->dwRemoteInternalIP);
 				sendPeerInit_v78(dc); // reply with our PEER_INIT
 			}
 			else // outgoing
@@ -717,7 +717,7 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 				}
 			}
 			// Set DC Status to successful
-			setSettingByte(dc->hContact, "DCStatus", 0);
+			setByte(dc->hContact, "DCStatus", 0);
 		}
 		else
 		{
@@ -1149,7 +1149,7 @@ void CIcqProto::sendPeerFileInit(directconnect* dc)
 	int nNickLen;
 
 	dbv.type = DBVT_DELETED;
-	if (getSettingString(NULL, "Nick", &dbv))
+	if (getString("Nick", &dbv))
 		szNick = "";
 	else
 		szNick = dbv.pszVal;

@@ -723,7 +723,7 @@ HANDLE __cdecl CYahooProto::SendFile( HANDLE hContact, const PROTOCHAR* szDescri
 	DebugLog("Getting Yahoo ID");
 	*/
 	
-	if (!GetString(hContact, YAHOO_LOGINID, &dbv)) {
+	if (!getString(hContact, YAHOO_LOGINID, &dbv)) {
 		long tFileSize = 0;
 		struct _stat statbuf;
 		struct yahoo_file_info *fi;

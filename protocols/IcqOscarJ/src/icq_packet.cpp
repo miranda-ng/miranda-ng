@@ -572,9 +572,9 @@ void CIcqProto::ppackTLVDateFromDB(PBYTE *buf, int *buflen, const char *szSettin
   SYSTEMTIME sTime = {0};
   double time = 0;
   
-  sTime.wYear = getSettingWord(NULL, szSettingYear, 0);
-  sTime.wMonth = getSettingByte(NULL, szSettingMonth, 0);
-  sTime.wDay = getSettingByte(NULL, szSettingDay, 0);
+  sTime.wYear = getWord(szSettingYear, 0);
+  sTime.wMonth = getByte(szSettingMonth, 0);
+  sTime.wDay = getByte(szSettingDay, 0);
   if (sTime.wYear || sTime.wMonth || sTime.wDay)
   {
     SystemTimeToVariantTime(&sTime, &time);

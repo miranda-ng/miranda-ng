@@ -70,7 +70,7 @@ static void file_sendNick(CIcqProto* ppro, directconnect* dc)
 	WORD wNickLen;
   DBVARIANT dbv = {DBVT_DELETED};
 
-	if (ppro->getSettingString(NULL, "Nick", &dbv))
+	if (ppro->getString("Nick", &dbv))
 		szNick = "";
 	else
 		szNick = dbv.pszVal;

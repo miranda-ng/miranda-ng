@@ -88,17 +88,17 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	// Initialize direct connection ports
 	{
 		DWORD dwInternalIP;
-		BYTE bConstInternalIP = getSettingByte(NULL, "ConstRealIP", 0);
+		BYTE bConstInternalIP = getByte("ConstRealIP", 0);
 
 		info.hDirectBoundPort = NetLib_BindPort(icq_newConnectionReceived, this, &wListenPort, &dwInternalIP);
 		if (!info.hDirectBoundPort)
 		{
 			icq_LogUsingErrorCode(LOG_WARNING, GetLastError(), LPGEN("Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network."));
 			wListenPort = 0;
-			if (!bConstInternalIP) deleteSetting(NULL, "RealIP");
+			if (!bConstInternalIP) db_unset(NULL, m_szModuleName, "RealIP");
 		}
 		else if (!bConstInternalIP)
-			setSettingDword(NULL, "RealIP", dwInternalIP);
+			setDword("RealIP", dwInternalIP);
 	}
 
 	// Initialize rate limiting queues
@@ -204,7 +204,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 			{
 				char tmp = 0;
 
-				setSettingWord(hContact, "Status", ID_STATUS_OFFLINE);
+				setWord(hContact, "Status", ID_STATUS_OFFLINE);
 
 				handleXStatusCaps(dwUIN, szUID, hContact, (BYTE*)&tmp, 0, &tmp, 0);
 			}
@@ -213,7 +213,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 		hContact = FindNextContact(hContact);
 	}
 
-	setSettingDword(NULL, "LogonTS", 0); // clear logon time
+	setDword("LogonTS", 0); // clear logon time
 
 	servlistPendingFlushOperations(); // clear pending operations list
 
@@ -421,7 +421,7 @@ void CIcqProto::icq_login(const char* szPassword)
 		stsi->nloc.szHost = null_strdup(szServer);
 
 	// Server port
-	stsi->nloc.wPort = getSettingWord(NULL, "OscarPort", m_bSecureConnection ? DEFAULT_SERVER_PORT_SSL : DEFAULT_SERVER_PORT);
+	stsi->nloc.wPort = getWord("OscarPort", m_bSecureConnection ? DEFAULT_SERVER_PORT_SSL : DEFAULT_SERVER_PORT);
 	if (stsi->nloc.wPort == 0)
 		stsi->nloc.wPort = RandRange(1024, 65535);
 

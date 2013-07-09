@@ -121,7 +121,7 @@ static void packServTLV2711Header(icq_packet *packet, WORD wCookie, WORD wVersio
 
 static void packServDCInfo(icq_packet *p, CIcqProto* ppro, BOOL bEmpty)
 {
-	packTLVDWord(p, 0x03, bEmpty ? 0 : ppro->getSettingDword(NULL, "RealIP", 0)); // TLV: 0x03 DWORD IP
+	packTLVDWord(p, 0x03, bEmpty ? 0 : ppro->getDword("RealIP", 0)); // TLV: 0x03 DWORD IP
 	packTLVWord(p, 0x05, (WORD)(bEmpty ? 0 : ppro->wListenPort));                 // TLV: 0x05 Listen port
 }
 
@@ -265,7 +265,7 @@ void CIcqProto::icq_setstatus(WORD wStatus, const char *szStatusNote)
 	{ // status note was changed, update now
 		DBVARIANT dbv = {DBVT_DELETED};
 
-		if (m_bMoodsEnabled && !getSettingString(NULL, DBSETTING_STATUS_MOOD, &dbv))
+		if (m_bMoodsEnabled && !getString(DBSETTING_STATUS_MOOD, &dbv))
 			szMoodData = null_strdup(dbv.pszVal);
 
 		db_free(&dbv);
@@ -304,7 +304,7 @@ void CIcqProto::icq_setstatus(WORD wStatus, const char *szStatusNote)
 			packBuffer(&packet, (LPBYTE)szMoodData, wStatusMoodLen); // Mood
 
 		// Save current status note
-		setSettingStringUtf(NULL, DBSETTING_STATUS_NOTE, szStatusNote);
+		db_set_utf(NULL, m_szModuleName, DBSETTING_STATUS_NOTE, szStatusNote);
 	}
 	// Release memory
 	SAFE_FREE(&szMoodData);
@@ -1617,7 +1617,7 @@ void CIcqProto::icq_sendChangeVisInvis(HANDLE hContact, DWORD dwUin, char* szUID
 		if (add)
 		{
 			// check if we should make the changes, this is 2nd level check
-			if (getSettingWord(hContact, szSetting, 0) != 0)
+			if (getWord(hContact, szSetting, 0) != 0)
 				return;
 
 			// Add
@@ -1625,18 +1625,18 @@ void CIcqProto::icq_sendChangeVisInvis(HANDLE hContact, DWORD dwUin, char* szUID
 
 			icq_addServerPrivacyItem(hContact, dwUin, szUID, wContactId, wType);
 
-			setSettingWord(hContact, szSetting, wContactId);
+			setWord(hContact, szSetting, wContactId);
 		}
 		else
 		{
 			// Remove
-			wContactId = getSettingWord(hContact, szSetting, 0);
+			wContactId = getWord(hContact, szSetting, 0);
 
 			if (wContactId)
 			{
 				icq_removeServerPrivacyItem(hContact, dwUin, szUID, wContactId, wType);
 
-				deleteSetting(hContact, szSetting);
+				db_unset(hContact, m_szModuleName, szSetting);
 			}
 		}
 	}

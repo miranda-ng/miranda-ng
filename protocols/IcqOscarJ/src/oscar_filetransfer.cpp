@@ -981,7 +981,7 @@ HANDLE CIcqProto::oftInitTransfer(HANDLE hContact, DWORD dwUin, char* szUid, con
 		// Send packet
 		if (ft->listener)
 		{
-			oft_sendFileRequest(dwUin, szUid, ft, pszFiles, getSettingDword(NULL, "RealIP", 0));
+			oft_sendFileRequest(dwUin, szUid, ft, pszFiles, getDword("RealIP", 0));
 		}
 		else
 		{ // try stage 1 proxy
@@ -1253,7 +1253,7 @@ int CIcqProto::CreateOscarProxyConnection(oscar_connection *oc)
 	ProtoBroadcastAck(oc->ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTPROXY, oc->ft, 0);
 
 	nloc.szHost = OSCAR_PROXY_HOST;
-	nloc.wPort = getSettingWord(NULL, "OscarPort", m_bSecureConnection ? DEFAULT_SERVER_PORT_SSL : DEFAULT_SERVER_PORT);
+	nloc.wPort = getWord("OscarPort", m_bSecureConnection ? DEFAULT_SERVER_PORT_SSL : DEFAULT_SERVER_PORT);
 	if (nloc.wPort == 0)
 		nloc.wPort = RandRange(1024, 65535);
 	if (m_bGatewayMode)
@@ -1316,8 +1316,8 @@ void __cdecl CIcqProto::oft_connectionThread( oscarthreadstartinfo *otsi )
 	}
 
 	// Load local IP information
-	oc.dwLocalExternalIP = getSettingDword(NULL, "IP", 0);
-	oc.dwLocalInternalIP = getSettingDword(NULL, "RealIP", 0);
+	oc.dwLocalExternalIP = getDword("IP", 0);
+	oc.dwLocalInternalIP = getDword("RealIP", 0);
 
 	if (!oc.incoming)
 	{ // create outgoing connection
@@ -1428,7 +1428,7 @@ void __cdecl CIcqProto::oft_connectionThread( oscarthreadstartinfo *otsi )
 
 				addr.S_un.S_addr = htonl(oc.ft->dwProxyIP);
 				nloc.szHost = inet_ntoa(addr);
-				nloc.wPort = getSettingWord(NULL, "OscarPort", m_bSecureConnection ? DEFAULT_SERVER_PORT_SSL : DEFAULT_SERVER_PORT);
+				nloc.wPort = getWord("OscarPort", m_bSecureConnection ? DEFAULT_SERVER_PORT_SSL : DEFAULT_SERVER_PORT);
 				if (nloc.wPort == 0)
 					nloc.wPort = RandRange(1024, 65535);
 				if (m_bGatewayMode)

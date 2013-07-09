@@ -34,33 +34,6 @@ int CIcqProto::getSetting(HANDLE hContact, const char *szSetting, DBVARIANT *dbv
 	return db_get_s(hContact, m_szModuleName, szSetting, dbv, 0);
 }
 
-BYTE CIcqProto::getSettingByte(HANDLE hContact, const char *szSetting, BYTE byDef)
-{
-	return db_get_b(hContact, m_szModuleName, szSetting, byDef);
-}
-
-WORD CIcqProto::getSettingWord(HANDLE hContact, const char *szSetting, WORD wDef)
-{
-	return db_get_w(hContact, m_szModuleName, szSetting, wDef);
-}
-
-DWORD CIcqProto::getSettingDword(HANDLE hContact, const char *szSetting, DWORD dwDef)
-{
-	DBVARIANT dbv = {DBVT_DELETED};
-	DWORD dwRes;
-
-	if (getSetting(hContact, szSetting, &dbv))
-		return dwDef; // not found, give default
-
-	if (dbv.type != DBVT_DWORD)
-		dwRes = dwDef; // invalid type, give default
-	else // found and valid, give result
-		dwRes = dbv.dVal;
-
-	db_free(&dbv);
-	return dwRes;
-}
-
 double CIcqProto::getSettingDouble(HANDLE hContact, const char *szSetting, double dDef)
 {
 	DBVARIANT dbv = {DBVT_DELETED};
@@ -80,7 +53,7 @@ double CIcqProto::getSettingDouble(HANDLE hContact, const char *szSetting, doubl
 
 DWORD CIcqProto::getContactUin(HANDLE hContact)
 {
-	return getSettingDword(hContact, UNIQUEIDSETTING, 0);
+	return getDword(hContact, UNIQUEIDSETTING, 0);
 }
 
 int CIcqProto::getContactUid(HANDLE hContact, DWORD *pdwUin, uid_str *ppszUid)
@@ -109,24 +82,6 @@ int CIcqProto::getContactUid(HANDLE hContact, DWORD *pdwUin, uid_str *ppszUid)
 	return iRes;
 }
 
-int CIcqProto::getSettingString(HANDLE hContact, const char *szSetting, DBVARIANT *dbv)
-{
-	int res = db_get_s(hContact, m_szModuleName, szSetting, dbv);
-	if (res)
-		db_free(dbv);
-
-	return res;
-}
-
-int CIcqProto::getSettingStringW(HANDLE hContact, const char *szSetting, DBVARIANT *dbv)
-{
-	int res = db_get_ws(hContact, m_szModuleName, szSetting, dbv);
-	if (res)
-		db_free(dbv);
-
-	return res;
-}
-
 char* CIcqProto::getSettingStringUtf(HANDLE hContact, const char *szModule, const char *szSetting, char *szDef)
 {
 	DBVARIANT dbv = {DBVT_DELETED};
@@ -147,7 +102,7 @@ char* CIcqProto::getSettingStringUtf(HANDLE hContact, const char *szSetting, cha
 
 WORD CIcqProto::getContactStatus(HANDLE hContact)
 {
-	return getSettingWord(hContact, "Status", ID_STATUS_OFFLINE);
+	return getWord(hContact, "Status", ID_STATUS_OFFLINE);
 }
 
 int CIcqProto::getSettingStringStatic(HANDLE hContact, const char *szSetting, char *dest, int dest_len)
@@ -175,49 +130,9 @@ int CIcqProto::getSettingStringStatic(HANDLE hContact, const char *szSetting, ch
 	return (dbv.type != DBVT_ASCIIZ);
 }
 
-int CIcqProto::deleteSetting(HANDLE hContact, const char *szSetting)
-{
-	return db_unset(hContact, m_szModuleName, szSetting);
-}
-
-int CIcqProto::setSettingByte(HANDLE hContact, const char *szSetting, BYTE byValue)
-{
-	return db_set_b(hContact, m_szModuleName, szSetting, byValue);
-}
-
-int CIcqProto::setSettingWord(HANDLE hContact, const char *szSetting, WORD wValue)
-{
-	return db_set_w(hContact, m_szModuleName, szSetting, wValue);
-}
-
-int CIcqProto::setSettingDword(HANDLE hContact, const char *szSetting, DWORD dwValue)
-{
-	return db_set_dw(hContact, m_szModuleName, szSetting, dwValue);
-}
-
 int CIcqProto::setSettingDouble(HANDLE hContact, const char *szSetting, double dValue)
 {
 	return setSettingBlob(hContact, szSetting, (BYTE*)&dValue, sizeof(double));
-}
-
-int CIcqProto::setSettingString(HANDLE hContact, const char *szSetting, const char *szValue)
-{
-	return db_set_s(hContact, m_szModuleName, szSetting, szValue);
-}
-
-int CIcqProto::setSettingStringW(HANDLE hContact, const char *szSetting, const WCHAR *wszValue)
-{
-	return db_set_ws(hContact, m_szModuleName, szSetting, wszValue);
-}
-
-int CIcqProto::setSettingStringUtf(HANDLE hContact, const char *szModule, const char *szSetting, const char *szValue)
-{
-	return db_set_utf(hContact, szModule, szSetting, szValue);
-}
-
-int CIcqProto::setSettingStringUtf(HANDLE hContact, const char *szSetting, const char *szValue)
-{
-	return db_set_utf(hContact, m_szModuleName, szSetting, szValue);
 }
 
 int CIcqProto::setSettingBlob(HANDLE hContact, const char *szSetting, const BYTE *pValue, const int cbValue)
@@ -266,7 +181,7 @@ void CIcqProto::setStatusMsgVar(HANDLE hContact, char* szStatusMsg, bool isAnsi)
 		}
 
 		if (!oldStatusMsg || strcmp(oldStatusMsg, szStatusMsg))
-			setSettingStringUtf(hContact, "CList", "StatusMsg", szStatusMsg);
+			db_set_utf(hContact, "CList", "StatusMsg", szStatusMsg);
 		SAFE_FREE(&oldStatusMsg);
 		if (isAnsi) SAFE_FREE(&szStatusMsg);
 	}

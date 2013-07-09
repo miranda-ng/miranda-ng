@@ -111,14 +111,14 @@ void __cdecl CYahooProto::send_avt_thread(void *psf)
 		return;
 	}
 
-	SetByte("AvatarUL", 1);
+	setByte("AvatarUL", 1);
 	yahoo_send_avatar(m_id, sf->filename, sf->filesize, &upload_avt, sf);
 
 	free(sf->filename);
 	free(sf);
 
-	if (GetByte("AvatarUL", 1) == 1)
-		SetByte("AvatarUL", 0);
+	if (getByte("AvatarUL", 1) == 1)
+		setByte("AvatarUL", 0);
 }
 
 void CYahooProto::SendAvatar(const TCHAR *szFile)
@@ -178,8 +178,8 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 		LOG(("ERROR: Can't find buddy: %s", avt->who));
 		error = 1;
 	} else if (!error) {
-		SetDword(hContact, "PictCK", avt->cksum);
-		SetDword(hContact, "PictLoading", 1);
+		setDword(hContact, "PictCK", avt->cksum);
+		setDword(hContact, "PictLoading", 1);
 	}
 
 	if (!error) {
@@ -221,7 +221,7 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 					WriteFile(myhFile, nlhrReply->pData, nlhrReply->dataLength, &c, NULL);
 					CloseHandle(myhFile);
 
-					SetDword(hContact, "PictLastCheck", 0);
+					setDword(hContact, "PictLastCheck", 0);
 				} else {
 					LOG(("Can not open file for writing: %s", buf));
 					error = 1;
@@ -231,12 +231,12 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 		}
 	}
 
-	if (GetDword(hContact, "PictCK", 0) != avt->cksum) {
+	if (getDword(hContact, "PictCK", 0) != avt->cksum) {
 		LOG(("WARNING: Checksum updated during download?!"));
 		error = 1; /* don't use this one? */
 	}
 
-	SetDword(hContact, "PictLoading", 0);
+	setDword(hContact, "PictLoading", 0);
 	LOG(("File download complete!?"));
 
 	if (error)
@@ -252,7 +252,7 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 	_tcsncpy(AI.filename, buf, SIZEOF(AI.filename));
 
 	if (error)
-		SetDword(hContact, "PictCK", 0);
+		setDword(hContact, "PictCK", 0);
 
 	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, !error ? ACKRESULT_SUCCESS:ACKRESULT_FAILED,(HANDLE) &AI, 0);
 }
@@ -277,7 +277,7 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 			DBVARIANT dbv;
 
 			/* need to send avatar info */
-			if (!GetByte("ShowAvatars", 1 )) {
+			if (!getByte("ShowAvatars", 1 )) {
 				LOG(("[ext_yahoo_got_picture] We are not using/showing avatars!"));
 				yahoo_send_picture_update(m_id, who, 0); // no avatar (disabled)
 				return;
@@ -285,9 +285,9 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 
 			LOG(("[ext_yahoo_got_picture] Getting ready to send info!"));
 			/* need to read CheckSum */
-			cksum = GetDword("AvatarHash", 0);
+			cksum = getDword("AvatarHash", 0);
 			if (cksum) {
-				if (!GetString("AvatarURL", &dbv)) {
+				if (!getString("AvatarURL", &dbv)) {
 					LOG(("[ext_yahoo_got_picture] Sending url: %s checksum: %d to '%s'!", dbv.pszVal, cksum, who));
 					//void yahoo_send_picture_info(int id, const char *me, const char *who, const char *pic_url, int cksum)
 					yahoo_send_picture_info(m_id, who, 2, dbv.pszVal, cksum);
@@ -299,7 +299,7 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 				/*
 				 * Try to re-upload the avatar
 				 */
-				if (GetByte("AvatarUL", 0) != 1) {
+				if (getByte("AvatarUL", 0) != 1) {
 					// NO avatar URL??
 					if (!db_get_ts(NULL, m_szModuleName, "AvatarFile", &dbv)) {
 						struct _stat statbuf;
@@ -323,7 +323,7 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 	case 2: /*
 		     * We got Avatar Info for our buddy.
 		     */
-			if (!GetByte("ShowAvatars", 1 )) {
+			if (!getByte("ShowAvatars", 1 )) {
 				LOG(("[ext_yahoo_got_picture] We are not using/showing avatars!"));
 				return;
 			}
@@ -380,7 +380,7 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 			DBVARIANT dbv;
 
 			/* need to send avatar info */
-			if (!GetByte("ShowAvatars", 1 )) {
+			if (!getByte("ShowAvatars", 1 )) {
 				LOG(("[ext_yahoo_got_picture] We are not using/showing avatars!"));
 				yahoo_send_picture_update(m_id, who, 0); // no avatar (disabled)
 				return;
@@ -388,7 +388,7 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 
 			LOG(("[ext_yahoo_got_picture] Getting ready to send info!"));
 			/* need to read CheckSum */
-			mcksum = GetDword("AvatarHash", 0);
+			mcksum = getDword("AvatarHash", 0);
 			if (mcksum == 0) {
 				/* this should NEVER Happen??? */
 				LOG(("[ext_yahoo_got_picture] No personal checksum? and Invalidate?!"));
@@ -398,7 +398,7 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 
 			LOG(("[ext_yahoo_got_picture] My Checksum: %d", mcksum));
 
-			if (!GetString("AvatarURL", &dbv)) {
+			if (!getString("AvatarURL", &dbv)) {
 					if (lstrcmpiA(pic_url, dbv.pszVal) == 0) {
 						DBVARIANT dbv2;
 						/*time_t  ts;
@@ -408,7 +408,7 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 							LOG(("[ext_yahoo_got_picture] WARNING: Checksums don't match!"));
 
 						/*time(&ts);
-						ae = GetDword("AvatarExpires", 0);
+						ae = getDword("AvatarExpires", 0);
 
 						if (ae != 0 && ae > (ts - 300)) {
 							LOG(("[ext_yahoo_got_picture] Current Time: %lu Expires: %lu ", ts, ae));
@@ -481,7 +481,7 @@ void CYahooProto::ext_got_picture_checksum(const char *me, const char *who, int 
 
 			// Request new avatar here... (might also want to check the sharing status?)
 
-			if (GetByte("ShareAvatar", 0) == 2)
+			if (getByte("ShareAvatar", 0) == 2)
 				request_avatar(who);
 		}
 	}
@@ -536,10 +536,10 @@ void CYahooProto::ext_got_picture_upload(const char *me, const char *url,unsigne
 	}
 
 
-	cksum = GetDword("TMPAvatarHash", 0);
+	cksum = getDword("TMPAvatarHash", 0);
 	if (cksum != 0) {
 		LOG(("[ext_yahoo_got_picture_upload] Updating Checksum to: %d", cksum));
-		SetDword("AvatarHash", cksum);
+		setDword("AvatarHash", cksum);
 		db_unset(NULL, m_szModuleName, "TMPAvatarHash");
 
 		// This is only meant for message sessions, but we don't got those in miranda yet
@@ -549,12 +549,12 @@ void CYahooProto::ext_got_picture_upload(const char *me, const char *url,unsigne
 		// need to tell the stupid Yahoo that our icon updated
 		//YAHOO_bcast_picture_update(2);
 	}else
-		cksum = GetDword("AvatarHash", 0);
+		cksum = getDword("AvatarHash", 0);
 
-	SetString(NULL, "AvatarURL", url);
+	setString(NULL, "AvatarURL", url);
 	//YAHOO_SetDword("AvatarExpires", ts);
 
-	if  (!GetString("AvatarInv", &dbv)) {
+	if  (!getString("AvatarInv", &dbv)) {
 		LOG(("[ext_yahoo_got_picture_upload] Buddy: %s told us this is bad??", dbv.pszVal));
 
 		LOG(("[ext_yahoo_got_picture] Sending url: %s checksum: %d to '%s'!", url, cksum, dbv.pszVal));
@@ -570,7 +570,7 @@ void CYahooProto::ext_got_avatar_share(int buddy_icon)
 {
 	LOG(("[ext_yahoo_got_avatar_share] buddy icon: %d", buddy_icon));
 
-	SetByte("ShareAvatar", buddy_icon );
+	setByte("ShareAvatar", buddy_icon );
 }
 
 void CYahooProto::reset_avatar(HANDLE hContact)
@@ -586,7 +586,7 @@ void CYahooProto::request_avatar(const char* who)
 	HANDLE 	hContact = 0;
 	//char    szFile[MAX_PATH];
 
-	if (!GetByte("ShowAvatars", 1 )) {
+	if (!getByte("ShowAvatars", 1 )) {
 		LOG(("Avatars disabled, but available for: %s", who));
 		return;
 	}
@@ -665,14 +665,14 @@ INT_PTR __cdecl CYahooProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)
 	DBVARIANT dbv;
 	int avtType;
 
-	if (!GetString(AI->hContact, YAHOO_LOGINID, &dbv)) {
+	if (!getString(AI->hContact, YAHOO_LOGINID, &dbv)) {
 		DebugLog("[YAHOO_GETAVATARINFO] For: %s", dbv.pszVal);
 		db_free(&dbv);
 	}else {
 		DebugLog("[YAHOO_GETAVATARINFO]");
 	}
 
-	if (!GetByte("ShowAvatars", 1 ) || !m_bLoggedIn) {
+	if (!getByte("ShowAvatars", 1 ) || !m_bLoggedIn) {
 		DebugLog("[YAHOO_GETAVATARINFO] %s", m_bLoggedIn ? "We are not using/showing avatars!" : "We are not logged in. Can't load avatars now!");
 
 		return GAIR_NOAVATAR;
@@ -700,14 +700,14 @@ INT_PTR __cdecl CYahooProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)
 
 	if (( wParam & GAIF_FORCE ) != 0 && AI->hContact != NULL) {
 		/* need to request it again? */
-		if (GetDword(AI->hContact, "PictLoading", 0) != 0 &&
-			(time(NULL) - GetDword(AI->hContact, "PictLastCheck", 0) < 500)) {
+		if (getDword(AI->hContact, "PictLoading", 0) != 0 &&
+			(time(NULL) - getDword(AI->hContact, "PictLastCheck", 0) < 500)) {
 				DebugLog("[YAHOO_GETAVATARINFO] Waiting for avatar to load!");
 				return GAIR_WAITFOR;
 		} else if ( m_bLoggedIn ) {
 			DBVARIANT dbv;
 
-			if (!GetString(AI->hContact, YAHOO_LOGINID, &dbv)) {
+			if (!getString(AI->hContact, YAHOO_LOGINID, &dbv)) {
 				DebugLog("[YAHOO_GETAVATARINFO] Requesting avatar!");
 
 				request_avatar(dbv.pszVal);
@@ -754,7 +754,7 @@ INT_PTR __cdecl CYahooProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 	case AF_ENABLED:
 		LOG(("[YahooGetAvatarCaps] AF_ENABLED"));
 
-		res = (GetByte("ShowAvatars", 1 )) ? 1 : 0;
+		res = (getByte("ShowAvatars", 1 )) ? 1 : 0;
 		break;
 
 	case AF_DONTNEEDDELAYS:
@@ -792,13 +792,13 @@ INT_PTR __cdecl CYahooProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	if (buffer == NULL || size <= 0)
 		return -1;
 
-	if (!GetByte("ShowAvatars", 1 ))
+	if (!getByte("ShowAvatars", 1 ))
 		return -2;
 
 	DBVARIANT dbv;
 	int ret = -3;
 
-	if (GetDword("AvatarHash", 0)) {
+	if (getDword("AvatarHash", 0)) {
 		if (!db_get_ts(NULL, m_szModuleName, "AvatarFile", &dbv)) {
 			if (_taccess(dbv.ptszVal, 0) == 0) {
 				lstrcpyn(buffer, dbv.ptszVal, size-1);
@@ -839,7 +839,7 @@ INT_PTR __cdecl CYahooProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 		/* Send a Yahoo packet saying we don't got an avatar anymore */
 		yahoo_send_picture_status(m_id, 0);
 
-		SetByte("ShareAvatar",0);
+		setByte("ShareAvatar",0);
 
 		DeleteFile(tszMyFile);
 	} else {
@@ -886,13 +886,13 @@ INT_PTR __cdecl CYahooProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 			LOG(("[YAHOO_SetAvatar] File: '%s' CK: %d", tszMyFile, hash));
 
 			/* now check and make sure we don't reupload same thing over again */
-			if (hash != GetDword("AvatarHash", 0)) {
-				SetStringT(NULL, "AvatarFile", tszMyFile);
+			if (hash != getDword("AvatarHash", 0)) {
+				setTString(NULL, "AvatarFile", tszMyFile);
 				db_set_dw(NULL, m_szModuleName, "TMPAvatarHash", hash);
 
 				/*	Set Sharing to ON if it's OFF */
-				if (GetByte("ShareAvatar", 0) != 2) {
-					SetByte("ShareAvatar", 2 );
+				if (getByte("ShareAvatar", 0) != 2) {
+					setByte("ShareAvatar", 2 );
 					yahoo_send_picture_status(m_id, 2);
 				}
 

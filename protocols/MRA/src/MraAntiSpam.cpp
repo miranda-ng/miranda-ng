@@ -85,14 +85,14 @@ INT_PTR CALLBACK MraAntiSpamDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, L
 		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, lParam);
 		ppro = (CMraProto*)lParam;
 
-		CHECK_DLG_BUTTON(hWndDlg, IDC_ENABLE, ppro->mraGetByte(NULL, "AntiSpamEnable", MRA_ANTISPAM_DEFAULT_ENABLE));
-		CHECK_DLG_BUTTON(hWndDlg, IDC_CHK_TEMP_CONTACTS, ppro->mraGetByte(NULL, "AntiSpamCheckTempContacts", MRA_ANTISPAM_DEFAULT_CHK_TEMP_CONTACTS));
-		CHECK_DLG_BUTTON(hWndDlg, IDC_DELETE_SPAMBOT_CONTACT, ppro->mraGetByte(NULL, "AntiSpamDeteleSpamBotContacts", MRA_ANTISPAM_DEFAULT_DELETE_SPAMBOT_CONTACT));
-		CHECK_DLG_BUTTON(hWndDlg, IDC_CLN_NON_ALPHNUM, ppro->mraGetByte(NULL, "AntiSpamCleanNonAlphaNumeric", MRA_ANTISPAM_DEFAULT_CLN_NON_ALPHNUM));
-		SetDlgItemInt(hWndDlg, IDC_MAX_LANG_CHANGES, ppro->mraGetDword(NULL, "AntiSpamMaxLangChanges", MRA_ANTISPAM_DEFAULT_MAX_LNG_CHANGES), FALSE);
-		CHECK_DLG_BUTTON(hWndDlg, IDC_SHOWPOPUP, ppro->mraGetByte(NULL, "AntiSpamShowPopUp", MRA_ANTISPAM_DEFAULT_SHOWPOP));
-		CHECK_DLG_BUTTON(hWndDlg, IDC_WRITETOSYSTEMHISTORY, ppro->mraGetByte(NULL, "AntiSpamWriteToSystemHistory", MRA_ANTISPAM_DEFAULT_WRITETOSYSTEMHISTORY));
-		CHECK_DLG_BUTTON(hWndDlg, IDC_SEND_SPAM_REPORT_TO_SERVER, ppro->mraGetByte(NULL, "AntiSpamSendSpamReportToSrv", MRA_ANTISPAM_DEFAULT_SEND_SPAM_REPORT_TO_SERVER));
+		CHECK_DLG_BUTTON(hWndDlg, IDC_ENABLE, ppro->getByte(NULL, "AntiSpamEnable", MRA_ANTISPAM_DEFAULT_ENABLE));
+		CHECK_DLG_BUTTON(hWndDlg, IDC_CHK_TEMP_CONTACTS, ppro->getByte(NULL, "AntiSpamCheckTempContacts", MRA_ANTISPAM_DEFAULT_CHK_TEMP_CONTACTS));
+		CHECK_DLG_BUTTON(hWndDlg, IDC_DELETE_SPAMBOT_CONTACT, ppro->getByte(NULL, "AntiSpamDeteleSpamBotContacts", MRA_ANTISPAM_DEFAULT_DELETE_SPAMBOT_CONTACT));
+		CHECK_DLG_BUTTON(hWndDlg, IDC_CLN_NON_ALPHNUM, ppro->getByte(NULL, "AntiSpamCleanNonAlphaNumeric", MRA_ANTISPAM_DEFAULT_CLN_NON_ALPHNUM));
+		SetDlgItemInt(hWndDlg, IDC_MAX_LANG_CHANGES, ppro->getDword(NULL, "AntiSpamMaxLangChanges", MRA_ANTISPAM_DEFAULT_MAX_LNG_CHANGES), FALSE);
+		CHECK_DLG_BUTTON(hWndDlg, IDC_SHOWPOPUP, ppro->getByte(NULL, "AntiSpamShowPopUp", MRA_ANTISPAM_DEFAULT_SHOWPOP));
+		CHECK_DLG_BUTTON(hWndDlg, IDC_WRITETOSYSTEMHISTORY, ppro->getByte(NULL, "AntiSpamWriteToSystemHistory", MRA_ANTISPAM_DEFAULT_WRITETOSYSTEMHISTORY));
+		CHECK_DLG_BUTTON(hWndDlg, IDC_SEND_SPAM_REPORT_TO_SERVER, ppro->getByte(NULL, "AntiSpamSendSpamReportToSrv", MRA_ANTISPAM_DEFAULT_SEND_SPAM_REPORT_TO_SERVER));
 		{
 			// fill list
 			char szSettingName[MAX_PATH];
@@ -163,14 +163,14 @@ INT_PTR CALLBACK MraAntiSpamDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, L
 				WCHAR szBadWord[MAX_PATH];
 				size_t i, dwCount;
 
-				ppro->mraSetByte(NULL, "AntiSpamEnable", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_ENABLE));
-				ppro->mraSetByte(NULL, "AntiSpamCheckTempContacts", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_CHK_TEMP_CONTACTS));
-				ppro->mraSetByte(NULL, "AntiSpamDeteleSpamBotContacts", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_DELETE_SPAMBOT_CONTACT));
-				ppro->mraSetByte(NULL, "AntiSpamCleanNonAlphaNumeric", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_CLN_NON_ALPHNUM));
-				ppro->mraSetDword(NULL, "AntiSpamMaxLangChanges", (DWORD)GetDlgItemInt(hWndDlg, IDC_MAX_LANG_CHANGES, NULL, FALSE));
-				ppro->mraSetByte(NULL, "AntiSpamShowPopUp", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_SHOWPOPUP));
-				ppro->mraSetByte(NULL, "AntiSpamWriteToSystemHistory", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_WRITETOSYSTEMHISTORY));
-				ppro->mraSetByte(NULL, "AntiSpamSendSpamReportToSrv", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_SEND_SPAM_REPORT_TO_SERVER));
+				ppro->setByte(NULL, "AntiSpamEnable", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_ENABLE));
+				ppro->setByte(NULL, "AntiSpamCheckTempContacts", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_CHK_TEMP_CONTACTS));
+				ppro->setByte(NULL, "AntiSpamDeteleSpamBotContacts", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_DELETE_SPAMBOT_CONTACT));
+				ppro->setByte(NULL, "AntiSpamCleanNonAlphaNumeric", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_CLN_NON_ALPHNUM));
+				ppro->setDword(NULL, "AntiSpamMaxLangChanges", (DWORD)GetDlgItemInt(hWndDlg, IDC_MAX_LANG_CHANGES, NULL, FALSE));
+				ppro->setByte(NULL, "AntiSpamShowPopUp", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_SHOWPOPUP));
+				ppro->setByte(NULL, "AntiSpamWriteToSystemHistory", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_WRITETOSYSTEMHISTORY));
+				ppro->setByte(NULL, "AntiSpamSendSpamReportToSrv", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_SEND_SPAM_REPORT_TO_SERVER));
 
 				dwCount = SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BAD_WORDS_LIST, LB_GETCOUNT, 0, 0);
 				for (i = 0; i < dwCount; i++) {
@@ -307,7 +307,7 @@ BOOL CMraProto::MraAntiSpamHasMessageBadWordsW(LPWSTR lpwszMessage, size_t dwMes
 			CharLowerBuffW(lpwszMessageConverted, DWORD(dwMessageSize));
 
 			// 1 проход: считаем колличество переключений языка
-			dwtm = mraGetDword(NULL, "AntiSpamMaxLangChanges", MRA_ANTISPAM_DEFAULT_MAX_LNG_CHANGES);
+			dwtm = getDword(NULL, "AntiSpamMaxLangChanges", MRA_ANTISPAM_DEFAULT_MAX_LNG_CHANGES);
 			if (dwtm)
 				if (dwtm <= MraAntiSpamCalcLangChanges(lpwszMessageConverted, dwMessageSize))
 					bRet = TRUE;
@@ -318,7 +318,7 @@ BOOL CMraProto::MraAntiSpamHasMessageBadWordsW(LPWSTR lpwszMessage, size_t dwMes
 
 			// 3 проход: оставляем только буквы + цифры и снова ищем плохие слова
 			if (bRet == FALSE)
-			if (mraGetByte(NULL, "AntiSpamCleanNonAlphaNumeric", MRA_ANTISPAM_DEFAULT_ENABLE)) {
+			if (getByte(NULL, "AntiSpamCleanNonAlphaNumeric", MRA_ANTISPAM_DEFAULT_ENABLE)) {
 				dwMessageSize = MraAntiSpamCleanNonAlphaNumeric(lpwszMessageConverted, dwMessageSize);
 				bRet = MraAntiSpamTestMessageForBadWordsW(lpwszMessageConverted, dwMessageSize);
 			}
@@ -334,7 +334,7 @@ DWORD CMraProto::MraAntiSpamReceivedMessageW(LPSTR lpszEMail, size_t dwEMailSize
 	DWORD dwRet = MESSAGE_NOT_SPAM;;
 
 	if ((dwMessageFlags&(MESSAGE_FLAG_SYSTEM|MESSAGE_FLAG_CONTACT|MESSAGE_FLAG_NOTIFY|MESSAGE_FLAG_SMS|MESSAGE_SMS_DELIVERY_REPORT|MESSAGE_FLAG_ALARM|MESSAGE_FLAG_MULTICHAT)) == 0)
-	if (mraGetByte(NULL, "AntiSpamEnable", MRA_ANTISPAM_DEFAULT_ENABLE))
+	if (getByte(NULL, "AntiSpamEnable", MRA_ANTISPAM_DEFAULT_ENABLE))
 	if (IsEMailChatAgent(lpszEMail, dwEMailSize) == FALSE) { // enabled, message must be checked
 		BOOL bCheckMessage = TRUE;
 		dwRet = MESSAGE_SPAM;
@@ -349,8 +349,8 @@ DWORD CMraProto::MraAntiSpamReceivedMessageW(LPSTR lpszEMail, size_t dwEMailSize
 				dwRet = MESSAGE_NOT_SPAM;
 			}
 			else { // temp contact
-				if (mraGetByte(NULL, "AntiSpamCheckTempContacts", MRA_ANTISPAM_DEFAULT_CHK_TEMP_CONTACTS) == FALSE ||
-					(((dwMessageFlags&MESSAGE_FLAG_AUTHORIZE) && mraGetByte(NULL, "AutoAuthGrandNewUsers", MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS) && mraGetByte(NULL, "AutoAuthGrandNewUsersDisableSPAMCheck", MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS_DISABLE_SPAM_CHECK))))
+				if (getByte(NULL, "AntiSpamCheckTempContacts", MRA_ANTISPAM_DEFAULT_CHK_TEMP_CONTACTS) == FALSE ||
+					(((dwMessageFlags&MESSAGE_FLAG_AUTHORIZE) && getByte(NULL, "AutoAuthGrandNewUsers", MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS) && getByte(NULL, "AutoAuthGrandNewUsersDisableSPAMCheck", MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS_DISABLE_SPAM_CHECK))))
 				{// проверка временного контакта
 					bCheckMessage = FALSE;
 					dwRet = MESSAGE_NOT_SPAM;
@@ -365,9 +365,9 @@ DWORD CMraProto::MraAntiSpamReceivedMessageW(LPSTR lpszEMail, size_t dwEMailSize
 		if (dwRet == MESSAGE_SPAM) {
 			BOOL bAntiSpamShowPopup, bAntiSpamWriteToSystemHistory, bAntiSpamDeteleSpamBotContacts;
 
-			bAntiSpamShowPopup = (BOOL)mraGetByte(NULL, "AntiSpamShowPopUp", MRA_ANTISPAM_DEFAULT_SHOWPOP);
-			bAntiSpamWriteToSystemHistory = (BOOL)mraGetByte(NULL, "AntiSpamWriteToSystemHistory", MRA_ANTISPAM_DEFAULT_WRITETOSYSTEMHISTORY);
-			bAntiSpamDeteleSpamBotContacts = (BOOL)mraGetByte(NULL, "AntiSpamDeteleSpamBotContacts", MRA_ANTISPAM_DEFAULT_DELETE_SPAMBOT_CONTACT);
+			bAntiSpamShowPopup = (BOOL)getByte(NULL, "AntiSpamShowPopUp", MRA_ANTISPAM_DEFAULT_SHOWPOP);
+			bAntiSpamWriteToSystemHistory = (BOOL)getByte(NULL, "AntiSpamWriteToSystemHistory", MRA_ANTISPAM_DEFAULT_WRITETOSYSTEMHISTORY);
+			bAntiSpamDeteleSpamBotContacts = (BOOL)getByte(NULL, "AntiSpamDeteleSpamBotContacts", MRA_ANTISPAM_DEFAULT_DELETE_SPAMBOT_CONTACT);
 
 			if (bAntiSpamShowPopup || bAntiSpamWriteToSystemHistory) {
 				char szEMail[MAX_EMAIL_LEN];

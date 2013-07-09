@@ -784,22 +784,13 @@ struct CJabberProto : public PROTO<CJabberProto>
 	//---- jabber_std.cpp ----------------------------------------------
 
 	void   JDeleteSetting(HANDLE hContact, const char* valueName);
-	DWORD  JGetByte(HANDLE hContact, const char* valueName, int parDefltValue);
-	DWORD  JGetDword(HANDLE hContact, const char* valueName, DWORD parDefltValue);
 	int    JGetStaticString(const char* valueName, HANDLE hContact, char* dest, int dest_len);
 	int    JGetStringUtf(HANDLE hContact, char* valueName, DBVARIANT* dbv);
-	int    JGetStringT(HANDLE hContact, char* valueName, DBVARIANT* dbv);
 	TCHAR *JGetStringT(HANDLE hContact, char* valueName);
 	TCHAR *JGetStringT(HANDLE hContact, char* valueName, TCHAR *&out);
 	TCHAR *JGetStringT(HANDLE hContact, char* valueName, TCHAR *buf, int size);
-	WORD   JGetWord(HANDLE hContact, const char* valueName, int parDefltValue);
 	void   JLoginFailed(int errorCode);
-	DWORD  JSetByte(HANDLE hContact, const char* valueName, int parValue);
-	DWORD  JSetDword(HANDLE hContact, const char* valueName, DWORD parValue);
-	DWORD  JSetString(HANDLE hContact, const char* valueName, const char* parValue);
-	DWORD  JSetStringT(HANDLE hContact, const char* valueName, const TCHAR *parValue);
 	DWORD  JSetStringUtf(HANDLE hContact, const char* valueName, const char* parValue);
-	DWORD  JSetWord(HANDLE hContact, const char* valueName, int parValue);
 
 	TCHAR* JGetStringCrypt(HANDLE hContact, char* valueName);
 	DWORD  JSetStringCrypt(HANDLE hContact, char* valueName, const TCHAR *parValue);

@@ -146,26 +146,26 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 
 			ResetComboBox(GetDlgItem(hWndDlg, IDC_CITY));
 
-			if ( ppro->mraGetByte(NULL, "AdvancedSearchRemember", MRA_DEFAULT_SEARCH_REMEMBER)) {
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_GENDER, CB_SETCURSEL, ppro->mraGetWord(NULL, "AdvancedSearchGender", 0), 0);
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_AGERANGE_FROM, CB_SETCURSEL, ppro->mraGetWord(NULL, "AdvancedSearchAgeFrom", 0), 0);
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_AGERANGE_TO, CB_SETCURSEL, ppro->mraGetWord(NULL, "AdvancedSearchAgeTo", 0), 0);
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BIRTHDAY_MONTH, CB_SETCURSEL, ppro->mraGetWord(NULL, "AdvancedSearchBirthDayMonth", 0), 0);
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BIRTHDAY_DAY, CB_SETCURSEL, ppro->mraGetWord(NULL, "AdvancedSearchBirthDayDay", 0), 0);
+			if ( ppro->getByte(NULL, "AdvancedSearchRemember", MRA_DEFAULT_SEARCH_REMEMBER)) {
+				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_GENDER, CB_SETCURSEL, ppro->getWord(NULL, "AdvancedSearchGender", 0), 0);
+				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_AGERANGE_FROM, CB_SETCURSEL, ppro->getWord(NULL, "AdvancedSearchAgeFrom", 0), 0);
+				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_AGERANGE_TO, CB_SETCURSEL, ppro->getWord(NULL, "AdvancedSearchAgeTo", 0), 0);
+				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BIRTHDAY_MONTH, CB_SETCURSEL, ppro->getWord(NULL, "AdvancedSearchBirthDayMonth", 0), 0);
+				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BIRTHDAY_DAY, CB_SETCURSEL, ppro->getWord(NULL, "AdvancedSearchBirthDayDay", 0), 0);
 
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_ZODIAK, CB_SETCURSEL, ppro->mraGetWord(NULL, "AdvancedSearchZodiakID", 0), 0);
+				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_ZODIAK, CB_SETCURSEL, ppro->getWord(NULL, "AdvancedSearchZodiakID", 0), 0);
 
 
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_COUNTRY, CB_SETCURSEL, ppro->mraGetWord(NULL, "AdvancedSearchCountryID", 0), 0);
+				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_COUNTRY, CB_SETCURSEL, ppro->getWord(NULL, "AdvancedSearchCountryID", 0), 0);
 				SendMessageW(hWndDlg, WM_COMMAND, (WPARAM)MAKELONG(IDC_COUNTRY, CBN_SELCHANGE), (LPARAM)GetDlgItem(hWndDlg, IDC_COUNTRY));
 
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_STATE, CB_SETCURSEL, ppro->mraGetWord(NULL, "AdvancedSearchStateID", 0), 0);
+				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_STATE, CB_SETCURSEL, ppro->getWord(NULL, "AdvancedSearchStateID", 0), 0);
 				SendMessageW(hWndDlg, WM_COMMAND, (WPARAM)MAKELONG(IDC_STATE, CBN_SELCHANGE), (LPARAM)GetDlgItem(hWndDlg, IDC_STATE));
 
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_CITY, CB_SETCURSEL, ppro->mraGetWord(NULL, "AdvancedSearchCityID", 0), 0);
+				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_CITY, CB_SETCURSEL, ppro->getWord(NULL, "AdvancedSearchCityID", 0), 0);
 
 
-				CHECK_DLG_BUTTON(hWndDlg, IDC_ONLINEONLY, ppro->mraGetByte(NULL, "AdvancedSearchOnlineOnly", FALSE));
+				CHECK_DLG_BUTTON(hWndDlg, IDC_ONLINEONLY, ppro->getByte(NULL, "AdvancedSearchOnlineOnly", FALSE));
 				CHECK_DLG_BUTTON(hWndDlg, IDC_CHK_REMEMBER, TRUE);
 			}
 			TranslateDialogDefault(hWndDlg);
@@ -173,20 +173,20 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 		return TRUE;
 
 	case WM_DESTROY:
-		ppro->mraSetWord(NULL, "AdvancedSearchGender", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_GENDER, CB_GETCURSEL, 0, 0));
-		ppro->mraSetWord(NULL, "AdvancedSearchAgeFrom", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_AGERANGE_FROM, CB_GETCURSEL, 0, 0));
-		ppro->mraSetWord(NULL, "AdvancedSearchAgeTo", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_AGERANGE_TO, CB_GETCURSEL, 0, 0));
-		ppro->mraSetWord(NULL, "AdvancedSearchBirthDayMonth", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BIRTHDAY_MONTH, CB_GETCURSEL, 0, 0));
-		ppro->mraSetWord(NULL, "AdvancedSearchBirthDayDay", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BIRTHDAY_DAY, CB_GETCURSEL, 0, 0));
+		ppro->setWord(NULL, "AdvancedSearchGender", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_GENDER, CB_GETCURSEL, 0, 0));
+		ppro->setWord(NULL, "AdvancedSearchAgeFrom", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_AGERANGE_FROM, CB_GETCURSEL, 0, 0));
+		ppro->setWord(NULL, "AdvancedSearchAgeTo", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_AGERANGE_TO, CB_GETCURSEL, 0, 0));
+		ppro->setWord(NULL, "AdvancedSearchBirthDayMonth", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BIRTHDAY_MONTH, CB_GETCURSEL, 0, 0));
+		ppro->setWord(NULL, "AdvancedSearchBirthDayDay", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BIRTHDAY_DAY, CB_GETCURSEL, 0, 0));
 
-		ppro->mraSetWord(NULL, "AdvancedSearchZodiakID", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_ZODIAK, CB_GETCURSEL, 0, 0));
+		ppro->setWord(NULL, "AdvancedSearchZodiakID", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_ZODIAK, CB_GETCURSEL, 0, 0));
 
-		ppro->mraSetWord(NULL, "AdvancedSearchCityID", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_CITY, CB_GETCURSEL, 0, 0));
-		ppro->mraSetWord(NULL, "AdvancedSearchStateID", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_STATE, CB_GETCURSEL, 0, 0));
-		ppro->mraSetWord(NULL, "AdvancedSearchCountryID", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_COUNTRY, CB_GETCURSEL, 0, 0));
+		ppro->setWord(NULL, "AdvancedSearchCityID", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_CITY, CB_GETCURSEL, 0, 0));
+		ppro->setWord(NULL, "AdvancedSearchStateID", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_STATE, CB_GETCURSEL, 0, 0));
+		ppro->setWord(NULL, "AdvancedSearchCountryID", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_COUNTRY, CB_GETCURSEL, 0, 0));
 
-		ppro->mraSetByte(NULL, "AdvancedSearchOnlineOnly", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_ONLINEONLY));
-		ppro->mraSetByte(NULL, "AdvancedSearchRemember", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_CHK_REMEMBER));
+		ppro->setByte(NULL, "AdvancedSearchOnlineOnly", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_ONLINEONLY));
+		ppro->setByte(NULL, "AdvancedSearchRemember", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_CHK_REMEMBER));
 		break;
 
 	case WM_COMMAND:
