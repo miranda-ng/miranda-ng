@@ -186,7 +186,7 @@ MIR_CORE_DLL(INT_PTR) db_set_s(HANDLE hContact, const char *szModule, const char
 	cws.szModule = szModule;
 	cws.szSetting = szSetting;
 	cws.value.type = DBVT_ASCIIZ;
-	cws.value.pszVal = (char*)val;
+	cws.value.pszVal = (char*)(val == NULL ? "" : val);
 	return currDb->WriteContactSetting(hContact, &cws);
 }
 
@@ -198,7 +198,7 @@ MIR_CORE_DLL(INT_PTR) db_set_ws(HANDLE hContact, const char *szModule, const cha
 	cws.szModule = szModule;
 	cws.szSetting = szSetting;
 	cws.value.type = DBVT_WCHAR;
-	cws.value.pwszVal = (WCHAR*)val;
+	cws.value.pwszVal = (WCHAR*)(val == NULL ? L"" : val);
 	return currDb->WriteContactSetting(hContact, &cws);
 }
 
@@ -210,7 +210,7 @@ MIR_CORE_DLL(INT_PTR) db_set_utf(HANDLE hContact, const char *szModule, const ch
 	cws.szModule = szModule;
 	cws.szSetting = szSetting;
 	cws.value.type = DBVT_UTF8;
-	cws.value.pszVal = (char*)val;
+	cws.value.pszVal = (char*)(val == NULL ? "" : val);
 	return currDb->WriteContactSetting(hContact, &cws);
 }
 
