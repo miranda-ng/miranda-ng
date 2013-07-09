@@ -817,7 +817,7 @@ Miranda NG 正准备重启. \n请稍候...
 排序:
 [Contact list:]
 联系人列表:
-[If window is partially covered, bring iy to front]
+[If window is partially covered, bring it to front]
 如窗口被部分覆盖, 则置顶
 [Window:]
 窗口:

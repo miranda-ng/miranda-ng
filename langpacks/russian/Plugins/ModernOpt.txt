@@ -78,7 +78,7 @@ Esc закрывает сессию (иначе - сворачивает)
 Список контактов:
 [Ordering:]
 Сортировка:
-[If window is partially covered, bring iy to front]
+[If window is partially covered, bring it to front]
 Если окно частично закрыто, вывести вперёд
 [Sample Text]
 Пример текста

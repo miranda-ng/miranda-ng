@@ -797,7 +797,7 @@ Popup за приставката Chat
 Подреждане:
 [Contact list:]
 Списък с контакти:
-[If window is partially covered, bring iy to front]
+[If window is partially covered, bring it to front]
 Извеждане на прозореца отпред, ако е частично покрит
 [Window:]
 Прозорец:

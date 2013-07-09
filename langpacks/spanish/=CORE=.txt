@@ -763,8 +763,8 @@ Mostrar indicador de agarre cambiar el tamaño
 Orden:
 [Contact list:]
 Lista de contactos:
-[If window is partially covered, bring iy to front]
-Si la ventana está parcialmente cubierto, traer iy al frente
+[If window is partially covered, bring it to front]
+Si la ventana está parcialmente cubierto, traer it al frente
 [Window:]
 Window:
 [Contact list background:]

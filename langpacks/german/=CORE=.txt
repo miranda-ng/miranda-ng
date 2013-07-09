@@ -863,7 +863,7 @@ Ecke zur Größenänderung anzeigen
 Anordnung:
 [Contact list:]
 Kontaktliste:
-[If window is partially covered, bring iy to front]
+[If window is partially covered, bring it to front]
 Bringe teils verdecktes Fenster in Vordergrund
 [Window:]
 Fenster:

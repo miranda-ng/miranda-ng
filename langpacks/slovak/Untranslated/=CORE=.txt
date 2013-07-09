@@ -228,7 +228,7 @@
 [Show resize grip indicator]
 [Ordering:]
 [Contact list:]
-[If window is partially covered, bring iy to front]
+[If window is partially covered, bring it to front]
 [Window:]
 [Contact list background:]
 [&D]

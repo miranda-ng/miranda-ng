@@ -827,7 +827,7 @@ Wikipedia
 並び順 :
 [Contact list:]
 コンタクトリスト :
-[If window is partially covered, bring iy to front]
+[If window is partially covered, bring it to front]
 ウィンドウが一部隠れている場合 , 後方から前面に移動する
 [Window:]
 ウィンドウ :
