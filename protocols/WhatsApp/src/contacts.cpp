@@ -662,7 +662,7 @@ void WhatsAppProto::onGroupCreated(const std::string& paramString1, const std::s
 }
 
 // Menu-handler
-int __cdecl WhatsAppProto::OnCreateGroup(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl WhatsAppProto::OnCreateGroup(WPARAM wParam, LPARAM lParam)
 {
 	LOG("");
 	input_box* ib = new input_box;

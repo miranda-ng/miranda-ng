@@ -180,7 +180,7 @@ INT_PTR CALLBACK WhatsAppInputBoxProc( HWND hwnd, UINT message, WPARAM wparam, L
 			ret->userData = ib->userData;
 			ret->value = mir_utf8encodeT(value);
 			delete value;
-			ForkThread(ib->thread, ib->proto, ret);
+			ib->proto->ForkThread(ib->thread, ret);
 			EndDialog(hwnd, wparam);
 			delete ib;
 			return TRUE;

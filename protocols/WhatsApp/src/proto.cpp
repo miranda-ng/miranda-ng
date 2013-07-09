@@ -10,12 +10,12 @@ WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 	update_loop_lock_ = CreateEvent(NULL, false, false, NULL);
 	FMessage::generating_lock = new Mutex();
 
-	CreateProtoService(m_szModuleName, PS_CREATEACCMGRUI, &WhatsAppProto::SvcCreateAccMgrUI, this);
-	CreateProtoService(m_szModuleName, PS_JOINCHAT,  &WhatsAppProto::OnJoinChat,  this);
-	CreateProtoService(m_szModuleName, PS_LEAVECHAT, &WhatsAppProto::OnLeaveChat, this);
+	CreateService(PS_CREATEACCMGRUI, &WhatsAppProto::SvcCreateAccMgrUI);
+	CreateService(PS_JOINCHAT, &WhatsAppProto::OnJoinChat);
+	CreateService(PS_LEAVECHAT, &WhatsAppProto::OnLeaveChat);
 
-	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &WhatsAppProto::OnBuildStatusMenu, this);
-	HookProtoEvent(ME_GC_EVENT,					  &WhatsAppProto::OnChatOutgoing,	 this);
+	HookEvent(ME_GC_EVENT, &WhatsAppProto::OnChatOutgoing);
+	HookEvent(ME_CLIST_PREBUILDSTATUSMENU, &WhatsAppProto::OnBuildStatusMenu);
 
 	this->InitContactMenus();
 
@@ -279,9 +279,9 @@ string WhatsAppProto::Register(int state, string cc, string number, string code)
 //////////////////////////////////////////////////////////////////////////////
 // EVENTS
 
-int WhatsAppProto::SvcCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
+INT_PTR WhatsAppProto::SvcCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
 {
-	return (int)CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_WHATSAPPACCOUNT),
+	return (INT_PTR)CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_WHATSAPPACCOUNT),
 		 (HWND)lParam, WhatsAppAccountProc, (LPARAM)this );
 }
 

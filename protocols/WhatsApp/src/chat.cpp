@@ -2,12 +2,12 @@
 
 // #TODO Remove, as we are not using the chat-module for groups anymore
 
-int WhatsAppProto::OnJoinChat(WPARAM,LPARAM)
+INT_PTR WhatsAppProto::OnJoinChat(WPARAM,LPARAM)
 {
 	return 0;
 }
 
-int WhatsAppProto::OnLeaveChat(WPARAM,LPARAM)
+INT_PTR WhatsAppProto::OnLeaveChat(WPARAM,LPARAM)
 {
 	return 0;
 }
