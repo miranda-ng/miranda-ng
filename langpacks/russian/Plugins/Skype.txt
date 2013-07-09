@@ -19,7 +19,7 @@ Skype протокол для Miranda NG.
 Запомнить пароль этой сессии
 [Cancel]
 Отмена
-[Skype name] 
+[Skype name]
 Логин Skype
 [Skype name:]
 Логин Skype:
