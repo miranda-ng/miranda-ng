@@ -607,55 +607,55 @@ MIR_CORE_DLL(void) ProtoDestructor(struct PROTO_INTERFACE *pThis);
 
 #if defined( __cplusplus )
 typedef void (__cdecl PROTO_INTERFACE::*ProtoThreadFunc)(void*);
-MIR_CORE_DLL(void)   ProtoForkThread(PROTO_INTERFACE *pThis, ProtoThreadFunc, void *param);
-MIR_CORE_DLL(HANDLE) ProtoForkThreadEx(PROTO_INTERFACE *pThis, ProtoThreadFunc, void *param, UINT* threadID);
+MIR_CORE_DLL(void)   ProtoForkThread(struct PROTO_INTERFACE *pThis, ProtoThreadFunc, void *param);
+MIR_CORE_DLL(HANDLE) ProtoForkThreadEx(struct PROTO_INTERFACE *pThis, ProtoThreadFunc, void *param, UINT* threadID);
 
 typedef int (__cdecl PROTO_INTERFACE::*ProtoEventFunc)(WPARAM, LPARAM);
-MIR_CORE_DLL(void)   ProtoHookEvent(PROTO_INTERFACE *pThis, const char* szName, ProtoEventFunc pFunc);
-MIR_CORE_DLL(HANDLE) ProtoCreateHookableEvent(PROTO_INTERFACE *pThis, const char* szService);
+MIR_CORE_DLL(void)   ProtoHookEvent(struct PROTO_INTERFACE *pThis, const char* szName, ProtoEventFunc pFunc);
+MIR_CORE_DLL(HANDLE) ProtoCreateHookableEvent(struct PROTO_INTERFACE *pThis, const char* szService);
 
 typedef INT_PTR (__cdecl PROTO_INTERFACE::*ProtoServiceFunc)(WPARAM, LPARAM);
-MIR_CORE_DLL(void)   ProtoCreateService(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFunc);
+MIR_CORE_DLL(void)   ProtoCreateService(struct PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFunc);
 
 typedef INT_PTR (__cdecl PROTO_INTERFACE::*ProtoServiceFuncParam)(WPARAM, LPARAM, LPARAM);
-MIR_CORE_DLL(void)   ProtoCreateServiceParam(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFuncParam, LPARAM);
+MIR_CORE_DLL(void)   ProtoCreateServiceParam(struct PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFuncParam, LPARAM);
+
+MIR_CORE_DLL(bool) ProtoGetBool0(struct PROTO_INTERFACE *pThis, const char* name, bool defaultValue);
+MIR_CORE_DLL(bool) ProtoGetBool(struct PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, bool defaultValue);
 #endif
 
-MIR_CORE_DLL(bool) ProtoGetBool0(PROTO_INTERFACE *pThis, const char* name, bool defaultValue);
-MIR_CORE_DLL(bool) ProtoGetBool(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, bool defaultValue);
+MIR_CORE_DLL(int) ProtoGetByte0(struct PROTO_INTERFACE *pThis, const char* name, BYTE defaultValue);
+MIR_CORE_DLL(int) ProtoGetByte(struct PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, BYTE defaultValue);
 
-MIR_CORE_DLL(int) ProtoGetByte0(PROTO_INTERFACE *pThis, const char* name, BYTE defaultValue);
-MIR_CORE_DLL(int) ProtoGetByte(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, BYTE defaultValue);
+MIR_CORE_DLL(int) ProtoGetDword0(struct PROTO_INTERFACE *pThis, const char* name, DWORD defaultValue);
+MIR_CORE_DLL(int) ProtoGetDword(struct PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, DWORD defaultValue);
 
-MIR_CORE_DLL(int) ProtoGetDword0(PROTO_INTERFACE *pThis, const char* name, DWORD defaultValue);
-MIR_CORE_DLL(int) ProtoGetDword(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, DWORD defaultValue);
+MIR_CORE_DLL(int) ProtoGetString0(struct PROTO_INTERFACE *pThis, const char* name, DBVARIANT* result);
+MIR_CORE_DLL(int) ProtoGetString(struct PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, DBVARIANT* result);
 
-MIR_CORE_DLL(int) ProtoGetString0(PROTO_INTERFACE *pThis, const char* name, DBVARIANT* result);
-MIR_CORE_DLL(int) ProtoGetString(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, DBVARIANT* result);
+MIR_CORE_DLL(int) ProtoGetTString0(struct PROTO_INTERFACE *pThis, const char* name, DBVARIANT* result);
+MIR_CORE_DLL(int) ProtoGetTString(struct PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, DBVARIANT* result);
 
-MIR_CORE_DLL(int) ProtoGetTString0(PROTO_INTERFACE *pThis, const char* name, DBVARIANT* result);
-MIR_CORE_DLL(int) ProtoGetTString(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, DBVARIANT* result);
+MIR_CORE_DLL(WORD) ProtoGetWord0(struct PROTO_INTERFACE *pThis, const char* name, WORD defaultValue);
+MIR_CORE_DLL(WORD) ProtoGetWord(struct PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, WORD defaultValue);
 
-MIR_CORE_DLL(WORD) ProtoGetWord0(PROTO_INTERFACE *pThis, const char* name, WORD defaultValue);
-MIR_CORE_DLL(WORD) ProtoGetWord(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, WORD defaultValue);
+MIR_CORE_DLL(char*) ProtoGetStringA0(struct PROTO_INTERFACE *pThis, const char* setting);
+MIR_CORE_DLL(char*) ProtoGetStringA(struct PROTO_INTERFACE *pThis, HANDLE hContact, const char* setting);
 
-MIR_CORE_DLL(char*) ProtoGetStringA0(PROTO_INTERFACE *pThis, const char* setting);
-MIR_CORE_DLL(char*) ProtoGetStringA(PROTO_INTERFACE *pThis, HANDLE hContact, const char* setting);
+MIR_CORE_DLL(void) ProtoSetByte0(struct PROTO_INTERFACE *pThis, const char* name, BYTE value);
+MIR_CORE_DLL(void) ProtoSetByte(struct PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, BYTE value);
 
-MIR_CORE_DLL(void) ProtoSetByte0(PROTO_INTERFACE *pThis, const char* name, BYTE value);
-MIR_CORE_DLL(void) ProtoSetByte(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, BYTE value);
+MIR_CORE_DLL(void) ProtoSetWord0(struct PROTO_INTERFACE *pThis, const char* name, WORD value);
+MIR_CORE_DLL(void) ProtoSetWord(struct PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, WORD value);
 
-MIR_CORE_DLL(void) ProtoSetWord0(PROTO_INTERFACE *pThis, const char* name, WORD value);
-MIR_CORE_DLL(void) ProtoSetWord(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, WORD value);
+MIR_CORE_DLL(void) ProtoSetDword0(struct PROTO_INTERFACE *pThis, const char* name, DWORD value);
+MIR_CORE_DLL(void) ProtoSetDword(struct PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, DWORD value);
 
-MIR_CORE_DLL(void) ProtoSetDword0(PROTO_INTERFACE *pThis, const char* name, DWORD value);
-MIR_CORE_DLL(void) ProtoSetDword(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, DWORD value);
+MIR_CORE_DLL(void) ProtoSetString0(struct PROTO_INTERFACE *pThis, const char* name, const char* value);
+MIR_CORE_DLL(void) ProtoSetString(struct PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, const char* value);
 
-MIR_CORE_DLL(void) ProtoSetString0(PROTO_INTERFACE *pThis, const char* name, const char* value);
-MIR_CORE_DLL(void) ProtoSetString(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, const char* value);
-
-MIR_CORE_DLL(void) ProtoSetTString0(PROTO_INTERFACE *pThis, const char* name, const TCHAR* value);
-MIR_CORE_DLL(void) ProtoSetTString(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, const TCHAR* value);
+MIR_CORE_DLL(void) ProtoSetTString0(struct PROTO_INTERFACE *pThis, const char* name, const TCHAR* value);
+MIR_CORE_DLL(void) ProtoSetTString(struct PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, const TCHAR* value);
 
 ///////////////////////////////////////////////////////////////////////////////
 // sha1 functions
