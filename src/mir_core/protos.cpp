@@ -141,3 +141,101 @@ MIR_CORE_DLL(HANDLE) ProtoForkThreadEx(PROTO_INTERFACE *pThis, ProtoThreadFunc p
 	UINT lthreadID;
 	return (HANDLE)::mir_forkthreadowner((pThreadFuncOwner) *(void**)&pFunc, pThis, param, threadID ? threadID : &lthreadID);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_CORE_DLL(bool) ProtoGetBool0(PROTO_INTERFACE *pThis, const char* name, bool defaultValue)
+{	return db_get_b(NULL, pThis->m_szModuleName, name, defaultValue) != 0;
+}
+
+MIR_CORE_DLL(bool) ProtoGetBool(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, bool defaultValue)
+{	return db_get_b(hContact, pThis->m_szModuleName, name, defaultValue) != 0;
+}
+
+MIR_CORE_DLL(int) ProtoGetByte0(PROTO_INTERFACE *pThis, const char* name, BYTE defaultValue)
+{	return db_get_b(NULL, pThis->m_szModuleName, name, defaultValue);
+}
+
+MIR_CORE_DLL(int) ProtoGetByte(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, BYTE defaultValue)
+{	return db_get_b(hContact, pThis->m_szModuleName, name, defaultValue);
+}
+
+MIR_CORE_DLL(int) ProtoGetDword0(PROTO_INTERFACE *pThis, const char* name, DWORD defaultValue)
+{	return db_get_dw(NULL, pThis->m_szModuleName, name, defaultValue);
+}
+
+MIR_CORE_DLL(int) ProtoGetDword(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, DWORD defaultValue)
+{	return db_get_dw(hContact, pThis->m_szModuleName, name, defaultValue);
+}
+
+MIR_CORE_DLL(int) ProtoGetString0(PROTO_INTERFACE *pThis, const char* name, DBVARIANT* result)
+{	return db_get_s(NULL, pThis->m_szModuleName, name, result);
+}
+
+MIR_CORE_DLL(int) ProtoGetString(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, DBVARIANT* result)
+{	return db_get_s(hContact, pThis->m_szModuleName, name, result);
+}
+
+MIR_CORE_DLL(int) ProtoGetTString0(PROTO_INTERFACE *pThis, const char* name, DBVARIANT* result)
+{	return db_get_ts(NULL, pThis->m_szModuleName, name, result);
+}
+
+MIR_CORE_DLL(int) ProtoGetTString(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, DBVARIANT* result)
+{	return db_get_ts(hContact, pThis->m_szModuleName, name, result);
+}
+
+MIR_CORE_DLL(WORD) ProtoGetWord0(PROTO_INTERFACE *pThis, const char* name, WORD defaultValue)
+{	return (WORD)db_get_w(NULL, pThis->m_szModuleName, name, defaultValue);
+}
+
+MIR_CORE_DLL(WORD) ProtoGetWord(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, WORD defaultValue)
+{	return (WORD)db_get_w(hContact, pThis->m_szModuleName, name, defaultValue);
+}
+
+MIR_CORE_DLL(char*) ProtoGetStringA0(PROTO_INTERFACE *pThis, const char* setting)
+{	return db_get_sa(NULL, pThis->m_szModuleName, setting);
+}
+
+MIR_CORE_DLL(char*) ProtoGetStringA(PROTO_INTERFACE *pThis, HANDLE hContact, const char* setting)
+{	return db_get_sa(hContact, pThis->m_szModuleName, setting);
+}
+
+MIR_CORE_DLL(void) ProtoSetByte0(PROTO_INTERFACE *pThis, const char* name, BYTE value)
+{	db_set_b(NULL, pThis->m_szModuleName, name, value);
+}
+
+MIR_CORE_DLL(void) ProtoSetByte(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, BYTE value)
+{	db_set_b(hContact, pThis->m_szModuleName, name, value);
+}
+
+MIR_CORE_DLL(void) ProtoSetWord0(PROTO_INTERFACE *pThis, const char* name, WORD value)
+{	db_set_w(NULL, pThis->m_szModuleName, name, value);
+}
+
+MIR_CORE_DLL(void) ProtoSetWord(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, WORD value)
+{	db_set_w(hContact, pThis->m_szModuleName, name, value);
+}
+
+MIR_CORE_DLL(void) ProtoSetDword0(PROTO_INTERFACE *pThis, const char* name, DWORD value)
+{	db_set_dw(NULL, pThis->m_szModuleName, name, value);
+}
+
+MIR_CORE_DLL(void) ProtoSetDword(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, DWORD value)
+{	db_set_dw(hContact, pThis->m_szModuleName, name, value);
+}
+
+MIR_CORE_DLL(void) ProtoSetString0(PROTO_INTERFACE *pThis, const char* name, const char* value)
+{	db_set_s(NULL, pThis->m_szModuleName, name, value);
+}
+
+MIR_CORE_DLL(void) ProtoSetString(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, const char* value)
+{	db_set_s(hContact, pThis->m_szModuleName, name, value);
+}
+
+MIR_CORE_DLL(void) ProtoSetTString0(PROTO_INTERFACE *pThis, const char* name, const TCHAR* value)
+{	db_set_ts(NULL, pThis->m_szModuleName, name, value);
+}
+
+MIR_CORE_DLL(void) ProtoSetTString(PROTO_INTERFACE *pThis, HANDLE hContact, const char* name, const TCHAR* value)
+{	db_set_ts(hContact, pThis->m_szModuleName, name, value);
+}
