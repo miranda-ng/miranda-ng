@@ -331,3 +331,21 @@ Skype протокол
 Пароль успешно изменён
 [Password changing]
 Изменение пароля
+[Privacy]
+Приватность
+[Allow IMs from...]
+Разрешить мгновенные сообщения от...
+[Anyone]
+Всех
+[No one]
+Никого
+[People in my Contact list only]
+Пользователей из моего контактного листа
+[Allow calls from...]
+Разрешить звонки от...
+[Automatically receive video and share screens with...]
+Автоматически показывать экран и принимать видео от...
+[Allow my online status to be shown on the web]
+Разрешить показ моего онлайн статуса в интернете
+
+[]
