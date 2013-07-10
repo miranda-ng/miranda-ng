@@ -585,7 +585,7 @@ INT_PTR CALLBACK CSkypeProto::PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARA
 			
 			// nick
 			DBVARIANT dbv;
-			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "Nick", &dbv))
+			if ( !ppro->getTString("Nick", &dbv))
 			{
 				::SetDlgItemText(hwndDlg, IDC_FULLNAME, dbv.ptszVal);
 				::db_free(&dbv);
@@ -594,7 +594,7 @@ INT_PTR CALLBACK CSkypeProto::PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARA
 				::SetDlgItemText(hwndDlg, IDC_FULLNAME, _T(""));
 
 			// homepage
-			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "Homepage", &dbv))
+			if ( !ppro->getTString("Homepage", &dbv))
 			{
 				::SetDlgItemText(hwndDlg, IDC_HOMEPAGE, dbv.ptszVal);
 				::db_free(&dbv);
@@ -603,7 +603,7 @@ INT_PTR CALLBACK CSkypeProto::PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARA
 				::SetDlgItemText(hwndDlg, IDC_HOMEPAGE, _T(""));
 
 			// about
-			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "About", &dbv)) {
+			if ( !ppro->getTString("About", &dbv)) {
 				::SetDlgItemText(hwndDlg, IDC_ABOUT, dbv.ptszVal);
 				::db_free(&dbv);
 			}
@@ -611,7 +611,7 @@ INT_PTR CALLBACK CSkypeProto::PersonalSkypeDlgProc(HWND hwndDlg, UINT msg, WPARA
 				::SetDlgItemText(hwndDlg, IDC_ABOUT, _T(""));
 
 			// mood
-			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "XStatusMsg", &dbv)) {
+			if ( !ppro->getTString("XStatusMsg", &dbv)) {
 				::SetDlgItemText(hwndDlg, IDC_MOOD, dbv.ptszVal);
 				::db_free(&dbv);
 			}
@@ -664,42 +664,42 @@ INT_PTR CALLBACK CSkypeProto::ContactSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM
 			::SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 			DBVARIANT dbv;
-			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "Cellular", &dbv)) {
+			if ( !ppro->getTString("Cellular", &dbv)) {
 				::SetDlgItemText(hwndDlg, IDC_MOBPHONE, dbv.ptszVal);
 				::db_free(&dbv);
 			}
 			else
 				::SetDlgItemText(hwndDlg, IDC_MOBPHONE, _T(""));
 
-			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "Phone", &dbv)) {
+			if ( !ppro->getTString("Phone", &dbv)) {
 				::SetDlgItemText(hwndDlg, IDC_HOMEPHONE, dbv.ptszVal);
 				::db_free(&dbv);
 			}
 			else
 				::SetDlgItemText(hwndDlg, IDC_HOMEPHONE, _T(""));
 
-			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "CompanyPhone", &dbv)) {
+			if ( !ppro->getTString("CompanyPhone", &dbv)) {
 				::SetDlgItemText(hwndDlg, IDC_OFFICEPHONE, dbv.ptszVal);
 				::db_free(&dbv);
 			}
 			else
 				::SetDlgItemText(hwndDlg, IDC_OFFICEPHONE, _T(""));
 
-			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "e-mail0", &dbv)) {
+			if ( !ppro->getTString("e-mail0", &dbv)) {
 				::SetDlgItemText(hwndDlg, IDC_EMAIL1, dbv.ptszVal);
 				::db_free(&dbv);
 			}
 			else
 				::SetDlgItemText(hwndDlg, IDC_EMAIL1, _T(""));
 
-			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "e-mail1", &dbv)) {
+			if ( !ppro->getTString("e-mail1", &dbv)) {
 				::SetDlgItemText(hwndDlg, IDC_EMAIL2, dbv.ptszVal);
 				::db_free(&dbv);
 			}
 			else
 				::SetDlgItemText(hwndDlg, IDC_EMAIL2, _T(""));
 
-			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "e-mail2", &dbv)) {
+			if ( !ppro->getTString("e-mail2", &dbv)) {
 				::SetDlgItemText(hwndDlg, IDC_EMAIL3, dbv.ptszVal);
 				::db_free(&dbv);
 			}
@@ -749,19 +749,17 @@ INT_PTR CALLBACK CSkypeProto::HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 			::SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 			DBVARIANT dbv;
-			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "City", &dbv)) {
+			if ( !ppro->getTString("City", &dbv)) {
 				::SetDlgItemText(hwndDlg, IDC_CITY, dbv.ptszVal);
 				::db_free(&dbv);
 			}
-			else
-				::SetDlgItemText(hwndDlg, IDC_CITY, _T(""));
+			else ::SetDlgItemText(hwndDlg, IDC_CITY, _T(""));
 
-			if ( !::db_get_ts(NULL, ppro->m_szModuleName, "State", &dbv)) {
+			if ( !ppro->getTString("State", &dbv)) {
 				::SetDlgItemText(hwndDlg, IDC_STATE, dbv.ptszVal);
 				::db_free(&dbv);
 			}
-			else
-				::SetDlgItemText(hwndDlg, IDC_STATE, _T(""));
+			else ::SetDlgItemText(hwndDlg, IDC_STATE, _T(""));
 
 			ptrW countr(::db_get_wsa(NULL, ppro->m_szModuleName, "Country"));
 			for (int i = 0; i < g_cbCountries; i++)

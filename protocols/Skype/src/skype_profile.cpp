@@ -6,7 +6,7 @@ void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
 	uint newTS = obj->GetUintProp(/* *::P_AVATAR_TIMESTAMP */ 182);
 	//if (!newTS) return; //uncomment when skypekit will be work correctly
 
-	DWORD oldTS = ::db_get_dw(hContact, this->m_szModuleName, "AvatarTS", 0);
+	DWORD oldTS = this->getDword(hContact, "AvatarTS", 0);
 
 	ptrW path( this->GetContactAvatarFilePath(hContact));
 	bool isAvatarFileExists = CSkypeProto::FileExists(path);
@@ -21,7 +21,7 @@ void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
 				::fwrite(data.data(), sizeof(char), data.size(), fp);
 				::fclose(fp);
 
-				::db_set_dw(hContact, this->m_szModuleName, "AvatarTS", newTS);
+				this->setDword(hContact, "AvatarTS", newTS);
 
 				if (hContact)
 				{
@@ -55,9 +55,9 @@ void CSkypeProto::UpdateProfileAboutText(SEObject *obj, HANDLE hContact)
 {
 	ptrW aboutText(::mir_utf8decodeW(obj->GetStrProp(/* *::P_ABOUT */ 18)));
 	if ( !::wcslen(aboutText))
-		::db_unset(hContact, this->m_szModuleName, "About");
+		this->delSetting(hContact, "About");
 	else
-		::db_set_ws(hContact, this->m_szModuleName, "About", aboutText);
+		this->setTString(hContact, "About", aboutText);
 }
 
 void CSkypeProto::UpdateProfileBirthday(SEObject *obj, HANDLE hContact)
@@ -78,22 +78,22 @@ void CSkypeProto::UpdateProfileBirthday(SEObject *obj, HANDLE hContact)
 		else if(sToday.wYear == year && sToday.wMonth > month) return;
 		else if(sToday.wYear == year && sToday.wMonth == month && sToday.wDay >= day) return;
 
-		::db_set_b(hContact, this->m_szModuleName, "BirthDay", day);
-		::db_set_b(hContact, this->m_szModuleName, "BirthMonth", month);
-		::db_set_w(hContact, this->m_szModuleName, "BirthYear", year);
+		this->setByte(hContact, "BirthDay", day);
+		this->setByte(hContact, "BirthMonth", month);
+		this->setWord(hContact, "BirthYear", year);
 
 		int nAge = sToday.wYear - year;
 		if (sToday.wMonth < month || (sToday.wMonth == month && sToday.wDay < day))
 			nAge--;
 		if (nAge)
-			::db_set_w(hContact, this->m_szModuleName, "Age", ( WORD )nAge );
+			this->setWord(hContact, "Age", (WORD)nAge );
 	}
 	else
 	{
-		::db_unset(hContact, this->m_szModuleName, "BirthDay");
-		::db_unset(hContact, this->m_szModuleName, "BirthMonth");
-		::db_unset(hContact, this->m_szModuleName, "BirthYear");
-		::db_unset(hContact, this->m_szModuleName, "Age");
+		this->delSetting(hContact, "BirthDay");
+		this->delSetting(hContact, "BirthMonth");
+		this->delSetting(hContact, "BirthYear");
+		this->delSetting(hContact, "Age");
 	}
 }
 
@@ -101,9 +101,9 @@ void CSkypeProto::UpdateProfileCity(SEObject *obj, HANDLE hContact)
 {
 	ptrW city(::mir_utf8decodeW(obj->GetStrProp(/* *::P_CITY */ 12)));
 	if ( !::wcslen(city))
-		::db_unset(hContact, this->m_szModuleName, "City");
+		this->delSetting(hContact, "City");
 	else
-		::db_set_ws(hContact, this->m_szModuleName, "City", city);
+		this->setTString(hContact, "City", city);
 }
 
 void CSkypeProto::UpdateProfileCountry(SEObject *obj, HANDLE hContact)
@@ -111,13 +111,11 @@ void CSkypeProto::UpdateProfileCountry(SEObject *obj, HANDLE hContact)
 	char *country;
 	ptrA isocode(::mir_strdup(obj->GetStrProp(/* *::P_COUNTRY */ 10)));
 	if ( !::strlen(isocode))
-	{
-		::db_unset(hContact, this->m_szModuleName, "Country");
-	}
+		this->delSetting(hContact, "Country");
 	else
 	{
 		country = (char *)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)isocode, 0);
-		::db_set_ws(hContact, this->m_szModuleName, "Country", _A2T(country));
+		this->setTString(hContact, "Country", _A2T(country));
 	}
 }
 
@@ -126,9 +124,9 @@ void CSkypeProto::UpdateProfileEmails(SEObject *obj, HANDLE hContact)
 	ptrW emails(::mir_utf8decodeW(obj->GetStrProp(/* *::P_EMAILS */ 16)));
 	if (::wcscmp(emails, L"") == 0)
 	{
-		::db_unset(hContact, this->m_szModuleName, "e-mail0");
-		::db_unset(hContact, this->m_szModuleName, "e-mail1");
-		::db_unset(hContact, this->m_szModuleName, "e-mail2");
+		this->delSetting(hContact, "e-mail0");
+		this->delSetting(hContact, "e-mail1");
+		this->delSetting(hContact, "e-mail2");
 	}
 	else
 	{
@@ -139,7 +137,7 @@ void CSkypeProto::UpdateProfileEmails(SEObject *obj, HANDLE hContact)
 			ss << "e-mail" << i;
 			std::string key = ss.str();
 		
-			::db_set_ws(hContact, this->m_szModuleName, key.c_str(), emls[i]);
+			this->setTString(hContact, key.c_str(), emls[i]);
 		}
 	}
 }
@@ -149,16 +147,16 @@ void CSkypeProto::UpdateProfileFullName(SEObject *obj, HANDLE hContact)
 	ptrW fullname(::mir_utf8decodeW(obj->GetStrProp(/* *::P_FULLNAME */ 5)));
 	if ( !::wcslen(fullname))
 	{
-		::db_unset(hContact, this->m_szModuleName, "FirstName");
-		::db_unset(hContact, this->m_szModuleName, "LastName");
+		this->delSetting(hContact, "FirstName");
+		this->delSetting(hContact, "LastName");
 	}
 	else
 	{
 		StringList names = fullname;
 
-		::db_set_ws(hContact, this->m_szModuleName, "FirstName", names[0]);
+		this->setTString(hContact, "FirstName", names[0]);
 		if (names.size() > 1)
-			::db_set_ws(hContact, this->m_szModuleName, "LastName", names[1]);
+			this->setTString(hContact, "LastName", names[1]);
 	}
 }
 
@@ -166,27 +164,27 @@ void CSkypeProto::UpdateProfileGender(SEObject *obj, HANDLE hContact)
 {
 	uint data = obj->GetUintProp(/* *::P_GENDER */ 8);
 	if (data)
-		::db_set_b(hContact, this->m_szModuleName, "Gender", (BYTE)(data == 1 ? 'M' : 'F'));
+		this->setByte(hContact, "Gender", (BYTE)(data == 1 ? 'M' : 'F'));
 	else
-		::db_unset(hContact, this->m_szModuleName, "Gender");
+		this->delSetting(hContact, "Gender");
 }
 
 void CSkypeProto::UpdateProfileHomepage(SEObject *obj, HANDLE hContact)
 {
 	ptrW homepage(::mir_utf8decodeW(obj->GetStrProp(/* *::P_HOMEPAGE */ 17)));
 	if (::wcscmp(homepage, L"") == 0)
-		::db_unset(hContact, this->m_szModuleName, "Homepage");
+		this->delSetting(hContact, "Homepage");
 	else
-		::db_set_ws(hContact, this->m_szModuleName, "Homepage", homepage);
+		this->setTString(hContact, "Homepage", homepage);
 }
 
 void CSkypeProto::UpdateProfileLanguages(SEObject *obj, HANDLE hContact)
 {
 	ptrW isocodes(::mir_utf8decodeW(obj->GetStrProp(/* *::P_LANGUAGES */ 9)));
 
-	::db_unset(hContact, this->m_szModuleName, "Language1");
-	::db_unset(hContact, this->m_szModuleName, "Language2");
-	::db_unset(hContact, this->m_szModuleName, "Language3");
+	this->delSetting(hContact, "Language1");
+	this->delSetting(hContact, "Language2");
+	this->delSetting(hContact, "Language3");
 
 	StringList langs = isocodes;
 	for (size_t i = 0; i < langs.size(); i++)
@@ -197,7 +195,7 @@ void CSkypeProto::UpdateProfileLanguages(SEObject *obj, HANDLE hContact)
 			ss << "Language" << i + 1;
 			std::string key = ss.str();
 			std::wstring val = CSkypeProto::languages[langs[i]];
-			::db_set_ws(hContact, this->m_szModuleName, key.c_str(), val.c_str());
+			this->setTString(hContact, key.c_str(), val.c_str());
 		}
 	}
 }
@@ -206,9 +204,9 @@ void CSkypeProto::UpdateProfileMobilePhone(SEObject *obj, HANDLE hContact)
 {
 	ptrW phone(::mir_utf8decodeW(obj->GetStrProp(/* *::P_PHONE_MOBILE */ 15)));
 	if ( !::wcslen(phone))
-		::db_unset(hContact, this->m_szModuleName, "Cellular");
+		this->delSetting(hContact, "Cellular");
 	else
-		::db_set_ws(hContact, this->m_szModuleName, "Cellular", phone);
+		this->setTString(hContact, "Cellular", phone);
 }
 
 void CSkypeProto::UpdateProfileNick(SEObject *obj, HANDLE hContact)
@@ -223,45 +221,45 @@ void CSkypeProto::UpdateProfileNick(SEObject *obj, HANDLE hContact)
 		nick = ::mir_utf8decodeW(obj->GetStrProp(Account::P_FULLNAME));
 
 	if ( !::wcslen(nick))
-		::db_unset(hContact, this->m_szModuleName, "Nick");
+		this->delSetting(hContact, "Nick");
 	else
-		::db_set_ws(hContact, this->m_szModuleName, "Nick", nick);
+		this->setTString(hContact, "Nick", nick);
 }
 
 void CSkypeProto::UpdateProfilePhone(SEObject *obj, HANDLE hContact)
 {
 	ptrW phone(::mir_utf8decodeW(obj->GetStrProp(/* *::P_PHONE_MOBILE */ 13)));
 	if ( !::wcslen(phone))
-		::db_unset(hContact, this->m_szModuleName, "Phone");
+		this->delSetting(hContact, "Phone");
 	else
-		::db_set_ws(hContact, this->m_szModuleName, "Phone", phone);
+		this->setTString(hContact, "Phone", phone);
 }
 
 void CSkypeProto::UpdateProfileOfficePhone(SEObject *obj, HANDLE hContact)
 {
 	ptrW phone(::mir_utf8decodeW(obj->GetStrProp(/* *::P_PHONE_OFFICE */ 14)));
 	if ( !::wcslen(phone))
-		::db_unset(hContact, this->m_szModuleName, "CompanyPhone");
+		this->delSetting(hContact, "CompanyPhone");
 	else
-		::db_set_ws(hContact, this->m_szModuleName, "CompanyPhone", phone);		
+		this->setTString(hContact, "CompanyPhone", phone);		
 }
 
 void CSkypeProto::UpdateProfileState(SEObject *obj, HANDLE hContact)
 {
 	ptrW state(::mir_utf8decodeW(obj->GetStrProp(/* *::P_PROVINCE */ 11)));
 	if ( !::wcslen(state))
-		::db_unset(hContact, this->m_szModuleName, "State");
+		this->delSetting(hContact, "State");
 	else
-		::db_set_ws(hContact, this->m_szModuleName, "State", state);		
+		this->setTString(hContact, "State", state);		
 }
 
 void CSkypeProto::UpdateProfileStatusMessage(SEObject *obj, HANDLE hContact)
 {
 	ptrW statusMessage(::mir_utf8decodeW(obj->GetStrProp(/* *::P_MOOD_TEXT */ 26)));
 	if ( !::wcslen(statusMessage))
-		::db_unset(hContact, this->m_szModuleName, "XStatusMsg");
+		this->delSetting(hContact, "XStatusMsg");
 	else
-		::db_set_ws(hContact, this->m_szModuleName, "XStatusMsg", statusMessage);
+		this->setTString(hContact, "XStatusMsg", statusMessage);
 }
 
 void CSkypeProto::UpdateProfileTimezone(SEObject *obj, HANDLE hContact)
@@ -284,10 +282,9 @@ void CSkypeProto::UpdateProfileTimezone(SEObject *obj, HANDLE hContact)
 		int nTz = ::_wtoi(timeshift) * -2;
 		nTz += (nTz < 0 ? -1 : 1) * (szMin ? _ttoi( szMin + 1 ) / 30 : 0);
 
-		::db_set_b(hContact, this->m_szModuleName, "Timezone", (signed char)nTz);
+		this->setByte(hContact, "Timezone", (signed char)nTz);
 	}
-	else
-		::db_unset(hContact, this->m_szModuleName, "Timezone");
+	else this->delSetting(hContact, "Timezone");
 }
 
 void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
@@ -296,33 +293,30 @@ void CSkypeProto::UpdateProfile(SEObject *obj, HANDLE hContact)
 	this->UpdateProfileAvatar(obj, hContact);
 
 	uint newTS = hContact ? obj->GetUintProp(Contact::P_PROFILE_TIMESTAMP) : obj->GetUintProp(Account::P_PROFILE_TIMESTAMP);
-	//if (newTS > ::db_get_dw(hContact, this->m_szModuleName, "ProfileTS", 0))
-	//{
-		this->UpdateProfileAboutText(obj, hContact);
-		this->UpdateProfileBirthday(obj, hContact);
-		this->UpdateProfileCity(obj, hContact);
-		this->UpdateProfileCountry(obj, hContact);
-		this->UpdateProfileEmails(obj, hContact);
-		this->UpdateProfileFullName(obj, hContact);
-		this->UpdateProfileGender(obj, hContact);
-		this->UpdateProfileHomepage(obj, hContact);
-		this->UpdateProfileLanguages(obj, hContact);
-		this->UpdateProfileMobilePhone(obj, hContact);
-		this->UpdateProfileNick(obj, hContact);
-		this->UpdateProfilePhone(obj, hContact);
-		this->UpdateProfileOfficePhone(obj, hContact);
-		this->UpdateProfileState(obj, hContact);
-		this->UpdateProfileStatusMessage(obj, hContact);
-		this->UpdateProfileTimezone(obj, hContact);
+	this->UpdateProfileAboutText(obj, hContact);
+	this->UpdateProfileBirthday(obj, hContact);
+	this->UpdateProfileCity(obj, hContact);
+	this->UpdateProfileCountry(obj, hContact);
+	this->UpdateProfileEmails(obj, hContact);
+	this->UpdateProfileFullName(obj, hContact);
+	this->UpdateProfileGender(obj, hContact);
+	this->UpdateProfileHomepage(obj, hContact);
+	this->UpdateProfileLanguages(obj, hContact);
+	this->UpdateProfileMobilePhone(obj, hContact);
+	this->UpdateProfileNick(obj, hContact);
+	this->UpdateProfilePhone(obj, hContact);
+	this->UpdateProfileOfficePhone(obj, hContact);
+	this->UpdateProfileState(obj, hContact);
+	this->UpdateProfileStatusMessage(obj, hContact);
+	this->UpdateProfileTimezone(obj, hContact);
 
-		if (hContact)
-		{
-			ContactRef ref(obj->getOID());
-			this->UpdateContactClient(hContact, ref);
-			this->UpdateContactLastEventDate(hContact, ref);
-			this->UpdateContactOnlineSinceTime(hContact, ref);
-		}
+	if (hContact)
+	{
+		ContactRef ref(obj->getOID());
+		this->UpdateContactClient(hContact, ref);
+		this->UpdateContactLastEventDate(hContact, ref);
+		this->UpdateContactOnlineSinceTime(hContact, ref);
+	}
 
-		::db_set_dw(hContact, this->m_szModuleName, "ProfileTS", newTS);
-	//}
+	this->setDword(hContact, "ProfileTS", newTS);
 }

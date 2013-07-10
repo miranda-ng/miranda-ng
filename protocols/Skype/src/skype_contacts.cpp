@@ -4,24 +4,22 @@ void CSkypeProto::UpdateContactAuthState(HANDLE hContact, const ContactRef &cont
 {
 	uint newTS = 0;
 	contact->GetPropAuthreqTimestamp(newTS);
-	DWORD oldTS = ::db_get_dw(NULL, this->m_szModuleName, "AuthTS", 0);
+	DWORD oldTS = this->getDword("AuthTS", 0);
 	if (newTS > oldTS)
 	{
 		bool result;
 		if (contact->HasAuthorizedMe(result) && !result)
-		{
-			::db_set_b(hContact, this->m_szModuleName, "Auth", !result);
-		}
+			this->setByte(hContact, "Auth", !result);
 		else
 		{
-			::db_unset(hContact, this->m_szModuleName, "Auth");
+			this->delSetting(hContact, "Auth");
 			if (contact->IsMemberOfHardwiredGroup(CContactGroup::ALL_BUDDIES, result) && !result)
-				::db_set_b(hContact, this->m_szModuleName, "Grant", !result);
+				this->setByte(hContact, "Grant", !result);
 			else
-				::db_unset(hContact, this->m_szModuleName, "Grant");
+				this->delSetting(hContact, "Grant");
 		}
 
-		::db_set_dw(hContact, this->m_szModuleName, "AuthTS", newTS);
+		this->setDword(hContact, "AuthTS", newTS);
 	}
 }
 
@@ -29,16 +27,16 @@ void CSkypeProto::UpdateContactStatus(HANDLE hContact, const ContactRef &contact
 {
 	Contact::AVAILABILITY availability;
 	contact->GetPropAvailability(availability);
-	::db_set_w(hContact, this->m_szModuleName, SKYPE_SETTINGS_STATUS, CSkypeProto::SkypeToMirandaStatus(availability));
+	this->setWord(hContact, SKYPE_SETTINGS_STATUS, CSkypeProto::SkypeToMirandaStatus(availability));
 
 	if (availability == Contact::SKYPEOUT)
-		::db_set_w(hContact, this->m_szModuleName, SKYPE_SETTINGS_STATUS, ID_STATUS_ONTHEPHONE);
+		this->setWord(hContact, SKYPE_SETTINGS_STATUS, ID_STATUS_ONTHEPHONE);
 	else
 	{
 		if (availability == Contact::PENDINGAUTH)
-			::db_set_b(hContact, this->m_szModuleName, "Auth", 1);
+			this->setByte(hContact, "Auth", 1);
 		else
-			::db_unset(hContact, this->m_szModuleName, "Auth");
+			this->delSetting(hContact, "Auth");
 	}
 }
 
@@ -47,7 +45,7 @@ void CSkypeProto::UpdateContactClient(HANDLE hContact, const ContactRef &contact
 	bool isMobile = false;
 	contact->HasCapability(Contact::CAPABILITY_MOBILE_DEVICE, isMobile/*, true*/);
 
-	::db_set_ws(hContact, this->m_szModuleName, "MirVer", isMobile ? L"SkypeMobile" : L"Skype");
+	this->setTString(hContact, "MirVer", isMobile ? L"SkypeMobile" : L"Skype");
 }
 
 void CSkypeProto::UpdateContactOnlineSinceTime(HANDLE hContact, const ContactRef &contact)
@@ -56,16 +54,16 @@ void CSkypeProto::UpdateContactOnlineSinceTime(HANDLE hContact, const ContactRef
 	contact->GetPropLastonlineTimestamp(newTS);
 	DWORD oldTS = ::db_get_dw(hContact, this->m_szModuleName, "OnlineSinceTS", 0);
 	if (newTS > oldTS)
-		::db_set_dw(hContact, this->m_szModuleName, "OnlineSinceTS", newTS);
+		this->setDword(hContact, "OnlineSinceTS", newTS);
 }
 
 void CSkypeProto::UpdateContactLastEventDate(HANDLE hContact, const ContactRef &contact)
 {
 	uint newTS = 0;
 	contact->GetPropLastusedTimestamp(newTS);
-	DWORD oldTS = ::db_get_dw(hContact, this->m_szModuleName, "LastEventDateTS", 0);
+	DWORD oldTS = this->getDword(hContact, "LastEventDateTS", 0);
 	if (newTS > oldTS)
-		::db_set_dw(hContact, this->m_szModuleName, "LastEventDateTS", newTS);
+		this->setDword(hContact, "LastEventDateTS", newTS);
 }
 
 void CSkypeProto::OnContactChanged(const ContactRef &contact, int prop)
@@ -86,7 +84,7 @@ void CSkypeProto::OnContactChanged(const ContactRef &contact, int prop)
 			{
 				uint newTS = 0;
 				contact->GetPropAuthreqTimestamp(newTS);
-				DWORD oldTS = ::db_get_dw(hContact, this->m_szModuleName, "AuthTS", 0);
+				DWORD oldTS = this->getDword(hContact, "AuthTS", 0);
 				if (newTS > oldTS)
 					this->RaiseAuthRequestEvent(newTS, contact);
 			}
@@ -153,7 +151,6 @@ void CSkypeProto::OnContactListChanged(const ContactRef &contact)
 bool CSkypeProto::IsProtoContact(HANDLE hContact)
 {
 	return ::lstrcmpiA(::GetContactProto(hContact), this->m_szModuleName) == 0;
-	//return ::CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName) < 0;
 }
 
 HANDLE CSkypeProto::GetContactBySid(const wchar_t *sid)
@@ -212,7 +209,7 @@ HANDLE CSkypeProto::AddContact(CContact::Ref contact, bool isTemporary)
 		switch(availability) 
 		{
 		case CContact::SKYPEOUT:
-			::db_set_b(hContact, this->m_szModuleName, "IsSkypeOut", 1);
+			this->setByte(hContact, "IsSkypeOut", 1);
 			break;
 
 		case CContact::PENDINGAUTH:
@@ -225,16 +222,16 @@ HANDLE CSkypeProto::AddContact(CContact::Ref contact, bool isTemporary)
 			break;
 
 		default:
-			::db_unset(hContact, this->m_szModuleName, "IsSkypeOut");
+			this->delSetting(hContact, "IsSkypeOut");
 			::db_unset(hContact, "CList", "Hidden");
 			::db_unset(hContact, "CList", "NotOnList");
 		}
 
-		::db_set_ws(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID, sid);
-		::db_set_ws(hContact, this->m_szModuleName, "Nick", nick);
+		this->setTString(hContact, SKYPE_SETTINGS_SID, sid);
+		this->setTString(hContact, "Nick", nick);
 
 		DBVARIANT dbv;
-		if ( !::db_get_ts(NULL, this->m_szModuleName, SKYPE_SETTINGS_DEF_GROUP, &dbv))
+		if ( !this->getTString(SKYPE_SETTINGS_DEF_GROUP, &dbv))
 		{
 			::db_set_ts(hContact, "CList", "Group", dbv.ptszVal);
 			::db_free(&dbv);
@@ -299,11 +296,7 @@ void __cdecl CSkypeProto::LoadAuthWaitList(void*)
 
 bool CSkypeProto::IsContactOnline(HANDLE hContact)
 {
-	return ::db_get_w(
-		hContact,
-		this->m_szModuleName,
-		SKYPE_SETTINGS_STATUS,
-		ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE;
+	return this->getWord(hContact, SKYPE_SETTINGS_STATUS, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE;
 }
 
 void CSkypeProto::SetAllContactStatus(int status)
@@ -312,7 +305,7 @@ void CSkypeProto::SetAllContactStatus(int status)
 
 	for (HANDLE hContact = ::db_find_first(this->m_szModuleName); hContact; hContact = ::db_find_next(hContact, this->m_szModuleName))
 	{
-		if (::db_get_b(hContact, this->m_szModuleName, "IsSkypeOut", 0) != 0)
+		if (this->getByte(hContact, "IsSkypeOut", 0) != 0)
 			continue;
 		if (this->IsChatRoom(hContact))
 			continue;

@@ -45,7 +45,7 @@ void CSkypeProto::SaveOwnInfoToServer(HWND hwndPage, int iPage)
 		{
 			::GetDlgItemText(hwndPage, IDC_FULLNAME, text, SIZEOF(text));
 			if (this->account->SetStrProperty(Account::P_FULLNAME, (char *)ptrA(::mir_utf8encodeW(text))))
-				::db_set_ws(NULL, this->m_szModuleName, "Nick", text);
+				this->setTString("Nick", text);
 
 			::GetDlgItemText(hwndPage, IDC_MOOD, text, SIZEOF(text));
 			this->account->SetStrProperty(Account::P_MOOD_TEXT, (char *)ptrA(::mir_utf8encodeW(text)));

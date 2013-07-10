@@ -1226,7 +1226,7 @@ INT_PTR CALLBACK CSkypeProto::ChatRoomProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 bool CSkypeProto::IsChatRoom(HANDLE hContact)
 {
-	return ::db_get_b(hContact, this->m_szModuleName, "ChatRoom", 0) == 1;
+	return this->getByte(hContact, "ChatRoom", 0) == 1;
 }
 
 INT_PTR CSkypeProto::CreateChatRoomCommand(WPARAM, LPARAM)
@@ -1515,7 +1515,7 @@ int __cdecl CSkypeProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 		HANDLE hContact = this->GetContactBySid(gcmi->pszUID);
 		if (hContact == NULL)
 			DisableChatMenuItem(ICM_DETAILS);
-		else if(::db_get_b(hContact, this->m_szModuleName, "Auth", 0) == 0)
+		else if(this->getByte(hContact, "Auth", 0) == 0)
 			DisableChatMenuItem(ICM_AUTH_REQUEST);
 	}
 	else

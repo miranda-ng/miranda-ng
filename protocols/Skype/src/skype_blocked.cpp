@@ -27,15 +27,15 @@ int CSkypeProto::BlockCommand(WPARAM wParam, LPARAM lParam)
 					this->contactList.remove_val(contact);
 					::CallService(MS_DB_CONTACT_DELETE, wParam, 0);
 				}
-				else if (::db_get_b(hContact, this->m_szModuleName, "IsSkypeOut", 0) > 0)
-					::db_set_w(hContact, this->m_szModuleName, "Status", ID_STATUS_OFFLINE);
+				else if (this->getByte(hContact, "IsSkypeOut", 0) > 0)
+					this->setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			}
 		}
 		else
 		{
 			if (contact->SetBlocked(false))
-				if (::db_get_b(hContact, this->m_szModuleName, "IsSkypeOut", 0) > 0)
-					::db_set_w(hContact, this->m_szModuleName, "Status", ID_STATUS_ONTHEPHONE);
+				if (this->getByte(hContact, "IsSkypeOut", 0) > 0)
+					this->setWord(hContact, "Status", ID_STATUS_ONTHEPHONE);
 		}
 	}
 
