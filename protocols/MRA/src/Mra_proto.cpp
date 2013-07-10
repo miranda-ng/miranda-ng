@@ -54,12 +54,12 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 
 	SleepEx(100, FALSE);// to prevent high CPU load by some status plugins like allwaysonline
 
-	dwConnectReTryCount = getDword(NULL, "ConnectReTryCountMRIM", MRA_DEFAULT_CONN_RETRY_COUNT_MRIM);
+	dwConnectReTryCount = getDword("ConnectReTryCountMRIM", MRA_DEFAULT_CONN_RETRY_COUNT_MRIM);
 
 	nloc.cbSize = sizeof(nloc);
 	nloc.flags = NLOCF_V2;
 	nloc.szHost = szHost;
-	nloc.timeout = getDword(NULL, "TimeOutConnectMRIM", MRA_DEFAULT_TIMEOUT_CONN_MRIM);
+	nloc.timeout = getDword("TimeOutConnectMRIM", MRA_DEFAULT_TIMEOUT_CONN_MRIM);
 	if (nloc.timeout<MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
 	if (nloc.timeout>MRA_TIMEOUT_CONN_МАХ) nloc.timeout = MRA_TIMEOUT_CONN_МАХ;
 
@@ -77,11 +77,11 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 	}
 
 	if (bConnected == FALSE)
-	if (getByte(NULL, "NLBFailDirectConnect", MRA_DEFAULT_NLB_FAIL_DIRECT_CONNECT)) {
+	if (getByte("NLBFailDirectConnect", MRA_DEFAULT_NLB_FAIL_DIRECT_CONNECT)) {
 		if (IsHTTPSProxyUsed(hNetlibUser))
 			nloc.wPort = MRA_SERVER_PORT_HTTPS;
 		else {
-			nloc.wPort = getWord(NULL, "ServerPort", MRA_DEFAULT_SERVER_PORT);
+			nloc.wPort = getWord("ServerPort", MRA_DEFAULT_SERVER_PORT);
 			if (nloc.wPort == MRA_SERVER_PORT_STANDART_NLB) nloc.wPort = MRA_SERVER_PORT_STANDART;
 		}
 
@@ -143,7 +143,7 @@ DWORD CMraProto::MraGetNLBData(LPSTR lpszHost, size_t dwHostBuffSize, WORD *pwPo
 	NETLIBSELECT nls = {0};
 	NETLIBOPENCONNECTION nloc = {0};
 
-	dwConnectReTryCount = getDword(NULL, "ConnectReTryCountNLB", MRA_DEFAULT_CONN_RETRY_COUNT_NLB);
+	dwConnectReTryCount = getDword("ConnectReTryCountNLB", MRA_DEFAULT_CONN_RETRY_COUNT_NLB);
 
 	nloc.cbSize = sizeof(nloc);
 	nloc.flags = NLOCF_V2;
@@ -155,9 +155,9 @@ DWORD CMraProto::MraGetNLBData(LPSTR lpszHost, size_t dwHostBuffSize, WORD *pwPo
 	if ( IsHTTPSProxyUsed(hNetlibUser))
 		nloc.wPort = MRA_SERVER_PORT_HTTPS;
 	else
-		nloc.wPort = getWord(NULL, "ServerPort", MRA_DEFAULT_SERVER_PORT);
+		nloc.wPort = getWord("ServerPort", MRA_DEFAULT_SERVER_PORT);
 
-	nloc.timeout = getDword(NULL, "TimeOutConnectNLB", MRA_DEFAULT_TIMEOUT_CONN_NLB);
+	nloc.timeout = getDword("TimeOutConnectNLB", MRA_DEFAULT_TIMEOUT_CONN_NLB);
 	if (nloc.timeout<MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
 	if (nloc.timeout>MRA_TIMEOUT_CONN_МАХ) nloc.timeout = MRA_TIMEOUT_CONN_МАХ;
 
@@ -170,7 +170,7 @@ DWORD CMraProto::MraGetNLBData(LPSTR lpszHost, size_t dwHostBuffSize, WORD *pwPo
 
 	if (nls.hReadConns[0]) {
 		nls.cbSize = sizeof(nls);
-		nls.dwTimeout = 1000 * getDword(NULL, "TimeOutReceiveNLB", MRA_DEFAULT_TIMEOUT_RECV_NLB);
+		nls.dwTimeout = 1000 * getDword("TimeOutReceiveNLB", MRA_DEFAULT_TIMEOUT_RECV_NLB);
 		InterlockedExchange((volatile LONG*)&dwThreadWorkerLastPingTime, GetTickCount());
 
 		while (m_iStatus != ID_STATUS_OFFLINE && bContinue) {
@@ -434,7 +434,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 					szSelfVersionString, __FILEVERSION_STRING, PROTO_VERSION_MAJOR, PROTO_VERSION_MINOR);
 			}
 
-			dwFutureFlags = ((getByte(NULL, "RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE)? FEATURE_FLAG_RTF_MESSAGE:0)|MRA_FEATURE_FLAGS);
+			dwFutureFlags = ((getByte("RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE)? FEATURE_FLAG_RTF_MESSAGE:0)|MRA_FEATURE_FLAGS);
 
 			if (mraGetStaticStringA(NULL, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize))
 				MraLogin2W(szEMail, dwEMailSize, (LPSTR)szBuff, dwStringSize, dwStatus, lpcszStatusUri[dwXStatus], lstrlenA(lpcszStatusUri[dwXStatus]), lpwszStatusTitle, dwStatusTitleSize, lpwszStatusDesc, dwStatusDescSize, dwFutureFlags, szUserAgentFormated, dwUserAgentFormattedSize, szSelfVersionString, dwSelfVersionSize);
@@ -552,7 +552,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 				if (lpszDelimiter) {
 					(*lpszDelimiter) = 0;
 					lpszDelimiter = (LPSTR)szBuff;
-					setDword(NULL, "IP", HTONL(inet_addr(lpszDelimiter)));
+					setDword("IP", HTONL(inet_addr(lpszDelimiter)));
 				}
 			}
 			else if ( !_strnicmp(lpsString.lpszData, "connect.xml", 11)) {
@@ -574,7 +574,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 			}
 			else if ( !_strnicmp(lpsString.lpszData, "micblog.status.time", 19)) {
 				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				setDword(NULL, DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
+				setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
 			}
 			else if ( !_strnicmp(lpsString.lpszData, "micblog.status.text", 19)) {
 				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
@@ -582,31 +582,31 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 			}
 			else if ( !_strnicmp(lpsString.lpszData, "HAS_MYMAIL", 10)) {
 				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				//setDword(NULL, DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
+				//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
 			}
 			else if ( !_strnicmp(lpsString.lpszData, "mrim.status.open_search", 23)) {
 				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				//setDword(NULL, DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
+				//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
 			}
 			else if ( !_strnicmp(lpsString.lpszData, "rb.target.cookie", 16)) {
 				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				//setDword(NULL, DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
+				//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
 			}
 			else if ( !_strnicmp(lpsString.lpszData, "show_web_history_link", 21)) {
 				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				//setDword(NULL, DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
+				//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
 			}
 			else if ( !_strnicmp(lpsString.lpszData, "friends_suggest", 15)) {
 				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				//setDword(NULL, DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
+				//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
 			}
 			else if ( !_strnicmp(lpsString.lpszData, "timestamp", 9)) {
 				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				//setDword(NULL, DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
+				//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
 			}
 			else if ( !_strnicmp(lpsString.lpszData, "trusted_update", 14)) {
 				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				//setDword(NULL, DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
+				//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
 			}
 			else {
 				#ifdef _DEBUG
@@ -791,7 +791,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 
 				if (dwTemp != ID_STATUS_OFFLINE) { // пишем клиента только если юзер не отключён, иначе не затираем старое
 					if (lpsUserAgentFormated.dwSize) {
-						if (getByte(NULL, "MirVerRaw", MRA_DEFAULT_MIRVER_RAW) == FALSE) {
+						if (getByte("MirVerRaw", MRA_DEFAULT_MIRVER_RAW) == FALSE) {
 							MraGetVersionStringFromFormatted(lpsUserAgentFormated.lpszData, lpsUserAgentFormated.dwSize, (LPSTR)szBuff, SIZEOF(szBuff), &dwStringSize);
 							lpsUserAgentFormated.lpszData = (LPSTR)szBuff;
 							lpsUserAgentFormated.dwSize = dwStringSize;
@@ -917,7 +917,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 											setByte(hContact, "Gender", 'F');
 											break;
 										default:// а фиг его знает
-											mraDelValue(hContact, "Gender");
+											delSetting(hContact, "Gender");
 											break;
 										}
 									}
@@ -935,10 +935,10 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 											setWord(hContact, "Age", (WORD)GetYears(&stTime));
 										}
 										else {
-											mraDelValue(hContact, "BirthYear");
-											mraDelValue(hContact, "BirthMonth");
-											mraDelValue(hContact, "BirthDay");
-											mraDelValue(hContact, "Age");
+											delSetting(hContact, "BirthYear");
+											delSetting(hContact, "BirthMonth");
+											delSetting(hContact, "BirthDay");
+											delSetting(hContact, "Age");
 										}
 									}
 									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "City_id", 7)) {
@@ -951,7 +951,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 												}
 											}
 										}
-										else mraDelValue(hContact, "City");
+										else delSetting(hContact, "City");
 									}
 									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "Location", 8))
 										mraSetLPSStringW(hContact, "About", &pmralpsValues[i]);
@@ -971,12 +971,12 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 												}
 											}
 										}
-										else mraDelValue(hContact, "Country");
+										else delSetting(hContact, "Country");
 									}
 									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "Phone", 5)) {
-										mraDelValue(hContact, "Phone");
-										mraDelValue(hContact, "Cellular");
-										mraDelValue(hContact, "Fax");
+										delSetting(hContact, "Phone");
+										delSetting(hContact, "Cellular");
+										delSetting(hContact, "Fax");
 
 										if (pmralpsValues[i].dwSize) {
 											lpsString.lpszData = pmralpsValues[i].lpszData;
@@ -1157,7 +1157,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 
 		dwAckType = dwEmailMessagesUnread;// save old value
 		dwEmailMessagesUnread = dwTemp;// store new value
-		if (getByte(NULL, "IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY) == 0 || dwAckType<dwTemp || dwTemp == 0)
+		if (getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY) == 0 || dwAckType<dwTemp || dwTemp == 0)
 			MraUpdateEmailStatus(NULL, 0, NULL, 0, 0, 0);
 		break;
 
@@ -1484,7 +1484,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 
 							if (dwTemp != ID_STATUS_OFFLINE) { // пишем клиента только если юзер не отключён, иначе не затираем старое
 								if (lpsUserAgentFormated.dwSize) {
-									if (getByte(NULL, "MirVerRaw", MRA_DEFAULT_MIRVER_RAW) == FALSE) {
+									if (getByte("MirVerRaw", MRA_DEFAULT_MIRVER_RAW) == FALSE) {
 										MraGetVersionStringFromFormatted(lpsUserAgentFormated.lpszData, lpsUserAgentFormated.dwSize, (LPSTR)szBuff, SIZEOF(szBuff), &dwStringSize);
 										lpsUserAgentFormated.lpszData = (LPSTR)szBuff;
 										lpsUserAgentFormated.dwSize = dwStringSize;
@@ -1498,7 +1498,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 							}
 
 							if (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED)
-							if (getByte(NULL, "AutoAuthRequestOnLogon", MRA_DEFAULT_AUTO_AUTH_REQ_ON_LOGON))
+							if (getByte("AutoAuthRequestOnLogon", MRA_DEFAULT_AUTO_AUTH_REQ_ON_LOGON))
 								CallProtoService(m_szModuleName, MRA_REQ_AUTH, (WPARAM)hContact, 0);
 						}
 					}
@@ -1532,7 +1532,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 						else {
 							if (db_get_b(hContact, "CList", "NotOnList", 0) == 0) { // set extra icons and upload contact
 								SetExtraIcons(hContact);
-								if (getByte(NULL, "AutoAddContactsToServer", MRA_DEFAULT_AUTO_ADD_CONTACTS_TO_SERVER)) { //add all contacts to server
+								if (getByte("AutoAddContactsToServer", MRA_DEFAULT_AUTO_ADD_CONTACTS_TO_SERVER)) { //add all contacts to server
 									GetContactBasicInfoW(hContact, NULL, &dwGroupID, NULL, NULL, NULL, NULL, 0, NULL, wszNick, SIZEOF(wszNick), &dwNickSize, szPhones, SIZEOF(szPhones), &dwPhonesSize);
 									MraAddContactW(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_UNICODE_NAME), dwGroupID, szEMail, dwEMailSize, wszNick, dwNickSize, szPhones, dwPhonesSize, wszAuthMessage, dwAuthMessageSize, 0);
 								}
@@ -1682,7 +1682,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 
 			dwAckType = dwEmailMessagesUnread;// save old value
 			dwEmailMessagesUnread = dwTemp;// store new value
-			if (getByte(NULL, "IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY) == 0 || dwAckType<dwTemp || dwTemp == 0)
+			if (getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY) == 0 || dwAckType<dwTemp || dwTemp == 0)
 				MraUpdateEmailStatus(lpsEMail.lpszData, lpsEMail.dwSize, lpsString.lpszData, lpsString.dwSize, dwDate, dwUIDL);
 		}
 		break;
@@ -1991,10 +1991,10 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 					else {
 						// temporary contact
 						if (db_get_b(hContact, "CList", "NotOnList", 0)) {
-							if (getByte(NULL, "AutoAuthGrandNewUsers", MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS))
+							if (getByte("AutoAuthGrandNewUsers", MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS))
 								bAutoGrantAuth = TRUE;
 						}
-						else if (getByte(NULL, "AutoAuthGrandUsersInCList", MRA_DEFAULT_AUTO_AUTH_GRAND_IN_CLIST))
+						else if (getByte("AutoAuthGrandUsersInCList", MRA_DEFAULT_AUTO_AUTH_GRAND_IN_CLIST))
 							bAutoGrantAuth = TRUE;
 					}
 
@@ -2056,7 +2056,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 					}
 					else { // standart message// flash animation
 						// пишем в ANSI, всё равно RTF
-						if ((dwFlags & MESSAGE_FLAG_RTF) && (dwFlags & MESSAGE_FLAG_FLASH) == 0 && lpszMessageExt && dwMessageExtSize && getByte(NULL, "RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE)) {
+						if ((dwFlags & MESSAGE_FLAG_RTF) && (dwFlags & MESSAGE_FLAG_FLASH) == 0 && lpszMessageExt && dwMessageExtSize && getByte("RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE)) {
 							pre.flags = 0;
 							pre.szMessage = lpszMessageExt;
 							ProtoChainRecvMsg(hContact, &pre);

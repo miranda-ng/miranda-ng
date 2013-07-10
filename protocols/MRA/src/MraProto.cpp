@@ -63,7 +63,7 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	hExtraInfo = ExtraIcon_Register("MRAStatus", LPGEN("Mail.ru extra info"), "mra_xstatus49");
 
 	bHideXStatusUI = FALSE;
-	m_iXStatus = getByte(NULL, DBSETTING_XSTATUSID, MRA_MIR_XSTATUS_NONE);
+	m_iXStatus = getByte(DBSETTING_XSTATUSID, MRA_MIR_XSTATUS_NONE);
 	if ( !IsXStatusValid(m_iXStatus))
 		m_iXStatus = MRA_MIR_XSTATUS_NONE;
 
@@ -417,7 +417,7 @@ int CMraProto::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* h
 					}
 				}
 
-				bSlowSend = getByte(NULL, "SlowSend", MRA_DEFAULT_SLOW_SEND);
+				bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);
 				iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_CONTACTS, MESSAGE_FLAG_CONTACT, szEMail, dwEMailSize, lpwszData, (lpwszDataCurrent-lpwszData), NULL, 0);
 				if (bSlowSend == FALSE)
 					ProtoBroadcastAck(hContact, ACKTYPE_CONTACTS, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
@@ -468,8 +468,8 @@ int CMraProto::SendMsg(HANDLE hContact, int flags, const char *lpszMessage)
 
 	size_t dwEMailSize;
 	if ( mraGetStaticStringA(hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize)) {
-		BOOL bSlowSend = getByte(NULL, "SlowSend", MRA_DEFAULT_SLOW_SEND);
-		if ( getByte(NULL, "RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE) && (MraContactCapabilitiesGet(hContact) & FEATURE_FLAG_RTF_MESSAGE))
+		BOOL bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);
+		if ( getByte("RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE) && (MraContactCapabilitiesGet(hContact) & FEATURE_FLAG_RTF_MESSAGE))
 			dwFlags |= MESSAGE_FLAG_RTF;
 
 		iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_MESSAGE, dwFlags, szEMail, dwEMailSize, lpwszMessage, lstrlen(lpwszMessage), NULL, 0);

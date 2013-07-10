@@ -509,7 +509,7 @@ void CMraProto::MraAvatarsSetContactTime(HANDLE hContact, LPSTR lpszValueName, S
 		InternetTimeGetString(&itTime, (LPSTR)szBuff, SIZEOF(szBuff), &dwBuffUsedSize);
 		mraSetStringExA(hContact, lpszValueName, (LPSTR)szBuff, dwBuffUsedSize);
 	}
-	else mraDelValue(hContact, lpszValueName);
+	else delSetting(hContact, lpszValueName);
 }
 
 DWORD MraAvatarsGetFileFormat(LPTSTR lpszPath, size_t dwPathSize)

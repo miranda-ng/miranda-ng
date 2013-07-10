@@ -270,7 +270,7 @@ INT_PTR CMraProto::MraRequestAuthorization(WPARAM wParam, LPARAM lParam)
 		if (dwMessageSize) {
 			HANDLE hContact = (HANDLE)wParam;
 			if ( mraGetStaticStringA(hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize)) {
-				BOOL bSlowSend = getByte(NULL, "SlowSend", MRA_DEFAULT_SLOW_SEND);
+				BOOL bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);
 				int iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_AUTHREQ, MESSAGE_FLAG_AUTHORIZE, szEMail, dwEMailSize, wszAuthMessage, dwMessageSize, NULL, 0);
 				if (bSlowSend == FALSE)
 					ProtoBroadcastAck(hContact, ACKTYPE_AUTHREQ, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
@@ -681,7 +681,7 @@ INT_PTR CMraProto::MraSetListeningTo(WPARAM wParam, LPARAM lParam)
 	if (pliInfo == NULL || pliInfo->cbSize != sizeof(LISTENINGTOINFO))
 	{
 		MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, NULL, 0, 0);
-		mraDelValue(NULL, DBSETTING_BLOGSTATUSMUSIC);
+		delSetting(DBSETTING_BLOGSTATUSMUSIC);
 	}
 	else if (pliInfo->dwFlags & LTI_UNICODE) {
 		LPWSTR pwszListeningTo;
@@ -713,7 +713,7 @@ int CMraProto::MraMusicChanged(WPARAM wParam, LPARAM lParam)
 	case WAT_EVENT_PLAYERSTATUS:
 		// stopped
 		if (1 == lParam) {
-			mraDelValue(NULL, DBSETTING_BLOGSTATUSMUSIC);
+			delSetting(DBSETTING_BLOGSTATUSMUSIC);
 			MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, NULL, 0, 0);
 		}
 		break;
@@ -760,16 +760,16 @@ DWORD CMraProto::MraSetXStatusInternal(DWORD dwXStatus)
 			if (dwBuffSize>STATUS_DESC_MAX) dwBuffSize = STATUS_DESC_MAX;
 			mraSetStringExW(NULL, DBSETTING_XSTATUSMSG, szBuff, dwBuffSize);
 		}
-		else mraDelValue(NULL, DBSETTING_XSTATUSMSG);
+		else delSetting(DBSETTING_XSTATUSMSG);
 	}
 	else {
-		mraDelValue(NULL, DBSETTING_XSTATUSNAME);
-		mraDelValue(NULL, DBSETTING_XSTATUSMSG);
+		delSetting(DBSETTING_XSTATUSNAME);
+		delSetting(DBSETTING_XSTATUSMSG);
 		dwXStatus = MRA_MIR_XSTATUS_NONE;
 	}
 
 	dwOldStatusMode = InterlockedExchange((volatile LONG*)&m_iXStatus, dwXStatus);
-	setByte(NULL, DBSETTING_XSTATUSID, (BYTE)dwXStatus);
+	setByte(DBSETTING_XSTATUSID, (BYTE)dwXStatus);
 
 	MraSendNewStatus(m_iStatus, dwXStatus, NULL, 0, NULL, 0);
 
@@ -968,7 +968,7 @@ DWORD CMraProto::MraSendNewStatus(DWORD dwStatusMir, DWORD dwXStatusMir, LPCWSTR
 		}
 	}
 
-	MraChangeStatusW(dwStatus, lpcszStatusUri[dwXStatus], lstrlenA(lpcszStatusUri[dwXStatus]), lpwszStatusTitle, dwStatusTitleSize, lpwszStatusDesc, dwStatusDescSize, ((getByte(NULL, "RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE)? FEATURE_FLAG_RTF_MESSAGE:0)|MRA_FEATURE_FLAGS));
+	MraChangeStatusW(dwStatus, lpcszStatusUri[dwXStatus], lstrlenA(lpcszStatusUri[dwXStatus]), lpwszStatusTitle, dwStatusTitleSize, lpwszStatusDesc, dwStatusDescSize, ((getByte("RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE)? FEATURE_FLAG_RTF_MESSAGE:0)|MRA_FEATURE_FLAGS));
 	return 0;
 }
 

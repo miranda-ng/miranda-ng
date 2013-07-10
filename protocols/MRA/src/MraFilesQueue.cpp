@@ -82,19 +82,19 @@ INT_PTR CALLBACK MraFilesQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam,
 		ppro = (CMraProto*)lParam;
 		{
 			WCHAR szBuff[MAX_PATH];
-			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_ENABLE_DIRECT_CONN, ppro->getByte(NULL, "FileSendEnableDirectConn", MRA_DEF_FS_ENABLE_DIRECT_CONN));
-			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONRECEIVE, ppro->getByte(NULL, "FileSendNoOutConnOnRcv", MRA_DEF_FS_NO_OUT_CONN_ON_RCV));
-			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONSEND, ppro->getByte(NULL, "FileSendNoOutConnOnSend", MRA_DEF_FS_NO_OUT_CONN_ON_SEND));
-			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_IGNORYADDITIONALPORTS, ppro->getByte(NULL, "FileSendIgnoryAdditionalPorts", MRA_DEF_FS_IGNORY_ADDITIONAL_PORTS));
-			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_HIDE_MY_ADDRESSES, ppro->getByte(NULL, "FileSendHideMyAddresses", MRA_DEF_FS_HIDE_MY_ADDRESSES));
-			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_ADD_EXTRA_ADDRESS, ppro->getByte(NULL, "FileSendAddExtraAddresses", MRA_DEF_FS_ADD_EXTRA_ADDRESSES));
+			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_ENABLE_DIRECT_CONN, ppro->getByte("FileSendEnableDirectConn", MRA_DEF_FS_ENABLE_DIRECT_CONN));
+			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONRECEIVE, ppro->getByte("FileSendNoOutConnOnRcv", MRA_DEF_FS_NO_OUT_CONN_ON_RCV));
+			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONSEND, ppro->getByte("FileSendNoOutConnOnSend", MRA_DEF_FS_NO_OUT_CONN_ON_SEND));
+			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_IGNORYADDITIONALPORTS, ppro->getByte("FileSendIgnoryAdditionalPorts", MRA_DEF_FS_IGNORY_ADDITIONAL_PORTS));
+			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_HIDE_MY_ADDRESSES, ppro->getByte("FileSendHideMyAddresses", MRA_DEF_FS_HIDE_MY_ADDRESSES));
+			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_ADD_EXTRA_ADDRESS, ppro->getByte("FileSendAddExtraAddresses", MRA_DEF_FS_ADD_EXTRA_ADDRESSES));
 
 			if (ppro->mraGetStaticStringW(NULL, "FileSendExtraAddresses", szBuff, SIZEOF(szBuff), NULL))
 				SET_DLG_ITEM_TEXT(hWndDlg, IDC_FILE_SEND_EXTRA_ADDRESS, szBuff);
 
-			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_ENABLE_MRIMPROXY_CONS, ppro->getByte(NULL, "FileSendEnableMRIMProxyCons", MRA_DEF_FS_ENABLE_MRIM_PROXY_CONS));
+			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_ENABLE_MRIMPROXY_CONS, ppro->getByte("FileSendEnableMRIMProxyCons", MRA_DEF_FS_ENABLE_MRIM_PROXY_CONS));
 
-			SetDlgItemInt(hWndDlg, IDC_FILE_SEND_BLOCK_SIZE, ppro->getDword(NULL, "FileSendBlockSize", MRA_DEFAULT_FILE_SEND_BLOCK_SIZE), FALSE);
+			SetDlgItemInt(hWndDlg, IDC_FILE_SEND_BLOCK_SIZE, ppro->getDword("FileSendBlockSize", MRA_DEFAULT_FILE_SEND_BLOCK_SIZE), FALSE);
 
 			MraFilesQueueDlgEnableDirectConsControls(hWndDlg, IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_ENABLE_DIRECT_CONN));
 		}
@@ -117,16 +117,16 @@ INT_PTR CALLBACK MraFilesQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam,
 			{
 				WCHAR szBuff[MAX_PATH];
 
-				ppro->setByte(NULL, "FileSendEnableDirectConn", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_ENABLE_DIRECT_CONN));
-				ppro->setByte(NULL, "FileSendNoOutConnOnRcv", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONRECEIVE));
-				ppro->setByte(NULL, "FileSendNoOutConnOnSend", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONSEND));
-				ppro->setByte(NULL, "FileSendIgnoryAdditionalPorts", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_IGNORYADDITIONALPORTS));
-				ppro->setByte(NULL, "FileSendHideMyAddresses", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_HIDE_MY_ADDRESSES));
-				ppro->setByte(NULL, "FileSendAddExtraAddresses", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_ADD_EXTRA_ADDRESS));
+				ppro->setByte("FileSendEnableDirectConn", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_ENABLE_DIRECT_CONN));
+				ppro->setByte("FileSendNoOutConnOnRcv", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONRECEIVE));
+				ppro->setByte("FileSendNoOutConnOnSend", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONSEND));
+				ppro->setByte("FileSendIgnoryAdditionalPorts", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_IGNORYADDITIONALPORTS));
+				ppro->setByte("FileSendHideMyAddresses", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_HIDE_MY_ADDRESSES));
+				ppro->setByte("FileSendAddExtraAddresses", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_ADD_EXTRA_ADDRESS));
 				GET_DLG_ITEM_TEXT(hWndDlg, IDC_FILE_SEND_EXTRA_ADDRESS, szBuff, SIZEOF(szBuff));
 				ppro->mraSetStringW(NULL, "FileSendExtraAddresses", szBuff);
-				ppro->setDword(NULL, "FileSendBlockSize", (DWORD)GetDlgItemInt(hWndDlg, IDC_FILE_SEND_BLOCK_SIZE, NULL, FALSE));
-				ppro->setByte(NULL, "FileSendEnableMRIMProxyCons", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_ENABLE_MRIMPROXY_CONS));
+				ppro->setDword("FileSendBlockSize", (DWORD)GetDlgItemInt(hWndDlg, IDC_FILE_SEND_BLOCK_SIZE, NULL, FALSE));
+				ppro->setByte("FileSendEnableMRIMProxyCons", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_ENABLE_MRIMPROXY_CONS));
 			}
 			return TRUE;
 		}
@@ -231,9 +231,9 @@ size_t CMraProto::MraFilesQueueGetLocalAddressesList(LPSTR lpszBuff, size_t dwBu
 	CHAR szHostName[MAX_PATH] = {0};
 	LPSTR lpszCurPos = lpszBuff;
 
-	if (getByte(NULL, "FileSendHideMyAddresses", MRA_DEF_FS_HIDE_MY_ADDRESSES))
+	if (getByte("FileSendHideMyAddresses", MRA_DEF_FS_HIDE_MY_ADDRESSES))
 	{// не выдаём врагу наш IP адрес!!! :)
-		if (getByte(NULL, "FileSendAddExtraAddresses", MRA_DEF_FS_ADD_EXTRA_ADDRESSES) == FALSE)
+		if (getByte("FileSendAddExtraAddresses", MRA_DEF_FS_ADD_EXTRA_ADDRESSES) == FALSE)
 		{// только если не добавляем адрес роутера
 			lpszCurPos += mir_snprintf(lpszCurPos, (dwBuffSize-((size_t)lpszCurPos-(size_t)lpszBuff)), MRA_FILES_NULL_ADDRR);
 		}
@@ -244,7 +244,7 @@ size_t CMraProto::MraFilesQueueGetLocalAddressesList(LPSTR lpszBuff, size_t dwBu
 		size_t dwAdapter = 0;
 		hostent *sh;
 
-		dwSelfExternalIP = NTOHL(getDword(NULL, "IP", 0));
+		dwSelfExternalIP = NTOHL(getDword("IP", 0));
 		if (dwSelfExternalIP) {
 			memmove(&btAddress, &dwSelfExternalIP, sizeof(DWORD));
 			lpszCurPos += mir_snprintf(lpszCurPos, (dwBuffSize-((size_t)lpszCurPos-(size_t)lpszBuff)), "%lu.%lu.%lu.%lu:%lu;", btAddress[0], btAddress[1], btAddress[2], btAddress[3], dwPort);
@@ -259,7 +259,7 @@ size_t CMraProto::MraFilesQueueGetLocalAddressesList(LPSTR lpszBuff, size_t dwBu
 		}
 	}
 
-	if (getByte(NULL, "FileSendAddExtraAddresses", MRA_DEF_FS_ADD_EXTRA_ADDRESSES))// добавляем произвольный адрес
+	if (getByte("FileSendAddExtraAddresses", MRA_DEF_FS_ADD_EXTRA_ADDRESSES))// добавляем произвольный адрес
 	if (mraGetStaticStringA(NULL, "FileSendExtraAddresses", szHostName, SIZEOF(szHostName), NULL))
 		lpszCurPos += mir_snprintf(lpszCurPos, (dwBuffSize-((size_t)lpszCurPos-(size_t)lpszBuff)), "%s:%lu;", szHostName, dwPort);
 
@@ -336,7 +336,7 @@ DWORD CMraProto::MraFilesQueueCancel(HANDLE hFilesQueueHandle, DWORD dwIDRequest
 
 DWORD CMraProto::MraFilesQueueStartMrimProxy(HANDLE hFilesQueueHandle, DWORD dwIDRequest)
 {
-	if (!hFilesQueueHandle || !getByte(NULL, "FileSendEnableMRIMProxyCons", MRA_DEF_FS_ENABLE_MRIM_PROXY_CONS))
+	if (!hFilesQueueHandle || !getByte("FileSendEnableMRIMProxyCons", MRA_DEF_FS_ENABLE_MRIM_PROXY_CONS))
 		return ERROR_INVALID_HANDLE;
 
 	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)hFilesQueueHandle;
@@ -445,17 +445,17 @@ HANDLE CMraProto::MraFilesQueueConnectOut(MRA_FILES_QUEUE_ITEM *dat)
 	if (!dat)
 		return NULL;
 
-	if (getByte(NULL, "FileSendEnableDirectConn", MRA_DEF_FS_ENABLE_DIRECT_CONN) && InterlockedExchangeAdd((volatile LONG*)&dat->bIsWorking, 0) && ((dat->bSending == FALSE && getByte(NULL, "FileSendNoOutConnOnRcv", MRA_DEF_FS_NO_OUT_CONN_ON_RCV) == FALSE) || (dat->bSending == TRUE && getByte(NULL, "FileSendNoOutConnOnSend", MRA_DEF_FS_NO_OUT_CONN_ON_SEND) == FALSE))) {
+	if (getByte("FileSendEnableDirectConn", MRA_DEF_FS_ENABLE_DIRECT_CONN) && InterlockedExchangeAdd((volatile LONG*)&dat->bIsWorking, 0) && ((dat->bSending == FALSE && getByte("FileSendNoOutConnOnRcv", MRA_DEF_FS_NO_OUT_CONN_ON_RCV) == FALSE) || (dat->bSending == TRUE && getByte("FileSendNoOutConnOnSend", MRA_DEF_FS_NO_OUT_CONN_ON_SEND) == FALSE))) {
 		BOOL bFiltering = FALSE, bIsHTTPSProxyUsed = IsHTTPSProxyUsed(hNetlibUser);
 		DWORD dwLocalPort = 0, dwConnectReTryCount, dwCurConnectReTryCount;
 		size_t dwAddrCount;
 		NETLIBOPENCONNECTION nloc = {0};
 
-		if (getByte(NULL, "FileSendIgnoryAdditionalPorts", MRA_DEF_FS_IGNORY_ADDITIONAL_PORTS) || bIsHTTPSProxyUsed)
+		if (getByte("FileSendIgnoryAdditionalPorts", MRA_DEF_FS_IGNORY_ADDITIONAL_PORTS) || bIsHTTPSProxyUsed)
 		{// фильтруем порты для одного IP, вместо 3 будем коннектится только к одному
 			if (bIsHTTPSProxyUsed)
 				dwLocalPort = MRA_SERVER_PORT_HTTPS;
-			else if ((dwLocalPort = getWord(NULL, "ServerPort", MRA_DEFAULT_SERVER_PORT)) == MRA_SERVER_PORT_STANDART_NLB)
+			else if ((dwLocalPort = getWord("ServerPort", MRA_DEFAULT_SERVER_PORT)) == MRA_SERVER_PORT_STANDART_NLB)
 				dwLocalPort = MRA_SERVER_PORT_STANDART;
 
 			dwAddrCount = 0;
@@ -472,10 +472,10 @@ HANDLE CMraProto::MraFilesQueueConnectOut(MRA_FILES_QUEUE_ITEM *dat)
 
 		if (dwAddrCount) {
 			dat->hConnection = NULL;
-			dwConnectReTryCount = getDword(NULL, "ConnectReTryCountFileSend", MRA_DEFAULT_CONN_RETRY_COUNT_FILES);
+			dwConnectReTryCount = getDword("ConnectReTryCountFileSend", MRA_DEFAULT_CONN_RETRY_COUNT_FILES);
 			nloc.cbSize = sizeof(nloc);
 			nloc.flags = NLOCF_V2;
-			nloc.timeout = getDword(NULL, "TimeOutConnectFileSend", ((MRA_TIMEOUT_DIRECT_CONN-1)/(dwAddrCount*dwConnectReTryCount)));// -1 сек чтобы был запас
+			nloc.timeout = getDword("TimeOutConnectFileSend", ((MRA_TIMEOUT_DIRECT_CONN-1)/(dwAddrCount*dwConnectReTryCount)));// -1 сек чтобы был запас
 			if (nloc.timeout<MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
 			if (nloc.timeout>MRA_TIMEOUT_CONN_МАХ) nloc.timeout = MRA_TIMEOUT_CONN_МАХ;
 
@@ -543,7 +543,7 @@ HANDLE CMraProto::MraFilesQueueConnectIn(MRA_FILES_QUEUE_ITEM *dat)
 		size_t dwAddrListSize;
 
 		// копируем адреса в соответствии с правилами и начинаем слушать порт
-		if (getByte(NULL, "FileSendEnableDirectConn", MRA_DEF_FS_ENABLE_DIRECT_CONN)) {
+		if (getByte("FileSendEnableDirectConn", MRA_DEF_FS_ENABLE_DIRECT_CONN)) {
 			NETLIBBIND nlbBind = {0};
 
 			nlbBind.cbSize = sizeof(nlbBind);
@@ -663,7 +663,7 @@ DWORD CMraProto::MraFilesQueueAddReceive(HANDLE hFilesQueueHandle, DWORD dwFlags
 	dat->dwIDRequest = dwIDRequest;
 	dat->dwFlags = dwFlags;
 	dat->hContact = hContact;
-	if (getByte(NULL, "FileSendEnableMRIMProxyCons", MRA_DEF_FS_ENABLE_MRIM_PROXY_CONS))
+	if (getByte("FileSendEnableMRIMProxyCons", MRA_DEF_FS_ENABLE_MRIM_PROXY_CONS))
 		dat->hMraMrimProxyData = MraMrimProxyCreate();
 
 	dwFileNameTotalSize = 0;
@@ -854,7 +854,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 							bOK = FALSE;
 							bContinue = TRUE;
 							dwUpdateTimeNext = GetTickCount();
-							nls.dwTimeout = (1000*getDword(NULL, "TimeOutReceiveFileData", MRA_DEF_FS_TIMEOUT_RECV));
+							nls.dwTimeout = (1000*getDword("TimeOutReceiveFileData", MRA_DEF_FS_TIMEOUT_RECV));
 							nls.hReadConns[0] = dat->hConnection;
 							ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
 
@@ -973,7 +973,7 @@ DWORD CMraProto::MraFilesQueueAddSend(HANDLE hFilesQueueHandle, DWORD dwFlags, H
 	dat->dwIDRequest = InterlockedIncrement((LONG volatile*)&dwCMDNum);// уникальный, рандомный идентификатор
 	dat->dwFlags = dwFlags;
 	dat->hContact = hContact;
-	if (getByte(NULL, "FileSendEnableMRIMProxyCons", MRA_DEF_FS_ENABLE_MRIM_PROXY_CONS)) dat->hMraMrimProxyData = MraMrimProxyCreate();
+	if (getByte("FileSendEnableMRIMProxyCons", MRA_DEF_FS_ENABLE_MRIM_PROXY_CONS)) dat->hMraMrimProxyData = MraMrimProxyCreate();
 	dat->dwFilesCount = dwFilesCount;
 	dat->pmfqfFiles = (MRA_FILES_QUEUE_FILE*)mir_calloc((sizeof(MRA_FILES_QUEUE_FILE)*(dat->dwFilesCount+1)));
 	dat->dwFilesTotalSize = 0;
@@ -1034,7 +1034,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 	pfts.totalBytes = dat->dwFilesTotalSize;
 	pfts.wszWorkingDir = dat->lpwszPath;
 
-	dwSendBlockSize = getDword(NULL, "FileSendBlockSize", MRA_DEFAULT_FILE_SEND_BLOCK_SIZE);
+	dwSendBlockSize = getDword("FileSendBlockSize", MRA_DEFAULT_FILE_SEND_BLOCK_SIZE);
 	if (dwSendBlockSize>SIZEOF(btBuff)) dwSendBlockSize = SIZEOF(btBuff);
 	if (dwSendBlockSize<512) dwSendBlockSize = MRA_DEFAULT_FILE_SEND_BLOCK_SIZE;
 

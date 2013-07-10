@@ -635,18 +635,18 @@ DWORD CMraProto::MraSetContactStatus(HANDLE hContact, DWORD dwNewStatus)
 			if (hContact)
 			{
 				setByte(hContact, DBSETTING_XSTATUSID, MRA_MIR_XSTATUS_NONE);
-				mraDelValue(hContact, DBSETTING_XSTATUSNAME);
-				mraDelValue(hContact, DBSETTING_XSTATUSMSG);
-				mraDelValue(hContact, DBSETTING_BLOGSTATUSTIME);
-				mraDelValue(hContact, DBSETTING_BLOGSTATUSID);
-				mraDelValue(hContact, DBSETTING_BLOGSTATUS);
-				mraDelValue(hContact, DBSETTING_BLOGSTATUSMUSIC);
+				delSetting(hContact, DBSETTING_XSTATUSNAME);
+				delSetting(hContact, DBSETTING_XSTATUSMSG);
+				delSetting(hContact, DBSETTING_BLOGSTATUSTIME);
+				delSetting(hContact, DBSETTING_BLOGSTATUSID);
+				delSetting(hContact, DBSETTING_BLOGSTATUS);
+				delSetting(hContact, DBSETTING_BLOGSTATUSMUSIC);
 				MraContactCapabilitiesSet(hContact, 0);
 				if (bChatAgent) MraChatSessionDestroy(hContact);
 			}
 			setDword(hContact, "LogonTS", 0);
-			mraDelValue(hContact, "IP");
-			mraDelValue(hContact, "RealIP");
+			delSetting(hContact, "IP");
+			delSetting(hContact, "RealIP");
 		}else {
 			if (dwOldStatus == ID_STATUS_OFFLINE)
 			{
@@ -670,7 +670,7 @@ void CMraProto::MraUpdateEmailStatus(LPSTR lpszFrom, size_t dwFromSize, LPSTR lp
 	BOOL bTrayIconNewMailNotify;
 	WCHAR szStatusText[MAX_SECONDLINE];
 
-	bTrayIconNewMailNotify = getByte(NULL, "TrayIconNewMailNotify", MRA_DEFAULT_TRAYICON_NEW_MAIL_NOTIFY);
+	bTrayIconNewMailNotify = getByte("TrayIconNewMailNotify", MRA_DEFAULT_TRAYICON_NEW_MAIL_NOTIFY);
 
 	if (dwEmailMessagesUnread)
 	{
@@ -714,7 +714,7 @@ void CMraProto::MraUpdateEmailStatus(LPSTR lpszFrom, size_t dwFromSize, LPSTR lp
 			cle.pszService = "";
 			cle.ptszTooltip = szStatusText;
 
-			if (getByte(NULL, "TrayIconNewMailClkToInbox", MRA_DEFAULT_TRAYICON_NEW_MAIL_CLK_TO_INBOX))
+			if (getByte("TrayIconNewMailClkToInbox", MRA_DEFAULT_TRAYICON_NEW_MAIL_CLK_TO_INBOX))
 			{
 				strncpy(szServiceFunction, m_szModuleName, MAX_PATH);
 				pszServiceFunctionName = szServiceFunction+strlen(m_szModuleName);
@@ -733,7 +733,7 @@ void CMraProto::MraUpdateEmailStatus(LPSTR lpszFrom, size_t dwFromSize, LPSTR lp
 			MraPopupShowFromAgentW(MRA_POPUP_TYPE_EMAIL_STATUS, (MRA_POPUP_ALLOW_ENTER), szStatusText);
 		}
 	}else {
-		if (getByte(NULL, "IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY))
+		if (getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY))
 		{
 			if (bTrayIconNewMailNotify) CallService(MS_CLIST_REMOVEEVENT, 0, (LPARAM)m_szModuleName);
 			PUDeletePopup(hWndEMailPopupStatus);
@@ -1552,7 +1552,7 @@ BOOL CMraProto::SetPassDB(LPSTR lpszBuff, size_t dwBuffSize)
 		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, SHA1HashSize);
 
 
-		setDword(NULL, "pCryptVer", MRA_PASS_CRYPT_VER);
+		setDword("pCryptVer", MRA_PASS_CRYPT_VER);
 		mraWriteContactSettingBlob(NULL, "pCryptData", btRandomData, sizeof(btRandomData));
 		mraWriteContactSettingBlob(NULL, "pCryptPass", btCryptedPass, sizeof(btCryptedPass));
 
@@ -1569,7 +1569,7 @@ BOOL CMraProto::GetPassDB_v1(LPSTR lpszBuff, size_t dwBuffSize, size_t *pdwBuffS
 	char szEMail[MAX_EMAIL_LEN] = {0};
 	size_t dwRandomDataSize, dwCryptedPass, dwEMailSize, dwPassSize;
 
-	if (getDword(NULL, "pCryptVer", 0) == 1)
+	if (getDword("pCryptVer", 0) == 1)
 	if (mraGetContactSettingBlob(NULL, "pCryptData", btRandomData, sizeof(btRandomData), &dwRandomDataSize))
 	if (dwRandomDataSize == sizeof(btRandomData))
 	if (mraGetContactSettingBlob(NULL, "pCryptPass", btCryptedPass, sizeof(btCryptedPass), &dwCryptedPass))
@@ -1606,7 +1606,7 @@ BOOL CMraProto::GetPassDB_v2(LPSTR lpszBuff, size_t dwBuffSize, size_t *pdwBuffS
 	char szEMail[MAX_EMAIL_LEN] = {0};
 	size_t dwRandomDataSize, dwCryptedPass, dwEMailSize, dwPassSize;
 
-	if (getDword(NULL, "pCryptVer", 0) == 2)
+	if (getDword("pCryptVer", 0) == 2)
 	if (mraGetContactSettingBlob(NULL, "pCryptData", btRandomData, sizeof(btRandomData), &dwRandomDataSize))
 	if (dwRandomDataSize == sizeof(btRandomData))
 	if (mraGetContactSettingBlob(NULL, "pCryptPass", btCryptedPass, sizeof(btCryptedPass), &dwCryptedPass))
@@ -1641,7 +1641,7 @@ BOOL CMraProto::GetPassDB(LPSTR lpszBuff, size_t dwBuffSize, size_t *pdwBuffSize
 		mraGetStaticStringA(NULL, "Pass", lpszBuff, dwBuffSize, pdwBuffSize);
 		return TRUE;
 	#else
-		switch (getDword(NULL, "pCryptVer", 0)) {
+		switch (getDword("pCryptVer", 0)) {
 		case 1:
 			return GetPassDB_v1(lpszBuff, dwBuffSize, pdwBuffSize);
 		case 2:

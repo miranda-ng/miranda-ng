@@ -44,24 +44,24 @@ INT_PTR CALLBACK MraPopupDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPAR
 				char szBuff[MAX_PATH];
 				DWORD dwType = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_COMBO_POPUP_TYPE);
 
-				bEnabled = GetBit(ppro->getDword(NULL, "PopupsEventFilter", MRA_DEFAULT_POPUPS_EVENT_FILTER), dwType);
+				bEnabled = GetBit(ppro->getDword("PopupsEventFilter", MRA_DEFAULT_POPUPS_EVENT_FILTER), dwType);
 				CHECK_DLG_BUTTON(hWndDlg, IDC_CHK_ENABLE, bEnabled);
 
 				mir_snprintf(szBuff, SIZEOF(szBuff), "PopupType%SUseWinColors", lpcwszPopupsTypes[dwType]);
-				bUseWinColors = ppro->getByte(NULL, szBuff, MRA_DEFAULT_POPUP_USE_WIN_COLORS);
+				bUseWinColors = ppro->getByte(szBuff, MRA_DEFAULT_POPUP_USE_WIN_COLORS);
 				CHECK_DLG_BUTTON(hWndDlg, IDC_CHK_USE_WIN_COLORS, bUseWinColors);
 				EnableWindow(GetDlgItem(hWndDlg, IDC_CHK_USE_WIN_COLORS), bEnabled);
 
 				mir_snprintf(szBuff, SIZEOF(szBuff), "PopupType%SColorBack", lpcwszPopupsTypes[dwType]);
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_POPUP_BACKCOLOR, CPM_SETCOLOUR, 0, ppro->getDword(NULL, szBuff, MRA_DEFAULT_POPUP_COLOR_BACK));
+				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_POPUP_BACKCOLOR, CPM_SETCOLOUR, 0, ppro->getDword(szBuff, MRA_DEFAULT_POPUP_COLOR_BACK));
 				EnableWindow(GetDlgItem(hWndDlg, IDC_POPUP_BACKCOLOR), (bEnabled && bUseWinColors == FALSE));
 
 				mir_snprintf(szBuff, SIZEOF(szBuff), "PopupType%SColorText", lpcwszPopupsTypes[dwType]);
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_POPUP_TEXTCOLOR, CPM_SETCOLOUR, 0, ppro->getDword(NULL, szBuff, MRA_DEFAULT_POPUP_COLOR_TEXT));
+				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_POPUP_TEXTCOLOR, CPM_SETCOLOUR, 0, ppro->getDword(szBuff, MRA_DEFAULT_POPUP_COLOR_TEXT));
 				EnableWindow(GetDlgItem(hWndDlg, IDC_POPUP_TEXTCOLOR), (bEnabled && bUseWinColors == FALSE));
 
 				mir_snprintf(szBuff, SIZEOF(szBuff), "PopupType%STimeout", lpcwszPopupsTypes[dwType]);
-				SetDlgItemInt(hWndDlg, IDC_POPUP_TIMEOUT, ppro->getDword(NULL, szBuff, MRA_DEFAULT_POPUP_TIMEOUT), FALSE);
+				SetDlgItemInt(hWndDlg, IDC_POPUP_TIMEOUT, ppro->getDword(szBuff, MRA_DEFAULT_POPUP_TIMEOUT), FALSE);
 				EnableWindow(GetDlgItem(hWndDlg, IDC_POPUP_TIMEOUT), bEnabled);
 			}
 			break;
@@ -98,25 +98,25 @@ INT_PTR CALLBACK MraPopupDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPAR
 			{
 				char szBuff[MAX_PATH];
 				DWORD dwType = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_COMBO_POPUP_TYPE);
-				DWORD dwPopupsEventFilter = ppro->getDword(NULL, "PopupsEventFilter", MRA_DEFAULT_POPUPS_EVENT_FILTER);
+				DWORD dwPopupsEventFilter = ppro->getDword("PopupsEventFilter", MRA_DEFAULT_POPUPS_EVENT_FILTER);
 				if (IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_CHK_ENABLE))
 					dwPopupsEventFilter |= (1<<dwType);
 				else
 					dwPopupsEventFilter &= ~(1<<dwType);
 
-				ppro->setDword(NULL, "PopupsEventFilter", dwPopupsEventFilter);
+				ppro->setDword("PopupsEventFilter", dwPopupsEventFilter);
 
 				mir_snprintf(szBuff, SIZEOF(szBuff), "PopupType%SUseWinColors", lpcwszPopupsTypes[dwType]);
-				ppro->setByte(NULL, szBuff, IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_CHK_USE_WIN_COLORS));
+				ppro->setByte(szBuff, IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_CHK_USE_WIN_COLORS));
 
 				mir_snprintf(szBuff, SIZEOF(szBuff), "PopupType%SColorBack", lpcwszPopupsTypes[dwType]);
-				ppro->setDword(NULL, szBuff, SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_POPUP_BACKCOLOR, CPM_GETCOLOUR, 0, 0));
+				ppro->setDword(szBuff, SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_POPUP_BACKCOLOR, CPM_GETCOLOUR, 0, 0));
 
 				mir_snprintf(szBuff, SIZEOF(szBuff), "PopupType%SColorText", lpcwszPopupsTypes[dwType]);
-				ppro->setDword(NULL, szBuff, SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_POPUP_TEXTCOLOR, CPM_GETCOLOUR, 0, 0));
+				ppro->setDword(szBuff, SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_POPUP_TEXTCOLOR, CPM_GETCOLOUR, 0, 0));
 
 				mir_snprintf(szBuff, SIZEOF(szBuff), "PopupType%STimeout", lpcwszPopupsTypes[dwType]);
-				ppro->setDword(NULL, szBuff, GetDlgItemInt(hWndDlg, IDC_POPUP_TIMEOUT, NULL, FALSE));
+				ppro->setDword(szBuff, GetDlgItemInt(hWndDlg, IDC_POPUP_TIMEOUT, NULL, FALSE));
 			}
 			return TRUE;
 		}
@@ -229,8 +229,8 @@ void CMraProto::MraPopupShowFromContactW(HANDLE hContact, DWORD dwType, DWORD dw
 
 void CMraProto::MraPopupShowW(HANDLE hContact, DWORD dwType, DWORD dwFlags, LPWSTR lpszTitle, LPWSTR lpszMessage)
 {
-	if (getByte(NULL, "PopupsEnabled", MRA_DEFAULT_POPUPS_ENABLED))
-	if (GetBit(getDword(NULL, "PopupsEventFilter", MRA_DEFAULT_POPUPS_EVENT_FILTER), dwType))
+	if (getByte("PopupsEnabled", MRA_DEFAULT_POPUPS_ENABLED))
+	if (GetBit(getDword("PopupsEventFilter", MRA_DEFAULT_POPUPS_EVENT_FILTER), dwType))
 	if ( ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		BOOL bUseWinColors;
 		char szBuff[MAX_PATH];
@@ -281,21 +281,21 @@ void CMraProto::MraPopupShowW(HANDLE hContact, DWORD dwType, DWORD dwFlags, LPWS
 		ppd->PluginData = dat;
 
 		mir_snprintf(szBuff, SIZEOF(szBuff), "PopupType%SUseWinColors", lpcwszPopupsTypes[dwType]);
-		bUseWinColors = getByte(NULL, szBuff, MRA_DEFAULT_POPUP_USE_WIN_COLORS);
+		bUseWinColors = getByte(szBuff, MRA_DEFAULT_POPUP_USE_WIN_COLORS);
 		if (bUseWinColors) {
 			ppd->colorBack = GetSysColor(COLOR_BTNFACE);
 			ppd->colorText = GetSysColor(COLOR_WINDOWTEXT);
 		}
 		else {
 			mir_snprintf(szBuff, SIZEOF(szBuff), "PopupType%SColorBack", lpcwszPopupsTypes[dwType]);
-			ppd->colorBack = getDword(NULL, szBuff, MRA_DEFAULT_POPUP_COLOR_BACK);
+			ppd->colorBack = getDword(szBuff, MRA_DEFAULT_POPUP_COLOR_BACK);
 
 			mir_snprintf(szBuff, SIZEOF(szBuff), "PopupType%SColorText", lpcwszPopupsTypes[dwType]);
-			ppd->colorText = getDword(NULL, szBuff, MRA_DEFAULT_POPUP_COLOR_TEXT);
+			ppd->colorText = getDword(szBuff, MRA_DEFAULT_POPUP_COLOR_TEXT);
 		}
 
 		mir_snprintf(szBuff, SIZEOF(szBuff), "PopupType%STimeout", lpcwszPopupsTypes[dwType]);
-		ppd->iSeconds = getDword(NULL, szBuff, MRA_DEFAULT_POPUP_TIMEOUT);
+		ppd->iSeconds = getDword(szBuff, MRA_DEFAULT_POPUP_TIMEOUT);
 
 		MraPopupThreadMarandaCallback((ULONG_PTR)ppd);
 	}

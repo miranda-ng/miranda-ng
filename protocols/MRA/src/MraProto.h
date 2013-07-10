@@ -87,9 +87,6 @@ struct CMraProto : public PROTO<CMraProto>
 	__forceinline void MraPopupShowFromAgentW(DWORD dwType, DWORD dwFlags, LPWSTR lpszMessage) {
 		MraPopupShowFromContactW(NULL, dwType, dwFlags, lpszMessage); }
 
-	__forceinline void mraDelValue(HANDLE Contact, const char *valueName) {
-		db_unset(Contact, m_szModuleName, valueName); }
-
 	__forceinline BOOL mraGetStaticStringA(HANDLE Contact, const char *ValueName, char *Ret, size_t RetBuffSize, size_t *pRetBuffSize) {
 		return DB_GetStaticStringA(Contact, m_szModuleName, ValueName, Ret, RetBuffSize, pRetBuffSize); }
 	__forceinline BOOL mraGetStaticStringW(HANDLE Contact, const char *ValueName, WCHAR *Ret, size_t RetBuffSize, size_t *pRetBuffSize) {

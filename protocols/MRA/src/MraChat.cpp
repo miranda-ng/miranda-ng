@@ -233,10 +233,10 @@ int CMraProto::MraChatGcEventHook(WPARAM, LPARAM lParam)
 					size_t dwMessageSize = lstrlenW(gch->ptszText);
 					size_t dwEMailSize = (WideCharToMultiByte(MRA_CODE_PAGE, 0, gch->pDest->ptszID, -1, szEMail, SIZEOF(szEMail), NULL, NULL)-1);
 					HANDLE hContact = MraHContactFromEmail(szEMail, dwEMailSize, FALSE, TRUE, NULL);
-					BOOL bSlowSend = getByte(NULL, "SlowSend", MRA_DEFAULT_SLOW_SEND);
+					BOOL bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);
 
 					DWORD dwFlags = 0;
-					if (getByte(NULL, "RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE) && (MraContactCapabilitiesGet(hContact)&FEATURE_FLAG_RTF_MESSAGE))
+					if (getByte("RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE) && (MraContactCapabilitiesGet(hContact)&FEATURE_FLAG_RTF_MESSAGE))
 						dwFlags |= MESSAGE_FLAG_RTF;
 
 					INT_PTR iSendRet = MraMessageW(bSlowSend, hContact, ACKTYPE_MESSAGE, dwFlags, szEMail, dwEMailSize, gch->ptszText, dwMessageSize, NULL, 0);
