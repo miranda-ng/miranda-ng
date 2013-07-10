@@ -346,7 +346,7 @@ static void sttStoreJidFromUI(CJabberProto *ppro, CCtrlEdit &txtUsername, CCtrlC
 	int len = lstrlen(user) + lstrlen(server) + 2;
 	TCHAR *jid = (TCHAR *)mir_alloc(len * sizeof(TCHAR));
 	mir_sntprintf(jid, len, _T("%s@%s"), user, server);
-	ppro->setTString(NULL, "jid", jid);
+	ppro->setTString("jid", jid);
 	mir_free(jid);
 	mir_free(server);
 	mir_free(user);
@@ -451,8 +451,7 @@ protected:
 		SendDlgItemMessage(m_hwnd, IDC_PRIORITY_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(127, -128));
 
 		TCHAR *passw = m_proto->JGetStringCrypt(NULL, "LoginPassword");
-		if (passw)
-		{
+		if (passw) {
 			m_txtPassword.SetText(passw);
 			mir_free(passw);
 		}
@@ -470,8 +469,7 @@ protected:
 		if (GetComputerName(szCompName, &dwCompNameLength))
 			m_cbResource.AddString(szCompName);
 
-		if ( !db_get_ts(NULL, m_proto->m_szModuleName, "Resource", &dbv))
-		{
+		if ( !m_proto->getTString("Resource", &dbv)) {
 			if (CB_ERR == m_cbResource.FindString(dbv.ptszVal, -1, true))
 				m_cbResource.AddString(dbv.ptszVal);
 
@@ -519,14 +517,14 @@ protected:
 			m_proto->JSetStringCrypt(NULL, "LoginPassword", text);
 			mir_free(text);
 		}
-		else m_proto->JDeleteSetting(NULL, "LoginPassword");
+		else m_proto->delSetting("LoginPassword");
 
 		int index = m_cbLocale.GetCurSel();
 		if (index >= 0)
 		{
 			TCHAR *szLanguageCode = (TCHAR *)m_cbLocale.GetItemData(index);
 			if (szLanguageCode) {
-				m_proto->setTString(NULL, "XmlLang", szLanguageCode);
+				m_proto->setTString("XmlLang", szLanguageCode);
 
 				mir_free(m_proto->m_tszSelectedLang);
 				m_proto->m_tszSelectedLang = mir_tstrdup(szLanguageCode);
@@ -1693,17 +1691,14 @@ protected:
 		if (GetComputerName(szCompName, &dwCompNameLength))
 			m_cbResource.AddString(szCompName);
 
-		if ( !db_get_ts(NULL, m_proto->m_szModuleName, "Resource", &dbv))
-		{
+		if ( !m_proto->getTString("Resource", &dbv)) {
 			if (CB_ERR == m_cbResource.FindString(dbv.ptszVal, -1, true))
 				m_cbResource.AddString(dbv.ptszVal);
 
 			m_cbResource.SetText(dbv.ptszVal);
 			db_free(&dbv);
-		} else
-		{
-			m_cbResource.SetText(_T("Miranda"));
 		}
+		else m_cbResource.SetText(_T("Miranda"));
 
 		m_cbType.AddString(TranslateT("Public XMPP Network"), ACC_PUBLIC);
 		m_cbType.AddString(TranslateT("Secure XMPP Network"), ACC_TLS);
@@ -1716,40 +1711,33 @@ protected:
 		m_cbType.AddString(TranslateT("S.ms"), ACC_SMS);
 
 		m_cbServer.GetTextA(server, SIZEOF(server));
-		if ( !db_get_s(NULL, m_proto->m_szModuleName, "ManualHost", &dbv))
-		{
+		if ( !db_get_s(NULL, m_proto->m_szModuleName, "ManualHost", &dbv)) {
 			lstrcpynA(manualServer, dbv.pszVal, SIZEOF(manualServer));
 			db_free(&dbv);
 		}
 
 		m_canregister = true;
-		if ( !lstrcmpA(manualServer, "talk.google.com"))
-		{
+		if ( !lstrcmpA(manualServer, "talk.google.com")) {
 			m_cbType.SetCurSel(ACC_GTALK);
 			m_canregister = false;
 		}
-		else if ( !lstrcmpA(server, "livejournal.com"))
-		{
+		else if ( !lstrcmpA(server, "livejournal.com")) {
 			m_cbType.SetCurSel(ACC_LJTALK);
 			m_canregister = false;
 		}
-		else if ( !lstrcmpA(server, "chat.facebook.com"))
-		{
+		else if ( !lstrcmpA(server, "chat.facebook.com")) {
 			m_cbType.SetCurSel(ACC_FBOOK);
 			m_canregister = false;
 		}
-		else if ( !lstrcmpA(server, "vk.com"))
-		{
+		else if ( !lstrcmpA(server, "vk.com")) {
 			m_cbType.SetCurSel(ACC_VK);
 			m_canregister = false;
 		}
-		else if ( !lstrcmpA(manualServer, "xmpp.odnoklassniki.ru"))
-		{
+		else if ( !lstrcmpA(manualServer, "xmpp.odnoklassniki.ru")) {
 			m_cbType.SetCurSel(ACC_OK);
 			m_canregister = false;
 		}
-		else if ( !lstrcmpA(server, "S.ms"))
-		{
+		else if ( !lstrcmpA(server, "S.ms")) {
 			m_cbType.SetCurSel(ACC_SMS);
 			m_canregister = false;
 		}
@@ -1759,40 +1747,34 @@ protected:
 			m_cbType.SetCurSel(ACC_TLS);
 			m_txtPort.SetInt(5222);
 		}
-		else
-			m_cbType.SetCurSel(ACC_PUBLIC);
-		//cbType_OnChange(&m_cbType);
+		else m_cbType.SetCurSel(ACC_PUBLIC);
 
-		if (m_chkManualHost.Enabled())
-		{
-			if (m_proto->m_options.ManualConnect)
-			{
+		if (m_chkManualHost.Enabled()) {
+			if (m_proto->m_options.ManualConnect) {
 				m_chkManualHost.SetState(BST_CHECKED);
 				m_txtManualHost.Enable();
 				m_txtPort.Enable();
 
-				if ( !db_get_ts(NULL, m_proto->m_szModuleName, "ManualHost", &dbv))
-				{
+				if ( !m_proto->getTString("ManualHost", &dbv)) {
 					m_txtManualHost.SetText(dbv.ptszVal);
 					db_free(&dbv);
 				}
 
 				m_txtPort.SetInt(m_proto->getWord("ManualPort", m_txtPort.GetInt()));
-			} else
-			{
+			}
+			else {
 				int defPort = m_txtPort.GetInt();
 				int port = m_proto->getWord("Port", defPort);
 
-				if (port != defPort)
-				{
+				if (port != defPort) {
 					m_chkManualHost.SetState(BST_CHECKED);
 					m_txtManualHost.Enable();
 					m_txtPort.Enable();
 
 					m_txtManualHost.SetTextA(server);
 					m_txtPort.SetInt(port);
-				} else
-				{
+				}
+				else {
 					m_chkManualHost.SetState(BST_UNCHECKED);
 					m_txtManualHost.Disable();
 					m_txtPort.Disable();
@@ -1814,26 +1796,21 @@ protected:
 		BOOL bUseHostnameAsResource = FALSE;
 		TCHAR szCompName[MAX_COMPUTERNAME_LENGTH + 1], szResource[MAX_COMPUTERNAME_LENGTH + 1];
 		DWORD dwCompNameLength = MAX_COMPUTERNAME_LENGTH;
-		if (GetComputerName(szCompName, &dwCompNameLength))
-		{
+		if (GetComputerName(szCompName, &dwCompNameLength)) {
 			m_cbResource.GetText(szResource, SIZEOF(szResource));
 			if ( !lstrcmp(szCompName, szResource))
 				bUseHostnameAsResource = TRUE;
 		}
 		m_proto->m_options.HostNameAsResource = bUseHostnameAsResource;
 
-		if (m_chkSavePassword.GetState() == BST_CHECKED)
-		{
+		if (m_chkSavePassword.GetState() == BST_CHECKED) {
 			TCHAR *text = m_txtPassword.GetText();
 			m_proto->JSetStringCrypt(NULL, "LoginPassword", text);
 			mir_free(text);
-		} else
-		{
-			m_proto->JDeleteSetting(NULL, "LoginPassword");
 		}
+		else m_proto->delSetting("LoginPassword");
 
-		switch (m_cbType.GetItemData(m_cbType.GetCurSel()))
-		{
+		switch (m_cbType.GetItemData(m_cbType.GetCurSel())) {
 		case ACC_FBOOK:
 		case ACC_OK:
 			m_proto->m_options.IgnoreRosterGroups = TRUE;
@@ -1847,13 +1824,11 @@ protected:
 			m_proto->setWord("Priority", 24);
 			{
 				int port = m_txtPort.GetInt();
-				if (port == 443 || port == 5223)
-				{
+				if (port == 443 || port == 5223) {
 					m_proto->m_options.UseSSL = TRUE;
 					m_proto->m_options.UseTLS = FALSE;
 				}
-				else if (port == 5222)
-				{
+				else if (port == 5222) {
 					m_proto->m_options.UseSSL = FALSE;
 					m_proto->m_options.UseTLS = TRUE;
 				}
@@ -1879,24 +1854,22 @@ protected:
 		m_cbServer.GetTextA(server, SIZEOF(server));
 		m_txtManualHost.GetTextA(manualServer, SIZEOF(manualServer));
 
-		if ((m_chkManualHost.GetState() == BST_CHECKED) && lstrcmpA(server, manualServer))
-		{
+		if ((m_chkManualHost.GetState() == BST_CHECKED) && lstrcmpA(server, manualServer)) {
 			m_proto->m_options.ManualConnect = TRUE;
 			m_proto->setString("ManualHost", manualServer);
 			m_proto->setWord("ManualPort", m_txtPort.GetInt());
 			m_proto->setWord("Port", m_txtPort.GetInt());
-		} else
-		{
+		}
+		else {
 			m_proto->m_options.ManualConnect = FALSE;
-			m_proto->JDeleteSetting(NULL, "ManualHost");
-			m_proto->JDeleteSetting(NULL, "ManualPort");
+			m_proto->delSetting("ManualHost");
+			m_proto->delSetting("ManualPort");
 			m_proto->setWord("Port", m_txtPort.GetInt());
 		}
 
 		sttStoreJidFromUI(m_proto, m_txtUsername, m_cbServer);
 
-		if (m_proto->m_bJabberOnline)
-		{
+		if (m_proto->m_bJabberOnline) {
 			if (m_cbType.IsChanged() || m_txtPassword.IsChanged() || m_cbResource.IsChanged() ||
 				m_cbServer.IsChanged() || m_txtPort.IsChanged() || m_txtManualHost.IsChanged())
 			{
@@ -1936,8 +1909,7 @@ private:
 			return;
 
 		m_txtPassword.GetText(pass, SIZEOF(pass));
-		if (lstrcmp(buf, pass))
-		{
+		if (lstrcmp(buf, pass)) {
 			MessageBox(m_hwnd, TranslateT("Passwords do not match."), _T("Miranda NG"), MB_ICONSTOP|MB_OK);
 			return;
 		}

@@ -293,8 +293,8 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 		GetAvatarFileName(NULL, tFileName, MAX_PATH);
 		DeleteFile(tFileName);
 
-		JDeleteSetting(NULL, "AvatarSaved");
-		JDeleteSetting(NULL, "AvatarHash");
+		delSetting("AvatarSaved");
+		delSetting("AvatarHash");
 	}
 	else {
 		int fileIn = _topen(tszFileName, O_RDWR | O_BINARY, S_IREAD | S_IWRITE);
@@ -351,7 +351,7 @@ INT_PTR __cdecl CJabberProto::JabberSetNickname(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR *nickname = (wParam & SMNN_UNICODE) ? mir_u2t((WCHAR *) lParam) : mir_a2t((char *) lParam);
 
-	setTString(NULL, "Nick", nickname);
+	setTString("Nick", nickname);
 	SetServerVcard(FALSE, _T(""));
 	return 0;
 }

@@ -852,7 +852,7 @@ void CJabberDlgPrivacyLists::OnInitDialog()
 	CListFilter(GetDlgItem(m_hwnd, IDC_CLIST));
 	CListApplyList(GetDlgItem(m_hwnd, IDC_CLIST));
 
-	if ( db_get_b(NULL, m_proto->m_szModuleName, "plistsWnd_simpleMode", 1)) {
+	if ( m_proto->getByte("plistsWnd_simpleMode", 1)) {
 		UIShowControls(m_hwnd, idSimpleControls, SW_SHOW);
 		UIShowControls(m_hwnd, idAdvancedControls, SW_HIDE);
 		CheckDlgButton(m_hwnd, IDC_BTN_SIMPLE, TRUE);
@@ -892,7 +892,7 @@ void CJabberDlgPrivacyLists::OnDestroy()
 	// Delete custom bold font
 	DeleteObject((HFONT)SendDlgItemMessage(m_hwnd, IDC_TXT_LISTS, WM_GETFONT, 0, 0));
 
-	db_set_b(NULL, m_proto->m_szModuleName, "plistsWnd_simpleMode", IsDlgButtonChecked(m_hwnd, IDC_BTN_SIMPLE));
+	m_proto->setByte("plistsWnd_simpleMode", IsDlgButtonChecked(m_hwnd, IDC_BTN_SIMPLE));
 
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "plistsWnd_sz");
 

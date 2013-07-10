@@ -285,7 +285,7 @@ void CJabberDlgPepSimple::cbModes_OnChange(CCtrlData *)
 	if ((m_prevSelected >= 0) && (m_modes[m_cbModes.GetItemData(m_prevSelected)].m_id >= 0)) {
 		TCHAR *txt = m_txtDescription.GetText();
 		mir_snprintf(szSetting, SIZEOF(szSetting), "PepMsg_%s", m_modes[m_cbModes.GetItemData(m_prevSelected)].m_name);
-		m_proto->setTString(NULL, szSetting, txt);
+		m_proto->setTString(szSetting, txt);
 		mir_free(txt);
 	}
 
@@ -294,7 +294,7 @@ void CJabberDlgPepSimple::cbModes_OnChange(CCtrlData *)
 		mir_snprintf(szSetting, SIZEOF(szSetting), "PepMsg_%s", m_modes[m_cbModes.GetItemData(m_prevSelected)].m_name);
 
 		DBVARIANT dbv;
-		if ( !m_proto->getTString(NULL, szSetting, &dbv)) {
+		if ( !m_proto->getTString(szSetting, &dbv)) {
 			m_txtDescription.SetText(dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -731,14 +731,14 @@ void CPepMood::SetMood(HANDLE hContact, const TCHAR *szMood, const TCHAR *szText
 		if (szText)
 			m_proto->setTString(hContact, DBSETTING_XSTATUSMSG, szText);
 		else
-			m_proto->JDeleteSetting(hContact, DBSETTING_XSTATUSMSG);
+			m_proto->delSetting(hContact, DBSETTING_XSTATUSMSG);
 
 		m_proto->WriteAdvStatus(hContact, ADVSTATUS_MOOD, szMood, g_MoodIcons.GetIcolibName(g_arrMoods[mood].szTag), TranslateTS(g_arrMoods[mood].szName), szText);
 	}
 	else {
-		m_proto->JDeleteSetting(hContact, DBSETTING_XSTATUSID);
-		m_proto->JDeleteSetting(hContact, DBSETTING_XSTATUSNAME);
-		m_proto->JDeleteSetting(hContact, DBSETTING_XSTATUSMSG);
+		m_proto->delSetting(hContact, DBSETTING_XSTATUSID);
+		m_proto->delSetting(hContact, DBSETTING_XSTATUSNAME);
+		m_proto->delSetting(hContact, DBSETTING_XSTATUSMSG);
 
 		m_proto->ResetAdvStatus(hContact, ADVSTATUS_MOOD);
 	}
@@ -1211,7 +1211,7 @@ BOOL CJabberProto::SendPepTune(TCHAR* szArtist, TCHAR* szLength, TCHAR* szSource
 void CJabberProto::SetContactTune(HANDLE hContact, LPCTSTR szArtist, LPCTSTR szLength, LPCTSTR szSource, LPCTSTR szTitle, LPCTSTR szTrack)
 {
 	if ( !szArtist && !szTitle) {
-		JDeleteSetting(hContact, "ListeningTo");
+		delSetting(hContact, "ListeningTo");
 		ResetAdvStatus(hContact, ADVSTATUS_TUNE);
 		return;
 	}
@@ -1269,7 +1269,7 @@ INT_PTR __cdecl CJabberProto::OnSetListeningTo(WPARAM, LPARAM lParam)
 	LISTENINGTOINFO *cm = (LISTENINGTOINFO *)lParam;
 	if ( !cm || cm->cbSize != sizeof(LISTENINGTOINFO)) {
 		SendPepTune(NULL, NULL, NULL, NULL, NULL, NULL);
-		JDeleteSetting(NULL, "ListeningTo");
+		delSetting("ListeningTo");
 	}
 	else {
 		TCHAR *szArtist = NULL, *szLength = NULL, *szSource = NULL;

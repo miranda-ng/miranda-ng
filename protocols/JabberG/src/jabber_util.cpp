@@ -1179,7 +1179,7 @@ void CJabberProto::ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *par
 		DBVARIANT dbv;
 		char setting[MAXMODULELABELLENGTH];
 		mir_snprintf(setting, sizeof(setting), "%s%d", param, i);
-		if ( !getTString(NULL, setting, &dbv)) {
+		if ( !getTString(setting, &dbv)) {
 			SendDlgItemMessage(hwndDlg, idcCombo, CB_ADDSTRING, 0, (LPARAM)dbv.ptszVal);
 			db_free(&dbv);
 	}	}
@@ -1199,11 +1199,11 @@ void CJabberProto::ComboAddRecentString(HWND hwndDlg, UINT idcCombo, char *param
 	if ((id = SendDlgItemMessage(hwndDlg, idcCombo, CB_FINDSTRING, (WPARAM)-1, (LPARAM)_T(""))) != CB_ERR)
 		SendDlgItemMessage(hwndDlg, idcCombo, CB_DELETESTRING, id, 0);
 
-	id = getByte(NULL, param, 0);
+	id = getByte(param, 0);
 	char setting[MAXMODULELABELLENGTH];
 	mir_snprintf(setting, sizeof(setting), "%s%d", param, id);
-	setTString(NULL, setting, string);
-	setByte(NULL, param, (id+1)%recentCount);
+	setTString(setting, string);
+	setByte(param, (id+1)%recentCount);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

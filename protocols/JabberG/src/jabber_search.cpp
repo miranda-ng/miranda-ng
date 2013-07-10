@@ -486,12 +486,12 @@ void CJabberProto::SearchDeleteFromRecent(const TCHAR *szAddr, BOOL deleteLastFr
 	//search in recent
 	for (int i=0; i<10; i++) {
 		sprintf(key,"RecentlySearched_%d",i);
-		if ( !getTString(NULL, key, &dbv)) {
+		if ( !getTString(key, &dbv)) {
 			if ( !_tcsicmp(szAddr, dbv.ptszVal)) {
 				db_free(&dbv);
 				for (int j=i; j<10; j++) {
 					sprintf(key, "RecentlySearched_%d", j+1);
-					if ( !getTString(NULL, key, &dbv)) {
+					if ( !getTString(key, &dbv)) {
 						sprintf(key,"RecentlySearched_%d",j);
 						setTString(NULL,key,dbv.ptszVal);
 						db_free(&dbv);
@@ -499,7 +499,7 @@ void CJabberProto::SearchDeleteFromRecent(const TCHAR *szAddr, BOOL deleteLastFr
 					else {
 						if (deleteLastFromDB) {
 							sprintf(key,"RecentlySearched_%d",j);
-							JDeleteSetting(NULL,key);
+							delSetting(NULL,key);
 						}
 						break;
 				}	}
@@ -515,14 +515,14 @@ void CJabberProto::SearchAddToRecent(const TCHAR *szAddr, HWND hwndDialog)
 	SearchDeleteFromRecent(szAddr);
 	for (int j=9; j > 0; j--) {
 		sprintf(key, "RecentlySearched_%d", j-1);
-		if ( !getTString(NULL, key, &dbv)) {
+		if ( !getTString(key, &dbv)) {
 			sprintf(key,"RecentlySearched_%d",j);
 			setTString(NULL,key,dbv.ptszVal);
 			db_free(&dbv);
 	}	}
 
 	sprintf(key, "RecentlySearched_%d", 0);
-	setTString(NULL, key, szAddr);
+	setTString(key, szAddr);
 	if (hwndDialog)
 		JabberSearchAddUrlToRecentCombo(hwndDialog, szAddr);
 }
@@ -556,7 +556,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 			char key[30];
 			for (i=0; i < 10; i++) {
 				sprintf(key,"RecentlySearched_%d",i);
-				if ( !dat->ppro->getTString(NULL, key, &dbv)) {
+				if ( !dat->ppro->getTString(key, &dbv)) {
 					JabberSearchAddUrlToRecentCombo(hwndDlg, dbv.ptszVal);
 					db_free(&dbv);
 			}	}

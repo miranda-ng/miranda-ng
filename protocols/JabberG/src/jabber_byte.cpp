@@ -155,7 +155,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 
 	if (m_options.BsProxyManual) {
 		proxyJid = NULL;
-		if ( !db_get_s(NULL, m_szModuleName, "BsProxyServer", &dbv)) {
+		if ( !getString("BsProxyServer", &dbv)) {
 			proxyJid = mir_a2t(dbv.pszVal);
 			db_free(&dbv);
 		}
@@ -199,7 +199,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 
 		if (bDirect) {
 			if (m_options.BsDirectManual) {
-				if ( !db_get_s(NULL, m_szModuleName, "BsDirectAddr", &dbv))
+				if ( !getString("BsDirectAddr", &dbv))
 					localAddr = dbv.pszVal;
 			}
 

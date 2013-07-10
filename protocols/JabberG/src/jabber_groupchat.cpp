@@ -134,19 +134,19 @@ struct JabberGcRecentInfo
 		cleanup();
 
 		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_server", iRecent);
-		if ( !ppro->getTString(NULL, setting, &dbv)) {
+		if ( !ppro->getTString(setting, &dbv)) {
 			server = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
 
 		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_room", iRecent);
-		if ( !ppro->getTString(NULL, setting, &dbv)) {
+		if ( !ppro->getTString(setting, &dbv)) {
 			room = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
 
 		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_nick", iRecent);
-		if ( !ppro->getTString(NULL, setting, &dbv)) {
+		if ( !ppro->getTString(setting, &dbv)) {
 			nick = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -163,27 +163,27 @@ struct JabberGcRecentInfo
 
 		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_server", iRecent);
 		if (server)
-			ppro->setTString(NULL, setting, server);
+			ppro->setTString(setting, server);
 		else
-			ppro->JDeleteSetting(NULL, setting);
+			ppro->delSetting(setting);
 
 		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_room", iRecent);
 		if (room)
-			ppro->setTString(NULL, setting, room);
+			ppro->setTString(setting, room);
 		else
-			ppro->JDeleteSetting(NULL, setting);
+			ppro->delSetting(setting);
 
 		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_nick", iRecent);
 		if (nick)
-			ppro->setTString(NULL, setting, nick);
+			ppro->setTString(setting, nick);
 		else
-			ppro->JDeleteSetting(NULL, setting);
+			ppro->delSetting(setting);
 
 		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_passwordW", iRecent);
 		if (password)
 			ppro->JSetStringCrypt(NULL, setting, password);
 		else
-			ppro->JDeleteSetting(NULL, setting);
+			ppro->delSetting(setting);
 	}
 
 private:
@@ -234,7 +234,7 @@ INT_PTR __cdecl CJabberProto::OnJoinChat(WPARAM wParam, LPARAM)
 		return 0;
 
 	if (getTString(hContact, "MyNick", &nick))
-		if (getTString(NULL, "Nick", &nick)) {
+		if (getTString("Nick", &nick)) {
 			db_free(&jid);
 			return 0;
 		}
@@ -501,7 +501,7 @@ void CJabberDlgGcJoin::OnInitDialog()
 	}
 
 	DBVARIANT dbv;
-	if ( !m_proto->getTString(NULL, "Nick", &dbv)) {
+	if ( !m_proto->getTString("Nick", &dbv)) {
 		SetDlgItemText(m_hwnd, IDC_NICK, dbv.ptszVal);
 		db_free(&dbv);
 	}

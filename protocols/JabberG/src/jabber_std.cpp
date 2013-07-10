@@ -25,11 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CJabberProto::JDeleteSetting(HANDLE hContact, const char* valueName)
-{
-   db_unset(hContact, m_szModuleName, valueName);
-}
-
 void CJabberProto::JLoginFailed(int errorCode)
 {
 	*m_savedPassword = 0;

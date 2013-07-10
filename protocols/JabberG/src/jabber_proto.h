@@ -782,8 +782,6 @@ struct CJabberProto : public PROTO<CJabberProto>
 	void   SearchAddToRecent(const TCHAR *szAddr, HWND hwndDialog = NULL);
 
 	//---- jabber_std.cpp ----------------------------------------------
-
-	void   JDeleteSetting(HANDLE hContact, const char* valueName);
 	void   JLoginFailed(int errorCode);
 
 	TCHAR* JGetStringCrypt(HANDLE hContact, char* valueName);

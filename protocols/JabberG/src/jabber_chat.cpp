@@ -153,7 +153,7 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM* item)
 
 		if ( !getTString(hContact, "MyNick", &dbv)) {
 			if ( !lstrcmp(dbv.ptszVal, szNick))
-				JDeleteSetting(hContact, "MyNick");
+				delSetting(hContact, "MyNick");
 			else
 				setTString(hContact, "MyNick", item->nick);
 			db_free(&dbv);
@@ -163,7 +163,7 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM* item)
 		TCHAR *passw = JGetStringCrypt(hContact, "LoginPassword");
 		if (lstrcmp_null(passw, item->password)) {
 			if ( !item->password || !item->password[0])
-				JDeleteSetting(hContact, "LoginPassword");
+				delSetting(hContact, "LoginPassword");
 			else
 				JSetStringCrypt(hContact, "LoginPassword", item->password);
 		}
@@ -376,7 +376,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM* item, int code, HXML reason)
 		CallServiceSync(MS_GC_EVENT, WINDOW_CLEARLOG, (LPARAM)&gce);
 
 		DBVARIANT dbvMessage;
-		if ( !db_get_ts(NULL, m_szModuleName, "GcMsgQuit", &dbvMessage)) {
+		if ( !getTString("GcMsgQuit", &dbvMessage)) {
 			szMessage = NEWTSTR_ALLOCA(dbvMessage.ptszVal);
 			db_free(&dbvMessage);
 		}
@@ -1067,7 +1067,7 @@ static void sttNickListHook(CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK* 
 	{
 		if (ppro->m_bJabberOnline) {
 			DBVARIANT dbv = {0};
-			TCHAR *szMessage = db_get_ts(NULL, ppro->m_szModuleName, "GcMsgSlap", &dbv) ?
+			TCHAR *szMessage = ppro->getTString("GcMsgSlap", &dbv) ?
 				NEWTSTR_ALLOCA(TranslateTS(JABBER_GC_MSG_SLAP)) : dbv.ptszVal;
 
 			TCHAR buf[256];

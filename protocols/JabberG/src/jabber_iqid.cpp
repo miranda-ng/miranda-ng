@@ -280,8 +280,8 @@ void CJabberProto::OnIqResultSetAuth(HXML iqNode)
 
 	if ( !lstrcmp(type, _T("result"))) {
 		DBVARIANT dbv;
-		if (getTString(NULL, "Nick", &dbv))
-			setTString(NULL, "Nick", m_ThreadInfo->username);
+		if (getTString("Nick", &dbv))
+			setTString("Nick", m_ThreadInfo->username);
 		else
 			db_free(&dbv);
 
@@ -855,7 +855,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 						}
 						else {
 							hasBday = TRUE;
-							setTString(NULL, "BirthDate", xmlGetText(n));
+							setTString("BirthDate", xmlGetText(n));
 					}	}
 				}
 				else if ( !lstrcmp(xmlGetName(n), _T("GENDER"))) {
@@ -869,7 +869,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 						}
 						else {
 							hasGender = TRUE;
-							setTString(NULL, "GenderString", xmlGetText(n));
+							setTString("GenderString", xmlGetText(n));
 					}	}
 				}
 				else if ( !lstrcmp(xmlGetName(n), _T("ADR"))) {
@@ -991,7 +991,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 						else {
 							char text[ 100 ];
 							sprintf(text, "Phone%d", nPhone);
-							setTString(NULL, text, xmlGetText(m));
+							setTString(text, xmlGetText(m));
 
 							sprintf(text, "PhoneFlag%d", nPhone);
 							int nFlag = 0;
@@ -1060,26 +1060,26 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 				setTString(hContact, "Nick", ptrT( db_get_tsa(hContact, m_szModuleName, "FullName")));
 		}
 		if ( !hasFn)
-			JDeleteSetting(hContact, "FullName");
+			delSetting(hContact, "FullName");
 		// We are not deleting "Nick"
 //		if ( !hasNick)
-//			JDeleteSetting(hContact, "Nick");
+//			delSetting(hContact, "Nick");
 		if ( !hasGiven)
-			JDeleteSetting(hContact, "FirstName");
+			delSetting(hContact, "FirstName");
 		if ( !hasFamily)
-			JDeleteSetting(hContact, "LastName");
+			delSetting(hContact, "LastName");
 		if ( !hasMiddle)
-			JDeleteSetting(hContact, "MiddleName");
+			delSetting(hContact, "MiddleName");
 		if (hContact != NULL) {
 			while (true) {
 				if (nEmail <= 0)
-					JDeleteSetting(hContact, "e-mail");
+					delSetting(hContact, "e-mail");
 				else {
 					char text[ 100 ];
 					sprintf(text, "e-mail%d", nEmail-1);
 					if ( db_get_s(hContact, m_szModuleName, text, &dbv)) break;
 					db_free(&dbv);
-					JDeleteSetting(hContact, text);
+					delSetting(hContact, text);
 				}
 				nEmail++;
 			}
@@ -1088,83 +1088,83 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 			while (true) {
 				char text[ 100 ];
 				sprintf(text, "e-mail%d", nEmail);
-				if ( db_get_s(NULL, m_szModuleName, text, &dbv)) break;
+				if ( getString(text, &dbv)) break;
 				db_free(&dbv);
-				JDeleteSetting(NULL, text);
+				delSetting(text);
 				sprintf(text, "e-mailFlag%d", nEmail);
-				JDeleteSetting(NULL, text);
+				delSetting(text);
 				nEmail++;
 		}	}
 
 		if ( !hasBday) {
-			JDeleteSetting(hContact, "BirthYear");
-			JDeleteSetting(hContact, "BirthMonth");
-			JDeleteSetting(hContact, "BirthDay");
-			JDeleteSetting(hContact, "BirthDate");
-			JDeleteSetting(hContact, "Age");
+			delSetting(hContact, "BirthYear");
+			delSetting(hContact, "BirthMonth");
+			delSetting(hContact, "BirthDay");
+			delSetting(hContact, "BirthDate");
+			delSetting(hContact, "Age");
 		}
 		if ( !hasGender) {
 			if (hContact != NULL)
-				JDeleteSetting(hContact, "Gender");
+				delSetting(hContact, "Gender");
 			else
-				JDeleteSetting(NULL, "GenderString");
+				delSetting("GenderString");
 		}
 		if (hContact != NULL) {
 			if ( !hasPhone)
-				JDeleteSetting(hContact, "Phone");
+				delSetting(hContact, "Phone");
 			if ( !hasFax)
-				JDeleteSetting(hContact, "Fax");
+				delSetting(hContact, "Fax");
 			if ( !hasCell)
-				JDeleteSetting(hContact, "Cellular");
+				delSetting(hContact, "Cellular");
 		}
 		else {
 			while (true) {
 				char text[ 100 ];
 				sprintf(text, "Phone%d", nPhone);
-				if ( db_get_s(NULL, m_szModuleName, text, &dbv)) break;
+				if ( getString(text, &dbv)) break;
 				db_free(&dbv);
-				JDeleteSetting(NULL, text);
+				delSetting(text);
 				sprintf(text, "PhoneFlag%d", nPhone);
-				JDeleteSetting(NULL, text);
+				delSetting(text);
 				nPhone++;
 		}	}
 
 		if ( !hasHomeStreet)
-			JDeleteSetting(hContact, "Street");
+			delSetting(hContact, "Street");
 		if ( !hasHomeStreet2 && hContact==NULL)
-			JDeleteSetting(hContact, "Street2");
+			delSetting(hContact, "Street2");
 		if ( !hasHomeLocality)
-			JDeleteSetting(hContact, "City");
+			delSetting(hContact, "City");
 		if ( !hasHomeRegion)
-			JDeleteSetting(hContact, "State");
+			delSetting(hContact, "State");
 		if ( !hasHomePcode)
-			JDeleteSetting(hContact, "ZIP");
+			delSetting(hContact, "ZIP");
 		if ( !hasHomeCtry)
-			JDeleteSetting(hContact, "Country");
+			delSetting(hContact, "Country");
 		if ( !hasWorkStreet)
-			JDeleteSetting(hContact, "CompanyStreet");
+			delSetting(hContact, "CompanyStreet");
 		if ( !hasWorkStreet2 && hContact==NULL)
-			JDeleteSetting(hContact, "CompanyStreet2");
+			delSetting(hContact, "CompanyStreet2");
 		if ( !hasWorkLocality)
-			JDeleteSetting(hContact, "CompanyCity");
+			delSetting(hContact, "CompanyCity");
 		if ( !hasWorkRegion)
-			JDeleteSetting(hContact, "CompanyState");
+			delSetting(hContact, "CompanyState");
 		if ( !hasWorkPcode)
-			JDeleteSetting(hContact, "CompanyZIP");
+			delSetting(hContact, "CompanyZIP");
 		if ( !hasWorkCtry)
-			JDeleteSetting(hContact, "CompanyCountry");
+			delSetting(hContact, "CompanyCountry");
 		if ( !hasUrl)
-			JDeleteSetting(hContact, "Homepage");
+			delSetting(hContact, "Homepage");
 		if ( !hasOrgname)
-			JDeleteSetting(hContact, "Company");
+			delSetting(hContact, "Company");
 		if ( !hasOrgunit)
-			JDeleteSetting(hContact, "CompanyDepartment");
+			delSetting(hContact, "CompanyDepartment");
 		if ( !hasRole)
-			JDeleteSetting(hContact, "Role");
+			delSetting(hContact, "Role");
 		if ( !hasTitle)
-			JDeleteSetting(hContact, "CompanyPosition");
+			delSetting(hContact, "CompanyPosition");
 		if ( !hasDesc)
-			JDeleteSetting(hContact, "About");
+			delSetting(hContact, "About");
 
 		if (id == m_ThreadInfo->resolveID) {
 			const TCHAR *p = _tcschr(jid, '@');
@@ -1353,11 +1353,11 @@ void CJabberProto::OnIqResultGetVCardAvatar(HXML iqNode)
 	if (vCard == NULL) return;
 
 	if (xmlGetChildCount(vCard) == 0) {
-		JDeleteSetting(hContact, "AvatarHash");
+		delSetting(hContact, "AvatarHash");
 		DBVARIANT dbv = {0};
 		if ( !getTString(hContact, "AvatarSaved", &dbv)) {
 			db_free(&dbv);
-			JDeleteSetting(hContact, "AvatarSaved");
+			delSetting(hContact, "AvatarSaved");
 			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, NULL);
 		}
 
@@ -1693,7 +1693,7 @@ void CJabberProto::OnIqResultEntityTime(HXML pIqNode, CJabberIqInfo* pInfo)
 			if (szTz)
 				setTString(pInfo->m_hContact, "TzName", szTz);
 			else
-				JDeleteSetting(pInfo->m_hContact, "TzName");
+				delSetting(pInfo->m_hContact, "TzName");
 			return;
 		}
 	}
@@ -1703,6 +1703,6 @@ void CJabberProto::OnIqResultEntityTime(HXML pIqNode, CJabberIqInfo* pInfo)
 			return;
 	}
 
-	JDeleteSetting(pInfo->m_hContact, "Timezone");
-	JDeleteSetting(pInfo->m_hContact, "TzName");
+	delSetting(pInfo->m_hContact, "Timezone");
+	delSetting(pInfo->m_hContact, "TzName");
 }

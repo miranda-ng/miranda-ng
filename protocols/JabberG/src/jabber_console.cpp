@@ -374,14 +374,14 @@ void CJabberDlgConsole::OnInitDialog()
 	SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
 	SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_EXLIMITTEXT, 0, 0x80000000);
 
-	m_proto->m_filterInfo.msg = db_get_b(NULL, m_proto->m_szModuleName, "consoleWnd_msg", TRUE);
-	m_proto->m_filterInfo.presence = db_get_b(NULL, m_proto->m_szModuleName, "consoleWnd_presence", TRUE);
-	m_proto->m_filterInfo.iq = db_get_b(NULL, m_proto->m_szModuleName, "consoleWnd_iq", TRUE);
-	m_proto->m_filterInfo.type = (TFilterInfo::Type)db_get_b(NULL, m_proto->m_szModuleName, "consoleWnd_ftype", TFilterInfo::T_OFF);
+	m_proto->m_filterInfo.msg = m_proto->getByte("consoleWnd_msg", TRUE);
+	m_proto->m_filterInfo.presence = m_proto->getByte("consoleWnd_presence", TRUE);
+	m_proto->m_filterInfo.iq = m_proto->getByte("consoleWnd_iq", TRUE);
+	m_proto->m_filterInfo.type = (TFilterInfo::Type)m_proto->getByte("consoleWnd_ftype", TFilterInfo::T_OFF);
 
 	DBVARIANT dbv;
 	*m_proto->m_filterInfo.pattern = 0;
-	if ( !m_proto->getTString(NULL, "consoleWnd_fpattern", &dbv)) {
+	if ( !m_proto->getTString("consoleWnd_fpattern", &dbv)) {
 		lstrcpyn(m_proto->m_filterInfo.pattern, dbv.ptszVal, SIZEOF(m_proto->m_filterInfo.pattern));
 		db_free(&dbv);
 	}
@@ -429,11 +429,11 @@ void CJabberDlgConsole::OnInitDialog()
 
 void CJabberDlgConsole::OnClose()
 {
-	db_set_b(NULL, m_proto->m_szModuleName, "consoleWnd_msg", m_proto->m_filterInfo.msg);
-	db_set_b(NULL, m_proto->m_szModuleName, "consoleWnd_presence", m_proto->m_filterInfo.presence);
-	db_set_b(NULL, m_proto->m_szModuleName, "consoleWnd_iq", m_proto->m_filterInfo.iq);
-	db_set_b(NULL, m_proto->m_szModuleName, "consoleWnd_ftype", m_proto->m_filterInfo.type);
-	m_proto->setTString(NULL, "consoleWnd_fpattern", m_proto->m_filterInfo.pattern);
+	m_proto->setByte("consoleWnd_msg", m_proto->m_filterInfo.msg);
+	m_proto->setByte("consoleWnd_presence", m_proto->m_filterInfo.presence);
+	m_proto->setByte("consoleWnd_iq", m_proto->m_filterInfo.iq);
+	m_proto->setByte("consoleWnd_ftype", m_proto->m_filterInfo.type);
+	m_proto->setTString("consoleWnd_fpattern", m_proto->m_filterInfo.pattern);
 
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "consoleWnd_");
 	DestroyWindow(m_hwnd);

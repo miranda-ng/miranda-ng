@@ -307,7 +307,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 				char *myAddr = NULL;
 				DBVARIANT dbv;
 				if (m_options.BsDirect && m_options.BsDirectManual) {
-					if ( !db_get_s(NULL, m_szModuleName, "BsDirectAddr", &dbv))
+					if ( !getString("BsDirectAddr", &dbv))
 						myAddr = dbv.pszVal;
 				}
 

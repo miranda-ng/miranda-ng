@@ -179,19 +179,19 @@ CJabberProto::CJabberProto(const char* aProtoName, const TCHAR *aUserName) :
 	db_set_resident(m_szModuleName, "Grant");
 
 	DBVARIANT dbv;
-	if ( !getTString(NULL, "XmlLang", &dbv)) {
+	if ( !getTString("XmlLang", &dbv)) {
 		m_tszSelectedLang = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
 	}
 	else m_tszSelectedLang = mir_tstrdup(_T("en"));
 
-	if ( !db_get_s(NULL, m_szModuleName, "Password", &dbv)) {
+	if ( !getString("Password", &dbv)) {
 		CallService(MS_DB_CRYPT_DECODESTRING, lstrlenA(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
 		TCHAR *pssw = mir_a2t(dbv.pszVal);
 		JSetStringCrypt(NULL, "LoginPassword", pssw);
 		mir_free(pssw);
 		db_free(&dbv);
-		JDeleteSetting(NULL, "Password");
+		delSetting("Password");
 	}
 
 	CleanLastResourceMap();

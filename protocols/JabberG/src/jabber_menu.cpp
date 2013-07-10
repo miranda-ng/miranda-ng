@@ -490,7 +490,7 @@ INT_PTR __cdecl CJabberProto::OnMenuConvertChatContact(WPARAM wParam, LPARAM)
 	if ((bIsChatRoom == GCW_CHATROOM) || bIsChatRoom == 0) {
 		DBVARIANT dbv;
 		if ( !getTString((HANDLE) wParam, (bIsChatRoom == GCW_CHATROOM)?(char*)"ChatRoomID":(char*)"jid", &dbv)) {
-			JDeleteSetting((HANDLE) wParam, (bIsChatRoom == GCW_CHATROOM)?"ChatRoomID":"jid");
+			delSetting((HANDLE) wParam, (bIsChatRoom == GCW_CHATROOM)?"ChatRoomID":"jid");
 			setTString((HANDLE) wParam, (bIsChatRoom != GCW_CHATROOM)?"ChatRoomID":"jid", dbv.ptszVal);
 			db_free(&dbv);
 			setByte((HANDLE) wParam, "ChatRoom", (bIsChatRoom == GCW_CHATROOM)?0:GCW_CHATROOM);

@@ -119,7 +119,7 @@ void JabberContactListCreateGroup(TCHAR* groupName)
 void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)
 {
 	HANDLE hContact = DBCreateContact(jid, NULL, TRUE, TRUE);
-	JDeleteSetting(hContact, "Hidden");
+	delSetting(hContact, "Hidden");
 	//setTString(hContact, "Nick", nick);
 
 	char* szJid = mir_utf8encodeT(jid);
@@ -292,8 +292,8 @@ void CJabberProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbL
 	}
 	else {
 		DBVARIANT dbv1, dbv2;
-		BOOL res1 = db_get_s(NULL, m_szModuleName, "LoginName", &dbv1);
-		BOOL res2 = db_get_s(NULL, m_szModuleName, "LoginServer", &dbv2);
+		BOOL res1 = getString("LoginName", &dbv1);
+		BOOL res2 = getString("LoginServer", &dbv2);
 		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S@%S avatar.%S"),
 			res1 ? "noname" : dbv1.pszVal,
 			res2 ? m_szModuleName : dbv2.pszVal,
@@ -544,7 +544,7 @@ void CJabberProto::UpdateMirVer(HANDLE hContact, JABBER_RESOURCE_STATUS *resourc
 	if (szMirVer[0])
 		setTString(hContact, "MirVer", szMirVer);
 //	else
-//		JDeleteSetting(hContact, "MirVer");
+//		delSetting(hContact, "MirVer");
 
 	DBVARIANT dbv;
 	if ( !getTString(hContact, "jid", &dbv)) {
@@ -594,10 +594,10 @@ void CJabberProto::SetContactOfflineStatus(HANDLE hContact)
 	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 		setWord(hContact, "Status", ID_STATUS_OFFLINE);
 
-	JDeleteSetting(hContact, DBSETTING_XSTATUSID);
-	JDeleteSetting(hContact, DBSETTING_XSTATUSNAME);
-	JDeleteSetting(hContact, DBSETTING_XSTATUSMSG);
-	JDeleteSetting(hContact, DBSETTING_DISPLAY_UID);
+	delSetting(hContact, DBSETTING_XSTATUSID);
+	delSetting(hContact, DBSETTING_XSTATUSNAME);
+	delSetting(hContact, DBSETTING_XSTATUSMSG);
+	delSetting(hContact, DBSETTING_DISPLAY_UID);
 
 	ResetAdvStatus(hContact, ADVSTATUS_MOOD);
 	ResetAdvStatus(hContact, ADVSTATUS_TUNE);
