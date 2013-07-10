@@ -55,7 +55,7 @@ void OmegleProto::SignOff(void*)
 
 	OnLeaveChat(NULL, NULL);
 
-	deleteSetting( "LogonTS" );	
+	delSetting("LogonTS");
 
 	ProtoBroadcastAck(0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
 
