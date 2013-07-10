@@ -44,21 +44,16 @@ void *gg_doregister(GGPROTO *gg, char *newPass, char *newEmail)
 		mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot register new account because of error:\n\t%s"),
 			(h && !s) ? http_error_string(h ? h->error : 0) :
 			(s ? TranslateT("Registration rejected") : _tcserror(errno)));
-		MessageBox(
-			NULL,
-			error,
-			gg->m_tszUserName,
-			MB_OK | MB_ICONSTOP
-		);
+		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);
 		gg->netlog("gg_doregister(): Cannot register. errno=%d: %s", errno, strerror(errno));
 	}
 	else
 	{
-		db_set_dw(NULL, gg->m_szModuleName, GG_KEY_UIN, s->uin);
+		gg->setDword(GG_KEY_UIN, s->uin);
 		CallService(MS_DB_CRYPT_ENCODESTRING, strlen(newPass) + 1, (LPARAM) newPass);
 		gg->checknewuser(s->uin, newPass);
-		db_set_s(NULL, gg->m_szModuleName, GG_KEY_PASSWORD, newPass);
-		db_set_s(NULL, gg->m_szModuleName, GG_KEY_EMAIL, newEmail);
+		gg->setString(GG_KEY_PASSWORD, newPass);
+		gg->setString(GG_KEY_EMAIL, newEmail);
 		gg_pubdir_free(h);
 		gg->netlog("gg_doregister(): Account registration succesful.");
 		MessageBox( NULL, 
@@ -102,8 +97,8 @@ void *gg_dounregister(GGPROTO *gg, uin_t uin, char *password)
 	else
 	{
 		gg_pubdir_free(h);
-		db_unset(NULL, gg->m_szModuleName, GG_KEY_PASSWORD);
-		db_unset(NULL, gg->m_szModuleName, GG_KEY_UIN);
+		gg->delSetting(GG_KEY_PASSWORD);
+		gg->delSetting(GG_KEY_UIN);
 		gg->netlog("gg_dounregister(): Account %d has been removed.", uin);
 		MessageBox(NULL, TranslateT("Your account has been removed."), gg->m_tszUserName, MB_OK | MB_ICONINFORMATION);
 	}
@@ -132,7 +127,7 @@ void *gg_dochpass(GGPROTO *gg, uin_t uin, char *password, char *newPass)
 #endif
 	if (!uin || !password || !newPass) return NULL;
 
-	if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_EMAIL, &dbv_email, DBVT_ASCIIZ)) 
+	if (!gg->getString(GG_KEY_EMAIL, &dbv_email)) 
 	{
 		strncpy(email, dbv_email.pszVal, sizeof(email));
 		db_free(&dbv_email);
@@ -155,7 +150,7 @@ void *gg_dochpass(GGPROTO *gg, uin_t uin, char *password, char *newPass)
 	{
 		gg_pubdir_free(h);
 		CallService(MS_DB_CRYPT_ENCODESTRING, strlen(newPass) + 1, (LPARAM) newPass);
-		db_set_s(NULL, gg->m_szModuleName, GG_KEY_PASSWORD, newPass);
+		gg->setString(GG_KEY_PASSWORD, newPass);
 		gg->netlog("gg_dochpass(): Password change succesful.");
 		MessageBox(NULL, TranslateT("Your password has been changed."), gg->m_tszUserName, MB_OK | MB_ICONINFORMATION);
 	}
@@ -196,7 +191,7 @@ void *gg_dochemail(GGPROTO *gg, uin_t uin, char *password, char *email, char *ne
 	else
 	{
 		gg_pubdir_free(h);
-		db_set_s(NULL, gg->m_szModuleName, GG_KEY_EMAIL, newEmail);
+		gg->setString(GG_KEY_EMAIL, newEmail);
 		gg->netlog("gg_dochemail(): E-mail change succesful.");
 		MessageBox(NULL, TranslateT("Your e-mail has been changed."), gg->m_tszUserName, MB_OK | MB_ICONINFORMATION);
 	}

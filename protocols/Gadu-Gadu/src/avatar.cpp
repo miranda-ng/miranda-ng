@@ -51,7 +51,7 @@ void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 		}
 	}
 
-	switch (db_get_b(hContact, m_szModuleName, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE)) {
+	switch (getByte(hContact, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE)) {
 		case PA_FORMAT_JPEG: avatartype = _T("jpg"); break;
 		case PA_FORMAT_GIF: avatartype = _T("gif"); break;
 		case PA_FORMAT_PNG: avatartype = _T("png"); break;
@@ -59,7 +59,7 @@ void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 
 	if (hContact != NULL) {
 		DBVARIANT dbv;
-		if (!db_get_s(hContact, m_szModuleName, GG_KEY_AVATARHASH, &dbv, DBVT_ASCIIZ)) {
+		if (!getString(hContact, GG_KEY_AVATARHASH, &dbv)) {
 			TCHAR* avatarHashT = mir_a2t(dbv.pszVal);
 			mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s.%s"), avatarHashT, avatartype);
 			mir_free(avatarHashT);
@@ -152,7 +152,7 @@ void GGPROTO::requestAvatarInfo(HANDLE hContact, int iWaitFor)
 		return;
 	}
 	
-	if (!db_get_b(NULL, m_szModuleName, GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS))
+	if (!getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS))
 		return;
 
 	GGREQUESTAVATARDATA *data = NULL;
@@ -166,7 +166,7 @@ void GGPROTO::requestAvatarInfo(HANDLE hContact, int iWaitFor)
 	gg_LeaveCriticalSection(&avatar_mutex, "requestAvatarInfo", 2, 1, "avatar_mutex", 1);
 
 	if (data != NULL)
-		db_set_b(hContact, m_szModuleName, GG_KEY_AVATARREQUESTED, 1);
+		setByte(hContact, GG_KEY_AVATARREQUESTED, 1);
 }
 
 void __cdecl GGPROTO::avatarrequestthread(void*)
@@ -183,7 +183,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 			mir_free(data);
 			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 3, 1, "avatar_mutex", 1);
 			
-			uin_t uin = (uin_t)db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0);
+			uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0);
 			netlog("avatarrequestthread() new avatar_requests item for uin=%d.", uin);
 
 			char *AvatarURL, *AvatarTs;
@@ -193,14 +193,14 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 			}
 			else {
 				if (AvatarURL == NULL && AvatarTs == NULL){
-					db_unset(hContact, m_szModuleName, GG_KEY_AVATARURL);
-					db_unset(hContact, m_szModuleName, GG_KEY_AVATARTS);
+					delSetting(hContact, GG_KEY_AVATARURL);
+					delSetting(hContact, GG_KEY_AVATARTS);
 					if (iWaitFor)
 						ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, 0);
 				}
 				else {
-					db_set_s(hContact, m_szModuleName, GG_KEY_AVATARURL, AvatarURL);
-					db_set_s(hContact, m_szModuleName, GG_KEY_AVATARTS, AvatarTs);
+					setString(hContact, GG_KEY_AVATARURL, AvatarURL);
+					setString(hContact, GG_KEY_AVATARTS, AvatarTs);
 					mir_free(AvatarURL); mir_free(AvatarTs);
 
 					if (iWaitFor) {
@@ -214,7 +214,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
 					}
 					else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, 0, 0);
-					db_unset(hContact, m_szModuleName, GG_KEY_AVATARREQUESTED);
+					delSetting(hContact, GG_KEY_AVATARREQUESTED);
 				}
 			}
 		}
@@ -231,7 +231,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 
 			PROTO_AVATAR_INFORMATIONT pai = { sizeof(pai) };
 			pai.hContact = data->hContact;
-			pai.format = db_get_b(pai.hContact, m_szModuleName, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE);
+			pai.format = getByte(pai.hContact, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE);
 
 			NETLIBHTTPREQUEST req = { sizeof(req) };
 			req.requestType = REQUEST_GET;
@@ -256,7 +256,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 								avatarType = PA_FORMAT_PNG;
 						}
 					}
-					db_set_b(data->hContact, m_szModuleName, GG_KEY_AVATARTYPE, (BYTE)avatarType);
+					setByte(data->hContact, GG_KEY_AVATARTYPE, (BYTE)avatarType);
 
 					getAvatarFilename(pai.hContact, pai.filename, sizeof(pai.filename));
 					file_fd = _topen(pai.filename, _O_WRONLY | _O_TRUNC | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE);
@@ -320,16 +320,16 @@ void __cdecl GGPROTO::getOwnAvatarThread(void*)
 	netlog("getOwnAvatarThread() started");
 
 	char *AvatarURL, *AvatarTs;
-	if (getAvatarFileInfo( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), &AvatarURL, &AvatarTs)) {
+	if (getAvatarFileInfo( getDword(GG_KEY_UIN, 0), &AvatarURL, &AvatarTs)) {
 		if (AvatarURL != NULL && AvatarTs != NULL > 0) {
-			db_set_s(NULL, m_szModuleName, GG_KEY_AVATARURL, AvatarURL);
-			db_set_s(NULL, m_szModuleName, GG_KEY_AVATARTS, AvatarTs);
+			setString(GG_KEY_AVATARURL, AvatarURL);
+			setString(GG_KEY_AVATARTS, AvatarTs);
 			mir_free(AvatarURL); mir_free(AvatarTs);
 		} else {
-			db_unset(NULL, m_szModuleName, GG_KEY_AVATARURL);
-			db_unset(NULL, m_szModuleName, GG_KEY_AVATARTS);
+			delSetting(GG_KEY_AVATARURL);
+			delSetting(GG_KEY_AVATARTS);
 		}
-		db_set_b(NULL, m_szModuleName, GG_KEY_AVATARREQUESTED, 1);
+		setByte(GG_KEY_AVATARREQUESTED, 1);
 
 		PROTO_AVATAR_INFORMATIONT pai = {0};
 		pai.cbSize = sizeof(pai);
@@ -342,8 +342,7 @@ void __cdecl GGPROTO::getOwnAvatarThread(void*)
 
 void GGPROTO::getOwnAvatar()
 {
-	if (db_get_b(NULL, m_szModuleName, GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS)
-		&& db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0)){
+	if (getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS) && getDword(GG_KEY_UIN, 0)){
 #ifdef DEBUGMODE
 		netlog("getOwnAvatar(): ForkThread 2 GGPROTO::getOwnAvatarThread");
 #endif
@@ -362,7 +361,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	int file_fd, avatardatalen, datalen, contentlen, contentendlen, res = 0, repeat = 0;
 
 	netlog("setavatarthread(): started. Trying to set user avatar.");
-	UIN2IDA( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), uin);
+	UIN2IDA( getDword(GG_KEY_UIN, 0), uin);
 
 	file_fd = _topen(szFilename, _O_RDONLY | _O_BINARY, _S_IREAD);
 	if (file_fd == -1) {
@@ -371,10 +370,10 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 		mir_sntprintf(error, SIZEOF(error), TranslateT("Can not open avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szFilename);
 		showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 		mir_free(szFilename);
-		int prevType = db_get_b(NULL, m_szModuleName, GG_KEY_AVATARTYPEPREV, -1);
+		int prevType = getByte(GG_KEY_AVATARTYPEPREV, -1);
 		if (prevType != -1)
-			db_set_b(NULL, m_szModuleName, GG_KEY_AVATARTYPE, prevType);
-		db_unset(NULL, m_szModuleName, GG_KEY_AVATARTYPEPREV);
+			setByte(GG_KEY_AVATARTYPE, prevType);
+		delSetting(GG_KEY_AVATARTYPEPREV);
 		getOwnAvatar();
 #ifdef DEBUGMODE
 		netlog("setavatarthread(): end. err1");
@@ -485,12 +484,12 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	if (res) {
 		netlog("setavatarthread(): User avatar set successfully.");
 	} else {
-		int prevType = db_get_b(NULL, m_szModuleName, GG_KEY_AVATARTYPEPREV, -1);
+		int prevType = getByte(GG_KEY_AVATARTYPEPREV, -1);
 		if (prevType != -1)
-			db_set_b(NULL, m_szModuleName, GG_KEY_AVATARTYPE, prevType);
+			setByte(GG_KEY_AVATARTYPE, prevType);
 		netlog("setavatarthread(): Failed to set user avatar.");
 	}
-	db_unset(NULL, m_szModuleName, GG_KEY_AVATARTYPEPREV);
+	delSetting(GG_KEY_AVATARTYPEPREV);
 
 	mir_free(szFilename);
 	getOwnAvatar();

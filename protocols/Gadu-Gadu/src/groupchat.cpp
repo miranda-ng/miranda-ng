@@ -130,7 +130,7 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 		|| !gch->pDest->ptszID
 		|| !gch->pDest->pszModule
 		|| lstrcmpiA(gch->pDest->pszModule, m_szModuleName)
-		|| !(uin = db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0))
+		|| !(uin = getDword(GG_KEY_UIN, 0))
 		|| !(chat = gc_lookup(gch->pDest->ptszID)))
 		return 0;
 
@@ -146,7 +146,7 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 		for (HANDLE hContact = db_find_first(); hContact; ) {
 			HANDLE hNext = db_find_next(hContact);
 			DBVARIANT dbv;
-			if (!db_get_s(hContact, m_szModuleName, "ChatRoomID", &dbv, DBVT_TCHAR)) {
+			if (!getTString(hContact, "ChatRoomID", &dbv)) {
 				if (dbv.ptszVal && !_tcscmp(gch->pDest->ptszID, dbv.ptszVal))
 					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 				db_free(&dbv);
@@ -173,7 +173,7 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 		gcevent.ptszUID = id;
 		gcevent.ptszText = gch->ptszText;
 		TCHAR* nickT;
-		if (!db_get_s(NULL, m_szModuleName, GG_KEY_NICK, &dbv, DBVT_TCHAR)){
+		if (!getTString(GG_KEY_NICK, &dbv)){
 			nickT = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		} else {
@@ -280,17 +280,17 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 		for(i = 0; i < recipients_count; i++)
 			if (!getcontact(recipients[i], 0, 0, NULL))
 				unknown ++;
-		if ((db_get_w(NULL, m_szModuleName, GG_KEY_GC_POLICY_DEFAULT, GG_KEYDEF_GC_POLICY_DEFAULT) == 2) ||
-		   (db_get_w(NULL, m_szModuleName, GG_KEY_GC_POLICY_TOTAL, GG_KEYDEF_GC_POLICY_TOTAL) == 2 &&
-			recipients_count >= db_get_w(NULL, m_szModuleName, GG_KEY_GC_COUNT_TOTAL, GG_KEYDEF_GC_COUNT_TOTAL)) ||
-		   (db_get_w(NULL, m_szModuleName, GG_KEY_GC_POLICY_UNKNOWN, GG_KEYDEF_GC_POLICY_UNKNOWN) == 2 &&
-			unknown >= db_get_w(NULL, m_szModuleName, GG_KEY_GC_COUNT_UNKNOWN, GG_KEYDEF_GC_COUNT_UNKNOWN)))
+		if ((getWord(GG_KEY_GC_POLICY_DEFAULT, GG_KEYDEF_GC_POLICY_DEFAULT) == 2) ||
+		   (getWord(GG_KEY_GC_POLICY_TOTAL, GG_KEYDEF_GC_POLICY_TOTAL) == 2 &&
+			recipients_count >= getWord(GG_KEY_GC_COUNT_TOTAL, GG_KEYDEF_GC_COUNT_TOTAL)) ||
+		   (getWord(GG_KEY_GC_POLICY_UNKNOWN, GG_KEYDEF_GC_POLICY_UNKNOWN) == 2 &&
+			unknown >= getWord(GG_KEY_GC_COUNT_UNKNOWN, GG_KEYDEF_GC_COUNT_UNKNOWN)))
 			chat->ignore = TRUE;
-		if (!chat->ignore && ((db_get_w(NULL, m_szModuleName, GG_KEY_GC_POLICY_DEFAULT, GG_KEYDEF_GC_POLICY_DEFAULT) == 1) ||
-		   (db_get_w(NULL, m_szModuleName, GG_KEY_GC_POLICY_TOTAL, GG_KEYDEF_GC_POLICY_TOTAL) == 1 &&
-			recipients_count >= db_get_w(NULL, m_szModuleName, GG_KEY_GC_COUNT_TOTAL, GG_KEYDEF_GC_COUNT_TOTAL)) ||
-		   (db_get_w(NULL, m_szModuleName, GG_KEY_GC_POLICY_UNKNOWN, GG_KEYDEF_GC_POLICY_UNKNOWN) == 1 &&
-			unknown >= db_get_w(NULL, m_szModuleName, GG_KEY_GC_COUNT_UNKNOWN, GG_KEYDEF_GC_COUNT_UNKNOWN))))
+		if (!chat->ignore && ((getWord(GG_KEY_GC_POLICY_DEFAULT, GG_KEYDEF_GC_POLICY_DEFAULT) == 1) ||
+		   (getWord(GG_KEY_GC_POLICY_TOTAL, GG_KEYDEF_GC_POLICY_TOTAL) == 1 &&
+			recipients_count >= getWord(GG_KEY_GC_COUNT_TOTAL, GG_KEYDEF_GC_COUNT_TOTAL)) ||
+		   (getWord(GG_KEY_GC_POLICY_UNKNOWN, GG_KEYDEF_GC_POLICY_UNKNOWN) == 1 &&
+			unknown >= getWord(GG_KEY_GC_COUNT_UNKNOWN, GG_KEYDEF_GC_COUNT_UNKNOWN))))
 		{
 			TCHAR *senderName = unknownSender ?
 				TranslateT("Unknown") : pcli->pfnGetContactDisplayName(getcontact(sender, 0, 0, NULL), 0);
@@ -353,12 +353,12 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 	gcdest.iType = GC_EVENT_JOIN;
 
 	// Add myself
-	if (uin = db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0))
+	if (uin = getDword(GG_KEY_UIN, 0))
 	{
 		UIN2IDT(uin, id);
 
 		TCHAR* nickT;
-		if (!db_get_s(NULL, m_szModuleName, GG_KEY_NICK, &dbv, DBVT_TCHAR)) {
+		if (!getTString(GG_KEY_NICK, &dbv)) {
 			nickT = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		} else {
@@ -549,14 +549,14 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 									HANDLE hMetaContact = gg_getsubcontact(gg, hContact); // MetaContacts support
 									if (hMetaContact) {
 										szProto = gg->m_szModuleName;
-										uin = (uin_t)db_get_dw(hMetaContact, gg->m_szModuleName, GG_KEY_UIN, 0);
+										uin = (uin_t)gg->getDword(hMetaContact, GG_KEY_UIN, 0);
 									}
 									else {
 										szProto = GetContactProto(hContact);
-										uin = (uin_t)db_get_dw(hContact, gg->m_szModuleName, GG_KEY_UIN, 0);
+										uin = (uin_t)gg->getDword(hContact, GG_KEY_UIN, 0);
 									}
 
-									if (szProto == NULL || lstrcmpA(szProto, gg->m_szModuleName) || !uin || uin == db_get_dw(NULL, gg->m_szModuleName, GG_KEY_UIN, 0))
+									if (szProto == NULL || lstrcmpA(szProto, gg->m_szModuleName) || !uin || uin == gg->getDword(GG_KEY_UIN, 0))
 										SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_DELETEITEM, (WPARAM)hItem, 0);
 								}
 							}
@@ -640,7 +640,7 @@ INT_PTR GGPROTO::gc_openconf(WPARAM wParam, LPARAM lParam)
 int GGPROTO::gc_changenick(HANDLE hContact, TCHAR *ptszNick)
 {
 	list_t l;
-	uin_t uin = db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0);
+	uin_t uin = getDword(hContact, GG_KEY_UIN, 0);
 	if (!uin || !ptszNick) return 0;
 
 	netlog("gc_changenick(): Nickname for uin %d changed. Lookup for chats having this nick", uin);

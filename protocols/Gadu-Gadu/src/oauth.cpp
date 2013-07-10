@@ -338,12 +338,12 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 char* GGPROTO::oauth_header(const char *httpmethod, const char *url)
 {
 	char uin[32];
-	UIN2IDA( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), uin);
-	ptrA token( db_get_sa(NULL, m_szModuleName, GG_KEY_TOKEN));
-	ptrA password( db_get_sa(NULL, m_szModuleName, GG_KEY_PASSWORD));
+	UIN2IDA( getDword(GG_KEY_UIN, 0), uin);
+	ptrA token( getStringA(GG_KEY_TOKEN));
+	ptrA password( getStringA(GG_KEY_PASSWORD));
 	if (password != NULL)
 		CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)strlen(password) + 1, (LPARAM)password);
-	ptrA token_secret( db_get_sa(NULL, m_szModuleName, GG_KEY_TOKENSECRET));
+	ptrA token_secret( getStringA(GG_KEY_TOKENSECRET));
 	if (token_secret != NULL)
 		CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)strlen(token_secret) + 1, (LPARAM)token_secret);
 
@@ -357,8 +357,8 @@ int GGPROTO::oauth_receivetoken()
 	int res = 0;
 	HANDLE nlc = NULL;
 
-	UIN2IDA( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), uin);
-	if (!db_get_s(NULL, m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ)) {
+	UIN2IDA( getDword(GG_KEY_UIN, 0), uin);
+	if (!getString(GG_KEY_PASSWORD, &dbv)) {
 		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
 		password = mir_strdup(dbv.pszVal);
 		db_free(&dbv);
@@ -480,15 +480,15 @@ int GGPROTO::oauth_receivetoken()
 	mir_free(str);
 
 	if (token != NULL && token_secret != NULL) {
-		db_set_s(NULL, m_szModuleName, GG_KEY_TOKEN, token);
+		setString(GG_KEY_TOKEN, token);
 		CallService(MS_DB_CRYPT_ENCODESTRING, (WPARAM)(int)strlen(token_secret) + 1, (LPARAM) token_secret);
-		db_set_s(NULL, m_szModuleName, GG_KEY_TOKENSECRET, token_secret);
+		setString(GG_KEY_TOKENSECRET, token_secret);
 		netlog("oauth_receivetoken(): Access Token obtained successfully.");
 		res = 1;
 	}
 	else {
-		db_unset(NULL, m_szModuleName, GG_KEY_TOKEN);
-		db_unset(NULL, m_szModuleName, GG_KEY_TOKENSECRET);
+		delSetting(GG_KEY_TOKEN);
+		delSetting(GG_KEY_TOKENSECRET);
 		netlog("oauth_receivetoken(): Failed to obtain Access Token.");
 	}
 	mir_free(token);
@@ -502,8 +502,8 @@ int GGPROTO::oauth_checktoken(int force)
 	if (force)
 		return oauth_receivetoken();
 
-	ptrA token( db_get_sa(NULL, m_szModuleName, GG_KEY_TOKEN));
-	ptrA token_secret( db_get_sa(NULL, m_szModuleName, GG_KEY_TOKENSECRET));
+	ptrA token( getStringA(GG_KEY_TOKEN));
+	ptrA token_secret( getStringA(GG_KEY_TOKENSECRET));
 	if (token == NULL || token_secret == NULL)
 		return oauth_receivetoken();
 

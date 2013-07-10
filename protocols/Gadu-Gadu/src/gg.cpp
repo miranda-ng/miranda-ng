@@ -149,7 +149,7 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 {
 
 	// Store current plugin version
-	db_set_dw(NULL, m_szModuleName, GG_PLUGINVERSION, pluginInfo.version);
+	setDword(GG_PLUGINVERSION, pluginInfo.version);
 
 
 	//1. clean files: %miranda_avatarcache%\GG\*.(null)
@@ -233,11 +233,11 @@ static int gg_prebuildcontactmenu(WPARAM wParam, LPARAM lParam)
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME | CMIM_FLAGS | CMIF_TCHAR;
-	if ( db_get_dw(hContact, gg->m_szModuleName, GG_KEY_UIN, 0) == db_get_b(NULL, gg->m_szModuleName, GG_KEY_UIN, 0)
-			|| db_get_b(hContact, gg->m_szModuleName, "ChatRoom", 0)
-			|| db_get_b(hContact, "CList", "NotOnList", 0))
+	if ( gg->getDword(hContact, GG_KEY_UIN, 0) == gg->getByte(GG_KEY_UIN, 0) ||
+		  gg->getByte(hContact, "ChatRoom", 0) ||
+		  db_get_b(hContact, "CList", "NotOnList", 0))
 		mi.flags |= CMIF_HIDDEN;
-	mi.ptszName = db_get_b(hContact, gg->m_szModuleName, GG_KEY_BLOCK, 0) ? LPGENT("&Unblock") : LPGENT("&Block");
+	mi.ptszName = gg->getByte(hContact, GG_KEY_BLOCK, 0) ? LPGENT("&Unblock") : LPGENT("&Block");
 	Menu_ModifyItem(gg->hBlockMenuItem, &mi);
 	return 0;
 }
@@ -247,7 +247,7 @@ static int gg_prebuildcontactmenu(WPARAM wParam, LPARAM lParam)
 INT_PTR GGPROTO::blockuser(WPARAM wParam, LPARAM lParam)
 {
 	const HANDLE hContact = (HANDLE)wParam;
-	db_set_b(hContact, m_szModuleName, GG_KEY_BLOCK, !db_get_b(hContact, m_szModuleName, GG_KEY_BLOCK, 0));
+	setByte(hContact, GG_KEY_BLOCK, !getByte(hContact, GG_KEY_BLOCK, 0));
 	notifyuser(hContact, 1);
 	return 0;
 }

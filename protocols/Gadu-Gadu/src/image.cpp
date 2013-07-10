@@ -617,7 +617,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				if (dat->lpImages && gg->isonline())
 				{
-					uin_t uin = (uin_t)db_get_dw(dat->hContact, gg->m_szModuleName, GG_KEY_UIN, 0);
+					uin_t uin = (uin_t)gg->getDword(dat->hContact, GG_KEY_UIN, 0);
 					struct gg_msg_richtext_format *r = NULL;
 					struct gg_msg_richtext_image *p = NULL;
 					LPVOID pvData = NULL;
@@ -920,7 +920,7 @@ int GGPROTO::img_display(HANDLE hContact, void *img)
 	if (!dat)
 	{
 		dat = gg_img_recvdlg(this, hContact);
-		dat->uin = db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0);
+		dat->uin = getDword(hContact, GG_KEY_UIN, 0);
 
 		while (WaitForSingleObjectEx(dat->hEvent, INFINITE, TRUE) != WAIT_OBJECT_0);
 		CloseHandle(dat->hEvent);
@@ -1140,7 +1140,7 @@ GGIMAGEDLGDATA* gg_img_find(GGPROTO *gg, uin_t uin, uint32_t crc32)
 		dat = (GGIMAGEDLGDATA *)l->data;
 		if (!dat) break;
 
-		c_uin = db_get_dw(dat->hContact, dat->gg->m_szModuleName, GG_KEY_UIN, 0);
+		c_uin = dat->gg->getDword(dat->hContact, GG_KEY_UIN, 0);
 
 		if (!dat->bReceiving && dat->lpImages && dat->lpImages->crc32 == crc32 && c_uin == uin)
 		{

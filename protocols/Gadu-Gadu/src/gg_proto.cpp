@@ -64,7 +64,7 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName) :
 
 	// Offline contacts and clear logon time
 	setalloffline();
-	db_set_dw(NULL, m_szModuleName, GG_KEY_LOGONTIME, 0);
+	setDword(GG_KEY_LOGONTIME, 0);
 
 	db_set_resident(m_szModuleName, GG_KEY_AVATARREQUESTED);
 
@@ -76,7 +76,7 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName) :
 	hImagesFolder = FoldersRegisterCustomPathT(LPGEN("Images"), m_szModuleName, szPath, m_tszUserName);
 
 	DWORD dwVersion;
-	if ((dwVersion = db_get_dw(NULL, m_szModuleName, GG_PLUGINVERSION, 0)) < pluginInfo.version)
+	if ((dwVersion = getDword(GG_PLUGINVERSION, 0)) < pluginInfo.version)
 		cleanuplastplugin(dwVersion);
 
 	links_instance_init();
@@ -215,7 +215,7 @@ int GGPROTO::GetInfo(HANDLE hContact, int infoType)
 		}
 
 		// Add uin and search it
-		gg_pubdir50_add(req, GG_PUBDIR50_UIN, ditoa((uin_t)db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0)));
+		gg_pubdir50_add(req, GG_PUBDIR50_UIN, ditoa((uin_t)getDword(hContact, GG_KEY_UIN, 0)));
 		gg_pubdir50_seq_set(req, GG_SEQ_INFO);
 
 		netlog("GetInfo(): Requesting user info.", req->seq);
@@ -606,7 +606,7 @@ void __cdecl GGPROTO::sendackthread(void *ack)
 
 int GGPROTO::SendMsg(HANDLE hContact, int flags, const char *msg)
 {
-	uin_t uin = (uin_t)db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0);
+	uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0);
 	if (!isonline() || !uin)
 		return 0;
 
@@ -624,7 +624,7 @@ int GGPROTO::SendMsg(HANDLE hContact, int flags, const char *msg)
 	gg_EnterCriticalSection(&sess_mutex, "SendMsg", 53, "sess_mutex", 1);
 	int seq = gg_send_message(sess, GG_CLASS_CHAT, uin, (BYTE*)msg_utf8);
 	gg_LeaveCriticalSection(&sess_mutex, "SendMsg", 53, 1, "sess_mutex", 1);
-	if (!db_get_b(NULL, m_szModuleName, GG_KEY_MSGACK, GG_KEYDEF_MSGACK))
+	if (!getByte(GG_KEY_MSGACK, GG_KEYDEF_MSGACK))
 	{
 		// Auto-ack message without waiting for server ack
 		GG_SEQ_ACK *ack = (GG_SEQ_ACK*)mir_alloc(sizeof(GG_SEQ_ACK));
@@ -647,7 +647,7 @@ int GGPROTO::SendMsg(HANDLE hContact, int flags, const char *msg)
 
 int GGPROTO::SetApparentMode(HANDLE hContact, int mode)
 {
-	db_set_w(hContact, m_szModuleName, GG_KEY_APPARENT, (WORD)mode);
+	setWord(hContact, GG_KEY_APPARENT, (WORD)mode);
 	notifyuser(hContact, 1);
 	return 0;
 }
@@ -771,9 +771,9 @@ int GGPROTO::SetAwayMsg(int iStatus, const PROTOCHAR *newMsg)
 
 int GGPROTO::UserIsTyping(HANDLE hContact, int type)
 {
-	uin_t uin = db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0);
-
-	if (!uin || !isonline()) return 0;
+	uin_t uin = getDword(hContact, GG_KEY_UIN, 0);
+	if (!uin || !isonline())
+		return 0;
 
 	if (type == PROTOTYPE_SELFTYPING_ON || type == PROTOTYPE_SELFTYPING_OFF) {
 		gg_EnterCriticalSection(&sess_mutex, "UserIsTyping", 56, "sess_mutex", 1);

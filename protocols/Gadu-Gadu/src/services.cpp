@@ -121,7 +121,7 @@ int GGPROTO::refreshstatus(int status)
 			gg_LeaveCriticalSection(&sess_mutex, "refreshstatus", 71, 1, "sess_mutex", 1);
 		}
 		// Change status of the contact with our own UIN (if got yourself added to the contact list)
-		changecontactstatus( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), status_m2gg(status, szMsg != NULL), szMsg, 0, 0, 0, 0);
+		changecontactstatus( getDword(GG_KEY_UIN, 0), status_m2gg(status, szMsg != NULL), szMsg, 0, 0, 0, 0);
 		broadcastnewstatus(status);
 		mir_free(szMsg_utf8);
 	}
@@ -157,7 +157,7 @@ INT_PTR GGPROTO::getavatarcaps(WPARAM wParam, LPARAM lParam)
 	case AF_FORMATSUPPORTED:
 		return (lParam == PA_FORMAT_JPEG || lParam == PA_FORMAT_GIF || lParam == PA_FORMAT_PNG);
 	case AF_ENABLED:
-		return db_get_b(NULL, m_szModuleName, GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS);
+		return getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS);
 	case AF_DONTNEEDDELAYS:
 		return 1;
 	case AF_MAXFILESIZE:
@@ -209,13 +209,13 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 	pai->filename[0] = 0;
 	pai->format = PA_FORMAT_UNKNOWN;
 
-	uin_t uin = (uin_t)db_get_dw(pai->hContact, m_szModuleName, GG_KEY_UIN, 0);
+	uin_t uin = (uin_t)getDword(pai->hContact, GG_KEY_UIN, 0);
 	if (!uin) {
 		netlog("getavatarinfo(): Incoming request for avatar information. No uin found. return GAIR_NOAVATAR");
 		return GAIR_NOAVATAR;
 	}
 
-	if (!db_get_b(NULL, m_szModuleName, GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS)) {
+	if (!getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS)) {
 		netlog("getavatarinfo(): Incoming request for avatar information. GG_KEY_ENABLEAVATARS == 0. return GAIR_NOAVATAR");
 		return GAIR_NOAVATAR;
 	}
@@ -233,7 +233,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 		db_free(&dbv);
 	}
 
-	if (!db_get_b(pai->hContact, m_szModuleName, GG_KEY_AVATARREQUESTED, GG_KEYDEF_AVATARREQUESTED)) {
+	if (!getByte(pai->hContact, GG_KEY_AVATARREQUESTED, GG_KEYDEF_AVATARREQUESTED)) {
 		requestAvatarInfo(pai->hContact, 1);
 		if ((wParam & GAIF_FORCE) != 0) {
 			netlog("getavatarinfo(): Incoming request for avatar information. uin=%d. requestAvatarInfo() fired. return GAIR_WAITFOR", uin);
@@ -244,11 +244,11 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	pai->format = db_get_b(pai->hContact, m_szModuleName, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE);
+	pai->format = getByte(pai->hContact, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE);
 
 	ptrA AvatarHash(NULL);
-	ptrA AvatarURL( db_get_sa(pai->hContact, m_szModuleName, GG_KEY_AVATARURL));
-	ptrA AvatarTs( db_get_sa(pai->hContact, m_szModuleName, GG_KEY_AVATARTS));
+	ptrA AvatarURL( getStringA(pai->hContact, GG_KEY_AVATARURL));
+	ptrA AvatarTs( getStringA(pai->hContact, GG_KEY_AVATARTS));
 	if (AvatarURL != NULL && AvatarTs != NULL) {
 		char *AvatarName = strrchr(AvatarURL, '/');
 		AvatarName++;
@@ -257,7 +257,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 		AvatarHash = gg_avatarhash(AvatarNameWithTS);
 	}
 
-	ptrA AvatarSavedHash( db_get_sa(pai->hContact, m_szModuleName, GG_KEY_AVATARHASH));
+	ptrA AvatarSavedHash( getStringA(pai->hContact, GG_KEY_AVATARHASH));
 	if (AvatarHash != NULL && AvatarSavedHash != NULL) {
 		getAvatarFilename(pai->hContact, pai->filename, SIZEOF(pai->filename));
 		if (!strcmp(AvatarHash, AvatarSavedHash)) {
@@ -277,7 +277,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 				mir_sntprintf(error, SIZEOF(error), TranslateT("Can not remove old avatar file before refresh. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai->filename);
 				showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 			}
-			db_set_s(pai->hContact, m_szModuleName, GG_KEY_AVATARHASH, AvatarHash);
+			setString(pai->hContact, GG_KEY_AVATARHASH, AvatarHash);
 			requestAvatarTransfer(pai->hContact, AvatarURL);
 			netlog("getavatarinfo(): Incoming request for avatar information. uin=%d. Avatar hash changed, requestAvatarTransfer() fired. return GAIR_WAITFOR", uin);
 			return GAIR_WAITFOR;
@@ -292,13 +292,13 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 				mir_sntprintf(error, SIZEOF(error), TranslateT("Can not remove old avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai->filename);
 				showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 			}
-			db_unset(pai->hContact, m_szModuleName, GG_KEY_AVATARHASH);
-			db_unset(pai->hContact, m_szModuleName, GG_KEY_AVATARURL);
-			db_unset(pai->hContact, m_szModuleName, GG_KEY_AVATARTYPE);
+			delSetting(pai->hContact, GG_KEY_AVATARHASH);
+			delSetting(pai->hContact, GG_KEY_AVATARURL);
+			delSetting(pai->hContact, GG_KEY_AVATARTYPE);
 			netlog("getavatarinfo(): Incoming request for avatar information. Contact %d deleted avatar. return GAIR_NOAVATAR", uin);
 		}
 		else if (AvatarHash != NULL && AvatarSavedHash == NULL) {
-			db_set_s(pai->hContact, m_szModuleName, GG_KEY_AVATARHASH, AvatarHash);
+			setString(pai->hContact, GG_KEY_AVATARHASH, AvatarHash);
 			requestAvatarTransfer(pai->hContact, AvatarURL);
 			netlog("getavatarinfo(): Incoming request for avatar information. Contact %d set avatar. requestAvatarTransfer() fired. return GAIR_WAITFOR", uin);
 			return GAIR_WAITFOR;
@@ -324,7 +324,7 @@ INT_PTR GGPROTO::getmyavatar(WPARAM wParam, LPARAM lParam)
 		return -1;
 	}
 
-	if (!db_get_b(NULL, m_szModuleName, GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS)) {
+	if (!getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS)) {
 		netlog("getmyavatar(): Incoming request for self avatar information. GG_KEY_ENABLEAVATARS==0. return -2 (error)");
 		return -2;
 	}
@@ -348,7 +348,7 @@ INT_PTR GGPROTO::setmyavatar(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR *szFilename = (TCHAR*)lParam;
 
-	if (!db_get_b(NULL, m_szModuleName, GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS))
+	if (!getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS))
 		return -2;
 
 	if (szFilename == NULL) {
@@ -374,8 +374,8 @@ INT_PTR GGPROTO::setmyavatar(WPARAM wParam, LPARAM lParam)
 		return -1;
 	}
 
-	db_set_b(NULL, m_szModuleName, GG_KEY_AVATARTYPEPREV, db_get_b(NULL, m_szModuleName, GG_KEY_AVATARTYPE, -1));
-	db_set_b(NULL, m_szModuleName, GG_KEY_AVATARTYPE, (BYTE)iAvType);
+	setByte(GG_KEY_AVATARTYPEPREV, getByte(GG_KEY_AVATARTYPE, -1));
+	setByte(GG_KEY_AVATARTYPE, (BYTE)iAvType);
 
 	TCHAR szMyFilename[MAX_PATH];
 	getAvatarFilename(NULL, szMyFilename, SIZEOF(szMyFilename));

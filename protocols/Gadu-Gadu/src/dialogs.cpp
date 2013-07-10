@@ -187,10 +187,10 @@ void GGPROTO::checknewuser(uin_t uin, const char* passwd)
 {
 	char oldpasswd[128];
 	DBVARIANT dbv;
-	uin_t olduin = (uin_t)db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0);
+	uin_t olduin = (uin_t)getDword(GG_KEY_UIN, 0);
 
 	oldpasswd[0] = '\0';
-	if (!db_get_s(NULL, m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ))
+	if (!getString(GG_KEY_PASSWORD, &dbv))
 	{
 		if (dbv.pszVal) strcpy(oldpasswd, dbv.pszVal);
 		db_free(&dbv);
@@ -242,7 +242,7 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 
 			TranslateDialogDefault(hwndDlg);
-			if (num = db_get_dw(NULL, gg->m_szModuleName, GG_KEY_UIN, 0))
+			if (num = gg->getDword(GG_KEY_UIN, 0))
 			{
 				SetDlgItemTextA(hwndDlg, IDC_UIN, ditoa(num));
 				ShowWindow(GetDlgItem(hwndDlg, IDC_CREATEACCOUNT), SW_HIDE);
@@ -253,12 +253,12 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				ShowWindow(GetDlgItem(hwndDlg, IDC_REMOVEACCOUNT), SW_HIDE);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_LOSTPASS), SW_HIDE);
 			}
-			if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ)) {
+			if (!gg->getString(GG_KEY_PASSWORD, &dbv)) {
 				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
 				db_free(&dbv);
 			}
-			if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_EMAIL, &dbv, DBVT_ASCIIZ)) {
+			if (!gg->getString(GG_KEY_EMAIL, &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_EMAIL, dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -268,19 +268,19 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				ShowWindow(GetDlgItem(hwndDlg, IDC_CHPASS), SW_HIDE);
 			}
 
-			CheckDlgButton(hwndDlg, IDC_FRIENDSONLY, db_get_b(NULL, gg->m_szModuleName, GG_KEY_FRIENDSONLY, GG_KEYDEF_FRIENDSONLY));
-			CheckDlgButton(hwndDlg, IDC_SHOWINVISIBLE, db_get_b(NULL, gg->m_szModuleName, GG_KEY_SHOWINVISIBLE, GG_KEYDEF_SHOWINVISIBLE));
-			CheckDlgButton(hwndDlg, IDC_LEAVESTATUSMSG, db_get_b(NULL, gg->m_szModuleName, GG_KEY_LEAVESTATUSMSG, GG_KEYDEF_LEAVESTATUSMSG));
+			CheckDlgButton(hwndDlg, IDC_FRIENDSONLY, gg->getByte(GG_KEY_FRIENDSONLY, GG_KEYDEF_FRIENDSONLY));
+			CheckDlgButton(hwndDlg, IDC_SHOWINVISIBLE, gg->getByte(GG_KEY_SHOWINVISIBLE, GG_KEYDEF_SHOWINVISIBLE));
+			CheckDlgButton(hwndDlg, IDC_LEAVESTATUSMSG, gg->getByte(GG_KEY_LEAVESTATUSMSG, GG_KEYDEF_LEAVESTATUSMSG));
 			if (gg->gc_enabled)
-				CheckDlgButton(hwndDlg, IDC_IGNORECONF, db_get_b(NULL, gg->m_szModuleName, GG_KEY_IGNORECONF, GG_KEYDEF_IGNORECONF));
+				CheckDlgButton(hwndDlg, IDC_IGNORECONF, gg->getByte(GG_KEY_IGNORECONF, GG_KEYDEF_IGNORECONF));
 			else
 			{
 				EnableWindow(GetDlgItem(hwndDlg, IDC_IGNORECONF), FALSE);
 				CheckDlgButton(hwndDlg, IDC_IGNORECONF, TRUE);
 			}
-			CheckDlgButton(hwndDlg, IDC_IMGRECEIVE, db_get_b(NULL, gg->m_szModuleName, GG_KEY_IMGRECEIVE, GG_KEYDEF_IMGRECEIVE));
-			CheckDlgButton(hwndDlg, IDC_SHOWLINKS, db_get_b(NULL, gg->m_szModuleName, GG_KEY_SHOWLINKS, GG_KEYDEF_SHOWLINKS));
-			CheckDlgButton(hwndDlg, IDC_ENABLEAVATARS, db_get_b(NULL, gg->m_szModuleName, GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS));
+			CheckDlgButton(hwndDlg, IDC_IMGRECEIVE, gg->getByte(GG_KEY_IMGRECEIVE, GG_KEYDEF_IMGRECEIVE));
+			CheckDlgButton(hwndDlg, IDC_SHOWLINKS, gg->getByte(GG_KEY_SHOWLINKS, GG_KEYDEF_SHOWLINKS));
+			CheckDlgButton(hwndDlg, IDC_ENABLEAVATARS, gg->getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS));
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LEAVESTATUS), IsDlgButtonChecked(hwndDlg, IDC_LEAVESTATUSMSG));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_IMGMETHOD), IsDlgButtonChecked(hwndDlg, IDC_IMGRECEIVE));
@@ -290,7 +290,7 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			SendDlgItemMessage(hwndDlg, IDC_LEAVESTATUS, CB_ADDSTRING, 0, (LPARAM)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,ID_STATUS_DND,GSMDF_TCHAR));
 			SendDlgItemMessage(hwndDlg, IDC_LEAVESTATUS, CB_ADDSTRING, 0, (LPARAM)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,ID_STATUS_FREECHAT,GSMDF_TCHAR));
 			SendDlgItemMessage(hwndDlg, IDC_LEAVESTATUS, CB_ADDSTRING, 0, (LPARAM)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,ID_STATUS_INVISIBLE,GSMDF_TCHAR));
-			switch(db_get_w(NULL, gg->m_szModuleName, GG_KEY_LEAVESTATUS, GG_KEYDEF_LEAVESTATUS)) {
+			switch(gg->getWord(GG_KEY_LEAVESTATUS, GG_KEYDEF_LEAVESTATUS)) {
 			case ID_STATUS_ONLINE:
 				SendDlgItemMessage(hwndDlg, IDC_LEAVESTATUS, CB_SETCURSEL, 1, 0);
 				break;
@@ -313,213 +313,205 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			SendDlgItemMessage(hwndDlg, IDC_IMGMETHOD, CB_ADDSTRING, 0, (LPARAM)TranslateT("System tray icon"));
 			SendDlgItemMessage(hwndDlg, IDC_IMGMETHOD, CB_ADDSTRING, 0, (LPARAM)TranslateT("Popup window"));
 			SendDlgItemMessage(hwndDlg, IDC_IMGMETHOD, CB_ADDSTRING, 0, (LPARAM)TranslateT("Message with [img] BBCode"));
-			SendDlgItemMessage(hwndDlg, IDC_IMGMETHOD, CB_SETCURSEL,
-				db_get_b(NULL, gg->m_szModuleName, GG_KEY_IMGMETHOD, GG_KEYDEF_IMGMETHOD), 0);
-			break;
+			SendDlgItemMessage(hwndDlg, IDC_IMGMETHOD, CB_SETCURSEL, gg->getByte(GG_KEY_IMGMETHOD, GG_KEYDEF_IMGMETHOD), 0);
 		}
+		break;
+
 	case WM_COMMAND:
-		{
-			if ((LOWORD(wParam) == IDC_UIN || LOWORD(wParam) == IDC_PASSWORD || LOWORD(wParam) == IDC_EMAIL)
-				&& (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus()))
-				return 0;
+		if ((LOWORD(wParam) == IDC_UIN || LOWORD(wParam) == IDC_PASSWORD || LOWORD(wParam) == IDC_EMAIL)
+			&& (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus()))
+			return 0;
 
-			switch (LOWORD(wParam)) {
-			case IDC_EMAIL:
-			case IDC_UIN:
-				gg_optsdlgcheck(hwndDlg);
-				break;
-
-			case IDC_LEAVESTATUSMSG:
-				EnableWindow(GetDlgItem(hwndDlg, IDC_LEAVESTATUS), IsDlgButtonChecked(hwndDlg, IDC_LEAVESTATUSMSG));
-				break;
-
-			case IDC_IMGRECEIVE:
-				EnableWindow(GetDlgItem(hwndDlg, IDC_IMGMETHOD), IsDlgButtonChecked(hwndDlg, IDC_IMGRECEIVE));
-				break;
-
-			case IDC_LOSTPASS:
-				{
-					char email[128];
-					uin_t uin;
-					GetDlgItemTextA(hwndDlg, IDC_UIN, email, sizeof(email));
-					uin = atoi(email);
-					GetDlgItemTextA(hwndDlg, IDC_EMAIL, email, sizeof(email));
-					if (!strlen(email))
-						MessageBox(NULL, TranslateT("You need to specify your registration e-mail first."),
-						gg->m_tszUserName, MB_OK | MB_ICONEXCLAMATION);
-					else if (MessageBox(NULL,
-						TranslateT("Your password will be sent to your registration e-mail.\nDo you want to continue ?"),
-						gg->m_tszUserName,
-						MB_OKCANCEL | MB_ICONQUESTION) == IDOK)
-						gg->remindpassword(uin, email);
-					return FALSE;
-				}
-			case IDC_CREATEACCOUNT:
-			case IDC_REMOVEACCOUNT:
-				if (gg->isonline())
-				{
-					if (MessageBox(
-						NULL,
-						TranslateT("You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?"),
-						gg->m_tszUserName,
-						MB_OKCANCEL | MB_ICONEXCLAMATION) == IDCANCEL)
-						break;
-					else
-						gg->disconnect();
-				}
-			case IDC_CHPASS:
-			case IDC_CHEMAIL:
-				{
-					// Readup data
-					GGUSERUTILDLGDATA dat;
-					int ret;
-					char pass[128], email[128];
-					GetDlgItemTextA(hwndDlg, IDC_UIN, pass, sizeof(pass));
-					dat.uin = atoi(pass);
-					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, pass, sizeof(pass));
-					GetDlgItemTextA(hwndDlg, IDC_EMAIL, email, sizeof(email));
-					dat.pass = pass;
-					dat.email = email;
-					dat.gg = gg;
-					if (LOWORD(wParam) == IDC_CREATEACCOUNT)
-					{
-						dat.mode = GG_USERUTIL_CREATE;
-						ret = DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CREATEACCOUNT), hwndDlg, gg_userutildlgproc, (LPARAM)&dat);
-					}
-					else if (LOWORD(wParam) == IDC_CHPASS)
-					{
-						dat.mode = GG_USERUTIL_PASS;
-						ret = DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHPASS), hwndDlg, gg_userutildlgproc, (LPARAM)&dat);
-					}
-					else if (LOWORD(wParam) == IDC_CHEMAIL)
-					{
-						dat.mode = GG_USERUTIL_EMAIL;
-						ret = DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHEMAIL), hwndDlg, gg_userutildlgproc, (LPARAM)&dat);
-					}
-					else
-					{
-						dat.mode = GG_USERUTIL_REMOVE;
-						ret = DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_REMOVEACCOUNT), hwndDlg, gg_userutildlgproc, (LPARAM)&dat);
-					}
-
-					if (ret == IDOK)
-					{
-						DBVARIANT dbv;
-						DWORD num;
-						// Show reload required window
-						ShowWindow(GetDlgItem(hwndDlg, IDC_RELOADREQD), SW_SHOW);
-
-						// Update uin
-						if (num = db_get_dw(NULL, gg->m_szModuleName, GG_KEY_UIN, 0))
-							SetDlgItemTextA(hwndDlg, IDC_UIN, ditoa(num));
-						else
-							SetDlgItemTextA(hwndDlg, IDC_UIN, "");
-
-						// Update password
-						if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ)) {
-							CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
-							SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
-							db_free(&dbv);
-						}
-						else SetDlgItemTextA(hwndDlg, IDC_PASSWORD, "");
-
-						// Update e-mail
-						if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_EMAIL, &dbv, DBVT_ASCIIZ)) {
-							SetDlgItemTextA(hwndDlg, IDC_EMAIL, dbv.pszVal);
-							db_free(&dbv);
-						}
-						else SetDlgItemTextA(hwndDlg, IDC_EMAIL, "");
-
-						// Update links
-						gg_optsdlgcheck(hwndDlg);
-
-						// Remove details
-						if (LOWORD(wParam) != IDC_CHPASS && LOWORD(wParam) != IDC_CHEMAIL)
-						{
-							db_unset(NULL, gg->m_szModuleName, GG_KEY_NICK);
-							db_unset(NULL, gg->m_szModuleName, GG_KEY_PD_NICKNAME);
-							db_unset(NULL, gg->m_szModuleName, GG_KEY_PD_CITY);
-							db_unset(NULL, gg->m_szModuleName, GG_KEY_PD_FIRSTNAME);
-							db_unset(NULL, gg->m_szModuleName, GG_KEY_PD_LASTNAME);
-							db_unset(NULL, gg->m_szModuleName, GG_KEY_PD_FAMILYNAME);
-							db_unset(NULL, gg->m_szModuleName, GG_KEY_PD_FAMILYCITY	);
-							db_unset(NULL, gg->m_szModuleName, GG_KEY_PD_AGE);
-							db_unset(NULL, gg->m_szModuleName, GG_KEY_PD_BIRTHYEAR);
-							db_unset(NULL, gg->m_szModuleName, GG_KEY_PD_GANDER);
-						}
-					}
-				}
-				break;
-			}
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		switch (LOWORD(wParam)) {
+		case IDC_EMAIL:
+		case IDC_UIN:
+			gg_optsdlgcheck(hwndDlg);
 			break;
-		}
-	case WM_NOTIFY:
-		{
-			switch (((LPNMHDR) lParam)->code) {
-			case PSN_APPLY:
-				{
-					int status_flags = GG_STATUS_FLAG_UNKNOWN;
-					char str[128];
-					uin_t uin;
 
-					// Write Gadu-Gadu number & password
-					GetDlgItemTextA(hwndDlg, IDC_UIN, str, sizeof(str));
-					uin = atoi(str);
-					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(str));
-					CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), (LPARAM) str);
-					gg->checknewuser(uin, str);
-					db_set_dw(NULL, gg->m_szModuleName, GG_KEY_UIN, uin);
-					db_set_s(NULL, gg->m_szModuleName, GG_KEY_PASSWORD, str);
+		case IDC_LEAVESTATUSMSG:
+			EnableWindow(GetDlgItem(hwndDlg, IDC_LEAVESTATUS), IsDlgButtonChecked(hwndDlg, IDC_LEAVESTATUSMSG));
+			break;
 
-					// Write Gadu-Gadu email
-					GetDlgItemTextA(hwndDlg, IDC_EMAIL, str, sizeof(str));
-					db_set_s(NULL, gg->m_szModuleName, GG_KEY_EMAIL, str);
+		case IDC_IMGRECEIVE:
+			EnableWindow(GetDlgItem(hwndDlg, IDC_IMGMETHOD), IsDlgButtonChecked(hwndDlg, IDC_IMGRECEIVE));
+			break;
 
-					// Write checkboxes
-					db_set_b(NULL, gg->m_szModuleName, GG_KEY_FRIENDSONLY, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_FRIENDSONLY));
-					db_set_b(NULL, gg->m_szModuleName, GG_KEY_SHOWINVISIBLE, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SHOWINVISIBLE));
-					db_set_b(NULL, gg->m_szModuleName, GG_KEY_LEAVESTATUSMSG, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_LEAVESTATUSMSG));
-					if (gg->gc_enabled)
-						db_set_b(NULL, gg->m_szModuleName, GG_KEY_IGNORECONF, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_IGNORECONF));
-					db_set_b(NULL, gg->m_szModuleName, GG_KEY_IMGRECEIVE, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_IMGRECEIVE));
-					db_set_b(NULL, gg->m_szModuleName, GG_KEY_SHOWLINKS, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SHOWLINKS));
-					if (IsDlgButtonChecked(hwndDlg, IDC_SHOWLINKS))
-						status_flags |= GG_STATUS_FLAG_SPAM;
-					gg->gg_EnterCriticalSection(&gg->sess_mutex, "gg_genoptsdlgproc", 34, "sess_mutex", 1);
-					gg_change_status_flags(gg->sess, status_flags);
-					gg->gg_LeaveCriticalSection(&gg->sess_mutex, "gg_genoptsdlgproc", 34, 1, "sess_mutex", 1);
-					db_set_b(NULL, gg->m_szModuleName, GG_KEY_ENABLEAVATARS, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_ENABLEAVATARS));
-
-					db_set_b(NULL, gg->m_szModuleName, GG_KEY_IMGMETHOD,
-						(BYTE)SendDlgItemMessage(hwndDlg, IDC_IMGMETHOD, CB_GETCURSEL, 0, 0));
-
-					// Write leave status
-					switch(SendDlgItemMessage(hwndDlg, IDC_LEAVESTATUS, CB_GETCURSEL, 0, 0))
-					{
-					case 1:
-						db_set_w(NULL, gg->m_szModuleName, GG_KEY_LEAVESTATUS, ID_STATUS_ONLINE);
-						break;
-					case 2:
-						db_set_w(NULL, gg->m_szModuleName, GG_KEY_LEAVESTATUS, ID_STATUS_AWAY);
-						break;
-					case 3:
-						db_set_w(NULL, gg->m_szModuleName, GG_KEY_LEAVESTATUS, ID_STATUS_DND);
-						break;
-					case 4:
-						db_set_w(NULL, gg->m_szModuleName, GG_KEY_LEAVESTATUS, ID_STATUS_FREECHAT);
-						break;
-					case 5:
-						db_set_w(NULL, gg->m_szModuleName, GG_KEY_LEAVESTATUS, ID_STATUS_INVISIBLE);
-						break;
-					default:
-						db_set_w(NULL, gg->m_szModuleName, GG_KEY_LEAVESTATUS, GG_KEYDEF_LEAVESTATUS);
-					}
+		case IDC_LOSTPASS:
+			{
+				char email[128];
+				uin_t uin;
+				GetDlgItemTextA(hwndDlg, IDC_UIN, email, sizeof(email));
+				uin = atoi(email);
+				GetDlgItemTextA(hwndDlg, IDC_EMAIL, email, sizeof(email));
+				if (!strlen(email))
+					MessageBox(NULL, TranslateT("You need to specify your registration e-mail first."),
+					gg->m_tszUserName, MB_OK | MB_ICONEXCLAMATION);
+				else if (MessageBox(NULL,
+					TranslateT("Your password will be sent to your registration e-mail.\nDo you want to continue ?"),
+					gg->m_tszUserName,
+					MB_OKCANCEL | MB_ICONQUESTION) == IDOK)
+					gg->remindpassword(uin, email);
+				return FALSE;
+			}
+		case IDC_CREATEACCOUNT:
+		case IDC_REMOVEACCOUNT:
+			if (gg->isonline())
+			{
+				if (MessageBox(
+					NULL,
+					TranslateT("You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?"),
+					gg->m_tszUserName,
+					MB_OKCANCEL | MB_ICONEXCLAMATION) == IDCANCEL)
 					break;
+				else
+					gg->disconnect();
+			}
+		case IDC_CHPASS:
+		case IDC_CHEMAIL:
+			{
+				// Readup data
+				GGUSERUTILDLGDATA dat;
+				int ret;
+				char pass[128], email[128];
+				GetDlgItemTextA(hwndDlg, IDC_UIN, pass, sizeof(pass));
+				dat.uin = atoi(pass);
+				GetDlgItemTextA(hwndDlg, IDC_PASSWORD, pass, sizeof(pass));
+				GetDlgItemTextA(hwndDlg, IDC_EMAIL, email, sizeof(email));
+				dat.pass = pass;
+				dat.email = email;
+				dat.gg = gg;
+				if (LOWORD(wParam) == IDC_CREATEACCOUNT)
+				{
+					dat.mode = GG_USERUTIL_CREATE;
+					ret = DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CREATEACCOUNT), hwndDlg, gg_userutildlgproc, (LPARAM)&dat);
+				}
+				else if (LOWORD(wParam) == IDC_CHPASS)
+				{
+					dat.mode = GG_USERUTIL_PASS;
+					ret = DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHPASS), hwndDlg, gg_userutildlgproc, (LPARAM)&dat);
+				}
+				else if (LOWORD(wParam) == IDC_CHEMAIL)
+				{
+					dat.mode = GG_USERUTIL_EMAIL;
+					ret = DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHEMAIL), hwndDlg, gg_userutildlgproc, (LPARAM)&dat);
+				}
+				else
+				{
+					dat.mode = GG_USERUTIL_REMOVE;
+					ret = DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_REMOVEACCOUNT), hwndDlg, gg_userutildlgproc, (LPARAM)&dat);
+				}
+
+				if (ret == IDOK)
+				{
+					DBVARIANT dbv;
+					DWORD num;
+					// Show reload required window
+					ShowWindow(GetDlgItem(hwndDlg, IDC_RELOADREQD), SW_SHOW);
+
+					// Update uin
+					if (num = gg->getDword(GG_KEY_UIN, 0))
+						SetDlgItemTextA(hwndDlg, IDC_UIN, ditoa(num));
+					else
+						SetDlgItemTextA(hwndDlg, IDC_UIN, "");
+
+					// Update password
+					if (!gg->getString(GG_KEY_PASSWORD, &dbv)) {
+						CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
+						SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
+						db_free(&dbv);
+					}
+					else SetDlgItemTextA(hwndDlg, IDC_PASSWORD, "");
+
+					// Update e-mail
+					if (!gg->getString(GG_KEY_EMAIL, &dbv)) {
+						SetDlgItemTextA(hwndDlg, IDC_EMAIL, dbv.pszVal);
+						db_free(&dbv);
+					}
+					else SetDlgItemTextA(hwndDlg, IDC_EMAIL, "");
+
+					// Update links
+					gg_optsdlgcheck(hwndDlg);
+
+					// Remove details
+					if (LOWORD(wParam) != IDC_CHPASS && LOWORD(wParam) != IDC_CHEMAIL)
+					{
+						gg->delSetting(GG_KEY_NICK);
+						gg->delSetting(GG_KEY_PD_NICKNAME);
+						gg->delSetting(GG_KEY_PD_CITY);
+						gg->delSetting(GG_KEY_PD_FIRSTNAME);
+						gg->delSetting(GG_KEY_PD_LASTNAME);
+						gg->delSetting(GG_KEY_PD_FAMILYNAME);
+						gg->delSetting(GG_KEY_PD_FAMILYCITY	);
+						gg->delSetting(GG_KEY_PD_AGE);
+						gg->delSetting(GG_KEY_PD_BIRTHYEAR);
+						gg->delSetting(GG_KEY_PD_GANDER);
+					}
 				}
 			}
 			break;
 		}
+		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		break;
+
+	case WM_NOTIFY:
+		switch (((LPNMHDR) lParam)->code) {
+		case PSN_APPLY:
+			int status_flags = GG_STATUS_FLAG_UNKNOWN;
+			char str[128];
+			uin_t uin;
+
+			// Write Gadu-Gadu number & password
+			GetDlgItemTextA(hwndDlg, IDC_UIN, str, sizeof(str));
+			uin = atoi(str);
+			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(str));
+			CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), (LPARAM) str);
+			gg->checknewuser(uin, str);
+			gg->setDword(GG_KEY_UIN, uin);
+			gg->setString(GG_KEY_PASSWORD, str);
+
+			// Write Gadu-Gadu email
+			GetDlgItemTextA(hwndDlg, IDC_EMAIL, str, sizeof(str));
+			gg->setString(GG_KEY_EMAIL, str);
+
+			// Write checkboxes
+			gg->setByte(GG_KEY_FRIENDSONLY, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_FRIENDSONLY));
+			gg->setByte(GG_KEY_SHOWINVISIBLE, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SHOWINVISIBLE));
+			gg->setByte(GG_KEY_LEAVESTATUSMSG, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_LEAVESTATUSMSG));
+			if (gg->gc_enabled)
+				gg->setByte(GG_KEY_IGNORECONF, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_IGNORECONF));
+			gg->setByte(GG_KEY_IMGRECEIVE, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_IMGRECEIVE));
+			gg->setByte(GG_KEY_SHOWLINKS, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SHOWLINKS));
+			if (IsDlgButtonChecked(hwndDlg, IDC_SHOWLINKS))
+				status_flags |= GG_STATUS_FLAG_SPAM;
+			gg->gg_EnterCriticalSection(&gg->sess_mutex, "gg_genoptsdlgproc", 34, "sess_mutex", 1);
+			gg_change_status_flags(gg->sess, status_flags);
+			gg->gg_LeaveCriticalSection(&gg->sess_mutex, "gg_genoptsdlgproc", 34, 1, "sess_mutex", 1);
+			gg->setByte(GG_KEY_ENABLEAVATARS, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_ENABLEAVATARS));
+
+			gg->setByte(GG_KEY_IMGMETHOD, (BYTE)SendDlgItemMessage(hwndDlg, IDC_IMGMETHOD, CB_GETCURSEL, 0, 0));
+
+			// Write leave status
+			switch(SendDlgItemMessage(hwndDlg, IDC_LEAVESTATUS, CB_GETCURSEL, 0, 0)) {
+			case 1:
+				gg->setWord(GG_KEY_LEAVESTATUS, ID_STATUS_ONLINE);
+				break;
+			case 2:
+				gg->setWord(GG_KEY_LEAVESTATUS, ID_STATUS_AWAY);
+				break;
+			case 3:
+				gg->setWord(GG_KEY_LEAVESTATUS, ID_STATUS_DND);
+				break;
+			case 4:
+				gg->setWord(GG_KEY_LEAVESTATUS, ID_STATUS_FREECHAT);
+				break;
+			case 5:
+				gg->setWord(GG_KEY_LEAVESTATUS, ID_STATUS_INVISIBLE);
+				break;
+			default:
+				gg->setWord(GG_KEY_LEAVESTATUS, GG_KEYDEF_LEAVESTATUS);
+			}
+		}
+		break;
 	}
 	return FALSE;
 }
@@ -530,73 +522,59 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 static INT_PTR CALLBACK gg_confoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	GGPROTO *gg = (GGPROTO *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	DWORD num;
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		{
-			DWORD num;
-			GGPROTO *gg = (GGPROTO *)lParam;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
+		gg = (GGPROTO *)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 
-			TranslateDialogDefault(hwndDlg);
-			SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_TOTAL, CB_ADDSTRING, 0, (LPARAM)TranslateT("Allow"));
-			SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_TOTAL, CB_ADDSTRING, 0, (LPARAM)TranslateT("Ask"));
-			SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_TOTAL, CB_ADDSTRING, 0, (LPARAM)TranslateT("Ignore"));
-			SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_TOTAL, CB_SETCURSEL,
-				db_get_w(NULL, gg->m_szModuleName, GG_KEY_GC_POLICY_TOTAL, GG_KEYDEF_GC_POLICY_TOTAL), 0);
+		TranslateDialogDefault(hwndDlg);
+		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_TOTAL, CB_ADDSTRING, 0, (LPARAM)TranslateT("Allow"));
+		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_TOTAL, CB_ADDSTRING, 0, (LPARAM)TranslateT("Ask"));
+		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_TOTAL, CB_ADDSTRING, 0, (LPARAM)TranslateT("Ignore"));
+		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_TOTAL, CB_SETCURSEL, gg->getWord(GG_KEY_GC_POLICY_TOTAL, GG_KEYDEF_GC_POLICY_TOTAL), 0);
 
-			if (num = db_get_w(NULL, gg->m_szModuleName, GG_KEY_GC_COUNT_TOTAL, GG_KEYDEF_GC_COUNT_TOTAL))
-				SetDlgItemTextA(hwndDlg, IDC_GC_COUNT_TOTAL, ditoa(num));
+		if (num = gg->getWord(GG_KEY_GC_COUNT_TOTAL, GG_KEYDEF_GC_COUNT_TOTAL))
+			SetDlgItemTextA(hwndDlg, IDC_GC_COUNT_TOTAL, ditoa(num));
 
-			SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_UNKNOWN, CB_ADDSTRING, 0, (LPARAM)TranslateT("Allow"));
-			SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_UNKNOWN, CB_ADDSTRING, 0, (LPARAM)TranslateT("Ask"));
-			SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_UNKNOWN, CB_ADDSTRING, 0, (LPARAM)TranslateT("Ignore"));
-			SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_UNKNOWN, CB_SETCURSEL,
-				db_get_w(NULL, gg->m_szModuleName, GG_KEY_GC_POLICY_UNKNOWN, GG_KEYDEF_GC_POLICY_UNKNOWN), 0);
+		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_UNKNOWN, CB_ADDSTRING, 0, (LPARAM)TranslateT("Allow"));
+		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_UNKNOWN, CB_ADDSTRING, 0, (LPARAM)TranslateT("Ask"));
+		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_UNKNOWN, CB_ADDSTRING, 0, (LPARAM)TranslateT("Ignore"));
+		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_UNKNOWN, CB_SETCURSEL, gg->getWord(GG_KEY_GC_POLICY_UNKNOWN, GG_KEYDEF_GC_POLICY_UNKNOWN), 0);
 
-			if (num = db_get_w(NULL, gg->m_szModuleName, GG_KEY_GC_COUNT_UNKNOWN, GG_KEYDEF_GC_COUNT_UNKNOWN))
-				SetDlgItemTextA(hwndDlg, IDC_GC_COUNT_UNKNOWN, ditoa(num));
+		if (num = gg->getWord(GG_KEY_GC_COUNT_UNKNOWN, GG_KEYDEF_GC_COUNT_UNKNOWN))
+			SetDlgItemTextA(hwndDlg, IDC_GC_COUNT_UNKNOWN, ditoa(num));
 
-			SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_DEFAULT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Allow"));
-			SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_DEFAULT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Ask"));
-			SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_DEFAULT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Ignore"));
-			SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_DEFAULT, CB_SETCURSEL,
-				db_get_w(NULL, gg->m_szModuleName, GG_KEY_GC_POLICY_DEFAULT, GG_KEYDEF_GC_POLICY_DEFAULT), 0);
-			break;
-		}
+		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_DEFAULT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Allow"));
+		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_DEFAULT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Ask"));
+		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_DEFAULT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Ignore"));
+		SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_DEFAULT, CB_SETCURSEL, gg->getWord(GG_KEY_GC_POLICY_DEFAULT, GG_KEYDEF_GC_POLICY_DEFAULT), 0);
+		break;
+
 	case WM_COMMAND:
-		{
-			if ((LOWORD(wParam) == IDC_GC_COUNT_TOTAL || LOWORD(wParam) == IDC_GC_COUNT_UNKNOWN)
-				&& (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus()))
-				return 0;
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
-		}
+		if ((LOWORD(wParam) == IDC_GC_COUNT_TOTAL || LOWORD(wParam) == IDC_GC_COUNT_UNKNOWN)
+			&& (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus()))
+			return 0;
+		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		break;
+
 	case WM_NOTIFY:
-		{
-			switch (((LPNMHDR) lParam)->code) {
-			case PSN_APPLY:
-				{
-					char str[128];
+		switch (((LPNMHDR) lParam)->code) {
+		case PSN_APPLY:
+			char str[128];
 
-					// Write groupchat policy
-					db_set_w(NULL, gg->m_szModuleName, GG_KEY_GC_POLICY_TOTAL,
-						(WORD)SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_TOTAL, CB_GETCURSEL, 0, 0));
-					db_set_w(NULL, gg->m_szModuleName, GG_KEY_GC_POLICY_UNKNOWN,
-						(WORD)SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_UNKNOWN, CB_GETCURSEL, 0, 0));
-					db_set_w(NULL, gg->m_szModuleName, GG_KEY_GC_POLICY_DEFAULT,
-						(WORD)SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_DEFAULT, CB_GETCURSEL, 0, 0));
+			// Write groupchat policy
+			gg->setWord(GG_KEY_GC_POLICY_TOTAL, (WORD)SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_TOTAL, CB_GETCURSEL, 0, 0));
+			gg->setWord(GG_KEY_GC_POLICY_UNKNOWN, (WORD)SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_UNKNOWN, CB_GETCURSEL, 0, 0));
+			gg->setWord(GG_KEY_GC_POLICY_DEFAULT, (WORD)SendDlgItemMessage(hwndDlg, IDC_GC_POLICY_DEFAULT, CB_GETCURSEL, 0, 0));
 
-					GetDlgItemTextA(hwndDlg, IDC_GC_COUNT_TOTAL, str, sizeof(str));
-					db_set_w(NULL, gg->m_szModuleName, GG_KEY_GC_COUNT_TOTAL, (WORD)atoi(str));
-					GetDlgItemTextA(hwndDlg, IDC_GC_COUNT_UNKNOWN, str, sizeof(str));
-					db_set_w(NULL, gg->m_szModuleName, GG_KEY_GC_COUNT_UNKNOWN, (WORD)atoi(str));
-
-					break;
-				}
-			}
-			break;
+			GetDlgItemTextA(hwndDlg, IDC_GC_COUNT_TOTAL, str, sizeof(str));
+			gg->setWord(GG_KEY_GC_COUNT_TOTAL, (WORD)atoi(str));
+			GetDlgItemTextA(hwndDlg, IDC_GC_COUNT_UNKNOWN, str, sizeof(str));
+			gg->setWord(GG_KEY_GC_COUNT_UNKNOWN, (WORD)atoi(str));
 		}
+		break;
 	}
 	return FALSE;
 }
@@ -606,110 +584,106 @@ static INT_PTR CALLBACK gg_confoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam
 static INT_PTR CALLBACK gg_advoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	GGPROTO *gg = (GGPROTO *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	DBVARIANT dbv;
+	DWORD num;
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		{
-			DBVARIANT dbv;
-			DWORD num;
-			GGPROTO *gg = (GGPROTO *)lParam;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
+		gg = (GGPROTO *)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 
-			TranslateDialogDefault(hwndDlg);
-			if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_SERVERHOSTS, &dbv, DBVT_ASCIIZ)) {
-				SetDlgItemTextA(hwndDlg, IDC_HOST, dbv.pszVal);
-				db_free(&dbv);
-			}
-			else SetDlgItemTextA(hwndDlg, IDC_HOST, GG_KEYDEF_SERVERHOSTS);
-
-			CheckDlgButton(hwndDlg, IDC_KEEPALIVE, db_get_b(NULL, gg->m_szModuleName, GG_KEY_KEEPALIVE, GG_KEYDEF_KEEPALIVE));
-			CheckDlgButton(hwndDlg, IDC_SHOWCERRORS, db_get_b(NULL, gg->m_szModuleName, GG_KEY_SHOWCERRORS, GG_KEYDEF_SHOWCERRORS));
-			CheckDlgButton(hwndDlg, IDC_ARECONNECT, db_get_b(NULL, gg->m_szModuleName, GG_KEY_ARECONNECT, GG_KEYDEF_ARECONNECT));
-			CheckDlgButton(hwndDlg, IDC_MSGACK, db_get_b(NULL, gg->m_szModuleName, GG_KEY_MSGACK, GG_KEYDEF_MSGACK));
-			CheckDlgButton(hwndDlg, IDC_MANUALHOST, db_get_b(NULL, gg->m_szModuleName, GG_KEY_MANUALHOST, GG_KEYDEF_MANUALHOST));
-			CheckDlgButton(hwndDlg, IDC_SSLCONN, db_get_b(NULL, gg->m_szModuleName, GG_KEY_SSLCONN, GG_KEYDEF_SSLCONN));
-
-			EnableWindow(GetDlgItem(hwndDlg, IDC_HOST), IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_PORT), IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
-
-			CheckDlgButton(hwndDlg, IDC_DIRECTCONNS, db_get_b(NULL, gg->m_szModuleName, GG_KEY_DIRECTCONNS, GG_KEYDEF_DIRECTCONNS));
-			if (num = db_get_w(NULL, gg->m_szModuleName, GG_KEY_DIRECTPORT, GG_KEYDEF_DIRECTPORT))
-				SetDlgItemTextA(hwndDlg, IDC_DIRECTPORT, ditoa(num));
-			CheckDlgButton(hwndDlg, IDC_FORWARDING, db_get_b(NULL, gg->m_szModuleName, GG_KEY_FORWARDING, GG_KEYDEF_FORWARDING));
-			if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_FORWARDHOST, &dbv, DBVT_ASCIIZ)) {
-				SetDlgItemTextA(hwndDlg, IDC_FORWARDHOST, dbv.pszVal);
-				db_free(&dbv);
-			}
-			if (num = db_get_w(NULL, gg->m_szModuleName, GG_KEY_FORWARDPORT, GG_KEYDEF_FORWARDPORT))
-				SetDlgItemTextA(hwndDlg, IDC_FORWARDPORT, ditoa(num));
-
-			EnableWindow(GetDlgItem(hwndDlg, IDC_DIRECTPORT), IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_FORWARDING), IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_FORWARDPORT), IsDlgButtonChecked(hwndDlg, IDC_FORWARDING) && IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_FORWARDHOST), IsDlgButtonChecked(hwndDlg, IDC_FORWARDING) && IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
-			break;
+		TranslateDialogDefault(hwndDlg);
+		if (!gg->getString(GG_KEY_SERVERHOSTS, &dbv)) {
+			SetDlgItemTextA(hwndDlg, IDC_HOST, dbv.pszVal);
+			db_free(&dbv);
 		}
+		else SetDlgItemTextA(hwndDlg, IDC_HOST, GG_KEYDEF_SERVERHOSTS);
+
+		CheckDlgButton(hwndDlg, IDC_KEEPALIVE, gg->getByte(GG_KEY_KEEPALIVE, GG_KEYDEF_KEEPALIVE));
+		CheckDlgButton(hwndDlg, IDC_SHOWCERRORS, gg->getByte(GG_KEY_SHOWCERRORS, GG_KEYDEF_SHOWCERRORS));
+		CheckDlgButton(hwndDlg, IDC_ARECONNECT, gg->getByte(GG_KEY_ARECONNECT, GG_KEYDEF_ARECONNECT));
+		CheckDlgButton(hwndDlg, IDC_MSGACK, gg->getByte(GG_KEY_MSGACK, GG_KEYDEF_MSGACK));
+		CheckDlgButton(hwndDlg, IDC_MANUALHOST, gg->getByte(GG_KEY_MANUALHOST, GG_KEYDEF_MANUALHOST));
+		CheckDlgButton(hwndDlg, IDC_SSLCONN, gg->getByte(GG_KEY_SSLCONN, GG_KEYDEF_SSLCONN));
+
+		EnableWindow(GetDlgItem(hwndDlg, IDC_HOST), IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_PORT), IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
+
+		CheckDlgButton(hwndDlg, IDC_DIRECTCONNS, gg->getByte(GG_KEY_DIRECTCONNS, GG_KEYDEF_DIRECTCONNS));
+		if (num = gg->getWord(GG_KEY_DIRECTPORT, GG_KEYDEF_DIRECTPORT))
+			SetDlgItemTextA(hwndDlg, IDC_DIRECTPORT, ditoa(num));
+		CheckDlgButton(hwndDlg, IDC_FORWARDING, gg->getByte(GG_KEY_FORWARDING, GG_KEYDEF_FORWARDING));
+		if (!gg->getString(GG_KEY_FORWARDHOST, &dbv)) {
+			SetDlgItemTextA(hwndDlg, IDC_FORWARDHOST, dbv.pszVal);
+			db_free(&dbv);
+		}
+		if (num = gg->getWord(GG_KEY_FORWARDPORT, GG_KEYDEF_FORWARDPORT))
+			SetDlgItemTextA(hwndDlg, IDC_FORWARDPORT, ditoa(num));
+
+		EnableWindow(GetDlgItem(hwndDlg, IDC_DIRECTPORT), IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_FORWARDING), IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_FORWARDPORT), IsDlgButtonChecked(hwndDlg, IDC_FORWARDING) && IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_FORWARDHOST), IsDlgButtonChecked(hwndDlg, IDC_FORWARDING) && IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
+		break;
+
 	case WM_COMMAND:
-		{
-			if ((LOWORD(wParam) == IDC_DIRECTPORT || LOWORD(wParam) == IDC_FORWARDHOST || LOWORD(wParam) == IDC_FORWARDPORT)
-				&& (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus()))
-				return 0;
-			switch (LOWORD(wParam)) {
-			case IDC_MANUALHOST:
-				{
-					EnableWindow(GetDlgItem(hwndDlg, IDC_HOST), IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
-					EnableWindow(GetDlgItem(hwndDlg, IDC_PORT), IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
-					ShowWindow(GetDlgItem(hwndDlg, IDC_RELOADREQD), SW_SHOW);
-					break;
-				}
-			case IDC_DIRECTCONNS:
-			case IDC_FORWARDING:
-				{
-					EnableWindow(GetDlgItem(hwndDlg, IDC_DIRECTPORT), IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
-					EnableWindow(GetDlgItem(hwndDlg, IDC_FORWARDING), IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
-					EnableWindow(GetDlgItem(hwndDlg, IDC_FORWARDPORT), IsDlgButtonChecked(hwndDlg, IDC_FORWARDING) && IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
-					EnableWindow(GetDlgItem(hwndDlg, IDC_FORWARDHOST), IsDlgButtonChecked(hwndDlg, IDC_FORWARDING) && IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
-					ShowWindow(GetDlgItem(hwndDlg, IDC_RELOADREQD), SW_SHOW);
-					break;
-				}
+		if ((LOWORD(wParam) == IDC_DIRECTPORT || LOWORD(wParam) == IDC_FORWARDHOST || LOWORD(wParam) == IDC_FORWARDPORT)
+			&& (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus()))
+			return 0;
+		switch (LOWORD(wParam)) {
+		case IDC_MANUALHOST:
+			{
+				EnableWindow(GetDlgItem(hwndDlg, IDC_HOST), IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
+				EnableWindow(GetDlgItem(hwndDlg, IDC_PORT), IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
+				ShowWindow(GetDlgItem(hwndDlg, IDC_RELOADREQD), SW_SHOW);
+				break;
 			}
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
+		case IDC_DIRECTCONNS:
+		case IDC_FORWARDING:
+			{
+				EnableWindow(GetDlgItem(hwndDlg, IDC_DIRECTPORT), IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
+				EnableWindow(GetDlgItem(hwndDlg, IDC_FORWARDING), IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
+				EnableWindow(GetDlgItem(hwndDlg, IDC_FORWARDPORT), IsDlgButtonChecked(hwndDlg, IDC_FORWARDING) && IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
+				EnableWindow(GetDlgItem(hwndDlg, IDC_FORWARDHOST), IsDlgButtonChecked(hwndDlg, IDC_FORWARDING) && IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
+				ShowWindow(GetDlgItem(hwndDlg, IDC_RELOADREQD), SW_SHOW);
+				break;
+			}
 		}
+		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		break;
+
 	case WM_NOTIFY:
-		{
-			switch (((LPNMHDR) lParam)->code) {
-			case PSN_APPLY:
-				{
-					char str[512];
-					db_set_b(NULL, gg->m_szModuleName, GG_KEY_KEEPALIVE, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_KEEPALIVE));
-					db_set_b(NULL, gg->m_szModuleName, GG_KEY_SHOWCERRORS, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SHOWCERRORS));
-					db_set_b(NULL, gg->m_szModuleName, GG_KEY_ARECONNECT, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_ARECONNECT));
-					db_set_b(NULL, gg->m_szModuleName, GG_KEY_MSGACK, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_MSGACK));
-					db_set_b(NULL, gg->m_szModuleName, GG_KEY_MANUALHOST, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
-					db_set_b(NULL, gg->m_szModuleName, GG_KEY_SSLCONN, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SSLCONN));
+		switch (((LPNMHDR) lParam)->code) {
+		case PSN_APPLY:
+			{
+				char str[512];
+				gg->setByte(GG_KEY_KEEPALIVE, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_KEEPALIVE));
+				gg->setByte(GG_KEY_SHOWCERRORS, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SHOWCERRORS));
+				gg->setByte(GG_KEY_ARECONNECT, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_ARECONNECT));
+				gg->setByte(GG_KEY_MSGACK, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_MSGACK));
+				gg->setByte(GG_KEY_MANUALHOST, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
+				gg->setByte(GG_KEY_SSLCONN, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SSLCONN));
 
-					// Transfer settings
-					db_set_b(NULL, gg->m_szModuleName, GG_KEY_DIRECTCONNS, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
-					db_set_b(NULL, gg->m_szModuleName, GG_KEY_FORWARDING, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_FORWARDING));
+				// Transfer settings
+				gg->setByte(GG_KEY_DIRECTCONNS, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
+				gg->setByte(GG_KEY_FORWARDING, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_FORWARDING));
 
-					// Write custom servers
-					GetDlgItemTextA(hwndDlg, IDC_HOST, str, sizeof(str));
-					db_set_s(NULL, gg->m_szModuleName, GG_KEY_SERVERHOSTS, str);
+				// Write custom servers
+				GetDlgItemTextA(hwndDlg, IDC_HOST, str, sizeof(str));
+				gg->setString(GG_KEY_SERVERHOSTS, str);
 
-					// Write direct port
-					GetDlgItemTextA(hwndDlg, IDC_DIRECTPORT, str, sizeof(str));
-					db_set_w(NULL, gg->m_szModuleName, GG_KEY_DIRECTPORT, (WORD)atoi(str));
-					// Write forwarding host
-					GetDlgItemTextA(hwndDlg, IDC_FORWARDHOST, str, sizeof(str));
-					db_set_s(NULL, gg->m_szModuleName, GG_KEY_FORWARDHOST, str);
-					GetDlgItemTextA(hwndDlg, IDC_FORWARDPORT, str, sizeof(str));
-					db_set_w(NULL, gg->m_szModuleName, GG_KEY_FORWARDPORT, (WORD)atoi(str));
-					break;
-				}
+				// Write direct port
+				GetDlgItemTextA(hwndDlg, IDC_DIRECTPORT, str, sizeof(str));
+				gg->setWord(GG_KEY_DIRECTPORT, (WORD)atoi(str));
+				// Write forwarding host
+				GetDlgItemTextA(hwndDlg, IDC_FORWARDHOST, str, sizeof(str));
+				gg->setString(GG_KEY_FORWARDHOST, str);
+				GetDlgItemTextA(hwndDlg, IDC_FORWARDPORT, str, sizeof(str));
+				gg->setWord(GG_KEY_FORWARDPORT, (WORD)atoi(str));
+				break;
 			}
-			break;
 		}
+		break;
 	}
 	return FALSE;
 }
@@ -799,8 +773,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 						SetValue(hwndDlg, IDC_GENDER, hContact, szProto, GG_KEY_PD_GANDER, SVS_GENDER, hContact != NULL);
 						SetValue(hwndDlg, IDC_STATUSDESCR, hContact, "CList", GG_KEY_STATUSDESCR, SVS_NORMAL, hContact != NULL);
 					}
-					else switch((char)db_get_b(hContact, gg->m_szModuleName, GG_KEY_PD_GANDER, (BYTE)'?'))
-					{
+					else switch((char)db_get_b(hContact, gg->m_szModuleName, GG_KEY_PD_GANDER, (BYTE)'?')) {
 					case 'F':
 						SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_SETCURSEL, 1, 0);
 						break;
@@ -820,8 +793,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		}
 		break;
 	case WM_COMMAND:
-		if (dat && !dat->hContact && LOWORD(wParam) == IDC_SAVE && HIWORD(wParam) == BN_CLICKED)
-		{
+		if (dat && !dat->hContact && LOWORD(wParam) == IDC_SAVE && HIWORD(wParam) == BN_CLICKED) {
 			// Save user data
 			TCHAR text[256];
 			gg_pubdir50_t req;
@@ -868,8 +840,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			}
 
 			// Gadu-Gadu Female <-> Male
-			switch(SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_GETCURSEL, 0, 0))
-			{
+			switch(SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_GETCURSEL, 0, 0)) {
 			case 1:
 				gg_pubdir50_add(req, GG_PUBDIR50_GENDER, GG_PUBDIR50_GENDER_SET_FEMALE);
 				break;
@@ -941,19 +912,15 @@ int GGPROTO::details_init(WPARAM wParam, LPARAM lParam)
 			return 0;
 
 	// Here goes init
-	{
-		OPTIONSDIALOGPAGE odp = {0};
-
-		odp.cbSize = sizeof(odp);
-		odp.flags = ODPF_DONTTRANSLATE | ODPF_TCHAR;
-		odp.hInstance = hInstance;
-		odp.pfnDlgProc = gg_detailsdlgproc;
-		odp.position = -1900000000;
-		odp.pszTemplate = ((HANDLE)lParam != NULL) ? MAKEINTRESOURCEA(IDD_INFO_GG) : MAKEINTRESOURCEA(IDD_CHINFO_GG);
-		odp.ptszTitle = m_tszUserName;
-		odp.dwInitParam = (LPARAM)this;
-		UserInfo_AddPage(wParam, &odp);
-	}
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	odp.flags = ODPF_DONTTRANSLATE | ODPF_TCHAR;
+	odp.hInstance = hInstance;
+	odp.pfnDlgProc = gg_detailsdlgproc;
+	odp.position = -1900000000;
+	odp.pszTemplate = ((HANDLE)lParam != NULL) ? MAKEINTRESOURCEA(IDD_INFO_GG) : MAKEINTRESOURCEA(IDD_CHINFO_GG);
+	odp.ptszTitle = m_tszUserName;
+	odp.dwInitParam = (LPARAM)this;
+	UserInfo_AddPage(wParam, &odp);
 
 	// Start search for user data
 	if ((HANDLE)lParam == NULL)
@@ -978,14 +945,14 @@ INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 
 			TranslateDialogDefault(hwndDlg);
-			if (num = db_get_dw(NULL, gg->m_szModuleName, GG_KEY_UIN, 0))
+			if (num = gg->getDword(GG_KEY_UIN, 0))
 				SetDlgItemTextA(hwndDlg, IDC_UIN, ditoa(num));
-			if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ)) {
+			if (!gg->getString(GG_KEY_PASSWORD, &dbv)) {
 				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
 				db_free(&dbv);
 			}
-			if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_EMAIL, &dbv, DBVT_ASCIIZ)) {
+			if (!gg->getString(GG_KEY_EMAIL, &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_EMAIL, dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -1017,13 +984,13 @@ INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					ShowWindow(GetDlgItem(hwndDlg, IDC_RELOADREQD), SW_SHOW);
 
 					// Update uin
-					if (num = db_get_dw(NULL, gg->m_szModuleName, GG_KEY_UIN, 0))
+					if (num = gg->getDword(GG_KEY_UIN, 0))
 						SetDlgItemTextA(hwndDlg, IDC_UIN, ditoa(num));
 					else
 						SetDlgItemTextA(hwndDlg, IDC_UIN, "");
 
 					// Update password
-					if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ)) {
+					if (!gg->getString(GG_KEY_PASSWORD, &dbv)) {
 						CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 						SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
 						db_free(&dbv);
@@ -1031,7 +998,7 @@ INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					else SetDlgItemTextA(hwndDlg, IDC_PASSWORD, "");
 
 					// Update e-mail
-					if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_EMAIL, &dbv, DBVT_ASCIIZ)) {
+					if (!gg->getString(GG_KEY_EMAIL, &dbv)) {
 						SetDlgItemTextA(hwndDlg, IDC_EMAIL, dbv.pszVal);
 						db_free(&dbv);
 					}
@@ -1056,12 +1023,12 @@ INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(str));
 					CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), (LPARAM) str);
 					gg->checknewuser(uin, str);
-					db_set_dw(NULL, gg->m_szModuleName, GG_KEY_UIN, uin);
-					db_set_s(NULL, gg->m_szModuleName, GG_KEY_PASSWORD, str);
+					gg->setDword(GG_KEY_UIN, uin);
+					gg->setString(GG_KEY_PASSWORD, str);
 
 					// Write Gadu-Gadu email
 					GetDlgItemTextA(hwndDlg, IDC_EMAIL, str, sizeof(str));
-					db_set_s(NULL, gg->m_szModuleName, GG_KEY_EMAIL, str);
+					gg->setString(GG_KEY_EMAIL, str);
 				}
 			}
 		}

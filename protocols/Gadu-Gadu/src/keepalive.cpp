@@ -52,7 +52,7 @@ static VOID CALLBACK gg_keepalive(HWND hwnd, UINT message, UINT_PTR idEvent, DWO
 
 void GGPROTO::keepalive_init()
 {
-	if (db_get_b(NULL, m_szModuleName, GG_KEY_KEEPALIVE, GG_KEYDEF_KEEPALIVE))
+	if (getByte(GG_KEY_KEEPALIVE, GG_KEYDEF_KEEPALIVE))
 	{
 		int i;
 		for(i = 0; i < MAX_TIMERS && g_timers[i] != NULL; i++);

@@ -102,12 +102,12 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 
 	// Readup contacts
 	for (HANDLE hContact = db_find_first(gg->m_szModuleName); hContact; hContact = db_find_next(hContact, gg->m_szModuleName)) {
-		if (db_get_b(hContact, gg->m_szModuleName, "ChatRoom", 0))
+		if (gg->getByte(hContact, "ChatRoom", 0))
 			continue;
 
 		// Readup FirstName
 		DBVARIANT dbv;
-		if (!db_get_s(hContact, gg->m_szModuleName, GG_KEY_PD_FIRSTNAME, &dbv, DBVT_WCHAR))
+		if (!gg->getTString(hContact, GG_KEY_PD_FIRSTNAME, &dbv))
 		{
 			char* pszValA = mir_t2a(dbv.ptszVal);
 			string_append(s, dbv.pszVal);
@@ -116,7 +116,7 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 		}
 		string_append_c(s, ';');
 		// Readup LastName
-		if (!db_get_s(hContact, gg->m_szModuleName, GG_KEY_PD_LASTNAME, &dbv, DBVT_WCHAR))
+		if (!gg->getTString(hContact, GG_KEY_PD_LASTNAME, &dbv))
 		{
 			char* pszValA = mir_t2a(dbv.ptszVal);
 			string_append(s, dbv.pszVal);
@@ -126,11 +126,11 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 		string_append_c(s, ';');
 
 		// Readup Nick
-		if (!db_get_s(hContact, "CList", "MyHandle", &dbv, DBVT_TCHAR) || !db_get_s(hContact, gg->m_szModuleName, GG_KEY_NICK, &dbv, DBVT_TCHAR))
+		if (!db_get_ts(hContact, "CList", "MyHandle", &dbv) || !gg->getTString(hContact, GG_KEY_NICK, &dbv))
 		{
 			char* dbvA = mir_t2a(dbv.ptszVal);
 			DBVARIANT dbv2;
-			if (!db_get_s(hContact, gg->m_szModuleName, GG_KEY_PD_NICKNAME, &dbv2, DBVT_WCHAR))
+			if (!gg->getTString(hContact, GG_KEY_PD_NICKNAME, &dbv2))
 			{
 				char* pszValA = mir_t2a(dbv2.ptszVal);
 				string_append(s, pszValA);
@@ -167,7 +167,7 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 		}
 		string_append_c(s, ';');
 		// Readup Uin
-		string_append(s, ditoa(db_get_dw(hContact, gg->m_szModuleName, GG_KEY_UIN, 0)));
+		string_append(s, ditoa(gg->getDword(hContact, GG_KEY_UIN, 0)));
 		string_append_c(s, ';');
 		// Readup Mail (fixed: uses stored editable mails)
 		if (!db_get_s(hContact, "UserInfo", "Mye-mail0", &dbv, DBVT_ASCIIZ))
@@ -296,12 +296,12 @@ void GGPROTO::parsecontacts(char *contacts)
 			// Write misc data
 			if (hContact && strFirstName){
 				TCHAR *tstrFirstName = mir_a2t(strFirstName);
-				db_set_ts(hContact, m_szModuleName, GG_KEY_PD_FIRSTNAME, tstrFirstName);
+				setTString(hContact, GG_KEY_PD_FIRSTNAME, tstrFirstName);
 				mir_free(tstrFirstName);
 			}
 			if (hContact && strLastName){
 				TCHAR *tstrLastName = mir_a2t(strLastName);
-				db_set_ts(hContact, m_szModuleName, GG_KEY_PD_LASTNAME, tstrLastName);
+				setTString(hContact, GG_KEY_PD_LASTNAME, tstrLastName);
 				mir_free(tstrLastName);
 			}
 			if (hContact && strPhone) db_set_s(hContact, "UserInfo", "MyPhone0", strPhone); // Store now in User Info
@@ -340,7 +340,7 @@ INT_PTR GGPROTO::import_server(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Readup password
-	if (!db_get_s(NULL, m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ))
+	if (!getString(GG_KEY_PASSWORD, &dbv))
 	{
 		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 		password = _strdup(dbv.pszVal);
@@ -348,7 +348,7 @@ INT_PTR GGPROTO::import_server(WPARAM wParam, LPARAM lParam)
 	}
 	else return 0;
 
-	if (!(uin = db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0)))
+	if (!(uin = getDword(GG_KEY_UIN, 0)))
 		return 0;
 
 	// Making contacts list
@@ -387,7 +387,7 @@ INT_PTR GGPROTO::remove_server(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Readup password
-	if (!db_get_s(NULL, m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ))
+	if (!getString(GG_KEY_PASSWORD, &dbv))
 	{
 		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 		password = _strdup(dbv.pszVal);
@@ -395,7 +395,7 @@ INT_PTR GGPROTO::remove_server(WPARAM wParam, LPARAM lParam)
 	}
 	else return 0;
 
-	if (!(uin = db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0)))
+	if (!(uin = getDword(GG_KEY_UIN, 0)))
 		return 0;
 
 	// Making contacts list
@@ -568,7 +568,7 @@ INT_PTR GGPROTO::export_server(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Readup password
-	if (!db_get_s(NULL, m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ))
+	if (!getString(GG_KEY_PASSWORD, &dbv))
 	{
 		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 		password = _strdup(dbv.pszVal);
@@ -576,7 +576,7 @@ INT_PTR GGPROTO::export_server(WPARAM wParam, LPARAM lParam)
 	}
 	else return 0;
 
-	if (!(uin = db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0)))
+	if (!(uin = getDword(GG_KEY_UIN, 0)))
 		return 0;
 
 	// Making contacts list

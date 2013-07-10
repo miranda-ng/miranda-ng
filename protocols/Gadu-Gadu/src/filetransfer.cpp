@@ -43,7 +43,7 @@ void GGPROTO::dccstart()
 	}
 
 	// Check if we wan't direct connections
-	if (!db_get_b(NULL, m_szModuleName, GG_KEY_DIRECTCONNS, GG_KEYDEF_DIRECTCONNS))
+	if (!getByte(GG_KEY_DIRECTCONNS, GG_KEYDEF_DIRECTCONNS))
 	{
 		netlog("dccstart(): No direct connections setup.");
 		if (hEvent) SetEvent(hEvent);
@@ -69,9 +69,9 @@ void GGPROTO::dccconnect(uin_t uin)
 	if (!hContact) return;
 
 	// Read user IP and port
-	ip = swap32(db_get_dw(hContact, m_szModuleName, GG_KEY_CLIENTIP, 0));
-	port = db_get_w(hContact, m_szModuleName, GG_KEY_CLIENTPORT, 0);
-	myuin = db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0);
+	ip = swap32(getDword(hContact, GG_KEY_CLIENTIP, 0));
+	port = getWord(hContact, GG_KEY_CLIENTPORT, 0);
+	myuin = getDword(GG_KEY_UIN, 0);
 
 	// If not port nor ip nor my uin (?) specified
 	if (!ip || !port || !uin) return;
@@ -143,7 +143,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 	netlog("dccmainthread(): started. DCC Server Thread Starting");
 
 	// Readup number
-	if (!(uin = db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0)))
+	if (!(uin = getDword(GG_KEY_UIN, 0)))
 	{
 		netlog("dccmainthread(): No Gadu-Gadu number specified. Exiting.");
 		if (hEvent) SetEvent(hEvent);
@@ -154,7 +154,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 	}
 
 	// Create listen socket on config direct port
-	if (!(dcc = gg_dcc_socket_create(uin, (uint16_t)db_get_w(NULL, m_szModuleName, GG_KEY_DIRECTPORT, GG_KEYDEF_DIRECTPORT))))
+	if (!(dcc = gg_dcc_socket_create(uin, (uint16_t)getWord(GG_KEY_DIRECTPORT, GG_KEYDEF_DIRECTPORT))))
 	{
 		netlog("dccmainthread(): Cannot create DCC listen socket. Exiting.");
 		// Signalize mainthread we haven't start
@@ -405,7 +405,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							netlog("dccmainthread(): Client: %d, Client accept.", local_dcc->peer_uin);
 							// Check if user is on the list and if it is my uin
 							if (getcontact(local_dcc->peer_uin, 0, 0, NULL) &&
-								db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, -1) == local_dcc->uin)
+								getDword(GG_KEY_UIN, -1) == local_dcc->uin)
 								break;
 
 							// Kill unauthorized dcc
@@ -927,11 +927,11 @@ HANDLE GGPROTO::SendFile(HANDLE hContact, const PROTOCHAR* szDescription, PROTOC
 	filename = mir_t2a(ppszFiles[0]);
 
 	// Read user IP and port
-	ip = swap32(db_get_dw(hContact, m_szModuleName, GG_KEY_CLIENTIP, 0));
-	port = db_get_w(hContact, m_szModuleName, GG_KEY_CLIENTPORT, 0);
-	myuin = db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0);
-	uin = db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0);
-	ver = db_get_dw(hContact, m_szModuleName, GG_KEY_CLIENTVERSION, 0);
+	ip = swap32(getDword(hContact, GG_KEY_CLIENTIP, 0));
+	port = getWord(hContact, GG_KEY_CLIENTPORT, 0);
+	myuin = getDword(GG_KEY_UIN, 0);
+	uin = getDword(hContact, GG_KEY_UIN, 0);
+	ver = getDword(hContact, GG_KEY_CLIENTVERSION, 0);
 
 	// Use DCC7 if a contact is using at least version 7.6 or unknown version
 	if ((ver & 0x00ffffff) >= 0x29 || !ver) {
