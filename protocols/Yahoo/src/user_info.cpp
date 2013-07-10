@@ -26,7 +26,7 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wPa
 	switch ( msg ) {
 	case WM_INITDIALOG:
 		// lParam is hContact
-		TranslateDialogDefault( hwndDlg );
+		TranslateDialogDefault(hwndDlg );
 
 		//SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS));
 
@@ -62,27 +62,27 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wPa
 						DBVARIANT dbv;
 						char z[128];
 						
-						if (ppro->getString( hContact,  YAHOO_LOGINID, &dbv ) == 0) {
+						if (ppro->getString( hContact,  YAHOO_LOGINID, &dbv) == 0) {
 							strcpy(z, dbv.pszVal);
-							db_free( &dbv );
+							db_free(&dbv);
 						} else {
 							strcpy(z, "???");
 						}
 						
 						SetDlgItemTextA(hwndDlg, IDC_SEARCH_ID, z);
 						
-						if (ppro->getString( hContact,  "Transport", &dbv ) == 0) {
+						if (ppro->getString( hContact,  "Transport", &dbv) == 0) {
 							strcpy(z, dbv.pszVal);
-							db_free( &dbv );
+							db_free(&dbv);
 						} else {
 							strcpy(z, "Yahoo");
 						}
 						
 						SetDlgItemTextA(hwndDlg, IDC_SEARCH_PROTOCOL, z);
 						
-						if (ppro->getString( hContact,  "MirVer", &dbv ) == 0) {
+						if (ppro->getString( hContact,  "MirVer", &dbv) == 0) {
 							strcpy(z, dbv.pszVal);
-							db_free( &dbv );
+							db_free(&dbv);
 						} else {
 							strcpy(z, "???");
 						}

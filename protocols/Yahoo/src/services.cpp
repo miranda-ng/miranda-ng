@@ -36,8 +36,8 @@ void CYahooProto::logoff_buddies()
 		setDword(hContact, "PictLastCheck", 0);
 		setDword(hContact, "PictLoading", 0);
 		db_unset(hContact, "CList", "StatusMsg");
-		db_unset(hContact, m_szModuleName, "YMsg");
-		db_unset(hContact, m_szModuleName, "YGMsg");
+		delSetting(hContact, "YMsg");
+		delSetting(hContact, "YGMsg");
 	}	
 }
 
@@ -101,7 +101,7 @@ int __cdecl CYahooProto::OnContactDeleted( WPARAM wParam, LPARAM lParam )
 		DebugLog("[YahooContactDeleted] Removing %s", dbv.pszVal);
 		remove_buddy(dbv.pszVal, getWord(hContact, "yprotoid", 0));
 		
-		db_free( &dbv );
+		db_free(&dbv);
 	} else {
 		DebugLog("[YahooContactDeleted] Can't retrieve contact Yahoo ID");
 	}
@@ -117,26 +117,26 @@ static INT_PTR CALLBACK DlgProcSetCustStat(HWND hwndDlg, UINT msg, WPARAM wParam
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		TranslateDialogDefault( hwndDlg );
+		TranslateDialogDefault(hwndDlg );
 		{
-			CYahooProto* ppro = ( CYahooProto* )lParam;
-			SetWindowLongPtr( hwndDlg, GWLP_USERDATA, lParam );
+			CYahooProto* ppro = (CYahooProto*)lParam;
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam );
 
-			SendMessage( hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)ppro->LoadIconEx("yahoo", true ));
-			SendMessage( hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)ppro->LoadIconEx("yahoo"));
+			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)ppro->LoadIconEx("yahoo", true ));
+			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)ppro->LoadIconEx("yahoo"));
 
-			if ( !db_get_s( NULL, ppro->m_szModuleName, YAHOO_CUSTSTATDB, &dbv )) {
-				SetDlgItemTextA( hwndDlg, IDC_CUSTSTAT, dbv. pszVal );
+			if ( !ppro->getString(YAHOO_CUSTSTATDB, &dbv)) {
+				SetDlgItemTextA(hwndDlg, IDC_CUSTSTAT, dbv. pszVal );
 
-				EnableWindow( GetDlgItem( hwndDlg, IDOK ), lstrlenA(dbv.pszVal) > 0);
-				db_free( &dbv );
+				EnableWindow( GetDlgItem(hwndDlg, IDOK ), lstrlenA(dbv.pszVal) > 0);
+				db_free(&dbv);
 			}
 			else {
-				SetDlgItemTextA( hwndDlg, IDC_CUSTSTAT, "");
-				EnableWindow( GetDlgItem( hwndDlg, IDOK ), FALSE );
+				SetDlgItemTextA(hwndDlg, IDC_CUSTSTAT, "");
+				EnableWindow( GetDlgItem(hwndDlg, IDOK ), FALSE );
 			}
 
-			CheckDlgButton( hwndDlg, IDC_CUSTSTATBUSY,  ppro->getByte("BusyCustStat", 0));
+			CheckDlgButton(hwndDlg, IDC_CUSTSTATBUSY,  ppro->getByte("BusyCustStat", 0));
 		}
 		return TRUE;
 
@@ -145,27 +145,27 @@ static INT_PTR CALLBACK DlgProcSetCustStat(HWND hwndDlg, UINT msg, WPARAM wParam
 		case IDOK:
 			{
 				char str[ 255 + 1 ];
-				CYahooProto* ppro = ( CYahooProto* )GetWindowLongPtr( hwndDlg, GWLP_USERDATA );
+				CYahooProto* ppro = ( CYahooProto* )GetWindowLongPtr(hwndDlg, GWLP_USERDATA );
 
 				/* Get String from dialog */
-				GetDlgItemTextA( hwndDlg, IDC_CUSTSTAT, str, sizeof( str ));
+				GetDlgItemTextA(hwndDlg, IDC_CUSTSTAT, str, sizeof( str ));
 
 				/* Save it for later use */
 				ppro->setString( YAHOO_CUSTSTATDB, str );
-				ppro->setByte("BusyCustStat", ( BYTE )IsDlgButtonChecked( hwndDlg, IDC_CUSTSTATBUSY ));
+				ppro->setByte("BusyCustStat", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CUSTSTATBUSY ));
 
 				/* set for Idle/AA */
 				if (ppro->m_startMsg) mir_free(ppro->m_startMsg);
 				ppro->m_startMsg = mir_strdup(str);
 
 				/* notify Server about status change */
-				ppro->set_status(YAHOO_CUSTOM_STATUS, str, ( BYTE )IsDlgButtonChecked( hwndDlg, IDC_CUSTSTATBUSY ));
+				ppro->set_status(YAHOO_CUSTOM_STATUS, str, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CUSTSTATBUSY ));
 
 				/* change local/miranda status */
-				ppro->BroadcastStatus(( BYTE )IsDlgButtonChecked( hwndDlg, IDC_CUSTSTATBUSY ) ? ID_STATUS_AWAY : ID_STATUS_ONLINE);
+				ppro->BroadcastStatus((BYTE)IsDlgButtonChecked(hwndDlg, IDC_CUSTSTATBUSY ) ? ID_STATUS_AWAY : ID_STATUS_ONLINE);
 			}
 		case IDCANCEL:
-			DestroyWindow( hwndDlg );
+			DestroyWindow(hwndDlg );
 			break;
 		}
 
@@ -175,20 +175,20 @@ static INT_PTR CALLBACK DlgProcSetCustStat(HWND hwndDlg, UINT msg, WPARAM wParam
 
 				BOOL toSet;
 
-				toSet = GetDlgItemTextA( hwndDlg, IDC_CUSTSTAT, str, sizeof( str )) != 0;
+				toSet = GetDlgItemTextA(hwndDlg, IDC_CUSTSTAT, str, sizeof( str )) != 0;
 
-				EnableWindow( GetDlgItem( hwndDlg, IDOK ), toSet );
+				EnableWindow( GetDlgItem(hwndDlg, IDOK ), toSet );
 			}			
 		}
 		break; /* case WM_COMMAND */
 
 	case WM_CLOSE:
-		DestroyWindow( hwndDlg );
+		DestroyWindow(hwndDlg );
 		break;
 
 	case WM_DESTROY:
 		{
-			CYahooProto* ppro = ( CYahooProto* )GetWindowLongPtr( hwndDlg, GWLP_USERDATA );
+			CYahooProto* ppro = ( CYahooProto* )GetWindowLongPtr(hwndDlg, GWLP_USERDATA );
 			ppro->ReleaseIconEx("yahoo", true);
 			ppro->ReleaseIconEx("yahoo");
 		}
@@ -261,7 +261,7 @@ INT_PTR __cdecl CYahooProto::OnShowProfileCommand( WPARAM wParam, LPARAM lParam 
 		return 0;
 		
 	_snprintf( tUrl, sizeof( tUrl ), "http://profiles.yahoo.com/%s", dbv.pszVal  );
-	db_free( &dbv );
+	db_free(&dbv);
 	
 	OpenURL(tUrl, 0);
 	return 0;
@@ -280,14 +280,14 @@ INT_PTR __cdecl CYahooProto::OnShowMyProfileCommand( WPARAM wParam, LPARAM lPara
 {
 	DBVARIANT dbv;
 	
-	if ( getString( YAHOO_LOGINID, &dbv ) != 0)	{
+	if ( getString( YAHOO_LOGINID, &dbv) != 0)	{
 		ShowError( TranslateT("Yahoo Error"), TranslateT("Please enter your yahoo id in Options/Network/Yahoo"));
 		return 0;
 	}
 
 	char tUrl[ 4096 ];
 	_snprintf( tUrl, sizeof( tUrl ), "http://profiles.yahoo.com/%s", dbv.pszVal  );
-	db_free( &dbv );
+	db_free(&dbv);
 
 	OpenURL(tUrl, 0);
 	return 0;

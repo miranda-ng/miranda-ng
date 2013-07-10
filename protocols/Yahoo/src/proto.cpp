@@ -206,9 +206,9 @@ int CYahooProto::Authorize( HANDLE hdbe )
 	/* Need to remove the buddy from our Miranda Lists */
 	HANDLE hContact = DbGetAuthEventContact(&dbei);
 	if (hContact != NULL) {
-		ptrA who( db_get_sa(hContact, m_szModuleName, YAHOO_LOGINID));
+		ptrA who( getStringA(hContact, YAHOO_LOGINID));
 		if (who) {
-			ptrA myid( db_get_sa(hContact, m_szModuleName, "MyIdentity"));
+			ptrA myid( getStringA(hContact, "MyIdentity"));
 			DebugLog("Accepting buddy:%s", who);
 			accept(myid, who, getWord(hContact, "yprotoid", 0));
 		}
@@ -251,9 +251,9 @@ int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 	/* Need to remove the buddy from our Miranda Lists */
 	HANDLE hContact = DbGetAuthEventContact(&dbei);
 	if (hContact != NULL) {
-		ptrA who( db_get_sa(hContact, m_szModuleName, YAHOO_LOGINID));
+		ptrA who( getStringA(hContact, YAHOO_LOGINID));
 		if (who) {
-			ptrA myid( db_get_sa(hContact, m_szModuleName, "MyIdentity"));
+			ptrA myid( getStringA(hContact, "MyIdentity"));
 			ptrA u_reason( mir_utf8encodeT(reason));
 
 			DebugLog("Rejecting buddy:%s msg: %s", who, u_reason);
@@ -493,7 +493,6 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 			db_free(&dbv);
 		}
 
-		//db_get_w(NULL, m_szModuleName, "StartupStatus", status);
 		m_startStatus = iNewStatus;
 
 		//reset the unread email count. We'll get a new packet since we are connecting.
@@ -533,18 +532,18 @@ void __cdecl CYahooProto::get_status_thread(HANDLE hContact)
 	/* Check Yahoo Games Message */
 	if (!getString(hContact, "YGMsg", &dbv)) {
 		gm = strdup(dbv.pszVal);
-
-		db_free( &dbv );
+		db_free(&dbv);
 	}
 
-	if (! db_get_s(hContact, "CList", "StatusMsg", &dbv )) {
+	if (! db_get_s(hContact, "CList", "StatusMsg", &dbv)) {
 		if (lstrlenA(dbv.pszVal) >= 1)
 			sm = strdup(dbv.pszVal);
 
-		db_free( &dbv );
-	} else {
-		WORD status = getWord(hContact, "YStatus", YAHOO_STATUS_OFFLINE);
-		sm = yahoo_status_code( yahoo_status( status ));
+		db_free(&dbv);
+	}
+	else {
+		int status = getWord(hContact, "YStatus", (WORD)YAHOO_STATUS_OFFLINE);
+		sm = yahoo_status_code( yahoo_status(status));
 		if (sm) sm = strdup(sm); /* we need this to go global FREE later */
 	}
 
@@ -754,7 +753,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				db_free(&dbv);
 			}
 
-			SetButtonCheck( hwndDlg, IDC_YAHOO_JAPAN, ppro->getByte("YahooJapan", 0));
+			SetButtonCheck(hwndDlg, IDC_YAHOO_JAPAN, ppro->getByte("YahooJapan", 0));
 			return TRUE;
 		}
 
@@ -762,7 +761,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		if ( LOWORD( wParam ) == IDC_NEWYAHOOACCOUNTLINK ) {
 			CallService(MS_UTILS_OPENURL,
 							1,
-							(( BYTE )IsDlgButtonChecked( hwndDlg, IDC_YAHOO_JAPAN ) == 1) ?
+							((BYTE)IsDlgButtonChecked(hwndDlg, IDC_YAHOO_JAPAN ) == 1) ?
 							(LPARAM) "http://edit.yahoo.co.jp/config/eval_register" :
 							(LPARAM) "http://edit.yahoo.com/config/eval_register"
 						);
@@ -792,31 +791,30 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			dbv.pszVal = NULL;
 
-			if ( ppro->getString( YAHOO_LOGINID, &dbv ) || lstrcmpA( str, dbv.pszVal ))
+			if (ppro->getString( YAHOO_LOGINID, &dbv) || lstrcmpA(str, dbv.pszVal))
 				reconnectRequired = TRUE;
 
 			if ( dbv.pszVal != NULL)
-				db_free( &dbv );
+				db_free(&dbv);
 
 			ppro->setString(YAHOO_LOGINID, str);
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(str));
 
 			dbv.pszVal = NULL;
-			if ( ppro->getString( YAHOO_PASSWORD, &dbv ) || lstrcmpA( str, dbv.pszVal ))
+			if (ppro->getString( YAHOO_PASSWORD, &dbv) || lstrcmpA(str, dbv.pszVal))
 				reconnectRequired = TRUE;
-			if ( dbv.pszVal != NULL)
-				db_free( &dbv );
+			if (dbv.pszVal != NULL)
+				db_free(&dbv);
 
-			if (reconnectRequired ) {
-				db_unset(NULL, ppro->m_szModuleName, YAHOO_PWTOKEN);
-			}
+			if (reconnectRequired)
+				ppro->delSetting(YAHOO_PWTOKEN);
 
 			CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), (LPARAM) str);
 			ppro->setString(YAHOO_PASSWORD, str);
-			ppro->setByte("YahooJapan", ( BYTE )IsDlgButtonChecked( hwndDlg, IDC_YAHOO_JAPAN ));
+			ppro->setByte("YahooJapan", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_YAHOO_JAPAN ));
 
 			if ( reconnectRequired && ppro->m_bLoggedIn )
-				MessageBoxA( hwndDlg, Translate("The changes you have made require you to reconnect to the Yahoo network before they take effect"), Translate("YAHOO Options"), MB_OK );
+				MessageBoxA(hwndDlg, Translate("The changes you have made require you to reconnect to the Yahoo network before they take effect"), Translate("YAHOO Options"), MB_OK );
 
 			return TRUE;
 		}

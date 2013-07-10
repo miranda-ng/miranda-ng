@@ -196,7 +196,7 @@ void CYahooProto::remove_buddy(const char *who, int protocol)
 	}
 
 	yahoo_remove_buddy(m_id, who, protocol, dbv.pszVal);
-	db_free( &dbv );
+	db_free(&dbv);
 }
 
 void CYahooProto::sendtyping(const char *who, int protocol, int stat)
@@ -290,7 +290,7 @@ HANDLE CYahooProto::getbuddyH(const char *yahoo_id)
 			continue;
 
 		int tCompareResult = lstrcmpiA( dbv.pszVal, yahoo_id );
-		db_free( &dbv );
+		db_free(&dbv);
 		if ( tCompareResult )
 			continue;
 
@@ -349,7 +349,7 @@ const char* CYahooProto::find_buddy( const char *yahoo_id)
 			return NULL;
 
 		strncpy(nick, dbv.pszVal, 128);
-		db_free( &dbv );
+		db_free(&dbv);
 		return nick;
 	}
 
@@ -400,7 +400,7 @@ void CYahooProto::ext_status_changed(const char *who, int protocol, int stat, co
 		/*
 		 * Delete the IdleTS if the user went offline
 		 */
-		db_unset(hContact, m_szModuleName, "IdleTS");
+		delSetting(hContact, "IdleTS");
 	}
 	else {
 		time_t idlets = 0;
@@ -414,7 +414,7 @@ void CYahooProto::ext_status_changed(const char *who, int protocol, int stat, co
 			}
 		} 
 			
-		db_set_dw(hContact, m_szModuleName, "IdleTS", idlets);
+		setDword(hContact, "IdleTS", idlets);
 	}
 
 	YAHOO_DEBUGLOG("[ext_status_changed] exiting");
@@ -519,30 +519,28 @@ void CYahooProto::ext_status_logon(const char *who, int protocol, int stat, cons
 		if (s != NULL) 
 			setString( hContact, "MirVer", s);
 		else
-			db_unset( hContact, m_szModuleName, "MirVer");
-	
-	} else {
-		Set_Protocol(hContact, protocol);
+			delSetting(hContact, "MirVer");
 	}
+	else Set_Protocol(hContact, protocol);
 	
 	/* Add the client_Version # to the contact DB entry */
-	db_set_dw( hContact, m_szModuleName, "ClientVersion", client_version);
+	setDword( hContact, "ClientVersion", client_version);
 	
 	/* Last thing check the checksum and request new one if we need to */
 	if (buddy_icon == -1) {
 		YAHOO_DEBUGLOG("[ext_status_logon] No avatar information in this packet? Not touching stuff!");
 	} else {
 		// we got some avatartype info
-		db_set_b(hContact, m_szModuleName, "AvatarType", buddy_icon);
+		setByte(hContact, "AvatarType", buddy_icon);
 		
 		if (cksum == 0 || cksum == -1) {
 			// no avatar
-			db_set_dw(hContact, m_szModuleName, "PictCK", 0);
-		} else if (db_get_dw(hContact, m_szModuleName,"PictCK", 0) != (unsigned)cksum) {
+			setDword(hContact, "PictCK", 0);
+		} else if (getDword(hContact, "PictCK", 0) != (unsigned)cksum) {
 			//char szFile[MAX_PATH];
 			
 			// Save new Checksum
-			db_set_dw(hContact, m_szModuleName, "PictCK", cksum);
+			setDword(hContact, "PictCK", cksum);
 			
 			// Need to delete the Avatar File!!
 			//GetAvatarFileName(hContact, szFile, sizeof szFile, 0);
@@ -629,10 +627,10 @@ void CYahooProto::ext_got_stealth(char *stealthlist)
 			//LOG(("Resetting STEALTH for id = %s", dbv.pszVal));
 			/* need to delete the ApparentMode thingy */
 			if (getWord(hContact, "ApparentMode", 0))
-				db_unset(hContact, m_szModuleName, "ApparentMode");
+				delSetting(hContact, "ApparentMode");
 		}
 
-		db_free( &dbv );
+		db_free(&dbv);
 	}
 }
 
@@ -677,7 +675,7 @@ void CYahooProto::ext_got_buddies(YList * buds)
 			//LOG(("Resetting STEALTH for id = %s", dbv.pszVal));
 			/* need to delete the ApparentMode thingy */
 			if (getWord(hContact, "ApparentMode", 0))
-				db_unset(hContact, m_szModuleName, "ApparentMode");
+				delSetting(hContact, "ApparentMode");
 		}
 
 		//if (bud->auth)
@@ -814,7 +812,7 @@ void CYahooProto::ext_contact_added(const char *myid, const char *who, const cha
 	if (strcmp(myid, m_yahoo_id))
 		setString(hContact, "MyIdentity", myid);
 	else
-		db_unset(hContact, m_szModuleName, "MyIdentity");
+		delSetting(hContact, "MyIdentity");
 
 	//setWord(hContact, "yprotoid", protocol);
 	Set_Protocol(hContact, protocol);
@@ -1151,7 +1149,7 @@ void CYahooProto::ext_login_response(int succ, const char *url)
 	} 
 	else mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log in, unknown reason: %d."), succ);
 
-	db_unset(NULL, m_szModuleName, YAHOO_PWTOKEN);
+	delSetting(YAHOO_PWTOKEN);
 	
 	YAHOO_DEBUGLOG("ERROR: %s", buff);
 	

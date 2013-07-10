@@ -44,7 +44,7 @@ static y_filetransfer* new_ft(CYahooProto* ppro, int id, HANDLE hContact, const 
 	ft->cancel = 0;
 	ft->y7 = y7;
 	
-	ft->hWaitEvent = CreateEvent( NULL, FALSE, FALSE, NULL);
+	ft->hWaitEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 
 	ft->pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 	ft->pfts.hContact = hContact;
@@ -177,11 +177,7 @@ static void upload_file(int id, int fd, int error, void *data)
 			LOG(("proto: %s, hContact: %p", sf->ppro->m_szModuleName, sf->hContact));
 
 			LOG(("Sending file: %s", fi->filename));
-			//ProtoBroadcastAck(sf->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, sf, 0);
-			//ProtoBroadcastAck(sf->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, sf, 0);
 			ProtoBroadcastAck(sf->ppro->m_szModuleName, sf->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, sf, 0);
-			//ProtoBroadcastAck(sf->hContact, ACKTYPE_FILE, ACKRESULT_SENTREQUEST, sf, 0);
-			//ProtoBroadcastAck(sf->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, sf, 0);
 
 			do {
 				ReadFile(myhFile, buf, sizeof(buf), &dw, NULL);
@@ -713,16 +709,6 @@ HANDLE __cdecl CYahooProto::SendFile( HANDLE hContact, const PROTOCHAR* szDescri
 	if ( !m_bLoggedIn )
 		return 0;
 
-	/*DebugLog("Getting Files");
-	
-	if ( ppszFiles[1] != NULL) {
-		MessageBoxA(NULL, "YAHOO protocol allows only one file to be sent at a time", "Yahoo", MB_OK | MB_ICONINFORMATION);
-		return 0;
- 	}
-	
-	DebugLog("Getting Yahoo ID");
-	*/
-	
 	if (!getString(hContact, YAHOO_LOGINID, &dbv)) {
 		long tFileSize = 0;
 		struct _stat statbuf;

@@ -142,13 +142,11 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 	if (buddy_icon < 0) return;
 
 	//?? Don't generate floods!!
-	db_set_b(hContact, m_szModuleName, "AvatarType", (BYTE)buddy_icon);
-	if (buddy_icon != 2) {
+	setByte(hContact, "AvatarType", (BYTE)buddy_icon);
+	if (buddy_icon != 2)
 		reset_avatar(hContact);
-	} else if (db_get_dw(hContact, m_szModuleName,"PictCK", 0) == 0) {
-		/* request the buddy image */
+	else if (getDword(hContact, "PictCK", 0) == 0) /* request the buddy image */
 		request_avatar(who); 
-	} 
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
