@@ -30,47 +30,10 @@ void CJabberProto::JDeleteSetting(HANDLE hContact, const char* valueName)
    db_unset(hContact, m_szModuleName, valueName);
 }
 
-int CJabberProto::JGetStringUtf(HANDLE hContact, char* valueName, DBVARIANT* dbv)
-{
-	return db_get_utf(hContact, m_szModuleName, valueName, dbv);
-}
-
-TCHAR *CJabberProto::JGetStringT(HANDLE hContact, char* valueName)
-{
-	DBVARIANT dbv = {0};
-	if (getTString(hContact, valueName, &dbv))
-		return NULL;
-
-	TCHAR *res = mir_tstrdup(dbv.ptszVal);
-	db_free(&dbv);
-	return res;
-}
-
-TCHAR *CJabberProto::JGetStringT(HANDLE hContact, char* valueName, TCHAR *&out)
-{
-	return out = JGetStringT(hContact, valueName);
-}
-
-TCHAR *CJabberProto::JGetStringT(HANDLE hContact, char* valueName, TCHAR *buf, int size)
-{
-	DBVARIANT dbv = {0};
-	if (getTString(hContact, valueName, &dbv))
-		return NULL;
-
-	lstrcpyn(buf, dbv.ptszVal, size);
-	db_free(&dbv);
-	return buf;
-}
-
 void CJabberProto::JLoginFailed(int errorCode)
 {
 	*m_savedPassword = 0;
 	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, errorCode);
-}
-
-DWORD CJabberProto::JSetStringUtf(HANDLE hContact, const char* valueName, const char* parValue)
-{
-	return db_set_utf(hContact, m_szModuleName, valueName, parValue);
 }
 
 // save/load crypted strings

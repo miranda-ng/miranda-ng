@@ -784,12 +784,7 @@ struct CJabberProto : public PROTO<CJabberProto>
 	//---- jabber_std.cpp ----------------------------------------------
 
 	void   JDeleteSetting(HANDLE hContact, const char* valueName);
-	int    JGetStringUtf(HANDLE hContact, char* valueName, DBVARIANT* dbv);
-	TCHAR *JGetStringT(HANDLE hContact, char* valueName);
-	TCHAR *JGetStringT(HANDLE hContact, char* valueName, TCHAR *&out);
-	TCHAR *JGetStringT(HANDLE hContact, char* valueName, TCHAR *buf, int size);
 	void   JLoginFailed(int errorCode);
-	DWORD  JSetStringUtf(HANDLE hContact, const char* valueName, const char* parValue);
 
 	TCHAR* JGetStringCrypt(HANDLE hContact, char* valueName);
 	DWORD  JSetStringCrypt(HANDLE hContact, char* valueName, const TCHAR *parValue);

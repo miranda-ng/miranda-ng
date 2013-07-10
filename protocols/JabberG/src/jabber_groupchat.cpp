@@ -1129,14 +1129,11 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 	else if ( !_tcscmp(type, _T("error"))) {
 		int errorCode = 0;
 		HXML errorNode = xmlGetChild(node , "error");
-		TCHAR* str = JabberErrorMsg(errorNode, &errorCode);
+		ptrT str( JabberErrorMsg(errorNode, &errorCode));
 
 		if (errorCode == JABBER_ERROR_CONFLICT) {
-			TCHAR newNick[256] = { 0 };
-			if (++item->iChatState == 1 &&
-				JGetStringT(NULL, "GcAltNick", newNick, SIZEOF(newNick)) != NULL &&
-				newNick[0] != _T('\0'))
-			{
+			ptrT newNick( db_get_tsa(NULL, m_szModuleName, "GcAltNick"));
+			if (++item->iChatState == 1 && newNick != NULL && newNick[0] != 0) {
 				replaceStrT(item->nick, newNick);
 				TCHAR text[1024] = { 0 };
 				mir_sntprintf(text, SIZEOF(text), _T("%s/%s"), item->jid, newNick);
@@ -1146,16 +1143,15 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 				CallFunctionAsync(JabberGroupchatChangeNickname, new JabberGroupchatChangeNicknameParam(this, from));
 				item->iChatState = 0;
 			}
-			mir_free(str);
 			return;
 		}
 
 		MsgPopup(NULL, str, TranslateT("Jabber Error"));
 
-		if (item != NULL)
-			if ( !item->bChatActive) ListRemove(LIST_CHATROOM, from);
-		mir_free(str);
-}	}
+		if (item != NULL && !item->bChatActive)
+			ListRemove(LIST_CHATROOM, from);
+	}
+}
 
 void CJabberProto::GroupchatProcessMessage(HXML node)
 {

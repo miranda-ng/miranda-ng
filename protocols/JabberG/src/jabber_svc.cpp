@@ -788,7 +788,7 @@ HANDLE CJabberSysInterface::ContactFromJID(LPCTSTR jid)
 
 LPTSTR CJabberSysInterface::ContactToJID(HANDLE hContact)
 {
-	return m_psProto->JGetStringT(hContact, m_psProto->getByte(hContact, "ChatRoom", 0) ? "ChatRoomID" : "jid");
+	return db_get_tsa(hContact, m_psProto->m_szModuleName, m_psProto->getByte(hContact, "ChatRoom", 0) ? "ChatRoomID" : "jid");
 }
 
 LPTSTR CJabberSysInterface::GetBestResourceName(LPCTSTR jid)

@@ -278,16 +278,13 @@ void CJabberProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbL
 	if (hContact != NULL) {
 		char str[ 256 ];
 		DBVARIANT dbv;
-		if ( !JGetStringUtf(hContact, "jid", &dbv)) {
+		if ( !db_get_utf(hContact, m_szModuleName, "jid", &dbv)) {
 			strncpy(str, dbv.pszVal, sizeof str);
 			str[ sizeof(str)-1 ] = 0;
 			db_free(&dbv);
 		}
 		else _i64toa((LONG_PTR)hContact, str, 10);
-
-		char* hash = JabberSha1(str);
-		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S.%S"), hash, szFileType);
-		mir_free(hash);
+		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S.%S"), ptrA(JabberSha1(str)), szFileType);
 	}
 	else if (m_ThreadInfo != NULL) {
 		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%s@%S avatar.%S"),

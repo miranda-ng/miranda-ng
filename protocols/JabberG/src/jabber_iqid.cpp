@@ -334,33 +334,25 @@ void CJabberProto::OnIqResultSession(HXML iqNode, CJabberIqInfo* pInfo)
 
 void CJabberProto::GroupchatJoinByHContact(HANDLE hContact, bool autojoin)
 {
-	TCHAR* roomjid = JGetStringT(hContact, "ChatRoomID");
-	if ( !roomjid) return;
-
-	TCHAR* room = roomjid;
-	TCHAR* server = _tcschr(roomjid, '@');
-	if ( !server) {
-		mir_free(roomjid);
+	ptrT roomjid( db_get_tsa(hContact, m_szModuleName, "ChatRoomID"));
+	if (roomjid == NULL)
 		return;
-	}
+
+	TCHAR *room = roomjid;
+	TCHAR *server = _tcschr(roomjid, '@');
+	if ( !server)
+		return;
+
 	server[0] = 0; server++;
 
-	TCHAR *nick = JGetStringT(hContact, "MyNick");
-	if ( !nick) {
+	ptrT nick( db_get_tsa(hContact, m_szModuleName, "MyNick"));
+	if (nick == NULL) {
 		nick = JabberNickFromJID(m_szJabberJID);
-		if ( !nick) {
-			mir_free(roomjid);
+		if (nick == NULL)
 			return;
-		}
 	}
 
-	TCHAR *password = JGetStringCrypt(hContact, "LoginPassword");
-
-	GroupchatJoinRoom(server, room, nick, password, autojoin);
-
-	mir_free(password);
-	mir_free(nick);
-	mir_free(roomjid);
+	GroupchatJoinRoom(server, room, nick, ptrT(JGetStringCrypt(hContact, "LoginPassword")), autojoin);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1062,15 +1054,10 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 		}	}
 
 		if (hasFn && !hasNick) {
-			TCHAR *name = JGetStringT(hContact, "FullName");
-			TCHAR *nick = JGetStringT(hContact, "Nick");
-			TCHAR *jidNick = JabberNickFromJID(jid);
-			if ( !nick || (jidNick && !_tcsicmp(nick, jidNick)))
-				setTString(hContact, "Nick", name);
-
-			mir_free(jidNick);
-			mir_free(nick);
-			mir_free(name);
+			ptrT nick( db_get_tsa(hContact, m_szModuleName, "Nick"));
+			ptrT jidNick( JabberNickFromJID(jid));
+			if (!nick || (jidNick && !_tcsicmp(nick, jidNick)))
+				setTString(hContact, "Nick", ptrT( db_get_tsa(hContact, m_szModuleName, "FullName")));
 		}
 		if ( !hasFn)
 			JDeleteSetting(hContact, "FullName");
