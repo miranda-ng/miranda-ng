@@ -122,7 +122,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)
 
 		WORD wStatus = getWord(AI->hContact, "Status", ID_STATUS_OFFLINE);
 		if (wStatus == ID_STATUS_OFFLINE) {
-			deleteSetting(AI->hContact, "AvatarHash");
+			delSetting(AI->hContact, "AvatarHash");
 			PROTO_AVATAR_INFORMATIONT* fakeAI = new PROTO_AVATAR_INFORMATIONT;
 			*fakeAI = *AI;
 			ForkThread(&CMsnProto::sttFakeAvatarAck, fakeAI);
@@ -190,8 +190,8 @@ INT_PTR CMsnProto::SetAvatar(WPARAM wParam, LPARAM lParam)
 
 	if (szFileName == NULL)
 	{
-		deleteSetting(NULL, "PictObject");
-		deleteSetting(NULL, "AvatarHash");
+		delSetting("PictObject");
+		delSetting("AvatarHash");
 		ForkThread(&CMsnProto::msn_storeAvatarThread, NULL);
 	}
 	else
@@ -353,7 +353,7 @@ INT_PTR CMsnProto::SetCurrentMedia(WPARAM wParam, LPARAM lParam)
 
 	// Set user text
 	if (msnCurrentMedia.cbSize == 0)
-		deleteSetting(NULL, "ListeningTo");
+		delSetting("ListeningTo");
 	else
 	{
 		TCHAR *text;

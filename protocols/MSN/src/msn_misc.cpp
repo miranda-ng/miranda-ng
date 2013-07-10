@@ -232,7 +232,7 @@ void  CMsnProto::MSN_GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t c
 				mir_free(szAvatarHash);
 			}
 			else {
-				deleteSetting(hContact, "PictContext");
+				delSetting(hContact, "PictContext");
 				if (cbLen) pszDest[0] = 0;
 			}
 			db_free(&dbv);
@@ -382,8 +382,8 @@ int  CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen
 		char *szAvatarHash = arrayToHex(sha1d, sizeof(sha1d));
 		if (strcmp(szAvatarHashdOld, szAvatarHash))
 		{
-			setString(NULL, "PictObject", szEncodedBuffer);
-			setString(NULL, "AvatarHash", szAvatarHash);
+			setString("PictObject", szEncodedBuffer);
+			setString("AvatarHash", szAvatarHash);
 		}
 		mir_free(szAvatarHash);
 	}

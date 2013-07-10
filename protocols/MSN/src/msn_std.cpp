@@ -26,10 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /////////////////////////////////////////////////////////////////////////////////////////
 // Standard functions
 
-void  CMsnProto::deleteSetting(HANDLE hContact, const char* valueName)
-{   db_unset(hContact, m_szModuleName, valueName);
-}
-
 int CMsnProto::getStringUtf(HANDLE hContact, const char* name, DBVARIANT* result)
 {	return db_get_utf(hContact, m_szModuleName, name, result);
 }

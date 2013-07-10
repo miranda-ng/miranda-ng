@@ -81,7 +81,7 @@ void CMsnProto::MSN_DeleteServerGroup(LPCSTR szId)
 		if (!getStaticString(msc->hContact, "GroupID", szGroupID, sizeof(szGroupID)))
 		{
 			if (strcmp(szGroupID, szId) == 0)
-				deleteSetting(msc->hContact, "GroupID");
+				delSetting(msc->hContact, "GroupID");
 		}
 	}
 	MSN_DeleteGroup(szId);
@@ -171,7 +171,7 @@ void CMsnProto::MSN_MoveContactToGroup(HANDLE hContact, const char* grpName)
 	if (bDelete)
 	{
 		MSN_ABAddDelContactGroup(szContactID, szGroupID, "ABGroupContactDelete");
-		deleteSetting(hContact, "GroupID");
+		delSetting(hContact, "GroupID");
 	}
 
 	if (bInsert)
@@ -307,7 +307,7 @@ void CMsnProto::MSN_SyncContactToServerGroup(HANDLE hContact, const char* szCont
 	{
 		if (szGrpName[0])
 			db_unset(hContact, "CList", "Group");
-		deleteSetting(hContact, "GroupID");
+		delSetting(hContact, "GroupID");
 	}
 }
 
@@ -319,7 +319,7 @@ void  CMsnProto::MSN_SendNicknameUtf(const char* nickname)
 	if (nickname[0])
 		setStringUtf(NULL, "Nick", nickname);
 	else
-		deleteSetting(NULL, "Nick");
+		delSetting("Nick");
 
 	MSN_SetNicknameUtf(nickname[0] ? nickname : MyOptions.szEmail);
 

@@ -102,9 +102,9 @@ void CMsnProto::UpdateABHost(const char* service, const char* url)
 	mir_snprintf(hostname, sizeof(hostname), "ABHost-%s", service);
 
 	if (url)
-		setString(NULL, hostname, url);
+		setString(hostname, url);
 	else
-		deleteSetting(NULL, hostname);
+		delSetting(hostname);
 }
 
 void CMsnProto::UpdateABCacheKey(ezxml_t bdy,  bool isSharing)
@@ -612,7 +612,7 @@ bool CMsnProto::MSN_SharingMyProfile(bool allowRecurse)
 void CMsnProto::SetAbParam(HANDLE hContact, const char *name, const char *par)
 {
 	if (*par) setStringUtf(hContact, name, (char*)par);
-//	else deleteSetting(hContact, "FirstName");
+//	else delSetting(hContact, "FirstName");
 }
 
 //		"ABFindAll", "ABFindByContacts", "ABFindContactsPaged"
@@ -859,7 +859,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 						break;
 
 					default:
-						deleteSetting(hContact, "Transport");
+						delSetting(hContact, "Transport");
 					}
 
 					szTmp = ezxml_txt(ezxml_child(contInf, "CID"));
@@ -887,9 +887,9 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 					}
 					else
 					{
-	//					deleteSetting(hContact, "BirthYear");
-	//					deleteSetting(hContact, "BirthMonth");
-	//					deleteSetting(hContact, "BirthDay");
+	//					delSetting(hContact, "BirthYear");
+	//					delSetting(hContact, "BirthMonth");
+	//					delSetting(hContact, "BirthDay");
 					}
 
 					szTmp = ezxml_txt(ezxml_child(contInf, "comment"));

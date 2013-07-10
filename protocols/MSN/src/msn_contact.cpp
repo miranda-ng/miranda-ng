@@ -68,7 +68,7 @@ void CMsnProto::MSN_SetContactDb(HANDLE hContact, const char *szEmail)
 			if ((listId & LIST_BL) && tApparentMode == 0)
 				setWord(hContact, "ApparentMode", ID_STATUS_OFFLINE);
 			else if ((listId & LIST_AL) && tApparentMode != 0)
-				deleteSetting(hContact, "ApparentMode");
+				delSetting(hContact, "ApparentMode");
 		}
 
 		if (cont->netId == NETID_MOB)
@@ -80,7 +80,7 @@ void CMsnProto::MSN_SetContactDb(HANDLE hContact, const char *szEmail)
 	if (listId & LIST_LL)
 		setByte(hContact, "LocalList", 1);
 	else
-		deleteSetting(hContact, "LocalList");
+		delSetting(hContact, "LocalList");
 
 }
 
@@ -151,8 +151,8 @@ bool CMsnProto::MSN_AddUser(HANDLE hContact, const char* email, int netId, int f
 					res = MSN_ABAddDelContactGroup(id , NULL, "ABContactDelete");
 				if (res) AddDelUserContList(email, flags, netId, true);
 
-				deleteSetting(hContact, "GroupID");
-				deleteSetting(hContact, "ID");
+				delSetting(hContact, "GroupID");
+				delSetting(hContact, "ID");
 				MSN_RemoveEmptyGroups();
 			}
 		}

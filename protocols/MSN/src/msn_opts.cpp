@@ -330,23 +330,21 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 			CMsnProto* proto = (CMsnProto*)lParam;
 
-			if (!proto->getString(NULL, "DirectServer", &dbv))
+			if (!proto->getString("DirectServer", &dbv))
 			{
 				SetDlgItemTextA(hwndDlg, IDC_DIRECTSERVER, dbv.pszVal);
 				db_free(&dbv);
 			}
-			else
-				SetDlgItemTextA(hwndDlg, IDC_DIRECTSERVER,  MSN_DEFAULT_LOGIN_SERVER);
+			else SetDlgItemTextA(hwndDlg, IDC_DIRECTSERVER,  MSN_DEFAULT_LOGIN_SERVER);
 
-			if (!proto->getString(NULL, "GatewayServer", &dbv))
+			if (!proto->getString("GatewayServer", &dbv))
 			{
 				SetDlgItemTextA(hwndDlg, IDC_GATEWAYSERVER, dbv.pszVal);
 				db_free(&dbv);
 			}
-			else
-				SetDlgItemTextA(hwndDlg, IDC_GATEWAYSERVER,  MSN_DEFAULT_GATEWAY);
+			else SetDlgItemTextA(hwndDlg, IDC_GATEWAYSERVER,  MSN_DEFAULT_GATEWAY);
 
-			CheckDlgButton(hwndDlg, IDC_SLOWSEND,    proto->getByte("SlowSend",    0));
+			CheckDlgButton(hwndDlg, IDC_SLOWSEND, proto->getByte("SlowSend",    0));
 
 			SendDlgItemMessage(hwndDlg, IDC_HOSTOPT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Automatically obtain host/port"));
 			SendDlgItemMessage(hwndDlg, IDC_HOSTOPT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Manually specify host/port"));
@@ -357,15 +355,12 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 
 			char ipaddr[256] = "";
 			if (gethst == 1)
-			{
 				if (proto->getStaticString(NULL, "YourHost", ipaddr, sizeof(ipaddr)))
 					gethst = 0;
-			}
+
 			if (gethst == 0)
-			{
-				mir_snprintf(ipaddr, sizeof(ipaddr), "%s", proto->msnLoggedIn ?
-					proto->MyConnection.GetMyExtIPStr() : "");
-			}
+				mir_snprintf(ipaddr, sizeof(ipaddr), "%s", proto->msnLoggedIn ? proto->MyConnection.GetMyExtIPStr() : "");
+
 			SendDlgItemMessage(hwndDlg, IDC_HOSTOPT, CB_SETCURSEL, gethst, 0);
 			if (ipaddr[0])
 				SetDlgItemTextA(hwndDlg, IDC_YOURHOST, ipaddr);
@@ -403,8 +398,7 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 
 		if (HIWORD(wParam) == BN_CLICKED)
 		{
-			switch(LOWORD(wParam))
-			{
+			switch(LOWORD(wParam)) {
 			case IDC_SLOWSEND:
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
@@ -422,15 +416,15 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 
 			GetDlgItemTextA(hwndDlg, IDC_DIRECTSERVER, str, sizeof(str));
 			if (strcmp(str, MSN_DEFAULT_LOGIN_SERVER))
-				proto->setString(NULL, "DirectServer", str);
+				proto->setString("DirectServer", str);
 			else
-				proto->deleteSetting(NULL, "DirectServer");
+				proto->delSetting("DirectServer");
 
 			GetDlgItemTextA(hwndDlg, IDC_GATEWAYSERVER, str, sizeof(str));
 			if (strcmp(str, MSN_DEFAULT_GATEWAY))
-				proto->setString(NULL, "GatewayServer", str);
+				proto->setString("GatewayServer", str);
 			else
-				proto->deleteSetting(NULL, "GatewayServer");
+				proto->delSetting("GatewayServer");
 
 			proto->setByte("SlowSend",   (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SLOWSEND ));
 			if (proto->getByte("SlowSend", FALSE))
@@ -451,15 +445,12 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			if (gethst == 0)
 			{
 				GetDlgItemTextA(hwndDlg, IDC_YOURHOST, str, sizeof(str));
-				proto->setString(NULL, "YourHost", str);
+				proto->setString("YourHost", str);
 			}
-			else
-				proto->deleteSetting(NULL, "YourHost");
+			else proto->delSetting("YourHost");
 
 			if (gethst != gethst2)
-			{
 				proto->ForkThread(&CMsnProto::MSNConnDetectThread, NULL);
-			}
 
 			if (reconnectRequired && proto->msnLoggedIn)
 				MessageBox(hwndDlg, TranslateT("The changes you have made require you to reconnect to the MSN Messenger network before they take effect"),
@@ -479,33 +470,28 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 static INT_PTR CALLBACK DlgProcHotmailPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static bool bEnabled;
+	CMsnProto* proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch(msg)
-	{
+	switch(msg) {
 	case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwndDlg);
-			bEnabled = false;
+		TranslateDialogDefault(hwndDlg);
+		bEnabled = false;
 
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-			CMsnProto* proto = (CMsnProto*)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		proto = (CMsnProto*)lParam;
+		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILPOPUP, proto->getByte("DisableHotmail", 0));
+		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILTRAY,  proto->getByte("DisableHotmailTray", 1));
+		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILCL,    proto->getByte("DisableHotmailCL", 0));
+		CheckDlgButton(hwndDlg, IDC_DISABLEHOTJUNK,      proto->getByte("DisableHotmailJunk", 0));
+		CheckDlgButton(hwndDlg, IDC_NOTIFY_ENDSESSION,   proto->getByte("EnableSessionPopup", 0));
+		CheckDlgButton(hwndDlg, IDC_NOTIFY_FIRSTMSG,     proto->getByte("EnableDeliveryPopup", 0));
+		CheckDlgButton(hwndDlg, IDC_ERRORS_USING_POPUPS, proto->getByte("ShowErrorsAsPopups", 0));
 
-			int disableHotmailPopup = proto->getByte("DisableHotmail", 0);
+		bEnabled = true;
+		return TRUE;
 
-			CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILPOPUP, disableHotmailPopup);
-			CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILTRAY,  proto->getByte("DisableHotmailTray", 1));
-			CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILCL,    proto->getByte("DisableHotmailCL", 0));
-			CheckDlgButton(hwndDlg, IDC_DISABLEHOTJUNK,      proto->getByte("DisableHotmailJunk", 0));
-			CheckDlgButton(hwndDlg, IDC_NOTIFY_ENDSESSION,   proto->getByte("EnableSessionPopup", 0));
-			CheckDlgButton(hwndDlg, IDC_NOTIFY_FIRSTMSG,     proto->getByte("EnableDeliveryPopup", 0));
-			CheckDlgButton(hwndDlg, IDC_ERRORS_USING_POPUPS, proto->getByte("ShowErrorsAsPopups", 0));
-
-			bEnabled = true;
-			return TRUE;
-		}
 	case WM_COMMAND:
-		switch (LOWORD(wParam))
-		{
+		switch (LOWORD(wParam)) {
 		case IDC_DISABLEHOTMAILPOPUP:
 		case IDC_DISABLEHOTMAILTRAY:
 		case IDC_DISABLEHOTMAILCL:
@@ -520,35 +506,27 @@ static INT_PTR CALLBACK DlgProcHotmailPopupOpts(HWND hwndDlg, UINT msg, WPARAM w
 		break;
 
 	case WM_NOTIFY: //Here we have pressed either the OK or the APPLY button.
-		switch(((LPNMHDR)lParam)->idFrom)
-		{
+		switch(((LPNMHDR)lParam)->idFrom) {
 		case 0:
-			switch (((LPNMHDR)lParam)->code)
-			{
+			switch (((LPNMHDR)lParam)->code) {
 			case PSN_RESET:
-				{
-					CMsnProto* proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-					proto->LoadOptions();
-					return TRUE;
-				}
-
+				proto->LoadOptions();
+				return TRUE;
+	
 			case PSN_APPLY:
-				{
-					CMsnProto* proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				proto->MyOptions.ShowErrorsAsPopups = IsDlgButtonChecked(hwndDlg, IDC_ERRORS_USING_POPUPS) != 0;
+				proto->setByte("ShowErrorsAsPopups", proto->MyOptions.ShowErrorsAsPopups);
 
-					proto->MyOptions.ShowErrorsAsPopups = IsDlgButtonChecked(hwndDlg, IDC_ERRORS_USING_POPUPS) != 0;
-					proto->setByte("ShowErrorsAsPopups", proto->MyOptions.ShowErrorsAsPopups);
+				proto->setByte("DisableHotmail", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTMAILPOPUP));
+				proto->setByte("DisableHotmailCL", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTMAILCL));
+				proto->setByte("DisableHotmailTray", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTMAILTRAY));
+				proto->setByte("DisableHotmailJunk",(BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTJUNK));
+				proto->setByte("EnableDeliveryPopup", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTIFY_FIRSTMSG));
+				proto->setByte("EnableSessionPopup", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTIFY_ENDSESSION));
 
-					proto->setByte("DisableHotmail", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTMAILPOPUP));
-					proto->setByte("DisableHotmailCL", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTMAILCL));
-					proto->setByte("DisableHotmailTray", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTMAILTRAY));
-					proto->setByte("DisableHotmailJunk",(BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEHOTJUNK));
-					proto->setByte("EnableDeliveryPopup", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTIFY_FIRSTMSG));
-					proto->setByte("EnableSessionPopup", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTIFY_ENDSESSION));
-
-					HANDLE hContact = proto->MSN_HContactFromEmail(proto->MyOptions.szEmail);
-					if (hContact) proto->displayEmailCount(hContact);
-				}
+				HANDLE hContact = proto->MSN_HContactFromEmail(proto->MyOptions.szEmail);
+				if (hContact)
+					proto->displayEmailCount(hContact);
 				return TRUE;
 			}
 			break;
@@ -561,8 +539,7 @@ static INT_PTR CALLBACK DlgProcHotmailPopupOpts(HWND hwndDlg, UINT msg, WPARAM w
 
 static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg)
-	{
+	switch(msg) {
 	case WM_INITDIALOG:
 		{
 			TranslateDialogDefault(hwndDlg);
@@ -638,7 +615,7 @@ static INT_PTR CALLBACK DlgProcAccMgrUI(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (szPlace[0])
 				proto->setTString("Place", szPlace);
 			else
-				proto->deleteSetting(NULL, "Place");
+				proto->delSetting("Place");
 
 			return TRUE;
 		}

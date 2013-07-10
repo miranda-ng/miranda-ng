@@ -204,7 +204,7 @@ void CMsnProto::p2p_pictureTransferFailed(filetransfer* ft)
 			PROTO_AVATAR_INFORMATIONT AI = {0};
 			AI.cbSize = sizeof(AI);
 			AI.hContact = ft->std.hContact;
-			deleteSetting(ft->std.hContact, "AvatarHash");
+			delSetting(ft->std.hContact, "AvatarHash");
 			ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &AI, 0);
 		}
 		break;

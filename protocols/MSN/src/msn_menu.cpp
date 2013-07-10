@@ -40,7 +40,7 @@ INT_PTR CMsnProto::MsnBlockCommand(WPARAM wParam, LPARAM)
 		getStaticString(hContact, "e-mail", tEmail, sizeof(tEmail));
 
 		if (Lists_IsInList(LIST_BL, tEmail))
-			deleteSetting(hContact, "ApparentMode");
+			delSetting(hContact, "ApparentMode");
 		else
 			setWord(hContact, "ApparentMode", ID_STATUS_OFFLINE);
 	}

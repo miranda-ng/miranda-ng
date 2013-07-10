@@ -86,7 +86,7 @@ void CMsnProto::UpdateStoreHost(const char* service, const char* url)
 	char hostname[128];
 	mir_snprintf(hostname, sizeof(hostname), "StoreHost-%s", service);
 
-	setString(NULL, hostname, url);
+	setString(hostname, url);
 }
 
 void CMsnProto::UpdateStoreCacheKey(ezxml_t bdy)

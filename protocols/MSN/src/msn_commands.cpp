@@ -419,7 +419,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		if (hContact != NULL && mirver != NULL)
 		{
 			setString(hContact, "MirVer", mirver);
-			deleteSetting(hContact, "StdMirVer");
+			delSetting(hContact, "StdMirVer");
 		}
 	}
 	else if (!ubmMsg && !info->firstMsgRecv)
@@ -831,7 +831,7 @@ void CMsnProto::sttProcessStatusMessage(char* buf, unsigned len, const char* wli
 	const char* szCrntMda = ezxml_txt(ezxml_child(xmli, "CurrentMedia"));
 	if (!*szCrntMda)
 	{
-		deleteSetting(hContact, "ListeningTo");
+		delSetting(hContact, "ListeningTo");
 		ezxml_free(xmli);
 		return;
 	}
@@ -855,7 +855,7 @@ void CMsnProto::sttProcessStatusMessage(char* buf, unsigned len, const char* wli
 	// Now let's mount the final string
 	if (pCount <= 4)
 	{
-		deleteSetting(hContact, "ListeningTo");
+		delSetting(hContact, "ListeningTo");
 		ezxml_free(xmli);
 		return;
 	}
@@ -872,7 +872,7 @@ void CMsnProto::sttProcessStatusMessage(char* buf, unsigned len, const char* wli
 	}
 	if (!foundUsefullInfo)
 	{
-		deleteSetting(hContact, "ListeningTo");
+		delSetting(hContact, "ListeningTo");
 		ezxml_free(xmli);
 		return;
 	}
@@ -1392,7 +1392,7 @@ LBL_InvalidCommand:
 					if (pszUrl)
 						setString(hContact, "AvatarUrl", pszUrl);
 					else
-						deleteSetting(hContact, "AvatarUrl");
+						delSetting(hContact, "AvatarUrl");
 
 					if (hContact != NULL) {
 						char szSavedHash[64] = "";
@@ -1411,17 +1411,17 @@ LBL_InvalidCommand:
 				}
 				else {
 remove:
-					deleteSetting(hContact, "AvatarHash");
-					deleteSetting(hContact, "AvatarSavedHash");
-					deleteSetting(hContact, "AvatarUrl");
-					deleteSetting(hContact, "PictContext");
-					deleteSetting(hContact, "PictSavedContext");
+					delSetting(hContact, "AvatarHash");
+					delSetting(hContact, "AvatarSavedHash");
+					delSetting(hContact, "AvatarUrl");
+					delSetting(hContact, "PictContext");
+					delSetting(hContact, "PictSavedContext");
 
 					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 				}
 			}
 			else if (lastStatus == ID_STATUS_OFFLINE)
-				deleteSetting(hContact, "MirVer");
+				delSetting(hContact, "MirVer");
 
 			break;
 		}

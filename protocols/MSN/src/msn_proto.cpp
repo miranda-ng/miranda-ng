@@ -81,19 +81,19 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	LoadOptions();
 
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		deleteSetting(hContact, "Status");
-		deleteSetting(hContact, "IdleTS");
-		deleteSetting(hContact, "p2pMsgId");
-		deleteSetting(hContact, "AccList");
+		delSetting(hContact, "Status");
+		delSetting(hContact, "IdleTS");
+		delSetting(hContact, "p2pMsgId");
+		delSetting(hContact, "AccList");
 	}
-	deleteSetting(NULL, "MobileEnabled");
-	deleteSetting(NULL, "MobileAllowed");
+	delSetting("MobileEnabled");
+	delSetting("MobileAllowed");
 
 	char path[MAX_PATH];
 	if (getStaticString(NULL, "LoginServer", path, sizeof(path)) == 0 &&
 		(strcmp(path, MSN_DEFAULT_LOGIN_SERVER) == 0 ||
 		strcmp(path, MSN_DEFAULT_GATEWAY) == 0))
-		deleteSetting(NULL, "LoginServer");
+		delSetting("LoginServer");
 
 	if (MyOptions.SlowSend) {
 		if (db_get_dw(NULL, "SRMsg", "MessageTimeout", 10000) < 60000)

@@ -322,7 +322,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 		}
 	}
 	else
-		setString(NULL, "MsnPassportHost", szPassportHost);
+		setString("MsnPassportHost", szPassportHost);
 
 	mir_free(szPassportHost);
 	MSN_DebugLog("MSN_CheckRedirector exited with errorCode = %d", retVal);
