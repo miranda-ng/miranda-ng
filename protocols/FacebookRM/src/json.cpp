@@ -344,7 +344,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					dbei.flags = DBEF_SENT | DBEF_UTF;
 					dbei.szModule = proto->m_szModuleName;
 
-					bool local_time = db_get_b(NULL, proto->m_szModuleName, FACEBOOK_KEY_LOCAL_TIMESTAMP, 0) != 0;
+					bool local_time = proto->getByte(FACEBOOK_KEY_LOCAL_TIMESTAMP, 0) != 0;
 					dbei.timestamp = local_time ? ::time(NULL) : utils::time::fix_timestamp(time_sent.Value());
 
 					dbei.cbBlob = (DWORD)message_text.length() + 1;
@@ -469,7 +469,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			}
 			else if (type.Value() == "notification_json") // event notification
 			{
-				if (!db_get_b(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
+				if (!proto->getByte(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
 					continue;
 
 				const Array& notificationsArray = objMember["nodes"];
@@ -510,8 +510,8 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 				HANDLE hContact = proto->AddToContactList(&fbu, CONTACT_FRIEND);
 				
-				if (db_get_w(hContact, proto->m_szModuleName, "Status", 0) == ID_STATUS_OFFLINE)
-					db_set_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_ONLINE);
+				if (proto->getWord(hContact, "Status", 0) == ID_STATUS_OFFLINE)
+					proto->setWord(hContact, "Status", ID_STATUS_ONLINE);
 
 				const Number& state = objMember["st"];
 				if (state.Value() == 1)

@@ -22,21 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-// DB macros
-#define getByte(setting, error)           db_get_b(NULL, m_szModuleName, setting, error)
-#define setByte(setting, value)           db_set_b(NULL, m_szModuleName, setting, value)
-#define getWord(setting, error)           db_get_w(NULL, m_szModuleName, setting, error)
-#define setWord(setting, value)           db_set_w(NULL, m_szModuleName, setting, value)
-#define getDword(setting, error)          db_get_dw(NULL, m_szModuleName, setting, error)
-#define setDword(setting, value)          db_set_dw(NULL, m_szModuleName, setting, value)
-#define getString(setting, dest)          db_get_s(NULL, m_szModuleName, setting, dest)
-#define setString(setting, value)         db_set_s(NULL, m_szModuleName, setting, value)
-#define getTString(setting, dest)         db_get_ts(NULL, m_szModuleName, setting, dest)
-#define setTString(setting, value)        db_set_ts(NULL, m_szModuleName, setting, value)
-#define getU8String(setting, dest)        db_get_utf(NULL, m_szModuleName, setting, dest)
-#define setU8String(setting, value)       db_set_utf(NULL, m_szModuleName, setting, value)
-#define deleteSetting(setting)            db_unset(NULL, m_szModuleName, setting)
-
 // DB keys
 #define FACEBOOK_KEY_LOGIN					"Email"
 #define FACEBOOK_KEY_ID						"ID"

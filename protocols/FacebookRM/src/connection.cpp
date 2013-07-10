@@ -43,7 +43,7 @@ void FacebookProto::ChangeStatus(void*)
 
 		facy.logout();
 
-		deleteSetting("LogonTS");
+		delSetting("LogonTS");
 
 		facy.clear_cookies();
 		facy.buddies.clear();
@@ -145,7 +145,7 @@ bool FacebookProto::NegotiateConnection()
 	DBVARIANT dbv = {0};
 
 	error = true;
-	if (!db_get_s(NULL,m_szModuleName,FACEBOOK_KEY_LOGIN,&dbv))
+	if (!getString(FACEBOOK_KEY_LOGIN, &dbv))
 	{
 		user = dbv.pszVal;
 		db_free(&dbv);
@@ -158,7 +158,7 @@ bool FacebookProto::NegotiateConnection()
 	}
 
 	error = true;
-	if (!db_get_s(NULL,m_szModuleName,FACEBOOK_KEY_PASS,&dbv))
+	if (!getString(FACEBOOK_KEY_PASS, &dbv))
 	{
 		CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,
 			reinterpret_cast<LPARAM>(dbv.pszVal));
@@ -173,7 +173,7 @@ bool FacebookProto::NegotiateConnection()
 	}
 
 	// Load machine name
-	if (!db_get_s(NULL,m_szModuleName,FACEBOOK_KEY_DEVICE_ID,&dbv))
+	if (!getString(FACEBOOK_KEY_DEVICE_ID, &dbv))
 	{
 		facy.cookies["datr"] = dbv.pszVal;
 		db_free(&dbv);
@@ -183,13 +183,11 @@ bool FacebookProto::NegotiateConnection()
 	facy.last_feeds_update_ = ::time(NULL);
 
 	// Get info about secured connection
-	facy.https_ = db_get_b(NULL, m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS, DEFAULT_FORCE_HTTPS) != 0;
+	facy.https_ = getByte(FACEBOOK_KEY_FORCE_HTTPS, DEFAULT_FORCE_HTTPS) != 0;
 
 	// Create default group for new contacts
-	if (!db_get_ts(NULL, m_szModuleName, FACEBOOK_KEY_DEF_GROUP, &dbv) && lstrlen(dbv.ptszVal) > 0)
-	{
+	if (!getTString(FACEBOOK_KEY_DEF_GROUP, &dbv) && lstrlen(dbv.ptszVal) > 0)
 		CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)dbv.ptszVal);
-	}
 	
 	return facy.login(user, pass);
 }

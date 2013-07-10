@@ -146,7 +146,7 @@ void UninitContactMenus()
 int FacebookProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {	
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
-	bool isChatroom = db_get_b(hContact, m_szModuleName, "ChatRoom", 0) > 0;
+	bool isChatroom = getByte(hContact, "ChatRoom", 0) > 0;
 
 	Menu_ShowItem(g_hContactMenuItems[CMI_VISIT_PROFILE], true);
 	Menu_ShowItem(g_hContactMenuItems[CMI_VISIT_FRIENDSHIP], !isChatroom);
@@ -154,7 +154,7 @@ int FacebookProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 	if (!isOffline() && !isChatroom)
 	{
 		bool ctrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
-		BYTE type = db_get_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0);
+		BYTE type = getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0);
 
 		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_ASK], ctrlPressed || type == CONTACT_NONE || !type);
 		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_GRANT], ctrlPressed || type == CONTACT_APPROVE);

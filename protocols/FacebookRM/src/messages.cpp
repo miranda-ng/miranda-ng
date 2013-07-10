@@ -45,7 +45,7 @@ void FacebookProto::SendMsgWorker(void *p)
 	{
 		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, data->msgid, (LPARAM)Translate("You cannot send messages when you are offline."));
 	}
-	else if (!db_get_s(data->hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv))
+	else if (!getString(data->hContact, FACEBOOK_KEY_ID, &dbv))
 	{
 		//ParseSmileys(data->msg, data->hContact);
 
@@ -81,7 +81,7 @@ void FacebookProto::SendChatMsgWorker(void *p)
 	if (hContact) {		
 		std::string tid;
 		DBVARIANT dbv;
-		if (!db_get_s(hContact, m_szModuleName, FACEBOOK_KEY_TID, &dbv)) {
+		if (!getString(hContact, FACEBOOK_KEY_TID, &dbv)) {
 			tid = dbv.pszVal;
 			db_free(&dbv);
 		} else {
@@ -94,7 +94,7 @@ void FacebookProto::SendChatMsgWorker(void *p)
 			facy.validate_response(&resp);
 
 			tid = utils::text::source_get_value(&resp.data, 2, "\"thread_id\":\"", "\"");
-			db_set_s(hContact, m_szModuleName, FACEBOOK_KEY_TID, tid.c_str());
+			setString(hContact, FACEBOOK_KEY_TID, tid.c_str());
 			Log("      Got thread info: %s = %s", data->chat_id.c_str(), tid.c_str());
 		}		
 		
@@ -132,8 +132,7 @@ void FacebookProto::SendTypingWorker(void *p)
 	send_typing *typing = static_cast<send_typing*>(p);
 
 	// Dont send typing notifications to contacts, that are offline or not friends
-	if (db_get_w(typing->hContact,m_szModuleName,"Status", 0) == ID_STATUS_OFFLINE
-		|| db_get_b(typing->hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND)
+	if (getWord(typing->hContact, "Status", 0) == ID_STATUS_OFFLINE || getWord(typing->hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND)
 		return;
 
 	// TODO RM: maybe better send typing optimalization
@@ -147,7 +146,7 @@ void FacebookProto::SendTypingWorker(void *p)
 	}
 		
 	DBVARIANT dbv;
-	if (!db_get_s(typing->hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv))
+	if (!getString(typing->hContact, FACEBOOK_KEY_ID, &dbv))
 	{
 		std::string data = "&source=mercury-chat";
 		data += (typing->status == PROTOTYPE_SELFTYPING_ON ? "&typ=1" : "&typ=0"); // PROTOTYPE_SELFTYPING_OFF
@@ -170,7 +169,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 
 	HANDLE hContact = static_cast<HANDLE>(p);
 
-	if (!db_get_b(NULL, m_szModuleName, FACEBOOK_KEY_MARK_READ, 1)) {
+	if (!getByte(FACEBOOK_KEY_MARK_READ, 1)) {
 		// old variant - no seen info updated
 		ptrA id( db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID));
 		if (id == NULL) return;
@@ -183,7 +182,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 		facy.flap(REQUEST_ASYNC, &data);
 	} else {
 		// new variant - with seen info
-		ptrA mid( db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_MESSAGE_ID));
+		ptrA mid( getStringA(hContact, FACEBOOK_KEY_MESSAGE_ID));
 		if (mid == NULL) return;
 
 		std::string data = "ids[" + std::string(mid) + "]=true";
@@ -197,7 +196,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 
 void FacebookProto::ParseSmileys(std::string message, HANDLE hContact)
 {
-	if (!db_get_b(NULL,m_szModuleName,FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS))
+	if (!getByte(FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS))
 		return;
 
 	HANDLE nlc = NULL;

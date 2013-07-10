@@ -42,7 +42,7 @@ void FacebookProto::ProcessBuddyList(void* data)
 	p->parse_buddy_list(data, &facy.buddies);
 	delete p;
 
-	bool use_mobile_status = db_get_b(NULL,m_szModuleName,FACEBOOK_KEY_LOAD_MOBILE, DEFAULT_LOAD_MOBILE) != 0;
+	bool use_mobile_status = getByte(FACEBOOK_KEY_LOAD_MOBILE, DEFAULT_LOAD_MOBILE) != 0;
 
 	for (List::Item< facebook_user >* i = facy.buddies.begin(); i != NULL;)
 	{		
@@ -73,19 +73,18 @@ void FacebookProto::ProcessBuddyList(void* data)
 			
 			DBVARIANT dbv;
 			TCHAR* client = on_mobile ? _T(FACEBOOK_MOBILE) : _T(FACEBOOK_NAME);
-			if (!db_get_ts(hContact,m_szModuleName,"MirVer",&dbv)) {
+			if (!getTString(hContact, "MirVer", &dbv)) {
 				if (_tcscmp(dbv.ptszVal, client))
-					db_set_ts(hContact,m_szModuleName,"MirVer",client);
+					setTString(hContact, "MirVer", client);
 				db_free(&dbv);
-			} else {
-				db_set_ts(hContact,m_szModuleName,"MirVer",client);
 			}
+			else setTString(hContact, "MirVer", client);
 		}
 
 		if (fbu->status_id == ID_STATUS_OFFLINE || fbu->deleted)
 		{
 			if (fbu->handle)
-				db_set_w(fbu->handle, m_szModuleName, "Status", ID_STATUS_OFFLINE);
+				setWord(fbu->handle, "Status", ID_STATUS_OFFLINE);
 
 			std::string to_delete(i->key);
 			i = i->next;
@@ -96,24 +95,24 @@ void FacebookProto::ProcessBuddyList(void* data)
 			if (!fbu->handle) // just been added
 				fbu->handle = AddToContactList(fbu, CONTACT_FRIEND);
 
-			if (db_get_w(fbu->handle, m_szModuleName, "Status", 0) != fbu->status_id)
-				db_set_w(fbu->handle, m_szModuleName, "Status", fbu->status_id);
+			if (getWord(fbu->handle, "Status", 0) != fbu->status_id)
+				setWord(fbu->handle, "Status", fbu->status_id);
 
-			if (db_get_dw(fbu->handle, m_szModuleName, "LastActiveTS", 0) != fbu->last_active) {
+			if (getDword(fbu->handle, "LastActiveTS", 0) != fbu->last_active) {
 				if (fbu->last_active > 0)
-					db_set_dw(fbu->handle, m_szModuleName, "LastActiveTS", fbu->last_active);
+					setDword(fbu->handle, "LastActiveTS", fbu->last_active);
 				else
-					db_unset(fbu->handle, m_szModuleName, "LastActiveTS");
+					delSetting(fbu->handle, "LastActiveTS");
 			}
 
-			if (db_get_b(fbu->handle, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND) {
-				db_set_b(fbu->handle, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
+			if (getByte(fbu->handle, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND) {
+				setByte(fbu->handle, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
 				// TODO: remove that popup and use "Contact added you" event?
 			}
 
 			// Wasn't contact removed from "server-list" someday?
-			if (db_get_dw(fbu->handle, m_szModuleName, FACEBOOK_KEY_DELETED, 0)) {
-				db_unset(fbu->handle, m_szModuleName, FACEBOOK_KEY_DELETED);
+			if (getDword(fbu->handle, FACEBOOK_KEY_DELETED, 0)) {
+				delSetting(fbu->handle, FACEBOOK_KEY_DELETED);
 
 				std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;					
 
@@ -159,12 +158,12 @@ void FacebookProto::ProcessFriendList(void* data)
 
 	// Check and update old contacts
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		if (db_get_b(hContact,m_szModuleName,"ChatRoom",0))
+		if (getByte(hContact, "ChatRoom", 0))
 			continue;
 
 		DBVARIANT dbv;
 		facebook_user *fbu;
-		if (!db_get_s(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv)) {
+		if (!getString(hContact, FACEBOOK_KEY_ID, &dbv)) {
 			std::string id = dbv.pszVal;
 			db_free(&dbv);
 			
@@ -180,8 +179,8 @@ void FacebookProto::ProcessFriendList(void* data)
 				// TODO RM: remove, because contacts cant change it, so its only for "first run"
 					// - but what with contacts, that was added after logon?
 				// Update gender
-				if (db_get_b(hContact, m_szModuleName, "Gender", 0) != fbu->gender)
-					db_set_b(hContact, m_szModuleName, "Gender", fbu->gender);
+				if (getByte(hContact, "Gender", 0) != fbu->gender)
+					setByte(hContact, "Gender", fbu->gender);
 
 				// Update real name
 				if (!db_get_utf(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv))
@@ -195,14 +194,14 @@ void FacebookProto::ProcessFriendList(void* data)
 					db_set_utf(hContact, m_szModuleName, FACEBOOK_KEY_NICK, fbu->real_name.c_str());
 				}
 
-				if (db_get_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND) {
-					db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
+				if (getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND) {
+					setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
 					// TODO: remove that popup and use "Contact added you" event?
 				}
 
 				// Wasn't contact removed from "server-list" someday?
-				if (db_get_dw(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, 0)) {
-					db_unset(hContact, m_szModuleName, FACEBOOK_KEY_DELETED);
+				if (getDword(hContact, FACEBOOK_KEY_DELETED, 0)) {
+					delSetting(hContact, FACEBOOK_KEY_DELETED);
 
 					std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;					
 
@@ -220,12 +219,12 @@ void FacebookProto::ProcessFriendList(void* data)
 				// Contact was removed from "server-list", notify it
 
 				// Wasnt we already been notified about this contact? And was this real friend?
-				if (!db_get_dw(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, 0) 
-					&& db_get_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) == CONTACT_FRIEND)
+				if (!getDword(hContact, FACEBOOK_KEY_DELETED, 0) 
+					&& getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) == CONTACT_FRIEND)
 				{
 
-					db_set_dw(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, ::time(NULL));
-					db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
+					setDword(hContact, FACEBOOK_KEY_DELETED, ::time(NULL));
+					setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
 
 					std::string contactname = id;
 					if (!db_get_utf(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv)) {
@@ -248,7 +247,6 @@ void FacebookProto::ProcessFriendList(void* data)
 		facebook_user *fbu = iter->second;
 		
 		HANDLE hContact = AddToContactList(fbu, CONTACT_FRIEND, true); // This contact is surely new ...are you sure?
-//		db_set_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE);
 	}
 
 	LOG("***** Friend list processed");
@@ -411,7 +409,7 @@ void FacebookProto::ProcessMessages(void* data)
 	p->parse_messages(data, &messages, &notifications);
 	delete p;
 
-	bool local_timestamp = getByte(FACEBOOK_KEY_LOCAL_TIMESTAMP, 0) != 0;
+	bool local_timestamp = getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP, 0);
 
 	for(std::vector<facebook_message*>::size_type i=0; i<messages.size(); i++)
 	{
@@ -423,7 +421,7 @@ void FacebookProto::ProcessMessages(void* data)
 			fbu.real_name = messages[i]->sender_name;
 
 			HANDLE hContact = AddToContactList(&fbu, CONTACT_NONE);
-			db_set_s(hContact, m_szModuleName, FACEBOOK_KEY_MESSAGE_ID, messages[i]->message_id.c_str());
+			setString(hContact, FACEBOOK_KEY_MESSAGE_ID, messages[i]->message_id.c_str());
 
 			// TODO: if contact is newly added, get his user info
 			// TODO: maybe create new "receiveMsg" function and use it for offline and channel messages?
@@ -562,19 +560,19 @@ void FacebookProto::ProcessFriendRequests(void*)
 		if (fbu->user_id.length() && fbu->real_name.length())
 		{
 			HANDLE hContact = AddToContactList(fbu, CONTACT_APPROVE);
-			db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_APPROVE);
+			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_APPROVE);
 
 			bool seen = false;
 
 			DBVARIANT dbv;
-			if (!db_get_s(hContact, m_szModuleName, "RequestTime", &dbv)) {
+			if (!getString(hContact, "RequestTime", &dbv)) {
 				seen = !strcmp(dbv.pszVal, time.c_str());
 				db_free(&dbv);
 			}
 
 			if (!seen) {
 				// This is new request
-				db_set_s(hContact, m_szModuleName, "RequestTime", time.c_str());
+				setString(hContact, "RequestTime", time.c_str());
 
 				//blob is: uin(DWORD), hContact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 				//blob is: 0(DWORD), hContact(HANDLE), nick(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ)

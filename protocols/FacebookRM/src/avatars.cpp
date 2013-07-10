@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *url)
 {
 	DBVARIANT dbv;
-	if (!db_get_s(ai.hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, &dbv)) {
+	if (!getString(ai.hContact, FACEBOOK_KEY_AV_URL, &dbv)) {
 		std::string new_url = dbv.pszVal;
 		db_free(&dbv);
 
@@ -35,7 +35,7 @@ bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *
 		if (url)
 			*url = new_url;
 
-		if (!db_get_ts(ai.hContact, m_szModuleName, FACEBOOK_KEY_ID, &dbv)) {
+		if (!getTString(ai.hContact, FACEBOOK_KEY_ID, &dbv)) {
 			std::string ext = new_url.substr(new_url.rfind('.'));
 			std::tstring filename = GetAvatarFolder() + L'\\' + dbv.ptszVal + (TCHAR*)_A2T(ext.c_str());			
 			db_free(&dbv);			
@@ -57,7 +57,7 @@ void FacebookProto::CheckAvatarChange(HANDLE hContact, std::string image_url)
 	if (image_url.empty())
 		return;
 	
-	bool big_avatars = db_get_b(NULL, m_szModuleName, FACEBOOK_KEY_BIG_AVATARS, DEFAULT_BIG_AVATARS) != 0;
+	bool big_avatars = getBool(FACEBOOK_KEY_BIG_AVATARS, DEFAULT_BIG_AVATARS);
 	
 	// We've got url to avatar of default size 32x32px, let's change it to slightly bigger (50x50px) - looks like maximum size for square format
 	std::tstring::size_type pos = image_url.rfind("/s32x32/");
@@ -73,14 +73,14 @@ void FacebookProto::CheckAvatarChange(HANDLE hContact, std::string image_url)
 	
 	DBVARIANT dbv;
 	bool update_required = true;
-	if (!db_get_s(hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, &dbv))
+	if (!getString(hContact, FACEBOOK_KEY_AV_URL, &dbv))
 	{
 		update_required = image_url != dbv.pszVal;
 		db_free(&dbv);
 	}
 	if (update_required || !hContact)
 	{
-		db_set_s(hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, image_url.c_str());
+		setString(hContact, FACEBOOK_KEY_AV_URL, image_url.c_str());
 		if (hContact)
 		{
 			db_set_b(hContact, "ContactPhoto", "NeedUpdate", 1);

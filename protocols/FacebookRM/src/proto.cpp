@@ -162,7 +162,7 @@ int FacebookProto::SetStatus(int new_status)
 	case ID_STATUS_IDLE:
 	default:
 		m_iDesiredStatus = ID_STATUS_INVISIBLE;
-		if (db_get_b(NULL,m_szModuleName,FACEBOOK_KEY_MAP_STATUSES, DEFAULT_MAP_STATUSES))
+		if (getByte(FACEBOOK_KEY_MAP_STATUSES, DEFAULT_MAP_STATUSES))
 			break;
 	case ID_STATUS_ONLINE:
 	case ID_STATUS_FREECHAT:
@@ -482,15 +482,15 @@ INT_PTR FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
 
 	std::string url = FACEBOOK_URL_PROFILE;
 
-	ptrA val = db_get_sa(hContact, m_szModuleName, "Homepage");
+	ptrA val( getStringA(hContact, "Homepage"));
 	if (val != NULL) {
 		// Homepage link already present, get it
 		url = val;
 	} else {
 		// No homepage link, create and save it
-		val = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
+		val = getStringA(hContact, FACEBOOK_KEY_ID);
 		url += val;
-		db_set_s(hContact, m_szModuleName, "Homepage", url.c_str());
+		setString(hContact, "Homepage", url.c_str());
 	}
 
 	OpenUrl(url);
@@ -504,7 +504,7 @@ INT_PTR FacebookProto::VisitFriendship(WPARAM wParam,LPARAM lParam)
 	if (wParam == 0 || !IsMyContact(hContact))
 		return 1;
 
-	ptrA id = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
+	ptrA id( getStringA(hContact, FACEBOOK_KEY_ID));
 
 	std::string url = FACEBOOK_URL_PROFILE;
 	url += facy.self_.user_id;
@@ -521,7 +521,7 @@ INT_PTR FacebookProto::Poke(WPARAM wParam,LPARAM lParam)
 
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
-	ptrA id(db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID));
+	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 	if (id == NULL)
 		return 1;
 	
@@ -539,8 +539,8 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
 	// Ignore groupchats and, if deleting, also not-friends
-	if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0)
-		|| (deleting && db_get_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND))
+	if (getByte(hContact, "ChatRoom", 0)
+		|| (deleting && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND))
 		return 0;
 
 	ptrT tname = db_get_tsa(hContact, m_szModuleName, FACEBOOK_KEY_NAME);
@@ -551,7 +551,7 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 	mir_sntprintf(tstr,SIZEOF(tstr),TranslateT("Do you want to cancel your friendship with '%s'?"), tname);
 	if (MessageBox(0, tstr, m_tszUserName, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
 
-		ptrA id = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
+		ptrA id( getStringA(hContact, FACEBOOK_KEY_ID));
 		if (id == NULL)
 			return 1;
 
@@ -576,7 +576,7 @@ INT_PTR FacebookProto::RequestFriendship(WPARAM wParam,LPARAM lParam)
 
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
-	ptrA id = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
+	ptrA id( getStringA(hContact, FACEBOOK_KEY_ID));
 	if (id == NULL)
 		return 1;
 	
@@ -645,7 +645,7 @@ void FacebookProto::OpenUrl(std::string url)
 		}
 
 		// Make absolute url
-		bool useHttps = db_get_b(NULL, m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS, 1) > 0;
+		bool useHttps = getByte(FACEBOOK_KEY_FORCE_HTTPS, 1) > 0;
 		url = (useHttps ? HTTP_PROTO_SECURE : HTTP_PROTO_REGULAR) + facy.get_server_type() + url;
 	}
 

@@ -112,7 +112,7 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 	    // is compaired in all communication requests
 	}
 
-	if (db_get_b(NULL, parent->m_szModuleName, FACEBOOK_KEY_VALIDATE_RESPONSE, 0) == 1)
+	if (parent->getByte(FACEBOOK_KEY_VALIDATE_RESPONSE, 0) == 1)
 		validate_response(&resp);
 
 	return resp;
@@ -126,7 +126,7 @@ bool facebook_client::validate_response(http::response* resp)
 		return false;
 	}
 
-	if (db_get_b(NULL, parent->m_szModuleName, FACEBOOK_KEY_VALIDATE_RESPONSE, 0) == 2) {
+	if (parent->getByte(FACEBOOK_KEY_VALIDATE_RESPONSE, 0) == 2) {
 		return true;
 	}
 
@@ -193,7 +193,7 @@ bool facebook_client::handle_error(std::string method, int action)
 	increment_error();
 	parent->Log("!!!!! %s(): Something with Facebook went wrong", method.c_str());
 
-	bool result = (error_count_ <= (UINT)db_get_b(NULL,parent->m_szModuleName,FACEBOOK_KEY_TIMEOUTS_LIMIT,FACEBOOK_TIMEOUTS_LIMIT));
+	bool result = (error_count_ <= (UINT)parent->getByte(FACEBOOK_KEY_TIMEOUTS_LIMIT, FACEBOOK_TIMEOUTS_LIMIT));
 	if (action == FORCE_DISCONNECT || action == FORCE_QUIT)
 		result = false;
 
@@ -212,14 +212,10 @@ bool facebook_client::handle_error(std::string method, int action)
 DWORD facebook_client::choose_security_level(RequestType request_type)
 {
 	if (this->https_)
-	{
-		if (request_type != REQUEST_MESSAGES_RECEIVE
-			|| db_get_b(NULL, parent->m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS_CHANNEL, DEFAULT_FORCE_HTTPS_CHANNEL))
+		if (request_type != REQUEST_MESSAGES_RECEIVE || parent->getByte(FACEBOOK_KEY_FORCE_HTTPS_CHANNEL, DEFAULT_FORCE_HTTPS_CHANNEL))
 			return NLHRF_SSL;
-	}
 
-	switch (request_type)
-	{
+	switch (request_type) {
 	case REQUEST_LOGIN:
 	case REQUEST_SETUP_MACHINE:
 		return NLHRF_SSL;
@@ -558,7 +554,7 @@ NETLIBHTTPHEADER* facebook_client::get_request_headers(int request_type, int* he
 
 std::string facebook_client::get_newsfeed_type()
 {
-	BYTE feed_type = db_get_b(NULL, parent->m_szModuleName, FACEBOOK_KEY_FEED_TYPE, 0);
+	BYTE feed_type = parent->getByte(FACEBOOK_KEY_FEED_TYPE, 0);
 	if (feed_type < 0 || feed_type >= SIZEOF(feed_types))
 		feed_type = 0;	
 	return feed_types[feed_type].id;
@@ -566,7 +562,7 @@ std::string facebook_client::get_newsfeed_type()
 
 std::string facebook_client::get_server_type()
 {
-	BYTE server_type = db_get_b(NULL, parent->m_szModuleName, FACEBOOK_KEY_SERVER_TYPE, 0);
+	BYTE server_type = parent->getByte(FACEBOOK_KEY_SERVER_TYPE, 0);
 	if (server_type < 0 || server_type >= SIZEOF(server_types))
 		server_type = 0;
 	return server_types[server_type].id;
@@ -574,7 +570,7 @@ std::string facebook_client::get_server_type()
 
 std::string facebook_client::get_privacy_type()
 {
-	BYTE privacy_type = db_get_b(NULL, parent->m_szModuleName, FACEBOOK_KEY_PRIVACY_TYPE, 0);
+	BYTE privacy_type = parent->getByte(FACEBOOK_KEY_PRIVACY_TYPE, 0);
 	if (privacy_type < 0 || privacy_type >= SIZEOF(privacy_types))
 		privacy_type = 0;
 	return privacy_types[privacy_type].id;
@@ -666,7 +662,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 	data += "&email=" + utils::url::encode(username);
 	data += "&pass=" + utils::url::encode(password);
 
-	ptrA locale(db_get_sa(NULL, parent->m_szModuleName, FACEBOOK_KEY_LOCALE));
+	ptrA locale(parent->getStringA(FACEBOOK_KEY_LOCALE));
 	if (locale != NULL)
 		data += "&locale=" + std::string(locale);
 
@@ -678,7 +674,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 
 	// Save Device ID
 	if (cookies["datr"].length())
-		db_set_s(NULL, parent->m_szModuleName, FACEBOOK_KEY_DEVICE_ID, cookies["datr"].c_str());
+		parent->setString(FACEBOOK_KEY_DEVICE_ID, cookies["datr"].c_str());
 
 	if (resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end())
 	{
@@ -692,7 +688,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 		// Check whether HTTPS connection is required and we don't have it enabled
 		if (!this->https_ && resp.headers["Location"].find("https://") != std::string::npos) {
 			client_notify(TranslateT("Your account requires HTTPS connection. Activating."));
-			db_set_b(NULL, parent->m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS, 1);
+			parent->setByte(FACEBOOK_KEY_FORCE_HTTPS, 1);
 			this->https_ = true;
 			return login(username, password);
 		}
@@ -784,7 +780,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 	case HTTP_CODE_FOUND: // Found and redirected to Home, Logged in, everything is OK
 		if (cookies.find("c_user") != cookies.end()) {
 			this->self_.user_id = cookies.find("c_user")->second;
-			db_set_s(NULL,parent->m_szModuleName,FACEBOOK_KEY_ID,this->self_.user_id.c_str());
+			parent->setString(FACEBOOK_KEY_ID, this->self_.user_id.c_str());
 			parent->Log("      Got self user id: %s", this->self_.user_id.c_str());
 			return handle_success("login");
 		} else {
@@ -797,7 +793,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 
 bool facebook_client::logout()
 {
-	if (db_get_b(NULL, parent->m_szModuleName, FACEBOOK_KEY_DISABLE_LOGOUT, 0))
+	if (parent->getByte(FACEBOOK_KEY_DISABLE_LOGOUT, 0))
 		return true;
 
 	handle_entry("logout");
@@ -1184,7 +1180,7 @@ bool facebook_client::send_message(std::string message_recipient, std::string me
 	{
 		HANDLE hContact = parent->ContactIDToHContact(message_recipient);
 		if (hContact != NULL)
-  			db_set_w(hContact,parent->m_szModuleName,"Status",ID_STATUS_OFFLINE);
+  			parent->setWord(hContact, "Status", ID_STATUS_OFFLINE);
 		return false;
 	} break;
 
@@ -1222,7 +1218,7 @@ bool facebook_client::set_status(const std::string &status_text)
 		return handle_success("set_status");
 
 	std::string text = utils::url::encode(status_text);
-	ptrA place = db_get_sa(NULL, parent->m_szModuleName, FACEBOOK_KEY_PLACE);
+	ptrA place(parent->getStringA(FACEBOOK_KEY_PLACE));
 
 	std::string data = "fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
 	data += "&xhpc_context=home&xhpc_ismeta=1&xhpc_timeline=&xhpc_composerid=u_jsonp_2_0&is_explicit_place=&composertags_place=&composer_session_id=0&composertags_city=&disable_location_sharing=false&composer_predicted_city=&nctr[_mod]=pagelet_composer&__a=1&__dyn=&__req=1f&phstamp=0";

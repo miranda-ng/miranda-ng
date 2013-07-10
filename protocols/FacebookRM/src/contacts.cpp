@@ -29,7 +29,7 @@ bool FacebookProto::IsMyContact(HANDLE hContact, bool include_chat)
 		if (include_chat)
 			return true;
 		else
-			return !db_get_b(hContact, m_szModuleName, "ChatRoom", 0);
+			return !getByte(hContact, "ChatRoom", 0);
 	}
 	return false;
 }
@@ -40,7 +40,7 @@ HANDLE FacebookProto::ChatIDToHContact(std::string chat_id)
 		if (!IsMyContact(hContact, true))
 			continue;
 
-		ptrA id = db_get_sa(hContact, m_szModuleName, "ChatRoomID");
+		ptrA id( getStringA(hContact, "ChatRoomID"));
 		if (id && !strcmp(id, chat_id.c_str()))
 			return hContact;
 	}
@@ -54,7 +54,7 @@ HANDLE FacebookProto::ContactIDToHContact(std::string user_id)
 		if (!IsMyContact(hContact))
 			continue;
 
-		ptrA id = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
+		ptrA id( getStringA(hContact, FACEBOOK_KEY_ID));
 		if (id && !strcmp(id, user_id.c_str()))
 			return hContact;
 	}
@@ -79,11 +79,11 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, boo
 	{
 		if(CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)hContact,(LPARAM)m_szModuleName) == 0)
 		{
-			db_set_s(hContact,m_szModuleName,FACEBOOK_KEY_ID,fbu->user_id.c_str());
+			setString(hContact, FACEBOOK_KEY_ID, fbu->user_id.c_str());
       
 			std::string homepage = FACEBOOK_URL_PROFILE + fbu->user_id;
-			db_set_s(hContact, m_szModuleName,"Homepage", homepage.c_str());			
-			db_set_s(hContact, m_szModuleName, "MirVer", fbu->status_id == ID_STATUS_ONTHEPHONE ? FACEBOOK_MOBILE : FACEBOOK_NAME);
+			setString(hContact, "Homepage", homepage.c_str());			
+			setString(hContact, "MirVer", fbu->status_id == ID_STATUS_ONTHEPHONE ? FACEBOOK_MOBILE : FACEBOOK_NAME);
 
 			db_unset(hContact, "CList", "MyHandle");
 
@@ -97,12 +97,12 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, boo
 			}
 
 			if (fbu->gender)
-				db_set_b(hContact, m_szModuleName, "Gender", fbu->gender);
+				setByte(hContact, "Gender", fbu->gender);
 			
 			if (!fbu->image_url.empty())
-				db_set_s(hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, fbu->image_url.c_str());
+				setString(hContact, FACEBOOK_KEY_AV_URL, fbu->image_url.c_str());
 			
-			db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, type);
+			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, type);
 
 			if (getByte(FACEBOOK_KEY_DISABLE_STATUS_NOTIFY, 0))
 				CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, (LPARAM)IGNOREEVENT_USERONLINE);
@@ -119,18 +119,18 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, boo
 void FacebookProto::SetAllContactStatuses(int status, bool reset_client)
 {
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		if (db_get_b(hContact,m_szModuleName,"ChatRoom",0))
+		if (getByte(hContact, "ChatRoom", 0))
 			continue;
 		
 		if (reset_client) {
 			ptrT mirver = db_get_tsa(hContact, m_szModuleName, "MirVer");
 			if (!mirver || _tcscmp(mirver, _T(FACEBOOK_NAME)))
-				db_set_ts(hContact, m_szModuleName, "MirVer", _T(FACEBOOK_NAME));
+				setTString(hContact, "MirVer", _T(FACEBOOK_NAME));
 
 			/*std::tstring foldername = GetAvatarFolder() + L"\\smileys\\";
 			TCHAR *path = _tcsdup(foldername.c_str());
 	
-			if (db_get_b(NULL,m_szModuleName,FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS)) {
+			if (getByte(FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS)) {
 				SMADD_CONT cont;
 				cont.cbSize = sizeof(SMADD_CONT);
 				cont.hContact = hContact;
@@ -141,8 +141,8 @@ void FacebookProto::SetAllContactStatuses(int status, bool reset_client)
 			}*/
 		}
 
-		if (db_get_w(hContact,m_szModuleName,"Status",ID_STATUS_OFFLINE) != status)
-			db_set_w(hContact,m_szModuleName,"Status",status);
+		if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != status)
+			setWord(hContact, "Status", status);
 	}
 }
 
@@ -179,9 +179,9 @@ void FacebookProto::DeleteContactFromServer(void *data)
 		
 		// If contact wasn't deleted from database
 		if (hContact != NULL) {
-			db_set_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE);
-			db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
-			db_set_dw(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, ::time(NULL));
+			setWord(hContact, "Status", ID_STATUS_OFFLINE);
+			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
+			setDword(hContact, FACEBOOK_KEY_DELETED, ::time(NULL));
 		}
 		
 		NotifyEvent(m_tszUserName, TranslateT("Contact was removed from your server list."), NULL, FACEBOOK_EVENT_OTHER);
@@ -219,12 +219,11 @@ void FacebookProto::AddContactToServer(void *data)
 		
 		// If contact wasn't deleted from database
 		if (hContact != NULL)
-			db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_REQUEST);
+			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_REQUEST);
 				
 		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was sent."), NULL, FACEBOOK_EVENT_OTHER);
-	} else {
-		facy.client_notify(TranslateT("Error occured when requesting friendship."));
 	}
+	else facy.client_notify(TranslateT("Error occured when requesting friendship."));
 
 	if (resp.code != HTTP_CODE_OK)
 		facy.handle_error("AddContactToServer");
@@ -246,7 +245,7 @@ void FacebookProto::ApproveContactToServer(void *data)
 
 	std::string get_data = "id=";
 
-	ptrA id = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
+	ptrA id( getStringA(hContact, FACEBOOK_KEY_ID));
 	get_data += id;
 
 	http::response resp = facy.flap(REQUEST_APPROVE_FRIEND, &post_data, &get_data);
@@ -254,7 +253,7 @@ void FacebookProto::ApproveContactToServer(void *data)
 	// Process result data
 	facy.validate_response(&resp);
 
-	db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
+	setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
 }
 
 void FacebookProto::CancelFriendsRequest(void *data)
@@ -271,7 +270,7 @@ void FacebookProto::CancelFriendsRequest(void *data)
 	query += "&fb_dtsg=" + facy.dtsg_;
 	query += "&__user=" + facy.self_.user_id;
 
-	ptrA id = db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
+	ptrA id( getStringA(hContact, FACEBOOK_KEY_ID));
 	query += "&friend=" + std::string(id);
 
 	// Get unread inbox threads
@@ -282,11 +281,10 @@ void FacebookProto::CancelFriendsRequest(void *data)
 
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos)
 	{		
-		db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
+		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
 		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was canceled."), NULL, FACEBOOK_EVENT_OTHER);
-	} else {
-		facy.client_notify(TranslateT("Error occured when canceling friendship request."));
 	}
+	else facy.client_notify(TranslateT("Error occured when canceling friendship request."));
 
 	if (resp.code != HTTP_CODE_OK)
 		facy.handle_error("CancelFriendsRequest");
