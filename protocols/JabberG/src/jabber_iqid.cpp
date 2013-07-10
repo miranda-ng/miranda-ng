@@ -209,13 +209,11 @@ void CJabberProto::OnLoggedIn()
 
 	QueryPrivacyLists(m_ThreadInfo);
 
-	char szServerName[ sizeof(m_ThreadInfo->server) ];
-	if (JGetStaticString("LastLoggedServer", NULL, szServerName, sizeof(szServerName)))
+	ptrA szServerName( getStringA("LastLoggedServer"));
+	if (szServerName == NULL || strcmp(m_ThreadInfo->server, szServerName))
 		SendGetVcard(m_szJabberJID);
-	else if (strcmp(m_ThreadInfo->server, szServerName))
-		SendGetVcard(m_szJabberJID);
-	setString("LastLoggedServer", m_ThreadInfo->server);
 
+	setString("LastLoggedServer", m_ThreadInfo->server);
 	m_pepServices.ResetPublishAll();
 }
 

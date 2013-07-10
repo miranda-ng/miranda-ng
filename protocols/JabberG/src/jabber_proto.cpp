@@ -878,13 +878,11 @@ HANDLE __cdecl CJabberProto::SearchByEmail(const TCHAR *email)
 	if ( !m_bJabberOnline || email == NULL)
 		return 0;
 
-	char szServerName[100];
-	if (JGetStaticString("Jud", NULL, szServerName, sizeof(szServerName)))
-		strcpy(szServerName, "users.jabber.org");
+	ptrA szServerName( getStringA("Jud"));
 
 	int iqId = SerialNext();
 	IqAdd(iqId, IQ_PROC_GETSEARCH, &CJabberProto::OnIqResultSetSearch);
-	m_ThreadInfo->send( XmlNodeIq(_T("set"), iqId, _A2T(szServerName)) << XQUERY(_T("jabber:iq:search"))
+	m_ThreadInfo->send( XmlNodeIq(_T("set"), iqId, _A2T(szServerName ? szServerName : "users.jabber.org")) << XQUERY(_T("jabber:iq:search"))
 		<< XCHILD(_T("email"), email));
 	return (HANDLE)iqId;
 }
@@ -899,12 +897,10 @@ HANDLE __cdecl CJabberProto::SearchByName(const TCHAR *nick, const TCHAR *firstN
 
 	BOOL bIsExtFormat = m_options.ExtendedSearch;
 
-	char szServerName[100];
-	if (JGetStaticString("Jud", NULL, szServerName, sizeof(szServerName)))
-		strcpy(szServerName, "users.jabber.org");
+	ptrA szServerName( getStringA("Jud"));
 
 	int iqId = SerialNext();
-	XmlNodeIq iq(_T("set"), iqId, _A2T(szServerName));
+	XmlNodeIq iq(_T("set"), iqId, _A2T(szServerName ? szServerName : "users.jabber.org"));
 	HXML query = iq << XQUERY(_T("jabber:iq:search"));
 
 	if (bIsExtFormat) {

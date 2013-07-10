@@ -30,23 +30,6 @@ void CJabberProto::JDeleteSetting(HANDLE hContact, const char* valueName)
    db_unset(hContact, m_szModuleName, valueName);
 }
 
-int CJabberProto::JGetStaticString(const char* valueName, HANDLE hContact, char* dest, int dest_len)
-{
-	DBVARIANT dbv;
-	dbv.pszVal = dest;
-	dbv.cchVal = dest_len;
-	dbv.type = DBVT_ASCIIZ;
-
-	DBCONTACTGETSETTING sVal;
-	sVal.pValue = &dbv;
-	sVal.szModule = m_szModuleName;
-	sVal.szSetting = valueName;
-	if (CallService(MS_DB_CONTACT_GETSETTINGSTATIC, (WPARAM)hContact, (LPARAM)&sVal) != 0)
-		return 1;
-
-	return (dbv.type != DBVT_ASCIIZ);
-}
-
 int CJabberProto::JGetStringUtf(HANDLE hContact, char* valueName, DBVARIANT* dbv)
 {
 	return db_get_utf(hContact, m_szModuleName, valueName, dbv);

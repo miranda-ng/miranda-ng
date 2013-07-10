@@ -129,8 +129,8 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	PROTO_AVATAR_INFORMATIONT* AI = (PROTO_AVATAR_INFORMATIONT*)lParam;
 
-	char szHashValue[ MAX_PATH ];
-	if (JGetStaticString("AvatarHash", AI->hContact, szHashValue, sizeof szHashValue)) {
+	ptrA szHashValue( getStringA(AI->hContact, "AvatarHash"));
+	if (szHashValue == NULL) {
 		Log("No avatar");
 		return GAIR_NOAVATAR;
 	}
@@ -142,12 +142,12 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	AI->format = (AI->hContact == NULL) ? PA_FORMAT_PNG : getByte(AI->hContact, "AvatarType", 0);
 
 	if (::_taccess(AI->filename, 0) == 0) {
-		char szSavedHash[ 256 ];
-		if ( !JGetStaticString("AvatarSaved", AI->hContact, szSavedHash, sizeof szSavedHash)) {
-			if ( !strcmp(szSavedHash, szHashValue)) {
-				Log("Avatar is Ok: %s == %s", szSavedHash, szHashValue);
-				return GAIR_SUCCESS;
-	}	}	}
+		ptrA szSavedHash( getStringA(AI->hContact, "AvatarSaved"));
+		if (szSavedHash != NULL && !strcmp(szSavedHash, szHashValue)) {
+			Log("Avatar is Ok: %s == %s", szSavedHash, szHashValue);
+			return GAIR_SUCCESS;
+		}
+	}
 
 	if ((wParam & GAIF_FORCE) != 0 && AI->hContact != NULL && m_bJabberOnline) {
 		DBVARIANT dbv;

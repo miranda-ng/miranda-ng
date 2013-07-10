@@ -884,15 +884,13 @@ void CJabberProto::SendPresenceTo(int status, TCHAR* to, HXML extra, const TCHAR
 		xmlAddAttr(c, _T("ext"), szExtCaps);
 
 	if (m_options.EnableAvatars) {
-		char hashValue[ 50 ];
-		if ( !JGetStaticString("AvatarHash", NULL, hashValue, sizeof(hashValue))) {
-			// XEP-0153: vCard-Based Avatars
-			HXML x = p << XCHILDNS(_T("x"), _T("vcard-temp:x:update"));
+		HXML x = p << XCHILDNS(_T("x"), _T("vcard-temp:x:update"));
+
+		ptrA hashValue( getStringA("AvatarHash"));
+		if (hashValue != NULL) // XEP-0153: vCard-Based Avatars
 			x << XCHILD(_T("photo"), _A2T(hashValue));
-		} else {
-			HXML x = p << XCHILDNS(_T("x"), _T("vcard-temp:x:update"));
+		else 
 			x << XCHILD(_T("photo"));
-		}
 	}
 
 	EnterCriticalSection(&m_csModeMsgMutex);
@@ -1750,8 +1748,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 {
 	OBJLIST<JABBER_HTTP_AVATARS> &avs = *(OBJLIST<JABBER_HTTP_AVATARS>*)param;
 	HANDLE hHttpCon = NULL;
-	for (int i = 0; i < avs.getCount(); i++)
-	{
+	for (int i = 0; i < avs.getCount(); i++) {
 		NETLIBHTTPREQUEST nlhr = {0};
 		nlhr.cbSize = sizeof(nlhr);
 		nlhr.requestType = REQUEST_GET;
@@ -1760,29 +1757,24 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 		nlhr.nlc = hHttpCon;
 
 		NETLIBHTTPREQUEST * res = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&nlhr);
-		if (res)
-		{
+		if (res) {
 			hHttpCon = res->nlc;
-			if (res->resultCode == 200 && res->dataLength)
-			{
+			if (res->resultCode == 200 && res->dataLength) {
 				int pictureType = JabberGetPictureType(res->pData);
-				if (pictureType != PA_FORMAT_UNKNOWN)
-				{
-					TCHAR tszFileName[ MAX_PATH ];
-
+				if (pictureType != PA_FORMAT_UNKNOWN) {
 					PROTO_AVATAR_INFORMATIONT AI;
 					AI.cbSize = sizeof(AI);
 					AI.format = pictureType;
 					AI.hContact = avs[i].hContact;
 
 					if (getByte(AI.hContact, "AvatarType", PA_FORMAT_UNKNOWN) != (unsigned char)pictureType) {
+						TCHAR tszFileName[ MAX_PATH ];
 						GetAvatarFileName(AI.hContact, tszFileName, SIZEOF(tszFileName));
 						DeleteFile(tszFileName);
 					}
 
 					setByte(AI.hContact, "AvatarType", pictureType);
 
-					char cmpsha[ 41 ];
 					char buffer[ 41 ];
 					mir_sha1_byte_t digest[20];
 					mir_sha1_ctx sha;
@@ -1792,8 +1784,9 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 					for (int i=0; i<20; i++)
 						sprintf(buffer+(i<<1), "%02x", digest[i]);
 
-					if (JGetStaticString("AvatarSaved", AI.hContact, cmpsha, sizeof(cmpsha)) || strnicmp(cmpsha, buffer, sizeof(buffer)))
-					{
+					ptrA cmpsha( getStringA(AI.hContact, "AvatarSaved"));
+					if (cmpsha == NULL || strnicmp(cmpsha, buffer, sizeof(buffer))) {
+						TCHAR tszFileName[ MAX_PATH ];
 						GetAvatarFileName(AI.hContact, tszFileName, SIZEOF(tszFileName));
 						_tcsncpy(AI.filename, tszFileName, SIZEOF(AI.filename));
 						FILE* out = _tfopen(tszFileName, _T("wb"));
@@ -1810,8 +1803,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 			}
 			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)res);
 		}
-		else
-			hHttpCon = NULL;
+		else hHttpCon = NULL;
 	}
 	delete &avs;
 	if (hHttpCon)

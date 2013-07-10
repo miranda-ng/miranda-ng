@@ -540,9 +540,8 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 
 			/* Server Combo box */
-			char szServerName[100];
-			if (dat->ppro->JGetStaticString("Jud", NULL, szServerName, sizeof(szServerName)))
-				strcpy(szServerName, "users.jabber.org");
+			ptrA jud(dat->ppro->getStringA("Jud"));
+			char *szServerName = (jud != NULL) ? jud : "users.jabber.org";
 			SetDlgItemTextA(hwndDlg,IDC_SERVER,szServerName);
 			SendDlgItemMessageA(hwndDlg,IDC_SERVER,CB_ADDSTRING,0,(LPARAM)szServerName);
 			//TO DO: Add Transports here

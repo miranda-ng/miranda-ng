@@ -784,7 +784,6 @@ struct CJabberProto : public PROTO<CJabberProto>
 	//---- jabber_std.cpp ----------------------------------------------
 
 	void   JDeleteSetting(HANDLE hContact, const char* valueName);
-	int    JGetStaticString(const char* valueName, HANDLE hContact, char* dest, int dest_len);
 	int    JGetStringUtf(HANDLE hContact, char* valueName, DBVARIANT* dbv);
 	TCHAR *JGetStringT(HANDLE hContact, char* valueName);
 	TCHAR *JGetStringT(HANDLE hContact, char* valueName, TCHAR *&out);
