@@ -964,7 +964,7 @@ void CIcqProto::ResetSettingsOnListReload()
 	setWord(DBSETTING_SERVLIST_AVATAR, 0);
 	setWord(DBSETTING_SERVLIST_PHOTO, 0);
 	setWord("SrvRecordCount", 0);
-	db_unset(NULL, m_szModuleName, DBSETTING_SERVLIST_UNHANDLED);
+	delSetting(DBSETTING_SERVLIST_UNHANDLED);
 
 	HANDLE hContact = FindFirstContact();
 
@@ -975,9 +975,9 @@ void CIcqProto::ResetSettingsOnListReload()
 		setWord(hContact, DBSETTING_SERVLIST_GROUP, 0);
 		setWord(hContact, DBSETTING_SERVLIST_PERMIT, 0);
 		setWord(hContact, DBSETTING_SERVLIST_DENY, 0);
-		db_unset(hContact, m_szModuleName, DBSETTING_SERVLIST_IGNORE);
+		delSetting(hContact, DBSETTING_SERVLIST_IGNORE);
 		setByte(hContact, "Auth", 0);
-		db_unset(hContact, m_szModuleName, DBSETTING_SERVLIST_DATA);
+		delSetting(hContact, DBSETTING_SERVLIST_DATA);
 
 		hContact = FindNextContact(hContact);
 	}
@@ -1024,9 +1024,9 @@ void CIcqProto::ResetSettingsOnLoad()
 		{
 			setWord(hContact, "Status", ID_STATUS_OFFLINE);
 
-			db_unset(hContact, m_szModuleName, DBSETTING_XSTATUS_ID);
-			db_unset(hContact, m_szModuleName, DBSETTING_XSTATUS_NAME);
-			db_unset(hContact, m_szModuleName, DBSETTING_XSTATUS_MSG);
+			delSetting(hContact, DBSETTING_XSTATUS_ID);
+			delSetting(hContact, DBSETTING_XSTATUS_NAME);
+			delSetting(hContact, DBSETTING_XSTATUS_MSG);
 		}
 		setByte(hContact, "DCStatus", 0);
 
@@ -1369,7 +1369,7 @@ void CIcqProto::writeDbInfoSettingTLVStringUtf(HANDLE hContact, const char *szSe
 		db_set_utf(hContact, m_szModuleName, szSetting, str);
 	}
 	else
-		db_unset(hContact, m_szModuleName, szSetting);
+		delSetting(hContact, szSetting);
 }
 
 
@@ -1380,7 +1380,7 @@ void CIcqProto::writeDbInfoSettingTLVWord(HANDLE hContact, const char *szSetting
 	if (num > 0)
 		setWord(hContact, szSetting, num);
 	else
-		db_unset(hContact, m_szModuleName, szSetting);
+		delSetting(hContact, szSetting);
 }
 
 
@@ -1391,7 +1391,7 @@ void CIcqProto::writeDbInfoSettingTLVByte(HANDLE hContact, const char *szSetting
 	if (num > 0)
 		setByte(hContact, szSetting, num);
 	else
-		db_unset(hContact, m_szModuleName, szSetting);
+		delSetting(hContact, szSetting);
 }
 
 
@@ -1402,7 +1402,7 @@ void CIcqProto::writeDbInfoSettingTLVDouble(HANDLE hContact, const char *szSetti
 	if (num > 0)
 		setSettingDouble(hContact, szSetting, num);
 	else
-		db_unset(hContact, m_szModuleName, szSetting);
+		delSetting(hContact, szSetting);
 }
 
 void CIcqProto::writeDbInfoSettingTLVDate(HANDLE hContact, const char* szSettingYear, const char* szSettingMonth, const char* szSettingDay, oscar_tlv_chain* chain, WORD wTlv)
@@ -1420,16 +1420,16 @@ void CIcqProto::writeDbInfoSettingTLVDate(HANDLE hContact, const char* szSetting
 		}
 		else
 		{
-			db_unset(hContact, m_szModuleName, szSettingYear);
-			db_unset(hContact, m_szModuleName, szSettingMonth);
-			db_unset(hContact, m_szModuleName, szSettingDay);
+			delSetting(hContact, szSettingYear);
+			delSetting(hContact, szSettingMonth);
+			delSetting(hContact, szSettingDay);
 		}
 	}
 	else
 	{
-		db_unset(hContact, m_szModuleName, szSettingYear);
-		db_unset(hContact, m_szModuleName, szSettingMonth);
-		db_unset(hContact, m_szModuleName, szSettingDay);
+		delSetting(hContact, szSettingYear);
+		delSetting(hContact, szSettingMonth);
+		delSetting(hContact, szSettingDay);
 	}
 }
 
@@ -1441,7 +1441,7 @@ void CIcqProto::writeDbInfoSettingTLVBlob(HANDLE hContact, const char *szSetting
 	if (pTLV && pTLV->wLen > 0)
 		setSettingBlob(hContact, szSetting, pTLV->pData, pTLV->wLen);
 	else
-		db_unset(hContact, m_szModuleName, szSetting);
+		delSetting(hContact, szSetting);
 }
 
 
@@ -1478,7 +1478,7 @@ BOOL CIcqProto::writeDbInfoSettingString(HANDLE hContact, const char* szSetting,
 			setString(hContact, szSetting, *buf);
 	}
 	else
-		db_unset(hContact, m_szModuleName, szSetting);
+		delSetting(hContact, szSetting);
 
 	*buf += wLen;
 	*pwLength -= wLen;
@@ -1500,7 +1500,7 @@ BOOL CIcqProto::writeDbInfoSettingWord(HANDLE hContact, const char *szSetting, c
 	if (wVal != 0)
 		setWord(hContact, szSetting, wVal);
 	else
-		db_unset(hContact, m_szModuleName, szSetting);
+		delSetting(hContact, szSetting);
 
 	return TRUE;
 }
@@ -1521,7 +1521,7 @@ BOOL CIcqProto::writeDbInfoSettingWordWithTable(HANDLE hContact, const char *szS
 	if (text)
 		db_set_utf(hContact, m_szModuleName, szSetting, text);
 	else
-		db_unset(hContact, m_szModuleName, szSetting);
+		delSetting(hContact, szSetting);
 
 	return TRUE;
 }
@@ -1539,7 +1539,7 @@ BOOL CIcqProto::writeDbInfoSettingByte(HANDLE hContact, const char *pszSetting, 
 	if (byVal != 0)
 		setByte(hContact, pszSetting, byVal);
 	else
-		db_unset(hContact, m_szModuleName, pszSetting);
+		delSetting(hContact, pszSetting);
 
 	return TRUE;
 }
@@ -1560,7 +1560,7 @@ BOOL CIcqProto::writeDbInfoSettingByteWithTable(HANDLE hContact, const char *szS
 	if (text)
 		db_set_utf(hContact, m_szModuleName, szSetting, text);
 	else
-		db_unset(hContact, m_szModuleName, szSetting);
+		delSetting(hContact, szSetting);
 
 	return TRUE;
 }

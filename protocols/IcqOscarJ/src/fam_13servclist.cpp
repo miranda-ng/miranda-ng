@@ -678,8 +678,8 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 			}
 			else // contact was deleted from server-list
 			{
-				db_unset(sc->hContact, m_szModuleName, DBSETTING_SERVLIST_ID);
-				db_unset(sc->hContact, m_szModuleName, DBSETTING_SERVLIST_GROUP);
+				delSetting(sc->hContact, DBSETTING_SERVLIST_ID);
+				delSetting(sc->hContact, DBSETTING_SERVLIST_GROUP);
 				FreeServerID(sc->wContactId, SSIT_ITEM); // release old contact id
 				sc->lParam = 1;
 				sc = NULL; // wait for second ack
@@ -727,7 +727,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 				if (sc->wGroupId) // is avatar added or updated?
 				{
 					FreeServerID(sc->wContactId, SSIT_ITEM);
-					db_unset(NULL, m_szModuleName, DBSETTING_SERVLIST_AVATAR); // to fix old versions
+					delSetting(DBSETTING_SERVLIST_AVATAR); // to fix old versions
 				}
 			}
 			else
@@ -743,7 +743,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 			else
 			{
 				FreeServerID(sc->wContactId, SSIT_ITEM);
-				db_unset(NULL, m_szModuleName, DBSETTING_SERVLIST_AVATAR);
+				delSetting(DBSETTING_SERVLIST_AVATAR);
 			}
 			break;
 		}
@@ -759,7 +759,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 			else
 			{
 				setWord("SrvImportID", 0);
-				db_unset(NULL, m_szModuleName, "ImportTS");
+				delSetting("ImportTS");
 			}
 			break;
 		}
@@ -1104,8 +1104,8 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 						}
 						else
 						{
-							db_unset(hContact, m_szModuleName, DBSETTING_METAINFO_TOKEN);
-							db_unset(hContact, m_szModuleName, DBSETTING_METAINFO_TIME);
+							delSetting(hContact, DBSETTING_METAINFO_TOKEN);
+							delSetting(hContact, DBSETTING_METAINFO_TIME);
 						}
 
 						{ // store server-list item's TLV data
@@ -1115,7 +1115,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 							if (datalen > 0)
 								setSettingBlob(hContact, DBSETTING_SERVLIST_DATA, data, datalen);
 							else
-								db_unset(hContact, m_szModuleName, DBSETTING_SERVLIST_DATA);
+								delSetting(hContact, DBSETTING_SERVLIST_DATA);
 
 							SAFE_FREE((void**)&data);
 						}
@@ -1546,7 +1546,7 @@ void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wGrou
 				if (datalen > 0)
 					setSettingBlob(hContact, DBSETTING_SERVLIST_DATA, data, datalen);
 				else
-					db_unset(hContact, m_szModuleName, DBSETTING_SERVLIST_DATA);
+					delSetting(hContact, DBSETTING_SERVLIST_DATA);
 			}
 		}
 	}
@@ -1592,9 +1592,9 @@ void CIcqProto::handleServerCListItemDelete(const char *szRecordName, WORD wGrou
 	{ // a contact was removed from our list
 		if (getWord(hContact, DBSETTING_SERVLIST_ID, 0) == wItemId)
 		{
-			db_unset(hContact, m_szModuleName, DBSETTING_SERVLIST_ID);
-			db_unset(hContact, m_szModuleName, DBSETTING_SERVLIST_GROUP);
-			db_unset(hContact, m_szModuleName, "Auth");
+			delSetting(hContact, DBSETTING_SERVLIST_ID);
+			delSetting(hContact, DBSETTING_SERVLIST_GROUP);
+			delSetting(hContact, "Auth");
 
 			{
 				char str[MAX_PATH];

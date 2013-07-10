@@ -1636,7 +1636,7 @@ void CIcqProto::icq_sendChangeVisInvis(HANDLE hContact, DWORD dwUin, char* szUID
 			{
 				icq_removeServerPrivacyItem(hContact, dwUin, szUID, wContactId, wType);
 
-				db_unset(hContact, m_szModuleName, szSetting);
+				delSetting(hContact, szSetting);
 			}
 		}
 	}

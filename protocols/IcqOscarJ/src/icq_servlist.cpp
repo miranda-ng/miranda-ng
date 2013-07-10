@@ -1068,7 +1068,7 @@ void CIcqProto::StoreServerIDs() /// TODO: allow delayed
 			if (pUnhandled)
 				setSettingBlob(NULL, DBSETTING_SERVLIST_UNHANDLED, pUnhandled, cbUnhandled);
 			else
-				db_unset(NULL, m_szModuleName, DBSETTING_SERVLIST_UNHANDLED);
+				delSetting(DBSETTING_SERVLIST_UNHANDLED);
 
 			SAFE_FREE((void**)&pUnhandled);
 }
@@ -2611,9 +2611,9 @@ void CIcqProto::resetServContactAuthState(HANDLE hContact, DWORD dwUin)
 				void *doubleObject = NULL;
 
 				icq_sendServerContact(hContact, dwCookie, ICQ_LISTS_REMOVEFROMLIST, wGroupId, wContactId, SSO_CONTACT_FIXAUTH | SSOF_BEGIN_OPERATION | SSOF_END_OPERATION, 200, &doubleObject);
-				db_unset(hContact, m_szModuleName, DBSETTING_METAINFO_TOKEN);
-				db_unset(hContact, m_szModuleName, DBSETTING_METAINFO_TIME);
-				db_unset(hContact, m_szModuleName, DBSETTING_SERVLIST_DATA);
+				delSetting(hContact, DBSETTING_METAINFO_TOKEN);
+				delSetting(hContact, DBSETTING_METAINFO_TIME);
+				delSetting(hContact, DBSETTING_SERVLIST_DATA);
 				icq_sendServerContact(hContact, dwCookie, ICQ_LISTS_ADDTOLIST, wGroupId, wContactId, SSO_CONTACT_FIXAUTH | SSOF_BEGIN_OPERATION | SSOF_END_OPERATION, 200, &doubleObject);
 			}
 		}

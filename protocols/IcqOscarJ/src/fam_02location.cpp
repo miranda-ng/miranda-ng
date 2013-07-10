@@ -188,7 +188,7 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, WORD wLen, DWORD dwCookie
 					if (pTLV && pTLV->wLen > 0) // store client capabilities
 						db_set_blob(hContact, m_szModuleName, "CapBuf", pTLV->pData, pTLV->wLen);
 					else
-						db_unset(hContact, m_szModuleName, "CapBuf");
+						delSetting(hContact, "CapBuf");
 
 					pTLV = pChain->getTLV(0x01, 1);
 					if (pTLV && (pTLV->wLen >= 1))

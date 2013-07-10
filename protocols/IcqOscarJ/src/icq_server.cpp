@@ -95,7 +95,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 		{
 			icq_LogUsingErrorCode(LOG_WARNING, GetLastError(), LPGEN("Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network."));
 			wListenPort = 0;
-			if (!bConstInternalIP) db_unset(NULL, m_szModuleName, "RealIP");
+			if (!bConstInternalIP) delSetting("RealIP");
 		}
 		else if (!bConstInternalIP)
 			setDword("RealIP", dwInternalIP);

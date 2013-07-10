@@ -428,7 +428,7 @@ void CIcqProto::handleXStatusCaps(DWORD dwUIN, char *szUID, HANDLE hContact, BYT
 						if (nOldXStatusID != bXStatusId) {
 							setByte(hContact, DBSETTING_XSTATUS_ID, bXStatusId);
 							db_set_utf(hContact, m_szModuleName, DBSETTING_XSTATUS_NAME, ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
-							db_unset(hContact, m_szModuleName, DBSETTING_XSTATUS_MSG);
+							delSetting(hContact, DBSETTING_XSTATUS_MSG);
 
 							NetLog_Server("%s changed mood to %s.", strUID(dwUIN, szUID), ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
 							bChanged = TRUE;
@@ -461,7 +461,7 @@ void CIcqProto::handleXStatusCaps(DWORD dwUIN, char *szUID, HANDLE hContact, BYT
 						if (nMoodID == 0 && nOldXStatusID != bXStatusId) {
 							setByte(hContact, DBSETTING_XSTATUS_ID, bXStatusId);
 							db_set_utf(hContact, m_szModuleName, DBSETTING_XSTATUS_NAME, ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
-							db_unset(hContact, m_szModuleName, DBSETTING_XSTATUS_MSG);
+							delSetting(hContact, DBSETTING_XSTATUS_MSG);
 
 							NetLog_Server("%s changed custom status to %s.", strUID(dwUIN, szUID), ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
 							bChanged = TRUE;
@@ -486,9 +486,9 @@ void CIcqProto::handleXStatusCaps(DWORD dwUIN, char *szUID, HANDLE hContact, BYT
 	if ((nCustomStatusID == 0 && (caps || !m_bXStatusEnabled)) && (nMoodID == 0 && (moods || !m_bMoodsEnabled))) {
 		if (getByte(hContact, DBSETTING_XSTATUS_ID, -1) != -1)
 			bChanged = TRUE;
-		db_unset(hContact, m_szModuleName, DBSETTING_XSTATUS_ID);
-		db_unset(hContact, m_szModuleName, DBSETTING_XSTATUS_NAME);
-		db_unset(hContact, m_szModuleName, DBSETTING_XSTATUS_MSG);
+		delSetting(hContact, DBSETTING_XSTATUS_ID);
+		delSetting(hContact, DBSETTING_XSTATUS_NAME);
+		delSetting(hContact, DBSETTING_XSTATUS_MSG);
 	}
 
 	if (m_bXStatusEnabled != 10 && m_bMoodsEnabled != 10)
@@ -823,8 +823,8 @@ void CIcqProto::setXStatusEx(BYTE bXStatus, BYTE bQuiet)
 	}
 	else {
 		setByte(DBSETTING_XSTATUS_ID, bXStatus);
-		db_unset(NULL, m_szModuleName, DBSETTING_XSTATUS_NAME);
-		db_unset(NULL, m_szModuleName, DBSETTING_XSTATUS_MSG);
+		delSetting(DBSETTING_XSTATUS_NAME);
+		delSetting(DBSETTING_XSTATUS_MSG);
 
 		updateServerCustomStatus(TRUE);
 	}

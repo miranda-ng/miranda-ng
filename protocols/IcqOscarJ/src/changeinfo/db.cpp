@@ -168,7 +168,7 @@ int ChangeInfoData::SaveSettingsToDb(HWND hwndDlg)
 		if (!settingData[i].changed) continue;
 		if (!(setting[i].displayType & LIF_ZEROISVALID) && settingData[i].value==0)
 		{
-			db_unset(NULL, ppro->m_szModuleName, setting[i].szDbSetting);
+			ppro->delSetting(setting[i].szDbSetting);
 			continue;
 		}
 		switch(setting[i].dbType) {
@@ -195,7 +195,7 @@ int ChangeInfoData::SaveSettingsToDb(HWND hwndDlg)
 				if (*(char*)settingData[i].value)
 					db_set_utf(NULL, ppro->m_szModuleName, setting[i].szDbSetting, (char*)settingData[i].value);
 				else
-					db_unset(NULL, ppro->m_szModuleName, setting[i].szDbSetting);
+					ppro->delSetting(setting[i].szDbSetting);
 			}
 			break;
 
@@ -203,7 +203,7 @@ int ChangeInfoData::SaveSettingsToDb(HWND hwndDlg)
 			if (*(char*)settingData[i].value)
 				db_set_utf(NULL, ppro->m_szModuleName, setting[i].szDbSetting, (char*)settingData[i].value);
 			else
-				db_unset(NULL, ppro->m_szModuleName, setting[i].szDbSetting);
+				ppro->delSetting(setting[i].szDbSetting);
 			break;
 
 		case DBVT_WORD:

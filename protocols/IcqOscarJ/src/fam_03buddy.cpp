@@ -504,10 +504,10 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 		}
 		else
 		{
-			db_unset(hContact, m_szModuleName,   "DirectCookie");
-			db_unset(hContact, m_szModuleName,   "DCType");
-			db_unset(hContact, m_szModuleName,   "UserPort");
-			db_unset(hContact, m_szModuleName,   "Version");
+			delSetting(hContact,   "DirectCookie");
+			delSetting(hContact,   "DCType");
+			delSetting(hContact,   "UserPort");
+			delSetting(hContact,   "Version");
 		}
 
 		if (!szClient)
@@ -747,7 +747,7 @@ void CIcqProto::parseStatusNote(DWORD dwUin, char *szUid, HANDLE hContact, oscar
 			if (szStatusNote)
 				db_set_utf(hContact, m_szModuleName, DBSETTING_STATUS_NOTE, szStatusNote);
 			else
-				db_unset(hContact, m_szModuleName, DBSETTING_STATUS_NOTE);
+				delSetting(hContact, DBSETTING_STATUS_NOTE);
 			setDword(hContact, DBSETTING_STATUS_NOTE_TIME, dwStatusNoteTS);
 
 			if (getContactXStatus(hContact) != 0 || !CheckContactCapabilities(hContact, CAPF_STATUS_MESSAGES)) {
@@ -765,7 +765,7 @@ void CIcqProto::parseStatusNote(DWORD dwUin, char *szUid, HANDLE hContact, oscar
 		if (getContactStatus(hContact) == ID_STATUS_OFFLINE)
 		{
 			setStatusMsgVar(hContact, NULL, false);
-			db_unset(hContact, m_szModuleName, DBSETTING_STATUS_NOTE);
+			delSetting(hContact, DBSETTING_STATUS_NOTE);
 			setDword(hContact, DBSETTING_STATUS_NOTE_TIME, dwStatusNoteTS);
 		}
 	}

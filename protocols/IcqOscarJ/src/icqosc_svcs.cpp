@@ -476,7 +476,7 @@ INT_PTR CIcqProto::GrantAuthorization(WPARAM wParam, LPARAM lParam)
 		// send without reason, do we need any ?
 		icq_sendGrantAuthServ(dwUin, szUid, NULL);
 		// auth granted, remove contact menu item
-		db_unset((HANDLE)wParam, m_szModuleName, "Grant");
+		delSetting((HANDLE)wParam, "Grant");
 	}
 
 	return 0;
@@ -607,7 +607,7 @@ INT_PTR CIcqProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 	}
 	else
 	{ // delete user avatar
-		db_unset(NULL, m_szModuleName, "AvatarFile");
+		delSetting("AvatarFile");
 		setSettingBlob(NULL, "AvatarHash", hashEmptyAvatar, 9);
 		updateServAvatarHash(hashEmptyAvatar, 9); // set blank avatar
 		iRet = 0;

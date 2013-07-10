@@ -620,7 +620,7 @@ int CIcqProto::parseUserInfoRecord(HANDLE hContact, oscar_tlv *pData, UserInfoRe
 			for (int j = 0; j < nRecordDef; j++) {
 				char szItemKey[MAX_PATH];
 				null_snprintf(szItemKey, MAX_PATH, pRecordDef[j].szDbSetting, i);
-				db_unset(hContact, m_szModuleName, szItemKey);
+				delSetting(hContact, szItemKey);
 			}
 
 	return nRecords;
@@ -925,20 +925,20 @@ void CIcqProto::parseDirectoryUserDetailsData(HANDLE hContact, oscar_tlv_chain *
 		}
 		else
 		{ // Remove old data when phones not available
-			db_unset(hContact, m_szModuleName, "Phone");
-			db_unset(hContact, m_szModuleName, "CompanyPhone");
-			db_unset(hContact, m_szModuleName, "Cellular");
-			db_unset(hContact, m_szModuleName, "Fax");
-			db_unset(hContact, m_szModuleName, "CompanyFax");
+			delSetting(hContact, "Phone");
+			delSetting(hContact, "CompanyPhone");
+			delSetting(hContact, "Cellular");
+			delSetting(hContact, "Fax");
+			delSetting(hContact, "CompanyFax");
 		}
 	}
 	else
 	{ // Remove old data when phones not available
-		db_unset(hContact, m_szModuleName, "Phone");
-		db_unset(hContact, m_szModuleName, "CompanyPhone");
-		db_unset(hContact, m_szModuleName, "Cellular");
-		db_unset(hContact, m_szModuleName, "Fax");
-		db_unset(hContact, m_szModuleName, "CompanyFax");
+		delSetting(hContact, "Phone");
+		delSetting(hContact, "CompanyPhone");
+		delSetting(hContact, "Cellular");
+		delSetting(hContact, "Fax");
+		delSetting(hContact, "CompanyFax");
 	}
 	// Emails
 	parseUserInfoRecord(hContact, cDetails->getTLV(0x8C, 1), rEmail, SIZEOF(rEmail), 4);
@@ -958,7 +958,7 @@ void CIcqProto::parseDirectoryUserDetailsData(HANDLE hContact, oscar_tlv_chain *
 		setByte(hContact, "Gender", 'M');
 		break;
 	default:
-		db_unset(hContact, m_szModuleName, "Gender");
+		delSetting(hContact, "Gender");
 	}
 
 	writeDbInfoSettingTLVStringUtf(hContact, "Homepage", cDetails, 0xFA);
@@ -1010,10 +1010,10 @@ void CIcqProto::parseDirectoryUserDetailsData(HANDLE hContact, oscar_tlv_chain *
 		if (nAge)
 			setWord(hContact, "Age", nAge);
 		else
-			db_unset(hContact, m_szModuleName, "Age");
+			delSetting(hContact, "Age");
 	}
 	else // we do not need to calculate age for owner
-		db_unset(hContact, m_szModuleName, "Age");
+		delSetting(hContact, "Age");
 
 	{ // Save user info last update time and privacy token
 		double dInfoTime;

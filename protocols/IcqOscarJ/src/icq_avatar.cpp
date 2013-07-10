@@ -604,7 +604,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, HANDLE hContac
 				db_free(&dbv);
 				NetLog_Server("%s has removed Avatar.", strUID(dwUIN, szUID));
 
-				db_unset(hContact, m_szModuleName, "AvatarHash");
+				delSetting(hContact, "AvatarHash");
 				ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 			}
 #ifdef _DEBUG
@@ -755,7 +755,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, HANDLE hContac
 			db_free(&dbv);
 			NetLog_Server("%s has removed Avatar.", strUID(dwUIN, szUID));
 
-			db_unset(hContact, m_szModuleName, "AvatarHash");
+			delSetting(hContact, "AvatarHash");
 			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 		}
 #ifdef _DEBUG

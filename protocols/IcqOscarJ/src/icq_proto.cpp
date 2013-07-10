@@ -443,7 +443,7 @@ int CIcqProto::Authorize( HANDLE hDbEvent )
 
 		icq_sendAuthResponseServ(uin, uid, 1, _T(""));
 
-		db_unset(hContact, m_szModuleName, "Grant");
+		delSetting(hContact, "Grant");
 
 		return 0; // Success
 	}
