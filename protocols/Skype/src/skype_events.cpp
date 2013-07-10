@@ -119,6 +119,11 @@ int __cdecl CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = CSkypeProto::SkypeBlockedOptionsProc;
 	::Options_AddPage(wParam, &odp);
 
+	odp.pszTab = LPGEN("Privacy");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_PRIVACY);
+	odp.pfnDlgProc = CSkypeProto::SkypePrivacyOptionsProc;
+	::Options_AddPage(wParam, &odp);
+
 	::mir_free(title);
 	return 0;
 }
@@ -163,6 +168,11 @@ int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 		odp.pfnDlgProc = PersonalSkypeDlgProc;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OWNINFO_PERSONAL);
 		odp.ptszTab = LPGENT("General");
+		UserInfo_AddPage(wParam, &odp);
+
+		odp.pfnDlgProc = AccountSkypeDlgProc;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OWNINFO_ACCOUNT);
+		odp.ptszTab = LPGENT("Skype account");
 		UserInfo_AddPage(wParam, &odp);
 	}
 

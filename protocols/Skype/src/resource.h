@@ -16,6 +16,8 @@
 #define IDD_OPT_BLOCKED                 20
 #define IDD_IGNORE_LIST                 21
 #define IDD_BLOCK                       22
+#define IDD_OWNINFO_ACCOUNT             23
+#define IDD_OPT_PRIVACY                 24
 #define IDI_SKYPE                       101
 #define IDR_RUNTIME                     102
 #define IDR_KEY                         107
@@ -92,6 +94,16 @@
 #define IDC_HEADERBAR                   1063
 #define IDC_BM_LIST                     1064
 #define IDC_LIST                        1065
+#define IDC_PRIVACY_IM_ANYONE           1066
+#define IDC_PRIVACY_IM_CONTACTLIST      1067
+#define IDC_PRIVACY_CALL_ANYONE         1068
+#define IDC_PRIVACY_CALL_CONTACTLIST    1069
+#define IDC_PRIVACY_SHARE_ANYONE        1070
+#define IDC_PRIVACY_SHARE_CONTACTLIST   1071
+#define IDC_PRIVACY_SHARE_NOONE         1072
+#define IDC_PRIVACY_WEB                 1073
+#define IDC_CREDITVALUE                 1074
+#define IDC_CREDITCURRENCY              1075
 
 // Next default values for new objects
 // 
@@ -99,7 +111,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        118
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1066
+#define _APS_NEXT_CONTROL_VALUE         1076
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

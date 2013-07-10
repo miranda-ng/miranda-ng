@@ -187,6 +187,45 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 	return FALSE;
 }
 
+INT_PTR CALLBACK CSkypeProto::SkypePrivacyOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	CSkypeProto *ppro = (CSkypeProto *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch (msg)
+	{
+	case WM_INITDIALOG:
+		if (lParam)
+		{
+			ppro = (CSkypeProto *)lParam;
+			::SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+
+			::TranslateDialogDefault(hwndDlg);
+		}
+		break;
+
+	case WM_COMMAND:
+		{
+			switch(LOWORD(wParam))
+			{
+			}
+		}
+		break;
+
+	case WM_NOTIFY:
+		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY && !ppro->IsOnline())
+		{
+			return TRUE;
+		}
+		break;
+
+		switch(LOWORD(wParam))
+		{
+		}
+		break;
+	}
+	return FALSE;
+}
+
 INT_PTR CALLBACK CSkypeProto::SkypePasswordRequestProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	PasswordRequestBoxParam *param = reinterpret_cast<PasswordRequestBoxParam *>(::GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
@@ -758,6 +797,48 @@ INT_PTR CALLBACK CSkypeProto::HomeSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		if (((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE) ||
 			(((HWND)lParam == GetDlgItem(hwndDlg, IDC_COUNTRY) || (HWND)lParam == GetDlgItem(hwndDlg, IDC_TIMEZONE)) &&
 			(HIWORD(wParam) == CBN_EDITCHANGE || HIWORD(wParam) == CBN_SELCHANGE)))
+		{
+			ppro->NeedUpdate = 1;
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		}
+		break;
+
+	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->idFrom == 0) {
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_PARAMCHANGED:
+				SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY *)lParam)->lParam);
+				break;
+			case PSN_APPLY:
+				if (ppro->IsOnline() && ppro->NeedUpdate)
+					ppro->SaveOwnInfoToServer(hwndDlg, iPageId);
+				else if ( !ppro->IsOnline())
+					ppro->ShowNotification(::TranslateT("You are not currently connected to the Skype network. You must be online in order to update your information on the server."));
+				break;
+			}
+		}
+		break;
+	}
+	return FALSE;
+}
+
+INT_PTR CALLBACK CSkypeProto::AccountSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	const unsigned long iPageId = 3;
+	CSkypeProto *ppro = (CSkypeProto *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch (msg) {
+	case WM_INITDIALOG:
+		if (lParam) {
+			ppro = (CSkypeProto *)lParam;
+			::TranslateDialogDefault(hwndDlg);
+
+			::SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		}
+		break;
+
+	case WM_COMMAND:
+		if (((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE))
 		{
 			ppro->NeedUpdate = 1;
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
