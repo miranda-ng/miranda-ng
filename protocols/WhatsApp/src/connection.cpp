@@ -44,7 +44,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 	std::string cc, in, pass;
 	DBVARIANT dbv = {0};
 
-	if ( !db_get_s(NULL,m_szModuleName,WHATSAPP_KEY_CC,&dbv,DBVT_ASCIIZ))
+	if ( !getString(WHATSAPP_KEY_CC, &dbv))
 	{
 		cc = dbv.pszVal;
 		db_free(&dbv);
@@ -57,7 +57,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 	}
 
 	error = true;
-	if ( !db_get_s(NULL,m_szModuleName,WHATSAPP_KEY_LOGIN,&dbv,DBVT_ASCIIZ))
+	if ( !getString(WHATSAPP_KEY_LOGIN, &dbv))
 	{
 		in = dbv.pszVal;
 		db_free(&dbv);
@@ -72,7 +72,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 	this->jid = this->phoneNumber + "@s.whatsapp.net";
 
 	error = true;
-	if ( !db_get_s(NULL, m_szModuleName, WHATSAPP_KEY_NICK, &dbv, DBVT_ASCIIZ))
+	if ( !getString(WHATSAPP_KEY_NICK, &dbv))
 	{
 		this->nick = dbv.pszVal;
 		db_free(&dbv);
@@ -85,7 +85,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 	}
 
 	error = true;
-	if ( !db_get_s(NULL,m_szModuleName,WHATSAPP_KEY_PASS,&dbv, DBVT_ASCIIZ))
+	if ( !getString(WHATSAPP_KEY_PASS, &dbv))
 	{
 		CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,
 			reinterpret_cast<LPARAM>(dbv.pszVal));
@@ -145,7 +145,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 			unsigned passLen;
 			ptrA passBin((char*)mir_base64_decode(pass.c_str(), &passLen));
 			std::string password(passBin, passLen);
-			BYTE UseSSL = db_get_b(NULL, this->ModuleName(), WHATSAPP_KEY_SSL, 0);
+			BYTE UseSSL = getByte(WHATSAPP_KEY_SSL, 0);
 			if (UseSSL) {
 				this->conn = new WASocketConnection("c.whatsapp.net", 443);
 

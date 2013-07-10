@@ -131,7 +131,7 @@ public:
    
    bool IsGroupChat(HANDLE hC, bool checkIsAdmin = false)
    {
-      return db_get_b(hC, m_szModuleName, "SimpleChatRoom", 0) > (checkIsAdmin ? 1 : 0);
+		return getByte(hC, "SimpleChatRoom", 0) > (checkIsAdmin ? 1 : 0);
    }
 
    // Registration

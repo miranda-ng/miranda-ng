@@ -1,18 +1,3 @@
-// DB macros
-#define getByte( setting, error )           db_get_b( NULL, m_szModuleName, setting, error )
-#define setByte( setting, value )           db_set_b( NULL, m_szModuleName, setting, value )
-#define getWord( setting, error )           db_get_w( NULL, m_szModuleName, setting, error )
-#define setWord( setting, value )           db_set_w( NULL, m_szModuleName, setting, value )
-#define getDword( setting, error )          db_get_dw( NULL, m_szModuleName, setting, error )
-#define setDword( setting, value )          db_set_dw( NULL, m_szModuleName, setting, value )
-#define getString( setting, dest )          db_get_s( NULL, m_szModuleName, setting, dest, DBVT_ASCIIZ )
-#define setString( setting, value )         db_set_s( NULL, m_szModuleName, setting, value )
-#define getTString( setting, dest )         DBGetContactSettingTString( NULL, m_szModuleName, setting, dest )
-#define setTString( setting, value )        DBWriteContactSettingTString( NULL, m_szModuleName, setting, value )
-#define getU8String( setting, dest )        DBGetContactSettingUTF8String( NULL, m_szModuleName, setting, dest )
-#define setU8String( setting, value )       DBWriteContactSettingUTF8String( NULL, m_szModuleName, setting, value )
-#define deleteSetting( setting )            DBDeleteContactSetting( NULL, m_szModuleName, setting )
-
 // DB keys
 #define WHATSAPP_KEY_ID                      "ID"
 #define WHATSAPP_KEY_LOGIN                   "Login"

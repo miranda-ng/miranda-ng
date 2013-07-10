@@ -116,7 +116,7 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 	if (g_hContactMenuItems[CMI_REMOVE_CONTACT_FROM_GROUP] != NULL)
 		CallService("CList/RemoveContactMenuItem", (WPARAM) g_hContactMenuItems[CMI_REMOVE_CONTACT_FROM_GROUP], (LPARAM) 0);
 	
-	int chatType = db_get_b(hContact, m_szModuleName, "SimpleChatRoom", 0);
+	int chatType = getByte(hContact, "SimpleChatRoom", 0);
 
 	CLISTMENUITEM mi = {sizeof(mi)};
 
@@ -149,8 +149,7 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 		{
 			map<HANDLE, bool>::iterator memberIt = it->second.find(hContact);
 			// Only, if current contact is not already member of this group
-			if ((memberIt == it->second.end() || memberIt->second == false) &&
-				!db_get_s(it->first, m_szModuleName, "ID", &dbv, DBVT_ASCIIZ))
+			if ((memberIt == it->second.end() || memberIt->second == false) && !getString(it->first, "ID", &dbv))
 			{
 				fullSvcName = svcName + dbv.pszVal;
 				mi.pszService = (char*) fullSvcName.c_str();
@@ -168,7 +167,7 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 	else if (chatType == 1)
 	{
 		mi.flags = CMIM_FLAGS;
-		if (!isOnline() || db_get_b(hContact, m_szModuleName, "IsGroupMember", 0) == 0)
+		if (!isOnline() || getByte(hContact, "IsGroupMember", 0) == 0)
 			mi.flags |= CMIF_GRAYED;
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) g_hContactMenuItems[CMI_LEAVE_GROUP], (LPARAM) &mi);
 	}
@@ -183,7 +182,7 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 		g_hContactMenuItems[CMI_REMOVE_CONTACT_FROM_GROUP] = Menu_AddContactMenuItem(&mi);
 
 		bool bShow = false;
-		if (isOnline() &&  db_get_b(hContact, m_szModuleName, "IsGroupMember", 0) == 1)
+		if (isOnline() && getByte(hContact, "IsGroupMember", 0) == 1)
 		{
 			map<HANDLE, map<HANDLE, bool>>::iterator groupsIt = this->isMemberByGroupContact.find(hContact);
 			if (groupsIt == this->isMemberByGroupContact.end())
@@ -202,7 +201,7 @@ int WhatsAppProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 
 				for (map<HANDLE, bool>::iterator it = groupsIt->second.begin(); it != groupsIt->second.end(); ++it)
 				{
-					if (!db_get_s(it->first, m_szModuleName, "ID", &dbv, DBVT_ASCIIZ))
+					if (!getString(it->first, "ID", &dbv))
 					{
 						fullSvcName = svcName + dbv.pszVal;
 						mi.pszService = (char*) fullSvcName.c_str();

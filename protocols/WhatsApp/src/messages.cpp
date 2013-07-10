@@ -58,21 +58,19 @@ void WhatsAppProto::SendMsgWorker(void* p)
 	DBVARIANT dbv;
 	send_direct *data = static_cast<send_direct*>(p);
 
-	if (db_get_b(data->hContact, m_szModuleName, "SimpleChatRoom", 0) > 0 &&
-		db_get_b(data->hContact, m_szModuleName, "IsGroupMember", 0) == 0)
+	if (getByte(data->hContact, "SimpleChatRoom", 0) > 0 && getByte(data->hContact, "IsGroupMember", 0) == 0)
 	{
 		LOG("not a group member");
 		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED,
 			(HANDLE) (this->msgIdHeader + this->msgId), (LPARAM) "You cannot send messages to groups if you are not a member.");
 	}
-	else if (!db_get_s(data->hContact, m_szModuleName,"ID", &dbv, DBVT_ASCIIZ) &&
-		this->connection != NULL)
+	else if (!getString(data->hContact, "ID", &dbv) && this->connection != NULL)
 	{
 		try
 		{
-			db_set_dw(data->hContact, m_szModuleName, WHATSAPP_KEY_LAST_MSG_STATE, 2);
-			db_set_dw(data->hContact, m_szModuleName, WHATSAPP_KEY_LAST_MSG_ID_HEADER, this->msgIdHeader);
-			db_set_dw(data->hContact, m_szModuleName, WHATSAPP_KEY_LAST_MSG_ID, this->msgId);
+			setDword(data->hContact, WHATSAPP_KEY_LAST_MSG_STATE, 2);
+			setDword(data->hContact, WHATSAPP_KEY_LAST_MSG_ID_HEADER, this->msgIdHeader);
+			setDword(data->hContact, WHATSAPP_KEY_LAST_MSG_ID, this->msgId);
 
 			std::stringstream ss;
 			ss << this->msgIdHeader << "-" << this->msgId;
@@ -147,18 +145,17 @@ void WhatsAppProto::SendTypingWorker(void* p)
 	send_typing *typing = static_cast<send_typing*>(p);
 
 	// Don't send typing notifications to contacts which are offline 
-	if ( db_get_w(typing->hContact,m_szModuleName,"Status", 0) == ID_STATUS_OFFLINE)
+	if ( getWord(typing->hContact, "Status", 0) == ID_STATUS_OFFLINE)
 		return;
 
 	DBVARIANT dbv;
-	if ( !db_get_s(typing->hContact,m_szModuleName,WHATSAPP_KEY_ID,&dbv, DBVT_ASCIIZ) &&
+	if ( !getString(typing->hContact, WHATSAPP_KEY_ID,&dbv) &&
 		this->isOnline())
 	{
-		if (typing->status == PROTOTYPE_SELFTYPING_ON) {
+		if (typing->status == PROTOTYPE_SELFTYPING_ON)
 			this->connection->sendComposing(dbv.pszVal);
-		} else {
+		else
 			this->connection->sendPaused(dbv.pszVal);
-		}
 	}		
 
 	delete typing;
@@ -191,10 +188,9 @@ void WhatsAppProto::onMessageStatusUpdate(FMessage* fmsg)
 	if (state == 1)
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE) (header + id),0);
 
-	if (db_get_dw(hContact, m_szModuleName, WHATSAPP_KEY_LAST_MSG_ID_HEADER, 0) == header &&
-		db_get_dw(hContact, m_szModuleName, WHATSAPP_KEY_LAST_MSG_ID, -1) == id)
+	if (getDword(hContact, WHATSAPP_KEY_LAST_MSG_ID_HEADER, 0) == header && getDword(hContact, WHATSAPP_KEY_LAST_MSG_ID, -1) == id)
 	{
-		db_set_dw(hContact, m_szModuleName, WHATSAPP_KEY_LAST_MSG_STATE, state);
+		setDword(hContact, WHATSAPP_KEY_LAST_MSG_STATE, state);
 		this->UpdateStatusMsg(hContact);
 	}
 }

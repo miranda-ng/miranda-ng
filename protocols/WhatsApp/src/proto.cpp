@@ -112,7 +112,7 @@ int WhatsAppProto::SetStatus( int new_status )
 	case ID_STATUS_IDLE:
 	default:
 		m_iDesiredStatus = ID_STATUS_INVISIBLE;
-		if (db_get_b(NULL, m_szModuleName, WHATSAPP_KEY_MAP_STATUSES, DEFAULT_MAP_STATUSES))
+		if (getByte(WHATSAPP_KEY_MAP_STATUSES, DEFAULT_MAP_STATUSES))
 			break;
 	case ID_STATUS_ONLINE:
 	case ID_STATUS_FREECHAT:
@@ -183,7 +183,7 @@ string WhatsAppProto::Register(int state, string cc, string number, string code)
 		return ret;
 	}
 
-	if ( !db_get_s(NULL,m_szModuleName,WHATSAPP_KEY_IDX,&dbv,DBVT_ASCIIZ))
+	if ( !getString(WHATSAPP_KEY_IDX, &dbv))
 	{
 		idx = dbv.pszVal;
 		db_free(&dbv);
@@ -196,7 +196,7 @@ string WhatsAppProto::Register(int state, string cc, string number, string code)
 		BYTE idxBuf[16];
 		utils::md5string(tm.str(), idxBuf);
 		idx = std::string((const char*) idxBuf, 16);
-		db_set_s(0, m_szModuleName, WHATSAPP_KEY_IDX, idx.c_str());
+		setString(WHATSAPP_KEY_IDX, idx.c_str());
 	}
 
 	string url;
@@ -303,7 +303,7 @@ int WhatsAppProto::RequestFriendship(WPARAM wParam, LPARAM lParam)
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
 	DBVARIANT dbv;
-	if ( !db_get_s(hContact,m_szModuleName,WHATSAPP_KEY_ID,&dbv, DBVT_ASCIIZ))
+	if ( !getString(hContact, WHATSAPP_KEY_ID, &dbv))
 	{
 		std::string id(dbv.pszVal);
 		this->connection->sendQueryLastOnline(id);
