@@ -82,8 +82,8 @@ void CAimProto::avatar_request_handler(HANDLE hContact, char* hash, unsigned cha
 	{
 		if (saved_hash)
 		{
-			db_unset(hContact, m_szModuleName, AIM_KEY_AHT);
-			db_unset(hContact, m_szModuleName, AIM_KEY_AH);
+			delSetting(hContact, AIM_KEY_AHT);
+			delSetting(hContact, AIM_KEY_AH);
 
 			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 		}
@@ -117,11 +117,8 @@ void CAimProto::avatar_retrieval_handler(const char* sn, const char* hash, const
 				CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 			mir_free(my_sn);
 		}
-//            else
-//			    ShowError("Cannot set avatar. File '%s' could not be created/overwritten", file);
 	}
-	else
-		LOG("AIM sent avatar of zero length for %s.(Usually caused by repeated request for the same icon)", sn);
+	else LOG("AIM sent avatar of zero length for %s.(Usually caused by repeated request for the same icon)", sn);
 
 	ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, res ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, &AI, 0);
 }

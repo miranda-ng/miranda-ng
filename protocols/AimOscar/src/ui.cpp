@@ -880,7 +880,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (strlen(str)>0)
 					ppro->setString(AIM_KEY_SN, str);
 				else
-					db_unset(NULL, ppro->m_szModuleName, AIM_KEY_SN);
+					ppro->delSetting(AIM_KEY_SN);
 				//END SN
 
 				//NK
@@ -900,7 +900,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), (LPARAM) str);
 					ppro->setString(AIM_KEY_PW, str);
 				}
-				else db_unset(NULL, ppro->m_szModuleName, AIM_KEY_PW);
+				else ppro->delSetting(AIM_KEY_PW);
 				//END PW
 
 				//HN
@@ -908,7 +908,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (strlen(str)>0 && strcmp(str, AIM_DEFAULT_SERVER))
 					ppro->setString(AIM_KEY_HN, str);
 				else
-					db_unset(NULL, ppro->m_szModuleName, AIM_KEY_HN);
+					ppro->delSetting(AIM_KEY_HN);
 				//END HN
 
 				//Delivery Confirmation
@@ -936,7 +936,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (port > 0 && port != ppro->getByte(AIM_KEY_DSSL, 0) ? AIM_DEFAULT_PORT : AIM_DEFAULT_SSL_PORT)
 					ppro->setWord(AIM_KEY_PN, (WORD)port);
 				else
-					db_unset(NULL, ppro->m_szModuleName, AIM_KEY_PN);
+					ppro->delSetting(AIM_KEY_PN);
 				//END PN
 
 				//Disable Account Type Icons

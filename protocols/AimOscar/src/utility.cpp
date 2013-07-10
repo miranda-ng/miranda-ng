@@ -292,7 +292,7 @@ void CAimProto::add_contact_to_group(HANDLE hContact, const char* new_group)
 		LOG("Removing buddy %s:%u %s:%u from the serverside list", dbv.pszVal, item_id, old_group, old_group_id);
 		aim_delete_contact(hServerConn, seqno, dbv.pszVal, item_id, old_group_id, 0, is_not_in_list);
 		update_server_group(old_group, old_group_id);
-		db_unset(hContact, m_szModuleName, AIM_KEY_NIL);
+		delSetting(hContact, AIM_KEY_NIL);
 	}
 
 	aim_ssi_update(hServerConn, seqno, false);
@@ -516,7 +516,8 @@ int CAimProto::deleteBuddyId(HANDLE hContact, int i)
 {
 	char item[sizeof(AIM_KEY_BI)+10];
 	mir_snprintf(item, sizeof(AIM_KEY_BI)+10, AIM_KEY_BI"%d", i);
-	return db_unset(hContact, m_szModuleName, item);
+	delSetting(hContact, item);
+	return 0;
 }
 
 unsigned short CAimProto::getGroupId(HANDLE hContact, int i)
@@ -537,7 +538,8 @@ int CAimProto::deleteGroupId(HANDLE hContact, int i)
 {
 	char item[sizeof(AIM_KEY_GI)+10];
 	mir_snprintf(item, sizeof(AIM_KEY_GI)+10, AIM_KEY_GI"%d", i);
-	return db_unset(hContact, m_szModuleName, item);
+	delSetting(hContact, item);
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -546,19 +548,9 @@ int CAimProto::open_contact_file(const char* sn, const TCHAR* file, const char* 
 {
 	path = (TCHAR*)mir_alloc(MAX_PATH * sizeof(TCHAR));
 
-	TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
-	TCHAR *sztModuleName = mir_a2t(m_szModuleName);
-	int pos = mir_sntprintf(path, MAX_PATH, _T("%s\\%s"), tmpPath, sztModuleName);
-	mir_free(sztModuleName);
-	mir_free(tmpPath);
-	if  (contact_dir)
-	{
-		char* norm_sn = normalize_name(sn);
-		TCHAR *norm_snt = mir_a2t(m_szModuleName);
-		pos += mir_sntprintf(path + pos, MAX_PATH - pos, _T("\\%s"), norm_snt);
-		mir_free(norm_snt);
-		mir_free(norm_sn);
-	}
+	int pos = mir_sntprintf(path, MAX_PATH, _T("%s\\%S"), VARST(_T("%miranda_userdata%")), m_szModuleName);
+	if (contact_dir)
+		pos += mir_sntprintf(path + pos, MAX_PATH - pos, _T("\\%S"), m_szModuleName);
 
 	if (_taccess(path, 0))
 		CreateDirectoryTreeT(path);
