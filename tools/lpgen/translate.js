@@ -410,23 +410,20 @@ function TranslateTemplateFile(Template_file,translated_array,untranslated_array
      var line=stream.ReadText(-2);
      //If we need refference to "; file source\file\path" in template or langpack, put into array every line 
      if (!noref) translated_array.push(line);
-     //If we need "clean" file, remove stirngs, starting from ";file"
-     if (noref) {
-        //RegExp matching strings, starting from ";file"
-        reffline=line.match(/^;file.+/);
-        //RegExp for match a =CORE=.txt header line "Miranda Language Pack Version 1". If /noref specified, remove this line as well.
-        headerline=line.match(/^Miranda Language Pack Version 1$/)
-        //if RegExp not matched, push line into array
-        if (!reffline && !headerline) translated_array.push(line);
-        }
+     //RegExp matching strings, starting from ";file"
+     reffline=line.match(/^;file.+/);
+     //RegExp for match a =CORE=.txt header line "Miranda Language Pack Version 1". If /noref specified, remove this line as well.
+     headerline=line.match(/^Miranda Language Pack Version 1$/)
+     //if /noref enabled, check string and if not matched, add to array
+     if (noref && (!reffline && !headerline)) translated_array.push(line);
+     //same for /release
+     if (release && (!reffline && !headerline)) release_array.push(line);
      //find string covered by[] using regexp
      englishstring=line.match(/\[.+\]/);
      //If current line is english string covered by [], try to find translation in global db
      if (englishstring) {
             //uncomment next string for more verbose log output
             //if (log) WScript.Echo("lookin' for "+englishstring);
-            //add enlishstring to release array
-            release_array.push(englishstring);
             //firstly find our string exist in Plugin translate DB dictionary
             if (PluginTranslateDict.Exists(line)) {
                 //yes, we have translation, put translation into array
