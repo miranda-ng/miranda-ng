@@ -16,6 +16,7 @@
 //* Usage:     cscript /nologo translate.js /langpack:"path\lang.txt" - Full langpack     *//
 //* Usage:     cscript /nologo translate.js /noref:"yes" - remove ref. ";file path\file"  *//
 //* Usage:     cscript /nologo translate.js /untranslated:"yes|path"  untranslated strings*//
+//* Usage:     cscript /nologo translate.js /sourcelang:"russian" /release:"path\file"    *//
 //* Note:      script will use following sequense to find a translation for string:       *//
 //* 1) Try to get translation from a same file name. Example: /langpack/english/plugin/   *//
 //* /TabSRMM.txt strings will be checked in file named TabSRMM.txt in folder from /path:  *//
@@ -33,6 +34,9 @@
 //* Example4:  cscript /nologo translate.js /sourcelang="Russian" /outfile:"path\file"    *//
 //* will translate all /english/* tempaltes using files =CORE=.txt, =DUPES=.txt, lanpack_R*//
 //* ussian.txt from ./langpacks/Russian/ folder, including /langpacks/Russian/Plugins/*   *//
+//* Example5:  cscript translate.js /sourcelang:"Russian" /release:"Langpack_rusian.txt"  *//
+//* will output a "release" version of langpack, using files in \langpacks\russian\ with  *//
+//* =HEAD=.txt, but "clean" - no file refference and no untranslated strings inside       *//
 //*****************************************************************************************//
 
 //Init Variables
@@ -64,10 +68,11 @@ stream.Charset = "utf-8";
 CoreTranslateDict=WScript.CreateObject("Scripting.Dictionary");
 DupesTranslateDict=WScript.CreateObject("Scripting.Dictionary");
 LangpackTranslateDict=WScript.CreateObject("Scripting.Dictionary");
-//init arrays for translated core & full langpack file
+//init arrays
 Translated_Core_Array=new Array;
 UnTranslated_Core_Array=new Array;
 full_langpack_array=new Array;
+release_array=new Array;
 
 //*********************************************************************************//
 //                         Checking command line parameters                       *//
@@ -94,6 +99,13 @@ if (WScript.Arguments.Named.Item("outfile")) {
     //path to full langpack file
     full_langpack_file=WScript.Arguments.Named.Item("outfile");
     }
+// if console pararm /release:"\path\filename.txt" given, put it to var release.
+if (WScript.Arguments.Named.Item("release")) {
+    release=true;
+    //path to full langpack file
+    release_langpack_file=WScript.Arguments.Named.Item("release");
+    }
+
 // if param /out specified, build a path and put it into var.
 if (WScript.Arguments.Named.Item("out")) {
     var out=WScript.Arguments.Named.Item("out");
@@ -160,14 +172,15 @@ if (WScript.Arguments.Named.Item("plugin")) {
 checkparams();
 if (log) WScript.Echo("Translation begin");
 
-//Add a =HEAD=.txt into FullLangpack Array if file exist
-if (outfile && FSO.FileExists(langpack_head)) {
+//Add a =HEAD=.txt into FullLangpack Array and release array if file exist and /out or /release specified.
+if ((outfile || release) && FSO.FileExists(langpack_head)) {
     //open file
     stream.Open();
     stream.LoadFromFile(langpack_head);
     //read file into var
     var headertext=stream.ReadText();
     full_langpack_array.push(headertext);
+    release_array.push(headertext);
     stream.Close();
     }
 
@@ -177,8 +190,8 @@ GenerateDictionaries ();
 if (log) WScript.Echo("Translating Core");
 //Call function for translate core template
 TranslateTemplateFile(FSO.BuildPath(trunk,"langpacks\\english\\=CORE=.txt"),Translated_Core_Array,UnTranslated_Core_Array);
-//output core file, if needed.
-OutputFiles(Translated_Core_Array,UnTranslated_Core_Array,"","=CORE=.txt")
+//output core file, if /out specified.
+if (out) OutputFiles(Translated_Core_Array,UnTranslated_Core_Array,"","=CORE=.txt")
 
 
 //Init array of template files
@@ -198,7 +211,12 @@ ProcessFiles(TemplateFilesEnum);
 //if output to one langpack file, write a final array Translated_Core_Array into UTF-8 file with BOM
 if (outfile) {
     WriteToUnicodeFile(full_langpack_array,full_langpack_file);
-    WScript.Echo("Langpack file in "+full_langpack_file);
+    if (log) WScript.Echo("Langpack file in "+full_langpack_file);
+}
+//if /release specified, output array into file
+if (release) {
+    WriteToUnicodeFile(release_array,release_langpack_file);
+    if (log) WScript.Echo("Release langpack file in "+release_langpack_file);
 }
 if (log) WScript.Echo("Translation end");
 
@@ -220,8 +238,8 @@ function ProcessFiles (FilesEnum) {
      if (log) WScript.Echo("translating:     "+curfile);
      //now put strings from template and translations into array
      TranslateTemplateFile(curfile,TranslatedTemplate,UnTranslatedStrings);
-     //output files, if need
-     OutputFiles(TranslatedTemplate,UnTranslatedStrings,FSO.GetBaseName(FSO.GetParentFolderName(curfile)),FSO.GetFileName(curfile))
+     //output files, if /out specified
+     if (out) OutputFiles(TranslatedTemplate,UnTranslatedStrings,FSO.GetBaseName(FSO.GetParentFolderName(curfile)),FSO.GetFileName(curfile))
      //move to next file
      if (FSO.GetBaseName(curfile)=="Weather") {
         ProcessFiles(WeatherFilesEnum);
@@ -274,15 +292,11 @@ function OutputFiles(TranslatedArray,UntranslatedArray,FolderName,FileName) {
     
     //Write untranslated array into file, if /untranslated specified and there is something in array
     if (untranslated & UntranslatedArray.length>0) {
-        //redefine Untranslated file path and name, if /untranslated:"/path/plugins" specified and this is not a =CORE=.txt file
-        if (UnTranslatedPath!="yes"/* && FileName!="=CORE=.txt"*/) UnTranslatedFile=UnTranslatedPath+"\\"+FileName;
+        //redefine Untranslated file path and name, if /untranslated:"/path/" specified
+        if (UnTranslatedPath!="yes") UnTranslatedFile=UnTranslatedPath+"\\"+FileName;
         if (log) WScript.Echo("Untranslated in: "+UnTranslatedFile);
         WriteToUnicodeFile(UntranslatedArray,UnTranslatedFile);
         }
-    
-    //if we will output one file only, concatenate array
-    if (outfile) full_langpack_array=full_langpack_array.concat(TranslatedArray);
-     
 }
 
 //when /sourcelang: and /path: are NOT specified, thus we don't have any langpack file(s) to get translated strings. Thus all other job are useless
@@ -408,27 +422,37 @@ function TranslateTemplateFile(Template_file,translated_array,untranslated_array
      //If current line is english string covered by [], try to find translation in global db
      if (englishstring) {
             //uncomment next string for more verbose log output
-            //if (log) WScript.Echo("lookin' for "+englishstring);        
+            //if (log) WScript.Echo("lookin' for "+englishstring);
+            //add enlishstring to release array
+            release_array.push(englishstring);
             //firstly find our string exist in Plugin translate DB dictionary
             if (PluginTranslateDict.Exists(line)) {
                 //yes, we have translation, put translation into array
                 translated_array.push(PluginTranslateDict.Item(line));
+                //add translation to release array
+                release_array.push(PluginTranslateDict.Item(line));
                 } else {
                 //If we do not foud sting in plugin translation, check Dupes and if found, put to array
                 if (DupesTranslateDict.Exists(line)) {
                     translated_array.push(DupesTranslateDict.Item(line));
+                    release_array.push(DupesTranslateDict.Item(line));
                     } else {
                     //not found in dupes? Check CORE
                     if (CoreTranslateDict.Exists(line)) {
                         translated_array.push(CoreTranslateDict.Item(line));
+                        release_array.push(CoreTranslateDict.Item(line));
                         } else {
                             //Sill no luck? Check Langpack...
                             if (LangpackTranslateDict.Exists(line)) {
                                 translated_array.push(LangpackTranslateDict.Item(line));
+                                release_array.push(LangpackTranslateDict.Item(line));
                                 } else {
                                     //no translation found, put empty line
                                     translated_array.push("");
+                                    //add to untranslated array
                                     untranslated_array.push(line);
+                                    //remove from release, no translation found.
+                                    release_array.pop();
                                     }
                             }
                     }
@@ -437,6 +461,8 @@ function TranslateTemplateFile(Template_file,translated_array,untranslated_array
     }  
  //closing file
  stream.Close();
+ //if we will output one file only, concatenate array
+ if (outfile) full_langpack_array=full_langpack_array.concat(translated_array);
 };
 
 //Recourse find all files in "path" with file RegExp mask "name" and return file list into filelistarray
