@@ -60,8 +60,8 @@ struct  PROTO_INTERFACE : public MZeroedObject
 	__forceinline INT_PTR ProtoBroadcastAck(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam)
 	{	return ::ProtoBroadcastAck(m_szModuleName, hContact, type, hResult, hProcess, lParam); }
 
-	__forceinline void delSetting(const char *name) { db_unset(NULL, m_szModuleName, name); }
-	__forceinline void delSetting(HANDLE hContact, const char *name) { db_unset(hContact, m_szModuleName, name); }
+	__forceinline int delSetting(const char *name) { return db_unset(NULL, m_szModuleName, name); }
+	__forceinline int delSetting(HANDLE hContact, const char *name) { return db_unset(hContact, m_szModuleName, name); }
 
 	__forceinline bool getBool(const char *name, bool defaultValue) { return ProtoGetBool0(this, name, defaultValue); }
 	__forceinline bool getBool(HANDLE hContact, const char *name, bool defaultValue) { return ProtoGetBool(this, hContact, name, defaultValue); }

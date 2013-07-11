@@ -516,8 +516,7 @@ int CAimProto::deleteBuddyId(HANDLE hContact, int i)
 {
 	char item[sizeof(AIM_KEY_BI)+10];
 	mir_snprintf(item, sizeof(AIM_KEY_BI)+10, AIM_KEY_BI"%d", i);
-	delSetting(hContact, item);
-	return 0;
+	return delSetting(hContact, item);
 }
 
 unsigned short CAimProto::getGroupId(HANDLE hContact, int i)
@@ -538,8 +537,7 @@ int CAimProto::deleteGroupId(HANDLE hContact, int i)
 {
 	char item[sizeof(AIM_KEY_GI)+10];
 	mir_snprintf(item, sizeof(AIM_KEY_GI)+10, AIM_KEY_GI"%d", i);
-	delSetting(hContact, item);
-	return 0;
+	return delSetting(hContact, item);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
