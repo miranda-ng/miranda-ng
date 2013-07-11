@@ -55,6 +55,8 @@ var outfile=false;
 var noref=false;
 //disable output untranslated_* files by default
 var untranslated=false;
+//disable release output by default
+var release=false
 //Path variables
 var scriptpath=FSO.GetParentFolderName(WScript.ScriptFullName);
 //crazy way to get path two layers upper "\tools\lpgen\"
