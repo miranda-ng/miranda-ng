@@ -159,7 +159,7 @@ static const struct branch_t branch5[] = {
 	{ LPGENT("Show icon in tray for highlights"), "TrayIconFlags", GC_EVENT_HIGHLIGHT, 1},
 	{ LPGENT("Show icon in tray for users leaving"), "TrayIconFlags", GC_EVENT_PART, 0},
 	{ LPGENT("Show icon in tray for users kicking other user"), "TrayIconFlags", GC_EVENT_KICK, 0},
-	{ LPGENT("Show icon in tray for notices "), "TrayIconFlags", GC_EVENT_NOTICE, 0},
+	{ LPGENT("Show icon in tray for notices"), "TrayIconFlags", GC_EVENT_NOTICE, 0},
 	{ LPGENT("Show icon in tray for name changes"), "TrayIconFlags", GC_EVENT_NICK, 0},
 	{ LPGENT("Show icon in tray for information messages"), "TrayIconFlags", GC_EVENT_INFORMATION, 0},
 	{ LPGENT("Show icon in tray for status changes"), "TrayIconFlags", GC_EVENT_ADDSTATUS, 0},
