@@ -108,9 +108,9 @@ INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wParam, LPAR
 						return FALSE;
 					break;
 				case IDC_OPT_POPUPS_PREVIEW:
-					ShowPopupPreview(optDlg, POPUP_BLOCKED, NULL, _T("Message blocked due to preview action"));
-					ShowPopupPreview(optDlg, POPUP_APPROVED, NULL, _T("Message approved due to preview action"));
-					ShowPopupPreview(optDlg, POPUP_CHALLENGE, NULL, _T("Challenge sent to preview contact"));
+					ShowPopupPreview(optDlg, POPUP_BLOCKED, NULL, LPGENT("Message blocked due to preview action"));
+					ShowPopupPreview(optDlg, POPUP_APPROVED, NULL, LPGENT("Message approved due to preview action"));
+					ShowPopupPreview(optDlg, POPUP_CHALLENGE, NULL, LPGENT("Challenge sent to preview contact"));
 					return FALSE;
 			}
 			SendMessage(GetParent(optDlg), PSM_CHANGED, 0, 0);
@@ -145,7 +145,7 @@ INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wParam, LPAR
 
 int ShowPopupPreview(HWND optDlg, BYTE popupType, TCHAR *line1, TCHAR *line2)
 {
-	POPUPDATAW ppdp = {0};
+	POPUPDATAT ppdp = {0};
 	switch (popupType)
 	{
 		case POPUP_DEFAULT:
@@ -176,8 +176,8 @@ int ShowPopupPreview(HWND optDlg, BYTE popupType, TCHAR *line1, TCHAR *line2)
 		ppdp.colorBack = GetSysColor(COLOR_WINDOW);
 	}
 	if (SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_DEFAULT_COLORS, BM_GETCHECK, 0, 0)) {
-		ppdp.colorText = (COLORREF)NULL;
-		ppdp.colorBack = (COLORREF)NULL;
+		ppdp.colorText = NULL;
+		ppdp.colorBack = NULL;
 	}
 	if (ppdp.iSeconds < 1)
 		ppdp.iSeconds = -1;
@@ -185,16 +185,16 @@ int ShowPopupPreview(HWND optDlg, BYTE popupType, TCHAR *line1, TCHAR *line2)
 		ppdp.iSeconds = 0;
 
 	ppdp.lchContact = NULL;	
-	mir_sntprintf((WCHAR *)ppdp.lptzContactName, MAX_CONTACTNAME, _T("%s"), (line1)?line1:_T(PLUGIN_NAME));
+	mir_sntprintf(ppdp.lptzContactName, MAX_CONTACTNAME, _T("%s"), (line1)?line1:_T(PLUGIN_NAME));
 	if (line2)
-		mir_sntprintf((WCHAR *)ppdp.lptzText, MAX_SECONDLINE, _T("%s"), line2);
-	return PUAddPopupW(&ppdp);
+		mir_sntprintf(ppdp.lptzText, MAX_SECONDLINE, _T("%s"), line2);
+	return PUAddPopupT(&ppdp);
 
 }
 
 int ShowPopup(HANDLE hContact, BYTE popupType, TCHAR *line1, TCHAR *line2)
 {
-	POPUPDATAW ppdp = {0};
+	POPUPDATAT ppdp = {0};
 	switch (popupType)
 	{
 		case POPUP_DEFAULT:
@@ -225,8 +225,8 @@ int ShowPopup(HANDLE hContact, BYTE popupType, TCHAR *line1, TCHAR *line2)
 		ppdp.colorBack = GetSysColor(COLOR_WINDOW);
 	}
 	if (_getOptB("PopupDefaultColors", defaultPopupDefaultColors)) {
-		ppdp.colorText = (COLORREF)NULL;
-		ppdp.colorBack = (COLORREF)NULL;
+		ppdp.colorText = NULL;
+		ppdp.colorBack = NULL;
 	}
 	if (ppdp.iSeconds < 1)
 		ppdp.iSeconds = -1;
@@ -234,8 +234,8 @@ int ShowPopup(HANDLE hContact, BYTE popupType, TCHAR *line1, TCHAR *line2)
 		ppdp.iSeconds = 0;
 
 	ppdp.lchContact = hContact;	
-	mir_sntprintf((WCHAR *)ppdp.lptzContactName, MAX_CONTACTNAME, _T("%s"), (line1)?line1:_T(PLUGIN_NAME));
+	mir_sntprintf(ppdp.lptzContactName, MAX_CONTACTNAME, _T("%s"), (line1)?line1:_T(PLUGIN_NAME));
 	if (line2)
-		mir_sntprintf((WCHAR *)ppdp.lptzText, MAX_SECONDLINE, _T("%s"), line2);
-	return PUAddPopupW(&ppdp);
+		mir_sntprintf(ppdp.lptzText, MAX_SECONDLINE, _T("%s"), line2);
+	return PUAddPopupT(&ppdp);
 }
