@@ -495,7 +495,7 @@ BEGIN
     CONTROL         "",IDC_CYCLETIMESPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,136,109,11,14
     LTEXT           "seconds, when statuses differ",IDC_STATIC,151,111,132,8,NOT WS_GROUP
     CONTROL         "Show multiple icons",IDC_MULTITRAY,"Button",BS_AUTORADIOBUTTON,10,126,97,10
-    CONTROL         "Only when statuses differ",IDC_ALWAYSMULTI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,107,126,181,10
+    CONTROL         "only when statuses differ",IDC_ALWAYSMULTI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,107,126,181,10
     GROUPBOX        "System tray icon",IDC_STATIC,2,6,292,73
     GROUPBOX        "System tray icon mode",IDC_STATIC,2,80,292,61
     CONTROL         "Use xStatus icon",IDC_SHOWXSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,171,19,117,10
