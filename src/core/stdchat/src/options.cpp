@@ -143,7 +143,7 @@ static const struct branch_t branch4[] = {
 	{ LPGENT("Show icon for highlights"), "IconFlags", GC_EVENT_HIGHLIGHT, 0},
 	{ LPGENT("Show icon for users leaving"), "IconFlags", GC_EVENT_PART, 0},
 	{ LPGENT("Show icon for users kicking other user"), "IconFlags", GC_EVENT_KICK, 0},
-	{ LPGENT("Show icon for notices "), "IconFlags", GC_EVENT_NOTICE, 0},
+	{ LPGENT("Show icon for notices"), "IconFlags", GC_EVENT_NOTICE, 0},
 	{ LPGENT("Show icon for name changes"), "IconFlags", GC_EVENT_NICK, 0},
 	{ LPGENT("Show icon for information messages"), "IconFlags", GC_EVENT_INFORMATION, 0},
 	{ LPGENT("Show icon for status changes"), "IconFlags", GC_EVENT_ADDSTATUS, 0},

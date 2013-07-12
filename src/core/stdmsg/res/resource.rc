@@ -58,7 +58,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,122,287,10
     CONTROL         "Enable avatar support in the message window",IDC_AVATARSUPPORT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,135,289,10
-    CONTROL         "Limit avatar height to ",IDC_LIMITAVATARH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,149,126,10
+    CONTROL         "Limit avatar height to",IDC_LIMITAVATARH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,149,126,10
     EDITTEXT        IDC_AVATARHEIGHT,148,148,28,13,ES_AUTOHSCROLL
     LTEXT           "pixels",IDC_STATIC,181,150,35,8
     LTEXT           "Max Number of Flashes",IDC_STATIC,7,35,141,8
@@ -172,7 +172,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,240,143,22,10
     CONTROL         "Enable avatar support in the message window",IDC_AVATARSUPPORT,
                     "Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,239,155,23,10
-    CONTROL         "Limit avatar height to ",IDC_LIMITAVATARH,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,236,166,26,10
+    CONTROL         "Limit avatar height to",IDC_LIMITAVATARH,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,236,166,26,10
     EDITTEXT        IDC_AVATARHEIGHT,242,178,12,13,ES_AUTOHSCROLL | NOT WS_VISIBLE
     LTEXT           "pixels",IDC_STATIC,271,177,8,8,NOT WS_VISIBLE
     LTEXT           "Message window behaviour:",IDC_TXT_TITLE1,1,0,183,8
