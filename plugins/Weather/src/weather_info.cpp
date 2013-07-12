@@ -34,13 +34,13 @@ void INIInfo(HWND hwndDlg)
 {
 	TCHAR str[16]; 
 	size_t memused = 0;
-	LVITEM lvi = {0};
 	WIDATALIST *Item = WIHead;
 
 	HWND hIniList = GetDlgItem(hwndDlg, IDC_INFOLIST);
 
 	ListView_DeleteAllItems(hIniList);
 
+	LVITEM lvi = {0};
 	lvi.mask = LVIF_TEXT;
 	lvi.iItem = 0;
 	while (Item != NULL) 
@@ -93,13 +93,13 @@ static const struct tag_Columns
 } 
 columns[] = 
 {
-	{ _T("Name"), 70 },
-	{ _T("Author"), 100 },
-	{ _T("File Version"), 70 },
-	{ _T("INI Version"), 70 },
-	{ _T("Items"), 40 },
-	{ _T("Display Name"), 200 },
-	{ _T("File Name"), 150 },
+	{ LPGENT("Name"), 70 },
+	{ LPGENT("Author"), 100 },
+	{ LPGENT("File Version"), 70 },
+	{ LPGENT("INI Version"), 70 },
+	{ LPGENT("Items"), 40 },
+	{ LPGENT("Display Name"), 200 },
+	{ LPGENT("File Name"), 150 },
 };
 
 
@@ -221,8 +221,7 @@ void MoreVarList(void)
 	// loop through all weather services to find custom variables
 	while (Item != NULL) 
 	{
-		WIDATAITEMLIST* WItem;
-		WItem = Item->Data.UpdateData;
+		WIDATAITEMLIST *WItem = Item->Data.UpdateData;
 		// loop through all update items in a service
 		while (WItem != NULL) 
 		{
