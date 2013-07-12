@@ -195,6 +195,9 @@
     <ResourceCompile Include="res\BossKey.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\logo.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

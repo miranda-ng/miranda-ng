@@ -106,12 +106,10 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 				RECT rect;
 				GetClientRect(hDlg, &rect);
-				SetWindowPos(hDlg, 0, 0, 0, rect.right, rect.bottom +
-					GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CXSIZEFRAME),
-					SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER);
+				SetWindowPos(hDlg, 0, 0, 0, rect.right, rect.bottom + GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CXSIZEFRAME), SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER);
 			}
-			SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_SETICON, 0, (LPARAM)hIcon);
-			SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Miranda NG is locked.\nEnter password to unlock it."));
+			SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)hIcon);
+			SetDlgItemText(hDlg, IDC_HEADERBAR, TranslateT("Miranda NG is locked.\nEnter password to unlock it."));
 
 			TranslateDialogDefault(hDlg);
 			oldLangID = 0;
@@ -144,14 +142,14 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 				if (passlen == 0)
 				{
-					SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Miranda NG is locked.\nEnter password to unlock it."));
-					SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
+					SetDlgItemText(hDlg, IDC_HEADERBAR, TranslateT("Miranda NG is locked.\nEnter password to unlock it."));
+					SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_NCPAINT, 0, 0);
 				}
 				else if (lstrcmpA(password, g_password))
 				{
-					SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Password is not correct!\nPlease, enter correct password."));
-					SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
-					SetDlgItemTextA(hDlg, IDC_EDIT1, "");
+					SetDlgItemText(hDlg, IDC_HEADERBAR, TranslateT("Password is not correct!\nPlease, enter correct password."));
+					SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_NCPAINT, 0, 0);
+					SetDlgItemText(hDlg, IDC_EDIT1, _T(""));
 				}
 				else EndDialog(hDlg,IDOK);
 
@@ -181,38 +179,34 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 static void LanguageChanged(HWND hDlg)
 {
 	HKL LangID = GetKeyboardLayout(0);
-	char Lang[3] = {0};
 	if (LangID != oldLangID)
 	{
+		TCHAR Lang[3] = {0};
 		oldLangID = LangID;
-		GetLocaleInfoA(MAKELCID(((WORD)LangID & 0xffffffff),  SORT_DEFAULT),  LOCALE_SABBREVLANGNAME, Lang, 2);
+		GetLocaleInfo(MAKELCID(((WORD)LangID & 0xffffffff),  SORT_DEFAULT),  LOCALE_SABBREVLANGNAME, Lang, 2);
 		Lang[0] = toupper(Lang[0]);
 		Lang[1] = tolower(Lang[1]);
-		SetDlgItemTextA(hDlg, IDC_LANG, Lang);
+		SetDlgItemText(hDlg, IDC_LANG, Lang);
 	}
 }
 
-BOOL CALLBACK EnumWindowsProc(HWND hWnd,LPARAM lParam)
+BOOL CALLBACK EnumWindowsProc(HWND hWnd,LPARAM)
 {
 	DWORD dwWndPID;
 	GetWindowThreadProcessId(hWnd,&dwWndPID);
 
-	if ((g_dwMirandaPID == dwWndPID) && hWnd != g_hDlgPass /* && (GetWindowLongPtr(hWnd,GWLP_HWNDPARENT) == NULL)*/ && (IsWindowVisible(hWnd)))
+	if ((g_dwMirandaPID == dwWndPID) && hWnd != g_hDlgPass && IsWindowVisible(hWnd))
 	{
-		char szTemp[32];
-		GetClassNameA(hWnd,szTemp,32);
+		TCHAR szTemp[32];
+		GetClassName(hWnd,szTemp,32);
 
-		if (lstrcmpA(szTemp,"MirandaThumbsWnd") == 0) // hide floating contacts
+		if (lstrcmp(szTemp,_T("MirandaThumbsWnd")) == 0) // hide floating contacts
 		{
 			CallService("FloatingContacts/MainHideAllThumbs",0,0);
 			g_bOldSetting |= OLD_FLTCONT;
 		}
-		else
-		if (lstrcmpA(szTemp,"PopupWnd2") == 0 || lstrcmpA(szTemp,"YAPPWinClass") == 0) // destroy opened popups
-			SendMessage(hWnd, UM_DESTROYPOPUP,0,0);
-//		else
-//		if (lstrcmpA(szTemp,"#32770") == 0)
-//			SendMessage(hWnd, WM_CLOSE,0,0);
+		else if (lstrcmp(szTemp,_T("PopupWnd2")) == 0 || lstrcmp(szTemp,_T("YAPPWinClass")) == 0) // destroy opened popups
+			PUDeletePopup(hWnd);
 		else
 		{
 			HWND_ITEM *node = new HWND_ITEM;
@@ -228,14 +222,16 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd,LPARAM lParam)
 
 TCHAR* GetDefStatusMsg(unsigned uStatus, const char* szProto)
 {
-	TCHAR *ret = (TCHAR *)CallService ( MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)uStatus, (LPARAM)szProto );
-	if ( (int)ret == CALLSERVICE_NOTFOUND )
+	INT_PTR res = CallService (MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)uStatus, (LPARAM)szProto );
+	if (res == CALLSERVICE_NOTFOUND )
 	{
 		char* tmp = ( char* )CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM)uStatus, (LPARAM)szProto );
-		ret = mir_a2t( tmp );
+		TCHAR *ret = mir_a2t( tmp );
 		mir_free( tmp );
+		return ret;
 	}
-	return ret;
+	else
+		return (TCHAR *) res;
 }
 
 void SetStatus(const char* szProto, unsigned status, TCHAR *tszAwayMsg)
@@ -381,20 +377,14 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 				{
 					if (ServiceExists(MS_VARS_FORMATSTRING))
 					{
-						FORMATINFO fi;
-						TCHAR *ptszParsed;
-
-						ZeroMemory(&fi, sizeof(fi));
-						fi.cbSize = sizeof(fi);
-						fi.flags = FIF_TCHAR;
-						fi.tszFormat = dbVar.ptszVal;
-						ptszParsed = (TCHAR*)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
+						TCHAR *ptszParsed = variables_parse(dbVar.ptszVal, 0, 0);
 						ChangeAllProtoStatuses(uMode, ptszParsed);
 						if (ptszParsed)
 							mir_free(ptszParsed);
-					}else
+					}
+					else
 						ChangeAllProtoStatuses(uMode, dbVar.ptszVal);
-				db_free(&dbVar);
+					db_free(&dbVar);
 				}
 			}
 
@@ -441,7 +431,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 					db_free(&dbVar);
 					CallService(MS_DB_CRYPT_DECODESTRING, MAXPASSLEN+1, ( LPARAM )g_password );
 
-					int res = DialogBox(g_hInstance,(MAKEINTRESOURCE(IDD_PASSDIALOGNEW)),GetForegroundWindow(),(DLGPROC)DlgStdInProc);
+					int res = DialogBox(g_hInstance,(MAKEINTRESOURCE(IDD_PASSDIALOGNEW)),GetForegroundWindow(), DlgStdInProc);
 
 					g_fPassRequested = false;
 					if(res != IDOK) return 0;
@@ -455,10 +445,10 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			while (pCurWnd != NULL)
 			{
 				HWND_ITEM *pNextWnd = pCurWnd->next;
-				char szTemp[32];
-				GetClassNameA(pCurWnd->hWnd,szTemp,32);
+				TCHAR szTemp[32];
+				GetClassName(pCurWnd->hWnd,szTemp,32);
 
-				if (IsWindow(pCurWnd->hWnd) && lstrcmpA(szTemp,"SysShadow") != 0) // precaution
+				if (IsWindow(pCurWnd->hWnd) && lstrcmp(szTemp,_T("SysShadow")) != 0) // precaution
 				{
 					ShowWindow(pCurWnd->hWnd, SW_SHOW);
 				}
@@ -497,7 +487,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 	return(DefWindowProc(hWnd,uMsg,wParam,lParam));
 }
 
-static int MsgWinOpening(WPARAM wParam, LPARAM lParam) // hiding new message windows
+static int MsgWinOpening(WPARAM, LPARAM) // hiding new message windows
 {
 	if (g_bWindowHidden)
 		EnumWindows(EnumWindowsProc, 0);
@@ -515,7 +505,7 @@ VOID CALLBACK WinEventProc(HWINEVENTHOOK g_hWinHook, DWORD event, HWND hwnd, LON
 	}
 }
 
-INT_PTR BossKeyHideMiranda(WPARAM wParam, LPARAM lParam) // for service :)
+INT_PTR BossKeyHideMiranda(WPARAM, LPARAM) // for service :)
 {
 	PostMessage(g_hListenWindow, WM_USER + ((g_bWindowHidden) ? (52) : (40)), 0, 0);
 	return 0;
@@ -581,7 +571,7 @@ static IconItem iconList[] =
 	{ LPGEN("Hide Miranda NG"), "hidemim", IDI_DLGPASSWD }
 };
 
-static int GenMenuInit(WPARAM wParam, LPARAM lParam) // Modify menu item text before to show the main menu
+static int GenMenuInit(WPARAM, LPARAM) // Modify menu item text before to show the main menu
 {
 	if (g_hMenuItem) {
 		TCHAR buf[128] = {0};
@@ -642,7 +632,7 @@ static int ModernToolbarInit(WPARAM, LPARAM) // Modern toolbar support
 }
 
 // Tabsrmm toolbar support
-static int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam)
+static int TabsrmmButtonPressed(WPARAM, LPARAM lParam)
 {
 	CustomButtonClickData *cbcd=(CustomButtonClickData *)lParam;
 
@@ -652,7 +642,7 @@ static int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int TabsrmmButtonsInit(WPARAM wParam, LPARAM lParam)
+static int TabsrmmButtonsInit(WPARAM, LPARAM)
 {
 	BBButton bbd = {0};
 
@@ -693,14 +683,13 @@ static int EnumProtos(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int MirandaLoaded(WPARAM wParam,LPARAM lParam)
+int MirandaLoaded(WPARAM,LPARAM)
 {
 	g_wMask = db_get_w(NULL,MOD_NAME,"optsmask",DEFAULTSETTING);
 
 	RegisterCoreHotKeys();
 
-	g_hWinHook = SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_SHOW,
-		NULL, WinEventProc, GetCurrentProcessId(), 0, 0);
+	g_hWinHook = SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_SHOW, NULL, WinEventProc, GetCurrentProcessId(), 0, 0);
 
 	HookEvent(ME_TTB_MODULELOADED, ModernToolbarInit);
 	HookEvent(ME_OPT_INITIALISE, OptsDlgInit);
@@ -762,7 +751,7 @@ int MirandaLoaded(WPARAM wParam,LPARAM lParam)
 
 		tr.tszTokenString = _T("bosskeyname");
 		tr.parseFunctionT = VariablesBossKey;
-		tr.szHelpText = LPGEN("BossKey\tget the BossKey name");
+		tr.szHelpText = LPGEN("BossKey")"\t"LPGEN("get the BossKey name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 	}
 

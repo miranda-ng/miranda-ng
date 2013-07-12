@@ -56,14 +56,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_MAINOPT_HIDEIFLOCK), SW_HIDE);
 
 			// set icon and tooltip for variables help button
-
-			if (ServiceExists(MS_VARS_GETSKINITEM)) {
-				HICON hIcon = (HICON)CallService(MS_VARS_GETSKINITEM, 0, (LPARAM)VSI_HELPICON);
-				if (hIcon != NULL)
-					SendMessage(GetDlgItem(hwndDlg, IDC_MAINOPT_VARHELP), BM_SETIMAGE, (WPARAM)IMAGE_ICON, (LPARAM)hIcon);
-				SendMessage(GetDlgItem(hwndDlg, IDC_MAINOPT_VARHELP), BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open String Formatting Help"), BATF_TCHAR);
-				SendDlgItemMessage(hwndDlg, IDC_MAINOPT_VARHELP, BUTTONSETASFLATBTN, TRUE, 0);
-			}
+			variables_skin_helpbutton(hwndDlg, IDC_MAINOPT_VARHELP);
 
 			SendDlgItemMessage(hwndDlg,IDC_MAINOPT_PASS,EM_LIMITTEXT,MAXPASSLEN,0); // limit password length
 
@@ -85,10 +78,8 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 			CheckDlgButton(hwndDlg,IDC_MAINOPT_USEDEFMSG,(g_wMask & OPT_USEDEFMSG) ? (BST_CHECKED) : (BST_UNCHECKED));
 			CheckDlgButton(hwndDlg,IDC_MAINOPT_TRAYICON,(g_wMask & OPT_TRAYICON) ? (BST_CHECKED) : (BST_UNCHECKED));
 
-			const TCHAR *STATUS_ARR_TO_NAME[8] = { _T("Offline"), _T("Online"), _T("Away"), _T("NA"), _T("Occupied"), _T("DND"), _T("Free for chat"), _T("Invisible") };
-
-			for (BYTE i = 0;i < 8; i++)
-				SendDlgItemMessage(hwndDlg,IDC_MAINOPT_CHGSTS,CB_INSERTSTRING,-1,(LPARAM)TranslateTS(STATUS_ARR_TO_NAME[i]));
+			for (int i = ID_STATUS_OFFLINE;i <= ID_STATUS_OUTTOLUNCH; i++)
+				SendDlgItemMessage(hwndDlg, IDC_MAINOPT_CHGSTS, CB_INSERTSTRING, -1, (LPARAM) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,i,GSMDF_TCHAR));
 
 			SendDlgItemMessage(hwndDlg, IDC_MAINOPT_CHGSTS, CB_SETCURSEL, db_get_b(NULL, MOD_NAME, "stattype", 2), 0);
 
@@ -284,11 +275,11 @@ INT_PTR CALLBACK AdvOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 			g_fOptionsOpen = true;
 
 			minutes = db_get_b(NULL,MOD_NAME,"time",10);
-			char szMinutes[4] = {0};
-			_itoa(minutes, szMinutes, 10);
+			TCHAR szMinutes[4] = {0};
+			_itot(minutes, szMinutes, 10);
 			SendDlgItemMessage(hwndDlg,IDC_MAINOPT_TIME,EM_LIMITTEXT,2,0);
 			SendDlgItemMessage(hwndDlg, IDC_MAINOPT_SPIN_TIME, UDM_SETRANGE32, (WPARAM)1, (LPARAM)99);
-			SetDlgItemTextA(hwndDlg, IDC_MAINOPT_TIME, szMinutes);			
+			SetDlgItemText(hwndDlg, IDC_MAINOPT_TIME, szMinutes);			
 			CheckDlgButton(hwndDlg,IDC_MAINOPT_HIDEIFLOCK,(g_wMaskAdv & OPT_HIDEIFLOCK) ? (BST_CHECKED) : (BST_UNCHECKED));
 			CheckDlgButton(hwndDlg,IDC_MAINOPT_MENUITEM,(g_wMaskAdv & OPT_MENUITEM) ? (BST_CHECKED) : (BST_UNCHECKED));
 			CheckDlgButton(hwndDlg,IDC_MAINOPT_HIDEIFWINIDLE,(g_wMaskAdv & OPT_HIDEIFWINIDLE) ? (BST_CHECKED) : (BST_UNCHECKED));
@@ -321,9 +312,10 @@ INT_PTR CALLBACK AdvOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 					} else 
 						if (g_hMenuItem != 0) BossKeyMenuItemUnInit();
 
-					char szMinutes[4] = {0};
-					GetDlgItemTextA(hwndDlg,IDC_MAINOPT_TIME,szMinutes,3);
-					(atoi(szMinutes) > 0) ? minutes = atoi(szMinutes) : minutes = 1;
+					TCHAR szMinutes[4] = {0};
+					GetDlgItemText(hwndDlg,IDC_MAINOPT_TIME,szMinutes,3);
+					minutes = _ttoi(szMinutes);
+					if(minutes<1) minutes = 1;
 					db_set_b(NULL,MOD_NAME,"time",minutes);
 					db_set_w(NULL,MOD_NAME,"optsmaskadv",wMaskAdv);
 					g_wMaskAdv = wMaskAdv;
@@ -391,7 +383,7 @@ INT_PTR CALLBACK AdvOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 	return(false);
 }
 
-int OptsDlgInit(WPARAM wParam,LPARAM lParam)
+int OptsDlgInit(WPARAM wParam,LPARAM)
 {
 	OPTIONSDIALOGPAGE optDi;
 	ZeroMemory(&optDi, sizeof(optDi));
@@ -400,16 +392,16 @@ int OptsDlgInit(WPARAM wParam,LPARAM lParam)
 	optDi.pfnDlgProc = MainOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_OPTDIALOGMAIN);
 	optDi.hInstance = g_hInstance;
-	optDi.pszTitle = LPGEN("BossKey");
-	optDi.pszGroup = LPGEN("Events");
-	optDi.pszTab	= LPGEN("Main");
-	optDi.flags = ODPF_BOLDGROUPS;
+	optDi.ptszTitle = LPGENT("BossKey");
+	optDi.ptszGroup = LPGENT("Events");
+	optDi.ptszTab	= LPGENT("Main");
+	optDi.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 
 	Options_AddPage(wParam, &optDi);
 
 	optDi.pfnDlgProc = AdvOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_OPTDIALOGADV);
-	optDi.pszTab	= LPGEN("Advanced");
+	optDi.ptszTab	= LPGENT("Advanced");
 
 	Options_AddPage(wParam, &optDi);
 	return(0);
