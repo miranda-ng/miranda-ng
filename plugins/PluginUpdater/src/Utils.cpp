@@ -26,6 +26,7 @@ FILEINFO *pFileInfo = NULL;
 HANDLE hCheckThread = NULL, hListThread = NULL, hNetlibUser = NULL;
 POPUP_OPTIONS PopupOptions = {0};
 aPopups PopupsList[POPUPS];
+extern DWORD g_mirandaVersion;
 
 /////////////////////////////////////////////////////////////////////////////////////
 // we don't use Icon_Register here because it should work under Miranda IM too
@@ -276,7 +277,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal, int CRCsum, HANDLE &nlc)
 	#endif
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
-	if (mirandaVersion >= PLUGIN_MAKE_VERSION(0, 9, 0, 0))
+	if (g_mirandaVersion >= PLUGIN_MAKE_VERSION(0, 9, 0, 0))
 		nlhr.flags |= NLHRF_PERSISTENT;
 	nlhr.nlc = nlc;
 	char *szUrl = mir_t2a(tszURL);

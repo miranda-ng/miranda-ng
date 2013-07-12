@@ -33,6 +33,7 @@ HANDLE hPluginUpdaterFolder = NULL, hEmptyFolder = NULL;
 HINSTANCE hInst = NULL;
 TCHAR tszRoot[MAX_PATH] = {0}, tszTempPath[MAX_PATH];
 int hLangpack;
+DWORD g_mirandaVersion;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -68,6 +69,7 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
+	g_mirandaVersion = mirandaVersion;
 	return &pluginInfoEx;
 }
 
