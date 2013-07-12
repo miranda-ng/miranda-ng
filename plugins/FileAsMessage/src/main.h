@@ -31,7 +31,7 @@
 
 #define SERVICE_PREFIX "<%fAM-0023%>"
 
-#define NOPLUGIN_MESSAGE LPGEN("If you see this \"garbage\", probably you have no \"fileAsMessage\" plugin installed, see http://miranda-ng.org/p/FileAsMessage/ for more information and download.")
+#define NOPLUGIN_MESSAGE "If you see this \"garbage\", probably you have no \"fileAsMessage\" plugin installed, see http://miranda-ng.org/p/FileAsMessage/ for more information and download."
 
 extern char *szServiceTitle;
 extern char *szServicePrefix;
