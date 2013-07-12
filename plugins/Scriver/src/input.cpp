@@ -310,7 +310,7 @@ void RegisterKeyBindings() {
 		mir_snprintf(strName, SIZEOF(strName), "Scriver/Nav/Tab %d", i + 1);
 		mir_snprintf(strDesc, SIZEOF(strDesc), LPGEN("Navigate: Tab %d"), i + 1);
 		desc.lParam = KB_TAB1 + i;
-		desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, '1' + i);
+		desc.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, '1' + i);
 		Hotkey_Register(&desc);
 	}
 
