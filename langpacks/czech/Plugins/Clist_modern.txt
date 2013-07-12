@@ -366,16 +366,14 @@ Měnit ikony co
 sek. (v případě, že se stavy liší)
 [Show multiple icons]
 Zobrazit více ikon
-[Only when statuses differ]
-Pouze v případě, že se stavy liší
+[only when statuses differ]
+pouze pokud se stavy liší
 [System tray icon]
 Ikona v oznamovací oblasti
 [System tray icon mode]
 Chování v oznamovací oblasti
 [Use xStatus icon]
 Zobrazit ikonu rozšířeného stavu
-[only when statuses differ]
-pouze pokud se stavy liší
 [Ignore Empty Extra icons places (arrange to right).]
 Ignorovat prázdná místa po extra ikonách (posunout >>)
 [Use 'Meta' protocol icons for Metacontacts]

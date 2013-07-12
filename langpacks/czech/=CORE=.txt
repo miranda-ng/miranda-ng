@@ -857,8 +857,8 @@ Zobrazit tlač. změny velik.
 Způsob řazení
 [Contact list:]
 Seznam kontaktů
-[If window is partially covered, bring iy to front]
-Je-li okno částečně zakryto, zobrazit na popředí
+[If window is partially covered, bring it to front]
+Je-li okno částečně zakryto, přesunout do popředí
 [Window:]
 Okno
 [Contact list background:]
@@ -1077,7 +1077,7 @@ Použít kombinaci kláves CTRL+Nahoru/Dolů k zobrazení předešlých zpráv
 Smazat dočasné kontakty po zavření okna pro rozhovor
 [Enable avatar support in the message window]
 Aktivovat zobrazení avatarů v okně pro rozhovor
-[Limit avatar height to ]
+[Limit avatar height to]
 Max. výška obrázku avataru
 [Max Number of Flashes]
 Max. počet bliknutí
@@ -1463,7 +1463,7 @@ Zobrazit ikonu ke zvýraznění
 Zobrazit ikonu k informaci o odchodu uživatelů
 [Show icon for users kicking other user]
 Zobrazit ikonu k informaci o vykopnutí
-[Show icon for notices ]
+[Show icon for notices]
 Zobrazit ikonu k textu poznámky
 [Show icon for name changes]
 Zobrazit ikonu k informaci o změně jména
@@ -1489,7 +1489,7 @@ Zobrazit ikonu v ozn. oblasti při zvýraznění
 Zobrazit ikonu v ozn. oblasti při odchodu uživatelů
 [Show icon in tray for users kicking other user]
 Zobrazit ikonu v ozn. oblasti při vykopnutí uživatelů
-[Show icon in tray for notices ]
+[Show icon in tray for notices]
 Zobrazit ikonu v ozn. oblasti u poznámky
 [Show icon in tray for name changes]
 Zobrazit ikonu v ozn. oblasti při změně jména
@@ -1515,7 +1515,7 @@ Zobrazit oznámení při zvýraznění
 Zobrazit oznámení při odchodu uživatelů
 [Show popup for users kicking other user]
 Zobrazit oznámení při vykopnutí uživatelů
-[Show popup for notices ]
+[Show popup for notices]
 Zobrazit oznámení u poznámky
 [Show popup for name changes]
 Zobrazit oznámení při změně jména

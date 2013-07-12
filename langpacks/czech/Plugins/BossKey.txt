@@ -71,11 +71,9 @@ Skrýt Mirandu
 Skrýt
 [Hide/Show Miranda]
 Skrýt/zobrazit Mirandu
-[BossKey\tget the BossKey name]
-BossKey\tzískat Bosskey jméno
+[get the BossKey name]
+získat Bosskey jméno
 ;file \plugins\BossKeyPlus\src\Options.cpp
-[Open String Formatting Help]
-Otevřít nápovědu o proměnných
 [Events]
 Události
 [Main]

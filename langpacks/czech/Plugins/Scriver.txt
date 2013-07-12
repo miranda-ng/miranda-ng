@@ -804,7 +804,7 @@ Zobrazit ikonu v ozn. oblasti při zvýraznění
 Zobrazit ikonu v ozn. oblasti při odchodu uživatelů
 [Show icon in tray for users kicking other user]
 Zobrazit ikonu v ozn. oblasti při vykopnutí uživatelů
-[Show icon in tray for notices ]
+[Show icon in tray for notices]
 Zobrazit ikonu v ozn. oblasti u poznámky
 [Show icon in tray for name changes]
 Zobrazit ikonu v ozn. oblasti při změně jména
@@ -830,7 +830,7 @@ Zobrazit oznámení při zvýraznění
 Zobrazit oznámení při odchodu uživatelů
 [Show popup for users kicking other user]
 Zobrazit oznámení při vykopnutí uživatelů
-[Show popup for notices ]
+[Show popup for notices]
 Zobrazit oznámení u poznámky
 [Show popup for name changes]
 Zobrazit oznámení při změně jména

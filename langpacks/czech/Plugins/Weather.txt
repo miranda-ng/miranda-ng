@@ -258,11 +258,11 @@ Předchozí nastavení
 Výchozí nastavení
 ;file \plugins\Weather\src\weather.cpp
 [Enable/disable auto update]
-
+Povolit/zakázat automatickou aktualizaci
 [Auto Update Enabled]
-Deaktivovat automatickou aktualizaci
+Zakázat automatickou aktualizaci
 [Auto Update Disabled]
-Aktivovat automatickou aktualizaci
+Povolit automatickou aktualizaci
 [Weather Condition Changed]
 Počasí (změna počasí)
 [Weather Alert Issued]
@@ -411,6 +411,20 @@ Oznámení vypnuto
 [Edit Settings]
 Upravit nastavení...
 ;file \plugins\Weather\src\weather_info.cpp
+[Name]
+Jméno
+[Author]
+Autor
+[File Version]
+Verze souboru
+[INI Version]
+Verze INI
+[Items]
+Položky
+[Display Name]
+Název
+[File Name]
+Název souboru
 [The corresponding INI file for "%s" is not found.]
 
 [Weather INI information for "%s":]

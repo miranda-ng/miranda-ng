@@ -25,7 +25,6 @@
 [Tags Mask Reset]
 [Change Feed]
 [Contact deleting]
-[Enable/disable auto update]
 [NewsAggregator HTTP connection]
 [New Aggregator]
 [%s\nis a not valid feed's address.]

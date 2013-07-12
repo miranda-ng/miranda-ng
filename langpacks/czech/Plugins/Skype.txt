@@ -98,6 +98,8 @@ Stát:
 Země:
 [Timezone:]
 Časové pásmo:
+[Skype credit:]
+Skype kredit:
 [Change password]
 Změnit heslo
 [Old password:]
@@ -120,6 +122,20 @@ Alternativně použít porty 80 a 443 pro příchozí připojení
 Výchozí skupina:
 [Block]
 Blokovat
+[Allow IMs from...]
+Přijímat zprávy...
+[Anyone]
+Od všech
+[People in my Contact list only]
+Pouze od lidí z mého seznamu kontaktů
+[Allow calls from...]
+Přijímat hovory...
+[Automatically receive video and share screens with...]
+Automaticky přijímat video a sdílet obrazovku...
+[No one]
+Od nikoho
+[Allow my online status to be shown on the web]
+Povolit zobrazení mého online stavu na webu
 [Block this person]
 Blkovat tohoto uživatele
 [Remove from your Contact List]
@@ -288,12 +304,16 @@ Vytvořit konferenci
 Sítě
 [Blocked contacts]
 Blokované kontakty
+[Privacy]
+Soukromí
 [Contacts]
 Kontakty
 [Home]
 Domov
 [General]
 Obecné
+[Skype account]
+Skype účet
 ;file \protocols\Skype\src\skype_icons.cpp
 [Protocol icon]
 Ikona protokolu

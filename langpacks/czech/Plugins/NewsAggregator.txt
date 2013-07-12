@@ -119,7 +119,7 @@ Sítě
 [Avatars]
 Avatary
 [Enable/disable auto update]
-
+Povolit/zakázat automatickou aktualizaci
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
 

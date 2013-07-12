@@ -4,7 +4,6 @@
 [Total INI files]
 [Total memory used]
 [Reload INI]
-[Enable/disable auto update]
 [Invalid ID format, missing "/" (10)]
 [HTTP Error: No content (204)]
 [HTTP Error: Data moved (301)]
