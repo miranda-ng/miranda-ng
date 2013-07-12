@@ -175,7 +175,7 @@ static const struct branch_t branch6[] = {
 	{ LPGENT("Show popup for highlights"), "PopupFlags", GC_EVENT_HIGHLIGHT, 0},
 	{ LPGENT("Show popup for users leaving"), "PopupFlags", GC_EVENT_PART, 0},
 	{ LPGENT("Show popup for users kicking other user"), "PopupFlags", GC_EVENT_KICK, 0},
-	{ LPGENT("Show popup for notices "), "PopupFlags", GC_EVENT_NOTICE, 0},
+	{ LPGENT("Show popup for notices"), "PopupFlags", GC_EVENT_NOTICE, 0},
 	{ LPGENT("Show popup for name changes"), "PopupFlags", GC_EVENT_NICK, 0},
 	{ LPGENT("Show popup for information messages"), "PopupFlags", GC_EVENT_INFORMATION, 0},
 	{ LPGENT("Show popup for status changes"), "PopupFlags", GC_EVENT_ADDSTATUS, 0},
