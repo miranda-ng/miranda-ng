@@ -275,7 +275,9 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal, int CRCsum, HANDLE &nlc)
 		nlhr.cbSize = sizeof(nlhr);
 	#endif
 	nlhr.requestType = REQUEST_GET;
-	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_PERSISTENT;
+	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
+	if (mirandaVersion >= PLUGIN_MAKE_VERSION(0, 9, 0, 0))
+		nlhr.flags |= NLHRF_PERSISTENT;
 	nlhr.nlc = nlc;
 	char *szUrl = mir_t2a(tszURL);
 	nlhr.szUrl = szUrl;
