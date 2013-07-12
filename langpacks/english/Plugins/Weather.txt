@@ -213,6 +213,13 @@
 [No Popup]
 [Edit Settings]
 ;file \plugins\Weather\src\weather_info.cpp
+[Name]
+[Author]
+[File Version]
+[INI Version]
+[Items]
+[Display Name]
+[File Name]
 [The corresponding INI file for "%s" is not found.]
 [Weather INI information for "%s":]
 [Name:]

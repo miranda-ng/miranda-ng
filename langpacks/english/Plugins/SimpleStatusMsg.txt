@@ -101,8 +101,10 @@
 [Status Message]
 [Status Message...]
 [%s (locked)]
-[External Applications\tretrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
-[Miranda Related\tget the date (Simple Status Message compatible)]
+[External Applications]
+[retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
+[Miranda Related]
+[get the date (Simple Status Message compatible)]
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [<startup>]
 [<current>]

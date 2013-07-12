@@ -39,9 +39,8 @@
 [Hide Miranda NG]
 [Hide]
 [Hide/Show Miranda]
-[BossKey\tget the BossKey name]
+[get the BossKey name]
 ;file \plugins\BossKeyPlus\src\Options.cpp
-[Open String Formatting Help]
 [Events]
 [Main]
 [Advanced]
