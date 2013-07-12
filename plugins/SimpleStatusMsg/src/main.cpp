@@ -388,12 +388,7 @@ TCHAR *InsertVarsIntoMsg(TCHAR *tszMsg, const char *szProto, int iStatus, HANDLE
 {
 	if (ServiceExists(MS_VARS_FORMATSTRING) && db_get_b(NULL, "SimpleStatusMsg", "EnableVariables", 1))
 	{
-		FORMATINFO fInfo = {0};
-		fInfo.cbSize = sizeof(fInfo);
-		fInfo.flags = FIF_TCHAR;
-		fInfo.tszFormat = tszMsg;
-		fInfo.hContact = hContact;
-		TCHAR *tszVarsMsg = (TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fInfo, 0);
+		TCHAR *tszVarsMsg = variables_parse(tszMsg, NULL, hContact);
 		if (tszVarsMsg != NULL)
 		{
 			TCHAR *format = InsertBuiltinVarsIntoMsg(tszVarsMsg, szProto, iStatus);
@@ -1907,14 +1902,14 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		tr.flags = TRF_FREEMEM | TRF_FIELD | TRF_TCHAR | TRF_PARSEFUNC;
 		tr.tszTokenString = _T("winampsong");
 		tr.parseFunctionT = ParseWinampSong;
-		tr.szHelpText = LPGEN("External Applications\tretrieves song name of the song currently playing in Winamp (Simple Status Message compatible)");
+		tr.szHelpText = LPGEN("External Applications")"\t"LPGEN("retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 
 		if (db_get_b(NULL, "SimpleStatusMsg", "ExclDateToken", 0) != 0)
 		{
 			tr.tszTokenString = _T("date");
 			tr.parseFunctionT = ParseDate;
-			tr.szHelpText = LPGEN("Miranda Related\tget the date (Simple Status Message compatible)");
+			tr.szHelpText = LPGEN("Miranda Related")"\t"LPGEN("get the date (Simple Status Message compatible)");
 			CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 		}
 	}
@@ -1950,8 +1945,6 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		}
 		else
 		{
-			char szSetting[80];
-
 			g_uSetStatusTimer = (UINT_PTR*)mir_alloc(sizeof(UINT_PTR) * accounts->count);
 			for (int i = 0; i < accounts->count; ++i)
 			{
@@ -1961,6 +1954,7 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 				if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) &~ CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 					continue;
 
+				char szSetting[80];
 				mir_snprintf(szSetting, SIZEOF(szSetting), "Set%sStatusDelay", accounts->pa[i]->szModuleName);
 				g_uSetStatusTimer[i] = SetTimer(NULL, 0, db_get_w(NULL, "SimpleStatusMsg", szSetting, 300), (TIMERPROC)SetStartupStatusProc);
 			}

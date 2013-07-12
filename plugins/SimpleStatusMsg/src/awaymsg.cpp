@@ -414,7 +414,7 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
 
 		if (db_get_b(NULL, "SimpleStatusMsg", "ShowCopy", 1) && szMsg && *szMsg != '\0') {
 			clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_TCHAR;
-			mir_sntprintf(str, SIZEOF(str), TranslateT("Copy %s Message"), (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iStatus, GSMDF_TCHAR));
+			mir_sntprintf(str, SIZEOF(str), TranslateT("Copy %s Message"), CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iStatus, GSMDF_TCHAR));
 			clmi.ptszName = str;
 		}
 	}
@@ -424,7 +424,7 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
 	if (!iHidden) {
 		if (db_get_b(NULL, "SimpleStatusMsg", "ShowGoToURL", 1) && StrFindURL(szMsg) != NULL) {
 			clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_TCHAR;
-			mir_sntprintf(str, SIZEOF(str), TranslateT("&Go to URL in %s Message"), (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iStatus, GSMDF_TCHAR));
+			mir_sntprintf(str, SIZEOF(str), TranslateT("&Go to URL in %s Message"), CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iStatus, GSMDF_TCHAR));
 			clmi.ptszName = str;
 		}
 		mir_free(szMsg);
