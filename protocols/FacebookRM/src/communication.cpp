@@ -225,6 +225,7 @@ DWORD facebook_client::choose_security_level(RequestType request_type)
 //	case REQUEST_DTSG:
 //	case REQUEST_BUDDY_LIST:
 //	case REQUEST_LOAD_FRIENDS:
+//	case REQUEST_USER_INFO:
 //	case REQUEST_LOAD_REQUESTS:
 //	case REQUEST_SEARCH:
 //  case REQUEST_DELETE_FRIEND:
@@ -282,7 +283,8 @@ int facebook_client::choose_method(RequestType request_type)
 //	case REQUEST_FEEDS:
 //	case REQUEST_NOTIFICATIONS:
 //	case REQUEST_RECONNECT:
-//	case REQUEST_LOAD_FRIENDS:		
+//	case REQUEST_LOAD_FRIENDS:
+//	case REQUEST_USER_INFO:
 //	case REQUEST_LOAD_REQUESTS:
 //	case REQUEST_SEARCH:
 //	case REQUEST_UNREAD_THREADS:
@@ -322,6 +324,7 @@ std::string facebook_client::choose_server(RequestType request_type, std::string
 	case REQUEST_SEARCH:
 	case REQUEST_UNREAD_THREADS:
 	case REQUEST_UNREAD_MESSAGES:
+	case REQUEST_USER_INFO:
 		return FACEBOOK_SERVER_MOBILE;
 
 //	case REQUEST_LOGOUT:
@@ -375,6 +378,15 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 	{
 		std::string action = "/ajax/chat/user_info_all.php?__a=1&viewer=%s&__user=%s";
 		utils::text::replace_all(&action, "%s", self_.user_id);
+		return action;
+	}
+
+	case REQUEST_USER_INFO:
+	{		
+		std::string action = "/%s?v=info";
+		if (get_data != NULL) {
+			utils::text::replace_all(&action, "%s", *get_data);
+		}
 		return action;
 	}
 

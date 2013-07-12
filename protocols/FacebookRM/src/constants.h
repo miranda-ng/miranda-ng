@@ -94,16 +94,17 @@ enum RequestType {
 	REQUEST_LOAD_REQUESTS,		// getting friend requests
 
 	REQUEST_STATUS_SET,			// setting my "What's on my mind?"
-	REQUEST_SEARCH,				// searching 
+	REQUEST_SEARCH,				// searching
 	REQUEST_POKE,				// sending pokes
 	REQUEST_NOTIFICATIONS_READ, // marking notifications read
 
 	REQUEST_BUDDY_LIST,			// getting regular updates (friends online, ...)
 	REQUEST_LOAD_FRIENDS,		// getting list of all friends
-	REQUEST_REQUEST_FRIEND,		// requesting friends
-	REQUEST_APPROVE_FRIEND,		// approving friends
-	REQUEST_DELETE_FRIEND,		// deleting friends
-	REQUEST_CANCEL_REQUEST,		// canceling friends request
+	REQUEST_USER_INFO,			// getting info about particular user
+	REQUEST_REQUEST_FRIEND,		// requesting friendships
+	REQUEST_APPROVE_FRIEND,		// approving friendships
+	REQUEST_DELETE_FRIEND,		// deleting friendships
+	REQUEST_CANCEL_REQUEST,		// canceling friendship request
 
 	REQUEST_MESSAGE_SEND,		// sending message
 	REQUEST_MESSAGE_SEND2,		// sending message through inbox

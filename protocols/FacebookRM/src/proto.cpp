@@ -117,7 +117,7 @@ DWORD_PTR FacebookProto::GetCaps(int type, HANDLE hContact)
 	{
 	case PFLAGNUM_1:
 	{
-		DWORD_PTR flags = PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | /*PF1_ADDED |*/ PF1_BASICSEARCH | PF1_USERIDISEMAIL | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_ADDSEARCHRES; // | PF1_VISLIST | PF1_INVISLIST;
+		DWORD_PTR flags = PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | /*PF1_ADDED |*/ PF1_BASICSEARCH | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_ADDSEARCHRES; // | PF1_VISLIST | PF1_INVISLIST;
 
 		if (getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, 0))
 			return flags |= PF1_MODEMSG;
@@ -214,34 +214,42 @@ HANDLE FacebookProto::SearchBasic(const PROTOCHAR* id)
 	if (isOffline())
 		return 0;
 
-	TCHAR* email = mir_tstrdup(id);
-	ForkThread(&FacebookProto::SearchAckThread, email);
-	return email;
+	TCHAR *tid = mir_tstrdup(id);
+	ForkThread(&FacebookProto::SearchIdAckThread, tid);
+	return tid;
 }
 
 HANDLE FacebookProto::SearchByEmail(const PROTOCHAR* email)
 {
-	return SearchBasic(email);
+	if (isOffline())
+		return 0;
+
+	TCHAR *temail = mir_tstrdup(email);
+	ForkThread(&FacebookProto::SearchAckThread, temail);
+	return temail;
 }
 
 HANDLE FacebookProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName)
 {
 	TCHAR arg[200];
 	_sntprintf (arg, SIZEOF(arg), _T("%s %s %s"), nick, firstName, lastName);
-	return SearchBasic(arg);
+	return SearchByEmail(arg); // Facebook is using one search method for everything (except IDs)
 }
 
 HANDLE FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	char *id = mir_t2a_cp(psr->id, CP_UTF8);
-	char *name = mir_t2a_cp(psr->firstName, CP_UTF8);
-	char *surname = mir_t2a_cp(psr->lastName, CP_UTF8);
+	ptrA id = mir_t2a_cp(psr->id, CP_UTF8);
+	ptrA name = mir_t2a_cp(psr->firstName, CP_UTF8);
+	ptrA surname = mir_t2a_cp(psr->lastName, CP_UTF8);
 
 	facebook_user fbu;
 	fbu.user_id = id;
-	fbu.real_name = name;
-	fbu.real_name += " ";
-	fbu.real_name += surname;
+	if (name != NULL)
+		fbu.real_name = name;
+	if (surname != NULL) {
+		fbu.real_name += " ";
+		fbu.real_name += surname;
+	}
 
 	HANDLE hContact = AddToContactList(&fbu, CONTACT_NONE);
 	if (hContact) {
@@ -254,10 +262,6 @@ HANDLE FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 			db_unset(hContact, "CList", "NotOnList");
 		}
 	}
-
-	mir_free(id);
-	mir_free(name);
-	mir_free(surname);
 
 	return hContact;
 }

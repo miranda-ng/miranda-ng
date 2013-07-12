@@ -62,7 +62,7 @@ namespace utils
 		std::string slashu_to_utf8(std::string data);
 		std::string trim(std::string data, bool rtrim = false);
 		std::string source_get_value(std::string* data, unsigned int argument_count, ...);
-		std::string source_get_value2(std::string* data, const char *term, const char *endings);
+		std::string source_get_value2(std::string* data, const char *term, const char *endings, bool wholeString = false);
 		void explode(std::string str, std::string separator, std::vector<std::string>* results);
 		void append_ordinal(unsigned long value, std::string* data);
 	};

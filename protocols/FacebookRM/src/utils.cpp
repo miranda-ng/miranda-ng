@@ -405,7 +405,7 @@ std::string utils::text::source_get_value(std::string* data, unsigned int argume
 	return ret;
 }
 
-std::string utils::text::source_get_value2(std::string* data, const char *term, const char *endings)
+std::string utils::text::source_get_value2(std::string* data, const char *term, const char *endings, bool wholeString)
 {
 	std::string::size_type start = 0, end = 0;
 	std::string ret;
@@ -417,6 +417,8 @@ std::string utils::text::source_get_value2(std::string* data, const char *term, 
 		end = data->find_first_of(endings, start);
 		if (end != std::string::npos) {
 			ret = data->substr(start, end - start);
+		} else if (wholeString) {
+			ret = data->substr(start);
 		}
 	}
 

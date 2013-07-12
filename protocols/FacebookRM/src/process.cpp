@@ -771,11 +771,11 @@ void FacebookProto::SearchAckThread(void *targ)
 				if (id.empty() || id == facy.self_.user_id)
 					continue;
 
-				TCHAR* tid = mir_utf8decodeT(id.c_str());
-				TCHAR* tname = mir_utf8decodeT(name.c_str());
-				TCHAR* tsurname = mir_utf8decodeT(surname.c_str());
-				TCHAR* tnick = mir_utf8decodeT(nick.c_str());
-				TCHAR* tcommon = mir_utf8decodeT(common.c_str());
+				ptrT tid = mir_utf8decodeT(id.c_str());
+				ptrT tname = mir_utf8decodeT(utils::text::special_expressions_decode(name).c_str());
+				ptrT tsurname = mir_utf8decodeT(utils::text::special_expressions_decode(surname).c_str());
+				ptrT tnick = mir_utf8decodeT(utils::text::special_expressions_decode(nick).c_str());
+				ptrT tcommon = mir_utf8decodeT(utils::text::special_expressions_decode(common).c_str());
 
 				PROTOSEARCHRESULT isr = {0};
 				isr.cbSize = sizeof(isr);
@@ -787,15 +787,9 @@ void FacebookProto::SearchAckThread(void *targ)
 				isr.email = tcommon;
 
 				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&isr);
-
-				mir_free(tid);
-				mir_free(tnick);
-				mir_free(tname);
-				mir_free(tsurname);
-				mir_free(tcommon);
 			}
 
-			ssid = utils::text::source_get_value(&items, 3, "id=\"more_objects\"", "ssid=", "&");			
+			ssid = utils::text::source_get_value(&items, 3, "id=\"more_objects\"", "ssid=", "&");
 			if (ssid.empty())
 				break; // No more results
 		}
@@ -804,6 +798,66 @@ void FacebookProto::SearchAckThread(void *targ)
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, targ, 0);
 
 	facy.handle_success("searchAckThread");
+
+	mir_free(targ);
+	mir_free(arg);
+}
+
+void FacebookProto::SearchIdAckThread(void *targ)
+{
+	facy.handle_entry("searchIdAckThread");
+
+	char *arg = mir_utf8encodeT((TCHAR*)targ);
+	std::string search = utils::url::encode(arg);
+
+	if (!isOffline())
+	{
+		http::response resp = facy.flap(REQUEST_USER_INFO, NULL, &search);		
+
+		if (resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end()) {
+			search = utils::text::source_get_value2(&resp.headers["Location"], FACEBOOK_SERVER_MOBILE"/", "?", true);
+			resp = facy.flap(REQUEST_USER_INFO, NULL, &search);
+		}
+
+		facy.validate_response(&resp);
+
+		if (resp.code == HTTP_CODE_OK)
+		{
+			std::string about = utils::text::source_get_value(&resp.data, 2, "<div class=\"timeline", "<div id=\"footer");
+		
+			std::string id = utils::text::source_get_value2(&about, ";id=", "&\"");
+			if (id.empty())
+				id = utils::text::source_get_value2(&about, "?bid=", "&\"");
+			std::string name = utils::text::source_get_value(&about, 3, "class=\"profileName", ">", "</");
+			std::string surname;
+
+			std::string::size_type pos;
+			if ((pos = name.find(" ")) != std::string::npos) {
+				surname = name.substr(pos + 1, name.length() - pos - 1);
+				name = name.substr(0, pos);
+			}
+
+			// ignore self contact and empty ids
+			if (!id.empty() && id != facy.self_.user_id){
+				ptrT tid = mir_utf8decodeT(id.c_str());
+				ptrT tname = mir_utf8decodeT(name.c_str());
+				ptrT tsurname = mir_utf8decodeT(surname.c_str());
+
+				PROTOSEARCHRESULT isr = {0};
+				isr.cbSize = sizeof(isr);
+				isr.flags = PSR_TCHAR;
+				isr.id  = tid;
+				isr.firstName = tname;
+				isr.lastName = tsurname;
+
+				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&isr);
+			}
+		}
+	}
+
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, targ, 0);	
+
+	facy.handle_success("searchIdAckThread");	
 
 	mir_free(targ);
 	mir_free(arg);

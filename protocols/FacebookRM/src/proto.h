@@ -150,6 +150,7 @@ public:
 	void __cdecl ProcessNotifications(void*);
 	void __cdecl ProcessFriendRequests(void*);
 	void __cdecl SearchAckThread(void*);
+	void __cdecl SearchIdAckThread(void*);
 
 	// Worker threads
 	void __cdecl SignOn(void*);
