@@ -983,8 +983,8 @@ E-Mail
 Сообщения
 [Show icon in tray for name changes]
 Смены псевдонимов
-[Show icon in tray for notices ]
-Уведомления
+[Show icon in tray for notices]
+Показывать значок уведомления в трее
 [Show icon in tray for status changes]
 Смены статусов
 [Show icon in tray for topic changes]
@@ -1015,8 +1015,8 @@ E-Mail
 Сообщения
 [Show popup for name changes]
 Смены псевдонимов
-[Show popup for notices ]
-Уведомления
+[Show popup for notices]
+Всплывающие окна уведомлений
 [Show popup for status changes]
 Смены статусов
 [Show popup for topic changes]
@@ -2299,7 +2299,7 @@ ID пользователя:
 Выходы участников
 [Show icon for users kicking other user]
 Пинки
-[Show icon for notices ]
+[Show icon for notices]
 Уведомления
 [Show icon for name changes]
 Смены ников
