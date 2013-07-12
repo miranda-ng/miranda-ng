@@ -95,17 +95,17 @@ void CSkypeProto::InitChatModule()
 
 ///
 
-wchar_t *ChatRoom::Roles[] = 
+TCHAR *ChatRoom::Roles[] = 
 { 
-	L"",			// ---
-	L"Creator",		// CREATOR	= 1
-	L"Master",		// ADMIN	= 2
-	L"Helper",		// SPEAKER	= 3
-	L"User",		// WRITER	= 4
-	L"Listener",	// SPECTATOR= 5
-	L"Applicant",	// APPLICANT= 6
-	L"Retried",		// RETIRED	= 7
-	L"Outlaw",		// OUTLAW	= 8
+	_T(""),			// ---
+	LPGENT("Creator"),		// CREATOR	= 1
+	LPGENT("Master"),		// ADMIN	= 2
+	LPGENT("Helper"),		// SPEAKER	= 3
+	LPGENT("User"),		// WRITER	= 4
+	LPGENT("Listener"),	// SPECTATOR= 5
+	LPGENT("Applicant"),	// APPLICANT= 6
+	LPGENT("Retried"),		// RETIRED	= 7
+	LPGENT("Outlaw"),		// OUTLAW	= 8
 };
 
 ChatRoom::ChatRoom(const wchar_t *cid) : members(1, CompareMembers) 
@@ -174,7 +174,7 @@ void ChatRoom::CreateChatSession(bool showWindow)
 	
 	for (int i = 1; i < SIZEOF(ChatRoom::Roles) - 2; i++)
 	{
-		gce.ptszStatus = ::TranslateW(ChatRoom::Roles[i]);
+		gce.ptszStatus = ::TranslateT(ChatRoom::Roles[i]);
 		::CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 	}
 
@@ -348,7 +348,7 @@ void ChatRoom::SendMessage(const wchar_t *text)
 
 	CMessage::Ref message;
 		if (this->conversation->PostText((char *)ptrA(::mir_utf8encodeW(text)), message))
-			this->ppro->Log(L"Chat message sended %s", this->cid);
+			this->ppro->Log(L"Chat message sent %s", this->cid);
 }
 
 void ChatRoom::LeaveChat()
@@ -371,7 +371,7 @@ void ChatRoom::LeaveChat()
 
 void ChatRoom::LeaveChatAndDelete()
 {
-	this->ppro->Log(L"Leavind chat session %s", this->cid);
+	this->ppro->Log(L"Leaving chat session %s", this->cid);
 
 	if (this->conversation->RetireFrom())
 		this->ppro->Log(L"Retired from conversation %s", this->cid);
