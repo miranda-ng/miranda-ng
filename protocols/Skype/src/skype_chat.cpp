@@ -174,7 +174,7 @@ void ChatRoom::CreateChatSession(bool showWindow)
 	
 	for (int i = 1; i < SIZEOF(ChatRoom::Roles) - 2; i++)
 	{
-		gce.ptszStatus = ::TranslateT(ChatRoom::Roles[i]);
+		gce.ptszStatus = ::TranslateTS(ChatRoom::Roles[i]);
 		::CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 	}
 
