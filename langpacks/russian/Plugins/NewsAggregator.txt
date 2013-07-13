@@ -199,7 +199,7 @@ URL страницы с комментариями к новости.
 категории новости.
 [Retrieve news at startup]
 Получать новости при запуске
-[%s\nis a not valid feed's address.]
+[%s\nis not a valid feed's address.]
 %s\nнеправильный адрес канала
 [Tags Mask Reset]
 Сброс тегов
