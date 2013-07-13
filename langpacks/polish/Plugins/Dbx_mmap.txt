@@ -1,0 +1,162 @@
+﻿#muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
+;============================================================
+;  File: Dbx_mmap.dll
+;  Plugin: Miranda NG mmap database driver
+;  Version: 0.11.0.1
+;  Authors: Miranda-NG project
+;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+Zapewnia wsparcie profilu Mirandy: ustawień globalnych, kontaktów, historii, ustawień dla każdego kontaktu z osobna.
+;file \plugins\Db3x_mmap\res\db3x_mmap.rc
+[Install Database Settings]
+Instalacja ustawień profilu
+[Yes]
+Tak
+[No]
+Nie
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Plik zawierający nowe ustawienia profilu został umieszczony w katalogu Miranda NG.
+[Do you want to import the settings now?]
+Czy chcesz teraz zaimportować ustawienia?
+[No to all]
+Nie dla wszystkich 
+[&View contents]
+Zawartość 
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+
+[Database Setting Change]
+Zmień ustawienia profilu
+[Database settings are being imported from]
+Ustawienia profilu są importowane z
+[This file wishes to change the setting]
+Ten plik chce zmienić ustawienie
+[to the value]
+do wartości 
+[Do you want to allow this change?]
+Czy chcesz umożliwić tę zmianę?
+[&Allow all further changes to this section]
+&Pozwól na wszystkie kolejne zmiany w tej sekcji 
+[&Yes]
+Tak
+[&No]
+Nie
+[Cancel Import]
+Anuluj import
+[Database Import Complete]
+Zakończenie importowanie profilu
+[The import has completed from]
+Import zakończył się z
+[What do you want to do with the file now?]
+Co chcesz zrobić z plikiem?
+[&Recycle]
+Odzyskaj
+[&Delete]
+Usuń
+[&Move/Rename]
+Przenieś/zmień nazwę
+[&Leave]
+Opuść
+;file \plugins\Db3x_mmap\src\database.cpp
+[Disk is full. Miranda will now shutdown.]
+Dysk jest pełny. Miranda zostanie zamknięta.
+[Database failure. Miranda will now shutdown.]
+Awaria profilu. Miranda zostanie zamknięta.
+[Database Error]
+Błąd profilu
+[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
+Miranda wykryła błąd w twojej bazie danych. Może być naprawiony przez wtyczkę DbChecker. Pobierz go z  http://miranda-ng.org/p/DbChecker/. Miranda zostanie teraz  zamknięta.
+[Database Panic]
+Panika profilu
+;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
+[Performing aggressive pass]
+Wykonywanie agresywnego przejścia
+[Aggressive: random junk at %08X: skipping]
+Agresywny: losowe śmieci w %08X: pomijam
+[Aggressive: unlinked data at %08X: can't automatically place]
+Agresywny: nieoznaczone dane w %08X: nie można automatycznie rozmieścić
+;file \plugins\Db3x_mmap\src\dbtool\contactchain.cpp
+[Processing contact chain]
+Przetwarzanie łańcucha kontaktu 
+[Contact count marked wrongly: correcting]
+Źle oznaczone dane kontaktów: poprawianie
+[Contact chain corrupted, further entries ignored]
+Uszkodzony łańcuch kontaktu, dalsze wpisy będą ignorowane
+;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
+[Invalid offset found (database truncated?)]
+
+[Invalid offset found]
+Znaleziono nieprawidłową kompensate
+[Error reading, database truncated? (%u)]
+Błąd odczytu, niekompletny plik profilu? (%u)
+[Can't write to working file, aggressive mode may be too aggressive now]
+
+[Can't write to output file - disk full? (%u)]
+Nie można zapisać do pliku - dysk jest pełen? (%u)
+;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
+[Event count marked wrongly: correcting]
+Źle oznaczone dane zdarzeń: poprawianie
+[Event chain corrupted, trying to recover...]
+
+[Event chain corrupted, further entries ignored]
+Uszkodzony łańcuch zdarzeń, dalsze wpisy ignorowane 
+[First event not marked as such: correcting]
+Pierwsze zdarzenie nie oznaczone jako: poprawianie
+[Event marked as first which is not: correcting]
+Zdarzenie oznaczone jako pierwsze, które nie jest: poprawianie
+[Extra flags found in event: removing]
+Dodatkowe flagi w przypadku: usuwanie
+[First unread event marked wrong: fixing]
+Źle oznaczone pierwsze nieprzeczytane zdarzenie: naprawianie
+[Infeasibly large event blob: skipping]
+Niewiarygodnie duży blok zdarzenia: pomijanie
+[Event not backlinked correctly: fixing]
+Niepoprawnie olinkowane zdarzenie: naprawianie
+[Duplicate event was found: skipping]
+Znaleziono duplikat zdarzenia: pomijanie
+[Event position in chain is not correct]
+
+[Event position in chain is not correct: fixing]
+
+[Event position in chain is not correct: unable to fix]
+
+;file \plugins\Db3x_mmap\src\dbtool\finaltasks.cpp
+[Processing final tasks]
+Wykonywanie końcowych zadań
+;file \plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
+[Database signature is corrupted, automatic repair is impossible]
+Profil jest uszkodzona, automatyczna naprawa jest niemożliwa
+[Database is marked as belonging to an unknown version of Miranda]
+Profil należy do nieznanej wersji Mirandy 
+[Database is newly created and has no data to process]
+Profil nie zawiera żadnych danych
+[Processing completed successfully]
+Przetwarzanie zakończone sukcesem
+[Can't create file mapping (%u)]
+
+[Can't create map view of file (%u)]
+
+;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp
+[Processing module name chain]
+Przetwarzanie łańcucha nazwy modułu
+[Module chain corrupted, further entries ignored]
+Uszkodzony łańcuch modułu, dalsze wpisy będą ignorowane 
+[Unreasonably long module name, skipping]
+Zbyt długa nazwa modułu, pomijam
+[Module name '%s' is not unique: %d duplicates found)]
+Nazwa modułu "%s" nie jest unikalna: znaleziono %d duplikatów 
+[Invalid module name offset, skipping data]
+Nieprawidłowy offset nazwy modułu, pomijam dane
+;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
+[Settings chain corrupted, further entries ignored]
+Uszkodzony ciąg ustawień, dalsze wpisy będą ignorowane
+[Infeasibly large settings blob: skipping]
+Zbyt duży blob ustawień: pomijam
+[Empty settings group at %08X: skipping]
+Pusta grupa ustawień na %08X: pomijanie
+;file \plugins\Db3x_mmap\src\dbtool\user.cpp
+[Processing user data]
+Przetwarzanie danych użytkownika
+[User corrupted, this could cause major problems]
+Uszkodzony kontakt - to może spowodować poważne problemy
+[More than one user contact: keeping only first]
+Więcej niż jeden kontakt użytkownika: zatrzymuję tylko pierwszy

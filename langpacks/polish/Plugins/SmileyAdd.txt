@@ -1,44 +1,47 @@
-﻿;============================================================
-;  File: SmileyAdd.dll, SmileyAddW.dll
-;  Module: SmileyAdd
-;  Versions: 0.2.3.16
+﻿#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
 ;============================================================
-[Show Smiley Selection Window]
-Pokaż okno wyboru emotek
-[SmileyAdd HTTP connections]
-Połączenie HTTP SmileyAdd
-[Smiley support for Miranda Instant Messanger]
-Wsparcie dla emotikon w Mirandzie IM
-[Button Smiley]
-Przycisk emotek
-[Assign Smiley Category]
-Przypisz kategorię emotek
-[Smileys]
-Emotikony
-[Smiley Packs]
-Paczka emotek
+;  File: SmileyAdd.dll
+;  Plugin: SmileyAdd
+;  Version: 0.2.3.17
+;  Authors: Peacow, nightwish, bid, borkra
+;============================================================
+[Smiley support for Miranda NG.]
+Wsparcie dla emotikon w Mirandzie NG.
+;file \plugins\SmileyAdd\res\resource.rc
 [Smiley Categories]
 Kategorie emotikon
 [Specify Smiley Pack for each category]
-Określ paczkę emotek dla każdej z kategorii
+Określ paczkę emotikon dla każdej z kategorii
+[Name:]
+Nazwa:
+[Author:]
+Autor:
+[Version:]
+Wersja:
+[Preview]
+Podgląd
+[Display]
+Wyświetlanie
 [Replace only smileys surrounded by spaces]
 Zamień tylko emotikony oddzielone spacjami
 [Scale smiley to textheight]
 Skaluj emotikony do wysokości tekstu
 [Disable custom smileys]
-Wyłącz własne emotikony
+Wyłącz niestandardowe emotikony
 [High Quality smiley scaling]
-Skalowanie emot HQ
-[Min smiley height]
-Minimalna wysokość emotów
+Skalowanie emotikon HQ
+[Animate]
+Animowane
 [Max "Custom Smiley" height]
-Maksymalna wysokość emotów
+Maksymalna wysokość emotikon
+[Min smiley height]
+Minimalna wysokość emotikon
 [Smiley Selector]
 Okno wyboru emotikon
 [Surround inserted smiley with spaces]
 Odzielaj wstawione emotikony spacjami
 [Use first smiley for selection size]
-Pierwsza emotka określa rozmiar zaznaczenia
+Pierwsza emotikona określa rozmiar zaznaczenia
 [IEView style window]
 Styl okna jak w IEView
 [Input Area]
@@ -52,14 +55,55 @@ Wbudowane wsparcie dla okna rozmowy
 [Disable]
 Wyłącz
 [Smiley Button]
-Przycisk emotek
-[Max Custom smiley height]
-Maks. wysokość emotikon
+Przycisk emotikon
+;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
+[Show Smiley Selection Window]
+Pokaż okno wyboru emotikon
+;file \plugins\SmileyAdd\src\download.cpp
+[SmileyAdd]
+Emotikony
+[Smiley Cache]
+Schowek emotikon
+[SmileyAdd HTTP connections]
+Połączenie HTTP SmileyAdd
+;file \plugins\SmileyAdd\src\main.cpp
+[Button Smiley]
+Przycisk emotikon
+[Assign Smiley Category]
+Przypisz kategorię emotikon
+[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
+Tylko jedna wtyczka SmilleyAdd może być uruchomiona.\nUsuń duplikaty z folderu 'Plugins'
+;file \plugins\SmileyAdd\src\options.cpp
+[Smileys]
+Emotikony
+[Customize]
+Personalizacja
+[Off]
+Wył.
+[Top]
+Góra
+[Bottom]
+Dół
+[Smiley Packs]
+Paczka emotikon
+[All Files]
+Wszystkie pliki
+;file \plugins\SmileyAdd\src\services.cpp
+[Protocol specific]
+
+;file \plugins\SmileyAdd\src\smileys.cpp
+[Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
+Paczka emotikon %s nie odnaleziona.\nZaznacz prawidłową paczkę emotikon Opcje -> Personalizacja -> Emotkiony.
 [There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
 Wystąpiły problemy z wczytaniem paczki emotikon (powinny już działać).\nPo szczegóły zajrzyj do dziennika.
+[Smiley #%u in file %s for Smiley Pack %s not found.]
+
 [Standard]
 Standardowe
-[Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
-Paczka emotikon %s nie odnaleziona.\nZaznacz prawidłową paczke emotikon Opcje | Personalizacja | Emotkiony.
-[Smiley support for Miranda Instant Messanger.]
-Obsługa emotek w Mirandzie IM.
+[Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
+
+[Regular Expression "%s" in smiley pack "%s" malformed.]
+
+;file \plugins\SmileyAdd\src\smltool.cpp
+[d'Oh!]
+

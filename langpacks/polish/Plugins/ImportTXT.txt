@@ -1,0 +1,99 @@
+﻿#muuid {6f376b33-d3f4-4c4f-a96b-77da08043b06}
+;============================================================
+;  File: importtxt.dll
+;  Module: Imports history saved in TXT files from other clients
+;  Versions: 0.0.1.10
+;  URL: 
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/importtxt/
+;  Authors: Abyss
+;============================================================
+[Imports history saved in TXT files from other clients.]
+Importuje historię zapisaną w plikach TXT z innych klientów.
+[Import history to ]
+Importuj historię do 
+[Import history]
+Importuj historię
+[Choose a file...]
+Wybierz plik...
+[Choose a pattern...]
+Wybierz wzór...
+[Choose a file for import...]
+Wybierz plik do importu...
+[Text files (*.txt)]
+Plik tekstowy (*.txt)
+[All files (*.*)]
+Wszystkie pliki (*.*)
+[Error in cfg file: ]
+
+[No Files Patterns Found]
+
+[No messages in this file]
+Brak wiadomości w tym pliku
+[Import started...]
+Rozpoczęto importowanie...
+[Added: %d messages]
+Dodano: %d wiadomości
+[Duplicates: %d messages]
+Duplikatów: %d wiadomości
+[In: %d:%d:%d]
+W: %d:%d:%d
+[Import not finished. Do you realy want close?]
+Import przerwany. Czy chcesz zamknąć?
+[Error adding message to DB]
+
+[Error opening file]
+
+[Error mapping file]
+
+[Error mapping]
+
+[Header not found]
+Brak nagłówka
+[Import Text Files Wizard]
+Kreator importowania plików tekstowych
+[This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
+Ten kreator pomoże ci zaimportować historię rozmów z innych komunikatorów i wtyczek Mirandy, zapisaną w plikach tekstowych.
+[Click ""Next"" to choose the information you wish to import, or click ""Cancel"" to exit the wizard and continue using Miranda.]
+
+[Choose type of imported files:]
+Wybierz typ importowanych plików:
+[Select files or the whole directory for import:]
+Zaznacz pliki lub cały folder do importu:
+[Files...]
+Pliki...
+[Directory...]
+Folder...
+[All previous chosen files will try to import to this protocol.]
+Wszystkie poprzednie wybrane pliki będą importowane do tego protokołu.
+[Select protocol or account:]
+Zaznacz protokół lub konto:
+[Click "Next" to start Import or "Cancel" to Abort.]
+
+[Select folder for import...]
+
+[File: %s]
+Plik: %s
+[To: %s]
+Do: %s
+[Can''t determine destination contact]
+
+[Default extension]
+
+[Its not %s file]
+
+[Duplicate:]
+
+[Your version of Miranda don't support XML parsing]
+
+[Check for duplicates]
+Sprawdź duplikaty
+[Check messages for duplicates]
+Sprawdź czy istnieją duplikaty wiadomości
+[Show duplicates]
+Pokaż duplikaty
+[Error at initialization XML parser]
+
+[Import history to %s (%s)]
+Importuj historię %s (%s)
+[Can't determine destination contact]
+Brak docelowego kontaktu

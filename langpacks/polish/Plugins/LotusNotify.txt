@@ -2,11 +2,11 @@
 ;============================================================
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
-;  Version: 0.0.21.0
-;  Version: 0.0.21.0
+;  Version: 0.1.21.0
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 [Notify about new mail in Lotus Database]
+Powiadamiaj o nowej poczcie w bazie Lotusa
 ;file \plugins\LotusNotify\res\LotusNotify.rc
 [Show again if still unread]
 Pokazuj ponownie wszystkie nieczytane
@@ -95,5 +95,11 @@ Status
 Wtyczki
 [&Check Lotus]
 &Sprawdź Lotusa
-[LotusNotify: New Lotus document detected]
-LotusNotify: Nowy dokument na serwerze Lotus
+[Lotus Notify]
+Lotus Notify
+[New Lotus document detected]
+Nowy dokument na serwerze Lotus
+[LotusNotify.dll can not work with 64bit Miranda. (Lotus client is 32bit only)]
+LotusNotify.dll nie działa z 64-bitową Mirandą. (Klient Lotusa jest wyłącznie 32-bitowy)
+[LotusNotify]
+

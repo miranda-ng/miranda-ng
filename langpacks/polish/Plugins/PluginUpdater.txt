@@ -1,0 +1,169 @@
+﻿#muuid {968def4a-bc60-4266-ac08-754ce721db5f}
+;============================================================
+;  File: PluginUpdater.dll
+;  Plugin: Plugin updater
+;  Version: 0.1.1.4
+;  Authors: Mataes, George Hazan
+;============================================================
+[Plugin updater for Miranda NG.]
+Aktualizator wtyczek dla Mirandy NG
+;file \plugins\PluginUpdater\res\Resource.rc
+[Updates found!]
+Znaleziono aktualizacje!
+[PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information]
+PluginUpdater wykrył aktualizacje komponentów. Kliknij w przycisk "Szczegóły" po więcej informacji.
+[Update]
+Aktualizacja
+[Details >>]
+Szczegóły
+[Cancel]
+Anuluj
+[Select &all]
+Wszystkie
+[Select &none]
+Żadne
+[Hotkey]
+Skrót
+[Go to Customize -> Hotkeys to change the hotkey]
+Przejdź do Personalizacja -> Skróty, aby je ustawić
+[Plugin updates options]
+Opcje aktualizacji wtyczek
+[On startup]
+Podczas uruchamiania
+[(but only once a day)]
+(ale tylko raz dziennie)
+[Every]
+Co
+[Update icons]
+Aktualizuj ikony
+[Files source]
+Źródło plików
+[Stable version]
+Wersja stabilna
+[Development version (less stable)]
+Wersja rozwojwoa (mniej stabilna)
+[Development version with debug symbols]
+Wersja rozwojowa z symbolami debugowania
+[Custom version]
+Niestandardowa wersja
+[Notifications]
+Powiadomienia
+[Message boxes (*)]
+Komunikaty
+[Errors]
+Błędy
+[Info messages]
+
+[Progress dialogs]
+Postęp
+[Back]
+Wstecz
+[Text]
+Tekst
+[Colours]
+Kolory
+[Use cus&tom colors]
+Użyj niestandardowych kolorów
+[Use &Windows colours]
+Użyj kolorów Windows
+[Use Pop&up colours]
+Użyj kolorów Popup
+[Preview]
+Podgląd
+[Click action]
+Akcje przycisku
+[On left click]
+LPM
+[On right click]
+PPM
+[Timeout]
+Wyświetlaj
+[0 = Default]
+0 = Domyślny
+[-1 = Infinite]
+-1 = Nie chowaj
+[Sec]
+s
+[* Needs popup actions to be enabled]
+* Wymaga działań popup, które zostaną włączone
+[Not sets for "Message boxes"]
+Nie określa dla "Komunikaty"
+[Boxes]
+Okienka
+[Popups]
+Popupy
+[Component list]
+Lista komponentów
+[Here is the complete list of missing Miranda NG components. Check components that you want to download.\n\nClick on info icon to view component info page.]
+Tutaj znajduje się kompletna lista brakujących komponentów Mirandy NG. Sprawdź komponenty które chcesz pobrać.\n\nKliknij w ikonę informacji aby przejść do wiki.
+[Download]
+Pobierz
+;file \plugins\PluginUpdater\src\DlgListNew.cpp
+[Skipped.]
+Pominięto.
+[Downloading...]
+Pobieranie...
+[Failed!]
+Błąd!
+[Succeeded.]
+Pobrano.
+[Plugin Updater]
+Aktualizacje
+[Download complete]
+Pobieranie zakończone
+[Download complete. Do you want go to plugins option page?]
+Pobieranie zakończone. Czy chcesz otworzyć opcje wtyczek?
+[Component Name]
+Nazwa wtyczki
+[State]
+Status
+[Plugins]
+Wtyczki
+[Icons]
+Ikony
+[Other]
+Inne
+[List is empty.]
+Lista jest pusta.
+[List loading already started!]
+Wczytywanie listy już rozpoczęte!
+;file \plugins\PluginUpdater\src\DlgUpdate.cpp
+[Will be deleted!]
+Zostanie usunięty!
+[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+Pobieranie zakończone. Rozpocząć aktualizacje? Wszystkie Twoje ustawienia zostaną zapisane i Miranda NG zostanie zamknięta.
+[You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
+Wybrałeś nie instalowanie pobranych aktualizacji.\nMożesz zaisntalować je ręcznie z lokalizacji:\n\n%s
+[No updates found.]
+Nie znaleziono aktualizacji.
+[Update checking already started!]
+Sprawdzanie aktualizacji już rozpoczęte!
+;file \plugins\PluginUpdater\src\Options.cpp
+[hours]
+godziny
+[days]
+dni
+[Test]
+
+[Services]
+Usługi
+;file \plugins\PluginUpdater\src\PluginUpdater.cpp
+[Check for plugin updates]
+Sprawdź aktualizacje
+[Show full plugin list]
+Pokaż pełną listę wtyczek
+;file \plugins\PluginUpdater\src\Utils.cpp
+['Yes' Button]
+Przycisk 'Tak'
+['No' Button]
+Przycisk 'Nie'
+[Plugin info]
+Informacje o wtyczkach
+[Plugin list]
+Lista wtyczek
+[Plugin Updater HTTP connection]
+Połączenie HTTP Plugin Updater
+[Checking new updates...]
+Sprawdzanie aktualizacji...
+[An error occured while checking new updates.]
+Wystąpił błąd podczas sprawdzania aktualizacji.

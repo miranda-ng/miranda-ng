@@ -1,85 +1,169 @@
-﻿;============================================================
-;  File: pingproto.dll
-;  Module: Ping Protocol
-;  Versions: 1.0.0.3
+﻿#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
 ;============================================================
-[PING]
-Ping
-[Enable All Pings]
-Włącz Wszystkie Pingi
-[Disable All Pings]
-Wyłącz Wszystkie Pingi
-[Graph]
-Wykres
-[Edit...]
-Edycja...
-[Install the FontService plugin to change the font and font colour.]
-Zainstaluj wtyczkę FontService aby zmienić czcionkę i jej kolor. 
-[PING Destinations]
-Pinguj adresy docelowe
-[Ping Plugin]
-Wtyczka Ping
+;  File: Ping.dll
+;  Plugin: Ping
+;  Version: 0.9.1.1
+;  Authors: Scott Ellis
+;============================================================
 [Ping labelled IP addresses or domain names.]
-Pinguj zaznaczone adresy IP lub nazwy domen.
-[Failed to initialize. Plugin disabled.]
-Nieudana inicjalizacja. Wtyczka wyłączona.
+Pinguj zaznaczone adresy IP lub nazwy domen
+;file \plugins\Ping\res\ping.rc
 [Delay between pings (secs):]
-Opóźnienie pomiędzy pingami (sek):
+Opóźnienie pomiędzy pingami (s):
+[Timeout]
+Wyświetlaj
 [Ping timeout (secs):]
-Timeout pingu (sek):
+Opóźnienie pingu (s):
+[Logging]
+Zapisywanie
 [Log to File]
-Log do Pliku
+Zapisz do pliku
 [Log Filename:]
 Nazwa pliku Logu
+[Network]
+Protokoły
+[Popups]
+Popupy
 [Reply]
 Odpowiedź
 [Block Repetitions]
 Blokuj powtórzenia
 [View Log]
-Pokaż Log
+Pokaż raport
+[Browse...]
+Przeglądaj...
 [Interface]
 Interfejs
 [Do not change icon when testing]
 Nie zmieniaj ikony podczas testu
 [Use the Customize/Fonts options to change text size and colour.]
 Rozmiar i kolor tekstu zmienisz w Personalizacja -> Czcionka.
+[Indent:]
+Wcięcie:
 [Row height:]
 Wysokość wiersza:
 [Repeats for success/failure:]
 Odpowiedzi na sukces/porażkę:
 [Attach to contact list]
 Załącz do listy kontaktów
-[Ping Destinations]
-Cele pingów
-[Ping Destination]
-Cel pingów
+[Use CSV format]
+Użyj formatu CSV
+[Add]
+Dodaj
+[Remove]
+Usuń
+[Edit]
+Edytuj
+[Up]
+Do góry
+[Down]
+W dół
+[Edit Host]
+Edytuj Host
+[OK]
+OK
+[Cancel]
+Anuluj
 [Address:]
 Adres:
+[Label:]
+Etykieta:
+[TCP Connect]
+Połączenie TCP
+[Port:]
+Port:
 [Control Protocol:]
 Kontroluj protokół:
 [Set my status to:]
 Ustaw mój status na:
 [On success, if my status is:]
-Po sukcesie, jeśli mój status to:
+W przypadku powodzenia, jeśli mój status to:
 [Execute the following command on double-click:]
-Wykonaj tę komendę po podwójnym kliknięciu:
+Wykonaj polecenie po podwujnym kliknięciu:
+[Contact]
+Kontakt
+[Protocols]
+Protokoły
+[(Optional) Command Parameters:]
+(Opcjonalnie) Parametry komend:
+[Menu]
+
+[Graph]
+Wykres
+[Enable]
+Włącz
 [Disable all pings]
 Wyłącz wszystkie pingi:
 [Enable all pings]
 Włącz wszystkie pingi
 [Options...]
 Opcje...
-[Destinations...]
-Cele...
+[Hosts...]
+Hosty...
+;file \plugins\Ping\src\menu.cpp
+[PING]
+Ping
+[Enable All Pings]
+Włącz wszystkie pingi
+[Disable All Pings]
+Wyłącz wszystkie pingi
+;file \plugins\Ping\src\options.cpp
+[All\0*.*\0Text\0*.TXT\0]
+Wszystkie\0*.*\0Tekst\0*.TXT\0
+[<none>]
+<brak>
+[<all>]
+<wszystkie>
+[Settings]
+Ustawienia
+[Hosts]
+Hosty
+;file \plugins\Ping\src\ping.cpp
+[Ping Plugin]
+Wtyczka Ping
+;file \plugins\Ping\src\pinggraph.cpp
+[Show grid lines]
+
+[Show stats]
+
+[%d ms]
+
+[AVG %.1lf ms]
+
+[MAX %hd ms]
+
+[MIN %hd ms]
+
+;file \plugins\Ping\src\pingthread.cpp
+[%s - setting status of protocol '%s' (%d)]
+
+[%s - reply, %d]
+
+[%s - timeout]
+
+[Disable]
+Wyłącz
+[enabled]
+włączone
+[double clicked]
+dwuklik
+[Ping]
+
 [Show/Hide &Ping Window]
-Pokaż/Ukryj okno Pingu
+Pokaż/ukryj okno Pingu
+;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
 Host %s prosi o zredukowanie produkowanego przez ciebie ruchu.
+;file \plugins\Ping\src\utils.cpp
 [Unknown Address]
-Nieznany Adres
+Nieznany adres
+[Unknown]
+Nieznany
 [Responding]
 Odpowiadaj
 [Not Responding]
 Nie Odpowiadaj
 [Testing]
 Testowanie
+[Disabled]
+Wyłączone

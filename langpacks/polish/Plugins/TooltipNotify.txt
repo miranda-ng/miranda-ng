@@ -1,0 +1,97 @@
+﻿#muuid {5906a545-f31a-4726-b48f-03a09f060318}
+;============================================================
+;  File: TooltipNotify.dll
+;  Plugin: Tooltip notify
+;  Version: 0.7.0.1
+;  Authors: perf
+;============================================================
+[Shows a small tooltip above system tray area when a contact status is changed.]
+Pokazuje małe podpowiedzi w zasobniku sytemowym o zmianach statusu kontaktów.
+;file \plugins\TooltipNotify\res\main.rc
+[Select protocols]
+Zaznacz protokoły
+[OK]
+OK
+[Choose contacts...]
+Wybierz kontakt...
+[Allow tooltip notifications for the following users:]
+Pozwól na powiadamianie dla użytkowników:
+[Cancel]
+Anuluj
+[Notify upon the following events]
+Powiadom dla zdarzeń
+[Online]
+Połączony
+[Offline]
+Rozłaczony
+[All other]
+Inne
+[Typing]
+Pisanie
+[Protocols]
+Protokoły
+[Suppress notifications upon connection for]
+Usuń powiadomienia płączeń do
+[sec]
+s
+[Prefix proto name]
+Dodaj nazwę protokołu
+[Duration]
+Czas trwania
+[Show tooltip for]
+Pokazuj przez
+[ms]
+
+[Duration x2 upon online event]
+x2 dla dostępnych zdarzeń
+[Double click on tooltip]
+Opcje dwukliku
+[Shows/Hides CList]
+Pokaż/ukryj listę kontaktów
+[Opens message dialog]
+Otwórz okno rozmowy
+[Behavior]
+Zachowanie
+[Misc]
+Inne
+[Obey 'Suppress online notification' settings]
+Stosuj ustawienia 'Usuń powiadomienia dostępności'
+[Auto positioning]
+Autopozycjowanie
+[Transparent input]
+Wprowadź przeźroczystość
+[Preview]
+Podgląd
+[Translucency options]
+Opcje przeźroczystości
+[Transparent tooltip]
+Włącz przeźroczystość
+[Contacts]
+Kontakty
+[Idle]
+Bezczynność 
+;file \plugins\TooltipNotify\src\TooltipNotify.cpp
+[Tooltip Notify]
+Powiadomienia
+[Other Status]
+Inny status
+[Tooltip Notify: Online]
+Powiadomienia: Połączony
+[Tooltip Notify: Offline]
+Powiadomienia: Rozłączony
+[Tooltip Notify: Other]
+Powiadomienia: Inne
+[Tooltip Notify: Typing]
+Powiadomienia: Pisanie
+[Popups]
+Popupy
+[** New contacts **]
+** Nowe kontakty **
+[** Unknown contacts **]
+** Nieznane kontakty **
+[Not Idle]
+Aktywny
+[Unknown]
+Nieznany
+[is]
+jest

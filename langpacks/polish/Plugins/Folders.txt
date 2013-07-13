@@ -1,77 +1,85 @@
-﻿;============================================================
-;  File: folders.dll
-;  Module: folders
-;  Version: 0.1.5.3
+﻿#muuid {2f129563-2c7d-4a9a-b948-97dfcc0afdd7}
 ;============================================================
-[Some changes weren't saved. Apply the changes now ?]
-Nie wszystkie zmiany zostały zapisane. Zastosować zmiany teraz?
-[Test folders]
-Testowe foldery
+;  File: Folders.dll
+;  Plugin: Custom profile folders
+;  Version: 0.2.0.1
+;  Authors: Cristian Libotean, Miranda NG Team
+;============================================================
+[Allows plugins to save their data to user selected folders; supports variables.]
+Pozwala wtyczkom zapisywać dane do folderów wybranych przez użytkownika; współpracuje z wtyczką variables.
+;file \plugins\Folders\res\folders.rc
+[Dialog]
+Okno
 [Custom folders]
-Własne foldery
+Niestandardowe foldery
+[Preview]
+Podgląd
+[Edit]
+Edytuj
 [Refresh preview]
 Odśwież podgląd
 [Variables help]
 Pomoc o zmiennych
 [Custom folders variables help]
-Pomoc o zmiennych własnych folderów
-[Folders]
-Foldery
-[Custom profile folders]
-Własne foldery
-[Group chat logs root]
-Folder dziennika czatu
-[Crash Reports]
-Raporty błędów
-[Skins root]
-Folder skórki
-[Smiley Cache]
-Schowek emotikon
-[YAMN Account Folder]
-Folder kont mailowych
-[Game Icon Folder]
-Folder ikon gier
-[Data path]
-Folder główny
-[Working Folder]
-Folder główny
-[Saved Archives]
-Zapisane Archiwum
-[Translations folder]
-Folder tłumacza
-[Backups]
-Kopia zapasowa
-[Saved Avatars]
-Zapisane awatary
-[{\\*\\generator Msftedit 5.41.21.2500;}\\viewkind4\\uc1\\pard\\nowidctlpar\\ri-1686\\f0\\fs20 Don't forget to click on \\i Apply\\i0  to save the changes. If you don't then the changes won't\n]
-{\\*\\generator Msftedit 5.41.21.2500;}\\viewkind4\\uc1\\pard\\nowidctlpar\\ri-1686\\f0\\fs20 Nie zapomnij kliknąć na \\i Zastosuj\\i0  aby zapisać zmiany. Jeśli nie, zmiany nie zostaną zapisane\n
-[be saved to the database, they will only be valid for this session.\\par\\pard\\nowidctlpar\\ul\\b\\par\n]
-do bazy danych, będą ważne tylko w tej sesji.\\par\\pard\\nowidctlpar\\ul\\b\\par\n
-[Variable string\\ulnone\\b0\\tab\\tab\\ul\\b What it expands to:\\ulnone\\b0\\par\n]
-Zmienne\\ulnone\\b0\\tab\\tab\\tab\\ul\\b Właściwości:\\ulnone\\b0\\par\n
-[%miranda_userdata%\\tab Expands to the private profile data directory.\\par%miranda_path%\\tab Expands to your miranda path (e.g: c:\\\\program files\\\\miranda im).\\par%profile_path%\\tab\\tab Expands to your profile path - the value found in mirandaboot.ini,\\par\\tab\\tab\\tab\\ul ProfileDir\\ulnone  section (usually inside miranda's folder).\\par\\pard\\nowidctlpar\\ri-696 %current_profile%\\tab Expands to your current profile name without the extenstion.\\par\\tab\\tab\\tab (e.g.\\b default\\b0  if your your profile is \\i default.dat\\i0 ).\\par\\par\n]
-%miranda_userdata%\\tab Prywatny katalog danych profilu.\\par%miranda_path%\\tab Ścieżka do Mirandy (np: C:\\\\Program files\\\\Miranda IM).\\par%profile_path%\\tab\\tab Ścieżka do profilu - wartość znaleziona w mirandaboot.ini,\\par\\tab\\tab\\tab\\ul ProfileDir\\ulnone  (zazwyczaj wewnątrz katalogu Mirandy).\\par\\pard\\nowidctlpar\\ri-696 %current_profile%\\tab Ścieżka do aktualnego profilu bez rozszerzenia.\\par\\tab\\tab\\tab (np:\\b  default\\b0  jeśli twój profil to \\i default.dat\\i0 ).\\par\\par\n
-[\\ul\\b Environment variables\\par\n]
-\\ul\\b Zmienne środowiskowe\\par\n
-[\\ulnone\\b0 The plugin can also expand environment variables; the variables are specified like in any other\n]
-\\ulnone\\b0 Plugin może rozszerzyć możliwości zmiennych środowiskowych; zmienne są określone jak w każdym \n
-[program that can use environment variables, i.e. %<env variable>%.\n]
-innym programie, który może używać zmiennych środowiskowych, tj. %<env variable>%.\n
-[\\b Note\\b0 : Environment variables are expanded before any Miranda variables. So if you have, for\n]
-\\b Notatka\\b0 : Zmienne środowiskowe są rozszerzane przed zmiennymi Mirandy. Więc jeśli masz np:\n
-[example, %profile_path% defined as a system variable then it will be expanded to that value\\ninstead of expanding to Miranda\\rquote s profile path.\\par\n]
-%profile_path% zdefiniowana jako zmienna zostanie ona rozszerzona do tej wartości\\ninstead \\par rozszerzenia do ścieżki profilu Mirandy.\\par\n
-[\\ul\\b Examples:\\par\n]
-\\ul\\b Przykład:\\par\n
-[\\ulnone\\b0 If the value for the ProfileDir inside \\i mirandaboot.ini\\i0 , \\ul ProfileDir\\ulnone  section is '.\\\\profiles', current\n]
-\\ulnone\\b0 Jeśli wartość ProfileDir wewnątrz \\i mirandaboot.ini\\i0 , sekcja \\ul ProfileDir\\ulnone  to '.\\\\profiles', aktualny\n
-[profile is 'default.dat' and miranda's path is 'c:\\\\program files\\\\miranda im' then:\\par\n]
-profil to 'default.dat' a ścieżka mirandy to 'C:\\\\Program files\\\\Miranda IM' wtedy:\\par\n
-[\\b %miranda_path%\\b0  \\tab\\tab\\tab will expand to 'c:\\\\program files\\\\miranda im'\\par\\b %profile_path%\\b0  \\tab\\tab\\tab will expand to 'c:\\\\program files\\\\miranda im\\\\profiles'\\par\\b %current_profile%\\b0\\tab\\tab\\tab will expand to 'default'\\par\\b %temp%\\b0\\tab\\tab\\tab\\tab will expand to the temp folder of the current user.\\par\\b %profile_path%\\\\%current_profile%\\tab\\b0 will expand to 'c:\\\\program files\\\\miranda im\\\\profiles\\\\default'\\par\\b %miranda_path%\\\\plugins\\\\config\\b0\\tab will expand to 'c:\\\\program files\\\\miranda im\\\\plugins\\\\config'\\par\\b '   %miranda_path%\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\     '\\b0\\tab will expand to 'c:\\\\program files\\\\miranda im'\\par\n]
-\\b %miranda_path%\\b0  \\tab\\tab\\tab rozszerzy się do 'C:\\\\Program files\\\\Miranda IM'\\par\\b %profile_path%\\b0  \\tab\\tab\\tab rozszerzy się do 'C:\\\\Program files\\\\Miranda IM\\\\Profiles'\\par\\b %current_profile%\\b0\\tab\\tab\\tab rozszerzy się do 'default'\\par\\b %temp%\\b0\\tab\\tab\\tab\\tab rozszerzy się do tymczasowego folderu aktualnego użytkownika\\par\\b %profile_path%\\\\%current_profile%\\b0     rozszerzy się do 'C:\\\\Program files\\\\Miranda IM\\\\Profiles\\\\default'\\par\\b %miranda_path%\\\\Plugins\\\\Config\\b0\\tab rozszerzy się do 'C:\\\\Program files\\\\Miranda IM\\\\Plugins\\\\Config'\\par\\b '   %miranda_path%\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\     '\\b0\\tab rozszerzy się do 'C:\\\\Program files\\\\Miranda IM'\\par\n
-[notice that the spaces at the beginning and the end of the string are trimmed, as well as the last \\\\\\par\n]
-Informacja, odstęp na początku i na końcu stringu są przycięte, jak również ostatnie \\\\\\par\n
+Pomoc o zmiennych niestandardowych folderów
+[Close]
+Zamknij
+;file \plugins\Folders\src\dlg_handlers.cpp
+[Some changes weren't saved. Apply the changes now ?]
+Nie wszystkie zmiany zostały zapisane. Zastosować zmiany teraz?
 [Changes not saved]
 Zmiany nie zapisane
-[Service plugin. Allows plugins to save their data to user selected folders; supports variables.]
-Pozwala wtyczkom zapisywać dane do katalogów wybranych przez użytkownika; współpracuje z wtyczką variables.
+[Don't forget to click on Apply to save the changes. If you don't then the changes won't]
+
+[be saved to the database, they will only be valid for this session.]
+
+[Variable string]
+
+[What it expands to:]
+
+[Expands to your miranda path (e.g: c:\\program files\\miranda ng).]
+
+[Expands to your profile path - the value found in mirandaboot.ini,]
+
+[ProfileDir section (usually inside miranda's folder).]
+
+[Expands to your current profile name without the extenstion.]
+
+[(e.g.default if your your profile is default.dat).]
+
+[Environment variables]
+
+[The plugin can also expand environment variables; the variables are specified like in any other]
+
+[program that can use environment variables, i.e. %<env variable>%.]
+
+[Note: Environment variables are expanded before any Miranda variables. So if you have, for]
+
+[example, %profile_path% defined as a system variable then it will be expanded to that value]
+
+[instead of expanding to Miranda's profile path.]
+
+[Examples:]
+Przykład:
+[If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\', current]
+
+[profile is 'default.dat' and miranda's path is 'c:\\program files\\miranda ng\' then:]
+
+[will expand to 'c:\\program files\\miranda ng']
+zostanie rozszerzony do 'c:\\program files\\miranda ng'
+[will expand to 'c:\\program files\\miranda ng\\profiles']
+zostanie rozszerzony do 'c:\\program files\\miranda ng\\profiles'
+[will expand to 'default']
+zostanie rozszerzony do 'domyślny'
+[will expand to the temp folder of the current user.]
+zostanie rozszerzony do folderu tymczasowego aktualnego użytkownika.
+[will expand to 'c:\\program files\\miranda ng\\profiles\\default']
+zostanie rozszerzony do 'c:\\program files\\miranda ng\\profiles\\default'
+[will expand to 'c:\\program files\\miranda ng\\plugins\\config']
+zostanie rozszerzony do 'c:\\program files\\miranda ng\\plugins\\config
+[Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last.]
+
+[Folders]
+Foldery
+[Customize]
+Personalizacja

@@ -1,28 +1,104 @@
-﻿;============================================================
-;  File: buddyexpectator.dll
-;  Module: Buddyexpectator plugin
-;  Versions: 0.1.2.3
+﻿#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
 ;============================================================
-[Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions]
+;  File: BuddyExpectator.dll
+;  Plugin: Buddy expectator
+;  Version: 0.1.2.3
+;  Authors: Anar Ibragimoff, sje, Thief
+;============================================================
+[Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions.]
 Reaguje na powrót kontaktów lub na ich dłuższą nieobecność przy użyciu powiadomień i innych akcji.
-[Buddy Expectator]
-Powiadomienie o aktywności
+;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
+[When a contact returns after ]
+Kiedy kontakt bedzie aktywny po: 
+[Show a popup]
+Pokaż popup
+[Add an event (flashing icon) to the contact]
+Dodaj zdarzenie (migająca ikona) dla kontaktu
+[On event action (double click) or popup click:]
+Akcja zdarzenia (dwuklik) lub popup:
+[Open User Details]
+Otwórz dane kontaktu
+[Open message window]
+Otwórz okno rozmowy
+[Return notification]
+Powiadom mnie o aktywności
+[When a contact is absent for]
+Kiedy kontakt jest nieaktywny od:
+[Long time no see]
+Długi czas braku aktywności
+[or comes online for the first time]
+lub stanie się aktywny po raz pierwszy.
+[Enable "Miss you" feature]
+Włącz funkcję "Daj mi znać"
+[Hide when no messages for]
+Ukryj kiedy brak wiadomości od:
+[Colors]
+Kolory
+[Background]
+Tło
+[Text]
+Tekst
+[Use Popups colors]
+Użyj kolorów Popup
+[Use Windows colors]
+Użyj kolorów Windows
+[Delay]
+Wyświetlaj
+[Default]
+Domyślny
+[Custom]
+Niestandardowe
+[Permanent]
+Stałe
+[sec]
+s
+[Preview]
+Podgląd
+[Last seen online:]
+Ostatnio widziany:
+[Last input message:]
+Ostatnia wiadomość:
+[Custom absence period:]
+Niestandardowy okres aktywności:
+[days]
+dni
+[Never hide this contact]
+Nigdy nie ukrywaj tego kontaktu
+[Enable Miss You]
+Włącz "Daj mi znać"
+[Notify always]
+Zawsze powiadamiaj
+;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
+[Tray/popup icon]
+Ikona w zasobniku/popupie
+[Enabled]
+Włączony
+[Disabled]
+Wyłączone
+[Hide]
+Ukryj
+[NeverHide]
+Nie ukrywaj
+[Hiding %s (%S)]
+Ukrywanie %s (%S)
+[%d days since last message]
+%d dni od ostatniej wiadomości
+[Disable Miss You]
+Wyłącz "Daj mi znać"
+[You awaited this contact!]
+Czekałeś na ten kontakt!
 [has gone online for the first time.]
-dostępny po raz pierwszy.
+połączony po raz pierwszy.
 [has returned after a long absence.]
 powrócił po dłuższym braku aktywności.
 [has returned after being absent since %#x]
 powrócił po braku aktywności od %#x
-[has not returned after being absent since %#x]
-nieaktywny od %#x
 [has not returned after a long absence.]
 nieaktywny od %#x
-[not detected]
-nie wykryto
-[This contact has been absent for an extended period of time.]
-Ten kontakt jest nieaktywny przez dłuższy okres czasu.
-[has returned after being absent since %d days]
-powrócił po braku aktywności od %d dni
+[has not returned after being absent since %#x]
+nieaktywny od %#x
+[BuddyExpectator]
+Aktywności
 [Contact returned]
 Powrót kontaktu
 [Contact still absent]
@@ -31,81 +107,32 @@ Kontakt nadal nieaktywny
 Powiadomienie o zdarzeniach
 [Hide contact event]
 Ukryj zdarzenia kontaktu
-[You awaited this contact!]
-Czekałeś na ten kontakt!
-[Enable Miss You]
-Włącz "Daj mi znać"
-[Disable Miss You]
-Wyłącz "Daj mi znać"
-[Tray/popup icon]
-Ikona w zasobniku/popupie
-[Last seen online:]
-Ostatnio widziany:
-[Last input message:]
-Ostatnia wiadomość:
-[Custom absence period:]
-Własny okres aktywnosci:
-[Never hide this contact]
-Nigdy nie ukrywaj tego kontaktu
-[Return notification]
-Powiadom mnie o aktywności
-[When a contact returns after]
-Kiedy kontakt bedzie aktywny po:
-[When a contact returns after ]
-Kiedy kontakt bedzie aktywny po: 
-[or comes online for the first time]
-lub stanie się aktywny po raz pierwszy.
-[Show a popup]
-Pokaż popup
-[Add an event (flashing icon) to the contact]
-Dodaj zdarzenie (migająca ikona) dla kontaktu
-[On event action (double click) or popup click:]
-Akcja zdarzenia (podwójne kliknięcie) lub popup:
-[Open User Details]
-Otwórz dane kontaktu
-[Long time no see]
-Długi czas braku aktywności
-[When a contact is absent for]
-Kiedy kontakt jest nieaktywny od:
-[Hide when no messages for]
-Ukryj kiedy brak wiadomości od:
-[Delete the contact]
-Usuń kontakt
-[Enable "Miss you" feature]
-Włącz funkcję "Daj mi znać"
-[Use Popups colors]
-Użyj kolorów Popup
-[days]
-dni
+[Buddy Expectator]
+Aktywności
+[Hide contact]
+Ukryj kontakt
+;file \plugins\BuddyExpectator\src\options.cpp
 [weeks]
 tygodni
 [months]
 miesięcy
 [years]
 lat
-[NeverHide]
-Nie ukrywaj
-[Absence period]
-Brak okresu
-[Last input message]
-Ostatnia wiadomość
-[Last seen online]
-Ostatnio widziany
-[Note: in additional you may specify any sound  on 'Sounds' panel]
-Uwaga: dodatkowo można ustawic dowolny dźwięk w Personalizacja > Dźwięki.
-[Notify after an absence of ]
-Powiadamiaj po braku aktywności
-[On event action (double click):]
-Akcja zdarzenia (podwójne kliknięcie):
-[This plugin notifies you when any contact comes online after an absence of long period.]
-Ta wtyczka służy do powiadamiania użytkownika o zmianach aktywności kontaktów trwającej dłuższy czas.
-[BuddyExpectator: contact returned]
-BuddyExpectator: kontakt aktywny
-[has returned after an absence of long period.]
-powrócił po długim okresie braku aktywności.
-[has returned after an absence since %#x]
-powrócił po %#x
-[It's already necessary to notify of this contact - an absence has been detected.]
-Powiadomienie o tym kontakcie nie jest już potrzebne - brak został wykryty.
-[monthes]
-miesięcy
+[Do nothing]
+Nic nie rób
+[Delete the contact]
+Usuń kontakt
+[Contact name]
+Nazwa kontaktu
+[has returned after being absent since %d days]
+powrócił po braku aktywności od %d dni
+[Contacts]
+Kontakty
+[Popups]
+Popupy
+[not detected]
+nie wykryto
+[not found]
+nie znaleziono
+[This contact has been absent for an extended period of time.]
+Ten kontakt jest nieaktywny przez dłuższy okres czasu.

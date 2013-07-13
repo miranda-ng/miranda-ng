@@ -1,54 +1,136 @@
-﻿;============================================================
-;  File: seenplugin.dll
-;  Module: Last Seen Plugin
-;  Versions: 5.0.4.7
+﻿#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
 ;============================================================
-[last seen history]
-Historia Last seen
-[Send Instant Message]
-Wyślij szybką wiadomość
-[Last seen plugin]
-Wtyczka Last seen
-[Log when a user was last seen online and which users were online while you were away]
-Zapisuje kiedy użytkownik był połączony po raz ostatni i którzy użytkownicy byli online kiedy ciebie nie było
-[LastSeen: User status change]
-LastSeen: Zmiana statusu użytkownika
+;  File: SeenPlugin.dll
+;  Plugin: Last seen
+;  Version: 5.0.4.8
+;  Authors: Heiko Schillinger, YB
+;============================================================
+[Logs when a user was last seen online and which users were online while you were away.]
+Zapisuje informacje o kontakcie, który po raz ostatni był dostępny.
+;file \plugins\SeenPlugin\res\resource.rc
+[Last seen options]
+Opcje
 [Last seen menuitem]
-Last seen - wpis w menu
+Element w menu
+[Show icon]
+Pokaż ikonę
 [Userinfo tab]
 Karta danych kontaktu
+[Log to file]
+Zapisuj w pliku
+[Log to history]
+Zapisuj do historii
+[Maximum size]
+Rozmiar
+[Variable list]
+Zmienne
+[Enable Idle support]
+Włącz wsparcie dla bezczynności
 [Ignore contacts going offline]
 Ignoruj rozłączające się kontakty
 [Enable 'Missed Ones' feature]
 Włącz funkcję "Przegapieni"
-[Last seen options]
-Opcje Last seen
 [Count times]
 Licz ile razy
-[Variable list]
-Zmienne
 [Protocols to watch:]
 Protokoły do obserwowania:
-[Log to history]
-Zapisuj do historii
-[Maximum size]
-Maks. rozmiar
+[Use popups]
+Użyj popup
+[Title]
+Nazwa
+[Text]
+Tekst
+[Popup Colors]
+Kolory
+[Online]
+Połączony
+[Away]
+Zaraz wracam
+[NA]
+Wrócę później
+[Occupied]
+Zajęty
+[DND]
+Nie przeszkadzać
+[On the phone]
+Pod telefonem
+[Out to lunch]
+Na obiedzie
+[Free for chat]
+Porozmawiajmy
+[Invisible]
+Niewidoczny
+[Offline]
+Rozłaczony
+[Reset colors]
+Domyślne
+[Last seen plugin]
+Wtyczka Last seen
+[OK]
+OK
 [You missed following contacts:]
 Przegapiłeś następujące kontakty:
 [Test\nTest]
 Test\nTest
 [Alert when user status changes]
 Alarmuj kiedy użytkownik zmieni status
+;file \plugins\SeenPlugin\src\history.cpp
+[last seen history]
+Historia ostatnio widzianych
+[View User's Details]
+Zobacz dane kontaktu
+[User Menu]
+Menu użytkownika
+[Send Instant Message]
+Wyślij szybką wiadomość
+[Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
+
+;file \plugins\SeenPlugin\src\main.cpp
+[LastSeen]
+Ostatnio widziany
+[User status change]
+Zmiana statusu użytkownika
+[Changed to Online]
+Zmiana na Połączony
+[User Logged Off]
+Użytkownik wylogowany
+[User Logged In]
+Użytkownik zalogowany
+[Last seen]
+Ostatnio widziany
+;file \plugins\SeenPlugin\src\menu.cpp
+[<unknown>]
+<nieznany>
+[<none>]
+<brak>
+;file \plugins\SeenPlugin\src\options.cpp
+[Last Seen Variables]
+Zmienne
+[Contacts]
+Kontakty
+[Popups]
+Popupy
+;file \plugins\SeenPlugin\src\seen.h
+[%n is %s (%u)]
+%n jest %s (%u)
+[%i(%r)%bWas %o]
+%i(%r)%bBył %o
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
+
 [-- Date --]
 -- Data -- 
 [year (4 digits)]
 rok (4 znaki)
 [year (2 digits)]
 rok (2 znaki)
+[month]
+miesiąc
 [name of month]
 nazwa miesiąca
 [short name of month]
 krótka nazwa miesiąca
+[day]
+dzień
 [weekday (full)]
 dzień tygodnia (cały)
 [weekday (abbreviated)]
@@ -59,49 +141,133 @@ dzień tygodnia (skrócony)
 godziny (24)
 [hours (12)]
 godziny (12)
+[AM/PM]
+
+[minutes]
+minut
+[seconds]
+s
 [-- User --]
 -- Użytkownik -- 
 [username]
 nazwa
+[nick]
+
 [UIN/handle]
-UIN/nazwa użytkonika
-[status]
-status
+UIN/Nazwa użytkonika
+[Group]
+Grupa
+[Status]
+Status
+[Status message]
+Opis
+[Old status]
+Stary status
 [external IP]
 zewnętrzne IP
 [internal IP]
 wewnętrzne IP
+[Client info]
+Informacje o kliencie
+[Protocol]
+Protokół
+[Account]
+Konto
 [-- Format --]
 -- Format --
 [tabulator]
 tabulator
 [line break]
 koniec linii
-[Enable Idle support]
-Włącz wsparcie dla bezczynności
-[Use popups]
-Użyj popup
-[Popup Colors]
-Kolory
-[Reset colors]
-Resetuj
-[Disable CList Notifications]
-Wyłącz notywikacje CList
-[For watched protocols]
-Dla podglądanych protokołów
-[For non-watched protocols]
-Dla niepodglądanych protokołów
-[Last Seen Variables]
-Zmienne Last Seen
-[Old status]
-Stary status
-[Client info]
-Informacje o kliencie
-[Changed to Online]
-Zmiana na Połączony
-[User Logged In]
-Użytkownik zalogowany
-[User Logged Off]
-Użytkownik wylogowany
-[User status change]
-Zmiana statusu użytkownika
+[Note:]
+
+[Use]
+Użyj
+[for empty string]
+dla pustego elementu
+[instead of]
+zamiast
+;file \plugins\SeenPlugin\src\userinfo.cpp
+;file \plugins\SeenPlugin\src\utils.cpp
+[Sunday]
+Niedziela
+[Monday]
+Poniedziałek
+[Tuesday]
+Wtorek
+[Wednesday]
+Środa
+[Thursday]
+Czwartek
+[Friday]
+Piątek
+[Saturday]
+Sobota
+[Sun.]
+Nie.
+[Mon.]
+Pon.
+[Tue.]
+Wto.
+[Wed.]
+Śro.
+[Thu.]
+Czw.
+[Fri.]
+Pią.
+[Sat.]
+Sob.
+[January]
+Styczeń
+[February]
+Luty
+[March]
+Marzec
+[April]
+Kwiecień
+[May]
+Maj
+[June]
+Czerwiec
+[July]
+Lipiec
+[August]
+Sierpień
+[September]
+Wrzesień
+[October]
+Październik
+[November]
+Listopad
+[December]
+Grudzień
+[Jan.]
+Sty.
+[Feb.]
+Lut.
+[Mar.]
+
+[Apr.]
+Kwi.
+[Jun.]
+Czer.
+[Jul.]
+Lip.
+[Aug.]
+Sie.
+[Sep.]
+Wrz.
+[Oct.]
+Paź.
+[Nov.]
+Lis.
+[Dec.]
+Gru.
+[<never seen>]
+<nigdy niewidziany>
+[Idle]
+Bezczynność 
+[Unknown]
+Nieznany
+[Not Idle]
+Aktywny

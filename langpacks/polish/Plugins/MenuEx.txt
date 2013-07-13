@@ -1,71 +1,112 @@
-﻿;============================================================
-;  File: menuex.dll
-;  Module: MenuItemEx
-;  Versions: 1.3.0.7
+﻿#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
 ;============================================================
-[Set user properties by contact menu ( ]
-Ustaw właściwości użytkownika ( 
-[Set user properties by contact menu]
-Umożliwia modyfikowanie menu kontekstowego dla kontaktów.
-[Copy ID]
-Kopiuj ID
-[Copy MirVer]
-Kopiuj wersję klienta
-[Always visible]
-Zawsze widoczny
-[Never visible]
-Zawsze niewidoczny
-[Hide from list]
-Ukryj na liście
-[Ignore...]
-Ignoruj...
-[Protocol...]
-Protokół...
-[Group...]
-Grupa...
-[Send 'You were added']
-Wyślij "Zostałeś dodany"
-[Browse Received Files]
-Przeglądaj otrzymane pliki
-[Copy Status Message]
-Kopiuj opis
-[Copy IP]
-Kopiuj IP
-[Authorization]
-Autoryzacja
-[Empty]
-Pusty
-[DUMMY]
-ATRAPA
+;  File: MenuEx.dll
+;  Plugin: Menu item ext
+;  Version: 1.3.0.9
+;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
+;============================================================
+[Adds some useful options to a contacts menu.]
+Dodaje przydatne opcje do menu kontaktu
+;file \plugins\MenuItemEx\res\resource.rc
+[Enter an authorization request]
+
+[&Send]
+Wyślij
+[&Cancel]
+Anuluj
 [Shown menu items]
 Pokaż wpisy w menu
+[Visibility]
+Widoczność 
 [Show alpha icons]
-Przezroczyste ikony
-[Request Authorization]
-Poproś o autoryzację
-[Add protocol name]
-Dodaj nazwę protokołu
-[Copy Status Message (SMR needed)]
-Kopiuj opis (Wymagany SMR)
-[MenuItemEx]
-Rozszerzone menu
+Przeźroczyste ikony
+[Hide from list]
+Ukryj na liście
+[Ignore]
+Ignorowanie
 [Copy to Account (Ctrl+click for move to Account)]
 Kopiuj do Konta (Ctrl+click alby przejsc do Konta)
-[* Use Ctrl+click to see popup with the copied text]
-* Użyj Ctrl+klick aby zobaczeć dodatkowe opcje
+[Send 'You were added']
+Wyślij "Zostałeś dodany"
+[Request Authorization]
+Poproś o autoryzację
+[Browse Received Files]
+Przeglądaj otrzymane pliki
+[Copy IP]
+Kopiuj IP
+[Copy MirVer]
+Kopiuj wersję klienta
+[Copy Status Message]
+Kopiuj opis
 [Add item name]
-Dodaj pozycję nazwy
-[Copy to Account]
-Kopiuj do konta
-[Open ignore settings]
-Otwórz opcje ignorowania
-[Show in list]
-Pokaż na liście
-[Copy xStatus Message]
-Kopiuj xStatus
-[Do you want to send authorization request\nto new contact?]
-Czy chcesz wysłać pytanie o autoryzacje?\ndo nowego kontaktu?
+Dodaj nazwę elementu
+[Copy ID]
+Kopiuj ID
+[Add protocol name]
+Dodaj nazwę protokołu
 [Show ID in menu item]
 Pokaż ID w menu
 [Trim too long ID]
 Skracaj długie ID
+[* Use Ctrl+click to see popup with the copied text]
+* Użyj Ctrl+klick aby zobaczeć dodatkowe opcje
+[Hide contact on 'Ignore all']
+Ukryj gdy 'Zablokowany'
+[Other options]
+Inne opcje
+[Automatically refresh contact's details after they come online]
+Automatycznie odświeżaj dane kontaktu kiedy staną się połączone
+;file \plugins\MenuItemEx\src\main.cpp
+[Status message]
+Opis
+[XStatus title]
+xStatus
+[XStatus message]
+Opis xStatus
+[Listening to]
+Teraz odtwarzane
+[Activity title]
+Aktywność
+[Activity text]
+Opis aktywności
+[Show in list]
+Pokaż na liście
+[Always visible]
+Zawsze widoczny
+[Never visible]
+Zawsze niewidoczny
+[Copy to Account]
+Kopiuj do konta
+[Copy xStatus Message]
+Kopiuj xStatus
+[All]
+Wszystko
+[Messages]
+Wiadomości
+[URL]
+
+[Files]
+Pliki
+[User Online]
+Połączony użytkownik
+[Authorization]
+Autoryzacja
+[You Were Added]
+Zostałeś dodany
+[Typing Notify]
+Pisanie
+[Please authorize me to add you to my contact list.]
+
+[Do you want to send authorization request\nto new contact?]
+Czy chcesz wysłać pytanie o autoryzacje?\ndo nowego kontaktu?
+[Miranda NG]
+Miranda NG
+[MenuItemEx]
+Rozszerzone menu
+[Open ignore settings]
+Otwórz opcje ignorowania
+[Request authorization]
+Poproś o autoryzację
+;file \plugins\MenuItemEx\src\options.cpp
+[Customize]
+Personalizacja

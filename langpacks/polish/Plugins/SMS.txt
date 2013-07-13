@@ -1,113 +1,127 @@
-﻿;============================================================
-;  File: SMSbox.dll
-;  Module: SMSbox
-;  Versions: 0.1.0.7
+﻿#muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
 ;============================================================
+;  File: SMS.dll
+;  Plugin: SMS
+;  Version: 0.2.5.3
+;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
+;============================================================
+[Send SMS text messages to mobile phones through the IM networks.]
+
+;file \plugins\SMS\res\resource.rc
 [Received SMS]
-Otrzymane SMS-y
+Otrzymany SMS
+[&Reply]
+Odpowiedz 
+[&Close]
+Zamknij
 [Read Next]
-Czytaj dalej
+
+[From:]
+Od:
 [Message received:]
-Otrzymana wiadomość:
+
 [Number:]
-Numer:
+
 [Send SMS]
 Wyślij SMS
-[Multiple >>]
-Wiele >>
+[To:]
+Do:
 [Add number to list]
 Dodaj numer do listy
+[&H]
+
 [Save number]
 Zapisz numer
+[Multiple >>]
+
 [Enter message:]
 Wpisz wiadomość:
 [Chars:]
-Znaki:
+
+[%d/160]
+
+[&Send]
+Wyślij
 [SMS Message Didn't Send]
 Wiadomość SMS nie została wysłana
 [&Try again]
 Spróbuj ponownie
+[&Cancel]
+Anuluj
 [The SMS message send timed out]
-Minął czas wysyłania wiadomości SMS
+
 [SMS Plugin]
 Wtyczka SMS
 [Begining]
-Początek
+
 [End]
-Koniec
-[Show server notifications:]
-Pokaż powiadomienia serwera:
+Zamknij
 [Put signature at the:]
-Umieść podpis:
-[Use Signature?]
-Użyć podpisu?
-[Save window position per contact:]
-Zapisz pozycję okna za kontaktem:
-[Auto popup on new message:]
-Auto popup przy nowej wiadomości:
+
+[Use Signature]
+Użyj sygnatury
+[Show server notifications]
+
+[Auto popup on new message]
+Popup przy nowej wiadomości
+[Save window position per contact]
+Zapisz pozycję okna dla kontaktu
 [SMS Message Sent]
-Wysłane wiadomości SMS
+Wysłana wiadomość SMS
+[&OK]
+&OK
 [Message ID:]
-ID:
+
 [Source:]
-Źródło:
+
 [Network:]
-Sieć:
-[SMS Messages]
-Wiadomości SMS
-[From %s on ICQ:\r\n\r\n]
-Od %s ICQ:\r\n\r\n
-[Received SMS Confirmation]
-Otrzymano potwierdzenie wysłania SMS-a
-[SMS message didn't send by ICQ to %s because :\r\n]
-Wiadomość SMS nie została wysłana przez ICQ do %s, ponieważ:\r\n
-[SMS Confirmation from %s]
-Potwierdzenie SMS od %s
+Protokół:
+;file \plugins\SMS\src\options.cpp
+[From %s:\r\n\r\n]
+Od %s:\r\n\r\n
+;file \plugins\SMS\src\receive.cpp
+[SMS message didn't send by %S to %s because: %S]
+
 [SMS Message from %s]
 Wiadomość SMS od %s
-[Incoming SMS Message]
-Przychodzące wiadomości SMS
-[Incoming SMS Confirmation]
-Przychodzące potwierdzenie SMS
-[Send &SMS...]
-Wyślij SMS
-[&SMS Message]
-Wiadomość SMS
-[Can't load SMS Plugin, ICQ protocol must be loaded.]
-Nie można załadować wtyczki SMS, protokół ICQ musi być załadowany.
-[SMS Plugin Error]
-Błąd wtyczki SMS
+[SMS Confirmation from %s]
+
+;file \plugins\SMS\src\recvdlg.cpp
+[Received SMS Confirmation]
+
+;file \plugins\SMS\src\senddlg.cpp
+[View User's History]
+Zobacz historię użytkownika
 [Add Number To The Multiple List]
-Dodaj numer do wielu list
+
 [Save Number To The User's Details Phonebook]
-Zapisz numer do Książki tel. w Danych użytkownika
+
 [Show/Hide Multiple List]
-Pokaż/Ukryj wiele list
+
 [Shows How Much Chars You've Typed]
-Pokazuje ile znaków zostało wpisanych
+
 [The SMS message send to %s timed out.]
-Minął czas wysyłania SMS do %s
-[<< Single]
-<< Jedna
+
+[The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+
+[Invalid Phone Number]
+Nieprawidłowy numer telefonu 
 [Message is too long, press OK to continue.]
-Wiadomość jest zbyt długa, naciśnij OK, aby kontynuować.
+
 [Error - Message too long]
-Błąd - Zbyt długa wiadomość
-[Valid phone numbers are of the form '+(country code)(phone number)'. The contents of the phone number portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
-Prawidłowe numery mają formę "+(prefiks kraju)(numer telefonu)". Zawartość numeru telefonu jest zależna od narodowego schematu, ale często pomijane jest zero na początku.
-[Invalid phone number]
-Nieprawidłowy numer telefonu
+
 [There must be numbers in the list first.]
-Najpierw numer musi być na liście.
+
 [No Numbers]
-Brak numerów
-[Disable notify]
-Wyłącz notyfikację
-[SMSBox Main]
-Mój SMSBox
-[SMS was sent]
-SMS wysłany
-[Enable notify]
-Włącz notyfikacje
-[Archives]
-Archiwum
+
+[Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
+
+[Invalid phone number]
+
+[<< Single]
+
+;file \plugins\SMS\src\SMS_svc.cpp
+[Incoming SMS Message]
+
+[Incoming SMS Confirmation]
+

@@ -1,0 +1,218 @@
+﻿#muuid {119d7288-2050-448d-9900-d86ac70426bf}
+;============================================================
+;  File: KeyboardNotify.dll
+;  Plugin: Keyboard notify ext.
+;  Version: 1.5.7.7
+;  Authors: TioDuke
+;============================================================
+[Flashes your keyboard LEDs when a message has arrived.]
+
+;file \plugins\KeyboardNotify\res\resources.rc
+[Accounts to check]
+Konta do sprawdzenia
+[Events to react on]
+
+[Incoming messages]
+Przychodzące wiadomości
+[Incoming files]
+Przychodzące pliki
+[Incoming URLs]
+Przychodzące URL
+[Everything else]
+Pozostałe
+[Message-Event only]
+Powiadomienia o wiadomościach
+[Blink if message window is open]
+Migaj, jeśli okno rozmowy jest otwarte
+[     ... and not in foreground]
+     ... i nie na pierwszym planie
+[Only if last is]
+
+[sec. old]
+s
+[Flash until]
+Migaj aż
+[seconds]
+s
+[is re-attended]
+jest zaznacza
+[Events are opened]
+Zdarzenia są otwarte
+[End of 'notify when' conditions]
+
+[Notify when]
+Powiadamiaj gdy
+[Full Screen mode]
+Tryb pełnoekranowy
+[Screen Saver is running]
+Wygaszacz jest włączony
+[Workstation is Locked]
+Koputer jest zablokowany
+[Defined programs are running]
+
+[All other situations]
+Pozostałe sytuacje
+[Only notify if status is]
+Tylko powiadomienie gdy
+[Online]
+Połączony
+[Away]
+Zaraz wracam
+[Occupied]
+Zajęty
+[NA]
+Wrócę później
+[DND]
+Nie przeszkadzać
+[Free for chat]
+Porozmawiajmy
+[Invisible]
+Niewidoczny
+[On the phone]
+Pod telefonem
+[Out to lunch]
+Na obiedzie
+[Pending Events]
+Zdarzenia
+[Remind me every]
+Przypomnij co:
+[minutes]
+minut
+[Offline]
+Rozłaczony
+[xStatuses]
+xStatusy
+[Keys to flash]
+
+[Num Lock]
+
+[Caps Lock]
+
+[Scroll Lock]
+
+[Flashing effects]
+
+[All at the same time]
+
+[In turn]
+
+[In sequence]
+
+[Custom theme]
+Niestandardowy motyw
+[Accordingly to events' count]
+
+[Wait before starting flashing]
+
+[Flash speed]
+
+[Fast]
+
+[Slow]
+
+[&Preview]
+Podgląd
+[Emulate keypresses (Use this option if you are using an USB keyboard)]
+
+[Create/Edit Themes]
+
+[Theme]
+
+[Test]
+
+[Add]
+Dodaj
+[Update]
+Aktualizacja
+[Delete]
+Usuń
+[Import/Export]
+
+[Export...]
+Eksportuj...
+[Import...]
+Importuj...
+[Override existing]
+
+[Set program list]
+
+[Program]
+
+[OK]
+OK
+[Cancel]
+Anuluj
+[Set LEDs for events]
+Ustaw dla zdarzeń (LED)
+[Num]
+
+[Caps]
+
+[Scroll]
+
+[Message events]
+
+[File events]
+
+[URL events]
+Linki
+[Other events]
+Inne zdarzenia
+[Consider event opened after]
+
+[Use custom theme]
+Użyj niestandardowej skórki
+[The following events are being ignored:]
+Następujące zdarzenia są ignorowane:
+[Ignore messages]
+Ignoruj wiadomości
+[Ignore URLs]
+
+[Ignore files]
+Ignoruj pliki
+[Ignore others]
+Ignoruj pozostałe
+[Ignore all]
+Ignoruj wszystkie
+[Ignore none]
+Nie ignoruj
+[Ignore]
+Ignorowanie
+[Set xStatus list]
+Ustaw xStaus
+;file \plugins\KeyboardNotify\src\ignore.cpp
+[** All contacts **]
+** Wszystkie kontakty **
+[** Unknown contacts **]
+** Nieznane kontakty **
+;file \plugins\KeyboardNotify\src\options.cpp
+[left->right]
+lewy->prawy
+[right->left]
+prawo->lewo
+[left<->right]
+lewy<->prawy
+[Keyboard Flash]
+Miganie klawiatury
+[Events]
+Zdarzenia
+[Accounts]
+Konta
+[Rules]
+Zasady
+[Flashing]
+Miganie
+[Themes]
+
+[Protocol]
+Protokół
+[Keyboard Notify Theme]
+
+[All Files]
+Wszystkie pliki
+[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
+
+[\n; End of automatically generated Keyboard Notify Theme file\n]
+
+[None]
+Brak

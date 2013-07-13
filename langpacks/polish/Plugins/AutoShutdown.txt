@@ -1,179 +1,196 @@
-﻿;============================================================
-;  File: autoshutdown.dll
-;  Module: AutoShutdown
-;  Versions: 1.4.0.2
+﻿#muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
 ;============================================================
-[AutoShutdown]
-AutoShutdown
+;  File: AutoShutdown.dll
+;  Plugin: Auto shutdown
+;  Version: 1.4.0.2
+;  Authors: H. Herkenrath
+;============================================================
 [Adds the possibility to shutdown the computer when a specified event occurs.]
-Dodaje możliwość wyłączenia komputera po wystąpieniu określonych zdarzeń.
-[AutoShutdown Plugin]
-Wtyczka AutoShutdown
-[The AutoShutdown plugin can not be loaded. It requires Miranda IM %hs or later.]
-Nie można załadować wtyczki AutoShutdown, ponieważ wymaga ona Mirandy IM %hs lub nowszej.
-[Automatic &shutdown...]
-Automatyczne wyłączanie...
-[Stop automatic &shutdown]
-Zatrzymaj automatyczne wyłączanie
-[Start/Stop automatic shutdown]
-Rozpocznij/Zatrzymaj automatyczne wyłączanie
-[Start automatic shutdown]
-Rozpocznij automatyczne wyłączanie
-[Stop automatic shutdown]
-Zatrzymaj automatyczne wyłączanie
-[Automatic Shutdown Countdown]
-Odliczanie automatycznego wyłączania
-[Toggle Automatic Shutdown]
-Przełącz automatyczne wyłączanie
-[Active]
-Aktywny
-[Inactive]
-Nieaktywny
-[Countdown on Frame]
-Odliczanie w ramce
-[Progress Bar]
-Pasek postępu
-[Select the automatic shutdown event]
-Wybierz zdarzenie powodujące automatyczne wyłączenie
-[Shutdown at &specific time]
-Wyłącz o określonym czasie
-[Shutdown a&t:]
-Wyłącz o:
-[Shutdown i&n:]
-Wyłącz za:
-[Second(s)]
-Sekund(y)
-[Minute(s)]
-Minut(y)
-[Hour(s)]
-Godzin(y)
-[Day(s)]
-Dni
-[Week(s)]
-Tygodnie
-[Month(s)]
-Miesiąc(e)
-[Shutdown when a &message is received containing the following text:]
-Wyłącz po otrzymaniu wiadomości o następującej treści:
-[Shutdown when all &file transfers are finished]
-Wyłącz po zakończeniu wszystkich transferów
-[Shutdown when &prozessor usage drops below:]
-Wyłącz kiedy zużycie procesora przekroczy:
-[(current: %u%%)]
-(obecnie: %u%%)
-[Shutdown when Miranda IM becomes &idle]
-Wyłącz kiedy Miranda przejdzie w bezczynność
-[Shutdown when all contacts are &offline]
-Wyłącz jeśli wszystkie kontakty będą rozłączone
-[&Action:]
-Akcja:
-[Close Miranda IM]
-Zamknij Mirandę IM
-[Sets all Miranda IM protocols to offline and closes Miranda IM.]
-Rozłącza wszystkie protokoły i wyłącza Mirandę IM.
-[Set Miranda IM offline]
-Rozłącz Mirandę IM
-[Sets all Miranda IM protocols to offline.]
-Rozłącza wszystkie protokoły Mirandy.
-[Log off user]
-Wyloguj użytkownika
-[Logs the current Windows user off so that another user can log in.]
-Wylogowuje aktualnego użytkownika Windows, aby ktoś inny mógł się zalogować.
-[Restart computer]
-Zrestartuj komputer
-[Shuts down Windows and then restarts Windows.]
-Wyłącza Windows i restartuje komputer.
-[Shutdown computer]
-Wyłącz komputer
-[Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power.]
-Zamyka wszystkie uruchomione programy i wyłącza Windows co pozwala wyłączyć zasilanie.
-[Standby mode]
-Tryb oczekiwania
-[Saves the current Windows session in memory and sets the system to suspend mode.]
-Zapisuje aktualną sesję Windows w pamięci i ustawia system w tryb wstrzymania.
-[Hibernate mode]
-Tryb hibernacji
-[Saves the current Windows session on harddisc, so that the power can be turned off.]
-Zapisuje aktualną sesję Windows na dysku twardym żeby można było wyłączyć zasilanie.
-[Lock workstation]
-Zablokuj komputer
-[Locks the computer. To unlock the computer, you must log in.]
-Blokuje komputer. Aby go odblokować musisz się zalogować.
-[Hang up dialup connections]
-Zawieś aktywne połączenia
-[Sets all protocols to offline and closes all RAS connections.]
-Rozłącza wszystkie protokoły i zamyka sesje wszystkie RAS.
+Dodaje możliwość wyłączania komputera w określonych momentach.
+;file \plugins\AutoShutdown\res\resource.rc
 [Shutdown]
 Wyłączanie
 [&Show confirmation dialog before shutdown]
 Pokaż okno potwierdzenia przed zamknięciem
 [&Countdown starts at:]
-Odliczaj od:
+Odliczanie zaczana się w:
+[seconds]
+s
 [Shutdown Events]
-Zdarzenia związane z wyłączaniem
-[&Activate automatic shutdown with the same settings again if Miranda IM was closed with automatic shutdown enabled]
-Aktywuj ponownie automatyczne wyłączanie z tymi samymi opcjami jeśli Miranda zostanie zamknięta przez tę wtyczkę
+Opcje zdarzeń
+[&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
+Aktywuj automatyczne wyłączanie z tymi samymi opcjami jeśli Miranda NG zostanie ponownie uruchomiona
 [&Ignore hidden or temporary contacts when watching for all contacts being offline]
-Ignoruj ukryte lub tymczasowe kontakty kiedy obserwujesz czy kontakty są połączone
+Ignoruj ukryte lub tymczasowe kontakty
 [Critical Shutdown Events]
-Wyłączanie w sytuacjach krytycznych
+Krytyczne zdarzenia wyłączania
+[Automatically shutdown the computer and turn the power off when one of the following occurs:]
+Automatycznie wyłącz komputer kiedy:
 [&Thunderstorm warning is issued  (Weather)]
-Ogłoszono burzę z piorunami (Pogoda)
+Ostrzeżenia z piorunami (Weather)
 [&Harddrive overheats (HDD Info)]
-Przegrzany dysk twardy (HDD Info)
-[Shutdown: Close Miranda IM]
-Wyłączanie: Zamknij Mirandę IM
-[Shutdown: Set Miranda IM offline]
-Wyłączanie: Rozłącz Mirandę IM
-[Shutdown: Log off user]
-Wyłączanie: Wyloguj użytkownika
-[Shutdown: Restart computer]
-Wyłączanie: Zrestartuj komputer
-[Shutdown: Shutdown computer]
-Wyłączanie: Wyłącz komputer
-[Shutdown: Standby mode]
-Wyłączanie: Tryb oczekiwania
-[Shutdown: Hibernate mode]
-Wyłączanie: Tryb hibernacji
-[Shutdown: Lock workstation]
-Wyłączanie: Zablokuj komputer
-[Shutdown: Hang up dialup connections]
-Wyłączanie: Zawieś aktywne połączenia
-[Miranda IM is going to be automatically closed in %i second(s).]
-Miranda IM zostanie automatycznie wyłączona za %i sekund(y).
-[You will be logged off automatically in %i second(s).]
-Zostaniesz automatycznie wylogowany za %i sekund(y).
-[The computer will automatically be restarted in %i second(s).]
-Komputer zostanie automatycznie zrestartowany za %i sekund(y).
-[The computer will automatically be set to standby mode in %i second(s).]
-Komputer zostanie automatycznie ustawiony na tryb oczekiwania za %i sekund(y).
-[The computer will automatically be set to hibernate mode in %i second(s).]
-Komputer automatycznie przejdzie w stan hibernacji za %i sekund(y).
-[The workstation will automatically get locked in %i second(s).]
-Komputer zostanie automatycznie zablokowany za %i sekund(y).
-[The computer will automatically be shut down in %i second(s).]
-Komputer zostanie automatycznie zamknięty za %i sekund(y).
-[All dialup connections will be closed in %i second(s).]
-Wszystkie nawiązane połączenia zostaną przerwane za %i sekund(y).
-[Unsaved data in open applications except Miranda IM might get lost.]
-Niezapisane dane w otwartych programach (poza Mirandą) mogą zostać utracone.
+Przegrzewa się dysk twardy (HDD Info)
+[Automatic Shutdown]
+Autowyłączanie
+[Select the automatic shutdown event]
+Wybierz zdarzenie aby aktywować automatyczne wyłączanie
+[Shutdown at &specific time]
+Wyłącz dokładnie:
+[Shutdown a&t:]
+Wyłącz:
+[Shutdown i&n:]
+Wyłącz w:
+[Shutdown when a &message is received containing the following text:]
+Wyłącz kiedy opis zostanie zmieniony na poniższy tekst:
+[Shutdown when Miranda NG becomes &idle]
+Wyłącz kiedy Miranda NG stanie się bezczynna
+[Configure]
+Konfiguruj
+[Shutdown when &prozessor usage drops below:]
+Wyłącz kiedy użycie procesora spadnie poniżej:
+[(current: 0%)]
+(aktualnie: 0%)
+[Shutdown when all contacts are &offline]
+Wyłącz kiedy wszystkie kontakty zmienią status na rozłączony
+[Shutdown when all &file transfers are finished]
+Wyłącz kiedy wszystkie transfery plików zostaną zakończone
+[&Action:]
+Akcja:
+[OK]
+OK
+[Cancel]
+Anuluj
+[Unsaved data in open applications except Miranda NG might get lost.]
+Niezapisane dane w otwartych aplikacjach z wyjątkiem Mirandy NG mogą zostać utracone.
 [Please click "Cancel" if you would like to abort the process.]
-Kliknij na "Anuluj" jeśli chcesz przerwać proces.
+
 [&Now!]
 Teraz!
-[Time left:]
-Pozostały czas:
+;file \plugins\AutoShutdown\src\frame.cpp
 [Shutdown at:]
-Wyłącz o:
+
+[Time left:]
+
 [Paused]
-Pauza
-[&Cancel Countdown]
-Anuluj odliczanie
-[&Pause Countdown]
-Zatrzymaj odliczanie
+Zatrzymano
 [&Unpause Countdown]
 Wznów odliczanie
+[&Pause Countdown]
+Wstrzymaj odliczanie
+[&Cancel Countdown]
+Anuluj odliczanie
+[AutoShutdown]
+Autozamykanie
+[Countdown on Frame]
+Odliczanie w ramce
+[Background]
+Tło
+[Progress Bar]
+Pasek postępu
+;file \plugins\AutoShutdown\src\main.cpp
+[Header]
+Nagłówek
+[Active]
+Aktywny
+[Inactive]
+Nieaktywny
+;file \plugins\AutoShutdown\src\options.cpp
+[Events]
+Zdarzenia
+;file \plugins\AutoShutdown\src\settingsdlg.cpp
+[(current: %u%%)]
+(obecnie: %u%%)
+[Second(s)]
+Sekund
+[Minute(s)]
+Minut
+[Hour(s)]
+Godzin
+[Day(s)]
+Dni
+[Week(s)]
+Tygodni
+[Month(s)]
+Miesięcy
+[Start/Stop automatic shutdown]
+
+[Stop automatic shutdown]
+
+[Start automatic shutdown]
+
+[Stop automatic &shutdown]
+Zatrzymaj autowyłączanie
+[Automatic &shutdown...]
+Automatyczne wyłączanie...
+;file \plugins\AutoShutdown\src\shutdownsvc.cpp
 [Automatic Shutdown Error]
-Błąd automatycznego wyłączania
+Błąd autowyłączania
 [The shutdown process failed!\nReason: %s]
-Proces wyłączania nie powiódł się!\nPowód: %s
+
+[Unknown]
+Nieznany
+[Miranda NG is going to be automatically closed in %u second(s).]
+
+[All Miranda NG protocols are going to be set to offline in %u second(s).]
+
+[You will be logged off automatically in %u second(s).]
+Zostaniesz zalogowany automatycznie w %u sekund.
+[The computer will automatically be restarted in %u second(s).]
+
+[The computer will automatically be set to standby mode in %u second(s).]
+
+[The computer will automatically be set to hibernate mode in %u second(s).]
+
+[The workstation will automatically get locked in %u second(s).]
+
+[All dialup connections will be closed in %u second(s).]
+
+[The computer will automatically be shut down in %u second(s).]
+
+[Inititiating the shutdown process failed!\nReason: %s]
+
+[Close Miranda NG]
+Wyłącz Mirandę NG
+[Set Miranda NG offline]
+Ustaw status rozłączony
+[Log off user]
+Wyloguj użytkownika
+[Restart computer]
+Uruchom ponownie komputer
+[Shutdown computer]
+Wyłącz komputer
+[Standby mode]
+Uśpij
+[Hibernate mode]
+Hibernuj
+[Lock workstation]
+Zablokuj komputer
+[Hang up dialup connections]
+Zawieś aktywne połączenia
+[Sets all Miranda NG protocols to offline and closes Miranda NG.]
+Ustawia status wszystkich protokołów na rozłączony i zamknij Mirandę NG.
+[Sets all Miranda NG protocols to offline.]
+Ustawia status wszystkich ptorokołów na rozłączony.
+[Logs the current Windows user off so that another user can log in.]
+Wylogowuje obecnego użytkownika Windows.
+[Shuts down Windows and then restarts Windows.]
+Uruchamia ponownie komputer.
+[Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power.]
+Wyłącza wszystkie uruchomione programy i wyłącza komputer.
+[Saves the current Windows session in memory and sets the system to suspend mode.]
+Zapisuje aktualną sesję Windows w pamięci i ustawia system w tryb uśpienia
+[Saves the current Windows session on harddisc, so that the power can be turned off.]
+Zapisuje aktualną sesję Windows na dysku twardym, dzięki czemu komputer może zostać wyłączony.
+[Locks the computer. To unlock the computer, you must log in.]
+Blokuje komputer. Aby odblokować, należu się najpierw zalogować.
+[Sets all protocols to offline and closes all RAS connections.]
+Ustawia status wszystkich protokołów na rozłączony i zamyka połączenia RAS.
+[Alerts]
+Alarmy
+[Automatic Shutdown Countdown]
+Odliczanie autowyłączania
+;file \plugins\AutoShutdown\src\utils.cpp
+[Toggle Automatic Shutdown]
+Przełącznik autowyłączania
+[Main]
+Ogólne

@@ -1,0 +1,3 @@
+﻿[Allows inline skin item editing for clist nicer.]
+[Gradient]
+[Not yet supported]

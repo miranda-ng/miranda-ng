@@ -1,0 +1,68 @@
+﻿#muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
+;============================================================
+;  File: HistorySweeperLight.dll
+;  Plugin: History sweeper light
+;  Version: 0.0.0.7
+;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico
+;============================================================
+[This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.]
+Wtyczka może zarządzać historią systemową, wszystkich kontaktów lub tylko wybranych
+;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
+[History Sweeper Light]
+Menedżer historii
+[Sweep history for this contacts:]
+Usuń historię dla tych kontaktów:
+[Action 1]
+Akcja 1
+[Action 2]
+Akcja 2
+[Sweep on closing message window]
+Usuwaj przy zamykaniu okna rozmowy
+[Clicking on the icon in the status bar will change settings]
+Kliknięcie na ikonę na pasku statusu będzie zmieniać ustawienia
+[Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
+Użyj trybu UNSAFE (najszybszy, lecz niebezpieczny dla profilu)
+;file \plugins\HistorySweeperLight\src\main.cpp
+[Keep all events]
+Trzymaj wszystkie zdarzenia
+[Delete all events]
+Usuń wszystkie zdarzenia
+;file \plugins\HistorySweeperLight\src\options.cpp
+[Delete older than 1 day]
+Usuń starsze niż 1 dzień
+[Delete older than 3 days]
+Usuń starsze niż 3 dni
+[Delete older than 7 days]
+Usuń starsze niż  7 dni
+[Delete older than 2 weeks (14 days)]
+Usuń starsze niż 2 tygodnie (14 dni)
+[Delete older than 1 month (30 days)]
+Usuń starsze niż 1 miesiąc (30 dni)
+[Delete older than 3 months (90 days)]
+Usuń starsze niż 3 miesiące (90 dni)
+[Delete older than 6 months (180 days)]
+Usuń starsze niż 6 miesięcy (180 dni)
+[Delete older than 1 year (365 days)]
+Usuń starsze niż 1 rok (365 dni)
+[Keep 1 last event]
+Trzymaj 1 ostatnie zdarzenie
+[Keep 2 last events]
+Trzymaj 2 ostatnie zdarzenie
+[Keep 5 last events]
+Trzymaj 5 ostatnich zdarzeń
+[Keep 10 last events]
+Trzymaj 10 ostatnich zdarzeń
+[Keep 20 last events]
+Trzymaj 20 ostatnich zdarzeń
+[Keep 50 last events]
+Trzymaj 50 ostatnich zdarzeń
+[Default Action]
+Domyślna akcja
+[Delete All]
+Usuń wszystko
+[*** Defaut Action ***]
+*** Domyślna akcja ***
+[*** System History ***]
+*** System historii ***
+[History]
+Historia

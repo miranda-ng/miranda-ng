@@ -1,33 +1,192 @@
-﻿;============================================================
-;  Module: alarms.dll
-;  Plugin: Alarms
-;  Versions: 0.4.0.5
+﻿#muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}
 ;============================================================
+;  File: Alarms.dll
+;  Plugin: Alarms
+;  Version: 0.4.0.5
+;  Authors: Scott Ellis
+;============================================================
+[Sets once-off, daily, weekly and weekday alarms.]
+Ustaw dzienny, tygodniowy lub miesięczny alarm
+;file \plugins\Alarms\res\resource.rc
+[New]
+Nowy
+[Delete]
+Usuń
+[Edit]
+Edytuj
 [Alarms]
 Alarmy
-[use popup plugin]
-Użyj wtyczki Popup
-[Loop sound]
-Zapetl dźwięk alarmu
+[Use popup plugin]
+Użyj wtyczki popup
 [Default snooze:]
 Domyślny czas drzemki:
-[Reminder Frame]
-Ramka przypomnienia
+[minutes]
+minut
 [Row Height:]
 Wysokość wiersza:
-[Intend:]
-Intend:
+[Indent:]
+Wcięcie:
+[Reminder Frame]
+Ramka
 [Auto hide/show]
 Auto ukrywanie
-[Hide/show with clist]
-Pokaż/ukryj wraz z listą kontaktów
-[Auto size verically]
-Automatyczna wysokośc
+[Loop sound]
+Zapętl dźwięk alarmu
 [Period (hours):]
-Okres
+Okres (godziny):
+[Hide/show with clist]
+Pokaż/ukryj z listą kontaktów
+[Auto size vertically]
+Rozmiar auto w pionie
+[Transparency (%):]
+Przeźroczystość (%):
 [Alert Window]
 Okno alarmu
-[Transparency (%):]
-Przezroczystość (%):
+[Round corners]
+Zaokrąglone rogi
 [Don't steal focus unless idle]
-Nie centruj chyba że Miranda IM jest bezczynna
+Nie centruj chyba że bezczynny
+[Preview]
+Podgląd
+[Alarm]
+
+[OK]
+OK
+[Cancel]
+Anuluj
+[Title:]
+Nazwa:
+[Description:]
+Opis:
+[Actions]
+Akcje
+[Popup window]
+Wyskakujące okno
+[Sound:]
+Dźwięk:
+[Run command:]
+Uruchom polecenie:
+[Parameters:]
+Parametr:
+[Alert 1]
+Alarm 1
+[Alert 2]
+Alarm 2
+[Alert 3]
+Alarm 3
+[Speak]
+Mów
+[Occurrence]
+Występowanie
+[Once]
+Raz
+[Weekly]
+Tygodniowo
+[Daily]
+Dziennie
+[Weekdays]
+W dni robocze
+[Monthly]
+Miesięczie
+[Yearly]
+Rocznie
+[i'm hiding]
+
+[Date and Time]
+Data i czas
+[Disable next occurence]
+Wyłącz następne wystąpienie
+[Don't trigger on startup]
+Nie włączaj na starcie
+[No reminder]
+Nie przypominaj
+[Dismiss]
+Zamknij
+[Snooze]
+Drzemka
+[Static]
+Statyczne
+[Reminder Frame Context]
+
+[&Suspend]
+Zawieś
+[&Edit...]
+Edytuj...
+[&Delete]
+Usuń
+[&Options...]
+Opcje...
+[&New Alarm...]
+Nowy alarm...
+;file \plugins\Alarms\src\alarmlist.cpp
+;file \plugins\Alarms\src\alarms.cpp
+[Unknown command issued: "%s"]
+
+[Set Alarm]
+Ustaw alarm
+;file \plugins\Alarms\src\alarm_win.cpp
+[Example Alarm]
+Przykładowy alarm
+[Some example text. Example, example, example.]
+Jakiś przykładowy tekst. Przykład, przykład, przykład.
+[5 mins]
+5 min
+[15 mins]
+15 min
+[30 mins]
+30 min
+[1 hour]
+1 godzina
+[1 day]
+1 dzień
+[1 week]
+1 tydzień
+[Title]
+Nazwa
+[Background]
+Tło
+[Window]
+Okno
+;file \plugins\Alarms\src\frame.cpp
+[Hide Reminders]
+
+[Show Reminders]
+
+[Frames]
+Ramki
+[Alarm Reminders]
+Alarm
+;file \plugins\Alarms\src\icons.cpp
+[Menu: Set Alarm]
+Menu: Ustaw alarm
+[Reminder: Soon]
+Przypomnienie: Szybkie
+[Reminder: Very Soon]
+Przypomnienie: Bardzo szybkie
+[Alarm: System Tray]
+Alarm: Zasobnik systemowy
+[Menu: Show/Hide Reminders]
+Menu: Pokaż/ukryj przypomnienie
+;file \plugins\Alarms\src\options.cpp
+[Sunday]
+Niedziela
+[Monday]
+Poniedziałek
+[Tuesday]
+Wtorek
+[Wednesday]
+Środa
+[Thursday]
+Czwartek
+[Friday]
+Piątek
+[Saturday]
+Sobota
+[Please enter a title for this alarm.]
+Ustaw nazwę dla tego alarmu.
+[Error]
+Błąd
+[The alarm time you have selected is in the past.]
+
+[Events]
+Zdarzenia

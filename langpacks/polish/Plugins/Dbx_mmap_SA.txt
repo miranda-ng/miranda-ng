@@ -1,0 +1,139 @@
+﻿#muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
+;============================================================
+;  File: Dbx_mmap_SA.dll
+;  Plugin: Miranda NG mmap secure database driver
+;  Version: 0.7.5.4
+;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
+;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact. Enhanced modification with Encryption support.]
+Zapewnia wsparcie profilu Mirandy: ustawień globalnych, kontaktów, historii, ustawień dla każdego kontaktu z osobna. Wersja zmodyfikowana z szyfrowaniem.
+;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
+[Login to Miranda NG]
+Logowanie do Mirandy NG
+[EN]
+
+[OK]
+OK
+[Cancel]
+Anuluj
+[New password]
+Nowe hasło do profilu:
+[Change password]
+Zmień hasło
+[Change]
+Zmień
+[Remove]
+Usuń
+[Old password]
+Stare hasło do profilu:
+[Install Database Settings]
+Instalacja ustawień profilu
+[Yes]
+Tak
+[No]
+Nie
+[A file containing new database settings has been placed in the Miranda NG directory.]
+Plik zawierający nowe ustawienia profilu został umieszczony w katalogu Miranda NG.
+[Do you want to import the settings now?]
+Czy chcesz teraz zaimportować ustawienia?
+[No to all]
+Nie dla wszystkich 
+[&View contents]
+Zawartość 
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+
+[Database Setting Change]
+Zmień ustawienia profilu
+[Database settings are being imported from]
+Ustawienia profilu są importowane z
+[This file wishes to change the setting]
+Ten plik chce zmienić ustawienie
+[to the value]
+do wartości 
+[Do you want to allow this change?]
+Czy chcesz umożliwić tę zmianę?
+[&Allow all further changes to this section]
+&Pozwól na wszystkie kolejne zmiany w tej sekcji 
+[&Yes]
+Tak
+[&No]
+Nie
+[Cancel Import]
+Anuluj import
+[Database Import Complete]
+Zakończenie importowanie profilu
+[The import has completed from]
+Import zakończył się z
+[What do you want to do with the file now?]
+Co chcesz zrobić z plikiem?
+[&Recycle]
+Odzyskaj
+[&Delete]
+Usuń
+[&Move/Rename]
+Przenieś/zmień nazwę
+[&Leave]
+Opuść
+[Database encryption]
+Szyfrowanie
+[Info:]
+
+[Author:]
+Autor:
+[Site:]
+Strona:
+[Email:]
+
+[Unique ID:]
+ID:
+;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
+[Database is Secured MMAP database]
+Zaszyfrowano przy pomocy Secured MMAP database
+[You are not authorized for access to Database]
+Nie masz praw dostępu do profilu
+[Secured MMAP: authorization successful]
+Secured MMAP: autoryzacja pomyślna!
+[Database is marked as belonging to an unknown version of Miranda]
+Profil należy do nieznanej wersji Mirandy 
+;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
+[Database Features]
+Funkcje profilu
+[Database]
+Profil
+[Change Password]
+Zmień hasło
+[Set password]
+Ustaw/zmień hasło
+[Dll]
+
+[Name]
+Nazwa
+[Version]
+Wersja
+[Please type in your password for]
+Wpisz hasło dla profilu:
+[Too many errors!]
+Zbyt wiele błędów!
+[Password is not correct!]
+Nieprawidłowe hasło!
+[Please enter your new password]
+Proszę wpisać twoje nowe hasło.
+[Password is too short!]
+Hasło jest za krótkie!
+[Passwords do not match!]
+Hasła nie pasują!
+[Wrong password!]
+Złe hasło!
+;file \plugins\Dbx_mmap_SA\src\security.cpp
+[Sorry, but your database encrypted with unknown module]
+
+[Error]
+Błąd
+[Crypto modules not found]
+Moduł szyfrujący nie został odnaleziony.
+[DB is already secured!]
+
+[current database]
+aktualny profil
+[Set Password]
+Ustaw hasło

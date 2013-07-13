@@ -1,0 +1,3 @@
+﻿[Adds a menu item to change or load a different profile of Miranda NG, restart or run a dbchecker.]
+[Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
+[Restart]

@@ -1,7 +1,795 @@
-﻿;===========================================================
+﻿#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+;============================================================
 ;  File: IRC.dll
-;  Module: IRC Protocol
-;  Versions: 0.9.26.0
-;===========================================================
-[IRC protocol for Miranda IM]
+;  Plugin: IRC protocol
+;  Version: 0.11.0.1
+;  Authors: Miranda team
+;============================================================
+[Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Wsparcie dla protokołu IRC.
+;file \protocols\IRCG\res\IRC.rc
+[&Add]
+Dodaj
+[&Edit]
+Edytuj
+[&Del]
+Usuń
+[Enable]
+Włącz
+[only while connecting]
+tylko w trakcie łączenia
+[Force visible (-i)]
+Wymuś widoczność - tryb (-i)
+[Rejoin channel if kicked]
+Dołącz ponownie do kanału, jeśli wykopano
+[Rejoin channels on reconnect]
+Dołącz do kanałów przy ponownym łączniu
+[Disable tray balloon on error]
+Wyłącz dymki błędów w trayu
+[Show addresses]
+Pokaż adresy
+[Use server window]
+Użyj okna serwera
+[Show server window on startup]
+Pokaż okno serwera na starcie
+[Keep connection alive]
+Utrzymuj połączenie
+[Automatically join on invite]
+Automatycznie dołącz po zaproszeniu
+['Old style' mode changes]
+'Stary styl' zmiany trybów
+[Update online statuses for users]
+Aktualizuj statusy połączonych kontaktów
+[Update statuses in channel nicklist]
+Aktualizuj statust na liście użytkowników kanału
+[Internet address]
+Adres internetowy
+[Port range]
+Zakres portów
+[Nick]
+Nick
+[User ID (Ident)]
+ID użytkownika
+[Full name (e-mail)]
+Nazwa (e-mail)
+[Password]
+Hasło:
+[Server name]
+Nazwa serwera
+[Alternative nick]
+Alternatywny nick
+[Ident]
+Ident
+[System]
+System
+[Port]
+Port
+[Default network]
+Sieć domyślna
+[User info - Required]
+Inforamcje użytkownika - Wymagane
+[Other]
+Inne
+[Reconnect]
+Połącz ponownie
+[Wait (s)]
+Czekaj (s)
+[Retry count]
+Powtórne liczenie
+[Fear the monkeys!!!]
+Bój się małp!!!
+[Check every (s):]
+Sprawdzaj co (s):
+[SSL]
+
+[Don't check if more than (users):]
+Nie sprawdzaj, jeśli więcej niż (użytkowników):
+[User information]
+Informacja użytkownika
+[Ping]
+
+[Version]
+Wersja
+[Time]
+Pokaż czas
+[Userinfo]
+Dane użytkownika
+[&Refresh]
+Odśwież
+[&Query]
+Zapytanie
+[&Close]
+Zamknij
+[Name]
+Nazwa
+[Address]
+Adres
+[Channels]
+Kanały
+[Auth]
+Autoryzacja
+[Server]
+Serwer
+[User]
+Użytkownika
+[Away Info]
+Oddalony - Info
+[The server returned the following information. Please note that this information might be misleading and/or falsified]
+Serwer zwrócił następującą informację. Pamiętaj, że ta informacja może być myląca i/lub sfałszowana
+[CTCP information]
+Informacja CTCP
+[Question]
+Pytanie
+[&OK]
+&OK
+[&Cancel]
+Anuluj
+[Perform]
+Wykonaj
+[&Set]
+Ustaw
+[Alias]
+Alias
+[Perform on event:]
+Wykonaj przy zdarzeniu:
+[Scripting support]
+Wsparcie skryptowania
+[Quit message:]
+Wiadomość przy wyjściu:
+[Server code page:]
+Kodowanie znaków:
+[Enable UTF8 autodetection]
+Włącz autowykrywanie UTF-8
+[Add server]
+Dodaj serwer
+[On]
+Wł.
+[Auto]
+
+[Off]
+Wył.
+[Host address]
+Adres hosta
+[Server description]
+Opis serwera
+[Network]
+Protokoły
+[Channels on server]
+Kanały na serwerze
+[&Join]
+Dołącz
+[Filter by]
+
+[C&onnect]
+&Połącz
+[&Save]
+Zapisz
+[Hostmask]
+Maska hosta
+[&Clear all]
+&Wyczyść wszystko
+[Online detection mode]
+Tryb wykrywania Podłączonych
+[Basic]
+Podstawowe
+[Wildcard enabled network search]
+Wieloznacznik włączony przy przeszukiwaniu sieci
+[Channel manager]
+Zarządzanie kanałem
+[Bans]
+Bany
+[Invites]
+Zaproszenia
+[Excepts]
+Wyjątki
+[Only Ops set topic]
+Tylko Opy ustawiają temat
+[No external messages]
+Brak zewnętrznych wiadomości
+[Invite only]
+Tylko na zaproszenie
+[Moderated]
+Moderowany
+[Key:]
+Znacznik:
+[User limit:]
+Limit użytkowników:
+[Private]
+Prywatny
+[Secret]
+Sekretny
+[Topic]
+Temat
+[User modes]
+Tryby użytkownika
+[Channel modes]
+Tryby kanału
+[Hidden]
+Ukryte
+[Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
+Użyj opcji do ustawienia trybów dla tego kanału. Wymaga to bycia Op'em lub wyższym rangą do modyfikacji.
+[Strip colors]
+Usuń kolory z wiadomości
+[Normal]
+Normalne
+[Send-ahead]
+Wyślij z wyprzedzeniem
+[Attempt reverse DCC (good if firewalled)]
+Spróbuj odwrócoego DCC (dobre, gdy za firewallem)
+[none]
+brak
+[everyone on the contact list]
+wszystkich na liście kontaktów
+[everyone]
+wszystkich
+[Disconnect DCC chats when disconnecting from server]
+Rozłącz rozmowy DCC, gdy odłączasz się od serwera
+[Manually set external IP:]
+Ustaw ręcznie zewnętrzne IP:
+[Client-to-Client File Transfers]
+Transfer Plików Klient-do-Klienta 
+[Client-to-Client Protocol]
+Protokół Klient-do-Klienta 
+[Client-to-Client Chats]
+Rozmowy Klient-do-Klienta
+[Send mode:]
+Tryb wysyłania:
+[Packet size (b):]
+Rozmiar pakietu (b):
+[Get IP address from server]
+Pobierz IP z serwera
+[Auto-accept from:]
+Automatycznie akceptuj od:
+[Send notice]
+Wysyłaj powiadomienie
+[CTCP Chat Request]
+Żądanie rozmowy CTCP
+[&Accept]
+Akceptuj
+[&Deny]
+Odrzuć
+[Enable (*)]
+Włącz (*)
+[Ignore channel messages by default]
+Domyślnie ignoruj wiadomości z kanałów
+[Ignore filetransfer requests]
+Ignoruj żądania transferu plików
+[Ignore DCC Chat requests]
+Ignoruj żądania rozmów DCC
+[Ignore DCC Chat requests from unknown contacts]
+Ignoruj żądania rozmów DCC od nieznanych kontaktów
+[Ignore users]
+Ignoruj użytkowników
+[(*) Queries from users on your contactlist are never ignored]
+(*) Zapytania użytkowników z listy kontaktów nigdy nie są igonorowane
+[Queries]
+Zapytania
+[Messages]
+Wiadomości
+[Notices]
+Powiadomienia
+[CTCP]
+
+[DCC]
+
+[Ignore mask ( nick!user@host )]
+Ignoruj maskę (nazwa!użytkownik@host)
+[Network (*)]
+Sieć (*)
+[Ignore events]
+Ignoruj zdarzenia
+[(*) blank to set this mask for all networks]
+(*) zostaw puste, żeby ustawić tą maskę dla wszystkich sieci
+[Server:]
+Serwer:
+[Password:]
+Hasło:
+[Alternate nick]
+Alternatywny nick
+;file \protocols\IRCG\src\clist.cpp
+[CTCP chat request from %s]
+Żądanie rozmowy CTCP od %s
+;file \protocols\IRCG\src\commandmonitor.cpp
+[%s sets mode %s]
+%s ustawił tryb %s
+[%s sets mode %s%s]
+%s ustawił tryb %s%s
+[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
+BŁĄD CTCT: Otrzymano niewłaściwie sformowane polecenie CTCP od %s!%s@%s. Zarejestrowano potencjalną próbę przejęcia kontroli nad twoim klientem irc.
+[CTCP FINGER requested by %s]
+Żądanie CTCP FINGER od %s
+[CTCP VERSION requested by %s]
+Żądanie CTCP VERSION od %s
+[CTCP SOURCE requested by %s]
+Żądanie CTCP SOURCE od %s
+[CTCP USERINFO requested by %s]
+Żądanie CTCP USERINFO od %s
+[CTCP PING requested by %s]
+Żądanie CTCP PING od %s
+[CTCP TIME requested by %s]
+Żądanie CTCP TIME od %s
+[DCC: Chat request from %s denied]
+DCC: Żądanie rozmowy od %s odrzucono
+[DCC: File transfer request from %s denied]
+DCC: Żądanie transferu plików od %s odrzucono
+[DCC: Reverse file transfer request from %s denied [No local IP]]
+DCC: Żądanie odwróconego transferu plików od %s odrzucono [Brak lokalnego IP]
+[DCC ERROR: Malformed CTCP request from %s [%s]]
+BŁĄD DCC: Niewłaściwe sformowane żądanie CTCP od %s [%s]
+[DCC: File transfer resume request from %s denied]
+DCC: Żądanie wznowienia transferu plików od %s odrzucono
+[CTCP %s requested by %s]
+CTCP %s zażądane przez %s
+[CTCP PING reply from %s: %u sec(s)]
+CTCP PING odpowiedź od %s: %u s
+[CTCP %s reply from %s: %s]
+CTCP %s odpowiedź od %s: %s
+[Downloading list (%u%%) - %u channels]
+Pobieranie listy (%u%%) - %u kanałów
+[Downloading list - %u channels]
+Pobieranie listy - %u kanałów
+[Done: %u channels]
+Pobrano: %u kanałów
+[(probably truncated by server)]
+(prawdopodobnie okrojona przez serwer)
+[Change nickname]
+Zmień ksywkę
+[IRC error]
+Błąd IRC
+[Unknown]
+Nieznany
+[Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
+Proszę podać maskę hosta (nazwa!użytkownik@host)\nUWAGA! Kontakty na liście nigdy nie są ignorowane
+[Ignore]
+Ignorowanie
+[Please enter the reason]
+Proszę podać powód
+[Ban'n Kick]
+Zablokuj i wywal
+[Jerk]
+Szarpnij
+[*Disconnected*]
+*Rozłączony*
+[The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
+Używanie /AWAY w buforze wykonywania jest ograniczone, ponieważ IRC wysyła tą komendę automatycznie.
+[IRC Error]
+Błąd IRC
+;file \protocols\IRCG\src\input.cpp
+[The buddy check function is enabled]
+Funkcja sprawdzania obecności znajomych jest włączona
+[The buddy check function is disabled]
+Funkcja sprawdzania obecności znajomych jest wyłączona
+[Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
+
+[Ignore system is enabled]
+System ignorowania jest włączony
+[Ignore system is disabled]
+System ignorowania jest wyłączony
+[%s on %s is now ignored (+%s)]
+%s na %s jest teraz ignorowany (+%s)
+[%s is not ignored now]
+%s nie jest ignorowany
+[%s was not ignored]
+%s nie był ignorowany
+[Outgoing commands are shown]
+Wychodzące komendy są pokazane
+[Outgoing commands are not shown]
+Wychodzące komendy nie są pokazane 
+[The time interval for the buddy check function is now at default setting]
+Odstęp czasu przy sprawdzaniu obecności znajomych ma obecnie wartość domyślną
+[The time interval for the buddy check function is now %u seconds]
+Odstęp czasu przy sprawdzaniu obecności znajomych wynosi obecnie %s sekund
+[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
+To polecenie nie jest zalecane w sieciach o tej wielkości!\r\nPrawdopodobnie spowoduje ono wysokie obciążenie procesora i/lub wysokie użycie łącza na około %u do %u minut(y).\r\n\r\nChcesz kontynuować?
+[IRC warning]
+Ostrzeżenie IRC
+[Aborted]
+Przerwane
+[CTCP %s request sent to %s]
+Żądanie CTCP %s wysłano do %s
+[DCC ERROR: Unable to automatically resolve external IP]
+BŁĄD DCC: Nie można automatycznie rozpoznać zewnętrznego IP
+[DCC CHAT request sent to %s]
+Żądanie DCC CHAT wysłano do %s
+[DCC ERROR: Unable to bind port]
+BŁĄD DCC: Nie można przypisać portu
+[Input command]
+Wpisz komendę
+[Please enter the reply]
+Proszę wprowadzić odpowiedź
+;file \protocols\IRCG\src\irclib.cpp
+[Failed to connect to]
+
+[DCC ERROR: Unable to bind local port for passive filetransfer]
+BŁĄD DCC: Nie można przypisać lokalnego portu dla pasywnego transferu plików
+;file \protocols\IRCG\src\ircproto.cpp
+[%s server connection]
+Połączenie %s
+[%s client-to-client connections]
+Połączenie Klient-do-Klienta %s
+[The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
+
+[Information]
+Informacje
+[Nickname]
+Nick
+[DCC ERROR: No valid files specified]
+BŁĄD DCC: Ne wyznaczono odpowiednich plików
+[DCC reversed file transfer request sent to %s [%s]]
+Odwrócone żądanie DCC transferu plików wysłano do %s [%s] 
+[DCC file transfer request sent to %s [%s]]
+Żądanie DCC transferu plików wysłano do %s [%s] 
+[DCC ERROR: Unable to bind local port]
+BŁĄD DCC: Nie można przypisać lokalnego portu
+[The protocol is not online]
+Protokół jest rozłączony
+[The dcc chat connection is not active]
+Rozmowa DCC CHAT jest nieaktywna
+[Please choose an IRC-network to go online. This network will be the default.]
+Proszę wybierz sieć IRC do podłączenia się. Ta sieć będzie domyślną.
+[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+Połączenie nie może zostać ustalone! Nie zostały wypełnione wszystkie wymagane pola (Nick, Alternatywny nick, Nazwa (e-mail) i ID użytkownika).
+;file \protocols\IRCG\src\options.cpp
+[Main]
+Ogólne
+[Add]
+Dodaj
+[Apply]
+Zastosuj
+[Rename]
+Zmień nazwę
+[Edit]
+Edytuj
+[Cancel]
+Anuluj
+[Channel list]
+Lista kanałów
+[Quick connect]
+Szybkie łączenie
+[Server window]
+Okno serwera
+[Show channel]
+Pokaż kanał
+[WhoIs]
+
+[Incoming DCC Chat]
+Przychodzący czat DCC
+[Logo (48x48)]
+Logo (48x48)
+[Thai]
+Tajski
+[Japanese]
+Japoński
+[Simplified Chinese]
+Chiński Uproszczony
+[Korean]
+Koreański
+[Traditional Chinese]
+Chiński Tradycyjny
+[Central European]
+Europa Środkowa
+[Cyrillic (Windows)]
+Cyrylica (Windows)
+[Cyrillic (KOI8R)]
+Cyrylica (KOI8R)
+[Latin I]
+Łacina I
+[Greek]
+Grecki
+[Turkish]
+Turecki
+[Hebrew]
+Hebrajski
+[Arabic]
+Arabski
+[Baltic]
+Bałtyckie
+[Vietnamese]
+Wietnamski
+[Korean (Johab)]
+Koreański (Johab)
+[Please complete all fields]
+Wypełnij wszystkie pola
+[Add a new network]
+Dodaj nową sieć
+[Edit this network]
+Edytuj tą sieć
+[Delete this network]
+Usuń tą sieć
+[Do you want to delete\r\n%s]
+Chcesz skasować\r\n%s
+[Delete server]
+Usuń serwer
+[Edit server]
+Edytuj serwer
+[<Resolved IP: ]
+<Ustalone IP:
+[<Automatic>]
+<Automatycznie>
+[<Local IP: ]
+<Lokalne IP:
+[Click to set commands that will be performed for this event]
+Kliknij, żeby ustawić polecenia dla tego zdarzenia
+[Click to delete the commands for this event]
+Kliknij żeby usunąć polecenia do wykonania dla tego zdarzenia
+[Default ANSI codepage]
+Domyślne kodowanie ANSI
+[Add new ignore]
+Dodaj nowego ignorowanego
+[Edit this ignore]
+Edytuj tego ignorowanego
+[Delete this ignore]
+Usuń tego ignorowanego
+[Ignore mask]
+Ignoruj maskę
+[Flags]
+Flagi
+[Add ignore]
+
+[Edit ignore]
+
+[Account]
+Konto
+[DCC'n CTCP]
+DCC i CTCP
+[Advanced]
+Zaawansowane
+;file \protocols\IRCG\src\output.cpp
+[WallOps from %s: ]
+WallOps od %s:
+[%s invites you to %s]
+%s zaprasza ciebie na %s
+[%s is away]
+%s jest oddalony
+[These are online: ]
+Online są:
+[CTCP %s reply sent to %s]
+Odpowiedź CTCP %s wyslano do %s
+[CTCP %s reply sent to %s: %s]
+Odpowiedź CTCP %s wyslano do %s: %s
+[Notice to %s: ]
+Powiadomienie do %s:
+;file \protocols\IRCG\src\services.cpp
+[&Quick connect]
+Szybkie połączenie
+[&Join channel]
+Dołącz do kanału
+[&Change your nickname]
+Zmień swoją ksywkę
+[Show the &list of available channels]
+Pokaż listę dostępnych kanałów
+[&Show the server window]
+Pokaż okno serwera
+[Channel &settings]
+Ustawienia kanału
+[&WhoIs info]
+Informacje WhoIs
+[Di&sconnect]
+Rozłącz
+[&Add to ignore list]
+Dodaj do ignorowanych
+[%s (%s) is requesting a client-to-client chat connection.]
+%s (%s) żąda rozmowy za pomocą połączenia Klient-do-Klienta 
+[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
+Proszę podać maskę hosta (nazwa!użytkownik@host)\nUWAGA! Kontakty z twojej listy nigdy nie są ignorowane
+[Join channel]
+Dołącz do kanału
+[Please enter a channel to join]
+Proszę wpisać kanał, do którego chcesz dołączyć
+[Please select IRC network and enter the password if needed]
+Proszę wybrać sieć IRC i wpisać hasło, jeśli jest potrzebne
+[Change nick name]
+Zmień ksywkę
+[Please enter a unique nickname]
+Proszę wpisać nową ksywkę
+[Please enter your authentification code]
+
+[Authentificate nick]
+
+[Are you sure you want to unregister your current nick?]
+Czy na pewno chcesz wyrejestrować aktualny nick?
+[Delete nick]
+Usuń nick
+[Identify nick]
+
+[Please enter your password]
+
+[Please enter your new password]
+Proszę wpisać twoje nowe hasło.
+[Set new password]
+
+[Please enter desired languageID (numeric value, depends on server)]
+
+[Change language of NickServ messages]
+
+[Please enter URL that will be linked to your nick]
+
+[Set URL, linked to nick]
+
+[Please enter your e-mail, that will be linked to your nick]
+
+[Set e-mail, linked to nick]
+
+[Please enter some information about your nick]
+
+[Set information for nick]
+Ustaw informacje dla nicku
+[Please enter nick you want to link to your current nick]
+
+[Link another nick to current nick]
+
+[Please enter nick you want to unlink from your current nick]
+
+[Unlink another nick from current nick]
+
+[Please enter nick you want to set as your main nick]
+
+[Set main nick]
+Ustaw główny nick
+[Kick]
+Wykop
+[Please enter the notice text]
+Proszę wpisać tekst powiadomienia
+[Please enter the channel name to invite to]
+Proszę wpisz nazwę kanału, do którego zaprosić 
+[Invite to channel]
+Zaproś na kanał
+[NickServ]
+
+[Register nick]
+
+[Auth nick]
+
+[Remind password ]
+
+[Set language]
+Ustaw język
+[Set homepage]
+Ustaw stronę domową
+[Set e-mail]
+Ustaw e-mail
+[Set info]
+Ustaw indormacje
+[Hide e-mail from info]
+
+[Show e-mail in info]
+
+[Set security for nick]
+
+[Remove security for nick]
+
+[Link nick to current]
+
+[Unlink nick from current]
+
+[List all your nicks]
+
+[List your channels]
+
+[Kill unauthorized: off]
+
+[Kill unauthorized: on]
+
+[Kill unauthorized: quick]
+
+[Hide nick from list]
+
+[Show nick to list]
+Pokaż nick na liście
+[Show the server &window]
+Pokaż okno serwera
+[&Leave the channel]
+Opuść kanał
+[&Invite to channel]
+Zaproś na kanału
+[Send &notice]
+Wyślij powiadomienie
+[&Slap]
+
+[Nickserv info]
+
+[Nickserv kill ghost]
+
+[&Control]
+&Kontrola
+[Give Owner]
+Daj Właściciela
+[Take Owner]
+Zabierz Właściciela
+[Give Admin]
+Daj Admina
+[Take Admin]
+Zabierz Admina
+[Give &Op]
+Daj Opa
+[Take O&p]
+Zabierz Opa
+[Give &Halfop]
+Daj Halfop
+[Take H&alfop]
+Zabierz Halfop
+[Give &Voice]
+Daj Voice
+[Take V&oice]
+Zabierz Voice
+[&Kick]
+Wyrzuć
+[Ki&ck (reason)]
+Wykop (powód)
+[&Ban]
+&Banuj
+[Ban'&n kick]
+Wykop i banuj
+[Ban'n kick (&reason)]
+Wykop i banuj (powód)
+[&Direct Connection]
+Połączenie bezpośrednie
+[Request &Chat]
+Żądanie rozmowy
+[Send &File]
+Wyślij plik
+[Add to &ignore list]
+Dodaj do listy ignorowanych
+[&Add User]
+Dodaj użytkownika
+[Connecting to]
+Połącz do
+[Reconnecting to]
+Łączenie ponowne z
+;file \protocols\IRCG\src\tools.cpp
+[Offline]
+Rozłaczony
+;file \protocols\IRCG\src\userinfo.cpp
+[Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
+
+[Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
+
+[Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
+
+[Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
+
+;file \protocols\IRCG\src\windows.cpp
+[Please wait...]
+Proszę czekać...
+[Channel]
+Kanał
+[Mode]
+Tryb
+[%s - Filtered - %d items]
+%s - Wybrano - %d elementów
+[---- Not listed server ----]
+
+[Type new server address here]
+
+[Add ban/invite/exception]
+Dodaj ban/zaproszenie/wyjątek
+[Edit selected ban/invite/exception]
+Edytuj wybrany ban/zaproszenie/wyjątek
+[Delete selected ban/invite/exception]
+Usuń wybrany ban/zaproszenie/wyjątek
+[Set these modes for the channel]
+Ustaw te tryby dla kanału 
+[Set this topic for the channel]
+Ustaw ten temat dla kanału
+[You have not applied all changes!\n\nApply before exiting?]
+Nie zapisałeś wszystkich zmian!\n\nChcesz je zapisać przed wyjściem?
+[Add ban]
+Dodaj ban
+[Add invite]
+Dodaj zaproszenie
+[Add exception]
+Dodaj wyjątek
+[Please enter the hostmask (nick!user@host)]
+Proszę wprowadź maskę hosta (nazwa!użytkownik@host)
+[Edit ban]
+Edytuj ban
+[Edit invite?]
+Edytować zaproszenie?
+[Edit exception?]
+Edytować wyjątek?
+[Remove ban?]
+Usunąć ban?
+[Remove invite?]
+Usunąć zaproszenie?
+[Remove exception?]
+Usunąć wyjątek?

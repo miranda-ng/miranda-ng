@@ -1,0 +1,5 @@
+﻿[Send "Seen" info when marking messages as read]
+[For friends of friends]
+[Message read: %s]
+[Show Mind Window]
+[Newsfeed]

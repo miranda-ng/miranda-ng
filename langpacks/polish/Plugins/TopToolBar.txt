@@ -1,0 +1,50 @@
+﻿#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
+;============================================================
+;  File: TopToolBar.dll
+;  Plugin: TopToolBar
+;  Version: 0.8.0.3
+;  Authors: Bethoven
+;============================================================
+[ToptoolBar adds buttons in top frame for fast access.]
+Dodaje przyciski szybkiego dostępu do pasku narzędzi listy kontaktów.
+;file \plugins\TopToolBar\res\main.rc
+[Buttons Order && Visibility]
+Kolejność i widoczność przycisków
+[Button height]
+Wysokość przycisku
+[Button width]
+Szerokość przycisku
+[Interval between buttons]
+Odległość między przyciskami
+[Use flat mode]
+Użyj płaskich przycisków
+[Auto resize]
+Automatyczne dopasowanie
+[Single line]
+Pojedyncza linia
+[Buttons order:]
+Kolejność przycisków:
+[Add Separator]
+Dodaj separator
+[Add Launch]
+Dodaj przycisk
+[Del Sep/Launch Button]
+Usuń przycisk
+[Name: ]
+Nazwa: 
+[Path:]
+Folder:
+[Set]
+Ustaw
+;file \plugins\TopToolBar\src\toolbar.cpp
+[Default]
+Domyślny
+[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org]
+Obsługa ramek nie została znaleziona, wtyczka zostanie wyłączona.\nAby ją uruchomić należy zainstalować i/lub włączyć wpieraną wtyczkę listy kontaktów:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nMożesz je pobrać z http://Miranda-ng.org
+[TopToolBar]
+Pasek narzędzi
+;file \plugins\TopToolBar\src\ttbopt.cpp
+[Contact List]
+Lista kontaktów
+[Toolbar]
+Pasek narzędzi

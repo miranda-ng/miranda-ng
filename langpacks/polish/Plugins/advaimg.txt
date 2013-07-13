@@ -1,7 +1,0 @@
-﻿;============================================================
-;  Module: advaimg.dll
-;  Plugin: Provides generic image services for Miranda IM
-;  Versions: 0.10.0.1
-;============================================================
-[Generic image services for Miranda IM]
-Usługa obrazków dla Mirandy IM

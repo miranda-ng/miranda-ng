@@ -1,0 +1,271 @@
+﻿#muuid {9502e511-7e5d-49a1-8ba5-b1aee70fa5bf}
+;============================================================
+;  File: FTPFile.dll
+;  Plugin: FTP File YM
+;  Version: 0.5.0.0
+;  Authors: yaho
+;============================================================
+[FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
+Wyślij plik na serwer FTP i dziel się nim z przyjaciółmi. Wsparcie automatycznego kompresowania i szyfrowania przed wysłaniem przez SFTP i FTPS
+;file \plugins\FTPFileYM\res\ftpfile.rc
+[FTP account]
+Konto FTP
+[Host name]
+Nazwa hosta
+[User]
+Użytkownika
+[Password]
+Hasło:
+[URL]
+
+[Directory on server]
+Folder na serwerze
+[Port]
+Port
+[Command after upload]
+Polecenie po wysłaniu
+[Use passive mode]
+Użyj trybu pasywnego
+[Account name]
+Nazwa konta
+[Protocol]
+Protokół
+[Default FTP server]
+Domyślny serwer FTP
+[File download link]
+Link do pobrania pliku
+[Close dialog after upload is completed]
+Zamknij okno po zakończeniu przesyłania
+[Copy download link to message log]
+Kopiuj link do pobrania pliku do dziennika wiadomości
+[Autosend download link to contact]
+Automatycznie wyślij do kontaktu link do pobrania pliku
+[Menu items]
+Elementy w menu
+[Use submenu (restart required)]
+Użyj podmenu (wymagany restart)
+[Hide inactive accounts]
+Ukryj nieaktywne konta
+[Other]
+Inne
+[Automatically delete file from FTP server after (experimental):]
+Automatycznie usuń plik z serwera FTP po (eksperymentalne):
+[ZIP support]
+Wsparcie archiwum ZIP
+[Enter archive name manually]
+Wpisz nazwę archiwum ręcznie
+[Compression level:]
+Stopień kompresji:
+[Upload File Manager]
+
+[File:]
+Plik:
+[Completed:]
+Zakończono:
+[Speed:]
+Prędkość:
+[Remaining:]
+Pozostało:
+[Summary]
+Podsumowanie
+[To:]
+Do:
+[Nick]
+Nick
+[Close]
+Zamknij
+[Clipboard]
+Schowek
+[Options]
+Opcje
+[Pause]
+Pauza
+[File Manager]
+Menedżer plików
+[Server:]
+Serwer:
+[User info]
+
+[UPLOADING...]
+WYSYŁANIE...
+[Open in Browser]
+Otwórz w przeglądarce
+[FTP File Manager]
+Menedżer FTP
+[Select All]
+Zaznacz wszystko
+[Deselect All]
+Odznacz wszystkie
+[Delete from list]
+Usuń z listy
+[Delete from FTP]
+Usuń z FTP
+[Enter file name]
+
+[OK]
+OK
+[Cancel]
+Anuluj
+[File exists]
+Plik istnieje
+[Rename]
+Zmień nazwę
+[Overwrite]
+Nadpisz
+[File with the same name already exists on the server.]
+
+[How to proceed?]
+
+[Copy URL]
+Kopiuj link
+[Close dialog after upload finishes]
+Zamknij okno po zakończeniu przesyłania
+[Automatically delete file after...]
+Automatycznie usuń plik po upływie...
+[Disabled]
+Wyłączone
+[Delete from List]
+Usuń z listy
+[Copy Link]
+Kopiuj link
+;file \plugins\FTPFileYM\src\dialog.cpp
+[User Info]
+
+[Copy Link to Clipboard]
+Kopiuj link do schowka
+[%d minutes]
+%d minut
+[%d hours]
+%d godzin
+[%d days]
+%d dni
+[Do you really want to cancel all running jobs?]
+Czy na pewno chcesz anulować wszystkie działające prace?
+;file \plugins\FTPFileYM\src\ftpfile.cpp
+[FTP Server 1]
+Serwer FTP 1
+[FTP Server 2]
+Serwer FTP 2
+[FTP Server 3]
+Serwer FTP 3
+[FTP Server 4]
+Serwer FTP 4
+[FTP Server 5]
+Serwer FTP 5
+[Send file]
+Wyślij plik
+[Resume]
+Wznów
+[FTP File]
+Menedżer FTP
+[FTP Server %d]
+Serwer FTP %d
+[Upload file(s)]
+Wyślij plik(i)
+[Zip and upload file(s)]
+Spakuj i wyślij plik(i)
+[Zip and upload folder]
+Spakuj i  wyślij folder
+[FTP File manager]
+Menedżer FTP
+[Show FTPFile manager]
+Pokaż menedżera FTP
+[FTP_ShowManager]
+
+[Upload file]
+Wysyłanie pliku
+[Zip and upload file]
+
+[You have to fill FTP server setting before upload a file.]
+Musisz uzupełnić ustawienia serwra przed wysłaniem pliku.
+[Error has occurred while trying to create a dialog!]
+
+[File upload complete]
+Zakończono wysyłanie
+[Upload canceled]
+Przerwano wysyłanie
+;file \plugins\FTPFileYM\src\job_generic.cpp
+[All Files (*.*)]
+Wszystkie pliki (*.*)
+[FTP File - Select files]
+FTP File - wybierz pliki
+[FTP File - Select a folder]
+
+[Folder not found!]
+Folder nie znaleziony!
+[The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
+
+[CANCELED]
+ANULOWANO
+[COMPLETED]
+ZAKOŃCZONO
+[CONNECTING...]
+ŁĄCZENIE...
+[CREATED]
+UTWORZONO
+[PACKING...]
+
+[PAUSED]
+
+[WAITING...]
+CSEKAJ...
+[UNKNOWN]
+
+;file \plugins\FTPFileYM\src\job_packer.cpp
+[Error occured when zipping the file(s).]
+
+[%0.1f kB/s]
+
+[%0.1f%% (%d kB/%d kB)]
+
+[%s (%d kB/%d kB)]
+
+[Do you really want to cancel this upload?]
+Czy na pewno chcesz anulować to wysyłanie?
+[Status: %s\r\nFile: %s\r\nServer: %s]
+
+;file \plugins\FTPFileYM\src\job_upload.cpp
+[File exists - %s]
+Plik istnieje - %s
+[Error occurred when opening local file.\nAborting file upload...]
+
+[Error occurred when initializing libcurl.\nAborting file upload...]
+
+[FTP error occurred.\n%s]
+
+[WAITTING...]
+CZEKAJ...
+[Download link:]
+Link do pobrania pliku:
+[Do you really want to cancel running upload?]
+Czy napewno chcesz anulować wysyłanie?
+[%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
+%s\r\nSzybkość: %s\r\nZakończono: %s\r\nPozostało: %s
+;file \plugins\FTPFileYM\src\manager.cpp
+[You have to fill and enable at least one FTP server in setting.]
+Musisz wypełnić dane co najmniej jednego serweru FTP oraz włączyć go w ustawieniach.
+[Clear All]
+Wyczyść wszystko
+;file \plugins\FTPFileYM\src\options.cpp
+[FTP (Standard)]
+FTP (Standardowy)
+[FTP+SSL (Explicit)]
+
+[FTP+SSL (Implicit)]
+
+[SFTP (Secure FTP over SSH)]
+SFTP (Bezpieczny FTP przez SSH)
+[minutes]
+minut
+[hours]
+godziny
+[days]
+dni
+[Services]
+Usługi
+[Accounts]
+Konta
+[Advanced]
+Zaawansowane
+;file \plugins\FTPFileYM\src\serverlist.cpp
+;file \plugins\FTPFileYM\src\utils.cpp

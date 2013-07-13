@@ -1,0 +1,7 @@
+﻿[Alarm]
+[i'm hiding]
+[Reminder Frame Context]
+[Unknown command issued: "%s"]
+[Hide Reminders]
+[Show Reminders]
+[The alarm time you have selected is in the past.]

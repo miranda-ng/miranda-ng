@@ -1,0 +1,7 @@
+﻿[Popup history]
+[Case sensitive]
+[Global hover]
+[Set timeout]
+[Timeout value (0 = default):]
+[You cannot set a default timeout of 0.\nValue has been reset.]
+[Copy timestamp to clipboard]

@@ -1,0 +1,37 @@
+﻿#muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
+;============================================================
+;  File: RecentContacts.dll
+;  Plugin: Recent contacts
+;  Version: 0.0.2.0
+;  Authors: ValeraVi, Kildor
+;============================================================
+[Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.]
+
+;file \plugins\RecentContacts\res\resource.rc
+[Recent Contacts]
+
+[Plugin settings]
+Ustawienia wtyczki
+[Number shown contacts:\n (0 to show all)]
+
+[Format of date and time\n(Look to readme for placeholders help)]
+
+[Hide offline contacts]
+Ukryj rozłączone kontakty
+;file \plugins\RecentContacts\src\options.cpp
+[Contacts]
+Kontakty
+;file \plugins\RecentContacts\src\RecentContacts.cpp
+[Main icon]
+Ikona główna
+[Contact]
+Kontakt
+[Toggle Ignore]
+
+[Ignore Contact]
+
+[Show Contact]
+Pokaż kontakt
+[Show Recent Contacts]
+
+;file \plugins\RecentContacts\src\RecentContacts.h

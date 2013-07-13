@@ -1,0 +1,76 @@
+﻿#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
+;============================================================
+;  File: FavContacts.dll
+;  Plugin: Favourite contacts
+;  Version: 0.0.0.6
+;  Authors: Victor Pavlychko
+;============================================================
+[Favourite contacts menu.]
+Menu ulubionych kontaktów
+;file \plugins\FavContacts\res\resource.rc
+[Customize]
+Personalizacja
+[Show second line]
+Pokaż drugą linię
+[Show avatars]
+Pokaż awatar
+[Draw avatar border]
+Rysuj obramowanie awatarów
+[Round corners by]
+Zaokrąglij rogi o
+[px.]
+
+[Hide for transparent avatars]
+Ukryj przeźroczyste awatary
+[Use system colors and fonts]
+Użyj systemowych kolorów i czcionek
+[Hotkey shows menu centered on screen]
+Skrót pokazuje listę na środku ekranu
+[Menu item preview:]
+Podgląd elementów menu:
+[Favourite Contacts]
+Ulubione kontakty
+[Enable groups]
+Włącz grupy
+[Multicolumn menu]
+Wielokomórkowe menu
+[Configure fonts and colors...]
+Konfiguruj czcionki i kolory...
+[Align to the right]
+Wyrównaj do prawej
+[Dim idle contact icons]
+Przygaś nieaktywne kontakty
+[Show]
+Pokaż
+[recent contacts]
+ostatnich kontaktów
+;file \plugins\FavContacts\src\favlist.h
+[<no group>]
+<brak grupy>
+;file \plugins\FavContacts\src\main.cpp
+[Favourite Contact]
+Ulubione kontakty
+[Regular Contact]
+Regularne kontakty
+[Contact name]
+Nazwa kontaktu
+[Second line]
+Druga linia
+[Selected contact name (color)]
+Zaznaczona nazwa kontaktu (kolor)
+[Selected second line (color)]
+Zaznaczona druga linia (kolor)
+[Background]
+Tło
+[Selected background]
+Zaznaczone tło
+[Show favourite contacts]
+Pokaż ulubione kontakty
+[Contacts]
+Kontakty
+[Favourites]
+Ulubione
+[&Favourite Contacts...]
+Ulubione kontakty...
+[<No group>]
+<Brak grupy>

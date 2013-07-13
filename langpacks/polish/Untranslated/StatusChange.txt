@@ -1,0 +1,7 @@
+﻿[Change status when you send/receive an event.]
+[On events...]
+[Receive]
+[URL]
+[...change status to...]
+[... if status is...]
+[Status Change]

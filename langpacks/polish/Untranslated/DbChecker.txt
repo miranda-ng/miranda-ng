@@ -1,0 +1,4 @@
+﻿[Miranda NG Database Checker.]
+[Database driver '%s' doesn't support checking.]
+[Miranda Databases (*.dat)]
+[All tasks completed but with errors (%d)]

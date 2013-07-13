@@ -1,6 +1,5 @@
 ﻿Miranda Language Pack Version 1
-Language: Polish
-Version: 2011.09.20
-Last-Modified-Using: Miranda IM Version: 0.10.0 alpha build #3 Unicode
-Author: www.MojaMiranda.pl
-Author-email: MojaMiranda@gmail.com
+Language: Polish (PL)
+Locale: 0415
+Last-Modified-Using: 0.94.5
+Authors: bunnyhoney, Xantros, Goraf

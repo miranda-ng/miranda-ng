@@ -1,67 +1,74 @@
 ﻿;============================================================
-;  File: smcn.dll, smcnotify.dll
+;  File: smcn.dll, smcnotify.dll (???)
 ;  Module: StatusMessageChangeNotify
-;  Versions: 0.0.3.21
+;  Versions: 0.0.1.6-0.0.3.19
+;  URL: http://www.torun.mm.pl/~slotwin/smcn/smcnotifytest.zip
 ;============================================================
-[Toggle status notification]
-Przełącznik powiadomień statusu
 [Status Message Change Notify]
-Powiadomienie o zmianie opisu
-[Do not log empty status messages]
-Nie powiadamiaj o pustych opisach
-[Disable protocols which you don't wish to be notified for]
-Protokoły, dla których będzie widoczne powiadomienie
-[Keep history of up to]
-Trzymaj w historii
-[status messages]
-wpisów
-[History template]
-Szablon historii
-[Message Window]
-Okno wiadomości
-[Clear status messages history for all contacts]
-Wyczyść historię opisów dla wszystkich kontaktów
-[Show status message changes in message window]
-Pokaż zmiany opisów w oknie wiadomości
-[Message removed]
-Usunięcie opisu
-[Message changed]
-Zmiana opisu
-[Logging]
-Dziennik
-[Log template]
-Szablon dziennika
-[You can use %c with log filename to append nicknames]
-Możesz użyć %c z nazwą pliku dziennika aby dołączyć nazwy
-[Show Popups]
-Pokaz popupy
-[Keep History]
-Zapisuj historię
-[Log To File]
-Zapisuj do pliku
-[Enable Popups]
-Włącz popupy
-[Only if status message has changed]
-Tylko kiedy nastąpi zmiana opisu
-[Ignore empty status messages]
-Ignoruj puste opisy
-[Open contact details]
-Otwórz dane kontaktu
-[View status message history]
+Powiadamianie o zmianie opisu
+[Enable &status message change notification]
+
+[Disable &status message change notification]
+
+[View Status Message History]
 Pokaż historię opisów
-[User has changed status message]
-Zmiana opisu
+[List Contacts with Status Message]
+
+[Disable SMCN Popups]
+Wyłąćz popupy SMCN
+[Enable SMCN Popups]
+Włącz popupy SMCN
+[Status Message Changed]
+Zmieniono opis
+[changes his/her status message to:]
+zmienił(a) opis na:
+[cleares his/her status message]
+wyczyścił(a) opis
+[changes his/her status message:]
+zmienił(a) opis:
+[<empty status message>]
+<brak opisu>
+[Old status message]
+
+[New status message]
+Nowy opis
+[List Status Messages]
+
 [Go To URL in Status Message]
 Otwórz link z opisu
-[List Contacts with Status Message]
-Lista kontaktów z opisem
 [Status Message History]
 Historia opisów
+[Use OSD]
+Użyj OSD
+[Do not notify and log when status message is empty]
+Nie powiadamiaj i nie zapisuj pustych opisów do dziennika
+[Show status message changes in message window]
+
+[Message cleared]
+
+[Message changed]
+
+[%n New Status Message]
+%n Nowy opis
+[%o Old Status Message]
+%o Stary opis
+[%D/%M/%Y day/month/year]
+%D/%M/%Y dzień/miesiąc/rok
+[%c Custom nickname]
+%c własny nick
+[%H:%m Time (in 24h format)]
+%H:%m Czas (w 24h formacie)
+[%h:%m %a (in 12h format)]
+%h:%m %a (w 12h formacie)
+[\\n line break]
+
+[\\t tab stop]
+
+[View status message history]
+Pokaż historię opisów
 [Clear history]
-Czyść historię
-[Enable/Disable popups for this contact]
-Włącz/Wyłącz popupy dla tego kontaktu
-[Enable/Disable history for this contact]
-Włącz/Wyłącz historię dla tego kontaktu
-[Enable/Disable logging to file for this contact]
-Włącz/Wyłącz zapisywanie do pliku dla tego kontaktu
+
+[Do not log empty status messages]
+Nie zapisuj pustych opisów do dziennika
+[Only if status message has changed]
+

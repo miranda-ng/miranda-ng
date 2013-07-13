@@ -1,0 +1,90 @@
+﻿#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
+;============================================================
+;  File: ChangeKeyboardLayout.dll
+;  Plugin: Change keyboard layout
+;  Version: 0.0.1.5
+;  Authors: Yasnovidyashii
+;============================================================
+[Plugin for changing keyboard layout of text (multilayout).]
+
+;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
+[Hotkeys]
+Skróty
+[Changing layout:]
+
+["Current word" mode]
+
+[Changing layout (alternative):]
+
+[Inverting lettercase:]
+
+[Options]
+Opcje
+[Two-way changing layout (experimental)]
+
+[Log operations]
+
+[Copy result to clipboard]
+Kopiuj rezultat do schowka
+[Show result in Popup]
+
+[Strings for keyboard layouts]
+
+[EN]
+
+[Default]
+Domyślny
+[Invert current state]
+
+[Switch off]
+
+[Leave as it is]
+
+[Set Caps Lock state when inverting lettercase:]
+
+[Change active keyboard layout in system]
+
+[Colours]
+Kolory
+[Popup colours]
+
+[Windows colours]
+Kolory Windows
+[Custom colours]
+Niestandardowe kolory
+[Back]
+Wstecz
+[Text]
+Tekst
+[Timeout]
+Wyświetlaj
+[From Popup plugin]
+Z wtyczki Popup
+[Permanent]
+Stałe
+[Custom]
+Niestandardowe
+[On left click]
+LPM
+[Copy to clipboard]
+Kopiuj do schowka 
+[Dismiss]
+Zamknij
+[On right click]
+PPM
+[Preview]
+Podgląd
+;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
+[ChangeKeyboardLayout]
+
+;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
+[Popup]
+Popup
+[Changing Layout]
+
+[Changing Case]
+
+[Message Sessions]
+Okno rozmowy
+[Popups]
+Popupy

@@ -1,7 +1,255 @@
-﻿;===========================================================
-;  File: yahoo.dll
-;  Module: Yahoo Protocol Beta/Nightly
-;  Versions: 0.9.26.0
-;===========================================================
-[Yahoo Protocol support via libyahoo2 library. \[Built: Jul 30 2011 18:41:05\]]
-Wsparcie dla protokołu Yahoo dzięki bibliotece libyahoo2. (Utworzone: 30 czerw. 2011 18:41:05)
+﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
+;============================================================
+;  File: Yahoo.dll
+;  Plugin: Yahoo
+;  Version: 0.11.0.1
+;  Authors: 
+;============================================================
+;file \protocols\Yahoo\res\Yahoo.rc
+[Yahoo]
+
+[ID:]
+
+[Password:]
+Hasło:
+[Nick:]
+Nick:
+[Create a new Yahoo account using the Yahoo website]
+Utwórz nowe konto Yahoo używając strony internetowej
+[Expert]
+Zaawansowane
+[Use Yahoo Address Book (YAB)]
+Użyj książki adresowej Yahoo (YAB)
+[Show Avatars]
+Pokaż awatary
+[AutoLogin to Yahoo Website(s)]
+Automatycznie loguj do Yahoo w przeglądarce
+[Display Yahoo notifications]
+Pokaż powiadomienia Yahoo
+[Show Errors]
+Pokaż błędy
+[Yahoo Japan]
+
+[Create a new Yahoo account]
+Utwórz nowe konto Yahoo
+[Connection Settings]
+Ustawienia połączenia
+[Login server:]
+Serwer:
+[Port:]
+Port:
+[Reset]
+Domyślne
+[Yahoo Ignore List]
+Lista ignorowania Yahoo
+[Ignore anyone who is not on my Yahoo buddy list ]
+Ignoruj wszystkich spoza listy kontaktów
+[Ignore only the people below: ]
+Ignoruj tylko osoby z listy poniżej:
+[&Add]
+Dodaj
+[&Remove]
+Usuń
+[Set Custom Status]
+Ustaw niestandardowy status
+[Show as busy]
+Pokaż jako zajęty
+[OK]
+OK
+[Cancel]
+Anuluj
+[Protocol:]
+Protokół:
+[Client:]
+Klient:
+[Chat Room Invitation Request]
+Prośba o dołączenie do pokoju
+[&Join]
+Dołącz
+[&Deny]
+Odrzuć
+[Denial Message]
+
+[Invitation Message]
+
+[Host]
+
+[Invite Buddy To Chat Room]
+Zaproś znajomego do czatu
+[Screen Name]
+Wyświetlana nazwa
+[&Invite]
+Zaproś
+[&Cancel]
+Anuluj
+[Invitation reason]
+Powód zaproszenia
+[Add]
+Dodaj
+;file \protocols\Yahoo\src\avatar.cpp
+[Avatars]
+Awatary
+;file \protocols\Yahoo\src\chat.cpp
+[[miranda] Got conference invite to room: %s with msg: %s]
+ [Miranda] Masz zaproszenie do pokoju: %s wiadomością: %s
+[%s denied invitation with message: %s]
+%s odrzucił zaproszenie z wiadomością: %s
+[Me]
+Ja
+[Others]
+Inne
+[&Invite user...]
+Zaproś użytkownika...
+[&Leave chat session]
+Opuść pokój
+[User &details]
+Dane kontaktu
+[User &history]
+Historia użytkownika
+[Join My Conference...]
+
+[No, thank you...]
+
+;file \protocols\Yahoo\src\icolib.cpp
+[Main]
+Ogólne
+[Mail]
+
+[Profile]
+Profil
+[Refresh]
+Odśwież
+[Address Book]
+Książka adresowa
+[Set Status]
+Ustaw status
+[Calendar]
+Kalendarz
+;file \protocols\Yahoo\src\im.cpp
+[Yahoo Error]
+Błąd Yahoo
+[The message send timed out.]
+Przekroczono czas wysyłania wiadomości.
+[Message is too long: Yahoo messages are limited by 800 UTF8 chars]
+Wiadomość jest za długa: Wiadomości Yahoo są ograniczone do 800 znaków UTF-8
+;file \protocols\Yahoo\src\links.cpp
+[YAHOO Link Protocol]
+Powiązanie protokołu YAHOO
+;file \protocols\Yahoo\src\main.cpp
+[YAHOO plugin HTTP connections]
+Połączenie HTTP Yahoo
+;file \protocols\Yahoo\src\options.cpp
+[The changes you have made require you to reconnect to the Yahoo network before they take effect]
+Wprowadzone zmiany wymagają ponownego połączenia z siecią Yahoo aby przyniosły efekt
+[YAHOO Options]
+Opcje YAHOO
+[You need to be connected to Yahoo to add to Ignore List.]
+Musisz być połączony z Yahoo aby dodać kogoś do listy ignorowanych.
+[Yahoo Ignore]
+Yahoo - Ignoruj
+[Please enter a valid buddy name to ignore.]
+Podaj nazwę znajomego, którego chcesz ignorować.
+[The buddy is already on your ignore list. ]
+Ten znajomy już znajduje się na liście ignorowanych.
+[You need to be connected to Yahoo to remove from the Ignore List.]
+Musisz być połączony z Yahoo aby usunąć kogoś z listy ignorowanych.
+[Please select a buddy on the ignore list to remove.]
+Wybierz znajomego, którego chcesz usunąć z listy ignorowanych.
+[Network]
+Protokoły
+[Account]
+Konto
+[Connection]
+Połączenie
+[Ignore List]
+Lista ignorowania
+;file \protocols\Yahoo\src\proto.cpp
+[New E-mail available in Inbox]
+Nowy e-mail w skrzynce
+[%s plugin connections]
+Połączenie %s
+[ID]
+
+[Please enter your yahoo id in Options/Network/Yahoo]
+Podaj swój Yahoo ID w Opcje -> Protokoły -> Yahoo
+[Please enter your yahoo password in Options/Network/Yahoo]
+Podaj swoje hasło Yahoo w Opcje -> Protokoły -> Yahoo
+[Yahoo Login Error]
+Błąd logowania Yahoo
+;file \protocols\Yahoo\src\services.cpp
+[You need to be connected to set the custom message]
+Musisz być połączony, aby ustawić niestandardowy status
+[You need to be connected to refresh your buddy list]
+Musisz być połączony aby odświeżyć listę znajomych
+[Set &Custom Status]
+Ustaw niestandardowy status
+[&Edit My Profile]
+Edytuj profil
+[&My Profile]
+Mój profil
+[&Yahoo Mail]
+Mail Yahoo
+[&Address Book]
+Książka adresowa
+[&Calendar]
+Kalendarz
+[Create Conference]
+Utwórz konferencję
+[&Show Profile]
+Pokaż profil
+;file \protocols\Yahoo\src\webcam.cpp
+[[miranda] Got webcam invite. (not currently supported)]
+ [Miranda] Masz zaproszenie do wideorozmowy. (obecnie nie obsługiwane)
+;file \protocols\Yahoo\src\yahoo.cpp
+[Calendar Reminder]
+Przypomnienie o wydarzeniach
+[%s has rejected your request and sent the following message:]
+%s odrzucił(-a) twoją prośbę i wysłał(-a) tę wiadomość:
+[Invalid Contact]
+
+[The id you tried to add is invalid.]
+
+[Unknown Error??.]
+Nieznany błąd??.
+[New Mail]
+Nowy mail
+[You Have %i unread msgs]
+Masz %s nieprzeczytanych wiad.
+[New Mail (%i msgs)]
+Nowy mail (%i wiad.)
+[From: %s\nSubject: %s]
+Od: %s\nTemat: %s
+[Yahoo System Message]
+
+[Yahoo Ping Error]
+Błąd pingu Yahoo
+[Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+Nie można się zalogować do usługi Yahoo - nie rozpoznano nazwy użytkownika.  Sprawdź czy poprawnie ją wpisałeś.
+[Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+Nie można się zalogować do usługi Yahoo - niepoprawne hasło. Sprawdź czy poprawnie wpisałeś nazwę użytkownika i hasło.
+[Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
+Nie można zalogować się do usługi Yahoo.  Twoje konto zostało zablokowane.\n Odwiedź %s aby je reaktywować.
+[You have been logged out of the yahoo service, possibly due to a duplicate login.]
+Zostałeś wylogowany z usługi Yahoo, prawdopodobnie z powodu zduplikowanego loginu.
+[Could not connect to the Yahoo service. Check your server/port and proxy settings.]
+Nie można połączyć się z usługą Yahoo. Sprawdź ustawienia serwera/portu i proxy.
+[Could not log in, unknown reason: %d.]
+Nie można się zalogować, nieznana przyczyna: %d.
+[Unknown error %s]
+Nieznany błąd %s
+[Custom error %s]
+Niestandardowy błąd %s
+[%s is not available for the conference]
+%s nie jest dostępny dla konferencji
+[%s is already ignored]
+%s jest już ignorowany
+[%s is not in the ignore list]
+%s nie jest na liście ignorowanych
+[%s is in buddy list - cannot ignore ]
+%s jest na liście znajomych - nie można go zignorować 
+[System Error: %s]
+Błąd systemu: %s
+[Server Connection Error: %s]
+Błąd połączenia z serwerem: %s
+[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+Nie można połączyć się z serwerem Yahoo. Sprawdź czy jesteś połączony z internetem i czy pager hosta i port zostały poprawnie wprowadzone.

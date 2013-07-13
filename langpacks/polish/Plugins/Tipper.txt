@@ -1,66 +1,27 @@
-﻿;============================================================
-;  File: Tipper.dll
-;  Module: Tipper, Tipper YM
-;  Versions: 2.1.0.4
+﻿#muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
-[Parse Tipper variables first]
-Analizuj zmienne Tippera jako pierwsze
-[Tipper smileys]
-Emotikony Tippera
-[Do you want to import selected skin setting? Current setting will be overwritten.]
-Chcesz zaimportować ustawienia wybranej skórki? Obecne ustawienia zostaną nadpisane.
-[Tipper skin import]
-Import skórki Tippera
-[Select image]
-Wybierz obraz
-[You must enter a label]
-Musisz podać etykietę
-[Centre]
-Środek
-[Left avatar]
-Awatar po lewej
-[Right avatar]
-Awatar po prawej
-[Sidebar]
-Boczny pasek
-[Animation]
-Animacja
-[Fade]
-Wygasanie
-[Tooltips]
-Podpowiedzi
-[Tooltip skin]
-Skórka podpowiedzi
-[Tray tooltip]
-Podpowiedź w zasobniku
-[Extra]
-Dodatkowe
-[ ago]
- temu
-[Log on:]
-Zalogowany:
-[Unread emails:]
-Nieprzeczytane emaile:
-[XStatus:]
-xStatus:
-[Activity:]
-Aktywność:
-[Copy all items with labels]
-Kopiuj wszystkie wpisy z etykietami
-[Copy all items]
-Kopiuj wszystkie wpisy
-[Copy avatar]
-Kopiuj awatar
-[Fav. contacts]
-Ulub. kontakty
-[Miranda uptime:]
-Czas działania Mirandy:
+;  File: Tipper.dll
+;  Plugin: Tipper
+;  Version: 2.1.0.4
+;  Authors: Scott Ellis, yaho
+;============================================================
+[Tool Tip notification windows.]
+Powiadomienia w okienkach
+;file \plugins\TipperYM\res\resource.rc
+[Options]
+Opcje
+[Layout]
+Układ
 [Text indent:]
 Wcięcie tekstu:
+[Window]
+Okno
 [Max width:]
 Maks. szerokość:
 [Max height:]
 Maks. wysokość:
+[Avatar size:]
+Rozmiar:
 [Show if list not focused]
 Pokaż jeśli lista jest nieaktywna
 [General padding:]
@@ -80,13 +41,15 @@ Min. szerokość:
 [Min height:]
 Min. wysokość:
 [Sidebar width:]
-Szerokość bocznego paska:
+Boczny pasek:
 [Text padding:]
 Dopełnienie tekstu:
 [Outer avatar padding:]
 Zewnętrzne dopełnienie awatara:
 [Round corners (avatar)]
 Zaokrąglone rogi (awatara)
+[Keep original avatar size]
+Oryginalny rozmiar awatara
 [Avatar border]
 Obramowanie awatara
 [Title indent:]
@@ -107,62 +70,104 @@ Moduł:
 Ustawienie/prefiks:
 [Translation:]
 Tłumaczenie:
+[OK]
+OK
+[Cancel]
+Anuluj
+[Item]
+Element
 [Value:]
 Wartość:
 [Draw a line above]
 Rysuj linię powyżej
 [Value on a new line]
 Wartość w nowej linii
-[Predefined items:]
-Predefiniowane elementy:
+[Preset items:]
+Skonfigurowane elementy:
+[Variables]
+Zmienne
+[Parse Tipper variables first]
+Analizuj zmienne Tippera jako pierwsze
+[Items]
+Obiekty
+[Substitutions]
+Zastępowany tekst
+[Add]
+Dodaj
+[Remove]
+Usuń
+[Up]
+Do góry
+[Down]
+W dół
+[Edit]
+Edytuj
+[Separator]
+
 [Advanced options]
 Zaawansowane opcje
-[Disable in invisible status]
-Wyłącz pobieranie opisu przy statusie "Niewidoczny"
 [Retrieve XStatus details if auto-retrieve is disabled]
 Pobierz szczegóły xStatus, jeśli auto-pobieranie jest wyłączone
+[Extra icons]
+Dodatkowe ikony
 [Smileys support]
 Wsparcie dla emotikon
-[Country flag]
-Flaga kraju
-[Show tooltip after all content is ready (avatar && status message)]
-Pokaż tooltip gdy zawartość będzie gotowa ( awatar i status wiadomości)
+[Enable SmileyAdd support]
+Włącz wsparcie dla SmileyAdd
+[Resize smileys]
+Dopasuj rozmiar emotikon
+[Use protocol smileys]
+Użyj emotikon protokołu
+[Replace only isolated smileys]
+Zamień tylko odizolowane emotikony
 [Retrieve new status message]
 Pobierz nowe opisy statusów
+[Show tooltip after all content is ready (avatar && status message)]
+Pokaż tooltip gdy zawartość będzie gotowa (awatar i status wiadomości)
 [Status bar and tray tooltip]
 Pasek statusu i podpowiedzi w zasobniku
 [Limit status messages in status bar and tray tooltips to:]
 Limituj opisy w podpowiedzi w zasobniku sytemowym do:
-[Replace only isolated smileys]
-Zamień tylko odizolowane emotikony
-[Use background image]
-Użyj obrazu tła
-[Use glyph transformation]
-Użyj transformacji glyph
-[Skin items]
-Elementy skórki
-[Export to skin file]
-Eksportuj do pliku skórki
-[Load from skin file]
-Załaduj skórkę z pliku
+[characters]
+znaków
+[Disable in invisible status]
+Wyłącz pobieranie opisu przy statusie "Niewidoczny"
+[Skins]
+Skórki
 [Opacity(%):]
 Krycie (%):
-[Transparent background]
-Przezroczyste tło
 [Transparency]
-Przezroczystość
+Przeźroczystość
+[Effects]
+Efekty
+[Border]
+Obramowanie
 [Shadow]
 Cień
 [Round corners (window)]
 Zaokrąglone rogi (okna)
-[Background image]
-Obraz tła
-[Margins]
-Marginesy
-[Show effect]
-Pokaż efekt
 [Aero Glass (Vista+)]
 Aero Glass (Vista+)
+[Animation speed:]
+Szybkość animacji:
+[Preview]
+Podgląd
+[No preview]
+Brak obrazka
+[Skin option]
+Opcje skórki
+[Load fonts and colors]
+Włącz czcionki i kolory
+[Enable skin coloring]
+Włącz kolorowanie skórki
+[Reload skin list]
+Odśwież skórke
+[Apply skin]
+Zatwierdź skórkę
+[Load tooltip proportions]
+Włącz proporcje tooltipa
+[Get more skins]
+Pobierz więcej skórek...
 [Enable tray tooltips]
 Włącz podpowiedzi w zasobniku
 [Handle tray tooltips by Tipper]
@@ -171,68 +176,36 @@ Rozszerzona podpowiedź w zasobniku
 Ulubione kontakty
 [Expand to second level after:]
 Rozszerz podpowiedź po:
-[Use status bar setting]
-Użyj ustawienia paska statusu
-[Hide offline]
-Ukryj niepołączonych
-[Append protocol name]
-Dopisz nazwę protokołu
-[%dh %dm]
-%dh %dm
-[%dm]
-%dm
-[You need advaimg.dll plugin for advanced skin features. Get latest from Miranda alpha builds.]
-Potrzebujesz wtyczki advaimg.dll dla zaawansowanych opcji skórki. Najnowszą wersję znajdziesz w buildach alpha Mirandy. 
-[Tipper error]
-Błąd Tippera
-[Reload skin list]
-Przeładuj skórke
-[Jabber activity]
-Aktywność Jabber
-[Apply skin]
-Zatwierdz skórke
-[Add item]
-Dodaj element
-[# Solid color fill]
-# Podstawowa
-[Add separator]
-Dodaj separator
-[Tipper skins]
-Skórki Tippera
-[Enable skin coloring]
-Włącz kolorowanie skórki
-[Load tooltip proportions]
-Włącz proporcje tooltipa
-[Load fonts and colors]
-Włącz czcionki i kolory
-[No preview]
-Brak obrazka
-[Skin option]
-Opcje skórki
-[Animation speed:]
-Szybkość animacji:
+[ms]
+
 [First level tooltip]
 Podstawowy Tooltip
 [Second level tooltip]
 Rozszerzony Tooltip
 [Hide offline protocols]
 Ukryj Rozłączone protokoły
-[Number of contacts]
-Ilość kontaktów
-[Logon time]
-Czas od zalogowania
-[Unread emails]
-Nieprzeczytane emaile
-[Status message]
-Opis
-[Miranda uptime]
-Czas działania
-[Clist event]
-Lista zdarzeń
+[Hide offline]
+Ukryj rozłączonych
+[Append protocol name]
+Dopisz nazwę protokołu
+;file \plugins\TipperYM\src\mir_smileys.cpp
+[Tipper smileys]
+Emotikony Tippera
+;file \plugins\TipperYM\src\options.cpp
+[You must enter a label]
+Musisz podać etykietę
 [Invalid Substitution]
 Nieprawidłowe zastępstwo
 [<No Label>]
 <Brak etykiety>
+[Add item]
+Dodaj
+[Add separator]
+Dodaj separator
+[Move up]
+Przesuń w górę
+[Move down]
+Przesuń w dół
 [Icon on left]
 Ikona po lewej
 [Icon on right]
@@ -249,103 +222,492 @@ Dolny lewy róg
 Górny prawy róg
 [Top left]
 Górny lewy róg
+[Top]
+Góra
+[Centre]
+Środek
+[Bottom]
+Dół
+[Left]
+Lewa
+[Right]
+Prawa
 [No avatar]
 Brak awatara
-[Tooltips View]
-Widok podpowiedzi
+[Left avatar]
+Awatar po lewej
+[Right avatar]
+Awatar po prawej
+[Max avatar size:]
+Maks. rozmiar awatara:
+[None]
+Brak
+[Animation]
+Animacja
+[Fade]
+Wygasanie
+[Appearance]
+Personalizacja
+[Tooltips]
+Podpowiedzi
+[Customize]
+Personalizacja
 [Content]
 Treść
-[Tooltips Content]
-Zawartość podpowiedzi
-[Empty message]
-Pusta wiadomość
-[Tray title]
-Tytuł w zasobniku
+[Tray tooltip]
+Podpowiedź w zasobniku
+[Extra]
+Dodatkowe
+;file \plugins\TipperYM\src\options.h
+[Number of contacts]
+Ilość kontaktów
+[Protocol lock status]
+Zmiana statusu protokołu
+[Logon time]
+Czas od zalogowania
+[Unread emails]
+Nieprzeczytane emaile
+[Status]
+Status
+[Status message]
+Opis
+[Extra status]
+xStatus
+[Listening to]
+Teraz odtwarzane
+[Miranda uptime]
+Czas działania
+[Clist event]
+Lista zdarzeń
+[Jabber activity]
+Aktywność Jabber
+[Gender]
+Płeć
+[Country flag]
+Flaga kraju
+[Client]
+Klient
+;file \plugins\TipperYM\src\popwin.cpp
+[%s (locked)]
+%s (zablokowane)
+[%s ago]
+
+[Log on:]
+Zalogowany:
+[Log off:]
+
+[Unread emails:]
+Nieprzeczytane emaile:
+[Status:]
+Status:
+[Status message:]
+Opis:
+[Mood:]
+Nastrój:
+[XStatus:]
+xStatus:
+[Activity:]
+Aktywność:
+[Listening to:]
+Teraz odtwarzane:
+[Copy all items with labels]
+Kopiuj wszystkie wpisy z etykietami
+[Copy all items]
+Kopiuj wszystkie wpisy
+[Copy avatar]
+Kopiuj awatar
+[<No Label>: ]
+
+[<No Value>]
+
+[Fav. contacts]
+Ulub. kontakty
+[Other]
+Inne
+[Miranda uptime:]
+Czas działania Mirandy:
+;file \plugins\TipperYM\src\preset_items.cpp
+[Birthday]
+Urodziny
+[Birthday:]
+Urodziny:
+[Client:]
+Klient:
+[Email]
+E-mail
+[Email:]
+
+[Gender:]
+Płeć:
+[Homepage]
+Strona WWW
+[Homepage:]
+WWW:
+[Identifier]
+Identyfikator
+[Idle]
+Bezczynność 
+[Idle:]
+
+[IP]
+
+[IP:]
+
+[IP internal]
+IP Wewnętrzne
+[IP internal:]
+
+[Last message]
+Ostatnia wiadomość
+[Last message: (%sys:last_msg_reltime% ago)]
+Ostatnia wiadomość: (%sys:last_msg_reltime% ago)
+[Name]
+Nazwa
+[Name:]
+Nazwa:
+[Number of received messages]
+Liczba otrzymanych wiadomości
+[Number of msg [IN]:]
+
+[Number of sended messages]
+Liczba wysłanych wiadomości
+[Number of msg [OUT]:]
+
+[Contact time]
+Czas kontaktu
+[Time:]
+Czas:
+[XStatus title]
+xStatus
+[XStatus title:]
+Tytuł xStatus:
+[XStatus text]
+Opis xStatus
+[XStatus text:]
+Tekst xStatus:
+[[jabber.dll] Activity title]
+[jabber.dll] Aktywność
+[Activity title:]
+Tytuł aktywności:
+[[jabber.dll] Activity text]
+[jabber.dll] Opis aktywności
+[Activity text:]
+Tekst aktywności:
+[[menuex.dll] Logon time]
+ [menuex.dll] Czas zalogowania
+[Logon time:]
+
+[[menuex.dll] Logoff time]
+ [menuex.dll] Czas wylogowania
+[Logoff time:]
+
+[[seenplugin.dll] Last seen time]
+ [seenplugin.dll] Ostatnio widziany
+[Last seen time:]
+Czas:
+[[seenplugin.dll] Last seen status]
+ [seenplugin.dll] Ostatni status
+[Last seen status:]
+Status:
+[[weather.dll] Condition]
+[weather.dll] Kondycja
+[Condition:]
+
+[[weather.dll] Humidity]
+[weather.dll] Wilgotność
+[Humidity:]
+
+[[weather.dll] Max/Min temperature]
+[weather.dll] Maks/Min temperatura
+[Max/Min:]
+
+[[weather.dll] Moon]
+[weather.dll] Faza księżyca
+[Moon:]
+Księżyc:
+[[weather.dll] Pressure]
+
+[Pressure:]
+
+[[weather.dll] Sunrise]
+[weather.dll] Wschód słońca
+[Sunrise:]
+
+[[weather.dll] Sunset]
+[weather.dll] Zachód słońca
+[Sunset:]
+
+[[weather.dll] Temperature]
+[weather.dll] Temperatura
+[Temperature:]
+Temperatura:
+[[weather.dll] Update time]
+[weather.dll] Czas aktualizacji
+[Update time:]
+Czas aktualizacji:
+[[weather.dll] UV Index]
+[weather.dll] Promieniowanie UV
+[UV Index:]
+
+[[weather.dll] Visibility]
+[weather.dll] Widoczność
+[Visibility:]
+Widoczność:
+[[weather.dll] Wind]
+[weather.dll] Wiatr
+[Wind:]
+Wiatr:
+;file \plugins\TipperYM\src\skin_parser.cpp
+[# Solid color fill]
+# Jednolity kolor
+;file \plugins\TipperYM\src\tipper.cpp
+[Background]
+Tło
+[Dividers]
+Separatory
+[Sidebar]
+Boczny pasek
+[Title]
+Nazwa
 [Labels]
 Etykiety
 [Values]
 Wartości
-[Dimensions]
-Rozmiar
-[Browse...]
-Przeglądaj...
-[Keep original avatar size]
-Oryginalny rozmiar awatara
-[Max avatar size:]
-Maks. rozmiar awatara:
-[Background image:]
-Obraz tła:
-[Stretch]
-Rozciągnij
-[Protocol lock status]
-Zmiana statusu protokołu
-[Avatar padding:]
-Dopełnienie awatara:
-[Item]
-Pozycja
-[Substitutions]
-Zastępowany tekst
-[Edit...]
-Edytuj...
+[Tray title]
+Tytuł w zasobniku
+[Tipper]
+
+;file \plugins\TipperYM\src\translations.cpp
+[Female]
+Kobieta
+[Male]
+Mężczyzna
 [[No translation]]
 <brak tłumaczenia>
-[<prefix>Day|Month|Year to age]
-<prefiks>Dzień|Miesiąc|Rok dla wieku
-[<prefix>Day|Month|Year to date]
-<prefiks>Dzień|Miesiąc|Rok dla daty
-[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
-<prefiks>Dzień|Miesiąc|Rok|Godzina|Minuta|Sekunda dla różnicy czasu
-[<prefix>Hours|Minutes to time]
-<prefiks>Godziny|Minuty dla czasu
-[<prefix>Hours|Minutes|Seconds to time]
-<prefiks>Godziny|Minuty|Sekundy dla czasu
-[BYTE to Male/Female (ICQ)]
-BYTE dla Płci (ICQ)
+[WORD to status description]
+WORD dla opisu statusu
+[DWORD timestamp to time]
+DWORD znacznika czasu dla czasu
+[DWORD timestamp to time difference]
+DWORD znacznika czasu dla różnicy czasu
 [BYTE to Yes/No]
 BYTE dla Tak/Nie
-[BYTE timezone to time]
-BYTE strefy czasowej dla czasu
+[BYTE to Male/Female (ICQ)]
+BYTE dla Płci (ICQ)
+[WORD to country name]
+WORD dla nazwy kraju
 [DWORD to ip address]
 DWORD dla adresu IP
-[DWORD seconds to time difference]
-DWORD sekund dla różnicy czasu
+[<prefix>Day|Month|Year to date]
+<prefiks>Dzień|Miesiąc|Rok dla daty
+[<prefix>Day|Month|Year to age]
+<prefiks>Dzień|Miesiąc|Rok dla wieku
+[<prefix>Hours|Minutes|Seconds to time]
+<prefiks>Godziny|Minuty|Sekundy dla czasu
+[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
+<prefiks>Dzień|Miesiąc|Rok|Godzina|Minuta|Sekunda dla różnicy czasu
+[<prefix>Day|Month to days to next birthday]
+<prefiks>Dzień|Miesiąc dla dnia następnej rocznicy
+[DWORD timestamp to time (no seconds)]
+DWORD znacznika czasu dla czasu (bez sekund)
+[<prefix>Hours|Minutes to time]
+<prefiks>Godziny|Minuty dla czasu
 [DWORD timestamp to date (short)]
 DWORD znacznika czasu dla daty (krótki)
 [DWORD timestamp to date (long)]
 DWORD znacznika czasu dla daty (długi)
-[DWORD timestamp to time]
-DWORD znacznika czasu dla czasu
-[DWORD timestamp to time (no seconds)]
-DWORD znacznika czasu dla czasu (bez sekund)
-[DWORD timestamp to time difference]
-DWORD znacznika czasu dla różnicy czasu
-[WORD to country name]
-WORD dla nazwy kraju
-[WORD to status description]
-WORD dla opisu statusu
 [xStatus: empty xStatus name to default name]
 xStatus: pusta nazwa xStatus jako domyślna nazwa
-[<prefix>Day|Month to days to next birthday]
-<prefiks>Dzień|Miesiąc dla dnia następnej rocznicy
-[BYTE to language (ICQ)]
-BYTE dla języka (ICQ)
+[DWORD seconds to time difference]
+DWORD sekund dla różnicy czasu
+[BYTE timezone to time]
+BYTE strefy czasowej dla czasu
 [WORD to name of a day (0..6, 0 is Sunday)]
 WORD dla nazwy dnia (0..6, 0 to Niedziela)
 [WORD to name of a month (1..12, 1 is January)]
 WORD dla nazwy miesiąca (1..12, 1 to Styczeń)
-[Get more skins]
-Pobierz więcej skórek...
-[Identifier]
-Identyfikator
-[Cannot obtain required interfaces!\nTooltips will not be available until you upgrade Miranda IM to the newest version.]
-Nie można uruchomić wymaganej usługi!\nTooltips nie będzie dostępny dopuki Miranda IM nie zostanie zaktualizowana do najnowszej wersji.
-[Bottom]
-Dół
-[Extra status]
-xStatus
-[Tool Tip notification windows]
-Okienka typu ToolTip z powiadomieniami oraz innymi informacjami
-[Disable status message retrieving in all statuses]
-Wyłącz pobieranie opisów dla wszystkich statusów
-[Disable status message retrieving in invisible status]
-Wyłącz pobieranie opisu dla niewidocznych
+[BYTE to language (ICQ)]
+BYTE dla języka (ICQ)
+;file \plugins\TipperYM\src\translations.h
+[Afrikaans]
+Afrykanerski
+[Albanian]
+Albański
+[Arabic]
+Arabski
+[Armenian]
+Armeński
+[Azerbaijani]
+Azerski
+[Belorussian]
+Białoruski
+[Bhojpuri]
+Bhodźpuri
+[Bosnian]
+Bośniacki
+[Bulgarian]
+Bułgarski
+[Burmese]
+Birmański
+[Cantonese]
+Kantoński
+[Catalan]
+Kataloński
+[Chamorro]
+
+[Chinese]
+Chiński
+[Croatian]
+Chorwacki
+[Czech]
+Czeski
+[Danish]
+Duński
+[Dutch]
+Niderlandzki
+[English]
+Angielski
+[Esperanto]
+
+[Estonian]
+Estoński
+[Farsi]
+
+[Finnish]
+Fiński
+[French]
+Francuski
+[Gaelic]
+Gaelicki
+[German]
+Niemiecki
+[Greek]
+Grecki
+[Gujarati]
+Gudżarati
+[Hebrew]
+Hebrajski
+[Hindi]
+Hinduski
+[Hungarian]
+Węgierski
+[Icelandic]
+Islandzki
+[Indonesian]
+Indonezyjski
+[Italian]
+Włoski
+[Japanese]
+Japoński
+[Khmer]
+Khmerski
+[Korean]
+Koreański
+[Kurdish]
+Kurdyjski
+[Lao]
+Laotański
+[Latvian]
+Łotewski
+[Lithuanian]
+Litewski
+[Macedonian]
+Macedoński
+[Malay]
+Malajski
+[Mandarin]
+Mandaryński
+[Mongolian]
+Mongolski
+[Norwegian]
+Norweski
+[Persian]
+Perski
+[Polish]
+Polski
+[Portuguese]
+Portugalski
+[Punjabi]
+Pendżabski
+[Romanian]
+Rumuński
+[Russian]
+Rosyjski
+[Serbo-Croatian]
+Chorwackoserbski
+[Sindhi]
+
+[Slovak]
+Słowacki
+[Slovenian]
+Słoweński
+[Somali]
+Somalijski
+[Spanish]
+Hiszpański
+[Swahili]
+Suahili
+[Swedish]
+Szwedzki
+[Tagalog]
+Tagalog
+[Taiwanese]
+
+[Tamil]
+Tamilski
+[Tatar]
+Tatarski
+[Thai]
+Tajski
+[Turkish]
+Turecki
+[Ukrainian]
+Ukraiński
+[Urdu]
+
+[Vietnamese]
+Wietnamski
+[Welsh]
+Walijski
+[Yiddish]
+Jidysz
+[Yoruba]
+Joruba
+[Sunday]
+Niedziela
+[Monday]
+Poniedziałek
+[Tuesday]
+Wtorek
+[Wednesday]
+Środa
+[Thursday]
+Czwartek
+[Friday]
+Piątek
+[Saturday]
+Sobota
+[January]
+Styczeń
+[February]
+Luty
+[March]
+Marzec
+[April]
+Kwiecień
+[May]
+Maj
+[June]
+Czerwiec
+[July]
+Lipiec
+[August]
+Sierpień
+[September]
+Wrzesień
+[October]
+Październik
+[November]
+Listopad
+[December]
+Grudzień

@@ -1,0 +1,62 @@
+﻿#muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
+;============================================================
+;  File: QuickContacts.dll
+;  Plugin: Quick contacts
+;  Version: 1.0.0.0
+;  Authors: Ricardo Pescuma Domenecci, Heiko Schillinger
+;============================================================
+[Open contact-specific windows by hotkey.]
+Otwiera specyficzne okno kontaktów.
+;file \plugins\QuickContacts\res\resource.rc
+[Last Sent]
+Ostatnio wysłane
+[Enable last-sent-to]
+Włącz ostatnio-wysłane-do
+[recognize all messages sent]
+wszystkie wysłane wiadomości
+[recognize messages sent with hotkey only]
+wysłane wiadomości tylko przy użyciu skrótu
+[Contacts]
+Kontakty
+[Show offline contacts on these protocols:]
+Pokaż rozłączone kontakty dla tych protokołów:
+[But hide them if protocol is offline]
+Ale ukryj, jeśli protokół jest rozłączony
+[Append group name to contact name]
+Dołącz nazwę grupy do nazwy kontaktu
+[But show it as a column ...]
+Ale pokaż z prawej strony kolumny ...
+[... on left side of name]
+... z lewej strony od nazwy
+[Hide subcontacts]
+Ukryj subkontakty
+[But keep subcontacts of protocols in above list if meta is hidden]
+Ale trzymaj je na liście poniżej, jeśli metakontakty są ukryte
+[Enter username:]
+Nazwa użytkownika:
+[Show all contacts (Ctrl+A)]
+
+;file \plugins\QuickContacts\src\options.cpp
+[Quick Contacts]
+Szybkie kontakty
+;file \plugins\QuickContacts\src\quickcontacts.cpp
+[Open dialog]
+Otwórz okno szybkich kontaktów
+[Make a voice call]
+Nowa rozmowa głosowa
+[Send file]
+Wyślij plik
+[Send URL]
+Wyślij link
+[Open userinfo]
+Otwórz dane użytkownika
+[Open history]
+Otwórz historię
+[Open contact menu]
+Otwórz menu kontaktu
+[Show all contacts]
+Pokaż wszystkie kontakty
+[Quick Contacts...]
+Szybkie kontakty...
+[Send message]
+Wyślij wiadomość

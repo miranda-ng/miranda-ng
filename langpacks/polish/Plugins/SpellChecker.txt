@@ -1,40 +1,55 @@
-﻿;============================================================
-;  File: spellchecker.dll, spellcheckerW.dll
-;  Module: Spell Checker
-;  Versions: 0.2.5.0
+﻿#muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
 ;============================================================
-[Ignore all]
-Ignoruj wszystkie
+;  File: SpellChecker.dll
+;  Plugin: Spell checker
+;  Version: 0.2.6.0
+;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
+;============================================================
+[Spell checker for the message windows. Uses Hunspell to do the checking.]
+Sprawdzanie pisowni w oknie rozmowy. Używa Hunspell do sprawdzania.
+;file \plugins\SpellChecker\res\resource.rc
+[Replacements]
+Zamiennik
+[Enable auto-replacements]
+Włącz automatyczną zamiane
+[Language:]
+Język:
+[Add...]
+Dodaj...
+[Edit...]
+Edytuj...
+[Remove]
+Usuń
+[Add auto-replace word]
+Dodaj wyraz autokorekty
+[Wrong word:]
+Złe słowo:
+[No separators and all lowercase chars]
+Bez separatorów i wszystkich małych znaków
+[Correction:]
+Korekta:
+[Use variables in correction]
+Użyj zmiennej w korekcie
+[OK]
+OK
+[Cancel]
+Anuluj
 [Spell Checker]
 Sprawdzanie pisowni
-[Line]
-Linia
-[Dotted]
-Kropkowany
-[Dash]
-Kreska
-[Dash dot]
-Kreska kropka
-[Dash dot dot]
-Kreska kropka kropka
-[Wave]
-Fala
-[Thick]
-Gruby
-[ Spell Checker ]
- Sprawdzanie pisowni
 [Default language:]
 Domyślny język:
 [Auto-replace words with dictionary suggestions]
 Automatycznie zastępuj sugestiami ze słownika
-[Auto-replace words with user defined replacements]
-Automatycznie zastępuj własnymi sugestiami
+[Ignore words with numbers]
+Ignoruj słowa z cyframi
 [Ignore words in UPPER CASE]
-Ignoruj wyrazy pisane WIELKIMI LITERAMI
+
+[Ask before sending a message with spelling errors]
+Pytaj przed wysłaniem wiadomości z błędami ortograficznymi
 [Download more dictionaries]
 Pobierz więcej słowników
-[ Advanced ]
- Zaawansowane 
+[Advanced]
+Zaawansowane
 [Underline type:]
 Styl podkreślenia:
 [Show corrections in submenu]
@@ -49,83 +64,82 @@ Użyj flagi
 Wybierz język, aby wybrać słownik
 [Use dictionaries from other programs]
 Użyj słownika z innego programu
-[Add auto-replace word]
-Dodaj wyraz autokorekty
+[Avoid removing underscores (slows down checking of long texts)]
+Unikaj usuwania podkreślenia (spawalnia sprawdzanie długich tekstów)
+;file \plugins\SpellChecker\src\ardialog.cpp
+[The wrong word can't be empty!]
+
+[Wrong Correction]
+Zła korekta
+[The correction can't be empty!]
+
+[The correction can't be equal to the wrong word!]
+
+;file \plugins\SpellChecker\src\dictionary.cpp
+[tl_PH]
+
+[Tagalog (Philippines)]
+
+[de_frami_neu]
+
+[German (Germany)]
+Niemcy
+;file \plugins\SpellChecker\src\options.cpp
+[Message Sessions]
+Okno rozmowy
+[Auto-replacements]
+Automatyczna zamiana
+[Line]
+Linia
+[Dotted]
+Kropkowany
+[Dash]
+Kreska
+[Dash dot]
+Kreska kropka
+[Dash dot dot]
+Kreska kropka kropka
+[Wave]
+Fala
+[Thick]
+Gruby
 [Wrong word]
-Zły wyraz
-[OLD WORD]
-STARY WYRAZ
-[Correction:]
-Korekta:
+Błędny wyraz
+[Correction]
+Korekta
+;file \plugins\SpellChecker\src\spellchecker.cpp
 [Dictionaries]
 Słowniki
 [Custom Dictionaries]
-Własny słownik
+Niestandardowy słownik
 [Flags DLL]
 Flags.dll
-[Languages/Flags]
-Język/Flagi
+[Enable/disable spell checker]
+Włącz/wyłącz sprawdzanie pisowni
+[Enabled]
+Włączony
+[Disabled]
+Wyłączone
+;file \plugins\SpellChecker\src\utils.cpp
+[There are %d spelling errors. Are you sure you want to send this message?]
+Znaleziono %d błędów. Czy na pewno chcesz wysłać tę wiadomość?
+[Your message window does not support SpellChecker Plugin.\nIf you use SRMM, tabSRMM or Scriver, please update them to the latest version,\notherwise ask the author of your message window plugin to add support for Spell Checker.]
+
 [Other...]
 Inne...
 [Always replace with]
 Zawsze zastępuj
+[Ignore all]
+Ignoruj wszystkie
 [Add to dictionary]
 Dodaj do słownika
 [Corrections]
 Korekty
 [Wrong word: %s]
 Błędny wyraz: %s
-[Language:]
-Język:
+[Language]
+Język
 [Enable spell checking]
 Włącz sprawdzanie pisowni
 [Wrong words]
 Błędne wyrazy
-[Could not find the message dialog. This usually means one of two things:\n- In tabSRMM the checkbox 'Enable event API' is disabled or\n- You are using SRMM (which don't support Spell Checker)]
-Nie można znaleźć okna rozmowy. Oznacza to zazwyczaj jedną z dwóch rzeczy:\n- W tabSRMM opcja "Włącz API" jest wyłączona lub\n- Używasz SRMM (które nie obsługuje sprawdzanie pisowni)
-[Unknown Flag]
-Nieznana flaga
-[Spell Checker/Flags]
-Sprawdzanie pisowni/Flagi
-[Auto-correct words]
-Automatycznie poprawiaj wyrazy
-[Show all corrections]
-Pokaż wszystkie korekty
-[Flag icons]
-Ikona flagi
-[The correction can't be an empty word!]
-Korekta nie może być pustym słowem!
-[The correction can't be the equal to the wrong word!]
-Korekta nie może być równa złym słowem!
-[Wrong Correction]
-Zła korekta
-[Auto-replacements]
-Automatyczna zamiana
-[Correction]
-Korekta
-[No separators and all lowercase chars]
-Bez separatorów i wszystkich małych znaków
-[Use variables in correction]
-Użyj zmiennej w korekcie
-[Spell checker for the message windows. Uses Hunspell to do the checking.]
-Sprawdzanie pisowni w oknie rozmowy. Używa Hunspell do sprawdzania.
-[Replacements]
-Zamiennik
-[Ignore words with numbers]
-Ignoruj słowa z cyframi
-[Ask before sending a message with spelling errors]
-Pytaj przed wysłaniem wiadomości z błędami ortograficznymi
-[Enable auto-replacements]
-Włącz automatyczną zamiane
-[Avoid removing underscores (slows down checking of long texts)]
-Unikaj usuwania podkreślenia (spawalnia sprawdzanie długich tekstów)
-[Enable/disable spell checker]
-Włącz/wyłącz sprawdzanie pisowni
-[Languages]
-Języki
-[Flags]
-Flagi
-[Language]
-Język
-[Wrong word:]
-Złe słowo:

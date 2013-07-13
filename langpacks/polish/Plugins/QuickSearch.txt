@@ -1,32 +1,98 @@
-﻿;============================================================
-;  File: quicksearch.dll
-;  Module: Quick Search
-;  Versions: 1.4.1.18
+﻿#muuid  {e4058506-6494-4d60-9cf4-40bf545f78bd}
 ;============================================================
+;  File: QuickSearch.dll
+;  Module: Quick Search, Quick Search Mod
+;  Versions: 1.4.0.4 - 1.4.0.18
+;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=260
+;============================================================
+[QuickSearch]
+Szybkie szukanie
+[Global QuickSearch hotkey]
+Globalne skróty QuickSearch
+[Local QuickSearch hotkey]
+
+[Show Offline contacts]
+Pokaż Rozłączonych
+[New column]
+Nowa kolumna
+[Set Item]
+Ustaw element
+[wParam type:]
+Typ wParm:
+[lParam type:]
+Typ lParm:
+[Sort by Status]
+Sortuj wg statusu
+[Don't Use Tool Window Style]
+Nie używaj stylu okna narzędziowego
+[Draw Grid]
+Rysuj kratkę
+[integer value]
+wartość całkowita
+[Save Item]
+Zapisz
+[ClientID]
+Klient
 [Quick Search]
-Szybkie Szukanie
-[%d) ]
-%d)
-[: %d ]
-: %d
-[ %d]
- %d
-[Protocols:]
-Protokoły:
-[MoveToGroup]
-PrzesuńDoGrupy
-[Cant register global hotkey\r\n]
-Niemożna zapisać globalnego skrótu\r\n
-[QuickSearch error]
-Błąd SzybkiegoSzukania
-[Cant register local hotkey]
-Niemożna zapisać lokalnego skrótu
+Szybkie szukanie
+[Quick search]
+Szybkie szukanie
+[Search on:]
+
+[Quick Search:]
+
+[UID:]
+
+[E-mail Address:]
+Adres e-mail:
+[MirandaV]
+
+[Ext IP]
+IP
+[Last Event]
+Ostatnie zdarzenie
+[Online Since]
+
+[Quick Search Options]
+
+[&New]
+Nowy
+[D&n]
+
+[Setting:]
+Ustawienia:
+[De&fault]
+Domyślne
+[&Set Item]
+Ustaw element
+[At Start Sort by Status]
+Na starcie sortuj wg statusu
+[Global scope hotkey:]
+Globalny skrót:
+[Miranda scope hotkey:]
+Skrót Mirandy:
+[Add Item to Main Menu]
+Dodaj element do menu głównego
+[Show Only Users in List]
+Pokaż tylko użytkowników na liście
+[Add Button to TopToolBar]
+Dodaj przycisk do TopToolBar
+[Additional Options]
+Dodatkowe opcje
+[Columns && Data]
+Kolumny i dane
+[Auto Close mode]
+Tryb autozamykania
+[InfoType:]
+TypInfo:
+[Module/InfoType]
+Moduł/TypInfo
+[Not Selected]
+Nie Zaznaczone
 [FIRSTNAME]
 IMIĘ
 [LASTNAME]
 NAZWISKO
-[NICK]
-KSYWKA
 [CUSTOMNICK]
 WŁASNAKSYWKA
 [EMAIL]
@@ -51,81 +117,113 @@ Wiek
 IMIĘNAZWISKO
 [UNIQUEID]
 UNIKALNYID
-[Not Selected]
-Nie Zaznaczone
-[Title test]
-Test tytułu
-[Module/InfoType]
-Moduł/TypInfo
-[Title]
-Tytuł
-[&New]
-Nowy
-[Setting:]
-Ustawienia:
-[Width:]
-Szerokość:
-[De&fault]
-Domyślne
-[&Set Item]
-Ustaw element
-[At Start Sort by Status]
-Na starcie sortuj wg statusu
-[Global scope hotkey:]
-Globalny skrót:
-[Miranda scope hotkey:]
-Skrót Mirandy:
-[Add Item to Main Menu]
-Dodaj Pozycję do Głównego Menu
-[Show Only Users in List]
-Pokaż Tylko Użytkowników na Liście
-[Add Button to TopToolBar]
-Dodaj Przycisk do TopToolBar
-[Additional Options]
-Dodatkowe Opcje
-[HotKeys]
-Skróty
-[Columns && Data]
-Kolumny i Dane
-[Auto Close mode]
-Tryb Autozamykania
-[InfoType:]
-TypInfo:
-[Sort by Status]
-Sortuj wg statusu
+[This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.]
+Wtyczka ta pozwala na szybkie wyszukanie kontaktu po nicku, imieniu, nazwisku, e-mailu itp.
+[This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.Press F3 for activate...]
+
+[New Column]
+Nowa kolumna
+[Save Column]
+Zapisz kolumnę
+[Column Up]
+Do góry
+[Column Down]
+W dół
+[Delete Column]
+Usuń kolumnę
 [Only Users in List]
 Tylko użytkownicy na liście
-[Draw Grid]
-Rysuj kratkę
 [Show Client Icons]
-Pokaż ikony Klienta
-[Save search pattern]
-Zapisz wzorzec szukania
+Pokaż ikony klienta
 [Item in Main Menu]
 W menu głównym
 [Button on TopToolBar]
 Przycisk paska narzędzi
 [Tool Window Style]
 Styl okna narzędzi
-[Copy line to CSV]
-Kopiuj linię do CSV
+[Global scope hotkey]
+
+[Miranda scope hotkey]
+
 [CSV with headers]
 CSV z nagłówkami
 [Skip minimized columns]
 Pomiń zminimali. kolumny
-[Save Item]
-Zapisz
-[Open main window]
-Otwórz okno główne
+[Copy line to CSV]
+Kopiuj linię do CSV
+[Save search pattern]
+Zapisz wzorzec szukania
+[QuickSearch error]
+Błąd SzybkiegoSzukania
+[Quick Search Mod]
+
+[Script]
+Skrypt
+[Int]
+
+[ContactInfo]
+O kontakcie
+[LastEvent]
+Ostatnie zdarzenie
+[TimeStamp]
+Sygnatura czasu
+[Script Editor]
+
+[Normal foreground]
+Normalne tło pierwszoplanowe
+[Odd background]
+Inne tło
+[Odd foreground]
+Inne tło pierwszoplanowe
+[Disabled account background]
+Wyłącz tło konta
+[Disabled account foreground]
+Wyłącz tło pierwszoplanowe konta
+[Deleted account background]
+Usuń tło konta
+[Deleted account foreground]
+Usuń tło pierwszoplanowe konta
+[Not-in-list contact background]
+
+[Not-in-list contact foreground]
+
+[C&onvert to Meta]
+Konwertuj do Meta
+[Some of selected contacts in different metacontacts already]
+
+[Do you really want to delete selected contacts?]
+Czy na pewno chcesz usunąć zaznaczone kontakty?
+[One or more contacts in same Meta already. Try to convert anyway?]
+
+[Metacontact background]
+Tło Metakontaktów
+[Metacontact foreground]
+Tło pierwszoplanowe metakontaktów
+[SubMetacontact background]
+Tło submetakontaktów
+[SubMetacontact foreground]
+Tło pierwszoplanowe submetakontaktów
+[%u users found (%u) Online: %u]
+
+[ users found (]
+ znalezionych (
+[) Online: ]
+) Połączonych:  
+[Colorize]
+Koloruj
+[Metacontact]
+Metakontakt
+[Hidden contact background]
+Ukryj tło kontaktu
+[Hidden contact foreground]
+Ukryj tło pierwszoplanowe kontaktu
+[QuickSearch window hotkey]
+Otwórz okno szybkiego szukania
 [Previous item]
 Poprzedni
 [Next item]
 Następny
-[Show Offline contacts]
-Pokaż Niedostępnych
-[Colorize]
-Koloruj
-[UserID]
-ID Użytkownika
-[%u users found (%u) Online: %u]
-Znaleziono (%u z %u) Dostępnych: %u
+[Open main window]
+Otwórz okno główne
+[Frame background]
+Tło ramki

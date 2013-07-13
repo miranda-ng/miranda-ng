@@ -1,0 +1,115 @@
+﻿#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
+;============================================================
+;  File: Twitter.dll
+;  Plugin: Twitter
+;  Version: 1.1.0.1
+;  Authors: dentist, omniwolf, Thief
+;============================================================
+[Twitter protocol support for Miranda NG.]
+Wsparcie dla protokołu Twitter.
+;file \protocols\Twitter\res\twitter.rc
+[Server:]
+Serwer:
+[Create a new Twitter account]
+Utwórz nowe konto Twitter
+[Default group:]
+Domyślna grupa:
+[Username:]
+Użytkownik:
+[[Sign in to link your twitter account]]
+<Powiąż swoje konto twitter>
+[Send Tweet]
+Wyślij Tweet
+[Send]
+Wyślij
+[Cancel]
+Anuluj
+[Misc. Options]
+Opcje
+[Use group chat for Twitter feed]
+Użyj pokoju czatowego dla wiadomości  Twittera
+[Base URL:]
+URL:
+[Polling rate:]
+Sprawdzaj:
+[Once every]
+Co każde
+[sec]
+s
+[Please cycle your connection for these changes to take effect]
+Proszę ponownie połączyć się aby zmiany przyniosły oczekiwany efekt
+[Treat tweets as messages]
+Traktuj tweety jako wiadomość
+[Enable popup notifications for Tweets]
+Włącz powiadomienia popup dla Tweetów
+[Colors]
+Kolory
+[Use Windows colors]
+Użyj kolorów Windows
+[Use Popup colors]
+Użyj kolorów Popup
+[Use custom colors]
+Użyj niestandardowych kolorów
+[Back]
+Wstecz
+[Text]
+Tekst
+[Timeouts]
+Opóźnienie
+[Use default]
+Domyślne
+[Custom]
+Niestandardowe
+[Permanent]
+Stałe
+[Preview]
+Podgląd
+[But not during sign-on]
+Ale nie podczas logowania
+[Enter Twitter PIN]
+Wpisz kod PIN
+[OK]
+OK
+[Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
+Wpisz kod PIN doststarczony przez Twittera aby się zalogować. Proces jest jednorazowy dla każdego konta.
+;file \protocols\Twitter\src\connection.cpp
+[OAuth variables are out of sequence, they have been reset.  Please reconnect and reauthorise Miranda to Twitter.com (do the PIN stuff again)]
+Zmienne OAuth są poza sekwencją, ale zostały przywrócone. Proszę ponownie połączyć się i powtórnie autoryzować Mirandę na Twitter.com (kod PIN)
+[Failed to get Twitter Access Tokens, please go offline and try again.  If this keeps happening, check your internet connection.]
+
+[You're missing the Nick key in the database.  This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc).  To fix it either add it manually or reset your twitter account in the miranda account options]
+
+;file \protocols\Twitter\src\proto.cpp
+[Avatars]
+Awatary
+[Send Tweet...]
+Wyślij Tweet...
+[Network]
+Protokoły
+[Basic]
+Podstawowe
+[Popups]
+Popupy
+[%s server connection]
+Połączenie %s
+[Unable to get Netlib connection for Twitter]
+
+[Twitter]
+
+[%s avatar connection]
+Połączenie awatarów %s
+[Unable to get avatar Netlib connection for Twitter]
+
+[%s Protocol]
+Protokół %s
+;file \protocols\Twitter\src\theme.cpp
+[Twitter Icon]
+Ikona Twittera
+[Tweet]
+
+[Reply to Tweet]
+Odpowiedź na Tweet
+[Visit Homepage]
+Odwiedź stronę domową
+[Reply...]
+Odpowiedz...

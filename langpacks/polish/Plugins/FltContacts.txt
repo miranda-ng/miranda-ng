@@ -1,0 +1,106 @@
+﻿#muuid {53c715a8-eb01-4136-a73c-441868610074}
+;============================================================
+;  File: FltContacts.dll
+;  Plugin: Floating contacts
+;  Version: 0.7.0.0
+;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
+;============================================================
+[Floating Contacts plugin for Miranda.]
+Pływające kontakty dla Mirandy.
+;file \plugins\FloatingContacts\res\fltcnt.rc
+[Hiding contacts]
+Ukrywanie kontaktów
+[Hide offline contacts]
+Ukryj rozłączone kontakty
+[Stick together]
+Trzymaj razem
+[Use fixed width]
+Stała szerokość
+[pixels]
+px
+[Hide all contacts]
+Ukryj wszystkie
+[Hide when a fulscreen app is active]
+Ukryj kiedy jest aktywna aplikacja pełnoekranowa
+[Show tooltips*]
+Pokaż podpowiedzi*
+[ms]
+
+[Tooltips]
+Podpowiedzi
+[Miscellaneous]
+Różne
+[0 = Default]
+0 = Domyślny
+[*requires Tipper plugin]
+*wymagana wtyczka Tipper
+[Bring to front]
+Umieszczenie
+[Bring to front every]
+Do przodu każde
+[seconds]
+s
+[Hide when contact list is shown]
+Ukryj, gdy lista kontaktów jest wyświetlana
+[Single click interface]
+Pokaż/ukryj listę po pojedynczym kliknięciu
+[Dim idle contacts]
+Przygaś bezczynne kontakty
+[Idle contacts]
+
+[Border]
+Obramowanie
+[Draw border]
+Rysuj obramowanie
+[Left-top edge's color:]
+Lewy-górny kolor krawędzi
+[Right-bottom edge's color:]
+Prawy-dolny kolor krawędzi
+[Background]
+Tło
+[Background colour:]
+Kolor tła:
+[Use background bitmap]
+Użyj jako tła
+[Stretch to width]
+Rozciągaj na szerokość
+[Stretch to height]
+Rozciągaj na wysokość
+[Tile horizontally]
+Układaj poziomo
+[Tile vertically]
+Układaj pionowo
+[Stretch proportionally]
+Rozciągnij proporcjonalnie
+[Opacity:]
+Krycie:
+;file \plugins\FloatingContacts\src\main.cpp
+[Standard contacts]
+Standardowe kontakty
+[Online contacts to whom you have a different visibility]
+Połączone kontakty, dla których mam różną widoczność 
+[Offline contacts]
+Kontakty "Rozłączone"
+[Offline contacts to whom you have a different visibility]
+Rozłączone kontakty, dla których mam różną widoczność
+[Contacts which are 'not on list']
+Kontakty spoza listy
+[Floating contacts]
+Pływające kontakty
+[Show all thumbs]
+
+[Hide all thumbs]
+Ukryj pływające kontakty
+[Remove thumb]
+Usuń pływające kontakty
+[Show/Hide all thumbs]
+Pokaż/ukryj wszystkie kontakty
+;file \plugins\FloatingContacts\src\options.cpp
+[Floating Contacts]
+Pływające kontakty
+[Contact List]
+Lista kontaktów
+[Main Features]
+Główne funkcje
+[Appearance]
+Personalizacja

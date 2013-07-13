@@ -1,151 +1,243 @@
-﻿;============================================================
-;  File: sendss.dll
-;  Module: Send ScreenShot
-;  Versions: 0.8.0.0
+﻿#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
 ;============================================================
-[ (primary)]
- (podstawowy)
-[" Window]
-* Okno
-[%s (%i):\nAn internal GC error occurred.]
-%s (%i):\nWystąpił wewnętrzny błąd GC.
-[%s (%i):\nContact has no open GC session.]
-%s (%i):\nKontakt nie ma otworzonych sesji GC.
-[%s (%i):\nCould not add a share to the FTP File plugin.]
-%s (%i):\nNie można dodać zasobu do wtyczki FTP File.
-[%s (%i):\nCould not add a share to the HTTP Server plugin.]
-%s (%i):\nNie można dodać zasobu do wtyczki serwera HTTP.
-[%s (%i):\nFile transfer denied.]
-%s (%i):\nTransfer pliku odrzucony.
-[%s (%i):\nYou appear to be using the wrong version of GC API]
-%s (%i):\nUżywasz niewłaściwej wersji GC API
-[&Capture]
-Uchwyć
-[&Fill description textbox.]
-Wypełnij pole opisu.
-[< Copyright]
-< Prawa aut.
-[<entire desktop>]
-<cały pulpit>
-[<Only save>]
-<Tylko zapisz>
-[A recipient did not appear in the address list]
-Odbiorca nie pojawił się na liście adresów
-[A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
-Odbiorca odpowiada więcej niż jednej strukturze opisującej odbiorców, przez co nie ustawiono MAPI_DIALOG
-[Abord]
-Przerwany
-[An unknown error has occured.]
-Nieznany błąd.
-[C&lient Area]
-Obszar klienta
-[Cant create a Screenshot]
-Nie można utworzyć zrzutu ekranu
-[Caption :]
-Uchwyć :
-[Capture]
-Uchwyć
-[Copyright]
-Prawa aut.
-[Could not create main dialog.]
-Nie można utworzyć głównego okna.
-[Could not register miranda service.]
-Nie można zarejestrować usługi Mirandy.
-[Could not start the HTTP Server plugin.]
-Nie można uruchomić wtyczki serwera HTTP.
-[Credits]
-Autorzy
-[Delete &after send]
-Usuń po wysłaniu
-[Delete after send]
-Usuń po wysłaniu
+;  File: SendSS.dll
+;  Plugin: Send screenshot+
+;  Version: 0.8.0.0
+;  Authors: Merlin
+;============================================================
+[Take a screenshot and send it to a contact.]
+Rób zrzuty pulpitu i wysyłaj je do kontaktów
+;file \plugins\SendScreenshotPlus\res\resource.rc
 [Dialog]
 Okno
-[Drag&&Drop the target on the desired window.]
-Umieść celownik na odpowiednie okno.
-[E&xplore]
-Przeglądaj
-[Email transfer]
-Transfer Email
-[Fatal error, image services not found. Send Screenshot will be disabled.]
-Błąd, usługa obrazków nie została znaleziona. Send Screenshot zostanie wyłączony.
-[Fill description textbox.]
-Uzupełnik pole z opisem.
-[for Client area ]
-dla pola Klienta
-[FTP File]
-Plik FTP
-[FTPFile transfer]
-Transfer FTP
-[HTTP Server]
-Serwer HTTP
-[HTTPServer transfer]
-Transfer HTTP
-[Image upload]
-Wgraj obrazek
-[One or more recipients were invalid or did not resolve to any address]
-Jeden lub więcej odbiorców jest niewłaściwych albo nie ma przypisanego adresu
-[One or more unspecified errors occurred]
-Wystąpił jeden lub więcej nieokreślonych błędów
-[Open again]
-Otwórz ponownie
-[Open Folder]
-Otwórz folder
-[Screenshot ]
-Zrzut ekranu
-[Select a target window.]
-Wybierz okno.
-[Send B&y :]
-Wyślij przez :
-[Send desktop screenshot]
-Wyślij zrzut pulpitu
-[Send screenshot to\n]
-Wyślij zrzut do\n
-[Send screenshot to\n<unknown>]
-Wyślij zrzut ekranu do\n<nieznany>
+[OK]
+OK
+[All]
+Wszystko
+[None]
+Brak
+[Cancel]
+Anuluj
 [Send screenshot]
 Wyślij zrzut ekranu
-[SendScreenshot - Error]
-SendScreenshot - Błąd
-[SendSS HTTP connections]
-Połączenie HTTP SendSS
+[Send screenshot to\n<unknown>]
+Wyślij zrzut ekranu do\n<nieznany>
+[Ti&med capture]
+Czas uchwycenia
+[Time (secs) :]
+Czas (s) :
+[&Format :]
+Format :
+[Send B&y :]
+Wyślij przez :
+[E&xplore]
+Przeglądaj
+[&Fill description textbox.]
+Wypełnij pole opisu.
+[Delete &after send]
+Usuń po wysłaniu
+[Open again]
+Otwórz ponownie
+[&Capture]
+Uchwyć
+[About]
+O kontakcie
+[%s\nv%s]
+
+[Credits >]
+Autorzy >
+[&Close]
+Zamknij
+[Edit]
+Edytuj
+[C&lient Area]
+Obszar klienta
+[Caption :]
+Uchwyć :
 [Size (HxW) :]
 Rozmiar  (HxW) :
-[Take a screenshot]
-Zrób zrzut ekranu
 [Target Tool]
 Celownik
-[TEXT]
-TEKST
-[The specified attachment could not be opened]
-Nie można otworzyć wskazanego załącznika
+;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[GCHAT error]
+
+[An unknown error has occured.]
+Nieznany błąd.
+[Error]
+Błąd
+;file \plugins\SendScreenshotPlus\src\CSend.h
+[Unable to initiate %s.]
+Nie można zainicjować %s.
+[MAPI error (%i):\n%s.]
+
+;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
+[A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
+Odbiorca odpowiada więcej niż jednej strukturze opisującej odbiorców, przez co nie ustawiono MAPI_DIALOG
 [The specified attachment was not found]
 Nie znalezniono wskazanego załącznika
-[The text in the message was too large]
-Wiadomość zbyt długa
-[The user canceled one of the dialog boxes]
-Użytkownik zamknął jedno z okien
+[The specified attachment could not be opened]
+Nie można otworzyć wskazanego załącznika
+[The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC]
+
+[One or more unspecified errors occurred]
+Wystąpił jeden lub więcej nieokreślonych błędów
 [There was insufficient memory to proceed]
 Brak wystarczającej ilości pamięci, żeby kontynuować
+[One or more recipients were invalid or did not resolve to any address]
+Jeden lub więcej odbiorców jest niewłaściwych albo nie ma przypisanego adresu
 [There was no default logon, and the user failed to log on successfully when the logon dialog box was displayed]
 Nie było domyślnego loginu, próba automatycznego zalogowania nie powiodła się, gdy pojawiło się okno logowania
+[The text in the message was too large]
+Wiadomość zbyt długa
 [There were too many file attachments]
 Zbyt dużo załączników
 [There were too many recipients]
 Zbyt wielu odbiorców
-[Ti&med capture]
-Czas uchwycenia
-[Time (secs) :]
-Czas (sek) :
-[Unable to initiate %s.]
-Nie można zainicjować %s.
+[A recipient did not appear in the address list]
+Odbiorca nie pojawił się na liście adresów
+[The user canceled one of the dialog boxes]
+Użytkownik zamknął jedno z okien
 [Unknown Error]
 Nieznany błąd
+;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
+[FTPFile transfer]
+Transfer FTP
+[%s (%i):\nCould not add a share to the FTP File plugin.]
+%s (%i):\nNie można dodać zasobu do wtyczki FTP File.
+;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
+[Could not start the HTTP Server plugin.]
+Nie można uruchomić wtyczki serwera HTTP.
+[%s (%i):\nCould not add a share to the HTTP Server plugin.]
+%s (%i):\nNie można dodać zasobu do wtyczki serwera HTTP.
+;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
 [Upload server did not respond timely.]
 Serwer nie odpowiada.
-[Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'#1#]
-Ostrzeżenie: Nie znaleziono IconPacka w katalogach: 'customize\\icons', 'icons' oraz 'plugins'#1#]
-[Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
-Ostrzeżenie: Wersja twojego obecnego IconPacka różni się od wersji, dla której przeznaczony jest UserInfoEx.\nNiektóre ikony mogą nie być wyświetlane poprawnie
+;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
+[Retry]
+Gotowy
+[Yes]
+Tak
+[No]
+Nie
+[Abort]
+Przerwany
+[Ignore]
+Ignorowanie
+;file \plugins\SendScreenshotPlus\src\global.h
+[SendScreenshot - Error]
+SendScreenshot - Błąd
+;file \plugins\SendScreenshotPlus\src\Main.cpp
+[Fatal error, image services not found. Send Screenshot will be disabled.]
+Błąd, usługa obrazków nie została znaleziona. Send Screenshot zostanie wyłączony.
+[SendSS]
+Wyślij zrzut ekranu
+[Screenshots]
+
+[SendSS HTTP connections]
+Połączenie HTTP SendSS
+[Could not create main dialog.]
+Nie można utworzyć głównego okna.
 [Send Screenshot]
 Wyślij zrzut ekranu
+[Send desktop screenshot]
+Wyślij zrzut pulpitu
+[Take a screenshot]
+Zrób zrzut ekranu
+[Could not register miranda service.]
+Nie można zarejestrować usługi Mirandy.
+[Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
+
+;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
+[Screenshot Icon1]
+Zrzut ekranu - ikona 1
+[Screenshot Icon2]
+Zrzut ekranu - ikona 2
+[Target Cursor]
+Celownik
+[Target Desktop]
+Pulpit
+[Default]
+Domyślny
+[overlay on]
+Nakładka włączona
+[overlay off]
+Nakładka wyłączona
+[Help]
+Pomoc
+[Open Folder]
+Otwórz folder
+[description off]
+Opis wyłączony
+[description on]
+Opis włączony
+[delete off]
+Usuwanie wyłączone
+[delete on]
+Usuwanie włączone
+[Prev]
+Poprzedni
+[Next]
+Dalej
+[Update]
+Aktualizacja
+[Apply]
+Zastosuj
+[Down arrow]
+Strzałka w dół
+;file \plugins\SendScreenshotPlus\src\mir_icolib.h
+[Buttons]
+Przyciski
+[overlays]
+Nakładka
+;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
+[Credits]
+Autorzy
+[< Copyright]
+< Prawa aut.
+[Copyright]
+Prawa aut.
+;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
+[Drag&&Drop the target on the desired window.]
+Umieść celownik na odpowiednie okno.
+[Send screenshot to\n]
+Wyślij zrzut do\n
+[Window]
+Okno
+[Desktop]
+Pulipit
+[<entire desktop>]
+<cały pulpit>
+[Monitor]
+
+[ (primary)]
+ (podstawowy)
+[<Only save>]
+<Tylko zapisz>
+[File Transfer]
+Transfer plików
+[E-mail]
+E-mail
+[FTP File]
+Menedżer FTP
+[ImageShack]
+
+[Information]
+Informacje
+[Fill description textbox.]
+Uzupełnij pole z opisem.
+[Delete after send]
+Usuń po wysłaniu
+[Capture]
+Uchwyć
+[Cant create a Screenshot]
+Nie można utworzyć zrzutu ekranu
+[Select a target window.]
+Wybierz okno.
+[Screenshot ]
+Zrzut ekranu
+[for Client area ]
+dla pola Klienta
+[of "]
+
+[" Window]
+* Okno

@@ -1,0 +1,1 @@
+﻿[Show all contacts (Ctrl+A)]

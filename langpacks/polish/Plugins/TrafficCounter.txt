@@ -1,0 +1,151 @@
+﻿#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
+;============================================================
+;  File: TrafficCounter.dll
+;  Plugin: Traffic counter
+;  Version: 0.1.1.8
+;  Authors: Ghost, Mironych
+;============================================================
+[Adding traffic and time counters.]
+Dodaje licznik transferu czasu.
+;file \plugins\TrafficCounter\res\resource.rc
+[Selected totals]
+Wszystkie zaznaczone
+[Accounts]
+Konta
+[Units]
+Jednostki
+[Clear statistics]
+Wyczyść
+[Notification]
+Powiadomienie
+[Notify me on every]
+Powiadom mnie co:
+[kilobytes]
+kb
+[minutes]
+minut
+[Background colour:]
+Kolor tła:
+[Text colour:]
+Kolor tekstu:
+[Reset to default]
+Domyślne ustawienia
+[Popup timeout]
+Opóźnienie
+[From Popup plugin]
+Z wtyczki Popup
+[Custom]
+Niestandardowe
+[Test]
+
+[Show now]
+Pokaż teraz
+[Space between lines:]
+Miejsce między liniami:
+[Counters format string:]
+Format licznika:
+[Tooltip format string:]
+Format powiadomienia:
+[Display traffic for current]
+Licznik obejmuje
+;file \plugins\TrafficCounter\src\options.cpp
+[Display]
+Wyświetlanie
+[Icon]
+Ikona
+[Account name]
+Nazwa konta
+[Current traffic]
+
+[Total traffic]
+
+[Current online]
+Aktualnie połączeni
+[Total online]
+
+[General]
+Ogólne
+[Draw frame as skin element]
+Rysuj ramkę jako element skórki
+[Show tooltip in traffic window]
+Pokaż powiadomienie w oknie licznika
+["Toggle traffic counter" in main menu]
+"Przełącznik licznika transferu" w menu głównym
+[Visible accounts]
+Widoczne konta
+[Summary traffic for visible accounts]
+Podsumowanie dla widocznych kont
+[Overall traffic]
+Ogólny licznik
+[Hide now]
+Ukryj teraz
+[Day]
+Dzień
+[Week]
+Tydzień
+[Month]
+Miesiąc
+[Year]
+Rok
+[Services]
+Usługi
+[Options]
+Opcje
+[Traffic counter]
+Licznik transferu
+[Statistics]
+Statystyki
+[Popups]
+Popupy
+;file \plugins\TrafficCounter\src\statistics.cpp
+[Bytes]
+Bajty
+[KB]
+
+[MB]
+
+[Adaptive]
+Adaptacyjnie
+[Hourly]
+Godzinowo
+[Daily]
+Dziennie
+[Weekly]
+Tygodniowo
+[Monthly]
+Miesięczie
+[Yearly]
+Rocznie
+[Period]
+Okres
+[Incoming]
+Przychodzący
+[Outgoing]
+Wychodzące
+[Sum]
+Suma
+[Online]
+Połączony
+[Now traffic statistics for selected accounts will be cleared.\nContinue?]
+
+[Couldn't read statistics file]
+
+[Traffic Counter]
+Licznik transferu
+;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Font]
+Czcionka
+[Show/Hide frame]
+Pokaż/ukryj ramkę
+[Hide traffic window]
+Ukryj okno licznika
+[Clear the current (Now:) value]
+Wyczyść obecne (Teraz:)
+[Toggle traffic counter]
+
+[Traffic counter notification]
+Powiadomienia licznika transferu
+[%d kilobytes sent]
+%d kb wysłano
+[%d kilobytes received]
+%d kb otrzymano

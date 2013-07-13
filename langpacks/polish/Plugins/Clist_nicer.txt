@@ -1,0 +1,882 @@
+﻿#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+;============================================================
+;  File: Clist_nicer.dll
+;  Plugin: Clist nicer
+;  Version: 0.9.2.1
+;  Authors: Pixel, egoDust, cyreve, Nightwish
+;============================================================
+[Displays contacts, event notifications, protocol status.]
+Wyświetla kontakty, powiadomienia zdarzeń, statusy protokołów.
+;file \plugins\Clist_nicer\res\resource.rc
+[CList Nicer exception]
+
+[Copy to clipboard]
+Kopiuj do schowka 
+[Continue]
+
+[Exit Miranda]
+Wyłącz Mirandę
+[Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
+
+[About CList Nicer+]
+O CList Nicer+
+[OK]
+OK
+[Clist Nicer+]
+
+[Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+
+[Version]
+Wersja
+[Support and latest version information]
+Wsparcie i informacje o ostatniej wersji
+[Delete Contact]
+Usuń kontakt
+[No]
+Nie
+[Yes]
+Tak
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Tylko ukryj na liście by zatrzymać ustawienia ignorowania/widoczności.
+[Use Options->Contacts->Ignore to unhide contacts.]
+Użyj Opcje -> Kontakty -> Ignorowanie by pokazac kontakty.
+[Are you sure you want to delete %s?]
+Czy na pewno chcesz usunąć %s?
+[This will erase all history and settings for this contact!]
+To usunie wszystkie ustawienia i historię dla tego kontaktu!
+[Contact List]
+Lista kontaktów
+[Hide offline users]
+Ukryj rozłączonych
+[Hide empty groups]
+Ukryj puste grupy
+[Disable groups]
+Wyłącz grupy
+[Ask before deleting contacts]
+Pytaj przed usunięciem kontaktów
+[Disable icon blinking]
+Wyłącz miganie ikony
+[Apply last active view mode ]
+Zastosuj ostatni aktywny tryb widoku
+[Contact list layout]
+Układ listy
+[Show menu and status buttons]
+Pokaż przyciski menu i statusu
+[Draw sunken edge]
+Rysuj wtopione krawędzie
+[System tray icon]
+Ikona w zasobniku
+[Single click interface]
+Pokaż/ukryj listę po pojedynczym kliknięciu
+[Always show status in tooltip]
+Zawsze pokazuj status w podpowiedzi
+[ms]
+
+[Event area]
+Obszar powiadomień
+[Set base visiblity on the frames menu]
+Ustaw tryby widoku
+[Auto mode]
+Automatycznie
+[System tray icon when using multiple protocols]
+Ikona w zasobniku systemowym podczas korzystania z wielu protokołów
+[Show]
+Pokaż
+[icon when statuses differ]
+ikony, jeśli statusy się różnią
+[Cycle icons every]
+Zmieniaj ikony co
+[seconds, when statuses differ]
+sekund(y), jeśli statusy się różnią
+[Show multiple icons]
+Pokaż ikony osobno
+[Only when statuses differ]
+Tylko, jeśli statusy się różnią
+[Do not show system tray icon tooltips on mouse over]
+Nie pokazuj podpowiedzi w zasobniku systemowym
+[Groups]
+Grupy
+[Draw a line alongside group names]
+Rysuj linię wzdłuż nazw grupy
+[Show number of contacts in a group]
+Pokaż liczbę kontaktów w grupach
+[Hide numbers when all offline]
+Ukryj liczbę kontaktów, jeśli nikt nie jest połączony
+[Sort groups alphabetically]
+Sortuj grupy alfabetycznie
+[Quicksearch in open groups only]
+Szybkie szukanie tylko w otwartych grupach
+[No expand/collapse icon]
+Nie pokazuj ikony zwijania/rozwijania grup
+[Center groupnames horizontally]
+Centruj nazwy grup poziomo
+[Alignment]
+Wyrównanie
+[Margins (left/right)]
+Margines (lewy/prawy)
+[Row gap]
+Odstępy wierszów
+[Minimum row height:]
+Minimalna wysokość wiersza
+[Group row height]
+Wysokość wiersza grupy
+[Indent groups by:]
+Wcinaj grupy na:
+[Inner Row vertical padding]
+Pionowe wewnętrzne wypełnienie
+[Margins and spacing]
+Marginesy i odstępy
+[Contact List Sorting]
+Sortowanie kontaktów
+[First by]
+Pierwszy
+[Then by]
+Drugi
+[Finally by]
+Trzeci
+[Move events to the top of list\nor group]
+Przenieś zdarzenia na początek listy\nlub grupy
+[Do not separate offline contacts]
+Nie oddzielaj rozłączonych kontaktów
+[Hide as offline]
+Ukryj w trybie rozł.
+[Right align contacts]
+Wyrównanie do prawej
+[Avatars]
+Awatary
+[Show avatars]
+Pokaż awatar
+[Height]
+Wysokość
+[Draw a border around avatars]
+Rysuj ramkę wokół awatarów
+[Rounded avatars]
+Zaokrąglij rogi awatara
+[Radius]
+Promień
+[Always align icons and text for missing avatars]
+Zawsze dopasuj ikony i tekst dla brakujących awatarów
+[Avatar alignment]
+Wyrównanie awatara
+[Don't request avatars for offline contacts]
+Nie żadaj awatarów od kontaktów rozłączonych
+[Second text line]
+Druga linia
+[Display status message when available]
+Pokaż opis kontaktu jeśli istnieje
+[Show second text line:]
+Pokaż drugą linię:
+[Show contacts local time]
+Pokaż czas kontaktu
+[Only when timezone differs]
+Tylko jeśli czas się różni
+[Icons]
+Ikony
+[Show status icons]
+Pokaż ikonę statusu
+[Centered when possible]
+Centruj kiedy możliwe
+[When possible, draw status icons in avatar space]
+Jeśli możliwe, rysuj ikonę statusu na miejscu awatara
+[Use metacontact protocol icons instead of subcontacts]
+Użyj ikon protokołu metakontaktu zamiast subkontaktu
+[Use Overlay icons on avatars]
+Użyj ikon nakładek na awatarach
+[Dim idle contacts]
+Przygaś bezczynne kontakty
+[Replace status icons with xStatus]
+Zastąp ikonę statusu xStatusem
+[Window]
+Okno
+[Always on top]
+Zawsze na wierzchu
+[Show menu bar]
+Pokaż pasek menu
+[Easy move]
+Łatwe przesuwanie
+[Rounded border]
+Zaokrąglona ramka
+[Border]
+Obramowanie
+[Title bar text:]
+Tekst paska tytułu:
+[Pin to desktop]
+Przypnij do pulpitu
+[Show drop shadow (restart required)]
+Pokaż cień (wymagany restart)
+[Hide contact list after it has been idle for]
+Ukryj listę, jeśli bezczynność jest dłuższa niż
+[seconds]
+s
+[Automatically resize window to height of list]
+Dopasuj rozmiar okna rozmowy do wysokości listy
+[maximum]
+maksymalną
+[% of screen]
+% ekranu
+[Size upwards]
+Rozciągnij do góry
+[If window is partially covered, bring to front instead of hiding]
+Jeśli okno jest częściowo zakryte, przenieś na wierzch zamiast ukrywać
+[Always Hide On Taskbar]
+Zawsze 'ukryj na pasku narzędzi'
+[Client margins]
+Marginesy
+[Embedded frames border]
+Kolor granicy ramek
+[Clip border by]
+Granica listy
+[Gap between frames]
+Odstęp między ramkami
+[Translucency options]
+Opcje przeźroczystości
+[Transparent contact list]
+Przeźroczysta lista kontaktów
+[Inactive opacity:]
+Nieaktywne okno:
+[Active opacity:]
+Aktywne okno:
+[Fade contact list in/out]
+Wygaszaj/rozjaśniaj listę
+[Fully transparent (like TweakUI)]
+Pełna przeźroczystość (jak TweakUI)
+[Items]
+Obiekty
+[Show divider between online and offline contacts]
+Pokaż separator między połączonymi a rozłączonymi
+[Hot track items as mouse passes over]
+Podświetl obiekty pod kursorem
+[Disable drag and drop of items]
+Wyłącz "przeciągnij i upuść"
+[Disable rename of items by clicking twice]
+Wyłącz zmianę nazwy po podwójnym kliknięciu
+[Show selection even when list is not focused]
+Pokazuj zaznaczenie na nieaktywnej liście
+[Make selection highlight translucent]
+Przeźroczyste podświetlenie zaznaczenia 
+[Use full row for selection and hottracking]
+Użyj pełnego wiersza dla zaznaczenia i podświetlenia
+[Double click on avatar opens userinfo]
+Podwujne kliknięcie w awatar otwiera dane użytkownika
+[Visual]
+Wizualne
+[Scroll list smoothly]
+Płynne przewijanie listy
+[Time:]
+Czas:
+[milliseconds]
+ms
+[Hide vertical scroll bar]
+Ukryj pionowy pasek przewijania
+[Grey out entire list when:]
+Przyciemnij całą listę kiedy:
+[Contact List Background]
+Tło listy kontaktów
+[Use Windows colours]
+Użyj kolorów Windows
+[Background colour]
+Kolor tła
+[Use background image]
+Użyj obrazu tła
+[Stretch to width]
+Rozciągaj na szerokość
+[Stretch to height]
+Rozciągaj na wysokość
+[Tile horizontally]
+Układaj poziomo
+[Tile vertically]
+Układaj pionowo
+[Scroll with text]
+Przewijaj z tekstem
+[Stretch proportionally]
+Rozciągnij proporcjonalnie
+[Use these settings to skin the entire background]
+Użyj tych ustawień skórki dla całego tła
+[If you enable this, the background settings will affect the entire contact list frame.]
+Po włączeniu tej opcji, ustawienia tła wpłyną na całą ramkę listy kontaktów.
+[Status Bar]
+Pasek statusu
+[Show status bar]
+Pokaż pasek statusu
+[Show icons]
+Pokaż ikony
+[Show protocol names]
+Pokaż nazwy protokołów
+[Show status text]
+Pokaż nazwę statusu
+[Right click opens status menu]
+PPM otwiera menu statusu
+[Right click opens Miranda NG menu]
+PPM otwiera menu Mirandy NG
+[Make sections equal width]
+Sekcje tej samej szerokości
+[Show bevels on panels]
+Pokaz separatory na panelach
+[Show resize grip indicator]
+Pokaż wskaznik rozmiaru uchwytu
+[Draw background skin]
+Rysuj tło skóry
+[Show ICQ extended status icons]
+Pokaż dodatkowe ikony ICQ
+[Mark protocols locked from global status changes]
+Oznacz zablokowane protokoły dla globalnej zmiany statusu
+[Available view modes]
+Dostępne tryby widoku
+[Include protocols]
+Uwzględnione protokoły
+[New]
+Nowy
+[Include groups]
+Uwzględnione grupy
+[Include status modes]
+Uwzględniony tryby statusu
+[Cancel]
+Anuluj
+[Apply]
+Zastosuj
+[Sticky contacts]
+Przyklejone kontakty
+[Clear all]
+Wyczyść wszystko
+[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
+Używając listy kontaktów po lewej stonie, możesz wybrać kontakty, które będą "przyklejone" do tego widoku. Te kontakty będą ignorować standardowe reguły filtrowania i używać tylko poniższego filtru trybu statusu.
+[Protocol]
+Protokół
+[Group]
+Grupa
+[Status mode]
+Tryb statusu
+[Automatically clear this view mode after]
+Automatycznie wyczyść ten tryb widoku po
+[View mode options]
+Opcje trybu widoku
+[Editing view mode]
+Edytowanie trybu widoku
+[Last message ]
+Ostatnia wiadomość 
+[Per contact skins:]
+Skóra kontaktu:
+[< Reload]
+< Odśwież
+[Contact list skin]
+Skórka listy kontaktów
+[Load this skin on startup]
+Wczytaj tę skórkę na starcie
+[Apply skin now]
+Zastosuj teraz skórkę
+[Unload skin]
+Wyłącz skórkę
+[Make selection shape equal to selected item]
+Kształt zaznaczenia równy wybranego elementu
+[Blend selection with background]
+Mieszaj zaznaczenie z tłem
+[Automatically fill background with wallpaper (tiled wallpaper only)]
+Automatycznie wypełnij tło z tapety (tylko tapeta kafelkowa)
+[Apply group indent values to background drawing]
+Zastosuj wartość wcięcia grupy do rysowania tła
+[Use per protocol/contact skinning]
+Użyj skórkowania na protokole/kontakcie
+[Protocol skins override status text colors]
+Skórka protokołu zastępuje kolor tekstu statusu
+[Set all buttons to skinned mode]
+Ustaw wszystkie przyciski jako skórkowane
+[Use fast gradient drawing]
+Użyj szybkiego rysowania gradientu
+[Corner radius]
+Promień rogów
+[Skin options]
+Opcje skórki
+[Group top padding]
+Położenie grupy
+[Frame titlebar height]
+Wysokość paska tytułu
+[Ignore selection for groups]
+Ignoruj zaznaczenie dla grup
+[Load from skin file]
+Załaduj skórkę z pliku
+[Export to skin file]
+Eksportuj do pliku skórki
+[Dialog]
+Okno
+[Ignore these events]
+Ignorowane zdarzenia
+[Messages]
+Wiadomości
+[Incoming file transfers]
+Przychodzące transfery
+[URL events]
+Linki
+[Suppress auth requests]
+Pytanie o autoryzację
+[Suppress added notifications]
+Powiadomienie o dodaniu
+[Suppress online notifications]
+Zmiany statusu
+[Ignore all]
+Ignoruj wszystkie
+[Ignore none]
+Nie ignoruj
+[Visibility]
+Widoczność 
+[Appear always online]
+Zawsze połączony
+[Appear always offline (block contact)]
+Zawsze rozłączony (kontakt zablokowany)
+[Other]
+Inne
+[Hide this contact from the list]
+Ukryj kontakt na liście kontaktów
+[To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
+Aby wyświetlić wcześniej ukryty kontakt, przejdź do Opcje -> Kontakty -> Ignorowanie, wyszukaj kontakt na liście i zaznacz pole wyboru obok jego nazwy.
+[Display options]
+Opcje wyświetlania
+[Show contact with priority]
+Pokaż według priorytetu
+[Show Avatar:]
+Pokaż awatar:
+[Show 2nd line:]
+Pokaż drugą linię:
+[Draw overlay icon on avatar]
+Rysuj nakładkę na awatarze
+[Show local time]
+Pokaż czas kontaktu
+[E&xit]
+Wyjdź
+[&Status]
+
+[&Offline\tCtrl+0]
+Rozłączony\tCtrl+0
+[On&line\tCtrl+1]
+Połączony\tCtrl+1
+[&Away\tCtrl+2]
+Zaraz wracam\tCtrl+2
+[&NA\tCtrl+3]
+Niedostępny
+[Occ&upied\tCtrl+4]
+Zajęty
+[&DND\tCtrl+5]
+Nie przeszkadzać
+[&Free for chat\tCtrl+6]
+&Chętny do rozmowy\tCtrl+6
+[&Invisible\tCtrl+7]
+Niewidoczny\tCtrl+7
+[On the &Phone\tCtrl+8]
+Przy telefonie\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Poszedłem na obiad\tCtrl+9
+[Tray]
+Zasobnik
+[&Hide/Show]
+Pokaż/ukryj
+[Nowhere]
+
+[&New Group]
+Nowa grupa
+[&Hide Offline Users]
+Ukryj rozłączonych
+[Hide &Offline Users out here]
+Ukryj rozłączonych tutaj
+[Hide &Empty Groups]
+Ukryj puste grupy
+[Disable &Groups]
+Wyłącz grupy
+[Hide Miranda]
+Ukryj Mirandę
+[&New Subgroup]
+Nowa podgrupa
+[&Hide Offline Users in here]
+Ukryj tu rozłączonych
+[&Rename Group]
+Zmień nazwę grupy
+[&Delete Group]
+Usuń grupę
+[Move marked Contacts to this Group]
+
+[Appearance]
+Personalizacja
+[Show Status Icons]
+Pokaż ikony statusu
+[Show Metacontact proto Icons]
+Pokaż ikony protokołu metakontaktów
+[Show additional Buttons]
+Pokaż dodatkowe przyciski
+[Draw sunken Frame]
+Rysuj wklęsłą ramkę
+;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+[Skin items]
+Elementy skórki
+[General]
+Ogólne
+[Gradient]
+
+[Left to right]
+Z lewa do prawa
+[Right to left]
+Z prawa do lewa
+[Top to bottom]
+Z góry do dołu
+[Bottom to top]
+Z dołu go góry
+[Round corners]
+Zaokrąglone rogi
+[Top-Left]
+Góra-Lewy
+[Top-Right]
+Góra-Prawy
+[Bottom-Right]
+Dół-Prawy
+[Bottom-Left]
+Dół-Lewy
+[Item colors]
+Kolory
+[First color]
+Pierszy kolor
+[Textcolor]
+Kolor tekstu
+[Second color]
+Drugi kolor
+[Transparent]
+Przeźroczysty
+[Alpha (percent)]
+Alpha (procent)
+[Item margins]
+Marginesy
+[Item borders]
+Ramka
+[Border style]
+Styl ramki
+[3D border (bright / dark)]
+Ramka 3D (jasny/ciemny)
+[Item ignored]
+Ignorowane
+[Not yet supported]
+
+;file \plugins\Clist_nicer\skineditor\src\main.cpp
+[Copy from]
+Kopiuj z
+[<None>]
+<Nie ogłaszaj>
+[Raised]
+Wypukłe
+[Sunken]
+Wklęsły
+[Bumped]
+Wypukłe na zewnątrz
+[Etched]
+Wypukłe na zewnątrz, wklęsłe wewnątrz
+;file \plugins\Clist_nicer\src\CLCButton.cpp
+[Show menu]
+Pokaż menu
+[Show / hide offline contacts]
+Pokaż/ukryj rozłączonych
+[Toggle group mode]
+Włącz/wyłącz grupy
+[Find and add contacts]
+Szukaj i dodaj kontakt
+[Accounts]
+Konta
+[Open preferences]
+Otwórz opcje
+[Toggle sounds]
+Włącz/wyłącz dźwięki
+[Minimize contact list]
+Minimalizuj listę kontaktów
+[Status menu]
+Menu statusu
+[tabSRMM session list]
+Lista sesji TabSRMM
+[tabSRMM Menu]
+Menu TabSRMM
+[Select view mode]
+Wybierz tryb widoku
+[Setup view modes]
+Ustaw tryby widoku
+[Clear view mode]
+Wyczyść tryb widoku
+;file \plugins\Clist_nicer\src\clcopts.cpp
+[Not focused]
+Nieaktywne
+[Offline]
+Rozłaczony
+[Online]
+Połączony
+[Away]
+Zaraz wracam
+[NA]
+Wrócę później
+[Occupied]
+Zajęty
+[DND]
+Nie przeszkadzać
+[Free for chat]
+Porozmawiajmy
+[Invisible]
+Niewidoczny
+[Out to lunch]
+Na obiedzie
+[On the phone]
+Pod telefonem
+[Always Left]
+do lewej
+[Always Right]
+do prawej
+[Automatic (RTL)]
+automatycznie (RTL)
+[Nothing]
+-Nic-
+[Name]
+Nazwa
+[Status]
+Status
+[Last Message]
+Ostatnia wiadomość
+[Message Frequency]
+Częstotliwość wiadomości
+[Never]
+Nigdy
+[Always]
+Zawsze
+[For RTL only]
+Tylko dla RTL
+[RTL TEXT only]
+Tylko TEKST RTL
+[When space allows it]
+Gdy przestrzeń na to pozwala
+[When needed]
+Kiedy potrzebny
+[With Nickname - left]
+Na lewo od nazwy kontaktu
+[Far left]
+Daleko w lewo
+[Far right]
+Daleko w prawo
+[With Nickname - right]
+Na prawo od nazwy kontaktu
+[List layout]
+Układ listy
+[Background]
+Tło
+[Contact rows]
+Obiekty w wierszu
+[Contacts]
+Kontakty
+[Groups and layout]
+Układ grup
+[Advanced]
+Zaawansowane
+[Skins]
+Skórki
+[Contact list]
+Lista kontaktów
+;file \plugins\Clist_nicer\src\clistmenus.cpp
+[Add permanently]
+Dodaj na stałe
+[Revert to default]
+Przywróć domyślne
+[Default (global setting)]
+Domyślny (ustawienia globalne)
+[Show always when available]
+Pokaż zawsze kiedy dostępny
+[Hide always]
+Zawsze ukryty
+[When space is available]
+
+[When needed by status message]
+
+[Contact list display and ignore options for %s]
+Opcje wyświetlania i ignorowania dla %s
+[&Contact list settings...]
+Ustawienia kontaktu...
+;file \plugins\Clist_nicer\src\clistopts.cpp
+[Global]
+Globalne
+;file \plugins\Clist_nicer\src\clui.cpp
+[Toggle show online/offline]
+Pokaż/ukryj rozłączonych
+[Toggle groups]
+Włącz/wyłącz grupy
+[Find contacts]
+Szukaj kontaktów
+[Show tabSRMM session list]
+Pokaż listę sesji TabSRMM
+[Show tabSRMM menu]
+Pokaż menu TabSRMM
+[Sounds are off]
+Dźwięki są wyłączone
+[Reset view mode]
+Resetuj tryb widoku
+[Configure view modes]
+Ustaw tryb widoku
+[Setup accounts]
+Konta
+[Event Area]
+Obszar zdarzeń
+[My Contacts]
+Moje kontakty
+[%s Connecting]
+Łączenie %s
+[Menu]
+
+[Open main menu]
+Otwórz menu główne
+[Set status modes]
+Ustaw status
+[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
+
+[Parameter mismatch]
+
+[The service %s specified by the %s button definition was not found. You may need to install additional plugins]
+
+[Service failure]
+
+[You need the FloatingContacts plugin, cause the embedded floating contacts were removed]
+
+[Warning]
+Ostrzeżenie
+[Standard contacts]
+Standardowe kontakty
+[Online contacts to whom you have a different visibility]
+Połączone kontakty, dla których mam różną widoczność 
+[Offline contacts]
+Kontakty "Rozłączone"
+[Offline contacts to whom you have a different visibility]
+Rozłączone kontakty, dla których mam różną widoczność
+[Contacts which are 'not on list']
+Kontakty spoza listy
+[Group member counts]
+Liczba członków grupy 
+[Dividers]
+Separatory
+[Frame titles]
+Tytuły ramek
+[Contact list local time]
+Czas lokalny
+[Selected Text]
+Wybrany tekst
+[Hottrack Text]
+Tekst pod kursorem
+[Quicksearch Text]
+Tekst szybkiego wyszukiwania
+;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Title bar]
+Nagłówek okna
+[Tool Window]
+Styl okna narzędziowego
+[Thin border]
+Wąskie obramowanie
+[No border]
+Bez obramowanie
+;file \plugins\Clist_nicer\src\Docking.cpp
+[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+
+[Clist docking]
+
+;file \plugins\Clist_nicer\src\extBackg.cpp
+[Load and apply]
+Wczytaj i zastosuj
+;file \plugins\Clist_nicer\src\init.cpp
+[No events...]
+Brak zdarzeń...
+;file \plugins\Clist_nicer\src\viewmodes.cpp
+[Ungrouped contacts]
+Niepogrupowane kontakty
+[And]
+I
+[Or]
+Lub
+[Older than]
+Starsze niż
+[Newer than]
+Nowsze niż
+[Minutes]
+Minuty
+[Hours]
+Godzin
+[Days]
+Dni
+[Current view mode: %s]
+Aktualny tryb widoku: %s
+[Filtering]
+Filtrowanie
+[*** All contacts ***]
+*** Wszystkie kontakty ***
+[Really delete this view mode? This cannot be undone]
+Na pewno chcesz usunąć ten tryb widoku? Nie można tego cofnąc.
+[Delete a view mode]
+Usuwanie trybu widoku
+[No view mode]
+Brak trybu widoku
+[A view mode with this name does alredy exist]
+Tryb widoku o takiej nazwie już istnieje
+[Duplicate name]
+Zduplikowana nazwa
+[Setup View Modes...]
+Ustaw tryby widoku...
+[Clear current View Mode]
+Wyczyść obecny tryb widoku
+[Select a view mode]
+Wybierz tryb widoku
+[Clear view mode and return to default display]
+Wyczyść tryb widoku i przywróć domyślne wyświetlanie
+[View Modes]
+Tryby widoku
+;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
+[&FrameTitle]
+Nazwa ramki
+[&Visible]
+Widoczny
+[&Show TitleBar]
+Pokaż pasek tytułu
+[&Locked]
+Zablokowany
+[&Collapsed]
+Zwinięty
+[&Floating Mode]
+Pływające okno
+[&Border]
+Obramowanie
+[&Skinned frame]
+Skórkowalna ramka
+[&Align]
+Wyrównanie
+[&Top]
+Góra
+[&Client]
+Klient
+[&Bottom]
+Dół
+[&Position]
+Pozycja
+[&Up]
+Góra
+[&Down]
+Dół
+[Frames]
+Ramki
+[Show All Frames]
+Pokaż wszystkie ramki
+[Show All Titlebars]
+Pokaż wszystkie paski tytułów
+[Hide All Titlebars]
+Ukryj wszystkie paski tytułów
+[Lock Frame]
+Zablokuj ramkę
+[Visible]
+Widoczny
+[Show TitleBar]
+Pokaż pasek tutułu
+[Skinned frame]
+Skórkowalna ramka
+[Floating]
+Pływający
+;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[&Find/Add Contacts...]
+Szukaj/dodaj kontakty...
+[&Main Menu]
+Menu główne
+[&Options...]
+Opcje...
+[&About the contact list...]
+O liście kontaktów...
+[&New SubGroup]
+Nowa podgrupa

@@ -1,0 +1,142 @@
+﻿#muuid {a9e9c114-84b9-434b-a3d5-89921d39ddff}
+;============================================================
+;  File: BuddyPounce.dll
+;  Plugin: Buddy pounce
+;  Version: 0.3.2.1
+;  Authors: Jonathan Gordon
+;============================================================
+[Allows you to send a message to contacts if they change status.]
+
+;file \plugins\BuddyPounce\res\resource.rc
+[Confirm Pounce send]
+
+[Send]
+Wyślij
+[Cancel]
+Anuluj
+[Pounce being sent to]
+
+[Buddy Pounce]
+
+[OK]
+OK
+[The Message:]
+
+[Delete Pounce]
+
+[Load default Settings]
+
+[Setting Value]
+Wartość ustawienia
+[Setting text...........]
+
+[Settings]
+Ustawienia
+[Contact To Send Pounce To]
+
+[<< Simple]
+
+[Advanced >>]
+Zaawansowane >>
+[The Message]
+
+[Dialog]
+Okno
+[Status]
+Status
+[Use Advanced Dialog]
+
+[The Message:       (Characters:  )]
+
+[Default Settings]
+
+[Show Delivery Messages]
+
+[These settings are also used when sending a "Simple" pounce]
+
+;file \plugins\BuddyPounce\src\dialog.cpp
+[Send If My Status Is...]
+
+[Send If They Change Status to...]
+
+[Reuse Pounce]
+
+[Give Up delay]
+
+[Confirmation Window]
+
+[Send If My Status Is]
+
+[Any]
+
+[Online]
+Połączony
+[Away]
+Zaraz wracam
+[NA]
+Wrócę później
+[Occupied]
+Zajęty
+[DND]
+Nie przeszkadzać
+[Free For Chat]
+
+[Invisible]
+Niewidoczny
+[On The Phone]
+
+[Out To Lunch]
+
+[Send If Their Status changes]
+
+[From Offline]
+
+[To Online]
+
+[To Away]
+
+[To NA]
+
+[To Occupied]
+
+[To DND]
+
+[To Free For Chat]
+
+[To Invisible]
+
+[To On The Phone]
+
+[To Out To Lunch]
+
+[The Message    (%d Characters)]
+
+[Couldnt Allocate enough memory]
+
+[error......]
+
+[The Message    (0 Characters)]
+
+[Reuse this message? (0 to use it once)]
+
+[Times]
+
+[Giveup after.. (0 to not giveup)]
+
+[Days]
+Dni
+[Show confirmation window? (0 to not Show)]
+
+[Seconds to wait before sending]
+
+[Pounce being sent to %s in %d seconds]
+
+[Retry]
+Gotowy
+[Message successfully sent to %s]
+
+[Message failed to send to %s]
+
+;file \plugins\BuddyPounce\src\main.cpp
+[Message Sessions]
+Okno rozmowy

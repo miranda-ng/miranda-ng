@@ -1,26 +1,17 @@
-﻿;============================================================
-;  File: bosskey.dll
-;  Module: Boss Key
-;  Versions: 0.4.1.2
+﻿#muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
 ;============================================================
-[Please enter password!]
-Proszę wprowadzić hasło!
-[Password is not correct!]
-Nieprawidłowe hasło!
-[Hide Miranda IM]
-Ukryj Mirandę IM
-[BossKey\tget the BossKey name]
-BossKey\tpobierz nazwę BossKey
-[Trigger when Miranda is hiding]
-Wywołaj, kiedy Miranda jest ukryta
-[Trigger when Miranda is showing]
-Wywołaj, kiedy Miranda jest na wierzchu
+;  File: BossKey.dll
+;  Plugin: BossKey+
+;  Version: 0.5.0.3
+;  Authors: Goblineye Entertainment, Billy_Bons
+;============================================================
+[Anti-Boss plugin.]
+Wtyczka Anti-Boss
+;file \plugins\BossKeyPlus\res\BossKey.rc
+[BossKey]
+
 [Go to Customize -> Hotkeys to change the hotkey]
 Przejdź do Personalizacja -> Skróty, aby je ustawić
-[Hotkey:]
-Skrót:
-[Use built in to Miranda hotkey module]
-Użyj wbudowanej w Mirandę obsługi skrótów
 [When I press the hotkey:]
 Kiedy nacisnę skrót:
 [Change status to]
@@ -31,14 +22,26 @@ Zmień tylko, jeśli aktualny status to Połączony
 Użyj domyślnego opisu
 [Disable Sounds]
 Wyłącz dźwięki
+[Show the Tray Icon]
+Pokaż ikonę w zasobniku
 [When I return:]
 Kiedy wrócę:
 [Request password:]
 Zażądaj hasła:
 [Change status back]
 Przywróć poprzedni status
-[Workstation is Locked (2000/XP+)]
-Komputer jest zablokowany (2000/XP+)
+[Hotkey]
+Skrót
+[Password:]
+Hasło:
+[OK]
+OK
+[Cancel]
+Anuluj
+[EN]
+
+[Workstation is Locked]
+Koputer jest zablokowany
 [Screen Saver is running]
 Wygaszacz jest włączony
 [Windows is inactive]
@@ -49,21 +52,33 @@ Ukryj Mirandę kiedy:
 Miranda jest nieaktywna
 [min]
 min
-[On the Phone]
-Przy telefonie
-[Out to Lunch]
-Na obiedzie
-[Miranda IM is locked.\nEnter password to unlock it.]
+[Miranda is started]
+Miranda się uruchamia
+[Others]
+Inne
+[Create a main menu item]
+Utwórz wpis w menu głównym
+[Restore hiding on startup after failure]
+Przywróć ukrywanie na starcie po awarii
+;file \plugins\BossKeyPlus\src\BossKey.cpp
+[Miranda NG is locked.\nEnter password to unlock it.]
 Miranda jest zablokowana.\n Proszę wprowadzić hasło.
 [Password is not correct!\nPlease, enter correct password.]
 Błędne hasło!\nProszę wpisać poprawne hasło.
-[Miranda is started]
-Miranda się uruchamia
-[Restore hiding on startup after failure]
-Przywróć ukrywanie na starcie po awarii
+[Hide Miranda NG]
+Ukryj Mirandę NG
+[Hide]
+Ukryj
 [Hide/Show Miranda]
-Ukryj/Pokaż Mirandę
-[get the BossKey name]
-pobiera nazwę BossKey
+Pokaż/ukryj Mirandę
+[BossKey\tget the BossKey name]
+BossKey\tpobierz nazwę BossKey
+;file \plugins\BossKeyPlus\src\Options.cpp
+[Open String Formatting Help]
+Otwórz pomoc nt formatowania tekstu
+[Events]
+Zdarzenia
 [Main]
 Ogólne
+[Advanced]
+Zaawansowane

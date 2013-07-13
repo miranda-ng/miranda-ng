@@ -1,0 +1,105 @@
+﻿#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
+;============================================================
+;  File: FileAsMessage.dll
+;  Plugin: File as message
+;  Version: 0.0.2.4
+;  Authors: Denis Stanishevskiy
+;============================================================
+[File tranfer by using the messaging services - as plain text.]
+
+;file \plugins\FileAsMessage\res\resources.rc
+[fileAsMessage]
+
+[Filename:]
+Nazwa pliku:
+[Size:]
+Rozmiar:
+[Chunk size]
+
+[ms]
+
+[Delays between sends]
+
+[bytes]
+bajty
+[Transfer settings]
+Ustawienia transferu
+[Appearance]
+Personalizacja
+[Unsent]
+
+[Sent]
+
+[To send]
+
+[Received]
+Otrzymany
+[Use only alphanumeric encoding on transfer]
+
+[Extra options: Events > File Transfers, "Receiving files" group]
+
+;file \plugins\FileAsMessage\src\dialog.cpp
+[File already exists. Overwrite?]
+
+[Couldn't open a file]
+
+[Size: %d bytes]
+Wielkość: %d bajtów
+[Request sent. Awaiting of acceptance..]
+
+[Sending...]
+Wysyłanie...
+[Received successfully]
+Otrzymano pomyślnie
+[Requesting of missing chunks]
+
+[Receiving...]
+Otrzymywanie...
+[Sent successfully]
+
+[Unknown command for "" SERVICE_TITLE "" was received]
+
+[Incoming file request. Do you want proceed?]
+
+[Cancelled by remote user]
+
+[New incoming file request. Do you want proceed?]
+Nowy przychodzący plik. Czy odebrać?
+[Paused, 'coz connection dropped]
+
+[Failed on file initialization]
+Błąd inicializacji pliku
+[Paused...]
+Zatrzymano...
+[Synchronizing...]
+Synchronizacja...
+[Select a file]
+
+[Save as]
+Zapisz jako
+[Can't get a file size]
+
+[Cancelled by user]
+
+[Transfer is in progress. Do you really want to close?]
+
+;file \plugins\FileAsMessage\src\main.cpp
+[Play]
+Graj
+[Pause]
+Pauza
+[Revive]
+
+[Stop]
+
+[Main]
+Ogólne
+[Plugins]
+Wtyczki
+[File As Message...]
+
+;file \plugins\FileAsMessage\src\main.h
+[File As Message]
+
+[If you see this "garbage", probably you have no "fileAsMessage" plugin installed, see http://miranda-ng.org/p/FileAsMessage/ for more information and download.]
+

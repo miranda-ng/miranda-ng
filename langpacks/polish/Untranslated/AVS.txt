@@ -1,0 +1,2 @@
+﻿[Resize the avatar to fit max allowed protocol size]
+[Global Avatar]

@@ -1,0 +1,156 @@
+﻿#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
+;============================================================
+;  File: YAPP.dll
+;  Plugin: YAPP
+;  Version: 0.5.0.11
+;  Authors: Scott Ellis
+;============================================================
+[Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
+Yet Another Popup Plugin - Dostarcza usługi powiadomień popup do innych wtyczek.
+;file \plugins\YAPP\res\yapp.rc
+[Popup history]
+
+[Close]
+Zamknij
+[Case sensitive]
+
+[Default Timeout]
+Czas oczekiwania
+[Never timeout]
+Brak opóźnienia
+[Set timeout:]
+Ustaw opóźnienie:
+[Width:]
+Szerokość:
+[Maximum height:]
+Wysokość:
+[Options]
+Opcje
+[Opacity(%):]
+Krycie (%):
+[Border]
+Obramowanie
+[Round corners (window)]
+Zaokrąglone rogi (okna)
+[Preview]
+Podgląd
+[Transparent background]
+Przeźroczyste tło
+[Layout]
+Układ
+[Avatar size:]
+Rozmiar:
+[Disable when]
+Wyłącz gdy
+[Global hover]
+
+[Sidebar width:]
+Boczny pasek:
+[Text indent:]
+Wcięcie tekstu:
+[Padding:]
+Wypełnienie:
+[Round corners (avatar)]
+Zaokrąglone rogi (awatara)
+[Text colour:]
+Kolor tekstu:
+[Background colour:]
+Kolor tła:
+[Set timeout]
+
+[Timeout value (0 = default):]
+
+;file \plugins\YAPP\src\icons.cpp
+[Popups are enabled]
+Popupy są włączone
+[Popups are disabled]
+Popupy są wyłączone
+[Popup History]
+Historia popupów
+;file \plugins\YAPP\src\notify_imp.cpp
+[YAPP Popups]
+Popupy YAMN
+;file \plugins\YAPP\src\options.cpp
+[Example]
+Przykład
+[The quick brown fox jumped over the lazy dog.]
+Szybki, brązowy lis przeskoczył nad leniwym psem.
+[Example With a Long Title]
+Przykład z długim tytułem
+[Thequickbrownfoxjumpedoverthelazydog.]
+Szybki, brązowy lis przeskoczył nad leniwym psem.
+[An avatar.]
+Na awatarze.
+[Bottom right]
+Dolny prawy róg
+[Bottom left]
+Dolny lewy róg
+[Top right]
+Górny prawy róg
+[Top left]
+Górny lewy róg
+[Icon on left]
+Ikona po lewej
+[Icon on right]
+Ikona po prawej
+[No time]
+Bez czasu
+[Time on left]
+Czas po lewej
+[Time on right]
+Czas po prawej
+[Time above avatar]
+Czas powyżej awatara
+[No avatar]
+Brak awatara
+[Left avatar]
+Awatar po lewej
+[Right avatar]
+Awatar po prawej
+[Status]
+Status
+[Full-screen app running]
+Uruchomiona jest aplikacja pełnoekranowa
+[No animate]
+Brak animacji
+[Horizontal animate]
+Pozioma animacja
+[Vertical animate]
+Pionowa animacja
+[You cannot set a default timeout of 0.\nValue has been reset.]
+
+[Error]
+Błąd
+[Popups]
+Popupy
+[Settings]
+Ustawienia
+[Classes]
+Klasy
+;file \plugins\YAPP\src\services.cpp
+[Disable Popups]
+Wyłącz popupy
+[Enable Popups]
+Włącz popupy
+;file \plugins\YAPP\src\yapp.cpp
+[Toggle Popups]
+Włącz/wyłącz popupy
+[First line]
+Pierwsza linia
+[Second line]
+Druga linia
+[Time]
+Pokaż czas
+[Background]
+Tło
+[Sidebar]
+Boczny pasek
+[Title underline]
+Podkreślony tytuł
+;file \plugins\YAPP\src\yapp_history_dlg.cpp
+[Copy title to clipboard]
+Kopiuj tytuł do schowka
+[Copy message to clipboard]
+Kopiuj wiadomość do schowka
+[Copy timestamp to clipboard]
+

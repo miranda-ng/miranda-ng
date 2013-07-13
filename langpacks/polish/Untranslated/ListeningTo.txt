@@ -1,0 +1,8 @@
+﻿[Radio]
+[Winamp (*)]
+[Windows Media Player]
+[iTunes]
+[mRadio]
+[Format]
+[Miranda ListeningTo receiver]
+[Miranda ListeningTo WMP receiver]

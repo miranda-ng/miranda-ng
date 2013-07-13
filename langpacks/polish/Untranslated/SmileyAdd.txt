@@ -1,0 +1,5 @@
+﻿[Protocol specific]
+[Smiley #%u in file %s for Smiley Pack %s not found.]
+[Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
+[Regular Expression "%s" in smiley pack "%s" malformed.]
+[d'Oh!]

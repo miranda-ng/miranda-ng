@@ -1,49 +1,73 @@
-﻿;============================================================
-; File: GTalkExt.dll
-; Module: GTalk extensions for Jabber protocol
-; Versions: 0.0.0.18
+﻿#muuid {08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
 ;============================================================
-[subject\n    %s\nfrom\n%s\n%s\n]
-Temat\n    %s\nz\n%s\n%s\n
-[subject\n    %s\nfrom\n%s]
-Temat\n    %s\nod\n%s
-[You've received an e-mail\n%s unread threads]
-Otrzymałeś E-mail\n%s nieprzeczytane wątki
-[Unread threads:]
-Nieprzeczytane:
-[GMail notifications]
-Powiadomienia GMail
+;  File: GTalkExt.dll
+;  Plugin: GTalk Extension
+;  Version: 0.0.1.1
+;  Authors: bems
+;============================================================
+[GTalk extensions for Jabber protocol]
+
+;file \protocols\GTalkExt\res\settings.rc
 [Popup notifications (needs popup plugin)]
-Powiadomienia Popup (wymagany plugin Popup)
-[Notify in contact list]
-Informuj na liście kontaktów
-[Clear pseudocontact history before adding new events]
-Czyść historię pseudokontaktów przed dodaniem nowych zdarzeń
+Powiadomienia popup (wymagana wtyczka PopUp)
 [Notify in fullscreen mode too]
-Informuj także w trybie pełnoekranowym
-[NOTE\n\nThis will work only if this Jabber account is actually GTalk]
-UWAGA\n\nBędzie działać tylko, gdy konto Jabber jest skonfigurowane pod GTalk
+Powiadamiaj w trybie pełnoekranowym
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
-Użyj tej opcji jeżeli twoja wtyczka Popupów niepoprawnie wykrywa tryb pełnego ekranu. To przejmie focus klawiszy.
-[0 means default timeout]
-0 - domyślny czas
-[If both colors set to the same value, default colors will be used]
-Jeśli oba kolory ustawione są na taką samą wartość, zostaną wykorzystane domyślne kolory
-[Mark history event read when popup closed]
-Oznacz zdarzenie w historii jako przeczytane podczas zamykania popup
+Użyj tej opcji jeśli twoja wtyczka Popupów niepoprawnie wykrywa tryb pełnego ekranu. To przejmie focus klawiszy.
+[Add message snip to notification]
+Dodaj przyciętą wiaodmość do powiadomienia
 [Try to login before open mailbox]
 Spróbuj się zalogować przed otwarciem skrzynki pocztowej
 [This works only if password is saved in the database. Has no effect on links in pseudocontact message log]
 To działa tylko wtedy, gdy hasło jest zapisane w bazie danych. Nie ma wpływu na linki w pseudokontaktach dziennika
-[Open mailbox]
-Otwórz skrzynkę pocztową
-[Add message snip to notification]
-Dodaj przyciętą wiaodmość do powiadomienia
 [Choose GMail view you use in web interface]
 Wybierz podgląd Gmaila
 [I don't know]
 Nie wiadomo
 [Standard view]
-Standardowy podgląd
+Standardowy
 [Basic HTML]
-Podstawowy HTML
+HTML
+[Background color]
+Kolor tła
+[Text color]
+Kolor tekstu
+[Timeout]
+Wyświetlaj
+[If both colors set to the same value, default colors will be used]
+Jeśli oba kolory ustawione są na taką samą wartość, zostaną wykorzystane domyślne kolory
+[0 means default timeout,\n-1 means no timeout]
+0 - Domyślnie,\n-1 - Nie chowaj
+[Test]
+
+;file \protocols\GTalkExt\src\menu.cpp
+[Open mailbox]
+Otwórz skrzynkę pocztową
+;file \protocols\GTalkExt\src\notifications.cpp
+[You've received an e-mail\n%s unread threads]
+Otrzymałeś E-mail\n%s nieprzeczytane wątki
+;file \protocols\GTalkExt\src\options.cpp
+[Popups]
+Popupy
+[Network]
+Protokoły
+[* Primitive type system\n]
+
+[* No overloading\n]
+
+[* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n]
+
+[* No metaprogramming except preprocessor macros\n]
+
+[* No exceptions]
+
+;file \protocols\GTalkExt\src\options.h
+[GMail notifications]
+Powiadomienia GMail
+[subject\n    %s\nfrom\n%s\n%s\n]
+Temat:\n    %s\nOd:\n%s\n%s\n
+[subject\n    %s\nfrom\n%s]
+Temat:\n    %s\nOd:\n%s
+;file \protocols\GTalkExt\src\tipper_items.cpp
+[Unread threads:]
+Nieprzeczytane:

@@ -1,0 +1,143 @@
+﻿#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
+;============================================================
+;  File: AVS.dll
+;  Plugin: Avatar service
+;  Version: 0.11.0.1
+;  Authors: Nightwish, Pescuma
+;============================================================
+[Loads and manages contact pictures for other plugins.]
+Wczytaj i zarządzaj obrazkami kontaktu dla innych wtyczek.
+;file \plugins\AVS\res\avs.rc
+[The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
+Ustawione tutaj obrazki są wyświetlane jako domyślne awatary\ndla kontaktów jeśli nie mają własnych.\nUżyj pól wyboru, aby włączyć/wyłączyć wyświetlanie awatarów dla protokołów.
+[Set default picture]
+Wybierz domyślny obrazek
+[Delete default picture]
+Usuń domyślny obrazek
+[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
+Uwaga: To NIE są twoje własne awatary.\nAby ustawić własny awatar wchodzimy w Menu -> Pokaż/zmień moje dane -> Awatar
+[Try to draw avatar background transparent (for images without transparency)]
+Próbuj rysować przeźroczyste tło awataru (dla obrazku bez przeźroczystości)
+[Num of points to define bkg:]
+Liczba punktów do określenia tła:
+[Color difference allowed:]
+Dozwolona różnica kolorów:
+[Make transparency proportional to color diff]
+Przeźroczystość proporcjonalna do róż. koloru
+[Draw avatars grayscale]
+Rysuj awatary w odcieniach szarości
+[Show warning messages]
+Pokaż komunikaty ostrzegawcze
+[When setting avatars, always make them square]
+Kiedy ustawiasz awatary, zawsze zmieniaj je w kwadraty
+[Try to draw own avatar background transparent (for images without transparency)]
+Rysuj przeźroczyste tło przy swoim awatarze (dla obrazku bez przeźroczystości)
+[This uses the same additional options as in "Contact Avatars" tab]
+Ten sposób wykorzystuje te same opcje, jak w zakładce "Awatar kontaktu" 
+[Protect the picture and prevent automatic avatars from overwriting it]
+Chroń obraz i zapobiegaj przed automatycznym zastąpieniem awataru
+[Make the avatar square]
+Kwadratowy awatar
+[Resize the avatar to fit max allowed protocol size]
+
+[Dialog]
+Okno
+[Contact picture]
+Obraz kontaktu
+[Change]
+Zmień
+[Delete]
+Usuń
+[Reset]
+Domyślne
+[Picture options]
+Opcje obrazu
+[Protect the picture]
+Chroń obraz
+[Set as hidden]
+Ustaw jako ukryty
+[Try to make picture background transparent]
+Spróbuj zrobić tło obrazu przeźroczyste
+[Use defaults]
+Domyślne
+[OK]
+OK
+[Cancel]
+Anuluj
+[Options]
+Opcje
+[Background]
+Tło
+[Transparent]
+Przeźroczysty
+[Points:]
+Punkty:
+[Color diff:]
+Róż. koloru:
+[Set]
+Ustaw
+[Use per protocol avatars]
+Użyj na protokole awataru
+;file \plugins\AVS\src\acc.cpp
+[Protocols have different avatars]
+Protokoły mają różne awatary
+;file \plugins\AVS\src\main.cpp
+[Grow avatar to fit max allowed protocol size]
+Dopasuj awatar do maksymalnego dozwolonego rozmiaru protokołu
+[All Files]
+Wszystkie pliki
+[Windows Bitmaps]
+Mapa bitowa Windows
+[JPEG Bitmaps]
+Mapa bitowa JPEG
+[GIF Bitmaps]
+Mapa bitowa GIF
+[PNG Bitmaps]
+Mapa bitowa PNG
+[Flash Animations]
+Animacja Flash
+[XML Files]
+Pliki XML
+[Set My Avatar]
+Ustaw mój awatar
+[Set My Avatar for %s]
+Ustaw mój awatar dla %s
+[Global avatar]
+Awatar globalny
+[Global avatar for %s accounts]
+Awatar globalny dla konta %s
+[Avatars]
+Awatary
+[My Avatars]
+Moje awatary
+[My Global Avatar Cache]
+Cache mojego głównego awataru
+[Contacts]
+Kontakty
+[Protocols]
+Protokoły
+[Contact Avatars]
+Awatary kontaktu
+[Own Avatars]
+Własne awatary
+[Avatar]
+Awatar
+[Fatal error, image services not found. Avatar services will be disabled.]
+Błąd, nie znaleziono wtyczki 'advaimg.dll'. Usługa awatarów zostanie wyłączona.
+[Avatar Service]
+Usługa awatarów
+;file \plugins\AVS\src\options.cpp
+[Set avatar options for %s]
+Ustaw opcje awataru dla %s
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Usunąć obrazek z dysku (może być konieczne do przeładowania, ale usunie lokalne obrazki)?
+[Reset contact picture]
+Domyślny obrazek kontaktu
+[Contact has no avatar]
+Kontakt nie ma awataru
+[No avatar]
+Brak awatara
+[Are you sure you want to remove your avatar?]
+Czy na pewno chcesz usunąć swój awatar?
+[Global Avatar]
+

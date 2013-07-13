@@ -1,0 +1,32 @@
+﻿#muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
+;============================================================
+;  File: QuickReplies.dll
+;  Plugin: Quick replies
+;  Version: 0.8.1.0
+;  Authors: Unsane
+;============================================================
+[Plugin for quick insert (or sending) pre-defined messages in message input area.]
+Wtyczka do szybkiego umieszczania (lub wysyłania) pre-definiowanych wiadomości do okna rozmowy.
+;file \plugins\QuickReplies\res\resources.rc
+[Quick Replies]
+Szybkie odpowiedzi
+[Send replies immediately]
+Wysyłaj natychmiast
+[- Add your replies, one per line.]
+- Jeden wiersz to jedna odpowiedź.
+[Variables]
+Zmienne
+[Hints:]
+Wskazówki:
+[- Add "---" for separator.]
+
+[- Press [v] button for variable's help.]
+- Aby zobaczeć zmienne naciśnij przycisk [v].
+;file \plugins\QuickReplies\src\events.cpp
+[Button]
+Przycisk
+[Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
+Szybkie odpowiedzi\r\nLPM - otwiera menu\r\nPPM - otwiera opcje
+;file \plugins\QuickReplies\src\options.cpp
+[Message Sessions]
+Okno rozmowy

@@ -1,0 +1,275 @@
+﻿#muuid {46102b07-c215-4162-9c83-d377881da7cc}
+;============================================================
+;  File: Msg_Export.dll
+;  Plugin: Message export
+;  Version: 3.1.0.3
+;  Authors: Kennet Nielsen, mod by ring0
+;============================================================
+[Exports every message, URL or File you receive to a text file.]
+
+;file \plugins\Msg_Export\res\resource.rc
+[Browse]
+Przeglądaj
+[Use internal viewer]
+Wewnętrzna przeglądarka
+[Replace miranda history]
+Zastąp domyślną przeglądarkę
+[Use UTF8 in new files]
+UTF8 dla nowych wiadomości
+[Append extra new line]
+Dodatkowa nowa linia
+[Use << and >>]
+Użyj << i >>
+[Auto filename]
+Autonazewnictwo
+[Clear all]
+Wyczyść wszystko
+[Help]
+Pomoc
+[Export all history]
+Eksportuj wszystko
+[Export directory]
+Folder ekportu
+[Max column width]
+Szerokość
+[Time format]
+Format czasu
+[Export format]
+Format eksportu
+[Default file]
+Domyślny plik
+[File viewer]
+Przeglądarka plików
+[Exporting old messages]
+
+[History file for %s (%s format %s)]
+Historia użytkownika %s (%s format %s)
+[&Find...]
+Szukaj...
+[&External]
+Zewnętrzna
+[&Close]
+Zamknij
+[When filename changes]
+Zmiany w plikach
+[Prompt for action]
+Pytaj o akcję
+[Rename file]
+Nadpisz plik
+[Do nothing]
+Nic nie rób
+[When user is deleted]
+Usuwanie kontaktu
+[Delete file]
+Usuń plik
+[Debug]
+Analizuj
+[User &Details]
+Dane kontaktu
+[Export selected]
+Eksportuj zaznaczony
+[Set to default filename]
+Ustaw domyślna nazwę pliku
+[Copy]
+Kopiuj
+;file \plugins\Msg_Export\src\FileViewer.cpp
+[Failed to write to the RichEdit the buffer was to small.]
+
+[Error: Optimal buffer size decrecied to a to low size !!]
+
+[Internal error !! (lExtraRead >= 0)]
+
+[Faile to execute external file view]
+
+[Failed to load Rich Edit ( RICHED32.DLL )]
+
+[Failed to get handle to RichEdit!]
+
+[Failed to open file\r\n%s\r\n\r\nContact handle is invalid]
+
+[Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
+
+[With scroll to bottom %d\n]
+
+[Search string was not found !]
+
+[Save as RTF]
+Zapisz jako RTF
+[Color...]
+Kolor...
+[Font...]
+Czcionki...
+[Syntax highlight]
+
+[Failed to create file]
+
+[Failed to save file]
+Błąd zapisywania pliku
+[History was saved successfully in file\r\n]
+Historia zapisana pomyślnie w pliku\r\n
+[Failed to create history dialog]
+
+;file \plugins\Msg_Export\src\Glob.h
+[Miranda NG (Message Export Plugin)]
+
+;file \plugins\Msg_Export\src\main.cpp
+[Open E&xported History]
+Otwórz eksportowaną historię
+[Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
+
+;file \plugins\Msg_Export\src\options.cpp
+[No contacts found to export]
+Nie znaleziono kontaktów do eksportu
+[Reading database information (Phase 1 of 2)]
+
+[Failed to export at least one contact]
+Nie udało się eksportować co najmniej jednego kontaktu
+[Sorting and writing database information ( Phase 2 of 2 )]
+Sortowanie i zapisywanie informacji z profilu ( Etap 2 z 2 )
+[Max line width must be at least %d]
+Szerokość linii musi mieć co najmniej %d
+[You need to restart miranda to change the history function]
+Musisz zrestartować Mirandę aby zmienić funkcję historii
+[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
+
+[File]
+Plik
+[Nick]
+Nick
+[Proto]
+Protokół
+[UIN]
+
+[You have unapplyed changes do you wish to apply these first ?]
+Masz niezapisane zmiany, czy chcesz je teraz zapisać?
+[Executable files]
+Pliki wykonywalne
+[All files]
+Wszystkie pliki
+[Failed to get the shells allocator!]
+
+[Failed to Allocate buffer space]
+Nie można przydzielic miejsca w buforze
+[Select Destination Directory]
+Wybierz folder przeznaczenia
+[Export Protocols]
+Eksportuj protokoły
+[Message export]
+Eksport wiadomości
+[History]
+Historia
+[General]
+Ogólne
+[Additional]
+Dodatkowe
+;file \plugins\Msg_Export\src\utils.cpp
+[No_Nick]
+
+[No_Group]
+
+[DB: Attempt to get wrong type of value, string]
+
+[(Unknown Contact)]
+(Nieznany kontakt)
+[File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
+
+[Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
+Nie można zmienic nazwy pliku\n\nz:\t%s\nna:\t%s\n\nBłąd: %s
+[\nError: ]
+\nBłąd: 
+[\nMessage has not been saved!\n]
+
+[Do you wish to save debug information?]
+Czy chcesz zapisać informacje debugowania?
+[All\0*.*\0Text\0*.TXT\0\0]
+Wszystkie\0*.*\0Tekstowe\0*.TXT\0\0
+[Failed to open or create file :\n]
+Błąd otwierania lub tworzenia pliku :\n
+[Failed to move to the end of the file :\n]
+Nie udało się przenieść do końca pliku"\n
+[Failed to UTF8 byte order code to file :\n]
+
+[      History for\r\n]
+      Historia dla\r\n
+[User      : %User%\r\n]
+Użytkownik      : %User%\r\n
+[Protocol  : %Proto%\r\n]
+Protokół  : %Proto%\r\n
+[UIN       : %UIN%\r\n]
+
+[FirstName : %FirstName%\r\n]
+Imię : %FirstName%\r\n
+[LastName  : %LastName%\r\n]
+Nazwisko  : %LastName%\r\n
+[Age       : %Age%\r\n]
+Wiek       : %Age%\r\n
+[Gender    : %Gender%\r\n]
+Płeć    : %Gender%\r\n
+[e-mail    : %e-mail%\r\n]
+E-mail    : %e-mail%\r\n
+[Nick      : %Nick%\r\n]
+
+[City      : %City%\r\n]
+Miasto      : %City%\r\n
+[State     : %State%\r\n]
+Stan     : %State%\r\n
+[Phone     : %Phone%\r\n]
+Telefon     : %Phone%\r\n
+[Homepage  : %Homepage%\r\n]
+Strona domowa  : %Homepage%\r\n
+[- About -\r\n%About%\r\n]
+-O kontakcie-\r\n%About%\r\n
+[Failed to write user details to file :\n]
+
+[Failed to write timestamp and username to file :\n]
+Nie udało się zapisać daty i nazwy użytkownika do pliku:\n
+[Failed to write message to the file :\n]
+Nie udało się zapisać wiadomości do pliku:\n
+[URL: ]
+
+[File: ]
+Plik: 
+[Description: ]
+
+[Failed to write URL/File to the file :\n]
+Nie udało się zapisać Linku/Pliku do pliku:\n
+[Nick      :]
+
+[FirstName :]
+Imię :
+[LastName  :]
+Nazwisko  :
+[e-mail    :]
+E-mail    :
+[Reason    :]
+Powód    :
+[Invalid Database event received. Type %d, size %d]
+Otrzymano nieprawidłowe zdarzenie. Typ %d, rozmiar %d
+[Failed to write Invalid Database event the file :\n]
+Nie udało się zapisać nieprawidlowego zdarzenia do pliku:\n
+[The following user made an authorization request:]
+Następujący użytkownik wysłał pytanie o autoryzację:
+[The following user added you to their contact list:]
+Następujący użytkownik dodał cię do swojej listy kontaktów:
+[UIN       :]
+
+[Failed to write AUTHREQUEST or ADDED to the file :\n]
+Nie udało się zapisać pytania o autoryzację lub dodania użytkownika do pliku:\n
+[EmailExpress from:]
+E-mail z:
+[WebPager from:]
+Link z:
+[No from address]
+
+[Failed to write EmailExpress to the file :\n]
+Nie udało się zapisać e-mailu do pliku:\n
+[Failed to write SMS to the file :\n]
+Nie można zapisać wiadomości SMS do pliku:\n
+[Unknown event type %d, size %d]
+Typ nieznanego zdarzenia %d, rozmiar %d
+[Failed to write Unknown event to the file :\n]
+Nie udało się zapisać nieznanego zdarzenia do pliku:\n
+[User has been deleted do you want to delete the file?]
+
+[Failed to delete the file]
+Błąd usuwania pliku

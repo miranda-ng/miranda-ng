@@ -1,0 +1,27 @@
+﻿#muuid {28f45248-8c9c-4bee-9307-7bcf3e12bf99}
+;============================================================
+;  File: Dbx_tree.dll
+;  Plugin: Miranda dbx_tree database driver
+;  Version: 0.0.0.18
+;  Authors: Michael 'Protogenes' Kunz
+;============================================================
+[Provides extended Miranda database support.]
+Zapewnia rozszerzone wsparcie profili dla Mirandy NG.
+;file \plugins\Dbx_tree\res\dbConfig.rc
+[dbxTree Profile Wizard]
+
+[Cancel]
+Anuluj
+[Next >]
+
+[< Prev]
+
+;file \plugins\Dbx_tree\src\FileAccess.cpp
+[Journal "%s" was found on start.\nBackup "%s"%s created and backup "%s"%s created.\nYou may delete these file(s) after successful start from "%s".]
+
+[ was successfully]
+
+[ could not be]
+
+[Journal "%s" was found on start.\nBackups "%s"and "%s" could not be created in "%s".]
+

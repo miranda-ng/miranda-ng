@@ -1,0 +1,148 @@
+﻿#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
+;============================================================
+;  File: IEView.dll
+;  Plugin: IEView
+;  Version: 1.4.0.0
+;  Authors: Piotr Piastucki, Francois Mean
+;============================================================
+[IE Based Chat Log.]
+Wyświetla historię w oknie rozmowy oparty o IE
+;file \plugins\IEView\res\ieview.rc
+[Copy]
+Kopiuj
+[Copy Link]
+Kopiuj link
+[Select All]
+Zaznacz wszystko
+[Save Image As...]
+Zapisz obrazek jako...
+[Print]
+Drukuj
+[Clear Log]
+Wyczyść dziennik
+[Show source]
+Pokaż źródło
+[Options]
+Opcje
+[Enable BBCodes]
+Włącz BBCode
+[Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
+Obecnie wspierane znaczniki BBCode to: [b][i][u][s][img][size][color][url]
+[Enable support for Flash files in smileys and BBCodes]
+Włącz wsparcie dla plików Flash w emotikonach i BBCode
+[Enable workaround for PNG transparency]
+Prowizoryczna przeźroczystość PNG
+[Enable MathModule support]
+Włącz wsparcie dla MathModule
+[Replace smileys in user names]
+Zamień emotikony w nazwach użytkowników
+[Hide window border]
+Ukryj obramowanie okna
+[Embed YouTube videos]
+Osadzone wideo z YouTube
+[Size:]
+Rozmiar:
+[Mode]
+Tryb
+[Compatibility Mode]
+Tryb kompatybilności
+[Use External CSS]
+Zewnętrzny plik CSS
+[Use Templates]
+Szablon
+[Background image]
+Obraz tła
+[Scroll with text]
+Przewijaj z tekstem
+[Template Options]
+Opcje szablonu
+[Use message grouping]
+Grupuj wiadomości
+[Show nicknames]
+Pokaż nicki
+[Show time]
+Pokaż czas
+[Show seconds]
+Pokaż sekundy
+[Show date]
+Pokaż datę
+[Use long date format]
+Użyj długiego formatu daty
+[Use relative timestamp]
+Użyj relatywnego czasu i daty
+;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Outgoing File Transfer]
+Wychodzące transfery
+[Incoming File Transfer]
+Przychodzący transfer plików
+[URL sent]
+Wysłany link
+[URL received]
+Otrzymany link
+;file \plugins\IEView\src\HTMLBuilder.cpp
+[(Unknown Contact)]
+(Nieznany kontakt)
+[ requested authorisation]
+ zażądał(-a) autoryzacji
+[ was added.]
+ został dodany.
+;file \plugins\IEView\src\IEView.cpp
+[IID_IOleObject failed.]
+
+[RESULT]
+
+[IID_IOleInPlaceObject failed.]
+
+[Failed to Advise]
+
+[C++ Event Sink]
+
+[OleInitialize failed.]
+
+[ERROR]
+
+;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[%s has joined.]
+% dołączył.
+[%s has left.]
+%s opóścił czat
+[The topic is %s.]
+Temat: %s.
+[Error]
+Błąd
+;file \plugins\IEView\src\Options.cpp
+[General]
+Ogólne
+[Message Log]
+Dziennik wiadomości
+[Group Chats]
+Rozmowy grupowe
+[History]
+Historia
+[Default]
+Domyślny
+[Message Sessions]
+Okno rozmowy
+[IEView]
+
+[Skins]
+Skórki
+[Template]
+Szablon
+[All Files]
+Wszystkie pliki
+[All Images]
+Wszystkie obrazki
+[Style Sheet]
+
+;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+[Today]
+Dzisiaj
+[Yesterday]
+Wczoraj
+[File sent]
+Wysłano plik
+[File received]
+Otrzymano plik
+;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
+;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

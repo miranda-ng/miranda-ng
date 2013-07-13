@@ -1,0 +1,8 @@
+﻿[Ignore words in UPPER CASE]
+[The wrong word can't be empty!]
+[The correction can't be empty!]
+[The correction can't be equal to the wrong word!]
+[tl_PH]
+[Tagalog (Philippines)]
+[de_frami_neu]
+[Your message window does not support SpellChecker Plugin.\nIf you use SRMM, tabSRMM or Scriver, please update them to the latest version,\notherwise ask the author of your message window plugin to add support for Spell Checker.]

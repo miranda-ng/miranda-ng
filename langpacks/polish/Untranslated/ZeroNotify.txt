@@ -1,0 +1,1 @@
+﻿[Hide the "toggle sound" menu item (requires restart of Miranda)]

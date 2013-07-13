@@ -1,0 +1,69 @@
+﻿#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
+;============================================================
+;  File: Contacts.dll
+;  Plugin: Send/receive contacts
+;  Version: 1.5.2.0
+;  Authors: Joe Kucera, Todor Totev
+;============================================================
+[Allows you to send and receive contacts.]
+Pozwala na wysyłanie i odbieranie kontaktów.
+;file \plugins\ContactsPlus\res\contacts.rc
+[Send contacts]
+Wyślij kontakt
+[&A]
+
+[&D]
+
+[&H]
+
+[Choose contacts to be send:]
+Wybierz kontakt do wysłania:
+[&Send]
+Wyślij
+[Cancel]
+Anuluj
+[&Select All]
+Wszystkie
+[Received contacts]
+Otrzymany kontakt
+[Add to &group:]
+Dodaj do grupy:
+[&Add]
+Dodaj
+[&Details]
+Szczegóły
+[Close]
+Zamknij
+[Contacts send error]
+Błąd wysyłania kontaktu
+[An error has occured. The protocol reported the following error:]
+Wystąpił błąd. Protokół zwrócił następujący błąd:
+[Try again]
+Spróboj ponownie
+[Popup]
+Popup
+[Add to List]
+Dodaj do listy
+[User Details]
+Dane kontaktu
+[Send Message]
+Wyślij wiadomość
+;file \plugins\ContactsPlus\src\main.cpp
+[Contacts received from]
+
+[Contacts]
+Kontakty
+[Incoming Contacts]
+Przychodzący kontakt
+[Outgoing Contacts]
+Wychodzący kontakt
+;file \plugins\ContactsPlus\src\receive.cpp
+[Add Contact Permanently to List]
+Dodaj kontakt na stałe do listy
+[View User's Details]
+Zobacz dane kontaktu
+[View User's History]
+Zobacz historię użytkownika
+[User Menu]
+Menu użytkownika
+;file \plugins\ContactsPlus\src\send.cpp

@@ -1,0 +1,102 @@
+﻿#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
+;============================================================
+;  File: WhoUsesMyFiles.dll
+;  Plugin: Who Use My Files
+;  Version: 0.1.0.2
+;  Authors: Nikolay Redko
+;============================================================
+[Scans for network users of your shared files and notify you with popups.]
+
+;file \plugins\WhoUsesMyFiles\res\resource.rc
+[WUMF: Current connections]
+
+[OK]
+OK
+[Popup delay settings]
+
+[Popup Delay (seconds)]
+
+[Background color]
+Kolor tła
+[Text color]
+Kolor tekstu
+[Previe&w]
+Podgląd
+[Show infinitely]
+
+[Default Popup delay]
+
+[Choose delay time]
+
+[Popup color settings]
+
+[Use windows colors]
+Użyj kolorów Windows
+[Use default Popup colors]
+Użyj domyślnych kolorów popup
+[Choose colors]
+Wybierz kolor
+[File access filter && logging settings]
+
+[Please note that this settings has effect only with Popups Interoperability plugin version 1.0.1.9 or higher]
+
+[Log into text file]
+
+[Log folders access]
+
+[Alerts on folders access]
+
+[Log files and folders in UNC format]
+
+[Alert files && folders in UNC format]
+
+[Log computer name with username]
+
+[Alert computer name with username]
+
+[Disabled options will be available in the next version]
+
+[Show current connections]
+
+;file \plugins\WhoUsesMyFiles\src\wumf.cpp
+[ID]
+
+[User]
+Użytkownika
+[File]
+Plik
+[Access]
+
+[Plugin WhoUsesMyFiles requires admin privileges in order to work.]
+
+[Error opening file]
+
+[Error memory allocation]
+
+;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
+[Error crerating menu]
+
+[Popup plugin not found!]
+
+[WUMF plugin]
+
+[Enable WUMF popups]
+
+[Disable WUMF popups]
+Wyłącz popupy WUMF
+[Common Dialog Error 0x%lx]
+
+[Wumf plugin]
+
+[Not implemented yet...]
+
+[Show connections list]
+
+[Wumf]
+
+[Services]
+Usługi
+[Popups]
+Popupy
+[WUMF: Show connections]
+

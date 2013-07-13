@@ -1,0 +1,78 @@
+﻿#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
+;============================================================
+;  File: AssocMgr.dll
+;  Plugin: File association manager
+;  Version: 0.1.1.0
+;  Authors: H. Herkenrath
+;============================================================
+[Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
+Obsługuje powiązania z plikami oraz linki w protokołach aim, ymsgr, xmpp, wpmsg, gg, tlen.
+;file \plugins\AssocMgr\res\resource.rc
+[Registered associations for Miranda NG:]
+Zarejestrowane powiązania dla Mirandy NG
+[Miscellaneous]
+Różne
+[&Start Miranda NG automatically when the Computer starts (using current profile)]
+Automatyczny start Mirandy NG wraz z startem Komputera (użyj bieżącego profilu)
+[Only associate with Miranda NG while it is &running]
+Powiąż tylko podczas działania Mirandy NG
+;file \plugins\AssocMgr\src\assoclist.cpp
+[%hs files]
+%hs plików
+[Type]
+Typ
+[Description]
+Opis
+[URLs on Websites]
+Linki w przeglądarce
+[File Types]
+Typy plików
+[File Association Error]
+Błąd powiązań
+[There was an error writing to the registry to modify the file/url associations.\nReason: %s]
+
+[Unknown]
+Nieznany
+[Autostart Error]
+Błąd autostartu
+[There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
+
+[Services]
+Usługi
+[Associations]
+Powiązania
+[Miranda NG Database]
+Profil Mirandy NG
+;file \plugins\AssocMgr\src\dde.cpp
+[Miranda NG could not open file]
+Miranda NG nie mogła otworzyć pliku
+[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this file type.]
+
+[Miranda NG was not able to open "%S".\n\nThe file could not be processed.]
+
+[Miranda NG could not open URL]
+Miranda NG nie mogła otworzyć linku
+[Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
+
+[Miranda NG was not able to open "%S".\n\nThe given URL is invalid and can not be parsed.]
+
+;file \plugins\AssocMgr\src\reg.cpp
+[Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
+Brak dostępu:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
+[Registry Warning]
+
+;file \plugins\AssocMgr\src\test.cpp
+[AIM Link Protocol]
+Powiązanie protokołu AIM
+[ICQ Link Shortcut]
+Powiązanie protokołu ICQ
+[&Add to Contact List...]
+Dodaj do listy kontaktów...
+[Yahoo Link Protocol]
+Powiązanie protokołu Yahoo
+[MSN Link Protocol]
+Powiązanie protokołu MSN
+[Gadu-Gadu Link Protocol]
+Powiązanie protokołu Gadu-Gadu
+[Jabber Link Protocol]
+Powiązanie protokołu Jabbera

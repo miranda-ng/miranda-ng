@@ -1,0 +1,68 @@
+﻿#muuid {fc718bc7-abc8-43cd-aad9-761614617738}
+;============================================================
+;  File: wbOSD.dll
+;  Plugin: WannaBe OSD
+;  Version: 0.2.1.0
+;  Authors: Andrej Krutak
+;============================================================
+[Shows new message/status change info using onscreen display.]
+
+;file \plugins\wbOSD\res\wbOSD.rc
+[Dialog]
+Okno
+[Select font]
+
+[Text color]
+Kolor tekstu
+[Background color]
+Kolor tła
+[Transparent]
+Przeźroczysty
+[Shadow color]
+
+[Alternative shadow]
+
+[Shadow align]
+
+[General]
+Ogólne
+[Shadow]
+Cień
+[Align]
+Wyrównaj
+[Shadow distance:]
+
+[Other]
+Inne
+[Alpha:]
+
+[Announce]
+
+[Timeout (ms):]
+
+[Show]
+Pokaż
+[Show events]
+
+[Status changes]
+Zmiany statusu
+[Show testing OSD]
+
+[Show my status changes]
+
+[Show message window after click]
+
+[Static]
+Statyczne
+[Format:]
+
+[Show when my status is:]
+
+;file \plugins\wbOSD\src\events.cpp
+[%s is %s]
+%s jest %s
+;file \plugins\wbOSD\src\options.cpp
+[Plugins]
+Wtyczki
+[OSD]
+

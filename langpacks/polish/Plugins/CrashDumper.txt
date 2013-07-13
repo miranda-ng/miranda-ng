@@ -1,78 +1,92 @@
-﻿;============================================================
-;  File: scv_crshdmp.dll
-;  Module: Crash Dumper for Miranda IM by borkra
-;  Versions: 0.0.4.19
+﻿#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
 ;============================================================
+;  File: CrashDumper.dll
+;  Plugin: Crash dumper
+;  Version: 0.0.4.22
+;  Authors: borkra
+;============================================================
+[Crash Dumper for Miranda NG.]
+Raportowanie błędów w Mirandzie NG.
+;file \plugins\CrashDumper\res\crshdmp.rc
+[View Version Information]
+Pokaż Informacje o wersji
+[Close]
+Zamknij
+[Copy To Clipboard]
+Kopiuj do schowka
+[To File]
+Do pliku
+[Support for miranda-vi.org]
+Wsparcie dla miranda-vi.org
+[Username]
+Użytkownik
+[Password]
+Hasło:
+[Upload automatically when changed]
+Wyślij automatycznie kiedy nastąpi zmiana
+[General]
+Ogólne
+[Use classic dates]
+Użyj klasycznych dat
 [Create reports in subfolders naming as current date]
 Twórz raporty w subfolderach używając bieżącej daty
+[View]
+Pokaż
+[&Copy]
+Kopiuj
+[Co&py All]
+Kopiuj wszystko
+[Select &All]
+Zaznacz wszystko
+;file \plugins\CrashDumper\src\crshdmp.cpp
 [VersionInfo stored into file %s]
-Informacje o wersji zachowana w pliku: %s
+Informaje o wersji zachowano w pliku: %s
 [VersionInfo file %s is inaccessible]
-Plik z informacjami o wersji %s jest niedostępny
+Plik VersionInfo  %s jest niedostępny
+[Services]
+Usługi
+[Version Information To Clipboard]
+Kopiuj do schowka
+[Version Information To File]
+Zapisz do pliku
+[Show Version Information]
+Pokaż wersję programu
+[Upload Version Information]
+Wyślij informacje o wersji
+[Crash Reports]
+Raporty błędów
 [Version Information]
 Informacje o wersji
 [Copy to clipboard]
 Kopiuj do schowka 
 [Store to file]
 Zapisz do pliku
+[Show]
+Pokaż
 [Show with DLLs]
-Pokaż z DLL'ami
-[View Version Information ]
-Pokaż informacje o wersji
-[To Clipboard]
-Do schowka
-[To File]
-Do pliku
-[Support for miranda-vi.org]
-Wsparcie dla miranda-vi.org
-[Upload automatically when changed]
-Wyślij automatycznie kiedy nastąpi zmiana
-[Trap all possible exceptions]
-Wyłap wszystkie możliwe wyjątki
-[Crash Report]
-Raport o błędzie
-[Caution: Do not enable this option unless there is no other way you can  get a crash report When in use you will get much more crash reports then you expect or need to worry about]
-Ostrzeżenie: Nie włączaj tej opcji, chyba że nie ma innej możliwości wygenerowania raportu o błędach. Po włączeniu tej opcji będzie występowało więcej błędów niż normalnie
+Pokaż z bibliotekami
+[Upload]
+Wyślij
+[Open crash report directory]
+Otwórz folder z raportami
+[Open miranda-vi.org]
+Otwórz miranda-vi.org
 [Copy Version Info to clipboard]
-Kopiuj informacje o wersji do notatnika
+Kopiuj informacje o wersji do schowka
 [Show Version Info]
-Pokaż informacje o wersji
-[Modify]
-Modyfikuj
-[System scope]
-Zasięg systemowy
-[Miranda scope]
-Zasięg Mirandy
-[|Unicode aware|]
-|świadome Unicode|
-[\r\n%sActive Plugins (%u):%s\r\n]
-\r\n%sWłączone wtyczki (%u):%s\r\n
-[\r\n%sUnloadable Plugins (%u):%s\r\n]
-\r\n%sWyłączone wtyczki (%u):%s\r\n
-[\r\nMiranda IM Version: %s]
-\r\nWersja Mirandy IM: %s
-[Build time: %s\r\n]
-Build time: %s\r\n
-[Profile: %s\r\n]
-Profil: %s\r\n
-[Profile size: %I64u Bytes\r\n]
-Rozmiar profilu: %I64u Bytes\r\n
-[Profile creation date: %s\r\n]
-Data utworzenia profilu: %s\r\n
-[Nightly: %s\r\n]
-Nightly: %s\r\n
-[Unicode: %s\r\n]
-Unicode: %s\r\n
-[Unicode]
-Unicode
-[\r\nLoaded Modules:\r\n---------------------------------------------------------------\r\n]
-\r\nWczytane moduły:\r\n---------------------------------------------------------------\r\n
+Pokaż Informacje o wersji
+;file \plugins\CrashDumper\src\crshdmp_icons.cpp
+[Crash Dumper]
+Raporty błędów
+;file \plugins\CrashDumper\src\exhndlr.cpp
 [Crash Report write location is inaccesible]
 Nie można zapisać raportu o błędach
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
 Wystąpił błąd Mirandy. Raport błędów zachowany w folderze:\n %s\n\n Czy zapisać raport?
-[Miranda Crashed. dbghelp.dll v. 6.8 required to provide a crash report]
-Wystąpił błąd Mirandy. Potrzebujesz dbghelp.dll w. 6.8 aby dostarczyć raport.
+;file \plugins\CrashDumper\src\ui.cpp
+[View Version Information (with DLLs)]
+Pokaż Informacje o wersji (z bibliotekami)
+;file \plugins\CrashDumper\src\upload.cpp
 [VersionInfo upload successful,\n %d old plugins]
 Wysłano informacje o wersji. Starych wtyczek: %d
 [Cannot upload VersionInfo. Incorrect username or password]
@@ -87,13 +101,6 @@ Nie można wysłać informacji o wersji. Nieznany błąd.
 Nie można wysłać informacji o wersji. Host nieosiągalny.
 [Crash Dumper HTTP connections]
 Połączenie HTTP Crash Dumper
+;file \plugins\CrashDumper\src\utils.cpp
 [More then one crash reporting plugin installed. This will result in inability of creating crash reports]
 Masz więcej niż jedną wtyczkę raportowania błędów. Uniemożliwia to generowanie raportów o błędach
-[Open crash report directory]
-Otwórz katalog z błędami
-[Open miranda-vi.org]
-Otwórz miranda-vi.org
-[Get Version Info]
-Przechwyć informacje o wersji
-[Use classic dates]
-Użyj klasycznych dat

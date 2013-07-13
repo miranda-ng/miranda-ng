@@ -1,0 +1,4 @@
+﻿[Sample page]
+[Use arrow keys to choose category]
+[Miranda NG configuration center]
+[You have some unsaved changes here.\n Do you wish to apply settings before switching?]

@@ -1,0 +1,2 @@
+﻿[Show client icon in message window status bar]
+[spam client]

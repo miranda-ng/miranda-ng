@@ -1,0 +1,73 @@
+﻿#muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
+;============================================================
+;  File: Cln_skinedit.dll
+;  Plugin: Skin editor for clist nicer
+;  Version: 0.0.0.4
+;  Authors: Nightwish, Pixel
+;============================================================
+[Allows inline skin item editing for clist nicer.]
+
+;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+[Skin items]
+Elementy skórki
+[General]
+Ogólne
+[Gradient]
+
+[Left to right]
+Z lewa do prawa
+[Right to left]
+Z prawa do lewa
+[Top to bottom]
+Z góry do dołu
+[Bottom to top]
+Z dołu go góry
+[Round corners]
+Zaokrąglone rogi
+[Top-Left]
+Góra-Lewy
+[Top-Right]
+Góra-Prawy
+[Bottom-Right]
+Dół-Prawy
+[Bottom-Left]
+Dół-Lewy
+[Item colors]
+Kolory
+[First color]
+Pierszy kolor
+[Textcolor]
+Kolor tekstu
+[Second color]
+Drugi kolor
+[Transparent]
+Przeźroczysty
+[Alpha (percent)]
+Alpha (procent)
+[Item margins]
+Marginesy
+[Item borders]
+Ramka
+[Border style]
+Styl ramki
+[3D border (bright / dark)]
+Ramka 3D (jasny/ciemny)
+[Item ignored]
+Ignorowane
+[Dialog]
+Okno
+[Not yet supported]
+
+;file \plugins\Clist_nicer\skineditor\src\main.cpp
+[Copy from]
+Kopiuj z
+[<None>]
+<Nie ogłaszaj>
+[Raised]
+Wypukłe
+[Sunken]
+Wklęsły
+[Bumped]
+Wypukłe na zewnątrz
+[Etched]
+Wypukłe na zewnątrz, wklęsłe wewnątrz

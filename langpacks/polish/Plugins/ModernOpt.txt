@@ -1,59 +1,63 @@
-﻿;============================================================
-;  File: modernopt.dll
-;  Module: Support for new options design
-;  Versions: 0.1.0.0
+﻿#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
 ;============================================================
-[Setup your account information to start messaging.]
-Ustaw opcje swoich kont by móc rozmawiać.
-[Change the look of Miranda IM according to your taste.]
-Zmień wygląd Mirandy IM by dopasować ją do swoich preferencji.
-[Configure behaviour of your contact list.]
-Skonfiguruj zachowanie swojej listy kontaktów.
-[Customize look&&feel of your chat windows here.]
-Tu możesz dopasować pod siebie okna rozmowy.
-[Ban those users and events, you are annoyed with.]
-Zablokuj tych użytkowników i zdarzenia, które Cię denerwują.
-[Set your status messages and idle reporting.]
-Ustaw swój opis statusu i zachowanie podczas bezczynności.
-[Miranda IM is all about plugins. Manage all the plugins you have here.]
-Cała Miranda IM kręci się wokół wtyczek. Tutaj możesz nimi zarządzać.
-[Visit official Miranda IM website]
-Odwiedź oficjalną stronę Mirandy IM
+;  File: ModernOpt.dll
+;  Plugin: ModernOpt
+;  Version: 0.1.0.0
+;  Authors: Victor Pavlychko, George Hazan
+;============================================================
+[Support for new options design.]
+Wsparcie dla nowego interfejsu opcji
+;file \plugins\ModernOpt\res\resource.rc
+[Visit official Miranda NG website]
+Odwiedź oficjalną stronę Mirandy NG
+[Sample page]
+
+[Miranda NG Options]
+Opcje Mirandy NG
+[Use arrow keys to choose category]
+
+[OK]
+OK
+[Cancel]
+Anuluj
+[Apply]
+Zastosuj
 [Switch to classic options]
 Przełącz na standardowe menu opcji
-[Window behaviour:]
-Zachowanie okien:
-[Status bar:]
-Pasek statusu:
-[List content:]
-Zawartość listy:
-[Compact mode]
-Tryb kompaktowy
-[Message window behaviour:]
-Zachowanie okna rozmowy:
-[Save the window position for each contact]
-Zapamiętaj pozycję okna dla każdego kontaktu
-[Messaging:]
-Rozmowa:
-[Choose events you wish to ingonre:]
-Wybierz zdarzenia, które chcesz ignorować:
-[Event icon legend:]
-Znaczenia ikon zdarzeń:
-[Idle (auto-away):]
-Bezczynność (tryb automatyczny):
-[Become idle if computer is left unattended for:]
-Przejdź w stan bezczynności po czasie:
-[Headers:]
-Nagłówki:
-[This font is used to display main section titles or text elements.]
-Ta czcionka jest używana do wyświetlania tytułów i tekstu gł. elementów.
-[Normal text:]
-Zwykły tekst:
-[This font is used to display most text element or section bodies.]
-Ta czcionka jest używana do wyświetlania większości tekstu.
-[Minor notes:]
-Pozostałe informacje:
-[This font is used to display various addtional notes.]
-Ta czcionka jest używana do wyświetlania różnych dodatkowych informacji.
-[Sample Text]
-Przykładowy Tekst
+[Advanced]
+Zaawansowane
+;file \plugins\ModernOpt\src\modernopt.cpp
+[Home]
+Dom
+[Miranda NG configuration center]
+
+[Accounts]
+Konta
+[Setup your account information to start messaging.]
+Ustaw opcje swoich kont by móc rozmawiać.
+[Style]
+Styl
+[Change the look of Miranda NG according to your taste.]
+Zmień wygląd Mirandy NG by dopasować ją do swoich preferencji.
+[Contacts]
+Kontakty
+[Configure behaviour of your contact list.]
+Skonfiguruj zachowanie swojej listy kontaktów.
+[Chats]
+Czaty
+[Customize look&&feel of your chat windows here.]
+Tu możesz dopasować pod siebie okna rozmowy.
+[Ignore]
+Ignorowanie
+[Ban those users and events, you are annoyed with.]
+Zablokuj tych użytkowników i zdarzenia, które Cię denerwują.
+[Status]
+Status
+[Set your status messages and idle reporting.]
+Ustaw swój opis statusu i zachowanie podczas bezczynności.
+[Addons]
+Wtyczki
+[Miranda NG is all about plugins. Manage all the plugins you have here.]
+Cała Miranda NG kręci się wokół wtyczek. Tutaj możesz nimi zarządzać.
+[You have some unsaved changes here.\n Do you wish to apply settings before switching?]
+

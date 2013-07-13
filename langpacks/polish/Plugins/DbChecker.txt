@@ -1,144 +1,55 @@
-﻿;============================================================
-;  File: dbtool_sa.exe
-;  Module: tool
-;  Versions: 0.8.2.0
+﻿#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
 ;============================================================
-[Performing aggressive pass]
-Wykonywanie agresywnego przejścia
-[Aggressive: random junk at %08X: skipping]
-Agresywny: losowe śmieci w %08X: pomijam
-[Aggressive: unlinked data at %08X: can't automatically place]
-Agresywny: nieoznaczone dane w %08X: nie można automatycznie rozmieścić
-[Contact count marked wrongly: correcting]
-Źle oznaczone dane kontaktów: poprawianie
-[Processing contact chain]
-Przetwarzanie łańcucha kontaktu 
-[Contact chain corrupted, further entries ignored]
-Uszkodzony łańcuch kontaktu, dalsze wpisy będą ignorowane
-[Invalid offset found]
-Znaleziono nieprawidłową kompensate
-[Error reading, database truncated? (%u)]
-Błąd odczytu, obcięta baza danych? (%u)
-[Can't write to working file, aggressive mode may be too aggressive now (%u)]
-Nie można zapisać uruchomionego pliku, tryb agresywny może być zbyt agresywny w tym wypadku (%u)
-[Can't write to output file - disk full? (%u)]
-Nie można zapisać do pliku - dysk jest pełen? (%u)
-[Event count marked wrongly: correcting]
-Źle oznaczone dane zdarzeń: poprawianie
-[Event chain corrupted, further entries ignored]
-Uszkodzony łańcuch zdarzeń, dalsze wpisy ignorowane 
-[First event not marked as such: correcting]
-Pierwsze zdarzenie nie oznaczone jako: poprawianie
-[Event marked as first which is not: correcting]
-Zdarzenie oznaczone jako pierwsze, które nie jest: poprawianie
-[Extra flags found in event: removing]
-Dodatkowe flagi w przypadku: usuwanie
-[First unread event marked wrong: fixing]
-Źle oznaczone pierwsze nieprzeczytane zdarzenie: naprawianie
-[Infeasibly large event blob: skipping]
-Niewiarygodnie duży blok zdarzenia: pomijanie
-[Event not backlinked correctly: fixing]
-Niepoprawnie olinkowane zdarzenie: naprawianie
-[Processing final tasks]
-Wykonywanie końcowych zadań
-[Unable to delete aggressive working file]
-Nie można usunąć agresywnie pracującego pliku
-[Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
-Napotkano błędy, nie zaznaczyłeś jednak opcji kopii bezpieczeństwa bazy danych. Jest to mocno zalecane, ponieważ wiele ważnych informacji zostało pominiętych. Chcesz zachować kopię oryginalnych ustawień?
-[Miranda Database Tool]
-Narzędzie bazy danych Mirandy
-[%s\\Backup of %s]
-%s\\Kopia zapasowa z %s
-[%s\\Backup (%d) of %s]
-%s\\Kopia zapasowa (%d) z %s
-[Unable to rename original file]
-Nie można zmienić nazwy oryginalnych plików
-[Unable to delete original file]
-Nie można usunąć oryginalnych plików
-[Unable to rename output file]
-Nie można zmienić nazwy pliku wyjściowego
-[&Finish]
-Zakończ
-[Database is newly created and has no data to process]
-Baza danych została dopiero co utworzona i nie zawiera żadnych danych
-[Processing completed successfully]
-Przetwarzanie zakończone sukcesem
-[Database is corrupted and too small to contain any recoverable data]
-Baza danych jest uszkodzona i za mała by zawierać dane do odzyskania
-[Database signature is corrupted, automatic repair is impossible]
-Baza danych jest uszkodzona, automatyczna naprawa jest niemożliwa
-[Database is marked as belonging to an unknown version of Miranda]
-Baza danych należy do nieznanej wersji Mirandy 
-[ (Working Copy).dat]
-(Kopia robocza).dat
-[Creating working database (aggressive mode)]
-Tworzenie bazy danych (tryb agresywny)
-[Can't create working file (%u)]
-Nie można utworzyć pliku (%u)
-[Error writing file, probably disk full - try without aggressive mode (%u)]
-Błąd podczas zapisywania pliku, prawdopodobnie dysk zapełniony - spróbuj bez agresywnego trybu (%u) 
-[Can't read from working file (%u)]
-Nie można odczytać pliku roboczego (%u)
-[<check only>]
-<sprawdzić tylko> 
-[ (Output).dat]
-(Wyjście).dat 
-[Can't create output file (%u)]
-Nie można utworzyć pliku wyjściowego (%u)
-[Processing module name chain]
-Przetwarzanie łańcucha nazwy modułu
-[Module chain corrupted, further entries ignored]
-Uszkodzony łańcuch modułu, dalsze wpisy będą ignorowane 
-[Unreasonably long module name, skipping]
-Zbyt długa nazwa modułu, pomijam
-[Module name '%s' is not unique: %d duplicates found)]
-Nazwa modułu "%s" nie jest unikalna: znaleziono %d duplikatów 
-[Invalid module name offset, skipping data]
-Nieprawidłowy offset nazwy modułu, pomijam dane
-[Click Next to continue]
-Kliknij Dalej, aby kontynuować
-[Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
-Przetwarzanie nie zostało jeszcze ukończone, jeśli zrezygnujesz teraz następne zmiany, które obecnie zostały dokonane zostaną cofnięte i oryginalna baza danych zostanie przywrócona. Czy nadal chcesz anulować?
-[Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
-Nie ukończono jeszcze przetwarzania, jeśli teraz się wrócisz, wprowadzone zmiany zostaną cofnięte i zostanie przywrócona oryginalna baza danych. Nadal chcesz się wrócić?
+;  File: DbChecker.dll
+;  Plugin: Database checker
+;  Version: 0.11.0.1
+;  Authors: George Hazan
+;============================================================
+[Miranda NG Database Checker.]
+
+;file \plugins\DbChecker\res\resource.rc
 [Welcome to the Miranda Database Wizard]
-Witamy w kreatorze bazy danych Mirandy
+Witamy w kreatorze profilu
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
 Za pomocą tego narzędzia możesz skompaktować bazę danych Mirandy poprzez usunięcie martwej przestrzeni utworzonej podczas używania komunikatora oraz naprawić błędy mogące wpływać na bazę danych. 
 [To continue, click Next.]
 Aby kontynuować kliknij Dalej
 [This programme is licenced under the terms of the GNU General Public License.]
 Program udostępniany na licencji GNU - General Public License.
+[Miranda Database Tool]
+Narzędzie naprawcze
 [< &Back]
 < Wstecz
 [&Next >]
 Dalej >
+[Cancel]
+Anuluj
 [Select Miranda Profile]
 Wybierz profil
 [You can choose the Miranda profile database to compact or repair.]
-Możesz wybrać profil Miranda do kompaktowania bazy danych lub naprawy. 
+Możesz wybrać profil Mirandy do kompaktowania lub naprawy. 
 [Select the &profile database from the list below. If the database you wish to use is not listed here then click Other to browse your computer.]
-Wybierz profil i bazę danych z poniższej listy. Jeśli baza danych, której chcesz używać nie ma na liście kliknij Inne do przeglądania komputera.
+Wybierz profil z poniższej listy. Jeśli profilu, którego chcesz używać nie ma na liście kliknij Inne aby ja wyszukać.
 [&File:]
 Plik:
 [&Other...]
 Inne...
 [Error Opening Database]
-Błąd podczas otwierania bazy danych 
+Błąd podczas otwierania profilu
 [There was an error opening the profile database given.]
-Wystąpił błąd podczas otwierania bazy danych danego profilu.
+Wystąpił błąd podczas otwierania profilu.
 [Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
-Kliknij przycisk Dalej, aby spróbować ponownie otworzyć plik, lub kliknij przycisk Wstecz, aby wybrać nowy profil do bazy danych.
+Kliknij przycisk Dalej, aby spróbować ponownie otworzyć plik, lub kliknij przycisk Wstecz, aby wybrać nowy profil.
 [The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
-Plik może być używany przez aktualnie uruchomioną kopie Miranda. Zamknij wszystkie uruchomione Mirandy i kliknij przycisk Dalej, aby ponowić. 
+Plik może być używany przez aktualnie uruchomioną Mirandę. Zamknij wszystkie uruchomione Mirandy i kliknij przycisk Dalej, aby ponowić. 
 [File Access Options]
 Opcje dostępu pliku
 [You can select low level options to determine how the database is processed.]
-Możesz wybrać niski poziom opcji, aby określić w jaki sposób baza danych jest przetwarzana.
+Możesz wybrać niski poziom opcji, aby określić w jaki sposób profil jest przetwarzany.
 [Create backup]
 Utwórz kopię bezpieczeństwa 
 [Creates a backup copy of the database before any of the requested changes are made.]
-Tworzy kopię bezpieczeństwa bazy danych przed wprowadzeniem zmian.
+Tworzy kopię zapasową profilu przed wprowadzeniem zmian.
 [Aggressively find corruption]
 Agresywne wyszukiwanie błędnych wpisów
 [Scans the database for data that is not linked to any other data. This requires more disk space and more time, so is only required if you suspect corruption.]
@@ -146,11 +57,11 @@ Skanuje bazę danych, która nie jest związana z żadnymi innymi danymi. Wymaga
 [Check consistency only]
 Sprawdź tylko spójność danych
 [Just checks that the database is valid, without writing anything to the disk.]
-Sprawdza czy baza danych jest prawidłowa bez wprowadzania żadnych zmian.
+Sprawdza czy profil jest prawidłowy bez wprowadzania żadnych zmian.
 [Cleaning Options]
 Czyszczenie błędnych wpisów
 [You can choose to remove information from the database while it is being processed.]
-Możesz wybrać usunięcie informacji z bazy danych w czasie jej przetwarzania.
+Możesz wybrać usunięcie informacji z profilu w czasie jej przetwarzania.
 [Erase all histories]
 Usuń całą historię 
 [Removes all the saved history for all contacts in the database.]
@@ -162,7 +73,7 @@ Oznacza wszystkie zdarzenia w historii jako przeczytane. Skoryguje problemy zwi�
 [Convert old Unicode messages to UTF8]
 Konwertuj stare wiadomości Unicode do UTF-8
 [Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]
-Konwertuje historię z formatu pre-0.7 (ANSI + UCS2) do UTF8 wspieranego przez 0.7. W większości przypadków zmniejsza rozmiar bazy danych (zalecane).
+Konwertuje historię z formatu pre-0.7 (ANSI + UCS2) do UTF8 wspieranego przez 0.7. W większości przypadków zmniejsza rozmiar profilu (zalecane).
 [Working...]
 Pracuję...
 [Please wait while the requested operations are being performed.]
@@ -178,52 +89,61 @@ Uruchom Mirandę z ostatnim aktywnym profilem.
 [Backup:]
 Kopia zapasowa:
 [The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.]
-Zakończono przetwarzanie bazy danych. Kliknij na "Dalej" aby powrócić na początek kreatora i wybrać inną bazę danych do sprawdzenia lub kliknij na "Zakończ" aby wyjść z kreatora.
+Zakończono przetwarzanie profilu. Kliknij Dalej aby powrócić na początek kreatora i wybrać inny profil do sprawdzenia lub kliknij na Zakończ aby wyjść z kreatora.
+;file \plugins\DbChecker\src\finished.cpp
+[&Finish]
+Zakończ
+;file \plugins\DbChecker\src\progress.cpp
+[Click Next to continue]
+Kliknij Dalej, aby kontynuować
+[Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
+Przetwarzanie nie zostało jeszcze ukończone, jeśli zrezygnujesz teraz następne zmiany, które obecnie zostały dokonane zostaną cofnięte i oryginalny profil zostanie przywrócony. Czy nadal chcesz anulować?
+[Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
+Nie ukończono jeszcze przetwarzania, jeśli teraz się wrócisz, wprowadzone zmiany zostaną cofnięte i zostanie przywrócony oryginalny profil. Nadal chcesz się wrócić?
+;file \plugins\DbChecker\src\selectdb.cpp
+[Database Checker cannot find a suitable database plugin to open '%s'.]
+Database Checker nie może znaleźć odpowiedniej wtyczki aby otworzyć profil '%s'.
+[Error]
+Błąd
+[Database driver '%s' doesn't support checking.]
+
 [Database]
-Baza danych
+Profil
 [Total size]
 Całkowity rozmiar
 [Wasted]
 Martwa przestrzeń
-[Settings chain corrupted, further entries ignored]
-Uszkodzony ciąg ustawień, dalsze wpisy będą ignorowane
-[Infeasibly large settings blob: skipping]
-Zbyt duży blob ustawień: pomijam
-[Empty settings group at %08X: deleting]
-Pusta grupa ustawień w %08X: usuwanie
-[Processing user data]
-Przetwarzanie danych użytkownika
-[User corrupted, this could cause major problems]
-Uszkodzony kontakt - to może spowodować poważne problemy
-[More than one user contact: keeping only first]
-Więcej niż jeden kontakt użytkownika: zatrzymuję tylko pierwszy
+[Miranda Databases (*.dat)]
+
+[All Files]
+Wszystkie pliki
+;file \plugins\DbChecker\src\wizard.cpp
+;file \plugins\DbChecker\src\worker.cpp
+[Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
+Napotkano błędy, nie zaznaczyłeś jednak opcji kopii zapasowej profilu. Jest to mocno zalecane, ponieważ wiele ważnych informacji zostało pominiętych. Chcesz zachować kopię oryginalnych ustawień?
+[%s\\Backup of %s]
+%s\\Kopia zapasowa z %s
+[%s\\Backup (%d) of %s]
+%s\\Kopia zapasowa (%d) z %s
+[Unable to rename original file]
+Nie można zmienić nazwy oryginalnych plików
+[Unable to delete original file]
+Nie można usunąć oryginalnych plików
+[Unable to rename output file]
+Nie można zmienić nazwy pliku wyjściowego
 [Database worker thread activated]
-Aktywowano wątek roboczy bazy danych
+Aktywowano wątek roboczy profilu
+[<check only>]
+<sprawdzić tylko> 
+[ (Output).dat]
+(Wyjście).dat 
+[Can't create output file (%u)]
+Nie można utworzyć pliku wyjściowego (%u)
 [Processing aborted by user]
 Przetwarzanie zakończone przez użytkownika
-[All tasks completed but with %d error%s]
-Wszystkie zadania zakończono ale z błędami w liczbie: %d
+[Elapsed time: %d sec]
+Czas pracy: %d s
+[All tasks completed but with errors (%d)]
+
 [All tasks completed successfully]
 Wszystkie zadania zakończono pomyślnie
-["Open user tree in DBE++" menu item]
-"Otworz drzewko profilu w DBE++" pozycja menu
-[Duplicate event was found: skipping]
-Znaleziono duplikat zdarzenia: pomijanie
-[Empty settings group at %08X: skipping]
-Pusta grupa ustawień na %08X: pomijanie
-[Elapsed time: %d sec]
-Czas pracy: %d sek
-[Database encrypted with %s by %s]
-Łamanie szyfru przy pomocy %s (by %s)
-[Cryptor loaded: %s [%s] (%s)]
-Załadowany moduł: %s [%s] (%s)
-[%d crypto modules loaded]
-%d moduł szyfrowania załadowany
-[Database is Secured MMAP database]
-Zaszyfrowano przy pomocy Secured MMAP database
-[Scanning cryptors directory]
-Skanowanie katalogu 'Cryptors'
-[Secured MMAP: authorization successful]
-Secured MMAP: autoryzacja pomyślna!
-[You are not authorized for access to Database]
-Nie masz autoryzacji do Database

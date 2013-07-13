@@ -1,0 +1,275 @@
+﻿#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+;============================================================
+;  File: SimpleStatusMsg.dll
+;  Plugin: Simple status message
+;  Version: 1.9.0.4
+;  Authors: Bartosz 'Dezeath' Bialek, Harven
+;============================================================
+[Provides a simple way to set status and away messages.]
+Umożliwia zmianę statusu i opisów w prosty sposób.
+;file \plugins\SimpleStatusMsg\res\resource.rc
+[%s Message for %s]
+Opis statusu "%s" - %s
+[&Cancel]
+Anuluj
+[Retrieving %s message...]
+Odbieranie %s wiadomości
+[Co&py to Clipboard]
+Ko&piuj do schowka
+[%s Message (%s)]
+Opis - %s (%s)
+[OK]
+OK
+[Retrieving status message for %s...]
+Pobieranie opisu dla %s...
+[Behaviour on status change]
+Zachowanie na zmianę statusu
+[Apply to all]
+Ustaw wszędzie
+[Max length:]
+Maks. długość:
+[Pop up dialog box]
+Pokazuj okienko
+[Do not change status message]
+Nie zmieniaj opisu
+[Always set the same message]
+Zawsze ustawiaj taki sam opis
+[Do not set status message]
+Nie ustawiaj opisu
+[Status Messages]
+Opisy
+[Pop up dialog asking for new message]
+Pokazuj okno nowego opisu
+[Set an empty message]
+Ustaw pusty opis
+[Use default message]
+Ustaw domyślny opis
+[Use last message]
+Ustaw ostatni opis
+[Use last message set for this status]
+Ustaw ostatni opis dla tego statusu
+[Set the following message:]
+Ustaw następujący opis:
+[Put default message in message list]
+Ustaw domyślny opis na liście opisów
+[Variables]
+Zmienne
+[Update variables in status messages every]
+Aktualizuj zmienne w opisie co
+[seconds]
+s
+[Do not update variables during idle]
+Nie aktualizuj zmiennych podczas bezczynności
+[Do not update variables on ICQ status message requests]
+Nie aktualizuj zmiennych w ICQ na żądanie opisu
+[Leave last played track's title after exiting the player]
+Pozostaw tytuł ostatnio słuchanego utworu po wyłączeniu odtwarzacza
+[Enable status messages parsing by Variables plugin]
+Włącz przetwarzanie opisu przez wtyczkę Variables
+[Exclude %date% token from parsing (restart required)]
+Wyłącznie token %date% z parsowania (wymaga restartu)
+[Layout]
+Układ
+[Show status list]
+Pokaż listę statusów
+[Show status profiles in status list]
+Pokaż profile na liście statusów
+[Show icons in status list]
+Pokaż ikony na liście statusów
+[Buttons:]
+Przyciski:
+[Show icons in message list]
+Pokaż ikony na liście opisów
+[Other]
+Inne
+[Store up to]
+Zachowaj
+[recent messages (0 = disable)]
+ostatnich opisów (0 = wyłacz)
+[Automatically close dialog window after]
+Zamykaj automatycznie okno po
+[Remember last dialog window position]
+Pamiętaj i przywracaj ostatnią pozycję okna
+[Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
+Usuń znaki nowej linii (CR = '\\r' = #0D) z opisu
+[Show 'Copy Away Message' item in contact menu]
+Pokaż element 'Kopiuj opis' w menu kontaktu
+[Show 'Go to URL in Away Message' item in contact menu]
+Pokaż 'Otwórz link z opisu' w menu kontaktu
+[Show 'Status Message...' item in status menu]
+Pokaż element 'Zmień opis...' w menu statusu
+[Clear History]
+Wyczyść historię
+[Clear Predefined]
+Wyczyść ulubione
+[* This feature is available only when using StartupStatus plugin.]
+* Ta opcja jest dostępna tylko przy aktywnej wtyczce StartupStatus.
+[Status on Startup]
+Status po uruchomieniu
+[Set status after]
+Ustaw status po:
+[miliseconds]
+ms
+[Protocol:]
+Protokół:
+[Status:]
+Status:
+[Independent setting for each protocol]
+Niezależne ustawienia dla każdego protokołu
+[Pop up dialog asking for status message]
+Pokazuj okno ustawiania opisu
+[Fortune]
+
+[?cinfo(contact,property)]
+
+[?contact(string,property)]
+
+[?mstatus(protocol)]
+
+[?lsdate(contact,format)]
+
+[?lsstatus(contact)]
+
+[?lstime(contact,format)]
+
+[?dbsetting(contact,module,setting)]
+
+[?txtfile(file,line)]
+
+[?if(condition,true,false)]
+
+[?strcmp(string1,string2)]
+
+[?stricmp(string1,string2)]
+
+[?cdate(format)]
+
+[?ctime(format)]
+
+[?replace(sub,string1,string2)]
+
+[?lower(string)]
+
+[?upper(string)]
+
+[?scroll(string,numchars,numchars)]
+
+[More variables...]
+Więcej zmiennych...
+[Cut]
+Wytnij
+[Copy]
+Kopiuj
+[Paste]
+Wklej
+[Delete]
+Usuń
+[Select All]
+Zaznacz wszystko
+;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
+[Failed to retrieve %s message.]
+Błąd w odzyskiwaniu opisu %s.
+[&Close]
+Zamknij
+[Re&ad %s Message]
+Pokaż opis "%s"
+[Copy %s Message]
+Kopiuj opis %s
+[&Go to URL in %s Message]
+Otwórz link z opisu
+[Re&ad Away Message]
+Pokaż opis
+[Copy Away Message]
+Kopiuj opis kontaktu
+[&Go to URL in Away Message]
+Otwórz link z opisu
+;file \plugins\SimpleStatusMsg\src\main.cpp
+[Change Status Message]
+Zmień opis...
+[Open Status Message Dialog]
+Otwórz okno zmiany statusu
+[Status Message]
+Opis
+[Status Message...]
+Zmień opis...
+[%s (locked)]
+%s (zablokowane)
+[External Applications\tretrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
+
+[Miranda Related\tget the date (Simple Status Message compatible)]
+
+;file \plugins\SimpleStatusMsg\src\msgbox.cpp
+[<startup>]
+<startowy>
+[<current>]
+<aktualny>
+[Add to Predefined]
+Dodaj do ulubionych
+[Delete Selected]
+Usuń wybrane
+[OK (%d)]
+
+[Global]
+Globalne
+[Closing in %d]
+Zamykanie w %d
+[Are you sure you want to clear status message history?]
+Czy na pewno chcesz wyczyścić historię opisów?
+[Confirm clearing history]
+Potwierdź wyczyszczenie historii
+;file \plugins\SimpleStatusMsg\src\options.cpp
+[Global status change]
+Globalna zmiana statusu
+[Open String Formatting Help]
+Otwórz pomoc nt formatowania tekstu
+[Hide]
+Ukryj
+[Show next to cancel button]
+Pokaż obok przycisku Anuluj
+[Flat, next to cancel button]
+Płaskie, obok przycisku Anuluj
+[Show in message list]
+Pokaż na liście opisów
+[Are you sure you want to clear predefined status messages?]
+Czy na pewno chcesz wyczyścić ulubione opisy?
+[Confirm clearing predefined]
+Potwierdź wyczyszczenie ulubionych
+[<Last status>]
+<Ostatni status>
+[Status]
+Status
+[General]
+Ogólne
+[Advanced]
+Zaawansowane
+;file \plugins\SimpleStatusMsg\src\utils.cpp
+[Recent Message]
+Ostatni opis
+[Predefined Message]
+Ulubiony opis
+[Go to URL in Away Message]
+Otwórz link z opisu
+[Simple Status Message]
+Menedżer statusów
+[I've been away since %time%.]
+Nie ma mnie od %time%
+[Give it up, I'm not in!]
+Daj spokój, nie ma mnie!
+[Not right now.]
+Nie teraz.
+[Give a guy some peace, would ya?]
+Proszę, daj mi spokój!
+[I'm a chatbot!]
+Jestem botem!
+[Yep, I'm here.]
+Tak, jestem tu.
+[Nope, not here.]
+Nie, nie tutaj.
+[I'm hiding from the mafia.]
+Ukrywam się przed mafią.
+[That'll be the phone.]
+Muszę odebrać telefon.
+[Mmm...food.]
+Mmm... jedzenie.
+[idleeeeeeee]
+Bezczynnyyyyyyy

@@ -1,0 +1,5 @@
+﻿[Vars]
+[Disable protection for following accounts:]
+[StopSpam]
+[Not In List]
+[nospam]

@@ -1,40 +1,48 @@
-﻿;============================================================
+﻿#muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
+;============================================================
 ;  File: watrack.dll
 ;  Module: Winamp Track |Unicode aware|
-;  Versions: 0.0.6.12
+;  Versions: 0.0.2.4 - 0.0.6.12
+;  Url: http://addons.miranda-im.org/details.php?action=viewfile&id=2345
 ;============================================================
-[Similar artists]
-Podobni artyści
-[Artist]
-Artysta
-[Track]
-Utwór
-[Tags]
-Tagi
-[Get Artist Info]
-Pobierz info o artyście
-[Get Track Info]
-Pobierz info o utworze
-[Get Album Info]
-Pobierz info o albumie
-[Content language]
-Język
-[no language]
-brak języka
-[Attempts]
-Ilość prób
-[Picture transform]
-Ułożenie obrazka
-[Manual element placement]
-Ręczne umieszczenie elementu
-[Hide when no player]
-Ukryj kiedy odtwarzacz jest wyłączony
-[Hide when no music]
-Ukryj kiedy nic nie jest odtwarzane
-[Frame (main)]
-Ramka (główna)
-[Frame (text)]
-Ramka (tekst)
+[Clear xStatus before set new one]
+Czyść xStatus przed ustawieniem kolejnego
+[Emulate Multimedia keys]
+Emuluj klawisze multimedialne
+[xStatus will cleared before text changing and restored with new text later.]
+xStatus zostanie wyczyszczony przed zmianą tekstu i ustawiony na nowo później.
+[Paste played music info into message window or status text]
+Wklej informacje o odtwarzanych multimediach w oknie rozmowy lub statusie
+[Use XStatus]
+Użyj xStatusu
+[If this option is "ON", XStatus doesn't depend of protocol status.]
+Jeśli ta opcja zostanie włączona, xStatus nie bedzie zależny od zmiany statusu protokołu.
+[Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
+Jeśli użyjesz wtyczki "Variables", możesz zmienić zawartość tekstu o nowe funkcje. Jeśli wtyczka nie zostanie użyta, wtyczka będzie pracowała szybciej.
+[Replaces "_" (underscores) globally in pasted os status text, sometimes may be useful]
+Zmień "_" w wklejanym tekscie statusu na spacje.
+[Check file date and time to tag updates while playing.]
+Sprawdza czas utworu i aktualizuje tagi.
+[Report on some errors.]
+Raporty błędów.
+[Try to use OLE interface to obtain more information from players. If this option is "OFF", plugin works little faster.]
+Wyprubój interfejs OLE do osiągania większej liczby informacji. Jeśli ta opcja zostanie wyłączona, wtyczka będzie pracowała szybciej.
+[Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled. If value greater than 499, time signify as milliseconds.]
+Odświeżaj co jakiś czas (s) informacje o odtwarzanych multimediach. Jeśli zero, odświeżanie będzie wyłączone. Jeśli wartość wyniesie 499, czas będzie znaczony w milisekundach.
+[Text insertion to other Apps]
+Wstaw tekst do innych aplikacji
+[Share music list]
+Udostępnij listę muzyki
+[Save events in database]
+Zapisz zdarzenia w bazie
+[Music Info Request]
+Żądanie "Teraz odtwarzane"
+[Request Error]
+Błąd żądania
+[Save ignored requests]
+Zapisuj ignorowane żądania
+[Answer to ignored requests]
+Odpowiadaj na ignorowane żądania
 [Use frame]
 Użyj ramki
 [Show info in the frame]
@@ -43,34 +51,30 @@ Pokaż info w ramce
 Pokaż przyciski w ramce
 [Show volume controls]
 Pokaż regulację głośności
-[Background color]
-Kolor tła
 [Use Picture]
 Użyj obrazka
 [Use cover instead of picture]
 Użyj okładki zamiast obrazka
+[Show trackbar]
+Pokaż pasek ścieżki
+[Cover padding]
+Dopełnienie okładki
+[Frame refresh time]
+Czas odświeżania ramki
+[Hide frame when no music played]
+
 [Center horizontally]
 Wyśrodkuj w poziomie
 [Center vertically]
 Wyśrodkuj w pionie
-[Show trackbar]
-Pokaż pasek ścieżki
-[Frame refresh time]
-Czas odświeżania ramki
+[Use styled trackbar]
+
 [Use buttons gap]
 Użyj odstępów przycisków
-[Cover padding]
-Dopełnienie okładki
-[Choose font...]
-Ustaw czcionkę...
+[Frame template]
+Szablon ramki
 [Text effect]
 Efekt tekstu
-[Wrap]
-Zawijanie
-[Roll]
-Zakręcenie
-[Align text to center]
-Wyrównaj tekst do środka
 [Text movement]
 Ruchomy tekst
 [Text rotation speed (1-20)]
@@ -79,226 +83,46 @@ Prędkość obrotu tekstu (1-20)
 Krok przewijania
 [Scroll gap]
 Przerwa przewijania
-[Show popup]
-Pokaż Popup
-[Show file name in info]
-Pokaż nazwę pliku w info
-[Show player]
-Pokaż odtwarzacz
-[Next track]
-Nast. ścieżka
-[Left click]
-Lewy przycisk
-[Right click]
-Prawy przycisk
-[Colors]
-Kolory
-[Default colors]
-Domyślne kolory
-[Windows colors]
-Kolory Windows
-[Custom colors]
-Własne kolory
-[Global hotkey]
-Globalne skr. klaw.
-[Music Info]
-Info o muzyce
-[Refresh time, sec]
-Odświeżaj co (s)
-[Unicode to Ansi translation codepage:]
-Strona kodowa konwersji z Unicode do Ansi:
-[Insert in messages]
-Umieść w wiadomościach
-[Use status messages]
-Użyj opisu
-[Use XStatus]
-Użyj xStatusu
-[Independed XStatus]
-Niezależny xStatus
-[Use process implantation]
-Użyj procesu implantacji
-[Simple Template mode]
-Tryb prostego szablonu
-[Keep 'Music' XStatus]
-Utrzymuj xStatus "Muzyka"
-[Replace underlines with spaces]
-Zamień podkreślenia na spacje
-[Check file time]
-Sprawdź czas pliku
-[Color]
-Kolor
-[No Music]
-Brak muzyki
-[No Player]
-Brak odtwarzacza
-[Statuses]
-Statusy
-[User message]
-Wiadomość użytkownika
-[Channel message]
-Kanał wiadomości
-[Template]
-Szablon
-[[X]Status Title / Text]
-Tytuł [X]Statusu / Tekstu
-[This is simplified version of template editor. This templates will be used with all protocols, protocol and player (media) statuses]
-To jest uproszczona wersja edytora szablonów używanych ze wszystkimi protokołami oraz statusami odtwarzacza i protokołu.
-[Chat Template]
-Szablon czatu
-[Popup Title / Text]
-Popup Tytuł / Tekst
-[Frame Text]
-Tekst ramki
-[Export Text]
-Eksportuj tekst
-[FileSize text format]
-Format tekstu RozmiarPliku
-[File size]
-Rozmiar pliku
-[Bytes]
-Bajty
-[Kilobytes]
-Kilobajty
-[Megabytes]
-Megabajty
-[Precision]
-Precyzja
-[Postfix]
-Poprawki postu
-[lowercase %type%]
-małe litery %type%
-[Formats]
-Formaty
-[VBR macro]
-Makro VBR
-[VBR or empty]
-VBR lub pusty
-[VBR or CBR]
-VBR lub CBR
-[Players list]
-Lista odtwarzaczy
-[Player name letters]
-Litery w nazwie odtwarzacza
-[All uppercase]
-Wszystkie dużymi
-[Do not change]
-Nie zmieniaj
-[All lowercase]
-Wszystkie małymi
-[Color codes]
-Kody kolorów
-[WATrack Macro Info]
-WATrack Dane makro
-[Text insertion to other Apps]
-Wstaw tekst do innych aplikacji
-[Cover filenames]
-Nazwy plików z okładkami
-[Share music list]
-Udostępnij listę muzyki
-[Save events in database]
-Zapisz zdarzenia w bazie
-[Music Info Request]
-Żądanie info o muzyce
-[Request Error]
-Błąd żądania
-[Save ignored requests]
-Zapisuj ignorowane żądania
-[Answer to ignored requests]
-Odpowiadaj na ignorowane żądania
-[Disable Log]
-Wyłącz dziennik
-[Statistic log file]
-Plik statystyk
-[Sort]
-Sortowanie
-[Autosort period, days]
-Okres autosortowania, dni
-[Report file]
-Plik raportu
-[Report]
-Raport
-[Template file]
-Plik szablonu
-[Export default]
-Eksportuj domyślne
-[Show in report]
-Pokaż w raporcie
-[Freq. songs]
-Częstot. piosenki
-[Freq. artists]
-Częstot. artysty
-[Freq. album]
-Częstot. albumu
-[Freq. paths]
-Częstot. ścieżek
-[Last played songs]
-Ostatnio odtworzony utwór
-[Song time]
-Czas utworu
-[Sort log file]
-Sortuj plik dziennika
-[by Title]
-wg tytułów
-[by Date]
-wg dat
-[by Count]
-wg l. odtworzeń
-[by Path]
-wg ścieżki
-[by Length]
-wg długości
-[Reverse order]
-Odwróć kolejność
-[Report Items]
-Raport pozycji
-[Open report]
-Otwórz raport
-[Add report file ext.]
-Dodaj rozszerzenie
-[music statistic]
-statystyki
-[Enable Plugin]
-Włącz wtyczkę
-[Disable Plugin]
-Wyłącz wtyczkę
-[Create WATrack report]
-Stwórz raport WATrack
-[Keep old file]
-Trzymaj stary plik
-[Other thread handle check]
-Sprawdź ręcznie pozostałe wątki
-[Use existing XStatus]
-Użyj istniejący xStatus
-[Clear xStatus before set new one]
-Czyść xStatus przed ustawieniem kolejnego
-[xStatus will cleared before text changing and restored with new text later.]
-xStatus zostanie wyczyszczony przed zmianą tekstu i ustawiony na nowo później.
-[Paste played music info into message window or status text]
-Wklej info o odtwarzanym utworze w oknie wiadomośći lub statusie.
-[If this option is "ON", XStatus doesn't depend of protocol status.]
-Jeżeli ta opcja zostanie włączona, xStatus nie bedzie zależny od zmiany statusu protokołu.
-[Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
-Użyj pluginu "Variable" lub nie. Jeżeli użyjesz, możesz zmienić zawartość teksu o nowe funkcje. Jeżeli plugin nie zostanie użyty, plugin będzie pracował szybciej.
-[Replaces "_" (underscores) globally in pasted os status text, sometimes may be useful]
-Zmień "_" w wklejanym tekscie statusu na spacje.
-[Check file date and time to tag updates while playing.]
-Sprawdza czas utworu i aktualizuje tagi.
-[Report on some errors.]
-Raporty błędów.
-[Try to use OLE interface to obtain more information from players. If this option is "OFF", plugin works little faster.]
-Wyprubój interfejs OLE do osiagania większej liczby informacji. Jeżeli ta opcja zostanie wyłączona, plugin bedzie pracował szybciej.
-[Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled. If value greater than 499, time signify as milliseconds.]
-Odświeżaj co jakiś czas (sek) info o utworze. Jeżeli zero, odświeżanie będzie wyłączone. Jeżeli wartość wyniesie 499, czas będzie znaczony w milisekundach.
-[Frame template]
-Szablon ramki
-[Play]
-Graj
+[Minimum scroll tail]
+
+[Wrap]
+Zawijanie
+[Roll]
+Zakręcenie
+[PingPong]
+
+[Hide frame when player not found]
+
+[Pause Hovered]
+Pauza - po najechaniu
+[Prev Hovered]
+Poprzedni - po najechaniu
+[Play Hovered]
+Graj - po najechaniu
+[Stop Hovered]
+Stop - po najechaniu
+[Next Hovered]
+Następny - po najechaniu
+[Prev Pushed]
+Poprzedni - po naciśnięciu
+[Play Pushed]
+Graj - po naciśnięciu
+[Stop Pushed]
+Stop - po naciśnięciu
+[Next Pushed]
+Następny - po naciśnięciu
 [Volume Down]
 Przycisz
 [Volume Up]
 Podgłoś
-[Slider]
-Sówak
+[Volume Down Hovered]
+Przycisz - po najechaniu
+[Volume Up Hovered]
+Podgłoś - po najechaniu
+[Volume Down Pushed]
+Przycisz - po naciśnięciu
+[Volume Up Pushed]
+Podgłoś - po naciśnięciu
 [song year (date)]
 rok piosenki (data)
 [player window title]
@@ -317,6 +141,8 @@ status odtwarzacza (stop,gra, pauza)
 nazwa odtwarzacza
 [time/length * 100%]
 czas/długość * 100%
+["mono"/"stereo"]
+
 [height, video only]
 wyskość, tylko wideo
 [FPS (frames per second), video only]
@@ -325,14 +151,100 @@ FPS (klatek na sekundę), tylko wideo
 nazwa pliku
 [codec, video only]
 kodek, tylko wideo
+[Color codes]
+Kody kolorów
+[File size]
+Rozmiar pliku
+[FileSize text format]
+Format tekstu RozmiarPliku
+[Formats]
+Formaty
+[Player name letters]
+Nazwa odtwarzacza
+[Players list]
+Lista odtwarzaczy
+[Popup Title / Text]
+Tytuł/Tekst popupu
+[Frame Text]
+Tekst ramki
+[Export Text]
+Eksportuj tekst
+[Postfix]
+Poprawki
+[Refresh time, sec]
+Odświeżaj co (s)
+[Report]
+Raport
+[Report Items]
+Elementy raportu
+[Report file]
+Plik raportu
 [Report format]
 Format raportu
+[Show in report]
+Pokaż w raporcie
+[Sort]
+Sortowanie
+[Sort log file]
+Sortuj plik dziennika
+[Statistic log file]
+Plik statystyk
+[Autosort period, days]
+Okres autosortowania, dni
+[Template file]
+Plik szablonu
+[Export default]
+Eksportuj domyślne
+[Freq. album]
+Częstotliwość albumu
+[by Length]
+według długości
+[Unicode to Ansi translation codepage:]
+Strona kodowa konwersji z Unicode do Ansi:
+[VBR macro]
+Makro VBR
 [\[X\]Status Title / Text]
-\[X\]Opis / Tekst
+\[x\]Opis/Tekst
+[Insert in messages]
+Użyj w wiadomościach
+[Use status messages]
+Użyj opisu
+[Independed XStatus]
+Niezależny xStatus
+[Use process implantation]
+Użyj procesu implantacji
+[Simple Template mode]
+Tryb prostego szablonu
+[Use existing XStatus]
+Użyj istniejący xStatus
+[Only if 'Music' status was set]
+
 [Keep 'Music' status]
 Utrzymuj Status "Muzyka"
+[Replace underlines with spaces]
+Zamień podkreślenia na spacje
+[Check file time]
+Sprawdź czas pliku
+[Other thread handle check]
+Sprawdź ręcznie pozostałe wątki
+[Keep old file]
+Trzymaj stary plik
+[No Music]
+Brak muzyki
+[No player]
+
+[User message]
+Wiadomość użytkownika
+[Channel message]
+Kanał wiadomości
 [If this option is "ON", XStatus number will not be changed, only message will be replaced by WATrack templates]
-Jeżeli opcja jest włączona, numer xStatus nie zmieni się, tylko wiadomości będą zmieniane wg. szablonu WATrack
+Jeśli opcja jest włączona, numer xStatus nie zmieni się, tylko wiadomości będą zmieniane wg. szablonu WATrack
+[Keep 'Music' XStatus]
+Utrzymuj xStatus "Muzyka"
+[No-music text]
+
+[No-player text]
+
 [Protocol list]
 Lista protokołów
 [Use Status:]
@@ -341,40 +253,88 @@ Użyj status:
 Tekst+Graf
 [Use external style]
 Użyj zewnętrzny styl
-[Total time]
-Całkowity czas
+[Add report file ext.]
+Dodaj rozszerzenie
+[Freq. artists]
+Częstotliwość artysty
+[Freq. paths]
+Częstotliwość ścieżek
+[Freq. songs]
+Częstotliwość piosenki
+[Last played songs]
+Ostatnio odtworzony utwór
+[Song time]
+Czas utworu
+[VBR or CBR]
+VBR lub CBR
+[VBR or empty]
+VBR lub pusty
+[Show file name in info]
+Pokaż nazwę pliku w info
+[Global hotkey]
+Globalne skróty
 [Only if messages not used]
-Tylko jeżeli wiadomość nie jest użyta
+Tylko jeśli wiadomość nie jest użyta
 [Don't use]
 Nie używaj
+[Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled.]
+
+[All uppercase]
+Wszystkie dużymi
+[Do not change]
+Nie zmieniaj
+[All lowercase]
+Wszystkie małymi
+[lowercase %type%]
+małe litery %type%
 [If this option is "ON", you can paste music info to your message window pressing hotkey.]
-Jeżeli ta opcja jest włączona, możesz wkleić info utworu w okno wiadomości.
+Jeśli ta opcja jest włączona, możesz wkleić info utworu w okno rozmowy.
 [If this option is "ON", status text will be replaced by music info.]
-Jeżeli ta opcja jest włączona, tekst statusu będzie zastąpiany wg info muzycznych.
+Jeśli ta opcja jest włączona, tekst statusu będzie zastąpiany wg info muzycznych.
 [If this option is "ON", all plugin settings saved in ini-file. They deleted from Miranda DB. Else ini-file will be deleted.]
-Jeżeli ta opcja jest włączona, wszystkie ustawienia pluginu będą zapisywane w ini, a usunięte z DB Mirandy. Inny plik INI zostanie usunięty.
+Jeśli ta opcja jest włączona, wszystkie ustawienia wtyczki będą zapisywane w ini, a usunięte z profilu Mirandy. Inny plik INI zostanie usunięty.
 [If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
-Jeżeli ta opcja jest włączona, plugin będzie próbował pobrać info z odtwarzacza.
+Jeśli ta opcja jest włączona, wtyczka będzie próbowała pobrać info z odtwarzacza.
+[If this option is "ON", XStatus changes only if "Music" XStatus was set already.]
+
 [If this option is "ON", XStatus doesn't depend of ICQ's status.]
-Jeżeli ta opcja jest włączona, xStatus nie zależy od statusu ICQ.
+Jeśli ta opcja jest włączona, xStatus nie zależy od statusu ICQ.
 [If this option is "ON", XStatus not changed when player shutdowned.]
-Jeżeli ta opcja jest włączona, xStatus nie zmieni się kiedy odtwarzacz będzie wyłączony.
+Jeśli ta opcja jest włączona, xStatus nie zmieni się kiedy odtwarzacz będzie wyłączony.
 [If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
-Jeżeli ta opcja jest włączona, xStatus ulegnie zmianie na "Muzyka" i tekst statusu będzie zamieniony na informacje o utworze.
+Jeśli ta opcja jest włączona, xStatus ulegnie zmianie na "Muzyka" i tekst statusu będzie zamieniony na informacje o odtwarzanych multimediach.
+[If this option is "ON", one templates will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
+Jeśli ta opcja jest włączona, jeden szablon będzie używany we wszystkich protokołach, statusy protokołów i odtwarzaczy. Opcje szablony zostaną zmienione następnym razem.
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
 Użyj procesu implacji do łatwiejszego przechwytywania info. Może prowokować antywirus lub firewall do alarmu.
+[Keep opened file as active, not newly founded.]
+Zachowaj otwarty plik jako aktywny, a nie nowo utworzony.
 [Use this option if WATrack freeze while player running. Slower processing.]
-Użyj opcji jeżeli WATrack zamarznie w czasie działania odtwarzacza. Wolniejszy proces.
+Użyj opcji jeśli WATrack zamarznie w czasie działania odtwarzacza. Wolniejszy proces.
 [Use "Variables" plugin]
-Użyj pluginu "Variables"
+Użyj wtyczki "Variables"
 [Sorry, but i don't use WATrack right now!]
 Przepraszam, ale WATrack nie jest teraz używany!
+[Next track]
+Następny utwór
+[Show player]
+Pokaż odtwarzacz
 [bitrate]
 szybkość
+[by Count]
+według liczby odtworzeń
+[by Date]
+według dat
+[by Path]
+według ścieżki
+[by Title]
+według tytułów
 [comment from tag]
 komentarz z tagu
 [current song position (sec)]
-pozycja utworu (sek)
+pozycja utworu (s)
+[Disable Log]
+Wyłącz dziennik
 [Error report]
 Raport błędów
 [Get Info from player]
@@ -385,18 +345,22 @@ rozmiar pliku
 typ pliku
 [media file]
 plik
+[No Player]
+Brak odtwarzacza
 [number of channels]
 numer kanału
+[Open report]
+Otwórz raport
+[Reverse order]
+Odwróć kolejność
 [samplerate]
 próbnik
 [song title]
 nazwa utworu
 [song year]
 rok utworu
-[stopped]
-stop
 [total song length (sec)]
-całkowita długość utworu (sek)
+całkowita długość utworu (s)
 [track number]
 numer utworu
 [Try to use OLE interface]
@@ -405,10 +369,14 @@ Próbuj użyć interfejs OLE
 Status odtwarzacza (stop, gra, pauza)
 [player]
 odtwarzacz
+[Independed Xstatus]
+
 ["Variables" ANSI output]
 "Variables" wyjście ANSI
 [FPS (Frames per second)]
 FPS (klatek na sekundę)
+[If Variables service used, returned value will be in ANSI encoding (default is UTF8)]
+
 [Save settings in INI-file]
 Zapisz ustawienia w INI
 [VBR or not]
@@ -423,14 +391,20 @@ szerokość wideo
 Pokaż wg. pytania
 [second line]
 drugi gatunek
-[Check]
-Sprawdź
-[artist]
-artysta
-[album]
-album
-[genre]
-gatunek
+[Cover filenames]
+Nazwy plików z okładkami
+[Music Info]
+Informacje o muzyce
+[Align text to center]
+Wyrównaj tekst do środka
+[Create WATrack report]
+Utwórz raport WATrack
+[Get user's Music Info]
+Pokaż informacje o odtwarzanych multimediach
+[WATrack Macro Info]
+Informacje WATrack
+[Lyric from ID3v2 tag]
+
 [Cover file path]
 okładka
 [Player volume (0-15)]
@@ -446,13 +420,15 @@ Reglulator
 [Frame Controls]
 Ramka WATrack
 [Plugin Enabled]
-Plugin Włączony
+Wtyczka Włączona
 [Plugin Disabled]
-Plugin Wyłączony
+Wtyczka Wyłączona
 [Create Report]
 Utwórz raport
 [Context menu]
 Menu kontekstowe
+[/me listening "%title%"]
+
 [Report file name not defined]
 Nazwa pliku raportu niezdefiniowana
 [Status Template]
@@ -460,15 +436,15 @@ Szablon statusu
 [XStatus Title]
 Nazwa xStatus
 ['mono' / 'stereo']
-'mono' / 'stereo'
+'mono'/'stereo'
 [- "mono" / "stereo"]
-- "mono" / "stereo"
+- "mono"/"stereo"
 [- artist]
 - artysta
 [- bitrate]
 - szybkość
 [- current song position (sec)]
-- pozycja utworu (sek)
+- pozycja utworu (s)
 [- player version]
 - wersja odtwarzacza
 [- player]
@@ -476,104 +452,203 @@ Nazwa xStatus
 [- song title]
 - nazwa utworu
 [- total song length (sec)]
-- całkowita długość utworu (sek)
+- całkowita długość utworu (s)
 [- track number]
 - numer ścieżki
+[  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music XStatus sets already.\n  Keep 'Music' XStatus - if player stopped or shutdowned, save or not 'Music' XStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
+
 ["Variables" module use]
 Użyto modół "Variables"
 [Acoustic]
 Akustyka
 [Use ICQ XStatus]
 Użyj xStatus ICQ
+[Winamp Track]
+
+[Pause Pushed]
+Pauza - po naciśnięciu
 [-default-]
 -domyślny-
 [Global WATrack hotkey]
-Globalne WATrack hotkey
+Globalny skrót WATrack
 [WATrack data insert hotkey]
-Umieść dane WATrack hotkey
-[ListeningTo]
-Teraz słucham
-[Check all players]
-Sprawdź wszystkie odtw.
-[Status (common)]
-Status (wspólny)
-[Status (templates)]
-Status (szablon)
+Umieść dane WATrack
+[WATrack popup hotkey]
+WATrack popup
+[Switch ON these modules]
+Włączone moduły
+[Modules]
+Moduły
+[Statistic]
+Statystyki
+[Export text template]
+Eksport szablonu tekstu
 [Use listening info]
-Użyj informacji listening
-[Set XStatus when...]
-Użyj xStatus kiedy...
-[any XStatus is set]
-jest jakikolwiek xStatus
-['Music' status is set]
-status jest na 'Muzyka'
-[no XStatus set (empty)]
-nie ma ustawionego xStatus
+Użyj "Teraz odtwarzane"
+[If this option is "ON", "Listening To" protocol property will be filled by music info.]
+Jeśli ta opcja jest włączona, "Teraz odtwarzane" zostanie wypełnione przez informacje o odtwarzanych multimediach.
 [Enable Status message]
 Włącz opisy statusów
 [Enable XStatus message]
 Włącz opisy xStatus
 [Enable Tunes message]
 Włącz opis Tunes
-[Switch ON these modules]
-Włączone moduły
-[Statistic]
-Statystyki
-[Export text template]
-Eksport szablonu tekstu
+[Tunes]
+
+[Check all marked players for active (started and playing) or stop at first founded]
+Sprawdz aktywność wszystkich zaznaczonych odtwarzaczy (rozpoczęcie odtwarzania) lub zatrzymuje na pierzym znalezionym.
+[Check all players]
+Sprawdź wszystkie odtw.
+[Emulate multimedia keys presses to control palyer]
+Emuluje klawisze multimedialne do kontrolowania odtwarzaczem.
 [User music info text]
 Tekst informacji o muzyce
 [(%artist%, %title%, %album% and %year% macros can be used only)]
 (%artist%, %title%, %album% i %year% mogą być tylko użyte)
-[Players list\n(F1 for note)]
-Lista odtwarzaczy\n(F1 - info)
-[XStatus is empty or 'Music']
-xStatus jest pusty lub 'Muzyka'
+[Disable Plugin]
+Wyłącz wtyczkę
+[Enable Plugin]
+Włącz wtyczkę
 [Don't forget to enter Login and Password to use Last.fm service]
 Nie zapomnij wpisać Loginu i Hasła by użyć usługi Last.fm
-[Modules]
-Moduły
-[Emulate Multimedia keys]
-Emuluj klucze multimedii
-[Context Menu]
-Menu kontekstowe
-[Pause]
-Pauza
-[Basic]
-Podstawowe
-[Get user's Music Info]
-Pokaż info o słuchanym utworze
-[Prev Hovered]
-Poprzedni - po najechaniu
-[Prev Pushed]
-Poprzedni - po naciśnięciu
-[Play Hovered]
-Graj - po najechaniu
-[Play Pushed]
-Graj - po naciśnięciu
-[Pause Hovered]
-Pauza - po najechaniu
-[Pause Pushed]
-Pauza - po naciśnięciu
-[Stop Hovered]
-Stop - po najechaniu
-[Stop Pushed]
-Stop - po naciśnięciu
-[Next Hovered]
-Następny - po najechaniu
-[Next Pushed]
-Następny - po naciśnięciu
-[Volume Down Hovered]
-Przycisz - po najechaniu
-[Volume Down Pushed]
-Przycisz - po naciśnięciu
-[Volume Up Hovered]
-Podgłoś - po najechaniu
-[Volume Up Pushed]
-Podgłoś - po naciśnięciu
+[Don't forget to enter Login and Password to use MyShows service]
+Nie zapomnij wpisać Loginu i Hasła by użyć usługi MyShows
+[Attempts]
+Ilość prób
+[Disable scrobbling]
+Wyłącz scrobbling
+[Enable scrobbling]
+
+[no language]
+brak języka
+[Content language]
+Język
+[Artist]
+Artysta
+[Album]
+
+[Track]
+Utwór
+[Get Artist Info]
+Informacje o artyście
+[Get Track Info]
+Informacje o utworze
+[Get Album Info]
+Informacje o albumie
+[Music Statistic]
+Statystyki
+[Status (common)]
+Status (wspólny)
+[Status (templates)]
+Status (szablon)
+[Set XStatus when...]
+Użyj xStatus kiedy...
+[XStatus is empty or 'Music']
+xStatus jest pusty lub 'Muzyka'
+['Music' status is set]
+status to 'Muzyka'
+[any XStatus is set]
+jakikolwiek xStatus
+[Players list\n(F1 for note)]
+Lista odtwarzaczy\n(F1 - info)
+[Chat Template]
+Szablon czatu
+[This is simplified version of template editor. This templates will be used with all protocols, protocol and player (media) statuses]
+To jest uproszczona wersja edytora szablonów używanych ze wszystkimi protokołami oraz statusami odtwarzacza i protokołu.
+[No any special notes for this player]
+Nie ma żadnych notatek do tego odtwarzacza.
+[popup test]
+Test
+[Frame (main)]
+Ramka (główna)
+[Frame (text)]
+Ramka (tekst)
+[Manual element placement]
+Ręczne umieszczenie elementu
+[Alpha]
+Alpha
+[Hide when no player]
+Ukryj kiedy odtwarzacz jest wyłączony
+[Hide when no music]
+Ukryj kiedy nic nie jest odtwarzane
+[Use popup action buttons]
+Użyj przycisków zdarzeń popup
+[Left click]
+LPM
+[Right click]
+PPM
+[Default colors]
+Domyślne kolory
+[Windows colors]
+Kolory Windows
+[Custom colors]
+Niestandardowe kolory
+[artist]
+artysta
+[album]
+album
+[genre]
+gatunek
+[Picture transform]
+Ułożenie obrazka
+[Kilobytes]
+Kilobajty
+[Megabytes]
+Megabajty
+[Precision]
+Precyzja
+[none]
+brak
+[kb]
+
+[Kb]
+
+[KB]
+
+[Color]
+Kolor
+[Output]
+Dane wyjściowe
+[Check]
+Sprawdź
+[Choose font...]
+Ustaw czcionkę...
+[Genres]
+
+[[X]Status Title / Text]
+Tytuł [x]Statusu/Tekst
+;file \plugins\Watrack\myshows\myshows.rc
+[Scrobble at]
+Scrobbluj co
+[Timeout, ms]
+
+[Get Series Info]
+
+[Episode]
+
+;file \plugins\Watrack\lastfm\i_last_api.inc
+[Last.fm error: ]
+
+[Client is banned]
+Klient jest zbanowany
+[Bad Auth. Check login and password]
+
+[Bad TimeStamp]
+
+;file \plugins\Watrack\lastfm\i_last_dlg.inc
+[Similar artists]
+Podobni artyści
+;file \plugins\Watrack\proto\proto.pas
+[Music Info from ]
+Info muzyczne z 
+[You Get Error]
+
+;other strings
+[Slider]
+Sówak
 [Slider Hovered]
 Suwak  - po najechaniu
 [Slider Pushed]
 Suwak - po naciśnięciu
-[Disable scrobbling]
-Wyłącz scrobbling
+[WATrack status]
+Status WATrack

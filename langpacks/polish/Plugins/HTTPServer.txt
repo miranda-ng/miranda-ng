@@ -1,0 +1,172 @@
+﻿#muuid {67848b07-83d2-49e9-8844-7e3de268e304}
+;============================================================
+;  File: HTTPServer.dll
+;  Plugin: HTTPServer
+;  Version: 0.1.2.2
+;  Authors: Kennet Nielsen, modified by Vampik, Houdini
+;============================================================
+[HTTP Web Server plugin for Miranda.]
+
+;file \plugins\HTTPServer\res\resource.rc
+[IPAddress1]
+
+[IPAddress2]
+
+[Max downloads]
+
+[Address]
+Adres
+[Mask]
+Maska
+[Share name]
+
+[Allowed IP]
+
+[HTTP Server statistics view]
+
+[Display hidden shares]
+
+[New share]
+
+[Show HTTP server statistics]
+
+[Set to default]
+
+[External server name]
+
+[This is the link pasted to the message window]
+
+[Write log file]
+
+[Enable / Disable HTTP server]
+
+[Main menu items]
+Element głównego menu
+[Open log]
+Otwórz dziennik
+[Show popups]
+Pokaż popupy
+[Page keyword]
+
+[URL address]
+
+[%ExternalIP% variable]
+Zmienna %ExternalIP%
+[Test]
+
+[Transfer limit (kb/sec)]
+Limit transferu (kb/sec)
+[No control when Away/NA]
+
+[Connection control]
+
+[Index creation]
+
+[Disable]
+Wyłącz
+[Create HTML (compatibility)]
+Utwórz HTML (kompatybilny)
+[Create XML]
+Utwórz XML
+[Notifications]
+Powiadomienia
+[Total connection limit]
+
+[Connections per user limit]
+
+[Default download limit]
+
+[&Edit share]
+
+[&Remove share]
+
+[&Open in Browser]
+Otwórz w przeglądarce
+[&Copy link]
+Kopiuj link
+;file \plugins\HTTPServer\src\Glob.h
+[Miranda NG HTTP-Server]
+
+;file \plugins\HTTPServer\src\GuiElements.cpp
+[Share Current Directory]
+
+[All files]
+Wszystkie pliki
+[Specify a file to share]
+
+[Failed to share new file]
+
+[Max Downloads]
+
+[Allowed Mask]
+
+[Real path]
+
+[User]
+Użytkownika
+[Agent]
+
+[Completed]
+Zakończone
+[Speed]
+
+[Selected link size is 0]
+
+[Failed to get access to clipboard]
+
+[Failed to get close the clipboard]
+
+[Failed to set clipboard data]
+
+[ListView_GetItem failed]
+
+[No share selected]
+
+[Current IP Address: ]
+Aktualny adres IP:
+[Current Address: ]
+Aktualny adres:
+[IP Adress: ]
+
+[You are browsing from]
+
+[You external ip was detected as %d.%d.%d.%d\r\nby: %s]
+
+[You need to restart miranda to change the main menu]
+
+[HTTP Server]
+Serwer HTTP
+[Network]
+Protokoły
+[Failed to CreateServiceFunction MS_SHARE_NEW_FILE]
+Błąd tworzenia CreateServiceFunction MS_SHARE_NEW_FILE
+[Failed to CreateServiceFunction MS_SHOW_STATISTICS_VIEW]
+Błąd tworzenia CreateServiceFunction MS_SHOW_STATISTICS_VIEW
+[HTTP Share new file]
+
+[Failed to add contact menu item]
+
+;file \plugins\HTTPServer\src\HttpUser.cpp
+[Share removed]
+
+;file \plugins\HTTPServer\src\main.cpp
+[Failed to open or create log file]
+Błąd otwierania lub tworzenia pliku dziennika
+[Failed to move to the end of the log file]
+
+[Failed to write some part of the log file]
+
+[Failed to open or create file ]
+Błąd otwierania lub tworzenia pliku 
+[Failed to write xml header to file ]
+
+[Failed to write xml data to file ]
+
+[Failed to write xml tail to file ]
+
+[Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
+
+[Disable HTTP server]
+
+[Enable HTTP server]
+

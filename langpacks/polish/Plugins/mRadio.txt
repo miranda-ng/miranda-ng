@@ -1,124 +1,152 @@
-﻿;============================================================
+﻿#muuid {eebc474c-b0ad-470f-99a8-9dd9210ce233}
+;============================================================
 ;  File: mradio.dll
 ;  Module: mRadio, mRadio Mod
-;  Versions: 0.0.1.7
+;  Versions: 0.0.2.1
+;  URL:http://awkward.mirandaim.ru
 ;============================================================
-[mRadio volume control]
-Pasek głośności mRadio
-[Import File]
-Importuj z pliku
-[Frame background]
-Tło ramki
-[Mute]
-Wycisz
-[BASS library path (empty for default)]
-Ścieżka biblioteki BASS (domyślnie puste)
-[Add Station]
-Dodawanie stacji
-[Station Name]
-Nazwa stacji
-[Station URL (required)]
-URL do stacji (wymagany)
-[Add station]
-Dodaj stacje
-[To list]
-Do listy
-[Genre]
-Gatunek
-[To INI]
-Do pliku
-[Play from first]
-Graj jako pierwszy
-[OFF]
-Wył.
-[Record path]
-Zapisz do:
-[Volume]
-Głośność
-[Use EAX]
-Włącz EAX
-[Continuous record]
-Ciągłe nagrywanie
-[Autoconnect last station]
-Włącz ostatnio graną stacje
-[Offline station as Offline]
-Wyłączona stacja jako Rozłączona
-[Generic]
-Ogólny
-[Padded Cell]
-Wyściełana cela
-[Room]
-Pokój
-[Bathroom]
-Łazienka
-[Living Room]
-Duży pokój
-[Stone Room]
-Pomieszczenie z kamienia
-[Auditorium]
-Audytorium
-[Concert Hall]
-Sala koncertowa
-[Cave]
-Jaskinia
-[Hallway]
-Hangar
-[Arena]
-Arena
-[City]
-Miasto
-[Carpeted Hallway]
-Hol wyłożony wykładziną
-[Stone Corridor]
-Korytarz z kamienia
-[Alley]
-Alejka
-[Forrest]
-Las
-[Mountains]
-Góry
-[Quarry]
-Kamieniołom
-[Plain]
-Równiena
-[Parking Lot]
-Parking
-[Sewer Pipe]
-Kanalizacja ściekowa
-[Under Water]
-Pod wodą
-[Drugged]
-Przygłuszony
-[Dizzy]
-Przestrzeny
-[Psychotic]
-Psychotyczny
-[connecting]
-Łączenie...
-[aborting]
-Zatrzymano
+[This plugin plays and records Internet radio streams. Also local media files can be played.]
+Ta wtyczka odtwarza i nagrywa strumienie audycji radiowych z Internetu. Potrafi także odtwarzać pliki lokalne.
 [mRadio Mod]
 Protokół mRadio
+[REC]
+
+[Cave]
+Jaskinia
+[Arena]
+Arena
+[Genre]
+Gatunek
+[Plain]
+Równiena
+[Alley]
+Alejka
+[Dizzy]
+Przestrzeny
+[Generic]
+Ogólny
+[Bathroom]
+Łazienka
+[Parking Lot]
+Parking
+[Stone Corridor]
+Korytarz z kamienia
+[Sewer Pipe]
+Kanalizacja ściekowa
+[Auditorium]
+Audytorium
+[Carpeted Hallway]
+Hol wyłożony wykładziną
+[Play from first]
+Graj jako pierwszy
 [Shuffle playlist]
 Tasuj playliste
-[Status message template]
-Szablon Statusu
-[Export All]
-Eksportuj wszystko
-[Equalizer presets]
-Ustawienia poczatkowe Eq.
-[Start broadcasting]
-Graj
-[Stop broadcasting]
-Stop
+[Loop single media]
+Pętla jednego utworu
+[Station Name]
+Nazwa stacji
+[Timeout, ms (5000)]
+
+[PreBuf, % (75%)]
+
+[Hallway]
+Hangar
+[Mountains]
+Góry
+[Use EAX]
+Włącz EAX
+[Under Water]
+Pod wodą
+[Station URL (required)]
+URL do stacji (wymagany)
+[To INI]
+Do pliku
+[Buffer, ms (5000)]
+
+[Add station]
+Dodaj stacje
+[Add Station]
+Dodawanie stacji
+[Bitrate]
+Szybkość
+[Stone Room]
+Pomieszczenie z kamienia
+[Living Room]
+Duży pokój
+[Drugged]
+Przygłuszony
+[Record path]
+Zapisz do:
+[Padded Cell]
+Wyściełana cela
+[Autoconnect last station]
+Włącz ostatnio graną stacje
+[Concert Hall]
+Sala koncertowa
+[Psychotic]
+Psychotyczny
+[Forrest]
+Las
+[To list]
+Do listy
+[Hangar]
+
+[Offline station as Offline]
+
+[Protocol depending status]
+Status zależny od protokołu
+[Continuous record]
+Ciągłe nagrywanie
+[Quarry]
+Kamieniołom
+[Sorry!]
+
+[BASS.DLL not found!]
+BASS.dll nie odnaleziony!
+[Station]
+Stacja
+[Custom INI file]
+Niestandardowy plik INI
+[Radio station URL]
+Link do stacji radiowej
 [Start record]
 Nagrywaj
 [Stop record]
 Przerwij nagrywanie
+[Currently played URL]
+Aktualnie odtwarzany URL
+[Current stream title]
+Aktualny tytuł strumienia
+[Station/playlist URL]
+Stacja/plik playlisty
+[Currently used decoder]
+Aktualnie używany kodek
+[connecting]
+Łączenie...
+[aborting]
+Zatrzymano
+[Can't initialize device]
+
+[Can't connect to net. Please, clear 'Work offline' option in Internet settings]
+
+[Start broadcasting]
+Graj
+[Stop broadcasting]
+Stop
+[Start/Stop broadcasting]
+Graj/Stop
+[Start/Stop Record]
+Nagrywaj/Przerwij nagrywanie
 [Record]
 Zgrywanie
-[Loop single media]
-Pętla jednego utworu
+[Status message template]
+Szablon opisu
+[Equalizer presets]
+Ustawienia poczatkowe Eq.
+[Export All]
+Eksportuj wszystko
+[Current status]
+Aktualny status
 [Broadcast ON]
 Graj
 [Broadcast OFF]
@@ -127,23 +155,41 @@ Przerwij granie
 Dodaj ustawienie EQ
 [Delete EQ preset]
 Usuń ustawienie EQ
-[Start/Stop Record]
-Nagrywaj/Przerwij nagrywanie
-[Start/Stop broadcasting]
-Graj/Stop
-[Technical]
-Techniczne
-[Station URL]
-URL stacji:
-[Forced Mono]
-Wymuś Mono
+[BASS library path (empty for default)]
+Folder docelowy BASS (domyślnie puste)
 [Tries to connect]
 Prób łączenia
-[Play/Pause]
-Odtwarzanie/Pauza
-[%s server connection]
-Połączenie %s
+[Mute]
+Wycisz
+[mRadio volume control]
+Pasek głośności mRadio
+[Import File]
+Importuj z pliku
 [Play Station]
 Odtwórz
-[This plugin plays and records Internet radio streams. Also local media files can be played.]
-Ta wtyczka odtwarza i nagrywa strumienie audycji radiowych z Internetu. Potrafi także odtwarzać pliki lokalne.
+[Forced Mono]
+Wymuś Mono
+[Play/Pause]
+Odtwarzaj/Pauza
+[Oops! BASS error]
+
+[Mute with Miranda]
+Wycisz z Mirandą
+[Advanced]
+Zaawansowane
+[Stop]
+
+[Play]
+Graj
+[Frame background]
+Tło ramki
+[OFF]
+Wył.
+[Volume]
+Głośność
+[Device list]
+
+[Equalizer]
+
+[New]
+Nowy

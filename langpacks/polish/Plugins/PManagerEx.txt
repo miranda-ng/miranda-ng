@@ -1,21 +1,26 @@
-﻿;============================================================
-;  File: pmanager.dll
-;  Module: Miranda IM Profile Changer by Roman Gemini
-;  Versions: 0.0.0.3
+﻿#muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
 ;============================================================
-[Closes Miranda IM and starts Profile Manager]
-Zamknij Mirandę IM i uruchom managera profili
-[&Change Profile...]
-&Zmień profil...
-[Are you sure want to change your profile? Miranda will be closed.]
-Jesteś pewien że chcesz zmienić profil? Miranda zostanie zamknięta.
-[&Show Profile Manager...]
-&Pokaż managera profili...
-[Starts Profile Manager]
-Uruchom managera profili
-[Profile manager]
-Manager profili
+;  File: PManagerEx.dll
+;  Plugin: Miranda NG profile changer
+;  Version: 0.0.0.5
+;  Authors: Roman Gemini
+;============================================================
+[Adds a menu item to change or load a different profile of Miranda NG, restart or run a dbchecker.]
+
+;file \plugins\ProfileManager\src\pmanagerEx.cpp
+[Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
+
+[Check Database]
+Sprawdź bazę danych
 [Load profile]
 Uruchom profil
 [Change profile]
 Zmień profil
+[Check database]
+Sprawdź profil
+[Restart]
+
+[Profile manager]
+Menedżer profili
+[Database]
+Profil

@@ -1,93 +1,148 @@
-﻿;============================================================
-;  File: PackUpdater.dll
-;  Module: PackUpdater
-;  Versions: 	0.0.0.9
+﻿#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
 ;============================================================
-[Simple updater for Miranda IM premodified packs.]
-Prosty aktualizator dla paczek Mirandy IM
-[Pack Updater]
-Aktualizator paczek
-[Check for pack updates]
-Sprawdź aktualizacje paczek
-[Downloading pack updates...]
-Pobieranie aktualizacji paczek...
-[No updates found.]
-Nie znaleziono aktualizacji.
-[Update found!]
+;  File: PackUpdater.dll
+;  Plugin: Pack updater
+;  Version: 0.0.1.1
+;  Authors: Mataes, ZERO_BiT
+;============================================================
+[Simple updater for Miranda NG premodified packs.]
+
+;file \plugins\PackUpdater\Res\Resource.rc
+[Updates found!]
 Znaleziono aktualizacje!
-[Current version: %s]
-Bieżąca wersja: %s
-[New version: %s]
-Nowa wersja: %s
+[Update]
+Aktualizacja
+[View info]
+Pokaż informacje
+[Cancel]
+Anuluj
+[PackUpdater has detected updated versions\nof the following Miranda components:]
+
+[Description]
+Opis
+[Downloading...]
+Pobieranie...
+[Pack update options]
+
+[On startup]
+Podczas uruchamiania
+[Remind about not installed pack update]
+
+[Hotkey]
+Skrót
+[Go to Customize -> Hotkeys to change the hotkey]
+Przejdź do Personalizacja -> Skróty, aby je ustawić
+[Notifications]
+Powiadomienia
+[Message boxes]
+
+[Errors]
+Błędy
+[Info messages]
+
+[Progress dialogs]
+Postęp
+[Every]
+Co
+[(but only once a day)]
+(ale tylko raz dziennie)
+[Message boxes (*)]
+Komunikaty
+[Back]
+Wstecz
+[Text]
+Tekst
+[Colours]
+Kolory
+[Use cus&tom colors]
+Użyj niestandardowych kolorów
+[Use &Windows colours]
+Użyj kolorów Windows
+[Use Pop&up colours]
+Użyj kolorów Popup
+[Preview]
+Podgląd
+[Click action]
+Akcje przycisku
+[On left click]
+LPM
+[On right click]
+PPM
+[Timeout]
+Wyświetlaj
+[0 = Default]
+0 = Domyślny
+[-1 = Infinite]
+   -1 = Nie chowaj
+[Sec]
+s
+[* Needs popup actions to be enabled]
+* Wymaga działań popup, które zostaną włączone
+[Not sets for "Message boxes"]
+Nie określa dla "Komunikaty"
+[Boxes]
+Okienka
+[Popups]
+Popupy
+;file \plugins\PackUpdater\Src\Events.cpp
+[Check for pack updates]
+Sprawdź aktualizacje paczki
+[Pack Updater]
+
+;file \plugins\PackUpdater\Src\Notifications.cpp
 [An error occured while downloading the update.]
 Wystąpił błąd podczas pobierania aktualizacji
+[Component Name]
+Nazwa wtyczki
+[Current Version]
+Bieżąca wersja
+[New Version]
+Nowa wersja
+[Downloading pack updates...]
+
+[Downloading update...]
+Pobieranie aktualizacji...
+[Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+
+[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+Pobieranie zakończone. Rozpocząć aktualizacje? Wszystkie Twoje ustawienia zostaną zapisane i Miranda NG zostanie zamknięta.
+[You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
+
+;file \plugins\PackUpdater\Src\Notifications.h
+[Close popup]
+Zamknij popup
+[Do nothing]
+Nic nie rób
+;file \plugins\PackUpdater\Src\Options.cpp
+[hours]
+godziny
+[days]
+dni
+[Test]
+
+[Services]
+Usługi
+;file \plugins\PackUpdater\Src\PackUpdater.cpp
+[Clear pack updates folder]
+
+;file \plugins\PackUpdater\Src\Utils.cpp
+['Yes' Button]
+Przycisk 'Tak'
+['No' Button]
+Przycisk 'Nie'
+[Pack Updater HTTP connection]
+
 [URL for checking updates not found.]
 URL do sprawdzania aktualizacji nie został odnaleziony.
 [Downloading version info...]
 Pobieranie informacji o wersji...
 [Name of Update's file is not supported.]
 Nazwy aktualizowanych plików nie są wspierane.
-[Download complete. Start updating? All your data will be saved and Miranda IM will be closed.]
-Pobieranie zakończone. Rozpocząć aktualizacje? Wszystkie Twoje ustawienia zostaną zapisane i Miranda IM zostanie zamknięta.
+[Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
+Aktualizacja nie jest możliwa! \nMożesz nie mieć praw administratora. \nProszę uruchomić Mirandę NG z prawami administratora.
+[No updates found.]
+Nie znaleziono aktualizacji.
 [No files for update.]
 Brak plików do aktualizacji
 [Update checking already started!]
 Sprawdzanie aktualizacji już rozpoczęte!
-[Automatically check for pack updates]
-Automatyczne sprawdzaj aktualizacje
-[Pack update options]
-Opcje aktualizacji paczek
-[Remind about not installed pack update]
-Przypominaj o nie zainstalowanych aktualizacjach
-[Message boxes (*)]
-Komunikaty
-[Info messages] 
-Wiadomości
-[Progress dialogs]
-Postęp
-[* Needs popup actions to be enabled]
-* Wymaga działań popup, które zostaną włączone
-[Not sets for "Message boxes"]
-Nie określa dla "Komunikaty"
-[Downloads complete. Start updating? All your data will be saved and Miranda IM will be closed.]
-Pobieranie zakończone. Rozpocząć aktualizacje? Wszystkie Twoje ustawienia zostaną zapisane i Miranda IM zostanie zamknięta.
-[Clear pack updates folder]
-Opróżnij folder aktualizacji
-[Downloading update...]
-Pobieranie aktualizacji...
-[Use cus&tom colors]
-Użyj własnych kolorów
-[Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda IM with Administrator's rights.]
-Aktualizacja nie jest możliwa! \nMożesz nie mieć praw administratora. \nProszę uruchomić Mirandę IM z prawami administratora.
-[Component Name]
-Nazwa komponentu
-[Current Version]
-Bieżąca wersja
-[New Version]
-Nowa wersja
-[Updates found!]
-Znaleziono aktualizacje!
-[PackUpdater has detected updated versions\nof the following Miranda components:]
-PackUpdater wykrył aktualizacje komponentów:
-[View info]
-Pokaż informacje
-[You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
-Wybrałeś nie instalowanie aktualizacji.\nMożesz zaisntalować je ręcznie z lokalizacji:\n\n%s
-[Boxes]
-Okienka
-[Use Pop&up colours]
-Użyj kolorów Popup
-[Use &Windows colours]
-Użyj kolorów Windows
-['Yes' Button]
-Przycisk 'Tak'
-['No' Button]
-Przycisk 'Nie'
-[Pack Updater HTTP connection]
-Połączenie HTTP Pack Updater
-[Simple updater for Miranda IM premodified packs.]
-Łatwe uaktualnianie paczek dla Mirandy IM.
-[Check for pack updates]
-Sprawdź uaktualnienia paczki
-[Clear pack updates folder]
-Wyczyść folder z uaktualnieniami paczki

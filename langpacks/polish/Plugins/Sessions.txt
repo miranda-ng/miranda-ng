@@ -1,0 +1,127 @@
+﻿#muuid {60558872-2aab-45aa-888d-097691c9b683}
+;============================================================
+;  File: Sessions.dll
+;  Plugin: Sessions
+;  Version: 0.1.3.0
+;  Authors: MaD_CLuSTeR
+;============================================================
+[Sessions Manager for Miranda NG.]
+Menedżer sesji dla Mirandy NG.
+;file \plugins\Sessions\res\Sessions.rc
+[Action on Startup]
+Akcje podczas startu
+[Open Sessions Manager dialog]
+Otwórz menedżer sesji
+[Restore Last Session]
+Przywróć ostatnią sesję
+[Do nothing]
+Nic nie rób
+[Only if last session present]
+Tylko jeśli to ostatnia sesja
+[Startup delay]
+Opóźnienie
+[ms]
+
+[User Sessions Management]
+Zarządzanie sesją
+[Edit]
+Edytuj
+[Delete]
+Usuń
+[Save]
+Zapisz
+[Action on Exit]
+Akcja podczas zamykania
+[Ask]
+Pytaj
+[Save Current Session]
+Zapisz aktualnę sesję
+[Save only last]
+Zapisz tylko ostatnią
+[Sessions]
+Sesje
+[Misc]
+Inne
+[Exclude hidden contacts from session on exit]
+Wyklucz ukryte kontakty z sesji przy zamykaniu
+[Warn, when some of LastSession contacts are hidden]
+Ostrzegaj, gdy niektóre z kontaktów są ukryte
+[Show other warnings ("session already opened" etc...)]
+Pokaż inne ostrzeżenia ("sesja jest już otwarta" itp...)
+[Crash Recovery mode]
+Tryb Crash Recorvery
+[Restore Session]
+Przywróć sesję
+[&Restore Session]
+Przywróć sesję
+[&Cancel]
+Anuluj
+[Choose session to restore from the list:]
+Wybierz sesję z listy do przywrócenia:
+[Del]
+Usuń
+[Save Session]
+Zapisz sesję
+[&Save Session]
+Zapisz sesję
+[Enter session name:]
+Nazwa sesji:
+[Save and Close]
+Zapisz i zamknij
+[adv.]
++
+[Sessions Manager]
+Menedżer sesji
+[OK]
+OK
+[Cancel]
+Anuluj
+[Save your current session?]
+Zapisac obecną sesję?
+;file \plugins\Sessions\Src\Main.cpp
+[Favorite Session]
+Ulubione sesje
+[Not favorite Session]
+Nie ulubione sesje
+[Load Session]
+Wczytaj sesję
+[Load last Session]
+Wczytaj ostatnią sesję
+[Current session is empty!]
+
+[Session name is empty, enter the name and try again]
+Nazwa sesji jest pusta, wpisz nazwę i spróbuj ponownie
+[No sessions to open]
+Brak sesji do otwarcia
+[Last Sessions is empty]
+Ostatnia sesja jest pusta
+[No contacts to open]
+Brak kontaktów do otwarcia
+[This Session already opened]
+
+[This Session already opened(but probably hidden)\nDo you want to show hidden contacts?]
+
+[Open Sessions Manager]
+Otwórz menedżer sesji
+[Show Favorite Sessions Menu]
+Pokaż menu sesji ulubionych
+[Restore last Session]
+Przywróć ostatnią sesję
+[Close Session]
+Zamknij sesję
+[Save session...]
+Zapisz sesję...
+[Load session...]
+Wczytaj sesję...
+[Close session]
+Zamknij sesję
+[Load last session]
+Wczytaj ostatnią sesję
+;file \plugins\Sessions\Src\Options.cpp
+[View]
+Pokaż
+[Message Sessions]
+Okno rozmowy
+;file \plugins\Sessions\Src\Utils.cpp
+[Session Before Last Crash]
+

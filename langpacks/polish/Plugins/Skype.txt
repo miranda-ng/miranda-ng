@@ -1,0 +1,409 @@
+﻿#muuid {9c448c61-fc3f-42f9-b9f0-4a30e1cf8671}
+;============================================================
+;  File: Skype.dll
+;  Plugin: Skype Protocol
+;  Version: 0.11.0.1
+;  Authors: unsane, mataes, ghazan
+;============================================================
+[Skype protocol support for Miranda NG.]
+
+;file \protocols\Skype\res\Resource.rc
+[Invite contacts to conference]
+Zaproś kontakt do konferencji
+[Skype name:]
+Użytkownik:
+[&Invite]
+Zaproś
+[&Cancel]
+Anuluj
+[Add]
+Dodaj
+[Create conference]
+
+[&Create]
+Utwórz
+[Topic:]
+
+[Guideline:]
+
+[Enable joining]
+
+[New members join with role:]
+
+[Create with password]
+
+[Password:]
+Hasło:
+[Confirmation:]
+
+[Password hint:]
+
+[Configure conference]
+
+[&OK]
+&OK
+[Join role:]
+
+[Set password]
+Ustaw/zmień hasło
+[Hint:]
+Info:
+[Enter password]
+Wprowadź hasło
+[Remember this session password]
+Zapamiętaj hasło dla tej sesji
+[OK]
+OK
+[Cancel]
+Anuluj
+[Status text:]
+Opis:
+[Online since:]
+Połączony od:
+[Last event date:]
+Ostatnie zdarzenie:
+[Last profile change:]
+Zmiana w profilu:
+[Full name:]
+Pełna nazwa:
+[Date of birth:]
+Urodziny:
+[Gender:]
+Płeć:
+[Homepage:]
+WWW:
+[Language:]
+Język:
+[About:]
+O sobie:
+[Mood:]
+Nastrój:
+[E-mail 1:]
+
+[E-mail 2:]
+
+[E-mail 3:]
+
+[Mobile phone:]
+
+[Home phone:]
+
+[Office phone:]
+
+[City:]
+Miasto:
+[State:]
+Status:
+[Country:]
+Kraj:
+[Timezone:]
+Strefa czasowa:
+[Change password]
+Zmień hasło
+[Old password:]
+
+[New password:]
+Nowe hasło:
+[Register new account]
+Zarejestruj nowe konto
+[Account]
+Konto
+[Connection]
+Połączenie
+[Use port]
+Użyj portu
+[for incoming connections]
+dla przychodzących połączeń
+[Use ports 80 and 443 as alternative incoming]
+Użyj portu 80 i 443 jako alternatywny przychodzący
+[Default group:]
+Domyślna grupa:
+[Block]
+Blokuj
+[Block this person]
+
+[Remove from your Contact List]
+
+[Abuse]
+
+[You can also report abuse from this user.]
+
+[Report abuse]
+
+;file \protocols\Skype\src\skype.cpp
+[Did not unpack SkypeKit.exe.]
+
+;file \protocols\Skype\src\skype_account.cpp
+[LOGOUT_CALLED]
+
+[HTTPS proxy authentication failed]
+
+[SOCKS proxy authentication failed]
+
+[P2P connection failed]
+
+[SERVER_CONNECT_FAILED]
+
+[Server is overloaded]
+
+[SkypeKit database already in use]
+
+[Invalid Skype name]
+
+[Invalid email]
+
+[Unacceptable password]
+
+[Skype name is taken]
+
+[REJECTED_AS_UNDERAGE]
+
+[NO_SUCH_IDENTITY]
+
+[Incorrect password]
+
+[Too many login attempts]
+
+[Password has changed]
+
+[PERIODIC_UIC_UPDATE_FAILED]
+
+[DB_DISK_FULL]
+
+[DB_IO_ERROR]
+
+[SkypeKit database is corrupt]
+
+[DB_FAILURE]
+
+[Invalid application ID]
+
+[APP_ID_FAILURE]
+
+[Version is unsupported]
+
+[Account blocked]
+
+[Logout from another instance]
+
+[ACCESS_TOKEN_RENEWAL_FAILED]
+
+[Password successfully changed]
+
+[Password changing]
+
+[Old password was incorrect]
+Stare hasło jest niepoprawne
+[Failed to verify password. No connection to server]
+Niepowodzenie w weryfikacji hasła. Brak połączenai z serwerem
+[Password was set but server didn't like it much]
+Hasło zostało ustawione (sugerowana zmiana)
+[New password was exactly the same as old one]
+Ustawione hasło jest takie samo jak stare
+[The new password was unacceptable]
+Nowe hasło nie zostało zaakceptowane
+[Account was currently not logged in]
+Zaloguj się aby zmienić hasło
+[You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
+
+;file \protocols\Skype\src\skype_blocked.cpp
+[Are you sure you want to block "%s" (%s)? They won't be able to contact you and won't appear in your Contact List.]
+
+[Name]
+Nazwa
+;file \protocols\Skype\src\skype_bookmarks.cpp
+[Conferences]
+Czaty
+;file \protocols\Skype\src\skype_chat.cpp
+[&User details]
+Dane kontaktu
+[&Request auth]
+
+[Invite to conference]
+Zaproś do czatu
+[Set &role]
+Wybierz rolę
+[&Master]
+
+[&Helper]
+
+[&User]
+&Użytkownik
+[&Listener]
+
+[&Add]
+Dodaj
+[&Kick]
+Wyrzuć
+[Outlaw (&ban)]
+
+[Copy &skypename]
+
+[Copy room &uri]
+
+[me]
+
+[waits to join]
+
+[Incoming group call finished]
+
+[The password is incorrect]
+
+[Your application to join the conference was denied]
+
+[Incoming group call started]
+
+[You did not select any contact]
+
+[Hi! I'd like to add you to my contact list]
+
+;file \protocols\Skype\src\skype_contacts.cpp
+[Contact already in your contact list]
+Kontakt jest już na liście kontaktów
+[Contacts received]
+
+;file \protocols\Skype\src\skype_dialogs.cpp
+[Enter a password for %s:]
+
+[Password can't be empty.]
+
+[Old password is not correct.]
+
+[New password is same as old password.]
+
+[New password and confirmation must be same.]
+
+[<not specified>]
+<nieokreślone>
+[Male]
+Mężczyzna
+[Female]
+Kobieta
+[You are not currently connected to the Skype network. You must be online in order to update your information on the server.]
+
+;file \protocols\Skype\src\skype_events.cpp
+[Spawn conference]
+
+[Network]
+Protokoły
+[Blocked contacts]
+
+[Contacts]
+Kontakty
+[Home]
+Dom
+[General]
+Ogólne
+;file \protocols\Skype\src\skype_icons.cpp
+[Protocol icon]
+Ikona protokołu
+[Call]
+
+[Conference]
+Konferencja
+[Send contact]
+
+[Contact]
+Kontakt
+[Delete]
+Usuń
+[Protocols]
+Protokoły
+;file \protocols\Skype\src\skype_ignore_list.cpp
+;file \protocols\Skype\src\skype_instances.cpp
+[Skype protocol plugin only permit you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
+
+[Initialization key corrupted or not valid.]
+
+[SkypeKit did not initialize (%d).]
+
+[SkypeKit did not start.]
+
+;file \protocols\Skype\src\skype_menus.cpp
+[Unblock this person...]
+
+[Block this person...]
+
+[Request authorization]
+Poproś o autoryzację
+[Grant authorization]
+Udziel autoryzacji
+[Revoke authorization]
+Cofnij autoryzację
+[View old messages...]
+
+[for last day]
+
+[for last week]
+
+[for last month]
+
+[for last 3 month]
+
+[for last year]
+
+[for all time]
+
+;file \protocols\Skype\src\skype_messages.cpp
+[Incoming call started]
+
+[Incoming call finished]
+
+[history synchronization]
+
+[Done!]
+
+;file \protocols\Skype\src\skype_netlib.cpp
+[%s connection]
+Połączenie %s
+;file \protocols\Skype\src\skype_proto.cpp
+[Skype name]
+
+;file \protocols\Skype\src\skype_transfers.cpp
+[SENDER_NOT_AUTHORISED]
+
+[REMOTELY_CANCELLED]
+
+[FAILED_READ]
+
+[FAILED_REMOTE_READ]
+
+[FAILED_WRITE]
+
+[FAILED_REMOTE_WRITE]
+
+[REMOTE_DOES_NOT_SUPPORT_FT]
+
+[REMOTE_OFFLINE_FOR_TOO_LONG]
+
+[TOO_MANY_PARALLEL]
+
+[PLACEHOLDER_TIMEOUT]
+
+;file \protocols\Skype\src\skype_utils.cpp
+[NOT_VALIDATED]
+
+[Validation succeeded]
+
+[Password is too short]
+
+[The value exceeds max size limit for the given property]
+
+[Value contains illegal characters]
+
+[Value contains whitespace]
+
+[Password cannot be the same as Skype name]
+
+[Value has invalid format]
+
+[Value contains invalid word]
+
+[Password is too simple]
+
+[Value starts with an invalid character]
+
+[Avatars]
+Awatary
+[Command "%s" is unsupported]
+

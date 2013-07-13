@@ -1,139 +1,139 @@
-﻿;============================================================
-;  File: rss.dll, RSSNews.dll
-;  Module: RSSNews plugin
-;  Versions: 0.0.3.24
+﻿#muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
 ;============================================================
-[RSS/Atom reader.]
-Czytnik RSS/Atom.
-[Adding new feed]
-Dodawanie kanałów informacyjnych
-[Manage feed]
-Zarządzanie kanałem informacyjnym
-[Main options]
-Główne opcje
+;  File: NewsAggregator.dll
+;  Plugin: News aggregator
+;  Version: 0.0.0.1
+;  Authors: Mataes, FREAK_THEMIGHTY
+;============================================================
+[RSS/Atom news aggregator.]
+Czytnik kanałów RSS/Atom
+;file \plugins\NewsAggregator\Res\Resource.rc
+[Add]
+Dodaj
+[Change]
+Zmień
+[Remove]
+Usuń
+[Import]
+
+[Export]
+Eksport
+[Retrieve news at startup]
+Pobieraj wiadomości podczas startu
+[OK]
+OK
+[Cancel]
+Anuluj
+[General Settings]
+Ogólne
+[Title]
+Nazwa
 [URL]
-Link
-[Auto &discovery]
-Auto-wykrywanie
+
+[Check every]
+Sprawdzaj co
+[minutes]
+minut
+[Check Feed]
+Sprawdź kanał
 [Authentication]
 Autoryzacja
 [Use &authentication]
-Używaj autoryzacji
+Użyj autoryzacji
+[Login]
+
+[Password]
+Hasło:
 [Visualization]
 Wygląd
 [Display news using the following format:]
-Używaj następującego formatowania wiadomości:
+Wyświetlaj wiadomość w poniższym formacie:
 [All item's tags are valid. Put them between #. Example: #<author>#]
-Działają wszystkie znaczniki RSS. Umieść je pomiędzy #. Np.: #<author>#
-[RSSNews - Authentication]
-RSSNews - Autoryzacja
-[This feed seems to need authentication. Please fill username and password fields:]
-Zdaje się, że ten kanał wymaga uwierzytelnienia. Proszę podać nazwę użytkownika i hasło:
-[&Do not ask again for this feed]
-Nie pytaj ponownie o ten kanał
-[There are no new items for this feed for a long period of time.]
-Od dłuższego czasu nie było nowych wiadomości dla tego kanału.
-[What do you want to do?]
-Co chcesz zrobić?
-[&Continue checking this feed for new items]
-Kontynuuj sprawdzanie tego kanału
-[&Delete this feed]
-Usuń ten kanał
-[Do not &warn me again for this feed]
-Nie wyświetlaj ostrzeżeń dla tego kanału
-[Example]
-Przykład
-[Feed]
-Kanał
-[&Add...]
-Dodaj...
-[&Edit...]
-Edytuj...
-[Retrieve news at &startup]
-Pobierz wiadomości na &starcie
-[E&xport...]
-Eksportuj...
-[RSSNews - Import]
-RSSNews - Import
-[Import from:]
-Importuj z:
-[&Go]
-Przejdź
-[Available feeds:]
-Dostępne kanały:
-[Feeds to be imported:]
-Kanały do zaimportowania:
-[RSSNews - Export]
-RSSNews - Eksport
-[Feeds to be exported:]
-Kanały do wyeksportowania:
-[Export to file:]
-Exportuj do pliku:
-[Enter a value in Title field.]
-Wypełnij pole Tytuł.
-[Enter a value in URL field.]
-Wypełnij pole URL.
-[Enter a value greater than zero in Minutes field.]
-Wprowadź wartość większą niż zero w polu Minut(y).
-[Enter a value in Username field.]
-Wypełnij pole Nazwa użytkownika.
-[Enter a value in Password field.]
-Wypełnij pole Hasło
-[Select a feed to manage.]
-Wybierz kanał który chcesz edytować.
-[Select a feed to delete.]
-Wybierz kanał do usunięcia.
-[Invalid path and/or filename.]
-Błędna ścieżka i/lub nazwa pliku.
-[Exporting sucessfully completed.]
-Eksportowanie zakończyło się sukcesem.
-[There are no items to be exported.]
-Nie wybrano nic do wyeksportowania.
-[RSSNews plugin did not find any feed.]
-Wtyczka RSSNews nie znalazła żadnych kanałów.
-[Importing sucessfully completed.]
-Import zakończył się sukcesem.
-[There are no items to be imported.]
-Nie wybrano nic do zaimportowania
+Wszystkie tagi są ważne. Umieść je pomiędzy #. Przykład #<author>#
+[Reset]
+Domyślne
+[0 - check manually]
+0 - sprawdzaj ręcznie
+;file \plugins\NewsAggregator\Src\Icons.cpp
+[Protocol icon]
+Ikona protokołu
+[Check All Feeds]
+Sprawdź wszystkie kanały
+[Add Feed]
+Dodawanie kanału
+[Import Feeds]
+Importuj kanały
+[Export Feeds]
+Eksportuj kanały
+[Auto Update Enabled]
+Autoaktualizacja włączona
+[Auto Update Disabled]
+Autoaktualizacja wyłączona
+[News Aggregator]
+RSS/Atom
+;file \plugins\NewsAggregator\Src\Menus.cpp
+[Check feed]
+Sprawdź kanał
+[Change feed]
+Zmień ustawienia kanału
+;file \plugins\NewsAggregator\Src\Options.cpp
+[Enter Feed name]
+Wpisz nazwę kanału
+[Error]
+Błąd
+[Enter Feed URL]
+
+[Enter checking interval]
+
+[Enter message format]
+Format wpisywanej wiadomości
+[The title of the item.]
+Nazwa kanału.
+[The item synopsis.]
+Opis kanału.
+[The URL of the item.]
+Link do kanału.
+[Email address of the author of the item.]
+Adres e-mail autora.
+[URL of a page for comments relating to the item.]
+Link do komentarzy kanału.
+[A string that uniquely identifies the item.]
+Identyfokator kanału.
+[Specify one or more categories that the item belongs to.]
+Kategoria kanału.
+[Feed Tag Help]
+Pomoc
+[Are you sure?]
+Jesteś pewien?
+[Tags Mask Reset]
+Przywracanie domyślnych tagów
 [Wait...]
 Czekaj...
+[Change Feed]
+Edycja kanału
+[Contact deleting]
+
+[Network]
+Protokoły
+;file \plugins\NewsAggregator\Src\Services.cpp
+[Avatars]
+Awatary
+[Enable/disable auto update]
+Włącz/wyłącz autoaktualizacje
+;file \plugins\NewsAggregator\Src\Utils.cpp
+[NewsAggregator HTTP connection]
+
+[Feed]
+
 [%s\nis a valid feed's address.]
-%s\njest poprawnym adresem kanału.
-[RSSNews found a new feed's address]
-RSSNews znalazł nowy adres kanału
-[Do you want to use it?]
-Chcesz go użyć?
-[is no longer available at the server and no forwarding address is known.]
-nie jest już dostępny na serwerze, nie jest też znany nowy adres.
-[This condition is expected to be considered permanent.]
-Ta sytuacja prawdopodobnie się nie zmieni.
-[Would you like to delete this feed?]
-Czy chcesz usunąć ten kanał?
-[Forbidden address]
-Zabroniony adres
-[Authorization will not help and the request should not be repeated.]
-Autoryzacja nie pomoże i żądanie nie powinno być powtarzane.
-[RSSNews plugin requires Miranda IM 0.4.0.0 or above. This plugin will be disabled.]
-Wtyczka RSSNews wymaga Mirandy IM w wersji 0.4.0.0 lub wyższej. Wtyczka zostanie wyłączona.
-[Feed sucessfully added.]
-Kanał został dodany.
-[RSSNews]
-RSSNews
-[Retrieve &news]
-Pobierz wiadomości
-[&Check all feeds]
-Sprawdź wszystkie kanały
-[&Add new feed...]
-Dodaj nowy kanał...
-[&Export...]
-Eksportuj...
-[MyFeeds]
-MojeKanały
-[OPML File]
-Plik OPML
-[Feed ID]
-ID Kanału
-[Feed protocol]
-Powiązanie protokołu RSS
-[RSSNews connection]
-Połączenie RSS
+%s\njest poprawnym adresem rss.
+[New Aggregator]
+
+[%s\nis a not valid feed's address.]
+%s\nnie jest poprawnym adresem rss.
+[empty]
+pusty
+[OPML files]
+Pliki OPML
+[Not valid import file.]
+

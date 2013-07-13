@@ -1,69 +1,107 @@
-﻿;============================================================
-;  File: nudge.dll
-;  Module: nudge
-;  Versions: 0.0.1.19
+﻿#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
 ;============================================================
-[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
-Nie możesz wysyłać za dużo nudge'ów (tylko 1 co %d sek., zostało %d sek.)
-[Nudge : Shake contact list/chat window]
-Nudge: Zatrzęś listą/oknem rozmowy
-[Nudge : Send a nudge]
-Nudge: wyślij nudge
-[Send &Nudge]
-Wyślij nudge
-[You received a nudge]
-Otrzymałeś nudge
-[You sent a nudge]
-Wysłałeś nudge
-[Window Shaking]
-Potrząsanie oknem
-[Allow nudges when you're:]
-Zezwól na nudge kiedy jesteś:
-[Popup options]
-Opcje popupów
-[Popup duration]
-Czas wyś. popupów
+;  File: Nudge.dll
+;  Plugin: Nudge
+;  Version: 0.0.2.0
+;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
+;============================================================
+[Plugin to shake the clist and chat window.]
+Wtyczka do potrząsania listą kontaktów oraz oknem rozmowy
+;file \plugins\Nudge\res\resource.rc
 [Protocol options]
 Opcje protokołu
 [Specify options for each protocol]
 Ustaw każdy protokół osobno
-[Enable clist shaking]
-Włącz potrząsanie listą
+[Open contact list]
+Otwórz listę kontaktów
+[Enable contact list shaking]
+Włącz potrząsanie listą kontaktów
+[Open message window]
+Otwórz okno rozmowy
 [Enable message window shaking]
 Włącz potrząsanie oknem rozmowy
-[Treat nudge as a message]
-Traktuj nudge jako wiadomość
+[Show as status change]
+Pokaż jako zmianę statusu
+[Auto resend nudge after]
+Automatyczna odpowiedź nudgem po:
+[s]
+
+[Enable popup notification]
+Włącz powiadomienia popup
+[Respect ignore settings (status changes)]
+Uwzględnij ignorowanie ustawień (zmiany statusów)
 [Sending text]
 Wysyłany tekst
 [Receiving text]
 Odbierany tekst
+[Privacy]
+Prywatność
 [Allow sending* one nudge to the same contact every :]
 Zezwól na wysyłanie* nudge'ów do tego samego kontaktu co:
 [Allow receiving one nudge from the same contact every :]
 Zezwól na odbieranie nudge'ów od jednego kontaktu co:
-[Show as status change]
-Pokaż jako zmianę statusu
-[Auto resend nudge after]
-Auto. odpowiedz nudgem po
 [* Nudge sending delay is hardcoded and cannot be changed.]
 * Opóźnienie wysyłania nudge'ów jest stałe i nie można go zmienić.
+[Preview]
+Podgląd
+[Text]
+Tekst
+[Allow nudges when you're:]
+Zezwól gdy:
+[Offline]
+Rozłaczony
+[Online]
+Połączony
+[Away]
+Zaraz wracam
+[NA]
+Wrócę później
+[Occupied]
+Zajęty
+[DND]
+Nie przeszkadzać
+[Free for chat]
+Porozmawiajmy
+[Invisible]
+Niewidoczny
+[On the phone]
+Pod telefonem
+[Out to lunch]
+Na obiedzie
 [Shaking Clist Options]
 Opcje potrząsania listą
-[Shaking Message Window Options]
-Opcje potrząsania oknem rozmowy
 [Number of moves]
 Liczba ruchów
 [Width of move]
-Szer. ruchu
-[Shake the contact list]
-Potrząśnij listą
-[Shake the chat window]
-Potrząśnij oknem rozmowy
+Szerokość ruchu
+[Static]
+Statyczne
+[Shaking Message Window Options]
+Opcje potrząsania oknem rozmowy
+;file \plugins\Nudge\src\main.cpp
+[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
+Nie możesz wysyłać za dużo nudge'ów (tylko 1 co %d s, zostało %d s)
 [Nudge]
 Poproś o uwagę
+[Default Nudge]
+Domyślny Nudge
 [Nudge as Default]
 Nudge jako domyślny
-[Nudge for]
-Nudge dla
-[Nudge : Default]
-Nudge: Domyślny
+[Send Nudge]
+Wyślij Nudge
+[Show Nudge]
+Pokaż Nudge
+[Nudge for %s]
+Nudge dla %s
+[Send &Nudge]
+Wyślij nudge
+;file \plugins\Nudge\src\nudge.cpp
+[You received a nudge]
+Otrzymałeś nudge
+[You sent a nudge]
+Wysłałeś nudge
+;file \plugins\Nudge\src\options.cpp
+[Events]
+Zdarzenia
+[Window Shaking]
+Potrząsanie oknem

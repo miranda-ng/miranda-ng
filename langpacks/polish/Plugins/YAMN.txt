@@ -1,54 +1,257 @@
-﻿;============================================================
-;  File: YAMN.dll
-;  Module: Yet Another Mail Notifier
-;  Versions: 0.1.2.5
+﻿#muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
 ;============================================================
-[%d new mail message(s), %d total]
-Nowych wiadomości: %d, Łącznie: %d
+;  File: YAMN.dll
+;  Plugin: Mail Notifier
+;  Version: 0.1.2.6
+;  Authors: y_b, tweety, majvan
+;============================================================
+[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
+Powiadomienia o poczcie i przeglądarka dla Mirandy NG. Dołaczona obsługa POP3
+;file \plugins\YAMN\res\YAMN.rc
+[OK]
+OK
+[Installed plugins]
+
+[Version:]
+Wersja:
+[Description:]
+Opis:
+[Copyright:]
+Własność:
+[Contact:]
+Kontakt:
+[WWW:]
+
+[Check this account]
+Sprawdź to konto
+[Check interval [min]:]
+Odstęp sprawdzania [min]:
+[Notifications]
+Powiadomienia
+[Sound]
+Dźwięk
+[Message]
+Wiadomość
+[Tray Icon]
+Ikona w zasobniku
+[Keyboard Flash]
+Miganie klawiatury
+[Execute Application]
+Uruchom program
+[Use contact notification for this account]
+Użyj powiadomienia kontaktu dla tego konta
+[Replace nick name]
+Zastąp przydomek
+[Disable Events]
+Wyłącz zdarzenia
+[Server:]
+Serwer:
+[User Name:]
+Login:
+[Password:]
+Hasło:
+[Codepage:]
+Kodowanie:
+[Port:]
+Port:
+[SSL]
+
+[Disable STLS]
+Wyłącz STLS
+[Startup check]
+Sprawdź przy starcie
+[Auto retrieve body]
+Automatycznie pobierz treść
+[Check from menu]
+Sprawdź z menu
+[Only check when ...]
+Sprawdź, gdy ...
+[Sound notification if failed]
+Powiadomienie dźwiękiem, gdy niepowodzenie
+[Message notification if failed]
+Powiadomienie wiadomością, jeśli niepowodzenie
+[Tray icon notification if failed]
+Powiadomienie ikoną w zasobniku, jeśli niepowodzenie
+[Reset counter]
+Resetuj licznik
+[Default]
+Domyślny
+[Status:]
+Status:
+[Account]
+Konto
+[APOP]
+
+[Name:]
+Nazwa:
+[Options]
+Opcje
+[New Mail]
+Nowy mail
+[Errors]
+Błędy
+[Check while ...]
+Sprawdź, gdy...
+[Cancel]
+Anuluj
+[Choose modes]
+Wybierz tryby
+[Offline]
+Rozłaczony
+[Online]
+Połączony
+[Away]
+Zaraz wracam
+[N/A]
+Niedostępny
+[Occupied]
+Zajęty
+[DND]
+Nie przeszkadzać
+[Free for chat]
+Porozmawiajmy
+[Invisible]
+Niewidoczny
+[On the phone]
+Pod telefonem
+[Out to lunch]
+Na obiedzie
+[YAMN General Options]
+Ogólne Opcje YAMN
+[TopToolBar button "Check mail"]
+Przycisk paska narzędzi "Sprawdź pocztę"
+[Enable YAMN Main Menu]
+Włącz YAMN w menu głównym
+[Show YAMN as a Protocol  (Require Restart)]
+Pokaż YAMN jako Protokłół (Wymagany restart)
+[MailBrowser Options]
+Opcje przeglądania wiadomości
+[Enable Close on Delete Button]
+Włącz przycisk 'Zamknij przy Usuwaniu'
+[Show long localised date]
+Pokaż długi, lokalny format daty
+[Don't show today's date]
+Nie pokazuj dzisiejszej daty
+[Date/Time Representation]
+Reprezentacja daty/czasu
+[Don't show seconds]
+Nie pokazuj sekund
+[Mail Notifications]
+Powiadomienie
+[Popup]
+Popup
+[Single popup]
+Jeden popup
+[Multi popup]
+Więcej popupów
+[Use custom colour]
+Użyj niestandardowych kolorów
+[No new mail notifications]
+Powiadomienie o braku nowych wiadomości E-mail
+[Popup if no mail]
+Popup jeśli brak e-maili
+[Persistant message]
+Powtarzająca się wiadomość
+[Connection failure notifications]
+Powiadomienia o niepowodzeniu połączenia
+[Popup notification if failed]
+Popup gdy niepowodzenie
+[..s Popup duration]
+.. czas trwania popupu
+[Preview]
+Podgląd
+[Background colour]
+Kolor tła
+[Text colour]
+Kolor tekstu
+;file \plugins\YAMN\src\main.cpp
+[Check &mail (All Account)]
+Sprawdź wiadomości e-mail
+[Check &mail (This Account)]
+Sprawdź wiadomości e-mail
+[Launch application]
+Włącz aplikacje
+[YAMN]
+Powiadomienia e-mail
+[YAMN Account Folder]
+Folder kont mailowych
+[Check mail]
+Sprawdź wiadomości e-mail
+[Connect Fail]
+Błąd połączenia
+;file \plugins\YAMN\src\main.h
+[YAMN: new mail message]
+YAMN: nowa wiadomość e-mail
+[YAMN: connect failed]
+YAMN: połączenie nieudane
+;file \plugins\YAMN\src\services.cpp
+[Nick]
+Nick
+[No new mail message]
+Brak nowych wiadomości e-mail
+;file \plugins\YAMN\src\browser\badconnect.cpp
+[%s - connection error]
+%s - błąd połączenia
+[An error occured. Error code: %d]
+Błąd. Kod błędu: %d
+[Unknown error]
+Nieznany błąd
+[ - connection error]
+ - błąd połączenia
+;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[%s - %d new mail messages, %d total]
+Konto: %s, Nowych wiadomości: %d, Łącznie: %d
 [- new mail message(s)]
 - nowych wiadomości E-mail
 [%s : %d new mail message(s), %d total]
 %s: nowych wiadomości: %d, Łącznie: %d
-[ - connection error]
- - błąd połączenia
-[%s - %d new mail messages, %d total]
-Konto: %s, Nowych wiadomości: %d, Łącznie: %d
-[%s - %d new mails, %d total]
-Konto: %s, Nowych wiadomości: %d, Łącznie: %d
-[- new mail(s)]
-- nowych wiadomości
-[%s : %d new mail(s), %d total]
-%s : %d nowych wiaodmości, Łącznie: %d
-[%d new mail(s), %d total]
+[%d new mail message(s), %d total]
 Nowych wiadomości: %d, Łącznie: %d
-[No new mail, %d spam(s)]
-Brak nowych wiadomości, Spam: %d
-[No new mail]
-Brak nowych wiadomości
+[No new mail message, %d spam(s)]
+
 [Invalid]
 Niewłaściwe
 [Header]
 Nagłówek
 [Value]
 Wartość
+[Copy Selected]
+Kopiuj zaznaczone
+[Copy All]
+Kopiuj wszystko
 [Run application]
 Uruchom aplikację
 [Delete selected]
 Usuń zaznaczone
+[Select All]
+Zaznacz wszystko
 [From]
 Od
 [Subject]
 Temat
+[Size]
+Rozmiar
 [Date]
 Data
 [Do you really want to delete %d selected mails?]
-Naprawdę chcesz usunąć %d zaznaczonych maili?
+Naprawdę chcesz usunąć %d zaznaczonych e-maili?
 [Delete confirmation]
 Potwierdzenie usunięcia
+;file \plugins\YAMN\src\mails\mime.cpp
+[Translate header error]
+
 [Part]
 Część
+;file \plugins\YAMN\src\proto\netlib.cpp
+[%s connection]
+Połączenie %s
+;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 Rozłączony
+[POP3 protocol (internal)]
+
+[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
+Powiadomienia o poczcie i przeglądarka dla Mirandy NG. Dołaczona obsługa POP3
 [Found new version of account book, not compatible with this version of YAMN.]
 Znaleziono nową wersję książki kont, niekompatybilną z tą wersją YAMN.
 [YAMN (internal POP3) read error]
@@ -67,12 +270,12 @@ Wtyczka POP3 - bład zapisu pliku
 Łączenie do serwera
 [Entering POP3 account]
 Wchodzenie na konto POP3
-[Searching for new mail]
+[Searching for new mail message]
 Przeszukiwanie skrzynki
 [Reading body %s]
 Odczytytwanie treści %s
-[Reading new mails (%d%% done)]
-Odczyt nowych wiadomości (zakończono %d%%
+[Reading new mail messages (%d%% done)]
+
 [Deleting requested mails]
 Usuwanie wybranych wiadomości
 [Deleting spam]
@@ -121,22 +324,33 @@ Nie można zapisać danych SSL.
 Nie można odczytać danych SSL.
 [Error %d-%d-%d-%d:]
 Błąd %d-%d-%d-%d:
-[No account selected]
-Nie zaznaczono konta
+;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[Network]
+Protokoły
 [Accounts]
 Konta
+[General]
+Ogólne
+[Plugins]
+Wtyczki
+[Popups]
+Popupy
+[No account selected]
+Nie zaznaczono konta
 [Time left to next check [s]: %d]
 Czas do następnego sprawdzenia [s]: %d
-[Account Test]
-Test konta
-[Account Test (failed)]
-Test konta (nieudany)
-[You have N new mails]
-Masz N nowych maili
-[Connection failed message]
-Wiadomośc o nieudanym połączeniu
+[New Account]
+Nowe konto
+[Executables]
+
+[All Files]
+Wszystkie pliki
 [Select executable used for notification]
 Wybierz plik wykonywalny używany do powiadomienia
+[Dialog box error]
+
+[Failed]
+
 [Do you really want to delete this account?]
 Na prawdę chcesz usunąć to konto?
 [Delete account confirmation]
@@ -147,153 +361,17 @@ Proszę zaczekać, aż żadne konto nie będzie w użyciu.
 Ta wartość nie jest wartością liczbową
 [Input error]
 Błąd wejścia
-[At least one mail notification event must be checked]
-Przynajmniej jeden rodzaj powiadomienia o mailu musi być zaznaczony
 [Please select application to run]
 Proszę wybrać aplikację do uruchomienia
 [Cannot allocate memory space for new account]
 Nie można zaalokować pamięci dla nowego konta
 [Memory error]
 Błąd pamięci
-[Installed plugins]
-Zainstalowane wtyczki
-[Contact:]
-Kontakt:
-[Check this account]
-Sprawdź to konto
-[Check interval [min]:]
-Odstęp sprawdzania [min]:
-[New mail notifications]
-Zawiadomienia o nowych mailach
-[Sound notification]
-Zawiadomienie dźwiękowe
-[Message notification]
-Zawiadomienie wiadomością
-[Tray icon notification]
-Powiadomiaj ikoną w zasobniku
-[Keyboard Flash]
-Miganie klawiaturą
-[Application execution:]
-Wykonanie aplikacji:
-[Single popup]
-Jeden popup
-[Multi popup]
-Więcej popupów
-[Use contact notification for this account]
-Użyj powiadomienia kontaktu dla tego konta
-[Replace nick name]
-Zastąp przydomek
-[Disable Events]
-Wyłącz zdarzenia
-[No new mail notifications]
-Powiadomienie o braku nowych wiadomości E-mail
-[Popup if no mail]
-Popup jeśli brak maili
-[Persistant message]
-Powtarzająca się wiadomość
-[Server:]
-Serwer:
-[User:]
-Użytkownik:
-[Default codepage:]
-Domyślna strona kodowa:
-[APOP auth]
-Autoryzacja APOP
-[Disable STLS]
-Wyłącz STLS
-[Startup check]
-Sprawdź przy starcie
-[Auto retrieve body]
-Automatycznie pobierz treść
-[Check from menu]
-Sprawdź z menu
-[Check while...]
-Sprawdź, gdy...
-[Connection failure notifications]
-Powiadomienia o niepowodzeniu połączenia
-[Sound notification if failed]
-Powiadomienie dźwiękiem, gdy niepowodzenie
-[Message notification if failed]
-Powiadomienie wiadomością, jeśli niepowodzenie
-[Tray icon notification if failed]
-Powiadomienie ikoną w zasobniku, jeśli niepowodzenie
-[Popup notification if failed]
-Popup gdy niepowodzenie
-[Reset counter]
-Resetuj licznik
-[Check while ...]
-Sprawdź, gdy...
-[Hotkey for mail check:]
-Skrót dla sprawdzenia mailu:
-[TopToolBar button "Check mail"]
-Przycisk paska narzędzi "Sprawdź pocztę"
-[YAMN General Options]
-Ogólne Opcje YAMN
-[Enable YAMN Main Menu (Require Restart)]
-Włącz Główne Menu YAMN (Wymagany Restart)
-[MailBrowser Options]
-Opcje przeglądania wiaodmości
-[Enable Close on Delete Button]
-Włącz przycisk 'Zamknij przy Usuwaniu'
-[Show long localised date]
-Pokaż długi, lokalny format daty
-[Don't show today's date]
-Nie pokazuj dzisiejszej daty
-[Date/Time Representation]
-Reprezentacja daty/czasu
-[Don't show seconds]
-Nie pokazuj sekund
-[Show YAMN as a Protocol  (Require Restart)]
-Pokaż YAMN jako Protokłół (Wymagany Restart)
-[Mail notifier and browser for Miranda IM. Included POP3 protocol.]
-Powiadamiacz i przeglądarka maili dla Mirandy. Dołączony protokół POP3.
-[Check &mail (All Account)]
-Sprawdź wiadomości E-mail
-[Check &mail (This Account)]
-Sprawdź wiadomości E-mail
-[Launch application]
-Włącz aplikacje
-[Check mail]
-Sprawdź wiadomości E-mail
-[Do you also want to remove native YAMN plugins settings?]
-Chcesz również usunąć natywne ustawienia wtyczki YAMN?
-[YAMN uninstalling]
-Deinstalacja YAMN
-[YAMN: new mail]
-YAMN: nowy E-mail
-[YAMN: connect failed]
-YAMN: połączenie nieudane
-[User Name:]
-Login:
-[Codepage:]
-Kodowanie:
-[Execute Application]
-Uruchom program
-[Mail Notifications]
-Powiadomienie
-[Use custom colour]
-Użyj własnych kolorów
-[..s Popup duration]
-.. czas trwania popupu
-[Only check when ...]
-Sprawdź, gdy ...
-[Tray Icon]
-Ikona w zasobniku
+[Account Test]
+Test konta
+[Account Test (failed)]
+Test konta (nieudany)
 [You have N new mail messages]
-Masz N nowych wiadomości E-mail
-[No new mail message]
-Brak nowych wiadomości E-mail
-[Searching for new mail message]
-Przeszukiwanie skrzynki
-[YAMN]
-Notyfikacja E-mail
-[YAMN: new mail message]
-Notyfikacja Mail: nowa wiadomość E-mail
-[Launch Application]
-Uruchom aplikacje
-[Connect Fail]
-Błąd połączenia
-[Copy Selected]
-Kopiuj zaznaczone
-[Delete Selected]
-Usuń wybrane
+Masz N nowych wiadomości e-mail
+[Connection failed message]
+Wiadomośc o nieudanym połączeniu

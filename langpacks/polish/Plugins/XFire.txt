@@ -1,82 +1,64 @@
-﻿;============================================================
-;  File: XFire.dll
-;  Module: XFire protocol
-;  Versions: 0.1.7.10
-;============================================================
-[Error during xfire_games Update.]
-Błąd podczas aktualizacji xfire_games.
-[Error during Icons.dll Update.]
-Błąd podczas aktualizaji Icons.dll.
-[Miranda XFire Protocol Plugin]
-Protokół xFire
-[There is a new Icons.dll online, do you want to update now?]
-Dostępny jest nowy Icons.dll, czy chcesz zaktualizować teraz?
-[XFire Protocol]
-Protokół xFire
-[XFire Protocol Plugin by dufte [Built: Nov 22 2008 01:15:47]]
-Protokół xFire by defte
-[Games]
-Gry
-[Game:]
-Gra:
-[Features]
-Cechy
+﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
+;langpack template for Xfire
+;file \protocols\Xfire\res\Kopie von resource.rc
+[Password:]
+Hasło:
 [Loginname:]
 Login:
-[You can only change your nick, if you are connected to Xfire.]
-Możesz zmienić nick, jeśli jesteś połączony z siecią xFire.
-[Proxy settings]
-Opcje proxy:
-[Use proxy]
-Użyj proxy
-[Enter your HTTP Proxy here. SOCKS4/5 are currently not supported.]
-Wpisz swój proxy HTTP. SOCKS4/5 nie jest obslugiwany.
+[XFire]
+
+[Nick:]
+Nick:
 [Current Protocolversion:]
 Wesja protokolu:
-[Gamedetection]
-Wykrywanie gier
-[Disable game detection]
-Wyłącz wykrywanie gier
-[Disable popups when ingame]
-Wyłącz popupy kiedy gram
-[Disable sound events when ingame]
-Wyłącz dźwięki kiedy gram
-[Enable server IP/Port detection]
-Włącz wykrywanie IP/Portu serwera
-[Enable TeamSpeak2/Ventrilo detection]
-Włącz wykrywanie TeamSpeak2/Ventrilo
-[Scan for games on every Miranda start]
-Skanuj gry podczas włączania Mirandy
-[Use TSRemote.dll to get teamspeak server info]
-Użyj TSRemote.dll aby dostać info serwera teamspeak
-[No custom away message]
-Wyłącz opis w trybie Zaraz Wracam
-[Disable Avatars]
-Wyłącz Awatary
-[Don't automatically create clan groups]
-Nie twórz automatycznie grup klanowych
-[GameServerQuery support]
-Wsparcie GameServerQuery
-[No Ip/Port in StatusMsg]
-Brak IP/Portu w opisie
-[Show usernames only]
-Pokazuj tylko imiona
-[Use Online status for unsupported global statuses]
-Użyj statusu Połączony dla nieobsługiwanych globalnych statusów
-[Automatically update xfire_games.ini (pro-laming.de)]
-Automatycznie aktualizuj xfire_games.ini (pro-laming.de)
-[Download missing game icons from Xfire website]
-Pobierz brakujące ikonki gry ze strony xFire
-[Use alternate way for Avatar download]
-Użyj alteranatywnego sposobu pobierania awatarów
-[Dialog / Icon Options *]
-Dialog / Ikony - Opcje
+[Note: You can only change these settings, if you are connected to Xfire.]
+Info. Aby zmienić ustawienia protokołu musisz się połączyć.
+[Create a new Xfire account on website]
+Utwórz nowe koto xFire na stronie www
+[Lost Password?]
+Przypomnij hasło
+[Account options]
+Opcje konta
+[Show my friends]
+Pokazuj moim znajomym
+[Game Status]
+Status gry
+[Show on my profile and miniprofile]
+Pokazuj w moim profilu i miniprofilu
+[Show my game server data]
+Pokazuj dane serwera mojej gry
+[Other Activity]
+Inne czynności
+[Show my voice chat server to my friends]
+Pokazuj serwer rozmów głosowych znajomym
+[Show people when I type to them]
+Pokazuj powiadomienie o pisaniu
+[Show nicknames when available]
+Pokazuj nicki jeśli dostępne
+[Show friends of my friends]
+Pokazuj znajmomym moich znajomych
+[Options]
+Opcje
+[More options]
+Więcej opcji
+[Gameicon:]
+Ikona Gry:
+[Voiceicon:]
+Głosowa Ikona
 [Display Error and Infomessage:]
 Pokaż błąd i informacje:
-[Messagebox]
-Skrzynka wiadomości
-[Blocklist / Games]
-Lista zablokowanych / Gry
+[Main group for clan groups:]
+Główna grupa dla grupy klanowej:
+[Automatically scan for games:]
+Automatycznie skanuj w poszukiwaniu gier:
+[Main group for Friends of Friends:]
+Główna grupa dla znajomych:
+[Files]
+Pliki
+[xfire_games.ini]
+
+[icons.dll]
+
 [Blocked User List]
 Lista zablokowanych
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
@@ -89,219 +71,94 @@ Ten plik zostaje użyty do poszukiwania gier.
 Ten plik posiada wszystkie orginalne ikonki gier. Możesz również aktywować opcje pobierania dodatkowych ikon.
 [Be sure you put these files in following folder:]
 Upewnij się że pliki znajdują się w folderze:
-[Setup your Games...]
-Konfiguruj moje gry...
-[StatusMsg]
+[Status Message]
 Opis
-[Change the status to occupied]
-[Add a new game ...]
-Dodaj nową grę...
+[Enable]
+Włącz
 [With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddy's can also see what you play. It will also change the status to occupied, if this option is enabled.]
 Kiedy grasz w jakąś grę i chcesz pokazać komuś w co grasz, zaznacz tą opcję, ustawi ona w opisie dane na temat w co w tej chwili grasz. Możesz również zmienić automatycznie status kiedy grasz.
-[The status message and status will be reset, if you close the game.]
-Opis zmieni się kiedy zresetujesz grę lub ją zamkniesz.
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 Dostępne zmienne: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
-[* Variables plugin needed]
-* Wymagany plugin Variables
-[The changes you have made require you to reconnect to the XFire network before they take effect]
-Nowe ustawienia będą dostępne po ponownym połączeniu się do xFire
-[The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
-Wersja protokołu jest za stara. Zmieniono aktualną wersję z %d do %d. Możesz ponownie się połączyć. 
-[Games found:%s%s]
-Znalezione gry:%s%s
-[Block U&ser ...]
-Zablokowani...
-[Join &Voice ...]
-Dołącz do rozmowy...
-[Play this Game ...]
-Graj...
-[Join &Game ...]
-Dołącz do Gry...
-[Cop&y Voice Server Address and Port]
-Kopiuj Adres/Port  serwera głosowego
-[XFire &Clan Site]
-Strona Klanu xFire
-[C&opy Server Address and Port]
-Kopiuj Adres/Port Serwera
-[&My XFire Online Profile]
-Mój Profil Online xFire
-[&Rescan my Games ...]
-Przeskanuj ponownie moje Gry
-[&Setup my Games ...]
-Konfiguruj moje gry ...
-[&XFire Online Profile]
-Profil xFire Online
-[Remove F&riend ...]
-Usuń znajomego
-[Do you really want delete your friend %s?]
-Czy na pewno chcesz usunąć znajomego %s?
-[Automatically Detect]
-Automatycznie wykrywaj
-[Never Detect]
-Nigdy nei wykrywaj
-[Manuel Setup]
-Manualna konfiguracja
-[Disable avatars]
-Wyłącz awatary
-[Browse ...]
-Przeglądaj...
-[Hide yourself in buddylist]
-Ukryj mnie na liście
-[Dont display game search results]
-Nie wyświetlaj rezultatów wyszukiwania
-[Gameicon:]
-Ikona Gry:
-[Voiceicon:]
-Głosowa Ikona
-[Unable to connect to XFire.]
-Nie można podłączyć się do xFire
-[XFire Options]
-Opcje xFire
-[Start game]
-Zacznij grę
-[Setup your Games ...]
-Konfiguracja gier...
-[Voicechat]
-Głosowy chat
-[Userdetails]
-Dane kontaktu
-[Dont display game search status window]
-Nie pokazuj okna wyszukiwania gier
-[Searching games ...]
-Poszukiwanie gier...
-[Display popup, if someone start a game]
-Pokaż popup kiedy ktoś z listy zacznie grać
-[Automatically update icons.dll (pro-laming.de)]
-Automatycznie aktualizuj Icons.dll (pro-laming.de)
-[No backup on update]
-Nie twórz kopii zapasowej po aktualizacji
-[Automatically scan for games:]
-Automatycznie skanuj w poszukiwaniu gier:
-[On every start]
-Przy każdym starcie
-[Main group for clan groups:]
-Główna grupa dla grupy klanowej:
-[Note: You can only change these settings, if you are connected to Xfire.]
-Info. Aby zmienić ustawienia protokołu musisz się połączyć.
-[Show nicknames when available]
-Pokazuj nicki jeśli dostępne
-[Show my friends]
-Pokazuj moim znajomym
-[Show on my profile and miniprofile]
-Pokazuj w moim profilu i miniprofilu
-[Show my game server data]
-Pokazuj dane serwera mojej gry
-[Show my voice chat server to my friends]
-Pokazuj serwer rozmów głosowych znajomym
-[Show people when I type to them]
-Pokazuj powiadomienie o pisaniu
-[Automatically reconnect on protocol version changes]
-Automatycznie połącz po zmianie wersji protokołu
-[Background updating]
-Aktualizuj w tle
-[Dont detect this game as running]
-Nie wykrywaj tej gry gdy jest uruchomiona
-[Dont set status message for other protocols]
-Nie ustawiaj statusu dla innych protokołów
-[Account options]
-Opcje konta
-[Game Status]
-Status gry
-[Other Activity]
-Inne czynności
-[Show friends of my friends]
-Pokazuj znajmomym moich znajomych
-[Remove friend of friend buddies from database]
-Usuń znajomego z bazy danych
-[Main group for Friends of Friends:]
-Główna grupa dla znajomych:
-[&Activity Report]
-Raporty aktywności
+[Status message:]
+Opis:
 [Change the status to occupied or dnd]
 Zmień status na Zajęty lub Niedostępny
-[Lost Password?]
-Przypomnij hasło
-[Create a new Xfire account on website]
-Utwórz nowe koto xFire na stronie www
-[Don't move friends to clan groups]
-Nie przenoś znajomych do grupy klanowej
-[Advanced #1 (ICQ X-Status)]
-Zaawansowane #1 (ICQ X-Status)
-[Login failed.]
-Logowanie nieudane.
-[The protocol version is too old.]
-Wersja protokołu jest za stara.
-[Someone loged in with your account.disconnect.]
-Ktoś zalogował się na twoje konto. Rozłączono.
-[XFire does not support offline messaging!]
-xFire nie wspiera pisania offline
-[No Loginname is set!]
-Nie ustawiono loginu!
-[No Password is set!]
-Nie ustawiono hasła!
-[Found %i Games!%s%s]
-Znaleziono %i Gry!%s%s
-[Playing]
-Gra
-[Add me to your friends list.]
-Dodaj mnie do swojej listy znajomych.
-[Disable XFire MessageBox]
-Wyłącz okno komunikatów xFire
-[Switch to Online instead of AFK on non supported Globalstatuses]
-Przełącz do Dostępnego zamiast do AFK na nie obsługiwanym Globalstatuses
-[Icon Options *]
-Opcje Ikon *
-[ComboBox]
-Podwójne okno
-[* requires Miranda restart]
-* wymaga restartu Mirandy
-[Dont create automatically Clangroups]
-Nie twórz automatycznie ClanGroups
-[XFire Username:]
-Nazwa użytkownika xFire:
-[XFire Nick:]
-Ksywka xFire:
-[Game]
-Gra
-[Dont show in start menu]
-Nie pokazuj w menu startu
-[Extra Command Line Parametrs:]
-Parametry:
+[The status message and status will be reset, if you close the game.]
+Opis zmieni się kiedy zresetujesz grę lub ją zamkniesz.
 [Prefer dnd when it is available]
 Preferuj nie przeszkadzać jeśli możliwe
+[Games]
+Gry
+[Game:]
+Gra:
+[Dont detect this game as running]
+Nie wykrywaj tej gry gdy jest uruchomiona
+[Apply]
+Zastosuj
+[Dont set status message for other protocols]
+Nie ustawiaj statusu dla innych protokołów
 [Add new game]
 Dodaj grę
-[Extra Command Line Parameters:]
-Parametry komend:
-[Last game: %s playtime: %.2d:%.2d:%.2d]
-Ostatnio uruchomiona: %s grano: %.2d:%.2d:%.2d
-[xfirebstartgame]
-xfirebstartgame
-[Buddy start a game]
-Znajomy zaczyna grać
-[Please wait ...]
-Proszę czekać ...
+[Remove]
+Usuń
+[Dont show in start menu]
+Nie pokazuj w menu startu
 [(manual added)]
 (dodano ręcznie)
+[Extra Command Line Parameters:]
+Parametry komend:
 [Edit ...]
 Edytuj ...
-[New supported Games:]
-Nowe wsparcie gier:
-[There is a new XFire Gamelist online, do you want to update now?]
-Znaleziono nową liste gier xFire, czy chcesz ją zaktualizować?
+[Username:]
+Użytkownik:
+[Game]
+Gra
+[Voicechat]
+Głosowy chat
+[Name:]
+Nazwa:
+[Unreal Tournament 2004]
+
+[IP:]
+
+[Port:]
+Port:
+[Userdetails]
+Dane kontaktu
+[dufte]
+
+[Copy]
+Kopiuj
+[Enter Password]
+Wpisz hasło
+[Join]
+Dołącz
+[Set Nickname]
+Edytuj nick
+[OK]
+OK
+[Cancel]
+Anuluj
 [New xfire_games.ini]
 Nowy xfire_games.ini
-[The xfire_games.ini was updated.]
-Plik xfire_games.ini został zaktualizowany.
+[There is a new XFire Gamelist online, do you want to update now?]
+Znaleziono nową liste gier xFire, czy chcesz ją zaktualizować?
+[New supported Games:]
+Nowe wsparcie gier:
+[Update]
+Aktualizacja
 [Add Game]
 Dodaj grę
-[Add a new game]
-Dodaj nową grę
+[Search:]
+Szukaj:
+[Custom ...]
+Niestandardowe ...
 [Game name:]
 Nazwa gry:
 [Game exe:]
 Plik exe gry:
+[Browse ...]
+Przeglądaj...
 [Launcher exe (optional):]
 Plik exe wczytujący grę (opcjonalnie):
 [Game id:]
@@ -309,22 +166,280 @@ ID gry:
 [Send game id:]
 Wyślij ID gry:
 [Statusmessage for Xfire, if this game will be started:]
-Opis statusu dla xFire, jeżeli gra będzie uruchomiona:
+Opis statusu dla xFire, jeśli gra będzie uruchomiona:
+[Parameter:]
+
+[Add a new game]
+Dodaj nową grę
+[Searching games ...]
+Poszukiwanie gier...
+;file \protocols\Xfire\res\resource.rc
+;file \protocols\Xfire\src\addgamedialog.cpp
+[All Files]
+Wszystkie pliki
+[Please wait, gameini will be currently parsed ...]
+Proszę czekać, gameini zostanie poprawnie utworzony ...
+[XFire Options]
+Opcje xFire
+[Please choose one game in the list!]
+
+[If you add a mod of a Xfire supported game, then you can specify what gameid will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game id and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
+
+[Every game in Xfire needs an id. Use a number above the last used id to avoid problems with used ids. Every number above 10000 should be save. This id will not be sent to Xfire, when you start a game.]
+
+[Please enter a game name.]
+
+[Please enter a game id.]
+
+[Please enter a game id above 1.]
+
+[This game id is already in use.]
+
+[Please select a game exe. Note: If you dont select a launcher exe, the game exe will be used in the game start menu.]
+
 [Supported Games]
 Wspierane gry
 [Custom game]
 Ręcznie dodane gry
-[Dont automatically create clan groups]
-Nie twórz autamatycznie grup klanowych
-[Dont move friends to clan groups]
-Nie przenoś znajomych do grup klanowch
-[Enable MBot support]
-Włącz wsparcie MBot
-[Dont download avatars of clan members]
-Nie pobieraj awatarów od członków klanu
-[Use UTF8 for messaging and nick's (beta)]
-Użyj kodowania UTF-8 dla wiadomości i nicków
-[Set Nickname]
-Edytuj nick
+;file \protocols\Xfire\src\all_statusmsg.cpp
+[Yep, I'm here.]
+Tak, jestem tu.
+[I've been away since %time%.]
+Nie ma mnie od %time%
+[Give it up, I'm not in!]
+Daj spokój, nie ma mnie!
+[Not right now.]
+Nie teraz.
+[Give a guy some peace, would ya?]
+Proszę, daj mi spokój!
+[Well, I would talk to you if Miranda ICQ supported chat]
+
+[That'll be the phone.]
+Muszę odebrać telefon.
+[Mmm...food.]
+Mmm... jedzenie.
+;file \protocols\Xfire\src\iniupdater.cpp
+[The xfire_games.ini was updated.]
+Plik xfire_games.ini został zaktualizowany.
+[Error during xfire_games Update.]
+Błąd podczas aktualizacji xfire_games.
+[There is a new Icons.dll online, do you want to update now?]
+Dostępny jest nowy Icons.dll, czy chcesz zaktualizować teraz?
+[The Icons.dll was updated.]
+
+[Error during Icons.dll Update.]
+Błąd podczas aktualizaji Icons.dll.
+;file \protocols\Xfire\src\main.cpp
+[Protocol icon]
+Ikona protokołu
+[%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
+%s (Nick: %s) zaprasza cię do klanu %s. Wiadomość: %s%s proszę przejść do XFireclan-Site aby zaakceptować zaproszenie.
+[Friends of Friends Playing]
+
+[Login failed.]
+Logowanie nieudane.
+[The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
+Wersja protokołu jest za stara. Zmieniono aktualną wersję z %d do %d. Możesz ponownie się połączyć. 
+[The protocol version is too old. Cannot detect a new version number.]
+
+[Someone loged in with your account.disconnect.]
+Ktoś zalogował się na twoje konto. Rozłączono.
+[Do you really want to add %s to your friend list?]
+Czy na pewno chcesz dodać %s do listy przyjaciół?
+[Add me to your friends list.]
+Dodaj mnie do swojej listy znajomych.
+[XFire is not connected.]
+xFire nie jest połączony.
+[Current Game]
+
+[My Current Game]
+
+[ServerIP]
+
+[My Current ServerIP]
+
+[Voice]
+Głos
+[My Current Voice]
+
+[Voice ServerIP]
+
+[My Voice ServerIP]
+
+[Xfire Link Protocol]
+Powiązanie protokołu xFire
+[Buddy start a game]
+Znajomy zaczą grać
+[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the ini xfire can't detect any games on your computer.]
+Nastąpiło pierwsze uruchomienie wtyczki. Czy chcesz automatycznie pobrać xfire_games.ini i icons.dll?\r\nBez pliku ini nie można wykryć zainstalowanych na komputerze gier.
+[Away from Keyboard]
+
+[&XFire Online Profile]
+Profil xFire Online
+[XFire &Clan Site]
+Strona Klanu xFire
+[C&opy Server Address and Port]
+Kopiuj Adres/Port Serwera
+[Cop&y Voice Server Address and Port]
+Kopiuj Adres/Port serwera głosowego
+[Join &Game ...]
+Dołącz do Gry...
+[Play this Game ...]
+Graj...
+[Remove F&riend ...]
+Usuń znajomego
+[Block U&ser ...]
+Zablokowani...
+[&My XFire Online Profile]
+Mój profil xFire
+[&Activity Report]
+Raporty aktywności
+[&Rescan my Games ...]
+Przeskanuj ponownie moje Gry
 [Set &Nickname]
 Edytuj &nick
+[Protocols/XFire]
+
+[XFire game icon]
+Ikona gry xFire
+[XFire voice icon]
+Ikona czatu głosowego xFire
+[XFire does not support offline messaging!]
+xFire nie wspiera pisania offline
+[Username]
+Użytkownik
+[Unable to connect to XFire.]
+Nie można podłączyć się do xFire
+[No Loginname is set!]
+Nie ustawiono loginu!
+[No Password is set!]
+Nie ustawiono hasła!
+[Last game: %s playtime: %.2d:%.2d:%.2d]
+Ostatnio uruchomiona: %s grano: %.2d:%.2d:%.2d
+[%s is playing %s.]
+%s gra w %s.
+[%s is playing %s on server %d.%d.%d.%d:%d.]
+%s gra w %s na serwerze %d.%d.%d.%d:%d.
+[Playing]
+Gra
+[Do you really want delete your friend %s?]
+Czy na pewno chcesz usunąć znajomego %s?
+[Confirm Delete]
+Zatwierdź usuwanie
+[Block this user from ever contacting you again?]
+
+[Block Confirmation]
+
+;file \protocols\Xfire\src\options.cpp
+[Avatars]
+Awatary
+[Disable avatars]
+Wyłącz awatary
+[Dont download avatars of clan members]
+Nie pobieraj awatarów od członków klanu
+[Use alternate way for Avatar download]
+Użyj alteranatywnego sposobu pobierania awatarów
+[General]
+Ogólne
+[Use UTF8 for messaging and nick's (beta)]
+Użyj kodowania UTF-8 dla wiadomości i nicków
+[Automatically reconnect on protocol version changes]
+Automatycznie połącz po zmianie wersji protokołu
+[No Ip/Port in StatusMsg]
+Brak IP/Portu w opisie
+[Use Online status for unsupported global statuses]
+Użyj statusu Połączony dla nieobsługiwanych globalnych statusów
+[Dont move friends to clan groups]
+Nie przenoś znajomych do grup klanowch
+[GameServerQuery support]
+Wsparcie GameServerQuery
+[No custom away message]
+Wyłącz opis w trybie Zaraz Wracam
+[Remove friend of friend buddies from database]
+Usuń znajomego z profilu
+[Hide yourself in buddylist]
+Ukryj mnie na liście
+[Dont display game search results]
+Nie wyświetlaj rezultatów wyszukiwania
+[Dont display game search status window]
+Nie pokazuj okna wyszukiwania gier
+[Display popup, if someone start a game]
+Pokaż popup kiedy ktoś z listy zacznie grać
+[Dont automatically create clan groups]
+Nie twórz autamatycznie grup klanowych
+[Enable MBot support]
+Włącz wsparcie MBot
+[Gamedetection]
+Wykrywanie gier
+[Disable game detection]
+Wyłącz wykrywanie gier
+[Use TSRemote.dll to get teamspeak server info]
+Użyj TSRemote.dll aby dostać info serwera teamspeak
+[Disable popups when ingame]
+Wyłącz popupy kiedy gram
+[Disable sound events when ingame]
+Wyłącz dźwięki kiedy gram
+[Automatically update xfire_games.ini (pro-laming.de)]
+Automatycznie aktualizuj xfire_games.ini (pro-laming.de)
+[Automatically update icons.dll (pro-laming.de)]
+Automatycznie aktualizuj Icons.dll (pro-laming.de)
+[Download missing game icons from Xfire website]
+Pobierz brakujące ikonki gry ze strony xFire
+[No backup on update]
+Nie twórz kopii zapasowej po aktualizacji
+[Background updating]
+Aktualizuj w tle
+[The username must be lowercase, so it will be lowercased saved.]
+
+[The changes you have made require you to reconnect to the XFire network before they take effect]
+Nowe ustawienia będą dostępne po ponownym połączeniu się do xFire
+[Hidden]
+Ukryte
+[Messagebox]
+Skrzynka wiadomości
+[Popup]
+Popup
+[No]
+Nie
+[On every start]
+Przy każdym starcie
+[Daily]
+Dziennie
+[<Root Group>]
+<Grupa główna>
+[Are you sure you want to remove this game?]
+Czy na pewno chcesz usunąć tą grę?
+[Please select a game.]
+
+[Error unknown game id.]
+
+[Not supported]
+Nie obsługiwane
+[Configuration saved!]
+Konfiguracja zapisana!
+[Game not found?!]
+Gry nie znalezione?!
+[Network]
+Protokoły
+[Account]
+Konto
+[Features]
+Cechy
+[Blocklist / Games]
+Lista zablokowanych/Gry
+[StatusMsg]
+Opis
+;file \protocols\Xfire\src\searching4games.cpp
+[Write to database ...]
+
+[Games found:%s%s]
+Znalezione gry:%s%s
+;file \protocols\Xfire\src\userdetails.cpp
+[<not specified>]
+<nieokreślone>
+;file \protocols\Xfire\src\Xfire_game.cpp
+[Start game]
+Zacznij grę
+;file \protocols\Xfire\src\Xfire_gamelist.cpp
+[Please wait ...]
+Proszę czekać ...

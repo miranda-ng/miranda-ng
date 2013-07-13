@@ -1,178 +1,27 @@
-﻿;============================================================
-;  File: popup.dll
-;  Module: Popup Interoperability, Popup Plus
-;  Versions: 2.1.1.5
+﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
-[Time]
-Pokaż zegar
-[non rectangular]
-nie prostokątne
-[Process Clist events]
-Przetwarzanie zdarzeń listy
-[Classes]
-Klasy
-[Fade in/out]
-Rozjaśnianie
-[Square fading]
-Blaknięcie
-[Default Timeout]
-Czas oczekiwania
-[Slide Popup]
-Wysuwany Popup
-[Effect:]
-Efekt:
-[Time (in)..:]
-Czas (wych)..:
-[Time (out):]
-Czas (przych)..:
-[Simplified clock]
-Uproszczony zegar
-[Show time]
-Pokaż czas
-[* Popup Classic]
-* Klasyczny popup
-[Popup 1.0.1.x compatability]
-Kompatybilność z wersją 1.0.1.x
-[You need the png2dib plugin v. 0.1.3.x or later to process PNG images]
-Potrzebujesz wtyczki png2dib 0.1.3.x lub nowszej żeby wyświetlać obrazki PNG
-[Provides a common popup interface for different plugins.]
-Wyświetla taki sam interfejs popupów dla różnych wtyczek.
-[Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
-Test ustawień wtyczki Popup. Ten tekst powinien być wystarczająco długi żeby nie zmieścić się w jednej linii...
-[This is a notification message]
-To jest wiadomość powiadamiająca
-[This is a warning message]
-To jest wiadomość ostrzegawcza
-[This is an error message]
-To jest wiadomość z błędem
-[Popups are enabled]
-Popupy są włączone
-[Popups are disabled]
-Popupy są wyłączone
-[Refresh skin list]
-Odśwież listę skórek
-[Popup Placement]
-Rozmieszczenie
-[Popup History]
-Historia popupów
-[Notification]
-Powiadamianie
-[Skins]
-Skórki
-[Toggle Popups]
-Przełącz Popupy
-[Enable &popup module]
-Włącz Popupy
-[Disable &popup module]
-Wyłącz Popupy
-[Error: I could not register the Popup Window class.\nThe plugin will not operate.]
-Błąd: Nie można zarejestrować klasy okien popupów.\nWtyczka nie będzie działać.
-[<empty>]
- <pusty>
-[Infinite]
-Nieskończone
-[1 second]
-1 sekunda
-[2 seconds]
-2 sekundy
-[3 seconds]
-3 sekundy
-[4 seconds]
-4 sekundy
-[5 seconds]
-5 sekund
-[7 seconds]
-7 sekund
-[10 seconds]
-10 sekund
-[15 seconds]
-15 sekund
-[Popup Area]
-Obszar
-[upper left corner]
-lewy górny róg
-[lower left corner]
-lewy dolny róg
-[lower right corner]
-prawy dolny róg
-[upper right corner]
-prawy górny róg
-[vertical]
-pionowe
-[You cannot specify a value lower than %d and higher than %d.]
-Nie możesz ustawić wartości niższej niż %d ani wyższej niż %d.
-[Skin preview]
-Podgląd skórki
-[Just take a look at this skin... ;)]
-Spójrz tylko na tę skórkę... ;)
-[Refresh List]
-Odśwież listę
+;  File: Popup.dll
+;  Plugin: Popup plus
+;  Version: 2.1.1.7
+;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
+;============================================================
+[Provides popup notification services for different plugins.]
+Zapewnia obsługę popupów dla różnych wtyczek.
+;file \plugins\Popup\res\resource.rc
 [Content && Style]
 Zawartość i wygląd
-[Display time]
-Pokaż czas
-[Dynamically resize the popups]
-Automatyczny rozmiar popupów
-[Minimum width]
-Min. szerokość
-[Maximum width]
-Maks. szerokość
-[Use transparency (Windows 2000+)]
-Przezroczystość (Windows 2000+)
-[Popup delay:]
-Pokazuj przez:
-[Default color]
-Domyślny kolor
-[Default text color]
-Domyślny kolor tekstu
-[Disable popups in fullscreen mode]
-Wył. popupy w trybie pełnoekranowym
-[Slide popups while reordering]
-Przesuwaj popupy przy reorganizowaniu
-[Do not close hovered popups]
-Nie zamykaj aktywnych popupów
-[Infinite popup delay]
-Nie chowaj popupów
-[Size && Position]
-Rozmiar i pozycja
-[Draw avatar borders]
-Rysuj obramowanie awatarów
-[Round corners by]
-Zaokrąglij rogi o
-[Draw borders for semitransparent avatars too]
-Rysuj obramowanie dla półprzezroczystych awatarów
+[Go to Customize > Fonts && Colors for fonts and colors options]
+Przejdź do Dostosuj -> Czcionki żeby ustawić czcionki i kolory
+[Miscellaneous]
+Różne
+[Effects]
+Efekty
 [Live Preview]
 Podgląd
-[Debug]
-Analizuj
-[opacity:]
-Widoczność:
-[You may set up custom fonts and colors in Customize > Fonts section in Miranda IM options.]
-Możesz ustawić czcionki i kolory w sekcji Personalizacja -> Czcionki opcji Mirandy.
-[Window sliding]
-Wysuwanie okna
-[Reorder Popups]
-Reorganizuj popupy
-[Display time:]
-Pojawianie się:
-[Vanish time:]
-Zanikanie:
-[Opaque popups under cursor]
-Wyłącz pod kursorem
-[Layout:]
-Ułożenie:
-[Multimonitor (98/ME/2000/XP)]
-Multimonitor (98/ME/2000/XP)
-[Start the popups in the monitor with]
-Pokaż popupy na monitorze zawierającym
-[Miranda's window]
-Okno Mirandy
-[the active window]
-Aktywne okno
-[Disable when:]
-Wyłącz, kiedy:
-[Use advanced text render]
-Zaawansowany rendering tekstu
+[Size && Position]
+Rozmiar i pozycja
+[History]
+Historia
 [Enable popup history]
 Włącz historię popupów
 [Store last]
@@ -181,50 +30,76 @@ Trzymaj
 zdarzeń
 [Use History++ to render log]
 Użyj wtyczki History++
-[Always (has priority)]
-Zawsze (ma priorytet)
-[Open history]
-Otwórz historię
-[Left Click:]
-Lewy przycisk:
-[Right Click:]
-Prawy przycisk:
-[Background:]
-Tło:
-[Use Default]
-Użyj domyślnych
-[Timeout:]
-Timeout:
-[Interaction]
-Interakcja
-[Display when]
-Wyświetlaj, kiedy
-[Drop shadow effect (Windows XP+)]
-Rzucaj cień (Windows XP+)
+[Avatars]
+Awatary
+[Draw avatar borders]
+Rysuj obramowanie awatarów
+[Draw borders for semitransparent avatars too]
+Rysuj obramowanie dla półprzeźroczystych awatarów
+[Round corners by]
+Zaokrąglij rogi o
+[pixels]
+px
+[Avatar size:]
+Rozmiar:
+[Enable avatar updates]
+Włącz aktualizację awatarów
+[Multimonitor]
+
+[Start the popups in the monitor with]
+Pokaż popupy na monitorze zawierającym
+[Miranda's window]
+Okno Mirandy
+[the active window]
+Aktywne okno
+[Transparency]
+Przeźroczystość
+[Enable Win 9x/Me transparency]
+Włącz przeźroczystość Win 9x/ME
+[Use transparency]
+Przeźroczystość
+[opacity:]
+Widoczność:
+[Opaque popups under cursor]
+Wyłącz pod kursorem
+[Slide Popup]
+Wysuwany Popup
+[Effect:]
+Efekt:
+[Time (in):]
+Czas (przych)..:
+[ms]
+
+[Time (out):]
+Czas (wych)..:
+[Limit window amount to:]
+Ogranicz ilość okien do:
+[Skins]
+Skórki
 [* - built-in skins]
 * - wbudowane
-[Never show news]
-Nie pokazuj nowości
-[Whole Screen]
-Cały ekran
+[Skin options]
+Opcje skórki
+[Preview]
+Podgląd
+[Download more skins]
+Pobierz więcej skórek
+[Popup History]
+Historia popupów
+[Desktop]
+Pulipit
+[Popup Area]
+Obszar
 [pixel(s)]
-pikseli
-[Spacing:]
-Odstęp:
-[Go to Customize > Fonts && Colors for fonts and colors options]
-Przejdź do Dostosuj -> Czcionki żeby ustawić czcionki i kolory
-[* Effect:]
-* Efekt:
-[No effect]
-Brak efektu
-[Fading]
-Rozszerzanie
+px
+[Distance between popups]
+Odległość pomiędzy popupami
 [Configure popup area]
 Przestrzeń wyświetlania
-[Draw gradient background]
-Rysuj gradientowe tło
-[Flat borders]
-Płaskie obramowanie
+[Close]
+Zamknij
+[General]
+Ogólne
 [Enable popup actions]
 Włącz akcje popupów
 [Popup Actions are those tiny buttons below notification text.]
@@ -251,161 +126,295 @@ Ikony po lewej
 Ikony przesunięte w prawo
 [Show Actions: (requires apply)]
 Pokaż akcje (wymaga zaakceptowania):
-[Action]
-Akcja
-[Add permanently]
-Dodaj na stałe
-[Pin popup]
-Przypnij popup
-[User details]
-Dane kontaktu
-[One more action]
-Jeszcze jedna akcja
-[Second test action]
-Druga akcja testowa
-[Test action]
-Akcja testowa
+[Mouse Actions Overwrite]
+Akcje myszy
+[LeftButton]
+Lewy
+[MiddleButton]
+Środkowy
+[RightButton]
+Prawy
+[Notifications]
+Powiadomienia
+[General options]
+Opcje ogólne
 [Enable this notification]
 Włącz to powiadomienie
 [Popup timeout:]
 Czas wyświetlania:
 [Left click action:]
-Lewy przycisk:
+Akcja LPM:
 [Right click action:]
-Prawy przycisk
+Akcja PPM:
 [Disable when global status is...]
 Wyłącz, kiedy globalny status to...
 [Disable when relevant protocol's status is...]
 Wyłącz, jeśli stosowany status protokołu to...
 [Colors can be configured in\r\nCustomize > Fonts && Colors]
-Kolory można ustawić w\r\nPersonalizacja -> Czcionki.
+Kolory można ustawić w\r\nPersonalizacja -> Czcionki
+[More...]
+Więcej...
+[Disable if message window is open]
+Wyłącz, jeśli okno wiadomości jest otwarte
+[Sec]
+s
+[0 = Default]
+0 = Domyślny
+[-1 = Infinite]
+   -1 = Nie chowaj
 [Per-contact settings]
 Osobne ustawienia kontaktów
-[Show default]
-Pok. domyślnie
 [Show always]
 Zawsze pokazuj
 [Ignore fullscreen]
 Ignoruj peł. ekran
 [Never show]
 Nie pokazuj
-[Performance && Tweaks]
-Wydajność
-[Limit window amount to:]
-Ogranicz ilość okien do:
-[Enable Win 9x/Me transparency]
-Włącz przezroczystość Win 9x/ME
-[Enable freeform shadows (XP+)]
-Włącz dowolne cieniowanie (XP+)
-[Enable Aero Glass (Vista+)]
-Włącz Aero Glass (Vista+)
-[Enable avatar updates]
-Włącz aktualizację awatarów
-[Make action icons customizable*]
-Możliwość zmiany ikon akcji *
-[Make OK/Cancel icons customizable*]
-Możliwość zmiany ikon OK/Anuluj *
-[Global Status]
-Globalny status
-[Protocol Status]
-Status protokołu
-[Test effect]
-Test efektu
-[Show avatars]
-Pokaż awatar
-[Add info & menu for IM contacts only]
-Dodaj info i menu tylko dla kontaktów IM
-[Align avatar to right]
-Wyrównaj awatar do prawej
-[Show colours]
-Pokaż kolory
-[Black background]
-Czarne tło
-[Use different colours]
-Użyj różnych kolorów
-[Show clock]
-Pokaż zegar
-[Avatar to right]
-Awatar do prawej
-[Draw clock background]
-Rysuj tło zegara
-[Show Avatar]
-Pokaż awatar
-[Reverse gradient background]
-Odwróć tło gradientowe
-[Block]
-Blokuj
-[Favourite]
-Ulubiony
-[Show in Fullscreen]
-Pokaż w pełnym ekranie
+[Show default]
+Pokaż domyślnie
+[Default Timeout]
+Czas oczekiwania
+[Infinite popup delay]
+Nie chowaj popupów
+[Popup delay:]
+Wyświetlaj:
+[seconds]
+s
+[Do not close hovered popups]
+Nie zamykaj aktywnych popupów
+[Dynamically resize the popups]
+Automatyczny rozmiar popupów
+[Minimum width]
+Min. szerokość
+[Maximum width]
+Maks. szerokość
+[Position:]
+Pozycja:
+[Layout:]
+Ułożenie:
+[Reorder Popups]
+Reorganizuj popupy
+[Disable when:]
+Wyłącz, kiedy:
+[Always (has priority)]
+Zawsze (ma priorytet)
+[Fullscreen mode]
+Funkcja pełnoekranowa
+[Debug]
+Analizuj
+;file \plugins\Popup\src\actions.cpp
+[no overwrite]
+Nic nie rób
+[Send message]
+Wyślij wiadomość
+[Quick reply]
+Szybka odpowiedź
+[User details]
+Dane kontaktu
+[Contact menu]
+Menu kontaktu
+[Dismiss popup]
+
+[Pin popup]
+Przypnij popup
+[Copy to clipboard]
+Kopiuj do schowka 
+[Action]
+Akcja
+;file \plugins\Popup\src\config.cpp
+[The Jabberwocky]
+
+[`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
+
+[Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
+Test ustawień wtyczki Popup. Ten tekst powinien być wystarczająco długi żeby nie zmieścić się w jednej linii...
+[This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
+To jest specjalny test ustawień wtyczki Popup. Tekst i tytuł jest wystarczająco długi, więc możesz zmienić skórkę i ustawienia wtyczki, aby najlepiej dopasować je do swoich potrzeb
+[This is a notification message]
+To jest powiadomienie wiadomości
+[This is a warning message]
+To jest wiadomość z ostrzeżeniem
+[This is an error message]
+To jest wiadomość z błędem
+;file \plugins\Popup\src\effects.cpp
+[Square fading]
+Blaknięcie
+;file \plugins\Popup\src\font.cpp
+[Hovered Action]
+Akcje po najechaniu
+[Clock]
+Zegar
+;file \plugins\Popup\src\history.cpp
+[Popup History is disabled]
+Historia popupów jest wyłączona
+[Popup History message]
+Historia popupów
+;file \plugins\Popup\src\icons.cpp
+[Popups are enabled]
+Popupy są włączone
+[Popups are disabled]
+Popupy są wyłączone
+[With "favourite" overlay]
+Nakładka "ulubione"
+[With "fullscreen" overlay]
+Nakładka w "trybie pełnoekranowym"
+[Refresh skin list]
+Odśwież listę skórek
+[Popup Placement]
+Rozmieszczenie
+[OK]
+OK
+[Cancel]
+Anuluj
+[Popup Group]
+Grupa popupów
 [Favorite Contact]
 Ulubione kontakty
+[Show in Fullscreen]
+Pokaż w trybie pełnoekranowym
 [Blocked Contact]
 Kontakt zablokowany
-[Show Default]
-Pokaż domyślnie
-[Error (colors only)]
-Błąd (tylko kolor)
-[Notification (colors only)]
-Akcja (tylko kolor)
-[Warning (colors only)]
-Ostrzeżenie (tylko kolor)
-[Popup Plus]
-Popupy
-[Contact Menu]
-Menu kontaktu
-[Popup Mode: Auto]
-Tryb Popup: Auto
-[Popup Mode: Favourtite]
-Tryb Popup: Ulubione
-[Popup Mode: Ignore fullscreen]
-Tryb Popup: Ignoruj pełny ekran
-[Popup Mode: Block contact]
-Tryb Popup: Zablokuj kontakt
 [Quick Reply]
 Szybka odpowiedź
-[Add Contact Permanently]
-Dodaj pernamentnie kontakt
 [Pin Popup]
 Przypnij popup
 [Pinned Popup]
 Przypięty popup
-[Popup Group]
-Grupa popupów
-[Clock]
-Zegar
-[Gender]
-Płeć
-[IP internal]
-IP Wewnętrzne
-[Preset items:]
-Skonfigórowane elementy:
-[With "favourite" overlay]
-Nakładka "ulubione"
-[With "fullscreen" overlay]
-Nakładka na "pełnym ekranie"
-[Mouse Actions Overwrite]
-Akcje myszy
-[LeftButton]
-Lewy
-[RightButton]
-Prawy
-[MiddleButton]
-Środkowy
-[no overwrite]
-Nic nie rób
-[Quick reply]
-Szybka odpowiedź
-[Desktop]
-Pulipit
-[Distance between popups]
-Odległość pomiędzy popupami
 [Send Message]
 Wyślij wiadomość
+[User Details]
+Dane kontaktu
+[Contact Menu]
+Menu kontaktu
+[Add Contact Permanently]
+Dodaj pernamentnie kontakt
 [Dismiss Popup]
 Odrzuć popup
-[Disable status notification]
-Wyłącz powiadomienia o statusach
-[Provides popup notification services for different plugins.]
-Zapewnia obsługę popupów dla różnych wtyczek.
+;file \plugins\Popup\src\main.cpp
+[Classes]
+Klasy
+[Actions]
+Akcje
+[Contacts]
+Kontakty
+[Advanced]
+Zaawansowane
+[Toggle Popups]
+Włącz/wyłącz popupy
+[Enable Popups]
+Włącz popupy
+[Disable Popups]
+Wyłącz popupy
+[Popup Plus]
+Popupy
+[Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
+
+;file \plugins\Popup\src\opt_adv.cpp
+[No effect]
+Brak efektu
+[Fade in/out]
+Rozjaśnianie
+;file \plugins\Popup\src\opt_class.cpp
+[CLASS Plugins]
+Wtyczki
+[Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
+
+;file \plugins\Popup\src\opt_gen.cpp
+[Offline]
+Rozłaczony
+[Online]
+Połączony
+[Invisible]
+Niewidoczny
+[Away]
+Zaraz wracam
+[NA]
+Wrócę później
+[Occupied]
+Zajęty
+[DND]
+Nie przeszkadzać
+[Free for chat]
+Porozmawiajmy
+[Out to lunch]
+Na obiedzie
+[On the phone]
+Pod telefonem
+[Width]
+Szerokość
+[upper left corner]
+lewy górny róg
+[lower left corner]
+lewy dolny róg
+[lower right corner]
+prawy dolny róg
+[upper right corner]
+prawy górny róg
+[horizontal]
+poziome
+[vertical]
+pionowe
+[Global Status]
+Globalny status
+[Protocol Status]
+Status protokołu
+[You cannot specify a value lower than %d and higher than %d.]
+Nie możesz ustawić wartości niższej niż %d ani wyższej niż %d.
+['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+
+[Popup Plus Warning]
+Ostrzeżenie Popup Plus
+;file \plugins\Popup\src\opt_skins.cpp
+[Failed to register %s class.]
+
+[Skin preview]
+Podgląd skórki
+[Just take a look at this skin... ;)]
+Spójrz tylko na tę skórkę... ;)
+[Show clock]
+Pokaż zegar
+[Drop shadow effect]
+Rzucaj cień
+[non rectangular]
+nie prostokątne
+[Enable Aero Glass (Vista+)]
+Włącz Aero Glass (Vista+)
+[Use Windows colours]
+Użyj kolorów Windows
+[Use advanced text render]
+Zaawansowany rendering tekstu
+[Global settings]
+Ustawienia globalne
+[Refresh List]
+Odśwież listę
+;file \plugins\Popup\src\popup_thread.cpp
+;file \plugins\Popup\src\popup_wnd2.cpp
+[Failed to GetClassInfoExW from EDIT class.]
+Błąd tworzenia GetClassInfoExW from EDIT class.
+[Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
+
+;file \plugins\Popup\src\services.cpp
+[Error]
+Błąd
+[Warning]
+Ostrzeżenie
+[Notify]
+Powiadomienia
+;file \plugins\Popup\src\skin.cpp
+[The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
+
+;file \plugins\Popup\src\srmm_menu.cpp
+[Popup Mode: Auto]
+Tryb Popup: Auto
+[Popup Mode: Favourite]
+
+[Popup Mode: Ignore fullscreen]
+Tryb Popup: Ignoruj pełny ekran
+[Popup Mode: Block contact]
+Tryb Popup: Zablokuj kontakt
+[Auto]
+
+[Favourite]
+Ulubiony
+[Block]
+Blokuj

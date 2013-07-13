@@ -1,0 +1,73 @@
+﻿#muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
+;============================================================
+;  File: QuickMessages.dll
+;  Plugin: Quick messages
+;  Version: 0.0.4.2
+;  Authors: MaD_CLuSTeR
+;============================================================
+[Plugin for quick insert pre-defined messages in message input area.]
+Wtyczka do szybkiego umieszczania pre-definiowanych wiadomości w oknie rozmowy.
+;file \plugins\QuickMessages\res\quickmessages.rc
+[Button Right-Click value]
+Wartość prawego przycisku myszy
+[Button Left-Click menu]
+Menu lewego przycisku myszy
+[Buttons]
+Przyciski
+[Menu entry value:]
+Wartość pozycji menu:
+[Misc.]
+
+[Auto-send on Left-Click]
+Wyślij po LPM
+[Auto-send on Right-Click]
+Wyślij po PPM
+[Add to QuickMenu]
+Dodaj do szybkiego menu
+[Enable QuickMenu]
+Włącz menu szybkich odp.
+[Consider as ServiceName]
+Użyj jako nazwę usługi
+[You have changed the plugin settings via database.\nThis requires restart!]
+Zmieniłeś ustawienia w bazie danych.\nWymagany restart!
+[Quick Messages Help]
+Pomoc
+[- Selected text]
+- zaznaczony tekst
+[List of variables:]
+Lista zmiennych:
+[- Text from Clipboard]
+- tekst ze schowka
+[- Contacts Protocol name (upper case)]
+- nazwa protokołu kontaktu (wielkimi literami)
+[- Contact display name]
+- nazwa wyświetlana kontaktu
+[Tips:]
+Porady:
+[*Rename menu item into "---" to insert separator]
+
+[*Use drag'n'drop for arranging menu items]
+*Użyj przeciągnij i upuść do przemieszczania pozycji
+[- Contact first name]
+- imię kontaktu
+[- Contact last name]
+- nazwisko kontaktu
+;file \plugins\QuickMessages\src\main.cpp
+[Quick Messages]
+Szybkie wiadomości
+;file \plugins\QuickMessages\src\options.cpp
+[Enter Value]
+Wpisz wartość
+[Congratulation!\r\nYou have clicked this button 100 times!\r\nThere was access violation at this point...\r\nAnd now function for freeing resources must be called...\r\nBut no! there's only break :D]
+
+[You win!]
+
+[New Button]
+Nowy przycisk
+[New Menu Entry]
+Nowe menu
+[Message Sessions]
+Okno rozmowy
+;file \plugins\QuickMessages\src\Utils.cpp
+[Quick Messages Button %u]
+

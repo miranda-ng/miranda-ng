@@ -1,193 +1,270 @@
-﻿;============================================================
-;  File: fingerprint.dll
-;  Module: Display client icons, Fingerprint
-;  Versions: 1.1.13.0
+﻿#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
 ;============================================================
+;  File: Fingerprint.dll
+;  Plugin: Fingerprint NG
+;  Version: 0.1.0.0
+;  Authors: faith_healer, ghazan, mataes
+;============================================================
+[Fingerprint NG (client version) icons module for Miranda NG.]
+Umożliwia wyświetlanie ikon klientów oraz ich wersji w Mirandzie NG.
+;file \plugins\FingerprintNG\res\resource.rc
+[Fingerprint overlays icons]
+Ikony nakładek
+[Miranda clients]
+Klienty Mirandy
+[Miranda packs overlays]
+Nakładki paczek
+[Show Miranda version at Overlay#2]
+Pokaż nakładkę wersji Mirandy #2
+[Resource overlays]
+Nakładki zasobów
+[Platform overlays]
+Nakładki platform
+[Protocols overlays]
+Nakładki protokołów
+[Unicode overlay]
+Nakładka Unicode
+[Secure overlays]
+Nakładki bezpieczeństwa
+[Select protocols]
+Zaznacz protokoły
+[AIM clients]
+Klienty AIM
+[Gadu-Gadu clients]
+Klienty Gadu-Gadu
+[ICQ clients]
+Klienty ICQ
+[IRC clients]
+Klienty IRC
+[Jabber clients]
+Klienty Jabber
+[MRA clients]
+Klienty MRA
+[MSN clients]
+Klienty MSN
+[QQ clients]
+Klienty QQ
+[RSS clients]
+Klienty RSS
+[Tlen clients]
+Klienty Tlen
+[Weather clients]
+Klienty Pogodowe
+[Yahoo clients]
+Klienty Yahoo
+[Multi-protocol clients]
+Multikomunikatory
+[Other (rare) protocols]
+Inne (rzadkie) protokoły
+[Other icons]
+Inne ikony
+[Show client icon in message window status bar]
+
+;file \plugins\FingerprintNG\src\fingerprint.cpp
 [Fingerprint]
-Fingerprint
-[Fingerprint icons]
-Ikony Fingerprint
-[Base Icon]
-Główna ikona
-[Show unknown]
-Pokaż ikonę nieznanego protokołu
-[Show unicode flag]
-Pokaż flagę Unicode
-[Show one icon]
-Pokaż jedną ikonę
-[Show pack icon (if available)]
-Pokaż ikonę paczki (jeśli dostępna)
-[Show jabber transport]
-Pokaż transporty Jabbera
-[Show protocol]
-Pokaż protokół
-[Use &unknown flag if country can not be determined]
-Pokaż domyślną flagę jeżeli nie została określona
-[Include &IP-to-country lookup in country detection]
-Użyj IP aby wykryć kraj
-[Show version]
-Pokaż wersję
-[Overlay Icon #1]
-Nakładka na ikonę #1
-[Overlay Icon #2]
-Nakładka na ikonę #2
-[Show Jabber resource]
-Pokaż zasób Jabbera
-[Show Miranda version]
-Pokaż wersję Mirandy
-[Overlay Icon #3]
-Nakładka na ikonę #3
-[Show +secure]
-Pokaż +secure
-[Show in options icon group:]
-Pokaż w opcjach grupę ikon:
-[bots]
-boty
-[services]
-usługi
-[Multi-Protocol]
-Multi protokoły
+Ikony klientów
+;file \plugins\FingerprintNG\src\finger_groups.h
+[Client icons]
+Ikony klientów
 [Pack overlays]
+Nakładki paczek
+[Multi-proto clients]
+Multikomunikatory
+[Other protocols]
+Inne protokoły
+[Overlays]
 Nakładki
-[Web-based]
-Protokoły webowe
-[Weather]
-Pogoda
-[Extra icon slot (restart required):]
-Slot ikony (wymaga restartu):
-[Client (default)]
-Klient (domyślne)
-[Advanced 1]
-Zaawansowane 1
-[Advanced 2]
-Zaawansowane 2
-[Advanced 3]
-Zaawansowane 3
-[Advanced 4]
-Zaawansowane 4
-[Client Icons/Tlen]
-Ikony klienta/Tlen
-[Client Icons/MSN]
-Ikony klienta/MSN
-[Client Icons/Yahoo]
-Ikony klienta/Yahoo
-[Client Icons/Miranda]
-Ikony klienta/Miranda
-[Client Icons/JABBER]
-Ikony klienta/JABBER
-[Client Icons/Multi-Protocol/overlays]
-Ikony klienta/Multi-Protocol/overlays
-[Icon packages]
-Paczka ikon
-[Client Icons/Gadu-Gadu]
-Ikony klienta/Gadu-Gadu
-[Client Icons/Weather]
-Ikony klienta/Weather
-[Client Icons/Miranda/overlays#1]
-Ikony klienta/Miranda/overlays#1
-[Client Icons/Miranda/overlays#2]
-Ikony klienta/Miranda/overlays#2
-[Client Icons]
-Ikony klienta
-[Unknown for fingerprint]
-Nieznany przez fingerprint
-[Unknown for protocol]
-Nieznany przez protokół
-[Icon group options will be fully applied after restart]
-Opcje grup ikon będą w pełni funkcjonalne po restarcie.
-[Official]
-Oficjalne
+[Resource]
+Zasób
+[Platform]
+Platformy
+[Security]
+Bezpieczeństwo
+[Protocol]
+Protokół
+;file \plugins\FingerprintNG\src\masks.cpp
+[MirandaNG stable]
+Stabilna Miranda NG
+[MirandaIM (old versions)]
+Miranda IM (starsza wersja)
+[Miranda (unknown)]
+Miranda (nieznana)
+[spam client]
+
+[PHP Jabber Client]
+Klient PHP Jabber
+[MP3 Script for mIRC]
+Skrypt MP3 dla mIRC
+[Mail.Ru Agent (official)]
+MRA (oficjalny)
+[Mail.Ru (unknown client)]
+MRA (nieznany klient)
+[TM 2008 and >]
+TM 2008 i >
+[Gadu-Gadu client]
+Klient Gadu-Gadu
+[Tlen.pl client]
+Klient Tlen.pl
+[Python-based clients]
+Klient bazujący na Phytonie
+[Jabber client]
+Klient Jabber
+[XMPP client]
+Klient XMPP
+[Client not found]
+Klient nie znaleziony
+[Unknown client]
+Nieznany klient
 [Undetected client]
-Klient nie wykryty
-[Database Backups]
-Kopia zapasowa Bazy Danych
-[pack overlays]
-Paczka nakładek
-[Avatar Overlay]
-Nakładka awataru
-[Status Overlay]
-Nakładka statusu
-[AOL Mail]
-Poczta AOL
-[AIM Icon]
-Ikona AIM
-[AOL Bot]
-Bot AOL
-[Confirmed]
-Potwierdzone
-[Not Confirmed]
-Nie potwierdzone
-[Blocked list]
-Lista zablokowanych
-[Profile Editor]
-Edytor profilu
-[Foreground Color]
-Kolor
-[Background Color]
-Kolor tła
-[Not Bold]
-Bez pogrubienia
-[Not Italic]
-Bez kursywy
-[Not Underline]
-Bez podkreślenia
-[Subscript]
-Indeks dolny
-[Not Subscript]
-Bez indeksu dolnego
-[Superscript]
-Indeks górny
-[Not Superscript]
-Bez indeksu górnego
-[Normal Script]
-Zwykły tekst
-[Not Normal Script]
-Bez zwykłego tekstu
-[Channel list]
-Lista kanałów
-[Quick connect]
-Szybkie połączenie
-[Server window]
-Okno serwera
-[Show channel]
-Pokaż kanał
-[Incoming DCC Chat]
-Nadchodzi rozmowa DCC
-[Hotmail Inbox]
-Skrzynka Hotmail
-[MSN Services]
-Usługi MSN
-[Block user]
-Zablokuj użytkownika
-[Invite to chat]
-Zaproś do rozmowy
-[Start Netmeeting]
-Rozpocznij sesję Netmeeting
-[Allowed list]
-Biała lista
-[Relative list]
-Lista zależna
-[Local list]
-Lista lokalna
-[Incoming message (10x10)]
-Przychodząca wiadomość (10x10)
-[Outgoing message (10x10)]
-Wychodząca wiadomość (10x10)
-[Disable status message retrieve in all statuses]
-Wyłącz pobieranie opisu statusu dla wszystkich statusów
-[Disable status message retrieve in invisible status]
-Wyłącz pobieranie opisu statusu dla niewidocznych
-[Overlay#1]
-Nakładka#1
-[Overlay#2]
-Nakładka#2
-[Overlay#3]
-Nakładka#3
-[icon slot]
-ikony
-[Showing groups]
-Widoczne grupy
-[Fingerprint Plus (client version) icons module set extra icon of your buddies according to their client version]
-Fingerprint Plus dodaje dodatkowe ikonki w zależności od tego, jakiego klienta używają Twoi znajomi
-[Fingerprint Mod+ (client version) icons module set extra icon of your buddies according to their client version.]
-Fingerprint Mod+ dodaje dodatkowe ikonki w zależności od tego, jakiego klienta używają Twoi znajomi
+Nie wykryty klient
+[AIM overlay]
+Nakładka AIM
+[ICQJ Plus Mod overlay]
+Nakładka ICQJ Plus Mod
+[ICQJ overlay]
+Nakładka ICQJ
+[IRC overlay]
+Nakładka IRC
+[JGmail overlay]
+Nakładka JGmail
+[JGTalk overlay]
+Nakładka JGTalk
+[Jabber overlay]
+Nakładka Jabber
+[MSN overlay]
+Nakładka MSN
+[QQ overlay]
+Nakładka QQ
+[Tlen.pl overlay]
+Nakładka Tlen.pl
+[Yahoo overlay]
+Nakładka Yahoo
+[Mail.Ru Agent overlay]
+Nakładka MRA
+[ICQ 2003 overlay]
+Nakładka ICQ 2003
+[ICQ Lite 4 overlay]
+Nakładka ICQ Lite 4
+[ICQ v5.x overlay]
+Nakładka ICQ v5.x
+[ICQ v6.x overlay]
+Nakładka ICQ v6.x
+[ICQ v7.x overlay]
+Nakładka ICQ v7.x
+[ICQ v8.x overlay]
+Nakładka ICQ v8.x
+[Yahoo v11.x overlay]
+Nakładka Yahoo v11.x
+[Yahoo v10.x overlay]
+Nakładka Yahoo v10.x
+[Yahoo v9.x overlay]
+Nakładka Yahoo x9.x
+[Gadu-Gadu v11 client]
+Klient Gadu-Gadu v11
+[Gadu-Gadu v10 client]
+Klient Gadu-Gadu v10
+[Gadu-Gadu v9 client]
+Klient Gadu-Gadu v9
+[Gadu-Gadu v8 client]
+Klient Gadu-Gadu v8
+[Tlen 7.x overlay]
+Nakładka Tlen 7.x
+[Tlen 6.x overlay]
+Nakładka Tlen 6.x
+[Tlen 5.x overlay]
+Nakładka Tlen 5.x
+[TM/QQ 2012 overlay]
+Nakładka TM/QQ 2012
+[TM/QQ 2011 overlay]
+Nakładka TM/QQ 2011
+[TM/QQ 2010 overlay]
+Nakładka TM/QQ 2010
+[TM/QQ 2009 overlay]
+Nakładka TM/QQ 2009
+[TM/QQ 2008 overlay]
+Nakładka TM/QQ 2008
+[TM/QQ 2007 overlay]
+Nakładka TM/QQ 2007
+[TM/QQ 2006 overlay]
+Nakładka TM/QQ 2006
+[TM/QQ 2005 overlay]
+Nakładka TM/QQ 2005
+[QQ 2004 overlay]
+Nakładka QQ 2004
+[TM 3.x / QQ 2003 overlay]
+Nakładka 3.x / QQ 2003
+[TM 2.x overlay]
+Nakładka TM 2.x
+[TM 1.x overlay]
+Nakładka 1.x
+[QQ 2000 overlay]
+Nakładka QQ 2000
+[Windows overlay]
+Nakładka Windows
+[iOS overlay (iPhone/iPad)]
+Nakładka iOS (iPhone/iPad)
+[MacOS overlay]
+Nakładka MacOS
+[Linux overlay]
+Nakładka Linux
+[Flash overlay]
+Nakładka Flash
+[Java overlay]
+Nakładka Java
+[Symbian overlay]
+Nakładka Symbian
+[Amiga overlay]
+Nakładka Amiga
+[Android overlay]
+Nakładka Android
+[debug overlay]
+Nakładka Kodowanie
+[office overlay]
+Nakładka Biuro
+[mobile overlay]
+Nakładka Mobilny
+[home overlay]
+Nakładka Dom
+[work overlay]
+Nakładka Praca
+[notebook overlay]
+Nakładka Notebook
+[MirandaNG v0.6 #2 overlay]
+Nakładka Miranda NG v0.6 #2
+[MirandaNG v0.5 #2 overlay]
+Nakładka Miranda NG v0.5 #2
+[MirandaNG v0.4 #2 overlay]
+Nakładka Miranda NG v0.4 #2
+[MirandaNG v0.3 #2 overlay]
+Nakładka Miranda NG v0.3 #2
+[MirandaNG v0.2 #2 overlay]
+Nakładka Miranda NG v0.2 #2
+[MirandaNG v0.1 #2 overlay]
+Nakładka Miranda NG v0.1 #2
+[MirandaIM v0.10 #2 overlay]
+Nakładka Miranda IM v0.10 #2
+[MirandaIM v0.9 #2 overlay]
+Nakładka Miranda IM v0.9 #2
+[MirandaIM v0.8 #2 overlay]
+Nakładka Miranda IM v0.8 #2
+[MirandaIM v0.7 #2 overlay]
+Nakładka Miranda IM v0.7 #2
+[MirandaIM v0.6 #2 overlay]
+Nakładka Miranda IM v0.6 #2
+[MirandaIM v0.5 #2 overlay]
+Nakładka Miranda IM v0.5 #2
+[MirandaIM v0.4 #2 overlay]
+Nakładka Miranda IM v0.4 #2
+[x64 overlay]
+Nakładka x64
+[x32 overlay]
+Nakładka x32
+[NewGPG overlay]
+Nakładka NewGPG
+[MirOTR overlay]
+Nakładka MirOTR
+[SecureIM overlay]
+Nakładka SecureIM
+;file \plugins\FingerprintNG\src\options.cpp
+[Icons]
+Ikony

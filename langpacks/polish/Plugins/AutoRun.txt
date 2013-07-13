@@ -1,11 +1,20 @@
-﻿;============================================================
-;  File: autorun.dll
-;  Module: AutoRun
-;  Versions: 0.1.0.1
+﻿#muuid {eb0465e2-ceee-11db-83ef-c1bf55d89593}
 ;============================================================
+;  File: AutoRun.dll
+;  Plugin: AutoRun
+;  Version: 0.1.0.1
+;  Authors: Sergey V. Gershovich a.k.a. Jazzy$ (fixed by Wolfram3D)
+;============================================================
+[This plugin is a simple way to enable/disable to launch Miranda NG with system startup.]
+Ta wtyczka umożliwia proste włączanie i wyłączanie urchamiania Mirandy NG podczas uruchamiania systemu
+;file \plugins\AutoRun\res\autorun.rc
 [Autorun]
-Automatyczne uruchamianie
-[Launch Miranda IM at system startup]
-Uruchom Mirandę IM przy starcie systemu
-[Note: At startup Miranda IM will use current profile]
-Wiadomość: Przy starcie Miranda IM użyje obecnego profilu
+Autouruchamianie
+[Launch Miranda NG at system startup]
+Uruchom Mirandę NG przy starcie systemu
+[Note: At startup Miranda NG will use current profile]
+Uwaga: Przy starcie Miranda NG użyje obecnego profilu
+;file \plugins\AutoRun\src\main.cpp
+[Services]
+Usługi
+;file \plugins\AutoRun\src\stdafx.h

@@ -1,0 +1,94 @@
+﻿#muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
+;============================================================
+;  File: CSList.dll
+;  Plugin: Custom status list
+;  Version: 0.1.1.0
+;  Authors: Mataes, jarvis
+;============================================================
+[This plugin offers simple management functions to keep your extra statuses on one place.]
+Wtyczka oferuje proste zarządzanie dodatkowymi statusami w jednym miejscu.
+;file \plugins\CSList\res\cslist.rc
+[Custom Status List]
+Niestandardowa lista statusów
+[No items available in the database.\nClick the Add button to define some.]
+Brak elementów w bazie danych.\nKliknij na przycisk dodawania aby zdefiniować statusy.
+[Add/Modify Custom Status]
+Dodaj/edytuj wlasne statusy
+[Add/Modify]
+Dodaj/edytuj
+[Cancel]
+Anuluj
+[List settings]
+Opcje listy
+[Confirm deletion of items]
+Potwierdź usuwanie elementów
+[Delete entries in Custom status menu after Import]
+Usuń wpisy w menu niestandardowych statusów po imporcie
+[Remember last window position]
+Pamiętaj ostanią pozycję okna
+[Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
+Uwaga: elementy menu są widoczne tylko wtedy, gdy co najmniej jedno konto jest prawidłowo ustawione. Sprawdź, czy masz w co najmniej jednym koncie wypełniony UIN.
+;file \plugins\CSList\src\cslist.cpp
+[Status]
+Status
+[Add new item]
+Dodawanie
+[Add]
+Dodaj
+[Modify item]
+Edytowanie
+[Modify]
+Edytuj
+[Warning]
+Ostrzeżenie
+[This field doesn't accept string longer than %d characters. The string will be truncated.]
+
+[Favourites]
+Ulubione
+[Regular statuses]
+Regularne statusy
+[Title]
+Nazwa
+[Message]
+Wiadomość
+[Do you really want to delete selected item?]
+Czy na pewno chcesz usunąć wybrany wpis?
+[Do you want old database entries to be deleted after Import?]
+Czy chcesz usunąć starą bazę danych po imporcie?
+;file \plugins\CSList\src\cslist.h
+[Main Menu]
+Menu główne
+[Main Icon]
+Główna ikona
+[Modify selected item]
+Edytuj zaznaczone
+[Delete selected item]
+Usuń zaznaczone
+[Remove]
+Usuń
+[Set/unset current item as favorite]
+Ulubiony/Regularny
+[Favourite]
+Ulubiony
+[Undo changes]
+Cofnij zmiany
+[Import statuses from database]
+Importuj statusy z profilu
+[Import]
+
+[Filter list]
+Lista filtrów
+[Filter]
+Filtr
+[Close without changing custom status]
+Zamknij bez zmiany statusu
+[No change]
+Brak zmian
+[Clear custom status (reset to None) and close]
+Wyczyść status (domyślny - brak) i zamknij
+[Clear]
+Wyczyść
+[Set custom status to selected one and close]
+Ustaw status na zaznaczony i zamknij
+[Set]
+Ustaw
