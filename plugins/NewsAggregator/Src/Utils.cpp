@@ -101,9 +101,9 @@ void CreateAuthString(char *auth, HANDLE hContact, HWND hwndDlg)
 	}
 	else if (hwndDlg && IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
 		GetDlgItemText(hwndDlg, IDC_LOGIN, buf, SIZEOF(buf));
-		tlogin = buf;
+		tlogin = mir_tstrdup(buf);
 		GetDlgItemText(hwndDlg, IDC_PASSWORD, buf, SIZEOF(buf));
-		tpass = buf;
+		tpass = mir_tstrdup(buf);
 	}
 	user = mir_t2a(tlogin);
 	pass = mir_t2a(tpass);
@@ -120,20 +120,24 @@ void CreateAuthString(char *auth, HANDLE hContact, HWND hwndDlg)
 
 VOID GetNewsData(TCHAR *tszUrl, char **szData, HANDLE hContact, HWND hwndDlg)
 {
-	char *szRedirUrl  = NULL;
 	NETLIBHTTPREQUEST nlhr = {0};
-	NETLIBHTTPHEADER headers[5];
 
 	// initialize the netlib request
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
-	nlhr.flags = NLHRF_HTTP11;
+	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
+	if ( _tcsstr(tszUrl, _T("https://")) != NULL)
+		nlhr.flags |= NLHRF_SSL;
 	char *szUrl = mir_t2a(tszUrl);
 	nlhr.szUrl = szUrl;
 	nlhr.nlc = hNetlibHttp;
 
 	// change the header so the plugin is pretended to be IE 6 + WinXP
-	nlhr.headers = headers;
+	if (db_get_b(hContact, MODULE, "UseAuth", 0) || IsDlgButtonChecked(hwndDlg, IDC_USEAUTH))
+		nlhr.headersCount = 5;
+	else
+		nlhr.headersCount = 4;
+	nlhr.headers = (NETLIBHTTPHEADER *)mir_alloc(sizeof(NETLIBHTTPHEADER) * nlhr.headersCount);
 	nlhr.headers[0].szName  = "User-Agent";
 	nlhr.headers[0].szValue = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)";
 	nlhr.headers[1].szName  = "Cache-Control";
@@ -142,90 +146,48 @@ VOID GetNewsData(TCHAR *tszUrl, char **szData, HANDLE hContact, HWND hwndDlg)
 	nlhr.headers[2].szValue = "no-cache";
 	nlhr.headers[3].szName  = "Connection";
 	nlhr.headers[3].szValue = "close";
-	nlhr.headers[4].szName  = "Accept";
-	nlhr.headers[4].szValue = "*/*";
 	if (db_get_b(hContact, MODULE, "UseAuth", 0) || IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
-		nlhr.headersCount = 6;
-		nlhr.headers[5].szName  = "Authorization";
+		nlhr.headers[4].szName  = "Authorization";
 	
 		char auth[256];
 		CreateAuthString(auth, hContact, hwndDlg);
-		nlhr.headers[5].szValue = auth;
+		nlhr.headers[4].szValue = auth;
 	}
-	else nlhr.headersCount = 5;
 
 	// download the page
 	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&nlhr);
 	if (nlhrReply) {
 		// if the recieved code is 200 OK
-		switch (nlhrReply->resultCode) {
-		case 200: 
-			if (nlhrReply->dataLength) {
-				// allocate memory and save the retrieved data
-				*szData = (char *)mir_alloc(nlhrReply->dataLength + 2);
-				memcpy(*szData, nlhrReply->pData, nlhrReply->dataLength);
-				(*szData)[nlhrReply->dataLength] = 0;
-			}
-			break;
-
-		case 401:
-			//ShowMessage(0, TranslateT("Cannot upload VersionInfo. Incorrect username or password"));
-			break;
-
-		case 301:
-		case 302:
-		case 307:
-			// get the url for the new location and save it to szInfo
-			// look for the reply header "Location"
-			for (int i = 0; i < nlhrReply->headersCount; i++) {
-				if (!strcmp(nlhrReply->headers[i].szName, "Location")) {
-					size_t rlen = 0;
-					if (nlhrReply->headers[i].szValue[0] == '/') {
-						const char *szPath;
-						const char *szPref = strstr(szUrl, "://");
-						szPref = szPref ? szPref + 3 : szUrl;
-						szPath = strchr(szPref, '/');
-						rlen = szPath != NULL ? szPath - szUrl : strlen(szUrl); 
-					}
-
-					szRedirUrl = (char *)mir_realloc(szRedirUrl, rlen + strlen(nlhrReply->headers[i].szValue) * 3 + 1);
-
-					strncpy(szRedirUrl, szUrl, rlen);
-					strcpy(szRedirUrl + rlen, nlhrReply->headers[i].szValue); 
-
-					nlhr.szUrl = szRedirUrl;
-					break;
-				}
-			}
-			break;
-
-		default:
-			//ShowMessage(0, TranslateT("Cannot upload VersionInfo. Unknown error"));
-			break;
+		if (nlhrReply->resultCode == 200 && nlhrReply->dataLength > 0) {
+			// allocate memory and save the retrieved data
+			*szData = (char *)mir_alloc(nlhrReply->dataLength + 2);
+			memcpy(*szData, nlhrReply->pData, nlhrReply->dataLength);
+			(*szData)[nlhrReply->dataLength] = 0;
 		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	}
 	mir_free(szUrl);
+	mir_free(nlhr.headers);
 }
 
 VOID CreateList(HWND hwndList)
 {
 	SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);	
 
-	LVCOLUMN lvc = {0}; 
+	LVCOLUMN lvc = {0};
 	// Initialize the LVCOLUMN structure.
 	// The mask specifies that the format, width, text, and
-	// subitem members of the structure are valid. 
-	lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM; 
+	// subitem members of the structure are valid.
+	lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 	lvc.fmt = LVCFMT_LEFT;
-	  
+
 	lvc.iSubItem = 0;
-	lvc.pszText = TranslateT("Feed");	
+	lvc.pszText = TranslateT("Feed");
 	lvc.cx = 160;     // width of column in pixels
 	ListView_InsertColumn(hwndList, 0, &lvc);
 
 	lvc.iSubItem = 1;
-	lvc.pszText = TranslateT("URL");	
+	lvc.pszText = TranslateT("URL");
 	lvc.cx = 276;     // width of column in pixels
 	ListView_InsertColumn(hwndList, 1, &lvc);
 }
@@ -263,7 +225,7 @@ VOID UpdateList(HWND hwndList)
 }
 
 VOID DeleteAllItems(HWND hwndList)
-{	
+{
 	ListView_DeleteAllItems(hwndList);
 }
 
