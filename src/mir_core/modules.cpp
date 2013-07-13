@@ -126,6 +126,9 @@ MIR_CORE_DLL(HANDLE) CreateHookableEvent(const char *name)
 
 MIR_CORE_DLL(int) DestroyHookableEvent(HANDLE hEvent)
 {
+	if (hEvent == NULL)
+		return 1;
+
 	mir_cslock lck(csHooks);
 
 	int idx;
