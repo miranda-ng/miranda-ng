@@ -671,7 +671,7 @@ TCHAR * CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 						if (!lstrcmpi(xi.getName(child), _T("title"))) {
 							TCHAR mes[MAX_PATH];
 							mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
-							MessageBox(NULL, mes, TranslateT("New Aggregator"), MB_OK|MB_ICONINFORMATION);
+							MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK|MB_ICONINFORMATION);
 							TCHAR *tszTitle = (TCHAR *)xi.getText(child);
 							return tszTitle;
 						}
@@ -683,7 +683,7 @@ TCHAR * CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 						if (!lstrcmpi(xi.getName(child), _T("title"))) {
 							TCHAR mes[MAX_PATH];
 							mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
-							MessageBox(NULL, mes, TranslateT("New Aggregator"), MB_OK|MB_ICONINFORMATION);
+							MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK|MB_ICONINFORMATION);
 							TCHAR *tszTitle = (TCHAR *)xi.getText(child);
 							return tszTitle;
 						}
@@ -697,8 +697,8 @@ TCHAR * CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 	}
 	else {
 		TCHAR mes[MAX_PATH];
-		mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis a not valid feed's address."), tszURL);
-		MessageBox(NULL, mes, TranslateT("New Aggregator"), MB_OK|MB_ICONERROR);
+		mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis not a valid feed's address."), tszURL);
+		MessageBox(hwndDlg, mes, TranslateT("New Aggregator"), MB_OK|MB_ICONERROR);
 	}
 	return NULL;
 }
