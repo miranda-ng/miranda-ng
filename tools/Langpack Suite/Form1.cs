@@ -423,9 +423,11 @@ namespace Langpack_Suite
                                     {
                                         if (st.StartsWith("Weather ini files:"))
                                         {
-                                            st = plug_in.ReadLine().Trim();
-                                            st = plug_in.ReadLine().Trim();
-                                            while (st != "")
+                                            st = plug_in.ReadLine();
+                                            st = plug_in.ReadLine();
+                                            if (st != "" && st != null)
+                                                st = st.Trim();
+                                            while (st != "" && st != null)
                                             {
                                                 int w = st.IndexOf(".");
                                                 st = st.Substring(0, w);
@@ -445,7 +447,7 @@ namespace Langpack_Suite
                                                     string LocaleText2 = rm.GetString("File2NotFound", culture);
                                                     InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText + st + LocaleText2 + "\r\n";
                                                 }
-                                                st = plug_in.ReadLine().Trim();
+                                                st = plug_in.ReadLine();
                                             }
                                         }
                                     }
