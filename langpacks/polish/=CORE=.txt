@@ -36,19 +36,19 @@ Tak
 [&No]
 Nie
 [Hide from list only, in order to keep their history and ignore/visibility settings]
-Tylko ukryj na liście by zatrzymać ustawienia ignorowania/widoczności.
+Tylko ukryj na liście by zatrzymać historię i ustawienia ignorowania/widoczności.
 [Use Options->Contacts->Ignore to unhide contacts.]
-Użyj Opcje -> Kontakty -> Ignorowanie by pokazac kontakty.
+Użyj Opcje -> Kontakty -> Ignorowanie by pokazać kontakty.
 [Are you sure you want to delete %s?]
 Czy na pewno chcesz usunąć %s?
 [This will erase all history and settings for this contact!]
-To usunie wszystkie ustawienia i historię dla tego kontaktu!
+To usunie wszystkie ustawienia i historię tego kontaktu!
 [Contact Display Options]
 Opcje wyświetlania kontaktu
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
 Zamiast wyświetlać kontakty w kolejności ich nicków,\nprzenieś aby wybrać inną kolejność.
 [Miranda NG Profile Manager]
-Manager profili Mirandy NG
+Menedżer profili Mirandy NG
 [&Run]
 Uruchom
 [&Exit]
@@ -82,7 +82,7 @@ Dodaj do listy
 [Custom]
 Niestandardowe
 [Find/Add Contacts\nHere you can add contacts to your contact list]
-Szukaj/dodaj kontakt\nTu możesz dodać kontakt do listy kontaktów
+Szukaj/dodaj kontakty\nTu możesz dodać kontakty do listy kontaktów
 [Options\nConfigure your Miranda NG options]
 Opcje:\nSkonfiguruj swoją Mirandę NG
 [Apply]
@@ -98,7 +98,7 @@ Tak
 [No]
 Nie
 [A file containing new database settings has been placed in the Miranda NG directory.]
-Plik zawierający nowe ustawienia profilu został umieszczony w katalogu Miranda NG.
+Plik zawierający nowe ustawienia profilu został umieszczony w katalogu Mirandy NG.
 [Do you want to import the settings now?]
 Czy chcesz teraz zaimportować ustawienia?
 [No to all]
@@ -106,7 +106,7 @@ Nie dla wszystkich
 [&View contents]
 Zawartość 
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
-
+System bezpieczeństwa zapobiegający szkodliwym zmianom jest aktywny i będzie ostrzegał przed zmianami, które nie są bezpieczne.
 [Database Setting Change]
 Zmień ustawienia profilu
 [Database settings are being imported from]
@@ -118,11 +118,11 @@ do wartości
 [Do you want to allow this change?]
 Czy chcesz umożliwić tę zmianę?
 [&Allow all further changes to this section]
-&Pozwól na wszystkie kolejne zmiany w tej sekcji 
+&Zezwalaj na wszystkie przyszłe zmiany w tej sekcji 
 [Cancel Import]
 Anuluj import
 [Database Import Complete]
-Zakończenie importowanie profilu
+Zakończeno importowanie profilu
 [The import has completed from]
 Import zakończył się z
 [What do you want to do with the file now?]
@@ -154,7 +154,7 @@ Nazwy wywołanych modułów
 [Log to]
 Zapisz do
 [OutputDebugString()]
-
+OutputDebugString()
 [File]
 Plik
 [Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
@@ -210,7 +210,7 @@ Wszystkie zdarzenia
 [None]
 Brak
 [Only the ticked contacts will be shown on the main contact list]
-Tylko zaznaczone kontakty będą pokazywane na głównej liście kontaktów
+Tylko zaznaczone kontakty będą pokazywane na liście kontaktów
 [Ignore]
 Ignorowanie
 [Added Notification]
@@ -222,13 +222,13 @@ Widoczność
 [You are visible to this person even when in invisible mode]
 Jesteś widoczny dla tej osoby, nawet w trybie niewidocznym 
 [You are never visible to this person]
-Nigdy nie jesteś widoczny dla tej osoby 
+Zawsze jesteś niewidoczny dla tej osoby 
 [Icon Index]
 Indeks ikon
 [Icon library:]
 Biblioteka ikon:
 [Drag icons to main list to assign them:]
-Przeciągnij ikony do listy głównej:
+Żeby przypisać ikonę przeciągnij ją do okna opcji:
 [Import multiple]
 Importuj wiele
 [To main icons]
@@ -240,7 +240,7 @@ Do
 [To default status icons]
 Do domyślnych ikon statusu
 [Logging...]
-Zapisywanie...
+Raportowanie...
 [Outgoing Connections]
 Połączenia wychodzące
 [Use proxy server]
@@ -286,7 +286,7 @@ np. Profil Mirandy
 [Driver]
 Sterownik
 [Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
-
+Problem: Nie znaleziono żadnego sterownika bazy danych, co oznacza, że nie można stworzyć profilu. Pobierz jakiś sterownik np: dbx_mmap.dll
 [Download more plugins]
 Pobierz więcej wtyczek
 [Description:]
@@ -302,7 +302,7 @@ ID:
 [Copyright:]
 Własność:
 [Please restart Miranda NG for your changes to take effect.]
-Zrestartuj Mirandę by twoje zmiany przyniosły efekt.
+Zrestartuj Mirandę by wprowadzić poczynione zmiany.
 [Fonts and Colors]
 Czcionki i kolory
 [Undo]
@@ -340,7 +340,7 @@ Kolor
 [Sample]
 Przykład
 [AaBbYyZz]
-
+AaBbYyZz
 [Sc&ript:]
 Pismo:
 [&Apply]
@@ -370,15 +370,15 @@ Ustaw
 [Disable icons]
 Wyłącz ikony
 [Show accounts in the following order,\ndrag to choose another order:]
-Pokaż konta według kolejność\n(przeciągnij aby ją zmienić):
+Pokaż konta według kolejności\n(przeciągnij aby ją zmienić):
 [Account Order && Visibility]
 Kolejność i widoczność kont
 [Note: Miranda NG will have to be restarted for changes to take effect.]
-Info: Musisz ponownie uruchomić Mirandę NG aby zmiany przyniosły efekt.
+Info: Musisz ponownie uruchomić Mirandę NG aby wprowadzić zmiany.
 [Key Bindings]
 
 [Shortcut:]
-
+Skrót:
 [Add]
 Dodaj
 [Remove]
@@ -386,7 +386,7 @@ Usuń
 [Undo Changes]
 Cofnij zmiany
 [Reset To Default]
-
+Przywróć domyślne
 [Hotkeys]
 Skróty
 [Accounts]
@@ -432,7 +432,7 @@ Pozostałe informacje:
 [This font is used to display various addtional notes.]
 Ta czcionka jest używana do wyświetlania różnych dodatkowych informacji.
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
-
+Witaj w menedżerze kont Mirandy NG!\nMożesz tu skonfigurować swoje konta IM.\n\nWybierz konto z listy po lewej żeby zobaczyć dostępne opcje. Możesz także dodać nowe konto klikając na "+" pod listą.
 [Event icon legend:]
 Znaczenia ikon zdarzeń:
 [Choose events you wish to ingonre:]
@@ -523,7 +523,7 @@ Odrzuć
 [Decide &Later]
 Przypomnij później
 [&I]
-
+&I
 [Reason:]
 Powód:
 [Denial Reason:]
@@ -535,12 +535,12 @@ Zostałeś dodany
 [&Close]
 Zamknij
 [&U]
-
+&U
 ;file \src\core\stdaway\resource.rc
 [%s Message for %s]
 Opis statusu "%s" - %s
 [Retrieving %s message...]
-Odbieranie %s wiadomości
+Odbieranie %s wiadomości...
 [Status Messages]
 Opisy
 [Do not reply to requests for this message]
@@ -548,13 +548,13 @@ Nie odpowiadaj na prośby o ten opis
 [Do not pop up dialog asking for new message]
 Nie otwieraj okna z pytaniem o nowy opis
 [By default, use the same message as last time]
-Użyj domyślnie tej samej wiadomości co ostatnio 
+Domyślnie użyj tej samej wiadomości co ostatnio 
 [By default, use this message:]
-Użyj domyślnie tej wiadomości:
+Domyślnie użyj tej wiadomości:
 [Use %time% for the current time, %date% for the current date]
 Użyj %time% dla czasu obecnego, %date% dla aktualnej daty 
 [Status messages:]
-
+Opisy:
 [Change %s Message]
 Zmień opis dla "%s"
 [Closing in %d]
@@ -864,7 +864,7 @@ Okno:
 [Contact list background:]
 Tło listy kontaktów:
 [&Status]
-
+&Status
 [&Offline\tCtrl+0]
 Rozłączony\tCtrl+0
 [On&line\tCtrl+1]
@@ -897,9 +897,9 @@ Wybierz ponownie...
 [Total size:]
 Całkowity rozmiar:
 [&D]
-
+&D
 [&H]
-
+&H
 [Incoming File Transfer]
 Przychodzący transfer plików
 [A&ccept]
@@ -915,7 +915,7 @@ Pliki:
 [Save to:]
 Zapisz do:
 [&A]
-
+&A
 [Contact menu]
 Menu kontaktu
 [Open...]
@@ -923,7 +923,7 @@ Otwórz...
 [Open folder]
 Otwórz folder
 [Transfer completed, open file(s).]
-
+Transfer zakończony, otwórz plik(i).
 [No data transferred]
 Brak połączenia
 [File Already Exists]
@@ -1006,7 +1006,7 @@ Zawsze będziesz pytany o pliki od osób spoza twojej listy kontaktów
 [About Miranda NG]
 O Mirandzie NG
 [Miranda NG\n%s]
-
+Miranda NG\n%s
 [Credits >]
 Autorzy >
 ;file \src\core\stdidle\resource.rc
@@ -1086,7 +1086,7 @@ Błąd wysyłania
 [An error has occured. The protocol reported the following error:]
 Wystąpił błąd. Protokół zwrócił następujący błąd:
 [while sending the following message:]
-
+podczas wysyłania wiadomości:
 [Try again]
 Spróboj ponownie
 [Message Session]
@@ -1200,7 +1200,7 @@ Ulica:
 [City:]
 Miasto:
 [State:]
-Status:
+Stan:
 [Postal code:]
 Kod pocztowy:
 [Country:]
@@ -1223,13 +1223,13 @@ Pozycja:
 Strona WEB:
 ;file \src\core\stdauth\auth.cpp
 [%s requests authorization]
-%s prosi o twoją autoryzację
+%s prosi o Twoją autoryzację
 [%u requests authorization]
-%u prosi o twoją autoryzację
+%u prosi o Twoją autoryzację
 [%s added you to their contact list]
-%s dodał cię do listy kontaktów
+%s dodał(a) Cię do listy kontaktów
 [%u added you to their contact list]
-%u dodał(-a) cię do swojej listy kontaktów 
+%u dodał(a) Cię do swojej listy kontaktów 
 [Alerts]
 Alarmy
 [Authorization request]
@@ -1244,21 +1244,21 @@ Dodaj kontakt na stałe do listy
 [<Unknown>]
 <Nieznany>
 [%s added you to the contact list\n%u (%s) on %s]
-%s dodał cię do listy kontaktów\n%u (%s) na %s
+%s dodał(a) Cię do listy kontaktów\n%u (%s) na %s
 [%s added you to the contact list\n%u on %s]
-%s dodał cię do listy kontaktów\n%u na %s
+%s dodał(a) Cię do listy kontaktów\n%u na %s
 [%s added you to the contact list\n%s on %s]
-%s dodał cię do listy kontaktów\n%s na %s
+%s dodał(a) Cię do listy kontaktów\n%s na %s
 [(Unknown)]
 (Nieznany)
 [View User Details]
 Pokaż dane kontaktu
 [%s requested authorization\n%u (%s) on %s]
-%s otrzymał pytanie autoryzaji od\n%u (%s) na koncie %s
+%s otrzymał(a) pytanie autoryzaji od\n%u (%s) na koncie %s
 [%s requested authorization\n%u on %s]
-%s otrzymał pytanie autoryzacji od\n%u na koncie %s
+%s otrzymał(a) pytanie autoryzacji od\n%u na koncie %s
 [%s requested authorization\n%s on %s]
-%s otrzymał pytanie autoryzacji od\n%s na koncie %s
+%s otrzymał(a) pytanie autoryzacji od\n%s na koncie %s
 [Feature is not supported by protocol]
 Funkcja nie wspierana przez protokół
 ;file \src\core\stdaway\awaymsg.cpp
@@ -1282,11 +1282,11 @@ Tak, jestem tu.
 [Nope, not here.]
 Nie, nie tutaj.
 [I'm hiding from the mafia.]
-Ukrywam się przed mafią.
+Jak zrobię tak, to mnie nie widać.
 [That'll be the phone.]
 Muszę odebrać telefon.
 [Mmm...food.]
-Mmm... jedzenie.
+Mmm... jedzonko.
 [idleeeeeeee]
 Bezczynnyyyyyyy
 [Status]
@@ -1301,11 +1301,11 @@ Otwórz okno czatu
 Kolor tekstu
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
-%s dołączył(-a)
+%s dołączył(a)
 [You have joined %s]
 Dołączyłeś do %s
 [%s has left]
-%s opuścił(-a) czat
+%s opuścił(a) czat
 [%s has disconnected]
 %s został rozłączony
 [%s is now known as %s]
@@ -1317,7 +1317,7 @@ Jesteś teraz znany jako %s
 [Notice from %s: ]
 Powiadomienie od %s:
 [The topic is '%s%s']
-
+Temat to '%s%s'
 [ (set by %s on %s)]
  (wybrany przez %s na %s)
 [ (set by %s)]
@@ -1654,9 +1654,9 @@ Dołącz
 [%s speaks in %s]
 %s mówi w %s
 [%s has joined %s]
-%s dołączył %s
+%s dołączył(a) %s
 [%s has left %s]
-%s opuścił %s
+%s opuścił(a) %s
 [%s kicked %s from %s]
 %s wykopany %s przez %s
 [Notice from %s]
@@ -1747,7 +1747,7 @@ Tekst szybkiego wyszukiwania
 [Not focused]
 Nieaktywne
 [Offline]
-Rozłaczony
+Rozłączony
 [Online]
 Połączony
 [Away]
@@ -1864,7 +1864,7 @@ Zakończono.
 [Transfer completed, open file.]
 Zakończono, otwórz plik.
 [Transfer completed, open folder.]
-
+Zakończono, otwórz folder.
 [Scanning for viruses...]
 Skanowanie w poszukiwaniu wirusów...
 [Transfer and virus scan complete]
@@ -1993,7 +1993,7 @@ URL od %s
 [Web Page Address (&URL)]
 Adres strony internetowej (URL)
 [URL]
-
+URL
 ;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 Wyślij link do
@@ -2013,7 +2013,7 @@ Podstawowy
 [Custom %d]
 Zwyczajny %d
 [Fax]
-
+Fax
 [Mobile]
 Telefon komórkowy
 [Work Phone]
@@ -2092,7 +2092,7 @@ Imię Nazwisko
 ['(Unknown Contact)' (not moveable)]
 "(Nieznany kontakt)" (nieprzesuwalne)
 ['(Unknown Contact)']
-
+"(Nieznany kontakt)"
 [Contact names]
 Nazwy kontaktów
 ;file \src\modules\clist\genmenu.cpp
@@ -2351,7 +2351,7 @@ Wtyczka
 [Version]
 Wersja
 [Miranda NG must be restarted to apply changes for these plugins:]
-Miranda NG musi zostać zrestartowana aby zmiany przyniosły efekt:
+Miranda NG musi zostać zrestartowana aby wprowadzić zmiany:
 [Do you want to restart it now?]
 Czy chcesz zrestartować teraz?
 [Plugins]
@@ -2364,7 +2364,7 @@ UWAGA! Konto zostanie usunięte. To znaczy że wszystkie ustawienia, kontakty i 
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change it's preferences.]
 To konto można skonfigurować w opcjach Mirandy NG.
 [Welcome to Miranda NG's account manager!\n Here you can set up your IM accounts.\n\n Select an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-Witaj w managerze kont Mirandy NG!\nMożesz tu skonfigurować swoje konta IM.\n\nZaznacz konto z listy po lewej by zobaczeć dostępne opcje. Alternatywnie, kliknij na '+' pod listą aby utworzyć nowe konto.
+Witaj w menedżerze kont Mirandy NG!\nMożesz tu skonfigurować swoje konta IM.\n\nWybierz konto z listy po lewej żeby zobaczyć dostępne opcje. Możesz także dodać nowe konto klikając na "+" pod listą.
 [Create new account]
 Utwórz nowe konto
 [Editing account]
@@ -2372,11 +2372,11 @@ Utwórz nowe konto
 [Upgrading account]
 Aktualizowanie konta
 [Account name has to be unique. Please enter unique name.]
-
+Nazwa konta musi być unikalna. Wprowadź unikalną nazwę.
 [Account Error]
 
 [Account is disabled. Please activate it to access options.]
-Konto jest wyłączone. Proszę je aktywować, by pojazać jego opcje.
+Konto jest wyłączone. Proszę je aktywować, by pokazać jego opcje.
 [New account]
 Nowe konto
 [Edit]
@@ -2520,7 +2520,7 @@ Dźwięki
 
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
-Potrzebujesz wtyczki do przetworzenia obrazu .PNG.
+Potrzebujesz wtyczki do przetworzenia obrazu PNG.
 [All Bitmaps]
 Wszystkie mapy bitowe
 [Windows Bitmaps]
@@ -2544,31 +2544,31 @@ Afganistan
 [Aland Islands]
 Wyspy Alandzkie
 [Albania]
-
+Albania
 [Algeria]
-
+Algieria
 [American Samoa]
-
+Samoa Amerykańskie
 [Andorra]
 Andora
 [Angola]
-
+Angola
 [Anguilla]
-
+Anguilla
 [Antarctica]
-
+Antarktyda
 [Antigua and Barbuda]
 Antigua i Barbuda
 [Argentina]
 Argentyna
 [Armenia]
-
+Armenia
 [Aruba]
-
+Aruba
 [Australia]
-
+Australia
 [Austria]
-
+Austria
 [Azerbaijan]
 Azerbejdżan
 [Bahamas]
@@ -2578,49 +2578,49 @@ Bahrajn
 [Bangladesh]
 Bangladesz
 [Barbados]
-
+Barbados
 [Belarus]
-
+Białoruś
 [Belgium]
 Belgia
 [Belize]
-
+Belize
 [Benin]
-
+Benin
 [Bermuda]
-
+Bermudy
 [Bhutan]
-
+Bhutan
 [Bolivia, Plurinational State of]
-
+Boliwia
 [Bonaire, Sint Eustatius and Saba]
-
+Bonaire
 [Bosnia and Herzegovina]
 Bośnia i Hercegowina
 [Botswana]
-
+Botswana
 [Bouvet Island]
-
+Wyspa Bouveta
 [Brazil]
 Brazylia
 [British Indian Ocean Territory]
-
+Brytyjskie Terytorium Oceanu Indyjskiego
 [Brunei Darussalam]
-
+Brunei
 [Bulgaria]
 Bułgaria
 [Burkina Faso]
-
+Burkina Faso
 [Burundi]
-
+Burundi
 [Cambodia]
-
+Kambodża
 [Cameroon]
 Kamerun
 [Canada]
 Kanada
 [Cape Verde]
-
+Republika Zielonego Przylądka
 [Cayman Islands]
 Kajmany
 [Central African Republic]
@@ -2628,35 +2628,35 @@ Republika Środkowoafrykańska
 [Chad]
 Czad
 [Chile]
-
+Chile
 [China]
 Chiny
 [Christmas Island]
-
+Wyspa Bożego Narodzenia
 [Cocos (Keeling) Islands]
-
+Wyspy Kokosowe
 [Colombia]
 Kolumbia
 [Comoros]
 Komory
 [Congo]
-
+Kongo
 [Congo, the Democratic Republic of the]
-
+Demokratyczna Republika Konga
 [Cook Islands]
 Wyspy Cooka
 [Costa Rica]
 Kostaryka
 [Cote d'Ivoire]
-
+Cote d'Ivoire
 [Croatia]
 Chorwacja
 [Cuba]
 Kuba
 [Curacao]
-
+Curaçao
 [Cyprus]
-
+Cypr
 [Czech Republic]
 Czechy
 [Denmark]
@@ -2678,13 +2678,13 @@ Gwinea Równikowa
 [Eritrea]
 Erytrea
 [Estonia]
-
+Estonia
 [Ethiopia]
 Etiopia
 [Falkland Islands (Malvinas)]
-
+Falklandy
 [Faroe Islands]
-
+Wyspy Owcze
 [Fiji]
 Fidżi
 [Finland]
@@ -2696,33 +2696,33 @@ Gujana Francuska
 [French Polynesia]
 Polinezja Francuska
 [French Southern Territories]
-
+Francuskie Terytoria Południowe i Antarktyczne
 [Gabon]
-
+Gabon
 [Gambia]
-
+Gambia
 [Georgia]
 Gruzja
 [Germany]
 Niemcy
 [Ghana]
-
+Ghana
 [Gibraltar]
-
+Gibraltar
 [Greece]
 Grecja
 [Greenland]
 Granlandia
 [Grenada]
-
+Grenada
 [Guadeloupe]
 Gwadelupa
 [Guam]
-
+Guam
 [Guatemala]
 Gwatemala
 [Guernsey]
-
+Guernsey
 [Guinea]
 Gwinea
 [Guinea-Bissau]
@@ -2730,15 +2730,15 @@ Gwinea-Bissau
 [Guyana]
 Gujana
 [Haiti]
-
+Haiti
 [Heard Island and McDonald Islands]
-
+Wyspy Heard i McDonalda
 [Holy See (Vatican City State)]
-
+Watykan
 [Honduras]
-
+Honduras
 [Hong Kong]
-
+Hong Kong
 [Hungary]
 Węgry
 [Iceland]
@@ -2748,13 +2748,13 @@ Indie
 [Indonesia]
 Indonezja
 [Iran, Islamic Republic of]
-
+Iran
 [Iraq]
 Irak
 [Ireland]
 Irlandia
 [Isle of Man]
-
+Wyspa Man
 [Israel]
 Izrael
 [Italy]
@@ -2764,35 +2764,35 @@ Jamajka
 [Japan]
 Japonia
 [Jersey]
-
+Jersey
 [Jordan]
-
+Jordania
 [Kazakhstan]
-
+Kazachstan
 [Kenya]
 Kenia
 [Kiribati]
-
+Kiribati
 [Korea, Democratic People's Republic of]
-
+Korea Północna
 [Korea, Republic of]
-
+Korea Południowa
 [Kuwait]
 Kuwejt
 [Kyrgyzstan]
 Kirgistan
 [Lao People's Democratic Republic]
-
+Laos
 [Latvia]
 Łotwa
 [Lebanon]
 Libia
 [Lesotho]
-
+Lesotho
 [Liberia]
 Liberia
 [Libya]
-
+Libia
 [Liechtenstein]
 Liechtenstein
 [Lithuania]
@@ -2800,21 +2800,21 @@ Litwa
 [Luxembourg]
 Luksemburg
 [Macao]
-
+Makau
 [Macedonia, The Former Yugoslav Republic of]
-
+Macedonia
 [Madagascar]
 Madagaskar
 [Malawi]
-
+Malawi
 [Malaysia]
 Malezja
 [Maldives]
 Malediwy
 [Mali]
-
+Mali
 [Malta]
-
+Malta
 [Marshall Islands]
 Wyspy Marshalla
 [Martinique]
@@ -2822,9 +2822,9 @@ Martynika
 [Mauritania]
 Mauretania
 [Mauritius]
-
+Mauritius
 [Mayotte]
-
+Majotta
 [Mexico]
 Meksyk
 [Micronesia, Federated States of]
@@ -2834,11 +2834,11 @@ Mołdawia
 [Monaco]
 Monako
 [Mongolia]
-
+Mongolia
 [Montenegro]
-
+Czarnogóra
 [Montserrat]
-
+Montserrat
 [Morocco]
 Maroko
 [Mozambique]
@@ -2846,11 +2846,11 @@ Mozambik
 [Myanmar]
 Birma
 [Namibia]
-
+Namibia
 [Nauru]
-
+Nauru
 [Nepal]
-
+Nepal
 [Netherlands]
 Holandia
 [New Caledonia]
@@ -2860,87 +2860,87 @@ Nowa Zelandia
 [Nicaragua]
 Nikaragua
 [Niger]
-
+Niger
 [Nigeria]
-
+Nigeria
 [Niue]
-
+Niue
 [Norfolk Island]
-
+Norfolk
 [Northern Mariana Islands]
-
+Mariany Północne
 [Norway]
 Norwegia
 [Oman]
-
+Oman
 [Pakistan]
-
+Pakistan
 [Palau]
-
+Palau
 [Palestinian Territory, Occupied]
-
+Palestyna
 [Panama]
-
+Panama
 [Papua New Guinea]
 Papua - Nowa Gwinea
 [Paraguay]
 Paragwaj
 [Peru]
-
+Peru
 [Philippines]
 Filipiny
 [Pitcairn]
-
+Pitcairn
 [Poland]
 Polska
 [Portugal]
 Portugalia
 [Puerto Rico]
-
+Portoryko
 [Qatar]
 Katar
 [Reunion]
-
+Reunion
 [Romania]
 Rumunia
 [Russian Federation]
-
+Rosja
 [Rwanda]
-
+Rwanda
 [Saint Barthelemy]
-
+Saint Barthelemy
 [Saint Helena, Ascension and Tristan da Cunha]
-
+Wyspa Świętej Heleny, Wyspa Wniebowstąpienia i Tristan da Cunha
 [Saint Kitts and Nevis]
 Saint Kitts i Nevis
 [Saint Lucia]
-
+Saint Lucia
 [Saint Martin (French part)]
-
+Saint-Martin
 [Saint Pierre and Miquelon]
 Saint-Pierre i Miquelon
 [Saint Vincent and the Grenadines]
 Saint Vincent i Grenadyn
 [Samoa]
-
+Samoa
 [San Marino]
-
+San Marino
 [Sao Tome and Principe]
 Wyspy Świętego Tomasza i Książęca
 [Saudi Arabia]
 Arabia Saudyjska
 [Senegal]
-
+Senegal
 [Serbia]
-
+Serbia
 [Seychelles]
 Seszele
 [Sierra Leone]
-
+Sierra Leone
 [Singapore]
 Singapur
 [Sint Maarten (Dutch part)]
-
+Sint Maarten
 [Slovakia]
 Słowacja
 [Slovenia]
@@ -2948,23 +2948,23 @@ Słowenia
 [Solomon Islands]
 Wyspy Salomona
 [Somalia]
-
+Somalia
 [South Africa]
 Republika Południowej Afryki
 [South Georgia and the South Sandwich Islands]
-
+Georgia Południowa i Sandwich Południowy
 [South Sudan]
-
+Sudan Południowy
 [Spain]
 Hiszpania
 [Sri Lanka]
-
+Sri Lanka
 [Sudan]
-
+Sudan
 [Suriname]
 Surinam
 [Svalbard and Jan Mayen]
-
+Svalbard i Jan Mayen
 [Swaziland]
 Suazi
 [Sweden]
@@ -2974,21 +2974,21 @@ Szwajcaria
 [Syrian Arab Republic]
 Syryjska Republika Arabska
 [Taiwan, Province of China]
-
+Tajwan
 [Tajikistan]
 Tadżykistan
 [Tanzania, United Republic of]
-
+Tanzania
 [Thailand]
 Tajlandia
 [Timor-Leste]
-
+Timor-Leste
 [Togo]
 Republika Togijska
 [Tokelau]
-
+Tokelau
 [Tonga]
-
+Tonga
 [Trinidad and Tobago]
 Trynidad i Tobago
 [Tunisia]
@@ -3000,9 +3000,9 @@ Turkmenia
 [Turks and Caicos Islands]
 Wyspy Turks i Caicos
 [Tuvalu]
-
+Tuvalu
 [Uganda]
-
+Uganda
 [Ukraine]
 Ukraina
 [United Arab Emirates]
@@ -3010,31 +3010,31 @@ Emiraty Arabskie
 [United Kingdom]
 Zjednoczone Królestwo
 [United States]
-US
+Stany Zjednoczone
 [United States Minor Outlying Islands]
-
+Dalekie Wyspy Mniejsze Stanów Zjednoczonych
 [Uruguay]
 Urugwaj
 [Uzbekistan]
-
+Uzbekistan
 [Vanuatu]
-
+Vanuatu
 [Venezuela, Bolivarian Republic of]
-
+Venezuela, Bolivarian Republic of
 [Viet Nam]
-
+Viet Nam
 [Virgin Islands, British]
 Brytyjskie Wyspy Dziewicze
 [Virgin Islands, U.S.]
 Wyspy Dziewicze Stanów Zjednoczonych
 [Wallis and Futuna]
-
+Wallis i Futuna
 [Western Sahara]
 Zachodnia Sahara
 [Yemen]
 Jemen
 [Zambia]
-
+Zambia
 [Zimbabwe]
-
+Zimbabwe
 ;file \src\modules\visibility\visibility.cpp
