@@ -2105,21 +2105,17 @@ static int OptInit(WPARAM wParam, LPARAM lParam)
 
 static int OkToExitProc(WPARAM wParam, LPARAM lParam)
 {
-	EnterCriticalSection(&cachecs);
 	g_shutDown = TRUE;
-
-	DestroyHookableEvent(hEventChanged); hEventChanged = 0;
-	DestroyHookableEvent(hEventContactAvatarChanged); hEventContactAvatarChanged = 0;
-	DestroyHookableEvent(hMyAvatarChanged); hMyAvatarChanged = 0;
-
-	LeaveCriticalSection(&cachecs);
-
 	SetEvent(hLoaderEvent);
 	return 0;
 }
 
 static int ShutdownProc(WPARAM wParam, LPARAM lParam)
 {
+	DestroyHookableEvent(hEventChanged); hEventChanged = 0;
+	DestroyHookableEvent(hEventContactAvatarChanged); hEventContactAvatarChanged = 0;
+	DestroyHookableEvent(hMyAvatarChanged); hMyAvatarChanged = 0;
+
 	DeleteCriticalSection(&cachecs);
 	DeleteCriticalSection(&alloccs);
 	return 0;
