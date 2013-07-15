@@ -82,11 +82,11 @@ if "%phase%" == "0" (
 	cscript /nologo translate.js /out:".\" /untranslated:"Untranslated" /release:"Langpack_%language%.txt" /sourcelang:"%language%"
 )
 
-rm -r "../../langpacks/%language%/Weather"
-rm -r "../../langpacks/%language%/Plugins"
-rm -r "../../langpacks/%language%/Untranslated"
-rm -r "../../langpacks/%language%/=CORE=.txt"
-rm -r "../../langpacks/%language%/Langpack_%language%.txt"
+rmdir /S /Q "..\..\langpacks\%language%\Weather"
+rmdir /S /Q "..\..\langpacks\%language%\Plugins"
+rmdir /S /Q "..\..\langpacks\%language%\Untranslated"
+del /Q "..\..\langpacks\%language%\=CORE=.txt"
+del /Q "..\..\langpacks\%language%\Langpack_%language%.txt"
 
 mkdir "..\..\langpacks\%language%\Weather"
 mkdir "..\..\langpacks\%language%\Plugins"
@@ -97,11 +97,11 @@ copy "Untranslated\" "..\..\langpacks\%language%\Untranslated\"
 copy "=CORE=.txt" "..\..\langpacks\%language%\=CORE=.txt"
 copy "Langpack_%language%.txt" "..\..\langpacks\%language%\Langpack_%language%.txt"
 
-rm -r "Weather"
-rm -r "Plugins"
-rm -r "Untranslated"
-rm "=CORE=.txt"
-rm "Langpack_%language%.txt"
+rmdir /S /Q "Weather"
+rmdir /S /Q "Plugins"
+rmdir /S /Q "Untranslated"
+del /Q "=CORE=.txt"
+del /Q "Langpack_%language%.txt"
 
 REM cd "..\..\langpacks\tool\"
 REM LangpackSuite.exe \q \p%language%
