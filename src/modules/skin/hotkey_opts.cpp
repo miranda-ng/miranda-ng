@@ -66,10 +66,10 @@ static TCHAR *sttHokeyVkToName(WORD vkKey)
 void HotkeyToName(TCHAR *buf, int size, BYTE shift, BYTE key)
 {
 	mir_sntprintf(buf, size, _T("%s%s%s%s%s"),
-		(shift & HOTKEYF_CONTROL)	? _T("Ctrl + ")		: _T(""),
-		(shift & HOTKEYF_ALT)		? _T("Alt + ")		: _T(""),
-		(shift & HOTKEYF_SHIFT)		? _T("Shift + ")	: _T(""),
-		(shift & HOTKEYF_EXT)		? _T("Win + ")		: _T(""),
+		(shift & HOTKEYF_CONTROL)	? TranslateT("Ctrl + ")  : _T(""),
+		(shift & HOTKEYF_ALT)		? TranslateT("Alt + ")   : _T(""),
+		(shift & HOTKEYF_SHIFT)		? TranslateT("Shift + ") : _T(""),
+		(shift & HOTKEYF_EXT)		? TranslateT("Win + ")   : _T(""),
 		sttHokeyVkToName(key));
 }
 
