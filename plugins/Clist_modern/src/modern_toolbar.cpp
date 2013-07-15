@@ -347,11 +347,11 @@ static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 		}
 		db_set_b(NULL, "Compatibility", "TTB_Upgrade", 1);
 	}
-	if ( !ServiceExists( MS_TTB_REMOVEBUTTON)) {
-			if (bOldSetting == 1)
-				if (IDYES == MessageBox(NULL, TranslateTS(szWarning), TranslateT("Toolbar upgrade"), MB_ICONQUESTION | MB_YESNO))
-					CallService(MS_UTILS_OPENURL, 0, (LPARAM)szUrl);
-	}
+
+	if ( !ServiceExists( MS_TTB_REMOVEBUTTON) && bOldSetting == 1)
+		if (IDYES == MessageBox(NULL, TranslateTS(szWarning), TranslateT("Toolbar upgrade"), MB_ICONQUESTION | MB_YESNO))
+			CallService(MS_UTILS_OPENURL, 0, (LPARAM)szUrl);
+
 	return 0;
 }
 
