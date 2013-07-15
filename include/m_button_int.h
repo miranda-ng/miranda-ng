@@ -56,8 +56,4 @@ struct MButtonCtrl
 	IAccPropServices* pAccPropServices;
 };
 
-/////////////////////////////////////////////////////////////////
-
-typedef void (__cdecl *pfnPainterFunc)(MButtonCtrl*, HDC);
-
 #endif // M_BUTTON_INT_H__
