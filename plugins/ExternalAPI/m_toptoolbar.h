@@ -161,22 +161,13 @@ struct TTBCtrl
 	BOOL   bHardUpdate;    // clist modern requires to delete buttons to update them
 
 	SortedList* pButtonList;
-
-	LRESULT  lResult; // custom window proc result
-	WNDPROC  fnWindowProc; // custom window proc
-};
-
-struct TTBCtrlCustomize
-{
-	size_t            cbLen;        // total length of the internal data structure
-	WNDPROC           fnWindowProc; // subclassed windows procedure for the custom button
 };
 
 // Sets the custom painting procedure for a toolbar
 // wParam = not used
-// lParam = TTBCtrlCustomize*
+// lParam = size_t: size of new data block (published from TTBCtrl)
 // Usage: SendMessage(hwndToolbar, TTB_SETCUSTOM, 0, (LPARAM)&CustomData);
 // Only works on TopToolbars
-#define TTB_SETCUSTOM  (WM_USER+1)
+#define TTB_SETCUSTOMDATASIZE  (WM_USER+1)
 
 #endif

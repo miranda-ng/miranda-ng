@@ -216,8 +216,7 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 	switch( msg ) {
 	case WM_ERASEBKGND:
-		pMTBInfo->lResult = (g_CluiData.fDisableSkinEngine) ? sttDrawToolBarBackground(hwnd, (HDC)wParam, NULL, pMTBInfo) : 0;
-		return 1;
+		return (g_CluiData.fDisableSkinEngine) ? sttDrawToolBarBackground(hwnd, (HDC)wParam, NULL, pMTBInfo) : 0;
 
 	case WM_NCPAINT:				
 	case WM_PAINT:
@@ -233,15 +232,12 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				EndPaint(hwnd,&ps);
 			}
 		}
-		
-		pMTBInfo->lResult = DefWindowProc(hwnd, msg, wParam, lParam);
-		return 1;
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case WM_NOTIFY:
 		if (((LPNMHDR) lParam)->code == BUTTONNEEDREDRAW)
 			pcli->pfnInvalidateRect(hwnd, NULL, FALSE);
-		pMTBInfo->lResult = 0;
-		return 1;
+		return 0;
 
 	case MTBM_LAYEREDPAINT:
 		{
@@ -263,19 +259,15 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				SendMessage(mtbi->hWindow, BUTTONDRAWINPARENT, (WPARAM)hDC, (LPARAM)&Offset);
 			}	
 		}
-		pMTBInfo->lResult = 0;
-		return 1;
+		return 0;
 
 	case WM_DESTROY:
 		xpt_FreeThemeForWindow(hwnd);
 		CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)hwnd, 0);
-
-	default:
-		return 0;
+		break;
 	}
 
-	pMTBInfo->lResult = TRUE;
-	return 1;
+	return mir_callNextSubclass(hwnd, toolbarWndProc, msg, wParam, lParam);
 }
 
 static int ToolBar_LayeredPaintProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN rgn, DWORD dFlags, void * CallBackData)
@@ -285,8 +277,8 @@ static int ToolBar_LayeredPaintProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN rgn,
 
 void CustomizeToolbar(HWND hwnd)
 {
-	TTBCtrlCustomize custData = { sizeof(ModernToolbarCtrl), toolbarWndProc };
-	SendMessage(hwnd, TTB_SETCUSTOM, 0, (LPARAM)&custData);
+	mir_subclassWindow(hwnd, toolbarWndProc);
+	SendMessage(hwnd, TTB_SETCUSTOMDATASIZE, 0, sizeof(ModernToolbarCtrl));
 
 	ModernToolbarCtrl* pMTBInfo = (ModernToolbarCtrl*)GetWindowLongPtr(hwnd, 0);
 

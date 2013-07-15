@@ -510,16 +510,14 @@ static LRESULT CALLBACK ToolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 	if (msg == WM_COMMAND && HIWORD(wParam) == BN_CLICKED)
 		SendMessage(pcli->hwndContactList, msg, wParam, lParam);
 
-	return 0;
+	return mir_callNextSubclass(hwnd, ToolbarWndProc, msg, wParam, lParam);
 }
 
 static void CustomizeToolbar(HANDLE hButton, HWND hWnd, LPARAM)
 {
 	// we don't customize the toolbar window, only buttons
 	if (hButton == TTB_WINDOW_HANDLE) {
-		TTBCtrlCustomize custData = { sizeof(TTBCtrl), ToolbarWndProc };
-		SendMessage(hWnd, TTB_SETCUSTOM, 0, (LPARAM)&custData);
-
+		mir_subclassWindow(hWnd, ToolbarWndProc);
 		InitDefaultButtons();
 		return;
 	}

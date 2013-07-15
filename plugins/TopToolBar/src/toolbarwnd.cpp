@@ -117,10 +117,6 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 {
 	static bool supressRepos = false;
 
-	if (g_ctrl->fnWindowProc != NULL)
-		if ( g_ctrl->fnWindowProc(hwnd, msg, wParam, lParam))
-			return g_ctrl->lResult;
-
 	switch(msg) {
 	case WM_CREATE:
 		g_ctrl->hWnd = hwnd;
@@ -227,19 +223,12 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		}
 		break;
 
-	case TTB_SETCUSTOM:
-		{
-			TTBCtrlCustomize *pCustom = (TTBCtrlCustomize*)lParam;
-			if (pCustom == NULL || g_ctrl->fnWindowProc)
-				break;
+	case TTB_SETCUSTOMDATASIZE:
+		g_ctrl = (TTBCtrl*)mir_realloc(g_ctrl, lParam);
+		if (lParam > sizeof(TTBCtrl))
+			memset(g_ctrl+1, 0, lParam - sizeof(TTBCtrl));
 
-			g_ctrl = (TTBCtrl*)mir_realloc(g_ctrl, pCustom->cbLen);
-			if (pCustom->cbLen > sizeof(TTBCtrl))
-				memset(g_ctrl+1, 0, pCustom->cbLen - sizeof(TTBCtrl));
-
-			g_ctrl->fnWindowProc = pCustom->fnWindowProc;
-			SetWindowLongPtr(hwnd, 0, (LONG_PTR)g_ctrl);
-		}
+		SetWindowLongPtr(hwnd, 0, (LONG_PTR)g_ctrl);
 		break;
 
 	default:
