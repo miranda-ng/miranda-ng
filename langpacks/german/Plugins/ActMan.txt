@@ -14,9 +14,9 @@ Text einfügen
 [vars]
 Variablen
 [DWord]
-
+DWORD
 [You can use %name%, %uid%, %account% and %group% macros]
-
+Sie können die Makros %name%, %uid%, %account% und %group% verwenden
 [wParam type]
 wParam-Typ
 [lParam type]
@@ -24,9 +24,9 @@ lParam-Typ
 [Service name]
 Dienstname
 [wParam]
-
+wParam
 [lParam]
-
+lParam
 [Structure]
 Struktur
 [Result action]
@@ -44,7 +44,7 @@ Maximiert starten
 [Continued]
 Kontinuierlich
 [Parallel]
-
+Parallel
 [Condition]
 Bedingung
 [Insert into message]
@@ -66,7 +66,7 @@ Momentaner Pfad
 [Start normal]
 Normal starten
 [last result]
-Letzes Ergebnis
+Letztes Ergebnis
 [structure]
 Struktur
 [Structure]
@@ -86,17 +86,17 @@ Mathe
 [Variables (below)]
 Variablen (unten)
 [Variables script]
-Variablen Skript
+Variablenskript
 [Other Action groups]
 Andere Aktionsgruppen
 [Operation]
-
+Vorgang
 [Last result]
 Letzter Wert
 [Own settings]
 Eigene Einstellungen
 [Array]
-
+Array
 [Message title]
 Nachrichtentitel
 [OK, Cancel]
@@ -120,21 +120,21 @@ Nur Handle speichern
 [Variables mark]
 
 [C&ancel]
-
+&Abbrechen
 [Structure Editor]
-
+Struktureditor
 [Result as structure]
-
+Ergebnis als Struktur
 [Byte Array]
-
+BYTE-Array
 [Word Array]
-
+WORD-Array
 [Pointer to bytes]
-
+Zeiger in BYTEs
 [Pointer to words]
-
+Zeiger in WORDs
 [Data length]
-
+Datenlänge
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
 '<proto>' im Dienstnamen wird durch den Namen des aktuellen Protokolls eines Kontakts abhängig vom Kontext (z. B. UseActions) ersetzt
 [Paste from]
@@ -144,15 +144,15 @@ Ergebnistyp des Dienstes
 [Free memory]
 Speicher freimachen
 [Integer]
-
+Integer
 [Append]
 Anheften
 [Append data to file]
 Daten zu Datei hinzufügen
 [Choose action]
-
+Aktion auswählen
 [A&ppend]
-
+Anf&ügen
 [Action "$" exists, do you want to rewrite it?]
 
 [Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
@@ -166,13 +166,13 @@ Variablen nicht benutzen
 [Contact list format]
 Kontaklistenformat
 [Active accounts only]
-
+Nur aktive Konten
 [Dropdown list format]
 
 [Apply format]
-
+Format anwenden
 [You can use %name%, %uid%, %account% and %group% macros]
-
+Sie können die Makros %name%, %uid%, %account% und %group% verwenden
 [Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
 
 [New]
@@ -180,13 +180,13 @@ Neu
 [Hooks]
 
 [Event]
-
+Ereignis
 [hook sample]
 
 [QWord]
-
+QWord
 [Packed structure]
-
+Gepackte Struktur
 [NativeInt]
 
 [Starting from]
@@ -216,21 +216,21 @@ Aktionsliste
 [Where to use]
 Wo anzuwenden?
 [CList Modern toolbar]
-
+CList-Modern-Werkzeugleiste
 [TabSRMM toolbar]
-
+TabSRMM-Werkzeugleiste
 [Core Hotkey]
 Core-Hotkey
 [Tray menu]
-
+Traymenü
 [2 state button/item]
-2. Standtaste/Knopf
+Zwei-Zustand-Schaltfläche/Element
 [Save button/item state]
-Speicherstaste/Knopf
+Speicherntaste/Elementzustand
 [Normal button tooltip]
-Normale Tooltip Schaltfläche
+Normale Tooltip-Schaltfläche
 [Pressed button tooltip]
-Gedrückter Schaltflächen Tooltip
+Gedrückter Schaltflächentooltip
 [Separated]
 Getrennt
 [Root popup:]
@@ -238,9 +238,9 @@ Unterpunkt:
 [Menu item name:]
 Menüpunkt Name:
 [Show only if variables return 1]
-Zeige nur falls Variable 1 zurückgibt
+Zeige nur, falls Variable 1 zurückgibt
 [Contact related]
-
+Kontaktbezogen
 [Registered actions]
 Eingetragene Aktionen
 [Menu icons]
@@ -250,25 +250,25 @@ Menüicons
 [Native]
 Nativ
 [Packed]
-
+Gepackt
 [2 bytes]
-
+2 Byte
 [4 bytes]
-
+4 Byte
 [8 bytes]
-
+8 Byte
 [alias]
-
+Alias
 [type]
-
+Typ
 [length]
-
+Länge
 [data]
-
+Daten
 [Structure help]
-
+Strukturhilfe
 [Descr]
-
+Beschr.
 ;other strings
 [Open contact window]
 Kontaktfenster öffnen
@@ -303,8 +303,8 @@ Effekt
 [the context menu for a contact is about to be built]
 
 [double click on the CList]
-
+Doppelklick auf die Kontaktliste
 [New contact added to database]
-
+Neuer Kontakt zur Datenbank hinzugefügt
 [Contact deleting]
 Kontakt löschen

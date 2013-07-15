@@ -123,9 +123,9 @@ Eigene Avatare
 [Avatar]
 Avatar
 [Fatal error, image services not found. Avatar services will be disabled.]
-Schwerwiegender Fehler, Image-Services-Plugin wurde nicht gefunden. Der Dienst wird nun deaktiviert.
+Schwerwiegender Fehler, Bilddienste-Plugin wurde nicht gefunden. Der Dienst wird nun deaktiviert.
 [Avatar Service]
-Avatar Service
+Avatardienst
 ;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
 Avatar-Einstellungen für %s

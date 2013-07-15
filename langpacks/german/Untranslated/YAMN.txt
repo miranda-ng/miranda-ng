@@ -4,7 +4,6 @@
 [An error occured. Error code: %d]
 [ - connection error]
 [Invalid]
-[Header]
 [Copy Selected]
 [Translate header error]
 [Part]

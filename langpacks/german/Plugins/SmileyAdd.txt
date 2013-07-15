@@ -61,7 +61,7 @@ Smileybutton
 Smiley-Auswahlfenster anzeigen
 ;file \plugins\SmileyAdd\src\download.cpp
 [SmileyAdd]
-
+SmileyAdd
 [Smiley Cache]
 Smiley-Cache
 [SmileyAdd HTTP connections]
@@ -95,15 +95,15 @@ protokollspezifisch
 [Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
 Smileypack %s nicht gefunden.\nKorrektes Smileypack in den Miranda-Einstellungen unter 'Customize -> Smileys' auswählen!
 [There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
-Das verwendete SmileyPack ist fehlerhaft und muss korrigiert werden.\nDetails finden sich im Netzwerklog
+Das verwendete Smileypack ist fehlerhaft und muss korrigiert werden.\nDetails finden sich im Netzwerklog.
 [Smiley #%u in file %s for Smiley Pack %s not found.]
-
+Smiley #%u in Datei %s für Smileypack %s nicht gefunden.
 [Standard]
-
+Standard
 [Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
-
+Regulärer Ausdruck "%s" im Smileypack "%s" könnte "leere Treffer" verursachen.
 [Regular Expression "%s" in smiley pack "%s" malformed.]
-
+Regulärer Ausduck "%s" in Smileypack deformiert.
 ;file \plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]
 Nein!

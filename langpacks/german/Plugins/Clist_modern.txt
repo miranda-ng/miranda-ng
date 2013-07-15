@@ -605,7 +605,7 @@ EINSTELLUNGSSEITE IST IM BAU!
 [E&xit]
 B&eenden
 [&Status]
-
+&Status
 [&Offline\tCtrl+0]
 
 [On&line\tCtrl+1]
@@ -971,7 +971,7 @@ Beide Richtungen kacheln
 Bildgröße ist
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [You need an image services plugin to process PNG images.]
-
+Sie benötigen ein Bilddienste-Plugin, um PNG-Grafiken zu verarbeiten.
 [Error]
 Fehler
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
@@ -980,7 +980,7 @@ Laden/Speichern
 [Object Editor]
 Objekteditor
 [( unknown )]
-
+( unbekannt )
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 %s\n\n%s\n\nAutor(en):\t %s\nKontakt:\t %s\nWeb:\t %s\n\nDatei:\t %s
 [%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -1006,7 +1006,7 @@ Vorschau nicht verfügbar\n\n%s\n----------------------\n\n%s\n\nAUTOR(EN):\n%s\
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
 %s\n\n%s\n\nAUTOREN:\n%s\n\nKONTAKT:\n%s\n\nWEB:\n%s\n\n\n
 [graphics by Angeli-Ka\ntemplate by FYR]
-
+Grafiken von Angeli-Ka\nVorlage von FYR
 [Select skin from list]
 Skin aus der Liste wählen
 [Please select skin to apply]
@@ -1094,9 +1094,9 @@ Wirklich diesen Kontaktfilter löschen? Dies kann nicht rückgängig gemacht wer
 [Delete a view mode]
 Kontaktfilter löschen
 [A view mode with this name does alredy exist]
-
+Ein Kontaktfilter dieses Namens existiert bereits
 [Duplicate name]
-
+Doppelter Name
 [All Contacts]
 Alle Kontakte
 [Setup View Modes...]

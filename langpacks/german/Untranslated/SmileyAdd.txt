@@ -1,5 +1,0 @@
-﻿[SmileyAdd]
-[Smiley #%u in file %s for Smiley Pack %s not found.]
-[Standard]
-[Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
-[Regular Expression "%s" in smiley pack "%s" malformed.]

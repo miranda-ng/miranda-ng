@@ -91,7 +91,7 @@ Monatlich
 [Yearly]
 Jährlich
 [i'm hiding]
-
+ich verstecke mich
 [Date and Time]
 Datum und Zeit
 [Disable next occurence]
@@ -103,13 +103,13 @@ Keine Erinnerung
 [Dismiss]
 Verwerfen
 [Snooze]
-
+Schlummern
 [Static]
 Statisch
 [Reminder Frame Context]
-
+Framekontext merken
 [&Suspend]
-
+&Verwerfen
 [&Edit...]
 B&earbeiten...
 [&Delete]
@@ -121,7 +121,7 @@ Einstellungen...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 [Unknown command issued: "%s"]
-
+Unbekannter Befehl: "%s"
 [Set Alarm]
 Alarm stellen
 ;file \plugins\Alarms\src\alarm_win.cpp
@@ -130,11 +130,11 @@ Beispielalarm
 [Some example text. Example, example, example.]
 Ein Beispieltext. Beispiel, Beispiel, Beispiel.
 [5 mins]
-5 Min
+5 Min.
 [15 mins]
-15 Min
+15 Min.
 [30 mins]
-30 Min
+30 Min.
 [1 hour]
 1 Stunde
 [1 day]
@@ -183,10 +183,10 @@ Freitag
 [Saturday]
 Samstag
 [Please enter a title for this alarm.]
-
+Bitte geben Sie einen Titel für diesen Alarm ein.
 [Error]
 Fehler
 [The alarm time you have selected is in the past.]
-
+Die ausgewählte Alarmzeit liegt in der Vergangenheit.
 [Events]
 Ereignisse

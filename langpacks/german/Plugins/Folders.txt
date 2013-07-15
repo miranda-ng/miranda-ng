@@ -44,9 +44,9 @@ wird erweitert zu Ihrem Profilpfad - der Wert aus mirandaboot.ini,
 [ProfileDir section (usually inside miranda's folder).]
 Abschnitt ProfileDir (normalerweise im Miranda-Verzeichnis).
 [Expands to your current profile name without the extenstion.]
-wird erweitert zum Namen Ihres aktuellen Profils, ohne Dateiendung.
+wird erweitert zum Namen Ihres aktuellen Profils ohne Dateiendung.
 [(e.g.default if your your profile is default.dat).]
-(z.b. default, wenn Ihr Profil default.dat ist).
+(z.B. standard, wenn Ihr Profil standard.dat ist).
 [Environment variables]
 Umgebungsvariablen
 [The plugin can also expand environment variables; the variables are specified like in any other]

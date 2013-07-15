@@ -1,7 +1,0 @@
-﻿[i'm hiding]
-[Snooze]
-[Reminder Frame Context]
-[&Suspend]
-[Unknown command issued: "%s"]
-[Please enter a title for this alarm.]
-[The alarm time you have selected is in the past.]

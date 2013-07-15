@@ -171,7 +171,7 @@ Ereignisse im Verlauf behalten
 [Prevent identical logs]
 Identische Aufzeichnungen verhindern
 [On opening ML:]
-Bei Log-Öffnung:
+Bei Verlaufsöffnung:
 [General]
 Allgemein
 [Show Popups when I connect]
@@ -179,14 +179,14 @@ Popups beim Verbinden
 [Accounts]
 Konten
 [Enable/Disable accounts which you don't wish to be notified for:]
-Konten (de-)aktivieren für die Sie nicht benachrichtigt werden wollen:
+Konten (de-)aktivieren, für die Sie nicht benachrichtigt werden wollen:
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Sound files]
-Sound-Dateien
+Klangdateien
 [All files]
 Alle Dateien
 [Wave files]
-Wave Dateien
+Wave-Dateien
 [Status]
 Status
 [Sound for the status]
@@ -204,11 +204,11 @@ Standardton
 [Contact]
 Kontakt
 [connecting]
-
+verbinde
 [aborting]
-
+breche ab
 [playing]
-
+spiele
 [%s is now %s]
 %s ist nun %s
 [%s, %s. %s changed to: %s (was: %s).\r\n]
@@ -306,11 +306,11 @@ New Status Notify
 [User: from offline (has priority!)]
 Kontakt: war offline (hat Priorität!)
 [Extra status changed]
-Extra Status wurde geändert
+Extra-Status wurde geändert
 [Extra status message changed]
-Extra Statusnachricht wurde geändert
+Extra-Statusnachricht wurde geändert
 [Extra status removed]
-Extra Status wurde entfernt
+Extra-Status wurde entfernt
 [Toggle status notification]
 Wechsel Statusbenachrichtigungen
 ;file \plugins\NewXstatusNotify\src\options.cpp
@@ -325,7 +325,7 @@ Möchten Sie alle Vorlagen auf Standard zurücksetzen?
 [Reset templates]
 Vorlagen zurücksetzen
 [Show available variables]
-Verfügbare Variablen  anzeigen
+Verfügbare Variablen anzeigen
 [Reset all templates to default]
 Alle Vorlagen auf Standard zurücksetzen
 [Protocol]

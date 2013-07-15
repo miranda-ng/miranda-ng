@@ -88,11 +88,11 @@ E-Mail:
 Unique ID:
 ;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
 [Database is Secured MMAP database]
-
+Datenbank ist gesicherte MMAP-Datenbank
 [You are not authorized for access to Database]
-
+Sie sind nicht für den Zugriff auf die Datenbank autorisiert
 [Secured MMAP: authorization successful]
-
+Gesichertes MMAP: Autorisierung erfolgreich
 [Database is marked as belonging to an unknown version of Miranda]
 Datenbank gehört zu einer unbekannten Mirandaversion
 ;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
@@ -105,7 +105,7 @@ Passwort ändern
 [Set password]
 Passwort setzen
 [Dll]
-Dll
+DLL
 [Name]
 Name
 [Version]
@@ -126,7 +126,7 @@ Passwörter stimmen nicht überein!
 Passwort ist inkorrekt!
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
 [Sorry, but your database encrypted with unknown module]
-Entschuldigung, aber Ihre Datenbank ist mit einem unbekanntem Modul verschlüsselt.
+Entschuldigung, aber Ihre Datenbank ist mit einem unbekannten Modul verschlüsselt.
 [Error]
 Fehler
 [Crypto modules not found]

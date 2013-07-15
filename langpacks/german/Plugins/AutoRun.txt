@@ -9,7 +9,7 @@
 Dieses Plugin ermöglicht ein automatisches Starten von Miranda NG beim Hochfahren des Systems.
 ;file \plugins\AutoRun\res\autorun.rc
 [Autorun]
-Autorun
+Autostart
 [Launch Miranda NG at system startup]
 Miranda NG beim Systemstart starten
 [Note: At startup Miranda NG will use current profile]

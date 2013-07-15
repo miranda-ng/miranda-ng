@@ -11,8 +11,6 @@
 [Current stream title]
 [Station/playlist URL]
 [Currently used decoder]
-[connecting]
-[aborting]
 [Can't initialize device]
 [Can't connect to net. Please, clear 'Work offline' option in Internet settings]
 [Start broadcasting]

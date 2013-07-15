@@ -155,7 +155,7 @@ Abbrechen
 [Message Session]
 Nachrichtensitzung
 [&U]
-
+&U
 [&D]
 &D
 [&E]

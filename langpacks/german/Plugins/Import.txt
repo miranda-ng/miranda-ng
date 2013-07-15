@@ -9,9 +9,9 @@
 Importiert Kontakte und Nachrichten aus einem anderen Miranda-Profil oder aus einem externen Programm.
 ;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
-Art des Imports auswählen
+Art des Imports auswählen:
 [From a Miranda NG database.]
-Aus einer Miranda NG Datenbank.
+Aus einer Miranda-NG-Datenbank.
 [This wizard will help you import contacts and message history from another Miranda profile or from an external program.]
 Dieser Assistent soll helfen Kontakte und Nachrichten aus anderen Miranda-Profilen oder aus externen Programmen zu importieren.
 [Click "Next" to choose the information you wish to import, or click "Cancel" to exit the wizard and continue using Miranda.]
@@ -78,35 +78,35 @@ Dateiübertragungen
 Andere
 ;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
-
+Ignoriertes Ereignis von/an sich selbst
 [Added contact %u (found in history)]
-
+Kontakt %u hinzugefügt (im Verlauf gefunden)
 [Failed to add %S contact %s]
-
+Hinzufügen des %S-Kontakts %s fehlgeschlagen
 [Added %S contact %s, '%s']
-
+%S-Kontakt %s hinzugefügt, '%s'
 [Added %S contact %s]
-
+%S-Kontakt %s hinzugefügt
 [Skipping contact with no protocol]
-
+Überspringe Kontakt ohne Protokoll
 [Skipping contact, %S not installed.]
-
+Überspringe Kontakt, %S nicht installiert.
 [Skipping non-IM contact (%S)]
-
+Überspringe Nicht-IM-Kontakt (%S)
 [Skipping %S contact, ID not found]
-
+Überspringe %S-Kontakt, ID nicht gefunden
 [Skipping duplicate %S contact %s]
-
+Überspringe doppelten %S-Kontakt %s
 [Unknown error while adding %S contact %s]
-
+Unbekannter Fehler beim Hinzufügen des %S-Kontakts %s
 [Failed to add message]
 Hinzufügen der Nachricht fehlgeschlagen.
 [Error retrieving current profile, exiting.]
-
+Fehler beim Holen des aktuellen Profils, beende.
 [There's no database driver to open the input file, exiting.]
-Es gibt keinen Datenbanktreiber um die Quelldatei zu öffnen, beenden.
+Es gibt keinen Datenbanktreiber um die Quelldatei zu öffnen, beende.
 [Error loading source file, exiting.]
-Fehler beim Laden der Quelldatei, beenden.
+Fehler beim Laden der Quelldatei, beende.
 [Number of contacts in database: %d]
 Anzahl Kontakte in Datenbank: %d
 [Importing groups.]
@@ -146,9 +146,9 @@ Importieren...
 [The given file does not exist. Please check that you have entered the name correctly.]
 Die angegebene Datei existiert nicht. Bitte eingegebenen Dateinamen überprüfen.
 [Miranda Import]
-Miranda Import
+Miranda-Import
 [Miranda NG database]
-Miranda NG Datenbank
+Miranda-NG-Datenbank
 [All Files]
 Alle Dateien
 ;file \plugins\Import\src\utils.cpp

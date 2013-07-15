@@ -21,7 +21,7 @@ Popups anzeigen
 [General]
 Allgemein
 [Accounts to check]
-Folgende Accounts prüfen
+Folgende Konten prüfen
 [Dial-Up]
 Internetverbindung
 [Don't reconnect if no internet connection seems available]
@@ -107,7 +107,7 @@ Fensterposition
 [Set window size]
 Fenstergröße
 [x]
-
+x
 [Allow override]
 Aufheben möglich
 [Note: status profiles can be created in the 'Status Profiles' options screen]
@@ -235,7 +235,7 @@ Sekunden
 [Set account offline before a connection attempt]
 Konto vor Verbindungsversuch offline setzen
 [Max. account connecting time (secs)]
-Max. Konto Verbindungszeit (Sek.)
+Max. Kontoverbindungsdauer (Sek.)
 [Timers]
 Zeitplan
 [Reconnecting]
@@ -272,7 +272,7 @@ Regeln
 [Status Messages]
 Statusnachrichten
 [Auto Away]
-
+Automatisch abwesend
 ;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Ich bin nicht da seit %time%.
@@ -281,7 +281,7 @@ Gib's auf! Ich bin nicht da!
 [Not right now.]
 Im Moment nicht!
 [Give a guy some peace, would ya?]
-Lass mich im Moment mal in Ruhe!
+Lass' mich im Moment mal in Ruhe!
 [I'm a chatbot!]
 Laber mich voll!
 [Yep, I'm here.]
@@ -289,22 +289,22 @@ Ja, ich bin da.
 [Nope, not here.]
 Nein, ich bin weg.
 [I'm hiding from the mafia.]
-Ich zieh mir ne Tarnkappe auf!
+Ich zieh' mir ne Tarnkappe auf!
 [That'll be the phone.]
 Bin gerade am Telefon
 [Mmm...food.]
-Hmmh... lecker
+Hmm... Essen.
 [idleeeeeeee]
 Langweilig
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Set %s message for %s.]
-Setze %s Nachricht für %s.
+Setze %s-Nachricht für %s.
 [<last>]
 <letzter>
 [<current>]
 <aktueller>
 [<n/a>]
-
+<n.v.>
 [Protocol]
 Protokoll
 [Closing in %d]

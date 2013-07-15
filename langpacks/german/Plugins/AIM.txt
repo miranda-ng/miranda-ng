@@ -6,7 +6,7 @@
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
 [AOL Instant Messenger (AIM) protocol support for Miranda NG.]
-AOL Instant Messenger (AIM) Unterstützung für Miranda NG.
+AOL-Instant-Messenger- (AIM-) Unterstützung für Miranda NG.
 ;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 AIM-Benutzerangaben
@@ -45,7 +45,7 @@ Dateien per Proxy versenden
 [Masquerade as a Sidekick/Hiptop User]
 Als Sidekick-/Hiptop-Nutzer ausgeben
 [*Aim must be reconnected  for some option to take effect.]
-AIM muss zum Übernehmen einiger Einstellungen neu verbinden
+AIM muss zum Übernehmen einiger Einstellungen neu verbunden werden
 [Connection]
 Verbindung
 [Port:]
@@ -105,13 +105,13 @@ Dies erlaubt Zugang zu benutzerdefinierten Chaträumen. Um vordefinierten Chatr�
 [Change Password]
 Passwort ändern
 [Original]
-
+Original
 [New]
 Neu
 [Repeat]
 Wiederholen
 [*Passwords don't match.]
-
+*Passwörter nicht identisch.
 [Screen Name]
 Benutzername
 [E-mail]
@@ -154,15 +154,15 @@ Kontaktprofil
 Verlauf des Kontakts
 ;file \protocols\AimOscar\src\error.cpp
 [Invalid Screen Name or password.]
-
+Ungültiger Anzeigename oder Passwort.
 [Mismatched Screen Name or password.]
 Falsches Anzeigename oder Passwort.
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
-
+Sie verbinden sich zu schnell. Bitte warten Sie 10 Minuten.
 [Unknown error occured when attempting to connect.]
-
+Ein unbekannter Fehler ist beim Verbindungsversuch aufgetreten.
 [Invalid SNAC header.]
-
+Ungültiger SNAC-Header.
 [Server rate limit exceeded.]
 
 [Client rate limit exceeded]
@@ -194,89 +194,89 @@ Unzulängliche Rechte.
 [Recipient blocked.]
 Empfänger blockiert.
 [Sender too evil.]
-Sender zu 'teuflisch'.
+Absender zu böse.
 [Receiver too evil.]
-
+Empfänger zu böse.
 [User temporarily unavailable.]
 Benutzer vorübergehend nicht verfügbar.
 [No Match.]
-
+Keine Übereinstimmung.
 [List overflow.]
-
+Listenüberlauf.
 [Request ambiguous.]
-
+Anfrage mehrdeutig.
 [Server queue full.]
-
+Serverwarteschlange voll.
 [Not while on AOL.]
-
+Nicht auf AOL.
 [Check your Screen Name.]
-
+Prüfen Sie Ihren Anzeigenamen.
 [Check your Password.]
-
+Prüfen Sie Ihr Passwort.
 [Check your Email Address.]
-
+Prüfen Sie Ihre E-Mail-Adresse.
 [Service temporarily unavailable.]
-
+Dienst vorübergehend nicht verfügbar.
 [Field change temporarily unavailable.]
-
+Feldwechsel vorübergehend nicht verfügbar.
 [Invalid Screen Name.]
-
+Ungültiger Anzeigename.
 [Invalid Password.]
-
+Ungültiges Passwort.
 [Invalid Email.]
-
+Ungültige E-Mail-Adresse.
 [Invalid Registration Preference.]
-
+Ungültige Registrierungseinstellung.
 [Invalid Old Password.]
-
+Ungültiges altes Passwort.
 [Invalid Screen Name Length.]
-
+Ungültige Anzeigenamenslänge.
 [Invalid Password Length.]
-
+Ungültige Passwortlänge.
 [Invalid Email Length.]
-
+Ungültige E-Mail-Adresslänge.
 [Invalid Old Password Length.]
-
+Ungültige Länge des alten Passworts.
 [Need Old Password.]
-
+Benötige altes Passwort.
 [Read Only Field.]
-
+Nur-lesen-Feld.
 [Write Only Field.]
-
+Nur-schreiben-Feld.
 [Unsupported Type.]
-
+Nicht unterstützter Typ.
 [An Error has occured.]
-
+Ein Fehler ist aufgetreten.
 [Invalid Account.]
-
+Ungültiges Konto.
 [Delete Account.]
-
+Konto löschen.
 [Expired Account.]
-
+Abgelaufenes Konto.
 [No Database access.]
-
+Kein Datenbankzugriff.
 [Invalid Database fields.]
-
+Ungültige Datenbankfelder.
 [Bad Database status.]
-
+Schlechter Datenbankzustand.
 [Migration Cancel.]
-
+Migration abgebrochen.
 [Internal Error.]
-
+Interner Fehler.
 [There is already a Pending Request for this Screen Name.]
-
+Es gibt bereits eine Anfrage für diesen Anzeigenamen.
 [Not DT status.]
 
 [Outstanding Confirmation.]
-
+Ausstehende Bestätigung.
 [No Email Address.]
-
+Keine E-Mail-Adresse.
 [Over Limit.]
-
+Über Grenze.
 [Email Host Fail.]
-
+E-Mail-Hostfehler.
 [DNS Fail.]
-
+DNS-Fehler.
 ;file \protocols\AimOscar\src\file.cpp
 [Failed to open file: %s : %s]
 Konnte die Datei nicht öffnen: %s : %s
@@ -287,7 +287,7 @@ AIM-Link-Protokoll
 [%s Protocol]
 %s-Protokoll
 [Open mail account?]
-
+Mailkonto öffnen?
 ;file \protocols\AimOscar\src\proto.cpp
 [%s server connection]
 %s Serververbindung
@@ -319,17 +319,17 @@ Der Kontakt den Sie modifizieren möchten wurde in ihrer Liste nicht gefunden.
 [Unknown error when attempting to modify a group. Error code %#x]
 
 [You've got mail! Checked at]
-Sie haben eine neu eMail! Geprüft um:
+Sie haben eine neue E-Mail! Geprüft um:
 [Error uploading avatar. (Too small)]
-
+Fehler beim Avatarupload. (Zu Klein)
 [Error uploading avatar. (Too big)]
-Fehler beim Avatarupload. Zu Groß!
+Fehler beim Avatarupload. (Zu Groß)
 [Error uploading avatar. (Wrong type)]
-Fehler beim Avatarupload. Falscher Dateityp!
+Fehler beim Avatarupload. (Falscher Dateityp)
 [Error uploading avatar. (Is banned)]
-Fehler beim Avatarupload. Es wurde verbannt (nicht erlaubt)!
+Fehler beim Avatarupload. (nicht erlaubt)
 [Error uploading avatar. (Unknown error)]
-Fehler beim Avatarupload. Unbekannter Fehler!
+Fehler beim Avatarupload. (Unbekannter Fehler)
 [A confirmation message has been sent to the new email address. Please follow its instructions.]
 Eine Bestätigungsnachricht wurde an die neue E-Mail-Adresse gesendet. Bitte befolgen Sie ihre Anweisungen.
 [A confirmation message has been sent to your email address. Please follow its instructions.]
@@ -348,13 +348,13 @@ Blockieren
 [Profile]
 Profil
 [AOL Mail]
-
+AOL-Mail
 [AIM Icon]
 AIM-Icon
 [Hiptop]
-
+Hiptop
 [AOL Bot]
-
+AOL-Bot
 [Admin]
 Administrator
 [Confirmed]
@@ -364,7 +364,7 @@ Unbestätigt
 [Blocked list]
 Blockierliste
 [AOL]
-
+AOL
 [Foreground Color]
 Vordergrundfarbe
 [Background Color]
@@ -396,7 +396,7 @@ Nicht normaler Stil
 [Profile Editor]
 Profileditor
 [AIM Account Type]
-AIM Account Typ
+AIM-Kontentyp
 [AIM Extended Status]
 AIM erweiterter Status
 [&Block]
@@ -426,6 +426,6 @@ Bitte komm zu mir in diesen Chatraum!
 [Please, enter a username in the options dialog.]
 Bitte einen Benutzernamen in den Einstellungen angeben.
 [Please, enter a password in the options dialog.]
-
+Bitte ein Passwort in den Einstellungen angeben.
 [Failed to open file: %s %s]
-
+Konnte Datei nicht öffnen: %s %s

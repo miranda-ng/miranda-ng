@@ -6,7 +6,7 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 [Adds the possibility to shutdown the computer when a specified event occurs.]
-Dieses Plugin ermöglicht es den Computer, bei Eintreten festgelegter Ereignisse, zu Beenden.
+Dieses Plugin ermöglicht es, den Computer beim Eintreten festgelegter Ereignisse herunterzufahren.
 ;file \plugins\AutoShutdown\res\resource.rc
 [Shutdown]
 Herunterfahren
@@ -89,7 +89,7 @@ Hintergrund
 Fortschrittsanzeige
 ;file \plugins\AutoShutdown\src\main.cpp
 [Header]
-
+Kopfzeile
 [Active]
 Aktiv
 [Inactive]
@@ -126,7 +126,7 @@ Automatisches &Beenden
 [Automatic Shutdown Error]
 AutoBeenden-Fehler
 [The shutdown process failed!\nReason: %s]
-
+Herunterfahren fehlgeschlagen!\nGrund: %s
 [Unknown]
 Unbekannt
 [Miranda NG is going to be automatically closed in %u second(s).]
@@ -148,7 +148,7 @@ Alle Einwahlverbindungen werden in %u Sekunde(n) automatisch geschlossen.
 [The computer will automatically be shut down in %u second(s).]
 Dieser Computer wird in %u Sekunde(n) automatisch heruntergefahren.
 [Inititiating the shutdown process failed!\nReason: %s]
-
+Einleitung des Herunterfahrens fehlgeschlagen!\nGrund: %s
 [Close Miranda NG]
 Miranda NG schließen
 [Set Miranda NG offline]

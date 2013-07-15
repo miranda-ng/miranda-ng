@@ -243,7 +243,7 @@ Benutze neue Zeichnung für die Statusbar
 [E&xit]
 B&eenden
 [&Status]
-
+&Status
 [&Offline\tCtrl+0]
 
 [On&line\tCtrl+1]

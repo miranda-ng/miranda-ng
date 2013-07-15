@@ -6,7 +6,7 @@
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
-Erweitertes UserInfo Modul für Miranda NG. Bietet ein Interface, um alle Informationen zu einem Kontakt zu bearbeiten.
+Erweitertes UserInfo-Modul für Miranda NG. Bietet ein Interface, um alle Informationen zu einem Kontakt zu bearbeiten.
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit Contact Information]
 Kontakt-Informationen bearbeiten
@@ -249,9 +249,9 @@ Importieren
 [Importing...\nPlease wait!]
 Importiere ...\nBitte warten Sie!
 [Setting/Event (20/100)]
-
+Einstellung/Ereignis (20/100)
 [John Doe (1/10)]
-
+Max Mustermann (1/10)
 [Dialog]
 Dialog
 [All]
@@ -472,7 +472,7 @@ Es wurden keine Seiten hinzugefügt.\nDer Dialog wird nicht angezeigt!
 [Details dialog failed to be created. Returning error is %d.]
 Der Kontaktinformationsdialog konnte nicht erstellt werden.\nFehler %d.
 [The Page to add has invalid size %d bytes!]
-
+Die hinzuzufügende Seite hat die ungültige Größe von %d Byte!
 [General]
 Allgemein
 [Contact (private)]
@@ -503,7 +503,7 @@ Hochladen fehlgeschlagen
 Das Profil konnte nicht erfolgreich hochgeladen werden.\nEs wurde nur lokal in der Datenbank gespeichert.
 ;file \plugins\UserInfoEx\src\init.cpp
 [Fatal error, image services not found. Flags Module will be disabled.]
-
+Schwerer Fehler, Bilddienste nicht gefunden. Flaggenmodul wird deaktiviert.
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [IM Naming]
 IM-Benennung
@@ -986,31 +986,31 @@ Sozialwissenschaft
 [50's]
 50er Jahre
 [Finance and corporate]
-
+Finanzen und Wirtschaft
 [Entertainment]
 Unterhaltung
 [Consumer electronics]
 Unterhaltungselektronik
 [Retail stores]
-
+Einzelhandel
 [Health and beauty]
-
+Gesundheit und Schönheit
 [Media]
 Medien
 [Household products]
-
+Haushaltsprodukte
 [Mail order catalog]
-
+Mailversand
 [Business services]
-
+Geschäftsdienste
 [Audio and visual]
-
+Audio/Video
 [Sporting and athletic]
-
+Sport und Athletik
 [Publishing]
 Verlagswesen
 [Home automation]
-
+Heimautomatisierung
 [Alumni Org.]
 Studentenvereinigung
 [Charity Org.]
@@ -1022,7 +1022,7 @@ Gemeine-Org.
 [Cultural Org.]
 Kulturelle Org.
 [Fan Clubs]
-
+Fanclubs
 [Fraternity/Sorority]
 Bruder-/Schwesternschaft
 [Hobbyists Org.]
@@ -1076,9 +1076,9 @@ Getrennt
 [Widowed]
 Verwitwet
 [jun.]
-
+Jun.
 [sen.]
-
+Sen.
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
 (Unbekannter Kontakt)
@@ -1088,22 +1088,22 @@ E-Mail senden
 [Memory allocation error!]
 Speicher konnte nicht bereitgestellt werden!
 [E-mail (uinfoex)]
-
+E-Mail (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
 [Gender (uinfoex)]
-
+Geschlecht (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 Der Kontakt hat keine gültige Homepage
 [View Homepage]
 Homepage ansehen
 [&Homepage]
-
+&Homepage
 [Homepage (uinfoex)]
-
+Homepage (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
 [(uinfoex)]
-
+(UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaning]
 [b]%s (%S)...[/b]\n%d verbleibende Kontakte
@@ -1127,13 +1127,13 @@ Sie
 [He/She]
 Er/Sie
 [%s has the following anniversaries:\0]
-
+%s hat folgende Jahrestage:\0
 [%d. %s today\0]
-
+%d. %s heute\0
 [%d. %s tomorrow\0]
-
+%d. %s morgen\0
 [%d. %s in %d days\0]
-
+%d. %s in %d Tagen\0
 [%s has birthday today.]
 %s hat heute Geburtstag.
 [%s has birthday tomorrow.]
@@ -1147,7 +1147,7 @@ Es gibt keine Jahrestage in absehbarer Zeit.
 [Backing up and syncing all birthdays complete!]
 Sicherung und Synchronisation\nder Geburtsdaten fertiggestellt!
 [Reminder (uinfoex)]
-
+Erinnern (UInfoEx)
 [Birthday reminder]
 Geburtstags-Erinnerung
 [Birthday reminder: it's coming]
@@ -1156,22 +1156,22 @@ Kommende Geburtstage
 Jahrestagserinnerung
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identificaion]
-
+Kontaktidentifizierung
 [The contact %s(%s) has no unique id in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
 Der Kontakt %s(%s) besitzt keine ID in der vCard,\naber ein Kontakt in deiner Liste hat denselben Alias und dasselbe Protokoll.\nSollen die Informationen für diesen Kontakt überschrieben werden?
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 [Importing a new contact was aborted!]
-
+Import eines neuen Kontakts wurde abgebrochen!
 [You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]
-
+Sie haben den Import eines neuen Kontakts abgebrochen.\nEinige Informationen könnten für diesen Kontakt fehlen.\n\nMöchten Sie den unvollständigen Kontakt löschen?
 [Importing a new meta subcontact failed!]
-
+Import eines neuen Metasubkontakts fehlgeschlagen!
 [The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
-
+Der neu erstellte Metasubkontakt '%s'\nkonnte nicht zu Metakontakt '%s' hinzugefügt werden!\n\nMöchten Sie diesen Kontakt löschen?
 [Settings: %S]
-
+Einstellungen_ %S
 [Events: %S]
-
+Ereignisse: %S
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
 [All Contacts]
 Alle Kontakte
@@ -1183,22 +1183,22 @@ Erweiterte Module
 [Miranda NG]
 Miranda NG
 [Shows Miranda's installation directory.]
-
+Zeigt Mirandas Installationsverzeichnis an.
 [Shows the directory with all your Miranda's profiles.]
-
+Zeigt das Verzeichnis mit all Ihren Profilen an.
 [The OpenFileDialog returned an error: %d!]
-
+Der Datei-öffnen-Dialog gab einen Fehler zurück: %d!
 [The SaveFileDialog returned an error: %d!]
-
+Der Datei-speichern-Dialog gab einen Fehler zurück: %d!
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 [The ini-file "%s"\nfor saving contact information could not be opened.]
 Die .ini-Datei "%s"\nfür das Speichern der Kontaktinformationen konnte nicht geöffnet werden.
 [None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
 Keiner der %d Kontakte in der .ini-Datei passt zu dem gewählten Kontakt!\nNichts wird importiert
 [Import complete]
-Import komplett
+Import abgeschlossen
 [Some basic statistics]
-
+Einige grundlegende Statistiken
 [Added %d of %d contacts stored in the ini-file.]
 %d von %d Kontakten in der .ini-Datei hinzugefügt.
 [The ini-file "%s"\nfor reading contact information could not be opened.]
@@ -1212,19 +1212,19 @@ Zieldatei auswählen...
 Benutzerprofil aus vCard importieren
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Can't create xml file!\n%S]
-
+Kann XML-Datei nicht erzeugen!\n%S
 [Export took %f msec]
-
+Export dauerte %f ms
 [Contact: %s (%S)]
-
+Kontakt: %s (%S)
 [Importing %s caused error %d]
-
+Import von %s verursachte Fehler %d
 [Loading contact %s from xml failed with error %d]
-
+Laden des Kontakts %s aus XML schlug mit Fehler %d fehl
 [Importing Owner caused error %d]
-
+Import des Besitzers verursachte Fehler %d
 [Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
-
+Parser kann XMLCard "%s" nicht laden\nFehler: %d\nBeschreibung: %s
 [The selected file is no valid XMLCard]
 Die gewählte Datei ist keine gültige XMLCard.
 [The version of the XMLCard is not supported by UserInfoEx]
@@ -1236,12 +1236,12 @@ Inhaber erfolgreich importiert.
 [Selected XMLCard does not contain an owner contact!]
 Die gewählte XMLCard enthält keinen Inhaber!
 [Import took %f msec]
-
+Import dauerte %f ms
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 Importierte Kontakte: %u / %u\nImportierte Einstellungen: %u / %u\nImportierte Ereignisse: %u / %u\nDoppelte Ereignisse: %u
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
-Schwerwiegender Fehler: Eine Ausnahme entstand beim Importieren der xmlCard!
+Schwerwiegender Fehler: Eine Ausnahme entstand beim Importieren der XMLCard!
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
 [Flags (uinfoex)]
-
+Flaggen (UInfoEx)
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

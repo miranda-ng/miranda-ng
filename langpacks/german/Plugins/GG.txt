@@ -386,7 +386,7 @@ Liste zum &Server exportieren
 Liste in eine &Textdatei exportieren...
 ;file \protocols\Gadu-Gadu\src\links.cpp
 [Gadu-Gadu Link Protocol]
-
+Gadu-Gadu-Link-Protokoll
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 

@@ -73,7 +73,7 @@ Aktualisiere Kontaktdetails vom Server (*)
 [Update contacts' details on the server's list when I change them in mine]
 Aktualisiere Kontaktdetails der Serverliste, wenn ich diese in meiner ändere
 [ICQ avatars]
-ICQ Avatare
+ICQ-Avatare
 [Enable avatar support]
 Avatarunterstützung aktivieren
 [Check avatar validity before saving *]
@@ -1261,7 +1261,7 @@ Gemeine-Org.
 [Cultural Org.]
 Kulturelle Org.
 [Fan Clubs]
-
+Fanclubs
 [Fraternity/Sorority]
 Bruder-/Schwesternschaft
 [Hobbyists Org.]

@@ -31,7 +31,7 @@ Kontaktprofil
 [Default group:]
 Standardgruppe:
 [Automatically set 'Ignore status change' flag]
-Automatisch 'Ignoriere Statusänderung Flag' setzen
+Automatisch 'Ignoriere Statusänderung-Flag' setzen
 [Contacts Settings]
 Kontakte Einstellungen
 [Use bigger avatars]
@@ -81,11 +81,11 @@ Chatverbindung im 'Offline' Status trennen
 [Map non-standard statuses to Invisible (instead of Online)]
 Nicht-Standard Status auf 'Unsichtbar' setzen (anstatt 'Online')
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
-Unterstützung für Custom Smileys aktivieren (EXPERIMENTELL + BUGGY!)
+Unterstützung für Custom Smileys aktivieren (EXPERIMENTELL + VERBUGGT!)
 [Use local time for received messages]
 Lokale Zeit für empfangene Nachrichten verwenden
 [Send "Seen" info when marking messages as read]
-"Gesehen" Info senden wenn Nachrichten als gelesen markiert werden
+"Gesehen"-Info senden, wenn Nachrichten als gelesen markiert werden
 [Use this server for opening links:]
 Öffne Links auf diesem Server:
 ;file \protocols\FacebookRM\src\communication.cpp
@@ -106,7 +106,7 @@ Loginfehler, wahrscheinlich falsche Anmeldeinformationen.
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 Irgendwas geschah mit Facebook. Vielleicht gab es ein großes Update, warten Sie auf ein Plugin-Update.
 [Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
-Eine Konfiguration zum Nachrichtenversand zu anderen Clients wird benötigt.\nÖffnen Sie die Facebook-Seite und senden Sie die Nachricht zu den Kontakt erneut!
+Eine Bestätigung zum Nachrichtenversand zu anderen Clients wird benötigt.\nÖffnen Sie die Facebook-Seite und senden Sie dem Kontakt die Nachricht erneut!
 [Timeout when sending message.]
 Zeitüberschreitung beim Senden der Nachricht.
 ;file \protocols\FacebookRM\src\connection.cpp
@@ -132,7 +132,7 @@ Klassische Webseite
 [Mobile website]
 Mobile Webseite
 [Smartphone website]
-Smartphone Webseite
+Smartphone-Webseite
 [For everyone]
 Für Jeden
 [For friends of friends]
@@ -140,7 +140,7 @@ Für Freunde von Freunden
 [For friends]
 Für Freunde
 [Only for me]
-Nur für Mich
+Nur für mich
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Kontakt wurde aus Ihrer Server-Liste entfernt.
@@ -160,13 +160,13 @@ Was machen Sie gerade, %s?
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
 Hinweis: Stellen Sie sicher, dass "SSL-Zertifikate überprüfen" in den Netzwerk-Einstellungen deaktiviert ist.
 [Sample event]
-Beispiel Ereignis
+Beispielereignis
 [Sample request]
-Beispiel Anfrage
+Beispielanfrage
 [Sample newsfeed]
-Beispiel Newsfeed
+Beispielnewsfeed
 [Sample notification]
-Beispiel Benachrichtigung
+Beispielbenachrichtigung
 ;file \protocols\FacebookRM\src\json.cpp
 [Message read: %s]
 Nachricht gelesen: %s
@@ -188,7 +188,7 @@ Es konnte keine Netlib-Verbindung zu Facebook hergestellt werden
 [Notification]
 Benachrichtigung
 [News Feed]
-News-Feed
+Newsfeed
 [Other Event]
 Andere Ereignisse
 [Avatars]
@@ -210,7 +210,7 @@ Freundschaftsanfragen überprüfen...
 [Refreshing buddy list...]
 Freundesliste aktuallisieren...
 [Do you want to cancel your friendship with '%s'?]
-Möchten Sie Ihre Freundschaft mit "%s" abbrechen?
+Möchten Sie Ihre Freundschaft mit "%s" beenden?
 ;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]
 Facebook-Icon

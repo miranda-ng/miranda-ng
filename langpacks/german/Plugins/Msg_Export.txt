@@ -102,7 +102,7 @@ Schrift...
 [Syntax highlight]
 Syntaxhöhepunkt
 [Failed to create file]
-
+Fehler beim Erzeugen der Datei
 [Failed to save file]
 
 [History was saved successfully in file\r\n]

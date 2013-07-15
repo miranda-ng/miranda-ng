@@ -107,7 +107,7 @@ Fensterposition
 [Set window size]
 Fenstergröße
 [x]
-
+x
 [Allow override]
 Aufheben möglich
 [Note: status profiles can be created in the 'Status Profiles' options screen]
@@ -334,7 +334,7 @@ Langweilig
 [Set %s message for %s.]
 Setze %s Nachricht für %s.
 [<n/a>]
-
+<n.v.>
 [Protocol]
 Protokoll
 [Closing in %d]

@@ -15,7 +15,7 @@ Sonstiges
 [&Start Miranda NG automatically when the Computer starts (using current profile)]
 Miranda NG automatisch bei &Systemstart ausführen (mit dem aktuellen Profil)
 [Only associate with Miranda NG while it is &running]
-Verknüpfungen sind nur aktiv wenn Miranda NG ausgefüh&rt wird.
+Verknüpfungen sind nur aktiv, wenn Miranda NG ausgefüh&rt wird.
 ;file \plugins\AssocMgr\src\assoclist.cpp
 [%hs files]
 %hs-Dateien
@@ -42,37 +42,37 @@ Dienste
 [Associations]
 Verknüpfungen
 [Miranda NG Database]
-Miranda NG-Datenbank
+Miranda-NG-Datenbank
 ;file \plugins\AssocMgr\src\dde.cpp
 [Miranda NG could not open file]
-
+Miranda NG konnte Datei nicht öffnen
 [Miranda NG was not able to open "%S".\n\nThere is no registered handler for this file type.]
-
+Miranda NG konnte "%S" nicht öffnen.\n\nEs gibt keinen registrierten Handler für diesen Dateitypen.
 [Miranda NG was not able to open "%S".\n\nThe file could not be processed.]
-
+Miranda NG konnte "%S" nicht öffnen.\n\nDie Datei konnte nicht verarbeitet werden.
 [Miranda NG could not open URL]
-
+Miranda NG konnte URL nicht öffnen.
 [Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
-
+Miranda NG konnte "%S" nicht öffnen.\n\nEs gibt keinen registrierten Handler für diesen URL-Typen.
 [Miranda NG was not able to open "%S".\n\nThe given URL is invalid and can not be parsed.]
-
+Miranda NG konnte "%S" nicht öffnen.\n\nDer angegebene URL ist ungültig und kann nicht verarbeitet werden.
 ;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
-
+Zugriff fehlgeschlagen:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
 [Registry Warning]
 Registrierungswarnung
 ;file \plugins\AssocMgr\src\test.cpp
 [AIM Link Protocol]
 AIM-Link-Protokoll
 [ICQ Link Shortcut]
-
+ICQ-Link-Verknüpfung
 [&Add to Contact List...]
-
+Zu Kont&aktliste hinzufügen...
 [Yahoo Link Protocol]
-
+Yahoo-Link-Protokoll
 [MSN Link Protocol]
-MSN Link Protokoll
+MSN-Link-Protokoll
 [Gadu-Gadu Link Protocol]
-
+Gadu-Gadu-Link-Protokoll
 [Jabber Link Protocol]
 Jabber-Link-Protokoll

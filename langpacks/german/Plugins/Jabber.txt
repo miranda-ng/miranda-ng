@@ -809,7 +809,7 @@ Nodeinformationen kopieren
 [category]
 
 [type]
-
+Typ
 [Category]
 
 [Type]

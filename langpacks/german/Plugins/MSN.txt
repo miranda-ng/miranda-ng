@@ -15,7 +15,7 @@ Passwort:
 [Nickname:]
 Nick:
 [Create a new Windows Live account]
-Ein neues Windows Live Konto erstellen
+Ein neues Windows-Live-Konto erstellen
 [Expert]
 Experte
 [Send message font color/size info inside messages]
@@ -135,7 +135,7 @@ Kontakt versucht eine Audiokonferenz zu starten (zzt. nicht unterstützt)
 [%I64u bytes]
 %I64u Bytes
 [Accept NetMeeting request from %s?]
-NetMeeting Anfrage von %s akzeptieren?
+NetMeeting-Anfrage von %s akzeptieren?
 [MSN Protocol]
 MSN-Protokoll
 [MSN Alert]
@@ -143,7 +143,7 @@ MSN Alert
 [Chat session established by my request]
 Die Chatsitzung wurde durch mich eingeleitet
 [Chat session established by contact request]
-Die Chatsitzung wurde durch dem Gegenüber eingeleitet
+Die Chatsitzung wurde durch den Gegenüber eingeleitet
 [Contact left channel]
 Die Chatsitzung wurde beendet
 [This conversation has been inactive, participants will be removed.]
@@ -153,7 +153,7 @@ Um die Konversation fortzusetzen, beenden Sie diese Sitzung und starten Sie eine
 [There is only 1 person left in the chat, do you want to switch back to standard message window?]
 Es befindet sich nur noch eine Person im Multi-Chat, wollen Sie wieder zum normalen Nachrichtenfenster wechseln?
 [MSN Chat]
-MSN Chat
+MSN-Chat
 [Message delivery failed]
 Nachrichtenübertragung fehlgeschlagen
 ;file \protocols\MSN\src\msn_errors.cpp
@@ -161,12 +161,12 @@ Nachrichtenübertragung fehlgeschlagen
 Benutzer nicht online
 ;file \protocols\MSN\src\msn_links.cpp
 [MSN Link Protocol]
-MSN Link Protokoll
+MSN-Link-Protokoll
 ;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 Kontakt %s wurde vom Server entfernt.\nWollen Sie den Kontakt lokal behalten, um den Verlauf zu erhalten?
 [%s protocol]
-%s Protokoll
+%s-Protokoll
 ;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
 Betreff: %s
@@ -211,7 +211,7 @@ Fehler
 [Protocol icon]
 Protokollicon
 [Hotmail Inbox]
-Hotmail Posteingang
+Hotmail-Posteingang
 [Profile]
 Profil
 [MSN Services]
@@ -237,7 +237,7 @@ Der Import von serverseitigen Gruppen wird Ihre Kontaktliste verändern. Wollen 
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
 Sie müssen sich neu ins MSN-Netzwerk einwählen, bevor die Änderungen wirksam werden.
 [MSN Options]
-MSN Einstellungen
+MSN-Einstellungen
 [Automatically obtain host/port]
 Host/Port automatisch ermitteln
 [Manually specify host/port]

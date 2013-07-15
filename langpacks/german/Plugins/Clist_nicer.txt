@@ -443,7 +443,7 @@ Lokale Zeit anzeigen
 [E&xit]
 B&eenden
 [&Status]
-
+&Status
 [&Offline\tCtrl+0]
 
 [On&line\tCtrl+1]
@@ -807,9 +807,9 @@ Kontaktfilter löschen
 [No view mode]
 Kein Kontaktfilter
 [A view mode with this name does alredy exist]
-
+Ein Kontaktfilter dieses Namens existiert bereits
 [Duplicate name]
-
+Doppelter Name
 [Setup View Modes...]
 Kontaktfilter einstellen
 [Clear current View Mode]

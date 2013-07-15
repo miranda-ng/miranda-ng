@@ -82,9 +82,9 @@ Schütteln des Nachrichtenfensters
 [You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
 Sie dürfen nur 1 Nudge in %d Sekunden senden, warten Sie noch %d Sekunden.
 [Nudge]
-
+Nudge
 [Default Nudge]
-
+Standardnudge
 [Nudge as Default]
 Standard Nudge
 [Send Nudge]
@@ -97,9 +97,9 @@ Nudge für %s
 &Nudge senden
 ;file \plugins\Nudge\src\nudge.cpp
 [You received a nudge]
-Sie bekommen ein Nudge
+Sie bekamen ein Nudge
 [You sent a nudge]
-Sie senden ein Nudge
+Sie sandten ein Nudge
 ;file \plugins\Nudge\src\options.cpp
 [Events]
 Ereignisse

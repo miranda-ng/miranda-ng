@@ -7,7 +7,6 @@
 [Failed to open file\r\n%s\r\n\r\nContact handle is invalid]
 [Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
 [With scroll to bottom %d\n]
-[Failed to create file]
 [Failed to save file]
 [History was saved successfully in file\r\n]
 [Failed to create history dialog]

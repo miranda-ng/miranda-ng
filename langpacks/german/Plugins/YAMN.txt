@@ -212,7 +212,7 @@ Keine neue E-Mail, %d Spam-Mail(s)
 [Invalid]
 
 [Header]
-
+Kopfzeile
 [Value]
 Wert
 [Copy Selected]

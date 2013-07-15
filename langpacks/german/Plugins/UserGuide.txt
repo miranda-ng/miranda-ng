@@ -6,7 +6,7 @@
 ;  Authors: Yasnovidyashii
 ;============================================================
 [This plug-in adds the main menu item used to view miranda-im pack user guide.]
-Dieses Plugin fügt einen Hauptmenueintrag hinzu, um das Benutzerhandbuch des Miranda-Packs anzuzeigen.
+Dieses Plugin fügt einen Hauptmenüeintrag hinzu, um das Benutzerhandbuch des Miranda-Packs anzuzeigen.
 ;file \plugins\UserGuide\src\main.cpp
 [User Guide]
 Benutzerhandbuch

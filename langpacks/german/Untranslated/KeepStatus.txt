@@ -1,5 +1,4 @@
 ﻿[minutes of level 1 mode]
-[x]
 [Entering first auto-away status]
 [Entering second auto-away status]
 [Leaving first auto-away status]
@@ -8,4 +7,3 @@
 [TriggerData]
 [Status: The status the account will change to\r\nAccount: The account changing state]
 [KeepStatus]
-[<n/a>]

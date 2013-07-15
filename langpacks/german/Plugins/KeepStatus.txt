@@ -107,7 +107,7 @@ Fensterposition
 [Set window size]
 Fenstergröße
 [x]
-
+x
 [Allow override]
 Aufheben möglich
 [Note: status profiles can be created in the 'Status Profiles' options screen]
@@ -310,29 +310,29 @@ Gib's auf! Ich bin nicht da!
 [Not right now.]
 Im Moment nicht!
 [Give a guy some peace, would ya?]
-Lass mich im Moment mal in Ruhe!
+Lass' mich im Moment mal in Ruhe!
 [I'm a chatbot!]
-Laber mich voll!
+Laber' mich voll!
 [Yep, I'm here.]
 Ja, ich bin da.
 [Nope, not here.]
 Nein, ich bin weg.
 [I'm hiding from the mafia.]
-Ich zieh mir ne Tarnkappe auf!
+Ich zieh' mir ne Tarnkappe auf!
 [That'll be the phone.]
 Bin gerade am Telefon
 [Mmm...food.]
-Hmmh... lecker
+Hmm... Essen
 [idleeeeeeee]
 Langweilig
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Set %s message for %s.]
-Setze %s Nachricht für %s.
+Setze %s-Nachricht für %s.
 [<last>]
 <letzter>
 [<current>]
 <aktueller>
 [<n/a>]
-
+<n.v.>
 [Closing in %d]
 In %d schließen

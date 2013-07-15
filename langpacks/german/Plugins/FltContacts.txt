@@ -6,12 +6,12 @@
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
 [Floating Contacts plugin for Miranda.]
-Floating Contacts plugin für Miranda.
+Schwebende-Kontakte-Plugin für Miranda.
 ;file \plugins\FloatingContacts\res\fltcnt.rc
 [Hiding contacts]
 Kontakte ausblenden
 [Hide offline contacts]
-Offline Kontakte ausblenden
+Offlinekontakte ausblenden
 [Stick together]
 Zusammenheften
 [Use fixed width]
@@ -29,11 +29,11 @@ ms
 [Tooltips]
 Tooltips
 [Miscellaneous]
-Sonstiges
+Verschiedenes
 [0 = Default]
 0 = Standard
 [*requires Tipper plugin]
-*Benötigt Tipper Plugin
+*benötigt Tipper-Plugin
 [Bring to front]
 In den Vordergrund
 [Bring to front every]

@@ -486,7 +486,7 @@ Gruppe löschen
 [&Reset to default]
 Zu&rücksetzen auf Standard
 [find/add]
-
+suchen/hinzufügen
 [&Add to List]
 Zur Liste hinzufügen
 [User &Details]
@@ -523,7 +523,7 @@ Ablehnen
 [Decide &Later]
 Später entscheiden
 [&I]
-
+&I
 [Reason:]
 Grund:
 [Denial Reason:]
@@ -535,7 +535,7 @@ Sie wurden hinzugefügt
 [&Close]
 S&chließen
 [&U]
-
+&U
 ;file \src\core\stdaway\resource.rc
 [%s Message for %s]
 '%s'-Nachricht von %s
@@ -651,7 +651,7 @@ In aktuellem Br&owserfenster öffnen
 [Message]
 Nachricht
 [Undo  ]
-
+Rückgängig  
 [Redo]
 Wiederherstellen
 [Copy]
@@ -864,7 +864,7 @@ Fenster:
 [Contact list background:]
 Kontaktlisten-Hintergrund:
 [&Status]
-
+&Status
 [&Offline\tCtrl+0]
 
 [On&line\tCtrl+1]
@@ -923,7 +923,7 @@ Kontaktmenü
 [Open folder]
 Ordner öffnen
 [Transfer completed, open file(s).]
-
+Übertragung beendet, Datei(en) öffnen.
 [No data transferred]
 Keine Daten übertragen
 [File Already Exists]
@@ -939,7 +939,7 @@ Alle überschreiben
 [Save as...]
 Speichern unter...
 [Auto rename]
-
+Autom. umbenennen
 [Skip]
 Überspringen
 [Cancel transfer]
@@ -1274,7 +1274,7 @@ Gib's auf! Ich bin nicht da!
 [Not right now.]
 Im Moment nicht!
 [Give a guy some peace, would ya?]
-Lass mich im Moment mal in Ruhe!
+Lass' mich im Moment mal in Ruhe!
 [I'm a chatbot!]
 Laber mich voll!
 [Yep, I'm here.]
@@ -1282,11 +1282,11 @@ Ja, ich bin da.
 [Nope, not here.]
 Nein, ich bin weg.
 [I'm hiding from the mafia.]
-Ich zieh mir ne Tarnkappe auf!
+Ich zieh' mir ne Tarnkappe auf!
 [That'll be the phone.]
 Bin gerade am Telefon
 [Mmm...food.]
-Hmmh... lecker
+Hmm... Essen.
 [idleeeeeeee]
 Langweilig
 [Status]
@@ -2168,7 +2168,7 @@ Diese Veränderung ist nicht bekannt dafür, sicher zu sein.
 Ungültiger Einstellungs-Typ für '%s'. Das erste Zeichen für jeden String muss b, w, d, l, s, e, u, g, h oder n sein.
 ;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
-Das Profil '%s' existiert ebreits. Möchten Sie es in den Papierkorb verschieben?\n\nWARNUNG: Das Profil wird gelöscht wenn der Papierkorb deaktiviert ist\nWARNUNG: Ein Profil kann vertrauliche Informationen beinhalten und sollte sicher gelöscht werden.
+Das Profil '%s' existiert bereits. Möchten Sie es in den Papierkorb verschieben?\n\nWARNUNG: Das Profil wird gelöscht wenn der Papierkorb deaktiviert ist\nWARNUNG: Ein Profil kann vertrauliche Informationen beinhalten und sollte sicher gelöscht werden.
 [The profile already exists]
 Dieses Profil existiert bereits
 [Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
@@ -2184,7 +2184,7 @@ Erstellen
 [<In Use>]
 <in Betrieb>
 [Are you sure you want to remove profile "%s"?]
-Sind Sie sich sicher, dass Sie Profil "%s" entfernen möchten?
+Sind Sie sich sicher, dass Sie das Profil "%s" entfernen möchten?
 [Size]
 Größe
 [Created]
@@ -2246,7 +2246,7 @@ Fehler während der Suche
 Kein Kontakt gefunden
 ;file \src\modules\fonts\FontOptions.cpp
 [Failed to create file]
-
+Fehler beim Erzeugen der Datei
 [<none>]
 <keine>
 [Shadow at left]
@@ -2268,7 +2268,7 @@ Konfigurationsdateien
 [Text Files]
 Textdateien
 [Error writing file]
-
+Fehler beim Schreiben der Datei
 [Fonts & Colors]
 Schriften & Farben
 [Sample Text]
@@ -2302,7 +2302,7 @@ Zeit in Mikrosekunden
 [(Miranda Core Logging)]
 (Miranda Core Logging)
 [Select where log file will be created]
-Dateiauswahl zum Erstellen der Logdatei
+Dateiauswahl zum Erstellen der Verlaufsdatei
 [Select program to be run]
 Programmauswahl für den Start
 ;file \src\modules\netlib\netlibopts.cpp
@@ -2325,7 +2325,7 @@ Lade... %d%%
 [%s options]
 %s-Einstellungen
 [Miranda NG Options]
-Miranda NG Einstellungen
+Miranda-NG-Einstellungen
 [&Options...]
 Einstellungen...
 ;file \src\modules\plugins\newplugins.cpp
@@ -2520,7 +2520,7 @@ Klangdateien
 WAV-Dateien
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
-
+Sie benötigen ein Bilddiensteplugin, um PNG-Grafiken zu verarbeiten.
 [All Bitmaps]
 Alle Bilder
 [Windows Bitmaps]
@@ -2580,7 +2580,7 @@ Bangladesch
 [Barbados]
 Barbados
 [Belarus]
-Weissrussland
+Weißrussland
 [Belgium]
 Belgien
 [Belize]
@@ -2620,9 +2620,9 @@ Kamerun
 [Canada]
 Kanada
 [Cape Verde]
-Cape Verde
+Kap Verde
 [Cayman Islands]
-Cayman Inseln
+Cayman-Inseln
 [Central African Republic]
 Zentralafrikanische Republik
 [Chad]
@@ -2668,7 +2668,7 @@ Dominica
 [Dominican Republic]
 Dominikanische Republik
 [Ecuador]
-Ekuador
+Ecuador
 [Egypt]
 Ägypten
 [El Salvador]
@@ -2684,7 +2684,7 @@ Estland
 [Falkland Islands (Malvinas)]
 Falkland Inseln (Malvinas)
 [Faroe Islands]
-Faroer-Inseln
+Färöer-Inseln
 [Fiji]
 Fidschi
 [Finland]
@@ -2816,7 +2816,7 @@ Mali
 [Malta]
 Malta
 [Marshall Islands]
-Marshall Inseln
+Marshall-Inseln
 [Martinique]
 Martinique
 [Mauritania]
@@ -2904,7 +2904,7 @@ Reunion
 [Romania]
 Rumänien
 [Russian Federation]
-Russische Förderation
+Russische Föderation
 [Rwanda]
 Ruanda
 [Saint Barthelemy]
@@ -2936,7 +2936,7 @@ Serbien
 [Seychelles]
 Seychellen
 [Sierra Leone]
-Sierra leone
+Sierra Leone
 [Singapore]
 Singapur
 [Sint Maarten (Dutch part)]
@@ -2998,7 +2998,7 @@ Türkei
 [Turkmenistan]
 Turkmenistan
 [Turks and Caicos Islands]
-Turks und Caicos Inseln
+Turks- und Caicos-Inseln
 [Tuvalu]
 Tuvalu
 [Uganda]

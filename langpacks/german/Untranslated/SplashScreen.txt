@@ -1,4 +1,0 @@
-﻿[Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
-[Call Splash Service]
-[Graphic files]
-[Splash Screen]
