@@ -840,7 +840,17 @@ void BuildViewModeMenu()
 	AppendMenu(hViewModeMenu, MF_STRING, 10002, TranslateT("Clear current View Mode"));
 }
 
-static UINT _buttons[] = {IDC_RESETMODES, IDC_SELECTMODE, IDC_CONFIGUREMODES, 0};
+struct
+{
+	UINT   btn_id;
+	LPCSTR icon;
+}
+static _buttons[] =
+{
+	{ IDC_RESETMODES,     "CLN_CLVM_reset"   },
+	{ IDC_SELECTMODE,     "CLN_CLVM_select"  },
+	{ IDC_CONFIGUREMODES, "CLN_CLVM_options" }
+};
 
 LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -891,13 +901,13 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			break;
 		}
 	case WM_USER + 100:
-		SendMessage(GetDlgItem(hwnd, IDC_RESETMODES), BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("CLN_CLVM_reset"));
-		SendMessage(GetDlgItem(hwnd, IDC_CONFIGUREMODES), BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("CLN_CLVM_options"));
-		SendMessage(GetDlgItem(hwnd, IDC_SELECTMODE), BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("CLN_CLVM_select"));
 		{
 			bool bSkinned = cfg::getByte("CLCExt", "bskinned", 0) != 0;
-			for (int i = 0; _buttons[i] != 0; i++ )
-				CustomizeButton(hwnd, bSkinned, !bSkinned, bSkinned);
+			for (int i = 0; i < SIZEOF(_buttons); i++ ) {
+				HWND hwndButton = GetDlgItem(hwnd, _buttons[i].btn_id);
+				SendMessage(hwndButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon(_buttons[i].icon));
+				CustomizeButton(hwndButton, bSkinned, !bSkinned, bSkinned);
+			}
 		}
 
 		if (cfg::dat.bFilterEffective)
