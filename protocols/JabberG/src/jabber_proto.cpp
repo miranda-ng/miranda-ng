@@ -882,7 +882,7 @@ HANDLE __cdecl CJabberProto::SearchByEmail(const TCHAR *email)
 
 	int iqId = SerialNext();
 	IqAdd(iqId, IQ_PROC_GETSEARCH, &CJabberProto::OnIqResultSetSearch);
-	m_ThreadInfo->send( XmlNodeIq(_T("set"), iqId, _A2T(szServerName ? szServerName : "users.jabber.org")) << XQUERY(_T("jabber:iq:search"))
+	m_ThreadInfo->send( XmlNodeIq(_T("set"), iqId, _A2T(szServerName == 0 ? "users.jabber.org" : szServerName)) << XQUERY(_T("jabber:iq:search"))
 		<< XCHILD(_T("email"), email));
 	return (HANDLE)iqId;
 }
@@ -900,7 +900,7 @@ HANDLE __cdecl CJabberProto::SearchByName(const TCHAR *nick, const TCHAR *firstN
 	ptrA szServerName( getStringA("Jud"));
 
 	int iqId = SerialNext();
-	XmlNodeIq iq(_T("set"), iqId, _A2T(szServerName ? szServerName : "users.jabber.org"));
+	XmlNodeIq iq(_T("set"), iqId, _A2T(szServerName == 0 ? "users.jabber.org" : szServerName));
 	HXML query = iq << XQUERY(_T("jabber:iq:search"));
 
 	if (bIsExtFormat) {

@@ -532,29 +532,28 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 	JabberSearchData* dat = (JabberSearchData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
-			TranslateDialogDefault(hwndDlg);
-			dat = (JabberSearchData *)mir_alloc(sizeof(JabberSearchData));
-			memset(dat, 0, sizeof(JabberSearchData));
+			dat = (JabberSearchData *)mir_calloc(sizeof(JabberSearchData));
 			dat->ppro = (CJabberProto*)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 
 			/* Server Combo box */
 			ptrA jud(dat->ppro->getStringA("Jud"));
-			char *szServerName = (jud != NULL) ? jud : "users.jabber.org";
+			char *szServerName = (jud == NULL) ? "users.jabber.org": jud;
 			SetDlgItemTextA(hwndDlg,IDC_SERVER,szServerName);
 			SendDlgItemMessageA(hwndDlg,IDC_SERVER,CB_ADDSTRING,0,(LPARAM)szServerName);
 			//TO DO: Add Transports here
 			int i, transpCount = dat->ppro->m_lstTransports.getCount();
 			for (i=0; i < transpCount; i++) {
-				TCHAR* szTransp = dat->ppro->m_lstTransports[i];
+				TCHAR *szTransp = dat->ppro->m_lstTransports[i];
 				if (szTransp)
 					JabberSearchAddUrlToRecentCombo(hwndDlg, szTransp);
 			}
 
 			DBVARIANT dbv;
-			char key[30];
 			for (i=0; i < 10; i++) {
+				char key[30];
 				sprintf(key,"RecentlySearched_%d",i);
 				if ( !dat->ppro->getTString(key, &dbv)) {
 					JabberSearchAddUrlToRecentCombo(hwndDlg, dbv.ptszVal);
