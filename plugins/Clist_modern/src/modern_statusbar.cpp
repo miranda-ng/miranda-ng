@@ -265,7 +265,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 			// create service name
 			mir_snprintf(servName, SIZEOF(servName), "%s/GetUnreadEmailCount", accs[i]->szModuleName);
 			if (p->showProtoEmails == 1 && ServiceExists(servName)) {
-				mir_snprintf(protoNameExt, SIZEOF(protoNameExt),"[%d]", (int) CallService(servName, 0, 0));
+				mir_snprintf(protoNameExt, SIZEOF(protoNameExt),"[%d]", (int)CallService(servName, 0, 0));
 				p->ProtoEMailCount = mir_strdup(protoNameExt);
 			}
 		}

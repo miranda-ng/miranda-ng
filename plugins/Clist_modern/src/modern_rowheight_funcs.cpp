@@ -367,7 +367,7 @@ BOOL RowHeights_Alloc(ClcData *dat, int size)
 			size_grow += 100 - (size_grow % 100);
 
 			if (dat->row_heights != NULL) {
-				int *tmp = (int *) realloc((void *)dat->row_heights, sizeof(int) * size_grow);
+				int *tmp = (int *) realloc((void *)dat->row_heights, sizeof(int)* size_grow);
 				if (tmp == NULL) {
 					TRACE("Out of memory: realloc returned NULL (RowHeights_Alloc)");
 					RowHeights_Free(dat);
@@ -375,16 +375,16 @@ BOOL RowHeights_Alloc(ClcData *dat, int size)
 				}
 
 				dat->row_heights = tmp;
-				memset(dat->row_heights+(dat->row_heights_allocated), 0, sizeof(int) * (size_grow-dat->row_heights_allocated));
+				memset(dat->row_heights+(dat->row_heights_allocated), 0, sizeof(int)* (size_grow-dat->row_heights_allocated));
 			}
 			else {
-				dat->row_heights = (int *) malloc(sizeof(int) * size_grow);
+				dat->row_heights = (int *) malloc(sizeof(int)* size_grow);
 				if (dat->row_heights == NULL) {
 					TRACE("Out of memory: alloc returned NULL (RowHeights_Alloc)");
 					RowHeights_Free(dat);
 					return FALSE;
 				}
-				memset(dat->row_heights, 0, sizeof(int) * size_grow);
+				memset(dat->row_heights, 0, sizeof(int)* size_grow);
 			}
 			dat->row_heights_allocated = size_grow;
 		}

@@ -51,8 +51,6 @@ struct MButtonCtrl
 				bIsThemed,  // themed button
 				bIsSkinned; // skinned button
 
-	LRESULT  lResult;    // custom window proc result
-	WNDPROC  fnWindowProc; // custom window proc
 	pfnPainterFunc fnPainter; // custom button painter
 
 	IAccPropServices* pAccPropServices;
@@ -61,12 +59,5 @@ struct MButtonCtrl
 /////////////////////////////////////////////////////////////////
 
 typedef void (__cdecl *pfnPainterFunc)(MButtonCtrl*, HDC);
-
-struct MButtonCustomize
-{
-	size_t          cbLen;        // total length of the internal data structure
-	WNDPROC         fnWindowProc; // subclassed windows procedure for the custom button
-	pfnPainterFunc  fnPainter;    // custom button painter
-};
 
 #endif // M_BUTTON_INT_H__

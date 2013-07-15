@@ -181,7 +181,7 @@ BOOL GDIPlus_IsAnimatedGif (TCHAR * szName)
 
 	delete[]  pDimensionIDs;
 
-	return (BOOL) (nFrameCount > 1);
+	return (BOOL)(nFrameCount > 1);
 }
 
 void GDIPlus_ExtractAnimatedGIF (TCHAR * szName, int width, int height, HBITMAP * pBitmap, int ** pframesDelay, int * pframesCount, SIZE * pSizeAvatar)

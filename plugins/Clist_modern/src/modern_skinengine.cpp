@@ -563,8 +563,8 @@ struct DCBUFFER
 static int SortBufferList(const DCBUFFER *buf1, const DCBUFFER *buf2)
 {
 	if (buf1->hdcOwnedBy != buf2->hdcOwnedBy) return (int)(buf1->hdcOwnedBy < buf2->hdcOwnedBy);
-	else if (buf1->nUsageID != buf2->nUsageID) return (int) (buf1->nUsageID < buf2->nUsageID);
-	else return (int) (buf1->hDC < buf2->hDC);
+	else if (buf1->nUsageID != buf2->nUsageID) return (int)(buf1->nUsageID < buf2->nUsageID);
+	else return (int)(buf1->hDC < buf2->hDC);
 }
 
 LIST<DCBUFFER> BufferList(2, SortBufferList);

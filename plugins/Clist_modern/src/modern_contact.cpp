@@ -48,7 +48,7 @@ static int GetContactStatus(HANDLE hContact)
 
 void cli_ChangeContactIcon(HANDLE hContact,int iIcon,int add)
 {
-	corecli.pfnChangeContactIcon((HANDLE) hContact,(int) iIcon,(int) add);
+	corecli.pfnChangeContactIcon((HANDLE) hContact,(int)iIcon,(int)add);
 }
 
 static int GetStatusModeOrdering(int statusMode)

@@ -379,16 +379,14 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		if (bct->stateId != PBS_DISABLED && bct->cHot && bct->cHot == tolower((int) wParam)) {
 			if ( !bct->bSendOnDown)
 				SendMessage(pcli->hwndContactList, WM_COMMAND, MAKELONG(bct->iCtrlID, BN_CLICKED), (LPARAM) hwnd);
-			bct->lResult = 0;
-			return 1;
+			return 0;
 		}
 		break;
 
 	case BM_GETIMAGE:
-		if (wParam == IMAGE_ICON) {
-			bct->lResult = (LRESULT)(bct->hIconPrivate ? bct->hIconPrivate : bct->hIcon);
-			return 1;
-		}
+		if (wParam == IMAGE_ICON)
+			return (LRESULT)(bct->hIconPrivate ? bct->hIconPrivate : bct->hIcon);
+
 		break;
 
 	case BM_SETIMAGE:
@@ -489,20 +487,16 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		switch( SendMessage(pcli->hwndContactList, WM_NCHITTEST, wParam, lParam)) {
 		case HTLEFT:	case HTRIGHT:	case HTBOTTOM:	  case HTTOP:
 		case HTTOPLEFT: case HTTOPRIGHT: case HTBOTTOMLEFT:  case HTBOTTOMRIGHT:
-			bct->lResult = HTTRANSPARENT;
-			return 1;
+			return HTTRANSPARENT;
 		}
 	}
-	return 0;
+	return mir_callNextSubclass(hwnd, TSButtonWndProc, msg, wParam, lParam);
 }
 
 static void SetButtonAsCustom(HWND hWnd)
 {
-	MButtonCustomize Custom;
-	Custom.cbLen = sizeof(MButtonExtension);
-	Custom.fnPainter = (pfnPainterFunc)PaintWorker;
-	Custom.fnWindowProc = TSButtonWndProc;
-	SendMessage(hWnd, BUTTONSETCUSTOM, 0, (LPARAM)&Custom);
+	SendMessage(hWnd, BUTTONSETCUSTOMPAINT, sizeof(MButtonExtension), (LPARAM)PaintWorker);
+	mir_subclassWindow(hWnd, TSButtonWndProc);
 }
 
 static LRESULT CALLBACK ToolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)

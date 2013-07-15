@@ -271,7 +271,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 		case WM_SHOWWINDOW:
 			{
 				if (msg->lParam) return 0;
-				BOOL toBeDocked = (BOOL) db_get_b(NULL,"CLUI","DockToSides",SETTING_DOCKTOSIDES_DEFAULT);
+				BOOL toBeDocked = (BOOL)db_get_b(NULL,"CLUI","DockToSides",SETTING_DOCKTOSIDES_DEFAULT);
 				if ((msg->wParam && g_CluiData.fDocked < 0) || (!msg->wParam && g_CluiData.fDocked>0)) g_CluiData.fDocked = -g_CluiData.fDocked;
 				ZeroMemory(&abd,sizeof(abd));
 				abd.cbSize = sizeof(abd);

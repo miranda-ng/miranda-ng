@@ -249,11 +249,11 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 	case WM_SETFONT:			
 		// remember the font so we can use it later
 		bct->hFont = (HFONT) wParam; // maybe we should redraw?
-		bct->nFontID = (int) lParam - 1;
+		bct->nFontID = (int)lParam - 1;
 		break;
 	
 	case BUTTONSETSENDONDOWN:
-		bct->fSendOnDown = (BOOL) lParam;
+		bct->fSendOnDown = (BOOL)lParam;
 		break;
 
 	case BUTTONSETMARGINS:
@@ -283,9 +283,8 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 				EndPaint(hwndDlg, &ps);
 			}
 		}
-		ValidateRect(hwndDlg,NULL);
-		bct->lResult = 0;
-		return 1;
+		ValidateRect(hwndDlg, NULL);
+		return 0;
 
 	case WM_CAPTURECHANGED:
 		if ((HWND)lParam != bct->hwnd && bct->stateId != PBS_DISABLED) {
@@ -316,20 +315,19 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 						InvalidateParentRect(bct->hwnd, NULL, TRUE);
 					}
 				}
-				SetCapture( bct->hwnd );
+				SetCapture(bct->hwnd);
 			}
 		}
-		bct->lResult = 0;
-		return 1;
+		return 0;
 
 	case WM_LBUTTONUP:
 		if ( GetCapture() == bct->hwnd ) {
 			POINT ptMouse = UNPACK_POINT(lParam);
 
 			RECT rcClient;
-			GetClientRect( bct->hwnd, &rcClient );
+			GetClientRect(bct->hwnd, &rcClient);
 			
-			if ( !PtInRect( &rcClient, ptMouse )) {
+			if ( !PtInRect(&rcClient, ptMouse)) {
 				bct->fHotMark = FALSE;
 				ReleaseCapture();
 				break;
@@ -343,12 +341,13 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 				bct->stateId = PBS_HOT;
 				InvalidateParentRect(bct->hwnd, NULL, TRUE);
 			}
-			if ( !bct->fSendOnDown)
-				SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM) hwndDlg);
+			if ( !bct->fSendOnDown) {
+				bct->fHotMark = FALSE;
+				SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM)hwndDlg);
+			}
 		}
-		bct->fHotMark = FALSE;
-		bct->lResult = 0;
-		return 1;
+		else bct->fHotMark = FALSE;
+		return 0;
 		
 	case WM_MOUSEMOVE:
 		{
@@ -383,17 +382,13 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 				ReleaseCapture();
 			}
 		}
-		bct->lResult = 0;
-		return 1;
+		return 0;
 
 	case WM_NCHITTEST:
 		{
 			LRESULT lr = SendMessage(GetParent(hwndDlg), WM_NCHITTEST, wParam, lParam);
-			if (lr == HTLEFT || lr == HTRIGHT || lr == HTBOTTOM || lr == HTTOP || lr == HTTOPLEFT || lr == HTTOPRIGHT
-				 ||  lr == HTBOTTOMLEFT || lr == HTBOTTOMRIGHT) {
-				bct->lResult = HTTRANSPARENT;
-				return 1;
-			}
+			if (lr == HTLEFT || lr == HTRIGHT || lr == HTBOTTOM || lr == HTTOP || lr == HTTOPLEFT || lr == HTTOPRIGHT ||  lr == HTBOTTOMLEFT || lr == HTBOTTOMRIGHT)
+				return HTTRANSPARENT;
 		}
 		break;
 
@@ -404,11 +399,9 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		else if (wParam == BST_UNCHECKED)
 			bct->bIsPushed = 0;
 		InvalidateRect(bct->hwnd, NULL, TRUE);
-		bct->lResult = 0;
-		return 1;
+		return 0;
 
 	case WM_ERASEBKGND:
-		bct->lResult = 1;
 		return 1;
 
 	case MBM_SETICOLIBHANDLE:
@@ -440,16 +433,13 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		}
 		return 1;
 	}
-	return 0;
+	return mir_callNextSubclass(hwndDlg, ToolbarButtonProc, msg, wParam, lParam);
 }
 
 void MakeButtonSkinned(HWND hWnd)
 {
-	MButtonCustomize Custom;
-	Custom.cbLen = sizeof(TBBUTTONDATA);
-	Custom.fnPainter = (pfnPainterFunc)PaintWorker;
-	Custom.fnWindowProc = ToolbarButtonProc;
-	SendMessage(hWnd, BUTTONSETCUSTOM, 0, (LPARAM)&Custom);
+	SendMessage(hWnd, BUTTONSETCUSTOMPAINT, sizeof(TBBUTTONDATA), (LPARAM)PaintWorker);
+	mir_subclassWindow(hWnd, ToolbarButtonProc);
 
 	TBBUTTONDATA* p = (TBBUTTONDATA*)GetWindowLongPtr(hWnd, 0);
 	p->nFontID = -1;

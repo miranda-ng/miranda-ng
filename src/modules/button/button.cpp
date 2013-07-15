@@ -247,9 +247,6 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM lParam)
 {
 	MButtonCtrl* bct = (MButtonCtrl *)GetWindowLongPtr(hwnd, 0);
-	if (bct && bct->fnWindowProc)
-		if ( bct->fnWindowProc(hwnd, msg, wParam, lParam))
-			return bct->lResult;
 
 	switch(msg) {
 	case WM_NCCREATE:
@@ -506,19 +503,14 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 		}
 		break;
 
-	case BUTTONSETCUSTOM:
-		{
-			MButtonCustomize *pCustom = (MButtonCustomize*)lParam;
-			if (pCustom == NULL || bct->fnWindowProc)
-				break;
-
-			bct = (MButtonCtrl*)mir_realloc(bct, pCustom->cbLen);
-			if (pCustom->cbLen > sizeof(MButtonCtrl))
-				memset(bct+1, 0, pCustom->cbLen - sizeof(MButtonCtrl));
-			bct->fnPainter = pCustom->fnPainter;
-			bct->fnWindowProc = pCustom->fnWindowProc;
+	case BUTTONSETCUSTOMPAINT:
+		if (wParam > sizeof(MButtonCtrl)) {
+			bct = (MButtonCtrl*)mir_realloc(bct, wParam);
+			memset(bct+1, 0, wParam - sizeof(MButtonCtrl));
 			SetWindowLongPtr(hwnd, 0, (LONG_PTR)bct);
 		}
+		if (lParam)
+			bct->fnPainter = pfnPainterFunc(lParam);
 		break;
 
 	case WM_SETFOCUS: // set keybord focus and redraw

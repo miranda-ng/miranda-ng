@@ -77,10 +77,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define BUTTONSETASTHEMEDBTN (WM_USER+6)
 
 // Sets the custom painting procedure for a button
-// wParam = not used
-// lParam = MButtonCustomize* (refer to mbutton_int.h for details)
-// Usage: SendMessage(hwndbutton, BUTTONSETCUSTOM, 0, (LPARAM)&CustomData);
+// wParam = new data block length (inherited from MButtonCtrl)
+// lParam = (pfnPainterFunc)pfnPainter (refer to mbutton_int.h for details)
+// Usage: SendMessage(hwndbutton, BUTTONSETCUSTOM, 0, (LPARAM)MyPainter);
 // Only works on MButtonClass buttons
-#define BUTTONSETCUSTOM      (WM_USER+7)
+#define BUTTONSETCUSTOMPAINT (WM_USER+7)
 
 #endif // M_BUTTON_H__
