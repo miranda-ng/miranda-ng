@@ -3099,16 +3099,18 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						if (szQuoted)
 							free(szQuoted);
 						break;
-					} else {
+					}
+					else {
 						hDBEvent = db_event_last(dat->hContact);
 						goto quote_from_last;
 					}
 				}
-				if (dat->hDbEventLast == NULL)
-					break;
-				else
-					hDBEvent = dat->hDbEventLast;
+				hDBEvent = dat->hDbEventLast;
+
 quote_from_last:
+				if (hDBEvent == NULL)
+					break;
+
 				SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXGETSEL, 0, (LPARAM)&sel);
 				if (sel.cpMin == sel.cpMax) {
 					DBEVENTINFO dbei = { sizeof(dbei) };
