@@ -165,6 +165,10 @@ VOID GetNewsData(TCHAR *tszUrl, char **szData, HANDLE hContact, HWND hwndDlg)
 			(*szData)[nlhrReply->dataLength] = 0;
 		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
+	} else {
+		if (nlhr.resultCode == 401) {
+			//запросить ввести логин и пароль и снова попытаться скачать
+		}
 	}
 	mir_free(szUrl);
 	mir_free(nlhr.headers);
