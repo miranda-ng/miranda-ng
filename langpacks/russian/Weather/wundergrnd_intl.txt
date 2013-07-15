@@ -295,9 +295,9 @@
 [Light Snow Showers]
 Дождь со снегом
 [Light Freezing Drizzle Mist]
-Слабая морось, дымка
+Слабая изморось, дымка
 [Freezing Drizzle]
-Морось
+Изморось
 [Freezing Rain]
 Дождь с образованием гололёда
 [Light Snow Mist]
@@ -363,9 +363,9 @@
 [Light Showers Snow Blowing Snow]
 Снег, метель
 [Freezing Drizzle Mist]
-Морось, дымка
+Изморось, дымка
 [Light Freezing Drizzle]
-Слабая морось
+Слабая изморось
 [Freezing Rain Mist]
 Дождь с образованием наледи, дымка
 [Showers Snow Mist]
@@ -375,7 +375,7 @@
 [Light Freezing Rain Light Showers Snow]
 Слабый ледяной дождь, слабый снег
 [Light Freezing Drizzle Light Snow]
-Слабая морось, слабый снег
+Слабая изморось, слабый снег
 [Heavy Fog]
 Густой туман
 [Rain Mist]
@@ -427,7 +427,7 @@
 [Low Drifting Snow Mist]
 Слабая метель, дымка
 [Light Freezing Drizzle Light Snow Grains Mist]
-Слабая морось, небольшой снег, дымка
+Слабая изморозь, небольшой снег, дымка
 [Light Ice Pellets Mist]
 Снег с образованием льда, дымка
 [Ice Pellets]
