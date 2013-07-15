@@ -5886,7 +5886,6 @@
 [File As Message...]
 ;file \plugins\FileAsMessage\src\main.h
 [File As Message]
-[If you see this "garbage", probably you have no "fileAsMessage" plugin installed, see http://miranda-ng.org/p/FileAsMessage/ for more information and download.]
 ﻿#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
 ;============================================================
 ;  File: Fingerprint.dll
@@ -11926,8 +11925,8 @@
 [NewsAggregator HTTP connection]
 [Feed]
 [%s\nis a valid feed's address.]
+[%s\nis not a valid feed's address.]
 [New Aggregator]
-[%s\nis a not valid feed's address.]
 [empty]
 [OPML files]
 [Not valid import file.]
@@ -13765,13 +13764,6 @@
 [Last Year]
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[Log Files (*.txt,*.log)]
-[Enter integer value]
-[Enter log file name.]
-[Enter log file format.]
-[Enter history format.]
-[Enter popup window format.]
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -13801,6 +13793,12 @@
 [Previous Close]
 [Change]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+[Enter integer value]
+[Enter log file name.]
+[Enter log file format.]
+[Enter history format.]
+[Enter popup window format.]
 ﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
@@ -15263,6 +15261,14 @@
 [Outlaw (&ban)]
 [Copy &skypename]
 [Copy room &uri]
+[Creator]
+[Master]
+[Helper]
+[User]
+[Listener]
+[Applicant]
+[Retried]
+[Outlaw]
 [me]
 [waits to join]
 [Incoming group call finished]
@@ -15622,6 +15628,10 @@
 [Messages]
 [Bayes]
 [Popups]
+;file \plugins\Spamotron\src\popups.cpp
+[Message blocked due to preview action]
+[Message approved due to preview action]
+[Challenge sent to preview contact]
 ;file \plugins\Spamotron\src\spamotron.cpp
 [Contact %s approved.]
 [Message from %s rejected because it reached a maximum for challenge requests per day.]

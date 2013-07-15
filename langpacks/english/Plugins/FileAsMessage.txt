@@ -55,4 +55,3 @@
 [File As Message...]
 ;file \plugins\FileAsMessage\src\main.h
 [File As Message]
-[If you see this "garbage", probably you have no "fileAsMessage" plugin installed, see http://miranda-ng.org/p/FileAsMessage/ for more information and download.]
