@@ -55,19 +55,19 @@ Rahmenform
 [Item ignored]
 Element ignorieren
 [Dialog]
-
+Dialog
 [Not yet supported]
-
+Noch nicht unterstützt
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]
 
 [<None>]
 <Keine>
 [Raised]
-
+Angehoben
 [Sunken]
 Eingelassen
 [Bumped]
 Hervorstehen
 [Etched]
-
+Eingestochen

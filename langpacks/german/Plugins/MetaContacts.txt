@@ -80,8 +80,6 @@ Namen auf 1. Kontakt festlegen
 aber nur für aktuelle Nachrichtensitzung
 [History Copy]
 Verlauf kopieren
-[Progress1]
-Fortschritt1
 [Please wait while the contact's history is copied.]
 Verlauf wird kopiert, bitte warten.
 [History Remove]
@@ -114,7 +112,7 @@ Synchronisiere Unterkontaktverlauf mit Metakontakt
 Verlauf (** Änderungen auf eigene Gefahr **)
 ;file \plugins\MetaContacts\src\addto.cpp
 [Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
-
+Entweder es gibt keinen Metakontakt in der Datenbank (in diesem Falle sollten Sie zunächst einen Kontakt umwandeln)\noder keiner kann diesen Kontakt aufnehmen.\nEine andere Lösung wäre es, diesen Kontakt in einen neuen Metakontakt umzuwandeln.\n\nWollen Sie diesen Kontakt nun in einen neuen Metakontakt umwandeln?
 [This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
 Dieser Kontakt ist ein Metakontakt.\nSie können keinen Metakontakt einem anderen Metakontakt hinzufügen.\n\nBitte einen anderen Kontakt wählen.
 [MetaContact Conflict]
@@ -195,7 +193,7 @@ Aus Metakontakt entfernen
 [Meta ID]
 Meta-ID
 [No online contacts found.]
-
+Keine Onlinekontakte gefunden.
 [Message from %s]
 Nachricht von %s
 [Toggle MetaContacts Off]
@@ -220,7 +218,7 @@ Prioritäten
 Verlauf
 ;file \plugins\MetaContacts\src\meta_utils.cpp
 [Sender]
-
+Sender
 [Could not get MetaContact id]
 Konnte Metakontakt-ID nicht erhalten
 [Assignment Error]

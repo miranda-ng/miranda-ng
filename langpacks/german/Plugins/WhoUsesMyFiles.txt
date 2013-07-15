@@ -60,7 +60,7 @@ Deaktivierte Optionen in nächster Version verfügbar
 Aktuelle Verbindungen zeigen
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
 [ID]
-
+ID
 [User]
 Benutzer
 [File]

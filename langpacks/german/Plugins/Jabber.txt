@@ -31,7 +31,7 @@ Neu registrieren
 [Use custom connection host and port:]
 Verwende eigenen Verbindungshost und -port:
 [Use Domain Login]
-Domain-Login verwenden
+Domainlogin verwenden
 [Go]
 Los
 [Search service]
@@ -81,7 +81,7 @@ Kontakte außerhalb meiner Kontaktliste automatisch löschen
 [User directory:]
 Benutzerverzeichnis:
 [Language for human-readable resources:]
-Sprache für menschen-lesbare Dialoge:
+Sprache für menschenlesbare Dialoge:
 [File Transfer]
 Dateitransfer
 [Allow file sending through direct peer-to-peer connection]
@@ -95,11 +95,9 @@ Sonstiges
 [Hint:]
 Hinweis:
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
-Deaktivieren Sie die obigen Checkboxen, wenn Sie Probleme beim Versenden von Dateien haben. Dies kann aber Probleme beim Versand großer Dateien verursachen.
+Deaktivieren Sie obige Checkboxen, wenn Sie Probleme beim Versenden von Dateien haben. Dies kann Probleme beim Versand großer Dateien verursachen.
 [Jabber Account Registration]
 Jabber-Accountregistrierung
-[Progress1]
-Fortschritt1
 [Jabber Agents]
 Jabberagenten
 [Register/Search Jabber Agents]
@@ -197,7 +195,7 @@ Wohnort
 [Work]
 Arbeit
 [Internet]
-
+Internet
 [X400]
 
 [Jabber vCard: Add Phone Number]
@@ -431,7 +429,7 @@ Autorisieren
 [Deny]
 Ablehnen
 [Dialog]
-
+Dialog
 [Jabber Notebook]
 Jabber-Notizbuch
 [Jabber notebook\nStore notes on server and access them from anywhere.]
@@ -1132,13 +1130,7 @@ Agentenliste
 [Transports]
 Transporte
 [Personal vCard]
-Persönliche Jabber-vCard
-[Request authorization]
-Autorisierung anfragen
-[Grant authorization]
-Autorisierung gewähren
-[Revoke authorization]
-Autorisierung widerrufen
+Persönliche vCard
 [Convert to room]
 in Konferenzraum umwandeln
 [Login/logout]
@@ -1170,7 +1162,7 @@ Node durchsuchen
 [RSS service]
 RSS-Dienst
 [Server]
-
+Server
 [Storage service]
 Speicherdienst
 [Weather service]
@@ -1224,7 +1216,7 @@ Passwort kann nicht geändert werden
 
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
-
+%s, %d Einträge (%s)
 [Voice List]
 Liste der Benutzer mit Stimmrecht
 [Member List]
@@ -1243,8 +1235,14 @@ Besitzerliste
 [Http authentication request received]
 
 ;file \protocols\JabberG\src\jabber_menu.cpp
+[Request authorization]
+Autorisierung anfragen
+[Grant authorization]
+Autorisierung gewähren
+[Revoke authorization]
+Autorisierung widerrufen
 [Convert]
-
+Umwandeln
 [Add to Bookmarks]
 Als Lesezeichen speichern
 [Commands]
@@ -1262,7 +1260,7 @@ Serverauswahl
 [&Convert to Contact]
 In Kontakt umwandeln
 [&Convert to Chat Room]
-In Konferenzraum umwandeln (kein MU&C!)
+In Konferenzraum umwandeln
 [Options...]
 Einstellungen...
 [Services...]
@@ -1758,7 +1756,7 @@ Falsche Zeitangaben in empfangenen Nachrichten korrigieren
 [Disable frame]
 Frame deaktivieren
 [Enable XMPP link processing (requires Association Manager)]
-XMPP Linkverarbeitung aktivieren (benötigt File Association Manager)
+XMPP-Linkverarbeitung aktivieren (benötigt File Association Manager)
 [Keep contacts assigned to local groups (ignore roster group)]
 Kontakte in ihren lokalen Gruppen belassen (Gruppen auf Server ignorieren)
 [Security]
@@ -1795,20 +1793,20 @@ Bannbenachrichtigungen
 Änderungen der Rolle
 [Status changes]
 Statusänderungen
-[Filter history messages]
-Verlaufsnachrichten filtern
+[Don't notify history messages]
+Nicht über alte Nachrichten benachrichtigen
 [JID]
-
+JID
 [Nick Name]
-Nick
+Nickname
 [Group]
 Gruppe
 [Subscription]
 Autorisierung
 [Uploading...]
-
+Hochladen...
 [Downloading...]
-Laden...
+Runterladen...
 [XML for MS Excel (UTF-8 encoded)]
 XML für MS Excel (UTF-8 Kodierung)
 [Connecting...]

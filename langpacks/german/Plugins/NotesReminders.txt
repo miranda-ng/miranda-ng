@@ -6,10 +6,10 @@
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
-
+Sticky Notes & Reminders Implementierung für Miranda NG.
 ;file \plugins\NotesAndReminders\res\resource.rc
 [Sticky Notes Options]
-
+Sticky Notes Einstellungen
 [Default Note Size]
 Standard-Notizgröße
 [Width (Pixels)]
@@ -56,8 +56,6 @@ Erinnerung hinzufügen
 Einstellen von Zeit && Datum:
 [Date]
 Datum
-[DateTimePicker1]
-
 [Time]
 Zeit
 [Reminder Note:]
@@ -71,7 +69,7 @@ Wöchentlich
 [Monthly]
 Monatlich
 [Repeat Alert Sound]
-
+Sound Alarm wiederholen
 [Use Sound]
 Sound verwenden
 [&Add Reminder]
@@ -87,9 +85,9 @@ Erinnerung
 [After:]
 Nach:
 [On Time && Date:]
-
+Zeit && Datum:
 [&Remind Again]
-
+Erneut erinnern
 [&Create Note]
 
 [&Dismiss]
@@ -98,16 +96,14 @@ verwerfen
 
 [Add New]
 Neue hinzufügen
-[Context Menu Reminder ListView]
-
 [Edi&t Reminder]
-
+Erinnerung bearbeiten
 [New &Reminder]
-
+Neue E&rinnerung
 [&Delete Reminder]
-
+Erinnerung löschen
 [D&elete All Reminders]
-
+All&e Erinnerungen löschen
 [Context Menu Note Popup]
 
 [&Hide Note]
@@ -148,8 +144,6 @@ A&usschneiden
 Notizen anzeigen
 [&Bring All To Front]
 Alle nach Vorne bringen
-[Context Menu Note ListView]
-
 [Edi&t Note]
 Notiz bearbeiten
 [&Visible]
@@ -174,9 +168,9 @@ Alle Notizen in Vordergrund bringen
 Neue Erinnerung
 ;file \plugins\NotesAndReminders\src\main.cpp
 [Are you sure you want to delete all notes?]
-
+Sind Sie sich sicher, dass Sie alle Notizen löschen wollen?
 [Are you sure you want to delete all reminders?]
-
+Sind Sie sich sicher, dass Sie alle Erinnerungen löschen wollen?
 [Delete All Notes]
 Alle Notizen löschen
 [Show/Hide Notes]
@@ -186,13 +180,13 @@ Notizen zeigen/verbergen
 [Delete All Reminders]
 Ale Erinnerungen löschen
 [View Reminders]
-
+Erinnerungen ansehen
 [Not on Top Caption Icon]
 
 [Hide Note Icon]
-
+Notiz Icon verbergen
 [Remove Note Icon]
-
+Notizicon entfernen
 [Reminder Icon]
 Erinnerungs-Icon
 [Bring All to Front]
@@ -212,66 +206,66 @@ Neue Erinnerung hinzufügen
 [Alerts]
 Hinweis
 [Reminder triggered]
-
+Erinnerung ausgelöst
 [Reminder triggered (Alternative 1)]
-
+Erinnerung ausgelöst (Alternative 1)
 [Reminder triggered (Alternative 2)]
-
+Erinnerung ausgelöst (Alternative 2)
 [Notes && Reminders]
 Notizen && Erinnerungen
 [New &Note]
-
+Neue Notiz
 [Vie&w Notes]
-
+Notiz ansehen
 [&Delete All Notes]
 Alle Notizen löschen
 [&Bring All to Front]
-
+Alle in Vordergrund bringen
 [Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 
 ;file \plugins\NotesAndReminders\src\notes.cpp
 [Black]
 Schwarz
 [Maroon]
-
+Kastanienbraun
 [Green]
 Grün
 [Olive]
-
+Olivgrün
 [Navy]
-
+Navy
 [Purple]
-
+Lila
 [Teal]
-
+Teal
 [Gray]
-
+Grau
 [Silver]
-
+Silber
 [Red]
 Rot
 [Orange]
-
+Orange
 [Lime]
-
+Lime
 [Yellow]
 Gelb
 [Blue]
 Blau
 [Fuchsia]
-
+Fuchsia
 [Aqua]
-
+wasserblau
 [White]
 Weiß
 [Are you sure you want to delete this note?]
-
+Sind Sie sich sicher, dass Sie diese Notiz löschen wollen?
 [Notes]
 Notizen
 [Note text]
-
+Notiztext
 [Date/Title]
-
+Datum/Titel
 ;file \plugins\NotesAndReminders\src\options.cpp
 [Sticky Note Caption]
 
@@ -303,7 +297,7 @@ Woche
 [The specified time offset is invalid.]
 
 [&Update Reminder]
-
+Erinnerung aktuallisieren
 [Every]
 Alle
 [Seconds]
@@ -313,12 +307,12 @@ Niemals
 [Default]
 Standard
 [Alternative 1]
-
+Alternative 1
 [Alternative 2]
-
+Alternative 2
 [Reminder text]
 Erinnerungstext
 [Date of activation]
 Aktivierungsdatum
 [Are you sure you want to delete this reminder?]
-
+Sind Sie sich sicher, dass Sie diese Erinnerung löschen wollen?

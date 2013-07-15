@@ -1,2 +1,0 @@
-﻿[GnuPG Plugin - Passphrase]
-[GnuPG Plugin - Select public key]

@@ -6,7 +6,7 @@
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, url, file or any other event by displaying a popup.]
-
+Benachrichtigt Sie per Popup, wenn Sie eine Nachricht, URL, Datei oder sontiges Ereignis empfangen
 ;file \plugins\NewEventNotify\res\resource.rc
 [General Options]
 Allgemeine Einstellungen
@@ -92,7 +92,7 @@ Sie wurden hinzugefügt!
 [Requests your authorisation]
 Erbittet deine Autorisation
 [ICQ Web pager]
-
+ICQ Web pager
 [ICQ Email express]
 ICQ-E-Mail-Express
 [Unknown Event]
@@ -112,7 +112,7 @@ Ereignismeldungen
 [ added you to the contact list]
  hat Sie zu Ihrer Kontaktliste hinzugefügt
 [ requested authorization]
-
+ fragt nach Autorisierung
 [This is a sample message event :-)]
 Dieses ist ein Beispiel-Popup für Nachrichten
 [This is a sample URL event ;-)]
@@ -122,6 +122,6 @@ Dieses ist ein Beispiel-Popup für einen Dateitransfer
 [This is a sample other event ;-D]
 Dieses ist ein Beispiel-Popup für ein anderes Ereignis
 [Plugin Test]
-
+Plugin Test
 [Number of new message: ]
-
+Anzahl neuer nachrichten:

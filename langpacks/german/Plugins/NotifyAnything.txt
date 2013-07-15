@@ -21,7 +21,7 @@ Klänge abspielen
 [Use internal speaker]
 Internen Lautsprecher verwenden
 [Debug]
-
+Debug
 [Log to file]
 In Datei speichern
 [Message debugging]

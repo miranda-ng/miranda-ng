@@ -13,9 +13,9 @@ Zeigt Kontakte, Ereignisse und Protokollstatus an.
 [Copy to clipboard]
 In Zwischenablage kopieren
 [Continue]
-
+Wiederholen
 [Exit Miranda]
-
+Miranda beenden
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
 
 [About CList Nicer+]
@@ -38,8 +38,8 @@ Nein
 Ja
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Nur in der Kontaktliste ausblenden. Verlauf und Einstellungen bleiben erhalten.
-[Use Options->Ignore (expert mode) to unhide contacts.]
-Unter Einstellungen->Ereignisse->Ignorierliste Kontakt wieder einblenden.
+[Use Options->Contacts->Ignore to unhide contacts.]
+Unter Einstellungen->Kontakte->Ignorieren Kontakt wieder einblenden.
 [Are you sure you want to delete %s?]
 Soll Kontakt %s wirklich gelöscht werden ?
 [This will erase all history and settings for this contact!]
@@ -71,7 +71,7 @@ Kontaktliste mit Einfachklick öffnen
 [Always show status in tooltip]
 Immer Status als Tooltip anzeigen
 [ms]
-
+ms
 [Event area]
 Ereignisbereich
 [Set base visiblity on the frames menu]
@@ -153,7 +153,7 @@ Rand um Avatare zeichnen
 [Rounded avatars]
 Avatare abrunden
 [Radius]
-
+Radius
 [Always align icons and text for missing avatars]
 Icons und Text für fehlende Avatare ausrichten
 [Avatar alignment]
@@ -397,7 +397,7 @@ Aus Skindatei laden
 [Export to skin file]
 In Skindatei speichern
 [Dialog]
-
+Dialog
 [Ignore these events]
 folgende Ereignisse ignorieren
 [Messages]
@@ -465,7 +465,7 @@ B&eenden
 [Out to &Lunch\tCtrl+9]
 
 [Tray]
-
+Tray
 [&Hide/Show]
 Zeigen/Ausblenden
 [Nowhere]
@@ -530,13 +530,13 @@ Unten links
 [Item colors]
 Elementfarben
 [First color]
-1. Farbe
+Erste Farbe
 [Textcolor]
 Textfarbe
 [Second color]
-2. Farbe
+Zweite Farbe
 [Transparent]
-
+Transparent
 [Alpha (percent)]
 Alpha (Prozent)
 [Item margins]
@@ -557,13 +557,13 @@ Noch nicht unterstützt
 [<None>]
 <Keine>
 [Raised]
-
+Angehoben
 [Sunken]
 Eingelassen
 [Bumped]
 Hervorstehen
 [Etched]
-
+Eingestochen
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Hauptmenü

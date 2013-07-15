@@ -1,12 +1,12 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: xStatus Notify
+;  Plugin: xStatus notify
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
-
+Benachrichtigt Sie, wenn ein Kontakt seinen xStatus- oder Status(nachricht) ändert.
 ;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 Melden, wenn ein Kontakt den Status ändert in:
@@ -126,6 +126,8 @@ Bei Linksklick
 Bei Rechtsklick
 [Show status description]
 Statusbeschreibung anzeigen
+[Ignore empty status and xStatus messages]
+Leere (x)Statusnachrichten ignorieren
 [Notification]
 Benachrichtigung
 [Disable for extra status 'Music']
@@ -149,7 +151,7 @@ Variablen
 [Reset]
 Standard
 [Disable notifications]
-Deaktiviere Benachrichtigungen
+Benachrichtigungen deaktivieren
 [OK]
 OK
 [Cancel]
@@ -161,9 +163,9 @@ Deaktiviere nur, falls ich den globalen Status ändere
 [Disable when my status is:]
 Deaktivieren, wenn mein Status:
 [Extra status log]
-Extra Status Verlauf
+Extra-Status-Verlauf
 [Enable logging extra status to message window]
-Extra Status-Aufzeichnung im Nachrichtenfenster aktivieren
+Extra-Status-Aufzeichnung im Nachrichtenfenster aktivieren
 [Keep events in history]
 Ereignisse im Verlauf behalten
 [Prevent identical logs]
@@ -174,17 +176,17 @@ Bei Log-Öffnung:
 Allgemein
 [Show Popups when I connect]
 Popups beim Verbinden
-[Ignore empty status messages]
-Leere Statusnachrichten ignorieren
-[Protocols]
-Protokolle
-[Enable/Disable protocols which you don't wish to be notified for:]
-Aktiviere/Deaktiviere Protokolle über die sie nicht benachrichtigt werden wollen:
+[Accounts]
+Konten
+[Enable/Disable accounts which you don't wish to be notified for:]
+Konten (de-)aktivieren für die Sie nicht benachrichtigt werden wollen:
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
-[Wave Files]
-
-[All Files]
+[Sound files]
+Sound-Dateien
+[All files]
 Alle Dateien
+[Wave files]
+Wave Dateien
 [Status]
 Status
 [Sound for the status]
@@ -210,7 +212,7 @@ Kontakt
 [%s is now %s]
 %s ist nun %s
 [%s, %s. %s changed to: %s (was: %s).\r\n]
-
+%s, %s. %s ändert zu: %s (was: %s).\r\n
 [(M) is back online!]
 Er ist wieder online!
 [(F) is back online!]
@@ -300,7 +302,7 @@ Benachrichtigung aktiviert
 [Notification disabled]
 Benachrichtigung deaktiviert
 [New Status Notify]
-
+New Status Notify
 [User: from offline (has priority!)]
 Kontakt: war offline (hat Priorität!)
 [Extra status changed]
@@ -312,6 +314,8 @@ Extra Status wurde entfernt
 [Toggle status notification]
 Wechsel Statusbenachrichtigungen
 ;file \plugins\NewXstatusNotify\src\options.cpp
+[All Files]
+Alle Dateien
 [Log]
 Verlauf
 [This is status message]
@@ -321,9 +325,9 @@ Möchten Sie alle Vorlagen auf Standard zurücksetzen?
 [Reset templates]
 Vorlagen zurücksetzen
 [Show available variables]
-Zeige verfügbare Variablen
+Verfügbare Variablen  anzeigen
 [Reset all templates to default]
-Setze alle Vorlagen auf Standard zurück
+Alle Vorlagen auf Standard zurücksetzen
 [Protocol]
 Protokoll
 [Filtering]
@@ -349,20 +353,20 @@ Werte kleiner als %d und größer als %d sind nicht zulässig.
 [Can't open the log file!]
 Log konnte nicht geöffnet werden!
 [NewXstatusNotify]
-
+NewXstatusNotify
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
 [Mood]
 Stimmung
 [Activity]
 Aktivität
 [Xstatus]
-
+XStatus
 [<unknown>]
 <unbekannt>
 [%s, %s. %s removed %s.\r\n]
-
+%s, %s. %s entfernt %s.\r\n
 [%s, %s. %s changed %s to: %s.\r\n]
-
+%s, %s. %s ändert %s.\r\n
 ;file \plugins\NewXstatusNotify\src\xstatus.h
 [changed %N to: %T%D%I]
 änderte %N in: %T%D%I
@@ -379,6 +383,6 @@ entfernte %N
 [has %N @ %T%D%I]
 hat %N @ %T%D%I
 [These variables are available:\r\n\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n%T\textra status title\r\n%I\textra status text\r\n%D\tdelimiter\r\n%B\tline break (can be used as delimiter)]
-
+Folgende Variablen sind verfügbar:\r\n\r\n%N\tExtra Status name (XStatus, Stimmung, Aktivität)\r\n%T\tExtra Status Titel\r\n%I\tExtra Status Text\r\n%D\tBegrenzung\r\n%B\tZeilenumbruch (kann als Begrenzung verwendet werden)
 [These variables are available:\r\n\r\n%n\tNew Status Message\r\n%o\tOld Status Message\r\n%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
-Diese Variablen sind verfügbar:\r\n\r\n\ %n\tNeue Statusnachricht\r\n\ %o\tAlte Statusnachricht\r\n\ %c\tBenutzerdef. Nickname\r\n\ \\n\tZeilenumbruch\r\n\ \\t\tTabstopp
+Folgende Variablen sind verfügbar:\r\n\r\n\ %n\tNeue Statusnachricht\r\n\ %o\tAlte Statusnachricht\r\n\ %c\tBenutzerdef. Nickname\r\n\ \\n\tZeilenumbruch\r\n\ \\t\tTabstopp

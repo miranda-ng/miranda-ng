@@ -6,7 +6,7 @@
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation.]
-
+Zeigt Kontakte, Ereignisse und Protokollstatus mit erweiterten visuellen Änderungen an. Unterstützt MW-Erweiterungen, erweiterte Unterstützung für Metakontakte.
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 Transparent:
@@ -81,7 +81,7 @@ Windowsfarben verwenden
 [Available skins]
 Verfügbare Skins
 [Rescan]
-Neu Scannen
+Neu scannen
 [Apply]
 Übernehmen
 [Info]
@@ -230,8 +230,8 @@ Nein
 Ja
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Nur in der Kontaktliste ausblenden. Verlauf und Einstellungen bleiben erhalten.
-[Use Options->Ignore (expert mode) to unhide contacts.]
-Unter Einstellungen->Ereignisse->Ignorierliste Kontakt wieder einblenden.
+[Use Options->Contacts->Ignore to unhide contacts.]
+Unter Einstellungen->Kontakte->Ignorieren Kontakt wieder einblenden.
 [Are you sure you want to delete %s?]
 Soll Kontakt %s wirklich gelöscht werden ?
 [This will erase all history and settings for this contact!]
@@ -295,7 +295,7 @@ Ausblende-Methode:
 [pixels]
 Pixel
 [keep on screen]
-Immer auf Bilds.
+Immer auf Bildschirm
 [Snap to edges]
 Am Rand kurz stoppen (Snap)
 [Event notify area]
@@ -366,16 +366,14 @@ Icon durchwechseln alle
 Sekunden, wenn Status unterschiedlich
 [Show multiple icons]
 Mehrere Icons anzeigen
-[Only when statuses differ]
-Nur wenn Status unterschiedlich
+[only when statuses differ]
+Nur, wenn Status untersch.
 [System tray icon]
 Systemtray-Icon
 [System tray icon mode]
 Trayicon-Modus
 [Use xStatus icon]
 XStatus-Icon verwenden
-[only when statuses differ]
-Nur wenn Status unterschiedlich
 [Ignore Empty Extra icons places (arrange to right).]
 Leere Extraicons ignorieren (rechts anordnen)
 [Use 'Meta' protocol icons for Metacontacts]
@@ -392,8 +390,8 @@ Offlineunterkontakte ausblenden
 Einstellungen für Metakontakte
 [Additional stuff]
 Zusatzliche Einstellungen
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org]
-Für weitere Einstellungen benötigen Sie das MetaContacts-Plugin:\n\nhttp://miranda-ng.org
+[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
+Für weitere Einstellungen benötigen Sie das MetaContacts-Plugin:\n\nhttp://miranda-ng.org/p/MetaContacts/
 [Allow internal requesting of status message text]
 Interne Abfrage der Texte der Statusnachrichten
 [Subcontacts indent:]
@@ -557,11 +555,11 @@ Grafiksmileys in der dritten Zeile
 [Preview]
 Vorschau
 [Top/Left]
-
+Oben/Links
 [Bottom/Right]
-
+Unten/Rechts
 [Position (vertical)]
-
+Position(vertikal)
 [Align]
 Ausrichten
 [Options]
@@ -569,19 +567,19 @@ Einstellungen
 [Visible]
 Sichtbar
 [Show Title]
-
+Titel anzeigen
 [Locked]
-
+Gesperrt
 [Border]
 Rand
 [Floating]
 Frei bewegend
 [Frames Order]
-
+Frame-Reihenfolge
 [UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
-
+UNTER BEARBEITUNG!!!! ES FUNKTIONIERT NICHT!!!!
 [Row template]
-
+Zeilenvorlage
 [Add container]
 Container hinzufügen
 [Remove container]
@@ -629,7 +627,7 @@ B&eenden
 [Out to &Lunch\tCtrl+9]
 
 [Tray]
-
+Tray
 [&Hide/Show]
 Zeigen/Ausblenden
 [Nowhere]
@@ -1113,4 +1111,3 @@ Lösche Ansicht und kehre zu Ausgangsanzeige zurück
 Kontaktfilter aufheben
 [View Modes]
 Kontaktfilter
-;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

@@ -79,7 +79,7 @@ Importieren
 [Filter list]
 Liste filtern
 [Filter]
-
+Filter
 [Close without changing custom status]
 Schließen, ohne XStatus zu speichern
 [No change]

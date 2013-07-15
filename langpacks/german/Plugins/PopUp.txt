@@ -201,7 +201,7 @@ Immer (hat Priorität)
 [Fullscreen mode]
 Vollbildschirm-Modus
 [Debug]
-
+Debug
 ;file \plugins\Popup\src\actions.cpp
 [no overwrite]
 Nicht Überschreiben
@@ -269,7 +269,7 @@ Abbrechen
 [Popup Group]
 Popupgruppe
 [Favorite Contact]
-Beliebter oder bevorzugter Kontakt
+Favoristerter Kontakt
 [Show in Fullscreen]
 Im Vollbild anzeigen
 [Blocked Contact]
@@ -320,26 +320,26 @@ Plugin-Systeme
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
 Popup-Fehler Benachrichtigung
 ;file \plugins\Popup\src\opt_gen.cpp
-[/Offline]
-
-[/Online]
-
-[/Invisible]
-
-[/Away]
-
-[/NA]
-
-[/Occupied]
-
-[/DND]
-
-[/Free for chat]
-
-[/Out to lunch]
-
-[/On the phone]
-
+[Offline]
+Offline
+[Online]
+Online
+[Invisible]
+Unsichtbar
+[Away]
+Abwesend
+[NA]
+Außer Haus
+[Occupied]
+Beschäftigt
+[DND]
+Bitte nicht stören
+[Free for chat]
+Für Chat bereit
+[Out to lunch]
+Zum Essen
+[On the phone]
+Am Telefon
 [Width]
 Breite
 [upper left corner]

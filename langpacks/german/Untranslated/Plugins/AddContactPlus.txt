@@ -1,6 +1,0 @@
-﻿[DynDns]
-[Domain alias:]
-[&From PopUp plugin]
-[P&ermanent]
-[mDynDNS HTTP connections]
-[PopUps]

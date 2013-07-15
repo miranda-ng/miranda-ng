@@ -1,6 +1,0 @@
-﻿[Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
-[Layout]
-[YAPP Popups]
-[No animate]
-[Horizontal animate]
-[Vertical animate]

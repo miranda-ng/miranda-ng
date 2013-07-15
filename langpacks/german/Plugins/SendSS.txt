@@ -9,7 +9,7 @@
 Erstellt einen Screenshot und sendet ihn einem Kontakt
 ;file \plugins\SendScreenshotPlus\res\resource.rc
 [Dialog]
-
+Dialog
 [OK]
 OK
 [All]
@@ -204,7 +204,7 @@ Sende Screenshot an\n
 [Window]
 Fenster
 [Desktop]
-
+Desktop
 [<entire desktop>]
 Gesamten Desktop
 [Monitor]
@@ -218,7 +218,7 @@ Dateitransfer
 [E-mail]
 E-Mail
 [FTP File]
-
+FTP Datei
 [ImageShack]
 
 [Information]

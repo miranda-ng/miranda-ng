@@ -17,7 +17,7 @@ Größe:
 [Chunk size]
 
 [ms]
-
+ms
 [Delays between sends]
 
 [bytes]
@@ -100,6 +100,4 @@ Plugins
 
 ;file \plugins\FileAsMessage\src\main.h
 [File As Message]
-
-[\nIf you see this "garbage", probably you "                         "have no "fileAsMessage" plugin installed, see "						 "http://miranda-ng.org/ for more information and download.]
 

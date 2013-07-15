@@ -54,6 +54,8 @@ in der Geburtstagsliste.
 Dialog
 [Timeout:]
 Dauer:
+[seconds]
+Sekunden
 [Notify for]
 Benachrichtige für
 [afterwards]
@@ -118,7 +120,9 @@ Setze Geburtstag für %s:
 [%S protocol]
 %S Protokoll
 [N/A]
-
+N/A
+[Unknown]
+Unbekannt
 [Birthday list (%d)]
 Geburtstagsliste (%d)
 [Protocol]

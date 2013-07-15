@@ -6,7 +6,7 @@
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
-
+Dieses Plugin speichert die Avatare Ihrer Kontakte und/oder zeigt Popups.
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
 [Avatar List Popup]
 
@@ -63,7 +63,7 @@ Bei Rechtsklick:
 [On left click:]
 Bei Linksklick:
 [Track]
-
+Track
 [Avatar change:]
 Avataränderung:
 [Avatar removal:]
@@ -171,7 +171,7 @@ Avataränderung
 [Unknown UIN]
 
 [Unknown Protocol]
-
+Unbekanntes Protokoll
 [AVH Debug: GetOldStyleAvatarName]
 
 [Avatar History: Unable to create shortcut]

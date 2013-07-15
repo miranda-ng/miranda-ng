@@ -54,8 +54,8 @@ Nein
 Ja
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Nur in der Kontaktliste ausblenden. Verlauf und Einstellungen bleiben erhalten.
-[Use Options->Ignore (expert mode) to unhide contacts.]
-Unter Einstellungen->Ereignisse->Ignorierliste Kontakt wieder einblenden.
+[Use Options->Contacts->Ignore to unhide contacts.]
+Unter Einstellungen->Kontakte->Ignorieren Kontakt wieder einblenden.
 [Are you sure you want to delete %s?]
 Soll Kontakt %s wirklich gelöscht werden ?
 [This will erase all history and settings for this contact!]
@@ -265,7 +265,7 @@ B&eenden
 [Out to &Lunch\tCtrl+9]
 
 [Tray]
-
+Tray
 [&Hide/Show]
 Zeigen/Ausblenden
 [Nowhere]

@@ -1,3 +1,0 @@
-﻿[Go to the "Customize -> Folders" to change settings]
-[Database/Database Backups]
-[Error Creating Backup Folder]

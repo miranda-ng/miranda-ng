@@ -67,9 +67,9 @@ Sekunden anzeigen
 [Show date]
 Datum anzeigen
 [Use long date format]
-Langes Datumsformat
+Langes Datumsformat verwenden
 [Use relative timestamp]
-Nutze relativen Zeitstempel
+Relativen Zeitstempel verwenden
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
 Ausgehende Dateiübertragung
@@ -127,14 +127,6 @@ Nachrichtensitzungen
 IEView
 [Skins]
 Skins
-[320 x 205]
-320 x 205
-[480 x 385]
-480 x 385
-[560 x 349]
-560 x 349
-[640 x 390]
-640 x 390
 [Template]
 Vorlage
 [All Files]

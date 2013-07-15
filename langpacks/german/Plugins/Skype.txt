@@ -2,34 +2,60 @@
 ;============================================================
 ;  File: Skype.dll
 ;  Plugin: Skype Protocol
-;  Version: 0.0.0.1
-;  Authors: Unsane, Mataes
+;  Version: 0.11.0.1
+;  Authors: unsane, mataes, ghazan
 ;============================================================
 [Skype protocol support for Miranda NG.]
 Skype Protokollunterstützung für Miranda NG
 ;file \protocols\Skype\res\Resource.rc
-[Invite Contact To Chat]
-Kontakt zum Chat einladen
-[sid]
-sid
+[Invite contacts to conference]
+Kontakte in Konferenz einladen
+[Skype name:]
+Skype Name:
 [&Invite]
 E&inladen
 [&Cancel]
 Abbre&chen
 [Add]
 Hinzufügen
+[Create conference]
+Konferenz erstellen
+[&Create]
+Erstellen
+[Topic:]
+Thema:
+[Guideline:]
+Richtlinie:
+[Enable joining]
+Beitreten erlauben
+[New members join with role:]
+Neue Mitglieder betreien in Rolle:
+[Create with password]
+Mit Passwort erstellen
+[Password:]
+Passwort:
+[Confirmation:]
+Bestätigung:
+[Password hint:]
+Passwort-Hinweis:
+[Configure conference]
+Konferenz einrichten
+[&OK]
+&OK
+[Join role:]
+Beitreten in Rolle:
+[Set password]
+Passwort setzen
+[Hint:]
+Hinweis:
 [Enter password]
 Passwort eingeben
-[Enter a password for skype name %d:]
-Geben Sie das Passwort für Skype Name %d ein:
 [Remember this session password]
 Dieses Sitzungspasswort merken
 [OK]
 OK
 [Cancel]
 Abbrechen
-[Skype name:]
-Skype Name:
 [Status text:]
 Statustext:
 [Online since:]
@@ -72,22 +98,18 @@ Region:
 Land:
 [Timezone:]
 Zeitzone:
+[Skype credit:]
+Skype Guthaben:
 [Change password]
 Passwort ändern
-[Old password]
-Altes Passwort
-[New password]
-Neues Passwort
-[Confirmation]
-Bestätigung
-[Password:]
-Passwort:
+[Old password:]
+Altes Passwort:
+[New password:]
+Neues Passwort:
 [Register new account]
 Neuen Account registrieren
-[User Details]
-Benutzerdetails
-[Skype login:]
-Skype Login:
+[Account]
+Konto
 [Connection]
 Verbindung
 [Use port]
@@ -98,38 +120,58 @@ für eingehende Verbindungen
 Ports 80 und 443 als alternative eingehende Ports verwenden
 [Default group:]
 Standardgruppe:
+[Block]
+Blockieren
+[Allow IMs from...]
+Sofortnachrichten erlauben von...
+[Anyone]
+Jedem
+[People in my Contact list only]
+Nur von Leuten in meiner Kontaktliste
+[Allow calls from...]
+Anrufe erlauben von...
+[Automatically receive video and share screens with...]
+Videos empfangen und Bildschirm teilen mit...
+[No one]
+Keinem
+[Allow my online status to be shown on the web]
+Erlaube, meinen Online-Status im Netz anzuzeigen
+[Block this person]
+Diese Person blockieren
+[Remove from your Contact List]
+Aus Ihrer Kontaktliste entfernen
+[Abuse]
+Missbrauch
+[You can also report abuse from this user.]
+Sie können auch Missbrauch durch diesen Benutzer melden
+[Report abuse]
+Missbrauch melden
 ;file \protocols\Skype\src\skype.cpp
-[Proccess SkypeKit.exe did not start.]
-Prozell SkypeKit.exe wurde nicht gestartet.
-[Initialization key corrupted or not valid.]
-Initialisierungsschlüssel beschädigt oder ungültig.
-[SkypeKit did not initialize.]
-SkypeKit wurde nicht initialisiert
-[SkypeKit did not start.]
-SkypeKit startete nicht.
+[Did not unpack SkypeKit.exe.]
+Habe Skype.exe nicht entpackt.
 ;file \protocols\Skype\src\skype_account.cpp
 [LOGOUT_CALLED]
 LOGOUT_CALLED
-[HTTPS_PROXY_AUTH_FAILED]
-HTTPS_PROXY_AUTH_FAILED
-[SOCKS_PROXY_AUTH_FAILED]
-SOCKS_PROXY_AUTH_FAILED
-[P2P_CONNECT_FAILED]
-P2P_CONNECT_FAILED
+[HTTPS proxy authentication failed]
+HTTPS Proxy Authentifizierung fehlgeschlagen
+[SOCKS proxy authentication failed]
+SOCKS Proxy Authentifizierung fehlgeschlagen
+[P2P connection failed]
+P2P-Verbindung fehlgeschlagen
 [SERVER_CONNECT_FAILED]
 SERVER_CONNECT_FAILED
-[SERVER_OVERLOADED]
-SERVER_OVERLOADED
-[DB_IN_USE]
-DB_IN_USE
-[Invalid skypename]
+[Server is overloaded]
+Server ist überladen
+[SkypeKit database already in use]
+SkypeKit Datenbank wird bereits verwendet.
+[Invalid Skype name]
 Ungültiger Skypename
 [Invalid email]
 Ungültige E-Mail
 [Unacceptable password]
 Unakzeptierbares Passwort
-[SKYPENAME_TAKEN]
-SKYPENAME_TAKEN
+[Skype name is taken]
+Skypename ist vergeben
 [REJECTED_AS_UNDERAGE]
 REJECTED_AS_UNDERAGE
 [NO_SUCH_IDENTITY]
@@ -138,30 +180,34 @@ NO_SUCH_IDENTITY
 Inkorrektes Passwort
 [Too many login attempts]
 Zu viele Anmeldeversuche
-[PASSWORD_HAS_CHANGED]
-PASSWORD_HAS_CHANGED
+[Password has changed]
+Passwort wurde geändert
 [PERIODIC_UIC_UPDATE_FAILED]
 PERIODIC_UIC_UPDATE_FAILED
 [DB_DISK_FULL]
 DB_DISK_FULL
 [DB_IO_ERROR]
 DB_IO_ERROR
-[DB_CORRUPT]
-DB_CORRUPT
+[SkypeKit database is corrupt]
+SkypeKit Datenbank ist beschädigt
 [DB_FAILURE]
 DB_FAILURE
-[INVALID_APP_ID]
-INVALID_APP_ID
+[Invalid application ID]
+Ungültige Anwendungs-ID
 [APP_ID_FAILURE]
 APP_ID_FAILURE
-[UNSUPPORTED_VERSION]
-UNSUPPORTED_VERSION
-[ATO (Account TakeOver) detected, account blocked]
-ATO (Account-Übernahme) erkannmt, Account blockiert.
+[Version is unsupported]
+Version wird nicht unterstützt
+[Account blocked]
+Account blockiert.
 [Logout from another instance]
 Anmeldung von anderer Instanz
-[Password change succeeded]
-Passwortänderung erfolgreich
+[ACCESS_TOKEN_RENEWAL_FAILED]
+ACCESS_TOKEN_RENEWAL_FAILED
+[Password successfully changed]
+Passwort erfolgreich geändert
+[Password changing]
+Passwort wird geändert
 [Old password was incorrect]
 Altes Passwort war inkorrekt
 [Failed to verify password. No connection to server]
@@ -169,28 +215,96 @@ Konnte Passwort nicht verifizieren. Keine Verbindung zum Server.
 [Password was set but server didn't like it much]
 Passwort wurde gesetzt, aber der Server mochte es nicht.
 [New password was exactly the same as old one]
-Neues Passowrt war das selbe wie das alte.
+Neues Passwort war das selbe wie das alte.
 [The new password was unacceptable]
 Das neue Passwort wurde nicht akzeptiert
 [Account was currently not logged in]
 Account war nicht korrekt angemeldet
-[You have not entered a Skype name.\nConfigure this in Options->Network->Skype and try again.]
-Sie haben keinen Skype-Namen eingegeben.\nGeben Sie diesen unter Einstellungen->Netzwerk->Skype ein und versuchen Sie es nochmal.
+[You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
+Sie haben keinen Skype-Namen eingegeben.\nGeben Sie diesen unter Einstellungen->Netzwerk->%s ein und versuchen Sie es nochmal.
+;file \protocols\Skype\src\skype_blocked.cpp
+[Are you sure you want to block "%s" (%s)? They won't be able to contact you and won't appear in your Contact List.]
+Sind Sie sich sicher, dass Sie "%s" (%s) blockieren wollen? Er wird Sie nicht mehr kontaktieren können und nicht mehr in Ihrer Kontaktliste erscheinen.
+[Name]
+Name
+;file \protocols\Skype\src\skype_bookmarks.cpp
+[Conferences]
+Konferenzen
 ;file \protocols\Skype\src\skype_chat.cpp
-[&Invite user...]
-Kontakt e&inladen
-[&Leave chat session]
-Chat ver&lassen
-[User &details]
-Benutzer&details
-[User &history]
-Verlauf des Kontakts
+[&User details]
+Kontaktprofil
+[&Request auth]
+Autorisierung anfragen
+[Invite to conference]
+Zu Konferenz einladen
+[Set &role]
+Setze &Rolle
+[&Master]
+&Meister
+[&Helper]
+&Helfer
+[&User]
+Ben&utzer
+[&Listener]
+Zuhörer
+[&Add]
+Hinzufügen
+[&Kick]
+&Kicken
+[Outlaw (&ban)]
+Ausgestoßener (&Bann)
+[Copy &skypename]
+&Skypename kopieren
+[Copy room &uri]
+Raum-&URI kopieren
+[Creator]
+Urheber
+[Master]
+Meister
+[Helper]
+Helfer
+[User]
+Benutzer
+[Listener]
+Zuhörer
+[Applicant]
+Interessent
+[Retried]
+Zurückgezogener
+[Outlaw]
+Ausgestoßener
+[me]
+ich
+[waits to join]
+möchte beitreten
+[Incoming group call finished]
+Eingehender Gruppenanruf beendet.
+[The password is incorrect]
+Das Passwort ist falsch.
+[Your application to join the conference was denied]
+Ihre Anfrage, der Konferenz beizutreten, wurde abgelehnt.
+[Incoming group call started]
+Eingehender Gruppenanruf begonnen
+[You did not select any contact]
+Sie haben keinen Kontakt ausgewählt.
+[Hi! I'd like to add you to my contact list]
+Hallo! Ich möchte Sie gerne zu meiner Kontaktliste hinzufügen.
 ;file \protocols\Skype\src\skype_contacts.cpp
 [Contact already in your contact list]
 Der Kontakt ist bereits in Ihrer Kontaktliste
+[Contacts received]
+Kontakte empfangen
 ;file \protocols\Skype\src\skype_dialogs.cpp
-[Enter a password for Skype Name %s:]
-Geben Sie das Passwort für Skype Name %s ein:
+[Enter a password for %s:]
+Geben Sie das Passwort für %s ein:
+[Password can't be empty.]
+Passwort kann nicht leer sein.
+[Old password is not correct.]
+Altes Passwort ist nicht korrekt.
+[New password is same as old password.]
+Neues Passwort ist das alte Passwort.
+[New password and confirmation must be same.]
+Neues Passwort stimmt nicht mit Bestätigung überein.
 [<not specified>]
 <nicht angegeben>
 [Male]
@@ -199,48 +313,109 @@ männlich
 weiblich
 [You are not currently connected to the Skype network. You must be online in order to update your information on the server.]
 Sie sind momentan nicht mit dem Skype-Netzwerk verbunden. Sie müssen online sein um Ihre Informationen auf dem Server zu aktuallisieren.
+;file \protocols\Skype\src\skype_events.cpp
+[Spawn conference]
+Konferenz auflösen
+[Network]
+Netzwerk
+[Blocked contacts]
+Blockierte Kontakte
+[Privacy]
+Privatsphäre
 [Contacts]
 Kontakte
 [Home]
 Wohnort
 [General]
 Allgemein
-[You did not select any contact]
-Sie haben keinen Kontakt ausgewählt.
-;file \protocols\Skype\src\skype_events.cpp
-[Network]
-Netzwerk
-[Account]
-Konto
-[Incoming call]
-Eingehender Anruf
+[Skype account]
+Skype Konto
 ;file \protocols\Skype\src\skype_icons.cpp
 [Protocol icon]
 Protokollicon
 [Call]
 Anrufen
-[Invite to conference]
-Zu Konferenz einladen
-[Revoke authorization]
-Autorisierung widerrufen
+[Conference]
+Konferenz
+[Send contact]
+Kontakte senden
+[Contact]
+Kontakt
+[Delete]
+Löschen
+[Protocols]
+Protokolle
+;file \protocols\Skype\src\skype_ignore_list.cpp
+;file \protocols\Skype\src\skype_instances.cpp
+[Skype protocol plugin only permit you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
+Skype Protokoll erlaubt Ihnen nur die Anmeldung mit einem Account. Mehrere Accounts zu verwenden ist in dem Lizenzabkommen und den Bestimmungen von SkypeKit verboten.
+[Initialization key corrupted or not valid.]
+Initialisierungsschlüssel beschädigt oder ungültig.
+[SkypeKit did not initialize (%d).]
+SkypeKit wurde nicht initialisiert (%d).
+[SkypeKit did not start.]
+SkypeKit startete nicht.
+;file \protocols\Skype\src\skype_menus.cpp
+[Unblock this person...]
+Diese  Person nicht mehr blockieren...
+[Block this person...]
+Diese Person blockieren...
 [Request authorization]
 Autorisierung anfragen
 [Grant authorization]
 Autorisierung gewähren
-[Protocols]
-Protokolle
-;file \protocols\Skype\src\skype_instances.cpp
-[SkypeKit will only permit you to login to one account at a time.\nAdding multiple instances of SkypeKit is prohibited in the licence agreement and standard distribution terms.]
-SkypeKit erlaubt Ihnen nur die Anmeldung mit einem Account.\Mehrere Instanzen von SkypeKit zu verwenden ist in dem Lizenzabkommen verboten.
-;file \protocols\Skype\src\skype_menus.cpp
-[Hi! I'd like to add you to my contact list]
-Hallo! Ich möchte Sie gerne zu meiner Kontaktliste hinzufügen.
+[Revoke authorization]
+Autorisierung widerrufen
+[View old messages...]
+Alte Nachrichten ansehen...
+[for last day]
+Für den letzten Tag
+[for last week]
+Für die letzte Woche
+[for last month]
+Für den letzten Monat
+[for last 3 month]
+Für die letzten drei Monate
+[for last year]
+Für das letzte Jahr
+[for all time]
+Für alle Zeit
+;file \protocols\Skype\src\skype_messages.cpp
+[Incoming call started]
+Eingehender Anruf begonnen.
+[Incoming call finished]
+Eingehender Anruf beendet.
+[history synchronization]
+Verlauf synchronisieren
+[Done!]
+Erledigt!
 ;file \protocols\Skype\src\skype_netlib.cpp
 [%s connection]
 %s Verbindung
 ;file \protocols\Skype\src\skype_proto.cpp
-[g_skype Name]
-g_skype Name
+[Skype name]
+Skype Name
+;file \protocols\Skype\src\skype_transfers.cpp
+[SENDER_NOT_AUTHORISED]
+SENDER_NOT_AUTHORISED
+[REMOTELY_CANCELLED]
+REMOTELY_CANCELLED
+[FAILED_READ]
+FAILED_READ
+[FAILED_REMOTE_READ]
+FAILED_REMOTE_READ
+[FAILED_WRITE]
+FAILED_WRITE
+[FAILED_REMOTE_WRITE]
+FAILED_REMOTE_WRITE
+[REMOTE_DOES_NOT_SUPPORT_FT]
+REMOTE_DOES_NOT_SUPPORT_FT
+[REMOTE_OFFLINE_FOR_TOO_LONG]
+REMOTE_OFFLINE_FOR_TOO_LONG
+[TOO_MANY_PARALLEL]
+TOO_MANY_PARALLEL
+[PLACEHOLDER_TIMEOUT]
+PLACEHOLDER_TIMEOUT
 ;file \protocols\Skype\src\skype_utils.cpp
 [NOT_VALIDATED]
 NOT_VALIDATED
@@ -254,7 +429,7 @@ Wert überschreitet die maximale Länge dieser Eigenschaft
 Wert enthält verbotene Zeichen
 [Value contains whitespace]
 Wert enthält Leerzeichen
-[Password cannot be the same as skypename]
+[Password cannot be the same as Skype name]
 Passwort darf nicht mit dem Skype-Namen übereinstimmen
 [Value has invalid format]
 Wert hat ungültiges Format
@@ -266,5 +441,5 @@ Passwort ist zu einfach
 Wert beginnt mit einem ungültigen Zeichen.
 [Avatars]
 Avatare
-[Skype Protocol]
-Skype-Protokoll
+[Command "%s" is unsupported]
+Kommando %s" wird nicht unterstützt

@@ -1,2 +1,0 @@
-﻿[This plug-in adds the main menu item used to view miranda-im pack user guide.]
-[User Guide]

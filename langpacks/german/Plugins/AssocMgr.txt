@@ -71,7 +71,7 @@ AIM-Link-Protokoll
 [Yahoo Link Protocol]
 
 [MSN Link Protocol]
-
+MSN Link Protokoll
 [Gadu-Gadu Link Protocol]
 
 [Jabber Link Protocol]

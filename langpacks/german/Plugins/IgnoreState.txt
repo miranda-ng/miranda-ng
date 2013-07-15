@@ -11,7 +11,7 @@ Zeigt in der Kontaktliste, ob Sie Ihren Kontakt ignorieren.
 [Plugin settings]
 Plugin-Einstellungen
 [Filtered events:]
-Gefiltere Ereignisse:
+Gefilterte Ereignisse:
 [Use Miranda ignore settings for All Contacts]
 Verwende die Miranda-Einstellungen für alle Kontakte
 ;file \plugins\IgnoreState\src\main.cpp
@@ -24,7 +24,7 @@ URL
 [Files]
 Dateien
 [User Online]
-Benutzer Online
+Benutzer online
 [Authorization]
 Autorisierung
 [You Were Added]
@@ -38,7 +38,7 @@ Teilweises Ignorieren
 [Message Ignore]
 Nachrichten ignorieren
 [Ignore State]
-
+Ignore State
 ;file \plugins\IgnoreState\src\options.cpp
 [Icons]
 Icons

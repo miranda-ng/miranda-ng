@@ -80,8 +80,6 @@ Accountwechselbuttons anzeigen
 Meine Statusnachricht für jeden Status setzen
 [Status Message:]
 Statusnachricht:
-[Status popup]
-Statuspopup
 [&Offline]
 &Offline
 [On&line]
@@ -102,8 +100,6 @@ Uns&ichtbar
 Am Telefon
 [Out to &Lunch]
 Zum Essen
-[Context popup]
-Kontextpopup
 [Set My Avatar...]
 Mein Avatar setzen
 [Set My Nickname...]
@@ -120,14 +116,6 @@ Vorherigen Account anzeigen
 Wechsel der Accounts
 [Don't cycle through accounts]
 Kein Wechsel der Accounts
-[Nick popup]
-Nickpopup
-[Status message popup]
-Statusnachrichtenpopup
-[Avatar popup]
-Avatarpopup
-[ListeningTo popup]
-
 ;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 <kein Statusname>

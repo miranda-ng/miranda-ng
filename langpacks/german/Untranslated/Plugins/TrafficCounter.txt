@@ -1,5 +1,0 @@
-﻿[Bytes]
-[KB]
-[MB]
-[Adaptive]
-[Traffic Counter]

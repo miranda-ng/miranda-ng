@@ -177,7 +177,7 @@ Standard Verlaufsereignisse
 [History for %s]
 Verlauf von %s
 [System]
-
+System
 [Me]
 Ich
 [Invalid Message]
@@ -256,7 +256,7 @@ Nachricht
 [File transfer]
 Dateiübertragung
 [Link]
-
+Link
 [Authorization request]
 Eingehende Autorisierungsanfrage
 [You were added]
@@ -280,11 +280,11 @@ Erweitert
 [>> Outgoing timestamp]
 >> Ausgehende Zeit
 [Outgoing background]
-
+Ausgehender Hintergrund
 [<< Incoming timestamp]
 << Eingehende Zeit
 [Incoming background]
-
+Eingehender Hintergrund
 [>> Outgoing name]
 >> Ausgehender Name
 [<< Incoming name]
@@ -416,7 +416,7 @@ Importiere aus
 [History Log]
 Logverlauf
 [Filter:]
-
+Filter:
 [Conversation started at %s]
 Unterhaltung begonnen am %s
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp

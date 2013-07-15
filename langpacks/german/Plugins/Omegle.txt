@@ -104,8 +104,8 @@ Warte auf Fremden...
 Zufall
 [Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
 Der Fremde verwendet die mobile Webseite von Omegle (omegle.com auf Phone oder Tablet)
-[You and stranger speak the same language.]
-Sie und der Fremde sprechen die selbe Sprache.
+[You both speak the same language.]
+Sie sprechen beide die selbe Sprache.
 ;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
 %s Serververbindung

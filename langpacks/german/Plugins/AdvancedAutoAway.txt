@@ -95,13 +95,13 @@ Sonstige
 [Status on startup]
 Status beim Start
 [ms]
-
+ms
 [Set after]
 nach
 [Timeout]
 Timeout
 [s]
-
+s
 [Set window location]
 Fensterposition
 [Set window size]
@@ -212,10 +212,8 @@ Bestätigungsdialog beim Profilaufruf
 Erzeuge einen Hauptmenüeintrag
 [Status Profiles]
 Statusprofile
-[HotKey1]
-
 [Hotkey]
-
+Hotkey
 [In submenu]
 In Untermenü
 [Max. delay (secs)]

@@ -120,7 +120,7 @@ eingehende
 [outgoing]
 ausgehende
 [Filter]
-
+Filter
 [no filter]
 
 [Search Filter]

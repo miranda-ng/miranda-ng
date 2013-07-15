@@ -15,13 +15,13 @@ OK
 [Edit Settings]
 Einstellungen bearbeiten
 [Use contact specific settings]
-
+Kontaktspezifische Einstellungen
 [Log]
 Verlauf
 [Use &Internal History]
 Benutze &internen Verlauf
 [&Format:]
-
+&Format:
 [&Variables...]
 &Variablen...
 [&Add to History only if Value Changed]
@@ -31,11 +31,11 @@ Benutze &externe Datei
 [&Select File:]
 Wähle Datei au&s:
 [&Browse...]
-
+&Durchsuchen...
 [Variables Allowed: %miranda_userdata%,%quotename%]
 Erlaubte Variablen: %miranda_userdata%,%quotename%
 [F&ormat:]
-
+F&ormat:
 [V&ariables...]
 V&ariablen....
 [Add to &Log only if Value Changed]
@@ -55,19 +55,19 @@ zu:
 [&Swap]
 Tau&sche
 [Convert]
-
+Convert
 [Info provided by <a href="http://www.google.com">Google</a>]
-
+Info bereitgestellt durch <a href="http://www.google.com">Google</a>
 [Close]
 Schließen
 [Chart]
-
+Chart
 [Info provided by <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>]
-
+Info bereitgestellt durch <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>
 [Get data from:]
-
+Daten von:
 [Filter:]
-
+Filter:
 [Popup Window Settings]
 Popup-Fenstereinstellungen
 [Colours]
@@ -101,15 +101,15 @@ Zeige in Kontaktliste als:
 [&Status Message:]
 &Statusnachricht:
 [&Tendency:]
-
+&Tendenz:
 [&Advanced Settings...]
 Erweiterte Einstellungen
 [Static]
 Statisch
 [<a>SysLink1</a>]
-
+<a>SysLink1</a>
 [Current Rate:]
-
+Aktueller Kurs:
 [Rate Fetch Time:]
 
 [Previous Rate:]
@@ -189,7 +189,7 @@ Quote/Rate nach unten
 [Quote Section]
 
 [Quote]
-
+Zitat
 [Export]
 Exportieren
 [Swap button]
@@ -210,20 +210,21 @@ Miranda NG konnte das Quotes-Plugin nicht laden. Der Microsoft-HTML-Parser fehlt
 [Log File]
 Logdatei
 [Miranda's History]
-
+Mirandas verlauf
 [All]
 Alle
 [Last Day]
-
+Letzter Tag
 [Last Week]
-
+Letzte Woche
 [Last Month]
-
+Letzter Monat
 [Last Year]
-
+Letztes Jahr
 [User-Defined]
-
+Benutzerdefiniert
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
 Fehler während des HTML-Parsens.

@@ -88,19 +88,19 @@ Prüfintervall eingeben
 [Enter message format]
 Nachrichtenformat eingeben
 [The title of the item.]
-Titel des Eintrages
+Titel des Eintrages.
 [The item synopsis.]
-
+Zusammenfassung des Eintrages.
 [The URL of the item.]
-URL des Eintrages
+URL des Eintrages.
 [Email address of the author of the item.]
-E-Mail-Adresse des Autors des beitrages
+E-Mail-Adresse des Autors des Beitrages.
 [URL of a page for comments relating to the item.]
-URL einer Seite für Kommentare  zu diesem Eintrag
+URL einer Seite für Kommentare  zu diesem Eintrag.
 [A string that uniquely identifies the item.]
-
+Ein String, der den Beitrag einseutig identifiziert.
 [Specify one or more categories that the item belongs to.]
-
+Ordnet den Beitrag einer oder mehrerer Kategorien zu.
 [Feed Tag Help]
 Feed Tag Hilfe
 [Are you sure?]
@@ -112,11 +112,7 @@ Warten...
 [Change Feed]
 Feed ändern
 [Contact deleting]
-
-[OPML files]
-OPML-Dateien
-[Not valid import file.]
-Keine gültige Import-Datei.
+Kontakt löschen
 [Network]
 Netzwerk
 ;file \plugins\NewsAggregator\Src\Services.cpp
@@ -128,12 +124,16 @@ Auto-Update de-/aktivieren
 [NewsAggregator HTTP connection]
 NewsAggregator HTTP Verbindung
 [Feed]
-
+Feed
 [%s\nis a valid feed's address.]
+%s\nist eine gültige Feed-Adresse
+[%s\nis not a valid feed's address.]
 
 [New Aggregator]
 
-[%s\nis a not valid feed's address.]
-
 [empty]
-
+leer
+[OPML files]
+OPML-Dateien
+[Not valid import file.]
+Keine gültige Import-Datei.

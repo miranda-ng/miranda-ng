@@ -42,14 +42,6 @@ Liste der Variablen
 - Kontaktprotokollname (Großschrift)
 [- Contact display name]
 - Kontakt-Anzeigename
-[%t]
-
-[%c]
-
-[%P]
-
-[%n]
-
 [Tips:]
 Tipps:
 [*Rename menu item into "---" to insert separator]
@@ -58,11 +50,7 @@ Tipps:
 *Benutzen Sie drag'n'drop um Menüeinträge zu verwalten
 [- Contact first name]
 - Kontaktvorname
-[%F]
-
 [- Contact last name]
-
-[%L]
 
 ;file \plugins\QuickMessages\src\main.cpp
 [Quick Messages]

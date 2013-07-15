@@ -1,3 +1,0 @@
-﻿[Shows rating of contact in contact list (if presents).]
-[Contact Rate]
-[Contact rate]

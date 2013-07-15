@@ -31,9 +31,9 @@ Ordner für Sicherungen:
 [Browse...]
 Durchsuchen...
 [Go to the "Customize -> Folders" to change settings]
-
+Gehen Sie zu "Customize->Verzeichnisse", um die Einstellungen zu ändern.
 [Disable progress bar]
-Keine Fortschrittsanzeige
+Fortschrittsanzeige deaktivieren
 [Disable Popups]
 Popups deaktivieren
 ;file \plugins\Db_autobackups\src\backup.cpp

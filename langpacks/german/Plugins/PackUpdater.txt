@@ -9,11 +9,11 @@
 Einfacher Updater für vorkonfugurierte Miranda-NG-Pakete.
 ;file \plugins\PackUpdater\Res\Resource.rc
 [Updates found!]
-Updates gefunden!
+Aktualisierung gefunden!
 [Update]
 Aktualisieren
 [View info]
-Zeige Informationen
+Informationen anzeigen
 [Cancel]
 Abbrechen
 [PackUpdater has detected updated versions\nof the following Miranda components:]
@@ -21,13 +21,13 @@ PackUpdater hat aktuallisierte Versionen folgender Miranda-\nKomponenten gefunde
 [Description]
 Übersicht
 [Downloading...]
-Laden...
+Herunterladen...
 [Pack update options]
-Pack Update Einstellungen
+Paket-Aktualisierungs-Einstellungen
 [On startup]
 Beim Start
 [Remind about not installed pack update]
-Erinnere mich an nicht-installierte Pack-Updates
+Erinnere mich an nicht-installierte Paket-Aktualisierungen
 [Hotkey]
 Hotkey
 [Go to Customize -> Hotkeys to change the hotkey]
@@ -35,7 +35,7 @@ Unter 'Customize -> Hotkeys' können Sie den Hotkey ändern
 [Notifications]
 Benachrichtigungen
 [Message boxes]
-Nachrichtenboxen
+Meldungsfelder
 [Errors]
 Fehler
 [Info messages]
@@ -47,7 +47,7 @@ Alle
 [(but only once a day)]
 (aber nur einmal täglich)
 [Message boxes (*)]
-Nachrichtenboxen (*)
+Meldungsfelder (*)
 [Back]
 Hgrd.
 [Text]
@@ -79,19 +79,19 @@ Sek.
 [* Needs popup actions to be enabled]
 (*) Popup-Aktionen müssen aktiviert sein
 [Not sets for "Message boxes"]
-Gilt nicht für "Message Boxes"
+Gilt nicht für Meldungsfelder
 [Boxes]
 Fenster
 [Popups]
 Popups
 ;file \plugins\PackUpdater\Src\Events.cpp
 [Check for pack updates]
-Auf Pack-Updates prüfen
+Auf Paket-Aktualisierungen prüfen
 [Pack Updater]
 Paket-Updater
 ;file \plugins\PackUpdater\Src\Notifications.cpp
 [An error occured while downloading the update.]
-Ein Fehler trat beim runterladen des Plugins auf.
+Ein Fehler trat beim Herunterladen der Aktualisierung auf.
 [Component Name]
 Komponentenname
 [Current Version]
@@ -101,11 +101,11 @@ Neue Version
 [Downloading pack updates...]
 Lade nun Paket-Updates ...
 [Downloading update...]
-Update herunterladen...
+Aktualisierung herunterladen...
 [Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Downloads vollständig, Update beginnen? Alle ihre Daten werden gespeichert und Miranda NG wird geschlossen.
+Downloads vollständig, Aktualisierung durchführen? Alle ihre Daten werden gespeichert und Miranda NG wird geschlossen.
 [Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Download vollständig, Update beginnen? Alle ihre Daten werden gespeichert und Miranda NG wird geschlossen.
+Download vollständig, Aktualisierung durchführen? Alle ihre Daten werden gespeichert und Miranda NG wird geschlossen.
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
 Sie haben sich entschieden das Paket nicht direkt zu installieren.\nSie können es später von diesem Pfad manuell installieren:\n\n%s
 ;file \plugins\PackUpdater\Src\Notifications.h
@@ -124,14 +124,14 @@ Testen
 Dienste
 ;file \plugins\PackUpdater\Src\PackUpdater.cpp
 [Clear pack updates folder]
-Pack Update Verzeichnis löschen
+Paket-Aktualisierungs-Verzeichnis löschen
 ;file \plugins\PackUpdater\Src\Utils.cpp
 ['Yes' Button]
-'Ja' Button
+'Ja'-Schaltfläche
 ['No' Button]
-'Nein' Button
+'Nein'-Schaltfläche
 [Pack Updater HTTP connection]
-Pack Updater HTTP Verbindung
+Pack-Updater-HTTP-Verbindung
 [URL for checking updates not found.]
 URL für die zu prüfenden Updates wurden nicht gefunden.
 [Downloading version info...]
@@ -139,7 +139,7 @@ Lade Versionsinformationen ...
 [Name of Update's file is not supported.]
 Dateiformat der Update-Dateien wird nicht unterstützt.
 [Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
-Das Update ist nicht möglich!\nSie haben keine Administratorrechte.\Bitte starten sie Miranda NG mit Adminrechten.
+Die Aktualisierung ist nicht möglich!\nSie haben keine Administratorrechte.\nBitte starten Sie Miranda NG mit Administratorrechten.
 [No updates found.]
 Keine Updates gefunden.
 [No files for update.]

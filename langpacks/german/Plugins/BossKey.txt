@@ -17,9 +17,9 @@ Wenn ich den Hotkey drücke:
 [Change status to]
 Status ändern in
 [Change only if current status is Online]
-Nur wechseln, wenn aktueller Status online
+Nur ändern, wenn aktueller Status online
 [Use default status message]
-Verwende Standard-Statusnachricht
+Standard-Statusnachricht verwenden
 [Disable Sounds]
 Klänge deaktivieren
 [Show the Tray Icon]
@@ -29,7 +29,7 @@ Wenn ich zurückkehre:
 [Request password:]
 Passwort abfragen:
 [Change status back]
-Ändere Status zurück
+Status zurücksetzen
 [Hotkey]
 Hotkey
 [Password:]
@@ -45,7 +45,7 @@ Arbeitsstation gesperrt ist
 [Screen Saver is running]
 Bildschirmschoner läuft
 [Windows is inactive]
-Windows inaktiv ist, für
+Windows inaktiv ist
 [Hide Miranda when:]
 Verstecke Miranda wenn:
 [Miranda is inactive]
@@ -57,9 +57,9 @@ Miranda gestartet ist
 [Others]
 Sonstiges
 [Create a main menu item]
-Erzeuge einen Hauptmenüeintrag
+Einen Hauptmenüeintrag erzeugen
 [Restore hiding on startup after failure]
-Verstecke Miranda bei Neustart nach einem Fehler
+Miranda bei Neustart nach einem Fehler verstecken
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
 [Miranda NG is locked.\nEnter password to unlock it.]
 Miranda NG ist gesperrt.\Geben Sie das Passwort ein, um es zu entsperren
@@ -71,11 +71,9 @@ Miranda NG verbergen
 Verstecken
 [Hide/Show Miranda]
 Verstecke/zeige Miranda
-[BossKey\tget the BossKey name]
-BossKey\nBoss-Key Name
+[get the BossKey name]
+BossKey Name erhalten
 ;file \plugins\BossKeyPlus\src\Options.cpp
-[Open String Formatting Help]
-Stringformatierungshilfe öffnen
 [Events]
 Ereignisse
 [Main]

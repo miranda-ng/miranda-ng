@@ -1,0 +1,3 @@
+﻿[Header]
+[The shutdown process failed!\nReason: %s]
+[Inititiating the shutdown process failed!\nReason: %s]

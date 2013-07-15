@@ -9,7 +9,7 @@
 Verwaltet Medien-Informationen an/von Kontakten.
 ;file \plugins\ListeningTo\res\resource.rc
 [Listening to information]
-
+Listening to Information
 [Enable sending listening information to contacts:]
 Aktiviere das Senden folgender Medientypen:
 [Music]
@@ -23,7 +23,7 @@ Sonstiges
 [You also have to enable it per protocol in the main menu]
 Diese Funktion muss für jedes Protokoll seperat im Hauptmenü aktiviert werden
 [XStatus]
-
+XStatus
 [For protocols that don't support listening to but support XStatus:]
 Für Protokolle ohne ListeningTo, aber mit xStatus:
 [Set XStatus to Music and show listening info]
@@ -104,7 +104,7 @@ Listening to (aktiviert)
 [Listening to (disabled)]
 Listening to (deaktiviert)
 [ListeningTo]
-
+ListeningTo
 [Listening to music]
 Musik hören
 [Send to all protocols]
@@ -122,15 +122,15 @@ Name des Albums
 [Song name]
 Name des Liedes
 [Track number]
-
+Track Nummer
 [Song year]
 Lied Jahr
 [Song genre]
-
+Lied genre
 [Song length]
 Länge des Liedes
 [Player name]
-
+Player Name
 [Don't send to any protocols]
 In keinem Protokoll senden
 [Toggle send to all protocols]

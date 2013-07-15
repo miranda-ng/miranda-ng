@@ -272,6 +272,8 @@ XFire-Link-Protokoll
 Ein Freund startet ein Spiel
 [It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the ini xfire can't detect any games on your computer.]
 Es scheint, dass Sie das XFire Plugin zum ersten Mal nutzen. Wollen Sie automatisch due neuste xfire_games.ini herunterladen?\r\nOhne diese ini kann XFire keine Spiele auf Ihrem Computer erkennen.
+[Away from Keyboard]
+Nicht an der Tastatur
 [&XFire Online Profile]
 &XFire Online Profile
 [XFire &Clan Site]

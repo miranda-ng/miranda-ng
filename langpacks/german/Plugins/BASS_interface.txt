@@ -6,14 +6,14 @@
 ;  Authors: tico-tico
 ;============================================================
 [un4seen's BASS interface Miranda NG plugin.]
-
+un4seen's BASS interface Plugin für Miranda NG.
 ;file \plugins\BASS_interface\res\Bass.rc
 [un4seen's bass interface]
-Un4seen's Bass Interface
+un4seen's BASS Interface
 [bass.dll loading error]
-Fehler beim Laden der bass.dll
+Fehler beim Laden der BASS.dll
 [Current bass.dll path:]
-Aktuelles Verzeichnis der Bass.dll:
+Aktuelles Verzeichnis der BASS.dll:
 [Maximum number of bass internal channels:]
 Maximum an internen aktivierten Lautsprechern
 [Output device:]
@@ -23,9 +23,9 @@ Lautstärke
 [Quiet time:]
 Ruhezeit:
 [download bass library]
-Herunterladen der Bass-Bibliothek
+Herunterladen der BASS-Bibliothek
 [Play only if]
-Spiele nur wenn:
+Spiele nur, wenn:
 [Offline]
 Offline
 [Online]
@@ -50,7 +50,7 @@ Zum Essen
 Vorschau
 ;file \plugins\BASS_interface\src\Bass_interface.h
 [Bass Interface]
-
+Bass-Schnittstelle
 ;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 Un4seen's Bass Version: %d.%d.%d.%d
@@ -63,10 +63,10 @@ Klänge deaktivieren
 [Enable sounds]
 Klänge aktivieren
 [Frame Background]
-
+Frame-Hintergrund
 [Bass library]
-
+Bass-Bibliothek
 [Sounds enabled]
-
+Klänge aktiviert
 [Sounds disabled]
-
+Klänge deaktiviert

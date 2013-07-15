@@ -11,7 +11,7 @@ Stellt Unterstützung für die Miranda-Datenbank bereit: Globale Einstellungen, 
 [Login to Miranda NG]
 Einloggen bei Miranda NG
 [EN]
-
+EN
 [OK]
 OK
 [Cancel]
@@ -77,7 +77,7 @@ Ver&lassen
 [Database encryption]
 Verschlüsselung des Profils
 [Info:]
-
+Info:
 [Author:]
 Autor:
 [Site:]
@@ -105,7 +105,7 @@ Passwort ändern
 [Set password]
 Passwort setzen
 [Dll]
-
+Dll
 [Name]
 Name
 [Version]
@@ -113,7 +113,7 @@ Version
 [Please type in your password for]
 Bitte geben Sie ihr Passwort ein für
 [Too many errors!]
-
+Zu viele Fehler!
 [Password is not correct!]
 Das Passwort ist inkorrekt!
 [Please enter your new password]
@@ -126,7 +126,7 @@ Passwörter stimmen nicht überein!
 Passwort ist inkorrekt!
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
 [Sorry, but your database encrypted with unknown module]
-Entschuldigung, aber Ihre Datenbankverschlüsselung ist ungültig
+Entschuldigung, aber Ihre Datenbank ist mit einem unbekanntem Modul verschlüsselt.
 [Error]
 Fehler
 [Crypto modules not found]
@@ -134,6 +134,6 @@ Verschlüsselungsplugins wurden nicht gefunden!
 [DB is already secured!]
 Datenbank ist bereits sicher!
 [current database]
-
+Aktuelle Datenbank
 [Set Password]
 Passwort setzen

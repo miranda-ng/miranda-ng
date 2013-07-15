@@ -1,0 +1,6 @@
+﻿[You have changed the plugin settings via database.\nThis requires restart!]
+[- Contact last name]
+[Quick Messages]
+[Enter Value]
+[Congratulation!\r\nYou have clicked this button 100 times!\r\nThere was access violation at this point...\r\nAnd now function for freeing resources must be called...\r\nBut no! there's only break :D]
+[You win!]

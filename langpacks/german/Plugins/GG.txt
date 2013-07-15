@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: GG
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: 
 ;============================================================
 ;file \protocols\Gadu-Gadu\res\resource.rc
@@ -271,7 +271,7 @@ Blockieren a&ufheben
 Kontaktliste
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
 [%s connection]
-
+%s Verbindung
 [Avatars]
 Avatare
 [Images]

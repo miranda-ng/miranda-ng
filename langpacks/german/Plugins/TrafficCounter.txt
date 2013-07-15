@@ -99,13 +99,13 @@ Statistiken
 Popups
 ;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
-
+Bytes
 [KB]
-
+KB
 [MB]
-
+MB
 [Adaptive]
-
+Angepasst
 [Hourly]
 Stündlich
 [Daily]
@@ -131,7 +131,7 @@ Der aktuelle Traffic für den ausgewählten Account wird gelöscht.\nWeitermache
 [Couldn't read statistics file]
 Konnte die Statistikdatei nicht lesen
 [Traffic Counter]
-
+Traffic Counter
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 Schriftart

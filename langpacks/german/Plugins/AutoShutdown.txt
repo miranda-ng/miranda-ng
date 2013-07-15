@@ -130,23 +130,23 @@ AutoBeenden-Fehler
 [Unknown]
 Unbekannt
 [Miranda NG is going to be automatically closed in %u second(s).]
-
+Miranda NG wird in %u Sekunde(n) automatisch geschlossen.
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
-
+Alle Protokolle  in Miranda NG werden in %u Sekunde(n) offline gesetzt.
 [You will be logged off automatically in %u second(s).]
-
+Sie werden in %u Sekunde(n) automatisch ausgeloggt.
 [The computer will automatically be restarted in %u second(s).]
-
+Dieser Computer wird in %u Sekunde(n) automatisch neu gestartet.
 [The computer will automatically be set to standby mode in %u second(s).]
-
+Dieser Computer wird in %u Sekunde(n) automatisch in den Standby-Modus gesetzt.
 [The computer will automatically be set to hibernate mode in %u second(s).]
-
+Dieser Computer wird in %u Sekunde(n) automatisch in den Energiesparmodus gesetzt.
 [The workstation will automatically get locked in %u second(s).]
-
+Diese Arbeitsstation wird in %u Sekunde(n) automatisch gesperrt.
 [All dialup connections will be closed in %u second(s).]
-
+Alle Einwahlverbindungen werden in %u Sekunde(n) automatisch geschlossen.
 [The computer will automatically be shut down in %u second(s).]
-
+Dieser Computer wird in %u Sekunde(n) automatisch heruntergefahren.
 [Inititiating the shutdown process failed!\nReason: %s]
 
 [Close Miranda NG]

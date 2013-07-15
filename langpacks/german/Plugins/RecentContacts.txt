@@ -23,11 +23,11 @@ Offline Kontakte ausblenden
 Kontakte
 ;file \plugins\RecentContacts\src\RecentContacts.cpp
 [Main icon]
-
+Haupticon
 [Contact]
 Kontakt
 [Toggle Ignore]
-
+Ignorieren umschalten
 [Ignore Contact]
 Kontakt ignorieren
 [Show Contact]

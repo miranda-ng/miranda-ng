@@ -1,7 +1,0 @@
-﻿[link]
-[History Linklist]
-[Filter]
-[no filter]
-[Search Filter]
-[no settings]
-[Save RTF File]

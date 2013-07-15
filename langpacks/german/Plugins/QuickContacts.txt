@@ -58,19 +58,5 @@ Kontaktmenü öffnen
 Alle Kontakte zeigen
 [Quick Contacts...]
 Schnellkontakte...
-[Ctrl+A]
-
 [Send message]
 Nachricht senden
-[Ctrl+V]
-
-[Ctrl+F]
-
-[Ctrl+U]
-
-[Ctrl+I]
-
-[Ctrl+H]
-
-[Ctrl+M]
-

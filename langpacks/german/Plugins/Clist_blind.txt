@@ -20,14 +20,12 @@ Ja
 Nein
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Nur in der Kontaktliste ausblenden. Verlauf und Einstellungen bleiben erhalten.
-[Use Options->Ignore (expert mode) to unhide contacts.]
-Unter Einstellungen->Ereignisse->Ignorierliste Kontakt wieder einblenden.
+[Use Options->Contacts->Ignore to unhide contacts.]
+Unter Einstellungen->Kontakte->Ignorieren Kontakt wieder einblenden.
 [Hotkeys]
 Hotkeys
 [Show/Hide:]
 Zeigen/Verstecken:
-[HotKey1]
-HotKey1
 [Read Message:]
 Nachricht lesen:
 [Web Search:]
@@ -71,7 +69,7 @@ Sekunden, wenn Status unterschiedlich
 [Show multiple icons]
 Mehrere Icons anzeigen
 [Only when statuses differ]
-Nur wenn Status unterschiedlich
+Nur, wenn Status untersch.
 [Contact List]
 Kontaktliste
 [System tray icon]
@@ -147,7 +145,7 @@ Gruppe:
 [Divider:]
 Trennung:
 [Info:]
-
+Info:
 [Status Bar]
 Statusleiste
 [Show status bar]
@@ -193,7 +191,7 @@ B&eenden
 [Out to &Lunch\tCtrl+9]
 
 [Tray]
-
+Tray
 [&Hide/Show]
 Zeigen/Ausblenden
 [Nowhere]

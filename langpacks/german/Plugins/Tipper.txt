@@ -177,7 +177,7 @@ Favorisierte Kontakte
 [Expand to second level after:]
 Erweiterte Anzeige nach:
 [ms]
-
+ms
 [First level tooltip]
 Einfache Tooltip-Anzeige
 [Second level tooltip]
@@ -195,9 +195,9 @@ Smileys in Tooltips
 [You must enter a label]
 Sie müssen einen Titel eingeben!
 [Invalid Substitution]
-
+Ungültige Ersetzung
 [<No Label>]
-
+<Keine Beschriftung>
 [Add item]
 Objekt hinzufügen
 [Add separator]
@@ -290,12 +290,12 @@ Client
 ;file \plugins\TipperYM\src\popwin.cpp
 [%s (locked)]
 %s (gesperrt)
-[ ago]
- her
+[%s ago]
+vor %s
 [Log on:]
 Anmeldung ist
 [Log off:]
-
+Abgemeldet:
 [Unread emails:]
 Ungelesene E-Mails:
 [Status:]
@@ -317,11 +317,11 @@ Alle Einträge kopieren
 [Copy avatar]
 Avatar kopieren
 [<No Label>: ]
-
+<kein Label>: 
 [<No Value>]
-
+<kein Wert>
 [Fav. contacts]
-
+Fav. Kontakte
 [Other]
 Sonstige
 [Miranda uptime:]
@@ -332,7 +332,7 @@ Geburtstag
 [Birthday:]
 Geburtstag:
 [Client:]
-
+Client:
 [Email]
 E-Mail
 [Email:]
@@ -345,16 +345,14 @@ Homepage
 Homepage:
 [Identifier]
 Nutzer-ID
-[%sys:uidname|UID^!MetaContacts%:]
-
 [Idle]
 Untätigkeit
 [Idle:]
-
+Untätig:
 [IP]
-
+IP
 [IP:]
-
+IP:
 [IP internal]
 IP intern
 [IP internal:]
@@ -478,7 +476,7 @@ Werte
 [Tray title]
 Traytitel
 [Tipper]
-
+Tipper
 ;file \plugins\TipperYM\src\translations.cpp
 [Female]
 weiblich
@@ -544,7 +542,7 @@ Aserbaidschanisch
 [Belorussian]
 Weissrussisch
 [Bhojpuri]
-
+Bhojpuri
 [Bosnian]
 Bosnisch
 [Bulgarian]
@@ -556,7 +554,7 @@ Kantonesisch
 [Catalan]
 Katalanisch
 [Chamorro]
-
+Chamorro
 [Chinese]
 Chinesisch
 [Croatian]
@@ -574,7 +572,7 @@ Esperanto (Plansprache)
 [Estonian]
 Estnisch
 [Farsi]
-
+Farsi
 [Finnish]
 Finnisch
 [French]
@@ -586,11 +584,11 @@ Deutsch
 [Greek]
 Griechisch
 [Gujarati]
-
+Gujarati
 [Hebrew]
 Hebräisch
 [Hindi]
-
+Hindi
 [Hungarian]
 Ungarisch
 [Icelandic]
@@ -602,7 +600,7 @@ Italienisch
 [Japanese]
 Japanisch
 [Khmer]
-
+Khmer
 [Korean]
 Koreanisch
 [Kurdish]
@@ -638,7 +636,7 @@ Russisch
 [Serbo-Croatian]
 Serbokroatisch
 [Sindhi]
-
+Sindhi
 [Slovak]
 Slowakisch
 [Slovenian]
@@ -652,7 +650,7 @@ Suaheli
 [Swedish]
 Schwedisch
 [Tagalog]
-
+Tagalog
 [Taiwanese]
 Taiwanesisch
 [Tamil]
@@ -666,7 +664,7 @@ Türkisch
 [Ukrainian]
 Ukrainisch
 [Urdu]
-
+Urdu
 [Vietnamese]
 Vietnamesisch
 [Welsh]
@@ -674,7 +672,7 @@ Walisisch
 [Yiddish]
 Jiddisch
 [Yoruba]
-
+Yoruba
 [Sunday]
 Sonntag
 [Monday]

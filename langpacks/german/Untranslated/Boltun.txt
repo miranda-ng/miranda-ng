@@ -1,0 +1,7 @@
+﻿[Base of remarks]
+[Mind Files]
+[Boltun/Auto Chat]
+[Boltun/Not to Chat]
+[Boltun/Start Chatting]
+[Failed to load base of remarks. Error at line %d of %s. (Or few lines before).]
+[Failed to save base of remarks to %s]

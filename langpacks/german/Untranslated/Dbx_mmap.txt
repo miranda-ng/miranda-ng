@@ -1,0 +1,4 @@
+﻿[Invalid offset found (database truncated?)]
+[Can't write to working file, aggressive mode may be too aggressive now]
+[Can't create file mapping (%u)]
+[Can't create map view of file (%u)]

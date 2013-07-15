@@ -95,13 +95,13 @@ Sonstige
 [Status on startup]
 Status beim Start
 [ms]
-
+ms
 [Set after]
 nach
 [Timeout]
 Timeout
 [s]
-
+s
 [Set window location]
 Fensterposition
 [Set window size]
@@ -165,7 +165,7 @@ Erweiterte Informationen in Popups anzeigen
 [Use Miranda's message setting]
 Nachricht von Miranda verwenden
 [Use this message:]
-Diese nachricht verwenden:
+Diese Nachricht verwenden:
 [Use %time% for the current time, %date% for the current date]
 %time%, %date% für die aktuelle Uhrzeit oder Datum
 [Variables...]
@@ -212,10 +212,8 @@ Bestätigungsdialog beim Profilaufruf
 Erzeuge einen Hauptmenüeintrag
 [Status Profiles]
 Statusprofile
-[HotKey1]
-
 [Hotkey]
-
+Hotkey
 [In submenu]
 In Untermenü
 [Max. delay (secs)]
@@ -286,7 +284,7 @@ Versteckt
 [Minimized]
 Minimiert
 [Normal]
-
+Normal
 [Create a status menu item]
 Statusmenüeintrag erstellen
 [default]

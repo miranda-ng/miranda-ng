@@ -8,8 +8,6 @@
 [Miranda NG Database Checker.]
 Miranda NG Database Checker.
 ;file \plugins\DbChecker\res\resource.rc
-[whiterect]
-
 [Welcome to the Miranda Database Wizard]
 Willkommen zum Miranda-Datenbankreparaturtool
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
@@ -27,11 +25,11 @@ Weiter >
 [Cancel]
 Abbrechen
 [Select Miranda Profile]
-Miranda-Datenbank auswählen
+Miranda-Profil auswählen
 [You can choose the Miranda profile database to compact or repair.]
-Datenbank zum Komprimieren oder zur Fehlersuche auswählen
+DProfil zum Komprimieren oder zur Fehlersuche auswählen
 [Select the &profile database from the list below. If the database you wish to use is not listed here then click Other to browse your computer.]
-&Datenbank aus unten stehender Liste auswählen, oder klicken Sie auf "Andere..." für einen anderen Ordner.
+&Profil aus unten stehender Liste auswählen, oder klicken Sie auf "Andere..." für einen anderen Ordner.
 [&File:]
 &Datei:
 [&Other...]
@@ -80,8 +78,6 @@ Konvertiert alte Nachrichten im ANSI-UCS2-Format aus Versionen vor 0.7 in das ne
 Vorgang läuft...
 [Please wait while the requested operations are being performed.]
 Bitte warten Sie, bis die notwendigen Arbeitsgänge beendet wurden.
-[Progress1]
-Fortschritt1
 [Finished!]
 Ich bin fix und fertig!
 [All tasks have been completed.]
@@ -106,11 +102,11 @@ Die Verarbeitung wurde noch nicht beendet. Wenn Sie den Vorgang jetzt abbrechen,
 Die Verarbeitung wurde noch nicht beendet. Wenn Sie jetzt zurückgehen, wird die Originaldatei wiederhergestellt, und die Änderungen gehen verloren. Wollen Sie jetzt zurückgehen?
 ;file \plugins\DbChecker\src\selectdb.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
-
+Database Checker kann kein passendes Datenbank-Plugin finden um '%s' zu öffnen.
 [Error]
 Fehler
 [Database driver '%s' doesn't support checking.]
-
+Datenbanktreiber '%s' unterstützt keine Überprüfung.
 [Database]
 Datenbank
 [Total size]
@@ -118,7 +114,7 @@ Gesamtgröße
 [Wasted]
 Überflüssig
 [Miranda Databases (*.dat)]
-
+Miranda Datenbanken (*.dat)
 [All Files]
 Alle Dateien
 ;file \plugins\DbChecker\src\wizard.cpp
@@ -140,7 +136,7 @@ Datenbankverarbeitungsfunktion gestartet
 [<check only>]
 <Nur prüfen>
 [ (Output).dat]
-
+ (Ausgabe).dat
 [Can't create output file (%u)]
 Kann Ausgabedatei nicht erstellen (%u)
 [Processing aborted by user]
@@ -148,6 +144,6 @@ Verarbeitung von Benutzer abgebrochen
 [Elapsed time: %d sec]
 Benötigte Zeit: %d Sekunden
 [All tasks completed but with errors (%d)]
-
+Alle Arbeitsschritte beendet, aber mit Fehlern (%d)
 [All tasks completed successfully]
 Alle Arbeitsschritte erfolgreich beendet

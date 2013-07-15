@@ -31,29 +31,29 @@ Protokolle auswählen
 [AIM clients]
 AIM Clients
 [Gadu-Gadu clients]
-Gadu-Gadu Clients
+Gadu-Gadu-Clients
 [ICQ clients]
-ICQ Clients
+ICQ-Clients
 [IRC clients]
-IRC Clients
+IRC-Clients
 [Jabber clients]
-Jabber Clients
+Jabber-Clients
 [MRA clients]
-MRA Clients
+MRA-Clients
 [MSN clients]
-MSN Clients
+MSN-Clients
 [QQ clients]
-QQ Clients
+QQ-Clients
 [RSS clients]
-RSS Clients
+RSS-Clients
 [Tlen clients]
-Tlen Clients
+Tlen-Clients
 [Weather clients]
-Weather Clients
+Weather-Clients
 [Yahoo clients]
-Yahoo Clients
+Yahoo-Clients
 [Multi-protocol clients]
-Multi-Protokoll Clients
+Multi-Protokoll-Clients
 [Other (rare) protocols]
 Andere (seltene) Protokolle
 [Other icons]
@@ -69,24 +69,24 @@ Client-Icons
 [Pack overlays]
 Pack-Overlays
 [Multi-proto clients]
-Multi-Protokoll Clients
+Multi-Protokoll-Clients
 [Other protocols]
 Andere Protokolle
 [Overlays]
-
+Overlays
 [Resource]
 Standort
 [Platform]
-
+Plattform
 [Security]
 Sicherheit
 [Protocol]
 Protokoll
 ;file \plugins\FingerprintNG\src\masks.cpp
 [MirandaNG stable]
-MirandaNG stabil
+Miranda NG stabil
 [MirandaIM (old versions)]
-MirandaIM (alte Versionen)
+Miranda IM (alte Versionen)
 [Miranda (unknown)]
 Miranda (unbekannt)
 [spam client]

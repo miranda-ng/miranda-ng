@@ -307,4 +307,4 @@ Effekt
 [New contact added to database]
 
 [Contact deleting]
-
+Kontakt löschen

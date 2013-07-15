@@ -6,20 +6,20 @@
 ;  Authors: nullbie, Thief
 ;============================================================
 [Shows a splash at Miranda startup.]
-Zeigt einen "Splash" während des Startvorgangs von Miranda NG.
+Zeigt einen "Splash" während des Startvorgangs.
 ;file \plugins\SplashScreen\res\splash.rc
 [Splash Options]
-Splash - Optionen
+Splash-Einstellungen
 [Show splash]
-Splash zeigen
+Splash anzeigen
 [Show random splash]
-Bild zufällig aussuchen
+Zufälligen Splash anzeigen
 [Play sound]
 Sound abspielen
 [Loop sound]
 Ton wiederholen
 [Show Miranda Version]
-Zeige Mirandaversion
+Mirandaversion anzeigen
 [Enable]
 Aktivieren
 [Prefix:]
@@ -27,33 +27,33 @@ Präfix:
 [Appearance]
 Erscheinungsbild
 [Display time:]
-Anzeigedauer
+Anzeigedauer:
 [msec]
 mSek.
 [Fade in:]
-Einblenden
+Einblenden:
 [steps]
-Blendgeschwindigkeit
+Schritte
 [Fade out:]
-Ausblenden
+Ausblenden:
 [Advaimg library not found. Please get it from nigtlies to be able to use images.]
 Advaimg.dll nicht gefunden. Bitte entnehmen Sie die Datei aus der aktuellen Stable-/Testing-Version.
 [Preview...]
 Vorschau...
 ;file \plugins\SplashScreen\src\main.cpp
 [Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
-
+Ihre advaimg.dll ist entweder veraltet oder beschädigt. Laden Sie sich die neuste aus den Miranda-Entwicklungsversionen.
 [Error]
 Fehler
 [Call Splash Service]
-
+Splash-Dienst aufrufen
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
-
+Grafikdateien
 [Sound Files]
 Klangdateien
 [Skins]
-
+Skins
 [Splash Screen]
-
+Splash Screen
 ;file \plugins\SplashScreen\src\services.cpp

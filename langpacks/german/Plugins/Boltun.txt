@@ -6,34 +6,34 @@
 ;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
 ;============================================================
 [Boltun, the chat bot in the russian language.]
-
+Boltun, ein Chatbot in russischer Sprache
 ;file \plugins\Boltun\res\Boltun.rc
 [Boltun]
-
+Boltun
 [Boltun Autochat everybody]
-
+Boltun mit jedem chatten
 [Boltun Autochat everybody not in contact list]
-
+Boltun mit jedem nicht in der Kontaktliste chatten
 [Boltun Autochat everybody while away]
-
+Boltun mit jedem chatten während Abwesenheit
 [Warn contacts Boltun is chatting]
-
+Kontakte warnen, dass Boltun chattet
 [Mark replied messages as read]
-
+Beantwortete Nachrichten als gelesen markieren
 [sec]
 Sek.
 [Warning text]
-
+Warnung Text
 [Time before the answer]
-
+Zeit vor der Antwort
 [Typing time depends on message length (in chars)]
-
+Tippzeit abhängig von Nachrichtenlänge (in Zeichen)
 [Typing and thinking time can be much longer]
-
+Tippen- und Bedenkzeit kann viel länger sein
 [Typing time (for a message of 4 words):]
-
+Tippzeit (für eine Nachricht mit 4 Worten):
 [Thinking time:]
-
+Bedenkzeit:
 [Engine]
 Sprachmodul
 [Base of remarks]
@@ -41,14 +41,14 @@ Sprachmodul
 [Reload]
 Neu laden
 [Stay silent, if have no good aswers]
-
+Ruhig bleiben, wenn keine gute Antwort einfällt
 [Start answers with a lowercase letter]
-
+Antworten mit einem Kleinbuchstaben beginnen
 [Don't use "I don't understand"-like answers]
-
+Antworten wie "Ich verstehe nicht" nicht verwenden
 ;file \plugins\Boltun\src\boltun.h
 [Message sessions]
-
+Nachrichtensitzungen
 [Mind Files]
 
 [All Files]
@@ -60,9 +60,9 @@ Alle Dateien
 [Boltun/Start Chatting]
 
 [Hello. I'm Boltun! I'll talk to you, while my owner is away. Please write without mistakes!]
-
+Hallo, ich bin Boltun. Ich werde mit Ihnen reden, während mein Meister abwesend ist. Bitte schreiben Sie fehlerfrei.
 [Boltun Error]
-
+Boltun Fehler
 [Failed to load base of remarks. Error at line %d of %s. (Or few lines before).]
 
 [Failed to save base of remarks to %s]

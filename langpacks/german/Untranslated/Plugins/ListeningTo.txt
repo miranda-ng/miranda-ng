@@ -1,8 +1,0 @@
-﻿[Listening to information]
-[XStatus]
-[ListeningTo]
-[Track number]
-[Song genre]
-[Player name]
-[Miranda ListeningTo receiver]
-[Miranda ListeningTo WMP receiver]

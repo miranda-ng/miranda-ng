@@ -293,7 +293,7 @@ Custom Status
 [None]
 Keine
 [Debug]
-
+Debug
 [Information]
 Information
 [Question]
@@ -308,7 +308,7 @@ Neue E-Mail
 Popups
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
-
+%s Verbindung
 [Mail.ru Xstatus]
 
 [Mail.ru extra info]

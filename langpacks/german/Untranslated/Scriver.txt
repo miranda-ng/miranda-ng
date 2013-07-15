@@ -1,0 +1,4 @@
+﻿[&U]
+[&E]
+[&Q]
+[Navigate: Tab %d]

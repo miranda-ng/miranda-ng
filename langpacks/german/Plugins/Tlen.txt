@@ -10,7 +10,7 @@ Passwort speichern
 [Create new account]
 Neues Konto erstellen...
 [Tlen]
-
+Tlen
 [Options]
 Einstellungen
 [Automatically reconnect after unintentional disconnection]
@@ -38,13 +38,13 @@ Gruppenchat-Einstell.
 [Image transfer policy]
 Bildtransfer-Einstell.
 [Voice Chats]
-
+Sprachchats
 [Voice chat policy]
-Voice-Chat Einstellung
+Sprachchat-Einstellung
 [Recording device:]
-Aufnahmegerät
+Aufnahmegerät:
 [Playback device:]
-Wiedergabegerät
+Wiedergabegerät:
 [Expert Options]
 Experten-Optionen
 [Login server:]
@@ -86,7 +86,7 @@ Vom Popup-Plugin
 [&Custom]
 Benutzerdefiniert
 [P&ermanent]
-
+Dau&erhaft
 [Preview]
 Vorschau
 [Jabber Password]
@@ -118,7 +118,7 @@ Interessen:
 [Voice chats]
 Sprachchats
 [Publicly visible status]
-
+Öffentlich sichtbarer Status
 [Save changes]
 Änderungen speichern
 [Avatar]
@@ -126,17 +126,17 @@ Avatar
 [Avatar Options]
 Avatareinstellungen
 [Public avatar]
-
+Öffentliches avatar
 [Tlen login:]
-
+Tlen Login:
 [Subscription:]
 Beschreibung:
 [Software:]
-
+Software:
 [Version:]
-
+Version:
 [System:]
-
+System:
 [Personal Information]
 Persönliche Informationen
 [Nickname:]
@@ -144,31 +144,31 @@ Nick:
 [Age:]
 Alter:
 [to]
-an
+bis
 [Extra Search Criterias]
-
+Extra Suchkriterien
 [Status:]
 Status:
 [Plan:]
-
+Plan
 [Tlen Voice Chat]
-
+Tlen Sprachchat
 [Quality]
-
+Qualität
 [In]
-
+Ein
 [Out]
-
+Aus
 [Finish]
 Ende
 [Tlen Voice Chat Invitation]
-
+Tlen Sprachchat Einladung
 [&Accept]
 &Akzeptieren
 [From:]
 Von:
 [The following invitation to join a voice chat is received.]
-Die folgende Einladung, einem Chatraum beizutreten, ist eingegangen.
+Die folgende Einladung, einem Sprachchat beizutreten, ist eingegangen.
 ;file \protocols\Tlen\src\jabber_iqid.cpp
 [Authentication failed for]
 Authentifizierung fehlgeschlagen für
@@ -218,7 +218,7 @@ SOCKS4
 [SOCKS5]
 SOCKS5
 [%s mail]
-
+%s Mail
 ;file \protocols\Tlen\src\jabber_svc.cpp
 [Tlen login]
 Tlen-Anmeldung
@@ -228,19 +228,19 @@ Passwort eingeben für
 [Jabber Connection Error]
 Jabber-Verbindungsfehler
 [Windows Server 2003]
-
+Windows Server 2003
 [Windows XP]
-
+Windows XP
 [Windows 2000]
-
+Windows 2000
 [Windows NT]
-
+Windows NT
 [Windows 95]
-
+Windows 95
 [Windows 98]
-
+Windows 98
 [Windows ME]
-
+Windows ME
 [Windows]
 Windows
 [%s Web Messages]
@@ -259,47 +259,47 @@ Private Konferenz
 Betreff
 ;file \protocols\Tlen\src\jabber_ws.cpp
 [%s connection]
-
+%s Verbindung
 [%s SOCKS connection]
-
+&s SUCKS verbindung
 ;file \protocols\Tlen\src\tlen.cpp
 [Protocol icon]
 Protokollicon
 [Tlen inbox]
-
+Tlen Posteingang
 [Group chats]
 Gruppenchats
 [Tlen chats]
-
-[Grant authorization]
-Autorisierung gewähren
-[Request authorization]
-Autorisierung anfragen
+Tlen Chats
 [Voice chat]
 Sprachchat
 [Microphone]
-
+Mikrofon
 [Speaker]
 Lautsprecher
 [Send image]
-Sende Bild
+Bild senden
 [Incoming mail]
 Eingehende E-Mail
 [Alert]
 Alarm
 [Tlen Chats]
-
+Tlen Chats
 [Multi-User Conference]
 Gruppenkonferenz
 [Tlen Mail]
-
+Tlen Mail
 [Send picture]
-
+Bild senden
 [Voice Chat]
 Sprachchat
+[Request authorization]
+Autorisierung anfragen
+[Grant authorization]
+Autorisierung gewähren
 ;file \protocols\Tlen\src\tlen_file.cpp
 [1 File]
-
+1 Datei
 [%d Files]
 %d Dateien
 ;file \protocols\Tlen\src\tlen_muc.cpp
@@ -347,22 +347,14 @@ Keine
 Nicht im Roster
 ;file \protocols\Tlen\src\tlen_voice.cpp
 [...Connecting...]
-
+...Verbinden...
 [...Waiting for connection...]
-
+...Warte auf Verbindung...
 [...Finished...]
-
+...Beendet...
 [...Error...]
-
+...Fehler...
 [...Denied...]
-
-[8000 Hz / 13.8 kbps]
-
-[11025 Hz / 19.1 kbps]
-
-[22050 Hz / 36.8 kbps]
-
-[44100 Hz / 72 kbps]
-
+...Abgelehnt...
 [Default]
 Standard

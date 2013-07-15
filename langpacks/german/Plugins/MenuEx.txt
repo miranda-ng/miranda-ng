@@ -75,8 +75,6 @@ In Liste anzeigen
 Immer sichtbar
 [Never visible]
 Niemals sichtbar
-[Request authorization]
-Autorisierung anfragen
 [Copy to Account]
 In Konto kopieren
 [Copy xStatus Message]
@@ -90,7 +88,7 @@ URL
 [Files]
 Dateien
 [User Online]
-Benutzer Online
+Benutzer online
 [Authorization]
 Autorisierung
 [You Were Added]
@@ -98,15 +96,17 @@ Sie wurden hinzugefügt
 [Typing Notify]
 Tippbenachrichtigungen
 [Please authorize me to add you to my contact list.]
-
+Bitte autorisieren Sie mich, Sie zu meiner Kontaktliste hinzufügen zu können.
 [Do you want to send authorization request\nto new contact?]
-Wollen Sie eine Autorisierungsanfrage an \neinen neuen Kontakt senden?
+Wollen Sie eine Autorisierungsanfrage an\nden neuen Kontakt senden?
 [Miranda NG]
 Miranda NG
 [MenuItemEx]
-
+MenuItemEx
 [Open ignore settings]
 Ignorier-Einstellungen öffnen
+[Request authorization]
+Autorisierung anfragen
 ;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 Customize

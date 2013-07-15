@@ -411,6 +411,20 @@ Kein Popup
 [Edit Settings]
 Einstellungen bearbeiten
 ;file \plugins\Weather\src\weather_info.cpp
+[Name]
+Name
+[Author]
+Autor
+[File Version]
+Datei-Version
+[INI Version]
+INI-Version
+[Items]
+Einträge
+[Display Name]
+Angezeigter Name
+[File Name]
+Dateiname
 [The corresponding INI file for "%s" is not found.]
 Die dazugehörige INI-Datei für "%s" wurde nicht gefunden.
 [Weather INI information for "%s":]

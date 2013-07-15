@@ -21,7 +21,7 @@ Meldung
 [DialogBox]
 Dialogfenster
 [Output Debug String]
-
+Output Debug String
 [Clipboard]
 Zwischenablage
 [Select output:]
@@ -57,7 +57,7 @@ Kopf- und Fußzeilen entfernen
 [Enable debug messages]
 Debug-Nachrichten aktivieren
 [Show plugin UUIDs]
-Universally Unique Identifier (UUID) der Plugins zeigen
+UUIDs der Plugins anzeigen
 [Show installed languages]
 Installierte Sprachen anzeigen
 [Miranda Version Information]
@@ -87,7 +87,7 @@ Unter Customize => Ordner Pfad zum Ausgabeordner einstellen
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 Sind Sie sich sicher, dass Sie dies aktivieren wollen?\nBitte aktivieren Sie diese Einstellung nur,\nwenn Sie wirklich wissen, wofür diese gut ist,\noder wenn Sie dazu aufgefordert wurden!
 [Show plugin UUIDs ?]
-UUIDs der Plugins zeigen
+UUIDs der Plugins zeigen ?
 ;file \plugins\VersionInfo\src\hooked_events.cpp
 [VersionInfo]
 VersionInfo

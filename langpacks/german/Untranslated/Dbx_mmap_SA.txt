@@ -1,0 +1,3 @@
+﻿[Database is Secured MMAP database]
+[You are not authorized for access to Database]
+[Secured MMAP: authorization successful]

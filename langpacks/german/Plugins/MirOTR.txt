@@ -72,8 +72,6 @@ Socialist Millionaire Protocol\r\nVerifizierung
 &Nein
 [&Yes]
 &Ja
-[MirOTR]
-MirOTR
 [OTR status]
 OTR-Status
 [&Start OTR session]

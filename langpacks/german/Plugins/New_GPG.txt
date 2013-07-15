@@ -221,7 +221,7 @@ Eine nicht unterstützte GnuPG-Version wurde gefunden, benutzen Sie diese auf ei
 [found "gpg" directory in MIranda root.\nassuming it's gpg home directory.\ngpg home directory set.]
 
 [Info]
-
+Info
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 
 [gpg binary does not exists.\nplease choose another location]

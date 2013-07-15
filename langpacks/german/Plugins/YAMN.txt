@@ -103,7 +103,7 @@ Online
 [Away]
 Abwesend
 [N/A]
-
+N/A
 [Occupied]
 Beschäftigt
 [DND]
@@ -244,7 +244,7 @@ Löschen bestätigen
 
 ;file \plugins\YAMN\src\proto\netlib.cpp
 [%s connection]
-
+%s Verbindung
 ;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 Verbindung getrennt

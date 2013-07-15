@@ -2,16 +2,16 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.1.1
+;  Version: 0.1.1.4
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
-Plugin Updater für Miranda NG
+Plugin-Updater für Miranda NG.
 ;file \plugins\PluginUpdater\res\Resource.rc
 [Updates found!]
-Updates gefunden!
+Aktualisierungen gefunden!
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information]
-PluginUpdater hat aktuallisierte Versionen einiger Miranda-\nKomponenten gefunden. Klicken Sie auf Details für weitere Informationen.
+PluginUpdater hat aktualisierte Versionen einiger Miranda-\nKomponenten gefunden. Klicken Sie auf Details für weitere Informationen.
 [Update]
 Aktualisieren
 [Details >>]
@@ -27,7 +27,7 @@ Hotkey
 [Go to Customize -> Hotkeys to change the hotkey]
 Unter 'Customize -> Hotkeys' können Sie den Hotkey ändern
 [Plugin updates options]
-Plugin-Update-Optionen
+Plugin-Aktualisierungs-Einstellungen
 [On startup]
 Beim Start
 [(but only once a day)]
@@ -35,19 +35,21 @@ Beim Start
 [Every]
 Alle
 [Update icons]
-Icons aktuallisieren
+Icons aktualisieren
 [Files source]
 Quelle der Dateien
 [Stable version]
 Stabile Version
 [Development version (less stable)]
-Entwicklungs-Version (weniger stabil)
+Entwicklungsversion (weniger stabil)
+[Development version with debug symbols]
+Entwicklungsversion mit Debugsymbolen
 [Custom version]
 Eigene Version
 [Notifications]
 Benachrichtigungen
 [Message boxes (*)]
-Nachrichtenboxen (*)
+Meldungsfelder (*)
 [Errors]
 Fehler
 [Info messages]
@@ -85,7 +87,7 @@ Sek.
 [* Needs popup actions to be enabled]
 (*) Popup-Aktionen müssen aktiviert sein
 [Not sets for "Message boxes"]
-Gilt nicht für "Message Boxes"
+Gilt nicht für Meldungsfelder
 [Boxes]
 Fenster
 [Popups]
@@ -93,24 +95,24 @@ Popups
 [Component list]
 Komponentenliste
 [Here is the complete list of missing Miranda NG components. Check components that you want to download.\n\nClick on info icon to view component info page.]
-Hier ist eine komplette Liste fehlender Miranda NG Komponenten. Wählen Sie die Komponenten aus, die Sie herunterladen wollen.\n\nKlicken Sie auf das Info-Icon um die Info-Seite zu den Plugins aufzurufen.
+Hier ist eine komplette Liste fehlender Miranda-NG-Komponenten. Wählen Sie die Komponenten aus, die Sie herunterladen wollen.\n\nKlicken Sie auf das Info-Icon um die Info-Seite zu den Plugins aufzurufen.
 [Download]
 Herunterladen
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp
 [Skipped.]
-Übersprungen
+Übersprungen.
 [Downloading...]
-Laden...
+Herunterladen...
 [Failed!]
 Fehler!
 [Succeeded.]
-Erfolgreich!
+Erfolgreich.
 [Plugin Updater]
-Plugin Updater
+Plugin-Updater
 [Download complete]
 Download vollständig
 [Download complete. Do you want go to plugins option page?]
-Download vollständig. Willen Sie zu den Plugin-Einstellungen gehen?
+Download vollständig. Möchten Sie zu den Plugin-Einstellungen gehen?
 [Component Name]
 Komponentenname
 [State]
@@ -127,13 +129,13 @@ Liste ist leer.
 Laden der Liste hat bereits begonnen!
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
-Wird gelöscht.
+Wird gelöscht!
 [Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Download vollständig, Update beginnen? Alle ihre Daten werden gespeichert und Miranda NG wird geschlossen.
+Download vollständig, Aktualisierung durchführen? Alle ihre Daten werden gespeichert und Miranda NG wird geschlossen.
 [You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
 Sie haben sich dazu entschieden, nicht alle Plugins sofort zu installieren.\nSie können diese manuell aus folgendem Verzeichnis installieren:\n\n%s
 [No updates found.]
-Keine Updates gefunden.
+Keine Aktualisierungen gefunden.
 [Update checking already started!]
 Die Prüfung auf Aktualisierungen wurde bereits gestartet!
 ;file \plugins\PluginUpdater\src\Options.cpp
@@ -147,21 +149,21 @@ Testen
 Dienste
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
 [Check for plugin updates]
-Auf Plugin-Updates prüfen
+Auf Plugin-Aktualisierungen prüfen
 [Show full plugin list]
-Volle Pluginliste anzeigen
+Vollständige Pluginliste anzeigen
 ;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]
-'Ja' Button
+'Ja'-Schaltfläche
 ['No' Button]
-'Nein' Button
+'Nein'-Schaltfläche
 [Plugin info]
 Plugininfo
 [Plugin list]
 Pluginliste
 [Plugin Updater HTTP connection]
-Plugin Updater HTTP Verbindung
-[Downloading version info...]
-Lade Versionsinformationen ...
-[An error occured while downloading the update.]
-Ein Fehler trat beim Runterladen des Plugins auf.
+Plugin-Updater-HTTP-Verbindung
+[Checking new updates...]
+Prüfe auf neue Aktualisierungen...
+[An error occured while checking new updates.]
+Ein Fehler trat bei der Prüfung nach Aktualisierungen auf.

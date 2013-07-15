@@ -5,8 +5,8 @@
 ;  Version: 0.0.0.18
 ;  Authors: Dioksin
 ;============================================================
-[Skype Status Change according to miranda-Status]
-Skype-Status gemäss Miranda-Status ändern
+[Skype Status Change according to miranda-Status.]
+Skype-Status gemäss Miranda-Status ändern.
 ;file \plugins\SkypeStatusChange\res\SkypeStatusChange.rc
 [Synchronize status message]
 Statusnachricht synchronisieren

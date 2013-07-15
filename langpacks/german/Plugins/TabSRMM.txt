@@ -47,31 +47,31 @@ Einstellungen
 [Add new rooms to group:]
 Gruppe für neue Channel:
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
-Unterstützung für Gruppenchats ist deaktiviert. Nachdem es aktiviert wurde, muss Miranda neu gestartet werden!\n\nDas Standard-Chat-Plugin muss deaktiviert werden, anderenfalls funktioniert keinerlei Gruppenchat!
+Unterstützung für Gruppenchats ist deaktiviert. Nachdem sie aktiviert wurde, muss Miranda neu gestartet werden!\n\nDas Standard-Chat-Plugin muss deaktiviert werden, anderenfalls funktioniert keinerlei Gruppenchat!
 [Log files]
-Logdateien
+Verlaufsdateien
 [Enable logging to disk]
-Logdatei aktivieren
+Verlauf auf Festplatte speichern
 [Log directory]
-Verzeichnis für Logdateien
+Verzeichnis für Verlaufsdateien
 [Maximum size for log files (in kB)]
-Maximale Größe der Logdateien (in kB)
+Maximale Größe der Verlaufsdateien (in kB)
 [Group chat log formatting]
 Gruppenchat-Verlaufsformatierung
 [Your name]
-Ihr Nick
+Ihr Name
 [Other name]
-Andere Nicks
+Andere Namen
 [Timestamp (window)]
 Zeitstempel (Fenster)
 [Timestamp (logfile)]
-Zeitstempel (Logdatei)
+Zeitstem. (Verlaufsdatei)
 [Maximum number of events in the message window]
 Maximale Anzahl der Ereignisse im Nachrichtenfenster
 [Groupchat userlist row height (pixels)]
 Zeilenhöhe der Benutzerliste in Gruppenchats (in Pixel):
 [Open log file base folder]
-Öffne Basisverzeichnis der Logdatei
+Basisverzeichnis der Verlaufsdateien öffnen
 [Default settings for known event types]
 Standardeinstellungen für bekannte Ereignis-Typen
 [Show when filter is active]
@@ -160,7 +160,7 @@ An dieser Position öffnen
 [Copy to clipboard]
 In Zwischenablage kopieren
 [Continue]
-
+Wiederholen
 [Exit Miranda]
 Miranda beenden
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
@@ -193,6 +193,8 @@ Zeige Avatar des Kontaktes:
 Erw. Einstellungen
 [Message send timeout]
 Zeitlimit für Versand
+[seconds]
+Sekunden
 [Input history size]
 letzte Nachrichten Eingabefeld
 [entries]
@@ -234,7 +236,7 @@ Benutze das Farbschema des Nachrichtenverlaufs für Gruppenchat-Popups
 [No compatible popup plugin was found. The event notification\nsystem is not available.]
 Kein kompatibles Popup-Plugin wurde gefunden. Das Ereignis-Benachrichtigungssystem ist dadurch nicht verfügbar.
 [Dialog]
-
+Dialog
 [All modes]
 Alle Modi
 [Choose modes]
@@ -482,11 +484,11 @@ Millisekunden
 [Help on containers]
 Hilfe zu Containern
 [Windows Aero settings]
-Windows Aero Einstellungen
+Windows-Aero-Einstellungen
 [Use Aero UI elements(only when not using a custom skin)]
-Aero UI Elemente verwenden (nur wenn kein eigener Skin verwendet wird)
+Aero-UI-Elemente verwenden (nur wenn kein eigener Skin verwendet wird)
 [Use Windows 7 task bar enhancements (restart required)]
-Windows 7 Taskleisten-Funktionen verwenden (Neustart nötig)
+Windows-7-Taskleisten-Funktionen verwenden (Neustart nötig)
 [Popups]
 Popups
 [...is &typing]
@@ -586,7 +588,7 @@ Schließe alle offenen Nachrichtenfenster
 [Theme support]
 Theme-Unterstützung
 [You can export and import all your color and font settings here. This allows you to create a Theme file which can be shared between different profiles or with your buddies.]
-Sie können alle Ihre Farben sowie die Schriftart-Einstellungen exportieren und importieren. Damit können Sie eine Theme-Datei erstellen, die mit mehreren Profilen oder mit Ihren Freunden geteilt werden kann.
+Sie können all Ihre Farben sowie die Schriftart-Einstellungen exportieren und importieren. Damit können Sie eine Theme-Datei erstellen, die mit mehreren Profilen oder mit Ihren Freunden geteilt werden kann.
 [Export to a file...]
 Exportiere in eine Datei ...
 [Import from a file...]
@@ -652,15 +654,13 @@ Nachrichten senden:
 [Window:]
 Fenster:
 [Esc closes sessions (minimizes window, if disabled)]
-ESC schließt Sitzungen, anstatt sie zu minimieren
+Esc schließt Sitzungen, anstatt sie zu minimieren
 [Always pop up and activate new windows]
 Neue Fenster immer öffnen und aktivieren
 [Create new windows in minimized state]
 Neue Fenster minimiert erzeugen
-[Check1]
-
 [Send on Shift+Enter]
-Shift+Enter sendet Nachricht
+Umschalt+Enter sendet Nachricht
 [Send message on Enter]
 'Enter' sendet Nachricht
 [Send message on double Enter]
@@ -705,8 +705,6 @@ Alles ko&pieren
 Verlauf leeren
 [Freeze Log]
 Verlauf einfrieren
-[LogLink]
-
 [Open in &new window]
 In &neuem Fenster öffnen
 [&Open in existing window]
@@ -723,8 +721,6 @@ Alles kopieren
 Alles markieren
 [Show Message Length Indicator]
 Nachrichtenlänge grafisch anzeigen
-[Tabmenu]
-
 [Close Tab]
 Tab schließen
 [Close Other Tabs]
@@ -741,8 +737,6 @@ Zu Container zuordnen...
 Containereinstellungen...
 [Close Container]
 Container schließen
-[Picmenu]
-
 [Show Contact Picture]
 Kontaktbild zeigen
 [Default]
@@ -757,16 +751,12 @@ Kontaktbild-Einstellungen...
 Button-Leiste immer auf voller Breite halten
 [Save this Picture As...]
 Bild speichern unter...
-[Logmenu]
-
 [&Message Log Settings]
 Nachrichtenverlaufseinstellungen
 [&Global...]
 &Global...
 [&For this Contact...]
 &Für diesen Kontakt...
-[Sendmenu]
-
 [Send &Default]
 Stan&dard
 [Send to &multiple Users]
@@ -781,8 +771,6 @@ Später senden
 Unsicher senden (Zeitüberschreitungen ignorieren)
 [Send Nudge]
 Nudge senden
-[Protomenu]
-
 [Splitter Position]
 
 [Global]
@@ -803,8 +791,6 @@ Globale Einstellung
 Niemals senden
 [Unread Menu]
 
-[Traycontext]
-
 [Recent Sessions]
 Zuletzt geöffnet
 [Favorites]
@@ -820,7 +806,7 @@ Alle Nachrichtenfenster verbergen
 [Restore all Message Containers]
 Verborgene Nachrichtenfenster zeigen
 [Don't play Sounds]
-Keine Sounds abspielen
+Keine Klänge abspielen
 [Be "Super Quiet"]
 Alles unterdrücken
 [Font]
@@ -853,13 +839,7 @@ Keine offenen Nachrichtenfenster
 Kontakt zu Favoriten hinzufügen
 [Remove Contact from Favorites]
 Kontakt aus Favoriten entfernen
-[Apparentmenu]
-
 [dummy]
-
-[Panelpicmenu]
-
-[Splitter context]
 
 [Set Position for this Session]
 Position für diese Sitzung speichern
@@ -1058,7 +1038,7 @@ Ben&utzer
 [&Room]
 &Raum
 [Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
-Klänge sind %s. Klick schaltet Status um, Shift-Klick überträgt Status auf alle Container
+Klänge sind %s. Klick schaltet Status um, Umschalt-Klick überträgt Status auf alle Container
 [disabled]
 deaktiviert
 [enabled]
@@ -1100,11 +1080,11 @@ Letzte Nachricht am %s um %s empfangen
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Autoscrolling ist deaktiviert, %d Nachricht(en) in der Warteschlange (F12 drücken um es zu aktivieren)
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
-UID: %s (Shift + Klick -> kopiert in Zwischenablage)\nKlick fur Benutzerdetails\nRechtsklick fur Einstellungen von Metakontakte\nKlick auf das Auswahlfeld, um Benutzer hinzuzufugen oder zu entfernen.
+UID: %s (Umschalt + Klick -> kopiert in Zwischenablage)\nKlick fur Benutzerdetails\nRechtsklick fur Einstellungen von Metakontakte\nKlick auf das Auswahlfeld, um Benutzer hinzuzufugen oder zu entfernen.
 [No UID]
 Keine UID
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
-UID: %s (Shift + Klick -> kopiert in Zwischenablage)\nKlick für Benutzerdetails\nKlick auf das Auswahlfeld, um die Kontakteinstellung des Favoriten zu ändern.
+UID: %s (Umschalt + Klick -> kopiert in Zwischenablage)\nKlick für Benutzerdetails\nKlick auf das Auswahlfeld, um die Kontakteinstellung des Favoriten zu ändern.
 ;file \plugins\TabSRMM\src\globals.cpp
 [Instant messages]
 Sofortnachrichten
@@ -1723,7 +1703,7 @@ Verhalten des Nachrichtenfensters
 [Sending messages]
 Nachrichten senden
 [Send on SHIFT - Enter]
-'Shift+Enter' sendet Nachricht
+'Umschalt+Enter' sendet Nachricht
 [Send message on 'Enter']
 'Enter' sendet Nachricht
 [Send message on double 'Enter']
@@ -1748,14 +1728,10 @@ Markierten Text automatisch kopieren
 Verlaufseinstellungen
 [Support for external plugins]
 Unterstützung für externe Plugins
-[Additional events to show]
-Zusätzliche Ereignisse anzeigen
 [Timestamp settings (note: timstamps also depend on your templates)]
 Zeitstempel-Einstellungen (Hinweis: ist auch von der verwendeten Vorlage abhängig)
 [Message log icons]
 Icons im Nachrichtenverlauf
-[Show file events]
-Datei-Ereignisse anzeigen
 [Show dates in timestamps]
 Datum im Zeitstempel anzeigen
 [Show seconds in timestamps]
@@ -1888,7 +1864,7 @@ Ihr Name ist nun %s
 [%s kicked %s]
 %s kickte %s
 [Notice from %s: ]
-
+Notiz von %s: 
 [The topic is '%s%s']
 Das Thema ist '%s%s'
 [ (set by %s on %s)]
@@ -1910,15 +1886,15 @@ Editiere Benutzer-"Highlight"-Liste
 [Group chat log background]
 
 [Input area background]
-
+Nachrichteneingabefeld Hintergrund
 [Log background]
 Verlaufshintergrund
 [Single Messaging]
 Einzelchats
 [Outgoing background]
-
+Ausgehender Hintergrund
 [Incoming background]
-
+Eingehender Hintergrund
 [Status background]
 
 [Incoming background(old)]
@@ -2046,7 +2022,7 @@ Benutzerliste (abwesend)
 [Nickname]
 Nick
 [UIN]
-
+UIN
 [Protocol]
 Protokoll
 [Contacts local time]
@@ -2311,7 +2287,7 @@ Nick
 [Nick]
 Nick
 [Unique id]
-
+Unique ID
 [%s: Chat Room (%u user%s)]
 %s: Chatraum (%u Benutzer%s)
 [%s: Chat Room (%u users%s)]

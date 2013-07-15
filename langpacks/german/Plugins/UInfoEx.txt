@@ -83,7 +83,7 @@ Assistent(in):
 [Add Phone Number]
 Telefonnummer hinzufügen
 [Enter your phone number\nand don't worry about formating.]
-Geben Sie eine Nummer ein,\n keine Sorge wegen der Formatierung.
+Geben Sie eine Nummer ein,\nkeine Sorge wegen der Formatierung.
 [Enter a category for this number:]
 Geben Sie eine Kategorie für die Nummer an:
 [Enter country, area code and phone number:]
@@ -95,13 +95,13 @@ Telefon kann SMS-Nachrichten empfangen
 [Add E-Mail]
 E-Mail hinzufügen
 [Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
-Geben Sie hier die volle eMail-Adresse ein.\n(z.B.:john.doe@provider.de)
+Geben Sie hier die volle E-Mail-Adresse ein.\n(z.B.:john.doe@provider.de)
 [Enter a representitive name for the e-mail address here.]
 Geben Sie einen Namen für die E-Mail-Adresse ein.
 [Enter the e-mail address here.]
-Geben Sie hier ihre E-Mail-Adresse ein
+Geben Sie hier die E-Mail-Adresse ein
 [Show menu items]
-Menüeintrag zeigen
+Menüeinträge zeigen
 [Remind me]
 Erinnere mich
 [days before.]
@@ -250,18 +250,16 @@ Importieren
 Importiere ...\nBitte warten Sie!
 [Setting/Event (20/100)]
 
-[Progress1]
-Fortschritt1
 [John Doe (1/10)]
 
 [Dialog]
-
+Dialog
 [All]
 Alle
 [None]
 Keine
 [Show Menu Item]
-
+Menueintrag anzeigen
 [MainMenu]
 Hauptmenü
 [Cascade:]
@@ -611,7 +609,7 @@ Achtung: Ihre aktuelle Icon-Paket-Version ist unterschiedlich zu der des UserInf
 Achtung: Kein Iconpack wurde in folgendem Ordner gefunden: 'customize\\Icons', 'Icons' oder 'Plugins'!
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [UserInfoEx]
-
+UserInfoEx
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
 Kontakt ex-/importieren
@@ -1034,7 +1032,7 @@ Internationale Org.
 [Nature and Environment Org.]
 Natur- & Umwelt-Organisationen
 [Professional Org.]
-
+Professionelle Org.
 [Scientific/Technical Org.]
 Wissenschaftliche/Technische Org.
 [Self Improvement Group]
@@ -1064,7 +1062,7 @@ Universität
 [TmplPast Organization]
 
 [Single]
-
+Single
 [Close relationships]
 Feste Beziehung
 [Engaged]
@@ -1108,13 +1106,13 @@ Homepage ansehen
 
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaning]
-
+[b]%s (%S)...[/b]\n%d verbleibende Kontakte
 [Abort Refreshing Contact Details]
 Kontaktinformationen-Aktualisieren abgebrochen
 [Do you want to cancel the current refresh procedure?]
 Möchten Sie die derzeitige Aktualisierung abbrechen?
 [Miranda must be online for refreshing contact information!]
-Miranda NG muss online sein um die Kontaktinformationen erneuern zu können!
+Miranda muss online sein um die Kontaktinformationen erneuern zu können!
 [The function caused an exception!]
 Die Funktion verursachte eine Ausnahme!
 ;file \plugins\UserInfoEx\src\svc_reminder.cpp

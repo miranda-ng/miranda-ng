@@ -76,8 +76,6 @@ Alarm 2
 Alarm 3
 [Speak]
 Sprechen
-[DateTimePicker1]
-
 [Occurrence]
 Ereignis
 [Once]

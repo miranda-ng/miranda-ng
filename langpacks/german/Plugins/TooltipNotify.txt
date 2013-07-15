@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TooltipNotify.dll
 ;  Plugin: Tooltip notify
-;  Version: 0.6.0.47
+;  Version: 0.7.0.1
 ;  Authors: perf
 ;============================================================
 [Shows a small tooltip above system tray area when a contact status is changed.]

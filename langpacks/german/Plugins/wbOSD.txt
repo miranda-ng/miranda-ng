@@ -10,8 +10,6 @@ Zeigt Nachrichten und Statusänderungen direkt auf dem Bildschirm an.
 ;file \plugins\wbOSD\res\wbOSD.rc
 [Dialog]
 Dialog
-[Radio1]
-Radio1
 [Select font]
 Schriftart wählen
 [Text color]

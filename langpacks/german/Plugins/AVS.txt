@@ -105,7 +105,7 @@ Meinen Avatar für %s setzen
 [Global avatar]
 Globaler Avatar
 [Global avatar for %s accounts]
-Globaler Avatar für %s Konten
+Globaler Avatar für %s-Konten
 [Avatars]
 Avatare
 [My Avatars]

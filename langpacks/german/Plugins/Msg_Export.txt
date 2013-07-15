@@ -42,14 +42,12 @@ Dateiname
 Dateibetrachter
 [Exporting old messages]
 Exportiere alte Nachrichten
-[Progress1]
-Fortschritt1
 [History file for %s (%s format %s)]
-
+Verlaufsdatei für %s (%s Format %s)
 [&Find...]
-Suchen
+&Finden...
 [&External]
-
+&Externer
 [&Close]
 S&chließen
 [When filename changes]
@@ -61,13 +59,11 @@ Datei umbenennen
 [Do nothing]
 Nichts tun
 [When user is deleted]
-Wenn User gelöscht wird
+Wenn Benutzer gelöscht wird
 [Delete file]
 Datei löschen
 [Debug]
-
-[UserList]
-
+Debug
 [User &Details]
 Kontaktprofil
 [Export selected]
@@ -115,7 +111,7 @@ Syntaxhöhepunkt
 
 ;file \plugins\Msg_Export\src\Glob.h
 [Miranda NG (Message Export Plugin)]
-
+Miranda NG (Message Export Plugin)
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
 Öffne exportierte History
@@ -125,7 +121,7 @@ Syntaxhöhepunkt
 [No contacts found to export]
 Keine Kontakte zum exportieren gefunden
 [Reading database information (Phase 1 of 2)]
-
+Lese Datenbankinformationen (Phase 1 von 2)
 [Failed to export at least one contact]
 Mindestens ein Kontakt konnte nicht exportiert werden
 [Sorting and writing database information ( Phase 2 of 2 )]
@@ -141,13 +137,13 @@ Datei
 [Nick]
 Nick
 [Proto]
-
+Proto
 [UIN]
-
+UIN
 [You have unapplyed changes do you wish to apply these first ?]
 Es liegen ungespeicherte Änderungen vor. Sollen diese jetzt gespeichert werden?
 [Executable files]
-
+Ausführbare Dateien
 [All files]
 Alle Dateien
 [Failed to get the shells allocator!]

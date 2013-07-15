@@ -1,6 +1,0 @@
-﻿[Resize the avatar to fit max allowed protocol size]
-[Dialog]
-[Transparent]
-[Flash Animations]
-[XML Files]
-[Avatar Service]

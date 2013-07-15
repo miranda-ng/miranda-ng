@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.0
+;  Version: 0.1.1.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -89,16 +89,18 @@ Lokale Zeit für empfangene Nachrichten verwenden
 [Use this server for opening links:]
 Öffne Links auf diesem Server:
 ;file \protocols\FacebookRM\src\communication.cpp
-[Login error: Some Facebook things are required.]
-Login-Fehler: Einige Facebook-Dinge werden benötigt.
-[Your account requires HTTPS connection. Activating.]
-Ihr Account benötigt eine HTTPS-Verbindung. Aktivierung.
-[Login error: Captcha code is required. Bad login credentials?]
-Login-Fehler: Ein Captcha-Code wird benötigt. Falsche Zugangsdaten?
 [Login error: %s]
 Loginfehler: %s
 [Unknown error]
 Unbekannter Fehler
+[Login error: Invalid request.]
+Loginfehler: Ungültige Anfrage
+[Your account requires HTTPS connection. Activating.]
+Ihr Account benötigt eine HTTPS-Verbindung. Aktivierung.
+[Login error: Some Facebook things are required.]
+Login-Fehler: Einige Facebook-Dinge werden benötigt.
+[Login error: Captcha code is required. Bad login credentials?]
+Login-Fehler: Ein Captcha-Code wird benötigt. Falsche Zugangsdaten?
 [Login error, probably bad login credentials.]
 Loginfehler, wahrscheinlich falsche Anmeldeinformationen.
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
@@ -176,8 +178,6 @@ Nachrichten senden ist nicht möglich, wenn Sie offline sind.
 Kontakt ist wieder in Ihrer Server-Liste.
 [Contact is no longer on server-list.]
 Kontakt ist nicht mehr in Ihrer Server-Liste.
-[Attachments:]
-Anhänge:
 ;file \protocols\FacebookRM\src\proto.cpp
 [Show Mind Window]
 Mind-Fenster anzeigen
@@ -220,6 +220,12 @@ Pinnwand
 Anstupsen
 [Newsfeed]
 Newsfeed
+[Friendship details]
+Freundschaft-Details
+[Visit profile]
+Profil besuchen
+[Visit friendship details]
+Freundschaft-Details besuchen
 [Cancel friendship]
 Freundschaft beenden
 [Cancel friendship request]
@@ -228,14 +234,8 @@ Freundschaftsanfrage abbrechen
 Freundschaftsanfrage
 [Approve friendship]
 Freundschaft genehmigen
-[Visit friendship details]
-Freundschaft-Details besuchen
-[Visit profile]
-Profil besuchen
 [Mind...]
 Was machst du gerade?
-[Visit Profile]
-Profil besuchen
 [Services...]
 Dienste...
 [Refresh Buddy List]

@@ -185,7 +185,7 @@ Sichere Verbindung aufgebaut...
 Austausch der Schlüssel fehlgeschlagen.
 [Key from disabled...]
 Schlüssel deaktiviert...
-[Sended back message received...]
+[Sent back message received...]
 Zurückgesendete Nachricht erhalten.
 [Sending back secure message...]
 Sende sichere Nachricht zurück...
@@ -230,11 +230,11 @@ Falschen Schlüssel erhalten...
 [Can't export RSA private key!]
 Kann privaten RSA-Schlüssel nicht exportieren!
 [Can't import RSA private key!]
-
+Kann privaten RSA-Schlüssel nicht importieren!
 [Can't export RSA public key!]
 Kann öffentl. RSA-Schlüssel nicht exportieren!
 [Can't import RSA public key!]
-
+Kann öffentl. RSA-Schlüssel nicht importieren!
 [General]
 Allgemein
 [Nickname]
@@ -365,7 +365,7 @@ Status im Kontaktmenü
 [Always Try]
 Immer versuchen
 [Overlays]
-
+Overlays
 [Native mode]
 Nativer Modus
 [PGP mode]

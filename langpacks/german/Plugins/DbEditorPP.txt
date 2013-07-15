@@ -31,9 +31,9 @@ Abbre&chen
 [Search For]
 Suchen nach
 [Text:]
-
+Text:
 [In:]
-
+In:
 [Replace With]
 Ersetzen durch
 [Entirely]
@@ -154,8 +154,6 @@ Nur &ungeladene anzeigen
 Position wiederhe&rstellen
 [&Open Options]
 Einstellungen öffnen
-[Item context]
-Eintragkontext
 [&Edit / Rename]
 B&earbeiten/Umbenennen
 [NEW]
@@ -188,8 +186,6 @@ String verschlüsseln
 Beobachten
 [&Delete]
 Löschen
-[Null Mod context]
-Null Mod Kontext
 [&Rename]
 Umbenennen
 [Copy To Contact]
@@ -198,8 +194,6 @@ Zu Kontakt kopieren
 Modul exportieren
 [Add To Known Modules]
 Zu bekannten Modulen hinzufügen
-[Contact menu]
-Kontaktmenü
 [&Clone]
 Kopie erstellen
 [Export Contact]
@@ -212,22 +206,14 @@ Von einer Datei
 Vom eingefügten Text
 [&Add Module]
 Modul hinzufügen
-[NULL contact menu]
-NULL-Kontaktmenü
 [Export Settings]
 Einstellungen exportieren
-[Contacts menu]
-Kontaktmenü
 [Export Contacts]
 Kontakte exportieren
 [Import Contacts]
 Kontakte importieren
-[Contact Mod context]
-Kontaktmod Kontext
 [Export Module from all contacts]
 Modul von allen Kontakten exportieren
-[new item]
-Neuer Eintrag
 [Watch Window]
 Beobachtungsliste
 [Reload Watch List]

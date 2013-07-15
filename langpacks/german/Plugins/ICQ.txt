@@ -155,7 +155,7 @@ Popup-Unterstützung aktivieren
 [Display errors using popups]
 Fehler durch Popups anzeigen
 [Display popup when spambot is detected]
-Zeige Popup, wenn Spambot entdeckt wurde
+Popup anzeigen, wenn Spambot entdeckt wurde
 [Look && Feel]
 Aussehen && Verhalten
 [Back Color]
@@ -1247,9 +1247,9 @@ technisch
 [University Student]
 Student (Universitär)
 [Web Building]
-
+Web Building
 [Other Services]
-
+Andere Dienste
 [Alumni Org.]
 Studentenvereinigung
 [Charity Org.]
@@ -1483,7 +1483,7 @@ Spaß haben
 [On the phone]
 Am Telefon
 [Gaming]
-Spielen
+Zocken
 [Studying]
 Lernen
 [Shopping]

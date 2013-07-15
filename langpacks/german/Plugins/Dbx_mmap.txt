@@ -58,13 +58,13 @@ Verschieben/U&mbenennen
 Ver&lassen
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Disk is full. Miranda will now shutdown.]
-
+Festplatte ist voll. Miranda wird nun beendet.
 [Database failure. Miranda will now shutdown.]
-
+Datenbankfehler. Miranda wird nun beendet.
 [Database Error]
-
-[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin.  Please download it from http://miranda-ng.org/. Miranda will now shutdown.]
-Miranda hat Fehler in der Datenbank entdeckt. Diese Fehler könnten mit dem DbChecker Plugin repariert werden. Bitte von http://miranda-ng.org/ herunterladen. Miranda NG wird beendet.
+Datenbankfehler
+[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
+Miranda hat Fehler in der Datenbank entdeckt. Diese Fehler könnten mit dem DbChecker Plugin repariert werden. Bitte von http://miranda-ng.org/p/DbChecker/ herunterladen. Miranda NG wird beendet.
 [Database Panic]
 Datenbankprobleme
 ;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp

@@ -1,4 +1,0 @@
-﻿[Vars]
-[StopSpam automatic message:\r\n]
-[Not In List]
-[nospam]

@@ -1,6 +1,6 @@
 ﻿#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
 ;============================================================
-;  File: TopToolbar.dll
+;  File: TopToolBar.dll
 ;  Plugin: TopToolBar
 ;  Version: 0.8.0.3
 ;  Authors: Bethoven
@@ -9,11 +9,11 @@
 Fügt eine Toolbar der Kontaktliste hinzu.
 ;file \plugins\TopToolBar\res\main.rc
 [Buttons Order && Visibility]
-Button Reihenfolge && Anzeige
+Buttonreihenfolge && Sichtbarkeit
 [Button height]
-Button Höhe
+Buttonhöhe
 [Button width]
-Button Breite
+Buttonbreite
 [Interval between buttons]
 Abstand zwischen Buttons
 [Use flat mode]
@@ -40,7 +40,7 @@ Setzen
 [Default]
 Standard
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org]
-Frames Service wurde nicht gefunden, also wird das Plugin deaktiviert.\nUm es zu benutzen, müssen Sie ein Kontaktlisten-Plugin installieren und/oder aktivieren, das Frames unterstützt.\n - Modern Contact List\n - MultiWindow (MW)\n - Nicer+\mSie bekommen diese unter http://miranda-ng.org
+Frames-Dienst wurde nicht gefunden, also wird das Plugin deaktiviert.\nUm es zu benutzen, müssen Sie ein Kontaktlisten-Plugin installieren und/oder aktivieren, das Frames unterstützt.\n - Modern Contact List\n - MultiWindow (MW)\n - Nicer+\mSie bekommen diese unter http://miranda-ng.org
 [TopToolBar]
 TopToolBar
 ;file \plugins\TopToolBar\src\ttbopt.cpp

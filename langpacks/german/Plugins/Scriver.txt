@@ -32,6 +32,8 @@ Ungesendete Nachrichten merken
 Temporäre Kontakte beim Schließen entfernen
 [Show warning when message has not been received after]
 Warnung anzeigen, wenn Nachricht nicht zugestellt wurde nach
+[seconds]
+Sekunden
 [Tabs]
 Tabs
 [Enable tabs]
@@ -155,11 +157,11 @@ Nachrichtensitzung
 [&U]
 
 [&D]
-
+&D
 [&E]
 
 [&H]
-
+&H
 [&Q]
 
 [Send To All Tabs]
@@ -276,8 +278,6 @@ Yahoo
 Foodnetwork
 [C&lear Log]
 Verlauf &leeren
-[LogLink]
-
 [&Open link]
 Link &öffnen
 [&Copy link]
@@ -371,7 +371,7 @@ Benutzerliste ausblenden
 Benutzerliste einblenden
 [Status 1 (10x10)]
 Status 1 (10x10)
-[Status 2 (10x10]
+[Status 2 (10x10)]
 Status 2 (10x10)
 [Status 3 (10x10)]
 Status 3 (10x10)
@@ -667,7 +667,7 @@ Nachricht von %s
 [Typing Notification]
 Tippbenachrichtigungen
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda NG konnte nicht das eingebaute Nachrichtenmodul laden, riched20.dll fehlt. Falls Sie Windows 95 oder Wine benutzen, stellen Sie sicher das sie die riched20.dll installiert haben. Drücken Sie "Ja" um Miranda NG weiter laden zu können.
+Miranda konnte nicht das eingebaute Nachrichtenmodul laden, riched20.dll fehlt. Falls Sie Windows 95 oder Wine benutzen, stellen Sie sicher das sie die riched20.dll installiert haben. Drücken Sie "Ja" um Miranda NG weiter laden zu können.
 [Instant messages]
 Sofortnachrichten
 [Incoming (Focused Window)]
@@ -804,7 +804,7 @@ Trayicon für Hervorhebungen anzeigen
 Trayicon anzeigen, wenn Benutzer Channel verlässt
 [Show icon in tray for users kicking other user]
 Trayicon anzeigen, wenn Benutzer gekickt wird
-[Show icon in tray for notices ]
+[Show icon in tray for notices]
 Trayicon für Hinweise anzeigen
 [Show icon in tray for name changes]
 Trayicon bei Namensänderung anzeigen
@@ -830,7 +830,7 @@ Popup für Hervorhebungen anzeigen
 Popup anzeigen, wenn Benutzer Channel verlässt
 [Show popup for users kicking other user]
 Popup anzeigen, wenn Benutzer gekickt wird
-[Show popup for notices ]
+[Show popup for notices]
 Popup für Hinweise anzeigen
 [Show popup for name changes]
 Popup für Namensänderungen anzeigen
@@ -958,9 +958,9 @@ Textfarbe
 [Background color]
 Hintergrundfarbe
 [Filter]
-
+Filter
 [Manager]
-
+Manager
 [Nick list]
 Nickliste
 [Insert a smiley]
@@ -984,9 +984,9 @@ Channeleinstellungen (Strg+O)
 [Enable/disable the event filter (CTRL+F)]
 Ereignisfilter aktivieren/deaktivieren (Strg+F)
 [Nick name]
-Nick
+Nickname
 [Unique id]
-
+Unique ID
 [Status]
 Status
 [%s: Chat Room (%u user)]

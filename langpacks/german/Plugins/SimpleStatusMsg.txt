@@ -69,15 +69,15 @@ Aktiviere Statusnachrichtenparsing vom Variables-Plugin
 [Exclude %date% token from parsing (restart required)]
 %date%-Variable nicht parsen (benötigt Neustart)
 [Layout]
-
+Layout
 [Show status list]
-Zeige Statusliste
+Statusliste anzeigen
 [Show status profiles in status list]
-Zeige StartupStatus-Profile in Statusliste
+StartupStatus-Profile in Statusliste anzeigen
 [Show icons in status list]
 Icons in Statusliste anzeigen
 [Buttons:]
-Schaltflächen
+Schaltflächen:
 [Show icons in message list]
 Icons in Nachrichtenliste anzeigen
 [Other]
@@ -91,7 +91,7 @@ Schließe Dialogfenster automatisch nach
 [Remember last dialog window position]
 Letzte Dialogposition merken
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
-Entferne Absätze (CR = '\\r' = #0D) aus Statusnachrichten
+Absätze (CR = '\\r' = #0D) aus Statusnachrichten entfernen
 [Show 'Copy Away Message' item in contact menu]
 Menüpunkt 'Kopiere Statusnachricht' im Kontaktmenü anzeigen
 [Show 'Go to URL in Away Message' item in contact menu]
@@ -118,25 +118,7 @@ Status:
 Unabhängige Einstellung für jedes Protokoll
 [Pop up dialog asking for status message]
 Popup-Dialog zur Nachfrage nach Statusnachricht
-[%time%]
-
-[%date%]
-
-[%winampsong%]
-
-[%rand(x,y)%]
-
-[%randmsg%]
-
-[%randdefmsg%]
-
 [Fortune]
-
-[%fortunemsg%]
-
-[%protofortunemsg%]
-
-[%statusfortunemsg%]
 
 [?cinfo(contact,property)]
 
@@ -196,7 +178,7 @@ S&chließen
 [&Go to URL in %s Message]
 &Gehe zu URL in %s-Nachricht
 [Re&ad Away Message]
-
+Abwesenheitsnachricht lesen
 [Copy Away Message]
 Abwesenheitsnachricht kopieren
 [&Go to URL in Away Message]
@@ -212,13 +194,17 @@ Statusnachricht
 Statusnachricht ...
 [%s (locked)]
 %s (gesperrt)
-[External Applications\tretrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
-
-[Miranda Related\tget the date (Simple Status Message compatible)]
-
+[External Applications]
+Externe Anwendungen
+[retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
+ermittelt den Namen des aktuell in Winamp spielenden Liedes (kompatibel mit Simple Status Message)
+[Miranda Related]
+Miranda-Bezogen
+[get the date (Simple Status Message compatible)]
+Datum abrufen (kompatibel mit Simple Status Message)
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [<startup>]
-
+<Start>
 [<current>]
 <aktueller>
 [Add to Predefined]
@@ -226,15 +212,15 @@ Zu Vordefinierten hinzuf.
 [Delete Selected]
 Markierte löschen
 [OK (%d)]
-
+OK (%d)
 [Global]
 Global
 [Closing in %d]
 In %d schließen
 [Are you sure you want to clear status message history?]
-
+Sind Sie sich sicher, dass Sie den Statusnachrichtenverlauf löschen wollen?
 [Confirm clearing history]
-
+Löschen des Verlaufes bestätigen
 ;file \plugins\SimpleStatusMsg\src\options.cpp
 [Global status change]
 Globale Statusänderung
@@ -243,15 +229,15 @@ Stringformatierungshilfe öffnen
 [Hide]
 Verstecken
 [Show next to cancel button]
-Zeige neben Abbr.-Button
+Neben Abbr.-Button anzeigen
 [Flat, next to cancel button]
 Flach, neben Abbr.-Button
 [Show in message list]
-Zeige in Nachrichtenliste
+In Nachrichtenliste anzeigen
 [Are you sure you want to clear predefined status messages?]
-
+Sind Sie sich sicher, dass Sie die vordefinierten Statusnachrichten löschen wollen?
 [Confirm clearing predefined]
-
+Löschen der vordefinierten Statusnachrichten bestätigen
 [<Last status>]
 <Letzter Status>
 [Status]
@@ -268,7 +254,7 @@ Vordefinierte Nachricht
 [Go to URL in Away Message]
 Gehe zu URL in Statusnachricht
 [Simple Status Message]
-
+Simple Status Message
 [I've been away since %time%.]
 Ich bin nicht da seit %time%.
 [Give it up, I'm not in!]

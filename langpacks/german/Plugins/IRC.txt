@@ -685,7 +685,7 @@ E&inladen in Channel
 [Send &notice]
 &Notice senden
 [&Slap]
-
+&Schlagen
 [Nickserv info]
 Nickserv-Info
 [Nickserv kill ghost]
@@ -713,7 +713,7 @@ O&p entziehen
 [Take V&oice]
 V&oice entziehen
 [&Kick]
-
+&Kick
 [Ki&ck (reason)]
 Ki&ck (Grund)
 [&Ban]

@@ -50,7 +50,7 @@ Link öffnen
 [WATrack: request denied]
 
 [Imitate IEView API]
-IEView API imitieren
+IEView-API imitieren
 [Text formatting options]
 Textformatierungs-Einstellungen
 [Enable raw RTF support]

@@ -47,9 +47,9 @@ Jeden ignorieren, der nicht in der Server-Kontaktliste steht.
 [Ignore only the people below: ]
 Ignoriere nur folgende Nutzer:
 [&Add]
-Hinzufügen
+Hzfg.
 [&Remove]
-Entfe&rnen
+Entf.
 [Set Custom Status]
 Setze benutzerdef. Status
 [Show as busy]
@@ -91,7 +91,7 @@ Hinzufügen
 Avatare
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
-
+[Miranda] Chateinladung in Raum: %s mit Nachricht: %s
 [%s denied invitation with message: %s]
 
 [Me]
@@ -199,7 +199,7 @@ Konferenz erstellen
 Profil zeigen
 ;file \protocols\Yahoo\src\webcam.cpp
 [[miranda] Got webcam invite. (not currently supported)]
-
+[Miranda] Webcameinladung. Diese wird nicht unterstützt.
 ;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 Kalendererinnerung

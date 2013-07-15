@@ -1,5 +1,0 @@
-﻿[Dialog]
-[Not yet supported]
-[Copy from]
-[Raised]
-[Etched]

@@ -6,30 +6,30 @@
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
-
+Erlaubt es Ihnen, Kontakten eine Nachricht zu senden, wenn diese Ihren Status ändern.
 ;file \plugins\BuddyPounce\res\resource.rc
 [Confirm Pounce send]
-
+Senden des Pounce bestätigen
 [Send]
 Senden
 [Cancel]
 Abbrechen
 [Pounce being sent to]
-
+Pounce wird gesendet an
 [Buddy Pounce]
-
+Buddy Pounce
 [OK]
 OK
 [The Message:]
 Die Nachricht:
 [Delete Pounce]
-
+Pounce löschen
 [Load default Settings]
-
+Standardeinstellung laden
 [Setting Value]
 Einstell. Werte
 [Setting text...........]
-
+Setze Text....
 [Settings]
 Einstellungen
 [Contact To Send Pounce To]
@@ -41,30 +41,28 @@ Erweitert >>
 [The Message]
 Die Nachricht
 [Dialog]
-
+Dialog
 [Status]
 Status
-[Check1]
-
 [Use Advanced Dialog]
 Erweiterten Dialog verwenden
 [The Message:       (Characters:  )]
-
+Die Nachricht:    (Zeichen:   )
 [Default Settings]
-
+Standardeinstellung
 [Show Delivery Messages]
-
+Zustellbenachrichtigungen anzeigen
 [These settings are also used when sending a "Simple" pounce]
-
+Diese Einstellungen werden auch für das Senden von "einfachen" Pounces verwendet
 ;file \plugins\BuddyPounce\src\dialog.cpp
 [Send If My Status Is...]
 Senden, wenn mein Status ist...
 [Send If They Change Status to...]
 Senden, wenn sie Ihren Status ändern zu...
 [Reuse Pounce]
-
+Pounce wiederverwenden
 [Give Up delay]
-
+Gebe auf nach
 [Confirmation Window]
 Bestätigungsfenster
 [Send If My Status Is]

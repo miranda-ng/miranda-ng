@@ -70,7 +70,7 @@ Aktiviere 'Vermisst'-Funktion
 Immer benachrichtigen
 ;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
 [Tray/popup icon]
-
+Tray/popup icon
 [Enabled]
 Aktiviert
 [Disabled]
@@ -78,15 +78,15 @@ Deaktiviert
 [Hide]
 Verstecken
 [NeverHide]
-
+NeverHide
 [Hiding %s (%S)]
-
+Verstecke %s (%S)
 [%d days since last message]
-
+%d tage seit der letzten Nachricht
 [Disable Miss You]
-
+"Vermisse Dich" deaktivieren
 [You awaited this contact!]
-
+Sie haben diesen Kontakt erwartet!
 [has gone online for the first time.]
 ist zum ersten Mal online.
 [has returned after a long absence.]
@@ -98,7 +98,7 @@ ist nach einer langen Zeit noch immer nicht zurückgekehrt.
 [has not returned after being absent since %#x]
 ist nicht wiedergekommen nach einer Abwesenheit seit %#x
 [BuddyExpectator]
-
+BuddyExpectator
 [Contact returned]
 Kontakt ist zurückgekommen
 [Contact still absent]
@@ -108,7 +108,7 @@ Kontakt weiterhin vermisst
 [Hide contact event]
 Ereignis eines versteckten Kontaktes
 [Buddy Expectator]
-
+Buddy Expectator
 [Hide contact]
 Verstecke Kontakt
 ;file \plugins\BuddyExpectator\src\options.cpp
@@ -125,7 +125,7 @@ Kontakt löschen
 [Contact name]
 Kontaktname:
 [has returned after being absent since %d days]
-
+ist nach einer Abwesenheit von %d Tagen zurückgekehrt
 [Contacts]
 Kontakte
 [Popups]

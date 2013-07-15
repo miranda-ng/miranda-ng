@@ -1,8 +1,0 @@
-﻿[&A]
-[&D]
-[&H]
-[Received contacts]
-[&Details]
-[Contacts send error]
-[Add to List]
-[Contacts received from]

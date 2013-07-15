@@ -266,8 +266,8 @@ Dez.
 [<never seen>]
 <Noch niemals gesehen>
 [Idle]
-Untätigkeit
+Untätig
 [Unknown]
 Unbekannt
 [Not Idle]
-
+Nicht Untätig

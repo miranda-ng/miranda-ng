@@ -15,11 +15,11 @@ Stardard Webseite:
 [Default file encoding]
 Standard Dateikodierung
 [Auto-detect UTF-8]
-Auto UTF-8 Erkennung
+Auto UTF-8-Erkennung
 [Show confirmation dialog box]
-Zeige Bestätigungsdialog
+Bestätigungsdialog anzeigen
 [Autosend download link to contact]
-Sende Downloadlink automatisch an Kontakt
+Downloadlink automatisch an Kontakt senden
 [Web page settings]
 Webseiten-Einstellungen
 [Web page to configure]
@@ -63,7 +63,7 @@ Passwort
 [Paste It]
 
 [Format]
-
+Format
 [Encoding]
 Codierung
 [Recode]
@@ -102,7 +102,7 @@ Baltisch
 [Vietnamese]
 Vietnamesisch
 [Korean (Johab)]
-Koreanisch, Johab
+Koreanisch (Johab)
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
 Sie haben eine falsche Kodierung gewählt. Bitte wählen Sie aus dem Listenfeld die korrekte oder geben sie eine richtige Nummer ein.
 [Invalid codepage]
@@ -132,7 +132,7 @@ Sie können nur eine Datei einfügen.
 [Cannot get data from clipboard]
 Die Daten konnten nicht aus der Zwischenablage entnommen werden.
 [File size is %dKB, do you realy want to paste such large file?]
-Die Dateigröße %dKB ist sehr groß, wollen Sie so eine Große Datei einfügen?
+Die Dateigröße ist %dKB, wollen Sie wirklich so eine Große Datei einfügen?
 [Are You sure?]
 Sind Sie sicher?
 [Cannot read file '%s']

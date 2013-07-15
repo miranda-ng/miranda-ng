@@ -55,17 +55,17 @@ Sende nicht mehr als
 [messages to one contact per day]
 Nachrichten an einen Kontakt pro Tag
 [times a day]
-Mal pro Tag
+-mal pro Tag
 [Settings]
 Einstellungen
 [Outgoing message]
-Ausgehender Nachricht
+ausgehender Nachricht
 [Incoming message with any word from list:]
-Eingehender Nachricht, die folgende Wörter enthält:
+eingehender Nachricht, die folgende Wörter enthält:
 [Auto approve on:]
-Automatisch Annehmen bei:
+Automatisch annehmen bei:
 [Hide contact until verified]
-Verstecke Kontakte bis zur Verifizierung
+Kontakt bis zur Verifizierung verstecken
 [Add permanently to list on verified]
 Verifizierte Kontakte dauerhaft zur CList hinzufügen
 [Log actions to system history]
@@ -77,7 +77,7 @@ Antwort: (Gespeichert in den Variablen "%response%" bzw. "%response-n%")
 [will be saved in %mathexpr%]
 Wird gespeichert in "%mathexpr%"-Variable
 [Reset to defaults]
-Zurücksetzen auf Standards
+Auf Std. zurücksetzen
 [Reply on success:]
 Antwort bei Erfolg:
 [Send challenge on authorization request:]
@@ -89,9 +89,9 @@ Groß- und Kleinschreibung
 [Send challenge on incoming message:]
 Sende folgende Abfrage bei eingehender Nachricht:
 [and mark them unread after approval]
-und markiere sie als ungelesen nach der Verifizierung
+und markiere sie nach der Verifizierung als ungelesen
 [Enable popup notifications]
-Aktiviere Popup-Benachrichtigung
+Popup-Benachrichtigung aktivieren
 [Contact blocked]
 Kontakt blockiert
 [Contact approved]
@@ -116,7 +116,7 @@ Windowsfarben
 Sicherheitsabfrage gesendet
 ;file \plugins\Spamotron\src\bayes.cpp
 [Bayes database path]
-Bayes Datenbank Pfad
+Bayes-Datenbank-Pfad
 ;file \plugins\Spamotron\src\common.h
 [Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
 Spam-o-tron muss verifizieren, dass Sie kein Bot sind. Bitte antworten Sie mit "%response%" (ohne Anführungszeichen).
@@ -151,6 +151,13 @@ Nachrichten
 Bayes
 [Popups]
 Popups
+;file \plugins\Spamotron\src\popups.cpp
+[Message blocked due to preview action]
+Die Nachricht wurde wegen der Vorschauaktion gesperrt.
+[Message approved due to preview action]
+Die Nachricht wurde wegen der Vorschauaktion genehmigt.
+[Challenge sent to preview contact]
+Eine Aufforderung wurde an einen Vorschaukontakt verschickt.
 ;file \plugins\Spamotron\src\spamotron.cpp
 [Contact %s approved.]
 Kontakt %s wurde verifiziert.

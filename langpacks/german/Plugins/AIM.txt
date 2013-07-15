@@ -85,7 +85,7 @@ Alle Benutzer blockieren
 [Block only users below]
 Nur folgende Benutzer blockieren
 [Add]
-Hinzufügen
+Hzfg.
 [Remove]
 Entfernen
 [Idle]
@@ -295,7 +295,7 @@ AIM-Link-Protokoll
 %s Client-to-Client-Verbindung
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
-
+[Automatische Antwort]:
 [Contact tried to open an audio/video conference (currently not supported)]
 
 [No information has been provided by the server.]
@@ -342,7 +342,7 @@ Ihr Account wurde bereits bestätigt.
 Kann die Verbindungsprozedur nicht starten.
 ;file \protocols\AimOscar\src\theme.cpp
 [ICQ]
-
+ICQ
 [Block]
 Blockieren
 [Profile]

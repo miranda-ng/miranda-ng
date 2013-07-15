@@ -1,0 +1,4 @@
+﻿[IndSndList]
+[connecting]
+[aborting]
+[playing]

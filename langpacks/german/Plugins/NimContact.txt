@@ -35,7 +35,7 @@ Kontakt Tooltip
 [other settings]
 Andere Einstellungen:
 [Link]
-
+Link
 [Program parameters:]
 Programmparameter:
 [O&pen File]
@@ -63,7 +63,7 @@ Kontakt ist immer sichtbar
 [Timer Intervals.  ]
 
 [Dialog]
-
+Dialog
 [Away as another status]
 Abwesend als einen anderen Status
 [Disable timer]
