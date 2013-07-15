@@ -709,7 +709,7 @@ INT_PTR NetlibHttpFreeRequestStruct(WPARAM, LPARAM lParam)
 		return 0;
 	}
 	if (nlhr->headers) {
-		for (int i=0; i<nlhr->headersCount; i++) {
+		for (int i=0; i < nlhr->headersCount; i++) {
 			NETLIBHTTPHEADER &p = nlhr->headers[i];
 			mir_free(p.szName);
 			mir_free(p.szValue);
@@ -879,6 +879,7 @@ INT_PTR NetlibHttpTransaction(WPARAM wParam, LPARAM lParam)
 	}
 	if (NetlibHttpSendRequest((WPARAM)nlc, (LPARAM)&nlhrSend) == SOCKET_ERROR) {
 		if ( !doneUserAgentHeader || !doneAcceptEncoding) mir_free(nlhrSend.headers);
+		nlhr->resultCode = nlhrSend.resultCode;
 		NetlibCloseHandle((WPARAM)nlc, 0);
 		return 0;
 	}
