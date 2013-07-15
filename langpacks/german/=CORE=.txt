@@ -48,7 +48,7 @@ Namensanzeige in der Kontaktliste
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
 Festlegen, welcher Name eines Kontakts in der Kontaktliste angezeigt werden soll:
 [Miranda NG Profile Manager]
-Miranda NG Profilmanager
+Miranda-NG-Profilmanager
 [&Run]
 Ausfüh&ren
 [&Exit]
@@ -98,7 +98,7 @@ Ja
 [No]
 Nein
 [A file containing new database settings has been placed in the Miranda NG directory.]
-Eine Datei mit neuen Profileinstellungen wurde im Miranda NG Verzeichnis gefunden.
+Eine Datei mit neuen Profileinstellungen wurde im Miranda-NG-Verzeichnis gefunden.
 [Do you want to import the settings now?]
 Möchten Sie die Einstellungen jetzt importieren?
 [No to all]
@@ -158,7 +158,7 @@ OutputDebugString()
 [File]
 Datei
 [Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
-Programm ausführen wenn Miranda NG startet (bspw. tail -f, dbgview etc.):
+Programm ausführen, wenn Miranda NG startet (bspw. tail -f, dbgview etc.):
 [Run now]
 Starten
 [Show this dialog box when Miranda NG starts]
@@ -432,7 +432,7 @@ Zusatztexte:
 [This font is used to display various addtional notes.]
 Diese Schriftart wird für Zusatztexte in der Kontaktliste verwendet.
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
-Willkommen in Miranda NG Kontoverwaltung!\nHier können Sie Ihre IM-Konten einrichten.\n\nWählen Sie ein Konto aus der Liste auf der linken Seite aus, um die verfügbaren Einstellungen zu sehen.\nAnsonsten klicken Sie einfach auf das grüne Pluszeichen links unter der Liste, um ein neues IM-Konto einzurichten.
+Willkommen in der Miranda-NG-Kontoverwaltung!\nHier können Sie Ihre IM-Konten einrichten.\n\nWählen Sie ein Konto aus der Liste auf der linken Seite aus, um die verfügbaren Einstellungen zu sehen.\nAnsonsten klicken Sie einfach auf das grüne Pluszeichen links unter der Liste, um ein neues IM-Konto einzurichten.
 [Event icon legend:]
 Zeichenerklärung:
 [Choose events you wish to ingonre:]
@@ -452,7 +452,7 @@ Wählen Sie die Extraicons aus, welche in der Kontaktliste angezeigt werden soll
 [* only the first %d icons will be shown]
 Hinweis: Nur die ersten %d Icons werden angezeigt!
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
-Wählen Sie mehrere Elemente mit gedrückter SHIFT- oder STRG-Taste aus. Drücken Sie anschließend die rechte Maustaste, um die ausgewählten Elemente zu gruppieren.
+Wählen Sie mehrere Elemente mit gedrückter Umschalt- oder Strg-Taste aus. Drücken Sie anschließend die rechte Maustaste, um die ausgewählten Elemente zu gruppieren.
 [Tray]
 Tray
 [&Hide/Show]
@@ -1340,7 +1340,7 @@ Benutzer hat den Channel verlassen
 [User has disconnected]
 Benutzer hat Verbindung getrennt
 [User kicked ...]
-Benutzer kickt ...
+Benutzer gekickt ...
 [User is now known as ...]
 Benutzer ändert Nick
 [Notice from user]
@@ -1420,7 +1420,7 @@ Zeitstempel hat die gleiche Farbe wie das Ereignis
 [Limit user names in the message log to 20 characters]
 Benutzername im Nachrichtenverlauf auf 20 Zeichen beschränken
 [Add ':' to auto-completed user names]
-':' zu automatisch-vervollständigten Nachrichten hinzufügen
+':' zu automatisch vervollständigten Nachrichten hinzufügen
 [Strip colors from messages in the log]
 Farben aus der Verlaufsanzeige entfernen
 [Enable the 'event filter' for new rooms]
@@ -2182,7 +2182,7 @@ Fehler beim Erstellen des Profils
 [&Create]
 Erstellen
 [<In Use>]
-<in Betrieb>
+<verwendet>
 [Are you sure you want to remove profile "%s"?]
 Sind Sie sich sicher, dass Sie das Profil "%s" entfernen möchten?
 [Size]
@@ -2412,6 +2412,14 @@ Um dieses Konto zu loschen, mussen Sie das dazugehorige Plugin deaktivieren
 [&Accounts...]
 Konten
 ;file \src\modules\skin\hotkey_opts.cpp
+[Ctrl + ]
+Strg + 
+[Alt + ]
+Alt + 
+[Shift + ]
+Umschalt+ 
+[Win + ]
+Win + 
 [Remove shortcut]
 Shortcut entfernen
 [Add another shortcut]

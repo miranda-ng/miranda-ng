@@ -6,32 +6,32 @@
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Non-IM Contact allows you to add 'contacts' that can act as shortcuts to other programs, or links to web pages.\r\nThe contacts name can be read from a text file (includes any ASCII file).\r\nThis plugin is a combination of Favorites and Text Reader plugins both made by me)]
-Non-IM Contact erlaubt es Ihnen, 'Kontakte' hinzuzufügen, die als Verknüpfung zu anderen Programmen oder Links zu Webseiten handeln.\r\nDer Kontaktname kann aus einer Textdatei gelesen werden (auch ASCII-Dateien).
+Non-IM Contact erlaubt es Ihnen, 'Kontakte' hinzuzufügen, die als Verknüpfung zu anderen Programmen oder Links zu Webseiten agieren.\r\nDer Kontaktname kann aus einer Textdatei gelesen werden (auch ASCII-Dateien).
 ;file \plugins\Non-IM Contact\res\resource.rc
 [View/Edit Files]
-Daten zeigen/bearbeiten
+Dateien zeigen/bearbeiten
 [Add File]
 Datei hinzufügen
 [Add URL]
 URL hinzufügen
 [Remove Selected File]
-Eintrag löschen
+Ausgewählte Datei löschen
 [file(#)]
-
+Datei(#)
 [URL]
 URL
 [Update URL every]
 URL erneuern alle
 [Intervals]
-
+Intervalle
 [If the protocol timer is disabled web pages wont be updated]
 
 [contact display info]
 
 [Contacts display name]
-Kontakt Anzeigename
+Kontakt-Anzeigename
 [Contacts Tooltip]
-Kontakt Tooltip
+Kontakt-Tooltip
 [other settings]
 Andere Einstellungen:
 [Link]
@@ -49,7 +49,7 @@ Kontaktlisteneinstellungen
 [Group:]
 Gruppe:
 [Status Icon]
-
+Statussymbol
 [Group\\Sub-Group]
 Gruppe\\Sub-Gruppe
 [Timer Settings]
@@ -59,9 +59,9 @@ Timer benutzen
 [Contact is always visible]
 Kontakt ist immer sichtbar
 [Unless Non-IM Contacts protocol is OFFLINE]
-
+Falls Nicht-IM-Kontakte-Protokoll nicht offline ist
 [Timer Intervals.  ]
-
+Zeitintervalle.  
 [Dialog]
 Dialog
 [Away as another status]
@@ -69,11 +69,11 @@ Abwesend als einen anderen Status
 [Disable timer]
 Timer deaktivieren
 [Timer interval (in seconds)]
-Timer Intervall (Sekunden)
+Timerintervall (Sekunden)
 [This will take affect after Non-IM Contacts' status is changed]
 Tritt dann in Kraft, wenn der Kontakt seinen Status ändert
 [Timer Options]
-Timer Optionen
+Timeroptionen
 [String Maker]
 Stringersteller
 [&Test String]
@@ -105,11 +105,11 @@ Hilfe!!!
 [OK]
 OK
 [Copy / Export contact]
-
+Kontakt kopieren/exportieren
 [&Export Non-IM Contact]
-Non-IM Contact exportieren
+Nicht-IM-Kontakt exportieren
 [Co&py Non-IM Contact]
-Non-IM Contact kopieren
+Nicht-IM-Kontakt kopieren
 [Type one replace string per line in the format "origional text,new text"]
 Geben Sie einen String pro Zeile im Format "original text,neuer Text" ein
 [EXAMPLE: %fn1,%fn2]
@@ -118,7 +118,7 @@ BEISPIEL: %fn1,%fn2
 [Select Folder]
 Ordner wählen
 [New Non-IM Contact]
-Neuer Non-IM Kontakt
+Neuer Nicht-IM-Kontakt
 ;file \plugins\Non-IM Contact\src\dialog.cpp
 [String replacing variables....\r\nThe following are all the valid variables that can be used. Refer to the readme for a proper explanation.\r\n\r\n]
 
@@ -166,17 +166,17 @@ Plugins
 [Main Icon]
 Haupticon
 [Non-IM Contact]
-
+Nicht-IM-Kontakt
 [&Non-IM Contact]
-
+&Nicht-IM-Kontakt
 [&Add Non-IM Contact]
-Non-Im Kontakt hinzufügen
+Nicht-IM-Kontakt hinzufügen
 [&View/Edit Files]
 Daten zeigen/bearbeiten
 [&Export all Non-IM Contacts]
-
+Alle Nicht-IM-Kontakte &exportieren
 [&Import Non-IM Contacts]
-
+Nicht-IM-Kontakte &importieren
 [&String Maker]
 Stringersteller
 [E&dit Contact Settings]

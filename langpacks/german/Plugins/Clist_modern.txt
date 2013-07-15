@@ -846,7 +846,7 @@ Text
 [Extra icons]
 Extraicons
 [Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
-
+Avatare animieren (GDI+ und Avatar-Service-Plugin (avs.dll) werden benötigt)
 [Left align group names]
 Gruppennamen links anordnen
 [Center group names]

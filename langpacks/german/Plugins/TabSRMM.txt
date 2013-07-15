@@ -354,7 +354,7 @@ Avatar des Kontaktes anzeigen
 [Show my own avatars]
 Meine eigenen Avatare anzeigen
 [Show avatars on task bar (Win 7, large task bar required)]
-Avatare in Taskleiste anzeigen (Win 7, große Taskleisten-Icons erford.)
+Avatare in Superbar anzeigen (Win 7, große Symbole erford.)
 [Enable sound effects]
 Klangeffekte aktivieren
 [Play sounds when minimized]
@@ -562,7 +562,7 @@ Tab-Anordnung
 [About tabSRMM]
 Über TabSRMM
 [Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
-
+Copyright 2004-2011 beim Miranda-IM-Projekt, 2012-2013 beim Miranda-NG-Projekt. Detaillierte Informationen sind in der enthaltenen README-Datei zu finden.
 [Support and latest version information]
 Support und Informationen zur neusten Version
 [Selected skin]
@@ -1001,7 +1001,7 @@ Titelleiste
 [Window size and theme]
 Fenstergröße und -theme
 [You can select a private theme (.tabsrmm file) for this container which will then override the default message log theme. You will have to close and re-open all message windows after changing this option.]
-Sie können ein anderes Theme (.tabsrmm-Datei) für diesen Container auswählen. Dieses überschreibt das Standard-Theme. Nach dem Ändern des Themes müssen Sie alle Nachrichtenfenster schließen und erneut starten.
+Sie können ein anderes Theme (.tabsrmm-Datei) für diesen Container auswählen. Dies überschreibt das Standardtheme. Anschließend müssen Sie alle Nachrichtenfenster schließen und erneut öffnen.
 [Transparency]
 Transparenz
 [This feature requires Windows 2000 or later and may be unavailable when using a container skin.]
@@ -1238,7 +1238,7 @@ Kontakt dauerhaft zur Kontaktliste hinzufügen
 [Do not add this contact permanently]
 Kontakt nicht zur Kontaktliste hinzufügen
 [Expand or collapse the side bar]
-
+Seitenleiste aus- oder einklappen
 [Character Encoding]
 Zeichenkodierung
 [Contact not on list. You may add it...]
@@ -1293,7 +1293,7 @@ Entweder das Nudge-Plugin ist nicht installiert oder das Kontakt-Protokoll unter
 ['(Unknown Contact)']
 (Unbekannter Kontakt)
 [JPEG-compressed images]
-
+JPEG_komprimierte Grafiken
 ;file \plugins\TabSRMM\src\msglog.cpp
 [Thai]
 Thailändisch
@@ -1373,7 +1373,7 @@ Gestern
 Standardkodierung verwenden
 ;file \plugins\TabSRMM\src\msgoptions.cpp
 [<no skin>]
-Kein Skin
+<kein Skin>
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
 Wollen Sie bereits gelesene Nachrichten-Vorlagen aus dem Theme laden?\nAchtung: Dies wird das gespeicherte Template-Set, das das Aussehen Ihres Meldungsfenster beeinflusst erheblich beeinträchtigen und könnte überschrieben werden.\nWählen Sie Abbrechen, um nichts zu laden.
 [Load theme]
@@ -1403,7 +1403,7 @@ Normal - Schließt Tabs; schließt das Fenster, wenn der letzte Tab geschlossen 
 [Minimize the window to the task bar]
 Minimiert das Fenster in die Taskleiste
 [Close or hide window, depends on the close button setting above]
-Schließe oder verstecke Fenster, abhängig vom obigen Schließverhalten
+Schließe oder verstecke Fenster abhängig vom obigen Schließverhalten
 [Message Sessions]
 Nachrichtensitzungen
 [General]
@@ -1440,9 +1440,9 @@ Hervorhebungen
 Wähle Statusmodi
 ;file \plugins\TabSRMM\src\msgs.cpp
 [The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
-
+Das Bilddiensteplugin (advaimg.dll) ist nicht richtig installiert.\n\nTabSRMM wird deaktiviert.
 [TabSRMM fatal error]
-
+Schwerwiegender TabSRMM-Fehler
 [Image tag]
 Bild Tagschaltfläche
 [Quote text]
@@ -1450,7 +1450,7 @@ Text zitieren
 [Save and close]
 Speichern und schließen
 [Smiley button]
-Smileybutton
+Smileyschaltfläche
 [Format bold]
 Fett
 [Format italic]
@@ -1539,7 +1539,7 @@ Ein "später senden"-Auftrag schlug fehl.\nDie Originalnachricht war: %s
 [<All contacts>]
 <Alle Kontakte>
 [Removed]
-
+Entfernt
 [Failed]
 Fehlgeschlagen
 [Sent OK]
@@ -1590,12 +1590,12 @@ Erweitertes Layout mit Avataren
 Erweitert mit Avataren, vertikale Ausrichtung
 ;file \plugins\TabSRMM\src\srmm.cpp
 [This version of tabSRMM requires Windows 2000 or later.]
-
+Diese Version von TabSRMM erfordert Windows 2000 oder neuer.
 [tabSRMM Message (%s)]
 TabSRMM-Nachricht (%s)
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not availble when using History++ plugin for message log display.]
-
+Vorschau nicht verfügbar, wenn History++ benutzt wird.
 [%d Unread]
 %d Ungelesen
 [Chat room %s]
@@ -1622,7 +1622,7 @@ Kein Effekt
 [Milky Glass]
 Milchglas
 [Carbon]
-
+Carbon
 [Semi transparent, custom colors]
 Halbtransparent, benutzerdefinierte Farben
 [Silver shadow]
@@ -1884,7 +1884,7 @@ Füge Benutzer zur "Highlight"-Liste hinzu
 Editiere Benutzer-"Highlight"-Liste
 ;file \plugins\TabSRMM\src\chat\options.cpp
 [Group chat log background]
-
+Gruppenchat-Verlaufshintergrund
 [Input area background]
 Nachrichteneingabefeld Hintergrund
 [Log background]
@@ -1896,11 +1896,11 @@ Ausgehender Hintergrund
 [Incoming background]
 Eingehender Hintergrund
 [Status background]
-
+Statushintergrund
 [Incoming background(old)]
-
+Eingehender Hintergrund (alt)
 [Outgoing background(old)]
-
+Ausgehender Hintergrund (alt)
 [Horizontal Grid Lines]
 Horizontale Gitterlinien
 [Info Panel]
@@ -1918,7 +1918,7 @@ Toolbar-Hintergrund unten
 [Window fill color]
 Fensterfüllfarbe
 [Text area borders]
-Textgrenzen Bereich
+Textfeldgrenzen
 [Aero glow effect]
 Aero-Glanzeffekt
 [Generic text color (only when fill color is set)]
@@ -2283,11 +2283,11 @@ Editiere "Highlight" Liste ...
 [Nick name]
 Nick
 [Unique Id]
-
+Eindeutige ID
 [Nick]
 Nick
 [Unique id]
-Unique ID
+Eindeutige ID
 [%s: Chat Room (%u user%s)]
 %s: Chatraum (%u Benutzer%s)
 [%s: Chat Room (%u users%s)]

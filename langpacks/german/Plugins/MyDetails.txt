@@ -127,7 +127,7 @@ Status
 [Status Message]
 Statusnachricht
 [Listening To]
-
+Hört gerade
 [My Details]
 Meine Details
 [Background]

@@ -9,7 +9,7 @@
 Verwaltet Medien-Informationen an/von Kontakten.
 ;file \plugins\ListeningTo\res\resource.rc
 [Listening to information]
-Listening to Information
+Hört-gerade-Informationen
 [Enable sending listening information to contacts:]
 Aktiviere das Senden folgender Medientypen:
 [Music]
@@ -41,7 +41,7 @@ Vorlage anderer Kontakte durch eigene Vorlage überschreiben
 [Get info from WATrack plugin]
 Informationen vom WATrack-Plugin beziehen
 [Get info from these players:]
-Informationen folgender Player beziehen:
+Informationen von folgenden Playern beziehen:
 [Winamp (*)]
 Winamp (*)
 [Windows Media Player]
@@ -100,9 +100,9 @@ Wenn nichts spielt, ersetze %listening% durch:
 [Send to %s]
 In %s senden
 [Listening to (enabled)]
-Listening to (aktiviert)
+Hört gerade (aktiviert)
 [Listening to (disabled)]
-Listening to (deaktiviert)
+Hört gerade (deaktiviert)
 [ListeningTo]
 ListeningTo
 [Listening to music]
@@ -114,7 +114,7 @@ In allen Protokollen senden
 [Listening info as set in the options]
 Info wie unter Status=>"Ich höre gerade" : Formate eingestellt
 [Media type: Music, Video, etc]
-Media type: Music, Video, etc
+Medientyp: Musik, Video usw.
 [Artist name]
 Name des Interpreten
 [Album name]
@@ -130,13 +130,13 @@ Lied genre
 [Song length]
 Länge des Liedes
 [Player name]
-Player Name
+Playername
 [Don't send to any protocols]
 In keinem Protokoll senden
 [Toggle send to all protocols]
-In allen Protokollen, umschalten
+In allen Protokollen umschalten
 [Enable/Disable sending Listening To info (to all protocols)]
-Listening-To-Informationen aktivieren/deaktivieren (für alle Protokolle)
+Hört-gerade-Informationen aktivieren/deaktivieren (für alle Protokolle)
 [Disable ListeningTo (to all protocols)]
 ListeningTo deaktivieren (in alle Protokolle)
 [Enable ListeningTo (to all protocols)]

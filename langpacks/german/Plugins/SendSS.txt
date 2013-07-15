@@ -60,58 +60,58 @@ Größe (HxB):
 Zielscheibe
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [GCHAT error]
-
+GCHAT-Fehler
 [An unknown error has occured.]
 Ein unbekannter Fehler ist aufgetreten.
 [Error]
 Fehler
 ;file \plugins\SendScreenshotPlus\src\CSend.h
 [Unable to initiate %s.]
-
+Konnte %s nicht einleiten.
 [MAPI error (%i):\n%s.]
-
+MAPI-Fehler (%i):\n%s.
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
 
 [The specified attachment was not found]
-
+Der angegebene Anhang wurde nicht gefunden
 [The specified attachment could not be opened]
-
+Der angegebene Anhang konnte nicht geöffnet werden
 [The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC]
 
 [One or more unspecified errors occurred]
-
+Ein oder mehrere unbekannte Fehler traten auf
 [There was insufficient memory to proceed]
-
+Es gab nicht genug freien Speicher zum Fortfahren
 [One or more recipients were invalid or did not resolve to any address]
 
 [There was no default logon, and the user failed to log on successfully when the logon dialog box was displayed]
 
 [The text in the message was too large]
-
+Der Text in der Nachricht war zu lang
 [There were too many file attachments]
-
+Es gab zu viele Dateianhänge
 [There were too many recipients]
-
+Es gab zu viele Empfänger
 [A recipient did not appear in the address list]
-
+Ein Empfänger tauchte nicht in der Adressliste auf
 [The user canceled one of the dialog boxes]
-
+Der Benutzer hat einen der Dialoge abgebrochen
 [Unknown Error]
-
+Unbekannter Fehler
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 [FTPFile transfer]
-
+FTPFile-Übertragung
 [%s (%i):\nCould not add a share to the FTP File plugin.]
-
+%s (%i):\nKonnte Freigabe nicht dem FTP-Datei-Plugin hinzufügen.
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [Could not start the HTTP Server plugin.]
 Kann HTTP-Server-Plugin nicht starten.
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
-
+%s (%i):\nKonnte Freigabe nicht dem HTTP-Server-Plugin hinzufügen.
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
 [Upload server did not respond timely.]
-
+Uploadserver hat nicht rechtzeitig geantwortet.
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
 Wiederholen
@@ -132,9 +132,9 @@ Ignorieren
 [SendSS]
 
 [Screenshots]
-
+Screenshots
 [SendSS HTTP connections]
-SendSS-Plugin-HTTPS-Verbindungen
+SendSS-HTTP-Verbindungen
 [Could not create main dialog.]
 Kann Hauptfenster nicht öffnen.
 [Send Screenshot]
@@ -144,7 +144,7 @@ Desktop-Screenshot senden
 [Take a screenshot]
 Screenshot machen
 [Could not register miranda service.]
-Konnte Miranda NG Service nicht initialisieren.
+Konnte Mirandadienst nicht initialisieren.
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
 
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
@@ -191,7 +191,7 @@ Schaltflächen
 
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
-
+Danksagung
 [< Copyright]
 < Copyright
 [Copyright]
@@ -208,23 +208,23 @@ Desktop
 [<entire desktop>]
 Gesamten Desktop
 [Monitor]
-
+Monitor
 [ (primary)]
-
+ (primär)
 [<Only save>]
-Nur speichern
+<Nur speichern>
 [File Transfer]
-Dateitransfer
+Dateiübertragung
 [E-mail]
 E-Mail
 [FTP File]
-FTP Datei
+FTP-Datei
 [ImageShack]
-
+ImageShack
 [Information]
 Information
 [Fill description textbox.]
-Fülle Beschreibungstextbox
+Fülle Beschreibungstextbox.
 [Delete after send]
 Nach dem Senden löschen
 [Capture]
@@ -234,10 +234,10 @@ Konnte kein Screenshot erstellen.
 [Select a target window.]
 Bitte gewünschtes Fenster auswählen.
 [Screenshot ]
-
+Screenshot 
 [for Client area ]
-fur Client-Bereich
+für Client-Bereich
 [of "]
-
+vom "
 [" Window]
-
+"-Fenster
