@@ -285,7 +285,7 @@
 [Rain]
 Дождь
 [Light Drizzle]
-Лёгкая дымка
+Лёгкая морось
 [Light Rain Mist]
 Слабые дожди, дымка
 [Light Snow]
@@ -295,9 +295,9 @@
 [Light Snow Showers]
 Дождь со снегом
 [Light Freezing Drizzle Mist]
-Слабая изморось, дымка
+Слабая морось, дымка
 [Freezing Drizzle]
-Изморось
+Морось
 [Freezing Rain]
 Дождь с образованием гололёда
 [Light Snow Mist]
@@ -341,7 +341,7 @@
 [Light Freezing Drizzle Snow]
 Слабая морось, снег
 [Light Snow Low Drifting Snow]
-Небольшой снег, снежная позёмка
+Небольшой снег, позёмка
 [Low Drifting Snow]
 Снежная позёмка
 [Light Freezing Rain Mist]
@@ -357,15 +357,15 @@
 [Light Snow Light Blowing Snow]
 Слабый снег, метель
 [Light Snow Low Drifting Snow Mist]
-Слабый снег, снежная позёмка, дымка
+Слабый снег, позёмка, дымка
 [Freezing Fog]
 Туман
 [Light Showers Snow Blowing Snow]
 Снег, метель
 [Freezing Drizzle Mist]
-Изморось, дымка
+Морось, дымка
 [Light Freezing Drizzle]
-Слабая изморось
+Слабая морось
 [Freezing Rain Mist]
 Дождь с образованием наледи, дымка
 [Showers Snow Mist]
@@ -375,7 +375,7 @@
 [Light Freezing Rain Light Showers Snow]
 Слабый ледяной дождь, слабый снег
 [Light Freezing Drizzle Light Snow]
-Слабая изморось, слабый снег
+Слабая морось, слабый снег
 [Heavy Fog]
 Густой туман
 [Rain Mist]
@@ -389,7 +389,7 @@
 [Smoke]
 Дым
 [Haze]
-Дымка
+Мгла
 [Light Snow Grains]
 Небольшой снег
 [Light Rain Snow]
@@ -405,7 +405,7 @@
 [Snow 50% Chance Of Precipitation]
 Снег, 50% вероятность осадков
 [Drizzle Fog]
-Дождь, туман
+Морось, туман
 [Local Time]
 Местное время
 [Moonrise]
@@ -419,7 +419,7 @@
 [Light Freezing Rain Light Showers Snow Mist]
 Слабый ледяной дождь, снег, дымка
 [Light Drizzle Fog]
-Слабая изморось, туман
+Слабая морось, туман
 [Snow Rain Mist]
 Снег с дождем, дымка
 [Snow Heavy Blowing Snow]
@@ -427,7 +427,7 @@
 [Low Drifting Snow Mist]
 Слабая метель, дымка
 [Light Freezing Drizzle Light Snow Grains Mist]
-Слабая изморозь, небольшой снег, дымка
+Слабая морось, небольшой снег, дымка
 [Light Ice Pellets Mist]
 Снег с образованием льда, дымка
 [Ice Pellets]
@@ -435,7 +435,7 @@
 [Rain Fog]
 Дождь, туман
 [Showers Snow Low Drifting Snow]
-Сильный снегопад, снежная позёмка
+Сильный снегопад, позёмка
 [Light Freezing Rain Light Snow]
 Слабый ледяной дождь, снег
 [Day Length Diff]

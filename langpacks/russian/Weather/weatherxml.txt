@@ -7,7 +7,7 @@
 [Mostly Sunny]
 Преимущественно солнечно
 [Light Thunderstorm Rain]
-Небольшая гроза с дождём
+Небольшой дождь с грозой
 [Thunderstorm Rain]
 Дождь с грозой
 [N/a]
@@ -19,7 +19,7 @@
 [Fog]
 Туман
 [Mist]
-Туман
+Дымка
 [Light Rain]
 Слабый дождь
 [Light Showers Rain]
@@ -271,11 +271,11 @@
 [Light Rain / Wind]
 Слабый дождь / ветер
 [Light Drizzle]
-Лёгкая дымка
+Лёгкая морось
 [Haze]
-Дымка
+Мгла
 [Smoke]
-Туман
+Дым
 [Rain To Snow]
 Дождь со снегом
 [Rain And Snow]
@@ -299,9 +299,9 @@
 [Cloudy And Windy]
 Облачно и ветер
 [Light Drizzle And Windy]
-Лёгкая дымка и ветер
+Лёгкая морось и ветер
 [Light Drizzle And Fog]
-Лёгкая дымка и туман
+Лёгкая морось и туман
 [Fog And Windy]
 Туман и ветер
 [Light Snow Early]

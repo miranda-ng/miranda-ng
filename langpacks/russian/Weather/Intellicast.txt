@@ -31,7 +31,7 @@
 [Waxing Gibbous]
 Растущая Луна
 [Last Quarter]
-последняя четверть Луны
+Последняя четверть Луны
 [First Quarter]
 Первая четверть Луны
 [Partly Sunny]
