@@ -540,7 +540,6 @@ BEGIN
     CTEXT           "Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.",IDC_COPYRIGHT,5,39,217,47
     CONTROL         "Support and latest version information",IDC_SUPPORT,
                     "Hyperlink",WS_TABSTOP | 0x1,18,91,192,12
-    PUSHBUTTON      "Reset all hidden warnings",IDC_RESETWARNINGS,2,123,145,14
 END
 
 IDD_OPT_SKIN DIALOGEX 0, 0, 303, 224
