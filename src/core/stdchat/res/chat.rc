@@ -219,7 +219,7 @@ BEGIN
     LTEXT           "Timeout (s)",IDC_STATIC,33,138,92,8
     LTEXT           "Text",IDC_STATIC,141,83,49,8
     LTEXT           "Background",IDC_STATIC,201,83,67,8
-    LTEXT           "(The timeout require at least Popup plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)",
+    LTEXT           "(Setting timeout to 0 means default setting and -1 means indefinite time)",
 					IDC_STATIC,33,151,207,17
 END
 
@@ -419,7 +419,7 @@ BEGIN
     MENUITEM "",                            65535
     POPUP "Message"
     BEGIN
-        MENUITEM "Undo  ",                      ID_MESSAGE_UNDO, GRAYED
+        MENUITEM "Undo",                        ID_MESSAGE_UNDO, GRAYED
         MENUITEM "Redo",                        ID_MESSAGE_REDO, GRAYED
         MENUITEM SEPARATOR
         MENUITEM "Copy",                        ID_MESSAGE_COPY, GRAYED

@@ -651,7 +651,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     LISTBOX         IDC_ACCLIST,0,0,162,192,LBS_SORT | LBS_OWNERDRAWVARIABLE | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Account information:",IDC_TXT_ACCOUNT,167,0,201,8
-    LTEXT           "Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the ""New"" button underneath the list to set up a new IM account.",IDC_TXT_INFO,182,13,186,134
+    LTEXT           "Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the ""New"" button underneath the list to set up a new IM account.",IDC_TXT_INFO,182,13,186,134
     CONTROL         "&Add...",IDC_ADD,"MButtonClass",WS_TABSTOP,0,196,16,14,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "&Edit",IDC_EDIT,"MButtonClass",WS_TABSTOP,22,196,16,14,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "&Options",IDC_OPTIONS,"MButtonClass",WS_TABSTOP,38,196,16,14,WS_EX_NOACTIVATE | 0x10000000L
