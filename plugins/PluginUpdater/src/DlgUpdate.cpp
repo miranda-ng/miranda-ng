@@ -97,7 +97,7 @@ LBL_Exit:
 	temp.Title = TranslateT("Plugin Updater");
 	temp.Text = tszBuff;
 	lstrcpyn(tszBuff, TranslateT("Download complete. Start updating? All your data will be saved and Miranda NG will be closed."), SIZEOF(tszBuff));
-	int rc = MessageBox(NULL, temp.Text, temp.Title, MB_YESNO | MB_ICONQUESTION);
+	int rc = MessageBox(hDlg, temp.Text, temp.Title, MB_YESNO | MB_ICONQUESTION);
 	if (rc != IDYES) {
 		mir_sntprintf(tszBuff, SIZEOF(tszBuff), TranslateT("You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s"), tszFileTemp);
 		ShowPopup(0, LPGENT("Plugin Updater"), tszBuff, 2, 0);
