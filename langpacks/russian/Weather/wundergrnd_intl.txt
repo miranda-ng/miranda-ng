@@ -9,7 +9,7 @@
 [Light Thunderstorm]
 Небольшая гроза
 [Light Drizzle Mist]
-Легкая морось, дымка
+Лёгкая морось, дымка
 [Light Showers Rain Mist]
 Слабые дожди, дымка
 [Mostly Sunny]
@@ -35,7 +35,7 @@
 [Light Showers Rain]
 Слабые дожди
 [Light Showers Snow]
-Легкий снегопад
+Лёгкий снегопад
 [Showers Rain]
 Ливневые дожди
 [Shallow Fog]
@@ -339,7 +339,7 @@
 [Ice Crystals Mist]
 Иней, дымка
 [Light Freezing Drizzle Snow]
-Слабая морось, снег
+Изморось, слабый снег
 [Light Snow Low Drifting Snow]
 Небольшой снег, позёмка
 [Low Drifting Snow]
@@ -421,13 +421,13 @@
 [Light Drizzle Fog]
 Слабая морось, туман
 [Snow Rain Mist]
-Снег с дождем, дымка
+Снег с дождём, дымка
 [Snow Heavy Blowing Snow]
 Сильный снег, метель
 [Low Drifting Snow Mist]
 Слабая метель, дымка
 [Light Freezing Drizzle Light Snow Grains Mist]
-Слабая изморозь, небольшой снег, дымка
+Слабая измороcь, небольшой снег, дымка
 [Light Ice Pellets Mist]
 Снег с образованием льда, дымка
 [Ice Pellets]
