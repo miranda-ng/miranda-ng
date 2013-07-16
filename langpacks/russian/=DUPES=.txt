@@ -2217,7 +2217,7 @@ ID пользователя:
 Открыть в &новом окне
 [&Open in current browser window]
 &Открыть в текущем окне
-[Undo  ]
+[Undo]
 Откат 
 [Redo]
 Вернуть

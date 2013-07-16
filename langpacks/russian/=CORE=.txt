@@ -335,8 +335,10 @@ ANSI плагин
 Очистить журнал
 [Calling modules' names]
 Имена вызывающих модулей
-[Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
-Не найден плагин списка контактов! Вам нужен clist_*.dll плагин.
+[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
+Не найден плагин списка контактов! Вам нужен StdClist или clist_*.dll плагин.
+[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
+Не найден плагин окна диалога. Пожалуйста установите/задействуйте один из подобных плагиноа, например  "StdMsg.dll"
 [Cancel Change]
 Откатить изменения
 [Cancel Import]
@@ -2111,7 +2113,7 @@ Miranda пытается обновить вашу структуру хране
 Ваша учётная запись успешно обновлена. Для её активации необходимо перезапустить Miranda\n\n\Для перезапуска нажмите "Да", если хотите обновить другую учётную запись, нажмите "Нет"
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change it's preferences.]
 Эта учётная запись использует старый протокол. Смена личных данных пользователя производится через основные настройки.
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the ""New"" button underneath the list to set up a new IM account.]
 Добро пожаловать в менеджер учётных записей Miranda NG!\nЗдесь вы можете настроить свои учётные записи.\nСлева в списке можно выбрать учётную запись, или кликнуть на кнопку "Новая учётная запись" снизу для настройки новой учётной записи.
 [Welcome to Miranda NG's account manager!\n Here you can set up your IM accounts.\n\n Select an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
 Добро пожаловать в менеджер учётных записей Miranda NG!\nЗдесь вы можете настроить свои учётные записи.\n\nСлева в списке можно выбрать учётную запись, или кликнуть на значок плюса снизу для добавления новой учётной записи.
@@ -2252,8 +2254,8 @@ Miranda не может загрузить плагин Chat, потому чт�
 Закрыть остальные вкладки
 [User list members (Away)]
 Пользователи (отсутствуют)
-[(The timeout require at least Popup plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
-(Необходим Popup плагин версии 1.0.1.9 и выше.\nУстановка в 0 = значение по умолчанию, -1 = бесконечно)
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(Установка таймаута в 0 = значение по умолчанию, -1 = бесконечно)
 ;;;
 [User list members]
 Пользователи
