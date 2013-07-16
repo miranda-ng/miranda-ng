@@ -1146,8 +1146,11 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		break;
 
 	case WM_LBUTTONDBLCLK:
-		GetCursorPos(&pt);
-		SendMessage(GetParent(hwnd), DM_CLOSETABATMOUSE, 0, (LPARAM)&pt);
+		if (!(tabdat->pContainer->settings->dwFlagsEx & TCF_CLOSEBUTTON))
+		{
+			GetCursorPos(&pt);
+			SendMessage(GetParent(hwnd), DM_CLOSETABATMOUSE, 0, (LPARAM)&pt);
+		}
 		break;
 
 	case WM_RBUTTONDOWN:
