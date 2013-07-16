@@ -6,7 +6,7 @@
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
-Wsparcie dla protokołu Facebook.
+Zapewnia obsługę protokołu Facebook w Mirandzie NG.
 ;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
 E-mail:
@@ -79,7 +79,7 @@ Również dla kanału pytań o znajomość
 [Also disconnect chat when going to offline]
 Rozłączaj również 'Czat' przechodząc w status rozłączony
 [Map non-standard statuses to Invisible (instead of Online)]
-Niestandardowy status jako Niewidoczny (zamiast Połączonego)
+Niestandardowy status jako Niewidoczny (zamiast Dostępnego)
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
 Wsparcie dla niestandardowych emotikon (EKSPERYMENTALNY)
 [Use local time for received messages]

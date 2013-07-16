@@ -16,3 +16,8 @@
 [Invalid ID format, missing "/" (10)]
 [mb]
 [mm]
+[Author]
+[File Version]
+[INI Version]
+[Display Name]
+[File Name]

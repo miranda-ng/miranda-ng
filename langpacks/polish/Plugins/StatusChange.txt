@@ -9,9 +9,9 @@
 
 ;file \plugins\StatusChange\res\resource.rc
 [Offline]
-Rozłaczony
+Rozłączony
 [Online]
-Połączony
+Dostępny
 [Away]
 Zaraz wracam
 [NA]
@@ -37,7 +37,7 @@ Wyślij
 [Message]
 Wiadomość
 [URL]
-
+URL
 [File transfer]
 Transfer pliku
 [...change status to...]

@@ -147,7 +147,7 @@ Błąd wysyłania
 [An error has occured. The protocol reported the following error:]
 Wystąpił błąd. Protokół zwrócił następujący błąd:
 [while sending the following message:]
-
+podczas wysyłania wiadomości:
 [Try again]
 Spróboj ponownie
 [Cancel]
@@ -155,13 +155,13 @@ Anuluj
 [Message Session]
 Sesja rozmowy
 [&U]
-
+&U
 [&D]
-
+&D
 [&E]
 
 [&H]
-
+&H
 [&Q]
 
 [Send To All Tabs]
@@ -630,9 +630,9 @@ Linie listy członków
 [User list background (selected)]
 Kolor listy członków (zaznaczony)
 [Offline]
-Rozłaczony
+Rozłączony
 [Online]
-Połączony
+Dostępny
 [Away]
 Zaraz wracam
 [NA]
@@ -711,7 +711,7 @@ Jesteś teraz znany jako %s
 [Notice from %s]
 Powiadomienie od %s
 [The topic is '%s%s']
-
+Temat to '%s%s'
 [ (set by %s on %s)]
  (wybrany przez %s na %s)
 [ (set by %s)]
@@ -804,8 +804,8 @@ Pokaż ikony w zasobniku dla podświetleń
 Pokaż ikony w zasobniku dla wychodzących użytkowników
 [Show icon in tray for users kicking other user]
 Pokaż ikony w zasobniku dla wyrzucanych użytkowników
-[Show icon in tray for notices ]
-Pokaż ikony w zasobniku dla powiadomień
+[Show icon in tray for notices]
+
 [Show icon in tray for name changes]
 Pokaż ikony w zasobniku dla zmian nazwy
 [Show icon in tray for information messages]
@@ -830,8 +830,8 @@ Pokaż popup podświetleń
 Pokaż popup wychodzących użytkowników
 [Show popup for users kicking other user]
 Pokaż popup wykopanych użytkowników
-[Show popup for notices ]
-Pokaż popup powiadomień
+[Show popup for notices]
+
 [Show popup for name changes]
 Pokaż popup zmian nicków
 [Show popup for information messages]

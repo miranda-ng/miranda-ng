@@ -6,7 +6,7 @@
 ;  Authors: bems
 ;============================================================
 [GTalk extensions for Jabber protocol]
-
+Rozszerzenie protokołu Jabber o sprawdzanie powiadomień GTalk.
 ;file \protocols\GTalkExt\res\settings.rc
 [Popup notifications (needs popup plugin)]
 Powiadomienia popup (wymagana wtyczka PopUp)
@@ -15,7 +15,7 @@ Powiadamiaj w trybie pełnoekranowym
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
 Użyj tej opcji jeśli twoja wtyczka Popupów niepoprawnie wykrywa tryb pełnego ekranu. To przejmie focus klawiszy.
 [Add message snip to notification]
-Dodaj przyciętą wiaodmość do powiadomienia
+Dodaj przyciętą wiadmość do powiadomienia
 [Try to login before open mailbox]
 Spróbuj się zalogować przed otwarciem skrzynki pocztowej
 [This works only if password is saved in the database. Has no effect on links in pseudocontact message log]

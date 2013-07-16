@@ -352,7 +352,7 @@ Bezczynność
 [IP]
 
 [IP:]
-
+IP:
 [IP internal]
 IP Wewnętrzne
 [IP internal:]

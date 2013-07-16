@@ -6,7 +6,7 @@
 ;  Authors: tico-tico
 ;============================================================
 [un4seen's BASS interface Miranda NG plugin.]
-Wtyczka interfejsu un4seen's bass dla Mirandy NG.
+Wtyczka interfejsu Un4seen's BASS dla Mirandy NG.
 ;file \plugins\BASS_interface\res\Bass.rc
 [un4seen's bass interface]
 Interfejs un4seen's bass
@@ -27,9 +27,9 @@ Pobierz biblioteki BASS
 [Play only if]
 Graj tylko gdy:
 [Offline]
-Rozłaczony
+Rozłączony
 [Online]
-Połączony
+Dostępny
 [Away]
 Zaraz wracam
 [NA]
@@ -65,7 +65,7 @@ Włącz dźwięki
 [Frame Background]
 Tło ramki
 [Bass library]
-
+Biblioteka BASS
 [Sounds enabled]
 Dźwięki włączone
 [Sounds disabled]

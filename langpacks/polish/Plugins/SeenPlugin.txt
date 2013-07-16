@@ -43,7 +43,7 @@ Tekst
 [Popup Colors]
 Kolory
 [Online]
-Połączony
+Dostępny
 [Away]
 Zaraz wracam
 [NA]
@@ -61,7 +61,7 @@ Porozmawiajmy
 [Invisible]
 Niewidoczny
 [Offline]
-Rozłaczony
+Rozłączony
 [Reset colors]
 Domyślne
 [Last seen plugin]
@@ -91,7 +91,7 @@ Ostatnio widziany
 [User status change]
 Zmiana statusu użytkownika
 [Changed to Online]
-Zmiana na Połączony
+Zmiana na Dostępny
 [User Logged Off]
 Użytkownik wylogowany
 [User Logged In]

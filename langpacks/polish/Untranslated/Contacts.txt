@@ -1,4 +1,1 @@
-﻿[&A]
-[&D]
-[&H]
-[Contacts received from]
+﻿[Contacts received from]

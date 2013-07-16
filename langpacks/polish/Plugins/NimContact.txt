@@ -19,7 +19,7 @@ Usuń zaznaczone pliki
 [file(#)]
 
 [URL]
-
+URL
 [Update URL every]
 
 [Intervals]

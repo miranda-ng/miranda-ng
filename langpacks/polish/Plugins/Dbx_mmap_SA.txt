@@ -41,7 +41,7 @@ Nie dla wszystkich
 [&View contents]
 Zawartość 
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
-
+System bezpieczeństwa zapobiegający szkodliwym zmianom jest aktywny i będzie ostrzegał przed zmianami, które nie są bezpieczne.
 [Database Setting Change]
 Zmień ustawienia profilu
 [Database settings are being imported from]

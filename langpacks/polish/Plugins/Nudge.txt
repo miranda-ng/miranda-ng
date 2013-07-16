@@ -49,9 +49,9 @@ Tekst
 [Allow nudges when you're:]
 Zezwól gdy:
 [Offline]
-Rozłaczony
+Rozłączony
 [Online]
-Połączony
+Dostępny
 [Away]
 Zaraz wracam
 [NA]

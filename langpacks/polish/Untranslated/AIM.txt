@@ -1,5 +1,4 @@
-﻿[AOL Instant Messenger (AIM) protocol support for Miranda NG.]
-[Server rate limit exceeded.]
+﻿[Server rate limit exceeded.]
 [Client rate limit exceeded]
 [You've got mail! Checked at]
 [ICQ]

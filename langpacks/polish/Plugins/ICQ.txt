@@ -139,7 +139,7 @@ Chcę zostać spytany, gdy ktoś próbuje dodać mnie do swojej listy kontaktów
 [Misc Settings]
 Pozostałe ustawienia
 [Allow others to view my Online / Offline status from the web (Web Aware)]
-Pozwól innym zobaczyć mój status Połączony/Rozłączony w sieci (Web Aware)
+Pozwól innym zobaczyć mój status Dostępny/Rozłączony w sieci (Web Aware)
 [Allow others to view my primary e-mail address]
 Umożliwiaj innym wyświetlenie mojego adresu e-mail
 [Only reply to status message requests from users on my contact list]
@@ -407,27 +407,27 @@ Awatary
 [Afghanistan]
 Afganistan
 [Albania]
-
+Albania
 [Algeria]
-
+Algieria
 [Andorra]
 Andora
 [Angola]
-
+Angola
 [Anguilla]
-
+Anguilla
 [Antigua and Barbuda]
 Antigua i Barbuda
 [Argentina]
 Argentyna
 [Armenia]
-
+Armenia
 [Aruba]
-
+Aruba
 [Ascension Island]
 Wyspa Wniebowstąpienia
 [Australia]
-
+Australia
 [Australia, Antarctic Territory]
 Australia, Terytorium Antarktydy
 [Australia, Christmas Island]
@@ -437,7 +437,7 @@ Australia, Wyspy Kokosowe (Keelinga)
 [Australia, Norfolk Island]
 Australia, Wyspa Norfolk
 [Austria]
-
+Austria
 [Azerbaijan]
 Azerbejdżan
 [Bahamas]
@@ -447,25 +447,25 @@ Bahrajn
 [Bangladesh]
 Bangladesz
 [Barbados]
-
+Barbados
 [Belarus]
-
+Białoruś
 [Belgium]
 Belgia
 [Belize]
-
+Belize
 [Benin]
-
+Benin
 [Bermuda]
-
+Bermudy
 [Bhutan]
-
+Bhutan
 [Bolivia]
 Boliwia
 [Bosnia and Herzegovina]
 Bośnia i Hercegowina
 [Botswana]
-
+Botswana
 [Brazil]
 Brazylia
 [British Virgin Islands]
@@ -475,11 +475,11 @@ Brazylia
 [Bulgaria]
 Bułgaria
 [Burkina Faso]
-
+Burkina Faso
 [Burundi]
-
+Burundi
 [Cambodia]
-
+Kambodża
 [Cameroon]
 Kamerun
 [Canada]
@@ -541,7 +541,7 @@ Gwinea Równikowa
 [Eritrea]
 Erytrea
 [Estonia]
-
+Estonia
 [Ethiopia]
 Etiopia
 [Europe]
@@ -563,23 +563,23 @@ Gujana Francuska
 [French Polynesia]
 Polinezja Francuska
 [Gabon]
-
+Gabon
 [Gambia]
-
+Gambia
 [Georgia]
 Gruzja
 [Germany]
 Niemcy
 [Ghana]
-
+Ghana
 [Gibraltar]
-
+Gibraltar
 [Greece]
 Grecja
 [Greenland]
 Granlandia
 [Grenada]
-
+Grenada
 [Guadeloupe]
 Gwadelupa
 [Guam, US Territory of]
@@ -593,11 +593,11 @@ Gwinea-Bissau
 [Guyana]
 Gujana
 [Haiti]
-
+Haiti
 [Honduras]
-
+Honduras
 [Hong Kong]
-
+Hong Kong
 [Hungary]
 Węgry
 [Iceland]
@@ -621,13 +621,13 @@ Jamajka
 [Japan]
 Japonia
 [Jordan]
-
+Jordania
 [Kazakhstan]
-
+Kazachstan
 [Kenya]
 Kenia
 [Kiribati]
-
+Kiribati
 [Korea, North]
 Korea Północna
 [Korea, South]
@@ -643,7 +643,7 @@ Kirgistan
 [Lebanon]
 Libia
 [Lesotho]
-
+Lesotho
 [Liberia]
 Liberia
 [Libyan Arab Jamahiriya]
@@ -661,15 +661,15 @@ Macedonia
 [Madagascar]
 Madagaskar
 [Malawi]
-
+Malawi
 [Malaysia]
 Malezja
 [Maldives]
 Malediwy
 [Mali]
-
+Mali
 [Malta]
-
+Malta
 [Marshall Islands]
 Wyspy Marshalla
 [Martinique]
@@ -677,7 +677,7 @@ Martynika
 [Mauritania]
 Mauretania
 [Mauritius]
-
+Mauritius
 [Mayotte Island]
 
 [Mexico]
@@ -689,9 +689,9 @@ Mołdawia
 [Monaco]
 Monako
 [Mongolia]
-
+Mongolia
 [Montserrat]
-
+Montserrat
 [Morocco]
 Maroko
 [Mozambique]
@@ -699,11 +699,11 @@ Mozambik
 [Myanmar]
 Birma
 [Namibia]
-
+Namibia
 [Nauru]
-
+Nauru
 [Nepal]
-
+Nepal
 [Netherlands]
 Holandia
 [Netherlands Antilles]
@@ -711,7 +711,7 @@ Antyle Holenderskie
 [St. Maarten]
 Sint Maarten
 [Curacao]
-
+Curaçao
 [Netherlands (Bonaire Island)]
 Holandia (Wyspa Bonaire)
 [Netherlands (Saba Island)]
@@ -725,29 +725,29 @@ Nowa Zelandia
 [Nicaragua]
 Nikaragua
 [Niger]
-
+Niger
 [Nigeria]
-
+Nigeria
 [Niue]
-
+Niue
 [Northern Mariana Islands, US Territory of]
 Mariany Północne, Terytorium US
 [Norway]
 Norwegia
 [Oman]
-
+Oman
 [Pakistan]
-
+Pakistan
 [Palau]
-
+Palau
 [Panama]
-
+Panama
 [Papua New Guinea]
 Papua - Nowa Gwinea
 [Paraguay]
 Paragwaj
 [Peru]
-
+Peru
 [Philippines]
 Filipiny
 [Poland]
@@ -755,7 +755,7 @@ Polska
 [Portugal]
 Portugalia
 [Puerto Rico]
-
+Portoryko
 [Qatar]
 Katar
 [Reunion Island]
@@ -765,7 +765,7 @@ Rumunia
 [Russia]
 Rosja
 [Rwanda]
-
+Rwanda
 [Samoa (USA)]
 
 [Samoa, Western]
@@ -775,13 +775,13 @@ Wyspa Świętej Heleny
 [Saint Kitts and Nevis]
 Saint Kitts i Nevis
 [Saint Lucia]
-
+Saint Lucia
 [Saint Pierre and Miquelon]
 Saint-Pierre i Miquelon
 [Saint Vincent and the Grenadines]
 Saint Vincent i Grenadyn
 [San Marino]
-
+San Marino
 [Sao Tome and Principe]
 Wyspy Świętego Tomasza i Książęca
 [Saudi Arabia]
@@ -789,11 +789,11 @@ Arabia Saudyjska
 [Scotland]
 Szkocja
 [Senegal]
-
+Senegal
 [Seychelles]
 Seszele
 [Sierra Leone]
-
+Sierra Leone
 [Singapore]
 Singapur
 [Slovakia]
@@ -803,7 +803,7 @@ Słowenia
 [Solomon Islands]
 Wyspy Salomona
 [Somalia]
-
+Somalia
 [South Africa]
 Republika Południowej Afryki
 [Spain]
@@ -811,9 +811,9 @@ Hiszpania
 [Spain, Canary Islands]
 Hiszpania, Wyspy Kanaryjskie
 [Sri Lanka]
-
+Sri Lanka
 [Sudan]
-
+Sudan
 [Suriname]
 Surinam
 [Swaziland]
@@ -837,9 +837,9 @@ Timor Wschodni
 [Togo]
 Republika Togijska
 [Tokelau]
-
+Tokelau
 [Tonga]
-
+Tonga
 [Trinidad and Tobago]
 Trynidad i Tobago
 [Tunisia]
@@ -853,9 +853,9 @@ Turkmenia
 [Turks and Caicos Islands]
 Wyspy Turks i Caicos
 [Tuvalu]
-
+Tuvalu
 [Uganda]
-
+Uganda
 [Ukraine]
 Ukraina
 [United Arab Emirates]
@@ -867,9 +867,9 @@ Urugwaj
 [USA]
 
 [Uzbekistan]
-
+Uzbekistan
 [Vanuatu]
-
+Vanuatu
 [Vatican City]
 Watykan
 [Venezuela]
@@ -895,9 +895,9 @@ Kosowo
 [Montenegro, Republic of]
 Czarnogóra
 [Zambia]
-
+Zambia
 [Zimbabwe]
-
+Zimbabwe
 [50's]
 
 [60's]

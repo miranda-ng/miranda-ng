@@ -1,5 +1,4 @@
-﻿[GTalk extensions for Jabber protocol]
-[Test]
+﻿[Test]
 [* Primitive type system\n]
 [* No overloading\n]
 [* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n]

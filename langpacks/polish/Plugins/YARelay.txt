@@ -17,9 +17,9 @@ Kontakt
 [Forward when your status is...]
 
 [Offline]
-Rozłaczony
+Rozłączony
 [Online]
-Połączony
+Dostępny
 [Away]
 Zaraz wracam
 [NA]

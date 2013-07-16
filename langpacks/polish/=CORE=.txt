@@ -432,7 +432,7 @@ Pozostałe informacje:
 [This font is used to display various addtional notes.]
 Ta czcionka jest używana do wyświetlania różnych dodatkowych informacji.
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
-Witaj w menedżerze kont Mirandy NG!\nMożesz tu skonfigurować swoje konta IM.\n\nWybierz konto z listy po lewej żeby zobaczyć dostępne opcje. Możesz także dodać nowe konto klikając na "+" pod listą.
+
 [Event icon legend:]
 Znaczenia ikon zdarzeń:
 [Choose events you wish to ingonre:]
@@ -626,7 +626,7 @@ Opóźnienie (s)
 Tekst
 [Background]
 Tło
-[(The timeout require at least Popup plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
 0 = Domyślne, -1 = Nie chowaj
 [List]
 Lista
@@ -762,7 +762,7 @@ Aktywne okno:
 [Items]
 Obiekty
 [Show divider between online and offline contacts]
-Pokaż separator między połączonymi a rozłączonymi
+Pokaż separator między dostępnymi a rozłączonymi
 [Hot track items as mouse passes over]
 Podświetl obiekty pod kursorem
 [Disable drag and drop of items]
@@ -784,7 +784,7 @@ Rysuj linię wzdłuż nazw grupy
 [Show counts of number of contacts in a group]
 Pokaż liczbę kontaktów w grupach
 [Hide group counts when there are none online]
-Ukryj liczbę kontaktów, jeśli nikt nie jest połączony
+Ukryj liczbę kontaktów, jeśli nikt nie jest dostępny
 [Sort groups alphabetically]
 Sortuj grupy alfabetycznie
 [Quicksearch in open groups only]
@@ -857,7 +857,7 @@ Pokaż wskaznik rozmiaru uchwytu
 
 [Contact list:]
 Lista kontaktów:
-[If window is partially covered, bring iy to front]
+[If window is partially covered, bring it to front]
 
 [Window:]
 Okno:
@@ -868,7 +868,7 @@ Tło listy kontaktów:
 [&Offline\tCtrl+0]
 Rozłączony\tCtrl+0
 [On&line\tCtrl+1]
-Połączony\tCtrl+1
+Dostępny\tCtrl+1
 [&Away\tCtrl+2]
 Zaraz wracam\tCtrl+2
 [&NA\tCtrl+3]
@@ -1031,7 +1031,7 @@ przez
 [Change my status mode to:]
 Zmień mój status na:
 [Do not set status back to online when returning from idle]
-Nie zmieniaj mojego statusu na "Połączony" gdy wracam z bezczynności
+Nie zmieniaj mojego statusu na "Dostępny" gdy wracam z bezczynności
 [Idle Options]
 Opcje bezczynności
 [Become idle if application full screen]
@@ -1077,8 +1077,8 @@ Pozwalaj używać control góra/dół w oknie rozmowy by przewijać wysłane wia
 Usuń tymczasowe kontakty po zamknięciu okna rozmowy
 [Enable avatar support in the message window]
 Włącz awatary w oknie rozmowy
-[Limit avatar height to ]
-Ogranicz wysokość awataru do 
+[Limit avatar height to]
+
 [Max Number of Flashes]
 Maksymalna liczba mignięć
 [Send Error]
@@ -1364,7 +1364,7 @@ Podświetlona wiadomość
 [Message typing area]
 Obszar pisania wiadomości
 [User list members (Online)]
-Członkowie listy użytkowników (Połączeni)
+Członkowie listy użytkowników (Dostępni)
 [User list members (away)]
 Członkowie listy użytkowników (Zaraz wracam)
 [Use a tabbed interface]
@@ -1463,8 +1463,8 @@ Pokaż ikony podświetleń
 Pokaż ikony wychodzących użytkowników
 [Show icon for users kicking other user]
 Pokaż ikony wyrzucanych użytkowników
-[Show icon for notices ]
-Pokaż ikony powiadomień
+[Show icon for notices]
+
 [Show icon for name changes]
 Pokaż ikony zmian nazwy
 [Show icon for information messages]
@@ -1489,8 +1489,8 @@ Pokaż ikony w zasobniku dla podświetleń
 Pokaż ikony w zasobniku dla wychodzących użytkowników
 [Show icon in tray for users kicking other user]
 Pokaż ikony w zasobniku dla wyrzucanych użytkowników
-[Show icon in tray for notices ]
-Pokaż ikony w zasobniku dla powiadomień
+[Show icon in tray for notices]
+
 [Show icon in tray for name changes]
 Pokaż ikony w zasobniku dla zmian nazwy
 [Show icon in tray for information messages]
@@ -1515,8 +1515,8 @@ Pokaż popup podświetleń
 Pokaż popup wychodzących użytkowników
 [Show popup for users kicking other user]
 Pokaż popup wykopanych użytkowników
-[Show popup for notices ]
-Pokaż popup powiadomień
+[Show popup for notices]
+
 [Show popup for name changes]
 Pokaż popup zmian nicków
 [Show popup for information messages]
@@ -1749,7 +1749,7 @@ Nieaktywne
 [Offline]
 Rozłączony
 [Online]
-Połączony
+Dostępny
 [Away]
 Zaraz wracam
 [NA]
@@ -2046,7 +2046,7 @@ Właściciel
 Pokaż/zmień moje dane...
 ;file \src\core\stduseronline\useronline.cpp
 [%s is Online]
-%s jest Połączony
+%s jest Dostępny
 ;file \src\modules\addcontact\addcontact.cpp
 [Add Contact]
 Dodaj kontakt
@@ -2364,7 +2364,7 @@ UWAGA! Konto zostanie usunięte. To znaczy że wszystkie ustawienia, kontakty i 
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change it's preferences.]
 To konto można skonfigurować w opcjach Mirandy NG.
 [Welcome to Miranda NG's account manager!\n Here you can set up your IM accounts.\n\n Select an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-Witaj w menedżerze kont Mirandy NG!\nMożesz tu skonfigurować swoje konta IM.\n\nWybierz konto z listy po lewej żeby zobaczyć dostępne opcje. Możesz także dodać nowe konto klikając na "+" pod listą.
+Witaj w managerze kont Mirandy NG!\nMożesz tu skonfigurować swoje konta IM.\n\nZaznacz konto z listy po lewej by zobaczeć dostępne opcje. Alternatywnie, kliknij na '+' pod listą aby utworzyć nowe konto.
 [Create new account]
 Utwórz nowe konto
 [Editing account]

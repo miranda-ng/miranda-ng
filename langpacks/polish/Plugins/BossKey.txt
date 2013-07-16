@@ -9,7 +9,7 @@
 Wtyczka Anti-Boss
 ;file \plugins\BossKeyPlus\res\BossKey.rc
 [BossKey]
-
+BossKey
 [Go to Customize -> Hotkeys to change the hotkey]
 Przejdź do Personalizacja -> Skróty, aby je ustawić
 [When I press the hotkey:]
@@ -17,7 +17,7 @@ Kiedy nacisnę skrót:
 [Change status to]
 Zmień status na
 [Change only if current status is Online]
-Zmień tylko, jeśli aktualny status to Połączony
+Zmień tylko, jeśli aktualny status to Dostępny
 [Use default status message]
 Użyj domyślnego opisu
 [Disable Sounds]
@@ -71,11 +71,9 @@ Ukryj Mirandę NG
 Ukryj
 [Hide/Show Miranda]
 Pokaż/ukryj Mirandę
-[BossKey\tget the BossKey name]
-BossKey\tpobierz nazwę BossKey
+[get the BossKey name]
+
 ;file \plugins\BossKeyPlus\src\Options.cpp
-[Open String Formatting Help]
-Otwórz pomoc nt formatowania tekstu
 [Events]
 Zdarzenia
 [Main]

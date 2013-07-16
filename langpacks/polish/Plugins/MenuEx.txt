@@ -84,7 +84,7 @@ Wszystko
 [Messages]
 Wiadomości
 [URL]
-
+URL
 [Files]
 Pliki
 [User Online]

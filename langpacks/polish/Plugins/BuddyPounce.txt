@@ -6,7 +6,7 @@
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
-
+Pozwala na automatyczne wysłanie wiadomości do kontaktu, który zmieni status.
 ;file \plugins\BuddyPounce\res\resource.rc
 [Confirm Pounce send]
 
@@ -70,7 +70,7 @@ Status
 [Any]
 
 [Online]
-Połączony
+Dostępny
 [Away]
 Zaraz wracam
 [NA]

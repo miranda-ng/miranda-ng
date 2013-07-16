@@ -1,2 +1,2 @@
-﻿[BossKey]
-[EN]
+﻿[EN]
+[get the BossKey name]

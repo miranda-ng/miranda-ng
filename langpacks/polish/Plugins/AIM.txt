@@ -6,7 +6,7 @@
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
 [AOL Instant Messenger (AIM) protocol support for Miranda NG.]
-
+Zapewnia obsługę protokołu AOL Instant Messenger (AIM) w Mirandzie NG.
 ;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 Dane użytkownika AIM

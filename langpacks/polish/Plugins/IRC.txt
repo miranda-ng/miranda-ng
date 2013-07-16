@@ -6,7 +6,7 @@
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
-Wsparcie dla protokołu IRC.
+Zapewnia obsługę protokołu Internet Relay Chat (IRC) w Mirandzie NG.
 ;file \protocols\IRCG\res\IRC.rc
 [&Add]
 Dodaj
@@ -738,7 +738,7 @@ Połącz do
 Łączenie ponowne z
 ;file \protocols\IRCG\src\tools.cpp
 [Offline]
-Rozłaczony
+Rozłączony
 ;file \protocols\IRCG\src\userinfo.cpp
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
 

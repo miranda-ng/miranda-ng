@@ -1,5 +1,4 @@
-﻿[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
-[Invalid offset found (database truncated?)]
+﻿[Invalid offset found (database truncated?)]
 [Can't write to working file, aggressive mode may be too aggressive now]
 [Event chain corrupted, trying to recover...]
 [Event position in chain is not correct]

@@ -6,7 +6,7 @@ Hasło:
 [Loginname:]
 Login:
 [XFire]
-
+XFire
 [Nick:]
 Nick:
 [Current Protocolversion:]
@@ -56,9 +56,9 @@ Główna grupa dla znajomych:
 [Files]
 Pliki
 [xfire_games.ini]
-
+xfire_games.ini
 [icons.dll]
-
+icons.dll
 [Blocked User List]
 Lista zablokowanych
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
@@ -118,9 +118,9 @@ Głosowy chat
 [Name:]
 Nazwa:
 [Unreal Tournament 2004]
-
+Unreal Tournament 2004
 [IP:]
-
+IP:
 [Port:]
 Port:
 [Userdetails]
@@ -348,7 +348,7 @@ Automatycznie połącz po zmianie wersji protokołu
 [No Ip/Port in StatusMsg]
 Brak IP/Portu w opisie
 [Use Online status for unsupported global statuses]
-Użyj statusu Połączony dla nieobsługiwanych globalnych statusów
+Użyj statusu Dostępny dla nieobsługiwanych globalnych statusów
 [Dont move friends to clan groups]
 Nie przenoś znajomych do grup klanowch
 [GameServerQuery support]

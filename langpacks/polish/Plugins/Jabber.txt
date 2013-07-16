@@ -205,7 +205,7 @@ Numer telefonu:
 [Voice]
 Głos
 [Fax]
-
+Fax
 [Pager]
 Strona
 [Text/Messaging]
@@ -305,7 +305,7 @@ Konferencja
 [Transport]
 Transport
 [URL]
-
+URL
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
 Auto-dołączenie (Automatyczne dołączanie do zakładek musi być włączone w opcjach)
 [Room JID/ URL:]
@@ -668,7 +668,7 @@ Kopiuj temat pokoju
 [&Send presence]
 Wyślij status
 [Online]
-Połączony
+Dostępny
 [Away]
 Zaraz wracam
 [NA]
@@ -1546,7 +1546,7 @@ Malajski
 [Mongolian]
 Mongolski
 [Nauru]
-
+Nauru
 [Navajo; Navaho]
 
 [Ndebele, South; South Ndebele]
@@ -1982,7 +1982,7 @@ Nie przeszkadzać
 [Invisible]
 Niewidoczny
 [Offline]
-Rozłaczony
+Rozłączony
 [Priority]
 Priorytet
 [Status message]

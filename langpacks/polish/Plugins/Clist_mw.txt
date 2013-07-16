@@ -159,7 +159,7 @@ Włącz cieniowanie (wymaga restartu)
 [Items]
 Obiekty
 [Show divider between online and offline contacts]
-Pokaż separator między połączonymi a rozłączonymi
+Pokaż separator między dostępnymi a rozłączonymi
 [Hot track items as mouse passes over]
 Podświetl obiekty pod kursorem
 [Disable drag and drop of items]
@@ -179,7 +179,7 @@ Rysuj linię wzdłuż nazw grupy
 [Show counts of number of contacts in a group]
 Pokaż liczbę kontaktów w grupach
 [Hide group counts when there are none online]
-Ukryj liczbę kontaktów, jeśli nikt nie jest połączony
+Ukryj liczbę kontaktów, jeśli nikt nie jest dostępny
 [Sort groups alphabetically]
 Sortuj grupy alfabetycznie
 [Quicksearch in open groups only]
@@ -243,11 +243,11 @@ Nowe rysowanie paska statusu
 [E&xit]
 Wyjdź
 [&Status]
-
+&Status
 [&Offline\tCtrl+0]
 Rozłączony\tCtrl+0
 [On&line\tCtrl+1]
-Połączony\tCtrl+1
+Dostępny\tCtrl+1
 [&Away\tCtrl+2]
 Zaraz wracam\tCtrl+2
 [&NA\tCtrl+3]
@@ -338,9 +338,9 @@ Tło paska statusu
 [Not focused]
 Nieaktywne
 [Offline]
-Rozłaczony
+Rozłączony
 [Online]
-Połączony
+Dostępny
 [Away]
 Zaraz wracam
 [NA]

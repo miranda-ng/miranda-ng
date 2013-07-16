@@ -1,6 +1,5 @@
 ﻿[URL:]
 [Info:]
-[&Status]
 [Nowhere]
 [Group: %name% %count% [%mode%]]
 [Divider: %s]

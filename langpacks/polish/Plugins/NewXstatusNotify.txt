@@ -11,9 +11,9 @@ Powiadomienie, kiedy kontakt zmieni swój xStatus lub opis.
 [Notify when a contact changes to one of these statuses]
 Powiadamiaj kiedy kontakt zmieni status na:
 [Online]
-Połączony
+Dostępny
 [Offline]
-Rozłaczony
+Rozłączony
 [Invisible]
 Niewidoczny
 [Free for chat]
@@ -214,13 +214,13 @@ Odtwarzanie...
 [%s, %s. %s changed to: %s (was: %s).\r\n]
 %s, %s. %s zmienił(-a) status na: %s (był: %s).\r\n
 [(M) is back online!]
-jest znowu Połączony!
+jest znowu Dostępny!
 [(F) is back online!]
-jest znowu dostępna!
+jest znowu Dostępna!
 [(U) is back online!]
-jest znowu Połączony(-a)!
+jest znowu Dostępny(-a)!
 [User: Online]
-Status: Połączony
+Status: Dostępny
 [(M) went offline! :(]
 rozłączył się! :(
 [(F) went offline! :(]

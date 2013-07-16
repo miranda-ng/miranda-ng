@@ -21,6 +21,7 @@
 [Delete pre-shared key]
 [Export public key]
 [Delete public key]
+[Sent back message received...]
 [ON]
 [Menu State]
 [Select GnuPG Executable]

@@ -16,6 +16,6 @@
 [?lower(string)]
 [?upper(string)]
 [?scroll(string,numchars,numchars)]
-[External Applications\tretrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
-[Miranda Related\tget the date (Simple Status Message compatible)]
+[retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
+[get the date (Simple Status Message compatible)]
 [OK (%d)]

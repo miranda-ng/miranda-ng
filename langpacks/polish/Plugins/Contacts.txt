@@ -11,11 +11,11 @@ Pozwala na wysyłanie i odbieranie kontaktów.
 [Send contacts]
 Wyślij kontakt
 [&A]
-
+&A
 [&D]
-
+&D
 [&H]
-
+&H
 [Choose contacts to be send:]
 Wybierz kontakt do wysłania:
 [&Send]

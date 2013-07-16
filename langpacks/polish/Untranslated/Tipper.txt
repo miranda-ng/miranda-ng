@@ -7,7 +7,6 @@
 [Email:]
 [Idle:]
 [IP]
-[IP:]
 [IP internal:]
 [Number of msg [IN]:]
 [Number of msg [OUT]:]

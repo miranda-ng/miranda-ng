@@ -1,5 +1,4 @@
 ﻿[EN]
-[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 [Info:]
 [Email:]
 [Dll]

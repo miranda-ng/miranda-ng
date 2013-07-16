@@ -97,9 +97,9 @@ Anuluj
 [Choose modes]
 Wybierz tryby
 [Offline]
-Rozłaczony
+Rozłączony
 [Online]
-Połączony
+Dostępny
 [Away]
 Zaraz wracam
 [N/A]

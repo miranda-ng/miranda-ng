@@ -98,6 +98,8 @@ Status:
 Kraj:
 [Timezone:]
 Strefa czasowa:
+[Skype credit:]
+
 [Change password]
 Zmień hasło
 [Old password:]
@@ -120,6 +122,20 @@ Użyj portu 80 i 443 jako alternatywny przychodzący
 Domyślna grupa:
 [Block]
 Blokuj
+[Allow IMs from...]
+
+[Anyone]
+
+[People in my Contact list only]
+
+[Allow calls from...]
+
+[Automatically receive video and share screens with...]
+
+[No one]
+
+[Allow my online status to be shown on the web]
+
 [Block this person]
 
 [Remove from your Contact List]
@@ -241,6 +257,22 @@ Wyrzuć
 
 [Copy room &uri]
 
+[Creator]
+
+[Master]
+
+[Helper]
+
+[User]
+Użytkownika
+[Listener]
+
+[Applicant]
+
+[Retried]
+
+[Outlaw]
+
 [me]
 
 [waits to join]
@@ -288,12 +320,16 @@ Kobieta
 Protokoły
 [Blocked contacts]
 
+[Privacy]
+Prywatność
 [Contacts]
 Kontakty
 [Home]
 Dom
 [General]
 Ogólne
+[Skype account]
+
 ;file \protocols\Skype\src\skype_icons.cpp
 [Protocol icon]
 Ikona protokołu

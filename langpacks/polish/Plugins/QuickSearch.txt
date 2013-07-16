@@ -208,7 +208,7 @@ Tło pierwszoplanowe submetakontaktów
 [ users found (]
  znalezionych (
 [) Online: ]
-) Połączonych:  
+) Dostępnych:  
 [Colorize]
 Koloruj
 [Metacontact]

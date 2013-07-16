@@ -101,7 +101,7 @@ Rysuj linię wzdłuż nazw grupy
 [Show number of contacts in a group]
 Pokaż liczbę kontaktów w grupach
 [Hide numbers when all offline]
-Ukryj liczbę kontaktów, jeśli nikt nie jest połączony
+Ukryj liczbę kontaktów, jeśli nikt nie jest dostępny
 [Sort groups alphabetically]
 Sortuj grupy alfabetycznie
 [Quicksearch in open groups only]
@@ -243,7 +243,7 @@ Pełna przeźroczystość (jak TweakUI)
 [Items]
 Obiekty
 [Show divider between online and offline contacts]
-Pokaż separator między połączonymi a rozłączonymi
+Pokaż separator między dostępnymi a rozłączonymi
 [Hot track items as mouse passes over]
 Podświetl obiekty pod kursorem
 [Disable drag and drop of items]
@@ -419,7 +419,7 @@ Nie ignoruj
 [Visibility]
 Widoczność 
 [Appear always online]
-Zawsze połączony
+Zawsze dostępny
 [Appear always offline (block contact)]
 Zawsze rozłączony (kontakt zablokowany)
 [Other]
@@ -443,11 +443,11 @@ Pokaż czas kontaktu
 [E&xit]
 Wyjdź
 [&Status]
-
+&Status
 [&Offline\tCtrl+0]
 Rozłączony\tCtrl+0
 [On&line\tCtrl+1]
-Połączony\tCtrl+1
+Dostępny\tCtrl+1
 [&Away\tCtrl+2]
 Zaraz wracam\tCtrl+2
 [&NA\tCtrl+3]
@@ -597,9 +597,9 @@ Wyczyść tryb widoku
 [Not focused]
 Nieaktywne
 [Offline]
-Rozłaczony
+Rozłączony
 [Online]
-Połączony
+Dostępny
 [Away]
 Zaraz wracam
 [NA]

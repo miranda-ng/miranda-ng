@@ -1,5 +1,4 @@
-﻿[URL]
-[Upload File Manager]
+﻿[Upload File Manager]
 [User info]
 [Enter file name]
 [File with the same name already exists on the server.]

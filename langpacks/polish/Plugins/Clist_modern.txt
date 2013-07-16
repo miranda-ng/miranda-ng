@@ -313,7 +313,7 @@ i minimalną
 [Items]
 Obiekty
 [Show divider between online and offline contacts]
-Pokaż separator między połączonymi a rozłączonymi
+Pokaż separator między dostępnymi a rozłączonymi
 [Hot track items as mouse passes over]
 Podświetl obiekty pod kursorem
 [Disable drag and drop of items]
@@ -366,16 +366,14 @@ Zmieniaj ikony co
 sekund(y), jeśli statusy się różnią
 [Show multiple icons]
 Pokaż ikony osobno
-[Only when statuses differ]
-Tylko, jeśli statusy się różnią
+[only when statuses differ]
+tylko, jeśli statusy się różnią
 [System tray icon]
 Ikona w zasobniku
 [System tray icon mode]
 Tryb ikony w zasobniku systemowym
 [Use xStatus icon]
 Użyj ikony xStatusu
-[only when statuses differ]
-tylko, jeśli statusy się różnią
 [Ignore Empty Extra icons places (arrange to right).]
 Ignoruj puste miejsca na ikony (przesuń do prawej).
 [Use 'Meta' protocol icons for Metacontacts]
@@ -607,11 +605,11 @@ OSTRONA OPCJI JEST W KONSTRUKCJI Proszę NIE zgłaszać występujących tu błę
 [E&xit]
 Wyjdź
 [&Status]
-
+&Status
 [&Offline\tCtrl+0]
 Rozłączony\tCtrl+0
 [On&line\tCtrl+1]
-Połączony\tCtrl+1
+Dostępny\tCtrl+1
 [&Away\tCtrl+2]
 Zaraz wracam\tCtrl+2
 [&NA\tCtrl+3]
@@ -773,9 +771,9 @@ Tło listy
 [Not focused]
 Nieaktywne
 [Offline]
-Rozłaczony
+Rozłączony
 [Online]
-Połączony
+Dostępny
 [Away]
 Zaraz wracam
 [NA]

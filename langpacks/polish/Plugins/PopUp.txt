@@ -321,9 +321,9 @@ Wtyczki
 
 ;file \plugins\Popup\src\opt_gen.cpp
 [Offline]
-Rozłaczony
+Rozłączony
 [Online]
-Połączony
+Dostępny
 [Invisible]
 Niewidoczny
 [Away]

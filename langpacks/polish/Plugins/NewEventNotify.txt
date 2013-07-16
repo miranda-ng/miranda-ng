@@ -21,7 +21,7 @@ Opcje Popup
 [Message]
 Wiadomość
 [URL]
-
+URL
 [File]
 Plik
 [Others]

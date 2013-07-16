@@ -29,7 +29,7 @@ Ogólne
 [Title]
 Nazwa
 [URL]
-
+URL
 [Check every]
 Sprawdzaj co
 [minutes]
@@ -127,10 +127,10 @@ Włącz/wyłącz autoaktualizacje
 
 [%s\nis a valid feed's address.]
 %s\njest poprawnym adresem rss.
+[%s\nis not a valid feed's address.]
+
 [New Aggregator]
 
-[%s\nis a not valid feed's address.]
-%s\nnie jest poprawnym adresem rss.
 [empty]
 pusty
 [OPML files]

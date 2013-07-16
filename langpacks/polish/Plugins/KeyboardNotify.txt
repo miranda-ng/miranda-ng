@@ -55,7 +55,7 @@ Pozostałe sytuacje
 [Only notify if status is]
 Tylko powiadomienie gdy
 [Online]
-Połączony
+Dostępny
 [Away]
 Zaraz wracam
 [Occupied]
@@ -79,7 +79,7 @@ Przypomnij co:
 [minutes]
 minut
 [Offline]
-Rozłaczony
+Rozłączony
 [xStatuses]
 xStatusy
 [Keys to flash]

@@ -1291,7 +1291,7 @@ Opcja "wklej i wyślij" jest wyłączona. Możesz ją ustawić na stronie "Ogól
 [Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
 
 ['(Unknown Contact)']
-
+"(Nieznany kontakt)"
 [JPEG-compressed images]
 
 ;file \plugins\TabSRMM\src\msglog.cpp
@@ -1866,7 +1866,7 @@ Jesteś teraz znany jako %s
 [Notice from %s: ]
 Powiadomienie od %s:
 [The topic is '%s%s']
-
+Temat to '%s%s'
 [ (set by %s on %s)]
  (wybrany przez %s na %s)
 [ (set by %s)]

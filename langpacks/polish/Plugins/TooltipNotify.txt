@@ -21,9 +21,9 @@ Anuluj
 [Notify upon the following events]
 Powiadom dla zdarzeń
 [Online]
-Połączony
+Dostępny
 [Offline]
-Rozłaczony
+Rozłączony
 [All other]
 Inne
 [Typing]
@@ -76,7 +76,7 @@ Powiadomienia
 [Other Status]
 Inny status
 [Tooltip Notify: Online]
-Powiadomienia: Połączony
+Powiadomienia: Dostępny
 [Tooltip Notify: Offline]
 Powiadomienia: Rozłączony
 [Tooltip Notify: Other]
