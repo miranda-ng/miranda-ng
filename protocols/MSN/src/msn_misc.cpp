@@ -901,7 +901,7 @@ void CMsnProto::MSN_ShowError(const char* msgtext, ...)
 	TCHAR   tBuffer[4096];
 	va_list tArgs;
 
-	TCHAR *buf = (TCHAR*)CallService(MS_LANGPACK_PCHARTOTCHAR, 0, (LPARAM)msgtext);
+	TCHAR *buf = Langpack_PcharToTchar(msgtext);
 
 	va_start(tArgs, msgtext);
 	mir_vsntprintf(tBuffer, SIZEOF(tBuffer), buf, tArgs);

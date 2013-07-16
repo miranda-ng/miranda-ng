@@ -315,9 +315,8 @@ void CMsnProto::MSN_CreateContList(void)
 	bool *used = (bool*)mir_calloc(contList.getCount()*sizeof(bool));
 
 	char cxml[8192];
-	size_t sz;
 
-	sz = mir_snprintf(cxml , sizeof(cxml), "<ml l=\"1\">");
+	size_t sz = mir_snprintf(cxml , sizeof(cxml), "<ml l=\"1\">");
 
 	EnterCriticalSection(&csLists);
 

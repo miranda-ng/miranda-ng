@@ -147,7 +147,7 @@ int CMsnProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_NAME;
-		mi.pszName = (char*)((listId & LIST_BL) ? "&Unblock" : "&Block");
+		mi.pszName = ((listId & LIST_BL) ? LPGEN("&Unblock") : LPGEN("&Block"));
 		Menu_ModifyItem(hBlockMenuItem, &mi);
 		Menu_ShowItem(hBlockMenuItem, !noChat);
 

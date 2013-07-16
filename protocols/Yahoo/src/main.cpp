@@ -28,13 +28,13 @@ int hLangpack;
 
 PLUGININFOEX pluginInfo={
 		sizeof(PLUGININFOEX),
-		"Yahoo Protocol",
+		__PLUGIN_NAME,
 		__VERSION_DWORD,
-		"Yahoo Protocol support for Miranda NG.",
-		"Gennady Feldman",
-		"gena01@miranda-im.org",
-		"© 2003-2010 Gennady Feldman, Laurent Marechal",
-		"http://miranda-ng.org/",
+		__DESCRIPTION,
+		__AUTHOR,
+		__AUTHOREMAIL,
+		__COPYRIGHT,
+		__AUTHORWEB,
 		UNICODE_AWARE, //not transient
 		{0xaa7bfea, 0x1fc7, 0x45f0, {0x90, 0x6e, 0x2a, 0x46, 0xb6, 0xe1, 0x19, 0xcf}} // {0AA7BFEA-1FC7-45f0-906E-2A46B6E119CF}
 };

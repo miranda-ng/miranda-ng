@@ -48,13 +48,13 @@ TCHAR szCoreVersion[100];
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"Jabber Protocol",
+	__PLUGIN_NAME,
 	__VERSION_DWORD,
-	"Jabber protocol support for Miranda NG.",
-	"George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura",
-	"ghazan@miranda.im",
-	"(c) 2005-2012 George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura",
-	"http://miranda-ng.org/",
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
     {0x144e80a2, 0xd198, 0x428b, {0xac, 0xbe, 0x9d, 0x55, 0xda, 0xcc, 0x7f, 0xde}} // {144E80A2-D198-428b-ACBE-9D55DACC7FDE}
 };
