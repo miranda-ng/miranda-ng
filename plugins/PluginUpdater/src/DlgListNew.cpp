@@ -145,9 +145,9 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 				_tcscpy(tszFileName, _tcsrchr(info->tszNewName, L'\\') + 1);
 				TCHAR *p = _tcschr(tszFileName, L'.'); *p = 0;
 
-				char link[MAX_PATH];
-				mir_snprintf(link, MAX_PATH, "http://wiki.miranda-ng.org/index.php?title=Plugin:%s", _T2A(tszFileName));
-				CallService(MS_UTILS_OPENURL, 0, (LPARAM) link);
+				TCHAR link[MAX_PATH];
+				mir_sntprintf(link, MAX_PATH, _T("http://miranda-ng.org/p/%s"), tszFileName);
+				CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM) link);
 			}
 		}
 	}
