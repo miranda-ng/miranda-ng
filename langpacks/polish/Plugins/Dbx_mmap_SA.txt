@@ -11,7 +11,7 @@ Zapewnia wsparcie profilu Mirandy: ustawień globalnych, kontaktów, historii, u
 [Login to Miranda NG]
 Logowanie do Mirandy NG
 [EN]
-
+EN
 [OK]
 OK
 [Cancel]

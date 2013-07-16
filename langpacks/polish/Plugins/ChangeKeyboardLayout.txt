@@ -31,7 +31,7 @@ Kopiuj rezultat do schowka
 [Strings for keyboard layouts]
 
 [EN]
-
+EN
 [Default]
 Domyślny
 [Invert current state]

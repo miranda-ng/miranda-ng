@@ -805,7 +805,7 @@ Pokaż ikony w zasobniku dla wychodzących użytkowników
 [Show icon in tray for users kicking other user]
 Pokaż ikony w zasobniku dla wyrzucanych użytkowników
 [Show icon in tray for notices]
-
+Pokaż ikony w zasobniku dla powiadomień
 [Show icon in tray for name changes]
 Pokaż ikony w zasobniku dla zmian nazwy
 [Show icon in tray for information messages]
@@ -831,7 +831,7 @@ Pokaż popup wychodzących użytkowników
 [Show popup for users kicking other user]
 Pokaż popup wykopanych użytkowników
 [Show popup for notices]
-
+Pokaż popup powiadomień
 [Show popup for name changes]
 Pokaż popup zmian nicków
 [Show popup for information messages]

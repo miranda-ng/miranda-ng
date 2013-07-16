@@ -39,9 +39,9 @@ Wyłączenie klucza po:
 [days]
 dni
 [PGP]
-
+PGP
 [GPG]
-
+GPG
 [Reset All]
 Domyślne
 [Protocols]
@@ -55,7 +55,7 @@ Rozłączone:
 [RSA Key]
 Klucz RSA
 [SHA1:]
-
+SHA1:
 [Public]
 Publiczny
 [&Copy SHA1]
@@ -143,11 +143,11 @@ Tryb
 [Native SecureIM]
 Natywny SecureIM
 [PGP SecureIM]
-
+PGP SecureIM
 [GPG SecureIM]
-
+GPG SecureIM
 [RSA/AES SecureIM]
-
+RSA/AES SecureIM
 [Status]
 Status
 [Always Try to Establish Secure IM]
@@ -186,7 +186,7 @@ Błąd wymiany klucza...
 [Key from disabled...]
 Klucz wyłączony...
 [Sent back message received...]
-
+Otrzymywanie odesłanej wiadomości...
 [Sending back secure message...]
 Odsyłanie bezpiecznej wiaodmości...
 [SecureIM disabled...]
@@ -244,7 +244,7 @@ Nazwa
 [Password is too short!]
 Hasło jest za krótkie!
 [ON]
-
+Wł.
 [Off]
 Wył.
 [Keyrings loaded.]
@@ -417,8 +417,8 @@ Popup z wiadomością
 [SecureIM [Native]]
 SecureIM [Natywny]
 [SecureIM [PGP]]
-
+SecureIM [PGP]
 [SecureIM [GPG]]
-
+SecureIM [GPG]
 [SecureIM [RSA/AES]]
-
+SecureIM [RSA/AES]

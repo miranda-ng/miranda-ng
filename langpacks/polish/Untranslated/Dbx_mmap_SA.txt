@@ -1,5 +1,4 @@
-﻿[EN]
-[Info:]
+﻿[Info:]
 [Email:]
 [Dll]
 [Sorry, but your database encrypted with unknown module]

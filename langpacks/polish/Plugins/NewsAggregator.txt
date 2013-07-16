@@ -41,7 +41,7 @@ Autoryzacja
 [Use &authentication]
 Użyj autoryzacji
 [Login]
-
+Login
 [Password]
 Hasło:
 [Visualization]
@@ -126,9 +126,9 @@ Włącz/wyłącz autoaktualizacje
 [Feed]
 
 [%s\nis a valid feed's address.]
-%s\njest poprawnym adresem rss.
+%s\njest poprawnym adresem RSS.
 [%s\nis not a valid feed's address.]
-
+nie jest poprawnym adresem RSS.
 [New Aggregator]
 
 [empty]

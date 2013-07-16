@@ -39,7 +39,7 @@ OK
 [Cancel]
 Anuluj
 [EN]
-
+EN
 [Workstation is Locked]
 Koputer jest zablokowany
 [Screen Saver is running]
@@ -72,7 +72,7 @@ Ukryj
 [Hide/Show Miranda]
 Pokaż/ukryj Mirandę
 [get the BossKey name]
-
+pobierz nazwę BossKey
 ;file \plugins\BossKeyPlus\src\Options.cpp
 [Events]
 Zdarzenia

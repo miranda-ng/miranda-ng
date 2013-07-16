@@ -1078,7 +1078,7 @@ Usuń tymczasowe kontakty po zamknięciu okna rozmowy
 [Enable avatar support in the message window]
 Włącz awatary w oknie rozmowy
 [Limit avatar height to]
-
+Ogranicz wysokość awataru do
 [Max Number of Flashes]
 Maksymalna liczba mignięć
 [Send Error]
@@ -1464,7 +1464,7 @@ Pokaż ikony wychodzących użytkowników
 [Show icon for users kicking other user]
 Pokaż ikony wyrzucanych użytkowników
 [Show icon for notices]
-
+Pokaż ikony powiadomień
 [Show icon for name changes]
 Pokaż ikony zmian nazwy
 [Show icon for information messages]
@@ -1490,7 +1490,7 @@ Pokaż ikony w zasobniku dla wychodzących użytkowników
 [Show icon in tray for users kicking other user]
 Pokaż ikony w zasobniku dla wyrzucanych użytkowników
 [Show icon in tray for notices]
-
+Pokaż ikony w zasobniku dla powiadomień
 [Show icon in tray for name changes]
 Pokaż ikony w zasobniku dla zmian nazwy
 [Show icon in tray for information messages]
@@ -1516,7 +1516,7 @@ Pokaż popup wychodzących użytkowników
 [Show popup for users kicking other user]
 Pokaż popup wykopanych użytkowników
 [Show popup for notices]
-
+Pokaż popup powiadomień
 [Show popup for name changes]
 Pokaż popup zmian nicków
 [Show popup for information messages]
