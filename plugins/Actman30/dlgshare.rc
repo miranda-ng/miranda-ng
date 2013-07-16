@@ -1,0 +1,13 @@
+#include "i_cnst_dlgshare.inc"
+
+LANGUAGE 0,0
+
+IDI_NEW     ICON "ico\new.ico"
+IDI_UP      ICON "ico\up.ico"
+IDI_DOWN    ICON "ico\down.ico"
+IDI_DELETE  ICON "ico\delete.ico"
+IDI_RELOAD  ICON "ico\reload.ico"
+IDI_TEST    ICON "ico\test.ico"
+IDI_EXPORT  ICON "ico\export.ico"
+IDI_IMPORT  ICON "ico\import.ico"
+IDI_APPLY   ICON "ico\apply.ico"

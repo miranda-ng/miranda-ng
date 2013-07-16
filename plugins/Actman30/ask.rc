@@ -1,0 +1,20 @@
+#include "i_const.inc"
+
+LANGUAGE 0,0
+
+IDD_ASK DIALOGEX 0, 0, 276, 72, 0
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE  WS_EX_CONTROLPARENT
+CAPTION "Choose action"
+FONT 8, "MS Shell Dlg", 0, 0
+{
+  CTEXT         "", IDC_ASK,4,4,268,42,SS_CENTERIMAGE
+
+  CONTROL       "", -1, "STATIC", SS_ETCHEDHORZ, 2, 50, 272, 2
+
+  DEFPUSHBUTTON "&Yes"       , IDOK      ,   4, 54, 40, 16
+  PUSHBUTTON    "&No"        , IDCANCEL  ,  52, 54, 40, 16
+  PUSHBUTTON    "A&ppend"    , IDC_APPEND, 100, 54, 52, 16
+  PUSHBUTTON    "Yes to &All", IDC_YESALL, 160, 54, 52, 16
+  PUSHBUTTON    "N&o to All" , IDC_NOALL , 220, 54, 52, 16
+}

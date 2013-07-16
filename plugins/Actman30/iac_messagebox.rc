@@ -1,0 +1,36 @@
+#include "i_cnst_message.inc"
+
+LANGUAGE 0,0
+
+IDD_ACTMESSAGEBOX DIALOGEX 0, 0, 168, 200, 0
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE  WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0
+{
+  RTEXT    "Message title",-1, 2, 0, 164, 11, SS_CENTERIMAGE
+  EDITTEXT                 IDC_MSG_TITLE, 1, 12, 165, 12, ES_AUTOHSCROLL
+//                           ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
+  RTEXT    "Message text" ,-1, 2, 26, 164, 11, SS_CENTERIMAGE
+  EDITTEXT                 IDC_MSG_TEXT , 1, 38, 165, 12, ES_AUTOHSCROLL
+//                           ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
+
+  AUTOCHECKBOX    "RTL"                , IDC_MSG_RTL  , 1, 54, 160, 11
+  AUTOCHECKBOX    "Right justifed text", IDC_MSG_RIGHT, 1, 67, 160, 11
+
+  GROUPBOX        "Icons"   , -1 , 0, 89, 167, 30, WS_GROUP
+  AUTORADIOBUTTON "Error"   , IDC_MSGI_ERROR,   5, 98,  24, 20, BS_ICON
+  AUTORADIOBUTTON "Question", IDC_MSGI_QUEST,  31, 98,  24, 20, BS_ICON
+  AUTORADIOBUTTON "Warning" , IDC_MSGI_WARN ,  57, 98,  24, 20, BS_ICON
+  AUTORADIOBUTTON "Info"    , IDC_MSGI_INFO ,  83, 98,  24, 20, BS_ICON
+  AUTORADIOBUTTON "None"    , IDC_MSGI_NONE , 109, 98,  53, 20//, BS_ICON
+
+  GROUPBOX        "Buttons"             , -1, 0, 122, 167, 71, WS_GROUP
+  AUTORADIOBUTTON "OK"                  , IDC_MSGB_OK , 5, 131, 156, 10
+  AUTORADIOBUTTON "OK, Cancel"          , IDC_MSGB_OC , 5, 141, 156, 10
+  AUTORADIOBUTTON "Abort, Retry, Ignore", IDC_MSGB_ARI, 5, 151, 156, 10
+  AUTORADIOBUTTON "Yes, No, Cancel"     , IDC_MSGB_YNC, 5, 161, 156, 10
+  AUTORADIOBUTTON "Yes, No"             , IDC_MSGB_YN , 5, 171, 156, 10
+  AUTORADIOBUTTON "Retry, Cancel"       , IDC_MSGB_RC , 5, 181, 156, 10
+}
+
+IDI_MESSAGE ICON "ico\message.ico"

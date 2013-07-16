@@ -1,0 +1,26 @@
+#include "i_cnst_settings.inc"
+
+LANGUAGE 0,0
+
+IDD_SETTINGS DIALOGEX 0, 0, 168, 200, 0
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE  WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0
+{
+  GROUPBOX      "Contact list", -1, 1, 2, 166, 77, WS_GROUP
+  AUTOCHECKBOX  "Active accounts only",IDC_CNT_FILTER, 4, 11, 160, 11
+  RTEXT         "Contact list format",-1, 4, 24, 160, 11
+  EDITTEXT      IDC_EDIT_FORMAT, 22, 38, 142, 12, ES_AUTOHSCROLL
+  CONTROL       "Apply",IDC_CNT_APPLY,"MButtonClass",WS_TABSTOP,4,36,16,16,$18000000
+  CTEXT         "You can use %name%, %uid%, %account% and %group% substitutes",-1, 4, 53, 160, 24
+
+  RTEXT         "Service list format",-1,  0, 82, 166, 11
+  COMBOBOX      IDC_SERVICELIST         , 19, 94, 148, 96, CBS_DROPDOWNLIST | WS_VSCROLL
+  CONTROL       "Apply",IDC_SRV_APPLY,"MButtonClass",WS_TABSTOP,1,93,16,16,$18000000
+
+  GROUPBOX      "Current Macro", -1, 1, 116, 166, 28, WS_GROUP
+  AUTOCHECKBOX  "Select for FirstRun",IDC_FR_FLAG, 4, 125, 160, 12
+//  AUTOCHECKBOX  "hContact in wParam" ,IDC_HC_WPAR, 4, 138, 160, 12
+}
+
+IDI_SETTINGS ICON "ico\settings.ico"

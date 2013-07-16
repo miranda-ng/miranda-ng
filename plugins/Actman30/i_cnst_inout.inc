@@ -1,0 +1,17 @@
+{clipboard/file}
+const
+  IDC_FLAG_CLIP     = 2454;
+  IDC_FLAG_MESSAGE  = 2455;
+  IDC_CLIP_COPYTO   = 2456;
+  IDC_CLIP_PASTE    = 2457;
+  IDC_FILE_ENC      = 2459;
+//  IDC_CLIP_ANSI     = 2459;
+//  IDC_CLIP_WIDE     = 2460;
+  IDC_FLAG_FILE     = 2461;
+  IDC_FILE_PATH     = 2462;
+  IDC_FILE_FILEBTN  = 2463;
+  IDC_FILE_READ     = 2464;
+  IDC_FILE_WRITE    = 2465;
+  IDC_FILE_APPEND   = 2466;
+
+  IDC_TEXT_SEND   = 2453;

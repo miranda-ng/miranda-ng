@@ -1,0 +1,30 @@
+#include "i_cnst_inout.inc"
+
+LANGUAGE 0,0
+
+IDD_INOUT DIALOGEX 0, 0, 168, 200, 0
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE  WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0
+{
+  AUTORADIOBUTTON "Clipboard"     , IDC_FLAG_CLIP   , 1,   2, 166, 11, WS_GROUP
+  AUTORADIOBUTTON "File"          , IDC_FLAG_FILE   , 1,  52, 166, 11
+  AUTORADIOBUTTON "Message window", IDC_FLAG_MESSAGE, 1, 118, 166, 11
+
+  GROUPBOX        ""          , -1             , 1,  11, 166, 33
+  AUTORADIOBUTTON "Copy to"   , IDC_CLIP_COPYTO, 6,  18, 158, 11, WS_GROUP
+  AUTORADIOBUTTON "Paste from", IDC_CLIP_PASTE , 6,  29, 158, 11
+ 
+  GROUPBOX        ""       , -1              ,   1,  61, 166, 52
+  AUTORADIOBUTTON "Read"   , IDC_FILE_READ   ,   4,  69,  52, 11, WS_GROUP
+  AUTORADIOBUTTON "Write"  , IDC_FILE_WRITE  ,  57,  69,  52, 11
+  AUTORADIOBUTTON "Append" , IDC_FILE_APPEND , 110,  69,  52, 11
+  EDITTEXT                   IDC_FILE_PATH   ,   4,  82, 140, 12, ES_AUTOHSCROLL
+  PUSHBUTTON      "..."    , IDC_FILE_FILEBTN, 147,  82,  16, 12
+  COMBOBOX                   IDC_FILE_ENC    ,   4,  97, 160, 76, CBS_DROPDOWNLIST | WS_VSCROLL
+
+  GROUPBOX        ""       , -1             , 1, 127, 166, 22
+  AUTOCHECKBOX    "Autosend" , IDC_TEXT_SEND, 6, 135, 158, 11
+}
+
+IDI_INOUT ICON "ico\insert.ico"

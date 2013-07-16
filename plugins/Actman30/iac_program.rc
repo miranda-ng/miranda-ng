@@ -1,0 +1,31 @@
+#include "i_cnst_program.inc"
+
+LANGUAGE 0,0
+
+IDD_ACTPROGRAM DIALOGEX 0, 0, 168, 200, 0
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE  WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0
+{
+  GROUPBOX        "Process options" , -1, 1, 4, 166, 46, WS_GROUP
+  AUTORADIOBUTTON "Parallel"        , IDC_FLAG_PARALLEL, 4, 13, 161, 11
+  AUTORADIOBUTTON "Continued"       , IDC_FLAG_CONTINUE, 4, 24, 161, 11
+  EDITTEXT                            IDC_EDIT_PROCTIME, 4, 36,  31, 11, ES_RIGHT | ES_NUMBER
+  LTEXT           "Process time, ms", -1, 37, 36, 128, 11, SS_CENTERIMAGE
+
+  AUTOCHECKBOX    "Current path"    , IDC_FLAG_CURPATH, 4, 52, 161, 11
+
+  GROUPBOX        "Window option"  , -1, 1,  63, 166, 55, WS_GROUP
+  AUTORADIOBUTTON "Start normal"   , IDC_FLAG_NORMAL  , 4,  72, 162, 11
+  AUTORADIOBUTTON "Start hidden"   , IDC_FLAG_HIDDEN  , 4,  83, 162, 11
+  AUTORADIOBUTTON "Start minimized", IDC_FLAG_MINIMIZE, 4,  94, 162, 11
+  AUTORADIOBUTTON "Start maximized", IDC_FLAG_MAXIMIZE, 4, 105, 162, 11
+
+  RTEXT           "Program path", -1, 1, 135, 160,  8
+  EDITTEXT                        IDC_EDIT_PRGPATH, 1, 144, 148, 12, ES_AUTOHSCROLL
+  PUSHBUTTON      "..."         , IDC_PROGRAM     , 151, 144,  16, 12
+  RTEXT           "Program args", -1, 1, 159, 160,  8
+  EDITTEXT                        IDC_EDIT_PRGARGS, 1, 168, 166, 12, ES_AUTOHSCROLL
+}
+
+IDI_PROGRAM   ICON "ico\program.ico"
