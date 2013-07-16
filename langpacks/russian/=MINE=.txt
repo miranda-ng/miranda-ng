@@ -1,0 +1,33 @@
+﻿;Моя секция
+[Manage your Miranda NG profile]
+Управление профилем пользователя
+[Recieved Files]
+Принятые Файлы
+[Send File]
+Отослать Файл
+[Open Miranda Folder]
+Открыть папку Miranda NG
+[Listening To]
+Я слушаю
+[Listening To2]
+Я слушаю
+[ListeningToRadio]
+Радио
+[Watching]
+Я смотрю
+[Colour schemes]
+Цветовые схемы
+[Spring Rainbow scheme (blue)]
+Схема Spring Rainbow (синий)
+[Azenis2 scheme (carbon)]
+Схема Azenis2 (карбон)
+[Native scheme (bright)]
+Схема Native (светлая)
+[Aero Dark scheme (dark)]
+Схема Aero Dark (темная)
+[KupoXP2 scheme (grey)]
+Схема KupoXP2 (серый)
+[LangPack Reload]
+Перезагрузка лэнгпака
+[Incoming presence]
+Исходящее присутствие
