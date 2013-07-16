@@ -216,7 +216,7 @@
 [This font is used to display most text element or section bodies.]
 [Minor notes:]
 [This font is used to display various addtional notes.]
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
 [Event icon legend:]
 [Choose events you wish to ingonre:]
 [Font Effect]
@@ -315,7 +315,7 @@
 [Timeout (s)]
 [Text]
 [Background]
-[(The timeout require at least Popup plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
 [List]
 [&Message]
 [Clear lo&g]
@@ -327,7 +327,6 @@
 [Open a &new browser window]
 [&Open in current browser window]
 [Message]
-[Undo  ]
 [Redo]
 [Copy]
 [Cut]
@@ -1207,12 +1206,12 @@
 ;file \src\modules\plugins\newplugins.cpp
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 [Fatal error]
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
+[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 ['%s' is disabled, re-enable?]
 [Re-enable Miranda plugin?]
 [Unable to load plugin in Service Mode!]
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-[Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
+[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 [Version]
@@ -1248,6 +1247,10 @@
 [You need to disable plugin to delete this account]
 [&Accounts...]
 ;file \src\modules\skin\hotkey_opts.cpp
+[Ctrl + ]
+[Alt + ]
+[Shift + ]
+[Win + ]
 [Remove shortcut]
 [Add another shortcut]
 [Scope:]
@@ -6320,10 +6323,11 @@
 ﻿#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 ;============================================================
 ;  File: GG.dll
-;  Plugin: GG
+;  Plugin: Gadu-Gadu Protocol
 ;  Version: 0.11.0.3
-;  Authors: 
+;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
+[Gadu-Gadu protocol support for Miranda NG.]
 ;file \protocols\Gadu-Gadu\res\resource.rc
 [Gadu-Gadu User Details]
 [Gadu-Gadu Number:]
@@ -7126,10 +7130,11 @@
 ﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: ICQ
+;  Plugin: IcqOscarJ Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc
 ;============================================================
+[ICQ protocol support for Miranda NG.]
 ;file \protocols\IcqOscarJ\res\resources.rc
 [ICQ Number:]
 [Password:]
@@ -8781,10 +8786,11 @@
 ﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
-;  Plugin: Jabber
+;  Plugin: Jabber Protocol
 ;  Version: 0.11.0.2
-;  Authors: 
+;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
+[Jabber protocol support for Miranda NG.]
 ;file \protocols\JabberG\res\jabber.rc
 [Edit Note]
 [Tags:]
@@ -11533,10 +11539,11 @@
 ﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
-;  Plugin: MSN
+;  Plugin: MSN Protocol
 ;  Version: 0.11.0.2
-;  Authors: 
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
+[Microsoft Network (MSN) protocol support for Miranda NG.]
 ;file \protocols\MSN\res\msn.rc
 [MSN]
 [Live ID:]
@@ -11627,6 +11634,8 @@
 [Hotmail from %s]
 [Unread mail is available: %d in Inbox and %d in other folders).]
 ;file \protocols\MSN\src\msn_menu.cpp
+[&Unblock]
+[&Block]
 [Open &Hotmail Inbox]
 [Send &Hotmail E-mail]
 [You must be talking to start Netmeeting]
@@ -11635,7 +11644,6 @@
 [Display &Hotmail Inbox]
 [View &Profile]
 [Setup Live &Alerts]
-[&Block]
 [&Start Netmeeting]
 ;file \protocols\MSN\src\msn_misc.cpp
 [Avatars]
@@ -13764,6 +13772,13 @@
 [Last Year]
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderBase.cpp
+[Log Files (*.txt,*.log)]
+[Enter integer value]
+[Enter log file name.]
+[Enter log file format.]
+[Enter history format.]
+[Enter popup window format.]
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -13793,12 +13808,6 @@
 [Previous Close]
 [Change]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
-[Log Files (*.txt,*.log)]
-[Enter integer value]
-[Enter log file name.]
-[Enter log file format.]
-[Enter history format.]
-[Enter popup window format.]
 ﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
@@ -20141,10 +20150,11 @@
 ﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
 ;  File: Yahoo.dll
-;  Plugin: Yahoo
+;  Plugin: Yahoo Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Gennady Feldman
 ;============================================================
+[Yahoo Protocol support for Miranda NG.]
 ;file \protocols\Yahoo\res\Yahoo.rc
 [Yahoo]
 [ID:]
