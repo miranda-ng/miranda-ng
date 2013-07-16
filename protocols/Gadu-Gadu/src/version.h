@@ -28,5 +28,5 @@
 #define __AUTHOR					"Bartosz Bialek, Adam Strzelecki"
 #define __AUTHOREMAIL				"dezred"/*antispam*/"@"/*antispam*/"gmail"/*antispam*/"."/*antispam*/"com"
 #define __COPYRIGHT					"© 2009-2012 Bartosz Bialek, 2003-2009 Adam Strzelecki"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/GG/"
 

@@ -8,5 +8,5 @@
 #define __AUTHOR					"George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura"
 #define __AUTHOREMAIL				"ghazan@miranda.im"
 #define __COPYRIGHT					"(c) 2005-2012 George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/Jabber/"
 

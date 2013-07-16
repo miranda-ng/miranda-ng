@@ -27,5 +27,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define __AUTHOR					"Boris Krasnovskiy, George Hazan, Richard Hughes"
 #define __AUTHOREMAIL				"borkra@miranda-im.org"
 #define __COPYRIGHT					"© 2001-2012 Richard Hughes, George Hazan, Boris Krasnovskiy"
-#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __AUTHORWEB					"http://miranda-ng.org/p/MSN/"
 
