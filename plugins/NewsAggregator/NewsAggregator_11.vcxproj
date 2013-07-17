@@ -200,6 +200,15 @@
     <ClCompile Include="Src\Update.cpp" />
     <ClCompile Include="Src\Utils.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\AddFeed.ico" />
+    <Image Include="res\CheckAll.ico" />
+    <Image Include="res\Disabled.ico" />
+    <Image Include="res\Enabled.ico" />
+    <Image Include="res\Export.ico" />
+    <Image Include="res\Import.ico" />
+    <Image Include="res\Main.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -3,6 +3,7 @@
 // Used by C:\Temp\Myranda\plugins\NewsAggregator\res\Resource.rc
 //
 #define IDD_OPTIONS                     101
+#define IDD_AUTHENTICATION              102
 #define IDI_ICON                        109
 #define IDD_ADDFEED                     110
 #define IDI_CHECKALL                    111
@@ -11,6 +12,8 @@
 #define IDI_EXPORTFEEDS                 114
 #define IDI_ENABLED                     115
 #define IDI_DISABLED                    116
+#define IDD_FEEDEXPORT                  140
+#define IDD_FEEDIMPORT                  141
 #define IDC_TIMEOUT_VALUE_SPIN          1035
 #define IDC_FEEDLIST                    1036
 #define IDC_ADD                         1037
@@ -29,6 +32,19 @@
 #define IDC_RESET                       1050
 #define IDC_TAGHELP                     1051
 #define IDC_STARTUPRETRIEVE             1052
+#define IDC_FEEDUSERNAME                1105
+#define IDC_FEEDPASSWORD                1106
+#define IDC_FEEDSLIST                   1108
+#define IDC_FEEDSEXPORTLIST             1109
+#define IDC_FEEDSIMPORTLIST             1117
+#define IDC_ADDFEED                     1110
+#define IDC_REMOVEFEED                  1111
+#define IDC_EXPORTFILEPATH              1112
+#define IDC_BROWSEEXPORTFILE            1113
+#define IDC_IMPORTFILEPATH              1114
+#define IDC_BROWSEIMPORTFILE            1115
+#define IDC_LOADIMPORTFILE              1116
+#define IDC_FEEDNAME                    1124
 
 // Next default values for new objects
 // 
