@@ -312,7 +312,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if(err != ERROR_ALREADY_EXISTS && err != 0) {
 					TCHAR msg_buff[512];
 					FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, err, 0, msg_buff, 512, 0);
-					MessageBox(0, msg_buff, TranslateT("Error Creating Backup Folder"), MB_OK | MB_ICONERROR);
+					MessageBox(0, msg_buff, TranslateT("Error creating backup folder"), MB_OK | MB_ICONERROR);
 					folder_ok = FALSE;
 				}
 

@@ -240,3 +240,5 @@
 Плагин проверки БД Miranda NG.
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 Плагин проверки не может найти подходящего драйвера БД для открытия '%s'.
+[Database driver '%s' doesn't support checking.]
+Драйвер БД '%s' не поддерживает проверку.

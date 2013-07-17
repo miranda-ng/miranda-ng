@@ -153,7 +153,7 @@ void ShowThePopup(PWumf w, LPTSTR title, LPTSTR text)
 void ShowThePreview()
 {
 	if ( !ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		MessageBox(NULL, TranslateT("Popup plugin not found!"), TranslateT("WUMF plugin"), MB_OK|MB_ICONSTOP);
+		MessageBox(NULL, TranslateT("Popup plugin not found!"), TranslateT("Error"), MB_OK|MB_ICONSTOP);
 		return;
 	}
 
@@ -280,7 +280,7 @@ void ChooseFile(HWND hDlg)
 	else if (CommDlgExtendedError() != 0) {
 		TCHAR str[256];
 		mir_sntprintf(str, SIZEOF(str), TranslateT("Common Dialog Error 0x%lx"), CommDlgExtendedError());
-		MessageBox(hDlg, str, TranslateT("Wumf plugin"), MB_OK | MB_ICONSTOP);
+		MessageBox(hDlg, str, TranslateT("Error"), MB_OK | MB_ICONSTOP);
 	}
 }
 

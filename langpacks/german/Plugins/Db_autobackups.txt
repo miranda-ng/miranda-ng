@@ -91,7 +91,7 @@ Stunden
 Minuten
 [Select Backup Folder]
 Backup-Verzeichnis auswählen
-[Error Creating Backup Folder]
+[Error creating backup folder]
 
 [Database AutoBackups]
 Datenbank-AutoBackups

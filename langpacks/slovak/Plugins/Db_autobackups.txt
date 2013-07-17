@@ -91,7 +91,7 @@ Všetky súbory
 
 [Select Backup Folder]
 
-[Error Creating Backup Folder]
+[Error creating backup folder]
 
 [Database AutoBackups]
 

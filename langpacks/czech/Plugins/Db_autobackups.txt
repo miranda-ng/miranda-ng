@@ -91,7 +91,7 @@ hodin
 minut
 [Select Backup Folder]
 Vyberte složku pro zálohování profilů:
-[Error Creating Backup Folder]
+[Error creating backup folder]
 Chyba při vytváření složky pro zálohování
 [Database AutoBackups]
 Záloha databáze

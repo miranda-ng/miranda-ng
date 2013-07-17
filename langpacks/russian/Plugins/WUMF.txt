@@ -5,7 +5,7 @@
 ;  Versions: 0.1.0.2
 ;  URL: http://miranda-im.org/download/feed.php?dlfile=831
 ;============================================================
-[Scans for network users of your shared files and notify you with popups. Uses Popups Interoperability by Luca Santarelli. Popups plugin must be activated!]
+[Scans for network users of your shared files and notify you with popups.]
 Сканирует сеть в поисках пользователей, использующих ваши файлы, открытые для доступа по сети и уведомляет всплывающими окнами.
 [WUMF: Who Use My Files?]
 Кто использует мои файлы?
@@ -40,9 +40,15 @@ WUMF: Показать подключения
 [Disabled options will be available in the next version]
 Будут доступны в следующей версии
 [Alerts on folders access]
-Доступ к папкам
+Оповещения доступа к папкам
 [Show current connections]
 Показать соединения
+[Popup plugin not found!]
+Не установлен плагин Popup!
+[Access]
+Доступ
+[Plugin WhoUsesMyFiles requires admin privileges in order to work.]
+Для работы плагина WhoUsesMyFiles требуются права администратора.
 
 ;GetFromSource.cmd
 [Alert computer name with username]

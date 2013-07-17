@@ -77,19 +77,19 @@ BEGIN
     CONTROL         "Log into text file",IDC_LOG_INTO_FILE,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,14,123,64,12
     CONTROL         "Log folders access",IDC_LOG_FOLDER,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,14,143,75,12
+                    BS_AUTOCHECKBOX | WS_TABSTOP,14,143,140,12
     CONTROL         "Alerts on folders access",IDC_ALERT_FOLDER,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,165,143,91,12
+                    BS_AUTOCHECKBOX | WS_TABSTOP,165,143,147,12
     CONTROL         "Log files and folders in UNC format",IDC_LOG_UNC,"Button",
-                    BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,14,163,125,12
+                    BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,14,163,140,12
     CONTROL         "Alert files && folders in UNC format",IDC_ALERT_UNC,
                     "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,165,
-                    163,119,12
+                    163,147Alerts ,12
     CONTROL         "Log computer name with username",IDC_LOG_COMP,"Button",
-                    BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,14,183,126,10
+                    BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,14,183,140,10
     CONTROL         "Alert computer name with username",IDC_ALERT_COMP,
                     "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,165,
-                    183,128,10
+                    183,147,10
     LTEXT           "Disabled options will be available in the next version",
                     IDC_STATIC,83,194,199,9
     PUSHBUTTON      "Show current connections",IDC_CONN,162,231,104,15

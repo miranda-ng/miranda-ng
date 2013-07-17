@@ -91,7 +91,7 @@ Godzin
 Minuty
 [Select Backup Folder]
 Wybierz folder kopii zapasowej
-[Error Creating Backup Folder]
+[Error creating backup folder]
 
 [Database AutoBackups]
 Kopia zapasowa

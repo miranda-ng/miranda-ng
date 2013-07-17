@@ -45,7 +45,7 @@
 ;file \plugins\Db_autobackups\src\options.cpp
 [Select Backup Folder]
 Избор на папка за резервните копия
-[Error Creating Backup Folder]
+[Error creating backup folder]
 Грешка при създаването на папка за резервните копия
 [Database AutoBackups]
 Резервни копия на БД

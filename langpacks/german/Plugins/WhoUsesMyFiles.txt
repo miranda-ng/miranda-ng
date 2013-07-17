@@ -78,15 +78,13 @@ Datei
 
 [Popup plugin not found!]
 
-[WUMF plugin]
+[Error]
 
 [Enable WUMF popups]
 WUMF Popups aktivieren
 [Disable WUMF popups]
 
 [Common Dialog Error 0x%lx]
-
-[Wumf plugin]
 
 [Not implemented yet...]
 

@@ -78,15 +78,13 @@ Súbor
 
 [Popup plugin not found!]
 
-[WUMF plugin]
+[Error]
 
 [Enable WUMF popups]
 
 [Disable WUMF popups]
 
 [Common Dialog Error 0x%lx]
-
-[Wumf plugin]
 
 [Not implemented yet...]
 

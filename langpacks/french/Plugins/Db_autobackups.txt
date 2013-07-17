@@ -41,5 +41,5 @@ Profil sauvegardé
 ;file \plugins\Db_autobackups\src\options.cpp
 [Select Backup Folder]
 Sélectionner le répertoire de sauvegarde
-[Error Creating Backup Folder]
+[Error creating backup folder]
 Erreur à la création du répertoire de sauvegarde
