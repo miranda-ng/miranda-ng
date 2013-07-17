@@ -757,9 +757,9 @@ void FacebookProto::SearchAckThread(void *targ)
 				std::string nick;
 				std::string common = utils::text::source_get_value(&item, 2, "<span class=\"mfss fcg\">", "</span>");
 
-				if ((pos2 = name.find(" <span class=\"alternate_name\">")) != std::string::npos) {
-					nick = name.substr(pos2 + 31, name.length() - pos2 - 32); // also remove brackets around nickname
-					name = name.substr(0, pos2);
+				if ((pos2 = name.find("<span class=\"alternate_name\">")) != std::string::npos) {
+					nick = name.substr(pos2 + 30, name.length() - pos2 - 31); // also remove brackets around nickname
+					name = name.substr(0, pos2 - 1);
 				}
 
 				if ((pos2 = name.find(" ")) != std::string::npos) {
