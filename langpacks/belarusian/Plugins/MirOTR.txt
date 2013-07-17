@@ -64,6 +64,8 @@ OTR Стварэнне закрытага ключа
 Пратакол сацыялістычных мільянераў\r\n Працэс праверкі
 [&Cancel]
 С&касаваць
+[&OK]
+&OK
 [Socialist Millionaires Protocol\r\nVerification]
 Пратакол сацыялістычных мільянераў\r\n Праверка
 [&No]
@@ -127,12 +129,18 @@ OTR-шыфраванне: завершана
 OTR не можа шыфраваць падчас адпраўкі паведамлення
 [OTR Information]
 OTR Інфармацыя
+[[OTR INFO] ]
+OTR INFO 
 [Authentication from %s]
 Ідэнтыфікацыя ад %s
 [Authenticae %s]
 Ідэнтыфікацыя %s
 [Unknown]
 Невядома
+[OTR: %s (%s)]
+OTR: %s (%s)
+[OTR %s (%s)]
+OTR %s (%s)
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 Шыфраваная сесія з '%s' зараз выкарыстоўвае ПРАВЕРАНЫ адбітак.
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
@@ -145,6 +153,8 @@ OTR завершаны
 Прыватны OTR
 [OTR not secure]
 OTR не з'яўляецца бяспечным
+[OTR]
+OTR
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 Стварэнне новага прыватнага ключа для пратаколу '%s'.\n Пачакайце...
 [General]

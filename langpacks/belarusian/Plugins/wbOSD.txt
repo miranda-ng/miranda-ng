@@ -64,3 +64,5 @@
 ;file \plugins\wbOSD\src\options.cpp
 [Plugins]
 Плагіны
+[OSD]
+OSD

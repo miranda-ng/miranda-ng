@@ -80,6 +80,10 @@ FTP-конты
 Паўза
 [Server:]
 Сервер:
+[User info]
+Інфармацыя
+[UPLOADING...]
+Запампоўка...
 [Open in Browser]
 Адкрыць у браўзары
 [Select All]
@@ -92,6 +96,8 @@ FTP-конты
 ОК
 [Cancel]
 Скасаваць
+[File exists]
+Файл існуе
 [Rename]
 Пераназваць
 [Overwrite]
@@ -105,6 +111,8 @@ FTP-конты
 [Copy Link]
 Капіяваць спасылку
 ;file \plugins\FTPFileYM\src\dialog.cpp
+[User Info]
+Інфармацыя
 [%d minutes]
 %d хвл.
 [%d hours]
@@ -132,10 +140,14 @@ FTP сервер 5
 Файл на FTP
 [FTP Server %d]
 Сервер FTP %d
+[Upload file(s)]
+Загрузіць файл(ы)
 [FTP File manager]
 FTP файл мэнэджар
 [Show FTPFile manager]
 Паказаць FTP файл мэнэджар
+[Zip and upload file]
+Запакаваць і загрузіць файл
 [File upload complete]
 Запампоўка файла завершана
 [Upload canceled]
@@ -162,15 +174,47 @@ FTP файл мэнэджар
 [UNKNOWN]
 НЕВЯДОМА
 ;file \plugins\FTPFileYM\src\job_packer.cpp
+[%0.1f kB/s]
+%0.1f kB/s
+[%0.1f%% (%d kB/%d kB)]
+%0.1f%% (%d kB/%d kB)
+[%s (%d kB/%d kB)]
+%s (%d kB/%d kB)
+[Do you really want to cancel this upload?]
+Вы сапраўды хочаце адмяніць гэтую загрузку?
+[Status: %s\r\nFile: %s\r\nServer: %s]
+Статус: %s\r\nФайл: %s\r\nСервер: %s
 ;file \plugins\FTPFileYM\src\job_upload.cpp
+[File exists - %s]
+Файл існуе - %s
+[Error occurred when opening local file.\nAborting file upload...]
+Адбылася памылка пры адкрыцці лакальнага файла.\n  Спыненне загрузкі файлаў ...
+[Error occurred when initializing libcurl.\nAborting file upload...]
+Адбылася памылка пры ініцыялізацыі Libcurl.\n  Спыненне загрузкі файлаў ...
+[FTP error occurred.\n%s]
+Памылка FTP.\n%s
+[WAITTING...]
+Чаканне...
 [Download link:]
 Спасылка:
 [Do you really want to cancel running upload?]
 Вы сапраўды жадаеце адмяніць загрузку?
+[%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
+%s\r\nХуткасць: %s\r\nЗавершана: %s\r\nЗасталося: %s
 ;file \plugins\FTPFileYM\src\manager.cpp
 [You have to fill and enable at least one FTP server in setting.]
 Вы павінны дадаць хоць бы адзін FTP сервер у наладах.
+[Clear All]
+Сцерці ўсе
 ;file \plugins\FTPFileYM\src\options.cpp
+[FTP (Standard)]
+FTP (Звычайны)
+[FTP+SSL (Explicit)]
+FTP+SSL (Explicit)
+[FTP+SSL (Implicit)]
+FTP+SSL (Implicit)
+[SFTP (Secure FTP over SSH)]
+SFTP (Абаронены FTP праз SSH)
 [minutes]
 хвілін(ы)
 [hours]

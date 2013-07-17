@@ -135,6 +135,8 @@
 Актывавана аднаўленне працаздольнасці базы
 [<check only>]
 <толькі праверыць>
+[ (Output).dat]
+ (Output).dat
 [Can't create output file (%u)]
 Немагчыма стварыць файл на выйсці (%u)
 [Processing aborted by user]

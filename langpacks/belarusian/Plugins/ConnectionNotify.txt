@@ -30,6 +30,8 @@
 Апавяшчаць, калі ні адзін фільтр не вызначаны
 [Attempt interval (ms.)]
 Інтэрвал спроб (ms.)
+[X]
+X
 [Filters]
 Фільтры
 [DN]
@@ -38,12 +40,20 @@
 НІЗ
 [Rule editor]
 Кіравала
+[Application name]
+Імя праграмы
+[Local IP:Port]
+Мясцовы IP: Порт
+[Action:]
+Праграма:
 [OK]
 ОК
 [Cancel]
 Скасаваць
 [* and ? wildcard characters also available (for port enter number or *)]
 тут даступныя * і ? фільтры (для порта увядзіце нумар або *)
+[Remote IP:Port]
+Аддалены IP: Порт
 ;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
 [Always show popup]
 Заўсёды паказваць вакно
@@ -53,6 +63,10 @@
 Статус
 [Application]
 Прылада
+[Internal socket]
+Унутраны сокет
+[External socket]
+Вонкавы сокет
 [Action]
 Дзеянне
 [Plugins]

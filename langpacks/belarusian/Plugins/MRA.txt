@@ -186,11 +186,17 @@ xСтатус "%s"
 [Spam bot contact deleted]
 Кантакт спам бота выдалены са спісу
 ;file \protocols\MRA\src\MraAvatars.cpp
+[Avatars' plugin connections]
+Далучэнне плагіна аватараў
 [Avatars]
 Аватары
 [Avatars: server return HTTP code: %lu]
 Аватары: сервер вярнуў HTTP код: %lu
+[Avatars: cant open file %s, error]
+Аватары: немагчыма адчыніць файл %s, памылка
 ;file \protocols\MRA\src\MraChat.cpp
+[CHAT plugin is required for conferences. Install it before chatting]
+Для канферэнцый патрэбны убудаваны плагін чатаў.
 [invite sender]
 адпраўшчык запрашэння
 [invite new members]
@@ -261,6 +267,8 @@ xСтатус "%s"
 [Please authorize me]
 Калі ласка, аўтарызуй
 ;file \protocols\MRA\src\MraFilesQueue.cpp
+[Receive files: cant open file %s, error]
+Атрыманне файлаў: немагчыма адкрыць файл %s, памылка
 [Receive files: request for file %s not sended, error]
 Атрыманне файлаў:запыт для файла %sне адпраўлены, памылка
 [Send files: cant open file %s, error]

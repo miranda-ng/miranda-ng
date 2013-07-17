@@ -4,7 +4,7 @@ object Form1: TForm1
   BiDiMode = bdLeftToRight
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = 'Miranda NG Langpack Manager'
-  ClientHeight = 310
+  ClientHeight = 323
   ClientWidth = 679
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,45 +19,45 @@ object Form1: TForm1
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 0
-    Top = 7
+    Left = 8
+    Top = 19
     Width = 20
     Height = 13
     Caption = 'File:'
   end
   object Label2: TLabel
-    Left = 296
-    Top = 7
+    Left = 328
+    Top = 19
     Width = 6
     Height = 13
     Caption = '1'
   end
   object Label3: TLabel
-    Left = 323
-    Top = 7
+    Left = 356
+    Top = 19
     Width = 3
     Height = 13
   end
   object ListBox1: TListBox
-    Left = 480
-    Top = 33
+    Left = 478
+    Top = 38
     Width = 193
-    Height = 275
+    Height = 277
     ItemHeight = 13
     TabOrder = 0
     OnClick = ListBox1Click
   end
   object Edit1: TEdit
     Left = 37
-    Top = 4
-    Width = 156
+    Top = 11
+    Width = 204
     Height = 21
     Enabled = False
     TabOrder = 1
   end
   object Button1: TButton
-    Left = 215
-    Top = 0
+    Left = 247
+    Top = 7
     Width = 75
     Height = 25
     Caption = 'OPEN'
@@ -66,7 +66,7 @@ object Form1: TForm1
   end
   object Button2: TButton
     Left = 480
-    Top = 2
+    Top = 7
     Width = 193
     Height = 25
     Caption = 'SAVE AND REFRESH'
@@ -74,8 +74,8 @@ object Form1: TForm1
     OnClick = Button2Click
   end
   object C: TBitBtn
-    Left = 0
-    Top = 283
+    Left = 8
+    Top = 290
     Width = 27
     Height = 25
     Hint = 'Copy Original'
@@ -86,8 +86,8 @@ object Form1: TForm1
     OnClick = CClick
   end
   object X: TBitBtn
-    Left = 66
-    Top = 283
+    Left = 74
+    Top = 290
     Width = 27
     Height = 25
     Hint = 'Clear Translate'
@@ -98,8 +98,8 @@ object Form1: TForm1
     OnClick = XClick
   end
   object G: TBitBtn
-    Left = 33
-    Top = 283
+    Left = 41
+    Top = 290
     Width = 27
     Height = 25
     Hint = 'Google Translator'
@@ -110,24 +110,24 @@ object Form1: TForm1
     OnClick = GClick
   end
   object Memo1: TMemo
-    Left = 0
-    Top = 31
-    Width = 474
+    Left = 8
+    Top = 38
+    Width = 466
     Height = 120
     ScrollBars = ssBoth
     TabOrder = 7
   end
   object Memo2: TMemo
-    Left = 0
-    Top = 157
-    Width = 474
+    Left = 8
+    Top = 156
+    Width = 466
     Height = 120
     ScrollBars = ssBoth
     TabOrder = 8
   end
   object T: TBitBtn
     Left = 447
-    Top = 283
+    Top = 290
     Width = 27
     Height = 25
     Hint = 'Enable On Top'
@@ -138,6 +138,7 @@ object Form1: TForm1
     OnClick = TClick
   end
   object OpenDialog1: TOpenDialog
-    Left = 456
+    Left = 448
+    Top = 7
   end
 end

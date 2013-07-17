@@ -1,10 +1,12 @@
 ﻿#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 ;============================================================
 ;  File: GG.dll
-;  Plugin: GG
-;  Version: 0.11.0.2
-;  Authors: 
+;  Plugin: Gadu-Gadu Protocol
+;  Version: 0.11.0.3
+;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
+[Gadu-Gadu protocol support for Miranda NG.]
+Падтрымка пратакола Gadu-Gadu для Miranda NG.
 ;file \protocols\Gadu-Gadu\res\resource.rc
 [Gadu-Gadu User Details]
 Інфармацыя пра карыстача Gadu-Gadu
@@ -116,6 +118,8 @@
 Стварыць
 [Remove Gadu-Gadu account]
 Выдаліць нумар Gadu-Gadu
+[Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
+Выдаліць конт Gadu-Gadu\nГэта прывядзе да выдалення вашага конта Gadu-Gadu
 [Yes, I want to remove my account]
 Так, выдаліце мой конт
 [Remove]
@@ -236,6 +240,8 @@ HTTP невядомая памылка
 Злучэнне %s
 [Avatars]
 Аватары
+[Images]
+Выявы
 [Gadu-Gadu Number]
 Нумар Gadu-Gadu
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
@@ -289,6 +295,8 @@ HTTP невядомая памылка
 ;file \protocols\Gadu-Gadu\src\image.cpp
 [&Image]
 Малюнак
+[Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
+Выявы (*.bmp,*.gif,*.jpeg,*.jpg,*.png)
 [Image cannot be written to disk.]
 Малюнак не можа быць запісана на дыск.
 [Image from %s]
@@ -322,6 +330,8 @@ HTTP невядомая памылка
 [Gadu-Gadu Link Protocol]
 Пратакол Gadu-Gadu
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
+[Password could not be reminded because of error:\n\t%s (Error: %d)]
+Пароль немагчыма нагадаць з-за памылкі:\n\t%s (Памылка: %d)
 [Password was sent to your e-mail.]
 Пароль высланы на ваш e-mail.
 ;file \protocols\Gadu-Gadu\src\popups.cpp
@@ -330,9 +340,17 @@ HTTP невядомая памылка
 [Error]
 Памылка
 ;file \protocols\Gadu-Gadu\src\services.cpp
+[Can not remove old avatar file before refresh. ERROR: %d: %s\n%s]
+Немагчыма выдаліць стары файл аватара да абнаўлення. Памылка: %d: %s\n%s
+[Can not remove old avatar file. ERROR: %d: %s\n%s]
+Немагчыма выдаліць стары файл аватара. Памылка: %d: %s\n%s
+[To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
+Для выдалення Gadu-Gadu аватара скарыстайцеся сайтам gg.pl.
 ;file \protocols\Gadu-Gadu\src\sessions.cpp
 [Client Name]
 Імя кліента
+[IP Address]
+IP Адрас
 [Login Time]
 Час далучэння
 [Action]
@@ -359,6 +377,8 @@ HTTP невядомая памылка
 Немагчыма зарэгістраваць карыстача з-за памылкі:\n\t%s
 [Registration rejected]
 У рэгістрацыі адмоўлена
+[You have registered new account.\nPlease fill up your personal details in "M->View/Change My Details..."]
+Вы зарэгістравалі новы конт.\nКалі ласка, запоўніце свае асабістыя дадзеныя.
 [Your account cannot be removed because of error:\n\t%s]
 Немагчыма выдаліць карыстача з-за памылкі:\n\t%s
 [Bad number or password]

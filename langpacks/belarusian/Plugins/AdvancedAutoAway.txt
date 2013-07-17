@@ -106,6 +106,8 @@ AutoAway - убудова з пашыраным наборам функцый.
 Пазіцыя акна
 [Set window size]
 Памер акна
+[x]
+x
 [Allow override]
 Змяняць
 [Note: status profiles can be created in the 'Status Profiles' options screen]
@@ -248,6 +250,8 @@ Dial-up (эксперыментальна)
 Інтэрвал праверкі (сек)
 [Becoming active without status change]
 Не змяняць статус пры вяртанні
+[Pre-conditions]
+Перадумовы
 [Status: The status the account will change to\r\nAccount: The account changing state]
 Статус: Статус конта зменіцца на\r\nКонт: Змяненне стану конта
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp

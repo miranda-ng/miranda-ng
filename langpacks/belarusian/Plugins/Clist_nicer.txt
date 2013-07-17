@@ -22,6 +22,8 @@
 Пра модуль Nicer+
 [OK]
 ОК
+[Clist Nicer+]
+Clist Nicer+
 [Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miranda NG. 
 [Version]
@@ -723,6 +725,8 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 Для гэтага дзеяння неабходны правільны выбар кантакту. Абярыце кантакт са спісу і паўтарыце
 [Parameter mismatch]
 Неадпаведнасць параметру
+[The service %s specified by the %s button definition was not found. You may need to install additional plugins]
+Сервіс %s пазначаны кнопкай %s не знойдзены. Магчыма, для гэтага патрэбны дадатковы плагін
 [Service failure]
 Збой службы
 [You need the FloatingContacts plugin, cause the embedded floating contacts were removed]

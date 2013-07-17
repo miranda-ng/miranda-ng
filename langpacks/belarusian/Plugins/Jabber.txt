@@ -1,10 +1,12 @@
 ﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
-;  Plugin: Jabber
+;  Plugin: Jabber Protocol
 ;  Version: 0.11.0.2
-;  Authors: 
+;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
+[Jabber protocol support for Miranda NG.]
+Падтрымка пратакола Jabber у  Miranda NG.
 ;file \protocols\JabberG\res\jabber.rc
 [Edit Note]
 Рэдагаваць нататку
@@ -46,6 +48,8 @@
 Імпарт з файла
 [Export to file]
 Экспарт
+[Jabber]
+Jabber
 [Username:]
 Карыстач:
 [Change password]
@@ -96,6 +100,8 @@ TLS
 Рэгістрацыя конту Jabber
 [Browse]
 Агляд
+[Search...]
+Пошук...
 [Close]
 Зачыніць
 [Instruction:]
@@ -306,6 +312,8 @@ JID / URL:
 Змяніць паведамленне "%s"
 [Closing in %d]
 Зачыніць (%d)
+[Account type:]
+Тып конту:
 [Login server:]
 Сервер:
 [Member Information]
@@ -2001,6 +2009,8 @@ Jabber vCard: рэдагаванне тэлефона
 Занятак: %s
 [Set Activity]
 Занятак
+[Listening To]
+Слухаю
 [Moods]
 Настроі
 [Activities]

@@ -128,6 +128,8 @@ AIM Усталяваць Instant Idle
 Запрасіць
 [Invitation reason]
 Мэта запрашэння
+[Chat Room Invitation Request]
+Запрашэнне ў чат
 [&Deny]
 &Забараніць
 [Message]
@@ -151,15 +153,69 @@ AIM Усталяваць Instant Idle
 [User &history]
 Гісторыя карыстача
 ;file \protocols\AimOscar\src\error.cpp
+[Invalid Screen Name or password.]
+Няслушнае імя ці пароль
 [Mismatched Screen Name or password.]
 Няправільнае імя AIM ці пароль.
+[You are connecting too frequently. Try waiting 10 minutes to reconnect.]
+Вы далучаецеся занадта часта. Паспрабуйце паўтарыць праз 10 хвілін.
 [Unknown error occured when attempting to connect.]
 Пры спробе падлучэння адбылася невядомая памылка.
+[Invalid SNAC header.]
+Няслушны SNAC загаловак.
+[Server rate limit exceeded.]
+Перавышана абмежаванне хуткасці.
+[Client rate limit exceeded]
+Кліент перасягнуў паказьнік мяжы
+[Recipient is not logged in.]
+Атрымальнік не мінуў ідэнтыфікацыю
+[Requested service is unavailable.]
+Няслушны SNAC загаловак.
+[Requested service is not defined.]
+Запыт на паслугу не вызначаны.
+[You sent obsolete SNAC.]
+Ты паслаў састарэлых SNAC.
+[Not supported by server.]
+Не падтрымліваецца серверам.
+[Not supported by the client.]
+Не падтрымліваецца кліентам.
+[Refused by client.]
+Адмовіўся ад кліента.
+[Reply too big.]
+Адказ занадта вялікі.
+[Response lost.]
+Адказ страчаны.
+[Request denied.]
+Адмовіўся ад кліента.
+[Incorrect SNAC format.]
+Няслушны фармат SNAC.
+[Recipient blocked.]
+Атрымальнік блакаваны.
+[User temporarily unavailable.]
+Адмовіўся ад кліента.
+[No Match.]
+Не знойдзена.
+[List overflow.]
+Спіс перапоўнены.
+[Invalid Screen Name.]
+Няслушнае імя.
+[Invalid Password.]
+Няслушны пароль.
+[Invalid Email.]
+Няслушная скрыня.
+[Internal Error.]
+Унутраная памылка.
+[No Email Address.]
+Няма E-mail адраса.
 ;file \protocols\AimOscar\src\file.cpp
 ;file \protocols\AimOscar\src\links.cpp
 [AIM Link Protocol]
 Пратакол AIM
 ;file \protocols\AimOscar\src\popup.cpp
+[%s Protocol]
+%s Пратакол
+[Open mail account?]
+Адчыніць скрыню конта?
 ;file \protocols\AimOscar\src\proto.cpp
 [%s server connection]
 Далучэнне да сервера %s
@@ -170,7 +226,41 @@ AIM Усталяваць Instant Idle
 (Аўтаадказ):
 [No information has been provided by the server.]
 Сервер не падаў ніякай інфармацыі.
+[Error? Attempting to add ICQ contact to an AIM list.]
+Памылка? Спроба дадаць кантакт ICQ у AIM.
+[Cannot add this buddy because it requires authorization.]
+Немагчыма дадаць гэтага суразмоўцу, ён патрабуе аўтарызацыі.
+[Unknown error when adding buddy to list. Error code %#x]
+Невядомая памылка пры даданні ў спіс сяброў. Код памылкі %#x
+[Item you want to modify not found in list.]
+Элемент, які неабходна змяніць не знойдзены ў спісе.
+[Unknown error when attempting to modify a group. Error code %#x]
+Невядомая памылка пры спробе змены групы. Код памылкі %#x
+[You've got mail! Checked at]
+Вам ліст! праверана на
+[Error uploading avatar. (Too small)]
+Памылка загрузкі аватара. (Занадта маленькі)
+[Error uploading avatar. (Too big)]
+Памылка загрузкі аватара. (Занадта вялікі)
+[Error uploading avatar. (Wrong type)]
+Памылка загрузкі аватара. (Няслушны тып)
+[Error uploading avatar. (Is banned)]
+Памылка загрузкі аватара. (Заблакаваны)
+[Error uploading avatar. (Unknown error)]
+Памылка загрузкі аватара. (Невядомая памылка)
+[A confirmation message has been sent to the new email address. Please follow its instructions.]
+На новы адрас электроннай пошты было адпраўлена паведамленне. Калі ласка, прытрымлівайцеся яго ўказанням.
+[A confirmation message has been sent to your email address. Please follow its instructions.]
+Паведамленне было адпраўлена на ваш электронны адрас. Калі ласка, прытрымлівайцеся яго ўказанням.
+[Unable to confirm at this time. Please try again later.]
+Праверка недасяжна зараз. Калі ласка, паўтарыце спробу пазней.
+[Your account has already been confirmed.]
+Ваш конт ужо пацверджаны.
+[Can't start the confirmation procedure.]
+Не ўдаецца запусціць працэдуру пацвярджэння.
 ;file \protocols\AimOscar\src\theme.cpp
+[ICQ]
+ICQ
 [Block]
 Заблакаваць
 [Profile]
@@ -179,6 +269,8 @@ AIM Усталяваць Instant Idle
 Пошта AOL
 [AIM Icon]
 Значок AIM
+[Hiptop]
+Паведамленне было адпраўлена на ваш электронны адрас. Калі ласка, прытрымлівайцеся яго ўказанням.
 [AOL Bot]
 Бот AOL
 [Admin]
@@ -189,6 +281,8 @@ AIM Усталяваць Instant Idle
 Неправераны
 [Blocked list]
 Спіс заблакаваных
+[AOL]
+AOL
 [Foreground Color]
 Колер пярэдняга плану
 [Background Color]

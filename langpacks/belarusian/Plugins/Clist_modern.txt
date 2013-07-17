@@ -186,6 +186,10 @@
 Контаў у радку
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
 * Змена вышыні радка статусу: "Галоўнае меню->Фрэймы->Панэль статусу->Плывучы рэжым" і расцягніце панэль.
+[Hold [Shift] to inverse [Right Click] behaviour]
+Shift + Правы клік - Галоўнае меню
+[[Ctrl]+[Left Click] to filter only  protocol. Click on empty space to show all]
+Ctrl + Левы клік укл. фільтр па пратаколу, клік па пустым месцы адкл.
 [Set options per account]
 Паконтная налада
 [Enable custom account settings]
@@ -362,16 +366,14 @@
 секунд, пры розных статусах
 [Show multiple icons]
 Некалькі абразкоў
-[Only when statuses differ]
-Пры розных статусах
+[only when statuses differ]
+пры розных статусах
 [System tray icon]
 Абразок у трэі
 [System tray icon mode]
 Паводзіны значка ў сістэмным трэі
 [Use xStatus icon]
 Значок xСтатуса
-[only when statuses differ]
-пры розных статусах
 [Ignore Empty Extra icons places (arrange to right).]
 Ігнараваць пустыя дадатковыя значкі (справа)
 [Use 'Meta' protocol icons for Metacontacts]
@@ -388,12 +390,14 @@
 Метакантакты
 [Additional stuff]
 Дадаткова
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org]
-Для дадатковых магчымасцяў загрузіце модуль MetaContacts.\n\nhttp://miranda-ng.org
+[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
+Каб атрымаць больш магчымасцяў, загрузіце плагін MetaContacts.\n\nhttp://miranda-ng.org/p/MetaContacts/
 [Allow internal requesting of status message text]
 Дазволіць унутраныя запыты статусаў
 [Subcontacts indent:]
 Водступ субкантактаў:
+[Remove status message if contact became offline]
+Выдаляць паведамленні адлучаных кантактаў
 [Use improved search method in contactlist]
 Пошук па спісе з фільтраваннем вынікаў
 [Show time only if it is different from current time]
@@ -570,6 +574,8 @@
 Рамка
 [Floating]
 Плывучае
+[Frames Order]
+Рамка фрэймаў
 [UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
 У РАСПРАЦОЎЦЫ!!!                      ГЭТА НЕ ПРАЦУЕ
 [Row template]

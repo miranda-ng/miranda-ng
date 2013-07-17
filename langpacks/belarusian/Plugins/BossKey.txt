@@ -40,6 +40,8 @@
 Скасаваць
 [EN]
 EN
+[Workstation is Locked]
+Кампутар заблакаваны
 [Screen Saver is running]
 Запушчана застаўка
 [Windows is inactive]
@@ -69,9 +71,9 @@ Miranda заблакавана.\n Увядзіце ваш пароль для р
 Схаваць
 [Hide/Show Miranda]
 Схаваць/Паказаць Miranda
+[get the BossKey name]
+атрымаць імя BossKey
 ;file \plugins\BossKeyPlus\src\Options.cpp
-[Open String Formatting Help]
-Дапамога па фармаце радкоў
 [Events]
 Падзеі
 [Main]

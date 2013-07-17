@@ -80,6 +80,8 @@ ID карыстача
 Бойся малп!!!
 [Check every (s):]
 Правяраць кожныя (з):
+[SSL]
+SSL
 [Don't check if more than (users):]
 Не правяраць, калі больш (карысцяў):
 [User information]
@@ -118,6 +120,8 @@ ID карыстача
 Інфармацыя CTCP
 [Question]
 Пытанне
+[&OK]
+&OK
 [&Cancel]
 С&касаваць
 [Perform]
@@ -144,6 +148,8 @@ ID карыстача
 Аўта
 [Off]
 Адкл.
+[Host address]
+&OK
 [Network]
 Сеціва
 [Channels on server]
@@ -260,6 +266,10 @@ Wildcard пошук па сетцы
 Паведамленні
 [Notices]
 Апавяшчэнні
+[CTCP]
+CTCP
+[DCC]
+DCC
 [Ignore mask ( nick!user@host )]
 Маска ігнаравання( nick!user@host )
 [Network (*)]

@@ -97,6 +97,16 @@
 Памылка далучэння: Памылковы запрос.
 [Your account requires HTTPS connection. Activating.]
 Ваш конт патрабуе HTTPS злучэння. Актывацыя.
+[Login error: Some Facebook things are required.]
+Памылка далучэння: Неабходны некаторыя рэчы Facebook.
+[Login error, probably bad login credentials.]
+Памылка далучэння, верагодна, няслушныя дадзеныя для ўваходу.
+[Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
+Нешта здарылася з Facebook. Можа быць, было сур'ёзнае абнаўленне, таму чакайце абнаўлення плагіна.
+[Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
+Маюць патрэбу ў пацверджанні для адпраўкі паведамленняў з іншых кліентаў.\n  Адкрыйце сайт facebook і паспрабуйце адправіць паведамленне гэтаму кантакту зноў!
+[Timeout when sending message.]
+Затрымка пры адпраўцы паведамлення.
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Калі ласка, увядзіце імя карыстача.
@@ -130,7 +140,21 @@
 [Only for me]
 Толькі я
 ;file \protocols\FacebookRM\src\contacts.cpp
+[Contact was removed from your server list.]
+Кантакт быў выдалены з вашага спісу на серверы.
+[Error occured when removing contact from server.]
+Памылка пры выдаленні кантакта з сервера.
+[Request for friendship was sent.]
+Запыт на дружбу адпраўлены.
+[Error occured when requesting friendship.]
+Адбылася памылка пры запыце дружбы.
+[Request for friendship was canceled.]
+Запыт на сяброўства быў адменены.
+[Error occured when canceling friendship request.]
+Адбылася памылка пры скасаванні запыта сяброўства.
 ;file \protocols\FacebookRM\src\dialogs.cpp
+[What's on your mind, %s?]
+Што ў цябе ў галаве, %s?
 [Sample event]
 Прыклад падзеі
 [Sample request]
@@ -144,8 +168,6 @@
 [You cannot send messages when you are offline.]
 Вы не можаце адпраўляць паведамленні без далучэння.
 ;file \protocols\FacebookRM\src\process.cpp
-[Attachments:]
-Дадаткі:
 ;file \protocols\FacebookRM\src\proto.cpp
 [Show Mind Window]
 Статус Facebook

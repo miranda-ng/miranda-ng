@@ -411,6 +411,8 @@ Cлужба:
 &Мадэрнізацыя
 [&Remove...]
 Выдаліць...
+[Miranda NG]
+Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG перазапускаецца.\nКалі ласка, пачакайце...
 [Error Console]
@@ -429,7 +431,7 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Нататкі:
 [This font is used to display various addtional notes.]
 Шрыфт для розных дадатковых нататак.
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
 Вас вітае менеджэр контаў Міранды НГ!\nТут вы можаце наладзіць свае конты.\n\nАбярыце конт з спісу злева, каб убачыць даступныя опцыі. Цi проста націсніце на кнопку "Стварыць" пад спісам, каб стварыць новы конт.
 [Event icon legend:]
 Апісанне абразкоў падзей:
@@ -520,6 +522,8 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 &Забараніць
 [Decide &Later]
 Вырашыць &пазней
+[&I]
+&I
 [Reason:]
 Чыннік:
 [Denial Reason:]
@@ -530,6 +534,8 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Вас дадалі
 [&Close]
 &Зачыніць
+[&U]
+&U
 ;file \src\core\stdaway\resource.rc
 [%s Message for %s]
 %s (%s)
@@ -620,8 +626,8 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Тэкст
 [Background]
 Фон
-[(The timeout require at least Popup plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
-(Тайм-аўт патрабуе па меншай меры Popup плагін не ніжэй 1.0.1.9. Усталяванне ў 0 азначае наладу па змаўчанні, -1 = бясконцы час)
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+( 0 - па змаўчанні, -1 - бясконца)
 [List]
 Спіс
 [&Message]
@@ -632,6 +638,10 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Капіяваць усё
 [Word lookup]
 Знайсці слова
+[Google]
+Google
+[Wikipedia]
+Wikipedia
 [Link]
 Спасылка
 [Open a &new browser window]
@@ -640,8 +650,6 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 &Адкрыць у бягучым вакне
 [Message]
 Паведамленне
-[Undo  ]
-Адкат 
 [Redo]
 Вярнуць
 [Copy]
@@ -782,7 +790,7 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 [Indent groups by:]
 Водступ для груп:
 [pixels]
-пікс.
+пікселяў
 [Visual]
 Візуальныя налады
 [Scroll list smoothly]
@@ -886,6 +894,10 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 &Абраць ізноў...
 [Total size:]
 Агульны памер:
+[&D]
+&D
+[&H]
+&H
 [Incoming File Transfer]
 Уваходны файл
 [A&ccept]
@@ -900,6 +912,8 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Файлы:
 [Save to:]
 Захоўваць у:
+[&A]
+&A
 [Contact menu]
 Меню кантакту
 [Open...]
@@ -989,11 +1003,17 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 ;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 Аб праграме
+[Miranda NG\n%s]
+Miranda NG\n%s
 [Credits >]
 Аўтары >
 ;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 Перайсці ў рэжым чакання, калі неактыўныя:
+[Windows]
+Windows
+[Miranda]
+Miranda
 [Become idle if the screen saver is active]
 Рэжым чакання, калі ўключана застаўка
 [Become idle if the computer is locked]
@@ -1049,18 +1069,14 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Паказваць лічыльнік знакаў
 [Show warning when message has not been received after]
 Паведамляць, калі паведамленне не атрымалася адправіць на працягу
-[seconds.]
-секунд.
 [Support control up/down in message area to show previously sent messages]
 Паказваць старыя паведамленні пры націску Ctrl+УГАРУ/УНІЗ
 [Delete temporary contacts when closing message window]
 Выдаляць часавыя кантакты пры зачыненні акна паведамлення
 [Enable avatar support in the message window]
 Падтрымка аватараў у акне паведамлення
-[Limit avatar height to ]
-Абмежаваць вышыню аватара 
-[pixels]
-пікселяў
+[Limit avatar height to]
+Вышыня аватара да
 [Max Number of Flashes]
 Мігцець не больш
 [Send Error]
@@ -1445,8 +1461,8 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Выйсці ўдзельнікаў
 [Show icon for users kicking other user]
 Выспяткі
-[Show icon for notices ]
-Апавяшчэнні
+[Show icon for notices]
+Абразок апавяшчэння
 [Show icon for name changes]
 Змены нікаў
 [Show icon for information messages]
@@ -1471,8 +1487,8 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Выйсці ўдзельнікаў
 [Show icon in tray for users kicking other user]
 Выспятак
-[Show icon in tray for notices ]
-Апавяшчэнні
+[Show icon in tray for notices]
+Абразок апавяшчэння у трэі
 [Show icon in tray for name changes]
 Змены псеўданімаў
 [Show icon in tray for information messages]
@@ -1497,8 +1513,8 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Выйсці ўдзельнікаў
 [Show popup for users kicking other user]
 Выспятак 
-[Show popup for notices ]
-Апавяшчэнні
+[Show popup for notices]
+Вакно апавяшчэння
 [Show popup for name changes]
 Змены псеўданімаў
 [Show popup for information messages]
@@ -2041,8 +2057,6 @@ URL ад %s
 [%s (locked)]
 %s (заблакаваны)
 ;file \src\modules\clist\clistmod.cpp
-[This plugin requires db3x plugin version 0.5.1.0 or later]
-Для працы гэтга плагіна патрэбны db3x 0.5.1.0 ці старэй
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (Невядомы кантакт)
@@ -2297,6 +2311,8 @@ Miranda NG не можа адкрыць гэты профіль
 ;file \src\modules\netlib\netlibssl.cpp
 [Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package]
 Кліент не можа дэкадаваць паведамлення хаста. Магчымыя прычыны: вузел не падтрымлівае SSL ці патрабуе неіснуючы пакет бяспекі
+[Host we are connecting to is not the one certificate was issued for]
+Выдадзены сертыфікат не адпавядае хасту далчэння
 ;file \src\modules\options\options.cpp
 [<all modules>]
 <Усе плагіны>
@@ -2315,8 +2331,8 @@ Miranda NG не можа адкрыць гэты профіль
 Плагін ядра '%s' не можа быць загружана ці адсутнічае. Праграма змушана завяршыць працу
 [Fatal error]
 Фатальная памылка
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
-Няма загружаных плагінаў гутаркі. Калі ласка, усталюйце/уключыце адзін з плагінаў гутаркі,напрыклад, "srmm.dll"
+[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
+Няма загружаных плагінаў гутаркі. Калі ласка, усталюйце/уключыце адзін з плагінаў гутаркі,напрыклад, "StdMsg.dll"
 ['%s' is disabled, re-enable?]
 '%s' адключаны, далучыць?
 [Re-enable Miranda plugin?]
@@ -2325,8 +2341,8 @@ Miranda NG не можа адкрыць гэты профіль
 Немагчыма загрузіць плагін у службовым рэжыме!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Немагчыма загрузіць ніводны з усталяваных плагінаў спісу кантактаў. Нават адключаныя ў наладах не запускаюцца.
-[Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
-Не знойдзены плагін спісу кантактаў! Вам патрэбен clist_*.dll.
+[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
+Не знойдзены плагін спісу канактаў. Вам патрэбны StdClist ці Clist_*.
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Плагін
@@ -2394,6 +2410,14 @@ ID конта
 [&Accounts...]
 &Конты...
 ;file \src\modules\skin\hotkey_opts.cpp
+[Ctrl + ]
+Ctrl + 
+[Alt + ]
+Alt + 
+[Shift + ]
+Shift + 
+[Win + ]
+Win + 
 [Remove shortcut]
 Выдаліць спалучэнне
 [Add another shortcut]

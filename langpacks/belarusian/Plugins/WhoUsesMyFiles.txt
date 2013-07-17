@@ -59,6 +59,8 @@ WUMF: Бягучыя злучэнні
 [Show current connections]
 Паказаць злучэнні
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
+[ID]
+ID
 [User]
 Карыстач
 [File]

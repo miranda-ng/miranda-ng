@@ -32,8 +32,8 @@
 Пры ўключэнні выдаляць часавыя кантакты
 [Show warning when message has not been received after]
 Паведамляць, калі паведамленне не атрымалася адправіць на працягу
-[seconds.]
-секунд.
+[seconds]
+секунд
 [Tabs]
 Укладкі
 [Enable tabs]
@@ -46,6 +46,8 @@
 Абмежаваць імёны на ўкладках
 [characters]
 знакаў
+[Show close button on each tab]
+Кнопка закрыць на кожнай ўкладцы
 [Switch to active tab]
 Перамыкацца на актыўную ўкладку
 [Limit number of tabs per window to]
@@ -218,6 +220,8 @@
 Месца
 [Trim to]
 Ліміт
+[kB]
+kB
 [Group Chat]
 Чат-пакой
 [Use same style as in the message log]
@@ -246,6 +250,20 @@
 Вылучыць &усё
 [Word lookup]
 Знайсці слова
+[Google]
+Google
+[Bing]
+Bing
+[Yandex]
+Yandex
+[Wikipedia (en)]
+Wikipedia (en)
+[Google Maps]
+Google Maps
+[Google Translate]
+Google Translate
+[Yahoo]
+Yahoo
 [C&lear Log]
 Ачысціць лог
 [&Open link]
@@ -341,6 +359,8 @@
 Паказаць спіс карыстачоў
 [Status 1 (10x10)]
 Статус 1 (10x10)
+[Status 2 (10x10)]
+Статус 2(10x10)
 [Status 3 (10x10)]
 Статус 3 (10x10)
 [Status 4 (10x10)]
@@ -486,6 +506,8 @@
 Невядомы кантакт
 [Me]
 Я
+[My Contact]
+Мае кантакты
 [Today]
 Сёння
 [Yesterday]
@@ -494,6 +516,10 @@
 Пасылка файла
 [File received]
 Файл атрыманы
+[URL sent]
+URL адасланы
+[URL received]
+URL атрыманы
 ;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 Агульнае
@@ -523,12 +549,16 @@
 Двукроп'е ва ўваходных паведамленнях
 [Message area]
 Вобласць паведамлення
+[Input area background]
+Фон поля ўводу
 [Outgoing URL]
 Выходныя URL
 [Incoming URL]
 Уваходны URL
 [Infobar contact name]
 Інфа-Панэль: імя кантакту
+[Infobar background]
+Фон інфопанэлі
 [Infobar status message]
 Інфа-Панэль: статутнае паведамленне
 [Others nicknames]
@@ -569,6 +599,8 @@
 Фон поля ўводу
 [User list members (online)]
 Удзельнікі спісу (далучаныя)
+[User list background]
+Фон спісу карыстачоў
 [User list members (away)]
 Карыстачы (адсутнічаюць)
 [User list lines]
@@ -750,8 +782,8 @@ Miranda не змагла загрузіць убудаваную сістэму
 Выйсці ўдзельнікаў
 [Show icon in tray for users kicking other user]
 Выспятак
-[Show icon in tray for notices ]
-Апавяшчэнні
+[Show icon in tray for notices]
+Значок у трэі для апавяшчэнняў
 [Show icon in tray for name changes]
 Змены псеўданімаў
 [Show icon in tray for information messages]
@@ -776,8 +808,8 @@ Miranda не змагла загрузіць убудаваную сістэму
 Выйсці ўдзельнікаў
 [Show popup for users kicking other user]
 Выспятак 
-[Show popup for notices ]
-Апавяшчэнні
+[Show popup for notices]
+Паказаць вокны для апавяшчэнняў
 [Show popup for name changes]
 Змены псеўданімаў
 [Show popup for information messages]
@@ -824,6 +856,8 @@ ID бягучага кантакту (калі вызначаны). Напрык
 скарочаная назва месяца
 [full month name]
 поўная назва месяца
+[year without century, 01-  99]
+Год без стагоддзяў, 01 - 99
 [year with century, 1901-9999]
 год з 4-х лічбаў, 1901-9999
 [abbreviated weekday name]

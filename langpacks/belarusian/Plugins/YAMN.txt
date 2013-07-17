@@ -54,6 +54,8 @@
 Кадоўка:
 [Port:]
 Порт:
+[SSL]
+SSL
 [Disable STLS]
 Выключыць STLS
 [Startup check]
@@ -78,6 +80,8 @@
 Статус:
 [Account]
 Конт
+[APOP]
+APOP
 [Name:]
 Імя:
 [Options]
@@ -343,6 +347,8 @@ OpenSSL не загружаны
 Усе файлы
 [Select executable used for notification]
 Выбар праграмы для апавяшчэння
+[Dialog box error]
+Вакно памылкі
 [Failed]
 Не атрымалася
 [Do you really want to delete this account?]

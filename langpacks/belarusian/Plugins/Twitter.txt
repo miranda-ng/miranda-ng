@@ -16,6 +16,8 @@
 Група:
 [Username:]
 Карыстач:
+[[Sign in to link your twitter account]]
+Звязаць свой ​​твітэр
 [Send Tweet]
 Паслаць Tweet
 [Send]
@@ -73,6 +75,8 @@ URL:
 ;file \protocols\Twitter\src\connection.cpp
 [OAuth variables are out of sequence, they have been reset.  Please reconnect and reauthorise Miranda to Twitter.com (do the PIN stuff again)]
 Зменныя OAuth страцілі паслядоўнасць і былі абнулены. Калі ласка, далучыцеся зноў і аўтарызуйце Miranda на Twitter.com (яшчэ раз з PIN-кодам)
+[Failed to get Twitter Access Tokens, please go offline and try again.  If this keeps happening, check your internet connection.]
+Не атрымалася атрымаць жэтоны доступу Twitter, выйдзице і паўтарыце спробу. Калі гэта адбываецца ўвесь час, праверце злучэнне з інтэрнэтам.
 ;file \protocols\Twitter\src\proto.cpp
 [Avatars]
 Аватары
@@ -86,9 +90,19 @@ URL:
 Усплывальныя вокны
 [%s server connection]
 Далучэнне да сервера %s
+[Unable to get Netlib connection for Twitter]
+Не атрымалася атрымаць Netlib злучэнне для Twitter
+[Twitter]
+Twitter
 [%s avatar connection]
 далучэнне аватараў %s
+[Unable to get avatar Netlib connection for Twitter]
+Не атрымалася атрымаць Netlib злучэнне для аватараў Twitter
+[%s Protocol]
+%s Конт
 ;file \protocols\Twitter\src\theme.cpp
+[Twitter Icon]
+Абразок Twitter
 [Visit Homepage]
 Наведаць старонку
 [Reply...]

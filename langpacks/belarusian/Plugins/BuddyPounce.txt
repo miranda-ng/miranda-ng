@@ -55,8 +55,14 @@
 Заняты
 [DND]
 Не турбаваць
+[Free For Chat]
+Вольны
 [Invisible]
 Нябачны
+[On The Phone]
+На тэлефоне
+[Out To Lunch]
+За абедам
 [error......]
 памылка...
 [Times]

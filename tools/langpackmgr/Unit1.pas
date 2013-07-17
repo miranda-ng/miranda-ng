@@ -84,6 +84,7 @@ end;
 procedure TForm1.Button2Click(Sender: TObject);
 begin
 refresh;
+memo2.Lines.Clear;
 assignfile(translate,opendialog.filename,CP_UTF8);
 rewrite(translate);
 writeLn(translate, bom);
@@ -138,7 +139,7 @@ end;
 procedure TForm1.GClick(Sender: TObject);
 var str:string;
  begin
- str:='http://translate.google.com/?hl=&ie=&langpair=auto&text=';
+ str:='http://translate.google.com/?hl=&ie=&langpair=en&text=';
 for I := 0 to memo1.Lines.Count-1 do
 begin
 str:=str+memo1.Lines[i];
@@ -253,15 +254,18 @@ begin
 closefile(translate);
 
 if extractfilename(opendialog.filename)='=CORE=.txt' then
-begin
 assignfile(translate,ExtractFilePath(Application.ExeName)+
-'\..\english\'+extractfilename(opendialog.filename),CP_UTF8);
-end
+'\..\english\'+extractfilename(opendialog.filename),CP_UTF8)
 else
-begin
+  if fileexists(ExtractFilePath(Application.ExeName)+
+'\..\english\plugins\'+extractfilename(opendialog.filename)) then
 assignfile(translate,ExtractFilePath(Application.ExeName)+
-'\..\english\plugins\'+extractfilename(opendialog.filename),CP_UTF8);
-end;
+'\..\english\plugins\'+extractfilename(opendialog.filename),CP_UTF8)
+else
+  if fileexists(ExtractFilePath(Application.ExeName)+
+'\..\english\weather\'+extractfilename(opendialog.filename)) then
+assignfile(translate,ExtractFilePath(Application.ExeName)+
+'\..\english\weather\'+extractfilename(opendialog.filename),CP_UTF8);
    reset(translate);
    ReadLn(translate, bom);
    ie:=0;

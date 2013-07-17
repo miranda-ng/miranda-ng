@@ -57,10 +57,24 @@
 [(you have to install pcre.dll or pcre3.dll to use regular expressions here)]
 (усталюеце pcre.dll ці pcre3.dll каб выкарыстоўваць тут рэгулярныя выразы)
 ;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
+[changed client to %s (was %s)]
+змяніў кліент на %s (быў %s)
+[changed client to %s]
+змяніў кліент на %s
 [%s (was %s)]
 %s (быў %s)
 [) changed client to ]
 ) змяніў кліент на 
+[Client change notifications:]
+Апавяшчэнні  змены кліента:
+[Never, ignore client changes for this contact]
+Ніколі, ігнараваць змены кліента гэтага кантакту
+[Always except when client change notifications are disabled globally]
+Заўсёды, акрамя таго, калі апавяшчэнні змены кліента адключаныя глабальна
+[Always, even when client change notifications are disabled globally]
+Заўсёды, нават калі апавяшчэнні змены кліента адключаныя глабальна
+[Use global settings (default)]
+Глабальныя налады (змаўчанне)
 [Disable c&lient change notification]
 Выключыць апавяшчэнні пра змену кліента
 [Enable c&lient change notification]

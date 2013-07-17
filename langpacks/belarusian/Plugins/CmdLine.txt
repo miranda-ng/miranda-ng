@@ -23,9 +23,13 @@ Miranda была зачынена ці адбылася памылка пры ч
 Перадача Miranda паказанай каманды на выкананне. Каманды могуць мець ці не мець аргумент(ы). Выкарыстоўвайце '%s help' для атрымання спісу даступных каманд.\n
 [No command can have more than %d parameters\n]
 Каманды не могуць мець больш %d аргументаў\n
+[%s version %s]
+%s версія %s
 [Unknown command '%s'.\n]
 Невядомая каманда '%s'.\n
 ;file \plugins\CmdLine\src\CmdLine.cpp
+[Could not initialize CmdLine plugin property]
+Не атрымалася ініцыялізаваць уласнасцівасці CmdLine
 [Error]
 Памылка
 ;file \plugins\CmdLine\src\mimcmd_data.h

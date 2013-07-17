@@ -106,6 +106,8 @@
 Пазіцыя акна
 [Set window size]
 Памер акна
+[x]
+x
 [Allow override]
 Змяняць
 [Note: status profiles can be created in the 'Status Profiles' options screen]

@@ -71,11 +71,21 @@
 [Use relative timestamp]
 Адносны час
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Outgoing File Transfer]
+Выходныя перадачы файлаў
 [Incoming File Transfer]
 Уваходны файл
+[URL sent]
+URL адпраўлены
+[URL received]
+URL атрыманы
 ;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Невядомы кантакт)
+[ requested authorisation]
+ запрасіў аўтарызацыю
+[ was added.]
+ быў дададзены.
 ;file \plugins\IEView\src\IEView.cpp
 [ERROR]
 ПАМЫЛКА

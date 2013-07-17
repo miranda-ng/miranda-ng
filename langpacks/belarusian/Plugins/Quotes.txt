@@ -52,10 +52,20 @@
 Канвертар валют
 [&to:]
 у:
+[&Swap]
+Памяняць
 [Convert]
 Канвертаваць
+[Info provided by <a href="http://www.google.com">Google</a>]
+Інфармацыя з <a href="http://www.google.com">Google</a>
 [Close]
 Зачыніць
+[Info provided by <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>]
+Інфармацыя з <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>
+[Get data from:]
+Атрымаць з:
+[Filter:]
+Фільтр:
 [Popup Window Settings]
 Налады ўсплывальных вокнаў
 [Colours]
@@ -173,15 +183,46 @@ HTTP далучэнне Quotes
 [Import]
 Імпартаваць
 ;file \plugins\Quotes\src\ImportExport.cpp
+[Xml File (*.xml)]
+Файл Xml(*.xml)
 [All files (*.*)]
 Усе файлы (*.*)
 ;file \plugins\Quotes\src\ModuleInfo.cpp
 ;file \plugins\Quotes\src\QuoteChart.cpp
+[Log File]
+Файл лога
+[Miranda's History]
+Гісторыя Міранды
 [All]
 Усё
+[Last Day]
+Апошні дзень
+[Last Week]
+Апошні тыдзень
+[Last Month]
+Апошні месяц
+[Last Year]
+Апошні год
+[User-Defined]
+Карыстальніцкі
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderBase.cpp
+[Log Files (*.txt,*.log)]
+Лог (*.txt,*.log)
+[Enter integer value]
+Увядзіце цэлае значэнне
+[Enter log file name.]
+Увядзіце назву для лога.
+[Enter log file format.]
+Увядзіце фармат лога.
+[Enter history format.]
+Увязіце фармат гісторыі.
+[Enter popup window format.]
+Увядзіце фармат вакна.
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
+[Error occurred during html parsing.]
+Памылка падчас парсінгу HTML.
 [Error occurred during site access.]
 Памылка пры доступе да сайта.
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp

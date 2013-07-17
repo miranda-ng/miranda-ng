@@ -6,6 +6,10 @@
 ;  Authors: 
 ;============================================================
 ;file \protocols\Yahoo\res\Yahoo.rc
+[Yahoo]
+Yahoo
+[ID:]
+ID:
 [Password:]
 Пароль:
 [Nick:]
@@ -164,6 +168,8 @@ Yahoo Ігнор
 Новая пошта ў тэчцы "Ўваходныя"
 [%s plugin connections]
 %s злучэнне з серверам
+[ID]
+ID
 [Please enter your yahoo id in Options/Network/Yahoo]
 Увядзіце ваш yahoo ID - Налады/Сеціва/Yahoo
 [Please enter your yahoo password in Options/Network/Yahoo]

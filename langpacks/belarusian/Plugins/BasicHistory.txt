@@ -114,6 +114,8 @@
 Час
 [Delta time]
 Праз час
+[Day of week]
+Дзень тыдня
 [Day]
 Дзень
 [Export to]
@@ -145,6 +147,8 @@
 &Гісторыя
 [Delete All User History]
 Выдаліць усю гісторыю карыстача
+[Execute history task]
+Выканаць задачу гісторыі
 [Incoming message]
 Уваходнае паведамленне
 [Outgoing message]
@@ -220,6 +224,8 @@
 Паўнавартасны HTML
 [Plain Html]
 Чысты HTML
+[Txt]
+Txt
 [Binary]
 Двайковы файл
 [Dat (mContacts)]

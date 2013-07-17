@@ -47,6 +47,8 @@
 Імя станцыі
 [Timeout, ms (5000)]
 Таймаўт, мс (5000)
+[PreBuf, % (75%)]
+PreBuf, % (75%)
 [Hallway]
 Пярэдні пакой
 [Mountains]

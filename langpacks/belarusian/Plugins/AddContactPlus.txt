@@ -3,7 +3,7 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Biaek
+;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
 [Provides the ability to quickly add new contacts.]
 Дае магчымасць хутка дадаваць новыя кантакты.
