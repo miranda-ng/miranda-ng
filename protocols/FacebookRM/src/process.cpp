@@ -750,7 +750,7 @@ void FacebookProto::SearchAckThread(void *targ)
 
 				std::string id = utils::text::source_get_value2(&item, "?id=", "&\"");
 				if (id.empty())
-					id = utils::text::source_get_value2(&item, "?slog=", "&\"");
+					id = utils::text::source_get_value2(&item, "?ids=", "&\"");
 
 				std::string name = utils::text::source_get_value(&item, 4, "<td class=\"name\">", "<a", ">", "</");
 				std::string surname;

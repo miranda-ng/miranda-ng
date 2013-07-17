@@ -251,6 +251,11 @@ HANDLE FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 		fbu.real_name += surname;
 	}
 
+	if (fbu.user_id.find_first_not_of("0123456789") != std::string::npos) {
+		MessageBox(0, TranslateT("Facebook ID must be numeric value."), m_tszUserName, MB_ICONERROR | MB_OK);
+		return NULL;
+	}
+
 	HANDLE hContact = AddToContactList(&fbu, CONTACT_NONE);
 	if (hContact) {
 		if (flags & PALF_TEMPORARY) {
