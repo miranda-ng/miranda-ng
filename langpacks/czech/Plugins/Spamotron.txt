@@ -151,6 +151,13 @@ Zprávy
 
 [Popups]
 Oznámení
+;file \plugins\Spamotron\src\popups.cpp
+[Message blocked due to preview action]
+
+[Message approved due to preview action]
+
+[Challenge sent to preview contact]
+
 ;file \plugins\Spamotron\src\spamotron.cpp
 [Contact %s approved.]
 

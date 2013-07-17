@@ -101,5 +101,3 @@ Soubor jako zpráva...
 ;file \plugins\FileAsMessage\src\main.h
 [File As Message]
 Soubor jako zpráva
-[If you see this "garbage", probably you have no "fileAsMessage" plugin installed, see http://miranda-ng.org/p/FileAsMessage/ for more information and download.]
-Pokud vidíte tyto "nesmysly", nejspíše nemáte nainstalován doplněk "Soubor jako zpráva", navštivte http://miranda-ng.org/p/FileAsMessage/ pro více informací a stažení.

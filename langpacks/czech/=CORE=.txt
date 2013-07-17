@@ -431,7 +431,7 @@ Používá se k zobrazení většiny textů v programu.
 Poznámky:
 [This font is used to display various addtional notes.]
 Používá se k zobrazení dodatkových textů a poznámek.
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
 Vítejte ve správci účtů programu Miranda NG!\nZde si můžete založit nový účet ve vybrané síti, upravit stávající nebo naopak některý smazat.\n\nChcete-li založit nový účet, klikněte na tlačítko \"plus\" v levém dolním rohu okna. Pokud si přejete upravit stávající účet, vyberte požadovaný ze seznamu.
 [Event icon legend:]
 Legenda k vybraným ikonám:
@@ -626,8 +626,8 @@ Prodleva (s)
 Text
 [Background]
 Pozadí
-[(The timeout require at least Popup plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
-(Doba zobrazení vyžaduje aspoň Popup plugin v 1.0.1.9. Nastavení hodnoty 0 znamená výchozí nastavení a -1 znamená neomezený čas)
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(Nastavení hodnoty 0 znamená výchozí nastavení a -1 znamená neomezený čas)
 [List]
 Seznam
 [&Message]
@@ -650,8 +650,6 @@ Otevřít v &novém okně
 &Otevřít v aktuálním okně
 [Message]
 Zpráva
-[Undo  ]
-Zpět 
 [Redo]
 Znovu
 [Copy]
@@ -2333,8 +2331,8 @@ M&ožnosti...
 Doplněk jádra '%s' nelze načíst nebo neexistuje. Miranda bude ukončena
 [Fatal error]
 Závažná chyba
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
-Není načten doplněk pro komunikační okno. Prosím nainstalujte/povolte jeden z komunikačních doplňků, například "srmm.dll"
+[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
+Není načten doplněk pro komunikační okno. Prosím nainstalujte/povolte jeden z komunikačních doplňků, například "StdMsg.dll"
 ['%s' is disabled, re-enable?]
 '%s' není aktivní. Chcete ho aktivovat?
 [Re-enable Miranda plugin?]
@@ -2343,8 +2341,8 @@ Chcete znovu aktivovat tento doplněk?
 Nelze načíst doplněk v nouzovém režimu
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Nelze spustit žádný z nainstalovaných doplňků pro seznam kontaktů a to i přesto, že byla ignorována vaše volba konkrétního doplňku.
-[Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
-Nelze nalézt doplněk pro seznam kontaktů! Potřebujete clist_classic nebo jiný doplněk.
+[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
+Nelze nalézt doplněk pro seznam kontaktů! Potřebujete StdClist nebo jiný doplněk.
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Doplněk
@@ -2412,6 +2410,14 @@ Pro smazání tohoto účtu musíte deaktivovat doplněk
 [&Accounts...]
 Účt&y...
 ;file \src\modules\skin\hotkey_opts.cpp
+[Ctrl + ]
+Ctrl + 
+[Alt + ]
+Alt + 
+[Shift + ]
+Shift + 
+[Win + ]
+Win + 
 [Remove shortcut]
 Odstranit zkratku
 [Add another shortcut]

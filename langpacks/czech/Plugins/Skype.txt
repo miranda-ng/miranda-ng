@@ -257,6 +257,22 @@ Zakázaný (&ban)
 Zkopírovat uživatelské jméno
 [Copy room &uri]
 Zkopírovat &URI místnosti
+[Creator]
+Zakladatel
+[Master]
+Správce
+[Helper]
+Pomocník
+[User]
+Uživatel
+[Listener]
+Posluchač
+[Applicant]
+Uchazeč
+[Retried]
+Vysloužilý
+[Outlaw]
+Vyhnanec
 [me]
 já
 [waits to join]

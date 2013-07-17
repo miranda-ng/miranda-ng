@@ -1,10 +1,12 @@
 ﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
-;  Plugin: MSN
+;  Plugin: MSN Protocol
 ;  Version: 0.11.0.2
-;  Authors: 
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
+[Microsoft Network (MSN) protocol support for Miranda NG.]
+Microsoft Network (MSN) protokol pro Mirandu NG.
 ;file \protocols\MSN\res\msn.rc
 [MSN]
 MSN
@@ -177,6 +179,10 @@ Zpráva od: %s
 [Unread mail is available: %d in Inbox and %d in other folders).]
 Máte neprečtenou poštu. Příchozí: %d, ostatní: %d.
 ;file \protocols\MSN\src\msn_menu.cpp
+[&Unblock]
+Od&blokovat
+[&Block]
+Za&blokovat
 [Open &Hotmail Inbox]
 Přečíst poštu &Hotmail
 [Send &Hotmail E-mail]
@@ -193,8 +199,6 @@ Přečíst poštu &Hotmail
 Zobrazit profil
 [Setup Live &Alerts]
 N&astavit upozornění
-[&Block]
-Za&blokovat
 [&Start Netmeeting]
 Spustit Netmeetin&g
 ;file \protocols\MSN\src\msn_misc.cpp

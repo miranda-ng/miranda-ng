@@ -25,7 +25,6 @@
 [Error memory allocation]
 [Error crerating menu]
 [Popup plugin not found!]
-[Error]
 [Enable WUMF popups]
 [Disable WUMF popups]
 [Common Dialog Error 0x%lx]

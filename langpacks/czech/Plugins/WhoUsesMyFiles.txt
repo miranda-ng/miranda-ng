@@ -79,7 +79,7 @@ Soubor
 [Popup plugin not found!]
 
 [Error]
-
+Chyba
 [Enable WUMF popups]
 
 [Disable WUMF popups]

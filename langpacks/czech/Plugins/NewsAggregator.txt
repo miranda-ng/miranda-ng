@@ -6,7 +6,7 @@
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
-
+Čtečka novinek RSS/Atom.
 ;file \plugins\NewsAggregator\Res\Resource.rc
 [Add]
 Přidat
@@ -19,7 +19,7 @@ Importovat
 [Export]
 Exportovat
 [Retrieve news at startup]
-
+Získat novinky při spuštění
 [OK]
 OK
 [Cancel]
@@ -127,9 +127,9 @@ Povolit/zakázat automatickou aktualizaci
 Zdroj
 [%s\nis a valid feed's address.]
 %s\nje platná adresa zdroje.
+[%s\nis not a valid feed's address.]
+%s\nnení platná adresa zdroje.
 [New Aggregator]
-
-[%s\nis a not valid feed's address.]
 
 [empty]
 

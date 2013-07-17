@@ -60,8 +60,6 @@ Zálohování databáze
 Složka pro zálohování profilů
 [Database]
 Databáze
-[Database/Database Backups]
-Databáze/Záloha databáze
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to root miranda folder]
 cesta ke kořenové složce Mirandy
