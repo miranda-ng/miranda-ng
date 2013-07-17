@@ -170,6 +170,7 @@ VOID GetNewsData(TCHAR *tszUrl, char **szData, HANDLE hContact, HWND hwndDlg)
 			//запросить ввести логин и пароль и снова попытаться скачать
 		}
 	}
+
 	mir_free(szUrl);
 	mir_free(nlhr.headers);
 }
@@ -719,8 +720,11 @@ VOID CheckCurrentFeed(HANDLE hContact)
 								mir_free(string);
 								continue;
 							}
-							if (!lstrcmpi(xi.getName(child), _T("link"))) {
-								db_set_ts(hContact, MODULE, "Homepage", xi.getText(child));
+							if (!lstrcmpi(xi.getName(child), _T("link")) && xi.getText(child)) {
+								TCHAR *string = mir_tstrdup(xi.getText(child));
+								ClearText(string);
+								db_set_ts(hContact, MODULE, "Homepage", string);
+								mir_free(string);
 								continue;
 							}
 							if (!lstrcmpi(xi.getName(child), _T("description")) && xi.getText(child)) {
