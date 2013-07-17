@@ -155,7 +155,7 @@ int Backup(TCHAR* backup_filename)
 		ShowPopup(dbname, TranslateT("Backup in Progress"));
 
 	if (!options.disable_progress) {
-		progress_dialog = CreateDialog(hInst, MAKEINTRESOURCE(IDD_COPYPROGRESS), 0, (DLGPROC)DlgProcProgress);
+		progress_dialog = CreateDialog(hInst, MAKEINTRESOURCE(IDD_COPYPROGRESS), 0, DlgProcProgress);
 		SetDlgItemText(progress_dialog, IDC_PROGRESSMESSAGE, TranslateT("Rotating backup files..."));
 	}
 

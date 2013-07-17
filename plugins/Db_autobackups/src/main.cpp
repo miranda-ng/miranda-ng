@@ -26,7 +26,7 @@ static IconItem iconList[] = {
 	{LPGEN("Save Profile As..."), "saveas", IDI_ICON1 }
 };
 
-static int FoldersGetBackupPath(WPARAM wParam, LPARAM lParam)
+static int FoldersGetBackupPath(WPARAM, LPARAM)
 {
 	FoldersGetCustomPathT(hFolder, options.folder, MAX_PATH, DIR SUB_DIR);
 	return 0;
@@ -59,11 +59,11 @@ static void MenuInit(void)
 	Menu_AddMainMenuItem(&mi);
 }
 
-static int ModulesLoad(WPARAM wParam, LPARAM lParam)
+static int ModulesLoad(WPARAM, LPARAM)
 {
 	profilePath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
 
-	Icon_Register(hInst, LPGEN("Database/Database Backups"), iconList, SIZEOF(iconList));
+	Icon_Register(hInst, LPGEN("Database")"/"LPGEN("Database Backups"), iconList, SIZEOF(iconList));
 
 	FoldersInit();
 	LoadOptions();
@@ -77,7 +77,7 @@ static int ModulesLoad(WPARAM wParam, LPARAM lParam)
 
 // can't do this on unload, since other plugins will be have already been unloaded, but their hooks
 // for setting changed event not cleared. the backup on exit function will write to the db, calling those hooks.
-int PreShutdown(WPARAM wParam, LPARAM lParam)
+int PreShutdown(WPARAM, LPARAM)
 {
 	if(options.backup_types & BT_EXIT)
 	{
@@ -157,8 +157,7 @@ HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle)
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		hwndParent, NULL, hInst, NULL);
 
-	SetWindowPos(hwndTT, HWND_TOPMOST, 0, 0, 0, 0,
-		SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+	SetWindowPos(hwndTT, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
 	TOOLINFO ti = {0};
 	ti.cbSize = sizeof(TOOLINFO);
