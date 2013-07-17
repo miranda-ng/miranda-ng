@@ -808,14 +808,14 @@ void FacebookProto::SearchIdAckThread(void *targ)
 	facy.handle_entry("searchIdAckThread");
 
 	char *arg = mir_utf8encodeT((TCHAR*)targ);
-	std::string search = utils::url::encode(arg);
+	std::string search = utils::url::encode(arg) + "?";
 
 	if (!isOffline())
 	{
-		http::response resp = facy.flap(REQUEST_USER_INFO, NULL, &search);		
+		http::response resp = facy.flap(REQUEST_USER_INFO, NULL, &search);
 
 		if (resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end()) {
-			search = utils::text::source_get_value2(&resp.headers["Location"], FACEBOOK_SERVER_MOBILE"/", "?", true);
+			search = utils::text::source_get_value(&resp.headers["Location"], 2, FACEBOOK_SERVER_MOBILE"/", "_rdr", true);
 			resp = facy.flap(REQUEST_USER_INFO, NULL, &search);
 		}
 

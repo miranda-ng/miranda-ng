@@ -383,7 +383,7 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 
 	case REQUEST_USER_INFO:
 	{		
-		std::string action = "/%s?v=info";
+		std::string action = "/%sv=info";
 		if (get_data != NULL) {
 			utils::text::replace_all(&action, "%s", *get_data);
 		}

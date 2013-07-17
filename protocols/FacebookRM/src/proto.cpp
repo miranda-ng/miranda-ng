@@ -242,6 +242,9 @@ HANDLE FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	ptrA name = mir_t2a_cp(psr->firstName, CP_UTF8);
 	ptrA surname = mir_t2a_cp(psr->lastName, CP_UTF8);
 
+	if (id == NULL)
+		return NULL;
+
 	facebook_user fbu;
 	fbu.user_id = id;
 	if (name != NULL)
