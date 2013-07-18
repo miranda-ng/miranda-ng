@@ -6,7 +6,7 @@
 ;  Authors: yaho
 ;============================================================
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
-Wyślij plik na serwer FTP i dziel się nim z przyjaciółmi. Wsparcie automatycznego kompresowania i szyfrowania przed wysłaniem przez SFTP i FTPS
+Wyślij plik na serwer FTP i dziel się nim z przyjaciółmi. Wsparcie automatycznego kompresowania i szyfrowania przed wysłaniem przez SFTP i FTPS.
 ;file \plugins\FTPFileYM\res\ftpfile.rc
 [FTP account]
 Konto FTP
@@ -190,7 +190,7 @@ Wszystkie pliki (*.*)
 [FTP File - Select files]
 FTP File - wybierz pliki
 [FTP File - Select a folder]
-
+FTP File - wybierz folder
 [Folder not found!]
 Folder nie znaleziony!
 [The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
@@ -215,11 +215,11 @@ CSEKAJ...
 [Error occured when zipping the file(s).]
 
 [%0.1f kB/s]
-
+%0.1f kB/s
 [%0.1f%% (%d kB/%d kB)]
-
+%0.1f%% (%d kB/%d kB)
 [%s (%d kB/%d kB)]
-
+%s (%d kB/%d kB)
 [Do you really want to cancel this upload?]
 Czy na pewno chcesz anulować to wysyłanie?
 [Status: %s\r\nFile: %s\r\nServer: %s]

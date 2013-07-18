@@ -6,7 +6,7 @@
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If contact didn't authorized you this plugin puts an icon in front of contacts name.]
-Wtyczka pokazuje status autoryzacji obok nazwy kontaktu.
+Pokazuje status autoryzacji obok nazwy kontaktu.
 ;file \plugins\AuthState\res\authstate.rc
 [Show Auth icon]
 Pokaz ikonę autoryzacji

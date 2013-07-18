@@ -178,7 +178,7 @@ Wycisz z Mirandą
 [Advanced]
 Zaawansowane
 [Stop]
-
+Stop
 [Play]
 Graj
 [Frame background]

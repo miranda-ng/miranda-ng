@@ -39,7 +39,7 @@ Jeśli oba kolory ustawione są na taką samą wartość, zostaną wykorzystane 
 [0 means default timeout,\n-1 means no timeout]
 0 - Domyślnie,\n-1 - Nie chowaj
 [Test]
-
+Test
 ;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
 Otwórz skrzynkę pocztową

@@ -1,5 +1,4 @@
-﻿[Db autobackuper plugin.]
-[Miranda Databases]
+﻿[Miranda Databases]
 [Database/Database Backups]
 [username for currently logged-on Windows user]
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]

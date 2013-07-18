@@ -6,7 +6,7 @@
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [File tranfer by using the messaging services - as plain text.]
-
+Przesyła pliki jako zwykły tekst za pomocą usługi wiadomości.
 ;file \plugins\FileAsMessage\res\resources.rc
 [fileAsMessage]
 
@@ -17,7 +17,7 @@ Rozmiar:
 [Chunk size]
 
 [ms]
-
+ms
 [Delays between sends]
 
 [bytes]
@@ -74,7 +74,7 @@ Zatrzymano...
 [Synchronizing...]
 Synchronizacja...
 [Select a file]
-
+Wybierz plik
 [Save as]
 Zapisz jako
 [Can't get a file size]
@@ -91,7 +91,7 @@ Pauza
 [Revive]
 
 [Stop]
-
+Stop
 [Main]
 Ogólne
 [Plugins]

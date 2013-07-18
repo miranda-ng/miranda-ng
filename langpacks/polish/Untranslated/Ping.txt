@@ -1,5 +1,4 @@
-﻿[Menu]
-[Show grid lines]
+﻿[Show grid lines]
 [Show stats]
 [%d ms]
 [AVG %.1lf ms]

@@ -63,7 +63,7 @@ Hasło:
 [Paste It]
 Wklej To
 [Format]
-
+Format
 [Encoding]
 Kodowanie
 [Recode]

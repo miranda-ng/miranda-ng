@@ -6,7 +6,7 @@
 ;  Authors: faith_healer, ghazan, mataes
 ;============================================================
 [Fingerprint NG (client version) icons module for Miranda NG.]
-Umożliwia wyświetlanie ikon klientów oraz ich wersji w Mirandzie NG.
+Wyświetla ikony klientów używanych przez Twoje kontakty.
 ;file \plugins\FingerprintNG\res\resource.rc
 [Fingerprint overlays icons]
 Ikony nakładek

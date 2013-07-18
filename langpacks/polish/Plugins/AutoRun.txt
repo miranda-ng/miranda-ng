@@ -6,14 +6,14 @@
 ;  Authors: Sergey V. Gershovich a.k.a. Jazzy$ (fixed by Wolfram3D)
 ;============================================================
 [This plugin is a simple way to enable/disable to launch Miranda NG with system startup.]
-Ta wtyczka umożliwia proste włączanie i wyłączanie urchamiania Mirandy NG podczas uruchamiania systemu
+Umożliwia proste włączanie i wyłączanie uruchamiania Mirandy NG wraz ze startem systemu.
 ;file \plugins\AutoRun\res\autorun.rc
 [Autorun]
 Autouruchamianie
 [Launch Miranda NG at system startup]
 Uruchom Mirandę NG przy starcie systemu
 [Note: At startup Miranda NG will use current profile]
-Uwaga: Przy starcie Miranda NG użyje obecnego profilu
+Uwaga: Przy starcie, Miranda NG użyje obecnego profilu
 ;file \plugins\AutoRun\src\main.cpp
 [Services]
 Usługi

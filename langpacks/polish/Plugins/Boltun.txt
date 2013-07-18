@@ -6,10 +6,10 @@
 ;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
 ;============================================================
 [Boltun, the chat bot in the russian language.]
-
+Chatbot w języku rosyjskim.
 ;file \plugins\Boltun\res\Boltun.rc
 [Boltun]
-
+Boltun
 [Boltun Autochat everybody]
 
 [Boltun Autochat everybody not in contact list]

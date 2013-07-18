@@ -1,3 +1,2 @@
-﻿[ms]
-[Idle contacts]
+﻿[Idle contacts]
 [Show all thumbs]

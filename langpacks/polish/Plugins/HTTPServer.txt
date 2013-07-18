@@ -6,7 +6,7 @@
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 [HTTP Web Server plugin for Miranda.]
-
+Wtyczka serwera sieci HTTP.
 ;file \plugins\HTTPServer\res\resource.rc
 [IPAddress1]
 
@@ -53,7 +53,7 @@ Pokaż popupy
 [%ExternalIP% variable]
 Zmienna %ExternalIP%
 [Test]
-
+Test
 [Transfer limit (kb/sec)]
 Limit transferu (kb/sec)
 [No control when Away/NA]

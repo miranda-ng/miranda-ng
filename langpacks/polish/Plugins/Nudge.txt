@@ -25,7 +25,7 @@ Pokaż jako zmianę statusu
 [Auto resend nudge after]
 Automatyczna odpowiedź nudgem po:
 [s]
-
+s
 [Enable popup notification]
 Włącz powiadomienia popup
 [Respect ignore settings (status changes)]

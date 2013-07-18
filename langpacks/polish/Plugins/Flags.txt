@@ -6,18 +6,18 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 [Service offering misc country utilities as flag icons and a IP-to-Country database.]
-Usługa oferuje rozpoznawanie po IP i wyświetlanie ikony flagi kontaktu.
+Usługa dodająca ikony flag państw i bazę danych IP-to-Country.
 ;file \plugins\CountryFlags\res\resource.rc
 [Country Flags]
-Flagi krajów
+Flagi państw
 [Show country flag as &status icon on message window]
-Pokaż ikone kraju w oknie rozmowy
+Pokaż ikonę kraju w oknie rozmowy
 [Show country flag as &extra image on contact list]
 Pokaż flagę kraju jako dodatkową ikonę na liście kontaków
 [Use &IP-to-country database for country detection]
 Użyj IP kraju do wykrycia flagi
 [Use &unknown flag if the country can not be determined]
-Użyj pustej flagi, jeśli nie może zostać zidentyfikowana
+Użyj pustej flagi jeżeli nie rozpoznano kraju
 ;file \plugins\CountryFlags\src\extraimg.cpp
 [Country flag]
 Flaga kraju

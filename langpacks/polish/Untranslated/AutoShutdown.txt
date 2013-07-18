@@ -1,6 +1,5 @@
 ﻿[Please click "Cancel" if you would like to abort the process.]
 [Shutdown at:]
-[Time left:]
 [Start/Stop automatic shutdown]
 [Stop automatic shutdown]
 [Start automatic shutdown]

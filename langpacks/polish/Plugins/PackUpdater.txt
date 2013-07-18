@@ -39,7 +39,7 @@ Powiadomienia
 [Errors]
 Błędy
 [Info messages]
-
+Informacje
 [Progress dialogs]
 Postęp
 [Every]
@@ -119,7 +119,7 @@ godziny
 [days]
 dni
 [Test]
-
+Test
 [Services]
 Usługi
 ;file \plugins\PackUpdater\Src\PackUpdater.cpp

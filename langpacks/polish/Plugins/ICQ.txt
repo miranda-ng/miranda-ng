@@ -1,10 +1,12 @@
 ﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: ICQ
+;  Plugin: IcqOscarJ Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc
 ;============================================================
+[ICQ protocol support for Miranda NG.]
+Zapewnia obsługę protokołu ICQ.
 ;file \protocols\IcqOscarJ\res\resources.rc
 [ICQ Number:]
 Numer ICQ:
@@ -29,7 +31,7 @@ OK
 [Cancel]
 Anuluj
 [ICQ]
-
+ICQ
 [ICQ number:]
 Numer ICQ:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]

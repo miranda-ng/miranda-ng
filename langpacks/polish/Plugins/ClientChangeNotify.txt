@@ -6,28 +6,28 @@
 ;  Authors: Deathdemon
 ;============================================================
 [Shows a notification when someone in your contact list changes his client.]
-Powiadomia o zmianie klienta kontaktów dla Mirandy NG.
+Pokazuje powiadomienie kiedy jakiś kontakt zmieni swojego klienta.
 ;file \plugins\ClientChangeNotify\res\Resources.rc
 [ClientChangeNotify error]
 Błąd ClientChangeNotify
 [OK]
 OK
 [Fingerprint plugin not found.]
-
+Nie znaleziono wtyczki Fingerprint.
 [ClientChangeNotify requires it to work properly.]
-
+ClientChangeNotify wymaga jej do poprawnego działania.
 [Don't remind me anymore]
-
+Nie przypominaj mi więcej
 [Enable notification]
 Włącz powiadomienia
 [Show previous client name]
-Pokaż poprzednia nazwę klienta
+Pokaż poprzednią nazwę klienta
 [Notify also when just client version changes]
 Powiadom także gdy klient zmieni wersję
 [Show client version]
 Pokaż wersję klienta
 [Don't notify for contacts with disabled status notification]
-Nie powiadamiaj od kontaktów z wyłączonym powiadomieniem zmiany statusu
+Nie powiadamiaj dla kontaktów z wyłączonym powiadomieniem zmiany statusu
 [Click action]
 Akcje przycisku
 [On left click]
@@ -41,7 +41,7 @@ s
 [0 = Default]
 0 = Domyślny
 [-1 = Infinite]
-   -1 = Nie chowaj
+-1 = Nie chowaj
 [Colours]
 Kolory
 [Background]
@@ -53,18 +53,18 @@ Tekst
 [Preview]
 Podgląd
 [Ignore these clients (separated by semicolons):]
-Ignoruj klentów (oddzielaj średnikami):
+Ignoruj klientów (oddzielaj średnikami):
 [(you have to install pcre.dll or pcre3.dll to use regular expressions here)]
 (musisz zaisntalowac pcre.dll lub pcre3.dll do używania wyrażeń regularnych)
 ;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
 [changed client to %s (was %s)]
-zmiono klienta na %s (z %s)
+zmienił(a) klienta na %s (z %s)
 [changed client to %s]
-zmiono klienta na %s
+zmienił(a) klienta na %s
 [%s (was %s)]
 %s (z %s)
 [) changed client to ]
-) zmieniono klienta na 
+) zmienił(a) klienta na 
 [Client change notifications:]
 Powiadomienia o zmianie klienta:
 [Never, ignore client changes for this contact]
@@ -74,7 +74,7 @@ Powiadomienia o zmianie klienta:
 [Always, even when client change notifications are disabled globally]
 
 [Use global settings (default)]
-
+Użyj ustawień globlanych (domyślne)
 [Disable c&lient change notification]
 Wyłącz powiadomienia o zmianie klienta
 [Enable c&lient change notification]
@@ -86,15 +86,15 @@ Zmiana klienta
 [ClientChangeNotify]
 Powiadomienie o zmianie klienta
 [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
-
+`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) zmienił(a) klienta na %extratext%
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
-
+Błąd #%d
 [Can't open log file ]
 Nie można otworzyć pliku dziennika
 ;file \plugins\ClientChangeNotify\src\OptDlg.cpp
 [(you can use regular expressions here)]
-(używasz wyrażeń regularnych)
+(możesz użyć wyrażeń regularnych)
 [Open message window]
 Otwórz okno rozmowy
 [Close popup]

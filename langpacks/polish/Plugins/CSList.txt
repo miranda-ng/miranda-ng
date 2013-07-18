@@ -6,7 +6,7 @@
 ;  Authors: Mataes, jarvis
 ;============================================================
 [This plugin offers simple management functions to keep your extra statuses on one place.]
-Wtyczka oferuje proste zarządzanie dodatkowymi statusami w jednym miejscu.
+Oferuje proste zarządzanie dodatkowymi statusami w jednym miejscu.
 ;file \plugins\CSList\res\cslist.rc
 [Custom Status List]
 Niestandardowa lista statusów

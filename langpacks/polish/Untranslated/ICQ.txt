@@ -1,5 +1,4 @@
 ﻿[Enter an authorization request]
-[ICQ]
 [Legacy fix (for ICQ Groupware or IServerD only)]
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
 [You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]

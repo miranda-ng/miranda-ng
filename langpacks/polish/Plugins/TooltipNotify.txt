@@ -41,7 +41,7 @@ Czas trwania
 [Show tooltip for]
 Pokazuj przez
 [ms]
-
+ms
 [Duration x2 upon online event]
 x2 dla dostępnych zdarzeń
 [Double click on tooltip]
@@ -59,13 +59,13 @@ Stosuj ustawienia 'Usuń powiadomienia dostępności'
 [Auto positioning]
 Autopozycjowanie
 [Transparent input]
-Wprowadź przeźroczystość
+Wprowadź przezroczystość
 [Preview]
 Podgląd
 [Translucency options]
-Opcje przeźroczystości
+Opcje przezroczystości
 [Transparent tooltip]
-Włącz przeźroczystość
+Włącz przezroczystość
 [Contacts]
 Kontakty
 [Idle]

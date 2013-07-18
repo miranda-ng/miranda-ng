@@ -21,7 +21,7 @@ Tylko jeśli to ostatnia sesja
 [Startup delay]
 Opóźnienie
 [ms]
-
+ms
 [User Sessions Management]
 Zarządzanie sesją
 [Edit]

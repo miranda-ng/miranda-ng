@@ -6,7 +6,7 @@
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [IE Based Chat Log.]
-Wyświetla historię w oknie rozmowy oparty o IE
+Dziennik rozmów oparty o silnik Internet Explorera.
 ;file \plugins\IEView\res\ieview.rc
 [Copy]
 Kopiuj
@@ -31,7 +31,7 @@ Obecnie wspierane znaczniki BBCode to: [b][i][u][s][img][size][color][url]
 [Enable support for Flash files in smileys and BBCodes]
 Włącz wsparcie dla plików Flash w emotikonach i BBCode
 [Enable workaround for PNG transparency]
-Prowizoryczna przeźroczystość PNG
+Prowizoryczna przezroczystość PNG
 [Enable MathModule support]
 Włącz wsparcie dla MathModule
 [Replace smileys in user names]
@@ -124,7 +124,7 @@ Domyślny
 [Message Sessions]
 Okno rozmowy
 [IEView]
-
+IEView
 [Skins]
 Skórki
 [Template]

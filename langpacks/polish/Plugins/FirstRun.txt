@@ -6,4 +6,4 @@
 ;  Authors: Yasnovidyashii
 ;============================================================
 [Displays the Accounts window at the first start.]
-Wyświetla okno menedżera kont przy pierwszym uruchomieniu.
+Wyświetla okno menedżera kont przy pierwszym uruchomieniu profilu.

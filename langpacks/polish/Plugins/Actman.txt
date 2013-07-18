@@ -14,7 +14,7 @@ Umieść tekst
 [vars]
 Zmienne
 [DWord]
-
+DWord
 [You can use %name%, %uid%, %account% and %group% macros]
 Możesz użyć %name%, %uid%, %account% i %group%
 [wParam type]
@@ -24,9 +24,9 @@ Typ lParm
 [Service name]
 Nazwa usługi
 [wParam]
-
+wParam
 [lParam]
-
+lParam
 [Structure]
 Struktura
 [Result action]

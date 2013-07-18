@@ -87,7 +87,7 @@ Protokoły
 [(Optional) Command Parameters:]
 (Opcjonalnie) Parametry komend:
 [Menu]
-
+Menu
 [Graph]
 Wykres
 [Enable]

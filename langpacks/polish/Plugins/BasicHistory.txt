@@ -6,7 +6,7 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 [History viewer for Miranda NG.]
-Pokazuje historię wiadomości Mirandy NG
+Pokazuje historię wiadomości.
 ;file \plugins\BasicHistory\res\BasicHistory.rc
 [Message History]
 Historia wiadomości 
@@ -115,7 +115,7 @@ Pokaż czas
 [Delta time]
 
 [Day of week]
-
+Dzień tygodnia
 [Day]
 Dzień
 [Export to]
@@ -423,7 +423,7 @@ Rozmowa rozpoczęła się o %s
 [_files]
 _pliki
 [Menu]
-
+Menu
 [Open all]
 Otwórz wszystko
 [Close all]
@@ -442,7 +442,7 @@ Przynajmniej jeden kontakt powinien być zaznaczony.
 [To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
 Aby utworzyć sesię: otwórz WinSCP, naciśniej Nowa Sesia, wprowadź dane i zapisz z określoną nazwą. Pamiętaj, jeśli serwer FTP używa hasła, powinienieś zapisać go w WinSCP.
 [Path to file]
-
+Ścieżka do pliku
 [FTP path must contains '/' instead '\' and starts from '/'.]
 
 [FTP path cannot contain <date> in import task.]

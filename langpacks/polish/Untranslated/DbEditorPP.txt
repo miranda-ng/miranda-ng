@@ -1,7 +1,6 @@
 ﻿[Import]
 [DBEditor++]
 [BL&OB]
-[Stop]
 [HANDLE]
 [BLOB]
 [BYTE]

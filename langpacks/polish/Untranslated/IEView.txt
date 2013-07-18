@@ -5,5 +5,4 @@
 [C++ Event Sink]
 [OleInitialize failed.]
 [ERROR]
-[IEView]
 [Style Sheet]

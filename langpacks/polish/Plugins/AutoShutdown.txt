@@ -6,7 +6,7 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 [Adds the possibility to shutdown the computer when a specified event occurs.]
-Dodaje możliwość wyłączania komputera w określonych momentach.
+Dodaje możliwość wyłączenia komputera w przypadku zajścia określonych zdarzeń.
 ;file \plugins\AutoShutdown\res\resource.rc
 [Shutdown]
 Wyłączanie
@@ -70,7 +70,7 @@ Teraz!
 [Shutdown at:]
 
 [Time left:]
-
+Pozostało:
 [Paused]
 Zatrzymano
 [&Unpause Countdown]

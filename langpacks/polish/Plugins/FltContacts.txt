@@ -25,7 +25,7 @@ Ukryj kiedy jest aktywna aplikacja pełnoekranowa
 [Show tooltips*]
 Pokaż podpowiedzi*
 [ms]
-
+ms
 [Tooltips]
 Podpowiedzi
 [Miscellaneous]

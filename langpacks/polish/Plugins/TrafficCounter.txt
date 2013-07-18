@@ -37,7 +37,7 @@ Z wtyczki Popup
 [Custom]
 Niestandardowe
 [Test]
-
+Test
 [Show now]
 Pokaż teraz
 [Space between lines:]

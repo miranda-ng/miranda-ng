@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis
 ;============================================================
 [Sets once-off, daily, weekly and weekday alarms.]
-Ustaw dzienny, tygodniowy lub miesięczny alarm
+Pozwala ustawić alarm (jednorazowy, dzienny, tygodniowy itp.).
 ;file \plugins\Alarms\res\resource.rc
 [New]
 Nowy
@@ -49,7 +49,7 @@ Nie centruj chyba że bezczynny
 [Preview]
 Podgląd
 [Alarm]
-
+Alarm
 [OK]
 OK
 [Cancel]
@@ -187,6 +187,6 @@ Ustaw nazwę dla tego alarmu.
 [Error]
 Błąd
 [The alarm time you have selected is in the past.]
-
+Wybrałeś godzinę, która już upłynęła.
 [Events]
 Zdarzenia

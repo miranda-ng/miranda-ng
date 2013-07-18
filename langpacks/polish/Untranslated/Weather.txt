@@ -12,7 +12,6 @@
 [ID]
 [Enable popups]
 [Weather Protocol INI Setup]
-[Menu]
 [Invalid ID format, missing "/" (10)]
 [mb]
 [mm]

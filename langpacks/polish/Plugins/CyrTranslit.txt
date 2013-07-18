@@ -6,7 +6,7 @@
 ;  Authors: ValeraVi, Ivan Krechetov
 ;============================================================
 [Replaces (for the selected contacts only) the Cyrillic letters in the outgoing messages with the phonetically equivalent Latin letter combinations.]
-
+Zastępuje litery cyrylicy w wiadomościach wychodzących (dla wybranych kontaktów), fonetycznymi odpowiednikami łacińskimi.
 ;file \plugins\CyrTranslit\src\MirandaContact.cpp
 [&Transliterate]
 

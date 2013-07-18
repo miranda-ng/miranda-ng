@@ -6,7 +6,7 @@
 ;  Authors: TioDuke
 ;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
-
+W momencie otrzymania wiadomości, diody na Twojej klawiaturze zaczną migać.
 ;file \plugins\KeyboardNotify\res\resources.rc
 [Accounts to check]
 Konta do sprawdzenia
@@ -119,7 +119,7 @@ Podgląd
 [Theme]
 
 [Test]
-
+Test
 [Add]
 Dodaj
 [Update]

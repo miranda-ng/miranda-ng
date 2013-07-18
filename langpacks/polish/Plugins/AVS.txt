@@ -6,7 +6,7 @@
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
-Wczytaj i zarządzaj obrazkami kontaktu dla innych wtyczek.
+Wczytuje i zarządza awatarami dla innych wtyczek.
 ;file \plugins\AVS\res\avs.rc
 [The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
 Ustawione tutaj obrazki są wyświetlane jako domyślne awatary\ndla kontaktów jeśli nie mają własnych.\nUżyj pól wyboru, aby włączyć/wyłączyć wyświetlanie awatarów dla protokołów.
@@ -17,7 +17,7 @@ Usuń domyślny obrazek
 [CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
 Uwaga: To NIE są twoje własne awatary.\nAby ustawić własny awatar wchodzimy w Menu -> Pokaż/zmień moje dane -> Awatar
 [Try to draw avatar background transparent (for images without transparency)]
-Próbuj rysować przeźroczyste tło awataru (dla obrazku bez przeźroczystości)
+Próbuj rysować przezroczyste tło awataru (dla obrazku bez przezroczystości)
 [Num of points to define bkg:]
 Liczba punktów do określenia tła:
 [Color difference allowed:]
@@ -31,7 +31,7 @@ Pokaż komunikaty ostrzegawcze
 [When setting avatars, always make them square]
 Kiedy ustawiasz awatary, zawsze zmieniaj je w kwadraty
 [Try to draw own avatar background transparent (for images without transparency)]
-Rysuj przeźroczyste tło przy swoim awatarze (dla obrazku bez przeźroczystości)
+Rysuj przezroczyste tło przy swoim awatarze (dla obrazku bez przezroczystości)
 [This uses the same additional options as in "Contact Avatars" tab]
 Ten sposób wykorzystuje te same opcje, jak w zakładce "Awatar kontaktu" 
 [Protect the picture and prevent automatic avatars from overwriting it]
@@ -39,7 +39,7 @@ Chroń obraz i zapobiegaj przed automatycznym zastąpieniem awataru
 [Make the avatar square]
 Kwadratowy awatar
 [Resize the avatar to fit max allowed protocol size]
-
+Dopasuj rozmiar awatara do maksymalnej wartości protokołu
 [Dialog]
 Okno
 [Contact picture]
@@ -57,7 +57,7 @@ Chroń obraz
 [Set as hidden]
 Ustaw jako ukryty
 [Try to make picture background transparent]
-Spróbuj zrobić tło obrazu przeźroczyste
+Spróbuj zrobić tło obrazu przezroczyste
 [Use defaults]
 Domyślne
 [OK]
@@ -140,4 +140,4 @@ Brak awatara
 [Are you sure you want to remove your avatar?]
 Czy na pewno chcesz usunąć swój awatar?
 [Global Avatar]
-
+Globalny Awatar

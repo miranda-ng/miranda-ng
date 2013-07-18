@@ -15,7 +15,7 @@ Włącz wysyłanie do kontaktów o:
 [Music]
 Muzyka
 [Radio]
-
+Radio
 [Video]
 Wideo
 [Others]
@@ -43,11 +43,11 @@ Pobierz informacje z wtyczki WATrack
 [Get info from these players:]
 Pobierz informacje z tych odtwarzaczy:
 [Winamp (*)]
-
+Winamp (*)
 [Windows Media Player]
-
+Windows Media Player
 [iTunes]
-
+iTunes
 [foobar2000 (need to install the plugin manually)]
 foobar2000 (musisz ręcznie zainstalować wtyczkę)
 [Other players]
@@ -59,7 +59,7 @@ s
 [Allow auto-loading plugins into players (affect players with *)]
 Zezwól na automatyczne wczytywanie wtyczek do odtwarzacza (dotyczy tych z *)
 [mRadio]
-
+mRadio
 [Listening to]
 Teraz odtwarzane
 [Template:]
@@ -151,7 +151,7 @@ Status
 [General]
 Ogólne
 [Format]
-
+Format
 [Players]
 Odtwarzacze
 ;file \plugins\ListeningTo\src\players\generic.cpp

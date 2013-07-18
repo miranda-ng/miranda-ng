@@ -6,7 +6,7 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
-Wtyczka pozwala na kontrolowanie Mirandą przez wiersz polecenia.
+Pozwala na kontrolowanie Mirandy poprzez wiersz poleceń.
 ;file \plugins\CmdLine\MimCmd\src\commands.cpp
 [No help for '%s'.]
 

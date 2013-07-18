@@ -431,7 +431,7 @@ Ta czcionka jest używana do wyświetlania większości tekstu.
 Pozostałe informacje:
 [This font is used to display various addtional notes.]
 Ta czcionka jest używana do wyświetlania różnych dodatkowych informacji.
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
 
 [Event icon legend:]
 Znaczenia ikon zdarzeń:
@@ -650,8 +650,6 @@ Otwórz w nowym oknie przeglądarki
 Otwórz w bieżącym oknie przeglądarki
 [Message]
 Wiadomość
-[Undo  ]
-Cofnij
 [Redo]
 Powtórz
 [Copy]
@@ -750,7 +748,7 @@ Jeśli okno jest częściowo zakryte, przenieś na wierzch zamiast ukrywać
 [Enable docking]
 Włącza dokowanie
 [Translucency options]
-Opcje przeźroczystości
+Opcje przezroczystości
 [Fade contact list in/out]
 Wygaszaj/rozjaśniaj listę
 [Transparent contact list]
@@ -2333,8 +2331,8 @@ Opcje...
 Wtyczka rdzenia '%' nie może zostać załadowana bądź jej brak. Miranda zostanie teraz zamknięta
 [Fatal error]
 
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
-Wtyczka okna rozmowy nie została załadowana. Proszę zainstalować/włączyć jedną z wtyczek okna rozmowy, dla przykładu "srmm.dll".
+[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
+Wtyczka okna rozmowy nie została załadowana. Proszę zainstalować/włączyć jedną z wtyczek okna rozmowy, dla przykładu "StdMsg.dll".
 ['%s' is disabled, re-enable?]
 "%s" jest wyłączony, włączyć?
 [Re-enable Miranda plugin?]
@@ -2343,7 +2341,7 @@ Załadować ponownie wtyczkę?
 
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Nie można załadować żadnej z zainstalowanych list kontaktów, nawet po zignorowaniu ich ustawień.
-[Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
+[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
 
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
@@ -2364,7 +2362,7 @@ UWAGA! Konto zostanie usunięte. To znaczy że wszystkie ustawienia, kontakty i 
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change it's preferences.]
 To konto można skonfigurować w opcjach Mirandy NG.
 [Welcome to Miranda NG's account manager!\n Here you can set up your IM accounts.\n\n Select an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-Witaj w managerze kont Mirandy NG!\nMożesz tu skonfigurować swoje konta IM.\n\nZaznacz konto z listy po lewej by zobaczeć dostępne opcje. Alternatywnie, kliknij na '+' pod listą aby utworzyć nowe konto.
+Witaj w menedżerze kont Mirandy NG!\nMożesz tu skonfigurować swoje konta IM.\n\nZaznacz konto z listy po lewej by zobaczeć dostępne opcje. Alternatywnie, kliknij na '+' pod listą aby utworzyć nowe konto.
 [Create new account]
 Utwórz nowe konto
 [Editing account]
@@ -2412,6 +2410,14 @@ Konto "%s" zostanie usunięte
 [&Accounts...]
 Konta...
 ;file \src\modules\skin\hotkey_opts.cpp
+[Ctrl + ]
+Ctrl + 
+[Alt + ]
+Alt + 
+[Shift + ]
+Shift + 
+[Win + ]
+Win + 
 [Remove shortcut]
 Usuń skrót
 [Add another shortcut]

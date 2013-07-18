@@ -322,7 +322,7 @@ Użyj globalnego rozmiaru i pozycji kontenera
 [Save current as global]
 Zapisz obecne jako globalne
 [Enable transparency]
-Włącz przeźroczystość
+Włącz przezroczystość
 [active]
 aktywny
 [inactive]
@@ -612,7 +612,7 @@ Pokaż datę przy czasie
 [Use contacts local time]
 Użyj lokalnego czasu kontaktu
 [Format]
-
+Format
 [Indent message body]
 Wcięcie treści wiadomości
 [Display grid lines]

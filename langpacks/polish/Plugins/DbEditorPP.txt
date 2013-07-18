@@ -276,7 +276,7 @@ Importuj z plików
 [Enter a string to search the DB for]
 Wprowadź tekst do znalezienia w bazie
 [Stop]
-
+Stop
 [Replaced with]
 Zamieniony przez
 [Deleted]

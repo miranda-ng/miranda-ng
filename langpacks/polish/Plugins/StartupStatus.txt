@@ -95,19 +95,19 @@ Inne
 [Status on startup]
 Status podczas uruchamiania
 [ms]
-
+ms
 [Set after]
 Ustaw po
 [Timeout]
 Wyświetlaj
 [s]
-
+s
 [Set window location]
 Położenie okna
 [Set window size]
 Rozmiar okna
 [x]
-
+x
 [Allow override]
 Nadpisuj
 [Note: status profiles can be created in the 'Status Profiles' options screen]
@@ -241,7 +241,7 @@ Stopery
 [Reconnecting]
 Ponowne łączenie
 [Ignore locked status of accounts]
-
+Ignoruj zablokowane statusy
 [Consider connection lost after]
 Reaguj na utratę połączenia po
 [failed pings]

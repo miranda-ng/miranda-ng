@@ -19,9 +19,9 @@ Rysuj obramowanie awatarów
 [Round corners by]
 Zaokrąglij rogi o
 [px.]
-
+px.
 [Hide for transparent avatars]
-Ukryj przeźroczyste awatary
+Ukryj przezroczyste awatary
 [Use system colors and fonts]
 Użyj systemowych kolorów i czcionek
 [Hotkey shows menu centered on screen]

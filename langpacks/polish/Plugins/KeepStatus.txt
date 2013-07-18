@@ -95,19 +95,19 @@ Inne
 [Status on startup]
 Status podczas uruchamiania
 [ms]
-
+ms
 [Set after]
 Ustaw po
 [Timeout]
 Wyświetlaj
 [s]
-
+s
 [Set window location]
 Położenie okna
 [Set window size]
 Rozmiar okna
 [x]
-
+x
 [Allow override]
 Nadpisuj
 [Note: status profiles can be created in the 'Status Profiles' options screen]
@@ -241,7 +241,7 @@ Stopery
 [Reconnecting]
 Ponowne łączenie
 [Ignore locked status of accounts]
-
+Ignoruj zablokowane statusy
 [Consider connection lost after]
 Reaguj na utratę połączenia po
 [failed pings]
@@ -318,11 +318,11 @@ Tak, jestem tu.
 [Nope, not here.]
 Nie, nie tutaj.
 [I'm hiding from the mafia.]
-Ukrywam się przed mafią.
+Jak zrobię tak, to mnie nie widać.
 [That'll be the phone.]
 Muszę odebrać telefon.
 [Mmm...food.]
-Mmm... jedzenie.
+Mmm... jedzonko.
 [idleeeeeeee]
 Bezczynnyyyyyyy
 ;file \Plugins\StatusPlugins\confirmdialog.cpp

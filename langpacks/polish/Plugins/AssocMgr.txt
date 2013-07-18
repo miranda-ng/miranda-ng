@@ -6,7 +6,7 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 [Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
-Obsługuje powiązania z plikami oraz linki w protokołach aim, ymsgr, xmpp, wpmsg, gg, tlen.
+Obsługuje skojarzenia rozszerzeń plików i linków protokołów AIM, Yahoo, Jabber, MSN, Gadu-Gadu, Tlen.
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 Zarejestrowane powiązania dla Mirandy NG

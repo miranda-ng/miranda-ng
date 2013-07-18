@@ -6,7 +6,7 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 [Helps you manage Language Packs of different languages.]
-Pomaga w zarządzaniu pakietami językowymi w różnych językach
+Pomaga w zarządzaniu pakietami językowymi Mirandy.
 ;file \plugins\LangMan\res\resource.rc
 [Author(s):]
 Autor(zy):
@@ -23,10 +23,10 @@ Tłumaczenie:
 [Download more Language Packs]
 Pobierz więcej tłumaczeń
 [Please restart Miranda NG for your changes to take effect.]
-Zrestartuj Mirandę by twoje zmiany przyniosły efekt.
+Zrestartuj Mirandę by wprowadzić zmiany.
 ;file \plugins\LangMan\src\main.cpp
 [Reload langpack]
-Odśwież pakiet językowy
+Przeładuj pakiet językowy
 ;file \plugins\LangMan\src\options.cpp
 [All installed plugins are included.]
 Wszystkie zainstalowane wtyczki są włączone.

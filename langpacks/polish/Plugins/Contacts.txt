@@ -6,7 +6,7 @@
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
 [Allows you to send and receive contacts.]
-Pozwala na wysyłanie i odbieranie kontaktów.
+Pozwala wysyłać i odbierać kontakty.
 ;file \plugins\ContactsPlus\res\contacts.rc
 [Send contacts]
 Wyślij kontakt

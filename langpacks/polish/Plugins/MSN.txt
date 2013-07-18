@@ -1,10 +1,12 @@
 ﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
-;  Plugin: MSN
+;  Plugin: MSN Protocol
 ;  Version: 0.11.0.2
-;  Authors: 
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
+[Microsoft Network (MSN) protocol support for Miranda NG.]
+
 ;file \protocols\MSN\res\msn.rc
 [MSN]
 
@@ -177,6 +179,10 @@ Hotmail od %s
 [Unread mail is available: %d in Inbox and %d in other folders).]
 
 ;file \protocols\MSN\src\msn_menu.cpp
+[&Unblock]
+Odblokuj
+[&Block]
+Zablokuj
 [Open &Hotmail Inbox]
 Otwórz skrzynkę Hotmail
 [Send &Hotmail E-mail]
@@ -193,8 +199,6 @@ Wyświetl skrzynkę Hotmail
 Pokaż profil
 [Setup Live &Alerts]
 Ostrzeżenia Setup Live
-[&Block]
-Zablokuj
 [&Start Netmeeting]
 Uruchom Netmeeting
 ;file \protocols\MSN\src\msn_misc.cpp

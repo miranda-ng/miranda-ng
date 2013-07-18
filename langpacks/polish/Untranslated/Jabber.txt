@@ -287,7 +287,6 @@
 [Xhosa]
 [Zhuang; Chuang]
 [Zulu]
-[You can change your password only when you are online]
 [Google Talk!]
 [LiveJournal Talk]
 [Facebook Chat]

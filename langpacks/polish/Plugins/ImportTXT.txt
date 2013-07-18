@@ -8,7 +8,7 @@
 ;  Authors: Abyss
 ;============================================================
 [Imports history saved in TXT files from other clients.]
-Importuje historię zapisaną w plikach TXT z innych klientów.
+Importuje historię z innych klientów, zapisaną w plikach TXT.
 [Import history to ]
 Importuj historię do 
 [Import history]

@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 [A contact list for blind folks.]
-Lista kontaktów dla niewidomych ludzi.
+Lista kontaktów dla ludzi niewidomych.
 ;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
 Usuń kontakt
@@ -31,7 +31,7 @@ Czytaj wiadomość:
 [Web Search:]
 Wyszukiwarka:
 [URL:]
-
+URL:
 [Open in new browser window]
 Otwórz w nowej karcie rpzeglądarki
 [Show Options]
@@ -101,7 +101,7 @@ Rozciągnij do góry
 [Title bar text:]
 Tekst paska tytułu:
 [Translucency options]
-Opcje przeźroczystości
+Opcje przezroczystości
 [Fade contact list in/out]
 Wygaszaj/rozjaśniaj listę
 [Transparent contact list]

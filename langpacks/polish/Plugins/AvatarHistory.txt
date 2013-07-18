@@ -112,7 +112,7 @@ Usunąć awatar?
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
 Na pewno chcesz usunąć zarchiwizowany awatar?\nUsunięty zostanie skrót i plik z obrazkiem.\nUWAGA: Może to wpłynąć na więcej niż jeden skrót!
 [Avatar History is empty!]
-
+Historia awatarów jest pusta!
 [avatar path is null.]
 Ścieżka do pliku jest pusta
 [View Avatar History]
@@ -123,7 +123,7 @@ Zapisz awatar dla %s
 Zapisz awatar
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
 [AVH Debug]
-
+AVH Debug
 [Removed avatar, no avatar before...skipping]
 Usuwanie awataru, brak awataru... pomijanie
 [Hashes are the same... skipping]
@@ -131,13 +131,13 @@ Usuwanie awataru, brak awataru... pomijanie
 [Avatar History: Unable to save avatar]
 Historia awatara: niemożliwy do zapisania
 [AVH Debug: File copied successfully]
-
+AVH Debug: Skopiowano plik
 [Avatars]
 Awatary
 [Contact changed avatar]
-
+Kontakt zmienił awatar
 [Contact removed avatar]
-
+Kontakt usunął awatar
 ;file \plugins\AvatarHistory\src\AvatarHistory.h
 [removed his/her avatar]
 usunął/usunęła awatar
@@ -175,6 +175,6 @@ Nieznany protokół
 [AVH Debug: GetOldStyleAvatarName]
 
 [Avatar History: Unable to create shortcut]
-
+Avatar History: Nie można utworzyć skrótu
 [AVH Debug: Shortcut created successfully]
-
+AVH Debug: Utworzono skrót

@@ -6,7 +6,7 @@
 ;  Authors: Yasnovidyashii
 ;============================================================
 [Plugin for changing keyboard layout of text (multilayout).]
-
+Umożliwia zmianę układu klawiatury.
 ;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
 [Hotkeys]
 Skróty

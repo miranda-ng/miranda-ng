@@ -114,7 +114,7 @@ Niewidoczny
 [Couldnt Allocate enough memory]
 
 [error......]
-
+błąd......
 [The Message    (0 Characters)]
 
 [Reuse this message? (0 to use it once)]

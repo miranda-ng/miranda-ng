@@ -35,7 +35,7 @@ Awatary
 [Draw avatar borders]
 Rysuj obramowanie awatarów
 [Draw borders for semitransparent avatars too]
-Rysuj obramowanie dla półprzeźroczystych awatarów
+Rysuj obramowanie dla półprzezroczystych awatarów
 [Round corners by]
 Zaokrąglij rogi o
 [pixels]
@@ -45,7 +45,7 @@ Rozmiar:
 [Enable avatar updates]
 Włącz aktualizację awatarów
 [Multimonitor]
-
+Wiele monitorów
 [Start the popups in the monitor with]
 Pokaż popupy na monitorze zawierającym
 [Miranda's window]
@@ -55,7 +55,7 @@ Aktywne okno
 [Transparency]
 Przeźroczystość
 [Enable Win 9x/Me transparency]
-Włącz przeźroczystość Win 9x/ME
+Włącz przezroczystość Win 9x/ME
 [Use transparency]
 Przeźroczystość
 [opacity:]
@@ -69,7 +69,7 @@ Efekt:
 [Time (in):]
 Czas (przych)..:
 [ms]
-
+ms
 [Time (out):]
 Czas (wych)..:
 [Limit window amount to:]

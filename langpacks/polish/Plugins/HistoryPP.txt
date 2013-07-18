@@ -26,7 +26,7 @@ Edytuj nazwę
 [Pseudo-edit mode...]
 Tryb zmiany nazwy...
 [Easy, fast and feature complete history viewer.]
-Łatwa w obsłudze, szybka i bogata w opcje przeglądarka historii
+Łatwa w obsłudze, szybka i bogata w opcje przeglądarka historii.
 [Group log messages]
 
 [Need more options?]
@@ -186,7 +186,7 @@ Hisoria systemowa
 [Searching "%s"...]
 Wyszukiwanie "%s"...
 [Stop]
-
+Stop
 [Searching... Please wait.]
 Wyszukiwanie... Proszę czekać.
 [Preparing search...]

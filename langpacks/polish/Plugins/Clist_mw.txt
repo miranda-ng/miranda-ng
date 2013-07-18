@@ -137,7 +137,7 @@ Rozciągnij do góry
 [Title bar text:]
 Tekst paska tytułu:
 [Translucency options]
-Opcje przeźroczystości
+Opcje przezroczystości
 [Fade contact list in/out]
 Wygaszaj/rozjaśniaj listę
 [Transparent contact list]

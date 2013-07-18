@@ -224,6 +224,19 @@ Ostatni rok
 [User-Defined]
 
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderBase.cpp
+[Log Files (*.txt,*.log)]
+
+[Enter integer value]
+
+[Enter log file name.]
+Wpisz nazwę pliku dziennika.
+[Enter log file format.]
+Wpisz format pliku dziennika.
+[Enter history format.]
+
+[Enter popup window format.]
+
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -278,15 +291,3 @@ Ostatni rok
 [Change]
 Zmień
 ;file \plugins\Quotes\src\SettingsDlg.cpp
-[Log Files (*.txt,*.log)]
-
-[Enter integer value]
-
-[Enter log file name.]
-Wpisz nazwę pliku dziennika.
-[Enter log file format.]
-Wpisz format pliku dziennika.
-[Enter history format.]
-
-[Enter popup window format.]
-

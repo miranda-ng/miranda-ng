@@ -29,7 +29,7 @@ Przejdź do Personalizacja -> Skróty, aby je ustawić
 [Plugin updates options]
 Opcje aktualizacji wtyczek
 [On startup]
-Podczas uruchamiania
+Przy starcie
 [(but only once a day)]
 (ale tylko raz dziennie)
 [Every]
@@ -53,7 +53,7 @@ Komunikaty
 [Errors]
 Błędy
 [Info messages]
-
+Informacje
 [Progress dialogs]
 Postęp
 [Back]
@@ -95,7 +95,7 @@ Popupy
 [Component list]
 Lista komponentów
 [Here is the complete list of missing Miranda NG components. Check components that you want to download.\n\nClick on info icon to view component info page.]
-Tutaj znajduje się kompletna lista brakujących komponentów Mirandy NG. Sprawdź komponenty które chcesz pobrać.\n\nKliknij w ikonę informacji aby przejść do wiki.
+Tutaj znajduje się kompletna lista brakujących komponentów Mirandy NG. Zaznacz komponenty które chcesz pobrać.\n\nKliknij w ikonę informacji aby przejść do wiki.
 [Download]
 Pobierz
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp
@@ -114,7 +114,7 @@ Pobieranie zakończone
 [Download complete. Do you want go to plugins option page?]
 Pobieranie zakończone. Czy chcesz otworzyć opcje wtyczek?
 [Component Name]
-Nazwa wtyczki
+Komponent
 [State]
 Status
 [Plugins]
@@ -144,14 +144,14 @@ godziny
 [days]
 dni
 [Test]
-
+Test
 [Services]
 Usługi
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
 [Check for plugin updates]
 Sprawdź aktualizacje
 [Show full plugin list]
-Pokaż pełną listę wtyczek
+Pobierz komponenty
 ;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]
 Przycisk 'Tak'

@@ -1,4 +1,5 @@
-﻿[Yahoo]
+﻿[Yahoo Protocol support for Miranda NG.]
+[Yahoo]
 [ID:]
 [Yahoo Japan]
 [Denial Message]

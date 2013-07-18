@@ -6,7 +6,7 @@
 ;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico
 ;============================================================
 [This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.]
-Wtyczka może zarządzać historią systemową, wszystkich kontaktów lub tylko wybranych
+Pozwala na uprzątnięcie historii systemowej, historii wszystkich kontaktów lub tylko wybranych.
 ;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
 [History Sweeper Light]
 Menedżer historii

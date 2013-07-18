@@ -6,7 +6,7 @@
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
-
+Narzędzie do sprawdzania i naprawy bazy danych Mirandy NG.
 ;file \plugins\DbChecker\res\resource.rc
 [Welcome to the Miranda Database Wizard]
 Witamy w kreatorze profilu
@@ -144,6 +144,6 @@ Przetwarzanie zakończone przez użytkownika
 [Elapsed time: %d sec]
 Czas pracy: %d s
 [All tasks completed but with errors (%d)]
-
+Zakończono wszystkie zadania ale z błędami (%d)
 [All tasks completed successfully]
 Wszystkie zadania zakończono pomyślnie

@@ -1,5 +1,4 @@
 ﻿[Separator]
-[ms]
 [%s ago]
 [Log off:]
 [<No Label>: ]

@@ -1,4 +1,5 @@
-﻿[MSN]
+﻿[Microsoft Network (MSN) protocol support for Miranda NG.]
+[MSN]
 [Live ID:]
 [Hotmail]
 [Mobile Device (used for SMS)]

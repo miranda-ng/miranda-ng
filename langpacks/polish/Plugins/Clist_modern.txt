@@ -425,7 +425,7 @@ Styl okna narzędziowego
 [Minimize to tray]
 Minimalizuj do zasobnika
 [Translucency options]
-Opcje przeźroczystości
+Opcje przezroczystości
 [Enable drop shadow (restart required)]
 Włącz cieniowanie (wymaga restartu)
 [Frames]
@@ -759,7 +759,7 @@ Tekst tytułu ramki
 [Statusbar text]
 Tekst na pasku statusu
 [3rd party frames transparent back colour]
-Tło ramki jako przeźroczyste
+Tło ramki jako przezroczyste
 [General]
 Ogólne
 [List]

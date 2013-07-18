@@ -177,7 +177,7 @@ Ulubione kontakty
 [Expand to second level after:]
 Rozszerz podpowiedź po:
 [ms]
-
+ms
 [First level tooltip]
 Podstawowy Tooltip
 [Second level tooltip]

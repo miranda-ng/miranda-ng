@@ -342,7 +342,7 @@ Twoje konto jest już zatwierdzone.
 Nie można rozpocząć procedury potwierdzającej.
 ;file \protocols\AimOscar\src\theme.cpp
 [ICQ]
-
+ICQ
 [Block]
 Blokuj
 [Profile]
@@ -354,7 +354,7 @@ AIM
 [Hiptop]
 
 [AOL Bot]
-
+AOL Bot
 [Admin]
 Admin
 [Confirmed]
@@ -364,7 +364,7 @@ Nie zaakceptowany
 [Blocked list]
 Lista zablokowanych
 [AOL]
-
+AOL
 [Foreground Color]
 Kolor pierwszoplanowy
 [Background Color]

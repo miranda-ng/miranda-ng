@@ -6,14 +6,14 @@
 ;  Authors: Nightwish, Pixel
 ;============================================================
 [Allows inline skin item editing for clist nicer.]
-
+Edytor skórek dla Clist_nicer.
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
 Elementy skórki
 [General]
 Ogólne
 [Gradient]
-
+Gradient
 [Left to right]
 Z lewa do prawa
 [Right to left]
@@ -57,7 +57,7 @@ Ignorowane
 [Dialog]
 Okno
 [Not yet supported]
-
+Jeszcze nie obsługiwane
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]
 Kopiuj z

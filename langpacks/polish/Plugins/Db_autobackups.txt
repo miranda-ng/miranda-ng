@@ -6,7 +6,7 @@
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Db autobackuper plugin.]
-
+Wtyczka do automatycznego tworzenia kopii zapasowej profilu.
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Backup progress]
 Tworzenie kopii zapasowej profilu...

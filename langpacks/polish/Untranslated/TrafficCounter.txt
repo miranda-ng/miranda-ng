@@ -1,5 +1,4 @@
-﻿[Test]
-[Current traffic]
+﻿[Current traffic]
 [Total traffic]
 [Total online]
 [KB]

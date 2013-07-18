@@ -71,7 +71,7 @@ Pokaż/ukryj listę po pojedynczym kliknięciu
 [Always show status in tooltip]
 Zawsze pokazuj status w podpowiedzi
 [ms]
-
+ms
 [Event area]
 Obszar powiadomień
 [Set base visiblity on the frames menu]
@@ -229,7 +229,7 @@ Granica listy
 [Gap between frames]
 Odstęp między ramkami
 [Translucency options]
-Opcje przeźroczystości
+Opcje przezroczystości
 [Transparent contact list]
 Przeźroczysta lista kontaktów
 [Inactive opacity:]
@@ -239,7 +239,7 @@ Aktywne okno:
 [Fade contact list in/out]
 Wygaszaj/rozjaśniaj listę
 [Fully transparent (like TweakUI)]
-Pełna przeźroczystość (jak TweakUI)
+Pełna przezroczystość (jak TweakUI)
 [Items]
 Obiekty
 [Show divider between online and offline contacts]
@@ -508,7 +508,7 @@ Elementy skórki
 [General]
 Ogólne
 [Gradient]
-
+Gradient
 [Left to right]
 Z lewa do prawa
 [Right to left]
@@ -550,7 +550,7 @@ Ramka 3D (jasny/ciemny)
 [Item ignored]
 Ignorowane
 [Not yet supported]
-
+Jeszcze nie obsługiwane
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]
 Kopiuj z
@@ -716,7 +716,7 @@ Moje kontakty
 [%s Connecting]
 Łączenie %s
 [Menu]
-
+Menu
 [Open main menu]
 Otwórz menu główne
 [Set status modes]

@@ -73,7 +73,7 @@ Użyj ikony statusu kontaktu jako ikony okna
 [Show progress indicator]
 Pokaż pasek postępu
 [Enable transparency]
-Włącz przeźroczystość
+Włącz przezroczystość
 [active]
 aktywny
 [inactive]

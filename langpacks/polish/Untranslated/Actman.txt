@@ -1,7 +1,4 @@
-﻿[DWord]
-[wParam]
-[lParam]
-[Math]
+﻿[Math]
 [Array]
 [Byte Array]
 [Word Array]

@@ -6,14 +6,14 @@
 ;  Authors: Cristian Libotean, Attila Vajda, MaKaR (NG)
 ;============================================================
 [Notifies you if you have unread email on an exchange server.]
-
+Powiadamia o nieprzeczytanych wiadomościach na serwerze Exchange.
 ;file \plugins\Exchange\res\exchange.rc
 [Unread emails]
 Nieprzeczytane emaile
 [Close]
 Zamknij
 [Mark as read]
-
+Oznacz jako przeczytane
 [Dialog]
 Okno
 [Connection]
@@ -51,9 +51,9 @@ Temat
 Nadawca
 ;file \plugins\Exchange\src\emails.cpp
 [You have %d unread emails ...]
-
+Masz %d nieprzeczytane wiadomości ...
 [You have one unread email ...]
-
+Masz jedną nieprzeczytaną wiadomość ...
 [Exchange email]
 
 [Do you want to see the email headers?]

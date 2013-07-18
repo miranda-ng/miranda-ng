@@ -8,6 +8,5 @@
 [Can't initialize device]
 [Can't connect to net. Please, clear 'Work offline' option in Internet settings]
 [Oops! BASS error]
-[Stop]
 [Device list]
 [Equalizer]
