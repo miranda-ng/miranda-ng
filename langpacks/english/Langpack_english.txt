@@ -5581,7 +5581,6 @@
 [Database Backups]
 [Backup Folder]
 [Database]
-[Database/Database Backups]
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to root miranda folder]
 [path to current miranda profile]
@@ -5597,7 +5596,7 @@
 [Hours]
 [Minutes]
 [Select Backup Folder]
-[Error Creating Backup Folder]
+[Error creating backup folder]
 [Database AutoBackups]
 ﻿#muuid {e08ce7c4-9eeb-4272-b544-0d32e18d90de}
 ;============================================================
@@ -5762,6 +5761,7 @@
 [News Feed]
 [Other Event]
 [Avatars]
+[Facebook ID must be numeric value.]
 [Network]
 [Account]
 [Advanced]
@@ -11894,6 +11894,18 @@
 [All item's tags are valid. Put them between #. Example: #<author>#]
 [Reset]
 [0 - check manually]
+[aaaa]
+[This feed seems to need authentication. Please fill username and password fields:]
+[Username]
+[&Export]
+[&Close]
+[Available feeds:]
+[Export to file:]
+[Feeds to be exported:]
+[Load]
+[&Import]
+[Import from:]
+[Feeds to be imported:]
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 [Check All Feeds]
@@ -11931,6 +11943,8 @@
 [Enable/disable auto update]
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
+[Enter your username]
+[Enter your password]
 [Feed]
 [%s\nis a valid feed's address.]
 [%s\nis not a valid feed's address.]
@@ -13176,6 +13190,7 @@
 [Will be deleted!]
 [Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
 [You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
+[<< Details]
 [No updates found.]
 [Update checking already started!]
 ;file \plugins\PluginUpdater\src\Options.cpp
@@ -13773,12 +13788,9 @@
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
 ;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[Log Files (*.txt,*.log)]
-[Enter integer value]
-[Enter log file name.]
-[Enter log file format.]
-[Enter history format.]
-[Enter popup window format.]
+[Window]
+[Contact List]
+[Status Bar]
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -13808,6 +13820,12 @@
 [Previous Close]
 [Change]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+[Enter integer value]
+[Enter log file name.]
+[Enter log file format.]
+[Enter history format.]
+[Enter popup window format.]
 ﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
@@ -19880,11 +19898,10 @@
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error crerating menu]
 [Popup plugin not found!]
-[WUMF plugin]
+[Error]
 [Enable WUMF popups]
 [Disable WUMF popups]
 [Common Dialog Error 0x%lx]
-[Wumf plugin]
 [Not implemented yet...]
 [Show connections list]
 [Wumf]

@@ -34,7 +34,6 @@
 [Database Backups]
 [Backup Folder]
 [Database]
-[Database/Database Backups]
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to root miranda folder]
 [path to current miranda profile]
@@ -50,5 +49,5 @@
 [Hours]
 [Minutes]
 [Select Backup Folder]
-[Error Creating Backup Folder]
+[Error creating backup folder]
 [Database AutoBackups]

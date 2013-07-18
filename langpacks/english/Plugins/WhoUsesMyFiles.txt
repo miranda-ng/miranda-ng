@@ -43,11 +43,10 @@
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error crerating menu]
 [Popup plugin not found!]
-[WUMF plugin]
+[Error]
 [Enable WUMF popups]
 [Disable WUMF popups]
 [Common Dialog Error 0x%lx]
-[Wumf plugin]
 [Not implemented yet...]
 [Show connections list]
 [Wumf]

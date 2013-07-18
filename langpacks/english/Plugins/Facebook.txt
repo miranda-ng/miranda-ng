@@ -104,6 +104,7 @@
 [News Feed]
 [Other Event]
 [Avatars]
+[Facebook ID must be numeric value.]
 [Network]
 [Account]
 [Advanced]
