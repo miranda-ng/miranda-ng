@@ -118,6 +118,68 @@ void CreateAuthString(char *auth, HANDLE hContact, HWND hwndDlg)
 	mir_snprintf(auth, 250, "Basic %s", ptrA(mir_base64_encode((PBYTE)str, len)));
 }
 
+INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		{
+			ItemInfo &SelItem = *(ItemInfo*)lParam;
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)&SelItem);
+
+			if (SelItem.hwndList)
+			{
+				TCHAR str[MAX_PATH];
+				if (GetDlgItemText(SelItem.hwndList, IDC_FEEDTITLE, str, SIZEOF(str)))
+					SetDlgItemText(hwndDlg, IDC_FEEDNAME, str);
+				else
+				{
+					GetDlgItemText(SelItem.hwndList, IDC_FEEDURL, str, SIZEOF(str));
+					SetDlgItemText(hwndDlg, IDC_FEEDNAME, str);
+				}
+			}
+			else if (SelItem.hContact)
+			{
+			}
+		}
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+			case IDOK:
+			{
+				ItemInfo &SelItem = *(ItemInfo*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				TCHAR str[MAX_PATH], str2[MAX_PATH];
+				if (!GetDlgItemText(hwndDlg, IDC_FEEDUSERNAME, str, SIZEOF(str))) {
+					MessageBox(hwndDlg, TranslateT("Enter your username"), TranslateT("Error"), MB_OK);
+					break;
+				}
+				if (!GetDlgItemText(hwndDlg, IDC_FEEDPASSWORD, str2, SIZEOF(str2))) {
+					MessageBox(hwndDlg, TranslateT("Enter your password"), TranslateT("Error"), MB_OK);
+					break;
+				}
+				CheckDlgButton(SelItem.hwndList, IDC_USEAUTH, BST_CHECKED);
+				EnableWindow(GetDlgItem(SelItem.hwndList, IDC_LOGIN), TRUE);
+				EnableWindow(GetDlgItem(SelItem.hwndList, IDC_PASSWORD), TRUE);
+				SetDlgItemText(SelItem.hwndList, IDC_LOGIN, str);
+				SetDlgItemText(SelItem.hwndList, IDC_PASSWORD, str);
+				EndDialog(hwndDlg, IDOK);
+				return TRUE;
+			}
+
+			case IDCANCEL:
+			{
+				EndDialog(hwndDlg, IDCANCEL);
+				return TRUE;
+			}
+		}
+		break;
+
+	}
+
+	return FALSE;
+}
+
 VOID GetNewsData(TCHAR *tszUrl, char **szData, HANDLE hContact, HWND hwndDlg)
 {
 	NETLIBHTTPREQUEST nlhr = {0};
@@ -164,10 +226,16 @@ VOID GetNewsData(TCHAR *tszUrl, char **szData, HANDLE hContact, HWND hwndDlg)
 			memcpy(*szData, nlhrReply->pData, nlhrReply->dataLength);
 			(*szData)[nlhrReply->dataLength] = 0;
 		}
+		//тут тоже добавить 401
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	} else {
 		if (nlhr.resultCode == 401) {
-			//запросить ввести логин и пароль и снова попытаться скачать
+			ItemInfo SelItem = {0};
+			SelItem.hwndList = hwndDlg;
+			SelItem.hContact = hContact;
+			if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AUTHENTICATION), hwndDlg, AuthenticationProc, (LPARAM)&SelItem) == IDOK)
+			{
+			}
 		}
 	}
 
@@ -662,11 +730,9 @@ TCHAR * CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 		}
 		xi.destroyNode(hXml);
 	}
-	else {
-		TCHAR mes[MAX_PATH];
-		mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis not a valid feed's address."), tszURL);
-		MessageBox(hwndDlg, mes, TranslateT("New Aggregator"), MB_OK|MB_ICONERROR);
-	}
+	TCHAR mes[MAX_PATH];
+	mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis not a valid feed's address."), tszURL);
+	MessageBox(hwndDlg, mes, TranslateT("New Aggregator"), MB_OK|MB_ICONERROR);
 	return NULL;
 }
 
