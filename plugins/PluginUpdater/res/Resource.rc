@@ -42,14 +42,14 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | 
 CAPTION "Updates found!"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CTEXT           "PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information",IDC_UPDATETEXT,9,9,223,22
+    CTEXT           "PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information",IDC_UPDATETEXT,9,7,223,24
     DEFPUSHBUTTON   "Update",IDOK,32,36,50,14
     PUSHBUTTON      "Details >>",IDC_DETAILS,95,36,50,14,NOT WS_TABSTOP
     PUSHBUTTON      "Cancel",IDCANCEL,157,36,50,14
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,1,58,236,1
     CONTROL         "",IDC_LIST_UPDATES,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,6,64,229,149
-    PUSHBUTTON      "Select &all",IDC_SELALL,129,218,50,14,NOT WS_TABSTOP
-    PUSHBUTTON      "Select &none",IDC_SELNONE,185,218,50,14,NOT WS_TABSTOP
+    PUSHBUTTON      "Select &all",IDC_SELALL,109,218,60,14,NOT WS_TABSTOP
+    PUSHBUTTON      "Select &none",IDC_SELNONE,175,218,60,14,NOT WS_TABSTOP
 END
 
 IDD_POPUPDUMMI DIALOGEX 65526, 65526, 1, 1
