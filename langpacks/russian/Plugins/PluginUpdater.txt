@@ -78,6 +78,8 @@ HTTP подключение Plugin Updater
 Снять выбор
 [Details >>]
 Детали >>
+[<< Details]
+<< Детали
 [Go to Customize -> Hotkeys to change the hotkey]
 Настройка в Тонкая настройка -> Горячие клавиши
 [Update icons]
