@@ -290,7 +290,7 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 			case IDC_DETAILS:
 				bShowDetails = !bShowDetails;
 				ResizeVert(hDlg, bShowDetails ? 242 : 60);
-				SetDlgItemText(hDlg, IDC_DETAILS, (bShowDetails ? TranslateT("Details >>") : TranslateT("<< Details")));
+				SetDlgItemText(hDlg, IDC_DETAILS, (bShowDetails ? TranslateT("<< Details") : TranslateT("Details >>")));
 				break;
 
 			case IDC_SELALL:
