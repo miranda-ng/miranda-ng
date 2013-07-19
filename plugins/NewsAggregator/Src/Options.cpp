@@ -241,6 +241,12 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					CallService(MS_DB_CRYPT_ENCODESTRING, strlen(passw), (LPARAM)&passw);
 					db_set_s(SelItem->hContact, MODULE, "Password", passw);
 				}
+				else
+				{
+					db_unset(SelItem->hContact, MODULE, "UseAuth");
+					db_unset(SelItem->hContact, MODULE, "Login");
+					db_unset(SelItem->hContact, MODULE, "Password");
+				}
 				DeleteAllItems(SelItem->hwndList);
 				UpdateList(SelItem->hwndList);
 			}
@@ -393,6 +399,12 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, SIZEOF(passw));
 					CallService(MS_DB_CRYPT_ENCODESTRING, strlen(passw), (LPARAM)&passw);
 					db_set_s(hContact, MODULE, "Password", passw);
+				}
+				else
+				{
+					db_unset(hContact, MODULE, "UseAuth");
+					db_unset(hContact, MODULE, "Login");
+					db_unset(hContact, MODULE, "Password");
 				}
 			}
 
