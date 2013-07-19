@@ -221,3 +221,11 @@ HTTP подключение каналов новостей
 Файлы OPML
 [Not valid import file.]
 Неверный файл для импорта
+[This feed seems to need authentication. Please fill username and password fields:]
+Каналу требуется аутентификация. Пожалуйста введите имя пользователя и пароль:
+[Username]
+Имя
+[Enter your username]
+Введите имя пользователя
+[Enter your password]
+Введите пароль
