@@ -213,57 +213,51 @@ VOID CheckCurrentFeed(HANDLE hContact)
 										ClearText(string);
 										title = mir_tstrdup(string);
 										mir_free(string);
-										continue;
 									}
-									if (!lstrcmpi(xi.getName(itemval), _T("link"))) {
-										TCHAR *string = mir_tstrdup(xi.getText(itemval));
-										ClearText(string);
-										link = mir_tstrdup(string);
-										mir_free(string);
-										continue;
+									else if (!lstrcmpi(xi.getName(itemval), _T("link"))) {
+										// We only use the first <link> tag for now and ignore the rest.
+										if (link == NULL) {
+											TCHAR *string = mir_tstrdup(xi.getText(itemval));
+											ClearText(string);
+											link = mir_tstrdup(string);
+											mir_free(string);
+										}
 									}
-									if (!lstrcmpi(xi.getName(itemval), _T("pubDate"))) {
+									else if (!lstrcmpi(xi.getName(itemval), _T("pubDate"))) {
 										datetime = (TCHAR *)xi.getText(itemval);
-										continue;
 									}
-									if (!lstrcmpi(xi.getName(itemval), _T("dc:date"))) {
+									else if (!lstrcmpi(xi.getName(itemval), _T("dc:date"))) {
 										datetime = (TCHAR *)xi.getText(itemval);
-										continue;
 									}
-									if (!lstrcmpi(xi.getName(itemval), _T("description"))) {
+									else if (!lstrcmpi(xi.getName(itemval), _T("description"))) {
 										TCHAR *string = mir_tstrdup(xi.getText(itemval));
 										ClearText(string);
 										descr = mir_tstrdup(string);
 										mir_free(string);
-										continue;
 									}
-									if (!lstrcmpi(xi.getName(itemval), _T("author"))) {
+									else if (!lstrcmpi(xi.getName(itemval), _T("author"))) {
 										TCHAR *string = mir_tstrdup(xi.getText(itemval));
 										ClearText(string);
 										author = mir_tstrdup(string);
 										mir_free(string);
-										continue;
 									}
-									if (!lstrcmpi(xi.getName(itemval), _T("comments"))) {
+									else if (!lstrcmpi(xi.getName(itemval), _T("comments"))) {
 										TCHAR *string = mir_tstrdup(xi.getText(itemval));
 										ClearText(string);
 										comments = mir_tstrdup(string);
 										mir_free(string);
-										continue;
 									}
-									if (!lstrcmpi(xi.getName(itemval), _T("guid"))) {
+									else if (!lstrcmpi(xi.getName(itemval), _T("guid"))) {
 										TCHAR *string = mir_tstrdup(xi.getText(itemval));
 										ClearText(string);
 										guid = mir_tstrdup(string);
 										mir_free(string);
-										continue;
 									}
-									if (!lstrcmpi(xi.getName(itemval), _T("category"))) {
+									else if (!lstrcmpi(xi.getName(itemval), _T("category"))) {
 										TCHAR *string = mir_tstrdup(xi.getText(itemval));
 										ClearText(string);
 										category = mir_tstrdup(string);
 										mir_free(string);
-										continue;
 									}
 								}
 								TCHAR *message;
