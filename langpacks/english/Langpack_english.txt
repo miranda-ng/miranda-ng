@@ -11897,15 +11897,27 @@
 [aaaa]
 [This feed seems to need authentication. Please fill username and password fields:]
 [Username]
+[Available feeds:]
+[Feeds to be exported:]
 [&Export]
 [&Close]
-[Available feeds:]
-[Export to file:]
-[Feeds to be exported:]
-[Load]
-[&Import]
 [Import from:]
+[Load]
 [Feeds to be imported:]
+[&Import]
+;file \plugins\NewsAggregator\Src\Authentication.cpp
+[Enter your username]
+[Error]
+[Enter your password]
+;file \plugins\NewsAggregator\Src\CheckFeed.cpp
+[%s\nis a valid feed's address.]
+[News Aggregator]
+[%s\nis not a valid feed's address.]
+[New Aggregator]
+[empty]
+;file \plugins\NewsAggregator\Src\ExportImport.cpp
+[OPML files]
+[Not valid import file.]
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 [Check All Feeds]
@@ -11914,13 +11926,11 @@
 [Export Feeds]
 [Auto Update Enabled]
 [Auto Update Disabled]
-[News Aggregator]
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
 [Change feed]
 ;file \plugins\NewsAggregator\Src\Options.cpp
 [Enter Feed name]
-[Error]
 [Enter Feed URL]
 [Enter checking interval]
 [Enter message format]
@@ -11943,15 +11953,7 @@
 [Enable/disable auto update]
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
-[Enter your username]
-[Enter your password]
 [Feed]
-[%s\nis a valid feed's address.]
-[%s\nis not a valid feed's address.]
-[New Aggregator]
-[empty]
-[OPML files]
-[Not valid import file.]
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
@@ -13788,9 +13790,12 @@
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
 ;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[Window]
-[Contact List]
-[Status Bar]
+[Log Files (*.txt,*.log)]
+[Enter integer value]
+[Enter log file name.]
+[Enter log file format.]
+[Enter history format.]
+[Enter popup window format.]
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -13820,12 +13825,6 @@
 [Previous Close]
 [Change]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
-[Log Files (*.txt,*.log)]
-[Enter integer value]
-[Enter log file name.]
-[Enter log file format.]
-[Enter history format.]
-[Enter popup window format.]
 ﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
