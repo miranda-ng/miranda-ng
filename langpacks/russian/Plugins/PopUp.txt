@@ -193,8 +193,6 @@ History++ для истории окон
 Игнор. полноэкр.
 [Never show]
 Никогда
-[Reorder Popups]
-Перемещать окна
 [&Minimum width]
 &Минимальная ширина
 [This is a notifying message (for developers)]
