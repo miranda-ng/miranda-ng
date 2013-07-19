@@ -529,11 +529,11 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			return FALSE;
 
 		case IDC_IMPORT:
-			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FEEDIMPORT), hwndDlg, DlgProcImportOpts, (LPARAM)hwndList);
+			CreateDialog(hInst, MAKEINTRESOURCE(IDD_FEEDIMPORT), hwndDlg, DlgProcImportOpts);
 			return FALSE;
 
 		case IDC_EXPORT:
-			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FEEDEXPORT), hwndDlg, DlgProcExportOpts, (LPARAM)hwndList);
+			CreateDialog(hInst, MAKEINTRESOURCE(IDD_FEEDEXPORT), hwndDlg, DlgProcExportOpts);
 			return FALSE;
 
 		case IDC_STARTUPRETRIEVE:
