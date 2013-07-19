@@ -31,7 +31,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		SendDlgItemMessage(hwndDlg, IDC_CHECKTIME, EM_LIMITTEXT, 3, 0);
 		SetDlgItemInt(hwndDlg, IDC_CHECKTIME, DEFAULT_UPDATE_TIME, TRUE);
 		SendDlgItemMessage(hwndDlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, 0, 999);	
-		Utils_RestoreWindowPositionNoSize(hwndDlg,NULL,MODULE,"AddDlg");
+		Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULE, "AddDlg");
 		return TRUE;
 
 	case WM_COMMAND:
@@ -529,14 +529,11 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			return FALSE;
 
 		case IDC_IMPORT:
-			if ( !ImportFeedsDialog()) {
-				DeleteAllItems(hwndList);
-				UpdateList(hwndList);
-			}
+			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FEEDIMPORT), hwndDlg, DlgProcImportOpts, (LPARAM)hwndList);
 			return FALSE;
 
 		case IDC_EXPORT:
-			ExportFeedsDialog();
+			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FEEDEXPORT), hwndDlg, DlgProcExportOpts, (LPARAM)hwndList);
 			return FALSE;
 
 		case IDC_STARTUPRETRIEVE:

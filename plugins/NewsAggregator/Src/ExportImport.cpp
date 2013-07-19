@@ -271,3 +271,71 @@ VOID ExportFeedsDialog()
 		xi.destroyNode(hXml);
 	}
 }
+
+INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULE, "ImportDlg");
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDOK:
+			{
+			}
+
+		case IDCANCEL:
+			DestroyWindow(hwndDlg);
+			break;
+
+		}
+		break;
+
+	case WM_CLOSE:
+		DestroyWindow(hwndDlg);
+		break;
+
+	case WM_DESTROY:
+		Utils_SaveWindowPosition(hwndDlg, NULL, MODULE, "ImportDlg");
+		break;
+	}
+
+	return FALSE;
+}
+
+INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULE, "ExportDlg");
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDOK:
+			{
+			}
+
+		case IDCANCEL:
+			DestroyWindow(hwndDlg);
+			break;
+
+		}
+		break;
+
+	case WM_CLOSE:
+		DestroyWindow(hwndDlg);
+		break;
+
+	case WM_DESTROY:
+		Utils_SaveWindowPosition(hwndDlg, NULL, MODULE, "ExportDlg");
+		break;
+	}
+
+	return FALSE;
+}

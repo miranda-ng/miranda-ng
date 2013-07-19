@@ -137,6 +137,8 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
 int StrReplace(TCHAR *lpszOld, TCHAR *lpszNew, TCHAR *&lpszStr);
 void CreateAuthString(char *auth, HANDLE hContact, HWND hwndDlg);
 INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // ===============  NewsAggregator SERVICES  ================
 // Check all Feeds info
