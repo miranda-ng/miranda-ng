@@ -131,6 +131,12 @@ TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg);
 void UpdateMenu(BOOL State);
 int ImportFeedsDialog();
 VOID ExportFeedsDialog();
+VOID ClearText(TCHAR *&message);
+int GetImageFormat(const TCHAR *ext);
+BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
+int StrReplace(TCHAR *lpszOld, TCHAR *lpszNew, TCHAR *&lpszStr);
+void CreateAuthString(char *auth, HANDLE hContact, HWND hwndDlg);
+INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // ===============  NewsAggregator SERVICES  ================
 // Check all Feeds info
