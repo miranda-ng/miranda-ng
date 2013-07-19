@@ -186,6 +186,9 @@
     <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Authentication.cpp" />
+    <ClCompile Include="Src\CheckFeed.cpp" />
+    <ClCompile Include="Src\ExportImport.cpp" />
     <ClCompile Include="Src\Icons.cpp" />
     <ClCompile Include="Src\Menus.cpp" />
     <ClCompile Include="Src\Options.cpp" />
