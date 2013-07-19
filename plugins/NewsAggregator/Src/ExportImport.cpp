@@ -191,87 +191,6 @@ int ImportFeedsDialog()
 	return 1;
 }
 
-VOID ExportFeedsDialog()
-{
-	TCHAR FileName[MAX_PATH];
-	TCHAR *tszMirDir = Utils_ReplaceVarsT(_T("%miranda_path%"));
-
-	OPENFILENAME ofn = {0};
-	ofn.lStructSize = sizeof(ofn);
-	TCHAR tmp[MAX_PATH];
-	mir_sntprintf(tmp, SIZEOF(tmp), _T("%s (*.opml)%c*.opml%c%c"), TranslateT("OPML files"), 0, 0, 0);
-	ofn.lpstrFilter = tmp;
-	ofn.hwndOwner = 0;
-	ofn.lpstrFile = FileName;
-	ofn.nMaxFile = MAX_PATH;
-	ofn.nMaxFileTitle = MAX_PATH;
-	ofn.Flags = OFN_HIDEREADONLY | OFN_SHAREAWARE | OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT;
-	ofn.lpstrInitialDir = tszMirDir;
-	*FileName = '\0';
-	ofn.lpstrDefExt = _T("");
-
-	if (GetSaveFileName(&ofn)) {
-		HXML hXml = xi.createNode(_T("opml"), NULL, FALSE);
-		xi.addAttr(hXml, _T("version"), _T("1.0"));
-		HXML header = xi.addChild(hXml, _T("head"), NULL);
-		HXML title = xi.addChild(header, _T("title"), _T("Miranda NG NewsAggregator plugin export"));
-		header = xi.addChild(hXml, _T("body"), NULL);
-
-		for (HANDLE hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
-			TCHAR *title = NULL, *url = NULL, *siteurl = NULL, *group = NULL;
-			DBVARIANT dbv = {0};
-			if (!db_get_ts(hContact, MODULE, "Nick", &dbv)) {
-				title = mir_tstrdup(dbv.ptszVal);
-				db_free(&dbv);
-			}
-			if (!db_get_ts(hContact, MODULE, "URL", &dbv)) {
-				url = mir_tstrdup(dbv.ptszVal);
-				db_free(&dbv);
-			}
-			if (!db_get_ts(hContact, MODULE, "Homepage", &dbv)) {
-				siteurl = mir_tstrdup(dbv.ptszVal);
-				db_free(&dbv);
-			}
-			if (!db_get_ts(hContact, "CList", "Group", &dbv)) {
-				group = mir_tstrdup(dbv.ptszVal);
-				db_free(&dbv);
-			}
-			HXML elem = header;
-			if (group)
-			{
-				TCHAR *section = _tcstok(group, _T("\\"));
-				while (section != NULL)
-				{
-					HXML existgroup = xi.getChildByAttrValue(header, _T("outline"), _T("title"), section);
-					if ( !existgroup)
-					{
-						elem = xi.addChild(elem, _T("outline"), NULL);
-						xi.addAttr(elem, _T("title"), section);
-						xi.addAttr(elem, _T("text"), section);
-					} else {
-						elem = existgroup;
-					}
-					section = _tcstok(NULL, _T("\\"));
-				}
-				elem = xi.addChild(elem, _T("outline"), NULL);
-			} else
-				elem = xi.addChild(elem, _T("outline"), NULL);
-			xi.addAttr(elem, _T("text"), title);
-			xi.addAttr(elem, _T("title"), title);
-			xi.addAttr(elem, _T("type"), _T("rss"));
-			xi.addAttr(elem, _T("xmlUrl"), url);
-			xi.addAttr(elem, _T("htmlUrl"), siteurl);
-
-			mir_free(title);
-			mir_free(url);
-			mir_free(siteurl);
-			mir_free(group);
-		}
-		xi.toFile(hXml, FileName, 1);
-		xi.destroyNode(hXml);
-	}
-}
-
 INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -332,6 +251,87 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		switch (LOWORD(wParam)) {
 		case IDOK:
 			{
+				TCHAR FileName[MAX_PATH];
+				TCHAR *tszMirDir = Utils_ReplaceVarsT(_T("%miranda_path%"));
+
+				OPENFILENAME ofn = {0};
+				ofn.lStructSize = sizeof(ofn);
+				TCHAR tmp[MAX_PATH];
+				mir_sntprintf(tmp, SIZEOF(tmp), _T("%s (*.opml)%c*.opml%c%c"), TranslateT("OPML files"), 0, 0, 0);
+				ofn.lpstrFilter = tmp;
+				ofn.hwndOwner = 0;
+				ofn.lpstrFile = FileName;
+				ofn.nMaxFile = MAX_PATH;
+				ofn.nMaxFileTitle = MAX_PATH;
+				ofn.Flags = OFN_HIDEREADONLY | OFN_SHAREAWARE | OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT;
+				ofn.lpstrInitialDir = tszMirDir;
+				*FileName = '\0';
+				ofn.lpstrDefExt = _T("");
+
+				if (GetSaveFileName(&ofn)) {
+					HXML hXml = xi.createNode(_T("opml"), NULL, FALSE);
+					xi.addAttr(hXml, _T("version"), _T("1.0"));
+					HXML header = xi.addChild(hXml, _T("head"), NULL);
+					HXML title = xi.addChild(header, _T("title"), _T("Miranda NG NewsAggregator plugin export"));
+					header = xi.addChild(hXml, _T("body"), NULL);
+
+					int count = SendMessage(FeedsExportList, LB_GETCOUNT, 0, 0);
+					for (int i = 0; i < count; i++) {
+						TCHAR item[MAX_PATH];
+						SendMessage(FeedsExportList, LB_GETTEXT, i, (LPARAM)item);
+						HANDLE hContact = GetContactByNick(item);
+						TCHAR *title = NULL, *url = NULL, *siteurl = NULL, *group = NULL;
+						DBVARIANT dbv = {0};
+						if (!db_get_ts(hContact, MODULE, "Nick", &dbv)) {
+							title = mir_tstrdup(dbv.ptszVal);
+							db_free(&dbv);
+						}
+						if (!db_get_ts(hContact, MODULE, "URL", &dbv)) {
+							url = mir_tstrdup(dbv.ptszVal);
+							db_free(&dbv);
+						}
+						if (!db_get_ts(hContact, MODULE, "Homepage", &dbv)) {
+							siteurl = mir_tstrdup(dbv.ptszVal);
+							db_free(&dbv);
+						}
+						if (!db_get_ts(hContact, "CList", "Group", &dbv)) {
+							group = mir_tstrdup(dbv.ptszVal);
+							db_free(&dbv);
+						}
+						HXML elem = header;
+						if (group)
+						{
+							TCHAR *section = _tcstok(group, _T("\\"));
+							while (section != NULL)
+							{
+								HXML existgroup = xi.getChildByAttrValue(header, _T("outline"), _T("title"), section);
+								if ( !existgroup)
+								{
+									elem = xi.addChild(elem, _T("outline"), NULL);
+									xi.addAttr(elem, _T("title"), section);
+									xi.addAttr(elem, _T("text"), section);
+								} else {
+									elem = existgroup;
+								}
+								section = _tcstok(NULL, _T("\\"));
+							}
+							elem = xi.addChild(elem, _T("outline"), NULL);
+						} else
+							elem = xi.addChild(elem, _T("outline"), NULL);
+						xi.addAttr(elem, _T("text"), title);
+						xi.addAttr(elem, _T("title"), title);
+						xi.addAttr(elem, _T("type"), _T("rss"));
+						xi.addAttr(elem, _T("xmlUrl"), url);
+						xi.addAttr(elem, _T("htmlUrl"), siteurl);
+
+						mir_free(title);
+						mir_free(url);
+						mir_free(siteurl);
+						mir_free(group);
+					}
+					xi.toFile(hXml, FileName, 1);
+					xi.destroyNode(hXml);
+				}
 			}
 
 		case IDCANCEL:

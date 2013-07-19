@@ -591,3 +591,15 @@ VOID ClearText(TCHAR *&message)
 	SysFreeString(bstrHtml);
 	CoUninitialize();
 }
+
+HANDLE GetContactByNick(const TCHAR *nick)
+{
+	HANDLE hContact = NULL;
+
+	for (hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+		ptrW contactNick(::db_get_wsa(hContact, MODULE, "Nick"));
+		if (::lstrcmpi(contactNick, nick) == 0)
+			break;
+	}
+	return hContact;
+}

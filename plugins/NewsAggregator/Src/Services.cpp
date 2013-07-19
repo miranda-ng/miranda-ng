@@ -192,7 +192,7 @@ INT_PTR ImportFeeds(WPARAM wParam, LPARAM lParam)
 
 INT_PTR ExportFeeds(WPARAM wParam, LPARAM lParam)
 {
-	ExportFeedsDialog();
+	CreateDialog(hInst, MAKEINTRESOURCE(IDD_FEEDEXPORT), NULL, DlgProcExportOpts);
 	return 0;
 }
 

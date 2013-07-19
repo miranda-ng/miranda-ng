@@ -130,7 +130,6 @@ VOID CheckCurrentFeedAvatar(HANDLE hContact);
 TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg);
 void UpdateMenu(BOOL State);
 int ImportFeedsDialog();
-VOID ExportFeedsDialog();
 VOID ClearText(TCHAR *&message);
 int GetImageFormat(const TCHAR *ext);
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
@@ -139,6 +138,7 @@ void CreateAuthString(char *auth, HANDLE hContact, HWND hwndDlg);
 INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+HANDLE GetContactByNick(const TCHAR *nick);
 
 // ===============  NewsAggregator SERVICES  ================
 // Check all Feeds info
