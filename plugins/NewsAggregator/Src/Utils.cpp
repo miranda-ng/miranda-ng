@@ -140,6 +140,15 @@ INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			}
 			else if (SelItem.hContact)
 			{
+				DBVARIANT dbv;
+				if (!db_get_ts(SelItem.hContact, MODULE, "Nick", &dbv)) {
+					SetDlgItemText(hwndDlg, IDC_FEEDNAME, dbv.ptszVal);
+					db_free(&dbv);
+				}
+				else if (!db_get_ts(SelItem.hContact, MODULE, "URL", &dbv)) {
+					SetDlgItemText(hwndDlg, IDC_FEEDNAME, dbv.ptszVal);
+					db_free(&dbv);
+				}
 			}
 		}
 		return TRUE;
@@ -158,11 +167,20 @@ INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					MessageBox(hwndDlg, TranslateT("Enter your password"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				CheckDlgButton(SelItem.hwndList, IDC_USEAUTH, BST_CHECKED);
-				EnableWindow(GetDlgItem(SelItem.hwndList, IDC_LOGIN), TRUE);
-				EnableWindow(GetDlgItem(SelItem.hwndList, IDC_PASSWORD), TRUE);
-				SetDlgItemText(SelItem.hwndList, IDC_LOGIN, str);
-				SetDlgItemText(SelItem.hwndList, IDC_PASSWORD, str);
+				if (SelItem.hwndList)
+				{
+					CheckDlgButton(SelItem.hwndList, IDC_USEAUTH, BST_CHECKED);
+					EnableWindow(GetDlgItem(SelItem.hwndList, IDC_LOGIN), TRUE);
+					EnableWindow(GetDlgItem(SelItem.hwndList, IDC_PASSWORD), TRUE);
+					SetDlgItemText(SelItem.hwndList, IDC_LOGIN, str);
+					SetDlgItemText(SelItem.hwndList, IDC_PASSWORD, str2);
+				}
+				else if (SelItem.hContact)
+				{
+					db_set_b(SelItem.hContact, MODULE, "UseAuth", 1);
+					db_set_ts(SelItem.hContact, MODULE, "Login", str);
+					db_set_ts(SelItem.hContact, MODULE, "Password", str2);
+				}
 				EndDialog(hwndDlg, IDOK);
 				return TRUE;
 			}
@@ -174,7 +192,6 @@ INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			}
 		}
 		break;
-
 	}
 
 	return FALSE;
@@ -226,7 +243,16 @@ VOID GetNewsData(TCHAR *tszUrl, char **szData, HANDLE hContact, HWND hwndDlg)
 			memcpy(*szData, nlhrReply->pData, nlhrReply->dataLength);
 			(*szData)[nlhrReply->dataLength] = 0;
 		}
-		//тут тоже добавить 401
+		else if (nlhrReply->resultCode == 401)
+		{
+			ItemInfo SelItem = {0};
+			SelItem.hwndList = hwndDlg;
+			SelItem.hContact = hContact;
+			if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AUTHENTICATION), hwndDlg, AuthenticationProc, (LPARAM)&SelItem) == IDOK)
+			{
+				GetNewsData(tszUrl, szData, hContact, hwndDlg);
+			}
+		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	} else {
 		if (nlhr.resultCode == 401) {
@@ -235,6 +261,7 @@ VOID GetNewsData(TCHAR *tszUrl, char **szData, HANDLE hContact, HWND hwndDlg)
 			SelItem.hContact = hContact;
 			if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AUTHENTICATION), hwndDlg, AuthenticationProc, (LPARAM)&SelItem) == IDOK)
 			{
+				GetNewsData(tszUrl, szData, hContact, hwndDlg);
 			}
 		}
 	}
