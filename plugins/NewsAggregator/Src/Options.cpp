@@ -39,6 +39,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case IDOK:
 			{
 				TCHAR str[MAX_PATH];
+				char passw[MAX_PATH];
 				if (!GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str))) {
 					MessageBox(hwndDlg, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
 					break;
@@ -72,8 +73,9 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					db_set_b(hContact, MODULE, "UseAuth", 1);
 					GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
 					db_set_ts(hContact, MODULE, "Login", str);
-					GetDlgItemText(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
-					db_set_ts(hContact, MODULE, "Password", str);
+					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, SIZEOF(passw));
+					CallService(MS_DB_CRYPT_ENCODESTRING, strlen(passw), (LPARAM)&passw);
+					db_set_s(hContact, MODULE, "Password", passw);
 				}
 				DeleteAllItems(hwndList);
 				UpdateList(hwndList);
@@ -184,11 +186,10 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 								SetDlgItemText(hwndDlg, IDC_LOGIN, dbLogin.ptszVal);
 								db_free(&dbLogin);
 							}
-							DBVARIANT dbPass = {0};
-							if (!db_get_ts(hContact, MODULE, "Password", &dbPass)) {
-								SetDlgItemText(hwndDlg, IDC_PASSWORD, dbPass.ptszVal);
-								db_free(&dbPass);
-							}
+							ptrA pwd(db_get_sa(hContact, MODULE, "Password"));
+							if (pwd)
+								CallService(MS_DB_CRYPT_DECODESTRING, strlen(pwd), pwd);
+							SetDlgItemTextA(hwndDlg, IDC_PASSWORD, pwd);
 						}
 						break;
 					}
@@ -207,6 +208,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			{
 				ItemInfo *SelItem = (ItemInfo*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				TCHAR str[MAX_PATH];
+				char passw[MAX_PATH];
 				if (!GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str))) {
 					MessageBox(hwndDlg, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
 					break;
@@ -235,8 +237,9 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					db_set_b(SelItem->hContact, MODULE, "UseAuth", 1);
 					GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
 					db_set_ts(SelItem->hContact, MODULE, "Login", str);
-					GetDlgItemText(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
-					db_set_ts(SelItem->hContact, MODULE, "Password", str);
+					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, SIZEOF(passw));
+					CallService(MS_DB_CRYPT_ENCODESTRING, strlen(passw), (LPARAM)&passw);
+					db_set_s(SelItem->hContact, MODULE, "Password", passw);
 				}
 				DeleteAllItems(SelItem->hwndList);
 				UpdateList(SelItem->hwndList);
@@ -343,10 +346,11 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					SetDlgItemText(hwndDlg, IDC_LOGIN, dbv.ptszVal);
 					db_free(&dbv);
 				}
-				if (!db_get_ts(hContact, MODULE, "Password", &dbv)) {
-					SetDlgItemText(hwndDlg, IDC_PASSWORD, dbv.ptszVal);
-					db_free(&dbv);
-				}
+				ptrA pwd(db_get_sa(hContact, MODULE, "Password"));
+
+				if (pwd)
+					CallService(MS_DB_CRYPT_DECODESTRING, strlen(pwd), pwd);
+				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, pwd);
 			}
 		}
 		return TRUE;
@@ -357,6 +361,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			{
 				HANDLE hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				TCHAR str[MAX_PATH];
+				char passw[MAX_PATH];
 				if (!GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str))) {
 					MessageBox(hwndDlg, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
 					break;
@@ -385,8 +390,9 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					db_set_b(hContact, MODULE, "UseAuth", 1);
 					GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
 					db_set_ts(hContact, MODULE, "Login", str);
-					GetDlgItemText(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
-					db_set_ts(hContact, MODULE, "Password", str);
+					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, SIZEOF(passw));
+					CallService(MS_DB_CRYPT_ENCODESTRING, strlen(passw), (LPARAM)&passw);
+					db_set_s(hContact, MODULE, "Password", passw);
 				}
 			}
 

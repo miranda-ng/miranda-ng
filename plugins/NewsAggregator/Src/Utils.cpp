@@ -94,10 +94,10 @@ void CreateAuthString(char *auth, HANDLE hContact, HWND hwndDlg)
 			tlogin = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
-		if (!db_get_ts(hContact, MODULE, "Password", &dbv)) {
-			tpass = mir_tstrdup(dbv.ptszVal);
-			db_free(&dbv);
-		}
+		ptrA pwd(db_get_sa(hContact, MODULE, "Password"));
+		if (pwd)
+			CallService(MS_DB_CRYPT_DECODESTRING, strlen(pwd), pwd);
+		tpass = mir_a2t(pwd);
 	}
 	else if (hwndDlg && IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
 		GetDlgItemText(hwndDlg, IDC_LOGIN, buf, SIZEOF(buf));
@@ -158,12 +158,13 @@ INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			case IDOK:
 			{
 				ItemInfo &SelItem = *(ItemInfo*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				TCHAR str[MAX_PATH], str2[MAX_PATH];
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDUSERNAME, str, SIZEOF(str))) {
+				TCHAR username[MAX_PATH];
+				char passw[MAX_PATH];
+				if (!GetDlgItemText(hwndDlg, IDC_FEEDUSERNAME, username, SIZEOF(username))) {
 					MessageBox(hwndDlg, TranslateT("Enter your username"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDPASSWORD, str2, SIZEOF(str2))) {
+				if (!GetDlgItemTextA(hwndDlg, IDC_FEEDPASSWORD, passw, SIZEOF(passw))) {
 					MessageBox(hwndDlg, TranslateT("Enter your password"), TranslateT("Error"), MB_OK);
 					break;
 				}
@@ -172,14 +173,15 @@ INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					CheckDlgButton(SelItem.hwndList, IDC_USEAUTH, BST_CHECKED);
 					EnableWindow(GetDlgItem(SelItem.hwndList, IDC_LOGIN), TRUE);
 					EnableWindow(GetDlgItem(SelItem.hwndList, IDC_PASSWORD), TRUE);
-					SetDlgItemText(SelItem.hwndList, IDC_LOGIN, str);
-					SetDlgItemText(SelItem.hwndList, IDC_PASSWORD, str2);
+					SetDlgItemText(SelItem.hwndList, IDC_LOGIN, username);
+					SetDlgItemTextA(SelItem.hwndList, IDC_PASSWORD, passw);
 				}
 				else if (SelItem.hContact)
 				{
 					db_set_b(SelItem.hContact, MODULE, "UseAuth", 1);
-					db_set_ts(SelItem.hContact, MODULE, "Login", str);
-					db_set_ts(SelItem.hContact, MODULE, "Password", str2);
+					db_set_ts(SelItem.hContact, MODULE, "Login", username);
+					CallService(MS_DB_CRYPT_ENCODESTRING, strlen(passw), (LPARAM)&passw);
+					db_set_s(SelItem.hContact, MODULE, "Password", passw);
 				}
 				EndDialog(hwndDlg, IDOK);
 				return TRUE;
