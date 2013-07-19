@@ -344,8 +344,8 @@ x100 毫秒
 非层次模式
 [Disable Skin Engine]
 禁用皮肤引擎
-[Enable Aero Glass (Vista)]
-启用 Aero Glass (Vista)
+[Enable Aero Glass (Vista+)]
+启用 Aero Glass (Vista+)
 [Order of items:]
 项目顺序: 
 [Min row height:]

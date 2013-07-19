@@ -332,8 +332,8 @@ Katmansız kipi kullan
 Katmansız kip
 [Disable Skin Engine]
 Tema Motoru Devre Dışı
-[Enable Aero Glass (Vista)]
-Aero Glass etkinleştir (Vista)
+[Enable Aero Glass (Vista+)]
+Aero Glass etkinleştir (Vista+)
 [Order of items:]
 Öge sıralaması:
 [Min row height:]

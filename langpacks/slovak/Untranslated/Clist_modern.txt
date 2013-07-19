@@ -141,7 +141,7 @@
 [Round corners]
 [Non-layered mode]
 [Disable Skin Engine]
-[Enable Aero Glass (Vista)]
+[Enable Aero Glass (Vista+)]
 [Order of items:]
 [Min row height:]
 [Row border:]

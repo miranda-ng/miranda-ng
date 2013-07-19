@@ -342,8 +342,8 @@ xStatus アイコンを使用
 レイヤーなしモード
 [Disable Skin Engine]
 スキンエンジンを無効
-[Enable Aero Glass (Vista)]
-Aero Glass (Vista) を有効
+[Enable Aero Glass (Vista+)]
+Aero Glass (Vista+) を有効
 [Order of items:]
 項目の並び順 :
 [Min row height:]

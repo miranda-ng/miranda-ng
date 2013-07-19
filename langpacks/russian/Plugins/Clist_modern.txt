@@ -93,8 +93,8 @@
 Настройки прозрачности списка контактов
 [Enable drop shadow (restart required)]
 Включить тень (нужен перезапуск)
-[Enable Aero Glass (Vista)]
-Стиль Аэро (Vista/Seven)
+[Enable Aero Glass (Vista+)]
+Стиль Аэро (Vista и выше)
 
 
 ;Поведение

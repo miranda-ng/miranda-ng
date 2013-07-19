@@ -444,7 +444,7 @@ Runde Ecken
 Nichtlayermodus
 [Disable Skin Engine]
 Skinengine deaktivieren
-[Enable Aero Glass (Vista)]
+[Enable Aero Glass (Vista+)]
 Aero Glass aktivieren (ab Windows Vista)
 [Order of items:]
 Reihenfolge der Elemente:

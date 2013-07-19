@@ -444,8 +444,8 @@ Zaokrąglone rogi
 Tryb Non-layered
 [Disable Skin Engine]
 Wyłącz silnik skórek
-[Enable Aero Glass (Vista)]
-Włącz Aero Glass (Vista)
+[Enable Aero Glass (Vista+)]
+Włącz Aero Glass (Vista+)
 [Order of items:]
 Kolejność wyświetlania:
 [Min row height:]

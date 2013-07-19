@@ -324,8 +324,8 @@ Nem-lapozott mód
 Nem-réteges mód
 [Disable Skin Engine]
 Bõr motor kikapcsolása
-[Enable Aero Glass (Vista)]
-Aero Glass be (Vista)
+[Enable Aero Glass (Vista+)]
+Aero Glass be (Vista+)
 [Order of items:]
 Elemek sorrendje:
 [Min row height:]

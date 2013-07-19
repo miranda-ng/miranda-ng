@@ -538,10 +538,8 @@ Desabilitar Motor de Skin
 Disable Skin Engine
 [Disable Skin Engine]
 Desabilitar Skins
-[Enable Aero Glass (Vista)]
-Ativar o Aero Glass (Vista)
-[Enable Aero Glass (Vista)]
-Ativar o Aero Glass (Vista)
+[Enable Aero Glass (Vista+)]
+Ativar o Aero Glass (Vista+)
 [Order of items:]
 Ordem dos itens:
 [Order of items:]

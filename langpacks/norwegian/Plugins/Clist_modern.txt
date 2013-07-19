@@ -298,8 +298,8 @@ Bruk Ingen-Lag modus
 Ingen-lag modus
 [Disable Skin Engine]
 Deaktiver Skin-motor
-[Enable Aero Glass (Vista)]
-Aktiver Aero Glass (Vista)
+[Enable Aero Glass (Vista+)]
+Aktiver Aero Glass (Vista+)
 [Order of items:]
 Rekkefølge til objekter:
 [Min row height:]

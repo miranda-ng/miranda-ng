@@ -352,7 +352,7 @@ BBCode ([b]..[/b] - жирный)
 [Pinned Popup]
 Закреплённое
 [Enable Aero Glass (Vista+)]
-Эффект Aero Glass (Vista+)
+Стиль Аэро (Vista и выше)
 [Test action]
 Пробное действие
 [Common Actions]

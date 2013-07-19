@@ -304,8 +304,8 @@ x100 מילי שניות
 מצב ללא-שכבות
 [Disable Skin Engine]
 בטל מנוע סקין
-[Enable Aero Glass (Vista)]
-אפשר מראה אירו (Vista)
+[Enable Aero Glass (Vista+)]
+אפשר מראה אירו (Vista+)
 [Order of items:]
 סדר הפריטים:
 [Min row height:]

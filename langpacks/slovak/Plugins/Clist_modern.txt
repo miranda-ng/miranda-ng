@@ -446,7 +446,7 @@ Minimalizovať do oznamovacej oblasti
 
 [Disable Skin Engine]
 
-[Enable Aero Glass (Vista)]
+[Enable Aero Glass (Vista+)]
 
 [Order of items:]
 

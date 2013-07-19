@@ -310,8 +310,8 @@ Désactiver la surcouche
 Mode sans surcouche
 [Disable Skin Engine]
 Désactiver les skins
-[Enable Aero Glass (Vista)]
-Activer Aero Glass (Vista)
+[Enable Aero Glass (Vista+)]
+Activer Aero Glass (Vista+)
 [Order of items:]
 Ordre des éléments :
 [Min row height:]

@@ -444,8 +444,8 @@ Zaoblit rohy
 Režim bez skinu
 [Disable Skin Engine]
 Vypnout skinovací aparát
-[Enable Aero Glass (Vista)]
-Povolit Aero Glass (Vista)
+[Enable Aero Glass (Vista+)]
+Povolit Aero Glass (Vista+)
 [Order of items:]
 Pořadí prvků:
 [Min row height:]

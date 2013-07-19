@@ -444,8 +444,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Рэжым без скінаў
 [Disable Skin Engine]
 Выключыць скіны
-[Enable Aero Glass (Vista)]
-Стыль Аэро (Vista/Seven)
+[Enable Aero Glass (Vista+)]
+Стыль Аэро (Vista+)
 [Order of items:]
 Парадак элементаў:
 [Min row height:]

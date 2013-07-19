@@ -348,8 +348,8 @@ El uso no el modo de capas
 El modo no capas
 [Disable Skin Engine]
 Deshabilitar motor de la piel
-[Enable Aero Glass (Vista)]
-Activar Aero Glass (Vista)
+[Enable Aero Glass (Vista+)]
+Activar Aero Glass (Vista+)
 [Order of items:]
 Orden de los elementos:
 [Min row height:]
