@@ -49,9 +49,9 @@ Barvy
 [Popup colours]
 Barvy oznámení
 [Windows colours]
-
+Barvy Windows
 [Custom colours]
-
+Vlastní barvy
 [Back]
 Pozadí
 [Text]

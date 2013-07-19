@@ -134,6 +134,8 @@ Bude smazán!
 Stahování dokončeno. Spustit aktualizaci? Všechny vaše data budou uložena a Miranda NG bude restartována.
 [You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
 Zvolili jste nespouštět aktualizaci nyní.\n
+[<< Details]
+<< Detaily
 [No updates found.]
 Žádné aktualizace nenalezeny.
 [Update checking already started!]

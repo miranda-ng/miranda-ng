@@ -6,7 +6,7 @@
 ;  Authors: Szymon Tokarz
 ;============================================================
 [MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
-MirFox (Miranda NG) - část integrace Miranda-Firefox - http://wsx22.3.xpdev-hosted.com]
+MirFox (Miranda NG) - část integrace Miranda-Firefox - http://wsx22.3.xpdev-hosted.com
 ;file \plugins\MirFox\src\MirandaOptions.cpp
 [Services]
 Služby

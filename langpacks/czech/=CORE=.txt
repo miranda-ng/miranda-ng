@@ -448,7 +448,7 @@ průhlednost:
 [Secondary colour:]
 Doplňková barva:
 [Select the extra icons to be shown in the contact list:]
-Zvolte doplňkové ikony které budou zobrazeny v seznamu kontaktů:
+Zvolte doplňkové ikony, které budou zobrazeny v seznamu kontaktů:
 [* only the first %d icons will be shown]
 * bude zobrazeno pouze prvních %d ikon
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]

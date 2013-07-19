@@ -6,7 +6,7 @@
 ;  Authors: MaKaR
 ;============================================================
 [Notify with popup if some connection established]
-
+Zobrazí oznámení při navázání spojení.
 ;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
 [Set popup colours]
 Nastavit barvy oznámení
@@ -23,13 +23,13 @@ sek. (0 výchozí, -1 vypnuto)
 [Settings]
 Nastavení
 [try resolve addresses]
-
+pokusit se přeložit adresy
 [Version:]
 Verze:
 [Show notification if no filter defined]
-
+Zobrazit upozornění pokud není definován žádný filtr
 [Attempt interval (ms.)]
-
+Interval mezi pokusy (ms.)
 [X]
 X
 [Online mean]
@@ -41,7 +41,7 @@ Níž
 [UP]
 Výš
 [Rule editor]
-
+Editor pravidel
 [Application name]
 Jméno aplikace
 [Local IP:Port]
@@ -53,7 +53,7 @@ OK
 [Cancel]
 Zrušit
 [* and ? wildcard characters also available (for port enter number or *)]
-
+Můžete používat zástupné znaky * a ? (pro port zadejte číslo nebo *)
 [Remote IP:Port]
 Vzdálená IP:port
 ;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
@@ -66,15 +66,15 @@ Stavy
 [Application]
 Aplikace
 [Internal socket]
-
+Interní soket
 [External socket]
-
+Externí soket
 [Action]
 Akce
 [Plugins]
 Doplňky
 [ConnectionNotify: New Connection Notification]
-
+ConnectionNotify: Upozornění na nové připojení
 ;file \plugins\ConnectionNotify\src\filter.cpp
 [First close options window]
-
+Nejprve zavřete okno s nastavením

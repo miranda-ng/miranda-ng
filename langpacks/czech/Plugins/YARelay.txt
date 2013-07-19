@@ -6,7 +6,7 @@
 ;  Authors: Anar Ibragimoff
 ;============================================================
 [Forwards messages to some contact when you are not available.]
-
+Při vaší nedostupnosti přeposílá zprávy určenému kontaktu.
 ;file \plugins\YARelay\res\yaRelay.rc
 [Forward messages from...]
 Přeposílat zprávy od...
@@ -51,17 +51,17 @@ Označit přijaté zprávy jako přečtené
 [Save sent messages in recipient's history]
 Uložit odeslané zprávy do historie příjemce
 [split parts (0 = all)]
-
+počet částí (0 = vše)
 [Note: Max size - it's a size of %m parameter]
 Pozn.: Maximální velikost je velikost parametru %m
 [Note: messages from this contact will not be forwarded]
-
+Pozn.: Zprávy od tohoto kontaktu nebudou přeposílány
 ;file \plugins\YARelay\src\options.cpp
 [!EVERYONE!]
-
+!VŠICHNI!
 [!DON'T FORWARD!]
-
+!NEPŘEPOSÍLAT!
 [Plugins]
 Doplňky
 [yaRelay]
-
+Přeposílač zpráv

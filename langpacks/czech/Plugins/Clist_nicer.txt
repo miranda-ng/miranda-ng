@@ -6,7 +6,7 @@
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [Displays contacts, event notifications, protocol status.]
-
+Zobrazuje kontakty, upozornění na události, stavy protokolů a podporuje rámečky.
 ;file \plugins\Clist_nicer\res\resource.rc
 [CList Nicer exception]
 

@@ -193,6 +193,8 @@ Novinky
 Ostatní
 [Avatars]
 Avatary
+[Facebook ID must be numeric value.]
+Facebook ID musí být číselná hodnota.
 [Network]
 Sítě
 [Account]

@@ -6,10 +6,10 @@
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Handles listening information to/for contacts.]
-
+Zajišťuje informace o poslechu hudby kontaktů(m).
 ;file \plugins\ListeningTo\res\resource.rc
 [Listening to information]
-
+Informace o poslechu hudby
 [Enable sending listening information to contacts:]
 Povolit posílání informací o poslechu hudby kontaktům
 [Music]
@@ -43,11 +43,11 @@ Převzít informace z doplňku WATrack
 [Get info from these players:]
 Převzít informace z těchto přehrávačů:
 [Winamp (*)]
-
+Winamp (*)
 [Windows Media Player]
-
+Windows Media Player
 [iTunes]
-
+iTunes
 [foobar2000 (need to install the plugin manually)]
 foobar2000 (vyžaduje ruční instalaci)
 [Other players]
@@ -100,11 +100,11 @@ Pokud nehraje hudba, namísto %listening% použít:
 [Send to %s]
 Poslat %s
 [Listening to (enabled)]
-
+Poslech hudby (zapnuto)
 [Listening to (disabled)]
-
+Poslech hudby (vypnuto)
 [ListeningTo]
-
+Poslech hudby
 [Listening to music]
 Poslouchám hudbu
 [Send to all protocols]
@@ -112,25 +112,25 @@ Poslat všem protokolům
 [Listening info]
 Poslech hudby
 [Listening info as set in the options]
-
+Poslech hudby dle voleb v možnostech
 [Media type: Music, Video, etc]
-
+Typ média: hudba, video, atd.
 [Artist name]
-
+Jméno umělce
 [Album name]
-
+Název alba
 [Song name]
-
+Název skladby
 [Track number]
-
+Číslo skladby
 [Song year]
-
+Rok skladby
 [Song genre]
-
+Žánr skladby
 [Song length]
-
+Délka skladby
 [Player name]
-
+Jméno hudebníka
 [Don't send to any protocols]
 Neposílat žádnému protokolu
 [Toggle send to all protocols]
@@ -138,14 +138,14 @@ Přepnout stav posílání protokolům
 [Enable/Disable sending Listening To info (to all protocols)]
 Zapnout/vypnout posílání informací o poslechu hudby (všem protokolům)
 [Disable ListeningTo (to all protocols)]
-
+Vypnout poslech hudby (pro všechny protokoly)
 [Enable ListeningTo (to all protocols)]
-
+Zapnout poslech hudby (pro všechny protokoly)
 ;file \plugins\ListeningTo\src\options.cpp
 [<Unknown>]
 <neznámý>
 [<Nothing is playing now>]
-
+<nic nehraje>
 [Status]
 Stavy
 [General]
@@ -156,7 +156,7 @@ Formát
 Přehrávače
 ;file \plugins\ListeningTo\src\players\generic.cpp
 [Miranda ListeningTo receiver]
-
+Přijímač poslechu hudby pro Mirandu
 ;file \plugins\ListeningTo\src\players\wmp.cpp
 [Miranda ListeningTo WMP receiver]
-
+Přijímač poslechu hudby pro Mirandu

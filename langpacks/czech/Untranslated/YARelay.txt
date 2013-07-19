@@ -1,6 +1,0 @@
-﻿[Forwards messages to some contact when you are not available.]
-[split parts (0 = all)]
-[Note: messages from this contact will not be forwarded]
-[!EVERYONE!]
-[!DON'T FORWARD!]
-[yaRelay]

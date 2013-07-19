@@ -54,17 +54,41 @@ Značky je třeba umístit mezi #. Příklad: #<autor>#
 Reset
 [0 - check manually]
 
+[aaaa]
+
+[This feed seems to need authentication. Please fill username and password fields:]
+
+[Username]
+Uživatel
+[&Export]
+&Exportovat
+[&Close]
+&Zavřít
+[Available feeds:]
+Zdroje k dispozici:
+[Export to file:]
+Exportovat do:
+[Feeds to be exported:]
+Zdroje k exportu:
+[Load]
+Načíst
+[&Import]
+&Importovat
+[Import from:]
+Importovat z:
+[Feeds to be imported:]
+Zdroje k importu:
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Ikona protokolu
 [Check All Feeds]
 
 [Add Feed]
-
+Přidat zdroj
 [Import Feeds]
-
+Importovat zdroje
 [Export Feeds]
-
+Exportovat zdroje
 [Auto Update Enabled]
 Deaktivovat automatickou aktualizaci
 [Auto Update Disabled]
@@ -73,16 +97,16 @@ Aktivovat automatickou aktualizaci
 
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
-
+Zkont. zdroj
 [Change feed]
-
+Změnit zdroj
 ;file \plugins\NewsAggregator\Src\Options.cpp
 [Enter Feed name]
 
 [Error]
 Chyba
 [Enter Feed URL]
-
+Zadejte URL zdroje
 [Enter checking interval]
 
 [Enter message format]
@@ -123,6 +147,10 @@ Povolit/zakázat automatickou aktualizaci
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
 
+[Enter your username]
+Zadejte vaše uživ. jméno
+[Enter your password]
+Zadejte vaše heslo
 [Feed]
 Zdroj
 [%s\nis a valid feed's address.]
