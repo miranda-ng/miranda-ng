@@ -323,13 +323,9 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			}
 		}
 		EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEFEED), FALSE);
-		if (SendMessage(FeedsList, LB_GETCURSEL, 0, 0))
-		{
+		EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
+		if (!SendMessage(FeedsList, LB_GETCOUNT, 0, 0))
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ADDFEED), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSEEXPORTFILE), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_EXPORTFILEPATH), FALSE);
-		}
 		return TRUE;
 
 	case WM_COMMAND:
@@ -346,6 +342,8 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			{
 				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_REMOVEFEED)))
 					EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEFEED), TRUE);
+				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDOK)))
+					EnableWindow(GetDlgItem(hwndDlg, IDOK), TRUE);
 				int cursel = SendMessage(FeedsList, LB_GETCURSEL, 0, 0);
 				TCHAR item[MAX_PATH];
 				SendMessage(FeedsList, LB_GETTEXT, cursel, (LPARAM)item);
@@ -366,7 +364,10 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				SendMessage(FeedsList, LB_ADDSTRING, 0, (LPARAM)item);
 				SendMessage(FeedsExportList, LB_DELETESTRING, cursel, 0);
 				if (!SendMessage(FeedsExportList, LB_GETCOUNT, 0, 0))
+				{
 					EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEFEED), FALSE);
+					EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
+				}
 			}
 			break;
 		}
