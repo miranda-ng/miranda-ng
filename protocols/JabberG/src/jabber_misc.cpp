@@ -77,7 +77,7 @@ static void JabberContactListCreateClistGroup(TCHAR* groupName)
 		_itoa(i, str, 10);
 		if ( db_get_ts(NULL, "CListGroups", str, &dbv))
 			break;
-		TCHAR* name = dbv.ptszVal;
+		TCHAR *name = dbv.ptszVal;
 		if (name[0]!='\0' && !_tcscmp(name+1, groupName)) {
 			// Already exists, no need to create
 			db_free(&dbv);
@@ -99,7 +99,7 @@ void JabberContactListCreateGroup(TCHAR* groupName)
 {
 	TCHAR name[128], *p;
 
-	if (groupName==NULL || groupName[0]=='\0' || groupName[0]=='\\') return;
+	if (groupName == NULL || groupName[0]=='\0' || groupName[0]=='\\') return;
 
 	_tcsncpy(name, groupName, SIZEOF(name));
 	name[ SIZEOF(name)-1] = '\0';
@@ -155,10 +155,10 @@ void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)
 HANDLE CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL temporary, BOOL stripResource)
 {
 	HANDLE hContact;
-	TCHAR* s, *p, *q;
+	TCHAR *s, *p, *q;
 	size_t len;
 
-	if (jid==NULL || jid[0]=='\0')
+	if (jid == NULL || jid[0]=='\0')
 		return NULL;
 
 	s = mir_tstrdup(jid);
@@ -168,7 +168,7 @@ HANDLE CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL t
 		if ((q = _tcschr(p, '/')) != NULL)
 			*q = '\0';
 
-	if ( !stripResource && q!=NULL)	// so that resource is not stripped
+	if ( !stripResource && q != NULL)	// so that resource is not stripped
 		*q = '/';
 	len = _tcslen(s);
 
@@ -252,7 +252,7 @@ void CJabberProto::InitCustomFolders(void)
 void CJabberProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen)
 {
 	size_t tPathLen;
-	TCHAR* path = (TCHAR*)alloca(cbLen * sizeof(TCHAR));
+	TCHAR *path = (TCHAR*)alloca(cbLen * sizeof(TCHAR));
 
 	InitCustomFolders();
 
@@ -394,7 +394,7 @@ TCHAR* EscapeChatTags(TCHAR* pszText)
 	if (nChars == 0)
 		return mir_tstrdup(pszText);
 
-	TCHAR* pszNewText = (TCHAR*)mir_alloc(sizeof(TCHAR)*(_tcslen(pszText) + 1 + nChars)), *s, *d;
+	TCHAR *pszNewText = (TCHAR*)mir_alloc(sizeof(TCHAR)*(_tcslen(pszText) + 1 + nChars)), *s, *d;
 	if (pszNewText == NULL)
 		return mir_tstrdup(pszText);
 
@@ -409,7 +409,7 @@ TCHAR* EscapeChatTags(TCHAR* pszText)
 
 TCHAR* UnEscapeChatTags(TCHAR* str_in)
 {
-	TCHAR* s = str_in, *d = str_in;
+	TCHAR *s = str_in, *d = str_in;
 	while (*s) {
 		if (*s == '%' && s[1] == '%')
 			s++;

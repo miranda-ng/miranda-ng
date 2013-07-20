@@ -317,8 +317,8 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 			
 		DBVARIANT dbv;
 		if ( !getTString(hContact, "jid", &dbv)) {
-			TCHAR* domain = NEWTSTR_ALLOCA(dbv.ptszVal);
-			TCHAR* resourcepos = _tcschr(domain, '/');
+			TCHAR *domain = NEWTSTR_ALLOCA(dbv.ptszVal);
+			TCHAR *resourcepos = _tcschr(domain, '/');
 			if (resourcepos != NULL)
 				*resourcepos = '\0';
 			m_lstTransports.insert(mir_tstrdup(domain));
@@ -372,7 +372,7 @@ int __cdecl CJabberProto::OnPreShutdown(WPARAM, LPARAM)
 HANDLE CJabberProto::AddToListByJID(const TCHAR *newJid, DWORD flags)
 {
 	HANDLE hContact;
-	TCHAR* jid, *nick;
+	TCHAR *jid, *nick;
 
 	Log("AddToListByJID jid = %S", newJid);
 
@@ -732,7 +732,7 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 		if ( !item) {
 			TCHAR szBareJid[JABBER_MAX_JID_LEN];
 			_tcsncpy(szBareJid, jid, SIZEOF(szBareJid));
-			TCHAR* pDelimiter = _tcschr(szBareJid, _T('/'));
+			TCHAR *pDelimiter = _tcschr(szBareJid, _T('/'));
 			if (pDelimiter) {
 				*pDelimiter = 0;
 				pDelimiter++;
@@ -1242,7 +1242,7 @@ int __cdecl CJabberProto::SetApparentMode(HANDLE hContact, int mode)
 
 	DBVARIANT dbv;
 	if ( !getTString(hContact, "jid", &dbv)) {
-		TCHAR* jid = dbv.ptszVal;
+		TCHAR *jid = dbv.ptszVal;
 		switch (mode) {
 		case ID_STATUS_ONLINE:
 			if (m_iStatus == ID_STATUS_INVISIBLE || oldMode == ID_STATUS_OFFLINE)
@@ -1430,7 +1430,7 @@ int __cdecl CJabberProto::SetAwayMsg(int status, const TCHAR *msg)
 		return 1;
 	}
 
-	TCHAR* newModeMsg = mir_tstrdup(msg);
+	TCHAR *newModeMsg = mir_tstrdup(msg);
 
 	if ((*szMsg == NULL && newModeMsg == NULL) ||
 		(*szMsg != NULL && newModeMsg != NULL && !lstrcmp(*szMsg, newModeMsg))) {

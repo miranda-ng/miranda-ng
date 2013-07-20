@@ -101,9 +101,9 @@ class CJabberAdhocNode;
 class CJabberAdhocNode
 {
 protected:
-	TCHAR* m_szJid;
-	TCHAR* m_szNode;
-	TCHAR* m_szName;
+	TCHAR *m_szJid;
+	TCHAR *m_szNode;
+	TCHAR *m_szName;
 	CJabberAdhocNode* m_pNext;
 	JABBER_ADHOC_HANDLER m_pHandler;
 	CJabberProto* m_pProto;

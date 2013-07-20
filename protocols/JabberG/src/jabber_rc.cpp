@@ -78,7 +78,7 @@ BOOL CJabberAdhocManager::HandleItemsRequest(HXML, CJabberIqInfo* pInfo, const T
 		Lock();
 		CJabberAdhocNode* pNode = GetFirstNode();
 		while (pNode) {
-			TCHAR* szJid = pNode->GetJid();
+			TCHAR *szJid = pNode->GetJid();
 			if ( !szJid)
 				szJid = m_pProto->m_ThreadInfo->fullJID;
 
@@ -339,44 +339,39 @@ int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhoc
 		if ( !xNode)
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
-		HXML fieldNode = xmlGetChildByTag(xNode, "field", "var", _T("status"));
+		HXML fieldNode = xmlGetChildByTag(xNode, "field", "var", _T("status")), valueNode;
 		if ( !xNode)
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
-		HXML valueNode = xmlGetChild(fieldNode , "value");
-		if ( !valueNode || !xmlGetText(valueNode))
+		LPCTSTR ptszValue = xmlGetText( xmlGetChild(fieldNode , "value"));
+		if (ptszValue == NULL)
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
-		int status = 0;
-
-		if ( !_tcscmp(xmlGetText(valueNode), _T("away"))) status = ID_STATUS_AWAY;
-			else if ( !_tcscmp(xmlGetText(valueNode), _T("xa"))) status = ID_STATUS_NA;
-			else if ( !_tcscmp(xmlGetText(valueNode), _T("dnd"))) status = ID_STATUS_DND;
-			else if ( !_tcscmp(xmlGetText(valueNode), _T("chat"))) status = ID_STATUS_FREECHAT;
-			else if ( !_tcscmp(xmlGetText(valueNode), _T("online"))) status = ID_STATUS_ONLINE;
-			else if ( !_tcscmp(xmlGetText(valueNode), _T("invisible"))) status = ID_STATUS_INVISIBLE;
-			else if ( !_tcscmp(xmlGetText(valueNode), _T("offline"))) status = ID_STATUS_OFFLINE;
-
-		if ( !status)
+		int status;
+		if ( !_tcscmp(ptszValue, _T("away"))) status = ID_STATUS_AWAY;
+		else if ( !_tcscmp(ptszValue, _T("xa"))) status = ID_STATUS_NA;
+		else if ( !_tcscmp(ptszValue, _T("dnd"))) status = ID_STATUS_DND;
+		else if ( !_tcscmp(ptszValue, _T("chat"))) status = ID_STATUS_FREECHAT;
+		else if ( !_tcscmp(ptszValue, _T("online"))) status = ID_STATUS_ONLINE;
+		else if ( !_tcscmp(ptszValue, _T("invisible"))) status = ID_STATUS_INVISIBLE;
+		else if ( !_tcscmp(ptszValue, _T("offline"))) status = ID_STATUS_OFFLINE;
+		else
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
 		int priority = -9999;
 
 		fieldNode = xmlGetChildByTag(xNode, "field", "var", _T("status-priority"));
-		if (fieldNode && (valueNode = xmlGetChild(fieldNode , "value"))) {
-			if (xmlGetText(valueNode))
-				priority = _ttoi(xmlGetText(valueNode));
-		}
+		if (fieldNode && (valueNode = xmlGetChild(fieldNode , "value")))
+			if (ptszValue = xmlGetText(valueNode))
+				priority = _ttoi(ptszValue);
 
 		if (priority >= -128 && priority <= 127)
 			setWord("Priority", (WORD)priority);
 
 		const TCHAR *szStatusMessage = NULL;
 		fieldNode = xmlGetChildByTag(xNode, "field", "var", _T("status-message"));
-		if (fieldNode && (valueNode = xmlGetChild(fieldNode , "value"))) {
-			if (xmlGetText(valueNode))
-				szStatusMessage = xmlGetText(valueNode);
-		}
+		if (fieldNode && (valueNode = xmlGetChild(fieldNode , "value")))
+			szStatusMessage = xmlGetText(valueNode);
 
 		// skip f...ng away dialog
 		int nNoDlg = db_get_b(NULL, "SRAway", StatusModeToDbSetting(status, "NoDlg"), 0);
@@ -386,7 +381,7 @@ int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhoc
 
 		fieldNode = xmlGetChildByTag(xNode, "field", "var", _T("status-global"));
 		if (fieldNode && (valueNode = xmlGetChild(fieldNode , "value"))) {
-			if (xmlGetText(valueNode) && _ttoi(xmlGetText(valueNode)))
+			if ((ptszValue = xmlGetText(valueNode)) != NULL && _ttoi(ptszValue))
 				CallService(MS_CLIST_SETSTATUSMODE, status, NULL);
 			else
 				CallProtoService(m_szModuleName, PS_SETSTATUS, status, NULL);
@@ -445,28 +440,23 @@ int CJabberProto::AdhocOptionsHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 		if ( !xNode)
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
-		HXML fieldNode, valueNode;
-
 		// Automatically Accept File Transfers
-		fieldNode = xmlGetChildByTag(xNode, "field", "var", _T("auto-files"));
-		if (fieldNode && (valueNode = xmlGetChild(fieldNode , "value"))) {
+		HXML fieldNode = xmlGetChildByTag(xNode, "field", "var", _T("auto-files")), valueNode;
+		if (fieldNode && (valueNode = xmlGetChild(fieldNode , "value")))
 			if (xmlGetText(valueNode))
 				db_set_b(NULL, "SRFile", "AutoAccept", (BYTE)_ttoi(xmlGetText(valueNode)));
-		}
 
 		// Use sounds
 		fieldNode = xmlGetChildByTag(xNode, "field", "var", _T("sounds"));
-		if (fieldNode && (valueNode = xmlGetChild(fieldNode , "value"))) {
+		if (fieldNode && (valueNode = xmlGetChild(fieldNode , "value")))
 			if (xmlGetText(valueNode))
 				db_set_b(NULL, "Skin", "UseSound", (BYTE)_ttoi(xmlGetText(valueNode)));
-		}
 
 		// Disable remote controlling
 		fieldNode = xmlGetChildByTag(xNode, "field", "var", _T("enable-rc"));
-		if (fieldNode && (valueNode = xmlGetChild(fieldNode , "value"))) {
+		if (fieldNode && (valueNode = xmlGetChild(fieldNode , "value")))
 			if (xmlGetText(valueNode) && _ttoi(xmlGetText(valueNode)))
 				m_options.EnableRemoteControl = 0;
-		}
 
 		return JABBER_ADHOC_HANDLER_STATUS_COMPLETED;
 	}
@@ -487,7 +477,7 @@ int CJabberProto::RcGetUnreadEventsCount()
 					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 1);
 					int nGetTextResult = db_event_get(hDbEvent, &dbei);
 					if ( !nGetTextResult && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
-						TCHAR* szEventText = DbGetEventTextT(&dbei, CP_ACP);
+						TCHAR *szEventText = DbGetEventTextT(&dbei, CP_ACP);
 						if (szEventText) {
 							nEventsSent++;
 							mir_free(szEventText);
@@ -553,17 +543,14 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 		if ( !xNode)
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
-		HXML fieldNode, valueNode;
-
 		BOOL bRemoveCListEvents = TRUE;
 
 		// remove clist events
-		fieldNode = xmlGetChildByTag(xNode,"field", "var", _T("remove-clist-events"));
-		if (fieldNode && (valueNode = xmlGetChild(fieldNode , "value"))) {
-			if (xmlGetText(valueNode) && !_ttoi(xmlGetText(valueNode))) {
+		HXML fieldNode = xmlGetChildByTag(xNode,"field", "var", _T("remove-clist-events")), valueNode;
+		if (fieldNode && (valueNode = xmlGetChild(fieldNode , "value")))
+			if (xmlGetText(valueNode) && !_ttoi(xmlGetText(valueNode)))
 				bRemoveCListEvents = FALSE;
-			}
-		}
+
 		m_options.RcMarkMessagesAsRead = bRemoveCListEvents ? 1 : 0;
 
 		int nEventsSent = 0;
@@ -581,7 +568,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 1);
 					int nGetTextResult = db_event_get(hDbEvent, &dbei);
 					if ( !nGetTextResult && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
-						TCHAR* szEventText = DbGetEventTextT(&dbei, CP_ACP);
+						TCHAR *szEventText = DbGetEventTextT(&dbei, CP_ACP);
 						if (szEventText) {
 							XmlNode msg(_T("message"));
 							msg << XATTR(_T("to"), pInfo->GetFrom()) << XATTRID(SerialNext())

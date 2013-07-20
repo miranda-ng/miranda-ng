@@ -86,7 +86,7 @@ bool TNtlmAuth::getSpn(TCHAR* szSpn, size_t dwSpnLen)
 		myGetUserNameEx(2, szFullUserName, &szFullUserNameLen);
 	}
 
-	TCHAR* name = _tcsrchr(szFullUserName, '\\');
+	TCHAR *name = _tcsrchr(szFullUserName, '\\');
 	if (name) *name = 0;
 	else return false;
 

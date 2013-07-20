@@ -249,7 +249,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 						dat->roomJid = mir_tstrdup(from);
 
 						if ((queryNode = xmlGetChild(iqNode , "query")) != NULL) {
-							TCHAR* localFrom = mir_tstrdup(from);
+							TCHAR *localFrom = mir_tstrdup(from);
 							mir_sntprintf(title, SIZEOF(title), TranslateT("%s, %d items (%s)"),
 								(dat->type == MUC_VOICELIST) ? TranslateT("Voice List") :
 								(dat->type == MUC_MEMBERLIST) ? TranslateT("Member List") :
@@ -477,7 +477,7 @@ static void CALLBACK JabberMucJidListCreateDialogApcProc(void* param)
 		return;
 	}
 
-	if (*pHwndJidList!=NULL && IsWindow(*pHwndJidList)) {
+	if (*pHwndJidList != NULL && IsWindow(*pHwndJidList)) {
 		SetForegroundWindow(*pHwndJidList);
 		SendMessage(*pHwndJidList, WM_JABBER_REFRESH, 0, (LPARAM)jidListInfo);
 	}

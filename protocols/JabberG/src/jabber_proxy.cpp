@@ -99,7 +99,7 @@ int JabberHttpGatewayBegin(HANDLE /*hConn*/, NETLIBOPENCONNECTION* /*nloc*/)
 
 int JabberHttpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags, MIRANDASERVICE pfnNetlibSend)
 {
-	TCHAR* strb = mir_utf8decodeW((char*)buf);
+	TCHAR *strb = mir_utf8decodeW((char*)buf);
 
 	TCHAR sid[25] = _T("");
 	unsigned __int64 rid = 0;
@@ -110,7 +110,7 @@ int JabberHttpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags, MIRAN
 		XATTR(_T("xmlns"), _T("http://jabber.org/protocol/httpbind"));
 	xmlAddChild(hBody, hPayLoad);
 
-	TCHAR* str = xi.toString(hBody, NULL);
+	TCHAR *str = xi.toString(hBody, NULL);
 
 	mir_free(strb);
 	char* utfStr = mir_utf8encodeT(str);

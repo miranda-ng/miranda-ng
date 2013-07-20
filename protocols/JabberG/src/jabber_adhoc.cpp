@@ -225,7 +225,7 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, HXML workNode, JabberA
 	if ((type = xmlGetAttrValue(workNode, _T("type"))) == NULL) return TRUE;
 	if ( !lstrcmp(type, _T("result"))) {
 		// wParam = <iq/> node from responder as a result of command execution
-		HXML commandNode, xNode, n;
+		HXML commandNode, xNode;
 		if ((commandNode = xmlGetChild(dat->AdHocNode, _T("command"))) == NULL)
 			return TRUE;
 
@@ -236,10 +236,10 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, HXML workNode, JabberA
 			// use jabber:x:data form
 			HWND hFrame = GetDlgItem(hwndDlg, IDC_FRAME);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_FRAME_TEXT), SW_HIDE);
-			if ((n = xmlGetChild(xNode , "instructions")) != NULL && xmlGetText(n)!=NULL)
-				JabberFormSetInstruction(hwndDlg, xmlGetText(n));
-			else if ((n = xmlGetChild(xNode , "title")) != NULL && xmlGetText(n)!=NULL)
-				JabberFormSetInstruction(hwndDlg, xmlGetText(n));
+			if (LPCTSTR ptszInstr = xmlGetText( xmlGetChild(xNode , "instructions")))
+				JabberFormSetInstruction(hwndDlg, ptszInstr);
+			else if (LPCTSTR ptszTitle = xmlGetText( xmlGetChild(xNode , "title")))
+				JabberFormSetInstruction(hwndDlg, ptszTitle);
 			else
 				JabberFormSetInstruction(hwndDlg, TranslateTS(status));
 			JabberFormCreateUI(hFrame, xNode, &dat->CurrentHeight);
@@ -250,20 +250,16 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, HXML workNode, JabberA
 			int toHide[]={ IDC_FRAME_TEXT, IDC_FRAME, IDC_VSCROLL,   0};
 			sttShowControls(hwndDlg, FALSE, toHide);
 
-			const TCHAR * noteText=NULL;
-			HXML noteNode = xmlGetChild(commandNode , "note");
-			if (noteNode)
-				noteText = xmlGetText(noteNode);
-
+			LPCTSTR noteText = xmlGetText( xmlGetChild(commandNode, "note"));
 			JabberFormSetInstruction(hwndDlg, noteText ? noteText : TranslateTS(status));
 		}
 
 		//check actions
 		HXML actionsNode = xmlGetChild(commandNode , "actions");
 		if (actionsNode != NULL) {
-			ShowDlgItem(hwndDlg, IDC_PREV, (xmlGetChild(actionsNode , "prev")!=NULL) ? SW_SHOW : SW_HIDE);
-			ShowDlgItem(hwndDlg, IDC_NEXT, (xmlGetChild(actionsNode , "next")!=NULL) ? SW_SHOW : SW_HIDE);
-			ShowDlgItem(hwndDlg, IDC_COMPLETE, (xmlGetChild(actionsNode , "complete")!=NULL) ? SW_SHOW : SW_HIDE);
+			ShowDlgItem(hwndDlg, IDC_PREV, (xmlGetChild(actionsNode , "prev") != NULL) ? SW_SHOW : SW_HIDE);
+			ShowDlgItem(hwndDlg, IDC_NEXT, (xmlGetChild(actionsNode , "next") != NULL) ? SW_SHOW : SW_HIDE);
+			ShowDlgItem(hwndDlg, IDC_COMPLETE, (xmlGetChild(actionsNode , "complete") != NULL) ? SW_SHOW : SW_HIDE);
 			ShowDlgItem(hwndDlg, IDC_SUBMIT, SW_HIDE);
 
 			int toEnable[]={ IDC_PREV, IDC_NEXT, IDC_COMPLETE,   0};

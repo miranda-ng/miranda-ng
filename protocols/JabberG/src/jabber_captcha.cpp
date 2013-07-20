@@ -109,10 +109,9 @@ INT_PTR CALLBACK JabberCaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 	return FALSE;
 }
 
-bool CJabberProto::ProcessCaptcha (HXML node, HXML parentNode, ThreadData* info) {
+bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData* info)
+{
 	CAPTCHA_FORM_PARAMS param;
-	char *ImageBuf = 0;
-	const TCHAR *PicType = 0;
 	TCHAR *CaptchaPath = 0;
 
 	HXML x = xmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
@@ -143,12 +142,10 @@ bool CJabberProto::ProcessCaptcha (HXML node, HXML parentNode, ThreadData* info)
 	if (o == NULL || xmlGetText(o) == NULL)
 		return false;
 
-	GetCaptchaImage(parentNode, ImageBuf, PicType, CaptchaPath);
-	char* p = mir_t2a(CaptchaPath);
-	param.bmp = (HBITMAP) CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)p);
+	GetCaptchaImage(parentNode, CaptchaPath);
+	param.bmp = (HBITMAP) CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)CaptchaPath);
 	DeleteFile(CaptchaPath);
 	mir_free(CaptchaPath);
-	mir_free(p);
 
 	BITMAP bmp = {0};
 	GetObject(param.bmp, sizeof(bmp), &bmp);
@@ -162,58 +159,34 @@ bool CJabberProto::ProcessCaptcha (HXML node, HXML parentNode, ThreadData* info)
 	return true;
 }
 
-void CJabberProto::GetCaptchaImage (HXML node, char *ImageBuf, const TCHAR *PicType, TCHAR*& CaptchaPath) {
+bool CJabberProto::GetCaptchaImage(HXML node, TCHAR*& CaptchaPath)
+{
 	HXML o = xmlGetChild(node , "data");
 	int bufferLen;
 	char* buffer = JabberBase64DecodeT(xmlGetText(o), &bufferLen);
 	if (buffer == NULL)
-		return;
+		return false;
 
-	const TCHAR *szPicType;
-	HXML m = xmlGetChild(node , "TYPE");
-	if (m == NULL || xmlGetText(m) == NULL) {
-	LBL_NoTypeSpecified:
-		switch(JabberGetPictureType(buffer)) {
-		case PA_FORMAT_GIF:	szPicType = _T("image/gif");	break;
-		case PA_FORMAT_BMP:  szPicType = _T("image/bmp");	break;
-		case PA_FORMAT_PNG:  szPicType = _T("image/png");	break;
-		case PA_FORMAT_JPEG: szPicType = _T("image/jpeg");	break;
-		default:
-			goto LBL_Ret;
-		}
-	}
-	else {
-		const TCHAR *tszType = xmlGetText(m);
-		if ( !_tcscmp(tszType, _T("image/jpeg")) ||
-			 !_tcscmp(tszType, _T("image/png"))  ||
-			 !_tcscmp(tszType, _T("image/gif"))  ||
-			 !_tcscmp(tszType, _T("image/bmp")))
-			szPicType = tszType;
-		else
-			goto LBL_NoTypeSpecified;
-	}
+	const TCHAR *szPicType = JabberGetPictureType(node, buffer);
+	if (szPicType == NULL)
+		return false;
 
-	DWORD nWritten;
-
-LBL_Ret:
-	TCHAR* ext = _tcsstr((TCHAR*)szPicType, _T("/"))+1;
+	TCHAR *ext = _tcsstr((TCHAR*)szPicType, _T("/"))+1;
 	TCHAR filename[MAX_PATH];
 	mir_sntprintf(filename, SIZEOF(filename), _T("%%TEMP%%\\captcha.%s"), ext);
 	CaptchaPath = Utils_ReplaceVarsT(filename);
 	HANDLE hFile = CreateFile(CaptchaPath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
-		goto LBL_Ret;
+		return false;
 
-	if ( !WriteFile(hFile, buffer, bufferLen, &nWritten, NULL))
-		goto LBL_Ret;
-
+	DWORD nWritten;
+	bool res = WriteFile(hFile, buffer, bufferLen, &nWritten, NULL) != 0;
 	CloseHandle(hFile);
-
-	ImageBuf = buffer;
-	PicType = szPicType;
+	return res;
 }
 
-void CJabberProto::sendCaptchaResult(TCHAR* buf, ThreadData* info, LPCTSTR from, LPCTSTR challenge, LPCTSTR fromjid,  LPCTSTR sid){
+void CJabberProto::sendCaptchaResult(TCHAR* buf, ThreadData* info, LPCTSTR from, LPCTSTR challenge, LPCTSTR fromjid,  LPCTSTR sid)
+{
 	XmlNodeIq iq(_T("set"), SerialNext());
 	HXML query= iq <<XATTR(_T("to"), from) << XCHILD(_T("captcha")) << XATTR(_T("xmlns"), _T("urn:xmpp:captcha")) << XCHILD (_T("x")) << XATTR(_T("xmlns"), JABBER_FEAT_DATA_FORMS) << XATTR(_T("type"), _T("submit"));
 		query << XCHILD(_T("field")) << XATTR (_T("var"), _T("FORM_TYPE")) << XCHILD(_T("value"), _T("urn:xmpp:captcha"));
@@ -224,7 +197,8 @@ void CJabberProto::sendCaptchaResult(TCHAR* buf, ThreadData* info, LPCTSTR from,
 	info -> send (iq);
 }
 
-void CJabberProto::sendCaptchaError(ThreadData* info, LPCTSTR from, LPCTSTR to, LPCTSTR challenge) {
+void CJabberProto::sendCaptchaError(ThreadData* info, LPCTSTR from, LPCTSTR to, LPCTSTR challenge)
+{
 	XmlNode message(_T("message"));
 	HXML query= message << XATTR(_T("type"), _T("error")) << XATTR(_T("to"), from) << XATTR(_T("id"), challenge) << XATTR(_T("from"), to)
 		  << XCHILD(_T("error")) << XATTR(_T("type"), _T("modify"))

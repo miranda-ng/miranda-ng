@@ -477,7 +477,7 @@ BOOL CJabberProto::OnIqRequestAvatar(HXML, CJabberIqInfo *pInfo)
 	if (pictureType == PA_FORMAT_UNKNOWN)
 		return TRUE;
 
-	TCHAR* szMimeType;
+	TCHAR *szMimeType;
 	switch(pictureType) {
 		case PA_FORMAT_JPEG:	 szMimeType = _T("image/jpeg");   break;
 		case PA_FORMAT_GIF:	 szMimeType = _T("image/gif");    break;
@@ -532,17 +532,17 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 
 	// RFC 3921 #7.2 Business Rules
 	if (pInfo->GetFrom()) {
-		TCHAR* szFrom = JabberPrepareJid(pInfo->GetFrom());
+		TCHAR *szFrom = JabberPrepareJid(pInfo->GetFrom());
 		if ( !szFrom)
 			return TRUE;
 
-		TCHAR* szTo = JabberPrepareJid(m_ThreadInfo->fullJID);
+		TCHAR *szTo = JabberPrepareJid(m_ThreadInfo->fullJID);
 		if ( !szTo) {
 			mir_free(szFrom);
 			return TRUE;
 		}
 
-		TCHAR* pDelimiter = _tcschr(szFrom, _T('/'));
+		TCHAR *pDelimiter = _tcschr(szFrom, _T('/'));
 		if (pDelimiter) *pDelimiter = _T('\0');
 
 		pDelimiter = _tcschr(szTo, _T('/'));
@@ -563,7 +563,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 	JABBER_LIST_ITEM *item;
 	HANDLE hContact = NULL;
 	const TCHAR *jid, *str, *name;
-	TCHAR* nick;
+	TCHAR *nick;
 
 	Log("<iq/> Got roster push, query has %d children", xmlGetChildCount(queryNode));
 	for (int i=0; ; i++) {
@@ -590,7 +590,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 					replaceStrT(item->nick, nick);
 
 					HXML groupNode = xmlGetChild(itemNode , "group");
-					replaceStrT(item->group, (groupNode) ? xmlGetText(groupNode) : NULL);
+					replaceStrT(item->group, xmlGetText(groupNode));
 
 					if ((hContact=HContactFromJID(jid, 0)) == NULL) {
 						// Received roster has a new JID.
@@ -699,13 +699,13 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 		ft->iqId = mir_tstrdup(pInfo->GetIdStr());
 
 	if (ft->httpHostName && ft->httpPath) {
-		TCHAR* desc = NULL;
+		TCHAR *desc = NULL;
 
 		Log("Host=%s Port=%d Path=%s", ft->httpHostName, ft->httpPort, ft->httpPath);
 		if ((n = xmlGetChild(pInfo->GetChildNode(), "desc")) != NULL)
 			desc = (TCHAR*)xmlGetText(n);
 
-		TCHAR* str2;
+		TCHAR *str2;
 		Log("description = %s", desc);
 		if ((str2 = _tcsrchr(ft->httpPath, '/')) != NULL)
 			str2++;

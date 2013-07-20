@@ -126,7 +126,7 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 	for (i = 0; i < SIZEOF(sttAffiliationItems); i++) sttAffiliationItems[i].translate();
 	for (i = 0; i < SIZEOF(sttRoleItems); i++) sttRoleItems[i].translate();
 
-	TCHAR* szNick = JabberNickFromJID(item->jid);
+	TCHAR *szNick = JabberNickFromJID(item->jid);
 
 	GCSESSION gcw = { sizeof(GCSESSION) };
 	gcw.iType = GCW_CHATROOM;
@@ -276,18 +276,16 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, JABBER_RESOURCE_
 void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const TCHAR *resource, const TCHAR *nick, const TCHAR *jid, int action, HXML reason, int nStatusCode)
 {
 	int statusToSet = 0;
-	const TCHAR *szReason = NULL;
-	if (reason != NULL && xmlGetText(reason) != NULL)
-		szReason = xmlGetText(reason);
 
-	if ( !szReason) {
+	const TCHAR *szReason = xmlGetText(reason);
+	if (szReason == NULL) {
 		if (nStatusCode == 322)
 			szReason = TranslateT("because room is now members-only");
 		else if (nStatusCode == 301)
 			szReason = TranslateT("user banned");
 	}
 
-	TCHAR* myNick = (item->nick == NULL) ? NULL : mir_tstrdup(item->nick);
+	TCHAR *myNick = (item->nick == NULL) ? NULL : mir_tstrdup(item->nick);
 	if (myNick == NULL)
 		myNick = JabberNickFromJID(m_szJabberJID);
 
@@ -355,16 +353,12 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 {
 	TCHAR *szMessage = NULL;
 
-	const TCHAR *szReason = NULL;
-	if (reason != NULL && xmlGetText(reason) != NULL)
-		szReason = xmlGetText(reason);
-
 	GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CONTROL };
 	gcd.ptszID = item->jid;
 	GCEVENT gce = {0};
 	gce.cbSize = sizeof(GCEVENT);
 	gce.ptszUID = item->jid;
-	gce.ptszText = szReason;
+	gce.ptszText = xmlGetText(reason);
 	gce.dwFlags = GC_TCHAR;
 	gce.pDest = &gcd;
 
@@ -380,7 +374,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, HXML reason)
 		else szMessage = TranslateTS(JABBER_GC_MSG_QUIT);
 	}
 	else {
-		TCHAR* myNick = JabberNickFromJID(m_szJabberJID);
+		TCHAR *myNick = JabberNickFromJID(m_szJabberJID);
 		GcLogUpdateMemberStatus(item, myNick, myNick, NULL, GC_EVENT_KICK, reason);
 		mir_free(myNick);
 		CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
@@ -1495,7 +1489,7 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 			rtrimt(gch->ptszText);
 
 			if (m_bJabberOnline) {
-				TCHAR* buf = NEWTSTR_ALLOCA(gch->ptszText);
+				TCHAR *buf = NEWTSTR_ALLOCA(gch->ptszText);
 				UnEscapeChatTags(buf);
 				m_ThreadInfo->send(
 					XmlNode(_T("message")) << XATTR(_T("to"), item->jid) << XATTR(_T("type"), _T("groupchat"))
@@ -1529,7 +1523,7 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 void CJabberProto::AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, TCHAR* str , TCHAR* rsn)
 {
 	const TCHAR *field = (jidListInfo->type == MUC_BANLIST || _tcschr(str,'@')) ? _T("jid") : _T("nick");
-	TCHAR* roomJid = jidListInfo->roomJid;
+	TCHAR *roomJid = jidListInfo->roomJid;
 	if (jidListInfo->type == MUC_BANLIST) {
 		AdminSetReason(roomJid, JABBER_FEAT_MUC_ADMIN, field, str, _T("affiliation"), _T("outcast"), rsn);
 		AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, _T("affiliation"), _T("outcast"), &CJabberProto::OnIqResultMucGetBanList);
@@ -1538,7 +1532,7 @@ void CJabberProto::AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, TCHAR* s
 void CJabberProto::AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, TCHAR* str)
 {
 	const TCHAR *field = (jidListInfo->type == MUC_BANLIST || _tcschr(str,'@')) ? _T("jid") : _T("nick");
-	TCHAR* roomJid = jidListInfo->roomJid;
+	TCHAR *roomJid = jidListInfo->roomJid;
 
 	switch (jidListInfo->type) {
 	case MUC_VOICELIST:
@@ -1569,7 +1563,7 @@ void CJabberProto::AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, TCHAR* s
 
 void CJabberProto::DeleteMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, TCHAR* jid)
 {
-	TCHAR* roomJid = jidListInfo->roomJid;
+	TCHAR *roomJid = jidListInfo->roomJid;
 
 	switch (jidListInfo->type) {
 	case MUC_VOICELIST:		// change role to visitor (from participant)

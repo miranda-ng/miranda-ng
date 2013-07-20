@@ -389,11 +389,11 @@ struct ThreadData
 
 struct JABBER_MODEMSGS
 {
-	TCHAR* szOnline;
-	TCHAR* szAway;
-	TCHAR* szNa;
-	TCHAR* szDnd;
-	TCHAR* szFreechat;
+	TCHAR *szOnline;
+	TCHAR *szAway;
+	TCHAR *szNa;
+	TCHAR *szDnd;
+	TCHAR *szFreechat;
 };
 
 struct JABBER_REG_ACCOUNT
@@ -424,10 +424,10 @@ struct filetransfer
 	JABBER_FT_TYPE type;
 	JABBER_SOCKET s;
 	JABBER_FILE_STATE state;
-	TCHAR* jid;
+	TCHAR *jid;
 	int    fileId;
-	TCHAR* iqId;
-	TCHAR* sid;
+	TCHAR *iqId;
+	TCHAR *sid;
 	int    bCompleted;
 	HANDLE hWaitEvent;
 
@@ -439,7 +439,7 @@ struct filetransfer
 	// Used by file receiving only
 	char* httpHostName;
 	WORD httpPort;
-	TCHAR* httpPath;
+	TCHAR *httpPath;
 	unsigned __int64 dwExpectedRecvFileSize;
 
 	// Used by file sending only
@@ -486,11 +486,11 @@ struct JABBER_MUC_JIDLIST_INFO
 	~JABBER_MUC_JIDLIST_INFO();
 
 	JABBER_MUC_JIDLIST_TYPE type;
-	TCHAR* roomJid;	// filled-in by the WM_JABBER_REFRESH code
+	TCHAR *roomJid;	// filled-in by the WM_JABBER_REFRESH code
 	HXML   iqNode;
 	CJabberProto *ppro;
 
-	TCHAR* type2str(void) const;
+	TCHAR *type2str(void) const;
 };
 
 typedef void (CJabberProto::*JABBER_FORM_SUBMIT_FUNC)(HXML values, void *userdata);
@@ -674,8 +674,8 @@ TCHAR* UnEscapeChatTags(TCHAR* str_in);
 
 struct CJabberAdhocStartupParams
 {
-	TCHAR* m_szJid;
-	TCHAR* m_szNode;
+	TCHAR *m_szJid;
+	TCHAR *m_szNode;
 	CJabberProto* m_pProto;
 
 	CJabberAdhocStartupParams(CJabberProto* proto, TCHAR* szJid, TCHAR* szNode = NULL)
@@ -702,7 +702,7 @@ struct JabberAdHocData
 	RECT   frameRect;
 	HXML   AdHocNode;
 	HXML   CommandsNode;
-	TCHAR* ResponderJID;
+	TCHAR *ResponderJID;
 };
 
 //---- jabber_util.cpp ------------------------------------------------------------------
@@ -744,8 +744,10 @@ char*         __stdcall JabberBase64DecodeW(const WCHAR* buffer, int *resultLen)
 time_t        __stdcall JabberIsoToUnixTime(const TCHAR *stamp);
 void          __stdcall JabberStringAppend(char* *str, int *sizeAlloced, const char* fmt, ...);
 TCHAR*        __stdcall JabberStripJid(const TCHAR *jid, TCHAR* dest, size_t destLen);
-int           __stdcall JabberGetPictureType(const char* buf);
 int           __stdcall JabberGetPacketID(HXML n);
+
+int           __stdcall JabberGetPictureType(const char* buf);
+LPCTSTR       __stdcall JabberGetPictureType(HXML node, const char *picBuf);
 
 TCHAR* time2str(time_t _time, TCHAR *buf, size_t bufLen);
 time_t str2time(const TCHAR*);

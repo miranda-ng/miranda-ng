@@ -109,7 +109,7 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 		case IDOK:
 			{
 				GetDlgItemText(hwndDlg, IDC_ROOM_JID, text, SIZEOF(text));
-				TCHAR* roomJID = NEWTSTR_ALLOCA(text);
+				TCHAR *roomJID = NEWTSTR_ALLOCA(text);
 
 				if (param->m_item)
 					param->ppro->ListRemove(LIST_BOOKMARK, param->m_item->jid);
@@ -356,7 +356,7 @@ void CJabberDlgBookmarks::OpenBookmark()
 			if (item->nick && *item->nick)
 				m_proto->GroupchatJoinRoom(server, room, item->nick, item->password);
 			else {
-				TCHAR* nick = JabberNickFromJID(m_proto->m_szJabberJID);
+				TCHAR *nick = JabberNickFromJID(m_proto->m_szJabberJID);
 				m_proto->GroupchatJoinRoom(server, room, nick, item->password);
 				mir_free(nick);
 			}

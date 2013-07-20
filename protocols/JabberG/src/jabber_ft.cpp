@@ -85,7 +85,7 @@ void CJabberProto::FtInitiate(TCHAR* jid, filetransfer *ft)
 	int i;
 	TCHAR sid[9];
 
-	if (jid==NULL || ft==NULL || !m_bJabberOnline || (rs=ListGetBestClientResourceNamePtr(jid))==NULL) {
+	if (jid == NULL || ft == NULL || !m_bJabberOnline || (rs=ListGetBestClientResourceNamePtr(jid)) == NULL) {
 		if (ft) {
 			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 			delete ft;
@@ -142,7 +142,7 @@ void CJabberProto::OnFtSiResult(HXML iqNode, CJabberIqInfo* pInfo)
 			if ((featureNode = xmlGetChild(siNode , "feature")) != NULL) {
 				if ((xNode = xmlGetChildByTag(featureNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS)) != NULL) {
 					if ((fieldNode = xmlGetChildByTag(xNode, "field", "var", _T("stream-method"))) != NULL) {
-						if ((valueNode = xmlGetChild(fieldNode , "value"))!=NULL && xmlGetText(valueNode)!=NULL) {
+						if ((valueNode = xmlGetChild(fieldNode , "value")) != NULL && xmlGetText(valueNode) != NULL) {
 							if ((bDirect || bProxy) && !_tcscmp(xmlGetText(valueNode), JABBER_FEAT_BYTESTREAMS)) {
 								// Start Bytestream session
 								JABBER_BYTE_TRANSFER *jbt = new JABBER_BYTE_TRANSFER;
@@ -317,7 +317,7 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 		filesize = _ttoi64(str);
 		if ((featureNode = xmlGetChildByTag(siNode, "feature", "xmlns", JABBER_FEAT_FEATURE_NEG)) != NULL &&
 			(xNode = xmlGetChildByTag(featureNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS)) != NULL &&
-			(fieldNode = xmlGetChildByTag(xNode, "field", "var", _T("stream-method")))!=NULL) {
+			(fieldNode = xmlGetChildByTag(xNode, "field", "var", _T("stream-method"))) != NULL) {
 
 			BOOL bIbbOnly = m_options.BsOnlyIBB;
 			HXML optionNode = NULL;
@@ -395,7 +395,7 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 
 void CJabberProto::FtAcceptSiRequest(filetransfer *ft)
 {
-	if ( !m_bJabberOnline || ft==NULL || ft->jid==NULL || ft->sid==NULL) return;
+	if ( !m_bJabberOnline || ft == NULL || ft->jid == NULL || ft->sid == NULL) return;
 
 	JABBER_LIST_ITEM *item;
 	if ((item=ListAdd(LIST_FTRECV, ft->sid)) != NULL) {
@@ -412,7 +412,7 @@ void CJabberProto::FtAcceptSiRequest(filetransfer *ft)
 
 void CJabberProto::FtAcceptIbbRequest(filetransfer *ft)
 {
-	if ( !m_bJabberOnline || ft==NULL || ft->jid==NULL || ft->sid==NULL) return;
+	if ( !m_bJabberOnline || ft == NULL || ft->jid == NULL || ft->sid == NULL) return;
 
 	JABBER_LIST_ITEM *item;
 	if ((item=ListAdd(LIST_FTRECV, ft->sid)) != NULL) {

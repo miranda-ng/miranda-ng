@@ -52,7 +52,7 @@ typedef void (CJabberProto::*JABBER_IQ_PFUNC)(HXML iqNode);
 typedef void (*IQ_USER_DATA_FREE_FUNC)(void *pUserData);
 
 typedef struct {
-	TCHAR* xmlns;
+	TCHAR *xmlns;
 	JABBER_IQ_PFUNC func;
 	BOOL allowSubNs;		// e.g. #info in disco#info
 } JABBER_IQ_XMLNS_FUNC;
@@ -185,8 +185,8 @@ class CJabberIqPermanentInfo
 	JABBER_PERMANENT_IQ_HANDLER m_pHandler;
 	DWORD m_dwParamsToParse;
 	int m_nIqTypes;
-	TCHAR* m_szXmlns;
-	TCHAR* m_szTag;
+	TCHAR *m_szXmlns;
+	TCHAR *m_szTag;
 	BOOL m_bAllowPartialNs;
 	void *m_pUserData;
 	IQ_USER_DATA_FREE_FUNC m_pUserDataFree;

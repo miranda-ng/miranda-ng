@@ -459,7 +459,7 @@ protected:
 		m_cbServer.AddString(TranslateT("Loading..."));
 
 		// fill predefined resources
-		TCHAR* szResources[] = { _T("Home"), _T("Work"), _T("Office"), _T("Miranda") };
+		TCHAR *szResources[] = { _T("Home"), _T("Work"), _T("Office"), _T("Miranda") };
 		for (i = 0; i < SIZEOF(szResources); i++)
 			m_cbResource.AddString(szResources[i]);
 
@@ -769,7 +769,7 @@ private:
 		NETLIBHTTPREQUEST *result = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)wnd->GetProto()->m_hNetlibUser, (LPARAM)&request);
 		if (result) {
 			if (result->resultCode == 200 && result->dataLength && result->pData) {
-				TCHAR* buf = mir_a2t(result->pData);
+				TCHAR *buf = mir_a2t(result->pData);
 				XmlNode node(buf, NULL, NULL);
 				if (node) {
 					HXML queryNode = xmlGetChild(node, _T("query"));
@@ -1047,10 +1047,7 @@ void CJabberProto::_RosterHandleGetRequest(HXML node)
 
 			const TCHAR *name = xmlGetAttrValue(item, _T("name"));
 			const TCHAR *subscription = xmlGetAttrValue(item, _T("subscription"));
-			const TCHAR *group = NULL;
-			HXML groupNode = xmlGetChild(item , "group");
-			if (groupNode)
-				group = xmlGetText(groupNode);
+			const TCHAR *group = xmlGetText( xmlGetChild(item, "group"));
 			_RosterInsertListItem(hList, jid, name, group, subscription, TRUE);
 		}
 
@@ -1135,19 +1132,16 @@ void CJabberProto::_RosterHandleGetRequest(HXML node)
 				BOOL bPushed = itemRoster ? TRUE : FALSE;
 				if ( !bPushed) {
 					const TCHAR *rosterName = xmlGetAttrValue(itemRoster, _T("name"));
-					if ((rosterName!=NULL || name[0]!=_T('\0')) && lstrcmpi(rosterName,name))
+					if ((rosterName != NULL || name[0]!=_T('\0')) && lstrcmpi(rosterName,name))
 						bPushed=TRUE;
 					if ( !bPushed) {
 						rosterName = xmlGetAttrValue(itemRoster, _T("subscription"));
-						if ((rosterName!=NULL || subscr[0]!=_T('\0')) && lstrcmpi(rosterName,subscr))
+						if ((rosterName != NULL || subscr[0]!=_T('\0')) && lstrcmpi(rosterName,subscr))
 							bPushed=TRUE;
 					}
 					if ( !bPushed) {
-						HXML groupNode = xmlGetChild(itemRoster , "group");
-						const TCHAR *rosterGroup=NULL;
-						if (groupNode != NULL)
-							rosterGroup = xmlGetText(groupNode);
-						if ((rosterGroup!=NULL || group[0]!=_T('\0')) && lstrcmpi(rosterGroup,group))
+						const TCHAR *rosterGroup = xmlGetText( xmlGetChild(itemRoster, "group"));
+						if ((rosterGroup != NULL || group[0]!=_T('\0')) && lstrcmpi(rosterGroup,group))
 							bPushed=TRUE;
 					}
 				}
@@ -1340,7 +1334,7 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 	fclose(fp);
 	_RosterListClear(hwndDlg);
 
-	TCHAR* newBuf = mir_utf8decodeT(buffer);
+	TCHAR *newBuf = mir_utf8decodeT(buffer);
 	mir_free(buffer);
 
 	int nBytesProcessed = 0;
@@ -1681,7 +1675,7 @@ protected:
 		m_cbServer.AddString(TranslateT("Loading..."));
 
 		// fill predefined resources
-		TCHAR* szResources[] = { _T("Home"), _T("Work"), _T("Office"), _T("Miranda") };
+		TCHAR *szResources[] = { _T("Home"), _T("Work"), _T("Office"), _T("Miranda") };
 		for (i = 0; i < SIZEOF(szResources); i++)
 			m_cbResource.AddString(szResources[i]);
 
@@ -2235,7 +2229,7 @@ void CJabberDlgAccMgrUI::QueryServerListThread(void *arg)
 	NETLIBHTTPREQUEST *result = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)wnd->GetProto()->m_hNetlibUser, (LPARAM)&request);
 	if (result && IsWindow(hwnd)) {
 		if ((result->resultCode == 200) && result->dataLength && result->pData) {
-			TCHAR* ptszText = mir_a2t(result->pData);
+			TCHAR *ptszText = mir_a2t(result->pData);
 			XmlNode node(ptszText, NULL, NULL);
 			if (node) {
 				HXML queryNode = xmlGetChild(node, _T("query"));

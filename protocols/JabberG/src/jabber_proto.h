@@ -58,10 +58,10 @@ struct JABBER_IQ_FUNC
 
 struct JABBER_GROUPCHAT_INVITE_INFO
 {
-	TCHAR* roomJid;
-	TCHAR* from;
-	TCHAR* reason;
-	TCHAR* password;
+	TCHAR *roomJid;
+	TCHAR *from;
+	TCHAR *reason;
+	TCHAR *password;
 };
 
 struct ROSTERREQUSERDATA
@@ -240,14 +240,14 @@ struct CJabberProto : public PROTO<CJabberProto>
 
 	HANDLE m_hThreadHandle;
 
-	TCHAR* m_szJabberJID;
+	TCHAR *m_szJabberJID;
 	char*  m_szStreamId;
 	BOOL   m_bJabberOnline; // XMPP connection initialized and we can send XMPP packets
 	int    m_nJabberSearchID;
 	time_t m_tmJabberLoggedInTime;
 	time_t m_tmJabberIdleStartTime;
 	UINT   m_nJabberCodePage;
-	TCHAR* m_tszSelectedLang;
+	TCHAR *m_tszSelectedLang;
 
 	CMString m_szCurrentEntityCapsHash;
 
@@ -437,7 +437,7 @@ struct CJabberProto : public PROTO<CJabberProto>
 
 	//---- jabber_captcha.cpp ------------------------------------------------------------
 
-	void   GetCaptchaImage (HXML node, char *ImageBuf, const TCHAR *PicType, TCHAR*& CaptchaPath);
+	bool   GetCaptchaImage(HXML node, TCHAR*& CaptchaPath);
 	void   sendCaptchaResult(TCHAR* buf, ThreadData* info, LPCTSTR from, LPCTSTR challenge, LPCTSTR fromjid, LPCTSTR sid);
 	void   sendCaptchaError(ThreadData* info, LPCTSTR from, LPCTSTR to, LPCTSTR challenge);
 

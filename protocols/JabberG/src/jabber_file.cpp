@@ -123,7 +123,7 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 					}
 					else {	// FT_INITIALIZING
 						if (str[0] == '\0') {
-							TCHAR* s;
+							TCHAR *s;
 							if ((s = _tcsrchr(ft->httpPath, '/')) != NULL)
 								s++;
 							else
@@ -282,7 +282,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 	JABBER_LIST_ITEM *item = ListAdd(LIST_FILE, szPort);
 	item->ft = ft;
 
-	TCHAR* ptszResource = ListGetBestClientResourceNamePtr(ft->jid);
+	TCHAR *ptszResource = ListGetBestClientResourceNamePtr(ft->jid);
 	if (ptszResource != NULL) {
 		ft->state = FT_CONNECTING;
 		for (int i=0; i < ft->std.totalFiles && ft->state != FT_ERROR && ft->state != FT_DENIED; i++) {
@@ -297,7 +297,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 			else
 				p = ft->std.ptszFiles[i];
 
-			TCHAR* pFileName = JabberHttpUrlEncode(p);
+			TCHAR *pFileName = JabberHttpUrlEncode(p);
 			if (pFileName != NULL) {
 				int id = SerialNext();
 				if (ft->iqId) mir_free(ft->iqId);
@@ -321,7 +321,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 				mir_free(myAddr);
 
 				int len = lstrlen(ptszResource) + lstrlen(ft->jid) + 2;
-				TCHAR* fulljid = (TCHAR*)alloca(sizeof(TCHAR)*len);
+				TCHAR *fulljid = (TCHAR*)alloca(sizeof(TCHAR)*len);
 				wsprintf(fulljid, _T("%s/%s"), ft->jid, ptszResource);
 
 				XmlNodeIq iq(_T("set"), id, fulljid);
@@ -407,15 +407,15 @@ int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer,
 				num += 2;
 
 				currentFile = ft->std.currentFileNumber;
-				TCHAR* t = _tcsrchr(ft->std.ptszFiles[ currentFile ], '\\');
+				TCHAR *t = _tcsrchr(ft->std.ptszFiles[ currentFile ], '\\');
 				if (t != NULL)
 					t++;
 				else
 					t = ft->std.ptszFiles[currentFile];
 
-				if (ft->httpPath==NULL || lstrcmp(ft->httpPath, t)) {
+				if (ft->httpPath == NULL || lstrcmp(ft->httpPath, t)) {
 					if (ft->httpPath == NULL)
-						Log("Requested file name does not matched (httpPath==NULL)");
+						Log("Requested file name does not matched (httpPath == NULL)");
 					else
 						Log("Requested file name does not matched ('%s' vs. '%s')", ft->httpPath, t);
 					ft->state = FT_ERROR;

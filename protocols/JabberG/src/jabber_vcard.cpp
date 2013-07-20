@@ -1157,7 +1157,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 					if (ReadFile(hFile, buffer, st.st_size, &nRead, NULL)) {
 						if ((str=JabberBase64Encode(buffer, nRead)) != NULL) {
 							n = v << XCHILD(_T("PHOTO"));
-							TCHAR* szFileType;
+							TCHAR *szFileType;
 							switch(JabberGetPictureType(buffer)) {
 								case PA_FORMAT_PNG:  szFileType = _T("image/png");   break;
 								case PA_FORMAT_GIF:  szFileType = _T("image/gif");   break;

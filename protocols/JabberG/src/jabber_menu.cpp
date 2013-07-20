@@ -544,7 +544,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleRequestAuth(WPARAM wParam, LPARAM)
 	HANDLE hContact;
 	DBVARIANT dbv;
 
-	if ((hContact=(HANDLE)wParam)!=NULL && m_bJabberOnline) {
+	if ((hContact=(HANDLE)wParam) != NULL && m_bJabberOnline) {
 		if ( !getTString(hContact, "jid", &dbv)) {
 			m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), dbv.ptszVal) << XATTR(_T("type"), _T("subscribe")));
 			db_free(&dbv);
@@ -558,7 +558,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleGrantAuth(WPARAM wParam, LPARAM)
 	HANDLE hContact;
 	DBVARIANT dbv;
 
-	if ((hContact=(HANDLE)wParam)!=NULL && m_bJabberOnline) {
+	if ((hContact=(HANDLE)wParam) != NULL && m_bJabberOnline) {
 		if ( !getTString(hContact, "jid", &dbv)) {
 			m_ThreadInfo->send(XmlNode(_T("presence")) << XATTR(_T("to"), dbv.ptszVal) << XATTR(_T("type"), _T("subscribed")));
 			db_free(&dbv);

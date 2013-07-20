@@ -79,7 +79,7 @@ class CAgentRegDlg : public CJabberDlgBase
 	int m_formHeight, m_frameHeight;
 	RECT m_frameRect;
 	HXML m_agentRegIqNode;
-	TCHAR* m_jid;
+	TCHAR *m_jid;
 
 	CCtrlButton m_submit;
 
@@ -152,9 +152,8 @@ public:
 
 				if ((xNode=xmlGetChild(queryNode , "x")) != NULL) {
 					// use new jabber:x:data form
-					HXML n = xmlGetChild(xNode , "instructions");
-					if (n != NULL && xmlGetText(n)!=NULL)
-						JabberFormSetInstruction(m_hwnd, xmlGetText(n));
+					if (LPCTSTR ptszInstr = xmlGetText( xmlGetChild(xNode, "instructions")))
+						JabberFormSetInstruction(m_hwnd, ptszInstr);
 
 					JabberFormCreateUI(hFrame, xNode, &m_formHeight /*dummy*/);
 				}
@@ -163,7 +162,7 @@ public:
 					HJFORMLAYOUT layout_info = JabberFormCreateLayout(hFrame);
 					for (int i=0; ; i++) {
 						HXML n = xmlGetChild(queryNode ,i);
-						if ( !n)
+						if (n == NULL)
 							break;
 
 						if (xmlGetName(n)) {

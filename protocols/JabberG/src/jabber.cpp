@@ -42,7 +42,7 @@ HINSTANCE hInst;
 int hLangpack;
 
 int g_cbCountries;
-struct CountryListEntry* g_countries;
+CountryListEntry *g_countries;
 
 TCHAR szCoreVersion[100];
 

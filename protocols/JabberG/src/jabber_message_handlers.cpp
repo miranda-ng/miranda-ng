@@ -59,9 +59,9 @@ BOOL CJabberProto::OnMessageIbb(HXML node, ThreadData *pThreadData, CJabberMessa
 	BOOL bOk = FALSE;
 	const TCHAR *sid = xmlGetAttrValue(pInfo->GetChildNode(), _T("sid"));
 	const TCHAR *seq = xmlGetAttrValue(pInfo->GetChildNode(), _T("seq"));
-	if (sid && seq && xmlGetText(pInfo->GetChildNode())) {
+	if (sid && seq && xmlGetText(pInfo->GetChildNode()))
 		bOk = OnIbbRecvdData(xmlGetText(pInfo->GetChildNode()), sid, seq);
-	}
+
 	return TRUE;
 }
 

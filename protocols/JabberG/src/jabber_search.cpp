@@ -189,7 +189,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode)
 		HXML errorNode = xmlGetChild(iqNode, "error");
 		if (errorNode) {
 			code = xmlGetAttrValue(errorNode, _T("code"));
-			description=xmlGetText(errorNode);
+			description = xmlGetText(errorNode);
 		}
 		_sntprintf(buff,SIZEOF(buff),TranslateT("Error %s %s\r\nPlease select other server"),code ? code : _T(""),description?description:_T(""));
 		SetDlgItemText(searchHandleDlg,IDC_INSTRUCTIONS,buff);
@@ -214,7 +214,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 		U_TCHAR_MAP* pmUserData = (U_TCHAR_MAP*)plUsersInfo->operator [](i);
 		int nUserFields = pmUserData->getCount();
 		for (int j=0; j < nUserFields; j++) {
-			TCHAR* var = pmUserData->getKeyName(j);
+			TCHAR *var = pmUserData->getKeyName(j);
 			if (var && ListOfNonEmptyFields.getIndex(var) < 0)
 					ListOfNonEmptyFields.insert(var);
 	}	}
@@ -238,7 +238,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 
 	/* Sending Columns Titles */
 	for (i=0; i < nFieldCount; i++) {
-		TCHAR* var = ListOfFields[i];
+		TCHAR *var = ListOfFields[i];
 		if (var)
 			Results.pszFields[i] = pmAllFields->operator [](var);
 	}
@@ -319,8 +319,8 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode)
 				while (HXML fieldNode = xmlGetNthChild(reportNode, _T("field"), i++)) {
 					TCHAR *var = (TCHAR*)xmlGetAttrValue(fieldNode, _T("var"));
 					if (var) {
-						TCHAR* Label = (TCHAR*)xmlGetAttrValue(fieldNode, _T("label"));
-						mColumnsNames.insert(var, (Label!=NULL) ? Label : var);
+						TCHAR *Label = (TCHAR*)xmlGetAttrValue(fieldNode, _T("label"));
+						mColumnsNames.insert(var, (Label != NULL) ? Label : var);
 			}	}	}
 
 			int i=1;
@@ -346,7 +346,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode)
 				U_TCHAR_MAP *pUserColumn=new U_TCHAR_MAP(10);
 
 				TCHAR *jid = (TCHAR*)xmlGetAttrValue(itemNode, _T("jid"));
-				TCHAR* keyReturned;
+				TCHAR *keyReturned;
 				mColumnsNames.insertCopyKey(_T("jid"),_T("jid"),&keyReturned, CopyKey, DestroyKey);
 				mColumnsNames.insert(_T("jid"), keyReturned);
 				pUserColumn->insertCopyKey(_T("jid"), jid, NULL, CopyKey, DestroyKey);
@@ -358,10 +358,11 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode)
 
 					const TCHAR *szColumnName = xmlGetName(child);
 					if (szColumnName) {
-						if (xmlGetText(child) && xmlGetText(child)[0] != _T('\0')) {
+						LPCTSTR ptszChild = xmlGetText(child);
+						if (ptszChild && *ptszChild) {
 							mColumnsNames.insertCopyKey((TCHAR*)szColumnName,_T(""),&keyReturned, CopyKey, DestroyKey);
 							mColumnsNames.insert((TCHAR*)szColumnName,keyReturned);
-							pUserColumn->insertCopyKey((TCHAR*)szColumnName, (TCHAR*)xmlGetText(child),NULL, CopyKey, DestroyKey);
+							pUserColumn->insertCopyKey((TCHAR*)szColumnName, (TCHAR*)ptszChild, NULL, CopyKey, DestroyKey);
 				}	}	}
 
 				SearchResults.insert((void*)pUserColumn);

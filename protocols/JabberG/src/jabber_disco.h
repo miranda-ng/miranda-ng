@@ -56,15 +56,15 @@ public:
 		if (m_pNext)
 			delete m_pNext;
 	}
-	TCHAR* GetCategory()
+	TCHAR *GetCategory()
 	{
 		return m_szCategory;
 	}
-	TCHAR* GetType()
+	TCHAR *GetType()
 	{
 		return m_szType;
 	}
-	TCHAR* GetName()
+	TCHAR *GetName()
 	{
 		return m_szName;
 	}
@@ -98,7 +98,7 @@ public:
 		if (m_pNext)
 			delete m_pNext;
 	}
-	TCHAR* GetVar()
+	TCHAR *GetVar()
 	{
 		return m_szVar;
 	}
@@ -233,7 +233,7 @@ public:
 		replaceStrT(m_szJid, szJid);
 		return TRUE;
 	}
-	TCHAR* GetJid()
+	TCHAR *GetJid()
 	{
 		return m_szJid;
 	}
@@ -242,11 +242,11 @@ public:
 		replaceStrT(m_szNode, szNode);
 		return TRUE;
 	}
-	TCHAR* GetNode()
+	TCHAR *GetNode()
 	{
 		return m_szNode;
 	}
-	TCHAR* GetName()
+	TCHAR *GetName()
 	{
 		return m_szName;
 	}

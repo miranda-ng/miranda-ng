@@ -94,7 +94,7 @@ void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING* cws, HANDLE hCon
 	if (item == NULL)
 		return;
 
-	TCHAR* nick;
+	TCHAR *nick;
 	if ( !db_get_ts(hContact, "CList", "MyHandle", &dbv)) {
 		nick = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
@@ -137,7 +137,7 @@ void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING* cws, HANDLE hC
 		return;
 
 	if (cws->value.type == DBVT_DELETED) {
-		TCHAR* nick = pcli->pfnGetContactDisplayName(hContact, GCDNF_NOMYHANDLE);
+		TCHAR *nick = pcli->pfnGetContactDisplayName(hContact, GCDNF_NOMYHANDLE);
 		AddContactToRoster(item->jid, nick, item->group);
 		mir_free(nick);
 		return;

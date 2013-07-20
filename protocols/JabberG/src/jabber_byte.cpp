@@ -145,7 +145,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 	DBVARIANT dbv;
 	TCHAR szPort[8];
 	HANDLE hEvent = NULL;
-	TCHAR* proxyJid;
+	TCHAR *proxyJid;
 	CJabberIqInfo* pInfo = NULL;
 	int nIqId = 0;
 
@@ -625,14 +625,14 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 			sid = xmlGetAttrValue(queryNode, _T("sid"));
 	}
 
-	if (szId && from && to && sid && (n = xmlGetChild(queryNode , "streamhost"))!=NULL) {
+	if (szId && from && to && sid && (n = xmlGetChild(queryNode , "streamhost")) != NULL) {
 		jbt->iqId = mir_tstrdup(szId);
 		jbt->srcJID = mir_tstrdup(from);
 		jbt->dstJID = mir_tstrdup(to);
 		jbt->sid = mir_tstrdup(sid);
 
 		if ((buffer=(char*)mir_alloc(JABBER_NETWORK_BUFFER_SIZE))) {
-			for (i=1; (n = xmlGetNthChild(queryNode, _T("streamhost"), i))!=NULL; i++) {
+			for (i=1; (n = xmlGetNthChild(queryNode, _T("streamhost"), i)) != NULL; i++) {
 				if ((szHost = xmlGetAttrValue(n, _T("host"))) != NULL &&
 					(szPort = xmlGetAttrValue(n, _T("port"))) != NULL &&
 					(str = xmlGetAttrValue(n, _T("jid"))) != NULL) {

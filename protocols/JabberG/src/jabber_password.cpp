@@ -47,7 +47,7 @@ static INT_PTR CALLBACK JabberChangePasswordDlgProc(HWND hwndDlg, UINT msg, WPAR
 
 		WindowSetIcon(hwndDlg, ppro, "key");
 		TranslateDialogDefault(hwndDlg);
-		if (ppro->m_bJabberOnline && ppro->m_ThreadInfo!=NULL) {
+		if (ppro->m_bJabberOnline && ppro->m_ThreadInfo != NULL) {
 			TCHAR text[1024];
 			mir_sntprintf(text, SIZEOF(text), _T("%s %s@%S"), TranslateT("Set New Password for"), ppro->m_ThreadInfo->username, ppro->m_ThreadInfo->server);
 			SetWindowText(hwndDlg, text);
@@ -56,7 +56,7 @@ static INT_PTR CALLBACK JabberChangePasswordDlgProc(HWND hwndDlg, UINT msg, WPAR
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
-			if (ppro->m_bJabberOnline && ppro->m_ThreadInfo!=NULL) {
+			if (ppro->m_bJabberOnline && ppro->m_ThreadInfo != NULL) {
 				TCHAR newPasswd[512], text[512];
 				GetDlgItemText(hwndDlg, IDC_NEWPASSWD, newPasswd, SIZEOF(newPasswd));
 				GetDlgItemText(hwndDlg, IDC_NEWPASSWD2, text, SIZEOF(text));

@@ -409,7 +409,7 @@ void CPepService::Publish()
 
 void CPepService::Retract()
 {
-	TCHAR* tempName = mir_a2t(m_name);
+	TCHAR *tempName = mir_a2t(m_name);
 	_tcslwr(tempName);
 
 	m_proto->m_ThreadInfo->send(

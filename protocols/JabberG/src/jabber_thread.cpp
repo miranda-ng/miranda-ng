@@ -61,7 +61,7 @@ struct JabberPasswordDlgParam
 	WORD   dlgResult;
 	TCHAR  onlinePassword[128];
 	HANDLE hEventPasswdDlg;
-	TCHAR* ptszJid;
+	TCHAR *ptszJid;
 };
 
 static INT_PTR CALLBACK JabberPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -504,7 +504,7 @@ LBL_FatalError:
 recvRest:
 			buffer[datalen] = '\0';
 
-			TCHAR* str;
+			TCHAR *str;
 			str = mir_utf8decodeW(buffer);
 
 			int bytesParsed = 0;
@@ -773,7 +773,7 @@ void CJabberProto::OnProcessFeatures(HXML node, ThreadData* info)
 		if ( !_tcscmp(xmlGetName(n), _T("compression")) && m_options.EnableZlib == TRUE) {
 			Log("Server compression available");
 			for (int k=0; ; k++) {
-				HXML c = xmlGetChild(n ,k);
+				HXML c = xmlGetChild(n,k);
 				if ( !c)
 					break;
 
@@ -798,18 +798,18 @@ void CJabberProto::OnProcessFeatures(HXML node, ThreadData* info)
 			areMechanismsDefined = true;
 			//JabberLog("%d mechanisms\n",n->numChild);
 			for (int k=0; ; k++) {
-				HXML c = xmlGetChild(n ,k);
+				HXML c = xmlGetChild(n,k);
 				if ( !c)
 					break;
 
 				if ( !_tcscmp(xmlGetName(c), _T("mechanism"))) {
-					//JabberLog("Mechanism: %s",xmlGetText(c));
-					if ( !_tcscmp(xmlGetText(c), _T("PLAIN")))          m_AuthMechs.isPlainOldAvailable = m_AuthMechs.isPlainAvailable = true;
-					else if ( !_tcscmp(xmlGetText(c), _T("DIGEST-MD5")))     m_AuthMechs.isMd5Available = true;
-					else if ( !_tcscmp(xmlGetText(c), _T("SCRAM-SHA-1")))    m_AuthMechs.isScramAvailable = true;
-					else if ( !_tcscmp(xmlGetText(c), _T("NTLM")))           m_AuthMechs.isNtlmAvailable = true;
-					else if ( !_tcscmp(xmlGetText(c), _T("GSS-SPNEGO")))     m_AuthMechs.isSpnegoAvailable = true;
-					else if ( !_tcscmp(xmlGetText(c), _T("GSSAPI")))         m_AuthMechs.isKerberosAvailable = true;
+					LPCTSTR ptszMechanism = xmlGetText(c);
+					     if ( !_tcscmp(ptszMechanism, _T("PLAIN")))        m_AuthMechs.isPlainOldAvailable = m_AuthMechs.isPlainAvailable = true;
+					else if ( !_tcscmp(ptszMechanism, _T("DIGEST-MD5")))   m_AuthMechs.isMd5Available = true;
+					else if ( !_tcscmp(ptszMechanism, _T("SCRAM-SHA-1")))  m_AuthMechs.isScramAvailable = true;
+					else if ( !_tcscmp(ptszMechanism, _T("NTLM")))         m_AuthMechs.isNtlmAvailable = true;
+					else if ( !_tcscmp(ptszMechanism, _T("GSS-SPNEGO")))   m_AuthMechs.isSpnegoAvailable = true;
+					else if ( !_tcscmp(ptszMechanism, _T("GSSAPI")))       m_AuthMechs.isKerberosAvailable = true;
 				}
 				else if ( !_tcscmp(xmlGetName(c), _T("hostname"))) {
 					const TCHAR *mech = xmlGetAttrValue(c, _T("mechanism"));
@@ -817,7 +817,8 @@ void CJabberProto::OnProcessFeatures(HXML node, ThreadData* info)
 						m_AuthMechs.m_gssapiHostName = mir_tstrdup(xmlGetText(c));
 					}
 				}
-		}	}
+			}
+		}
 		else if ( !_tcscmp(xmlGetName(n), _T("register"))) isRegisterAvailable = true;
 		else if ( !_tcscmp(xmlGetName(n), _T("auth"    ))) m_AuthMechs.isAuthAvailable = true;
 		else if ( !_tcscmp(xmlGetName(n), _T("session" ))) m_AuthMechs.isSessionAvailable = true;
@@ -1158,7 +1159,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 	LPCTSTR ptszSubject = xmlGetText( xmlGetChild(node , "subject"));
 	if (ptszSubject && *ptszSubject) {
 		size_t cbLen = (szMessage ? _tcslen(szMessage) : 0) + _tcslen(ptszSubject) + 128;
-		TCHAR* szTmp = (TCHAR *)alloca(sizeof(TCHAR) * cbLen);
+		TCHAR *szTmp = (TCHAR *)alloca(sizeof(TCHAR) * cbLen);
 		szTmp[0] = _T('\0');
 		if (szMessage)
 			_tcscat(szTmp, _T("Subject: "));
@@ -1265,9 +1266,9 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 		ZeroMemory(pParams, sizeof(CJabberHttpAuthParams));
 		pParams->m_nType = CJabberHttpAuthParams::MSG;
 		pParams->m_szFrom = mir_tstrdup(from);
-		HXML pThreadNode = xmlGetChild(node , "thread");
-		if (pThreadNode && xmlGetText(pThreadNode) && xmlGetText(pThreadNode)[0])
-			pParams->m_szThreadId = mir_tstrdup(xmlGetText(pThreadNode));
+		LPCTSTR ptszThread = xmlGetText( xmlGetChild(node, "thread"));
+		if (ptszThread && *ptszThread)
+			pParams->m_szThreadId = mir_tstrdup(ptszThread);
 		pParams->m_szId = mir_tstrdup(szId);
 		pParams->m_szMethod = mir_tstrdup(szMethod);
 		pParams->m_szUrl = mir_tstrdup(szUrl);
@@ -1296,15 +1297,15 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 				return;
 		}
 		else if ( !_tcscmp(ptszXmlns, _T("jabber:x:encrypted"))) {
-			if (xmlGetText(xNode) == NULL)
+			LPCTSTR ptszText = xmlGetText(xNode);
+			if (ptszText == NULL)
 				return;
 
-			TCHAR* prolog = _T("-----BEGIN PGP MESSAGE-----\r\n\r\n");
-			TCHAR* epilog = _T("\r\n-----END PGP MESSAGE-----\r\n");
-			TCHAR* tempstring = (TCHAR*)alloca(sizeof(TCHAR) * (_tcslen(prolog) + _tcslen(xmlGetText(xNode)) + _tcslen(epilog) + 3));
-			_tcsncpy(tempstring, prolog, _tcslen(prolog) + 1);
-			_tcsncpy(tempstring + _tcslen(prolog), xmlGetText(xNode), _tcslen(xmlGetText(xNode)) + 1);
-			_tcsncpy(tempstring + _tcslen(prolog) + _tcslen(xmlGetText(xNode)), epilog, _tcslen(epilog) + 1);
+			TCHAR *prolog = _T("-----BEGIN PGP MESSAGE-----\r\n\r\n");
+			TCHAR *epilog = _T("\r\n-----END PGP MESSAGE-----\r\n");
+			size_t len = _tcslen(prolog) + _tcslen(ptszText) + _tcslen(epilog) + 3;
+			TCHAR *tempstring = (TCHAR*)_alloca(sizeof(TCHAR)*len);
+			mir_sntprintf(tempstring, len, _T("%s%s%s"), prolog, ptszText, epilog);
 			szMessage = tempstring;
 		}
 		else if ( !_tcscmp(ptszXmlns, JABBER_FEAT_DELAY) && msgTime == 0) {
@@ -1356,15 +1357,15 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 				if (item != NULL && xmlGetChild(xNode , "composing") != NULL) {
 					if (item->messageEventIdStr)
 						mir_free(item->messageEventIdStr);
-					item->messageEventIdStr = (idStr==NULL)?NULL:mir_tstrdup(idStr);
+					item->messageEventIdStr = (idStr == NULL)?NULL:mir_tstrdup(idStr);
 			}	}
 		}
 		else if ( !_tcscmp(ptszXmlns, JABBER_FEAT_OOB2)) {
-			HXML urlNode;
-			if (((urlNode = xmlGetChild(xNode , "url")) != NULL) && xmlGetText(urlNode) && xmlGetText(urlNode)[0] != _T('\0')) {
-				size_t cbLen = (szMessage ? _tcslen(szMessage) : 0) + _tcslen(xmlGetText(urlNode)) + 32;
-				TCHAR* szTmp = (TCHAR *)alloca(sizeof(TCHAR) * cbLen);
-				_tcscpy(szTmp, xmlGetText(urlNode));
+			LPCTSTR ptszUrl = xmlGetText( xmlGetChild(xNode , "url"));
+			if (ptszUrl != NULL && *ptszUrl) {
+				size_t cbLen = (szMessage ? _tcslen(szMessage) : 0) + _tcslen(ptszUrl) + 32;
+				TCHAR *szTmp = (TCHAR *)alloca(sizeof(TCHAR) * cbLen);
+				_tcscpy(szTmp, ptszUrl);
 				if (szMessage) {
 					_tcscat(szTmp, _T("\r\n"));
 					_tcscat(szTmp, szMessage);
@@ -1374,23 +1375,15 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 		}
 		else if ( !_tcscmp(ptszXmlns, JABBER_FEAT_MUC_USER)) {
 			HXML inviteNode = xmlGetChild(xNode , _T("invite"));
-			if (inviteNode == NULL)
-				inviteNode = xmlGetChild(xNode , _T("user:invite"));
-
 			if (inviteNode != NULL) {
 				inviteFromJid = xmlGetAttrValue(inviteNode, _T("from"));
-				n = xmlGetChild(inviteNode , _T("reason"));
-				if (n == NULL)
-					n = xmlGetChild(inviteNode , _T("user:reason"));
-				if (n != NULL)
-					inviteReason = xmlGetText(n);
+				inviteReason = xmlGetText( xmlGetChild(inviteNode , _T("reason")));
 			}
 			inviteRoomJid = from;
-			if ( !inviteReason)
+			if (inviteReason == NULL)
 				inviteReason = szMessage;
 			isChatRoomInvitation = TRUE;
-			if ((n = xmlGetChild(xNode , "password")) != NULL)
-				invitePassword = xmlGetText(n);
+			invitePassword = xmlGetText( xmlGetChild(xNode, "password"));
 		}
 		else if ( !_tcscmp(ptszXmlns, JABBER_FEAT_ROSTER_EXCHANGE) &&
 			item != NULL && (item->subscription == SUB_BOTH || item->subscription == SUB_TO)) {
@@ -1540,7 +1533,7 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 	int status = ID_STATUS_OFFLINE;
 	if ( !item->resourceCount) {
 		// set offline only if jid has resources
-		if (_tcschr(jid, '/')==NULL)
+		if (_tcschr(jid, '/') == NULL)
 			status = item->itemResource.status;
 		if (item->itemResource.statusMessage)
 			db_set_ts(hContact, "CList", "StatusMsg", item->itemResource.statusMessage);
@@ -1592,9 +1585,9 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 {
 	HANDLE hContact;
-	HXML showNode, statusNode, priorityNode;
+	HXML showNode;
 	JABBER_LIST_ITEM *item;
-	LPCTSTR from, show, p;
+	LPCTSTR from, show;
 	TCHAR *nick;
 
 	if ( !node || !xmlGetName(node) ||_tcscmp(xmlGetName(node), _T("presence"))) return;
@@ -1646,21 +1639,17 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 		}
 
 		char priority = 0;
-		if ((priorityNode = xmlGetChild(node , "priority")) != NULL && xmlGetText(priorityNode) != NULL)
-			priority = (char)_ttoi(xmlGetText(priorityNode));
+		if (LPCTSTR ptszPriority = xmlGetText( xmlGetChild(node , "priority")))
+			priority = (char)_ttoi(ptszPriority);
 
-		if ((statusNode = xmlGetChild(node , "status")) != NULL && xmlGetText(statusNode) != NULL)
-			p = xmlGetText(statusNode);
-		else
-			p = NULL;
-		ListAddResource(LIST_ROSTER, from, status, p, priority);
+		ListAddResource(LIST_ROSTER, from, status, xmlGetText( xmlGetChild(node , "status")), priority);
 
 		// XEP-0115: Entity Capabilities
 		OnProcessPresenceCapabilites(node);
 
 		UpdateJidDbSettings(from);
 
-		if (_tcschr(from, '@')==NULL) {
+		if (_tcschr(from, '@') == NULL) {
 			UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_JABBER_TRANSPORT_REFRESH);
 		}
 		Log("%S (%S) online, set contact status to %S", nick, from, pcli->pfnGetStatusModeDescription(status, 0));
@@ -1674,22 +1663,21 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 			Log("Avatar enabled");
 			for (int i = 1; (xNode=xmlGetNthChild(node, _T("x"), i)) != NULL; i++) {
 				if ( !lstrcmp(xmlGetAttrValue(xNode, _T("xmlns")), _T("jabber:x:avatar"))) {
-					if ((xNode = xmlGetChild(xNode , "hash")) != NULL && xmlGetText(xNode) != NULL) {
+					LPCTSTR ptszHash = xmlGetText( xmlGetChild(xNode , "hash"));
+					if (ptszHash != NULL) {
 						delSetting(hContact,"AvatarXVcard");
 						Log("AvatarXVcard deleted");
-						setTString(hContact, "AvatarHash", xmlGetText(xNode));
+						setTString(hContact, "AvatarHash", ptszHash);
 						hasAvatar = true;
-						DBVARIANT dbv;
-						int result = getTString(hContact, "AvatarSaved", &dbv);
-						if (result || lstrcmp(dbv.ptszVal, xmlGetText(xNode))) {
+						ptrT saved( db_get_tsa(hContact, m_szModuleName, "AvatarSaved"));
+						if (saved != NULL || lstrcmp(saved, ptszHash)) {
 							Log("Avatar was changed");
 							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, NULL);
-						} else Log("Not broadcasting avatar changed");
-						if ( !result) db_free(&dbv);
-					} else {
-						removedAvatar = true;
+						}
 					}
-			}	}
+					else removedAvatar = true;
+				}
+			}
 			if ( !hasAvatar) { //no jabber:x:avatar. try vcard-temp:x:update
 				Log("Not hasXAvatar");
 				for (int i = 1; (xNode=xmlGetNthChild(node, _T("x"), i)) != NULL; i++) {
@@ -1701,18 +1689,15 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 								Log("AvatarXVcard set");
 								setTString(hContact, "AvatarHash", txt);
 								hasAvatar = true;
-								DBVARIANT dbv;
-								int result = getTString(hContact, "AvatarSaved", &dbv);
-								if (result || lstrcmp(dbv.ptszVal, txt)) {
+								ptrT saved( db_get_tsa(hContact, m_szModuleName, "AvatarSaved"));
+								if (saved || lstrcmp(saved, txt)) {
 									Log("Avatar was changed. Using vcard-temp:x:update");
 									ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, NULL);
 								}
-								else Log("Not broadcasting avatar changed");
-								if ( !result) db_free(&dbv);
-							} else {
-								removedAvatar = true;
 							}
+							else removedAvatar = true;
 			}	}	}	}
+
 			if ( !hasAvatar && removedAvatar) {
 				Log("Has no avatar");
 				delSetting(hContact, "AvatarHash");
@@ -1739,22 +1724,18 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 
 
 			// set status only if no more available resources
-			if ( !item->resourceCount)
-			{
+			if ( !item->resourceCount) {
 				item->itemResource.status = ID_STATUS_OFFLINE;
-				if (((statusNode = xmlGetChild(node , "status")) != NULL) && xmlGetText(statusNode))
-					replaceStrT(item->itemResource.statusMessage, xmlGetText(statusNode));
-				else
-					replaceStrT(item->itemResource.statusMessage, NULL);
+				replaceStrT(item->itemResource.statusMessage, xmlGetText( xmlGetChild(node , "status")));
 			}
 		}
 		else Log("SKIP Receive presence offline from %S (who is not in my roster)", from);
 
 		UpdateJidDbSettings(from);
 
-		if (_tcschr(from, '@')==NULL) {
+		if (_tcschr(from, '@') == NULL)
 			UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_JABBER_TRANSPORT_REFRESH);
-		}
+
 		DBCheckIsTransportedContact(from, hContact);
 		return;
 	}
@@ -1814,7 +1795,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 			if (item->subscription == SUB_FROM) item->subscription = SUB_BOTH;
 			else if (item->subscription == SUB_NONE) {
 				item->subscription = SUB_TO;
-				if (_tcschr(from, '@')==NULL) {
+				if (_tcschr(from, '@') == NULL) {
 					UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_JABBER_TRANSPORT_REFRESH);
 				}
 			}
@@ -1838,11 +1819,11 @@ void CJabberProto::OnIqResultVersion(HXML /*node*/, CJabberIqInfo *pInfo)
 
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT && queryNode) {
 		HXML n;
-		if ((n = xmlGetChild(queryNode , "name"))!=NULL && xmlGetText(n))
+		if ((n = xmlGetChild(queryNode , "name")) != NULL && xmlGetText(n))
 			r->software = mir_tstrdup(xmlGetText(n));
-		if ((n = xmlGetChild(queryNode , "version"))!=NULL && xmlGetText(n))
+		if ((n = xmlGetChild(queryNode , "version")) != NULL && xmlGetText(n))
 			r->version = mir_tstrdup(xmlGetText(n));
-		if ((n = xmlGetChild(queryNode , "os"))!=NULL && xmlGetText(n))
+		if ((n = xmlGetChild(queryNode , "os")) != NULL && xmlGetText(n))
 			r->system = mir_tstrdup(xmlGetText(n));
 	}
 
@@ -1996,7 +1977,7 @@ void CJabberProto::OnProcessRegIq(HXML node, ThreadData* info)
 
 	else if ( !_tcscmp(type, _T("error"))) {
 		errorNode = xmlGetChild(node , "error");
-		TCHAR* str = JabberErrorMsg(errorNode);
+		TCHAR *str = JabberErrorMsg(errorNode);
 		SendMessage(info->reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)str);
 		mir_free(str);
 		info->reg_done = TRUE;
@@ -2088,7 +2069,7 @@ int ThreadData::send(HXML node)
 
 	proto->OnConsoleProcessXml(node, JCPF_OUT);
 
-	TCHAR* str = xi.toString(node, NULL);
+	TCHAR *str = xi.toString(node, NULL);
 
 	// strip forbidden control characters from outgoing XML stream
 	TCHAR *q = str;

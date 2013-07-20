@@ -80,7 +80,7 @@ INT_PTR __cdecl CJabberProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 
 INT_PTR __cdecl CJabberProto::JabberGetAvatar(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR* buf = (TCHAR*)wParam;
+	TCHAR *buf = (TCHAR*)wParam;
 	int  size = (int)lParam;
 
 	if (buf == NULL || size <= 0)
@@ -281,7 +281,7 @@ INT_PTR __cdecl CJabberProto::OnGetEventTextPresence(WPARAM, LPARAM lParam)
 
 INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 {
-	TCHAR* tszFileName = (TCHAR*)lParam;
+	TCHAR *tszFileName = (TCHAR*)lParam;
 
 	if (m_bJabberOnline) {
 		SetServerVcard(TRUE, tszFileName);
@@ -506,7 +506,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM wParam, LPARAM lP
 				szMsgBody = _tcsstr(szSecondParam, _T("body="));
 				if (szMsgBody) {
 					szMsgBody += 5;
-					TCHAR* szDelim = _tcschr(szMsgBody, _T(';'));
+					TCHAR *szDelim = _tcschr(szMsgBody, _T(';'));
 					if (szDelim)
 						szDelim = 0;
 					JabberHttpUrlDecode(szMsgBody);

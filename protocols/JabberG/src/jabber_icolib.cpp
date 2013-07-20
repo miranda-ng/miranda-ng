@@ -41,7 +41,7 @@ HIMAGELIST hAdvancedStatusIcon = NULL;
 
 struct CTransportProtoTableItem
 {
-	TCHAR* mask;
+	TCHAR *mask;
 	char*  proto;
 };
 
@@ -234,7 +234,7 @@ static BOOL MatchMask(const TCHAR *name, const TCHAR *mask)
 	if (*mask != '|')
 		return WildComparei(name, mask);
 
-	TCHAR* temp = NEWTSTR_ALLOCA(mask);
+	TCHAR *temp = NEWTSTR_ALLOCA(mask);
 	for (int e=1; mask[e] != '\0'; e++) {
 		int s = e;
 		while (mask[e] != '\0' && mask[e] != '|')
@@ -259,13 +259,13 @@ static HICON ExtractIconFromPath(const char *path, BOOL * needFree)
 	HICON hIcon;
 	lstrcpynA(file,path,sizeof(file));
 	comma=strrchr(file,',');
-	if (comma==NULL) n=0;
+	if (comma == NULL) n=0;
 	else {n=atoi(comma+1); *comma=0;}
 	PathToAbsolute(file, fileFull);
 	hIcon=NULL;
 	ExtractIconExA(fileFull,n,NULL,&hIcon,1);
 	if (needFree)
-		*needFree=(hIcon!=NULL);
+		*needFree=(hIcon != NULL);
 
 	return hIcon;
 }
@@ -277,7 +277,7 @@ static HICON LoadTransportIcon(char *filename,int i,char *IconName,TCHAR *SectNa
 	if (needFree) *needFree=FALSE;
 	GetModuleFileNameA(NULL, szPath, MAX_PATH);
 	str=strrchr(szPath,'\\');
-	if (str!=NULL) *str=0;
+	if (str != NULL) *str=0;
 	_snprintf(szMyPath, sizeof(szMyPath), "%s\\Icons\\%s", szPath, filename);
 	_snprintf(szFullPath, sizeof(szFullPath), "%s\\Icons\\%s,%d", szPath, filename, i);
 	BOOL nf;
@@ -427,15 +427,15 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const TCHAR *jid, HANDLE hContact
 		return FALSE;
 
 	// strip domain part from jid
-	TCHAR* domain  = _tcschr((TCHAR*)jid, '@');
+	TCHAR *domain  = _tcschr((TCHAR*)jid, '@');
 	BOOL   isAgent = (domain == NULL) ? TRUE : FALSE;
 	BOOL   isTransported = FALSE;
-	if (domain!=NULL)
+	if (domain != NULL)
 		domain = NEWTSTR_ALLOCA(domain+1);
 	else
 		domain = NEWTSTR_ALLOCA(jid);
 
-	TCHAR* resourcepos = _tcschr(domain, '/');
+	TCHAR *resourcepos = _tcschr(domain, '/');
 	if (resourcepos != NULL)
 		*resourcepos = '\0';
 

@@ -122,7 +122,7 @@ void CCtrlTreeOpts::OnInit()
 	/* build options tree. based on code from IcoLib */
 	for (int i = 0; i < m_options.getCount(); i++)
 	{
-		TCHAR* sectionName;
+		TCHAR *sectionName;
 		int sectionLevel = 0;
 
 		HTREEITEM hSection = NULL;
@@ -132,7 +132,7 @@ void CCtrlTreeOpts::OnInit()
 		while (sectionName)
 		{
 			// allow multi-level tree
-			TCHAR* pItemName = sectionName;
+			TCHAR *pItemName = sectionName;
 			HTREEITEM hItem;
 
 			if (sectionName = _tcschr(sectionName, '/'))

@@ -394,7 +394,7 @@ void CJabberProto::OnIqResultDiscovery(HXML iqNode, CJabberIqInfo *pInfo)
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_ERROR)
 	{
 		HXML errorNode = xmlGetChild(iqNode , "error");
-		TCHAR* str = JabberErrorMsg(errorNode);
+		TCHAR *str = JabberErrorMsg(errorNode);
 		sttRoomListAppend(hwndList, RoomInfo::ROOM_FAIL,
 			TranslateT("Jabber Error"),
 			str,
@@ -500,7 +500,7 @@ void CJabberDlgGcJoin::OnInitDialog()
 		db_free(&dbv);
 	}
 	else {
-		TCHAR* nick = JabberNickFromJID(m_proto->m_szJabberJID);
+		TCHAR *nick = JabberNickFromJID(m_proto->m_szJabberJID);
 		SetDlgItemText(m_hwnd, IDC_NICK, nick);
 		mir_free(nick);
 	}
@@ -771,7 +771,7 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDOK:
 			{
 				GetDlgItemText(m_hwnd, IDC_SERVER, text, SIZEOF(text));
-				TCHAR* server = NEWTSTR_ALLOCA(text), *room;
+				TCHAR *server = NEWTSTR_ALLOCA(text), *room;
 
 				m_proto->ComboAddRecentString(m_hwnd, IDC_SERVER, "joinWnd_rcSvr", server);
 
@@ -779,10 +779,10 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				room = NEWTSTR_ALLOCA(text);
 
 				GetDlgItemText(m_hwnd, IDC_NICK, text, SIZEOF(text));
-				TCHAR* nick = NEWTSTR_ALLOCA(text);
+				TCHAR *nick = NEWTSTR_ALLOCA(text);
 
 				GetDlgItemText(m_hwnd, IDC_PASSWORD, text, SIZEOF(text));
-				TCHAR* password = NEWTSTR_ALLOCA(text);
+				TCHAR *password = NEWTSTR_ALLOCA(text);
 				m_proto->GroupchatJoinRoom(server, room, nick, password);
 			}
 			// fall through
@@ -825,7 +825,7 @@ struct JabberGroupchatChangeNicknameParam
 	}
 
 	CJabberProto *ppro;
-	TCHAR* jid;
+	TCHAR *jid;
 };
 
 static VOID CALLBACK JabberGroupchatChangeNickname(void* arg)
@@ -840,7 +840,7 @@ static VOID CALLBACK JabberGroupchatChangeNickname(void* arg)
 		TCHAR szCaption[ 1024 ];
 		szBuffer[ 0 ] = _T('\0');
 
-		TCHAR* roomName = item->name ? item->name : item->jid;
+		TCHAR *roomName = item->name ? item->name : item->jid;
 		mir_sntprintf(szCaption, SIZEOF(szCaption), _T("%s <%s>"), TranslateT("Change nickname in"), roomName);
 		if (item->nick)
 			mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s"), item->nick);
@@ -931,7 +931,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 	if (nNode == NULL)
 		nNode = xmlGetChildByTag(node, "nick:nick", "xmlns:nick", JABBER_FEAT_NICK);
 
-	const TCHAR *cnick = nNode ? xmlGetText(nNode) : NULL;
+	const TCHAR *cnick = xmlGetText(nNode);
 	const TCHAR *nick = cnick ? cnick : (r && r->nick ? r->nick : resource);
 
 	// process custom nick change
@@ -947,7 +947,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 
 	// entering room or a usual room presence
 	if (type == NULL || !_tcscmp(type, _T("available"))) {
-		TCHAR* room = JabberNickFromJID(from);
+		TCHAR *room = JabberNickFromJID(from);
 		if (room == NULL)
 			return;
 
@@ -1158,7 +1158,6 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 
 	if ((n = xmlGetChild(node , "subject")) != NULL) {
 		msgText = xmlGetText(n);
-
 		if (msgText == NULL || msgText[0] == '\0')
 			return;
 
@@ -1184,7 +1183,6 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 				return;
 
 		msgText = xmlGetText(n);
-
 		if (msgText == NULL)
 			return;
 
@@ -1215,11 +1213,9 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 		JABBER_RESOURCE_STATUS *r = GcFindResource(item, resource);
 		nick = r && r->nick ? r->nick : resource;
 	}
-	else
-		nick = NULL;
+	else nick = NULL;
 
-	GCEVENT gce = {0};
-	gce.cbSize = sizeof(GCEVENT);
+	GCEVENT gce = { sizeof(GCEVENT) };
 	gce.pDest = &gcd;
 	gce.ptszUID = resource;
 	gce.ptszNick = nick;
@@ -1278,7 +1274,7 @@ public:
 		if (m_info->reason != NULL)
 			SetDlgItemText(m_hwnd, IDC_REASON, m_info->reason);
 
-		TCHAR* myNick = JabberNickFromJID(m_proto->m_szJabberJID);
+		TCHAR *myNick = JabberNickFromJID(m_proto->m_szJabberJID);
 		SetDlgItemText(m_hwnd, IDC_NICK, myNick);
 		mir_free(myNick);
 
@@ -1324,7 +1320,7 @@ void CJabberProto::GroupchatProcessInvite(const TCHAR *roomJid, const TCHAR *fro
 		ForkThread((MyThreadFunc)&CJabberProto::GroupchatInviteAcceptThread, inviteInfo);
 	}
 	else {
-		TCHAR* myNick = JabberNickFromJID(m_szJabberJID);
+		TCHAR *myNick = JabberNickFromJID(m_szJabberJID);
 		AcceptGroupchatInvite(roomJid, myNick, password);
 		mir_free(myNick);
 }	}

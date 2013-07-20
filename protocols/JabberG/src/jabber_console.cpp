@@ -233,7 +233,7 @@ static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent)
 
 	for (i = 0; i < xmlGetAttrCount(node); i++)
 	{
-		TCHAR* attr = (TCHAR*)xmlGetAttrName(node, i);
+		TCHAR *attr = (TCHAR*)xmlGetAttrName(node, i);
 		sttAppendBufRaw(buf, " ");
 		sttAppendBufRaw(buf, RTF_BEGINATTRNAME);
 		sttAppendBufW(buf, attr);

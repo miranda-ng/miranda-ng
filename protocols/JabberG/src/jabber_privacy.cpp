@@ -374,7 +374,7 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_ICO_PRESENCEIN,  STM_SETICON, (WPARAM)m_proto->LoadIconEx("pl_prin_allow"), 0);
 		SendDlgItemMessage(m_hwnd, IDC_ICO_PRESENCEOUT, STM_SETICON, (WPARAM)m_proto->LoadIconEx("pl_prout_allow"), 0);
 
-		TCHAR* szTypes[] = { _T("JID"), _T("Group"), _T("Subscription"), _T("Any") };
+		TCHAR *szTypes[] = { _T("JID"), _T("Group"), _T("Subscription"), _T("Any") };
 		int i, nTypes[] = { Jid, Group, Subscription, Else };
 		for (i = 0; i < SIZEOF(szTypes); i++)
 		{
@@ -385,7 +385,7 @@ public:
 		}
 
 		SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_RESETCONTENT, 0, 0);
-		TCHAR* szSubscriptions[] = { _T("none"), _T("from"), _T("to"), _T("both") };
+		TCHAR *szSubscriptions[] = { _T("none"), _T("from"), _T("to"), _T("both") };
 		for (i = 0; i < SIZEOF(szSubscriptions); i++)
 		{
 			LRESULT nItem = SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_ADDSTRING, 0, (LPARAM)TranslateTS(szSubscriptions[i]));
@@ -2117,7 +2117,7 @@ void CJabberDlgPrivacyLists::clcClist_OnClick(CCtrlClc::TEventInfo *evt)
 
 	if (evt->info->iColumn==-1) return;
 	hItem = m_clcClist.HitTest(evt->info->pt.x, evt->info->pt.y, &hitFlags);
-	if (hItem==NULL) return;
+	if (hItem == NULL) return;
 	if ( !(hitFlags&CLCHT_ONITEMEXTRA)) return;
 
 	iImage = m_clcClist.GetExtraImage(hItem, evt->info->iColumn);

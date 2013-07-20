@@ -194,7 +194,7 @@ void CJabberProto::OnIqResultServiceDiscoveryInfo(HXML iqNode, CJabberIqInfo* pI
 	else {
 		if (pInfo->GetIqType() == JABBER_IQ_TYPE_ERROR) {
 			HXML errorNode = xmlGetChild(iqNode , "error");
-			TCHAR* str = JabberErrorMsg(errorNode);
+			TCHAR *str = JabberErrorMsg(errorNode);
 			pNode->SetInfoRequestErrorText(str);
 			mir_free(str);
 		}
@@ -237,7 +237,7 @@ void CJabberProto::OnIqResultServiceDiscoveryItems(HXML iqNode, CJabberIqInfo* p
 	else {
 		if (pInfo->GetIqType() == JABBER_IQ_TYPE_ERROR) {
 			HXML errorNode = xmlGetChild(iqNode , "error");
-			TCHAR* str = JabberErrorMsg(errorNode);
+			TCHAR *str = JabberErrorMsg(errorNode);
 			pNode->SetItemsRequestErrorText(str);
 			mir_free(str);
 		}
@@ -404,7 +404,7 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 			LISTFOREACH(i, this, LIST_ROSTER)
 			{
 				if ((item=ListGetItemPtrFromIndex(i)) != NULL) {
-					if (_tcschr(item->jid, '@')==NULL && _tcschr(item->jid, '/')==NULL && item->subscription!=SUB_NONE) {
+					if (_tcschr(item->jid, '@') == NULL && _tcschr(item->jid, '/') == NULL && item->subscription!=SUB_NONE) {
 						HANDLE hContact = HContactFromJID(item->jid);
 						if (hContact != NULL)
 							setByte(hContact, "IsTransport", TRUE);
