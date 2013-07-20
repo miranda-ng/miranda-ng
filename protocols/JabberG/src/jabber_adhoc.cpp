@@ -361,15 +361,12 @@ int CJabberProto::AdHoc_AddCommandRadio(HWND hFrame, TCHAR * labelStr, int id, i
 static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	JabberAdHocData* dat = (JabberAdHocData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
 		{
 			CJabberAdhocStartupParams* pStartupParams = (CJabberAdhocStartupParams *)lParam;
-			dat=(JabberAdHocData *)mir_alloc(sizeof(JabberAdHocData));
-			memset(dat,0,sizeof(JabberAdHocData));
+			dat=(JabberAdHocData *)mir_calloc(sizeof(JabberAdHocData));
 
-			//hmmm, useless code? if (dat->ResponderJID) mir_free(dat->ResponderJID);
 			dat->ResponderJID = mir_tstrdup(pStartupParams->m_szJid);
 			dat->proto = pStartupParams->m_pProto;
 

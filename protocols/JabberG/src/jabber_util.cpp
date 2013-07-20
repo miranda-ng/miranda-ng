@@ -93,7 +93,7 @@ HANDLE CJabberProto::ChatRoomHContactFromJID(const TCHAR *jid)
 HANDLE CJabberProto::HContactFromJID(const TCHAR *jid , BOOL bStripResource)
 {
 	if (jid == NULL)
-		return (HANDLE)NULL;
+		return NULL;
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, jid);
 
@@ -330,9 +330,7 @@ void __stdcall JabberUtfToTchar(const char* pszValue, size_t cbLen, LPTSTR& dest
 
 	JabberUrlDecode(pszCopy);
 
-
 	mir_utf8decode(pszCopy, &dest);
-
 
 	if (bNeedsFree)
 		free(pszCopy);
@@ -340,22 +338,19 @@ void __stdcall JabberUtfToTchar(const char* pszValue, size_t cbLen, LPTSTR& dest
 
 char* __stdcall JabberSha1(char* str)
 {
-	mir_sha1_ctx sha;
-	mir_sha1_byte_t digest[20];
-	char* result;
-	int i;
-
 	if (str == NULL)
 		return NULL;
 
+	mir_sha1_byte_t digest[20];
+	mir_sha1_ctx sha;
 	mir_sha1_init(&sha);
 	mir_sha1_append(&sha, (mir_sha1_byte_t*)str, (int)strlen(str));
 	mir_sha1_finish(&sha, digest);
-	if ((result=(char*)mir_alloc(41)) == NULL)
-		return NULL;
 
-	for (i=0; i<20; i++)
-		sprintf(result+(i<<1), "%02x", digest[i]);
+	char *result = (char*)mir_alloc(41);
+	if (result)
+		for (int i=0; i < 20; i++)
+			sprintf(result+(i<<1), "%02x", digest[i]);
 	return result;
 }
 
@@ -600,121 +595,6 @@ void CJabberProto::SendVisibleInvisiblePresence(BOOL invisible)
 		else if (invisible==FALSE && apparentMode==ID_STATUS_ONLINE)
 			SendPresenceTo(m_iStatus, item->jid, NULL);
 }	}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// JabberBase64Encode
-
-static char b64table[65] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-
-char* __stdcall JabberBase64Encode(const char* buffer, int bufferLen)
-{
-	if (buffer == NULL || bufferLen<=0)
-		return NULL;
-
-	char* res = (char*)mir_alloc((((bufferLen+2)*4)/3) + 1);
-	if (res == NULL)
-		return NULL;
-
-	unsigned char igroup[3];
-	char *r = res;
-	const char* peob = buffer + bufferLen;
-	for (const char* p = buffer; p < peob;) {
-		igroup[ 0 ] = igroup[ 1 ] = igroup[ 2 ] = 0;
-		int n;
-		for (n=0; n<3; n++) {
-			if (p >= peob) break;
-			igroup[n] = (unsigned char) *p;
-			p++;
-		}
-
-		if (n > 0) {
-			r[0] = b64table[ igroup[0]>>2 ];
-			r[1] = b64table[ ((igroup[0]&3)<<4) | (igroup[1]>>4) ];
-			r[2] = b64table[ ((igroup[1]&0xf)<<2) | (igroup[2]>>6) ];
-			r[3] = b64table[ igroup[2]&0x3f ];
-
-			if (n < 3) {
-				r[3] = '=';
-				if (n < 2)
-					r[2] = '=';
-			}
-			r += 4;
-	}	}
-
-	*r = '\0';
-
-	return res;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// JabberBase64Decode
-
-static unsigned char b64rtable[256];
-
-char* __stdcall JabberBase64DecodeW(const WCHAR* str, int *resultLen)
-{
-	char *stra = mir_u2a(str);
-	char *res = JabberBase64Decode(stra, resultLen);
-	mir_free(stra);
-	return res;
-}
-
-char* __stdcall JabberBase64Decode(const char* str, int *resultLen)
-{
-	char* res;
-	unsigned char* r, igroup[4], a[4];
-	int n, num, count;
-
-	if (str == NULL || resultLen == NULL) return NULL;
-	if ((res=(char*)mir_alloc(((strlen(str)+3)/4)*3)) == NULL) return NULL;
-
-	for (n=0; n<256; n++)
-		b64rtable[n] = (unsigned char) 0x80;
-	for (n=0; n<26; n++)
-		b64rtable['A'+n] = n;
-	for (n=0; n<26; n++)
-		b64rtable['a'+n] = n + 26;
-	for (n=0; n<10; n++)
-		b64rtable['0'+n] = n + 52;
-	b64rtable['+'] = 62;
-	b64rtable['/'] = 63;
-	b64rtable['='] = 0;
-	count = 0;
-	for (r=(unsigned char*)res; *str != '\0';) {
-		for (n=0; n<4; n++) {
-			if (BYTE(*str) == '\r' || BYTE(*str) == '\n') {
-				n--; str++;
-				continue;
-			}
-
-			if (BYTE(*str)=='\0') {
-				if (n == 0)
-					goto LBL_Exit;
-				mir_free(res);
-				return NULL;
-			}
-
-			if (b64rtable[BYTE(*str)]==0x80) {
-				mir_free(res);
-				return NULL;
-			}
-
-			a[n] = BYTE(*str);
-			igroup[n] = b64rtable[BYTE(*str)];
-			str++;
-		}
-		r[0] = igroup[0]<<2 | igroup[1]>>4;
-		r[1] = igroup[1]<<4 | igroup[2]>>2;
-		r[2] = igroup[2]<<6 | igroup[3];
-		r += 3;
-		num = (a[2]=='='?1:(a[3]=='='?2:3));
-		count += num;
-		if (num < 3) break;
-	}
-LBL_Exit:
-	*resultLen = count;
-	return res;
-}
 
 time_t __stdcall JabberIsoToUnixTime(const TCHAR *stamp)
 {

@@ -362,11 +362,7 @@ void CJabberDlgBookmarks::OpenBookmark()
 			}
 		}
 	}
-	else {
-		char *szUrl = mir_t2a(item->jid);
-		CallService(MS_UTILS_OPENURL, 1, (LPARAM)szUrl);
-		mir_free(szUrl);
-	}
+	else CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)item->jid);
 }
 
 INT_PTR CJabberDlgBookmarks::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)

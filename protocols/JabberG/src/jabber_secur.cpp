@@ -166,8 +166,8 @@ char* TMD5Auth::getChallenge(const TCHAR *challenge)
 
 	iCallCount++;
 
-	int resultLen;
-	char* text = JabberBase64DecodeT(challenge, &resultLen);
+	unsigned resultLen;
+	ptrA text((char*)mir_base64_decode( _T2A(challenge), &resultLen));
 
 	TStringPairs pairs(text);
 	const char *realm = pairs["realm"], *nonce = pairs["nonce"];
@@ -179,29 +179,29 @@ char* TMD5Auth::getChallenge(const TCHAR *challenge)
 	CallService(MS_UTILS_GETRANDOM, sizeof(digest), (LPARAM)digest);
 	sprintf(cnonce, "%08x%08x%08x%08x", htonl(digest[0]), htonl(digest[1]), htonl(digest[2]), htonl(digest[3]));
 
-	char *uname = mir_utf8encodeT(info->username),
-		 *passw = mir_utf8encodeT(info->password),
-		 *serv  = mir_utf8encode(info->server);
+	ptrA uname( mir_utf8encodeT(info->username)),
+	     passw( mir_utf8encodeT(info->password)),
+	     serv( mir_utf8encode(info->server));
 
 	mir_md5_init(&ctx);
-	mir_md5_append(&ctx, (BYTE*)uname,  (int)strlen(uname));
-	mir_md5_append(&ctx, (BYTE*)":",    1);
-	mir_md5_append(&ctx, (BYTE*)realm,  (int)strlen(realm));
-	mir_md5_append(&ctx, (BYTE*)":",    1);
-	mir_md5_append(&ctx, (BYTE*)passw,  (int)strlen(passw));
+	mir_md5_append(&ctx, (BYTE*)(char*)uname, (int)strlen(uname));
+	mir_md5_append(&ctx, (BYTE*)":", 1);
+	mir_md5_append(&ctx, (BYTE*)realm, (int)strlen(realm));
+	mir_md5_append(&ctx, (BYTE*)":", 1);
+	mir_md5_append(&ctx, (BYTE*)(char*)passw,  (int)strlen(passw));
 	mir_md5_finish(&ctx, (BYTE*)hash1);
 
 	mir_md5_init(&ctx);
-	mir_md5_append(&ctx, (BYTE*)hash1,  16);
-	mir_md5_append(&ctx, (BYTE*)":",    1);
+	mir_md5_append(&ctx, (BYTE*)hash1, 16);
+	mir_md5_append(&ctx, (BYTE*)":", 1);
 	mir_md5_append(&ctx, (BYTE*)nonce,  (int)strlen(nonce));
-	mir_md5_append(&ctx, (BYTE*)":",    1);
+	mir_md5_append(&ctx, (BYTE*)":", 1);
 	mir_md5_append(&ctx, (BYTE*)cnonce, (int)strlen(cnonce));
 	mir_md5_finish(&ctx, (BYTE*)hash1);
 
 	mir_md5_init(&ctx);
 	mir_md5_append(&ctx, (BYTE*)"AUTHENTICATE:xmpp/", 18);
-	mir_md5_append(&ctx, (BYTE*)serv,   (int)strlen(serv));
+	mir_md5_append(&ctx, (BYTE*)(char*)serv, (int)strlen(serv));
 	mir_md5_finish(&ctx, (BYTE*)hash2);
 
 	mir_md5_init(&ctx);
@@ -217,19 +217,14 @@ char* TMD5Auth::getChallenge(const TCHAR *challenge)
 	mir_md5_append(&ctx, (BYTE*)tmpBuf, (int)strlen(tmpBuf));
 	mir_md5_finish(&ctx, (BYTE*)digest);
 
-	char* buf = (char*)alloca(8000);
+	char *buf = (char*)alloca(8000);
 	int cbLen = mir_snprintf(buf, 8000,
 		"username=\"%s\",realm=\"%s\",nonce=\"%s\",cnonce=\"%s\",nc=%08d,"
 		"qop=auth,digest-uri=\"xmpp/%s\",charset=utf-8,response=%08x%08x%08x%08x",
 		uname, realm, nonce, cnonce, iCallCount, serv,
 		htonl(digest[0]), htonl(digest[1]), htonl(digest[2]), htonl(digest[3]));
 
-	mir_free(uname);
-	mir_free(passw);
-	mir_free(serv);
-	mir_free(text);
-
-   return JabberBase64Encode(buf, cbLen);
+   return mir_base64_encode((PBYTE)buf, cbLen);
 }
 
 
@@ -307,43 +302,45 @@ void TScramAuth::Hi(mir_sha1_byte_t* res , char* passw, size_t passwLen, char* s
 
 char* TScramAuth::getChallenge(const TCHAR *challenge)
 {
-	int chlLen;
-	char *chl = JabberBase64DecodeT(challenge, &chlLen);
+	unsigned chlLen;
+	ptrA chl((char*)mir_base64_decode( _T2A(challenge), &chlLen));
 
-	char *r = strstr(chl, "r="); if ( !r) { mir_free(chl); return NULL; }
+	char *r = strstr(chl, "r=");
+	if ( !r)
+		return NULL;
+
 	char *e = strchr(r, ','); if (e) *e = 0;
-	char *snonce = mir_strdup(r + 2);
+	ptrA snonce( mir_strdup(r + 2));
 	if (e) *e = ',';
 
 	size_t cnlen = strlen(cnonce);
-	if (strncmp(cnonce, snonce, cnlen)) { mir_free(chl); mir_free(snonce); return NULL; }
-
-	char *s = strstr(chl, "s="); if ( !s) { mir_free(chl); mir_free(snonce); return NULL; }
-	e = strchr(s, ','); if (e) *e = 0;
-	int saltLen;
-	char *salt = JabberBase64Decode(s + 2, &saltLen);
-	if (e) *e = ',';
-
-	if (saltLen > 16) {
-		mir_free(salt);
-		mir_free(snonce);
-		mir_free(chl);
+	if (strncmp(cnonce, snonce, cnlen))
 		return NULL;
-	}
 
-	char *in = strstr(chl, "i="); if ( !in) return NULL;
+	char *s = strstr(chl, "s=");
+	if (!s)
+		return NULL;
+	e = strchr(s, ','); if (e) *e = 0;
+
+	unsigned saltLen;
+	ptrA salt((char*)mir_base64_decode(s + 2, &saltLen));
+	if (e) *e = ',';
+	if (saltLen > 16)
+		return NULL;
+
+	char *in = strstr(chl, "i=");
+	if (!in)
+		return NULL;
+
 	e = strchr(in, ','); if (e) *e = 0;
 	int ind = atoi(in + 2);
 	if (e) *e = ',';
 
-	char *passw = mir_utf8encodeT(info->password);
+	ptrA passw( mir_utf8encodeT(info->password));
 	size_t passwLen = strlen(passw);
 
 	mir_sha1_byte_t saltedPassw[ MIR_SHA1_HASH_SIZE ];
 	Hi(saltedPassw, passw, passwLen, salt,  saltLen, ind);
-
-	mir_free(salt);
-	mir_free(passw);
 
 	mir_sha1_byte_t clientKey[ MIR_SHA1_HASH_SIZE ];
 	hmac_sha1(clientKey, saltedPassw, sizeof(saltedPassw), (mir_sha1_byte_t*)"Client Key", 10);
@@ -371,46 +368,33 @@ char* TScramAuth::getChallenge(const TCHAR *challenge)
 
 	mir_sha1_byte_t srvSig[ MIR_SHA1_HASH_SIZE ];
 	hmac_sha1(srvSig, serverKey, sizeof(serverKey), (mir_sha1_byte_t*)authmsg, authmsgLen);
-	serverSignature = JabberBase64Encode((char*)srvSig, sizeof(srvSig));
+	serverSignature = mir_base64_encode((PBYTE)srvSig, sizeof(srvSig));
 
 	char buf[4096];
-	char *encproof = JabberBase64Encode((char*)clientProof, sizeof(clientProof));
+	ptrA encproof( mir_base64_encode((PBYTE)clientProof, sizeof(clientProof)));
 	int cbLen = mir_snprintf(buf, sizeof(buf), "c=biws,r=%s,p=%s", snonce, encproof);
-
-	mir_free(encproof);
-	mir_free(snonce);
-	mir_free(chl);
-
-	return JabberBase64Encode(buf, cbLen);
+	return mir_base64_encode((PBYTE)buf, cbLen);
 }
 
 char* TScramAuth::getInitialRequest()
 {
-	char *uname = mir_utf8encodeT(info->username),
-		 *serv  = mir_utf8encode(info->server);
+	ptrA uname( mir_utf8encodeT(info->username)), serv( mir_utf8encode(info->server));
 
 	unsigned char nonce[24];
 	CallService(MS_UTILS_GETRANDOM, sizeof(nonce), (LPARAM)nonce);
-	cnonce = JabberBase64Encode((char*)nonce, sizeof(nonce));
+	cnonce = mir_base64_encode((PBYTE)nonce, sizeof(nonce));
 
 	char buf[4096];
 	int cbLen = mir_snprintf(buf, sizeof(buf), "n,,n=%s@%s,r=%s", uname, serv, cnonce);
 	msg1 = mir_strdup(buf + 3);
-
-	mir_free(serv);
-	mir_free(uname);
-
-	return JabberBase64Encode(buf, cbLen);
+	return mir_base64_encode((PBYTE)buf, cbLen);
 }
 
 bool TScramAuth::validateLogin(const TCHAR *challenge)
 {
-	int chlLen;
-	char* chl = JabberBase64DecodeT(challenge, &chlLen);
-	bool res = chl && strncmp(chl + 2, serverSignature, chlLen - 2) == 0;
-	mir_free(chl);
-
-	return res;
+	unsigned chlLen;
+	ptrA chl((char*)mir_base64_decode( _T2A(challenge), &chlLen));
+	return chl && strncmp((char*)chl + 2, serverSignature, chlLen - 2) == 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -429,8 +413,7 @@ TPlainAuth::~TPlainAuth()
 
 char* TPlainAuth::getInitialRequest()
 {
-	char *uname = mir_utf8encodeT(info->username),
-		 *passw = mir_utf8encodeT(info->password);
+	ptrA uname( mir_utf8encodeT(info->username)), passw( mir_utf8encodeT(info->password));
 
 	size_t size = 2 * strlen(uname) + strlen(passw) + strlen(info->server) + 4;
 	char *toEncode = (char*)alloca(size);
@@ -439,10 +422,7 @@ char* TPlainAuth::getInitialRequest()
 	else
 		size = mir_snprintf(toEncode, size, "%c%s%c%s", 0, uname, 0, passw);
 
-	mir_free(uname);
-	mir_free(passw);
-
-	return JabberBase64Encode(toEncode, (int)size);
+	return mir_base64_encode((PBYTE)toEncode, (int)size);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

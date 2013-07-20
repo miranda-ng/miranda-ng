@@ -119,12 +119,10 @@ public:
 	}
 	~CJabberAdhocNode()
 	{
-		if (m_szJid)
-			mir_free(m_szJid);
-		if (m_szNode)
-			mir_free(m_szNode);
-		if (m_szName)
-			mir_free(m_szName);
+		mir_free(m_szJid);
+		mir_free(m_szNode);
+		mir_free(m_szName);
+
 		if (m_pNext)
 			delete m_pNext;
 	}

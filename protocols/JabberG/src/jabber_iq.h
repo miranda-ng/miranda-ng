@@ -104,8 +104,7 @@ public:
 	}
 	~CJabberIqInfo()
 	{
-		if (m_szReceiver)
-			mir_free(m_szReceiver);
+		mir_free(m_szReceiver);
 	}
 	void SetReceiver(const TCHAR *szReceiver)
 	{

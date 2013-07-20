@@ -614,11 +614,12 @@ void CJabberProto::OnIqResultGetVcardPhoto(const TCHAR *jid, HXML n, HANDLE hCon
 		return;
 
 	HXML o = xmlGetChild(n, "BINVAL");
-	if (o == NULL || xmlGetText(o) == NULL)
+	LPCTSTR ptszBinval = xmlGetText(o);
+	if (o == NULL || ptszBinval == NULL)
 		return;
 
-	int bufferLen;
-	ptrA buffer( JabberBase64DecodeT(xmlGetText(o), &bufferLen));
+	unsigned bufferLen;
+	ptrA buffer((char*)mir_base64_decode( _T2A(ptszBinval), &bufferLen));
 	if (buffer == NULL)
 		return;
 
@@ -1442,8 +1443,8 @@ void CJabberProto::OnIqResultGetServerAvatar(HXML iqNode)
 
 void CJabberProto::OnIqResultGotAvatar(HANDLE hContact, HXML n, const TCHAR *mimeType)
 {
-	int resultLen = 0;
-	ptrA body( JabberBase64DecodeT( xmlGetText(n), &resultLen));
+	unsigned resultLen;
+	ptrA body((char*)mir_base64_decode( _T2A(xmlGetText(n)), &resultLen));
 
 	int pictureType;
 	if (mimeType != NULL) {
@@ -1454,7 +1455,6 @@ void CJabberProto::OnIqResultGotAvatar(HANDLE hContact, HXML n, const TCHAR *mim
 		else {
 LBL_ErrFormat:
 			Log("Invalid mime type specified for picture: %S", mimeType);
-			mir_free(body);
 			return;
 	}	}
 	else if ((pictureType = JabberGetPictureType(body)) == PA_FORMAT_UNKNOWN)

@@ -111,9 +111,6 @@ INT_PTR CALLBACK JabberCaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData* info)
 {
-	CAPTCHA_FORM_PARAMS param;
-	TCHAR *CaptchaPath = 0;
-
 	HXML x = xmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
 	if (x == NULL)
 		return false;
@@ -123,6 +120,8 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData* info)
 		return false;
 	if ((y = xmlGetChild(y, "value")) == NULL)
 		return false;
+
+	CAPTCHA_FORM_PARAMS param;
 	param.fromjid = xmlGetText(y);
 
 	if ((y = xmlGetChildByTag(x, _T("field"), _T("var"), _T("sid"))) == NULL)
@@ -142,6 +141,7 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData* info)
 	if (o == NULL || xmlGetText(o) == NULL)
 		return false;
 
+	TCHAR *CaptchaPath = 0;
 	GetCaptchaImage(parentNode, CaptchaPath);
 	param.bmp = (HBITMAP) CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)CaptchaPath);
 	DeleteFile(CaptchaPath);
@@ -162,8 +162,8 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData* info)
 bool CJabberProto::GetCaptchaImage(HXML node, TCHAR*& CaptchaPath)
 {
 	HXML o = xmlGetChild(node , "data");
-	int bufferLen;
-	char* buffer = JabberBase64DecodeT(xmlGetText(o), &bufferLen);
+	unsigned bufferLen;
+	ptrA buffer((char*)mir_base64_decode( _T2A(xmlGetText(o)), &bufferLen));
 	if (buffer == NULL)
 		return false;
 

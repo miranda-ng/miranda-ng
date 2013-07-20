@@ -94,7 +94,7 @@ void CJabberProto::FtInitiate(TCHAR* jid, filetransfer *ft)
 	sid[8] = '\0';
 	if (ft->sid != NULL) mir_free(ft->sid);
 	ft->sid = mir_tstrdup(sid);
-	filename = ft->std.ptszFiles[ ft->std.currentFileNumber ];
+	filename = ft->std.ptszFiles[ft->std.currentFileNumber];
 	if ((p = _tcsrchr(filename, '\\')) != NULL)
 		filename = p+1;
 
@@ -105,7 +105,7 @@ void CJabberProto::FtInitiate(TCHAR* jid, filetransfer *ft)
 	HXML si = iq << XCHILDNS(_T("si"), JABBER_FEAT_SI) << XATTR(_T("id"), sid)
 						<< XATTR(_T("mime-type"), _T("binary/octet-stream")) << XATTR(_T("profile"), JABBER_FEAT_SI_FT);
 	si << XCHILDNS(_T("file"), JABBER_FEAT_SI_FT) << XATTR(_T("name"), filename)
-		<< XATTRI64(_T("size"), ft->fileSize[ ft->std.currentFileNumber ]) << XCHILD(_T("desc"), ft->szDescription);
+		<< XATTRI64(_T("size"), ft->fileSize[ft->std.currentFileNumber]) << XCHILD(_T("desc"), ft->szDescription);
 
 	HXML field = si << XCHILDNS(_T("feature"), JABBER_FEAT_FEATURE_NEG)
 							<< XCHILDNS(_T("x"), JABBER_FEAT_DATA_FORMS) << XATTR(_T("type"), _T("form"))
@@ -179,9 +179,9 @@ BOOL CJabberProto::FtSend(HANDLE hConn, filetransfer *ft)
 	char* buffer;
 	int numRead;
 
-	Log("Sending [%s]", ft->std.ptszFiles[ ft->std.currentFileNumber ]);
-	_tstati64(ft->std.ptszFiles[ ft->std.currentFileNumber ], &statbuf);	// file size in statbuf.st_size
-	if ((fd = _topen(ft->std.ptszFiles[ ft->std.currentFileNumber ], _O_BINARY|_O_RDONLY)) < 0) {
+	Log("Sending [%s]", ft->std.ptszFiles[ft->std.currentFileNumber]);
+	_tstati64(ft->std.ptszFiles[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size
+	if ((fd = _topen(ft->std.ptszFiles[ft->std.currentFileNumber], _O_BINARY|_O_RDONLY)) < 0) {
 		Log("File cannot be opened");
 		return FALSE;
 	}
@@ -209,14 +209,13 @@ BOOL CJabberProto::FtSend(HANDLE hConn, filetransfer *ft)
 
 BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 {
-	struct _stati64 statbuf;
-	int fd;
-	char* buffer;
-	int numRead;
+	Log("Sending [%s]", ft->std.ptszFiles[ft->std.currentFileNumber]);
 
-	Log("Sending [%s]", ft->std.ptszFiles[ ft->std.currentFileNumber ]);
-	_tstati64(ft->std.ptszFiles[ ft->std.currentFileNumber ], &statbuf);	// file size in statbuf.st_size
-	if ((fd = _topen(ft->std.ptszFiles[ ft->std.currentFileNumber ], _O_BINARY|_O_RDONLY)) < 0) {
+	struct _stati64 statbuf;
+	_tstati64(ft->std.ptszFiles[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size
+	
+	int fd = _topen(ft->std.ptszFiles[ft->std.currentFileNumber], _O_BINARY|_O_RDONLY);
+	if (fd < 0) {
 		Log("File cannot be opened");
 		return FALSE;
 	}
@@ -225,8 +224,10 @@ BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 	ft->std.currentFileSize = statbuf.st_size;
 	ft->std.currentFileProgress = 0;
 
-	if ((buffer=(char*)mir_alloc(blocksize)) != NULL) {
-		while ((numRead=_read(fd, buffer, blocksize)) > 0) {
+	ptrA buffer((char*)mir_alloc(blocksize));
+	if (buffer != NULL) {
+		int numRead;
+		while ((numRead = _read(fd, buffer, blocksize)) > 0) {
 			int iqId = SerialNext();
 			XmlNode msg(_T("message"));
 			xmlAddAttr(msg, _T("to"), ft->jibb->dstJID);
@@ -235,7 +236,7 @@ BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 			// let others send data too
 			Sleep(2);
 
-			char *encoded = JabberBase64Encode(buffer, numRead);
+			char *encoded = mir_base64_encode((PBYTE)(char*)buffer, numRead);
 
 			msg << XCHILD(_T("data"), _A2T(encoded)) << XATTR(_T("xmlns"), JABBER_FEAT_IBB)
 				<< XATTR(_T("sid"), ft->jibb->sid) << XATTRI(_T("seq"), ft->jibb->wPacketId);
@@ -251,7 +252,6 @@ BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 
 			if (ft->jibb->state == JIBB_ERROR || ft->jibb->bStreamClosed || m_ThreadInfo->send(msg) == SOCKET_ERROR) {
 				Log("JabberFtIbbSend unsuccessful exit");
-				mir_free(buffer);
 				_close(fd);
 				return FALSE;
 			}
@@ -262,7 +262,6 @@ BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 			ft->std.totalProgress += numRead;
 			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
 		}
-		mir_free(buffer);
 	}
 	_close(fd);
 	return TRUE;
@@ -277,7 +276,7 @@ void CJabberProto::FtSendFinal(BOOL success, filetransfer *ft)
 	else {
 		if (ft->std.currentFileNumber < ft->std.totalFiles-1) {
 			ft->std.currentFileNumber++;
-			replaceStrT(ft->std.tszCurrentFile, ft->std.ptszFiles[ ft->std.currentFileNumber ]);
+			replaceStrT(ft->std.tszCurrentFile, ft->std.ptszFiles[ft->std.currentFileNumber]);
 			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
 			FtInitiate(ft->jid, ft);
 			return;

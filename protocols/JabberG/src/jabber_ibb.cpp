@@ -179,16 +179,12 @@ BOOL CJabberProto::OnIbbRecvdData(const TCHAR *data, const TCHAR *sid, const TCH
 
 	item->jibb->wPacketId++;
 
-	int length = 0;
-	char *decodedData = JabberBase64DecodeT(data, &length);
-	if ( !decodedData)
+	unsigned length;
+	ptrA decodedData((char*)mir_base64_decode( _T2A(data), &length));
+	if (decodedData == NULL)
 		return FALSE;
 
 	(this->*item->jibb->pfnRecv)(NULL, item->ft, decodedData, length);
-
 	item->jibb->dwTransferredSize += (DWORD)length;
-
-	mir_free(decodedData);
-
 	return TRUE;
 }

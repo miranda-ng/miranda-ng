@@ -1016,9 +1016,10 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		g_ReleaseIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_BTN_AFFILIATION, BM_SETIMAGE, IMAGE_ICON, 0));
 		g_ReleaseIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_BTN_ROLE, BM_SETIMAGE, IMAGE_ICON, 0));
 		TUserInfoData *dat = (TUserInfoData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-		if ( !dat)break;
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
-		mir_free(dat);
+		if (dat) {
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
+			mir_free(dat);
+		}
 		break;
 	}
 	return FALSE;
@@ -1026,13 +1027,9 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* gch)
 {
-	JABBER_RESOURCE_STATUS *me = NULL, *him = NULL;
-	for (int i=0; i < item->resourceCount; i++) {
-		JABBER_RESOURCE_STATUS& p = item->pResources[i];
-		if ( !lstrcmp(p.resourceName, item->nick )) me = &p;
-		if ( !lstrcmp(p.resourceName, gch->ptszUID)) him = &p;
-	}
-
+	JABBER_RESOURCE_STATUS
+		*me = item->findResource(item->nick),
+		*him = item->findResource(gch->ptszUID);
 	if (him == NULL || me == NULL)
 		return;
 
@@ -1043,8 +1040,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 	TCHAR szBuffer[1024];
 	TCHAR szTitle[256];
 
-	if ((gch->dwData >= CLISTMENUIDMIN) && (gch->dwData <= CLISTMENUIDMAX))
-	{
+	if ((gch->dwData >= CLISTMENUIDMIN) && (gch->dwData <= CLISTMENUIDMAX)) {
 		if (him->szRealJid && *him->szRealJid)
 			if (HANDLE hContact = ppro->HContactFromJID(him->szRealJid))
 				CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(gch->dwData, MPCF_CONTACTMENU), (LPARAM)hContact);
@@ -1053,7 +1049,6 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 
 	switch(gch->dwData) {
 	case IDM_SLAP:
-	{
 		if (ppro->m_bJabberOnline) {
 			DBVARIANT dbv = {0};
 			TCHAR *szMessage = ppro->getTString("GcMsgSlap", &dbv) ?
@@ -1076,36 +1071,35 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 				db_free(&dbv);
 		}
 		break;
-	}
+
 	case IDM_VCARD:
-	{
-		HANDLE hContact;
-		JABBER_SEARCH_RESULT jsr = {0};
-		mir_sntprintf(jsr.jid, SIZEOF(jsr.jid), _T("%s/%s"), item->jid, him->resourceName);
-		jsr.hdr.cbSize = sizeof(JABBER_SEARCH_RESULT);
-
-		JABBER_LIST_ITEM *item = ppro->ListAdd(LIST_VCARD_TEMP, jsr.jid);
-		ppro->ListAddResource(LIST_VCARD_TEMP, jsr.jid, him->status, him->statusMessage, him->priority);
-
-		hContact = (HANDLE)CallProtoService(ppro->m_szModuleName, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&jsr);
-		CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
-		break;
-	}
-	case IDM_INFO:
-	{
-		TUserInfoData *dat = (TUserInfoData *)mir_alloc(sizeof(TUserInfoData));
-		dat->me = me;
-		dat->him = him;
-		dat->item = item;
-		dat->ppro = ppro;
-		HWND hwndInfo = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_GROUPCHAT_INFO), NULL, sttUserInfoDlgProc, (LPARAM)dat);
-		ShowWindow(hwndInfo, SW_SHOW);
-		break;
-	}
-	case IDM_KICK:
-	{
-		if ((GetTickCount() - dwLastBanKickTime) > BAN_KICK_INTERVAL)
 		{
+			JABBER_SEARCH_RESULT jsr = {0};
+			mir_sntprintf(jsr.jid, SIZEOF(jsr.jid), _T("%s/%s"), item->jid, him->resourceName);
+			jsr.hdr.cbSize = sizeof(JABBER_SEARCH_RESULT);
+
+			JABBER_LIST_ITEM *item = ppro->ListAdd(LIST_VCARD_TEMP, jsr.jid);
+			ppro->ListAddResource(LIST_VCARD_TEMP, jsr.jid, him->status, him->statusMessage, him->priority);
+
+			HANDLE hContact = (HANDLE)CallProtoService(ppro->m_szModuleName, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&jsr);
+			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
+		}
+		break;
+
+	case IDM_INFO:
+		{
+			TUserInfoData *dat = (TUserInfoData *)mir_alloc(sizeof(TUserInfoData));
+			dat->me = me;
+			dat->him = him;
+			dat->item = item;
+			dat->ppro = ppro;
+			HWND hwndInfo = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_GROUPCHAT_INFO), NULL, sttUserInfoDlgProc, (LPARAM)dat);
+			ShowWindow(hwndInfo, SW_SHOW);
+		}
+		break;
+
+	case IDM_KICK:
+		if ((GetTickCount() - dwLastBanKickTime) > BAN_KICK_INTERVAL) {
 			dwLastBanKickTime = GetTickCount();
 			mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s: "), me->resourceName);
 			mir_sntprintf(szTitle, SIZEOF(szTitle), _T("%s %s"), TranslateT("Reason to kick"), him->resourceName);
@@ -1120,7 +1114,6 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 		}
 		dwLastBanKickTime = GetTickCount();
 		break;
-	}
 
 	case IDM_SET_VISITOR:
 		if (him->role != ROLE_VISITOR)

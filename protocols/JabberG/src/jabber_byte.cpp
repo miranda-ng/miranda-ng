@@ -457,8 +457,7 @@ void CJabberProto::ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt)
 	szHost = jbt->szProxyHost;
 
 	port = (WORD)_ttoi(szPort);
-	if (jbt->streamhostJID) mir_free(jbt->streamhostJID);
-	jbt->streamhostJID = mir_tstrdup(jbt->szProxyJid);
+	replaceStrT(jbt->streamhostJID, jbt->szProxyJid);
 
 	NETLIBOPENCONNECTION nloc = { 0 };
 	nloc.cbSize = sizeof(nloc);
@@ -638,8 +637,7 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 					(str = xmlGetAttrValue(n, _T("jid"))) != NULL) {
 
 						port = (WORD)_ttoi(szPort);
-						if (jbt->streamhostJID) mir_free(jbt->streamhostJID);
-						jbt->streamhostJID = mir_tstrdup(str);
+						replaceStrT(jbt->streamhostJID, str);
 
 						Log("bytestream_recv connecting to %S:%d", szHost, port);
 						NETLIBOPENCONNECTION nloc = { 0 };

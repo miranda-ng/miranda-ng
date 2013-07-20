@@ -701,10 +701,8 @@ struct CJabberAdhocStartupParams
 	}
 	~CJabberAdhocStartupParams()
 	{
-		if (m_szJid)
-			mir_free(m_szJid);
-		if (m_szNode)
-			mir_free(m_szNode);
+		mir_free(m_szJid);
+		mir_free(m_szNode);
 	}
 };
 
@@ -753,9 +751,6 @@ int           __stdcall JabberCombineStatus(int status1, int status2);
 TCHAR*        __stdcall JabberErrorStr(int errorCode);
 TCHAR*        __stdcall JabberErrorMsg(HXML errorNode, int* errorCode = NULL);
 void          __stdcall JabberUtfToTchar(const char* str, size_t cbLen, LPTSTR& dest);
-char*         __stdcall JabberBase64Encode(const char* buffer, int bufferLen);
-char*         __stdcall JabberBase64Decode(const char* buffer, int *resultLen);
-char*         __stdcall JabberBase64DecodeW(const WCHAR* buffer, int *resultLen);
 time_t        __stdcall JabberIsoToUnixTime(const TCHAR *stamp);
 void          __stdcall JabberStringAppend(char* *str, int *sizeAlloced, const char* fmt, ...);
 TCHAR*        __stdcall JabberStripJid(const TCHAR *jid, TCHAR* dest, size_t destLen);
@@ -768,7 +763,6 @@ TCHAR* time2str(time_t _time, TCHAR *buf, size_t bufLen);
 time_t str2time(const TCHAR*);
 
 #define JabberUnixToDosT JabberUnixToDosW
-#define JabberBase64DecodeT JabberBase64DecodeW
 
 const TCHAR *JabberStrIStr(const TCHAR *str, const TCHAR *substr);
 void JabberCopyText(HWND hwnd, TCHAR *text);

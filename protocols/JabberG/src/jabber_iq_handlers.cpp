@@ -492,7 +492,7 @@ BOOL CJabberProto::OnIqRequestAvatar(HXML, CJabberIqInfo *pInfo)
 		return TRUE;
 
 	long bytes = _filelength(_fileno(in));
-	char* buffer = (char*)mir_alloc(bytes*4/3 + bytes + 1000);
+	ptrA buffer((char*)mir_alloc(bytes*4/3 + bytes + 1000));
 	if (buffer == NULL) {
 		fclose(in);
 		return TRUE;
@@ -501,10 +501,8 @@ BOOL CJabberProto::OnIqRequestAvatar(HXML, CJabberIqInfo *pInfo)
 	fread(buffer, bytes, 1, in);
 	fclose(in);
 
-	char* str = JabberBase64Encode(buffer, bytes);
+	ptrA str( mir_base64_encode((PBYTE)(char*)buffer, bytes));
 	m_ThreadInfo->send( XmlNodeIq(_T("result"), pInfo) << XQUERY(JABBER_FEAT_AVATAR) << XCHILD(_T("query"), _A2T(str)) << XATTR(_T("mimetype"), szMimeType));
-	mir_free(str);
-	mir_free(buffer);
 	return TRUE;
 }
 

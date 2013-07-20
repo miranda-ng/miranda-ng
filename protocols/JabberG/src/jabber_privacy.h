@@ -69,9 +69,7 @@ public:
 	};
 	~CPrivacyListRule()
 	{
-		if (m_szValue)
-			mir_free(m_szValue);
-
+		mir_free(m_szValue);
 		if (m_pNext)
 			delete m_pNext;
 	};
@@ -166,8 +164,7 @@ public:
 	};
 	~CPrivacyList()
 	{
-		if (m_szListName)
-			mir_free(m_szListName);
+		mir_free(m_szListName);
 		RemoveAllRules();
 		if (m_pNext)
 			delete m_pNext;
@@ -341,10 +338,8 @@ public:
 	};
 	~CPrivacyListManager()
 	{
-		if (m_szActiveListName)
-			mir_free(m_szActiveListName);
-		if (m_szDefaultListName)
-			mir_free(m_szDefaultListName);
+		mir_free(m_szActiveListName);
+		mir_free(m_szDefaultListName);
 		RemoveAllLists();
 		DeleteCriticalSection(&m_cs);
 	};
