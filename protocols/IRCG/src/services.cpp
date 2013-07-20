@@ -219,7 +219,7 @@ int __cdecl CIrcProto::OnContactDeleted(WPARAM wp, LPARAM)
 
 	DBVARIANT dbv;
 	if ( !getTString( hContact, "Nick", &dbv )) {
-		int type = getByte( hContact, "ChatRoom", 0 );
+		int type = getByte(hContact, "ChatRoom", 0);
 		if ( type != 0 ) {
 			GCEVENT gce = {0};
 			GCDEST gcd = {0};
@@ -330,16 +330,16 @@ INT_PTR __cdecl CIrcProto::OnMenuDisconnect(WPARAM wp, LPARAM)
 
 INT_PTR __cdecl CIrcProto::OnMenuIgnore(WPARAM wp, LPARAM)
 {
-	if ( !wp )
+	if (!wp)
 		return 0;
 
-	HANDLE hContact = (HANDLE) wp;
+	HANDLE hContact = (HANDLE)wp;
 	DBVARIANT dbv;
-	if ( !getTString( hContact, "Nick", &dbv )) {
-		if ( getByte(( HANDLE )wp, "ChatRoom", 0) == 0 ) {
+	if ( !getTString(hContact, "Nick", &dbv )) {
+		if ( !isChatRoom(hContact)) {
 			char* host = NULL;
 			DBVARIANT dbv1;
-			if ( !getString((HANDLE) wp, "Host", &dbv1))
+			if ( !getString(hContact, "Host", &dbv1))
 				host = dbv1.pszVal;
 
 			if ( host ) {

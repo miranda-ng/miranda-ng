@@ -214,7 +214,7 @@ bool TwitterProto::IsMyContact(HANDLE hContact,bool include_chat)
 	if(proto && strcmp(m_szModuleName,proto) == 0) {
 		if(include_chat)
 			return true;
-		return db_get_b(hContact,m_szModuleName,"ChatRoom",0) == 0;
+		return !isChatRoom(hContact);
 	}
 	else return false;
 }

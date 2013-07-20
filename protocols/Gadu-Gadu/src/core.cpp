@@ -1293,14 +1293,11 @@ void GGPROTO::broadcastnewstatus(int newStatus)
 int GGPROTO::contactdeleted(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE) wParam;
-	uin_t uin; int type;
-	DBVARIANT dbv;
-
-	uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0);
-	type = getByte(hContact, "ChatRoom", 0);
+	uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0);
 
 	// Terminate conference if contact is deleted
-	if (type && !getTString(hContact, "ChatRoomID", &dbv) && gc_enabled)
+	DBVARIANT dbv;
+	if ( isChatRoom(hContact) && !getTString(hContact, "ChatRoomID", &dbv) && gc_enabled)
 	{
 		GCDEST gcdest = {0};
 		gcdest.pszModule = m_szModuleName;
@@ -1378,8 +1375,7 @@ int GGPROTO::dbsettingchanged(WPARAM wParam, LPARAM lParam)
 
 		// Groupchat window contact is being renamed
 		DBVARIANT dbv;
-		int type = getByte(hContact, "ChatRoom", 0);
-		if (type && !getTString(hContact, "ChatRoomID", &dbv))
+		if (isChatRoom(hContact) && !getTString(hContact, "ChatRoomID", &dbv))
 		{
 			// Most important... check redundancy (fucking cascading)
 			static int cascade = 0;
@@ -1561,7 +1557,7 @@ HANDLE GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 #endif
 	// Look for contact in DB
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		if ((uin_t)getDword(hContact, GG_KEY_UIN, 0) == uin && !getByte(hContact, "ChatRoom", 0)) {
+		if ((uin_t)getDword(hContact, GG_KEY_UIN, 0) == uin && !isChatRoom(hContact)) {
 			if (inlist) {
 				db_unset(hContact, "CList", "NotOnList");
 				db_unset(hContact, "CList", "Hidden");

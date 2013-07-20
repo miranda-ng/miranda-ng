@@ -28,8 +28,7 @@ bool FacebookProto::IsMyContact(HANDLE hContact, bool include_chat)
 	if (proto && !strcmp(m_szModuleName, proto)) {
 		if (include_chat)
 			return true;
-		else
-			return !getByte(hContact, "ChatRoom", 0);
+		return !isChatRoom(hContact);
 	}
 	return false;
 }
@@ -119,7 +118,7 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, boo
 void FacebookProto::SetAllContactStatuses(int status, bool reset_client)
 {
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		if (getByte(hContact, "ChatRoom", 0))
+		if ( isChatRoom(hContact))
 			continue;
 		
 		if (reset_client) {

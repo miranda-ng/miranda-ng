@@ -122,7 +122,7 @@ static const char* extra_ES_icon_name[2] =
 
 static void set_AT_icon(CAimProto* ppro, HANDLE hContact)
 {
-	if (ppro->getByte(hContact, "ChatRoom", 0)) return;
+	if (ppro->isChatRoom(hContact)) return;
 
 	unsigned i = ppro->getByte(hContact, AIM_KEY_AC, 0) - 1;
 	ExtraIcon_SetIcon(hExtraAT, hContact, (i < 5) ? GetIconHandle(extra_AT_icon_name[i]) : NULL);
@@ -130,7 +130,7 @@ static void set_AT_icon(CAimProto* ppro, HANDLE hContact)
 
 static void set_ES_icon(CAimProto* ppro, HANDLE hContact)
 {
-	if (ppro->getByte(hContact, "ChatRoom", 0)) return;
+	if (ppro->isChatRoom(hContact)) return;
 
 	unsigned i = ppro->getByte(hContact, AIM_KEY_ET, 0) - 1;
 	ExtraIcon_SetIcon(hExtraAT, hContact, (i < 2) ? GetIconHandle(extra_ES_icon_name[i]) : NULL);
@@ -145,14 +145,14 @@ void set_contact_icon(CAimProto* ppro, HANDLE hContact)
 void remove_AT_icons(CAimProto* ppro)
 {
 	for (HANDLE hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName))
-		if (!ppro->getByte(hContact, "ChatRoom", 0)) 
+		if (!ppro->isChatRoom(hContact)) 
 			ExtraIcon_Clear(hExtraAT, hContact);
 }
 
 void remove_ES_icons(CAimProto* ppro)
 {
 	for (HANDLE hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName))
-		if (!ppro->getByte(hContact, "ChatRoom", 0)) 
+		if (!ppro->isChatRoom(hContact)) 
 			ExtraIcon_Clear(hExtraES, hContact);
 }
 
@@ -203,11 +203,11 @@ void InitThemeSupport(void)
 int CAimProto::OnPreBuildContactMenu(WPARAM wParam,LPARAM /*lParam*/)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	bool isChatRoom = getByte(hContact, "ChatRoom", 0) != 0;
+	bool bIsChatRoom = isChatRoom(hContact);
 
 	//see if we should add the html away message context menu items
-	Menu_ShowItem(hHTMLAwayContextMenuItem, getWord(hContact, AIM_KEY_ST, ID_STATUS_OFFLINE) == ID_STATUS_AWAY && !isChatRoom);
-	Menu_ShowItem(hAddToServerListContextMenuItem, !getBuddyId(hContact, 1) && state != 0 && !isChatRoom);
+	Menu_ShowItem(hHTMLAwayContextMenuItem, getWord(hContact, AIM_KEY_ST, ID_STATUS_OFFLINE) == ID_STATUS_AWAY && !bIsChatRoom);
+	Menu_ShowItem(hAddToServerListContextMenuItem, !getBuddyId(hContact, 1) && state != 0 && !bIsChatRoom);
 
 	DBVARIANT dbv;
 	if (!getString(hContact, AIM_KEY_SN, &dbv)) {

@@ -140,7 +140,7 @@ VOID CALLBACK OnlineNotifTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 	if ( name.IsEmpty() && name2.IsEmpty()) {
 		DBVARIANT dbv;
 		for (HANDLE hContact = db_find_first(ppro->m_szModuleName); hContact; hContact = db_find_next(hContact, ppro->m_szModuleName)) {
-			if ( ppro->getByte(hContact, "ChatRoom", 0))
+			if ( ppro->isChatRoom(hContact))
 				continue;
 
 			BYTE bDCC = ppro->getByte(hContact, "DCC", 0);

@@ -145,7 +145,7 @@ bool CIrcProto::CList_SetAllOffline(BYTE ChatsToo)
 	DisconnectAllDCCSessions(false);
 
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		if ( getByte( hContact, "ChatRoom", 0 ))
+		if ( isChatRoom(hContact))
 			continue;
 
 		if ( getByte(hContact, "DCC", 0 ) != 0 ) {
@@ -179,7 +179,7 @@ HANDLE CIrcProto::CList_FindContact (CONTACT* user)
 	DBVARIANT dbv5;	
 
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		if ( getByte( hContact, "ChatRoom", 0))
+		if ( isChatRoom(hContact))
 			continue;
 
 		HANDLE hContact_temp = NULL;

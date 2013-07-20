@@ -102,7 +102,7 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 
 	// Readup contacts
 	for (HANDLE hContact = db_find_first(gg->m_szModuleName); hContact; hContact = db_find_next(hContact, gg->m_szModuleName)) {
-		if (gg->getByte(hContact, "ChatRoom", 0))
+		if (gg->isChatRoom(hContact))
 			continue;
 
 		// Readup FirstName

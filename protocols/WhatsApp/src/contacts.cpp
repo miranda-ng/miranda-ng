@@ -8,7 +8,7 @@ bool WhatsAppProto::IsMyContact(HANDLE hContact, bool include_chat)
 		if( include_chat )
 			return true;
 		
-		return getByte(hContact, "ChatRoom", 0) == 0;
+		return !isChatRoom(hContact);
 	}
 	
 	return false;
@@ -131,7 +131,7 @@ HANDLE WhatsAppProto::ContactIDToHContact(const std::string& phoneNumber)
 		if(!IsMyContact(hContact, true))
 			continue;
 
-		const char* id = getByte(hContact, "ChatRoom", 0) > 0 ? idForChat : idForContact;
+		const char* id = isChatRoom(hContact) ? idForChat : idForContact;
 
 		DBVARIANT dbv;
 		if( !getString(hContact, id, &dbv))

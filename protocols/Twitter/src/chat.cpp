@@ -198,7 +198,7 @@ void TwitterProto::SetChatStatus(int status)
 	{
 		// Add all friends to contact list
 		for(HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-			if( db_get_b(hContact, m_szModuleName, "ChatRoom", 0))
+			if( isChatRoom(hContact))
 				continue;
 
 			DBVARIANT uid,nick;

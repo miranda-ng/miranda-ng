@@ -143,7 +143,7 @@ int CMsnProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	bool isMe = MSN_IsMeByContact(hContact, szEmail);
 	if (szEmail[0]) {
 		int listId = Lists_GetMask(szEmail);
-		bool noChat = !(listId & LIST_FL) || isMe || getByte(hContact, "ChatRoom", 0);
+		bool noChat = !(listId & LIST_FL) || isMe || isChatRoom(hContact);
 
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_NAME;

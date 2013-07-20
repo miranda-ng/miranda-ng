@@ -65,6 +65,7 @@ struct  PROTO_INTERFACE : public MZeroedObject
 
 	__forceinline bool getBool(const char *name, bool defaultValue) { return ProtoGetBool0(this, name, defaultValue); }
 	__forceinline bool getBool(HANDLE hContact, const char *name, bool defaultValue) { return ProtoGetBool(this, hContact, name, defaultValue); }
+	__forceinline bool isChatRoom(HANDLE hContact) { return getBool(hContact, "ChatRoom", false); }
 
 	__forceinline int getByte(const char *name, BYTE defaultValue) { return ProtoGetByte0(this, name, defaultValue); }
 	__forceinline int getByte(HANDLE hContact, const char *name, BYTE defaultValue) { return ProtoGetByte(this, hContact, name, defaultValue); }

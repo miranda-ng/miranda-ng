@@ -105,7 +105,6 @@ BOOL CList_SetOffline(HANDLE hContact, BOOL bHide)
 		if (szProto == NULL)
 			return FALSE;
 
-		int i = db_get_b(hContact, szProto, "ChatRoom", 0);
 		db_set_w(hContact, szProto, "ApparentMode", (LPARAM)0);
 		db_set_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		return TRUE;

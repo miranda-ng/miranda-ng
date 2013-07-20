@@ -234,8 +234,7 @@ static int gg_prebuildcontactmenu(WPARAM wParam, LPARAM lParam)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME | CMIM_FLAGS | CMIF_TCHAR;
 	if ( gg->getDword(hContact, GG_KEY_UIN, 0) == gg->getByte(GG_KEY_UIN, 0) ||
-		  gg->getByte(hContact, "ChatRoom", 0) ||
-		  db_get_b(hContact, "CList", "NotOnList", 0))
+		  gg->isChatRoom(hContact) || db_get_b(hContact, "CList", "NotOnList", 0))
 		mi.flags |= CMIF_HIDDEN;
 	mi.ptszName = gg->getByte(hContact, GG_KEY_BLOCK, 0) ? LPGENT("&Unblock") : LPGENT("&Block");
 	Menu_ModifyItem(gg->hBlockMenuItem, &mi);

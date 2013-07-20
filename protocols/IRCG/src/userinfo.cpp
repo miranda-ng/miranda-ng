@@ -193,7 +193,7 @@ int __cdecl CIrcProto::OnInitUserInfo(WPARAM wParam, LPARAM lParam)
 	if ( !hContact || !szProto || lstrcmpiA( szProto, m_szModuleName ))
 		return 0;
 
-	if ( getByte( hContact, "ChatRoom", 0) != 0 )
+	if ( isChatRoom(hContact))
 		return 0;
 
 	if ( getByte( hContact, "DCC", 0) != 0)

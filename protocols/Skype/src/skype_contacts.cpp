@@ -307,7 +307,7 @@ void CSkypeProto::SetAllContactStatus(int status)
 	{
 		if (this->getByte(hContact, "IsSkypeOut", 0) != 0)
 			continue;
-		if (this->IsChatRoom(hContact))
+		if (this->isChatRoom(hContact))
 			continue;
 		if (this->IsContactOnline(hContact))
 			::db_set_w(hContact, this->m_szModuleName, SKYPE_SETTINGS_STATUS, status);

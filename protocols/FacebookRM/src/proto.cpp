@@ -551,8 +551,7 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
 	// Ignore groupchats and, if deleting, also not-friends
-	if (getByte(hContact, "ChatRoom", 0)
-		|| (deleting && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND))
+	if ( isChatRoom(hContact) || (deleting && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND))
 		return 0;
 
 	ptrT tname = db_get_tsa(hContact, m_szModuleName, FACEBOOK_KEY_NAME);

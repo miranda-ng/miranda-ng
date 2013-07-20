@@ -229,7 +229,7 @@ void CSkypeProto::SyncHistoryCommand(HANDLE hContact, time_t timestamp)
 		ptrW sid = ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID);
 
 		ConversationRef conversation;
-		if ( !this->IsChatRoom(hContact))
+		if ( !this->isChatRoom(hContact))
 		{
 			SEStringList target;
 			target.append((char *)ptrA(::mir_utf8encodeW(sid)));
@@ -294,7 +294,7 @@ int CSkypeProto::SyncAllTimeHistoryCommand(WPARAM wParam, LPARAM lParam)
 		ptrW sid = ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID);
 
 		ConversationRef conversation;
-		if ( !this->IsChatRoom(hContact))
+		if ( !this->isChatRoom(hContact))
 		{
 			SEStringList target;
 			target.append((char *)ptrA(::mir_utf8encodeW(sid)));

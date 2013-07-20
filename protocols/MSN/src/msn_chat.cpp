@@ -28,12 +28,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 HANDLE CMsnProto::MSN_GetChatInernalHandle(HANDLE hContact)
 {
 	HANDLE result = hContact;
-	int type = getByte(hContact, "ChatRoom", 0);
-	if (type != 0)
-	{
+	if ( isChatRoom(hContact)) {
 		DBVARIANT dbv;
-		if (getString(hContact, "ChatRoomID", &dbv) == 0)
-		{
+		if (getString(hContact, "ChatRoomID", &dbv) == 0) {
 			result = (HANDLE)(-atol(dbv.pszVal));
 			db_free(&dbv);
 		}
@@ -187,7 +184,7 @@ static void ChatInviteSend(HANDLE hItem, HWND hwndList, STRLIST &str, CMsnProto 
 
 static void ChatValidateContact(HANDLE hItem, HWND hwndList, CMsnProto* ppro)
 {
-	if (!ppro->MSN_IsMyContact(hItem) || ppro->getByte(hItem, "ChatRoom", 0) || ppro->MSN_IsMeByContact(hItem))
+	if (!ppro->MSN_IsMyContact(hItem) || ppro->isChatRoom(hItem) || ppro->MSN_IsMeByContact(hItem))
 		SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
 }
 

@@ -146,12 +146,12 @@ void UninitContactMenus()
 int FacebookProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {	
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
-	bool isChatroom = getByte(hContact, "ChatRoom", 0) > 0;
+	bool bIsChatroom = isChatRoom(hContact);
 
 	Menu_ShowItem(g_hContactMenuItems[CMI_VISIT_PROFILE], true);
-	Menu_ShowItem(g_hContactMenuItems[CMI_VISIT_FRIENDSHIP], !isChatroom);
+	Menu_ShowItem(g_hContactMenuItems[CMI_VISIT_FRIENDSHIP], !bIsChatroom);
 
-	if (!isOffline() && !isChatroom)
+	if (!isOffline() && !bIsChatroom) 
 	{
 		bool ctrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 		BYTE type = getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0);

@@ -324,8 +324,6 @@ protected:
 	void InitChatModule();
 	INT_PTR __cdecl SkypeGCGetToolTipText(WPARAM wParam, LPARAM lParam);
 
-	bool IsChatRoom(HANDLE hContact);
-
 	void UpdateChatUserStatus(const ContactRef &contact);
 	void UpdateChatUserNick(const ContactRef &contact);
 

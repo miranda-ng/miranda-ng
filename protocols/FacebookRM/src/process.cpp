@@ -158,7 +158,7 @@ void FacebookProto::ProcessFriendList(void* data)
 
 	// Check and update old contacts
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		if (getByte(hContact, "ChatRoom", 0))
+		if ( isChatRoom(hContact))
 			continue;
 
 		DBVARIANT dbv;

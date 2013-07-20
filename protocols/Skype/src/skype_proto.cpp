@@ -380,7 +380,7 @@ int __cdecl CSkypeProto::SendContacts(HANDLE hContact, int flags, int nContacts,
 		this->Log(L"Outcoming contacts");
 
 		ConversationRef conversation;
-		if ( !this->IsChatRoom(hContact))
+		if ( !this->isChatRoom(hContact))
 		{
 			SEStringList targets;
 			targets.append((char *)_T2A(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID)));
@@ -431,7 +431,7 @@ HANDLE __cdecl CSkypeProto::SendFile(HANDLE hContact, const TCHAR *szDescription
 		this->Log(L"Outcoming file transfer");
 
 		ConversationRef conversation;
-		if ( !this->IsChatRoom(hContact))
+		if ( !this->isChatRoom(hContact))
 		{
 			SEStringList targets;
 			targets.append((char *)_T2A(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID)));

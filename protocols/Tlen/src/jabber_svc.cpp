@@ -551,7 +551,7 @@ struct SENDACKTHREADDATA
 	__inline SENDACKTHREADDATA(TlenProtocol *_ppro, HANDLE _hContact, int _msgid=0) :
 		proto(_ppro), hContact(_hContact), msgid(_msgid)
 		{}
-		
+
 	TlenProtocol *proto;
 	HANDLE hContact;
 	int msgid;
@@ -581,7 +581,7 @@ static void __cdecl TlenGetAwayMsgThread(void *ptr)
 	if (!db_get(data->hContact, data->proto->m_szModuleName, "jid", &dbv)) {
 		if ((item=JabberListGetItemPtr(data->proto, LIST_ROSTER, dbv.pszVal)) != NULL) {
 			db_free(&dbv);
-			ProtoBroadcastAck(data->proto->m_szModuleName, data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 
+			ProtoBroadcastAck(data->proto->m_szModuleName, data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1,
 				item->statusMessage==NULL ? (LPARAM)NULL : (LPARAM)(TCHAR*)_A2T(item->statusMessage));
 			return;
 		}
@@ -913,7 +913,6 @@ int JabberDbSettingChanged(void *ptr, WPARAM wParam, LPARAM lParam)
 		hContact = (HANDLE) wParam;
 		szProto = GetContactProto(hContact);
 		if (szProto == NULL || strcmp(szProto, proto->m_szModuleName)) return 0;
-//		if (db_get_b(hContact, proto->m_szModuleName, "ChatRoom", 0) != 0) return 0;
 		// A contact's group is changed
 		if (!strcmp(cws->szSetting, "Group")) {
 			if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {

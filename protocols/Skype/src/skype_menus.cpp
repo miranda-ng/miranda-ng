@@ -20,7 +20,7 @@ int CSkypeProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	if ( !this->IsOnline() || ::lstrcmpA(::GetContactProto(hContact), m_szModuleName))
 		return 0;
 
-	if ( !this->IsChatRoom(hContact))
+	if ( !this->isChatRoom(hContact))
 	{
 		bool ctrlPressed = (::GetKeyState(VK_CONTROL) & 0x8000) != 0;
 		

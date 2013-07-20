@@ -660,7 +660,7 @@ HANDLE __cdecl CIrcProto::SendFile( HANDLE hContact, const TCHAR*, TCHAR** ppszF
 	unsigned __int64 size = 0;
 
 	// do not send to channels :-P
-	if ( getByte(hContact, "ChatRoom", 0) != 0)
+	if ( isChatRoom(hContact))
 		return 0;
 
 	// stop if it is an active type filetransfer and the user's IP is not known
@@ -955,7 +955,7 @@ HANDLE __cdecl CIrcProto::GetAwayMsg( HANDLE hContact )
 	DBVARIANT dbv;
 
 	// bypass chat contacts.
-	if ( getByte( hContact, "ChatRoom", 0 ) == 0) {
+	if ( !isChatRoom(hContact)) {
 		if ( hContact && !getTString( hContact, "Nick", &dbv)) {
 			int i = getWord( hContact, "Status", ID_STATUS_OFFLINE );
 			if ( i != ID_STATUS_AWAY) {

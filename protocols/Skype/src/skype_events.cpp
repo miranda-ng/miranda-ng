@@ -69,7 +69,7 @@ int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact)
 	{
-		if (this->IsChatRoom(hContact))
+		if (this->isChatRoom(hContact))
 		{
 			this->OnLeaveChat(wParam, 0);
 			ptrW cid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID));
@@ -205,12 +205,12 @@ int __cdecl CSkypeProto::OnTabSRMMButtonPressed(WPARAM wParam, LPARAM lParam)
 	switch (cbcd->dwButtonId)
 	{
 	case BBB_ID_CONF_INVITE:
-		if (this->IsOnline() && this->IsChatRoom(hContact))
+		if (this->IsOnline() && this->isChatRoom(hContact))
 			this->ChatRoomInvite(hContact);
 		break;
 
 	case BBB_ID_CONF_SPAWN:
-		if (this->IsOnline() && !this->IsChatRoom(hContact))
+		if (this->IsOnline() && !this->isChatRoom(hContact))
 		{
 			SEStringList targets;
 			ptrW sid(::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID));

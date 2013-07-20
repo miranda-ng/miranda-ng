@@ -386,17 +386,14 @@ int CMsnProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 	if (!msnLoggedIn)  //should never happen for MSN contacts
 		return 0;
 
-	int type = getByte(hContact, "ChatRoom", 0);
-	if (type != 0)
-	{
+	if ( isChatRoom(hContact)) {
 		DBVARIANT dbv;
 		if (!getTString(hContact, "ChatRoomID", &dbv)) {
 			MSN_KillChatSession(dbv.ptszVal);
 			db_free(&dbv);
 		}
 	}
-	else
-	{
+	else {
 		char szEmail[MSN_MAX_EMAIL_LEN];
 		if (MSN_IsMeByContact(hContact, szEmail))
 			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM) 1);
@@ -587,7 +584,7 @@ int CMsnProto::OnWindowPopup(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowPopupData *mwpd = (MessageWindowPopupData *)lParam;
 
-	if (!MSN_IsMyContact(mwpd->hContact) || getByte(mwpd->hContact, "ChatRoom", 0))
+	if (!MSN_IsMyContact(mwpd->hContact) || isChatRoom(mwpd->hContact))
 		return 0;
 
 	switch (mwpd->uType)
@@ -624,11 +621,9 @@ INT_PTR CMsnProto::GetUnreadEmailCount(WPARAM wParam, LPARAM lParam)
 INT_PTR CMsnProto::OnLeaveChat(WPARAM wParam,LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	if (getByte(hContact, "ChatRoom", 0) != 0)
-	{
+	if (isChatRoom(hContact) != 0) {
 		DBVARIANT dbv;
-		if (getTString(hContact, "ChatRoomID", &dbv) == 0)
-		{
+		if (getTString(hContact, "ChatRoomID", &dbv) == 0) {
 			MSN_KillChatSession(dbv.ptszVal);
 			db_free(&dbv);
 		}

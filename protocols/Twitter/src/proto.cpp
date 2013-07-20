@@ -502,7 +502,7 @@ void TwitterProto::UpdateSettings()
 
 		for(HANDLE hContact = db_find_first(m_szModuleName); hContact; ) {
 			HANDLE hNext = db_find_next(hContact, m_szModuleName);
-			if(db_get_b(hContact,m_szModuleName,"ChatRoom",0))
+			if(isChatRoom(hContact))
 				CallService(MS_DB_CONTACT_DELETE,reinterpret_cast<WPARAM>(hContact),0);
 			hContact = hNext;
 		}

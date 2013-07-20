@@ -53,11 +53,11 @@ void DrawMyControl(HDC hDC, HWND /*hwndButton*/, HANDLE hTheme, UINT iState, REC
 	{
 		if (bIsFocused)
 		{
-			HBRUSH br = CreateSolidBrush(RGB(0,0,0));  
+			HBRUSH br = CreateSolidBrush(RGB(0,0,0));
 			FrameRect(hDC, &rect, br);
 			InflateRect(&rect, -1, -1);
 			DeleteObject(br);
-		} // if		
+		} // if
 		COLORREF crColor = GetSysColor(COLOR_BTNFACE);
 		HBRUSH	brBackground = CreateSolidBrush(crColor);
 		FillRect(hDC,&rect, brBackground);
@@ -84,7 +84,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 {
 	CAimProto* ppro = (CAimProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg) 
+	switch (msg)
 	{
 	case WM_INITDIALOG:
 		{
@@ -166,7 +166,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 		}
 	case WM_NOTIFY:
-		switch (LOWORD(wParam)) 
+		switch (LOWORD(wParam))
 		{
 		case IDC_PROFILE:
 			if (((LPNMHDR)lParam)->code==EN_SELCHANGE)
@@ -199,7 +199,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		default:
-			if (((LPNMHDR)lParam)->code == PSN_PARAMCHANGED) 
+			if (((LPNMHDR)lParam)->code == PSN_PARAMCHANGED)
 			{
 				ppro = (CAimProto*)((PSHNOTIFY*)lParam)->lParam;
 				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, LPARAM(ppro));
@@ -234,12 +234,12 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				BOOL isSuper = (cfOld.dwEffects & CFE_SUPERSCRIPT) && (cfOld.dwMask & CFM_SUPERSCRIPT);
 				if (isSuper)
 				{
-					DrawMyControl(lpDIS->hDC,GetDlgItem(hwndDlg, IDC_BOLD),hThemeButton,lpDIS->itemState|ODS_SELECTED, lpDIS->rcItem);	
+					DrawMyControl(lpDIS->hDC,GetDlgItem(hwndDlg, IDC_BOLD),hThemeButton,lpDIS->itemState|ODS_SELECTED, lpDIS->rcItem);
 					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("sup_scrpt"), 16, 16, 0, 0, DI_NORMAL);
 					ReleaseIconEx("sup_scrpt");
 				}
 				else
-				{	
+				{
 					DrawMyControl(lpDIS->hDC,GetDlgItem(hwndDlg, IDC_BOLD),hThemeButton,lpDIS->itemState, lpDIS->rcItem);
 					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("nsup_scrpt"), 16, 16, 0, 0, DI_NORMAL);
 					ReleaseIconEx("nsup_scrpt");
@@ -276,7 +276,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				if (isSub)
 				{
 					DrawMyControl(lpDIS->hDC,GetDlgItem(hwndDlg, IDC_BOLD),hThemeButton,lpDIS->itemState|ODS_SELECTED, lpDIS->rcItem);
-					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("sub_scrpt"), 16, 16, 0, 0, DI_NORMAL);	
+					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("sub_scrpt"), 16, 16, 0, 0, DI_NORMAL);
 					ReleaseIconEx("sub_scrpt");
 				}
 				else
@@ -422,7 +422,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		}
 
 	case WM_COMMAND:
-		switch (LOWORD(wParam)) 
+		switch (LOWORD(wParam))
 		{
 		case IDC_PROFILE:
 			if (HIWORD(wParam) == EN_CHANGE)
@@ -442,7 +442,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_SUPERSCRIPT:
-			if (HIWORD(wParam) == BN_CLICKED) 
+			if (HIWORD(wParam) == BN_CLICKED)
 			{
 				CHARFORMAT2 cf;
 				cf.cbSize = sizeof(CHARFORMAT2);
@@ -456,7 +456,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_NORMALSCRIPT:
-			if (HIWORD(wParam) == BN_CLICKED) 
+			if (HIWORD(wParam) == BN_CLICKED)
 			{
 				CHARFORMAT2 cf;
 				cf.cbSize = sizeof(CHARFORMAT2);
@@ -470,7 +470,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_SUBSCRIPT:
-			if (HIWORD(wParam) == BN_CLICKED) 
+			if (HIWORD(wParam) == BN_CLICKED)
 			{
 				CHARFORMAT2 cf;
 				cf.cbSize = sizeof(CHARFORMAT2);
@@ -484,7 +484,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_BOLD:
-			if (HIWORD(wParam) == BN_CLICKED) 
+			if (HIWORD(wParam) == BN_CLICKED)
 			{
 				CHARFORMAT2 cfOld;
 				cfOld.cbSize = sizeof(CHARFORMAT2);
@@ -502,7 +502,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_ITALIC:
-			if (HIWORD(wParam) == BN_CLICKED) 
+			if (HIWORD(wParam) == BN_CLICKED)
 			{
 				CHARFORMAT2 cfOld;
 				cfOld.cbSize = sizeof(CHARFORMAT2);
@@ -538,7 +538,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_FOREGROUNDCOLOR:
-			if (HIWORD(wParam) == BN_CLICKED) 
+			if (HIWORD(wParam) == BN_CLICKED)
 			{
 				CHARFORMAT2 cf;
 				cf.cbSize = sizeof(CHARFORMAT2);
@@ -552,7 +552,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_FOREGROUNDCOLORPICKER:
-			if (HIWORD(wParam) == BN_CLICKED) 
+			if (HIWORD(wParam) == BN_CLICKED)
 			{
 				CHOOSECOLOR cc={0};
 				custColours[0]=foreground;
@@ -562,7 +562,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				cc.hInstance=(HWND)GetModuleHandle(NULL);
 				cc.lpCustColors=custColours;
 				cc.Flags=CC_ANYCOLOR|CC_FULLOPEN|CC_RGBINIT;
-				if (ChooseColor(&cc)) 
+				if (ChooseColor(&cc))
 				{
 					foreground=cc.rgbResult;
 					InvalidateRect(GetDlgItem(hwndDlg, IDC_FOREGROUNDCOLOR), NULL, FALSE);
@@ -572,7 +572,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_BACKGROUNDCOLOR:
-			if (HIWORD(wParam) == BN_CLICKED) 
+			if (HIWORD(wParam) == BN_CLICKED)
 			{
 				CHARFORMAT2 cf;
 				cf.cbSize = sizeof(CHARFORMAT2);
@@ -648,7 +648,7 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 	CAimProto* ppro = (CAimProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	DBVARIANT dbv;
 
-	switch (msg) 
+	switch (msg)
 	{
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -660,7 +660,7 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		break;
 
 	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->code) 
+		switch (((LPNMHDR)lParam)->code)
 		{
 		case PSN_PARAMCHANGED:
 			ppro = (CAimProto*)((LPPSHNOTIFY)lParam)->lParam;
@@ -688,7 +688,7 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		break;
 
 	case WM_COMMAND:
-		if  (LOWORD(wParam) == IDC_SAVECHANGES) 
+		if  (LOWORD(wParam) == IDC_SAVECHANGES)
 		{
 			if (!ppro->wait_conn(ppro->hAdminConn, ppro->hAdminEvent, 0x07))             // Make a connection
 				break;
@@ -783,7 +783,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 {
 	CAimProto* ppro = (CAimProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg) 
+	switch (msg)
 	{
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -792,28 +792,28 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		ppro = (CAimProto*)lParam;
 		{
 			DBVARIANT dbv;
-			if (!ppro->getString(AIM_KEY_SN, &dbv)) 
+			if (!ppro->getString(AIM_KEY_SN, &dbv))
 			{
 				SetDlgItemTextA(hwndDlg, IDC_SN, dbv.pszVal);
 				db_free(&dbv);
 			}
-			if (!ppro->getString(AIM_KEY_NK, &dbv)) 
+			if (!ppro->getString(AIM_KEY_NK, &dbv))
 			{
 				SetDlgItemTextA(hwndDlg, IDC_NK, dbv.pszVal);
 				db_free(&dbv);
 			}
-			else if (!ppro->getString(AIM_KEY_SN, &dbv)) 
+			else if (!ppro->getString(AIM_KEY_SN, &dbv))
 			{
 				SetDlgItemTextA(hwndDlg, IDC_NK, dbv.pszVal);
 				db_free(&dbv);
 			}
-			if (!ppro->getString(AIM_KEY_PW, &dbv)) 
+			if (!ppro->getString(AIM_KEY_PW, &dbv))
 			{
 				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_PW, dbv.pszVal);
 				db_free(&dbv);
 			}
-			if (!ppro->getString(AIM_KEY_HN, &dbv)) 
+			if (!ppro->getString(AIM_KEY_HN, &dbv))
 			{
 				SetDlgItemTextA(hwndDlg, IDC_HN, dbv.pszVal);
 				db_free(&dbv);
@@ -851,17 +851,17 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 			break;
 
-		case IDC_SVRRESET: 
-			SetDlgItemTextA(hwndDlg, IDC_HN, 
+		case IDC_SVRRESET:
+			SetDlgItemTextA(hwndDlg, IDC_HN,
 				IsDlgButtonChecked(hwndDlg, IDC_DSSL) ? AIM_DEFAULT_SERVER_NS : AIM_DEFAULT_SERVER);
 			SetDlgItemInt(hwndDlg, IDC_PN,ppro->get_default_port(), FALSE);
 			break;
 
-		case IDC_SN: 
-		case IDC_PN: 
-		case IDC_NK: 
-		case IDC_PW: 
-		case IDC_HN: 
+		case IDC_SN:
+		case IDC_PN:
+		case IDC_NK:
+		case IDC_PW:
+		case IDC_HN:
 			if (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus())
 				return 0;
 			break;
@@ -870,7 +870,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_NOTIFY:
-		switch (((LPNMHDR) lParam)->code) 
+		switch (((LPNMHDR) lParam)->code)
 		{
 		case PSN_APPLY:
 			{
@@ -1025,7 +1025,7 @@ static INT_PTR CALLBACK privacy_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	CAimProto* ppro = (CAimProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	int i;
 
-	switch (msg) 
+	switch (msg)
 	{
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -1043,7 +1043,7 @@ static INT_PTR CALLBACK privacy_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		CheckDlgButton (hwndDlg, IDC_SIS, (ppro->pref1_flags & 0x400) ? BST_CHECKED : BST_CHECKED);
 		break;
-	
+
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_ALLOWADD)
 		{
@@ -1072,7 +1072,7 @@ static INT_PTR CALLBACK privacy_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR) lParam)->code == PSN_APPLY) 
+		if (((LPNMHDR) lParam)->code == PSN_APPLY)
 		{
 			ppro->aim_ssi_update(ppro->hServerConn, ppro->seqno, true);
 			for (i=0; i<5; ++i)
@@ -1139,8 +1139,8 @@ static INT_PTR CALLBACK privacy_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 	}
 	return FALSE;
-}		
- 
+}
+
 
 int CAimProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 {
@@ -1157,7 +1157,7 @@ int CAimProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_AIM);
 	odp.pfnDlgProc = options_dialog;
 	Options_AddPage(wParam, &odp);
-	
+
 	odp.ptszTab     = LPGENT("Privacy");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PRIVACY);
 	odp.pfnDlgProc  = privacy_dialog;
@@ -1172,7 +1172,7 @@ int CAimProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 
 INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg) 
+	switch (msg)
 	{
 	case WM_INITDIALOG:
 		{
@@ -1198,15 +1198,15 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		}
 
 	case WM_COMMAND:
-		if (LOWORD(wParam) == IDC_NEWAIMACCOUNTLINK) 
+		if (LOWORD(wParam) == IDC_NEWAIMACCOUNTLINK)
 		{
 			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://www.aim.com/redirects/inclient/register.adp");
 			return TRUE;
 		}
 
-		if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()) 
+		if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
 		{
-			switch(LOWORD(wParam)) 
+			switch(LOWORD(wParam))
 			{
 			case IDC_SN:			case IDC_PW:
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -1215,7 +1215,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == (UINT)PSN_APPLY) 
+		if (((LPNMHDR)lParam)->code == (UINT)PSN_APPLY)
 		{
 			CAimProto* ppro = (CAimProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
@@ -1235,7 +1235,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 INT_PTR CAimProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
 {
-	return (INT_PTR)CreateDialogParam (hInstance, MAKEINTRESOURCE(IDD_AIMACCOUNT), 
+	return (INT_PTR)CreateDialogParam (hInstance, MAKEINTRESOURCE(IDD_AIMACCOUNT),
 		 (HWND)lParam, first_run_dialog, (LPARAM)this);
 }
 
@@ -1247,7 +1247,7 @@ INT_PTR CALLBACK instant_idle_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 {
 	CAimProto* ppro = (CAimProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg) 
+	switch (msg)
 	{
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -1278,11 +1278,11 @@ INT_PTR CALLBACK instant_idle_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			if (minutes > 59)
 				minutes = 59;
 			ppro->setDword(AIM_KEY_IIT, hours*60+minutes);
-			switch (LOWORD(wParam)) 
+			switch (LOWORD(wParam))
 			{
 			case IDOK:
 				//Instant Idle
-				if (ppro->state==1) 
+				if (ppro->state==1)
 				{
 					ppro->aim_set_idle(ppro->hServerConn,ppro->seqno,hours * 60 * 60 + minutes * 60);
 					ppro->instantidle=1;
@@ -1310,7 +1310,7 @@ INT_PTR CALLBACK join_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 {
 	CAimProto* ppro = (CAimProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg) 
+	switch (msg)
 	{
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -1330,7 +1330,7 @@ INT_PTR CALLBACK join_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_COMMAND:
 		{
-			switch (LOWORD(wParam)) 
+			switch (LOWORD(wParam))
 			{
 			case IDOK:
 				char room[128];
@@ -1361,7 +1361,7 @@ static void clist_chat_invite_send(HANDLE hItem, HWND hwndList, chat_list_item* 
 	if (hItem == NULL)
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
-	while (hItem) 
+	while (hItem)
 	{
 		if (IsHContactGroup(hItem))
 		{
@@ -1379,16 +1379,16 @@ static void clist_chat_invite_send(HANDLE hItem, HWND hwndList, chat_list_item* 
 					SendMessage(hwndList, CLM_GETITEMTEXT, (WPARAM)hItem, (LPARAM)buf);
 
 					char* sn = mir_t2a(buf);
-					ppro->aim_chat_invite(ppro->hServerConn, ppro->seqno, 
+					ppro->aim_chat_invite(ppro->hServerConn, ppro->seqno,
 						item->cookie, item->exchange, item->instance, sn, msg);
 					mir_free(sn);
 				}
-				else 
+				else
 				{
 					DBVARIANT dbv;
 					if (!ppro->getString(hItem, AIM_KEY_SN, &dbv))
 					{
-						ppro->aim_chat_invite(ppro->hServerConn, ppro->seqno, 
+						ppro->aim_chat_invite(ppro->hServerConn, ppro->seqno,
 							item->cookie, item->exchange, item->instance, dbv.pszVal, msg);
 						db_free(&dbv);
 					}
@@ -1401,7 +1401,7 @@ static void clist_chat_invite_send(HANDLE hItem, HWND hwndList, chat_list_item* 
 
 static void clist_validate_contact(HANDLE hItem, HWND hwndList, CAimProto* ppro)
 {
-	if (!ppro->is_my_contact(hItem) || ppro->getByte(hItem, "ChatRoom", 0) || 
+	if (!ppro->is_my_contact(hItem) || ppro->isChatRoom(hItem) ||
 			ppro->getWord(hItem, AIM_KEY_ST, ID_STATUS_OFFLINE) == ID_STATUS_ONTHEPHONE)
 		SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
 }
@@ -1411,7 +1411,7 @@ static void clist_chat_prepare(HANDLE hItem, HWND hwndList, CAimProto* ppro)
 	if (hItem == NULL)
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
-	while (hItem) 
+	while (hItem)
 	{
 		HANDLE hItemN = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 
@@ -1432,7 +1432,7 @@ INT_PTR CALLBACK invite_to_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 {
 	invite_chat_param* param = (invite_chat_param*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg) 
+	switch (msg)
 	{
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -1459,17 +1459,17 @@ INT_PTR CALLBACK invite_to_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		NMCLISTCONTROL* nmc = (NMCLISTCONTROL*)lParam;
 		if (nmc->hdr.idFrom == IDC_CCLIST)
 		{
-			switch (nmc->hdr.code) 
+			switch (nmc->hdr.code)
 			{
 			case CLN_NEWCONTACT:
-				if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0) 
+				if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0)
 					clist_validate_contact(nmc->hItem, nmc->hdr.hwndFrom, param->ppro);
 				break;
 
 			case CLN_LISTREBUILT:
-				if (param) 
+				if (param)
 					clist_chat_prepare(NULL, nmc->hdr.hwndFrom, param->ppro);
-				break; 
+				break;
 			}
 		}
 	}
@@ -1477,7 +1477,7 @@ INT_PTR CALLBACK invite_to_chat_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_COMMAND:
 		{
-			switch (LOWORD(wParam)) 
+			switch (LOWORD(wParam))
 			{
 			case IDC_ADDSCR:
 				if (param->ppro->state == 1)
@@ -1527,7 +1527,7 @@ INT_PTR CALLBACK chat_request_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 {
 	invite_chat_req_param* param = (invite_chat_req_param*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg) 
+	switch (msg)
 	{
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -1548,12 +1548,12 @@ INT_PTR CALLBACK chat_request_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 	case WM_DESTROY:
 		WindowFreeIcon(hwndDlg);
-		delete param; 
+		delete param;
 		break;
 
 	case WM_COMMAND:
 		{
-			switch (LOWORD(wParam)) 
+			switch (LOWORD(wParam))
 			{
 			case IDOK:
 				param->ppro->ForkThread(&CAimProto::chatnav_request_thread, param->cnp);
@@ -1575,6 +1575,6 @@ INT_PTR CALLBACK chat_request_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 void CALLBACK chat_request_cb(PVOID dwParam)
 {
-	CreateDialogParam (hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE_REQ), 
+	CreateDialogParam (hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE_REQ),
 		 NULL, chat_request_dialog, (LPARAM)dwParam);
 }

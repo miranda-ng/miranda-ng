@@ -1017,7 +1017,7 @@ void ChatRoom::OnParticipantChanged(const ParticipantRef &participant, int prop)
 
 void CSkypeProto::ChatValidateContact(HANDLE hItem, HWND hwndList, const StringList &contacts)
 {
-	if (this->IsProtoContact(hItem) && !this->IsChatRoom(hItem))
+	if (this->IsProtoContact(hItem) && !this->isChatRoom(hItem))
 	{
 		ptrW sid( ::db_get_wsa(hItem, this->m_szModuleName, SKYPE_SETTINGS_SID));
 		if (sid == NULL || contacts.contains(sid))
@@ -1222,11 +1222,6 @@ INT_PTR CALLBACK CSkypeProto::ChatRoomProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		break;
 	}
 	return FALSE;
-}
-
-bool CSkypeProto::IsChatRoom(HANDLE hContact)
-{
-	return this->getByte(hContact, "ChatRoom", 0) == 1;
 }
 
 INT_PTR CSkypeProto::CreateChatRoomCommand(WPARAM, LPARAM)

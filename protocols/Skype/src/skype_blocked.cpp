@@ -256,7 +256,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeBlockedOptionsProc(HWND hwndDlg, UINT msg, WP
 
 				::EnterCriticalSection(&ppro->contact_search_lock);
 
-				for (hContact = ::db_find_first(ppro->m_szModuleName); hContact && !ppro->IsChatRoom(hContact); hContact = ::db_find_next(hContact, ppro->m_szModuleName))
+				for (hContact = ::db_find_first(ppro->m_szModuleName); hContact && !ppro->isChatRoom(hContact); hContact = ::db_find_next(hContact, ppro->m_szModuleName))
 				{
 					ptrW sid(::db_get_wsa(hContact, ppro->m_szModuleName, SKYPE_SETTINGS_SID));
 
