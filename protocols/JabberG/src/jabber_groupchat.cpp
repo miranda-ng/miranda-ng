@@ -202,19 +202,13 @@ private:
 
 JABBER_RESOURCE_STATUS* CJabberProto::GcFindResource(JABBER_LIST_ITEM *item, const TCHAR *resource)
 {
-	JABBER_RESOURCE_STATUS *res = NULL;
-
-	EnterCriticalSection(&m_csLists);
+	mir_cslock lck(m_csLists);
 	JABBER_RESOURCE_STATUS *r = item->pResources;
-	for (int i=0; i<item->resourceCount; i++) {
-		if ( !_tcscmp(r[i].resourceName, resource)) {
-			res = &r[i];
-			break;
-		}
-	}
-	LeaveCriticalSection(&m_csLists);
+	for (int i=0; i < item->resourceCount; i++)
+		if ( !_tcscmp(r[i].resourceName, resource))
+			return &r[i];
 
-	return res;
+	return NULL;
 }
 
 INT_PTR __cdecl CJabberProto::OnMenuHandleJoinGroupchat(WPARAM, LPARAM)

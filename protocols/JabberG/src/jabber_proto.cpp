@@ -1169,7 +1169,7 @@ int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc
 		return 0;
 
 	TCHAR *msgType;
-	if (ListExist(LIST_CHATROOM, ptszJid) && _tcschr(ptszJid, '/') == NULL)
+	if (ListGetItemPtr(LIST_CHATROOM, ptszJid) && _tcschr(ptszJid, '/') == NULL)
 		msgType = _T("groupchat");
 	else
 		msgType = _T("chat");

@@ -45,7 +45,7 @@ int CJabberProto::OnContactDeleted(WPARAM wParam, LPARAM)
 
 	DBVARIANT dbv;
 	if ( !getTString((HANDLE)wParam, getByte((HANDLE) wParam, "ChatRoom", 0)?(char*)"ChatRoomID":(char*)"jid", &dbv)) {
-		if (ListExist(LIST_ROSTER, dbv.ptszVal)) {
+		if (ListGetItemPtr(LIST_ROSTER, dbv.ptszVal)) {
 			if ( !_tcschr(dbv.ptszVal, _T('@'))) {
 				TCHAR szStrippedJid[JABBER_MAX_JID_LEN];
 				JabberStripJid(m_ThreadInfo->fullJID, szStrippedJid, SIZEOF(szStrippedJid));

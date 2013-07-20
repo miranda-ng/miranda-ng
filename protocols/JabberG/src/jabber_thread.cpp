@@ -1609,7 +1609,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 	if (m_presenceManager.HandlePresencePermanent(node, info))
 		return;
 
-	if (ListExist(LIST_CHATROOM, from)) {
+	if (ListGetItemPtr(LIST_CHATROOM, from)) {
 		GroupchatProcessPresence(node);
 		return;
 	}
@@ -1629,14 +1629,14 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 			return;
 
 		if ((hContact = HContactFromJID(from)) == NULL) {
-			if ( !_tcsicmp(info->fullJID, from) || (!bSelfPresence && !ListExist(LIST_ROSTER, from))) {
+			if ( !_tcsicmp(info->fullJID, from) || (!bSelfPresence && !ListGetItemPtr(LIST_ROSTER, from))) {
 				Log("SKIP Receive presence online from %S (who is not in my roster and not in list - skiping)", from);
 				mir_free(nick);
 				return;
 			}
 			hContact = DBCreateContact(from, nick, TRUE, TRUE);
 		}
-		if ( !ListExist(LIST_ROSTER, from)) {
+		if ( !ListGetItemPtr(LIST_ROSTER, from)) {
 			Log("Receive presence online from %S (who is not in my roster)", from);
 			ListAdd(LIST_ROSTER, from);
 		}

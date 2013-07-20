@@ -646,10 +646,6 @@ struct CJabberProto : public PROTO<CJabberProto>
 	JABBER_LIST_ITEM *ListGetItemPtrFromIndex(int index);
 
 	void   ListWipe(void);
-	int    ListExist(JABBER_LIST list, const TCHAR *jid);
-
-	BOOL   ListLock();
-	BOOL   ListUnlock();
 
 	void   ListRemove(JABBER_LIST list, const TCHAR *jid);
 	void   ListRemoveList(JABBER_LIST list);

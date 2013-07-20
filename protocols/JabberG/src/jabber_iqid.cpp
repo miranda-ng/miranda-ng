@@ -524,7 +524,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; ) {
 			HANDLE hNext = db_find_next(hContact, m_szModuleName);
 			ptrT jid( db_get_tsa(hContact, m_szModuleName, "jid"));
-			if (jid != NULL && !ListExist(LIST_ROSTER, jid)) {
+			if (jid != NULL && !ListGetItemPtr(LIST_ROSTER, jid)) {
 				Log("Syncing roster: preparing to delete %S (hContact=0x%x)", jid, hContact);
 				CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 			}

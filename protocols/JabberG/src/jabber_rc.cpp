@@ -723,19 +723,19 @@ int CJabberProto::AdhocLeaveGroupchatsHandler(HXML, CJabberIqInfo* pInfo, CJabbe
 	int i = 0;
 	if (pSession->GetStage() == 0) {
 		// first form
-		TCHAR szMsg[ 1024 ];
-
-		ListLock();
 		int nChatsCount = 0;
-		LISTFOREACH_NODEF(i, this, LIST_CHATROOM)
 		{
-			JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
-			if (item != NULL)
-				nChatsCount++;
+			mir_cslock lck(m_csLists);
+			LISTFOREACH_NODEF(i, this, LIST_CHATROOM)
+			{
+				JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
+				if (item != NULL)
+					nChatsCount++;
+			}
 		}
-		ListUnlock();
 
 		if ( !nChatsCount) {
+			TCHAR szMsg[ 1024 ];
 			mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("There is no groupchats to leave"));
 
 			m_ThreadInfo->send(
@@ -764,15 +764,15 @@ int CJabberProto::AdhocLeaveGroupchatsHandler(HXML, CJabberIqInfo* pInfo, CJabbe
 		// Groupchats
 		HXML fieldNode = xNode << XCHILD(_T("field")) << XATTR(_T("label"), NULL) << XATTR(_T("type"), _T("list-multi")) << XATTR(_T("var"), _T("groupchats"));
 		fieldNode << XCHILD(_T("required"));
-
-		ListLock();
-		LISTFOREACH_NODEF(i, this, LIST_CHATROOM)
 		{
-			JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
-			if (item != NULL)
-				fieldNode << XCHILD(_T("option")) << XATTR(_T("label"), item->jid) << XCHILD(_T("value"), item->jid);
+			mir_cslock lck(m_csLists);
+			LISTFOREACH_NODEF(i, this, LIST_CHATROOM)
+			{
+				JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
+				if (item != NULL)
+					fieldNode << XCHILD(_T("option")) << XATTR(_T("label"), item->jid) << XCHILD(_T("value"), item->jid);
+			}
 		}
-		ListUnlock();
 
 		m_ThreadInfo->send(iq);
 		return JABBER_ADHOC_HANDLER_STATUS_EXECUTING;
