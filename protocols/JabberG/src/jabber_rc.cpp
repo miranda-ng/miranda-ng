@@ -27,7 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber.h"
 #include "jabber_iq.h"
 #include "jabber_rc.h"
-#include "m_awaymsg.h"
 
 CJabberAdhocSession::CJabberAdhocSession(CJabberProto* global)
 {

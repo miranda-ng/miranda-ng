@@ -45,48 +45,64 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <windows.h>
 #include <commctrl.h>
 #include <uxtheme.h>
+#include <richedit.h>
 
+#include <ctype.h>
+#include <fcntl.h>
+#include <io.h>
+#include <limits.h>
+#include <locale.h>
 #include <malloc.h>
 #include <process.h>
+#include <stdarg.h>
 #include <stdio.h>
-#include <stdarg.h>
 #include <time.h>
-#include <limits.h>
-#include <ctype.h>
-#include <stdarg.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_system_cpp.h>
+
+#include <m_avatars.h>
+#include <m_awaymsg.h>
+#include <m_button.h>
+#include <m_chat.h>
+#include <m_clist.h>
+#include <m_clistint.h>
+#include <m_cluiframes.h>
+#include <m_contacts.h>
+#include <m_database.h>
+#include <m_extraicons.h>
+#include <m_file.h>
+#include <m_fontservice.h>
+#include <m_genmenu.h>
+#include <m_hotkeys.h>
+#include <m_icolib.h>
+#include <m_idle.h>
+#include <m_langpack.h>
+#include <m_message.h>
 #include <m_netlib.h>
+#include <m_options.h>
 #include <m_protomod.h>
 #include <m_protosvc.h>
 #include <m_protoint.h>
-#include <m_clist.h>
-#include <m_clui.h>
-#include <m_options.h>
-#include <m_userinfo.h>
-#include <m_database.h>
-#include <m_langpack.h>
-#include <m_utils.h>
-#include <m_message.h>
 #include <m_skin.h>
-#include <m_chat.h>
-#include <m_icolib.h>
-#include <m_cluiframes.h>
-#include <m_clistint.h>
-#include <m_button.h>
-#include <m_avatars.h>
-#include <m_idle.h>
-#include <m_file.h>
 #include <m_timezones.h>
-#include <m_jabber.h>
-#include <m_fingerprint.h>
-#include <m_popup.h>
-#include <m_folders.h>
+#include <m_toptoolbar.h>
+#include <m_userinfo.h>
+#include <m_utils.h>
 #include <m_xstatus.h>
-#include <m_extraicons.h>
 #include <win2k.h>
+
+#include <m_addcontact.h>
+#include <m_folders.h>
+#include <m_fingerprint.h>
+#include <m_jabber.h>
+#include <m_modernopt.h>
+#include <m_popup.h>
+#include <m_proto_listeningto.h>
+#include <m_skin_eng.h>
 
 #include "../../plugins/zlib/src/zlib.h"
 
@@ -400,10 +416,10 @@ struct JABBER_REG_ACCOUNT
 {
 	TCHAR username[512];
 	TCHAR password[512];
-	char server[128];
-	char manualHost[128];
-	WORD port;
-	BOOL useSSL;
+	char  server[128];
+	char  manualHost[128];
+	WORD  port;
+	BOOL  useSSL;
 };
 
 typedef enum { FT_SI, FT_OOB, FT_BYTESTREAM, FT_IBB } JABBER_FT_TYPE;
@@ -420,7 +436,6 @@ struct filetransfer
 
 	PROTOFILETRANSFERSTATUS std;
 
-//	HANDLE hContact;
 	JABBER_FT_TYPE type;
 	JABBER_SOCKET s;
 	JABBER_FILE_STATE state;
@@ -646,9 +661,9 @@ HANDLE g_GetIconHandle(int iconId);
 HICON  g_LoadIconEx(const char* name, bool big = false);
 void   g_ReleaseIcon(HICON hIcon);
 
-void ImageList_AddIcon_Icolib(HIMAGELIST hIml, HICON hIcon);
-void WindowSetIcon(HWND hWnd, CJabberProto *proto, const char* name);
-void WindowFreeIcon(HWND hWnd);
+void   ImageList_AddIcon_Icolib(HIMAGELIST hIml, HICON hIcon);
+void   WindowSetIcon(HWND hWnd, CJabberProto *proto, const char* name);
+void   WindowFreeIcon(HWND hWnd);
 
 int    ReloadIconsEventHook(WPARAM wParam, LPARAM lParam);
 
@@ -676,7 +691,7 @@ struct CJabberAdhocStartupParams
 {
 	TCHAR *m_szJid;
 	TCHAR *m_szNode;
-	CJabberProto* m_pProto;
+	CJabberProto *m_pProto;
 
 	CJabberAdhocStartupParams(CJabberProto* proto, TCHAR* szJid, TCHAR* szNode = NULL)
 	{

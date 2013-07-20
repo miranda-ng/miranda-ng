@@ -27,10 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_iq.h"
 #include "jabber_privacy.h"
 
-#include <m_icolib.h>
-#include <m_genmenu.h>
-#include <m_clistint.h>
-
 #define JABBER_PL_BUSY_MSG	 LPGEN("Sending request, please wait...")
 
 BOOL CJabberProto::OnIqRequestPrivacyLists(HXML, CJabberIqInfo* pInfo)

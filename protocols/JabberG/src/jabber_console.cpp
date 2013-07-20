@@ -24,7 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "jabber.h"
-#include <richedit.h>
 
 #define JCPF_IN    0x01UL
 #define JCPF_OUT   0x02UL

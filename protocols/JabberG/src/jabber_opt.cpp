@@ -24,10 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "jabber.h"
 #include "jabber_list.h"
-
 #include "jabber_caps.h"
 #include "jabber_opttree.h"
-#include "m_modernopt.h"
 
 static BOOL (WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD) = 0;
 

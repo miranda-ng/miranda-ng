@@ -28,9 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_caps.h"
 #include "jabber_privacy.h"
 
-#include "m_genmenu.h"
-#include "m_clistint.h"
-
 void CJabberProto::OnIqResultServerDiscoInfo(HXML iqNode)
 {
 	if ( !iqNode)

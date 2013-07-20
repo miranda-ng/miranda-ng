@@ -106,7 +106,7 @@ protected:
 	TCHAR *m_szName;
 	CJabberAdhocNode* m_pNext;
 	JABBER_ADHOC_HANDLER m_pHandler;
-	CJabberProto* m_pProto;
+	CJabberProto *m_pProto;
 public:
 	CJabberAdhocNode(CJabberProto* pProto, TCHAR* szJid, TCHAR* szNode, TCHAR* szName, JABBER_ADHOC_HANDLER pHandler)
 	{
@@ -161,7 +161,7 @@ public:
 class CJabberAdhocManager
 {
 protected:
-	CJabberProto* m_pProto;
+	CJabberProto *m_pProto;
 	CJabberAdhocNode* m_pNodes;
 	CJabberAdhocSession* m_pSessions;
 	CRITICAL_SECTION m_cs;

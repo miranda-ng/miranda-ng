@@ -27,11 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "jabber.h"
-#include <CommCtrl.h>
 #include "jabber_iq.h"
-#include "m_clui.h"
 #include "jabber_caps.h"
-
 
 #define ShowDlgItem(a, b, c)	 ShowWindow(GetDlgItem(a, b), c)
 #define EnableDlgItem(a, b, c) EnableWindow(GetDlgItem(a, b), c)

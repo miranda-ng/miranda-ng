@@ -28,13 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_privacy.h"
 #include "jabber_disco.h"
 
-#include <m_genmenu.h>
-#include <m_contacts.h>
-#include <m_hotkeys.h>
-#include <m_icolib.h>
-
-#include "m_toptoolbar.h"
-
 #define MENUITEM_LASTSEEN	1
 #define MENUITEM_SERVER		2
 #define MENUITEM_RESOURCES	10

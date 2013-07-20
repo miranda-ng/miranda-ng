@@ -27,15 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_caps.h"
 #include "jabber_rc.h"
 
-#include <locale.h>
-
-#include <m_fontservice.h>
-#include <m_icolib.h>
-
 #include "m_assocmgr.h"
 #include "m_folders.h"
 #include "m_toptoolbar.h"
-#include "m_extraicons.h"
 
 HINSTANCE hInst;
 
