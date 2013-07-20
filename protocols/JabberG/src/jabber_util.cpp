@@ -153,25 +153,17 @@ JABBER_RESOURCE_STATUS* CJabberProto::ResourceInfoFromJID(const TCHAR *jid)
 	if ( !jid)
 		return NULL;
 
-	JABBER_LIST_ITEM *item = NULL;
-	if ((item = ListGetItemPtr(LIST_VCARD_TEMP, jid)) == NULL)
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_VCARD_TEMP, jid);
+	if (item == NULL)
 		item = ListGetItemPtr(LIST_ROSTER, jid);
-	if (item == NULL) return NULL;
+	if (item == NULL)
+		return NULL;
 
 	const TCHAR *p = _tcschr(jid, '/');
 	if (p == NULL)
 		return &item->itemResource;
-	if (*++p == '\0') return NULL;
 
-	JABBER_RESOURCE_STATUS *r = item->pResources;
-	if (r == NULL) return NULL;
-
-	int i;
-	for (i=0; i<item->resourceCount && _tcscmp(r->resourceName, p); i++, r++);
-	if (i >= item->resourceCount)
-		return NULL;
-
-	return r;
+	return item->findResource(p+1);
 }
 
 JABBER_LIST_ITEM* CJabberProto::GetItemFromContact(HANDLE hContact)

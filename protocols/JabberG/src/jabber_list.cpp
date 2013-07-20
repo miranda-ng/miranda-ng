@@ -195,7 +195,7 @@ int CJabberProto::ListFindNext(JABBER_LIST list, int fromOffset)
 {
 	mir_cslock lck(m_csLists);
 	int i = (fromOffset >= 0) ? fromOffset : 0;
-	for (; i<m_lstRoster.getCount(); i++)
+	for (; i < m_lstRoster.getCount(); i++)
 		if (m_lstRoster[i]->list == list)
 			return i;
 
@@ -204,6 +204,18 @@ int CJabberProto::ListFindNext(JABBER_LIST list, int fromOffset)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Resource related code
+
+JABBER_RESOURCE_STATUS* JABBER_LIST_ITEM::findResource(const TCHAR *resourceName) const
+{
+	if (pResources == NULL || resourceName == NULL || *resourceName == 0)
+		return NULL;
+
+	for (int i=0; i < resourceCount; i++)
+		if ( !_tcscmp(pResources[i].resourceName, resourceName))
+			return pResources + i;
+
+	return NULL;
+}
 
 JABBER_RESOURCE_STATUS* CJabberProto::ListFindResource(JABBER_LIST list, const TCHAR *jid)
 {
@@ -214,16 +226,7 @@ JABBER_RESOURCE_STATUS* CJabberProto::ListFindResource(JABBER_LIST list, const T
 
 	const TCHAR *p = _tcschr(jid, '@');
 	const TCHAR *q = _tcschr((p == NULL) ? jid : p, '/');
-	if (q == NULL)
-		return NULL;
-	
-	const TCHAR *resource = q+1;
-	if (*resource)
-		for (int j=0; j < LI->resourceCount; j++)
-			if ( !_tcscmp(LI->pResources[j].resourceName, resource))
-				return LI->pResources + j;
-
-	return NULL;
+	return (q == NULL) ? NULL : LI->findResource(q+1);
 }
 
 int CJabberProto::ListAddResource(JABBER_LIST list, const TCHAR *jid, int status, const TCHAR *statusMessage, char priority, const TCHAR *nick)
@@ -233,26 +236,21 @@ int CJabberProto::ListAddResource(JABBER_LIST list, const TCHAR *jid, int status
 	if (LI == NULL)
 		return NULL;
 
-	int bIsNewResource = false, j;
+	bool bIsNewResource = false;
 
 	const TCHAR *p = _tcschr(jid, '@');
 	const TCHAR *q = _tcschr((p == NULL) ? jid : p, '/');
 	if (q) {
 		const TCHAR *resource = q+1;
 		if (resource[0]) {
-			JABBER_RESOURCE_STATUS *r = LI->pResources;
-			for (j=0; j < LI->resourceCount; j++, r++) {
-				if ( !_tcscmp(r->resourceName, resource)) {
-					// Already exist, update status and statusMessage
-					r->status = status;
-					replaceStrT(r->statusMessage, statusMessage);
-					r->priority = priority;
-					break;
-			}	}
-
-			if (j >= LI->resourceCount) {
-				// Not already exist, add new resource
-				LI->pResources = (JABBER_RESOURCE_STATUS *) mir_realloc(LI->pResources, (LI->resourceCount+1)*sizeof(JABBER_RESOURCE_STATUS));
+			JABBER_RESOURCE_STATUS *r = LI->findResource(resource);
+			if (r != NULL) { // Already exists, update status and statusMessage
+				r->status = status;
+				replaceStrT(r->statusMessage, statusMessage);
+				r->priority = priority;
+			}
+			else { // Does not exist, add new resource
+				LI->pResources = (JABBER_RESOURCE_STATUS *)mir_realloc(LI->pResources, (LI->resourceCount+1)*sizeof(JABBER_RESOURCE_STATUS));
 				bIsNewResource = true;
 				r = LI->pResources + LI->resourceCount++;
 				memset(r, 0, sizeof(JABBER_RESOURCE_STATUS));
@@ -290,16 +288,8 @@ void CJabberProto::ListRemoveResource(JABBER_LIST list, const TCHAR *jid)
 	if (q == NULL)
 		return;
 
-	const TCHAR *resource = q+1;
-	if (resource[0] == 0)
-		return;
-		
-	JABBER_RESOURCE_STATUS *r = LI->pResources;
-	for (int j=0; j < LI->resourceCount; j++, r++)
-		if ( !_tcsicmp(r->resourceName, resource))
-			break;
-
-	if (r >= LI->pResources + LI->resourceCount)
+	JABBER_RESOURCE_STATUS *r = LI->findResource(q+1);
+	if (r == NULL)
 		return;
 
 	// Found last seen resource ID to be removed

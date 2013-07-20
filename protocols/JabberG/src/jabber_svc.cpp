@@ -397,14 +397,7 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 	if (item == NULL)
 		return 0;  //no room found
 
-	JABBER_RESOURCE_STATUS * info = NULL;
-	for (int i=0; i < item->resourceCount; i++) {
-		JABBER_RESOURCE_STATUS& p = item->pResources[i];
-		if ( !lstrcmp(p.resourceName, (TCHAR*)lParam)) {
-			info = &p;
-			break;
-	}	}
-
+	JABBER_RESOURCE_STATUS *info = item->findResource((TCHAR*)lParam);
 	if (info == NULL)
 		return 0; //no info found
 
@@ -423,9 +416,8 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 	//JID:
 	if (_tcschr(info->resourceName, _T('@')) != NULL)
 		appendString(bIsTipper, _T("JID:"), info->resourceName, outBuf, SIZEOF(outBuf));
-	else if (lParam) { //or simple nick
+	else if (lParam) //or simple nick
 		appendString(bIsTipper, _T("Nick:"), (TCHAR*) lParam, outBuf, SIZEOF(outBuf));
-	}
 
 	// status
 	if (info->status >= ID_STATUS_OFFLINE && info->status <= ID_STATUS_IDLE )

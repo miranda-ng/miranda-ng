@@ -200,17 +200,6 @@ private:
 	}
 };
 
-JABBER_RESOURCE_STATUS* CJabberProto::GcFindResource(JABBER_LIST_ITEM *item, const TCHAR *resource)
-{
-	mir_cslock lck(m_csLists);
-	JABBER_RESOURCE_STATUS *r = item->pResources;
-	for (int i=0; i < item->resourceCount; i++)
-		if ( !_tcscmp(r[i].resourceName, resource))
-			return &r[i];
-
-	return NULL;
-}
-
 INT_PTR __cdecl CJabberProto::OnMenuHandleJoinGroupchat(WPARAM, LPARAM)
 {
 	if (jabberChatDllPresent)
@@ -870,45 +859,45 @@ static int sttGetStatusCode(HXML node)
 
 void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const TCHAR *oldNick, HXML itemNode)
 {
-	const TCHAR *newNick = xmlGetAttrValue(itemNode, _T("nick"));
 	const TCHAR *jid = xmlGetAttrValue(itemNode, _T("jid"));
+	const TCHAR *newNick = xmlGetAttrValue(itemNode, _T("nick"));
 	if (newNick == NULL)
 		return;
 
-	for (int i=0; i < item->resourceCount; i++) {
-		JABBER_RESOURCE_STATUS& RS = item->pResources[i];
-		if ( !lstrcmp(RS.resourceName, oldNick)) {
-			replaceStrT(RS.resourceName, newNick);
+	JABBER_RESOURCE_STATUS *r = item->findResource(oldNick);
+	if (r == NULL)
+		return;
+	
+	replaceStrT(r->resourceName, newNick);
 
-			if ( !lstrcmp(item->nick, oldNick)) {
-				replaceStrT(item->nick, newNick);
+	if ( !lstrcmp(item->nick, oldNick)) {
+		replaceStrT(item->nick, newNick);
 
-				HANDLE hContact = HContactFromJID(item->jid);
-				if (hContact != NULL)
-					setTString(hContact, "MyNick", newNick);
-			}
+		HANDLE hContact = HContactFromJID(item->jid);
+		if (hContact != NULL)
+			setTString(hContact, "MyNick", newNick);
+	}
 
-			GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CHUID };
-			gcd.ptszID = item->jid;
+	GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CHUID };
+	gcd.ptszID = item->jid;
 
-			GCEVENT gce = {0};
-			gce.cbSize = sizeof(GCEVENT);
-			gce.pDest = &gcd;
-			gce.ptszNick = oldNick;
-			gce.ptszText = newNick;
-			if (jid != NULL)
-				gce.ptszUserInfo = jid;
-			gce.time = time(0);
-			gce.dwFlags = GC_TCHAR;
-			CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+	GCEVENT gce = {0};
+	gce.cbSize = sizeof(GCEVENT);
+	gce.pDest = &gcd;
+	gce.ptszNick = oldNick;
+	gce.ptszText = newNick;
+	if (jid != NULL)
+		gce.ptszUserInfo = jid;
+	gce.time = time(0);
+	gce.dwFlags = GC_TCHAR;
+	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 
-			gcd.iType = GC_EVENT_NICK;
-			gce.ptszNick = oldNick;
-			gce.ptszUID = newNick;
-			gce.ptszText = newNick;
-			CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
-			break;
-}	}	}
+	gcd.iType = GC_EVENT_NICK;
+	gce.ptszNick = oldNick;
+	gce.ptszUID = newNick;
+	gce.ptszText = newNick;
+	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+}
 
 void CJabberProto::GroupchatProcessPresence(HXML node)
 {
@@ -925,7 +914,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 	if (item == NULL)
 		return;
 
-	JABBER_RESOURCE_STATUS *r = GcFindResource(item, resource);
+	JABBER_RESOURCE_STATUS *r = item->findResource(resource);
 
 	HXML nNode = xmlGetChildByTag(node, "nick", "xmlns", JABBER_FEAT_NICK);
 	if (nNode == NULL)
@@ -940,7 +929,6 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 
 	HXML xNode = xmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_MUC_USER);
 	HXML xUserNode = xmlGetChildByTag(node, "user:x", "xmlns:user", JABBER_FEAT_MUC_USER);
-
 	HXML itemNode = xmlGetChild(xNode , "item");
 
 	const TCHAR *type = xmlGetAttrValue(node, _T("type"));
@@ -980,7 +968,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 		// Check additional MUC info for this user
 		if (itemNode != NULL) {
 			if (r == NULL)
-				r = GcFindResource(item, resource);
+				r = item->findResource(resource);
 			if (r != NULL) {
 				JABBER_GC_AFFILIATION affiliation = r->affiliation;
 				JABBER_GC_ROLE role = r->role;
@@ -1210,7 +1198,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 		msgTime = now;
 
 	if (resource != NULL) {
-		JABBER_RESOURCE_STATUS *r = GcFindResource(item, resource);
+		JABBER_RESOURCE_STATUS *r = item->findResource(resource);
 		nick = r && r->nick ? r->nick : resource;
 	}
 	else nick = NULL;

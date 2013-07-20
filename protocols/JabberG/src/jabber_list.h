@@ -115,6 +115,7 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 	// jid = jid of the contact
 	TCHAR* nick;
 
+	JABBER_RESOURCE_STATUS* findResource(const TCHAR *resourceName) const;
 	JABBER_RESOURCE_STATUS* getBestResource() const;
 	JABBER_RESOURCE_MODE resourceMode;
 	int resourceCount;

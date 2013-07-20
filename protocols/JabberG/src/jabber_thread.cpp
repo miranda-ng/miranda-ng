@@ -1098,12 +1098,9 @@ HANDLE CJabberProto::CreateTemporaryContact(const TCHAR *szJid, JABBER_LIST_ITEM
 			p = szJid;
 		hContact = DBCreateContact(szJid, p, TRUE, FALSE);
 
-		for (int i=0; i < chatItem->resourceCount; i++) {
-			if ( !lstrcmp(chatItem->pResources[i].resourceName, p)) {
-				setWord(hContact, "Status", chatItem->pResources[i].status);
-				break;
-			}
-		}
+		JABBER_RESOURCE_STATUS *r = chatItem->findResource(p);
+		if (r)
+			setWord(hContact, "Status", r->status);
 	}
 	else {
 		TCHAR *nick = JabberNickFromJID(szJid);
@@ -1544,8 +1541,7 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 	// Determine status to show for the contact based on the remaining resources
 	int nSelectedResource = -1, i = 0;
 	int nMaxPriority = -999; // -128...+127 valid range
-	for (i = 0; i < item->resourceCount; i++)
-	{
+	for (i = 0; i < item->resourceCount; i++) {
 		if (item->pResources[i].priority > nMaxPriority) {
 			nMaxPriority = item->pResources[i].priority;
 			status = item->pResources[i].status;

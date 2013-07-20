@@ -1453,11 +1453,9 @@ static void sttSendPrivateMessage(CJabberProto *ppro, JABBER_LIST_ITEM *item, co
 	mir_sntprintf(szFullJid, SIZEOF(szFullJid), _T("%s/%s"), item->jid, nick);
 	HANDLE hContact = ppro->DBCreateContact(szFullJid, NULL, TRUE, FALSE);
 	if (hContact != NULL) {
-		for (int i=0; i < item->resourceCount; i++) {
-			if (_tcsicmp(item->pResources[i].resourceName, nick) == 0) {
-				ppro->setWord(hContact, "Status", item->pResources[i].status);
-				break;
-		}	}
+		JABBER_RESOURCE_STATUS *r = item->findResource(nick);
+		if (r)
+			ppro->setWord(hContact, "Status", r->status);
 
 		db_set_b(hContact, "CList", "Hidden", 1);
 		ppro->setTString(hContact, "Nick", nick);

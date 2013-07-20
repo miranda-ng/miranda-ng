@@ -728,19 +728,13 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 			}
 			JABBER_LIST_ITEM *tmpItem = NULL;
 			if (pDelimiter && (tmpItem  = ListGetItemPtr(LIST_CHATROOM, szBareJid))) {
-				JABBER_RESOURCE_STATUS *him = NULL;
-				for (int i=0; i < tmpItem->resourceCount; i++) {
-					JABBER_RESOURCE_STATUS &p = tmpItem->pResources[i];
-					if ( !lstrcmp(p.resourceName, pDelimiter))
-						him = &p;
-				}
+				JABBER_RESOURCE_STATUS *him = tmpItem->findResource(pDelimiter);
 				if (him) {
 					item = ListAdd(LIST_VCARD_TEMP, jid);
 					ListAddResource(LIST_VCARD_TEMP, jid, him->status, him->statusMessage, him->priority);
 				}
 			}
-			else
-				item = ListAdd(LIST_VCARD_TEMP, jid);
+			else item = ListAdd(LIST_VCARD_TEMP, jid);
 		}
 
 		if (item && item->pResources) {
