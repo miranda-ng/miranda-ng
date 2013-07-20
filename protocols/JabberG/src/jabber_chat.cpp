@@ -124,15 +124,14 @@ int JabberGcGetStatus(JABBER_RESOURCE_STATUS *r)
 int CJabberProto::GcInit(JABBER_LIST_ITEM* item)
 {
 	int i;
-	GCSESSION gcw = {0};
-	GCEVENT gce = {0};
 
 	// translate string for menus (this can't be done in initializer)
 	for (i = 0; i < SIZEOF(sttAffiliationItems); i++) sttAffiliationItems[i].translate();
 	for (i = 0; i < SIZEOF(sttRoleItems); i++) sttRoleItems[i].translate();
 
 	TCHAR* szNick = JabberNickFromJID(item->jid);
-	gcw.cbSize = sizeof(GCSESSION);
+
+	GCSESSION gcw = { sizeof(GCSESSION) };
 	gcw.iType = GCW_CHATROOM;
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = szNick;
@@ -143,7 +142,7 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM* item)
 	HANDLE hContact = HContactFromJID(item->jid);
 	if (hContact != NULL) {
 		DBVARIANT dbv;
-		if (JABBER_LIST_ITEM* bookmark = ListGetItemPtr(LIST_BOOKMARK, item->jid))
+		if (JABBER_LIST_ITEM *bookmark = ListGetItemPtr(LIST_BOOKMARK, item->jid))
 			if (bookmark->name) {
 				if ( !db_get_ts(hContact, "CList", "MyHandle", &dbv))
 					db_free(&dbv);
@@ -175,7 +174,8 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM* item)
 
 	GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_ADDGROUP };
 	gcd.ptszID = item->jid;
-	gce.cbSize = sizeof(GCEVENT);
+
+	GCEVENT gce = { sizeof(GCEVENT) };
 	gce.pDest = &gcd;
 	gce.dwFlags = GC_TCHAR;
 	for (i = SIZEOF(sttStatuses)-1; i >= 0; i--) {

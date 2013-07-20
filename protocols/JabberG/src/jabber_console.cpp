@@ -304,7 +304,7 @@ DWORD CALLBACK sttStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, L
 	return 0;
 }
 
-static void sttJabberConsoleRebuildStrings(CJabberProto* ppro, HWND hwndCombo)
+static void sttJabberConsoleRebuildStrings(CJabberProto *ppro, HWND hwndCombo)
 {
 	int i;
 	JABBER_LIST_ITEM *item = NULL;

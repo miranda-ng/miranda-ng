@@ -863,7 +863,7 @@ public:
 		BOOL bChecked = m_proto->m_options.ShowTransport;
 		LISTFOREACH(index, m_proto, LIST_ROSTER)
 		{
-			JABBER_LIST_ITEM* item = m_proto->ListGetItemPtrFromIndex(index);
+			JABBER_LIST_ITEM *item = m_proto->ListGetItemPtrFromIndex(index);
 			if (item != NULL) {
 				if (_tcschr(item->jid, '@') == NULL) {
 					HANDLE hContact = m_proto->HContactFromJID(item->jid);
@@ -1466,7 +1466,7 @@ static int sttRosterEditorResizer(HWND /*hwndDlg*/, LPARAM, UTILRESIZECONTROL *u
 
 static INT_PTR CALLBACK JabberRosterOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CJabberProto* ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CJabberProto *ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case JM_STATUSCHANGED:

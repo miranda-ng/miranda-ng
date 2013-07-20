@@ -445,9 +445,9 @@ struct filetransfer
 	// Used by file sending only
 	HANDLE hFileEvent;
 	unsigned __int64 *fileSize;
-	TCHAR* szDescription;
+	TCHAR *szDescription;
 
-	CJabberProto* ppro;
+	CJabberProto *ppro;
 };
 
 struct JABBER_SEARCH_RESULT
@@ -488,7 +488,7 @@ struct JABBER_MUC_JIDLIST_INFO
 	JABBER_MUC_JIDLIST_TYPE type;
 	TCHAR* roomJid;	// filled-in by the WM_JABBER_REFRESH code
 	HXML   iqNode;
-	CJabberProto* ppro;
+	CJabberProto *ppro;
 
 	TCHAR* type2str(void) const;
 };

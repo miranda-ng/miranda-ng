@@ -183,7 +183,7 @@ static CJabberProto* jabberProtoInit(const char* pszProtoName, const TCHAR *tszU
 	return ppro;
 }
 
-static int jabberProtoUninit(CJabberProto* ppro)
+static int jabberProtoUninit(CJabberProto *ppro)
 {
 	g_Instances.remove(ppro);
 	delete ppro;

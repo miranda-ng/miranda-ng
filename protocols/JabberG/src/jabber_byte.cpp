@@ -81,7 +81,7 @@ void CJabberProto::IqResultProxyDiscovery(HXML iqNode, CJabberIqInfo* pInfo)
 
 void JabberByteSendConnection(HANDLE hConn, DWORD /*dwRemoteIP*/, void* extra)
 {
-	CJabberProto* ppro = (CJabberProto*)extra;
+	CJabberProto *ppro = (CJabberProto*)extra;
 	TCHAR szPort[8];
 	JABBER_BYTE_TRANSFER *jbt;
 	int recvResult, bytesParsed;

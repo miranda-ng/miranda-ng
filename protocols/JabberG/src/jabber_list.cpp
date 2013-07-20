@@ -137,7 +137,7 @@ JABBER_LIST_ITEM *CJabberProto::ListAdd(JABBER_LIST list, const TCHAR *jid)
 void CJabberProto::ListRemove(JABBER_LIST list, const TCHAR *jid)
 {
 	mir_cslock lck(m_csLists);
-	JABBER_LIST_ITEM* LI = ListGetItemPtr(list, jid);
+	JABBER_LIST_ITEM *LI = ListGetItemPtr(list, jid);
 	if (LI != NULL) {
 		JabberListFreeItemInternal(LI);
 		m_lstRoster.remove(LI);
@@ -208,7 +208,7 @@ int CJabberProto::ListFindNext(JABBER_LIST list, int fromOffset)
 JABBER_RESOURCE_STATUS* CJabberProto::ListFindResource(JABBER_LIST list, const TCHAR *jid)
 {
 	mir_cslock lck(m_csLists);
-	JABBER_LIST_ITEM* LI = ListGetItemPtr(list, jid);
+	JABBER_LIST_ITEM *LI = ListGetItemPtr(list, jid);
 	if (LI == NULL)
 		return NULL;
 
@@ -229,7 +229,7 @@ JABBER_RESOURCE_STATUS* CJabberProto::ListFindResource(JABBER_LIST list, const T
 int CJabberProto::ListAddResource(JABBER_LIST list, const TCHAR *jid, int status, const TCHAR *statusMessage, char priority, const TCHAR *nick)
 {
 	mir_cslockfull lck(m_csLists);
-	JABBER_LIST_ITEM* LI = ListGetItemPtr(list, jid);
+	JABBER_LIST_ITEM *LI = ListGetItemPtr(list, jid);
 	if (LI == NULL)
 		return NULL;
 
@@ -240,7 +240,7 @@ int CJabberProto::ListAddResource(JABBER_LIST list, const TCHAR *jid, int status
 	if (q) {
 		const TCHAR *resource = q+1;
 		if (resource[0]) {
-			JABBER_RESOURCE_STATUS* r = LI->pResources;
+			JABBER_RESOURCE_STATUS *r = LI->pResources;
 			for (j=0; j < LI->resourceCount; j++, r++) {
 				if ( !_tcscmp(r->resourceName, resource)) {
 					// Already exist, update status and statusMessage
@@ -281,7 +281,7 @@ int CJabberProto::ListAddResource(JABBER_LIST list, const TCHAR *jid, int status
 void CJabberProto::ListRemoveResource(JABBER_LIST list, const TCHAR *jid)
 {
 	mir_cslockfull lck(m_csLists);
-	JABBER_LIST_ITEM* LI = ListGetItemPtr(list, jid);
+	JABBER_LIST_ITEM *LI = ListGetItemPtr(list, jid);
 	if (LI == NULL)
 		return;
 
@@ -336,11 +336,11 @@ void CJabberProto::ListRemoveResource(JABBER_LIST list, const TCHAR *jid)
 TCHAR* CJabberProto::ListGetBestResourceNamePtr(const TCHAR *jid)
 {
 	mir_cslock lck(m_csLists);
-	JABBER_LIST_ITEM* LI = ListGetItemPtr(LIST_ROSTER, jid);
+	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, jid);
 	if (LI == NULL)
 		return NULL;
 
-	TCHAR* res = NULL;
+	TCHAR *res = NULL;
 
 	if (LI->resourceCount > 1) {
 		if (LI->resourceMode == RSMODE_LASTSEEN && LI->pLastSeenResource)
@@ -348,8 +348,8 @@ TCHAR* CJabberProto::ListGetBestResourceNamePtr(const TCHAR *jid)
 		else if (LI->resourceMode == RSMODE_MANUAL && LI->pManualResource)
 			res = LI->pManualResource->resourceName;
 		else {
-			int nBestPos = -1, nBestPri = -200, j;
-			for (j = 0; j < LI->resourceCount; j++) {
+			int nBestPos = -1, nBestPri = -200;
+			for (int j = 0; j < LI->resourceCount; j++) {
 				if (LI->pResources[ j ].priority > nBestPri) {
 					nBestPri = LI->pResources[ j ].priority;
 					nBestPos = j;
@@ -369,11 +369,11 @@ TCHAR* CJabberProto::ListGetBestResourceNamePtr(const TCHAR *jid)
 TCHAR* CJabberProto::ListGetBestClientResourceNamePtr(const TCHAR *jid)
 {
 	mir_cslock lck(m_csLists);
-	JABBER_LIST_ITEM* LI = ListGetItemPtr(LIST_ROSTER, jid);
+	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, jid);
 	if (LI == NULL)
 		return NULL;
 
-	TCHAR* res = ListGetBestResourceNamePtr(jid);
+	TCHAR *res = ListGetBestResourceNamePtr(jid);
 	if (res != NULL)
 		return res;
 

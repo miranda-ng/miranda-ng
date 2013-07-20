@@ -35,7 +35,7 @@ typedef struct _tagJabberSearchFieldsInfo
 
 typedef struct _tagJabberSearchData
 {
-	struct CJabberProto* ppro;
+	struct CJabberProto *ppro;
 	JabberSearchFieldsInfo *  pJSInf;
 	HXML xNode;
 	int nJSInfCount;

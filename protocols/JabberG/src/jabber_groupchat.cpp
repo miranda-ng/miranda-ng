@@ -33,7 +33,7 @@ int JabberGcGetStatus(JABBER_RESOURCE_STATUS *r);
 struct JabberGcRecentInfo
 {
 	TCHAR *room, *server, *nick, *password;
-	CJabberProto* ppro;
+	CJabberProto *ppro;
 
 	JabberGcRecentInfo(CJabberProto* proto)
 	{
@@ -259,7 +259,7 @@ INT_PTR __cdecl CJabberProto::OnLeaveChat(WPARAM wParam, LPARAM)
 		return 0;
 
 	if (getWord(hContact, "Status", 0) != ID_STATUS_OFFLINE) {
-		JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_CHATROOM, jid.ptszVal);
+		JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, jid.ptszVal);
 		if (item != NULL)
 			GcQuit(item, 0, NULL);
 	}
@@ -301,7 +301,7 @@ void CJabberProto::GroupchatJoinRoom(const TCHAR *server, const TCHAR *room, con
 	TCHAR text[JABBER_MAX_JID_LEN + 1];
 	mir_sntprintf(text, SIZEOF(text), _T("%s@%s/%s"), room, server, nick);
 
-	JABBER_LIST_ITEM* item = ListAdd(LIST_CHATROOM, text);
+	JABBER_LIST_ITEM *item = ListAdd(LIST_CHATROOM, text);
 	item->bAutoJoin = autojoin;
 	replaceStrT(item->nick, nick);
 	replaceStrT(item->password, info.password);
@@ -824,7 +824,7 @@ struct JabberGroupchatChangeNicknameParam
 	{	mir_free(jid);
 	}
 
-	CJabberProto* ppro;
+	CJabberProto *ppro;
 	TCHAR* jid;
 };
 
@@ -834,7 +834,7 @@ static VOID CALLBACK JabberGroupchatChangeNickname(void* arg)
 	if (param == NULL)
 		return;
 
-	JABBER_LIST_ITEM* item = param->ppro->ListGetItemPtr(LIST_CHATROOM, param->jid);
+	JABBER_LIST_ITEM *item = param->ppro->ListGetItemPtr(LIST_CHATROOM, param->jid);
 	if (item != NULL) {
 		TCHAR szBuffer[ 1024 ];
 		TCHAR szCaption[ 1024 ];
@@ -868,7 +868,7 @@ static int sttGetStatusCode(HXML node)
 	return _ttol(statusCode);
 }
 
-void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM* item, const TCHAR *oldNick, HXML itemNode)
+void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const TCHAR *oldNick, HXML itemNode)
 {
 	const TCHAR *newNick = xmlGetAttrValue(itemNode, _T("nick"));
 	const TCHAR *jid = xmlGetAttrValue(itemNode, _T("jid"));
@@ -925,11 +925,11 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 	if (resource == NULL || *++resource == '\0')
 		return;
 
-	JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_CHATROOM, from);
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, from);
 	if (item == NULL)
 		return;
 
-	JABBER_RESOURCE_STATUS* r = GcFindResource(item, resource);
+	JABBER_RESOURCE_STATUS *r = GcFindResource(item, resource);
 
 	HXML nNode = xmlGetChildByTag(node, "nick", "xmlns", _T(JABBER_FEAT_NICK));
 	if (nNode == NULL)
@@ -1226,7 +1226,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 		msgTime = now;
 
 	if (resource != NULL) {
-		JABBER_RESOURCE_STATUS* r = GcFindResource(item, resource);
+		JABBER_RESOURCE_STATUS *r = GcFindResource(item, resource);
 		nick = r && r->nick ? r->nick : resource;
 	}
 	else
@@ -1271,7 +1271,7 @@ class CGroupchatInviteAcceptDlg : public CJabberDlgBase
 	JABBER_GROUPCHAT_INVITE_INFO* m_info;
 
 public:
-	CGroupchatInviteAcceptDlg(CJabberProto* ppro, JABBER_GROUPCHAT_INVITE_INFO* pInfo) :
+	CGroupchatInviteAcceptDlg(CJabberProto *ppro, JABBER_GROUPCHAT_INVITE_INFO* pInfo) :
 		CSuper(ppro, IDD_GROUPCHAT_INVITE_ACCEPT, NULL),
 		m_info(pInfo),
 		m_accept(this, IDC_ACCEPT)

@@ -88,7 +88,7 @@ void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING* cws, HANDLE hCon
 	if (getTString(hContact, "jid", &jid))
 		return;
 
-	JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_ROSTER, jid.ptszVal);
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid.ptszVal);
 	db_free(&jid);
 	if (item == NULL)
 		return;
@@ -130,7 +130,7 @@ void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING* cws, HANDLE hC
 	if (getTString(hContact, "jid", &jid))
 		return;
 
-	JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_ROSTER, jid.ptszVal);
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid.ptszVal);
 	db_free(&jid);
 	if (item == NULL)
 		return;
@@ -142,16 +142,14 @@ void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING* cws, HANDLE hC
 		return;
 	}
 
-	TCHAR* newNick = sttSettingToTchar(cws);
-	if (newNick) {
-		if (lstrcmp(item->nick, newNick)) {
-			Log("Renaming contact %S: %S -> %S", item->jid, item->nick, newNick);
-			AddContactToRoster(item->jid, newNick, item->group);
-		}
-		mir_free(newNick);
-}	}
+	ptrT newNick( sttSettingToTchar(cws));
+	if (newNick && lstrcmp(item->nick, newNick)) {
+		Log("Renaming contact %S: %S -> %S", item->jid, item->nick, newNick);
+		AddContactToRoster(item->jid, newNick, item->group);
+	}
+}
 
-void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING* cws, HANDLE hContact)
+void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 {
 	if (cws->value.type != DBVT_DELETED && !(cws->value.type==DBVT_BYTE && cws->value.bVal==0))
 		return;

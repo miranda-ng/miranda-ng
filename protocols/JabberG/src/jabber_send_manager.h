@@ -84,7 +84,7 @@ public:
 class CJabberSendManager
 {
 protected:
-	CJabberProto* ppro;
+	CJabberProto *ppro;
 	CRITICAL_SECTION m_cs;
 	CJabberSendPermanentInfo* m_pPermanentHandlers;
 

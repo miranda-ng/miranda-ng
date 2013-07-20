@@ -192,7 +192,7 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 
 void JabberFileServerConnection(JABBER_SOCKET hConnection, DWORD /*dwRemoteIP*/, void* extra)
 {
-	CJabberProto* ppro = (CJabberProto*)extra;
+	CJabberProto *ppro = (CJabberProto*)extra;
 
 	NETLIBCONNINFO connInfo = { sizeof(connInfo) };
 	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hConnection, (LPARAM)&connInfo);

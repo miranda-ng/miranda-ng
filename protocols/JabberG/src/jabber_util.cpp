@@ -99,7 +99,7 @@ HANDLE CJabberProto::HContactFromJID(const TCHAR *jid , BOOL bStripResource)
 	if (jid == NULL)
 		return (HANDLE)NULL;
 
-	JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_CHATROOM, jid);
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, jid);
 
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DBVARIANT dbv;
@@ -1064,7 +1064,7 @@ TCHAR* CJabberProto::GetClientJID(const TCHAR *jid, TCHAR* dest, size_t destLen)
 
 	TCHAR* p = _tcschr(dest, '/');
 
-	JABBER_LIST_ITEM* LI = ListGetItemPtr(LIST_ROSTER, jid);
+	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, jid);
 	if (LI && LI->resourceCount == 1 && LI->pResources[ 0 ].szCapsNode &&
 		_tcsicmp(LI->pResources[ 0 ].szCapsNode, _T("http://talk.google.com/xmpp/bot/caps")) == 0)
 	{
@@ -1330,7 +1330,7 @@ void JabberCopyText(HWND hwnd, TCHAR *text)
 
 struct JabberEnterStringParams
 {
-	CJabberProto* ppro;
+	CJabberProto *ppro;
 
 	int type;
 	TCHAR* caption;

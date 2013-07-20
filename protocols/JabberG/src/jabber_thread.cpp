@@ -122,7 +122,7 @@ static VOID CALLBACK JabberPasswordCreateDialogApcProc(void* param)
 
 static VOID CALLBACK JabberOfflineChatWindows(void* param)
 {
-	CJabberProto* ppro = (CJabberProto*)param;
+	CJabberProto *ppro = (CJabberProto*)param;
 	GCDEST gcd = { ppro->m_szModuleName, NULL, GC_EVENT_CONTROL };
 	GCEVENT gce = { 0 };
 	gce.cbSize = sizeof(GCEVENT);
@@ -1187,7 +1187,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 	}
 
 	// If message is from a stranger (not in roster), item is NULL
-	JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_ROSTER, from);
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, from);
 	if ( !item)
 		item = ListGetItemPtr(LIST_VCARD_TEMP, from);
 

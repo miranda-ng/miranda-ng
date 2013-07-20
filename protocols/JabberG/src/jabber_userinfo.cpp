@@ -76,7 +76,7 @@ struct JabberUserInfoDlgData
 {
 	CJabberProto*     ppro;
 	HANDLE            hContact;
-	JABBER_LIST_ITEM* item;
+	JABBER_LIST_ITEM *item;
 	int               resourceCount;
 };
 
@@ -209,7 +209,7 @@ static HTREEITEM sttFillInfoLine(HWND hwndTree, HTREEITEM htiRoot, HICON hIcon, 
 	return hti;
 }
 
-static void sttFillResourceInfo(CJabberProto* ppro, HWND hwndTree, HTREEITEM htiRoot, JABBER_LIST_ITEM *item, int resource)
+static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM htiRoot, JABBER_LIST_ITEM *item, int resource)
 {
 	TCHAR buf[256];
 	HTREEITEM htiResource = htiRoot;
@@ -317,7 +317,7 @@ static void sttFillResourceInfo(CJabberProto* ppro, HWND hwndTree, HTREEITEM hti
 	}
 }
 
-static void sttFillAdvStatusInfo(CJabberProto* ppro, HWND hwndTree, HTREEITEM htiRoot, DWORD dwInfoLine, HANDLE hContact, TCHAR *szTitle, char *pszSlot)
+static void sttFillAdvStatusInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM htiRoot, DWORD dwInfoLine, HANDLE hContact, TCHAR *szTitle, char *pszSlot)
 {
 	char *szAdvStatusIcon = ppro->ReadAdvStatusA(hContact, pszSlot, ADVSTATUS_VAL_ICON);
 	TCHAR *szAdvStatusTitle = ppro->ReadAdvStatusT(hContact, pszSlot, ADVSTATUS_VAL_TITLE);
@@ -337,7 +337,7 @@ static void sttFillAdvStatusInfo(CJabberProto* ppro, HWND hwndTree, HTREEITEM ht
 	mir_free(szAdvStatusText);
 }
 
-static void sttFillUserInfo(CJabberProto* ppro, HWND hwndTree, JABBER_LIST_ITEM *item)
+static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM *item)
 {
 	SendMessage(hwndTree, WM_SETREDRAW, FALSE, 0);
 
@@ -605,7 +605,7 @@ struct USER_PHOTO_INFO
 {
 	HANDLE        hContact;
 	HBITMAP       hBitmap;
-	CJabberProto* ppro;
+	CJabberProto *ppro;
 };
 
 static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)

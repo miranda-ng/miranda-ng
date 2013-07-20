@@ -84,7 +84,7 @@ public:
 class CJabberPresenceManager
 {
 protected:
-	CJabberProto* ppro;
+	CJabberProto *ppro;
 	CRITICAL_SECTION m_cs;
 	CJabberPresencePermanentInfo* m_pPermanentHandlers;
 

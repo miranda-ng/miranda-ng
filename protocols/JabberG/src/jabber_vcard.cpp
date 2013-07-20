@@ -47,7 +47,7 @@ int CJabberProto::SendGetVcard(const TCHAR *jid)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void SetDialogField(CJabberProto* ppro, HWND hwndDlg, int nDlgItem, char* key, bool bTranslate = false)
+static void SetDialogField(CJabberProto *ppro, HWND hwndDlg, int nDlgItem, char* key, bool bTranslate = false)
 {
 	DBVARIANT dbv;
 
@@ -61,7 +61,7 @@ static void SetDialogField(CJabberProto* ppro, HWND hwndDlg, int nDlgItem, char*
 static INT_PTR CALLBACK PersonalDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	const unsigned long iPageId = 0;
-	CJabberProto* ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CJabberProto *ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -122,7 +122,7 @@ static INT_PTR CALLBACK PersonalDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 static INT_PTR CALLBACK HomeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	const unsigned long iPageId = 1;
-	CJabberProto* ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CJabberProto *ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -185,7 +185,7 @@ static INT_PTR CALLBACK HomeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 static INT_PTR CALLBACK WorkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	const unsigned long iPageId = 2;
-	CJabberProto* ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CJabberProto *ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -252,7 +252,7 @@ static INT_PTR CALLBACK WorkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 struct PhotoDlgProcData
 {
-	CJabberProto* ppro;
+	CJabberProto *ppro;
 //	char szPhotoFileName[MAX_PATH];
 //	BOOL bPhotoChanged;
 	HBITMAP hBitmap;
@@ -495,7 +495,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 static INT_PTR CALLBACK NoteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	const unsigned long iPageId = 4;
-	CJabberProto* ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CJabberProto *ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -544,7 +544,7 @@ static INT_PTR CALLBACK NoteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 struct EditDlgParam
 {
 	int id;
-	CJabberProto* ppro;
+	CJabberProto *ppro;
 };
 
 static INT_PTR CALLBACK EditEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -700,7 +700,7 @@ static INT_PTR CALLBACK EditPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 {
 	const unsigned long iPageId = 5;
-	CJabberProto* ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CJabberProto *ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch(msg) {
 	case WM_INITDIALOG:

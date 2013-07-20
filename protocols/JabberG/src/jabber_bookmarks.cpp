@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // Bookmarks editor window
 
 struct JabberAddBookmarkDlgParam {
-	CJabberProto* ppro;
+	CJabberProto *ppro;
 	JABBER_LIST_ITEM* m_item;
 };
 
@@ -83,21 +83,21 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 
 	case WM_COMMAND:
 		switch (HIWORD(wParam)) {
-			case BN_CLICKED:
-				switch (LOWORD (wParam)) {
-					case IDC_ROOM_RADIO:
-						EnableWindow(GetDlgItem(hwndDlg, IDC_NICK), TRUE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_BM_AUTOJOIN), TRUE);
-						break;
-					case IDC_AGENT_RADIO:
-					case IDC_URL_RADIO:
-						EnableWindow(GetDlgItem(hwndDlg, IDC_NICK), FALSE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), FALSE);
-						SendDlgItemMessage(hwndDlg, IDC_CHECK_BM_AUTOJOIN, BM_SETCHECK, BST_UNCHECKED, 0);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_BM_AUTOJOIN), FALSE);
-						break;
-				}
+		case BN_CLICKED:
+			switch (LOWORD (wParam)) {
+			case IDC_ROOM_RADIO:
+				EnableWindow(GetDlgItem(hwndDlg, IDC_NICK), TRUE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_BM_AUTOJOIN), TRUE);
+				break;
+			case IDC_AGENT_RADIO:
+			case IDC_URL_RADIO:
+				EnableWindow(GetDlgItem(hwndDlg, IDC_NICK), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), FALSE);
+				SendDlgItemMessage(hwndDlg, IDC_CHECK_BM_AUTOJOIN, BM_SETCHECK, BST_UNCHECKED, 0);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_BM_AUTOJOIN), FALSE);
+				break;
+			}
 		}
 
 		switch (LOWORD(wParam)) {
@@ -457,7 +457,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleBookmarks(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Launches the Bookmark details window, lParam is JABBER_BOOKMARK_ITEM*
 
-int CJabberProto::AddEditBookmark(JABBER_LIST_ITEM* item)
+int CJabberProto::AddEditBookmark(JABBER_LIST_ITEM *item)
 {
 	if (m_bJabberOnline) {
 		JabberAddBookmarkDlgParam param;

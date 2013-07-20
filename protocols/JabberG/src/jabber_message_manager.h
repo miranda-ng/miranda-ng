@@ -134,7 +134,7 @@ public:
 class CJabberMessageManager
 {
 protected:
-	CJabberProto* ppro;
+	CJabberProto *ppro;
 	CRITICAL_SECTION m_cs;
 	CJabberMessagePermanentInfo* m_pPermanentHandlers;
 

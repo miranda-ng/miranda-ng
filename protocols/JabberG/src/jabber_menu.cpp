@@ -92,73 +92,73 @@ static CJabberProto* JabberGetInstanceByHContact(HANDLE hContact)
 
 static INT_PTR JabberMenuHandleRequestAuth(WPARAM wParam, LPARAM lParam)
 {
-	CJabberProto* ppro = JabberGetInstanceByHContact((HANDLE)wParam);
+	CJabberProto *ppro = JabberGetInstanceByHContact((HANDLE)wParam);
 	return(ppro) ? ppro->OnMenuHandleRequestAuth(wParam, lParam) : 0;
 }
 
 static INT_PTR JabberMenuHandleGrantAuth(WPARAM wParam, LPARAM lParam)
 {
-	CJabberProto* ppro = JabberGetInstanceByHContact((HANDLE)wParam);
+	CJabberProto *ppro = JabberGetInstanceByHContact((HANDLE)wParam);
 	return(ppro) ? ppro->OnMenuHandleGrantAuth(wParam, lParam) : 0;
 }
 
 static INT_PTR JabberMenuRevokeAuth(WPARAM wParam, LPARAM lParam)
 {
-	CJabberProto* ppro = JabberGetInstanceByHContact((HANDLE)wParam);
+	CJabberProto *ppro = JabberGetInstanceByHContact((HANDLE)wParam);
 	return(ppro) ? ppro->OnMenuRevokeAuth(wParam, lParam) : 0;
 }
 
 static INT_PTR JabberMenuConvertChatContact(WPARAM wParam, LPARAM lParam)
 {
-	CJabberProto* ppro = JabberGetInstanceByHContact((HANDLE)wParam);
+	CJabberProto *ppro = JabberGetInstanceByHContact((HANDLE)wParam);
 	return(ppro) ? ppro->OnMenuConvertChatContact(wParam, lParam) : 0;
 }
 
 static INT_PTR JabberMenuRosterAdd(WPARAM wParam, LPARAM lParam)
 {
-	CJabberProto* ppro = JabberGetInstanceByHContact((HANDLE)wParam);
+	CJabberProto *ppro = JabberGetInstanceByHContact((HANDLE)wParam);
 	return(ppro) ? ppro->OnMenuRosterAdd(wParam, lParam) : 0;
 }
 
 static INT_PTR JabberMenuBookmarkAdd(WPARAM wParam, LPARAM lParam)
 {
-	CJabberProto* ppro = JabberGetInstanceByHContact((HANDLE)wParam);
+	CJabberProto *ppro = JabberGetInstanceByHContact((HANDLE)wParam);
 	return(ppro) ? ppro->OnMenuBookmarkAdd(wParam, lParam) : 0;
 }
 
 static INT_PTR JabberMenuTransportLogin(WPARAM wParam, LPARAM lParam)
 {
-	CJabberProto* ppro = JabberGetInstanceByHContact((HANDLE)wParam);
+	CJabberProto *ppro = JabberGetInstanceByHContact((HANDLE)wParam);
 	return(ppro) ? ppro->OnMenuTransportLogin(wParam, lParam) : 0;
 }
 
 static INT_PTR JabberMenuTransportResolve(WPARAM wParam, LPARAM lParam)
 {
-	CJabberProto* ppro = JabberGetInstanceByHContact((HANDLE)wParam);
+	CJabberProto *ppro = JabberGetInstanceByHContact((HANDLE)wParam);
 	return(ppro) ? ppro->OnMenuTransportResolve(wParam, lParam) : 0;
 }
 
 static INT_PTR JabberContactMenuRunCommands(WPARAM wParam, LPARAM lParam)
 {
-	CJabberProto* ppro = JabberGetInstanceByHContact((HANDLE)wParam);
+	CJabberProto *ppro = JabberGetInstanceByHContact((HANDLE)wParam);
 	return(ppro) ? ppro->ContactMenuRunCommands(wParam, lParam) : 0;
 }
 
 static INT_PTR JabberMenuSendNote(WPARAM wParam, LPARAM lParam)
 {
-	CJabberProto* ppro = JabberGetInstanceByHContact((HANDLE)wParam);
+	CJabberProto *ppro = JabberGetInstanceByHContact((HANDLE)wParam);
 	return(ppro) ? ppro->OnMenuSendNote(wParam, lParam) : 0;
 }
 
 static INT_PTR JabberMenuHandleResource(WPARAM wParam, LPARAM lParam, LPARAM lRes)
 {
-	CJabberProto* ppro = JabberGetInstanceByHContact((HANDLE)wParam);
+	CJabberProto *ppro = JabberGetInstanceByHContact((HANDLE)wParam);
 	return(ppro) ? ppro->OnMenuHandleResource(wParam, lParam, lRes) : 0;
 }
 
 static INT_PTR JabberMenuHandleDirectPresence(WPARAM wParam, LPARAM lParam, LPARAM lRes)
 {
-	CJabberProto* ppro = JabberGetInstanceByHContact((HANDLE)wParam);
+	CJabberProto *ppro = JabberGetInstanceByHContact((HANDLE)wParam);
 	return(ppro) ? ppro->OnMenuHandleDirectPresence(wParam, lParam, lRes) : 0;
 }
 
@@ -177,7 +177,7 @@ static int JabberPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	Menu_ShowItem(g_hMenuResourcesRoot, FALSE);
 	Menu_ShowItem(g_hMenuDirectPresence[0], FALSE);
 
-	CJabberProto* ppro = JabberGetInstanceByHContact((HANDLE)wParam);
+	CJabberProto *ppro = JabberGetInstanceByHContact((HANDLE)wParam);
 	return(ppro) ? ppro->OnPrebuildContactMenu(wParam, lParam) : 0;
 }
 
@@ -403,7 +403,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 
 	if ( !getTString(hContact, "jid", &dbv)) {
 		JabberCapsBits jcb = GetTotalJidCapabilites(dbv.ptszVal);
-		JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
+		JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
 		db_free(&dbv);
 		if (item != NULL) {
 			BOOL bCtrlPressed = (GetKeyState(VK_CONTROL)&0x8000) != 0;
@@ -518,7 +518,7 @@ INT_PTR __cdecl CJabberProto::OnMenuRosterAdd(WPARAM wParam, LPARAM)
 		}
 		AddContactToRoster(roomID, nick, group);
 		if (m_options.AddRoster2Bookmarks == TRUE) {
-			JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_BOOKMARK, roomID);
+			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_BOOKMARK, roomID);
 			if (item == NULL) {
 				item = (JABBER_LIST_ITEM*)mir_calloc(sizeof(JABBER_LIST_ITEM));
 				item->jid = mir_tstrdup(roomID);
@@ -589,7 +589,7 @@ INT_PTR __cdecl CJabberProto::OnMenuTransportLogin(WPARAM wParam, LPARAM)
 	if (getTString(hContact, "jid", &jid))
 		return 0;
 
-	JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_ROSTER, jid.ptszVal);
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid.ptszVal);
 	if (item != NULL) {
 		XmlNode p(_T("presence")); xmlAddAttr(p, _T("to"), item->jid);
 		if (item->itemResource.status == ID_STATUS_ONLINE)
@@ -1185,7 +1185,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleDirectPresence(WPARAM wParam, LPARAM l
 		result = getTString(hContact, "ChatRoomID", &dbv);
 		if (result) return 0;
 
-		JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_CHATROOM, dbv.ptszVal);
+		JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, dbv.ptszVal);
 		if ( !item) return 0;
 
 		mir_sntprintf(text, SIZEOF(text), _T("%s/%s"), item->jid, item->nick);
@@ -1227,7 +1227,7 @@ CJabberProto *JabberChooseInstance(bool bIsLink)
 	for (int i = 0; i < g_Instances.getCount(); i++) {
 		clmi.flags = CMIM_FLAGS;
 
-		CJabberProto* ppro = g_Instances[i];
+		CJabberProto *ppro = g_Instances[i];
 		if (ppro->m_iStatus != ID_STATUS_OFFLINE && ppro->m_iStatus != ID_STATUS_CONNECTING) {
 			++nItems;
 			lastItemId = i+1;

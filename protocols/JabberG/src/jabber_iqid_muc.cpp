@@ -403,7 +403,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			}
 			ListView_DeleteAllItems(hwndList);
 
-			CJabberProto* ppro = dat->ppro;
+			CJabberProto *ppro = dat->ppro;
 			switch (dat->type) {
 			case MUC_VOICELIST:
 				ppro->m_hwndMucVoiceList = NULL;
@@ -452,7 +452,7 @@ static void CALLBACK JabberMucJidListCreateDialogApcProc(void* param)
 	if ((from = xmlGetAttrValue(iqNode, _T("from"))) == NULL)   return;
 	if ((queryNode = xmlGetChild(iqNode , "query")) == NULL)   return;
 
-	CJabberProto* ppro = jidListInfo->ppro;
+	CJabberProto *ppro = jidListInfo->ppro;
 	switch (jidListInfo->type) {
 	case MUC_VOICELIST:
 		pHwndJidList = &ppro->m_hwndMucVoiceList;

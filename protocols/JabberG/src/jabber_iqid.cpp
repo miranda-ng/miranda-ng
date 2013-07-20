@@ -141,13 +141,13 @@ void CJabberProto::OnProcessLoginRq(ThreadData* info, DWORD rq)
 			LIST<JABBER_LIST_ITEM> ll(10);
 			LISTFOREACH(i, this, LIST_BOOKMARK)
 			{
-				JABBER_LIST_ITEM* item = ListGetItemPtrFromIndex(i);
+				JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
 				if (item != NULL && !lstrcmp(item->type, _T("conference")) && item->bAutoJoin)
 					ll.insert(item);
 			}
 
 			for (int j=0; j < ll.getCount(); j++) {
-				JABBER_LIST_ITEM* item = ll[j];
+				JABBER_LIST_ITEM *item = ll[j];
 
 				TCHAR room[256], *server, *p;
 				TCHAR text[128];
@@ -421,7 +421,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 		if (nick == NULL)
 			continue;
 
-		JABBER_LIST_ITEM* item = ListAdd(LIST_ROSTER, jid);
+		JABBER_LIST_ITEM *item = ListAdd(LIST_ROSTER, jid);
 		item->subscription = sub;
 
 		mir_free(item->nick); item->nick = nick;
@@ -1556,7 +1556,7 @@ void CJabberProto::OnIqResultDiscoBookmarks(HXML iqNode)
 			for (int i = 0; itemNode = xmlGetChild(storageNode, i); i++) {
 				if (name = xmlGetName(itemNode)) {
 					if ( !_tcscmp(name, _T("conference")) && (jid = xmlGetAttrValue(itemNode, _T("jid")))) {
-						JABBER_LIST_ITEM* item = ListAdd(LIST_BOOKMARK, jid);
+						JABBER_LIST_ITEM *item = ListAdd(LIST_BOOKMARK, jid);
 						item->name = mir_tstrdup(xmlGetAttrValue(itemNode, _T("name")));
 						item->type = mir_tstrdup(_T("conference"));
 						item->bUseResource = TRUE;
@@ -1568,7 +1568,7 @@ void CJabberProto::OnIqResultDiscoBookmarks(HXML iqNode)
 							item->bAutoJoin = (!lstrcmp(autoJ, _T("true")) || !lstrcmp(autoJ, _T("1"))) ? true : false;
 					}
 					else if ( !_tcscmp(name, _T("url")) && (jid = xmlGetAttrValue(itemNode, _T("url") ))) {
-						JABBER_LIST_ITEM* item = ListAdd(LIST_BOOKMARK, jid);
+						JABBER_LIST_ITEM *item = ListAdd(LIST_BOOKMARK, jid);
 						item->bUseResource = TRUE;
 						item->name = mir_tstrdup(xmlGetAttrValue(itemNode, _T("name")));
 						item->type = mir_tstrdup(_T("url"));
@@ -1597,7 +1597,7 @@ void CJabberProto::SetBookmarkRequest (XmlNodeIq& iq)
 
 	LISTFOREACH(i, this, LIST_BOOKMARK)
 	{
-		JABBER_LIST_ITEM* item = ListGetItemPtrFromIndex(i);
+		JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
 		if (item == NULL)
 			continue;
 

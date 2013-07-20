@@ -404,7 +404,7 @@ struct CJabberProto : public PROTO<CJabberProto>
 
 	INT_PTR    __cdecl OnMenuHandleBookmarks(WPARAM wParam, LPARAM lParam);
 
-	int    AddEditBookmark(JABBER_LIST_ITEM* item);
+	int    AddEditBookmark(JABBER_LIST_ITEM *item);
 
 	//---- jabber_notes.c -----------------------------------------------------------------
 
@@ -443,9 +443,9 @@ struct CJabberProto : public PROTO<CJabberProto>
 
 	//---- jabber_chat.cpp ---------------------------------------------------------------
 
-	int    GcInit(JABBER_LIST_ITEM* item);
-	void   GcLogCreate(JABBER_LIST_ITEM* item);
-	void   GcLogUpdateMemberStatus(JABBER_LIST_ITEM* item, const TCHAR *resource, const TCHAR *nick, const TCHAR *jid, int action, HXML reason, int nStatusCode = -1);
+	int    GcInit(JABBER_LIST_ITEM *item);
+	void   GcLogCreate(JABBER_LIST_ITEM *item);
+	void   GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const TCHAR *resource, const TCHAR *nick, const TCHAR *jid, int action, HXML reason, int nStatusCode = -1);
 	void   GcLogShowInformation(JABBER_LIST_ITEM *item, JABBER_RESOURCE_STATUS *user, TJabberGcLogInfoType type);
 	void   GcQuit(JABBER_LIST_ITEM* jid, int code, HXML reason);
 
@@ -508,7 +508,7 @@ struct CJabberProto : public PROTO<CJabberProto>
 
 	void   GroupchatJoinRoomByJid(HWND hwndParent, TCHAR *jid);
 
-	void   RenameParticipantNick(JABBER_LIST_ITEM* item, const TCHAR *oldNick, HXML itemNode);
+	void   RenameParticipantNick(JABBER_LIST_ITEM *item, const TCHAR *oldNick, HXML itemNode);
 	void   AcceptGroupchatInvite(const TCHAR *roomJid, const TCHAR *reason, const TCHAR *password);
 
 	//---- jabber_form.c -----------------------------------------------------------------

@@ -260,7 +260,7 @@ class CJabberClientCapsManager
 protected:
 	CRITICAL_SECTION m_cs;
 	CJabberClientCaps *m_pClients;
-	CJabberProto* ppro;
+	CJabberProto *ppro;
 
 protected:
 	CJabberClientCaps *FindClient(const TCHAR *szNode);

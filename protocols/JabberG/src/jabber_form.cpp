@@ -715,7 +715,7 @@ struct JABBER_FORM_INFO
 {
 	~JABBER_FORM_INFO();
 
-	CJabberProto* ppro;
+	CJabberProto *ppro;
 	HXML xNode;
 	TCHAR defTitle[128];	// Default title if no <title/> in xNode
 	RECT frameRect;		// Clipping region of the frame to scroll

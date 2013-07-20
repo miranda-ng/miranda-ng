@@ -152,7 +152,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if ((wParam & GAIF_FORCE) != 0 && AI->hContact != NULL && m_bJabberOnline) {
 		DBVARIANT dbv;
 		if ( !getTString(AI->hContact, "jid", &dbv)) {
-			JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
+			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
 			if (item != NULL) {
 				BOOL isXVcard = getByte(AI->hContact, "AvatarXVcard", 0);
 
@@ -394,7 +394,7 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 	if ( !wParam || !lParam)
 		return 0; //room global tooltip not supported yet
 
-	JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_CHATROOM, (TCHAR*)wParam);
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, (TCHAR*)wParam);
 	if (item == NULL)
 		return 0;  //no room found
 

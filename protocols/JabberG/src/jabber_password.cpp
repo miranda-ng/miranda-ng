@@ -39,7 +39,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleChangePassword(WPARAM, LPARAM)
 
 static INT_PTR CALLBACK JabberChangePasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CJabberProto* ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CJabberProto *ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg) {
 	case WM_INITDIALOG:
 		ppro = (CJabberProto*)lParam;

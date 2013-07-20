@@ -50,7 +50,7 @@ protected:
 
 	DWORD m_dwStage;
 public:
-	CJabberProto* ppro;
+	CJabberProto *ppro;
 	CJabberAdhocSession(CJabberProto* global);
 	~CJabberAdhocSession()
 	{

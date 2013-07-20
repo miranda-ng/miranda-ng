@@ -208,7 +208,7 @@ public:
 class CJabberIqManager
 {
 protected:
-	CJabberProto* ppro;
+	CJabberProto *ppro;
 	CRITICAL_SECTION m_cs;
 	DWORD m_dwLastUsedHandle;
 	CJabberIqInfo* m_pIqs; // list of iqs ordered by priority
