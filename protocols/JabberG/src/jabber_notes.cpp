@@ -631,8 +631,8 @@ private:
 	void btnSave_OnClick(CCtrlButton *)
 	{
 		XmlNodeIq iq(_T("set"));
-		HXML query = iq << XQUERY(_T(JABBER_FEAT_PRIVATE_STORAGE));
-		HXML storage = query << XCHILDNS(_T("storage"), _T(JABBER_FEAT_MIRANDA_NOTES));
+		HXML query = iq << XQUERY(JABBER_FEAT_PRIVATE_STORAGE);
+		HXML storage = query << XCHILDNS(_T("storage"), JABBER_FEAT_MIRANDA_NOTES);
 		m_proto->m_notes.SaveXml(storage);
 		m_proto->m_ThreadInfo->send(iq);
 		EnableControls();
@@ -744,8 +744,8 @@ void CJabberProto::ProcessIncomingNote(CNoteItem *pNote, bool ok)
 		m_notes.insert(pNote);
 
 		XmlNodeIq iq(_T("set"));
-		HXML query = iq << XQUERY(_T(JABBER_FEAT_PRIVATE_STORAGE));
-		HXML storage = query << XCHILDNS(_T("storage"), _T(JABBER_FEAT_MIRANDA_NOTES));
+		HXML query = iq << XQUERY(JABBER_FEAT_PRIVATE_STORAGE);
+		HXML storage = query << XCHILDNS(_T("storage"), JABBER_FEAT_MIRANDA_NOTES);
 		m_notes.SaveXml(storage);
 		m_ThreadInfo->send(iq);
 	} else
@@ -776,16 +776,16 @@ void CJabberProto::ProcessOutgoingNote(CNoteItem *pNote, bool ok)
 	XmlNode m(_T("message"));
 	m << XATTR(_T("type"), _T("chat")) << XATTR(_T("to"), pNote->GetFrom()) << XATTRID(nMsgId);
 	m << XCHILD(_T("body"), buf);
-	HXML hXmlItem = m << XCHILDNS(_T("x"), _T(JABBER_FEAT_MIRANDA_NOTES)) << XCHILD(_T("note"));
+	HXML hXmlItem = m << XCHILDNS(_T("x"), JABBER_FEAT_MIRANDA_NOTES) << XCHILD(_T("note"));
 	hXmlItem << XATTR(_T("tags"), pNote->GetTagsStr());
 	hXmlItem << XCHILD(_T("title"), pNote->GetTitle());
 	hXmlItem << XCHILD(_T("text"), pNote->GetText());
 
 	// message receipts XEP priority
 	if (jcb & JABBER_CAPS_MESSAGE_RECEIPTS)
-		m << XCHILDNS(_T("request"), _T(JABBER_FEAT_MESSAGE_RECEIPTS));
+		m << XCHILDNS(_T("request"), JABBER_FEAT_MESSAGE_RECEIPTS);
 	else if (jcb & JABBER_CAPS_MESSAGE_EVENTS) {
-		HXML x = m << XCHILDNS(_T("x"), _T(JABBER_FEAT_MESSAGE_EVENTS));
+		HXML x = m << XCHILDNS(_T("x"), JABBER_FEAT_MESSAGE_EVENTS);
 		x << XCHILD(_T("delivered")); x << XCHILD(_T("offline"));
 	}
 	else

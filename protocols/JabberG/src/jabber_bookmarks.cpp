@@ -115,7 +115,6 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 					param->ppro->ListRemove(LIST_BOOKMARK, param->m_item->jid);
 
 				item = param->ppro->ListAdd(LIST_BOOKMARK, roomJID);
-				item->bUseResource = TRUE;
 
 				if (SendDlgItemMessage(hwndDlg, IDC_URL_RADIO, BM_GETCHECK,0, 0) == BST_CHECKED)
 					replaceStrT(item->type, _T("url"));
@@ -272,7 +271,7 @@ void CJabberDlgBookmarks::UpdateData()
 
 	int iqId = m_proto->SerialNext();
 	m_proto->IqAdd(iqId, IQ_PROC_DISCOBOOKMARKS, &CJabberProto::OnIqResultDiscoBookmarks);
-	m_proto->m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId) << XQUERY(_T(JABBER_FEAT_PRIVATE_STORAGE))
+	m_proto->m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId) << XQUERY(JABBER_FEAT_PRIVATE_STORAGE)
 		<< XCHILDNS(_T("storage"), _T("storage:bookmarks")));
 }
 

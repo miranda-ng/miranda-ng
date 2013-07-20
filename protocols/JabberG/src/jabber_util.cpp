@@ -800,7 +800,7 @@ void CJabberProto::SendPresenceTo(int status, TCHAR* to, HXML extra, const TCHAR
 		xmlAddChild(p, extra);
 
 	// XEP-0115:Entity Capabilities
-	HXML c = p << XCHILDNS(_T("c"), _T(JABBER_FEAT_ENTITY_CAPS)) << XATTR(_T("node"), _T(JABBER_CAPS_MIRANDA_NODE))
+	HXML c = p << XCHILDNS(_T("c"), JABBER_FEAT_ENTITY_CAPS) << XATTR(_T("node"), JABBER_CAPS_MIRANDA_NODE)
 		<< XATTR(_T("ver"), szCoreVersion);
 
 	TCHAR szExtCaps[ 512 ] = _T("");
@@ -980,7 +980,7 @@ BOOL CJabberProto::OnIqSetGoogleSharedStatus(HXML iqNode, CJabberIqInfo* pInfo) 
 
 void CJabberProto::SendIqGoogleSharedStatus(int status, const TCHAR *msg) {
 	XmlNodeIq iq(m_iqManager.AddHandler(&CJabberProto::OnIqResultGoogleSharedStatus, JABBER_IQ_TYPE_SET));
-	HXML query = iq << XQUERY(_T(JABBER_FEAT_GTALK_SHARED_STATUS)) << XATTR(_T("version"), _T("2"));
+	HXML query = iq << XQUERY(JABBER_FEAT_GTALK_SHARED_STATUS) << XATTR(_T("version"), _T("2"));
 	query << XCHILD(_T("status"), msg);
 	if (status == ID_STATUS_INVISIBLE) {
 		query << XCHILD(_T("show"), _T("default"));

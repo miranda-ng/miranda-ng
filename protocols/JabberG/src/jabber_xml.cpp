@@ -270,7 +270,7 @@ LPCTSTR __fastcall xmlGetName(HXML xml)
 
 LPCTSTR __fastcall xmlGetText(HXML xml)
 {
-	return xi.getText(xml);
+	return (xml) ? xi.getText(xml) : NULL;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

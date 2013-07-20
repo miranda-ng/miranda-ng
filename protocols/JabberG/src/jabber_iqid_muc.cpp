@@ -30,7 +30,7 @@ void CJabberProto::SetMucConfig(HXML node, void *from)
 {
 	if (m_ThreadInfo && from) {
 		XmlNodeIq iq(_T("set"), SerialNext(), (TCHAR*)from);
-		HXML query = iq << XQUERY(xmlnsOwner);
+		HXML query = iq << XQUERY(JABBER_FEAT_MUC_OWNER);
 		xmlAddChild(query, node);
 		m_ThreadInfo->send(iq);
 }	}
@@ -51,10 +51,10 @@ void CJabberProto::OnIqResultGetMuc(HXML iqNode)
 	if ( !_tcscmp(type, _T("result"))) {
 		if ((queryNode = xmlGetChild(iqNode , "query")) != NULL) {
 			str = xmlGetAttrValue(queryNode, _T("xmlns"));
-			if ( !lstrcmp(str, _T("http://jabber.org/protocol/muc#owner"))) {
+			if ( !lstrcmp(str, JABBER_FEAT_MUC_OWNER)) {
 				if ((xNode = xmlGetChild(queryNode , "x")) != NULL) {
 					str = xmlGetAttrValue(xNode, _T("xmlns"));
-					if ( !lstrcmp(str, _T(JABBER_FEAT_DATA_FORMS)))
+					if ( !lstrcmp(str, JABBER_FEAT_DATA_FORMS))
 						//LaunchForm(xNode);
 						FormCreateDialog(xNode, _T("Jabber Conference Room Configuration"), &CJabberProto::SetMucConfig, mir_tstrdup(from));
 }	}	}	}	}

@@ -173,9 +173,9 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 				XmlNodeIq iq(_T("get"), iqId, szJid);
 				if (isXVcard)
-					iq << XCHILDNS(_T("vCard"), _T(JABBER_FEAT_VCARD_TEMP));
+					iq << XCHILDNS(_T("vCard"), JABBER_FEAT_VCARD_TEMP);
 				else
-					iq << XQUERY(isXVcard ? _T("") : _T(JABBER_FEAT_AVATAR));
+					iq << XQUERY(isXVcard ? _T("") : JABBER_FEAT_AVATAR);
 				m_ThreadInfo->send(iq);
 
 				db_free(&dbv);
@@ -604,7 +604,7 @@ INT_PTR __cdecl CJabberProto::JabberSendNudge(WPARAM wParam, LPARAM)
 		m_ThreadInfo->send(
 			XmlNode(_T("message")) << XATTR(_T("type"), _T("headline")) << XATTR(_T("to"), tszJid)
 				<< XCHILDNS(_T("attention"),
-				jcb & JABBER_CAPS_ATTENTION ? _T(JABBER_FEAT_ATTENTION) : _T(JABBER_FEAT_ATTENTION_0)));
+				jcb & JABBER_CAPS_ATTENTION ? JABBER_FEAT_ATTENTION : JABBER_FEAT_ATTENTION_0));
 	}
 	return 0;
 }
@@ -617,7 +617,7 @@ BOOL CJabberProto::SendHttpAuthReply(CJabberHttpAuthParams *pParams, BOOL bAutho
 	if (pParams->m_nType == CJabberHttpAuthParams::IQ) {
 		XmlNodeIq iq(bAuthorized ? _T("result") : _T("error"), pParams->m_szIqId, pParams->m_szFrom);
 		if ( !bAuthorized) {
-			iq << XCHILDNS(_T("confirm"), _T(JABBER_FEAT_HTTP_AUTH)) << XATTR(_T("id"), pParams->m_szId)
+			iq << XCHILDNS(_T("confirm"), JABBER_FEAT_HTTP_AUTH) << XATTR(_T("id"), pParams->m_szId)
 					<< XATTR(_T("method"), pParams->m_szMethod) << XATTR(_T("url"), pParams->m_szUrl);
 			iq << XCHILD(_T("error")) << XATTRI(_T("code"), 401) << XATTR(_T("type"), _T("auth"))
 					<< XCHILDNS(_T("not-authorized"), _T("urn:ietf:params:xml:xmpp-stanzas"));
@@ -632,7 +632,7 @@ BOOL CJabberProto::SendHttpAuthReply(CJabberHttpAuthParams *pParams, BOOL bAutho
 		if (pParams->m_szThreadId)
 			msg << XCHILD(_T("thread"), pParams->m_szThreadId);
 
-		msg << XCHILDNS(_T("confirm"), _T(JABBER_FEAT_HTTP_AUTH)) << XATTR(_T("id"), pParams->m_szId)
+		msg << XCHILDNS(_T("confirm"), JABBER_FEAT_HTTP_AUTH) << XATTR(_T("id"), pParams->m_szId)
 					<< XATTR(_T("method"), pParams->m_szMethod) << XATTR(_T("url"), pParams->m_szUrl);
 
 		if ( !bAuthorized)
@@ -998,7 +998,7 @@ int CJabberNetInterface::RegisterFeature(LPCTSTR szFeature, LPCTSTR szDescriptio
 			if (_tcschr(_T("bcdfghjklmnpqrstvwxz0123456789"), *pSrc))
 				*pDst++ = *pSrc;
 		*pDst = 0;
-		m_psProto->m_clientCapsManager.SetClientCaps(_T(JABBER_CAPS_MIRANDA_NODE), szExt, jcb);
+		m_psProto->m_clientCapsManager.SetClientCaps(JABBER_CAPS_MIRANDA_NODE, szExt, jcb);
 
 		fcp = new JabberFeatCapPairDynamic();
 		fcp->szExt = szExt; // will be deallocated along with other values of JabberFeatCapPairDynamic in CJabberProto destructor

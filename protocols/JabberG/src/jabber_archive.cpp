@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void CJabberProto::EnableArchive(bool bEnable)
 {
 	m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext())
-		<< XCHILDNS( _T("auto"), _T(JABBER_FEAT_ARCHIVE)) << XATTR(_T("save"), (bEnable) ? _T("true") : _T("false")));
+		<< XCHILDNS( _T("auto"), JABBER_FEAT_ARCHIVE) << XATTR(_T("save"), (bEnable) ? _T("true") : _T("false")));
 }
 
 void CJabberProto::RetrieveMessageArchive(HANDLE hContact, JABBER_LIST_ITEM *pItem)
@@ -40,7 +40,7 @@ void CJabberProto::RetrieveMessageArchive(HANDLE hContact, JABBER_LIST_ITEM *pIt
 
 	int iqId = SerialNext();
 	XmlNodeIq iq(_T("get"), iqId);
-	HXML list = iq << XCHILDNS( _T("list"), _T(JABBER_FEAT_ARCHIVE)) << XATTR(_T("with"), pItem->jid);
+	HXML list = iq << XCHILDNS( _T("list"), JABBER_FEAT_ARCHIVE) << XATTR(_T("with"), pItem->jid);
 
 	time_t tmLast = getDword(hContact, "LastCollection", 0);
 	if (tmLast) {
@@ -59,7 +59,7 @@ void CJabberProto::OnIqResultGetCollectionList(HXML iqNode)
 		return;
 
 	HXML list = xmlGetChild(iqNode, "list");
-	if (!list || lstrcmp( xmlGetAttrValue(list, _T("xmlns")), _T(JABBER_FEAT_ARCHIVE)))
+	if (!list || lstrcmp( xmlGetAttrValue(list, _T("xmlns")), JABBER_FEAT_ARCHIVE))
 		return;
 
 	HANDLE hContact = NULL;
@@ -86,7 +86,7 @@ void CJabberProto::OnIqResultGetCollectionList(HXML iqNode)
 		IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultGetCollection);
 		m_ThreadInfo->send(
 			XmlNodeIq(_T("get"), iqId)
-				<< XCHILDNS( _T("retrieve"), _T(JABBER_FEAT_ARCHIVE)) << XATTR(_T("with"), with) << XATTR(_T("start"), start));
+				<< XCHILDNS( _T("retrieve"), JABBER_FEAT_ARCHIVE) << XATTR(_T("with"), with) << XATTR(_T("start"), start));
 
 		time_t tmThis = str2time(start);
 		if ( tmThis > tmLast) {
@@ -254,7 +254,7 @@ void CJabberProto::OnIqResultGetCollection(HXML iqNode)
 		return;
 
 	HXML chatNode = xmlGetChild(iqNode, "chat");
-	if (!chatNode || lstrcmp( xmlGetAttrValue(chatNode, _T("xmlns")), _T(JABBER_FEAT_ARCHIVE)))
+	if (!chatNode || lstrcmp( xmlGetAttrValue(chatNode, _T("xmlns")), JABBER_FEAT_ARCHIVE))
 		return;
 
 	const TCHAR* start = xmlGetAttrValue(chatNode, _T("start"));

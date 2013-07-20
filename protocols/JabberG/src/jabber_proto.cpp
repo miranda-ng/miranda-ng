@@ -717,11 +717,11 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 	if (m_ThreadInfo) {
 		m_ThreadInfo->send(
 			XmlNodeIq(m_iqManager.AddHandler(&CJabberProto::OnIqResultEntityTime, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_HCONTACT))
-				<< XCHILDNS(_T("time"), _T(JABBER_FEAT_ENTITY_TIME)));
+				<< XCHILDNS(_T("time"), JABBER_FEAT_ENTITY_TIME));
 
 		// XEP-0012, last logoff time
 		XmlNodeIq iq2(m_iqManager.AddHandler(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_FROM));
-		iq2 << XQUERY(_T(JABBER_FEAT_LAST_ACTIVITY));
+		iq2 << XQUERY(JABBER_FEAT_LAST_ACTIVITY);
 		m_ThreadInfo->send(iq2);
 
 		JABBER_LIST_ITEM *item = NULL;
@@ -763,25 +763,25 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 				mir_sntprintf(tmp, SIZEOF(tmp), _T("%s/%s"), szp1, item->pResources[i].resourceName);
 
 				XmlNodeIq iq3(m_iqManager.AddHandler(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM));
-				iq3 << XQUERY(_T(JABBER_FEAT_LAST_ACTIVITY));
+				iq3 << XQUERY(JABBER_FEAT_LAST_ACTIVITY);
 				m_ThreadInfo->send(iq3);
 
 				if ( !item->pResources[i].dwVersionRequestTime) {
 					XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
-					iq4 << XQUERY(_T(JABBER_FEAT_VERSION));
+					iq4 << XQUERY(JABBER_FEAT_VERSION);
 					m_ThreadInfo->send(iq4);
 				}
 
 				if ( !item->pResources[i].pSoftwareInfo) {
 					XmlNodeIq iq5(m_iqManager.AddHandler(&CJabberProto::OnIqResultCapsDiscoInfoSI, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
-					iq5 << XQUERY(_T(JABBER_FEAT_DISCO_INFO));
+					iq5 << XQUERY(JABBER_FEAT_DISCO_INFO);
 					m_ThreadInfo->send(iq5);
 				}
 			}
 		}
 		else if ( !item->itemResource.dwVersionRequestTime) {
 			XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, item->jid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
-			iq4 << XQUERY(_T(JABBER_FEAT_VERSION));
+			iq4 << XQUERY(JABBER_FEAT_VERSION);
 			m_ThreadInfo->send(iq4);
 		}
 	}
@@ -895,7 +895,7 @@ HANDLE __cdecl CJabberProto::SearchByName(const TCHAR *nick, const TCHAR *firstN
 		if (m_tszSelectedLang)
 			iq << XATTR(_T("xml:lang"), m_tszSelectedLang);
 
-		HXML x = query << XCHILDNS(_T("x"), _T(JABBER_FEAT_DATA_FORMS)) << XATTR(_T("type"), _T("submit"));
+		HXML x = query << XCHILDNS(_T("x"), JABBER_FEAT_DATA_FORMS) << XATTR(_T("type"), _T("submit"));
 		if (nick[0] != '\0')
 			x << XCHILD(_T("field")) << XATTR(_T("var"), _T("user")) << XATTR(_T("value"), nick);
 
@@ -982,7 +982,7 @@ int __cdecl CJabberProto::SendContacts(HANDLE hContact, int flags, int nContacts
 
 	XmlNode m(_T("message"));
 //	m << XCHILD(_T("body"), msg);
-	HXML x = m << XCHILDNS(_T("x"), _T(JABBER_FEAT_ROSTER_EXCHANGE));
+	HXML x = m << XCHILDNS(_T("x"), JABBER_FEAT_ROSTER_EXCHANGE);
 
 	for (int i = 0; i < nContacts; i++) {
 		DBVARIANT dbv;
@@ -1178,7 +1178,7 @@ int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc
 		jcb = JABBER_RESOURCE_CAPS_NONE;
 
 	if (jcb & JABBER_CAPS_CHATSTATES)
-		m << XCHILDNS(_T("active"), _T(JABBER_FEAT_CHATSTATES));
+		m << XCHILDNS(_T("active"), JABBER_FEAT_CHATSTATES);
 
 	if (
 		// if message delivery check disabled by entity caps manager
@@ -1205,9 +1205,9 @@ int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc
 
 		// message receipts XEP priority
 		if (jcb & JABBER_CAPS_MESSAGE_RECEIPTS)
-			m << XCHILDNS(_T("request"), _T(JABBER_FEAT_MESSAGE_RECEIPTS));
+			m << XCHILDNS(_T("request"), JABBER_FEAT_MESSAGE_RECEIPTS);
 		else if (jcb & JABBER_CAPS_MESSAGE_EVENTS) {
-			HXML x = m << XCHILDNS(_T("x"), _T(JABBER_FEAT_MESSAGE_EVENTS));
+			HXML x = m << XCHILDNS(_T("x"), JABBER_FEAT_MESSAGE_EVENTS);
 			x << XCHILD(_T("delivered")); x << XCHILD(_T("offline"));
 		}
 
@@ -1477,17 +1477,17 @@ int __cdecl CJabberProto::UserIsTyping(HANDLE hContact, int type)
 		m << XATTR(_T("type"), _T("chat")) << XATTRID(SerialNext());
 		switch (type) {
 		case PROTOTYPE_SELFTYPING_OFF:
-			m << XCHILDNS(_T("paused"), _T(JABBER_FEAT_CHATSTATES));
+			m << XCHILDNS(_T("paused"), JABBER_FEAT_CHATSTATES);
 			m_ThreadInfo->send(m);
 			break;
 		case PROTOTYPE_SELFTYPING_ON:
-			m << XCHILDNS(_T("composing"), _T(JABBER_FEAT_CHATSTATES));
+			m << XCHILDNS(_T("composing"), JABBER_FEAT_CHATSTATES);
 			m_ThreadInfo->send(m);
 			break;
 		}
 	}
 	else if (jcb & JABBER_CAPS_MESSAGE_EVENTS) {
-		HXML x = m << XCHILDNS(_T("x"), _T(JABBER_FEAT_MESSAGE_EVENTS));
+		HXML x = m << XCHILDNS(_T("x"), JABBER_FEAT_MESSAGE_EVENTS);
 		if (item->messageEventIdStr != NULL)
 			x << XCHILD(_T("id"), item->messageEventIdStr);
 

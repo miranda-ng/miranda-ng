@@ -60,7 +60,7 @@ void CJabberProto::IqResultProxyDiscovery(HXML iqNode, CJabberIqInfo* pInfo)
 		HXML queryNode = xmlGetChild(iqNode , "query");
 		if (queryNode) {
 			const TCHAR *queryXmlns = xmlGetAttrValue(queryNode, _T("xmlns"));
-			if (queryXmlns && !_tcscmp(queryXmlns, _T(JABBER_FEAT_BYTESTREAMS))) {
+			if (queryXmlns && !_tcscmp(queryXmlns, JABBER_FEAT_BYTESTREAMS)) {
 				HXML streamHostNode = xmlGetChild(queryNode , "streamhost");
 				if (streamHostNode) {
 					const TCHAR *streamJid = xmlGetAttrValue(streamHostNode, _T("jid"));
@@ -170,7 +170,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 			pInfo = m_iqManager.AddHandler(&CJabberProto::IqResultProxyDiscovery, JABBER_IQ_TYPE_GET, proxyJid, 0, -1, jbt);
 			nIqId = pInfo->GetIqId();
 			XmlNodeIq iq(pInfo);
-			iq << XQUERY(_T(JABBER_FEAT_BYTESTREAMS));
+			iq << XQUERY(JABBER_FEAT_BYTESTREAMS);
 			m_ThreadInfo->send(iq);
 
 			WaitForSingleObject(jbt->hProxyEvent, INFINITE);
@@ -195,7 +195,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 	nIqId = pInfo->GetIqId();
 	{
 		XmlNodeIq iq(pInfo);
-		HXML query = iq << XQUERY(_T(JABBER_FEAT_BYTESTREAMS)) << XATTR(_T("sid"), jbt->sid);
+		HXML query = iq << XQUERY(JABBER_FEAT_BYTESTREAMS) << XATTR(_T("sid"), jbt->sid);
 
 		if (bDirect) {
 			if (m_options.BsDirectManual) {
@@ -310,7 +310,7 @@ void CJabberProto::ByteInitiateResult(HXML iqNode, CJabberIqInfo* pInfo)
 		HXML queryNode = xmlGetChild(iqNode , "query");
 		if (queryNode) {
 			const TCHAR *queryXmlns = xmlGetAttrValue(queryNode, _T("xmlns"));
-			if (queryXmlns && !_tcscmp(queryXmlns, _T(JABBER_FEAT_BYTESTREAMS))) {
+			if (queryXmlns && !_tcscmp(queryXmlns, JABBER_FEAT_BYTESTREAMS)) {
 				HXML streamHostNode = xmlGetChild(queryNode ,  "streamhost-used");
 				if (streamHostNode) {
 					const TCHAR *streamJid = xmlGetAttrValue(streamHostNode, _T("jid"));
@@ -576,7 +576,7 @@ int CJabberProto::ByteSendProxyParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, ch
 
 			IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::IqResultStreamActivate);
 			m_ThreadInfo->send(
-				XmlNodeIq(_T("set"), iqId, jbt->streamhostJID) << XQUERY(_T(JABBER_FEAT_BYTESTREAMS))
+				XmlNodeIq(_T("set"), iqId, jbt->streamhostJID) << XQUERY(JABBER_FEAT_BYTESTREAMS)
 					<< XATTR(_T("sid"), jbt->sid) << XCHILD(_T("activate"), jbt->dstJID));
 
 			WaitForSingleObject(jbt->hProxyEvent, INFINITE);
@@ -760,7 +760,7 @@ int CJabberProto::ByteReceiveParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char
 			jbt->state = JBT_RECVING;
 
 			m_ThreadInfo->send(
-				XmlNodeIq(_T("result"), jbt->iqId, jbt->srcJID) << XQUERY(_T(JABBER_FEAT_BYTESTREAMS))
+				XmlNodeIq(_T("result"), jbt->iqId, jbt->srcJID) << XQUERY(JABBER_FEAT_BYTESTREAMS)
 					<< XCHILD(_T("streamhost-used")) << XATTR(_T("jid"), jbt->streamhostJID));
 		}
 		else jbt->state = JBT_SOCKSERR;

@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void CJabberProto::AddContactToRoster(const TCHAR *jid, const TCHAR *nick, const TCHAR *grpName)
 {
 	XmlNodeIq iq(_T("set"), SerialNext());
-	HXML query = iq << XQUERY(_T(JABBER_FEAT_IQ_ROSTER))
+	HXML query = iq << XQUERY(JABBER_FEAT_IQ_ROSTER)
 		<< XCHILD(_T("item")) << XATTR(_T("jid"), jid) << XATTR(_T("name"), nick);
 	if (grpName)
 		query << XCHILD(_T("group"), grpName);

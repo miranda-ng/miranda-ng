@@ -582,7 +582,6 @@ extern BOOL (WINAPI *JabberAlphaBlend)(HDC, int, int, int, int, HDC, int, int, i
 extern BOOL (WINAPI *JabberIsThemeActive)();
 extern HRESULT (WINAPI *JabberDrawThemeParentBackground)(HWND, HDC, RECT *);
 
-extern const TCHAR xmlnsOwner[];
 extern TCHAR szCoreVersion[];
 
 extern int g_cbCountries;

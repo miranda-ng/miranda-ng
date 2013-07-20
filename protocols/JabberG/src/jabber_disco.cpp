@@ -157,10 +157,10 @@ static struct
 	{NULL,	_T("user"),				NULL,				NULL,			SKINICON_STATUS_ONLINE},
 
 //	icon suggestions based on supported features
-	{_T("jabber:iq:gateway"),		NULL,NULL,			"Agents",		0},
-	{_T("jabber:iq:search"),		NULL,NULL,			NULL,			SKINICON_OTHER_FINDUSER},
-	{_T(JABBER_FEAT_COMMANDS),		NULL,NULL,			"adhoc",		0},
-	{_T(JABBER_FEAT_REGISTER),		NULL,NULL,			"key",			0},
+	{_T("jabber:iq:gateway"),     NULL, NULL,			"Agents",		0},
+	{_T("jabber:iq:search"),      NULL, NULL,			NULL,			SKINICON_OTHER_FINDUSER},
+	{ JABBER_FEAT_COMMANDS,       NULL, NULL,			"adhoc",		0},
+	{ JABBER_FEAT_REGISTER,       NULL, NULL,			"key",			0},
 };
 
 static void sttApplyNodeIcon(HTREELISTITEM hItem, CJabberSDNode *pNode);
@@ -294,7 +294,7 @@ void CJabberProto::OnIqResultServiceDiscoveryRootItems(HXML iqNode, CJabberIqInf
 				pNewInfo->SetTimeout(30000);
 
 				XmlNodeIq iq(pNewInfo);
-				iq << XQUERY(_T(JABBER_FEAT_DISCO_INFO)) << XATTR(_T("node"), szNode);
+				iq << XQUERY(JABBER_FEAT_DISCO_INFO) << XATTR(_T("node"), szNode);
 				xmlAddChild(packet, iq);
 	}	}	}
 	m_SDManager.Unlock();
@@ -315,7 +315,7 @@ BOOL CJabberProto::SendInfoRequest(CJabberSDNode* pNode, HXML parent)
 		pNode->SetInfoRequestId(pInfo->GetIqId());
 
 		XmlNodeIq iq(pInfo);
-		HXML query = iq << XQUERY(_T(JABBER_FEAT_DISCO_INFO));
+		HXML query = iq << XQUERY(JABBER_FEAT_DISCO_INFO);
 		if (pNode->GetNode())
 			xmlAddAttr(query, _T("node"), pNode->GetNode());
 
@@ -345,7 +345,7 @@ BOOL CJabberProto::SendBothRequests(CJabberSDNode* pNode, HXML parent)
 		pNode->SetInfoRequestId(pInfo->GetIqId());
 
 		XmlNodeIq iq(pInfo);
-		HXML query = iq << XQUERY(_T(JABBER_FEAT_DISCO_INFO));
+		HXML query = iq << XQUERY(JABBER_FEAT_DISCO_INFO);
 		if (pNode->GetNode())
 			xmlAddAttr(query, _T("node"), pNode->GetNode());
 
@@ -362,7 +362,7 @@ BOOL CJabberProto::SendBothRequests(CJabberSDNode* pNode, HXML parent)
 		pNode->SetItemsRequestId(pInfo->GetIqId());
 
 		XmlNodeIq iq(pInfo);
-		HXML query = iq << XQUERY(_T(JABBER_FEAT_DISCO_ITEMS));
+		HXML query = iq << XQUERY(JABBER_FEAT_DISCO_ITEMS);
 		if (pNode->GetNode())
 			xmlAddAttr(query, _T("node"), pNode->GetNode());
 
@@ -420,10 +420,10 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 			sttBrowseMode = SD_BROWSE_CONFERENCES;
 			TCHAR *szServerJid = mir_a2t(m_ThreadInfo->server);
 			CJabberIqInfo* pInfo = m_iqManager.AddHandler(&CJabberProto::OnIqResultServiceDiscoveryRootItems, JABBER_IQ_TYPE_GET, szServerJid);
-			pInfo->m_pUserData = (void*)_T(JABBER_FEAT_MUC);
+			pInfo->m_pUserData = (void*)JABBER_FEAT_MUC;
 			pInfo->SetTimeout(30000);
 			XmlNodeIq iq(pInfo);
-			iq << XQUERY(_T(JABBER_FEAT_DISCO_ITEMS));
+			iq << XQUERY(JABBER_FEAT_DISCO_ITEMS);
 			m_ThreadInfo->send(iq);
 			mir_free(szServerJid);
 		}
@@ -434,7 +434,7 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 			pInfo->m_pUserData = (void*)_T("jabber:iq:gateway");
 			pInfo->SetTimeout(30000);
 			XmlNodeIq iq(pInfo);
-			iq << XQUERY(_T(JABBER_FEAT_DISCO_ITEMS));
+			iq << XQUERY(JABBER_FEAT_DISCO_ITEMS);
 			m_ThreadInfo->send(iq);
 			mir_free(szServerJid);
 		}
@@ -1190,29 +1190,29 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 	}
 	static items[] =
 	{
-		{ NULL,                        LPGENT("Contact Menu..."),       SD_ACT_USERMENU,         SD_FLG_NONODE},
-      { NULL,                        LPGENT("View vCard"),            SD_ACT_VCARD,            SD_FLG_NONODE},
-      { _T(JABBER_FEAT_MUC),         LPGENT("Join chatroom"),         SD_ACT_JOIN,             SD_FLG_NORESOURCE},
+		{ NULL,                    LPGENT("Contact Menu..."),       SD_ACT_USERMENU,         SD_FLG_NONODE},
+      { NULL,                    LPGENT("View vCard"),            SD_ACT_VCARD,            SD_FLG_NONODE},
+      { JABBER_FEAT_MUC,         LPGENT("Join chatroom"),         SD_ACT_JOIN,             SD_FLG_NORESOURCE},
       {0},
-      { NULL,                        LPGENT("Refresh Info"),          SD_ACT_REFRESH},
-      { NULL,                        LPGENT("Refresh Children"),      SD_ACT_REFRESHCHILDREN},
+      { NULL,                    LPGENT("Refresh Info"),          SD_ACT_REFRESH},
+      { NULL,                    LPGENT("Refresh Children"),      SD_ACT_REFRESHCHILDREN},
       {0},
-      { NULL,                        LPGENT("Add to favorites"),      SD_ACT_FAVORITE},
-      { NULL,                        LPGENT("Add to roster"),         SD_ACT_ROSTER,           SD_FLG_NONODE|SD_FLG_NOTONROSTER},
-      { _T(JABBER_FEAT_MUC),         LPGENT("Bookmark chatroom"),     SD_ACT_BOOKMARK,         SD_FLG_NORESOURCE|SD_FLG_HASUSER},
-      { _T("jabber:iq:search"),      LPGENT("Add search directory"),  SD_ACT_ADDDIRECTORY},
-      { _T(JABBER_FEAT_BYTESTREAMS), LPGENT("Use this proxy"),        SD_ACT_PROXY},
+      { NULL,                    LPGENT("Add to favorites"),      SD_ACT_FAVORITE},
+      { NULL,                    LPGENT("Add to roster"),         SD_ACT_ROSTER,           SD_FLG_NONODE|SD_FLG_NOTONROSTER},
+      { JABBER_FEAT_MUC,         LPGENT("Bookmark chatroom"),     SD_ACT_BOOKMARK,         SD_FLG_NORESOURCE|SD_FLG_HASUSER},
+      { _T("jabber:iq:search"),  LPGENT("Add search directory"),  SD_ACT_ADDDIRECTORY},
+      { JABBER_FEAT_BYTESTREAMS, LPGENT("Use this proxy"),        SD_ACT_PROXY},
       {0},
-      { _T(JABBER_FEAT_REGISTER),    LPGENT("Register"),              SD_ACT_REGISTER},
-      { _T("jabber:iq:gateway"),     LPGENT("Unregister"),            SD_ACT_UNREGISTER,       SD_FLG_ONROSTER|SD_FLG_SUBSCRIBED},
-      { _T(JABBER_FEAT_COMMANDS),    LPGENT("Commands..."),           SD_ACT_ADHOC},
+      { JABBER_FEAT_REGISTER,    LPGENT("Register"),              SD_ACT_REGISTER},
+      { _T("jabber:iq:gateway"), LPGENT("Unregister"),            SD_ACT_UNREGISTER,       SD_FLG_ONROSTER|SD_FLG_SUBSCRIBED},
+      { JABBER_FEAT_COMMANDS,    LPGENT("Commands..."),           SD_ACT_ADHOC},
       {0},
-      { _T("jabber:iq:gateway"),     LPGENT("Logon"),                 SD_ACT_LOGON,            SD_FLG_ONROSTER|SD_FLG_SUBSCRIBED|SD_FLG_ONLINE},
-      { _T("jabber:iq:gateway"),     LPGENT("Logoff"),                SD_ACT_LOGOFF,           SD_FLG_ONROSTER|SD_FLG_SUBSCRIBED|SD_FLG_NOTONLINE},
+      { _T("jabber:iq:gateway"), LPGENT("Logon"),                 SD_ACT_LOGON,            SD_FLG_ONROSTER|SD_FLG_SUBSCRIBED|SD_FLG_ONLINE},
+      { _T("jabber:iq:gateway"), LPGENT("Logoff"),                SD_ACT_LOGOFF,           SD_FLG_ONROSTER|SD_FLG_SUBSCRIBED|SD_FLG_NOTONLINE},
       {0},
-      { NULL,                        LPGENT("Copy JID"),              SD_ACT_COPYJID},
-      { NULL,                        LPGENT("Copy node name"),        SD_ACT_COPYNODE},
-      { NULL,                        LPGENT("Copy node information"), SD_ACT_COPYINFO},
+      { NULL,                    LPGENT("Copy JID"),              SD_ACT_COPYJID},
+      { NULL,                    LPGENT("Copy node name"),        SD_ACT_COPYNODE},
+      { NULL,                    LPGENT("Copy node information"), SD_ACT_COPYINFO},
 	};
 
 	HMENU hMenu = CreatePopupMenu();
@@ -1464,9 +1464,9 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 			break;
 
 		case SD_ACT_UNREGISTER:
-			m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext(), pNode->GetJid()) << XQUERY(_T(JABBER_FEAT_REGISTER)) << XCHILD(_T("remove")));
+			m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext(), pNode->GetJid()) << XQUERY(JABBER_FEAT_REGISTER) << XCHILD(_T("remove")));
 
-			m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext()) << XQUERY(_T(JABBER_FEAT_IQ_ROSTER))
+			m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext()) << XQUERY(JABBER_FEAT_IQ_ROSTER)
 				<< XCHILD(_T("item")) << XATTR(_T("jid"), pNode->GetJid()) << XATTR(_T("subscription"), _T("remove")));
 			break;
 

@@ -142,7 +142,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode)
 
 	if ( !lstrcmp(type, _T("result"))) {
 		HXML queryNode = xmlGetNthChild(iqNode, _T("query"), 1);
-		HXML xNode = xmlGetChildByTag(queryNode, "x", "xmlns", _T(JABBER_FEAT_DATA_FORMS));
+		HXML xNode = xmlGetChildByTag(queryNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
 
 		ShowWindow(searchHandleDlg,SW_HIDE);
 		if (xNode) {
@@ -310,7 +310,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode)
 
 	if ( !lstrcmp(type, _T("result"))) {
 		HXML queryNode = xmlGetNthChild(iqNode, _T("query"), 1);
-		HXML xNode = xmlGetChildByTag(queryNode, "x", "xmlns", _T(JABBER_FEAT_DATA_FORMS));
+		HXML xNode = xmlGetChildByTag(queryNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
 		if (xNode) {
 			//1. Form search results info
 			HXML reportNode = xmlGetNthChild(xNode, _T("reported"), 1);

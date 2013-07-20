@@ -280,7 +280,7 @@ void CJabberProto::OnIqResultPrivacyLists(HXML iqNode, CJabberIqInfo* pInfo)
 			if (m_pDlgPrivacyLists) {
 				int iqId = SerialNext();
 				IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultPrivacyList);
-				m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId) << XQUERY(_T(JABBER_FEAT_PRIVACY_LISTS)) << XCHILD(_T("list")) << XATTR(_T("name"), listName));
+				m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId) << XQUERY(JABBER_FEAT_PRIVACY_LISTS) << XCHILD(_T("list")) << XATTR(_T("name"), listName));
 	}	}	}
 
 	const TCHAR *szName = NULL;
@@ -1772,7 +1772,7 @@ void CJabberDlgPrivacyLists::btnActivate_OnClick(CCtrlButton *)
 		EnableWindow(GetDlgItem(m_hwnd, IDC_ACTIVATE), FALSE);
 		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_ACTIVATE), GWLP_USERDATA, (LONG_PTR)pList);
 		XmlNodeIq iq(m_proto->m_iqManager.AddHandler(&CJabberProto::OnIqResultPrivacyListActive, JABBER_IQ_TYPE_SET, NULL, 0, -1, pList));
-		HXML query = iq << XQUERY(_T(JABBER_FEAT_PRIVACY_LISTS));
+		HXML query = iq << XQUERY(JABBER_FEAT_PRIVACY_LISTS);
 		HXML active = query << XCHILD(_T("active"));
 		if (pList)
 			active << XATTR(_T("name"), pList->GetListName());
@@ -1799,7 +1799,7 @@ void CJabberDlgPrivacyLists::btnSetDefault_OnClick(CCtrlButton *)
 		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_SET_DEFAULT), GWLP_USERDATA, (LONG_PTR)pList);
 
 		XmlNodeIq iq(m_proto->m_iqManager.AddHandler(&CJabberProto::OnIqResultPrivacyListDefault, JABBER_IQ_TYPE_SET, NULL, 0, -1, pList));
-		HXML query = iq << XQUERY(_T(JABBER_FEAT_PRIVACY_LISTS));
+		HXML query = iq << XQUERY(JABBER_FEAT_PRIVACY_LISTS);
 		HXML defaultTag = query << XCHILD(_T("default"));
 		if (pList)
 			xmlAddAttr(defaultTag, _T("name"), pList->GetListName());
@@ -2042,7 +2042,7 @@ void CJabberDlgPrivacyLists::btnApply_OnClick(CCtrlButton *)
 				pUserData->m_dwCount++;
 
 				XmlNodeIq iq(m_proto->m_iqManager.AddHandler(&CJabberProto::OnIqResultPrivacyListModify, JABBER_IQ_TYPE_SET, NULL, 0, -1, pUserData));
-				HXML query = iq << XQUERY(_T(JABBER_FEAT_PRIVACY_LISTS));
+				HXML query = iq << XQUERY(JABBER_FEAT_PRIVACY_LISTS);
 				HXML listTag = query << XCHILD(_T("list")) << XATTR(_T("name"), pList->GetListName());
 
 				while (pRule) {
@@ -2181,7 +2181,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandlePrivacyLists(WPARAM, LPARAM)
 void CJabberProto::QueryPrivacyLists(ThreadData *pThreadInfo)
 {
 	XmlNodeIq iq(m_iqManager.AddHandler(&CJabberProto::OnIqResultPrivacyLists));
-	iq << XQUERY(_T(JABBER_FEAT_PRIVACY_LISTS));
+	iq << XQUERY(JABBER_FEAT_PRIVACY_LISTS);
 	if (pThreadInfo)
 		pThreadInfo->send(iq);
 	else if (m_ThreadInfo)
@@ -2204,7 +2204,7 @@ INT_PTR __cdecl CJabberProto::menuSetPrivacyList(WPARAM, LPARAM, LPARAM iList)
 	}
 
 	XmlNodeIq iq(m_iqManager.AddHandler(&CJabberProto::OnIqResultPrivacyListActive, JABBER_IQ_TYPE_SET, NULL, 0, -1, pList));
-	HXML query = iq << XQUERY(_T(JABBER_FEAT_PRIVACY_LISTS));
+	HXML query = iq << XQUERY(JABBER_FEAT_PRIVACY_LISTS);
 	HXML active = query << XCHILD(_T("active"));
 	if (pList)
 		active << XATTR(_T("name"), pList->GetListName());

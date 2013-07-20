@@ -1067,7 +1067,7 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 				if (GetResourceCapabilites(jid, TRUE) & JABBER_CAPS_CHATSTATES)
 					m_ThreadInfo->send(
 						XmlNode(_T("message")) << XATTR(_T("to"), jid) << XATTR(_T("type"), _T("chat")) << XATTRID( SerialNext())
-							<< XCHILDNS(_T("gone"), _T(JABBER_FEAT_CHATSTATES)));
+							<< XCHILDNS(_T("gone"), JABBER_FEAT_CHATSTATES));
 			}
 		}
 	}	

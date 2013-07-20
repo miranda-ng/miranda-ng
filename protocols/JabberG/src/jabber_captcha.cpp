@@ -115,7 +115,7 @@ bool CJabberProto::ProcessCaptcha (HXML node, HXML parentNode, ThreadData* info)
 	const TCHAR *PicType = 0;
 	TCHAR *CaptchaPath = 0;
 
-	HXML x = xmlGetChildByTag(node, "x", "xmlns", _T(JABBER_FEAT_DATA_FORMS));
+	HXML x = xmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_DATA_FORMS);
 	if (x == NULL)
 		return false;
 
@@ -215,7 +215,7 @@ LBL_Ret:
 
 void CJabberProto::sendCaptchaResult(TCHAR* buf, ThreadData* info, LPCTSTR from, LPCTSTR challenge, LPCTSTR fromjid,  LPCTSTR sid){
 	XmlNodeIq iq(_T("set"), SerialNext());
-	HXML query= iq <<XATTR(_T("to"), from) << XCHILD(_T("captcha")) << XATTR(_T("xmlns"), _T("urn:xmpp:captcha")) << XCHILD (_T("x")) << XATTR(_T("xmlns"), _T(JABBER_FEAT_DATA_FORMS)) << XATTR(_T("type"), _T("submit"));
+	HXML query= iq <<XATTR(_T("to"), from) << XCHILD(_T("captcha")) << XATTR(_T("xmlns"), _T("urn:xmpp:captcha")) << XCHILD (_T("x")) << XATTR(_T("xmlns"), JABBER_FEAT_DATA_FORMS) << XATTR(_T("type"), _T("submit"));
 		query << XCHILD(_T("field")) << XATTR (_T("var"), _T("FORM_TYPE")) << XCHILD(_T("value"), _T("urn:xmpp:captcha"));
 		query << XCHILD(_T("field")) << XATTR (_T("var"), _T("from")) << XCHILD(_T("value"), fromjid);
 		query << XCHILD(_T("field")) << XATTR (_T("var"), _T("challenge")) << XCHILD(_T("value"), challenge);

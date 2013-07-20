@@ -611,7 +611,7 @@ private:
 
 		if (res == IDYES)
 			m_proto->m_ThreadInfo->send(
-				XmlNodeIq(_T("set"), m_proto->SerialNext(), m_proto->m_szJabberJID) << XQUERY(_T(JABBER_FEAT_REGISTER))
+				XmlNodeIq(_T("set"), m_proto->SerialNext(), m_proto->m_szJabberJID) << XQUERY(JABBER_FEAT_REGISTER)
 					<< XCHILD(_T("remove")));
 	}
 
@@ -1108,7 +1108,7 @@ void CJabberProto::_RosterHandleGetRequest(HXML node)
 		xmlAddAttr(iq, _T("type"), _T("set"));
 		iq << XATTRID(iqId);
 
-		HXML query = iq << XCHILDNS(_T("query"), _T(JABBER_FEAT_IQ_ROSTER));
+		HXML query = iq << XCHILDNS(_T("query"), JABBER_FEAT_IQ_ROSTER);
 
 		int itemCount=0;
 		int ListItemCount=ListView_GetItemCount(hList);
@@ -1187,7 +1187,7 @@ void CJabberProto::_RosterSendRequest(HWND hwndDlg, BYTE rrAction)
 
 	int iqId = SerialNext();
 	IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::_RosterHandleGetRequest);
-	m_ThreadInfo->send(XmlNode(_T("iq")) << XATTR(_T("type"), _T("get")) << XATTRID(iqId) << XCHILDNS(_T("query"), _T(JABBER_FEAT_IQ_ROSTER)));
+	m_ThreadInfo->send(XmlNode(_T("iq")) << XATTR(_T("type"), _T("get")) << XATTRID(iqId) << XCHILDNS(_T("query"), JABBER_FEAT_IQ_ROSTER));
 }
 
 static void _RosterItemEditEnd(HWND hEditor, ROSTEREDITDAT * edat, BOOL bCancel)

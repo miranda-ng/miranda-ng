@@ -608,7 +608,7 @@ HXML JabberFormGetData(HWND hwndStatic, HXML xNode)
 	hFrame = hwndStatic;
 	id = 0;
 	XmlNode x(_T("x"));
-	x << XATTR(_T("xmlns"), _T(JABBER_FEAT_DATA_FORMS)) << XATTR(_T("type"), _T("submit"));
+	x << XATTR(_T("xmlns"), JABBER_FEAT_DATA_FORMS) << XATTR(_T("type"), _T("submit"));
 
 	for (int i=0; ; i++) {
 		n = xmlGetChild(xNode ,i);

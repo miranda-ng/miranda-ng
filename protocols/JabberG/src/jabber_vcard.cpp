@@ -39,7 +39,7 @@ int CJabberProto::SendGetVcard(const TCHAR *jid)
 
 	IqAdd(iqId, procId, &CJabberProto::OnIqResultGetVcard);
 	m_ThreadInfo->send(
-		XmlNodeIq(_T("get"), iqId, jid) << XCHILDNS(_T("vCard"), _T(JABBER_FEAT_VCARD_TEMP))
+		XmlNodeIq(_T("get"), iqId, jid) << XCHILDNS(_T("vCard"), JABBER_FEAT_VCARD_TEMP)
 			<< XATTR(_T("prodid"), _T("-//HandGen//NONSGML vGen v1.0//EN")) << XATTR(_T("version"), _T("2.0")));
 
 	return iqId;
@@ -1043,7 +1043,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 	IqAdd(iqId, IQ_PROC_SETVCARD, &CJabberProto::OnIqResultSetVcard);
 
 	XmlNodeIq iq(_T("set"), iqId);
-	HXML v = iq << XCHILDNS(_T("vCard"), _T(JABBER_FEAT_VCARD_TEMP));
+	HXML v = iq << XCHILDNS(_T("vCard"), JABBER_FEAT_VCARD_TEMP);
 
 	AppendVcardFromDB(v, "FN", "FullName");
 

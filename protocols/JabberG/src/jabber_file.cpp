@@ -325,7 +325,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 				wsprintf(fulljid, _T("%s/%s"), ft->jid, ptszResource);
 
 				XmlNodeIq iq(_T("set"), id, fulljid);
-				HXML query = iq << XQUERY(_T(JABBER_FEAT_OOB));
+				HXML query = iq << XQUERY(JABBER_FEAT_OOB);
 				query << XCHILD(_T("url"), _A2T(szAddr));
 				query << XCHILD(_T("desc"), ft->szDescription);
 				m_ThreadInfo->send(iq);

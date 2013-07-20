@@ -399,7 +399,7 @@ void CPepService::Publish()
 {
 	XmlNodeIq iq(_T("set"), m_proto->SerialNext());
 	CreateData(
-		iq << XCHILDNS(_T("pubsub"), _T(JABBER_FEAT_PUBSUB))
+		iq << XCHILDNS(_T("pubsub"), JABBER_FEAT_PUBSUB)
 			<< XCHILD(_T("publish")) << XATTR(_T("node"), m_node)
 				<< XCHILD(_T("item")) << XATTR(_T("id"), _T("current")));
 	m_proto->m_ThreadInfo->send(iq);
@@ -414,7 +414,7 @@ void CPepService::Retract()
 
 	m_proto->m_ThreadInfo->send(
 		XmlNodeIq(_T("set"), m_proto->SerialNext())
-			<< XCHILDNS(_T("pubsub"), _T(JABBER_FEAT_PUBSUB))
+			<< XCHILDNS(_T("pubsub"), JABBER_FEAT_PUBSUB)
 				<< XCHILD(_T("publish")) << XATTR(_T("node"), m_node)
 					<< XCHILD(_T("item"))
 						<< XCHILDNS(tempName, m_node));
@@ -616,7 +616,7 @@ static g_arrMoods[] =
 };
 
 CPepMood::CPepMood(CJabberProto *proto) :
-	CPepGuiService(proto, "Mood", _T(JABBER_FEAT_USER_MOOD)),
+	CPepGuiService(proto, "Mood", JABBER_FEAT_USER_MOOD),
 	m_text(NULL),
 	m_mode(-1)
 {
@@ -644,7 +644,7 @@ void CPepMood::ProcessItems(const TCHAR *from, HXML itemsNode)
 		return;
 	}
 
-	HXML n, moodNode = XPath(itemsNode, _T("item/mood[@xmlns='") _T(JABBER_FEAT_USER_MOOD) _T("']"));
+	HXML n, moodNode = XPath(itemsNode, _T("item/mood[@xmlns='") JABBER_FEAT_USER_MOOD _T("']"));
 	if ( !moodNode) return;
 
 	LPCTSTR moodType = NULL, moodText = NULL;
@@ -667,7 +667,7 @@ void CPepMood::ProcessItems(const TCHAR *from, HXML itemsNode)
 
 void CPepMood::CreateData(HXML n)
 {
-	HXML moodNode = n << XCHILDNS(_T("mood"), _T(JABBER_FEAT_USER_MOOD));
+	HXML moodNode = n << XCHILDNS(_T("mood"), JABBER_FEAT_USER_MOOD);
 	moodNode << XCHILD(_A2T(g_arrMoods[m_mode].szTag));
 	if (m_text)
 		moodNode << XCHILD(_T("text"), m_text);
@@ -994,7 +994,7 @@ void ActivityBuildTitle(int id, TCHAR *buf, int size)
 }
 
 CPepActivity::CPepActivity(CJabberProto *proto):
-	CPepGuiService(proto, "Activity", _T(JABBER_FEAT_USER_ACTIVITY)),
+	CPepGuiService(proto, "Activity", JABBER_FEAT_USER_ACTIVITY),
 	m_text(NULL),
 	m_mode(-1)
 {
@@ -1022,7 +1022,7 @@ void CPepActivity::ProcessItems(const TCHAR *from, HXML itemsNode)
 		return;
 	}
 
-	HXML actNode = XPath(itemsNode, _T("item/activity[@xmlns='") _T(JABBER_FEAT_USER_ACTIVITY) _T("']"));
+	HXML actNode = XPath(itemsNode, _T("item/activity[@xmlns='") JABBER_FEAT_USER_ACTIVITY _T("']"));
 	if ( !actNode)
 		return;
 
@@ -1055,7 +1055,7 @@ void CPepActivity::CreateData(HXML n)
 	char *szFirstNode = ActivityGetFirst(m_mode);
 	char *szSecondNode = ActivityGetSecond(m_mode);
 
-	HXML activityNode = n << XCHILDNS(_T("activity"), _T(JABBER_FEAT_USER_ACTIVITY));
+	HXML activityNode = n << XCHILDNS(_T("activity"), JABBER_FEAT_USER_ACTIVITY);
 	HXML firstNode = activityNode << XCHILD(_A2T(szFirstNode));
 
 	if (firstNode && szSecondNode)
@@ -1153,7 +1153,7 @@ void CPepActivity::ShowSetDialog(BYTE bQuiet)
 
 HICON CJabberProto::GetXStatusIcon(int bStatus, UINT flags)
 {
-	CPepMood *pepMood = (CPepMood*)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD));
+	CPepMood *pepMood = (CPepMood*)m_pepServices.Find(JABBER_FEAT_USER_MOOD);
 	HICON icon = g_MoodIcons.GetIcon(g_arrMoods[bStatus].szTag, (flags & LR_BIGICON) != 0);
 	return (flags & LR_SHARED) ? icon : CopyIcon(icon);
 }
@@ -1170,7 +1170,7 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusIcon(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	if ( !wParam)
-		wParam = ((CPepMood*)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD)))->m_mode;
+		wParam = ((CPepMood*)m_pepServices.Find(JABBER_FEAT_USER_MOOD))->m_mode;
 
 	if (wParam < 1 || wParam >= SIZEOF(g_arrMoods))
 		return 0;
@@ -1191,9 +1191,9 @@ BOOL CJabberProto::SendPepTune(TCHAR* szArtist, TCHAR* szLength, TCHAR* szSource
 		return FALSE;
 
 	XmlNodeIq iq(_T("set"), SerialNext());
-	HXML tuneNode = iq << XCHILDNS(_T("pubsub"), _T(JABBER_FEAT_PUBSUB))
-							<< XCHILD(_T("publish")) << XATTR(_T("node"), _T(JABBER_FEAT_USER_TUNE))
-							<< XCHILD(_T("item")) << XCHILDNS(_T("tune"), _T(JABBER_FEAT_USER_TUNE));
+	HXML tuneNode = iq << XCHILDNS(_T("pubsub"), JABBER_FEAT_PUBSUB)
+							<< XCHILD(_T("publish")) << XATTR(_T("node"), JABBER_FEAT_USER_TUNE)
+							<< XCHILD(_T("item")) << XCHILDNS(_T("tune"), JABBER_FEAT_USER_TUNE);
 
 	if (szArtist || szLength || szSource || szTitle || szUri) {
 		if (szArtist) tuneNode << XCHILD(_T("artist"), szArtist);
@@ -1322,12 +1322,12 @@ INT_PTR __cdecl CJabberProto::OnSetListeningTo(WPARAM, LPARAM lParam)
 
 void CJabberProto::InfoFrame_OnUserMood(CJabberInfoFrame_Event*)
 {
-	((CPepGuiService *)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD)))->LaunchSetGui(0);
+	((CPepGuiService *)m_pepServices.Find(JABBER_FEAT_USER_MOOD))->LaunchSetGui(0);
 }
 
 void CJabberProto::InfoFrame_OnUserActivity(CJabberInfoFrame_Event*)
 {
-	((CPepGuiService *)m_pepServices.Find(_T(JABBER_FEAT_USER_ACTIVITY)))->LaunchSetGui(0);
+	((CPepGuiService *)m_pepServices.Find(JABBER_FEAT_USER_ACTIVITY))->LaunchSetGui(0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1352,7 +1352,7 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 	if (pData->cbSize < sizeof(CUSTOM_STATUS))
 		return 1;
 
-	CPepMood *pepMood = (CPepMood*)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD));
+	CPepMood *pepMood = (CPepMood*)m_pepServices.Find(JABBER_FEAT_USER_MOOD);
 	if (pepMood == NULL)
 		return 1;
 
@@ -1434,7 +1434,7 @@ INT_PTR __cdecl CJabberProto::OnSetXStatusEx(WPARAM wParam, LPARAM lParam)
 	if (pData->cbSize < sizeof(CUSTOM_STATUS))
 		return 1;
 
-	CPepMood *pepMood = (CPepMood*)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD));
+	CPepMood *pepMood = (CPepMood*)m_pepServices.Find(JABBER_FEAT_USER_MOOD);
 
 	int status = (pData->flags & CSSF_MASK_STATUS) ? *pData->status : pepMood->m_mode;
 	if (status >= 0 && status < SIZEOF(g_arrMoods)) {

@@ -91,7 +91,7 @@ void CJabberProto::ListWipe(void)
 
 JABBER_LIST_ITEM *CJabberProto::ListAdd(JABBER_LIST list, const TCHAR *jid)
 {
-	bool bUseResource = FALSE;
+	bool bUseResource = false;
 	mir_cslockfull lck(m_csLists);
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(list, jid);

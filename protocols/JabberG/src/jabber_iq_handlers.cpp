@@ -362,7 +362,7 @@ BOOL CJabberProto::OnIqRequestVersion(HXML, CJabberIqInfo* pInfo)
 		return FALSE;
 
 	XmlNodeIq iq(_T("result"), pInfo);
-	HXML query = iq << XQUERY(_T(JABBER_FEAT_VERSION));
+	HXML query = iq << XQUERY(JABBER_FEAT_VERSION);
 	query << XCHILD(_T("name"), _T("Miranda NG Jabber"));
 	query << XCHILD(_T("version"), szCoreVersion);
 
@@ -382,7 +382,7 @@ BOOL CJabberProto::OnIqRequestVersion(HXML, CJabberIqInfo* pInfo)
 BOOL CJabberProto::OnIqRequestLastActivity(HXML, CJabberIqInfo *pInfo)
 {
 	m_ThreadInfo->send(
-		XmlNodeIq(_T("result"), pInfo) << XQUERY(_T(JABBER_FEAT_LAST_ACTIVITY))
+		XmlNodeIq(_T("result"), pInfo) << XQUERY(JABBER_FEAT_LAST_ACTIVITY)
 			<< XATTRI(_T("seconds"), m_tmJabberIdleStartTime ? time(0) - m_tmJabberIdleStartTime : 0));
 	return TRUE;
 }
@@ -433,7 +433,7 @@ BOOL CJabberProto::OnIqRequestTime(HXML, CJabberIqInfo *pInfo)
 	mir_sntprintf(szTZ, SIZEOF(szTZ), _T("%+03d:%02d"), nGmtOffset / 60, nGmtOffset % 60);
 
 	XmlNodeIq iq(_T("result"), pInfo);
-	HXML timeNode = iq << XCHILDNS(_T("time"), _T(JABBER_FEAT_ENTITY_TIME));
+	HXML timeNode = iq << XCHILDNS(_T("time"), JABBER_FEAT_ENTITY_TIME);
 	timeNode << XCHILD(_T("utc"), stime); timeNode << XCHILD(_T("tzo"), szTZ);
 	LPCTSTR szTZName = tmi.getTzName(NULL);
 	if (szTZName)
@@ -458,7 +458,7 @@ BOOL CJabberProto::OnIqProcessIqOldTime(HXML, CJabberIqInfo *pInfo)
 	dtime[ 24 ] = 0;
 
 	XmlNodeIq iq(_T("result"), pInfo);
-	HXML queryNode = iq << XQUERY(_T(JABBER_FEAT_ENTITY_TIME_OLD));
+	HXML queryNode = iq << XQUERY(JABBER_FEAT_ENTITY_TIME_OLD);
 	queryNode << XCHILD(_T("utc"), stime);
 	LPCTSTR szTZName = tmi.getTzName(NULL);
 	if (szTZName)
@@ -504,7 +504,7 @@ BOOL CJabberProto::OnIqRequestAvatar(HXML, CJabberIqInfo *pInfo)
 	fclose(in);
 
 	char* str = JabberBase64Encode(buffer, bytes);
-	m_ThreadInfo->send( XmlNodeIq(_T("result"), pInfo) << XQUERY(_T(JABBER_FEAT_AVATAR)) << XCHILD(_T("query"), _A2T(str)) << XATTR(_T("mimetype"), szMimeType));
+	m_ThreadInfo->send( XmlNodeIq(_T("result"), pInfo) << XQUERY(JABBER_FEAT_AVATAR) << XCHILD(_T("query"), _A2T(str)) << XATTR(_T("mimetype"), szMimeType));
 	mir_free(str);
 	mir_free(buffer);
 	return TRUE;
@@ -514,7 +514,7 @@ BOOL CJabberProto::OnSiRequest(HXML node, CJabberIqInfo *pInfo)
 {
 	const TCHAR *szProfile = xmlGetAttrValue(pInfo->GetChildNode(), _T("profile"));
 
-	if (szProfile && !_tcscmp(szProfile, _T(JABBER_FEAT_SI_FT)))
+	if (szProfile && !_tcscmp(szProfile, JABBER_FEAT_SI_FT))
 		FtHandleSiRequest(node);
 	else {
 		XmlNodeIq iq(_T("error"), pInfo);
@@ -768,13 +768,13 @@ BOOL CJabberProto::OnHandleDiscoItemsRequest(HXML iqNode, CJabberIqInfo* pInfo)
 
 	// another request, send empty result
 	XmlNodeIq iq(_T("result"), pInfo);
-	HXML resultQuery = iq << XQUERY(_T(JABBER_FEAT_DISCO_ITEMS));
+	HXML resultQuery = iq << XQUERY(JABBER_FEAT_DISCO_ITEMS);
 	if (szNode)
 		xmlAddAttr(resultQuery, _T("node"), szNode);
 
 	if ( !szNode && m_options.EnableRemoteControl)
 		resultQuery << XCHILD(_T("item")) << XATTR(_T("jid"), m_ThreadInfo->fullJID)
-			<< XATTR(_T("node"), _T(JABBER_FEAT_COMMANDS)) << XATTR(_T("name"), _T("Ad-hoc commands"));
+			<< XATTR(_T("node"), JABBER_FEAT_COMMANDS) << XATTR(_T("name"), _T("Ad-hoc commands"));
 
 	m_ThreadInfo->send(iq);
 	return TRUE;

@@ -102,6 +102,7 @@ struct JABBER_RESOURCE_STATUS
 
 	// XEP-0085 gone event support
 	BOOL bMessageSessionActive;
+
 	JABBER_XEP0232_SOFTWARE_INFO* pSoftwareInfo;
 };
 

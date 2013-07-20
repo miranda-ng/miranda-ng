@@ -96,7 +96,7 @@ void CJabberProto::IbbSendThread(JABBER_IBB_TRANSFER *jibb)
 
 	m_ThreadInfo->send(
 		XmlNodeIq(m_iqManager.AddHandler(&CJabberProto::OnIbbInitiateResult, JABBER_IQ_TYPE_SET, jibb->dstJID, 0, -1, jibb))
-			<< XCHILDNS(_T("open"), _T(JABBER_FEAT_IBB)) << XATTR(_T("sid"), jibb->sid) << XATTRI(_T("block-size"), JABBER_IBB_BLOCK_SIZE)
+			<< XCHILDNS(_T("open"), JABBER_FEAT_IBB) << XATTR(_T("sid"), jibb->sid) << XATTRI(_T("block-size"), JABBER_IBB_BLOCK_SIZE)
 			<< XATTR(_T("stanza"), _T("message")));
 
 	WaitForSingleObject(jibb->hEvent, INFINITE);
@@ -115,7 +115,7 @@ void CJabberProto::IbbSendThread(JABBER_IBB_TRANSFER *jibb)
 
 			m_ThreadInfo->send(
 				XmlNodeIq(m_iqManager.AddHandler(&CJabberProto::OnIbbCloseResult, JABBER_IQ_TYPE_SET, jibb->dstJID, 0, -1, jibb))
-					<< XCHILDNS(_T("close"), _T(JABBER_FEAT_IBB)) << XATTR(_T("sid"), jibb->sid));
+					<< XCHILDNS(_T("close"), JABBER_FEAT_IBB) << XATTR(_T("sid"), jibb->sid));
 
 			WaitForSingleObject(jibb->hEvent, INFINITE);
 			CloseHandle(jibb->hEvent);
@@ -152,7 +152,7 @@ void __cdecl CJabberProto::IbbReceiveThread(JABBER_IBB_TRANSFER *jibb)
 	jibb->hEvent = NULL;
 
 	if (jibb->state == JIBB_ERROR)
-		m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext(), jibb->dstJID) << XCHILDNS(_T("close"), _T(JABBER_FEAT_IBB)) << XATTR(_T("sid"), jibb->sid));
+		m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext(), jibb->dstJID) << XCHILDNS(_T("close"), JABBER_FEAT_IBB) << XATTR(_T("sid"), jibb->sid));
 
 	if (jibb->bStreamClosed && jibb->dwTransferredSize == ft->dwExpectedRecvFileSize)
 		jibb->state = JIBB_DONE;

@@ -116,8 +116,8 @@ int CJabberProto::AdHoc_RequestListOfCommands(TCHAR * szResponder, HWND hwndDlg)
 {
 	int iqId = (int)hwndDlg;
 	IqAdd(iqId, IQ_PROC_DISCOCOMMANDS, &CJabberProto::OnIqResult_ListOfCommands);
-	m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId, szResponder) << XQUERY(_T(JABBER_FEAT_DISCO_ITEMS))
-		<< XATTR(_T("node"), _T(JABBER_FEAT_COMMANDS)));
+	m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId, szResponder) << XQUERY(JABBER_FEAT_DISCO_ITEMS)
+		<< XATTR(_T("node"), JABBER_FEAT_COMMANDS));
 	return iqId;
 }
 
@@ -137,7 +137,7 @@ int CJabberProto::AdHoc_ExecuteCommand(HWND hwndDlg, TCHAR*, JabberAdHocData* da
 			IqAdd(iqId, IQ_PROC_EXECCOMMANDS, &CJabberProto::OnIqResult_CommandExecution);
 			m_ThreadInfo->send(
 				XmlNodeIq(_T("set"), iqId, jid2)
-					<< XCHILDNS(_T("command"), _T(JABBER_FEAT_COMMANDS)) << XATTR(_T("node"), node) << XATTR(_T("action"), _T("execute")));
+					<< XCHILDNS(_T("command"), JABBER_FEAT_COMMANDS) << XATTR(_T("node"), node) << XATTR(_T("action"), _T("execute")));
 
 			EnableDlgItem(hwndDlg, IDC_SUBMIT, FALSE);
 			SetDlgItemText(hwndDlg, IDC_SUBMIT, TranslateT("OK"));
@@ -177,8 +177,8 @@ int CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, HXML iqNode, Jabbe
 			const TCHAR *xmlns = xmlGetAttrValue(queryNode, _T("xmlns"));
 			const TCHAR *node  = xmlGetAttrValue(queryNode, _T("node"));
 			if (xmlns && node
-					&& !_tcscmp(xmlns, _T(JABBER_FEAT_DISCO_ITEMS))
-					&& !_tcscmp(node,  _T(JABBER_FEAT_COMMANDS)))
+					&& !_tcscmp(xmlns, JABBER_FEAT_DISCO_ITEMS)
+					&& !_tcscmp(node,  JABBER_FEAT_COMMANDS))
 				validResponse = TRUE;
 		}
 		if (queryNode && xmlGetChild(queryNode ,0) && validResponse) {
@@ -310,7 +310,7 @@ int CJabberProto::AdHoc_SubmitCommandForm(HWND hwndDlg, JabberAdHocData* dat, TC
 
 	int iqId = (int)hwndDlg;
 	XmlNodeIq iq(_T("set"), iqId, xmlGetAttrValue(dat->AdHocNode, _T("from")));
-	HXML command = iq << XCHILDNS(_T("command"), _T(JABBER_FEAT_COMMANDS));
+	HXML command = iq << XCHILDNS(_T("command"), JABBER_FEAT_COMMANDS);
 
 	const TCHAR *sessionId = xmlGetAttrValue(commandNode, _T("sessionid"));
 	if (sessionId)
@@ -417,7 +417,7 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 				dat->proto->IqAdd(iqId, IQ_PROC_EXECCOMMANDS, &CJabberProto::OnIqResult_CommandExecution);
 				dat->proto->m_ThreadInfo->send(
 					XmlNodeIq(_T("set"), iqId, pStartupParams->m_szJid)
-						<< XCHILDNS(_T("command"), _T(JABBER_FEAT_COMMANDS))
+						<< XCHILDNS(_T("command"), JABBER_FEAT_COMMANDS)
 							<< XATTR(_T("node"), pStartupParams->m_szNode) << XATTR(_T("action"), _T("execute")));
 
 				EnableDlgItem(hwndDlg, IDC_SUBMIT, FALSE);
