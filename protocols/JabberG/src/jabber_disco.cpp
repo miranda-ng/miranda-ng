@@ -1442,7 +1442,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 			if (ListGetItemPtr(LIST_VCARD_TEMP, pNode->GetJid()) == NULL) {
 				JABBER_LIST_ITEM* item = ListAdd(LIST_VCARD_TEMP, pNode->GetJid());
 				item->bUseResource = TRUE;
-				if (item->resource == NULL)
+				if (item->pResources == NULL)
 					ListAddResource(LIST_VCARD_TEMP, jid, ID_STATUS_OFFLINE, NULL, 0);
 			}
 			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);

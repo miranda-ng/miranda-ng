@@ -114,11 +114,11 @@ struct JABBER_LIST_ITEM
 	// jid = jid of the contact
 	TCHAR* nick;
 	int resourceCount;
-	JABBER_RESOURCE_STATUS *resource;
-	JABBER_RESOURCE_STATUS itemResource; // resource for jids without /resource node
-	int lastSeenResource;	// index to resource[x] which was last seen active
-	int manualResource;	// manually set index to resource[x]
-//	int defaultResource;	// index to resource[x] which is the default, negative (-1) means no resource is chosen yet
+	JABBER_RESOURCE_STATUS
+		*pResources,        // array of resources
+		*pLastSeenResource, // resource which was last seen active
+		*pManualResource,   // manually set resource
+		itemResource;       // resource for jids without /resource node
 	JABBER_RESOURCE_MODE resourceMode;
 	JABBER_SUBSCRIPTION subscription;
 	TCHAR* group;
@@ -132,19 +132,15 @@ struct JABBER_LIST_ITEM
 
 	// LIST_ROOM
 	// jid = room JID
-	// char* name; // room name
 	TCHAR* type;	// room type
 
 	// LIST_CHATROOM
 	// jid = room JID
-	// char* nick;	// my nick in this chat room (SPECIAL: in TXT)
-	// JABBER_RESOURCE_STATUS *resource;	// participant nicks in this room
 	BOOL bChatActive;
 	HWND hwndGcListBan;
 	HWND hwndGcListAdmin;
 	HWND hwndGcListOwner;
 	int  iChatState;
-	// BOOL bAutoJoin; // chat sessio was started via auto-join
 
 	// LIST_FILE
 	// jid = string representation of port number
@@ -163,9 +159,6 @@ struct JABBER_LIST_ITEM
 
 	//LIST_BOOKMARK
 	// jid = room JID
-	// TCHAR* nick;	// my nick in this chat room
-	// TCHAR* name; // name of the bookmark
-	// TCHAR* type; // type of bookmark ("url" or "conference")
 	TCHAR* password;	// password for room
 	BOOL bAutoJoin;
 

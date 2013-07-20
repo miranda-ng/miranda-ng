@@ -543,51 +543,45 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 
 int __cdecl CJabberProto::ContactMenuRunCommands(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact;
-	DBVARIANT dbv;
+	HANDLE hContact = (HANDLE)wParam;
 	int res = -1;
-	JABBER_LIST_ITEM * item=NULL;
 
-	if (((hContact=(HANDLE)wParam)!=NULL || (lParam!=0)) && m_bJabberOnline) {
+	if ((hContact != NULL || lParam != 0) && m_bJabberOnline) {
+		DBVARIANT dbv;
 		if (wParam && !getTString(hContact, "jid", &dbv)) {
-			TCHAR jid[ JABBER_MAX_JID_LEN ];
+			JABBER_LIST_ITEM *item = NULL;
 			int selected = 0;
+			TCHAR jid[ JABBER_MAX_JID_LEN ];
 			_tcsncpy(jid, dbv.ptszVal, SIZEOF(jid));
-
-			ListLock();
 			{
+				mir_cslock lck(m_csLists);
 				item = ListGetItemPtr(LIST_ROSTER, jid);
-				if (item)
-				{
-					if (item->resourceCount>1)
-					{
-						HMENU hMenu=CreatePopupMenu();
-						for (int i=0; i<item->resourceCount; i++)
-							AppendMenu(hMenu,MF_STRING,i+1, item->resource[i].resourceName);
+				if (item) {
+					if (item->resourceCount > 1) {
+						HMENU hMenu = CreatePopupMenu();
+						for (int i=0; i < item->resourceCount; i++)
+							AppendMenu(hMenu,MF_STRING,i+1, item->pResources[i].resourceName);
 						HWND hwndTemp=CreateWindowEx(WS_EX_TOOLWINDOW,_T("button"),_T("PopupMenuHost"),0,0,0,10,10,NULL,NULL,hInst,NULL);
 						SetForegroundWindow(hwndTemp);
 						POINT pt;
 						GetCursorPos(&pt);
 						RECT rc;
-						selected=TrackPopupMenu(hMenu,TPM_RETURNCMD,pt.x,pt.y,0,hwndTemp,&rc);
+						selected = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndTemp, &rc);
 						DestroyMenu(hMenu);
 						DestroyWindow(hwndTemp);
 					}
-					else selected=1;
+					else selected = 1;
 
-					if (selected>0)
-					{
+					if (selected > 0) {
 						selected--;
-						if (item->resource)
-						{
+						if (item->pResources) {
 							_tcsncat(jid,_T("/"),SIZEOF(jid));
-							_tcsncat(jid,item->resource[selected].resourceName,SIZEOF(jid));
+							_tcsncat(jid,item->pResources[selected].resourceName,SIZEOF(jid));
 						}
-						selected=1;
+						selected = 1;
 					}
 				}
 			}
-			ListUnlock();
 
 			if ( !item || selected) {
 				CJabberAdhocStartupParams* pStartupParams = new CJabberAdhocStartupParams(this, jid, NULL);
@@ -596,7 +590,7 @@ int __cdecl CJabberProto::ContactMenuRunCommands(WPARAM wParam, LPARAM lParam)
 			db_free(&dbv);
 
 		}
-		else if (lParam!=0)
+		else if (lParam != 0)
 			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FORM), NULL, JabberAdHoc_CommandDlgProc, lParam);
 	}
 	return res;

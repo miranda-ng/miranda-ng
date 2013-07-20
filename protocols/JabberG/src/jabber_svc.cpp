@@ -400,7 +400,7 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 
 	JABBER_RESOURCE_STATUS * info = NULL;
 	for (int i=0; i < item->resourceCount; i++) {
-		JABBER_RESOURCE_STATUS& p = item->resource[i];
+		JABBER_RESOURCE_STATUS& p = item->pResources[i];
 		if ( !lstrcmp(p.resourceName, (TCHAR*)lParam)) {
 			info = &p;
 			break;
@@ -819,7 +819,7 @@ LPTSTR CJabberSysInterface::GetResourceList(LPCTSTR jid)
 		return NULL;
 	}
 
-	if (item->resource == NULL) {
+	if (item->pResources == NULL) {
 		m_psProto->ListUnlock();
 		return NULL;
 	}
@@ -827,16 +827,15 @@ LPTSTR CJabberSysInterface::GetResourceList(LPCTSTR jid)
 	int i;
 	int iLen = 1; // 1 for extra zero terminator at the end of the string
 	// calculate total necessary string length
-	for (i=0; i<item->resourceCount; i++) {
-		iLen += lstrlen(item->resource[i].resourceName) + 1;
-	}
+	for (i=0; i<item->resourceCount; i++)
+		iLen += lstrlen(item->pResources[i].resourceName) + 1;
 
 	// allocate memory and fill it
 	LPTSTR str = (LPTSTR)mir_alloc(iLen * sizeof(TCHAR));
 	LPTSTR p = str;
 	for (i=0; i<item->resourceCount; i++) {
-		lstrcpy(p, item->resource[i].resourceName);
-		p += lstrlen(item->resource[i].resourceName) + 1;
+		lstrcpy(p, item->pResources[i].resourceName);
+		p += lstrlen(item->pResources[i].resourceName) + 1;
 	}
 	*p = 0; // extra zero terminator
 

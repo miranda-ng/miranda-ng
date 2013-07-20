@@ -213,7 +213,7 @@ static void sttFillResourceInfo(CJabberProto* ppro, HWND hwndTree, HTREEITEM hti
 {
 	TCHAR buf[256];
 	HTREEITEM htiResource = htiRoot;
-	JABBER_RESOURCE_STATUS *res = resource ? &item->resource[resource-1] : &item->itemResource;
+	JABBER_RESOURCE_STATUS *res = resource ? &item->pResources[resource-1] : &item->itemResource;
 
 	if (res->resourceName && *res->resourceName)
 		htiResource = sttFillInfoLine(hwndTree, htiRoot, LoadSkinnedProtoIcon(ppro->m_szModuleName, res->status),
@@ -354,18 +354,18 @@ static void sttFillUserInfo(CJabberProto* ppro, HWND hwndTree, JABBER_LIST_ITEM 
 
 	// subscription
 	switch (item->subscription) {
-		case SUB_BOTH:
-			sttFillInfoLine(hwndTree, htiRoot, NULL, TranslateT("Subscription"), TranslateT("both"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
-			break;
-		case SUB_TO:
-			sttFillInfoLine(hwndTree, htiRoot, NULL, TranslateT("Subscription"), TranslateT("to"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
-			break;
-		case SUB_FROM:
-			sttFillInfoLine(hwndTree, htiRoot, NULL, TranslateT("Subscription"), TranslateT("from"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
-			break;
-		default:
-			sttFillInfoLine(hwndTree, htiRoot, NULL, TranslateT("Subscription"), TranslateT("none"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
-			break;
+	case SUB_BOTH:
+		sttFillInfoLine(hwndTree, htiRoot, NULL, TranslateT("Subscription"), TranslateT("both"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
+		break;
+	case SUB_TO:
+		sttFillInfoLine(hwndTree, htiRoot, NULL, TranslateT("Subscription"), TranslateT("to"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
+		break;
+	case SUB_FROM:
+		sttFillInfoLine(hwndTree, htiRoot, NULL, TranslateT("Subscription"), TranslateT("from"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
+		break;
+	default:
+		sttFillInfoLine(hwndTree, htiRoot, NULL, TranslateT("Subscription"), TranslateT("none"), sttInfoLineId(0, INFOLINE_SUBSCRIPTION));
+		break;
 	}
 
 	// logoff
@@ -388,8 +388,8 @@ static void sttFillUserInfo(CJabberProto* ppro, HWND hwndTree, JABBER_LIST_ITEM 
 		item->itemResource.statusMessage ? item->itemResource.statusMessage : TranslateT("<not specified>"), sttInfoLineId(0, INFOLINE_LOGOFF_MSG));
 
 	// activity
-	if ((item->lastSeenResource >= 0) && (item->lastSeenResource < item->resourceCount))
-		lstrcpyn(buf, item->resource[item->lastSeenResource].resourceName, SIZEOF(buf));
+	if (item->pLastSeenResource)
+		lstrcpyn(buf, item->pLastSeenResource->resourceName, SIZEOF(buf));
 	else
 		lstrcpyn(buf, TranslateT("<no information available>"), SIZEOF(buf));
 

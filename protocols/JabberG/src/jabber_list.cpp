@@ -50,7 +50,7 @@ static void JabberListFreeItemInternal(JABBER_LIST_ITEM *item)
 	if (item == NULL)
 		return;
 
-	JABBER_RESOURCE_STATUS* r = item->resource;
+	JABBER_RESOURCE_STATUS* r = item->pResources;
 	for (int i=0; i < item->resourceCount; i++, r++)
 		JabberListFreeResourceInternal(r);
 
@@ -64,7 +64,7 @@ static void JabberListFreeItemInternal(JABBER_LIST_ITEM *item)
 
 	mir_free(item->jid);
 	mir_free(item->nick);
-	mir_free(item->resource);
+	mir_free(item->pResources);
 	mir_free(item->group);
 	mir_free(item->messageEventIdStr);
 	mir_free(item->name);
@@ -78,14 +78,11 @@ static void JabberListFreeItemInternal(JABBER_LIST_ITEM *item)
 
 void CJabberProto::ListWipe(void)
 {
-	int i;
-
-	EnterCriticalSection(&m_csLists);
-	for (i=0; i < m_lstRoster.getCount(); i++)
+	mir_cslock lck(m_csLists);
+	for (int i=0; i < m_lstRoster.getCount(); i++)
 		JabberListFreeItemInternal(m_lstRoster[i]);
 
 	m_lstRoster.destroy();
-	LeaveCriticalSection(&m_csLists);
 }
 
 int CJabberProto::ListExist(JABBER_LIST list, const TCHAR *jid)
@@ -95,11 +92,8 @@ int CJabberProto::ListExist(JABBER_LIST list, const TCHAR *jid)
 	tmp.jid  = (TCHAR*)jid;
 	tmp.bUseResource = FALSE;
 
-	EnterCriticalSection(&m_csLists);
-
-	//fyr
-	if (list == LIST_ROSTER)
-	{
+	mir_cslock lck(m_csLists);
+	if (list == LIST_ROSTER) {
 		tmp.list = LIST_CHATROOM;
 		int id = m_lstRoster.getIndex(&tmp);
 		if (id != -1)
@@ -108,25 +102,17 @@ int CJabberProto::ListExist(JABBER_LIST list, const TCHAR *jid)
 	}
 
 	int idx = m_lstRoster.getIndex(&tmp);
-
-	if (idx == -1) {
-		LeaveCriticalSection(&m_csLists);
-		return 0;
-	}
-
-	LeaveCriticalSection(&m_csLists);
-	return idx+1;
+	return (idx == -1) ? 0 : idx+1;
 }
 
 JABBER_LIST_ITEM *CJabberProto::ListAdd(JABBER_LIST list, const TCHAR *jid)
 {
-	JABBER_LIST_ITEM* item;
 	BOOL bUseResource=FALSE;
-	EnterCriticalSection(&m_csLists);
-	if ((item = ListGetItemPtr(list, jid)) != NULL) {
-		LeaveCriticalSection(&m_csLists);
+	mir_cslockfull lck(m_csLists);
+
+	JABBER_LIST_ITEM *item = ListGetItemPtr(list, jid);
+	if (item != NULL)
 		return item;
-	}
 
 	TCHAR *s = mir_tstrdup(jid);
 	TCHAR *q = NULL;
@@ -139,17 +125,15 @@ JABBER_LIST_ITEM *CJabberProto::ListAdd(JABBER_LIST list, const TCHAR *jid)
 				if ((q = _tcschr(p, '/')) != NULL)
 					*q = '\0';
 		}
-	} else {
-		bUseResource=TRUE;
 	}
+	else bUseResource = TRUE;
 
-	if ( !bUseResource && list== LIST_ROSTER)
-	{
+	if ( !bUseResource && list == LIST_ROSTER) {
 		//if it is a chat room keep resource and made it resource sensitive
-		if (ChatRoomHContactFromJID(s))
-		{
-			if (q != NULL)	*q='/';
-			bUseResource=TRUE;
+		if (ChatRoomHContactFromJID(s)) {
+			if (q != NULL)
+				*q='/';
+			bUseResource = TRUE;
 		}
 	}
 
@@ -157,14 +141,10 @@ JABBER_LIST_ITEM *CJabberProto::ListAdd(JABBER_LIST list, const TCHAR *jid)
 	item->list = list;
 	item->jid = s;
 	item->itemResource.status = ID_STATUS_OFFLINE;
-	item->resource = NULL;
 	item->resourceMode = RSMODE_LASTSEEN;
-	item->lastSeenResource = -1;
-	item->manualResource = -1;
 	item->bUseResource = bUseResource;
-
 	m_lstRoster.insert(item);
-	LeaveCriticalSection(&m_csLists);
+	lck.unlock();
 
 	MenuUpdateSrmmIcon(item);
 	return item;
@@ -172,13 +152,12 @@ JABBER_LIST_ITEM *CJabberProto::ListAdd(JABBER_LIST list, const TCHAR *jid)
 
 void CJabberProto::ListRemove(JABBER_LIST list, const TCHAR *jid)
 {
-	EnterCriticalSection(&m_csLists);
+	mir_cslock lck(m_csLists);
 	int i = ListExist(list, jid);
 	if (i != 0) {
 		JabberListFreeItemInternal(m_lstRoster[ --i ]);
 		m_lstRoster.remove(i);
 	}
-	LeaveCriticalSection(&m_csLists);
 }
 
 void CJabberProto::ListRemoveList(JABBER_LIST list)
@@ -190,54 +169,42 @@ void CJabberProto::ListRemoveList(JABBER_LIST list)
 
 void CJabberProto::ListRemoveByIndex(int index)
 {
-	EnterCriticalSection(&m_csLists);
+	mir_cslock lck(m_csLists);
 	if (index >= 0 && index < m_lstRoster.getCount()) {
 		JabberListFreeItemInternal(m_lstRoster[index]);
 		m_lstRoster.remove(index);
 	}
-	LeaveCriticalSection(&m_csLists);
 }
 
 JABBER_RESOURCE_STATUS *CJabberProto::ListFindResource(JABBER_LIST list, const TCHAR *jid)
 {
-	JABBER_RESOURCE_STATUS *result = NULL;
-
-	EnterCriticalSection(&m_csLists);
+	mir_cslock lck(m_csLists);
 	int i = ListExist(list, jid);
-	if ( !i) {
-		LeaveCriticalSection(&m_csLists);
-		return 0;
-	}
+	if (i == 0)
+		return NULL;
 
 	JABBER_LIST_ITEM* LI = m_lstRoster[i-1];
 
 	const TCHAR *p = _tcschr(jid, '@');
 	const TCHAR *q = _tcschr((p == NULL) ? jid : p, '/');
-	if (q)
-	{
-		const TCHAR *resource = q+1;
-		if (*resource)
-			for (int j=0; j < LI->resourceCount; j++)
-				if ( !_tcscmp(LI->resource[j].resourceName, resource))
-				{
-					result = LI->resource + j;
-					break;
-				}
-	}
+	if (q == NULL)
+		return NULL;
+	
+	const TCHAR *resource = q+1;
+	if (*resource)
+		for (int j=0; j < LI->resourceCount; j++)
+			if ( !_tcscmp(LI->pResources[j].resourceName, resource))
+				return LI->pResources + j;
 
-	LeaveCriticalSection(&m_csLists);
-
-	return result;
+	return NULL;
 }
 
 int CJabberProto::ListAddResource(JABBER_LIST list, const TCHAR *jid, int status, const TCHAR *statusMessage, char priority, const TCHAR *nick)
 {
-	EnterCriticalSection(&m_csLists);
+	mir_cslockfull lck(m_csLists);
 	int i = ListExist(list, jid);
-	if ( !i) {
-		LeaveCriticalSection(&m_csLists);
+	if (!i)
 		return 0;
-	}
 
 	JABBER_LIST_ITEM* LI = m_lstRoster[i-1];
 	int bIsNewResource = false, j;
@@ -247,7 +214,7 @@ int CJabberProto::ListAddResource(JABBER_LIST list, const TCHAR *jid, int status
 	if (q) {
 		const TCHAR *resource = q+1;
 		if (resource[0]) {
-			JABBER_RESOURCE_STATUS* r = LI->resource;
+			JABBER_RESOURCE_STATUS* r = LI->pResources;
 			for (j=0; j < LI->resourceCount; j++, r++) {
 				if ( !_tcscmp(r->resourceName, resource)) {
 					// Already exist, update status and statusMessage
@@ -259,9 +226,9 @@ int CJabberProto::ListAddResource(JABBER_LIST list, const TCHAR *jid, int status
 
 			if (j >= LI->resourceCount) {
 				// Not already exist, add new resource
-				LI->resource = (JABBER_RESOURCE_STATUS *) mir_realloc(LI->resource, (LI->resourceCount+1)*sizeof(JABBER_RESOURCE_STATUS));
+				LI->pResources = (JABBER_RESOURCE_STATUS *) mir_realloc(LI->pResources, (LI->resourceCount+1)*sizeof(JABBER_RESOURCE_STATUS));
 				bIsNewResource = true;
-				r = LI->resource + LI->resourceCount++;
+				r = LI->pResources + LI->resourceCount++;
 				memset(r, 0, sizeof(JABBER_RESOURCE_STATUS));
 				r->status = status;
 				r->affiliation = AFFILIATION_NONE;
@@ -279,7 +246,7 @@ int CJabberProto::ListAddResource(JABBER_LIST list, const TCHAR *jid, int status
 		replaceStrT(LI->itemResource.statusMessage, statusMessage);
 	}
 
-	LeaveCriticalSection(&m_csLists);
+	lck.unlock();
 
 	MenuUpdateSrmmIcon(LI);
 	return bIsNewResource;
@@ -287,111 +254,105 @@ int CJabberProto::ListAddResource(JABBER_LIST list, const TCHAR *jid, int status
 
 void CJabberProto::ListRemoveResource(JABBER_LIST list, const TCHAR *jid)
 {
-	EnterCriticalSection(&m_csLists);
+	mir_cslockfull lck(m_csLists);
 	int i = ListExist(list, jid);
-	JABBER_LIST_ITEM* LI = m_lstRoster[i-1];
-	if ( !i || LI == NULL) {
-		LeaveCriticalSection(&m_csLists);
+	JABBER_LIST_ITEM *LI = m_lstRoster[i-1];
+	if (i == 0 || LI == NULL)
 		return;
-	}
 
 	const TCHAR *p = _tcschr(jid, '@');
 	const TCHAR *q = _tcschr((p == NULL) ? jid : p, '/');
-	if (q) {
-		const TCHAR *resource = q+1;
-		if (resource[0]) {
-			JABBER_RESOURCE_STATUS* r = LI->resource;
-			int j;
-			for (j=0; j < LI->resourceCount; j++, r++) {
-				if ( !_tcsicmp(r->resourceName, resource))
-					break;
-			}
-			if (j < LI->resourceCount) {
-				// Found last seen resource ID to be removed
-				if (LI->lastSeenResource == j)
-					LI->lastSeenResource = -1;
-				else if (LI->lastSeenResource > j)
-					LI->lastSeenResource--;
-				// update manually selected resource ID
-				if (LI->resourceMode == RSMODE_MANUAL)
-				{
-					if (LI->manualResource == j)
-					{
-						LI->resourceMode = RSMODE_LASTSEEN;
-						LI->manualResource = -1;
-					} else if (LI->manualResource > j)
-						LI->manualResource--;
-				}
+	if (q == NULL)
+		return;
 
-				// Update MirVer due to possible resource changes
-				UpdateMirVer(LI);
+	const TCHAR *resource = q+1;
+	if (resource[0] == 0)
+		return;
+		
+	JABBER_RESOURCE_STATUS *r = LI->pResources;
+	for (int j=0; j < LI->resourceCount; j++, r++)
+		if ( !_tcsicmp(r->resourceName, resource))
+			break;
 
-				JabberListFreeResourceInternal(r);
+	if (r >= LI->pResources + LI->resourceCount)
+		return;
 
-				if (LI->resourceCount-- == 1) {
-					mir_free(r);
-					LI->resource = NULL;
-				}
-				else {
-					memmove(r, r+1, (LI->resourceCount-j)*sizeof(JABBER_RESOURCE_STATUS));
-					LI->resource = (JABBER_RESOURCE_STATUS*)mir_realloc(LI->resource, LI->resourceCount*sizeof(JABBER_RESOURCE_STATUS));
-	}	}	}	}
+	// Found last seen resource ID to be removed
+	if (LI->pLastSeenResource == r)
+		LI->pLastSeenResource = NULL;
 
-	LeaveCriticalSection(&m_csLists);
+	// update manually selected resource ID
+	if (LI->resourceMode == RSMODE_MANUAL) {
+		if (LI->pManualResource == r) {
+			LI->resourceMode = RSMODE_LASTSEEN;
+			LI->pManualResource = NULL;
+		}
+	}
+
+	// Update MirVer due to possible resource changes
+	UpdateMirVer(LI);
+
+	JabberListFreeResourceInternal(r);
+
+	if (LI->resourceCount-- == 1) {
+		mir_free(r);
+		LI->pResources = NULL;
+	}
+	else {
+		memmove(r, r+1, (LI->resourceCount - (r-LI->pResources))*sizeof(JABBER_RESOURCE_STATUS));
+		LI->pResources = (JABBER_RESOURCE_STATUS*)mir_realloc(LI->pResources, LI->resourceCount*sizeof(JABBER_RESOURCE_STATUS));
+	}
+
+	lck.unlock();
 
 	MenuUpdateSrmmIcon(LI);
 }
 
 TCHAR* CJabberProto::ListGetBestResourceNamePtr(const TCHAR *jid)
 {
-	EnterCriticalSection(&m_csLists);
+	mir_cslock lck(m_csLists);
 	int i = ListExist(LIST_ROSTER, jid);
-	if ( !i) {
-		LeaveCriticalSection(&m_csLists);
+	if (i == 0)
 		return NULL;
-	}
 
 	TCHAR* res = NULL;
 
 	JABBER_LIST_ITEM* LI = m_lstRoster[i-1];
 	if (LI->resourceCount > 1) {
-		if (LI->resourceMode == RSMODE_LASTSEEN && LI->lastSeenResource>=0 && LI->lastSeenResource < LI->resourceCount)
-			res = LI->resource[ LI->lastSeenResource ].resourceName;
-		else if (LI->resourceMode == RSMODE_MANUAL && LI->manualResource>=0 && LI->manualResource < LI->resourceCount)
-			res = LI->resource[ LI->manualResource ].resourceName;
+		if (LI->resourceMode == RSMODE_LASTSEEN && LI->pLastSeenResource)
+			res = LI->pLastSeenResource->resourceName;
+		else if (LI->resourceMode == RSMODE_MANUAL && LI->pManualResource)
+			res = LI->pManualResource->resourceName;
 		else {
 			int nBestPos = -1, nBestPri = -200, j;
 			for (j = 0; j < LI->resourceCount; j++) {
-				if (LI->resource[ j ].priority > nBestPri) {
-					nBestPri = LI->resource[ j ].priority;
+				if (LI->pResources[ j ].priority > nBestPri) {
+					nBestPri = LI->pResources[ j ].priority;
 					nBestPos = j;
 				}
 			}
 			if (nBestPos != -1)
-				res = LI->resource[ nBestPos ].resourceName;
+				res = LI->pResources[nBestPos].resourceName;
 		}
 	}
 
-	if ( !res && LI->resource)
-		res = LI->resource[0].resourceName;
+	if (!res && LI->pResources)
+		res = LI->pResources[0].resourceName;
 
-	LeaveCriticalSection(&m_csLists);
 	return res;
 }
 
 TCHAR* CJabberProto::ListGetBestClientResourceNamePtr(const TCHAR *jid)
 {
-	EnterCriticalSection(&m_csLists);
+	mir_cslock lck(m_csLists);
 	int i = ListExist(LIST_ROSTER, jid);
-	if ( !i) {
-		LeaveCriticalSection(&m_csLists);
+	if (i == 0)
 		return NULL;
-	}
 
 	JABBER_LIST_ITEM* LI = m_lstRoster[i-1];
 	TCHAR* res = ListGetBestResourceNamePtr(jid);
 	if (res == NULL) {
-		JABBER_RESOURCE_STATUS* r = LI->resource;
+		JABBER_RESOURCE_STATUS* r = LI->pResources;
 		int status = ID_STATUS_OFFLINE;
 		res = NULL;
 		for (i=0; i < LI->resourceCount; i++) {
@@ -423,44 +384,33 @@ TCHAR* CJabberProto::ListGetBestClientResourceNamePtr(const TCHAR *jid)
 				status = s;
 	}	}	}
 
-	LeaveCriticalSection(&m_csLists);
 	return res;
 }
 
 int CJabberProto::ListFindNext(JABBER_LIST list, int fromOffset)
 {
-	EnterCriticalSection(&m_csLists);
+	mir_cslock lck(m_csLists);
 	int i = (fromOffset >= 0) ? fromOffset : 0;
 	for (; i<m_lstRoster.getCount(); i++)
-		if (m_lstRoster[i]->list == list) {
-		  	LeaveCriticalSection(&m_csLists);
+		if (m_lstRoster[i]->list == list)
 			return i;
-		}
-	LeaveCriticalSection(&m_csLists);
+
 	return -1;
 }
 
 JABBER_LIST_ITEM *CJabberProto::ListGetItemPtr(JABBER_LIST list, const TCHAR *jid)
 {
-	EnterCriticalSection(&m_csLists);
+	mir_cslock lck(m_csLists);
 	int i = ListExist(list, jid);
-	if ( !i) {
-		LeaveCriticalSection(&m_csLists);
-		return NULL;
-	}
-	i--;
-	LeaveCriticalSection(&m_csLists);
-	return m_lstRoster[i];
+	return (i == 0) ? NULL : m_lstRoster[i-1];
 }
 
 JABBER_LIST_ITEM *CJabberProto::ListGetItemPtrFromIndex(int index)
 {
-	EnterCriticalSection(&m_csLists);
-	if (index >= 0 && index < m_lstRoster.getCount()) {
-		LeaveCriticalSection(&m_csLists);
+	mir_cslock lck(m_csLists);
+	if (index >= 0 && index < m_lstRoster.getCount())
 		return m_lstRoster[index];
-	}
-	LeaveCriticalSection(&m_csLists);
+
 	return NULL;
 }
 

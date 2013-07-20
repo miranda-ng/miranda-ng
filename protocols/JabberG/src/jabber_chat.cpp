@@ -317,7 +317,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM* item, const TCHAR *
 		break;
 	default:
 		for (int i=0; i < item->resourceCount; i++) {
-			JABBER_RESOURCE_STATUS& JS = item->resource[i];
+			JABBER_RESOURCE_STATUS& JS = item->pResources[i];
 			if ( !lstrcmp(resource, JS.resourceName)) {
 				if (action != GC_EVENT_JOIN) {
 					switch(action) {
@@ -552,7 +552,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 
 	JABBER_RESOURCE_STATUS *me = NULL, *him = NULL;
 	for (int i=0; i < item->resourceCount; i++) {
-		JABBER_RESOURCE_STATUS& p = item->resource[i];
+		JABBER_RESOURCE_STATUS& p = item->pResources[i];
 		if ( !lstrcmp(p.resourceName, item->nick  ))  me = &p;
 		if ( !lstrcmp(p.resourceName, gcmi->pszUID))  him = &p;
 	}
@@ -1039,7 +1039,7 @@ static void sttNickListHook(CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK* 
 {
 	JABBER_RESOURCE_STATUS *me = NULL, *him = NULL;
 	for (int i=0; i < item->resourceCount; i++) {
-		JABBER_RESOURCE_STATUS& p = item->resource[i];
+		JABBER_RESOURCE_STATUS& p = item->pResources[i];
 		if ( !lstrcmp(p.resourceName, item->nick )) me = &p;
 		if ( !lstrcmp(p.resourceName, gch->ptszUID)) him = &p;
 	}
@@ -1476,8 +1476,8 @@ static void sttSendPrivateMessage(CJabberProto* ppro, JABBER_LIST_ITEM* item, co
 	HANDLE hContact = ppro->DBCreateContact(szFullJid, NULL, TRUE, FALSE);
 	if (hContact != NULL) {
 		for (int i=0; i < item->resourceCount; i++) {
-			if (_tcsicmp(item->resource[i].resourceName, nick) == 0) {
-				ppro->setWord(hContact, "Status", item->resource[i].status);
+			if (_tcsicmp(item->pResources[i].resourceName, nick) == 0) {
+				ppro->setWord(hContact, "Status", item->pResources[i].status);
 				break;
 		}	}
 

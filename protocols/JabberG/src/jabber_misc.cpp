@@ -445,15 +445,14 @@ void CJabberProto::UpdateMirVer(JABBER_LIST_ITEM *item)
 
 	Log("JabberUpdateMirVer: for jid %S", item->jid);
 
-	int resource = -1;
+	JABBER_RESOURCE_STATUS *p = NULL;
 	if (item->resourceMode == RSMODE_LASTSEEN)
-		resource = item->lastSeenResource;
+		p = item->pLastSeenResource;
 	else if (item->resourceMode == RSMODE_MANUAL)
-		resource = item->manualResource;
-	if ((resource < 0) || (resource >= item->resourceCount))
-		return;
+		p = item->pManualResource;
 
-	UpdateMirVer(hContact, &item->resource[resource]);
+	if (p)
+		UpdateMirVer(hContact, p);
 }
 
 void CJabberProto::FormatMirVer(JABBER_RESOURCE_STATUS *resource, TCHAR *buf, int bufSize)

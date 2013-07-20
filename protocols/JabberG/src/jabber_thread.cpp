@@ -1098,8 +1098,8 @@ HANDLE CJabberProto::CreateTemporaryContact(const TCHAR *szJid, JABBER_LIST_ITEM
 		hContact = DBCreateContact(szJid, p, TRUE, FALSE);
 
 		for (int i=0; i < chatItem->resourceCount; i++) {
-			if ( !lstrcmp(chatItem->resource[i].resourceName, p)) {
-				setWord(hContact, "Status", chatItem->resource[i].status);
+			if ( !lstrcmp(chatItem->pResources[i].resourceName, p)) {
+				setWord(hContact, "Status", chatItem->pResources[i].status);
 				break;
 			}
 		}
@@ -1462,14 +1462,17 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 			if (/*item->resourceMode==RSMODE_LASTSEEN &&*/ (fromResource = _tcschr(from, '/'))!=NULL) {
 				fromResource++;
 				if (*fromResource != '\0') {
-					for (int i=0; i<item->resourceCount; i++) {
-						if ( !lstrcmp(item->resource[i].resourceName, fromResource)) {
-							int nLastSeenResource = item->lastSeenResource;
-							item->lastSeenResource = i;
-							if ((item->resourceMode==RSMODE_LASTSEEN) && (i != nLastSeenResource))
-								UpdateMirVer(item);
-							break;
-		}	}	}	}	}
+					for (int i=0; i < item->resourceCount; i++) {
+						JABBER_RESOURCE_STATUS *r = &item->pResources[i];
+						if ( lstrcmp(r->resourceName, fromResource))
+							continue;
+						
+						JABBER_RESOURCE_STATUS *pLast = item->pLastSeenResource;
+						item->pLastSeenResource = r;
+						if (item->resourceMode == RSMODE_LASTSEEN && pLast == r)
+							UpdateMirVer(item);
+						break;
+		}	}	}	}
 
 		// Create a temporary contact
 		if (hContact == NULL)
@@ -1556,24 +1559,24 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 	int nMaxPriority = -999; // -128...+127 valid range
 	for (i = 0; i < item->resourceCount; i++)
 	{
-		if (item->resource[i].priority > nMaxPriority) {
-			nMaxPriority = item->resource[i].priority;
-			status = item->resource[i].status;
+		if (item->pResources[i].priority > nMaxPriority) {
+			nMaxPriority = item->pResources[i].priority;
+			status = item->pResources[i].status;
 			nSelectedResource = i;
 		}
-		else if (item->resource[i].priority == nMaxPriority) {
-			if ((status = JabberCombineStatus(status, item->resource[i].status)) == item->resource[i].status)
+		else if (item->pResources[i].priority == nMaxPriority) {
+			if ((status = JabberCombineStatus(status, item->pResources[i].status)) == item->pResources[i].status)
 				nSelectedResource = i;
 		}
 	}
 	item->itemResource.status = status;
 	if (nSelectedResource != -1) {
-		Log("JabberUpdateJidDbSettings: updating jid %S to rc %S", item->jid, item->resource[nSelectedResource].resourceName);
-		if (item->resource[nSelectedResource].statusMessage)
-			db_set_ts(hContact, "CList", "StatusMsg", item->resource[nSelectedResource].statusMessage);
+		Log("JabberUpdateJidDbSettings: updating jid %S to rc %S", item->jid, item->pResources[nSelectedResource].resourceName);
+		if (item->pResources[nSelectedResource].statusMessage)
+			db_set_ts(hContact, "CList", "StatusMsg", item->pResources[nSelectedResource].statusMessage);
 		else
 			db_unset(hContact, "CList", "StatusMsg");
-		UpdateMirVer(hContact, &item->resource[nSelectedResource]);
+		UpdateMirVer(hContact, &item->pResources[nSelectedResource]);
 	}
 	else delSetting(hContact, DBSETTING_DISPLAY_UID);
 

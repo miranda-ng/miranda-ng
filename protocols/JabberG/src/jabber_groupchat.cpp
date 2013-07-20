@@ -205,7 +205,7 @@ JABBER_RESOURCE_STATUS* CJabberProto::GcFindResource(JABBER_LIST_ITEM *item, con
 	JABBER_RESOURCE_STATUS *res = NULL;
 
 	EnterCriticalSection(&m_csLists);
-	JABBER_RESOURCE_STATUS *r = item->resource;
+	JABBER_RESOURCE_STATUS *r = item->pResources;
 	for (int i=0; i<item->resourceCount; i++) {
 		if ( !_tcscmp(r[i].resourceName, resource)) {
 			res = &r[i];
@@ -882,7 +882,7 @@ void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM* item, const TCHAR *ol
 		return;
 
 	for (int i=0; i < item->resourceCount; i++) {
-		JABBER_RESOURCE_STATUS& RS = item->resource[i];
+		JABBER_RESOURCE_STATUS& RS = item->pResources[i];
 		if ( !lstrcmp(RS.resourceName, oldNick)) {
 			replaceStrT(RS.resourceName, newNick);
 

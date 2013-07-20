@@ -172,7 +172,7 @@ JABBER_RESOURCE_STATUS* CJabberProto::ResourceInfoFromJID(const TCHAR *jid)
 		return &item->itemResource;
 	if (*++p == '\0') return NULL;
 
-	JABBER_RESOURCE_STATUS *r = item->resource;
+	JABBER_RESOURCE_STATUS *r = item->pResources;
 	if (r == NULL) return NULL;
 
 	int i;
@@ -1065,8 +1065,8 @@ TCHAR* CJabberProto::GetClientJID(const TCHAR *jid, TCHAR* dest, size_t destLen)
 	TCHAR* p = _tcschr(dest, '/');
 
 	JABBER_LIST_ITEM* LI = ListGetItemPtr(LIST_ROSTER, jid);
-	if (LI && LI->resourceCount == 1 && LI->resource[ 0 ].szCapsNode &&
-		_tcsicmp(LI->resource[ 0 ].szCapsNode, _T("http://talk.google.com/xmpp/bot/caps")) == 0)
+	if (LI && LI->resourceCount == 1 && LI->pResources[ 0 ].szCapsNode &&
+		_tcsicmp(LI->pResources[ 0 ].szCapsNode, _T("http://talk.google.com/xmpp/bot/caps")) == 0)
 	{
 		if (p) *p = 0;
 		return dest;

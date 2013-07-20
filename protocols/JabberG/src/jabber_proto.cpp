@@ -753,7 +753,7 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 				if (pDelimiter && (tmpItem  = ListGetItemPtr(LIST_CHATROOM, szBareJid))) {
 					JABBER_RESOURCE_STATUS *him = NULL;
 					for (int i=0; i < tmpItem->resourceCount; i++) {
-						JABBER_RESOURCE_STATUS &p = tmpItem->resource[i];
+						JABBER_RESOURCE_STATUS &p = tmpItem->pResources[i];
 						if ( !lstrcmp(p.resourceName, pDelimiter))
 							him = &p;
 					}
@@ -767,23 +767,23 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 			}
 
 			if (item) {
-				if (item->resource) {
+				if (item->pResources) {
 					for (int i = 0; i < item->resourceCount; i++) {
 						TCHAR szp1[ JABBER_MAX_JID_LEN ];
 						JabberStripJid(dbv.ptszVal, szp1, SIZEOF(szp1));
-						mir_sntprintf(jid, 256, _T("%s/%s"), szp1, item->resource[i].resourceName);
+						mir_sntprintf(jid, 256, _T("%s/%s"), szp1, item->pResources[i].resourceName);
 
 						XmlNodeIq iq3(m_iqManager.AddHandler(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_FROM));
 						iq3 << XQUERY(_T(JABBER_FEAT_LAST_ACTIVITY));
 						m_ThreadInfo->send(iq3);
 
-						if ( !item->resource[i].dwVersionRequestTime) {
+						if ( !item->pResources[i].dwVersionRequestTime) {
 							XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
 							iq4 << XQUERY(_T(JABBER_FEAT_VERSION));
 							m_ThreadInfo->send(iq4);
 						}
 
-						if ( !item->resource[i].pSoftwareInfo) {
+						if ( !item->pResources[i].pSoftwareInfo) {
 							XmlNodeIq iq5(m_iqManager.AddHandler(&CJabberProto::OnIqResultCapsDiscoInfoSI, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
 							iq5 << XQUERY(_T(JABBER_FEAT_DISCO_INFO));
 							m_ThreadInfo->send(iq5);
@@ -1338,7 +1338,6 @@ void __cdecl CJabberProto::GetAwayMsgThread(void* hContact)
 {
 	DBVARIANT dbv;
 	JABBER_LIST_ITEM *item;
-	JABBER_RESOURCE_STATUS *r;
 	int i, msgCount;
 	size_t len;
 
@@ -1347,15 +1346,15 @@ void __cdecl CJabberProto::GetAwayMsgThread(void* hContact)
 			db_free(&dbv);
 			if (item->resourceCount > 0) {
 				Log("resourceCount > 0");
-				r = item->resource;
+				JABBER_RESOURCE_STATUS *r = item->pResources;
 				len = msgCount = 0;
-				for (i=0; i<item->resourceCount; i++)
+				for (i=0; i < item->resourceCount; i++)
 					if (r[i].statusMessage) {
 						msgCount++;
 						len += (_tcslen(r[i].resourceName) + _tcslen(r[i].statusMessage) + 8);
 					}
 
-				TCHAR* str = (TCHAR*)alloca(sizeof(TCHAR)*(len+1));
+				TCHAR *str = (TCHAR*)alloca(sizeof(TCHAR)*(len+1));
 				str[0] = str[len] = '\0';
 				for (i=0; i < item->resourceCount; i++)
 					if (r[i].statusMessage) {
