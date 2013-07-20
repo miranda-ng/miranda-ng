@@ -68,26 +68,12 @@ typedef enum {			// initial default to RSMODE_LASTSEEN
 } JABBER_RESOURCE_MODE;
 
 
-struct JABBER_XEP0232_SOFTWARE_INFO
+struct JABBER_XEP0232_SOFTWARE_INFO : public MZeroedObject
 {
-	TCHAR* szOs;
-	TCHAR* szOsVersion;
-	TCHAR* szSoftware;
-	TCHAR* szSoftwareVersion;
-	TCHAR* szXMirandaCoreVersion;
+	ptrT tszOs, tszOsVersion, tszSoftware, tszSoftwareVersion, tszXMirandaCoreVersion;
 	BOOL bXMirandaIsUnicode;
 	BOOL bXMirandaIsAlpha;
 	BOOL bXMirandaIsDebug;
-	JABBER_XEP0232_SOFTWARE_INFO() {
-		ZeroMemory(this, sizeof(JABBER_XEP0232_SOFTWARE_INFO));
-	}
-	~JABBER_XEP0232_SOFTWARE_INFO() {
-		mir_free(szOs);
-		mir_free(szOsVersion);
-		mir_free(szSoftware);
-		mir_free(szSoftwareVersion);
-		mir_free(szXMirandaCoreVersion);
-	}
 };
 
 struct JABBER_RESOURCE_STATUS

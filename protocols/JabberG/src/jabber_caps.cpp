@@ -116,19 +116,19 @@ void CJabberProto::OnIqResultCapsDiscoInfoSI(HXML, CJabberIqInfo* pInfo)
 				if (r->pSoftwareInfo) {
 					TCHAR *szTmp = XPath(xform, _T("field[@var='os']/value"));
 					if (szTmp)
-						r->pSoftwareInfo->szOs = mir_tstrdup(szTmp);
+						r->pSoftwareInfo->tszOs = mir_tstrdup(szTmp);
 					szTmp = XPath(xform, _T("field[@var='os_version']/value"));
 					if (szTmp)
-						r->pSoftwareInfo->szOsVersion = mir_tstrdup(szTmp);
+						r->pSoftwareInfo->tszOsVersion = mir_tstrdup(szTmp);
 					szTmp = XPath(xform, _T("field[@var='software']/value"));
 					if (szTmp)
-						r->pSoftwareInfo->szSoftware = mir_tstrdup(szTmp);
+						r->pSoftwareInfo->tszSoftware = mir_tstrdup(szTmp);
 					szTmp = XPath(xform, _T("field[@var='software_version']/value"));
 					if (szTmp)
-						r->pSoftwareInfo->szSoftwareVersion = mir_tstrdup(szTmp);
+						r->pSoftwareInfo->tszSoftwareVersion = mir_tstrdup(szTmp);
 					szTmp = XPath(xform, _T("field[@var='x-miranda-core-version']/value"));
 					if (szTmp)
-						r->pSoftwareInfo->szXMirandaCoreVersion = mir_tstrdup(szTmp);
+						r->pSoftwareInfo->tszXMirandaCoreVersion = mir_tstrdup(szTmp);
 					szTmp = XPath(xform, _T("field[@var='x-miranda-core-is-unicode']/value"));
 					if ( !szTmp) // old deprecated format
 						szTmp = XPath(xform, _T("field[@var='x-miranda-is-unicode']/value"));

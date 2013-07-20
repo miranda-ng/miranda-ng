@@ -299,19 +299,20 @@ static void sttFillResourceInfo(CJabberProto* ppro, HWND hwndTree, HTREEITEM hti
 	if (res->pSoftwareInfo) {
 		HTREEITEM htiSoftwareInfo = sttFillInfoLine(hwndTree, htiResource, ppro->LoadIconEx("main"), NULL, TranslateT("Software information"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION));
 		int nLineId = 0;
-		if (res->pSoftwareInfo->szOs)
-			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Operating system"), res->pSoftwareInfo->szOs, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-		if (res->pSoftwareInfo->szOsVersion)
-			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Operating system version"), res->pSoftwareInfo->szOsVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-		if (res->pSoftwareInfo->szSoftware)
-			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Software"), res->pSoftwareInfo->szSoftware, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-		if (res->pSoftwareInfo->szSoftwareVersion)
-			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Software version"), res->pSoftwareInfo->szSoftwareVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-		if (res->pSoftwareInfo->szXMirandaCoreVersion) {
-			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Miranda NG core version"), res->pSoftwareInfo->szXMirandaCoreVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Unicode build"), res->pSoftwareInfo->bXMirandaIsUnicode ? TranslateT("Yes") : TranslateT("No"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Alpha build"), res->pSoftwareInfo->bXMirandaIsAlpha ? TranslateT("Yes") : TranslateT("No"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Debug build"), res->pSoftwareInfo->bXMirandaIsDebug ? TranslateT("Yes") : TranslateT("No"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+		JABBER_XEP0232_SOFTWARE_INFO *p = res->pSoftwareInfo;
+		if (p->tszOs)
+			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Operating system"), p->tszOs, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+		if (p->tszOsVersion)
+			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Operating system version"), p->tszOsVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+		if (p->tszSoftware)
+			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Software"), p->tszSoftware, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+		if (p->tszSoftwareVersion)
+			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Software version"), p->tszSoftwareVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+		if (p->tszXMirandaCoreVersion) {
+			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Miranda NG core version"), p->tszXMirandaCoreVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Unicode build"), p->bXMirandaIsUnicode ? TranslateT("Yes") : TranslateT("No"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Alpha build"), p->bXMirandaIsAlpha ? TranslateT("Yes") : TranslateT("No"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Debug build"), p->bXMirandaIsDebug ? TranslateT("Yes") : TranslateT("No"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
 		}
 	}
 }
