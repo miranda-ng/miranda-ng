@@ -291,7 +291,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 			if (ft->httpPath) mir_free(ft->httpPath);
 			ft->httpPath = NULL;
 
-			TCHAR* p;
+			TCHAR *p;
 			if ((p = _tcschr(ft->std.ptszFiles[i], '\\')) != NULL)
 				p++;
 			else

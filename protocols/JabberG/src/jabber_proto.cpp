@@ -693,13 +693,8 @@ DWORD_PTR __cdecl CJabberProto::GetCaps(int type, HANDLE hContact)
 	case PFLAG_UNIQUEIDSETTING:
 		return (DWORD_PTR)"jid";
 	case PFLAG_MAXCONTACTSPERPACKET:
-		{
-			DBVARIANT dbv;
-			if (getTString(hContact, "jid", &dbv))
-				return 0;
-			TCHAR szClientJid[ JABBER_MAX_JID_LEN ];
-			GetClientJID(dbv.ptszVal, szClientJid, SIZEOF(szClientJid));
-			db_free(&dbv);
+		TCHAR szClientJid[JABBER_MAX_JID_LEN];
+		if ( GetClientJID(hContact, szClientJid, SIZEOF(szClientJid))) {
 			JabberCapsBits jcb = GetResourceCapabilites(szClientJid, TRUE);
 			return ((~jcb & JABBER_CAPS_ROSTER_EXCHANGE) ? 0 : 50);
 		}
@@ -712,96 +707,87 @@ DWORD_PTR __cdecl CJabberProto::GetCaps(int type, HANDLE hContact)
 
 int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 {
-	if ( !m_bJabberOnline)
+	if ( !m_bJabberOnline || isChatRoom(hContact))
 		return 1;
 
-	int result = 1;
-	DBVARIANT dbv;
-	if (getByte(hContact, "ChatRoom", 0))
+	TCHAR jid[JABBER_MAX_JID_LEN];
+	if ( !GetClientJID(hContact, jid, SIZEOF(jid)))
 		return 1;
+	
+	if (m_ThreadInfo) {
+		m_ThreadInfo->send(
+			XmlNodeIq(m_iqManager.AddHandler(&CJabberProto::OnIqResultEntityTime, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_HCONTACT))
+				<< XCHILDNS(_T("time"), _T(JABBER_FEAT_ENTITY_TIME)));
 
-	if ( !getTString(hContact, "jid", &dbv)) {
-		if (m_ThreadInfo) {
-			TCHAR jid[ JABBER_MAX_JID_LEN ];
-			GetClientJID(dbv.ptszVal, jid, SIZEOF(jid));
+		// XEP-0012, last logoff time
+		XmlNodeIq iq2(m_iqManager.AddHandler(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_FROM));
+		iq2 << XQUERY(_T(JABBER_FEAT_LAST_ACTIVITY));
+		m_ThreadInfo->send(iq2);
 
-			m_ThreadInfo->send(
-				XmlNodeIq(m_iqManager.AddHandler(&CJabberProto::OnIqResultEntityTime, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_HCONTACT))
-					<< XCHILDNS(_T("time"), _T(JABBER_FEAT_ENTITY_TIME)));
+		JABBER_LIST_ITEM *item = NULL;
 
-			// XEP-0012, last logoff time
-			XmlNodeIq iq2(m_iqManager.AddHandler(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, dbv.ptszVal, JABBER_IQ_PARSE_FROM));
-			iq2 << XQUERY(_T(JABBER_FEAT_LAST_ACTIVITY));
-			m_ThreadInfo->send(iq2);
+		if ((item = ListGetItemPtr(LIST_VCARD_TEMP, jid)) == NULL)
+			item = ListGetItemPtr(LIST_ROSTER, jid);
 
-			JABBER_LIST_ITEM *item = NULL;
-
-			if ((item = ListGetItemPtr(LIST_VCARD_TEMP, dbv.ptszVal)) == NULL)
-				item = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
-
-			if ( !item) {
-				TCHAR szBareJid[ JABBER_MAX_JID_LEN ];
-				_tcsncpy(szBareJid, dbv.ptszVal, SIZEOF(szBareJid));
-				TCHAR* pDelimiter = _tcschr(szBareJid, _T('/'));
-				if (pDelimiter) {
-					*pDelimiter = 0;
-					pDelimiter++;
-					if ( !*pDelimiter)
-						pDelimiter = NULL;
-				}
-				JABBER_LIST_ITEM *tmpItem = NULL;
-				if (pDelimiter && (tmpItem  = ListGetItemPtr(LIST_CHATROOM, szBareJid))) {
-					JABBER_RESOURCE_STATUS *him = NULL;
-					for (int i=0; i < tmpItem->resourceCount; i++) {
-						JABBER_RESOURCE_STATUS &p = tmpItem->pResources[i];
-						if ( !lstrcmp(p.resourceName, pDelimiter))
-							him = &p;
-					}
-					if (him) {
-						item = ListAdd(LIST_VCARD_TEMP, dbv.ptszVal);
-						ListAddResource(LIST_VCARD_TEMP, dbv.ptszVal, him->status, him->statusMessage, him->priority);
-					}
-				}
-				else
-					item = ListAdd(LIST_VCARD_TEMP, dbv.ptszVal);
+		if ( !item) {
+			TCHAR szBareJid[JABBER_MAX_JID_LEN];
+			_tcsncpy(szBareJid, jid, SIZEOF(szBareJid));
+			TCHAR* pDelimiter = _tcschr(szBareJid, _T('/'));
+			if (pDelimiter) {
+				*pDelimiter = 0;
+				pDelimiter++;
+				if ( !*pDelimiter)
+					pDelimiter = NULL;
 			}
-
-			if (item) {
-				if (item->pResources) {
-					for (int i = 0; i < item->resourceCount; i++) {
-						TCHAR szp1[ JABBER_MAX_JID_LEN ];
-						JabberStripJid(dbv.ptszVal, szp1, SIZEOF(szp1));
-						mir_sntprintf(jid, 256, _T("%s/%s"), szp1, item->pResources[i].resourceName);
-
-						XmlNodeIq iq3(m_iqManager.AddHandler(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_FROM));
-						iq3 << XQUERY(_T(JABBER_FEAT_LAST_ACTIVITY));
-						m_ThreadInfo->send(iq3);
-
-						if ( !item->pResources[i].dwVersionRequestTime) {
-							XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
-							iq4 << XQUERY(_T(JABBER_FEAT_VERSION));
-							m_ThreadInfo->send(iq4);
-						}
-
-						if ( !item->pResources[i].pSoftwareInfo) {
-							XmlNodeIq iq5(m_iqManager.AddHandler(&CJabberProto::OnIqResultCapsDiscoInfoSI, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
-							iq5 << XQUERY(_T(JABBER_FEAT_DISCO_INFO));
-							m_ThreadInfo->send(iq5);
-						}
-					}
+			JABBER_LIST_ITEM *tmpItem = NULL;
+			if (pDelimiter && (tmpItem  = ListGetItemPtr(LIST_CHATROOM, szBareJid))) {
+				JABBER_RESOURCE_STATUS *him = NULL;
+				for (int i=0; i < tmpItem->resourceCount; i++) {
+					JABBER_RESOURCE_STATUS &p = tmpItem->pResources[i];
+					if ( !lstrcmp(p.resourceName, pDelimiter))
+						him = &p;
 				}
-				else if ( !item->itemResource.dwVersionRequestTime) {
-					XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, item->jid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
+				if (him) {
+					item = ListAdd(LIST_VCARD_TEMP, jid);
+					ListAddResource(LIST_VCARD_TEMP, jid, him->status, him->statusMessage, him->priority);
+				}
+			}
+			else
+				item = ListAdd(LIST_VCARD_TEMP, jid);
+		}
+
+		if (item && item->pResources) {
+			for (int i = 0; i < item->resourceCount; i++) {
+				TCHAR szp1[JABBER_MAX_JID_LEN], tmp[JABBER_MAX_JID_LEN];
+				JabberStripJid(jid, szp1, SIZEOF(szp1));
+				mir_sntprintf(tmp, SIZEOF(tmp), _T("%s/%s"), szp1, item->pResources[i].resourceName);
+
+				XmlNodeIq iq3(m_iqManager.AddHandler(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM));
+				iq3 << XQUERY(_T(JABBER_FEAT_LAST_ACTIVITY));
+				m_ThreadInfo->send(iq3);
+
+				if ( !item->pResources[i].dwVersionRequestTime) {
+					XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
 					iq4 << XQUERY(_T(JABBER_FEAT_VERSION));
 					m_ThreadInfo->send(iq4);
-		}	}	}
+				}
 
-		SendGetVcard(dbv.ptszVal);
-		db_free(&dbv);
-		result = 0;
+				if ( !item->pResources[i].pSoftwareInfo) {
+					XmlNodeIq iq5(m_iqManager.AddHandler(&CJabberProto::OnIqResultCapsDiscoInfoSI, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
+					iq5 << XQUERY(_T(JABBER_FEAT_DISCO_INFO));
+					m_ThreadInfo->send(iq5);
+				}
+			}
+		}
+		else if ( !item->itemResource.dwVersionRequestTime) {
+			XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, item->jid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
+			iq4 << XQUERY(_T(JABBER_FEAT_VERSION));
+			m_ThreadInfo->send(iq4);
+		}
 	}
 
-	return result;
+	SendGetVcard(jid);
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -983,13 +969,12 @@ int __cdecl CJabberProto::RecvUrl(HANDLE /*hContact*/, PROTORECVEVENT*)
 
 int __cdecl CJabberProto::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList)
 {
-	DBVARIANT dbv;
-	if ( !m_bJabberOnline || getTString(hContact, "jid", &dbv))
+	if (!m_bJabberOnline)
 		return 0;
 
-	TCHAR szClientJid[ JABBER_MAX_JID_LEN ];
-	GetClientJID(dbv.ptszVal, szClientJid, SIZEOF(szClientJid));
-	db_free(&dbv);
+	TCHAR szClientJid[JABBER_MAX_JID_LEN];
+	if ( !GetClientJID(hContact, szClientJid, SIZEOF(szClientJid)))
+		return 0;
 
 	JabberCapsBits jcb = GetResourceCapabilites(szClientJid, TRUE);
 	if (~jcb & JABBER_CAPS_ROSTER_EXCHANGE)
@@ -1000,9 +985,9 @@ int __cdecl CJabberProto::SendContacts(HANDLE hContact, int flags, int nContacts
 	HXML x = m << XCHILDNS(_T("x"), _T(JABBER_FEAT_ROSTER_EXCHANGE));
 
 	for (int i = 0; i < nContacts; i++) {
+		DBVARIANT dbv;
 		if ( !getTString(hContactsList[i], "jid", &dbv)) {
-			x << XCHILD(_T("item")) << XATTR(_T("action"), _T("add")) <<
-				XATTR(_T("jid"), dbv.ptszVal);
+			x << XCHILD(_T("item")) << XATTR(_T("action"), _T("add")) << XATTR(_T("jid"), dbv.ptszVal);
 			db_free(&dbv);
 		}
 	}
@@ -1030,7 +1015,7 @@ HANDLE __cdecl CJabberProto::SendFile(HANDLE hContact, const TCHAR *szDescriptio
 
 	int i, j;
 	struct _stati64 statbuf;
-	JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
 	if (item == NULL) {
 		db_free(&dbv);
 		return 0;
@@ -1136,8 +1121,8 @@ static char PGP_EPILOG[] = "\r\n-----END PGP MESSAGE-----\r\n";
 
 int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 {
-	ptrT ptszJid( db_get_tsa(hContact, m_szModuleName, "jid"));
-	if ( !m_bJabberOnline || ptszJid == NULL) {
+	TCHAR szClientJid[JABBER_MAX_JID_LEN];
+	if ( !m_bJabberOnline || !GetClientJID(hContact, szClientJid, SIZEOF(szClientJid))) {
 		TFakeAckParams *param = new TFakeAckParams(hContact, Translate("Protocol is offline or no jid"));
 		ForkThread(&CJabberProto::SendMessageAckThread, param);
 		return 1;
@@ -1169,7 +1154,7 @@ int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc
 		return 0;
 
 	TCHAR *msgType;
-	if (ListGetItemPtr(LIST_CHATROOM, ptszJid) && _tcschr(ptszJid, '/') == NULL)
+	if (ListGetItemPtr(LIST_CHATROOM, szClientJid) && _tcschr(szClientJid, '/') == NULL)
 		msgType = _T("groupchat");
 	else
 		msgType = _T("chat");
@@ -1182,9 +1167,6 @@ int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc
 		m << XCHILD(_T("x"), msg) << XATTR(_T("xmlns"), _T("jabber:x:encrypted"));
 	}
 	mir_free(msg);
-
-	TCHAR szClientJid[ JABBER_MAX_JID_LEN ];
-	GetClientJID(ptszJid, szClientJid, SIZEOF(szClientJid));
 
 	JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID(szClientJid);
 	if (r)
@@ -1209,7 +1191,7 @@ int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc
 		!m_options.MsgAck || !getByte(hContact, "MsgAck", TRUE))
 	{
 		if ( !lstrcmp(msgType, _T("groupchat")))
-			xmlAddAttr(m, _T("to"), (TCHAR*)ptszJid);
+			xmlAddAttr(m, _T("to"), szClientJid);
 		else {
 			id = SerialNext();
 			xmlAddAttr(m, _T("to"), szClientJid); xmlAddAttrID(m, id);
@@ -1477,50 +1459,49 @@ int __cdecl CJabberProto::UserIsTyping(HANDLE hContact, int type)
 {
 	if ( !m_bJabberOnline) return 0;
 
-	DBVARIANT dbv;
-	if (getTString(hContact, "jid", &dbv))
+	TCHAR szClientJid[JABBER_MAX_JID_LEN];
+	if ( !GetClientJID(hContact, szClientJid, SIZEOF(szClientJid)))
 		return 0;
 
-	JABBER_LIST_ITEM *item;
-	if ((item = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal)) != NULL) {
-		TCHAR szClientJid[ JABBER_MAX_JID_LEN ];
-		GetClientJID(dbv.ptszVal, szClientJid, SIZEOF(szClientJid));
+	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, szClientJid);
+	if (item == NULL)
+		return 0;
 
-		JabberCapsBits jcb = GetResourceCapabilites(szClientJid, TRUE);
-		if (jcb & JABBER_RESOURCE_CAPS_ERROR)
-			jcb = JABBER_RESOURCE_CAPS_NONE;
+	JabberCapsBits jcb = GetResourceCapabilites(szClientJid, TRUE);
+	if (jcb & JABBER_RESOURCE_CAPS_ERROR)
+		jcb = JABBER_RESOURCE_CAPS_NONE;
 
-		XmlNode m(_T("message")); xmlAddAttr(m, _T("to"), szClientJid);
+	XmlNode m(_T("message")); xmlAddAttr(m, _T("to"), szClientJid);
 
-		if (jcb & JABBER_CAPS_CHATSTATES) {
-			m << XATTR(_T("type"), _T("chat")) << XATTRID(SerialNext());
-			switch (type) {
-			case PROTOTYPE_SELFTYPING_OFF:
-				m << XCHILDNS(_T("paused"), _T(JABBER_FEAT_CHATSTATES));
-				m_ThreadInfo->send(m);
-				break;
-			case PROTOTYPE_SELFTYPING_ON:
-				m << XCHILDNS(_T("composing"), _T(JABBER_FEAT_CHATSTATES));
-				m_ThreadInfo->send(m);
-				break;
-			}
+	if (jcb & JABBER_CAPS_CHATSTATES) {
+		m << XATTR(_T("type"), _T("chat")) << XATTRID(SerialNext());
+		switch (type) {
+		case PROTOTYPE_SELFTYPING_OFF:
+			m << XCHILDNS(_T("paused"), _T(JABBER_FEAT_CHATSTATES));
+			m_ThreadInfo->send(m);
+			break;
+		case PROTOTYPE_SELFTYPING_ON:
+			m << XCHILDNS(_T("composing"), _T(JABBER_FEAT_CHATSTATES));
+			m_ThreadInfo->send(m);
+			break;
 		}
-		else if (jcb & JABBER_CAPS_MESSAGE_EVENTS) {
-			HXML x = m << XCHILDNS(_T("x"), _T(JABBER_FEAT_MESSAGE_EVENTS));
-			if (item->messageEventIdStr != NULL)
-				x << XCHILD(_T("id"), item->messageEventIdStr);
+	}
+	else if (jcb & JABBER_CAPS_MESSAGE_EVENTS) {
+		HXML x = m << XCHILDNS(_T("x"), _T(JABBER_FEAT_MESSAGE_EVENTS));
+		if (item->messageEventIdStr != NULL)
+			x << XCHILD(_T("id"), item->messageEventIdStr);
 
-			switch (type) {
-			case PROTOTYPE_SELFTYPING_OFF:
-				m_ThreadInfo->send(m);
-				break;
-			case PROTOTYPE_SELFTYPING_ON:
-				x << XCHILD(_T("composing"));
-				m_ThreadInfo->send(m);
-				break;
-	}	}	}
+		switch (type) {
+		case PROTOTYPE_SELFTYPING_OFF:
+			m_ThreadInfo->send(m);
+			break;
+		case PROTOTYPE_SELFTYPING_ON:
+			x << XCHILD(_T("composing"));
+			m_ThreadInfo->send(m);
+			break;
+		}
+	}
 
-	db_free(&dbv);
 	return 0;
 }
 

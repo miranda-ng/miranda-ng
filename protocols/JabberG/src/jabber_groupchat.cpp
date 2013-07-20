@@ -239,7 +239,7 @@ INT_PTR __cdecl CJabberProto::OnJoinChat(WPARAM wParam, LPARAM)
 		if ( !jabberChatDllPresent)
 			JabberChatDllError();
 		else {
-			TCHAR* p = _tcschr(jid.ptszVal, '@');
+			TCHAR *p = _tcschr(jid.ptszVal, '@');
 			if (p != NULL) {
 				*p++ = 0;
 				GroupchatJoinRoom(p, jid.ptszVal, nick.ptszVal, password);

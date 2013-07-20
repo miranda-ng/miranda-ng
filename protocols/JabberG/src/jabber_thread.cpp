@@ -1176,7 +1176,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 			const TCHAR *szJid = xmlGetAttrValue(addressNode, _T("jid"));
 			if (szJid) {
 				size_t cbLen = _tcslen(szMessage) + 1000;
-				TCHAR* p = (TCHAR*)alloca(sizeof(TCHAR) * cbLen);
+				TCHAR *p = (TCHAR*)alloca(sizeof(TCHAR) * cbLen);
 				mir_sntprintf(p, cbLen, TranslateT("Message redirected from: %s\r\n%s"), from, szMessage);
 				szMessage = p;
 				from = szJid;
@@ -1615,9 +1615,9 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 	}
 
 	BOOL bSelfPresence = FALSE;
-	TCHAR szBareFrom[ JABBER_MAX_JID_LEN ];
+	TCHAR szBareFrom[JABBER_MAX_JID_LEN];
 	JabberStripJid(from, szBareFrom, SIZEOF(szBareFrom));
-	TCHAR szBareOurJid[ JABBER_MAX_JID_LEN ];
+	TCHAR szBareOurJid[JABBER_MAX_JID_LEN];
 	JabberStripJid(info->fullJID, szBareOurJid, SIZEOF(szBareOurJid));
 
 	if ( !_tcsicmp(szBareFrom, szBareOurJid))

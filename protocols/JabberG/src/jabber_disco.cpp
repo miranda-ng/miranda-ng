@@ -382,7 +382,7 @@ BOOL CJabberProto::SendBothRequests(CJabberSDNode* pNode, HXML parent)
 
 void CJabberProto::PerformBrowse(HWND hwndDlg)
 {
-	TCHAR szJid[ JABBER_MAX_JID_LEN ];
+	TCHAR szJid[JABBER_MAX_JID_LEN];
 	TCHAR szNode[ 512 ];
 	if ( !GetDlgItemText(hwndDlg, IDC_COMBO_JID, szJid, SIZEOF(szJid)))
 		szJid[ 0 ] = 0;
@@ -1400,7 +1400,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 
 		case SD_ACT_BOOKMARK:
 		{
-			JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_BOOKMARK, pNode->GetJid());
+			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_BOOKMARK, pNode->GetJid());
 			if (item == NULL) {
 				item = ListGetItemPtr(LIST_BOOKMARK, pNode->GetJid());
 				if (item == NULL) {
@@ -1419,7 +1419,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 			HANDLE hContact = HContactFromJID(pNode->GetJid());
 			if ( !hContact) {
 				hContact = DBCreateContact(pNode->GetJid(), pNode->GetName(), TRUE, FALSE);
-				JABBER_LIST_ITEM* item = ListAdd(LIST_VCARD_TEMP, pNode->GetJid());
+				JABBER_LIST_ITEM *item = ListAdd(LIST_VCARD_TEMP, pNode->GetJid());
 				item->bUseResource = TRUE;
 			}
 			HMENU hContactMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
@@ -1440,7 +1440,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 				hContact = (HANDLE)CallProtoService(m_szModuleName, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&jsr);
 			}
 			if (ListGetItemPtr(LIST_VCARD_TEMP, pNode->GetJid()) == NULL) {
-				JABBER_LIST_ITEM* item = ListAdd(LIST_VCARD_TEMP, pNode->GetJid());
+				JABBER_LIST_ITEM *item = ListAdd(LIST_VCARD_TEMP, pNode->GetJid());
 				item->bUseResource = TRUE;
 				if (item->pResources == NULL)
 					ListAddResource(LIST_VCARD_TEMP, jid, ID_STATUS_OFFLINE, NULL, 0);
@@ -1453,7 +1453,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		{
 			HANDLE hContact = DBCreateContact(pNode->GetJid(), pNode->GetName(), FALSE, FALSE);
 			db_unset(hContact, "CList", "NotOnList");
-			JABBER_LIST_ITEM* item = ListAdd(LIST_VCARD_TEMP, pNode->GetJid());
+			JABBER_LIST_ITEM *item = ListAdd(LIST_VCARD_TEMP, pNode->GetJid());
 			item->bUseResource = TRUE;
 			break;
 		}

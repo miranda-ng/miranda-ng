@@ -640,7 +640,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 					SetContactOfflineStatus(hContact);
 					ListRemove(LIST_ROSTER, jid);
 			}	}
-			else if (getByte(hContact, "ChatRoom", 0))
+			else if ( isChatRoom(hContact))
 				db_unset(hContact, "CList", "Hidden");
 			else
 				UpdateSubscriptionInfo(hContact, item);

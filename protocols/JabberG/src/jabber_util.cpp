@@ -84,7 +84,7 @@ HANDLE CJabberProto::ChatRoomHContactFromJID(const TCHAR *jid)
 			int result;
 			result = lstrcmpi(jid, dbv.ptszVal);
 			db_free(&dbv);
-			if ( !result && getByte(hContact, "ChatRoom", 0) != 0)
+			if ( !result && isChatRoom(hContact))
 				return hContact;
 	}	}
 
@@ -102,21 +102,16 @@ HANDLE CJabberProto::HContactFromJID(const TCHAR *jid , BOOL bStripResource)
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, jid);
 
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		DBVARIANT dbv;
-		int result;
-		//safer way to check UID (coz some contact have both setting from convert to chat)
-		if (db_get_b(hContact, m_szModuleName, "ChatRoom",0))
-			result = getTString(hContact, "ChatRoomID", &dbv);
-		else
-			result = getTString(hContact, "jid", &dbv);
+		bool bIsChat = isChatRoom(hContact);
 
-		if ( !result) {
+		DBVARIANT dbv;
+		if ( !getTString(hContact, bIsChat ? "ChatRoomID" : "jid", &dbv)) {
 			int result;
 			if (item != NULL)
 				result = lstrcmpi(jid, dbv.ptszVal);
 			else {
 				if (bStripResource == 3) {
-					if (getByte(hContact, "ChatRoom", 0))
+					if (bIsChat)
 						result = lstrcmpi(jid, dbv.ptszVal);  // for chat room we have to have full contact matched
 					else if (TRUE)
 						result = _tcsnicmp(jid, dbv.ptszVal, _tcslen(dbv.ptszVal));
@@ -461,7 +456,7 @@ WCHAR* __stdcall JabberUnixToDosW(const WCHAR* str)
 
 TCHAR* __stdcall JabberHttpUrlEncode(const TCHAR *str)
 {
-	TCHAR* p, *q, *res;
+	TCHAR *p, *q, *res;
 
 	if (str == NULL) return NULL;
 	res = (TCHAR*) mir_alloc(3*_tcslen(str) + 1);
@@ -480,7 +475,7 @@ TCHAR* __stdcall JabberHttpUrlEncode(const TCHAR *str)
 
 void __stdcall JabberHttpUrlDecode(TCHAR* str)
 {
-	TCHAR* p, *q;
+	TCHAR *p, *q;
 	unsigned int code;
 
 	if (str == NULL) return;
@@ -1050,32 +1045,33 @@ int __stdcall JabberGetPacketID(HXML n)
 ///////////////////////////////////////////////////////////////////////////////
 // JabberGetClientJID - adds a resource postfix to a JID
 
-TCHAR* CJabberProto::GetClientJID(const TCHAR *jid, TCHAR* dest, size_t destLen)
+TCHAR* CJabberProto::GetClientJID(HANDLE hContact, TCHAR *dest, size_t destLen)
+{
+	if (hContact == NULL)
+		return NULL;
+
+	ptrT jid( db_get_tsa(hContact, m_szModuleName, "jid"));
+	return GetClientJID(jid, dest, destLen);
+}
+
+TCHAR* CJabberProto::GetClientJID(const TCHAR *jid, TCHAR *dest, size_t destLen)
 {
 	if (jid == NULL)
 		return NULL;
 
-	size_t len = _tcslen(jid);
-	if (len >= destLen)
-		len = destLen-1;
-
-	_tcsncpy(dest, jid, len);
-	dest[ len ] = '\0';
-
-	TCHAR* p = _tcschr(dest, '/');
+	_tcsncpy_s(dest, destLen, jid, _TRUNCATE);
+	TCHAR *p = _tcschr(dest, '/');
 
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, jid);
-	if (LI && LI->resourceCount == 1 && LI->pResources[ 0 ].szCapsNode &&
-		_tcsicmp(LI->pResources[ 0 ].szCapsNode, _T("http://talk.google.com/xmpp/bot/caps")) == 0)
-	{
+	if (LI && LI->resourceCount == 1 && !lstrcmp(LI->pResources->szCapsNode, _T("http://talk.google.com/xmpp/bot/caps"))) {
 		if (p) *p = 0;
 		return dest;
 	}
 
 	if (p == NULL) {
-		TCHAR* resource = ListGetBestResourceNamePtr(jid);
-		if (resource != NULL)
-			mir_sntprintf(dest+len, destLen-len-1, _T("/%s"), resource);
+		JABBER_RESOURCE_STATUS *r = LI->getBestResource();
+		if (r != NULL)
+			mir_sntprintf(dest, destLen, _T("%s/%s"), jid, r->resourceName);
 	}
 
 	return dest;
@@ -1084,19 +1080,14 @@ TCHAR* CJabberProto::GetClientJID(const TCHAR *jid, TCHAR* dest, size_t destLen)
 ///////////////////////////////////////////////////////////////////////////////
 // JabberStripJid - strips a resource postfix from a JID
 
-TCHAR* __stdcall JabberStripJid(const TCHAR *jid, TCHAR* dest, size_t destLen)
+TCHAR* __stdcall JabberStripJid(const TCHAR *jid, TCHAR *dest, size_t destLen)
 {
 	if (jid == NULL)
 		*dest = 0;
 	else {
-		size_t len = _tcslen(jid);
-		if (len >= destLen)
-			len = destLen-1;
+		_tcsncpy_s(dest, destLen, jid, _TRUNCATE);
 
-		memcpy(dest, jid, len * sizeof(TCHAR));
-		dest[ len ] = 0;
-
-		TCHAR* p = _tcschr(dest, '/');
+		TCHAR *p = _tcschr(dest, '/');
 		if (p != NULL)
 			*p = 0;
 	}
@@ -1305,7 +1296,7 @@ const TCHAR *JabberStrIStr(const TCHAR *str, const TCHAR *substr)
 	CharUpperBuff(str_up, lstrlen(str_up));
 	CharUpperBuff(substr_up, lstrlen(substr_up));
 
-	TCHAR* p = _tcsstr(str_up, substr_up);
+	TCHAR *p = _tcsstr(str_up, substr_up);
 	return p ? (str + (p - str_up)) : NULL;
 }
 

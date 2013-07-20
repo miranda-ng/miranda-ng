@@ -198,7 +198,7 @@ JabberCapsBits CJabberProto::GetTotalJidCapabilites(const TCHAR *jid)
 	if ( !jid)
 		return JABBER_RESOURCE_CAPS_NONE;
 
-	TCHAR szBareJid[ JABBER_MAX_JID_LEN ];
+	TCHAR szBareJid[JABBER_MAX_JID_LEN];
 	JabberStripJid(jid, szBareJid, SIZEOF(szBareJid));
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, szBareJid);
@@ -216,7 +216,7 @@ JabberCapsBits CJabberProto::GetTotalJidCapabilites(const TCHAR *jid)
 
 	if (item) {
 		for (int i = 0; i < item->resourceCount; i++) {
-			TCHAR szFullJid[ JABBER_MAX_JID_LEN ];
+			TCHAR szFullJid[JABBER_MAX_JID_LEN];
 			mir_sntprintf(szFullJid, JABBER_MAX_JID_LEN, _T("%s/%s"), szBareJid, item->pResources[i].resourceName);
 			JabberCapsBits jcb = GetResourceCapabilites(szFullJid, FALSE);
 			if ( !(jcb & JABBER_RESOURCE_CAPS_ERROR))
@@ -228,7 +228,7 @@ JabberCapsBits CJabberProto::GetTotalJidCapabilites(const TCHAR *jid)
 
 JabberCapsBits CJabberProto::GetResourceCapabilites(const TCHAR *jid, BOOL appendBestResource)
 {
-	TCHAR fullJid[ JABBER_MAX_JID_LEN ];
+	TCHAR fullJid[JABBER_MAX_JID_LEN];
 	if (appendBestResource)
 		GetClientJID(jid, fullJid, SIZEOF(fullJid));
 	else

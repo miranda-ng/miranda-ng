@@ -1112,7 +1112,7 @@ void CPepActivity::SetActivity(HANDLE hContact, LPCTSTR szFirst, LPCTSTR szSecon
 	else SetExtraIcon(hContact, activity < 0 ? NULL : returnActivity(activity));
 
 	if (activity >= 0) {
-		TCHAR* p = mir_a2t(ActivityGetId(activity));
+		TCHAR *p = mir_a2t(ActivityGetId(activity));
 		m_proto->WriteAdvStatus(hContact, ADVSTATUS_ACTIVITY, p, g_ActivityIcons.GetIcolibName(returnActivity(activity)), activityTitle, szText);
 		mir_free(p);
 	}

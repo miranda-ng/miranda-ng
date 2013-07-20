@@ -43,8 +43,9 @@ int CJabberProto::OnContactDeleted(WPARAM wParam, LPARAM)
 	if ( !m_bJabberOnline)	// should never happen
 		return 0;
 
+	HANDLE hContact = (HANDLE)wParam;
 	DBVARIANT dbv;
-	if ( !getTString((HANDLE)wParam, getByte((HANDLE) wParam, "ChatRoom", 0)?(char*)"ChatRoomID":(char*)"jid", &dbv)) {
+	if ( !getTString(hContact, isChatRoom(hContact) ? "ChatRoomID" : "jid", &dbv)) {
 		if (ListGetItemPtr(LIST_ROSTER, dbv.ptszVal)) {
 			if ( !_tcschr(dbv.ptszVal, _T('@'))) {
 				TCHAR szStrippedJid[JABBER_MAX_JID_LEN];
@@ -113,7 +114,7 @@ void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING* cws, HANDLE hCon
 		}
 	}
 	else {
-		TCHAR* p = sttSettingToTchar(cws);
+		TCHAR *p = sttSettingToTchar(cws);
 		if (cws->value.pszVal != NULL && lstrcmp(p, item->group)) {
 			Log("Group set to %S", p);
 			if (p)

@@ -156,7 +156,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 			if (item != NULL) {
 				BOOL isXVcard = getByte(AI->hContact, "AvatarXVcard", 0);
 
-				TCHAR szJid[ JABBER_MAX_JID_LEN ];
+				TCHAR szJid[JABBER_MAX_JID_LEN];
 				if (item->resourceCount != NULL && !isXVcard) {
 					TCHAR *bestResName = ListGetBestClientResourceNamePtr(dbv.ptszVal);
 					mir_sntprintf(szJid, SIZEOF(szJid), bestResName?_T("%s/%s"):_T("%s"), dbv.ptszVal, bestResName);
@@ -384,7 +384,7 @@ static void appendString(bool bIsTipper, const TCHAR *tszTitle, const TCHAR *tsz
 	if (bIsTipper)
 		mir_sntprintf(buf, bufSize, _T("%s%s%s%s"), _T("<b>"), TranslateTS(tszTitle), _T("</b>\t"), tszValue);
 	else {
-		TCHAR* p = TranslateTS(tszTitle);
+		TCHAR *p = TranslateTS(tszTitle);
 		mir_sntprintf(buf, bufSize, _T("%s%s\t%s"), p, _tcslen(p)<=7 ? _T("\t") : _T(""), tszValue);
 	}
 }
@@ -591,7 +591,7 @@ INT_PTR __cdecl CJabberProto::JabberSendNudge(WPARAM wParam, LPARAM)
 	HANDLE hContact = (HANDLE)wParam;
 	DBVARIANT dbv;
 	if ( !getTString(hContact, "jid", &dbv)) {
-		TCHAR tszJid[ JABBER_MAX_JID_LEN ];
+		TCHAR tszJid[JABBER_MAX_JID_LEN];
 		TCHAR *szResource = ListGetBestClientResourceNamePtr(dbv.ptszVal);
 		if (szResource)
 			mir_sntprintf(tszJid, SIZEOF(tszJid), _T("%s/%s"), dbv.ptszVal, szResource);
@@ -788,7 +788,7 @@ HANDLE CJabberSysInterface::ContactFromJID(LPCTSTR jid)
 
 LPTSTR CJabberSysInterface::ContactToJID(HANDLE hContact)
 {
-	return db_get_tsa(hContact, m_psProto->m_szModuleName, m_psProto->getByte(hContact, "ChatRoom", 0) ? "ChatRoomID" : "jid");
+	return db_get_tsa(hContact, m_psProto->m_szModuleName, m_psProto->isChatRoom(hContact) ? "ChatRoomID" : "jid");
 }
 
 LPTSTR CJabberSysInterface::GetBestResourceName(LPCTSTR jid)

@@ -139,8 +139,8 @@ void CJabberProto::ListRemove(JABBER_LIST list, const TCHAR *jid)
 	mir_cslock lck(m_csLists);
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(list, jid);
 	if (LI != NULL) {
-		JabberListFreeItemInternal(LI);
 		m_lstRoster.remove(LI);
+		JabberListFreeItemInternal(LI);
 	}
 }
 
@@ -333,37 +333,29 @@ void CJabberProto::ListRemoveResource(JABBER_LIST list, const TCHAR *jid)
 	MenuUpdateSrmmIcon(LI);
 }
 
-TCHAR* CJabberProto::ListGetBestResourceNamePtr(const TCHAR *jid)
+JABBER_RESOURCE_STATUS* JABBER_LIST_ITEM::getBestResource() const
 {
-	mir_cslock lck(m_csLists);
-	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, jid);
-	if (LI == NULL)
+	if (!resourceCount)
 		return NULL;
 
-	TCHAR *res = NULL;
+	if (resourceCount == 1)
+		return pResources;
 
-	if (LI->resourceCount > 1) {
-		if (LI->resourceMode == RSMODE_LASTSEEN && LI->pLastSeenResource)
-			res = LI->pLastSeenResource->resourceName;
-		else if (LI->resourceMode == RSMODE_MANUAL && LI->pManualResource)
-			res = LI->pManualResource->resourceName;
-		else {
-			int nBestPos = -1, nBestPri = -200;
-			for (int j = 0; j < LI->resourceCount; j++) {
-				if (LI->pResources[ j ].priority > nBestPri) {
-					nBestPri = LI->pResources[ j ].priority;
-					nBestPos = j;
-				}
-			}
-			if (nBestPos != -1)
-				res = LI->pResources[nBestPos].resourceName;
+	if (resourceMode == RSMODE_LASTSEEN)
+		return pLastSeenResource;
+
+	if (resourceMode == RSMODE_MANUAL)
+		return pManualResource;
+
+	int nBestPos = -1, nBestPri = -200;
+	for (int j=0; j < resourceCount; j++) {
+		if (pResources[j].priority > nBestPri) {
+			nBestPri = pResources[j].priority;
+			nBestPos = j;
 		}
 	}
-
-	if (!res && LI->pResources)
-		res = LI->pResources[0].resourceName;
-
-	return res;
+	
+	return (nBestPos != -1) ? &pResources[nBestPos] : NULL;
 }
 
 TCHAR* CJabberProto::ListGetBestClientResourceNamePtr(const TCHAR *jid)
@@ -373,13 +365,12 @@ TCHAR* CJabberProto::ListGetBestClientResourceNamePtr(const TCHAR *jid)
 	if (LI == NULL)
 		return NULL;
 
-	TCHAR *res = ListGetBestResourceNamePtr(jid);
-	if (res != NULL)
-		return res;
+	JABBER_RESOURCE_STATUS *r = LI->getBestResource();
+	if (r != NULL)
+		return r->resourceName;
 
-	JABBER_RESOURCE_STATUS *r = LI->pResources;
 	int status = ID_STATUS_OFFLINE;
-	res = NULL;
+	TCHAR *res = NULL;
 	for (int i=0; i < LI->resourceCount; i++) {
 		bool foundBetter = false;
 		switch (r[i].status) {
@@ -404,8 +395,8 @@ TCHAR* CJabberProto::ListGetBestClientResourceNamePtr(const TCHAR *jid)
 			break;
 		}
 		if (foundBetter) {
-			res = r[i].resourceName;
-			status = r[i].status;
+			res = LI->pResources[i].resourceName;
+			status = LI->pResources[i].status;
 	}	}
 
 	return res;

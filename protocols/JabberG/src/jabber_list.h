@@ -105,7 +105,7 @@ struct JABBER_RESOURCE_STATUS
 	JABBER_XEP0232_SOFTWARE_INFO* pSoftwareInfo;
 };
 
-struct JABBER_LIST_ITEM
+struct JABBER_LIST_ITEM : public MZeroedObject
 {
 	JABBER_LIST list;
 	TCHAR* jid;
@@ -113,13 +113,16 @@ struct JABBER_LIST_ITEM
 	// LIST_ROSTER
 	// jid = jid of the contact
 	TCHAR* nick;
+
+	JABBER_RESOURCE_STATUS* getBestResource() const;
+	JABBER_RESOURCE_MODE resourceMode;
 	int resourceCount;
 	JABBER_RESOURCE_STATUS
 		*pResources,        // array of resources
 		*pLastSeenResource, // resource which was last seen active
 		*pManualResource,   // manually set resource
 		itemResource;       // resource for jids without /resource node
-	JABBER_RESOURCE_MODE resourceMode;
+
 	JABBER_SUBSCRIPTION subscription;
 	TCHAR* group;
 	TCHAR* photoFileName;

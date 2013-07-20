@@ -58,7 +58,7 @@ int JabberCompareJids(const TCHAR *jid1, const TCHAR *jid2)
 		return 0;
 
 	// match only node@domain part
-	TCHAR szTempJid1[ JABBER_MAX_JID_LEN ], szTempJid2[ JABBER_MAX_JID_LEN ];
+	TCHAR szTempJid1[JABBER_MAX_JID_LEN], szTempJid2[JABBER_MAX_JID_LEN];
 	return lstrcmpi(
 		JabberStripJid(jid1, szTempJid1, SIZEOF(szTempJid1)),
 		JabberStripJid(jid2, szTempJid2, SIZEOF(szTempJid2)));
@@ -325,7 +325,7 @@ void CJabberProto::ResolveTransportNicks(const TCHAR *jid)
 			continue;
 		}
 
-		TCHAR* p = _tcschr(dbv.ptszVal, '@');
+		TCHAR *p = _tcschr(dbv.ptszVal, '@');
 		if (p) {
 			*p = 0;
 			if ( !lstrcmp(jid, p+1) && !lstrcmp(dbv.ptszVal, nick.ptszVal)) {
@@ -388,7 +388,7 @@ void CJabberProto::SetServerStatus(int iNewStatus)
 TCHAR* EscapeChatTags(TCHAR* pszText)
 {
 	int nChars = 0;
-	for (TCHAR* p = pszText; (p = _tcschr(p, '%')) != NULL; p++)
+	for (TCHAR *p = pszText; (p = _tcschr(p, '%')) != NULL; p++)
 		nChars++;
 
 	if (nChars == 0)
@@ -547,7 +547,7 @@ void CJabberProto::UpdateMirVer(HANDLE hContact, JABBER_RESOURCE_STATUS *resourc
 
 	DBVARIANT dbv;
 	if ( !getTString(hContact, "jid", &dbv)) {
-		TCHAR szFullJid[ JABBER_MAX_JID_LEN ];
+		TCHAR szFullJid[JABBER_MAX_JID_LEN];
 		if (resource->resourceName)
 			mir_sntprintf(szFullJid, SIZEOF(szFullJid), _T("%s/%s"), dbv.ptszVal, resource->resourceName);
 		else

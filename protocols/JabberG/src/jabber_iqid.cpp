@@ -465,7 +465,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 		}
 		else db_unset(hContact, "CList", "MyHandle");
 
-		if (getByte(hContact, "ChatRoom", 0)) {
+		if ( isChatRoom(hContact)) {
 			GCSESSION gcw = {0};
 			gcw.cbSize = sizeof(GCSESSION);
 			gcw.iType = GCW_CHATROOM;
@@ -474,7 +474,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 			gcw.ptszID = jid;
 			gcw.ptszName = NEWTSTR_ALLOCA(jid);
 
-			TCHAR* p = (TCHAR*)_tcschr(gcw.ptszName, '@');
+			TCHAR *p = (TCHAR*)_tcschr(gcw.ptszName, '@');
 			if (p)
 				*p = 0;
 
@@ -1400,7 +1400,7 @@ void CJabberProto::OnIqResultGetClientAvatar(HXML iqNode)
 	}
 
 	if (n == NULL) {
-		TCHAR szJid[ JABBER_MAX_JID_LEN ];
+		TCHAR szJid[JABBER_MAX_JID_LEN];
 		lstrcpyn(szJid, from, SIZEOF(szJid));
 		TCHAR *res = _tcschr(szJid, _T('/'));
 		if (res != NULL)
@@ -1448,7 +1448,7 @@ void CJabberProto::OnIqResultGetServerAvatar(HXML iqNode)
 	}
 
 	if (n == NULL) {
-		TCHAR szJid[ JABBER_MAX_JID_LEN ];
+		TCHAR szJid[JABBER_MAX_JID_LEN];
 		lstrcpyn(szJid, from, SIZEOF(szJid));
 		TCHAR *res = _tcschr(szJid, _T('/'));
 		if (res != NULL)

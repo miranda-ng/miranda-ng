@@ -589,7 +589,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 								<< XCHILD(_T("body"), szEventText);
 
 							HXML addressesNode = msg << XCHILDNS(_T("addresses"), _T(JABBER_FEAT_EXT_ADDRESSING));
-							TCHAR szOFrom[ JABBER_MAX_JID_LEN ];
+							TCHAR szOFrom[JABBER_MAX_JID_LEN];
 							EnterCriticalSection(&m_csLastResourceMap);
 							TCHAR *szOResource = FindLastResourceByDbEvent(hDbEvent);
 							if (szOResource)
@@ -791,7 +791,7 @@ int CJabberProto::AdhocLeaveGroupchatsHandler(HXML, CJabberIqInfo* pInfo, CJabbe
 			for (i = 0; i < xmlGetChildCount(fieldNode); i++) {
 				HXML valueNode = xmlGetChild(fieldNode, i);
 				if (valueNode && xmlGetName(valueNode) && xmlGetText(valueNode) && !_tcscmp(xmlGetName(valueNode), _T("value"))) {
-					JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_CHATROOM, xmlGetText(valueNode));
+					JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, xmlGetText(valueNode));
 					if (item)
 						GcQuit(item, 0, NULL);
 				}

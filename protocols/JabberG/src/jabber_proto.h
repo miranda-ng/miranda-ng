@@ -655,7 +655,6 @@ struct CJabberProto : public PROTO<CJabberProto>
 	JABBER_RESOURCE_STATUS *CJabberProto::ListFindResource(JABBER_LIST list, const TCHAR *jid);
 	int    ListAddResource(JABBER_LIST list, const TCHAR *jid, int status, const TCHAR *statusMessage, char priority = 0, const TCHAR *nick = NULL);
 	void   ListRemoveResource(JABBER_LIST list, const TCHAR *jid);
-	TCHAR* ListGetBestResourceNamePtr(const TCHAR *jid);
 	TCHAR* ListGetBestClientResourceNamePtr(const TCHAR *jid);
 
 	void   SetMucConfig(HXML node, void *from);
@@ -877,8 +876,11 @@ struct CJabberProto : public PROTO<CJabberProto>
 	void   SendPresenceTo(int status, TCHAR* to, HXML extra, const TCHAR *msg = NULL);
 	void   SendPresence(int m_iStatus, bool bSendToAll);
 	void   StringAppend(char* *str, int *sizeAlloced, const char* fmt, ...);
-	TCHAR* GetClientJID(const TCHAR *jid, TCHAR*, size_t);
 	void   RebuildInfoFrame(void);
+
+	// returns buf or NULL on error
+	TCHAR* GetClientJID(HANDLE hContact, TCHAR *dest, size_t destLen);
+	TCHAR* GetClientJID(const TCHAR *jid, TCHAR *dest, size_t destLen);
 
 	void   ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *param, int recentCount=JABBER_DEFAULT_RECENT_COUNT);
 	void   ComboAddRecentString(HWND hwndDlg, UINT idcCombo, char *param, TCHAR *string, int recentCount=JABBER_DEFAULT_RECENT_COUNT);

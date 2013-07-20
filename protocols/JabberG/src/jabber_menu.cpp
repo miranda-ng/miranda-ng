@@ -355,8 +355,8 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	if ((hContact=(HANDLE)wParam) == NULL)
 		return 0;
 
-	BYTE bIsChatRoom  = (BYTE)getByte(hContact, "ChatRoom", 0);
-	BYTE bIsTransport = (BYTE)getByte(hContact, "IsTransport", 0);
+	bool bIsChatRoom  = isChatRoom(hContact);
+	bool bIsTransport = getBool(hContact, "IsTransport", false);
 
 	if ((bIsChatRoom == GCW_CHATROOM) || bIsChatRoom == 0) {
 		if ( !getTString(hContact, bIsChatRoom?(char*)"ChatRoomID":(char*)"jid", &dbv)) {
@@ -484,15 +484,17 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 
 INT_PTR __cdecl CJabberProto::OnMenuConvertChatContact(WPARAM wParam, LPARAM)
 {
-	BYTE bIsChatRoom = (BYTE)getByte((HANDLE) wParam, "ChatRoom", 0);
-	if ((bIsChatRoom == GCW_CHATROOM) || bIsChatRoom == 0) {
-		DBVARIANT dbv;
-		if ( !getTString((HANDLE) wParam, (bIsChatRoom == GCW_CHATROOM)?(char*)"ChatRoomID":(char*)"jid", &dbv)) {
-			delSetting((HANDLE) wParam, (bIsChatRoom == GCW_CHATROOM)?"ChatRoomID":"jid");
-			setTString((HANDLE) wParam, (bIsChatRoom != GCW_CHATROOM)?"ChatRoomID":"jid", dbv.ptszVal);
-			db_free(&dbv);
-			setByte((HANDLE) wParam, "ChatRoom", (bIsChatRoom == GCW_CHATROOM)?0:GCW_CHATROOM);
-	}	}
+	HANDLE hContact = (HANDLE)wParam;
+	BYTE bIsChatRoom = isChatRoom(hContact);
+	const char *szSetting = (bIsChatRoom) ? "ChatRoomID" : "jid";
+
+	DBVARIANT dbv;
+	if ( !getTString(hContact, szSetting, &dbv)) {
+		delSetting(hContact, szSetting);
+		setTString(hContact, szSetting, dbv.ptszVal);
+		db_free(&dbv);
+		setByte(hContact, "ChatRoom", !bIsChatRoom);
+	}
 	return 0;
 }
 
@@ -1053,22 +1055,22 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 			bSupportTyping = dbv.bVal == 1;
 			db_free(&dbv);
 		}
-		if (bSupportTyping && !getTString(event->hContact, "jid", &dbv)) {
-			TCHAR jid[ JABBER_MAX_JID_LEN ];
-			GetClientJID(dbv.ptszVal, jid, SIZEOF(jid));
-			db_free(&dbv);
+		if (!bSupportTyping)
+			return 0;
 
+		TCHAR jid[JABBER_MAX_JID_LEN];
+		if ( GetClientJID(event->hContact, jid, SIZEOF(jid))) {
 			JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID(jid);
-
 			if (r && r->bMessageSessionActive) {
 				r->bMessageSessionActive = FALSE;
-				JabberCapsBits jcb = GetResourceCapabilites(jid, TRUE);
 
-				if (jcb & JABBER_CAPS_CHATSTATES)
+				if (GetResourceCapabilites(jid, TRUE) & JABBER_CAPS_CHATSTATES)
 					m_ThreadInfo->send(
 						XmlNode(_T("message")) << XATTR(_T("to"), jid) << XATTR(_T("type"), _T("chat")) << XATTRID( SerialNext())
 							<< XCHILDNS(_T("gone"), _T(JABBER_FEAT_CHATSTATES)));
-	}	}	}
+			}
+		}
+	}	
 
 	return 0;
 }
