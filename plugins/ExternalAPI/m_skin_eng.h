@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_ske_H_INC
 #define M_ske_H_INC
 
-
+#include <m_clui.h>
 
 /*defaults*/
 #define DEFAULT_FIT_MODE    FM_STRETCH
