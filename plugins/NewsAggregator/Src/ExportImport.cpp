@@ -242,9 +242,12 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			}
 		}
 		EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEFEED), FALSE);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEALLFEEDS), FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
-		if (!SendMessage(FeedsList, LB_GETCOUNT, 0, 0))
+		if (!SendMessage(FeedsList, LB_GETCOUNT, 0, 0)) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ADDFEED), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_ADDALLFEEDS), FALSE);
+		}
 		return TRUE;
 
 	case WM_COMMAND:
@@ -340,8 +343,10 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 		case IDC_ADDFEED:
 			{
-				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_REMOVEFEED)))
+				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_REMOVEFEED))) 
 					EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEFEED), TRUE);
+				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_REMOVEALLFEEDS))) 
+					EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEALLFEEDS), TRUE);
 				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDOK)))
 					EnableWindow(GetDlgItem(hwndDlg, IDOK), TRUE);
 				int cursel = SendMessage(FeedsList, LB_GETCURSEL, 0, 0);
@@ -349,25 +354,71 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				SendMessage(FeedsList, LB_GETTEXT, cursel, (LPARAM)item);
 				SendMessage(FeedsExportList, LB_ADDSTRING, 0, (LPARAM)item);
 				SendMessage(FeedsList, LB_DELETESTRING, cursel, 0);
-				if (!SendMessage(FeedsList, LB_GETCOUNT, 0, 0))
+				if (!SendMessage(FeedsList, LB_GETCOUNT, 0, 0)) {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_ADDFEED), FALSE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_ADDALLFEEDS), FALSE);
+				}
 			}
 			break;
 	
 		case IDC_REMOVEFEED:
 			{
+				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_ADDFEED)))
+					EnableWindow(GetDlgItem(hwndDlg, IDC_ADDFEED), TRUE);
+				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_ADDALLFEEDS)))
+					EnableWindow(GetDlgItem(hwndDlg, IDC_ADDALLFEEDS), TRUE);
 				int cursel = SendMessage(FeedsExportList, LB_GETCURSEL, 0, 0);
 				TCHAR item[MAX_PATH];
 				SendMessage(FeedsExportList, LB_GETTEXT, cursel, (LPARAM)item);
-				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_ADDFEED)))
-					EnableWindow(GetDlgItem(hwndDlg, IDC_ADDFEED), TRUE);
 				SendMessage(FeedsList, LB_ADDSTRING, 0, (LPARAM)item);
 				SendMessage(FeedsExportList, LB_DELETESTRING, cursel, 0);
 				if (!SendMessage(FeedsExportList, LB_GETCOUNT, 0, 0))
 				{
 					EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEFEED), FALSE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEALLFEEDS), FALSE);
 					EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
 				}
+			}
+			break;
+
+		case IDC_ADDALLFEEDS:
+			{
+				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_REMOVEFEED))) 
+					EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEFEED), TRUE);
+				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_REMOVEALLFEEDS))) 
+					EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEALLFEEDS), TRUE);
+				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDOK)))
+					EnableWindow(GetDlgItem(hwndDlg, IDOK), TRUE);
+				int count = SendMessage(FeedsList, LB_GETCOUNT, 0, 0);
+				for (int i = 0; i < count; i++) {
+					TCHAR item[MAX_PATH];
+					SendMessage(FeedsList, LB_GETTEXT, i, (LPARAM)item);
+					SendMessage(FeedsExportList, LB_ADDSTRING, 0, (LPARAM)item);
+				}
+				for (int i = count - 1; i > -1; i--)
+					SendMessage(FeedsList, LB_DELETESTRING, i, 0);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_ADDFEED), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_ADDALLFEEDS), FALSE);
+			}
+			break;
+
+		case IDC_REMOVEALLFEEDS:
+			{
+				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_ADDFEED)))
+					EnableWindow(GetDlgItem(hwndDlg, IDC_ADDFEED), TRUE);
+				if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_ADDALLFEEDS)))
+					EnableWindow(GetDlgItem(hwndDlg, IDC_ADDALLFEEDS), TRUE);
+				int count = SendMessage(FeedsExportList, LB_GETCOUNT, 0, 0);
+				for (int i = 0; i < count; i++) {
+					TCHAR item[MAX_PATH];
+					SendMessage(FeedsExportList, LB_GETTEXT, i, (LPARAM)item);
+					SendMessage(FeedsList, LB_ADDSTRING, 0, (LPARAM)item);
+				}
+				for (int i = count - 1; i > -1; i--)
+					SendMessage(FeedsExportList, LB_DELETESTRING, i, 0);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEFEED), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEALLFEEDS), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
 			}
 			break;
 		}

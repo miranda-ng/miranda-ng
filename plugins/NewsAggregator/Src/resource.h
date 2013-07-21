@@ -38,9 +38,10 @@
 #define IDC_FEEDSEXPORTLIST             1109
 #define IDC_ADDFEED                     1110
 #define IDC_REMOVEFEED                  1111
+#define IDC_ADDALLFEEDS                 1112
+#define IDC_REMOVEALLFEEDS              1113
 #define IDC_IMPORTFILEPATH              1114
 #define IDC_BROWSEIMPORTFILE            1115
-#define IDC_LOADIMPORTFILE              1116
 #define IDC_FEEDSIMPORTLIST             1117
 #define IDC_FEEDNAME                    1124
 
