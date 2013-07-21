@@ -457,7 +457,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_LBUTTONDOWN:
-		if ( !bct->iCtrlID) return 0;
+		if (!bct->iCtrlID) break;
 		if (bct->stateId != PBS_DISABLED && bct->stateId != PBS_PRESSED) {
 			bct->stateId = PBS_PRESSED;
 			InvalidateRect(bct->hwnd, NULL, TRUE);
@@ -470,7 +470,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		return 1;
 
 	case WM_LBUTTONUP:
-		if ( !bct->iCtrlID) return 0;
+		if (!bct->iCtrlID) break;
 		if (bct->bIsPushBtn)
 			bct->bIsPushed = !bct->bIsPushed;
 
