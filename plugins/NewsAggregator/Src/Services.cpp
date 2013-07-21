@@ -186,7 +186,7 @@ INT_PTR ChangeFeed(WPARAM wParam, LPARAM lParam)
 
 INT_PTR ImportFeeds(WPARAM wParam, LPARAM lParam)
 {
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FEEDIMPORT), NULL, DlgProcImportOpts, NULL);
+	CreateDialog(hInst, MAKEINTRESOURCE(IDD_FEEDIMPORT), NULL, DlgProcImportOpts);
 	return 0;
 }
 
