@@ -18,17 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-//#define USE_LOG_FUNCTIONS
-
 #include "common.h"
-
-/*
-My usual MessageBoxes :-)
-*/
-void MB(const TCHAR* message)
-{
-	if (verbose) MessageBox(NULL, message, _T("VersionInfo"), MB_OK | MB_ICONEXCLAMATION);
-}
 
 void Log(const TCHAR* message)
 {
@@ -81,30 +71,6 @@ int GetStringFromDatabase(char *szSettingName, TCHAR *szError, TCHAR *szResult, 
 	return res;
 }
 
-TCHAR *RelativePathToAbsolute(TCHAR *szRelative, TCHAR *szAbsolute, size_t size)
-{
-	if (size < MAX_PATH) {
-		TCHAR buffer[MAX_PATH]; //new path should be at least MAX_PATH chars
-		PathToAbsoluteT(szRelative, buffer);
-		_tcsncpy(szAbsolute, buffer, size);
-	}
-	else PathToAbsoluteT(szRelative, szAbsolute);
-		
-	return szAbsolute;
-}
-
-TCHAR *AbsolutePathToRelative(TCHAR *szAbsolute, TCHAR *szRelative, size_t size)
-{
-	if (size < MAX_PATH) {
-		TCHAR buffer[MAX_PATH];
-		PathToRelativeT(szAbsolute, szRelative);
-		_tcsncpy(szRelative, buffer, size);
-	}
-	else PathToRelativeT(szAbsolute, szRelative);
-		
-	return szRelative;
-}
-
 #define GetFacility(dwError)  (HIWORD(dwError) && 0x0000111111111111)
 #define GetErrorCode(dwError) (LOWORD(dwError))
 
@@ -144,58 +110,6 @@ bool DoesDllExist(char *dllName)
 			return true;
 		}
 	return false;
-}
-
-//========== From Cyreve ==========
-PLUGININFOEX *GetPluginInfo(const TCHAR *filename,HINSTANCE *hPlugin)
-{
-	TCHAR szMirandaPath[MAX_PATH], szPluginPath[MAX_PATH];
-	PLUGININFOEX *(*MirandaPluginInfo)(DWORD);
-	PLUGININFOEX *pPlugInfo;
-	HMODULE hLoadedModule;
-	DWORD mirandaVersion = CallService(MS_SYSTEM_GETVERSION,0,0);
-	
-	GetModuleFileName(GetModuleHandle(NULL), szMirandaPath, SIZEOF(szMirandaPath));
-	TCHAR* str2 = _tcsrchr(szMirandaPath,'\\');
-	if(str2!=NULL) *str2=0;
-
-	hLoadedModule = GetModuleHandle(filename);
-	if(hLoadedModule!=NULL) {
-		*hPlugin=NULL;
-		MirandaPluginInfo=(PLUGININFOEX *(*)(DWORD))GetProcAddress(hLoadedModule,"MirandaPluginInfo");
-		return MirandaPluginInfo(mirandaVersion);
-	}
-	wsprintf(szPluginPath, _T("%s\\Plugins\\%s"), szMirandaPath, filename);
-	*hPlugin=LoadLibrary(szPluginPath);
-	if (*hPlugin==NULL) return NULL;
-	MirandaPluginInfo=(PLUGININFOEX *(*)(DWORD))GetProcAddress(*hPlugin,"MirandaPluginInfo");
-	if(MirandaPluginInfo==NULL) {FreeLibrary(*hPlugin); *hPlugin=NULL; return NULL;}
-	pPlugInfo=MirandaPluginInfo(mirandaVersion);
-	if(pPlugInfo==NULL) {FreeLibrary(*hPlugin); *hPlugin=NULL; return NULL;}
-	if(pPlugInfo->cbSize != sizeof(PLUGININFOEX)) {FreeLibrary(*hPlugin); *hPlugin=NULL; return NULL;}
-	return pPlugInfo;
-}
-
-//========== from Frank Cheng (wintime98) ==========
-// I've changed something to suit VersionInfo :-)
-#include <imagehlp.h>
-
-void TimeStampToSysTime(DWORD Unix,SYSTEMTIME* SysTime)
-{
-	SYSTEMTIME S;
-	DWORDLONG FileReal,UnixReal;
-	S.wYear=1970;
-	S.wMonth=1;
-	S.wDay=1;
-	S.wHour=0;
-	S.wMinute=0;
-	S.wSecond=0;
-	S.wMilliseconds=0;
-	SystemTimeToFileTime(&S,(FILETIME*)&FileReal);
-	UnixReal = Unix;
-	UnixReal*=10000000;
-	FileReal+=UnixReal;
-	FileTimeToSystemTime((FILETIME*)&FileReal,SysTime);
 }
 
 void GetISO8061Time(SYSTEMTIME* stLocal, LPTSTR lpszString, DWORD dwSize)
@@ -483,7 +397,6 @@ BOOL GetInternetExplorerVersion(TCHAR *ieVersion, size_t ieSize)
 	
 	return TRUE;
 }
-
 
 TCHAR *GetLanguageName(LANGID language)
 {

@@ -1172,7 +1172,7 @@ void CVersionInfo::PrintInformationsToFile(const TCHAR *info)
 	}
 	else GetStringFromDatabase("OutputFile", _T("VersionInfo.txt"), buffer, SIZEOF(buffer));
 
-	RelativePathToAbsolute(buffer, outputFileName, SIZEOF(buffer));
+	PathToAbsoluteT(buffer, outputFileName);
 
 	FILE *fp = _tfopen(outputFileName, _T("wb"));
 	if ( fp != NULL ) {

@@ -2,13 +2,8 @@
 #define _M_VERSIONINFO_UTILS_H
 
 //utils.cpp
-void MB(const TCHAR*);
 void Log(const TCHAR*);
 TCHAR *StrTrim(TCHAR *, const TCHAR *);
-
-//utils.cpp
-TCHAR *RelativePathToAbsolute(TCHAR *szRelative, TCHAR *szAbsolute, size_t size);
-TCHAR *AbsolutePathToRelative(TCHAR *szAbsolute, TCHAR *szRelative, size_t size);
 
 //returns a string from the database and uses MirandaFree to deallocate the string, leaving only the local copy
 //utils.cpp
@@ -27,7 +22,6 @@ void GetISO8061Time(SYSTEMTIME* stLocal, LPTSTR lpszString, DWORD dwSize);
 void NotifyError(DWORD, const TCHAR*, int);
 
 //utils.cpp
-PLUGININFOEX *GetPluginInfo(const char *,HINSTANCE *);
 PLUGININFOEX *CopyPluginInfo(PLUGININFOEX *);
 void FreePluginInfo(PLUGININFOEX *);
 

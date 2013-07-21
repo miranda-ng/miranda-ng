@@ -259,9 +259,9 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			TCHAR notFound[1024];
 
 			if (db_get_ts(NULL, ModuleName, "OutputFile", &dbv) == 0)
-				RelativePathToAbsolute(dbv.ptszVal, notFound, SIZEOF(notFound));
+				PathToAbsoluteT(dbv.ptszVal, notFound);
 			else
-				RelativePathToAbsolute( _T("VersionInfo.txt"), notFound, SIZEOF(notFound));
+				PathToAbsoluteT(_T("VersionInfo.txt"), notFound);
 
 			if (hOutputLocation)
 				_tcscpy(buffer, TranslateT("Customize using folders plugin"));
@@ -463,7 +463,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (!hOutputLocation) {
 					TCHAR filePath[MAX_PATH], fileName[MAX_PATH];
 					GetDlgItemText(hWnd, IDC_FILENAME, fileName, MAX_PATH);
-					AbsolutePathToRelative(fileName, filePath, SIZEOF(filePath));
+					PathToRelativeT(fileName, filePath);
 
 					db_set_ts(NULL, ModuleName, "OutputFile", filePath); //store relative path
 				}
