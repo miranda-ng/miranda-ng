@@ -461,8 +461,7 @@ int Docking_IsDocked(WPARAM wParam, LPARAM lParam);
 
 #define BUTTONSETIMLICON      (WM_USER+20)
 #define BUTTONSETSKINNED      (WM_USER+21)
-#define BUTTONSETASMENUACTION (WM_USER+22)
-#define BUTTONSETBTNITEM      (WM_USER+23)
+#define BUTTONSETBTNITEM      (WM_USER+22)
 
 // Menus
 

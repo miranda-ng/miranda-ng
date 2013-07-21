@@ -315,14 +315,14 @@ void CreateButtonBar(HWND hWnd)
 	CustomizeButton(hTbMenu, false, false, false);
 	SetWindowText(hTbMenu, TranslateT("Menu"));
 	SendMessage(hTbMenu, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadSkinnedIcon(SKINICON_OTHER_MAINMENU));
-	SendMessage(hTbMenu, BUTTONSETASMENUACTION, 1, 0);
+	SendMessage(hTbMenu, BUTTONSETSENDONDOWN, TRUE, 0);
 	SendMessage(hTbMenu, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Open main menu"), BATF_TCHAR);
 
 	hTbGlobalStatus = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU) IDC_TBGLOBALSTATUS, g_hInst, NULL);
 	CustomizeButton(hTbGlobalStatus, false, false, false);
 	SetWindowText(hTbGlobalStatus, TranslateT("Offline"));
 	SendMessage(hTbGlobalStatus, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadSkinnedIcon(SKINICON_STATUS_OFFLINE));
-	SendMessage(hTbGlobalStatus, BUTTONSETASMENUACTION, 1, 0);
+	SendMessage(hTbGlobalStatus, BUTTONSETSENDONDOWN, TRUE, 0);
 	SendMessage(hTbGlobalStatus, BUTTONADDTOOLTIP, (WPARAM) TranslateT("Set status modes"), BATF_TCHAR);
 }
 

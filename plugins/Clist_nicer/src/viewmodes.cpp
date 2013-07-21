@@ -861,7 +861,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				hwnd, (HMENU) IDC_SELECTMODE, g_hInst, NULL);
 			CustomizeButton(hwndSelector, false, false, false);
 			SendMessage(hwndSelector, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Select a view mode"), BATF_UNICODE);
-			SendMessage(hwndSelector, BUTTONSETASMENUACTION, 1, 0);
+			SendMessage(hwndSelector, BUTTONSETSENDONDOWN, TRUE, 0);
 
 			HWND hwndButton = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
 				hwnd, (HMENU) IDC_CONFIGUREMODES, g_hInst, NULL);

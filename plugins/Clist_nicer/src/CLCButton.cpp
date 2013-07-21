@@ -23,8 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct
 {
-	int   ctrlid;
-	char *pszButtonID, *pszButtonDn, *pszButtonName;
+	int    ctrlid;
+	char  *pszButtonID, *pszButtonDn, *pszButtonName;
 	int    isPush, isVis, isAction;
 	HANDLE hButton;
 	HWND   hwndButton;
@@ -67,8 +67,7 @@ static int getButtonIndex(HANDLE hButton)
 static void InitDefaultButtons()
 {
 	for (int i=0; i < SIZEOF(BTNS); i++ ) {
-		TTBButton tbb = { 0 };
-		tbb.cbSize = sizeof(tbb);
+		TTBButton tbb = { sizeof(tbb) };
 
 		g_index = i;
 		if (BTNS[i].pszButtonID) {
@@ -110,6 +109,15 @@ HWND ClcGetButtonWindow(int ctrlid)
 	return NULL;
 }
 
+int ClcGetButtonId(HWND hwnd)
+{
+	for (int i=0; i < SIZEOF(BTNS); i++)
+		if (BTNS[i].hwndButton == hwnd)
+			return BTNS[i].ctrlid;
+
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 struct MButtonExtension : public MButtonCtrl
@@ -118,8 +126,7 @@ struct MButtonExtension : public MButtonCtrl
 	TCHAR szText[128];
 	SIZE sLabel;
 	HIMAGELIST hIml;
-	int iIcon, iCtrlID;
-	BOOL bSendOnDown;
+	int iIcon;
 	ButtonItem *buttonItem;
 	LONG lastGlyphMetrics[4];
 };
@@ -362,7 +369,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 
 static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	MButtonExtension *bct = (MButtonExtension*) GetWindowLongPtr(hwnd, 0);
+	MButtonExtension *bct = (MButtonExtension*)GetWindowLongPtr(hwnd, 0);
 
 	switch (msg) {
 	case WM_DESTROY:
@@ -371,22 +378,12 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_SETTEXT:
-		lstrcpyn(bct->szText, (TCHAR *)lParam, 127);
-		bct->szText[127] = 0;
-		break;
-
-	case WM_SYSKEYUP:
-		if (bct->stateId != PBS_DISABLED && bct->cHot && bct->cHot == tolower((int) wParam)) {
-			if ( !bct->bSendOnDown)
-				SendMessage(pcli->hwndContactList, WM_COMMAND, MAKELONG(bct->iCtrlID, BN_CLICKED), (LPARAM) hwnd);
-			return 0;
-		}
+		_tcsncpy_s(bct->szText, SIZEOF(bct->szText), (TCHAR*)lParam, _TRUNCATE);
 		break;
 
 	case BM_GETIMAGE:
 		if (wParam == IMAGE_ICON)
 			return (LRESULT)(bct->hIconPrivate ? bct->hIconPrivate : bct->hIcon);
-
 		break;
 
 	case BM_SETIMAGE:
@@ -414,7 +411,8 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 				ImageList_RemoveAll(hImageList);
 				ImageList_Destroy(hImageList);
 				bct->hIcon = 0;
-			} else {
+			}
+			else {
 				bct->hIcon = (HICON) lParam;
 				bct->hIconPrivate = 0;
 			}
@@ -452,37 +450,6 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		bct->buttonItem = (ButtonItem *)lParam;
 		break;
 
-	case BUTTONSETASMENUACTION:
-		bct->bSendOnDown = wParam ? TRUE : FALSE;
-		break;
-
-	case WM_LBUTTONDOWN:
-		if (!bct->iCtrlID) break;
-		if (bct->stateId != PBS_DISABLED && bct->stateId != PBS_PRESSED) {
-			bct->stateId = PBS_PRESSED;
-			InvalidateRect(bct->hwnd, NULL, TRUE);
-			if (bct->bSendOnDown) {
-				SendMessage( GetParent(hwnd), WM_COMMAND, MAKELONG(bct->iCtrlID, BN_CLICKED), (LPARAM) hwnd);
-				bct->stateId = PBS_NORMAL;
-				InvalidateRect(bct->hwnd, NULL, TRUE);
-			}
-		}
-		return 1;
-
-	case WM_LBUTTONUP:
-		if (!bct->iCtrlID) break;
-		if (bct->bIsPushBtn)
-			bct->bIsPushed = !bct->bIsPushed;
-
-		if (bct->stateId != PBS_DISABLED) {
-			// don't change states if disabled
-			bct->stateId = PBS_HOT;
-			InvalidateRect(bct->hwnd, NULL, TRUE);
-		}
-		if ( !bct->bSendOnDown)
-			SendMessage( GetParent(hwnd), WM_COMMAND, MAKELONG(bct->iCtrlID, BN_CLICKED), (LPARAM) hwnd);
-		return 1;
-
 	case WM_NCHITTEST:
 		switch( SendMessage(pcli->hwndContactList, WM_NCHITTEST, wParam, lParam)) {
 		case HTLEFT:	case HTRIGHT:	case HTBOTTOM:	  case HTTOP:
@@ -493,16 +460,14 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	return mir_callNextSubclass(hwnd, TSButtonWndProc, msg, wParam, lParam);
 }
 
-static void SetButtonAsCustom(HWND hWnd)
-{
-	SendMessage(hWnd, BUTTONSETCUSTOMPAINT, sizeof(MButtonExtension), (LPARAM)PaintWorker);
-	mir_subclassWindow(hWnd, TSButtonWndProc);
-}
-
 static LRESULT CALLBACK ToolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (msg == WM_COMMAND && HIWORD(wParam) == BN_CLICKED)
-		SendMessage(pcli->hwndContactList, msg, wParam, lParam);
+	// standard buttons are processed in the main window
+	if (msg == WM_COMMAND && HIWORD(wParam) == BN_CLICKED) {
+		int iCtrlId = ClcGetButtonId((HWND)lParam);
+		if (iCtrlId)
+			SendMessage(pcli->hwndContactList, msg, MAKELONG(iCtrlId, BN_CLICKED), lParam);
+	}
 
 	return mir_callNextSubclass(hwnd, ToolbarWndProc, msg, wParam, lParam);
 }
@@ -516,27 +481,24 @@ static void CustomizeToolbar(HANDLE hButton, HWND hWnd, LPARAM)
 		return;
 	}
 	
-	SetButtonAsCustom(hWnd);
+	SendMessage(hWnd, BUTTONSETCUSTOMPAINT, sizeof(MButtonExtension), (LPARAM)PaintWorker);
+	mir_subclassWindow(hWnd, TSButtonWndProc);
 
 	MButtonExtension *bct = (MButtonExtension*) GetWindowLongPtr(hWnd, 0);
 	int idx = getButtonIndex(hButton);
 	if (idx != -1) { // adding built-in button
 		BTNS[idx].hwndButton = hWnd;
-		bct->iCtrlID = BTNS[idx].ctrlid;
 		if (BTNS[idx].isAction) 
-			bct->bSendOnDown = TRUE;
+			bct->bSendOnDown = true;
 		if ( !BTNS[idx].isPush)
-			bct->bIsPushBtn = TRUE;
+			bct->bIsPushBtn = true;
 	}
 }
 
 void CustomizeButton(HWND hWnd, bool bIsSkinned, bool bIsThemed, bool bIsFlat)
 {
-	SetButtonAsCustom(hWnd);
-
-	MButtonExtension *bct = (MButtonExtension*) GetWindowLongPtr(hWnd, 0);
-	if (bct)
-		bct->iCtrlID = GetDlgCtrlID(hWnd);
+	SendMessage(hWnd, BUTTONSETCUSTOMPAINT, sizeof(MButtonExtension), (LPARAM)PaintWorker);
+	mir_subclassWindow(hWnd, TSButtonWndProc);
 
 	SendMessage(hWnd, BUTTONSETSKINNED, bIsSkinned, 0);
 	SendMessage(hWnd, BUTTONSETASTHEMEDBTN, bIsThemed, 0);

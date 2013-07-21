@@ -19,18 +19,15 @@ void CustomizeToolbar(HWND);
 struct TBBUTTONDATA : public MButtonCtrl
 {
 	char  *szButtonID;      // button id
-	BOOL   fSendOnDown;     // send event on button pushed
-	BOOL   fHotMark;        // button is hot marked (e.g. current state)
-	BOOL   fFocused;
+	bool   bHotMark;        // button is hot marked (e.g. current state)
+	bool   bFocused;
 	int    nFontID;         // internal font ID
-	HANDLE ttbID;           // control ID
 	TCHAR  szText[128];     // text on the button
 	RECT   rcMargins;       // margins of inner content
 
-	HANDLE  hIcolibHandle; // handle of icon in iconlib
+	HANDLE hIcolibHandle;   // handle of icon in iconlib
 
-	XPTHANDLE	hThemeButton;
-	XPTHANDLE	hThemeToolbar;
+	XPTHANDLE hThemeButton, hThemeToolbar;
 };
 
 static CRITICAL_SECTION csTips;
@@ -109,7 +106,7 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint , POINT *pOffset)
 			bct->szButtonID,				// ID		
 			b2str(bct->stateId == PBS_HOT),	// Hovered
 			b2str(bct->stateId == PBS_PRESSED || bct->bIsPushed == TRUE),	// Pressed
-			b2str(bct->fFocused));		// Focused
+			b2str(bct->bFocused));		// Focused
 
 		SkinDrawGlyph(hdcMem,&rcClient,&rcClient,szRequest);
 	}
@@ -154,7 +151,7 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint , POINT *pOffset)
 			FillRect(hdcMem, &rcClient, hbr);
 			DeleteObject(hbr);
 		}
-		if (bct->stateId == PBS_HOT || bct->fFocused) {
+		if (bct->stateId == PBS_HOT || bct->bFocused) {
 			if (bct->bIsPushed)
 				DrawEdge(hdcMem,&rcClient, EDGE_ETCHED,BF_RECT|BF_SOFT);
 			else
@@ -234,16 +231,16 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint , POINT *pOffset)
 
 static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam, LPARAM lParam)
 {
-	TBBUTTONDATA *bct = (TBBUTTONDATA *) GetWindowLongPtr(hwndDlg, 0);
+	TBBUTTONDATA *bct = (TBBUTTONDATA*)GetWindowLongPtr(hwndDlg, 0);
+
 	switch (msg) {
 	case WM_DESTROY:
 		xpt_FreeThemeForWindow(hwndDlg);
 		WindowList_Remove(hButtonWindowList, hwndDlg);
-		break;  // DONT! fall thru
+		break;
 
 	case WM_SETTEXT:
-		lstrcpyn(bct->szText, (TCHAR *)lParam, SIZEOF(bct->szText)-1);
-		bct->szText[SIZEOF(bct->szText)-1] = '\0';
+		_tcsncpy_s(bct->szText, SIZEOF(bct->szText), (TCHAR*)lParam, _TRUNCATE);
 		break;
 
 	case WM_SETFONT:			
@@ -252,10 +249,6 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		bct->nFontID = (int)lParam - 1;
 		break;
 	
-	case BUTTONSETSENDONDOWN:
-		bct->fSendOnDown = (BOOL)lParam;
-		break;
-
 	case BUTTONSETMARGINS:
 		if (lParam)	bct->rcMargins = *(RECT*)lParam;
 		else {
@@ -270,7 +263,7 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 
 	case BUTTONDRAWINPARENT:
 		if (IsWindowVisible(hwndDlg))
-			PaintWorker(bct, (HDC) wParam, (POINT*) lParam);
+			PaintWorker(bct, (HDC)wParam, (POINT*)lParam);
 		break;
 
 	case WM_NCPAINT:
@@ -301,15 +294,15 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 			RECT rcClient;
 			GetClientRect(bct->hwnd, &rcClient);
 			if ( !PtInRect(&rcClient, ptMouse)) {
-				bct->fHotMark = FALSE;
+				bct->bHotMark = false;
 				ReleaseCapture();
 			}
 			else {
 				if (bct->stateId != PBS_DISABLED && bct->stateId != PBS_PRESSED) {
 					bct->stateId = PBS_PRESSED;
-					bct->fHotMark = TRUE;
+					bct->bHotMark = true;
 					InvalidateParentRect(bct->hwnd, NULL, TRUE);
-					if (bct->fSendOnDown) {
+					if (bct->bSendOnDown) {
 						SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM) hwndDlg);
 						bct->stateId = PBS_NORMAL;
 						InvalidateParentRect(bct->hwnd, NULL, TRUE);
@@ -321,14 +314,14 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		return 0;
 
 	case WM_LBUTTONUP:
-		if ( GetCapture() == bct->hwnd ) {
+		if (GetCapture() == bct->hwnd) {
 			POINT ptMouse = UNPACK_POINT(lParam);
 
 			RECT rcClient;
 			GetClientRect(bct->hwnd, &rcClient);
 			
 			if ( !PtInRect(&rcClient, ptMouse)) {
-				bct->fHotMark = FALSE;
+				bct->bHotMark = false;
 				ReleaseCapture();
 				break;
 			}
@@ -341,44 +334,45 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 				bct->stateId = PBS_HOT;
 				InvalidateParentRect(bct->hwnd, NULL, TRUE);
 			}
-			if ( !bct->fSendOnDown) {
-				bct->fHotMark = FALSE;
+			if ( !bct->bSendOnDown) {
+				bct->bHotMark = false;
 				SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM)hwndDlg);
 			}
 		}
-		else bct->fHotMark = FALSE;
+		else bct->bHotMark = false;
 		return 0;
 		
 	case WM_MOUSEMOVE:
 		{
+			BOOL bPressed = (wParam & MK_LBUTTON) != 0;
+			if (bPressed && !bct->bHotMark)
+				break;
+
 			RECT rc;
 			POINT pt;
-			BOOL bPressed = (wParam & MK_LBUTTON) != 0;
-			if ( bPressed && !bct->fHotMark )
-				break;
 			GetWindowRect(hwndDlg, &rc);
 			GetCursorPos(&pt);
 			BOOL inClient = PtInRect(&rc, pt);
-			if ( inClient ) {
-				SetCapture( bct->hwnd );
-				if ( bct->stateId == PBS_NORMAL ) {
+			if (inClient) {
+				SetCapture(bct->hwnd);
+				if (bct->stateId == PBS_NORMAL) {
 					bct->stateId = PBS_HOT;
 					InvalidateParentRect(bct->hwnd, NULL, TRUE);
 				}
 			}
 
-			if ( !inClient && bct->stateId == PBS_PRESSED ) {
+			if (!inClient && bct->stateId == PBS_PRESSED) {
 				bct->stateId = PBS_HOT; 
 				InvalidateParentRect(bct->hwnd, NULL, TRUE);
 			}
-			else if ( inClient && bct->stateId == PBS_HOT && bPressed ) {
-				if ( bct->fHotMark ) {
+			else if (inClient && bct->stateId == PBS_HOT && bPressed) {
+				if (bct->bHotMark) {
 					bct->stateId = PBS_PRESSED;
 					InvalidateParentRect(bct->hwnd, NULL, TRUE);
 				}
 			}
 			else if ( !inClient && !bPressed) {
-				bct->fHotMark = FALSE;
+				bct->bHotMark = false;
 				ReleaseCapture();
 			}
 		}
@@ -400,6 +394,16 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 			bct->bIsPushed = 0;
 		InvalidateRect(bct->hwnd, NULL, TRUE);
 		return 0;
+
+	case WM_SETFOCUS: // set keyboard focus and redraw
+		bct->bFocused = true;
+		InvalidateParentRect(bct->hwnd, NULL, TRUE);
+		break;
+
+	case WM_KILLFOCUS: // kill focus and redraw
+		bct->bFocused = false;
+		InvalidateParentRect(bct->hwnd, NULL, TRUE);
+		break;
 
 	case WM_ERASEBKGND:
 		return 1;
@@ -459,9 +463,8 @@ void CustomizeButton(HANDLE ttbid, HWND hWnd, LPARAM lParam)
 
 	MakeButtonSkinned(hWnd);
 
-	TBBUTTONDATA* p = (TBBUTTONDATA*)GetWindowLongPtr(hWnd, 0);
+	TBBUTTONDATA *p = (TBBUTTONDATA*)GetWindowLongPtr(hWnd, 0);
 	p->szButtonID = "Toolbar.MissingID";
-	p->ttbID = ttbid;
 	SendMessage(hWnd, MBM_UPDATETRANSPARENTFLAG, 0, 2);
 }
 

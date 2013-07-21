@@ -44,13 +44,14 @@ struct MButtonCtrl
 	TCHAR    cHot;
 	HWND     hwndToolTips;
 
-	bool     bIsPushBtn, // button has two states
-				bIsPushed,  // is button pushed or not
-				bIsDefault, // default button
-				bIsFlat,    // flat button
-				bIsThemed,  // themed button
-				bIsSkinned; // skinned button
-
+	bool     bIsPushBtn,  // button has two states
+				bIsPushed,   // is button pushed or not
+				bIsDefault,  // default button
+				bIsFlat,     // flat button
+				bIsThemed,   // themed button
+				bIsSkinned,  // skinned button
+				bSendOnDown; // sends BN_CLICKED on WM_LBUTTONDOWN
+	
 	pfnPainterFunc fnPainter; // custom button painter
 
 	IAccPropServices* pAccPropServices;

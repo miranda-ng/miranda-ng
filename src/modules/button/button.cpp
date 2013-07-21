@@ -341,14 +341,14 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 		break;
 
 	case WM_SYSKEYUP:
-		if (bct->stateId != PBS_DISABLED && bct->cHot && bct->cHot == tolower((int)wParam)) {
+		if (bct->stateId != PBS_DISABLED && !bct->bSendOnDown && bct->cHot && bct->cHot == tolower((int)wParam)) {
 			if (bct->bIsPushBtn) {
 				if (bct->bIsPushed) {
-					bct->bIsPushed = 0;
+					bct->bIsPushed = false;
 					bct->stateId = PBS_NORMAL;
 				}
 				else {
-					bct->bIsPushed = 1;
+					bct->bIsPushed = true;
 					bct->stateId = PBS_PRESSED;
 				}
 				InvalidateRect(bct->hwnd, NULL, TRUE);
@@ -513,6 +513,10 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 			bct->fnPainter = pfnPainterFunc(lParam);
 		break;
 
+	case BUTTONSETSENDONDOWN:
+		bct->bSendOnDown = (wParam != 0);
+		break;
+
 	case WM_SETFOCUS: // set keybord focus and redraw
 		bct->focus = 1;
 		InvalidateRect(bct->hwnd, NULL, TRUE);
@@ -528,7 +532,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 		break;
 
 	case WM_ENABLE: // windows tells us to enable/disable
-		bct->stateId = wParam?PBS_NORMAL:PBS_DISABLED;
+		bct->stateId = wParam ? PBS_NORMAL : PBS_DISABLED;
 		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
 
@@ -543,6 +547,11 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 		if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
 			bct->stateId = PBS_PRESSED;
 			InvalidateRect(bct->hwnd, NULL, TRUE);
+			if (bct->bSendOnDown) {
+				SendMessage( GetParent(hwnd), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwnd), BN_CLICKED), (LPARAM)hwnd);
+				bct->stateId = PBS_NORMAL;
+				InvalidateRect(bct->hwnd, NULL, TRUE);
+			}
 		}
 		break;
 
@@ -558,8 +567,8 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 				bct->stateId = (msg == WM_LBUTTONUP) ? PBS_HOT : PBS_NORMAL;
 				InvalidateRect(bct->hwnd, NULL, TRUE);
 			}
-			if (showClick) // Tell your daddy you got clicked.
-				SendMessage(GetParent(hwnd), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwnd), BN_CLICKED), (LPARAM)hwnd);
+			if (showClick && !bct->bSendOnDown) // Tell your daddy you got clicked.
+				SendMessage( GetParent(hwnd), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwnd), BN_CLICKED), (LPARAM)hwnd);
 		}
 		break;
 
