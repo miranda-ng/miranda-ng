@@ -218,7 +218,7 @@
 [This font is used to display various addtional notes.]
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
 [Event icon legend:]
-[Choose events you wish to ingonre:]
+[Choose events you wish to ignore:]
 [Font Effect]
 [Effect:]
 [Base colour:]
@@ -3622,7 +3622,7 @@
 [Round corners]
 [Non-layered mode]
 [Disable Skin Engine]
-[Enable Aero Glass (Vista)]
+[Enable Aero Glass (Vista+)]
 [Order of items:]
 [Min row height:]
 [Row border:]
@@ -8787,7 +8787,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber Protocol
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber protocol support for Miranda NG.]
@@ -10083,7 +10083,7 @@
 ﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
 ;============================================================
 ;  File: KeepStatus.dll
-;  Plugin: Keep Status
+;  Plugin: Keep status
 ;  Version: 0.8.0.97
 ;  Authors: P Boon
 ;============================================================
@@ -10218,19 +10218,19 @@
 [TriggerData]
 [Status: The status the account will change to\r\nAccount: The account changing state]
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
-[KeepStatus]
-[%s Connected from another location]
-[%s Login error, cancel reconnecting]
-[%s Login error (next retry (%d) in %ds)]
-[%s Status error (next retry (%d) in %ds)]
-[Status error (next retry (%d) in %ds)]
+[%s connected from another location]
+[%s login error, cancel reconnecting]
+[%s login error (next retry (%d) in %d s)]
+[%s status error (next retry (%d) in %d s)]
+[Status error (next retry (%d) in %d s)]
 [will be set to]
 [Resetting status... (last try (%d))%s]
-[Resetting status... (next retry (%d) in %ds)%s]
+[Resetting status... (next retry (%d) in %d s)%s]
 [No internet connection seems available... (last try (%d))]
-[No internet connection seems available... (next retry (%d) in %ds)]
+[No internet connection seems available... (next retry (%d) in %d s)]
 [Status was set ok]
 [Giving up]
+[KeepStatus]
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Protocol]
 [Basic]
@@ -11902,7 +11902,6 @@
 [&Export]
 [&Close]
 [Import from:]
-[Load]
 [Feeds to be imported:]
 [&Import]
 ;file \plugins\NewsAggregator\Src\Authentication.cpp

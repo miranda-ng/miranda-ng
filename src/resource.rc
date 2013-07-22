@@ -687,7 +687,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     CONTROL         "",IDC_LIST,"CListControl",WS_TABSTOP | 0x3da,10,13,358,135,WS_EX_CLIENTEDGE
     LTEXT           "Event icon legend:",IDC_TXT_TITLE2,0,153,119,8
-    LTEXT           "Choose events you wish to ingonre:",IDC_TXT_TITLE1,0,0,246,8
+    LTEXT           "Choose events you wish to ignore:",IDC_TXT_TITLE1,0,0,246,8
     CONTROL         "",IDC_LV_LEGEND,"SysListView32",LVS_LIST | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,10,166,358,43
 END
 

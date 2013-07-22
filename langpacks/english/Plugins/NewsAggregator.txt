@@ -38,7 +38,6 @@
 [&Export]
 [&Close]
 [Import from:]
-[Load]
 [Feeds to be imported:]
 [&Import]
 ;file \plugins\NewsAggregator\Src\Authentication.cpp

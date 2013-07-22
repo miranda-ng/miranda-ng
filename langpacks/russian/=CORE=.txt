@@ -355,7 +355,7 @@ ANSI плагин
 Сменить статус на:
 [Check for Update]
 Проверить обновления
-[Choose events you wish to ingonre:]
+[Choose events you wish to ignore:]
 Следующие события будут проигнорированы:
 [Choose Font]
 Шрифт
