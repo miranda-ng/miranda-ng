@@ -115,16 +115,16 @@ INT CheckDefaults(WPARAM, LPARAM)
 	for (int c=ID_STATUS_ONLINE; c<ID_STATUS_IDLE; c++)
 	{
 		mir_snprintf(szStatus,SIZEOF(szStatus),"%d",c);
-		if (c == 40072 || c == 40077 || c == 40078)
+		if (c == ID_STATUS_ONLINE || c == ID_STATUS_FREECHAT || c == ID_STATUS_INVISIBLE)
 			continue;
 		else
 		{
 			if (db_get_ts(NULL,protocolname,szStatus,&dbv))
 			{
-				if (c < 40077)
+				if (c < ID_STATUS_FREECHAT)
 					// This mode does not have a preset message
 					ptszDefault=ptszDefaultMsg[c-ID_STATUS_ONLINE-1];
-				else if(c > 40078)
+				else if(c > ID_STATUS_INVISIBLE)
 					ptszDefault=ptszDefaultMsg[c-ID_STATUS_ONLINE-3];
 				if (ptszDefault)
 					db_set_ts(NULL,protocolname,szStatus,ptszDefault);
@@ -192,7 +192,7 @@ INT addEvent(WPARAM wParam, LPARAM lParam)
 
 	char* pszProto = GetContactProto(hContact);
 	int status = CallProtoService(pszProto, PS_GETSTATUS, 0, 0);
-	if (status == 40072 || status == 40077 || status == 40078)
+	if (status == ID_STATUS_ONLINE || status == ID_STATUS_FREECHAT || status == ID_STATUS_INVISIBLE)
 		return FALSE;
 
 	DBEVENTINFO dbei = {sizeof(dbei)};

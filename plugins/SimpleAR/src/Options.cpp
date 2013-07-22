@@ -27,7 +27,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			{
 				mir_snprintf(tszStatus, SIZEOF(tszStatus), "%d", c);
 				pszStatus=(TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM)c,GSMDF_TCHAR);
-				if (c == 40072 || c == 40077 || c == 40078)
+				if (c == ID_STATUS_ONLINE || c == ID_STATUS_FREECHAT || c == ID_STATUS_INVISIBLE)
 					continue;
 				else
 				{
@@ -35,9 +35,9 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 					if (!db_get_ts(NULL, protocolname, tszStatus, &dbv))
 					{
-						if (c < 40077)
+						if (c < ID_STATUS_FREECHAT)
 							ptszMessage[c-ID_STATUS_ONLINE-1] = _tcsdup(dbv.ptszVal);
-						else if (c > 40078)
+						else if (c > ID_STATUS_INVISIBLE)
 							ptszMessage[c-ID_STATUS_ONLINE-3] = _tcsdup(dbv.ptszVal);
 						db_free(&dbv);
 					}
@@ -111,16 +111,16 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 					for (int c=ID_STATUS_ONLINE; c<ID_STATUS_IDLE; c++)
 					{
-						if (c == 40072 || c == 40077 || c == 40078)
+						if (c == ID_STATUS_ONLINE || c == ID_STATUS_FREECHAT || c == ID_STATUS_INVISIBLE)
 							continue;
 						else
 						{
 							char szStatus[6] = {0};
 							mir_snprintf(szStatus, SIZEOF(szStatus), "%d", c);
 
-							if (c<40077 && ptszMessage[c-ID_STATUS_ONLINE-1])
+							if (c<ID_STATUS_FREECHAT && ptszMessage[c-ID_STATUS_ONLINE-1])
 								db_set_ts(NULL,protocolname,szStatus,ptszMessage[c-ID_STATUS_ONLINE-1]);
-							else if (c>40078 && ptszMessage[c-ID_STATUS_ONLINE-3])
+							else if (c>ID_STATUS_INVISIBLE && ptszMessage[c-ID_STATUS_ONLINE-3])
 								db_set_ts(NULL,protocolname,szStatus,ptszMessage[c-ID_STATUS_ONLINE-3]);
 							else
 								db_unset(NULL,protocolname,szStatus);
@@ -133,13 +133,13 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		case WM_DESTROY:
 			for (int c=ID_STATUS_ONLINE; c<ID_STATUS_IDLE; c++)
 			{
-				if (c == 40072 || c == 40077 || c == 40078)
+				if (c == ID_STATUS_ONLINE || c == ID_STATUS_FREECHAT || c == ID_STATUS_INVISIBLE)
 					continue;
 				else
 				{
-					if (c<40077)
+					if (c<ID_STATUS_FREECHAT)
 						ptszMessage[c-ID_STATUS_ONLINE-1]=NULL;
-					else if (c>40078)
+					else if (c>ID_STATUS_INVISIBLE)
 						ptszMessage[c-ID_STATUS_ONLINE-3]=NULL;
 				}
 			}
