@@ -118,11 +118,11 @@ void __cdecl rsa_notify(HANDLE context, int state)
 	case -0x60:
 		{
 			char buf[1024];
-			sprintf(buf,sim510,-state);
-			showPopupDCmsg(ptr->hContact,buf);
+			mir_snprintf(buf, SIZEOF(buf), sim510, -state);
+			showPopupDCmsg(ptr->hContact, buf);
 			ShowStatusIconNotify(ptr->hContact);
 			if (ptr->cntx) deleteRSAcntx(ptr);
-			waitForExchange(ptr,3); // המסûכאול םורטפנמגאםמ
+			waitForExchange(ptr, 3); // המסûכאול םורטפנמגאםמ
 		}
 		return;
 

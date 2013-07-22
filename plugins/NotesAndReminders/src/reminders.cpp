@@ -376,7 +376,7 @@ void PurgeReminders(void)
 	ReminderCount = db_get_dw(0,MODULENAME,"RemindersData",0);
 	for(I = 0;I < ReminderCount;I++)
 	{
-		sprintf(ValueName, "RemindersData%d", I);
+		mir_snprintf(ValueName, SIZEOF(ValueName), "RemindersData%d", I);
 		db_unset(0, MODULENAME, ValueName);
 	}
 }
@@ -416,27 +416,27 @@ void JustSaveReminders(void)
 
 		// data header (save 'When' with 1-second resolution, it's just a waste to have 100-nanosecond resolution
 		// which results in larger DB strings with no use)
-		l = sprintf(Value, "X%u:%I64x", pReminder->uid, pReminder->When.QuadPart/FILETIME_TICKS_PER_SEC);
+		l = sprintf(Value, "X%u:%I64x", pReminder->uid, pReminder->When.QuadPart/FILETIME_TICKS_PER_SEC); //!!!!!!!!!
 		if (l > 0) n += l;
 
 		// sound repeat
 		if (pReminder->RepeatSound)
 		{
-			l = sprintf(Value+n, "\033""%u:%u", DATATAG_SNDREPEAT, pReminder->RepeatSound);
+			l = sprintf(Value+n, "\033""%u:%u", DATATAG_SNDREPEAT, pReminder->RepeatSound); //!!!!!!!!!!
 			if (l > 0) n += l;
 		}
 
 		// sound
 		if (pReminder->SoundSel)
 		{
-			l = sprintf(Value+n, "\033""%u:%d", DATATAG_SNDSEL, pReminder->SoundSel);
+			l = sprintf(Value+n, "\033""%u:%d", DATATAG_SNDSEL, pReminder->SoundSel); //!!!!!!!!!
 			if (l > 0) n += l;
 		}
 
 		// reminder text/note (ALWAYS PUT THIS PARAM LAST)
 		if (tmpReminder && *tmpReminder)
 		{
-			l = sprintf(Value+n, "\033""%u:%s", DATATAG_TEXT, tmpReminder);
+			l = sprintf(Value+n, "\033""%u:%s", DATATAG_TEXT, tmpReminder); //!!!!!!!!!!!
 			if (l > 0) n += l;
 		}
 
@@ -448,7 +448,7 @@ void JustSaveReminders(void)
 			Value[0xffff] = 0;
 		}
 
-		sprintf(ValueName, "RemindersData%d", ReminderCount - I - 1); // do not want to reverse in DB
+		mir_snprintf(ValueName, SIZEOF(ValueName), "RemindersData%d", ReminderCount - I - 1); // do not want to reverse in DB
 
 		db_set_blob(0, MODULENAME, ValueName, Value, n+1);
 
@@ -458,8 +458,8 @@ void JustSaveReminders(void)
 	// delete any left over DB reminder entries
 	for(; I < OldReminderCount; I++)
 	{
-		sprintf(ValueName, "RemindersData%d", I);
-		db_unset(0,MODULENAME,ValueName);
+		mir_snprintf(ValueName, SIZEOF(ValueName), "RemindersData%d", I);
+		db_unset(0, MODULENAME, ValueName);
 	}
 }
 
@@ -478,7 +478,7 @@ void LoadReminders(void)
 	{
 		Size = 65535;
 		Value = NULL;
-		sprintf(ValueName, "RemindersData%d", I);
+		mir_snprintf(ValueName, SIZEOF(ValueName), "RemindersData%d", I);
 
 		ReadSettingBlob(0, MODULENAME, ValueName, &Size, (void**)&Value);
 
@@ -622,70 +622,6 @@ skip:;
 		JustSaveReminders();
 	}
 }
-
-
-/*void EscapeString(LPCSTR lpszSrc, char *s, int maxLen)
-{
-	maxLen -= 3;
-
-	*s++ = '"';
-
-	while (*lpszSrc && maxLen > 1)
-	{
-		switch (*lpszSrc)
-		{
-		case '\r': *s++ = '\\'; *s++ = 'r'; break;
-		case '\n': *s++ = '\\'; *s++ = 'n'; break;
-		case '"': *s++ = '\\'; *s++ = '"'; break;
-		case '\t': *s++ = '\\'; *s++ = 't'; break;
-		case '\\': *s++ = '\\'; *s++ = '\\'; break;
-		default:
-			*s++ = *lpszSrc;
-		}
-
-		lpszSrc++;
-		maxLen--;
-	}
-
-	*s++ = '"';
-	*s = 0;
-}
-
-void ExportReminders()
-{
-	LPCSTR lpsz;
-	TREEELEMENT *TTE;
-	char s[MAX_REMINDER_LEN+512];
-
-	if (!RemindersList)
-		return NULL;
-
-	// CSV header
-	lpsz = "TimeUTC,SoundSel,SoundRepeat,Description";
-	WriteFile(hFile, lpsz, strlen(lpsz), NULL, NULL);
-
-	TTE = RemindersList;
-	while (TTE)
-	{
-		REMINDERDATA *pReminder = (REMINDERDATA*)TTE->ptrdata;
-
-		sprintf(s, "%I64u,%d,%d,", (pReminder->When.QuadPart-(ULONGLONG)116444736000000000)/FILETIME_TICKS_PER_SEC, pReminder->SoundSel, pReminder->RepeatSound);
-		WriteFile(hFile, s, strlen(s), NULL, NULL);
-
-		if (pReminder->Reminder)
-		{
-			EscapeString(pReminder->Reminder, s, sizeof(s));
-			WriteFile(hFile, s, strlen(s), NULL, NULL);
-		}
-
-		WriteFile(hFile, (LPCVOID)"\r\n", 2, NULL, NULL);
-
-		TTE = TTE->next;
-	}
-
-	return NULL;
-}*/
-
 
 void NewReminder(void)
 {
@@ -832,7 +768,7 @@ INT_PTR OpenTriggeredReminder(WPARAM w, LPARAM l)
 
 	pReminder->handle = H = CreateDialog(hinstance, MAKEINTRESOURCE(IDD_NOTIFYREMINDER), 0, DlgProcNotifyReminder);
 
-	sprintf(S, "%s! - %s", Translate("Reminder"), S1);
+	mir_snprintf(S, SIZEOF(S), "%s! - %s", Translate("Reminder"), S1);
 	SetWindowText(H, S);
 
 	if (pReminder->Reminder)
@@ -1280,7 +1216,7 @@ static void PopulateTimeCombo(HWND Dialog, UINT nIDTime, BOOL bRelative, const S
 			const int m = (i&1) ? 30 : 0;
 
 			FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-			sprintf(s, "%02d:%02d", (UINT)tm2.wHour, (UINT)tm2.wMinute);
+			mir_snprintf(s, SIZEOF(s), "%02d:%02d", (UINT)tm2.wHour, (UINT)tm2.wMinute);
 			n = SendDlgItemMessage(Dialog,nIDTime,CB_ADDSTRING,0,(LPARAM)s);
 			// item data contains time offset from midnight in seconds (bit 31 is set to flag that
 			// combo box items are absolute times and not relative times like below
@@ -1507,7 +1443,7 @@ static int ReformatTimeInputEx(HWND Dialog, UINT nIDTime, UINT nIDRefTime, int h
 
 	//
 
-	sprintf(buf, "%02d:%02d", h, m);
+	mir_snprintf(buf, SIZEOF(buf), "%02d:%02d", h, m);
 
 	// search for preset first
 	n = SendDlgItemMessage(Dialog, nIDTime, CB_FINDSTRING, (WPARAM)-1, (LPARAM)buf);
@@ -1614,7 +1550,7 @@ output_result:
 
 		if ((int)Date.wHour != h || (int)Date.wMinute != m)
 		{
-			sprintf(buf, "%02d:%02d", (UINT)Date.wHour, (UINT)Date.wMinute);
+			mir_snprintf(buf, SIZEOF(buf), "%02d:%02d", (UINT)Date.wHour, (UINT)Date.wMinute);
 
 			// search for preset again
 			n = SendDlgItemMessage(Dialog, nIDTime, CB_FINDSTRING, (WPARAM)-1, (LPARAM)buf);
@@ -1795,7 +1731,7 @@ INT_PTR CALLBACK DlgProcNotifyReminder(HWND Dialog,UINT Message,WPARAM wParam,LP
 			// which could potentially mess up things otherwise)
 			{
 				char s[32];
-				sprintf(s, "%I64x", li.QuadPart);
+				mir_snprintf(s, SIZEOF(s), "%I64x", li.QuadPart);
 				SetDlgItemText(Dialog, IDC_REFTIME, s);
 			}
 
@@ -1909,12 +1845,12 @@ INT_PTR CALLBACK DlgProcNotifyReminder(HWND Dialog,UINT Message,WPARAM wParam,LP
 							if (h)
 							{
 								LPCSTR lpszHours = Translate("Hours");
-								sprintf(buf, "%d:%02d %s", h, m, lpszHours);
+								mir_snprintf(buf, SIZEOF(buf), "%d:%02d %s", h, m, lpszHours);
 							}
 							else
 							{
 								LPCSTR lpszMinutes = Translate("Minutes");
-								sprintf(buf, "%d %s", m, lpszMinutes);
+								mir_snprintf(buf, SIZEOF(buf), "%d %s", m, lpszMinutes);
 							}
 							SetDlgItemText(Dialog, IDC_REMINDAGAININ, buf);
 						}
@@ -2140,7 +2076,7 @@ INT_PTR CALLBACK DlgProcNewReminder(HWND Dialog,UINT Message,WPARAM wParam,LPARA
 			// which could potentially mess up things otherwise)
 			{
 				char s[32];
-				sprintf(s, "%I64x", li.QuadPart);
+				mir_snprintf(s, SIZEOF(s), "%I64x", li.QuadPart);
 				SetDlgItemText(Dialog, IDC_REFTIME, s);
 			}
 
@@ -2852,7 +2788,7 @@ void Send(char *user, char *host, char *Msg, char *server)
 	sockaddr.sin_family = AF_INET;
 	if(connect(S,(SOCKADDR*)&sockaddr,sizeof(sockaddr)) == SOCKET_ERROR) return;
 	ch = (char*)malloc(strlen(user) + strlen(host) + 16);
-	ch = (char*)realloc(ch,sprintf(ch,"rcpt to:%s@%s\r\n",user,host));
+	ch = (char*)realloc(ch,sprintf(ch,"rcpt to:%s@%s\r\n",user,host)); //!!!!!!!!!!
 	WS_Send(S,"mail from: \r\n",13);
 	WS_Send(S,ch,(int)strlen(ch));
 	WS_Send(S,"data\r\n",6);

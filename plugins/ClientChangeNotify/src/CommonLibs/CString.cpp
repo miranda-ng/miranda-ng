@@ -268,23 +268,9 @@ TString<T>& TString<T>::operator = (const T *pStr)
 	return *this;
 }
 
-
-/*TCString& TCString::Format(char *pszFormat, ...)
-{
-	va_list argList;
-	va_start(argList, pszFormat);
-	int StrLen = _vscprintf(pszFormat, argList); // it's stupidity. in some versions of msvcrt.dll there's no _vscprintf function, so there's no any way to determine needed string length. so actually I can't use _vsnprintf too.
-	_vsnprintf(GetBuffer(StrLen), StrLen, pszFormat, argList);
-	ReleaseBuffer(StrLen);
-	va_end(argList);
-	return *this;
-}
-*/
-
 template class TString<TCHAR>;
 template class TString<char>;
 template class TString<WCHAR>;
-
 
 CString db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, const char *szDefaultValue)
 {

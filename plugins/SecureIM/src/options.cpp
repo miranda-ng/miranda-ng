@@ -1047,7 +1047,7 @@ void RefreshPGPDlg(HWND hDlg, BOOL iInit)
 
 	if (bPGPloaded && ver) {
 		char pgpVerStr[64];
-		sprintf(pgpVerStr, Translate(sim218), ver >> 24, (ver >> 16) & 255, (ver >> 8) & 255);
+		mir_snprintf(pgpVerStr, SIZEOF(pgpVerStr), Translate(sim218), ver >> 24, (ver >> 16) & 255, (ver >> 8) & 255);
 		SetDlgItemText(hDlg, IDC_PGP_SDK, pgpVerStr);
 	}
 	else SetDlgItemText(hDlg, IDC_PGP_SDK, Translate(sim219));
@@ -1303,8 +1303,8 @@ void ApplyProtoSettings(HWND hDlg)
 		pSupPro p =  arProto[ getListViewProto(hLV,i) ];
 		p->inspecting = ListView_GetCheckState(hLV,i);
 		char tmp[128];
-		sprintf(tmp, "%s:%d:%d:%d;", p->name, p->inspecting, p->tsplit_on, p->tsplit_off);
-		strcat(szNames,tmp);
+		mir_snprintf(tmp, SIZEOF(tmp), "%s:%d:%d:%d;", p->name, p->inspecting, p->tsplit_on, p->tsplit_off);
+		strcat(szNames, tmp);
 		p->split_on = p->tsplit_on;
 		p->split_off = p->tsplit_off;
 		i = ListView_GetNextItem(hLV,i,LVNI_ALL);
@@ -1542,15 +1542,15 @@ void ListView_Sort(HWND hLV, LPARAM lParamSort)
 	char t[32];
 
 	// restore sort column
-	sprintf(t,"os%02x",(UINT)lParamSort&0xF0);
-	if ((lParamSort&0x0F) == 0)
-		lParamSort=(int)db_get_b(0, MODULENAME, t, lParamSort+1);
+	mir_snprintf(t, SIZEOF(t), "os%02x", (UINT)lParamSort & 0xF0);
+	if ((lParamSort & 0x0F) == 0)
+		lParamSort = (int)db_get_b(0, MODULENAME, t, lParamSort + 1);
 
 	db_set_b(0, MODULENAME, t, (BYTE)lParamSort);
 
 	// restore sort order
-	sprintf(t,"os%02x",(UINT)lParamSort);
-	int m=db_get_b(0, MODULENAME, t, 0);
+	mir_snprintf(t, SIZEOF(t), "os%02x", (UINT)lParamSort);
+	int m = db_get_b(0, MODULENAME, t, 0);
 	if (bChangeSortOrder){ m=!m; db_set_b(0, MODULENAME, t, m); }
 
 	ListView_SortItems(hLV,&CompareFunc,lParamSort|(m<<8));

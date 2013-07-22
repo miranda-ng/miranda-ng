@@ -297,13 +297,13 @@ void GetID(HANDLE hContact,LPSTR szProto,LPSTR szID)
 
 	if ( uID && db_get(hContact, szProto, uID ,&dbv_uniqueid) == 0 ) {
 		if (dbv_uniqueid.type == DBVT_DWORD)
-			wsprintfA(szID, "%u", dbv_uniqueid.dVal);
+			wsprintfA(szID, "%u", dbv_uniqueid.dVal); //!!!!!!!!!
 		else if (dbv_uniqueid.type == DBVT_WORD)
-			wsprintfA(szID, "%u", dbv_uniqueid.wVal);
+			wsprintfA(szID, "%u", dbv_uniqueid.wVal); //!!!!!!!!!
 		else if (dbv_uniqueid.type == DBVT_BLOB)
-			wsprintfA(szID, "%s", dbv_uniqueid.cpbVal);
+			wsprintfA(szID, "%s", dbv_uniqueid.cpbVal); //!!!!!!!!!
 		else
-			wsprintfA(szID, "%s", dbv_uniqueid.pszVal);
+			wsprintfA(szID, "%s", dbv_uniqueid.pszVal); //!!!!!!!!
 
 		db_free(&dbv_uniqueid);
 	}
@@ -370,10 +370,12 @@ void getIP(HANDLE hContact,LPSTR szProto,LPSTR szIP)
 	char szrIP[64] = {0};
 	DWORD mIP = db_get_dw(hContact, szProto, "IP", 0);
 	DWORD rIP = db_get_dw(hContact, szProto, "RealIP", 0);
-	if ( mIP ) wsprintfA(szmIP, "External IP: %d.%d.%d.%d\r\n", mIP>>24,(mIP>>16)&0xFF,(mIP>>8)&0xFF,mIP&0xFF);
-	if ( rIP ) wsprintfA(szrIP, "Internal IP: %d.%d.%d.%d\r\n", rIP>>24,(rIP>>16)&0xFF,(rIP>>8)&0xFF,rIP&0xFF);
-	strcpy(szIP,szrIP);
-	strcat(szIP,szmIP);
+	if (mIP)
+		mir_snprintf(szmIP, SIZEOF(szmIP), "External IP: %d.%d.%d.%d\r\n", mIP>>24, (mIP>>16)&0xFF, (mIP>>8)&0xFF, mIP&0xFF);
+	if (rIP)
+		mir_snprintf(szrIP, SIZEOF(szrIP), "Internal IP: %d.%d.%d.%d\r\n", rIP>>24, (rIP>>16)&0xFF, (rIP>>8)&0xFF, rIP&0xFF);
+	strcpy(szIP, szrIP);
+	strcat(szIP, szmIP);
 }
 
 LPSTR getMirVer(HANDLE hContact)

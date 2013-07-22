@@ -381,7 +381,7 @@ void LoadNotes(BOOL bIsStartup)
 	{
 		char *DelPos;
 
-		sprintf(ValueName, "NotesData%d", I);
+		mir_snprintf(ValueName, SIZEOF(ValueName), "NotesData%d", I);
 
 		if (Value)
 		{
@@ -694,7 +694,7 @@ void PurgeNotes(void)
 	NotesCount = db_get_dw(0,MODULENAME,"NotesData",0);
 	for(I = 0; I < NotesCount; I++)
 	{
-		sprintf(ValueName, "NotesData%d", I);
+		mir_snprintf(ValueName, SIZEOF(ValueName), "NotesData%d", I);
 		db_unset(0,MODULENAME,ValueName);
 	}
 }
@@ -886,27 +886,27 @@ static void JustSaveNotesEx(STICKYNOTE *pModified)
 		n = 0;
 
 		// data header
-		l = sprintf(Value, "X%I64x:%d:%d:%d:%d:%x", pNote->ID.QuadPart, TX, TY, TW, TH, flags);
+		l = sprintf(Value, "X%I64x:%d:%d:%d:%d:%x", pNote->ID.QuadPart, TX, TY, TW, TH, flags); //!!!!!!!!!!!!
 		if (l > 0) n += l;
 
 		// scroll pos
 		if (scrollV > 0)
 		{
-			l = sprintf(Value+n, "\033""%u:%u", DATATAG_SCROLLPOS, (UINT)scrollV);
+			l = sprintf(Value+n, "\033""%u:%u", DATATAG_SCROLLPOS, (UINT)scrollV); //!!!!!!!!!!
 			if (l > 0) n += l;
 		}
 
 		// custom bg color
 		if (pNote->BgColor)
 		{
-			l = sprintf(Value+n, "\033""%u:%x", DATATAG_BGCOL, (UINT)(pNote->BgColor&0xffffff));
+			l = sprintf(Value+n, "\033""%u:%x", DATATAG_BGCOL, (UINT)(pNote->BgColor&0xffffff)); //!!!!!!!!!!!!!
 			if (l > 0) n += l;
 		}
 
 		// custom fg color
 		if (pNote->FgColor)
 		{
-			l = sprintf(Value+n, "\033""%u:%x", DATATAG_FGCOL, (UINT)(pNote->FgColor&0xffffff));
+			l = sprintf(Value+n, "\033""%u:%x", DATATAG_FGCOL, (UINT)(pNote->FgColor&0xffffff)); //!!!!!!!!!!!!!
 			if (l > 0) n += l;
 		}
 
@@ -914,21 +914,21 @@ static void JustSaveNotesEx(STICKYNOTE *pModified)
 		{
 			l = sprintf(Value+n, "\033""%u:%d:%u:%u:%s", DATATAG_FONT,
 				(int)pNote->pCustomFont->size, (UINT)pNote->pCustomFont->style, (UINT)pNote->pCustomFont->charset,
-				pNote->pCustomFont->szFace);
+				pNote->pCustomFont->szFace); //!!!!!!!!!!!!!!!
 			if (l > 0) n += l;
 		}
 
 		// custom title
 		if (pNote->CustomTitle && pNote->title)
 		{
-			l = sprintf(Value+n, "\033""%u:%s", DATATAG_TITLE, pNote->title);
+			l = sprintf(Value+n, "\033""%u:%s", DATATAG_TITLE, pNote->title); //!!!!!!!!!!!!!
 			if (l > 0) n += l;
 		}
 
 		// note text (ALWAYS PUT THIS PARAM LAST)
 		if (tData)
 		{
-			l = sprintf(Value+n, "\033""%u:%s", DATATAG_TEXT, tData);
+			l = sprintf(Value+n, "\033""%u:%s", DATATAG_TEXT, tData); //!!!!!!!!!!!!
 			if (l > 0) n += l;
 		}
 
@@ -940,7 +940,7 @@ static void JustSaveNotesEx(STICKYNOTE *pModified)
 			Value[0xffff] = 0;
 		}
 
-		sprintf(ValueName, "NotesData%d", NotesCount - I - 1); // we do not reverse notes in DB
+		mir_snprintf(ValueName, SIZEOF(ValueName), "NotesData%d", NotesCount - I - 1); // we do not reverse notes in DB
 
 		db_set_blob(0, MODULENAME, ValueName, Value, n+1);
 
@@ -956,7 +956,7 @@ static void JustSaveNotesEx(STICKYNOTE *pModified)
 	// delete any left over DB note entries
 	for(; I < OldNotesCount; I++)
 	{
-		sprintf(ValueName, "NotesData%d", I);
+		mir_snprintf(ValueName, SIZEOF(ValueName), "NotesData%d", I);
 		db_unset(0,MODULENAME,ValueName);
 	}
 

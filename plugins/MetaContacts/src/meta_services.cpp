@@ -1087,7 +1087,7 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	for (int i = 0; i < numberOfProtocols ; i++)
 		if ( strcmp(ppProtocolDescriptors[i]->szModuleName, META_PROTO)) {
 			char str[MAXMODULELABELLENGTH + 10];
-			sprintf(str,"%s/Nudge",ppProtocolDescriptors[i]->szModuleName);
+			mir_snprintf(str, SIZEOF(str), "%s/Nudge", ppProtocolDescriptors[i]->szModuleName);
 			HookEvent(str, NudgeRecieved);
 		}
 

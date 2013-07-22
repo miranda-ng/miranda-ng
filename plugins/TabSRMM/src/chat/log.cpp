@@ -621,7 +621,7 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 		} else if (*line > 0 && *line < 128) {
 			*d++ = (char) * line;
 		}
-		else d += mir_snprintf(d, strlen(d), "\\u%u ?", (WORD) * line);
+		else d += sprintf(d, "\\u%u ?", (WORD) * line); //!!!!!!!!!
 	}
 
 	*cbBufferEnd = (int)(d - *buffer);
@@ -1284,7 +1284,7 @@ void LoadMsgLogBitmaps(void)
 	for (i=0; i < SIZEOF(pLogIconBmpBits); i++) {
 		hIcon = hIcons[i];
 		pLogIconBmpBits[i] = (PBYTE) mir_alloc(RTFPICTHEADERMAXSIZE + (bih.biSize + widthBytes * bih.biHeight) * 2);
-		rtfHeaderSize = mir_snprintf((char *)pLogIconBmpBits[i], strlen((char *)pLogIconBmpBits[i]), "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, bih.biWidth, bih.biHeight);
+		rtfHeaderSize = sprintf((char *)pLogIconBmpBits[i], "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, bih.biWidth, bih.biHeight); //!!!!!!!!!!
 		hoBmp = (HBITMAP) SelectObject(hdcMem, hBmp);
 		FillRect(hdcMem, &rc, hBkgBrush);
 		DrawIconEx(hdcMem, 0, 1, hIcon, iIconSize, iIconSize, 0, NULL, DI_NORMAL);
