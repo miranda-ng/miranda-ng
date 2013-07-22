@@ -525,7 +525,7 @@ void UpdateFilters()
 		for (i = 1; i < ListView_GetItemCount(hwndList); i++) {
 			item.iItem = i;
 			SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
-			_sntprintf(szMask, 256, _T("%s|"), szTemp);
+			mir_sntprintf(szMask, SIZEOF(szMask), _T("%s|"), szTemp);
 			if (dbv_gf.ptszVal && _tcsstr(dbv_gf.ptszVal, szMask))
 				ListView_SetCheckState(hwndList, i, TRUE)
 			else

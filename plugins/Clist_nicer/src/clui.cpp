@@ -297,7 +297,7 @@ static void InitIcoLib()
 			continue;
 
 		TCHAR szDescr[128];
-		mir_sntprintf(szDescr, 128, TranslateT("%s Connecting"), accs[k]->tszAccountName );
+		mir_sntprintf(szDescr, SIZEOF(szDescr), TranslateT("%s Connecting"), accs[k]->tszAccountName );
 		IconItemT icon = { szDescr, "conn", IDI_PROTOCONNECTING };
 		Icon_RegisterT(g_hInst, LPGENT("CList - Nicer/Connecting Icons"), &icon, 1, accs[k]->szModuleName);
 	}
@@ -1444,7 +1444,7 @@ skipbg:
 							if (serviceFailure) {
 								char szError[512];
 
-								mir_snprintf(szError, 512, Translate("The service %s specified by the %s button definition was not found. You may need to install additional plugins"), item->szService, item->szName);
+								mir_snprintf(szError, SIZEOF(szError), Translate("The service %s specified by the %s button definition was not found. You may need to install additional plugins"), item->szService, item->szName);
 								MessageBoxA(0, szError, Translate("Service failure"), MB_OK);
 							}
 							break;
@@ -1701,7 +1701,7 @@ buttons_done:
 
 					if (status >= ID_STATUS_CONNECTING && status < ID_STATUS_OFFLINE) {
 						char szBuffer[128];
-						mir_snprintf(szBuffer, 128, "%s_conn", pd->RealName);
+						mir_snprintf(szBuffer, SIZEOF(szBuffer), "%s_conn", pd->RealName);
 						hIcon = Skin_GetIcon(szBuffer);
 					}
 					else if (cfg::dat.bShowXStatusOnSbar && status > ID_STATUS_OFFLINE) {
@@ -2039,7 +2039,7 @@ void FS_RegisterFonts()
 	strncpy(fid.dbSettingsGroup, "CLC", 5);
 	fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS | FIDF_APPENDNAME | FIDF_SAVEPOINTSIZE;
 	while (_tagFSINFO[j].name != 0) {
-		_snprintf(szTemp, sizeof(szTemp), "Font%d", _tagFSINFO[j].id);
+		mir_snprintf(szTemp, sizeof(szTemp), "Font%d", _tagFSINFO[j].id);
 		strncpy(fid.prefix, szTemp, sizeof(fid.prefix));
 		fid.order = _tagFSINFO[j].id;
 		_tcsncpy(fid.backgroundGroup, LPGENT("Contact List"), SIZEOF(fid.backgroundGroup));

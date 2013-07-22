@@ -2979,7 +2979,7 @@ LABEL_SHOWWINDOW:
 											}
 											else
 												/* in the beginning of the message window */
-												_stprintf(tszAppeal, tszAplTmpl, tr.lpstrText);
+												mir_sntprintf(tszAppeal, SIZEOF(tszAppeal), tszAplTmpl, tr.lpstrText);
 											st = lstrlen(tszAppeal);
 											if (chr.cpMax != -1) {
 												tr2.chrg.cpMin = chr.cpMax;
@@ -3444,7 +3444,7 @@ LABEL_SHOWWINDOW:
 				DBVARIANT dbv = {0};
 				char szIndex[10];
 				char *szKey = "TAB_ContainersW";
-				_snprintf(szIndex, 8, "%d", iSelection - IDM_CONTAINERMENU);
+				mir_snprintf(szIndex, SIZEOF(szIndex), "%d", iSelection - IDM_CONTAINERMENU);
 				if (iSelection - IDM_CONTAINERMENU >= 0) {
 					if (!db_get_ts(NULL, szKey, szIndex, &dbv)) {
 						SendMessage(hwndDlg, DM_CONTAINERSELECTED, 0, (LPARAM)dbv.ptszVal);

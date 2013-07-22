@@ -57,24 +57,21 @@ INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
 		{
+			TranslateDialogDefault(hwndDlg);
 			ItemInfo &SelItem = *(ItemInfo*)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)&SelItem);
 
-			if (SelItem.hwndList)
-			{
+			if (SelItem.hwndList) {
 				TCHAR str[MAX_PATH];
 				if (GetDlgItemText(SelItem.hwndList, IDC_FEEDTITLE, str, SIZEOF(str)))
 					SetDlgItemText(hwndDlg, IDC_FEEDNAME, str);
-				else
-				{
+				else {
 					GetDlgItemText(SelItem.hwndList, IDC_FEEDURL, str, SIZEOF(str));
 					SetDlgItemText(hwndDlg, IDC_FEEDNAME, str);
 				}
 			}
-			else if (SelItem.hContact)
-			{
+			else if (SelItem.hContact) {
 				DBVARIANT dbv;
 				if (!db_get_ts(SelItem.hContact, MODULE, "Nick", &dbv)) {
 					SetDlgItemText(hwndDlg, IDC_FEEDNAME, dbv.ptszVal);
@@ -96,23 +93,21 @@ INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				TCHAR username[MAX_PATH];
 				char passw[MAX_PATH];
 				if (!GetDlgItemText(hwndDlg, IDC_FEEDUSERNAME, username, SIZEOF(username))) {
-					MessageBox(hwndDlg, TranslateT("Enter your username"), TranslateT("Error"), MB_OK);
+					MessageBox(hwndDlg, TranslateT("Enter your username"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 					break;
 				}
 				if (!GetDlgItemTextA(hwndDlg, IDC_FEEDPASSWORD, passw, SIZEOF(passw))) {
-					MessageBox(hwndDlg, TranslateT("Enter your password"), TranslateT("Error"), MB_OK);
+					MessageBox(hwndDlg, TranslateT("Enter your password"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 					break;
 				}
-				if (SelItem.hwndList)
-				{
+				if (SelItem.hwndList) {
 					CheckDlgButton(SelItem.hwndList, IDC_USEAUTH, BST_CHECKED);
 					EnableWindow(GetDlgItem(SelItem.hwndList, IDC_LOGIN), TRUE);
 					EnableWindow(GetDlgItem(SelItem.hwndList, IDC_PASSWORD), TRUE);
 					SetDlgItemText(SelItem.hwndList, IDC_LOGIN, username);
 					SetDlgItemTextA(SelItem.hwndList, IDC_PASSWORD, passw);
 				}
-				else if (SelItem.hContact)
-				{
+				else if (SelItem.hContact) {
 					db_set_b(SelItem.hContact, MODULE, "UseAuth", 1);
 					db_set_ts(SelItem.hContact, MODULE, "Login", username);
 					CallService(MS_DB_CRYPT_ENCODESTRING, strlen(passw), (LPARAM)&passw);
@@ -130,6 +125,5 @@ INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		}
 		break;
 	}
-
 	return FALSE;
 }

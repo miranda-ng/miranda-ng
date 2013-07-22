@@ -3111,10 +3111,10 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 					int oldflags;
 
 
-					sprintf(TBcapt,"%s - h:%d, vis:%d, fl:%d, fl:(%d,%d,%d,%d),or: %d",
-						g_pfwFrames[pos].szName,g_pfwFrames[pos].height,g_pfwFrames[pos].visible,g_pfwFrames[pos].floating,
-						g_pfwFrames[pos].FloatingPos.x,g_pfwFrames[pos].FloatingPos.y,
-						g_pfwFrames[pos].FloatingSize.x,g_pfwFrames[pos].FloatingSize.y,
+					mir_snprintf(TBcapt, SIZEOF(TBcapt), "%s - h:%d, vis:%d, fl:%d, fl:(%d,%d,%d,%d),or: %d",
+						g_pfwFrames[pos].szName, g_pfwFrames[pos].height, g_pfwFrames[pos].visible, g_pfwFrames[pos].floating,
+						g_pfwFrames[pos].FloatingPos.x, g_pfwFrames[pos].FloatingPos.y,
+						g_pfwFrames[pos].FloatingSize.x, g_pfwFrames[pos].FloatingSize.y,
 						g_pfwFrames[pos].order
 						);
 

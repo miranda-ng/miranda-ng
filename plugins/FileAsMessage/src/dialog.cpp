@@ -260,9 +260,9 @@ void FILEECHO::updateTitle()
 
 	contactName=(char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0);
 	if(iState == STATE_OPERATE && chunkCount != 0)
-		_snprintf(newtitle,sizeof(newtitle),"%d%% - %s: %s",chunkSent * 100 / chunkCount, Translate(szFEMode[inSend]), contactName);
+		mir_snprintf(newtitle, sizeof(newtitle), "%d%% - %s: %s", chunkSent * 100 / chunkCount, Translate(szFEMode[inSend]), contactName);
 	else
-		_snprintf(newtitle,sizeof(newtitle),"%s: %s",Translate(szFEMode[inSend]), contactName);
+		mir_snprintf(newtitle, sizeof(newtitle), "%s: %s", Translate(szFEMode[inSend]), contactName);
 	SetWindowText(hDlg, newtitle);
 }
 
@@ -429,9 +429,9 @@ void FILEECHO::sendReq()
 	if(*p == '\\')
 		strcpy(filename,p+1);
 
-	_snprintf(sendbuf, sizeof(sendbuf), Translate("Size: %d bytes"), fileSize);
+	mir_snprintf(sendbuf, sizeof(sendbuf), Translate("Size: %d bytes"), fileSize);
 	SetDlgItemText(hDlg, IDC_FILESIZE, sendbuf);
-	_snprintf(sendbuf, sizeof(sendbuf), "?%c%c%d:%d \n" NOPLUGIN_MESSAGE, asBinary+'0', codeSymb, chunkCount, fileSize);
+	mir_snprintf(sendbuf, sizeof(sendbuf), "?%c%c%d:%d \n" NOPLUGIN_MESSAGE, asBinary+'0', codeSymb, chunkCount, fileSize);
 	sendCmd(0, CMD_REQ, sendbuf, filename);
 
 	SetDlgItemText(hDlg, IDC_STATUS, Translate("Request sent. Awaiting of acceptance.."));
@@ -460,7 +460,7 @@ void FILEECHO::incomeRequest(char *param)
 	chunkCountx = atoi(p);
 	fileSize = atoi(param);
 
-	_snprintf(buf, sizeof(buf), Translate("Size: %d bytes"), fileSize);
+	mir_snprintf(buf, sizeof(buf), Translate("Size: %d bytes"), fileSize);
 	SetDlgItemText(hDlg, IDC_FILENAME, filename);
 	SetDlgItemText(hDlg, IDC_FILESIZE, buf);
 
@@ -635,7 +635,7 @@ void FILEECHO::onSendTimer()
 	}
 
 	char prefix[128];
-	_snprintf(prefix, sizeof(prefix), "%X,%X,%X>", chunkIndx+1, chunkPos[chunkIndx], chksum);
+	mir_snprintf(prefix, sizeof(prefix), "%X,%X,%X>", chunkIndx+1, chunkPos[chunkIndx], chksum);
 #ifdef DEBUG
 	overhead += lstrlen((char*)buffer);
 #endif
@@ -735,15 +735,9 @@ void FILEECHO::cmdDACK(char *param)
 	// All chunks has been received successfully
 	//
 	{
-#ifdef DEBUG
-		char msg[100];
-
-		_snprintf(msg, sizeof(msg), "overhead: %d", overhead);
-		SetDlgItemText(hDlg, IDC_STATUS, msg);
-#else
 		char *msg = Translate("Sent successfully");
 		SetDlgItemText(hDlg, IDC_STATUS, msg);
-#endif
+
 		SkinPlaySound("FileDone");
 		destroyTransfer();
 		MakePopupMsg(hDlg, hContact, msg);
@@ -877,9 +871,9 @@ int FILEECHO::sendCmd(int id, int cmd, char *szParam, char *szPrefix)
 	
 	buf = (char*)malloc(buflen);
 	if(szPrefix == NULL)
-		_snprintf(buf,buflen,"%s%c%s", szServicePrefix, cCmdList[cmd], szParam);
+		mir_snprintf(buf, buflen, "%s%c%s", szServicePrefix, cCmdList[cmd], szParam);
 	else
-		_snprintf(buf,buflen,"%s%c%s%s", szServicePrefix, cCmdList[cmd], szPrefix, szParam);
+		mir_snprintf(buf, buflen, "%s%c%s%s", szServicePrefix, cCmdList[cmd], szPrefix, szParam);
 	retval = CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
 	free(buf);
 	updateProgress();
@@ -1194,9 +1188,9 @@ INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 
 					int size = RetrieveFileSize(str);
 					if(size != -1)
-						_snprintf(str, sizeof(str), Translate("Size: %d bytes"), size);
+						mir_snprintf(str, sizeof(str), Translate("Size: %d bytes"), size);
 					else
-						_snprintf(str, sizeof(str), Translate("Can't get a file size"), size);
+						mir_snprintf(str, sizeof(str), Translate("Can't get a file size"), size);
 					SetDlgItemText(hDlg, IDC_FILESIZE, str);					
 
 					break;

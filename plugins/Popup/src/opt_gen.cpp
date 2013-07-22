@@ -578,7 +578,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 void ErrorMSG(int minValue, int maxValue)
 {
 	TCHAR str[128];
-	wsprintf(str, TranslateT("You cannot specify a value lower than %d and higher than %d."), minValue, maxValue);
+	mir_sntprintf(str, SIZEOF(str), TranslateT("You cannot specify a value lower than %d and higher than %d."), minValue, maxValue);
 	MSGERROR(str);
 }
 

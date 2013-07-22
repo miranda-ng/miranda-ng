@@ -129,7 +129,7 @@ int _DebugTrace(const char *fmt, ...)
 
 	mir_snprintf(debug, SIZEOF(debug) - 10, " ***** AVS [%08d] [ID:%04x]: ", GetTickCount(), GetCurrentThreadId());
 	OutputDebugStringA(debug);
-	_vsnprintf(debug, ibsize, fmt, va);
+	mir_vsnprintf(debug, ibsize, fmt, va);
 	OutputDebugStringA(debug);
 	OutputDebugStringA(" ***** \n");
 

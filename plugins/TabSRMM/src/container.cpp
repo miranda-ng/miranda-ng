@@ -155,13 +155,13 @@ TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HANDLE hCont
 	if (!M.GetByte("singlewinmode", 0)) {
 		do {
 			char szCounter[10];
-			_snprintf(szCounter, 8, "%d", i);
+			mir_snprintf(szCounter, 8, "%d", i);
 		
 			DBVARIANT dbv;
 			if (db_get_ts(NULL, szKey, szCounter, &dbv)) {
 				if (iFirstFree != -1) {
 					pContainer->iContainerIndex = iFirstFree;
-					_snprintf(szCounter, 8, "%d", iFirstFree);
+					mir_snprintf(szCounter, 8, "%d", iFirstFree);
 				}
 				else pContainer->iContainerIndex = i;
 
@@ -2004,13 +2004,13 @@ panel_found:
 						}
 					}
 					else {
-						_snprintf(szCName, 40, "%s%dx", szSetting, pContainer->iContainerIndex);
+						mir_snprintf(szCName, 40, "%s%dx", szSetting, pContainer->iContainerIndex);
 						db_set_dw(0, SRMSGMOD_T, szCName, wp.rcNormalPosition.left);
-						_snprintf(szCName, 40, "%s%dy", szSetting, pContainer->iContainerIndex);
+						mir_snprintf(szCName, 40, "%s%dy", szSetting, pContainer->iContainerIndex);
 						db_set_dw(0, SRMSGMOD_T, szCName, wp.rcNormalPosition.top);
-						_snprintf(szCName, 40, "%s%dwidth", szSetting, pContainer->iContainerIndex);
+						mir_snprintf(szCName, 40, "%s%dwidth", szSetting, pContainer->iContainerIndex);
 						db_set_dw(0, SRMSGMOD_T, szCName, wp.rcNormalPosition.right - wp.rcNormalPosition.left);
-						_snprintf(szCName, 40, "%s%dheight", szSetting, pContainer->iContainerIndex);
+						mir_snprintf(szCName, 40, "%s%dheight", szSetting, pContainer->iContainerIndex);
 						db_set_dw(0, SRMSGMOD_T, szCName, wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
 
 						db_set_b(0, SRMSGMOD_T, "splitmax", (BYTE)((wp.showCmd==SW_SHOWMAXIMIZED)?1:0));
@@ -2193,8 +2193,8 @@ int TSAPI CutContactName(const TCHAR *oldname, TCHAR *newname, unsigned int size
 	}
 	else {
 		TCHAR fmt[20];
-		_sntprintf(fmt, 18, _T("%%%d.%ds..."), cutMax, cutMax);
-		_sntprintf(newname, size, fmt, oldname);
+		mir_sntprintf(fmt, 18, _T("%%%d.%ds..."), cutMax, cutMax);
+		mir_sntprintf(newname, size, fmt, oldname);
 		newname[size - 1] = 0;
 	}
 	return 0;
@@ -2373,7 +2373,7 @@ void TSAPI DeleteContainer(int iIndex)
 	char *szKey = "TAB_ContainersW";
 	char *szSettingP = "CNTW_";
 	char *szSubKey = "containerW";
-	_snprintf(szIndex, 8, "%d", iIndex);
+	mir_snprintf(szIndex, 8, "%d", iIndex);
 
 	DBVARIANT dbv;
 	if (!db_get_ts(NULL, szKey, szIndex, &dbv)) {
@@ -2390,17 +2390,17 @@ void TSAPI DeleteContainer(int iIndex)
 					db_free(&dbv_c);
 				}
 			}
-			_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%d_Flags", szSettingP, iIndex);
+			mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%d_Flags", szSettingP, iIndex);
 			db_unset(NULL, SRMSGMOD_T, szSetting);
-			_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%d_Trans", szSettingP, iIndex);
+			mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%d_Trans", szSettingP, iIndex);
 			db_unset(NULL, SRMSGMOD_T, szSetting);
-			_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dwidth", szSettingP, iIndex);
+			mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dwidth", szSettingP, iIndex);
 			db_unset(NULL, SRMSGMOD_T, szSetting);
-			_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dheight", szSettingP, iIndex);
+			mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dheight", szSettingP, iIndex);
 			db_unset(NULL, SRMSGMOD_T, szSetting);
-			_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dx", szSettingP, iIndex);
+			mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dx", szSettingP, iIndex);
 			db_unset(NULL, SRMSGMOD_T, szSetting);
-			_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dy", szSettingP, iIndex);
+			mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dy", szSettingP, iIndex);
 			db_unset(NULL, SRMSGMOD_T, szSetting);
 		}
 		db_free(&dbv);
@@ -2415,7 +2415,7 @@ void TSAPI RenameContainer(int iIndex, const TCHAR *szNew)
 	char *szSubKey = "containerW";
 	char szIndex[10];
 
-	_snprintf(szIndex, 8, "%d", iIndex);
+	mir_snprintf(szIndex, 8, "%d", iIndex);
 	if (!db_get_ts(NULL, szKey, szIndex, &dbv)) {
 		if (szNew != NULL)
 			if (lstrlen(szNew) != 0)
@@ -2459,7 +2459,7 @@ HMENU TSAPI BuildContainerMenu()
 
 	hMenu = CreateMenu();
 	do {
-		_snprintf(szCounter, 8, "%d", i);
+		mir_snprintf(szCounter, 8, "%d", i);
 		if (db_get_ts(NULL, szKey, szCounter, &dbv))
 			break;
 

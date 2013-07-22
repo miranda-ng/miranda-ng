@@ -153,11 +153,11 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 	struct tm *lt = localtime(&t);
 	DWORD setView = 1;
 
-	mir_sntprintf(szTimestamp, 100, _T("%04u %02u %02u_%02u%02u"), lt->tm_year + 1900, lt->tm_mon, lt->tm_mday, lt->tm_hour, lt->tm_min);
+	mir_sntprintf(szTimestamp, SIZEOF(szTimestamp), _T("%04u %02u %02u_%02u%02u"), lt->tm_year + 1900, lt->tm_mon, lt->tm_mday, lt->tm_hour, lt->tm_min);
 
 	TCHAR *szProto = mir_a2t(dat->cache->getActiveProto());
 
-	mir_sntprintf(szFinalPath, MAX_PATH, _T("%s\\%s"), M.getSavedAvatarPath(), szProto);
+	mir_sntprintf(szFinalPath, SIZEOF(szFinalPath), _T("%s\\%s"), M.getSavedAvatarPath(), szProto);
 	mir_free(szProto);
 
 	if (CreateDirectory(szFinalPath, 0) == 0) {
@@ -1015,7 +1015,7 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 	p1 = pszText;
 	// iterate through all characters, if rtf control character found then take action
 	while (*p1 != (TCHAR) '\0') {
-		_sntprintf(InsertThis, 50, _T(""));
+		mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T(""));
 		iRemoveChars = 0;
 
 		switch (*p1) {
@@ -1026,17 +1026,17 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 				int iInd = Utils::RTFColorToIndex(iCol);
 				bJustRemovedRTF = TRUE;
 
-				_sntprintf(szTemp, 20, _T("%d"), iCol);
+				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%d"), iCol);
 				iRemoveChars = 3 + lstrlen(szTemp);
 				if (bTextHasStarted || iCol)
-					_sntprintf(InsertThis, sizeof(InsertThis) / sizeof(TCHAR), (iInd > 0) ? (inColor ? _T("[/color][color=%s]") : _T("[color=%s]")) : (inColor ? _T("[/color]") : _T("")), Utils::rtf_ctable[iInd - 1].szName);
+					mir_sntprintf(InsertThis, SIZEOF(InsertThis), (iInd > 0) ? (inColor ? _T("[/color][color=%s]") : _T("[color=%s]")) : (inColor ? _T("[/color]") : _T("")), Utils::rtf_ctable[iInd - 1].szName);
 				inColor = iInd > 0 ? 1 : 0;
 			} else if (p1 == _tcsstr(p1, _T("\\highlight"))) { //background color
 				TCHAR szTemp[20];
 				int iCol = _ttoi(p1 + 10);
 				bJustRemovedRTF = TRUE;
 
-				_sntprintf(szTemp, 20, _T("%d"), iCol);
+				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%d"), iCol);
 				iRemoveChars = 10 + lstrlen(szTemp);
 			} else if (p1 == _tcsstr(p1, _T("\\par"))) { // newline
 				bTextHasStarted = TRUE;
@@ -1046,48 +1046,48 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 5;
-				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("\n"));
+				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("\n"));
 			} else if (p1 == _tcsstr(p1, _T("\\endash"))) {
 				bTextHasStarted = bJustRemovedRTF = TRUE;
 				iRemoveChars = 7;
-				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2013);
+				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2013);
 			} else if (p1 == _tcsstr(p1, _T("\\emdash"))) {
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 7;
-				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2014);
+				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2014);
 			} else if (p1 == _tcsstr(p1, _T("\\bullet"))) {
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 7;
-				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2022);
+				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2022);
 			} else if (p1 == _tcsstr(p1, _T("\\ldblquote"))) {
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 10;
-				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x201C);
+				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x201C);
 			} else if (p1 == _tcsstr(p1, _T("\\rdblquote"))) {
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 10;
-				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x201D);
+				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x201D);
 			} else if (p1 == _tcsstr(p1, _T("\\lquote"))) {
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 7;
-				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2018);
+				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2018);
 			} else if (p1 == _tcsstr(p1, _T("\\rquote"))) {
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 7;
-				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2019);
+				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2019);
 			} else if (p1 == _tcsstr(p1, _T("\\b"))) { //bold
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = (p1[2] != (TCHAR) '0') ? 2 : 3;
 				if (!(lf.lfWeight == FW_BOLD)) { // only allow bold if the font itself isn't a bold one, otherwise just strip it..
 					if (dat->SendFormat)
-						_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[2] != (TCHAR) '0') ? _T("[b]") : _T("[/b]"));
+						mir_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[2] != (TCHAR) '0') ? _T("[b]") : _T("[/b]"));
 				}
 
 			} else if (p1 == _tcsstr(p1, _T("\\i"))) { // italics
@@ -1096,7 +1096,7 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 				iRemoveChars = (p1[2] != (TCHAR) '0') ? 2 : 3;
 				if (!lf.lfItalic) { // same as for bold
 					if (dat->SendFormat)
-						_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[2] != (TCHAR) '0') ? _T("[i]") : _T("[/i]"));
+						mir_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[2] != (TCHAR) '0') ? _T("[i]") : _T("[/i]"));
 				}
 
 			} else if (p1 == _tcsstr(p1, _T("\\strike"))) { // strike-out
@@ -1105,7 +1105,7 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 				iRemoveChars = (p1[7] != (TCHAR) '0') ? 7 : 8;
 				if (!lf.lfStrikeOut) { // same as for bold
 					if (dat->SendFormat)
-						_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[7] != (TCHAR) '0') ? _T("[s]") : _T("[/s]"));
+						mir_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[7] != (TCHAR) '0') ? _T("[s]") : _T("[/s]"));
 				}
 
 			} else if (p1 == _tcsstr(p1, _T("\\ul"))) { // underlined
@@ -1119,19 +1119,19 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 					iRemoveChars = 3;
 				if (!lf.lfUnderline) { // same as for bold
 					if (dat->SendFormat)
-						_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[3] != (TCHAR) '0' && p1[3] != (TCHAR) 'n') ? _T("[u]") : _T("[/u]"));
+						mir_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[3] != (TCHAR) '0' && p1[3] != (TCHAR) 'n') ? _T("[u]") : _T("[/u]"));
 				}
 
 			} else if (p1 == _tcsstr(p1, _T("\\tab"))) { // tab
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 4;
-				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x09);
+				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x09);
 			} else if (p1[1] == (TCHAR) '\\' || p1[1] == (TCHAR) '{' || p1[1] == (TCHAR) '}') { // escaped characters
 				bTextHasStarted = TRUE;
 				//bJustRemovedRTF = TRUE;
 				iRemoveChars = 2;
-				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), p1[1]);
+				mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), p1[1]);
 			} else if (p1[1] == (TCHAR) '\'') { // special character
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = FALSE;
@@ -1152,7 +1152,7 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 					// convert string containing char in hex format to int.
 					p3 = InsertThis;
 					iLame = _tcstol(p3, &stoppedHere, 16);
-					_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), (TCHAR) iLame);
+					mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), (TCHAR) iLame);
 
 				} else
 					iRemoveChars = 2;
@@ -2074,7 +2074,7 @@ void TSAPI LoadThemeDefaults(TContainerData *pContainer)
 	pContainer->theme.inputbg = M.GetDword(FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR);
 
 	for (i = 1; i <= 5; i++) {
-		_snprintf(szTemp, 10, "cc%d", i);
+		mir_snprintf(szTemp, SIZEOF(szTemp), "cc%d", i);
 		colour = M.GetDword(szTemp, RGB(224, 224, 224));
 		if (colour == 0)
 			colour = RGB(1, 1, 1);

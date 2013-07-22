@@ -102,7 +102,7 @@ char *MakeFileClassName(const char *pszFileExt)
 	pszClass=(char*)mir_alloc((lstrlenA(pszFileExt)+12)*sizeof(TCHAR));
 	if (pszClass!=NULL)
 		/* using correctly formated PROGID */
-		wsprintfA(pszClass,"miranda%sfile",pszFileExt); /* includes dot, buffer safe */
+		mir_snprintf(pszClass, strlen(pszClass), "miranda%sfile", pszFileExt); /* includes dot, buffer safe */
 	return pszClass;
 }
 
@@ -204,7 +204,7 @@ TCHAR *MakeIconLocation(HMODULE hModule,WORD nIconResID)
 	if ((cch=GetModuleFileName(hModule,szModule,SIZEOF(szModule)))!=0) {
 		pszIconLoc=(TCHAR*)mir_alloc((cch+=8)*sizeof(TCHAR));
 		if (pszIconLoc!=NULL)
-			wsprintf(pszIconLoc,_T("%s,%i"),szModule,-(int)nIconResID); /* id may be 0, buffer safe */
+			mir_sntprintf(pszIconLoc, _tcslen(pszIconLoc), _T("%s,%i"), szModule, -(int)nIconResID); /* id may be 0, buffer safe */
 	}
 	return pszIconLoc;
 }

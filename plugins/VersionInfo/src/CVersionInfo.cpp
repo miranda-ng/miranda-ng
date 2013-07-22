@@ -364,7 +364,7 @@ bool CVersionInfo::GetProfileSettings()
 	WIN32_FIND_DATA fd;
 	if ( FindFirstFile(tszProfileName, &fd) != INVALID_HANDLE_VALUE ) {
 		TCHAR number[40];
-		mir_sntprintf( number, SIZEOF(number), _T("%.2f KBytes"), double(fd.nFileSizeLow) / 1024 );
+		mir_sntprintf(number, SIZEOF(number), _T("%.2f KBytes"), double(fd.nFileSizeLow) / 1024);
 		lpzProfileSize = number;
 
 		FILETIME ftLocal;
@@ -378,7 +378,7 @@ bool CVersionInfo::GetProfileSettings()
 	else {
 		DWORD error = GetLastError();
 		TCHAR tmp[1024];
-		wsprintf(tmp, _T("%d"), error);
+		mir_sntprintf(tmp, SIZEOF(tmp), _T("%d"), error);
 		lpzProfileCreationDate = _T("<error ") + std::tstring(tmp) + _T(" at FileOpen>") + std::tstring(tszProfileName);
 		lpzProfileSize = _T("<error ") + std::tstring(tmp) + _T(" at FileOpen>") + std::tstring(tszProfileName);
 	}
@@ -769,7 +769,7 @@ bool CVersionInfo::GetPluginLists()
 					TCHAR error[2048];
 					//DWORD_PTR arguments[2] = {loadError, 0};
 					FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ARGUMENT_ARRAY, NULL, loadError, 0, error, SIZEOF(error), NULL);
-					wsprintf(buffer, _T("    Error %ld - %s"), loadError, error);
+					mir_sntprintf(buffer, SIZEOF(buffer), _T("    Error %ld - %s"), loadError, error);
 					CPlugin thePlugin( fd.cFileName, _T("<unknown>"), UUID_NULL, _T(""), 0, time.c_str(), buffer);
 					AddPlugin(thePlugin, listUnloadablePlugins);
 				}
@@ -830,7 +830,7 @@ bool CVersionInfo::GetPluginLists()
 					#ifdef _DEBUG
 						if (verbose) {
 							TCHAR szMsg[4096] = { 0 };
-							wsprintf(szMsg, _T("Done with: %s"), fd.cFileName);
+							mir_sntprintf(szMsg, SIZEOF(szMsg), _T("Done with: %s"), fd.cFileName);
 							PUShowMessageT(szMsg, SM_NOTIFY);
 						}
 					#endif
@@ -905,15 +905,15 @@ bool CVersionInfo::GetLinkedModulesInfo(TCHAR *moduleName, std::tstring &linkedM
 	TCHAR szError[20];
 	char* szModuleName = mir_t2a(moduleName);
 	if (MapAndLoad(szModuleName, NULL, &image, TRUE, TRUE) == FALSE) {
-		wsprintf(szError, _T("%d"), GetLastError());
-		mir_free( szModuleName );
+		mir_sntprintf(szError, SIZEOF(szError), _T("%d"), GetLastError());
+		mir_free(szModuleName);
 		linkedModules = _T("<error ") + std::tstring(szError) + _T(" at MapAndLoad()>\r\n");
 		return result;
 	}
-	mir_free( szModuleName );
+	mir_free(szModuleName);
 	importData = (IMAGE_IMPORT_DESCRIPTOR *) ImageDirectoryEntryToData(image.MappedAddress, FALSE, IMAGE_DIRECTORY_ENTRY_IMPORT, &importTableSize);
 	if (!importData) {
-		wsprintf(szError, _T("%d"), GetLastError());
+		mir_sntprintf(szError, SIZEOF(szError), _T("%d"), GetLastError());
 		linkedModules = _T("<error ") + std::tstring(szError) + _T(" at ImageDirectoryEntryToDataEx()>\r\n");
 	}
 	else {
@@ -1003,13 +1003,14 @@ void CVersionInfo::AddInfoHeader(int suppressHeader, int forumStyle, int beautif
 
 	if (luiProcessors > 1) {
 		TCHAR noProcs[128];
-		wsprintf(noProcs, _T(" [%d CPUs]"), luiProcessors);
+		mir_sntprintf(noProcs, SIZEOF(noProcs), _T(" [%d CPUs]"), luiProcessors);
 		out.append(noProcs);
 	}
 	out.append( _T("\r\n"));
 
 	//RAM
-	TCHAR szRAM[64]; wsprintf(szRAM, _T("%d"), luiRAM);
+	TCHAR szRAM[64];
+	mir_sntprintf(szRAM, SIZEOF(szRAM), _T("%d"), luiRAM);
 	out.append( _T("Installed RAM: ") + std::tstring(szRAM) + _T(" MBytes\r\n"));
 
 	//operating system
@@ -1025,7 +1026,8 @@ void CVersionInfo::AddInfoHeader(int suppressHeader, int forumStyle, int beautif
 
 	//FreeDiskSpace
 	if (luiFreeDiskSpace) {
-		TCHAR szDiskSpace[64]; wsprintf(szDiskSpace, _T("%d"), luiFreeDiskSpace);
+		TCHAR szDiskSpace[64];
+		mir_sntprintf(szDiskSpace, SIZEOF(szDiskSpace), _T("%d"), luiFreeDiskSpace);
 		out.append( _T("Free disk space on Miranda partition: ") + std::tstring(szDiskSpace) + _T(" MBytes\r\n\r\n"));
 	}
 
@@ -1081,9 +1083,9 @@ void CVersionInfo::AddInfoFooter(int suppressFooter, int forumStyle, int beautif
 static void AddSectionAndCount(std::list<CPlugin> list, LPCTSTR listText, std::tstring &out)
 {
 	TCHAR tmp[64];
-	wsprintf(tmp, _T(" (%u)"), list.size());
+	mir_sntprintf(tmp, SIZEOF(tmp), _T(" (%u)"), list.size());
 	out.append(listText);
-	out.append( tmp );
+	out.append(tmp);
 	out.append( _T(":"));
 }
 

@@ -233,7 +233,7 @@ int IniParser::GetSkinFolder( IN const TCHAR * szFileName, OUT TCHAR * pszFolder
 
 	GetPrivateProfileString(_T("Skin_Description_Section"),_T("SkinFolder"),_T(""),cus,SIZEOF(custom_folder),szFileName);
 	if ( cus && _tcslen(cus)>0)
-		_sntprintf(pszFolderName,MAX_PATH,_T("%s\\%s"),custom_folder,cus);
+		mir_sntprintf(pszFolderName, MAX_PATH, _T("%s\\%s"), custom_folder, cus);
 
 	mir_free(szBuff);
 	PathToRelativeT(pszFolderName, pszFolderName);
@@ -3575,13 +3575,13 @@ static int ske_ValidateSingleFrameImage(FRAMEWND * Frame, BOOL SkipBkgBlitting) 
 			BitBlt(g_pCachedWindow->hImageDC,rLine.left,rLine.top,rLine.right-rLine.left,rLine.bottom-rLine.top,g_pCachedWindow->hBackDC,rLine.left,rLine.top,SRCCOPY);
 			{
 				char req[255];
-				_snprintf(req,sizeof(req),"Main,ID=ScrollBar,Frame=%s,Part=Back",Frame->szName);
+				mir_snprintf(req, sizeof(req), "Main,ID=ScrollBar,Frame=%s,Part=Back", Frame->szName);
 				SkinDrawGlyph(g_pCachedWindow->hImageDC,&rLine,&rLine,req);
-				_snprintf(req,sizeof(req),"Main,ID=ScrollBar,Frame=%s,Part=Thumb",Frame->szName);
+				mir_snprintf(req, sizeof(req), "Main,ID=ScrollBar,Frame=%s,Part=Thumb", Frame->szName);
 				SkinDrawGlyph(g_pCachedWindow->hImageDC,&rThumb,&rThumb,req);
-				_snprintf(req,sizeof(req),"Main,ID=ScrollBar,Frame=%s,Part=UpLineButton",Frame->szName);
+				mir_snprintf(req, sizeof(req), "Main,ID=ScrollBar, Frame=%s,Part=UpLineButton", Frame->szName);
 				SkinDrawGlyph(g_pCachedWindow->hImageDC,&rUpBtn,&rUpBtn,req);
-				_snprintf(req,sizeof(req),"Main,ID=ScrollBar,Frame=%s,Part=DownLineButton",Frame->szName);
+				mir_snprintf(req, sizeof(req), "Main,ID=ScrollBar,Frame=%s,Part=DownLineButton", Frame->szName);
 				SkinDrawGlyph(g_pCachedWindow->hImageDC,&rDnBtn,&rDnBtn,req);
 			}
 		}
@@ -3924,11 +3924,11 @@ static DWORD ske_HexToARGB(char * Hex)
 	char * st;
 	BYTE alpha;
 	DWORD AARRGGBB = 0;
-	_snprintf(buf,10, "%s\n",Hex);
+	mir_snprintf(buf, SIZEOF(buf), "%s\n", Hex);
 	if (buf[1] == 'x' || buf[1] == 'X')
-		_snprintf(buf2,11,"0x%s\n",buf+2);
+		mir_snprintf(buf2, SIZEOF(buf2), "0x%s\n", buf+2);
 	else
-		_snprintf(buf2,11,"0x%s\n",buf);
+		mir_snprintf(buf2, SIZEOF(buf2), "0x%s\n", buf);
 	buf2[10] = '\0';
 	AARRGGBB = strtoul(buf2,&st,16);
 	alpha = (BYTE)((AARRGGBB&0xFF000000)>>24);

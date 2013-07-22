@@ -152,13 +152,13 @@ void GetINIInfo(TCHAR *pszSvc)
 	// if the service does not exist among the loaded INI's
 	if (sData == NULL)
 	{
-		wsprintf(str2, TranslateT("The corresponding INI file for \"%s\" is not found."), pszSvc);
+		mir_sntprintf(str2, SIZEOF(str2), TranslateT("The corresponding INI file for \"%s\" is not found."), pszSvc);
 		MessageBox(NULL, str2, TranslateT("Weather INI information"), MB_OK|MB_ICONINFORMATION);
 	}
 	// if exist, get the information
 	else
 	{
-		wsprintf(str2, TranslateT("Weather INI information for \"%s\":"), pszSvc);
+		mir_sntprintf(str2, SIZEOF(str2), TranslateT("Weather INI information for \"%s\":"), pszSvc);
 		_tcscat(str2,_T("\n\n"));
 		_tcscat(str2, TranslateT("Name:"));
 		_tcscat(str2,_T("\t\t"));
@@ -192,9 +192,9 @@ void GetINIInfo(TCHAR *pszSvc)
 		_tcscat(str2, sData->ShortFileName);
 		_tcscat(str2, _T("\n"));
 		_tcscat(str2, TranslateT("Item Count:"));
-		wsprintf(str2, _T("%s\t%i\n"), str2, sData->UpdateDataCount);
+		mir_sntprintf(str2, SIZEOF(str2), _T("%s\t%i\n"), str2, sData->UpdateDataCount);
 		_tcscat(str2, TranslateT("Memory Used:"));
-		wsprintf(str2, _T("%s\t%i "), str2, sData->MemUsed);
+		mir_sntprintf(str2, SIZEOF(str2), _T("%s\t%i "), str2, sData->MemUsed);
 		_tcscat(str2, TranslateT("bytes")); 
 		_tcscat(str2,_T("\n\n")); 
 		_tcscat(str2, TranslateT("Description:"));
@@ -228,7 +228,7 @@ void MoreVarList(void)
 			// the custom variable is defined as "%[<variable name>]"
 			// ignore the "hi" item and hidden items
 			if ( _tcscmp(WItem->Item.Name, _T("Ignore")) && WItem->Item.Name[0] != '#') {
-				wsprintf(tempstr, _T("%c[%s]"), '%', WItem->Item.Name);
+				mir_sntprintf(tempstr, SIZEOF(tempstr), _T("%c[%s]"), '%', WItem->Item.Name);
 				TCHAR* find = _tcsstr(str, tempstr);
 				// if the custom variable does not exist in the list, add it to the list
 				if (find == NULL) {

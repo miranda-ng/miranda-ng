@@ -69,7 +69,7 @@ STATUSBARDATA g_StatusBarData = {0};
 
 char* ApendSubSetting(char * buf, int size, char *first, char *second)
 {
-	_snprintf(buf,size,"%sFont%s",first,second);
+	mir_snprintf(buf, size, "%sFont%s", first, second);
 	return buf;
 }
 

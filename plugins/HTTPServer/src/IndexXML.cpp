@@ -122,7 +122,7 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath,
 
 	// Write dirname
 	ReplaceSign(szFileName, MAX_PATH, '&', "&amp;");
-	pszBuffer += _snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+	pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
 		"  <dirname>%s</dirname>\r\n", szFileName);
 	WriteFile(hFile, szBuffer, pszBuffer - szBuffer, &dwBytesWritten, NULL);
 
@@ -137,7 +137,7 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath,
 			ReplaceSign(szFileName, MAX_PATH, '&', "&amp;");
 
 			if (fdFindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-				pszBuffer += _snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+				pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
 					"  <item name=\"%s\" isdir=\"true\"/>\r\n", szFileName);
 			} else {
 				pszExt = strrchr(szFileName, '.');
@@ -147,24 +147,24 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath,
 					pszExt++;
 				}
 
-				pszBuffer += _snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+				pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
 					"  <item name=\"%s\" ext=\"%s\" size=\"%i\" ",
 				  szFileName, (pszExt == NULL) ? "" : pszExt, fdFindFileData.nFileSizeLow);
 
 				SYSTEMTIME systemTime;
 				FileTimeToSystemTime(&fdFindFileData.ftCreationTime, &systemTime);
-				pszBuffer += _snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+				pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
 					"created=\"%i/%02i/%02i %i:%02i:%02i\" ", 
 					systemTime.wYear, systemTime.wMonth, systemTime.wDay, systemTime.wHour,
 					systemTime.wMinute, systemTime.wSecond);
 
 				FileTimeToSystemTime(&fdFindFileData.ftLastWriteTime, &systemTime);
-				pszBuffer += _snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+				pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
 					"modified=\"%i/%02i/%02i %i:%02i:%02i\" ", 
 					systemTime.wYear, systemTime.wMonth, systemTime.wDay, systemTime.wHour,
 					systemTime.wMinute, systemTime.wSecond);
 
-				pszBuffer += _snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+				pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
 					"/>\r\n");
 			}
 
@@ -191,7 +191,7 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath,
 			if (pclCur->bIsDirectory()) {
 				szFileName[strlen(szFileName)-1] = '\0';
 				if (!strchr(szFileName, '/')) { // only one level deeper
-					pszBuffer += _snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+					pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
 						"  <item name=\"%s\" isdir=\"true\"/>\r\n", szFileName);
 
 					if (!WriteFile(hFile, szBuffer, pszBuffer - szBuffer, &dwBytesWritten, NULL))
@@ -219,24 +219,24 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath,
 						CloseHandle(hFileS);
 					}
 
-					pszBuffer += _snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+					pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
 						"  <item name=\"%s\" ext=\"%s\" size=\"%i\" ",
 						szFileName, (pszExt == NULL) ? "" : pszExt, dwFileSize);
 
 					SYSTEMTIME systemTime;
 					FileTimeToSystemTime(&ftFileCreateTime, &systemTime);
-					pszBuffer += _snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+					pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
 						"created=\"%i/%02i/%02i %i:%02i:%02i\" ", 
 						systemTime.wYear, systemTime.wMonth, systemTime.wDay, systemTime.wHour,
 						systemTime.wMinute, systemTime.wSecond);
 
 					FileTimeToSystemTime(&ftFileModifyTime, &systemTime);
-					pszBuffer += _snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+					pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
 						"modified=\"%i/%02i/%02i %i:%02i:%02i\" ", 
 						systemTime.wYear, systemTime.wMonth, systemTime.wDay, systemTime.wHour,
 						systemTime.wMinute, systemTime.wSecond);
 
-					pszBuffer += _snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
+					pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer), 
 						"/>\r\n");
 
 					if (!WriteFile(hFile, szBuffer, pszBuffer - szBuffer, &dwBytesWritten, NULL))

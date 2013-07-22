@@ -125,7 +125,7 @@ int _DebugTraceW(const wchar_t *fmt, ...)
 	mir_snprintf(tszTime, 50, "%02d.%02d.%04d - %02d:%02d:%02d.%04d: ", st.wDay, st.wMonth, st.wYear, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
 
 
-	_vsnwprintf(debug, ibsize - 10, fmt, va);
+	mir_vsntprintf(debug, ibsize - 10, fmt, va);
 //#ifdef _DEBUG
 	OutputDebugStringW(debug);
 //#else
@@ -158,7 +158,7 @@ int _DebugTraceA(const char *fmt, ...)
 	va_start(va, fmt);
 
 	lstrcpyA(debug, "TABSRMM: ");
-	_vsnprintf(&debug[9], ibsize - 10, fmt, va);
+	mir_vsnprintf(&debug[9], ibsize - 10, fmt, va);
 #ifdef _DEBUG
  	OutputDebugStringA(debug);
 #else
@@ -195,7 +195,7 @@ int _DebugPopup(HANDLE hContact, const TCHAR *fmt, ...)
 	int			ibsize = 1023;
 
 	va_start(va, fmt);
-	_vsntprintf(debug, ibsize, fmt, va);
+	mir_vsntprintf(debug, ibsize, fmt, va);
 
 	if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
 		MIRANDASYSTRAYNOTIFY tn;

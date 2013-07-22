@@ -230,16 +230,16 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 	}
 
 	if (colour) {
-		wsprintfA(str, "Font%dCol", i);
+		mir_snprintf(str, SIZEOF(str), "Font%dCol", i);
 		*colour = M.GetDword(szMod, str, fol[j].defColour);
 	}
 	if (lf) {
-		wsprintfA(str, "Font%dSize", i);
+		mir_snprintf(str, SIZEOF(str), "Font%dSize", i);
 		lf->lfHeight = (char) M.GetByte(szMod, str, fol[j].defSize);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
-		wsprintfA(str, "Font%dSty", i);
+		mir_snprintf(str, SIZEOF(str), "Font%dSty", i);
 		style = M.GetByte(szMod, str, fol[j].defStyle);
 		if (i == MSGFONTID_MESSAGEAREA && section == FONTSECTION_IM && M.GetByte("inputFontFix", 1) == 1) {
 			lf->lfWeight = FW_NORMAL;
@@ -253,13 +253,13 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 			lf->lfUnderline = style & FONTF_UNDERLINE ? 1 : 0;
 			lf->lfStrikeOut =  style & FONTF_STRIKEOUT ? 1 : 0;
 		}
-		wsprintfA(str, "Font%dSet", i);
+		mir_snprintf(str, SIZEOF(str), "Font%dSet", i);
 		lf->lfCharSet = M.GetByte(szMod, str, fol[j].defCharset);
 		lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
 		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-		wsprintfA(str, "Font%d", i);
+		mir_snprintf(str, SIZEOF(str), "Font%d", i);
 		if ((i == 17 && !strcmp(szMod, CHAT_FONTMODULE)) || ((i == 20 || i == 21) && !strcmp(szMod, FONTMODULE))) {
 			lf->lfCharSet = SYMBOL_CHARSET;
 			lstrcpyn(lf->lfFaceName, _T("Webdings"), SIZEOF(lf->lfFaceName));
