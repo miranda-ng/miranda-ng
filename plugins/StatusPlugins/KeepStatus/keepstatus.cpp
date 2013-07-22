@@ -88,7 +88,7 @@ static VOID CALLBACK CheckContinueslyTimer(HWND hwnd,UINT message, UINT_PTR idEv
 INT_PTR IsProtocolEnabledService(WPARAM wParam, LPARAM lParam);
 
 static int ProcessPopup(int reason, LPARAM lParam);
-static INT_PTR ShowPopup(char* msg, HICON hIcon);
+static INT_PTR ShowPopup(TCHAR *msg, HICON hIcon);
 LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -930,26 +930,25 @@ static VOID CALLBACK CheckContinueslyTimer(HWND hwnd, UINT message, UINT_PTR idE
 // =============== popup ======================
 static int ProcessPopup(int reason, LPARAM lParam)
 {
-	HICON hIcon;
-	char text[MAX_SECONDLINE], protoName[128], *szProto;
+	HICON hIcon = NULL;
+	PROTOACCOUNT *ProtoAccount;
+	TCHAR text[MAX_SECONDLINE], ProtoName[128] = {0};
 
 	if ( !db_get_b(NULL, MODULENAME, SETTING_SHOWCONNECTIONPOPUPS,FALSE) || !ServiceExists(MS_POPUP_ADDPOPUP))
 		return -1;
 
-	memset(protoName, '\0', sizeof(protoName));
-	strcpy(text, Translate("KeepStatus"));
-	hIcon = NULL;
-	szProto = NULL;
+	// Get human readable account name.
+	if (lParam)
+		if (ProtoAccount = ProtoGetAccount((char*)lParam))
+			_tcscpy(ProtoName, ProtoAccount->tszAccountName);
 
 	switch(reason) {
 	case KS_CONN_STATE_OTHERLOCATION: // lParam = 1 proto
 		if (!db_get_b(NULL, MODULENAME, SETTING_PUOTHER, TRUE))
 			return -1;
 
-		szProto = (char *)lParam;
-		hIcon = (HICON)CallService(MS_SKIN_LOADPROTOICON, (WPARAM)szProto, (LPARAM)SKINICON_STATUS_OFFLINE);
-		CallProtoService(szProto, PS_GETNAME, sizeof(protoName), (LPARAM)protoName);
-		mir_snprintf(text, sizeof(text), Translate("%s Connected from another location"), protoName);
+		hIcon = (HICON)CallService(MS_SKIN_LOADPROTOICON, (WPARAM)lParam, (LPARAM)SKINICON_STATUS_OFFLINE);
+		_sntprintf(text, sizeof(text), TranslateT("%s connected from another location"), ProtoName);
 		break;
 
 	case KS_CONN_STATE_LOGINERROR:	// lParam = 1 proto
@@ -959,14 +958,12 @@ static int ProcessPopup(int reason, LPARAM lParam)
 		if (!db_get_b(NULL, MODULENAME, SETTING_PUOTHER, TRUE))
 			return -1;
 
-		szProto = (char *)lParam;
-		hIcon = (HICON)CallService(MS_SKIN_LOADPROTOICON, (WPARAM)szProto, (LPARAM)SKINICON_STATUS_OFFLINE);
-		CallProtoService(szProto, PS_GETNAME, sizeof(protoName), (LPARAM)protoName);
+		hIcon = (HICON)CallService(MS_SKIN_LOADPROTOICON, (WPARAM)lParam, (LPARAM)SKINICON_STATUS_OFFLINE);
 		if ( db_get_b(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_CANCEL)
-			_snprintf(text, sizeof(text), Translate("%s Login error, cancel reconnecting"), protoName);
+			_sntprintf(text, sizeof(text), TranslateT("%s login error, cancel reconnecting"), ProtoName);
 
 		else if ( db_get_b(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_SETDELAY)
-			_snprintf(text, sizeof(text), Translate("%s Login error (next retry (%d) in %ds)"), protoName, retryCount+1, db_get_dw(NULL, MODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY));
+			_sntprintf(text, sizeof(text), TranslateT("%s login error (next retry (%d) in %d s)"), ProtoName, retryCount+1, db_get_dw(NULL, MODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY));
 
 		else
 			return -1;
@@ -977,15 +974,14 @@ static int ProcessPopup(int reason, LPARAM lParam)
 		if (!db_get_b(NULL, MODULENAME, SETTING_PUCONNLOST, TRUE))
 			return -1;
 
-		szProto = (char *)lParam;
-		if (szProto != NULL) {
-			hIcon = (HICON)CallService(MS_SKIN_LOADPROTOICON, (WPARAM)szProto, (LPARAM)SKINICON_STATUS_OFFLINE);
-			CallProtoService(szProto, PS_GETNAME, sizeof(protoName), (LPARAM)protoName);
-			_snprintf(text, sizeof(text), Translate("%s Status error (next retry (%d) in %ds)"), protoName, retryCount+1, currentDelay/1000);
+		if (lParam) // ”казатель на им€ модул€.
+		{
+			hIcon = (HICON)CallService(MS_SKIN_LOADPROTOICON, (WPARAM)lParam, (LPARAM)SKINICON_STATUS_OFFLINE);
+			_sntprintf(text, sizeof(text), TranslateT("%s status error (next retry (%d) in %d s)"), ProtoName, retryCount+1, currentDelay/1000);
 		}
 		else {
 			hIcon = (HICON)CallService(MS_SKIN_LOADICON, (WPARAM)SKINICON_STATUS_OFFLINE, 0);
-			_snprintf(text, sizeof(text), Translate("Status error (next retry (%d) in %ds)"), retryCount+1, currentDelay/1000);
+			_sntprintf(text, sizeof(text), TranslateT("Status error (next retry (%d) in %d s)"), retryCount+1, currentDelay/1000);
 		}
 		break;
 
@@ -993,42 +989,39 @@ static int ProcessPopup(int reason, LPARAM lParam)
 		{
 			int i;
 			PROTOCOLSETTINGEX **ps;
-			char protoInfoLine[512], protoInfo[MAX_SECONDLINE];
+			TCHAR protoInfoLine[512], protoInfo[MAX_SECONDLINE];
 
 			if (!db_get_b(NULL, MODULENAME, SETTING_PUCONNRETRY, TRUE))
 				return -1;
 
 			memset(protoInfoLine, '\0', sizeof(protoInfoLine));
 			memset(protoInfo, '\0', sizeof(protoInfo));
-			strcpy(protoInfo, "\r\n");
+			_tcscpy(protoInfo, _T("\r\n"));
 			ps = (PROTOCOLSETTINGEX **)lParam;
-			szProto = NULL;
-			for (i=0;i<connectionSettings.getCount();i++) {
-				if (strlen(ps[i]->szName) > 0) {
-					if (szProto == NULL) {
-						szProto = ps[i]->szName;
-					}
-					if ( db_get_b(NULL, MODULENAME, SETTING_PUSHOWEXTRA, TRUE)) {
-						CallProtoService(ps[i]->szName, PS_GETNAME, sizeof(protoName), (LPARAM)protoName);
-						//_snprintf(protoInfoLine, sizeof(protoInfoLine), Translate("%s\t(will be set to %s)\r\n"), protoName, (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)ps[i]->status, 0));
-						_snprintf(protoInfoLine, sizeof(protoInfoLine), "%s\t(%s %s)\r\n", protoName, Translate("will be set to"), (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)ps[i]->status, 0));
-						strncat(protoInfo, protoInfoLine, sizeof(protoInfo)-strlen(protoInfo)-1);
+			for (i = 0; i < connectionSettings.getCount(); i++)
+			{
+				if (_tcslen(ps[i]->tszAccName) > 0)
+				{
+					if ( db_get_b(NULL, MODULENAME, SETTING_PUSHOWEXTRA, TRUE))
+					{
+						_sntprintf(protoInfoLine, sizeof(protoInfoLine), _T("%s\t(%s %S)\r\n"), ps[i]->tszAccName, TranslateT("will be set to"), (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)ps[i]->status, 0));
+						_tcsncat(protoInfo, protoInfoLine, sizeof(protoInfo) - _tcslen(protoInfo)-1);
 					}
 				}
 			}
-			if (strlen(protoInfo) > 0) {
+			if (_tcslen(protoInfo) > 0) {
 				// cut the last end of line (this may also be the first one ;))
-				*(protoInfo + strlen(protoInfo) - 2) = '\0';
+				*(protoInfo + _tcslen(protoInfo) - 2) = '\0';
 			}
-			if (szProto != NULL)
-				hIcon = (HICON)CallService(MS_SKIN_LOADPROTOICON, (WPARAM)szProto, (LPARAM)SKINICON_STATUS_OFFLINE);
+			if (lParam)
+				hIcon = (HICON)CallService(MS_SKIN_LOADPROTOICON, (WPARAM)lParam, (LPARAM)SKINICON_STATUS_OFFLINE);
 			else
 				hIcon = (HICON)CallService(MS_SKIN_LOADICON, (WPARAM)SKINICON_STATUS_OFFLINE, 0);
 
 			if (retryCount == maxRetries-1)
-				_snprintf(text, sizeof(text), Translate("Resetting status... (last try (%d))%s"), retryCount+1, protoInfo);
+				_sntprintf(text, sizeof(text), TranslateT("Resetting status... (last try (%d))%s"), retryCount+1, protoInfo);
 			else
-				_snprintf(text, sizeof(text), Translate("Resetting status... (next retry (%d) in %ds)%s"), retryCount+2, currentDelay/1000, protoInfo);
+				_sntprintf(text, sizeof(text), TranslateT("Resetting status... (next retry (%d) in %d s)%s"), retryCount+2, currentDelay/1000, protoInfo);
 		}
 		break;
 
@@ -1038,9 +1031,9 @@ static int ProcessPopup(int reason, LPARAM lParam)
 
 		hIcon = (HICON)CallService(MS_SKIN_LOADICON, (WPARAM)SKINICON_STATUS_OFFLINE, 0);
 		if (retryCount == maxRetries-1)
-			_snprintf(text, sizeof(text), Translate("No internet connection seems available... (last try (%d))"), retryCount+1);
+			_sntprintf(text, sizeof(text), TranslateT("No internet connection seems available... (last try (%d))"), retryCount+1);
 		else
-			_snprintf(text, sizeof(text), Translate("No internet connection seems available... (next retry (%d) in %ds)"), retryCount+2, currentDelay/1000);
+			_sntprintf(text, sizeof(text), TranslateT("No internet connection seems available... (next retry (%d) in %d s)"), retryCount+2, currentDelay/1000);
 		break;
 
 	case KS_CONN_STATE_STOPPEDCHECKING: // lParam == BOOL succes
@@ -1049,27 +1042,27 @@ static int ProcessPopup(int reason, LPARAM lParam)
 
 		if (lParam) {
 			hIcon = (HICON)CallService(MS_SKIN_LOADICON, (WPARAM)SKINICON_STATUS_ONLINE, 0);
-			_snprintf(text, sizeof(text), Translate("Status was set ok"));
+			_sntprintf(text, sizeof(text), TranslateT("Status was set ok"));
 		}
 		else {
 			hIcon = (HICON)CallService(MS_SKIN_LOADICON, (WPARAM)SKINICON_STATUS_OFFLINE, 0);
-			_snprintf(text, sizeof(text), Translate("Giving up"));
+			_sntprintf(text, sizeof(text), TranslateT("Giving up"));
 		}
 		break;
 	}
 	if (hIcon == NULL)
 		hIcon = (HICON)CallService(MS_SKIN_LOADICON, (WPARAM)SKINICON_STATUS_OFFLINE, 0);
 
-	log_infoA("KeepStatus: %s", text);
+	log_info(L"KeepStatus: %s", text);
 	return ShowPopup(text, hIcon);
 }
 
-static INT_PTR ShowPopup(char* msg, HICON hIcon)
+static INT_PTR ShowPopup(TCHAR *msg, HICON hIcon)
 {
-	POPUPDATA ppd = { 0 };
+	POPUPDATAT ppd = { 0 };
 	ppd.lchIcon = hIcon;
-	strncpy(ppd.lpzContactName, Translate("KeepStatus"), sizeof(ppd.lpzContactName)-1);
-	strncpy(ppd.lpzText, msg, sizeof(ppd.lpzText)-1);
+	_tcsncpy(ppd.lptzContactName, TranslateT("KeepStatus"), MAX_CONTACTNAME);
+	_tcsncpy(ppd.lptzText, msg, MAX_SECONDLINE);
 	if ( db_get_b(NULL, MODULENAME, SETTING_POPUP_USEWINCOLORS, 0))
 	{
 		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
@@ -1097,7 +1090,7 @@ static INT_PTR ShowPopup(char* msg, HICON hIcon)
 		ppd.iSeconds = 0;
 		break;
 	}
-	return PUAddPopup(&ppd);
+	return PUAddPopupT(&ppd);
 }
 
 LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
