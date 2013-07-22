@@ -11,23 +11,23 @@
 <из триггера>
 [KeepStatus]
 Переподключение
-[%s Connected from another location]
+[%s connected from another location]
 %s подключён из другого места
-[%s Login error, cancel reconnecting]
+[%s login error, cancel reconnecting]
 %s ошибка подключения, отменяю подключение
-[%s Login error (next retry (%d) in %ds)]
+[%s login error (next retry (%d) in %d s)] 
 %s ошибка подключения (попытка № %d через %d с.)
-[%s Status error (next retry (%d) in %ds)]
+[%s status error (next retry (%d) in %d s)]
 %s ошибка статуса (следующий повтор (%d) через %d с.)
-[Status error (next retry (%d) in %ds)]
+[Status error (next retry (%d) in %d s)]
 Ошибка статуса (попытка № %d через % с.)
 [Resetting status... (last try (%d))%s]
 Сброс статуса.. (последняя попытка (%d))%s
-[Resetting status... (next retry (%d) in %ds)%s]
+[Resetting status... (next retry (%d) in %d s)%s]
 Сброс статуса.. (попытка № %d через %d с.)%s
 [No internet connection seems available... (last try (%d))]
 Нет доступа к Интернету (последняя попытка (%d))
-[No internet connection seems available... (next retry (%d) in %ds)]
+[No internet connection seems available... (next retry (%d) in %d s)]
 Нет доступа к Интернету (попытка № %d через %d с.)
 [Status was set ok]
 Статус установлен
