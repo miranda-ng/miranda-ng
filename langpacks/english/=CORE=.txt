@@ -217,7 +217,7 @@
 [This font is used to display various addtional notes.]
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
 [Event icon legend:]
-[Choose events you wish to ingonre:]
+[Choose events you wish to ignore:]
 [Font Effect]
 [Effect:]
 [Base colour:]
