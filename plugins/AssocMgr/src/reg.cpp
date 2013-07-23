@@ -201,10 +201,10 @@ TCHAR *MakeIconLocation(HMODULE hModule,WORD nIconResID)
 {
 	TCHAR szModule[MAX_PATH],*pszIconLoc=NULL;
 	int cch;
-	if ((cch=GetModuleFileName(hModule,szModule,SIZEOF(szModule)))!=0) {
+	if ((cch=GetModuleFileName(hModule,szModule,SIZEOF(szModule))) != 0) {
 		pszIconLoc=(TCHAR*)mir_alloc((cch+=8)*sizeof(TCHAR));
 		if (pszIconLoc!=NULL)
-			mir_sntprintf(pszIconLoc, _tcslen(pszIconLoc), _T("%s,%i"), szModule, -(int)nIconResID); /* id may be 0, buffer safe */
+			mir_sntprintf(pszIconLoc, cch, _T("%s,%i"), szModule, -(int)nIconResID); /* id may be 0, buffer safe */
 	}
 	return pszIconLoc;
 }
