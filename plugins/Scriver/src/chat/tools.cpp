@@ -692,16 +692,15 @@ UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *s
 	}
 	else if (iIndex == 0)
 	{
-		TCHAR szTemp[30], szTemp2[30];
-		lstrcpyn(szTemp, TranslateT("&Message"), 24);
-		if ( pszUID )
-			mir_sntprintf( szTemp2, SIZEOF(szTemp2), _T("%s %s"), szTemp, pszUID);
+		TCHAR szTemp[30];
+		if (pszUID)
+			mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("&Message %s"), szTemp, pszUID);
 		else
-			lstrcpyn(szTemp2, szTemp, 24);
+			lstrcpyn(szTemp, TranslateT("&Message"), 24);
 
-		if ( lstrlen(szTemp2) > 22 )
-			lstrcpyn( szTemp2+22, _T("..."), 4 );
-		ModifyMenu( *hMenu, ID_MESS, MF_STRING|MF_BYCOMMAND, ID_MESS, szTemp2 );
+		if (lstrlen(szTemp) > 22)
+			lstrcpyn(szTemp + 22, _T("..."), 4);
+		ModifyMenu(*hMenu, ID_MESS, MF_STRING | MF_BYCOMMAND, ID_MESS, szTemp);
 		gcmi.Type = MENU_ON_NICKLIST;
 	}
 
