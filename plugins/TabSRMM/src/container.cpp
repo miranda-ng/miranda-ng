@@ -1019,8 +1019,8 @@ panel_found:
 					if (dat && dat->bType == SESSIONTYPE_CHAT) {
 						SESSION_INFO *si = (SESSION_INFO *)dat->si;
 						if (si && dat->hContact) {
-							char* szProto = GetContactProto(dat->hContact);
-							if ( szProto )
+							char *szProto = GetContactProto(dat->hContact);
+							if (szProto)
 								CallProtoService( szProto, PS_LEAVECHAT, (WPARAM)dat->hContact, 0 );
 						}
 					}

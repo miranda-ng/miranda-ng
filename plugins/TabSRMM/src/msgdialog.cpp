@@ -94,7 +94,7 @@ static BOOL IsStringValidLinkA(char* pszText)
 
 BOOL TSAPI IsUtfSendAvailable(HANDLE hContact)
 {
-	char* szProto = GetContactProto(hContact);
+	char *szProto = GetContactProto(hContact);
 	if (szProto == NULL)
 		return FALSE;
 

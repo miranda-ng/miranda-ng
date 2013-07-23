@@ -71,8 +71,8 @@ HANDLE CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* p
 		if (lstrlen(dbv.ptszVal) > 0)
 			lstrcpyn(pszGroup, dbv.ptszVal, 50);
 		db_free(&dbv);
-	} else
-		lstrcpyn(pszGroup, _T("Chat rooms"), 50);
+	}
+	else lstrcpyn(pszGroup, _T("Chat rooms"), 50);
 
 	if (pszGroup[0])
 		CList_CreateGroup(pszGroup);
@@ -101,7 +101,7 @@ HANDLE CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* p
 BOOL CList_SetOffline(HANDLE hContact, BOOL bHide)
 {
 	if (hContact) {
-		char* szProto = GetContactProto(hContact);
+		char *szProto = GetContactProto(hContact);
 		if (szProto == NULL)
 			return FALSE;
 
@@ -131,20 +131,16 @@ BOOL CList_SetAllOffline(BOOL bHide, const char *pszModule)
 
 int CList_RoomDoubleclicked(WPARAM wParam, LPARAM lParam)
 {
-	DBVARIANT dbv;
-	char *szProto;
-	BOOL bRedrawFlag = FALSE;
-	bool fCreate = false;
-
 	HANDLE hContact = (HANDLE)wParam;
 	if (!hContact)
 		return 0;
 
-	szProto = GetContactProto(hContact);
+	char *szProto = GetContactProto(hContact);
 	if (MM_FindModule(szProto)) {
 		if (db_get_b(hContact, szProto, "ChatRoom", 0) == 0)
 			return 0;
 
+		DBVARIANT dbv;
 		if (!db_get_ts(hContact, szProto, "ChatRoomID", &dbv)) {
 			SESSION_INFO *si = SM_FindSession(dbv.ptszVal, szProto);
 			if (si) {
@@ -158,11 +154,9 @@ int CList_RoomDoubleclicked(WPARAM wParam, LPARAM lParam)
 					db_free(&dbv);
 					return 1;
 				}
-				else
-					fCreate = true;
 
 				ShowRoom(si, WINDOW_VISIBLE, TRUE);
-				if (lParam && fCreate) {
+				if (lParam) {
 					SendMessage(si->hWnd, DM_ACTIVATEME, 0, 0);
 					if (si->dat)
 						SetForegroundWindow(si->dat->pContainer->hwnd);
@@ -184,10 +178,10 @@ INT_PTR CList_EventDoubleclicked(WPARAM wParam, LPARAM lParam)
 INT_PTR CList_JoinChat(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	if ( hContact ) {
-		char* szProto = GetContactProto(hContact);
-		if ( szProto ) {
-			if ( db_get_w( hContact, szProto, "Status", 0 ) == ID_STATUS_OFFLINE )
+	if (hContact) {
+		char *szProto = GetContactProto(hContact);
+		if (szProto) {
+			if ( db_get_w(hContact, szProto, "Status", 0) == ID_STATUS_OFFLINE)
 				CallProtoService( szProto, PS_JOINCHAT, wParam, lParam );
 			else
 				CList_RoomDoubleclicked( wParam, 0 );
@@ -199,9 +193,9 @@ INT_PTR CList_JoinChat(WPARAM wParam, LPARAM lParam)
 INT_PTR CList_LeaveChat(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	if ( hContact ) {
-		char* szProto = GetContactProto(hContact);
-		if ( szProto )
+	if (hContact) {
+		char *szProto = GetContactProto(hContact);
+		if (szProto)
 			CallProtoService( szProto, PS_LEAVECHAT, wParam, lParam );
 	}
 	return 0;
@@ -215,7 +209,7 @@ int CList_PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 	bool bEnabled = false;
 	char *szProto = GetContactProto(hContact);
-	if ( szProto ) {
+	if (szProto) {
 		// display this menu item only for chats
 		if ( db_get_b(hContact, szProto, "ChatRoom", 0 )) {
 			// still hide it for offline protos
@@ -259,17 +253,17 @@ void CList_CreateGroup(TCHAR* group)
 
 BOOL CList_AddEvent(HANDLE hContact, HICON Icon, HANDLE event, int type, const TCHAR* fmt, ...)
 {
-	CLISTEVENT cle;
-	va_list marker;
-	TCHAR* szBuf = (TCHAR*)alloca(4096 * sizeof(TCHAR));
-
 	if (!fmt || lstrlen(fmt) < 1 || lstrlen(fmt) > 2000)
 		return FALSE;
 
+	TCHAR* szBuf = (TCHAR*)alloca(4096 * sizeof(TCHAR));
+
+	va_list marker;
 	va_start(marker, fmt);
-	_vstprintf(szBuf, fmt, marker); //!!!!!!!!
+	mir_vsntprintf(szBuf, 4096, fmt, marker);
 	va_end(marker);
 
+	CLISTEVENT cle;
 	cle.cbSize = sizeof(cle);
 	cle.hContact = (HANDLE)hContact;
 	cle.hDbEvent = (HANDLE)event;
@@ -280,7 +274,8 @@ BOOL CList_AddEvent(HANDLE hContact, HICON Icon, HANDLE event, int type, const T
 	if (type) {
 		if (!CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, 0))
 			CallService(MS_CLIST_ADDEVENT, (WPARAM)hContact, (LPARAM)&cle);
-	} else {
+	}
+	else {
 		if (CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, 0))
 			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)"chaticon");
 		CallService(MS_CLIST_ADDEVENT, (WPARAM)hContact, (LPARAM)&cle);

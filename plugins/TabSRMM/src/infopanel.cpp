@@ -540,7 +540,7 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
  */
 void CInfoPanel::RenderIPStatus(const HDC hdc, RECT& rcItem)
 {
-	const char* szProto = m_dat->cache->getActiveProto();
+	const char *szProto = m_dat->cache->getActiveProto();
 	SIZE		sProto = {0}, sStatus = {0}, sTime = {0};
 	DWORD		oldPanelStatusCX = m_dat->panelStatusCX;
 	RECT		rc;

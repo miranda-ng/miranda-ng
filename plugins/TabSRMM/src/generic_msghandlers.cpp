@@ -1283,7 +1283,7 @@ void TSAPI DM_NotifyTyping(struct TWindowData *dat, int mode)
 	DWORD 	protoStatus;
 	DWORD 	protoCaps;
 	DWORD 	typeCaps;
-	const 	char* szProto = 0;
+	const 	char *szProto = 0;
 	HANDLE 	hContact = 0;
 
 	if (!dat || !dat->hContact)

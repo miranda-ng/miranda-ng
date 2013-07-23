@@ -382,8 +382,8 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 				if (dat && dat->bType == SESSIONTYPE_CHAT) {
 					SESSION_INFO *si = (SESSION_INFO *)dat->si;
 					if ( (si != NULL) && (dat->hContact != NULL)) {
-						char* szProto = GetContactProto(dat->hContact);
-						if ( szProto )
+						char *szProto = GetContactProto(dat->hContact);
+						if (szProto)
 							CallProtoService( szProto, PS_LEAVECHAT, (WPARAM)dat->hContact, 0 );
 					}
 				}
@@ -2399,7 +2399,7 @@ void TSAPI SendHBitmapAsFile(const TWindowData* dat, HBITMAP hbmp)
 	size_t 			tempdirlen = GetTempPath(MAX_PATH, filename);
 	bool			fSend = true;
 
-	const char* szProto = dat->cache->getActiveProto();
+	const char *szProto = dat->cache->getActiveProto();
 	WORD  wMyStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 
 	DWORD protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);

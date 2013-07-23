@@ -397,7 +397,7 @@ int CSendLater::sendIt(CSendLaterJob *job)
 	time_t 		now = time(0);
 	DWORD   	dwFlags = 0;
 	DBVARIANT 	dbv = {0};
-	const char* szProto = 0;
+	const char *szProto = 0;
 
 
 	if (job->bCode == CSendLaterJob::JOB_HOLD || job->bCode == CSendLaterJob::JOB_DEFERRED || job->fSuccess || job->fFailed || job->lastSent > now)
