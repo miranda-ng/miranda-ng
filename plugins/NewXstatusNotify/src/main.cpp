@@ -566,7 +566,7 @@ int StatusModeChanged(WPARAM wParam, LPARAM lParam)
 	if (opt.AutoDisable && (!opt.OnlyGlobalChanges || szProto == NULL)) {
 		if (opt.DisablePopupGlobally && ServiceExists(MS_POPUP_QUERY)) {
 			char szSetting[12];
-			wsprintfA(szSetting, "p%d", wParam);
+			mir_snprintf(szSetting, SIZEOF(szSetting), "p%d", wParam);
 			BYTE hlpDisablePopup = db_get_b(0, MODULE, szSetting, 0);
 
 			if (hlpDisablePopup != opt.PopupAutoDisabled) {
@@ -590,7 +590,7 @@ int StatusModeChanged(WPARAM wParam, LPARAM lParam)
 
 		if (opt.DisableSoundGlobally) {
 			char szSetting[12];
-			wsprintfA(szSetting, "s%d", wParam);
+			mir_snprintf(szSetting, SIZEOF(szSetting), "s%d", wParam);
 			BYTE hlpDisableSound = db_get_b(0, MODULE, szSetting, 0);
 
 			if (hlpDisableSound != opt.SoundAutoDisabled) {
@@ -650,7 +650,7 @@ void ShowStatusChangePopup(HANDLE hContact, char *szProto, WORD oldStatus, WORD 
 
 		if (opt.ShowPreviousStatus) {
 			TCHAR buff[MAX_STATUSTEXT];
-			wsprintf(buff, TranslateTS(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(oldStatus)].lpzStandardText);
+			mir_sntprintf(buff, SIZEOF(buff), TranslateTS(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(oldStatus)].lpzStandardText);
 			_tcscat(_tcscat(stzStatusText, _T(" ")), buff);
 		}
 	}
@@ -807,7 +807,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 
 	if (!opt.FromOffline || oldStatus != ID_STATUS_OFFLINE) { // Either it wasn't a change from Offline or we didn't enable that.
 		char buff[8];
-		wsprintfA(buff, "%d", newStatus);
+		mir_snprintf(buff, SIZEOF(buff), "%d", newStatus);
 		if (db_get_b(0, MODULE, buff, 1) == 0)
 			return 0; // "Notify when a contact changes to one of..." is unchecked
 	}
@@ -822,8 +822,8 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 	// check if that proto from which we received statuschange notification, isn't in autodisable list
 	if (opt.AutoDisable) {
 		char statusIDs[12], statusIDp[12];
-		wsprintfA(statusIDs, "s%d", myStatus);
-		wsprintfA(statusIDp, "p%d", myStatus);
+		mir_snprintf(statusIDs, SIZEOF(statusIDs), "s%d", myStatus);
+		mir_snprintf(statusIDp, SIZEOF(statusIDp), "p%d", myStatus);
 		bEnableSound = db_get_b(0, MODULE, statusIDs, 1) ? FALSE : TRUE;
 		bEnablePopup = db_get_b(0, MODULE, statusIDp, 1) ? FALSE : TRUE;
 	}
@@ -847,7 +847,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 		_tcsncpy(stzOldStatus, StatusList[Index(oldStatus)].lpzStandardText, MAX_STATUSTEXT);
 		GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL,_T("HH':'mm"), stzTime, SIZEOF(stzTime));
 		GetDateFormat(LOCALE_USER_DEFAULT, 0, NULL,_T("dd/MM/yyyy"), stzDate, SIZEOF(stzDate));
-		wsprintf(stzText, TranslateT("%s, %s. %s changed to: %s (was: %s).\r\n"), stzDate, stzTime, stzName, stzStatus, stzOldStatus);
+		mir_sntprintf(stzText, SIZEOF(stzText), TranslateT("%s, %s. %s changed to: %s (was: %s).\r\n"), stzDate, stzTime, stzName, stzStatus, stzOldStatus);
 		LogToFile(stzText);
 	}
 

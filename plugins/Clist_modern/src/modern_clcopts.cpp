@@ -146,7 +146,7 @@ void RegisterCLUIFonts( void )
 
 		_tcsncpy(fontid.group, fontOptionsList[i].szGroup, SIZEOF(fontid.group));
 		_tcsncpy(fontid.name, fontOptionsList[i].szDescr, SIZEOF(fontid.name));
-		sprintf(idstr, "Font%d", fontOptionsList[i].fontID);
+		mir_snprintf(idstr, SIZEOF(idstr), "Font%d", fontOptionsList[i].fontID);
 		strncpy(fontid.prefix, idstr, SIZEOF(fontid.prefix));
 		fontid.order = i+1;
 
@@ -160,7 +160,7 @@ void RegisterCLUIFonts( void )
 
 		_tcsncpy(effectid.group, fontOptionsList[i].szGroup, SIZEOF(effectid.group));
 		_tcsncpy(effectid.name, fontOptionsList[i].szDescr, SIZEOF(effectid.name));
-		sprintf(idstr, "Font%d", fontOptionsList[i].fontID);
+		mir_snprintf(idstr, SIZEOF(idstr), "Font%d", fontOptionsList[i].fontID);
 		strncpy(effectid.setting, idstr, SIZEOF(effectid.setting));
 		effectid.order = i + 1;
 
@@ -1220,7 +1220,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING, 0, (LPARAM)MIRANDANAME);
 
 			char szUin[20];
-			sprintf(szUin,"%u",db_get_dw(NULL,"ICQ","UIN",0));
+			mir_snprintf(szUin, SIZEOF(szUin), "%u", db_get_dw(NULL, "ICQ", "UIN", 0));
 			SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING, 0, (LPARAM)szUin);
 
 			if ( !db_get_s(NULL,"ICQ","Nick",&dbv)) {
@@ -1326,9 +1326,9 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 
 	case WM_HSCROLL:
 		{	char str[10];
-		sprintf(str,"%d%%",100*SendDlgItemMessage(hwndDlg,IDC_TRANSINACTIVE,TBM_GETPOS, 0, 0)/255);
+		mir_snprintf(str, SIZEOF(str), "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0) / 255);
 		SetDlgItemTextA(hwndDlg,IDC_INACTIVEPERC,str);
-		sprintf(str,"%d%%",100*SendDlgItemMessage(hwndDlg,IDC_TRANSACTIVE,TBM_GETPOS, 0, 0)/255);
+		mir_snprintf(str, SIZEOF(str), "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0) / 255);
 		SetDlgItemTextA(hwndDlg,IDC_ACTIVEPERC,str);
 		}
 		if (wParam != 0x12345678) SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
@@ -1937,9 +1937,9 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 	case WM_HSCROLL:
 		{
 			char str[10];
-			sprintf(str,"%d%%",100*SendDlgItemMessage(hwndDlg,IDC_TRANSINACTIVE,TBM_GETPOS, 0, 0)/255);
+			mir_snprintf(str, SIZEOF(str), "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0) / 255);
 			SetDlgItemTextA(hwndDlg,IDC_INACTIVEPERC,str);
-			sprintf(str,"%d%%",100*SendDlgItemMessage(hwndDlg,IDC_TRANSACTIVE,TBM_GETPOS, 0, 0)/255);
+			mir_snprintf(str, SIZEOF(str), "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0) / 255);
 			SetDlgItemTextA(hwndDlg,IDC_ACTIVEPERC,str);
 			if (wParam != 0x12345678)
 				if ( !bInit) SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);

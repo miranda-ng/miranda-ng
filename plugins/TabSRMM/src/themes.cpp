@@ -1269,12 +1269,12 @@ void CSkin::ReadItem(const int id, const TCHAR *szItem)
 	this_item->ALPHA = min(this_item->ALPHA, 100);
 
 	clr = RGB(GetBValue(defaults->COLOR), GetGValue(defaults->COLOR), GetRValue(defaults->COLOR));
-	_sntprintf(def_color, 15, _T("%6.6x"), clr);
+	mir_sntprintf(def_color, 15, _T("%6.6x"), clr);
 	GetPrivateProfileString(szItem, _T("Color1"), def_color, buffer, 400, m_tszFileName);
 	this_item->COLOR = HexStringToLong(buffer);
 
 	clr = RGB(GetBValue(defaults->COLOR2), GetGValue(defaults->COLOR2), GetRValue(defaults->COLOR2));
-	_sntprintf(def_color, 15, _T("%6.6x"), clr);
+	mir_sntprintf(def_color, 15, _T("%6.6x"), clr);
 	GetPrivateProfileString(szItem, _T("Color2"), def_color, buffer, 400, m_tszFileName);
 	this_item->COLOR2 = HexStringToLong(buffer);
 

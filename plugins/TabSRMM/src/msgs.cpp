@@ -701,7 +701,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, i
 		if ((pContainer = FindMatchingContainer(_T("default"), hContact)) == NULL) {
 			TCHAR szName[CONTAINER_NAMELEN + 1];
 
-			_sntprintf(szName, CONTAINER_NAMELEN, _T("default"));
+			mir_sntprintf(szName, CONTAINER_NAMELEN, _T("default"));
 			pContainer = CreateContainer(szName, CNT_CREATEFLAG_CLONED, hContact);
 		}
 	}

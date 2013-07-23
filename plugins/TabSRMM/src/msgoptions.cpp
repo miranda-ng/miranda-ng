@@ -86,7 +86,7 @@ void TSAPI LoadLogfont(int i, LOGFONTA * lf, COLORREF * colour, char *szModule)
 		lf->lfClipPrecision			= lfResult.lfClipPrecision;
 		lf->lfQuality				= lfResult.lfQuality;
 		lf->lfPitchAndFamily		= lfResult.lfPitchAndFamily;
-		wsprintfA(lf->lfFaceName, "%S", lfResult.lfFaceName);
+		mir_snprintf(lf->lfFaceName, SIZEOF(lf->lfFaceName), "%S", lfResult.lfFaceName);
 	}
 }
 

@@ -190,38 +190,38 @@ void LoadAlarms() {
 	for(int i = 0; i < num_alarms; i++) {
 		memset(&alarm, 0, sizeof(ALARM));
 
-		sprintf(buff, "Title%d", i);
+		mir_snprintf(buff, SIZEOF(buff), "Title%d", i);
 		if (!db_get_ts(0, MODULE, buff, &dbv)) {
 			alarm.szTitle = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
-		sprintf(buff, "Desc%d", i);
+		mir_snprintf(buff, SIZEOF(buff), "Desc%d", i);
 		if (!db_get_ts(0, MODULE, buff, &dbv)) {
 			alarm.szDesc = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
-		sprintf(buff, "Occ%d", i);
+		mir_snprintf(buff, SIZEOF(buff), "Occ%d", i);
 		alarm.occurrence = (Occurrence)db_get_w(0, MODULE, buff, 0);
 
-		sprintf(buff, "STHour%d", i);
+		mir_snprintf(buff, SIZEOF(buff), "STHour%d", i);
 		alarm.time.wHour = db_get_w(0, MODULE, buff, 0);
-		sprintf(buff, "STMinute%d", i);
+		mir_snprintf(buff, SIZEOF(buff), "STMinute%d", i);
 		alarm.time.wMinute = db_get_w(0, MODULE, buff, 0);
-		sprintf(buff, "STSecond%d", i);
+		mir_snprintf(buff, SIZEOF(buff), "STSecond%d", i);
 		alarm.time.wSecond = db_get_w(0, MODULE, buff, 0);
 
 		switch(alarm.occurrence) {
 
 		case OC_ONCE:
-			sprintf(buff, "STYear%d", i);
+			mir_snprintf(buff, SIZEOF(buff), "STYear%d", i);
 			alarm.time.wYear = db_get_w(0, MODULE, buff, 0);
-			sprintf(buff, "STMonth%d", i);
+			mir_snprintf(buff, SIZEOF(buff), "STMonth%d", i);
 			alarm.time.wMonth = db_get_w(0, MODULE, buff, 0);
-			sprintf(buff, "STDay%d", i);
+			mir_snprintf(buff, SIZEOF(buff), "STDay%d", i);
 			alarm.time.wDay = db_get_w(0, MODULE, buff, 0);
 			break;
 		case OC_WEEKLY:
-			sprintf(buff, "STDayOfWeek%d", i);
+			mir_snprintf(buff, SIZEOF(buff), "STDayOfWeek%d", i);
 			alarm.time.wDayOfWeek = db_get_w(0, MODULE, buff, 0);
 			break;
 		case OC_WEEKDAYS:
@@ -229,26 +229,26 @@ void LoadAlarms() {
 		case OC_DAILY:
 			break;
 		case OC_MONTHLY:
-			sprintf(buff, "STDay%d", i);
+			mir_snprintf(buff, SIZEOF(buff), "STDay%d", i);
 			alarm.time.wDay = db_get_w(0, MODULE, buff, 0);
 			break;
 		case OC_YEARLY:
-			sprintf(buff, "STMonth%d", i);
+			mir_snprintf(buff, SIZEOF(buff), "STMonth%d", i);
 			alarm.time.wMonth = db_get_w(0, MODULE, buff, 0);
-			sprintf(buff, "STDay%d", i);
+			mir_snprintf(buff, SIZEOF(buff), "STDay%d", i);
 			alarm.time.wDay = db_get_w(0, MODULE, buff, 0);
 			break;
 		}
 
 		if (UpdateAlarm(alarm.time, alarm.occurrence)) {
-			sprintf(buff, "ActionFlags%d", i);
+			mir_snprintf(buff, SIZEOF(buff), "ActionFlags%d", i);
 			alarm.action = (unsigned short)db_get_dw(0, MODULE, buff, AAF_POPUP | AAF_SOUND);
 			if (alarm.action & AAF_COMMAND) {
-				sprintf(buff, "ActionCommand%d", i);
+				mir_snprintf(buff, SIZEOF(buff), "ActionCommand%d", i);
 				if (!db_get_ts(0, MODULE, buff, &dbv)) {
 					alarm.szCommand = mir_tstrdup(dbv.ptszVal);
 					db_free(&dbv);
-					sprintf(buff, "ActionParams%d", i);
+					mir_snprintf(buff, SIZEOF(buff), "ActionParams%d", i);
 					if (!db_get_ts(0, MODULE, buff, &dbv)) {
 						alarm.szCommandParams = mir_tstrdup(dbv.ptszVal);
 						db_free(&dbv);
@@ -256,22 +256,22 @@ void LoadAlarms() {
 				}
 			}
 
-			sprintf(buff, "SoundNum%d", i);
+			mir_snprintf(buff, SIZEOF(buff), "SoundNum%d", i);
 			alarm.sound_num = (int)db_get_b(0, MODULE, buff, 1);
 
-			sprintf(buff, "Snoozer%d", i);
+			mir_snprintf(buff, SIZEOF(buff), "Snoozer%d", i);
 			alarm.snoozer = db_get_b(0, MODULE, buff, 0) == 1;
 
-			sprintf(buff, "Hidden%d", i);
+			mir_snprintf(buff, SIZEOF(buff), "Hidden%d", i);
 			alarm.flags |= (db_get_b(0, MODULE, buff, 0) == 1 ? ALF_HIDDEN : 0);
 
-			sprintf(buff, "Suspended%d", i);
+			mir_snprintf(buff, SIZEOF(buff), "Suspended%d", i);
 			alarm.flags |= (db_get_b(0, MODULE, buff, 0) == 1 ? ALF_SUSPENDED : 0);
 
-			sprintf(buff, "NoStartup%d", i);
+			mir_snprintf(buff, SIZEOF(buff), "NoStartup%d", i);
 			alarm.flags |= (db_get_b(0, MODULE, buff, 0) == 1 ? ALF_NOSTARTUP : 0);
 
-			sprintf(buff, "Flags%d", i);
+			mir_snprintf(buff, SIZEOF(buff), "Flags%d", i);
 			alarm.flags = db_get_dw(0, MODULE, buff, alarm.flags);
 
 			alarm.id = next_alarm_id++;
@@ -290,18 +290,18 @@ void SaveAlarms() {
 
 	ALARM *i;
 	for(alarms.reset(); i = alarms.current(); alarms.next(), index++) {
-		sprintf(buff, "Title%d", index);
+		mir_snprintf(buff, SIZEOF(buff), "Title%d", index);
 		db_set_ts(0, MODULE, buff, i->szTitle);
-		sprintf(buff, "Desc%d", index);
+		mir_snprintf(buff, SIZEOF(buff), "Desc%d", index);
 		db_set_ts(0, MODULE, buff, i->szDesc);
-		sprintf(buff, "Occ%d", index);
+		mir_snprintf(buff, SIZEOF(buff), "Occ%d", index);
 		db_set_w(0, MODULE, buff, i->occurrence);
 
-		sprintf(buff, "STHour%d", index);
+		mir_snprintf(buff, SIZEOF(buff), "STHour%d", index);
 		db_set_w(0, MODULE, buff, i->time.wHour);
-		sprintf(buff, "STMinute%d", index);
+		mir_snprintf(buff, SIZEOF(buff), "STMinute%d", index);
 		db_set_w(0, MODULE, buff, i->time.wMinute);
-		sprintf(buff, "STSecond%d", index);
+		mir_snprintf(buff, SIZEOF(buff), "STSecond%d", index);
 		db_set_w(0, MODULE, buff, i->time.wSecond);
 
 		switch(i->occurrence) {
@@ -310,41 +310,41 @@ void SaveAlarms() {
 		case OC_WEEKDAYS:
 			break;
 		case OC_WEEKLY:
-			sprintf(buff, "STDayOfWeek%d", index);
+			mir_snprintf(buff, SIZEOF(buff), "STDayOfWeek%d", index);
 			db_set_w(0, MODULE, buff, i->time.wDayOfWeek);
 			break;
 
 		case OC_ONCE:
-			sprintf(buff, "STYear%d", index);
+			mir_snprintf(buff, SIZEOF(buff), "STYear%d", index);
 			db_set_w(0, MODULE, buff, i->time.wYear);
 		case OC_YEARLY:
-			sprintf(buff, "STMonth%d", index);
+			mir_snprintf(buff, SIZEOF(buff), "STMonth%d", index);
 			db_set_w(0, MODULE, buff, i->time.wMonth);
 		case OC_MONTHLY:
-			sprintf(buff, "STDay%d", index);
+			mir_snprintf(buff, SIZEOF(buff), "STDay%d", index);
 			db_set_w(0, MODULE, buff, i->time.wDay);
 			break;
 		}
-		sprintf(buff, "ActionFlags%d", index);
+		mir_snprintf(buff, SIZEOF(buff), "ActionFlags%d", index);
 		db_set_dw(0, MODULE, buff, i->action);
 		if (i->action & AAF_COMMAND) {
 			if (_tcslen(i->szCommand)) {
-				sprintf(buff, "ActionCommand%d", index);
+				mir_snprintf(buff, SIZEOF(buff), "ActionCommand%d", index);
 				db_set_ts(0, MODULE, buff, i->szCommand);
 				if (_tcslen(i->szCommandParams)) {
-					sprintf(buff, "ActionParams%d", index);
+					mir_snprintf(buff, SIZEOF(buff), "ActionParams%d", index);
 					db_set_ts(0, MODULE, buff, i->szCommandParams);
 				}
 			}
 		}
 		
-		sprintf(buff, "SoundNum%d", index);
+		mir_snprintf(buff, SIZEOF(buff), "SoundNum%d", index);
 		db_set_b(0, MODULE, buff, i->sound_num);
 
-		sprintf(buff, "Snoozer%d", index);
+		mir_snprintf(buff, SIZEOF(buff), "Snoozer%d", index);
 		db_set_b(0, MODULE, buff, i->snoozer ? 1 : 0);
 
-		sprintf(buff, "Flags%d", index);
+		mir_snprintf(buff, SIZEOF(buff), "Flags%d", index);
 		db_set_dw(0, MODULE, buff, i->flags);
 	}
 	db_set_w(0, MODULE, "Count", index);
@@ -536,7 +536,7 @@ void DoAlarm(ALARM *alarm)
 		if (alarm->action & AAF_SOUND) {
 			if (alarm->sound_num > 0 && alarm->sound_num <= 3) {
 				char buff[128];
-				sprintf(buff, "Triggered%d", alarm->sound_num);
+				mir_snprintf(buff, SIZEOF(buff), "Triggered%d", alarm->sound_num);
 				SkinPlaySound(buff);
 			} else if (alarm->sound_num == 4) {
 				if (alarm->szTitle != NULL && alarm->szTitle[0] != '\0') {

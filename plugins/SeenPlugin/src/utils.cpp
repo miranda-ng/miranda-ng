@@ -179,18 +179,18 @@ TCHAR *ParseString(TCHAR *szstring, HANDLE hcontact, BYTE isfile)
 		switch(*++p) {
 		case 'Y':
 			if (!st.wYear) goto LBL_noData;
-			d += _stprintf(d, _T("%04i"), st.wYear);
+			d += _stprintf(d, _T("%04i"), st.wYear); //!!!!!!!!!!!!
 			break;
 
 		case 'y':
 			if (!st.wYear) goto LBL_noData;
-			d += _stprintf(d, _T("%02i"), st.wYear % 100);
+			d += _stprintf(d, _T("%02i"), st.wYear % 100); //!!!!!!!!!!!!
 			break;
 
 		case 'm':
 			if (!(isetting=st.wMonth)) goto LBL_noData;
 LBL_2DigNum:
-			d += _stprintf(d, _T("%02i"), isetting);
+			d += _stprintf(d, _T("%02i"), isetting); //!!!!!!!!!!!!
 			break;
 
 		case 'd':
@@ -478,7 +478,7 @@ void ShowPopup(HANDLE hcontact, const char * lpzProto, int newStatus)
 
 	DBVARIANT dbv;
 	char szSetting[10];
-	sprintf(szSetting, "Col_%d",newStatus-ID_STATUS_OFFLINE);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "Col_%d", newStatus - ID_STATUS_OFFLINE);
 	DWORD sett = db_get_dw(NULL, S_MOD, szSetting, StatusColors15bits[newStatus-ID_STATUS_OFFLINE]);
 
 	POPUPDATAT ppd = {0};

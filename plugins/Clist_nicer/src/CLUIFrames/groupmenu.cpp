@@ -107,7 +107,7 @@ static INT_PTR AddGroupMenuItem(WPARAM wParam,LPARAM lParam)
 	tmi.ownerdata=mmep;
 
 	char buf[1024];
-	sprintf(buf,"%s/%s",mi->pszService,mi->pszName);
+	mir_snprintf(buf, SIZEOF(buf), "%s/%s", mi->pszService, mi->pszName);
 
 	OptParam op;
 	op.Handle=(HANDLE)CallService(MO_ADDNEWMENUITEM,(WPARAM)hGroupMenuObject,(LPARAM)&tmi);
@@ -482,7 +482,7 @@ static INT_PTR AddSubGroupMenuItem(WPARAM wParam,LPARAM lParam)
 	tmi.ownerdata = mmep;
 
 	char buf[1024];
-	sprintf(buf,"%s/%s",mi->pszService,mi->pszName);
+	mir_snprintf(buf, SIZEOF(buf), "%s/%s", mi->pszService, mi->pszName);
 
 	OptParam op;
 	op.Handle=(HANDLE)CallService(MO_ADDNEWMENUITEM,(WPARAM)hSubGroupMenuObject,(LPARAM)&tmi);

@@ -307,7 +307,7 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 	BOOL bEnablePopup = true, bEnableSound = true;
 	char buff[12] = {0};
 
-	wsprintfA(buff, "%d", ID_STATUS_EXTRASTATUS); 
+	mir_snprintf(buff, SIZEOF(buff), "%d", ID_STATUS_EXTRASTATUS); 
 
 	if (( db_get_b(0, MODULE, buff, 1) == 0)
 		|| (db_get_w(xsc->hContact, xsc->szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
@@ -321,8 +321,8 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 	char statusIDs[12], statusIDp[12];
 	if (opt.AutoDisable) {
 		WORD myStatus = (WORD)CallProtoService(xsc->szProto, PS_GETSTATUS, 0, 0); 
-		wsprintfA(statusIDs, "s%d", myStatus);
-		wsprintfA(statusIDp, "p%d", myStatus);
+		mir_snprintf(statusIDs, SIZEOF(statusIDs), "s%d", myStatus);
+		mir_snprintf(statusIDp, SIZEOF(statusIDp), "p%d", myStatus);
 		bEnableSound = db_get_b(0, MODULE, statusIDs, 1) ? FALSE : TRUE;
 		bEnablePopup = db_get_b(0, MODULE, statusIDp, 1) ? FALSE : TRUE;
 	}

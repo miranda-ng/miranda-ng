@@ -183,7 +183,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			char szValue[10];
 			TContainerData *pContainer = 0;
 			do {
-				_snprintf(szValue, 8, "%d", iCounter);
+				mir_snprintf(szValue, 8, "%d", iCounter);
 				if (db_get_ts(NULL, szKey, szValue, &dbv))
 					break;          // end of list
 				if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {

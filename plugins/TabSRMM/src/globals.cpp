@@ -789,13 +789,13 @@ INT_PTR CALLBACK CGlobals::Ex_DlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 		case WM_INITDIALOG: {
 				char szBuffer[2048];
 #ifdef _WIN64
-				sprintf(szBuffer,
+				mir_snprintf(szBuffer, SIZEOF(szBuffer),
 						"Exception %16.16X at address %16.16X occured in %s at line %d.\r\n\r\nEAX=%16.16X EBX=%16.16X ECX=%16.16X\r\nEDX=%16.16X ESI=%16.16X EDI=%16.16X\r\nEBP=%16.16X ESP=%16.16X EIP=%16.16X",
 						m_exRecord.ExceptionCode, m_exRecord.ExceptionAddress, m_exSzFile, m_exLine,
 						m_exCtx.Rax,m_exCtx.Rbx, m_exCtx.Rcx, m_exCtx.Rdx,
 						m_exCtx.Rsi, m_exCtx.Rdi, m_exCtx.Rbp, m_exCtx.Rsp, m_exCtx.Rip);
 #else
-				sprintf(szBuffer,
+				mir_snprintf(szBuffer, SIZEOF(szBuffer),
 						"Exception %8.8X at address %8.8X occured in %s at line %d.\r\n\r\nEAX=%8.8X EBX=%8.8X ECX=%8.8X\r\nEDX=%8.8X ESI=%8.8X EDI=%8.8X\r\nEBP=%8.8X ESP=%8.8X EIP=%8.8X",
 						m_exRecord.ExceptionCode, m_exRecord.ExceptionAddress, m_exSzFile, m_exLine,
 						m_exCtx.Eax,m_exCtx.Ebx, m_exCtx.Ecx, m_exCtx.Edx,
@@ -840,7 +840,7 @@ int CGlobals::Ex_ShowDialog(EXCEPTION_POINTERS *ep, const char *szFile, int line
 	memcpy(&m_exRecord, ep->ExceptionRecord, sizeof(EXCEPTION_RECORD));
 	memcpy(&m_exCtx, ep->ContextRecord, sizeof(CONTEXT));
 
-	_snprintf(m_exSzFile, MAX_PATH, "%s%s", szName, szExt);
+	mir_snprintf(m_exSzFile, MAX_PATH, "%s%s", szName, szExt);
 	mir_sntprintf(m_exReason, 256, L"An application error has occured: %s", szReason);
 	m_exLine = line;
 	m_exLastResult = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_EXCEPTION), 0, CGlobals::Ex_DlgProc, 0);

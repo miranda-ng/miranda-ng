@@ -164,7 +164,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 				pszFormatedText = (TCHAR *)mir_alloc(6*sizeof(TCHAR));
 				ZeroMemory(pszFormatedText,6*sizeof(TCHAR));
 
-				_sntprintf(pszFormatedText,6*sizeof(TCHAR),_T("%s"),_T("[img]"));
+				mir_sntprintf(pszFormatedText,6*sizeof(TCHAR),_T("%s"),_T("[img]"));
 
 				bbd.ptszTooltip = TranslateT("Insert [img] tag / surround selected text with [img][/img]");
 				CallService(MS_BB_SETBUTTONSTATE, wParam, (LPARAM)&bbd);
@@ -175,7 +175,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 
 				pszFormatedText = (TCHAR *)mir_alloc(7*sizeof(TCHAR));
 				ZeroMemory(pszFormatedText,7*sizeof(TCHAR));
-				_sntprintf(pszFormatedText,7*sizeof(TCHAR),_T("%s"),_T("[/img]"));
+				mir_sntprintf(pszFormatedText,7*sizeof(TCHAR),_T("%s"),_T("[/img]"));
 
 				bbd.ptszTooltip = TranslateT("Insert [img] tag / surround selected text with [img][/img]");
 				CallService(MS_BB_SETBUTTONSTATE, wParam, (LPARAM)&bbd);

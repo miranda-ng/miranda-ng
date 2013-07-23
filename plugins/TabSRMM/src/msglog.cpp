@@ -137,9 +137,9 @@ void TSAPI CacheLogFonts()
 	ZeroMemory((void*)logfonts, sizeof(LOGFONTA) * MSGDLGFONTCOUNT + 2);
 	for (i=0; i < MSGDLGFONTCOUNT; i++) {
 		LoadLogfont(i, &logfonts[i], &fontcolors[i], FONTMODULE);
-		wsprintfA(rtfFontsGlobal[i], "\\f%u\\cf%u\\b%d\\i%d\\ul%d\\fs%u", i, i, logfonts[i].lfWeight >= FW_BOLD ? 1 : 0, logfonts[i].lfItalic,logfonts[i].lfUnderline, 2 * abs(logfonts[i].lfHeight) * 74 / logPixelSY);
+		mir_snprintf(rtfFontsGlobal[i], SIZEOF(rtfFontsGlobal[i]), "\\f%u\\cf%u\\b%d\\i%d\\ul%d\\fs%u", i, i, logfonts[i].lfWeight >= FW_BOLD ? 1 : 0, logfonts[i].lfItalic,logfonts[i].lfUnderline, 2 * abs(logfonts[i].lfHeight) * 74 / logPixelSY);
 	}
-	wsprintfA(rtfFontsGlobal[MSGDLGFONTCOUNT], "\\f%u\\cf%u\\b%d\\i%d\\fs%u", MSGDLGFONTCOUNT, MSGDLGFONTCOUNT, 0, 0, 0);
+	mir_snprintf(rtfFontsGlobal[MSGDLGFONTCOUNT], SIZEOF(rtfFontsGlobal[MSGDLGFONTCOUNT]), "\\f%u\\cf%u\\b%d\\i%d\\fs%u", MSGDLGFONTCOUNT, MSGDLGFONTCOUNT, 0, 0, 0);
 
 	_tcsncpy(szToday, TranslateT("Today"), 20);
 	_tcsncpy(szYesterday, TranslateT("Yesterday"), 20);
@@ -284,7 +284,7 @@ static int AppendUnicodeToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferA
 							} else {
 								char szTemp[10];
 								int colindex = GetColorIndex(GetRTFFont(LOWORD(mode) ? (MSGFONTID_MYMSG + (HIWORD(mode) ? 8 : 0)) : (MSGFONTID_YOURMSG + (HIWORD(mode) ? 8 : 0))));
-								_snprintf(szTemp, 4, "%02d", colindex);
+								mir_snprintf(szTemp, 4, "%02d", colindex);
 								d[3] = szTemp[0];
 								d[4] = szTemp[1];
 								d[5] = ' ';
@@ -312,7 +312,7 @@ static int AppendUnicodeToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferA
 		} else if (*line < 128) {
 			*d++ = (char) * line;
 		} else
-			d += sprintf(d, "\\u%d ?", *line);
+			d += sprintf(d, "\\u%d ?", *line); //!!!!!!!!!!!!!
 	}
 
 	strcpy(d, "}");
@@ -381,7 +381,7 @@ static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int 
 							} else {
 								char szTemp[10];
 								int colindex = GetColorIndex(GetRTFFont(LOWORD(mode) ? (MSGFONTID_MYMSG + (HIWORD(mode) ? 8 : 0)) : (MSGFONTID_YOURMSG + (HIWORD(mode) ? 8 : 0))));
-								_snprintf(szTemp, 4, "%02d", colindex);
+								mir_snprintf(szTemp, 4, "%02d", colindex);
 								(*buffer)[i + 3] = szTemp[0];
 								(*buffer)[i + 4] = szTemp[1];
 							}
@@ -476,7 +476,7 @@ static void Build_RTF_Header(char **buffer, int *bufferEnd, int *bufferAlloced, 
 	// custom template colors...
 
 	for (i = 1; i <= 5; i++) {
-		_snprintf(szTemp, 10, "cc%d", i);
+		mir_snprintf(szTemp, 10, "cc%d", i);
 		colour = theme->custom_colors[i - 1];
 		if (colour == 0)
 			colour = RGB(1, 1, 1);
@@ -1018,9 +1018,9 @@ static char *Template_CreateRTFFromDbEvent(struct TWindowData *dat, HANDLE hCont
 								if ( *szDescr != 0 ) {
 									TCHAR* tszDescr = DbGetEventStringT( &dbei, szDescr );
 									TCHAR buf[1000];
-									mir_sntprintf( buf, SIZEOF(buf), _T("%s (%s)"), tszFileName, tszDescr );
+									mir_sntprintf(buf, SIZEOF(buf), _T("%s (%s)"), tszFileName, tszDescr);
 									AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, buf, 0 );
-									mir_free( tszDescr );
+									mir_free(tszDescr);
 								}
 								else {
 									AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, tszFileName, 0 );
@@ -1532,7 +1532,7 @@ static void ReplaceIcons(HWND hwndDlg, struct TWindowData *dat, LONG startAt, in
 		char szPattern[50];
 		FINDTEXTEXA fi;
 
-		_snprintf(szPattern, 40, "~-+%d+-~", (INT_PTR)dat->hHistoryEvents[0]);
+		mir_snprintf(szPattern, 40, "~-+%d+-~", (INT_PTR)dat->hHistoryEvents[0]);
 		fi.lpstrText = szPattern;
 		fi.chrg.cpMin = 0;
 		fi.chrg.cpMax = -1;

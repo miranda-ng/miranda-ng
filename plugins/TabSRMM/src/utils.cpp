@@ -205,13 +205,13 @@ search_again:
 							}
 							message.erase(beginmark, (closing - beginmark));
 							message.insert(beginmark, _T("cxxx "));
-							_sntprintf(szTemp, 4, _T("%02d"), MSGDLGFONTCOUNT + 13 + ii);
+							mir_sntprintf(szTemp, 4, _T("%02d"), MSGDLGFONTCOUNT + 13 + ii);
 							message[beginmark + 3] = szTemp[0];
 							message[beginmark + 4] = szTemp[1];
 							clr_found = true;
 							if (was_added) {
 								TCHAR wszTemp[100];
-								_sntprintf(wszTemp, 100, _T("##col##%06u:%04u"), endmark - closing, ii);
+								mir_sntprintf(wszTemp, 100, _T("##col##%06u:%04u"), endmark - closing, ii);
 								wszTemp[99] = 0;
 								message.insert(beginmark, wszTemp);
 							}
@@ -790,7 +790,7 @@ void Utils::SaveContainerSettings(TContainerData *pContainer, const char *szSett
 
 	pContainer->dwFlags &= ~(CNT_DEFERREDCONFIGURE | CNT_CREATE_MINIMIZED | CNT_DEFERREDSIZEREQUEST | CNT_CREATE_CLONED);
 	if (pContainer->settings->fPrivate) {
-		_snprintf(szCName, 40, "%s%d_Blob", szSetting, pContainer->iContainerIndex);
+		mir_snprintf(szCName, 40, "%s%d_Blob", szSetting, pContainer->iContainerIndex);
 		WriteContainerSettingsToDB(0, pContainer->settings, szCName);
 	}
 	mir_snprintf(szCName, 40, "%s%d_theme", szSetting, pContainer->iContainerIndex);

@@ -183,7 +183,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			char status[8];
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX2; i++)
 			{
-				wsprintfA(status, "%d", i);
+				mir_snprintf(status, SIZEOF(status), "%d", i);
 				CheckDlgButton(hwndDlg, i, db_get_b(0, MODULE, status, 1));
 			}
 			CheckDlgButton(hwndDlg, IDC_CHK_FROMOFFLINE, opt.FromOffline);
@@ -266,7 +266,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				char status[8];
 				for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX2; i++)
 				{
-					wsprintfA(status, "%d", i);
+					mir_snprintf(status, SIZEOF(status), "%d", i);
 					db_set_b(NULL, MODULE, status, (BYTE)IsDlgButtonChecked(hwndDlg, i));
 				}
 				opt.FromOffline = IsDlgButtonChecked(hwndDlg, IDC_CHK_FROMOFFLINE);
@@ -442,12 +442,12 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				{
 					ctlColour = SendDlgItemMessage(hwndDlg, (i+2000), CPM_GETCOLOUR, 0, 0);
 					StatusList[Index(i)].colorBack = SendDlgItemMessage(hwndDlg, (i+2000), CPM_GETCOLOUR, 0, 0);
-					wsprintfA(str, "%ibg", i);
+					mir_snprintf(str, SIZEOF(str), "%ibg", i);
 					db_set_dw(0, MODULE, str, ctlColour);
 
 					ctlColour = SendDlgItemMessage(hwndDlg, (i+1000), CPM_GETCOLOUR, 0, 0);
 					StatusList[Index(i)].colorText = ctlColour;
-					wsprintfA(str, "%itx", i);
+					mir_snprintf(str, SIZEOF(str), "%itx", i);
 					db_set_dw(0, MODULE, str, ctlColour);
 				}
 
@@ -493,13 +493,13 @@ INT_PTR CALLBACK DlgProcAutoDisableOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			char str[8];
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++)
 			{
-				wsprintfA(str, "p%d", i);
+				mir_snprintf(str, SIZEOF(str), "p%d", i);
 				CheckDlgButton(hwndDlg, i, db_get_b(0, MODULE, str, 0));
 			}
 
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++)
 			{
-				wsprintfA(str, "s%d", i);
+				mir_snprintf(str, SIZEOF(str), "s%d", i);
 				CheckDlgButton(hwndDlg, (i+2000),db_get_b(NULL, MODULE, str, 0));
 			}
 
@@ -517,12 +517,12 @@ INT_PTR CALLBACK DlgProcAutoDisableOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 					for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++)
 					{
-						wsprintfA(str, "p%d", i);
+						mir_snprintf(str, SIZEOF(str), "p%d", i);
 						db_set_b(NULL, MODULE, str, IsDlgButtonChecked(hwndDlg, i));
 					}
 					for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++)
 					{
-						wsprintfA(str, "s%d", i);
+						mir_snprintf(str, SIZEOF(str), "s%d", i);
 						db_set_b(NULL, MODULE, str, IsDlgButtonChecked(hwndDlg, i+2000));
 					}
 

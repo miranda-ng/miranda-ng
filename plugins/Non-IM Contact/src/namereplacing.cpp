@@ -3,7 +3,7 @@
 int readFileIntoArray(int fileNumber, char *FileContents[])
 {
 	char dbSetting[20], temp[MAX_STRING_LENGTH];
-	wsprintfA(dbSetting, "fn%d", fileNumber);
+	mir_snprintf(dbSetting, SIZEOF(dbSetting), "fn%d", fileNumber);
 
 	DBVARIANT dbv;
 	char tszFileName[MAX_PATH];
@@ -390,7 +390,7 @@ BOOL GetLastWriteTime(HANDLE hFile, LPSTR lpszString)
 	// Build a string showing the date and time.
 	wsprintfA(lpszString, "%02d/%02d/%d  %02d:%02d",
 		stLocal.wDay, stLocal.wMonth, stLocal.wYear,
-		stLocal.wHour, stLocal.wMinute);
+		stLocal.wHour, stLocal.wMinute); //!!!!!!!!!!!!!!!
 
 	return TRUE;
 }
@@ -422,7 +422,7 @@ int lastChecked(char *newStr, const char *str)
 		if (GetLastWriteTime(hFile, tszFileName)) {
 			CloseHandle(hFile);
 			strcat(newStr, tszFileName);
-			_snprintf(tszFileName, MAX_PATH, "%s%d))", szPattern, file);
+			mir_snprintf(tszFileName, MAX_PATH, "%s%d))", szPattern, file);
 			return (int)strlen(tszFileName);
 		}
 		CloseHandle(hFile);
@@ -555,7 +555,7 @@ int stringReplacer(const char* oldString, char* newString, HANDLE hContact)
 			}
 			else 
 			{
-				wsprintfA(tempString, "fn%d", tempInt);
+				mir_snprintf(tempString, SIZEOF(tempString), "fn%d", tempInt);
 				if (db_get_static(NULL, MODNAME,tempString, tempString))
 					strcat(newString, tempString);
 				else return ERROR_NO_FILE;
@@ -609,15 +609,15 @@ void WriteSetting(HANDLE hContact, char* module1, char* setting1 , char* module2
 	if (db_get_static(hContact, module1, setting1, text)) {
 		switch (stringReplacer(text, newString, hContact)) {
 		case ERROR_NO_LINE_AFTER_VAR_F:
-			wsprintfA(newString, Translate("%s - ERROR: no line specified or line not found (in %s)"),text, setting1);
+			mir_snprintf(newString, SIZEOF(newString), Translate("%s - ERROR: no line specified or line not found (in %s)"),text, setting1);
 			error = 1;
 			break;
 		case ERROR_LINE_NOT_READ:
-			wsprintfA(newString, Translate("%s - ERROR: file couldnt be opened (in %s)"), text, setting1);
+			mir_snprintf(newString, SIZEOF(newString), Translate("%s - ERROR: file couldnt be opened (in %s)"), text, setting1);
 			error = 1;
 			break;
 		case ERROR_NO_FILE:
-			wsprintfA(newString, Translate("%s - ERROR: no file specified in settings (in %s)"), text, setting1);
+			mir_snprintf(newString, SIZEOF(newString), Translate("%s - ERROR: no file specified in settings (in %s)"), text, setting1);
 			error = 1;
 			break;
 		default:
@@ -650,7 +650,7 @@ void replaceAllStrings(HANDLE hContact)
 	/* tooltips*/
 	WriteSetting(hContact, MODNAME, "ToolTip", "UserInfo", "MyNotes");
 	if (db_get_static(hContact, MODNAME, "Program", tmp1) && db_get_static(hContact, MODNAME, "ProgramParams", tmp2)) {
-		wsprintfA(tmp3, "%s %s", tmp1, tmp2);
+		mir_snprintf(tmp3, SIZEOF(tmp3), "%s %s", tmp1, tmp2);
 		db_set_s(hContact, "UserInfo", "FirstName", tmp3);
 	}
 	else if (db_get_static(hContact, MODNAME, "Program", tmp1))
