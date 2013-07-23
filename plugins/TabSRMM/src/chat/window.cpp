@@ -2965,39 +2965,40 @@ LABEL_SHOWWINDOW:
 									}
 									else if (msg == WM_LBUTTONUP) {
 										USERINFO	*ui = si->pUsers;
-											SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_EXGETSEL, 0, (LPARAM)&chr);
-											tszTmp = tszAppeal = (TCHAR *) malloc((lstrlen(tr.lpstrText) + lstrlen(tszAplTmpl) + 3) * sizeof(TCHAR));
-											tr2.lpstrText = (LPTSTR) malloc(sizeof(TCHAR) * 2);
-											if (chr.cpMin) {
-												/* prepend nick with space if needed */
-												tr2.chrg.cpMin = chr.cpMin - 1;
-												tr2.chrg.cpMax = chr.cpMin;
-												SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_GETTEXTRANGE, 0, (LPARAM)&tr2);
-												if (! _istspace(*tr2.lpstrText))
-													*tszTmp++ = _T(' ');
-												_tcscpy(tszTmp, tr.lpstrText);
-											}
-											else
-												/* in the beginning of the message window */
-												mir_sntprintf(tszAppeal, SIZEOF(tszAppeal), tszAplTmpl, tr.lpstrText);
-											st = lstrlen(tszAppeal);
-											if (chr.cpMax != -1) {
-												tr2.chrg.cpMin = chr.cpMax;
-												tr2.chrg.cpMax = chr.cpMax + 1;
-												/* if there is no space after selection,
-												or there is nothing after selection at all... */
-												if (! SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE,	EM_GETTEXTRANGE, 0, (LPARAM)&tr2) || ! _istspace(*tr2.lpstrText)) {
-														tszAppeal[st++] = _T(' ');
-														tszAppeal[st++] = _T('\0');
-												}
-											}
-											else {
+										SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_EXGETSEL, 0, (LPARAM)&chr);
+										size_t bufSize = lstrlen(tr.lpstrText) + lstrlen(tszAplTmpl) + 3;
+										tszTmp = tszAppeal = (TCHAR*)malloc(bufSize * sizeof(TCHAR));
+										tr2.lpstrText = (LPTSTR) malloc(sizeof(TCHAR) * 2);
+										if (chr.cpMin) {
+											/* prepend nick with space if needed */
+											tr2.chrg.cpMin = chr.cpMin - 1;
+											tr2.chrg.cpMax = chr.cpMin;
+											SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_GETTEXTRANGE, 0, (LPARAM)&tr2);
+											if (! _istspace(*tr2.lpstrText))
+												*tszTmp++ = _T(' ');
+											_tcscpy(tszTmp, tr.lpstrText);
+										}
+										else
+											/* in the beginning of the message window */
+											mir_sntprintf(tszAppeal, bufSize, tszAplTmpl, tr.lpstrText);
+										st = lstrlen(tszAppeal);
+										if (chr.cpMax != -1) {
+											tr2.chrg.cpMin = chr.cpMax;
+											tr2.chrg.cpMax = chr.cpMax + 1;
+											/* if there is no space after selection,
+											or there is nothing after selection at all... */
+											if (! SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE,	EM_GETTEXTRANGE, 0, (LPARAM)&tr2) || ! _istspace(*tr2.lpstrText)) {
 												tszAppeal[st++] = _T(' ');
 												tszAppeal[st++] = _T('\0');
 											}
-											SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_REPLACESEL,  FALSE, (LPARAM)tszAppeal);
-											free((void*) tr2.lpstrText);
-											free((void*) tszAppeal);
+										}
+										else {
+											tszAppeal[st++] = _T(' ');
+											tszAppeal[st++] = _T('\0');
+										}
+										SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_REPLACESEL,  FALSE, (LPARAM)tszAppeal);
+										free((void*) tr2.lpstrText);
+										free((void*) tszAppeal);
 									}
 								}
 								SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
