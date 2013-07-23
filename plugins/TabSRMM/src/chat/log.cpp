@@ -617,11 +617,11 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 			d += 5;
 		} else if ((*line == '\\' || *line == '{' || *line == '}') && !streamData->bStripFormat) {
 			*d++ = '\\';
-			*d++ = (char)*line;
+			*d++ = (char) * line;
 		} else if (*line > 0 && *line < 128) {
-			*d++ = (char)*line;
+			*d++ = (char) * line;
 		}
-		else d += mir_snprintf(d, strlen(d), "\\u%u ?", (WORD)*line);
+		else d += sprintf(d, "\\u%u ?", (WORD) * line); //!!!!!!!!!
 	}
 
 	*cbBufferEnd = (int)(d - *buffer);
