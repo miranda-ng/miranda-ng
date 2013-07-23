@@ -931,15 +931,17 @@ TCHAR* CJabberProto::GetClientJID(const TCHAR *jid, TCHAR *dest, size_t destLen)
 	TCHAR *p = _tcschr(dest, '/');
 
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, jid);
-	if (LI && LI->resourceCount == 1 && !lstrcmp(LI->pResources->szCapsNode, _T("http://talk.google.com/xmpp/bot/caps"))) {
-		if (p) *p = 0;
-		return dest;
-	}
+	if (LI != NULL) {
+		if (LI->resourceCount == 1 && !lstrcmp(LI->pResources->szCapsNode, _T("http://talk.google.com/xmpp/bot/caps"))) {
+			if (p) *p = 0;
+			return dest;
+		}
 
-	if (p == NULL) {
-		JABBER_RESOURCE_STATUS *r = LI->getBestResource();
-		if (r != NULL)
-			mir_sntprintf(dest, destLen, _T("%s/%s"), jid, r->resourceName);
+		if (p == NULL) {
+			JABBER_RESOURCE_STATUS *r = LI->getBestResource();
+			if (r != NULL)
+				mir_sntprintf(dest, destLen, _T("%s/%s"), jid, r->resourceName);
+		}
 	}
 
 	return dest;
