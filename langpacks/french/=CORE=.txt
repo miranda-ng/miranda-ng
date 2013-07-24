@@ -5,6 +5,8 @@ Entrez le nom du compte (ex : My Google)
 Choisissez le type de protocole
 [Specify the internal account name (optional)]
 Spécifiez le nom interne du compte (optionnel)
+[OK]
+OK
 [Cancel]
 Annuler
 [Add %s]
@@ -17,10 +19,14 @@ Ajouter %s
 Envoyer "Vous êtes ajouté"
 [Send authorization request]
 Demande d'autorisation
+[Open contact's chat window]
+Ouvrir la fenêtre de discussion du contact
 [Custom name:]
 Nom à afficher :
 [Group:]
 Groupe :
+[Options]
+Paramètres
 [Authorization Request]
 Demande d'autorisation
 [Delete Contact]
@@ -31,18 +37,24 @@ Supprimer un contact
 &Non
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Effacer de la liste mais conserver son historique et ses options.
+[Use Options->Contacts->Ignore to unhide contacts.]
+Utiliser Paramètres->Contacts->Ignorer pour ré-afficher les contacts
 [Are you sure you want to delete %s?]
 Voulez-vous vraiment supprimer %s ?
 [This will erase all history and settings for this contact!]
 Ceci effacera tout l'historique et réglages de ce contact !
 [Contact Display Options]
 Options d'affichage des contacts
+[Instead of displaying contacts by their nickname,\ndrag to choose another order:]
+Plutôt que d'afficher les contacts par ordre alphabétique,\ncliquer/glisser pour choisir un autre ordre : 
 [Miranda NG Profile Manager]
 Gestionnaire de profil Miranda NG
 [&Run]
 &Lancer
 [&Exit]
 &Quitter
+[Start in Service Mode with]
+Démarrer en mode service avec
 [Find/Add Contacts]
 Chercher/Ajouter des contacts
 [Search:]
@@ -69,8 +81,14 @@ Plus d'options
 Ajouter à ma liste
 [Custom]
 Défini
+[Find/Add Contacts\nHere you can add contacts to your contact list]
+Chercher/Ajouter des contacts\nIci, vous pouvez ajouter des contacts à votre liste de contacts
+[Options\nConfigure your Miranda NG options]
+Paramètres\nConfigurer les paramètres de votre Miranda NG
 [Apply]
 Appliquer
+[Switch to simple options]
+Passer en paramètres simple
 [Please select a subentry from the list]
 Veuillez choisir une sous-entrée de la liste
 [Install Database Settings]
@@ -139,12 +157,16 @@ Inscription dans...
 Débogage de paramètres de sortie
 [File]
 Fichier
+[Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
+Exécuter un programme lorsque Miranda NG démarre (ex tail -f, dbgview, etc...):
 [Run now]
-Lancer...
+Exécuter maintenant
 [Show this dialog box when Miranda NG starts]
 Toujours afficher au démarrage de Miranda NG
 [Save as default]
 Enregistrer par défaut
+[SSL Traffic]
+Traffic SSL
 [Sounds]
 Sons
 [&Change...]
@@ -173,6 +195,10 @@ Afficher la catégorie
 Télécharger plus d'icônes
 [The following events are being ignored:]
 Les évènements suivants sont ignorés :
+[Messages]
+Messages
+[URLs]
+Adresses URL
 [Files]
 Fichiers
 [Online Notification]
@@ -227,6 +253,8 @@ Hôte :
 Port :
 [(often %d)]
 (Ex. %d)
+[Use Custom Login (Domain login picked up automatically)]
+
 [Username:]
 Identifiant :
 [Password:]
@@ -237,6 +265,8 @@ Résoudre les noms à travers le proxy
 Ports :
 [Example: 1050-1070, 2000-2010, 2500]
 Exemple : 1050-1070, 2000-2010, 2500
+[Validate SSL certificates]
+Valider les certificats SSL
 [Incoming Connections]
 Connexions entrantes
 [Enable UPnP port mapping]
@@ -255,6 +285,10 @@ Choisissez le pilote de profil désiré suivant ses fonctionnalités et possibil
 ex : Miranda Database
 [Driver]
 Pilote
+[Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
+
+[Download more plugins]
+Télécharger plus de plugins
 [Description:]
 Description :
 [Author(s):]
@@ -279,8 +313,10 @@ RAZ
 Exportation...
 [Color/Background]
 Couleur du fond
+[Text Effect]
+Effet du texte
 [Text Color]
-Texte
+Couleur du texte
 [Choose Font]
 Autre police
 [Font]
@@ -289,6 +325,8 @@ Police
 &Police :
 [Font st&yle:]
 St&yle :
+[\nStyles and effects are disabled for this font.]
+\nStyles et effets sont désactivés pour cette police.
 [&Size:]
 &Taille :
 [Effects]
@@ -301,6 +339,8 @@ Effets
 &Couleur :
 [Sample]
 Simple
+[AaBbYyZz]
+AaBbYyZz
 [Sc&ript:]
 Sc&ript :
 [&Apply]
@@ -311,6 +351,12 @@ Sc&ript :
 Objet du menu
 [Menu Items]
 Élément du menu
+[Protocol menus]
+Menu des Protocoles
+[Move to the main menu]
+Déplacer au menu principal
+[Move to the status bar]
+Déplacer dans la barre de status
 [Warning!\r\nThis MenuObject not support user defined options.]
         -={ Avertissement }=-\r\nCe menu ne peut être modifié.
 [Insert separator]
@@ -321,18 +367,32 @@ Service :
 Défaut
 [Set]
 OK
+[Disable icons]
+Désactiver les icônes
+[Show accounts in the following order,\ndrag to choose another order:]
+Afficher les comptes dans cet ordre,\ncliquer/glisser pour choisir un autre ordre
+[Account Order && Visibility]
+Organisation et visibilité des Comptes
 [Note: Miranda NG will have to be restarted for changes to take effect.]
 Note : Miranda devra être relancé pour prendre en compte les changements.
+[Key Bindings]
+Raccourcis clavier
+[Shortcut:]
+Raccourci:
 [Add]
 Ajouter
 [Remove]
 Retirer
+[Undo Changes]
+Annuler les changements
 [Reset To Default]
 Paramètres par défaut
 [Hotkeys]
 Raccourcis clavier
 [Accounts]
 Comptes
+[Accounts\nConfigure your IM accounts]
+Comptes\nConfigurer vos comptes de messagerie instantanée
 [Account information:]
 Informations sur le compte :
 [Additional:]
@@ -345,18 +405,54 @@ Récupérer d'autres protocoles...
 &Ajouter...
 [&Edit]
 &Modifier
+[&Options]
+&Paramètres
 [&Upgrade]
 &Mettre à jour...
 [&Remove...]
 &Effacer...
+[Miranda NG]
+Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
-Miranda-IM redémarre.\nVeuillez patienter...
+Miranda NG redémarre.\nVeuillez patienter...
+[Error Console]
+
+[Error notifications]
+
+[Headers:]
+En-têtes
+[This font is used to display main section titles or text elements.]
+
 [Normal text:]
 Texte normal :
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
-Bienvenu dans le gestionnaire de comptes de Miranda-IM !\nIci, vous pourrez configurer tous vos comptes.\n\nSélectionnez un compte parmi ceux présent à gauche afin de voir les options disponible. Vous pouvez également créer un nouveau en cliquant sur le bouton approprié sous la liste.
+[This font is used to display most text element or section bodies.]
+
+[Minor notes:]
+
+[This font is used to display various addtional notes.]
+
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
+Bienvenue dans le gestionnaire de comptes de Miranda NG!\nIci, vous pourrez configurer tous vos comptes.\n\nSélectionnez un compte parmi ceux présent à gauche afin de voir les options disponible. Vous pouvez également créer un nouveau en cliquant sur le bouton approprié sous la liste.
+[Event icon legend:]
+
+[Choose events you wish to ignore:]
+Choisir l'évènement que vous voulez ignorer :
+[Font Effect]
+
+[Effect:]
+Effet :
+[Base colour:]
+Couleur de base :
 [opacity:]
 opacité :
+[Secondary colour:]
+Couleur secondaire :
+[Select the extra icons to be shown in the contact list:]
+
+[* only the first %d icons will be shown]
+
+[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+
 [Tray]
 Tray
 [&Hide/Show]
@@ -417,17 +513,29 @@ Ouvrir dans une fenêtre existante
 Annuler les changements
 [&Reset To Default]
 &Réinitialiser
+[Ungroup]
+Dégrouper
 ;file \src\core\stdauth\resource.rc
 [&Authorize]
 &Autoriser
 [&Deny]
 &Refuser
+[Decide &Later]
+Décider plus &Tard
+[&I]
+
 [Reason:]
 Motif :
+[Denial Reason:]
+Raison du refus
+[Add to contact list if authorized]
+Ajouter à la liste de contacts si autorisé
 [You Were Added]
 Vous avez été ajouté
 [&Close]
 &Fermer
+[&U]
+
 ;file \src\core\stdaway\resource.rc
 [%s Message for %s]
 Message %s pour %s
@@ -445,6 +553,8 @@ Par défaut, utiliser le même message que la dernière fois
 Par défaut, utiliser ce message :
 [Use %time% for the current time, %date% for the current date]
 Utiliser %time% et %date% pour l'heure et la date actuelles.
+[Status messages:]
+
 [Change %s Message]
 Changer le message de \"%s\"
 [Closing in %d]
@@ -454,6 +564,8 @@ Fermeture dans %d
 &Envoyer
 [Show these events only:]
 Voir ces évènements si :
+[Actions]
+
 [Nick changes]
 Changements de pseudo
 [Users joining]
@@ -514,22 +626,30 @@ Délai (*)
 Texte
 [Background]
 Arrière-plan
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+
 [List]
 Liste
+[&Message]
+&Message
 [Clear lo&g]
 Effacer le journal
 [Co&py all]
 &Tout copier
 [Word lookup]
 Consultation de mot
+[Google]
+Google
+[Wikipedia]
+Wikipedia
 [Link]
 Lien
 [Open a &new browser window]
 Ouvrir &nouvelle fenêtre de navigateur
 [&Open in current browser window]
 &Ouvrir dans la fenêtre active du navigateur
-[Undo  ]
-Annuler
+[Message]
+Message
 [Redo]
 Refaire
 [Copy]
@@ -617,12 +737,18 @@ Cacher la liste de contacts après :
 secondes
 [Automatically resize window to height of list]
 Redimensionnement automatique de la fenêtre
+[maximum]
+maximum
 [% of screen]
 % de l'écran
 [Size upwards]
 Agrandir vers le haut
 [If window is partially covered, bring to front instead of hiding]
 Si la fenêtre est partiellement couverte, mettre en avant-plan plutôt que de cacher
+[Enable docking]
+
+[Translucency options]
+Options de transparence
 [Fade contact list in/out]
 Fondu de la liste de contacts
 [Transparent contact list]
@@ -663,6 +789,8 @@ Classer les groupes par ordre alphabétique
 Recherche rapide uniquement sur les groupes ouverts
 [Indent groups by:]
 Décaler les contacts de :
+[pixels]
+pixels
 [Visual]
 Visuel
 [Scroll list smoothly]
@@ -685,8 +813,6 @@ Griser toute la liste quand :
 Arrière-plan de la liste
 [Background colour]
 Couleur de fond
-[Background colour]
-Couleur de Fond : 
 [Selection colour]
 Couleur de sélection
 [Use background image]
@@ -725,8 +851,16 @@ Faire des sections de taille égale
 Voir les effets 3D
 [Show resize grip indicator]
 Poignée de redimension
+[Ordering:]
+
 [Contact list:]
 Liste de contacts :
+[If window is partially covered, bring it to front]
+
+[Window:]
+Fenètre :
+[Contact list background:]
+Arrière-plan de la liste de contacts
 [&Status]
 &État
 [&Offline\tCtrl+0]
@@ -760,6 +894,10 @@ Fichier(s) :
 &Sélectionner...
 [Total size:]
 Taille totale :
+[&D]
+
+[&H]
+
 [Incoming File Transfer]
 Transfert de fichier entrant
 [A&ccept]
@@ -774,10 +912,18 @@ Date :
 Fichiers :
 [Save to:]
 Enregistrer sous:
+[&A]
+
 [Contact menu]
 Menu Contact
+[Open...]
+Ouvrir...
 [Open folder]
 Ouvrir dossier
+[Transfer completed, open file(s).]
+Transfert complété, ouvrir le(s) fichier(s).
+[No data transferred]
+Aucune donnée transférée
 [File Already Exists]
 Fichier déjà existant
 [Resume]
@@ -790,6 +936,8 @@ Reprendre tous
 Écraser tous
 [Save as...]
 Enregistrer sous ...
+[Auto rename]
+
 [Skip]
 Passer
 [Cancel transfer]
@@ -818,12 +966,16 @@ Fermer
 Réception des fichiers
 [Received files folder:]
 Dossier de réception :
+[Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+
 [Auto-accept incoming files from people on my contact list]
 Accepter automatiquement les fichiers provenant de la liste de contacts
 [Minimize the file transfer window]
 Minimiser la fenêtre de transfert
 [Close window when transfer completes]
 Fermer la fenêtre quand le transfert est achevé
+[Clear completed transfers on window closing]
+
 [Virus scanner]
 Analyse antivirus
 [Scan files:]
@@ -851,6 +1003,8 @@ Vous serez avisé des fichiers ne provenant pas de votre liste de contacts
 ;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 À propos de Miranda NG
+[Miranda NG\n%s]
+Miranda NG\n%s
 [Credits >]
 Crédits >
 ;file \src\core\stdidle\resource.rc
@@ -858,12 +1012,18 @@ Crédits >
 Devient "Inactif" si inactivité de :
 [Windows]
 Windows
+[Miranda]
+Miranda
 [Become idle if the screen saver is active]
 Devient "Inactif" si l'écran de veille est activé.
+[Become idle if the computer is locked]
+Devenir inactif si la session est vérouillée
 [Become idle if a terminal session is disconnected]
 Devenir absent si le terminal est déconnecté
 [Do not let protocols report any idle information]
 Ne pas autoriser les autres protocoles à signaler l'inactivité.
+[minute(s)]
+minute(s)
 [for]
 pendant
 [Change my status mode to:]
@@ -872,9 +1032,19 @@ Changer mon état en :
 Ne pas mettre l'état "En ligne" quand vous revenez d'inactif.
 [Idle Options]
 Options d'inactivité
+[Become idle if application full screen]
+Devenir inactif si une application est en plein-écran
+[Disable sounds on idle]
+Désactiver les sons quand inactif
+[Become idle if computer is left unattended for:]
+
+[Idle (auto-away):]
+
 ;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Fenêtre en popup quand :
+[In background]
+En arrière-plan
 [Close the message window on send]
 Fermer la fenêtre à l'envoi
 [Minimize the message window on send]
@@ -905,8 +1075,10 @@ Permettre navigation haut/bas dans zone de texte pour voir mess. précédents
 Effacer contacts temp. en fermant fenêtre de message
 [Enable avatar support in the message window]
 Activer le support des avatars dans la fenêtre de message
-[Limit avatar height to ]
-Limiter la taille de l'avatar à 
+[Limit avatar height to]
+Limiter la taille de l'avatar à
+[Max Number of Flashes]
+Nombre maximum de clignotements
 [Send Error]
 Erreur d'envoi
 [An error has occured. The protocol reported the following error:]
@@ -939,6 +1111,8 @@ Voir les changements d'état
 Voir les secondes
 [Load History Events]
 Derniers échanges
+[Show Formatting]
+
 [Send typing notifications to the following users when you are typing a message to them:]
 Envoyer des notifications aux usagers suivants, quand vous tapez un message qui leur est destiné :
 [Show typing notifications when a user is typing a message]
@@ -951,6 +1125,16 @@ Afficher une notification quand aucune fenêtre n'est ouverte
 Signaler dans le systray et dans la liste de contacts
 [Show balloon popup]
 Afficher un popup
+[Save the window position for each contact]
+
+[Message window behaviour:]
+
+[Messaging:]
+
+[&Open link]
+
+[Paste && Send]
+
 [Delete]
 Effacer
 ;file \src\core\stduihist\resource.rc
@@ -977,6 +1161,8 @@ Ce téléphone peut recevoir des SMS
 Ajouter l'E-mail
 [%s: User Details]
 %s: Détails du contact
+[%s\nView personal user details and more]
+
 [Update Now]
 Mettre à jour
 [Updating]
@@ -1023,6 +1209,8 @@ Langues parlées :
 Fuseau horaire :
 [Local time:]
 Heure locale :
+[Set custom time zone]
+
 [Company:]
 Entreprise :
 [Department:]
@@ -1036,20 +1224,46 @@ Site Web :
 %s demande une autorisation
 [%u requests authorization]
 %u demande une autorisation
+[%s added you to their contact list]
+
 [%u added you to their contact list]
 %u vous a ajouté à sa liste de contacts
 [Alerts]
 Notifications
+[Authorization request]
+
+[Added event]
+
 ;file \src\core\stdauth\authdialogs.cpp
 [View User's Details]
 Voir les détails du contact
 [Add Contact Permanently to List]
 Ajouter le contact à la liste
+[<Unknown>]
+
+[%s added you to the contact list\n%u (%s) on %s]
+
+[%s added you to the contact list\n%u on %s]
+
+[%s added you to the contact list\n%s on %s]
+
 [(Unknown)]
 (Inconnu)
+[View User Details]
+
+[%s requested authorization\n%u (%s) on %s]
+
+[%s requested authorization\n%u on %s]
+
+[%s requested authorization\n%s on %s]
+
+[Feature is not supported by protocol]
+
 ;file \src\core\stdaway\awaymsg.cpp
 [Re&ad %s Message]
 &Message d'état de "%s"
+[Re&ad Status Message]
+
 ;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
 Je suis absent depuis %time%.
@@ -1078,6 +1292,8 @@ Occupééééé
 ;file \src\core\stdchat\src\clist.cpp
 [Join chat]
 Joindre un salon
+[Open chat window]
+
 ;file \src\core\stdchat\src\colorchooser.cpp
 [Text colour]
 Couleur du texte
@@ -1098,8 +1314,16 @@ Vous êtes connu en tant que %s
 %s a exclu %s
 [Notice from %s: ]
 Notice de %s : 
+[The topic is '%s%s']
+
+[ (set by %s on %s)]
+
 [ (set by %s)]
  (réglé par %s)
+[%s enables '%s' status for %s]
+
+[%s disables '%s' status for %s]
+
 [<invalid>]
 <invalide>
 ;file \src\core\stdchat\src\options.cpp
@@ -1193,8 +1417,12 @@ Date/heure de la même couleur que l'évènement
 Mettre la deuxième ligne d'un message en retrait
 [Limit user names in the message log to 20 characters]
 Limiter les noms à 20 caractères dans la fenêtre de discussion
+[Add ':' to auto-completed user names]
+
 [Strip colors from messages in the log]
 Retirer la couleur des messages dans le journal
+[Enable the 'event filter' for new rooms]
+
 [Show topic changes]
 Changements de sujet
 [Show users joining]
@@ -1233,8 +1461,8 @@ Texte surligné
 Usagers sortants
 [Show icon for users kicking other user]
 Exclusions
-[Show icon for notices ]
-Notices
+[Show icon for notices]
+
 [Show icon for name changes]
 Changements de nom
 [Show icon for information messages]
@@ -1259,14 +1487,40 @@ Texte surligné
 Usagers sortants
 [Show icon in tray for users kicking other user]
 Exclusions
-[Show icon in tray for notices ]
-Notices
+[Show icon in tray for notices]
+
 [Show icon in tray for name changes]
 Changements de nom
 [Show icon in tray for information messages]
 Messages d'information
 [Show icon in tray for status changes]
 Changements d'état du contact
+[Show popups only when the chat room is not active]
+
+[Show popup for topic changes]
+
+[Show popup for users joining]
+
+[Show popup for users disconnecting]
+
+[Show popup for messages]
+
+[Show popup for actions]
+
+[Show popup for highlights]
+
+[Show popup for users leaving]
+
+[Show popup for users kicking other user]
+
+[Show popup for notices]
+
+[Show popup for name changes]
+
+[Show popup for information messages]
+
+[Show popup for status changes]
+
 [Chat Module]
 Chat
 [Message Background]
@@ -1275,6 +1529,8 @@ Fond des messages
 Fond de la liste
 [Userlist Lines]
 Lignes de la liste
+[Userlist Background (selected)]
+
 [Window Icon]
 Icônes de la fenêtre
 [Bold]
@@ -1337,20 +1593,28 @@ Note (10x10)
 Sujet (10x10)
 [Highlight (10x10)]
 Surligner (10x10)
+[Information (10x10)]
+
 [Messaging]
 Envoi de message
 [Group Chats]
 Groupe Chats
+[Group Chats Log]
+
 [Options for using a tabbed interface]
 Options pour l'usage des onglets
 [Appearance and functionality of chat room windows]
 Apparence et fonctionnalités des fenêtres de salon
 [Appearance of the message log]
 Apparence du journal des messages
+[Default events to show in new chat rooms if the 'event filter' is enabled]
+
 [Icons to display in the message log]
 Icônes à afficher dans le journal des messages
 [Icons to display in the tray]
 Icônes à afficher dans la zone de notification système (tray)
+[Popups to display]
+
 [Select Folder]
 Sélectionnez un répertoire
 [Message Sessions]
@@ -1361,6 +1625,10 @@ Chats
 Général
 [Chat Log]
 Fenêtre de chat
+[Chat]
+
+[Popups]
+
 [Message is highlighted]
 Message surligné
 [User has performed an action]
@@ -1395,6 +1663,10 @@ Note de %s
 Changement de sujet dans %s
 [Information in %s]
 Informations dans %s
+[%s enables '%s' status for %s in %s]
+
+[%s disables '%s' status for %s in %s]
+
 [%s says: %s]
 %s dit : %s
 [%s has left (%s)]
@@ -1405,6 +1677,12 @@ Informations dans %s
 %s a kické %s (%s)
 [Notice from %s: %s]
 Notice de %s : %s
+[The topic is '%s']
+
+[The topic is '%s' (set by %s)]
+
+[Look up '%s':]
+
 [No word to look up]
 Aucun mot à chercher
 ;file \src\core\stdchat\src\window.cpp
@@ -1497,6 +1775,8 @@ Général
 Ce contact n'a pas d'adresse e-mail.
 [Send e-mail]
 Envoyer un e-mail
+[&E-mail]
+
 ;file \src\core\stdfile\file.cpp
 [File from %s]
 Fichier de %s
@@ -1504,6 +1784,8 @@ Fichier de %s
 octets
 [&File]
 &Fichier
+[File &Transfers...]
+
 [Incoming]
 Entrant
 [Complete]
@@ -1523,6 +1805,8 @@ Fichiers exécutables
 [Events]
 Évènements
 ;file \src\core\stdfile\filerecvdlg.cpp
+[My Received Files]
+
 [View User's History]
 Voir l'historique
 [User Menu]
@@ -1539,6 +1823,8 @@ Répertoire %d
 Ce fichier n'a pas subi d'analyse anti-virus. Êtes-vous certain(e) de vouloir l'ouvrir ?
 [File Received]
 Fichier reçu
+[of]
+
 [Request sent, waiting for acceptance...]
 Demande envoyée, attente d'une réponse...
 [Waiting for connection...]
@@ -1585,9 +1871,13 @@ Transfert et analyse de virus achevés
 [Outgoing]
 Sortant
 ;file \src\core\stdhelp\about.cpp
+[< Copyright]
+
 ;file \src\core\stdhelp\help.cpp
 [&About...]
 À &propos...
+[&Support]
+
 [&Miranda NG Homepage]
 &Miranda NG page web
 [&Report Bug]
@@ -1599,6 +1889,10 @@ Inactif
 [The message send timed out.]
 Délai d'envoi du message expiré
 ;file \src\core\stdmsg\src\globals.cpp
+[Incoming message (10x10)]
+
+[Outgoing message (10x10)]
+
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Dernier message reçu le %s à %s
@@ -1655,16 +1949,22 @@ Message de %s
 Notification de frappe
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 Miranda n'a pas pu charger le module de messagerie préinstallé, riched20.dll est manquant. Si vous utilisez Windows 95 ou WINE, veuillez vous assurer que vous avez installé riched20.dll. Cliquez sur "Oui" pour continuer le chargement de Miranda.
+[Instant messages]
+
 [Incoming (Focused Window)]
 Entrant (fenêtre active)
 [Incoming (Unfocused Window)]
 Entrant (fenêtre inactive)
 [Incoming (New Session)]
 Entrant (nouvelle session)
+[Message send error]
+
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occured.]
 Une erreur inconnue s'est produite.
 ;file \src\core\stduihist\history.cpp
+[Invalid Message]
+
 [Outgoing Message]
 Message envoyé
 [Incoming Message]
@@ -1710,6 +2010,8 @@ Numéro de téléphone invalide
 Principal
 [Custom %d]
 %d personnalisé
+[Fax]
+
 [Mobile]
 Portable
 [Work Phone]
@@ -1725,10 +2027,16 @@ Femme
 <non spécifié>
 [Summary]
 Résumé
+[Contact]
+
 [Location]
 Lieu
 [Work]
 Travail
+[Background info]
+
+[Notes]
+
 ;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 Propriétaire
@@ -1771,6 +2079,8 @@ Le nom choisi (non déplaçable)
 Pseudo
 [FirstName]
 Prénom
+[E-mail]
+
 [LastName]
 Nom
 [Username]
@@ -1781,15 +2091,21 @@ Prénom Nom
 '(Contact Inconnu)' (non déplaçable)
 ['(Unknown Contact)']
 '(Contacts Inconnus)'
+[Contact names]
+
 ;file \src\modules\clist\genmenu.cpp
 [Menu Icons]
 Menus
 ;file \src\modules\clist\genmenuopt.cpp
+[Menus]
+
 [Customize]
 Apparence
 ;file \src\modules\clist\groups.cpp
 [New Group]
 Nouveau groupe
+[Are you sure you want to delete group '%s'?  This operation can not be undone.]
+
 [Delete Group]
 Effacer un groupe
 [You already have a group with that name. Please enter a unique name for the group.]
@@ -1805,6 +2121,8 @@ Voir/Cacher la liste de contact
 Lire un message
 [Open Options Page]
 Ouvrir les Options
+[Open Logging Options]
+
 [Open Find User Dialog]
 Ouvrir la fenêtre "Chercher un contact"
 ;file \src\modules\clist\movetogroup.cpp
@@ -1813,14 +2131,42 @@ Ouvrir la fenêtre "Chercher un contact"
 [<Root Group>]
 <sans groupe>
 ;file \src\modules\database\database.cpp
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exist. Please resolve the issue manually.]
+
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
+
+[Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
+
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
 Miranda n'a pu ouvrir '%s' car vous n'avez aucun plugin de profil installé.\nVous devez installer dbx_3x.dll ou un équivalent.
 [No profile support installed!]
 Pas de support de profil installé !
+[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DBChecker which should be installed.]
+
 [Miranda can't understand that profile]
 Miranda ne comprend pas ce profil !
+[Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
+
+[Miranda can't open that profile]
+
 ;file \src\modules\database\dbini.cpp
+[Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
+
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
+
+[Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
+
+[This change is known to be safe.]
+
+[This change is known to be potentially hazardous.]
+
+[This change is not known to be safe.]
+
+[Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
+
 ;file \src\modules\database\profilemanager.cpp
+[The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
+
 [The profile already exists]
 Le profil existe déjà
 [Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
@@ -1835,17 +2181,29 @@ Souci à la création de profil
 &Créer
 [<In Use>]
 <Utiliser>
+[Are you sure you want to remove profile "%s"?]
+
 [Size]
 Taille
 [Created]
 Créée
+[Modified]
+
 [Run]
 Lancer
+[Check database]
+
+[Miranda Profiles from]
+
+[Select or create your Miranda NG user profile]
+
 [My Profiles]
 Mes Profils
 [New Profile]
 Nouveau profil
 ;file \src\modules\extraicons\DefaultExtraIcons.cpp
+[Chat activity]
+
 ;file \src\modules\extraicons\extraicons.cpp
 [Chat Activity]
 Activité du Chat
@@ -1893,21 +2251,43 @@ Aucun utilisateur trouvé
 Ombre à gauche
 [Shadow at right]
 Ombre à droite
+[Outline]
+
+[Outline smooth]
+
+[Smooth bump]
+
+[Contour thin]
+
+[Contour heavy]
+
+[Configuration Files]
+
 [Text Files]
 Fichiers txt
 [Error writing file]
 Erreur d'écriture du fichier
 [Fonts & Colors]
 Police et couleur
+[Sample Text]
+
 [Fonts]
 Polices
 ;file \src\modules\fonts\FontService.cpp
+[Headers]
+
+[Generic text]
+
+[Small text]
+
 ;file \src\modules\icolib\skin2opts.cpp
 [Icon Sets]
 Jeux d'icônes
 ;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** Tous les contacts **
+[Contacts]
+
 ;file \src\modules\netlib\netliblog.cpp
 [No times]
 Sans durée
@@ -1917,6 +2297,8 @@ Temps standard hh:mm:ss
 Temps en millisecondes
 [Times in microseconds]
 Temps en microsecondes
+[(Miranda Core Logging)]
+
 [Select where log file will be created]
 Sélectionnez l'emplacement du fichier journal
 [Select program to be run]
@@ -1927,26 +2309,70 @@ Sélectionnez le programme à lancer
 [Network]
 Réseau
 ;file \src\modules\netlib\netlibssl.cpp
+[Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package]
+
+[Host we are connecting to is not the one certificate was issued for]
+
 ;file \src\modules\options\options.cpp
 [<all modules>]
 < Tous les plugins >
+[<core modules>]
+
+[Loading... %d%%]
+
+[%s options]
+
 [Miranda NG Options]
 Options de Miranda NG
+[&Options...]
+
 ;file \src\modules\plugins\newplugins.cpp
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+
+[Fatal error]
+
+[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
+
 ['%s' is disabled, re-enable?]
 '%s' est inactif, le réactiver ?
 [Re-enable Miranda plugin?]
 Réactiver le plugin ?
+[Unable to load plugin in Service Mode!]
+
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Impossible de lancer aucune des listes de contacts installées. Vos préférences d'affichage incompatibles ont dut être également ignoré.
+[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
+
 ;file \src\modules\plugins\pluginopts.cpp
+[Plugin]
+
+[Version]
+
+[Miranda NG must be restarted to apply changes for these plugins:]
+
+[Do you want to restart it now?]
+
+[Plugins]
+
 ;file \src\modules\protocols\protoopts.cpp
+[WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
+
+[Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
+
+[This account uses legacy protocol plugin. Use Miranda NG options dialogs to change it's preferences.]
+
+[Welcome to Miranda NG's account manager!\n Here you can set up your IM accounts.\n\n Select an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+
 [Create new account]
 Créer un compte
 [Editing account]
 Modifier ce compte
 [Upgrading account]
 Mise à jour du compte
+[Account name has to be unique. Please enter unique name.]
+
+[Account Error]
+
 [Account is disabled. Please activate it to access options.]
 Ce compte a été désactivé; Vous devez le réactiver afin d'accéder à ses options.
 [New account]
@@ -1971,17 +2397,45 @@ Le protocole n'a pas été chargé.
 Renommer
 [Configure]
 Configurer
+[Upgrade]
+
+[Account %s is being disabled]
+
+[Account is online. Disable account?]
+
 [Account %s is being deleted]
 Le compte %s est supprimé.
+[You need to disable plugin to delete this account]
+
 [&Accounts...]
 &Comptes...
 ;file \src\modules\skin\hotkey_opts.cpp
+[Ctrl + ]
+
+[Alt + ]
+
+[Shift + ]
+
+[Win + ]
+
 [Remove shortcut]
 Effacer le raccourci
 [Add another shortcut]
 Ajouter un autre raccourci
+[Scope:]
+
 [System]
 Système
+[Actions:]
+
+[Add binding]
+
+[Modify]
+
+[System scope]
+
+[Miranda scope]
+
 ;file \src\modules\skin\skinicons.cpp
 [User Online]
 Utilisateur en ligne
@@ -2001,6 +2455,8 @@ Flèche bas
 Chercher un contact
 [Send E-mail]
 envoyer e-mail
+[SMS]
+
 [Search All]
 rechercher tous
 [Tick]
@@ -2025,10 +2481,24 @@ Plugin ANSI
 Plugin actif
 [Unloaded plugin]
 Plugin non chargé
+[ShowHide]
+
 [Exit]
 Quitter
 [Main Menu]
 Menu principal
+[Leave chat]
+
+[Move to Group]
+
+[On]
+
+[Off]
+
+[Running core plugin]
+
+[Non-loadable plugin]
+
 [Frames]
 Cadres
 [Request authorization]
@@ -2037,6 +2507,12 @@ Demander l'autorisation
 Accorder l'autorisation
 [Revoke authorization]
 Enlever l'autorisation
+[Always visible]
+
+[Always invisible]
+
+[Locked status]
+
 [Status Icons]
 Icônes d'état
 [%s Icons]
@@ -2044,6 +2520,10 @@ Icônes %s
 [Main Icons]
 Icônes principales
 ;file \src\modules\skin\sounds.cpp
+[Sound Files]
+
+[WAV Files]
+
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Vous avez besoin d'un plugin d'imagerie pour gérer les images PNG.
@@ -2058,11 +2538,17 @@ Images GIF
 [PNG Bitmaps]
 Images PNG
 ;file \src\modules\utils\timezones.cpp
+[<unspecified>]
+
 ;file \src\modules\utils\utils.cpp
 [Unspecified]
 Non spécifié
 [Unknown]
 Inconnu
+[Afghanistan]
+
+[Aland Islands]
+
 [Albania]
 Albanie
 [Algeria]
@@ -2075,6 +2561,8 @@ Andorre
 Angola
 [Anguilla]
 Anguilla
+[Antarctica]
+
 [Antigua and Barbuda]
 Antigua-et-Barbuda
 [Argentina]
@@ -2089,6 +2577,8 @@ Australie
 Autriche
 [Azerbaijan]
 Azerbaïdjan
+[Bahamas]
+
 [Bahrain]
 Bahrain
 [Bangladesh]
@@ -2107,12 +2597,22 @@ Bénin
 Bermudes
 [Bhutan]
 Bhoutan
+[Bolivia, Plurinational State of]
+
+[Bonaire, Sint Eustatius and Saba]
+
 [Bosnia and Herzegovina]
 Bosnie et Herzégovine
 [Botswana]
 Botswana
+[Bouvet Island]
+
 [Brazil]
 Brésil
+[British Indian Ocean Territory]
+
+[Brunei Darussalam]
+
 [Bulgaria]
 Bulgarie
 [Burkina Faso]
@@ -2123,12 +2623,18 @@ Burundi
 Cambodge
 [Cameroon]
 Cameroun
+[Canada]
+
+[Cape Verde]
+
 [Cayman Islands]
 Iles Cayman
 [Central African Republic]
 République Centrafricaine
 [Chad]
 Tchad
+[Chile]
+
 [China]
 Chine
 [Christmas Island]
@@ -2139,12 +2645,22 @@ Chine
 Colombie
 [Comoros]
 Comores
+[Congo]
+
+[Congo, the Democratic Republic of the]
+
 [Cook Islands]
 Îles Cook
 [Costa Rica]
 Costa Rica
+[Cote d'Ivoire]
+
 [Croatia]
 Croatie
+[Cuba]
+
+[Curacao]
+
 [Cyprus]
 Chypre
 [Czech Republic]
@@ -2171,6 +2687,10 @@ Guinée Équatoriale
 Estonie
 [Ethiopia]
 Éthiopie
+[Falkland Islands (Malvinas)]
+
+[Faroe Islands]
+
 [Fiji]
 Fidji
 [Finland]
@@ -2181,6 +2701,8 @@ France
 Guyane Française
 [French Polynesia]
 Polynésie Française
+[French Southern Territories]
+
 [Gabon]
 Gabon
 [Gambia]
@@ -2201,8 +2723,12 @@ Groenland
 Grenade
 [Guadeloupe]
 Guadeloupe
+[Guam]
+
 [Guatemala]
 Guatemala
+[Guernsey]
+
 [Guinea]
 Guinée
 [Guinea-Bissau]
@@ -2211,6 +2737,10 @@ Guinée-Bissau
 Guyana
 [Haiti]
 Haïti
+[Heard Island and McDonald Islands]
+
+[Holy See (Vatican City State)]
+
 [Honduras]
 Honduras
 [Hong Kong]
@@ -2223,10 +2753,14 @@ Islande
 Inde
 [Indonesia]
 Indonésie
+[Iran, Islamic Republic of]
+
 [Iraq]
 Irak
 [Ireland]
 Irlande
+[Isle of Man]
+
 [Israel]
 Israël
 [Italy]
@@ -2235,6 +2769,8 @@ Italie
 Jamaïque
 [Japan]
 Japon
+[Jersey]
+
 [Jordan]
 Jordanie
 [Kazakhstan]
@@ -2243,10 +2779,16 @@ Kazakhstan
 Kenya
 [Kiribati]
 Kiribati
+[Korea, Democratic People's Republic of]
+
+[Korea, Republic of]
+
 [Kuwait]
 Koweït
 [Kyrgyzstan]
 Kyrgyzstan
+[Lao People's Democratic Republic]
+
 [Latvia]
 Lituanie
 [Lebanon]
@@ -2255,12 +2797,18 @@ Liban
 Lesotho
 [Liberia]
 Libéria
+[Libya]
+
 [Liechtenstein]
 Liechtenstein
 [Lithuania]
 Lituanie
 [Luxembourg]
 Luxembourg
+[Macao]
+
+[Macedonia, The Former Yugoslav Republic of]
+
 [Madagascar]
 Madagascar
 [Malawi]
@@ -2281,14 +2829,20 @@ Martinique
 Mauritanie
 [Mauritius]
 Île Maurice
+[Mayotte]
+
 [Mexico]
 Mexique
 [Micronesia, Federated States of]
 Micronésie, États Fédérés de
 [Moldova, Republic of]
 Moldavie, Rép. de
+[Monaco]
+
 [Mongolia]
 Mongolie
+[Montenegro]
+
 [Montserrat]
 Montserrat
 [Morocco]
@@ -2315,8 +2869,12 @@ Nicaragua
 Niger
 [Nigeria]
 Nigéria
+[Niue]
+
 [Norfolk Island]
 Île Norfolk
+[Northern Mariana Islands]
+
 [Norway]
 Norvège
 [Oman]
@@ -2325,6 +2883,8 @@ Oman
 Pakistan
 [Palau]
 Palau
+[Palestinian Territory, Occupied]
+
 [Panama]
 Panama
 [Papua New Guinea]
@@ -2335,6 +2895,8 @@ Paraguay
 Pérou
 [Philippines]
 Philippines
+[Pitcairn]
+
 [Poland]
 Pologne
 [Portugal]
@@ -2343,18 +2905,30 @@ Portugal
 Porto Rico
 [Qatar]
 Qatar
+[Reunion]
+
 [Romania]
 Roumanie
+[Russian Federation]
+
 [Rwanda]
 Rwanda
+[Saint Barthelemy]
+
+[Saint Helena, Ascension and Tristan da Cunha]
+
 [Saint Kitts and Nevis]
 Saint Kitts and Nevis
 [Saint Lucia]
 Sainte Lucie
+[Saint Martin (French part)]
+
 [Saint Pierre and Miquelon]
 Saint Pierre et Miquelon
 [Saint Vincent and the Grenadines]
 Saint Vincent et les Grenadines
+[Samoa]
+
 [San Marino]
 Saint Marin
 [Sao Tome and Principe]
@@ -2363,10 +2937,16 @@ Sao-Tomé-et-Principe
 Arabie Saoudite
 [Senegal]
 Sénégal
+[Serbia]
+
 [Seychelles]
 Seychelles
+[Sierra Leone]
+
 [Singapore]
 Singapour
+[Sint Maarten (Dutch part)]
+
 [Slovakia]
 Slovaquie
 [Slovenia]
@@ -2377,6 +2957,10 @@ Slovénie
 Somalie
 [South Africa]
 Afrique du Sud
+[South Georgia and the South Sandwich Islands]
+
+[South Sudan]
+
 [Spain]
 Espagne
 [Sri Lanka]
@@ -2385,6 +2969,8 @@ Sri Lanka
 Soudan
 [Suriname]
 Surinam
+[Svalbard and Jan Mayen]
+
 [Swaziland]
 Swaziland
 [Sweden]
@@ -2393,10 +2979,16 @@ Suède
 Suisse
 [Syrian Arab Republic]
 République Arabe Syrienne
+[Taiwan, Province of China]
+
 [Tajikistan]
 Tadjikistan
+[Tanzania, United Republic of]
+
 [Thailand]
 Thaïlande
+[Timor-Leste]
+
 [Togo]
 Togo
 [Tokelau]
@@ -2425,12 +3017,26 @@ Ukraine
 Royaume-Uni
 [United States]
 États Unis
+[United States Minor Outlying Islands]
+
 [Uruguay]
 Uruguay
 [Uzbekistan]
 Ouzbékistan
 [Vanuatu]
 Vanuatu
+[Venezuela, Bolivarian Republic of]
+
+[Viet Nam]
+
+[Virgin Islands, British]
+
+[Virgin Islands, U.S.]
+
+[Wallis and Futuna]
+
+[Western Sahara]
+
 [Yemen]
 Yémen
 [Zambia]
