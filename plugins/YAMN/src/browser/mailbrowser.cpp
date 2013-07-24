@@ -411,7 +411,7 @@ int UpdateMails(HWND hDlg,HACCOUNT ActualAccount,DWORD nflags,DWORD nnflags)
 		char *TitleStrA=new char[len];
 		WCHAR *TitleStrW=new WCHAR[len];
 
-		sprintf(TitleStrA,Translate(MAILBROWSERTITLE),ActualAccount->Name,MN.Real.DisplayUC+MN.Virtual.DisplayUC,MN.Real.Display+MN.Virtual.Display);
+		mir_snprintf(TitleStrA, len, Translate(MAILBROWSERTITLE), ActualAccount->Name, MN.Real.DisplayUC + MN.Virtual.DisplayUC, MN.Real.Display + MN.Virtual.Display);
 		MultiByteToWideChar(CP_ACP,MB_USEGLYPHCHARS,TitleStrA,-1,TitleStrW,(int)strlen(TitleStrA)+1);
 		SendMessageW(hDlg,WM_SETTEXT,0,(LPARAM)TitleStrW);
 		delete[] TitleStrA;
@@ -555,8 +555,9 @@ int AddNewMailsToListView(HWND hListView,HACCOUNT ActualAccount,struct CMailNumb
 			Extracted=TRUE;
 
 			if ((UnicodeHeader.From != NULL) && (UnicodeHeader.FromNick != NULL)) {
-				FromStr=new WCHAR[wcslen(UnicodeHeader.From)+wcslen(UnicodeHeader.FromNick)+4];
-				swprintf(FromStr,L"%s <%s>",UnicodeHeader.FromNick,UnicodeHeader.From);
+				int size = wcslen(UnicodeHeader.From) + wcslen(UnicodeHeader.FromNick) + 4;
+				FromStr=new WCHAR[size];
+				mir_sntprintf(FromStr, size, L"%s <%s>", UnicodeHeader.FromNick, UnicodeHeader.From);
 				FromStrNew=TRUE;
 			}
 			else if (UnicodeHeader.From != NULL)
@@ -582,7 +583,7 @@ int AddNewMailsToListView(HWND hListView,HACCOUNT ActualAccount,struct CMailNumb
 			SendMessageW(hListView,LVM_SETITEMTEXTW,(WPARAM)item.iItem,(LPARAM)&item);
 
 			item.iSubItem = 2;
-			swprintf(SizeStr,L"%d kB",msgq->MailData->Size/1024);
+			mir_sntprintf(SizeStr, SIZEOF(SizeStr), L"%d kB", msgq->MailData->Size / 1024);
 			item.pszText = SizeStr;
 			SendMessageW(hListView,LVM_SETITEMTEXTW,(WPARAM)item.iItem,(LPARAM)&item);
 
@@ -653,7 +654,7 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 	if ((nflags & YAMN_ACC_CONT) && (MN->Real.PopupRun+MN->Virtual.PopupRun))
 	{
 		char sMsg[250];
-		_snprintf(sMsg,249,Translate("%s : %d new mail message(s), %d total"),ActualAccount->Name,MN->Real.PopupNC+MN->Virtual.PopupNC,MN->Real.PopupTC+MN->Virtual.PopupTC);
+		mir_snprintf(sMsg, 249, Translate("%s : %d new mail message(s), %d total"), ActualAccount->Name, MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
 		if (!(nflags & YAMN_ACC_CONTNOEVENT)) {
 			CLISTEVENT cEvent;
 			cEvent.cbSize = sizeof(CLISTEVENT);
@@ -689,8 +690,8 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 		NewMailPopup.PluginWindowProc = NewMailPopupProc;
 		NewMailPopup.PluginData = (void *)0;	//multiple popups
 
-		lstrcpyn(NewMailPopup.lptzContactName, _A2T(ActualAccount->Name),SIZEOF(NewMailPopup.lptzContactName));
-		wsprintf(NewMailPopup.lptzText,TranslateT("%d new mail message(s), %d total"),MN->Real.PopupNC+MN->Virtual.PopupNC,MN->Real.PopupTC+MN->Virtual.PopupTC);
+		lstrcpyn(NewMailPopup.lptzContactName, _A2T(ActualAccount->Name), SIZEOF(NewMailPopup.lptzContactName));
+		mir_sntprintf(NewMailPopup.lptzText, SIZEOF(NewMailPopup.lptzText), TranslateT("%d new mail message(s), %d total"), MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
 		PUAddPopupT(&NewMailPopup);
 	}
 
@@ -794,7 +795,7 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 
 		lstrcpyn(NoNewMailPopup.lptzContactName,_A2T(ActualAccount->Name),SIZEOF(NoNewMailPopup.lptzContactName));
 		if (MN->Real.PopupSL2NC+MN->Virtual.PopupSL2NC)
-			wsprintf(NoNewMailPopup.lptzText,TranslateT("No new mail message, %d spam(s)"),MN->Real.PopupSL2NC+MN->Virtual.PopupSL2NC);
+			mir_sntprintf(NoNewMailPopup.lptzText, SIZEOF(NoNewMailPopup.lptzText), TranslateT("No new mail message, %d spam(s)"), MN->Real.PopupSL2NC + MN->Virtual.PopupSL2NC);
 		else
 			lstrcpyn(NoNewMailPopup.lptzText,TranslateT("No new mail message"),SIZEOF(NoNewMailPopup.lptzText));
 		PUAddPopupT(&NoNewMailPopup);
@@ -807,7 +808,7 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 			if (MN->Real.PopupTC+MN->Virtual.PopupTC)
 			{
 				char tmp[255];
-				sprintf(tmp,Translate("%d new mail message(s), %d total"),MN->Real.PopupNC+MN->Virtual.PopupNC,MN->Real.PopupTC+MN->Virtual.PopupTC);
+				mir_snprintf(tmp, SIZEOF(tmp), Translate("%d new mail message(s), %d total"), MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
 				db_set_s(ActualAccount->hContact, "CList", "StatusMsg", tmp);
 			}
 			else db_set_s(ActualAccount->hContact, "CList", "StatusMsg", Translate("No new mail message"));
@@ -1475,11 +1476,16 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 			ShowWindow(GetDlgItem(hDlg, IDC_SPLITTER),(MailParam->mail->Flags & YAMN_MSG_BODYRECEIVED)?SW_SHOW:SW_HIDE);
 			ShowWindow(hEdit,(MailParam->mail->Flags & YAMN_MSG_BODYRECEIVED)?SW_SHOW:SW_HIDE);
 			WCHAR *title=0;
-			title = new WCHAR[(From?wcslen(From):0)+(Subj?wcslen(Subj):0)+4];
-			if (From&&Subj) wsprintfW(title,L"%s (%s)",Subj,From);
-			else if (From)wsprintfW(title,L"%s",From);
-			else if (Subj)wsprintfW(title,L"%s",Subj);
-			else wsprintfW(title,L"none");
+			int size = (From ? wcslen(From) : 0) + (Subj ? wcslen(Subj) : 0) + 4;
+			title = new WCHAR[size];
+			if (From&&Subj)
+				mir_sntprintf(title, size, L"%s (%s)", Subj, From);
+			else if (From)
+				mir_sntprintf(title, size, L"%s", From);
+			else if (Subj)
+				mir_sntprintf(title, size, L"%s", Subj);
+			else
+				mir_sntprintf(title, size, L"none");
 			if (Subj) delete[] Subj;
 			if (From) delete[] From;
 			SendMessageW(hDlg,WM_SETTEXT,0,(LPARAM)title);
@@ -1613,8 +1619,8 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 							if ((nReturnCmd==1) && (ListView_GetItemState(hList, courRow, LVIS_SELECTED)==0)) continue;
 							ListView_GetItemText(hList, courRow, 0, headname, SIZEOF(headname));
 							ListView_GetItemText(hList, courRow, 1, headvalue, SIZEOF(headvalue));
-							if ( _tcslen(headname)) courPos += _stprintf(&buff[courPos], _T("%s:\t%s\r\n"), headname, headvalue);
-							else courPos += _stprintf( &buff[courPos], _T("\t%s\r\n"), headvalue);
+							if ( _tcslen(headname)) courPos += mir_sntprintf(&buff[courPos], sizeNeeded + 1, _T("%s:\t%s\r\n"), headname, headvalue);
+							else courPos += mir_sntprintf(&buff[courPos], sizeNeeded + 1, _T("\t%s\r\n"), headvalue);
 						}
 						GlobalUnlock(hData);
 
@@ -2142,7 +2148,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 						{
 							TCHAR DeleteMsg[1024];
 
-							wsprintf(DeleteMsg,TranslateT("Do you really want to delete %d selected mails?"),Total);
+							mir_sntprintf(DeleteMsg, SIZEOF(DeleteMsg), TranslateT("Do you really want to delete %d selected mails?"),Total);
 							if (IDOK==MessageBox(hDlg,DeleteMsg,TranslateT("Delete confirmation"),MB_OKCANCEL | MB_ICONWARNING))
 							{
 								struct DeleteParam ParamToDeleteMails={YAMN_DELETEVERSION,ThreadRunningEV,ActualAccount,NULL};
@@ -2399,7 +2405,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 							ListView_GetItemText(hList, courRow, 1, subject, SIZEOF(subject));
 							ListView_GetItemText(hList, courRow, 2, size, SIZEOF(size));
 							ListView_GetItemText(hList, courRow, 3, date, SIZEOF(date));
-							courPos += _stprintf(&buff[courPos], _T("%s\t%s\t%s\t%s\r\n"), from, subject, size, date);
+							courPos += mir_sntprintf(&buff[courPos], sizeNeeded + 1, _T("%s\t%s\t%s\t%s\r\n"), from, subject, size, date);
 						}
 						GlobalUnlock(hData);
 

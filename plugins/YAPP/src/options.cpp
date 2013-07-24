@@ -37,7 +37,7 @@ void LoadOptions()
 
 	char buff[128];
 	for (int i = 0; i < 10; i++) {
-		sprintf(buff, "DisableStatus%d", i - 1); // -1 because i forgot offline status earlier!
+		mir_snprintf(buff, SIZEOF(buff), "DisableStatus%d", i - 1); // -1 because i forgot offline status earlier!
 		options.disable_status[i] = (db_get_b(0, MODULE, buff, 0) == 1);
 	}
 
@@ -71,7 +71,7 @@ void SaveOptions()
 
 	char buff[128];
 	for (int i = 0; i < 9; i++) {
-		sprintf(buff, "DisableStatus%d", i - 1);
+		mir_snprintf(buff, SIZEOF(buff), "DisableStatus%d", i - 1);
 		db_set_b(0, MODULE, buff, options.disable_status[i] ? 1 : 0);
 	}
 	db_set_b(0, MODULE, "DisableFullScreen", (options.disable_full_screen ? 1 : 0));

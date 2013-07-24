@@ -54,7 +54,7 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpara
 		EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT),hasPopups);
 		for (int i=ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 			char szSetting[100];
-			sprintf(szSetting, "Col_%d",i-ID_STATUS_OFFLINE);
+			mir_snprintf(szSetting, SIZEOF(szSetting), "Col_%d", i - ID_STATUS_OFFLINE);
 			DWORD sett = db_get_dw(NULL, S_MOD, szSetting, StatusColors15bits[i-ID_STATUS_OFFLINE]);
 
 			COLORREF back, text;
@@ -154,7 +154,7 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpara
 					DWORD sett = GetDWordFromColors(back, text);
 
 					char szSetting[100];
-					sprintf(szSetting, "Col_%d", i-ID_STATUS_OFFLINE);
+					mir_snprintf(szSetting, SIZEOF(szSetting), "Col_%d", i - ID_STATUS_OFFLINE);
 					if (sett != StatusColors15bits[i-ID_STATUS_OFFLINE])
 						db_set_dw(NULL, S_MOD, szSetting, sett);
 					else
@@ -286,8 +286,8 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 
 		if (LOWORD(wparam) == IDC_VARIABLES) {
 			char szout[2048];
-			wsprintfA(szout,VARIABLE_LIST);
-			MessageBoxA(hdlg,szout,Translate("Last Seen Variables"),MB_OK|MB_TOPMOST);
+			mir_snprintf(szout, SIZEOF(szout), VARIABLE_LIST);
+			MessageBoxA(hdlg, szout, Translate("Last Seen Variables"), MB_OK | MB_TOPMOST);
 		}
 		break; //case WM_COMMAND
 

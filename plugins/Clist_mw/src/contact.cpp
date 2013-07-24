@@ -102,7 +102,7 @@ void LoadContactTree(void)
 	tick = GetTickCount()-tick;
 
 	char buf[255];
-	sprintf(buf,"LoadContactTree %d \r\n",tick);
+	mir_snprintf(buf, SIZEOF(buf), "LoadContactTree %d \r\n", tick);
 	OutputDebugStringA(buf);
 }
 

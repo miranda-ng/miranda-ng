@@ -121,7 +121,7 @@ void ClearClcContactCache(struct ClcData *dat,HANDLE hContact)
 		tick = GetTickCount()-tick;
 		{
 			char buf[256];
-			sprintf	(buf,"Clear full cache %d ms\r\n",tick);
+			mir_snprintf(buf, SIZEOF(buf), "Clear full cache %d ms\r\n", tick);
 			OutputDebugStringA(buf);		
 		}
 	}

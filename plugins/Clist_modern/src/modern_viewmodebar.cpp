@@ -588,7 +588,7 @@ static void UpdateFilters()
 		{
 			item.iItem = i;
 			SendMessage(hwndList, LVM_GETITEM, 0, (LPARAM)&item);
-			_sntprintf(szMask, 256, _T("%s|"), szTemp);
+			mir_sntprintf(szMask, 256, _T("%s|"), szTemp);
 			if (dbv_gf.ptszVal && _tcsstr(dbv_gf.ptszVal, szMask))
 				ListView_SetCheckState(hwndList, i, TRUE)
 			else

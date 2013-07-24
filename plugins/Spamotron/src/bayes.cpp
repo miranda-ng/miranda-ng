@@ -18,7 +18,7 @@ int CheckBayes()
 	char* tmp = Utils_ReplaceVars("%miranda_userdata%");
 	if (tmp[strlen(tmp)-1] == '\\')
 		tmp[strlen(tmp)-1] = 0;
-	sprintf(bayesdb_tmp, "%s\\%s", tmp, BAYESDB_PATH);
+	mir_snprintf(bayesdb_tmp, SIZEOF(bayesdb_tmp), "%s\\%s", tmp, BAYESDB_PATH);
 	mir_free(tmp);
 
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
@@ -28,7 +28,7 @@ int CheckBayes()
 	if (hBayesFolder)
 		FoldersGetCustomPath(hBayesFolder, bayesdb_fullpath, MAX_PATH, bayesdb_tmp);
 	else
-		sprintf(bayesdb_fullpath, "%s", bayesdb_tmp);
+		mir_snprintf(bayesdb_fullpath, SIZEOF(bayesdb_fullpath), "%s", bayesdb_tmp);
 
 	strcat(bayesdb_fullpath, "\\"BAYESDB_FILENAME);
 	if (_access(bayesdb_fullpath,0) == 0)
@@ -83,7 +83,7 @@ int OpenBayes()
 	tmp = Utils_ReplaceVars("%miranda_userdata%");
 	if (tmp[strlen(tmp)-1] == '\\')
 		tmp[strlen(tmp)-1] = 0;
-	sprintf(bayesdb_fullpath, "%s\\%s\\%s", tmp, BAYESDB_PATH, BAYESDBG_FILENAME);
+	mir_snprintf(bayesdb_fullpath, SIZEOF(bayesdb_fullpath), "%s\\%s\\%s", tmp, BAYESDB_PATH, BAYESDBG_FILENAME);
 	mir_free(tmp);
 	bayesdb_fullpath_utf8 = mir_utf8encode(bayesdb_fullpath);
 	if (sqlite3_open(bayesdb_fullpath_utf8, &bayesdbg) == SQLITE_OK)
@@ -111,7 +111,7 @@ int get_token_count(int type)
 
 	if (bayesdb == NULL)
 		return 0;
-	sprintf(q, "SELECT COUNT(1) FROM %s", type == SPAM ? "spam" : "ham");
+	mir_snprintf(q, SIZEOF(q), "SELECT COUNT(1) FROM %s", type == SPAM ? "spam" : "ham");
 	sqlite3_prepare_v2(bayesdb, q, -1, &stmt, NULL);
 	if (sqlite3_step(stmt) == SQLITE_ROW) {
 		count = sqlite3_column_int(stmt, 0);
@@ -166,7 +166,7 @@ int get_token_score(int type, char *token)
 
 	if (bayesdb == NULL)
 		return 0;
-	sprintf(sql, "SELECT num FROM %s WHERE token=?", type == SPAM ? "spam" : "ham");
+	mir_snprintf(sql, SIZEOF(sql), "SELECT num FROM %s WHERE token=?", type == SPAM ? "spam" : "ham");
 	tokenhash(token, digest);
 	sqlite3_prepare_v2(bayesdb, sql, -1, &stmt, NULL);
 	sqlite3_bind_blob(stmt, 1, digest, 16, NULL);
@@ -324,10 +324,10 @@ void learn(int type, TCHAR *msg)
 
 	message = mir_u2a(msg);
 	tok = strtok(message, DELIMS);
-	sprintf(sql_counter, "UPDATE stats SET value=value+1 WHERE key='%s'", type == SPAM ? "spam_msgcount" : "ham_msgcount");
-	sprintf(sql_select, "SELECT 1 FROM %s WHERE token=?", type == SPAM ? "spam" : "ham");
-	sprintf(sql_update, "UPDATE %s SET num=num+1 WHERE token=?", type ? "spam" : "ham");
-	sprintf(sql_insert, "INSERT INTO %s VALUES(?, 1)", type ? "spam" : "ham");
+	mir_snprintf(sql_counter, SIZEOF(sql_counter), "UPDATE stats SET value=value+1 WHERE key='%s'", type == SPAM ? "spam_msgcount" : "ham_msgcount");
+	mir_snprintf(sql_select, SIZEOF(sql_select), "SELECT 1 FROM %s WHERE token=?", type == SPAM ? "spam" : "ham");
+	mir_snprintf(sql_update, SIZEOF(sql_update), "UPDATE %s SET num=num+1 WHERE token=?", type ? "spam" : "ham");
+	mir_snprintf(sql_insert, SIZEOF(sql_insert), "INSERT INTO %s VALUES(?, 1)", type ? "spam" : "ham");
 #ifdef _DEBUG
 	sqlite3_exec(bayesdbg, "BEGIN", NULL, NULL, NULL);
 #endif

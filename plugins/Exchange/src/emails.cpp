@@ -339,21 +339,6 @@ int CExchangeServer::Check(int bNoEmailsNotify)
 		}
 
 		ShowMessage(buffer, count);
-		/*int i;
-				TEmailHeader emailInfo = {0};
-				char sender[1024];
-				char subject[1024];
-				emailInfo.cbSize = sizeof(emailInfo);
-				emailInfo.szSender = sender;
-				emailInfo.szSubject = subject;
-				emailInfo.cSender = sizeof(sender);
-				emailInfo.cSubject = sizeof(subject);
-				for (i = 0; i < count; i++)
-					{
-						GetEmailHeader(i, &emailInfo);
-						sprintf(buffer, "Unread email #%d:\nSender :%s\nSubject :%s", i + 1, sender, subject);
-						ShowMessage(buffer);
-					}*/
 	}
 
 	if (count==-1)

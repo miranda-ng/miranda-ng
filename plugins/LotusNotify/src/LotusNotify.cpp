@@ -274,7 +274,7 @@ BOOL strrep(char *src, char *needle, char *newstring)
 	strncpy_s(tail, _countof(tail), src+pos, SIZEOF(tail));
 	begining[pos]='\0';
 
-	pos = sprintf(src, "%s%s%s", begining, newstring, tail);
+	pos = sprintf(src, "%s%s%s", begining, newstring, tail); //!!!!!!!!!!!!!!!!
 	return TRUE;
 }
 
@@ -722,7 +722,7 @@ void checkthread(void*)
 						  &retModified,		/* out:     */
 						  &retNoteClass) ;
 		ZeroMemory(strLink, SIZEOF(strLink));
-		sprintf_s(strLink, SIZEOF(strLink), "%.8lX%.8lX%.8lX%.8lX",
+		mir_snprintf(strLink, SIZEOF(strLink), "%.8lX%.8lX%.8lX%.8lX",
 						retNoteOID.File.Innards[1],
 						retNoteOID.File.Innards[0],
 						retNoteOID.Note.Innards[1],
@@ -795,10 +795,10 @@ void checkthread(void*)
 
 		if(attSize){
 			WCHAR field_attachments_UNICODE[MAX_FIELD];
-			swprintf_s(field_attachments_UNICODE, SIZEOF(field_attachments_UNICODE), TranslateW(L"Attachments: %d bytes"), attSize);
-			swprintf_s(msgSubject, SIZEOF(msgSubject), L"%S\n%s\n%s", field_date, field_subject_UNICODE, field_attachments_UNICODE );
+			mir_sntprintf(field_attachments_UNICODE, SIZEOF(field_attachments_UNICODE), TranslateW(L"Attachments: %d bytes"), attSize);
+			mir_sntprintf(msgSubject, SIZEOF(msgSubject), L"%S\n%s\n%s", field_date, field_subject_UNICODE, field_attachments_UNICODE );
 		} else {
-			swprintf_s(msgSubject, SIZEOF(msgSubject), L"%S\n%s", field_date, field_subject_UNICODE );
+			mir_sntprintf(msgSubject, SIZEOF(msgSubject), L"%S\n%s", field_date, field_subject_UNICODE );
 		}
 
 		//check if this is not filtered msg
@@ -1021,7 +1021,7 @@ void LoadSettings()
 	settingIniCheck = db_get_b(NULL, PLUGINNAME, "LNIniCheck", 0);
 
 	for(i = 0; i < STATUS_COUNT; i++) {
-		sprintf_s(buff,_countof(buff), "LNStatus%d", i);
+		mir_snprintf(buff, SIZEOF(buff), "LNStatus%d", i);
 		settingStatus[i] = (db_get_b(0, PLUGINNAME, buff, 0) == 1);
 	}
 	//lookupLotusDefaultSettings();
@@ -1290,7 +1290,7 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 								db_set_b(NULL, PLUGINNAME, "LNIniAnswer", settingIniAnswer);
 
 								for(i = 0; i < STATUS_COUNT ; i++){
-									sprintf_s(buff,_countof(buff), "LNStatus%d", i);
+									mir_snprintf(buff, SIZEOF(buff), "LNStatus%d", i);
 									settingStatus[i] = (ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_STATUS), i) ? TRUE : FALSE);
 									db_set_b(0, PLUGINNAME, buff, settingStatus[i] ? 1 : 0);
 								}
@@ -1644,15 +1644,15 @@ extern "C" int __declspec(dllexport) Load(void)
 	}
 
 	char service[100] = {""};
-	_snprintf_s(service,_countof(service), sizeof(service), "%s%s", PLUGINNAME, PS_GETCAPS);
+	mir_snprintf(service, SIZEOF(service), "%s%s", PLUGINNAME, PS_GETCAPS);
 	CreateServiceFunction(service, GetCaps);
-	_snprintf_s(service,_countof(service), sizeof(service), "%s%s", PLUGINNAME, PS_GETNAME);
+	mir_snprintf(service, SIZEOF(service), "%s%s", PLUGINNAME, PS_GETNAME);
 	CreateServiceFunction(service, GetName);
-	_snprintf_s(service,_countof(service), sizeof(service), "%s%s", PLUGINNAME, PS_LOADICON);
+	mir_snprintf(service, SIZEOF(service), "%s%s", PLUGINNAME, PS_LOADICON);
 	CreateServiceFunction(service, TMLoadIcon);
-	_snprintf_s(service,_countof(service), sizeof(service), "%s%s", PLUGINNAME, PS_SETSTATUS);
+	mir_snprintf(service, SIZEOF(service), "%s%s", PLUGINNAME, PS_SETSTATUS);
 	CreateServiceFunction(service, SetStatus);
-	_snprintf_s(service,_countof(service), sizeof(service), "%s%s", PLUGINNAME, PS_GETSTATUS);
+	mir_snprintf(service, SIZEOF(service), "%s%s", PLUGINNAME, PS_GETSTATUS);
 	CreateServiceFunction(service, GetStatus);
 
 	LoadSettings(); //read from db to variables

@@ -271,7 +271,7 @@ LBL_NotPE:
 	mir_md5_finish(&pms, digest);
 
 	for (int i=0; i < sizeof(digest); i++)
-		sprintf(szDest + i*2, "%02x", digest[i]);
+		sprintf(szDest + i*2, "%02x", digest[i]); //!!!!!!!!!!!
 
 	return RESULT_OK;
 }

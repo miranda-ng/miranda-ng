@@ -1,6 +1,6 @@
 /*
 	BASS 2.4 C/C++ header file
-	Copyright (c) 1999-2012 Un4seen Developments Ltd.
+	Copyright (c) 1999-2013 Un4seen Developments Ltd.
 
 	See the BASS.CHM file for more detailed documentation
 */
@@ -82,7 +82,7 @@ typedef DWORD HPLUGIN;		// Plugin handle
 #define BASS_ERROR_CREATE	33	// couldn't create the file
 #define BASS_ERROR_NOFX		34	// effects are not available
 #define BASS_ERROR_NOTAVAIL	37	// requested data is not available
-#define BASS_ERROR_DECODE	38	// the channel is a "decoding channel"
+#define BASS_ERROR_DECODE	38	// the channel is/isn't a "decoding channel"
 #define BASS_ERROR_DX		39	// a sufficient DirectX version is not installed
 #define BASS_ERROR_TIMEOUT	40	// connection timedout
 #define BASS_ERROR_FILEFORM	41	// unsupported file format
@@ -124,10 +124,13 @@ typedef DWORD HPLUGIN;		// Plugin handle
 #define BASS_CONFIG_UNICODE			42
 #define BASS_CONFIG_SRC				43
 #define BASS_CONFIG_SRC_SAMPLE		44
+#define BASS_CONFIG_ASYNCFILE_BUFFER 45
+#define BASS_CONFIG_OGG_PRESCAN		47
 
 // BASS_SetConfigPtr options
 #define BASS_CONFIG_NET_AGENT		16
 #define BASS_CONFIG_NET_PROXY		17
+#define BASS_CONFIG_IOS_NOTIFY		46
 
 // BASS_Init flags
 #define BASS_DEVICE_8BITS		1		// 8 bit resolution, else 16 bit
@@ -197,8 +200,8 @@ typedef struct {
 } BASS_RECORDINFO;
 
 // BASS_RECORDINFO flags (from DSOUND.H)
-#define DSCCAPS_EMULDRIVER	DSCAPS_EMULDRIVER	// device does NOT have hardware DirectSound recording support
-#define DSCCAPS_CERTIFIED	DSCAPS_CERTIFIED	// device driver has been certified by Microsoft
+#define DSCCAPS_EMULDRIVER		DSCAPS_EMULDRIVER	// device does NOT have hardware DirectSound recording support
+#define DSCCAPS_CERTIFIED		DSCAPS_CERTIFIED	// device driver has been certified by Microsoft
 
 // defines for formats field of BASS_RECORDINFO (from MMSYSTEM.H)
 #ifndef WAVE_FORMAT_1M08
@@ -297,6 +300,7 @@ typedef struct {
 #define BASS_SPEAKER_REAR2LEFT	BASS_SPEAKER_REAR2|BASS_SPEAKER_LEFT
 #define BASS_SPEAKER_REAR2RIGHT	BASS_SPEAKER_REAR2|BASS_SPEAKER_RIGHT
 
+#define BASS_ASYNCFILE			0x40000000
 #define BASS_UNICODE			0x80000000
 
 #define BASS_RECORD_PAUSE		0x8000	// start recording paused
@@ -574,6 +578,7 @@ RETURN : TRUE = continue recording, FALSE = stop */
 #define BASS_DATA_FFT_INDIVIDUAL 0x10	// FFT flag: FFT for each channel, else all combined
 #define BASS_DATA_FFT_NOWINDOW	0x20	// FFT flag: no Hanning window
 #define BASS_DATA_FFT_REMOVEDC	0x40	// FFT flag: pre-remove DC bias
+#define BASS_DATA_FFT_COMPLEX	0x80	// FFT flag: return complex data
 
 // BASS_ChannelGetTags types : what's returned
 #define BASS_TAG_ID3		0	// ID3v1 tags : TAG_ID3 structure
@@ -711,6 +716,7 @@ typedef const WAVEFORMATEX *LPCWAVEFORMATEX;
 // BASS_ChannelGetLength/GetPosition/SetPosition modes
 #define BASS_POS_BYTE			0		// byte position
 #define BASS_POS_MUSIC_ORDER	1		// order.row position, MAKELONG(order,row)
+#define BASS_POS_OGG			3		// OGG bitstream number
 #define BASS_POS_DECODE			0x10000000 // flag: get the decoding (not playing) position
 #define BASS_POS_DECODETO		0x20000000 // flag: decode to the position instead of seeking
 
@@ -829,6 +835,13 @@ typedef struct {
 #define BASS_DX8_PHASE_90             3
 #define BASS_DX8_PHASE_180            4
 
+typedef void (CALLBACK IOSNOTIFYPROC)(DWORD status);
+/* iOS notification callback function.
+status : The notification (BASS_IOSNOTIFY_xxx) */
+
+#define BASS_IOSNOTIFY_INTERRUPT		1	// interruption started
+#define BASS_IOSNOTIFY_INTERRUPT_END	2	// interruption ended
+
 BOOL BASSDEF(BASS_SetConfig)(DWORD option, DWORD value);
 DWORD BASSDEF(BASS_GetConfig)(DWORD option);
 BOOL BASSDEF(BASS_SetConfigPtr)(DWORD option, const void *value);
@@ -945,6 +958,33 @@ BOOL BASSDEF(BASS_FXReset)(HFX handle);
 
 #ifdef __cplusplus
 }
+
+#ifdef _WIN32
+static inline HPLUGIN BASS_PluginLoad(const WCHAR *file, DWORD flags)
+{
+	return BASS_PluginLoad((const char*)file, flags|BASS_UNICODE);
+}
+
+static inline HMUSIC BASS_MusicLoad(BOOL mem, const WCHAR *file, QWORD offset, DWORD length, DWORD flags, DWORD freq)
+{
+	return BASS_MusicLoad(mem, (const void*)file, offset, length, flags|BASS_UNICODE, freq);
+}
+
+static inline HSAMPLE BASS_SampleLoad(BOOL mem, const WCHAR *file, QWORD offset, DWORD length, DWORD max, DWORD flags)
+{
+	return BASS_SampleLoad(mem, (const void*)file, offset, length, max, flags|BASS_UNICODE);
+}
+
+static inline HSTREAM BASS_StreamCreateFile(BOOL mem, const WCHAR *file, QWORD offset, QWORD length, DWORD flags)
+{
+	return BASS_StreamCreateFile(mem, (const void*)file, offset, length, flags|BASS_UNICODE);
+}
+
+static inline HSTREAM BASS_StreamCreateURL(const WCHAR *url, DWORD offset, DWORD flags, DOWNLOADPROC *proc, void *user)
+{
+	return BASS_StreamCreateURL((const char*)url, offset, flags|BASS_UNICODE, proc, user);
+}
+#endif
 #endif
 
 #endif

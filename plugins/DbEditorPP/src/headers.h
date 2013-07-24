@@ -187,7 +187,6 @@ int GetValue(HANDLE hContact, const char* szModule, const char* szSetting, char*
 int GetValueW(HANDLE hContact, const char* szModule, const char* szSetting, WCHAR* Value, int length);
 char* u2a( wchar_t* src );
 wchar_t *a2u( char* src , wchar_t *buffer, int len );
-int mir_snwprintf(WCHAR *buffer, size_t count, const WCHAR* fmt, ...);
 WCHAR *GetContactName(HANDLE hContact, const char *szProto, int unicode);
 BOOL IsProtocolLoaded(char* pszProtocolName);
 

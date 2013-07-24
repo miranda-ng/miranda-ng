@@ -272,7 +272,7 @@ HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO * ui)
 		{
 			INT_PTR id = si->iStatusCount - (INT_PTR)ti->hIcon - 1;
 			char name[128];
-			sprintf(name, "chat_status%d", id);
+			mir_snprintf(name, SIZEOF(name), "chat_status%d", id);
 			return GetCachedIcon(name);
 		}
 		else

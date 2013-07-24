@@ -491,20 +491,6 @@ wchar_t *a2u( char* src , wchar_t *buffer, int len )
 	return result;
 }
 
-int mir_snwprintf(WCHAR *buffer, size_t count, const WCHAR* fmt, ...)
-{
-	va_list va;
-	int len;
-
-	va_start(va, fmt);
-	len = _vsnwprintf(buffer, count-1, fmt, va);
-	va_end(va);
-
-	buffer[count-1] = 0;
-
-	return len;
-}
-
 int GetDatabaseString(HANDLE hContact, const char *szModule, const char* szSetting, WCHAR *Value, int length, BOOL unicode)
 {
 	if (unicode)

@@ -802,11 +802,12 @@ INT_PTR __cdecl onSendFile(WPARAM wParam, LPARAM lParam)
 			if (!name ) name = file[i];
 			else name++;
 
-			char *file_out = (char*) mir_alloc(TEMP_SIZE+strlen(name)+20);
-			sprintf(file_out,"%s\\%s.AESHELL(%d)",TEMP,name,file_idx++);
+			int size = TEMP_SIZE + strlen(name) + 20;
+			char *file_out = (char *)mir_alloc(size);
+			mir_snprintf(file_out, size, "%s\\%s.AESHELL(%d)", TEMP, name, file_idx++);
 
 			char buf[MAX_PATH];
-			sprintf(buf,"%s\n%s",Translate(sim011),file[i]);
+			mir_snprintf(buf, SIZEOF(buf), "%s\n%s", Translate(sim011), file[i]);
 			showPopup(buf,NULL,g_hPOP[POP_PU_MSS],2);
 
 			if (ptr->mode == MODE_RSAAES)
@@ -896,12 +897,12 @@ int __cdecl onProtoAck(WPARAM wParam,LPARAM lParam)
 							pos=p;
 						}
 						for (int i=1;i<10000;i++) {
-							sprintf(pos," (%d)%s",i,buf);
+							sprintf(pos," (%d)%s",i,buf); //!!!!!!!!!!!!!
 							if (!isFileExist(file_out)) break;
 						}
 					}
 
-					sprintf(buf,"%s\n%s",Translate(sim012),file_out);
+					mir_snprintf(buf, SIZEOF(buf), "%s\n%s", Translate(sim012), file_out);
 					showPopup(buf,NULL,g_hPOP[POP_PU_MSR],2);
 
 					if (ptr->mode == MODE_RSAAES )

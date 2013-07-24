@@ -413,7 +413,7 @@ void RebuildEntireList(HWND hwnd,struct ClcData *dat)
 	{
 	char buf[255];
 	//sprintf(buf,"%s %s took %i ms",__FILE__,__LINE__,tick);
-	sprintf(buf,"RebuildEntireList %d \r\n",tick);
+	mir_snprintf(buf, SIZEOF(buf), "RebuildEntireList %d \r\n", tick);
 
 	OutputDebugStringA(buf);
 	db_set_dw((HANDLE)0,"CLUI","PF:Last RebuildEntireList Time:",tick);
@@ -503,7 +503,7 @@ void SortCLC(HWND hwnd,struct ClcData *dat,int useInsertionSort)
 		//sprintf(buf,"%s %s took %i ms",__FILE__,__LINE__,tick);
 		tick = GetTickCount()-tick;
 		if (tick > 5) {
-			sprintf(buf,"SortCLC %d \r\n",tick);
+			mir_snprintf(buf, SIZEOF(buf), "SortCLC %d \r\n", tick);
 			OutputDebugStringA(buf);
 			db_set_dw((HANDLE)0,"CLUI","PF:Last SortCLC Time:",tick);
 		}
@@ -674,7 +674,7 @@ void SaveStateAndRebuildList(HWND hwnd,struct ClcData *dat)
 	{
 	char buf[255];
 	//sprintf(buf,"%s %s took %i ms",__FILE__,__LINE__,tick);
-	sprintf(buf,"SaveStateAndRebuildList %d \r\n",tick);
+	mir_snprintf(buf, SIZEOF(buf), "SaveStateAndRebuildList %d \r\n", tick);
 
 	OutputDebugStringA(buf);
 	}	
