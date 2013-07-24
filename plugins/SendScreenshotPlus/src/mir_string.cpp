@@ -103,34 +103,6 @@ char	*mir_strnerase(char *pszDest, size_t sizeFrom, size_t sizeTo) {
 	return pszDest;
 }
 
-size_t	mir_vsnwprintf(wchar_t *pszDest, const size_t cchDest, const wchar_t *pszFormat, va_list& argList)
-{
-	size_t iRet, cchMax;
-
-	if (!pszDest || !pszFormat || !*pszFormat)
-		return -1;
-
-	cchMax = cchDest - 1;
-	iRet = _vsnwprintf(pszDest, cchMax, pszFormat, argList);
-	if (iRet < 0) pszDest[0] = 0;
-	else if (iRet >= cchMax) {
-		pszDest[cchMax] = 0;
-		iRet = cchMax;
-	}
-	return iRet;
-}
-
-size_t	mir_snwprintf(wchar_t *pszDest, const size_t cchDest, const wchar_t *pszFormat, ...)
-{
-	size_t iRet;
-	va_list argList;
-
-	va_start(argList, pszFormat);
-	iRet = mir_vsnwprintf(pszDest, cchDest, pszFormat, argList);
-		va_end(argList);
-	return iRet;
-}
-
 //---------------------------------------------------------------------------
 void	mir_stradd(char*	&pszDest, const char	*pszSrc)
 {

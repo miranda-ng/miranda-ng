@@ -588,9 +588,9 @@ MIR_CORE_DLL(int)    PathToRelativeW(const WCHAR *pSrc, WCHAR *pOut);
 // print functions
 
 MIR_CORE_DLL(int)    mir_snprintf(char *buffer, size_t count, const char* fmt, ...);
-MIR_CORE_DLL(int)    mir_sntprintf(TCHAR *buffer, size_t count, const TCHAR* fmt, ...);
+MIR_CORE_DLL(int)    mir_snwprintf(WCHAR *buffer, size_t count, const WCHAR* fmt, ...);
 MIR_CORE_DLL(int)    mir_vsnprintf(char *buffer, size_t count, const char* fmt, va_list va);
-MIR_CORE_DLL(int)    mir_vsntprintf(TCHAR *buffer, size_t count, const TCHAR* fmt, va_list va);
+MIR_CORE_DLL(int)    mir_vsnwprintf(WCHAR *buffer, size_t count, const WCHAR* fmt, va_list va);
 
 ///////////////////////////////////////////////////////////////////////////////
 // protocol functions
@@ -733,6 +733,9 @@ __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 
 	#define wildcmpt wildcmpw
 	#define wildcmpit wildcmpiw
+
+	#define mir_sntprintf mir_snwprintf
+	#define mir_vsntprintf mir_vsnwprintf
 #else
 	#define mir_t2a(s) mir_strdup(s)
 	#define mir_a2t(s) mir_strdup(s)
@@ -754,6 +757,9 @@ __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 
 	#define wildcmpt wildcmp
 	#define wildcmpit wildcmpi
+
+	#define mir_sntprintf mir_snprintf
+	#define mir_vsntprintf mir_vsnprintf
 #endif
 
 MIR_CORE_DLL(WCHAR*) mir_a2u_cp(const char* src, int codepage);

@@ -99,13 +99,13 @@ mir_strndup                    @96
 mir_u2a                        @97
 mir_u2a_cp                     @98
 mir_vsnprintf                  @99
-mir_vsntprintf                @100
+mir_vsnwprintf                @100
 mir_wstrdup                   @101
 rtrim                         @102
 wildcmp                       @103
 rtrimw                        @104
 mir_snprintf                  @105
-mir_sntprintf                 @106
+mir_snwprintf                 @106
 db_unset                      @107
 db_free                       @108
 db_get                        @109

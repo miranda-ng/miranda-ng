@@ -514,12 +514,12 @@ function PathToRelativeW(const pSrc:pWideChar; pOut:pWideChar):int; stdcall;
 
 function mir_snprintf(buffer:pAnsiChar;count:size_t;fmt:pAnsiChar{, ...}):int; stdcall;
                  external CoreDLL name 'mir_snprintf';
-function mir_sntprintf(buffer:pWideChar;count:size_t;fmt:pWideChar{, ...}):int; stdcall;
-                 external CoreDLL name 'mir_sntprintf';
+function mir_snwprintf(buffer:pWideChar;count:size_t;fmt:pWideChar{, ...}):int; stdcall;
+                 external CoreDLL name 'mir_snwprintf';
 function mir_vsnprintf(buffer:pAnsiChar;count:size_t;fmt:pAnsiChar;va:va_list):int; stdcall;
                  external CoreDLL name 'mir_vsnprintf';
-function mir_vsntprintf(buffer:pWideChar;count:size_t;fmt:pWideChar;va:va_list):int; stdcall;
-                 external CoreDLL name 'mir_vsntprintf';
+function mir_vsnwprintf(buffer:pWideChar;count:size_t;fmt:pWideChar;va:va_list):int; stdcall;
+                 external CoreDLL name 'mir_vsnwprintf';
 
 
 ///////////////////////////////////////////////////////////////////////////////

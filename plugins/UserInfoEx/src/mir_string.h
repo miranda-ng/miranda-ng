@@ -68,9 +68,6 @@ wchar_t *	mir_wcsncat(wchar_t *pszDest, const wchar_t *pszSrc, const size_t cchD
 char *		mir_strncat_c(char *pszDest, const char cSrc);
 char *		mir_wcsncat_c(char *pszDest, const char cSrc);
 
-size_t		mir_vsnwprintf(wchar_t *pszDest, const size_t cchDest, const wchar_t *pszFormat, va_list& argList);
-size_t		mir_snwprintf (wchar_t *pszDest, const size_t cchDest, const wchar_t *pszFormat, ...);
-
 char *		mir_strnerase(char *pszDest, size_t sizeFrom, size_t sizeTo);
 
 int			mir_IsEmptyA(char *str);
