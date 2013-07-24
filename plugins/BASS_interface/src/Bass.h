@@ -960,27 +960,27 @@ BOOL BASSDEF(BASS_FXReset)(HFX handle);
 }
 
 #ifdef _WIN32
-static inline HPLUGIN BASS_PluginLoad(const WCHAR *file, DWORD flags)
+static __forceinline HPLUGIN BASS_PluginLoadW(const WCHAR *file, DWORD flags)
 {
 	return BASS_PluginLoad((const char*)file, flags|BASS_UNICODE);
 }
 
-static inline HMUSIC BASS_MusicLoad(BOOL mem, const WCHAR *file, QWORD offset, DWORD length, DWORD flags, DWORD freq)
+static __forceinline HMUSIC BASS_MusicLoadW(BOOL mem, const WCHAR *file, QWORD offset, DWORD length, DWORD flags, DWORD freq)
 {
 	return BASS_MusicLoad(mem, (const void*)file, offset, length, flags|BASS_UNICODE, freq);
 }
 
-static inline HSAMPLE BASS_SampleLoad(BOOL mem, const WCHAR *file, QWORD offset, DWORD length, DWORD max, DWORD flags)
+static __forceinline HSAMPLE BASS_SampleLoadW(BOOL mem, const WCHAR *file, QWORD offset, DWORD length, DWORD max, DWORD flags)
 {
 	return BASS_SampleLoad(mem, (const void*)file, offset, length, max, flags|BASS_UNICODE);
 }
 
-static inline HSTREAM BASS_StreamCreateFile(BOOL mem, const WCHAR *file, QWORD offset, QWORD length, DWORD flags)
+static __forceinline HSTREAM BASS_StreamCreateFileW(BOOL mem, const WCHAR *file, QWORD offset, QWORD length, DWORD flags)
 {
 	return BASS_StreamCreateFile(mem, (const void*)file, offset, length, flags|BASS_UNICODE);
 }
 
-static inline HSTREAM BASS_StreamCreateURL(const WCHAR *url, DWORD offset, DWORD flags, DOWNLOADPROC *proc, void *user)
+static __forceinline HSTREAM BASS_StreamCreateURLW(const WCHAR *url, DWORD offset, DWORD flags, DOWNLOADPROC *proc, void *user)
 {
 	return BASS_StreamCreateURL((const char*)url, offset, flags|BASS_UNICODE, proc, user);
 }
