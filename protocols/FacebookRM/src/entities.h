@@ -31,7 +31,7 @@ struct facebook_user
 
 	unsigned int status_id;
 	unsigned int gender;
-	DWORD last_active;
+	unsigned int last_active;
 
 	std::string image_url;
 
