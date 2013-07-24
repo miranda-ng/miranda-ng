@@ -53,7 +53,7 @@ std::string utils::time::mili_timestamp()
 	return timestamp;
 }
 
-DWORD utils::time::fix_timestamp(double mili_timestamp)
+DWORD utils::time::fix_timestamp(unsigned __int64 mili_timestamp)
 {
 	// If it is really mili_timestamp
 	if (mili_timestamp > 100000000000) {
@@ -71,7 +71,7 @@ DWORD utils::conversion::to_timestamp(std::string data)
 	return timestamp;
 }
 
-struct tm *utils::conversion::fbtime_to_timeinfo(double timestamp) {
+struct tm *utils::conversion::fbtime_to_timeinfo(unsigned __int64 timestamp) {
 	time_t time = utils::time::fix_timestamp(timestamp);
 	return localtime(&time);
 }

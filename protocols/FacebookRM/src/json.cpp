@@ -32,12 +32,16 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 		return EXIT_FAILURE;
 
 	JSONNODE *payload = json_get(root, "payload");
-	if (payload == NULL)
+	if (payload == NULL) {
+		json_delete(root);
 		return EXIT_FAILURE;
+	}
 
 	JSONNODE *list = json_get(payload, "buddy_list");
-	if (list == NULL)
+	if (list == NULL) {
+		json_delete(root);
 		return EXIT_FAILURE;
+	}
 
 	// Set all contacts in map to offline
 	for (List::Item< facebook_user >* i = buddy_list->begin(); i != NULL; i = i->next) {
@@ -64,10 +68,10 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 	
 	// Find mobile friends
 	JSONNODE *mobileFriends = json_get(list, "mobile_friends");
-	if (mobileFriends != NULL) {		
+	if (mobileFriends != NULL) {
 		for (unsigned int i = 0; i < json_size(mobileFriends); i++) {
 			JSONNODE *it = json_at(mobileFriends, i);
-			char *id = json_name(it);
+			char *id = json_as_string(it);
 			
 			current = buddy_list->find(id);
 			if (current == NULL) {
@@ -125,7 +129,6 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 	}
 
 	json_delete(root);
-
 	return EXIT_SUCCESS;
 }
 
@@ -138,8 +141,10 @@ int facebook_json_parser::parse_friends(void* data, std::map< std::string, faceb
 		return EXIT_FAILURE;
 
 	JSONNODE *payload = json_get(root, "payload");
-	if (payload == NULL)
+	if (payload == NULL) {
+		json_delete(root);
 		return EXIT_FAILURE;
+	}
 
 	for (unsigned int i = 0; i < json_size(payload); i++) {
 		JSONNODE *it = json_at(payload, i);
@@ -174,6 +179,7 @@ int facebook_json_parser::parse_friends(void* data, std::map< std::string, faceb
 		friends->insert(std::make_pair(id, fbu));
 	}
 
+	json_delete(root);
 	return EXIT_SUCCESS;
 }
 
@@ -187,12 +193,16 @@ int facebook_json_parser::parse_notifications(void *data, std::vector< facebook_
 		return EXIT_FAILURE;
 
 	JSONNODE *payload = json_get(root, "payload");
-	if (payload == NULL)
+	if (payload == NULL) {
+		json_delete(root);
 		return EXIT_FAILURE;
+	}
 
 	JSONNODE *list = json_get(payload, "notifications");
-	if (list == NULL)
+	if (list == NULL) {
+		json_delete(root);
 		return EXIT_FAILURE;
+	}
 
 	for (unsigned int i = 0; i < json_size(list); i++) {
 		JSONNODE *it = json_at(list, i);
@@ -217,6 +227,7 @@ int facebook_json_parser::parse_notifications(void *data, std::vector< facebook_
 		notifications->push_back(notification);
 	}
 
+	json_delete(root);
 	return EXIT_SUCCESS;
 }
 
@@ -238,14 +249,16 @@ bool ignore_duplicits(FacebookProto *proto, std::string mid, std::string text) {
 int facebook_json_parser::parse_messages(void* data, std::vector< facebook_message* >* messages, std::vector< facebook_notification* >* notifications)
 {
 	std::string jsonData = static_cast< std::string* >(data)->substr(9);
-		
+
 	JSONNODE *root = json_parse(jsonData.c_str());
 	if (root == NULL)
 		return EXIT_FAILURE;
 
 	JSONNODE *ms = json_get(root, "ms");
-	if (ms == NULL)
+	if (ms == NULL) {
+		json_delete(root);
 		return EXIT_FAILURE;
+	}
 
 	for (unsigned int i = 0; i < json_size(ms); i++) {
 		JSONNODE *it = json_at(ms, i);
@@ -311,7 +324,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				dbei.szModule = proto->m_szModuleName;
 
 				bool local_time = proto->getByte(FACEBOOK_KEY_LOCAL_TIMESTAMP, 0) != 0;
-				dbei.timestamp = local_time || time == NULL ? ::time(NULL) : utils::time::fix_timestamp(json_as_int(time));
+				dbei.timestamp = local_time || time == NULL ? ::time(NULL) : utils::time::fix_timestamp(json_as_float(time));
 
 				dbei.cbBlob = (DWORD)message_text.length() + 1;
 				dbei.pBlob = (PBYTE)message_text.c_str();
@@ -322,7 +335,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				// Incomming message
   				facebook_message* message = new facebook_message();
 				message->message_text = message_text;
-				message->time = utils::time::fix_timestamp(json_as_int(time));
+				message->time = utils::time::fix_timestamp(json_as_float(time));
 				message->user_id = from_id;
 				message->message_id = message_id;
 
@@ -350,7 +363,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				HANDLE hContact = proto->ContactIDToHContact(json_as_string(reader));
 				if (hContact) {
 					TCHAR ttime[64], tstr[100];
-					_tcsftime(ttime, SIZEOF(ttime), _T("%X"), utils::conversion::fbtime_to_timeinfo(json_as_int(time)));
+					_tcsftime(ttime, SIZEOF(ttime), _T("%X"), utils::conversion::fbtime_to_timeinfo(json_as_float(time)));
 					mir_sntprintf(tstr, SIZEOF(tstr), TranslateT("Message read: %s"), ttime);
 
 					CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)tstr);
@@ -389,7 +402,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				facebook_message* message = new facebook_message();
 				message->message_text = message_text;
 				message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(id));
-				message->time = utils::time::fix_timestamp(json_as_int(timestamp));
+				message->time = utils::time::fix_timestamp(json_as_float(timestamp));
 				message->user_id = id; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
 				message->message_id = message_id;
 
@@ -466,7 +479,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				if (time == NULL || text == NULL || url == NULL || alert_id == NULL)
 					continue;
 
-				unsigned long timestamp = json_as_int(time);
+				unsigned __int64 timestamp = json_as_float(time);
 				if (timestamp > proto->facy.last_notification_time_) {
 					// Only new notifications
 					proto->facy.last_notification_time_ = timestamp;
@@ -520,17 +533,20 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				bool isVisible = (visibility != NULL) && json_as_bool(visibility);
 				proto->Log("      Requested chat switch to %s", isVisible ? "Online" : "Offline");
 				proto->SetStatus(isVisible ? ID_STATUS_ONLINE : ID_STATUS_INVISIBLE);
-			}				
+			}
 		}
 		else
 			continue;
 	}
 
-	// remove received messages from map
-	for (std::map<std::string, bool>::iterator it = proto->facy.messages_ignore.begin(); it != proto->facy.messages_ignore.end(); ++it) {
+	// remove received messages from map		
+	for (std::map<std::string, bool>::iterator it = proto->facy.messages_ignore.begin(); it != proto->facy.messages_ignore.end(); ) {
 		if (it->second)
-			proto->facy.messages_ignore.erase(it);
+			it = proto->facy.messages_ignore.erase(it);
+		else
+			++it;
 	}
 
+	json_delete(root);
 	return EXIT_SUCCESS;
 }
