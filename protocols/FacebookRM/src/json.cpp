@@ -21,197 +21,157 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "common.h"
-#include "JSON_CAJUN/reader.h"
-#include "JSON_CAJUN/writer.h"
-#include "JSON_CAJUN/elements.h"
 
 int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user >* buddy_list)
 {
-	using namespace json;
+	facebook_user* current = NULL;
+	std::string jsonData = static_cast< std::string* >(data)->substr(9);
 
-	try
-	{
-		facebook_user* current = NULL;
-		std::string buddyData = static_cast< std::string* >(data)->substr(9);
-		std::istringstream sDocument(buddyData);
-		Object objDocument;
-		Reader::Read(objDocument, sDocument);
+	JSONNODE *root = json_parse(jsonData.c_str());
+	if (root == NULL)
+		return EXIT_FAILURE;
 
-		const Object& objRoot = objDocument;
-/*		const Array& wasAvailableIDs = objRoot["payload"]["buddy_list"]["wasAvailableIDs"];
+	JSONNODE *payload = json_get(root, "payload");
+	if (payload == NULL)
+		return EXIT_FAILURE;
 
-		for (Array::const_iterator itWasAvailable(wasAvailableIDs.Begin());
-			itWasAvailable != wasAvailableIDs.End(); ++itWasAvailable)
-		{
-			const Number& member = *itWasAvailable;
-			char was_id[32];
-			lltoa(member.Value(), was_id, 10);
+	JSONNODE *list = json_get(payload, "buddy_list");
+	if (list == NULL)
+		return EXIT_FAILURE;
 
-			current = buddy_list->find(std::string(was_id));
-			if (current != NULL)
-				current->status_id = ID_STATUS_OFFLINE;
-		}*/ // Facebook removed support for "wasAvailableIDs"
-
-		// Set all contacts in map to offline
-		for (List::Item< facebook_user >* i = buddy_list->begin(); i != NULL; i = i->next) {
-			i->data->status_id = ID_STATUS_OFFLINE;
-		}
-
-		// Load last active times
-		const Object& lastActive = objRoot["payload"]["buddy_list"]["last_active_times"];
-		for (Object::const_iterator itLastActive(lastActive.Begin()); itLastActive != lastActive.End(); ++itLastActive)
-		{
-			const Object::Member& member = *itLastActive;
-
-			current = buddy_list->find(member.name);
+	// Set all contacts in map to offline
+	for (List::Item< facebook_user >* i = buddy_list->begin(); i != NULL; i = i->next) {
+		i->data->status_id = ID_STATUS_OFFLINE;
+	}
+	
+	// Load last active times
+	JSONNODE *lastActive = json_get(list, "last_active_times");
+	if (lastActive != NULL) {
+		for (unsigned int i = 0; i < json_size(lastActive); i++) {
+			JSONNODE *it = json_at(lastActive, i);
+			char *id = json_name(it);
+			
+			current = buddy_list->find(id);
 			if (current == NULL) {
-				buddy_list->insert(std::make_pair(member.name, new facebook_user()));
-				current = buddy_list->find(member.name);
-				current->user_id = member.name;
-			}
-
-			const Number& timestamp = member.element;
-			current->last_active = timestamp.Value();
-		}
-		
-		// Find mobile friends
-		const Array& mobileFriends = objRoot["payload"]["buddy_list"]["mobile_friends"];
-		for (Array::const_iterator buddy(mobileFriends.Begin()); buddy != mobileFriends.End(); ++buddy) {
-			const Number& member = *buddy;
-			char was_id[32];
-			lltoa(member.Value(), was_id, 10);
-
-			std::string id = was_id;
-			if (!id.empty()) {
+				buddy_list->insert(std::make_pair(id, new facebook_user()));
 				current = buddy_list->find(id);
-									
-				if (current == NULL) {
-					buddy_list->insert(std::make_pair(id, new facebook_user()));
-					current = buddy_list->find(id);
-					current->user_id = id;
-				}
-
-				current->status_id = ID_STATUS_ONTHEPHONE;
+				current->user_id = id;
 			}
+
+			current->last_active = json_as_int(it);
 		}
-
-		// Find now awailable contacts
-		const Object& nowAvailableList = objRoot["payload"]["buddy_list"]["nowAvailableList"];
-		for (Object::const_iterator itAvailable(nowAvailableList.Begin());
-			itAvailable != nowAvailableList.End(); ++itAvailable)
-		{
-			const Object::Member& member = *itAvailable;
-			const Object& objMember = member.element;
-			const Boolean idle = objMember["i"]; // In new version of Facebook "i" means "offline"
-
-			current = buddy_list->find(member.name);
+	}
+	
+	// Find mobile friends
+	JSONNODE *mobileFriends = json_get(list, "mobile_friends");
+	if (mobileFriends != NULL) {		
+		for (unsigned int i = 0; i < json_size(mobileFriends); i++) {
+			JSONNODE *it = json_at(mobileFriends, i);
+			char *id = json_name(it);
+			
+			current = buddy_list->find(id);
 			if (current == NULL) {
-				if (idle) continue; // Just little optimalization
-
-				buddy_list->insert(std::make_pair(member.name, new facebook_user()));
-				current = buddy_list->find(member.name);
-				current->user_id = current->real_name = member.name;	
+				buddy_list->insert(std::make_pair(id, new facebook_user()));
+				current = buddy_list->find(id);
+				current->user_id = id;
 			}
 
-			current->status_id = (idle ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
+			current->status_id = ID_STATUS_ONTHEPHONE;
 		}
+	}
 
-		// Get aditional informations about contacts (if available)
-		const Object& userInfosList = objRoot["payload"]["buddy_list"]["userInfos"];
-		for (Object::const_iterator itUserInfo(userInfosList.Begin());
-			itUserInfo != userInfosList.End(); ++itUserInfo)
-		{
-			const Object::Member& member = *itUserInfo;
+	// Find now awailable contacts
+	JSONNODE *nowAvailable = json_get(list, "nowAvailableList");
+	if (nowAvailable != NULL) {		
+		for (unsigned int i = 0; i < json_size(nowAvailable); i++) {
+			JSONNODE *it = json_at(nowAvailable, i);
+			char *id = json_name(it);
+			
+			current = buddy_list->find(id);
+			if (current == NULL) {
+				buddy_list->insert(std::make_pair(id, new facebook_user()));
+				current = buddy_list->find(id);
+				current->user_id = id;
+			}
 
-			current = buddy_list->find(member.name);
+			current->status_id = ID_STATUS_ONLINE;
+			
+			// In new version of Facebook "i" means "offline"
+			JSONNODE *idle = json_get(it, "i");
+			if (idle != NULL && json_as_bool(idle))
+				current->status_id = ID_STATUS_OFFLINE;
+		}
+	}
+
+	// Get aditional informations about contacts (if available)
+	JSONNODE *userInfos = json_get(list, "userInfos");
+	if (userInfos != NULL) {		
+		for (unsigned int i = 0; i < json_size(userInfos); i++) {
+			JSONNODE *it = json_at(userInfos, i);
+			char *id = json_name(it);
+			
+			current = buddy_list->find(id);
 			if (current == NULL)
 				continue;
 
-			const Object& objMember = member.element;
-			const String& realName = objMember["name"];
-			const String& imageUrl = objMember["thumbSrc"];
+			JSONNODE *name = json_get(it, "name");
+			JSONNODE *thumbSrc = json_get(it, "thumbSrc");
 
-			current->real_name = utils::text::slashu_to_utf8(
-			    utils::text::special_expressions_decode(realName.Value()));
-			current->image_url = utils::text::slashu_to_utf8(
-			    utils::text::special_expressions_decode(imageUrl.Value()));
+			if (name != NULL)
+				current->real_name = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_string(name)));
+			if (thumbSrc != NULL)			
+				current->image_url = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_string(thumbSrc)));
 		}
+	}
 
-	}
-	catch (Reader::ParseException& e)
-	{
-		proto->Log("!!!!! Caught json::ParseException: %s", e.what());
-		proto->Log("      Line/offset: %d/%d", e.m_locTokenBegin.m_nLine + 1, e.m_locTokenBegin.m_nLineOffset + 1);
-	}
-	catch (const Exception& e)
-	{
-		proto->Log("!!!!! Caught json::Exception: %s", e.what());
-	}
-	catch (const std::exception& e)
-	{
-		proto->Log("!!!!! Caught std::exception: %s", e.what());
-	}
+	json_delete(root);
 
 	return EXIT_SUCCESS;
 }
 
 int facebook_json_parser::parse_friends(void* data, std::map< std::string, facebook_user* >* friends)
 {
-	using namespace json;
+	std::string jsonData = static_cast< std::string* >(data)->substr(9);
+	
+	JSONNODE *root = json_parse(jsonData.c_str());
+	if (root == NULL)
+		return EXIT_FAILURE;
 
-	try
-	{
-		std::string buddyData = static_cast< std::string* >(data)->substr(9);
-		std::istringstream sDocument(buddyData);
-		Object objDocument;
-		Reader::Read(objDocument, sDocument);
+	JSONNODE *payload = json_get(root, "payload");
+	if (payload == NULL)
+		return EXIT_FAILURE;
 
-		const Object& objRoot = objDocument;
-		const Object& payload = objRoot["payload"];
+	for (unsigned int i = 0; i < json_size(payload); i++) {
+		JSONNODE *it = json_at(payload, i);
+		char *id = json_name(it);
 
-		for (Object::const_iterator payload_item(payload.Begin()); payload_item != payload.End(); ++payload_item)
-		{
-			const Object::Member& member = *payload_item;
+		JSONNODE *name = json_get(it, "name");
+		JSONNODE *thumbSrc = json_get(it, "thumbSrc");
+		JSONNODE *gender = json_get(it, "gender");
+		//JSONNODE *vanity = json_get(it, "vanity"); // username
+		//JSONNODE *uri = json_get(it, "uri"); // profile url
+		//JSONNODE *is_friend = json_get(it, "is_friend"); // e.g. "True"
+		//JSONNODE *type = json_get(it, "type"); // e.g. "friend" (classic contact) or "user" (disabled/deleted account)
 
-			const Object& objMember = member.element;
+		facebook_user *fbu = new facebook_user();
 
-			const String& realName = objMember["name"];
-			const String& imageUrl = objMember["thumbSrc"];
-			//const String& vanity = objMember["vanity"];
-			//const String& uri = objMember["uri"];
-			const Number& gender = objMember["gender"];
-			//const Boolean& isFriend = objMember["is_friend"];
-			//const String& type = objMember["type"]; // "friend" = existing classic contact, "user" = contact with disabled/deleted account
-			
-			facebook_user *fbu = new facebook_user();
+		fbu->user_id = id;
+		if (name)
+			fbu->real_name = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_string(name)));
+		if (thumbSrc)
+			fbu->image_url = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_string(thumbSrc)));
 
-			fbu->user_id = member.name;
-			fbu->real_name = utils::text::slashu_to_utf8(
-			    utils::text::special_expressions_decode(realName.Value()));
-			fbu->image_url = utils::text::slashu_to_utf8(
-			    utils::text::special_expressions_decode(imageUrl.Value()));
-
-			if (gender.Value() == 1) {
-				fbu->gender = 70; // female
-			} else if (gender.Value() == 2) {
-				fbu->gender = 77; // male
+		if (gender)
+			switch (json_as_int(gender)) {
+			case 1: // female
+				fbu->gender = 70;
+				break;
+			case 2: // male
+				fbu-> gender = 77;
+				break;
 			}
 
-			friends->insert(std::make_pair(member.name, fbu));
-		}
-	}
-	catch (Reader::ParseException& e)
-	{
-		proto->Log("!!!!! Caught json::ParseException: %s", e.what());
-		proto->Log("      Line/offset: %d/%d", e.m_locTokenBegin.m_nLine + 1, e.m_locTokenBegin.m_nLineOffset + 1);
-	}
-	catch (const Exception& e)
-	{
-		proto->Log("!!!!! Caught json::Exception: %s", e.what());
-	}
-	catch (const std::exception& e)
-	{
-		proto->Log("!!!!! Caught std::exception: %s", e.what());
+		friends->insert(std::make_pair(id, fbu));
 	}
 
 	return EXIT_SUCCESS;
@@ -220,54 +180,41 @@ int facebook_json_parser::parse_friends(void* data, std::map< std::string, faceb
 
 int facebook_json_parser::parse_notifications(void *data, std::vector< facebook_notification* > *notifications) 
 {
-	using namespace json;
+	std::string jsonData = static_cast< std::string* >(data)->substr(9);
+	
+	JSONNODE *root = json_parse(jsonData.c_str());
+	if (root == NULL)
+		return EXIT_FAILURE;
 
-	try
-	{
-		std::string notificationsData = static_cast< std::string* >(data)->substr(9);
-		std::istringstream sDocument(notificationsData);
-		Object objDocument;
-		Reader::Read(objDocument, sDocument);
+	JSONNODE *payload = json_get(root, "payload");
+	if (payload == NULL)
+		return EXIT_FAILURE;
 
-		const Object& objRoot = objDocument;
-		const Object& payload = objRoot["payload"]["notifications"];
+	JSONNODE *list = json_get(payload, "notifications");
+	if (list == NULL)
+		return EXIT_FAILURE;
 
-		for (Object::const_iterator payload_item(payload.Begin()); payload_item != payload.End(); ++payload_item)
-		{
-			const Object::Member& member = *payload_item;
-			
-			const Object& objMember = member.element;
-			const String& content = objMember["markup"];
-			const Number& unread = objMember["unread"];
-			
-			if (unread.Value() == 0) // ignore old notifications
-				continue;
-			
-			std::string text = utils::text::slashu_to_utf8(
-								utils::text::special_expressions_decode(content.Value()));
+	for (unsigned int i = 0; i < json_size(list); i++) {
+		JSONNODE *it = json_at(list, i);
+		char *id = json_name(it);
 
-			facebook_notification* notification = new facebook_notification();
-			
-			notification->text = utils::text::remove_html(utils::text::source_get_value(&text, 1, "<abbr"));
-			notification->link = utils::text::source_get_value(&text, 3, "<a ", "href=\"", "\"");
-			notification->id = member.name;
+		JSONNODE *markup = json_get(it, "markup");
+		JSONNODE *unread = json_get(it, "unread");
+		//JSONNODE *time = json_get(it, "time");
 
-			notifications->push_back(notification);
-		}
+		// Ignore empty and old notifications
+		if (markup == NULL || unread == NULL || json_as_int(unread) == 0)
+			continue;
 
-	}
-	catch (Reader::ParseException& e)
-	{
-		proto->Log("!!!!! Caught json::ParseException: %s", e.what());
-		proto->Log("      Line/offset: %d/%d", e.m_locTokenBegin.m_nLine + 1, e.m_locTokenBegin.m_nLineOffset + 1);
-	}
-	catch (const Exception& e)
-	{
-		proto->Log("!!!!! Caught json::Exception: %s", e.what());
-	}
-	catch (const std::exception& e)
-	{
-		proto->Log("!!!!! Caught std::exception: %s", e.what());
+		std::string text = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_string(markup)));
+
+		facebook_notification* notification = new facebook_notification();
+
+		notification->id = id;
+		notification->link = utils::text::source_get_value(&text, 3, "<a ", "href=\"", "\"");
+		notification->text = utils::text::remove_html(utils::text::source_get_value(&text, 1, "<abbr"));		
+
+		notifications->push_back(notification);
 	}
 
 	return EXIT_SUCCESS;
@@ -290,265 +237,299 @@ bool ignore_duplicits(FacebookProto *proto, std::string mid, std::string text) {
 
 int facebook_json_parser::parse_messages(void* data, std::vector< facebook_message* >* messages, std::vector< facebook_notification* >* notifications)
 {
-	using namespace json;
+	std::string jsonData = static_cast< std::string* >(data)->substr(9);
+		
+	JSONNODE *root = json_parse(jsonData.c_str());
+	if (root == NULL)
+		return EXIT_FAILURE;
 
-	try
-	{
-		std::string messageData = static_cast< std::string* >(data)->substr(9);
-		std::istringstream sDocument(messageData);
-		Object objDocument;
-		Reader::Read(objDocument, sDocument);
+	JSONNODE *ms = json_get(root, "ms");
+	if (ms == NULL)
+		return EXIT_FAILURE;
 
-		const Object& objRoot = objDocument;
-		const Array& messagesArray = objRoot["ms"];
+	for (unsigned int i = 0; i < json_size(ms); i++) {
+		JSONNODE *it = json_at(ms, i);
+		
+		JSONNODE *type = json_get(it, "type");
+		if (type == NULL)
+			continue;
 
-		for (Array::const_iterator itMessage(messagesArray.Begin()); itMessage != messagesArray.End(); ++itMessage)
-		{
-			const Object& objMember = *itMessage;
+		std::string t = json_as_string(type);
+		if (t == "msg" || t == "offline_msg") {
+			// direct message
+			
+			JSONNODE *from = json_get(it, "from");
+			if (from == NULL)
+				continue;
 
-			const String& type = objMember["type"];
+			char *from_id = json_as_string(from);
 
-			if (type.Value() == "msg" || type.Value() == "offline_msg") // direct message
-			{
-				const Number& from = objMember["from"];
-				char was_id[32];
-				lltoa(from.Value(), was_id, 10);
-				
-				const Object& messageContent = objMember["msg"];
-				const String& text = messageContent["text"];
-				const String& message_id = messageContent["messageId"];
-				//"tab_type":"friend",     objMember["tab_type"]
-        
-				const Number& time_sent = messageContent["time"];
+			JSONNODE *msg = json_get(it, "msg");
+			if (msg == NULL)
+				continue;
 
-				// ignore duplicits or messages sent from miranda
-				if (ignore_duplicits(proto, message_id.Value(), text.Value()))
+			JSONNODE *text = json_get(msg, "text");
+			JSONNODE *messageId = json_get(msg, "messageId");
+			JSONNODE *time = json_get(it, "time");
+			// JSONNODE *tab_type = json_get(it, "tab_type"); // e.g. "friend"
+
+			if (text == NULL || messageId == NULL)
+				continue;
+
+			std::string message_id = json_as_string(messageId);
+			std::string message_text = json_as_string(text);
+
+			// ignore duplicits or messages sent from miranda
+			if (ignore_duplicits(proto, message_id, message_text))
+				continue;
+
+			message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(message_text)), true);
+			if (message_text.empty())
+				continue;			
+
+			JSONNODE *truncated = json_get(msg, "truncated");
+			if (truncated != NULL && json_as_int(truncated) == 1) {
+				// If we got truncated message, we can ignore it, because we should get it again as "messaging" type
+				std::string msg = "????? We got truncated message so we ignore it\n";
+				msg += utils::text::special_expressions_decode(utils::text::slashu_to_utf8(message_text));
+				proto->Log(msg.c_str());
+			} else if (from_id == proto->facy.self_.user_id) {
+				// Outgoing message
+				JSONNODE *to = json_get(it, "to");
+				if (to == NULL)
 					continue;
 
-				std::string message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(text.Value())), true);
-				if (message_text.empty())
+				// TODO: put also outgoing messages into messages array and process it elsewhere
+				HANDLE hContact = proto->ContactIDToHContact(json_as_string(to));
+				if (!hContact) // TODO: add this contact?
 					continue;
 
-				if (was_id == proto->facy.self_.user_id) {
-					const Number& to = objMember["to"];
-					char to_id[32];
-					lltoa(to.Value(), to_id, 10);
+				DBEVENTINFO dbei = {0};
+				dbei.cbSize = sizeof(dbei);
+				dbei.eventType = EVENTTYPE_MESSAGE;
+				dbei.flags = DBEF_SENT | DBEF_UTF;
+				dbei.szModule = proto->m_szModuleName;
 
-					HANDLE hContact = proto->ContactIDToHContact(to_id);
-					if (!hContact)
-						continue;
+				bool local_time = proto->getByte(FACEBOOK_KEY_LOCAL_TIMESTAMP, 0) != 0;
+				dbei.timestamp = local_time || time == NULL ? ::time(NULL) : utils::time::fix_timestamp(json_as_int(time));
 
-					DBEVENTINFO dbei = {0};
-					dbei.cbSize = sizeof(dbei);
-					dbei.eventType = EVENTTYPE_MESSAGE;
-					dbei.flags = DBEF_SENT | DBEF_UTF;
-					dbei.szModule = proto->m_szModuleName;
+				dbei.cbBlob = (DWORD)message_text.length() + 1;
+				dbei.pBlob = (PBYTE)message_text.c_str();
+				db_event_add(hContact, &dbei);
 
-					bool local_time = proto->getByte(FACEBOOK_KEY_LOCAL_TIMESTAMP, 0) != 0;
-					dbei.timestamp = local_time ? ::time(NULL) : utils::time::fix_timestamp(time_sent.Value());
+				continue;
+			} else {
+				// Incomming message
+  				facebook_message* message = new facebook_message();
+				message->message_text = message_text;
+				message->time = utils::time::fix_timestamp(json_as_int(time));
+				message->user_id = from_id;
+				message->message_id = message_id;
 
-					dbei.cbBlob = (DWORD)message_text.length() + 1;
-					dbei.pBlob = (PBYTE)message_text.c_str();
-					db_event_add(hContact, &dbei);
-
-					continue;
-				}
-
-				if ((messageContent.Find("truncated") != messageContent.End())
-					&& (((const Number &)messageContent["truncated"]).Value() == 1)) {
-					// If we got truncated message, we can ignore it, because we should get it again as "messaging" type
-					std::string msg = "????? We got truncated message so we ignore it\n";
-					msg += utils::text::special_expressions_decode(utils::text::slashu_to_utf8(text.Value()));
-					proto->Log(msg.c_str());
-				} else {
-  					facebook_message* message = new facebook_message();
-					message->message_text = message_text;
-					message->time = utils::time::fix_timestamp(time_sent.Value());
-					message->user_id = was_id;
-					message->message_id = message_id;
-
-					messages->push_back(message);
-				}
+				messages->push_back(message);
 			}
-			else if (type.Value() == "messaging") 
-			{				
-				const String& type = objMember["event"];
 
-				if (type.Value() == "read_receipt") {
-					// user read message
-					const Number& reader = objMember["reader"];
-					const Number& time = objMember["time"];
+		} else if (t == "messaging") {
+			// messages
 
-					char user_id[32];
-					lltoa(reader.Value(), user_id, 10);
+			JSONNODE *type = json_get(it, "event");
+			if (type == NULL)
+				continue;
 
-					// TODO: add check for chat contacts
-					HANDLE hContact = proto->ContactIDToHContact(user_id);
-					if (hContact) {
-						TCHAR ttime[64], tstr[100];
-						_tcsftime(ttime, SIZEOF(ttime), _T("%X"), utils::conversion::fbtime_to_timeinfo(time.Value()));
-						mir_sntprintf(tstr, SIZEOF(tstr), TranslateT("Message read: %s"), ttime);
+			std::string t = json_as_string(type);
 
-						CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)tstr);
-					}
+			if (t == "read_receipt") {
+				// user read message
+				JSONNODE *reader = json_get(it, "reader");
+				JSONNODE *time = json_get(it, "time");
 
-				} else if (type.Value() == "deliver") {
-					// inbox message (multiuser or direct)
-					const Object& messageContent = objMember["message"];
+				if (reader == NULL || time == NULL)
+					continue;
 
-					const Number& sender_fbid = messageContent["sender_fbid"];
-					const String& sender_name = messageContent["sender_name"];
-					const String& text = messageContent["body"];
-					const String& tid = messageContent["tid"];
-					const String& mid = messageContent["mid"];
-					const Number& time_sent = messageContent["timestamp"];
+				// TODO: add check for chat contacts
+				HANDLE hContact = proto->ContactIDToHContact(json_as_string(reader));
+				if (hContact) {
+					TCHAR ttime[64], tstr[100];
+					_tcsftime(ttime, SIZEOF(ttime), _T("%X"), utils::conversion::fbtime_to_timeinfo(json_as_int(time)));
+					mir_sntprintf(tstr, SIZEOF(tstr), TranslateT("Message read: %s"), ttime);
 
-					char was_id[32];
-					lltoa(sender_fbid.Value(), was_id, 10);
-
-					// Ignore messages from myself
-					if (was_id == proto->facy.self_.user_id)
-						continue;
-					
-					// Ignore duplicits or messages sent from miranda
-					if (ignore_duplicits(proto, mid.Value(), text.Value()))
-						continue;					
-
-					std::string message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(text.Value())), true);
-					if (message_text.empty())
-						continue;
-
-					facebook_message* message = new facebook_message();
-					message->message_text = message_text;
-					message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(sender_name.Value()));
-					message->time = utils::time::fix_timestamp(time_sent.Value());
-					message->user_id = was_id; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
-					message->message_id = mid.Value();
-
-					messages->push_back(message);
+					CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)tstr);
 				}
-			}
-			else if (type.Value() == "thread_msg") // multiuser message
-			{
-				const String& from_name = objMember["from_name"];
-				const String& to_name = objMember["to_name"]["__html"];
-				const String& to_id = objMember["to"];
+			} else if (t == "deliver") {
+				// inbox message (multiuser or direct)
 
-				const Number& from = objMember["from"];
-				char was_id[32];
-				lltoa(from.Value(), was_id, 10);
+				JSONNODE *msg = json_get(it, "message");
 
-				const Object& messageContent = objMember["msg"];
-  				const String& text = messageContent["text"];
-				const String& mid = messageContent["messageId"];
+				JSONNODE *sender_fbid = json_get(msg, "sender_fbid");
+				JSONNODE *sender_name = json_get(msg, "sender_name");
+				JSONNODE *body = json_get(msg, "body");
+				JSONNODE *tid = json_get(msg, "tid");
+				JSONNODE *mid = json_get(msg, "mid");
+				JSONNODE *timestamp = json_get(msg, "timestamp");
+
+				if (sender_fbid == NULL || body == NULL || mid == NULL)
+					continue;
+
+				std::string id = json_as_string(sender_fbid);
+				std::string message_id = json_as_string(mid);
+				std::string message_text = json_as_string(body);
 
 				// Ignore messages from myself
-				if (was_id == proto->facy.self_.user_id)
-					continue;
-				
-				// Ignore duplicits or messages sent from miranda
-				if (ignore_duplicits(proto, mid.Value(), text.Value()))
+				if (id == proto->facy.self_.user_id)
 					continue;
 
-				std::string message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(text.Value())), true);
+				// Ignore duplicits or messages sent from miranda
+				if (body == NULL || ignore_duplicits(proto, message_id, message_text))
+					continue;
+
+				message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(message_text)), true);
 				if (message_text.empty())
 					continue;
 
-				std::string title = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(to_name.Value()));
-				std::string url = "/?action=read&sk=inbox&page&query&tid=" + to_id.Value();
-				std::string popup_text = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(from_name.Value()));
-				popup_text += ": " + message_text;
+				facebook_message* message = new facebook_message();
+				message->message_text = message_text;
+				message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(id));
+				message->time = utils::time::fix_timestamp(json_as_int(timestamp));
+				message->user_id = id; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
+				message->message_id = message_id;
 
-				proto->Log("      Got multichat message");
-		    
-				TCHAR* szTitle = mir_utf8decodeT(title.c_str());
-				TCHAR* szText = mir_utf8decodeT(popup_text.c_str());
-				proto->NotifyEvent(szTitle, szText, NULL, FACEBOOK_EVENT_OTHER, &url);
-				mir_free(szTitle);
-				mir_free(szText);
+				messages->push_back(message);
 			}
-			else if (type.Value() == "notification_json") // event notification
-			{
-				if (!proto->getByte(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
+		} else if (t == "thread_msg") {
+			// multiuser message
+
+			JSONNODE *from_name = json_get(it, "from_name");
+			JSONNODE *to_name_ = json_get(it, "to_name");
+			if (to_name_ == NULL)
+				continue;
+			JSONNODE *to_name = json_get(to_name_, "__html");
+			JSONNODE *to_id = json_get(it, "to");
+			JSONNODE *from_id = json_get(it, "from");
+
+			JSONNODE *msg = json_get(it, "msg");
+			JSONNODE *text = json_get(msg, "text");
+			JSONNODE *messageId = json_get(msg, "messageId");
+
+			if (from_id == NULL || text == NULL || messageId == NULL)
+				continue;
+
+			std::string id = json_as_string(from_id);
+			std::string message_id = json_as_string(messageId);
+			std::string message_text = json_as_string(text);
+
+			// Ignore messages from myself
+			if (id == proto->facy.self_.user_id)
+				continue;
+				
+			// Ignore duplicits or messages sent from miranda
+			if (ignore_duplicits(proto, message_id, message_text))
+				continue;
+
+			message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(message_text)), true);
+			if (message_text.empty())
+				continue;
+
+			std::string title = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_string(to_name)));
+			std::string url = "/?action=read&sk=inbox&page&query&tid=" + id;
+			std::string popup_text = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_string(from_name)));
+			popup_text += ": " + message_text;
+
+			proto->Log("      Got multichat message");
+		    
+			TCHAR* szTitle = mir_utf8decodeT(title.c_str());
+			TCHAR* szText = mir_utf8decodeT(popup_text.c_str());
+			proto->NotifyEvent(szTitle, szText, NULL, FACEBOOK_EVENT_OTHER, &url);
+			mir_free(szTitle);
+			mir_free(szText);
+		} else if (t == "notification_json") {
+			// event notification
+
+			if (!proto->getByte(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
+				continue;
+
+			JSONNODE *nodes = json_get(it, "nodes");
+			for (unsigned int i = 0; i < json_size(nodes); i++) {
+				JSONNODE *itNodes = json_at(nodes, i);
+
+				//JSONNODE *text = json_get(itNodes, "title/text");
+				JSONNODE *text_ = json_get(itNodes, "unaggregatedTitle");
+				if (text_ == NULL)
+					continue;
+				JSONNODE *text = json_get(text_, "text");
+				JSONNODE *url = json_get(itNodes, "url");
+				JSONNODE *alert_id = json_get(itNodes, "alert_id");
+				
+				JSONNODE *time_ = json_get(it, "timestamp");
+				if (time_ == NULL)
+					continue;
+				JSONNODE *time = json_get(time_, "time");
+				if (time == NULL || text == NULL || url == NULL || alert_id == NULL)
 					continue;
 
-				const Array& notificationsArray = objMember["nodes"];
+				unsigned long timestamp = json_as_int(time);
+				if (timestamp > proto->facy.last_notification_time_) {
+					// Only new notifications
+					proto->facy.last_notification_time_ = timestamp;
 
-				for (Array::const_iterator itNotification(notificationsArray.Begin()); itNotification != notificationsArray.End(); ++itNotification)
-				{
-					const Object& objNotification = *itNotification;
+					facebook_notification* notification = new facebook_notification();
+					notification->text = utils::text::slashu_to_utf8(json_as_string(text));
+  					notification->link = utils::text::special_expressions_decode(json_as_string(url));					
+					notification->id = json_as_string(alert_id);
 
-					//const String& text = objNotification["title"]["text"];
-					const String& text = objNotification["unaggregatedTitle"]["text"];
-					const String& link = objNotification["url"];
-					const String& id = objNotification["alert_id"];
+					std::string::size_type pos = notification->id.find(":");
+					if (pos != std::string::npos)
+						notification->id = notification->id.substr(pos+1);
 
-					const Number& time_sent = objNotification["timestamp"]["time"];        
-					if (time_sent.Value() > proto->facy.last_notification_time_) // Check against duplicit notifications
-					{
-						proto->facy.last_notification_time_ = time_sent.Value();
-
-						facebook_notification* notification = new facebook_notification();
-						notification->text = utils::text::slashu_to_utf8(text.Value());
-  						notification->link = utils::text::special_expressions_decode(link.Value());
-						
-						std::string::size_type pos = id.Value().find(":");
-						notification->id = (pos != std::string::npos) ? id.Value().substr(pos+1) : id.Value();
-
-						notifications->push_back(notification);
-					}
+					notifications->push_back(notification);
 				}
 			}
-			else if (type.Value() == "typ") // chat typing notification
-			{
-				const Number& from = objMember["from"];
-				char user_id[32];
-				lltoa(from.Value(), user_id, 10);
+		} else if (t == "typ") {
+			// chat typing notification
 
-				facebook_user fbu;
-				fbu.user_id = user_id;
-
-				HANDLE hContact = proto->AddToContactList(&fbu, CONTACT_FRIEND);
-				
-				if (proto->getWord(hContact, "Status", 0) == ID_STATUS_OFFLINE)
-					proto->setWord(hContact, "Status", ID_STATUS_ONLINE);
-
-				const Number& state = objMember["st"];
-				if (state.Value() == 1)
-					CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)60);
-				else
-					CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
-			}
-			else if (type.Value() == "privacy_changed")
-			{
-				const String& event_type = objMember["event"];
-				const Object& event_data = objMember["data"];
-
-				if (event_type.Value() == "visibility_update")
-				{ // change of chat status
-					const Boolean visibility = event_data["visibility"];
-					proto->Log("      Requested chat switch to %s", visibility ? "Online" : "Offline");
-					proto->SetStatus(visibility ? ID_STATUS_ONLINE : ID_STATUS_INVISIBLE);
-				}				
-			}
-			else
+			JSONNODE *from = json_get(it, "from");
+			if (from == NULL)
 				continue;
-		}
 
-		// remove received messages from map
-		for (std::map<std::string, bool>::iterator it = proto->facy.messages_ignore.begin(); it != proto->facy.messages_ignore.end(); ++it) {
-			if (it->second)
-				proto->facy.messages_ignore.erase(it);
+			facebook_user fbu;
+			fbu.user_id = json_as_string(from);
+
+			HANDLE hContact = proto->AddToContactList(&fbu, CONTACT_FRIEND);
+				
+			if (proto->getWord(hContact, "Status", 0) == ID_STATUS_OFFLINE)
+				proto->setWord(hContact, "Status", ID_STATUS_ONLINE);
+
+			JSONNODE *st = json_get(it, "st");
+			if (json_as_int(st) == 1)
+				CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)60);
+			else
+				CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
+		} else if (t == "privacy_changed") {
+			// settings changed
+
+			JSONNODE *event_type = json_get(it, "event");
+			JSONNODE *event_data = json_get(it, "data");
+
+			if (event_type == NULL || event_data == NULL)
+				continue;
+
+			std::string t = json_as_string(event_type);
+			if (t == "visibility_update") {
+				// change of chat status
+				JSONNODE *visibility = json_get(event_data, "visibility");
+				
+				bool isVisible = (visibility != NULL) && json_as_bool(visibility);
+				proto->Log("      Requested chat switch to %s", isVisible ? "Online" : "Offline");
+				proto->SetStatus(isVisible ? ID_STATUS_ONLINE : ID_STATUS_INVISIBLE);
+			}				
 		}
+		else
+			continue;
 	}
-	catch (Reader::ParseException& e)
-	{
-		proto->Log("!!!!! Caught json::ParseException: %s", e.what());
-		proto->Log("      Line/offset: %d/%d", e.m_locTokenBegin.m_nLine + 1, e.m_locTokenBegin.m_nLineOffset + 1);
-	}
-	catch (const Exception& e)
-	{
-		proto->Log ("!!!!! Caught json::Exception: %s", e.what());
+
+	// remove received messages from map
+	for (std::map<std::string, bool>::iterator it = proto->facy.messages_ignore.begin(); it != proto->facy.messages_ignore.end(); ++it) {
+		if (it->second)
+			proto->facy.messages_ignore.erase(it);
 	}
 
 	return EXIT_SUCCESS;

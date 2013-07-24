@@ -56,10 +56,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_skin.h>
 #include <m_icolib.h>
 #include <m_hotkeys.h>
-
 #include <m_folders.h>
 #include <m_smileyadd.h>
 #include <m_toptoolbar.h>
+#include <m_json.h>
 
 class FacebookProto;
 

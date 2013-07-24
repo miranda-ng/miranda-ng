@@ -197,10 +197,6 @@
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\JSON_CAJUN\elements.h" />
-    <ClInclude Include="src\JSON_CAJUN\reader.h" />
-    <ClInclude Include="src\JSON_CAJUN\visitor.h" />
-    <ClInclude Include="src\JSON_CAJUN\writer.h" />
     <ClInclude Include="src\client.h" />
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\constants.h" />
@@ -216,11 +212,6 @@
     <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\version.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\JSON_CAJUN\elements.inl" />
-    <None Include="src\JSON_CAJUN\reader.inl" />
-    <None Include="src\JSON_CAJUN\writer.inl" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\facebook.rc" />
