@@ -95,7 +95,7 @@ static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 static int Exit(WPARAM wParam, LPARAM lParam);
 
 // options.c
-extern int OptionsInit(WPARAM wparam,LPARAM lparam);
+extern int OptionsInit(WPARAM wparam,LPARAM);
 extern int InitCommonStatus();
 
 TConnectionSettings::TConnectionSettings( PROTOACCOUNT* pa )
@@ -678,11 +678,11 @@ static VOID CALLBACK CheckAckStatusTimer(HWND hwnd,UINT message,UINT_PTR idEvent
 
 static VOID CALLBACK CheckConnectionTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD dwTime)
 {
-	int shouldBeStatus, realStatus, setStatus;
+	int shouldBeStatus, realStatus;
 	HICON hIcon;
 
 	log_debugA("CheckConnectionTimer");
-	setStatus = FALSE;
+	bool setStatus = false;
 	if (showConnectionPopups)
 		hIcon = LoadSkinnedIcon(SKINICON_STATUS_OFFLINE);
 
@@ -695,14 +695,14 @@ static VOID CALLBACK CheckConnectionTimer(HWND hwnd,UINT message,UINT_PTR idEven
 		if (shouldBeStatus == ID_STATUS_DISABLED)
 			continue;
 		if ( (shouldBeStatus != realStatus) && (realStatus == ID_STATUS_OFFLINE) || (realStatus < MIN_STATUS)) {
-			setStatus = TRUE;
+			setStatus = true;
 			if (showConnectionPopups)
-				hIcon = (HICON)CallService(MS_SKIN_LOADPROTOICON, (WPARAM)cs.szName, (LPARAM)SKINICON_STATUS_OFFLINE);
+				hIcon = LoadSkinnedProtoIcon(cs.szName, ID_STATUS_OFFLINE);
 		}
 	}
 
 	// one of the status was wrong
-	if ( setStatus == TRUE && ( maxRetries == -1 || retryCount < maxRetries )) {
+	if ( setStatus && ( maxRetries == -1 || retryCount < maxRetries )) {
 		if (increaseExponential)
 			currentDelay = min(2*currentDelay,maxDelay);
 
@@ -769,10 +769,8 @@ static VOID CALLBACK AfterCheckTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWO
 			setStatus = true;
 	}
 
-	if (setStatus || retryCount == maxRetries)
+	if (!setStatus || retryCount == maxRetries)
 		StopChecking();
-
-	return;
 }
 
 typedef HANDLE ( WINAPI *pfnIcmpCreateFile )( void );
@@ -787,7 +785,7 @@ static void CheckContinueslyFunction(void *arg)
 	EnterCriticalSection(&CheckContinueslyCS);
 
 	// do a ping, even if reconnecting
-	BOOL doPing = FALSE;
+	bool doPing = false;
 	for ( int i=0; i < connectionSettings.getCount(); i++ ) {
 		TConnectionSettings& cs = connectionSettings[i];
 		int shouldBeStatus = GetStatus(cs);
@@ -799,7 +797,7 @@ static void CheckContinueslyFunction(void *arg)
 
 		if (shouldBeStatus != ID_STATUS_OFFLINE) {
 			log_debugA("CheckContinueslyFunction: %s should be %d", cs.szName, shouldBeStatus);
-			doPing = TRUE;
+			doPing = true;
 		}
 	}
 
@@ -817,23 +815,19 @@ static void CheckContinueslyFunction(void *arg)
 		else {
 			char *start, *end;
 			char host[MAX_PATH];
-			pfnIcmpCreateFile lpfnIcmpCreateFile;
-			pfnIcmpCloseHandle lpfnIcmpCloseHandle;
-			pfnIcmpSendEcho lpfnIcmpSendEcho;
-			HANDLE hICMPFile;
 			DWORD *addr;
 			struct hostent *hostent;
 			char reply[sizeof(ICMP_ECHO_REPLY)+8];
 
 			bLastPingResult = FALSE;
-			lpfnIcmpCreateFile = (pfnIcmpCreateFile)GetProcAddress(hICMP,"IcmpCreateFile");
-			lpfnIcmpCloseHandle = (pfnIcmpCloseHandle)GetProcAddress(hICMP,"IcmpCloseHandle");
-			lpfnIcmpSendEcho = (pfnIcmpSendEcho)GetProcAddress(hICMP,"IcmpSendEcho");
+			pfnIcmpCreateFile lpfnIcmpCreateFile = (pfnIcmpCreateFile)GetProcAddress(hICMP,"IcmpCreateFile");
+			pfnIcmpCloseHandle lpfnIcmpCloseHandle = (pfnIcmpCloseHandle)GetProcAddress(hICMP,"IcmpCloseHandle");
+			pfnIcmpSendEcho lpfnIcmpSendEcho = (pfnIcmpSendEcho)GetProcAddress(hICMP,"IcmpSendEcho");
 			if ((hICMP == NULL) || (lpfnIcmpCreateFile == NULL) || (lpfnIcmpCloseHandle == NULL) ||  (lpfnIcmpSendEcho == NULL)) {
 				bLastPingResult = TRUE;
 				log_infoA("KeepStatus: icmp.dll error (1)");
 			}
-			hICMPFile = (HANDLE) lpfnIcmpCreateFile();
+			HANDLE hICMPFile = (HANDLE) lpfnIcmpCreateFile();
 			if (hICMPFile == INVALID_HANDLE_VALUE) {
 				bLastPingResult = TRUE;
 				log_infoA("KeepStatus: icmp.dll error (2)");
