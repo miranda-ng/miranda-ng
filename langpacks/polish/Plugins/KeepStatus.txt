@@ -266,25 +266,25 @@ Wywoływanie danych
 Status: Status konta został zmieniony do\r\Konto: Konto zmieniło status
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 [%s connected from another location]
-
+%s połączono z innej lokalizacji.
 [%s login error, cancel reconnecting]
-
+%s błąd logowania, zatrzymano wznawianie.
 [%s login error (next retry (%d) in %d s)]
-
+%s błąd logowania (następna próba (%d) za %d s)
 [%s status error (next retry (%d) in %d s)]
-
+%s błąd połączenia (następna próba (%d) za %d s) 
 [Status error (next retry (%d) in %d s)]
-
+Błąd połączenia (następna próba (%d) za %d s) 
 [will be set to]
 przywracany status:
 [Resetting status... (last try (%d))%s]
 Zerowanie statusu...(ostatnia próba (%d)) %s
 [Resetting status... (next retry (%d) in %d s)%s]
-
+Zerowanie statusu... (następna próba (%d) za %d s) %s 
 [No internet connection seems available... (last try (%d))]
 Brak połączenia z internetem... (ostatnia próba (%d))
 [No internet connection seems available... (next retry (%d) in %d s)]
-
+Brak połączenia z internetem... (następna próba (%d) za %d s)
 [Status was set ok]
 Status przywrócony pomyślnie.
 [Giving up]
