@@ -98,20 +98,19 @@ static __inline LONG regchk(LONG res, const char *pszFunc, const void *pszInfo, 
 // mir_free() the return value
 char *MakeFileClassName(const char *pszFileExt)
 {
-	char *pszClass;
-	pszClass=(char*)mir_alloc((lstrlenA(pszFileExt)+12)*sizeof(TCHAR));
-	if (pszClass!=NULL)
+	int cbLen = lstrlenA(pszFileExt)+12;
+	char *pszClass = (char*)mir_alloc(cbLen);
+	if (pszClass != NULL)
 		/* using correctly formated PROGID */
-		mir_snprintf(pszClass, strlen(pszClass), "miranda%sfile", pszFileExt); /* includes dot, buffer safe */
+		mir_snprintf(pszClass, cbLen, "miranda%sfile", pszFileExt); /* includes dot, buffer safe */
 	return pszClass;
 }
 
 // mir_free() the return value
 char *MakeUrlClassName(const char *pszUrl)
 {
-	char *pszClass;
-	pszClass=mir_strdup(pszUrl);
-	if (pszClass!=NULL)
+	char *pszClass = mir_strdup(pszUrl);
+	if (pszClass != NULL)
 		/* remove trailing : */
 		pszClass[lstrlenA(pszClass)-1]=0;
 	return pszClass;

@@ -486,23 +486,19 @@ static BOOL RemoveAssocItem_Worker(const char *pszClassName)
 
 /************************* Services *******************************/
 
-static INT_PTR ServiceAddNewFileType(WPARAM wParam, LPARAM lParam)
+static INT_PTR ServiceAddNewFileType(WPARAM, LPARAM lParam)
 {
 	const FILETYPEDESC *ftd = (FILETYPEDESC*)lParam;
-	char *pszClassName, *pszFileExt, *pszMimeType;
-	TCHAR *pszVerbDesc;
-	UNREFERENCED_PARAMETER(wParam);
-		
-	if(ftd->cbSize<sizeof(FILETYPEDESC))
+	if(ftd->cbSize < sizeof(FILETYPEDESC))
 		return 1;
- 	if(ftd->pszFileExt == NULL || ftd->pszFileExt[0]!= '.') 
+ 	if(ftd->pszFileExt == NULL || ftd->pszFileExt[0] !=  '.') 
 		return 2;
 
-	pszFileExt = mir_strdup(ftd->pszFileExt);
-	pszClassName = MakeFileClassName(ftd->pszFileExt);
+	char *pszFileExt = mir_strdup(ftd->pszFileExt);
+	char *pszClassName = MakeFileClassName(ftd->pszFileExt);
 	if(pszFileExt!= NULL && pszClassName!= NULL) {
-		pszVerbDesc = s2t(ftd->ptszVerbDesc, ftd->flags&FTDF_UNICODE, TRUE); /* does NULL check */
-		pszMimeType = mir_strdup(ftd->pszMimeType); /* does NULL check */
+		TCHAR *pszVerbDesc = s2t(ftd->ptszVerbDesc, ftd->flags&FTDF_UNICODE, TRUE); /* does NULL check */
+		char *pszMimeType = mir_strdup(ftd->pszMimeType); /* does NULL check */
 		if(AddNewAssocItem_Worker(pszClassName, (TYPEDESCHEAD*)ftd, pszFileExt, pszVerbDesc, pszMimeType))
 			/* no need to free pszClassName,  pszFileExt, pszVerbDesc and pszMimeType, 
 			 * as their ownership got transfered to storage list */
