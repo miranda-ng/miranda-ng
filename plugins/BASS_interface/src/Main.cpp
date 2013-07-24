@@ -6,8 +6,6 @@ Copyright (C) 2010, 2011 tico-tico
 #define BASSDEF(f) (WINAPI *f)
 #include "bass.h"
 
-#define BASS_TCHAR   BASS_UNICODE
-
 #define LOADBASSFUNCTION(f) (*((void**)&f)=(void*)GetProcAddress(hBass,#f))
 
 HINSTANCE hInst;
@@ -100,7 +98,7 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 
 	if (doPlay) {
 		BASS_StreamFree(sndSSnd[sndNSnd]);
-		sndSSnd[sndNSnd] = BASS_StreamCreateFile(FALSE, ptszFile, 0, 0, BASS_TCHAR | BASS_STREAM_AUTOFREE);
+		sndSSnd[sndNSnd] = BASS_StreamCreateFileW(FALSE, ptszFile, 0, 0, BASS_STREAM_AUTOFREE);
 		BASS_ChannelPlay(sndSSnd[sndNSnd], FALSE);
 		sndNSnd = (sndNSnd + 1)%sndLimSnd;
 	}
