@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis
 ;============================================================
 [Ping labelled IP addresses or domain names.]
-Pinguj zaznaczone adresy IP lub nazwy domen
+Pinguje zaznaczone adresy IP lub nazwy domen.
 ;file \plugins\Ping\res\ping.rc
 [Delay between pings (secs):]
 Opóźnienie pomiędzy pingami (s):
@@ -148,7 +148,7 @@ włączone
 [double clicked]
 dwuklik
 [Ping]
-
+Ping
 [Show/Hide &Ping Window]
 Pokaż/ukryj okno Pingu
 ;file \plugins\Ping\src\rawping.cpp

@@ -6,7 +6,7 @@
 ;  Authors: nullbie, Thief
 ;============================================================
 [Shows a splash at Miranda startup.]
-Pokaż ekran powitalny przy starcie Mirandy
+Pozwala na pokazanie ekranu startowego przy uruchamianiu Mirandy.
 ;file \plugins\SplashScreen\res\splash.rc
 [Splash Options]
 Opcje ekranu powitalnego

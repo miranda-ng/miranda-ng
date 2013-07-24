@@ -94,7 +94,7 @@ Pokaż UUID wtyczki ?
 [Output folder]
 
 [Version Information]
-Wersja programu
+Informacja o wersji
 [Services]
 Usługi
 ;file \plugins\VersionInfo\src\main.cpp

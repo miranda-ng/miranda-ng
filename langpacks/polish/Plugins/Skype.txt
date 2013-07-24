@@ -6,7 +6,7 @@
 ;  Authors: unsane, mataes, ghazan
 ;============================================================
 [Skype protocol support for Miranda NG.]
-
+Zapewnia obsługę protokołu Skype.
 ;file \protocols\Skype\res\Resource.rc
 [Invite contacts to conference]
 Zaproś kontakt do konferencji

@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis
 ;============================================================
 [Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
-Yet Another Popup Plugin - Dostarcza usługi powiadomień popup do innych wtyczek.
+Yet Another Popup Plugin - Dostarcza usługi powiadomień popup dla innych wtyczek.
 ;file \plugins\YAPP\res\yapp.rc
 [Popup history]
 

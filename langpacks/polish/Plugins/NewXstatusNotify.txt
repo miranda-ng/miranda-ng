@@ -6,7 +6,7 @@
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
 [Notifies you when a contact changes his/her (X)status or status message.]
-Powiadomienie, kiedy kontakt zmieni swój xStatus lub opis.
+Powiadamia Cię, kiedy kontakt zmieni swój xStatus lub opis.
 ;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 Powiadamiaj kiedy kontakt zmieni status na:
@@ -117,7 +117,7 @@ Użyj alternatywnych określeń
 [0 = Default]
 0 = Domyślny
 [-1 = Infinite]
-   -1 = Nie chowaj
+-1 = Nie chowaj
 [Sec]
 s
 [On left click]
@@ -186,7 +186,7 @@ Pliki dźwiękowe
 [All files]
 Wszystkie pliki
 [Wave files]
-
+Pliki wave
 [Status]
 Status
 [Sound for the status]
@@ -353,7 +353,7 @@ Nie możesz ustawić wartości niższej niż %d ani wyższej niż %d.
 [Can't open the log file!]
 Nie można otworzyć pliku dziennika!
 [NewXstatusNotify]
-
+NewXstatusNotify
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
 [Mood]
 Nastrój

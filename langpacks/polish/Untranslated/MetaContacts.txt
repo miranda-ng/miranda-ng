@@ -8,7 +8,6 @@
 [a contact]
 [Assignment to the MetaContact failed.]
 [Assignment failure]
-[Id]
 [Error - Database corruption.\nPlugin disabled.]
 [This will remove the MetaContact permanently.\n\nProceed Anyway?]
 [Meta ID]

@@ -3,5 +3,3 @@
 [Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
 [Popups when status changes to:]
 [Ignore empty status and xStatus messages]
-[Wave files]
-[NewXstatusNotify]

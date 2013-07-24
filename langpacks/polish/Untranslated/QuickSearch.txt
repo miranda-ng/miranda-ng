@@ -1,7 +1,6 @@
 ﻿[Local QuickSearch hotkey]
 [Search on:]
 [Quick Search:]
-[UID:]
 [MirandaV]
 [Online Since]
 [Quick Search Options]

@@ -6,7 +6,7 @@
 ;  Authors: vu1tur
 ;============================================================
 [Anti-spam plugin with captcha and Bayes filtering.]
-
+Antyspam dla Mirandy NG z captcha i filtrowaniem Bayesa.
 ;file \plugins\Spamotron\res\spamotron.rc
 [Do not send challenge request if message score above]
 

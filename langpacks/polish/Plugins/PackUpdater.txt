@@ -6,7 +6,7 @@
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
 [Simple updater for Miranda NG premodified packs.]
-
+Prosty aktualizator dla paczek.
 ;file \plugins\PackUpdater\Res\Resource.rc
 [Updates found!]
 Znaleziono aktualizacje!
@@ -73,7 +73,7 @@ Wyświetlaj
 [0 = Default]
 0 = Domyślny
 [-1 = Infinite]
-   -1 = Nie chowaj
+-1 = Nie chowaj
 [Sec]
 s
 [* Needs popup actions to be enabled]

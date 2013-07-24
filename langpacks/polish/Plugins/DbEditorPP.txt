@@ -93,7 +93,7 @@ Kontakt, do którego skopiuję moduł i ustawienia
 [Import Module/Settings]
 Import modułów/ustawień
 [Import]
-
+Importuj
 [Insert &CR/LF]
 Umieść CR/LF
 [Paste the Settings to import here.]

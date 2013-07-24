@@ -1,5 +1,4 @@
-﻿[Displays popups for custom events, triggered by UDP packages.]
-[No resource name given.]
+﻿[No resource name given.]
 [Unterminated option.]
 [No argument given to msg option.]
 [Id is required for replacement.]

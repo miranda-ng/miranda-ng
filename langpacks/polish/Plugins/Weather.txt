@@ -101,7 +101,7 @@ Stacja pogodowa
 [City name]
 Nazwa miasta
 [ID]
-
+ID
 [Log Information]
 Informacje
 [Use internal history]

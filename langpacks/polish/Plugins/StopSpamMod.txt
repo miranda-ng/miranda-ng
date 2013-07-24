@@ -74,7 +74,7 @@ Używaj wyrażeń matematycznych
 Detale..
 ;file \plugins\StopSpamMod\src\init.cpp
 [StopSpam]
-
+StopSpam
 [StopSpam Logs]
 
 [Remove Temporary Contacts]

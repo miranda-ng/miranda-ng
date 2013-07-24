@@ -149,7 +149,7 @@ Urodziny
 [Contacts]
 Kontakty
 [WhenWasIt]
-
+WhenWasIt
 [Birthday near]
 
 [Birthday today]

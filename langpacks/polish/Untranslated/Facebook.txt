@@ -2,4 +2,5 @@
 [For friends of friends]
 [Message read: %s]
 [Show Mind Window]
+[Facebook ID must be numeric value.]
 [Newsfeed]

@@ -188,7 +188,7 @@ Prośba o autoryzację od %s (%s%d): %s
 [%s Files (*.%s)]
 %s Pliki (*.%s)
 [Import]
-
+Importuj
 [Export]
 Eksport
 [File do not contain selected contact]

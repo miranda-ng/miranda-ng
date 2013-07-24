@@ -6,7 +6,7 @@
 ;  Authors: StDenis
 ;============================================================
 [Plugin replaces MessageBoxes [whose have only OK button] into Popups.]
-
+Zastępuje \"Okna komunikatów\" [tych tylko z przyciskiem OK], popup-ami.
 ;file \plugins\MsgPopup\res\MsgPopup.rc
 [ASTERISK style]
 
@@ -36,7 +36,7 @@ Okienka
 [Hmm. Something goes wrong. I can't write into the memory.\nAnd as u can c, there are no any exception raised..\nTry to call the author]
 
 [MessagePopup]
-
+MessagePopup
 [Popups]
 Popupy
 ;file \plugins\MsgPopup\src\options.cpp

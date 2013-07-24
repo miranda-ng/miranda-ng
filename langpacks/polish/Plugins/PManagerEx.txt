@@ -6,7 +6,7 @@
 ;  Authors: Roman Gemini
 ;============================================================
 [Adds a menu item to change or load a different profile of Miranda NG, restart or run a dbchecker.]
-
+Dodaje do menu głównego wpis umożliwiający zmianę profilu, restart lub uruchomienie wtyczki DbCheker.
 ;file \plugins\ProfileManager\src\pmanagerEx.cpp
 [Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
 
@@ -19,7 +19,7 @@ Zmień profil
 [Check database]
 Sprawdź profil
 [Restart]
-
+Restart
 [Profile manager]
 Menedżer profili
 [Database]

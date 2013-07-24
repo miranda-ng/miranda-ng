@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
-Scriver - wysyłaj i odbieraj wiadomości.
+Łatwa i lekka wtyczka rozmów.
 ;file \plugins\Scriver\res\resource.rc
 [Behaviour]
 Zachowanie
@@ -273,7 +273,7 @@ Google
 [Google Translate]
 
 [Yahoo]
-
+Yahoo
 [Foodnetwork]
 
 [C&lear Log]

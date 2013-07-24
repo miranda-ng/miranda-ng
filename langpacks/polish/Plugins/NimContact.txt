@@ -6,7 +6,7 @@
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Non-IM Contact allows you to add 'contacts' that can act as shortcuts to other programs, or links to web pages.\r\nThe contacts name can be read from a text file (includes any ASCII file).\r\nThis plugin is a combination of Favorites and Text Reader plugins both made by me)]
-
+Pozwala dodać \"kontakty\", które mogą działać jako skróty do innych programów lub linki do stron internetowych.\r\nNazwy kontaktów można odczytywać z pliku tekstowego (w tym dowolnego pliku ASCII).
 ;file \plugins\Non-IM Contact\res\resource.rc
 [View/Edit Files]
 Pokaż/edytuj pliki

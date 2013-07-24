@@ -6,12 +6,12 @@
 ;  Authors: Gennady Feldman
 ;============================================================
 [Yahoo Protocol support for Miranda NG.]
-
+Zapewnia obsługę protokołu Yahoo.
 ;file \protocols\Yahoo\res\Yahoo.rc
 [Yahoo]
-
+Yahoo
 [ID:]
-
+ID:
 [Password:]
 Hasło:
 [Nick:]
@@ -171,7 +171,7 @@ Nowy e-mail w skrzynce
 [%s plugin connections]
 Połączenie %s
 [ID]
-
+ID
 [Please enter your yahoo id in Options/Network/Yahoo]
 Podaj swój Yahoo ID w Opcje -> Protokoły -> Yahoo
 [Please enter your yahoo password in Options/Network/Yahoo]

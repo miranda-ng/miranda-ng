@@ -6,7 +6,7 @@
 ;  Authors: sss
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
-
+Zapewnia obsługę szyfrowania przez GPG.
 ;file \plugins\New_GPG\res\new_gpg.rc
 [Load Public GPG key]
 Wczytaj klucz publiczny GPG
@@ -77,7 +77,7 @@ Długość klucza:
 [Real name:]
 
 [Email:]
-
+E-mail:
 [Comment:]
 
 [Expire date:]
@@ -101,7 +101,7 @@ Zapisz hasło do profilu
 [Default password]
 Domyślne hasło
 [Import]
-
+Importuj
 [Select keyserver for key search:]
 
 [Recieved encrypted file]

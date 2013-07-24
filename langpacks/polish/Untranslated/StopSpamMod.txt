@@ -1,5 +1,4 @@
 ﻿[Vars]
-[StopSpam]
 [StopSpam Logs]
 [Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]
 [nospam]

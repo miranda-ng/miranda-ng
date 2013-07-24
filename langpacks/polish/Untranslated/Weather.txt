@@ -9,7 +9,6 @@
 [mm Hg (torr)]
 [ft]
 [m]
-[ID]
 [Enable popups]
 [Weather Protocol INI Setup]
 [Invalid ID format, missing "/" (10)]

@@ -3,7 +3,5 @@
 [Choose]
 [Test play]
 [Ignore sound for this contact]
-[XSoundNotify]
-[XSound Notify]
 [Custom sound for %s (%s)]
 [Custom contact sound]

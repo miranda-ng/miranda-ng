@@ -1,8 +1,4 @@
 ﻿[Installed plugins]
-[WWW:]
-[SSL]
-[APOP]
-[No new mail message, %d spam(s)]
 [Translate header error]
 [POP3 protocol (internal)]
 [Reading new mail messages (%d%% done)]

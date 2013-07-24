@@ -2022,7 +2022,7 @@ Członkowie listy użytkowników (Zaraz wracam)
 [Nickname]
 Nick
 [UIN]
-
+UIN
 [Protocol]
 Protokół
 [Contacts local time]

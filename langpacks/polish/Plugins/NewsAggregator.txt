@@ -15,9 +15,9 @@ Zmień
 [Remove]
 Usuń
 [Import]
-
+Importuj
 [Export]
-Eksport
+Eksportuj
 [Retrieve news at startup]
 Pobieraj wiadomości podczas startu
 [OK]
@@ -54,6 +54,49 @@ Wszystkie tagi są ważne. Umieść je pomiędzy #. Przykład #<author>#
 Domyślne
 [0 - check manually]
 0 - sprawdzaj ręcznie
+[aaaa]
+aaaa
+[This feed seems to need authentication. Please fill username and password fields:]
+Ten kanał wydaje się wymagać autoryzacji. Wypełnij pola loginu i hasła:
+[Username]
+Użytkownik
+[Available feeds:]
+Dostępne kanały:
+[Feeds to be exported:]
+Kanały eksportowane:
+[&Export]
+Eksportuj
+[&Close]
+Zamknij
+[Import from:]
+Importuj z:
+[Feeds to be imported:]
+Kanały importowane:
+[&Import]
+Importuj
+;file \plugins\NewsAggregator\Src\Authentication.cpp
+[Enter your username]
+Wprowadź swój login
+[Error]
+Błąd
+[Enter your password]
+Wprowadź swoje hasło
+;file \plugins\NewsAggregator\Src\CheckFeed.cpp
+[%s\nis a valid feed's address.]
+%s\njest poprawnym adresem RSS.
+[News Aggregator]
+RSS/Atom
+[%s\nis not a valid feed's address.]
+nie jest poprawnym adresem RSS.
+[New Aggregator]
+
+[empty]
+pusty
+;file \plugins\NewsAggregator\Src\ExportImport.cpp
+[OPML files]
+Pliki OPML
+[Not valid import file.]
+
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Ikona protokołu
@@ -69,8 +112,6 @@ Eksportuj kanały
 Autoaktualizacja włączona
 [Auto Update Disabled]
 Autoaktualizacja wyłączona
-[News Aggregator]
-RSS/Atom
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
 Sprawdź kanał
@@ -79,12 +120,10 @@ Zmień ustawienia kanału
 ;file \plugins\NewsAggregator\Src\Options.cpp
 [Enter Feed name]
 Wpisz nazwę kanału
-[Error]
-Błąd
 [Enter Feed URL]
-
+Wprowadź adres kanału
 [Enter checking interval]
-
+Wprowadź okres sprawdzania
 [Enter message format]
 Format wpisywanej wiadomości
 [The title of the item.]
@@ -124,16 +163,4 @@ Włącz/wyłącz autoaktualizacje
 [NewsAggregator HTTP connection]
 
 [Feed]
-
-[%s\nis a valid feed's address.]
-%s\njest poprawnym adresem RSS.
-[%s\nis not a valid feed's address.]
-nie jest poprawnym adresem RSS.
-[New Aggregator]
-
-[empty]
-pusty
-[OPML files]
-Pliki OPML
-[Not valid import file.]
-
+Kanał

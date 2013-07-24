@@ -10,7 +10,7 @@ Zapisz hasło
 [Create new account]
 Utwórz nowe konto
 [Tlen]
-
+Tlen
 [Options]
 Opcje
 [Automatically reconnect after unintentional disconnection]
@@ -214,9 +214,9 @@ Ignoruj wszystkie obrazki
 [Forwarding]
 
 [SOCKS4]
-
+SOCKS4
 [SOCKS5]
-
+SOCKS5
 [%s mail]
 
 ;file \protocols\Tlen\src\jabber_svc.cpp
@@ -228,19 +228,19 @@ Wprowadź hasło dla
 [Jabber Connection Error]
 Błąd połączenia z Jabberem
 [Windows Server 2003]
-
+Windows Server 2003
 [Windows XP]
-
+Windows XP
 [Windows 2000]
-
+Windows 2000
 [Windows NT]
-
+Windows NT
 [Windows 95]
-
+Windows 95
 [Windows 98]
-
+Windows 98
 [Windows ME]
-
+Windows ME
 [Windows]
 Windows
 [%s Web Messages]

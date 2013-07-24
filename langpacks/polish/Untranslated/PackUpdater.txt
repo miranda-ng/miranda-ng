@@ -1,5 +1,4 @@
-﻿[Simple updater for Miranda NG premodified packs.]
-[PackUpdater has detected updated versions\nof the following Miranda components:]
+﻿[PackUpdater has detected updated versions\nof the following Miranda components:]
 [Pack update options]
 [Remind about not installed pack update]
 [Message boxes]

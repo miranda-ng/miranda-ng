@@ -25,7 +25,7 @@ Domyślne
 [Ignore sound for this contact]
 
 [XSoundNotify]
-
+XSoundNotify
 [OK]
 OK
 [Cancel]
@@ -38,7 +38,7 @@ Pliki WAV
 [Sounds]
 Dźwięki
 [XSound Notify]
-
+XSound Notify
 [Custom sound for %s (%s)]
 
 [Custom contact sound]

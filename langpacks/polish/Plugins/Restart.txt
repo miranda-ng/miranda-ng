@@ -6,9 +6,9 @@
 ;  Authors: eugene.nv
 ;============================================================
 [Adds Restart menu item.]
-Dodaje opcję restartu do menu.
+Dodaje do menu głównego, i menu w zasobniku systemowym, opcję restartu.
 ;file \plugins\Restart\src\restart.cpp
 [Restart]
-
+Restart
 [Restart Plugin]
 Restart

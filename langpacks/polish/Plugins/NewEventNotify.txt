@@ -6,7 +6,7 @@
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, url, file or any other event by displaying a popup.]
-
+Powiadamia Cię kiedy otrzymasz wiadomość, link, plik itp. wyświetlając popup.
 ;file \plugins\NewEventNotify\res\resource.rc
 [General Options]
 Ogólne

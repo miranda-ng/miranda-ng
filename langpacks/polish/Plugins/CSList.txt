@@ -75,7 +75,7 @@ Cofnij zmiany
 [Import statuses from database]
 Importuj statusy z profilu
 [Import]
-
+Importuj
 [Filter list]
 Lista filtrów
 [Filter]

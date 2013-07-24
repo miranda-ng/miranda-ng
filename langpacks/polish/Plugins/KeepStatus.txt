@@ -1,7 +1,7 @@
 ﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
 ;============================================================
 ;  File: KeepStatus.dll
-;  Plugin: Keep Status
+;  Plugin: Keep status
 ;  Version: 0.8.0.97
 ;  Authors: P Boon
 ;============================================================
@@ -265,32 +265,32 @@ Wywoływanie danych
 [Status: The status the account will change to\r\nAccount: The account changing state]
 Status: Status konta został zmieniony do\r\Konto: Konto zmieniło status
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
-[KeepStatus]
-Przywracanie statusu
-[%s Connected from another location]
-%s Połączono z innej lokalizacji.
-[%s Login error, cancel reconnecting]
-%s Błąd logowania, zatrzymano wznawianie.
-[%s Login error (next retry (%d) in %ds)]
-%s Błąd logowania (następna próba (%d) za %ds)
-[%s Status error (next retry (%d) in %ds)]
-%s Błąd połączenia (następna próba (%d) za %ds)
-[Status error (next retry (%d) in %ds)]
-Błąd połączenia (następna próba (%d) za %ds)
+[%s connected from another location]
+
+[%s login error, cancel reconnecting]
+
+[%s login error (next retry (%d) in %d s)]
+
+[%s status error (next retry (%d) in %d s)]
+
+[Status error (next retry (%d) in %d s)]
+
 [will be set to]
 przywracany status:
 [Resetting status... (last try (%d))%s]
 Zerowanie statusu...(ostatnia próba (%d)) %s
-[Resetting status... (next retry (%d) in %ds)%s]
-Zerowanie statusu... (następna próba (%d) za %ds) %s
+[Resetting status... (next retry (%d) in %d s)%s]
+
 [No internet connection seems available... (last try (%d))]
 Brak połączenia z internetem... (ostatnia próba (%d))
-[No internet connection seems available... (next retry (%d) in %ds)]
-Brak połączenia z internetem... (następna próba (%d) za %ds)
+[No internet connection seems available... (next retry (%d) in %d s)]
+
 [Status was set ok]
 Status przywrócony pomyślnie.
 [Giving up]
 Rezygnacja z przywracania statusu.
+[KeepStatus]
+Przywracanie statusu
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Protocol]
 Protokół

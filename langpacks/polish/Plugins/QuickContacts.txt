@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci, Heiko Schillinger
 ;============================================================
 [Open contact-specific windows by hotkey.]
-Otwiera specyficzne okno kontaktów.
+Otwiera okno określonego kontaktu za pomocą skrótu klawiaturowego.
 ;file \plugins\QuickContacts\res\resource.rc
 [Last Sent]
 Ostatnio wysłane
@@ -35,7 +35,7 @@ Ale trzymaj je na liście poniżej, jeśli metakontakty są ukryte
 [Enter username:]
 Nazwa użytkownika:
 [Show all contacts (Ctrl+A)]
-
+Pokaż wszystkie kontakty (Ctrl+A)
 ;file \plugins\QuickContacts\src\options.cpp
 [Quick Contacts]
 Szybkie kontakty

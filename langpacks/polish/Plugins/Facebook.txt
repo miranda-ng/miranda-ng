@@ -193,6 +193,8 @@ Nowe kanały
 Inne zdarzenie
 [Avatars]
 Awatary
+[Facebook ID must be numeric value.]
+
 [Network]
 Protokoły
 [Account]

@@ -103,7 +103,7 @@ W dół
 [Edit]
 Edytuj
 [Separator]
-
+Separator
 [Advanced options]
 Zaawansowane opcje
 [Retrieve XStatus details if auto-retrieve is disabled]
@@ -336,7 +336,7 @@ Klient:
 [Email]
 E-mail
 [Email:]
-
+E-mail:
 [Gender:]
 Płeć:
 [Homepage]
@@ -350,13 +350,13 @@ Bezczynność
 [Idle:]
 
 [IP]
-
+IP
 [IP:]
 IP:
 [IP internal]
 IP Wewnętrzne
 [IP internal:]
-
+IP Wewnętrzne:
 [Last message]
 Ostatnia wiadomość
 [Last message: (%sys:last_msg_reltime% ago)]
@@ -394,19 +394,19 @@ Tytuł aktywności:
 [Activity text:]
 Tekst aktywności:
 [[menuex.dll] Logon time]
- [menuex.dll] Czas zalogowania
+[menuex.dll] Czas zalogowania
 [Logon time:]
-
+Czas zalogowania:
 [[menuex.dll] Logoff time]
- [menuex.dll] Czas wylogowania
+[menuex.dll] Czas wylogowania
 [Logoff time:]
-
+Czas wylogowania:
 [[seenplugin.dll] Last seen time]
- [seenplugin.dll] Ostatnio widziany
+[seenplugin.dll] Ostatnio widziany
 [Last seen time:]
 Czas:
 [[seenplugin.dll] Last seen status]
- [seenplugin.dll] Ostatni status
+[seenplugin.dll] Ostatni status
 [Last seen status:]
 Status:
 [[weather.dll] Condition]
@@ -416,27 +416,27 @@ Status:
 [[weather.dll] Humidity]
 [weather.dll] Wilgotność
 [Humidity:]
-
+Wilgotność
 [[weather.dll] Max/Min temperature]
 [weather.dll] Maks/Min temperatura
 [Max/Min:]
-
+Maks/Min:
 [[weather.dll] Moon]
 [weather.dll] Faza księżyca
 [Moon:]
 Księżyc:
 [[weather.dll] Pressure]
-
+[weather.dll] Ciśnienie
 [Pressure:]
-
+Ciśnienie:
 [[weather.dll] Sunrise]
 [weather.dll] Wschód słońca
 [Sunrise:]
-
+Wschód słońca:
 [[weather.dll] Sunset]
 [weather.dll] Zachód słońca
 [Sunset:]
-
+Zachód słońca:
 [[weather.dll] Temperature]
 [weather.dll] Temperatura
 [Temperature:]
@@ -476,7 +476,7 @@ Wartości
 [Tray title]
 Tytuł w zasobniku
 [Tipper]
-
+Tipper
 ;file \plugins\TipperYM\src\translations.cpp
 [Female]
 Kobieta

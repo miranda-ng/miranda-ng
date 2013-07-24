@@ -7,4 +7,3 @@
 [%s - setting status of protocol '%s' (%d)]
 [%s - reply, %d]
 [%s - timeout]
-[Ping]

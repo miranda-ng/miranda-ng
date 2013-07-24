@@ -1,2 +1,1 @@
-﻿[Prevent miranda from storing any history.]
-[History Disabled]
+﻿[History Disabled]

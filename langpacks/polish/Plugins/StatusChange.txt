@@ -46,6 +46,6 @@ Transfer pliku
 
 ;file \plugins\StatusChange\src\main.cpp
 [Status Change]
-
+Status Change
 [Status]
 Status

@@ -15,7 +15,7 @@ Odwiedź oficjalną stronę Mirandy NG
 [Miranda NG Options]
 Opcje Mirandy NG
 [Use arrow keys to choose category]
-
+Użyj strzałek do wyboru kategorii
 [OK]
 OK
 [Cancel]
@@ -30,7 +30,7 @@ Zaawansowane
 [Home]
 Dom
 [Miranda NG configuration center]
-
+Panel konfiguracji Mirandy NG
 [Accounts]
 Konta
 [Setup your account information to start messaging.]

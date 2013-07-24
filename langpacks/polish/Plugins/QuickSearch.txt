@@ -42,7 +42,7 @@ Szybkie szukanie
 [Quick Search:]
 
 [UID:]
-
+UID:
 [E-mail Address:]
 Adres e-mail:
 [MirandaV]
@@ -118,7 +118,7 @@ IMIĘNAZWISKO
 [UNIQUEID]
 UNIKALNYID
 [This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.]
-Wtyczka ta pozwala na szybkie wyszukanie kontaktu po nicku, imieniu, nazwisku, e-mailu itp.
+Pozwala szybko znaleźć kontakty z listy kontaktów poprzez nick, imię, e-mail, UIN, itp.
 [This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.Press F3 for activate...]
 
 [New Column]

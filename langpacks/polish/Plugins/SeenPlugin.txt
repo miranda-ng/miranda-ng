@@ -6,7 +6,7 @@
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
-Zapisuje informacje o kontakcie, który po raz ostatni był dostępny.
+Zapisuje kiedy kontakt był ostatnio dostępny oraz jakie kontakty były dostępne kiedy byłeś nieobecny.
 ;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 Opcje
@@ -142,7 +142,7 @@ godziny (24)
 [hours (12)]
 godziny (12)
 [AM/PM]
-
+AM/PM
 [minutes]
 minut
 [seconds]

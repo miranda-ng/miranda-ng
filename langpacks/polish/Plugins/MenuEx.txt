@@ -6,7 +6,7 @@
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
 [Adds some useful options to a contacts menu.]
-Dodaje przydatne opcje do menu kontaktu
+Dodaje przydatne opcje do menu kontaktu.
 ;file \plugins\MenuItemEx\res\resource.rc
 [Enter an authorization request]
 

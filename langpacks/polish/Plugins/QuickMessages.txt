@@ -6,7 +6,7 @@
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Plugin for quick insert pre-defined messages in message input area.]
-Wtyczka do szybkiego umieszczania pre-definiowanych wiadomości w oknie rozmowy.
+Umieszcza predefiniowane wiadomości w oknie rozmowy.
 ;file \plugins\QuickMessages\res\quickmessages.rc
 [Button Right-Click value]
 Wartość prawego przycisku myszy

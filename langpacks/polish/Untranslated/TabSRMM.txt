@@ -51,7 +51,6 @@
 [Group chat log background]
 [Incoming background]
 [Incoming background(old)]
-[UIN]
 [Enable the 'event filter' for new rooms]
 [nick of current contact (if defined)]
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]

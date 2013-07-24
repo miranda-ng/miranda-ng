@@ -6,7 +6,7 @@
 ;  Authors: Unsane
 ;============================================================
 [Plugin for quick insert (or sending) pre-defined messages in message input area.]
-Wtyczka do szybkiego umieszczania (lub wysyłania) pre-definiowanych wiadomości do okna rozmowy.
+Umieszcza (lub wysyła) predefiniowane wiadomości w oknie rozmowy.
 ;file \plugins\QuickReplies\res\resources.rc
 [Quick Replies]
 Szybkie odpowiedzi

@@ -1,6 +1,4 @@
-﻿[SSL]
-[Ping]
-[Auto]
+﻿[Auto]
 [Filter by]
 [CTCP]
 [DCC]

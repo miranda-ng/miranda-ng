@@ -1,5 +1,4 @@
-﻿[REC]
-[Timeout, ms (5000)]
+﻿[Timeout, ms (5000)]
 [PreBuf, % (75%)]
 [Buffer, ms (5000)]
 [Hangar]
@@ -7,6 +6,5 @@
 [Sorry!]
 [Can't initialize device]
 [Can't connect to net. Please, clear 'Work offline' option in Internet settings]
-[Oops! BASS error]
 [Device list]
 [Equalizer]

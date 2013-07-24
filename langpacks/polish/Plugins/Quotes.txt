@@ -6,7 +6,7 @@
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates and economic quotes.]
-
+Umożliwia monitorowanie zmian kursów walutowych i cen akcji.
 ;file \plugins\Quotes\res\Forex.rc
 [Variable List]
 Lista zmiennych
@@ -195,7 +195,7 @@ Eksport
 [Swap button]
 
 [Import]
-
+Importuj
 ;file \plugins\Quotes\src\ImportExport.cpp
 [Xml File (*.xml)]
 Plik XML (*.xml)

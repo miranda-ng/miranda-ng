@@ -64,4 +64,4 @@ Szablon
 [Plugins]
 Wtyczki
 [yaRelay]
-
+yaRelay

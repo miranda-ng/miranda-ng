@@ -15,7 +15,7 @@ PluginUpdater wykrył aktualizacje komponentów. Kliknij w przycisk "Szczegóły
 [Update]
 Aktualizacja
 [Details >>]
-Szczegóły
+Szczegóły >>
 [Cancel]
 Anuluj
 [Select &all]
@@ -134,6 +134,8 @@ Zostanie usunięty!
 Pobieranie zakończone. Rozpocząć aktualizacje? Wszystkie Twoje ustawienia zostaną zapisane i Miranda NG zostanie zamknięta.
 [You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
 Wybrałeś nie instalowanie pobranych aktualizacji.\nMożesz zaisntalować je ręcznie z lokalizacji:\n\n%s
+[<< Details]
+<< Szczegóły
 [No updates found.]
 Nie znaleziono aktualizacji.
 [Update checking already started!]

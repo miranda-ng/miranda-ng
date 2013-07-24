@@ -6,7 +6,7 @@
 ;  Authors: Dioksin
 ;============================================================
 [Skype Status Change according to miranda-Status.]
-
+Zmienia status Skype'a zgodnie ze statusem Mirandy.
 ;file \plugins\SkypeStatusChange\res\SkypeStatusChange.rc
 [Synchronize status message]
 

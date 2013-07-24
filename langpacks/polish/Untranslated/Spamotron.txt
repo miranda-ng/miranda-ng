@@ -1,5 +1,4 @@
-﻿[Anti-spam plugin with captcha and Bayes filtering.]
-[Do not send challenge request if message score above]
+﻿[Do not send challenge request if message score above]
 [Auto-learn messages from approved contacts as ham]
 [Filtering options]
 [Learning options]

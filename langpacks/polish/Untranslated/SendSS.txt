@@ -5,5 +5,4 @@
 [Screenshots]
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
 [Monitor]
-[ImageShack]
 [of "]

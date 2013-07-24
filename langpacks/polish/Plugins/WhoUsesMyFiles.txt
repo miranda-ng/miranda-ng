@@ -60,7 +60,7 @@ Wybierz kolor
 
 ;file \plugins\WhoUsesMyFiles\src\wumf.cpp
 [ID]
-
+ID
 [User]
 Użytkownika
 [File]
@@ -79,9 +79,9 @@ Plik
 [Popup plugin not found!]
 
 [Error]
-
+Błąd
 [Enable WUMF popups]
-
+Włącz popupy WUMF
 [Disable WUMF popups]
 Wyłącz popupy WUMF
 [Common Dialog Error 0x%lx]
@@ -91,7 +91,7 @@ Wyłącz popupy WUMF
 [Show connections list]
 
 [Wumf]
-
+Wumf
 [Services]
 Usługi
 [Popups]

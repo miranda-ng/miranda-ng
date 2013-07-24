@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
 ;============================================================
 [Spell checker for the message windows. Uses Hunspell to do the checking.]
-Sprawdzanie pisowni w oknie rozmowy. Używa Hunspell do sprawdzania.
+Sprawdzanie pisowni w oknie rozmowy. Używa Hunspell'a do sprawdzania.
 ;file \plugins\SpellChecker\res\resource.rc
 [Replacements]
 Zamiennik

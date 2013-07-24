@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 [Prevent miranda from storing any history.]
-
+Zapobiega zapisywaniu historii dla wszystkich lub wybranych kontaktów.
 ;file \plugins\NoHistory\res\NoHistory.rc
 [Keep history for this contact]
 Włącz historię dla tego kontaktu

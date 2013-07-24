@@ -6,7 +6,7 @@
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
-Rób zrzuty pulpitu i wysyłaj je do kontaktów
+Robi zrzut ekranu i wysyła go do kontaktu.
 ;file \plugins\SendScreenshotPlus\res\resource.rc
 [Dialog]
 Okno
@@ -220,7 +220,7 @@ E-mail
 [FTP File]
 Menedżer FTP
 [ImageShack]
-
+ImageShack
 [Information]
 Informacje
 [Fill description textbox.]

@@ -8,7 +8,6 @@
 [Wikipedia (en)]
 [Google Maps]
 [Google Translate]
-[Yahoo]
 [Foodnetwork]
 [signed off (was %s)]
 [signed on (%s)]

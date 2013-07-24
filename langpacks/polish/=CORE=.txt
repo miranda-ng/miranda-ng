@@ -435,7 +435,7 @@ Ta czcionka jest używana do wyświetlania różnych dodatkowych informacji.
 
 [Event icon legend:]
 Znaczenia ikon zdarzeń:
-[Choose events you wish to ingonre:]
+[Choose events you wish to ignore:]
 Wybierz zdarzenia, które chcesz ignorować:
 [Font Effect]
 Efekt

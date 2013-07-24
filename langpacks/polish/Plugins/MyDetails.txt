@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Shows and allows you to edit your details for all protocols.]
-
+Pokazuje i pozwala edytować Twoje dane dla wszystkich protokołów.
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Ustaw mój nick
@@ -21,7 +21,7 @@ Ogólne
 [...avatar]
 ...awatar
 [RTL]
-
+RTL
 [Align text to right]
 Tekst po prawej
 [...nickname]
@@ -31,7 +31,7 @@ Dopasuj wielkość ramki
 [Use contact list smileys]
 Użyj emotikon listy kontaktów
 [...status]
-
+...status
 [Replace Smileys]
 Zamieniaj emotikony
 [Resize Smileys]
@@ -67,7 +67,7 @@ Globalny...
 [Frame Options]
 Opcje ramki
 [Cycle through accounts every:]
-
+Przełączaj konta co:
 [seconds]
 s
 [Account]
@@ -83,13 +83,13 @@ Opis:
 [&Offline]
 Rozłączony
 [On&line]
-
+Dostępny
 [&Away]
 Zaraz wracam
 [&NA]
 Wrócę później
 [Occ&upied]
-
+Zajęty
 [&DND]
 Nie przeszkadzać
 [&Free for chat]
@@ -97,9 +97,9 @@ Porozmawiajmy
 [&Invisible]
 Niewidoczny
 [On the &Phone]
-
+Pod telefonem
 [Out to &Lunch]
-
+Na obiedzie
 [Set My Avatar...]
 Ustaw awatar...
 [Set My Nickname...]
@@ -135,7 +135,7 @@ Tło
 [Avatar Border]
 Ramka awatara
 [Show My Details]
-
+Pokaż moje dane
 [Enable Listening To for %s]
 Włącz Listening To dla %s
 [Set My Avatar for %s...]

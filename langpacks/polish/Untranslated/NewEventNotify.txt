@@ -1,1 +1,0 @@
-﻿[Notifies you when you receive a message, url, file or any other event by displaying a popup.]

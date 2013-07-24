@@ -21,7 +21,7 @@ Własność:
 [Contact:]
 Kontakt:
 [WWW:]
-
+WWW:
 [Check this account]
 Sprawdź to konto
 [Check interval [min]:]
@@ -55,7 +55,7 @@ Kodowanie:
 [Port:]
 Port:
 [SSL]
-
+SSL
 [Disable STLS]
 Wyłącz STLS
 [Startup check]
@@ -81,7 +81,7 @@ Status:
 [Account]
 Konto
 [APOP]
-
+APOP
 [Name:]
 Nazwa:
 [Options]
@@ -208,7 +208,7 @@ Konto: %s, Nowych wiadomości: %d, Łącznie: %d
 [%d new mail message(s), %d total]
 Nowych wiadomości: %d, Łącznie: %d
 [No new mail message, %d spam(s)]
-
+Brak nowych wiadomości, spamów: %d
 [Invalid]
 Niewłaściwe
 [Header]

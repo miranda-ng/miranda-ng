@@ -83,7 +83,7 @@ Autor:
 [Site:]
 Strona:
 [Email:]
-
+E-mail:
 [Unique ID:]
 ID:
 ;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp

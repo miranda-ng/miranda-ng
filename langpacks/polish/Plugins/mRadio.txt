@@ -6,11 +6,11 @@
 ;  URL:http://awkward.mirandaim.ru
 ;============================================================
 [This plugin plays and records Internet radio streams. Also local media files can be played.]
-Ta wtyczka odtwarza i nagrywa strumienie audycji radiowych z Internetu. Potrafi także odtwarzać pliki lokalne.
+Odtwarza i nagrywa strumienie audycji radiowych z internetu. Potrafi także odtwarzać pliki lokalne.
 [mRadio Mod]
 Protokół mRadio
 [REC]
-
+REC
 [Cave]
 Jaskinia
 [Arena]
@@ -172,7 +172,7 @@ Wymuś Mono
 [Play/Pause]
 Odtwarzaj/Pauza
 [Oops! BASS error]
-
+Uups! Błąd biblioteki BASS.
 [Mute with Miranda]
 Wycisz z Mirandą
 [Advanced]

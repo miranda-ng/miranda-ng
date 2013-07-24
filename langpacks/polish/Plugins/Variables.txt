@@ -164,7 +164,7 @@ zmienia wartość dziesiętną x do długości y z zerami
 [random number]
 losowa liczba
 [x - y - ...]
-
+x - y - ...
 ;file \plugins\Variables\src\parse_metacontacts.cpp
 [MetaContacts]
 Metakontakty
@@ -381,7 +381,7 @@ x, y przechowuje zmienne o nazwie x
 y tylko przechowuje zmienne x
 ;file \plugins\Variables\src\parse_xml.cpp
 [XML]
-
+XML
 [apply stylesheet file x to document file y]
 
 [apply stylesheet x to document y]

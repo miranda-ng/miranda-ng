@@ -6,7 +6,7 @@
 ;  Authors: J. Schaal & S. Ellis
 ;============================================================
 [Merges contacts from the same or different protocols into one.]
-Umożliwia łączenie kontaktów.
+Umożliwia łączenie kontaktów tego samego lub różnych protokołów w jeden kontakt.
 ;file \plugins\MetaContacts\res\MetaContacts.rc
 [Add to Existing MetaContact]
 
@@ -145,7 +145,7 @@ Nie
 [Contact]
 Kontakt
 [Id]
-
+Id
 [Protocol]
 Protokół
 [Send Offline]

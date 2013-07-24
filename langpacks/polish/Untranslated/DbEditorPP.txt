@@ -1,5 +1,4 @@
-﻿[Import]
-[DBEditor++]
+﻿[DBEditor++]
 [BL&OB]
 [HANDLE]
 [BLOB]

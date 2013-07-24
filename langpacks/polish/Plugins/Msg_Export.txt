@@ -6,7 +6,7 @@
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or File you receive to a text file.]
-
+Eksportuje każdą wiadomość, URL lub plik jaki otrzymasz do pliku tekstowego.
 ;file \plugins\Msg_Export\res\resource.rc
 [Browse]
 Przeglądaj
@@ -139,7 +139,7 @@ Nick
 [Proto]
 Protokół
 [UIN]
-
+UIN
 [You have unapplyed changes do you wish to apply these first ?]
 Masz niezapisane zmiany, czy chcesz je teraz zapisać?
 [Executable files]
@@ -196,7 +196,7 @@ Użytkownik      : %User%\r\n
 [Protocol  : %Proto%\r\n]
 Protokół  : %Proto%\r\n
 [UIN       : %UIN%\r\n]
-
+UIN       : %UIN%\r\n
 [FirstName : %FirstName%\r\n]
 Imię : %FirstName%\r\n
 [LastName  : %LastName%\r\n]
@@ -208,7 +208,7 @@ Płeć    : %Gender%\r\n
 [e-mail    : %e-mail%\r\n]
 E-mail    : %e-mail%\r\n
 [Nick      : %Nick%\r\n]
-
+Nick      : %Nick%\r\n
 [City      : %City%\r\n]
 Miasto      : %City%\r\n
 [State     : %State%\r\n]
@@ -226,15 +226,15 @@ Nie udało się zapisać daty i nazwy użytkownika do pliku:\n
 [Failed to write message to the file :\n]
 Nie udało się zapisać wiadomości do pliku:\n
 [URL: ]
-
+URL: 
 [File: ]
 Plik: 
 [Description: ]
-
+Opis: 
 [Failed to write URL/File to the file :\n]
 Nie udało się zapisać Linku/Pliku do pliku:\n
 [Nick      :]
-
+Nick      :
 [FirstName :]
 Imię :
 [LastName  :]
@@ -252,7 +252,7 @@ Następujący użytkownik wysłał pytanie o autoryzację:
 [The following user added you to their contact list:]
 Następujący użytkownik dodał cię do swojej listy kontaktów:
 [UIN       :]
-
+UIN       :
 [Failed to write AUTHREQUEST or ADDED to the file :\n]
 Nie udało się zapisać pytania o autoryzację lub dodania użytkownika do pliku:\n
 [EmailExpress from:]

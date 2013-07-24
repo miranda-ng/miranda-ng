@@ -1,5 +1,4 @@
-﻿[Send SMS text messages to mobile phones through the IM networks.]
-[Read Next]
+﻿[Read Next]
 [Message received:]
 [Number:]
 [Multiple >>]

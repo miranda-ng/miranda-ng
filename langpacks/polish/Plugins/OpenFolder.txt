@@ -6,7 +6,7 @@
 ;  Authors: jarvis, Kreisquadratur
 ;============================================================
 [Adds a menu/toobar item which opens the main Miranda NG folder.]
-Dodaje elementy do menu/paska narzędzi, która otwiera główny folder Mirandy NG.
+Dodaje pozycję do menu/paska narzędzi umożliwiającą otwarcie głównego folderu Mirandy NG.
 ;file \plugins\OpenFolder\src\openFolder.cpp
 [Open Folder]
 Otwórz folder

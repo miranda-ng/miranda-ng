@@ -129,7 +129,7 @@ Użyj listy blokowania
 [Birthday popup colours]
 Kolory popupów urodzin
 [r]
-
+r
 [Background colour]
 Kolor tła
 [Text colour]
@@ -245,7 +245,7 @@ Widok drzewka
 [Adapt propertysheet pages to aero mode.]
 Dostosuj do trybu aero.
 [Import]
-
+Importuj
 [Importing...\nPlease wait!]
 Importowanie...\nProszę poczekać!
 [Setting/Event (20/100)]

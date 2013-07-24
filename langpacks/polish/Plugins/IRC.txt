@@ -81,13 +81,13 @@ Bój się małp!!!
 [Check every (s):]
 Sprawdzaj co (s):
 [SSL]
-
+SSL
 [Don't check if more than (users):]
 Nie sprawdzaj, jeśli więcej niż (użytkowników):
 [User information]
 Informacja użytkownika
 [Ping]
-
+Ping
 [Version]
 Wersja
 [Time]
