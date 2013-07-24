@@ -64,9 +64,6 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{dcc9b0d7-b335-458b-ac09-6cc6cf55e397}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Modules\json">
-      <UniqueIdentifier>{8aad13dd-0e8d-4154-ad6f-913724b5a499}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Modules\crypt">
       <UniqueIdentifier>{15d84b6a-4aa3-4cd5-93b3-2559709224ea}</UniqueIdentifier>
     </Filter>
@@ -218,39 +215,6 @@
     </ClInclude>
     <ClInclude Include="modules\skin\skin.h">
       <Filter>Modules\skin</Filter>
-    </ClInclude>
-    <ClInclude Include="modules\json\internalJSONNode.h">
-      <Filter>Modules\json</Filter>
-    </ClInclude>
-    <ClInclude Include="modules\json\JSON_Base64.h">
-      <Filter>Modules\json</Filter>
-    </ClInclude>
-    <ClInclude Include="modules\json\JSONChildren.h">
-      <Filter>Modules\json</Filter>
-    </ClInclude>
-    <ClInclude Include="modules\json\JSONDebug.h">
-      <Filter>Modules\json</Filter>
-    </ClInclude>
-    <ClInclude Include="modules\json\JSONDefs.h">
-      <Filter>Modules\json</Filter>
-    </ClInclude>
-    <ClInclude Include="modules\json\JSONMemory.h">
-      <Filter>Modules\json</Filter>
-    </ClInclude>
-    <ClInclude Include="modules\json\JSONNode.h">
-      <Filter>Modules\json</Filter>
-    </ClInclude>
-    <ClInclude Include="modules\json\JSONOptions.h">
-      <Filter>Modules\json</Filter>
-    </ClInclude>
-    <ClInclude Include="modules\json\JSONWorker.h">
-      <Filter>Modules\json</Filter>
-    </ClInclude>
-    <ClInclude Include="modules\json\libJSON.h">
-      <Filter>Modules\json</Filter>
-    </ClInclude>
-    <ClInclude Include="modules\json\NumberToString.h">
-      <Filter>Modules\json</Filter>
     </ClInclude>
     <ClInclude Include="..\include\m_json.h">
       <Filter>SDK</Filter>
@@ -535,42 +499,6 @@
     </ClCompile>
     <ClCompile Include="modules\icolib\skin2opts.cpp">
       <Filter>Modules\icolib</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\json\internalJSONNode.cpp">
-      <Filter>Modules\json</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\json\JSON_Base64.cpp">
-      <Filter>Modules\json</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\json\JSONChildren.cpp">
-      <Filter>Modules\json</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\json\JSONDebug.cpp">
-      <Filter>Modules\json</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\json\JSONIterators.cpp">
-      <Filter>Modules\json</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\json\JSONMemory.cpp">
-      <Filter>Modules\json</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\json\JSONNode.cpp">
-      <Filter>Modules\json</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\json\JSONNode_Mutex.cpp">
-      <Filter>Modules\json</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\json\JSONWorker.cpp">
-      <Filter>Modules\json</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\json\JSONWriter.cpp">
-      <Filter>Modules\json</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\json\libJSON.cpp">
-      <Filter>Modules\json</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\json\json.cpp">
-      <Filter>Modules\json</Filter>
     </ClCompile>
     <ClCompile Include="modules\utils\utils.cpp">
       <Filter>Modules\utils</Filter>

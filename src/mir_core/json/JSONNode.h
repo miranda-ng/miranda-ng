@@ -3,8 +3,6 @@
 
 #include "JSONDefs.h"   //for string type
 #include "internalJSONNode.h"  //internal structure for json value
-#include <stdexcept>
-#include <cstdarg>  //for the ... parameter
 
 #ifdef JSON_BINARY
 	#include "JSON_Base64.h"
@@ -29,18 +27,18 @@
 	#define JSON_NEW(x) JSONNode::newJSONNode_Shallow(x)
 	#define DECLARE_FOR_ALL_TYPES(foo)\
 		foo(long);\
-		foo(json_number);\
+		foo(double);\
 		foo(bool);\
 		foo(const json_string &);
 	#define DECLARE_FOR_ALL_TYPES_CONST(foo)\
 		foo(long) const;\
-		foo(json_number) const;\
+		foo(double) const;\
 		foo(bool) const;\
 		foo(const json_string &) const;\
 		foo(const JSONNode &) const;
 	#define IMPLEMENT_FOR_ALL_NUMBERS(foo)\
 		foo(long)\
-		foo(json_number)
+		foo(double)
 
 #else
 	#define JSON_PTR_LIB
@@ -113,7 +111,7 @@ public:
 
 	json_string as_string(void) const;
 	long as_int(void) const;
-	json_number as_float(void) const;
+	double as_float(void) const;
 	bool as_bool(void) const;
 	JSONNode as_node(void) const;
 	JSONNode as_array(void) const;
@@ -535,7 +533,7 @@ inline long JSONNode::as_int(void) const {
 	JSON_CHECK_INTERNAL();
 	return internal -> as_int();
 }
-inline json_number JSONNode::as_float(void) const {
+inline double JSONNode::as_float(void) const {
 	JSON_CHECK_INTERNAL();
 	return internal -> as_float();
 }

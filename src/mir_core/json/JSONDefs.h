@@ -65,7 +65,7 @@
 #ifdef JSON_INDEX_TYPE
 	typedef JSON_INDEX_TYPE json_index_t;
 #else
-	typedef unsigned int json_index_t;
+	typedef size_t json_index_t;
 #endif
 
 typedef void (*json_mutex_callback_t)(void *);
@@ -76,8 +76,8 @@ typedef void (*json_free_t)(void *);
 #else
 	#define JSONNODE void  //so that JSONNODE* is void*
 	typedef JSONNODE** JSONNODE_ITERATOR;
-	typedef void * (*json_malloc_t)(unsigned long);
-	typedef void * (*json_realloc_t)(void *, unsigned long);
+	typedef void * (*json_malloc_t)(size_t);
+	typedef void * (*json_realloc_t)(void *, size_t);
 #endif
 
 #endif //JSONDEFS_H

@@ -1,6 +1,5 @@
 #include "common.h"
 
-JSONSERVICEINTERFACE jsi;
 CLIST_INTERFACE* pcli;
 int hLangpack;
 
@@ -72,7 +71,6 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 	mir_getCLI();
-	json_getJSI(&jsi);
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "WhatsApp";

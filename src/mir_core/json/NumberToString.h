@@ -95,8 +95,8 @@ public:
 		return result;
 	}
 
-	static inline bool areEqual(const json_number & one, const json_number & two){
-		const json_number temp = one - two;
+	static inline bool areEqual(const double & one, const double & two){
+		const double temp = one - two;
 		return (temp > 0.0) ? temp < 0.00001 : temp > -0.00001;
 	}
 };
