@@ -195,7 +195,7 @@ INT_PTR FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 		if (needLoad)
 		{												
-			LOG("***** Starting avatar request thread for %s", AI->filename);
+			LOG("***** Starting avatar request thread for %s", _T2A(AI->filename));
 			ScopedLock s(avatar_lock_);
 
 			if (std::find(avatar_queue.begin(), avatar_queue.end(), AI->hContact) == avatar_queue.end())
