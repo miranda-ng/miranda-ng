@@ -119,10 +119,10 @@ static int AddDatabaseToList(HWND hwndList, const TCHAR* filename, TCHAR* dir)
 
 	int iNewItem = ListView_InsertItem(hwndList, &lvi);
 	TCHAR szSize[20];
-	_stprintf(szSize, _T("%.2lf MB"), totalSize/1048576.0);
+	mir_sntprintf(szSize, SIZEOF(szSize), _T("%.2lf MB"), totalSize / 1048576.0);
 	ListView_SetItemText(hwndList, iNewItem, 1, szSize);
 	if (!broken) {
-		_stprintf(szSize, _T("%.2lf MB"), wasted/1048576.0);
+		mir_sntprintf(szSize, SIZEOF(szSize), _T("%.2lf MB"), wasted / 1048576.0);
 		ListView_SetItemText(hwndList, iNewItem, 2, szSize);
 	}
 	return iNewItem;
@@ -143,7 +143,7 @@ void FindAdd(HWND hdlg, TCHAR *szProfileDir, TCHAR *szPrefix)
 			if ( !(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) || !_tcscmp(fd.cFileName, _T(".")) || !_tcscmp(fd.cFileName, _T("..")))
 				continue;
 				
-			wsprintf(szFilename, _T("%s\\%s\\%s.dat"), szProfileDir, fd.cFileName, fd.cFileName);
+			mir_sntprintf(szFilename, SIZEOF(szFilename), _T("%s\\%s\\%s.dat"), szProfileDir, fd.cFileName, fd.cFileName);
 			if ( _taccess(szFilename, 0) == 0)
 				AddDatabaseToList(GetDlgItem(hdlg, IDC_DBLIST), szFilename, szPrefix);
 		}

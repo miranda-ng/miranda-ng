@@ -14,11 +14,11 @@ HANDLE hNetlibUser=NULL;
 
 void __stdcall	SSL_DebugLog(const char *fmt, ...)
 {
-	char		str[ 4096 ];
+	char str[4096];
 	va_list	vararg;
 
 	va_start( vararg, fmt );
-	int tBytes = _vsnprintf( str, sizeof(str)-1, fmt, vararg );
+	int tBytes = mir_vsnprintf(str, SIZEOF(str), fmt, vararg);
 	if ( tBytes == 0 )
 		return;
 
@@ -36,7 +36,7 @@ HANDLE RegisterNLClient(const char *name)
 	static NETLIBUSER nlu={0};
 	char desc[128];
 
-	sprintf(desc, Translate("%s connection"),name);
+	mir_snprintf(desc, SIZEOF(desc), Translate("%s connection"), name);
 
 #ifdef DEBUG_COMM
 	DebugLog(CommFile,"<Register PROXY support>");

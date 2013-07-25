@@ -192,16 +192,17 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai) {
 
 		szArgsA = mir_t2a(szArgs);
 
-		szHelp = ( char* )mir_alloc(32 + strlen(szArgsA));
+		int size = 32 + strlen(szArgsA);
+		szHelp = (char *)mir_alloc(size);
 		memset(szHelp, '\0', 32 + strlen(szArgsA));
-		sprintf(szHelp, LPGEN("Alias")"\t(%s)\t"LPGEN("user defined"), szArgsA);
+		mir_snprintf(szHelp, size, LPGEN("Alias")"\t(%s)\t"LPGEN("user defined"), szArgsA);
 		res = registerIntToken(alias, parseTranslateAlias, TRF_FUNCTION|TRF_UNPARSEDARGS, szHelp);
 		mir_free(szArgsA);
 	}
 	else {
 		szHelp = ( char* )mir_alloc(32);
 		memset(szHelp, '\0', 32);
-		sprintf(szHelp, LPGEN("Alias")"\t\t"LPGEN("user defined"));
+		mir_snprintf(szHelp, 32, LPGEN("Alias")"\t\t"LPGEN("user defined"));
 		res = registerIntToken(alias, parseTranslateAlias, TRF_FIELD|TRF_UNPARSEDARGS, szHelp);
 	}
 	mir_free(szArgs);

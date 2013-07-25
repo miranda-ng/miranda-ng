@@ -65,14 +65,6 @@ void DrawDataForStatusBar(LPDRAWITEMSTRUCT dis)
 	SelectClipRgn(dis->hDC, hrgn);
 
 	char *szProto = PD->RealName;
-#ifdef _DEBUG
-	{
-		//char buf[512];
-		//sprintf(buf,"proto: %s draw at pos: %d\r\n",szProto,dis->rcItem.left);
-		//OutputDebugStringA(buf);
-	}
-#endif
-
 	int status = CallProtoService(szProto,PS_GETSTATUS,0,0);
 	SetBkMode(dis->hDC,TRANSPARENT);
 	int x = dis->rcItem.left+extraspace;

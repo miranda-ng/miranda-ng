@@ -54,11 +54,12 @@ static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai) {
 	if ( _tcslen(ai->targv[1]) == 0)
 		szCounter = mir_tstrdup(_T("\\Processor(_Total)\\% Processor Time"));
 	else {
-		szCounter = (TCHAR*)mir_alloc((_tcslen(ai->targv[1]) + 32)*sizeof(TCHAR));
+		int size = _tcslen(ai->targv[1]) + 32;
+		szCounter = (TCHAR *)mir_alloc(size * sizeof(TCHAR));
 		if (szCounter == NULL)
 			return NULL;
 
-		wsprintf(szCounter, _T("\\Process(%s)\\%% Processor Time"), ai->targv[1]);
+		mir_sntprintf(szCounter, size, _T("\\Process(%s)\\%% Processor Time"), ai->targv[1]);
 	}
 	PDH_STATUS pdhStatus = PdhValidatePath(szCounter);
 	if (pdhStatus != ERROR_SUCCESS) {

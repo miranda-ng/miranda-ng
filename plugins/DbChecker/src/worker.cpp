@@ -53,8 +53,10 @@ static void Finalize(time_t& ts)
 			dbPath[0] = 0;
 		}
 		for (int i = 1;;i++) {
-			if (i == 1) wsprintf(opts.backupFilename,TranslateT("%s\\Backup of %s"),dbPath,dbFile);
-			else wsprintf(opts.backupFilename,TranslateT("%s\\Backup (%d) of %s"),dbPath,i,dbFile);
+			if (i == 1)
+				mir_sntprintf(opts.backupFilename, SIZEOF(opts.backupFilename), TranslateT("%s\\Backup of %s"), dbPath, dbFile);
+			else
+				mir_sntprintf(opts.backupFilename, SIZEOF(opts.backupFilename), TranslateT("%s\\Backup (%d) of %s"), dbPath, i, dbFile);
 			if (_taccess(opts.backupFilename,0) == -1) break;
 		}
 

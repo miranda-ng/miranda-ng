@@ -661,36 +661,36 @@ FailBackRaw:
 	for (i=0;i<numparts;i++) {
 		if (i) { // part before first boudary should not have headers
 			char infoline[1024]; size_t linesize = 0;
-			_snprintf(infoline,100,"%s %d",Translate("Part"),i);
+			mir_snprintf(infoline, SIZEOF(infoline), "%s %d", Translate("Part"), i);
 			linesize = strlen(infoline);
 			if (partData[i].TransEnc) {
-				_snprintf(infoline+linesize, sizeof(infoline)-linesize,"; %s",partData[i].TransEnc);
+				mir_snprintf(infoline + linesize, SIZEOF(infoline) - linesize, "; %s", partData[i].TransEnc);
 				linesize = strlen(infoline);
 			}
 			if (partData[i].ContType) {
 				char *CharSetStr=strchr(partData[i].ContType,';');
 				if (CharSetStr) {
 					CharSetStr[0]=0;
-					_snprintf(infoline+linesize,sizeof(infoline)-linesize,"; %s",partData[i].ContType);
+					mir_snprintf(infoline + linesize, SIZEOF(infoline) - linesize, "; %s", partData[i].ContType);
 					linesize = strlen(infoline);
 					partData[i].ContType=CharSetStr+1;
 					if (NULL != (CharSetStr=ExtractFromContentType(partData[i].ContType,"charset="))) {
-						_snprintf(infoline+linesize,sizeof(infoline)-linesize,"; %s",CharSetStr);
+						mir_snprintf(infoline + linesize, SIZEOF(infoline) - linesize, "; %s", CharSetStr);
 						linesize = strlen(infoline);
 						delete[] CharSetStr;
 					}
 					if (NULL != (CharSetStr=ExtractFromContentType(partData[i].ContType,"name="))) {
-						_snprintf(infoline+linesize,sizeof(infoline)-linesize,"; \"%s\"",CharSetStr);
+						mir_snprintf(infoline + linesize, SIZEOF(infoline) - linesize, "; \"%s\"", CharSetStr);
 						linesize = strlen(infoline);
 						delete[] CharSetStr;
 					}
 				}
 				else {
-					_snprintf(infoline+linesize,sizeof(infoline)-linesize,"; %s",partData[i].ContType);
+					mir_snprintf(infoline + linesize, SIZEOF(infoline) - linesize, "; %s", partData[i].ContType);
 					linesize = strlen(infoline);
 				}
 			}
-			sprintf(infoline+linesize,".\r\n");
+			mir_snprintf(infoline + linesize, SIZEOF(infoline) - linesize, ".\r\n");
 			{
 				WCHAR *temp=0;
 				dest[destpos] = dest[destpos+1] = dest[destpos+2] = 0x2022; // bullet;

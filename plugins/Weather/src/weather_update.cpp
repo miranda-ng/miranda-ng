@@ -58,7 +58,7 @@ int UpdateWeather(HANDLE hContact)
 		// error occurs if the return value is not equals to 0
 		if (opt.ShowWarnings) 
 		{	// show warnings by popup
-			mir_sntprintf(str, SIZEOF(str)-105, 
+			mir_sntprintf(str, SIZEOF(str) - 105, 
 				TranslateT("Unable to retrieve weather information for %s"), dbv.ptszVal);
 			_tcscat(str, _T("\n"));
 			_tcscat(str, GetError(code));
@@ -104,7 +104,7 @@ int UpdateWeather(HANDLE hContact)
 	if ( !dbres && dbv.ptszVal[0] != 0) {
 		if (opt.AlertPopup && !db_get_b(hContact, WEATHERPROTONAME, "DPopUp", 0) && Ch) {
 			// display alert popup
-			wsprintf(str, _T("Alert for %s%c%s"), winfo.city, 255, dbv.ptszVal);
+			mir_sntprintf(str, SIZEOF(str), _T("Alert for %s%c%s"), winfo.city, 255, dbv.ptszVal);
 			WPShowMessage(str, SM_WEATHERALERT);
 		}
 		// alert issued, set display to italic
@@ -406,19 +406,19 @@ int GetWeatherData(HANDLE hContact)
 		// generate update URL
 		switch(i) {
 		case 0:
-			_snprintf(loc, SIZEOF(loc), Data->UpdateURL, _T2A(id));
+			mir_snprintf(loc, SIZEOF(loc), Data->UpdateURL, _T2A(id));
 			break;
 
 		case 1:
-			_snprintf(loc, SIZEOF(loc), Data->UpdateURL2, _T2A(id));
+			mir_snprintf(loc, SIZEOF(loc), Data->UpdateURL2, _T2A(id));
 			break;
 
 		case 2:
-			_snprintf(loc, SIZEOF(loc), Data->UpdateURL3, _T2A(id));
+			mir_snprintf(loc, SIZEOF(loc), Data->UpdateURL3, _T2A(id));
 			break;
 
 		case 3:
-			_snprintf(loc, SIZEOF(loc), Data->UpdateURL4, _T2A(id));
+			mir_snprintf(loc, SIZEOF(loc), Data->UpdateURL4, _T2A(id));
 			break;
 
 		default:

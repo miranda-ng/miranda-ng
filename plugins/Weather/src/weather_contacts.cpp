@@ -30,7 +30,7 @@ static void OpenUrl( TCHAR* format, TCHAR* id )
 	TCHAR loc[512];
 
 	GetID( id );
-	mir_sntprintf( loc, SIZEOF(loc), format, id );
+	mir_sntprintf(loc, SIZEOF(loc), format, id);
 	
 	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)loc );
 }
@@ -260,7 +260,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 					TCHAR *szData = NULL;
 
 					// load the page
-					wsprintfA(loc, sData->IDSearch.SearchURL, str);
+					mir_snprintf(loc, SIZEOF(loc), sData->IDSearch.SearchURL, str);
 					str[0] = 0;
 					if (InternetDownloadFile(loc, NULL, &szData) == 0) {
 						TCHAR *szInfo = szData;
@@ -370,7 +370,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			}
 			GetDlgItemText(hwndDlg, IDC_NAME, city, SIZEOF(city));
 			db_set_ts(hContact, WEATHERPROTONAME, "Nick", city);
-			wsprintf(str2, TranslateT("Current weather information for %s."), city);
+			mir_sntprintf(str2, SIZEOF(str2), TranslateT("Current weather information for %s."), city);
 			if ((BYTE)IsDlgButtonChecked(hwndDlg, IDC_External)) {
 				GetDlgItemText(hwndDlg, IDC_LOG, str, SIZEOF(str));
 				db_set_ts(hContact, WEATHERPROTONAME, "Log", str);

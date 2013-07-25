@@ -109,13 +109,8 @@ void TiXmlBase::PutString(const TIXML_STRING& str, TIXML_STRING* outString)
 		{
 			// Easy pass at non-alpha/numeric/symbol
 			// Below 32 is symbolic.
-			char buf[ 32 ];
-
-			#if defined(TIXML_SNPRINTF)
-				TIXML_SNPRINTF(buf, sizeof(buf), "&#x%02X;", (unsigned) (c & 0xff));
-			#else
-				sprintf(buf, "&#x%02X;", (unsigned) (c & 0xff));
-			#endif
+			char buf[32];
+			mir_snprintf(buf, SIZEOF(buf), "&#x%02X;", (unsigned) (c & 0xff));
 
 			//*ME:	warning C4267: convert 'size_t' to 'int'
 			//*ME:	Int-Cast to make compiler happy ...
@@ -763,11 +758,7 @@ int TiXmlElement::QueryDoubleAttribute(const char* name, double* dval) const
 void TiXmlElement::SetAttribute(const char * name, int val)
 {
 	char buf[64];
-	#if defined(TIXML_SNPRINTF)
-		TIXML_SNPRINTF(buf, sizeof(buf), "%d", val);
-	#else
-		sprintf(buf, "%d", val);
-	#endif
+	mir_snprintf(buf, SIZEOF(buf), "%d", val);
 	SetAttribute(name, buf);
 }
 
@@ -785,11 +776,7 @@ void TiXmlElement::SetAttribute(const std::string& name, int val)
 void TiXmlElement::SetDoubleAttribute(const char * name, double val)
 {
 	char buf[256];
-	#if defined(TIXML_SNPRINTF)
-		TIXML_SNPRINTF(buf, sizeof(buf), "%f", val);
-	#else
-		sprintf(buf, "%f", val);
-	#endif
+	mir_snprintf(buf, SIZEOF(buf), "%f", val);
 	SetAttribute(name, buf);
 }
 
@@ -1434,24 +1421,16 @@ int TiXmlAttribute::QueryDoubleValue(double* dval) const
 
 void TiXmlAttribute::SetIntValue(int _value)
 {
-	char buf [64];
-	#if defined(TIXML_SNPRINTF)
-		TIXML_SNPRINTF(buf, sizeof(buf), "%d", _value);
-	#else
-		sprintf (buf, "%d", _value);
-	#endif
-	SetValue (buf);
+	char buf[64];
+	mir_snprintf(buf, SIZEOF(buf), "%d", _value);
+	SetValue(buf);
 }
 
 void TiXmlAttribute::SetDoubleValue(double _value)
 {
-	char buf [256];
-	#if defined(TIXML_SNPRINTF)
-		TIXML_SNPRINTF(buf, sizeof(buf), "%lf", _value);
-	#else
-		sprintf (buf, "%lf", _value);
-	#endif
-	SetValue (buf);
+	char buf[256];
+	mir_snprintf(buf, SIZEOF(buf), "%lf", _value);
+	SetValue(buf);
 }
 
 int TiXmlAttribute::IntValue() const

@@ -24,7 +24,7 @@ PWumf new_wumf( DWORD dwID,
 		case PERM_FILE_CREATE: _tcscpy(w->szPerm, _T("Create"));break;
 		default: _tcscpy(w->szPerm, _T("Execute"));
 	}
-	wsprintf(w->szID, _T("%i"), dwID);
+	mir_sntprintf(w->szID, SIZEOF(w->szID), _T("%i"), dwID);
 
 	w->dwID = dwID;
 	w->dwSess = dwSess;

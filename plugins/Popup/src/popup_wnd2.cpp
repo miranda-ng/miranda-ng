@@ -71,7 +71,7 @@ bool	LoadPopupWnd2()
 	if (!g_wndClass.cPopupWnd2) {
 		res = false;
 		TCHAR msg[1024];
-		wsprintf(msg, TranslateT("Failed to register %s class."),wcl.lpszClassName);
+		mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed to register %s class."), wcl.lpszClassName);
 		MessageBox(NULL, msg, _T(MODULNAME_LONG), MB_ICONSTOP|MB_OK);
 	}
 
@@ -93,7 +93,7 @@ bool	LoadPopupWnd2()
 		err = GetLastError();
 		if (!g_wndClass.cPopupEditBox) {
 			TCHAR msg[2048];
-			wsprintf(msg, LPGENT("Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n"),
+			mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n"),
 				wclw.cbSize,		//UINT        cbSize;
 				wclw.style,			//UINT        style;
 				wclw.lpfnWndProc,	//WNDPROC     lpfnWndProc;
@@ -130,7 +130,7 @@ bool	LoadPopupWnd2()
 	if (!g_wndClass.cPopupMenuHostWnd) {
 		res = false;
 		TCHAR msg[1024];
-		wsprintf(msg, TranslateT("Failed to register %s class."),wcl.lpszClassName);
+		mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed to register %s class."), wcl.lpszClassName);
 		MSGERROR(msg);
 	}
 
@@ -1182,13 +1182,15 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 				char* sztext;
 				if ((this->m_lpwzText) || (this->m_lpwzTitle))
 				{
-					text = (TCHAR*)mir_alloc((_tcslen(this->m_lpwzText) + _tcslen(this->m_lpwzTitle)+3)*sizeof(TCHAR));
-					mir_sntprintf(text, _tcslen(this->m_lpwzText) + _tcslen(this->m_lpwzTitle)+3, _T("%s\n\n%s"), this->m_lpwzTitle, this->m_lpwzText);
+					int size = _tcslen(this->m_lpwzText) + _tcslen(this->m_lpwzTitle) + 3;
+					text = (TCHAR*)mir_alloc(size * sizeof(TCHAR));
+					mir_sntprintf(text, size, _T("%s\n\n%s"), this->m_lpwzTitle, this->m_lpwzText);
 				}
 				else if ((this->m_lpzText) || (this->m_lpzTitle))
 				{
-					sztext = (char*)mir_alloc((lstrlenA(this->m_lpzText) + lstrlenA(this->m_lpzTitle)+3)*sizeof(char));
-					mir_snprintf(sztext, lstrlenA(this->m_lpzText) + lstrlenA(this->m_lpzTitle)+3, "%s\n\n%s", this->m_lpzTitle, this->m_lpzText);
+					int size = lstrlenA(this->m_lpzText) + lstrlenA(this->m_lpzTitle) + 3;
+					sztext = (char*)mir_alloc(size * sizeof(char));
+					mir_snprintf(sztext, size, "%s\n\n%s", this->m_lpzTitle, this->m_lpzText);
 					text = mir_a2t(sztext);
 				}
 				OpenClipboard(m_hwnd);

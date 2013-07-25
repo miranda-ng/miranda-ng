@@ -86,7 +86,7 @@ void CSendImageShack::Send() {
 		//nlhr.headers[x].szValue		= auth;		//Basic base-64-authorization
 
 		//$header .= "Content-type: multipart/form-data; boundary=" . part::getBoundary() . "\r\n"; 
-		sprintf(m_nlheader_ContentType, "multipart/form-data; boundary=%s", m_MFDRboundary);
+		mir_snprintf(m_nlheader_ContentType, SIZEOF(m_nlheader_ContentType), "multipart/form-data; boundary=%s", m_MFDRboundary);
 		m_nlhr.headers[m_nlhr.headersCount-1].szName		= "Content-Type";
 		m_nlhr.headers[m_nlhr.headersCount-1].szValue		= m_nlheader_ContentType;
 	}	//NETLIBHTTPHEADER end
@@ -235,7 +235,7 @@ void CSendImageShack::MFDR_Reset() {
 	DWORD	dwBoundaryRand2 = rand();
 
 	mir_freeAndNil(m_MFDRboundary);
-	sprintf(Temp, "B-O-U-N-D-A-R-Y%u%u", dwBoundaryRand1, dwBoundaryRand2);
+	mir_snprintf(Temp, SIZEOF(Temp), "B-O-U-N-D-A-R-Y%u%u", dwBoundaryRand1, dwBoundaryRand2);
 	mir_stradd(m_MFDRboundary,Temp);
 }
 

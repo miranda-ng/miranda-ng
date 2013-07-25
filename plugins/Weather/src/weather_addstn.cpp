@@ -110,7 +110,7 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 		opt.DefStn = hContact;
 		if ( !db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
 			// notification message box
-			wsprintf(str, TranslateT("%s is now the default weather station"), dbv.ptszVal);
+			mir_sntprintf(str, SIZEOF(str), TranslateT("%s is now the default weather station"), dbv.ptszVal);
 			db_free(&dbv);
 			MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK|MB_ICONINFORMATION);
 		}
@@ -309,7 +309,7 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 	// replace spaces with %20
 	char loc[256];
 	ptrA szSearchName( mir_utf8encodeT(name));
-	wsprintfA(loc, sData->SearchURL, ptrA( mir_urlEncode(szSearchName)));
+	mir_snprintf(loc, SIZEOF(loc), sData->SearchURL, ptrA( mir_urlEncode(szSearchName)));
 	if (InternetDownloadFile(loc, NULL, &szData) == 0) {
 		TCHAR* szInfo = szData;
 		search = _tcsstr(szInfo, sData->NotFoundStr);	// determine if data is available
@@ -322,14 +322,14 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 				// if station ID appears first in the downloaded data
 				if ( !_tcsicmp(sData->Single.First, _T("ID"))) {
 					GetDataValue(&sData->Single.ID, str, &szInfo);
-					wsprintf(sID, _T("%s/%s"), svc, str);
+					mir_sntprintf(sID, SIZEOF(sID), _T("%s/%s"), svc, str);
 					GetDataValue(&sData->Single.Name, Name, &szInfo);
 				}
 				// if station name appears first in the downloaded data
 				else if ( !_tcsicmp(sData->Single.First, _T("NAME"))) {
 					GetDataValue(&sData->Single.Name, Name, &szInfo);
 					GetDataValue(&sData->Single.ID, str, &szInfo);
-					wsprintf(sID, _T("%s/%s"), svc, str);
+					mir_sntprintf(sID, SIZEOF(sID), _T("%s/%s"), svc, str);
 				}
 				// if no station ID is obtained, quit the search
 				if (str[0] == 0) {
@@ -360,14 +360,14 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 					// if station ID appears first in the downloaded data
 					if ( !_tcsicmp(sData->Multiple.First, _T("ID"))) {
 						GetDataValue(&sData->Multiple.ID, str, &szInfo);
-						wsprintf(sID, _T("%s/%s"), svc, str);
+						mir_sntprintf(sID, SIZEOF(sID), _T("%s/%s"), svc, str);
 						GetDataValue(&sData->Multiple.Name, Name, &szInfo);
 					}
 					// if station name appears first in the downloaded data
 					else if ( !_tcsicmp(sData->Multiple.First, _T("NAME"))) {
 						GetDataValue(&sData->Multiple.Name, Name, &szInfo);
 						GetDataValue(&sData->Multiple.ID, str, &szInfo);
-						wsprintf(sID, _T("%s/%s"), svc, str);
+						mir_sntprintf(sID, SIZEOF(sID), _T("%s/%s"), svc, str);
 					}
 					// if no station ID is obtained, search completed and quit the search
 					if (str[0] == 0)	break;

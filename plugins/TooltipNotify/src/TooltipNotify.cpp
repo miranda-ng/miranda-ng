@@ -570,7 +570,7 @@ BOOL CTooltipNotify::OptionsDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM l
 		case WM_HSCROLL:
 		{	
 			TCHAR str[10];
-			wsprintf(str, _T("%d%%"), 100*SendDlgItemMessage(hDlg, IDC_TRANSPARENCY_SLIDER, TBM_GETPOS, 0, 0)/255);
+			mir_sntprintf(str, SIZEOF(str), _T("%d%%"), 100 * SendDlgItemMessage(hDlg, IDC_TRANSPARENCY_SLIDER, TBM_GETPOS, 0, 0) / 255);
 			SetDlgItemText(hDlg, IDC_TRANSPERC, str);
 			if(wParam!=0x12345678) SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
 			return TRUE;
@@ -934,11 +934,11 @@ TCHAR *CTooltipNotify::MakeTooltipString(HANDLE hContact, int iStatus, TCHAR *sz
 	long lLen = MultiByteToWideChar(CP_ACP, 0, szProto, (int)strlen(szProto), wszProto, SIZEOF(wszProto));
 	wszProto[lLen] = _T('\0');
 
-	_sntprintf(szString, iBufSize-1, szFormatString, wszProto, _T(": "), szContactName);
+	mir_sntprintf(szString, iBufSize - 1, szFormatString, wszProto, _T(": "), szContactName);
 
 
 	TruncateWithDots(szString, iBufSize-1-_tcslen(szStatus)-_tcslen(szIs)-2); // 2 spaces around szIs
-	_sntprintf(szString+_tcslen(szString), iBufSize-1-_tcslen(szString), _T(" %s %s"), szIs, szStatus);
+	mir_sntprintf(szString + _tcslen(szString), iBufSize - 1 - _tcslen(szString), _T(" %s %s"), szIs, szStatus);
 
 	return szString;
 }

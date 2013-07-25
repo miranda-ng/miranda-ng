@@ -334,9 +334,9 @@ void CALLBACK TimerProc(
 	{
 		char TBcapt[255];
 		if (total > 0)
-			wsprintf(TBcapt,"Ping (%d/%d)", upCount, total);
+			mir_sntprintf(TBcapt, SIZEOF(TBcapt), "Ping (%d/%d)", upCount, total);
 		else
-			wsprintf(TBcapt,"Ping");
+			mir_sntprintf(TBcapt, SIZEOF(TBcapt), "Ping");
 
 		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS,MAKEWPARAM(FO_TBNAME,frame_id),(LPARAM)TBcapt);
 		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS,MAKEWPARAM(FO_TBTIPNAME,frame_id),(LPARAM)TBcapt);

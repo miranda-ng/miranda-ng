@@ -231,7 +231,7 @@ static void __cdecl PopupThread(void *arg)
 	err = GetLastError();
 	if (!g_wndClass.cPopupThreadManagerWnd) {
 		TCHAR msg[1024];
-		wsprintf(msg, TranslateT("Failed to register %s class."),wcl.lpszClassName);
+		mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed to register %s class."), wcl.lpszClassName);
 		MSGERROR(msg);
 	}
 

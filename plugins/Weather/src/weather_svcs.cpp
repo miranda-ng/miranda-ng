@@ -148,12 +148,12 @@ INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		return GAIR_NOAVATAR;
 
 	ai->format = PA_FORMAT_PNG;
-	wsprintf(ai->filename, _T("%s\\Plugins\\Weather\\%s.png"), szSearchPath, statusStr[i]);
+	mir_sntprintf(ai->filename, SIZEOF(ai->filename), _T("%s\\Plugins\\Weather\\%s.png"), szSearchPath, statusStr[i]);
 	if ( _taccess(ai->filename, 4) == 0)
 		return GAIR_SUCCESS;
 
 	ai->format = PA_FORMAT_GIF;
-	wsprintf(ai->filename, _T("%s\\Plugins\\Weather\\%s.gif"), szSearchPath, statusStr[i]);
+	mir_sntprintf(ai->filename, SIZEOF(ai->filename), _T("%s\\Plugins\\Weather\\%s.gif"), szSearchPath, statusStr[i]);
 	if ( _taccess(ai->filename, 4) == 0)
 		return GAIR_SUCCESS;
 

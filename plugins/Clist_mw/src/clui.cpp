@@ -136,7 +136,7 @@ int GetConnectingIconForProtoCount(char *szProto)
 	GetModuleFileNameA(GetModuleHandle(NULL), szPath, MAX_PATH);
 	str = strrchr(szPath,'\\');
 	if (str != NULL) *str = 0;
-	_snprintf(szFullPath, SIZEOF(szFullPath), "%s\\Icons\\proto_conn_%s.dll", szPath, szProto);
+	mir_snprintf(szFullPath, SIZEOF(szFullPath), "%s\\Icons\\proto_conn_%s.dll", szPath, szProto);
 
 	lstrcpynA(file,szFullPath,SIZEOF(file));
 	PathToAbsolute(file, fileFull);
@@ -151,24 +151,11 @@ static HICON ExtractIconFromPath(const char *path)
 	char file[MAX_PATH],fileFull[MAX_PATH];
 	int n;
 	HICON hIcon;
-	{
-//		char buf[512];
-//		sprintf(buf,"LoadIcon %s\r\n",path);
-//		OutputDebugStringA(buf);
-	}
 	lstrcpynA(file,path,SIZEOF(file));
 	comma = strrchr(file,',');
 	if (comma == NULL) n = 0;
 	else {n = atoi(comma+1); *comma = 0;}
    PathToAbsolute(file, fileFull);
-
-#ifdef _DEBUG
-	{
-//		char buf[512];
-//		sprintf(buf,"LoadIconFull %d %s\r\n",n,fileFull);
-//		OutputDebugStringA(buf);
-	}
-#endif
 
 	hIcon = NULL;
 	ExtractIconExA(fileFull,n,NULL,&hIcon,1);
@@ -189,7 +176,7 @@ HICON LoadIconFromExternalFile(char *filename,int i,boolean UseLibrary,boolean r
 		GetModuleFileNameA(g_hInst, szMyPath, MAX_PATH);
 		str = strrchr(szPath,'\\');
 		if (str != NULL) *str = 0;
-		_snprintf(szFullPath, SIZEOF(szFullPath), "%s\\Icons\\%s,%d", szPath, filename, i);
+		mir_snprintf(szFullPath, SIZEOF(szFullPath), "%s\\Icons\\%s,%d", szPath, filename, i);
 	}
 
 	if ( !UseLibrary) {
@@ -225,8 +212,8 @@ void RegisterProtoIcons (char *protoname)
 		char buf2[256];
 		for (i = 0;i<8;i++)
 		{
-			sprintf(buf,"%s #%d",protoname,i);
-			sprintf(buf2,"Contact List/Connection Icons %s",protoname);
+			mir_snprintf(buf, SIZEOF(buf), "%s #%d", protoname, i);
+			mir_snprintf(buf2, SIZEOF(buf2), "Contact List/Connection Icons %s", protoname);
 
 			LoadIconFromExternalFile(NULL,i,TRUE,TRUE,buf,buf2,buf,0,GetConnectingIconForProto_DLL(protoname,i));
 		}
@@ -250,7 +237,7 @@ HICON GetConnectingIconForProto_DLL(char *szProto,int b)
 	HICON hIcon = NULL;
 
 	b = b-1;
-	_snprintf(szFullPath, SIZEOF(szFullPath), "proto_conn_%s.dll",szProto);
+	mir_snprintf(szFullPath, SIZEOF(szFullPath), "proto_conn_%s.dll", szProto);
 	//		hIcon = ExtractIconFromPath(szFullPath);
 	//		if (hIcon) return hIcon;
 
@@ -260,7 +247,7 @@ HICON GetConnectingIconForProto_DLL(char *szProto,int b)
 #ifdef _DEBUG
 	{
 		char buf [256];
-		sprintf(buf,"IconNotFound %s %d\r\n",szProto,b);
+		mir_snprintf(buf, SIZEOF(buf), "IconNotFound %s %d\r\n", szProto, b);
 		//	OutputDebugStringA(buf);
 	}
 #endif
@@ -270,7 +257,7 @@ HICON GetConnectingIconForProto_DLL(char *szProto,int b)
 
 #ifdef _DEBUG
 		char buf [256];
-		sprintf(buf,"Icon %d %d\r\n",GetTickCount(),b);
+		mir_snprintf(buf, SIZEOF(buf), "Icon %d %d\r\n", GetTickCount(), b);
 		//OutputDebugStringA(buf);
 #endif
 		return(LoadIconA(g_hInst,(LPCSTR)(IDI_ICQC1+b)));
@@ -284,7 +271,7 @@ HICON GetConnectingIconForProto(char *szProto,int b)
 	if ( db_get_b(NULL,"CList","UseProtoIconFromIcoLib",1)) {
 		HICON hIcon = 0;
 		char buf[256];
-		sprintf(buf,"%s #%d",szProto,b);
+		mir_snprintf(buf, SIZEOF(buf), "%s #%d", szProto, b);
 
 		hIcon = LoadIconFromExternalFile(NULL,b,TRUE,FALSE,buf,"Contact List/Connection Icons",buf,0,NULL);
 		if (hIcon == NULL) return (GetConnectingIconForProto_DLL(szProto,b));
@@ -459,7 +446,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		HANDLE hMap;
 		char szName[MAX_PATH];
 		int rc = 0;
-		_snprintf(szName,SIZEOF(szName),"Miranda::%u", wParam); // caller will tell us the ID of the map
+		mir_snprintf(szName, SIZEOF(szName), "Miranda::%u", wParam); // caller will tell us the ID of the map
 		hMap = OpenFileMappingA(FILE_MAP_ALL_ACCESS,FALSE,szName);
 		if (hMap != NULL) {
 			void *hView = NULL;
@@ -468,7 +455,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				char szFilePath[MAX_PATH], szProfile[MAX_PATH];
 				CallService(MS_DB_GETPROFILEPATH,MAX_PATH,(LPARAM)&szFilePath);
 				CallService(MS_DB_GETPROFILENAME,MAX_PATH,(LPARAM)&szProfile);
-				_snprintf((char*)hView, MAX_PATH, "%s\\%s", szFilePath, szProfile);
+				mir_snprintf((char*)hView, MAX_PATH, "%s\\%s", szFilePath, szProfile);
 				UnmapViewOfFile(hView);
 				rc = 1;
 			}

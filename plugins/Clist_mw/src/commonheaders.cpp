@@ -16,7 +16,7 @@ DWORD exceptFunction(LPEXCEPTION_POINTERS EP)
 	char buf[4096];
 
 
-	sprintf(buf,"\r\nExceptCode: %x\r\nExceptFlags: %x\r\nExceptAddress: %p\r\n",
+	mir_snprintf(buf, SIZEOF(buf), "\r\nExceptCode: %x\r\nExceptFlags: %x\r\nExceptAddress: %p\r\n",
 		EP->ExceptionRecord->ExceptionCode,
 		EP->ExceptionRecord->ExceptionFlags,
 		EP->ExceptionRecord->ExceptionAddress

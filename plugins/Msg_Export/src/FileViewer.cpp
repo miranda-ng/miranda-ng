@@ -198,12 +198,12 @@ int CLStreamRTFInfo::nWriteHeader( char *pszTarget, int nLen )
 
 */
 	char szRtfHeader[400];
-	int nSrcLen = _snprintf( szRtfHeader, sizeof( szRtfHeader ),
+	int nSrcLen = mir_snprintf(szRtfHeader, SIZEOF(szRtfHeader),
 			"{\\rtf1\\ansi\r\n"
 			"{\\colortbl ;\\red%d\\green%d\\blue%d;\\red%d\\green%d\\blue%d;}\r\n"
 			"\\viewkind4\\uc1\\pard\\cf2 ",
-				GetRValue( cMyText)  ,GetGValue( cMyText)  ,GetBValue( cMyText ),
-				GetRValue( cYourText ),GetGValue( cYourText ),GetBValue( cYourText));
+				GetRValue(cMyText), GetGValue(cMyText), GetBValue(cMyText),
+				GetRValue(cYourText), GetGValue(cYourText), GetBValue(cYourText));
 
 	if (nSrcLen > nLen )
 	{
@@ -377,7 +377,7 @@ int CLStreamRTFInfo::nLoadFileStream( LPBYTE pbBuff, LONG cb )
 				SetFilePointer(hFile,n-dwRead,NULL,FILE_CURRENT);
 				break;
 			}
-			dwCurrent += sprintf( (char*)&pbBuff[dwCurrent], "\\u%d?", nValue );
+			dwCurrent += sprintf( (char*)&pbBuff[dwCurrent], "\\u%d?", nValue ); //!!!!!!!!!
 			//continue;
 /*			// Then we have an extended char in the UTF8 file.
 			// we need to convert this to UCS-2 and then to \uN in the RTF
@@ -663,9 +663,9 @@ bool bLoadFile( HWND hwndDlg, CLHistoryDlg * pclDlg )
 		TCHAR szTmp[1500];
 
 		if (nDBCount == -1 )
-			mir_sntprintf(szTmp, 1499, LPGENT("Failed to open file\r\n%s\r\n\r\nContact handle is invalid"), pclDlg->sPath.c_str());
+			mir_sntprintf(szTmp, 1499, TranslateT("Failed to open file\r\n%s\r\n\r\nContact handle is invalid"), pclDlg->sPath.c_str());
 		else
-			mir_sntprintf( szTmp, 1499, LPGENT("Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events"), pclDlg->sPath.c_str(), nDBCount );
+			mir_sntprintf(szTmp, 1499, TranslateT("Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events"), pclDlg->sPath.c_str(), nDBCount);
 
 		SETTEXTEX stText = {0};
 		stText.codepage =	CP_ACP;
@@ -730,7 +730,7 @@ bool bLoadFile( HWND hwndDlg, CLHistoryDlg * pclDlg )
 	//delete [] pabFileData;
 
 	TCHAR szTmp[100];
-	mir_sntprintf( szTmp, 99, _T("File open time %d\n"), GetTickCount() - dwStart );
+	mir_sntprintf(szTmp, 99, _T("File open time %d\n"), GetTickCount() - dwStart);
 	OutputDebugString( szTmp );
 
 	GETTEXTLENGTHEX sData = { 0 };
@@ -743,7 +743,7 @@ bool bLoadFile( HWND hwndDlg, CLHistoryDlg * pclDlg )
 	if ( !bScrollToBottom )
 		SendMessage( hRichEdit, EM_SETSCROLLPOS, 0, (LPARAM) &ptOldPos );
 
-	mir_sntprintf( szTmp, 99, LPGENT("With scroll to bottom %d\n"), GetTickCount() - dwStart );
+	mir_sntprintf(szTmp, 99, TranslateT("With scroll to bottom %d\n"), GetTickCount() - dwStart);
 	OutputDebugString( szTmp );
 
 	return true;
@@ -1082,7 +1082,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 					if (n != sPath.npos )
 						sPath.erase( 0, n + 1 );
 
-					if (_sntprintf( szTitle, sizeof( szTitle ), szFormat, pszNick, sPath.c_str(), (pclDlg->bUtf8File ? _T("UTF8"):_T("ANSI"))) > 0 )
+					if (mir_sntprintf(szTitle, SIZEOF(szTitle), szFormat, pszNick, sPath.c_str(), (pclDlg->bUtf8File ? _T("UTF8"):_T("ANSI"))) > 0)
 						SetWindowText( hwndDlg, szTitle);
 				}
 			}

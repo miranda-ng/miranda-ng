@@ -48,7 +48,7 @@ int Log(char *format, ...)
 	fputs(str, fout);
 	va_start(vararg, format);
 	
-	tBytes = _vsnprintf(str, sizeof(str), format, vararg);
+	tBytes = mir_vsnprintf(str, sizeof(str), format, vararg);
 	if (tBytes > 0)
 		{
 			str[tBytes] = 0;
@@ -71,7 +71,7 @@ int Info(char *title, char *format, ...)
 	va_list vararg;
 	int tBytes;
 	va_start(vararg, format);
-	tBytes = _vsnprintf(str, sizeof(str), format, vararg);
+	tBytes = mir_vsnprintf(str, sizeof(str), format, vararg);
 	if (tBytes > 0)
 		{
 			str[tBytes] = 0;
@@ -102,12 +102,12 @@ char *BinToHex(int size, PBYTE data)
 	int maxSize = size * 2 + HEX_SIZE + 1;
 	szresult = (char *) new char[ maxSize ];
 	memset(szresult, 0, maxSize);
-	sprintf(buffer, "%0*X", HEX_SIZE, size);
+	mir_snprintf(buffer, SIZEOF(buffer), "%0*X", HEX_SIZE, size);
 	strcpy(szresult, buffer);
 	int i;
 	for (i = 0; i < size; i++)
 		{
-			sprintf(buffer, "%02X", data[i]);
+			mir_snprintf(buffer, SIZEOF(buffer), "%02X", data[i]);
 			strcpy(szresult + (HEX_SIZE + i * 2), buffer);
 		}
 	return szresult; 
@@ -290,7 +290,7 @@ TCHAR *GetContactID(HANDLE hContact, char *szProto)
 				{
 					case CNFT_BYTE:
 						{
-							_stprintf(tmp, _T("%d"), ctInfo.bVal);
+							mir_sntprintf(tmp, SIZEOF(tmp), _T("%d"), ctInfo.bVal);
 							buffer = _tcsdup(tmp);
 						
 							break;
@@ -298,7 +298,7 @@ TCHAR *GetContactID(HANDLE hContact, char *szProto)
 						
 					case CNFT_WORD:
 						{
-							_stprintf(tmp, _T("%d"), ctInfo.wVal);
+							mir_sntprintf(tmp, SIZEOF(tmp), _T("%d"), ctInfo.wVal);
 							buffer = _tcsdup(tmp);
 						
 							break;
@@ -306,7 +306,7 @@ TCHAR *GetContactID(HANDLE hContact, char *szProto)
 						
 					case CNFT_DWORD:
 						{
-							_stprintf(tmp, _T("%ld"), ctInfo.dVal);
+							mir_sntprintf(tmp, SIZEOF(tmp), _T("%ld"), ctInfo.dVal);
 							buffer = _tcsdup(tmp);
 							
 							break;

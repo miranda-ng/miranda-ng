@@ -196,11 +196,11 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				case 1: //Treeview part for typ 1 (notification)
 					mir_snprintf(iconName, sizeof(iconName), "%s_%S_%S", MODULNAME, gTreeData[i]->pszTreeRoot, gTreeData[i]->pszDescription);
 					iconIndex = ImageList_ReplaceIcon(hImgLst, -1, IcoLib_GetIcon(iconName));
-					wsprintf(itemName, _T("%s/%s"), gTreeData[i]->pszTreeRoot, gTreeData[i]->pszDescription);
+					mir_sntprintf(itemName, SIZEOF(itemName), _T("%s/%s"), gTreeData[i]->pszTreeRoot, gTreeData[i]->pszDescription);
 					break;
 				case 2: //Treeview part typ 2 (popup class api)
 					iconIndex = ImageList_ReplaceIcon(hImgLst, -1, gTreeData[i]->pupClass.hIcon);
-					wsprintf(itemName, _T("%s/%s"), LPGENT("CLASS Plugins")/*gTreeData[i]->pszTreeRoot*/, gTreeData[i]->pszDescription);
+					mir_sntprintf(itemName, SIZEOF(itemName), _T("%s/%s"), LPGENT("CLASS Plugins")/*gTreeData[i]->pszTreeRoot*/, gTreeData[i]->pszDescription);
 					break;
 				}
 				OptTree_AddItem(hwndTree, itemName, (LPARAM)gTreeData[i], iconIndex);

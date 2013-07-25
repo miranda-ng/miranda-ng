@@ -156,7 +156,7 @@ int InternetDownloadFile (char *szUrl, char* cookie, TCHAR** szData)
 			else {
 				*szData = ( TCHAR* )mir_alloc(512);
 				// store the error code in szData
-				wsprintf(*szData, _T("Error occured! HTTP Error: %i\n"), nlhrReply->resultCode);
+				mir_sntprintf(*szData, 512, _T("Error occured! HTTP Error: %i\n"), nlhrReply->resultCode);
 				result = (int)nlhrReply->resultCode;
 			}
 

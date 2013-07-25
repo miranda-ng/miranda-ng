@@ -145,7 +145,7 @@ CMirfoxMiranda::initializeSharedMemoryData(MirfoxData& mirfoxData, SharedMemoryU
 	} else {
 		mirfoxData.processCsmId = result.processCsmId;
 		wchar_t prefix[7];
-		wsprintf(prefix, L"MNG%d", result.processCsmId);
+		mir_sntprintf(prefix, SIZEOF(prefix), L"MNG%d", result.processCsmId);
 		logger->set6CharsPrefix(prefix);
 	}
 	

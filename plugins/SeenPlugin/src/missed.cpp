@@ -109,7 +109,7 @@ int ShowMissed(void)
 	for (int loop=0; loop < mcs.count; loop++) {
 		_tcsncat(sztemp, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, mcs.wpcontact[loop], GCDNF_TCHAR), SIZEOF(sztemp));
 		if ( db_get_b(NULL, S_MOD, "MissedOnes_Count", 0)) {
-			wsprintf(szcount, _T(" [%i]"), mcs.times[loop]);
+			mir_sntprintf(szcount, SIZEOF(szcount), _T(" [%i]"), mcs.times[loop]);
 			_tcscat(sztemp, szcount);
 		}
 

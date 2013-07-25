@@ -220,13 +220,13 @@ void getContactUinA(HANDLE hContact, LPSTR szUIN)
 	if (uID == (LPSTR)CALLSERVICE_NOTFOUND ) uID = 0; // Billy_Bons
 	if (uID && db_get(hContact, ptr->name, uID, &dbv_uniqueid) == 0) {
 		if (dbv_uniqueid.type == DBVT_WORD)
-			sprintf(szUIN, "%u [%s]", dbv_uniqueid.wVal, ptr->name);
+			sprintf(szUIN, "%u [%s]", dbv_uniqueid.wVal, ptr->name); //!!!!!!!!!!!
 		else if (dbv_uniqueid.type == DBVT_DWORD)
-			sprintf(szUIN, "%u [%s]", (UINT)dbv_uniqueid.dVal, ptr->name);
+			sprintf(szUIN, "%u [%s]", (UINT)dbv_uniqueid.dVal, ptr->name); //!!!!!!!!!!!
 		else if (dbv_uniqueid.type == DBVT_BLOB)
-			sprintf(szUIN, "%s [%s]", dbv_uniqueid.pbVal, ptr->name);
+			sprintf(szUIN, "%s [%s]", dbv_uniqueid.pbVal, ptr->name); //!!!!!!!!!!!
 		else
-			sprintf(szUIN, "%s [%s]", dbv_uniqueid.pszVal, ptr->name);
+			sprintf(szUIN, "%s [%s]", dbv_uniqueid.pszVal, ptr->name); //!!!!!!!!!!!
 	}
 	else strcpy(szUIN, " == =  unknown   == =");
 

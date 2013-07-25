@@ -214,9 +214,9 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 		*szNoAvatarPathTmp = 0;
 	_tcscat(szNoAvatarPath, _T("\\noavatar.png"));
 	if (_taccess(szNoAvatarPath, 0) == -1)
-		sprintf(tempStr, "%snoavatar.jpg", tempBase);
+		mir_snprintf(tempStr, SIZEOF(tempStr), "%snoavatar.jpg", tempBase);
 	else
-		sprintf(tempStr, "%snoavatar.png", tempBase);
+		mir_snprintf(tempStr, SIZEOF(tempStr), "%snoavatar.png", tempBase);
 	szNoAvatar = mir_utf8encode(tempStr);
 	szAvatarIn = getAvatar(event->hContact, szRealProto);
 	if (szAvatarIn == NULL) {
@@ -390,9 +390,9 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 		*szNoAvatarPathTmp = 0;
 	_tcscat(szNoAvatarPath, _T("\\noavatar.png"));
 	if (_taccess(szNoAvatarPath, 0) == -1)
-		sprintf(tempStr, "%snoavatar.jpg", tempBase);
+		mir_snprintf(tempStr, SIZEOF(tempStr), "%snoavatar.jpg", tempBase);
 	else
-		sprintf(tempStr, "%snoavatar.png", tempBase);
+		mir_snprintf(tempStr, SIZEOF(tempStr), "%snoavatar.png", tempBase);
 	szNoAvatar = mir_utf8encode(tempStr);
 	if(event->hContact != NULL)
 		szAvatarIn = getAvatar(event->hContact, szRealProto);
@@ -446,12 +446,12 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 			if (isSent) {
 				szAvatar = szAvatarOut;
 				szUIN = szUINOut;
-				sprintf(szCID, "%d", 0);
+				mir_snprintf(szCID, SIZEOF(szCID), "%d", 0);
 			}
 			else {
 				szAvatar = szAvatarIn;
 				szUIN = szUINIn;
-				sprintf(szCID, "%d", (int)event->hContact);
+				mir_snprintf(szCID, SIZEOF(szCID), "%d", (int)event->hContact);
 			}
 			tmpltName[0] = groupTemplate;
 			tmpltName[1] = NULL;

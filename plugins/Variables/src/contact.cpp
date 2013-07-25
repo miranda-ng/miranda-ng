@@ -284,11 +284,12 @@ int getContactFromString( CONTACTSINFO* ci )
 			if (cInfo == NULL) {
 				// <HANDLE:hContact>
 				cInfo = (TCHAR*)mir_alloc(32);
-				_stprintf(cInfo, _T("%p"), hContact);
-				szFind = (TCHAR*)mir_alloc((_tcslen(cInfo) + _tcslen(_T(PROTOID_HANDLE)) + 4)*sizeof(TCHAR));
+				mir_sntprintf(cInfo, 32, _T("%p"), hContact);
+				int size = _tcslen(cInfo) + _tcslen(_T(PROTOID_HANDLE)) + 4;
+				szFind = (TCHAR *)mir_alloc(size * sizeof(TCHAR));
 				if (szFind != NULL)
 				{
-					wsprintf(szFind, _T("<%s:%s>"), _T(PROTOID_HANDLE), cInfo);
+					mir_sntprintf(szFind, size, _T("<%s:%s>"), _T(PROTOID_HANDLE), cInfo);
 					if (!_tcsncmp(tszContact, szFind, _tcslen(tszContact)))
 						bMatch = TRUE;
 
@@ -297,11 +298,12 @@ int getContactFromString( CONTACTSINFO* ci )
 				}
 			}
 			else {
-				szFind = (TCHAR*)mir_alloc((_tcslen(cInfo) + strlen(szProto) + 4)*sizeof(TCHAR));
+				int size = _tcslen(cInfo) + strlen(szProto) + 4;
+				szFind = (TCHAR *)mir_alloc(size * sizeof(TCHAR));
 				if (szFind != NULL) {
 					tszProto = mir_a2t(szProto);
 					if ((tszProto != NULL) && (szFind != NULL)) {
-						wsprintf(szFind, _T("<%s:%s>"), tszProto, cInfo);
+						mir_sntprintf(szFind, size, _T("<%s:%s>"), tszProto, cInfo);
 						mir_free(cInfo);
 						mir_free(tszProto);
 						if (!_tcsncmp(tszContact, szFind, _tcslen(tszContact)))
@@ -488,7 +490,8 @@ TCHAR *encodeContactToString(HANDLE hContact)
 	if (szProto == NULL || tszUniqueId == NULL)
 		return NULL;
 
-	TCHAR *tszResult = (TCHAR*)mir_calloc((_tcslen(tszUniqueId) + strlen(szProto) + 4) * sizeof(TCHAR));
+	int size = _tcslen(tszUniqueId) + strlen(szProto) + 4;
+	TCHAR *tszResult = (TCHAR *)mir_calloc(size * sizeof(TCHAR));
 	if (tszResult == NULL)
 		return NULL;
 
@@ -497,7 +500,7 @@ TCHAR *encodeContactToString(HANDLE hContact)
 	if (tszProto == NULL)
 		return NULL;
 
-	wsprintf(tszResult, _T("<%s:%s>"), tszProto, tszUniqueId);
+	mir_sntprintf(tszResult, size, _T("<%s:%s>"), tszProto, tszUniqueId);
 
 	mir_free(tszProto);
 

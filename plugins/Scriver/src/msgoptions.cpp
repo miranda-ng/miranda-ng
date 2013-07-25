@@ -189,7 +189,7 @@ void RegisterChatFonts( void )
 	for (i = 0; i < SIZEOF(chatFontOptionsList); i++) {
 		if (i == 17) continue;
 		fid.order = index++;
-		sprintf(idstr, "Font%d", i);
+		mir_snprintf(idstr, SIZEOF(idstr), "Font%d", i);
 		strncpy(fid.prefix, idstr, sizeof(fid.prefix));
 		_tcsncpy(fid.name, chatFontOptionsList[i].szDescr, SIZEOF(fid.name));
 		fid.deffontsettings.colour = chatFontOptionsList[i].defColour;
@@ -257,16 +257,16 @@ void LoadMsgDlgFont(int i, LOGFONT * lf, COLORREF * colour, BOOL chatMode)
 	const FontOptionsList * fontList = chatMode ? chatFontOptionsList : fontOptionsList;
 
 	if (colour) {
-		wsprintfA(str, "%s%dCol", prefix, i);
+		mir_snprintf(str, SIZEOF(str), "%s%dCol", prefix, i);
 		*colour = db_get_dw(NULL, module, str, fontList[i].defColour);
 	}
 	if (lf) {
-		wsprintfA(str, "%s%dSize", prefix, i);
+		mir_snprintf(str, SIZEOF(str), "%s%dSize", prefix, i);
 		lf->lfHeight = (char) db_get_b(NULL, module, str, fontList[i].defSize);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
-		wsprintfA(str, "%s%dSty", prefix, i);
+		mir_snprintf(str, SIZEOF(str), "%s%dSty", prefix, i);
 		style = db_get_b(NULL, module, str, fontList[i].defStyle);
 		lf->lfWeight = style & FONTF_BOLD ? FW_BOLD : FW_NORMAL;
 		lf->lfItalic = style & FONTF_ITALIC ? 1 : 0;
@@ -276,14 +276,14 @@ void LoadMsgDlgFont(int i, LOGFONT * lf, COLORREF * colour, BOOL chatMode)
 		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-		wsprintfA(str, "%s%d", prefix, i);
+		mir_snprintf(str, SIZEOF(str), "%s%d", prefix, i);
 		if (db_get_ts(NULL, module, str, &dbv))
 			lstrcpy(lf->lfFaceName, fontList[i].szDefFace);
 		else {
 			_tcsncpy(lf->lfFaceName, dbv.ptszVal, SIZEOF(lf->lfFaceName));
 			db_free(&dbv);
 		}
-		wsprintfA(str, "%s%dSet", prefix, i);
+		mir_snprintf(str, SIZEOF(str), "%s%dSet", prefix, i);
 		lf->lfCharSet = db_get_b(NULL, module, str, MsgDlgGetFontDefaultCharset(lf->lfFaceName));
 	}
 }
@@ -502,9 +502,9 @@ static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			SendDlgItemMessage(hwndDlg,IDC_ATRANSPARENCYVALUE,TBM_SETPOS, TRUE, db_get_dw(NULL, SRMMMOD, SRMSGSET_ACTIVEALPHA, SRMSGDEFSET_ACTIVEALPHA));
 			SendDlgItemMessage(hwndDlg,IDC_ITRANSPARENCYVALUE,TBM_SETRANGE, FALSE, MAKELONG(0,255));
 			SendDlgItemMessage(hwndDlg,IDC_ITRANSPARENCYVALUE,TBM_SETPOS, TRUE, db_get_dw(NULL, SRMMMOD, SRMSGSET_INACTIVEALPHA, SRMSGDEFSET_INACTIVEALPHA));
-			sprintf(str,"%d%%",(int)(100*SendDlgItemMessage(hwndDlg,IDC_ATRANSPARENCYVALUE,TBM_GETPOS,0,0)/255));
+			mir_snprintf(str, SIZEOF(str), "%d%%", (int)(100 * SendDlgItemMessage(hwndDlg, IDC_ATRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 255));
 			SetDlgItemTextA(hwndDlg, IDC_ATRANSPARENCYPERC, str);
-			sprintf(str,"%d%%",(int)(100*SendDlgItemMessage(hwndDlg,IDC_ITRANSPARENCYVALUE,TBM_GETPOS,0,0)/255));
+			mir_snprintf(str, SIZEOF(str), "%d%%", (int)(100 * SendDlgItemMessage(hwndDlg, IDC_ITRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 255));
 			SetDlgItemTextA(hwndDlg, IDC_ITRANSPARENCYPERC, str);
 			SetDlgItemInt(hwndDlg, IDC_INPUTLINES, db_get_dw(NULL, SRMMMOD, SRMSGSET_AUTORESIZELINES, SRMSGDEFSET_AUTORESIZELINES), FALSE);
 			SendDlgItemMessage(hwndDlg, IDC_INPUTLINESSPIN, UDM_SETRANGE, 0, MAKELONG(100, 1));
@@ -559,9 +559,9 @@ static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 	case WM_HSCROLL:
 		{
 			char str[10];
-			sprintf(str,"%d%%",(int)(100*SendDlgItemMessage(hwndDlg,IDC_ATRANSPARENCYVALUE,TBM_GETPOS,0,0)/256));
+			mir_snprintf(str, SIZEOF(str), "%d%%", (int)(100 * SendDlgItemMessage(hwndDlg, IDC_ATRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 256));
 			SetDlgItemTextA(hwndDlg, IDC_ATRANSPARENCYPERC, str);
-			sprintf(str,"%d%%",(int)(100*SendDlgItemMessage(hwndDlg,IDC_ITRANSPARENCYVALUE,TBM_GETPOS,0,0)/256));
+			mir_snprintf(str, SIZEOF(str), "%d%%", (int)(100 * SendDlgItemMessage(hwndDlg, IDC_ITRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 256));
 			SetDlgItemTextA(hwndDlg, IDC_ITRANSPARENCYPERC, str);
 			MarkChanges(16, hwndDlg);
 		}

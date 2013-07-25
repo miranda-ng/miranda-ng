@@ -1,6 +1,5 @@
 #include "headers.h"
 
-
 static BOOL Convert(HANDLE hContact, char* module, char* setting, int value, int toType) // 0 = byte, 1 = word, 2 = dword, 3 = string
 {
     int Result = 1;
@@ -283,7 +282,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 							setting = (char*)_alloca(settingLength + 1);
 							if (setting)
 							{
-								// havta convert it with sprintf()
+								// havta convert it with mir_snprintf()
 								GetWindowText(GetDlgItem(hwnd, IDC_SETTINGVALUE), setting, settingLength+1);
 								if (LOWORD(wParam) == CHK_DECIMAL && IsDlgButtonChecked(hwnd, CHK_DECIMAL))
 								{

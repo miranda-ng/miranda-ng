@@ -55,7 +55,7 @@ int DBGetStringDefault(HANDLE hContact, const char *szModule, const char *szSett
 void HigherLower(int maxValue, int minValue) 
 {
 	TCHAR str[64] = { 0 };
-	wsprintf(str, TranslateT("You cannot specify a value lower than %d and higher than %d."), minValue, maxValue);
+	mir_sntprintf(str, SIZEOF(str), TranslateT("You cannot specify a value lower than %d and higher than %d."), minValue, maxValue);
 }
 
 void ShowLog(TCHAR *file)

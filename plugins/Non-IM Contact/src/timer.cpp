@@ -23,7 +23,7 @@ void timerFunc(LPVOID di)
 
 	/* update the web pages*/
 	for (int i=0; ;i++) {
-		sprintf(fn, "fn%d", i);
+		mir_snprintf(fn, SIZEOF(fn), "fn%d", i);
 		if (!db_get_static(NULL, MODNAME, fn, text))
 			break;
 

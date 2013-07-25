@@ -48,7 +48,7 @@ void RegisterOptPrevBox()
 	err = GetLastError();
 	if (!g_wndClass.cPopupPreviewBoxWndclass) {
 		TCHAR msg[1024];
-		wsprintf(msg, TranslateT("Failed to register %s class."),wcl.lpszClassName);
+		mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed to register %s class."), wcl.lpszClassName);
 		MSGERROR(msg);
 	}
 
@@ -62,7 +62,7 @@ void RegisterOptPrevBox()
 	err = GetLastError();
 	if (!g_wndClass.cPopupPlusDlgBox) {
 		TCHAR msg[1024];
-		wsprintf(msg, TranslateT("Failed to register %s class."),wcl.lpszClassName);
+		mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed to register %s class."), wcl.lpszClassName);
 		MSGERROR(msg);
 	}
 }
@@ -189,7 +189,7 @@ int  SkinOptionList_AddSkin(OPTTREE_OPTION* &options, int *OptionsCount, int pos
 			options[pos].pszOptionName	= (LPTSTR)mir_alloc(sizeof(TCHAR)*(
 				lstrlen(options[pos].pszSettingName)+
 				lstrlenA(skin->getFlagName(i)) +10 ));
-			wsprintf(options[pos].pszOptionName,_T("%s/%hs"), options[pos].pszSettingName, skin->getFlagName(i));
+			wsprintf(options[pos].pszOptionName, _T("%s/%hs"), options[pos].pszSettingName, skin->getFlagName(i)); //!!!!!!!!!!!!!
 			options[pos].bState			= skin->getFlag(i) ? TRUE : FALSE;
 			options[pos].Data			= i;	//skin flag index
 			*dwGlobalOptions |= skin->getFlag(i) ? (1 << (i-1)) : 0;
@@ -252,7 +252,7 @@ int SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos,
 		options[pos].pszOptionName	= (LPTSTR)mir_alloc(sizeof(TCHAR)*(
 			lstrlen(options[pos].pszSettingName)+
 			lstrlen(mainOption[i]) + 10));
-		wsprintf(options[pos].pszOptionName,_T("%s/%s"), options[pos].pszSettingName, mainOption[i]);
+		wsprintf(options[pos].pszOptionName, _T("%s/%s"), options[pos].pszSettingName, mainOption[i]); //!!!!!!!!!!!!!
 		options[pos].bState			= bCheck;
 		pos++;
 	}

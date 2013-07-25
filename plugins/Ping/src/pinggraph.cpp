@@ -190,20 +190,20 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				char buff[64];
 				if(wd->show_grid)
 				{
-					sprintf(buff, Translate("%d ms"), MARK_TIME);
+					mir_snprintf(buff, SIZEOF(buff), Translate("%d ms"), MARK_TIME);
 					TextOut(hdc, r.right - 100, r.bottom - (int)(unit_height * MARK_TIME + 0.5f), buff, strlen(buff));
 				}
 
 				if (wd->show_stat)
 				{
 					SetTextColor(hdc, RGB(255, 0, 0));
-					sprintf(buff, Translate("AVG %.1lf ms"), avg);
+					mir_snprintf(buff, SIZEOF(buff), Translate("AVG %.1lf ms"), avg);
 					TextOut(hdc, r.left + 10, r.bottom - (int)(avg * unit_height + 0.5f), buff, strlen(buff));
 					if (max_value != avg)
 					{
-						sprintf(buff, Translate("MAX %hd ms"), max_value);
+						mir_snprintf(buff, SIZEOF(buff), Translate("MAX %hd ms"), max_value);
 						TextOut(hdc, r.left + 10, r.bottom - (int)(max_value * unit_height + 0.5f), buff, strlen(buff));
-						sprintf(buff, Translate("MIN %hd ms"), min_value);
+						mir_snprintf(buff, SIZEOF(buff), Translate("MIN %hd ms"), min_value);
 						TextOut(hdc, r.left + 10, r.bottom - (int)(min_value * unit_height + 0.5f), buff, strlen(buff));
 					}
 				}
@@ -232,7 +232,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			WindowData *wd = (WindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			{
 				char buff[30];
-				sprintf(buff, "pinggraphwnd%d", wd->item_id);
+				mir_snprintf(buff, SIZEOF(buff), "pinggraphwnd%d", wd->item_id);
 				Utils_SaveWindowPosition(hwnd, 0, PLUG, buff);
 			}
 		}
@@ -242,7 +242,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			WindowData *wd = (WindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			{
 				char buff[30];
-				sprintf(buff, "WindowHandle%d", wd->item_id);
+				mir_snprintf(buff, SIZEOF(buff), "WindowHandle%d", wd->item_id);
 				db_set_dw(0, PLUG, buff, 0);
 			}
 			delete wd;
@@ -255,7 +255,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	char buff[30];
-	sprintf(buff, "WindowHandle%d", (DWORD)wParam);
+	mir_snprintf(buff, SIZEOF(buff), "WindowHandle%d", (DWORD)wParam);
 	HWND hGraphWnd = (HWND)db_get_dw(0, PLUG, buff, 0);
 	if(hGraphWnd) {
 		ShowWindow(hGraphWnd, SW_SHOW);
@@ -299,7 +299,7 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 
 	SetWindowLongPtr(hGraphWnd, GWLP_USERDATA, (LONG_PTR)wd); 
 
-	sprintf(buff, "pinggraphwnd%d", wd->item_id);
+	mir_snprintf(buff, SIZEOF(buff), "pinggraphwnd%d", wd->item_id);
 	Utils_RestoreWindowPosition(hGraphWnd, 0, PLUG, buff);
 
 	if(!IsWindowVisible(hGraphWnd))
@@ -315,11 +315,11 @@ void graphs_cleanup() {
 	HWND hwnd;
 
 	for(int i = 0; i < list_size; i++) {
-		sprintf(buff, "WindowHandle%d", i);
+		mir_snprintf(buff, SIZEOF(buff), "WindowHandle%d", i);
 		if(hwnd = (HWND)db_get_dw(0, PLUG, buff, 0)) {
 			DestroyWindow(hwnd);
 			db_set_dw(0, PLUG, buff, 0);
-			sprintf(buff, "WindowWasOpen%d", i);
+			mir_snprintf(buff, SIZEOF(buff), "WindowWasOpen%d", i);
 			db_set_b(0, PLUG, buff, 1);
 		}	
 	}
@@ -331,9 +331,9 @@ void graphs_init() {
 	char buff[64];
 	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
 	for(pinglist_it i = pl.begin(); i != pl.end(); ++i) {
-		sprintf(buff, "WindowHandle%d", i->item_id); // clean up from possible crash
+		mir_snprintf(buff, SIZEOF(buff), "WindowHandle%d", i->item_id); // clean up from possible crash
 		db_set_dw(0, PLUG, buff, 0);
-		sprintf(buff, "WindowWasOpen%d", i->item_id); // restore windows that were open on shutdown
+		mir_snprintf(buff, SIZEOF(buff), "WindowWasOpen%d", i->item_id); // restore windows that were open on shutdown
 		if(db_get_b(0, PLUG, buff, 0)) {
 			db_set_b(0, PLUG, buff, 0);
 			ShowGraph((WPARAM)i->item_id, (LPARAM)i->pszLabel);

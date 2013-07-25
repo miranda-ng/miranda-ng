@@ -69,8 +69,8 @@ BOOL CopyTextToClipboard(LPTSTR ptszText)
 
 LPSTR GetNameOfLayout(HKL hklLayout)
 {
-	LPSTR ptszLayName = (LPSTR)mir_alloc(KL_NAMELENGTH+1);
-	sprintf(ptszLayName, "%08x", hklLayout);
+	LPSTR ptszLayName = (LPSTR)mir_alloc(KL_NAMELENGTH + 1);
+	mir_snprintf(ptszLayName, KL_NAMELENGTH + 1, "%08x", hklLayout);
 	return ptszLayName;
 }
 

@@ -223,10 +223,6 @@ bool LoadIndexHTMLTemplate() {
 					break; // Error - End missing
 				}
 
-				//char Temp[100];
-				//sprintf(Temp, "Tag: %i Begin: %i End: %i", *(pszBuf-1), pszBuf-szDestBuf, pszBuf-szDestBuf+pszLevelEnd-pszBuf);
-				//LogEvent("Jump", Temp);
-
 				// write jump address
 				*((WORD*)(pszBuf)) = (WORD)((pszLevelEnd - pszBuf - 1) | 0x8000);
 				pszBuf += 2;
@@ -414,13 +410,13 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 
 			case SY_FILE_NAME:
 			case SY_DIR_NAME: {
-				pszBuffer += _snprintf(pszBuffer, 250, "%s", szName);
+				pszBuffer += mir_snprintf(pszBuffer, 250, "%s", szName);
 				break;
 			}
 
 			case SY_DIR_URL: {
 			case SY_FILE_URL:
-				pszBuffer += _snprintf(pszBuffer, 250, "%s", szURL);
+				pszBuffer += mir_snprintf(pszBuffer, 250, "%s", szURL);
 				break;
 			}
 
@@ -431,7 +427,7 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 				  (*pszPos == SY_FILE_CREATE_TIME) ? &ftFileCreateTime : &ftFileModifyTime,
 				  &systemTime);
 
-				pszBuffer += _snprintf(pszBuffer, 100, "%i/%02i/%02i %i:%02i:%02i", 
+				pszBuffer += mir_snprintf(pszBuffer, 100, "%i/%02i/%02i %i:%02i:%02i", 
 					systemTime.wYear, systemTime.wMonth, systemTime.wDay, systemTime.wHour,
 				  systemTime.wMinute, systemTime.wSecond);
 				break;
@@ -439,11 +435,11 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 
 			case SY_FILE_SIZE: {
 				if ((iFileSize >> 10) == 0)
-					pszBuffer += _snprintf(pszBuffer, 100, "%i Byte", iFileSize);
+					pszBuffer += mir_snprintf(pszBuffer, 100, "%i Byte", iFileSize);
 				else if ((iFileSize >> 20) == 0)
-					pszBuffer += _snprintf(pszBuffer, 100, "%.1f KB", (float)(iFileSize) / 1024.0f);
+					pszBuffer += mir_snprintf(pszBuffer, 100, "%.1f KB", (float)(iFileSize) / 1024.0f);
 				else
-					pszBuffer += _snprintf(pszBuffer, 100, "%.1f MB", (float)(iFileSize) / (1024.0f * 1024.0f));
+					pszBuffer += mir_snprintf(pszBuffer, 100, "%.1f MB", (float)(iFileSize) / (1024.0f * 1024.0f));
 				break;
 			}
 

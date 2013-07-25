@@ -540,7 +540,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg,UINT msg,WPARAM wParam
 				break;
 			}
 			ZeroMemory(tokenString, (len+1)*sizeof(TCHAR));
-			wsprintf(tokenString, _T("%c%s%c"), (tr->flags&TRF_FIELD?_T(FIELD_CHAR):_T(FUNC_CHAR)), tr->tszTokenString, (tr->flags&TRF_FIELD?_T(FIELD_CHAR):_T('(')));
+			mir_sntprintf(tokenString, len + 1, _T("%c%s%c"), (tr->flags & TRF_FIELD ? _T(FIELD_CHAR) : _T(FUNC_CHAR)), tr->tszTokenString, (tr->flags & TRF_FIELD ? _T(FIELD_CHAR) : _T('(')));
 			SendDlgItemMessage(hwndInputDlg, IDC_TESTSTRING, EM_REPLACESEL, (WPARAM)TRUE, (LPARAM)tokenString);
 			mir_free(tokenString);
 			SetFocus(GetDlgItem(hwndInputDlg, IDC_TESTSTRING));

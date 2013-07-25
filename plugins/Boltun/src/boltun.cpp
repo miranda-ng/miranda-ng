@@ -117,7 +117,7 @@ static bool LoadMind(const TCHAR* filename, int &line)
 #ifdef DEBUG_LOAD_TIME
 	t = __rdtsc() - t;
 	char dest[101];
-	sprintf_s(dest, 100, "%I64d ticks\n", t / 3200000);
+	mir_snprintf(dest, 100, "%I64d ticks\n", t / 3200000);
 	MessageBoxA(NULL, dest, NULL, 0);
 	//exit(0);
 #endif
@@ -396,7 +396,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 						size_t l = _tcslen(MIND_DIALOG_FILTER)
 							+ _tcslen(mind) + _tcslen(anyfile);
 						TCHAR *filt = new TCHAR[l];
-						wsprintf(filt, MIND_DIALOG_FILTER, mind, anyfile);
+						mir_sntprintf(filt, l, MIND_DIALOG_FILTER, mind, anyfile);
 						for (size_t i = 0; i < l; i++)
 							if (filt[i] == '\1')
 								filt[i] = '\0';
@@ -437,7 +437,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 					if (!bTranslated)
 					{
 						TCHAR* message = new TCHAR[5000];
-						wsprintf(message, TranslateTS(FAILED_TO_LOAD_BASE), line, c);
+						mir_sntprintf(message, 5000, TranslateTS(FAILED_TO_LOAD_BASE), line, c);
 						MessageBox(NULL, message, TranslateTS(BOLTUN_ERROR), MB_ICONERROR|MB_TASKMODAL|MB_OK);
 						delete[] message;
 					}
@@ -638,7 +638,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	if (!blInit)
 	{
 		TCHAR path[2000];
-		wsprintf(path, TranslateTS(FAILED_TO_LOAD_BASE), line, (const TCHAR*)Config.MindFileName);
+		mir_sntprintf(path, SIZEOF(path), TranslateTS(FAILED_TO_LOAD_BASE), line, (const TCHAR*)Config.MindFileName);
 		MessageBox(NULL, path, TranslateTS(BOLTUN_ERROR), MB_ICONERROR|MB_TASKMODAL|MB_OK);
 	}
 	/*record for Uninstall plugin*/
@@ -660,7 +660,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 //So in case of saving error we will remain silent
 #if 0
 			TCHAR path[MAX_PATH];
-			wsprintf(path, TranslateTS(FAILED_TO_SAVE_BASE), (const TCHAR*)Config.MindFileName);
+			mir_sntprintf(path, SIZEOF(path), TranslateTS(FAILED_TO_SAVE_BASE), (const TCHAR*)Config.MindFileName);
 			TCHAR* err = TranslateTS(BOLTUN_ERROR);
 			MessageBox(NULL, path, err, MB_ICONERROR|MB_TASKMODAL|MB_OK);*/
 #endif
