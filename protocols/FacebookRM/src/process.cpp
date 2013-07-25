@@ -52,18 +52,17 @@ void FacebookProto::ProcessBuddyList(void* data)
 		char *status;
 		switch (fbu->status_id) {
 			case ID_STATUS_OFFLINE:
-				status = "offline"; break;				
+				status = "Offline"; break;
 			case ID_STATUS_ONLINE:
-				status = "online"; break;				
+				status = "Online"; break;
 			case ID_STATUS_ONTHEPHONE:
-				on_mobile = true;				
-				status = "onthephone";
+				on_mobile = true;
+				status = "Phone";
 
 				if (!use_mobile_status)
 					fbu->status_id = ID_STATUS_OFFLINE;
 				break;
 		}
-		LOG("      Now %s: %s", status, i->data->real_name.c_str());
 
 		if (!fbu->deleted)
 		{
@@ -124,6 +123,13 @@ void FacebookProto::ProcessBuddyList(void* data)
 			// Check avatar change
 			CheckAvatarChange(fbu->handle, fbu->image_url);
 		}
+
+		std::string name_log = fbu->real_name;
+		if (name_log.empty() && i->data->handle)
+			name_log = ptrA(getStringA(i->data->handle, FACEBOOK_KEY_NAME));
+		if (name_log.empty())
+			name_log = fbu->user_id;
+		LOG("      Now %s: %s", status, name_log.c_str());
 	}
 
 	LOG("***** Buddy list processed");

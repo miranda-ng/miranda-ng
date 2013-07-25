@@ -118,7 +118,7 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, boo
 void FacebookProto::SetAllContactStatuses(int status, bool reset_client)
 {
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		if ( isChatRoom(hContact))
+		if (isChatRoom(hContact))
 			continue;
 		
 		if (reset_client) {
@@ -140,7 +140,7 @@ void FacebookProto::SetAllContactStatuses(int status, bool reset_client)
 			}*/
 		}
 
-		if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != status)
+		if (getWord(hContact, "Status", 0) != status)
 			setWord(hContact, "Status", status);
 	}
 }

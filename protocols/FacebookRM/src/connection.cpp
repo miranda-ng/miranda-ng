@@ -49,8 +49,6 @@ void FacebookProto::ChangeStatus(void*)
 		facy.buddies.clear();
 		facy.messages_ignore.clear();
 
-		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
-
 		OnLeaveChat(NULL, NULL);
 
 		SetAllContactStatuses(ID_STATUS_OFFLINE, true);
@@ -60,6 +58,8 @@ void FacebookProto::ChangeStatus(void*)
 		if (facy.hMsgCon)
 			Netlib_CloseHandle(facy.hMsgCon);
 		facy.hMsgCon = NULL;
+
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
 		LOG("##### SignOff complete");
 
