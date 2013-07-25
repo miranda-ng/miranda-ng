@@ -153,10 +153,6 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		if (LOWORD(wparam) == IDC_MINDMSG && HIWORD(wparam) == EN_CHANGE)
 		{
 			size_t len = SendDlgItemMessage(hwnd,IDC_MINDMSG,WM_GETTEXTLENGTH,0,0);
-			TCHAR str[4];
-			_sntprintf(str, 4, TEXT("%d"), FACEBOOK_MIND_LIMIT-len);
-			SetDlgItemText(hwnd,IDC_CHARACTERS,str);
-
 			EnableWindow(GetDlgItem(hwnd, IDOK), len > 0);
 
 			return TRUE;

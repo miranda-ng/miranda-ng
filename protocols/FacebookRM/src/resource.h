@@ -17,7 +17,6 @@
 #define IDC_PW                          1002
 #define IDC_NEWACCOUNTLINK              1003
 #define IDC_MINDMSG                     1012
-#define IDC_CHARACTERS                  1013
 #define IDC_GROUP                       1021
 #define IDC_SECURE                      1024
 #define IDC_SET_IGNORE_STATUS           1025
@@ -29,7 +28,6 @@
 #define IDC_LOAD_MOBILE                 1033
 #define IDC_CUSTOM_SMILEYS              1034
 #define IDC_USE_LOCAL_TIME              1035
-#define IDC_SEND_SEEN                   1036
 #define IDC_NOTIFICATIONS_ENABLE        1041
 #define IDC_FEEDS_ENABLE                1042
 #define IDC_OTHER_ENABLE                1043
