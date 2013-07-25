@@ -461,8 +461,8 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				continue;
 
 			JSONNODE *nodes = json_get(it, "nodes");
-			for (unsigned int i = 0; i < json_size(nodes); i++) {
-				JSONNODE *itNodes = json_at(nodes, i);
+			for (unsigned int j = 0; j < json_size(nodes); j++) {
+				JSONNODE *itNodes = json_at(nodes, j);
 
 				//JSONNODE *text = json_get(itNodes, "title/text");
 				JSONNODE *text_ = json_get(itNodes, "unaggregatedTitle");
@@ -472,7 +472,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				JSONNODE *url = json_get(itNodes, "url");
 				JSONNODE *alert_id = json_get(itNodes, "alert_id");
 				
-				JSONNODE *time_ = json_get(it, "timestamp");
+				JSONNODE *time_ = json_get(itNodes, "timestamp");
 				if (time_ == NULL)
 					continue;
 				JSONNODE *time = json_get(time_, "time");
