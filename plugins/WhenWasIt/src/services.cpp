@@ -211,7 +211,7 @@ INT_PTR RefreshUserDetailsService(WPARAM wParam, LPARAM lParam)
 	HANDLE result = CreateThread(NULL, 0, RefreshUserDetailsWorkerThread, NULL, 0, &threadID);
 	if ( !result) {
 		TCHAR buffer[1024];
-		_stprintf(buffer, TranslateT("Could not create worker thread. Error#%d - threadID %d"), GetLastError(), threadID);
+		mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("Could not create worker thread. Error#%d - threadID %d"), GetLastError(), threadID);
 		MessageBox(0, buffer, TranslateT("Error"), MB_OK | MB_ICONERROR);
 	}
 
@@ -265,7 +265,7 @@ INT_PTR ExportBirthdaysService(WPARAM wParam, LPARAM lParam)
 		if ( !_tcschr(fn, _T('.')))
 			_tcscat(fileName, _T(BIRTHDAY_EXTENSION));
 
-		_stprintf(buffer, TranslateT("Exporting birthdays to file: %s"), fileName);
+		mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("Exporting birthdays to file: %s"), fileName);
 		ShowPopupMessage(TranslateT("WhenWasIt"), buffer, hExportBirthdays);
 		DoExport(fileName);
 		ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Done exporting birthdays"), hExportBirthdays);
@@ -312,7 +312,7 @@ int DoImport(TCHAR *fileName)
 				}
 				else {
 					TCHAR tmp[2048];
-					_stprintf(tmp, TranslateT(NOTFOUND_FORMAT), szHandle, szProto);
+					mir_sntprintf(tmp, SIZEOF(tmp), TranslateT(NOTFOUND_FORMAT), szHandle, szProto);
 					ShowPopupMessage(TranslateT("Warning"), tmp, hImportBirthdays);
 				}
 			}

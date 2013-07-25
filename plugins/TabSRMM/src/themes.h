@@ -109,7 +109,7 @@ public:
 	CImageItem(const TCHAR *szName)
 	{
 		ZeroMemory(this, sizeof(CImageItem));
-		_sntprintf(m_szName, 40, szName);
+		mir_sntprintf(m_szName, 40, szName);
 		m_szName[39] = 0;
 	}
 

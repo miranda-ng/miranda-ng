@@ -2289,7 +2289,7 @@ void HistoryWindow::Delete(int what)
 	if(what == 2)
 		_tcscpy_s(message, TranslateT("This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?"));
 	else
-		_stprintf_s(message, TranslateT("Number of history items to delete: %d.\nAre you sure you want to do this?"), toDelete);
+		mir_sntprintf(message, SIZEOF(message), TranslateT("Number of history items to delete: %d.\nAre you sure you want to do this?"), toDelete);
 	if(MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_OKCANCEL | MB_ICONERROR) != IDOK)
 		return;
 

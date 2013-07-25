@@ -117,8 +117,9 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg,UINT msg,WPARAM wParam,LPARA
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read enter\n");
 #endif
-			TitleStrA = new char[strlen(ActualAccount->Name)+strlen(Translate(BADCONNECTTITLE))];
-			wsprintfA(TitleStrA,Translate(BADCONNECTTITLE),ActualAccount->Name);
+			int size = strlen(ActualAccount->Name)+strlen(Translate(BADCONNECTTITLE));
+			TitleStrA = new char[size];
+			mir_snprintf(TitleStrA, size, Translate(BADCONNECTTITLE), ActualAccount->Name);
 
 			ShowPopup=ActualAccount->BadConnectN.Flags & YAMN_ACC_POP;
 			ShowMsg=ActualAccount->BadConnectN.Flags & YAMN_ACC_MSG;

@@ -260,7 +260,7 @@ BOOL CList_AddEvent(HANDLE hContact, HICON Icon, HANDLE event, int type, TCHAR* 
 	TCHAR* szBuf = (TCHAR*)alloca(4096 * sizeof(TCHAR));
 	va_list marker;
 	va_start(marker, fmt);
-	_vsntprintf(szBuf, 4096, fmt, marker);
+	mir_vsntprintf(szBuf, 4096, fmt, marker);
 	va_end(marker);
 
 	CLISTEVENT cle = { sizeof(cle) };

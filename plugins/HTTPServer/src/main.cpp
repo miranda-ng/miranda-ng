@@ -602,10 +602,6 @@ static int nProtoAck(WPARAM /*wParam*/, LPARAM lParam) {
 		return 0;
 
 	bIsOnline = ((int)ack->lParam != ID_STATUS_AWAY && (int)ack->lParam != ID_STATUS_NA);
-	/*
-	char szTmp[200];
-	_snprintf( szTmp, sizeof( szTmp ), "%s New status %d\n" ,ack->szModule, (int)bIsOnline);
-	OutputDebugString( szTmp );*/
 	return 0;
 }
 

@@ -287,7 +287,7 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case 3:
 			TCHAR path[MAX_PATH];
-			crs_sntprintf(path, MAX_PATH, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
+			mir_sntprintf(path, MAX_PATH, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
 			ShellExecute(NULL, TEXT("open"), path, NULL, NULL, SW_SHOW);
 			break;
 
@@ -310,7 +310,7 @@ void ShowMessage(int type, const TCHAR* format, ...)
 
 	va_list va;
 	va_start(va, format);
-	int len = _vsntprintf(pi.lptzText, SIZEOF(pi.lptzText)-1, format, va);
+	int len = mir_vsntprintf(pi.lptzText, SIZEOF(pi.lptzText)-1, format, va);
 	pi.lptzText[len] = 0;
 	va_end(va);
 

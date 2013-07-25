@@ -146,7 +146,7 @@ HICON __fastcall LoadFlagIcon(int countryNumber)
 		szCountry = (char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, countryNumber = 0xFFFF, 0);
 
 	char szId[20];
-	wsprintfA(szId, (countryNumber == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countryNumber); /* buffer safe */
+	mir_snprintf(szId, SIZEOF(szId), (countryNumber == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countryNumber); /* buffer safe */
 	return Skin_GetIcon(szId);
 }
 
@@ -245,7 +245,7 @@ void InitIcons(void)
 				sid.pszDescription = (char*)countries[i].szName;
 
 				/* create identifier */
-				wsprintfA(szId,(countries[i].id == 0xFFFF) ? "%s0x%X" : "%s%i","flags_", countries[i].id); /* buffer safe */
+				mir_snprintf(szId, SIZEOF(szId), (countries[i].id == 0xFFFF) ? "%s0x%X" : "%s%i","flags_", countries[i].id); /* buffer safe */
 				int index = CountryNumberToBitmapIndex(countries[i].id);
 				/* create icon */
 				HICON hIcon = ImageList_GetIcon(himl,index,ILD_NORMAL);

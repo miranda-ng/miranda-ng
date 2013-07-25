@@ -182,7 +182,7 @@ static void __cdecl loadFlash_Thread(void *p) {
 		}
 
 		CreateDirectory(path, NULL); // create directory if it doesn't exist
-		_sntprintf(name, MAX_PATH, _T("%s\\%s.swf"), path, th.toBase32(tth));
+		mir_sntprintf(name, MAX_PATH, _T("%s\\%s.swf"), path, th.toBase32(tth));
 
 		// download remote file if it doesn't exist
 		if (GetFileAttributes(name) == 0xFFFFFFFF) {
@@ -446,7 +446,7 @@ static INT_PTR setBkColor(WPARAM wParam, LPARAM lParam)
 		IShockwaveFlash* flash = item->pFlash;
 
 		char buf[10];
-		_snprintf(buf, sizeof(buf), "%02X%02X%02X", LOBYTE(LOWORD(clr)), HIBYTE(LOWORD(clr)), LOBYTE(HIWORD(clr)));
+		mir_snprintf(buf, sizeof(buf), "%02X%02X%02X", LOBYTE(LOWORD(clr)), HIBYTE(LOWORD(clr)), LOBYTE(HIWORD(clr)));
 		flash->put_BGColor(_bstr_t(buf));
 	}
 	return 0;

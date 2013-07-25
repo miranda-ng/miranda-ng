@@ -92,7 +92,7 @@ void otrl_privkey_hash_to_humanT(TCHAR human[45], const unsigned char hash[20])
 
 	for(word=0; word<5; ++word) {
 	for(byte=0; byte<4; ++byte) {
-		_stprintf(p, _T("%02X"), hash[word*4+byte]);
+		_stprintf(p, _T("%02X"), hash[word*4+byte]); //!!!!!!!!!!!!!!
 		p += 2;
 	}
 	*(p++) = ' ';
@@ -154,11 +154,12 @@ void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const HANDLE
 
 	if ( !options.bHavePopups) {	
 		TCHAR title[256];
-		_stprintf(title, _T("%s Message"), _T(MODULENAME));
+		mir_sntprintf(title, SIZEOF(title), _T("%s Message"), _T(MODULENAME));
 
 		if(line1 && line2) {
-			TCHAR *message = new TCHAR[_tcslen(line1) + _tcslen(line2) + 3]; // newline and null terminator
-			_stprintf(message, _T("%s\r\n%s"), line1, line2);
+			int size = _tcslen(line1) + _tcslen(line2) + 3;
+			TCHAR *message = new TCHAR[size]; // newline and null terminator
+			mir_sntprintf(message, size, _T("%s\r\n%s"), line1, line2);
 			MessageBox( NULL, message, title, MB_OK | MB_ICONINFORMATION );
 			delete message;
 		} else if(line1) {
@@ -207,15 +208,18 @@ void ShowWarning(TCHAR *msg) {
 	if(disp == ED_POP && !options.bHavePopups) disp = ED_BAL;
 	if(disp == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) disp = ED_MB;
 
-	_stprintf(buffer, _T("%s Warning"), _T(MODULENAME));
+	mir_sntprintf(buffer, SIZEOF(buffer), _T("%s Warning"), _T(MODULENAME));
 
 	TCHAR *message;
 	switch(disp) {
 		case ED_POP:
-			message = new TCHAR[_tcslen(msg) + 515]; // newline and null terminator
-			_stprintf(message, _T("%s\r\n%s"), buffer, msg);
-			PUShowMessageT(message, SM_WARNING);
-			delete message;
+			{
+				int size = _tcslen(msg) + 515;
+				message = new TCHAR[size]; // newline and null terminator
+				mir_sntprintf(message, size, _T("%s\r\n%s"), buffer, msg);
+				PUShowMessageT(message, SM_WARNING);
+				delete message;
+			}
 			break;
 		case ED_MB:
 			MessageBox(0, msg, buffer, MB_OK | MB_ICONWARNING);
@@ -250,16 +254,19 @@ void ShowError(TCHAR *msg) {
 	if(disp == ED_POP && !options.bHavePopups) disp = ED_BAL;
 	if(disp == ED_BAL && !ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) disp = ED_MB;
 
-	_stprintf(buffer, _T("%s Error"), _T(MODULENAME));
+	mir_sntprintf(buffer, SIZEOF(buffer), _T("%s Error"), _T(MODULENAME));
 
 
 	TCHAR *message;
 	switch(disp) {
 		case ED_POP:
-			message = new TCHAR[_tcslen(msg) + 515]; // newline and null terminator
-			_stprintf(message, _T("%s\r\n%s"), buffer, msg);
-			PUShowMessageT(message, SM_WARNING);
-			delete message;
+			{
+				int size = _tcslen(msg) + 515;
+				message = new TCHAR[size]; // newline and null terminator
+				mir_sntprintf(message, size, _T("%s\r\n%s"), buffer, msg);
+				PUShowMessageT(message, SM_WARNING);
+				delete message;
+			}
 			break;
 		case ED_MB:
 			MessageBox(0, msg, buffer, MB_OK | MB_ICONERROR);

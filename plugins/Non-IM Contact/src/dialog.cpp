@@ -191,15 +191,15 @@ INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				GetDlgItemTextA(hwnd, IDC_STRING, str2replace, MAX_STRING_LENGTH);
 				switch (stringReplacer(str2replace, replacedString, NULL)) {
 				case ERROR_NO_LINE_AFTER_VAR_F:
-					wsprintfA(replacedString, "ERROR: no %s","%line or %wholeline or %lastline after %fn");
+					mir_snprintf(replacedString, SIZEOF(replacedString), "ERROR: no %s","%line or %wholeline or %lastline after %fn");
 					error = 1;
 					break;
 				case ERROR_LINE_NOT_READ:
-					wsprintfA(replacedString, "ERROR: file couldnt be opened ");
+					mir_snprintf(replacedString, SIZEOF(replacedString), "ERROR: file couldnt be opened ");
 					error = 1;
 					break;
 				case ERROR_NO_FILE:
-					wsprintfA(replacedString, "ERROR: no file specified in settings");
+					mir_snprintf(replacedString, SIZEOF(replacedString), "ERROR: no file specified in settings");
 					error = 1;
 					break;
 				default:
@@ -298,7 +298,7 @@ void DoPropertySheet(HANDLE hContact, HINSTANCE hInst)
 	psh.hInstance = hInst;
 	psh.pszIcon = MAKEINTRESOURCEA(IDI_MAIN);
 	db_get_static(hContact, MODNAME, "Nick", nick);
-	wsprintfA(title, "Edit Non-IM Contact \"%s\"", nick);
+	mir_snprintf(title, SIZEOF(title), "Edit Non-IM Contact \"%s\"", nick);
 	psh.pszCaption = title;
 	psh.nPages = SIZEOF(psp);
 	psh.ppsp = (LPCPROPSHEETPAGEA)&psp;

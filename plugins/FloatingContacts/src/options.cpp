@@ -200,7 +200,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_SETRANGE, TRUE, MAKELONG(0, 100));
 			SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_SETPOS, TRUE, btOpacity);
 				
-			wsprintfA(szPercent, "%d%%", btOpacity);
+			mir_snprintf(szPercent, SIZEOF(szPercent), "%d%%", btOpacity);
 			SetDlgItemTextA(hwndDlg, IDC_OPACITY, szPercent);
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SLIDER_OPACITY), pSetLayeredWindowAttributes != 0);
@@ -231,7 +231,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			fcOpt.thumbAlpha = (BYTE)(( nPos * 255 ) / 100 );
 			SetThumbsOpacity(fcOpt.thumbAlpha);
 
-			wsprintfA(szPercent, "%d%%", nPos);
+			mir_snprintf(szPercent, SIZEOF(szPercent), "%d%%", nPos);
 			SetDlgItemTextA(hwndDlg, IDC_OPACITY, szPercent);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}

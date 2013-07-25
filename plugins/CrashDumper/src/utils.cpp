@@ -329,7 +329,7 @@ void GetISO8061Time(SYSTEMTIME* stLocal, LPTSTR lpszString, DWORD dwSize)
 		int offset = GetTZOffset();
 
 		// Build a string showing the date and time.
-		crs_sntprintf(lpszString, dwSize, TEXT("%d-%02d-%02d %02d:%02d:%02d%+03d%02d"), 
+		mir_sntprintf(lpszString, dwSize, TEXT("%d-%02d-%02d %02d:%02d:%02d%+03d%02d"), 
 			stLocal->wYear, stLocal->wMonth, stLocal->wDay, 
 			stLocal->wHour, stLocal->wMinute, stLocal->wSecond,
 			offset / 60, offset % 60);
@@ -695,14 +695,14 @@ void GetLanguagePackString(bkstring& buffer)
 
 		LPTSTR fname = _tcsrchr(path, TEXT('\\'));
 		if (fname == NULL) fname = path;
-		crs_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\langpack_*.txt"));
+		mir_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\langpack_*.txt"));
 
 		WIN32_FIND_DATA FindFileData;
 		HANDLE hFind = FindFirstFile(path, &FindFileData);
 		if (hFind == INVALID_HANDLE_VALUE) return;
 		FindClose(hFind);
 
-		crs_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\%s"), FindFileData.cFileName);
+		mir_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\%s"), FindFileData.cFileName);
 		HANDLE hDumpFile = CreateFile(path, GENERIC_READ, FILE_SHARE_READ, NULL,
 			OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
@@ -766,18 +766,6 @@ bool CreateDirectoryTree(LPTSTR szDir)
 	if (res) res = CreateDirectory(szDir, NULL) != 0;
 
 	return res;
-}
-
-int crs_sntprintf(TCHAR *buffer, size_t count, const TCHAR* fmt, ...)
-{
-	va_list va;
-	va_start(va, fmt);
-
-	int len = _vsntprintf(buffer, count-1, fmt, va);
-	buffer[len] = 0;
-
-	va_end(va);
-	return len;
 }
 
 void GetVersionInfo(HMODULE hLib, bkstring& buffer)

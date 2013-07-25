@@ -81,7 +81,7 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg,UINT msg,WPARAM wParam,L
 				ListView_InsertItem(hList,&lvItem);
 
 				char dbSetting[128];
-				_snprintf(dbSetting, sizeof(dbSetting), "%s_enabled", protos[i]->szModuleName);
+				mir_snprintf(dbSetting, sizeof(dbSetting), "%s_enabled", protos[i]->szModuleName);
 				ListView_SetCheckState(hList, lvItem.iItem, db_get_b(NULL, MODULENAME, dbSetting, TRUE));
 				lvItem.iItem++;
 			}

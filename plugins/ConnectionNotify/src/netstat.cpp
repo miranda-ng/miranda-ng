@@ -1,18 +1,4 @@
-// GetTcpTable.cpp : Defines the entry point for the console application.
-//
-
-// Link to Ws2_32.lib
-//#include <winsock2.h>
-#include <ws2tcpip.h>
-// Link to Iphlpapi.lib
-#include <iphlpapi.h>
-#include <stdio.h>
-#include <tchar.h>
-#include <m_core.h>
-#include "netstat.h"
-// Note: could also use malloc() and free()
-#define MALLOC(x) HeapAlloc(GetProcessHeap(), 0, (x))
-#define FREE(x) HeapFree(GetProcessHeap(), 0, (x))
+#include "ConnectionNotify.h"
  
 struct CONNECTION* GetConnectionsTable()
 {
@@ -176,10 +162,10 @@ void getDnsName(TCHAR *strIp,TCHAR *strHostName)
 	iaHost.s_addr = inet_addr(mir_t2a(strIp));
 	if ((h = gethostbyaddr ((char *)&iaHost, sizeof(struct in_addr), AF_INET))== NULL)
 		{  // get the host info error
-			_stprintf(strHostName,_T("%s"), strIp);
+			_stprintf(strHostName,_T("%s"), strIp); //!!!!!!!!!!!
             return;
         }
-	_stprintf(strHostName,_T("%s"),mir_a2t(h->h_name));
+	_stprintf(strHostName,_T("%s"),mir_a2t(h->h_name)); //!!!!!!!!!!!!!
 	//_tcsncpy_s(strHostName,128, h->h_name,_tcslen(h->h_name));
 
 }

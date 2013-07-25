@@ -55,7 +55,7 @@ static void CALLBACK SetExtraImage(HANDLE hContact)
 		ExtraIcon_Clear(hExtraIcon, hContact);
 	else {
 		char szId[20];
-		wsprintfA(szId, (countryNumber == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countryNumber);
+		mir_snprintf(szId, SIZEOF(szId), (countryNumber == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countryNumber);
 		ExtraIcon_SetIcon(hExtraIcon, hContact, szId);
 	}
 }

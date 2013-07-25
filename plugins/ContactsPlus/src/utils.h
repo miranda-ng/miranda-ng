@@ -60,7 +60,6 @@ int __fastcall strcmpT(const TCHAR *string1, const TCHAR *string2);
 TCHAR* __fastcall strcpyT(TCHAR* dest, const TCHAR* src);
 TCHAR* __fastcall strncpyT(TCHAR* dest, const TCHAR* src, size_t len);
 TCHAR* __fastcall strcatT(TCHAR* dest, const TCHAR* src);
-int _snprintfT(TCHAR *buffer, size_t count, const char* fmt, ...);
 
 LRESULT SendMessageT(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 TCHAR* GetWindowTextT(HWND hWnd);

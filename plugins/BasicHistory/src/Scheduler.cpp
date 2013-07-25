@@ -269,11 +269,11 @@ bool DoTask(TaskOptions& to)
 			_tcscpy_s(msg, TranslateT("Some value is invalid"));
 		else if(errDescr.empty())
 		{
-			_stprintf_s(msg, TranslateT("Invalid '%s' value."), err.c_str());
+			mir_sntprintf(msg, SIZEOF(msg), TranslateT("Invalid '%s' value."), err.c_str());
 		}
 		else
 		{
-			_stprintf_s(msg, TranslateT("Invalid '%s' value.\n%s"), err.c_str(), errDescr.c_str());
+			mir_sntprintf(msg, SIZEOF(msg), TranslateT("Invalid '%s' value.\n%s"), err.c_str(), errDescr.c_str());
 		}
 		DoError(to, msg);
 		return true;
@@ -467,7 +467,7 @@ bool DoTask(TaskOptions& to)
 
 					TCHAR msg[1024];
 					
-					_stprintf_s(msg, TranslateT("Incorrect file format: %s."), GetName(*it).c_str());
+					mir_sntprintf(msg, SIZEOF(msg), TranslateT("Incorrect file format: %s."), GetName(*it).c_str());
 					errorStr += msg;
 				}
 				else
@@ -479,7 +479,7 @@ bool DoTask(TaskOptions& to)
 
 					TCHAR msg[1024];
 					
-					_stprintf_s(msg, TranslateT("Unknown contact in file: %s."), GetName(*it).c_str());
+					mir_sntprintf(msg, SIZEOF(msg), TranslateT("Unknown contact in file: %s."), GetName(*it).c_str());
 					errorStr += msg;
 				}
 			}
@@ -551,7 +551,7 @@ bool DoTask(TaskOptions& to)
 
 				TCHAR msg[1024];
 					
-				_stprintf_s(msg, TranslateT("Cannot export history for contact: %s."),  exp->GetContactName().c_str());
+				mir_sntprintf(msg, SIZEOF(msg), TranslateT("Cannot export history for contact: %s."),  exp->GetContactName().c_str());
 				errorStr += msg;
 			}
 
@@ -582,7 +582,7 @@ bool DoTask(TaskOptions& to)
 
 					TCHAR msg[1024];
 					
-					_stprintf_s(msg, TranslateT("Cannot export history for contact: %s."),  exp->GetContactName().c_str());
+					mir_sntprintf(msg, SIZEOF(msg), TranslateT("Cannot export history for contact: %s."),  exp->GetContactName().c_str());
 					errorStr += msg;
 					break;
 				}
@@ -717,7 +717,7 @@ std::wstring GetFileName(const std::wstring &baseName, std::wstring contactName,
 		TCHAR time[256];
 		SYSTEMTIME st;
 		GetLocalTime(&st);
-		_stprintf_s(time, _T("%d-%02d-%02d %02d%02d"), st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute);
+		mir_sntprintf(time, SIZEOF(time), _T("%d-%02d-%02d %02d%02d"), st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute);
 		std::wstring str1 = str.substr(0, pos);
 		str1 += time;
 		str1 += str.substr(pos + 6);
@@ -1009,11 +1009,11 @@ bool ExecuteCurrentTask(time_t now)
 				TCHAR* name = new TCHAR[size];
 				if(error)
 				{
-					_stprintf_s(name, size, TranslateT("Task '%s' execution failed"), to.taskName.c_str());
+					mir_sntprintf(name, size, TranslateT("Task '%s' execution failed"), to.taskName.c_str());
 				}
 				else
 				{
-					_stprintf_s(name, size, TranslateT("Task '%s' finished successfully"), to.taskName.c_str());
+					mir_sntprintf(name, size, TranslateT("Task '%s' finished successfully"), to.taskName.c_str());
 				}
 
 				QueueUserAPC(DoTaskFinishInMainAPCFunc, g_hMainThread, (ULONG_PTR) name);
@@ -1355,7 +1355,7 @@ bool FtpFiles(const std::wstring& dir, const std::wstring& filePath, const std::
 			CreateDirectory(GetDirectoryName(log).c_str(), NULL);
 			DeleteFile(log.c_str());
 			TCHAR cmdLine[MAX_PATH];
-			_stprintf_s(cmdLine, _T("\"%s\" /nointeractiveinput /log=\"%s\" /script=script.sc"), Options::instance->ftpExePath.c_str(), log.c_str());
+			mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /nointeractiveinput /log=\"%s\" /script=script.sc"), Options::instance->ftpExePath.c_str(), log.c_str());
 			STARTUPINFO				startupInfo = {0};
 			PROCESS_INFORMATION		processInfo;
 			startupInfo.cb			= sizeof(STARTUPINFO);
@@ -1466,7 +1466,7 @@ bool FtpGetFiles(const std::wstring& dir, const std::list<std::wstring>& files, 
 		CreateDirectory(GetDirectoryName(log).c_str(), NULL);
 		DeleteFile(log.c_str());
 		TCHAR cmdLine[MAX_PATH];
-		_stprintf_s(cmdLine, _T("\"%s\" /nointeractiveinput /log=\"%s\" /script=script.sc"), Options::instance->ftpExePath.c_str(), log.c_str());
+		mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /nointeractiveinput /log=\"%s\" /script=script.sc"), Options::instance->ftpExePath.c_str(), log.c_str());
 		STARTUPINFO				startupInfo = {0};
 		PROCESS_INFORMATION		processInfo;
 		startupInfo.cb			= sizeof(STARTUPINFO);
@@ -1535,7 +1535,7 @@ INT_PTR ExecuteTaskService(WPARAM wParam, LPARAM lParam)
 void DoError(const TaskOptions& to, const std::wstring _error)
 {
 	TCHAR msg[256];
-	_stprintf_s(msg, TranslateT("Task '%s' execution failed:"), to.taskName.c_str());
+	mir_sntprintf(msg, SIZEOF(msg), TranslateT("Task '%s' execution failed:"), to.taskName.c_str());
 	if(Options::instance->schedulerHistoryAlerts)
 	{
 		std::wstring error = msg;

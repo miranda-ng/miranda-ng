@@ -74,7 +74,7 @@ void Utils::appendText(char **str, int *sizeAlloced, const char *fmt, ...)
 	}
 	p = *str + len;
 	va_start(vararg, fmt);
-	while (_vsnprintf(p, size  - 1, fmt, vararg) == -1) {
+	while (mir_vsnprintf(p, size  - 1, fmt, vararg) == -1) {
 		size += 2048;
 		(*sizeAlloced) += 2048;
 		*str = (char *) realloc(*str, *sizeAlloced);
@@ -109,7 +109,7 @@ void Utils::appendText(wchar_t **str, int *sizeAlloced, const wchar_t *fmt, ...)
 	}
 	p = *str + len;
 	va_start(vararg, fmt);
-	while (_vsnwprintf(p, size / sizeof(wchar_t) - 1, fmt, vararg) == -1) {
+	while (mir_vsnwprintf(p, size / sizeof(wchar_t) - 1, fmt, vararg) == -1) {
 		size += 2048;
 		(*sizeAlloced) += 2048;
 		*str = (wchar_t *) realloc(*str, *sizeAlloced);

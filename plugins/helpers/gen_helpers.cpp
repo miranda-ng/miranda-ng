@@ -115,7 +115,7 @@ int AddDebugLogMessageA(const char* fmt, ...)
 	va_list va;
 
 	va_start(va,fmt);
-	_vsnprintf(szText, sizeof(szText), fmt, va);
+	mir_vsnprintf(szText, sizeof(szText), fmt, va);
 	va_end(va);
 #ifdef MODULENAME
 	mir_snprintf(szFinal, sizeof(szFinal), "%s: %s", MODULENAME, szText);
@@ -135,7 +135,7 @@ int AddDebugLogMessage(const TCHAR* fmt, ...) {
 	va_list va;
 
 	va_start(va,fmt);
-	_vsntprintf(tszText, SIZEOF(tszText), fmt, va);
+	mir_vsntprintf(tszText, SIZEOF(tszText), fmt, va);
 	va_end(va);
 #ifdef MODULENAME
 	mir_sntprintf(tszFinal, SIZEOF(tszFinal), _T("%s: %s"), MODULENAME, tszText);
@@ -159,7 +159,7 @@ int AddErrorLogMessageA(const char* fmt, ...) {
 	va_list va;
 
 	va_start(va,fmt);
-	_vsnprintf(szText, sizeof(szText), fmt, va);
+	mir_vsnprintf(szText, sizeof(szText), fmt, va);
 	va_end(va);
 #ifdef MODULENAME
 	mir_snprintf(szFinal, sizeof(szFinal), "%s: %s", MODULENAME, szText);
@@ -180,7 +180,7 @@ int AddErrorLogMessage(const TCHAR* fmt, ...) {
 	va_list va;
 
 	va_start(va,fmt);
-	_vsntprintf(tszText, SIZEOF(tszText), fmt, va);
+	mir_vsntprintf(tszText, SIZEOF(tszText), fmt, va);
 	va_end(va);
 #ifdef MODULENAME
 	mir_sntprintf(tszFinal, SIZEOF(tszFinal), _T("%s: %s"), MODULENAME, tszText);

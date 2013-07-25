@@ -894,7 +894,7 @@ void IEView::writef(const char *fmt, ...)
 	int strsize;
 	va_start(vararg, fmt);
 	str = (char *) malloc(strsize=2048);
-	while (_vsnprintf(str, strsize, fmt, vararg) == -1)
+	while (mir_vsnprintf(str, strsize, fmt, vararg) == -1)
 		str = (char *) realloc(str, strsize+=2048);
 	va_end(vararg);
 	write(str);

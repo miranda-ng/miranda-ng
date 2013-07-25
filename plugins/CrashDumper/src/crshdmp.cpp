@@ -70,7 +70,7 @@ INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 	CreateDirectoryTree(VersionInfoFolder);
 
 	TCHAR path[MAX_PATH];
-	crs_sntprintf(path, MAX_PATH, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
+	mir_sntprintf(path, MAX_PATH, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
 
 	HANDLE hDumpFile = CreateFile(path, GENERIC_WRITE, 0, NULL,
 		CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -235,8 +235,8 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	else
 		profpath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
 
-	crs_sntprintf(CrashLogFolder, MAX_PATH, TEXT("%s\\CrashLog"), profpath);
-	crs_sntprintf(VersionInfoFolder, MAX_PATH, TEXT("%s"), profpath);
+	mir_sntprintf(CrashLogFolder, MAX_PATH, TEXT("%s\\CrashLog"), profpath);
+	mir_sntprintf(VersionInfoFolder, MAX_PATH, TEXT("%s"), profpath);
 
 	SetExceptionHandler();
 

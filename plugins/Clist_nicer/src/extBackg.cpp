@@ -704,12 +704,12 @@ static void ReadItem(StatusItems_t *this_item, char *szItem, char *file)
 	this_item->ALPHA = min(this_item->ALPHA, 100);
 
 	clr = RGB(GetBValue(defaults->COLOR), GetGValue(defaults->COLOR), GetRValue(defaults->COLOR));
-	_snprintf(def_color, 15, "%6.6x", clr);
+	mir_snprintf(def_color, 15, "%6.6x", clr);
 	GetPrivateProfileStringA(szItem, "Color1", def_color, buffer, 400, file);
 	this_item->COLOR = HexStringToLong(buffer);
 
 	clr = RGB(GetBValue(defaults->COLOR2), GetGValue(defaults->COLOR2), GetRValue(defaults->COLOR2));
-	_snprintf(def_color, 15, "%6.6x", clr);
+	mir_snprintf(def_color, 15, "%6.6x", clr);
 	GetPrivateProfileStringA(szItem, "Color2", def_color, buffer, 400, file);
 	this_item->COLOR2 = HexStringToLong(buffer);
 

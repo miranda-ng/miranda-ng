@@ -115,7 +115,7 @@ static char* GetCMDL(TSettingsList& protoSettings)
 	GetModuleFileNameA(NULL, path, MAX_PATH);
 
 	char* cmdl = ( char* )malloc(strlen(path) + 4);
-	_snprintf(cmdl, strlen(path) + 4, "\"%s\" ", path);
+	mir_snprintf(cmdl, strlen(path) + 4, "\"%s\" ", path);
 
 	char* args = GetCMDLArguments(protoSettings);
 	if ( args ) {
@@ -176,7 +176,7 @@ HRESULT CreateLink(TSettingsList& protoSettings)
 	if (MyGetSpecialFolderPath(NULL, savePath, 0x10, FALSE))
 		_tcscat(savePath, _T(SHORTCUT_FILENAME));
 	else
-		_stprintf(savePath, _T(".\\%s"), _T(SHORTCUT_FILENAME));
+		mir_sntprintf(savePath, SIZEOF(savePath), _T(".\\%s"), _T(SHORTCUT_FILENAME));
 
 	// Get a pointer to the IShellLink interface.
 	hres = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, ( void** )&psl);

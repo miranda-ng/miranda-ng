@@ -231,7 +231,7 @@ void CLHttpUser::SendError(int iErrorCode, const char * pszError, const char * p
 		pszDescription = pszError;
 
 	char szBuf[1000];
-	DWORD dwBytesToWrite = mir_snprintf(szBuf, sizeof(szBuf) ,
+	DWORD dwBytesToWrite = mir_snprintf(szBuf, sizeof(szBuf),
 	    "HTTP/1.1 %i %s\r\n"
 	    "Date: %s\r\n"
 	    "Server: MirandaWeb/%s\r\n"
@@ -281,7 +281,7 @@ void CLHttpUser::SendRedir(int iErrorCode, const char * pszError, const char * p
 		pszDescription = pszError;
 
 	char szBuff[1000];
-	DWORD dwBytesToWrite = mir_snprintf(szBuff, sizeof(szBuff) ,
+	DWORD dwBytesToWrite = mir_snprintf(szBuff, sizeof(szBuff),
 	    "HTTP/1.1 %i %s\r\n"
 	    "Date: %s\r\n"
 	    "Server: MirandaWeb/%s\r\n"
@@ -616,11 +616,11 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 				    "Last-Modified: %s\r\n"
 				    "\r\n";
 
-				dwBytesToWrite = mir_snprintf(szBuf, sizeof(szBuf), szHttpPartial ,
-				    szCurTime ,
+				dwBytesToWrite = mir_snprintf(szBuf, sizeof(szBuf), szHttpPartial,
+				    szCurTime,
 				    PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-				    szETag ,
-				    dwDataToSend ,
+				    szETag,
+				    dwDataToSend,
 				    pszGetMimeType(pszRealPath),
 				    dwFileStart,
 				    (dwFileStart + dwDataToSend - 1),
@@ -638,11 +638,11 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 				    "Last-Modified: %s\r\n"
 				    "\r\n";
 
-				dwBytesToWrite = mir_snprintf(szBuf, sizeof(szBuf), szHttpOk ,
-				    szCurTime ,
+				dwBytesToWrite = mir_snprintf(szBuf, sizeof(szBuf), szHttpOk,
+				    szCurTime,
 				    PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-				    szETag ,
-				    nDataSize ,
+				    szETag,
+				    nDataSize,
 				    pszGetMimeType(pszRealPath),
 				    szFileTime);
 			}
@@ -671,11 +671,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 				for (;;) {
 					{
 						DWORD dwCurTick = GetTickCount();
-						if (dwCurTick - dwLastUpdate >= 1000) {/*
-						 char szTmp[200];
-						 _snprintf( szTmp, sizeof( szTmp ), "Bytes tr %d Time %d Tick %d\n", dwCurrentDL - dwLastCurrentDL, dwCurTick - dwLastUpdate, dwCurTick );
-						 OutputDebugString( szTmp );
-						 */
+						if (dwCurTick - dwLastUpdate >= 1000) {
 							dwSpeed = ((dwCurrentDL - dwLastCurrentDL) * 1000) / (dwCurTick - dwLastUpdate);
 							dwLastUpdate = dwCurTick;
 							dwLastCurrentDL = dwCurrentDL;
@@ -723,11 +719,6 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 						dwLastResetTime = GetTickCount();
 						nMaxBytesToSend = nMaxUploadSpeed / nThreadCount;
 					}
-					/*
-					char szTmp[200];
-					_snprintf( szTmp, sizeof( szTmp ), "Current status : %d %% pos %d size %d\n", (dwCurrentDL * 100) / dwTotalSize, dwCurrentDL , dwTotalSize );
-					OutputDebugString( szTmp );
-					*/
 				}
 
 				// file is always closed in destructor 
@@ -738,13 +729,6 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 
 					DeleteFile(szTempfile);
 				}
-				/*
-				{
-				char szBuf[200];
-				_snprintf( szBuf, sizeof( szBuf ), "File Transfer stoped %d transfer complete %d\n", GetTickCount(), dwCurrentDL == nDataSize);
-				OutputDebugString( szBuf );
-				}
-				*/
 				clCritSection.Lock();
 				nThreadCount--;
 

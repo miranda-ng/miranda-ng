@@ -1,7 +1,4 @@
-#include "debug.h"
-
-#define MAX_LENGTH 512
-
+#include "ConnectionNotify.h"
 
 void _OutputDebugString(TCHAR* lpOutputString, ... )
 {
@@ -36,7 +33,7 @@ void _OutputDebugString(TCHAR* lpOutputString, ... )
         case 's':
             {
                 TCHAR* s = va_arg( argptr, TCHAR * );
-                _stprintf(OutMsg,format,s);
+                mir_sntprintf(OutMsg, SIZEOF(OutMsg), format, s);
                 _tcsncpy(format,OutMsg,_countof(OutMsg));
                 j = _tcslen(format);
                 _tcscat(format,_T(" "));
@@ -46,7 +43,7 @@ void _OutputDebugString(TCHAR* lpOutputString, ... )
         case 'c':
             {
                 char c = (char) va_arg( argptr, int );
-                _stprintf(OutMsg,format,c);
+                mir_sntprintf(OutMsg, SIZEOF(OutMsg), format, c);
                 _tcsncpy(format,OutMsg,_countof(OutMsg));
                 j = _tcslen(format);
                 _tcscat(format,_T(" "));
@@ -56,7 +53,7 @@ void _OutputDebugString(TCHAR* lpOutputString, ... )
         case 'd':
             {
                 int d = va_arg( argptr, int );
-                _stprintf(OutMsg,format,d);
+                mir_sntprintf(OutMsg, SIZEOF(OutMsg), format, d);
                 _tcsncpy(format,OutMsg,_countof(OutMsg));
                 j = _tcslen(format);
                 _tcscat(format,_T(" "));

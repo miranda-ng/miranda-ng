@@ -92,7 +92,7 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, TCHAR **
 	MODULEINFO *mi = MM_FindModule(streamData->si->pszModule);
 
 	va_start(va, fmt);
-	lineLen = _vsntprintf( line, 8000, fmt, va);
+	lineLen = mir_vsntprintf( line, 8000, fmt, va);
 	if (lineLen < 0)
 		return 0;
 	line[lineLen] = 0;

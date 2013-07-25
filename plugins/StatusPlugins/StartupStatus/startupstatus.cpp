@@ -47,14 +47,14 @@ TSSSetting::TSSSetting( int profile, PROTOACCOUNT* pa )
 
 	// load status
 	char setting[80];
-	_snprintf(setting, sizeof(setting), "%d_%s", profile, pa->szModuleName);
+	mir_snprintf(setting, sizeof(setting), "%d_%s", profile, pa->szModuleName);
 	int iStatus = db_get_w(NULL, MODULENAME, setting, 0);
 	if ( iStatus < MIN_STATUS || iStatus > MAX_STATUS )
 		iStatus = DEFAULT_STATUS;
 	status = iStatus;
 
 	// load last status
-	_snprintf(setting, sizeof(setting), "%s%s", PREFIX_LAST, szName);
+	mir_snprintf(setting, sizeof(setting), "%s%s", PREFIX_LAST, szName);
 	iStatus = db_get_w(NULL, MODULENAME, setting, 0);
 	if ( iStatus < MIN_STATUS || iStatus > MAX_STATUS )
 		iStatus = DEFAULT_STATUS;
@@ -173,7 +173,7 @@ static void SetLastStatusMessages(TSettingsList& ps)
 			continue;
 
 		char dbSetting[128];
-		_snprintf(dbSetting, sizeof(dbSetting), "%s%s", PREFIX_LASTMSG, ps[i].szName);
+		mir_snprintf(dbSetting, sizeof(dbSetting), "%s%s", PREFIX_LASTMSG, ps[i].szName);
 
 		DBVARIANT dbv;
 		if ( ps[i].szMsg == NULL && !db_get_ts(NULL, MODULENAME, dbSetting, &dbv)) {

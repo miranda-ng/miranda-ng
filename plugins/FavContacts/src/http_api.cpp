@@ -104,7 +104,7 @@ public:
 	void Send(int i)
 	{
 		char buf[32];
-		wsprintfA(buf, "%d", i);
+		mir_snprintf(buf, SIZEOF(buf), "%d", i);
 		Send(buf);
 	}
 

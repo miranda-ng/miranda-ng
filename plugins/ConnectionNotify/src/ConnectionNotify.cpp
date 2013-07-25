@@ -1,42 +1,4 @@
-#include <windows.h>
-//#include <stdio.h>
-#include <tchar.h>
-#include <Commctrl.h>
-#include <assert.h>
-#include "pid2name.h"
-
-
-#ifdef _DEBUG
-#include "debug.h"
-#endif
-
-#include "resource.h"
-
-
-#include <newpluginapi.h>
-
-#include <m_clist.h>
-#include <m_skin.h>
-#include <m_database.h>
-#include <m_langpack.h>
-//#include <m_plugins.h>
-#include <m_options.h>
-#include <m_popup.h>
-#include <m_utils.h>
-#include <m_protomod.h>
-#include <m_protosvc.h>
-#include <m_system.h>
-//#include <m_updater.h>
-
 #include "ConnectionNotify.h"
-#include "netstat.h"
-#include "filter.h"
-#include "version.h"
-
-#define MAX_SETTING_STR 512
-#define PLUGINNAME "ConnectionNotify"
-
-#define STATUS_COUNT 9
 
 HINSTANCE hInst;
 
@@ -77,6 +39,7 @@ struct CONNECTION *connCurrentEditModal=NULL;
 int currentStatus = ID_STATUS_OFFLINE,diffstat=0;
 BOOL bOptionsOpen=FALSE;
 TCHAR *tcpStates[]={_T("CLOSED"),_T("LISTEN"),_T("SYN_SENT"),_T("SYN_RCVD"),_T("ESTAB"),_T("FIN_WAIT1"),_T("FIN_WAIT2"),_T("CLOSE_WAIT"),_T("CLOSING"),_T("LAST_ACK"),_T("TIME_WAIT"),_T("DELETE_TCB")};
+
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	PLUGINNAME,

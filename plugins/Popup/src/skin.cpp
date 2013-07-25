@@ -234,7 +234,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 	for (int i=0; i < 32; ++i)
 	{
 		char buf[10];
-		wsprintfA(buf, "opt%d", i);
+		mir_snprintf(buf, SIZEOF(buf), "opt%d", i);
 		wnd->getArgs()->add(buf, (m_flags&(1L<<i)) ? 1 : 0);
 	}
 

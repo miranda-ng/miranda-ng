@@ -355,7 +355,7 @@ static bool sttIsGroup(int id)
 
 	DBVARIANT dbv = {0};
 	char buf[32];
-	wsprintfA(buf, "%d", (int)(id-2));
+	mir_snprintf(buf, SIZEOF(buf), "%d", (int)(id - 2));
 	if (!db_get_ts(NULL, "CListGroups", buf, &dbv))
 	{
 		db_free(&dbv);
@@ -375,7 +375,7 @@ static TCHAR *sttGetGroupName(int id)
 
 	DBVARIANT dbv = {0};
 	char buf[32];
-	wsprintfA(buf, "%d", (int)(id-2));
+	mir_snprintf(buf, SIZEOF(buf), "%d", (int)(id - 2));
 	if (!db_get_ts(NULL, "CListGroups", buf, &dbv))
 	{
 		TCHAR *res = mir_tstrdup(dbv.ptszVal+1);
@@ -391,7 +391,7 @@ static int sttGetGroupId(TCHAR *name)
 	{
 		DBVARIANT dbv = {0};
 		char buf[32];
-		wsprintfA(buf, "%d", (int)i);
+		mir_snprintf(buf, SIZEOF(buf), "%d", (int)i);
 		if (!db_get_ts(NULL, "CListGroups", buf, &dbv))
 		{
 			if (!lstrcmp(dbv.ptszVal+1, name))

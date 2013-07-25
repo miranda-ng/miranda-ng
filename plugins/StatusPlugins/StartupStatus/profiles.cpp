@@ -161,7 +161,7 @@ INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 
 	DBVARIANT dbv;
 	char setting[80];
-	_snprintf(setting, sizeof(setting), "%d_%s", profile, SETTING_PROFILENAME);
+	mir_snprintf(setting, sizeof(setting), "%d_%s", profile, SETTING_PROFILENAME);
 	if ( db_get_ts(NULL, MODULENAME, setting, &dbv))
 		return -1;
 
@@ -190,7 +190,7 @@ TCHAR *GetStatusMessage(int profile, char *szProto)
 
 	for ( int i=0; i < pceCount; i++ ) {
 		if ( (pce[i].profile == profile) && (!strcmp(pce[i].szProto, szProto))) {
-			_snprintf(dbSetting, sizeof(dbSetting), "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
+			mir_snprintf(dbSetting, sizeof(dbSetting), "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
 			if (!db_get_ts(NULL, MODULENAME, dbSetting, &dbv)) { // reload from db
 				pce[i].msg = ( TCHAR* )realloc(pce[i].msg, sizeof(TCHAR)*(_tcslen(dbv.ptszVal)+1));
 				if (pce[i].msg != NULL) {
@@ -214,7 +214,7 @@ TCHAR *GetStatusMessage(int profile, char *szProto)
 	pce[pceCount].profile = profile;
 	pce[pceCount].szProto = _strdup(szProto);
 	pce[pceCount].msg = NULL;
-	_snprintf(dbSetting, sizeof(dbSetting), "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
+	mir_snprintf(dbSetting, sizeof(dbSetting), "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
 	if (!db_get_ts(NULL, MODULENAME, dbSetting, &dbv)) {
 		pce[pceCount].msg = _tcsdup(dbv.ptszVal);
 		db_free(&dbv);
@@ -264,7 +264,7 @@ INT_PTR LoadAndSetProfile(WPARAM wParam, LPARAM lParam)
 		profile = (profile >= 0)?profile:db_get_w(NULL, MODULENAME, SETTING_DEFAULTPROFILE, 0);
 
 		char setting[64];
-		_snprintf(setting, sizeof(setting), "%d_%s", profile, SETTING_SHOWCONFIRMDIALOG);
+		mir_snprintf(setting, sizeof(setting), "%d_%s", profile, SETTING_SHOWCONFIRMDIALOG);
 		if (!db_get_b(NULL, MODULENAME, setting, 0))
 			CallService(MS_CS_SETSTATUSEX,(WPARAM)&profileSettings, 0);
 		else

@@ -1,12 +1,4 @@
-#include <Windows.h>
-// one can also use Winternl.h if needed
-//#include <Winternl.h> // for UNICODE_STRING and SYSTEM_INFORMATION_CLASS
-#include <stdio.h>
-#include <tchar.h>
-//#include <stdlib.h>
-
-#include <Tlhelp32.h>
-#include "pid2name.h"
+#include "ConnectionNotify.h"
 
 void pid2name(DWORD procid,TCHAR* buffer)
 {
@@ -23,7 +15,7 @@ void pid2name(DWORD procid,TCHAR* buffer)
     {
 		if(ProcessStruct.th32ProcessID==procid)
 		{
-			_stprintf(buffer,_T("%s"),ProcessStruct.szExeFile);
+			_stprintf(buffer,_T("%s"),ProcessStruct.szExeFile); //!!!!!!!!!!!!
             break;
         }
     }

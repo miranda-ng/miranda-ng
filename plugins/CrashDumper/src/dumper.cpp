@@ -184,7 +184,7 @@ static void GetPluginsString(bkstring& buffer, unsigned& flags)
 
 	LPTSTR fname = _tcsrchr(path, TEXT('\\'));
 	if (fname == NULL) fname = path;
-	crs_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\plugins\\*.dll"));
+	mir_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\plugins\\*.dll"));
 
 	WIN32_FIND_DATA FindFileData;
 	HANDLE hFind = FindFirstFile(path, &FindFileData);
@@ -202,7 +202,7 @@ static void GetPluginsString(bkstring& buffer, unsigned& flags)
 	do 
 	{
 		bool loaded = false;
-		crs_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\plugins\\%s"), FindFileData.cFileName);
+		mir_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\plugins\\%s"), FindFileData.cFileName);
 		HMODULE hModule = GetModuleHandle(path);
 		if (hModule == NULL && servicemode) 
 		{
@@ -375,7 +375,7 @@ static void GetWeatherStrings(bkstring& buffer, unsigned flags)
 
 	LPTSTR fname = _tcsrchr(path, TEXT('\\'));
 	if (fname == NULL) fname = path;
-	crs_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\plugins\\weather\\*.ini"));
+	mir_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\plugins\\weather\\*.ini"));
 
 	WIN32_FIND_DATA FindFileData;
 	HANDLE hFind = FindFirstFile(path, &FindFileData);
@@ -385,7 +385,7 @@ static void GetWeatherStrings(bkstring& buffer, unsigned flags)
 	{
 		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
 
-		crs_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\plugins\\weather\\%s"), FindFileData.cFileName);
+		mir_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\plugins\\weather\\%s"), FindFileData.cFileName);
 		HANDLE hDumpFile = CreateFile(path, GENERIC_READ, FILE_SHARE_READ, NULL,
 			OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
@@ -449,7 +449,7 @@ static void GetIconStrings(bkstring& buffer)
 
 	LPTSTR fname = _tcsrchr(path, TEXT('\\'));
 	if (fname == NULL) fname = path;
-	crs_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\Icons\\*.*"));
+	mir_sntprintf(fname, MAX_PATH-(fname-path), TEXT("\\Icons\\*.*"));
 
 	WIN32_FIND_DATA FindFileData;
 	HANDLE hFind = FindFirstFile(path, &FindFileData);
@@ -506,7 +506,7 @@ void PrintVersionInfo(bkstring& buffer, unsigned flags)
 	buffer.appendfmt(TEXT("Build time: %s\r\n"), mirtime); 
 
 	TCHAR profpn[MAX_PATH];
-	crs_sntprintf(profpn, SIZEOF(profpn), TEXT("%s\\%s"), profpathfull, profname);
+	mir_sntprintf(profpn, SIZEOF(profpn), TEXT("%s\\%s"), profpathfull, profname);
 
 	buffer.appendfmt(TEXT("Profile: %s\r\n"), profpn);
 

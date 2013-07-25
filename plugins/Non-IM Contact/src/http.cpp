@@ -70,7 +70,7 @@ int InternetDownloadFile (CHAR *szUrl)
 				if (!lstrcmpA(nlhrReply->headers[i].szName, "Location")) {
 					szData = (char *)malloc(512);
 					// add "Moved/Location:" in front of the new URL for identification
-					wsprintfA(szData, "Moved/Location: %s\n", nlhrReply->headers[i].szValue);
+					mir_snprintf(szData, 512, "Moved/Location: %s\n", nlhrReply->headers[i].szValue);
 					break;
 				}
 			}

@@ -415,7 +415,7 @@ LBL_Def:
 		ClcContact *contact;
 		if ( !FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
-		lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName((HANDLE)wParam, 0), safe_sizeof(contact->szText));
+		lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName((HANDLE)wParam, 0), SIZEOF(contact->szText));
 
 		RTL_DetectAndSet(contact, 0);
 
@@ -499,7 +499,7 @@ LBL_Def:
 
 		contact->proto = GetContactProto((HANDLE)wParam);
 		CallService(MS_CLIST_INVALIDATEDISPLAYNAME, wParam, 0);
-		lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName((HANDLE)wParam, 0), safe_sizeof(contact->szText));
+		lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName((HANDLE)wParam, 0), SIZEOF(contact->szText));
 
 		RTL_DetectAndSet(contact, 0);
 

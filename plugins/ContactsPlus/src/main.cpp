@@ -83,7 +83,7 @@ static int HookDBEventAdded(WPARAM wParam, LPARAM lParam)
     cle.pszService = MS_CONTACTS_RECEIVE;
 
     WCHAR tmp[MAX_PATH];
-    _snprintfT(caToolTip, 64, "%s %s", SRCTranslateT("Contacts received from", tmp), (TCHAR*)GetContactDisplayNameT(hContact));
+    mir_sntprintf(caToolTip, SIZEOF(caToolTip), "%s %s", SRCTranslateT("Contacts received from", tmp), (TCHAR*)GetContactDisplayNameT(hContact));
 
     cle.ptszTooltip = caToolTip;
     cle.flags |= CLEF_UNICODE;

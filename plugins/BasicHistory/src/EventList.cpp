@@ -650,7 +650,7 @@ static void GetAuthRequestDescription( DBEVENTINFO *dbei, TCHAR* buf, int cbBuf 
 		allName += _T(", ");
 	}
 
-	_sntprintf_s(buf, cbBuf, _TRUNCATE, TranslateT("Authorisation request by %s (%s%d): %s"),
+	mir_sntprintf(buf, cbBuf, TranslateT("Authorisation request by %s (%s%d): %s"),
 		(newNick[0] == 0 ? (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR) : newNick),
 		allName.c_str(), uin, newReason);
 	mir_free( newNick );
@@ -824,7 +824,7 @@ void EventList::AddImporter(HANDLE hContact, IImport::ImportType type, const std
 {
 	EnterCriticalSection(&criticalSection);
 	TCHAR buf[32];
-	_stprintf_s(buf, _T("%016llx"), (unsigned long long int)hContact);
+	mir_sntprintf(buf, SIZEOF(buf), _T("%016llx"), (unsigned long long int)hContact);
 	std::wstring internalFile = contactFileDir;
 	ImportDiscData data;
 	data.file = contactFileDir + buf;

@@ -135,12 +135,12 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						GetPrivateProfileString( _T("Skin_Description_Section"), _T("URL"), 		_T(""), 						URL, 		SIZEOF( URL ), 		sd->File );
 						GetPrivateProfileString( _T("Skin_Description_Section"), _T("Contact"), 	_T(""), 						Contact, 	SIZEOF( Contact ), 	sd->File );
 						GetPrivateProfileString( _T("Skin_Description_Section"), _T("Description"), _T(""), 					Description, SIZEOF( Description ), sd->File );
-						_sntprintf( text, SIZEOF( text ), TranslateT("%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s"),
-							sd->Name, Description, Author, Contact, URL, sd->File );
+						mir_sntprintf(text, SIZEOF(text), TranslateT("%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s"),
+							sd->Name, Description, Author, Contact, URL, sd->File);
 					}
 					else
 					{
-						_sntprintf( text, SIZEOF( text ), TranslateT("%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s"),
+						mir_sntprintf(text, SIZEOF(text), TranslateT("%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s"),
 							TranslateT("reVista for Modern v0.5"),
 							TranslateT("This is second default Modern Contact list skin in Vista Aero style"),
 							TranslateT("Angeli-Ka (graphics), FYR (template)"),
@@ -289,7 +289,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						TCHAR prfn[MAX_PATH] = {0}, imfn[MAX_PATH] = {0}, skinfolder[MAX_PATH] = {0};
 						GetPrivateProfileString( _T("Skin_Description_Section"), _T("Preview"), _T(""), imfn, SIZEOF( imfn ), sd->File );
 						IniParser::GetSkinFolder( sd->File, skinfolder );
-						_sntprintf( prfn, SIZEOF( prfn ), _T("%s\\%s"), skinfolder, imfn );
+						mir_sntprintf(prfn, SIZEOF(prfn), _T("%s\\%s"), skinfolder, imfn);
 						PathToAbsoluteT(prfn, imfn);
 						hPreviewBitmap = ske_LoadGlyphImage(imfn);
 
@@ -317,12 +317,12 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 								GetPrivateProfileString( _T("Skin_Description_Section"), _T("URL"), 		_T(""), 						URL, 		SIZEOF( URL ), 		sd->File );
 								GetPrivateProfileString( _T("Skin_Description_Section"), _T("Contact"), 	_T(""), 						Contact, 	SIZEOF( Contact ), 	sd->File );
 								GetPrivateProfileString( _T("Skin_Description_Section"), _T("Description"), _T(""), 					Description, SIZEOF( Description ), sd->File );
-								_sntprintf( text, SIZEOF( text ), TranslateT("Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s"),
-									sd->Name, Description, Author, Contact, URL );
+								mir_sntprintf(text, SIZEOF(text), TranslateT("Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s"),
+									sd->Name, Description, Author, Contact, URL);
 							}
 							else
 							{
-								_sntprintf( text, SIZEOF( text ), TranslateT("%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n"),
+								mir_sntprintf(text, SIZEOF(text), TranslateT("%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n"),
 									TranslateT("reVista for Modern v0.5"),
 									TranslateT("This is second default Modern Contact list skin in Vista Aero style"),
 									TranslateT("graphics by Angeli-Ka\ntemplate by FYR"),
@@ -371,7 +371,7 @@ int SearchSkinFiles( HWND hwndDlg, TCHAR * Folder )
 	struct _tfinddata_t fd = {0};
 	TCHAR mask[MAX_PATH];
 	long hFile;
-	_sntprintf( mask, SIZEOF( mask ), _T("%s\\*.msf"), Folder );
+	mir_sntprintf(mask, SIZEOF(mask), _T("%s\\*.msf"), Folder);
 	//fd.attrib = _A_SUBDIR;
 	hFile = _tfindfirst( mask, &fd );
 	if ( hFile != -1 )
@@ -382,14 +382,14 @@ int SearchSkinFiles( HWND hwndDlg, TCHAR * Folder )
 			while ( !_tfindnext( hFile, &fd ));
 		_findclose( hFile );
 	}
-	_sntprintf( mask, SIZEOF( mask ), _T("%s\\*"), Folder );
+	mir_sntprintf(mask, SIZEOF(mask), _T("%s\\*"), Folder);
 	hFile = _tfindfirst( mask, &fd );
 	{
 		do {
 			if ( fd.attrib&_A_SUBDIR && !( _tcsicmp( fd.name, _T("."))  == 0  || _tcsicmp( fd.name, _T("..")) == 0 ))
 			{//Next level of subfolders
 				TCHAR path[MAX_PATH];
-				_sntprintf( path, SIZEOF( path ), _T("%s\\%s"), Folder, fd.name );
+				mir_sntprintf(path, SIZEOF(path), _T("%s\\%s"), Folder, fd.name);
 				SearchSkinFiles( hwndDlg, path );
 			}
 		}while ( !_tfindnext( hFile, &fd ));
@@ -453,8 +453,8 @@ HTREEITEM AddSkinToList( HWND hwndDlg, TCHAR * path, TCHAR* file )
 	memmove(defskinname, file, (_tcslen( file )-4) * sizeof(TCHAR));
 	defskinname[_tcslen( file )+1] = _T('\0');
 	if ( !file || _tcschr( file, _T('%'))) {
-		_sntprintf( sd->File, MAX_PATH, _T("%%Default Skin%%"));
-		_sntprintf( sd->Name, 100, TranslateT("%Default Skin%"));
+		mir_sntprintf(sd->File, MAX_PATH, _T("%%Default Skin%%"));
+		mir_sntprintf(sd->Name, 100, TranslateT("%Default Skin%"));
 		_tcsncpy(fullName, TranslateT("Default Skin"), SIZEOF(fullName));
 	}
 	else {
@@ -571,7 +571,7 @@ INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 		TCHAR skinfolder[MAX_PATH] = {0};
 		GetPrivateProfileString( _T("Skin_Description_Section"), _T("Preview"), _T(""), imfn, SIZEOF( imfn ), (LPCTSTR)lParam);
 		IniParser::GetSkinFolder((LPCTSTR)lParam, skinfolder );
-		_sntprintf( prfn, SIZEOF( prfn ), _T("%s\\%s"), skinfolder, imfn );
+		mir_sntprintf(prfn, SIZEOF(prfn), _T("%s\\%s"), skinfolder, imfn);
 		PathToAbsoluteT(prfn, imfn);
 
 		hPreviewBitmap = ske_LoadGlyphImage(imfn);

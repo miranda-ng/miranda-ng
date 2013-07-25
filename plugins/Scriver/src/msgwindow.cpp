@@ -868,14 +868,14 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			char *szNamePrefix = (!savePerContact && dat->isChat) ? "chat" : "";
 			if (!dat->windowWasCascaded) {
-				wsprintfA(szSettingName,"%sx",szNamePrefix);
+				mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sx", szNamePrefix);
 				db_set_dw(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.left);
-				wsprintfA(szSettingName,"%sy",szNamePrefix);
+				mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sy", szNamePrefix);
 				db_set_dw(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.top);
 			}
-			wsprintfA(szSettingName,"%swidth",szNamePrefix);
+			mir_snprintf(szSettingName, SIZEOF(szSettingName), "%swidth", szNamePrefix);
 			db_set_dw(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.right - wp.rcNormalPosition.left);
-			wsprintfA(szSettingName,"%sheight",szNamePrefix);
+			mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sheight", szNamePrefix);
 			db_set_dw(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
 			db_set_b(hContact, SRMMMOD, SRMSGSET_TOPMOST, (BYTE)dat->bTopmost);
 			if (g_dat.lastParent == dat)
@@ -1550,9 +1550,9 @@ int ScriverRestoreWindowPosition(HWND hwnd,HANDLE hContact,const char *szModule,
 //	SystemParametersInfo(SPI_GETWORKAREA, 0, &rcDesktop, 0);
 	wp.length=sizeof(wp);
 	GetWindowPlacement(hwnd,&wp);
-	wsprintfA(szSettingName,"%sx",szNamePrefix);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sx", szNamePrefix);
 	x=db_get_dw(hContact,szModule,szSettingName,-1);
-	wsprintfA(szSettingName,"%sy",szNamePrefix);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sy", szNamePrefix);
 	y=(int)db_get_dw(hContact,szModule,szSettingName,-1);
 	if (x==-1) return 1;
 	if (flags&RWPF_NOSIZE) {
@@ -1560,9 +1560,9 @@ int ScriverRestoreWindowPosition(HWND hwnd,HANDLE hContact,const char *szModule,
 	} else {
 		wp.rcNormalPosition.left=x;
 		wp.rcNormalPosition.top=y;
-		wsprintfA(szSettingName,"%swidth",szNamePrefix);
+		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%swidth", szNamePrefix);
 		wp.rcNormalPosition.right=wp.rcNormalPosition.left+db_get_dw(hContact,szModule,szSettingName,-1);
-		wsprintfA(szSettingName,"%sheight",szNamePrefix);
+		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sheight", szNamePrefix);
 		wp.rcNormalPosition.bottom=wp.rcNormalPosition.top+db_get_dw(hContact,szModule,szSettingName,-1);
 	}
 	wp.flags=0;

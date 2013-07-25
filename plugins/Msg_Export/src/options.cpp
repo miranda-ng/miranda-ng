@@ -366,7 +366,7 @@ BOOL bApplyChanges( HWND hwndDlg )
 	int nTmp = GetDlgItemInt(hwndDlg, IDC_MAX_CLOUMN_WIDTH, &bTrans, TRUE );
 	if ( !bTrans || nTmp < 5 )
 	{
-		_sntprintf(szTemp, sizeof(szTemp), TranslateT("Max line width must be at least %d"), 5);
+		mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("Max line width must be at least %d"), 5);
 		MessageBox(hwndDlg, szTemp, MSG_BOX_TITEL, MB_OK);
 		bRet = false;
 	}
@@ -722,7 +722,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 
 					DWORD dwUIN = db_get_dw(hContact, sTmpA.c_str(), "UIN", 0);
 					TCHAR szTmp[50];
-					_sntprintf( szTmp, sizeof(szTmp),_T("%d"), dwUIN );
+					mir_sntprintf(szTmp, SIZEOF(szTmp),_T("%d"), dwUIN);
 					sItem.iSubItem = 3;
 					sItem.pszText = szTmp;
 					ListView_SetItem( hMapUser, &sItem );

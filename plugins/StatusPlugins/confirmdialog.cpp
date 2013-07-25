@@ -212,7 +212,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 		// start timer
 		if (timeOut > 0) {
 			TCHAR text[32];
-			_sntprintf(text, SIZEOF(text), TranslateT("Closing in %d"), timeOut);
+			mir_sntprintf(text, SIZEOF(text), TranslateT("Closing in %d"), timeOut);
 			SetDlgItemText(hwndDlg, IDC_CLOSE, text);
 			SetTimer(hwndDlg, TIMER_ID, 1000, NULL);
 		}
@@ -221,7 +221,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 	case WM_TIMER:
 		{
 			TCHAR text[32];
-			_sntprintf(text, SIZEOF(text), TranslateT("Closing in %d"), timeOut-1);
+			mir_sntprintf(text, SIZEOF(text), TranslateT("Closing in %d"), timeOut-1);
 			SetDlgItemText(hwndDlg, IDC_CLOSE, text);
 			if (timeOut <= 0) {
 				KillTimer(hwndDlg, TIMER_ID);

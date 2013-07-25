@@ -46,8 +46,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define MS_PROTO_ENUMPROTOS        "Proto/EnumProtos"
 
-int  crs_sntprintf(TCHAR *buffer, size_t count, const TCHAR* fmt, ...);
-
 #define crsi_u2a(dst, src) \
 { \
 	int cbLen = WideCharToMultiByte(CP_ACP, 0, src, -1, NULL, 0, NULL, NULL); \

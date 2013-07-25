@@ -112,7 +112,7 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		}
 
 		SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)MIRANDANAME);
-		wsprintfA(szUin,"%u",db_get_dw(NULL,"ICQ","UIN",0));
+		mir_snprintf(szUin, SIZEOF(szUin), "%u", db_get_dw(NULL, "ICQ", "UIN", 0));
 		SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)szUin);
 
 		if ( !db_get_s(NULL,"ICQ","Nick",&dbv)) {
@@ -192,9 +192,9 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 	case WM_HSCROLL:
 		{	char str[10];
-		wsprintfA(str,"%d%%",100*SendDlgItemMessage(hwndDlg,IDC_TRANSINACTIVE,TBM_GETPOS,0,0)/255);
+		mir_snprintf(str, SIZEOF(str), "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0) / 255);
 		SetDlgItemTextA(hwndDlg,IDC_INACTIVEPERC,str);
-		wsprintfA(str,"%d%%",100*SendDlgItemMessage(hwndDlg,IDC_TRANSACTIVE,TBM_GETPOS,0,0)/255);
+		mir_snprintf(str, SIZEOF(str), "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0) / 255);
 		SetDlgItemTextA(hwndDlg,IDC_ACTIVEPERC,str);
 		}
 		if (wParam != 0x12345678) SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);

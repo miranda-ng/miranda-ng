@@ -58,7 +58,7 @@ inline void _cdecl debugTrace(const char* format, ...)
 	
 	char buf[512];
 	
-	_vsnprintf(buf, sizeof(buf), format, args);
+	mir_vsnprintf(buf, sizeof(buf), format, args);
 	OutputDebugStringA(buf);
 	va_end(args);
 }

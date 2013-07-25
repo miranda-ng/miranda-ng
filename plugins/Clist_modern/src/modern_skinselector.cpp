@@ -39,11 +39,12 @@ char * ModernMaskToString(MODERNMASK *mm, char * buf, UINT bufsize)
 	{
 		if (mm->pl_Params[i].bMaskParamFlag)
 		{
-			if (i>0) _snprintf(buf,bufsize,"%s%%",buf);
+			if (i>0)
+				mir_snprintf(buf, bufsize, "%s%%", buf);
 			if (mm->pl_Params[i].bMaskParamFlag &MPF_DIFF)
-				_snprintf(buf,bufsize,"%s = %s",mm->pl_Params[i].szName,mm->pl_Params[i].szValue);
+				mir_snprintf(buf, bufsize, "%s = %s", mm->pl_Params[i].szName, mm->pl_Params[i].szValue);
 			else
-				_snprintf(buf,bufsize,"%s^%s",mm->pl_Params[i].szName,mm->pl_Params[i].szValue);
+				mir_snprintf(buf, bufsize, "%s^%s", mm->pl_Params[i].szName, mm->pl_Params[i].szValue);
 		}
 		else break;
 	}

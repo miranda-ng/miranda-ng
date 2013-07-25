@@ -189,7 +189,7 @@ void UpdateDialogTitle(HWND hwndDlg, HANDLE hContact, char* pszTitleStart)
         SetDlgItemTextT(hwndDlg, IDC_NAME, uid?uid:contactName);
 
       szStatus = MirandaStatusToStringT(szProto==NULL ? ID_STATUS_OFFLINE:db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE));
-      _snprintfT(newtitle, 256, "%s %s (%s)", SRCTranslateT(pszTitleStart, str), contactName, szStatus);
+      mir_sntprintf(newtitle, 256, "%s %s (%s)", SRCTranslateT(pszTitleStart, str), contactName, szStatus);
 
       SAFE_FREE((void**)&uid);
       SAFE_FREE((void**)&oldTitle);
@@ -337,22 +337,6 @@ TCHAR* __fastcall strcatT(TCHAR* dest, const TCHAR* src)
 	if (src)
 		return (TCHAR*)wcscat((WCHAR*)dest, (WCHAR*)src);
 	return dest;
-}
-
-int _snprintfT(TCHAR *buffer, size_t count, const char* fmt, ...)
-{
-	va_list va;
-	int len;
-
-	va_start(va, fmt);
-	TCHAR* wfmt = ansi_to_tchar(fmt);
-
-	len = _vsnwprintf((WCHAR*)buffer, count-1, (WCHAR*)wfmt, va);
-	((WCHAR*)buffer)[count-1] = 0;
-	SAFE_FREE((void**)&wfmt);
-
-	va_end(va);
-	return len;
 }
 
 TCHAR* __fastcall SRCTranslateT(const char* src, const WCHAR* unibuf)

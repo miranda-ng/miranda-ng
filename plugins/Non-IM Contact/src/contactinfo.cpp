@@ -157,7 +157,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			/* group*/
 			while (i != -1) {
 				char str[3];
-				wsprintfA(str, "%d", i);
+				mir_snprintf(str, SIZEOF(str), "%d", i);
 				if (!db_get_ts(NULL, "CListGroups", str, &dbv)) {
 					SendMessage(GetDlgItem(hwnd, IDC_GROUP), CB_INSERTSTRING,0, LPARAM(dbv.ptszVal+1));
 					db_free(&dbv);
@@ -186,7 +186,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				if (!db_get_w(NULL, MODNAME ,"Timer", 1))
 					SetDlgItemTextA(hwnd,IDC_TIMER_INTERVAL_MSG, "Non-IM Contact protocol timer is Disabled");
 				else {
-					_snprintf(string, sizeof(string), "Timer intervals... Non-IM Contact Protocol timer is %d seconds",db_get_w(NULL, MODNAME ,"Timer", 1));
+					mir_snprintf(string, sizeof(string), "Timer intervals... Non-IM Contact Protocol timer is %d seconds",db_get_w(NULL, MODNAME ,"Timer", 1));
 					SetDlgItemTextA(hwnd,IDC_TIMER_INTERVAL_MSG, string);
 				}
 			}
@@ -233,7 +233,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			{
 				char szFileName[512];
 				if (BrowseForFolder(hwnd, szFileName)) {
-					wsprintfA(szFileName, "%s ,/e", szFileName);
+					mir_snprintf(szFileName, SIZEOF(szFileName), "%s ,/e", szFileName);
 					SetDlgItemTextA(hwnd, IDC_LINK, "explorer.exe");
 					SetDlgItemTextA(hwnd, IDC_PARAMS, szFileName);
 				}
@@ -595,8 +595,9 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 		}
 		else if (contactDone && !strcmp(line,"[/Non-IM Contact]\r\n")) {
 			if (!name) continue;
-			char *msg = (char*)malloc(strlen(name) + strlen("Do you want to import this Non-IM Contact?\r\n\r\nName: \r\n") + 1);
-			wsprintfA(msg, "Do you want to import this Non-IM Contact?\r\n\r\nName: %s\r\n", name);
+			int size = strlen(name) + strlen("Do you want to import this Non-IM Contact?\r\n\r\nName: \r\n") + 1;
+			char *msg = (char*)malloc(size);
+			mir_snprintf(msg, size, "Do you want to import this Non-IM Contact?\r\n\r\nName: %s\r\n", name);
 			if (program) {
 				msg = (char*)realloc(msg, strlen(msg) + strlen(program) +strlen("Program: \r\n") +1);
 				strcat(msg, "Program: ");
@@ -624,23 +625,23 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 			if (icon) {
 				char tmp[64];
 				if (icon == ID_STATUS_ONLINE)
-					wsprintfA(tmp, "Icon: Online\r\n");
+					mir_snprintf(tmp, SIZEOF(tmp), "Icon: Online\r\n");
 				else if (icon == ID_STATUS_AWAY)
-					wsprintfA(tmp, "Icon: Away\r\n");
+					mir_snprintf(tmp, SIZEOF(tmp), "Icon: Away\r\n");
 				else if (icon == ID_STATUS_NA)
-					wsprintfA(tmp, "Icon: NA\r\n");
+					mir_snprintf(tmp, SIZEOF(tmp), "Icon: NA\r\n");
 				else if (icon == ID_STATUS_DND)
-					wsprintfA(tmp, "Icon: DND\r\n");
+					mir_snprintf(tmp, SIZEOF(tmp), "Icon: DND\r\n");
 				else if (icon == ID_STATUS_OCCUPIED)
-					wsprintfA(tmp, "Icon: Occupied\r\n");
+					mir_snprintf(tmp, SIZEOF(tmp), "Icon: Occupied\r\n");
 				else if (icon == ID_STATUS_FREECHAT)
-					wsprintfA(tmp, "Icon: Free For Chat\r\n");
+					mir_snprintf(tmp, SIZEOF(tmp), "Icon: Free For Chat\r\n");
 				else if (icon == ID_STATUS_INVISIBLE)
-					wsprintfA(tmp, "Icon: Invisible\r\n");
+					mir_snprintf(tmp, SIZEOF(tmp), "Icon: Invisible\r\n");
 				else if (icon == ID_STATUS_ONTHEPHONE)
-					wsprintfA(tmp, "Icon: On The Phone\r\n");
+					mir_snprintf(tmp, SIZEOF(tmp), "Icon: On The Phone\r\n");
 				else if (icon == ID_STATUS_OUTTOLUNCH)
-					wsprintfA(tmp, "Icon: Out To Lunch\r\n");
+					mir_snprintf(tmp, SIZEOF(tmp), "Icon: Out To Lunch\r\n");
 				msg = (char*)realloc(msg, strlen(msg) + strlen(tmp) +1);
 				strcat(msg,tmp);
 			}
@@ -649,7 +650,7 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 				if (minutes)
 					strcpy(tmp2,"Minutes");
 				else strcpy(tmp2,"Seconds");
-				wsprintfA(tmp, "UseTimer: Yes\r\nTimer: %d %s",timer, tmp2);
+				mir_snprintf(tmp, SIZEOF(tmp), "UseTimer: Yes\r\nTimer: %d %s",timer, tmp2);
 				msg = (char*)realloc(msg, strlen(msg) + strlen(tmp) +1);
 				strcat(msg,tmp);
 			}

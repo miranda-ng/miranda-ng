@@ -630,8 +630,8 @@ INT_PTR NormalizeSequenceService(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR strAux[MAX_PATH+1], *strIn = (TCHAR *)lParam;
 
-	_snwprintf(strAux, MAX_PATH, _T("%s"), strIn);
-	_snwprintf(strIn, MAX_PATH, _T("%s"), normalizeCustomString(strAux));
+	mir_sntprintf(strAux, MAX_PATH, _T("%s"), strIn);
+	mir_sntprintf(strIn, MAX_PATH, _T("%s"), normalizeCustomString(strAux));
 
 	return (int)strIn;
 }

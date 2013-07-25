@@ -558,8 +558,6 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 
 HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 {
-	//TCHAR sz[200];_stprintf(sz, "Create Profile('%s', '%s', '%s')", szProfileName, m_szUsername, m_szExchangeServer);Log(sz);
-	
 	HRESULT			hr				=	S_OK;
 	CMAPIInterface<LPPROFADMIN>		pProfAdmin		=	NULL;
 	CMAPIInterface<LPSERVICEADMIN>	pMsgSvcAdmin	=	NULL;
