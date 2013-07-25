@@ -40,11 +40,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_SERVER_APPS					"apps.facebook.com"
 
 // Limits
-#define FACEBOOK_MESSAGE_LIMIT					1024
-#define FACEBOOK_MESSAGE_LIMIT_TEXT				"1024"
-#define FACEBOOK_MIND_LIMIT						420
-#define FACEBOOK_MIND_LIMIT_TEXT				"420"
-#define FACEBOOK_TIMEOUTS_LIMIT					5
+#define FACEBOOK_MESSAGE_LIMIT					200000 // this is guessed limit, in reality it is bigger
+#define FACEBOOK_MESSAGE_LIMIT_TEXT				"200000"
+#define FACEBOOK_MIND_LIMIT						63206 // this should be correct maximal limit
+#define FACEBOOK_MIND_LIMIT_TEXT				"63206"
+#define FACEBOOK_TIMEOUTS_LIMIT					3
 #define FACEBOOK_GROUP_NAME_LIMIT				100
 
 // Defaults
