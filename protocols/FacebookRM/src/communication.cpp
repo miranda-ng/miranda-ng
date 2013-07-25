@@ -867,7 +867,7 @@ bool facebook_client::home()
 		}
 
 		// Get avatar
-		this->self_.image_url = utils::text::source_get_value(&resp.data, 4, "<i class=", "profpic", "<img src=\"", "\"");
+		this->self_.image_url = utils::text::source_get_value(&resp.data, 3, "class=\"l\"", "<img src=\"", "\"");
 		parent->Log("      Got self avatar: %s", this->self_.image_url.c_str());
 		parent->CheckAvatarChange(NULL, this->self_.image_url);
 
