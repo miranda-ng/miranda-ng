@@ -283,7 +283,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 			JSONNODE *text = json_get(msg, "text");
 			JSONNODE *messageId = json_get(msg, "messageId");
-			JSONNODE *time = json_get(it, "time");
+			JSONNODE *time = json_get(msg, "time");
 			// JSONNODE *tab_type = json_get(it, "tab_type"); // e.g. "friend"
 
 			if (text == NULL || messageId == NULL)
