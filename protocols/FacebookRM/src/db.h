@@ -48,7 +48,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_CUSTOM_SMILEYS			"CustomSmileys"
 #define FACEBOOK_KEY_MESSAGE_ID				"LastMessageId"
 #define FACEBOOK_KEY_SERVER_TYPE			"ServerType"
-#define FACEBOOK_KEY_MARK_READ				"MarkRead"
 #define FACEBOOK_KEY_LOCAL_TIMESTAMP		"UseLocalTimestamp"
 #define FACEBOOK_KEY_PRIVACY_TYPE			"PrivacyType"
 #define FACEBOOK_KEY_PLACE					"Place"

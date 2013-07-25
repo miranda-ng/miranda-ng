@@ -169,29 +169,16 @@ void FacebookProto::ReadMessageWorker(void *p)
 
 	HANDLE hContact = static_cast<HANDLE>(p);
 
-	if (!getByte(FACEBOOK_KEY_MARK_READ, 1)) {
-		// old variant - no seen info updated
-		ptrA id( db_get_sa(hContact, m_szModuleName, FACEBOOK_KEY_ID));
-		if (id == NULL) return;
+	// mark message read (also send seen info)
+	ptrA mid( getStringA(hContact, FACEBOOK_KEY_MESSAGE_ID));
+	if (mid == NULL) return;
 
-		std::string data = "action=chatMarkRead";
-		data += "&other_user=" + std::string(id);
-		data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
-		data += "&lsd=&__user=" + facy.self_.user_id;
-	
-		facy.flap(REQUEST_ASYNC, &data);
-	} else {
-		// new variant - with seen info
-		ptrA mid( getStringA(hContact, FACEBOOK_KEY_MESSAGE_ID));
-		if (mid == NULL) return;
+	std::string data = "ids[" + std::string(mid) + "]=true";
+	data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
+	data += "&__user=" + facy.self_.user_id;
+	data += "&__a=1&__dyn=&__req=&ttstamp=0";
 
-		std::string data = "ids[" + std::string(mid) + "]=true";
-		data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
-		data += "&__user=" + facy.self_.user_id;
-		data += "&__a=1&__dyn=&__req=j&phstamp=0";
-
-		facy.flap(REQUEST_MARK_READ, &data);
-	}
+	facy.flap(REQUEST_MARK_READ, &data);
 }
 
 void FacebookProto::ParseSmileys(std::string message, HANDLE hContact)

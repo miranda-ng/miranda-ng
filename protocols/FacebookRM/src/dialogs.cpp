@@ -327,7 +327,6 @@ INT_PTR CALLBACK FBOptionsAdvancedProc(HWND hwnd, UINT message, WPARAM wparam, L
 		LoadDBCheckState(proto, hwnd, IDC_CUSTOM_SMILEYS, FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS);
 		
 		LoadDBCheckState(proto, hwnd, IDC_USE_LOCAL_TIME, FACEBOOK_KEY_LOCAL_TIMESTAMP, 0);
-		LoadDBCheckState(proto, hwnd, IDC_SEND_SEEN, FACEBOOK_KEY_MARK_READ, 1);
 
 		EnableWindow(GetDlgItem(hwnd, IDC_SECURE_CHANNEL), IsDlgButtonChecked(hwnd, IDC_SECURE));
 
@@ -359,7 +358,6 @@ INT_PTR CALLBACK FBOptionsAdvancedProc(HWND hwnd, UINT message, WPARAM wparam, L
 			StoreDBCheckState(proto, hwnd, IDC_MAP_STATUSES, FACEBOOK_KEY_MAP_STATUSES);
 			StoreDBCheckState(proto, hwnd, IDC_CUSTOM_SMILEYS, FACEBOOK_KEY_CUSTOM_SMILEYS);
 			StoreDBCheckState(proto, hwnd, IDC_USE_LOCAL_TIME, FACEBOOK_KEY_LOCAL_TIMESTAMP);
-			StoreDBCheckState(proto, hwnd, IDC_SEND_SEEN, FACEBOOK_KEY_MARK_READ);
 			
 			BOOL setStatus = IsDlgButtonChecked(hwnd, IDC_SET_STATUS);
 			BOOL setStatusOld = proto->getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, DEFAULT_SET_MIRANDA_STATUS);

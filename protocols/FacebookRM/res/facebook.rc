@@ -82,7 +82,7 @@ EXSTYLE WS_EX_TOPMOST
 CAPTION "What's on your mind?"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "Text:",IDC_STATIC,4,6,44,8,0,WS_EX_RIGHT    
+    LTEXT           "Text:",IDC_STATIC,4,6,44,8,0,WS_EX_RIGHT
     EDITTEXT        IDC_MINDMSG,53,4,210,36,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
     LTEXT           "420",IDC_CHARACTERS,4,30,43,10,0,WS_EX_RIGHT
     LTEXT           "Place:",IDC_STATIC,4,46,44,8,0,WS_EX_RIGHT
@@ -177,8 +177,6 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,95,267,10
     CONTROL         "Use local time for received messages",IDC_USE_LOCAL_TIME,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,108,267,10
-    CONTROL         "Send ""Seen"" info when marking messages as read",IDC_SEND_SEEN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,122,267,10
     COMBOBOX        IDC_URL_SERVER,156,135,96,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Use this server for opening links:",IDC_STATIC,17,137,135,8
 END
@@ -272,8 +270,7 @@ END
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-
-
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 
