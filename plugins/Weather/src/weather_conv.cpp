@@ -160,19 +160,19 @@ void GetPressure(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 	switch (opt.pUnit) {
 	case 1:
 		intunit = (int)(tempunit + 0.5);
-		mir_sntprintf(str, SIZEOF(str), _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("kPa"));
+		mir_sntprintf(str, MAX_DATA_LEN, _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("kPa"));
 		break;
 	case 2:
 		intunit = (int)(tempunit + 0.5);
-		mir_sntprintf(str, SIZEOF(str), _T("%i %s"), intunit, opt.DoNotAppendUnit ? _T("") : TranslateT("mb"));
+		mir_sntprintf(str, MAX_DATA_LEN, _T("%i %s"), intunit, opt.DoNotAppendUnit ? _T("") : TranslateT("mb"));
 		break;
 	case 3:
 		intunit = (int)((tempunit*10 / 33.86388) + 0.5);
-		mir_sntprintf(str, SIZEOF(str), _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("in"));
+		mir_sntprintf(str, MAX_DATA_LEN, _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("in"));
 		break;
 	case 4:
 		intunit = (int)((tempunit*10 / 1.33322) + 0.5);
-		mir_sntprintf(str, SIZEOF(str), _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("mm"));
+		mir_sntprintf(str, MAX_DATA_LEN, _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("mm"));
 		break;
 	default:
 		_tcscpy(str, tempchar); 
@@ -213,19 +213,19 @@ void GetSpeed(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
 	switch (opt.wUnit) {
 	case 1:
 		numToStr(tempunit * 3.6, tstr, SIZEOF(tstr));
-		mir_sntprintf(str, SIZEOF(str), _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("km/h"));
+		mir_sntprintf(str, MAX_DATA_LEN, _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("km/h"));
 		break;
 	case 2:
 		numToStr(tempunit, tstr, SIZEOF(tstr));
-		mir_sntprintf(str, SIZEOF(str), _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("m/s"));
+		mir_sntprintf(str, MAX_DATA_LEN, _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("m/s"));
 		break;
 	case 3:
 		numToStr(tempunit / 0.44704, tstr, SIZEOF(tstr));
-		mir_sntprintf(str, SIZEOF(str), _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("mph"));
+		mir_sntprintf(str, MAX_DATA_LEN, _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("mph"));
 		break;
 	case 4:
 		numToStr(tempunit / 0.514444, tstr, SIZEOF(tstr));
-		mir_sntprintf(str, SIZEOF(str), _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("knots"));
+		mir_sntprintf(str, MAX_DATA_LEN, _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("knots"));
 		break;
 	}
 }
@@ -258,11 +258,11 @@ void GetDist(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
 	switch (opt.vUnit) {
 	case 1:
 		intunit = (int)((tempunit*10) + 0.5);
-		mir_sntprintf(str, SIZEOF(str), _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("km"));
+		mir_sntprintf(str, MAX_DATA_LEN, _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("km"));
 		break;
 	case 2:
 		intunit = (int)((tempunit*10 / 1.609) + 0.5);
-		mir_sntprintf(str, SIZEOF(str), _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("miles"));
+		mir_sntprintf(str, MAX_DATA_LEN, _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("miles"));
 		break;
 	default:
 		_tcscpy(str, tempchar);
@@ -298,11 +298,11 @@ void GetElev(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
 	switch (opt.eUnit) {
 	case 1:
 		intunit = (int)((tempunit*10 * 3.28) + 0.5);
-		mir_sntprintf(str, SIZEOF(str), _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("ft"));
+		mir_sntprintf(str, MAX_DATA_LEN, _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("ft"));
 		break;
 	case 2:
 		intunit = (int)((tempunit*10) + 0.5);
-		mir_sntprintf(str, SIZEOF(str), _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("m"));
+		mir_sntprintf(str, MAX_DATA_LEN, _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("m"));
 		break;
 	default:
 		_tcscpy(str, tempchar);
