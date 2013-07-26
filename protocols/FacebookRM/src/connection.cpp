@@ -38,28 +38,25 @@ void FacebookProto::ChangeStatus(void*)
 		SetEvent(update_loop_lock_);
 		Netlib_Shutdown(facy.hMsgCon);
 
+		OnLeaveChat(NULL, NULL);
+		SetAllContactStatuses(ID_STATUS_OFFLINE, true);
+		ToggleStatusMenuItems(false);
+		delSetting("LogonTS");
+
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+
 		if (getByte(FACEBOOK_KEY_DISCONNECT_CHAT, DEFAULT_DISCONNECT_CHAT))
 			facy.chat_state(false);
 
 		facy.logout();
 
-		delSetting("LogonTS");
-
 		facy.clear_cookies();
 		facy.buddies.clear();
 		facy.messages_ignore.clear();
 
-		OnLeaveChat(NULL, NULL);
-
-		SetAllContactStatuses(ID_STATUS_OFFLINE, true);
-
-		ToggleStatusMenuItems(false);
-
 		if (facy.hMsgCon)
 			Netlib_CloseHandle(facy.hMsgCon);
 		facy.hMsgCon = NULL;
-
-		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
 		LOG("##### SignOff complete");
 
