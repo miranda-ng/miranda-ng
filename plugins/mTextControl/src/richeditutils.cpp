@@ -77,14 +77,12 @@ public:
 
 	HRESULT STDMETHODCALLTYPE  GetNewStorage(LPSTORAGE * lplpstg)
 	{
-		WCHAR szwName[64];
-		char szName[64];
-		wsprintfA(szName, "s%u", this->nextStgId);
-		MultiByteToWideChar(CP_ACP, 0, szName, -1, szwName, sizeof(szwName) / sizeof(szwName[0]));
+		TCHAR sztName[64];
+		mir_sntprintf(sztName, SIZEOF(sztName), _T("s%u"), this->nextStgId);
 		if (this->pictStg == NULL)
 			return STG_E_MEDIUMFULL;
 
-	    return this->pictStg->CreateStorage(szwName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);
+	    return this->pictStg->CreateStorage(sztName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);
 
 	}
 

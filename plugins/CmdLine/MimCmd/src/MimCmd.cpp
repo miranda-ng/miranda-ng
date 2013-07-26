@@ -28,7 +28,7 @@ int lpprintf(const char *format, ...)
 	va_start(va, format);
 	const int MAX_SIZE = 16192;
 	char buffer[MAX_SIZE] = {0};
-	int len = _vsnprintf(buffer, MAX_SIZE - 1, format, va);
+	int len = mir_vsnprintf(buffer, MAX_SIZE - 1, format, va);
 	buffer[MAX_SIZE - 1] = 0;
 	va_end(va);
 	CharToOemBuff(buffer, buffer, len);

@@ -59,42 +59,4 @@ extern int bWaitForUnload;
 
 #define ID_ICQ_EXIT		40001
 
-static __inline int mir_old_snprintf(char *buffer, size_t count, const char* fmt, ...) {
-	va_list va;
-	int len;
-
-	va_start(va, fmt);
-	len = _vsnprintf(buffer, count-1, fmt, va);
-	va_end(va);
-	buffer[count-1] = 0;
-	return len;
-}
-
-static __inline int mir_old_sntprintf(TCHAR *buffer, size_t count, const TCHAR* fmt, ...) {
-	va_list va;
-	int len;
-
-	va_start(va, fmt);
-	len = _vsntprintf(buffer, count-1, fmt, va);
-	va_end(va);
-	buffer[count-1] = 0;
-	return len;
-}
-
-static __inline int mir_old_vsnprintf(char *buffer, size_t count, const char* fmt, va_list va) {
-	int len;
-
-	len = _vsnprintf(buffer, count-1, fmt, va);
-	buffer[count-1] = 0;
-	return len;
-}
-
-static __inline int mir_old_vsntprintf(TCHAR *buffer, size_t count, const TCHAR* fmt, va_list va) {
-	int len;
-
-	len = _vsntprintf(buffer, count-1, fmt, va);
-	buffer[count-1] = 0;
-	return len;
-}
-
 #endif //M_CMDLINE_COMMONHEADERS_H

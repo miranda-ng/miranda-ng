@@ -194,6 +194,7 @@
     <ClInclude Include="src\TemplateHTMLBuilder.h" />
     <ClInclude Include="src\TextToken.h" />
     <ClInclude Include="src\Utils.h" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\ieview.rc" />

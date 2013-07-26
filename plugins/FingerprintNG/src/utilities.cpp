@@ -47,18 +47,6 @@ size_t __fastcall strlennull(LPCSTR string)
 	return 0;
 }
 
-int null_snprintf(LPSTR buffer, size_t count, LPCSTR fmt, ...)
-{
-	va_list va;
-	int len;
-
-	ZeroMemory(buffer, count);
-	va_start(va, fmt);
-	len = _vsnprintf(buffer, count-1, fmt, va);
-	va_end(va);
-	return len;
-}
-
 LPSTR __fastcall TranslateUtfStatic(LPCSTR src, LPSTR buf, size_t bufsize)
 { // this takes UTF-8 strings only!!!
 	if (strlennull(src))

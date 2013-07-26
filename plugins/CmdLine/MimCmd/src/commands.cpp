@@ -131,7 +131,7 @@ void HandleHelpCommand(PCommand helpCommand, char *argv[], int argc, PReply repl
 		}
 		else{
 			reply->code = MIMRES_NOTFOUND;
-			_snprintf(reply->message, size, Translate("No help for '%s'."), argv[2]);
+			mir_snprintf(reply->message, size, Translate("No help for '%s'."), argv[2]);
 			reply->message[size -1 ] = 0;
 		}
 	}

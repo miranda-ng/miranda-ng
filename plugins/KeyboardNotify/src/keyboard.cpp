@@ -55,11 +55,11 @@ BOOL OpenKeyboardDevice()
 		return TRUE;
 
 	do {
-		_snwprintf(aux1, sizeof(aux1), _T("Kbd%d"), i);
-		_snwprintf(aux2, sizeof(aux2), _T("\\Device\\KeyboardClass%d"), i);
+		mir_sntprintf(aux1, SIZEOF(aux1), _T("Kbd%d"), i);
+		mir_sntprintf(aux2, SIZEOF(aux2), _T("\\Device\\KeyboardClass%d"), i);
 		DefineDosDevice(DDD_RAW_TARGET_PATH, aux1, aux2);
 
-		_snwprintf(aux1, sizeof(aux1), _T("\\\\.\\Kbd%d"), i);
+		mir_sntprintf(aux1, SIZEOF(aux1), _T("\\\\.\\Kbd%d"), i);
 		hKbdDev[i] = CreateFile(aux1, GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
 
 	} while (hKbdDev[i] != INVALID_HANDLE_VALUE && ++i < MAX_KBDHANDLES);
@@ -105,7 +105,7 @@ void CloseKeyboardDevice()
 		if (hKbdDev[i] != INVALID_HANDLE_VALUE)
 			CloseHandle(hKbdDev[i]);
 
-		_snwprintf(aux, sizeof(aux), _T("Kbd%d"), i);
+		mir_sntprintf(aux, SIZEOF(aux), _T("Kbd%d"), i);
 		DefineDosDevice(DDD_REMOVE_DEFINITION, aux, NULL);
 
 	} while (hKbdDev[i] != INVALID_HANDLE_VALUE && ++i < MAX_KBDHANDLES);

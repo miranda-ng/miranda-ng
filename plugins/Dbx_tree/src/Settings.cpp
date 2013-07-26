@@ -808,7 +808,7 @@ unsigned int CSettings::ReadSetting(TDBTSetting & Setting, TDBTSettingHandle hSe
 							{
 								char buffer[24];
 								buffer[0] = 0;
-								Setting.Value.Length = 1 + sprintf_s(buffer, "%llu", setting->Value.QWord);
+								Setting.Value.Length = 1 + mir_snprintf(buffer, SIZEOF(buffer), "%llu", setting->Value.QWord);
 								Setting.Value.pAnsi = (char *) mir_realloc(Setting.Value.pAnsi, Setting.Value.Length);
 								memcpy(Setting.Value.pAnsi, buffer, Setting.Value.Length);
 
@@ -817,7 +817,7 @@ unsigned int CSettings::ReadSetting(TDBTSetting & Setting, TDBTSettingHandle hSe
 							{
 								wchar_t buffer[24];
 								buffer[0] = 0;
-								Setting.Value.Length = 1 + swprintf_s(buffer, L"%llu", setting->Value.QWord);
+								Setting.Value.Length = 1 + mir_snwprintf(buffer, SIZEOF(buffer), L"%llu", setting->Value.QWord);
 								Setting.Value.pWide = (wchar_t *) mir_realloc(Setting.Value.pWide, Setting.Value.Length * sizeof(wchar_t));
 								memcpy(Setting.Value.pWide, buffer, Setting.Value.Length * sizeof(wchar_t));
 
@@ -867,7 +867,7 @@ unsigned int CSettings::ReadSetting(TDBTSetting & Setting, TDBTSettingHandle hSe
 							{
 								char buffer[24];
 								buffer[0] = 0;
-								Setting.Value.Length = 1 + sprintf_s(buffer, "%lli", val);
+								Setting.Value.Length = 1 + mir_snprintf(buffer, SIZEOF(buffer), "%lli", val);
 								Setting.Value.pAnsi = (char *) mir_realloc(Setting.Value.pAnsi, Setting.Value.Length);
 								memcpy(Setting.Value.pAnsi, buffer, Setting.Value.Length);
 
@@ -876,7 +876,7 @@ unsigned int CSettings::ReadSetting(TDBTSetting & Setting, TDBTSettingHandle hSe
 							{
 								wchar_t buffer[24];
 								buffer[0] = 0;
-								Setting.Value.Length = 1 + swprintf_s(buffer, L"%lli", val);
+								Setting.Value.Length = 1 + mir_snwprintf(buffer, SIZEOF(buffer), L"%lli", val);
 								Setting.Value.pWide = (wchar_t *) mir_realloc(Setting.Value.pWide, Setting.Value.Length * sizeof(wchar_t));
 								memcpy(Setting.Value.pWide, buffer, Setting.Value.Length * sizeof(wchar_t));
 
@@ -923,7 +923,7 @@ unsigned int CSettings::ReadSetting(TDBTSetting & Setting, TDBTSettingHandle hSe
 							{
 								char buffer[128];
 								buffer[0] = 0;
-								Setting.Value.Length = 1 + sprintf_s(buffer, "%lf", setting->Value.QWord);
+								Setting.Value.Length = 1 + mir_snprintf(buffer, SIZEOF(buffer), "%lf", setting->Value.QWord);
 								Setting.Value.pAnsi = (char *) mir_realloc(Setting.Value.pAnsi, Setting.Value.Length);
 								memcpy(Setting.Value.pAnsi, buffer, Setting.Value.Length);
 							} break;
@@ -931,7 +931,7 @@ unsigned int CSettings::ReadSetting(TDBTSetting & Setting, TDBTSettingHandle hSe
 							{
 								wchar_t buffer[128];
 								buffer[0] = 0;
-								Setting.Value.Length = 1 + swprintf_s(buffer, L"%lf", setting->Value.QWord);
+								Setting.Value.Length = 1 + mir_snwprintf(buffer, SIZEOF(buffer), L"%lf", setting->Value.QWord);
 								Setting.Value.pWide = (wchar_t *) mir_realloc(Setting.Value.pWide, Setting.Value.Length * sizeof(wchar_t));
 								memcpy(Setting.Value.pWide, buffer, Setting.Value.Length * sizeof(wchar_t));
 							} break;

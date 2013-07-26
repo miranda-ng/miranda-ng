@@ -89,12 +89,12 @@ bool CEventsTypeManager::GetType(uint32_t GlobalID, char * & Module, uint32_t & 
 		sname.Descriptor = &d;
 		sname.Type = DBT_ST_ANSI;
 
-		sprintf_s(n, "$EventTypes/%08x/ModuleID", GlobalID);
+		mir_snprintf(n, SIZEOF(n), "$EventTypes/%08x/ModuleID", GlobalID);
 		TDBTSettingHandle h = m_Settings.ReadSetting(sid);
 
 		if ((h != DBT_INVALIDPARAM) && (h != 0))
 		{
-			sprintf_s(n, "$EventTypes/%08x/ModuleName", GlobalID);
+			mir_snprintf(n, SIZEOF(n), "$EventTypes/%08x/ModuleName", GlobalID);
 			d.Flags = 0;
 			h = m_Settings.ReadSetting(sname);
 
@@ -145,12 +145,12 @@ uint32_t CEventsTypeManager::EnsureIDExists(char* Module, uint32_t EventType)
 		s.cbSize = sizeof(s);
 		s.Descriptor = &d;
 
-		sprintf_s(n, "$EventTypes/%08x/ModuleID", res);
+		mir_snprintf(n, SIZEOF(n), "$EventTypes/%08x/ModuleID", res);
 		s.Type = DBT_ST_INT;
 		s.Value.Int = EventType;
 		m_Settings.WriteSetting(s);
 
-		sprintf_s(n, "$EventTypes/%08x/ModuleName", res);
+		mir_snprintf(n, SIZEOF(n), "$EventTypes/%08x/ModuleName", res);
 		d.Flags = 0;
 		s.Type = DBT_ST_ANSI;
 		s.Value.Length = static_cast<uint32_t>(strlen(Module) + 1);

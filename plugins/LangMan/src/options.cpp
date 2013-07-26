@@ -27,7 +27,7 @@ static HANDLE hHookOptInit;
 /************************* Utils **************************************/
 
 #define BOX(str)        BOX2("%s (err:%i)", str, GetLastError())
-#define BOX2(fmt, p1, p2) { char str[256]; wsprintfA(str, fmt, p1, p2); MessageBoxA(NULL, str, "dbg", 0); }
+#define BOX2(fmt, p1, p2) { char str[256]; mir_snprintf(str, SIZEOF(str), fmt, p1, p2); MessageBoxA(NULL, str, "dbg", 0); }
 
 // ImageList_Destroy() the return value
 // refresh on WM_THEMECHANGED

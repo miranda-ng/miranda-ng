@@ -39,7 +39,7 @@ void bkstring::appendfmt(const value_type *fmt, ...)
 	va_start(vararg, fmt);
 	for (;;) 
 	{
-		int len = _vsntprintf(buf + lenBuf, sizeAlloced - lenBuf - 1, fmt, vararg);
+		int len = mir_vsntprintf(buf + lenBuf, sizeAlloced - lenBuf - 1, fmt, vararg);
 		if (len < 0)
 			reserve(sizeAlloced + 256);
 		else

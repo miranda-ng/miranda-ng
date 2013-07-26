@@ -386,7 +386,7 @@ void PasteToWeb::FromFile(std::wstring file)
 			{
 				if(fileSize.QuadPart > 512000LL)
 				{
-					_stprintf_s(bufErr, 1024, TranslateT("File size is %dKB, do you realy want to paste such large file?"), fileSize.LowPart / 1024);
+					mir_sntprintf(bufErr, 1024, TranslateT("File size is %dKB, do you realy want to paste such large file?"), fileSize.LowPart / 1024);
 					if(MessageBox(NULL, bufErr, TranslateT("Are You sure?"), MB_YESNO | MB_ICONQUESTION) != IDYES)
 					{
 						CloseHandle(hFile);
@@ -401,7 +401,7 @@ void PasteToWeb::FromFile(std::wstring file)
 					mir_free(fromFileData.content);
 					fromFileData.content = NULL;
 					fromFileData.contentLen = 0;
-					_stprintf_s(bufErr, 1024, TranslateT("Cannot read file '%s'"), file.c_str());
+					mir_sntprintf(bufErr, 1024, TranslateT("Cannot read file '%s'"), file.c_str());
 					error = bufErr;
 				}
 			}
@@ -415,7 +415,7 @@ void PasteToWeb::FromFile(std::wstring file)
 	}
 	else
 	{
-		_stprintf_s(bufErr, 1024, TranslateT("Cannot open file '%s'"), file.c_str());
+		mir_sntprintf(bufErr, 1024, TranslateT("Cannot open file '%s'"), file.c_str());
 		error = bufErr;
 	}
 
@@ -493,7 +493,7 @@ void PasteToWeb::FromFile(std::wstring file)
 		}
 		else
 		{
-			_stprintf_s(bufErr, 1024, TranslateT("File '%s' is empty"), file.c_str());
+			mir_sntprintf(bufErr, 1024, TranslateT("File '%s' is empty"), file.c_str());
 			error = bufErr;
 		}
 		mir_free(fromFileData.content);

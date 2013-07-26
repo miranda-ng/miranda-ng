@@ -53,7 +53,7 @@ void CLogger::Append(const TCHAR * File, const TCHAR * Function, const int Line,
 	TCHAR msgbuf[4096];
 	va_list va;
 	va_start(va, Message);
-	len += _vstprintf_s(msgbuf, Message, va);
+	len += mir_vsntprintf(msgbuf, SIZEOF(msgbuf), Message, va);
 	va_end(va);
 
 	TCHAR * message;
@@ -65,12 +65,12 @@ void CLogger::Append(const TCHAR * File, const TCHAR * Function, const int Line,
 		len += /*_tcslen(File) + 10 +*/ _tcslen(Function) + 32 + 12 + 1;
 
 		message = new TCHAR[len];
-		m_Length += _stprintf_s(message, len, _T("[%s - %s]\n%s\n\nSystem Error Code: %d\n%s\n\n"), timebuf, /*File, Line, */ Function, msgbuf, SysState, syserror) + 1;
+		m_Length += mir_sntprintf(message, len, _T("[%s - %s]\n%s\n\nSystem Error Code: %d\n%s\n\n"), timebuf, /*File, Line, */ Function, msgbuf, SysState, syserror) + 1;
 	} else {
 		len += /*_tcslen(File) + 10 +*/ _tcslen(Function) + 12 + 1;
 
 		message = new TCHAR[len];
-		m_Length += _stprintf_s(message, len, _T("[%s - %s]\n%s\n\n"), timebuf, /*File, Line, */Function, msgbuf) + 1;
+		m_Length += mir_sntprintf(message, len, _T("[%s - %s]\n%s\n\n"), timebuf, /*File, Line, */Function, msgbuf) + 1;
 	}
 	m_Messages.push_back(message);
 }

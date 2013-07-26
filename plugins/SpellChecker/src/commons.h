@@ -30,6 +30,7 @@ Boston, MA 02111-1307, USA.
 #include <commctrl.h>
 #include <map>
 #include <vector>
+#include <string>
 using namespace std;
 
 #include <newpluginapi.h>
@@ -42,6 +43,7 @@ using namespace std;
 #include <m_icolib.h>
 #include <m_hotkeys.h>
 #include <win2k.h>
+#include <m_system_cpp.h>
 
 //own includes
 #include <m_folders.h>
@@ -51,7 +53,7 @@ using namespace std;
 #include <m_spellchecker.h>
 
 #include <../utils/mir_options.h>
-#include <../utils/tstring.h>
+//#include <../utils/tstring.h>
 #include <../utils/utf8_helpers.h>
 #include <../utils/scope.h>
 

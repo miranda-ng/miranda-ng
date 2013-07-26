@@ -96,32 +96,3 @@ inline int strncpy_s(
     else
         return strcpy_s(strDest, count + 1, strSource);
 }
-
-
-template <size_t size>
-inline int sprintf_s(
-    char (&buffer)[size],
-    const char *format,
-    ...
-)
-{
-    va_list va;
-    va_start(va, format);
-    vsnprintf(buffer, size, format, va);
-    va_end(va);
-}
-
-template <size_t size>
-inline int swprintf_s(
-    wchar_t (&buffer)[size],
-    const wchar_t *format,
-    ...
-)
-{
-    va_list va;
-    va_start(va, format);
-    vsnwprintf(buffer, size, format, va);
-    va_end(va);
-}
-
-#define vsprintf_s vsnprintf

@@ -40,9 +40,9 @@ std::wstring GetFile(const TCHAR* ext, HWND hwnd, bool open)
 	TCHAR extUpper[32];
 	_tcscpy_s(extUpper, ext);
 	extUpper[0] = std::toupper(ext[0], loc);
-	_stprintf_s(filter, TranslateT("%s Files (*.%s)"), extUpper, ext);
+	mir_sntprintf(filter, SIZEOF(filter), TranslateT("%s Files (*.%s)"), extUpper, ext);
 	size_t len = _tcslen(filter) + 1;
-	_stprintf_s(filter + len, 512 - len, TranslateT("*.%s"), ext);
+	mir_sntprintf(filter + len, 512 - len, TranslateT("*.%s"), ext);
 	len += _tcslen(filter + len);
 	filter[++len] = 0;
 	TCHAR stzFilePath[1024];

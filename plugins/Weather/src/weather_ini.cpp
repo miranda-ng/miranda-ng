@@ -285,7 +285,7 @@ void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 			Data->InternalVer = 6;
 		else
 		{
-			wsprintfA(Line, Translate("Invalid ini format for: %s"), pszFile);
+			mir_snprintf(Line, SIZEOF(Line), Translate("Invalid ini format for: %s"), pszFile);
 			MessageBoxA(NULL, Line, Translate("Weather Protocol"), MB_OK|MB_ICONERROR);
 			fclose(pfile);
 			return;
