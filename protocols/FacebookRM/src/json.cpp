@@ -269,81 +269,71 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 		std::string t = json_as_string(type);
 		if (t == "msg" || t == "offline_msg") {
-			// direct message
+			// we use this only for outgoing messages
 			
-			JSONNODE *from = json_get(it, "from");
-			if (from == NULL)
-				continue;
-
-			char *from_id = json_as_string(from);
-
 			JSONNODE *msg = json_get(it, "msg");
 			if (msg == NULL)
 				continue;
 
+			JSONNODE *from = json_get(it, "from");
+			JSONNODE *from_name = json_get(it, "from_name");
 			JSONNODE *text = json_get(msg, "text");
 			JSONNODE *messageId = json_get(msg, "messageId");
 			JSONNODE *time = json_get(msg, "time");
 			// JSONNODE *tab_type = json_get(it, "tab_type"); // e.g. "friend"
 
-			if (text == NULL || messageId == NULL)
+			if (from == NULL || from_name == NULL || text == NULL || messageId == NULL || time == NULL)
+				continue;
+
+			char *from_id = json_as_string(from);
+
+			// ignore incomming messages
+			if (from_id != proto->facy.self_.user_id)
 				continue;
 
 			std::string message_id = json_as_string(messageId);
 			std::string message_text = json_as_string(text);
 
+			message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(message_text)), true);
+			if (message_text.empty())
+				continue;
+
+			JSONNODE *truncated = json_get(msg, "truncated");
+			if (truncated != NULL && json_as_int(truncated) == 1) {
+				std::string msg = "????? We got truncated message\n";
+				msg += utils::text::special_expressions_decode(utils::text::slashu_to_utf8(message_text));
+				proto->Log(msg.c_str());
+			}
+
 			// ignore duplicits or messages sent from miranda
 			if (ignore_duplicits(proto, message_id, message_text))
 				continue;
 
-			message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(message_text)), true);
-			if (message_text.empty())
-				continue;			
-
-			JSONNODE *truncated = json_get(msg, "truncated");
-			if (truncated != NULL && json_as_int(truncated) == 1) {
-				// If we got truncated message, we can ignore it, because we should get it again as "messaging" type
-				std::string msg = "????? We got truncated message so we ignore it\n";
-				msg += utils::text::special_expressions_decode(utils::text::slashu_to_utf8(message_text));
-				proto->Log(msg.c_str());
-			} else if (from_id == proto->facy.self_.user_id) {
-				// Outgoing message
-				JSONNODE *to = json_get(it, "to");
-				if (to == NULL)
-					continue;
-
-				// TODO: put also outgoing messages into messages array and process it elsewhere
-				HANDLE hContact = proto->ContactIDToHContact(json_as_string(to));
-				if (!hContact) // TODO: add this contact?
-					continue;
-
-				DBEVENTINFO dbei = {0};
-				dbei.cbSize = sizeof(dbei);
-				dbei.eventType = EVENTTYPE_MESSAGE;
-				dbei.flags = DBEF_SENT | DBEF_UTF;
-				dbei.szModule = proto->m_szModuleName;
-
-				bool local_time = proto->getByte(FACEBOOK_KEY_LOCAL_TIMESTAMP, 0) != 0;
-				dbei.timestamp = local_time || time == NULL ? ::time(NULL) : utils::time::fix_timestamp(json_as_float(time));
-
-				dbei.cbBlob = (DWORD)message_text.length() + 1;
-				dbei.pBlob = (PBYTE)message_text.c_str();
-				db_event_add(hContact, &dbei);
-
+			// Outgoing message
+			JSONNODE *to = json_get(it, "to");
+			if (to == NULL)
 				continue;
-			} else {
-				// Incomming message
-  				facebook_message* message = new facebook_message();
-				message->message_text = message_text;
-				message->time = utils::time::fix_timestamp(json_as_float(time));
-				message->user_id = from_id;
-				message->message_id = message_id;
 
-				messages->push_back(message);
-			}
+			// TODO: put also outgoing messages into messages array and process it elsewhere
+			HANDLE hContact = proto->ContactIDToHContact(json_as_string(to));
+			if (!hContact) // TODO: add this contact?
+				continue;
+
+			DBEVENTINFO dbei = {0};
+			dbei.cbSize = sizeof(dbei);
+			dbei.eventType = EVENTTYPE_MESSAGE;
+			dbei.flags = DBEF_SENT | DBEF_UTF;
+			dbei.szModule = proto->m_szModuleName;
+
+			bool local_time = proto->getByte(FACEBOOK_KEY_LOCAL_TIMESTAMP, 0) != 0;
+			dbei.timestamp = local_time ? ::time(NULL) : utils::time::fix_timestamp(json_as_float(time));
+
+			dbei.cbBlob = (DWORD)message_text.length() + 1;
+			dbei.pBlob = (PBYTE)message_text.c_str();
+			db_event_add(hContact, &dbei);
 
 		} else if (t == "messaging") {
-			// messages
+			// we use this only for incomming messages (and getting seen info)
 
 			JSONNODE *type = json_get(it, "event");
 			if (type == NULL)
@@ -380,14 +370,60 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				JSONNODE *mid = json_get(msg, "mid");
 				JSONNODE *timestamp = json_get(msg, "timestamp");
 
-				if (sender_fbid == NULL || body == NULL || mid == NULL)
+				if (sender_fbid == NULL || sender_name == NULL || body == NULL || mid == NULL || timestamp == NULL)
 					continue;
 
 				std::string id = json_as_string(sender_fbid);
 				std::string message_id = json_as_string(mid);
 				std::string message_text = json_as_string(body);
 
-				// Ignore messages from myself
+				// Process attachements and stickers
+				JSONNODE *has_attachment = json_get(msg, "has_attachment");
+				if (has_attachment != NULL && json_as_bool(has_attachment)) {
+					JSONNODE *admin_snippet = json_get(msg, "admin_snippet");
+					if (admin_snippet != NULL) {
+						// TODO: have this as extra event, not replace or append message content
+						if (!message_text.empty())
+							message_text += "\n\n";
+						message_text += json_as_string(admin_snippet);
+
+						// Append attachements
+						JSONNODE *attachments = json_get(msg, "attachments");
+						for (unsigned int j = 0; j < json_size(attachments); j++) {
+							JSONNODE *itAttachment = json_at(attachments, j);
+
+							// TODO: behave different for stickers and classic attachements?
+							// JSONNODE *attach_type = json_get(itAttachment, "attach_type"); // "sticker", "photo", "file"
+
+							JSONNODE *name = json_get(itAttachment, "name");
+							JSONNODE *url = json_get(itAttachment, "url");
+							if (url != NULL) {
+								std::string link = json_as_string(url);
+							
+								if (link.find("/ajax/mercury/attachments/photo/view/") != std::string::npos)
+									// fix photo url
+									link = utils::url::decode(utils::text::source_get_value(&link, 2, "?uri=", "&"));
+								else if (link.find("/") == 0) {
+									// make absolute url
+									bool useHttps = proto->getByte(FACEBOOK_KEY_FORCE_HTTPS, 1) > 0;
+									link = (useHttps ? HTTP_PROTO_SECURE : HTTP_PROTO_REGULAR) + std::string(FACEBOOK_SERVER_REGULAR) + link;
+								}
+								
+								if (!link.empty()) {
+									std::string filename;
+									if (name != NULL)
+										filename = json_as_string(name);
+									if (filename == "null")
+										filename.clear();
+
+									message_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + link + "\n";
+								}
+							}
+						}
+					}
+				}
+
+				// Ignore messages from myself, as there is no id of recipient
 				if (id == proto->facy.self_.user_id)
 					continue;
 
@@ -401,7 +437,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 				facebook_message* message = new facebook_message();
 				message->message_text = message_text;
-				message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(id));
+				message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_string(sender_name)));
 				message->time = utils::time::fix_timestamp(json_as_float(timestamp));
 				message->user_id = id; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
 				message->message_id = message_id;
@@ -476,7 +512,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				if (time_ == NULL)
 					continue;
 				JSONNODE *time = json_get(time_, "time");
-				if (time == NULL || text == NULL || url == NULL || alert_id == NULL)
+				if (time == NULL || text == NULL || url == NULL || alert_id == NULL || time == NULL)
 					continue;
 
 				unsigned __int64 timestamp = json_as_float(time);

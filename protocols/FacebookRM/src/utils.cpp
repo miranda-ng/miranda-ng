@@ -34,6 +34,7 @@ std::string utils::url::decode(std::string data)
 	utils::text::replace_all(&data, "%3F", "?");
 	utils::text::replace_all(&data, "%3D", "=");
 	utils::text::replace_all(&data, "%26", "&");
+	utils::text::replace_all(&data, "%3A", ":");
 
 	return data;
 }
