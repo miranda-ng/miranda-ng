@@ -48,7 +48,7 @@ BOOL is_number(TCHAR *s)
 	return FALSE;
 }
 
-static void numToStr(double num, TCHAR* str)
+static void numToStr(double num, TCHAR *str, size_t strSize)
 {
 	int i = (int)(num * (opt.NoFrac ? 10 : 100));
 	int u = abs(i);
@@ -65,9 +65,9 @@ static void numToStr(double num, TCHAR* str)
 
 	if (i < 0 && (w || r)) *(str++) = '-';
 	if (r)
-		mir_sntprintf(str, SIZEOF(str), _T("%i.%i"), w, r);
+		mir_sntprintf(str, strSize, _T("%i.%i"), w, r);
 	else
-		mir_sntprintf(str, SIZEOF(str), _T("%i"), w);
+		mir_sntprintf(str, strSize, _T("%i"), w);
 }
 
 //============  UNIT CONVERSIONS  ============
@@ -107,7 +107,7 @@ void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 	switch (opt.tUnit) {
 	case 1:
 		// rounding
-		numToStr((temp-32)/9*5, tstr);
+		numToStr((temp-32)/9*5, tstr, SIZEOF(tstr));
 		if (opt.DoNotAppendUnit)
 			mir_sntprintf(str, SIZEOF(str), _T("%s"), tstr);
 		else
@@ -115,7 +115,7 @@ void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 		break;
 
 	case 2:
-		numToStr(temp, tstr);
+		numToStr(temp, tstr, SIZEOF(tstr));
 		if (opt.DoNotAppendUnit)
 			mir_sntprintf(str, SIZEOF(str), _T("%s"), tstr);
 		else
@@ -212,19 +212,19 @@ void GetSpeed(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
 	// convert to apporiate unit
 	switch (opt.wUnit) {
 	case 1:
-		numToStr(tempunit * 3.6, tstr);
+		numToStr(tempunit * 3.6, tstr, SIZEOF(tstr));
 		mir_sntprintf(str, SIZEOF(str), _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("km/h"));
 		break;
 	case 2:
-		numToStr(tempunit, tstr);
+		numToStr(tempunit, tstr, SIZEOF(tstr));
 		mir_sntprintf(str, SIZEOF(str), _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("m/s"));
 		break;
 	case 3:
-		numToStr(tempunit / 0.44704, tstr);
+		numToStr(tempunit / 0.44704, tstr, SIZEOF(tstr));
 		mir_sntprintf(str, SIZEOF(str), _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("mph"));
 		break;
 	case 4:
-		numToStr(tempunit / 0.514444, tstr);
+		numToStr(tempunit / 0.514444, tstr, SIZEOF(tstr));
 		mir_sntprintf(str, SIZEOF(str), _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("knots"));
 		break;
 	}
