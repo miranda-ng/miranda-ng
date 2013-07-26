@@ -1011,26 +1011,25 @@ int CJabberNetInterface::AddFeatures(LPCTSTR szFeatures)
 	if ( !szFeatures)
 		return false;
 
-	bool ret = true;
-	{
-		mir_cslock lck(m_psProto->m_csLists);
-		LPCTSTR szFeat = szFeatures;
-		while (szFeat[0]) {
-			JabberFeatCapPairDynamic *fcp = FindFeature(szFeat);
-			// if someone is trying to add one of core features, RegisterFeature() will return false, so we don't have to perform this check here
-			if ( !fcp) { // if the feature is not registered yet
-				if ( !RegisterFeature(szFeat, NULL))
-					ret = false;
-				else
-					fcp = FindFeature(szFeat); // update fcp after RegisterFeature()
-			}
-			if (fcp)
-				m_psProto->m_uEnabledFeatCapsDynamic |= fcp->jcbCap;
-			else
+	mir_cslockfull lck(m_psProto->m_csLists);
+	BOOL ret = true;
+	LPCTSTR szFeat = szFeatures;
+	while (szFeat[0]) {
+		JabberFeatCapPairDynamic *fcp = FindFeature(szFeat);
+		// if someone is trying to add one of core features, RegisterFeature() will return false, so we don't have to perform this check here
+		if ( !fcp) { // if the feature is not registered yet
+			if ( !RegisterFeature(szFeat, NULL))
 				ret = false;
-			szFeat += lstrlen(szFeat) + 1;
+			else
+				fcp = FindFeature(szFeat); // update fcp after RegisterFeature()
 		}
+		if (fcp)
+			m_psProto->m_uEnabledFeatCapsDynamic |= fcp->jcbCap;
+		else
+			ret = false;
+		szFeat += lstrlen(szFeat) + 1;
 	}
+	lck.unlock();
 
 	if (m_psProto->m_bJabberOnline)
 		m_psProto->SendPresence(m_psProto->m_iStatus, true);
@@ -1043,20 +1042,19 @@ int CJabberNetInterface::RemoveFeatures(LPCTSTR szFeatures)
 	if ( !szFeatures)
 		return false;
 
-	bool ret = true;
-	{
-		mir_cslock lck(m_psProto->m_csLists);
-		LPCTSTR szFeat = szFeatures;
-		while (szFeat[0]) {
-			JabberFeatCapPairDynamic *fcp = FindFeature(szFeat);
-			if (fcp)
-				m_psProto->m_uEnabledFeatCapsDynamic &= ~fcp->jcbCap;
-			else
-				ret = false; // indicate that there was an error removing at least one of the specified features
+	mir_cslockfull lck(m_psProto->m_csLists);
+	BOOL ret = true;
+	LPCTSTR szFeat = szFeatures;
+	while (szFeat[0]) {
+		JabberFeatCapPairDynamic *fcp = FindFeature(szFeat);
+		if (fcp)
+			m_psProto->m_uEnabledFeatCapsDynamic &= ~fcp->jcbCap;
+		else
+			ret = false; // indicate that there was an error removing at least one of the specified features
 
-			szFeat += lstrlen(szFeat) + 1;
-		}
+		szFeat += lstrlen(szFeat) + 1;
 	}
+	lck.unlock();
 
 	if (m_psProto->m_bJabberOnline)
 		m_psProto->SendPresence(m_psProto->m_iStatus, true);
@@ -1070,7 +1068,7 @@ LPTSTR CJabberNetInterface::GetResourceFeatures(LPCTSTR jid)
 	if (jcb & JABBER_RESOURCE_CAPS_ERROR)
 		return NULL;
 
-	mir_cslock lck(m_psProto->m_csLists);
+	mir_cslockfull lck(m_psProto->m_csLists);
 	int i;
 	int iLen = 1; // 1 for extra zero terminator at the end of the string
 	// calculate total necessary string length
