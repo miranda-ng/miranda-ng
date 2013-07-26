@@ -109,17 +109,17 @@ void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 		// rounding
 		numToStr((temp-32)/9*5, tstr, SIZEOF(tstr));
 		if (opt.DoNotAppendUnit)
-			mir_sntprintf(str, SIZEOF(str), _T("%s"), tstr);
+			mir_sntprintf(str, MAX_DATA_LEN, _T("%s"), tstr);
 		else
-			mir_sntprintf(str, SIZEOF(str), _T("%s%sC"), tstr, opt.DegreeSign);
+			mir_sntprintf(str, MAX_DATA_LEN, _T("%s%sC"), tstr, opt.DegreeSign);
 		break;
 
 	case 2:
 		numToStr(temp, tstr, SIZEOF(tstr));
 		if (opt.DoNotAppendUnit)
-			mir_sntprintf(str, SIZEOF(str), _T("%s"), tstr);
+			mir_sntprintf(str, MAX_DATA_LEN, _T("%s"), tstr);
 		else
-			mir_sntprintf(str, SIZEOF(str), _T("%s%sF"), tstr, opt.DegreeSign);
+			mir_sntprintf(str, MAX_DATA_LEN, _T("%s%sF"), tstr, opt.DegreeSign);
 		break;
 	}
 }
