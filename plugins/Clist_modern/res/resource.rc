@@ -156,8 +156,8 @@ BEGIN
     CTEXT           "\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.",IDC_STATIC_INFO,180,30,108,150
     CONTROL         "",IDC_PREVIEW,"Static",SS_OWNERDRAW | SS_CENTERIMAGE | SS_REALSIZEIMAGE,180,16,113,167
     GROUPBOX        "Skin Preview",IDC_STATIC,175,5,123,182,WS_DISABLED
-    LTEXT           "WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.",IDC_STATIC,3,188,294,17
-    LTEXT           "* Restart may be required for all changes to take effect",IDC_STATIC,3,210,200,8
+    LTEXT           "WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.",IDC_STATIC,3,188,300,17
+    LTEXT           "* Restart may be required for all changes to take effect",IDC_STATIC,3,210,300,8
     COMBOBOX        IDC_COMBO1,177,189,123,76,CBS_DROPDOWN | CBS_SORT | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
     CONTROL         "",IDC_TREE1,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | TVS_SINGLEEXPAND | WS_BORDER | WS_HSCROLL | WS_TABSTOP,5,15,161,148
 END
