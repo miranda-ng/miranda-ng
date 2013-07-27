@@ -1,0 +1,6 @@
+-0.1.3.10
+-Made separate Unicode and ANSI versions of plugin.
+-Removed some old unneeded code.
+
+
+  
