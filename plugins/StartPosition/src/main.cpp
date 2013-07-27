@@ -46,7 +46,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -163,7 +163,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					/*end uninstall old settings*/
 
 					if(IsDlgButtonChecked(hwndDlg, IDC_CLSTATEOPENED))
-						db_set_b(NULL, MODULE_NAME, "CLState", 1);
+						db_set_b(NULL, MODULE_NAME, "CLState", 2);
 					else
 						db_set_b(NULL, MODULE_NAME, "CLState", 0);
 
@@ -191,7 +191,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	return FALSE;
 }
 
-int OptInit(WPARAM wParam, LPARAM lParam)
+int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof(odp);
@@ -227,7 +227,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	DWORD clWidth = db_get_dw(NULL, MODULE_NAME, "CLWidth", 180);
 
 	BYTE clEnableState = db_get_b(NULL, MODULE_NAME, "CLEnableState", 0);
-	BYTE clState = db_get_b(NULL, MODULE_NAME, "CLState", 1);
+	BYTE clState = db_get_b(NULL, MODULE_NAME, "CLState", 2);
 
 	if(clEnableState)
 		db_set_b(NULL,"CList", "State", (BYTE)clState);
