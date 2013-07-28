@@ -107,12 +107,10 @@
 Поддержка конференций (Экспериментально)
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
 Поддержка пользовательских смайлов (Экспериментально!)
-[Automatically close chat windows (on website) (NOT WORKING)]
-Автоматически закрывать окна чата (на сайте) (НЕ РАБОТАЕТ)
 [Use local time for received messages]
 Локальное время для принятых сообщений
-[Send "Seen" info when marking messages as read]
-Отсылать информацию о времени прочтения сообщения
+[Allow posting statuses to my pages (may slow down login)]
+Разрешишть постить статусы на своих страницах (замедляет вход)
 [Use this server for opening links:]
 Тип сайта для открытия ссылок:
 [Classic website]
