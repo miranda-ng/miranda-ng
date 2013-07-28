@@ -930,6 +930,7 @@ TCHAR* CJabberProto::GetClientJID(const TCHAR *jid, TCHAR *dest, size_t destLen)
 	_tcsncpy_s(dest, destLen, jid, _TRUNCATE);
 	TCHAR *p = _tcschr(dest, '/');
 
+	mir_cslock lck(m_csLists);
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, jid);
 	if (LI != NULL) {
 		if (LI->resourceCount == 1 && !lstrcmp(LI->pResources->szCapsNode, _T("http://talk.google.com/xmpp/bot/caps"))) {
