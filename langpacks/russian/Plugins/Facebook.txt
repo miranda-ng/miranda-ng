@@ -17,10 +17,8 @@
 Устанавливать статус Facebook через Miranda
 [Create a new Facebook account]
 Создать новую учётную запись Facebook
-[What's on your mind?]
-О чём вы думаете?
-[Mind...]
-Думаю...
+[Share status...]
+Статус...
 [Set Facebook status through Miranda status (TBD)]
 Устанавливать статус Facebook через Miranda (TBD)
 [Show cookies]
@@ -187,5 +185,5 @@
 Отмена
 [Share]
 Отправить
-[Show Mind Window]
+[Show 'Share status' window]
 Сообщение статуса Facebook 
