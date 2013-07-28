@@ -21,14 +21,14 @@
  */
 
 #include "stdafx.h"
-#include "webview_common.h"
+#include "webview.h"
 
-static HANDLE  	hAddSite = NULL;
-static HANDLE	hAutoUpdate = NULL;
-static HANDLE   hNetlibUser = NULL;
-static HANDLE   hWindowList = NULL;
-HMODULE         hRichEd = NULL;
-int hLangpack = 0;
+HANDLE hNetlibUser;
+HANDLE hWindowList;
+HANDLE hHookDisplayDataAlert, hHookAlertPopup, hHookAlertWPopup, hHookErrorPopup, hHookAlertOSD;
+int    hLangpack = 0;
+
+static HMODULE hRichEd = NULL;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -44,18 +44,7 @@ PLUGININFOEX pluginInfoEx = {
 	{0xcd5427fb, 0x5320, 0x4f65, { 0xb4, 0xbf, 0x86, 0xb7, 0xcf, 0x7b, 0x50, 0x87}}
 };
 
-/********************************/
-
-int WebsiteContactCommand(WPARAM wParam, LPARAM lParam)
-{
-   WebsiteMenuCommand((WPARAM) wParam, (LPARAM) lParam);
-   return 0;
-}
-
-/*******************************/
-
-/*******************************/
-
+/*****************************************************************************/
 void InitServices()
 {
 	char SvcFunc[100];
@@ -93,7 +82,7 @@ void InitServices()
 	CreateServiceFunction(SvcFunc, GetInfo);
 }
 
-/*******************************/
+/*****************************************************************************/
 void ChangeContactStatus(int con_stat)
 {
    WORD status_code = 0;
@@ -110,23 +99,22 @@ void ChangeContactStatus(int con_stat)
 		db_set_w(hContact, MODULENAME, "Status", status_code);
 }
 
-/***********************/
+/*****************************************************************************/
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
    hInst = hinstDLL;
    return TRUE;
 }
 
-/*******************/
+/*****************************************************************************/
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
+
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfoEx;
 }
 
-/******************/
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
-
-/************************/
+/*****************************************************************************/
 extern "C" int __declspec(dllexport) Unload(void)
 {
    ChangeContactStatus(0);
@@ -139,38 +127,29 @@ extern "C" int __declspec(dllexport) Unload(void)
    if (hRichEd)
 		FreeLibrary(hRichEd);
 
-	if (hNetlibUser)
+	if (hNetlibUser) {
 		Netlib_CloseHandle(hNetlibUser);
-	if (hHookDisplayDataAlert)
-		UnhookEvent(hHookDisplayDataAlert);
-	if (hHookAlertPopup)
-		UnhookEvent(hHookAlertPopup);
-	if (hHookAlertWPopup)
-		UnhookEvent(hHookAlertWPopup);
+		hNetlibUser = NULL;
+	}
 	
-	hNetlibUser = NULL;
+	if (hHookDisplayDataAlert)
+		DestroyHookableEvent(hHookDisplayDataAlert);
+	if (hHookAlertPopup)
+		DestroyHookableEvent(hHookAlertPopup);
+	if (hHookAlertWPopup)
+		DestroyHookableEvent(hHookAlertWPopup);
+	
 	if (h_font != NULL)
 		DeleteObject(h_font);
 	if (hMenu)
 		DestroyMenu(hMenu);    
-	if (hAddSite)
-		UnhookEvent(hAddSite);
-	if (hWindowList )
-		UnhookEvent(hWindowList); 
-
-	DestroyServiceFunction(0);    
-
 	return 0;
 }
 
-/***************************************/
+/*****************************************************************************/
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfoEx);
-
-   char  countername[100];
-   DBVARIANT       dbv;
-   HGENMENU hRoot;
 
    strncpy_s(optionsname, MODULENAME, sizeof(optionsname));
    optionsname[0] = toupper(optionsname[0]);
@@ -181,13 +160,12 @@ extern "C" int __declspec(dllexport) Load()
    hRichEd = LoadLibraryA("Riched20.dll");
 
 	/*TIMERS*/
-	if ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, 0) != 0)) {  
-		timerId = SetTimer(NULL, 0, ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, 0)) * MINUTE), (TIMERPROC) timerfunc);
+	if ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, TIME) != 0)) {  
+		timerId = SetTimer(NULL, 0, ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, TIME)) * MINUTE), (TIMERPROC) timerfunc);
 		db_set_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0); 
 		Countdown = SetTimer(NULL, 0, MINUTE, (TIMERPROC) Countdownfunc);
 	}
 
-	CheckDbKeys();
 	InitialiseGlobals();
 
 	// register netlib handle
@@ -278,10 +256,11 @@ extern "C" int __declspec(dllexport) Load()
 
 		CreateServiceFunction("Countdown", CountdownMenuCommand);
 
+	   char countername[100];
+		mir_snprintf(countername, SIZEOF(countername), "%d Minutes to Update", db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
 		mi.position = 600090099;;
 		mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_UPDATEALL));
 		mi.pszContactOwner = NULL;
-		sprintf(countername, "%d Minutes to Update", db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
 		mi.pszName = countername;
 
 		mi.pszService = "Countdown";

@@ -1,5 +1,7 @@
 #define UNI 1
 
+#define IDC_STATIC -1
+
 #define IDI_SITE 101
 #define IDI_STICK  102
 #define IDI_UNSTICK         103
@@ -23,7 +25,6 @@
 #define IDC_UPDATE_ONALERT  304
 
 #define IDD_OPT  443
-#define IDC_STATIC 444
 #define IDC_DISABLEMENU     446
 #define IDC_OPEN_WEBPAGE    447
 #define IDC_TIME 450

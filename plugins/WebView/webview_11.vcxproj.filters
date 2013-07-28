@@ -27,12 +27,6 @@
     <ClInclude Include="src\webview.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\webview_common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\webview_private.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Version.rc">

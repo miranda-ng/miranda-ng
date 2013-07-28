@@ -1,24 +1,68 @@
 /*
- * A plugin for Miranda IM which displays web page text in a window Copyright
+ * A plugin for Miranda IM which displays web page text in a window Copyright 
  * (C) 2005 Vincent Joyce.
- *
+ * 
  * Miranda IM: the free icq client for MS Windows  Copyright (C) 2000-2
  * Richard Hughes, Roland Rabien & Tristan Van de Vreede
- *
+ * 
  * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
+ * under the terms of the GNU General Public License as published by the Free 
  * Software Foundation; either version 2 of the License, or (at your option)
  * any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
  * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
  * for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc., 59
- * Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ * with this program; if not, write to the Free Software Foundation, Inc., 59 
+ * Temple Place - Suite 330, Boston, MA  02111-1307, USA. 
  */
+
+#define CFM_BACKCOLOR   0x04000000
+
+#define MODULENAME "WebView"
+
+#define MENU_OFF    "DisableMenu"
+#define REFRESH_KEY "Refresh interval"
+#define ON_TOP_KEY  "Always on top"
+#define OFFLINE_STATUS "OfflineOnBoot"
+#define URL_KEY     "URL"
+#define START_STRING_KEY        "Start_string"
+#define END_STRING_KEY "End_String"
+#define DBLE_WIN_KEY "Doub_click_win"
+#define HIDE_STATUS_ICON_KEY    "Hide_Status_Icon"
+#define HAS_CRASHED_KEY         "Has_Crashed"
+#define U_ALLSITE_KEY  "UseAllTheWebsite"
+#define MENU_IS_DISABLED_KEY    "MainMenuReallyDisabled"
+#define UPDATE_ONALERT_KEY      "WND_UPDATE_OALERY_ONLY"
+#define DISABLE_AUTOUPDATE_KEY  "Disable_Auto_Update"
+#define RWSPACE_KEY "level_of_wspace_removal"
+#define PRESERVE_NAME_KEY       "PreserveName"
+#define CLEAR_DISPLAY_KEY       "Remove_tags_whitespace"
+#define ALRT_S_STRING_KEY       "ALRT_S_STRING"
+#define ALRT_E_STRING_KEY       "ALRT_E_STRING"
+#define ALRT_INDEX_KEY "AlertIndex"
+#define EVNT_INDEX_KEY "EventIndex"
+#define START_DELAY_KEY         "StartUpDelay"
+#define ALWAYS_LOG_KEY "AlwaysLogToFile"
+#define SAVE_INDIVID_POS_KEY    "SaveIndividWinPos"
+#define NO_PROTECT_KEY "NoDownloadProtection"
+#define SAVE_AS_RAW_KEY         "SaveAsRaw"
+#define FONT_SCRIPT_KEY         "FontScript"
+#define STOP_KEY    "StopProcessing"
+#define DATA_POPUP_KEY "DisplayDataPopup"
+#define COUNTDOWN_KEY  "Countdown"
+
+#define MINUTE       60000
+#define SECOND       1000
+
+#define MS_UPDATE_ALL  "Webview/UpdateAll"
+#define MS_ADD_SITE "Webview/AddSite"
+#define MS_AUTO_UPDATE "Webview/AutoUpdate"
+
+#define CACHE_FILE_KEY "Filename"
 
 #define Xpos_WIN_KEY     "win_Xpos"
 #define Ypos_WIN_KEY     "win_Ypos"
@@ -60,364 +104,138 @@
 #define TIME  60
 #define Def_color_bg     0x00ffffff
 #define Def_color_txt    0x00000000
+#define Def_font_face    _T("Courier")
+#define Def_font_size    14
 #define HK_SHOWHIDE      3001
 
 #define MAXSIZE1         250000
 #define MAXSIZE2         500000
 #define MAXSIZE3         1000000
 
-static UINT     expertOnlyControls[] =
-{IDC_ADV_GRP,
-   IDC_NO_PROTECT,
-IDC_NOT_RECOMND_TXT};
+#define Def_win_height   152
+#define Def_win_width    250
 
 //lets get rid of some warnings
-void ErrorMsgs(char *contactname, char *displaytext);
 void CodetoSymbol(char *truncated);
-static void     GetData(void *hContact);
-BOOL CALLBACK   DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-void FillFontListThread(HWND hwndDlg);
-static BOOL CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-int DataWndAlertCommand(void *AContact);
+void GetData(HANDLE hContact);
+void FillFontListThread(void *);
 
+INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
- // ///////////////////////
-// characters and symbols//
-// ///////////////////////
+int DataWndAlertCommand(WPARAM wParam, LPARAM lParam);
+int PopupAlert(WPARAM wParam, LPARAM lParam);
+int WPopupAlert(WPARAM wParam, LPARAM lParam);
+int ErrorMsgs(WPARAM wParam, LPARAM lParam);
+int OSDAlert(WPARAM wParam, LPARAM lParam);
 
-#define AMOUNT3  164
+void ReadFromFile(void *hContact);
 
-char*CharacterCodes[AMOUNT3] =
-{
+/*
+ * some globals for window settings
+ */
 
-   "&quot;",
-   "&amp;",
-   "&lt;",
-   "&gt;",
-   "&nbsp;",
-   "&iexcl;",
-   "&cent;",
-   "&pound;",
-   "&curren;",
-   "&yen;",
-   "&brvbar",
-   "&sect;",
-   "&uml;",
-   "&copy;",
-   "&ordf;",
-   "&laquo;",
-   "&not;",
-   "&shy;",
-   "&reg;",
-   "&macr;",
-   "&deg;",
-   "&plusmn;",
-   "&sup2;",
-   "&sup3;",
-   "&acute;",
-   "&micro;",
-   "&para;",
-   "&middot;",
-   "&cedil;",
-   "&sup1;",
-   "&ordm;",
-   "&raquo;",
-   "&frac14;",
-   "&frac12;",
-   "&frac34;",
-   "&iquest;",
-   "&Agrave;",
-   "&Aacute;",
-   "&Acirc;",
-   "&Atilde;",
-   "&Auml;",
-   "&Aring;",
-   "&AElig;",
-   "&Ccedil;",
-   "&Egrave;",
-   "&Eacute;",
-   "&Ecirc;",
-   "&Euml;",
-   "&Igrave;",
-   "&Iacute;",
-   "&Icirc;",
-   "&Iuml;",
-   "&ETH;",
-   "&Ntilde;",
-   "&Ograve;",
-   "&Oacute;",
-   "&Ocirc;",
-   "&Otilde;",
-   "&Ouml;",
-   "&times;",
-   "&Oslash;",
-   "&Ugrave;",
-   "&Uacute;",
-   "&Ucirc;",
-   "&Uuml;",
-   "&Yacute;",
-   "&THORN;",
-   "&szlig;",
-   "&agrave;",
-   "&aacute;",
-   "&acirc;",
-   "&atilde;",
-   "&auml;",
-   "&aring;",
-   "&aelig;",
-   "&ccedil;",
-   "&egrave;",
-   "&eacute;",
-   "&ecirc;",
-   "&euml;",
-   "&igrave;",
-   "&iacute;",
-   "&icirc;",
-   "&iuml;",
-   "&eth;",
-   "&ntilde;",
-   "&ograve;",
-   "&oacute;",
-   "&ocirc;",
-   "&otilde;",
-   "&ouml;",
-   "&divide;",
-   "&oslash;",
-   "&ugrave;",
-   "&uacute;",
-   "&ucirc;",
-   "&uuml;",
-   "&yacute;",
-   "&thorn;",
-   "&yumil;",
-   "&#338;",        // greater that 255, extra latin characters
-    "&#339;",
-   "&#352;",
-   "&#353;",
-   "&#376;",
-   "&#402;",
-   "&#710;",
-   "&#732;",
-   "&OElig;",
-   "&oelig;",
-   "&Scaron;",
-   "&scaron;",
-   "&Yuml;",
-   "&fnof;",
-   "&circ;",
-   "&tilde;",
-   "&#8211;",       // Misc other characters
-    "&#8212;",
-   "&#8216;",
-   "&#8217;",
-   "&#8218;",
-   "&#8220;",
-   "&#8221;",
-   "&#8222;",
-   "&#8224;",
-   "&#8225;",
-   "&#8226;",
-   "&#8230;",
-   "&#8240;",
-   "&#8249;",
-   "&#8250;",
-   "&#8364;",
-   "&#8465;",
-   "&#8476;",
-   "&#8482;",
-   "&ndash;",
-   "&mdash;",
-   "&lsquo;",
-   "&rsquo;",
-   "&sbquo;",
-   "&ldquo;",
-   "&rdquo;",
-   "&bdquo;",
-   "&dagger;",
-   "&Dagger;",
-   "&bull;",
-   "&hellip;",
-   "&permil;",
-   "&lsaquo;",
-   "&rsaquo;",
-   "&euro;",
-   "&image;",
-   "&real;",
-   "&trade;",
-   "&ensp;",
-   "&emsp;",
-   "&thinsp;",
-   "&#8194;",
-   "&#8195;",
-   "&#8201;",
-   "&otilde;",      // symbols without numeric code
-    "&iquest;",
-   "&brvbar;",
-"&macr;"};
+extern DWORD Xposition, Yposition, BackgoundClr, TextClr, WindowHeight, WindowWidth;
+extern UINT_PTR timerId, Countdown;
+extern LOGFONT lf;
+extern HFONT h_font;
+extern HWND ContactHwnd;
+extern HINSTANCE hInst;
+extern HMENU hMenu;
+extern int bpStatus;
+extern HANDLE hNetlibUser, hWindowList;
+extern HANDLE hMenuItem1, hMenuItemCountdown;
+extern char optionsname[80];
 
-char Characters[AMOUNT3] =
-{
-   '\"',
-   '&',
-   '<',
-   '>',
-   ' ',
-   '¡',
-   '¢',
-   '£',
-   '¤',
-   '¥',
-   '¦',
-   '§',
-   '¨',
-   '©',
-   'ª',
-   '«',
-   '¬',
-   '­',
-   '®',
-   '¯',
-   '°',
-   '±',
-   '²',
-   '³',
-   '´',
-   'µ',
-   '¶',
-   '·',
-   '¸',
-   '¹',
-   'º',
-   '»',
-   '¼',
-   '½',
-   '¾',
-   '¿',
-   'À',
-   'Á',
-   'Â',
-   'Ã',
-   'Ä',
-   'Å',
-   'Æ',
-   'Ç',
-   'È',
-   'É',
-   'Ê',
-   'Ë',
-   'Ì',
-   'Í',
-   'Î',
-   'Ï',
-   'Ð',
-   'Ñ',
-   'Ò',
-   'Ó',
-   'Ô',
-   'Õ',
-   'Ö',
-   '×',
-   'Ø',
-   'Ù',
-   'Ú',
-   'Û',
-   'Ü',
-   'Ý',
-   'Þ',
-   'ß',
-   'à',
-   'á',
-   'â',
-   'ã',
-   'ä',
-   'å',
-   'æ',
-   'ç',
-   'è',
-   'é',
-   'ê',
-   'ë',
-   'ì',
-   'í',
-   'î',
-   'ï',
-   'ð',
-   'ñ',
-   'ò',
-   'ó',
-   'ô',
-   'õ',
-   'ö',
-   '÷',
-   'ø',
-   'ù',
-   'ú',
-   'û',
-   'ü',
-   'ý',
-   'þ',
-   'ÿ',
-   'Œ',  // greater than 255 extra latin characters
-    'œ',
-   'Š',
-   'š',
-   'Ÿ',
-   'ƒ',
-   'ˆ',
-   '˜',
-   'Œ',
-   'œ',
-   'Š',
-   'š',
-   'Ÿ',
-   'ƒ',
-   'ˆ',
-   '˜',
-   '–',
-   '—',  // misc other characters
-    '‘',
-   '’',
-   '‚',
-   '“',
-   '”',
-   '„',
-   '†',
-   '‡',
-   '•',
-   '…',
-   '‰',
-   '‹',
-   '›',
-   '€',
-   'I',
-   'R',
-   '™',
-   '–',
-   '—',
-   '‘',
-   '’',
-   '‚',
-   '“',
-   '”',
-   '„',
-   '†',
-   '‡',
-   '•',
-   '…',
-   '‰',
-   '‹',
-   '›',
-   '€',
-   'I',
-   'R',
-   '™',
-   ' ',
-   ' ',
-   ' ',
-   ' ',
-   ' ',
-   ' ',
-   'õ',
-   '¿',
-   '¦',
-'¯'};
+//lets get rid of some warnings
+void timerfunc(void);
+void Countdownfunc(void);
+void SavewinSettings(void);
+void ValidatePosition(HWND hwndDlg);
+int  ModulesLoaded(WPARAM wParam, LPARAM lParam);
+void ChangeMenuItem3();
+int  ContactMenuItemUpdateData (WPARAM wParam, LPARAM lParam);
+
+int Doubleclick(WPARAM wParam, LPARAM lParam);
+int DBSettingChanged(WPARAM wParam, LPARAM lParam);
+
+int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgbBack);
+
+//Services
+INT_PTR GetCaps(WPARAM wParam, LPARAM lParam);
+INT_PTR GetName(WPARAM wParam, LPARAM lParam);
+INT_PTR BPLoadIcon(WPARAM wParam, LPARAM lParam); // BPLoadIcon
+
+INT_PTR SetStatus(WPARAM wParam, LPARAM lParam);
+INT_PTR GetStatus(WPARAM wParam, LPARAM lParam);
+
+INT_PTR BasicSearch(WPARAM wParam, LPARAM lParam);
+INT_PTR AddToList(WPARAM wParam, LPARAM lParam);
+INT_PTR GetInfo(WPARAM wParam, LPARAM lParam);
+
+INT_PTR OpenCacheDir(WPARAM wParam, LPARAM lParam);
+
+INT_PTR UpdateAllMenuCommand(WPARAM wParam, LPARAM lParam);
+INT_PTR CountdownMenuCommand(WPARAM wParam, LPARAM lParam);
+INT_PTR MarkAllReadMenuCommand(WPARAM wParam, LPARAM lParam);
+INT_PTR WebsiteMenuCommand(WPARAM wParam, LPARAM lParam);
+INT_PTR AddContactMenuCommand(WPARAM wParam, LPARAM lParam);
+INT_PTR ContactOptionsMenuCommand(WPARAM wParam, LPARAM lParam);
+INT_PTR CntOptionsMenuCommand(WPARAM wParam, LPARAM lParam);
+INT_PTR CntAlertMenuCommand(WPARAM wParam, LPARAM lParam);
+INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM lParam);
+INT_PTR ShowHideContactCommand(WPARAM wParam, LPARAM lParam);
+INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM lParam);
+INT_PTR StpPrcssMenuCommand(WPARAM wParam, LPARAM lParam);
+
+int  UpdateMenuCommand(WPARAM wParam, LPARAM lParam, HANDLE singlecontact);
+int  OnTopMenuCommand(WPARAM wParam, LPARAM lParam, HANDLE singlecontact);
+
+//
+void ChangeContactStatus(int con_stat);
+void InitialiseGlobals(void);
+void FontSettings(void);
+
+///
+
+void Removewhitespace(char *truncated);
+void RemoveInvis(char *truncated, int AmountWspcRem);
+void RemoveTabs(char *truncated);
+void FastTagFilter(char *truncated);
+void EraseBlock(char *truncated);
+void EraseSymbols(char *truncated);
+int  ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactname, int notpresent);
+
+INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+int  DataDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * urc);
+
+void Filter(char *truncated);
+void TxtclrLoop();
+void BGclrLoop();
+void ContactLoop(void *dummy);
+void NumSymbols(char *truncated);
+
+INT_PTR AutoUpdateMCmd(WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+void AckFunc(void *dummy);
+int  SiteDeleted(WPARAM wParam, LPARAM lParam);
+
+int  WErrorPopup(HANDLE hContact, TCHAR *textdisplay);
+int  WAlertPopup(HANDLE hContact, TCHAR *displaytext);
+
+//////////////////////
+// wrappers
+
+extern HANDLE hHookDisplayDataAlert;
+#define ME_DISPLAYDATA_ALERT	"Miranda/ALERT/DISPLAYDATA"
+
+extern HANDLE hHookAlertPopup;
+#define ME_POPUP_ALERT	"Miranda/ALERT/POPUP"
+
+extern HANDLE hHookErrorPopup;
+#define ME_POPUP_ERROR	"Miranda/ERROR/POPUP"
+
+extern HANDLE hHookAlertOSD;
+#define ME_OSD_ALERT	"Miranda/ALERT/OSD"
