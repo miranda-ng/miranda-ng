@@ -279,7 +279,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		for (i = 0; i < SIZEOF(AlertTypes); i++)
 			SendDlgItemMessage(hwndDlg, IDC_ALERT_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateTS(AlertTypes[i]));
 
-		for (i = 0; i < sizeof(EventTypes); i++)
+		for (i = 0; i < SIZEOF(EventTypes); i++)
 			SendDlgItemMessage(hwndDlg, IDC_EVENT_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateTS(EventTypes[i]));
 
 		if (db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0)) {

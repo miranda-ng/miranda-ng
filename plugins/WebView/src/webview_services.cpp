@@ -358,10 +358,9 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 					db_unset(hContact, "CList", "NotOnList");
 					db_unset(hContact, "CList", "Hidden");
 				}
-				db_free(&dbv);
 			}
+			db_free(&dbv);
 		}
-		db_free(&dbv);
 	}
 
 	if (psr->nick == NULL) {
@@ -404,7 +403,7 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 	}
 
 	TCHAR *Nend = _tcschr(Newnick, '.');
-	*Nend = '\0';
+	if (Nend) *Nend = '\0';
 
 	for (HANDLE hContact2 = db_find_first(MODULENAME); hContact2 != NULL; hContact2 = db_find_next(hContact2, MODULENAME)) {
 		if (!db_get_ts(hContact2, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {

@@ -26,8 +26,9 @@
 HANDLE hNetlibUser;
 HANDLE hWindowList;
 HANDLE hHookDisplayDataAlert, hHookAlertPopup, hHookAlertWPopup, hHookErrorPopup, hHookAlertOSD;
-int    hLangpack = 0;
 
+int    hLangpack = 0;
+CLIST_INTERFACE *pcli;
 static HMODULE hRichEd = NULL;
 
 PLUGININFOEX pluginInfoEx = {
@@ -150,6 +151,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfoEx);
+	mir_getCLI();
 
    strncpy_s(optionsname, MODULENAME, sizeof(optionsname));
    optionsname[0] = toupper(optionsname[0]);
@@ -179,7 +181,7 @@ extern "C" int __declspec(dllexport) Load()
    hNetlibUser = (HANDLE) CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM) & nlu);
 
 	// register webview protocol
-	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
+	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = MODULENAME;
 	pd.type = PROTOTYPE_PROTOCOL;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);

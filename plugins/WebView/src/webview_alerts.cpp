@@ -220,28 +220,30 @@ int OSDAlert(WPARAM wParam, LPARAM lParam)
 /*****************************************************************************/
 int ErrorMsgs(WPARAM wParam, LPARAM lParam)
 {
-	char newdisplaytext[2000];
-	char *contactname = (char*)wParam, *displaytext = (char*)lParam;
+	HANDLE hContact = (HANDLE)wParam;
+	TCHAR newdisplaytext[2000], *displaytext = (TCHAR*)lParam;
 
-	if ( !db_get_b(NULL, MODULENAME, SUPPRESS_ERR_KEY, 0)) {
-		if ((ServiceExists(MS_POPUP_ADDPOPUP) != 0) && ((db_get_b(NULL, MODULENAME, ERROR_POPUP_KEY, 0)))) {
-			_snprintf(newdisplaytext, sizeof(newdisplaytext), "%s\n%s", contactname, displaytext);
-			PUShowMessage(newdisplaytext, SM_WARNING);
-		}
-		else if ( ServiceExists("OSD/Announce") && db_get_b(NULL, MODULENAME, ERROR_POPUP_KEY, 0)) {
-			_snprintf(newdisplaytext, sizeof(newdisplaytext), "%s: %s", contactname, Translate(displaytext));
-			CallService("OSD/Announce", (WPARAM) newdisplaytext, 0);
-		}
-		else if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
-			MIRANDASYSTRAYNOTIFY webview_tip = {0};
-			webview_tip.cbSize = sizeof(MIRANDASYSTRAYNOTIFY);
-			webview_tip.szProto = NULL;
-			webview_tip.szInfoTitle = contactname;
-			webview_tip.szInfo = Translate(displaytext);
-			webview_tip.dwInfoFlags = NIIF_ERROR;
-			webview_tip.uTimeout = 15000;
-			CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM) &webview_tip);
-		}
+	if ( db_get_b(NULL, MODULENAME, SUPPRESS_ERR_KEY, 0))
+		return 0;
+
+	TCHAR *ptszContactName = pcli->pfnGetContactDisplayName(hContact, 0);
+	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, MODULENAME, ERROR_POPUP_KEY, 0)) {
+		mir_sntprintf(newdisplaytext, SIZEOF(newdisplaytext), _T("%s\n%s"), ptszContactName, displaytext);
+		PUShowMessageT(newdisplaytext, SM_WARNING);
+	}
+	else if ( ServiceExists("OSD/Announce") && db_get_b(NULL, MODULENAME, ERROR_POPUP_KEY, 0)) {
+		mir_sntprintf(newdisplaytext, SIZEOF(newdisplaytext), _T("%s: %s"), ptszContactName, TranslateTS(displaytext));
+		CallService("OSD/Announce", (WPARAM)newdisplaytext, 0);
+	}
+	else if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
+		MIRANDASYSTRAYNOTIFY webview_tip = {0};
+		webview_tip.cbSize = sizeof(MIRANDASYSTRAYNOTIFY);
+		webview_tip.szProto = NULL;
+		webview_tip.tszInfoTitle = ptszContactName;
+		webview_tip.tszInfo = TranslateTS(displaytext);
+		webview_tip.dwInfoFlags = NIIF_ERROR | NIIF_INTERN_UNICODE;
+		webview_tip.uTimeout = 15000;
+		CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM) &webview_tip);
 	}
 	return 0;
 }
