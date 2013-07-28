@@ -206,7 +206,6 @@
     <ClInclude Include="src\icq_advsearch.h" />
     <ClInclude Include="src\icq_avatar.h" />
     <ClInclude Include="src\icq_constants.h" />
-    <ClInclude Include="src\icq_db.h" />
     <ClInclude Include="src\icq_direct.h" />
     <ClInclude Include="src\icq_fieldnames.h" />
     <ClInclude Include="src\icq_http.h" />

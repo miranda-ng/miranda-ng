@@ -98,7 +98,6 @@
 #include "version.h"
 #include "globals.h"
 #include "i18n.h"
-#include "icq_db.h"
 #include "cookies.h"
 #include "icq_packet.h"
 #include "utilities.h"

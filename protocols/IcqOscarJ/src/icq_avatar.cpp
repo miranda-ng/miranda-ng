@@ -1675,7 +1675,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 							{
 								TCHAR tmp[MAX_PATH * 2];
 								PathToRelativeT(tszImageFile, tmp);
-								ppro->setSettingStringT(NULL, "AvatarFile", tmp);
+								ppro->setTString(NULL, "AvatarFile", tmp);
 							}
 							else
 							{ // contact's avatar set hash

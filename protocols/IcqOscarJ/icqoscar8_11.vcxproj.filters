@@ -110,9 +110,6 @@
     <ClInclude Include="src\changeinfo\changeinfo.h">
       <Filter>Changeinfo</Filter>
     </ClInclude>
-    <ClInclude Include="src\icq_db.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resources.rc">
