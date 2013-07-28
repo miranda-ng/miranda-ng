@@ -57,7 +57,7 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 
 	HOTKEYDESC hkd = { sizeof(hkd) };
 	hkd.dwFlags = HKD_TCHAR;
-	hkd.ptszDescription = LPGENT("Show Mind Window");
+	hkd.ptszDescription = LPGENT("Show 'Share status' window");
 	hkd.pszName = "ShowMindWnd";
 	hkd.ptszSection = m_tszUserName;
 	hkd.pszService = module;
@@ -194,7 +194,8 @@ int FacebookProto::SetAwayMsg(int status, const PROTOCHAR *msg)
 	}
 
 	char *narrow = mir_utf8encodeT(msg);
-	if (last_status_msg_ != narrow) last_status_msg_ = narrow;
+	if (last_status_msg_ != narrow)
+		last_status_msg_ = narrow;
 	utils::mem::detract(narrow);
 
 	if (isOnline() && getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, DEFAULT_SET_MIRANDA_STATUS))
@@ -447,19 +448,35 @@ int FacebookProto::OnToolbarInit(WPARAM, LPARAM)
 	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, "/Mind");
 
 	ttb.pszService = service;
-	ttb.pszTooltipUp = ttb.name = LPGEN("What's on your mind?");
+	ttb.pszTooltipUp = ttb.name = LPGEN("Share status...");
 	ttb.hIconHandleUp = Skin_GetIconByHandle(GetIconHandle("mind"));
 	TopToolbar_AddButton(&ttb);
 
 	return 0;
 }
 
-INT_PTR FacebookProto::OnMind(WPARAM, LPARAM)
+INT_PTR FacebookProto::OnMind(WPARAM wParam, LPARAM lParam)
 {
-	if (isOnline()) {
-		HWND hDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MIND), (HWND)0, FBMindProc, reinterpret_cast<LPARAM>(this));
-		ShowWindow(hDlg, SW_SHOW);
-	}
+	if (!isOnline())
+		return 1;
+
+	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
+
+	// TODO: why isn't wParam == 0 when is status menu moved to main menu?
+	if (wParam != 0 && !IsMyContact(hContact))
+		return 1;
+		
+	wall_data *wall = new wall_data();
+	wall->user_id = ptrA(getStringA(hContact, FACEBOOK_KEY_ID));
+	if (wall->user_id == facy.self_.user_id)
+		wall->title = Translate("Own wall");
+	else
+		wall->title = ptrA(getStringA(hContact, FACEBOOK_KEY_NAME));
+
+	post_status_data *data = new post_status_data(this, wall);
+		
+	HWND hDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MIND), (HWND)0, FBMindProc, reinterpret_cast<LPARAM>(data));
+	ShowWindow(hDlg, SW_SHOW);
 
 	return 0;
 }
@@ -502,7 +519,7 @@ INT_PTR FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
 
 	std::string url = FACEBOOK_URL_PROFILE;
 
-	ptrA val( getStringA(hContact, "Homepage"));
+	ptrA val(getStringA(hContact, "Homepage"));
 	if (val != NULL) {
 		// Homepage link already present, get it
 		url = val;
@@ -524,7 +541,7 @@ INT_PTR FacebookProto::VisitFriendship(WPARAM wParam,LPARAM lParam)
 	if (wParam == 0 || !IsMyContact(hContact))
 		return 1;
 
-	ptrA id( getStringA(hContact, FACEBOOK_KEY_ID));
+	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 
 	std::string url = FACEBOOK_URL_PROFILE;
 	url += facy.self_.user_id;
@@ -559,10 +576,10 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
 	// Ignore groupchats and, if deleting, also not-friends
-	if ( isChatRoom(hContact) || (deleting && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND))
+	if (isChatRoom(hContact) || (deleting && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND))
 		return 0;
 
-	ptrT tname( getTStringA(hContact, FACEBOOK_KEY_NAME));
+	ptrT tname(getTStringA(hContact, FACEBOOK_KEY_NAME));
 	if (tname == NULL)
 		tname = getTStringA(hContact, FACEBOOK_KEY_ID);
 
@@ -570,7 +587,7 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 	mir_sntprintf(tstr,SIZEOF(tstr),TranslateT("Do you want to cancel your friendship with '%s'?"), tname);
 	if (MessageBox(0, tstr, m_tszUserName, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
 
-		ptrA id( getStringA(hContact, FACEBOOK_KEY_ID));
+		ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 		if (id == NULL)
 			return 1;
 
@@ -595,7 +612,7 @@ INT_PTR FacebookProto::RequestFriendship(WPARAM wParam,LPARAM lParam)
 
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
-	ptrA id( getStringA(hContact, FACEBOOK_KEY_ID));
+	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 	if (id == NULL)
 		return 1;
 

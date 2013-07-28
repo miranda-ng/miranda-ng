@@ -271,6 +271,8 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 		if (t == "msg" || t == "offline_msg") {
 			// we use this only for outgoing messages
 			
+			// TODO: load recipient id here, but use data from "messaging" section, problem is that "messaging" is usually before this
+
 			JSONNODE *msg = json_get(it, "msg");
 			if (msg == NULL)
 				continue;

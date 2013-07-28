@@ -39,7 +39,7 @@ HANDLE FacebookProto::ChatIDToHContact(std::string chat_id)
 		if (!IsMyContact(hContact, true))
 			continue;
 
-		ptrA id( getStringA(hContact, "ChatRoomID"));
+		ptrA id(getStringA(hContact, "ChatRoomID"));
 		if (id && !strcmp(id, chat_id.c_str()))
 			return hContact;
 	}
@@ -53,7 +53,7 @@ HANDLE FacebookProto::ContactIDToHContact(std::string user_id)
 		if (!IsMyContact(hContact))
 			continue;
 
-		ptrA id( getStringA(hContact, FACEBOOK_KEY_ID));
+		ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 		if (id && !strcmp(id, user_id.c_str()))
 			return hContact;
 	}
@@ -244,7 +244,7 @@ void FacebookProto::ApproveContactToServer(void *data)
 
 	std::string get_data = "id=";
 
-	ptrA id( getStringA(hContact, FACEBOOK_KEY_ID));
+	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 	get_data += id;
 
 	http::response resp = facy.flap(REQUEST_APPROVE_FRIEND, &post_data, &get_data);
@@ -269,7 +269,7 @@ void FacebookProto::CancelFriendsRequest(void *data)
 	query += "&fb_dtsg=" + facy.dtsg_;
 	query += "&__user=" + facy.self_.user_id;
 
-	ptrA id( getStringA(hContact, FACEBOOK_KEY_ID));
+	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 	query += "&friend=" + std::string(id);
 
 	// Get unread inbox threads

@@ -101,6 +101,13 @@ void InitContactMenus()
 	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::VisitFriendship>);
 	g_hContactMenuItems[CMI_VISIT_FRIENDSHIP] = Menu_AddContactMenuItem(&mi);
 
+	mi.position=-2000006001;
+	mi.icolibItem = GetIconHandle("mind");
+	mi.pszName = LPGEN("Share status...");
+	mi.pszService = "FacebookProto/Mind";
+	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::OnMind>);
+	g_hContactMenuItems[CMI_POST_STATUS] = Menu_AddContactMenuItem(&mi);
+
 	mi.position=-2000006002;
 	mi.icolibItem = GetIconHandle("poke");
 	mi.pszName = LPGEN("Poke");
@@ -150,6 +157,7 @@ int FacebookProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 
 	Menu_ShowItem(g_hContactMenuItems[CMI_VISIT_PROFILE], true);
 	Menu_ShowItem(g_hContactMenuItems[CMI_VISIT_FRIENDSHIP], !bIsChatroom);
+	Menu_ShowItem(g_hContactMenuItems[CMI_POST_STATUS], !bIsChatroom);
 
 	if (!isOffline() && !bIsChatroom) 
 	{
@@ -196,7 +204,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	//CreateProtoService(m_szModuleName,"/Mind",&FacebookProto::OnMind,this);
 	strcpy(tDest,"/Mind");
 	mi.hParentMenu = hRoot;
-	mi.pszName = LPGEN("Mind...");
+	mi.pszName = LPGEN("Share status...");
 	mi.icolibItem = GetIconHandle("mind");
 	m_hStatusMind = Menu_AddProtoMenuItem(&mi);
 

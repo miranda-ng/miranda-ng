@@ -148,3 +148,16 @@ struct status_data
 	std::string place;	
 	std::string privacy;
 };
+
+struct wall_data
+{
+	std::string user_id;
+	std::string title;
+};
+
+struct post_status_data {
+	post_status_data(FacebookProto *proto) : proto(proto) {}
+	post_status_data(FacebookProto *proto, wall_data *wall) : proto(proto) { walls.push_back(wall); }
+	FacebookProto *proto;
+	std::vector<wall_data*> walls;
+};

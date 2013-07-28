@@ -109,9 +109,22 @@ INT_PTR CALLBACK FBAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 	return FALSE;
 }
 
+void RefreshPrivacy(HWND hwnd, post_status_data *data)
+{
+	SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_RESETCONTENT, 0, 0);
+	int wall_id = SendDlgItemMessage(hwnd, IDC_WALL, CB_GETCURSEL, 0, 0);
+	if (data->walls[wall_id]->user_id == data->proto->facy.self_.user_id) {
+		for (size_t i = 0; i < SIZEOF(privacy_types); i++)
+			SendDlgItemMessageA(hwnd, IDC_PRIVACY, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(Translate(privacy_types[i].name)));
+	} else {
+		SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_INSERTSTRING, 0, reinterpret_cast<LPARAM>(TranslateT("Default")));
+	}
+	SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_SETCURSEL, data->proto->getByte(FACEBOOK_KEY_PRIVACY_TYPE, 0), 0);
+}
+
 INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
-	FacebookProto *proto;
+	post_status_data *data;
 
 	switch(message)
 	{
@@ -122,19 +135,21 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 
 		SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(GetIconHandle("mind")));
 
-		proto = reinterpret_cast<FacebookProto*>(lparam);
-		SetWindowLongPtr(hwnd,GWLP_USERDATA,lparam);
-		SendDlgItemMessage(hwnd,IDC_MINDMSG,EM_LIMITTEXT,FACEBOOK_MIND_LIMIT,0);
-		SendDlgItemMessage(hwnd,IDC_URL,EM_LIMITTEXT,1024,0);
+		data = reinterpret_cast<post_status_data*>(lparam);
 
-		ptrT place = proto->getTStringA(FACEBOOK_KEY_PLACE);
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
+		SendDlgItemMessage(hwnd, IDC_MINDMSG, EM_LIMITTEXT, FACEBOOK_MIND_LIMIT, 0);
+		SendDlgItemMessage(hwnd, IDC_URL, EM_LIMITTEXT, 1024, 0);
+
+		ptrT place = data->proto->getTStringA(FACEBOOK_KEY_PLACE);
 		SetDlgItemText(hwnd, IDC_PLACE, place != NULL ? place : _T("Miranda NG"));
 
-		for(size_t i=0; i<SIZEOF(privacy_types); i++)
-			SendDlgItemMessageA(hwnd, IDC_PRIVACY, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(Translate(privacy_types[i].name)));
-		SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_SETCURSEL, proto->getByte(FACEBOOK_KEY_PRIVACY_TYPE, 0), 0);
+		for (std::vector<wall_data*>::size_type i = 0; i < data->walls.size(); i++)
+			SendDlgItemMessageA(hwnd, IDC_WALL, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(data->walls[i]->title.c_str()));
+		SendDlgItemMessage(hwnd, IDC_WALL, CB_SETCURSEL, data->proto->getByte(FACEBOOK_KEY_LAST_WALL, 0), 0);
+		RefreshPrivacy(hwnd, data);
 
-		ptrA name( proto->getStringA(FACEBOOK_KEY_NAME));
+		ptrA name(data->proto->getStringA(FACEBOOK_KEY_NAME));
 		if (name != NULL) {
 			std::string firstname = name;
 			std::string::size_type pos = firstname.find(" ");
@@ -151,7 +166,23 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 	return TRUE;
 
 	case WM_COMMAND:
-		if (LOWORD(wparam) == IDC_MINDMSG && HIWORD(wparam) == EN_CHANGE)
+		if (LOWORD(wparam) == IDC_WALL && HIWORD(wparam) == CBN_SELCHANGE)
+		{
+			data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
+			RefreshPrivacy(hwnd, data);
+
+			// remember last choice, only when there are more options
+			if (SendDlgItemMessage(hwnd, IDC_WALL, CB_GETCOUNT, 0, 0) > 1)
+				data->proto->setByte(FACEBOOK_KEY_LAST_WALL, SendDlgItemMessage(hwnd, IDC_WALL, CB_GETCURSEL, 0, 0));
+		}
+		if (LOWORD(wparam) == IDC_PRIVACY && HIWORD(wparam) == CBN_SELCHANGE) {
+			data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
+
+			// remember last choice, only when there are more options
+			if (SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_GETCOUNT, 0, 0) > 1)
+				data->proto->setByte(FACEBOOK_KEY_PRIVACY_TYPE, SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_GETCURSEL, 0, 0));
+		}
+		else if (LOWORD(wparam) == IDC_MINDMSG && HIWORD(wparam) == EN_CHANGE)
 		{
 			size_t len = SendDlgItemMessage(hwnd,IDC_MINDMSG,WM_GETTEXTLENGTH,0,0);
 			EnableWindow(GetDlgItem(hwnd, IDOK), len > 0);
@@ -160,36 +191,35 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		}
 		else if (LOWORD(wparam) == IDOK)
 		{
+			data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
+
 			TCHAR mindMessageT[FACEBOOK_MIND_LIMIT+1];
 			TCHAR urlT[1024];
-			TCHAR placeT[100];
-			proto = reinterpret_cast<FacebookProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
+			TCHAR placeT[100];		
 
-			GetDlgItemText(hwnd,IDC_MINDMSG, mindMessageT, SIZEOF(mindMessageT));
-			GetDlgItemText(hwnd,IDC_PLACE, placeT, SIZEOF(placeT));
-			GetDlgItemText(hwnd,IDC_URL, urlT, SIZEOF(urlT));
-			ShowWindow(hwnd,SW_HIDE);
+			GetDlgItemText(hwnd, IDC_MINDMSG, mindMessageT, SIZEOF(mindMessageT));
+			GetDlgItemText(hwnd, IDC_PLACE, placeT, SIZEOF(placeT));
+			GetDlgItemText(hwnd, IDC_URL, urlT, SIZEOF(urlT));
+			ShowWindow(hwnd, SW_HIDE);
 
-			ptrA place( mir_utf8encodeT(placeT));
-			proto->setString(FACEBOOK_KEY_PLACE, place);
+			ptrA place(mir_utf8encodeT(placeT));
+			data->proto->setString(FACEBOOK_KEY_PLACE, place);
 
-			int privacy_type = SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_GETCURSEL, 0, 0);
-			proto->setByte(FACEBOOK_KEY_PRIVACY_TYPE, privacy_type);
+			status_data *status = new status_data();
+			status->user_id = data->walls[SendDlgItemMessage(hwnd, IDC_WALL, CB_GETCURSEL, 0, 0)]->user_id;
+			status->privacy = privacy_types[SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_GETCURSEL, 0, 0)].id;
+			status->place = place;
+			status->url = _T2A(urlT);
 
-			char *narrow = mir_utf8encodeT(mindMessageT);
-			if (proto->last_status_msg_ != narrow)
-				proto->last_status_msg_ = narrow;
+			char *narrow = mir_utf8encodeT(mindMessageT);		
+			status->text = narrow;
+
+			if (status->user_id == data->proto->facy.self_.user_id && data->proto->last_status_msg_ != narrow)
+				data->proto->last_status_msg_ = narrow;
+
 			utils::mem::detract(narrow);
 
-			status_data *data = new status_data();
-			data->place = place;
-			data->text = proto->last_status_msg_;
-			data->url = _T2A(urlT);
-			data->privacy = privacy_types[privacy_type].id;
-//			data->user_id = user_id;
-
-			//char *narrow = mir_t2a_cp(mindMessage,CP_UTF8);
-			proto->ForkThread(&FacebookProto::SetAwayMsgWorker, data);
+			data->proto->ForkThread(&FacebookProto::SetAwayMsgWorker, status);
 
 			EndDialog(hwnd, wparam);
 			return TRUE;
@@ -200,7 +230,13 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			return TRUE;
 		}
 		break;
+	case WM_DESTROY:
+		data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 
+		for(std::vector<wall_data*>::size_type i = 0; i < data->walls.size(); i++)
+			delete data->walls[i];
+
+		delete data;
 	}
 
 	return FALSE;

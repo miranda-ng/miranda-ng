@@ -51,6 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_LOCAL_TIMESTAMP		"UseLocalTimestamp"
 #define FACEBOOK_KEY_PRIVACY_TYPE			"PrivacyType"
 #define FACEBOOK_KEY_PLACE					"Place"
+#define FACEBOOK_KEY_LAST_WALL				"LastWall"
 
 #define FACEBOOK_KEY_POLL_RATE				"PollRate" // [HIDDEN]
 #define FACEBOOK_KEY_TIMEOUTS_LIMIT			"TimeoutsLimit" // [HIDDEN]
