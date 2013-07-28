@@ -46,6 +46,45 @@ void strdel(TCHAR *parBuffer, int len )
 	p[ -len ] = '\0';
 }
 
+TCHAR* FixButtonText(TCHAR *url, size_t len)
+{
+	TCHAR buttontext[256], stringbefore[256], newbuttontext[256];
+	_tcsncpy_s(buttontext, SIZEOF(buttontext), url, _TRUNCATE);
+	_tcsncpy_s(newbuttontext, SIZEOF(newbuttontext), url, _TRUNCATE);
+
+	if ( _tcschr(newbuttontext, '&') != 0) {
+		while (true) {
+			if ( _tcschr(newbuttontext, '&') == 0)
+				break;
+
+			_tcsncpy_s(buttontext, SIZEOF(buttontext), newbuttontext, _TRUNCATE);
+			TCHAR *stringafter = _tcschr(buttontext, '&');
+			int pos = (stringafter - buttontext);
+			int posbefore = (stringafter - buttontext) - 1;
+			int posafter = (stringafter - buttontext) + 1;
+			strdel(stringafter, 1);
+			_tcsncpy_s(stringbefore, pos, buttontext, _TRUNCATE);
+			mir_sntprintf(newbuttontext, SIZEOF(buttontext), _T("%s%S%s"), stringbefore, "!!", stringafter);
+
+			posafter = 0;
+			posbefore = 0;
+		}
+
+		while (true) {
+			if ( _tcschr(newbuttontext, '!') != 0) {
+				TCHAR *stringafter = _tcschr(newbuttontext, '!');
+				int pos = (stringafter - newbuttontext);
+				newbuttontext[pos] = '&';
+			}
+			if ( _tcschr(newbuttontext, '!') == 0)
+				break;
+		}
+	}
+
+	_tcsncpy_s(url, len, newbuttontext, _TRUNCATE);
+	return url;
+}
+
 /*****************************************************************************/
 static int CALLBACK EnumFontScriptsProc(ENUMLOGFONTEX * lpelfe, NEWTEXTMETRICEX * lpntme, int FontType, LPARAM lParam)
 {
@@ -422,7 +461,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				ofn.lpstrFilter = _T("TEXT Files (*.txt)\0*.txt\0All Files (*.*)\0*.*\0\0");
 				ofn.lpstrFile = szFileName;
 				ofn.Flags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
-				ofn.nMaxFile = sizeof(szFileName);
+				ofn.nMaxFile = SIZEOF(szFileName);
 				ofn.nMaxFileTitle = MAX_PATH;
 				ofn.lpstrDefExt = _T("txt");
 				if (!GetSaveFileName(&ofn))
@@ -727,10 +766,10 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				GetDlgItemText(hwndDlg, IDC_ALERT_STRING, buf, SIZEOF(buf));
 				db_set_ts(hContact, MODULENAME, ALERT_STRING_KEY, buf);
 
-				GetDlgItemText(hwndDlg, IDC_START2, buf, sizeof(buf));
+				GetDlgItemText(hwndDlg, IDC_START2, buf, SIZEOF(buf));
 				db_set_ts(hContact, MODULENAME, ALRT_S_STRING_KEY, buf);
 
-				GetDlgItemText(hwndDlg, IDC_END2, buf, sizeof(buf));
+				GetDlgItemText(hwndDlg, IDC_END2, buf, SIZEOF(buf));
 				db_set_ts(hContact, MODULENAME, ALRT_E_STRING_KEY, buf);
 
 				db_set_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PREFIX));
@@ -1004,40 +1043,7 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				db_set_b(hContact, MODULENAME, CLEAR_DISPLAY_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLEAN));
 				db_set_b(hContact, MODULENAME, RWSPACE_KEY, (BYTE)(SendDlgItemMessage(hwndDlg, IDC_RWSPACE, TBM_GETPOS, 0, 0)));
 
-				// //
-				TCHAR buttontext[256], stringbefore[256], newbuttontext[256];
-				_tcsncpy_s(buttontext, SIZEOF(buttontext), url, _TRUNCATE);
-				_tcsncpy_s(newbuttontext, SIZEOF(newbuttontext), url, _TRUNCATE);
-
-				if ( _tcschr(newbuttontext, '&') != 0) {
-					while (true) {
-						if ( _tcschr(newbuttontext, '&') == 0)
-							break;
-
-						_tcsncpy_s(buttontext, SIZEOF(buttontext), newbuttontext, _TRUNCATE);
-						TCHAR *stringafter = _tcschr(buttontext, '&');
-						int pos = (stringafter - buttontext);
-						int posbefore = (stringafter - buttontext) - 1;
-						int posafter = (stringafter - buttontext) + 1;
-						strdel(stringafter, 1);
-						_tcsncpy_s(stringbefore, pos, buttontext, _TRUNCATE);
-						mir_sntprintf(newbuttontext, SIZEOF(buttontext), _T("%s%S%s"), stringbefore, "!!", stringafter);
-
-						posafter = 0;
-						posbefore = 0;
-					}
-
-					while (true) {
-						if ( _tcschr(newbuttontext, '!') != 0) {
-							TCHAR *stringafter = _tcschr(newbuttontext, '!');
-							int pos = (stringafter - newbuttontext);
-							newbuttontext[pos] = '&';
-						}
-						if ( _tcschr(newbuttontext, '!') == 0)
-							break;
-					}
-				}
-				SetDlgItemText(ParentHwnd, IDC_OPEN_URL, newbuttontext);
+				SetDlgItemText(ParentHwnd, IDC_OPEN_URL, FixButtonText(url, SIZEOF(url)));
 
 				SetWindowText(ParentHwnd, str);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_APPLY), 0);
@@ -1170,7 +1176,7 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			HDC hdc = GetDC(hwndDlg);
 
 			lf.lfCharSet = DEFAULT_CHARSET;
-			GetDlgItemText(hwndDlg, IDC_TYPEFACE, lf.lfFaceName, sizeof(lf.lfFaceName));
+			GetDlgItemText(hwndDlg, IDC_TYPEFACE, lf.lfFaceName, SIZEOF(lf.lfFaceName));
 			lf.lfPitchAndFamily = 0;
 			SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_RESETCONTENT, 0, 0);
 			EnumFontFamiliesEx(hdc, &lf, (FONTENUMPROC) EnumFontScriptsProc, (LPARAM) GetDlgItem(hwndDlg, IDC_SCRIPT), 0);
@@ -1314,4 +1320,3 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 	return 0;
 }
-/********************/

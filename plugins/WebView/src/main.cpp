@@ -153,7 +153,7 @@ extern "C" int __declspec(dllexport) Load()
 	mir_getLP(&pluginInfoEx);
 	mir_getCLI();
 
-   strncpy_s(optionsname, MODULENAME, sizeof(optionsname));
+   strncpy_s(optionsname, MODULENAME, SIZEOF(optionsname));
    optionsname[0] = toupper(optionsname[0]);
 
    HookEvent(ME_CLIST_DOUBLECLICKED, Doubleclick);

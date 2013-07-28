@@ -58,13 +58,13 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				char *tempbuffer = (char*)malloc(len + 2);
 
 				GetWindowTextA(GetDlgItem(ParentHwnd, IDC_DATA), tempbuffer, len);
-				strncpy(buff, tempbuffer, sizeof(buff));
+				strncpy(buff, tempbuffer, SIZEOF(buff));
 				free(tempbuffer);
 
 				Filter(buff);
 				CharUpperBuffA(buff, lstrlenA(buff));
 
-				GetDlgItemTextA(hwndDlg, IDC_FINDWHAT, NewSearchstr, sizeof(NewSearchstr));
+				GetDlgItemTextA(hwndDlg, IDC_FINDWHAT, NewSearchstr, SIZEOF(NewSearchstr));
 				CharUpperBuffA(NewSearchstr, lstrlenA(NewSearchstr));
 
 				OLDstartposition = startposition;
@@ -116,11 +116,40 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 }
 
 /*****************************************************************************/
+
+static TCHAR tszSizeString[] = _T("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+
+static HANDLE FindContactByUrl(HWND hwndDlg)
+{
+	HANDLE res = NULL;
+	TCHAR urltext[300], titlebartxt[300];
+	int contactcount = 0;
+
+	GetDlgItemText(hwndDlg, IDC_OPEN_URL, urltext, SIZEOF(urltext));
+	GetWindowText(hwndDlg, titlebartxt, SIZEOF(titlebartxt));
+
+	for (HANDLE hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
+		ptrT db1( db_get_tsa(hContact, MODULENAME, URL_KEY));
+		ptrT db2( db_get_tsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
+
+		if ( !lstrcmp(urltext, db1) && !lstrcmp(titlebartxt, db2)) {
+			contactcount++;
+			if (contactcount > 1) {
+				MessageBox(NULL, TranslateT("ERROR: You have two or more Webview contacts with the same URL and contact name."), _T(MODULENAME), MB_OK);
+				return NULL;
+			}
+			res = hContact;
+		}
+	}
+	return res;
+}
+
 INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	DBVARIANT dbv, dbv2;
+	DBVARIANT dbv;
 	RECT rc;
-	char url[300];
+	TCHAR url[300];
+	HANDLE hContact;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -132,60 +161,18 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			WindowList_Add(hWindowList, hwndDlg, hContact2);
 
 			url[0] = '\0';
-			db_get_s(hContact2, MODULENAME, URL_KEY, &dbv);
-			_snprintf(url, sizeof(url), "%s", dbv.pszVal);
-			db_free(&dbv);
-
-			char buttontext[256];
-			char stringbefore[256];
-			char*stringafter;
-			char newbuttontext[256];
-			int pos = 0;
-			int posafter = 0;
-			int posbefore = 0;
-
-			ZeroMemory(&buttontext, sizeof(buttontext));
-			ZeroMemory(&newbuttontext, sizeof(newbuttontext));
-			_snprintf(buttontext, sizeof(buttontext), "%s", url);
-			_snprintf(newbuttontext, sizeof(newbuttontext), "%s", url);
-
-			if ((strstr(newbuttontext, "&")) != 0) {
-				while (1) {
-					ZeroMemory(&stringbefore, sizeof(stringbefore));
-
-					if ((strstr(newbuttontext, "&")) == 0)
-						break;
-
-					_snprintf(buttontext, sizeof(buttontext), "%s", newbuttontext);
-					stringafter = strstr(buttontext, "&");
-					pos = (stringafter - buttontext);
-					posbefore = (stringafter - buttontext) - 1;
-					posafter = (stringafter - buttontext) + 1;
-					strncpy(&stringafter[0], &stringafter[1], strlen(stringafter));
-					_snprintf(stringbefore, pos, "%s", buttontext);
-					_snprintf(newbuttontext, sizeof(buttontext), "%s%s%s", stringbefore, "!!", stringafter);
-
-					posafter = 0;
-					posbefore = 0;
-				}
-
-				while (1) {
-					if ((strstr(newbuttontext, "!")) != 0) {
-						stringafter = strstr(newbuttontext, "!");
-						pos = (stringafter - newbuttontext);
-						newbuttontext[pos] = '&';
-					}
-					if ((strstr(newbuttontext, "!")) == 0)
-						break;
-				}
+			if ( !db_get_ts(hContact2, MODULENAME, URL_KEY, &dbv)) {
+				_tcsncpy_s(url, SIZEOF(url), dbv.ptszVal, _TRUNCATE);
+				db_free(&dbv);
 			}
-
-			SetDlgItemTextA(hwndDlg, IDC_OPEN_URL, newbuttontext);
+			SetDlgItemText(hwndDlg, IDC_OPEN_URL, FixButtonText(url, SIZEOF(url)));
 
 			char preservename[100];
-			db_get_s(hContact2, MODULENAME, PRESERVE_NAME_KEY, &dbv);
-			mir_snprintf(preservename, sizeof(preservename), "%s", dbv.pszVal);
-			db_free(&dbv);
+			if ( !db_get_s(hContact2, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+				strncpy_s(preservename, SIZEOF(preservename), dbv.pszVal, _TRUNCATE);
+				db_free(&dbv);
+			}
+			else preservename[0] = 0;
 			SetWindowTextA(hwndDlg, preservename);
 
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM) LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE)));
@@ -242,21 +229,16 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SendDlgItemMessage(hwndDlg, IDC_STOP, BUTTONSETASFLATBTN, 0, 0);
 
 			SendDlgItemMessage(hwndDlg, IDC_OPEN_URL, BUTTONSETASFLATBTN, 0, 0);
-			{
-				int partWidth[2];
-				SIZE textSize;
-				HDC hdc;
 
-				hdc = GetDC(GetDlgItem(hwndDlg, IDC_STATUSBAR));
-				SelectObject(hdc, (HFONT) SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, WM_GETFONT, 0, 0));
-				GetTextExtentPoint32A(hdc, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", lstrlenA("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"), &textSize);
-				partWidth[0] = textSize.cx;
-				ReleaseDC(GetDlgItem(hwndDlg, IDC_STATUSBAR), hdc);
-				partWidth[1] = -1;
-				SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, SB_SETPARTS, sizeof(partWidth) / sizeof(partWidth[0]), (LPARAM) partWidth);
-				SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, SB_SETTEXT, 1 | SBT_OWNERDRAW, 0);
+			HDC hdc = GetDC(GetDlgItem(hwndDlg, IDC_STATUSBAR));
+			SelectObject(hdc, (HFONT) SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, WM_GETFONT, 0, 0));
+			SIZE textSize;
+			GetTextExtentPoint32(hdc, tszSizeString, SIZEOF(tszSizeString), &textSize);
+			int partWidth[2] = { textSize.cx, -1 };
+			ReleaseDC(GetDlgItem(hwndDlg, IDC_STATUSBAR), hdc);
 
-			}
+			SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, SB_SETPARTS, SIZEOF(partWidth), (LPARAM)partWidth);
+			SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, SB_SETTEXT, 1 | SBT_OWNERDRAW, 0);
 
 			if ( db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0))
 				Utils_RestoreWindowPosition(hwndDlg, hContact2, MODULENAME, "WV");
@@ -355,108 +337,27 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_OPEN_URL:
-			ZeroMemory(&url, sizeof(url));
-			GetDlgItemTextA(hwndDlg, IDC_OPEN_URL, url, sizeof(url));
-			CallService(MS_UTILS_OPENURL, 1, (LPARAM) url);  
+			GetDlgItemText(hwndDlg, IDC_OPEN_URL, url, SIZEOF(url));
+			CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)url);  
 			db_set_w((HANDLE)wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
 			break;
 
 		case IDC_UPDATE_BUTTON:
-			{
-				char urltext[300];
-				char titlebartxt[300];
-				int contactcount = 0;
-
-				ZeroMemory(&urltext, sizeof(urltext));
-				ZeroMemory(&titlebartxt, sizeof(titlebartxt));
-
-				//GetDlgItemText(hwndDlg, IDC_HIDDEN_URL, urltext, sizeof(urltext));
-				GetDlgItemTextA(hwndDlg, IDC_OPEN_URL, urltext, sizeof(urltext));
-				GetWindowTextA(hwndDlg, titlebartxt, sizeof(titlebartxt));
-
-				for (HANDLE hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
-					db_get_s(hContact, MODULENAME, URL_KEY, &dbv);
-					db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv2);
-
-					if ( !lstrcmpA(urltext, dbv.pszVal) && !lstrcmpA(titlebartxt, dbv2.pszVal)) {
-						contactcount++;
-						if (contactcount > 1) {
-							MessageBox(NULL, TranslateT("ERROR: You have two or more Webview contacts with the same URL and contact name."), _T(MODULENAME), MB_OK);
-							break;
-						}
-						EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE_BUTTON), 0);
-						UpdateMenuCommand(wParam, lParam, hContact);
-					}
-					db_free(&dbv);
-					db_free(&dbv2);
-				}
+			if (hContact = FindContactByUrl(hwndDlg)) {
+				EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE_BUTTON), 0);
+				UpdateMenuCommand(wParam, lParam, hContact);
 			}
 			break;
 
 		case IDC_STOP:
-			{
-				char urltext[300];
-				char titlebartxt[300];
-				int contactcount = 0;
-
-				ZeroMemory(&urltext, sizeof(urltext));
-				ZeroMemory(&titlebartxt, sizeof(titlebartxt));
-
-				//GetDlgItemText(hwndDlg, IDC_HIDDEN_URL, urltext, sizeof(urltext));
-				GetDlgItemTextA(hwndDlg, IDC_OPEN_URL, urltext, sizeof(urltext));
-				GetWindowTextA(hwndDlg, titlebartxt, sizeof(titlebartxt));
-
-				for (HANDLE hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
-					db_get_s(hContact, MODULENAME, URL_KEY, &dbv);
-					db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv2);
-
-					if ( !lstrcmpA(urltext, dbv.pszVal) && !lstrcmpA(titlebartxt, dbv2.pszVal)) {
-						contactcount++;
-						if (contactcount > 1) {
-							MessageBox(NULL, TranslateT("ERROR: You have two or more Webview contacts with the same URL and contact name."), _T(MODULENAME), MB_OK);
-							break;
-						}  
-						db_set_b(hContact, MODULENAME, STOP_KEY, 1); 
-					}
-					db_free(&dbv);
-					db_free(&dbv2);
-				}
-			}
+			if (hContact = FindContactByUrl(hwndDlg))
+				db_set_b(hContact, MODULENAME, STOP_KEY, 1); 
 			break;
 
 		case IDC_STICK_BUTTON:
+			if (hContact = FindContactByUrl(hwndDlg))
+				OnTopMenuCommand(wParam, lParam, hContact);
 			{
-				char urltext2[300];
-				char titlebartxt[300];
-				int contactcount = 0;
-
-				ZeroMemory(&urltext2, sizeof(urltext2));
-				ZeroMemory(&titlebartxt, sizeof(titlebartxt));
-
-				GetDlgItemTextA(hwndDlg, IDC_OPEN_URL, urltext2, sizeof(urltext2));
-				GetWindowTextA(hwndDlg, titlebartxt, sizeof(titlebartxt));
-
-				HANDLE hContact;
-				for (hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
-					db_get_s(hContact, MODULENAME, URL_KEY, &dbv);
-					db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv2);
-
-					if ( !lstrcmpA(urltext2, dbv.pszVal) && !lstrcmpA(titlebartxt, dbv2.pszVal)) {
-						contactcount++;
-						if (contactcount > 1) {
-							MessageBox(NULL, TranslateT("ERROR: You have two or more Webview contacts with the same URL and contact name."), _T(MODULENAME), MB_OK);
-							break;
-						}
-						OnTopMenuCommand(wParam, lParam, hContact);
-						db_free(&dbv);
-						break;
-					}
-					db_free(&dbv);
-					db_free(&dbv2);
-				}
-
-				// ////////
-
 				TCHAR *ptszToolTip;
 				HWND hTopmost;
 				if ( !db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0)) {
@@ -470,7 +371,6 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) ((HICON) LoadImage(hInst, MAKEINTRESOURCE(IDI_UNSTICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0)));
 				SendMessage(GetDlgItem(hwndDlg, IDC_STICK_BUTTON), BUTTONADDTOOLTIP, (WPARAM)ptszToolTip, BATF_TCHAR);
 				SetWindowPos(hwndDlg, hTopmost, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
-				db_free(&dbv);
 			}
 			break;
 
@@ -483,76 +383,22 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			break;
 
 		case IDC_OPTIONS_BUTTON:
-			{
-				char urltext[300];
-				char titlebartxt[300];
-				int contactcount = 0;
-
-				// 
-				ZeroMemory(&urltext, sizeof(urltext));
-				ZeroMemory(&titlebartxt, sizeof(titlebartxt));
-
-				//GetDlgItemText(hwndDlg, IDC_HIDDEN_URL, urltext, sizeof(urltext));
-				GetDlgItemTextA(hwndDlg, IDC_OPEN_URL, urltext, sizeof(urltext));
-				GetWindowTextA(hwndDlg, titlebartxt, sizeof(titlebartxt));
-
-				for (HANDLE hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
-					db_get_s(hContact, MODULENAME, URL_KEY, &dbv);
-					db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv2);
-
-					if ( !lstrcmpA(urltext, dbv.pszVal) && !lstrcmpA(titlebartxt, dbv2.pszVal)) {
-						contactcount++;
-						if (contactcount > 1) {
-							MessageBox(NULL, TranslateT("ERROR: You have two or more Webview contacts with the same URL and contact name."), _T(MODULENAME), MB_OK);
-							break;
-						}
-						ContactHwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONTACT_OPT), hwndDlg, DlgProcContactOpt, (LPARAM) (HANDLE) hContact);
-						ShowWindow(ContactHwnd, SW_SHOW);
-						SetActiveWindow(ContactHwnd);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_OPTIONS_BUTTON), 0);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_ALERT_BUTTON), 0);
-
-					}
-					db_free(&dbv);
-					db_free(&dbv2);
-				}
+			if (hContact = FindContactByUrl(hwndDlg)) {
+				ContactHwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONTACT_OPT), hwndDlg, DlgProcContactOpt, (LPARAM) (HANDLE) hContact);
+				ShowWindow(ContactHwnd, SW_SHOW);
+				SetActiveWindow(ContactHwnd);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_OPTIONS_BUTTON), 0);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_ALERT_BUTTON), 0);
 			}
 			break;
 
 		case IDC_ALERT_BUTTON:
-			{
-				HWND hwndAlertOpt;
-				char urltext[300];
-				char titlebartxt[300];
-				int contactcount = 0;
-
-				ZeroMemory(&urltext, sizeof(urltext));
-				ZeroMemory(&titlebartxt, sizeof(titlebartxt));
-
-				//GetDlgItemText(hwndDlg, IDC_HIDDEN_URL, urltext, sizeof(urltext));
-				GetDlgItemTextA(hwndDlg, IDC_OPEN_URL, urltext, sizeof(urltext));
-				GetWindowTextA(hwndDlg, titlebartxt, sizeof(titlebartxt));
-
-				for (HANDLE hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
-					db_get_s(hContact, MODULENAME, URL_KEY, &dbv);
-					db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv2);
-
-					if ( !lstrcmpA(urltext, dbv.pszVal) && !lstrcmpA(titlebartxt, dbv2.pszVal)) {
-						contactcount++;
-						if (contactcount > 1) {
-							MessageBox(NULL, TranslateT("ERROR: You have two or more Webview contacts with the same URL and contact name."), _T(MODULENAME), MB_OK);
-							break;
-						}
-						hwndAlertOpt = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ALRT_OPT), hwndDlg, DlgProcAlertOpt, (LPARAM) (HANDLE) hContact);
-						ShowWindow(hwndAlertOpt, SW_SHOW);
-						SetActiveWindow(hwndAlertOpt);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_ALERT_BUTTON), 0);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_OPTIONS_BUTTON), 0);
-
-					}
-					db_free(&dbv);
-					db_free(&dbv2);
-				}
+			if (hContact = FindContactByUrl(hwndDlg)) {
+				HWND hwndAlertOpt = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ALRT_OPT), hwndDlg, DlgProcAlertOpt, (LPARAM) (HANDLE) hContact);
+				ShowWindow(hwndAlertOpt, SW_SHOW);
+				SetActiveWindow(hwndAlertOpt);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_ALERT_BUTTON), 0);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_OPTIONS_BUTTON), 0);
 			}
 			break;
 
@@ -565,46 +411,19 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		break;
 
 	case WM_CLOSE:
-		{
-			char urltext[300];
-			char titlebartxt[300];
-			int contactcount = 0;
+		if (Yposition == -32000)
+			Yposition = 100;
 
-			if (Yposition == -32000)
-				Yposition = 100;
+		if (Xposition == -32000)
+			Xposition = 100;
 
-			if (Xposition == -32000)
-				Xposition = 100;
+		SavewinSettings();
 
-			SavewinSettings();
+		if (hContact = FindContactByUrl(hwndDlg))
+			Utils_SaveWindowPosition(hwndDlg, hContact, MODULENAME, "WV");
 
-			/**/
-			// 
-			ZeroMemory(&urltext, sizeof(urltext));
-			ZeroMemory(&titlebartxt, sizeof(titlebartxt));
-
-			//GetDlgItemText(hwndDlg, IDC_HIDDEN_URL, urltext, sizeof(urltext));
-			GetDlgItemTextA(hwndDlg, IDC_OPEN_URL, urltext, sizeof(urltext));
-			GetWindowTextA(hwndDlg, titlebartxt, sizeof(titlebartxt));
-
-			for (HANDLE hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
-				db_get_s(hContact, MODULENAME, URL_KEY, &dbv);
-				db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv2);
-
-				if ( !lstrcmpA(urltext, dbv.pszVal) && !lstrcmpA(titlebartxt, dbv2.pszVal)) {
-					contactcount++;
-					if (contactcount > 1)
-						break;
-
-					Utils_SaveWindowPosition(hwndDlg, hContact, MODULENAME, "WV");
-				}
-				db_free(&dbv);
-				db_free(&dbv2);
-			}
-
-			if (hwndDlg != NULL)
-				DestroyWindow(hwndDlg);
-		}
+		if (hwndDlg != NULL)
+			DestroyWindow(hwndDlg);
 		return 0;
 
 	case WM_DESTROY:
@@ -613,9 +432,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 	case WM_SIZE:
 		{
-			UTILRESIZEDIALOG urd = {0};
-
-			urd.cbSize = sizeof(urd);
+			UTILRESIZEDIALOG urd = { sizeof(urd) };
 			urd.hInstance = hInst;
 			urd.hwndDlg = hwndDlg;
 			urd.lParam = 0;

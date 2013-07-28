@@ -32,9 +32,6 @@ void GetData(HANDLE hContact)
 	int statpos = 0, dispos = 0, statposend = 0;
 	char*pos;
 	DBVARIANT       dbv;
-	NETLIBHTTPREQUEST nlhr = {0}
-	,  *nlhrReply;
-	NETLIBHTTPHEADER headers[2];
 	char tempstring[300], tempstring2[300];
 	int MallocSize = 0;
 	int DownloadSuccess = 0;
@@ -47,7 +44,6 @@ void GetData(HANDLE hContact)
 	unsigned long   downloadsize = 0;
 	int AmountWspcRem = 0;
 	static char contactname[100];
-	char statustext[200];
 	int TherewasAlert = 0;
 	int PosButnClick = 0;
 	char tstr[128];
@@ -75,41 +71,47 @@ void GetData(HANDLE hContact)
 	db_set_b(hContact, MODULENAME, STOP_KEY, 0);  
 
 	if (db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
-		db_free(&dbv);
-		db_get_s(hContact, "CList", "MyHandle", &dbv);
-		db_set_s(hContact, MODULENAME, PRESERVE_NAME_KEY, dbv.pszVal);
+		if ( !db_get_s(hContact, "CList", "MyHandle", &dbv)) {
+			db_set_s(hContact, MODULENAME, PRESERVE_NAME_KEY, dbv.pszVal);
+			db_free(&dbv);
+		}
+	}
+
+	if ( !db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+		strncpy_s(contactname, SIZEOF(contactname), dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
-	db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv);
-	_snprintf(contactname, sizeof(contactname), "%s", dbv.pszVal);
-	db_free(&dbv);
 
 	url[0] = '\0';
 
 	if (!Startingup)
 		db_set_b(NULL, MODULENAME, HAS_CRASHED_KEY, 1);
 
-	db_get_s(hContact, MODULENAME, START_STRING_KEY, &dbv);
-	_snprintf(tempstring, sizeof(tempstring), "%s", dbv.pszVal);
-	db_free(&dbv);
+	if ( !db_get_s(hContact, MODULENAME, START_STRING_KEY, &dbv)) {
+		strncpy_s(tempstring, SIZEOF(tempstring), dbv.pszVal, _TRUNCATE);
+		db_free(&dbv);
+	}
 
-	db_get_s(hContact, MODULENAME, END_STRING_KEY, &dbv);
-	_snprintf(tempstring2, sizeof(tempstring2), "%s", dbv.pszVal);
-	db_free(&dbv);
+	if ( !db_get_s(hContact, MODULENAME, END_STRING_KEY, &dbv)) {
+		strncpy_s(tempstring2, SIZEOF(tempstring2), dbv.pszVal, _TRUNCATE);
+		db_free(&dbv);
+	}
 
-	db_get_s(hContact, MODULENAME, URL_KEY, &dbv);
-	_snprintf(url, sizeof(url), "%s", dbv.pszVal);
-	db_free(&dbv);
+	if ( !db_get_s(hContact, MODULENAME, URL_KEY, &dbv)) {
+		strncpy_s(url, SIZEOF(url), dbv.pszVal, _TRUNCATE);
+		db_free(&dbv);
+	}
 
 	if (strlen(url) < 3)
 		WErrorPopup(hContact, TranslateT("URL not supplied"));
 
-	nlhr.cbSize = sizeof(nlhr);
+	NETLIBHTTPREQUEST nlhr = { sizeof(nlhr) };
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT;
 	nlhr.szUrl = url;
 	nlhr.headersCount = 2;
 
+	NETLIBHTTPHEADER headers[2];
 	headers[0].szName = "User-Agent";
 	headers[0].szValue = "Mozilla/4.0 (compatible; MSIE 6.0; Win32)";
 
@@ -130,14 +132,10 @@ void GetData(HANDLE hContact)
 		EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE_BUTTON), 1);
 
 		SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Download in progress, please wait..."));
-
-		ZeroMemory(&statustext, sizeof(statustext));
-		_snprintf(statustext, sizeof(statustext), "%s", Translate("Updating..."));
-		db_set_s(hContact, "CList", "StatusMsg", statustext);
-
+		db_set_ts(hContact, "CList", "StatusMsg", TranslateT("Updating..."));
 		db_set_w(hContact, MODULENAME, "Status", ID_STATUS_DND); // download 
 
-		nlhrReply = (NETLIBHTTPREQUEST *) CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM) hNetlibUser, (LPARAM) & nlhr);
+		NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST *) CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM) hNetlibUser, (LPARAM) & nlhr);
 		if (nlhrReply) {
 			if (nlhrReply->resultCode < 200 || nlhrReply->resultCode >= 300) {
 				db_set_w(hContact, MODULENAME, "Status", ID_STATUS_AWAY);
@@ -167,12 +165,10 @@ void GetData(HANDLE hContact)
 			db_set_w(hContact, MODULENAME, "Status", ID_STATUS_NA);
 			HWND hwndDlg = (WindowList_Find(hWindowList, hContact));
 
-			SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("The server is down or lagging."));
-			WErrorPopup(hContact, TranslateT("The server is down or lagging."));
-
-			ZeroMemory(&statustext, sizeof(statustext));
-			_snprintf(statustext, sizeof(statustext), "%s", Translate("The server is down."));
-			db_set_s(hContact, "CList", "StatusMsg", statustext);
+			TCHAR *statusText = TranslateT("The server is down or lagging.");
+			SetDlgItemText(hwndDlg, IDC_STATUSBAR, statusText);
+			WErrorPopup(hContact, statusText);
+			db_set_ts(hContact, "CList", "StatusMsg", statusText);
 		}
 
 		if (!(nlhrReply))
@@ -301,14 +297,13 @@ void GetData(HANDLE hContact)
 					strftime(temptime, 128, "(%b %d,%H:%M:%S)", nTime);
 
 				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 1)
-					_snprintf(tstr, sizeof(tstr), "%s %s", temptime, dbv.pszVal);
+					mir_snprintf(tstr, SIZEOF(tstr), "%s %s", temptime, dbv.pszVal);
 				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 0)
-					_snprintf(tstr, sizeof(tstr), "%s %s", dbv.pszVal, temptime);
+					mir_snprintf(tstr, SIZEOF(tstr), "%s %s", dbv.pszVal, temptime);
 				db_free(&dbv);
 			}
-			else if (db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
-				db_free(&dbv);
-				db_get_s(hContact, "CList", "MyHandle", &dbv);
+			else {
+				db_get_ts(hContact, "CList", "MyHandle", &dbv);
 				ZeroMemory(&temptime, sizeof(temptime));
 				ZeroMemory(&tstr, sizeof(tstr));
 				ftime = time(NULL);
@@ -320,29 +315,22 @@ void GetData(HANDLE hContact)
 				if (db_get_b(hContact, MODULENAME, USE_24_HOUR_KEY, 0) == 1)
 					strftime(temptime, 128, "(%b %d,%H:%M:%S)", nTime);
 
-				db_set_s(hContact, MODULENAME, PRESERVE_NAME_KEY, dbv.pszVal);
+				db_set_ts(hContact, MODULENAME, PRESERVE_NAME_KEY, dbv.ptszVal);
 				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 1)
-					_snprintf(tstr, sizeof(tstr), "%s %s", temptime, dbv.pszVal);
+					mir_snprintf(tstr, SIZEOF(tstr), "%s %s", temptime, dbv.pszVal);
 				if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 0)
-					_snprintf(tstr, sizeof(tstr), "%s %s", dbv.pszVal, temptime);
+					mir_snprintf(tstr, SIZEOF(tstr), "%s %s", dbv.pszVal, temptime);
 				db_free(&dbv);
 			}
-			
-			ZeroMemory(&timeprefix, sizeof(timeprefix));
-			ZeroMemory(&temptime1, sizeof(temptime1));
-			ZeroMemory(&timeat, sizeof(timeat));
-			ZeroMemory(&temptime2, sizeof(temptime2));
-			ZeroMemory(&timestring, sizeof(timestring));
 
 			ftime = time(NULL);
 			nTime = localtime(&ftime);
 
-			_snprintf(timeprefix, sizeof(timeprefix), " %s ", (Translate("Last updated on")));
+			mir_snprintf(timeprefix, SIZEOF(timeprefix), " %s ", Translate("Last updated on"));
 			strftime(temptime1, 32, " %a, %b %d, %Y ", nTime);
-			_snprintf(timeat, sizeof(timeat), "%s", (Translate("at the time")));
+			mir_snprintf(timeat, SIZEOF(timeat), "%s", Translate("at the time"));
 			strftime(temptime2, 32, " %I:%M %p.", nTime);
-			_snprintf(timestring, sizeof(timestring), "%s%s%s%s", timeprefix, temptime1, timeat, temptime2);
-
+			mir_snprintf(timestring, SIZEOF(timestring), "%s%s%s%s", timeprefix, temptime1, timeat, temptime2);
 		} // end download success 
 
 		if (DownloadSuccess) {
@@ -356,16 +344,17 @@ void GetData(HANDLE hContact)
 
 				eventIndex = db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0);
 				if (eventIndex == 2) {
-					strncpy(buff, truncated, sizeof(buff));
+					strncpy(buff, truncated, SIZEOF(buff));
 					Filter(buff);
 
-					db_get_s(hContact, MODULENAME, ALRT_S_STRING_KEY, &dbv);
-					_snprintf(Alerttempstring, sizeof(Alerttempstring), "%s", dbv.pszVal);
-					db_free(&dbv);
-
-					db_get_s(hContact, MODULENAME, ALRT_E_STRING_KEY, &dbv);
-					_snprintf(Alerttempstring2, sizeof(Alerttempstring2), "%s", dbv.pszVal);
-					db_free(&dbv);
+					if ( !db_get_s(hContact, MODULENAME, ALRT_S_STRING_KEY, &dbv)) {
+						strncpy_s(Alerttempstring, SIZEOF(Alerttempstring), dbv.pszVal, _TRUNCATE);
+						db_free(&dbv);
+					}
+					if ( !db_get_s(hContact, MODULENAME, ALRT_E_STRING_KEY, &dbv)) {
+						strncpy_s(Alerttempstring2, SIZEOF(Alerttempstring2), dbv.pszVal, _TRUNCATE);
+						db_free(&dbv);
+					}
 
 					// putting data into string    
 					if (((strstr(buff, Alerttempstring)) != 0) && ((strstr(buff, Alerttempstring2)) != 0)) {
@@ -461,7 +450,7 @@ LBL_Stop:			TCHAR *statusText = TranslateT("Processing data stopped by user.");
 					if ((truncated[strlen(truncated) - 1] == truncated[strlen(truncated) - 2]) && (truncated[strlen(truncated) - 2] == truncated[strlen(truncated) - 3])) {
 						int counterx = 0;
 
-						while (1) {
+						while (true) {
 							counterx++;
 							if (truncated[strlen(truncated) - counterx] != truncated[strlen(truncated) - 1]) {
 								truncated[(strlen(truncated) - counterx) + 2] = '\0';

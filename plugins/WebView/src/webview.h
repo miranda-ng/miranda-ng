@@ -155,6 +155,7 @@ void SavewinSettings(void);
 void ValidatePosition(HWND hwndDlg);
 int  ModulesLoaded(WPARAM wParam, LPARAM lParam);
 void ChangeMenuItem3();
+TCHAR* FixButtonText(TCHAR *url, size_t len);
 int  ContactMenuItemUpdateData (WPARAM wParam, LPARAM lParam);
 
 int Doubleclick(WPARAM wParam, LPARAM lParam);

@@ -144,7 +144,7 @@ INT_PTR OpenCacheDir(WPARAM wParam, LPARAM lParam)
 {
 	//GET NAME FOR CACHE
 	TCHAR cachepath[MAX_PATH], cachedirectorypath[MAX_PATH];
-	GetModuleFileName(hInst, cachepath, sizeof(cachepath));
+	GetModuleFileName(hInst, cachepath, SIZEOF(cachepath));
 	TCHAR *cacheend = _tcsrchr(cachepath, '\\');
 	cacheend++;
 	*cacheend = '\0';
@@ -172,7 +172,7 @@ INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	TCHAR Cnick[200], *Oldnick;
-	_tcsncpy(Cnick, url, sizeof(Cnick));
+	_tcsncpy(Cnick, url, SIZEOF(Cnick));
 	if ((Oldnick = _tcsstr(Cnick, _T("://"))) != 0)
 		Oldnick += 3;
 	else 
@@ -338,11 +338,8 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 {
 	PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT *) lParam;
 	DBVARIANT dbv;
-	TCHAR Cnick[255];
 	int sameurl = 0;
 	int samename = 0;
-
-	ZeroMemory(&Cnick, sizeof(Cnick));
 
 	// search for existing contact
 	HANDLE hContact;
@@ -382,8 +379,11 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 	db_set_b(hContact, MODULENAME, RWSPACE_KEY, 1);
 
 	//Convert url into a name for contact
+	TCHAR Cnick[255];
 	if (psr->nick != NULL)
 		_tcsncpy(Cnick, psr->nick, SIZEOF(Cnick));
+	else
+		Cnick[0] = 0;
 
 	TCHAR *Oldnick = _tcsstr(Cnick, _T("://"));
 	if (Oldnick != 0)

@@ -209,7 +209,7 @@ int OSDAlert(WPARAM wParam, LPARAM lParam)
 	else lstrcpyA(contactname, MODULENAME);
 
 	char *displaytext = (char*)lParam;
-	mir_snprintf(newdisplaytext, sizeof(newdisplaytext), "%s: %s", contactname, Translate(displaytext));
+	mir_snprintf(newdisplaytext, SIZEOF(newdisplaytext), "%s: %s", contactname, Translate(displaytext));
 
 	if (ServiceExists("OSD/Announce"))
 		CallService("OSD/Announce", (WPARAM) newdisplaytext, 0);
@@ -260,7 +260,7 @@ void SaveToFile(HANDLE hContact, char *truncated)
 	char url[300]; url[0] = '\0';
 	DBVARIANT dbv;
 	db_get_s(hContact, MODULENAME, URL_KEY, &dbv);
-	_snprintf(url, sizeof(url), "%s", dbv.pszVal);
+	mir_snprintf(url, SIZEOF(url), "%s", dbv.pszVal);
 	db_free(&dbv);
 
 	db_get_s(hContact, MODULENAME, FILE_KEY, &dbv);
@@ -276,10 +276,10 @@ void SaveToFile(HANDLE hContact, char *truncated)
 		time_t ftime = time(NULL);
 		struct tm *nTime = localtime(&ftime);
 
-		mir_snprintf(timeprefix, sizeof(timeprefix), " %s ", Translate("Last updated on"));
+		mir_snprintf(timeprefix, SIZEOF(timeprefix), " %s ", Translate("Last updated on"));
 		strftime(temptime1, 32, " %a, %b %d, %Y ", nTime);
 		strftime(temptime2, 32, " %I:%M %p.", nTime);
-		mir_snprintf(timestring, sizeof(timestring), "(%s)%s\n%s,%s\n", MODULENAME, url, temptime1, temptime2);
+		mir_snprintf(timestring, SIZEOF(timestring), "(%s)%s\n%s,%s\n", MODULENAME, url, temptime1, temptime2);
 
 		fputs(timestring, pfile);
 		fwrite(truncated, strlen(truncated), 1, pfile);
@@ -314,7 +314,7 @@ int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactnam
 	ZeroMemory(&tempraw, sizeof(tempraw));
 	ZeroMemory(&raw, sizeof(raw));
 
-	strncpy(tempraw, truncated, sizeof(tempraw));
+	strncpy(tempraw, truncated, SIZEOF(tempraw));
 
 	ZeroMemory(&alertstring, sizeof(alertstring));
 	ZeroMemory(&Alerttempstring, sizeof(Alerttempstring));
@@ -393,7 +393,7 @@ int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactnam
 
 			if (eventIndex == 0) { // string present
 				if ( !db_get_s(hContact, MODULENAME, ALERT_STRING_KEY, &tdbv)) {
-					strncpy(alertstring, tdbv.pszVal, sizeof(alertstring));
+					strncpy(alertstring, tdbv.pszVal, SIZEOF(alertstring));
 					db_free(&tdbv);
 
 					if ((strstr(tempraw, alertstring)) != 0) { // // ENDALERT EVENT:CHECK FOR STRING
@@ -469,7 +469,7 @@ int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactnam
 			else if (eventIndex == 1) { // webpage changed
 				// TEST GET NAME FOR CACHE
 				TCHAR cachepath[MAX_PATH], cachedirectorypath[MAX_PATH], newcachepath[MAX_PATH + 50];
-				GetModuleFileName(hInst, cachepath, sizeof(cachepath));
+				GetModuleFileName(hInst, cachepath, SIZEOF(cachepath));
 				TCHAR *cacheend = _tcsrchr(cachepath, '\\');
 				cacheend++;
 				*cacheend = '\0';
@@ -563,11 +563,11 @@ int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactnam
 
 			if (eventIndex == 2) { // part of webpage changed
 				db_get_s(hContact, MODULENAME, ALRT_S_STRING_KEY, &tdbv);
-				mir_snprintf(Alerttempstring, sizeof(Alerttempstring), "%s", tdbv.pszVal);
+				mir_snprintf(Alerttempstring, SIZEOF(Alerttempstring), "%s", tdbv.pszVal);
 				db_free(&tdbv);
 
 				db_get_s(hContact, MODULENAME, ALRT_E_STRING_KEY, &tdbv);
-				mir_snprintf(Alerttempstring2, sizeof(Alerttempstring2), "%s", tdbv.pszVal);
+				mir_snprintf(Alerttempstring2, SIZEOF(Alerttempstring2), "%s", tdbv.pszVal);
 				db_free(&tdbv);
 
 				// putting data into string
@@ -848,7 +848,7 @@ void ReadFromFile(HANDLE hContact)
 
 	char contactname[100];
 	db_get_s(hContact, "CList", "MyHandle", &dbv);
-	mir_snprintf(contactname, sizeof(contactname), "%s", dbv.pszVal);
+	mir_snprintf(contactname, SIZEOF(contactname), "%s", dbv.pszVal);
 	db_free(&dbv);
 
 	db_get_s(hContact, MODULENAME, CACHE_FILE_KEY, &dbv);		

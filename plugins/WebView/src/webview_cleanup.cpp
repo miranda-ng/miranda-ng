@@ -371,7 +371,7 @@ void CodetoSymbol(char *truncated)
 	static char *stringfrompos;
 
 	for (int n = 0; n < AMOUNT3; n++) {
-		while (1) { // loop forever
+		while (true) { // loop forever
 			Sleep(1); // avoid 100% CPU
 
 			if ( strstr(truncated, CharacterCodes[n]) != 0) { // does character code exist?
@@ -411,7 +411,7 @@ void EraseBlock(char *truncated)
 
 	// ///////////////////////////
 
-	while (1) {
+	while (true) {
 		Sleep(1); // avoid 100% CPU
 		// /get start and end of block
 
@@ -451,7 +451,7 @@ void EraseBlock(char *truncated)
 	positionEnd = 0;
 
 	// 2//
-	while (1) {
+	while (true) {
 		Sleep(1); // avoid 100% CPU
 		// /get start and end of block
 
@@ -499,7 +499,7 @@ void EraseBlock(char *truncated)
 
 	// ////
 	// 3//
-	while (1)
+	while (true)
 	{
 		Sleep(1); // avoid 100% CPU
 		// /get start and end of block
@@ -547,7 +547,7 @@ void EraseBlock(char *truncated)
 
 	// 4//
 
-	while (1) {
+	while (true) {
 		Sleep(1); // avoid 100% CPU
 		// /get start and end of block
 		if (strstr(tempraw, "{") != 0) // does tag exist?
@@ -600,7 +600,7 @@ void EraseSymbols(char *truncated)
 		strncpy(tempraw, truncated, MAXSIZE1);
 
 	// //////
-	while (1) {
+	while (true) {
 		Sleep(1); // avoid 100% CPU
 
 		/**/
@@ -609,7 +609,7 @@ void EraseSymbols(char *truncated)
 			stringfrompos = strstr(tempraw, "&#");
 			position = stringfrompos - tempraw;
 
-			while (1) {
+			while (true) {
 				tempraw[position + counter] = ' ';
 				counter++;
 				if (counter > 20)
@@ -642,7 +642,7 @@ void NumSymbols(char *truncated)
 	if (truncated)
 		strncpy(tempraw, truncated, MAXSIZE1);
 
-	while (1) {
+	while (true) {
 		Sleep(1); // avoid 100% CPU
 
 		counter = 0;
@@ -651,7 +651,7 @@ void NumSymbols(char *truncated)
 			stringfrompos = strstr(tempraw, "&#");
 			position = stringfrompos - tempraw;
 
-			while (1) {
+			while (true) {
 				if (counter > 1)
 					symbol[counter - 2] = tempraw[position + counter];
 
@@ -788,7 +788,7 @@ void Removewhitespace(char *truncated)
 void Filter(char *truncated)
 {
 	char tempraw[MAXSIZE1];
-	strncpy(tempraw, truncated, sizeof(tempraw));
+	strncpy(tempraw, truncated, SIZEOF(tempraw));
 
 	for (int counter = 0; counter < lstrlenA(tempraw); counter++)
 		if ((tempraw[counter] == '\n') || (tempraw[counter] == '\r') || (tempraw[counter] == '\t'))
