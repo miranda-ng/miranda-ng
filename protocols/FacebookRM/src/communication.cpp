@@ -237,6 +237,7 @@ DWORD facebook_client::choose_security_level(RequestType request_type)
 //	case REQUEST_NOTIFICATIONS:
 //	case REQUEST_RECONNECT:
 //	case REQUEST_POST_STATUS:
+//	case REQUEST_IDENTITY_SWITCH:
 //	case REQUEST_STATUS_COMPOSER:
 //	case REQUEST_LINK_SCRAPER:
 //	case REQUEST_MESSAGE_SEND:
@@ -264,6 +265,7 @@ int facebook_client::choose_method(RequestType request_type)
 	case REQUEST_SETUP_MACHINE:
 	case REQUEST_BUDDY_LIST:
 	case REQUEST_POST_STATUS:
+	case REQUEST_IDENTITY_SWITCH:
 	case REQUEST_STATUS_COMPOSER:
 	case REQUEST_LINK_SCRAPER:
 	case REQUEST_MESSAGE_SEND:
@@ -341,6 +343,7 @@ std::string facebook_client::choose_server(RequestType request_type, std::string
 //	case REQUEST_NOTIFICATIONS:
 //	case REQUEST_RECONNECT:
 //	case REQUEST_POST_STATUS:
+//	case REQUEST_IDENTITY_SWITCH:
 //	case REQUEST_STATUS_COMPOSER:
 //	case REQUEST_LINK_SCRAPER:
 //	case REQUEST_MESSAGE_SEND:
@@ -497,6 +500,9 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 
 	case REQUEST_POST_STATUS:
 		return "/ajax/updatestatus.php?__a=1";
+
+	case REQUEST_IDENTITY_SWITCH:
+		return "/identity_switch.php?__a=1";
 
 	case REQUEST_STATUS_COMPOSER:
 		return "/ajax/profile/composer.php?__a=1";
@@ -1309,6 +1315,13 @@ bool facebook_client::post_status(status_data *status)
 	if (status == NULL || status->text.empty())
 		return handle_success("post_status");
 
+	if (status->isPage) {
+		std::string data = "fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
+		data += "&user_id=" + status->user_id;
+		data += "&url=" + std::string(FACEBOOK_URL_HOMEPAGE);
+		flap(REQUEST_IDENTITY_SWITCH, &data);
+	}
+
 	std::string data;
 	RequestType request = REQUEST_POST_STATUS;
 
@@ -1332,23 +1345,33 @@ bool facebook_client::post_status(status_data *status)
 	}
 
 	std::string text = utils::url::encode(status->text);
-	
+
 	data += "fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
 	data += "&xhpc_targetid=" + (status->user_id.empty() ? this->self_.user_id : status->user_id);
 	data += "&__user=" + (status->isPage && !status->user_id.empty() ? status->user_id : this->self_.user_id);
 	data += "&xhpc_message=" + text;
 	data += "&xhpc_message_text=" + text;
-	data += "&audience[0][value]=" + get_privacy_type();
+	if (!status->isPage)
+		data += "&audience[0][value]=" + get_privacy_type();
 	if (!status->place.empty()) {
 		data += "&composertags_place_name=";
 		data += utils::url::encode(status->place);
 	}
 
+	data += "&xhpc_context=profile&xhpc_ismeta=1&xhpc_timeline=1&xhpc_composerid=u_0_2y&is_explicit_place=&composertags_place=&composertags_city=";
+
 	http::response resp = flap(request, &data);
+
+	if (status->isPage) {
+		std::string data = "fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
+		data += "&user_id=" + this->self_.user_id;
+		data += "&url=" + std::string(FACEBOOK_URL_HOMEPAGE);
+		flap(REQUEST_IDENTITY_SWITCH, &data);
+	}
 
 	validate_response(&resp);
 	if (resp.error_number != 0 && !resp.error_text.empty())
-		client_notify(_A2T(resp.error_text.c_str()));
+		client_notify(ptrT(mir_utf8decodeT(resp.error_text.c_str())));
 
 	switch (resp.code)
 	{

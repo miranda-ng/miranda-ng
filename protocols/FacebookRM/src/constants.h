@@ -90,6 +90,7 @@ enum RequestType {
 	REQUEST_DTSG,				// getting __fb_dtsg__
 	REQUEST_RECONNECT,			// getting __sequence_num__ and __channel_id__
 	REQUEST_VISIBILITY,			// setting chat visibility
+	REQUEST_IDENTITY_SWITCH,	// changing identity to post status from pages
 
 	REQUEST_FEEDS,				// getting feeds
 	REQUEST_NOTIFICATIONS,		// getting notifications
