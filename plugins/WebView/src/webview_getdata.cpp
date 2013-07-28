@@ -147,8 +147,9 @@ void GetData(HANDLE hContact)
 				db_set_ts(hContact, "CList", "StatusMsg", statusText);
 			}
 			if (nlhrReply->dataLength) {
-				szInfo = (char*)malloc(lstrlenA(nlhrReply->pData) + 2);
-				lstrcpynA(szInfo, nlhrReply->pData, lstrlenA(nlhrReply->pData));
+				int cbLen = lstrlenA(nlhrReply->pData);
+				szInfo = (char*)malloc(cbLen + 2);
+				lstrcpynA(szInfo, nlhrReply->pData, cbLen);
 				downloadsize = lstrlenA(nlhrReply->pData);
 
 				trunccount = 0;
@@ -326,11 +327,11 @@ void GetData(HANDLE hContact)
 			ftime = time(NULL);
 			nTime = localtime(&ftime);
 
-			mir_snprintf(timeprefix, SIZEOF(timeprefix), " %s ", Translate("Last updated on"));
+			strncpy_s(timeprefix, SIZEOF(timeprefix), Translate("Last updated on"), _TRUNCATE);
+			strncpy_s(timeat, SIZEOF(timeat), Translate("at the time"), _TRUNCATE);
 			strftime(temptime1, 32, " %a, %b %d, %Y ", nTime);
-			mir_snprintf(timeat, SIZEOF(timeat), "%s", Translate("at the time"));
 			strftime(temptime2, 32, " %I:%M %p.", nTime);
-			mir_snprintf(timestring, SIZEOF(timestring), "%s%s%s%s", timeprefix, temptime1, timeat, temptime2);
+			mir_snprintf(timestring, SIZEOF(timestring), " %s %s%s%s", timeprefix, temptime1, timeat, temptime2);
 		} // end download success 
 
 		if (DownloadSuccess) {

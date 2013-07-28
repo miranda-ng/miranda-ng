@@ -158,20 +158,22 @@ int PopupAlert(WPARAM wParam, LPARAM lParam)
 	POPUPDATA ppd = { 0 };
 	if (((HANDLE)wParam) != NULL) {
 		DBVARIANT dbv;
-		db_get_s((HANDLE)wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv);
-		lstrcpynA(ppd.lptzContactName, dbv.pszVal, SIZEOF(ppd.lptzContactName));
-		db_free(&dbv);
+		if ( !db_get_s((HANDLE)wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+			lstrcpynA(ppd.lptzContactName, dbv.pszVal, SIZEOF(ppd.lptzContactName));
+			db_free(&dbv);
+		}
 	}
-	else lstrcpyA(ppd.lptzContactName, MODULENAME);
+	if (ppd.lptzContactName[0] == 0)
+		strncpy_s(ppd.lptzContactName, SIZEOF(ppd.lptzContactName), MODULENAME, _TRUNCATE);
 
 	ppd.lchContact = (HANDLE)wParam;
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
 
 	char *displaytext = (char*)lParam;
 	if ((strlen(displaytext) == MAX_SECONDLINE) ||  (strlen(displaytext) > MAX_SECONDLINE))
-		mir_snprintf(ppd.lpzText, SIZEOF(ppd.lpzText), "%s", displaytext);
+		strncpy_s(ppd.lpzText, SIZEOF(ppd.lpzText), displaytext, _TRUNCATE);
 	else if (strlen(displaytext) < MAX_SECONDLINE)
-		mir_snprintf(ppd.lpzText, SIZEOF(ppd.lpzText), Translate(displaytext));
+		strncpy_s(ppd.lpzText, SIZEOF(ppd.lpzText), Translate(displaytext), _TRUNCATE);
 
 	if ( db_get_b(NULL, MODULENAME, POP_USECUSTCLRS_KEY, 0)) {
 		ppd.colorBack = db_get_dw(NULL, MODULENAME, POP_BG_CLR_KEY, Def_color_bg);
@@ -199,20 +201,23 @@ int PopupAlert(WPARAM wParam, LPARAM lParam)
 int OSDAlert(WPARAM wParam, LPARAM lParam)
 {
 	char contactname[255], newdisplaytext[2000];
+	contactname[0] = 0;
 
 	if (((HANDLE)wParam) != NULL) {
 		DBVARIANT dbv;
-		db_get_s((HANDLE)wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv);
-		lstrcpynA(contactname, dbv.pszVal, SIZEOF(contactname));
-		db_free(&dbv);
+		if ( !db_get_s((HANDLE)wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
+			strncpy_s(contactname, SIZEOF(contactname), dbv.pszVal, _TRUNCATE);
+			db_free(&dbv);
+		}
 	}
-	else lstrcpyA(contactname, MODULENAME);
+	if (contactname[0] == 0)
+		strncpy_s(contactname, SIZEOF(contactname), MODULENAME, _TRUNCATE);
 
 	char *displaytext = (char*)lParam;
 	mir_snprintf(newdisplaytext, SIZEOF(newdisplaytext), "%s: %s", contactname, Translate(displaytext));
 
 	if (ServiceExists("OSD/Announce"))
-		CallService("OSD/Announce", (WPARAM) newdisplaytext, 0);
+		CallService("OSD/Announce", (WPARAM)newdisplaytext, 0);
 
 	return 0;
 }
@@ -259,11 +264,14 @@ void SaveToFile(HANDLE hContact, char *truncated)
 
 	char url[300]; url[0] = '\0';
 	DBVARIANT dbv;
-	db_get_s(hContact, MODULENAME, URL_KEY, &dbv);
-	mir_snprintf(url, SIZEOF(url), "%s", dbv.pszVal);
-	db_free(&dbv);
+	if ( !db_get_s(hContact, MODULENAME, URL_KEY, &dbv)) {
+		strncpy_s(url, SIZEOF(url), dbv.pszVal, _TRUNCATE);
+		db_free(&dbv);
+	}
 
-	db_get_s(hContact, MODULENAME, FILE_KEY, &dbv);
+	if ( db_get_s(hContact, MODULENAME, FILE_KEY, &dbv))
+		return;
+
 	FILE *pfile = fopen(dbv.pszVal, mode);
 	if (pfile == NULL)
 		WErrorPopup(hContact, TranslateT("Cannot write to file"));
@@ -305,12 +313,9 @@ int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactnam
 	static char cachecompare[MAXSIZE1];
 	static char raw[MAXSIZE1];
 
+	int alertIndex = 0, eventIndex = 0;
+
 	char tempraw[MAXSIZE1];
-	int alertIndex = 0;
-	int eventIndex = 0;
-
-	//MessageBox(NULL, contactname, "pro-contname2", MB_OK);  
-
 	ZeroMemory(&tempraw, sizeof(tempraw));
 	ZeroMemory(&raw, sizeof(raw));
 
@@ -323,203 +328,92 @@ int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactnam
 
 	// alerts
 	if ( db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0)) { // ALERTS
-		if (!db_get_s(hContact, MODULENAME, ALRT_INDEX_KEY, &tdbv)) { // TYPES
-			alertIndex = db_get_b(hContact, MODULENAME, ALRT_INDEX_KEY, 0);
-			db_free(&tdbv);
-
-			if (!db_get_s(hContact, MODULENAME, EVNT_INDEX_KEY, &tdbv)) {
-				eventIndex = db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0);
-				db_free(&tdbv);
+		alertIndex = db_get_b(hContact, MODULENAME, ALRT_INDEX_KEY, 0);
+		eventIndex = db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0);
+		if ((notpresent)) {
+			if (alertIndex == 0) { // Popup
+				Sleep(1000);
+				WAlertPopup(hContact, TranslateT("Start/end strings not found or strings not set."));
+				// contactlist name//
+				if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+					db_set_s(hContact, "CList", "MyHandle", tstr);
 			}
-			if ((notpresent)) {
-				if (alertIndex == 0) { // Popup
-					Sleep(1000);
-					WAlertPopup(hContact, TranslateT("Start/end strings not found or strings not set."));
-					// contactlist name//
-					if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
-						db_set_s(hContact, "CList", "MyHandle", tstr);
-				}
-				else if (alertIndex == 1) { // log to file
-					if ( !db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
-						int AmountWspcRem = 0;
+			else if (alertIndex == 1) { // log to file
+				if ( !db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
+					int AmountWspcRem = 0;
 
-						if ( !db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
-							CodetoSymbol(tempraw);
-							Sleep(100); // avoid 100% CPU
+					if ( !db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
+						CodetoSymbol(tempraw);
+						Sleep(100); // avoid 100% CPU
 
-							EraseBlock(tempraw);
-							Sleep(100); // avoid 100% CPU
+						EraseBlock(tempraw);
+						Sleep(100); // avoid 100% CPU
 
-							FastTagFilter(tempraw);
-							Sleep(100); // avoid 100% CPU
+						FastTagFilter(tempraw);
+						Sleep(100); // avoid 100% CPU
 
-							NumSymbols(tempraw);
-							Sleep(100); // avoid 100% CPU
+						NumSymbols(tempraw);
+						Sleep(100); // avoid 100% CPU
 
-							EraseSymbols(tempraw);
-							Sleep(100); // avoid 100% CPU
+						EraseSymbols(tempraw);
+						Sleep(100); // avoid 100% CPU
 
-							AmountWspcRem = db_get_b(hContact, MODULENAME, RWSPACE_KEY, 0);
-							RemoveInvis(tempraw, AmountWspcRem);
-							Sleep(100); // avoid 100% CPU
+						AmountWspcRem = db_get_b(hContact, MODULENAME, RWSPACE_KEY, 0);
+						RemoveInvis(tempraw, AmountWspcRem);
+						Sleep(100); // avoid 100% CPU
 
-							Removewhitespace(tempraw);
-						}
-
-						SaveToFile(hContact, tempraw);
-						db_free(&tdbv);
-
-						if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
-							db_set_s(hContact, "CList", "MyHandle", tstr);
+						Removewhitespace(tempraw);
 					}
-				} 
-				else if (alertIndex == 3) {
-					WAlertOSD(hContact, TranslateT("Alert start/end strings not found or strings not set."));
-					if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
-						db_set_s(hContact, "CList", "MyHandle", tstr);
-				}
-				else if (eventIndex == 2) {
-					WDisplayDataAlert(hContact);
 
-					if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
-						db_set_s(hContact, "CList", "MyHandle", tstr);
-
-					HWND hwndDlg = (WindowList_Find(hWindowList, hContact));
-
-					SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Start/end strings not found or strings not set."));
-				}
-				else MessageBox(NULL, TranslateT("Start/end strings not found or strings not set."), _T(MODULENAME), MB_OK);
-			}
-
-			if (eventIndex == 0) { // string present
-				if ( !db_get_s(hContact, MODULENAME, ALERT_STRING_KEY, &tdbv)) {
-					strncpy(alertstring, tdbv.pszVal, SIZEOF(alertstring));
+					SaveToFile(hContact, tempraw);
 					db_free(&tdbv);
 
-					if ((strstr(tempraw, alertstring)) != 0) { // // ENDALERT EVENT:CHECK FOR STRING
-						// there was an alert
-						wasAlert = 1;
-
-						// play sound?
-						SkinPlaySound("webviewalert");
-						//
-						if ((!notpresent)) {
-							if (alertIndex == 0) { // popup
-								mir_sntprintf(displaystring, SIZEOF(displaystring), _T("%s \"%S\" %s."), Translate("The string"), alertstring, Translate("has been found on the web page"));
-								WAlertPopup(hContact, displaystring);
-
-								// contactlist name//
-								if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
-									db_set_s(hContact, "CList", "MyHandle", tstr);
-							} //
-							else if (alertIndex == 1) {
-								if (!db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
-									int AmountWspcRem = 0;
-									if ( !db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
-										CodetoSymbol(tempraw);
-										Sleep(100); // avoid 100% CPU
-
-										EraseBlock(tempraw);
-										Sleep(100); // avoid 100% CPU
-
-										FastTagFilter(tempraw);
-										Sleep(100); // avoid 100% CPU
-
-										NumSymbols(tempraw);
-										Sleep(100); // avoid 100% CPU
-
-										EraseSymbols(tempraw);
-										Sleep(100); // avoid 100% CPU
-
-										AmountWspcRem = db_get_b(hContact, MODULENAME, RWSPACE_KEY, 0);
-										RemoveInvis(tempraw, AmountWspcRem);
-										Sleep(100); // avoid 100% CPU
-
-										Removewhitespace(tempraw);
-									}
-									SaveToFile(hContact, tempraw);
-									db_free(&tdbv);
-
-									if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
-										db_set_s(hContact, "CList", "MyHandle", tstr);
-								}
-							}
-							else if (alertIndex == 3) {
-								mir_sntprintf(displaystring, SIZEOF(displaystring), _T("%s \"%s\" %s."), TranslateT("The string"), alertstring, TranslateT("has been found on the web page"));
-								WAlertOSD(hContact, displaystring);
-
-								// contactlist name//
-								if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
-									db_set_s(hContact, "CList", "MyHandle", tstr);
-							}
-							else if (alertIndex == 2) {
-								WDisplayDataAlert(hContact);
-								// contactlist name//
-								if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
-									db_set_s(hContact, "CList", "MyHandle", tstr);
-
-								HWND hwndDlg = WindowList_Find(hWindowList, hContact);
-								SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Download successful; about to process data..."));
-							}
-							else MessageBox(NULL, TranslateT("Unknown Alert Type."), _T(MODULENAME), MB_OK);
-						}
-					}
+					if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+						db_set_s(hContact, "CList", "MyHandle", tstr);
 				}
+			} 
+			else if (alertIndex == 3) {
+				WAlertOSD(hContact, TranslateT("Alert start/end strings not found or strings not set."));
+				if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+					db_set_s(hContact, "CList", "MyHandle", tstr);
 			}
-			else if (eventIndex == 1) { // webpage changed
-				// TEST GET NAME FOR CACHE
-				TCHAR cachepath[MAX_PATH], cachedirectorypath[MAX_PATH], newcachepath[MAX_PATH + 50];
-				GetModuleFileName(hInst, cachepath, SIZEOF(cachepath));
-				TCHAR *cacheend = _tcsrchr(cachepath, '\\');
-				cacheend++;
-				*cacheend = '\0';
+			else if (eventIndex == 2) {
+				WDisplayDataAlert(hContact);
 
-				mir_sntprintf(cachedirectorypath, SIZEOF(cachedirectorypath), _T("%s%S%S"), cachepath, MODULENAME, "cache\\");
-				CreateDirectory(cachedirectorypath, NULL);
-				mir_sntprintf(newcachepath, SIZEOF(newcachepath), _T("%s%S%S%S%S"), cachepath, MODULENAME, "cache\\", contactname, ".txt");
-				// file exists?
-				if ( _taccess(newcachepath, 0) != -1) {
-					if ((pcachefile = _tfopen(newcachepath, _T("r"))) == NULL)
-						WErrorPopup(contactname, TranslateT("Cannot read from file"));
-					else {
-						ZeroMemory(&cachecompare, sizeof(cachecompare));
-						fread(cachecompare, sizeof(cachecompare), 1, pcachefile);
-						fclose(pcachefile);
-					}
-				}
-				// write to cache
-				if ((pcachefile = _tfopen(newcachepath, _T("w"))) == NULL)
-					WErrorPopup(contactname, TranslateT("Cannot write to file 1"));
-				else {
-					fwrite(tempraw, strlen(tempraw), 1, pcachefile); //smaller cache
-					fclose(pcachefile);
-					db_set_ts(hContact, MODULENAME, CACHE_FILE_KEY, newcachepath);
-				}
-				// end write to cache
+				if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+					db_set_s(hContact, "CList", "MyHandle", tstr);
 
-				if (strncmp(tempraw, cachecompare, strlen(tempraw)) != 0) { //lets try this instead
-					// play sound?
-					SkinPlaySound("webviewalert");
+				HWND hwndDlg = (WindowList_Find(hWindowList, hContact));
+
+				SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Start/end strings not found or strings not set."));
+			}
+			else MessageBox(NULL, TranslateT("Start/end strings not found or strings not set."), _T(MODULENAME), MB_OK);
+		}
+
+		if (eventIndex == 0) { // string present
+			if ( !db_get_s(hContact, MODULENAME, ALERT_STRING_KEY, &tdbv)) {
+				strncpy_s(alertstring, SIZEOF(alertstring), tdbv.pszVal, _TRUNCATE);
+				db_free(&tdbv);
+
+				if ((strstr(tempraw, alertstring)) != 0) { // // ENDALERT EVENT:CHECK FOR STRING
 					// there was an alert
 					wasAlert = 1;
 
-					if (!notpresent) {
+					// play sound?
+					SkinPlaySound("webviewalert");
+					//
+					if ((!notpresent)) {
 						if (alertIndex == 0) { // popup
-							WAlertPopup(hContact, TranslateT("The Web Page Has Changed."));
+							mir_sntprintf(displaystring, SIZEOF(displaystring), _T("%s \"%S\" %s."), Translate("The string"), alertstring, Translate("has been found on the web page"));
+							WAlertPopup(hContact, displaystring);
+
 							// contactlist name//
 							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
 								db_set_s(hContact, "CList", "MyHandle", tstr);
-						}
-						else if (alertIndex == 3) { // osd
-							WAlertOSD(hContact, TranslateT("The Web Page Has Changed."));
-							// contactlist name//
-							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
-								db_set_s(hContact, "CList", "MyHandle", tstr);
-						}
-						else if (alertIndex == 1) { // log
+						} //
+						else if (alertIndex == 1) {
 							if (!db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
 								int AmountWspcRem = 0;
-
 								if ( !db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
 									CodetoSymbol(tempraw);
 									Sleep(100); // avoid 100% CPU
@@ -542,42 +436,166 @@ int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactnam
 
 									Removewhitespace(tempraw);
 								}
-
 								SaveToFile(hContact, tempraw);
 								db_free(&tdbv);
-								// contactlist name//
+
 								if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
 									db_set_s(hContact, "CList", "MyHandle", tstr);
 							}
 						}
-						else if (alertIndex == 2) { // window
+						else if (alertIndex == 3) {
+							mir_sntprintf(displaystring, SIZEOF(displaystring), _T("%s \"%s\" %s."), TranslateT("The string"), alertstring, TranslateT("has been found on the web page"));
+							WAlertOSD(hContact, displaystring);
+
+							// contactlist name//
+							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+								db_set_s(hContact, "CList", "MyHandle", tstr);
+						}
+						else if (alertIndex == 2) {
 							WDisplayDataAlert(hContact);
 							// contactlist name//
 							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
 								db_set_s(hContact, "CList", "MyHandle", tstr);
+
+							HWND hwndDlg = WindowList_Find(hWindowList, hContact);
+							SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Download successful; about to process data..."));
 						}
 						else MessageBox(NULL, TranslateT("Unknown Alert Type."), _T(MODULENAME), MB_OK);
 					}
 				}
 			}
+		}
+		else if (eventIndex == 1) { // webpage changed
+			// TEST GET NAME FOR CACHE
+			TCHAR cachepath[MAX_PATH], cachedirectorypath[MAX_PATH], newcachepath[MAX_PATH + 50];
+			GetModuleFileName(hInst, cachepath, SIZEOF(cachepath));
+			TCHAR *cacheend = _tcsrchr(cachepath, '\\');
+			cacheend++;
+			*cacheend = '\0';
 
-			if (eventIndex == 2) { // part of webpage changed
-				db_get_s(hContact, MODULENAME, ALRT_S_STRING_KEY, &tdbv);
-				mir_snprintf(Alerttempstring, SIZEOF(Alerttempstring), "%s", tdbv.pszVal);
+			mir_sntprintf(cachedirectorypath, SIZEOF(cachedirectorypath), _T("%s%S%S"), cachepath, MODULENAME, "cache\\");
+			CreateDirectory(cachedirectorypath, NULL);
+			mir_sntprintf(newcachepath, SIZEOF(newcachepath), _T("%s%S%S%S%S"), cachepath, MODULENAME, "cache\\", contactname, ".txt");
+			// file exists?
+			if ( _taccess(newcachepath, 0) != -1) {
+				if ((pcachefile = _tfopen(newcachepath, _T("r"))) == NULL)
+					WErrorPopup(contactname, TranslateT("Cannot read from file"));
+				else {
+					ZeroMemory(&cachecompare, sizeof(cachecompare));
+					fread(cachecompare, sizeof(cachecompare), 1, pcachefile);
+					fclose(pcachefile);
+				}
+			}
+			// write to cache
+			if ((pcachefile = _tfopen(newcachepath, _T("w"))) == NULL)
+				WErrorPopup(contactname, TranslateT("Cannot write to file 1"));
+			else {
+				fwrite(tempraw, strlen(tempraw), 1, pcachefile); //smaller cache
+				fclose(pcachefile);
+				db_set_ts(hContact, MODULENAME, CACHE_FILE_KEY, newcachepath);
+			}
+			// end write to cache
+
+			if (strncmp(tempraw, cachecompare, strlen(tempraw)) != 0) { //lets try this instead
+				// play sound?
+				SkinPlaySound("webviewalert");
+				// there was an alert
+				wasAlert = 1;
+
+				if (!notpresent) {
+					if (alertIndex == 0) { // popup
+						WAlertPopup(hContact, TranslateT("The Web Page Has Changed."));
+						// contactlist name//
+						if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+							db_set_s(hContact, "CList", "MyHandle", tstr);
+					}
+					else if (alertIndex == 3) { // osd
+						WAlertOSD(hContact, TranslateT("The Web Page Has Changed."));
+						// contactlist name//
+						if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+							db_set_s(hContact, "CList", "MyHandle", tstr);
+					}
+					else if (alertIndex == 1) { // log
+						if (!db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
+							int AmountWspcRem = 0;
+
+							if ( !db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
+								CodetoSymbol(tempraw);
+								Sleep(100); // avoid 100% CPU
+
+								EraseBlock(tempraw);
+								Sleep(100); // avoid 100% CPU
+
+								FastTagFilter(tempraw);
+								Sleep(100); // avoid 100% CPU
+
+								NumSymbols(tempraw);
+								Sleep(100); // avoid 100% CPU
+
+								EraseSymbols(tempraw);
+								Sleep(100); // avoid 100% CPU
+
+								AmountWspcRem = db_get_b(hContact, MODULENAME, RWSPACE_KEY, 0);
+								RemoveInvis(tempraw, AmountWspcRem);
+								Sleep(100); // avoid 100% CPU
+
+								Removewhitespace(tempraw);
+							}
+
+							SaveToFile(hContact, tempraw);
+							db_free(&tdbv);
+							// contactlist name//
+							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+								db_set_s(hContact, "CList", "MyHandle", tstr);
+						}
+					}
+					else if (alertIndex == 2) { // window
+						WDisplayDataAlert(hContact);
+						// contactlist name//
+						if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+							db_set_s(hContact, "CList", "MyHandle", tstr);
+					}
+					else MessageBox(NULL, TranslateT("Unknown Alert Type."), _T(MODULENAME), MB_OK);
+				}
+			}
+		}
+
+		if (eventIndex == 2) { // part of webpage changed
+			Alerttempstring[0] = Alerttempstring2[0] = 0;
+			if ( !db_get_s(hContact, MODULENAME, ALRT_S_STRING_KEY, &tdbv)) {
+				strncpy_s(Alerttempstring, SIZEOF(Alerttempstring), tdbv.pszVal, _TRUNCATE);
 				db_free(&tdbv);
-
-				db_get_s(hContact, MODULENAME, ALRT_E_STRING_KEY, &tdbv);
-				mir_snprintf(Alerttempstring2, SIZEOF(Alerttempstring2), "%s", tdbv.pszVal);
+			}
+			if ( !db_get_s(hContact, MODULENAME, ALRT_E_STRING_KEY, &tdbv)) {
+				strncpy_s(Alerttempstring2, SIZEOF(Alerttempstring2), tdbv.pszVal, _TRUNCATE);
 				db_free(&tdbv);
+			}
 
-				// putting data into string
-				if (((strstr(tempraw, Alerttempstring)) != 0) && ((strstr(tempraw, Alerttempstring2)) != 0)) {
+			// putting data into string
+			if (((strstr(tempraw, Alerttempstring)) != 0) && ((strstr(tempraw, Alerttempstring2)) != 0)) {
+				//start string
+				alertpos = strstr(tempraw, Alerttempstring);
+				statalertpos = alertpos - tempraw;
+
+				ZeroMemory(&alertpos, sizeof(alertpos));
+				//end string
+				alertpos = strstr(tempraw, Alerttempstring2);
+				statalertposend = alertpos - tempraw + (int)strlen(Alerttempstring2);
+
+				if (statalertpos > statalertposend) {
+					memset(&tempraw, ' ', statalertpos);
+					ZeroMemory(&alertpos, sizeof(alertpos));
+					alertpos = strstr(tempraw, Alerttempstring2);
+					statalertposend = alertpos - tempraw + (int)strlen(Alerttempstring2);
+				}
+
+				if (statalertpos < statalertposend) {
+					ZeroMemory(&raw, sizeof(raw));
 
 					//start string
 					alertpos = strstr(tempraw, Alerttempstring);
 					statalertpos = alertpos - tempraw;
 
-					ZeroMemory(&alertpos, sizeof(alertpos));
 					//end string
 					alertpos = strstr(tempraw, Alerttempstring2);
 					statalertposend = alertpos - tempraw + (int)strlen(Alerttempstring2);
@@ -588,42 +606,128 @@ int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactnam
 						alertpos = strstr(tempraw, Alerttempstring2);
 						statalertposend = alertpos - tempraw + (int)strlen(Alerttempstring2);
 					}
+					disalertpos = 0;
 
-					if (statalertpos < statalertposend) {
-						ZeroMemory(&raw, sizeof(raw));
+					//write selected data to string
+					strncpy(raw, &tempraw[statalertpos], (statalertposend - statalertpos));
+					raw[(statalertposend - statalertpos)] = '\0';
+				}
+			} // end putting data into string
+			else { // start and/or end string not present
+				if (alertIndex == 0) { // popup
+					Sleep(1000);
+					WAlertPopup(hContact, TranslateT("Alert start/end strings not found or strings not set."));
+					// contactlist name//
+					if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+						db_set_s(hContact, "CList", "MyHandle", tstr);
+				}
+				else if (alertIndex == 1) { // LOG
+					if (!notpresent) { // dont log to file twice if both types of start/end strings not present
+						if ( !db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
+							int AmountWspcRem = 0;
+							if ( !db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
+								CodetoSymbol(tempraw);
+								Sleep(100); // avoid 100% CPU
 
-						//start string
-						alertpos = strstr(tempraw, Alerttempstring);
-						statalertpos = alertpos - tempraw;
+								EraseBlock(tempraw);
+								Sleep(100); // avoid 100% CPU
 
-						//end string
-						alertpos = strstr(tempraw, Alerttempstring2);
-						statalertposend = alertpos - tempraw + (int)strlen(Alerttempstring2);
+								FastTagFilter(tempraw);
+								Sleep(100); // avoid 100% CPU
 
-						if (statalertpos > statalertposend) {
-							memset(&tempraw, ' ', statalertpos);
-							ZeroMemory(&alertpos, sizeof(alertpos));
-							alertpos = strstr(tempraw, Alerttempstring2);
-							statalertposend = alertpos - tempraw + (int)strlen(Alerttempstring2);
+								NumSymbols(tempraw);
+								Sleep(100); // avoid 100% CPU
+
+								EraseSymbols(tempraw);
+								Sleep(100); // avoid 100% CPU
+
+								AmountWspcRem = db_get_b(hContact, MODULENAME, RWSPACE_KEY, 0);
+								RemoveInvis(tempraw, AmountWspcRem);
+								Sleep(100); // avoid 100% CPU
+
+								Removewhitespace(tempraw);
+							}
+
+							SaveToFile(hContact, tempraw);
+							db_free(&tdbv);
+							// contactlist name
+							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+								db_set_s(hContact, "CList", "MyHandle", tstr);
 						}
-						disalertpos = 0;
+					}
+				} 
+				else if (alertIndex == 3) { // osd
+					WAlertOSD(hContact, TranslateT("Alert start/end strings not found or strings not set."));
+					// contactlist name//
+					if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+						db_set_s(hContact, "CList", "MyHandle", tstr);
+				}
+				else if (alertIndex == 2) { // window
+					WDisplayDataAlert(hContact);
+					// contactlist name//
+					if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+						db_set_s(hContact, "CList", "MyHandle", tstr);
 
-						//write selected data to string
-						strncpy(raw, &tempraw[statalertpos], (statalertposend - statalertpos));
-						raw[(statalertposend - statalertpos)] = '\0';
+					HWND hwndDlg = (WindowList_Find(hWindowList, hContact));
+					SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Alert start/end strings not found or strings not set."));
+				}
+				else MessageBox(NULL, TranslateT("Alert start/end strings not found or strings not set."), _T(MODULENAME), MB_OK);
+
+				db_set_w(hContact, MODULENAME, "Status", ID_STATUS_AWAY);
+			}
+
+			///////////////
+			if (((strstr(tempraw, Alerttempstring)) != 0) && ((strstr(tempraw, Alerttempstring2)) != 0)) {
+				// TEST GET NAME FOR CACHE
+				TCHAR cachepath[MAX_PATH], cachedirectorypath[MAX_PATH], newcachepath[MAX_PATH + 50];
+				GetModuleFileName(hInst, cachepath, SIZEOF(cachepath));
+				TCHAR *cacheend = _tcsrchr(cachepath, '\\');
+				cacheend++;
+				*cacheend = '\0';
+
+				mir_sntprintf(cachedirectorypath, SIZEOF(cachedirectorypath), _T("%s%S%S"), cachepath, MODULENAME, "cache\\");
+				CreateDirectory(cachedirectorypath, NULL);
+				mir_sntprintf(newcachepath, SIZEOF(newcachepath), _T("%s%S%S%S%S"), cachepath, MODULENAME, "cache\\", contactname, ".txt");
+				// file exists?
+				if ( _taccess(newcachepath, 0) != -1) {
+					if ((pcachefile = _tfopen(newcachepath, _T("r"))) == NULL)
+						WErrorPopup(contactname, TranslateT("Cannot read from file"));
+					else {
+						ZeroMemory(&cachecompare, sizeof(cachecompare));
+						fread(cachecompare, sizeof(cachecompare), 1, pcachefile);
+						fclose(pcachefile);
 					}
-				} // end putting data into string
-				else { // start and/or end string not present
-					if (alertIndex == 0) { // popup
-						Sleep(1000);
-						WAlertPopup(hContact, TranslateT("Alert start/end strings not found or strings not set."));
-						// contactlist name//
-						if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
-							db_set_s(hContact, "CList", "MyHandle", tstr);
-					}
-					else if (alertIndex == 1) { // LOG
-						if (!notpresent) { // dont log to file twice if both types of start/end strings not present
-							if ( !db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
+				}
+				// write to cache
+				if ((pcachefile = _tfopen(newcachepath, _T("w"))) == NULL)
+					WErrorPopup(contactname, TranslateT("Cannot write to file 2"));
+				else {
+					fwrite(raw, strlen(raw), 1, pcachefile); //smaller cache
+					db_set_ts(hContact, MODULENAME, CACHE_FILE_KEY, newcachepath);
+					fclose(pcachefile);
+				}
+				// end write to cache
+				if (strncmp(raw, cachecompare, (strlen(raw))) != 0) { //lets try this instead
+					// play sound?
+					SkinPlaySound("webviewalert");
+					// there was an alert
+					wasAlert = 1;
+
+					if (!notpresent) {
+						if (alertIndex == 0) { // popup
+							WAlertPopup(hContact, TranslateT("Specific Part Of The Web Page Has Changed."));
+							// contactlist name//
+							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+								db_set_s(hContact, "CList", "MyHandle", tstr);
+						}
+						else if (alertIndex == 3) { // osd
+							WAlertOSD(hContact, TranslateT("Specific Part Of The Web Page Has Changed."));
+							// contactlist name//
+							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+								db_set_s(hContact, "CList", "MyHandle", tstr);
+						}
+						else if (alertIndex == 1) { // log to file
+							if (!db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
 								int AmountWspcRem = 0;
 								if ( !db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
 									CodetoSymbol(tempraw);
@@ -655,118 +759,13 @@ int ProcessAlerts(HANDLE hContact, char *truncated, char *tstr, char *contactnam
 									db_set_s(hContact, "CList", "MyHandle", tstr);
 							}
 						}
-					} 
-					else if (alertIndex == 3) { // osd
-						WAlertOSD(hContact, TranslateT("Alert start/end strings not found or strings not set."));
-						// contactlist name//
-						if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
-							db_set_s(hContact, "CList", "MyHandle", tstr);
-					}
-					else if (alertIndex == 2) { // window
-						WDisplayDataAlert(hContact);
-						// contactlist name//
-						if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
-							db_set_s(hContact, "CList", "MyHandle", tstr);
-
-						HWND hwndDlg = (WindowList_Find(hWindowList, hContact));
-						SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Alert start/end strings not found or strings not set."));
-					}
-					else MessageBox(NULL, TranslateT("Alert start/end strings not found or strings not set."), _T(MODULENAME), MB_OK);
-
-					db_set_w(hContact, MODULENAME, "Status", ID_STATUS_AWAY);
-				}
-
-				///////////////
-				if (((strstr(tempraw, Alerttempstring)) != 0) && ((strstr(tempraw, Alerttempstring2)) != 0)) {
-					// TEST GET NAME FOR CACHE
-					TCHAR cachepath[MAX_PATH], cachedirectorypath[MAX_PATH], newcachepath[MAX_PATH + 50];
-					GetModuleFileName(hInst, cachepath, SIZEOF(cachepath));
-					TCHAR *cacheend = _tcsrchr(cachepath, '\\');
-					cacheend++;
-					*cacheend = '\0';
-
-					mir_sntprintf(cachedirectorypath, SIZEOF(cachedirectorypath), _T("%s%S%S"), cachepath, MODULENAME, "cache\\");
-					CreateDirectory(cachedirectorypath, NULL);
-					mir_sntprintf(newcachepath, SIZEOF(newcachepath), _T("%s%S%S%S%S"), cachepath, MODULENAME, "cache\\", contactname, ".txt");
-					// file exists?
-					if ( _taccess(newcachepath, 0) != -1) {
-						if ((pcachefile = _tfopen(newcachepath, _T("r"))) == NULL)
-							WErrorPopup(contactname, TranslateT("Cannot read from file"));
-						else {
-							ZeroMemory(&cachecompare, sizeof(cachecompare));
-							fread(cachecompare, sizeof(cachecompare), 1, pcachefile);
-							fclose(pcachefile);
+						else if (alertIndex == 2) { // window
+							WDisplayDataAlert(hContact);
+							// contactlist name//
+							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
+								db_set_s(hContact, "CList", "MyHandle", tstr);
 						}
-					}
-					// write to cache
-					if ((pcachefile = _tfopen(newcachepath, _T("w"))) == NULL)
-						WErrorPopup(contactname, TranslateT("Cannot write to file 2"));
-					else {
-						fwrite(raw, strlen(raw), 1, pcachefile); //smaller cache
-						db_set_ts(hContact, MODULENAME, CACHE_FILE_KEY, newcachepath);
-						fclose(pcachefile);
-					}
-					// end write to cache
-					if (strncmp(raw, cachecompare, (strlen(raw))) != 0) { //lets try this instead
-						// play sound?
-						SkinPlaySound("webviewalert");
-						// there was an alert
-						wasAlert = 1;
-
-						if (!notpresent) {
-							if (alertIndex == 0) { // popup
-								WAlertPopup(hContact, TranslateT("Specific Part Of The Web Page Has Changed."));
-								// contactlist name//
-								if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
-									db_set_s(hContact, "CList", "MyHandle", tstr);
-							}
-							else if (alertIndex == 3) { // osd
-								WAlertOSD(hContact, TranslateT("Specific Part Of The Web Page Has Changed."));
-								// contactlist name//
-								if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
-									db_set_s(hContact, "CList", "MyHandle", tstr);
-							}
-							else if (alertIndex == 1) { // log to file
-								if (!db_get_s(hContact, MODULENAME, FILE_KEY, &tdbv)) {
-									int AmountWspcRem = 0;
-									if ( !db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0)) {
-										CodetoSymbol(tempraw);
-										Sleep(100); // avoid 100% CPU
-
-										EraseBlock(tempraw);
-										Sleep(100); // avoid 100% CPU
-
-										FastTagFilter(tempraw);
-										Sleep(100); // avoid 100% CPU
-
-										NumSymbols(tempraw);
-										Sleep(100); // avoid 100% CPU
-
-										EraseSymbols(tempraw);
-										Sleep(100); // avoid 100% CPU
-
-										AmountWspcRem = db_get_b(hContact, MODULENAME, RWSPACE_KEY, 0);
-										RemoveInvis(tempraw, AmountWspcRem);
-										Sleep(100); // avoid 100% CPU
-
-										Removewhitespace(tempraw);
-									}
-
-									SaveToFile(hContact, tempraw);
-									db_free(&tdbv);
-									// contactlist name
-									if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
-										db_set_s(hContact, "CList", "MyHandle", tstr);
-								}
-							}
-							else if (alertIndex == 2) { // window
-								WDisplayDataAlert(hContact);
-								// contactlist name//
-								if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
-									db_set_s(hContact, "CList", "MyHandle", tstr);
-							}
-							else MessageBox(NULL, TranslateT("Unknown Alert Type."), _T(MODULENAME), MB_OK);
-						}
+						else MessageBox(NULL, TranslateT("Unknown Alert Type."), _T(MODULENAME), MB_OK);
 					}
 				}
 			}
@@ -846,12 +845,15 @@ void ReadFromFile(HANDLE hContact)
 
 	HWND hwndDlg = WindowList_Find(hWindowList, hContact);
 
-	char contactname[100];
-	db_get_s(hContact, "CList", "MyHandle", &dbv);
-	mir_snprintf(contactname, SIZEOF(contactname), "%s", dbv.pszVal);
-	db_free(&dbv);
+	char contactname[100]; contactname[0] = 0;
+	if ( !db_get_s(hContact, "CList", "MyHandle", &dbv)) {
+		strncpy_s(contactname, SIZEOF(contactname), dbv.pszVal, _TRUNCATE);
+		db_free(&dbv);
+	}
 
-	db_get_s(hContact, MODULENAME, CACHE_FILE_KEY, &dbv);		
+	if ( db_get_s(hContact, MODULENAME, CACHE_FILE_KEY, &dbv))
+		return;
+
 	FILE *pfile;
 	if ((pfile = fopen(dbv.pszVal, "r")) == NULL) {
 		SendToRichEdit(hwndDlg, Translate("Cannot read from cache file"), TextClr, BackgoundClr);
