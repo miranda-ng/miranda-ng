@@ -867,7 +867,7 @@ void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const TCHAR *ol
 	JABBER_RESOURCE_STATUS *r = item->findResource(oldNick);
 	if (r == NULL)
 		return;
-	
+
 	replaceStrT(r->resourceName, newNick);
 
 	if ( !lstrcmp(item->nick, oldNick)) {
@@ -1100,7 +1100,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 		ptrT str( JabberErrorMsg(errorNode, &errorCode));
 
 		if (errorCode == JABBER_ERROR_CONFLICT) {
-			ptrT newNick( db_get_tsa(NULL, m_szModuleName, "GcAltNick"));
+			ptrT newNick( getTStringA("GcAltNick"));
 			if (++item->iChatState == 1 && newNick != NULL && newNick[0] != 0) {
 				replaceStrT(item->nick, newNick);
 				TCHAR text[1024] = { 0 };

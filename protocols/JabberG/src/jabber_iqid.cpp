@@ -331,7 +331,7 @@ void CJabberProto::OnIqResultSession(HXML iqNode, CJabberIqInfo* pInfo)
 
 void CJabberProto::GroupchatJoinByHContact(HANDLE hContact, bool autojoin)
 {
-	ptrT roomjid( db_get_tsa(hContact, m_szModuleName, "ChatRoomID"));
+	ptrT roomjid( getTStringA(hContact, "ChatRoomID"));
 	if (roomjid == NULL)
 		return;
 
@@ -342,7 +342,7 @@ void CJabberProto::GroupchatJoinByHContact(HANDLE hContact, bool autojoin)
 
 	server[0] = 0; server++;
 
-	ptrT nick( db_get_tsa(hContact, m_szModuleName, "MyNick"));
+	ptrT nick( getTStringA(hContact, "MyNick"));
 	if (nick == NULL) {
 		nick = JabberNickFromJID(m_szJabberJID);
 		if (nick == NULL)
@@ -520,7 +520,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 	if (m_options.RosterSync == TRUE) {
 		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; ) {
 			HANDLE hNext = db_find_next(hContact, m_szModuleName);
-			ptrT jid( db_get_tsa(hContact, m_szModuleName, "jid"));
+			ptrT jid( getTStringA(hContact, "jid"));
 			if (jid != NULL && !ListGetItemPtr(LIST_ROSTER, jid)) {
 				Log("Syncing roster: preparing to delete %S (hContact=0x%x)", jid, hContact);
 				CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
@@ -1028,10 +1028,10 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 		}	}
 
 		if (hasFn && !hasNick) {
-			ptrT nick( db_get_tsa(hContact, m_szModuleName, "Nick"));
+			ptrT nick( getTStringA(hContact, "Nick"));
 			ptrT jidNick( JabberNickFromJID(jid));
 			if (!nick || (jidNick && !_tcsicmp(nick, jidNick)))
-				setTString(hContact, "Nick", ptrT( db_get_tsa(hContact, m_szModuleName, "FullName")));
+				setTString(hContact, "Nick", ptrT( getTStringA(hContact, "FullName")));
 		}
 		if ( !hasFn)
 			delSetting(hContact, "FullName");

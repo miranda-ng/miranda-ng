@@ -127,7 +127,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		SendDlgItemMessage(hwnd,IDC_MINDMSG,EM_LIMITTEXT,FACEBOOK_MIND_LIMIT,0);
 		SendDlgItemMessage(hwnd,IDC_URL,EM_LIMITTEXT,1024,0);
 
-		ptrT place = db_get_tsa(NULL, proto->m_szModuleName, FACEBOOK_KEY_PLACE);
+		ptrT place = proto->getTStringA(FACEBOOK_KEY_PLACE);
 		SetDlgItemText(hwnd, IDC_PLACE, place != NULL ? place : _T("Miranda NG"));
 
 		for(size_t i=0; i<SIZEOF(privacy_types); i++)
@@ -191,7 +191,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			//char *narrow = mir_t2a_cp(mindMessage,CP_UTF8);
 			proto->ForkThread(&FacebookProto::SetAwayMsgWorker, data);
 
-			EndDialog(hwnd, wparam); 
+			EndDialog(hwnd, wparam);
 			return TRUE;
 		}
 		else if (LOWORD(wparam) == IDCANCEL)
@@ -262,10 +262,10 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			return TRUE;
 		}
 
-		if (LOWORD(wparam) == IDC_SECURE) {			
+		if (LOWORD(wparam) == IDC_SECURE) {
 			EnableWindow(GetDlgItem(hwnd, IDC_SECURE_CHANNEL), IsDlgButtonChecked(hwnd, IDC_SECURE));
-		}		
-		
+		}
+
 		if ((LOWORD(wparam)==IDC_UN || LOWORD(wparam)==IDC_PW || LOWORD(wparam)==IDC_GROUP) &&
 		    (HIWORD(wparam)!=EN_CHANGE || (HWND)lparam!=GetFocus()))
 			return 0;
@@ -297,7 +297,7 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			StoreDBCheckState(proto, hwnd, IDC_SET_IGNORE_STATUS, FACEBOOK_KEY_DISABLE_STATUS_NOTIFY);
 			StoreDBCheckState(proto, hwnd, IDC_BIGGER_AVATARS, FACEBOOK_KEY_BIG_AVATARS);
 			StoreDBCheckState(proto, hwnd, IDC_LOAD_MOBILE, FACEBOOK_KEY_LOAD_MOBILE);
-			
+
 			return TRUE;
 		}
 		break;
@@ -332,7 +332,7 @@ INT_PTR CALLBACK FBOptionsAdvancedProc(HWND hwnd, UINT message, WPARAM wparam, L
 		LoadDBCheckState(proto, hwnd, IDC_LOGGING, FACEBOOK_KEY_LOGGING_ENABLE, DEFAULT_LOGGING_ENABLE);
 		LoadDBCheckState(proto, hwnd, IDC_MAP_STATUSES, FACEBOOK_KEY_MAP_STATUSES, DEFAULT_MAP_STATUSES);
 		LoadDBCheckState(proto, hwnd, IDC_CUSTOM_SMILEYS, FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS);
-		
+
 		LoadDBCheckState(proto, hwnd, IDC_USE_LOCAL_TIME, FACEBOOK_KEY_LOCAL_TIMESTAMP, 0);
 
 		EnableWindow(GetDlgItem(hwnd, IDC_SECURE_CHANNEL), IsDlgButtonChecked(hwnd, IDC_SECURE));
@@ -341,15 +341,15 @@ INT_PTR CALLBACK FBOptionsAdvancedProc(HWND hwnd, UINT message, WPARAM wparam, L
 	}
 
 	case WM_COMMAND: {
-		if (LOWORD(wparam) == IDC_SECURE) {			
+		if (LOWORD(wparam) == IDC_SECURE) {
 			EnableWindow(GetDlgItem(hwnd, IDC_SECURE_CHANNEL), IsDlgButtonChecked(hwnd, IDC_SECURE));
-		}		
-		
+		}
+
 		if (LOWORD(wparam) == IDC_SECURE_CHANNEL && IsDlgButtonChecked(hwnd, IDC_SECURE_CHANNEL))
 			MessageBox(hwnd, TranslateT("Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly."), proto->m_tszUserName, MB_OK);
 
 		SendMessage(GetParent(hwnd),PSM_CHANGED,0,0);
-		
+
 		break;
 	}
 
@@ -365,7 +365,7 @@ INT_PTR CALLBACK FBOptionsAdvancedProc(HWND hwnd, UINT message, WPARAM wparam, L
 			StoreDBCheckState(proto, hwnd, IDC_MAP_STATUSES, FACEBOOK_KEY_MAP_STATUSES);
 			StoreDBCheckState(proto, hwnd, IDC_CUSTOM_SMILEYS, FACEBOOK_KEY_CUSTOM_SMILEYS);
 			StoreDBCheckState(proto, hwnd, IDC_USE_LOCAL_TIME, FACEBOOK_KEY_LOCAL_TIMESTAMP);
-			
+
 			BOOL setStatus = IsDlgButtonChecked(hwnd, IDC_SET_STATUS);
 			BOOL setStatusOld = proto->getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, DEFAULT_SET_MIRANDA_STATUS);
 			if (setStatus != setStatusOld)
@@ -378,7 +378,7 @@ INT_PTR CALLBACK FBOptionsAdvancedProc(HWND hwnd, UINT message, WPARAM wparam, L
 			return TRUE;
 		}
 
-		break;	
+		break;
 	}
 
 	return FALSE;
@@ -389,7 +389,7 @@ INT_PTR CALLBACK FBEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 {
 	FacebookProto *proto = reinterpret_cast<FacebookProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 
-	switch(message) 
+	switch(message)
 	{
 
 	case WM_INITDIALOG:
@@ -397,7 +397,7 @@ INT_PTR CALLBACK FBEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 		TranslateDialogDefault(hwnd);
 
 		proto = reinterpret_cast<FacebookProto*>(lparam);
-		SetWindowLongPtr(hwnd,GWLP_USERDATA,lparam);		
+		SetWindowLongPtr(hwnd,GWLP_USERDATA,lparam);
 
 		for(size_t i=0; i<SIZEOF(feed_types); i++)
 		{
@@ -448,10 +448,10 @@ INT_PTR CALLBACK FBEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 		{
 			TCHAR protoName[255];
 			lstrcpy(protoName, proto->m_tszUserName);
-			proto->NotifyEvent(protoName, TranslateT("Sample event"), NULL, FACEBOOK_EVENT_CLIENT); 
-			proto->NotifyEvent(protoName, TranslateT("Sample request"), NULL, FACEBOOK_EVENT_OTHER); 
-			proto->NotifyEvent(protoName, TranslateT("Sample newsfeed"), NULL, FACEBOOK_EVENT_NEWSFEED); 
-			proto->NotifyEvent(protoName, TranslateT("Sample notification"), NULL, FACEBOOK_EVENT_NOTIFICATION); 
+			proto->NotifyEvent(protoName, TranslateT("Sample event"), NULL, FACEBOOK_EVENT_CLIENT);
+			proto->NotifyEvent(protoName, TranslateT("Sample request"), NULL, FACEBOOK_EVENT_OTHER);
+			proto->NotifyEvent(protoName, TranslateT("Sample newsfeed"), NULL, FACEBOOK_EVENT_NEWSFEED);
+			proto->NotifyEvent(protoName, TranslateT("Sample notification"), NULL, FACEBOOK_EVENT_NOTIFICATION);
 		} break;
 
 		case IDC_COLTEXT:
@@ -476,7 +476,7 @@ INT_PTR CALLBACK FBEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 	case WM_NOTIFY:
 	{
 		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
-		{			
+		{
 			proto->setByte(FACEBOOK_KEY_FEED_TYPE, SendDlgItemMessage(hwnd, IDC_FEED_TYPE, CB_GETCURSEL, 0, 0));
 
 			StoreDBCheckState(proto, hwnd, IDC_SYSTRAY_NOTIFY, FACEBOOK_KEY_SYSTRAY_NOTIFY);
@@ -494,7 +494,7 @@ INT_PTR CALLBACK FBEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 			proto->setDword(FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLBACK, SendDlgItemMessage(hwnd,IDC_COLBACK,CPM_GETCOLOUR,0,0));
 			proto->setDword(FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLTEXT, SendDlgItemMessage(hwnd,IDC_COLTEXT,CPM_GETCOLOUR,0,0));
 			proto->setDword(FACEBOOK_KEY_EVENT_NOTIFICATIONS_TIMEOUT, GetDlgItemInt(hwnd,IDC_TIMEOUT,NULL,TRUE));
-			
+
 			proto->setDword(FACEBOOK_KEY_EVENT_FEEDS_COLBACK, SendDlgItemMessage(hwnd,IDC_COLBACK2,CPM_GETCOLOUR,0,0));
 			proto->setDword(FACEBOOK_KEY_EVENT_FEEDS_COLTEXT, SendDlgItemMessage(hwnd,IDC_COLTEXT2,CPM_GETCOLOUR,0,0));
 			proto->setDword(FACEBOOK_KEY_EVENT_FEEDS_TIMEOUT, GetDlgItemInt(hwnd,IDC_TIMEOUT2,NULL,TRUE));

@@ -752,7 +752,7 @@ void CJabberProto::SendPresenceTo(int status, TCHAR* to, HXML extra, const TCHAR
 		ptrA hashValue( getStringA("AvatarHash"));
 		if (hashValue != NULL) // XEP-0153: vCard-Based Avatars
 			x << XCHILD(_T("photo"), _A2T(hashValue));
-		else 
+		else
 			x << XCHILD(_T("photo"));
 	}
 
@@ -918,7 +918,7 @@ TCHAR* CJabberProto::GetClientJID(HANDLE hContact, TCHAR *dest, size_t destLen)
 	if (hContact == NULL)
 		return NULL;
 
-	ptrT jid( db_get_tsa(hContact, m_szModuleName, "jid"));
+	ptrT jid( getTStringA(hContact, "jid"));
 	return GetClientJID(jid, dest, destLen);
 }
 

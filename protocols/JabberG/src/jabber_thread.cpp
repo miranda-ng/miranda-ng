@@ -1665,7 +1665,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 						Log("AvatarXVcard deleted");
 						setTString(hContact, "AvatarHash", ptszHash);
 						hasAvatar = true;
-						ptrT saved( db_get_tsa(hContact, m_szModuleName, "AvatarSaved"));
+						ptrT saved( getTStringA(hContact, "AvatarSaved"));
 						if (saved != NULL || lstrcmp(saved, ptszHash)) {
 							Log("Avatar was changed");
 							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, NULL);
@@ -1685,7 +1685,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 								Log("AvatarXVcard set");
 								setTString(hContact, "AvatarHash", txt);
 								hasAvatar = true;
-								ptrT saved( db_get_tsa(hContact, m_szModuleName, "AvatarSaved"));
+								ptrT saved( getTStringA(hContact, "AvatarSaved"));
 								if (saved || lstrcmp(saved, txt)) {
 									Log("Avatar was changed. Using vcard-temp:x:update");
 									ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, NULL);

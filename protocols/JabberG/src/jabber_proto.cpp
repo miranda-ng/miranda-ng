@@ -817,7 +817,7 @@ HANDLE __cdecl CJabberProto::SearchBasic(const TCHAR *szJid)
 				numericjid = (*i >= '0') && (*i <= '9');
 
 			mir_free(szServer);
-			szServer = db_get_tsa(NULL, m_szModuleName, "LoginServer");
+			szServer = getTStringA(NULL, "LoginServer");
 			if (szServer == NULL)
 				szServer = mir_tstrdup(_T("jabber.org"));
 			else if (numericjid && !_tcsicmp(szServer, _T("S.ms"))) {

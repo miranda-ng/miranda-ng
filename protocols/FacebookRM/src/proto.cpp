@@ -204,7 +204,7 @@ int FacebookProto::SetAwayMsg(int status, const PROTOCHAR *msg)
 }
 
 void FacebookProto::SetAwayMsgWorker(void *p)
-{	
+{
 	if (p != NULL) {
 		status_data *data = static_cast<status_data*>(p);
 		facy.post_status(data);
@@ -544,7 +544,7 @@ INT_PTR FacebookProto::Poke(WPARAM wParam,LPARAM lParam)
 	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 	if (id == NULL)
 		return 1;
-	
+
 	ForkThread(&FacebookProto::SendPokeWorker, new std::string(id));
 	return 0;
 }
@@ -562,9 +562,9 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 	if ( isChatRoom(hContact) || (deleting && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) != CONTACT_FRIEND))
 		return 0;
 
-	ptrT tname = db_get_tsa(hContact, m_szModuleName, FACEBOOK_KEY_NAME);
+	ptrT tname( getTStringA(hContact, FACEBOOK_KEY_NAME));
 	if (tname == NULL)
-		tname = db_get_tsa(hContact, m_szModuleName, FACEBOOK_KEY_ID);
+		tname = getTStringA(hContact, FACEBOOK_KEY_ID);
 
 	TCHAR tstr[256];
 	mir_sntprintf(tstr,SIZEOF(tstr),TranslateT("Do you want to cancel your friendship with '%s'?"), tname);
@@ -598,7 +598,7 @@ INT_PTR FacebookProto::RequestFriendship(WPARAM wParam,LPARAM lParam)
 	ptrA id( getStringA(hContact, FACEBOOK_KEY_ID));
 	if (id == NULL)
 		return 1;
-	
+
 	ForkThread(&FacebookProto::AddContactToServer, new std::string(id));
 	return 0;
 }
@@ -656,7 +656,7 @@ void FacebookProto::OpenUrl(std::string url)
 		// Make realtive url
 		if (!isRelativeUrl) {
 			url = url.substr(pos + facebookDomain.length());
-			
+
 			// Strip eventual port
 			pos = url.find("/");
 			if (pos != std::string::npos && pos != 0)
@@ -684,6 +684,6 @@ void FacebookProto::ReadNotificationWorker(void *p)
 	data += "&__user=" + facy.self_.user_id;
 
 	facy.flap(REQUEST_NOTIFICATIONS_READ, NULL, &data);
-	
+
 	delete p;
 }

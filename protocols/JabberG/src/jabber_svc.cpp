@@ -779,7 +779,7 @@ HANDLE CJabberSysInterface::ContactFromJID(LPCTSTR jid)
 
 LPTSTR CJabberSysInterface::ContactToJID(HANDLE hContact)
 {
-	return db_get_tsa(hContact, m_psProto->m_szModuleName, m_psProto->isChatRoom(hContact) ? "ChatRoomID" : "jid");
+	return m_psProto->getTStringA(hContact, m_psProto->isChatRoom(hContact) ? "ChatRoomID" : "jid");
 }
 
 LPTSTR CJabberSysInterface::GetBestResourceName(LPCTSTR jid)
