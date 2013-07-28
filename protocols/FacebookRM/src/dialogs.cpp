@@ -119,6 +119,7 @@ void RefreshPrivacy(HWND hwnd, post_status_data *data)
 	} else {
 		SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_INSERTSTRING, 0, reinterpret_cast<LPARAM>(TranslateT("Default")));
 	}
+	SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_SETCURSEL, 0, 0);
 	SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_SETCURSEL, data->proto->getByte(FACEBOOK_KEY_PRIVACY_TYPE, 0), 0);
 }
 
@@ -146,6 +147,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 
 		for (std::vector<wall_data*>::size_type i = 0; i < data->walls.size(); i++)
 			SendDlgItemMessageA(hwnd, IDC_WALL, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(data->walls[i]->title.c_str()));
+		SendDlgItemMessage(hwnd, IDC_WALL, CB_SETCURSEL, 0, 0);
 		SendDlgItemMessage(hwnd, IDC_WALL, CB_SETCURSEL, data->proto->getByte(FACEBOOK_KEY_LAST_WALL, 0), 0);
 		RefreshPrivacy(hwnd, data);
 
