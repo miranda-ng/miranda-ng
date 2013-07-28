@@ -20,11 +20,13 @@
  * Temple Place - Suite 330, Boston, MA  02111-1307, USA. 
  */
 
+#include "stdafx.h"
+
 /************************/
-void            CodetoSymbol(char *truncated)
+void CodetoSymbol(char *truncated)
 {
-   int             counter = 0;
-   int             position = 0, recpos = 0, n;
+   int counter = 0;
+   int position = 0, recpos = 0, n;
    static char    *stringfrompos;
 
    for (n = 0; n < AMOUNT3; n++)
@@ -39,28 +41,28 @@ void            CodetoSymbol(char *truncated)
 // does character code exist?
          {
 
-            if (strstr(truncated, CharacterCodes[n]) != 0)
-            {
-               stringfrompos = strstr(truncated, CharacterCodes[n]);
-            }
-            position = stringfrompos - truncated;
-            counter = 0;
-            while (counter != (strlen(CharacterCodes[n])))
-            {
-               truncated[position + counter] = ' ';
-               counter++;
-            }
+ if (strstr(truncated, CharacterCodes[n]) != 0)
+ {
+   stringfrompos = strstr(truncated, CharacterCodes[n]);
+ }
+ position = stringfrompos - truncated;
+ counter = 0;
+ while (counter != (strlen(CharacterCodes[n])))
+ {
+   truncated[position + counter] = ' ';
+   counter++;
+ }
 
-            truncated[(position + counter) - 1] = Characters[n];
+ truncated[(position + counter) - 1] = Characters[n];
 
 // 
-            strncpy(&truncated[position], &truncated[position + strlen(CharacterCodes[n])] - 1, strlen(&truncated[position]) - 1);
+ strncpy(&truncated[position], &truncated[position + strlen(CharacterCodes[n])] - 1, strlen(&truncated[position]) - 1);
 // 
 
          } // end does character code exist?
 
          if (recpos == position)
-            break; // break out of loop if doesn't find new character code
+ break; // break out of loop if doesn't find new character code
 
          recpos = position;
       } // end loop forever         
@@ -72,13 +74,13 @@ void            CodetoSymbol(char *truncated)
 /**********************/
 
 /************************/
-void            EraseBlock(char *truncated)
+void EraseBlock(char *truncated)
 {
-   int             counter = 0;
-   int             positionStart = 0, positionEnd = 0;
-   char           *stringfrompos;
-   char           *tempraw;
-   int             BlockLength = 0;
+   int counter = 0;
+   int positionStart = 0, positionEnd = 0;
+   char*stringfrompos;
+   char*tempraw;
+   int BlockLength = 0;
 
 // //////
 
@@ -120,7 +122,7 @@ void            EraseBlock(char *truncated)
       {
          for (counter = 0; counter < BlockLength; counter++)
          {
-            tempraw[positionStart + counter] = ' ';
+ tempraw[positionStart + counter] = ' ';
          }
       }
       // //////////    
@@ -145,28 +147,28 @@ void            EraseBlock(char *truncated)
       // /get start and end of block
 
       if (((strstr(tempraw, "<script")) != 0) || (strstr(tempraw, "<SCRIPT") != 0)) // does 
-                                                                                    // 
+ // 
          // tag 
          // exist?
 
       {
          if (strstr(tempraw, "<script") != 0)
-            stringfrompos = strstr(tempraw, "<script");
+ stringfrompos = strstr(tempraw, "<script");
          else
-            stringfrompos = strstr(tempraw, "<SCRIPT");
+ stringfrompos = strstr(tempraw, "<SCRIPT");
 
          positionStart = stringfrompos - tempraw;
       }
       if (((strstr(tempraw, "</script")) != 0) || (strstr(tempraw, "</SCRIPT") != 0)) // does 
-                                                                                      // 
+   // 
          // tag 
          // exist?
 
       {
          if (strstr(tempraw, "<script") != 0)
-            stringfrompos = strstr(tempraw, "</script");
+ stringfrompos = strstr(tempraw, "</script");
          else
-            stringfrompos = strstr(tempraw, "</SCRIPT");
+ stringfrompos = strstr(tempraw, "</SCRIPT");
 
          positionEnd = stringfrompos - tempraw;
       }
@@ -186,7 +188,7 @@ void            EraseBlock(char *truncated)
       {
          for (counter = 0; counter < BlockLength; counter++)
          {
-            tempraw[positionStart + counter] = ' ';
+ tempraw[positionStart + counter] = ' ';
          }
       }
       // //////////    
@@ -208,28 +210,28 @@ void            EraseBlock(char *truncated)
       // /get start and end of block
 
       if (((strstr(tempraw, "<style")) != 0) || (strstr(tempraw, "<STYLE") != 0)) // does 
-                                                                                    // 
+ // 
          // tag 
          // exist?
 
       {
          if (strstr(tempraw, "<style") != 0)
-            stringfrompos = strstr(tempraw, "<style");
+ stringfrompos = strstr(tempraw, "<style");
          else
-            stringfrompos = strstr(tempraw, "<STYLE");
+ stringfrompos = strstr(tempraw, "<STYLE");
 
          positionStart = stringfrompos - tempraw;
       }
       if (((strstr(tempraw, "</style")) != 0) || (strstr(tempraw, "</STYLE") != 0)) // does 
-                                                                                      // 
+   // 
          // tag 
          // exist?
 
       {
          if (strstr(tempraw, "<style") != 0)
-            stringfrompos = strstr(tempraw, "</style");
+ stringfrompos = strstr(tempraw, "</style");
          else
-            stringfrompos = strstr(tempraw, "</STYLE");
+ stringfrompos = strstr(tempraw, "</STYLE");
 
          positionEnd = stringfrompos - tempraw;
       }
@@ -249,7 +251,7 @@ void            EraseBlock(char *truncated)
       {
          for (counter = 0; counter < BlockLength; counter++)
          {
-            tempraw[positionStart + counter] = ' ';
+ tempraw[positionStart + counter] = ' ';
          }
       }
       // //////////    
@@ -300,7 +302,7 @@ void            EraseBlock(char *truncated)
       {
          for (counter = 0; counter < BlockLength; counter++)
          {
-            tempraw[positionStart + counter] = ' ';
+ tempraw[positionStart + counter] = ' ';
          }
       }
       // //////////    
@@ -327,12 +329,12 @@ void            EraseBlock(char *truncated)
 /************************/
 
 /************************/
-void            EraseSymbols(char *truncated)
+void EraseSymbols(char *truncated)
 {
-   int             counter = 0;
-   int             position = 0, recpos = 0;
-   char           *stringfrompos;
-   char           *tempraw;
+   int counter = 0;
+   int position = 0, recpos = 0;
+   char*stringfrompos;
+   char*tempraw;
 
    tempraw = malloc(MAXSIZE1);
 
@@ -354,16 +356,16 @@ void            EraseSymbols(char *truncated)
          // 
          while (1)
          {
-            tempraw[position + counter] = ' ';
-            counter++;
-            if (counter > 20)
-               break;
-            if (tempraw[position + counter] == ' ')
-               break;
+ tempraw[position + counter] = ' ';
+ counter++;
+ if (counter > 20)
+   break;
+ if (tempraw[position + counter] == ' ')
+   break;
          }
          if (tempraw[position + counter] == ';')
          {
-            tempraw[position + counter] = ' ';
+ tempraw[position + counter] = ' ';
          }
          // 
       }
@@ -383,14 +385,14 @@ void            EraseSymbols(char *truncated)
 /************************/
 
 /************************/
-void            NumSymbols(char *truncated)
+void NumSymbols(char *truncated)
 {
-   int             counter = 0;
-   int             position = 0, recpos = 0;
-   char           *stringfrompos;
-   char            symbol[20];
-   int             character;
-   char           *tempraw;
+   int counter = 0;
+   int position = 0, recpos = 0;
+   char*stringfrompos;
+   char symbol[20];
+   int character;
+   char*tempraw;
 
    tempraw = malloc(MAXSIZE1);
 
@@ -412,29 +414,29 @@ void            NumSymbols(char *truncated)
          // 
          while (1)
          {
-            if (counter > 1)
-               symbol[counter - 2] = tempraw[position + counter];
+ if (counter > 1)
+   symbol[counter - 2] = tempraw[position + counter];
 
-            tempraw[position + counter] = ' ';
-            counter++;
-            if (counter > 20)
-               break;
-            if ((tempraw[position + counter] == ';'))
-            {
-               symbol[counter - 2] = '\0';
-               character = atoi(symbol);
+ tempraw[position + counter] = ' ';
+ counter++;
+ if (counter > 20)
+   break;
+ if ((tempraw[position + counter] == ';'))
+ {
+   symbol[counter - 2] = '\0';
+   character = atoi(symbol);
 
-               if (character > 0 && character < 256)
-               {
-                  memset(&tempraw[position], character, 1);
-               }
-               break;
-            }
+   if (character > 0 && character < 256)
+   {
+      memset(&tempraw[position], character, 1);
+   }
+   break;
+ }
          }
 
          if (tempraw[position + counter] == ';')
          {
-            tempraw[position + counter] = ' ';
+ tempraw[position + counter] = ' ';
 
          }
          // 
@@ -454,10 +456,10 @@ void            NumSymbols(char *truncated)
 /************************/
 
 /************************/
-void            FastTagFilter(char *truncated)
+void FastTagFilter(char *truncated)
 {
-   int             counter = 0;
-   char           *tempraw;
+   int counter = 0;
+   char*tempraw;
 
 // //////
    tempraw = malloc(MAXSIZE1);
@@ -471,13 +473,13 @@ void            FastTagFilter(char *truncated)
       {
          while (tempraw[counter] != '>')
          {
-            if (counter >= lstrlen(tempraw))
-               break;
-            tempraw[counter] = ' ';
-            counter++;
+ if (counter >= lstrlen(tempraw))
+   break;
+ tempraw[counter] = ' ';
+ counter++;
          }
          if (tempraw[counter] == '>')
-            tempraw[counter] = ' ';
+ tempraw[counter] = ' ';
       }
    }
 
@@ -487,12 +489,12 @@ void            FastTagFilter(char *truncated)
 /*************************/
 
 /********************/
-void            RemoveInvis(char *truncated, int AmountWspcRem)
+void RemoveInvis(char *truncated, int AmountWspcRem)
 {
-   int             counter = 0;
-   int             erase = 0;
-   int             RemovalLevel = 0;
-   char           *tempraw;
+   int counter = 0;
+   int erase = 0;
+   int RemovalLevel = 0;
+   char*tempraw;
 
    tempraw = malloc(MAXSIZE1);
 
@@ -527,18 +529,18 @@ void            RemoveInvis(char *truncated, int AmountWspcRem)
       if (AmountWspcRem != 0 && AmountWspcRem != 4)
       {
          if ((tempraw[counter] == '\n') || (tempraw[counter] == ' ') || (tempraw[counter] == '\r'))
-            erase = erase + 1;
+ erase = erase + 1;
          else
-            erase = 0;
+ erase = 0;
 
          if (erase > RemovalLevel)
-            tempraw[counter] = ' ';
+ tempraw[counter] = ' ';
       }
       // 
       if (AmountWspcRem == 4)
       {
          if ((tempraw[counter] == '\n') || (tempraw[counter] == ' ') || (tempraw[counter] == '\r'))
-            tempraw[counter] = ' ';
+ tempraw[counter] = ' ';
       }
       // 
 
@@ -552,10 +554,10 @@ void            RemoveInvis(char *truncated, int AmountWspcRem)
 /******************/
 
 /******************/
-void            RemoveTabs(char *truncated)
+void RemoveTabs(char *truncated)
 {
-   int             counter = 0;
-   char           *tempraw;
+   int counter = 0;
+   char*tempraw;
 
    tempraw = malloc(MAXSIZE1);
 
@@ -578,11 +580,11 @@ void            RemoveTabs(char *truncated)
 /******************/
 
 /********************/
-void            Removewhitespace(char *truncated)
+void Removewhitespace(char *truncated)
 {
-   int             counter = 0;
-   int             counter2 = 0;
-   int             pos1 = 0, pos2 = 0;
+   int counter = 0;
+   int counter2 = 0;
+   int pos1 = 0, pos2 = 0;
 
    for (counter = 0; counter < lstrlen(truncated); counter++)
    {
@@ -593,7 +595,7 @@ void            Removewhitespace(char *truncated)
 
          while (truncated[counter2] == ' ')
          {
-            counter2++;
+ counter2++;
          }
 
          pos2 = counter2;
@@ -608,10 +610,10 @@ void            Removewhitespace(char *truncated)
 /******************/
 
 /********************/
-void            Filter(char *truncated)
+void Filter(char *truncated)
 {
-   int             counter = 0;
-   char            tempraw[MAXSIZE1];
+   int counter = 0;
+   char tempraw[MAXSIZE1];
 
    strncpy(tempraw, truncated, sizeof(tempraw));
 

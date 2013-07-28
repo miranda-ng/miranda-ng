@@ -20,6 +20,8 @@
  * Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+#include "stdafx.h"
+
 static HANDLE hWindowList = NULL;
 
 /**********************************/
@@ -32,7 +34,7 @@ int CALLBACK    PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	hContact = PUGetContact(hWnd);
 	
 	ZeroMemory(&popupurl, sizeof(popupurl));
-	DBGetContactSetting(hContact, DLLNAME, URL_KEY, &dbv);
+	DBGetContactSetting(hContact, MODULENAME, URL_KEY, &dbv);
 	_snprintf(popupurl, sizeof(popupurl), "%s", dbv.pszVal);
 	DBFreeVariant(&dbv);
 
@@ -44,30 +46,30 @@ int CALLBACK    PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 		if (message == WM_COMMAND) // left click
 		{ 
  	     if(hContact != NULL)  
-          {            
-                    // open data window
+ { 
+        // open data window
 
-			if ((DBGetContactSettingByte(NULL, DLLNAME, LCLK_WINDOW_KEY, 0)))
+			if ((db_get_b(NULL, MODULENAME, LCLK_WINDOW_KEY, 0)))
 			{
 				NotifyEventHooks(hHookDisplayDataAlert, (int) hContact, 0);
 				forkthread(GetData, 0, hContact);
 				PUDeletePopUp(hWnd);
 			}
 			// open url
-			if ((DBGetContactSettingByte(NULL, DLLNAME, LCLK_WEB_PGE_KEY, 0)))
+			if ((db_get_b(NULL, MODULENAME, LCLK_WEB_PGE_KEY, 0)))
 			{
 				CallService(MS_UTILS_OPENURL, (WPARAM) 1, (LPARAM) popupurl);
 				PUDeletePopUp(hWnd);
-				DBWriteContactSettingWord((HANDLE) wParam, DLLNAME, "Status", ID_STATUS_ONLINE); 
+				db_set_w((HANDLE) wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
 			}
 			// dismiss
-			if ((DBGetContactSettingByte(NULL, DLLNAME, LCLK_DISMISS_KEY, 0)))
+			if ((db_get_b(NULL, MODULENAME, LCLK_DISMISS_KEY, 0)))
 			{
 				PUDeletePopUp(hWnd);
 			}
 			
 			
-          }	
+ }	
         
         else if(hContact == NULL)
        PUDeletePopUp(hWnd);  
@@ -81,24 +83,24 @@ int CALLBACK    PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 		{ 
        if(hContact != NULL)  
          {   
-             
-             // open datA window
+ 
+ // open datA window
 
-			if ((DBGetContactSettingByte(NULL, DLLNAME, RCLK_WINDOW_KEY, 0)))
+			if ((db_get_b(NULL, MODULENAME, RCLK_WINDOW_KEY, 0)))
 			{
 				NotifyEventHooks(hHookDisplayDataAlert, (int) hContact, 0);
 				forkthread(GetData, 0, hContact);
 				PUDeletePopUp(hWnd);
 			}
 			// open url
-			if ((DBGetContactSettingByte(NULL, DLLNAME, RCLK_WEB_PGE_KEY, 0)))
+			if ((db_get_b(NULL, MODULENAME, RCLK_WEB_PGE_KEY, 0)))
 			{
 				CallService(MS_UTILS_OPENURL, (WPARAM) 1, (LPARAM) popupurl);
 				PUDeletePopUp(hWnd);
-				DBWriteContactSettingWord((HANDLE) wParam, DLLNAME, "Status", ID_STATUS_ONLINE); 
+				db_set_w((HANDLE) wParam, MODULENAME, "Status", ID_STATUS_ONLINE); 
 			}
 			// dismiss
-			if ((DBGetContactSettingByte(NULL, DLLNAME, RCLK_DISMISS_KEY, 0)))
+			if ((db_get_b(NULL, MODULENAME, RCLK_DISMISS_KEY, 0)))
 			{
 				PUDeletePopUp(hWnd);
 			}
@@ -118,7 +120,7 @@ int CALLBACK    PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 /*********************************/
 
 /*******************/
-int             WDisplayDataAlert(void *AContact)
+int WDisplayDataAlert(void *AContact)
 {
 	NotifyEventHooks(hHookDisplayDataAlert, (int) AContact, 0);
 	return 0;
@@ -126,7 +128,7 @@ int             WDisplayDataAlert(void *AContact)
 /**************/
 
 /*******************/
-int             WAlertPopup(WPARAM hContact, char *displaytext)
+int WAlertPopup(WPARAM hContact, char *displaytext)
 {
 	NotifyEventHooks(hHookAlertPopup, (WPARAM) hContact, (LPARAM) displaytext);
 	return 0;
@@ -134,8 +136,8 @@ int             WAlertPopup(WPARAM hContact, char *displaytext)
 /**************/
 
 /*******************/
-//int             WAlertPopup(WPARAM hContact, char *displaytext)
-int             WAlertWPopup(WPARAM hContact, WCHAR *displaytext)
+//int WAlertPopup(WPARAM hContact, char *displaytext)
+int WAlertWPopup(WPARAM hContact, WCHAR *displaytext)
 {
 	NotifyEventHooks(hHookAlertWPopup, (WPARAM) hContact, (LPARAM) displaytext);
 	return 0;
@@ -144,14 +146,14 @@ int             WAlertWPopup(WPARAM hContact, WCHAR *displaytext)
 
 
 /*******************/
-int             WErrorPopup(char *namecontact, char *textdisplay)
+int WErrorPopup(char *namecontact, char *textdisplay)
 {
 	NotifyEventHooks(hHookErrorPopup, (WPARAM) namecontact, (LPARAM) textdisplay);
 	return 0;
 }
 /**************/
 /*******************/
-int             WAlertOSD(WPARAM hContact, char *displaytext)
+int WAlertOSD(WPARAM hContact, char *displaytext)
 {
 	NotifyEventHooks(hHookAlertOSD, (WPARAM) hContact, (LPARAM) displaytext);
 	return 0;
@@ -160,7 +162,7 @@ int             WAlertOSD(WPARAM hContact, char *displaytext)
 
 /********************/
 
-int             WPopupAlert(WPARAM wParam, WCHAR *displaytext)
+int WPopupAlert(WPARAM wParam, WCHAR *displaytext)
 {
     POPUPDATAW ppd;
 	DWORD delay = 0;
@@ -175,65 +177,65 @@ int             WPopupAlert(WPARAM wParam, WCHAR *displaytext)
 
 if( ((HANDLE)wParam) != NULL)
 {
-	DBGetContactSetting((HANDLE) wParam, DLLNAME, PRESERVE_NAME_KEY, &dbv);
+	DBGetContactSetting((HANDLE) wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv);
 	_snprintf(contactname, sizeof(contactname), "%s", dbv.pszVal);
 	DBFreeVariant(&dbv);
 }
 else
-_snprintf(contactname, sizeof(contactname), "%s", DLLNAME);
+_snprintf(contactname, sizeof(contactname), "%s", MODULENAME);
 	
 	
-            ppd.lchContact = (HANDLE) wParam;
-            //
-            MultiByteToWideChar(CP_UTF8, 0, contactname, -1, ppd.lptzContactName, strlen(contactname)); 
-            //
-            ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
-            //
-            if ((wcslen(displaytext) == MAX_SECONDLINE) ||  (wcslen(displaytext) > MAX_SECONDLINE))
+ ppd.lchContact = (HANDLE) wParam;
+ //
+ MultiByteToWideChar(CP_UTF8, 0, contactname, -1, ppd.lptzContactName, strlen(contactname)); 
+ //
+ ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
+ //
+ if ((wcslen(displaytext) == MAX_SECONDLINE) ||  (wcslen(displaytext) > MAX_SECONDLINE))
 		     _snwprintf(ppd.lptzText,MAX_SECONDLINE -1, displaytext);
 		    else if (wcslen(displaytext) < MAX_SECONDLINE)
 		     swprintf(ppd.lptzText, displaytext);
 
-            //
-	if ((DBGetContactSettingByte(NULL, DLLNAME, POP_USECUSTCLRS_KEY, 0)))
+ //
+	if ((db_get_b(NULL, MODULENAME, POP_USECUSTCLRS_KEY, 0)))
 	{
-		colorBack = DBGetContactSettingDword(NULL, DLLNAME, POP_BG_CLR_KEY, 0);
-		colorText = DBGetContactSettingDword(NULL, DLLNAME, POP_TXT_CLR_KEY, 0);
+		colorBack = db_get_dw(NULL, MODULENAME, POP_BG_CLR_KEY, 0);
+		colorText = db_get_dw(NULL, MODULENAME, POP_TXT_CLR_KEY, 0);
 	}
-	if ((DBGetContactSettingByte(NULL, DLLNAME, POP_USEWINCLRS_KEY, 0)))
+	if ((db_get_b(NULL, MODULENAME, POP_USEWINCLRS_KEY, 0)))
 	{
 		colorBack = GetSysColor(COLOR_BTNFACE);
 		colorText = GetSysColor(COLOR_WINDOWTEXT);
 	}
-	if ((DBGetContactSettingByte(NULL, DLLNAME, POP_USESAMECLRS_KEY, 0)))
+	if ((db_get_b(NULL, MODULENAME, POP_USESAMECLRS_KEY, 0)))
 	{
 		colorBack = BackgoundClr;
 		colorText = TextClr;
 	}
 	        ppd.colorBack = colorBack;
 		    ppd.colorText = colorText;
-            //
-            ppd.PluginWindowProc = NULL;
-            //
-            //ppd.iSeconds = (atol("5"));
-            delay = DBGetContactSettingDword(NULL, DLLNAME, POP_DELAY_KEY, 0);
-            ppd.iSeconds = delay;
-            //
+ //
+ ppd.PluginWindowProc = NULL;
+ //
+ //ppd.iSeconds = (atol("5"));
+ delay = db_get_dw(NULL, MODULENAME, POP_DELAY_KEY, 0);
+ ppd.iSeconds = delay;
+ //
        
-            if (ServiceExists(MS_POPUP_ADDPOPUPW))
-            CallService(MS_POPUP_ADDPOPUPW, (WPARAM) &ppd, 0);
-          
-             
-            
-            
-            
-            //////////////////////////////////////////////////////////////////////
-                
-//    if ((DBGetContactSettingByte(NULL, DLLNAME, INBUILTPOP_KEY, 0)))
-//     PUShowMessage(displaytext, SM_NOTIFY);           
+ if (ServiceExists(MS_POPUP_ADDPOPUPW))
+ CallService(MS_POPUP_ADDPOPUPW, (WPARAM) &ppd, 0);
+ 
+ 
+ 
+ 
+ 
+ //////////////////////////////////////////////////////////////////////
+    
+//    if ((db_get_b(NULL, MODULENAME, INBUILTPOP_KEY, 0)))
+//     PUShowMessage(displaytext, SM_NOTIFY);  
 //     else
 //     {
-//    }          
+//    } 
 
 	return 0;
 	
@@ -241,7 +243,7 @@ _snprintf(contactname, sizeof(contactname), "%s", DLLNAME);
 /********************/
 /********************/
 
-int             PopupAlert(WPARAM wParam, char *displaytext)
+int PopupAlert(WPARAM wParam, char *displaytext)
 {
     POPUPDATAEX ppd;
 	DWORD delay = 0;
@@ -256,63 +258,63 @@ int             PopupAlert(WPARAM wParam, char *displaytext)
 
 if( ((HANDLE)wParam) != NULL)
 {
-	DBGetContactSetting((HANDLE) wParam, DLLNAME, PRESERVE_NAME_KEY, &dbv);
+	DBGetContactSetting((HANDLE) wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv);
 	_snprintf(contactname, sizeof(contactname), "%s", dbv.pszVal);
 	DBFreeVariant(&dbv);
 }
 else
-_snprintf(contactname, sizeof(contactname), "%s", DLLNAME);
+_snprintf(contactname, sizeof(contactname), "%s", MODULENAME);
 	
 	
 	
-            ppd.lchContact = (HANDLE) wParam;
-            strcpy(ppd.lpzContactName, contactname);
-            ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
-            //
-            //sprintf(ppd.lpzText, Translate("This is a preview popup."));
-            if ((strlen(displaytext) == MAX_SECONDLINE) ||  (strlen(displaytext) > MAX_SECONDLINE))
+ ppd.lchContact = (HANDLE) wParam;
+ strcpy(ppd.lpzContactName, contactname);
+ ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
+ //
+ //sprintf(ppd.lpzText, Translate("This is a preview popup."));
+ if ((strlen(displaytext) == MAX_SECONDLINE) ||  (strlen(displaytext) > MAX_SECONDLINE))
 		     _snprintf(ppd.lpzText,MAX_SECONDLINE -1, "%s", displaytext);
 		    else if (strlen(displaytext) < MAX_SECONDLINE)
 		     sprintf(ppd.lpzText, Translate(displaytext));
-            //
-	if ((DBGetContactSettingByte(NULL, DLLNAME, POP_USECUSTCLRS_KEY, 0)))
+ //
+	if ((db_get_b(NULL, MODULENAME, POP_USECUSTCLRS_KEY, 0)))
 	{
-		colorBack = DBGetContactSettingDword(NULL, DLLNAME, POP_BG_CLR_KEY, 0);
-		colorText = DBGetContactSettingDword(NULL, DLLNAME, POP_TXT_CLR_KEY, 0);
+		colorBack = db_get_dw(NULL, MODULENAME, POP_BG_CLR_KEY, 0);
+		colorText = db_get_dw(NULL, MODULENAME, POP_TXT_CLR_KEY, 0);
 	}
-	if ((DBGetContactSettingByte(NULL, DLLNAME, POP_USEWINCLRS_KEY, 0)))
+	if ((db_get_b(NULL, MODULENAME, POP_USEWINCLRS_KEY, 0)))
 	{
 		colorBack = GetSysColor(COLOR_BTNFACE);
 		colorText = GetSysColor(COLOR_WINDOWTEXT);
 	}
-	if ((DBGetContactSettingByte(NULL, DLLNAME, POP_USESAMECLRS_KEY, 0)))
+	if ((db_get_b(NULL, MODULENAME, POP_USESAMECLRS_KEY, 0)))
 	{
 		colorBack = BackgoundClr;
 		colorText = TextClr;
 	}
 	        ppd.colorBack = colorBack;
 		    ppd.colorText = colorText;
-            //
-            ppd.PluginWindowProc = NULL;
-            //
-            //ppd.iSeconds = (atol("5"));
-            delay = DBGetContactSettingDword(NULL, DLLNAME, POP_DELAY_KEY, 0);
-            ppd.iSeconds = delay;
-            //
+ //
+ ppd.PluginWindowProc = NULL;
+ //
+ //ppd.iSeconds = (atol("5"));
+ delay = db_get_dw(NULL, MODULENAME, POP_DELAY_KEY, 0);
+ ppd.iSeconds = delay;
+ //
          
-            if (ServiceExists(MS_POPUP_ADDPOPUPEX))
-            CallService(MS_POPUP_ADDPOPUPEX, (WPARAM) &ppd, 0);
+ if (ServiceExists(MS_POPUP_ADDPOPUPEX))
+ CallService(MS_POPUP_ADDPOPUPEX, (WPARAM) &ppd, 0);
          
-            
-            
-            
-            //////////////////////////////////////////////////////////////////////
-                
-//    if ((DBGetContactSettingByte(NULL, DLLNAME, INBUILTPOP_KEY, 0)))
-//     PUShowMessage(displaytext, SM_NOTIFY);           
+ 
+ 
+ 
+ //////////////////////////////////////////////////////////////////////
+    
+//    if ((db_get_b(NULL, MODULENAME, INBUILTPOP_KEY, 0)))
+//     PUShowMessage(displaytext, SM_NOTIFY);  
 //     else
 //     {
-//    }          
+//    } 
 
 	return 0;
 	
@@ -321,7 +323,7 @@ _snprintf(contactname, sizeof(contactname), "%s", DLLNAME);
 
 /********************/
 
-int             OSDAlert(WPARAM wParam, char *displaytext)
+int OSDAlert(WPARAM wParam, char *displaytext)
 {
 	char contactname[255];
 	DBVARIANT dbv;
@@ -333,12 +335,12 @@ int             OSDAlert(WPARAM wParam, char *displaytext)
 
 if(((HANDLE)wParam) != NULL)
 {
-	DBGetContactSetting((HANDLE) wParam, DLLNAME, PRESERVE_NAME_KEY, &dbv);
+	DBGetContactSetting((HANDLE) wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv);
 	_snprintf(contactname, sizeof(contactname), "%s", dbv.pszVal);
 	DBFreeVariant(&dbv);
 }
 else
-_snprintf(contactname, sizeof(contactname), "%s", DLLNAME);
+_snprintf(contactname, sizeof(contactname), "%s", MODULENAME);
 
 
 	_snprintf(newdisplaytext, sizeof(newdisplaytext), "%s: %s", contactname, Translate(displaytext));
@@ -351,17 +353,17 @@ _snprintf(contactname, sizeof(contactname), "%s", DLLNAME);
 /********************/
 
 /*****************/
-void            ErrorMsgs(char *contactname, char *displaytext)
+void ErrorMsgs(char *contactname, char *displaytext)
 {
 	char newdisplaytext[2000];
 
-	if (!(DBGetContactSettingByte(NULL, DLLNAME, SUPPRESS_ERR_KEY, 0)))
+	if (!(db_get_b(NULL, MODULENAME, SUPPRESS_ERR_KEY, 0)))
 	{
-		if ((ServiceExists(MS_POPUP_ADDPOPUP) != 0) && ((DBGetContactSettingByte(NULL, DLLNAME, ERROR_POPUP_KEY, 0))))
+		if ((ServiceExists(MS_POPUP_ADDPOPUP) != 0) && ((db_get_b(NULL, MODULENAME, ERROR_POPUP_KEY, 0))))
 		{
 			_snprintf(newdisplaytext, sizeof(newdisplaytext), "%s\n%s", contactname, displaytext);
 			PUShowMessage(newdisplaytext, SM_WARNING);
-		} else if ((ServiceExists("OSD/Announce") != 0) && ((DBGetContactSettingByte(NULL, DLLNAME, ERROR_POPUP_KEY, 0))))
+		} else if ((ServiceExists("OSD/Announce") != 0) && ((db_get_b(NULL, MODULENAME, ERROR_POPUP_KEY, 0))))
 		{
 			_snprintf(newdisplaytext, sizeof(newdisplaytext), "%s: %s", contactname, Translate(displaytext));
 			CallService("OSD/Announce", (WPARAM) newdisplaytext, 0);
@@ -383,10 +385,10 @@ void            ErrorMsgs(char *contactname, char *displaytext)
 /********************/
 
 /***************************/
-void            SaveToFile(char *AContact, char *truncated)
+void SaveToFile(char *AContact, char *truncated)
 {
-	FILE           *pfile;
-	char           *mode;
+	FILE  *pfile;
+	char*mode;
 	DBVARIANT dbv;
 	char url[300];
 	char contactname[100];
@@ -396,19 +398,19 @@ void            SaveToFile(char *AContact, char *truncated)
 	_snprintf(contactname, sizeof(contactname), "%s", dbv.pszVal);
 	DBFreeVariant(&dbv);
 
-	if (!(DBGetContactSettingByte(AContact, DLLNAME, APPEND_KEY, 0)))
+	if (!(db_get_b(AContact, MODULENAME, APPEND_KEY, 0)))
 		mode = "w";
 	else
 		mode = "a";
 
 	url[0] = '\0';
 
-	DBGetContactSetting(AContact, DLLNAME, URL_KEY, &dbv);
+	DBGetContactSetting(AContact, MODULENAME, URL_KEY, &dbv);
 	_snprintf(url, sizeof(url), "%s", dbv.pszVal);
 
 	DBFreeVariant(&dbv);
 
-	DBGetContactSetting(AContact, DLLNAME, FILE_KEY, &dbv);
+	DBGetContactSetting(AContact, MODULENAME, FILE_KEY, &dbv);
 	if ((pfile = fopen(dbv.pszVal, mode)) == NULL)
 	{
 		WErrorPopup(contactname, Translate("Cannot write to file"));
@@ -440,7 +442,7 @@ void            SaveToFile(char *AContact, char *truncated)
 		_snprintf(timeprefix, sizeof(timeprefix), " %s ", (Translate("Last updated on")));
 		strftime(temptime1, 32, " %a, %b %d, %Y ", nTime);
 		strftime(temptime2, 32, " %I:%M %p.", nTime);
-		_snprintf(timestring, sizeof(timestring), "(%s)%s\n%s,%s\n", DLLNAME, url, temptime1, temptime2);
+		_snprintf(timestring, sizeof(timestring), "(%s)%s\n%s,%s\n", MODULENAME, url, temptime1, temptime2);
 
 		fputs(timestring, pfile);
 //
@@ -458,22 +460,22 @@ void            SaveToFile(char *AContact, char *truncated)
 /***************************/
 
 /**************************/
-int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char *contactname, int notpresent)
+int ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char *contactname, int notpresent)
 {
 
 	char alertstring[255];
 	char displaystring[300];
-	FILE           *pcachefile;
+	FILE  *pcachefile;
 	char cachepath[MAX_PATH];
 	char cachedirectorypath[MAX_PATH];
 	char newcachepath[MAX_PATH + 50];
-	char           *cacheend;
+	char*cacheend;
 	DBVARIANT tdbv;
 	int wasAlert = 0;
 
 	//
 	int statalertpos = 0, disalertpos = 0, statalertposend = 0;
-	char           *alertpos;
+	char*alertpos;
 	char Alerttempstring[300], Alerttempstring2[300];
 	static char cachecompare[MAXSIZE1];
 	static char raw[MAXSIZE1];
@@ -502,26 +504,26 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 	//
 
 	// alerts
-	if ((DBGetContactSettingByte(AContact, DLLNAME, ENABLE_ALERTS_KEY, 0))) // ALERTS
-	                                                                        //
+	if ((db_get_b(AContact, MODULENAME, ENABLE_ALERTS_KEY, 0))) // ALERTS
+	 //
 	// ARE
 	// ENABLED
 
 	{
 
-		if (!DBGetContactSetting(AContact, DLLNAME, ALRT_INDEX_KEY, &tdbv)) // TYPES
-		                                                                    //
+		if (!DBGetContactSetting(AContact, MODULENAME, ALRT_INDEX_KEY, &tdbv)) // TYPES
+		        //
 		// OF
 		// ALERTS
 
 		{
-			alertIndex = DBGetContactSettingByte(AContact, DLLNAME, ALRT_INDEX_KEY, 0);
+			alertIndex = db_get_b(AContact, MODULENAME, ALRT_INDEX_KEY, 0);
 			DBFreeVariant(&tdbv);
 
-			if (!DBGetContactSetting(AContact, DLLNAME, EVNT_INDEX_KEY, &tdbv))
+			if (!DBGetContactSetting(AContact, MODULENAME, EVNT_INDEX_KEY, &tdbv))
 			{
 
-				eventIndex = DBGetContactSettingByte(AContact, DLLNAME, EVNT_INDEX_KEY, 0);
+				eventIndex = db_get_b(AContact, MODULENAME, EVNT_INDEX_KEY, 0);
 				DBFreeVariant(&tdbv);
 			}
 			if ((notpresent))
@@ -533,18 +535,18 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 					sprintf(displaystring, "%s", (Translate("Start/end strings not found or strings not set.")));
 					WAlertPopup((WPARAM) AContact, displaystring);
 					// contactlist name//
-					if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-						DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+					if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+						db_set_s(AContact, "CList", "MyHandle", tstr);
 				} //
 
 				else if (alertIndex == 1) // log to file
 
 				{
-					if (!DBGetContactSetting(AContact, DLLNAME, FILE_KEY, &tdbv))
+					if (!DBGetContactSetting(AContact, MODULENAME, FILE_KEY, &tdbv))
 					{
 						int AmountWspcRem = 0;
 
-						if (!(DBGetContactSettingByte(AContact, DLLNAME, SAVE_AS_RAW_KEY, 0)))
+						if (!(db_get_b(AContact, MODULENAME, SAVE_AS_RAW_KEY, 0)))
 						{
 							//
 							CodetoSymbol(tempraw);
@@ -562,7 +564,7 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 							EraseSymbols(tempraw);
 							Sleep(100); // avoid 100% CPU
 
-							AmountWspcRem = DBGetContactSettingByte(AContact, DLLNAME, RWSPACE_KEY, 0);
+							AmountWspcRem = db_get_b(AContact, MODULENAME, RWSPACE_KEY, 0);
 							RemoveInvis(tempraw, AmountWspcRem);
 							Sleep(100); // avoid 100% CPU
 
@@ -572,8 +574,8 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 						SaveToFile(AContact, tempraw);
 						DBFreeVariant(&tdbv);
 						// contactlist name//
-						if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-							DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+						if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+							db_set_s(AContact, "CList", "MyHandle", tstr);
 					}
 				} //
 
@@ -582,15 +584,15 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 				{
 					WAlertOSD((WPARAM) AContact, Translate("Alert start/end strings not found or strings not set."));
 					// contactlist name//
-					if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-						DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+					if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+						db_set_s(AContact, "CList", "MyHandle", tstr);
 				} else if (eventIndex == 2) // window
 
 				{
 					WDisplayDataAlert(AContact);
 					// contactlist name//
-					if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-						DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+					if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+						db_set_s(AContact, "CList", "MyHandle", tstr);
 
 					HWND hwndDlg = (WindowList_Find(hWindowList, AContact));
 
@@ -600,13 +602,13 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 				} //
 
 				else
-					MessageBox(NULL, Translate("Start/end strings not found or strings not set."), DLLNAME, MB_OK);
+					MessageBox(NULL, Translate("Start/end strings not found or strings not set."), MODULENAME, MB_OK);
 			}
 			if (eventIndex == 0) // string present
 
 			{
 
-				if (!DBGetContactSetting(AContact, DLLNAME, ALERT_STRING_KEY, &tdbv))
+				if (!DBGetContactSetting(AContact, MODULENAME, ALERT_STRING_KEY, &tdbv))
 				{
 					strncpy(alertstring, tdbv.pszVal, sizeof(alertstring));
 					DBFreeVariant(&tdbv);
@@ -630,19 +632,19 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 								WAlertPopup((WPARAM) AContact, displaystring);
 
 								// contactlist name//
-								if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-									DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+								if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+									db_set_s(AContact, "CList", "MyHandle", tstr);
 							} //
 
 							else if (alertIndex == 1) // LOG
 
 							{
-								if (!DBGetContactSetting(AContact, DLLNAME, FILE_KEY, &tdbv))
+								if (!DBGetContactSetting(AContact, MODULENAME, FILE_KEY, &tdbv))
 								{
 
 									int AmountWspcRem = 0;
 
-									if (!(DBGetContactSettingByte(AContact, DLLNAME, SAVE_AS_RAW_KEY, 0)))
+									if (!(db_get_b(AContact, MODULENAME, SAVE_AS_RAW_KEY, 0)))
 									{
 										//
 										CodetoSymbol(tempraw);
@@ -660,7 +662,7 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 										EraseSymbols(tempraw);
 										Sleep(100); // avoid 100% CPU
 
-										AmountWspcRem = DBGetContactSettingByte(AContact, DLLNAME, RWSPACE_KEY, 0);
+										AmountWspcRem = db_get_b(AContact, MODULENAME, RWSPACE_KEY, 0);
 										RemoveInvis(tempraw, AmountWspcRem);
 										Sleep(100); // avoid 100% CPU
 
@@ -670,8 +672,8 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 									SaveToFile(AContact, tempraw);
 									DBFreeVariant(&tdbv);
 									// contactlist name//
-									if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-										DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+									if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+										db_set_s(AContact, "CList", "MyHandle", tstr);
 								}
 							} //
 
@@ -682,15 +684,15 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 								WAlertOSD((WPARAM) AContact, displaystring);
 
 								// contactlist name//
-								if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-									DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+								if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+									db_set_s(AContact, "CList", "MyHandle", tstr);
 							} else if (alertIndex == 2) // window
 
 							{
 								WDisplayDataAlert(AContact);
 								// contactlist name//
-								if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-									DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+								if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+									db_set_s(AContact, "CList", "MyHandle", tstr);
 
 								HWND hwndDlg = (WindowList_Find(hWindowList, AContact));
 
@@ -700,7 +702,7 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 							} //
 
 							else
-								MessageBox(NULL, Translate("Unknown Alert Type."), DLLNAME, MB_OK);
+								MessageBox(NULL, Translate("Unknown Alert Type."), MODULENAME, MB_OK);
 						}
 						//
 					} // // END ALERT EVENT:CHECK FOR STRING
@@ -717,9 +719,9 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 				cacheend++;
 				*cacheend = '\0';
 
-				_snprintf(cachedirectorypath, sizeof(cachedirectorypath), "%s%s%s", cachepath, DLLNAME, "cache\\");
+				_snprintf(cachedirectorypath, sizeof(cachedirectorypath), "%s%s%s", cachepath, MODULENAME, "cache\\");
 				CreateDirectory(cachedirectorypath, NULL);
-				_snprintf(newcachepath, sizeof(newcachepath), "%s%s%s%s%s", cachepath, DLLNAME, "cache\\", contactname, ".txt");
+				_snprintf(newcachepath, sizeof(newcachepath), "%s%s%s%s%s", cachepath, MODULENAME, "cache\\", contactname, ".txt");
 				// file exists?
 				if ((_access(newcachepath, 0)) != -1)
 				{
@@ -740,14 +742,14 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 					 MessageBox(NULL, newcachepath, "1", MB_OK);  
 				} else
 				{
-             
+ 
 					fwrite(tempraw, strlen(tempraw), 1, pcachefile); //smaller cache
 					fclose(pcachefile);
-				   DBWriteContactSettingString(AContact, DLLNAME, CACHE_FILE_KEY, newcachepath);
+				   db_set_s(AContact, MODULENAME, CACHE_FILE_KEY, newcachepath);
 				}
 				// end write to cache
 
-                if (strncmp(tempraw, cachecompare, (strlen(tempraw))) != 0) //lets try this instead
+    if (strncmp(tempraw, cachecompare, (strlen(tempraw))) != 0) //lets try this instead
 				{
 
 					// play sound?
@@ -763,8 +765,8 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 						{
 							WAlertPopup((WPARAM) AContact, Translate("The Web Page Has Changed."));
 							// contactlist name//
-							if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-								DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+							if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+								db_set_s(AContact, "CList", "MyHandle", tstr);
 						} //
 
 						else if (alertIndex == 3) // osd
@@ -772,16 +774,16 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 						{
 							WAlertOSD((WPARAM) AContact, Translate("The Web Page Has Changed."));
 							// contactlist name//
-							if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-								DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+							if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+								db_set_s(AContact, "CList", "MyHandle", tstr);
 						} else if (alertIndex == 1) // log
 
 						{
-							if (!DBGetContactSetting(AContact, DLLNAME, FILE_KEY, &tdbv))
+							if (!DBGetContactSetting(AContact, MODULENAME, FILE_KEY, &tdbv))
 							{
 								int AmountWspcRem = 0;
 
-								if (!(DBGetContactSettingByte(AContact, DLLNAME, SAVE_AS_RAW_KEY, 0)))
+								if (!(db_get_b(AContact, MODULENAME, SAVE_AS_RAW_KEY, 0)))
 								{
 									//
 									CodetoSymbol(tempraw);
@@ -799,7 +801,7 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 									EraseSymbols(tempraw);
 									Sleep(100); // avoid 100% CPU
 
-									AmountWspcRem = DBGetContactSettingByte(AContact, DLLNAME, RWSPACE_KEY, 0);
+									AmountWspcRem = db_get_b(AContact, MODULENAME, RWSPACE_KEY, 0);
 									RemoveInvis(tempraw, AmountWspcRem);
 									Sleep(100); // avoid 100% CPU
 
@@ -809,8 +811,8 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 								SaveToFile(AContact, tempraw);
 								DBFreeVariant(&tdbv);
 								// contactlist name//
-								if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-									DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+								if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+									db_set_s(AContact, "CList", "MyHandle", tstr);
 							}
 						} //
 
@@ -819,12 +821,12 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 						{
 							WDisplayDataAlert(AContact);
 							// contactlist name//
-							if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-								DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+							if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+								db_set_s(AContact, "CList", "MyHandle", tstr);
 						} //
 
 						else
-							MessageBox(NULL, Translate("Unknown Alert Type."), DLLNAME, MB_OK);
+							MessageBox(NULL, Translate("Unknown Alert Type."), MODULENAME, MB_OK);
 					}
 				}
 			}
@@ -836,11 +838,11 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 
 				// //////////
 				//
-				DBGetContactSetting(AContact, DLLNAME, ALRT_S_STRING_KEY, &tdbv);
+				DBGetContactSetting(AContact, MODULENAME, ALRT_S_STRING_KEY, &tdbv);
 				_snprintf(Alerttempstring, sizeof(Alerttempstring), "%s", tdbv.pszVal);
 				DBFreeVariant(&tdbv);
 				//
-				DBGetContactSetting(AContact, DLLNAME, ALRT_E_STRING_KEY, &tdbv);
+				DBGetContactSetting(AContact, MODULENAME, ALRT_E_STRING_KEY, &tdbv);
 				_snprintf(Alerttempstring2, sizeof(Alerttempstring2), "%s", tdbv.pszVal);
 				DBFreeVariant(&tdbv);
 				//
@@ -906,22 +908,22 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 						sprintf(displaystring, "%s", (Translate("Alert start/end strings not found or strings not set.")));
 						WAlertPopup((WPARAM) AContact, displaystring);
 						// contactlist name//
-						if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-							DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+						if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+							db_set_s(AContact, "CList", "MyHandle", tstr);
 					} //
 
 					else if (alertIndex == 1) // LOG
 
 					{
 						if (!(notpresent)) // dont log to file twice if both types
-						                   // of start/end strings not present
+						       // of start/end strings not present
 
 						{
-							if (!DBGetContactSetting(AContact, DLLNAME, FILE_KEY, &tdbv))
+							if (!DBGetContactSetting(AContact, MODULENAME, FILE_KEY, &tdbv))
 							{
 								int AmountWspcRem = 0;
 
-								if (!(DBGetContactSettingByte(AContact, DLLNAME, SAVE_AS_RAW_KEY, 0)))
+								if (!(db_get_b(AContact, MODULENAME, SAVE_AS_RAW_KEY, 0)))
 								{
 									//
 									CodetoSymbol(tempraw);
@@ -939,7 +941,7 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 									EraseSymbols(tempraw);
 									Sleep(100); // avoid 100% CPU
 
-									AmountWspcRem = DBGetContactSettingByte(AContact, DLLNAME, RWSPACE_KEY, 0);
+									AmountWspcRem = db_get_b(AContact, MODULENAME, RWSPACE_KEY, 0);
 									RemoveInvis(tempraw, AmountWspcRem);
 									Sleep(100); // avoid 100% CPU
 
@@ -949,8 +951,8 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 								SaveToFile(AContact, tempraw);
 								DBFreeVariant(&tdbv);
 								// contactlist name//
-								if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-									DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+								if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+									db_set_s(AContact, "CList", "MyHandle", tstr);
 							}
 						}
 					} //
@@ -960,15 +962,15 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 					{
 						WAlertOSD((WPARAM) AContact, Translate("Alert start/end strings not found or strings not set."));
 						// contactlist name//
-						if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-							DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+						if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+							db_set_s(AContact, "CList", "MyHandle", tstr);
 					} else if (alertIndex == 2) // window
 
 					{
 						WDisplayDataAlert(AContact);
 						// contactlist name//
-						if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-							DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+						if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+							db_set_s(AContact, "CList", "MyHandle", tstr);
 
 						HWND hwndDlg = (WindowList_Find(hWindowList, AContact));
 
@@ -978,8 +980,8 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 					} //
 
 					else
-						MessageBox(NULL, Translate("Alert start/end strings not found or strings not set."), DLLNAME, MB_OK);
-					DBWriteContactSettingWord(AContact, DLLNAME, "Status", ID_STATUS_AWAY);
+						MessageBox(NULL, Translate("Alert start/end strings not found or strings not set."), MODULENAME, MB_OK);
+					db_set_w(AContact, MODULENAME, "Status", ID_STATUS_AWAY);
 				}
 
 ///////////////
@@ -993,9 +995,9 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 					cacheend++;
 					*cacheend = '\0';
 
-					_snprintf(cachedirectorypath, sizeof(cachedirectorypath), "%s%s%s", cachepath, DLLNAME, "cache\\");
+					_snprintf(cachedirectorypath, sizeof(cachedirectorypath), "%s%s%s", cachepath, MODULENAME, "cache\\");
 					CreateDirectory(cachedirectorypath, NULL);
-					_snprintf(newcachepath, sizeof(newcachepath), "%s%s%s%s%s", cachepath, DLLNAME, "cache\\", contactname, ".txt");
+					_snprintf(newcachepath, sizeof(newcachepath), "%s%s%s%s%s", cachepath, MODULENAME, "cache\\", contactname, ".txt");
 					// file exists?
 					if ((_access(newcachepath, 0)) != -1)
 					{
@@ -1015,12 +1017,12 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 						WErrorPopup(contactname, Translate("Cannot write to file 2"));
 					} else
 					{
-                          fwrite(raw, strlen(raw), 1, pcachefile); //smaller cache
-                      	   DBWriteContactSettingString(AContact, DLLNAME, CACHE_FILE_KEY, newcachepath);
+  fwrite(raw, strlen(raw), 1, pcachefile); //smaller cache
+ 	   db_set_s(AContact, MODULENAME, CACHE_FILE_KEY, newcachepath);
 						fclose(pcachefile);
 					}
 					// end write to cache
-                    if (strncmp(raw, cachecompare, (strlen(raw))) != 0) //lets try this instead
+        if (strncmp(raw, cachecompare, (strlen(raw))) != 0) //lets try this instead
 					{
 
 						// play sound?
@@ -1036,8 +1038,8 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 							{
 								WAlertPopup((WPARAM) AContact, Translate("Specific Part Of The Web Page Has Changed."));
 								// contactlist name//
-								if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-									DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+								if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+									db_set_s(AContact, "CList", "MyHandle", tstr);
 							} //
 
 							else if (alertIndex == 3) // osd
@@ -1045,16 +1047,16 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 							{
 								WAlertOSD((WPARAM) AContact, Translate("Specific Part Of The Web Page Has Changed."));
 								// contactlist name//
-								if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-									DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+								if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+									db_set_s(AContact, "CList", "MyHandle", tstr);
 							} else if (alertIndex == 1) // log to file
 
 							{
-								if (!DBGetContactSetting(AContact, DLLNAME, FILE_KEY, &tdbv))
+								if (!DBGetContactSetting(AContact, MODULENAME, FILE_KEY, &tdbv))
 								{
 									int AmountWspcRem = 0;
 
-									if (!(DBGetContactSettingByte(AContact, DLLNAME, SAVE_AS_RAW_KEY, 0)))
+									if (!(db_get_b(AContact, MODULENAME, SAVE_AS_RAW_KEY, 0)))
 									{
 										//
 										CodetoSymbol(tempraw);
@@ -1072,7 +1074,7 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 										EraseSymbols(tempraw);
 										Sleep(100); // avoid 100% CPU
 
-										AmountWspcRem = DBGetContactSettingByte(AContact, DLLNAME, RWSPACE_KEY, 0);
+										AmountWspcRem = db_get_b(AContact, MODULENAME, RWSPACE_KEY, 0);
 										RemoveInvis(tempraw, AmountWspcRem);
 										Sleep(100); // avoid 100% CPU
 
@@ -1082,8 +1084,8 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 									SaveToFile(AContact, tempraw);
 									DBFreeVariant(&tdbv);
 									// contactlist name//
-									if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-										DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+									if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+										db_set_s(AContact, "CList", "MyHandle", tstr);
 								}
 							} //
 
@@ -1092,12 +1094,12 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 							{
 								WDisplayDataAlert(AContact);
 								// contactlist name//
-								if ((DBGetContactSettingByte(AContact, DLLNAME, APND_DATE_NAME_KEY, 0)))
-									DBWriteContactSettingString(AContact, "CList", "MyHandle", tstr);
+								if ((db_get_b(AContact, MODULENAME, APND_DATE_NAME_KEY, 0)))
+									db_set_s(AContact, "CList", "MyHandle", tstr);
 							} //
 
 							else
-								MessageBox(NULL, Translate("Unknown Alert Type."), DLLNAME, MB_OK);
+								MessageBox(NULL, Translate("Unknown Alert Type."), MODULENAME, MB_OK);
 						}
 					}
 				}
@@ -1114,13 +1116,13 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 		if (alertIndex != 1) // dont do for log to file alert
 
 		{
-			if ((DBGetContactSettingByte(AContact, DLLNAME, ALWAYS_LOG_KEY, 0)))
+			if ((db_get_b(AContact, MODULENAME, ALWAYS_LOG_KEY, 0)))
 			{
-				if (!DBGetContactSetting(AContact, DLLNAME, FILE_KEY, &tdbv))
+				if (!DBGetContactSetting(AContact, MODULENAME, FILE_KEY, &tdbv))
 				{
 					int AmountWspcRem = 0;
 
-					if (!(DBGetContactSettingByte(AContact, DLLNAME, SAVE_AS_RAW_KEY, 0)))
+					if (!(db_get_b(AContact, MODULENAME, SAVE_AS_RAW_KEY, 0)))
 					{
 						//
 						CodetoSymbol(tempraw);
@@ -1138,7 +1140,7 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 						EraseSymbols(tempraw);
 						Sleep(100); // avoid 100% CPU
 
-						AmountWspcRem = DBGetContactSettingByte(AContact, DLLNAME, RWSPACE_KEY, 0);
+						AmountWspcRem = db_get_b(AContact, MODULENAME, RWSPACE_KEY, 0);
 						RemoveInvis(tempraw, AmountWspcRem);
 						Sleep(100); // avoid 100% CPU
 
@@ -1158,7 +1160,7 @@ int             ProcessAlerts(HANDLE AContact, char *truncated, char *tstr, char
 /**************************/
 
 /***********************/
-int             DataWndAlertCommand(void *AContact)
+int DataWndAlertCommand(void *AContact)
 {
 	HWND hwndDlg;
 
@@ -1168,18 +1170,18 @@ int             DataWndAlertCommand(void *AContact)
 	}
 	hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DISPLAY_DATA), NULL, DlgProcDisplayData, (LPARAM) (HANDLE) AContact);
 
-	if (DBGetContactSettingByte(AContact, DLLNAME, ON_TOP_KEY, 0))
+	if (db_get_b(AContact, MODULENAME, ON_TOP_KEY, 0))
 	{
 		SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) ((HICON) LoadImage(hInst, MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0)));
-		if ((DBGetContactSettingByte(NULL, DLLNAME, SAVE_INDIVID_POS_KEY, 0)))
+		if ((db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0)))
 		{
 			SetWindowPos(
 			        hwndDlg,
 			        HWND_TOPMOST,
-			        DBGetContactSettingDword(AContact, DLLNAME, "WVx", 100), // Xposition,
-			        DBGetContactSettingDword(AContact, DLLNAME, "WVy", 100), // Yposition,
-			        DBGetContactSettingDword(AContact, DLLNAME, "WVwidth", 100), // WindowWidth,
-			        DBGetContactSettingDword(AContact, DLLNAME, "WVheight", 100), // WindowHeight,
+			        db_get_dw(AContact, MODULENAME, "WVx", 100), // Xposition,
+			        db_get_dw(AContact, MODULENAME, "WVy", 100), // Yposition,
+			        db_get_dw(AContact, MODULENAME, "WVwidth", 100), // WindowWidth,
+			        db_get_dw(AContact, MODULENAME, "WVheight", 100), // WindowHeight,
 			        0);
 		} else
 		{
@@ -1194,19 +1196,19 @@ int             DataWndAlertCommand(void *AContact)
 		}
 
 	}
-	if (!(DBGetContactSettingByte(AContact, DLLNAME, ON_TOP_KEY, 0)))
+	if (!(db_get_b(AContact, MODULENAME, ON_TOP_KEY, 0)))
 	{//
 		SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) ((HICON) LoadImage(hInst, MAKEINTRESOURCE(IDI_UNSTICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0)));
 
-		if ((DBGetContactSettingByte(NULL, DLLNAME, SAVE_INDIVID_POS_KEY, 0)))
+		if ((db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0)))
 		{
 			SetWindowPos(
 			        hwndDlg,
 			        HWND_NOTOPMOST,
-			        DBGetContactSettingDword(AContact, DLLNAME, "WVx", 100), // Xposition,
-			        DBGetContactSettingDword(AContact, DLLNAME, "WVy", 100), // Yposition,
-			        DBGetContactSettingDword(AContact, DLLNAME, "WVwidth", 100), // WindowWidth,
-			        DBGetContactSettingDword(AContact, DLLNAME, "WVheight", 100), // WindowHeight,
+			        db_get_dw(AContact, MODULENAME, "WVx", 100), // Xposition,
+			        db_get_dw(AContact, MODULENAME, "WVy", 100), // Yposition,
+			        db_get_dw(AContact, MODULENAME, "WVwidth", 100), // WindowWidth,
+			        db_get_dw(AContact, MODULENAME, "WVheight", 100), // WindowHeight,
 			        0);
 		} else
 		{
@@ -1230,7 +1232,7 @@ int             DataWndAlertCommand(void *AContact)
 /***************************/
 static void     ReadFromFile(void *AContact)
 {
-	FILE           *pfile;
+	FILE  *pfile;
 	DBVARIANT dbv;
 	char contactname[100];
 	char truncated[MAXSIZE1];
@@ -1238,7 +1240,7 @@ static void     ReadFromFile(void *AContact)
     int  fileexists = 0;         
 
 	
-	 HWND            hwndDlg = (WindowList_Find(hWindowList, AContact));
+	 HWND hwndDlg = (WindowList_Find(hWindowList, AContact));
 	 
 	ZeroMemory(&contactname, sizeof(contactname));
 	DBGetContactSetting(AContact, "CList", "MyHandle", &dbv);
@@ -1248,16 +1250,16 @@ static void     ReadFromFile(void *AContact)
 
 
 ////
-	DBGetContactSetting(AContact, DLLNAME, CACHE_FILE_KEY, &dbv);		
+	DBGetContactSetting(AContact, MODULENAME, CACHE_FILE_KEY, &dbv);		
 ////
 	if ((pfile = fopen(dbv.pszVal, "r")) == NULL)
 	{
 		//WErrorPopup(contactname, Translate("Cannot read from cache file"));
-			            SendToRichEdit(hwndDlg,
-                           Translate("Cannot read from cache file"),
-                           TextClr,
-                           BackgoundClr);
-                           	fileexists =0;
+			 SendToRichEdit(hwndDlg,
+   Translate("Cannot read from cache file"),
+   TextClr,
+   BackgoundClr);
+   	fileexists =0;
 	} 
     else
 	{
@@ -1268,9 +1270,9 @@ static void     ReadFromFile(void *AContact)
 
 	DBFreeVariant(&dbv);
 	
-          if(fileexists) {///
+ if(fileexists) {///
 	
-                                    CodetoSymbol(truncated);
+ CodetoSymbol(truncated);
 									Sleep(100); // avoid 100% CPU
 
 									EraseBlock(truncated);
@@ -1285,20 +1287,20 @@ static void     ReadFromFile(void *AContact)
 									EraseSymbols(truncated);
 									Sleep(100); // avoid 100% CPU
 
-									AmountWspcRem = DBGetContactSettingByte(AContact, DLLNAME, RWSPACE_KEY, 0);
+									AmountWspcRem = db_get_b(AContact, MODULENAME, RWSPACE_KEY, 0);
 									RemoveInvis(truncated, AmountWspcRem);
 									Sleep(100); // avoid 100% CPU
 
 									Removewhitespace(truncated);
 
-	            SendToRichEdit(hwndDlg,
-                           truncated,
-                           TextClr,
-                           BackgoundClr);
-                           
+	 SendToRichEdit(hwndDlg,
+   truncated,
+   TextClr,
+   BackgoundClr);
+   
      SetDlgItemText(hwndDlg, IDC_STATUSBAR, Translate("Loaded From Cache")); 
      
-                             } ///                    
+     } ///        
 }
 
 /***************************/
