@@ -242,11 +242,12 @@ void FacebookProto::ProcessFriendList(void* data)
 		}
 	}
 
-	// Check remain contacts in map and add it to contact list
+	// Check remaining contacts in map and add them to contact list
 	for (std::map< std::string, facebook_user* >::iterator iter = friends.begin(); iter != friends.end(); ++iter) {
 		facebook_user *fbu = iter->second;
 		
 		HANDLE hContact = AddToContactList(fbu, CONTACT_FRIEND, true); // This contact is surely new ...are you sure?
+		delete fbu;
 	}
 
 	LOG("***** Friend list processed");
