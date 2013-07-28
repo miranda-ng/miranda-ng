@@ -94,6 +94,7 @@ public:
 	HANDLE cookies_lock_;
 
 	std::map<std::string, std::string> cookies;
+	std::map<std::string, std::string> pages;
 
 	std::string get_newsfeed_type();
 	std::string get_server_type();
@@ -146,6 +147,7 @@ public:
 
 	bool    buddy_list();
 	bool	load_friends();
+	bool	load_pages();
 	bool    feeds();
 
 	////////////////////////////////////////////////////////////

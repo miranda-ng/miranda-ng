@@ -53,6 +53,7 @@ void FacebookProto::ChangeStatus(void*)
 		facy.clear_cookies();
 		facy.buddies.clear();
 		facy.messages_ignore.clear();
+		facy.pages.clear();
 
 		if (facy.hMsgCon)
 			Netlib_CloseHandle(facy.hMsgCon);
@@ -79,6 +80,7 @@ void FacebookProto::ChangeStatus(void*)
 		{		
 			facy.reconnect();
 			facy.load_friends();
+			facy.load_pages();
 
 			// Process Friends requests
 			ForkThread(&FacebookProto::ProcessFriendRequests, NULL);

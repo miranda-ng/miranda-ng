@@ -147,12 +147,16 @@ struct status_data
 	std::string url;	
 	std::string place;	
 	std::string privacy;
+	bool isPage;
 };
 
 struct wall_data
 {
+	wall_data() {}
+	wall_data(std::string user_id, TCHAR *title, bool isPage = false) : user_id(user_id), title(title), isPage(isPage) {}
 	std::string user_id;
-	std::string title;
+	TCHAR *title;
+	bool isPage;
 };
 
 struct post_status_data {

@@ -146,7 +146,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		SetDlgItemText(hwnd, IDC_PLACE, place != NULL ? place : _T("Miranda NG"));
 
 		for (std::vector<wall_data*>::size_type i = 0; i < data->walls.size(); i++)
-			SendDlgItemMessageA(hwnd, IDC_WALL, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(data->walls[i]->title.c_str()));
+			SendDlgItemMessage(hwnd, IDC_WALL, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(data->walls[i]->title));
 		SendDlgItemMessage(hwnd, IDC_WALL, CB_SETCURSEL, 0, 0);
 		SendDlgItemMessage(hwnd, IDC_WALL, CB_SETCURSEL, data->proto->getByte(FACEBOOK_KEY_LAST_WALL, 0), 0);
 		RefreshPrivacy(hwnd, data);
@@ -207,8 +207,11 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			ptrA place(mir_utf8encodeT(placeT));
 			data->proto->setString(FACEBOOK_KEY_PLACE, place);
 
+			int wall_id = SendDlgItemMessage(hwnd, IDC_WALL, CB_GETCURSEL, 0, 0);
+
 			status_data *status = new status_data();
-			status->user_id = data->walls[SendDlgItemMessage(hwnd, IDC_WALL, CB_GETCURSEL, 0, 0)]->user_id;
+			status->user_id = data->walls[wall_id]->user_id;
+			status->isPage = data->walls[wall_id]->isPage;
 			status->privacy = privacy_types[SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_GETCURSEL, 0, 0)].id;
 			status->place = place;
 			status->url = _T2A(urlT);
@@ -235,8 +238,10 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 	case WM_DESTROY:
 		data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 
-		for(std::vector<wall_data*>::size_type i = 0; i < data->walls.size(); i++)
+		for(std::vector<wall_data*>::size_type i = 0; i < data->walls.size(); i++) {
+			mir_free(data->walls[i]->title);
 			delete data->walls[i];
+		}
 
 		delete data;
 	}
@@ -370,8 +375,8 @@ INT_PTR CALLBACK FBOptionsAdvancedProc(HWND hwnd, UINT message, WPARAM wparam, L
 		LoadDBCheckState(proto, hwnd, IDC_LOGGING, FACEBOOK_KEY_LOGGING_ENABLE, DEFAULT_LOGGING_ENABLE);
 		LoadDBCheckState(proto, hwnd, IDC_MAP_STATUSES, FACEBOOK_KEY_MAP_STATUSES, DEFAULT_MAP_STATUSES);
 		LoadDBCheckState(proto, hwnd, IDC_CUSTOM_SMILEYS, FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS);
-
-		LoadDBCheckState(proto, hwnd, IDC_USE_LOCAL_TIME, FACEBOOK_KEY_LOCAL_TIMESTAMP, 0);
+		LoadDBCheckState(proto, hwnd, IDC_USE_LOCAL_TIME, FACEBOOK_KEY_LOCAL_TIMESTAMP, DEFAULT_LOCAL_TIME);
+		LoadDBCheckState(proto, hwnd, IDC_LOAD_PAGES, FACEBOOK_KEY_LOAD_PAGES, DEFAULT_LOAD_PAGES);
 
 		EnableWindow(GetDlgItem(hwnd, IDC_SECURE_CHANNEL), IsDlgButtonChecked(hwnd, IDC_SECURE));
 
@@ -403,6 +408,7 @@ INT_PTR CALLBACK FBOptionsAdvancedProc(HWND hwnd, UINT message, WPARAM wparam, L
 			StoreDBCheckState(proto, hwnd, IDC_MAP_STATUSES, FACEBOOK_KEY_MAP_STATUSES);
 			StoreDBCheckState(proto, hwnd, IDC_CUSTOM_SMILEYS, FACEBOOK_KEY_CUSTOM_SMILEYS);
 			StoreDBCheckState(proto, hwnd, IDC_USE_LOCAL_TIME, FACEBOOK_KEY_LOCAL_TIMESTAMP);
+			StoreDBCheckState(proto, hwnd, IDC_LOAD_PAGES, FACEBOOK_KEY_LOAD_PAGES);
 
 			BOOL setStatus = IsDlgButtonChecked(hwnd, IDC_SET_STATUS);
 			BOOL setStatusOld = proto->getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, DEFAULT_SET_MIRANDA_STATUS);

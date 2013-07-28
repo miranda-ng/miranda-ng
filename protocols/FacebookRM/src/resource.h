@@ -28,6 +28,7 @@
 #define IDC_LOAD_MOBILE                 1033
 #define IDC_CUSTOM_SMILEYS              1034
 #define IDC_USE_LOCAL_TIME              1035
+#define IDC_LOAD_PAGES                  1036
 #define IDC_NOTIFICATIONS_ENABLE        1041
 #define IDC_FEEDS_ENABLE                1042
 #define IDC_OTHER_ENABLE                1043

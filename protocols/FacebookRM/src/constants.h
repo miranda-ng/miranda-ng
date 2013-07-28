@@ -63,6 +63,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_MAP_STATUSES					0
 #define DEFAULT_LOAD_MOBILE						0
 #define DEFAULT_CUSTOM_SMILEYS					0
+#define DEFAULT_LOCAL_TIME						0
+#define DEFAULT_LOAD_PAGES						0
 
 #define DEFAULT_EVENT_NOTIFICATIONS_ENABLE		1
 #define DEFAULT_EVENT_FEEDS_ENABLE				1
@@ -92,6 +94,7 @@ enum RequestType {
 	REQUEST_FEEDS,				// getting feeds
 	REQUEST_NOTIFICATIONS,		// getting notifications
 	REQUEST_LOAD_REQUESTS,		// getting friend requests
+	REQUEST_PAGES,				// getting pages list
 
 	REQUEST_POST_STATUS,		// posting status to our or friends's wall
 	REQUEST_STATUS_COMPOSER,	// posting status to our or friends's wall with url links

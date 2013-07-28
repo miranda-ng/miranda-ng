@@ -182,6 +182,8 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,108,267,10
     COMBOBOX        IDC_URL_SERVER,156,135,96,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Use this server for opening links:",IDC_STATIC,17,137,135,8
+    CONTROL         "Allow posting statuses to my pages (may slow down login)",IDC_LOAD_PAGES,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,122,267,10
 END
 
 
@@ -275,8 +277,7 @@ END
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-
-
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 

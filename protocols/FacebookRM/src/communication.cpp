@@ -233,6 +233,7 @@ DWORD facebook_client::choose_security_level(RequestType request_type)
 //	case REQUEST_APPROVE_FRIEND:
 //	case REQUEST_CANCEL_REQUEST:
 //	case REQUEST_FEEDS:
+//	case REQUEST_PAGES:
 //	case REQUEST_NOTIFICATIONS:
 //	case REQUEST_RECONNECT:
 //	case REQUEST_POST_STATUS:
@@ -285,6 +286,7 @@ int facebook_client::choose_method(RequestType request_type)
 //	case REQUEST_DTSG:
 //	case REQUEST_MESSAGES_RECEIVE:
 //	case REQUEST_FEEDS:
+//	case REQUEST_PAGES:
 //	case REQUEST_NOTIFICATIONS:
 //	case REQUEST_RECONNECT:
 //	case REQUEST_LOAD_FRIENDS:
@@ -335,6 +337,7 @@ std::string facebook_client::choose_server(RequestType request_type, std::string
 //	case REQUEST_BUDDY_LIST:
 //	case REQUEST_LOAD_FRIENDS:
 //	case REQUEST_FEEDS:
+//	case REQUEST_PAGES:
 //	case REQUEST_NOTIFICATIONS:
 //	case REQUEST_RECONNECT:
 //	case REQUEST_POST_STATUS:
@@ -465,6 +468,11 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		utils::text::replace_first(&action, "%s", newest);
 		utils::text::replace_first(&action, "%s", self_.user_id);
 		return action;
+	}
+
+	case REQUEST_PAGES:
+	{
+		return "/bookmarks/pages";
 	}
 
 	case REQUEST_NOTIFICATIONS:
@@ -1034,6 +1042,60 @@ bool facebook_client::feeds()
 	}
 }
 
+bool facebook_client::load_pages()
+{
+	if (!parent->getByte(FACEBOOK_KEY_LOAD_PAGES, DEFAULT_LOAD_PAGES))
+		return true;
+
+	handle_entry("load_pages");
+
+	// Get feeds
+	http::response resp = flap(REQUEST_PAGES);
+
+	// Process result data
+	validate_response(&resp);
+  
+	switch (resp.code) {
+	case HTTP_CODE_OK:
+	{
+		std::string content = utils::text::source_get_value(&resp.data, 2, "id=\"bookmarksSeeAllSection\"", "</code>");
+		
+		std::string::size_type start, end;
+		start = content.find("<li", 0);
+		while (start != std::string::npos) {			
+			end = content.find("<li", start+1);
+			if (end == std::string::npos)
+				end = content.length();
+
+			std::string item = content.substr(start, end - start);
+			//item = utils::text::source_get_value(&item, 2, "data-gt=", ">");
+
+			start = content.find("<li", start+1);
+			
+			std::string id = utils::text::source_get_value(&item, 3, "data-gt=", "bmid&quot;:&quot;", "&quot;");
+			std::string title = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&item, 3, "data-gt=", "title=\"", "\"")));
+			std::string href = utils::text::source_get_value(&item, 3, "data-gt=", "href=\"", "\"");
+			
+			// Ignore pages channel
+			if (href.find("/pages/feed") != std::string::npos)
+				continue;
+
+			if (id.empty() || title.empty())
+				continue;
+
+			parent->Log("      Got page: %s (%s)", title.c_str(), id.c_str());
+			pages[id] = title;			
+		}
+
+		return handle_success("load_pages");
+	}
+	case HTTP_CODE_FAKE_ERROR:
+	case HTTP_CODE_FAKE_DISCONNECTED:
+	default:
+		return handle_error("load_pages");
+	}
+}
+
 bool facebook_client::channel()
 {
 	handle_entry("channel");
@@ -1255,7 +1317,7 @@ bool facebook_client::post_status(status_data *status)
 		data += "&composerid=u_jsonp_2_b";
 		data += "&targetid=" + (status->user_id.empty() ? this->self_.user_id : status->user_id);
 		data += "&istimeline=1&composercontext=composer&onecolumn=1&nctr[_mod]=pagelet_timeline_recent&__a=1&ttstamp=0";
-		data += "&__user=" + this->self_.user_id;
+		data += "&__user=" + (status->isPage && !status->user_id.empty() ? status->user_id : this->self_.user_id);
 		data += "&loaded_components[0]=maininput&loaded_components[1]=backdateicon&loaded_components[2]=withtaggericon&loaded_components[3]=cameraicon&loaded_components[4]=placetaggericon&loaded_components[5]=mainprivacywidget&loaded_components[6]=withtaggericon&loaded_components[7]=backdateicon&loaded_components[8]=placetaggericon&loaded_components[9]=cameraicon&loaded_components[10]=mainprivacywidget&loaded_components[11]=maininput&loaded_components[12]=explicitplaceinput&loaded_components[13]=hiddenplaceinput&loaded_components[14]=placenameinput&loaded_components[15]=hiddensessionid&loaded_components[16]=withtagger&loaded_components[17]=backdatepicker&loaded_components[18]=placetagger&loaded_components[19]=citysharericon";
 		http::response resp = flap(REQUEST_LINK_SCRAPER, &data, &status->url);
 		resp.data = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(resp.data));
@@ -1273,12 +1335,12 @@ bool facebook_client::post_status(status_data *status)
 	
 	data += "fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
 	data += "&xhpc_targetid=" + (status->user_id.empty() ? this->self_.user_id : status->user_id);
-	data += "&__user=" + this->self_.user_id;
+	data += "&__user=" + (status->isPage && !status->user_id.empty() ? status->user_id : this->self_.user_id);
 	data += "&xhpc_message=" + text;
 	data += "&xhpc_message_text=" + text;
 	data += "&audience[0][value]=" + get_privacy_type();
 	if (!status->place.empty()) {
-		data += "&composertags_place_name=";	
+		data += "&composertags_place_name=";
 		data += utils::url::encode(status->place);
 	}
 

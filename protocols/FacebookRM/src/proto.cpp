@@ -465,15 +465,21 @@ INT_PTR FacebookProto::OnMind(WPARAM wParam, LPARAM lParam)
 	// TODO: why isn't wParam == 0 when is status menu moved to main menu?
 	if (wParam != 0 && !IsMyContact(hContact))
 		return 1;
-		
+
 	wall_data *wall = new wall_data();
 	wall->user_id = ptrA(getStringA(hContact, FACEBOOK_KEY_ID));
-	if (wall->user_id == facy.self_.user_id)
-		wall->title = Translate("Own wall");
-	else
-		wall->title = ptrA(getStringA(hContact, FACEBOOK_KEY_NAME));
+	if (wall->user_id == facy.self_.user_id) {
+		wall->title = _tcsdup(TranslateT("Own wall"));
+	} else
+		wall->title = getTStringA(hContact, FACEBOOK_KEY_NAME);
 
 	post_status_data *data = new post_status_data(this, wall);
+
+	if (wall->user_id == facy.self_.user_id) {
+		for (std::map<std::string, std::string>::iterator iter = facy.pages.begin(); iter != facy.pages.end(); ++iter) {
+			data->walls.push_back(new wall_data(iter->first, mir_utf8decodeT(iter->second.c_str()), true));
+		}
+	}
 		
 	HWND hDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MIND), (HWND)0, FBMindProc, reinterpret_cast<LPARAM>(data));
 	ShowWindow(hDlg, SW_SHOW);
