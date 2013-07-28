@@ -138,9 +138,6 @@
     <ClInclude Include="json\JSONWorker.h">
       <Filter>Source Files\json</Filter>
     </ClInclude>
-    <ClInclude Include="json\libJSON.h">
-      <Filter>Source Files\json</Filter>
-    </ClInclude>
     <ClInclude Include="json\NumberToString.h">
       <Filter>Source Files\json</Filter>
     </ClInclude>

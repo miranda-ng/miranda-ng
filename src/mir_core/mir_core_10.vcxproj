@@ -31,7 +31,6 @@
     <ClInclude Include="json\JSONNode.h" />
     <ClInclude Include="json\JSONOptions.h" />
     <ClInclude Include="json\JSONWorker.h" />
-    <ClInclude Include="json\libJSON.h" />
     <ClInclude Include="json\NumberToString.h" />
     <ClInclude Include="miranda.h" />
   </ItemGroup>
