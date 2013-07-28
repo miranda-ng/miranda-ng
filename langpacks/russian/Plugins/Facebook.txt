@@ -173,6 +173,8 @@
 Друзьям друзей
 [Only for me]
 Только мне
+[Wall:]
+Стена:
 [Visibility:]
 Видно:
 [Text:]
@@ -187,3 +189,5 @@
 Отправить
 [Show 'Share status' window]
 Сообщение статуса Facebook 
+[Own wall]
+Своя стена
