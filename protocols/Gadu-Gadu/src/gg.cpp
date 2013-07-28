@@ -260,7 +260,7 @@ void GGPROTO::block_init()
 {
 	char service[64];
 	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_BLOCKUSER);
-	CreateService(GGS_BLOCKUSER, &GGPROTO::blockuser);
+	CreateProtoService(GGS_BLOCKUSER, &GGPROTO::blockuser);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_TCHAR;

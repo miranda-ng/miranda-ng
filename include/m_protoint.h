@@ -60,8 +60,8 @@ struct  PROTO_INTERFACE : public MZeroedObject
 	__forceinline INT_PTR ProtoBroadcastAck(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam)
 	{	return ::ProtoBroadcastAck(m_szModuleName, hContact, type, hResult, hProcess, lParam); }
 
-	__forceinline int delSetting(const char *name) { return db_unset(NULL, m_szModuleName, name); }
-	__forceinline int delSetting(HANDLE hContact, const char *name) { return db_unset(hContact, m_szModuleName, name); }
+	__forceinline INT_PTR delSetting(const char *name) { return db_unset(NULL, m_szModuleName, name); }
+	__forceinline INT_PTR delSetting(HANDLE hContact, const char *name) { return db_unset(hContact, m_szModuleName, name); }
 
 	__forceinline bool getBool(const char *name, bool defaultValue) { return ProtoGetBool0(this, name, defaultValue); }
 	__forceinline bool getBool(HANDLE hContact, const char *name, bool defaultValue) { return ProtoGetBool(this, hContact, name, defaultValue); }
@@ -164,8 +164,11 @@ public:
 		::ProtoDestructor(this);
 	}
 
+	__forceinline HANDLE CreateProtoEvent(const char *name)
+	{	return ::ProtoCreateHookableEvent(this, name); } 
+
 	typedef int (__cdecl T::*MyEventFunc)(WPARAM, LPARAM);
-	__forceinline void HookEvent(const char *name, MyEventFunc pFunc)
+	__forceinline void HookProtoEvent(const char *name, MyEventFunc pFunc)
 	{	::ProtoHookEvent(this, name, (ProtoEventFunc)pFunc); } 
 
 	typedef void (__cdecl T::*MyThreadFunc)(void*);
@@ -175,11 +178,11 @@ public:
 	{	return ::ProtoForkThreadEx(this, (ProtoThreadFunc)pFunc, param, pThreadId); } 
 
 	typedef INT_PTR (__cdecl T::*MyServiceFunc)(WPARAM, LPARAM);
-	__forceinline void CreateService(const char *name, MyServiceFunc pFunc)
+	__forceinline void CreateProtoService(const char *name, MyServiceFunc pFunc)
 	{  ::ProtoCreateService(this, name, (ProtoServiceFunc)pFunc); }
 
 	typedef INT_PTR (__cdecl T::*MyServiceFuncParam)(WPARAM, LPARAM, LPARAM);
-	__forceinline void CreateServiceParam(const char *name, MyServiceFuncParam pFunc, LPARAM param)
+	__forceinline void CreateProtoServiceParam(const char *name, MyServiceFuncParam pFunc, LPARAM param)
 	{  ::ProtoCreateServiceParam(this, name, (ProtoServiceFuncParam)pFunc, param); }
 };
 #endif // M_PROTOINT_H__

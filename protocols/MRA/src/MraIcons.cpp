@@ -32,7 +32,7 @@ GUI_DISPLAY_ITEM gdiContactMenuItems[] =
 	{ MRA_VIEW_VIDEO,         MRA_VIEW_VIDEO_STR,         IDI_MRA_VIDEO,      &CMraProto::MraViewVideo },
 	{ MRA_ANSWERS,            MRA_ANSWERS_STR,            IDI_MRA_ANSWERS,    &CMraProto::MraAnswers },
 	{ MRA_WORLD,              MRA_WORLD_STR,              IDI_MRA_WORLD,      &CMraProto::MraWorld },
-	{ MRA_SEND_NUDGE,         MRA_SENDNUDGE_STR,          IDI_MRA_ALARM,      NULL }
+	{ PS_SEND_NUDGE,          MRA_SENDNUDGE_STR,          IDI_MRA_ALARM,      NULL }
 };
 
 GUI_DISPLAY_ITEM gdiExtraStatusIconsItems[] =
@@ -191,7 +191,7 @@ void CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, HICON hMain
 	for (size_t i = 0; i < dwCount; i++) {
 		memmove(pszServiceFunctionName, pgdiItems[i].lpszName, lstrlenA(pgdiItems[i].lpszName)+1);
 		if (pgdiItems[i].lpFunc)
-			CreateService(pgdiItems[i].lpszName, pgdiItems[i].lpFunc);
+			CreateProtoService(pgdiItems[i].lpszName, pgdiItems[i].lpFunc);
 		mi.position = int(lPosition + i);
 		mi.icolibItem = pgdiItems[i].hIconHandle;
 		mi.ptszName = pgdiItems[i].lpwszDescr;

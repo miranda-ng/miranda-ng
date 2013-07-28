@@ -89,7 +89,7 @@ CIcqProto::CIcqProto( const char* aProtoName, const TCHAR* aUserName ) :
 	// Initialize server lists
 	servlistMutex = new icq_critical_section();
 	servlistQueueMutex = new icq_critical_section();
-	HookEvent(ME_CLIST_GROUPCHANGE, &CIcqProto::ServListCListGroupChange);
+	HookProtoEvent(ME_CLIST_GROUPCHANGE, &CIcqProto::ServListCListGroupChange);
 
 	// Initialize status message struct
 	ZeroMemory(&m_modeMsgs, sizeof(icq_mode_messages));
@@ -97,7 +97,7 @@ CIcqProto::CIcqProto( const char* aProtoName, const TCHAR* aUserName ) :
 	connectionHandleMutex = new icq_critical_section();
 	localSeqMutex = new icq_critical_section();
 
-	m_modeMsgsEvent = CreateHookableEvent(ME_ICQ_STATUSMSGREQ);
+	m_modeMsgsEvent = CreateProtoEvent(ME_ICQ_STATUSMSGREQ);
 
 	// Initialize cookies
 	cookieMutex = new icq_critical_section();
@@ -122,42 +122,42 @@ CIcqProto::CIcqProto( const char* aProtoName, const TCHAR* aUserName ) :
 	db_set_resident(m_szModuleName, DBSETTING_STATUS_MOOD);
 
 	// Setup services
-	CreateService(PS_CREATEACCMGRUI, &CIcqProto::OnCreateAccMgrUI );
-	CreateService(MS_ICQ_SENDSMS, &CIcqProto::SendSms);
-	CreateService(PS_SET_NICKNAME, &CIcqProto::SetNickName);
+	CreateProtoService(PS_CREATEACCMGRUI, &CIcqProto::OnCreateAccMgrUI );
+	CreateProtoService(MS_ICQ_SENDSMS, &CIcqProto::SendSms);
+	CreateProtoService(PS_SET_NICKNAME, &CIcqProto::SetNickName);
 
-	CreateService(PS_GETMYAWAYMSG, &CIcqProto::GetMyAwayMsg);
+	CreateProtoService(PS_GETMYAWAYMSG, &CIcqProto::GetMyAwayMsg);
 
-	CreateService(PS_GETINFOSETTING, &CIcqProto::GetInfoSetting);
+	CreateProtoService(PS_GETINFOSETTING, &CIcqProto::GetInfoSetting);
 
-	CreateService(PSS_ADDED, &CIcqProto::SendYouWereAdded);
+	CreateProtoService(PSS_ADDED, &CIcqProto::SendYouWereAdded);
 	// Session password API
-	CreateService(PS_ICQ_SETPASSWORD, &CIcqProto::SetPassword);
+	CreateProtoService(PS_ICQ_SETPASSWORD, &CIcqProto::SetPassword);
 	// ChangeInfo API
-	CreateService(PS_CHANGEINFOEX, &CIcqProto::ChangeInfoEx);
+	CreateProtoService(PS_CHANGEINFOEX, &CIcqProto::ChangeInfoEx);
 	// Avatar API
-	CreateService(PS_GETAVATARINFOT, &CIcqProto::GetAvatarInfo);
-	CreateService(PS_GETAVATARCAPS, &CIcqProto::GetAvatarCaps);
-	CreateService(PS_GETMYAVATART, &CIcqProto::GetMyAvatar);
-	CreateService(PS_SETMYAVATART, &CIcqProto::SetMyAvatar);
+	CreateProtoService(PS_GETAVATARINFOT, &CIcqProto::GetAvatarInfo);
+	CreateProtoService(PS_GETAVATARCAPS, &CIcqProto::GetAvatarCaps);
+	CreateProtoService(PS_GETMYAVATART, &CIcqProto::GetMyAvatar);
+	CreateProtoService(PS_SETMYAVATART, &CIcqProto::SetMyAvatar);
 	// Custom Status API
-	CreateService(PS_SETCUSTOMSTATUSEX, &CIcqProto::SetXStatusEx);
-	CreateService(PS_GETCUSTOMSTATUSEX, &CIcqProto::GetXStatusEx);
-	CreateService(PS_GETCUSTOMSTATUSICON, &CIcqProto::GetXStatusIcon);
-	CreateService(PS_GETADVANCEDSTATUSICON, &CIcqProto::RequestAdvStatusIconIdx);
-	CreateService(PS_ICQ_REQUESTCUSTOMSTATUS, &CIcqProto::RequestXStatusDetails);
+	CreateProtoService(PS_SETCUSTOMSTATUSEX, &CIcqProto::SetXStatusEx);
+	CreateProtoService(PS_GETCUSTOMSTATUSEX, &CIcqProto::GetXStatusEx);
+	CreateProtoService(PS_GETCUSTOMSTATUSICON, &CIcqProto::GetXStatusIcon);
+	CreateProtoService(PS_GETADVANCEDSTATUSICON, &CIcqProto::RequestAdvStatusIconIdx);
+	CreateProtoService(PS_ICQ_REQUESTCUSTOMSTATUS, &CIcqProto::RequestXStatusDetails);
 
-	CreateService(MS_ICQ_ADDSERVCONTACT, &CIcqProto::AddServerContact);
+	CreateProtoService(MS_ICQ_ADDSERVCONTACT, &CIcqProto::AddServerContact);
 
-	CreateService(MS_REQ_AUTH, &CIcqProto::RequestAuthorization);
-	CreateService(MS_GRANT_AUTH, &CIcqProto::GrantAuthorization);
-	CreateService(MS_REVOKE_AUTH, &CIcqProto::RevokeAuthorization);
+	CreateProtoService(MS_REQ_AUTH, &CIcqProto::RequestAuthorization);
+	CreateProtoService(MS_GRANT_AUTH, &CIcqProto::GrantAuthorization);
+	CreateProtoService(MS_REVOKE_AUTH, &CIcqProto::RevokeAuthorization);
 
-	CreateService(MS_XSTATUS_SHOWDETAILS, &CIcqProto::ShowXStatusDetails);
+	CreateProtoService(MS_XSTATUS_SHOWDETAILS, &CIcqProto::ShowXStatusDetails);
 
 	// Custom caps
-	CreateService(PS_ICQ_ADDCAPABILITY, &CIcqProto::IcqAddCapability);
-	CreateService(PS_ICQ_CHECKCAPABILITY, &CIcqProto::IcqCheckCapability);
+	CreateProtoService(PS_ICQ_ADDCAPABILITY, &CIcqProto::IcqAddCapability);
+	CreateProtoService(PS_ICQ_CHECKCAPABILITY, &CIcqProto::IcqCheckCapability);
 
 	// Reset a bunch of session specific settings
 	UpdateGlobalSettings();
@@ -169,7 +169,7 @@ CIcqProto::CIcqProto( const char* aProtoName, const TCHAR* aUserName ) :
 	// Startup Auto Info-Update thread
 	icq_InitInfoUpdate();
 
-	HookEvent(ME_CLIST_PREBUILDSTATUSMENU, &CIcqProto::OnPreBuildStatusMenu);
+	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &CIcqProto::OnPreBuildStatusMenu);
 
 	// Register netlib users
 	NETLIBUSER nlu = {0};
@@ -285,9 +285,9 @@ int CIcqProto::OnModulesLoaded( WPARAM wParam, LPARAM lParam )
 	modules[3] = pszSrvGroupsName;
 	CallService("DBEditorpp/RegisterModule",(WPARAM)modules,(LPARAM)4);
 
-	HookEvent(ME_OPT_INITIALISE, &CIcqProto::OnOptionsInit);
-	HookEvent(ME_USERINFO_INITIALISE, &CIcqProto::OnUserInfoInit);
-	HookEvent(ME_IDLE_CHANGED, &CIcqProto::OnIdleChanged);
+	HookProtoEvent(ME_OPT_INITIALISE, &CIcqProto::OnOptionsInit);
+	HookProtoEvent(ME_USERINFO_INITIALISE, &CIcqProto::OnUserInfoInit);
+	HookProtoEvent(ME_IDLE_CHANGED, &CIcqProto::OnIdleChanged);
 
 	InitAvatars();
 

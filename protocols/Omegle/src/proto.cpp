@@ -33,13 +33,13 @@ OmegleProto::OmegleProto(const char* proto_name, const TCHAR* username) :
 	this->facy.connection_lock_ = CreateMutex( NULL, FALSE, NULL );
 
 	// Group chats
-	CreateService(PS_JOINCHAT, &OmegleProto::OnJoinChat);
-	CreateService(PS_LEAVECHAT, &OmegleProto::OnLeaveChat);
+	CreateProtoService(PS_JOINCHAT, &OmegleProto::OnJoinChat);
+	CreateProtoService(PS_LEAVECHAT, &OmegleProto::OnLeaveChat);
 
-	CreateService(PS_CREATEACCMGRUI, &OmegleProto::SvcCreateAccMgrUI);
+	CreateProtoService(PS_CREATEACCMGRUI, &OmegleProto::SvcCreateAccMgrUI);
 
-	HookEvent(ME_OPT_INITIALISE, &OmegleProto::OnOptionsInit);
-	HookEvent(ME_GC_EVENT, &OmegleProto::OnChatEvent);
+	HookProtoEvent(ME_OPT_INITIALISE, &OmegleProto::OnOptionsInit);
+	HookProtoEvent(ME_GC_EVENT, &OmegleProto::OnChatEvent);
 
 	// Create standard network connection
 	TCHAR descr[512];

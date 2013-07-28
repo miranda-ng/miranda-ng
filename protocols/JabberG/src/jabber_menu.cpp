@@ -441,7 +441,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 				for (int i = 0; i < nMenuResourceItemsNew; i++) {
 					mir_snprintf(tDest, SIZEOF(text) - nModuleNameLength, "/UseResource_%d", i);
 					if (i >= m_nMenuResourceItems) {
-						CreateServiceParam(tDest, &CJabberProto::OnMenuHandleResource, MENUITEM_RESOURCES+i);
+						CreateProtoServiceParam(tDest, &CJabberProto::OnMenuHandleResource, MENUITEM_RESOURCES+i);
 						mi.pszName = "";
 						mi.position = i;
 						mi.hParentMenu = g_hMenuResourcesRoot;
@@ -673,7 +673,7 @@ void CJabberProto::MenuInit()
 	}
 
 	// "Bookmarks..."
-	CreateService("/Bookmarks", &CJabberProto::OnMenuHandleBookmarks);
+	CreateProtoService("/Bookmarks", &CJabberProto::OnMenuHandleBookmarks);
 	strcpy(tDest, "/Bookmarks");
 	mi.flags = CMIF_CHILDPOPUP;
 	mi.hParentMenu = hJabberRoot;
@@ -683,7 +683,7 @@ void CJabberProto::MenuInit()
 	m_hMenuBookmarks = Menu_AddProtoMenuItem(&mi);
 
 	// "Options..."
-	CreateService("/Options", &CJabberProto::OnMenuOptions);
+	CreateProtoService("/Options", &CJabberProto::OnMenuOptions);
 	strcpy(tDest, "/Options");
 	mi.pszName = LPGEN("Options...");
 	mi.position = 200002;
@@ -698,7 +698,7 @@ void CJabberProto::MenuInit()
 	HGENMENU hMenuServicesRoot = Menu_AddProtoMenuItem(&mi);
 
 	// "Service Discovery..."
-	CreateService("/ServiceDiscovery", &CJabberProto::OnMenuHandleServiceDiscovery);
+	CreateProtoService("/ServiceDiscovery", &CJabberProto::OnMenuHandleServiceDiscovery);
 	strcpy(tDest, "/ServiceDiscovery");
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.pszName = LPGEN("Service Discovery");
@@ -707,28 +707,28 @@ void CJabberProto::MenuInit()
 	mi.hParentMenu = hMenuServicesRoot;
 	m_hMenuServiceDiscovery = Menu_AddProtoMenuItem(&mi);
 
-	CreateService("/SD/MyTransports", &CJabberProto::OnMenuHandleServiceDiscoveryMyTransports);
+	CreateProtoService("/SD/MyTransports", &CJabberProto::OnMenuHandleServiceDiscoveryMyTransports);
 	strcpy(tDest, "/SD/MyTransports");
 	mi.pszName = LPGEN("Registered Transports");
 	mi.position = 2000050003;
 	mi.icolibItem = GetIconHandle(IDI_TRANSPORTL);
 	m_hMenuSDMyTransports = Menu_AddProtoMenuItem(&mi);
 
-	CreateService("/SD/Transports", &CJabberProto::OnMenuHandleServiceDiscoveryTransports);
+	CreateProtoService("/SD/Transports", &CJabberProto::OnMenuHandleServiceDiscoveryTransports);
 	strcpy(tDest, "/SD/Transports");
 	mi.pszName = LPGEN("Local Server Transports");
 	mi.position = 2000050004;
 	mi.icolibItem = GetIconHandle(IDI_TRANSPORT);
 	m_hMenuSDTransports = Menu_AddProtoMenuItem(&mi);
 
-	CreateService("/SD/Conferences", &CJabberProto::OnMenuHandleServiceDiscoveryConferences);
+	CreateProtoService("/SD/Conferences", &CJabberProto::OnMenuHandleServiceDiscoveryConferences);
 	strcpy(tDest, "/SD/Conferences");
 	mi.pszName = LPGEN("Browse Chatrooms");
 	mi.position = 2000050005;
 	mi.icolibItem = GetIconHandle(IDI_GROUP);
 	m_hMenuSDConferences = Menu_AddProtoMenuItem(&mi);
 
-	CreateService("/Groupchat", &CJabberProto::OnMenuHandleJoinGroupchat);
+	CreateProtoService("/Groupchat", &CJabberProto::OnMenuHandleJoinGroupchat);
 	strcpy(tDest, "/Groupchat");
 	mi.pszName = LPGEN("Create/Join groupchat");
 	mi.position = 2000050006;
@@ -736,7 +736,7 @@ void CJabberProto::MenuInit()
 	m_hMenuGroupchat = Menu_AddProtoMenuItem(&mi);
 
 	// "Change Password..."
-	CreateService("/ChangePassword", &CJabberProto::OnMenuHandleChangePassword);
+	CreateProtoService("/ChangePassword", &CJabberProto::OnMenuHandleChangePassword);
 	strcpy(tDest, "/ChangePassword");
 	mi.pszName = LPGEN("Change Password");
 	mi.position = 2000050007;
@@ -744,7 +744,7 @@ void CJabberProto::MenuInit()
 	m_hMenuChangePassword = Menu_AddProtoMenuItem(&mi);
 
 	// "Roster editor"
-	CreateService("/RosterEditor", &CJabberProto::OnMenuHandleRosterControl);
+	CreateProtoService("/RosterEditor", &CJabberProto::OnMenuHandleRosterControl);
 	strcpy(tDest, "/RosterEditor");
 	mi.pszName = LPGEN("Roster editor");
 	mi.position = 2000050009;
@@ -752,14 +752,14 @@ void CJabberProto::MenuInit()
 	m_hMenuRosterControl = Menu_AddProtoMenuItem(&mi);
 
 	// "XML Console"
-	CreateService("/XMLConsole", &CJabberProto::OnMenuHandleConsole);
+	CreateProtoService("/XMLConsole", &CJabberProto::OnMenuHandleConsole);
 	strcpy(tDest, "/XMLConsole");
 	mi.pszName = LPGEN("XML Console");
 	mi.position = 2000050010;
 	mi.icolibItem = GetIconHandle(IDI_CONSOLE);
 	Menu_AddProtoMenuItem(&mi);
 
-	CreateService("/Notes", &CJabberProto::OnMenuHandleNotes);
+	CreateProtoService("/Notes", &CJabberProto::OnMenuHandleNotes);
 	strcpy(tDest, "/Notes");
 	mi.pszName = LPGEN("Notes");
 	mi.position = 2000050011;
@@ -793,7 +793,7 @@ void CJabberProto::MenuInit()
 	mir_snprintf(srvFce, sizeof(srvFce), "%s/menuSetPriority/0", m_szModuleName);
 	bool needServices = !ServiceExists(srvFce);
 	if (needServices)
-		CreateServiceParam(svcName, &CJabberProto::OnMenuSetPriority, 0);
+		CreateProtoServiceParam(svcName, &CJabberProto::OnMenuSetPriority, 0);
 
 	int steps[] = { 10, 5, 1, 0, -1, -5, -10 };
 	for (int i = 0; i < SIZEOF(steps); i++) {
@@ -808,7 +808,7 @@ void CJabberProto::MenuInit()
 		mir_snprintf(szName, sizeof(szName), (steps[i] > 0) ? "Increase priority by %d" : "Decrease priority by %d", abs(steps[i]));
 
 		if (needServices)
-			CreateServiceParam(svcName, &CJabberProto::OnMenuSetPriority, (LPARAM)steps[i]);
+			CreateProtoServiceParam(svcName, &CJabberProto::OnMenuSetPriority, (LPARAM)steps[i]);
 
 		mi.position++;
 		Menu_AddProtoMenuItem(&mi);

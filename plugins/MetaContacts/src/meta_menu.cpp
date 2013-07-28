@@ -18,7 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-/** @file meta_menu.c 
+/** @file meta_menu.c
 *
 * Functions needed to handle MetaContacts.
 * Centralizes functions called when the user chooses
@@ -40,7 +40,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv;
 	char *group = 0;
-		
+
 	// Get some information about the selected contact.
 	if ( !db_get_utf((HANDLE)wParam, "CList", "Group", &dbv)) {
 		group = _strdup(dbv.pszVal);
@@ -59,7 +59,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM lParam)
 
 		if (group)
 			db_set_utf(hMetaContact, "CList", "Group", group);
-		
+
 		// Assign the contact to the MetaContact just created (and make default).
 		if ( !Meta_Assign((HANDLE)wParam, hMetaContact, TRUE)) {
 			MessageBox(0, TranslateT("There was a problem in assigning the contact to the MetaContact"), TranslateT("Error"), MB_ICONEXCLAMATION);
@@ -164,7 +164,7 @@ void Meta_RemoveContactNumber(HANDLE hMeta, int number)
 	// if the default contact was equal to or greater than 'number', decrement it (and deal with ends)
 	if (default_contact >= number) {
 		default_contact--;
-		if (default_contact < 0) 
+		if (default_contact < 0)
 			default_contact = 0;
 
 		db_set_dw(hMeta, META_PROTO, "Default", (DWORD)default_contact);
@@ -209,7 +209,7 @@ INT_PTR Meta_Delete(WPARAM wParam,LPARAM lParam)
 	// The wParam is a metacontact
 	if ((metaID = db_get_dw((HANDLE)wParam, META_PROTO, META_ID, (DWORD)-1)) != (DWORD)-1) {
 		if ( !lParam) { // check from recursion - see second half of this function
-			if ( MessageBox((HWND)CallService(MS_CLUI_GETHWND,0,0), 
+			if ( MessageBox((HWND)CallService(MS_CLUI_GETHWND,0,0),
 					TranslateT("This will remove the MetaContact permanently.\n\nProceed Anyway?"),
 					TranslateT("Are you sure?"),MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2) != IDYES)
 				return 0;
@@ -320,7 +320,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 	if (db_get_dw((HANDLE)wParam, META_PROTO, META_ID,-1) != (DWORD)-1) {
 		// save the mouse pos in case they open a subcontact menu
 		GetCursorPos(&menuMousePoint);
-		
+
 		// This is a MetaContact, show the edit, force default, and the delete menu, and hide the others
 		Menu_ShowItem(hMenuEdit, true);
 		Menu_ShowItem(hMenuAdd, false);
@@ -339,7 +339,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 				Menu_ShowItem(hMenuContact[i], false);
 				continue;
 			}
-			
+
 			HANDLE hContact = Meta_GetContactHandle((HANDLE)wParam, i);
 			char *szProto = GetContactProto(hContact);
 			if ( !szProto)
@@ -391,7 +391,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 		// wParam = char *szProto
 		// lParam = BOOL show
 		char serviceFunc[256];
-		mir_snprintf(serviceFunc, 256, "%s/SendNudge", GetContactProto( Meta_GetMostOnline((HANDLE)wParam)));
+		mir_snprintf(serviceFunc, 256, "%s%s", GetContactProto( Meta_GetMostOnline((HANDLE)wParam)), PS_SEND_NUDGE);
 		CallService(MS_NUDGE_SHOWMENU, (WPARAM)META_PROTO, (LPARAM)ServiceExists(serviceFunc));
 	}
 	else { // This is a simple contact

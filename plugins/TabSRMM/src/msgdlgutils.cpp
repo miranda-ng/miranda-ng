@@ -2184,7 +2184,7 @@ void TSAPI EnableSendButton(const TWindowData *dat, int iMode)
 
 void TSAPI SendNudge(const TWindowData *dat)
 {
-	if ( ProtoServiceExists(dat->cache->getActiveProto(), "/SendNudge") && ServiceExists(MS_NUDGE_SEND))
+	if ( ProtoServiceExists(dat->cache->getActiveProto(), PS_SEND_NUDGE) && ServiceExists(MS_NUDGE_SEND))
 		CallService(MS_NUDGE_SEND, (WPARAM)dat->cache->getActiveContact(), 0);
 	else
 		SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE,
@@ -2374,11 +2374,11 @@ LONG TSAPI GetDefaultMinimumInputHeight(const TWindowData* dat)
 	LONG height = MINSPLITTERY;
 
 	if (dat) {
-		if (dat->bType == SESSIONTYPE_IM) 
+		if (dat->bType == SESSIONTYPE_IM)
 			height = ((dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR) ? DPISCALEY_S(46 + 22) : DPISCALEY_S(46));
 		else
 			height = ((dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR) ? DPISCALEY_S(22 + 46) : DPISCALEY_S(46)) - DPISCALEY_S(23);
-		
+
 		if (CSkin::m_skinEnabled && !SkinItems[ID_EXTBKINPUTAREA].IGNORED)
 			height += (SkinItems[ID_EXTBKINPUTAREA].MARGIN_BOTTOM + SkinItems[ID_EXTBKINPUTAREA].MARGIN_TOP - 2);
 	}

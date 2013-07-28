@@ -17,22 +17,22 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	MraMPopSessionQueueInitialize(&hMPopSessionQueue);
 	MraAvatarsQueueInitialize(&hAvatarsQueueHandle);
 
-	CreateService(PS_SETCUSTOMSTATUSEX,   &CMraProto::MraSetXStatusEx);
-	CreateService(PS_GETCUSTOMSTATUSEX,   &CMraProto::MraGetXStatusEx);
-	CreateService(PS_GETCUSTOMSTATUSICON, &CMraProto::MraGetXStatusIcon);
+	CreateProtoService(PS_SETCUSTOMSTATUSEX,   &CMraProto::MraSetXStatusEx);
+	CreateProtoService(PS_GETCUSTOMSTATUSEX,   &CMraProto::MraGetXStatusEx);
+	CreateProtoService(PS_GETCUSTOMSTATUSICON, &CMraProto::MraGetXStatusIcon);
 
-	CreateService(PS_SET_LISTENINGTO,     &CMraProto::MraSetListeningTo);
+	CreateProtoService(PS_SET_LISTENINGTO,     &CMraProto::MraSetListeningTo);
 
-	CreateService(PS_CREATEACCMGRUI,      &CMraProto::MraCreateAccMgrUI);
-	CreateService(PS_GETAVATARCAPS,       &CMraProto::MraGetAvatarCaps);
-	CreateService(PS_GETAVATARINFOT,      &CMraProto::MraGetAvatarInfo);
-	CreateService(PS_GETMYAVATART,        &CMraProto::MraGetMyAvatar);
+	CreateProtoService(PS_CREATEACCMGRUI,      &CMraProto::MraCreateAccMgrUI);
+	CreateProtoService(PS_GETAVATARCAPS,       &CMraProto::MraGetAvatarCaps);
+	CreateProtoService(PS_GETAVATARINFOT,      &CMraProto::MraGetAvatarInfo);
+	CreateProtoService(PS_GETMYAVATART,        &CMraProto::MraGetMyAvatar);
 
-	CreateService(MS_ICQ_SENDSMS,         &CMraProto::MraSendSMS);
-	CreateService(MRA_SEND_NUDGE,         &CMraProto::MraSendNudge);
+	CreateProtoService(MS_ICQ_SENDSMS,         &CMraProto::MraSendSMS);
+	CreateProtoService(PS_SEND_NUDGE,          &CMraProto::MraSendNudge);
 
 	if ( ServiceExists(MS_NUDGE_SEND))
-		heNudgeReceived = CreateHookableEvent(MS_NUDGE);
+		heNudgeReceived = CreateProtoEvent(PE_NUDGE);
 
 	TCHAR name[128];
 	mir_sntprintf( name, SIZEOF(name), TranslateT("%s connection"), m_tszUserName);
@@ -43,7 +43,7 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	nlu.ptszDescriptiveName = name;
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, &CMraProto::OnPreShutdown);
+	HookProtoEvent(ME_SYSTEM_PRESHUTDOWN, &CMraProto::OnPreShutdown);
 
 	InitContactMenu();
 
@@ -51,13 +51,13 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	for (size_t i = 0; i < MRA_XSTATUS_COUNT; i++) {
 		char szServiceName[100];
 		mir_snprintf(szServiceName, SIZEOF(szServiceName), "/menuXStatus%ld", i);
-		CreateServiceParam(szServiceName, &CMraProto::MraXStatusMenu, i);
+		CreateProtoServiceParam(szServiceName, &CMraProto::MraXStatusMenu, i);
 	}
 
 	mir_snprintf(szNewMailSound, SIZEOF(szNewMailSound), "%s: %s", m_szModuleName, MRA_SOUND_NEW_EMAIL);
 	SkinAddNewSoundEx(szNewMailSound, m_szModuleName, MRA_SOUND_NEW_EMAIL);
 
-	HookEvent(ME_CLIST_PREBUILDSTATUSMENU, &CMraProto::MraRebuildStatusMenu);
+	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &CMraProto::MraRebuildStatusMenu);
 
 	hExtraXstatusIcon = ExtraIcon_Register("MRAXstatus", LPGEN("Mail.ru Xstatus"), "mra_xstatus25");
 	hExtraInfo = ExtraIcon_Register("MRAStatus", LPGEN("Mail.ru extra info"), "mra_xstatus49");
@@ -91,12 +91,12 @@ INT_PTR CMraProto::MraCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
 
 int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
 {
-	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, &CMraProto::MraExtraIconsApply);
-	HookEvent(ME_OPT_INITIALISE, &CMraProto::OnOptionsInit);
-	HookEvent(ME_DB_CONTACT_DELETED, &CMraProto::MraContactDeleted);
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, &CMraProto::MraDbSettingChanged);
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &CMraProto::MraRebuildContactMenu);
-	HookEvent(ME_WAT_NEWSTATUS, &CMraProto::MraMusicChanged);
+	HookProtoEvent(ME_CLIST_EXTRA_IMAGE_APPLY, &CMraProto::MraExtraIconsApply);
+	HookProtoEvent(ME_OPT_INITIALISE, &CMraProto::OnOptionsInit);
+	HookProtoEvent(ME_DB_CONTACT_DELETED, &CMraProto::MraContactDeleted);
+	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CMraProto::MraDbSettingChanged);
+	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CMraProto::MraRebuildContactMenu);
+	HookProtoEvent(ME_WAT_NEWSTATUS, &CMraProto::MraMusicChanged);
 
 	// всех в offline // тк unsaved values сохраняются их нужно инициализировать
 	for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))

@@ -307,35 +307,35 @@ void CMsnProto::MsnInitMainMenu(void)
 	mi.pszService = servicefunction;
 
 	strcpy(tDest, MS_SET_NICKNAME_UI);
-	CreateService(MS_SET_NICKNAME_UI, &CMsnProto::SetNicknameUI);
+	CreateProtoService(MS_SET_NICKNAME_UI, &CMsnProto::SetNicknameUI);
 	mi.position = 201001;
 	mi.icolibItem = GetIconHandle(IDI_MSN);
 	mi.pszName = LPGEN("Set &Nickname");
 	menuItemsMain[0] = Menu_AddProtoMenuItem(&mi);
 
 	strcpy(tDest, MSN_INVITE);
-	CreateService(MSN_INVITE, &CMsnProto::MsnInviteCommand);
+	CreateProtoService(MSN_INVITE, &CMsnProto::MsnInviteCommand);
 	mi.position = 201002;
 	mi.icolibItem = GetIconHandle(IDI_INVITE);
 	mi.pszName = LPGEN("Create &Chat");
 	menuItemsMain[0] = Menu_AddProtoMenuItem(&mi);
 
 	strcpy(tDest, MS_GOTO_INBOX);
-	CreateService(MS_GOTO_INBOX, &CMsnProto::MsnGotoInbox);
+	CreateProtoService(MS_GOTO_INBOX, &CMsnProto::MsnGotoInbox);
 	mi.position = 201003;
 	mi.icolibItem = GetIconHandle(IDI_INBOX);
 	mi.pszName = LPGEN("Display &Hotmail Inbox");
 	menuItemsMain[1] = Menu_AddProtoMenuItem(&mi);
 
 	strcpy(tDest, MS_EDIT_PROFILE);
-	CreateService(MS_EDIT_PROFILE, &CMsnProto::MsnEditProfile);
+	CreateProtoService(MS_EDIT_PROFILE, &CMsnProto::MsnEditProfile);
 	mi.position = 201004;
 	mi.icolibItem = GetIconHandle(IDI_PROFILE);
 	mi.pszName = LPGEN("View &Profile");
 	menuItemsMain[2] = Menu_AddProtoMenuItem(&mi);
 
 	strcpy(tDest, MS_EDIT_ALERTS);
-	CreateService(MS_EDIT_ALERTS, &CMsnProto::MsnSetupAlerts);
+	CreateProtoService(MS_EDIT_ALERTS, &CMsnProto::MsnSetupAlerts);
 	mi.position = 201004;
 	mi.icolibItem = GetIconHandle(IDI_PROFILE);
 	mi.pszName = LPGEN("Setup Live &Alerts");

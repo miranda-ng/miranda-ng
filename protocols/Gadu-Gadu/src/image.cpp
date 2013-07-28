@@ -70,7 +70,7 @@ int GGPROTO::img_init()
 {
 	char service[64];
 	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_SENDIMAGE);
-	CreateService(GGS_SENDIMAGE, &GGPROTO::img_sendimg);
+	CreateProtoService(GGS_SENDIMAGE, &GGPROTO::img_sendimg);
 
 	// Send image contact menu item
 	CLISTMENUITEM mi = { sizeof(mi) };
@@ -83,7 +83,7 @@ int GGPROTO::img_init()
 	hImageMenuItem = Menu_AddContactMenuItem(&mi);
 
 	// Receive image
-	CreateService(GGS_RECVIMAGE, &GGPROTO::img_recvimage);
+	CreateProtoService(GGS_RECVIMAGE, &GGPROTO::img_recvimage);
 	return FALSE;
 }
 

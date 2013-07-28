@@ -68,9 +68,9 @@ CYahooProto::~CYahooProto()
 
 int CYahooProto::OnModulesLoadedEx( WPARAM, LPARAM )
 {
-	HookEvent( ME_USERINFO_INITIALISE, 		&CYahooProto::OnUserInfoInit );
-	HookEvent( ME_IDLE_CHANGED, 				&CYahooProto::OnIdleEvent);
-	HookEvent( ME_CLIST_PREBUILDCONTACTMENU, 	&CYahooProto::OnPrebuildContactMenu );
+	HookProtoEvent( ME_USERINFO_INITIALISE, 		&CYahooProto::OnUserInfoInit );
+	HookProtoEvent( ME_IDLE_CHANGED, 				&CYahooProto::OnIdleEvent);
+	HookProtoEvent( ME_CLIST_PREBUILDCONTACTMENU, 	&CYahooProto::OnPrebuildContactMenu );
 
 	TCHAR tModuleDescr[ 100 ];
 	mir_sntprintf(tModuleDescr, SIZEOF(tModuleDescr), TranslateT("%s plugin connections"), m_tszUserName);

@@ -871,7 +871,7 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 			bXStatusMenuBuilt = ServiceExists(srvFce);
 
 		if (!bXStatusMenuBuilt)
-			CreateServiceParam(srvFce+len, &CIcqProto::menuXStatus, i);
+			CreateProtoServiceParam(srvFce+len, &CIcqProto::menuXStatus, i);
 
 		mi.flags = (bXStatus == i ? CMIF_CHECKED : 0);
 		mi.icolibItem = i ? hXStatusIcons[i-1] : NULL;

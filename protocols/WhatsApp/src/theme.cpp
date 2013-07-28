@@ -252,7 +252,7 @@ int WhatsAppProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	mi.flags = CMIF_CHILDPOPUP | ( this->isOnline() ? 0 : CMIF_GRAYED );
 	mi.position = 201001;
 
-	CreateService("/CreateGroup", &WhatsAppProto::OnCreateGroup);
+	CreateProtoService("/CreateGroup", &WhatsAppProto::OnCreateGroup);
 	strcpy(tDest, "/CreateGroup");
 	mi.hParentMenu = hRoot;
 	mi.pszName = LPGEN("Create Group");

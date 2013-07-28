@@ -51,32 +51,32 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	db_set_resident(m_szModuleName, "MobileAllowed");
 
 	// Protocol services and events...
-	hMSNNudge = CreateHookableEvent("/Nudge");
+	hMSNNudge = CreateProtoEvent("/Nudge");
 
-	CreateService(PS_CREATEACCMGRUI,        &CMsnProto::SvcCreateAccMgrUI);
+	CreateProtoService(PS_CREATEACCMGRUI,        &CMsnProto::SvcCreateAccMgrUI);
 
-	CreateService(PS_GETAVATARINFOT,        &CMsnProto::GetAvatarInfo);
-	CreateService(PS_GETMYAWAYMSG,          &CMsnProto::GetMyAwayMsg);
+	CreateProtoService(PS_GETAVATARINFOT,        &CMsnProto::GetAvatarInfo);
+	CreateProtoService(PS_GETMYAWAYMSG,          &CMsnProto::GetMyAwayMsg);
 
-	CreateService(PS_LEAVECHAT,             &CMsnProto::OnLeaveChat);
+	CreateProtoService(PS_LEAVECHAT,             &CMsnProto::OnLeaveChat);
 
-	CreateService(PS_GETMYAVATART,          &CMsnProto::GetAvatar);
-	CreateService(PS_SETMYAVATART,          &CMsnProto::SetAvatar);
-	CreateService(PS_GETAVATARCAPS,         &CMsnProto::GetAvatarCaps);
+	CreateProtoService(PS_GETMYAVATART,          &CMsnProto::GetAvatar);
+	CreateProtoService(PS_SETMYAVATART,          &CMsnProto::SetAvatar);
+	CreateProtoService(PS_GETAVATARCAPS,         &CMsnProto::GetAvatarCaps);
 
-	CreateService(PS_GET_LISTENINGTO,       &CMsnProto::GetCurrentMedia);
-	CreateService(PS_SET_LISTENINGTO,       &CMsnProto::SetCurrentMedia);
+	CreateProtoService(PS_GET_LISTENINGTO,       &CMsnProto::GetCurrentMedia);
+	CreateProtoService(PS_SET_LISTENINGTO,       &CMsnProto::SetCurrentMedia);
 
-	CreateService(PS_SETMYNICKNAME,         &CMsnProto::SetNickName);
-	CreateService(MSN_SEND_NUDGE,           &CMsnProto::SendNudge);
+	CreateProtoService(PS_SETMYNICKNAME,         &CMsnProto::SetNickName);
+	CreateProtoService(PS_SEND_NUDGE,            &CMsnProto::SendNudge);
 
-	CreateService(MSN_GETUNREAD_EMAILCOUNT, &CMsnProto::GetUnreadEmailCount);
+	CreateProtoService(MSN_GETUNREAD_EMAILCOUNT, &CMsnProto::GetUnreadEmailCount);
 
 	// event hooks
-	HookEvent(ME_MSG_WINDOWPOPUP,           &CMsnProto::OnWindowPopup);
-	HookEvent(ME_CLIST_GROUPCHANGE,         &CMsnProto::OnGroupChange);
-	HookEvent(ME_OPT_INITIALISE,            &CMsnProto::OnOptionsInit);
-	HookEvent(ME_CLIST_DOUBLECLICKED,       &CMsnProto::OnContactDoubleClicked);
+	HookProtoEvent(ME_MSG_WINDOWPOPUP,           &CMsnProto::OnWindowPopup);
+	HookProtoEvent(ME_CLIST_GROUPCHANGE,         &CMsnProto::OnGroupChange);
+	HookProtoEvent(ME_OPT_INITIALISE,            &CMsnProto::OnOptionsInit);
+	HookProtoEvent(ME_CLIST_DOUBLECLICKED,       &CMsnProto::OnContactDoubleClicked);
 
 	LoadOptions();
 
@@ -192,11 +192,11 @@ int CMsnProto::OnModulesLoaded(WPARAM, LPARAM)
 		gcr.pszModule = m_szModuleName;
 		CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
 
-		HookEvent(ME_GC_EVENT, &CMsnProto::MSN_GCEventHook);
-		HookEvent(ME_GC_BUILDMENU, &CMsnProto::MSN_GCMenuHook);
+		HookProtoEvent(ME_GC_EVENT, &CMsnProto::MSN_GCEventHook);
+		HookProtoEvent(ME_GC_BUILDMENU, &CMsnProto::MSN_GCMenuHook);
 	}
 
-	HookEvent(ME_IDLE_CHANGED, &CMsnProto::OnIdleChanged);
+	HookProtoEvent(ME_IDLE_CHANGED, &CMsnProto::OnIdleChanged);
 	InitPopups();
 	return 0;
 }

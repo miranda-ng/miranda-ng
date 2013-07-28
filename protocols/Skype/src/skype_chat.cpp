@@ -89,8 +89,8 @@ void CSkypeProto::InitChatModule()
 	gcr.pszModule = this->m_szModuleName;
 	::CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
 
-	this->HookEvent(ME_GC_EVENT, &CSkypeProto::OnGCEventHook);
-	this->HookEvent(ME_GC_BUILDMENU, &CSkypeProto::OnGCMenuHook);
+	this->HookProtoEvent(ME_GC_EVENT, &CSkypeProto::OnGCEventHook);
+	this->HookProtoEvent(ME_GC_BUILDMENU, &CSkypeProto::OnGCMenuHook);
 }
 
 ///

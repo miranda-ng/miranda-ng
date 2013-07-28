@@ -262,7 +262,7 @@ INT_PTR MetaFilter_SendMessage(WPARAM wParam,LPARAM lParam)
 INT_PTR Meta_SendNudge(WPARAM wParam,LPARAM lParam)
 {
 	HANDLE hSubContact = Meta_GetMostOnline((HANDLE)wParam);
-	return ProtoCallService(GetContactProto(hSubContact), "/SendNudge", (WPARAM)hSubContact, lParam);
+	return ProtoCallService(GetContactProto(hSubContact), PS_SEND_NUDGE, (WPARAM)hSubContact, lParam);
 }
 
 /////////////////////////////////////////////////////////////////
@@ -1284,7 +1284,7 @@ INT_PTR Meta_GetInfo(WPARAM wParam, LPARAM lParam)
 	ccs->hContact = most_online;
 	if ( !ProtoServiceExists(proto, PSS_GETINFO))
 		return 0; // fail
-	
+
 	return CallContactService(ccs->hContact, PSS_GETINFO, ccs->wParam, ccs->lParam);
 }
 
@@ -1445,7 +1445,7 @@ void Meta_InitServices()
 	CreateServiceFunction("MetaContacts/OnOff", Meta_OnOff);
 	CreateServiceFunction("MetaContacts/CListMessageEvent", Meta_ClistMessageEventClicked);
 
-	CreateProtoServiceFunction(META_PROTO, "/SendNudge", Meta_SendNudge);
+	CreateProtoServiceFunction(META_PROTO, PS_SEND_NUDGE, Meta_SendNudge);
 
 	// create our hookable events
 	hEventDefaultChanged = CreateHookableEvent(ME_MC_DEFAULTTCHANGED);

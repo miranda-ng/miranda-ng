@@ -114,10 +114,7 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_ANSWERS_STR                      LPGENT("Answers")
 #define MRA_WORLD                            "/World"
 #define MRA_WORLD_STR                        LPGENT("World")
-#define MRA_SEND_NUDGE                       "/SendNudge"
-#define MS_NUDGE                             "/Nudge"
 #define MRA_SENDNUDGE_STR                    LPGENT("Send &Nudge")
-
 
 #define ADV_ICON_DELETED                     0
 #define ADV_ICON_DELETED_ID                  "ADV_ICON_DELETED"

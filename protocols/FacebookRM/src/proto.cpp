@@ -35,22 +35,22 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 	facy.send_message_lock_ = CreateMutex(NULL, FALSE, NULL);
 	facy.fcb_conn_lock_ = CreateMutex(NULL, FALSE, NULL);
 
-	CreateService(PS_CREATEACCMGRUI, &FacebookProto::SvcCreateAccMgrUI);
-	CreateService(PS_GETMYAWAYMSG,   &FacebookProto::GetMyAwayMsg);
-	CreateService(PS_GETMYAVATART,   &FacebookProto::GetMyAvatar);
-	CreateService(PS_GETAVATARINFOT, &FacebookProto::GetAvatarInfo);
-	CreateService(PS_GETAVATARCAPS,  &FacebookProto::GetAvatarCaps);
+	CreateProtoService(PS_CREATEACCMGRUI, &FacebookProto::SvcCreateAccMgrUI);
+	CreateProtoService(PS_GETMYAWAYMSG,   &FacebookProto::GetMyAwayMsg);
+	CreateProtoService(PS_GETMYAVATART,   &FacebookProto::GetMyAvatar);
+	CreateProtoService(PS_GETAVATARINFOT, &FacebookProto::GetAvatarInfo);
+	CreateProtoService(PS_GETAVATARCAPS,  &FacebookProto::GetAvatarCaps);
 
-	CreateService(PS_JOINCHAT,  &FacebookProto::OnJoinChat);
-	CreateService(PS_LEAVECHAT, &FacebookProto::OnLeaveChat);
+	CreateProtoService(PS_JOINCHAT,  &FacebookProto::OnJoinChat);
+	CreateProtoService(PS_LEAVECHAT, &FacebookProto::OnLeaveChat);
 
-	CreateService("/Mind", &FacebookProto::OnMind);
+	CreateProtoService("/Mind", &FacebookProto::OnMind);
 
-	HookEvent(ME_CLIST_PREBUILDSTATUSMENU, &FacebookProto::OnBuildStatusMenu);
-	HookEvent(ME_OPT_INITIALISE,           &FacebookProto::OnOptionsInit);
-	HookEvent(ME_GC_EVENT,                 &FacebookProto::OnChatOutgoing);
-	HookEvent(ME_IDLE_CHANGED,             &FacebookProto::OnIdleChanged);
-	HookEvent(ME_TTB_MODULELOADED,         &FacebookProto::OnToolbarInit);
+	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &FacebookProto::OnBuildStatusMenu);
+	HookProtoEvent(ME_OPT_INITIALISE,           &FacebookProto::OnOptionsInit);
+	HookProtoEvent(ME_GC_EVENT,                 &FacebookProto::OnChatOutgoing);
+	HookProtoEvent(ME_IDLE_CHANGED,             &FacebookProto::OnIdleChanged);
+	HookProtoEvent(ME_TTB_MODULELOADED,         &FacebookProto::OnToolbarInit);
 
 	char module[512];
 	mir_snprintf(module, sizeof(module), "%s/Mind", m_szModuleName);

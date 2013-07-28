@@ -34,19 +34,19 @@ static volatile LONG g_msgid = 1;
 TwitterProto::TwitterProto(const char *proto_name,const TCHAR *username) :
 	PROTO<TwitterProto>(proto_name, username)
 {
-	CreateService(PS_CREATEACCMGRUI, &TwitterProto::SvcCreateAccMgrUI);
-	CreateService(PS_GETNAME, &TwitterProto::GetName);
-	CreateService(PS_GETSTATUS, &TwitterProto::GetStatus);
+	CreateProtoService(PS_CREATEACCMGRUI, &TwitterProto::SvcCreateAccMgrUI);
+	CreateProtoService(PS_GETNAME, &TwitterProto::GetName);
+	CreateProtoService(PS_GETSTATUS, &TwitterProto::GetStatus);
 
-	CreateService(PS_JOINCHAT, &TwitterProto::OnJoinChat);
-	CreateService(PS_LEAVECHAT, &TwitterProto::OnLeaveChat);
+	CreateProtoService(PS_JOINCHAT, &TwitterProto::OnJoinChat);
+	CreateProtoService(PS_LEAVECHAT, &TwitterProto::OnLeaveChat);
 
-	CreateService(PS_GETMYAVATAR, &TwitterProto::GetAvatar);
-	CreateService(PS_SETMYAVATAR, &TwitterProto::SetAvatar);
+	CreateProtoService(PS_GETMYAVATAR, &TwitterProto::GetAvatar);
+	CreateProtoService(PS_SETMYAVATAR, &TwitterProto::SetAvatar);
 
-	HookEvent(ME_DB_CONTACT_DELETED,       &TwitterProto::OnContactDeleted);
-	HookEvent(ME_CLIST_PREBUILDSTATUSMENU, &TwitterProto::OnBuildStatusMenu);
-	HookEvent(ME_OPT_INITIALISE,           &TwitterProto::OnOptionsInit);
+	HookProtoEvent(ME_DB_CONTACT_DELETED,       &TwitterProto::OnContactDeleted);
+	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &TwitterProto::OnBuildStatusMenu);
+	HookProtoEvent(ME_OPT_INITIALISE,           &TwitterProto::OnOptionsInit);
 
 	tstring defFolder = std::tstring( _T("%miranda_avatarcache%\\")) + m_tszUserName;
 	hAvatarFolder_ = FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, defFolder.c_str(), m_tszUserName);
@@ -308,7 +308,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM,LPARAM)
 
 	// TODO: Disable this menu item when offline
 	// "Send Tweet..."
-	CreateService("/Tweet", &TwitterProto::OnTweet);
+	CreateProtoService("/Tweet", &TwitterProto::OnTweet);
 	strcpy(tDest,"/Tweet");
 	mi.ptszName = LPGENT("Send Tweet...");
 	mi.popupPosition = 200001;

@@ -2224,7 +2224,7 @@ void CJabberProto::BuildPrivacyMenu()
 	mi.hParentMenu = MO_GetProtoRootMenu(m_szModuleName);
 	m_hPrivacyMenuRoot = Menu_AddProtoMenuItem(&mi);
 
-	CreateService("/PrivacyLists", &CJabberProto::OnMenuHandlePrivacyLists);
+	CreateProtoService("/PrivacyLists", &CJabberProto::OnMenuHandlePrivacyLists);
 	char srvFce[MAX_PATH + 64];
 	mir_snprintf(srvFce, SIZEOF(srvFce), "%s/PrivacyLists", m_szModuleName);
 	mi.pszService = srvFce;
@@ -2257,7 +2257,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 
 	mir_snprintf(srvFce, SIZEOF(srvFce), "%s/menuPrivacy%d", m_szModuleName, i);
 	if (i > m_privacyMenuServiceAllocated) {
-		CreateServiceParam(svcName, &CJabberProto::menuSetPrivacyList, i);
+		CreateProtoServiceParam(svcName, &CJabberProto::menuSetPrivacyList, i);
 		m_privacyMenuServiceAllocated = i;
 	}
 	mi.position++;
@@ -2273,7 +2273,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 		mir_snprintf(srvFce, SIZEOF(srvFce), "%s/menuPrivacy%d", m_szModuleName, i);
 
 		if (i > m_privacyMenuServiceAllocated) {
-			CreateServiceParam(svcName, &CJabberProto::menuSetPrivacyList, i);
+			CreateProtoServiceParam(svcName, &CJabberProto::menuSetPrivacyList, i);
 			m_privacyMenuServiceAllocated = i;
 		}
 

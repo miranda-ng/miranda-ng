@@ -43,28 +43,28 @@ CIrcProto::CIrcProto(const char* szModuleName, const TCHAR* tszUserName) :
 	InitializeCriticalSection(&m_gchook);
 	m_evWndCreate = ::CreateEvent( NULL, FALSE, FALSE, NULL );
 
-	CreateService( PS_GETMYAWAYMSG,   &CIrcProto::GetMyAwayMsg );
+	CreateProtoService( PS_GETMYAWAYMSG,   &CIrcProto::GetMyAwayMsg );
 
-	CreateService( PS_CREATEACCMGRUI, &CIrcProto::SvcCreateAccMgrUI );
-	CreateService( PS_JOINCHAT,       &CIrcProto::OnJoinChat );
-	CreateService( PS_LEAVECHAT,      &CIrcProto::OnLeaveChat );
+	CreateProtoService( PS_CREATEACCMGRUI, &CIrcProto::SvcCreateAccMgrUI );
+	CreateProtoService( PS_JOINCHAT,       &CIrcProto::OnJoinChat );
+	CreateProtoService( PS_LEAVECHAT,      &CIrcProto::OnLeaveChat );
 
-	CreateService( IRC_JOINCHANNEL,   &CIrcProto::OnJoinMenuCommand );
-	CreateService( IRC_QUICKCONNECT,  &CIrcProto::OnQuickConnectMenuCommand);
-	CreateService( IRC_CHANGENICK,    &CIrcProto::OnChangeNickMenuCommand );
-	CreateService( IRC_SHOWLIST,      &CIrcProto::OnShowListMenuCommand );
-	CreateService( IRC_SHOWSERVER,    &CIrcProto::OnShowServerMenuCommand );
-	CreateService( IRC_UM_CHANSETTINGS, &CIrcProto::OnMenuChanSettings );
-	CreateService( IRC_UM_WHOIS,      &CIrcProto::OnMenuWhois );
-	CreateService( IRC_UM_DISCONNECT, &CIrcProto::OnMenuDisconnect );
-	CreateService( IRC_UM_IGNORE,     &CIrcProto::OnMenuIgnore );
+	CreateProtoService( IRC_JOINCHANNEL,   &CIrcProto::OnJoinMenuCommand );
+	CreateProtoService( IRC_QUICKCONNECT,  &CIrcProto::OnQuickConnectMenuCommand);
+	CreateProtoService( IRC_CHANGENICK,    &CIrcProto::OnChangeNickMenuCommand );
+	CreateProtoService( IRC_SHOWLIST,      &CIrcProto::OnShowListMenuCommand );
+	CreateProtoService( IRC_SHOWSERVER,    &CIrcProto::OnShowServerMenuCommand );
+	CreateProtoService( IRC_UM_CHANSETTINGS, &CIrcProto::OnMenuChanSettings );
+	CreateProtoService( IRC_UM_WHOIS,      &CIrcProto::OnMenuWhois );
+	CreateProtoService( IRC_UM_DISCONNECT, &CIrcProto::OnMenuDisconnect );
+	CreateProtoService( IRC_UM_IGNORE,     &CIrcProto::OnMenuIgnore );
 
-	CreateService( "/DblClickEvent",  &CIrcProto::OnDoubleclicked );
-	CreateService( "/InsertRawIn",    &CIrcProto::Scripting_InsertRawIn );
-	CreateService( "/InsertRawOut",   &CIrcProto::Scripting_InsertRawOut );
-	CreateService( "/InsertGuiIn",    &CIrcProto::Scripting_InsertGuiIn );
-	CreateService( "/InsertGuiOut",   &CIrcProto::Scripting_InsertGuiOut);
-	CreateService( "/GetIrcData",     &CIrcProto::Scripting_GetIrcData);
+	CreateProtoService( "/DblClickEvent",  &CIrcProto::OnDoubleclicked );
+	CreateProtoService( "/InsertRawIn",    &CIrcProto::Scripting_InsertRawIn );
+	CreateProtoService( "/InsertRawOut",   &CIrcProto::Scripting_InsertRawOut );
+	CreateProtoService( "/InsertGuiIn",    &CIrcProto::Scripting_InsertGuiIn );
+	CreateProtoService( "/InsertGuiOut",   &CIrcProto::Scripting_InsertGuiOut);
+	CreateProtoService( "/GetIrcData",     &CIrcProto::Scripting_GetIrcData);
 
 	codepage = CP_ACP;
 	InitializeCriticalSection(&m_resolve);
@@ -228,9 +228,10 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 		gcr.pColors = colors;
 		gcr.ptszModuleDispName = m_tszUserName;
 		gcr.pszModule = m_szModuleName;
-		CallServiceSync( MS_GC_REGISTER, NULL, (LPARAM)&gcr );
-		HookEvent( ME_GC_EVENT, &CIrcProto::GCEventHook );
-		HookEvent( ME_GC_BUILDMENU, &CIrcProto::GCMenuHook );
+		CallServiceSync(MS_GC_REGISTER, NULL, (LPARAM)&gcr);
+
+		HookProtoEvent(ME_GC_EVENT, &CIrcProto::GCEventHook);
+		HookProtoEvent(ME_GC_BUILDMENU, &CIrcProto::GCMenuHook);
 
 		GCSESSION gcw = { sizeof(GCSESSION) };
 		gcw.dwFlags = GC_TCHAR;
@@ -238,7 +239,7 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 		gcw.ptszID = SERVERWINDOW;
 		gcw.pszModule = m_szModuleName;
 		gcw.ptszName = NEWTSTR_ALLOCA(( TCHAR* )_A2T( m_network ));
-		CallServiceSync( MS_GC_NEWSESSION, 0, (LPARAM)&gcw );
+		CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
 
 		GCDEST gcd = { 0 };
 		gcd.ptszID = SERVERWINDOW;
@@ -309,8 +310,8 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 
 	InitIgnore();
 
-	HookEvent( ME_USERINFO_INITIALISE, &CIrcProto::OnInitUserInfo );
-	HookEvent( ME_OPT_INITIALISE, &CIrcProto::OnInitOptionsPages );
+	HookProtoEvent( ME_USERINFO_INITIALISE, &CIrcProto::OnInitUserInfo );
+	HookProtoEvent( ME_OPT_INITIALISE, &CIrcProto::OnInitOptionsPages );
 
 	if (m_nick[0]) {
 		TCHAR szBuf[ 40 ];

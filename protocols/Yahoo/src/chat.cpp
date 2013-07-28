@@ -190,8 +190,8 @@ void CYahooProto::ChatRegister(void)
 	gcr.pszModule = m_szModuleName;
 	CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
 
-	HookEvent(ME_GC_EVENT, &CYahooProto::OnGCEventHook);
-	HookEvent(ME_GC_BUILDMENU, &CYahooProto::OnGCMenuHook);
+	HookProtoEvent(ME_GC_EVENT, &CYahooProto::OnGCEventHook);
+	HookProtoEvent(ME_GC_BUILDMENU, &CYahooProto::OnGCMenuHook);
 }
 
 void CYahooProto::ChatStart(const char* room)

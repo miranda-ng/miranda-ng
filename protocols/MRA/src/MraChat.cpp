@@ -28,7 +28,7 @@ BOOL CMraProto::MraChatRegister()
 	gcr.pszModule = m_szModuleName;
 	CallServiceSync(MS_GC_REGISTER, NULL, (LPARAM)&gcr);
 
-	HookEvent(ME_GC_EVENT, &CMraProto::MraChatGcEventHook);
+	HookProtoEvent(ME_GC_EVENT, &CMraProto::MraChatGcEventHook);
 	return TRUE;
 }
 

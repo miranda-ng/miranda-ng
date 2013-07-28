@@ -65,6 +65,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_avatars.h>
 #include <m_timezones.h>
 #include <m_extraicons.h>
+#include <m_nudge.h>
 
 #include "m_proto_listeningto.h"
 #include "m_folders.h"
@@ -135,7 +136,6 @@ const char MSN_USER_AGENT[] =           "Mozilla/4.0 (compatible; MSIE 8.0; Wind
 #define MSN_INVITE       "/InviteCommand"
 #define MSN_NETMEETING   "/NetMeeting"
 #define MSN_VIEW_PROFILE "/ViewProfile"
-#define MSN_SEND_NUDGE	 "/SendNudge"
 
 #define MS_GOTO_INBOX		"/GotoInbox"
 #define MS_EDIT_PROFILE		"/EditProfile"

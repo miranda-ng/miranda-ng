@@ -31,21 +31,21 @@ CAimProto::CAimProto(const char* aProtoName, const TCHAR* aUserName) :
 	InitializeCriticalSection(&SendingMutex);
 	InitializeCriticalSection(&connMutex);
 
-	CreateService(PS_CREATEACCMGRUI, &CAimProto::SvcCreateAccMgrUI);
+	CreateProtoService(PS_CREATEACCMGRUI, &CAimProto::SvcCreateAccMgrUI);
 
-	CreateService(PS_GETMYAWAYMSG,   &CAimProto::GetMyAwayMsg);
+	CreateProtoService(PS_GETMYAWAYMSG,   &CAimProto::GetMyAwayMsg);
 
-	CreateService(PS_GETAVATARINFOT, &CAimProto::GetAvatarInfo);
-	CreateService(PS_GETMYAVATART,   &CAimProto::GetAvatar);
-	CreateService(PS_SETMYAVATART,   &CAimProto::SetAvatar);
-	CreateService(PS_GETAVATARCAPS,  &CAimProto::GetAvatarCaps);
+	CreateProtoService(PS_GETAVATARINFOT, &CAimProto::GetAvatarInfo);
+	CreateProtoService(PS_GETMYAVATART,   &CAimProto::GetAvatar);
+	CreateProtoService(PS_SETMYAVATART,   &CAimProto::SetAvatar);
+	CreateProtoService(PS_GETAVATARCAPS,  &CAimProto::GetAvatarCaps);
 
-	CreateService(PS_JOINCHAT,       &CAimProto::OnJoinChat);
-	CreateService(PS_LEAVECHAT,      &CAimProto::OnLeaveChat);
+	CreateProtoService(PS_JOINCHAT,       &CAimProto::OnJoinChat);
+	CreateProtoService(PS_LEAVECHAT,      &CAimProto::OnLeaveChat);
 
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &CAimProto::OnPreBuildContactMenu);
-	HookEvent(ME_CLIST_GROUPCHANGE,         &CAimProto::OnGroupChange);
-	HookEvent(ME_OPT_INITIALISE,            &CAimProto::OnOptionsInit);
+	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CAimProto::OnPreBuildContactMenu);
+	HookProtoEvent(ME_CLIST_GROUPCHANGE,         &CAimProto::OnGroupChange);
+	HookProtoEvent(ME_OPT_INITIALISE,            &CAimProto::OnOptionsInit);
 
 	init_custom_folders();
 	offline_contacts();
@@ -116,9 +116,9 @@ CAimProto::~CAimProto()
 
 int CAimProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	HookEvent(ME_USERINFO_INITIALISE,      &CAimProto::OnUserInfoInit);
-	HookEvent(ME_IDLE_CHANGED,             &CAimProto::OnIdleChanged);
-	HookEvent(ME_MSG_WINDOWEVENT,          &CAimProto::OnWindowEvent);
+	HookProtoEvent(ME_USERINFO_INITIALISE,      &CAimProto::OnUserInfoInit);
+	HookProtoEvent(ME_IDLE_CHANGED,             &CAimProto::OnIdleChanged);
+	HookProtoEvent(ME_MSG_WINDOWEVENT,          &CAimProto::OnWindowEvent);
 
 	chat_register();
 	InitContactMenus();

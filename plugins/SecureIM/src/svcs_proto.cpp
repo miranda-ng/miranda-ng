@@ -802,7 +802,7 @@ INT_PTR __cdecl onSendFile(WPARAM wParam, LPARAM lParam)
 			if (!name ) name = file[i];
 			else name++;
 
-			int size = TEMP_SIZE + strlen(name) + 20;
+			int size = TEMP_SIZE + (int)strlen(name) + 20;
 			char *file_out = (char *)mir_alloc(size);
 			mir_snprintf(file_out, size, "%s\\%s.AESHELL(%d)", TEMP, name, file_idx++);
 

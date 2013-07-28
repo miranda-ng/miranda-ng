@@ -8,10 +8,10 @@ void CSkypeProto::InitHookList()
 
 void CSkypeProto::InitInstanceHookList()
 {
-	this->HookEvent(ME_OPT_INITIALISE,		&CSkypeProto::OnOptionsInit);
-	this->HookEvent(ME_USERINFO_INITIALISE, &CSkypeProto::OnUserInfoInit);
+	this->HookProtoEvent(ME_OPT_INITIALISE,		&CSkypeProto::OnOptionsInit);
+	this->HookProtoEvent(ME_USERINFO_INITIALISE, &CSkypeProto::OnUserInfoInit);
 
-	this->HookEvent(ME_MSG_PRECREATEEVENT,	&CSkypeProto::OnMessagePreCreate);
+	this->HookProtoEvent(ME_MSG_PRECREATEEVENT,	&CSkypeProto::OnMessagePreCreate);
 
-	this->HookEvent(ME_MSG_BUTTONPRESSED,	&CSkypeProto::OnTabSRMMButtonPressed); 
+	this->HookProtoEvent(ME_MSG_BUTTONPRESSED,	&CSkypeProto::OnTabSRMMButtonPressed); 
 }

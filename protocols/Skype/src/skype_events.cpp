@@ -37,7 +37,7 @@ int CSkypeProto::OnProtoModulesLoaded(WPARAM, LPARAM)
 		bbd.dwDefPos = 100 + bbd.dwButtonID;
 		::CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
 
-		this->HookEvent(ME_MSG_WINDOWEVENT, &CSkypeProto::OnSrmmWindowOpen);
+		this->HookProtoEvent(ME_MSG_WINDOWEVENT, &CSkypeProto::OnSrmmWindowOpen);
 	}
 
 	return 0;

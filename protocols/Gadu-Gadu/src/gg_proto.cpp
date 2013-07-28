@@ -51,16 +51,16 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName) :
 	netlib = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	// Register services
-	CreateService(PS_GETAVATARCAPS, &GGPROTO::getavatarcaps);
-	CreateService(PS_GETAVATARINFOT, &GGPROTO::getavatarinfo);
-	CreateService(PS_GETMYAVATART, &GGPROTO::getmyavatar);
-	CreateService(PS_SETMYAVATART, &GGPROTO::setmyavatar);
+	CreateProtoService(PS_GETAVATARCAPS, &GGPROTO::getavatarcaps);
+	CreateProtoService(PS_GETAVATARINFOT, &GGPROTO::getavatarinfo);
+	CreateProtoService(PS_GETMYAVATART, &GGPROTO::getmyavatar);
+	CreateProtoService(PS_SETMYAVATART, &GGPROTO::setmyavatar);
 
-	CreateService(PS_GETMYAWAYMSG, &GGPROTO::getmyawaymsg);
-	CreateService(PS_SETAWAYMSGT, (MyServiceFunc)&GGPROTO::SetAwayMsg);
-	CreateService(PS_CREATEACCMGRUI, &GGPROTO::get_acc_mgr_gui);
+	CreateProtoService(PS_GETMYAWAYMSG, &GGPROTO::getmyawaymsg);
+	CreateProtoService(PS_SETAWAYMSGT, (MyServiceFunc)&GGPROTO::SetAwayMsg);
+	CreateProtoService(PS_CREATEACCMGRUI, &GGPROTO::get_acc_mgr_gui);
 
-	CreateService(PS_LEAVECHAT, &GGPROTO::leavechat);
+	CreateProtoService(PS_LEAVECHAT, &GGPROTO::leavechat);
 
 	// Offline contacts and clear logon time
 	setalloffline();
@@ -792,8 +792,8 @@ int GGPROTO::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 	switch( eventType ) {
 	case EV_PROTO_ONLOAD:
 		{
-			HookEvent(ME_OPT_INITIALISE, &GGPROTO::options_init);
-			HookEvent(ME_USERINFO_INITIALISE, &GGPROTO::details_init);
+			HookProtoEvent(ME_OPT_INITIALISE, &GGPROTO::options_init);
+			HookProtoEvent(ME_USERINFO_INITIALISE, &GGPROTO::details_init);
 
 			// Init misc stuff
 			gg_icolib_init();

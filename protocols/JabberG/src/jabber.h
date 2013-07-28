@@ -102,6 +102,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_modernopt.h>
 #include <m_popup.h>
 #include <m_proto_listeningto.h>
+#include <m_nudge.h>
 #include <m_skin_eng.h>
 
 #include "../../plugins/zlib/src/zlib.h"
@@ -258,10 +259,6 @@ enum {
 
 // Services and Events
 #define JS_PARSE_XMPP_URI          "/ParseXmppURI"
-
-// XEP-0224 support (Attention/Nudge)
-#define JS_SEND_NUDGE              "/SendNudge"
-#define JE_NUDGE                   "/Nudge"
 
 // Called when contact changes custom status and extra icon is set to clist_mw
 //wParam = hContact    // contact changing status

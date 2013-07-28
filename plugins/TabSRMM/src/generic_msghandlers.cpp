@@ -458,7 +458,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 		CheckMenuItem(submenu, ID_SENDMENU_SENDWITHOUTTIMEOUTS, MF_BYCOMMAND | (dat->sendMode & SMODE_NOACK ? MF_CHECKED : MF_UNCHECKED));
 		{
 			const char *szFinalProto = dat->cache->getActiveProto();
-			EnableMenuItem(submenu, ID_SENDMENU_SENDNUDGE, MF_BYCOMMAND | ((ProtoServiceExists(szFinalProto, "/SendNudge") && ServiceExists(MS_NUDGE_SEND)) ? MF_ENABLED : MF_GRAYED));
+			EnableMenuItem(submenu, ID_SENDMENU_SENDNUDGE, MF_BYCOMMAND | ((ProtoServiceExists(szFinalProto, PS_SEND_NUDGE) && ServiceExists(MS_NUDGE_SEND)) ? MF_ENABLED : MF_GRAYED));
 		}
 		if (lParam)
 			iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL);
@@ -787,7 +787,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 	if (fIsChat) {
 		LOGFONTA lf;
 		LoadLogfont(MSGFONTID_MESSAGEAREA, &lf, &inputcharcolor, FONTMODULE);
-	
+
 		cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_ITALIC | CFM_BACKCOLOR;
 		cf2.crTextColor = inputcharcolor;
 		cf2.bCharSet = lf.lfCharSet;
@@ -1062,7 +1062,7 @@ void TSAPI DM_UpdateLastMessage(const TWindowData *dat)
 		}
 		else szBuf[0] = 0;
 	}
-	
+
 	SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)szBuf);
 }
 
@@ -1288,7 +1288,7 @@ void TSAPI DM_NotifyTyping(struct TWindowData *dat, int mode)
 
 	if (!dat || !dat->hContact)
 		return;
-		
+
 	DeletePopupsForContact(dat->hContact, PU_REMOVE_ON_TYPE);
 
 	if (dat->bIsMeta){
@@ -1929,7 +1929,7 @@ void DrawStatusIcons(struct TWindowData *dat, HDC hDC, RECT r, int gap)
 	while (StatusIconData *si = Srmm_GetNthIcon(dat->hContact, nIcon++)) {
 		if ( !strcmp(si->szModule, MSG_ICON_MODULE)) {
 			if (si->dwId == MSG_ICON_SOUND) {
-				DrawIconEx(hDC, x, y, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_SOUNDS], 
+				DrawIconEx(hDC, x, y, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_SOUNDS],
 					cx_icon, cy_icon, 0, NULL, DI_NORMAL);
 
 				DrawIconEx(hDC, x, y, dat->pContainer->dwFlags & CNT_NOSOUND ?

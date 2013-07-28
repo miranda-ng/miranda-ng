@@ -69,7 +69,7 @@ INT_PTR NudgeSend(WPARAM wParam,LPARAM lParam)
 	else if(DefaultNudge.showStatus)
 		Nudge_SentStatus(DefaultNudge, (HANDLE) wParam);
 
-	CallProtoService(protoName,"/SendNudge",wParam,lParam);
+	CallProtoService(protoName, PS_SEND_NUDGE, wParam, lParam);
 	return 0;
 }
 
@@ -272,10 +272,10 @@ static int TabsrmmButtonInit(WPARAM wParam, LPARAM lParam)
 void HideNudgeButton(HANDLE hContact)
 {
 	char *szProto = GetContactProto(hContact);
-	if ( !ProtoServiceExists(szProto, "/SendNudge")) {
+	if ( !ProtoServiceExists(szProto, PS_SEND_NUDGE)) {
 		BBButton bbd = { sizeof(bbd) };
 		bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
-		bbd.pszModuleName="Nudge";
+		bbd.pszModuleName = "Nudge";
 		bbd.dwButtonID = 6000;
 		CallService(MS_BB_SETBUTTONSTATE, (WPARAM)hContact, (LPARAM)&bbd);
 	}

@@ -90,7 +90,6 @@ extern int do_yahoo_debug;
 #define YAHOO_REFRESH				"/YahooRefreshCommand"
 #define YAHOO_AB					"/YahooAddressBook"
 #define YAHOO_CALENDAR				"/YahooCalendar"
-#define YAHOO_SEND_NUDGE			"/SendNudge"
 #define YAHOO_GETUNREAD_EMAILCOUNT	"/GetUnreadEmailCount"
 
 #define STYLE_DEFAULTBGCOLOUR     RGB(173,206,247)

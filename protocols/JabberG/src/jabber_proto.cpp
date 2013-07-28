@@ -88,50 +88,50 @@ CJabberProto::CJabberProto(const char* aProtoName, const TCHAR *aUserName) :
 	m_windowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
 	// Protocol services and events...
-	m_hEventNudge = CreateHookableEvent(JE_NUDGE);
-	m_hEventXStatusIconChanged = CreateHookableEvent(JE_CUSTOMSTATUS_EXTRAICON_CHANGED);
-	m_hEventXStatusChanged = CreateHookableEvent(JE_CUSTOMSTATUS_CHANGED);
+	m_hEventNudge = CreateProtoEvent(PE_NUDGE);
+	m_hEventXStatusIconChanged = CreateProtoEvent(JE_CUSTOMSTATUS_EXTRAICON_CHANGED);
+	m_hEventXStatusChanged = CreateProtoEvent(JE_CUSTOMSTATUS_CHANGED);
 
-	CreateService(PS_CREATEACCMGRUI, &CJabberProto::SvcCreateAccMgrUI);
+	CreateProtoService(PS_CREATEACCMGRUI, &CJabberProto::SvcCreateAccMgrUI);
 
-	CreateService(PS_GETAVATARINFOT, &CJabberProto::JabberGetAvatarInfo);
-	CreateService(PS_GETMYAWAYMSG, &CJabberProto::GetMyAwayMsg);
-	CreateService(PS_SET_LISTENINGTO, &CJabberProto::OnSetListeningTo);
+	CreateProtoService(PS_GETAVATARINFOT, &CJabberProto::JabberGetAvatarInfo);
+	CreateProtoService(PS_GETMYAWAYMSG, &CJabberProto::GetMyAwayMsg);
+	CreateProtoService(PS_SET_LISTENINGTO, &CJabberProto::OnSetListeningTo);
 
-	CreateService(PS_JOINCHAT, &CJabberProto::OnJoinChat);
-	CreateService(PS_LEAVECHAT, &CJabberProto::OnLeaveChat);
+	CreateProtoService(PS_JOINCHAT, &CJabberProto::OnJoinChat);
+	CreateProtoService(PS_LEAVECHAT, &CJabberProto::OnLeaveChat);
 
-	CreateService(PS_GETCUSTOMSTATUSEX, &CJabberProto::OnGetXStatusEx);
-	CreateService(PS_SETCUSTOMSTATUSEX, &CJabberProto::OnSetXStatusEx);
-	CreateService(PS_GETCUSTOMSTATUSICON, &CJabberProto::OnGetXStatusIcon);
-	CreateService(PS_GETADVANCEDSTATUSICON, &CJabberProto::JGetAdvancedStatusIcon);
+	CreateProtoService(PS_GETCUSTOMSTATUSEX, &CJabberProto::OnGetXStatusEx);
+	CreateProtoService(PS_SETCUSTOMSTATUSEX, &CJabberProto::OnSetXStatusEx);
+	CreateProtoService(PS_GETCUSTOMSTATUSICON, &CJabberProto::OnGetXStatusIcon);
+	CreateProtoService(PS_GETADVANCEDSTATUSICON, &CJabberProto::JGetAdvancedStatusIcon);
 
-	CreateService(JS_HTTP_AUTH, &CJabberProto::OnHttpAuthRequest);
-	CreateService(JS_INCOMING_NOTE_EVENT, &CJabberProto::OnIncomingNoteEvent);
+	CreateProtoService(JS_HTTP_AUTH, &CJabberProto::OnHttpAuthRequest);
+	CreateProtoService(JS_INCOMING_NOTE_EVENT, &CJabberProto::OnIncomingNoteEvent);
 
-	CreateService(JS_SENDXML, &CJabberProto::ServiceSendXML);
-	CreateService(PS_GETMYAVATART, &CJabberProto::JabberGetAvatar);
-	CreateService(PS_GETAVATARCAPS, &CJabberProto::JabberGetAvatarCaps);
-	CreateService(PS_SETMYAVATART, &CJabberProto::JabberSetAvatar);
-	CreateService(PS_SETMYNICKNAME, &CJabberProto::JabberSetNickname);
+	CreateProtoService(JS_SENDXML, &CJabberProto::ServiceSendXML);
+	CreateProtoService(PS_GETMYAVATART, &CJabberProto::JabberGetAvatar);
+	CreateProtoService(PS_GETAVATARCAPS, &CJabberProto::JabberGetAvatarCaps);
+	CreateProtoService(PS_SETMYAVATART, &CJabberProto::JabberSetAvatar);
+	CreateProtoService(PS_SETMYNICKNAME, &CJabberProto::JabberSetNickname);
 
-	CreateService(JS_DB_GETEVENTTEXT_CHATSTATES, &CJabberProto::OnGetEventTextChatStates);
-	CreateService(JS_DB_GETEVENTTEXT_PRESENCE, &CJabberProto::OnGetEventTextPresence);
+	CreateProtoService(JS_DB_GETEVENTTEXT_CHATSTATES, &CJabberProto::OnGetEventTextChatStates);
+	CreateProtoService(JS_DB_GETEVENTTEXT_PRESENCE, &CJabberProto::OnGetEventTextPresence);
 
-	CreateService(JS_GETJABBERAPI, &CJabberProto::JabberGetApi);
+	CreateProtoService(JS_GETJABBERAPI, &CJabberProto::JabberGetApi);
 
 	// XEP-0224 support (Attention/Nudge)
-	CreateService(JS_SEND_NUDGE, &CJabberProto::JabberSendNudge);
+	CreateProtoService(PS_SEND_NUDGE, &CJabberProto::JabberSendNudge);
 
 	// service to get from protocol chat buddy info
-	CreateService(MS_GC_PROTO_GETTOOLTIPTEXT, &CJabberProto::JabberGCGetToolTipText);
+	CreateProtoService(MS_GC_PROTO_GETTOOLTIPTEXT, &CJabberProto::JabberGCGetToolTipText);
 
 	// XMPP URI parser service for "File Association Manager" plugin
-	CreateService(JS_PARSE_XMPP_URI, &CJabberProto::JabberServiceParseXmppURI);
+	CreateProtoService(JS_PARSE_XMPP_URI, &CJabberProto::JabberServiceParseXmppURI);
 
-	HookEvent(ME_MODERNOPT_INITIALIZE, &CJabberProto::OnModernOptInit);
-	HookEvent(ME_OPT_INITIALISE, &CJabberProto::OnOptionsInit);
-	HookEvent(ME_SKIN2_ICONSCHANGED, &CJabberProto::OnReloadIcons);
+	HookProtoEvent(ME_MODERNOPT_INITIALIZE, &CJabberProto::OnModernOptInit);
+	HookProtoEvent(ME_OPT_INITIALISE, &CJabberProto::OnOptionsInit);
+	HookProtoEvent(ME_SKIN2_ICONSCHANGED, &CJabberProto::OnReloadIcons);
 
 	m_iqManager.FillPermanentHandlers();
 	m_iqManager.Start();
@@ -159,7 +159,7 @@ CJabberProto::CJabberProto(const char* aProtoName, const TCHAR *aUserName) :
 
 	db_set_resident(m_szModuleName, "Status");
 	db_set_resident(m_szModuleName, DBSETTING_DISPLAY_UID);
-	
+
 	db_set_resident(m_szModuleName, "SubscriptionText");
 	db_set_resident(m_szModuleName, "Subscription");
 	db_set_resident(m_szModuleName, "Auth");
@@ -246,7 +246,7 @@ static COLORREF crCols[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 
 int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 {
-	HookEvent(ME_USERINFO_INITIALISE, &CJabberProto::OnUserInfoInit);
+	HookProtoEvent(ME_USERINFO_INITIALISE, &CJabberProto::OnUserInfoInit);
 	XStatusInit();
 	m_pepServices.InitGui();
 
@@ -265,8 +265,8 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 		gcr.pszModule = m_szModuleName;
 		CallServiceSync(MS_GC_REGISTER, NULL, (LPARAM)&gcr);
 
-		HookEvent(ME_GC_EVENT, &CJabberProto::JabberGcEventHook);
-		HookEvent(ME_GC_BUILDMENU, &CJabberProto::JabberGcMenuHook);
+		HookProtoEvent(ME_GC_EVENT, &CJabberProto::JabberGcEventHook);
+		HookProtoEvent(ME_GC_BUILDMENU, &CJabberProto::JabberGcMenuHook);
 	}
 
 	HICON hIcon = LoadIconEx("main");
@@ -278,8 +278,8 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	Srmm_AddIcon(&sid);
 	Skin_ReleaseIcon(hIcon);
 
-	HookEvent(ME_MSG_ICONPRESSED, &CJabberProto::OnProcessSrmmIconClick);
-	HookEvent(ME_MSG_WINDOWEVENT, &CJabberProto::OnProcessSrmmEvent);
+	HookProtoEvent(ME_MSG_ICONPRESSED, &CJabberProto::OnProcessSrmmIconClick);
+	HookProtoEvent(ME_MSG_WINDOWEVENT, &CJabberProto::OnProcessSrmmEvent);
 
 	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
 	dbEventType.module = m_szModuleName;
@@ -291,7 +291,7 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	dbEventType.descr = "Presence notifications";
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
-	HookEvent(ME_IDLE_CHANGED, &CJabberProto::OnIdleChanged);
+	HookProtoEvent(ME_IDLE_CHANGED, &CJabberProto::OnIdleChanged);
 
 	CheckAllContactsAreTransported();
 
@@ -301,7 +301,7 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 
 		if ( !getByte(hContact, "IsTransport", 0))
 			continue;
-			
+
 		DBVARIANT dbv;
 		if ( !getTString(hContact, "jid", &dbv)) {
 			TCHAR *domain = NEWTSTR_ALLOCA(dbv.ptszVal);
@@ -700,7 +700,7 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 	TCHAR jid[JABBER_MAX_JID_LEN];
 	if ( !GetClientJID(hContact, jid, SIZEOF(jid)))
 		return 1;
-	
+
 	if (m_ThreadInfo) {
 		m_ThreadInfo->send(
 			XmlNodeIq(m_iqManager.AddHandler(&CJabberProto::OnIqResultEntityTime, JABBER_IQ_TYPE_GET, jid, JABBER_IQ_PARSE_HCONTACT))

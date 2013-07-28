@@ -10,12 +10,12 @@ WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 	update_loop_lock_ = CreateEvent(NULL, false, false, NULL);
 	FMessage::generating_lock = new Mutex();
 
-	CreateService(PS_CREATEACCMGRUI, &WhatsAppProto::SvcCreateAccMgrUI);
-	CreateService(PS_JOINCHAT, &WhatsAppProto::OnJoinChat);
-	CreateService(PS_LEAVECHAT, &WhatsAppProto::OnLeaveChat);
+	CreateProtoService(PS_CREATEACCMGRUI, &WhatsAppProto::SvcCreateAccMgrUI);
+	CreateProtoService(PS_JOINCHAT, &WhatsAppProto::OnJoinChat);
+	CreateProtoService(PS_LEAVECHAT, &WhatsAppProto::OnLeaveChat);
 
-	HookEvent(ME_GC_EVENT, &WhatsAppProto::OnChatOutgoing);
-	HookEvent(ME_CLIST_PREBUILDSTATUSMENU, &WhatsAppProto::OnBuildStatusMenu);
+	HookProtoEvent(ME_GC_EVENT, &WhatsAppProto::OnChatOutgoing);
+	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &WhatsAppProto::OnBuildStatusMenu);
 
 	this->InitContactMenus();
 

@@ -1243,7 +1243,7 @@ void TlenInitServicesVTbl(TlenProtocol *proto) {
 	sprintf(s, "%s%s", proto->m_szModuleName, PS_GETAVATARINFO);
 	CreateServiceFunction_Ex(s, proto, TlenGetAvatarInfo);
 
-	sprintf(s, "%s%s", proto->m_szModuleName, "/SendNudge");
+	sprintf(s, "%s%s", proto->m_szModuleName, PS_SEND_NUDGE);
 	CreateServiceFunction_Ex(s, proto, TlenSendAlert);
 
 	sprintf(s, "%s%s", proto->m_szModuleName, PS_GETAVATARCAPS);
@@ -1273,7 +1273,7 @@ TlenProtocol::TlenProtocol( const char *aProtoName, const TCHAR *aUserName) :
 
 	char text[_MAX_PATH];
 	sprintf(text, "%s/%s", m_szModuleName, "Nudge");
-	hTlenNudge = CreateHookableEvent(text);
+	hTlenNudge = CreateProtoEvent(text);
 
 	HookEventObj_Ex(ME_SYSTEM_MODULESLOADED, this, TlenSystemModulesLoaded);
 	HookEventObj_Ex(ME_OPT_INITIALISE, this, TlenOptionsInit);
