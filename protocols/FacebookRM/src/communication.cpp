@@ -235,7 +235,9 @@ DWORD facebook_client::choose_security_level(RequestType request_type)
 //	case REQUEST_FEEDS:
 //	case REQUEST_NOTIFICATIONS:
 //	case REQUEST_RECONNECT:
-//	case REQUEST_STATUS_SET:
+//	case REQUEST_POST_STATUS:
+//	case REQUEST_STATUS_COMPOSER:
+//	case REQUEST_LINK_SCRAPER:
 //	case REQUEST_MESSAGE_SEND:
 //	case REQUEST_MESSAGE_SEND2:
 //	case REQUEST_THREAD_INFO:
@@ -260,7 +262,9 @@ int facebook_client::choose_method(RequestType request_type)
 	case REQUEST_LOGIN:
 	case REQUEST_SETUP_MACHINE:
 	case REQUEST_BUDDY_LIST:
-	case REQUEST_STATUS_SET:
+	case REQUEST_POST_STATUS:
+	case REQUEST_STATUS_COMPOSER:
+	case REQUEST_LINK_SCRAPER:
 	case REQUEST_MESSAGE_SEND:
 	case REQUEST_MESSAGE_SEND2:
 	case REQUEST_THREAD_INFO:
@@ -333,7 +337,9 @@ std::string facebook_client::choose_server(RequestType request_type, std::string
 //	case REQUEST_FEEDS:
 //	case REQUEST_NOTIFICATIONS:
 //	case REQUEST_RECONNECT:
-//	case REQUEST_STATUS_SET:
+//	case REQUEST_POST_STATUS:
+//	case REQUEST_STATUS_COMPOSER:
+//	case REQUEST_LINK_SCRAPER:
 //	case REQUEST_MESSAGE_SEND:
 //	case REQUEST_MESSAGE_SEND2:
 //	case REQUEST_THREAD_INFO:
@@ -481,8 +487,20 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		return action;
 	}
 
-	case REQUEST_STATUS_SET:
+	case REQUEST_POST_STATUS:
 		return "/ajax/updatestatus.php?__a=1";
+
+	case REQUEST_STATUS_COMPOSER:
+		return "/ajax/profile/composer.php?__a=1";
+
+	case REQUEST_LINK_SCRAPER:
+	{
+		std::string action = "/ajax/composerx/attachment/link/scraper/?__a=1&composerurihash=2&scrape_url=";
+		if (get_data != NULL) {
+			action += utils::url::encode(*get_data);
+		}
+		return action;
+	}
 
 	case REQUEST_MESSAGE_SEND:
 		return "/ajax/mercury/send_messages.php?__a=1";
@@ -1222,39 +1240,63 @@ bool facebook_client::send_message(std::string message_recipient, std::string me
 	}
 }
 
-bool facebook_client::set_status(const std::string &status_text)
+bool facebook_client::post_status(status_data *status)
 {
-	handle_entry("set_status");
+	handle_entry("post_status");
 
-	if (status_text.empty())
-		return handle_success("set_status");
+	if (status == NULL || status->text.empty())
+		return handle_success("post_status");
 
-	std::string text = utils::url::encode(status_text);
-	ptrA place(parent->getStringA(FACEBOOK_KEY_PLACE));
+	std::string data;
+	RequestType request = REQUEST_POST_STATUS;
 
-	std::string data = "fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
-	data += "&xhpc_context=home&xhpc_ismeta=1&xhpc_timeline=&xhpc_composerid=u_jsonp_2_0&is_explicit_place=&composertags_place=&composer_session_id=0&composertags_city=&disable_location_sharing=false&composer_predicted_city=&nctr[_mod]=pagelet_composer&__a=1&__dyn=&__req=1f&phstamp=0";
-	data += "&xhpc_targetid=" + this->self_.user_id;
+	if (!status->url.empty()) {
+		data = "fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
+		data += "&composerid=u_jsonp_2_b";
+		data += "&targetid=" + (status->user_id.empty() ? this->self_.user_id : status->user_id);
+		data += "&istimeline=1&composercontext=composer&onecolumn=1&nctr[_mod]=pagelet_timeline_recent&__a=1&ttstamp=0";
+		data += "&__user=" + this->self_.user_id;
+		data += "&loaded_components[0]=maininput&loaded_components[1]=backdateicon&loaded_components[2]=withtaggericon&loaded_components[3]=cameraicon&loaded_components[4]=placetaggericon&loaded_components[5]=mainprivacywidget&loaded_components[6]=withtaggericon&loaded_components[7]=backdateicon&loaded_components[8]=placetaggericon&loaded_components[9]=cameraicon&loaded_components[10]=mainprivacywidget&loaded_components[11]=maininput&loaded_components[12]=explicitplaceinput&loaded_components[13]=hiddenplaceinput&loaded_components[14]=placenameinput&loaded_components[15]=hiddensessionid&loaded_components[16]=withtagger&loaded_components[17]=backdatepicker&loaded_components[18]=placetagger&loaded_components[19]=citysharericon";
+		http::response resp = flap(REQUEST_LINK_SCRAPER, &data, &status->url);
+		resp.data = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(resp.data));
+
+		data = "&xhpc_context=profile&xhpc_ismeta=1&xhpc_timeline=1&xhpc_composerid=u_jsonp_2_0&is_explicit_place=&composertags_place=&composer_session_id=&composertags_city=&disable_location_sharing=false&composer_predicted_city=&nctr[_mod]=pagelet_composer&__a=1&__dyn=&__req=1f&ttstamp=0";
+		std::string form = utils::text::source_get_value(&resp.data, 2, "<form", "</form>");
+		utils::text::replace_all(&form, "\\\"", "\"");
+		data += "&" + utils::text::source_get_form_data(&form) + "&";
+		//data += "&no_picture=0";
+
+		request = REQUEST_STATUS_COMPOSER;
+	}
+
+	std::string text = utils::url::encode(status->text);
+	
+	data += "fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
+	data += "&xhpc_targetid=" + (status->user_id.empty() ? this->self_.user_id : status->user_id);
 	data += "&__user=" + this->self_.user_id;
 	data += "&xhpc_message=" + text;
 	data += "&xhpc_message_text=" + text;
 	data += "&audience[0][value]=" + get_privacy_type();
-	data += "&composertags_place_name=";
-	data += ptrA(mir_urlEncode(place));
+	if (!status->place.empty()) {
+		data += "&composertags_place_name=";	
+		data += utils::url::encode(status->place);
+	}
 
-	http::response resp = flap(REQUEST_STATUS_SET, &data);
+	http::response resp = flap(request, &data);
 
 	validate_response(&resp);
+	if (resp.error_number != 0 && !resp.error_text.empty())
+		client_notify(_A2T(resp.error_text.c_str()));
 
 	switch (resp.code)
 	{
 	case HTTP_CODE_OK:
-  		return handle_success("set_status");
+  		return handle_success("post_status");
 
   	case HTTP_CODE_FAKE_ERROR:
 	case HTTP_CODE_FAKE_DISCONNECTED:
 	default:
-  		return handle_error("set_status");
+  		return handle_error("post_status");
 	}
 }
 

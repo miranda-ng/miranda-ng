@@ -426,6 +426,45 @@ std::string utils::text::source_get_value2(std::string* data, const char *term, 
 	return ret;
 }
 
+std::string utils::text::source_get_form_data(std::string* data)
+{
+	std::string values = "";
+
+	std::string::size_type start = 0;
+	start = data->find("<input", start);
+	while (start != std::string::npos) {		
+		start++;
+		std::string attr = "", value = "";
+
+		std::string::size_type pos = data->find("name=\"", start);
+		if (pos != std::string::npos) {
+			pos += 6;
+			std::string::size_type end = data->find("\"", pos);
+			if (end != std::string::npos)
+				attr = data->substr(pos, end - pos);
+
+			
+			end = data->find(">", pos);
+			pos = data->find("value=\"", pos);
+			if (pos != std::string::npos && end != std::string::npos && pos < end) {
+				pos += 7;
+				end = data->find("\"", pos);
+				if (end != std::string::npos)
+					value = data->substr(pos, end - pos);
+			}
+		}
+
+		if (!attr.empty()) {
+			if (!values.empty())
+				values += "&";
+			values += attr + "=" + value;
+		}
+		start = data->find("<input", start);
+	}
+
+	return values;
+}
+
 int utils::number::random()
 {
 	srand(::time(NULL));

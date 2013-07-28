@@ -139,3 +139,12 @@ struct popup_data
 	std::string url;
 	std::string notification_id;
 };
+
+struct status_data
+{
+	std::string user_id;
+	std::string text;
+	std::string url;	
+	std::string place;	
+	std::string privacy;
+};

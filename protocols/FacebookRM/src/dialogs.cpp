@@ -125,6 +125,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		proto = reinterpret_cast<FacebookProto*>(lparam);
 		SetWindowLongPtr(hwnd,GWLP_USERDATA,lparam);
 		SendDlgItemMessage(hwnd,IDC_MINDMSG,EM_LIMITTEXT,FACEBOOK_MIND_LIMIT,0);
+		SendDlgItemMessage(hwnd,IDC_URL,EM_LIMITTEXT,1024,0);
 
 		ptrT place = db_get_tsa(NULL, proto->m_szModuleName, FACEBOOK_KEY_PLACE);
 		SetDlgItemText(hwnd, IDC_PLACE, place != NULL ? place : _T("Miranda NG"));
@@ -160,25 +161,35 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		else if (LOWORD(wparam) == IDOK)
 		{
 			TCHAR mindMessageT[FACEBOOK_MIND_LIMIT+1];
+			TCHAR urlT[1024];
 			TCHAR placeT[100];
 			proto = reinterpret_cast<FacebookProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 
 			GetDlgItemText(hwnd,IDC_MINDMSG, mindMessageT, SIZEOF(mindMessageT));
 			GetDlgItemText(hwnd,IDC_PLACE, placeT, SIZEOF(placeT));
+			GetDlgItemText(hwnd,IDC_URL, urlT, SIZEOF(urlT));
 			ShowWindow(hwnd,SW_HIDE);
 
 			ptrA place( mir_utf8encodeT(placeT));
 			proto->setString(FACEBOOK_KEY_PLACE, place);
 
-			proto->setByte(FACEBOOK_KEY_PRIVACY_TYPE, SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_GETCURSEL, 0, 0));
+			int privacy_type = SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_GETCURSEL, 0, 0);
+			proto->setByte(FACEBOOK_KEY_PRIVACY_TYPE, privacy_type);
 
 			char *narrow = mir_utf8encodeT(mindMessageT);
 			if (proto->last_status_msg_ != narrow)
 				proto->last_status_msg_ = narrow;
 			utils::mem::detract(narrow);
 
+			status_data *data = new status_data();
+			data->place = place;
+			data->text = proto->last_status_msg_;
+			data->url = _T2A(urlT);
+			data->privacy = privacy_types[privacy_type].id;
+//			data->user_id = user_id;
+
 			//char *narrow = mir_t2a_cp(mindMessage,CP_UTF8);
-			proto->ForkThread(&FacebookProto::SetAwayMsgWorker, NULL);
+			proto->ForkThread(&FacebookProto::SetAwayMsgWorker, data);
 
 			EndDialog(hwnd, wparam); 
 			return TRUE;

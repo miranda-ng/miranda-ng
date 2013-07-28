@@ -93,7 +93,9 @@ enum RequestType {
 	REQUEST_NOTIFICATIONS,		// getting notifications
 	REQUEST_LOAD_REQUESTS,		// getting friend requests
 
-	REQUEST_STATUS_SET,			// setting my "What's on my mind?"
+	REQUEST_POST_STATUS,		// posting status to our or friends's wall
+	REQUEST_STATUS_COMPOSER,	// posting status to our or friends's wall with url links
+	REQUEST_LINK_SCRAPER,		// getting data for some url link
 	REQUEST_SEARCH,				// searching
 	REQUEST_POKE,				// sending pokes
 	REQUEST_NOTIFICATIONS_READ, // marking notifications read

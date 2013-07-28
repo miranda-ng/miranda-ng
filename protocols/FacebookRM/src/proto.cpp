@@ -203,10 +203,18 @@ int FacebookProto::SetAwayMsg(int status, const PROTOCHAR *msg)
 	return 0;
 }
 
-void FacebookProto::SetAwayMsgWorker(void *)
-{
-	if (!last_status_msg_.empty())
-		facy.set_status(last_status_msg_);
+void FacebookProto::SetAwayMsgWorker(void *p)
+{	
+	if (p != NULL) {
+		status_data *data = static_cast<status_data*>(p);
+		facy.post_status(data);
+		delete data;
+	} else if (!last_status_msg_.empty()) {
+		status_data data;
+		data.text = last_status_msg_;
+		data.privacy = facy.get_privacy_type();
+		facy.post_status(&data);
+	}
 }
 
 HANDLE FacebookProto::SearchBasic(const PROTOCHAR* id)

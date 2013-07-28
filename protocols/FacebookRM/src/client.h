@@ -160,7 +160,7 @@ public:
 
 	// Status handling
 
-	bool    set_status(const std::string &text);
+	bool    post_status(status_data *data);
 
 	////////////////////////////////////////////////////////////
 

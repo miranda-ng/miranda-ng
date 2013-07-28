@@ -59,6 +59,8 @@
 #define IDC_URL_SERVER                  1202
 #define IDC_PLACE                       1203
 #define IDC_PRIVACY                     1204
+#define IDC_WALL                        1205
+#define IDC_URL                         1206
 
 // Next default values for new objects
 // 
