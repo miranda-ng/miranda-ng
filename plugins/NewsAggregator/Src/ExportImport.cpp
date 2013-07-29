@@ -559,6 +559,52 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
 			}
 			break;
+
+		case IDC_FEEDSLIST:
+			{
+				if (HIWORD(wParam) == LBN_DBLCLK)
+				{
+					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_REMOVEFEED))) 
+						EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEFEED), TRUE);
+					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_REMOVEALLFEEDS))) 
+						EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEALLFEEDS), TRUE);
+					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDOK)))
+						EnableWindow(GetDlgItem(hwndDlg, IDOK), TRUE);
+					int cursel = SendMessage(FeedsList, LB_GETCURSEL, 0, 0);
+					TCHAR item[MAX_PATH];
+					SendMessage(FeedsList, LB_GETTEXT, cursel, (LPARAM)item);
+					SendMessage(FeedsImportList, LB_ADDSTRING, 0, (LPARAM)item);
+					SendMessage(FeedsList, LB_DELETESTRING, cursel, 0);
+					if (!SendMessage(FeedsList, LB_GETCOUNT, 0, 0)) {
+						EnableWindow(GetDlgItem(hwndDlg, IDC_ADDFEED), FALSE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_ADDALLFEEDS), FALSE);
+					}
+				}
+			}
+			break;
+
+		case IDC_FEEDSIMPORTLIST:
+			{
+				if (HIWORD(wParam) == LBN_DBLCLK)
+				{
+					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_ADDFEED)))
+						EnableWindow(GetDlgItem(hwndDlg, IDC_ADDFEED), TRUE);
+					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_ADDALLFEEDS)))
+						EnableWindow(GetDlgItem(hwndDlg, IDC_ADDALLFEEDS), TRUE);
+					int cursel = SendMessage(FeedsImportList, LB_GETCURSEL, 0, 0);
+					TCHAR item[MAX_PATH];
+					SendMessage(FeedsImportList, LB_GETTEXT, cursel, (LPARAM)item);
+					SendMessage(FeedsList, LB_ADDSTRING, 0, (LPARAM)item);
+					SendMessage(FeedsImportList, LB_DELETESTRING, cursel, 0);
+					if (!SendMessage(FeedsImportList, LB_GETCOUNT, 0, 0))
+					{
+						EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEFEED), FALSE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEALLFEEDS), FALSE);
+						EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
+					}
+				}
+			}
+			break;
 		}
 		break;
 
@@ -768,6 +814,52 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEFEED), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEALLFEEDS), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
+			}
+			break;
+
+		case IDC_FEEDSLIST:
+			{
+				if (HIWORD(wParam) == LBN_DBLCLK)
+				{
+					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_REMOVEFEED))) 
+						EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEFEED), TRUE);
+					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_REMOVEALLFEEDS))) 
+						EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEALLFEEDS), TRUE);
+					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDOK)))
+						EnableWindow(GetDlgItem(hwndDlg, IDOK), TRUE);
+					int cursel = SendMessage(FeedsList, LB_GETCURSEL, 0, 0);
+					TCHAR item[MAX_PATH];
+					SendMessage(FeedsList, LB_GETTEXT, cursel, (LPARAM)item);
+					SendMessage(FeedsExportList, LB_ADDSTRING, 0, (LPARAM)item);
+					SendMessage(FeedsList, LB_DELETESTRING, cursel, 0);
+					if (!SendMessage(FeedsList, LB_GETCOUNT, 0, 0)) {
+						EnableWindow(GetDlgItem(hwndDlg, IDC_ADDFEED), FALSE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_ADDALLFEEDS), FALSE);
+					}
+				}
+			}
+			break;
+
+		case IDC_FEEDSEXPORTLIST:
+			{
+				if (HIWORD(wParam) == LBN_DBLCLK)
+				{
+					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_ADDFEED)))
+						EnableWindow(GetDlgItem(hwndDlg, IDC_ADDFEED), TRUE);
+					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_ADDALLFEEDS)))
+						EnableWindow(GetDlgItem(hwndDlg, IDC_ADDALLFEEDS), TRUE);
+					int cursel = SendMessage(FeedsExportList, LB_GETCURSEL, 0, 0);
+					TCHAR item[MAX_PATH];
+					SendMessage(FeedsExportList, LB_GETTEXT, cursel, (LPARAM)item);
+					SendMessage(FeedsList, LB_ADDSTRING, 0, (LPARAM)item);
+					SendMessage(FeedsExportList, LB_DELETESTRING, cursel, 0);
+					if (!SendMessage(FeedsExportList, LB_GETCOUNT, 0, 0))
+					{
+						EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEFEED), FALSE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEALLFEEDS), FALSE);
+						EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
+					}
+				}
 			}
 			break;
 		}
