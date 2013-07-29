@@ -62,6 +62,7 @@ int CExchangeServer::Connect(int bForceConnect)
 		{
 			TCHAR user[1024]; //lovely
 			TCHAR password[1024]; //i know
+			char apassword[1024];
 			TCHAR server[1024];
 			int port;
 			
@@ -75,7 +76,9 @@ int CExchangeServer::Connect(int bForceConnect)
 			}
 			
 			GetStringFromDatabase("Password", _T(""), password, _countof(password));
-			CallService(MS_DB_CRYPT_DECODESTRING, sizeof(password), (LPARAM) password);
+			strcpy(apassword,mir_t2a(password));
+			CallService(MS_DB_CRYPT_DECODESTRING, sizeof(apassword), (LPARAM) apassword);
+			_tcsncpy(password,mir_a2t(apassword),_countof(password));
 			GetStringFromDatabase("Server", _T(""), server, _countof(server));
 			port = db_get_dw(NULL, ModuleName, "Port", EXCHANGE_PORT);
 			if (_tcslen(server) > 0) //only connect if there's a server to connect to
@@ -339,6 +342,21 @@ int CExchangeServer::Check(int bNoEmailsNotify)
 		}
 
 		ShowMessage(buffer, count);
+		/*int i;
+				TEmailHeader emailInfo = {0};
+				char sender[1024];
+				char subject[1024];
+				emailInfo.cbSize = sizeof(emailInfo);
+				emailInfo.szSender = sender;
+				emailInfo.szSubject = subject;
+				emailInfo.cSender = sizeof(sender);
+				emailInfo.cSubject = sizeof(subject);
+				for (i = 0; i < count; i++)
+					{
+						GetEmailHeader(i, &emailInfo);
+						sprintf(buffer, "Unread email #%d:\nSender :%s\nSubject :%s", i + 1, sender, subject);
+						ShowMessage(buffer);
+					}*/
 	}
 
 	if (count==-1)
@@ -357,7 +375,7 @@ int ShowMessage(TCHAR *message, int cUnreadEmails)
 		return ShowPopupMessage(TranslateT("Exchange email"), message, cUnreadEmails);
 	}
 	else{
-		return ShowMessageBoxMessage(TranslateT("Do you want to see the email headers?"), message, cUnreadEmails);
+		return ShowMessageBoxMessage(TranslateT("Do you want to see the email headers ?"), message, cUnreadEmails);
 	}
 	
 	return 0;

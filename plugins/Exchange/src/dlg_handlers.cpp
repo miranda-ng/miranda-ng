@@ -35,6 +35,7 @@ BOOL CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			case WM_INITDIALOG:
 				{
 					TCHAR buffer[4096];
+					char apassword[1024];
 					long port;
 					long interval;
 					int bCheck;
@@ -52,8 +53,9 @@ BOOL CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					GetStringFromDatabase("Username", _T(""), buffer, sizeof(buffer));
 					SetWindowText(GetDlgItem(hWnd, IDC_USER_EDIT), buffer);
 					GetStringFromDatabase("Password", _T(""), buffer, sizeof(buffer));
-					CallService(MS_DB_CRYPT_DECODESTRING, sizeof(buffer), (LPARAM) buffer);
-					SetWindowText(GetDlgItem(hWnd, IDC_PASSWORD_EDIT), buffer);
+					strcpy(apassword,mir_t2a(buffer));
+					CallService(MS_DB_CRYPT_DECODESTRING, sizeof(apassword), (LPARAM) apassword);
+					SetWindowText(GetDlgItem(hWnd, IDC_PASSWORD_EDIT), mir_a2t(apassword));
 					GetStringFromDatabase("Server", _T(""), buffer, sizeof(buffer));
 					SetWindowText(GetDlgItem(hWnd, IDC_SERVER_EDIT), buffer);
 					
@@ -145,6 +147,7 @@ BOOL CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 										case PSN_APPLY:
 											{
 												TCHAR buffer[4096];
+												char apassword[1024];
 												long port = 0;
 												long interval = DEFAULT_INTERVAL;
 												int bCheck = IsDlgButtonChecked(hWnd, IDC_CHECK_EMAILS);
@@ -154,8 +157,12 @@ BOOL CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 												GetWindowText(GetDlgItem(hWnd, IDC_USER_EDIT), buffer, sizeof(buffer));
 												db_set_ts(NULL, ModuleName, "Username", buffer);
 												GetWindowText(GetDlgItem(hWnd, IDC_PASSWORD_EDIT), buffer, sizeof(buffer));
-												CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(buffer), (LPARAM) buffer);
-												db_set_ts(NULL, ModuleName, "Password", buffer);
+												strcpy(apassword,mir_t2a(buffer));
+
+												CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(apassword), (LPARAM) apassword);
+
+												db_set_ts(NULL, ModuleName, "Password", mir_a2t(apassword));
+
 												GetWindowText(GetDlgItem(hWnd, IDC_SERVER_EDIT), buffer, sizeof(buffer));
 												db_set_ts(NULL, ModuleName, "Server", buffer);
 												GetWindowText(GetDlgItem(hWnd, IDC_PORT_EDIT), buffer, sizeof(buffer));
