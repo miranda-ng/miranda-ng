@@ -123,6 +123,11 @@ public:
 
 	INT_PTR __cdecl OnMind(WPARAM,LPARAM);
 
+	// Initialiation
+	void InitPopups();
+	void InitHotkeys();
+	void InitSounds();
+
 	// Events
 	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
@@ -206,6 +211,8 @@ public:
 	HANDLE  update_loop_lock_;
 
 	HANDLE  m_hNetlibUser;
+
+	std::vector<HANDLE> popupClasses;
 
 	std::string last_status_msg_;
 	HANDLE  hAvatarFolder_;

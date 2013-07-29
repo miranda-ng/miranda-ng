@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_URL_NOTIFICATIONS				"http://www.facebook.com/n/?notifications.php"
 #define FACEBOOK_URL_PROFILE					"http://www.facebook.com/profile.php?id="
 #define FACEBOOK_URL_GROUP						"http://www.facebook.com/n/?home.php&sk=group_"
+#define FACEBOOK_URL_PICTURE					"http://graph.facebook.com/%s/picture"
 
 // Connection
 #define FACEBOOK_SERVER_REGULAR					"www.facebook.com"
@@ -38,6 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_SERVER_CHAT					"%s-%s.facebook.com"
 #define FACEBOOK_SERVER_LOGIN					"login.facebook.com"
 #define FACEBOOK_SERVER_APPS					"apps.facebook.com"
+#define FACEBOOK_SERVER_DOMAIN					"facebook.com"
 
 // Limits
 #define FACEBOOK_MESSAGE_LIMIT					200000 // this is guessed limit, in reality it is bigger
@@ -70,10 +72,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_EVENT_FEEDS_ENABLE				1
 #define DEFAULT_EVENT_OTHER_ENABLE				1
 #define DEFAULT_EVENT_CLIENT_ENABLE				1
-#define DEFAULT_EVENT_COLBACK					0x00ffffff
-#define DEFAULT_EVENT_COLTEXT					0x00000000
-#define DEFAULT_EVENT_TIMEOUT_TYPE				0
-#define DEFAULT_EVENT_TIMEOUT					20
 
 // Event flags
 #define FACEBOOK_EVENT_CLIENT					0x10000000 // Facebook error or info message

@@ -65,23 +65,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_EVENT_OTHER_ENABLE             "EventOtherEnable"
 #define FACEBOOK_KEY_EVENT_CLIENT_ENABLE            "EventClientEnable"
 #define FACEBOOK_KEY_FEED_TYPE                      "EventFeedsType"
-
-#define FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLBACK    "PopupNotificationsColorBack"
-#define FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLTEXT    "PopupNotificationsColorText"
-#define FACEBOOK_KEY_EVENT_NOTIFICATIONS_TIMEOUT    "PopupNotificationsTimeout"
-#define FACEBOOK_KEY_EVENT_NOTIFICATIONS_DEFAULT    "PopupNotificationsColorDefault"
-
-#define FACEBOOK_KEY_EVENT_FEEDS_COLBACK            "PopupFeedsColorBack"
-#define FACEBOOK_KEY_EVENT_FEEDS_COLTEXT            "PopupFeedsColorText"
-#define FACEBOOK_KEY_EVENT_FEEDS_TIMEOUT            "PopupFeedsTimeout"
-#define FACEBOOK_KEY_EVENT_FEEDS_DEFAULT            "PopupFeedsColorDefault"
-
-#define FACEBOOK_KEY_EVENT_OTHER_COLBACK            "PopupOtherColorBack"
-#define FACEBOOK_KEY_EVENT_OTHER_COLTEXT            "PopupOtherColorText"
-#define FACEBOOK_KEY_EVENT_OTHER_TIMEOUT            "PopupOtherTimeout"
-#define FACEBOOK_KEY_EVENT_OTHER_DEFAULT            "PopupOtherColorDefault"
-
-#define FACEBOOK_KEY_EVENT_CLIENT_COLBACK           "PopupClientColorBack"
-#define FACEBOOK_KEY_EVENT_CLIENT_COLTEXT           "PopupClientColorText"
-#define FACEBOOK_KEY_EVENT_CLIENT_TIMEOUT           "PopupClientTimeout"
-#define FACEBOOK_KEY_EVENT_CLIENT_DEFAULT           "PopupClientColorDefault"

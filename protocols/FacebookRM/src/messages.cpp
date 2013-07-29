@@ -197,7 +197,7 @@ void FacebookProto::ParseSmileys(std::string message, HANDLE hContact)
 		std::string smiley = message.substr(pos, pos2+2-pos);
 		pos = pos2;
 		
-		std::string url = "http://graph.facebook.com/%s/picture";
+		std::string url = FACEBOOK_URL_PICTURE;
 		utils::text::replace_first(&url, "%s", smiley.substr(2, smiley.length()-4));
 
 		std::string b64 = ptrA( mir_base64_encode((PBYTE)smiley.c_str(), (unsigned)smiley.length()));

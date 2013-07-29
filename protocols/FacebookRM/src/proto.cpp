@@ -52,20 +52,13 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 	HookProtoEvent(ME_IDLE_CHANGED,             &FacebookProto::OnIdleChanged);
 	HookProtoEvent(ME_TTB_MODULELOADED,         &FacebookProto::OnToolbarInit);
 
-	char module[512];
-	mir_snprintf(module, sizeof(module), "%s/Mind", m_szModuleName);
-
-	HOTKEYDESC hkd = { sizeof(hkd) };
-	hkd.dwFlags = HKD_TCHAR;
-	hkd.ptszDescription = LPGENT("Show 'Share status' window");
-	hkd.pszName = "ShowMindWnd";
-	hkd.ptszSection = m_tszUserName;
-	hkd.pszService = module;
-	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT|HOTKEYF_EXT, 'F');
-	Hotkey_Register(&hkd);
+	InitHotkeys();
+	InitPopups();
+	InitSounds();
 
 	// Create standard network connection
 	TCHAR descr[512];
+	char module[512];
 	NETLIBUSER nlu = {sizeof(nlu)};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
 	nlu.szSettingsModule = m_szModuleName;
@@ -77,11 +70,7 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 	if (m_hNetlibUser == NULL)
 		MessageBox(NULL, TranslateT("Unable to get Netlib connection for Facebook"), m_tszUserName, MB_OK);
 
-	facy.set_handle(m_hNetlibUser);
-
-	SkinAddNewSoundExT("Notification", m_tszUserName, LPGENT("Notification"));
-	SkinAddNewSoundExT("NewsFeed", m_tszUserName, LPGENT("News Feed"));
-	SkinAddNewSoundExT("OtherEvent", m_tszUserName, LPGENT("Other Event"));
+	facy.set_handle(m_hNetlibUser);	
 
 	mir_sntprintf(descr, SIZEOF(descr), _T("%%miranda_avatarcache%%\\%s"), m_tszUserName);
 	hAvatarFolder_ = FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, descr, m_tszUserName);
@@ -92,6 +81,11 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username) :
 
 FacebookProto::~FacebookProto()
 {
+	// Uninit popup classes
+	for (std::vector<HANDLE>::size_type i = 0; i < popupClasses.size(); i++)
+		Popup_UnregisterClass(popupClasses[i]);
+	popupClasses.clear();	
+	
 	Netlib_CloseHandle(m_hNetlibUser);
 
 	WaitForSingleObject(signon_lock_, IGNORE);
@@ -423,17 +417,15 @@ int FacebookProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	Options_AddPage(wParam, &odp);
 
 	odp.position    = 271829;
-	odp.ptszTab     = LPGENT("Advanced");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_ADVANCED);
-	odp.pfnDlgProc  = FBOptionsAdvancedProc;
-	Options_AddPage(wParam, &odp);
-
-	odp.position    = 271830;
-	if (ServiceExists(MS_POPUP_ADDPOPUPT))
-		odp.ptszGroup   = LPGENT("Popups");
 	odp.ptszTab     = LPGENT("Events");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_EVENTS);
 	odp.pfnDlgProc  = FBEventsProc;
+	Options_AddPage(wParam, &odp);
+
+	odp.position    = 271830;
+	odp.ptszTab     = LPGENT("Advanced");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_ADVANCED);
+	odp.pfnDlgProc  = FBOptionsAdvancedProc;
 	Options_AddPage(wParam, &odp);
 
 	return 0;
@@ -669,8 +661,7 @@ HANDLE FacebookProto::HContactFromAuthEvent(HANDLE hEvent)
 
 void FacebookProto::OpenUrl(std::string url)
 {
-	std::string facebookDomain = "facebook.com";
-	std::string::size_type pos = url.find(facebookDomain);
+	std::string::size_type pos = url.find(FACEBOOK_SERVER_DOMAIN);
 	bool isFacebookUrl = (pos != std::string::npos);
 	bool isRelativeUrl = (url.substr(0, 4) != "http");
 
@@ -678,7 +669,7 @@ void FacebookProto::OpenUrl(std::string url)
 
 		// Make realtive url
 		if (!isRelativeUrl) {
-			url = url.substr(pos + facebookDomain.length());
+			url = url.substr(pos + strlen(FACEBOOK_SERVER_DOMAIN));
 
 			// Strip eventual port
 			pos = url.find("/");
@@ -709,4 +700,128 @@ void FacebookProto::ReadNotificationWorker(void *p)
 	facy.flap(REQUEST_NOTIFICATIONS_READ, NULL, &data);
 
 	delete p;
+}
+
+/**
+ * Popup processing callback
+ */
+LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch(message)
+	{
+	case WM_COMMAND:
+	case WM_CONTEXTMENU:
+	{
+		// Get the plugin data (we need the Popup service to do it)
+		popup_data *data = (popup_data *)PUGetPluginData(hwnd);
+		if (data != NULL) {
+			if (!data->notification_id.empty())
+				data->proto->ForkThread(&FacebookProto::ReadNotificationWorker, new std::string(data->notification_id));
+
+			if (message == WM_COMMAND && !data->url.empty())
+				data->proto->OpenUrl(data->url);
+		}
+
+		// After a click, destroy popup
+		PUDeletePopup(hwnd);
+	} break;
+
+	case UM_FREEPLUGINDATA:
+	{
+		// After close, free
+		popup_data *data = (popup_data *)PUGetPluginData(hwnd);
+		if (data != NULL)
+			mir_free(data);
+	} return FALSE;
+
+	default:
+		break;
+	}
+
+	return DefWindowProc(hwnd, message, wParam, lParam);
+};
+
+/**
+ * Popup classes initialization
+ */
+void FacebookProto::InitPopups()
+{		
+	POPUPCLASS ppc = { sizeof(ppc) };
+	ppc.flags = PCF_TCHAR;		
+	ppc.PluginWindowProc = (WNDPROC)PopupDlgProc;
+
+	TCHAR desc[256];
+	char name[256];
+
+	// Client
+	mir_sntprintf(desc, SIZEOF(desc), _T("%s/%s"), m_tszUserName, TranslateT("Client notifications"));
+	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Client");
+	ppc.ptszDescription = desc;
+	ppc.pszName = name;
+	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("facebook"));
+	ppc.colorBack = RGB(191, 0, 0); // red
+	ppc.colorText = RGB(255, 255, 255); // white
+	ppc.iSeconds = 0;
+	popupClasses.push_back(Popup_RegisterClass(&ppc));
+
+	// Newsfeeds
+	mir_sntprintf(desc, SIZEOF(desc), _T("%s/%s"), m_tszUserName, TranslateT("News feeds"));
+	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Newsfeed");
+	ppc.ptszDescription = desc;
+	ppc.pszName = name;
+	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("newsfeed"));
+	ppc.colorBack = RGB(255, 255, 255); // white
+	ppc.colorText = RGB(0, 0, 0); // black
+	ppc.iSeconds = 0;
+	popupClasses.push_back(Popup_RegisterClass(&ppc));
+
+	// Notifications
+	mir_sntprintf(desc, SIZEOF(desc), _T("%s/%s"), m_tszUserName, TranslateT("Notifications"));
+	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Notification");
+	ppc.ptszDescription = desc;
+	ppc.pszName = name;
+	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("notification"));
+	ppc.colorBack = RGB(59, 89, 152); // Facebook's blue
+	ppc.colorText = RGB(255, 255, 255); // white
+	ppc.iSeconds = 0;
+	popupClasses.push_back(Popup_RegisterClass(&ppc));
+
+	// Others
+	mir_sntprintf(desc, SIZEOF(desc), _T("%s/%s"), m_tszUserName, TranslateT("Other events"));
+	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Other");
+	ppc.ptszDescription = desc;
+	ppc.pszName = name;
+	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("facebook"));
+	ppc.colorBack = RGB(255, 255, 255); // white
+	ppc.colorText = RGB(0, 0, 0); // black
+	ppc.iSeconds = 0;
+	popupClasses.push_back(Popup_RegisterClass(&ppc));
+}
+
+/**
+ * Hotkeys initialiation
+ */
+void FacebookProto::InitHotkeys()
+{
+	char module[512];
+	mir_snprintf(module, sizeof(module), "%s/Mind", m_szModuleName);
+
+	HOTKEYDESC hkd = { sizeof(hkd) };
+	hkd.dwFlags = HKD_TCHAR;
+	hkd.ptszDescription = LPGENT("Show 'Share status' window");
+	hkd.pszName = "ShowMindWnd";
+	hkd.ptszSection = m_tszUserName;
+	hkd.pszService = module;
+	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT|HOTKEYF_EXT, 'F');
+	Hotkey_Register(&hkd);
+}
+
+/**
+ * Sounds initialization
+ */
+void FacebookProto::InitSounds()
+{
+	SkinAddNewSoundExT("Notification", m_tszUserName, LPGENT("Notification"));
+	SkinAddNewSoundExT("NewsFeed", m_tszUserName, LPGENT("News Feed"));
+	SkinAddNewSoundExT("OtherEvent", m_tszUserName, LPGENT("Other Event"));
 }
