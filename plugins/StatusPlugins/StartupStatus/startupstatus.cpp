@@ -74,9 +74,6 @@ TSSSetting::~TSSSetting()
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static HANDLE 
-	hOptionsHook,
-	hShutdownHook,
-	hAccChangeHook,
 	hProtoAckHook,
 	hCSStatusChangeHook,
 	hStatusChangeHook;
@@ -282,12 +279,9 @@ static VOID CALLBACK SetStatusTimed(HWND hwnd,UINT message, UINT_PTR idEvent,DWO
 	CallService(MS_CS_SETSTATUSEX, (WPARAM)&startupSettings, 0);
 }
 
-static int Exit(WPARAM wParam, LPARAM lParam)
+static int OnShutdown(WPARAM wParam, LPARAM lParam)
 {
 	DeinitProfilesModule();
-	UnhookEvent(hOptionsHook);
-	UnhookEvent(hShutdownHook);
-	UnhookEvent(hAccChangeHook);
 
 	// save last protocolstatus
 	int count;
@@ -371,7 +365,7 @@ static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		log_debugA("WM_ENDSESSION");
 		if (wParam) {
 			log_debugA("WM_ENDSESSION: calling exit");
-			Exit(0, 0);
+			OnShutdown(0, 0);
 			log_debugA("WM_ENDSESSION: exit called");
 		}
 		break;
@@ -386,11 +380,11 @@ int CSModuleLoaded(WPARAM wParam, LPARAM lParam)
 
 	InitProfileModule();
 
-	hAccChangeHook = HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccChanged);
-	hOptionsHook = HookEvent(ME_OPT_INITIALISE, OptionsInit);
+	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccChanged);
+	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 
 	/* shutdown hook for normal shutdown */
-	hShutdownHook = HookEvent(ME_SYSTEM_OKTOEXIT, Exit);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
 	/* message window for poweroff */
 	hMessageWindow = CreateWindowEx(0, _T("STATIC"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
 	SetWindowLongPtr(hMessageWindow, GWLP_WNDPROC, (LONG_PTR)MessageWndProc);

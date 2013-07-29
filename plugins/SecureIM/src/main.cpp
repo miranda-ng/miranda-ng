@@ -95,7 +95,7 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 
 	// hook events
 	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
-	HookEvent(ME_SYSTEM_OKTOEXIT, onSystemOKToExit);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, onShutdown);
 	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
 
@@ -345,7 +345,7 @@ int onModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-int onSystemOKToExit(WPARAM, LPARAM)
+int onShutdown(WPARAM, LPARAM)
 {
 	if (bSavePass) {
 		LPSTR tmp = gpg_get_passphrases();

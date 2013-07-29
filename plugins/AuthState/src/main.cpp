@@ -183,7 +183,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int onSystemOKToExit(WPARAM wParam,LPARAM lParam)
+static int onShutdown(WPARAM wParam,LPARAM lParam)
 {
 	DestroyServiceFunction(hAuthMenuSelected);
 	return 0;
@@ -194,7 +194,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
-	HookEvent(ME_SYSTEM_OKTOEXIT,onSystemOKToExit);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, onShutdown);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
 
 	bUseAuthIcon = db_get_b(NULL, MODULENAME, "EnableAuthIcon", 1);

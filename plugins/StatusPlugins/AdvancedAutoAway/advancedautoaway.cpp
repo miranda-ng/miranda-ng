@@ -71,10 +71,6 @@ static BOOL ignoreAltCombo = FALSE;
 static BOOL monitorMouse = TRUE;
 static BOOL monitorKeyboard = TRUE;
 static HWND confirmDialog;
-static HANDLE hAutoAwayOptionsHook;
-static HANDLE hAutoAwayShutDownHook;
-static HANDLE hProtoAckHook;
-static HANDLE hAccChangeHook;
 static int mouseStationaryTimer;
 HHOOK hMirandaMouseHook = NULL;
 HHOOK hMirandaKeyBoardHook = NULL;
@@ -578,10 +574,6 @@ static int AutoAwayShutdown(WPARAM wParam,LPARAM lParam)
 #ifdef TRIGGERPLUGIN
 	DeInitTrigger();
 #endif
-	UnhookEvent(hAutoAwayOptionsHook);
-	UnhookEvent(hAutoAwayShutDownHook);
-	UnhookEvent(hAccChangeHook);
-	UnhookEvent(hProtoAckHook);
 	UnhookWindowsHooks();
 	DestroyHookableEvent(hStateChangedEvent);
 		
@@ -600,10 +592,10 @@ int CSModuleLoaded(WPARAM wParam, LPARAM lParam)
 	else
 		MyGetLastInputInfo = NULL;
 
-	hAccChangeHook = HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccChanged);
-	hAutoAwayOptionsHook = HookEvent(ME_OPT_INITIALISE,AutoAwayOptInitialise);
-	hAutoAwayShutDownHook = HookEvent(ME_SYSTEM_OKTOEXIT,AutoAwayShutdown);
-	hProtoAckHook = HookEvent(ME_PROTO_ACK, ProcessProtoAck);
+	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccChanged);
+	HookEvent(ME_OPT_INITIALISE, AutoAwayOptInitialise);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, AutoAwayShutdown);
+	HookEvent(ME_PROTO_ACK, ProcessProtoAck);
 	mouseStationaryTimer = 0;
 	lastInput = lastMirandaInput = GetTickCount();
 

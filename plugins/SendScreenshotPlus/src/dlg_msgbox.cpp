@@ -112,77 +112,56 @@ void MakePopupAction(POPUPACTION &pa, INT id)
 	pa.wParam = MAKEWORD(id, BN_CLICKED);
 	pa.lParam = 0;
 
-	switch (id)
-	{
+	switch (id) {
 	case IDOK:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_OK);
-			mir_strcpy(pa.lpzTitle, MODNAME"/Ok");
-		}
+		pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_OK);
+		lstrcpyA(pa.lpzTitle, MODNAME"/Ok");
 		break;
 
 	case IDCLOSE:
 	case IDCANCEL:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_CANCEL);
-			mir_strcpy(pa.lpzTitle, MODNAME"/Cancel");
-		}
+		pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_CANCEL);
+		lstrcpyA(pa.lpzTitle, MODNAME"/Cancel");
 		break;
 
 	case IDABORT:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_CANCEL);
-			mir_strcpy(pa.lpzTitle, MODNAME"/Abort");
-		}
+		pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_CANCEL);
+		lstrcpyA(pa.lpzTitle, MODNAME"/Abort");
 		break;
 
 	case IDRETRY:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_UPDATE);
-			mir_strcpy(pa.lpzTitle, MODNAME"/Retry");
-		}
+		pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_UPDATE);
+		lstrcpyA(pa.lpzTitle, MODNAME"/Retry");
 		break;
 
 	case IDIGNORE:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_OK);
-			mir_strcpy(pa.lpzTitle, MODNAME"/Ignore");
-		}
+		pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_OK);
+		lstrcpyA(pa.lpzTitle, MODNAME"/Ignore");
 		break;
 
 	case IDYES:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_OK);
-			mir_strcpy(pa.lpzTitle, MODNAME"/Yes");
-		}
+		pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_OK);
+		lstrcpyA(pa.lpzTitle, MODNAME"/Yes");
 		break;
 
 	case IDNO:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_CANCEL);
-			mir_strcpy(pa.lpzTitle, MODNAME"/No");
-		}
+		pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_CANCEL);
+		lstrcpyA(pa.lpzTitle, MODNAME"/No");
 		break;
 	
 	case IDHELP:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_CANCEL);
-			mir_strcpy(pa.lpzTitle, MODNAME"/Help");
-		}
+		pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_CANCEL);
+		lstrcpyA(pa.lpzTitle, MODNAME"/Help");
 		break;
 
 	case IDALL:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_OK);
-			mir_strcpy(pa.lpzTitle, MODNAME"/All");
-		}
+		pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_OK);
+		lstrcpyA(pa.lpzTitle, MODNAME"/All");
 		break;
 
 	case IDNONE:
-		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_CANCEL);
-			mir_strcpy(pa.lpzTitle, MODNAME"/None");
-		}
+		pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_CANCEL);
+		lstrcpyA(pa.lpzTitle, MODNAME"/None");
 	}
 }
 

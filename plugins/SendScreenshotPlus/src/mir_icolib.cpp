@@ -26,48 +26,46 @@ this file is taken from UserinfoEx plugin and support UserinfoEx icon pack !!!!
 
 #include "global.h"
 
+HICON ghDefIcon = NULL;
 
-typedef struct _ICODESC 
+//IDI_PLUG_MAIN must be the first icon from Plugin.dll, all other icon must be IDI_PLUG_MAIN+n
+
+struct
 {
 	LPSTR	pszName;
 	LPSTR	pszDesc;
 	LPSTR	pszSection;
 	WORD	idResource;
 	BYTE	size;
-} ICODESC;
-
-HICON ghDefIcon = NULL;
-
-//IDI_PLUG_MAIN must be the first icon from Plugin.dll, all other icon must be IDI_PLUG_MAIN+n
-static ICODESC icoDesc[] = 
+}
+static icoDesc[] = 
 {
 	// common
-	{ ICO_PLUG_SSWINDOW1,	LPGEN("Screenshot Icon1"),			SECT_COMMON,	IDI_PLUG_MAIN,		-1	},
-	{ ICO_PLUG_SSWINDOW2,	LPGEN("Screenshot Icon2"),			SECT_COMMON,	IDI_PLUG_ICON1,		0	},
-	{ ICO_PLUG_SSTARGET,	LPGEN("Target Cursor"),			SECT_COMMON,	IDI_PLUG_ICON2,		1	},
-	{ ICO_PLUG_SSMONITOR,	LPGEN("Target Desktop"),			SECT_COMMON,	IDI_PLUG_ICON3,		1	},
-	{ ICO_PLUG_SSDEFAULT,	LPGEN("Default"),					SECT_COMMON,	IDI_PLUG_DEFAULT,	0	},
+	{ ICO_PLUG_SSWINDOW1,   LPGEN("Screenshot Icon1"), SECT_COMMON,  IDI_PLUG_MAIN,      -1 },
+	{ ICO_PLUG_SSWINDOW2,   LPGEN("Screenshot Icon2"), SECT_COMMON,  IDI_PLUG_ICON1,      0 },
+	{ ICO_PLUG_SSTARGET,    LPGEN("Target Cursor"),    SECT_COMMON,  IDI_PLUG_ICON2,      1 },
+	{ ICO_PLUG_SSMONITOR,   LPGEN("Target Desktop"),   SECT_COMMON,  IDI_PLUG_ICON3,      1 },
+	{ ICO_PLUG_SSDEFAULT,   LPGEN("Default"),          SECT_COMMON,  IDI_PLUG_DEFAULT,    0 },
 
 	// overlays
-	{ ICO_PLUG_OVERLAYON,	LPGEN("overlay on"),				SECT_OVERLAY,	IDI_PLUG_OVERLAYON,	0	},
-	{ ICO_PLUG_OVERLAYOFF,	LPGEN("overlay off"),				SECT_OVERLAY,	IDI_PLUG_OVERLAYOFF,0	},
+	{ ICO_PLUG_OVERLAYON,   LPGEN("overlay on"),       SECT_OVERLAY, IDI_PLUG_OVERLAYON,  0 },
+	{ ICO_PLUG_OVERLAYOFF,  LPGEN("overlay off"),      SECT_OVERLAY, IDI_PLUG_OVERLAYOFF, 0 },
 
 	// button icons
-	{ ICO_PLUG_SSHELP,		LPGEN("Help"),						SECT_BUTTONS,	IDI_PLUG_HELP,		0	},
-	{ ICO_PLUG_SSFOLDERO,	LPGEN("Open Folder"),				SECT_BUTTONS,	IDI_PLUG_FOLDERO,	0	},
-	{ ICO_PLUG_SSDESKOFF,	LPGEN("description off"),			SECT_BUTTONS,	IDI_PLUG_DESKOFF,		0	},
-	{ ICO_PLUG_SSDESKON,	LPGEN("description on"),			SECT_BUTTONS,	IDI_PLUG_DESKON,		0	},
-	{ ICO_PLUG_SSDELOFF,	LPGEN("delete off"),				SECT_BUTTONS,	IDI_PLUG_DELOFF,		0	},
-	{ ICO_PLUG_SSDELON,		LPGEN("delete on"),				SECT_BUTTONS,	IDI_PLUG_DELON,			0	},
-	{ ICO_PLUG_ARROWL,		LPGEN("Prev"),						SECT_BUTTONS,	IDI_PLUG_ARROWL,		0	},
-	{ ICO_PLUG_ARROWR,		LPGEN("Next"),						SECT_BUTTONS,	IDI_PLUG_ARROWR,		0	},
-
-	{ ICO_PLUG_UPDATE,		LPGEN("Update"),					SECT_BUTTONS,	IDI_PLUG_UPDATE,			0	},
-	{ ICO_PLUG_OK,			LPGEN("OK"),						SECT_BUTTONS,	IDI_PLUG_OK,				0	},
-	{ ICO_PLUG_CANCEL,		LPGEN("Cancel"),					SECT_BUTTONS,	IDI_PLUG_CLOSE,			0	},
-	{ ICO_PLUG_APPLY,		LPGEN("Apply"),					SECT_BUTTONS,	IDI_PLUG_APPLY,			0	},
-	{ ICO_PLUG_EDIT,		LPGEN("Edit"),						SECT_BUTTONS,	IDI_PLUG_EDIT,			0	},
-	{ ICO_PLUG_DOWNARROW,	LPGEN("Down arrow"),				SECT_BUTTONS,	IDI_PLUG_DOWNARROW,			0	},
+	{ ICO_PLUG_SSHELP,      LPGEN("Help"),             SECT_BUTTONS, IDI_PLUG_HELP,       0 },
+	{ ICO_PLUG_SSFOLDERO,   LPGEN("Open Folder"),      SECT_BUTTONS, IDI_PLUG_FOLDERO,    0 },
+	{ ICO_PLUG_SSDESKOFF,   LPGEN("description off"),  SECT_BUTTONS, IDI_PLUG_DESKOFF,    0 },
+	{ ICO_PLUG_SSDESKON,    LPGEN("description on"),   SECT_BUTTONS, IDI_PLUG_DESKON,     0 },
+	{ ICO_PLUG_SSDELOFF,    LPGEN("delete off"),       SECT_BUTTONS, IDI_PLUG_DELOFF,     0 },
+	{ ICO_PLUG_SSDELON,     LPGEN("delete on"),        SECT_BUTTONS, IDI_PLUG_DELON,      0 },
+	{ ICO_PLUG_ARROWL,      LPGEN("Prev"),             SECT_BUTTONS, IDI_PLUG_ARROWL,     0 },
+	{ ICO_PLUG_ARROWR,      LPGEN("Next"),             SECT_BUTTONS, IDI_PLUG_ARROWR,     0 },
+	{ ICO_PLUG_UPDATE,      LPGEN("Update"),           SECT_BUTTONS, IDI_PLUG_UPDATE,     0 },
+	{ ICO_PLUG_OK,          LPGEN("OK"),               SECT_BUTTONS, IDI_PLUG_OK,         0 },
+	{ ICO_PLUG_CANCEL,      LPGEN("Cancel"),           SECT_BUTTONS, IDI_PLUG_CLOSE,      0 },
+	{ ICO_PLUG_APPLY,       LPGEN("Apply"),            SECT_BUTTONS, IDI_PLUG_APPLY,      0 },
+	{ ICO_PLUG_EDIT,        LPGEN("Edit"),             SECT_BUTTONS, IDI_PLUG_EDIT,       0 },
+	{ ICO_PLUG_DOWNARROW,   LPGEN("Down arrow"),       SECT_BUTTONS, IDI_PLUG_DOWNARROW,  0 },
 };
 
 /**

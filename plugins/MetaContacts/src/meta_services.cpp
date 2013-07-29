@@ -1351,7 +1351,6 @@ INT_PTR Meta_OnOff(WPARAM wParam, LPARAM lParam)
 
 
 int Meta_PreShutdown(WPARAM wParam, LPARAM lParam) {
-	//MessageBox(0, "Preshutdown called", "MC", MB_OK);
 	Meta_SetStatus((WPARAM)ID_STATUS_OFFLINE, 0);
 	Meta_UnhideLinkedContacts();
 	Meta_SuppressStatus(FALSE);
@@ -1360,11 +1359,6 @@ int Meta_PreShutdown(WPARAM wParam, LPARAM lParam) {
 
 	if (setStatusTimerId) KillTimer(0, setStatusTimerId);
 
-	return 0;
-}
-
-int Meta_OkToExit(WPARAM wParam, LPARAM lParam) {
-	Meta_SetStatus((WPARAM)ID_STATUS_OFFLINE, 0);
 	return 0;
 }
 
@@ -1455,19 +1449,17 @@ void Meta_InitServices()
 
 	// hook other module events we need
 	HookEvent(ME_PROTO_ACK, Meta_HandleACK);
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, Meta_SettingChanged);
-	HookEvent(ME_SYSTEM_MODULESLOADED, Meta_ModulesLoaded);
 	HookEvent(ME_PROTO_CONTACTISTYPING, Meta_ContactIsTyping);
 	HookEvent(ME_DB_CONTACT_DELETED, Meta_ContactDeleted);
-	HookEvent(ME_OPT_INITIALISE, Meta_OptInit );
-
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, Meta_SettingChanged);
+	HookEvent(ME_OPT_INITIALISE, Meta_OptInit);
+	HookEvent(ME_SYSTEM_MODULESLOADED, Meta_ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, Meta_PreShutdown);
-	HookEvent(ME_SYSTEM_OKTOEXIT, Meta_OkToExit);
 
 	// hook our own events, used to call Meta_GetMostOnline which sets nick for metacontact
-	HookEvent(ME_MC_DEFAULTTCHANGED, Meta_CallMostOnline );
-	HookEvent(ME_MC_FORCESEND, Meta_CallMostOnline );
-	HookEvent(ME_MC_UNFORCESEND, Meta_CallMostOnline );
+	HookEvent(ME_MC_DEFAULTTCHANGED, Meta_CallMostOnline);
+	HookEvent(ME_MC_FORCESEND, Meta_CallMostOnline);
+	HookEvent(ME_MC_UNFORCESEND, Meta_CallMostOnline);
 
 	// redirect nudge events
 	hEventNudge = CreateHookableEvent(META_PROTO "/Nudge");

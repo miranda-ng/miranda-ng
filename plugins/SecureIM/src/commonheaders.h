@@ -99,7 +99,7 @@ extern DWORD iCoreVersion;
 extern CRITICAL_SECTION localQueueMutex;
 
 int onModulesLoaded(WPARAM, LPARAM);
-int onSystemOKToExit(WPARAM, LPARAM);
+int onShutdown(WPARAM, LPARAM);
 int ModuleLoad(WPARAM wParam, LPARAM lParam);
 
 __forceinline int SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)

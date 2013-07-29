@@ -21,11 +21,7 @@
 #include "commonstatus.h"
 
 // handles for hooks and other Miranda thingies
-static HANDLE hShutdownHook;
-static HANDLE hCSSetStatusExService;
-static HANDLE hCSShowConfirmDlgExService;
 static HANDLE hCSStatusChangedExEvent;
-static HANDLE hCSGetProtoCountService;
 
 OBJLIST<PROTOCOLSETTINGEX>* protoList;
 
@@ -34,10 +30,8 @@ char *StatusModeToDbSetting(int status,const char *suffix);
 DWORD StatusModeToProtoFlag(int status);
 INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam);
 int InitCommonStatus();
-static int ModulesLoaded(WPARAM wParam, LPARAM lParam);
-static int CreateServices();
 int GetProtoCount();
-static int Exit(WPARAM wParam, LPARAM lParam);
+
 // extern
 extern INT_PTR ShowConfirmDialogEx(WPARAM wParam, LPARAM lParam);
 
@@ -337,35 +331,29 @@ int GetProtoCount()
 	return pCount;
 }
 
-int InitCommonStatus()
-{
-	if (!CreateServices())
-	  	hShutdownHook = HookEvent(ME_SYSTEM_OKTOEXIT, Exit);
-
-	return 0;
-}
-
 static int CreateServices()
 {
 	if (ServiceExists(MS_CS_SETSTATUSEX))
 		return -1;
 
-	hCSSetStatusExService = CreateServiceFunction(MS_CS_SETSTATUSEX, SetStatusEx);
-	hCSShowConfirmDlgExService = CreateServiceFunction(MS_CS_SHOWCONFIRMDLGEX, ShowConfirmDialogEx);
 	hCSStatusChangedExEvent = CreateHookableEvent(ME_CS_STATUSCHANGEEX);
-	hCSGetProtoCountService = CreateServiceFunction(MS_CS_GETPROTOCOUNT, GetProtocolCountService);
+
+	CreateServiceFunction(MS_CS_SETSTATUSEX, SetStatusEx);
+	CreateServiceFunction(MS_CS_SHOWCONFIRMDLGEX, ShowConfirmDialogEx);
+	CreateServiceFunction(MS_CS_GETPROTOCOUNT, GetProtocolCountService);
 	return 0;
 }
 
-static int Exit(WPARAM wParam, LPARAM lParam) {
+static int onShutdown(WPARAM wParam, LPARAM lParam)
+{
+	DestroyHookableEvent(hCSStatusChangedExEvent);
+	return 0;
+}
 
-	UnhookEvent(hShutdownHook);
-	if (hCSSetStatusExService != 0) {
-		DestroyHookableEvent(hCSStatusChangedExEvent);
-		DestroyServiceFunction(hCSSetStatusExService);
-		DestroyServiceFunction(hCSShowConfirmDlgExService);
-		DestroyServiceFunction(hCSGetProtoCountService);
-	}
+int InitCommonStatus()
+{
+	if (!CreateServices())
+	  	HookEvent(ME_SYSTEM_PRESHUTDOWN, onShutdown);
 
 	return 0;
 }

@@ -100,7 +100,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 static int OnExit(WPARAM wParam, LPARAM lParam)
 {
-	if ( hwndWizard )
+	if (hwndWizard)
 		SendMessage(hwndWizard, WM_CLOSE, 0, 0);
 	return 0;
 }

@@ -675,7 +675,7 @@ int ContactAdded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int onSystemOKToExit(WPARAM wParam,LPARAM lParam)
+int onShutdown(WPARAM wParam,LPARAM lParam)
 {
 	DestroyServiceFunction(hContactReturnedAction);
 	DestroyServiceFunction(hContactStillAbsentAction);
@@ -701,7 +701,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	HookEvent(ME_SYSTEM_OKTOEXIT,onSystemOKToExit);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, onShutdown);
 
 	HookEvent(ME_DB_CONTACT_ADDED, ContactAdded);
 

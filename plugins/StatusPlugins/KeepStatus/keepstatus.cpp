@@ -30,9 +30,6 @@ struct TimerInfo {
 
 static CRITICAL_SECTION GenTimerCS, GenStatusCS, CheckContinueslyCS;
 
-static HANDLE hOptionsHook = NULL;
-static HANDLE hShutdownHook = NULL;
-static HANDLE hAccChangeHook = NULL;
 static HANDLE hProtoAckHook = NULL;
 static HANDLE hStatusChangeHook = NULL;
 static HANDLE hCSStatusChangeHook = NULL;
@@ -91,8 +88,6 @@ static int ProcessPopup(int reason, LPARAM lParam);
 static INT_PTR ShowPopup(TCHAR *msg, HICON hIcon);
 LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-static int Exit(WPARAM wParam, LPARAM lParam);
 
 // options.c
 extern int OptionsInit(WPARAM wparam,LPARAM);
@@ -1229,27 +1224,8 @@ int OnAccChanged(WPARAM wParam,LPARAM lParam)
 
 // =============== init stuff =================
 
-int CSModuleLoaded(WPARAM,LPARAM)
+static int onShutdown(WPARAM,LPARAM)
 {
-	InitializeCriticalSection(&GenTimerCS);
-	InitializeCriticalSection(&GenStatusCS);
-	InitializeCriticalSection(&CheckContinueslyCS);
-
-	protoList = ( OBJLIST<PROTOCOLSETTINGEX>* )&connectionSettings;
-
-	hMessageWindow = NULL;
-	LoadMainOptions();
-	hOptionsHook = HookEvent(ME_OPT_INITIALISE, OptionsInit);
-	hShutdownHook = HookEvent(ME_SYSTEM_OKTOEXIT, Exit);
-	hAccChangeHook = HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccChanged);
-	return 0;
-}
-
-static int Exit(WPARAM,LPARAM)
-{
-	UnhookEvent(hOptionsHook);
-	UnhookEvent(hShutdownHook);
-	UnhookEvent(hAccChangeHook);
 	UnhookEvent(hStatusChangeHook);
 	UnhookEvent(hProtoAckHook);
 	UnhookEvent(hCSStatusChangeHook);
@@ -1264,5 +1240,22 @@ static int Exit(WPARAM,LPARAM)
 	DeleteCriticalSection(&GenTimerCS);
 	DeleteCriticalSection(&GenStatusCS);
 	DeleteCriticalSection(&CheckContinueslyCS);
+	return 0;
+}
+
+int CSModuleLoaded(WPARAM,LPARAM)
+{
+	InitializeCriticalSection(&GenTimerCS);
+	InitializeCriticalSection(&GenStatusCS);
+	InitializeCriticalSection(&CheckContinueslyCS);
+
+	protoList = ( OBJLIST<PROTOCOLSETTINGEX>* )&connectionSettings;
+
+	hMessageWindow = NULL;
+	LoadMainOptions();
+	
+	HookEvent(ME_OPT_INITIALISE, OptionsInit);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, onShutdown);
+	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccChanged);
 	return 0;
 }

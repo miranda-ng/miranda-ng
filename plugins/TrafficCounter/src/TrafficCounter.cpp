@@ -128,7 +128,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED,TrafficCounterModulesLoaded);
 	HookEvent(ME_PROTO_ACK,ProtocolAckHook);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccountsListChange);
-	HookEvent(ME_SYSTEM_OKTOEXIT, TrafficCounterShutdown);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, TrafficCounterShutdown);
 	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
 	

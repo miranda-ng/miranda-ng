@@ -37,7 +37,6 @@ BOOL png2dibavail = true; // can we use png2dib service?
 TCHAR szDllName[MAX_PATH], szSplashFile[MAX_PATH], szSoundFile[MAX_PATH], szhAdvaimgPath[MAX_PATH], szPrefix[128], inBuf[80];
 TCHAR * szMirDir;
 char szVersion[MAX_PATH];
-HANDLE hShowSplashService, hTestService;
 #ifdef _DEBUG
 	TCHAR szLogFile[MAX_PATH];
 #endif
@@ -46,7 +45,7 @@ HWND hwndSplash;
 BOOL (WINAPI *MyUpdateLayeredWindow)
    (HWND hwnd, HDC hdcDST, POINT *pptDst, SIZE *psize, HDC hdcSrc, POINT *pptSrc,
     COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags);
-HANDLE hSplashThread, hModulesLoaded, hPlugDisableHook, hOptInit, hSystemOKToExit;
+HANDLE hSplashThread;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -255,22 +254,6 @@ void SplashMain()
 	bstartup = false;
 }
 
-int onSystemOKToExit(WPARAM wParam,LPARAM lParam)
-{
-	// Hooked events need to be unhooked
-	UnhookEvent(hModulesLoaded);
-	UnhookEvent(hSystemOKToExit);
-	UnhookEvent(hPlugDisableHook);
-	UnhookEvent(hOptInit);
-
-	DestroyServiceFunction(hShowSplashService);
-	#ifdef _DEBUG
-		DestroyServiceFunction(hTestService);
-	#endif
-
-	return 0;
-}
-
 int PlugDisableHook(WPARAM wParam, LPARAM lParam)
 {
 	#ifdef _DEBUG
@@ -323,15 +306,14 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Options initialize hook
-	hOptInit = HookEvent(ME_OPT_INITIALISE, OptInit);
-
-	hPlugDisableHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, PlugDisableHook);
+	HookEvent(ME_OPT_INITIALISE, OptInit);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, PlugDisableHook);
 
 	// Service to call splash
-	hShowSplashService = CreateServiceFunction(MS_SHOWSPLASH, ShowSplashService);
+	CreateServiceFunction(MS_SHOWSPLASH, ShowSplashService);
 
 	#ifdef _DEBUG
-		hTestService = CreateServiceFunction("Splash/Test", TestService);
+		CreateServiceFunction("Splash/Test", TestService);
 
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIF_TCHAR;
@@ -357,11 +339,9 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
 	mir_getLP(&pluginInfo);
 
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	hSystemOKToExit = HookEvent(ME_SYSTEM_OKTOEXIT,onSystemOKToExit);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 
 	SplashMain();
 	mir_free(szMirDir);
