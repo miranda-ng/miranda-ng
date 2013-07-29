@@ -222,7 +222,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			if (status->user_id == data->proto->facy.self_.user_id && data->proto->last_status_msg_ != narrow)
 				data->proto->last_status_msg_ = narrow;
 
-			utils::mem::detract(narrow);
+			mir_free(narrow);
 
 			data->proto->ForkThread(&FacebookProto::SetAwayMsgWorker, status);
 

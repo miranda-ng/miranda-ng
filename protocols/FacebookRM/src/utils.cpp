@@ -490,26 +490,6 @@ int utils::debug::log(std::string file_name, std::string text)
 	return EXIT_SUCCESS;
 }
 
-void __fastcall utils::mem::detract(char** str)
-{
-	utils::mem::detract((void**)str);
-}
-
-void __fastcall utils::mem::detract(void** p)
-{
-	utils::mem::detract((void*)(*p));
-}
-
-void __fastcall utils::mem::detract(void* p)
-{
-	mir_free(p);
-}
-
-void* __fastcall utils::mem::allocate(size_t size)
-{
-	return mir_calloc(size);
-}
-
 struct
 {
 	char *ext;

@@ -76,8 +76,8 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 
 	NETLIBHTTPREQUEST* pnlhr = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)handle_, (LPARAM)&nlhr);
 
-	utils::mem::detract(nlhr.headers[3].szValue);
-	utils::mem::detract(nlhr.headers);
+	mir_free(nlhr.headers[3].szValue);
+	mir_free(nlhr.headers);
 
 	http::response resp;
 
@@ -576,7 +576,7 @@ NETLIBHTTPHEADER* facebook_client::get_request_headers(int request_type, int* he
 	else
 		*headers_count = 4;
 
-	NETLIBHTTPHEADER* headers = (NETLIBHTTPHEADER*)utils::mem::allocate(sizeof(NETLIBHTTPHEADER)*(*headers_count));
+	NETLIBHTTPHEADER* headers = (NETLIBHTTPHEADER*)mir_calloc(sizeof(NETLIBHTTPHEADER)*(*headers_count));
 
 	if (request_type == REQUEST_POST)
 	{

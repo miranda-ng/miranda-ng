@@ -85,14 +85,6 @@ namespace utils
 	{
 		int log(std::string file_name, std::string text);
 	};
-
-	namespace mem
-	{
-		void __fastcall detract(char** str);
-		void __fastcall detract(void** p);
-		void __fastcall detract(void* p);
-		void* __fastcall allocate(size_t size);
-	};
 };
 
 class ScopedLock

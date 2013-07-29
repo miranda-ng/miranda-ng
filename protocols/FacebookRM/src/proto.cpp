@@ -190,7 +190,7 @@ int FacebookProto::SetAwayMsg(int status, const PROTOCHAR *msg)
 	char *narrow = mir_utf8encodeT(msg);
 	if (last_status_msg_ != narrow)
 		last_status_msg_ = narrow;
-	utils::mem::detract(narrow);
+	mir_free(narrow);
 
 	if (isOnline() && getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, DEFAULT_SET_MIRANDA_STATUS))
 		ForkThread(&FacebookProto::SetAwayMsgWorker, NULL);
