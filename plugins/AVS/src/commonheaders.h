@@ -47,7 +47,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "resource.h"
 #include "version.h"
 #include "image_utils.h"
-#include "mir_thread.h"
 #include "poll.h"
 #include "acc.h"
 
@@ -88,3 +87,6 @@ int SetAvatarAttribute(HANDLE hContact, DWORD attrib, int mode);
 #define AVS_IGNORENOTIFY 0x1000
 
 #define AVS_DEFAULT "Global avatar"
+
+void mir_sleep(int time);
+extern bool g_shutDown;

@@ -214,7 +214,6 @@
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\mir_thread.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\poll.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -223,7 +222,6 @@
     <ClInclude Include="src\acc.h" />
     <ClInclude Include="src\commonheaders.h" />
     <ClInclude Include="src\image_utils.h" />
-    <ClInclude Include="src\mir_thread.h" />
     <ClInclude Include="src\poll.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>

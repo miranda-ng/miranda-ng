@@ -24,6 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 
 HINSTANCE g_hInst = 0;
+HICON g_hIcon = 0;
+bool g_shutDown = false;
+
 int hLangpack;
 
 static TCHAR g_szDataPath[MAX_PATH];		// user datae path (read at startup only)
@@ -33,11 +36,9 @@ static long hwndSetMyAvatar = 0;
 
 static HANDLE hMyAvatarsFolder;
 static HANDLE hGlobalAvatarFolder;
-static HANDLE hLoaderEvent;
+static HANDLE hLoaderEvent, hShutdownEvent;
 static HANDLE hEventContactAvatarChanged, hMyAvatarChanged;
 HANDLE hEventChanged;
-
-HICON g_hIcon = 0;
 
 BOOL (WINAPI *AvsAlphaBlend)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION) = NULL;
 
@@ -165,6 +166,12 @@ int _DebugTrace(HANDLE hContact, const char *fmt, ...)
 }
 
 #endif
+
+void mir_sleep(int time) 
+{
+	if (!g_shutDown)
+		WaitForSingleObject(hShutdownEvent, time);
+}
 
 /*
  * path utilities (make avatar paths relative to *PROFILE* directory, not miranda directory.
@@ -1646,19 +1653,17 @@ static INT_PTR ContactOptions(WPARAM wParam, LPARAM lParam)
 
 INT_PTR GetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
-	int i;
-	char *szProto = (char *)lParam;
-
 	if (wParam || g_shutDown || fei == NULL)
 		return 0;
 
+	char *szProto = (char *)lParam;
 	if (lParam == 0 || IsBadReadPtr(szProto, 4))
 		return 0;
 
-	for(i = 0; i < g_MyAvatars.getCount(); i++) {
+	for(int i = 0; i < g_MyAvatars.getCount(); i++)
 		if (!lstrcmpA(szProto, g_MyAvatars[i].szProtoname) && g_MyAvatars[i].hbmPic != 0)
 			return (INT_PTR)&g_MyAvatars[i];
-	}
+
 	return 0;
 }
 
@@ -1992,7 +1997,6 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccChanged);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, ShutdownProc);
-	HookEvent(ME_SYSTEM_OKTOEXIT, OkToExitProc);
 	HookEvent(ME_USERINFO_INITIALISE, OnDetailsInit);
 	return 0;
 }
@@ -2103,21 +2107,16 @@ static int OptInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OkToExitProc(WPARAM wParam, LPARAM lParam)
-{
-	g_shutDown = TRUE;
-	SetEvent(hLoaderEvent);
-	return 0;
-}
-
 static int ShutdownProc(WPARAM wParam, LPARAM lParam)
 {
+	g_shutDown = true;
+	SetEvent(hLoaderEvent);
+	SetEvent(hShutdownEvent);
+	CloseHandle(hShutdownEvent); hShutdownEvent = NULL;
+
 	DestroyHookableEvent(hEventChanged); hEventChanged = 0;
 	DestroyHookableEvent(hEventContactAvatarChanged); hEventContactAvatarChanged = 0;
 	DestroyHookableEvent(hMyAvatarChanged); hMyAvatarChanged = 0;
-
-	DeleteCriticalSection(&cachecs);
-	DeleteCriticalSection(&alloccs);
 	return 0;
 }
 
@@ -2311,12 +2310,10 @@ static int OnDetailsInit(WPARAM wParam, LPARAM lParam)
 
 static int LoadAvatarModule()
 {
-	mir_getLP(&pluginInfoEx);
-
-	init_mir_thread();
-
 	InitializeCriticalSection(&cachecs);
 	InitializeCriticalSection(&alloccs);
+
+	hShutdownEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 
 	HookEvent(ME_OPT_INITIALISE, OptInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
@@ -2372,10 +2369,9 @@ extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirand
 
 extern "C" int __declspec(dllexport) Load(void)
 {
+	mir_getLP(&pluginInfoEx);
+
 	INT_PTR result = CALLSERVICE_NOTFOUND;
-
-	mir_getLP( &pluginInfoEx );
-
 	if (ServiceExists(MS_IMG_GETINTERFACE))
 		result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fei);
 
