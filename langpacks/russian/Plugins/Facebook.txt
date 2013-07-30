@@ -110,7 +110,7 @@
 [Use local time for received messages]
 Локальное время для принятых сообщений
 [Allow posting statuses to my pages (may slow down login)]
-Разрешишть постить статусы на своих страницах (замедляет вход)
+Разрешить постить статусы на своих страницах (замедляет вход)
 [Use this server for opening links:]
 Тип сайта для открытия ссылок:
 [Classic website]
