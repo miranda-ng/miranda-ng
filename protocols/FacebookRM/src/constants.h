@@ -117,7 +117,6 @@ enum RequestType {
 
 	REQUEST_THREAD_INFO,		// getting thread info
 	REQUEST_UNREAD_THREADS,		// getting unread threads
-	REQUEST_UNREAD_MESSAGES,	// getting unread messages
 	REQUEST_ASYNC,				// marking messages read and getting other things
 	REQUEST_MARK_READ,			// marking messages read (new)
 };

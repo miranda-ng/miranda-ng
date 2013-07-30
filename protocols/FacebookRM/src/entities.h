@@ -66,11 +66,14 @@ struct facebook_message
 	std::string sender_name;
 	std::string message_id;
 	DWORD time;
+	bool isIncoming;
+	bool isUnread;
 
 	facebook_message()
 	{
 		this->user_id = this->message_text = this->sender_name = this->message_id = "";
 		this->time = 0;
+		this->isUnread = this->isIncoming = true;
 	}
 
 	facebook_message(const facebook_message& msg)
@@ -80,6 +83,8 @@ struct facebook_message
 		this->sender_name = msg.sender_name;
 		this->message_id = msg.message_id;
 		this->time = msg.time;
+		this->isIncoming = msg.isIncoming;
+		this->isUnread = msg.isUnread;
 	}
 };
 

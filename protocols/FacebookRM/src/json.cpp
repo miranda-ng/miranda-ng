@@ -231,7 +231,8 @@ int facebook_json_parser::parse_notifications(void *data, std::vector< facebook_
 	return EXIT_SUCCESS;
 }
 
-bool ignore_duplicits(FacebookProto *proto, std::string mid, std::string text) {
+bool ignore_duplicits(FacebookProto *proto, std::string mid, std::string text)
+{
 	std::map<std::string, bool>::iterator it = proto->facy.messages_ignore.find(mid);
 	if (it != proto->facy.messages_ignore.end()) {
 		std::string msg = "????? Ignoring duplicit/sent message\n" + text;
@@ -244,6 +245,59 @@ bool ignore_duplicits(FacebookProto *proto, std::string mid, std::string text) {
 	// remember this id to ignore duplicits
 	proto->facy.messages_ignore.insert(std::make_pair(mid, true));
 	return false;
+}
+
+void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE *it)
+{
+	// Process attachements and stickers
+	JSONNODE *has_attachment = json_get(it, "has_attachment");
+	if (has_attachment != NULL && json_as_bool(has_attachment)) {
+		JSONNODE *admin_snippet = json_get(it, "admin_snippet");
+		if (admin_snippet != NULL) {
+			// Append attachements
+			std::string attachments_text = "";
+			JSONNODE *attachments = json_get(it, "attachments");
+			for (unsigned int j = 0; j < json_size(attachments); j++) {
+				JSONNODE *itAttachment = json_at(attachments, j);
+
+				// TODO: behave different for stickers and classic attachements?
+				// JSONNODE *attach_type = json_get(itAttachment, "attach_type"); // "sticker", "photo", "file"
+
+				JSONNODE *name = json_get(itAttachment, "name");
+				JSONNODE *url = json_get(itAttachment, "url");
+				if (url != NULL) {
+					std::string link = json_as_string(url);
+							
+					if (link.find("/ajax/mercury/attachments/photo/view/") != std::string::npos)
+						// fix photo url
+						link = utils::url::decode(utils::text::source_get_value(&link, 2, "?uri=", "&"));
+					else if (link.find("/") == 0) {
+						// make absolute url
+						bool useHttps = proto->getByte(FACEBOOK_KEY_FORCE_HTTPS, 1) > 0;
+						link = (useHttps ? HTTP_PROTO_SECURE : HTTP_PROTO_REGULAR) + std::string(FACEBOOK_SERVER_REGULAR) + link;
+					}
+								
+					if (!link.empty()) {
+						std::string filename;
+						if (name != NULL)
+							filename = json_as_string(name);
+						if (filename == "null")
+							filename.clear();
+
+						attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + link + "\n";
+					}
+				}
+			}
+
+			if (!attachments_text.empty()) {
+				// TODO: have this as extra event, not replace or append message content
+				if (!message_text->empty())
+					*message_text += "\n\n";
+				*message_text += json_as_string(admin_snippet);
+				*message_text += attachments_text;
+			}
+		}
+	}
 }
 
 int facebook_json_parser::parse_messages(void* data, std::vector< facebook_message* >* messages, std::vector< facebook_notification* >* notifications)
@@ -316,24 +370,17 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			if (to == NULL)
 				continue;
 
-			// TODO: put also outgoing messages into messages array and process it elsewhere
-			HANDLE hContact = proto->ContactIDToHContact(json_as_string(to));
-			if (!hContact) // TODO: add this contact?
-				continue;
+			JSONNODE *to_name = json_get(it, "to_name");
 
-			DBEVENTINFO dbei = {0};
-			dbei.cbSize = sizeof(dbei);
-			dbei.eventType = EVENTTYPE_MESSAGE;
-			dbei.flags = DBEF_SENT | DBEF_UTF;
-			dbei.szModule = proto->m_szModuleName;
+			facebook_message* message = new facebook_message();
+			message->message_text = message_text;
+			message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_string(to_name)));
+			message->time = utils::time::fix_timestamp(json_as_float(time));
+			message->user_id = json_as_string(to); // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
+			message->message_id = message_id;
+			message->isIncoming = false;
 
-			bool local_time = proto->getByte(FACEBOOK_KEY_LOCAL_TIMESTAMP, 0) != 0;
-			dbei.timestamp = local_time ? ::time(NULL) : utils::time::fix_timestamp(json_as_float(time));
-
-			dbei.cbBlob = (DWORD)message_text.length() + 1;
-			dbei.pBlob = (PBYTE)message_text.c_str();
-			db_event_add(hContact, &dbei);
-
+			messages->push_back(message);
 		} else if (t == "messaging") {
 			// we use this only for incomming messages (and getting seen info)
 
@@ -380,50 +427,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				std::string message_text = json_as_string(body);
 
 				// Process attachements and stickers
-				JSONNODE *has_attachment = json_get(msg, "has_attachment");
-				if (has_attachment != NULL && json_as_bool(has_attachment)) {
-					JSONNODE *admin_snippet = json_get(msg, "admin_snippet");
-					if (admin_snippet != NULL) {
-						// TODO: have this as extra event, not replace or append message content
-						if (!message_text.empty())
-							message_text += "\n\n";
-						message_text += json_as_string(admin_snippet);
-
-						// Append attachements
-						JSONNODE *attachments = json_get(msg, "attachments");
-						for (unsigned int j = 0; j < json_size(attachments); j++) {
-							JSONNODE *itAttachment = json_at(attachments, j);
-
-							// TODO: behave different for stickers and classic attachements?
-							// JSONNODE *attach_type = json_get(itAttachment, "attach_type"); // "sticker", "photo", "file"
-
-							JSONNODE *name = json_get(itAttachment, "name");
-							JSONNODE *url = json_get(itAttachment, "url");
-							if (url != NULL) {
-								std::string link = json_as_string(url);
-							
-								if (link.find("/ajax/mercury/attachments/photo/view/") != std::string::npos)
-									// fix photo url
-									link = utils::url::decode(utils::text::source_get_value(&link, 2, "?uri=", "&"));
-								else if (link.find("/") == 0) {
-									// make absolute url
-									bool useHttps = proto->getByte(FACEBOOK_KEY_FORCE_HTTPS, 1) > 0;
-									link = (useHttps ? HTTP_PROTO_SECURE : HTTP_PROTO_REGULAR) + std::string(FACEBOOK_SERVER_REGULAR) + link;
-								}
-								
-								if (!link.empty()) {
-									std::string filename;
-									if (name != NULL)
-										filename = json_as_string(name);
-									if (filename == "null")
-										filename.clear();
-
-									message_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + link + "\n";
-								}
-							}
-						}
-					}
-				}
+				parseAttachments(proto, &message_text, it);
 
 				// Ignore messages from myself, as there is no id of recipient
 				if (id == proto->facy.self_.user_id)
@@ -583,6 +587,135 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			it = proto->facy.messages_ignore.erase(it);
 		else
 			++it;
+	}
+
+	json_delete(root);
+	return EXIT_SUCCESS;
+}
+
+int facebook_json_parser::parse_unread_threads(void* data, std::vector< std::string >* threads)
+{
+	std::string jsonData = static_cast< std::string* >(data)->substr(9);
+	
+	JSONNODE *root = json_parse(jsonData.c_str());
+	if (root == NULL)
+		return EXIT_FAILURE;
+
+	JSONNODE *payload = json_get(root, "payload");
+	if (payload == NULL) {
+		json_delete(root);
+		return EXIT_FAILURE;
+	}
+
+	JSONNODE *unread_threads = json_get(payload, "unread_thread_ids");
+	if (unread_threads == NULL) {
+		json_delete(root);
+		return EXIT_FAILURE;
+	}
+
+	for (unsigned int i = 0; i < json_size(unread_threads); i++) {
+		JSONNODE *it = json_at(unread_threads, i);
+
+		JSONNODE *folder = json_get(it, "folder");
+		JSONNODE *thread_ids = json_get(it, "thread_ids");
+
+		for (unsigned int j = 0; j < json_size(thread_ids); j++) {
+			JSONNODE *id = json_at(thread_ids, j);
+			threads->push_back(json_as_string(id));
+		}
+	}
+
+	json_delete(root);
+	return EXIT_SUCCESS;
+}
+
+int facebook_json_parser::parse_thread_messages(void* data, std::vector< facebook_message* >* messages, bool unreadOnly, int limit)
+{
+	std::string jsonData = static_cast< std::string* >(data)->substr(9);
+
+	JSONNODE *root = json_parse(jsonData.c_str());
+	if (root == NULL)
+		return EXIT_FAILURE;
+
+	JSONNODE *payload = json_get(root, "payload");
+	if (payload == NULL) {
+		json_delete(root);
+		return EXIT_FAILURE;
+	}
+
+	JSONNODE *actions = json_get(payload, "actions");
+	JSONNODE *threads = json_get(payload, "threads");
+	if (actions == NULL || threads == NULL) {
+		json_delete(root);
+		return EXIT_FAILURE;
+	}
+
+	std::map<std::string, std::string> thread_ids;
+	for (unsigned int i = 0; i < json_size(threads); i++) {
+		JSONNODE *it = json_at(threads, i);
+		JSONNODE *canonical = json_get(it, "canonical_fbid");
+		JSONNODE *thread_id = json_get(it, "thread_id");
+		JSONNODE *unread_count = json_get(it, "unread_count"); // TODO: use it to check against number of loaded messages... but how?
+		
+		if (canonical == NULL || thread_id == NULL)
+			continue;
+
+		std::string id = json_as_string(canonical);
+		if (id == "null")
+			continue;
+		
+		std::string tid = json_as_string(thread_id);
+		thread_ids.insert(std::make_pair(tid, id));
+	}
+
+	for (unsigned int i = 0; i < json_size(actions); i++) {
+		JSONNODE *it = json_at(actions, i);
+
+		JSONNODE *author = json_get(it, "author");
+		JSONNODE *author_email = json_get(it, "author_email");
+		JSONNODE *body = json_get(it, "body");
+		JSONNODE *tid = json_get(it, "thread_id");
+		JSONNODE *mid = json_get(it, "message_id");
+		JSONNODE *timestamp = json_get(it, "timestamp");
+
+		if (author == NULL || body == NULL || mid == NULL || tid == NULL || timestamp == NULL)
+			continue;
+
+		// Ignore read messages if we want only unread messages
+		JSONNODE *is_unread = json_get(it, "is_unread");
+		if (unreadOnly && (is_unread == NULL || !json_as_bool(is_unread)))
+			continue;
+
+		// Try to get user id from "threads" array (and simultaneously ignore multi user threads)		
+		std::map<std::string, std::string>::iterator iter = thread_ids.find(json_as_string(tid));
+		if (iter == thread_ids.end())
+			continue; // not found or ignored multi user thread
+
+		std::string user_id = iter->second;
+		std::string message_id = json_as_string(mid);
+		std::string message_text = json_as_string(body);
+		std::string author_id = json_as_string(author);
+		std::string::size_type pos = author_id.find(":");
+		if (pos != std::string::npos)
+			author_id = author_id.substr(pos+1);
+
+		// Process attachements and stickers
+		parseAttachments(proto, &message_text, it);
+
+		message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(message_text)), true);
+		if (message_text.empty())
+			continue;
+
+		facebook_message* message = new facebook_message();
+		message->message_text = message_text;
+		if (author_email != NULL)
+			message->sender_name = json_as_string(author_email);
+		message->time = utils::time::fix_timestamp(json_as_float(timestamp));
+		message->user_id = user_id; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
+		message->message_id = message_id;
+		message->isIncoming = (author_id != proto->facy.self_.user_id);
+
+		messages->push_back(message);
 	}
 
 	json_delete(root);

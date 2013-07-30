@@ -263,129 +263,150 @@ void FacebookProto::ProcessFriendList(void* data)
 
 void FacebookProto::ProcessUnreadMessages(void*)
 {
-	facy.handle_entry("messages");
+	facy.handle_entry("ProcessUnreadMessages");
 
-	int count = 0;
-	std::string page;
+	bool loadOther = true; // TODO: db setting? or use everytime?
 
-	while (count < 30) // allow max 30 unread threads to be parsed
-	{
-		std::string get_data = "&page=" + page;
+	std::string data = "folders[0]=inbox";
+	if (loadOther)
+		data += "&folders[1]=other";
+	data += "&client=mercury";
+	data += "__user=" + facy.self_.user_id;
+	data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
+	data += "&__a=1&__dyn=&__req=&ttstamp=0";
 
-		http::response resp = facy.flap(REQUEST_UNREAD_THREADS, NULL, &get_data);
-
-		// Process result data
-		facy.validate_response(&resp);
-
-		if (resp.code == HTTP_CODE_OK)
-		{
-			std::string items = utils::text::source_get_value(&resp.data, 2, "<div id=\"threadlist_rows", "</body>");
-
-			std::string::size_type pos = 0;
-			std::string::size_type pos2 = 0;
-
-			while ((pos = items.find("id=\"threadlist_row_", pos)) != std::string::npos) {
-				std::string item = items.substr(pos, items.find("</div>", pos) - pos);
-				pos++; count++;
-
-				std::string tid = utils::text::source_get_value2(&item, "?tid=", "&\"");
-				if (tid.empty())
-					continue;
-
-				ForkThread(&FacebookProto::ProcessUnreadMessage, new std::string(tid));
-			}
-
-			page = utils::text::source_get_value(&items, 3, "id=\"see_older_threads\"", "page=", "&");
-			if (page.empty())
-				break; // No more results
-		}
-	}
-
-}
-
-void FacebookProto::ProcessUnreadMessage(void *tid_data)
-{
-	if (tid_data == NULL)
-		return;
-
-	// TODO: get them from /ajax/mercury/thread_info.php
-
-	std::string get_data = "tid=" + *(std::string*)tid_data;
-	delete (std::string*)tid_data;
-
-	http::response resp = facy.flap(REQUEST_UNREAD_MESSAGES, NULL, &get_data);
+	http::response resp = facy.flap(REQUEST_UNREAD_THREADS, &data);
 	facy.validate_response(&resp);
 
-	if (resp.code != HTTP_CODE_OK) {
-		LOG(" !! !! Error when getting messages list");
+	if (resp.code == HTTP_CODE_OK) {
+		
+		CODE_BLOCK_TRY
+		
+		std::vector<std::string> threads;
+
+		facebook_json_parser* p = new facebook_json_parser(this);
+		p->parse_unread_threads(&resp.data, &threads);
+		delete p;
+
+		ForkThread(&FacebookProto::ProcessUnreadMessage, new std::vector<std::string>(threads));
+
+		LOG("***** Unread threads list processed");
+
+		CODE_BLOCK_CATCH
+
+		LOG("***** Error processing unread threads list: %s", e.what());
+
+		CODE_BLOCK_END
+	
+		facy.handle_success("ProcessUnreadMessages");
+	} else {
+		facy.handle_error("ProcessUnreadMessages");
+	}	
+}
+
+void FacebookProto::ProcessUnreadMessage(void *p)
+{
+	if (p == NULL)
 		return;
-	}
 
-	if (resp.data.find("<option value=\"leave_conversation\">") != std::string::npos) {
-		LOG(" !! !! This is multi user chat");
-		return;
-	}
+	facy.handle_entry("ProcessUnreadMessage");
 
-	std::string messageslist = utils::text::source_get_value(&resp.data, 2, "id=\"messageGroup\">", "</form>");
+	std::vector<std::string> threads = *(std::vector<std::string>*)p;
+	delete (std::vector<std::string>*)p;
 
-	facebook_user fbu;
-	HANDLE hContact = NULL;
+	int offset = 0;
+	int limit = 21;
 
-	std::string::size_type pos = 0, pos2 = 0;
-	while ((pos2 = messageslist.find("class=\"acw apl abt", pos2)) != std::string::npos) {
-		pos2 += 19;
-		std::string group = messageslist.substr(pos2, messageslist.find("class=\"actions ", pos2) - pos2);
+	bool local_timestamp = getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP, 0);
 
-		if (group.find("has_attachment&quot;:true") != std::string::npos) {
-			// TODO: do something different for attachements? (inspiration in revision <5236)
+	http::response resp;
+
+	while (!threads.empty()) {
+		std::string data = "client=mercury";
+		data += "&__user=" + facy.self_.user_id;
+		data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
+		data += "&__a=1&__dyn=&__req=&ttstamp=0";
+	
+		for (std::vector<std::string>::size_type i = 0; i < threads.size(); i++) {
+			// request messages from thread
+			data += "&messages[thread_ids][" + threads[i];
+			data += "][offset]=" + utils::conversion::to_string(&offset, UTILS_CONV_SIGNED_NUMBER);
+			data += "&messages[thread_ids][" + threads[i];
+			data += "][limit]=" + utils::conversion::to_string(&limit, UTILS_CONV_SIGNED_NUMBER);
+			
+			// request info about thread
+			data += "&threads[thread_ids][" + utils::conversion::to_string(&i, UTILS_CONV_UNSIGNED_NUMBER);
+			data += "]=" + threads[i];
 		}
 
-		while ((pos = group.find("<div data-store=", pos)) != std::string::npos) {
-			std::string message = group.substr(pos, group.find("</div>", pos) - pos);
-			pos++;
+		resp = facy.flap(REQUEST_THREAD_INFO, &data);
+		facy.validate_response(&resp);
 
-			std::string author = utils::text::source_get_value2(&message, "author&quot;:", ",}");
+		if (resp.code == HTTP_CODE_OK) {
+		
+			CODE_BLOCK_TRY
+		
+			std::vector<facebook_message*> messages;
 
-			// Ignore our messages
-			if (author == facy.self_.user_id)
-				continue;
+			facebook_json_parser* p = new facebook_json_parser(this);
+			p->parse_thread_messages(&resp.data, &messages, true, limit);
+			delete p;	
 
-			// Get/create contact
-			if (hContact == NULL) {
-				fbu.user_id = author;
-				fbu.real_name = utils::text::slashu_to_utf8(utils::text::source_get_value(&group, 2, "name&quot;:&quot;", "&quot;"));
-				hContact = AddToContactList(&fbu, CONTACT_NONE);
-				// TODO: if contact is newly added, get his user info
-				// TODO: maybe create new "receiveMsg" function and use it for offline and channel messages?
+			for(std::vector<facebook_message*>::size_type i = 0; i < messages.size(); i++) {
+				if (messages[i]->user_id != facy.self_.user_id) {
+					LOG("      Got message: %s", messages[i]->message_text.c_str());
+					facebook_user fbu;
+					fbu.user_id = messages[i]->user_id;
+					fbu.real_name = messages[i]->sender_name;
+
+					// TODO: optimize this?
+					HANDLE hContact = AddToContactList(&fbu, CONTACT_NONE);
+					setString(hContact, FACEBOOK_KEY_MESSAGE_ID, messages[i]->message_id.c_str());
+
+					// TODO: if contact is newly added, get his user info
+					// TODO: maybe create new "receiveMsg" function and use it for offline and channel messages?
+
+					ParseSmileys(messages[i]->message_text, hContact);
+
+					if (messages[i]->isIncoming) {
+						PROTORECVEVENT recv = {0};
+						recv.flags = PREF_UTF;
+						recv.szMessage = const_cast<char*>(messages[i]->message_text.c_str());
+						recv.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
+						ProtoChainRecvMsg(hContact, &recv);
+					} else {
+						DBEVENTINFO dbei = {0};
+						dbei.cbSize = sizeof(dbei);
+						dbei.eventType = EVENTTYPE_MESSAGE;
+						dbei.flags = DBEF_SENT | DBEF_UTF;
+						dbei.szModule = m_szModuleName;
+						dbei.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
+						dbei.cbBlob = (DWORD)messages[i]->message_text.length() + 1;
+						dbei.pBlob = (PBYTE)messages[i]->message_text.c_str();
+						db_event_add(hContact, &dbei);
+					}
+				}
+				delete messages[i];
 			}
+			messages.clear();			
 
-			DWORD timestamp = utils::conversion::to_timestamp(utils::text::source_get_value2(&message, "timestamp&quot;:", ",}"));
-			std::string text = utils::text::source_get_value(&message, 2, "<span>", "</span>");
+			LOG("***** Unread messages processed");
 
-			text = utils::text::trim(utils::text::special_expressions_decode(utils::text::remove_html(text)));
-			// TODO: fix smileys in text
-			/*
-			<img src="https://fbstatic-a.akamaihd.net/rsrc.php/v2/yH/r/SOe5wIZyutW.png" width="16" height="16" class="img"/>
+			CODE_BLOCK_CATCH
 
-			"yH/r/viyyiQhRqLr.png" -> :-P
-			"yo/r/X8YPpi6kcyo.png" -> :-)
-			"yH/r/SOe5wIZyutW.png" -> :-D
-			...
-			*/
+			LOG("***** Error processing unread messages: %s", e.what());
 
-			if (text.empty() || hContact == NULL)
-				continue;
-
-			LOG("Got unread message: \"%s\"", text.c_str());
-
-			ParseSmileys(text, hContact);
-
-			PROTORECVEVENT recv = {0};
-			recv.flags = PREF_UTF;
-			recv.szMessage = const_cast<char*>(text.c_str());
-			recv.timestamp = timestamp;
-			ProtoChainRecvMsg(hContact, &recv);
+			CODE_BLOCK_END
+	
+			facy.handle_success("ProcessUnreadMessage");
+		} else {
+			facy.handle_error("ProcessUnreadMessage");
 		}
+
+		offset += limit;
+		limit = 20; // TODO: use better limits?
+		
+		threads.clear(); // TODO: if we have limit messages from one user, there may be more unread messages... continue with it... otherwise remove that threadd from threads list -- or do it in json parser? hm			 = allow more than "limit" unread messages to be parsed
 	}
 }
 
@@ -429,11 +450,23 @@ void FacebookProto::ProcessMessages(void* data)
 
 			ParseSmileys(messages[i]->message_text, hContact);
 
-			PROTORECVEVENT recv = {0};
-			recv.flags = PREF_UTF;
-			recv.szMessage = const_cast<char*>(messages[i]->message_text.c_str());
-			recv.timestamp = local_timestamp ? ::time(NULL) : messages[i]->time;
-			ProtoChainRecvMsg(hContact, &recv);
+			if (messages[i]->isIncoming) {
+				PROTORECVEVENT recv = {0};
+				recv.flags = PREF_UTF;
+				recv.szMessage = const_cast<char*>(messages[i]->message_text.c_str());
+				recv.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
+				ProtoChainRecvMsg(hContact, &recv);
+			} else {
+				DBEVENTINFO dbei = {0};
+				dbei.cbSize = sizeof(dbei);
+				dbei.eventType = EVENTTYPE_MESSAGE;
+				dbei.flags = DBEF_SENT | DBEF_UTF;
+				dbei.szModule = m_szModuleName;
+				dbei.timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
+				dbei.cbBlob = (DWORD)messages[i]->message_text.length() + 1;
+				dbei.pBlob = (PBYTE)messages[i]->message_text.c_str();
+				db_event_add(hContact, &dbei);
+			}
 		}
 		delete messages[i];
 	}
