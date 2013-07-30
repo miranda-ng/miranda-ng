@@ -16,12 +16,16 @@ Heslo:
 Zřídit nový účet na Facebooku
 [What's on your mind?]
 Co se vám honí hlavou?
-[Text:]
-Text:
-[Place:]
-Místo:
+[Wall:]
+Zeď:
 [Visibility:]
 Viditelnost:
+[Text:]
+Text:
+[URL:]
+Odkaz:
+[Place:]
+Místo:
 [Share]
 Sdílet
 [Cancel]
@@ -40,32 +44,20 @@ Zobrazit větší avatary
 Načíst i kontakty s mobilním připojením
 [Event notifications]
 Oznámení události
-[Colors]
-Barvy
-[Back]
-Pozadí
-[Text]
-Text
 [Notifications]
 Upozornění
-[Default]
-Výchozí
 [News feeds]
 Novinky
+[News Feed types to notify:]
+Upozorňovat na tyto novinky:
 [Other events]
 Jiné události
 [Client notifications]
 Upozornění klienta
-[Timeout (sec.)]
-Doba zobrazení (sek.)
-[(0 = default, -1 = infinite)]
-(0 = výchozí, -1 = trvale)
 [Preview]
 Náhled
 [Use balloon notifications in system tray instead of popups]
 Místo klasického oznámení použít bubliny v systémové liště
-[News Feed types to notify:]
-Na které z novinek upozornit:
 [Advanced Settings]
 Pokročilé nastavení
 [Force secure (HTTPS) connection]
@@ -84,10 +76,10 @@ Pro nestandardní stavy použít Neviditelný (nikoli Online)
 Aktivovat podporu pro vlastní smajlíky (EXPERIMENTÁLNÍ + CHYBOVÉ!)
 [Use local time for received messages]
 Použít lokální čas počítače pro příchozí zprávy
-[Send "Seen" info when marking messages as read]
-Odesílat informaci o přečtení zprávy
 [Use this server for opening links:]
 Pro otevírání odkazů použít tento server:
+[Allow posting statuses to my pages (may slow down login)]
+Umožnit sdílení stavů na mé stránky (může zpomalit přihlašování)
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Chyba připojení: %s
@@ -155,6 +147,8 @@ Požadavek o přátelství byl zrušen.
 [Error occured when canceling friendship request.]
 Nastala chyba při rušení požadavku o přátelství.
 ;file \protocols\FacebookRM\src\dialogs.cpp
+[Default]
+Výchozí
 [What's on your mind, %s?]
 Co se vám honí hlavou, %s?
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
@@ -179,18 +173,10 @@ Kontakt je zpět mezi vašimi přáteli.
 [Contact is no longer on server-list.]
 Kontakt již není mezi vašimi přáteli.
 ;file \protocols\FacebookRM\src\proto.cpp
-[Show Mind Window]
-Zobrazit dialog stavu
 [%s server connection]
 %s - spojení se serverem
 [Unable to get Netlib connection for Facebook]
 Facebook: Chyba při zpracování síťové komunikace.
-[Notification]
-Oznámení
-[News Feed]
-Novinky
-[Other Event]
-Ostatní
 [Avatars]
 Avatary
 [Facebook ID must be numeric value.]
@@ -199,12 +185,14 @@ Facebook ID musí být číselná hodnota.
 Sítě
 [Account]
 Účet
-[Advanced]
-Extra
-[Popups]
-Oznámení
 [Events]
 Události
+[Advanced]
+Extra
+[Share status...]
+Sdílet stav...
+[Own wall]
+Vlastní zeď
 [Loading newsfeeds...]
 Načítání novinek...
 [Checking friend requests...]
@@ -213,6 +201,14 @@ Kontrola žádostí o přátelství...
 Obnovování seznamu kontaktů...
 [Do you want to cancel your friendship with '%s'?]
 Přejete si zrušit vaše přátelství s '%s'?
+[Show 'Share status' window]
+Zobrazit okno pro sdílení stavu
+[Notification]
+Oznámení
+[News Feed]
+Novinky
+[Other Event]
+Ostatní události
 ;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]
 Ikona Facebooku
@@ -236,8 +232,6 @@ Zrušit požadavek o přátelství
 Požádat o přátelství
 [Approve friendship]
 Potvrdit přátelství
-[Mind...]
-Zpráva stavu...
 [Services...]
 Služby
 [Refresh Buddy List]

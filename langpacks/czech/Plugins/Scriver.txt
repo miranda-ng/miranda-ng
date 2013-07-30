@@ -948,6 +948,8 @@ Poznámka od %s: %s
 Aktuální téma: %s
 [The topic is '%s' (set by %s)]
 Aktuální téma: %s (nastavil %s)
+[&Message %s]
+&Zpráva pro '%s'
 ;file \plugins\Scriver\src\chat\window.cpp
 [Italic]
 Kurzíva

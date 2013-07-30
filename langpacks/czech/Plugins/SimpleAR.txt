@@ -46,5 +46,5 @@
 ;file \plugins\SimpleAR\src\Options.cpp
 [Simple Auto Replier]
 
-[Plugins]
-Doplňky
+[Message Sessions]
+Komunikace

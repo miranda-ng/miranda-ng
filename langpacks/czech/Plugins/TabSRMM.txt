@@ -2275,6 +2275,8 @@ Aktuální téma: %s (nastavil %s)
 Vyhledat '%s':
 [No word to look up]
 Není co vyhledat
+[&Message %s]
+&Zpráva pro '%s'
 [Highlight User...]
 Označit uživatele...
 [Edit Highlight List...]

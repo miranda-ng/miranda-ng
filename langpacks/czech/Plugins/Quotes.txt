@@ -224,13 +224,6 @@ všechno
 [User-Defined]
 
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[Window]
-Okno
-[Contact List]
-Seznam kontaktů
-[Status Bar]
-Stavová lišta
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]

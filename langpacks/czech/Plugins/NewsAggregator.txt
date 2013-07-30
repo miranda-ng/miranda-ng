@@ -60,24 +60,43 @@ Reset
 
 [Username]
 Uživatel
+[Available feeds:]
+Zdroje k dispozici:
+[Feeds to be exported:]
+Zdroje k exportu:
 [&Export]
 &Exportovat
 [&Close]
 &Zavřít
-[Available feeds:]
-Zdroje k dispozici:
-[Export to file:]
-Exportovat do:
-[Feeds to be exported:]
-Zdroje k exportu:
-[Load]
-Načíst
-[&Import]
-&Importovat
 [Import from:]
 Importovat z:
 [Feeds to be imported:]
 Zdroje k importu:
+[&Import]
+&Importovat
+;file \plugins\NewsAggregator\Src\Authentication.cpp
+[Enter your username]
+Zadejte vaše uživ. jméno
+[Error]
+Chyba
+[Enter your password]
+Zadejte vaše heslo
+;file \plugins\NewsAggregator\Src\CheckFeed.cpp
+[%s\nis a valid feed's address.]
+%s\nje platná adresa zdroje.
+[News Aggregator]
+
+[%s\nis not a valid feed's address.]
+%s\nnení platná adresa zdroje.
+[New Aggregator]
+
+[empty]
+
+;file \plugins\NewsAggregator\Src\ExportImport.cpp
+[OPML files]
+
+[Not valid import file.]
+
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Ikona protokolu
@@ -93,8 +112,6 @@ Exportovat zdroje
 Deaktivovat automatickou aktualizaci
 [Auto Update Disabled]
 Aktivovat automatickou aktualizaci
-[News Aggregator]
-
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
 Zkont. zdroj
@@ -103,8 +120,6 @@ Změnit zdroj
 ;file \plugins\NewsAggregator\Src\Options.cpp
 [Enter Feed name]
 
-[Error]
-Chyba
 [Enter Feed URL]
 Zadejte URL zdroje
 [Enter checking interval]
@@ -147,21 +162,5 @@ Povolit/zakázat automatickou aktualizaci
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
 
-[Enter your username]
-Zadejte vaše uživ. jméno
-[Enter your password]
-Zadejte vaše heslo
 [Feed]
 Zdroj
-[%s\nis a valid feed's address.]
-%s\nje platná adresa zdroje.
-[%s\nis not a valid feed's address.]
-%s\nnení platná adresa zdroje.
-[New Aggregator]
-
-[empty]
-
-[OPML files]
-
-[Not valid import file.]
-

@@ -435,7 +435,7 @@ Používá se k zobrazení dodatkových textů a poznámek.
 Vítejte ve správci účtů programu Miranda NG!\nZde si můžete založit nový účet ve vybrané síti, upravit stávající nebo naopak některý smazat.\n\nChcete-li založit nový účet, klikněte na tlačítko \"plus\" v levém dolním rohu okna. Pokud si přejete upravit stávající účet, vyberte požadovaný ze seznamu.
 [Event icon legend:]
 Legenda k vybraným ikonám:
-[Choose events you wish to ingonre:]
+[Choose events you wish to ignore:]
 Vyberte události, které chcete filtrovat:
 [Font Effect]
 Efekt
@@ -1685,6 +1685,8 @@ Aktuální téma: %s (nastavil %s)
 Vyhledat '%s':
 [No word to look up]
 Není co vyhledat
+[&Message %s]
+&Zpráva pro '%s'
 ;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 Vloží vybraný smajlík

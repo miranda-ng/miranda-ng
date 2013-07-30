@@ -1,7 +1,7 @@
 ﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
 ;============================================================
 ;  File: KeepStatus.dll
-;  Plugin: Keep Status
+;  Plugin: Keep status
 ;  Version: 0.8.0.97
 ;  Authors: P Boon
 ;============================================================
@@ -265,32 +265,32 @@ Data spouštěče
 [Status: The status the account will change to\r\nAccount: The account changing state]
 Stav: Stav účtu bude změněn na\r\nÚčet: Účet mění svůj stav
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
-[KeepStatus]
-Udržování stavu
-[%s Connected from another location]
+[%s connected from another location]
 Připojení z jiného místa (%s)
-[%s Login error, cancel reconnecting]
+[%s login error, cancel reconnecting]
 Chyba při přihlášení (%s), obnovení ukončeno
-[%s Login error (next retry (%d) in %ds)]
+[%s login error (next retry (%d) in %d s)]
 Chyba při přihlášení (%s), další pokus (č.%d) za %d sek.
-[%s Status error (next retry (%d) in %ds)]
+[%s status error (next retry (%d) in %d s)]
 Chyba stavu (%s), další pokus (č.%d) za %d sek.
-[Status error (next retry (%d) in %ds)]
-Chyba stavu (další pokus (č.%d) za %d sek.)
-[will be set to]
-bude nastaven na
+[Status error (next retry (%d) in %d s)]
+Chyba stavu, další pokus (č.%d) za %d sek.
+[%s\t(will be set to %s)\r\n]
+%s\t(stav bude změněn na '%s')\r\n
 [Resetting status... (last try (%d))%s]
 Reset stavu... (poslední pokus (č.%d))%s
-[Resetting status... (next retry (%d) in %ds)%s]
+[Resetting status... (next retry (%d) in %d s)%s]
 Reset stavu... (další pokus (č.%d) za %d sek.)%s
 [No internet connection seems available... (last try (%d))]
 Nefunguje připojení k internetu... (poslední pokus (č.%d))
-[No internet connection seems available... (next retry (%d) in %ds)]
+[No internet connection seems available... (next retry (%d) in %d s)]
 Nefunguje připojení k internetu... (další pokus (č.%d) za %d sek.)
 [Status was set ok]
 Stav úspěšně obnoven
 [Giving up]
 Stav nelze obnovit
+[KeepStatus]
+Udržování stavu
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Protocol]
 Protokol
