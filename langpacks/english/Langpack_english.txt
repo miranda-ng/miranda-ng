@@ -853,6 +853,7 @@
 [The topic is '%s' (set by %s)]
 [Look up '%s':]
 [No word to look up]
+[&Message %s]
 ;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 [Make the text bold (CTRL+B)]
@@ -2545,7 +2546,7 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -5650,7 +5651,7 @@
 [You have %d unread emails ...]
 [You have one unread email ...]
 [Exchange email]
-[Do you want to see the email headers?]
+[Do you want to see the email headers ?]
 ;file \plugins\Exchange\src\hooked_events.cpp
 [Check exchange mailbox]
 [Exchange notify]
@@ -5668,9 +5669,11 @@
 [Password:]
 [Create a new Facebook account]
 [What's on your mind?]
-[Text:]
-[Place:]
+[Wall:]
 [Visibility:]
+[Text:]
+[URL:]
+[Place:]
 [Share]
 [Cancel]
 [User Details]
@@ -5680,19 +5683,13 @@
 [Use bigger avatars]
 [Load contacts with 'On the Mobile' status]
 [Event notifications]
-[Colors]
-[Back]
-[Text]
 [Notifications]
-[Default]
 [News feeds]
+[News Feed types to notify:]
 [Other events]
 [Client notifications]
-[Timeout (sec.)]
-[(0 = default, -1 = infinite)]
 [Preview]
 [Use balloon notifications in system tray instead of popups]
-[News Feed types to notify:]
 [Advanced Settings]
 [Force secure (HTTPS) connection]
 [Post Miranda statuses to Wall]
@@ -5702,8 +5699,8 @@
 [Map non-standard statuses to Invisible (instead of Online)]
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
 [Use local time for received messages]
-[Send "Seen" info when marking messages as read]
 [Use this server for opening links:]
+[Allow posting statuses to my pages (may slow down login)]
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 [Unknown error]
@@ -5740,6 +5737,7 @@
 [Request for friendship was canceled.]
 [Error occured when canceling friendship request.]
 ;file \protocols\FacebookRM\src\dialogs.cpp
+[Default]
 [What's on your mind, %s?]
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
 [Sample event]
@@ -5754,23 +5752,24 @@
 [Contact is back on server-list.]
 [Contact is no longer on server-list.]
 ;file \protocols\FacebookRM\src\proto.cpp
-[Show Mind Window]
 [%s server connection]
 [Unable to get Netlib connection for Facebook]
-[Notification]
-[News Feed]
-[Other Event]
 [Avatars]
 [Facebook ID must be numeric value.]
 [Network]
 [Account]
-[Advanced]
-[Popups]
 [Events]
+[Advanced]
+[Share status...]
+[Own wall]
 [Loading newsfeeds...]
 [Checking friend requests...]
 [Refreshing buddy list...]
 [Do you want to cancel your friendship with '%s'?]
+[Show 'Share status' window]
+[Notification]
+[News Feed]
+[Other Event]
 ;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]
 [Mind]
@@ -5783,7 +5782,6 @@
 [Cancel friendship request]
 [Request friendship]
 [Approve friendship]
-[Mind...]
 [Services...]
 [Refresh Buddy List]
 [Services]
@@ -10223,7 +10221,7 @@
 [%s login error (next retry (%d) in %d s)]
 [%s status error (next retry (%d) in %d s)]
 [Status error (next retry (%d) in %d s)]
-[will be set to]
+[%s\t(will be set to %s)\r\n]
 [Resetting status... (last try (%d))%s]
 [Resetting status... (next retry (%d) in %d s)%s]
 [No internet connection seems available... (last try (%d))]
@@ -13788,13 +13786,6 @@
 [Last Year]
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[Log Files (*.txt,*.log)]
-[Enter integer value]
-[Enter log file name.]
-[Enter log file format.]
-[Enter history format.]
-[Enter popup window format.]
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -13824,6 +13815,12 @@
 [Previous Close]
 [Change]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+[Enter integer value]
+[Enter log file name.]
+[Enter log file format.]
+[Enter history format.]
+[Enter popup window format.]
 ﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
@@ -14360,6 +14357,7 @@
 [Notice from %s: %s]
 [The topic is '%s']
 [The topic is '%s' (set by %s)]
+[&Message %s]
 ;file \plugins\Scriver\src\chat\window.cpp
 [Italic]
 [Underline]
@@ -17274,6 +17272,7 @@
 [The topic is '%s' (set by %s)]
 [Look up '%s':]
 [No word to look up]
+[&Message %s]
 [Highlight User...]
 [Edit Highlight List...]
 ;file \plugins\TabSRMM\src\chat\window.cpp

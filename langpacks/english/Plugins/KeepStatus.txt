@@ -141,7 +141,7 @@
 [%s login error (next retry (%d) in %d s)]
 [%s status error (next retry (%d) in %d s)]
 [Status error (next retry (%d) in %d s)]
-[will be set to]
+[%s\t(will be set to %s)\r\n]
 [Resetting status... (last try (%d))%s]
 [Resetting status... (next retry (%d) in %d s)%s]
 [No internet connection seems available... (last try (%d))]

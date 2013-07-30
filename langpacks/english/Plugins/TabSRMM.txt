@@ -1160,6 +1160,7 @@
 [The topic is '%s' (set by %s)]
 [Look up '%s':]
 [No word to look up]
+[&Message %s]
 [Highlight User...]
 [Edit Highlight List...]
 ;file \plugins\TabSRMM\src\chat\window.cpp
