@@ -460,6 +460,7 @@ INT_PTR FacebookProto::OnMind(WPARAM wParam, LPARAM lParam)
 
 	wall_data *wall = new wall_data();
 	wall->user_id = ptrA(getStringA(hContact, FACEBOOK_KEY_ID));
+	wall->isPage = false;
 	if (wall->user_id == facy.self_.user_id) {
 		wall->title = _tcsdup(TranslateT("Own wall"));
 	} else

@@ -1294,10 +1294,10 @@ bool facebook_client::send_message(std::string message_recipient, std::string me
 
 bool facebook_client::post_status(status_data *status)
 {
-	handle_entry("post_status");
+	if (status == NULL || (status->text.empty() && status->url.empty()))
+		return false;
 
-	if (status == NULL || status->text.empty())
-		return handle_success("post_status");
+	handle_entry("post_status");
 
 	if (status->isPage) {
 		std::string data = "fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
@@ -1341,6 +1341,14 @@ bool facebook_client::post_status(status_data *status)
 		data += "&composertags_place_name=";
 		data += utils::url::encode(status->place);
 	}
+	for(std::vector<facebook_user*>::size_type i = 0; i < status->users.size(); i++) {
+		data += "&composertags_with[" + utils::conversion::to_string(&i, UTILS_CONV_UNSIGNED_NUMBER);
+		data += "]=" + status->users[i]->user_id;
+		data += "&text_composertags_with[" + utils::conversion::to_string(&i, UTILS_CONV_UNSIGNED_NUMBER);
+		data += "]=" + status->users[i]->real_name;
+		delete status->users[i];
+	}
+	status->users.clear();
 
 	data += "&xhpc_context=profile&xhpc_ismeta=1&xhpc_timeline=1&xhpc_composerid=u_0_2y&is_explicit_place=&composertags_place=&composertags_city=";
 
@@ -1354,14 +1362,15 @@ bool facebook_client::post_status(status_data *status)
 	}
 
 	validate_response(&resp);
-	if (resp.error_number != 0 && !resp.error_text.empty())
-		client_notify(ptrT(mir_utf8decodeT(resp.error_text.c_str())));
 
 	switch (resp.code)
 	{
 	case HTTP_CODE_OK:
-  		return handle_success("post_status");
-
+  		if (resp.error_number != 0 && !resp.error_text.empty())
+			client_notify(ptrT(mir_utf8decodeT(resp.error_text.c_str())));
+		else
+			parent->NotifyEvent(parent->m_tszUserName, TranslateT("Status update was successful."), NULL, FACEBOOK_EVENT_OTHER);
+		return handle_success("post_status");
   	case HTTP_CODE_FAKE_ERROR:
 	case HTTP_CODE_FAKE_DISCONNECTED:
 	default:

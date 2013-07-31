@@ -147,17 +147,26 @@ struct popup_data
 
 struct status_data
 {
+	status_data() {
+		this->user_id = this->text = this->url = this->place = this->privacy = "";
+		this->isPage = false;
+	}
 	std::string user_id;
 	std::string text;
 	std::string url;	
 	std::string place;	
 	std::string privacy;
 	bool isPage;
+	std::vector<facebook_user*> users;
 };
 
 struct wall_data
 {
-	wall_data() {}
+	wall_data() {
+		this->user_id = "";
+		this->title = NULL;
+		this->isPage = false;
+	}
 	wall_data(std::string user_id, TCHAR *title, bool isPage = false) : user_id(user_id), title(title), isPage(isPage) {}
 	std::string user_id;
 	TCHAR *title;
@@ -166,7 +175,9 @@ struct wall_data
 
 struct post_status_data {
 	post_status_data(FacebookProto *proto) : proto(proto) {}
-	post_status_data(FacebookProto *proto, wall_data *wall) : proto(proto) { walls.push_back(wall); }
+	post_status_data(FacebookProto *proto, wall_data *wall) : proto(proto) {
+		this->walls.push_back(wall);
+	}
 	FacebookProto *proto;
 	std::vector<wall_data*> walls;
 };

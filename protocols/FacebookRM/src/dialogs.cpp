@@ -172,23 +172,14 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		{
 			data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 			RefreshPrivacy(hwnd, data);
-
-			// remember last choice, only when there are more options
-			if (SendDlgItemMessage(hwnd, IDC_WALL, CB_GETCOUNT, 0, 0) > 1)
-				data->proto->setByte(FACEBOOK_KEY_LAST_WALL, SendDlgItemMessage(hwnd, IDC_WALL, CB_GETCURSEL, 0, 0));
 		}
-		if (LOWORD(wparam) == IDC_PRIVACY && HIWORD(wparam) == CBN_SELCHANGE) {
-			data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
-
-			// remember last choice, only when there are more options
-			if (SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_GETCOUNT, 0, 0) > 1)
-				data->proto->setByte(FACEBOOK_KEY_PRIVACY_TYPE, SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_GETCURSEL, 0, 0));
-		}
-		else if (LOWORD(wparam) == IDC_MINDMSG && HIWORD(wparam) == EN_CHANGE)
+		else if ((LOWORD(wparam) == IDC_MINDMSG || LOWORD(wparam) == IDC_URL) && HIWORD(wparam) == EN_CHANGE)
 		{
-			size_t len = SendDlgItemMessage(hwnd,IDC_MINDMSG,WM_GETTEXTLENGTH,0,0);
-			EnableWindow(GetDlgItem(hwnd, IDOK), len > 0);
+			bool ok = SendDlgItemMessage(hwnd, IDC_MINDMSG, WM_GETTEXTLENGTH, 0, 0) > 0;
+			if (!ok && SendDlgItemMessage(hwnd, IDC_URL, WM_GETTEXTLENGTH, 0, 0) > 0)
+				ok = true;
 
+			EnableWindow(GetDlgItem(hwnd, IDOK), ok);
 			return TRUE;
 		}
 		else if (LOWORD(wparam) == IDOK)
@@ -204,25 +195,37 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			GetDlgItemText(hwnd, IDC_URL, urlT, SIZEOF(urlT));
 			ShowWindow(hwnd, SW_HIDE);
 
-			ptrA place(mir_utf8encodeT(placeT));
-			data->proto->setString(FACEBOOK_KEY_PLACE, place);
-
 			int wall_id = SendDlgItemMessage(hwnd, IDC_WALL, CB_GETCURSEL, 0, 0);
+			int privacy_id = SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_GETCURSEL, 0, 0);
+			
+			data->proto->setTString(FACEBOOK_KEY_PLACE, placeT);
+
+			// remember last wall, only when there are more options
+			if (SendDlgItemMessage(hwnd, IDC_WALL, CB_GETCOUNT, 0, 0) > 1)
+				data->proto->setByte(FACEBOOK_KEY_LAST_WALL, wall_id);
+			
+			// remember last privacy, only when there are more options
+			if (SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_GETCOUNT, 0, 0) > 1)
+				data->proto->setByte(FACEBOOK_KEY_PRIVACY_TYPE, privacy_id);			
 
 			status_data *status = new status_data();
 			status->user_id = data->walls[wall_id]->user_id;
 			status->isPage = data->walls[wall_id]->isPage;
-			status->privacy = privacy_types[SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_GETCURSEL, 0, 0)].id;
-			status->place = place;
+			status->privacy = privacy_types[privacy_id].id;
+			status->place = ptrA(mir_utf8encodeT(placeT));
 			status->url = _T2A(urlT);
 
-			char *narrow = mir_utf8encodeT(mindMessageT);		
+			// TODO: add support for tagging friends
+			/*facebook_user *fu = new facebook_user();
+			fu->user_id = ...;
+			fu->real_name = ...;
+			status->users.insert(fu);*/
+
+			ptrA narrow = mir_utf8encodeT(mindMessageT);		
 			status->text = narrow;
 
-			if (status->user_id == data->proto->facy.self_.user_id && data->proto->last_status_msg_ != narrow)
+			if (status->user_id == data->proto->facy.self_.user_id && data->proto->last_status_msg_ != (char *)narrow)
 				data->proto->last_status_msg_ = narrow;
-
-			mir_free(narrow);
 
 			data->proto->ForkThread(&FacebookProto::SetAwayMsgWorker, status);
 
