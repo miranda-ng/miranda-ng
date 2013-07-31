@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.1
+;  Version: 0.2.0.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -18,6 +18,7 @@
 [Place:]
 [Share]
 [Cancel]
+[Attach contacts:]
 [User Details]
 [Default group:]
 [Automatically set 'Ignore status change' flag]
@@ -43,6 +44,9 @@
 [Use local time for received messages]
 [Use this server for opening links:]
 [Allow posting statuses to my pages (may slow down login)]
+;file \protocols\FacebookRM\proto_facebook\src\resource.h
+[Facebook icon]
+[Mind]
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 [Unknown error]
@@ -54,6 +58,7 @@
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 [Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
 [Timeout when sending message.]
+[Status update was successful.]
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 [Please enter a password.]
@@ -67,10 +72,11 @@
 [Classic website]
 [Mobile website]
 [Smartphone website]
-[For everyone]
-[For friends of friends]
-[For friends]
-[Only for me]
+[Public]
+[Friends of friends]
+[Friends]
+[Friends except acquaintances]
+[Only me]
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 [Error occured when removing contact from server.]
@@ -113,8 +119,6 @@
 [News Feed]
 [Other Event]
 ;file \protocols\FacebookRM\src\theme.cpp
-[Facebook icon]
-[Mind]
 [Poke]
 [Newsfeed]
 [Friendship details]

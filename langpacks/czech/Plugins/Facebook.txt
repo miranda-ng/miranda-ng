@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.1
+;  Version: 0.2.0.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -30,6 +30,8 @@ Místo:
 Sdílet
 [Cancel]
 Zrušit
+[Attach contacts:]
+Označit kontakty:
 [User Details]
 Informace o uživateli
 [Default group:]
@@ -80,6 +82,11 @@ Použít lokální čas počítače pro příchozí zprávy
 Pro otevírání odkazů použít tento server:
 [Allow posting statuses to my pages (may slow down login)]
 Umožnit sdílení stavů na mé stránky (může zpomalit přihlašování)
+;file \protocols\FacebookRM\proto_facebook\src\resource.h
+[Facebook icon]
+Ikona Facebooku
+[Mind]
+Zpráva stavu
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Chyba připojení: %s
@@ -101,6 +108,8 @@ Chyba při připojování k síti Facebook. Důvodem mohou být větší změny 
 Vyžadováno potvrzení pro odesílání zpráv jiným klientům.\nOtevřte stránky Facebooku a odešlete znovu zprávu tomuto kontaktu!
 [Timeout when sending message.]
 Vypršel čas na odeslání zprávy.
+[Status update was successful.]
+Stav byl úspěšně aktualizován.
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Zadejte uživatelské jméno.
@@ -125,14 +134,16 @@ Klasické stránky
 Mobilní stránky
 [Smartphone website]
 Smartphone stránky
-[For everyone]
-Pro všechny 
-[For friends of friends]
-Pro přátele přátel
-[For friends]
-Pro přátele
-[Only for me]
-Pouze pro mě
+[Public]
+Veřejný
+[Friends of friends]
+Přátelé přátel
+[Friends]
+Přátelé
+[Friends except acquaintances]
+Přátelé kromě známých
+[Only me]
+Jenom já
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Kontakt byl odebrán z vašeho seznamu přátel.
@@ -210,10 +221,6 @@ Novinky
 [Other Event]
 Ostatní události
 ;file \protocols\FacebookRM\src\theme.cpp
-[Facebook icon]
-Ikona Facebooku
-[Mind]
-Zpráva stavu
 [Poke]
 Šťouchnout
 [Newsfeed]
