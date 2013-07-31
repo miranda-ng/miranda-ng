@@ -596,6 +596,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 						}
 					}
 				}
+				mir_free(jid);
 			}
 		}
 		if(!strstr(msg, "-----BEGIN PGP MESSAGE-----"))
@@ -933,6 +934,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 						}
 					}
 				}
+				mir_free(jid);
 			}
 		}
 		else
@@ -1023,6 +1025,7 @@ static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam
 		TranslateDialogDefault(hwndDlg);
 		string questionstr = "Please enter password for key with ID: ";
 		questionstr += inkeyid;
+		mir_free(inkeyid);
 		SetDlgItemTextA(hwndDlg, IDC_KEYID, questionstr.c_str());
 		EnableWindow(GetDlgItem(hwndDlg, IDC_DEFAULT_PASSWORD), 0);
       return TRUE;

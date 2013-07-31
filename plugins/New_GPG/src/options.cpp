@@ -521,7 +521,10 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					  params.out = &out;
 					  params.code = &code;
 					  params.result = &result;
+					  auto old_gpg_state = gpg_valid;
+					  gpg_valid = true;
 					  gpg_launcher(params);
+					  gpg_valid = old_gpg_state;
 					  db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp_path);
 					  mir_free(tmp_path);
 					  string::size_type p1 = out.find("(GnuPG) ");
@@ -569,6 +572,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				  tmp = mir_a2t(p_path);
 				  SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
 			  }
+			  mir_free(atmp);
 		  }
 		  break;
 	  default:
@@ -846,6 +850,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 							TCHAR *tmp3 = mir_a2t(out.c_str());
 							str.clear();
 							str.append(tmp3);
+							mir_free(tmp3);
 							string msg = Translate("Load Public GPG Key for ");
 							msg += (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hcnt, 0);
 							msg += " (Key ID: ";

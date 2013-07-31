@@ -21,11 +21,14 @@
 TCHAR* __stdcall UniGetContactSettingUtf(HANDLE hContact, const char *szModule,const char* szSetting, TCHAR* szDef)
 {
   DBVARIANT dbv = {DBVT_DELETED};
-  TCHAR* szRes;
+  TCHAR* szRes = NULL;
   if (db_get_ts(hContact, szModule, szSetting, &dbv))
 	  return mir_tstrdup(szDef);
-  if(dbv.pszVal)
+  else if(dbv.pszVal)
 	  szRes = mir_tstrdup(dbv.ptszVal);
+  else
+	  szRes = mir_tstrdup(szDef);
+
   db_free(&dbv);
   return szRes;
 }
@@ -33,11 +36,13 @@ TCHAR* __stdcall UniGetContactSettingUtf(HANDLE hContact, const char *szModule,c
 char* __stdcall UniGetContactSettingUtf(HANDLE hContact, const char *szModule,const char* szSetting, char* szDef)
 {
   DBVARIANT dbv = {DBVT_DELETED};
-  char* szRes;
+  char* szRes = NULL;
   if (db_get_s(hContact, szModule, szSetting, &dbv))
 	  return mir_strdup(szDef);
-  if(dbv.pszVal)
+  else if(dbv.pszVal)
 	  szRes = mir_strdup(dbv.pszVal);
+  else
+	  szRes = mir_strdup(szDef);
   db_free(&dbv);
   return szRes;
 }
@@ -251,7 +256,7 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM l)
 			setting += ")" ;
 			setting += "_KeyID";
 		}
-		char *keyid = keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, setting.c_str(), "");
+		char *keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, setting.c_str(), "");
 		if(!keyid[0])
 		{
 			mir_free(keyid);
@@ -259,6 +264,7 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM l)
 		}
 		TCHAR buf[128] = {0};
 		mir_sntprintf(buf, 127 * sizeof(TCHAR), _T("%s: %s"), TranslateT("Send publick key"), toUTF16(keyid).c_str());
+		mir_free(keyid);
 		mi2.ptszName = buf;
 		mi2.flags = CMIM_NAME | CMIF_TCHAR;
 		Menu_ModifyItem(hSendKey, &mi2);
@@ -266,7 +272,7 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM l)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME;
 	TCHAR *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", _T(""));
-	if(_tcslen(tmp) < 1)
+	if(!tmp[0])
 	{
 		db_unset(hContact, szGPGModuleName, "GPGEncryption");
 		mi.flags += CMIM_FLAGS | CMIF_GRAYED;
@@ -275,6 +281,7 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM l)
 		mi.flags = CMIM_NAME | CMIM_FLAGS;
 	mi.pszName = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0)?"Turn off GPG encryption":"Turn on GPG encryption";
 	Menu_ModifyItem(hToggleEncryption, &mi);
+	mir_free(tmp);
 	return 0;
 }
 
@@ -581,6 +588,7 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 					}
 				}
 			}
+			mir_free(jid);
 		}
 		if(supported_proto && !cap_found)
 		{
@@ -1121,7 +1129,7 @@ bool isGPGKeyExist()
 }
 bool isGPGValid()
 {
-	TCHAR *tmp;
+	TCHAR *tmp = NULL;
 	bool gpg_exists = false, is_valid = true;
 	tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", _T(""));
 	if(_waccess(tmp, 0) != -1)
@@ -1129,6 +1137,7 @@ bool isGPGValid()
 	else
 	{
 		mir_free(tmp);
+		tmp = NULL;
 		TCHAR *path = (TCHAR*)mir_alloc(sizeof(TCHAR)*MAX_PATH);
 		char *mir_path = (char*)mir_alloc(MAX_PATH);
 		PathToAbsolute("\\", mir_path);
@@ -1140,6 +1149,7 @@ bool isGPGValid()
 		_tcscpy(gpg_path, tmp);
 		_tcscat(gpg_path, _T("\\GnuPG\\gpg.exe"));
 		mir_free(tmp);
+		tmp = NULL;
 		if(_waccess(gpg_path, 0) != -1)
 		{
 			gpg_exists = true;
@@ -1153,6 +1163,8 @@ bool isGPGValid()
 	if(gpg_exists)
 	{
 		db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
+		mir_free(tmp);
+		tmp = NULL;
 		string out;
 		DWORD code;
 		std::vector<wstring> cmd;
@@ -1169,15 +1181,19 @@ bool isGPGValid()
 		if(p1 == string::npos)
 			is_valid = false;
 	}
-	mir_free(tmp); tmp = NULL;
-	if(!gpg_exists)
+	if(tmp)
+	{
+		mir_free(tmp);
+		tmp = NULL;
+	}
+/*	if(!gpg_exists)
 	{
 		wstring path_ = _wgetenv(_T("APPDATA"));
 		path_ += _T("\\GnuPG");
 		tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", (TCHAR*)path_.c_str());
 	}
 	if(tmp)
-		mir_free(tmp);
+		mir_free(tmp); */
 	return is_valid;
 }
 
@@ -1308,7 +1324,7 @@ void send_encrypted_msgs_thread(HANDLE hContact)
 {
 	while(true)
 	{
-		char *key = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", "");
+		//char *key = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", "");
 		while(!isContactSecured(hContact))
 			boost::this_thread::sleep(boost::posix_time::seconds(1));
 		if(!hcontact_data[hContact].msgs_to_send.empty())
@@ -1381,13 +1397,17 @@ void ExportGpGKeysFunc(int type)
 	if(!type || type == 2) {
 		for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			char *k = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", "");
+			std::string key;
 			if(!k[0])
 			{
 				mir_free(k);
 				continue;
 			}
-			std::string key = k;
-			mir_free(k);
+			else
+			{
+				key = k;
+				mir_free(k);
+			}
 			
 			const char* proto = (const char*)GetContactProto(hContact);
 			std::string id = "Comment: login ";
@@ -1738,7 +1758,6 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 							HANDLE hcnt = hContact;
 							ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
 							path = ptmp;
-							mir_free(ptmp);
 							mir_free(ptmp);
 							wstring rand = toUTF16(get_random(10));
 							path += L"\\";

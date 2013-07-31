@@ -233,6 +233,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 									accs += accounts[i]->tszAccountName;
 								}
 							}
+							mir_free(str);
 						}
 						ListView_SetItemText(hwndList, iRow, 6, (TCHAR*)accs.c_str());
 					}
@@ -891,7 +892,8 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if(!boost::filesystem::exists(tmp))
 					MessageBox(0, TranslateT("wrong gpg binary location found in system.\nplease choose another location"), TranslateT("Warning"), MB_OK);
 		}
-		else tmp = mir_wstrdup(path);
+		else
+			tmp = mir_wstrdup(path);
 		mir_free(path);
 
 		SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
@@ -2125,7 +2127,7 @@ void InitCheck()
 		PROTOACCOUNT **accounts;
 		ProtoEnumAccounts(&count, &accounts);
 		string question;
-		char *keyid, *key;
+		char *keyid = nullptr, *key = nullptr;
 		for(int i = 0; i < count; i++)
 		{
 			if(StriStr(accounts[i]->szModuleName, "metacontacts"))
@@ -2141,6 +2143,7 @@ void InitCheck()
 			if(keyid[0])
 			{
 				question = Translate("Your secret key whith id: ");
+				mir_free(keyid);
 				keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
 				key = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
 				void ShowFirstRunDialog();
@@ -2198,7 +2201,11 @@ void InitCheck()
 					mir_free(expire_date);
 				}
 			}
-			mir_free(keyid);
+			if(keyid)
+			{
+				mir_free(keyid);
+				keyid = nullptr;
+			}
 		}
 		question = Translate("Your secret key whith id: ");
 		keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
