@@ -163,13 +163,15 @@
 Подмигнуть
 [What's on your mind, %s?]
 О чём Вы думаете, %s?
-[For everyone]
+[Public]
 Всем
-[For friends]
+[Friends]
 Друзьям
-[For friends of friends]
+[Friends of friends]
 Друзьям друзей
-[Only for me]
+[Friends except acquaintances]
+Друзьям, кроме знакомых
+[Only me]
 Только мне
 [Wall:]
 Стена:
