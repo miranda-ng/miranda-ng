@@ -76,7 +76,7 @@ BEGIN
                     "Hyperlink",WS_TABSTOP,0,40,174,12
 END
 
-IDD_MIND DIALOGEX 0, 0, 267, 112
+IDD_MIND DIALOGEX 0, 0, 418, 113
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOPMOST
 CAPTION "What's on your mind?"
@@ -92,8 +92,11 @@ BEGIN
     EDITTEXT        IDC_URL,53,60,210,14,ES_AUTOHSCROLL
     LTEXT           "Place:",IDC_STATIC,4,80,44,8,0,WS_EX_RIGHT
     EDITTEXT        IDC_PLACE,53,77,210,14,ES_AUTOHSCROLL
-    DEFPUSHBUTTON   "Share",IDOK,214,93,50,15
-    PUSHBUTTON      "Cancel",IDCANCEL,160,93,50,15
+    CONTROL         "",IDC_CCLIST,"CListControl",WS_TABSTOP | 0x16f,267,21,147,88,WS_EX_CLIENTEDGE
+    DEFPUSHBUTTON   "Share",IDOK,53,94,54,15
+    PUSHBUTTON      "Cancel",IDCANCEL,110,94,44,15
+    PUSHBUTTON      ">>",IDC_EXPAND,239,94,24,15
+    LTEXT           "Attach contacts:",IDC_STATIC,271,6,143,8
 END
 
 IDD_OPTIONS DIALOGEX 0, 0, 305, 210
@@ -128,7 +131,7 @@ BEGIN
     CONTROL         "News feeds",IDC_FEEDS_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,43,84,8
     LTEXT           "News Feed types to notify:",IDC_STATIC,33,59,112,8
     COMBOBOX        IDC_FEED_TYPE,151,57,96,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-	CONTROL         "Other events",IDC_OTHER_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,75,84,8
+    CONTROL         "Other events",IDC_OTHER_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,75,84,8
     CONTROL         "Client notifications",IDC_CLIENT_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,95,84,8
     PUSHBUTTON      "Preview",IDC_PREVIEW,117,137,68,14
     CONTROL         "Use balloon notifications in system tray instead of popups",IDC_SYSTRAY_NOTIFY,
@@ -177,16 +180,21 @@ BEGIN
     IDD_MIND, DIALOG
     BEGIN
         LEFTMARGIN, 4
-        RIGHTMARGIN, 263
+        RIGHTMARGIN, 414
         VERTGUIDE, 48
         VERTGUIDE, 53
         VERTGUIDE, 132
         VERTGUIDE, 160
         VERTGUIDE, 210
         VERTGUIDE, 214
+        VERTGUIDE, 263
         TOPMARGIN, 4
-        BOTTOMMARGIN, 108
+        BOTTOMMARGIN, 109
+        HORZGUIDE, 21
         HORZGUIDE, 40
+        HORZGUIDE, 57
+        HORZGUIDE, 94
+        HORZGUIDE, 109
     END
 
     IDD_OPTIONS, DIALOG
@@ -236,8 +244,7 @@ END
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-
-
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 

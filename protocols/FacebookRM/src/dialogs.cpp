@@ -123,6 +123,60 @@ void RefreshPrivacy(HWND hwnd, post_status_data *data)
 	SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_SETCURSEL, data->proto->getByte(FACEBOOK_KEY_PRIVACY_TYPE, 0), 0);
 }
 
+void ClistPrepare(FacebookProto *proto, HANDLE hItem, HWND hwndList)
+{
+	if (hItem == NULL)
+		hItem = (HANDLE)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
+
+	while (hItem) 
+	{
+		HANDLE hItemN = (HANDLE)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
+
+		if (IsHContactGroup(hItem)) {
+			HANDLE hItemT = (HANDLE)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
+			if (hItemT)
+				ClistPrepare(proto, hItemT, hwndList);
+		} else if (IsHContactContact(hItem)) {
+			if (!proto->IsMyContact(hItem) || ptrA(proto->getStringA(hItem, FACEBOOK_KEY_ID)) == NULL)
+				SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
+		}
+
+		hItem = hItemN;
+	}
+}
+
+void GetSelectedContacts(FacebookProto *proto, HANDLE hItem, HWND hwndList, std::vector<facebook_user*> *contacts)
+{
+	if (hItem == NULL)
+		hItem = (HANDLE)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
+
+	while (hItem) {
+		if (IsHContactGroup(hItem)) {
+			HANDLE hItemT = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
+			if (hItemT)
+				GetSelectedContacts(proto, hItemT, hwndList, contacts);
+		} else {
+			if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
+				facebook_user *fu = new facebook_user();
+				fu->user_id = ptrA(proto->getStringA(hItem, FACEBOOK_KEY_ID));
+				fu->real_name = _T2A(ptrT(proto->getTStringA(hItem, FACEBOOK_KEY_NAME)));
+				contacts->push_back(fu);
+			}
+		}
+		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
+	}
+}
+
+void ResizeHorizontal(HWND hwnd, bool wide) {
+	RECT r = { 0, 0, wide ? 422 : 271, 116 };
+	MapDialogRect(hwnd, &r);
+	r.bottom += GetSystemMetrics(SM_CYSMCAPTION);
+	SetWindowPos(hwnd, 0, 0, 0, r.right, r.bottom, SWP_NOMOVE | SWP_NOZORDER);
+	SetDlgItemText(hwnd, IDC_EXPAND, (wide ? _T("<<") : _T(">>")));
+}
+
+static bool bShowContacts;
+
 INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	post_status_data *data;
@@ -144,6 +198,12 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 
 		ptrT place = data->proto->getTStringA(FACEBOOK_KEY_PLACE);
 		SetDlgItemText(hwnd, IDC_PLACE, place != NULL ? place : _T("Miranda NG"));
+
+		bShowContacts = data->proto->getByte("PostStatusExpand", 0);
+		ResizeHorizontal(hwnd, bShowContacts);			
+
+		HWND hwndClist = GetDlgItem(hwnd, IDC_CCLIST);
+		SetWindowLongPtr(hwndClist, GWL_STYLE, GetWindowLongPtr(hwndClist, GWL_STYLE) & ~CLS_HIDEOFFLINE);
 
 		for (std::vector<wall_data*>::size_type i = 0; i < data->walls.size(); i++)
 			SendDlgItemMessage(hwnd, IDC_WALL, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(data->walls[i]->title));
@@ -167,22 +227,48 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 	EnableWindow(GetDlgItem(hwnd, IDOK), FALSE);
 	return TRUE;
 
-	case WM_COMMAND:
-		if (LOWORD(wparam) == IDC_WALL && HIWORD(wparam) == CBN_SELCHANGE)
+	case WM_NOTIFY:
 		{
-			data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
-			RefreshPrivacy(hwnd, data);
+			NMCLISTCONTROL *nmc = (NMCLISTCONTROL *)lparam;
+			if (nmc->hdr.idFrom == IDC_CCLIST) {
+				switch (nmc->hdr.code) {
+				case CLN_LISTREBUILT:
+					data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
+					ClistPrepare(data->proto, NULL, nmc->hdr.hwndFrom);
+					break;
+				}
+			}
 		}
-		else if ((LOWORD(wparam) == IDC_MINDMSG || LOWORD(wparam) == IDC_URL) && HIWORD(wparam) == EN_CHANGE)
-		{
-			bool ok = SendDlgItemMessage(hwnd, IDC_MINDMSG, WM_GETTEXTLENGTH, 0, 0) > 0;
-			if (!ok && SendDlgItemMessage(hwnd, IDC_URL, WM_GETTEXTLENGTH, 0, 0) > 0)
-				ok = true;
+		break;
 
-			EnableWindow(GetDlgItem(hwnd, IDOK), ok);
-			return TRUE;
-		}
-		else if (LOWORD(wparam) == IDOK)
+	case WM_COMMAND:
+		switch (LOWORD(wparam))
+		{
+		case IDC_WALL:
+			if (HIWORD(wparam) == CBN_SELCHANGE) {
+				data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
+				RefreshPrivacy(hwnd, data);
+			}
+			break;
+
+		case IDC_MINDMSG:
+		case IDC_URL:
+			if (HIWORD(wparam) == EN_CHANGE) {
+				bool ok = SendDlgItemMessage(hwnd, IDC_MINDMSG, WM_GETTEXTLENGTH, 0, 0) > 0;
+				if (!ok && SendDlgItemMessage(hwnd, IDC_URL, WM_GETTEXTLENGTH, 0, 0) > 0)
+					ok = true;
+
+				EnableWindow(GetDlgItem(hwnd, IDOK), ok);
+				return TRUE;
+			}
+			break;
+
+		case IDC_EXPAND:
+			bShowContacts = !bShowContacts;
+			ResizeHorizontal(hwnd, bShowContacts);
+			break;
+
+		case IDOK:
 		{
 			data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 
@@ -199,6 +285,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			int privacy_id = SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_GETCURSEL, 0, 0);
 			
 			data->proto->setTString(FACEBOOK_KEY_PLACE, placeT);
+			data->proto->setByte("PostStatusExpand", bShowContacts);
 
 			// remember last wall, only when there are more options
 			if (SendDlgItemMessage(hwnd, IDC_WALL, CB_GETCOUNT, 0, 0) > 1)
@@ -215,11 +302,8 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			status->place = ptrA(mir_utf8encodeT(placeT));
 			status->url = _T2A(urlT);
 
-			// TODO: add support for tagging friends
-			/*facebook_user *fu = new facebook_user();
-			fu->user_id = ...;
-			fu->real_name = ...;
-			status->users.insert(fu);*/
+			HWND hwndList = GetDlgItem(hwnd, IDC_CCLIST);
+			GetSelectedContacts(data->proto, NULL, hwndList, &status->users);
 
 			ptrA narrow = mir_utf8encodeT(mindMessageT);		
 			status->text = narrow;
@@ -232,12 +316,12 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			EndDialog(hwnd, wparam);
 			return TRUE;
 		}
-		else if (LOWORD(wparam) == IDCANCEL)
-		{
+
+		case IDCANCEL:
 			EndDialog(hwnd, wparam);
 			return TRUE;
-		}
-		break;
+
+		} break;
 	case WM_DESTROY:
 		data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 

@@ -2,6 +2,8 @@
 // Microsoft Visual C++ generated include file.
 // Used by D:\Development\Miranda NG\protocols\FacebookRM\res\facebook.rc
 //
+#define IDCANCEL2                       3
+#define IDC_EXPAND                      3
 #define IDI_FACEBOOK                    101
 #define IDI_MIND                        102
 #define IDD_FACEBOOKACCOUNT             111
@@ -42,6 +44,7 @@
 #define IDC_PRIVACY                     1204
 #define IDC_WALL                        1205
 #define IDC_URL                         1206
+#define IDC_CCLIST                      1207
 
 // Next default values for new objects
 // 
@@ -49,7 +52,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        131
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1205
+#define _APS_NEXT_CONTROL_VALUE         1208
 #define _APS_NEXT_SYMED_VALUE           131
 #endif
 #endif
