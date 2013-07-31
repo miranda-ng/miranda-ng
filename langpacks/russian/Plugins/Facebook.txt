@@ -193,3 +193,5 @@
 Сообщение статуса Facebook 
 [Own wall]
 Своя стена
+[Status update was successful.]
+Успешное обновление статуса.
