@@ -50,6 +50,8 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					HXML node = xi.getChildByPath(hXml, _T("opml/body/outline"), 0);
 					if ( !node)
 						node = xi.getChildByPath(hXml, _T("body/outline"), 0);
+					int count = SendMessage(FeedsImportList, LB_GETCOUNT, 0, 0);
+					int DUPES = 0;
 					if (node) {
 						while (node) {
 							int outlineAttr = xi.getAttrCount(node);
@@ -83,7 +85,6 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										} else
 											isTitleUTF = 1;
 
-										int count = SendMessage(FeedsImportList, LB_GETCOUNT, 0, 0);
 										for (int i = 0; i < count; i++) {
 											TCHAR item[MAX_PATH];
 											SendMessage(FeedsImportList, LB_GETTEXT, i, (LPARAM)item);
@@ -101,6 +102,10 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 											url = (TCHAR *)xi.getAttrValue(node, xi.getAttrName(node, i));
 										} else
 											isURLUTF = 1;
+										if (GetContactByURL(url) && NeedToImport) {
+											NeedToImport = FALSE;
+											DUPES += 1;
+										}
 										continue;
 									}
 									if (!lstrcmpi(xi.getAttrName(node, i), _T("htmlUrl"))) {
@@ -201,6 +206,12 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						DeleteAllItems(hwndList);
 						UpdateList(hwndList);
 					}
+					TCHAR mes[MAX_PATH];
+					if (DUPES)
+						mir_sntprintf(mes, SIZEOF(mes), TranslateT("Imported %d feed(s)\r\nNot imported %d duplicate(s)."), count - DUPES, DUPES);
+					else
+						mir_sntprintf(mes, SIZEOF(mes), TranslateT("Imported %d feed(s)."), count);
+					MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
 				}
 			}
 

@@ -91,7 +91,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Authentication"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CTEXT           "aaaa",IDC_FEEDNAME,7,5,196,8
+    CTEXT           "Feed name",IDC_FEEDNAME,7,5,196,8
     LTEXT           "This feed seems to need authentication. Please fill username and password fields:",IDC_STATIC,7,19,196,22
     RTEXT           "Username",IDC_STATIC,25,49,42,8
     EDITTEXT        IDC_FEEDUSERNAME,71,46,80,14,ES_AUTOHSCROLL

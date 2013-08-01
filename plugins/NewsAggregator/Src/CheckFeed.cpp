@@ -73,7 +73,7 @@ TCHAR * CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 	}
 	TCHAR mes[MAX_PATH];
 	mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis not a valid feed's address."), tszURL);
-	MessageBox(hwndDlg, mes, TranslateT("New Aggregator"), MB_OK|MB_ICONERROR);
+	MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK|MB_ICONERROR);
 	return NULL;
 }
 

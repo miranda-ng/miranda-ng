@@ -598,7 +598,19 @@ HANDLE GetContactByNick(const TCHAR *nick)
 
 	for (hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 		ptrW contactNick(::db_get_wsa(hContact, MODULE, "Nick"));
-		if (::lstrcmpi(contactNick, nick) == 0)
+		if (!lstrcmpi(contactNick, nick))
+			break;
+	}
+	return hContact;
+}
+
+HANDLE GetContactByURL(const TCHAR *url)
+{
+	HANDLE hContact = NULL;
+
+	for (hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+		ptrW contactURL(::db_get_wsa(hContact, MODULE, "URL"));
+		if (!lstrcmpi(contactURL, url))
 			break;
 	}
 	return hContact;

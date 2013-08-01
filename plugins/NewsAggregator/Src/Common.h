@@ -139,6 +139,7 @@ INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 HANDLE GetContactByNick(const TCHAR *nick);
+HANDLE GetContactByURL(const TCHAR *url);
 
 // ===============  NewsAggregator SERVICES  ================
 // Check all Feeds info
