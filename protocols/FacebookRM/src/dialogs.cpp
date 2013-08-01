@@ -172,7 +172,7 @@ void ResizeHorizontal(HWND hwnd, bool wide) {
 	MapDialogRect(hwnd, &r);
 	r.bottom += GetSystemMetrics(SM_CYSMCAPTION);
 	SetWindowPos(hwnd, 0, 0, 0, r.right, r.bottom, SWP_NOMOVE | SWP_NOZORDER);
-	SetDlgItemText(hwnd, IDC_EXPAND, (wide ? _T("<< Contacts") : _T("Contacts >>")));
+	SetDlgItemText(hwnd, IDC_EXPAND, (wide ? TranslateT("<< Contacts") : TranslateT("Contacts >>")));
 	ShowWindow(GetDlgItem(hwnd, IDC_CCLIST), wide);
 	ShowWindow(GetDlgItem(hwnd, IDC_CCLIST_LABEL), wide);
 }
