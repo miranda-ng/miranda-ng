@@ -195,3 +195,7 @@
 Своя стена
 [Status update was successful.]
 Успешное обновление статуса.
+[<< Contacts]
+<< Контакты
+[Contacts >>]
+Контакты >>
