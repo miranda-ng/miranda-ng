@@ -303,12 +303,12 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 							}
 						}
 						else
-							MessageBox(NULL, TranslateT("Not valid import file."), TranslateT("Error"), MB_OK | MB_ICONERROR);
+							MessageBox(hwndDlg, TranslateT("Not valid import file."), TranslateT("Error"), MB_OK | MB_ICONERROR);
 						xi.destroyNode(hXml);
 						SetDlgItemText(hwndDlg, IDC_IMPORTFILEPATH, FileName);
 					}
 					else
-						MessageBox(NULL, TranslateT("Not valid import file."), TranslateT("Error"), MB_OK | MB_ICONERROR);
+						MessageBox(hwndDlg, TranslateT("Not valid import file."), TranslateT("Error"), MB_OK | MB_ICONERROR);
 
 					mir_free(tszMirDir);
 					break;
