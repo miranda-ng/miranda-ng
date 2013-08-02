@@ -737,23 +737,24 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 			else item = ListAdd(LIST_VCARD_TEMP, jid);
 		}
 
-		if (item && item->pResources) {
-			for (int i = 0; i < item->resourceCount; i++) {
+		if (item && item->arResources.getCount()) {
+			for (int i = 0; i < item->arResources.getCount(); i++) {
+				JABBER_RESOURCE_STATUS *r = item->arResources[i];
 				TCHAR szp1[JABBER_MAX_JID_LEN], tmp[JABBER_MAX_JID_LEN];
 				JabberStripJid(jid, szp1, SIZEOF(szp1));
-				mir_sntprintf(tmp, SIZEOF(tmp), _T("%s/%s"), szp1, item->pResources[i].resourceName);
+				mir_sntprintf(tmp, SIZEOF(tmp), _T("%s/%s"), szp1, r->resourceName);
 
 				XmlNodeIq iq3(m_iqManager.AddHandler(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM));
 				iq3 << XQUERY(JABBER_FEAT_LAST_ACTIVITY);
 				m_ThreadInfo->send(iq3);
 
-				if ( !item->pResources[i].dwVersionRequestTime) {
+				if ( !r->dwVersionRequestTime) {
 					XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
 					iq4 << XQUERY(JABBER_FEAT_VERSION);
 					m_ThreadInfo->send(iq4);
 				}
 
-				if ( !item->pResources[i].pSoftwareInfo) {
+				if ( !r->pSoftwareInfo) {
 					XmlNodeIq iq5(m_iqManager.AddHandler(&CJabberProto::OnIqResultCapsDiscoInfoSI, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
 					iq5 << XQUERY(JABBER_FEAT_DISCO_INFO);
 					m_ThreadInfo->send(iq5);
@@ -1302,33 +1303,35 @@ void __cdecl CJabberProto::GetAwayMsgThread(void* hContact)
 	DBVARIANT dbv;
 	JABBER_LIST_ITEM *item;
 	int i, msgCount;
-	size_t len;
 
 	if ( !getTString(hContact, "jid", &dbv)) {
 		if ((item = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal)) != NULL) {
 			db_free(&dbv);
-			if (item->resourceCount > 0) {
-				Log("resourceCount > 0");
-				JABBER_RESOURCE_STATUS *r = item->pResources;
-				len = msgCount = 0;
-				for (i=0; i < item->resourceCount; i++)
-					if (r[i].statusMessage) {
+			if (item->arResources.getCount() > 0) {
+				Log("arResources.getCount() > 0");
+				size_t len = msgCount = 0;
+				for (i=0; i < item->arResources.getCount(); i++) {
+					JABBER_RESOURCE_STATUS *r = item->arResources[i];
+					if (r->statusMessage) {
 						msgCount++;
-						len += (_tcslen(r[i].resourceName) + _tcslen(r[i].statusMessage) + 8);
+						len += (_tcslen(r->resourceName) + _tcslen(r->statusMessage) + 8);
 					}
+				}
 
 				TCHAR *str = (TCHAR*)alloca(sizeof(TCHAR)*(len+1));
 				str[0] = str[len] = '\0';
-				for (i=0; i < item->resourceCount; i++)
-					if (r[i].statusMessage) {
+				for (i=0; i < item->arResources.getCount(); i++) {
+					JABBER_RESOURCE_STATUS *r = item->arResources[i];
+					if (r->statusMessage) {
 						if (str[0] != '\0') _tcscat(str, _T("\r\n"));
 						if (msgCount > 1) {
 							_tcscat(str, _T("("));
-							_tcscat(str, r[i].resourceName);
+							_tcscat(str, r->resourceName);
 							_tcscat(str, _T("): "));
 						}
-						_tcscat(str, r[i].statusMessage);
+						_tcscat(str, r->statusMessage);
 					}
+				}
 
 				ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)str);
 				return;

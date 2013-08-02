@@ -406,7 +406,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 			Menu_ShowItem(g_hMenuCommands, ((jcb & JABBER_CAPS_COMMANDS) != 0) || bCtrlPressed);
 			Menu_ShowItem(g_hMenuSendNote, TRUE);
 
-			if (item->resourceCount >= 1) {
+			if (item->arResources.getCount() >= 1) {
 				Menu_ShowItem(g_hMenuResourcesRoot, TRUE);
 
 				CLISTMENUITEM mi = { sizeof(mi) };
@@ -421,9 +421,9 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 				Menu_ModifyItem(g_hMenuResourcesServer, &mi);
 
 				int nMenuResourceItemsNew = m_nMenuResourceItems;
-				if (m_nMenuResourceItems < item->resourceCount) {
-					m_phMenuResourceItems = (HGENMENU*)mir_realloc(m_phMenuResourceItems, item->resourceCount * sizeof(HGENMENU));
-					nMenuResourceItemsNew = item->resourceCount;
+				if (m_nMenuResourceItems < item->arResources.getCount()) {
+					m_phMenuResourceItems = (HGENMENU*)mir_realloc(m_phMenuResourceItems, item->arResources.getCount() * sizeof(HGENMENU));
+					nMenuResourceItemsNew = item->arResources.getCount();
 				}
 
 				char text[ 256 ];
@@ -447,18 +447,18 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 						mi.hParentMenu = g_hMenuResourcesRoot;
 						m_phMenuResourceItems[i] = Menu_AddContactMenuItem(&mi);
 					}
-					if (i < item->resourceCount) {
-						JABBER_RESOURCE_STATUS &r = item->pResources[i];
+					if (i < item->arResources.getCount()) {
+						JABBER_RESOURCE_STATUS *r = item->arResources[i];
 						CLISTMENUITEM clmi = { sizeof(clmi) };
 						clmi.flags = CMIM_NAME|CMIM_FLAGS | CMIF_CHILDPOPUP|CMIF_TCHAR;
-						if ((item->resourceMode == RSMODE_MANUAL) && (item->pManualResource == &r))
+						if ((item->resourceMode == RSMODE_MANUAL) && (item->pManualResource == r))
 							clmi.flags |= CMIF_CHECKED;
 						if (ServiceExists(MS_FP_GETCLIENTICONT)) {
 							clmi.flags |= CMIM_ICON;
-							FormatMirVer(&r, szTmp, SIZEOF(szTmp));
+							FormatMirVer(r, szTmp, SIZEOF(szTmp));
 							clmi.hIcon = (HICON)CallService(MS_FP_GETCLIENTICONT, (WPARAM)szTmp, 0);
 						}
-						mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%s [%s, %d]"), r.resourceName, pcli->pfnGetStatusModeDescription(r.status, 0), r.priority);
+						mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%s [%s, %d]"), r->resourceName, pcli->pfnGetStatusModeDescription(r->status, 0), r->priority);
 						clmi.ptszName = szTmp;
 						Menu_ModifyItem(m_phMenuResourceItems[i], &clmi);
 						DestroyIcon(clmi.hIcon);
@@ -515,7 +515,7 @@ INT_PTR __cdecl CJabberProto::OnMenuRosterAdd(WPARAM wParam, LPARAM)
 		if (m_options.AddRoster2Bookmarks == TRUE) {
 			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_BOOKMARK, roomID);
 			if (item == NULL) {
-				item = (JABBER_LIST_ITEM*)mir_calloc(sizeof(JABBER_LIST_ITEM));
+				item = new JABBER_LIST_ITEM();
 				item->jid = mir_tstrdup(roomID);
 				item->name = mir_tstrdup(nick);
 				if ( !getTString((HANDLE)wParam, "MyNick", &dbv)) {
@@ -627,7 +627,7 @@ INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd(WPARAM wParam, LPARAM)
 				db_free(&dbv);
 			}
 			
-			JABBER_LIST_ITEM *item = (JABBER_LIST_ITEM*)mir_calloc(sizeof(JABBER_LIST_ITEM));
+			JABBER_LIST_ITEM *item = new JABBER_LIST_ITEM();
 			item->jid = mir_tstrdup(roomID);
 			item->name = pcli->pfnGetContactDisplayName(hContact, 0);
 			item->type = _T("conference");
@@ -1018,7 +1018,7 @@ void CJabberProto::MenuUpdateSrmmIcon(JABBER_LIST_ITEM *item)
 
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = m_szModuleName;
-	sid.flags = item->resourceCount ? 0 : MBF_DISABLED;
+	sid.flags = item->arResources.getCount() ? 0 : MBF_DISABLED;
 	Srmm_ModifyIcon(hContact, &sid);
 }
 
@@ -1098,15 +1098,15 @@ int CJabberProto::OnProcessSrmmIconClick(WPARAM wParam, LPARAM lParam)
 	AppendMenu(hMenu, MF_STRING, MENUITEM_SERVER, TranslateT("Highest priority (server's choice)"));
 
 	AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
-	for (int i = 0; i < LI->resourceCount; i++)
-		AppendMenu(hMenu, MF_STRING, MENUITEM_RESOURCES+i, LI->pResources[i].resourceName);
+	for (int i = 0; i < LI->arResources.getCount(); i++)
+		AppendMenu(hMenu, MF_STRING, MENUITEM_RESOURCES+i, LI->arResources[i]->resourceName);
 
 	if (LI->resourceMode == RSMODE_LASTSEEN)
 		CheckMenuItem(hMenu, MENUITEM_LASTSEEN, MF_BYCOMMAND|MF_CHECKED);
 	else if (LI->resourceMode == RSMODE_SERVER)
 		CheckMenuItem(hMenu, MENUITEM_SERVER, MF_BYCOMMAND|MF_CHECKED);
 	else if (LI->pManualResource)
-		CheckMenuItem(hMenu, MENUITEM_RESOURCES + (LI->pManualResource - LI->pResources), MF_BYCOMMAND|MF_CHECKED);
+		CheckMenuItem(hMenu, MENUITEM_RESOURCES + LI->arResources.indexOf(LI->pManualResource), MF_BYCOMMAND|MF_CHECKED);
 
 	int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, sicd->clickLocation.x, sicd->clickLocation.y, 0, WindowList_Find(hDialogsList, hContact), NULL);
 
@@ -1119,7 +1119,7 @@ int CJabberProto::OnProcessSrmmIconClick(WPARAM wParam, LPARAM lParam)
 		LI->resourceMode = RSMODE_SERVER;
 	}
 	else if (res >= MENUITEM_RESOURCES) {
-		LI->pManualResource = &LI->pResources[res - MENUITEM_RESOURCES];
+		LI->pManualResource = LI->arResources[res - MENUITEM_RESOURCES];
 		LI->resourceMode = RSMODE_MANUAL;
 	}
 
@@ -1155,7 +1155,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleResource(WPARAM wParam, LPARAM, LPARAM
 		LI->resourceMode = RSMODE_SERVER;
 	}
 	else if (res >= MENUITEM_RESOURCES) {
-		LI->pManualResource = &LI->pResources[res - MENUITEM_RESOURCES];
+		LI->pManualResource = LI->arResources[res - MENUITEM_RESOURCES];
 		LI->resourceMode = RSMODE_MANUAL;
 	}
 

@@ -195,16 +195,16 @@ JabberCapsBits CJabberProto::GetTotalJidCapabilites(const TCHAR *jid)
 	JabberCapsBits jcbToReturn = JABBER_RESOURCE_CAPS_NONE;
 
 	// get bare jid info only if where is no resources
-	if ( !item || (item && !item->resourceCount)) {
+	if ( !item || (item && !item->arResources.getCount())) {
 		jcbToReturn = GetResourceCapabilites(szBareJid, FALSE);
 		if (jcbToReturn & JABBER_RESOURCE_CAPS_ERROR)
 			jcbToReturn = JABBER_RESOURCE_CAPS_NONE;
 	}
 
 	if (item) {
-		for (int i = 0; i < item->resourceCount; i++) {
+		for (int i = 0; i < item->arResources.getCount(); i++) {
 			TCHAR szFullJid[JABBER_MAX_JID_LEN];
-			mir_sntprintf(szFullJid, JABBER_MAX_JID_LEN, _T("%s/%s"), szBareJid, item->pResources[i].resourceName);
+			mir_sntprintf(szFullJid, JABBER_MAX_JID_LEN, _T("%s/%s"), szBareJid, item->arResources[i]->resourceName);
 			JabberCapsBits jcb = GetResourceCapabilites(szFullJid, FALSE);
 			if ( !(jcb & JABBER_RESOURCE_CAPS_ERROR))
 				jcbToReturn |= jcb;

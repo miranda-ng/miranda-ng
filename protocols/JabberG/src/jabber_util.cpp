@@ -933,7 +933,7 @@ TCHAR* CJabberProto::GetClientJID(const TCHAR *jid, TCHAR *dest, size_t destLen)
 	mir_cslock lck(m_csLists);
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, jid);
 	if (LI != NULL) {
-		if (LI->resourceCount == 1 && !lstrcmp(LI->pResources->szCapsNode, _T("http://talk.google.com/xmpp/bot/caps"))) {
+		if (LI->arResources.getCount() == 1 && !lstrcmp(LI->arResources[0]->szCapsNode, _T("http://talk.google.com/xmpp/bot/caps"))) {
 			if (p) *p = 0;
 			return dest;
 		}

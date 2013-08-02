@@ -156,7 +156,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 				BOOL isXVcard = getByte(AI->hContact, "AvatarXVcard", 0);
 
 				TCHAR szJid[JABBER_MAX_JID_LEN];
-				if (item->resourceCount != NULL && !isXVcard) {
+				if (item->arResources.getCount() != NULL && !isXVcard) {
 					TCHAR *bestResName = ListGetBestClientResourceNamePtr(dbv.ptszVal);
 					mir_sntprintf(szJid, SIZEOF(szJid), bestResName?_T("%s/%s"):_T("%s"), dbv.ptszVal, bestResName);
 				}
@@ -806,21 +806,22 @@ LPTSTR CJabberSysInterface::GetResourceList(LPCTSTR jid)
 	if (item == NULL)
 		return NULL;
 
-	if (item->pResources == NULL)
+	if (!item->arResources.getCount())
 		return NULL;
 
 	int i;
 	int iLen = 1; // 1 for extra zero terminator at the end of the string
 	// calculate total necessary string length
-	for (i=0; i<item->resourceCount; i++)
-		iLen += lstrlen(item->pResources[i].resourceName) + 1;
+	for (i=0; i<item->arResources.getCount(); i++)
+		iLen += lstrlen(item->arResources[i]->resourceName) + 1;
 
 	// allocate memory and fill it
 	LPTSTR str = (LPTSTR)mir_alloc(iLen * sizeof(TCHAR));
 	LPTSTR p = str;
-	for (i=0; i<item->resourceCount; i++) {
-		lstrcpy(p, item->pResources[i].resourceName);
-		p += lstrlen(item->pResources[i].resourceName) + 1;
+	for (i=0; i<item->arResources.getCount(); i++) {
+		JABBER_RESOURCE_STATUS *r = item->arResources[i];
+		lstrcpy(p, r->resourceName);
+		p += lstrlen(r->resourceName) + 1;
 	}
 	*p = 0; // extra zero terminator
 

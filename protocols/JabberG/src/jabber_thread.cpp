@@ -1528,7 +1528,7 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 	if ( !hContact) return;
 
 	int status = ID_STATUS_OFFLINE;
-	if ( !item->resourceCount) {
+	if ( !item->arResources.getCount()) {
 		// set offline only if jid has resources
 		if (_tcschr(jid, '/') == NULL)
 			status = item->itemResource.status;
@@ -1541,25 +1541,27 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 	// Determine status to show for the contact based on the remaining resources
 	int nSelectedResource = -1, i = 0;
 	int nMaxPriority = -999; // -128...+127 valid range
-	for (i = 0; i < item->resourceCount; i++) {
-		if (item->pResources[i].priority > nMaxPriority) {
-			nMaxPriority = item->pResources[i].priority;
-			status = item->pResources[i].status;
+	for (i = 0; i < item->arResources.getCount(); i++) {
+		JABBER_RESOURCE_STATUS *r = item->arResources[i];
+		if (r->priority > nMaxPriority) {
+			nMaxPriority = r->priority;
+			status = r->status;
 			nSelectedResource = i;
 		}
-		else if (item->pResources[i].priority == nMaxPriority) {
-			if ((status = JabberCombineStatus(status, item->pResources[i].status)) == item->pResources[i].status)
+		else if (r->priority == nMaxPriority) {
+			if ((status = JabberCombineStatus(status, r->status)) == r->status)
 				nSelectedResource = i;
 		}
 	}
 	item->itemResource.status = status;
 	if (nSelectedResource != -1) {
-		Log("JabberUpdateJidDbSettings: updating jid %S to rc %S", item->jid, item->pResources[nSelectedResource].resourceName);
-		if (item->pResources[nSelectedResource].statusMessage)
-			db_set_ts(hContact, "CList", "StatusMsg", item->pResources[nSelectedResource].statusMessage);
+		JABBER_RESOURCE_STATUS *r = item->arResources[nSelectedResource];
+		Log("JabberUpdateJidDbSettings: updating jid %S to rc %S", item->jid, r->resourceName);
+		if (r->statusMessage)
+			db_set_ts(hContact, "CList", "StatusMsg", r->statusMessage);
 		else
 			db_unset(hContact, "CList", "StatusMsg");
-		UpdateMirVer(hContact, &item->pResources[nSelectedResource]);
+		UpdateMirVer(hContact, r);
 	}
 	else delSetting(hContact, DBSETTING_DISPLAY_UID);
 
@@ -1714,13 +1716,13 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 			hContact = HContactFromJID(from);
 			if (hContact && db_get_b(hContact, "CList", "NotOnList", 0) == 1) {
 				// remove selfcontact, if where is no more another resources
-				if (item->resourceCount == 1 && ResourceInfoFromJID(info->fullJID))
+				if (item->arResources.getCount() == 1 && ResourceInfoFromJID(info->fullJID))
 					ListRemoveResource(LIST_ROSTER, info->fullJID);
 			}
 
 
 			// set status only if no more available resources
-			if ( !item->resourceCount) {
+			if ( !item->arResources.getCount()) {
 				item->itemResource.status = ID_STATUS_OFFLINE;
 				replaceStrT(item->itemResource.statusMessage, xmlGetText( xmlGetChild(node , "status")));
 			}

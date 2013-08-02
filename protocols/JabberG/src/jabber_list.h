@@ -105,6 +105,9 @@ struct JABBER_RESOURCE_STATUS
 
 struct JABBER_LIST_ITEM : public MZeroedObject
 {
+	JABBER_LIST_ITEM();
+	~JABBER_LIST_ITEM();
+
 	JABBER_LIST list;
 	TCHAR* jid;
 
@@ -115,9 +118,8 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 	JABBER_RESOURCE_STATUS* findResource(const TCHAR *resourceName) const;
 	JABBER_RESOURCE_STATUS* getBestResource() const;
 	JABBER_RESOURCE_MODE resourceMode;
-	int resourceCount;
+	LIST<JABBER_RESOURCE_STATUS> arResources; // array of resources
 	JABBER_RESOURCE_STATUS
-		*pResources,        // array of resources
 		*pLastSeenResource, // resource which was last seen active
 		*pManualResource,   // manually set resource
 		itemResource;       // resource for jids without /resource node

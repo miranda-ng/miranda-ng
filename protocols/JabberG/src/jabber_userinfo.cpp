@@ -76,7 +76,7 @@ struct JabberUserInfoDlgData
 	CJabberProto*     ppro;
 	HANDLE            hContact;
 	JABBER_LIST_ITEM *item;
-	int               resourceCount;
+	int               resourcesCount;
 };
 
 enum
@@ -212,7 +212,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 {
 	TCHAR buf[256];
 	HTREEITEM htiResource = htiRoot;
-	JABBER_RESOURCE_STATUS *res = resource ? &item->pResources[resource-1] : &item->itemResource;
+	JABBER_RESOURCE_STATUS *res = resource ? item->arResources[resource-1] : &item->itemResource;
 
 	if (res->resourceName && *res->resourceName)
 		htiResource = sttFillInfoLine(hwndTree, htiRoot, LoadSkinnedProtoIcon(ppro->m_szModuleName, res->status),
@@ -392,8 +392,8 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 		sttInfoLineId(0, INFOLINE_LASTACTIVE));
 
 	// resources
-	if (item->resourceCount) {
-		for (int i = 0; i < item->resourceCount; i++)
+	if (item->arResources.getCount()) {
+		for (int i = 0; i < item->arResources.getCount(); i++)
 			sttFillResourceInfo(ppro, hwndTree, htiRoot, item, i+1);
 	}
 	else if ( !_tcschr(item->jid, _T('@')) || (item->itemResource.status != ID_STATUS_OFFLINE))
@@ -443,7 +443,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 		dat = (JabberUserInfoDlgData *)mir_alloc(sizeof(JabberUserInfoDlgData));
 		ZeroMemory(dat, sizeof(JabberUserInfoDlgData));
-		dat->resourceCount = -1;
+		dat->resourcesCount = -1;
 
 		if (CallService(MS_DB_CONTACT_IS, (WPARAM)lParam, 0))
 			dat->hContact = (HANDLE)lParam;

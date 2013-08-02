@@ -309,9 +309,9 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const TCHAR *
 		gce.ptszStatus = TranslateT("Moderator");
 		break;
 	default:
-		for (int i=0; i < item->resourceCount; i++) {
-			JABBER_RESOURCE_STATUS& JS = item->pResources[i];
-			if ( !lstrcmp(resource, JS.resourceName)) {
+		for (int i=0; i < item->arResources.getCount(); i++) {
+			JABBER_RESOURCE_STATUS *JS = item->arResources[i];
+			if ( !lstrcmp(resource, JS->resourceName)) {
 				if (action != GC_EVENT_JOIN) {
 					switch(action) {
 					case 0:
@@ -321,9 +321,9 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const TCHAR *
 					}
 					gce.ptszText = TranslateT("Moderator");
 				}
-				gce.ptszStatus = TranslateTS(sttStatuses[JabberGcGetStatus(&JS)]);
+				gce.ptszStatus = TranslateTS(sttStatuses[JabberGcGetStatus(JS)]);
 				gce.bIsMe = (lstrcmp(nick, myNick) == 0);
-				statusToSet = JS.status;
+				statusToSet = JS->status;
 				break;
 	}	}	}
 
@@ -540,10 +540,10 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 		return 0;
 
 	JABBER_RESOURCE_STATUS *me = NULL, *him = NULL;
-	for (int i=0; i < item->resourceCount; i++) {
-		JABBER_RESOURCE_STATUS& p = item->pResources[i];
-		if ( !lstrcmp(p.resourceName, item->nick  ))  me = &p;
-		if ( !lstrcmp(p.resourceName, gcmi->pszUID))  him = &p;
+	for (int i=0; i < item->arResources.getCount(); i++) {
+		JABBER_RESOURCE_STATUS *p = item->arResources[i];
+		if ( !lstrcmp(p->resourceName, item->nick))   me = p;
+		if ( !lstrcmp(p->resourceName, gcmi->pszUID)) him = p;
 	}
 
 	if (gcmi->Type == MENU_ON_LOG) {
