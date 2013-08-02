@@ -722,22 +722,22 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			HWND hList = GetDlgItem(hwndDlg, IDC_PROTOCOLLIST);
 			SendMessage(hList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 			LVCOLUMN lvCol = {0};
-			lvCol.mask = LVCF_WIDTH|LVCF_TEXT;
+			lvCol.mask = LVCF_WIDTH | LVCF_TEXT;
 			lvCol.pszText=TranslateT("Protocol");
 			lvCol.cx = 118;
 			ListView_InsertColumn(hList, 0, &lvCol);
 			// fill the list
 			LVITEM lvItem = {0};
-			lvItem.mask=LVIF_TEXT|LVIF_PARAM;
-			lvItem.iItem=0;
-			lvItem.iSubItem=0;
+			lvItem.mask = LVIF_TEXT | LVIF_PARAM;
+			lvItem.iItem = 0;
+			lvItem.iSubItem = 0;
 
 			int count;
 			PROTOACCOUNT** protos;
-			ProtoEnumAccounts( &count, &protos );
+			ProtoEnumAccounts(&count, &protos);
 
-			for(int i=0; i < count; i++) {
-				if ( !IsSuitableProto( protos[i] ))
+			for(int i = 0; i < count; i++) {
+				if (!IsSuitableProto(protos[i]))
 					continue;
 
 				UpdateListFlag = TRUE;
@@ -767,7 +767,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			}
 			if (lvItem.iItem)
 			{
-				ListView_SetSelectionMark(hList, 0);
+				ListView_SetItemState(hList, 0, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
 				PROTOTEMPLATE *prototemplate = ProtoTemplates[0];
 				SetDlgItemText(hwndDlg, IDC_POPUPTEXT, prototemplate->ProtoTemplate);
 			}
