@@ -81,11 +81,6 @@ static char* MirandaVersionToStringEx(char* szStr, int bUnicode, const char* szP
 	return szStr;
 }
 
-char* MirandaVersionToString(char* szStr, int bUnicode, int v, int m)
-{
-	return MirandaVersionToStringEx(szStr, bUnicode, "ICQ", v, m);
-}
-
 char* MirandaModToString(char* szStr, capstr* capId, int bUnicode, const char* szModName)
 { // decode icqj mod version
 	char* szClient;
@@ -219,14 +214,14 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 		}
 		else {
 			// Yes this is most probably Miranda, get the version info
-			szClient = MirandaVersionToString(szClientBuf, 0, dwFT2, 0);
+			szClient = MirandaVersionToStringEx(szClientBuf, 0, "ICQ", dwFT2, 0);
 			*bClientId = CLID_MIRANDA;
 			bMirandaIM = TRUE;
 		}
 	}
 	else if (dwFT1 == 0x7fffffff) {
 		// This is Miranda with unicode core
-		szClient = MirandaVersionToString(szClientBuf, 1, dwFT2, 0);
+		szClient = MirandaVersionToStringEx(szClientBuf, 1, "ICQ", dwFT2, 0);
 		*bClientId = CLID_MIRANDA;
 		bMirandaIM = TRUE;
 	}
@@ -316,7 +311,7 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 			DWORD iver = (*capId)[0xC] << 0x18 | (*capId)[0xD] << 0x10 | (*capId)[0xE] << 8 | (*capId)[0xF];
 			DWORD mver = (*capId)[0x8] << 0x18 | (*capId)[0x9] << 0x10 | (*capId)[0xA] << 8 | (*capId)[0xB];
 
-			szClient = MirandaVersionToString(szClientBuf, dwFT1 == 0x7fffffff, iver, mver);
+			szClient = MirandaVersionToStringEx(szClientBuf, dwFT1 == 0x7fffffff, "ICQ", iver, mver);
 
 			if (MatchCapability(caps, wLen, &capIcqJs7, 0x4)) {
 				// detect mod

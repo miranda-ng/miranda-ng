@@ -37,10 +37,7 @@
 #define SVS_TIMESTAMP     9
 #define SVS_STATUSID      10
 
-char* MirandaVersionToString(char* szStr, int bUnicode, int v, int m);
-
 extern const char *nameXStatus[];
-
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
