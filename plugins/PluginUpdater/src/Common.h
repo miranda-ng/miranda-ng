@@ -92,7 +92,7 @@ struct PopupDataText
 
 struct PlugOptions
 {
-	BYTE bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bUpdateIcons, bForceRedownload;
+	BYTE bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bForceRedownload;
 	BOOL bSilent, bDlgDld;
 
 	BYTE bPeriodMeasure;
@@ -180,7 +180,7 @@ void  ShowPopup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, int Number, int ActType)
 void  __stdcall RestartMe(void*);
 void  __stdcall OpenPluginOptions(void*);
 BOOL  AllowUpdateOnStartup();
-void  InitTimer();
+void  InitTimer(bool lastSuccess = true);
 
 INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam);
 INT_PTR ShowListCommand(WPARAM wParam,LPARAM lParam);

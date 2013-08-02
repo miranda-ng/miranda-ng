@@ -52,9 +52,6 @@ bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath)
 	if (err != UNZ_OK)
 		return false;
 
-	if (!opts.bUpdateIcons && !_strnicmp(filename, "Icons/", 6))
-		return true;
-
 	for (char *p = strchr(filename, '/'); p; p = strchr(p+1, '/'))
 		*p = '\\';
 

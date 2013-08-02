@@ -544,9 +544,10 @@ static void CheckUpdates(void *)
 		tszTempPath[dwLen-1] = 0;
 
 	ptrT updateUrl( GetDefaultUrl()), baseUrl;
-
+	
 	SERVLIST hashes(50, CompareHashes);
-	if (ParseHashes(updateUrl, baseUrl, hashes)) {
+	bool success = ParseHashes(updateUrl, baseUrl, hashes);
+	if (success) {
 		FILELIST *UpdateFiles = new FILELIST(20);
 		VARST dirname( _T("%miranda_path%"));
 		int count = ScanFolder(dirname, lstrlen(dirname)+1, 0, baseUrl, hashes, UpdateFiles);
@@ -559,7 +560,8 @@ static void CheckUpdates(void *)
 		}
 		else CallFunctionAsync(LaunchDialog, UpdateFiles);
 	}
-
+	InitTimer(success);	
+	
 	hashes.destroy();
 	hCheckThread = NULL;
 }
@@ -572,9 +574,8 @@ void DoCheck(int iFlag)
 		ShowWindow(hwndDialog, SW_SHOW);
 		SetForegroundWindow(hwndDialog);
 		SetFocus(hwndDialog);
-	}
-	else if (iFlag) {
-		hCheckThread = mir_forkthread(CheckUpdates, 0);
+	} else if (iFlag) {
 		db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
+		hCheckThread = mir_forkthread(CheckUpdates, 0);		
 	}
 }

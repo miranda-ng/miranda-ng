@@ -122,7 +122,6 @@ void LoadOptions()
 	opts.bUpdateOnPeriod = db_get_b(NULL, MODNAME, "UpdateOnPeriod", DEFAULT_UPDATEONPERIOD);
 	opts.Period = db_get_dw(NULL, MODNAME, "Period", DEFAULT_PERIOD);
 	opts.bPeriodMeasure = db_get_b(NULL, MODNAME, "PeriodMeasure", DEFAULT_PERIODMEASURE);
-	opts.bUpdateIcons = db_get_b(NULL, MODNAME, "UpdateIcons", DEFAULT_UPDATEICONS);
 	opts.bForceRedownload = db_get_b(NULL, MODNAME, "ForceRedownload", 0);
 }
 
@@ -244,9 +243,6 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT& baseUrl, SERVLIST& arHashes)
 			continue;
 
 		*p++ = 0;
-		if ( !opts.bUpdateIcons && !_strnicmp(str, "icons\\", 6))
-			continue;
-
 		_strlwr(p);
 
 		int dwCrc32;
@@ -377,14 +373,23 @@ LONG PeriodToMilliseconds(const int period, BYTE& periodMeasure)
 
 void CALLBACK TimerAPCProc(LPVOID lpArg, DWORD dwTimerLowValue, DWORD dwTimerHighValue)
 {
-	DoCheck(1);
+	DoCheck(true);
 }
 
-void InitTimer()
+void InitTimer(bool lastSuccess)
 {
 	CancelWaitableTimer(Timer);
 	if (opts.bUpdateOnPeriod) {
 		LONG interval = PeriodToMilliseconds(opts.Period, opts.bPeriodMeasure);
+
+		time_t now = time(NULL);
+		time_t was = db_get_dw(NULL, MODNAME, "LastUpdate", 0);
+
+		interval -= (now - was) * 1000;
+		if (interval <= 0)
+			interval = 1000; // no last update or too far in the past -> do it now
+		else if (!lastSuccess)
+			interval = 1000 * 60 * 60; // failed last check, check again in one hour
 
 		_int64 qwDueTime = -10000i64 * interval;
 
@@ -392,7 +397,7 @@ void InitTimer()
 		li.LowPart = (DWORD) ( qwDueTime & 0xFFFFFFFF );
 		li.HighPart = (LONG) ( qwDueTime >> 32 );
 
-		SetWaitableTimer(Timer, &li, interval, TimerAPCProc, NULL, 0);
+		SetWaitableTimer(Timer, &li, 0, TimerAPCProc, NULL, 0);
 	}
 }
 

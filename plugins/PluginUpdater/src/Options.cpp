@@ -57,8 +57,6 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), 1, TranslateT("days"));
 		ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), opts.bPeriodMeasure);
 
-		CheckDlgButton(hwndDlg, IDC_UPDATEICONS, opts.bUpdateIcons);
-
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), FALSE);
 		if ( db_get_s(NULL, MODNAME, "UpdateURL", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_CUSTOMURL, _T(DEFAULT_UPDATE_URL));
@@ -114,10 +112,6 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
-		case IDC_UPDATEICONS:
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
-
 		case IDC_LINK_HOTKEY:
 			{
 				OPENOPTIONSDIALOG ood = {0};
@@ -155,8 +149,6 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				db_set_b(NULL, MODNAME, "UpdateOnPeriod", opts.bUpdateOnPeriod);
 				db_set_b(NULL, MODNAME, "PeriodMeasure", opts.bPeriodMeasure);
 				db_set_dw(NULL, MODNAME, "Period", opts.Period);
-				opts.bUpdateIcons = IsDlgButtonChecked(hwndDlg, IDC_UPDATEICONS);
-				db_set_b(NULL, MODNAME, "UpdateIcons", opts.bUpdateIcons);
 
 				if ( IsDlgButtonChecked(hwndDlg, IDC_STABLE))
 					db_set_s(NULL, MODNAME, "UpdateURL", DEFAULT_UPDATE_URL);
