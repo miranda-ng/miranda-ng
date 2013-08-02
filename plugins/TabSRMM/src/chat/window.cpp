@@ -1447,19 +1447,24 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, POINT * pt, SESS
 	ti.uId = 1;
 	ti.rect = clientRect;
 
-	TCHAR ptszBuf[1024];
+	TCHAR tszBuf[1024]; tszBuf[0] = 0;
 
 	USERINFO *ui1 = SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, currentHovered);
 	if (ui1) {
-		if ( ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT))
-			ti.lpszText = (TCHAR*)ProtoCallService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
-		else {
-			mir_sntprintf(ptszBuf, SIZEOF(ptszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
+		if ( ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
+			TCHAR *p = (TCHAR*)ProtoCallService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
+			if (p != NULL) {
+				_tcsncpy_s(tszBuf, SIZEOF(tszBuf), p, _TRUNCATE);
+				mir_free(p);
+			}
+		}
+
+		if (tszBuf[0] == 0)
+			mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
 				TranslateT("Nick name"), ui1->pszNick,
 				TranslateT("Unique Id"), ui1->pszUID,
 				TranslateT("Status"), TM_WordToString( parentdat->pStatuses, ui1->Status));
-			ti.lpszText = ptszBuf;
-		}
+		ti.lpszText = tszBuf;
 	}
 
 	SendMessage(hwndToolTip, bNewTip ? TTM_ADDTOOL : TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
@@ -1816,7 +1821,6 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		{
 			CLCINFOTIP ti = {0};
 			USERINFO *ui1 = NULL;
-			TCHAR ptszBuf[1024];
 			POINT pt;
 
 			struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
@@ -1839,17 +1843,22 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			if (ui1) {
 				ti.cbSize = sizeof(ti);
 
-				if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT))
-					_tcsncpy(ptszBuf, (TCHAR*)ProtoCallService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID), SIZEOF(ptszBuf));
-				else
-					mir_sntprintf(ptszBuf, SIZEOF(ptszBuf), _T("<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s"),
+				TCHAR tszBuf[1024]; tszBuf[0] = 0;
+				if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
+					TCHAR *p = (TCHAR*)ProtoCallService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
+					if (p) {
+						_tcsncpy_s(tszBuf, SIZEOF(tszBuf), p, _TRUNCATE);
+						mir_free(p);
+					}
+				}
+				if (tszBuf[0] == 0)
+					mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s"),
 						TranslateT("Nick"), ui1->pszNick,
 						TranslateT("Unique id"), ui1->pszUID,
 						TranslateT("Status"), TM_WordToString(parentdat->pStatuses, ui1->Status));
 
-				if (ptszBuf != NULL)
-					if (CallService("mToolTip/ShowTipW", (WPARAM)mir_tstrdup(ptszBuf), (LPARAM)&ti))
-						isToolTip = TRUE;
+				if (CallService("mToolTip/ShowTipW", (WPARAM)tszBuf, (LPARAM)&ti))
+					isToolTip = TRUE;
 			}
 			KillTimer(hwnd, 1);
 		}

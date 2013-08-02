@@ -777,7 +777,6 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, POINT * pt, SESS
 	static HWND oldParent=NULL;
 	RECT clientRect;
 	BOOL bNewTip=FALSE;
-	USERINFO *ui1 = NULL;
 
 	if (hoveredItem == currentHovered)
 		return;
@@ -807,28 +806,29 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, POINT * pt, SESS
 		ti.uId = 1;
 		ti.rect = clientRect;
 
-		ui1 = SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, currentHovered);
-		if (ui1) {
-			// /GetChatToolTipText
-			// wParam = roomID parentdat->ptszID
-			// lParam = userID ui1->pszUID
-			if ( ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT))
-				ti.lpszText = (TCHAR*)ProtoCallService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
-			else {
-				TCHAR ptszBuf[1024];
-				mir_sntprintf(ptszBuf, SIZEOF(ptszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
-					TranslateT("Nick name"), ui1->pszNick,
-					TranslateT("Unique id"), ui1->pszUID,
-					TranslateT("Status"), TM_WordToString( parentdat->pStatuses, ui1->Status));
-				ti.lpszText = mir_tstrdup(ptszBuf);
+		TCHAR tszBuf[1024]; tszBuf[0] = 0;
+		USERINFO *ui = SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, currentHovered);
+		if (ui) {
+			if ( ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
+				TCHAR *p = (TCHAR*)ProtoCallService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui->pszUID);
+				if (p != NULL) {
+					_tcsncpy_s(tszBuf, SIZEOF(tszBuf), p, _TRUNCATE);
+					mir_free(p);
+				}
 			}
+					
+			if (tszBuf[0] == 0)
+				mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
+					TranslateT("Nick name"), ui->pszNick,
+					TranslateT("Unique id"), ui->pszUID,
+					TranslateT("Status"), TM_WordToString(parentdat->pStatuses, ui->Status));
+
+			ti.lpszText = tszBuf;
 		}
 
-		SendMessage( hwndToolTip, bNewTip ? TTM_ADDTOOL : TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
-		SendMessage( hwndToolTip, TTM_ACTIVATE, (ti.lpszText!=NULL) , 0 );
-		SendMessage( hwndToolTip, TTM_SETMAXTIPWIDTH, 0 , 400 );
-		if (ti.lpszText)
-			mir_free(ti.lpszText);
+		SendMessage(hwndToolTip, bNewTip ? TTM_ADDTOOL : TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
+		SendMessage(hwndToolTip, TTM_ACTIVATE, ti.lpszText != NULL, 0);
+		SendMessage(hwndToolTip, TTM_SETMAXTIPWIDTH, 0 , 400);
 	}
 }
 
