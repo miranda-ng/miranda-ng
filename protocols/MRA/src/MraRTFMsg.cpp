@@ -202,7 +202,7 @@ DWORD CMraProto::MraConvertToRTFW(LPCWSTR lpwszMessage, size_t dwMessageSize, LP
 		return ERROR_BUFFER_OVERFLOW;
 	}
 
-	mir_ptr<CHAR> lpszMessage((LPSTR)mir_calloc(dwMessageSize+32));
+	ptrA lpszMessage((LPSTR)mir_calloc(dwMessageSize+32));
 	if (!lpszMessage)
 		return GetLastError();
 

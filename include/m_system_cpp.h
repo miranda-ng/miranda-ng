@@ -44,7 +44,7 @@ template<class T> class mir_ptr
 	T* data;
 
 public:
-	__inline mir_ptr() : data((T*)mir_calloc(sizeof(T))) {}
+	__inline mir_ptr() : data(NULL) {}
 	__inline mir_ptr(T* _p) : data(_p) {}
 	__inline ~mir_ptr() { mir_free(data); }
 	__inline T* operator = (T* _p) { if (data) mir_free(data); data = _p; return data; }

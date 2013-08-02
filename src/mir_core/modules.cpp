@@ -262,13 +262,13 @@ MIR_CORE_DLL(int) NotifyEventHooks(HANDLE hEvent, WPARAM wParam, LPARAM lParam)
 	if ( GetCurrentThreadId() == mainThreadId)
 		return CallHookSubscribers((THook*)hEvent, wParam, lParam);
 
-	mir_ptr<THookToMainThreadItem> item;
-	item->hDoneEvent = getThreadEvent();
-	item->hook = (THook*)hEvent;
-	item->wParam = wParam;
-	item->lParam = lParam;
-	QueueMainThread(HookToMainAPCFunc, item, item->hDoneEvent);
-	return item->result;
+	THookToMainThreadItem item;
+	item.hDoneEvent = getThreadEvent();
+	item.hook = (THook*)hEvent;
+	item.wParam = wParam;
+	item.lParam = lParam;
+	QueueMainThread(HookToMainAPCFunc, &item, item.hDoneEvent);
+	return item.result;
 }
 
 MIR_CORE_DLL(int) NotifyFastHook(HANDLE hEvent, WPARAM wParam, LPARAM lParam)
@@ -551,13 +551,13 @@ MIR_CORE_DLL(INT_PTR) CallServiceSync(const char *name, WPARAM wParam, LPARAM lP
 	if (GetCurrentThreadId() == mainThreadId)
 		return CallService(name, wParam, lParam);
 
-	mir_ptr<TServiceToMainThreadItem> item;
-	item->wParam = wParam;
-	item->lParam = lParam;
-	item->name = name;
-	item->hDoneEvent = getThreadEvent();
-	QueueMainThread(CallServiceToMainAPCFunc, item, item->hDoneEvent);
-	return item->result;
+	TServiceToMainThreadItem item;
+	item.wParam = wParam;
+	item.lParam = lParam;
+	item.name = name;
+	item.hDoneEvent = getThreadEvent();
+	QueueMainThread(CallServiceToMainAPCFunc, &item, item.hDoneEvent);
+	return item.result;
 }
 
 MIR_CORE_DLL(int) CallFunctionAsync(void (__stdcall *func)(void *), void *arg)
