@@ -180,7 +180,7 @@ void  ShowPopup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, int Number, int ActType)
 void  __stdcall RestartMe(void*);
 void  __stdcall OpenPluginOptions(void*);
 BOOL  AllowUpdateOnStartup();
-void  InitTimer(bool lastSuccess = true);
+void  InitTimer(int type = 0);
 
 INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam);
 INT_PTR ShowListCommand(WPARAM wParam,LPARAM lParam);

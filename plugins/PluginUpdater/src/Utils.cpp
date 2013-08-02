@@ -376,20 +376,29 @@ void CALLBACK TimerAPCProc(LPVOID lpArg, DWORD dwTimerLowValue, DWORD dwTimerHig
 	DoCheck(true);
 }
 
-void InitTimer(bool lastSuccess)
+void InitTimer(int type)
 {
 	CancelWaitableTimer(Timer);
 	if (opts.bUpdateOnPeriod) {
 		LONG interval = PeriodToMilliseconds(opts.Period, opts.bPeriodMeasure);
 
-		time_t now = time(NULL);
-		time_t was = db_get_dw(NULL, MODNAME, "LastUpdate", 0);
+		switch (type) {
+		case 0: // default, plan next check relative to last check
+		{
+			time_t now = time(NULL);
+			time_t was = db_get_dw(NULL, MODNAME, "LastUpdate", 0);
 
-		interval -= (now - was) * 1000;
-		if (interval <= 0)
-			interval = 1000; // no last update or too far in the past -> do it now
-		else if (!lastSuccess)
-			interval = 1000 * 60 * 60; // failed last check, check again in one hour
+			interval -= (now - was) * 1000;
+			if (interval <= 0)
+				interval = 1000; // no last update or too far in the past -> do it now
+			break;
+		}
+		case 1: // options changed, use set interval from now
+			break;
+		case 2: // failed last check, check again in two hours
+			interval = 1000 * 60 * 60 * 2;
+			break;
+		}
 
 		_int64 qwDueTime = -10000i64 * interval;
 

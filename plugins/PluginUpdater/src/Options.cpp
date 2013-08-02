@@ -142,13 +142,13 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 				opts.bPeriodMeasure = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE));
 
-				InitTimer();
-
 				db_set_b(NULL, MODNAME, "UpdateOnStartup", opts.bUpdateOnStartup);
 				db_set_b(NULL, MODNAME, "OnlyOnceADay", opts.bOnlyOnceADay);
 				db_set_b(NULL, MODNAME, "UpdateOnPeriod", opts.bUpdateOnPeriod);
 				db_set_b(NULL, MODNAME, "PeriodMeasure", opts.bPeriodMeasure);
 				db_set_dw(NULL, MODNAME, "Period", opts.Period);
+
+				InitTimer(1);
 
 				if ( IsDlgButtonChecked(hwndDlg, IDC_STABLE))
 					db_set_s(NULL, MODNAME, "UpdateURL", DEFAULT_UPDATE_URL);

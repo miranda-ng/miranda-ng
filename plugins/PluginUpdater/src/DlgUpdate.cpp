@@ -142,7 +142,7 @@ LBL_Exit:
 	opts.bForceRedownload = false;
 	db_unset(NULL, MODNAME, "ForceRedownload");
 
-	db_set_b(NULL, MODNAME, "RestartCount", 2);
+	db_set_b(NULL, MODNAME, "RestartCount", 5);
 	CallFunctionAsync(RestartMe, 0);
 	goto LBL_Exit;
 }
@@ -560,7 +560,7 @@ static void CheckUpdates(void *)
 		}
 		else CallFunctionAsync(LaunchDialog, UpdateFiles);
 	}
-	InitTimer(success);	
+	InitTimer(success ? 0 : 2);	
 	
 	hashes.destroy();
 	hCheckThread = NULL;
