@@ -71,9 +71,6 @@ typedef enum {			// initial default to RSMODE_LASTSEEN
 struct JABBER_XEP0232_SOFTWARE_INFO : public MZeroedObject
 {
 	ptrT tszOs, tszOsVersion, tszSoftware, tszSoftwareVersion, tszXMirandaCoreVersion;
-	BOOL bXMirandaIsUnicode;
-	BOOL bXMirandaIsAlpha;
-	BOOL bXMirandaIsDebug;
 };
 
 struct JABBER_RESOURCE_STATUS

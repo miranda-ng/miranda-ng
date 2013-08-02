@@ -129,19 +129,6 @@ void CJabberProto::OnIqResultCapsDiscoInfoSI(HXML, CJabberIqInfo* pInfo)
 					szTmp = XPath(xform, _T("field[@var='x-miranda-core-version']/value"));
 					if (szTmp)
 						r->pSoftwareInfo->tszXMirandaCoreVersion = mir_tstrdup(szTmp);
-					szTmp = XPath(xform, _T("field[@var='x-miranda-core-is-unicode']/value"));
-					if ( !szTmp) // old deprecated format
-						szTmp = XPath(xform, _T("field[@var='x-miranda-is-unicode']/value"));
-					if (szTmp && _ttoi(szTmp))
-						r->pSoftwareInfo->bXMirandaIsUnicode = TRUE;
-					szTmp = XPath(xform, _T("field[@var='x-miranda-core-is-alpha']/value"));
-					if ( !szTmp) // old deprecated format
-						szTmp = XPath(xform, _T("field[@var='x-miranda-is-alpha']/value"));
-					if (szTmp && _ttoi(szTmp))
-						r->pSoftwareInfo->bXMirandaIsAlpha = TRUE;
-					szTmp = XPath(xform, _T("field[@var='x-miranda-jabber-is-debug']/value"));
-					if (szTmp && _ttoi(szTmp))
-						r->pSoftwareInfo->bXMirandaIsDebug = TRUE;
 				}
 				JabberUserInfoUpdate(pInfo->GetHContact());
 			}

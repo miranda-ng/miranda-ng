@@ -307,12 +307,8 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Software"), p->tszSoftware, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
 		if (p->tszSoftwareVersion)
 			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Software version"), p->tszSoftwareVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-		if (p->tszXMirandaCoreVersion) {
+		if (p->tszXMirandaCoreVersion)
 			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Miranda NG core version"), p->tszXMirandaCoreVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Unicode build"), p->bXMirandaIsUnicode ? TranslateT("Yes") : TranslateT("No"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Alpha build"), p->bXMirandaIsAlpha ? TranslateT("Yes") : TranslateT("No"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Debug build"), p->bXMirandaIsDebug ? TranslateT("Yes") : TranslateT("No"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
-		}
 	}
 }
 
