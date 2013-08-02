@@ -110,12 +110,16 @@ void __cdecl forkthread_r(void *arg)
 	void *cookie = fa->arg;
 	Thread_Push((HINSTANCE)callercode);
 	SetEvent(fa->hEvent);
-	__try
-	{
+	if (g_bDebugMode)
 		callercode(cookie);
-	}
-	__except(pMirandaExceptFilter(GetExceptionCode(), GetExceptionInformation()))
-	{
+	else {
+		__try
+		{
+			callercode(cookie);
+		}
+		__except(pMirandaExceptFilter(GetExceptionCode(), GetExceptionInformation()))
+		{
+		}
 	}
 
 	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
@@ -150,15 +154,23 @@ unsigned __stdcall forkthreadex_r(void * arg)
 
 	Thread_Push((HINSTANCE)threadcode, fa->owner);
 	SetEvent(fa->hEvent);
-	__try
-	{
+	if (g_bDebugMode) {
 		if (owner)
 			rc = threadcodeex(owner, cookie);
 		else
 			rc = threadcode(cookie);
 	}
-	__except(pMirandaExceptFilter(GetExceptionCode(), GetExceptionInformation()))
-	{
+	else {
+		__try
+		{
+			if (owner)
+				rc = threadcodeex(owner, cookie);
+			else
+				rc = threadcode(cookie);
+		}
+		__except(pMirandaExceptFilter(GetExceptionCode(), GetExceptionInformation()))
+		{
+		}
 	}
 
 	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
