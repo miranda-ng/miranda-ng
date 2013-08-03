@@ -1167,6 +1167,8 @@ void CSkin::Unload()
 		::DeleteObject(m_ContainerColorKeyBrush);
 	if (m_MenuBGBrush)
 		::DeleteObject(m_MenuBGBrush);
+	if (m_BrushBack)
+		::DeleteObject(m_BrushBack);
 
 	m_ContainerColorKeyBrush = m_MenuBGBrush = 0;
 

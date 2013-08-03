@@ -1412,12 +1412,10 @@ void TSAPI FreeTabConfig()
 	if (PluginConfig.tabConfig.m_hMenuFont)
 		DeleteObject(PluginConfig.tabConfig.m_hMenuFont);
 
-	for (int i=0; i < 4; i++) {
-		if (PluginConfig.tabConfig.m_brushes[i]) {
+	for (int i=0; i < SIZEOF(PluginConfig.tabConfig.m_brushes); i++)
+		if (PluginConfig.tabConfig.m_brushes[i])
 			DeleteObject(PluginConfig.tabConfig.m_brushes[i]);
-			PluginConfig.tabConfig.m_brushes[i] = 0;
-		}
-	}
+
 	ZeroMemory(&PluginConfig.tabConfig, sizeof(myTabCtrl));
 }
 

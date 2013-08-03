@@ -36,12 +36,14 @@ MIR_CORE_DLL(int) db_get_b(HANDLE hContact, const char *szModule, const char *sz
 		cgs.szModule = szModule;
 		cgs.szSetting = szSetting;
 		cgs.pValue = &dbv;
-		if ( !currDb->GetContactSetting(hContact, &cgs))
+		if ( !currDb->GetContactSetting(hContact, &cgs)) {
 			switch(dbv.type) {
 				case DBVT_BYTE:	return dbv.bVal;
 				case DBVT_WORD:   return BYTE(dbv.wVal);
 				case DBVT_DWORD:	return BYTE(dbv.dVal);
 			}
+			currDb->FreeVariant(&dbv);
+		}
 	}
 	return errorValue;
 }
@@ -54,12 +56,14 @@ MIR_CORE_DLL(int) db_get_w(HANDLE hContact, const char *szModule, const char *sz
 		cgs.szModule = szModule;
 		cgs.szSetting = szSetting;
 		cgs.pValue = &dbv;
-		if ( !currDb->GetContactSetting(hContact, &cgs))
+		if ( !currDb->GetContactSetting(hContact, &cgs)) {
 			switch(dbv.type) {
 				case DBVT_BYTE:	return dbv.bVal;
 				case DBVT_WORD:   return dbv.wVal;
 				case DBVT_DWORD:	return WORD(dbv.dVal);
 			}
+			currDb->FreeVariant(&dbv);
+		}
 	}
 	return errorValue;
 }
@@ -72,12 +76,15 @@ MIR_CORE_DLL(DWORD) db_get_dw(HANDLE hContact, const char *szModule, const char 
 		cgs.szModule = szModule;
 		cgs.szSetting = szSetting;
 		cgs.pValue = &dbv;
-		if ( !currDb->GetContactSetting(hContact, &cgs))
+		if ( !currDb->GetContactSetting(hContact, &cgs)) {
 			switch(dbv.type) {
 				case DBVT_BYTE:	return dbv.bVal;
 				case DBVT_WORD:   return dbv.wVal;
 				case DBVT_DWORD:	return dbv.dVal;
+				default: currDb->FreeVariant(&dbv);
 			}
+			currDb->FreeVariant(&dbv);
+		}
 	}
 
 	return errorValue;
