@@ -207,36 +207,38 @@ int MAnnivDate::Age(MTime *pNow)
  * param:	none
  * return:	structure, holding zodiac information
  **/ 
+
+struct {
+	const WORD startDays;
+	const WORD endDays;
+	LPCTSTR szZodiac;
+	LPCSTR szZodiacIcon;
+}
+static zodiac[] = {
+	{ 80,  110,	LPGENT("Aries"),       ICO_ZOD_ARIES       }, // Widder
+	{ 111, 140,	LPGENT("Taurus"),      ICO_ZOD_TAURUS      }, // Stier
+	{ 141, 172,	LPGENT("Gemini"),      ICO_ZOD_GEMINI      }, // Zwillinge
+	{ 173, 203,	LPGENT("Cancer"),      ICO_ZOD_CANCER      }, // Krebs
+	{ 204, 235,	LPGENT("Leo"),         ICO_ZOD_LEO         }, // Löwe
+	{ 236, 266,	LPGENT("Virgo"),       ICO_ZOD_VIRGO       }, // Jungfrau
+	{ 267, 296,	LPGENT("Libra"),       ICO_ZOD_LIBRA       }, // Waage
+	{ 297, 326,	LPGENT("Scorpio"),     ICO_ZOD_SCORPIO     }, // Scorpion
+	{ 327, 355,	LPGENT("Sagittarius"), ICO_ZOD_SAGITTARIUS }, // Schütze
+	{ 356, 364,	LPGENT("Capricorn"),   ICO_ZOD_CAPRICORN   }, // Steinbock
+	{   1,  19, LPGENT("Capricorn"),   ICO_ZOD_CAPRICORN   }, // Steinbock
+	{  20,  49, LPGENT("Aquarius"),    ICO_ZOD_AQUARIUS    }, // Wassermann
+	{  50,  79, LPGENT("Pisces"),      ICO_ZOD_PISCES      }, // Fische
+	{   0,	0,	NULL,                  ""                  }  // end of array
+};
+
 MZodiac MAnnivDate::Zodiac()
 {
-	static const struct TZodiac {
-		const WORD startDays;
-		const WORD endDays;
-		LPCTSTR szZodiac;
-		LPCSTR szZodiacIcon;
-	} zodiac[] = {
-		{ 80,	110,	LPGENT("Aries")			, ICO_ZOD_ARIES			},	// Widder
-		{ 111,	140,	LPGENT("Taurus")		, ICO_ZOD_TAURUS		},	// Stier
-		{ 141,	172,	LPGENT("Gemini")		, ICO_ZOD_GEMINI		},	// Zwillinge
-		{ 173,	203,	LPGENT("Cancer")		, ICO_ZOD_CANCER		},	// Krebs
-		{ 204,	235,	LPGENT("Leo")			, ICO_ZOD_LEO			},	// Löwe
-		{ 236,	266,	LPGENT("Virgo")			, ICO_ZOD_VIRGO			},	// Jungfrau
-		{ 267,	296,	LPGENT("Libra")			, ICO_ZOD_LIBRA			},	// Waage
-		{ 297,	326,	LPGENT("Scorpio")		, ICO_ZOD_SCORPIO		},	// Scorpion
-		{ 327,	355,	LPGENT("Sagittarius")	, ICO_ZOD_SAGITTARIUS	},	// Schütze
-		{ 356,	364,	LPGENT("Capricorn")		, ICO_ZOD_CAPRICORN		},	// Steinbock
-		{ 1,	19,		LPGENT("Capricorn")		, ICO_ZOD_CAPRICORN		},	// Steinbock
-		{ 20,	49,		LPGENT("Aquarius")		, ICO_ZOD_AQUARIUS		},	// Wassermann
-		{ 50,	79,		LPGENT("Pisces")		, ICO_ZOD_PISCES		},	// Fische
-		//{ 0,	0,		LPGENT("Unknown")		, ICO_ZOD_UNKNOWN		},	// not found
-		{ 0,	0,		NULL						, ""					}	// end of array
-	};
 	const WORD wDays = DayOfYear();
-	BYTE i;
-	MZodiac mZodiac;
 
+	int i;
 	for (i = 0; i < 13 && (wDays < zodiac[i].startDays || wDays > zodiac[i].endDays); i++);
 
+	MZodiac mZodiac;
 	mZodiac.hIcon = IcoLib_GetIcon(zodiac[i].szZodiacIcon);
 	mZodiac.pszName = zodiac[i].szZodiac;
 	return mZodiac;

@@ -2,6 +2,10 @@
 
 struct ICON_CACHE
 {
+	ICON_CACHE::~ICON_CACHE() {
+		::DestroyIcon(icon);
+	}
+
 	HICON  icon;
 	HANDLE hCLIcon;
 	SHORT  mode;

@@ -748,7 +748,7 @@ INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPTSTR pszTitle, LPTSTR pszInf
 	MSGBOX mb = {0};
 	mb.cbSize = sizeof(MSGBOX);
 	mb.hParent = hParent;
-	mb.hiLogo = LoadIcon(ghInst, MAKEINTRESOURCE(IDI_MAIN));
+	mb.hiLogo = IcoLib_GetIcon(ICO_COMMON_MAIN);
 	mb.hiMsg = NULL;
 	mb.ptszTitle = TranslateTS(pszTitle);
 	mb.ptszInfoText = TranslateTS(pszInfo);
@@ -775,7 +775,7 @@ INT_PTR CALLBACK MsgErr(HWND hParent, LPCTSTR pszFormat, ...)
 	MSGBOX mb = {0};
 	mb.cbSize = sizeof(MSGBOX);
 	mb.hParent = hParent;
-	mb.hiLogo = LoadIcon(ghInst, MAKEINTRESOURCE(IDI_MAIN));
+	mb.hiLogo = IcoLib_GetIcon(ICO_COMMON_MAIN);
 	mb.hiMsg = NULL;
 	mb.ptszTitle = tszTitle;
 	mb.ptszMsg = tszMsg;

@@ -90,36 +90,35 @@ void RebuildContact()
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.hParentMenu = HGENMENU_ROOT;
 
-	switch (flag)
-	{
-		case 3:
-			//cascade off
-			mhRoot = mhExIm = HGENMENU_ROOT;
-			hMenuItem[item++] = NULL;
-			break;
-		case 5:
-			//cascade all
-			mi.position = 1000050000;
-			mi.popupPosition = 1000050000;
-			mi.hIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_MAIN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CXSMICON), 0);
-			mi.pszName = LPGEN(MODULELONGNAME);
-			mhRoot = Menu_AddContactMenuItem(&mi);
-			hMenuItem[item++] = mhRoot;
-			mhExIm = mhRoot;
-			break;
-		case 9:
-			//cascade Ex/Import
-			mi.position = 1000050100;
-			mi.popupPosition = 1000050100;
-			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
-			mi.pszName = LPGEN("Ex-/Import contact");
-			mhExIm = Menu_AddContactMenuItem(&mi);
-			hMenuItem[item++] = mhExIm;
-			mhRoot = HGENMENU_ROOT;
-			break;
-		default:
-			//disable Menue
-			return;
+	switch (flag) {
+	case 3:
+		//cascade off
+		mhRoot = mhExIm = HGENMENU_ROOT;
+		hMenuItem[item++] = NULL;
+		break;
+	case 5:
+		//cascade all
+		mi.position = 1000050000;
+		mi.popupPosition = 1000050000;
+		mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
+		mi.pszName = LPGEN(MODULELONGNAME);
+		mhRoot = Menu_AddContactMenuItem(&mi);
+		hMenuItem[item++] = mhRoot;
+		mhExIm = mhRoot;
+		break;
+	case 9:
+		//cascade Ex/Import
+		mi.position = 1000050100;
+		mi.popupPosition = 1000050100;
+		mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
+		mi.pszName = LPGEN("Ex-/Import contact");
+		mhExIm = Menu_AddContactMenuItem(&mi);
+		hMenuItem[item++] = mhExIm;
+		mhRoot = HGENMENU_ROOT;
+		break;
+	default:
+		//disable Menu
+		return;
 	}
 	mi.popupPosition = NULL;
 
@@ -129,14 +128,15 @@ void RebuildContact()
 		mi.pszService = MS_USERINFO_SHOWDIALOG;
 		mi.pszName = LPGEN("User &Details");
 		mi.position = 1000050000;
-		mi.hIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_MAIN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CXSMICON), 0);
+		mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
 		mi.hotKey = MAKELPARAM(VK_F3, MOD_ALT);
 		hMenuItem[item++] = Menu_AddContactMenuItem(&mi);
 		mi.hotKey = NULL;
 	}
 
 	// VCard's Ex/Import menuitems
-	{	mi.hParentMenu = mhExIm;
+	{
+		mi.hParentMenu = mhExIm;
 
 		// Export
 		mi.pszService = MS_USERINFO_VCARD_EXPORT;
@@ -198,7 +198,7 @@ void RebuildMain()
 			//cascade all
 			mi.position = 500050000;
 			mi.popupPosition = 500050000;
-			mi.hIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_MAIN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CXSMICON), 0);
+			mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
 			mi.pszName = LPGEN(MODULELONGNAME);
 			mhRoot = Menu_AddMainMenuItem(&mi);
 			hMenuItem[item++] = mhRoot;
@@ -226,7 +226,7 @@ void RebuildMain()
 		mi.pszService = MS_USERINFO_SHOWDIALOG;
 		mi.pszName = LPGEN("View/Change My &Details...");
 		mi.position = 500050000;
-		mi.hIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_MAIN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CXSMICON), 0);
+		mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
 		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 	}
 
@@ -343,7 +343,7 @@ void RebuildGroup()
 			//cascade all
 			mi.position = 250000;
 			mi.popupPosition = 250000;
-			mi.hIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_MAIN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CXSMICON), 0);
+			mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
 			mi.pszName = LPGEN(MODULELONGNAME);
 			mhRoot = Menu_AddGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhRoot;
@@ -440,7 +440,7 @@ void RebuildSubGroup()
 			//cascade all
 			mi.position = 1050000;
 			mi.popupPosition = 1050000;
-			mi.hIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_MAIN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CXSMICON), 0);
+			mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
 			mi.pszName = LPGEN("Extended UserInfo");
 			mhRoot = Menu_AddSubGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhRoot;
@@ -572,7 +572,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			case 5:
 				//cascade all
 				mi.position = 50100;
-				mi.hIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_MAIN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CXSMICON), 0);
+				mi.hIcon = IcoLib_GetIcon(ICO_COMMON_MAIN);
 				mi.ptszName = TranslateT(MODULELONGNAME);
 				hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi);
 				mhRoot = hMenuItemAccount[mItems*i + item++];
