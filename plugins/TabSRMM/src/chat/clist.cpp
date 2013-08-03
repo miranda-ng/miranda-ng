@@ -38,7 +38,7 @@ char *szChatIconString = "chaticon";
 
 static HANDLE Clist_GroupExists(TCHAR *tszGroup)
 {
-	unsigned int i = 0;
+	unsigned int i=0;
 	TCHAR*		 _t = 0;
 	char		 str[10];
 	INT_PTR		 result = 0;
@@ -56,7 +56,7 @@ static HANDLE Clist_GroupExists(TCHAR *tszGroup)
 		}
 		i++;
 	}
-	while(result == 0);
+		while(result == 0);
 	return 0;
 }
 

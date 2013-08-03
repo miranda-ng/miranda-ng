@@ -135,7 +135,7 @@ CSendLaterJob::~CSendLaterJob()
 			 * show a popup notification, unless they are disabled
 			 */
 			if (PluginConfig.g_PopupAvail && fShowPopup) {
-				TCHAR	*tszName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+				TCHAR	*tszName = pcli->pfnGetContactDisplayName(hContact, 0);
 
 				POPUPDATAT ppd = {0};
 				ppd.lchContact = hContact;
@@ -418,10 +418,8 @@ int CSendLater::sendIt(CSendLaterJob *job)
 		return 0;
 	}
 
-	if (job->iSendCount > 0 && (now - job->lastSent < SENDLATER_RESEND_THRESHOLD)) {
-		//_DebugTraceA("Send it: message %s for %s RESEND but not old enough", job->szId, (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0));
+	if (job->iSendCount > 0 && (now - job->lastSent < SENDLATER_RESEND_THRESHOLD))
 		return 0;											// this one was sent, but probably failed. Resend it after a while
-	}
 
 	CContactCache *c = CContactCache::getContactCache(hContact);
 	if (!c)

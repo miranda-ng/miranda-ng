@@ -400,7 +400,7 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 					break;
 				}
 				case WM_USER + 100: {
-					int i = 0;
+					int i=0;
 					LRESULT state;
 					HWND	hwnd = M.FindWindow(hContact);
 					struct	TWindowData *dat = NULL;
@@ -459,29 +459,28 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
  * @return LRESULT (ignored for dialog procs, use
  *  	   DWLP_MSGRESULT)
  */
-INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
+ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+ {
 	HANDLE hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	TCITEM tci;
 
 	switch(msg) {
-		case WM_INITDIALOG: {
-			TCITEM tci = {0};
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
+		hContact = (HANDLE)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
+
+		WindowList_Add(PluginConfig.hUserPrefsWindowList, hwndDlg, hContact);
+		{
 			RECT rcClient;
-			TCHAR szBuffer[180];
-
-			hContact = (HANDLE)lParam;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
-
-			WindowList_Add(PluginConfig.hUserPrefsWindowList, hwndDlg, hContact);
-			TranslateDialogDefault(hwndDlg);
-
 			GetClientRect(hwndDlg, &rcClient);
 
-			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("Set messaging options for %s"),
-						  (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
-
+			TCHAR szBuffer[180];
+			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("Set messaging options for %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 			SetWindowText(hwndDlg, szBuffer);
 
+			memset(&tci, 0, sizeof(tci));
 			tci.cchTextMax = 100;
 			tci.mask = TCIF_PARAM | TCIF_TEXT;
 			tci.lParam = (LPARAM)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_USERPREFS), hwndDlg, DlgProcUserPrefs, (LPARAM)hContact);
@@ -492,7 +491,6 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (CMimAPI::m_pfnEnableThemeDialogTexture)
 				CMimAPI::m_pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
 
-
 			tci.lParam = (LPARAM)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_USERPREFS1), hwndDlg, DlgProcUserPrefsLogOptions, (LPARAM)hContact);
 			tci.pszText = TranslateT("Message Log");
 			TabCtrl_InsertItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), 1, &tci);
@@ -500,88 +498,80 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			ShowWindow((HWND)tci.lParam, SW_HIDE);
 			if (CMimAPI::m_pfnEnableThemeDialogTexture)
 				CMimAPI::m_pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
-			TabCtrl_SetCurSel(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), 0);
-			ShowWindow(hwndDlg, SW_SHOW);
-			return TRUE;
 		}
-		case WM_NOTIFY:
-			switch (((LPNMHDR)lParam)->idFrom) {
-				case IDC_OPTIONSTAB:
-					switch (((LPNMHDR)lParam)->code) {
-						case TCN_SELCHANGING: {
-							TCITEM tci;
-							tci.mask = TCIF_PARAM;
+		TabCtrl_SetCurSel(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), 0);
+		ShowWindow(hwndDlg, SW_SHOW);
+		return TRUE;
 
-							TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_OPTIONSTAB)), &tci);
-							ShowWindow((HWND)tci.lParam, SW_HIDE);
-						}
-						break;
-						case TCN_SELCHANGE: {
-							TCITEM tci;
-							tci.mask = TCIF_PARAM;
-
-							TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_OPTIONSTAB)), &tci);
-							ShowWindow((HWND)tci.lParam, SW_SHOW);
-						}
-						break;
-					}
-					break;
+	case WM_NOTIFY:
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case IDC_OPTIONSTAB:
+			switch (((LPNMHDR)lParam)->code) {
+			case TCN_SELCHANGING:
+				tci.mask = TCIF_PARAM;
+				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_OPTIONSTAB)), &tci);
+				ShowWindow((HWND)tci.lParam, SW_HIDE);
+				break;
+			case TCN_SELCHANGE: 
+				tci.mask = TCIF_PARAM;
+				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_OPTIONSTAB)), &tci);
+				ShowWindow((HWND)tci.lParam, SW_SHOW);
+				break;
 			}
 			break;
-		case WM_COMMAND: {
-			switch(LOWORD(wParam)) {
-				case IDOK: {
-					TCITEM	tci;
-					int		i, count;
-					DWORD	dwActionToTake = 0;			// child pages request which action to take
-					HWND	hwnd = M.FindWindow(hContact);
+		}
+		break;
 
-					tci.mask = TCIF_PARAM;
+	case WM_COMMAND:
+		switch(LOWORD(wParam)) {
+		case IDCANCEL:
+			DestroyWindow(hwndDlg);
+			break;
 
-					count = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_OPTIONSTAB));
-					for (i=0;i < count;i++) {
-						TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), i, &tci);
-						SendMessage((HWND)tci.lParam, WM_COMMAND, WM_USER + 100, (LPARAM)&dwActionToTake);
-					}
-					if (hwnd) {
-						struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-						if (dat) {
-							DWORD	dwOldFlags = (dat->dwFlags & MWF_LOG_ALL);
+		case IDOK:
+			DWORD	dwActionToTake = 0;			// child pages request which action to take
+			HWND	hwnd = M.FindWindow(hContact);
 
-							SetDialogToType(hwnd);
+			tci.mask = TCIF_PARAM;
+
+			int count = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_OPTIONSTAB));
+			for (int i=0; i < count; i++) {
+				TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), i, &tci);
+				SendMessage((HWND)tci.lParam, WM_COMMAND, WM_USER + 100, (LPARAM)&dwActionToTake);
+			}
+			if (hwnd) {
+				TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+				if (dat) {
+					DWORD dwOldFlags = (dat->dwFlags & MWF_LOG_ALL);
+					SetDialogToType(hwnd);
 #if defined(__FEAT_DEPRECATED_DYNAMICSWITCHLOGVIEWER)
-							if (dwActionToTake & UPREF_ACTION_SWITCHLOGVIEWER) {
-								unsigned int mode = GetIEViewMode(hwndDlg, dat->hContact);
-								SwitchMessageLog(dat, mode);
-							}
-#endif
-							LoadLocalFlags(hwnd, dat);
-							if ((dat->dwFlags & MWF_LOG_ALL) != dwOldFlags) {
-								BOOL	fShouldHide = TRUE;
-
-								if (IsIconic(dat->pContainer->hwnd))
-									fShouldHide = FALSE;
-								else
-									ShowWindow(dat->pContainer->hwnd, SW_HIDE);
-								SendMessage(hwnd, DM_OPTIONSAPPLIED, 0, 0);
-								SendMessage(hwnd, DM_DEFERREDREMAKELOG, (WPARAM)hwnd, 0);
-								if (fShouldHide)
-									ShowWindow(dat->pContainer->hwnd, SW_SHOWNORMAL);
-							}
-						}
+					if (dwActionToTake & UPREF_ACTION_SWITCHLOGVIEWER) {
+						unsigned int mode = GetIEViewMode(hwndDlg, dat->hContact);
+						SwitchMessageLog(dat, mode);
 					}
-					DestroyWindow(hwndDlg);
-					break;
+#endif
+					LoadLocalFlags(hwnd, dat);
+					if ((dat->dwFlags & MWF_LOG_ALL) != dwOldFlags) {
+						bool	fShouldHide = true;
+						if (IsIconic(dat->pContainer->hwnd))
+							fShouldHide = false;
+						else
+							ShowWindow(dat->pContainer->hwnd, SW_HIDE);
+						SendMessage(hwnd, DM_OPTIONSAPPLIED, 0, 0);
+						SendMessage(hwnd, DM_DEFERREDREMAKELOG, (WPARAM)hwnd, 0);
+						if (fShouldHide)
+							ShowWindow(dat->pContainer->hwnd, SW_SHOWNORMAL);
+					}
 				}
-				case IDCANCEL:
-					DestroyWindow(hwndDlg);
-					break;
 			}
+			DestroyWindow(hwndDlg);
 			break;
 		}
-		case WM_DESTROY:
-			WindowList_Remove(PluginConfig.hUserPrefsWindowList, hwndDlg);
-			break;
+		break;
+
+	case WM_DESTROY:
+		WindowList_Remove(PluginConfig.hUserPrefsWindowList, hwndDlg);
+		break;
 	}
 	return FALSE;
-}
+ }

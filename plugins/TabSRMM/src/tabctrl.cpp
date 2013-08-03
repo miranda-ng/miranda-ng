@@ -1373,7 +1373,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 void TSAPI ReloadTabConfig()
 {
 	NONCLIENTMETRICS nclim;
-	int i = 0;
+	int i=0;
 
 	PluginConfig.tabConfig.m_hPenLight = CreatePen(PS_SOLID, 1, GetSysColor(COLOR_3DHILIGHT));
 	PluginConfig.tabConfig.m_hPenShadow = CreatePen(PS_SOLID, 1, GetSysColor(COLOR_3DDKSHADOW));
@@ -1412,7 +1412,7 @@ void TSAPI FreeTabConfig()
 	if (PluginConfig.tabConfig.m_hMenuFont)
 		DeleteObject(PluginConfig.tabConfig.m_hMenuFont);
 
-	for (int i = 0; i < 4; i++) {
+	for (int i=0; i < 4; i++) {
 		if (PluginConfig.tabConfig.m_brushes[i]) {
 			DeleteObject(PluginConfig.tabConfig.m_brushes[i]);
 			PluginConfig.tabConfig.m_brushes[i] = 0;

@@ -136,7 +136,7 @@ void CSideBarButton::Show(const int showCmd) const
  * m_elementWidth and m_elementHeight will be used.
  *
  * @return SIZE&: reference to the item's size member. The caller may use cx and cy values
- *         to determine further layouting actions.
+         * to determine further layouting actions.
  */
 const SIZE& CSideBarButton::measureItem()
 {
@@ -520,7 +520,7 @@ void CSideBar::populateAll()
 
 		m_iTopButtons = 0;
 
-		for (int i = 0; i < iItems; i++) {
+		for (int i=0; i < iItems; i++) {
 			TabCtrl_GetItem(hwndTab, i, &item);
 			if (item.lParam && ::IsWindow((HWND)item.lParam)) {
 				TWindowData *dat = (TWindowData *)::GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
@@ -545,8 +545,8 @@ void CSideBar::populateAll()
  * Add a new session to the switchbar.
  *
  * @param dat    _MessageWindowData *: session data for a client session. Must be fully initialized
- *               (that is, it can only be used after WM_INITIALOG completed).
- *        position: -1 = append, otherwise insert it at the given position
+            *    (that is, it can only be used after WM_INITIALOG completed).
+         *position: -1 = append, otherwise insert it at the given position
  */
 void CSideBar::addSession(const TWindowData *dat, int position)
 {
@@ -719,9 +719,9 @@ const CSideBarButton* CSideBar::setActiveItem(const TWindowData *dat)
  * @param rc        RECT*:the window rectangle
  *
  * @param fOnlyCalc bool: if false (default), window positions will be updated, otherwise,
- *                  the method will only calculate the layout parameters. A final call to
- *                  Layout() with the parameter set to false is required to perform the
- *                  position update.
+                   * the method will only calculate the layout parameters. A final call to
+                   * Layout() with the parameter set to false is required to perform the
+                   * position update.
  */
 void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 {

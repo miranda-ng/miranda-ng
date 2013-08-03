@@ -134,7 +134,7 @@ bool CContactCache::updateNick()
 	bool	fChanged = false;
 
 	if (m_Valid) {
-		TCHAR	*tszNick = reinterpret_cast<TCHAR *>(::CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)m_hContact, GCDNF_TCHAR));
+		TCHAR	*tszNick = pcli->pfnGetContactDisplayName(m_hContact, 0);
 		if (tszNick)
 			fChanged = (_tcscmp(m_szNick, tszNick) ? true : false);
 		mir_sntprintf(m_szNick, 80, _T("%s"), tszNick ? tszNick : _T("<undef>"));

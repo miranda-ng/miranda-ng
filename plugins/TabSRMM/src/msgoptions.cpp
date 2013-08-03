@@ -1166,7 +1166,7 @@ static INT_PTR CALLBACK DlgProcContainerSettings(HWND hwndDlg, UINT msg, WPARAM 
 		SendDlgItemMessage(hwndDlg, IDC_FLASHINTERVALSPIN, UDM_SETACCEL, 0, (int)M.GetDword("flashinterval", 1000));
 		CheckDlgButton(hwndDlg, IDC_USEAERO, M.GetByte("useAero", 1));
 		CheckDlgButton(hwndDlg, IDC_USEAEROPEEK, M.GetByte("useAeroPeek", 1));
-		for (int i = 0; i < CSkin::AERO_EFFECT_LAST; i++)
+		for (int i=0; i < CSkin::AERO_EFFECT_LAST; i++)
 			SendDlgItemMessage(hwndDlg, IDC_AEROEFFECT, CB_INSERTSTRING, -1, (LPARAM)TranslateTS(CSkin::m_aeroEffects[i].tszName));
 
 		SendDlgItemMessage(hwndDlg, IDC_AEROEFFECT, CB_SETCURSEL, (WPARAM)CSkin::m_aeroEffect, 0);

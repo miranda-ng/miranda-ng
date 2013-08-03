@@ -113,12 +113,12 @@ class CMUCHighlight;
 
 struct MODULEINFO
 {
-	char*          pszModule;
-	TCHAR*         ptszModDispName;
-	char*          pszHeader;
+	char          *pszModule;
+	TCHAR         *ptszModDispName;
+	char          *pszHeader;
 	bool           bBold, bUnderline, bItalics, bColor, bBkgColor, bChanMgr, bAckMsg;
 	int            nColorCount;
-	COLORREF*      crColors;
+	COLORREF      *crColors;
 				      
 	int            iMaxText;
 	DWORD          idleTimeStamp;
@@ -142,35 +142,29 @@ struct FONTINFO
 
 struct LOGINFO
 {
-	TCHAR*   ptszText;
-	TCHAR*   ptszNick;
-	TCHAR*   ptszUID;
-	TCHAR*   ptszStatus;
-	TCHAR*   ptszUserInfo;
+	TCHAR   *ptszText, *ptszNick, *ptszUID, *ptszStatus, *ptszUserInfo;
 	bool     bIsMe, bIsHighlighted;
 	time_t   time;
 	int      iType;
 	DWORD    dwFlags;
-	LOGINFO* next;
-	LOGINFO* prev;
+	LOGINFO *next, *prev;
 };
 
 struct STATUSINFO
 {
-	TCHAR*  pszGroup;
-	HICON   hIcon;
-	WORD    Status;
-	STATUSINFO* next;
+	TCHAR      *pszGroup;
+	HICON       hIcon;
+	WORD        Status;
+	STATUSINFO *next;
 };
 
 struct USERINFO
 {
-	TCHAR* pszNick;
-	TCHAR* pszUID;
-	WORD   Status;
-	WORD   ContactStatus;
+	TCHAR        *pszNick, *pszUID;
+	WORD          Status;
+	WORD          ContactStatus;
 	TChatStatusEx iStatusEx;
-	USERINFO* next;
+	USERINFO     *next;
 };
 
 struct SESSION_INFO
@@ -179,15 +173,15 @@ struct SESSION_INFO
 				       
 	bool            bFGSet, bBGSet, bFilterEnabled, bNicklistEnabled, bInitDone;
 				       
-	char*           pszModule;
-	TCHAR*          ptszID;
-	TCHAR*          ptszName;
-	TCHAR*          ptszStatusbarText;
-	TCHAR*          ptszTopic;
+	char           *pszModule;
+	TCHAR          *ptszID;
+	TCHAR          *ptszName;
+	TCHAR          *ptszStatusbarText;
+	TCHAR          *ptszTopic;
 	TCHAR           pszLogFileName[MAX_PATH + 50];
 				       
-	char*           pszID;      // ugly fix for returning static ANSI strings in GC_INFO
-	char*           pszName;   // just to fix a bug quickly, should die after porting IRC to Unicode
+	char           *pszID;      // ugly fix for returning static ANSI strings in GC_INFO
+	char           *pszName;   // just to fix a bug quickly, should die after porting IRC to Unicode
 				       
 	int             iType;
 	int             iFG;
@@ -212,30 +206,30 @@ struct SESSION_INFO
 	time_t          LastTime;
 	TCHAR           szSearch[255];
 	int             iSearchItem;
-	CMUCHighlight*  Highlight;
-	COMMAND_INFO*   lpCommands;
-	COMMAND_INFO*   lpCurrentCommand;
-	LOGINFO*        pLog;
-	LOGINFO*        pLogEnd;
-	USERINFO*       pUsers;
-	USERINFO*       pMe;
-	STATUSINFO*     pStatuses;
-	TContainerData* pContainer;
-	TWindowData*    dat;
+	CMUCHighlight  *Highlight;
+	COMMAND_INFO   *lpCommands;
+	COMMAND_INFO   *lpCurrentCommand;
+	LOGINFO        *pLog;
+	LOGINFO        *pLogEnd;
+	USERINFO       *pUsers;
+	USERINFO       *pMe;
+	STATUSINFO     *pStatuses;
+	TContainerData *pContainer;
+	TWindowData    *dat;
 	int             wasTrimmed;
-	SESSION_INFO*   next;
+	SESSION_INFO   *next;
 };
 
 struct LOGSTREAMDATA
 {
-	char*         buffer;
+	char         *buffer;
 	int           bufferOffset, bufferLen;
 	HWND          hwnd;
-	LOGINFO*      lin;
+	LOGINFO      *lin;
 	bool          bStripFormat, bRedraw;
 	SESSION_INFO *si;
 	int           crCount;
-	TWindowData*  dat;
+	TWindowData  *dat;
 };
 
 struct TMUCSettings
@@ -260,10 +254,10 @@ struct TMUCSettings
 	int         iPopupTimeout;
 	int         iSplitterX;
 	int         iSplitterY;
-	TCHAR*      pszTimeStamp;
-	TCHAR*      pszTimeStampLog;
-	TCHAR*      pszIncomingNick;
-	TCHAR*      pszOutgoingNick;
+	TCHAR      *pszTimeStamp;
+	TCHAR      *pszTimeStampLog;
+	TCHAR      *pszIncomingNick;
+	TCHAR      *pszOutgoingNick;
 	TCHAR       pszLogDir[MAX_PATH + 20];
 	LONG        iNickListFontHeight;
 	HFONT       NameFont;
@@ -300,11 +294,10 @@ extern TMUCSettings g_Settings;
 
 struct COLORCHOOSER
 {
-	MODULEINFO*   pModule;
-	int           xPosition;
-	int           yPosition;
-	HWND          hWndTarget;
-	bool          bForeground;
+	MODULEINFO *pModule;
+	int   xPosition, yPosition;
+	HWND  hWndTarget;
+	bool  bForeground;
 	SESSION_INFO *si;
 };
 

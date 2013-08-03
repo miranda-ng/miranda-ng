@@ -74,8 +74,8 @@ private:
 	TCHAR**									m_TextPatterns;
 	UINT									m_iNickPatterns;
 	UINT									m_iTextPatterns;
-	TCHAR*                                 	m_NickPatternString;
-	TCHAR*                                 	m_TextPatternString;
+	TCHAR                             *    	m_NickPatternString;
+	TCHAR                             *    	m_TextPatternString;
 	bool									m_Valid;
 	bool									m_fHighlightMe;
 };

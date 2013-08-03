@@ -123,7 +123,7 @@ static struct _tagPages {
 static void ShowPage(HWND hwndDlg, int iPage, BOOL fShow)
 {
 	if (iPage >= 0 && iPage < NR_O_PAGES) {
-		for (int i = 0; i < NR_O_OPTIONSPERPAGE && o_pages[iPage].uIds[i] != 0; i++)
+		for (int i=0; i < NR_O_OPTIONSPERPAGE && o_pages[iPage].uIds[i] != 0; i++)
 			Utils::showDlgControl(hwndDlg, o_pages[iPage].uIds[i], fShow ? SW_SHOW : SW_HIDE);
 	}
 	if (fShow) {

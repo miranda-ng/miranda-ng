@@ -1160,7 +1160,7 @@ USERINFO* UM_FindUser(USERINFO* pUserList, const TCHAR* pszUID)
 
 USERINFO* UM_FindUserFromIndex(USERINFO* pUserList, int index)
 {
-	int i = 0;
+	int i=0;
 	USERINFO *pTemp = pUserList;
 
 	if (!pUserList)

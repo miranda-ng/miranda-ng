@@ -37,7 +37,7 @@ static int sstSortButtons(const void * vmtbi1, const void * vmtbi2)
 
 static void li_ListDestruct(SortedList *pList, ItemDestuctor pItemDestructor)
 {
-	int i = 0;
+	int i=0;
 	if (!pList) return;
 	for (i=0; i < pList->realCount; i++)	pItemDestructor(pList->items[i]);
 	List_Destroy(pList);
@@ -61,10 +61,9 @@ static void li_RemovePtrDestruct(SortedList *pList, void * ptr, ItemDestuctor pI
 static void li_SortList(SortedList *pList, FSortFunc pSortFunct)
 {
 	FSortFunc pOldSort = pList->sortFunc;
-	int i;
 	if (!pSortFunct) pSortFunct = pOldSort;
 	pList->sortFunc = NULL;
-	for (i=0; i < pList->realCount - 1; i++)
+	for (int i=0; i < pList->realCount - 1; i++)
 		if (pOldSort(pList->items[i], pList->items[i+1]) < 0) {
 			void * temp = pList->items[i];
 			pList->items[i] = pList->items[i+1];

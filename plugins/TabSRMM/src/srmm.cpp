@@ -39,8 +39,9 @@ LOGFONT lfDefault = {0};
  * miranda interfaces
  */
 
-int    hLangpack;
+int hLangpack;
 TIME_API tmi = {0};
+CLIST_INTERFACE *pcli;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -76,6 +77,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		return 1;
 	}
 
+	mir_getCLI();
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 
@@ -200,10 +202,11 @@ int _DebugPopup(HANDLE hContact, const TCHAR *fmt, ...)
 	if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
 		MIRANDASYSTRAYNOTIFY tn;
 		TCHAR	szTitle[128];
+		mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("tabSRMM Message (%s)"),
+			(hContact != 0) ? pcli->pfnGetContactDisplayName(hContact, 0) : TranslateT("Global"));
 
 		tn.szProto = NULL;
 		tn.cbSize = sizeof(tn);
-		mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("tabSRMM Message (%s)"), (hContact != 0) ? (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR) : TranslateT("Global"));
 		tn.tszInfoTitle = szTitle;
 		tn.tszInfo = debug;
 		tn.dwInfoFlags = NIIF_INFO;

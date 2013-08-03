@@ -84,7 +84,7 @@ public:
 
 	const int	idToIndex(const int id) const
 	{
-		for (int i = 0; i < NR_BUTTONS; i++) {
+		for (int i=0; i < NR_BUTTONS; i++) {
 			if (m_TbButtons[i].idCommand == id )
 				return(i);
 		}

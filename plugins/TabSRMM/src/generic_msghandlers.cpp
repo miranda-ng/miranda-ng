@@ -31,7 +31,6 @@
  * also contains various callback functions for custom buttons
  */
 
-
 #include "commonheaders.h"
 
 /**
@@ -117,11 +116,10 @@ void TSAPI DM_CheckAutoHide(const TWindowData* dat, WPARAM wParam, LPARAM lParam
 
 void TSAPI DM_DismissTip(TWindowData *dat, const POINT& pt)
 {
-	RECT rc;
-
 	if (!IsWindowVisible(dat->hwndTip))
 		return;
 
+	RECT rc;
 	GetWindowRect(dat->hwndTip, &rc);
 	if (PtInRect(&rc, pt))
 		return;
@@ -301,9 +299,8 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 	case IDC_NAME:
 		if (GetKeyState(VK_SHIFT) & 0x8000)   // copy UIN
 			SendMessage(hwndDlg, DM_UINTOCLIPBOARD, 0, 0);
-		else {
+		else
 			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)(dat->cache->getActiveContact()), 0);
-		}
 		break;
 
 	case IDC_HISTORY:
@@ -1790,16 +1787,14 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 	ZeroMemory((void*)&item, sizeof(item));
 	if (dat->hContact) {
-		int 			iHasName;
 		TCHAR 			fulluin[256];
 		const TCHAR*	szNick = dat->cache->getNick();
 
 		if (dat->szProto) {
-
 			szActProto = dat->cache->getActiveProto();
 			hActContact = dat->hContact;
 
-			iHasName = (dat->cache->getUIN()[0] != 0);
+			bool bHasName = (dat->cache->getUIN()[0] != 0);
 			dat->idle = dat->cache->getIdleTS();
 			dat->dwFlagsEx =  dat->idle ? dat->dwFlagsEx | MWF_SHOW_ISIDLE : dat->dwFlagsEx & ~MWF_SHOW_ISIDLE;
 
@@ -1819,8 +1814,8 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 						mir_sntprintf(newtitle, 127, _T("%s (%s)"), newcontactname, dat->szStatus);
 					else
 						mir_sntprintf(newtitle, 127, _T("%s"), newcontactname);
-				} else
-					mir_sntprintf(newtitle, 127, _T("%s"), _T("Forward"));
+				}
+				else mir_sntprintf(newtitle, 127, _T("%s"), _T("Forward"));
 
 				item.mask |= TCIF_TEXT;
 			}
@@ -1828,19 +1823,18 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			if (dat->bIsMeta)
 				mir_sntprintf(fulluin, SIZEOF(fulluin),
 							  TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites."),
-							  iHasName ? dat->cache->getUIN() : TranslateT("No UID"));
+							  bHasName ? dat->cache->getUIN() : TranslateT("No UID"));
 			else
 				mir_sntprintf(fulluin, SIZEOF(fulluin),
 							  TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status."),
-							  iHasName ? dat->cache->getUIN() : TranslateT("No UID"));
+							  bHasName ? dat->cache->getUIN() : TranslateT("No UID"));
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_NAME), BUTTONADDTOOLTIP, /*iHasName ?*/ (WPARAM)fulluin /*: (WPARAM)_T("")*/, 0);
+			SendMessage(GetDlgItem(hwndDlg, IDC_NAME), BUTTONADDTOOLTIP, /*bHasName ?*/ (WPARAM)fulluin /*: (WPARAM)_T("")*/, 0);
 		}
-	} else
-		lstrcpyn(newtitle, pszNewTitleEnd, SIZEOF(newtitle));
+	}
+	else lstrcpyn(newtitle, pszNewTitleEnd, SIZEOF(newtitle));
 
 	if (dat->idle != dwOldIdle || lParam != 0) {
-
 		if (item.mask & TCIF_TEXT) {
 			item.pszText = newtitle;
 			_tcsncpy(dat->newtitle, newtitle, SIZEOF(dat->newtitle));
@@ -1861,10 +1855,9 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		if (dat->cache->isFavorite())
 			AddContactToFavorites(dat->hContact, dat->cache->getNick(), szActProto, dat->szStatus, dat->wStatus,
 								  LoadSkinnedProtoIcon(dat->cache->getActiveProto(), dat->cache->getActiveStatus()), 0, PluginConfig.g_hMenuFavorites);
-		if (dat->cache->isRecent()) {
+		if (dat->cache->isRecent())
 			AddContactToFavorites(dat->hContact, dat->cache->getNick(), szActProto, dat->szStatus, dat->wStatus,
 								  LoadSkinnedProtoIcon(dat->cache->getActiveProto(), dat->cache->getActiveStatus()), 0, PluginConfig.g_hMenuRecent);
-		}
 
 		dat->Panel->Invalidate();
 		if (dat->pWnd)
@@ -1880,10 +1873,8 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 			CallService(MS_FAVATAR_GETINFO, (WPARAM)&fa, 0);
 			dat->hwndFlash = fa.hWindow;
-			if (dat->hwndFlash) {
-				bool isInfoPanel = dat->Panel->isActive();
-				SetParent(dat->hwndFlash, isInfoPanel ? dat->hwndPanelPicParent : GetDlgItem(hwndDlg, IDC_CONTACTPIC));
-			}
+			if (dat->hwndFlash)
+				SetParent(dat->hwndFlash, dat->Panel->isActive() ? dat->hwndPanelPicParent : GetDlgItem(hwndDlg, IDC_CONTACTPIC));
 		}
 	}
 	// care about MetaContacts and update the statusbar icon with the currently "most online" contact...
@@ -1969,7 +1960,6 @@ void SI_CheckStatusIconClick(struct TWindowData *dat, HWND hwndFrom, POINT pt, R
 {
 	if (dat && (code == NM_CLICK || code == NM_RCLICK)) {
 		POINT	ptScreen;
-
 		GetCursorPos(&ptScreen);
 		if (!PtInRect(&rcLastStatusBarClick, ptScreen))
 			return;

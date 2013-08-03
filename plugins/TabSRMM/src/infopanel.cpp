@@ -142,7 +142,7 @@ void CInfoPanel::saveHeight(bool fFlush)
  *
  * @param newHeight  LONG: the new height.
  * @param fBroadcast bool: broadcast the new height to all open sessions, respect
- *                   container's private setting flag.
+                    *container's private setting flag.
  */
 void CInfoPanel::setHeight(LONG newHeight, bool fBroadcast)
 {

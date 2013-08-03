@@ -147,7 +147,7 @@ LONG CMenuBar::getHeight() const
  * @param lParam
  *
  * @return LRESULT: message processing result. Win32 conform.
- *         -1 means: nothing processed, caller should continue as usual.
+         * -1 means: nothing processed, caller should continue as usual.
  */
 LONG_PTR CMenuBar::processMsg(const UINT msg, const WPARAM wParam, const LPARAM lParam)
 {
@@ -219,10 +219,10 @@ LRESULT CALLBACK CMenuBar::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lP
  * @param nm     NMCUSTOMDRAW *: sent via NM_CUSTOMDRAW message
  *
  * @return LONG_PTR: see Win32 NM_CUSTOMDRAW message. The function must return a valid
- *         message return value to indicate how Windows should continue with the drawing process.
+         * message return value to indicate how Windows should continue with the drawing process.
  *
- *         It may return zero in which case, the caller should allow default processing for
- *         the NM_CUSTOMDRAW message.
+         * It may return zero in which case, the caller should allow default processing for
+         * the NM_CUSTOMDRAW message.
  */
 LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 {

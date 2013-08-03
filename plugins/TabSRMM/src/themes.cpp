@@ -812,7 +812,7 @@ void CImageItem::Create(const TCHAR *szImageFile)
  * @param szFilename char*: full path and filename to the .TSK file
  *
  * @return char*: full path and filename to the .png image which represents this image item.
- *         caller MUST delete it.
+         * caller MUST delete it.
  */
 TCHAR* CImageItem::Read(const TCHAR *szFilename)
 {
@@ -1254,7 +1254,7 @@ void CSkin::LoadIcon(const TCHAR *szSection, const TCHAR *name, HICON *hIcon)
  *
  * @param id     int: zero-based index into the table of predefined skin items
  * @param szItem char *: the section name in the ini file which holds the definition for this
- *               item.
+            *    item.
  */
 void CSkin::ReadItem(const int id, const TCHAR *szItem)
 {
@@ -1351,7 +1351,7 @@ void CSkin::ReadImageItem(const TCHAR *itemname)
 		GetPrivateProfileString(itemname, szItemNr, _T("None"), buffer, 500, m_tszFileName);
 		if (!_tcscmp(buffer, _T("None")))
 			break;
-		for (int i = 0; i <= ID_EXTBK_LAST; i++) {
+		for (int i=0; i <= ID_EXTBK_LAST; i++) {
 			if (!_tcsicmp(SkinItems[i].szName[0] == '{' ? &SkinItems[i].szName[3] : SkinItems[i].szName, buffer)) {
 				if (!(tmpItem.getFlags() & IMAGE_GLYPH)) {
 					if (szImageFileName)
@@ -2185,8 +2185,8 @@ int CSkin::RenderText(HDC hdc, HANDLE hTheme, const TCHAR *szText, RECT *rc, DWO
  * @param width    LONG: width of the destination bitmap
  * @param height   LONG: height of the new bitmap
  * @param mustFree bool: indicates that the new bitmap had been
- *                 resized and either the source or destination
- *                 bitmap should be freed.
+                   *resized and either the source or destination
+                   *bitmap should be freed.
  *
  * @return HBTIAMP: handle to a bitmap with the desired size.
  */
@@ -2268,7 +2268,7 @@ HBITMAP CSkin::CreateAeroCompatibleBitmap(const RECT &rc, HDC dc)
  * @param hwndParent HWND: The window to which the coordinates should be mapped
  * @param rc         RECT &: Rectangular area within the client area of hwndClient.
  *
- *                   It will receive the transformed coordinates, relative to the client area of hwndParent
+                    *It will receive the transformed coordinates, relative to the client area of hwndParent
  */
 void CSkin::MapClientToParent(HWND hwndClient, HWND hwndParent, RECT &rc)
 {
@@ -2554,7 +2554,7 @@ void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 	m_fAeroSkinsValid = true;
 
 	try {
-		for (int i = 0; i < SIZEOF(my_default_skin); i++)
+		for (int i=0; i < SIZEOF(my_default_skin); i++)
 			Utils::extractResource(g_hInst, my_default_skin[i].ulID, _T("SKIN_GLYPH"), tszBasePath, my_default_skin[i].tszName, fForceOverwrite);
 	}
 	catch(CRTException& ex) {

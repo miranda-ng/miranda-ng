@@ -715,7 +715,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, i
 	ZeroMemory((void*)&newData.item, sizeof(newData.item));
 
 	// obtain various status information about the contact
-	TCHAR *contactName = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)newData.hContact, GCDNF_TCHAR);
+	TCHAR *contactName = pcli->pfnGetContactDisplayName(newData.hContact, 0);
 
 	/*
 	 * cut nickname if larger than x chars...
@@ -1034,7 +1034,7 @@ static int GetIconPackVersion(HMODULE hDLL)
 
 static int TSAPI SetupIconLibConfig()
 {
-	int i = 0, j = 2, version = 0, n = 0;
+	int i=0, j = 2, version = 0, n = 0;
 
 	TCHAR szFilename[MAX_PATH];
 	_tcsncpy(szFilename, _T("icons\\tabsrmm_icons.dll"), MAX_PATH);
@@ -1096,7 +1096,7 @@ static int TSAPI SetupIconLibConfig()
 static int TSAPI LoadFromIconLib()
 {
 	for (int n = 0;ICONBLOCKS[n].szSection;n++) {
-		for (int i = 0;ICONBLOCKS[n].idesc[i].szDesc;i++) {
+		for (int i=0;ICONBLOCKS[n].idesc[i].szDesc;i++) {
 			*(ICONBLOCKS[n].idesc[i].phIcon) = Skin_GetIcon(ICONBLOCKS[n].idesc[i].szName);
 		}
 	}
@@ -1140,7 +1140,7 @@ void TSAPI LoadIconTheme()
 static void UnloadIcons()
 {
 	for (int n = 0;ICONBLOCKS[n].szSection;n++) {
-		for (int i = 0;ICONBLOCKS[n].idesc[i].szDesc;i++) {
+		for (int i=0;ICONBLOCKS[n].idesc[i].szDesc;i++) {
 			if (*(ICONBLOCKS[n].idesc[i].phIcon) != 0) {
 				DestroyIcon(*(ICONBLOCKS[n].idesc[i].phIcon));
 				*(ICONBLOCKS[n].idesc[i].phIcon) = 0;

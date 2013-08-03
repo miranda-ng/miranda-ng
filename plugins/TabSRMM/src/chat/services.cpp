@@ -187,7 +187,7 @@ INT_PTR Service_Register(WPARAM wParam, LPARAM lParam)
 
 INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 {
-	MODULEINFO* mi;
+	MODULEINFO *mi;
 	GCSESSION *gcw = (GCSESSION *)lParam;
 	if (gcw == NULL)
 		return GC_NEWSESSION_ERROR;
@@ -428,7 +428,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	newData.szInitialText = NULL;
 	memset(&newData.item, 0, sizeof(newData.item));
 
-	TCHAR *contactName = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)newData.hContact, GCDNF_TCHAR);
+	TCHAR *contactName = pcli->pfnGetContactDisplayName(newData.hContact, 0);
 
 	/*
 	 * cut nickname if larger than x chars...
@@ -446,8 +446,9 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	else lstrcpyn(newcontactname, _T("_U_"), SIZEOF(newcontactname));
 
 	char *szProto = GetContactProto(newData.hContact);
-	WORD wStatus = szProto == NULL ? ID_STATUS_OFFLINE : db_get_w((HANDLE) newData.hContact, szProto, "Status", ID_STATUS_OFFLINE);
-	char *szStatus = (char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, szProto == NULL ? ID_STATUS_OFFLINE : db_get_w((HANDLE)newData.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
+	WORD wStatus = (szProto == NULL) ? ID_STATUS_OFFLINE : db_get_w((HANDLE) newData.hContact, szProto, "Status", ID_STATUS_OFFLINE);
+	char *szStatus = (char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, 
+		(szProto == NULL) ? ID_STATUS_OFFLINE : db_get_w((HANDLE)newData.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 
 	newData.item.pszText = newcontactname;
 	newData.item.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
@@ -459,27 +460,21 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	if (pContainer->hwndActive && bActivateTab)
 		ShowWindow(pContainer->hwndActive, SW_HIDE);
 
-	{
-		int iTabIndex_wanted = M.GetDword(hContact, "tabindex", pContainer->iChilds * 100);
-		int iCount = TabCtrl_GetItemCount(hwndTab);
-		TCITEM item = {0};
-		HWND hwnd;
-		struct TWindowData *dat;
-		int relPos;
-		int i;
+	int iTabIndex_wanted = M.GetDword(hContact, "tabindex", pContainer->iChilds * 100);
+	int iCount = TabCtrl_GetItemCount(hwndTab);
 
-		pContainer->iTabIndex = iCount;
-		if (iCount > 0) {
-			for (i = iCount - 1; i >= 0; i--) {
-				item.mask = TCIF_PARAM;
-				TabCtrl_GetItem(hwndTab, i, &item);
-				hwnd = (HWND)item.lParam;
-				dat = (struct TWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-				if (dat) {
-					relPos = M.GetDword(dat->hContact, "tabindex", i * 100);
-					if (iTabIndex_wanted <= relPos)
-						pContainer->iTabIndex = i;
-				}
+	pContainer->iTabIndex = iCount;
+	if (iCount > 0) {
+		TCITEM item = {0};
+		for (int i = iCount - 1; i >= 0; i--) {
+			item.mask = TCIF_PARAM;
+			TabCtrl_GetItem(hwndTab, i, &item);
+			HWND hwnd = (HWND)item.lParam;
+			TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+			if (dat) {
+				int relPos = M.GetDword(dat->hContact, "tabindex", i * 100);
+				if (iTabIndex_wanted <= relPos)
+					pContainer->iTabIndex = i;
 			}
 		}
 	}
@@ -575,25 +570,14 @@ void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
 
 INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 {
-	GCEVENT *gce = (GCEVENT*)lParam;
-	GCDEST *gcd = NULL;
-	GCEVENT save_gce;
-	GCDEST  save_gcd;
-	TCHAR* pWnd = NULL;
-	char* pMod = NULL;
-	BOOL bIsHighlighted = FALSE;
-	BOOL bRemoveFlag = FALSE;
-	int iRetVal = GC_EVENT_ERROR;
-	SESSION_INFO *si = NULL;
-	BOOL fFreeText = FALSE;
-
 	if (CMimAPI::m_shutDown)
 		return 0;
 
+	GCEVENT *gce = (GCEVENT*)lParam;
 	if (gce == NULL)
 		return GC_EVENT_ERROR;
 
-	gcd = gce->pDest;
+	GCDEST *gcd = gce->pDest;
 	if (gcd == NULL)
 		return GC_EVENT_ERROR;
 
@@ -603,16 +587,24 @@ INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	if (!IsEventSupported(gcd->iType))
 		return GC_EVENT_ERROR;
 
+	int iRetVal = GC_EVENT_ERROR;
+	char *pMod = NULL;
+	TCHAR *pWnd = NULL;
+	GCDEST save_gcd;
+	GCEVENT save_gce;
+	SESSION_INFO *si = NULL;
+	bool bIsHighlighted = false, bRemoveFlag = false, bFreeText = false;
+
 	if (!(gce->dwFlags & GC_UNICODE)) {
 		save_gce = *gce;
 		save_gcd = *gce->pDest;
+		gce->ptszUID = a2tf(gce->ptszUID, gce->dwFlags);
+		gce->ptszNick = a2tf(gce->ptszNick, gce->dwFlags);
+		gce->ptszStatus = a2tf(gce->ptszStatus, gce->dwFlags);
 		gce->pDest->ptszID = a2tf(gce->pDest->ptszID, gce->dwFlags);
-		gce->ptszUID       = a2tf(gce->ptszUID,       gce->dwFlags);
-		gce->ptszNick      = a2tf(gce->ptszNick,      gce->dwFlags);
-		gce->ptszStatus    = a2tf(gce->ptszStatus,    gce->dwFlags);
 		if (gcd->iType != GC_EVENT_MESSAGE && gcd->iType != GC_EVENT_ACTION) {
-			gce->ptszText   = a2tf(gce->ptszText,      gce->dwFlags);
-			fFreeText = TRUE;
+			gce->ptszText = a2tf(gce->ptszText, gce->dwFlags);
+			bFreeText = true;
 		}
 		gce->ptszUserInfo  = a2tf(gce->ptszUserInfo,  gce->dwFlags);
 	}
@@ -623,7 +615,7 @@ INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	switch (gcd->iType) {
 	case GC_EVENT_ADDGROUP:
 		{
-			STATUSINFO* si = SM_AddStatus(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszStatus);
+			STATUSINFO *si = SM_AddStatus(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszStatus);
 			if (si && gce->dwItemData)
 				si->hIcon = CopyIcon((HICON)gce->dwItemData);
 		}
@@ -663,47 +655,47 @@ INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	case GC_EVENT_ADDSTATUS:
 		SM_GiveStatus(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, gce->ptszStatus);
 		if (!gce->bIsMe)
-			bIsHighlighted = g_Settings.Highlight->match(gce, 0, CMUCHighlight::MATCH_NICKNAME);
+			bIsHighlighted = g_Settings.Highlight->match(gce, 0, CMUCHighlight::MATCH_NICKNAME) != 0;
 		break;
 
 	case GC_EVENT_REMOVESTATUS:
 		SM_TakeStatus(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID, gce->ptszStatus);
 		if (!gce->bIsMe)
-			bIsHighlighted = g_Settings.Highlight->match(gce, 0, CMUCHighlight::MATCH_NICKNAME);
+			bIsHighlighted = g_Settings.Highlight->match(gce, 0, CMUCHighlight::MATCH_NICKNAME) != 0;
 		break;
 
 	case GC_EVENT_MESSAGE:
 	case GC_EVENT_ACTION:
 		si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 		if (!(gce->dwFlags & GC_UNICODE)) {
-			fFreeText = TRUE;
+			bFreeText = TRUE;
 			if (si)
 				gce->ptszText = a2tf(gce->ptszText, gce->dwFlags, M.GetDword(si->hContact, "ANSIcodepage", 0));
 			else
 				gce->ptszText = a2tf(gce->ptszText, gce->dwFlags);
 		}
 		if (!gce->bIsMe && gce->pDest->pszID && gce->pszText && si)
-			bIsHighlighted = si->Highlight->match(gce, si, CMUCHighlight::MATCH_TEXT | CMUCHighlight::MATCH_NICKNAME);
+			bIsHighlighted = si->Highlight->match(gce, si, CMUCHighlight::MATCH_TEXT | CMUCHighlight::MATCH_NICKNAME) != 0;
 		break;
 
 	case GC_EVENT_NICK:
 		SM_ChangeNick(gce->pDest->ptszID, gce->pDest->pszModule, gce);
 		if (!gce->bIsMe)
-			bIsHighlighted = g_Settings.Highlight->match(gce, 0, CMUCHighlight::MATCH_NICKNAME);
+			bIsHighlighted = g_Settings.Highlight->match(gce, 0, CMUCHighlight::MATCH_NICKNAME) != 0;
 		break;
 
 	case GC_EVENT_JOIN:
 		AddUser(gce);
 		if (!gce->bIsMe)
-			bIsHighlighted = g_Settings.Highlight->match(gce, 0, CMUCHighlight::MATCH_NICKNAME);
+			bIsHighlighted = g_Settings.Highlight->match(gce, 0, CMUCHighlight::MATCH_NICKNAME) != 0;
 		break;
 
 	case GC_EVENT_PART:
 	case GC_EVENT_QUIT:
 	case GC_EVENT_KICK:
-		bRemoveFlag = TRUE;
+		bRemoveFlag = true;
 		if (!gce->bIsMe)
-			bIsHighlighted = g_Settings.Highlight->match(gce, 0, CMUCHighlight::MATCH_NICKNAME);
+			bIsHighlighted = g_Settings.Highlight->match(gce, 0, CMUCHighlight::MATCH_NICKNAME) != 0;
 		break;
 	}
 
@@ -729,7 +721,8 @@ INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 		if (!bRemoveFlag) {
 			iRetVal = 0;
 			goto LBL_Exit;
-		}	}
+		}
+	}
 
 	// add to log
 	if (pWnd) {
@@ -763,7 +756,8 @@ INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 		if (!bRemoveFlag) {
 			iRetVal = 0;
 			goto LBL_Exit;
-		}	}
+		}
+	}
 
 	if (bRemoveFlag)
 		iRetVal = (SM_RemoveUser(gce->pDest->ptszID, gce->pDest->pszModule, gce->ptszUID) == 0) ? 1 : 0;
@@ -772,7 +766,7 @@ LBL_Exit:
 	LeaveCriticalSection(&cs);
 
 	if (!(gce->dwFlags & GC_UNICODE)) {
-		if (fFreeText)
+		if (bFreeText)
 			mir_free((void*)gce->ptszText);
 		mir_free((void*)gce->ptszNick);
 		mir_free((void*)gce->ptszUID);

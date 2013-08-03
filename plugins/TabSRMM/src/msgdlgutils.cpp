@@ -303,7 +303,7 @@ int TSAPI MsgWindowUpdateMenu(TWindowData *dat, HMENU submenu, int menuID)
 	bool 	fInfoPanel = dat->Panel->isActive();
 
 	if (menuID == MENU_TABCONTEXT) {
-		SESSION_INFO *si = (SESSION_INFO *)dat->si;
+		SESSION_INFO *si = (SESSION_INFO*)dat->si;
 		int iTabs = TabCtrl_GetItemCount(GetParent(hwndDlg));
 
 		EnableMenuItem(submenu, ID_TABMENU_ATTACHTOCONTAINER, M.GetByte("useclistgroups", 0) || M.GetByte("singlewinmode", 0) ? MF_GRAYED : MF_ENABLED);
@@ -380,7 +380,7 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 				break;
 			case ID_TABMENU_LEAVECHATROOM: {
 				if (dat && dat->bType == SESSIONTYPE_CHAT) {
-					SESSION_INFO *si = (SESSION_INFO *)dat->si;
+					SESSION_INFO *si = (SESSION_INFO*)dat->si;
 					if ( (si != NULL) && (dat->hContact != NULL)) {
 						char *szProto = GetContactProto(dat->hContact);
 						if (szProto)

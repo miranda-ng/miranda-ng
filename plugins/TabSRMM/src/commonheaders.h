@@ -72,6 +72,7 @@
 #include <m_icolib.h>
 #include <m_clc.h>
 #include <m_clui.h>
+#include <m_clistint.h>
 #include <m_userinfo.h>
 #include <m_history.h>
 #include <m_addcontact.h>
@@ -197,8 +198,8 @@ enum DWMWINDOWATTRIBUTE
 	{
 		DWORD                       cbSize;
 		DWORD                       dwFlags; // BPPF_ flags
-		const RECT *                prcExclude;
-		const BLENDFUNCTION *       pBlendFunction;
+		const RECT            *     prcExclude;
+		const BLENDFUNCTION        * pBlendFunction;
 	} BP_PAINTPARAMS, *PBP_PAINTPARAMS;
 
 	#define BPPF_ERASE               1

@@ -143,7 +143,7 @@ TCHAR* Utils::FilterEventMarkers(TCHAR *wszText)
 /**
  * this translates formatting tags into rtf sequences...
  * flags: loword = words only for simple  * /_ formatting
- *        hiword = bbcode support (strip bbcodes if 0)
+         *hiword = bbcode support (strip bbcodes if 0)
  */
 const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOOL isSent)
 {
@@ -677,7 +677,7 @@ void Utils::CreateColorMap(TCHAR *Text)
 
 int Utils::RTFColorToIndex(int iCol)
 {
-	int i = 0;
+	int i=0;
 	for (i=0; i < RTF_CTABLE_DEFSIZE; i++) {
 		if (rtf_ctable[i].index == iCol)
 			return i + 1;

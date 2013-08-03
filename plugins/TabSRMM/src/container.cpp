@@ -151,7 +151,7 @@ TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HANDLE hCont
 	/*
 	* save container name to the db
 	*/
-	int i = 0;
+	int i=0;
 	if (!M.GetByte("singlewinmode", 0)) {
 		do {
 			char szCounter[10];
@@ -569,7 +569,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			HMENU hSysmenu;
 			DWORD dwCreateFlags;
 			int iMenuItems;
-			int i = 0;
+			int i=0;
 			ButtonItem *pbItem;
 			HWND  hwndButton = 0;
 			bool fAero = M.isAero();
@@ -750,7 +750,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			pContainer->dwFlags |= CNT_DEFERREDSIZEREQUEST;
 		else {
 			RECT rcClient, rcUnadjusted;
-			int i = 0;
+			int i=0;
 			TCITEM item = {0};
 			POINT pt = {0};
 			LONG sbarWidth, sbarWidth_left;
@@ -1017,7 +1017,7 @@ panel_found:
 					break;
 				case ID_TABMENU_LEAVECHATROOM:
 					if (dat && dat->bType == SESSIONTYPE_CHAT) {
-						SESSION_INFO *si = (SESSION_INFO *)dat->si;
+						SESSION_INFO *si = (SESSION_INFO*)dat->si;
 						if (si && dat->hContact) {
 							char *szProto = GetContactProto(dat->hContact);
 							if (szProto)
@@ -1056,7 +1056,7 @@ panel_found:
 			HANDLE hContact;
 			TWindowData *dat = (TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 			DWORD dwOldFlags = pContainer->dwFlags;
-			int i = 0;
+			int i=0;
 			ButtonItem *pItem = pContainer->buttonItems;
 
 			if (dat) {
@@ -1628,7 +1628,7 @@ panel_found:
 			DWORD ws, wsold, ex = 0, exold = 0;
 			HMENU hSysmenu = GetSystemMenu(hwndDlg, FALSE);
 			HANDLE hContact = 0;
-			int i = 0;
+			int i=0;
 			UINT sBarHeight;
 			bool fAero = M.isAero();
 
@@ -2071,7 +2071,7 @@ panel_found:
 int TSAPI GetTabIndexFromHWND(HWND hwndTab, HWND hwnd)
 {
 	TCITEM item;
-	int i = 0;
+	int i=0;
 	int iItems;
 
 	iItems = TabCtrl_GetItemCount(hwndTab);
@@ -2105,7 +2105,7 @@ int TSAPI GetTabIndexFromHWND(HWND hwndTab, HWND hwnd)
 HWND TSAPI GetHWNDFromTabIndex(HWND hwndTab, int idx)
 {
 	TCITEM item;
-	int i = 0;
+	int i=0;
 	int iItems;
 
 	iItems = TabCtrl_GetItemCount(hwndTab);
@@ -2441,7 +2441,7 @@ HMENU TSAPI BuildContainerMenu()
 {
 	char *szKey = "TAB_ContainersW";
 	char szCounter[10];
-	int i = 0;
+	int i=0;
 	DBVARIANT dbv = { 0 };
 	HMENU hMenu;
 	MENUITEMINFO mii = {0};
@@ -2480,68 +2480,62 @@ HMENU TSAPI BuildContainerMenu()
 
 HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg)
 {
-	HMENU 		hMCContextMenu = 0, hMCSubForce = 0, hMCSubDefault = 0, hMenu = 0;
-	DBVARIANT 	dbv;
-	int 		iNumProtos = 0, i = 0, iDefaultProtoByNum = 0;
-	char  		szTemp[50], *szProtoMostOnline = NULL;
-	TCHAR 		szMenuLine[128], *nick = NULL, *szStatusText = NULL;
-	char  		*tzProtoName = NULL;
-	HANDLE 		hContactMostOnline, handle;
-	int    		iChecked, isForced;
-	WORD   		wStatus;
-
-	struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	if (dat == NULL)
-		return (HMENU) 0;
+		return NULL;
 
 	if (!dat->cache->isMeta())
-		return (HMENU) 0;
+		return NULL;
 
-	hMenu = CreatePopupMenu();
-	hMCContextMenu = GetSubMenu(hMenu, 0);
-	hMCSubForce = CreatePopupMenu();
-	hMCSubDefault = CreatePopupMenu();
+	HMENU hMenu = CreatePopupMenu();
+	HMENU hMCContextMenu = GetSubMenu(hMenu, 0);
+	HMENU hMCSubForce = CreatePopupMenu();
+	HMENU hMCSubDefault = CreatePopupMenu();
 
 	AppendMenu(hMenu, MF_STRING | MF_DISABLED | MF_GRAYED | MF_CHECKED, 1, TranslateT("Meta Contact"));
 	AppendMenu(hMenu, MF_SEPARATOR, 1, _T(""));
 
-	iNumProtos = (int)CallService(MS_MC_GETNUMCONTACTS, (WPARAM)dat->hContact, 0);
-	iDefaultProtoByNum = (int)CallService(MS_MC_GETDEFAULTCONTACTNUM, (WPARAM)dat->hContact, 0);
-	hContactMostOnline = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)dat->hContact, 0);
-	szProtoMostOnline = GetContactProto(hContactMostOnline);
-	isForced = M.GetDword(dat->hContact, "tabSRMM_forced", -1);
+	int iNumProtos = (int)CallService(MS_MC_GETNUMCONTACTS, (WPARAM)dat->hContact, 0);
+	int iDefaultProtoByNum = (int)CallService(MS_MC_GETDEFAULTCONTACTNUM, (WPARAM)dat->hContact, 0);
+	HANDLE hContactMostOnline = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)dat->hContact, 0);
+	char *szProtoMostOnline = GetContactProto(hContactMostOnline);
+	int isForced = M.GetDword(dat->hContact, "tabSRMM_forced", -1);
 
-	for (i=0; i < iNumProtos; i++) {
+	for (int i=0; i < iNumProtos; i++) {
+		char szTemp[50];
 		mir_snprintf(szTemp, sizeof(szTemp), "Protocol%d", i);
-		if (db_get_s(dat->hContact, PluginConfig.szMetaName, szTemp, &dbv))
+
+		ptrA szProtoName( db_get_sa(dat->hContact, PluginConfig.szMetaName, szTemp));
+		if (szProtoName == NULL)
 			continue;
 
-		tzProtoName = dbv.pszVal;
-		PROTOACCOUNT *acc = (PROTOACCOUNT *)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)tzProtoName);
-
+		PROTOACCOUNT *acc = (PROTOACCOUNT *)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)szProtoName);
 		if (acc && acc->tszAccountName) {
 			mir_snprintf(szTemp, sizeof(szTemp), "Handle%d", i);
-			if ((handle = (HANDLE)db_get_dw(dat->hContact, PluginConfig.szMetaName, szTemp, 0)) != 0) {
-				nick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)handle, GCDNF_TCHAR);
+
+			TCHAR *nick = NULL, *szStatusText = NULL;
+			HANDLE hContact;
+			if ((hContact = (HANDLE)db_get_dw(dat->hContact, PluginConfig.szMetaName, szTemp, 0)) != 0) {
+				nick = pcli->pfnGetContactDisplayName(hContact, 0);
 				mir_snprintf(szTemp, sizeof(szTemp), "Status%d", i);
-				wStatus = (WORD)db_get_w(dat->hContact, PluginConfig.szMetaName, szTemp, 0);
+				WORD wStatus = (WORD)db_get_w(dat->hContact, PluginConfig.szMetaName, szTemp, 0);
 				szStatusText = (TCHAR *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, wStatus, GSMDF_TCHAR);
 			}
+			
+			TCHAR szMenuLine[128];
 			mir_sntprintf(szMenuLine, SIZEOF(szMenuLine), _T("%s: %s [%s] %s"), acc->tszAccountName, nick, szStatusText,
 				i == isForced ? TranslateT("(Forced)") : _T(""));
-			iChecked = MF_UNCHECKED;
-			if (hContactMostOnline != 0 && hContactMostOnline == handle)
+			int iChecked = MF_UNCHECKED;
+			if (hContactMostOnline != 0 && hContactMostOnline == hContact)
 				iChecked = MF_CHECKED;
 			AppendMenu(hMCSubForce, MF_STRING | iChecked, 100 + i, szMenuLine);
 			AppendMenu(hMCSubDefault, MF_STRING | (i == iDefaultProtoByNum ? MF_CHECKED : MF_UNCHECKED), 1000 + i, szMenuLine);
 		}
-		db_free(&dbv);
 	}
 	AppendMenu(hMCSubForce, MF_SEPARATOR, 900, _T(""));
 	AppendMenu(hMCSubForce, MF_STRING | ((isForced == -1) ? MF_CHECKED : MF_UNCHECKED), 999, TranslateT("Autoselect"));
 	InsertMenu(hMenu, 2, MF_BYPOSITION | MF_POPUP, (UINT_PTR) hMCSubForce, TranslateT("Use Protocol"));
 	InsertMenu(hMenu, 2, MF_BYPOSITION | MF_POPUP, (UINT_PTR) hMCSubDefault, TranslateT("Set Default Protocol"));
-
 	return hMenu;
 }
 
@@ -2551,15 +2545,15 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg)
 * iMode == 0: turn off flashing
 */
 
-void TSAPI FlashContainer(TContainerData *pContainer, int iMode, int iCount) {
-	FLASHWINFO fwi;
-
+void TSAPI FlashContainer(TContainerData *pContainer, int iMode, int iCount)
+{
 	if (CMimAPI::m_MyFlashWindowEx == NULL)
 		return;
 
 	if (pContainer->dwFlags & CNT_NOFLASH)                  // container should never flash
 		return;
 
+	FLASHWINFO fwi;
 	fwi.cbSize = sizeof(fwi);
 	fwi.uCount = 0;
 

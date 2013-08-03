@@ -82,7 +82,7 @@ void CMimAPI::timerMsg(const char *szMsg)
  *
  * @param szString TCHAR *: String to be searched
  * @param szSearchFor
- *                 TCHAR *: String that should be found in szString
+                   *TCHAR *: String that should be found in szString
  *
  * @return TCHAR *: found position of szSearchFor in szString. 0 if szSearchFor was not found
  */
@@ -154,7 +154,7 @@ size_t CMimAPI::pathToRelative(const TCHAR *pSrc, TCHAR *pOut, const TCHAR *szBa
  * @param pSrc   TCHAR *: input path + filename (relative)
  * @param pOut   TCHAR *: the result
  * @param szBase TCHAR *: (OPTIONAL) base path for the translation. Can be 0 in which case
- *               the function will use m_szProfilePath (usually \tabSRMM below %miranda_userdata%
+            *    the function will use m_szProfilePath (usually \tabSRMM below %miranda_userdata%
  *
  * @return
  */
@@ -411,8 +411,9 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 	int    issplit = 1, foundWin = 0, preTyping = 0;
 	BOOL   fShowOnClist = TRUE;
 
-	if (wParam) {
-		if ((hwnd = M.FindWindow((HANDLE)wParam)) && M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
+	HANDLE hContact = (HANDLE)wParam;
+	if (hContact) {
+		if ((hwnd = M.FindWindow(hContact)) && M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
 			preTyping = SendMessage(hwnd, DM_TYPING, 0, lParam);
 
 		if (hwnd && IsWindowVisible(hwnd))
@@ -464,13 +465,12 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 				break;
 			}
 			if (fShow)
-				TN_TypingMessage((HANDLE)wParam, lParam);
+				TN_TypingMessage(hContact, lParam);
 		}
 
 		if (lParam) {
 			TCHAR szTip[256];
-
-			mir_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message."), (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR));
+			mir_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message."), pcli->pfnGetContactDisplayName(hContact, 0));
 			if (fShowOnClist && ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && M.GetByte(SRMSGMOD, "ShowTypingBalloon", 0)) {
 				MIRANDASYSTRAYNOTIFY tn;
 				tn.szProto = NULL;
@@ -512,7 +512,7 @@ int CMimAPI::ProtoAck(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	HWND hwndDlg = 0;
-	int i = 0, j, iFound = SendQueue::NR_SENDJOBS;
+	int i=0, j, iFound = SendQueue::NR_SENDJOBS;
 	SendJob *jobs = sendQueue->getJobByIndex(0);
 
 	if (pAck->type == ACKTYPE_MESSAGE) {
@@ -694,14 +694,12 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 		bAllowAutoCreate = TRUE;
 	else {
 		char *szProto = GetContactProto((HANDLE)wParam);
-		DWORD dwStatus = 0;
-
 		if (PluginConfig.g_MetaContactsAvail && szProto && !strcmp(szProto, (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0))) {
 			HANDLE hSubconttact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, wParam, 0);
 			szProto = GetContactProto(hSubconttact);
 		}
 		if (szProto) {
-			dwStatus = (DWORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+			DWORD dwStatus = (DWORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 			if (dwStatus == 0 || dwStatus <= ID_STATUS_OFFLINE || ((1 << (dwStatus - ID_STATUS_ONLINE)) & dwStatusMask))           // should never happen, but...
 				bAllowAutoCreate = TRUE;
 		}
@@ -759,12 +757,12 @@ nowindowcreate:
 			TCHAR toolTip[256], *contactName;
 
 			CLISTEVENT cle = { sizeof(cle) };
-			cle.hContact = (HANDLE) wParam;
-			cle.hDbEvent = (HANDLE) lParam;
+			cle.hContact = (HANDLE)wParam;
+			cle.hDbEvent = (HANDLE)lParam;
 			cle.flags = CLEF_TCHAR;
 			cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 			cle.pszService = "SRMsg/ReadMessage";
-			contactName = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR);
+			contactName = pcli->pfnGetContactDisplayName((HANDLE)wParam, 0);
 			mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), contactName);
 			cle.ptszTooltip = toolTip;
 			CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)& cle);

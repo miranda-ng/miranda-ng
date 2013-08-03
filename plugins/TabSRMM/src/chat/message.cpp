@@ -68,7 +68,7 @@ static void CreateColorMap(char* Text, int *pIndex, SESSION_INFO *si)
 static int ReadInteger(const char* p, int* result)
 {
 	char temp[10];
-	int i = 0;
+	int i=0;
 	while (isdigit(*p) && i < 9)
 		temp[i++] = *p++;
 	temp[i] = 0;

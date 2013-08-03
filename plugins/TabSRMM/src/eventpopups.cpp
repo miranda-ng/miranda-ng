@@ -707,7 +707,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 	pud.PluginData = pdata;
 
 	if (hContact)
-		mir_sntprintf(pud.lptzContactName, MAX_CONTACTNAME, _T("%s"), (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
+		mir_sntprintf(pud.lptzContactName, MAX_CONTACTNAME, _T("%s"), pcli->pfnGetContactDisplayName(hContact, 0));
 	else {
 		TCHAR *szModule = mir_a2t(dbe.szModule);
 		mir_sntprintf(pud.lptzContactName, MAX_CONTACTNAME, _T("%s"), szModule);
@@ -828,7 +828,7 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 				SetEvent(g_hEvent);
 			SetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, FALSE, &mii);
 		} else {
-			szNick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+			szNick = pcli->pfnGetContactDisplayName(hContact, 0);
 			if (CheckMenuItem(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, MF_BYCOMMAND | MF_UNCHECKED) == -1) {
 				mir_sntprintf(szMenuEntry, SIZEOF(szMenuEntry), _T("%s: %s (%s) [%d]"), tszFinalProto, szNick, szMyStatus, fromEvent ? 1 : 0);
 				AppendMenu(PluginConfig.g_hMenuTrayUnread, MF_BYCOMMAND | MF_STRING, (UINT_PTR)hContact, szMenuEntry);
@@ -923,7 +923,7 @@ passed:
 
 void TSAPI DeletePopupsForContact(HANDLE hContact, DWORD dwMask)
 {
-	int i = 0;
+	int i=0;
 	PLUGIN_DATAT* _T = 0;
 
 	if (!(dwMask & nen_options.dwRemoveMask) || nen_options.iDisable || !PluginConfig.g_PopupAvail)

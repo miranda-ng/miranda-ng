@@ -522,8 +522,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			}
 		}
 		else {
-			int i = 0;
-
+			int i=0;
 			while (_o1controls[i])
 				Utils::showDlgControl(hwndDlg, _o1controls[i++], SW_HIDE);
 		}
@@ -646,7 +645,7 @@ void RegisterFontServiceFonts() {
 
 	strncpy(fid.dbSettingsGroup, FONTMODULE, SIZEOF(fid.dbSettingsGroup));
 
-	for (int i = 0; i < SIZEOF(IM_fontOptionsList); i++) {
+	for (int i=0; i < SIZEOF(IM_fontOptionsList); i++) {
 		fid.flags = FIDF_DEFAULTVALID|FIDF_ALLOWEFFECTS;
 		LoadMsgDlgFont(FONTSECTION_IM, i , &lf, &fontOptionsList[i].colour, FONTMODULE);
 		mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", i);
@@ -711,7 +710,7 @@ void RegisterFontServiceFonts() {
 	_tcsncpy(fid.group, LPGENT("Message Sessions")_T("/")LPGENT("Info Panel"), SIZEOF(fid.group));
 	_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions")_T("/")LPGENT("Info Panel"), SIZEOF(fid.backgroundGroup));
 	_tcsncpy(fid.backgroundName, LPGENT("Fields background"), SIZEOF(fid.backgroundName));
-	for (int i = 0; i < IPFONTCOUNT; i++) {
+	for (int i=0; i < IPFONTCOUNT; i++) {
 		LoadMsgDlgFont(FONTSECTION_IP, i + 100 , &lf, &fontOptionsList[i].colour, FONTMODULE);
 		mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", i + 100);
 		strncpy(fid.prefix, szTemp, SIZEOF(fid.prefix));
@@ -737,7 +736,7 @@ void RegisterFontServiceFonts() {
 	fid.flags&=~FIDF_SAVEPOINTSIZE;
 	_tcsncpy(fid.group, LPGENT("Message Sessions")_T("/")LPGENT("Group Chats"), SIZEOF(fid.group));
 	strncpy(fid.dbSettingsGroup, CHAT_FONTMODULE, SIZEOF(fid.dbSettingsGroup));
-	for (int i = 0; i < msgDlgFontCount; i++) {
+	for (int i=0; i < msgDlgFontCount; i++) {
 		LoadMsgDlgFont(FONTSECTION_CHAT, i , &lf, &fontOptionsList[i].colour, CHAT_FONTMODULE);
 		mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", i);
 		strncpy(fid.prefix, szTemp, SIZEOF(fid.prefix));
@@ -788,7 +787,7 @@ void RegisterFontServiceFonts() {
 	strncpy(fid.dbSettingsGroup, FONTMODULE, SIZEOF(fid.dbSettingsGroup));
 	strncpy(cid.dbSettingsGroup, FONTMODULE, SIZEOF(fid.dbSettingsGroup));
 
-	for (int i = 0; i < SIZEOF(_clrs); i++) {
+	for (int i=0; i < SIZEOF(_clrs); i++) {
 		cid.order = _clrs[i].order;
 		_tcsncpy(cid.group, _clrs[i].tszGroup, SIZEOF(fid.group));
 		_tcsncpy(cid.name, _clrs[i].tszName, SIZEOF(cid.name));
@@ -805,7 +804,7 @@ void RegisterFontServiceFonts() {
 	/*
 	 * text and background colors for tabs
 	 */
-	for (int i = 0; i < SIZEOF(_tabclrs); i++) {
+	for (int i=0; i < SIZEOF(_tabclrs); i++) {
 		cid.order = _tabclrs[i].order;
 		_tcsncpy(cid.group, _tabclrs[i].tszGroup, SIZEOF(fid.group));
 		_tcsncpy(cid.name, _tabclrs[i].tszName, SIZEOF(cid.name));
@@ -918,7 +917,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			}
 		}
 		else {
-			int i = 0;
+			int i=0;
 			while (_o2chatcontrols[i])
 				Utils::enableDlgControl(hwndDlg, _o2chatcontrols[i++], FALSE);
 		}
@@ -1176,7 +1175,7 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			DWORD dwPopupFlags = M.GetDword("Chat", "PopupFlags", GC_EVENT_ALL);
 			DWORD dwLogFlags = M.GetDword("Chat", "DiskLogFlags", GC_EVENT_ALL);
 
-			for (int i = 0; _eventorder[i]; i++) {
+			for (int i=0; _eventorder[i]; i++) {
 				if (_eventorder[i] != GC_EVENT_HIGHLIGHT) {
 					CheckDlgButton(hwndDlg, IDC_1 + i, dwFilterFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
 					CheckDlgButton(hwndDlg, IDC_L1 + i, dwLogFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
@@ -1208,7 +1207,7 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				DWORD dwFilterFlags = 0, dwTrayFlags = 0,
 					dwPopupFlags = 0, dwLogFlags = 0;
 
-				for (int i = 0; _eventorder[i]; i++) {
+				for (int i=0; _eventorder[i]; i++) {
 					if (_eventorder[i] != GC_EVENT_HIGHLIGHT) {
 						dwFilterFlags |= (IsDlgButtonChecked(hwndDlg, IDC_1 + i) ? _eventorder[i] : 0);
 						dwLogFlags |= (IsDlgButtonChecked(hwndDlg, IDC_L1 + i) ? _eventorder[i] : 0);

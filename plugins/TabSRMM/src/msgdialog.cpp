@@ -920,7 +920,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				if (dat->bType == SESSIONTYPE_IM)
 					dat->savedSplitY = dat->splitterY;
 				else {
-					SESSION_INFO *si = (SESSION_INFO *)dat->si;
+					SESSION_INFO *si = (SESSION_INFO*)dat->si;
 					dat->savedSplitY = si->iSplitterY;
 				}
 				dat->savedDynaSplit = dat->dynaSplitter;
@@ -1044,7 +1044,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				dat->dynaSplitter = dat->savedDynaSplit;
 				DM_RecalcPictureSize(dat);
 				if (dat->bType == SESSIONTYPE_CHAT) {
-					SESSION_INFO *si = (SESSION_INFO *)dat->si;
+					SESSION_INFO *si = (SESSION_INFO*)dat->si;
 					si->iSplitterY = dat->savedSplitY;
 					dat->splitterY =si->iSplitterY + DPISCALEY_S(22);
 				}
@@ -3497,7 +3497,7 @@ quote_from_last:
 					CallService(MS_FILE_SENDSPECIFICFILEST, (WPARAM)dat->hContact, (LPARAM)ppFiles);
 				else {
 					if (ServiceExists(MS_HTTPSERVER_ADDFILENAME)) {
-						for (int i = 0; i < totalCount; i++) {
+						for (int i=0; i < totalCount; i++) {
 							char* szFileName = mir_t2a( ppFiles[i] );
 							char *szTemp = (char*)CallService(MS_HTTPSERVER_ADDFILENAME, (WPARAM)szFileName, 0);
 							mir_free( szFileName );

@@ -208,8 +208,7 @@ static int ShowPopup(HANDLE hContact, SESSION_INFO *si, HICON hIcon,  char* pszP
 	else
 		pd.lchIcon = LoadIconEx(IDI_CHANMGR, "window", 0, 0);
 
-	mir_sntprintf(pd.lptzContactName, MAX_CONTACTNAME - 1, _T("%S - %s"),
-				  pszProtoName, CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
+	mir_sntprintf(pd.lptzContactName, MAX_CONTACTNAME - 1, _T("%S - %s"), pszProtoName, pcli->pfnGetContactDisplayName(hContact, 0));
 	lstrcpyn(pd.lptzText, TranslateTS(szBuf), MAX_SECONDLINE - 1);
 	pd.iSeconds = g_Settings.iPopupTimeout;
 
@@ -605,7 +604,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 				break;
 			case GC_EVENT_MESSAGE:
 				params->sound = "ChatMessage";
-				if (params->bInactive && !(si->wState&STATE_TALK)) {
+				if (params->bInactive && !(si->wState & STATE_TALK)) {
 					si->wState |= STATE_TALK;
 					db_set_w(si->hContact, si->pszModule, "ApparentMode", (LPARAM)(WORD) 40071);
 				}

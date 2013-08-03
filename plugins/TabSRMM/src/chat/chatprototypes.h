@@ -105,8 +105,8 @@ SESSION_INFO* SM_FindSessionByHCONTACT(HANDLE h);
 SESSION_INFO* SM_FindSessionByIndex(const char* pszModule, int iItem);
 char*         SM_GetUsers(SESSION_INFO *si);
 USERINFO*     SM_GetUserFromIndex(const TCHAR* pszID, const char* pszModule, int index);
-BOOL		  SM_ReconfigureFilters();
-BOOL		  SM_InvalidateLogDirectories();
+BOOL          SM_ReconfigureFilters();
+BOOL          SM_InvalidateLogDirectories();
 MODULEINFO*   MM_AddModule(const char* pszModule);
 MODULEINFO*   MM_FindModule(const char* pszModule);
 void          MM_FixColors();
@@ -165,7 +165,7 @@ BOOL          DoEventHook(const TCHAR* pszID, const char* pszModule, int iType, 
 BOOL          IsEventSupported(int eventType);
 BOOL          LogToFile(SESSION_INFO *si, GCEVENT *gce);
 void          Chat_SetFilters(SESSION_INFO *si);
-void 		  TSAPI DoFlashAndSoundWorker(FLASH_PARAMS* p);
+void TSAPI    DoFlashAndSoundWorker(FLASH_PARAMS* p);
 // message.c
 char*         Chat_Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si);
 TCHAR*        Chat_DoRtfToTags( char* pszRtfText, SESSION_INFO *si);

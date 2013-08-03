@@ -237,9 +237,8 @@ void TSAPI AddContactToFavorites(HANDLE hContact, const TCHAR *szNickname, const
 	TCHAR			szMenuEntry[80];
 	TCHAR			szFinalNick[100];
 
-	if (szNickname == NULL) {
-		mir_sntprintf(szFinalNick, SIZEOF(szFinalNick), _T("%s"), (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
-	}
+	if (szNickname == NULL)
+		mir_sntprintf(szFinalNick, SIZEOF(szFinalNick), _T("%s"), pcli->pfnGetContactDisplayName(hContact, 0));
 	else {
 		_tcsncpy(szFinalNick, szNickname, 100);
 		szFinalNick[99] = 0;
