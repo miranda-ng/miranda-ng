@@ -58,6 +58,9 @@ extern int ( *saveIconFromStatusMode )( const char *szProto, int status, HANDLE 
 
 int IconFromStatusMode(const char *szProto, int status, HANDLE hContact, HICON *phIcon)
 {
+	if (phIcon != NULL)
+		*phIcon = NULL;
+
 	char *szFinalProto;
 	int finalStatus;
 
@@ -65,7 +68,8 @@ int IconFromStatusMode(const char *szProto, int status, HANDLE hContact, HICON *
 		HANDLE hSubContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) hContact, 0);
 		szFinalProto = GetContactProto(hSubContact);
 		finalStatus = (status == 0) ? (WORD) cfg::getWord(hSubContact, szFinalProto, "Status", ID_STATUS_OFFLINE) : status;
-	} else {
+	}
+	else {
 		szFinalProto = (char*) szProto;
 		finalStatus = status;
 	}
