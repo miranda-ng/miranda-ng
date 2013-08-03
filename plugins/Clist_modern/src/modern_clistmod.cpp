@@ -60,16 +60,12 @@ HICON cliGetIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 {
 	// check if options is turned on
 	BYTE trayOption = db_get_b(NULL,"CLUI","XStatusTray",SETTING_TRAYOPTION_DEFAULT);
-	if (trayOption&3 && szProto != NULL) {
-		// check service exists
-		char str[MAXMODULELABELLENGTH];
-		strcpy(str,szProto);
-		strcat(str,PS_GETCUSTOMSTATUSICON);
-		if ( ServiceExists(str)) {
+	if ((trayOption & 3) && szProto != NULL) {
+		if ( ProtoServiceExists(szProto, PS_GETCUSTOMSTATUSICON)) {
 			// check status is online
 			if (status > ID_STATUS_OFFLINE) {
 				// get xicon
-				HICON hXIcon = (HICON)CallService(str, 0, 0);
+				HICON hXIcon = (HICON)ProtoCallService(szProto, PS_GETCUSTOMSTATUSICON, 0, 0);
 				if (hXIcon) {
 					// check overlay mode
 					if (trayOption & 2) {

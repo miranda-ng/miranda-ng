@@ -45,9 +45,7 @@ HWND g_hwndHotkeyHost = NULL, g_hwndHkOptions = NULL;
 HANDLE hEvChanged = 0;
 
 static BOOL bModuleInitialized = FALSE;
-
-HHOOK hhkKeyboard = NULL;
-static LRESULT CALLBACK sttKeyboardProc(int code, WPARAM wParam, LPARAM lParam);
+static HHOOK hhkKeyboard = NULL;
 
 WORD GetHotkeyValue(INT_PTR idHotkey)
 {
