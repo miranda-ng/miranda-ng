@@ -30,7 +30,7 @@
 [All item's tags are valid. Put them between #. Example: #<author>#]
 [Reset]
 [0 - check manually]
-[aaaa]
+[Feed name]
 [This feed seems to need authentication. Please fill username and password fields:]
 [Username]
 [Available feeds:]
@@ -48,9 +48,10 @@
 [%s\nis a valid feed's address.]
 [News Aggregator]
 [%s\nis not a valid feed's address.]
-[New Aggregator]
 [empty]
 ;file \plugins\NewsAggregator\Src\ExportImport.cpp
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+[Imported %d feed(s).]
 [OPML files]
 [Not valid import file.]
 ;file \plugins\NewsAggregator\Src\Icons.cpp

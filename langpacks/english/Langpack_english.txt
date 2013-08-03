@@ -5676,6 +5676,7 @@
 [Place:]
 [Share]
 [Cancel]
+[Contacts >>]
 [Attach contacts:]
 [User Details]
 [Default group:]
@@ -5702,9 +5703,6 @@
 [Use local time for received messages]
 [Use this server for opening links:]
 [Allow posting statuses to my pages (may slow down login)]
-;file \protocols\FacebookRM\proto_facebook\src\resource.h
-[Facebook icon]
-[Mind]
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 [Unknown error]
@@ -5744,6 +5742,7 @@
 [Error occured when canceling friendship request.]
 ;file \protocols\FacebookRM\src\dialogs.cpp
 [Default]
+[<< Contacts]
 [What's on your mind, %s?]
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
 [Sample event]
@@ -5777,6 +5776,8 @@
 [News Feed]
 [Other Event]
 ;file \protocols\FacebookRM\src\theme.cpp
+[Facebook icon]
+[Mind]
 [Poke]
 [Newsfeed]
 [Friendship details]
@@ -9853,11 +9854,6 @@
 [Operating system version]
 [Software version]
 [Miranda NG core version]
-[Unicode build]
-[Yes]
-[No]
-[Alpha build]
-[Debug build]
 [Mood]
 [Activity]
 [Tune]
@@ -11896,7 +11892,7 @@
 [All item's tags are valid. Put them between #. Example: #<author>#]
 [Reset]
 [0 - check manually]
-[aaaa]
+[Feed name]
 [This feed seems to need authentication. Please fill username and password fields:]
 [Username]
 [Available feeds:]
@@ -11914,9 +11910,10 @@
 [%s\nis a valid feed's address.]
 [News Aggregator]
 [%s\nis not a valid feed's address.]
-[New Aggregator]
 [empty]
 ;file \plugins\NewsAggregator\Src\ExportImport.cpp
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+[Imported %d feed(s).]
 [OPML files]
 [Not valid import file.]
 ;file \plugins\NewsAggregator\Src\Icons.cpp
@@ -13124,7 +13121,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.1.4
+;  Version: 0.1.1.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
@@ -13142,7 +13139,6 @@
 [On startup]
 [(but only once a day)]
 [Every]
-[Update icons]
 [Files source]
 [Stable version]
 [Development version (less stable)]
@@ -13790,6 +13786,13 @@
 [Last Year]
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderBase.cpp
+[Log Files (*.txt,*.log)]
+[Enter integer value]
+[Enter log file name.]
+[Enter log file format.]
+[Enter history format.]
+[Enter popup window format.]
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -13819,12 +13822,6 @@
 [Previous Close]
 [Change]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
-[Log Files (*.txt,*.log)]
-[Enter integer value]
-[Enter log file name.]
-[Enter log file format.]
-[Enter history format.]
-[Enter popup window format.]
 ﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
