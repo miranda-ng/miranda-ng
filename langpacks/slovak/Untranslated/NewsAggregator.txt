@@ -51,7 +51,6 @@
 [NewsAggregator HTTP connection]
 [Feed]
 [%s\nis a valid feed's address.]
-[New Aggregator]
 [%s\nis a not valid feed's address.]
 [empty]
 [OPML files]

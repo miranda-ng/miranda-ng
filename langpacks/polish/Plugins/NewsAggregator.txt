@@ -54,8 +54,8 @@ Wszystkie tagi są ważne. Umieść je pomiędzy #. Przykład #<author>#
 Domyślne
 [0 - check manually]
 0 - sprawdzaj ręcznie
-[aaaa]
-aaaa
+[Feed name]
+Nazwę kanału
 [This feed seems to need authentication. Please fill username and password fields:]
 Ten kanał wydaje się wymagać autoryzacji. Wypełnij pola loginu i hasła:
 [Username]
@@ -88,8 +88,6 @@ Wprowadź swoje hasło
 RSS/Atom
 [%s\nis not a valid feed's address.]
 nie jest poprawnym adresem RSS.
-[New Aggregator]
-
 [empty]
 pusty
 ;file \plugins\NewsAggregator\Src\ExportImport.cpp

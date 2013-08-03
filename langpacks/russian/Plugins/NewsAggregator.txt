@@ -203,8 +203,6 @@ URL страницы с комментариями к новости.
 %s\nнеправильный адрес канала
 [Tags Mask Reset]
 Сброс тегов
-[New Aggregator]
-Новый канал
 [Enter Feed name]
 Введите имя канала
 [Contact deleting]
@@ -221,6 +219,10 @@ HTTP подключение каналов новостей
 Файлы OPML
 [Not valid import file.]
 Неверный файл для импорта
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+Импортировано каналов: %d \r\nНе импортировано дубликатов: %d
+[Imported %d feed(s).]
+Импортировано каналов: %d
 [This feed seems to need authentication. Please fill username and password fields:]
 Каналу требуется аутентификация. Пожалуйста введите имя пользователя и пароль:
 [Username]

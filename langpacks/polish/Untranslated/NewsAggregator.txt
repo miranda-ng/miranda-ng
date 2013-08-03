@@ -1,4 +1,3 @@
-﻿[New Aggregator]
-[Not valid import file.]
+﻿[Not valid import file.]
 [Contact deleting]
 [NewsAggregator HTTP connection]

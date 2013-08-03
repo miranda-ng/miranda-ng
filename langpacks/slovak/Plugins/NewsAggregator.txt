@@ -127,8 +127,6 @@ Sieť
 
 [%s\nis a valid feed's address.]
 
-[New Aggregator]
-
 [%s\nis a not valid feed's address.]
 
 [empty]

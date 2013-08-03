@@ -129,8 +129,6 @@ Feed
 %s\nist eine gültige Feed-Adresse
 [%s\nis not a valid feed's address.]
 
-[New Aggregator]
-
 [empty]
 leer
 [OPML files]
