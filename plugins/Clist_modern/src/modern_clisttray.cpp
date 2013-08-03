@@ -127,11 +127,17 @@ int GetAverageMode()
 	PROTOACCOUNT **accs;
 	ProtoEnumAccounts( &count, &accs );
 	for (i=0, netProtoCount = 0;i < count;i++) {
-		if ( pcli->pfnGetProtocolVisibility(accs[i]->szModuleName) == 0 ) continue;
+		if ( pcli->pfnGetProtocolVisibility(accs[i]->szModuleName) == 0)
+			continue;
+
 		pcli->cycleStep = i;
 		netProtoCount++;
-		if (averageMode == 0) averageMode = CallProtoService(accs[i]->szModuleName,PS_GETSTATUS, 0, 0);
-		else if (averageMode != CallProtoService(accs[i]->szModuleName,PS_GETSTATUS, 0, 0)) {averageMode = -1; break;}
+		if (averageMode == 0)
+			averageMode = CallProtoService(accs[i]->szModuleName, PS_GETSTATUS, 0, 0);
+		else if (averageMode != CallProtoService(accs[i]->szModuleName, PS_GETSTATUS, 0, 0)) {
+			averageMode = -1;
+			break;
+		}
 	}
 	return averageMode;
 }
@@ -142,13 +148,15 @@ int GetAverageMode()
 
 static VOID CALLBACK RefreshTimerProc(HWND hwnd,UINT message,UINT idEvent,DWORD dwTime)
 {
-	int count,i;
+	if (RefreshTimerId) {
+		KillTimer(NULL,RefreshTimerId);
+		RefreshTimerId = 0;
+	}
+
+	int count;
 	PROTOACCOUNT **accs;
-
-	if (RefreshTimerId) {KillTimer(NULL,RefreshTimerId); RefreshTimerId = 0;}
-
-	ProtoEnumAccounts( &count, &accs );
-	for (i=0; i < count; i++)
+	ProtoEnumAccounts(&count, &accs);
+	for (int i=0; i < count; i++)
 		if ( pcli->pfnGetProtocolVisibility(accs[i]->szModuleName))
 			pcli->pfnTrayIconUpdateBase(accs[i]->szModuleName);
 
@@ -158,6 +166,8 @@ static VOID CALLBACK RefreshTimerProc(HWND hwnd,UINT message,UINT idEvent,DWORD 
 int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount)
 {
 	HWND hwnd = pcli->hwndContactList;
+	HICON hIcon;
+	int status;
 
 	if (netProtoCount > 1) {
 		if (averageMode >= ID_STATUS_OFFLINE) {
@@ -172,8 +182,8 @@ int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProto
 				pcli->pfnTrayIconInit(hwnd);
 			}
 			else {
-				if ( db_get_b(NULL,"CList","TrayIcon",SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_SINGLE &&
-					db_get_b(NULL,"CList","AlwaysPrimary",SETTING_ALWAYSPRIMARY_DEFAULT))
+				if ( db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_SINGLE &&
+					  db_get_b(NULL, "CList", "AlwaysPrimary", SETTING_ALWAYSPRIMARY_DEFAULT))
 				{
 					ptrA szProto( db_get_sa(NULL,"CList","PrimaryStatus"));
 					return pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,szProto,averageMode),NULL);
@@ -184,58 +194,50 @@ int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProto
 		else {
 			switch( db_get_b(NULL,"CList","TrayIcon",SETTING_TRAYICON_DEFAULT)) {
 			case SETTING_TRAYICON_SINGLE:
-				{
-					ptrA szProto( db_get_sa(NULL,"CList","PrimaryStatus"));
-					int status = CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0);
+				status = CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0);
 
-					if ((g_StatusBarData.connectingIcon == 1) && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES) {
-						//
-						HICON hIcon;
-						// 1 check if multi connecting icon
-						CListTray_GetGlobalStatus(0, 0);
-						if (g_bMultiConnectionMode) {
-							if (_strcmpi(szChangedProto, g_szConnectingProto))
-								return -1;
-							else
-								hIcon = (HICON)CLUI_GetConnectingIconService(NULL, 1);
-						}
-						else hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto,0);
-
-						if (hIcon)
-							return pcli->pfnTrayIconSetBaseInfo(hIcon,NULL);
+				if ((g_StatusBarData.connectingIcon == 1) && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES) {
+					// 1 check if multi connecting icon
+					CListTray_GetGlobalStatus(0, 0);
+					if (g_bMultiConnectionMode) {
+						if (_strcmpi(szChangedProto, g_szConnectingProto))
+							return -1;
+							
+						hIcon = (HICON)CLUI_GetConnectingIconService(NULL, 1);
 					}
-					else return pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,szProto,szProto?CallProtoService(szProto,PS_GETSTATUS, 0, 0):CallService(MS_CLIST_GETSTATUSMODE, 0, 0)),NULL);
+					else hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto,0);
 				}
+				else {
+					ptrA szProto( db_get_sa(NULL,"CList","PrimaryStatus"));
+					hIcon = cliGetIconFromStatusMode(NULL, szProto, (szProto) ? CallProtoService(szProto,PS_GETSTATUS, 0, 0) : CallService(MS_CLIST_GETSTATUSMODE, 0, 0));
+				}
+				if (hIcon)
+					return pcli->pfnTrayIconSetBaseInfo(hIcon,NULL);
 				break;
 
 			case SETTING_TRAYICON_CYCLE:
+				status = szChangedProto ? CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0) : averageMode;
+				if ((g_StatusBarData.connectingIcon == 1 && CListTray_GetGlobalStatus(0, 0)
+					&&  ((status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES) ||  g_bMultiConnectionMode )))
 				{
-					int status = szChangedProto ? CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0) : averageMode;
-					if ((g_StatusBarData.connectingIcon == 1 && CListTray_GetGlobalStatus(0, 0)
-						&&  ((status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES) ||  g_bMultiConnectionMode )))
-					{
-						//connecting
-						status = status;
-						//stop cycling
-						if (pcli->cycleTimerId)
-							KillTimer(NULL,pcli->cycleTimerId);
-						pcli->cycleTimerId = 0;
+					//stop cycling
+					if (pcli->cycleTimerId)
+						KillTimer(NULL,pcli->cycleTimerId);
+					pcli->cycleTimerId = 0;
 
-						HICON hIcon;
-						// 1 check if multi connecting icon
-						if (g_bMultiConnectionMode) {
-							if (_strcmpi(szChangedProto,g_szConnectingProto))
-								return -1;
-							hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)"",1);
-						}
-						else hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
-						if (hIcon)
-							return pcli->pfnTrayIconSetBaseInfo(hIcon,NULL);
+					// 1 check if multi connecting icon
+					if (g_bMultiConnectionMode) {
+						if (_strcmpi(szChangedProto,g_szConnectingProto))
+							return -1;
+						hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)"",1);
 					}
-					else {
-						pcli->cycleTimerId = CLUI_SafeSetTimer(NULL, 0, db_get_w(NULL,"CList","CycleTime",SETTING_CYCLETIME_DEFAULT)*1000, pcli->pfnTrayCycleTimerProc);
-						return pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,szChangedProto,status),NULL);
-					}
+					else hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
+					if (hIcon)
+						return pcli->pfnTrayIconSetBaseInfo(hIcon, NULL);
+				}
+				else {
+					pcli->cycleTimerId = CLUI_SafeSetTimer(NULL, 0, db_get_w(NULL,"CList","CycleTime",SETTING_CYCLETIME_DEFAULT)*1000, pcli->pfnTrayCycleTimerProc);
+					return pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,szChangedProto,status),NULL);
 				}
 				break;
 
@@ -243,15 +245,16 @@ int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProto
 				if ( !pcli->trayIcon)
 					pcli->pfnTrayIconRemove(NULL,NULL);
 				else if ( db_get_b(NULL,"CList","AlwaysMulti",SETTING_ALWAYSMULTI_DEFAULT )) {
-					if (pcli->pfnGetProtocolVisibility(szChangedProto)) {
-						int status = CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0);
-						if ((g_StatusBarData.connectingIcon == 1) && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES) {
-							HICON hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto,0);
-							if (hIcon)
-								return pcli->pfnTrayIconSetBaseInfo(hIcon,szChangedProto);
-						}
-						else return pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,szChangedProto,CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0)),szChangedProto);
-					}
+					if ( !pcli->pfnGetProtocolVisibility(szChangedProto))
+						return -1;
+						
+					status = CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0);
+					if ((g_StatusBarData.connectingIcon == 1) && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES)
+						hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
+					else
+						hIcon = cliGetIconFromStatusMode(NULL,szChangedProto,CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0));
+					if (hIcon)
+						return pcli->pfnTrayIconSetBaseInfo(hIcon,szChangedProto);
 				}
 				else if (pcli->pfnGetProtocolVisibility(szChangedProto)) {
 					int avg = GetAverageMode();
@@ -259,33 +262,28 @@ int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProto
 					if (i < 0) {
 						pcli->pfnTrayIconDestroy(hwnd);
 						pcli->pfnTrayIconInit(hwnd);
+						return -1;
 					}
-					else {
-						int status = CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0);
-						if ((g_StatusBarData.connectingIcon == 1) && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES) {
-							HICON hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto,0);;
-							if (hIcon)
-								return pcli->pfnTrayIconSetBaseInfo(hIcon,szChangedProto);
-						}
-						return i;
+
+					status = CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0);
+					if ((g_StatusBarData.connectingIcon == 1) && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES) {
+						if (hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0))
+							return pcli->pfnTrayIconSetBaseInfo(hIcon,szChangedProto);
 					}
+					return i;
 				}
 				break;
 			}
 		}
 	}
-	else if ( pcli->pfnGetProtocolVisibility(szChangedProto))
-	{
-		int status = CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0);
+	else if ( pcli->pfnGetProtocolVisibility(szChangedProto)) {
+		status = CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0);
 
-		if ((g_StatusBarData.connectingIcon == 1) && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES)
-		{
-			HICON hIcon = ( HICON )CLUI_GetConnectingIconService((WPARAM)szChangedProto,0);;
-			if (hIcon)
+		if ((g_StatusBarData.connectingIcon == 1) && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES) {
+			if (hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0))
 				return pcli->pfnTrayIconSetBaseInfo(hIcon,NULL);
 		}
-		else if (status >= ID_STATUS_OFFLINE && status <= ID_STATUS_IDLE)
-		{
+		else if (status >= ID_STATUS_OFFLINE && status <= ID_STATUS_IDLE) {
 			ptrA szProto( db_get_sa(NULL,"CList","PrimaryStatus"));
 			return pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,szProto,status),NULL);
 		}
@@ -298,13 +296,12 @@ static UINT_PTR autoHideTimerId;
 
 static VOID CALLBACK TrayIconAutoHideTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD dwTime)
 {
-	HWND hwndClui, ActiveWindow;
 	KillTimer(hwnd,idEvent);
-	hwndClui = pcli->hwndContactList;
-	ActiveWindow = GetActiveWindow();
+	HWND hwndClui = pcli->hwndContactList;
+	HWND ActiveWindow = GetActiveWindow();
 	if (ActiveWindow == hwndClui) return;
 	if (CLUI_CheckOwnedByClui(ActiveWindow)) return;
-	//CLUI_ShowWindowMod(hwndClui,SW_HIDE);
+
 	CListMod_HideWindow(hwndClui, SW_HIDE);
 	if (MySetProcessWorkingSetSize != NULL)
 		MySetProcessWorkingSetSize(GetCurrentProcess(),-1,-1);
@@ -312,14 +309,12 @@ static VOID CALLBACK TrayIconAutoHideTimer(HWND hwnd,UINT message,UINT_PTR idEve
 
 int cliTrayIconPauseAutoHide(WPARAM wParam,LPARAM lParam)
 {
-	if ( db_get_b(NULL,"CList","AutoHide",SETTING_AUTOHIDE_DEFAULT))
-	{
-		if (GetActiveWindow() != pcli->hwndContactList
-			 &&  GetWindow(GetParent(GetActiveWindow()),GW_OWNER) != pcli->hwndContactList)
-		{
+	if ( db_get_b(NULL, "CList", "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
+		if (GetActiveWindow() != pcli->hwndContactList && GetWindow(GetParent(GetActiveWindow()),GW_OWNER) != pcli->hwndContactList) {
 			KillTimer(NULL,autoHideTimerId);
 			autoHideTimerId = CLUI_SafeSetTimer(NULL, 0, 1000*db_get_w(NULL,"CList","HideTime",SETTING_HIDETIME_DEFAULT),TrayIconAutoHideTimer);
-	}	}
+		}
+	}
 
 	return 0;
 }
