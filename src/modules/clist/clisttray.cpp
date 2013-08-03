@@ -34,8 +34,6 @@ int GetAverageMode(int* pNetProtoCount = NULL);
 static UINT WM_TASKBARCREATED;
 static UINT WM_TASKBARBUTTONCREATED;
 static BOOL mToolTipTrayTips = FALSE;
-static UINT_PTR cycleTimerId = 0;
-static int cycleStep = 0;
 static UINT_PTR RefreshTimerId = 0;   /////by FYR
 static CRITICAL_SECTION trayLockCS;
 
@@ -461,15 +459,15 @@ VOID CALLBACK fnTrayCycleTimerProc(HWND, UINT, UINT_PTR, DWORD)
 
 	int i;
 	for (i = accounts.getCount() + 1; --i;) {
-		cycleStep = (cycleStep + 1) % accounts.getCount();
-		if (cli.pfnGetProtocolVisibility(accounts[cycleStep]->szModuleName))
+		cli.cycleStep = (cli.cycleStep + 1) % accounts.getCount();
+		if (cli.pfnGetProtocolVisibility(accounts[cli.cycleStep]->szModuleName))
 			break;
 	}
 
 	if (i) {
 		DestroyIcon(cli.trayIcon[0].hBaseIcon);
-		cli.trayIcon[0].hBaseIcon = cli.pfnGetIconFromStatusMode(NULL, accounts[cycleStep]->szModuleName,
-			CallProtoServiceInt(NULL,accounts[cycleStep]->szModuleName, PS_GETSTATUS, 0, 0));
+		cli.trayIcon[0].hBaseIcon = cli.pfnGetIconFromStatusMode(NULL, accounts[cli.cycleStep]->szModuleName,
+			CallProtoServiceInt(NULL, accounts[cli.cycleStep]->szModuleName, PS_GETSTATUS, 0, 0));
 		if (cli.trayIcon[0].isBase)
 			cli.pfnTrayIconUpdate(cli.trayIcon[0].hBaseIcon, NULL, NULL, 1);
 	}
@@ -477,11 +475,11 @@ VOID CALLBACK fnTrayCycleTimerProc(HWND, UINT, UINT_PTR, DWORD)
 
 void fnTrayIconUpdateBase(const char *szChangedProto)
 {
+	initcheck;
+	if (szChangedProto == NULL) return;
 	if ( !cli.pfnGetProtocolVisibility(szChangedProto)) return;
 
-	int i, netProtoCount, changed = -1;
-	HWND hwnd = cli.hwndContactList;
-	initcheck;
+	int netProtoCount;
 	mir_cslock lck(trayLockCS);
 	int averageMode = GetAverageMode(&netProtoCount);
 
@@ -490,72 +488,65 @@ void fnTrayIconUpdateBase(const char *szChangedProto)
 		cli.cycleTimerId = 0;
 	}
 
-	for (i=0; i < accounts.getCount(); i++)
+	for (int i=0; i < accounts.getCount(); i++)
 		if ( !lstrcmpA(szChangedProto, accounts[i]->szModuleName))
-			cycleStep = i - 1;
+			cli.cycleStep = i;
 
-	if (netProtoCount > 0) {
-		int trayIconSetting = db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT);
-
-		if (averageMode > 0) {
-			if (trayIconSetting == SETTING_TRAYICON_MULTI) {
-				if (db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))
-					//changed = cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode((char*)szChangedProto, NULL, averageMode), (char*)szChangedProto);
-					changed = cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(NULL, szChangedProto, CallProtoServiceInt(NULL,szChangedProto, PS_GETSTATUS, 0, 0)), (char*)szChangedProto);
-				else if (cli.trayIcon && cli.trayIcon[0].szProto != NULL) {
-					cli.pfnTrayIconDestroy(hwnd);
-					cli.pfnTrayIconInit(hwnd);
-				}
-				else
-					changed = cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(NULL, NULL, averageMode), NULL);
-			}
-			else
-				changed = cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(NULL, NULL, averageMode), NULL);
-		}
-		else {
-			switch (trayIconSetting) {
-			case SETTING_TRAYICON_SINGLE:
-				{
-					DBVARIANT dbv = { DBVT_DELETED };
-					char *szProto;
-					if (db_get_s(NULL, "CList", "PrimaryStatus", &dbv))
-						szProto = NULL;
-					else
-						szProto = dbv.pszVal;
-					changed = cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(NULL, szProto, szProto ?
-						CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0) :
-						CallService(MS_CLIST_GETSTATUSMODE, 0, 0)), szProto);
-					db_free(&dbv);
-				}
-				break;
-
-			case SETTING_TRAYICON_CYCLE:
-				cli.cycleTimerId = SetTimer(NULL, 0, db_get_w(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, cli.pfnTrayCycleTimerProc);
-				changed =
-					cli.pfnTrayIconSetBaseInfo(ImageList_GetIcon
-					(hCListImages, cli.pfnIconFromStatusMode(szChangedProto, CallProtoServiceInt(NULL,szChangedProto, PS_GETSTATUS, 0, 0), NULL),
-					ILD_NORMAL), NULL);
-				break;
-
-			case SETTING_TRAYICON_MULTI:
-				if ( !cli.trayIcon)
-					cli.pfnTrayIconRemove(NULL, NULL);
-				else if ((cli.trayIconCount > 1 || netProtoCount == 1) || db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))
-					changed = cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(NULL, szChangedProto, CallProtoServiceInt(NULL,szChangedProto, PS_GETSTATUS, 0, 0)), (char*)szChangedProto);
-				else {
-					cli.pfnTrayIconDestroy(hwnd);
-					cli.pfnTrayIconInit(hwnd);
-				}
-				break;
-			}
-		}
-	}
-	else changed = cli.pfnTrayIconSetBaseInfo(ImageList_GetIcon(hCListImages, cli.pfnIconFromStatusMode(NULL, averageMode, NULL), ILD_NORMAL), NULL);
-
+	int changed = cli.pfnTrayCalcChanged(szChangedProto, averageMode, netProtoCount);
 	if (changed != -1 && cli.trayIcon[changed].isBase)
 		cli.pfnTrayIconUpdate(cli.trayIcon[changed].hBaseIcon, NULL, cli.trayIcon[changed].szProto, 1);
 }
 
+int fnTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount)
+{
+	if (netProtoCount == 0)
+		return cli.pfnTrayIconSetBaseInfo(ImageList_GetIcon(hCListImages, cli.pfnIconFromStatusMode(NULL, averageMode, NULL), ILD_NORMAL), NULL);
+
+	int trayIconSetting = db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT);
+
+	if (averageMode > 0) {
+		if (trayIconSetting != SETTING_TRAYICON_MULTI)
+			return cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(NULL, NULL, averageMode), NULL);
+
+		if (db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))
+			return cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(NULL, szChangedProto, CallProtoServiceInt(NULL,szChangedProto, PS_GETSTATUS, 0, 0)), (char*)szChangedProto);
+
+		if (cli.trayIcon == NULL || cli.trayIcon[0].szProto == NULL)
+			return cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(NULL, NULL, averageMode), NULL);
+
+		cli.pfnTrayIconDestroy(cli.hwndContactList);
+		cli.pfnTrayIconInit(cli.hwndContactList);
+	}
+	else {
+		switch (trayIconSetting) {
+		case SETTING_TRAYICON_CYCLE:
+			cli.cycleTimerId = SetTimer(NULL, 0, db_get_w(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, cli.pfnTrayCycleTimerProc);
+			return cli.pfnTrayIconSetBaseInfo(ImageList_GetIcon
+				(hCListImages, cli.pfnIconFromStatusMode(szChangedProto, CallProtoServiceInt(NULL,szChangedProto, PS_GETSTATUS, 0, 0), NULL),
+				ILD_NORMAL), NULL);
+
+		case SETTING_TRAYICON_MULTI:
+			if ( !cli.trayIcon)
+				cli.pfnTrayIconRemove(NULL, NULL);
+			else if ((cli.trayIconCount > 1 || netProtoCount == 1) || db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))
+				return cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(NULL, szChangedProto, CallProtoServiceInt(NULL,szChangedProto, PS_GETSTATUS, 0, 0)), (char*)szChangedProto);
+			else {
+				cli.pfnTrayIconDestroy(cli.hwndContactList);
+				cli.pfnTrayIconInit(cli.hwndContactList);
+			}
+			break;
+
+		case SETTING_TRAYICON_SINGLE:
+			ptrA szProto( db_get_sa(NULL, "CList", "PrimaryStatus"));
+			return cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(NULL, szProto, szProto ?
+				CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0) :
+				CallService(MS_CLIST_GETSTATUSMODE, 0, 0)), szProto);
+		}
+	}
+
+	return -1;
+}
+ 
 void fnTrayIconSetToBase(char *szPreferredProto)
 {
 	int i;

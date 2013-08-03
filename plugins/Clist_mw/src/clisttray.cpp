@@ -36,12 +36,13 @@ INT_PTR TrayIconProcessMessage(WPARAM wParam,LPARAM lParam)
 	case WM_DRAWITEM:
 		return CallService(MS_CLIST_MENUDRAWITEM,msg->wParam,msg->lParam);
 		break;
+
 	case WM_MEASUREITEM:
 		return CallService(MS_CLIST_MENUMEASUREITEM,msg->wParam,msg->lParam);
 		break;
+
 	case TIM_CALLBACK:
-		if (msg->lParam == WM_RBUTTONUP)
-		{
+		if (msg->lParam == WM_RBUTTONUP) {
 			POINT pt;
 			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDTRAY,0,0);
 
@@ -49,7 +50,7 @@ INT_PTR TrayIconProcessMessage(WPARAM wParam,LPARAM lParam)
 			SetFocus(msg->hwnd);
 			GetCursorPos(&pt);
 			TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN, pt.x, pt.y, 0, msg->hwnd, NULL);
-            DestroyTrayMenu(hMenu);
+			DestroyTrayMenu(hMenu);
 		}
 		else break;
 
@@ -69,10 +70,12 @@ HANDLE hTrayStatusMenuItemProxy;
 HANDLE hPreBuildTrayMenuEvent;
 
 //traymenu exec param(ownerdata)
-typedef struct{
-char *szServiceName;
-INT_PTR Param1;
-}TrayMenuExecParam,*lpTrayMenuExecParam;
+typedef struct
+{
+	char *szServiceName;
+	INT_PTR Param1;
+}
+	TrayMenuExecParam,*lpTrayMenuExecParam;
 
 /*
 wparam = handle to the menu item returned by MS_CLIST_ADDCONTACTMENUITEM
@@ -159,7 +162,8 @@ INT_PTR TrayMenuonAddService(WPARAM wParam,LPARAM lParam)
 //called with:
 //wparam - ownerdata
 //lparam - lparam from winproc
-INT_PTR TrayMenuExecService(WPARAM wParam,LPARAM lParam) {
+INT_PTR TrayMenuExecService(WPARAM wParam,LPARAM lParam)
+{
 	if (wParam != 0)
 	{
 		lpTrayMenuExecParam mmep = (lpTrayMenuExecParam)wParam;
@@ -223,56 +227,55 @@ void InitTrayMenus(void)
 	op.Value = (INT_PTR)"CLISTMENUSTRAY/TrayMenuonAddService";
 	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
 
-	{
-		//add  exit command to menu
-		CLISTMENUITEM mi = { sizeof(mi) };
-		mi.position = 900000;
-		mi.pszService = "CloseAction";
-		mi.pszName = LPGEN("E&xit");
-		AddTrayMenuItem(0,(LPARAM)&mi);
+	//add  exit command to menu
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.position = 900000;
+	mi.pszService = "CloseAction";
+	mi.pszName = LPGEN("E&xit");
+	AddTrayMenuItem(0,(LPARAM)&mi);
 
-		memset(&mi,0,sizeof(mi));
-		mi.cbSize = sizeof(mi);
-		mi.position = 100000;
-		mi.pszService = MS_CLIST_SHOWHIDE;
-		mi.pszName = LPGEN("&Hide/Show");
-		hHideShowMainMenuItem = (HANDLE)AddTrayMenuItem(0,(LPARAM)&mi);
+	memset(&mi,0,sizeof(mi));
+	mi.cbSize = sizeof(mi);
+	mi.position = 100000;
+	mi.pszService = MS_CLIST_SHOWHIDE;
+	mi.pszName = LPGEN("&Hide/Show");
+	hHideShowMainMenuItem = (HANDLE)AddTrayMenuItem(0,(LPARAM)&mi);
 
-		memset(&mi,0,sizeof(mi));
-		mi.cbSize = sizeof(mi);
-		mi.position = 200000;
-		mi.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_FINDUSER));
-		mi.pszService = "FindAdd/FindAddCommand";
-		mi.pszName = LPGEN("&Find/Add Contacts...");
-		AddTrayMenuItem(0,(LPARAM)&mi);
+	memset(&mi,0,sizeof(mi));
+	mi.cbSize = sizeof(mi);
+	mi.position = 200000;
+	mi.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_FINDUSER));
+	mi.pszService = "FindAdd/FindAddCommand";
+	mi.pszName = LPGEN("&Find/Add Contacts...");
+	AddTrayMenuItem(0,(LPARAM)&mi);
 
-		memset(&mi,0,sizeof(mi));
-		mi.cbSize = sizeof(mi);
-		mi.position = 300000;
-		mi.pszService = "";
-		mi.pszName = LPGEN("&Main Menu");
-		hTrayMainMenuItemProxy = (HANDLE)AddTrayMenuItem(0,(LPARAM)&mi);
+	memset(&mi,0,sizeof(mi));
+	mi.cbSize = sizeof(mi);
+	mi.position = 300000;
+	mi.pszService = "";
+	mi.pszName = LPGEN("&Main Menu");
+	hTrayMainMenuItemProxy = (HANDLE)AddTrayMenuItem(0,(LPARAM)&mi);
 
-		memset(&mi,0,sizeof(mi));
-		mi.cbSize = sizeof(mi);
-		mi.position = 300100;
-		mi.pszService = "";
-		mi.pszName = LPGEN("&Status");
-		hTrayStatusMenuItemProxy = (HANDLE)AddTrayMenuItem(0,(LPARAM)&mi);
+	memset(&mi,0,sizeof(mi));
+	mi.cbSize = sizeof(mi);
+	mi.position = 300100;
+	mi.pszService = "";
+	mi.pszName = LPGEN("&Status");
+	hTrayStatusMenuItemProxy = (HANDLE)AddTrayMenuItem(0,(LPARAM)&mi);
 
-		memset(&mi,0,sizeof(mi));
-		mi.cbSize = sizeof(mi);
-		mi.position = 400000;
-		mi.hIcon = LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_OPTIONS));
-		mi.pszService = "Options/OptionsCommand";
-		mi.pszName = LPGEN("&Options...");
-		AddTrayMenuItem(0,(LPARAM)&mi);
+	memset(&mi,0,sizeof(mi));
+	mi.cbSize = sizeof(mi);
+	mi.position = 400000;
+	mi.hIcon = LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_OPTIONS));
+	mi.pszService = "Options/OptionsCommand";
+	mi.pszName = LPGEN("&Options...");
+	AddTrayMenuItem(0,(LPARAM)&mi);
 
-		memset(&mi,0,sizeof(mi));
-		mi.cbSize = sizeof(mi);
-		mi.position = 500000;
-		mi.hIcon = LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_CLIENTMIRANDA));
-		mi.pszService = "Help/AboutCommand";
-		mi.pszName = LPGEN("&About");
-		AddTrayMenuItem(0,(LPARAM)&mi);
-}	}
+	memset(&mi,0,sizeof(mi));
+	mi.cbSize = sizeof(mi);
+	mi.position = 500000;
+	mi.hIcon = LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_CLIENTMIRANDA));
+	mi.pszService = "Help/AboutCommand";
+	mi.pszName = LPGEN("&About");
+	AddTrayMenuItem(0,(LPARAM)&mi);
+}

@@ -35,29 +35,11 @@ extern HIMAGELIST hCListImages;
 #define NIF_STATE       0x00000008
 #define NIF_INFO        0x00000010
 
-void TrayIconUpdateBase(const char *szChangedProto)
+int TrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount)
 {
-	int i,count,netProtoCount,changed = -1;
-	PROTOACCOUNT **accs;
-	int averageMode = 0;
+	int changed = -1;
 	HWND hwnd = pcli->hwndContactList;
 
-	if (pcli->cycleTimerId)
-		KillTimer(NULL, pcli->cycleTimerId); pcli->cycleTimerId = 0;
-
-	ProtoEnumAccounts( &count, &accs );
-	for (i = 0,netProtoCount = 0; i < count; i++) {
-		if ( !pcli->pfnGetProtocolVisibility( accs[i]->szModuleName ))
-			continue;
-		netProtoCount++;
-		if ( !lstrcmpA(szChangedProto, accs[i]->szModuleName ))
-			pcli->cycleStep = i;
-		if (averageMode == 0)
-			averageMode = CallProtoService( accs[i]->szModuleName, PS_GETSTATUS, 0, 0);
-		else if (averageMode != CallProtoService( accs[i]->szModuleName, PS_GETSTATUS, 0, 0)) {
-			averageMode = -1; break;
-		}
-	}
 	if (netProtoCount > 1) {
 		if (averageMode > 0) {
 			if (cfg::getByte("CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI) {
@@ -150,8 +132,8 @@ void TrayIconUpdateBase(const char *szChangedProto)
 		else
 			changed = pcli->pfnTrayIconSetBaseInfo(ImageList_GetIcon(hCListImages, iIcon, ILD_NORMAL), NULL);
 	}
-	if (changed != -1 && pcli->trayIcon[changed].isBase)
-		pcli->pfnTrayIconUpdate( pcli->trayIcon[changed].hBaseIcon, NULL, pcli->trayIcon[changed].szProto, 1);
+
+	return changed;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

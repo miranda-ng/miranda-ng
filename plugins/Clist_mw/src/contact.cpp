@@ -77,9 +77,11 @@ void LoadContactTree(void)
 {
 	int tick = GetTickCount();
 	CallService(MS_CLUI_LISTBEGINREBUILD,0,0);
-	for (int i=1;; i++)
-		if ((char*)CallService(MS_CLIST_GROUPGETNAME2, i, 0) != NULL)
-			CallService(MS_CLUI_GROUPADDED, i, 0);
+	for (int i=1;; i++) {
+		if ((char*)CallService(MS_CLIST_GROUPGETNAME2, i, 0) == NULL)
+			break;
+		CallService(MS_CLUI_GROUPADDED, i, 0);
+	}
 
 	int hideOffline = db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT);
 

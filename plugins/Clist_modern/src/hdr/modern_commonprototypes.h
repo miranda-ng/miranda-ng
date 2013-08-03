@@ -300,7 +300,7 @@ int     cliShowHide(WPARAM wParam,LPARAM lParam);
 BOOL    CLUI__cliInvalidateRect(HWND hWnd, CONST RECT* lpRect,BOOL bErase );
 int     cliCompareContacts(const ClcContact *contact1,const ClcContact *contact2);
 int     cliFindItem(HWND hwnd,ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup **subgroup,int *isVisible);
-void    cliTrayIconUpdateBase(const char *szChangedProto);
+int     cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount);
 int     cliTrayIconPauseAutoHide(WPARAM wParam,LPARAM lParam);
 void    cliCluiProtocolStatusChanged(int status,const char * proto);
 HMENU   cliBuildGroupPopupMenu(ClcGroup *group);

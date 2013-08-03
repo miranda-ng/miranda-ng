@@ -51,9 +51,9 @@ TIME_API tmi;
 
 HMENU  BuildGroupPopupMenu( ClcGroup* group );
 ClcContact* CreateClcContact( void );
-struct CListEvent* fnCreateEvent( void );
+CListEvent* fnCreateEvent( void );
 void   ReloadThemedOptions();
-void   TrayIconUpdateBase(const char *szChangedProto);
+int    TrayCalcChanged(const char *szChangedProto, int averageMode, int iProtoCount);
 void   RegisterCLUIFrameClasses();
 void   LoadButtonModule();
 
@@ -299,7 +299,7 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	pcli->pfnRebuildEntireList = RebuildEntireList;
 	pcli->pfnRowHitTest = RowHeight::hitTest;
 	pcli->pfnScrollTo = ScrollTo;
-	pcli->pfnTrayIconUpdateBase = TrayIconUpdateBase;
+	pcli->pfnTrayCalcChanged = TrayCalcChanged;
 	pcli->pfnSetHideOffline = SetHideOffline;
 	pcli->pfnShowHide = ShowHide;
 

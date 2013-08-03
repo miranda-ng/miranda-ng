@@ -172,6 +172,7 @@ void   fnTrayIconSetToBase (char *szPreferredProto);
 void   fnTrayIconTaskbarCreated(HWND hwnd);
 int    fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPreferredProto, int isBase);
 void   fnTrayIconUpdateBase (const char *szChangedProto);
+int    fnTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount);
 void   fnTrayIconUpdateWithImageList (int iImage, const TCHAR *szNewTip, char *szPreferredProto);
 
 VOID CALLBACK fnTrayCycleTimerProc(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);

@@ -35,7 +35,7 @@ void cliCluiProtocolStatusChanged(int status,const char * proto)
 {
 	CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE,(WPARAM)pcli->hwndStatus,0);
 	if (proto)
-		cliTrayIconUpdateBase(proto);
+		pcli->pfnTrayIconUpdateBase(proto);
 }
 
 static INT_PTR MetaSupportCheck(WPARAM wParam,LPARAM lParam)

@@ -169,6 +169,7 @@ static INT_PTR srvRetrieveInterface(WPARAM, LPARAM)
 		cli.pfnTrayIconTaskbarCreated          = fnTrayIconTaskbarCreated;
 		cli.pfnTrayIconUpdate                  = fnTrayIconUpdate;
 		cli.pfnTrayIconUpdateBase              = fnTrayIconUpdateBase;
+		cli.pfnTrayCalcChanged                 = fnTrayCalcChanged;
 		cli.pfnTrayIconUpdateWithImageList	   = fnTrayIconUpdateWithImageList;
 		cli.pfnCListTrayNotify                 = fnCListTrayNotify;
 

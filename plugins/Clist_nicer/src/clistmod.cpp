@@ -40,7 +40,6 @@ extern int RemoveEvent(WPARAM wParam, LPARAM lParam);
 int InitCustomMenus(void);
 void UninitCustomMenus(void);
 INT_PTR GetContactStatusMessage(WPARAM wParam, LPARAM lParam);
-void TrayIconUpdateBase(const char *szChangedProto);
 int EventsProcessContactDoubleClick(HANDLE hContact);
 int SetHideOffline(WPARAM wParam, LPARAM lParam);
 

@@ -158,7 +158,7 @@ static HRESULT SubclassClistInterface()
 	pcli->pfnInvalidateDisplayNameCacheEntry	 = cliInvalidateDisplayNameCacheEntry;
 
 	pcli->pfnTrayIconPauseAutoHide = cliTrayIconPauseAutoHide;
-	pcli->pfnTrayIconUpdateBase    = cliTrayIconUpdateBase;
+	pcli->pfnTrayCalcChanged       = cliTrayCalcChanged;
 	pcli->pfnCluiProtocolStatusChanged = cliCluiProtocolStatusChanged;
 
 	pcli->pfnBeginRenameSelection  = cliBeginRenameSelection;

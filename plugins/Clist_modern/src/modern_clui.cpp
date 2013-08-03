@@ -2168,9 +2168,9 @@ LRESULT CLUI::OnStatusBarUpdateTimer(UINT msg, WPARAM wParam, LPARAM lParam)
 	if (IsWindowVisible(pcli->hwndStatus))
 		pcli->pfnInvalidateRect(pcli->hwndStatus,NULL,0);
 	if (pt->bGlobal)
-		cliTrayIconUpdateBase(g_szConnectingProto);
+		pcli->pfnTrayIconUpdateBase(g_szConnectingProto);
 	else
-		cliTrayIconUpdateBase(pt->szProto);
+		pcli->pfnTrayIconUpdateBase(pt->szProto);
 
 	pcli->pfnInvalidateRect(pcli->hwndStatus,NULL,TRUE);
 	return DefCluiWndProc( msg, wParam, lParam);

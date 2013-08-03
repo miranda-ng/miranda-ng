@@ -475,6 +475,7 @@ typedef struct
 	 * Miranda NG additions
 	 *************************************************************************************/
 	int    (*pfnGetContactIcon)(HANDLE hContact);
+	int    (*pfnTrayCalcChanged)(const char *szChangedProto, int averageMode, int iProtoCount);
 }
 	CLIST_INTERFACE;
 
