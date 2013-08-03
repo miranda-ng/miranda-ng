@@ -293,7 +293,7 @@ extern INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 extern INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 extern int TSAPI TBStateConvert2Flat(int state);
 extern int TSAPI RBStateConvert2Flat(int state);
-extern void TSAPI FillTabBackground(const HDC hdc, int iStateId, const TWindowData* dat, RECT* rc);
+extern void TSAPI FillTabBackground(const HDC hdc, int iStateId, const TWindowData *dat, RECT* rc);
 
 #define IS_EXTKEY(a) (a & (1 << 24))
 

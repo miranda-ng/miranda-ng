@@ -452,19 +452,15 @@ HICON LoadIconEx(int iIndex, char * pszIcoLibName, int iX, int iY)
 	return Skin_GetIcon(szTemp);
 }
 
-static void InitSetting(TCHAR** ppPointer, char* pszSetting, TCHAR* pszDefault)
+static void InitSetting(TCHAR* &ppPointer, const char *pszSetting, const TCHAR *pszDefault)
 {
-	DBVARIANT dbv;
-	if (!db_get_ts(NULL, "Chat", pszSetting, &dbv)) {
-		replaceStr(ppPointer, dbv.ptszVal);
-		db_free(&dbv);
-	} else
-		replaceStr(ppPointer, pszDefault);
+	ptrT val( db_get_tsa(NULL, "Chat", pszSetting));
+	replaceStrT(ppPointer, (val != NULL) ? val : pszDefault);
 }
 
 #define OPT_FIXHEADINGS (WM_USER+1)
 
-static UINT _o1controls[] = {IDC_CHECKBOXES, IDC_GROUP, IDC_STATIC_ADD, 0};
+static UINT _o1controls[] = {IDC_CHECKBOXES, IDC_GROUP, IDC_STATIC_ADD};
 
 HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle)
 {
@@ -513,18 +509,15 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading1, branch1, SIZEOF(branch1), 0x0000);
 			FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading2, branch2, SIZEOF(branch2), 0x0000);
 
-			{
-				TCHAR* pszGroup = NULL;
-				InitSetting(&pszGroup, "AddToGroup", _T("Chat rooms"));
-				SetWindowText(GetDlgItem(hwndDlg, IDC_GROUP), pszGroup);
-				mir_free(pszGroup);
-				Utils::showDlgControl(hwndDlg, IDC_STATIC_MESSAGE, SW_HIDE);
-			}
+			TCHAR* pszGroup = NULL;
+			InitSetting(pszGroup, "AddToGroup", _T("Chat rooms"));
+			SetWindowText(GetDlgItem(hwndDlg, IDC_GROUP), pszGroup);
+			mir_free(pszGroup);
+			Utils::showDlgControl(hwndDlg, IDC_STATIC_MESSAGE, SW_HIDE);
 		}
 		else {
-			int i=0;
-			while (_o1controls[i])
-				Utils::showDlgControl(hwndDlg, _o1controls[i++], SW_HIDE);
+			for (int i=0; i < SIZEOF(_o1controls); i++)
+				Utils::showDlgControl(hwndDlg, _o1controls[i], SW_HIDE);
 		}
 		break;
 
@@ -1139,7 +1132,9 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 #define NR_GC_EVENTS 12
 
-static UINT _eventorder[] = { GC_EVENT_ACTION,
+static UINT _eventorder[] =
+{
+	GC_EVENT_ACTION,
 	GC_EVENT_MESSAGE,
 	GC_EVENT_NICK,
 	GC_EVENT_JOIN,
@@ -1150,8 +1145,7 @@ static UINT _eventorder[] = { GC_EVENT_ACTION,
 	GC_EVENT_QUIT,
 	GC_EVENT_KICK,
 	GC_EVENT_NOTICE,
-	GC_EVENT_HIGHLIGHT,
-	0
+	GC_EVENT_HIGHLIGHT
 };
 
 #define GC_EVENT_ALL (GC_EVENT_ACTION | GC_EVENT_MESSAGE | GC_EVENT_NICK | GC_EVENT_JOIN | \
@@ -1175,7 +1169,7 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			DWORD dwPopupFlags = M.GetDword("Chat", "PopupFlags", GC_EVENT_ALL);
 			DWORD dwLogFlags = M.GetDword("Chat", "DiskLogFlags", GC_EVENT_ALL);
 
-			for (int i=0; _eventorder[i]; i++) {
+			for (int i=0; i < SIZEOF(_eventorder); i++) {
 				if (_eventorder[i] != GC_EVENT_HIGHLIGHT) {
 					CheckDlgButton(hwndDlg, IDC_1 + i, dwFilterFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
 					CheckDlgButton(hwndDlg, IDC_L1 + i, dwLogFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
@@ -1207,7 +1201,7 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				DWORD dwFilterFlags = 0, dwTrayFlags = 0,
 					dwPopupFlags = 0, dwLogFlags = 0;
 
-				for (int i=0; _eventorder[i]; i++) {
+				for (int i=0; i < SIZEOF(_eventorder); i++) {
 					if (_eventorder[i] != GC_EVENT_HIGHLIGHT) {
 						dwFilterFlags |= (IsDlgButtonChecked(hwndDlg, IDC_1 + i) ? _eventorder[i] : 0);
 						dwLogFlags |= (IsDlgButtonChecked(hwndDlg, IDC_L1 + i) ? _eventorder[i] : 0);
@@ -1292,10 +1286,10 @@ void LoadGlobalSettings(void)
 		DeleteObject(hListBkgBrush);
 	hListBkgBrush = CreateSolidBrush(M.GetDword("Chat", "ColorNicklistBG", SRMSGDEFSET_BKGCOLOUR));
 
-	InitSetting(&g_Settings.pszTimeStamp, "HeaderTime", _T("[%H:%M]"));
-	InitSetting(&g_Settings.pszTimeStampLog, "LogTimestamp", _T("[%d %b %y %H:%M]"));
-	InitSetting(&g_Settings.pszIncomingNick, "HeaderIncoming", _T("%n:"));
-	InitSetting(&g_Settings.pszOutgoingNick, "HeaderOutgoing", _T("%n:"));
+	InitSetting(g_Settings.pszTimeStamp, "HeaderTime", _T("[%H:%M]"));
+	InitSetting(g_Settings.pszTimeStampLog, "LogTimestamp", _T("[%d %b %y %H:%M]"));
+	InitSetting(g_Settings.pszIncomingNick, "HeaderIncoming", _T("%n:"));
+	InitSetting(g_Settings.pszOutgoingNick, "HeaderOutgoing", _T("%n:"));
 
 	DBVARIANT dbv;
 

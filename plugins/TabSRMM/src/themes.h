@@ -316,7 +316,7 @@ public:
 	static HANDLE TSAPI		InitiateBufferedPaint(const HDC hdcSrc, RECT& rc, HDC& hdcOut);
 	static void TSAPI		FinalizeBufferedPaint(HANDLE hbp, RECT *rc);
 	static bool __fastcall	DrawItem(const HDC hdc, const RECT *rc, const CSkinItem *item);
-	static void	TSAPI		UpdateToolbarBG(TWindowData* dat, DWORD dwRdwOptFlags = 0);
+	static void	TSAPI		UpdateToolbarBG(TWindowData *dat, DWORD dwRdwOptFlags = 0);
 	static void TSAPI		FillBack(const HDC hdc, RECT* rc);
 
 public:

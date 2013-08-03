@@ -771,7 +771,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 
 			BOOL			fAero = M.isAero();
 			HANDLE  		hTheme = fAero ? CMimAPI::m_pfnOpenThemeData(hWnd, L"ButtonStyle") : 0;
-			TWindowData* dat = 0;
+			TWindowData *dat = 0;
 
 			if (pContainer)
 				dat = (TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);

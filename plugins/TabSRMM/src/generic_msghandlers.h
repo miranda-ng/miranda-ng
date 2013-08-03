@@ -59,7 +59,7 @@ LRESULT TSAPI DM_GenericHotkeysCheck(MSG *message, TWindowData *dat);
 void    TSAPI DM_DismissTip(TWindowData *dat, const POINT& pt);
 void    TSAPI DM_InitTip(TWindowData *dat);
 void    TSAPI DM_HandleAutoSizeRequest(TWindowData *dat, REQRESIZE* rr);
-void    TSAPI DM_SaveLogAsRTF(const TWindowData* dat);
-void    TSAPI DM_CheckAutoHide(const TWindowData* dat, WPARAM wParam, LPARAM lParam);
+void    TSAPI DM_SaveLogAsRTF(const TWindowData *dat);
+void    TSAPI DM_CheckAutoHide(const TWindowData *dat, WPARAM wParam, LPARAM lParam);
 
 LRESULT __stdcall  DM_RecalcPictureSize(TWindowData *dat);

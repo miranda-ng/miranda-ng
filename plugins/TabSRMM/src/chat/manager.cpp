@@ -39,8 +39,8 @@ void SetActiveSession(const TCHAR* pszID, const char* pszModule)
 void SetActiveSessionEx(SESSION_INFO *si)
 {
 	if (si) {
-		replaceStr(&pszActiveWndID, si->ptszID);
-		replaceStrA(&pszActiveWndModule, si->pszModule);
+		replaceStrT(pszActiveWndID, si->ptszID);
+		replaceStr(pszActiveWndModule, si->pszModule);
 	}
 }
 
@@ -569,7 +569,7 @@ BOOL SM_ChangeUID(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUID
 		if ((!pszID || !lstrcmpi(si->ptszID, pszID)) && !lstrcmpiA(si->pszModule, pszModule)) {
 			USERINFO* ui = UM_FindUser(si->pUsers, pszUID);
 			if (ui)
-				replaceStr(&ui->pszUID, pszNewUID);
+				replaceStrT(ui->pszUID, pszNewUID);
 
 			if (pszID)
 				return TRUE;
@@ -588,7 +588,7 @@ BOOL SM_ChangeNick(const TCHAR* pszID, const char* pszModule, GCEVENT *gce)
 		if ((!pszID || !lstrcmpi(si->ptszID, pszID)) && !lstrcmpiA(si->pszModule, pszModule)) {
 			USERINFO* ui = UM_FindUser(si->pUsers, gce->ptszUID);
 			if (ui) {
-				replaceStr(&ui->pszNick, gce->ptszText);
+				replaceStrT(ui->pszNick, gce->ptszText);
 				SM_MoveUser(si->ptszID, si->pszModule, ui->pszUID);
 				if (si->hWnd) {
 					SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
@@ -910,7 +910,7 @@ STATUSINFO * TM_AddStatus(STATUSINFO** ppStatusList, const TCHAR* pszStatus, int
 	if (!TM_FindStatus(*ppStatusList, pszStatus)) {
 		STATUSINFO *node = (STATUSINFO*) mir_alloc(sizeof(STATUSINFO));
 		ZeroMemory(node, sizeof(STATUSINFO));
-		replaceStr(&node->pszGroup, pszStatus);
+		replaceStrT(node->pszGroup, pszStatus);
 		node->hIcon = (HICON)(*iCount);
 		while ((int)node->hIcon > STATUSICONCOUNT - 1)
 			node->hIcon--;
@@ -1122,7 +1122,7 @@ USERINFO* UM_AddUser(STATUSINFO* pStatusList, USERINFO** ppUserList, const TCHAR
 	{
 		USERINFO *node = (USERINFO*) mir_alloc(sizeof(USERINFO));
 		ZeroMemory(node, sizeof(USERINFO));
-		replaceStr(&node->pszUID, pszUID);
+		replaceStrT(node->pszUID, pszUID);
 
 		if (*ppUserList == NULL) { // list is empty
 			*ppUserList = node;

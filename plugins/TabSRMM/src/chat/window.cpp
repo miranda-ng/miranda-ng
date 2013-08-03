@@ -1120,7 +1120,9 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 * session
 */
 
-static UINT _eventorder[] = { GC_EVENT_ACTION,
+static UINT _eventorder[] =
+{
+	GC_EVENT_ACTION,
 	GC_EVENT_MESSAGE,
 	GC_EVENT_NICK,
 	GC_EVENT_JOIN,
@@ -1130,8 +1132,7 @@ static UINT _eventorder[] = { GC_EVENT_ACTION,
 	GC_EVENT_INFORMATION,
 	GC_EVENT_QUIT,
 	GC_EVENT_KICK,
-	GC_EVENT_NOTICE,
-	0
+	GC_EVENT_NOTICE
 };
 
 static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -1152,7 +1153,7 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)si);
 
-			for (int i=0; _eventorder[i]; i++) {
+			for (int i=0; i < SIZEOF(_eventorder); i++) {
 				CheckDlgButton(hwndDlg, IDC_1 + i, dwMask & _eventorder[i] ? (dwFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED) : BST_INDETERMINATE);
 				CheckDlgButton(hwndDlg, IDC_P1 + i, dwPopupMask & _eventorder[i] ? (dwPopupFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED) : BST_INDETERMINATE);
 				CheckDlgButton(hwndDlg, IDC_T1 + i, dwTrayMask & _eventorder[i] ? (dwTrayFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED) : BST_INDETERMINATE);
@@ -1172,7 +1173,7 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			UINT result;
 			DWORD dwMask = 0, dwFlags = 0;
 
-			for (i=0; _eventorder[i]; i++) {
+			for (i=0; i < SIZEOF(_eventorder); i++) {
 				result = IsDlgButtonChecked(hwndDlg, IDC_1 + i);
 				dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
 				iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
@@ -1194,7 +1195,7 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 			dwMask = iFlags = 0;
 
-			for (i=0; _eventorder[i]; i++) {
+			for (i=0; i < SIZEOF(_eventorder); i++) {
 				result = IsDlgButtonChecked(hwndDlg, IDC_P1 + i);
 				dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
 				iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
@@ -1216,12 +1217,12 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 			dwMask = iFlags = 0;
 
-			for (i=0; _eventorder[i]; i++) {
+			for (i=0; i < SIZEOF(_eventorder); i++) {
 				result = IsDlgButtonChecked(hwndDlg, IDC_T1 + i);
 				dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
 				iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
 			}
-			if (iFlags&GC_EVENT_ADDSTATUS)
+			if (iFlags & GC_EVENT_ADDSTATUS)
 				iFlags |= GC_EVENT_REMOVESTATUS;
 
 			if (si) {

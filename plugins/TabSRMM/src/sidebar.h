@@ -153,7 +153,7 @@ public:
 	const CSideBarButton*		getScrollDown() const		{ return(m_down); }
 	bool						isSkinnedContainer() const 	{ return(CSkin::m_skinEnabled ? true : false); }
 	const UINT					getLayoutId() const 		{ return(m_uLayout); }
-	void						invalidateButton			(const TWindowData* dat);
+	void						invalidateButton			(const TWindowData *dat);
 
 	const CSideBarButton* 		setActiveItem				(const CSideBarButton *newItem)
 	{

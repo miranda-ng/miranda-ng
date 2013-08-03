@@ -2569,7 +2569,7 @@ void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
  * redraw the splitter area between the message input and message log
  * area only
  */
-void CSkin::UpdateToolbarBG(TWindowData* dat, DWORD dwRdwOptFlags)
+void CSkin::UpdateToolbarBG(TWindowData *dat, DWORD dwRdwOptFlags)
 {
 	RECT	rcUpdate, rcTmp;
 	POINT	pt;

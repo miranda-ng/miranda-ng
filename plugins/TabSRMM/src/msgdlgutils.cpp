@@ -951,7 +951,7 @@ static DWORD CALLBACK Message_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, 
  * UNICODE version returns UTF-8 encoded string.
  */
 
-char* TSAPI Message_GetFromStream(HWND hwndRtf, const TWindowData* dat, DWORD dwPassedFlags)
+char* TSAPI Message_GetFromStream(HWND hwndRtf, const TWindowData *dat, DWORD dwPassedFlags)
 {
 	EDITSTREAM stream;
 	char *pszText = NULL;
@@ -2343,7 +2343,7 @@ void TSAPI ClearLog(TWindowData *dat)
  * the container will use this in its WM_GETMINMAXINFO handler to set
  * minimum tracking height.
  */
-void TSAPI DetermineMinHeight(TWindowData* dat)
+void TSAPI DetermineMinHeight(TWindowData *dat)
 {
 	if (dat) {
 		RECT rc;
@@ -2359,7 +2359,7 @@ void TSAPI DetermineMinHeight(TWindowData* dat)
 	}
 }
 
-bool TSAPI IsAutoSplitEnabled(const TWindowData* dat)
+bool TSAPI IsAutoSplitEnabled(const TWindowData *dat)
 {
 #if defined(__FEAT_EXP_AUTOSPLITTER)
 	return((dat && (dat->pContainer->dwFlags & CNT_AUTOSPLITTER) && !(dat->dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE)) ? true : false);
@@ -2369,7 +2369,7 @@ bool TSAPI IsAutoSplitEnabled(const TWindowData* dat)
 }
 
 #if defined(__FEAT_EXP_AUTOSPLITTER)
-LONG TSAPI GetDefaultMinimumInputHeight(const TWindowData* dat)
+LONG TSAPI GetDefaultMinimumInputHeight(const TWindowData *dat)
 {
 	LONG height = MINSPLITTERY;
 
@@ -2391,7 +2391,7 @@ static std::vector<TCHAR *> vTempFilenames;
 /**
  * send a pasted bitmap by file transfer.
  */
-void TSAPI SendHBitmapAsFile(const TWindowData* dat, HBITMAP hbmp)
+void TSAPI SendHBitmapAsFile(const TWindowData *dat, HBITMAP hbmp)
 {
 	const wchar_t* 	mirandatempdir = L"Miranda";
 	const wchar_t* 	filenametemplate = L"\\clp-%Y%m%d-%H%M%S0.jpg";

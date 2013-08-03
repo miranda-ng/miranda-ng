@@ -899,7 +899,7 @@ void CSideBar::resizeScrollWnd(LONG x, LONG y, LONG width, LONG height) const
 				   SWP_NOCOPYBITS | SWP_NOZORDER | SWP_SHOWWINDOW | SWP_NOSENDCHANGING | SWP_DEFERERASE | SWP_ASYNCWINDOWPOS);
 }
 
-void CSideBar::invalidateButton(const TWindowData* dat)
+void CSideBar::invalidateButton(const TWindowData *dat)
 {
 	if (m_isActive && m_isVisible) {
 		ButtonIterator it = findSession(dat);

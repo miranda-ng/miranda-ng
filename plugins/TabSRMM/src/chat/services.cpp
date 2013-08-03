@@ -330,7 +330,7 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 		if (gce->pszText) {
 			si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 			if (si) {
-				replaceStr(&si->ptszName, gce->ptszText);
+				replaceStrT(si->ptszName, gce->ptszText);
 				if (si->hWnd)
 					SendMessage(si->hWnd, GC_UPDATETITLE, 0, 0);
 			}
@@ -354,7 +354,7 @@ static int DoControl(GCEVENT *gce, WPARAM wp)
 	case GC_EVENT_SETSBTEXT:
 		si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 		if (si) {
-			replaceStr(&si->ptszStatusbarText, gce->ptszText);
+			replaceStrT(si->ptszStatusbarText, gce->ptszText);
 			if (si->ptszStatusbarText)
 				db_set_ts(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
 			else
@@ -642,7 +642,7 @@ INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 		si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 		if (si) {
 			if (gce->pszText) {
-				replaceStr(&si->ptszTopic, RemoveFormatting(gce->ptszText));
+				replaceStrT(si->ptszTopic, RemoveFormatting(gce->ptszText));
 				db_set_ts(si->hContact, si->pszModule , "Topic", /*RemoveFormatting*/(si->ptszTopic));
 				if (M.GetByte("Chat", "TopicOnClist", 1))
 					db_set_ts(si->hContact, "CList" , "StatusMsg", /*RemoveFormatting*/(si->ptszTopic));

@@ -135,7 +135,7 @@ static void TSAPI DrawCustomTabPage(HDC hdc, RECT& rcClient)
 	::DeleteObject(hPen);
 }
 
-void TSAPI FillTabBackground(const HDC hdc, int iStateId, const TWindowData* dat, RECT* rc)
+void TSAPI FillTabBackground(const HDC hdc, int iStateId, const TWindowData *dat, RECT* rc)
 {
 	unsigned clrIndex;
 
@@ -157,7 +157,7 @@ void TSAPI FillTabBackground(const HDC hdc, int iStateId, const TWindowData* dat
  * icon handle in dat->hTabIcon
  */
 
-static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, int nItem, TWindowData* dat)
+static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, int nItem, TWindowData *dat)
 {
 	int				iSize = 16;
 	DWORD			dwTextFlags = DT_SINGLELINE | DT_VCENTER/* | DT_NOPREFIX*/;
@@ -245,7 +245,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 
 static RECT rcTabPage = {0};
 
-static void DrawItemRect(struct TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, int iItem, const TWindowData* dat)
+static void DrawItemRect(struct TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, int iItem, const TWindowData *dat)
 {
 	POINT pt;
 	DWORD dwStyle = tabdat->dwStyle;
@@ -400,7 +400,7 @@ static int DWordAlign(int n)
 	return n;
 }
 
-static HRESULT DrawThemesPartWithAero(const TabControlData *tabdat, HDC hDC, int iPartId, int iStateId, LPRECT prcBox, TWindowData* dat)
+static HRESULT DrawThemesPartWithAero(const TabControlData *tabdat, HDC hDC, int iPartId, int iStateId, LPRECT prcBox, TWindowData *dat)
 {
 	HRESULT hResult = 0;
 	bool	fAero = M.isAero();
@@ -452,7 +452,7 @@ static HRESULT DrawThemesPart(const TabControlData *tabdat, HDC hDC, int iPartId
  * handles image mirroring for tabs at the bottom
  */
 
-static void DrawThemesXpTabItem(HDC pDC, int ixItem, RECT *rcItem, UINT uiFlag, struct TabControlData *tabdat, TWindowData* dat)
+static void DrawThemesXpTabItem(HDC pDC, int ixItem, RECT *rcItem, UINT uiFlag, struct TabControlData *tabdat, TWindowData *dat)
 {
 	BOOL bBody  = (uiFlag & 1) ? TRUE : FALSE;
 	BOOL bSel   = (uiFlag & 2) ? TRUE : FALSE;
@@ -883,7 +883,7 @@ page_done:
 	hti.flags = 0;
 	hotItem = TabCtrl_HitTest(hwnd, &hti);
 	for (i=0; i < nCount; i++) {
-		TWindowData* dat = 0;
+		TWindowData *dat = 0;
 
 		if (i != iActive) {
 			TabCtrl_GetItem(hwnd, i, &item);

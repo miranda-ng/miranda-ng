@@ -36,7 +36,7 @@
 /**
  * Save message log for given session as RTF document
  */
-void TSAPI DM_SaveLogAsRTF(const TWindowData* dat)
+void TSAPI DM_SaveLogAsRTF(const TWindowData *dat)
 {
 	TCHAR szFilename[MAX_PATH];
 	OPENFILENAME ofn = {0};
@@ -92,7 +92,7 @@ void TSAPI DM_SaveLogAsRTF(const TWindowData* dat)
  *
  * If no session in the container disagrees, the container will be hidden.
  */
-void TSAPI DM_CheckAutoHide(const TWindowData* dat, WPARAM wParam, LPARAM lParam)
+void TSAPI DM_CheckAutoHide(const TWindowData *dat, WPARAM wParam, LPARAM lParam)
 {
 	if (dat && lParam) {
 		BOOL	*fResult = (BOOL *)lParam;
@@ -1946,7 +1946,7 @@ void DrawStatusIcons(struct TWindowData *dat, HDC hDC, RECT r, int gap)
 			else
 				hIcon = si->hIcon;
 
-			if (si->flags & MBF_DISABLED && si->hIconDisabled == (HICON)0)
+			if ((si->flags & MBF_DISABLED) && si->hIconDisabled == NULL)
 				CSkin::DrawDimmedIcon(hDC, x, y, cx_icon, cy_icon, hIcon, 50);
 			else
 				DrawIconEx(hDC, x, y, hIcon, 16, 16, 0, NULL, DI_NORMAL);

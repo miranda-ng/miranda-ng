@@ -292,7 +292,7 @@ static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 	return TRUE;
 }
 
-static BOOL DoPopup(SESSION_INFO *si, GCEVENT* gce, struct TWindowData* dat)
+static BOOL DoPopup(SESSION_INFO *si, GCEVENT* gce, struct TWindowData *dat)
 {
 	int iEvent = gce->pDest->iType;
 	TContainerData *pContainer = dat ? dat->pContainer : NULL;
@@ -369,18 +369,18 @@ passed:
 		case GC_EVENT_PART:
 			if (!gce->pszText)
 				ShowPopup(si->hContact, si, hIcons[ICON_PART], si->pszModule, si->ptszName, clr ? clr : aFonts[4].color,
-				TranslateT("%s has left"), gce->ptszNick);
+					TranslateT("%s has left"), gce->ptszNick);
 			else
 				ShowPopup(si->hContact, si, hIcons[ICON_PART], si->pszModule, si->ptszName, clr ? clr : aFonts[4].color,
-				TranslateT("%s has left (%s)"), gce->ptszNick, RemoveFormatting(gce->ptszText));
+					TranslateT("%s has left (%s)"), gce->ptszNick, RemoveFormatting(gce->ptszText));
 			break;
 		case GC_EVENT_QUIT:
 			if (!gce->pszText)
 				ShowPopup(si->hContact, si, hIcons[ICON_QUIT], si->pszModule, si->ptszName, clr ? clr : aFonts[5].color,
-				TranslateT("%s has disconnected"), gce->ptszNick);
+					TranslateT("%s has disconnected"), gce->ptszNick);
 			else
 				ShowPopup(si->hContact, si, hIcons[ICON_QUIT], si->pszModule, si->ptszName, clr ? clr : aFonts[5].color,
-				TranslateT("%s has disconnected (%s)"), gce->ptszNick, RemoveFormatting(gce->ptszText));
+					TranslateT("%s has disconnected (%s)"), gce->ptszNick, RemoveFormatting(gce->ptszText));
 			break;
 		case GC_EVENT_NICK:
 			ShowPopup(si->hContact, si, hIcons[ICON_NICK], si->pszModule, si->ptszName, clr ? clr : aFonts[7].color,
@@ -389,10 +389,10 @@ passed:
 		case GC_EVENT_KICK:
 			if (!gce->pszText)
 				ShowPopup(si->hContact, si, hIcons[ICON_KICK], si->pszModule, si->ptszName, clr ? clr : aFonts[6].color,
-				TranslateT("%s kicked %s"), (char *)gce->pszStatus, gce->ptszNick);
+					TranslateT("%s kicked %s"), (char *)gce->pszStatus, gce->ptszNick);
 			else
 				ShowPopup(si->hContact, si, hIcons[ICON_KICK], si->pszModule, si->ptszName, clr ? clr : aFonts[6].color,
-				TranslateT("%s kicked %s (%s)"), (char *)gce->pszStatus, gce->ptszNick, RemoveFormatting(gce->ptszText));
+					TranslateT("%s kicked %s (%s)"), (char *)gce->pszStatus, gce->ptszNick, RemoveFormatting(gce->ptszText));
 			break;
 		case GC_EVENT_NOTICE:
 			ShowPopup(si->hContact, si, hIcons[ICON_NOTICE], si->pszModule, si->ptszName, clr ? clr : aFonts[8].color,
@@ -401,10 +401,10 @@ passed:
 		case GC_EVENT_TOPIC:
 			if (!gce->ptszNick)
 				ShowPopup(si->hContact, si, hIcons[ICON_TOPIC], si->pszModule, si->ptszName, clr ? clr : aFonts[11].color,
-				TranslateT("The topic is \'%s\'"), RemoveFormatting(gce->ptszText));
+					TranslateT("The topic is \'%s\'"), RemoveFormatting(gce->ptszText));
 			else
 				ShowPopup(si->hContact, si, hIcons[ICON_TOPIC], si->pszModule, si->ptszName, clr ? clr : aFonts[11].color,
-				TranslateT("The topic is \'%s\' (set by %s)"), RemoveFormatting(gce->ptszText), gce->ptszNick);
+					TranslateT("The topic is \'%s\' (set by %s)"), RemoveFormatting(gce->ptszText), gce->ptszNick);
 			break;
 		case GC_EVENT_INFORMATION:
 			ShowPopup(si->hContact, si, hIcons[ICON_INFO], si->pszModule, si->ptszName, clr ? clr : aFonts[12].color, _T("%s"), RemoveFormatting(gce->ptszText));
@@ -425,12 +425,11 @@ passed:
 
 void TSAPI DoFlashAndSoundWorker(FLASH_PARAMS* p)
 {
-	SESSION_INFO*		si = SM_FindSessionByHCONTACT(p->hContact);
-	TWindowData* dat = 0;
-
+	SESSION_INFO *si = SM_FindSessionByHCONTACT(p->hContact);
 	if (si == 0)
 		return;
 
+	TWindowData *dat = 0;
 	if (si->hWnd) {
 		dat = si->dat;
 		if (dat) {
@@ -513,15 +512,11 @@ void TSAPI DoFlashAndSoundWorker(FLASH_PARAMS* p)
 
 BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix)
 {
-	FLASH_PARAMS*	params;
-	struct			TWindowData *dat = 0;
-	bool			fFlagUnread = false;
-	WPARAM			wParamForHighLight = 0;
-
 	if (gce == 0 || si == 0 || gce->bIsMe || si->iType == GCW_SERVER)
 		return FALSE;
 
-	params = (FLASH_PARAMS*)calloc(1, sizeof(FLASH_PARAMS));
+	TWindowData *dat = NULL;
+	FLASH_PARAMS *params = (FLASH_PARAMS*)calloc(1, sizeof(FLASH_PARAMS));
 	params->hContact = si->hContact;
 	params->bInactive = TRUE;
 	if (si->hWnd && si->dat) {
@@ -530,16 +525,17 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			params->bInactive = FALSE;
 	}
 	params->bActiveTab = params->bMustFlash = params->bMustAutoswitch = FALSE;
-
 	params->iEvent = gce->pDest->iType;
 
+	WPARAM wParamForHighLight = 0;
+	bool bFlagUnread = false;
 	if (bHighlight) {
 		gce->pDest->iType |= GC_EVENT_HIGHLIGHT;
 		params->sound = "ChatHighlight";
 		if (db_get_b(si->hContact, "CList", "Hidden", 0) != 0)
 			db_unset(si->hContact, "CList", "Hidden");
 		if (params->bInactive) {
-			fFlagUnread = true;
+			bFlagUnread = true;
 			DoTrayIcon(si, gce);
 		}
 
@@ -561,12 +557,13 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			params->bMustFlash = TRUE;
 		params->bMustAutoswitch = TRUE;
 		params->hNotifyIcon = hIcons[ICON_HIGHLIGHT];
-	} else {
+	}
+	else {
 		// do blinking icons in tray
 		if (params->bInactive || !g_Settings.bTrayIconInactiveOnly) {
 			DoTrayIcon(si, gce);
 			if (params->iEvent == GC_EVENT_MESSAGE)
-				fFlagUnread = true;
+				bFlagUnread = true;
 		}
 		// stupid thing to not create multiple popups for a QUIT event for instance
 		if (bManyFix == 0) {
@@ -673,7 +670,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			params->hNotifyIcon = hIcons[ICON_MESSAGE];
 		}
 	}
-	if (dat && fFlagUnread) {
+	if (dat && bFlagUnread) {
 		dat->dwUnread++;
 		if (dat->pWnd)
 			dat->pWnd->Invalidate();
@@ -684,7 +681,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 int Chat_GetColorIndex(const char* pszModule, COLORREF cr)
 {
-	MODULEINFO * pMod = MM_FindModule(pszModule);
+	MODULEINFO *pMod = MM_FindModule(pszModule);
 	if (!pMod || pMod->nColorCount == 0)
 		return -1;
 
@@ -921,14 +918,13 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 
 UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText)
 {
-	GCMENUITEMS gcmi = {0};
-	int i;
 	HMENU hSubMenu = 0;
 	DWORD codepage = M.GetDword(si->hContact, "ANSIcodepage", 0);
-	int pos;
 
 	*hMenu = GetSubMenu(g_hMenu, iIndex);
 	TranslateMenu(*hMenu);
+
+	GCMENUITEMS gcmi = {0};
 	gcmi.pszID = si->ptszID;
 	gcmi.pszModule = si->pszModule;
 	gcmi.pszUID = pszUID;
@@ -950,7 +946,8 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 			TCHAR szMenuText[4096];
 			mir_sntprintf(szMenuText, 4096, TranslateT("Look up \'%s\':"), pszWordText);
 			ModifyMenu(*hMenu, 4, MF_STRING | MF_BYPOSITION, 4, szMenuText);
-		} else ModifyMenu(*hMenu, 4, MF_STRING | MF_GRAYED | MF_BYPOSITION, 4, TranslateT("No word to look up"));
+		}
+		else ModifyMenu(*hMenu, 4, MF_STRING | MF_GRAYED | MF_BYPOSITION, 4, TranslateT("No word to look up"));
 		gcmi.Type = MENU_ON_LOG;
 	}
 	else if (iIndex == 0) {
@@ -971,9 +968,9 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 	if (gcmi.nItems > 0)
 		AppendMenu(*hMenu, MF_SEPARATOR, 0, 0);
 
-	for (i=0; i < gcmi.nItems; i++) {
-		TCHAR* ptszDescr = a2tf(gcmi.Item[i].pszDesc, si->dwFlags);
-		TCHAR* ptszText = TranslateTS(ptszDescr);
+	for (int i=0; i < gcmi.nItems; i++) {
+		TCHAR *ptszDescr = a2tf(gcmi.Item[i].pszDesc, si->dwFlags);
+		TCHAR *ptszText = TranslateTS(ptszDescr);
 		DWORD dwState = gcmi.Item[i].bDisabled ? MF_GRAYED : 0;
 
 		if (gcmi.Item[i].uType == MENU_NEWPOPUP) {
@@ -1003,7 +1000,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 #if !defined(__DELAYED_FOR_3_1)
 	if (iIndex == 0) {
 		AppendMenu(*hMenu, MF_SEPARATOR, 0, 0);
-		pos = GetMenuItemCount(*hMenu);
+		int pos = GetMenuItemCount(*hMenu);
 		InsertMenu(*hMenu, pos, MF_BYPOSITION, (UINT_PTR)20020, TranslateT("Highlight User..."));
 		InsertMenu(*hMenu, pos, MF_BYPOSITION, (UINT_PTR)20021, TranslateT("Edit Highlight List..."));
 	}
@@ -1011,9 +1008,9 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 	if (iIndex == 1 && si->iType != GCW_SERVER && !(si->dwFlags & GC_UNICODE)) {
 		AppendMenu(*hMenu, MF_SEPARATOR, 0, 0);
 		InsertMenu(PluginConfig.g_hMenuEncoding, 1, MF_BYPOSITION | MF_STRING, (UINT_PTR)CP_UTF8, TranslateT("UTF-8"));
-		pos = GetMenuItemCount(*hMenu);
+		int pos = GetMenuItemCount(*hMenu);
 		InsertMenu(*hMenu, pos, MF_BYPOSITION | MF_POPUP, (UINT_PTR) PluginConfig.g_hMenuEncoding, TranslateT("Character Encoding"));
-		for (i=0; i < GetMenuItemCount(PluginConfig.g_hMenuEncoding); i++)
+		for (int i=0; i < GetMenuItemCount(PluginConfig.g_hMenuEncoding); i++)
 			CheckMenuItem(PluginConfig.g_hMenuEncoding, i, MF_BYPOSITION | MF_UNCHECKED);
 		if (codepage == CP_ACP)
 			CheckMenuItem(PluginConfig.g_hMenuEncoding, 0, MF_BYPOSITION | MF_CHECKED);
@@ -1038,26 +1035,24 @@ void DestroyGCMenu(HMENU *hMenu, int iIndex)
 
 BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem)
 {
-	SESSION_INFO *si;
-	GCHOOK* gch = (GCHOOK*)mir_alloc(sizeof(GCHOOK));
-	GCDEST* gcd = (GCDEST*)mir_alloc(sizeof(GCDEST));
-
-	memset(gch, 0, sizeof(GCHOOK));
-	memset(gcd, 0, sizeof(GCDEST));
-
-	replaceStrA(&gcd->pszModule, pszModule);
-	if ((si = SM_FindSession(pszID, pszModule)) == NULL)
+	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
+	if (si == NULL)
 		return FALSE;
+
+	GCHOOK *gch = (GCHOOK*)mir_calloc(sizeof(GCHOOK));
+	GCDEST *gcd = (GCDEST*)mir_calloc(sizeof(GCDEST));
+	replaceStr(gcd->pszModule, pszModule);
 
 	if (!(si->dwFlags & GC_UNICODE)) {
 		DWORD dwCP = M.GetDword(si->hContact, "ANSIcodepage", 0);
-		gcd->pszID = t2a(pszID, 0);
-		gch->pszUID = t2a(pszUID, 0);
-		gch->pszText = t2a(pszText, dwCP);
-	} else {
-		replaceStr(&gcd->ptszID, pszID);
-		replaceStr(&gch->ptszUID, pszUID);
-		replaceStr(&gch->ptszText, pszText);
+		gcd->pszID = mir_t2a(pszID);
+		gch->pszUID = mir_t2a(pszUID);
+		gch->pszText = mir_t2a_cp(pszText, dwCP);
+	}
+	else {
+		replaceStrT(gcd->ptszID, pszID);
+		replaceStrT(gch->ptszUID, pszUID);
+		replaceStrT(gch->ptszText, pszText);
 	}
 	gcd->iType = iType;
 	gch->dwData = dwItem;
@@ -1068,20 +1063,21 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int 
 
 BOOL DoEventHook(const TCHAR* pszID, const char* pszModule, int iType, const TCHAR* pszUID, const TCHAR* pszText, DWORD dwItem)
 {
-	SESSION_INFO *si;
+	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
+	if (si == NULL)
+		return FALSE;
+
 	GCHOOK gch = {0};
 	GCDEST gcd = {0};
-
 	gcd.pszModule = (char*)pszModule;
-	if ((si = SM_FindSession(pszID, pszModule)) == NULL)
-		return FALSE;
 
 	if (!(si->dwFlags & GC_UNICODE)) {
 		DWORD dwCP = M.GetDword(si->hContact, "ANSIcodepage", 0);
-		gcd.pszID = t2a(pszID, 0);
-		gch.pszUID = t2a(pszUID, 0);
-		gch.pszText = t2a(pszText, dwCP);
-	} else {
+		gcd.pszID = mir_t2a(pszID);
+		gch.pszUID = mir_t2a(pszUID);
+		gch.pszText = mir_t2a_cp(pszText, dwCP);
+	}
+	else {
 		gcd.ptszID = mir_tstrdup(pszID);
 		gch.ptszUID = mir_tstrdup(pszUID);
 		gch.ptszText = mir_tstrdup(pszText);
@@ -1138,63 +1134,20 @@ TCHAR* a2tf(const TCHAR* str, int flags, DWORD cp)
 
 	if (flags & GC_UNICODE)
 		return mir_tstrdup(str);
-	else {
-		int cbLen;
-		TCHAR *result;
 
-		if (cp == CP_UTF8)
-			return(mir_utf8decodeW((char *)str));
-
-		if (cp == 0)
-			cp = PluginConfig.m_LangPackCP;
-		cbLen = MultiByteToWideChar(cp, 0, (char*)str, -1, 0, 0);
-		result = (TCHAR*)mir_alloc(sizeof(TCHAR) * (cbLen + 1));
-		if (result == NULL)
-			return NULL;
-
-		MultiByteToWideChar(cp, 0, (char*)str, -1, result, cbLen);
-		result[ cbLen ] = 0;
-		return result;
-	}
-}
-
-static char* u2a(const wchar_t* src, DWORD cp)
-{
-	int  cbLen;
-	char *result;
+	if (cp == CP_UTF8)
+		return mir_utf8decodeW((char*)str);
 
 	if (cp == 0)
 		cp = PluginConfig.m_LangPackCP;
-	else if (cp == CP_UTF8)
-		return(mir_utf8encodeT(src));
-
-	cbLen = WideCharToMultiByte(cp, 0, src, -1, NULL, 0, NULL, NULL);
-	result = (char*)mir_alloc(cbLen + 1);
+	int cbLen = MultiByteToWideChar(cp, 0, (char*)str, -1, 0, 0);
+	TCHAR *result = (TCHAR*)mir_alloc(sizeof(TCHAR) * (cbLen + 1));
 	if (result == NULL)
 		return NULL;
 
-	WideCharToMultiByte(cp, 0, src, -1, result, cbLen, NULL, NULL);
-	result[ cbLen ] = 0;
+	MultiByteToWideChar(cp, 0, (char*)str, -1, result, cbLen);
+	result[cbLen] = 0;
 	return result;
-}
-
-char* t2a(const TCHAR* src, DWORD cp)
-{
-	return u2a(src, cp);
-}
-
-TCHAR* replaceStr(TCHAR** dest, const TCHAR* src)
-{
-	mir_free(*dest);
-	*dest = mir_tstrdup(src);
-	return *dest;
-}
-
-char* replaceStrA(char** dest, const char* src)
-{
-	mir_free(*dest);
-	*dest = mir_strdup(src);
-	return *dest;
 }
 
 /*

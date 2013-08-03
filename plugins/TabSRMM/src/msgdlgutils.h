@@ -47,7 +47,7 @@ void	TSAPI ShowPicture					(TWindowData *dat, BOOL showNewPic);
 void	TSAPI AdjustBottomAvatarDisplay		(TWindowData *dat);
 void	TSAPI SetDialogToType				(HWND hwndDlg);
 void	TSAPI FlashOnClist					(HWND hwndDlg, TWindowData *dat, HANDLE hEvent, DBEVENTINFO *dbei);
-char*	TSAPI Message_GetFromStream			(HWND hwndDlg, const TWindowData* dat, DWORD dwPassedFlags);
+char*	TSAPI Message_GetFromStream			(HWND hwndDlg, const TWindowData *dat, DWORD dwPassedFlags);
 BOOL	TSAPI DoRtfToTags					(TCHAR * pszText, const TWindowData *dat);
 void	TSAPI DoTrimMessage					(TCHAR *msg);
 void	TSAPI GetMYUIN						(TWindowData *dat);
@@ -84,15 +84,15 @@ HICON	TSAPI MY_GetContactIcon				(const TWindowData *dat);
 void	TSAPI CheckAndDestroyIEView			(TWindowData *dat);
 void 	TSAPI KbdState						(TWindowData *dat, BOOL& isShift, BOOL& isControl, BOOL& isAlt);
 void 	TSAPI ClearLog						(TWindowData *dat);
-bool	TSAPI IsAutoSplitEnabled			(const TWindowData* dat);
-LONG	TSAPI GetDefaultMinimumInputHeight	(const TWindowData* dat);
-void	TSAPI DetermineMinHeight			(TWindowData* dat);
+bool	TSAPI IsAutoSplitEnabled			(const TWindowData *dat);
+LONG	TSAPI GetDefaultMinimumInputHeight	(const TWindowData *dat);
+void	TSAPI DetermineMinHeight			(TWindowData *dat);
 // mathmod
 
 void	TSAPI MTH_updateMathWindow			(const TWindowData *dat);
 
 void	TSAPI CleanTempFiles				();
-void 	TSAPI SendHBitmapAsFile				(const TWindowData* dat, HBITMAP hbmp);
+void 	TSAPI SendHBitmapAsFile				(const TWindowData *dat, HBITMAP hbmp);
 
 extern INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 extern INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);

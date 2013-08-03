@@ -1337,7 +1337,7 @@ panel_found:
 			memset((void*)&pContainer->mOld, -1000, sizeof(MARGINS));
 			break;
 		case SC_MINIMIZE:
-			TWindowData* dat = reinterpret_cast<TWindowData *>(GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA));
+			TWindowData *dat = reinterpret_cast<TWindowData *>(GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA));
 			if (dat) {
 				//GetWindowRect(GetDlgItem(pContainer->hwndActive, dat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG), &pContainer->rcLogSaved);
 				GetWindowRect(pContainer->hwndActive, &pContainer->rcLogSaved);

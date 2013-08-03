@@ -511,7 +511,7 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 			PostMessage(hwnd, DM_UPDATESTATUSMSG, 0, 0);
 		if (fChanged) {
 			if (c && c->getStatus() == ID_STATUS_OFFLINE) {			// clear typing notification in the status bar when contact goes offline
-				TWindowData* dat = c->getDat();
+				TWindowData *dat = c->getDat();
 				if (dat) {
 					dat->nTypeSecs = 0;
 					dat->showTyping = 0;
