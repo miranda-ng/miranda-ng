@@ -41,7 +41,7 @@ void log_p(const wchar_t* szText, ...){
 	va_start(args, szText);
 	int len = _vscwprintf(szText, args ) + 1; // _vscprintf doesn't count terminating '\0' //!!!!!!!!!!!!!!!!
 	wchar_t* buffer = new wchar_t[len * sizeof(wchar_t)];
-	mir_sntprintf(buffer, len, szText, args);
+	mir_vsntprintf(buffer, len, szText, args);
 	va_end(args);
 	log(buffer);
 	delete buffer;
