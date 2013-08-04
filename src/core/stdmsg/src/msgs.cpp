@@ -171,6 +171,8 @@ static int TypingMessage(WPARAM wParam, LPARAM lParam)
 	if (hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE) wParam)) {
 		SendMessage(hwnd, DM_TYPING, 0, lParam);
 		foundWin = 1;
+		if (!foundWin)
+			SkinPlaySound((lParam) ? "TNStart" : "TNStop");
 	}
 	if (lParam && !foundWin && (g_dat.flags&SMF_SHOWTYPINGTRAY)) {
 		TCHAR szTip[256];
@@ -431,6 +433,8 @@ int LoadSendRecvMessageModule(void)
 	SkinAddNewSoundEx("AlertMsg", LPGEN("Instant messages"), LPGEN("Incoming (New Session)"));
 	SkinAddNewSoundEx("SendMsg", LPGEN("Instant messages"), LPGEN("Outgoing"));
 	SkinAddNewSoundEx("SendError", LPGEN("Instant messages"), LPGEN("Message send error"));
+	SkinAddNewSoundEx("TNStart", LPGEN("Instant messages"), LPGEN("Contact started typing"));
+	SkinAddNewSoundEx("TNStop",  LPGEN("Instant messages"), LPGEN("Contact stopped typing"));
 
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(NULL, IDC_SIZEWE);
