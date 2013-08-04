@@ -1048,7 +1048,7 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 			bSupportTyping = dbv.bVal == 1;
 			db_free(&dbv);
 		}
-		if (!bSupportTyping)
+		if (!bSupportTyping || !m_bJabberOnline)
 			return 0;
 
 		TCHAR jid[JABBER_MAX_JID_LEN];
