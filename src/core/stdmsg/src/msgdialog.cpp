@@ -1343,7 +1343,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case DM_APPENDTOLOG:   //takes wParam=hDbEvent
-		StreamInEvents(hwndDlg, (HANDLE) wParam, 1, 1);
+		StreamInEvents(hwndDlg, (HANDLE)wParam, 1, 1);
 		break;
 
 	case DM_SCROLLLOGTOBOTTOM:

@@ -59,7 +59,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 
 	CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, (LPARAM) 1);
 	/* does a window for the contact exist? */
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE) wParam);
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)wParam);
 	if (hwnd) {
 		if (!db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS)) {
 			ShowWindow(hwnd, SW_RESTORE);
@@ -77,48 +77,41 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	}
 	/* new message */
 	SkinPlaySound("AlertMsg");
+
+	char *szProto = GetContactProto((HANDLE)wParam);
+	if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0))))
 	{
-		char *szProto = GetContactProto((HANDLE)wParam);
-		if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0))))
-		{
-			NewMessageWindowLParam newData = { 0 };
-			newData.hContact = (HANDLE) wParam;
-			newData.noActivate = db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS);
-			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM) & newData);
-			return 0;
-		}
+		NewMessageWindowLParam newData = { 0 };
+		newData.hContact = (HANDLE)wParam;
+		newData.noActivate = db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS);
+		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM) & newData);
+		return 0;
 	}
-	{
-		TCHAR toolTip[256], *contactName;
-		CLISTEVENT cle = {0};
-		cle.cbSize = sizeof(cle);
-		cle.hContact = (HANDLE) wParam;
-		cle.hDbEvent = (HANDLE) lParam;
-		cle.flags = CLEF_TCHAR;
-		cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
-		cle.pszService = "SRMsg/ReadMessage";
-		contactName = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR);
-		mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), contactName);
-		cle.ptszTooltip = toolTip;
-		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM) & cle);
-	}
+
+	TCHAR toolTip[256], *contactName;
+	CLISTEVENT cle = { sizeof(cle) };
+	cle.hContact = (HANDLE)wParam;
+	cle.hDbEvent = (HANDLE)lParam;
+	cle.flags = CLEF_TCHAR;
+	cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+	cle.pszService = "SRMsg/ReadMessage";
+	contactName = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR);
+	mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), contactName);
+	cle.ptszTooltip = toolTip;
+	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM) & cle);
 	return 0;
 }
 
 INT_PTR SendMessageCmd(HANDLE hContact, char* msg, int isWchar)
 {
-	char *szProto;
-	HWND hwnd;
-
 	/* does the HCONTACT's protocol support IM messages? */
-	szProto = GetContactProto(hContact);
+	char *szProto = GetContactProto(hContact);
 	if (!szProto || (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		return 1;
 
-	if (hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact))
-	{
-		if (msg)
-		{
+	HWND hwnd;
+	if (hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact)) {
+		if (msg) {
 			HWND hEdit;
 			hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
 			SendMessage(hEdit, EM_SETSEL, -1, SendMessage(hEdit, WM_GETTEXTLENGTH, 0, 0));
@@ -131,13 +124,12 @@ INT_PTR SendMessageCmd(HANDLE hContact, char* msg, int isWchar)
 		SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 		SetForegroundWindow(hwnd);
 	}
-	else
-	{
+	else {
 		NewMessageWindowLParam newData = { 0 };
 		newData.hContact = hContact;
 		newData.szInitialText = msg;
 		newData.isWchar = isWchar;
-		hwnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM)&newData);
+		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM)&newData);
 	}
 	return 0;
 }
@@ -163,18 +155,18 @@ static INT_PTR ReadMessageCommand(WPARAM wParam, LPARAM lParam)
 
 static int TypingMessage(WPARAM wParam, LPARAM lParam)
 {
-	HWND hwnd;
-	int foundWin = 0;
-
-	if (!(g_dat.flags&SMF_SHOWTYPING))
+	if (!(g_dat.flags & SMF_SHOWTYPING))
 		return 0;
-	if (hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE) wParam)) {
+
+	HWND hwnd;
+	if (hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)wParam)) {
 		SendMessage(hwnd, DM_TYPING, 0, lParam);
-		foundWin = 1;
-		if (!foundWin)
-			SkinPlaySound((lParam) ? "TNStart" : "TNStop");
+		return 0;
 	}
-	if (lParam && !foundWin && (g_dat.flags&SMF_SHOWTYPINGTRAY)) {
+
+	SkinPlaySound((lParam) ? "TNStart" : "TNStop");
+
+	if (lParam && (g_dat.flags & SMF_SHOWTYPINGTRAY)) {
 		TCHAR szTip[256];
 		mir_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message"), (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR));
 
@@ -212,13 +204,11 @@ static int MessageSettingChanged(WPARAM wParam, LPARAM lParam)
 
 	if (!strcmp(cws->szModule, "CList"))
 		WindowList_Broadcast(g_dat.hMessageWindowList, DM_UPDATETITLE, (WPARAM) cws, 0);
-	else if (hContact)
-	{
+	else if (hContact) {
 		if (cws->szSetting && !strcmp(cws->szSetting, "Timezone"))
 			WindowList_Broadcast(g_dat.hMessageWindowList, DM_NEWTIMEZONE, (WPARAM) cws, 0);
-		else
-		{
-			char * szProto = GetContactProto((HANDLE)wParam);
+		else {
+			char *szProto = GetContactProto((HANDLE)wParam);
 			if (szProto && !strcmp(cws->szModule, szProto))
 				WindowList_Broadcast(g_dat.hMessageWindowList, DM_UPDATETITLE, (WPARAM) cws, 0);
 		}
@@ -229,7 +219,7 @@ static int MessageSettingChanged(WPARAM wParam, LPARAM lParam)
 static int ContactDeleted(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwnd;
-	if (hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE) wParam))
+	if (hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)wParam))
 		SendMessage(hwnd, WM_CLOSE, 0, 0);
 
 	return 0;
@@ -294,15 +284,15 @@ static int SplitmsgModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	RegisterSRMMFonts();
 	LoadMsgLogIcons();
-	{
-		CLISTMENUITEM mi = { sizeof(mi) };
-		mi.position = -2000090000;
-		mi.flags = CMIF_DEFAULT;
-		mi.icolibItem = LoadSkinnedIconHandle( SKINICON_EVENT_MESSAGE );
-		mi.pszName = LPGEN("&Message");
-		mi.pszService = MS_MSG_SENDMESSAGE;
-		hMsgMenuItem = Menu_AddContactMenuItem(&mi);
-	}
+
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.position = -2000090000;
+	mi.flags = CMIF_DEFAULT;
+	mi.icolibItem = LoadSkinnedIconHandle( SKINICON_EVENT_MESSAGE );
+	mi.pszName = LPGEN("&Message");
+	mi.pszService = MS_MSG_SENDMESSAGE;
+	hMsgMenuItem = Menu_AddContactMenuItem(&mi);
+
 	HookEvent(ME_FONT_RELOAD, FontsChanged);
 
 	RestoreUnreadMessageAlerts();
@@ -329,10 +319,10 @@ static int IconsChanged(WPARAM wParam, LPARAM lParam)
 static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	if ( hContact ) {
+	if (hContact) {
 		bool bEnabled = false;
-		char* szProto = GetContactProto(hContact);
-		if ( szProto ) {
+		char *szProto = GetContactProto(hContact);
+		if (szProto) {
 			// leave this menu item hidden for chats
 			if ( !db_get_b( hContact, szProto, "ChatRoom", 0 ))
 				if ( CallProtoService( szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND )
@@ -375,13 +365,12 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowInputData *mwid = (MessageWindowInputData*)wParam;
 	MessageWindowData *mwd = (MessageWindowData*)lParam;
-	HWND hwnd;
-
 	if (mwid == NULL || mwd == NULL) return 1;
 	if (mwid->cbSize != sizeof(MessageWindowInputData) || mwd->cbSize != sizeof(SrmmWindowData)) return 1;
 	if (mwid->hContact == NULL) return 1;
 	if (mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH) return 1;
-	hwnd = WindowList_Find(g_dat.hMessageWindowList, mwid->hContact);
+	
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, mwid->hContact);
 	mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 	mwd->hwndWindow = hwnd;
 	mwd->local = 0;
@@ -389,14 +378,12 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static TCHAR tszError[] = _T("Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.");
+
 int LoadSendRecvMessageModule(void)
 {
 	if (LoadLibraryA("riched20.dll") == NULL) {
-		if (IDYES  !=
-			MessageBox(0,
-			TranslateT
-			("Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda."),
-			TranslateT("Information"), MB_YESNO | MB_ICONINFORMATION))
+		if (IDYES != MessageBox(0, TranslateTS(tszError), TranslateT("Information"), MB_YESNO | MB_ICONINFORMATION))
 			return 1;
 		return 0;
 	}

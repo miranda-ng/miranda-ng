@@ -454,7 +454,7 @@ static void RebuildList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown)
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM) hItemUnknown, 1);
 
 	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM) hContact, 0);
+		HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM) hContact, 0);
 		if (hItem && db_get_b(hContact, SRMMMOD, SRMSGSET_TYPING, defType))
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM) hItem, 1);
 	}
@@ -469,7 +469,7 @@ static void SaveList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown)
 		db_set_b(NULL, SRMMMOD, SRMSGSET_TYPINGUNKNOWN, (BYTE) (SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM) hItemUnknown, 0) ? 1 : 0));
 
 	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if (hItem)
 			db_set_b(hContact, SRMMMOD, SRMSGSET_TYPING, (BYTE) (SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM) hItem, 0) ? 1 : 0));
 	}
@@ -487,9 +487,9 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 				cii.cbSize = sizeof(cii);
 				cii.flags = CLCIIF_GROUPFONT | CLCIIF_CHECKBOX;
 				cii.pszText = TranslateT("** New contacts **");
-				hItemNew = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM) & cii);
+				hItemNew = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM) & cii);
 				cii.pszText = TranslateT("** Unknown contacts **");
-				hItemUnknown = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM) & cii);
+				hItemUnknown = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM) & cii);
 			}
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE) | (CLS_SHOWHIDDEN) | (CLS_NOHIDEOFFLINE));
 			ResetCList(hwndDlg);
