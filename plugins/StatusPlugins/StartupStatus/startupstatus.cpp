@@ -279,34 +279,33 @@ static VOID CALLBACK SetStatusTimed(HWND hwnd,UINT message, UINT_PTR idEvent,DWO
 	CallService(MS_CS_SETSTATUSEX, (WPARAM)&startupSettings, 0);
 }
 
-static int OnShutdown(WPARAM wParam, LPARAM lParam)
+static int OnOkToExit(WPARAM, LPARAM)
 {
-	DeinitProfilesModule();
-
 	// save last protocolstatus
 	int count;
 	PROTOACCOUNT** protos;
 	ProtoEnumAccounts( &count, &protos );
 
 	for ( int i=0; i < count; i++ ) {
-		if ( !IsSuitableProto( protos[i] ))
+		PROTOACCOUNT *pa = protos[i];
+		if ( !IsSuitableProto(pa))
 			continue;
 
 		char lastName[128], lastMsg[128];
-		mir_snprintf(lastName, sizeof(lastName), "%s%s", PREFIX_LAST, protos[i]->szModuleName);
-		if (CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)protos[i]->szModuleName)) {
-			db_set_w(NULL, MODULENAME, lastName, (WORD)CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0));
-			mir_snprintf(lastMsg, sizeof(lastMsg), "%s%s", PREFIX_LASTMSG, protos[i]->szModuleName);
+		mir_snprintf(lastName, sizeof(lastName), "%s%s", PREFIX_LAST, pa->szModuleName);
+		if (CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)pa->szModuleName)) {
+			db_set_w(NULL, MODULENAME, lastName, (WORD)CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0));
+			mir_snprintf(lastMsg, sizeof(lastMsg), "%s%s", PREFIX_LASTMSG, pa->szModuleName);
 			db_unset(NULL, MODULENAME, lastMsg);
 			
-			int status = CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0);
-			if ( !CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)protos[i]->szModuleName))
+			int status = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
+			if ( !CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)pa->szModuleName))
 				continue;
 
-			if ( !(CallProtoService(protos[i]->szModuleName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG ))
+			if ( !(CallProtoService(pa->szModuleName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG ))
 				continue;
 
-			if ( !(CallProtoService(protos[i]->szModuleName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(status)))
+			if ( !(CallProtoService(pa->szModuleName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(status)))
 				continue;
 	}	}
 
@@ -316,6 +315,13 @@ static int OnShutdown(WPARAM wParam, LPARAM lParam)
 		else
 			log_debugA("StartupStatus: MS_CLIST_SETSTATUSMODE not available!");
 	}
+
+	return 0;
+}
+
+static int OnShutdown(WPARAM wParam, LPARAM lParam)
+{
+	DeinitProfilesModule();
 
 	// set windowstate and docked for next startup
 	if (db_get_b(NULL, MODULENAME, SETTING_SETWINSTATE, 0)) {
@@ -384,6 +390,7 @@ int CSModuleLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 
 	/* shutdown hook for normal shutdown */
+	HookEvent(ME_SYSTEM_OKTOEXIT, OnOkToExit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
 	/* message window for poweroff */
 	hMessageWindow = CreateWindowEx(0, _T("STATIC"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
