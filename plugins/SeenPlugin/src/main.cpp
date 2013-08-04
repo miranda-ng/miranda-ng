@@ -47,7 +47,7 @@ DBVTranslation idleTr[TRANSNUMBER]={
 };
 
 BOOL includeIdle;
-LIST<logthread_info> arContacts(16, LIST<logthread_info>::FTSortFunc(HandleKeySortT));
+LIST<logthread_info> arContacts(16, HandleKeySortT);
 
 int MainInit(WPARAM,LPARAM)
 {

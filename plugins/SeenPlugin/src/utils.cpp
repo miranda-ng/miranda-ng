@@ -625,7 +625,8 @@ int UpdateValues(WPARAM wparam,LPARAM lparam)
 			if ( db_get_b(hContact, S_MOD, "OnlineAlert", 0)) ShowHistory(hContact, 1);
 			db_set_b(hContact, S_MOD, "Offline", 0);
 		}
-	} else if (IsWatchedProtocol(cws->szModule)) {
+	}
+	else if (IsWatchedProtocol(cws->szModule)) {
 		//here we will come when <User>/<module>/Status is changed or it is idle event and if <module> is watched
 		if ( CallProtoService(cws->szModule,PS_GETSTATUS,0,0) > ID_STATUS_OFFLINE){
 			logthread_info *p = arContacts.find((logthread_info*)&hContact);
