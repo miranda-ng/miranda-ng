@@ -2,27 +2,46 @@
 ;============================================================
 ;  File: Skype.dll
 ;  Plugin: Skype Protocol
-;  Version: 0.0.0.1
-;  Authors: Unsane, Mataes
+;  Version: 0.11.0.1
+;  Authors: unsane, mataes, ghazan
 ;============================================================
 [Skype protocol support for Miranda NG.]
 Skype протокол для Miranda NG.
+;file \protocols\Skype\res\Resource.rc
+[Invite contacts to conference]
+Пригласить в конференцию
+[Skype name:]
+Логин Skype:
 [&Invite]
 &Пригласить
 [&Cancel]
 &Отмена
 [Add]
 Добавить
+[Create conference]
+Создать конференцию
+[Topic:]
+Тема:
+[Guideline:]
+Правила:
+[Enable joining]
+Разрешить вход в чат
+[New members join with role:]
+Роль для новых участников:
+[Create with password]
+Создать с паролем
+[Password:]
+Пароль:
+[Confirmation:]
+Подтверждение:
+[Password hint:]
+Подсказка пароля:
 [Enter password]
 Введите пароль
 [Remember this session password]
 Запомнить пароль этой сессии
 [Cancel]
 Отмена
-[Skype name]
-Логин Skype
-[Skype name:]
-Логин Skype:
 [Status text:]
 Текст статуса:
 [Online since:]
@@ -65,18 +84,18 @@ Skype протокол для Miranda NG.
 Страна:
 [Timezone:]
 Часовой пояс:
+[Skype credit:]
+Баланс Skype:
 [Change password]
 Изменить пароль
 [Old password:]
 Старый пароль:
 [New password:]
 Новый пароль:
-[Password:]
-Пароль:
 [Register new account]
 Зарегистрироваться
-[User Details]
-Детали пользователя
+[Account]
+Аккаунт
 [Connection]
 Подключение
 [Use port]
@@ -87,26 +106,72 @@ Skype протокол для Miranda NG.
 Использовать порты 80 и 443 как входящие
 [Default group:]
 Группа:
-[Proccess SkypeKit.exe did not start.]
-Процесс SkypeKit.exe не запустился.
-[Initialization key corrupted or not valid.]
-Ключ инициализации повреждён или не действителен.
-[SkypeKit did not initialize.]
-SkypeKit не инициализирован.
-[SkypeKit did not start.]
-SkypeKit не запустился.
+[Block]
+Блокировать
+[Allow IMs from...]
+Разрешить мгновенные сообщения от...
+[Anyone]
+Всех
+[People in my Contact list only]
+Пользователей из моего контактного листа
+[Allow calls from...]
+Разрешить звонки от...
+[Automatically receive video and share screens with...]
+Автоматически показывать экран и принимать видео от...
+[No one]
+Никого
+[Allow my online status to be shown on the web]
+Разрешить показ моего онлайн статуса в интернете
+[Block this person]
+Блокировать пользователя
+[Remove from your Contact List]
+Удалить из списка контактов
+[Abuse]
+Нарушение
+[You can also report abuse from this user.]
+Вы также можете сообщить о нарущении правил этим пользователем.
+[Report abuse]
+Сообщить о нарушении
+;file \protocols\Skype\src\skype.cpp
+[Did not unpack SkypeKit.exe.]
+Баланс Skype:
+;file \protocols\Skype\src\skype_account.cpp
+[HTTPS proxy authentication failed]
+Аутентификация по HTTP прокси не удалась
+[SOCKS proxy authentication failed]
+Аутентификация по SOCKS прокси не удалась
+[P2P connection failed]
+Соединение по P2P не удалось
+[Server is overloaded]
+Сервер перегружен
+[SkypeKit database already in use]
+База данных SkypeKit уже используется
 [Invalid Skype name]
 Неверный логин Skype
 [Invalid email]
 Неверный e-mail
 [Unacceptable password]
 Недопустимый пароль
+[Skype name is taken]
+Логин Skype занят
 [Incorrect password]
 Неверный пароль
 [Too many login attempts]
 Слишком много попыток входа
+[Password has changed]
+Пароль был изменён
+[SkypeKit database is corrupt]
+База данных SkypeKit повреждена
+[Invalid application ID]
+Неверное ID приложения
+[Version is unsupported]
+Версия не поддерживается
 [Logout from another instance]
 Выход на других устройствах
+[Password successfully changed]
+Пароль успешно изменён
+[Password changing]
+Изменение пароля
 [Old password was incorrect]
 Старый пароль не верен
 [Failed to verify password. No connection to server]
@@ -121,104 +186,19 @@ SkypeKit не запустился.
 Учетная запись не в сети
 [You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
 Вы не ввели Skype ID.\nНастройте это в Настройки->Сеть->%s и попробуйте снова. 
+;file \protocols\Skype\src\skype_blocked.cpp
+[Are you sure you want to block "%s" (%s)? They won't be able to contact you and won't appear in your Contact List.]
+Вы действительно хотите блокировать "%s" (%s)? Блокированные пользователи не смогут связаться с вами и не будут показываться в вашем списке контактов.
+[Name]
+Имя
+;file \protocols\Skype\src\skype_bookmarks.cpp
+[Conferences]
+Конференции
 ;file \protocols\Skype\src\skype_chat.cpp
-[&Invite user...]
-&Пригласить пользователя...
-[&Leave chat session]
-&Покинуть чат
-[User &details]
-Детали &пользователя
-[User &history]
-История &пользователя
-[Contact already in your contact list]
-Контакт уже в контакт листе
-[Enter a password for %s:]
-Введите пароль для %s:
-[<not specified>]
-<не указано>
-[Male]
-Мужской
-[Female]
-Женский
-[You are not currently connected to the Skype network. You must be online in order to update your information on the server.]
-Вы не подключены в настоящее время. Вы должны быть онлайн, чтобы обновить Вашу информацию на сервере.
-[Contact]
-Контакт
-[Contacts]
-Контакты
-[Home]
-Дом
-[General]
-Основоное
-[You did not select any contact]
-Вы не выбрали контакт
-[Network]
-Сеть
-[Account]
-Аккаунт
-[Incoming call]
-Входящий звонок
-[Incoming call started]
-Входящий звонок
-[Incoming call finished]
-Входящий звонок завершен
-[Call]
-Звонок
+[&Request auth]
+&Запросить авторизацию
 [Invite to conference]
 Пригласить в конференцию
-[Revoke authorization]
-Отозвать авторизацию
-[Request authorization]
-Запросить авторизацию
-[Grant authorization]
-Авторизовать
-[Protocols]
-Протоколы
-[Skype protocol plugin only permit you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.] 
-Протокол Skype не позволяет одновременно запускать больше одной учетной записи. Запуск нескольких копий запрещен лицензионным соглашением и условиями распространения SkypeKit.
-;file \protocols\Skype\src\skype_menus.cpp
-[Hi! I'd like to add you to my contact list]
-Привет! Я хотел бы добавить Вас в свой список контактов
-;file \protocols\Skype\src\skype_netlib.cpp
-[%s connection]
-%s подключение
-;file \protocols\Skype\src\skype_proto.cpp
-;file \protocols\Skype\src\skype_utils.cpp
-[Validation succeeded]
-Валидация пройдена
-[Password is too short]
-Пароль слишком короткий
-[The value exceeds max size limit for the given property]
-[Value contains illegal characters]
-Значение имеет недопустимый символ
-[Value contains whitespace]
-[Password cannot be the same as Skype name]
-Пароль не может совпадать с логином Skype
-[Value has invalid format]
-Значение имеет неверный формат
-[Value contains invalid word]
-Значение имеет недопустимое слово
-[Password is too simple]
-Пароль слишком простой
-[Value starts with an invalid character]
-[Avatars]
-Аватары
-[Skype Protocol]
-Skype протокол
-[Create conference]
-Создать конференцию
-[Invite contacts to conference]
-Пригласить в конференцию
-[Topic:]
-Тема:
-[Guideline:]
-Правила:
-[Creator]
-Создатель
-[Master] 
-Модератор
-[Helper] 
-Помощник 
 [Set &role]
 Установить &роль
 [&Master]
@@ -239,42 +219,89 @@ Skype протокол
 Копировать &Skype ID
 [Copy room &uri]
 Копировать URI конференции
-[Confirmation:]
-Подтверждение:
-[Create with password]
-Создать с паролем
-[Password hint:]
-Подсказка пароля:
-[New members join with role:]
-Роль для новых участников:
-[Enable joining]
-Разрешить вход в чат
-[&Request auth]
-&Запросить авторизацию
-[Delete]
-Удалить
-[Ignore]
-Игнорировать
+[Creator]
+Создатель
+[Incoming group call finished]
+Входящий групповой звонок закончен
+[The password is incorrect]
+Неверный пароль
+[Your application to join the conference was denied]
+Ваша просьба о присоеденении к конференции отклонена
+[Incoming group call started]
+Входящий групповой звонок
+[You did not select any contact]
+Вы не выбрали контакт
+[Hi! I'd like to add you to my contact list]
+Привет! Я хотел бы добавить Вас в свой список контактов
+;file \protocols\Skype\src\skype_contacts.cpp
+[Contact already in your contact list]
+Контакт уже в контакт листе
+[Contacts received]
+Входящий групповой звонок
+;file \protocols\Skype\src\skype_dialogs.cpp
+[Enter a password for %s:]
+Введите пароль для %s:
+[New password is same as old password.]
+Новый и старый пароль одинаковы
+[New password and confirmation must be same.]
+Новый и старый пароль одинаковы
+[<not specified>]
+<не указано>
+[Male]
+Мужской
+[Female]
+Женский
+[You are not currently connected to the Skype network. You must be online in order to update your information on the server.]
+Вы не подключены в настоящее время. Вы должны быть онлайн, чтобы обновить Вашу информацию на сервере.
+;file \protocols\Skype\src\skype_events.cpp
+[Spawn conference]
+Создать конференцию
+[Network]
+Сеть
 [Blocked contacts]
 Блокированные контакты
-[Block]
-Блокировать
-[Block this person]
-Блокировать пользователя
-[Block this person...]
-Блокировать пользователя...
+[Privacy]
+Приватность
+[Contacts]
+Контакты
+[Home]
+Дом
+[General]
+Основоное
+;file \protocols\Skype\src\skype_icons.cpp
+[Call]
+Звонок
+[Conference]
+Конференция
+[Send contact]
+Отправить контакт
+[Contact]
+Контакт
+[Delete]
+Удалить
+[Protocols]
+Протоколы
+;file \protocols\Skype\src\skype_ignore_list.cpp
+;file \protocols\Skype\src\skype_instances.cpp
+[Skype protocol plugin only permit you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
+Отправить контакт
+[Initialization key corrupted or not valid.]
+Ключ инициализации повреждён или не действителен.
+[SkypeKit did not initialize (%d).]
+SkypeKit did not initialize (%d).
+[SkypeKit did not start.]
+SkypeKit не запустился.
+;file \protocols\Skype\src\skype_menus.cpp
 [Unblock this person...]
 Разблокировать пользователя...
-[Remove from your Contact List]
-Удалить из списка контактов
-[Abuse]
-Нарушение
-[You can also report abuse from this user.]
-Вы также можете сообщить о нарущении правил этим пользователем.
-[Report abuse]
-Сообщить о нарушении
-[Are you sure you want to block "%s" (%s)? They won't be able to contact you and won't appear in your Contact List.]
-Вы действительно хотите блокировать "%s" (%s)? Блокированные пользователи не смогут связаться с вами и не будут показываться в вашем списке контактов.
+[Block this person...]
+Блокировать пользователя...
+[Request authorization]
+Запросить авторизацию
+[Grant authorization]
+Авторизовать
+[Revoke authorization]
+Отозвать авторизацию
 [View old messages...]
 Просмотреть историю...
 [for last day]
@@ -289,63 +316,34 @@ Skype протокол
 за последний год
 [for all time]
 за всё время
+;file \protocols\Skype\src\skype_messages.cpp
+[Incoming call started]
+Входящий звонок
+[Incoming call finished]
+Входящий звонок завершен
 [history synchronization]
 Синхронизация истории
 [Done!]
 Готово!
-[Name]
-Имя
-[Conferences]
-Конференции
-[Conference]
-Конференция
-[Spawn conference]
-Создать конференцию
-[The password is incorrect]
-Неверный пароль
-[Your application to join the conference was denied]
-Ваша просьба о присоеденении к конференции отклонена
-[Command "%s" is unsupported] 
+;file \protocols\Skype\src\skype_netlib.cpp
+[%s connection]
+%s подключение
+;file \protocols\Skype\src\skype_proto.cpp
+[Skype name]
+Логин Skype
+;file \protocols\Skype\src\skype_transfers.cpp
+;file \protocols\Skype\src\skype_utils.cpp
+[Validation succeeded]
+Валидация пройдена
+[Password is too short]
+Пароль слишком короткий
+[Value has invalid format]
+Значение имеет неверный формат
+[Value contains invalid word]
+Значение имеет недопустимое слово
+[Password is too simple]
+Пароль слишком простой
+[Avatars]
+Аватары
+[Command "%s" is unsupported]
 Команда "%s" не поддерживается
-[HTTPS proxy authentication failed]
-Аутентификация по HTTP прокси не удалась
-[SOCKS proxy authentication failed]
-Аутентификация по SOCKS прокси не удалась
-[P2P connection failed]
-Соединение по P2P не удалось
-[Server is overloaded]
-Сервер перегружен
-[SkypeKit database already in use]
-База данных SkypeKit уже используется
-[SkypeKit database is corrupt]
-База данных SkypeKit повреждена
-[Skype name is taken]
-Логин Skype занят
-[Password has changed]
-Пароль был изменён
-[Invalid application ID]
-Неверное ID приложения
-[Version is unsupported]
-Версия не поддерживается
-[Password successfully changed]
-Пароль успешно изменён
-[Password changing]
-Изменение пароля
-[Privacy]
-Приватность
-[Allow IMs from...]
-Разрешить мгновенные сообщения от...
-[Anyone]
-Всех
-[No one]
-Никого
-[People in my Contact list only]
-Пользователей из моего контактного листа
-[Allow calls from...]
-Разрешить звонки от...
-[Automatically receive video and share screens with...]
-Автоматически показывать экран и принимать видео от...
-[Allow my online status to be shown on the web]
-Разрешить показ моего онлайн статуса в интернете
-
-[]
