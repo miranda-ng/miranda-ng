@@ -267,7 +267,7 @@ Skype протокол для Miranda NG.
 [Home]
 Дом
 [General]
-Основоное
+Общее
 ;file \protocols\Skype\src\skype_icons.cpp
 [Call]
 Звонок
