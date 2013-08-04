@@ -176,7 +176,7 @@ int TSAPI CheckThemeVersion(const TCHAR *szIniFilename)
 	return 0;
 }
 
-void TSAPI WriteThemeToINI(const TCHAR *szIniFilenameT, struct TWindowData *dat)
+void TSAPI WriteThemeToINI(const TCHAR *szIniFilenameT, TWindowData *dat)
 {
 	int i, n = 0;
 	DBVARIANT dbv;

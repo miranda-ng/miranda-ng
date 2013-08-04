@@ -118,13 +118,13 @@ void LoadDefaultTemplates()
 
 INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct TWindowData *dat = 0;
+	TWindowData *dat = 0;
 	TemplateEditorInfo *teInfo = 0;
 	TTemplateSet *tSet;
 	int i;
-	dat = (struct TWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	dat = (TWindowData*) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	/*
-	* since this dialog needs a struct MessageWindowData * but has no container, we can store
+	* since this dialog needs a MessageWindowData * but has no container, we can store
 	* the extended info struct in pContainer *)
 	*/
 	if (dat) {
@@ -140,8 +140,6 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			COLORREF url_visited = RGB(128, 0, 128);
 			COLORREF url_unvisited = RGB(0, 0, 255);
 			dat = (TWindowData*)calloc( sizeof(TWindowData), 1);
-
-			ZeroMemory((void*) dat, sizeof(struct TWindowData));
 			dat->pContainer = (TContainerData *)malloc(sizeof(TContainerData));
 			ZeroMemory((void*)dat->pContainer, sizeof(TContainerData));
 			teInfo = (TemplateEditorInfo *)dat->pContainer;
@@ -393,5 +391,5 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;
 	}
-	return(FALSE);
+	return FALSE;
 }

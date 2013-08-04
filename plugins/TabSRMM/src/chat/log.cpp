@@ -963,7 +963,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedr
 	SCROLLINFO scroll;
 	WPARAM wp;
 	HWND hwndRich;
-	TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	if (hwndDlg == 0 || lin == 0 || si == 0 || dat == 0)
 		return;
@@ -996,7 +996,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedr
 
 		//set the insertion point at the bottom
 		sel.cpMin = sel.cpMax = GetRichTextLength(hwndRich);
-		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)& sel);
+		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&sel);
 
 		// fix for the indent... must be a M$ bug
 		if (sel.cpMax == 0)
@@ -1020,7 +1020,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedr
 		// stream in the event(s)
 		streamData.lin = lin;
 		streamData.bRedraw = bRedraw;
-		SendMessage(hwndRich, EM_STREAMIN, wp, (LPARAM)& stream);
+		SendMessage(hwndRich, EM_STREAMIN, wp, (LPARAM)&stream);
 
 
 		//SendMessage(hwndRich, EM_EXGETSEL, 0, (LPARAM)&newsel);
@@ -1150,7 +1150,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedr
 
 		// do we need to restore the selection
 		if (oldsel.cpMax != oldsel.cpMin) {
-			SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)& oldsel);
+			SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&oldsel);
 			SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
 			InvalidateRect(hwndRich, NULL, TRUE);
 		}
@@ -1158,7 +1158,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedr
 		// need to invalidate the window
 		if (bFlag) {
 			sel.cpMin = sel.cpMax = GetRichTextLength(hwndRich);
-			SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)& sel);
+			SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)&sel);
 			SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
 			InvalidateRect(hwndRich, NULL, TRUE);
 		}

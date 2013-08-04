@@ -328,6 +328,6 @@ char* Chat_Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si)
 	stream.dwCookie = (DWORD_PTR) & pszText; // pass pointer to pointer
 
 	dwFlags = SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE | (CP_UTF8 << 16);
-	SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_STREAMOUT, dwFlags, (LPARAM)& stream);
+	SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_STREAMOUT, dwFlags, (LPARAM)&stream);
 	return pszText; // pszText contains the text
 }

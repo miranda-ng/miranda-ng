@@ -97,7 +97,6 @@ int SM_RemoveSession(const TCHAR* pszID, const char* pszModule, bool removeConta
 	SESSION_INFO* pTemp = s_WndList, *pLast = NULL;
 	while (pTemp != NULL) {
 		if ((!pszID && pTemp->iType != GCW_SERVER || !lstrcmpi(pTemp->ptszID, pszID)) && !lstrcmpiA(pTemp->pszModule, pszModule)) { // match
-			COMMAND_INFO *pCurComm;
 			DWORD dw = pTemp->dwItemData;
 
 			if (pTemp->hWnd)
@@ -116,11 +115,9 @@ int SM_RemoveSession(const TCHAR* pszID, const char* pszModule, bool removeConta
 			pTemp->iStatusCount = 0;
 			pTemp->nUsersInNicklist = 0;
 
-			if (pTemp->hContact) {
+			if (pTemp->hContact)
 				CList_SetOffline(pTemp->hContact, pTemp->iType == GCW_CHATROOM ? TRUE : FALSE);
-				//if (pTemp->iType != GCW_SERVER)
-				//db_set_b(0, pTemp->hContact, "CList", "Hidden", 1);
-			}
+
 			db_set_s(pTemp->hContact, pTemp->pszModule , "Topic", "");
 			db_set_s(pTemp->hContact, pTemp->pszModule, "StatusBar", "");
 			db_unset(pTemp->hContact, "CList", "StatusMsg");
@@ -137,7 +134,7 @@ int SM_RemoveSession(const TCHAR* pszID, const char* pszModule, bool removeConta
 			mir_free(pTemp->pszName);
 
 			// delete commands
-			pCurComm = pTemp->lpCommands;
+			COMMAND_INFO *pCurComm = pTemp->lpCommands;
 			while (pCurComm != NULL) {
 				COMMAND_INFO *pNext = pCurComm->next;
 				mir_free(pCurComm->lpCommand);

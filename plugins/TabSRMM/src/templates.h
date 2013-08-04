@@ -23,20 +23,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 templates for the message log...
 */
 
-struct TemplateEditorInfo {
-    BOOL rtl;
-    BOOL changed;           // template in edit field is changed
-    BOOL selchanging;
-    int  inEdit;            // template currently in editor
-    BOOL updateInfo[TMPL_ERRMSG + 1];        // item states...
-    HWND hwndParent;
-    HANDLE hContact;
+struct TemplateEditorInfo
+{
+	BOOL rtl;
+	BOOL changed;           // template in edit field is changed
+	BOOL selchanging;
+	int  inEdit;            // template currently in editor
+	BOOL updateInfo[TMPL_ERRMSG + 1];        // item states...
+	HWND hwndParent;
+	HANDLE hContact;
 };
 
-struct TemplateEditorNew {
-    HANDLE hContact;
-    BOOL   rtl;
-    HWND   hwndParent;
+struct TemplateEditorNew
+{
+	HANDLE hContact;
+	BOOL   rtl;
+	HWND   hwndParent;
 };
 
 BOOL CALLBACK DlgProcTemplateEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);

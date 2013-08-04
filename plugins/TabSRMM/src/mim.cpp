@@ -479,7 +479,7 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 				tn.tszInfo = szTip;
 				tn.dwInfoFlags = NIIF_INFO | NIIF_INTERN_UNICODE;
 				tn.uTimeout = 1000 * 4;
-				CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)& tn);
+				CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&tn);
 			}
 			if (fShowOnClist) {
 				CLISTEVENT cle = { sizeof(cle) };
@@ -490,7 +490,7 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 				cle.pszService = "SRMsg/TypingMessage";
 				cle.ptszTooltip = szTip;
 				CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, (LPARAM)1);
-				CallServiceSync(MS_CLIST_ADDEVENT, wParam, (LPARAM)& cle);
+				CallServiceSync(MS_CLIST_ADDEVENT, wParam, (LPARAM)&cle);
 			}
 		}
 	}
@@ -518,7 +518,7 @@ int CMimAPI::ProtoAck(WPARAM wParam, LPARAM lParam)
 	if (pAck->type == ACKTYPE_MESSAGE) {
 		for (j = 0; j < SendQueue::NR_SENDJOBS; j++) {
 			if (pAck->hProcess == jobs[j].hSendId && pAck->hContact == jobs[j].hOwner) {
-				TWindowData *dat = jobs[j].hwndOwner ? (TWindowData *)GetWindowLongPtr(jobs[j].hwndOwner, GWLP_USERDATA) : NULL;
+				TWindowData *dat = jobs[j].hwndOwner ? (TWindowData*)GetWindowLongPtr(jobs[j].hwndOwner, GWLP_USERDATA) : NULL;
 				if (dat) {
 					if (dat->hContact == jobs[j].hOwner) {
 						iFound = j;
@@ -597,7 +597,7 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	TContainerData *pContainer = 0;
 	TCHAR szName[CONTAINER_NAMELEN + 1];
 	DWORD dwStatusMask = 0;
-	struct TWindowData *mwdat=NULL;
+	TWindowData *mwdat=NULL;
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	db_event_get((HANDLE)lParam, &dbei);
@@ -765,7 +765,7 @@ nowindowcreate:
 			contactName = pcli->pfnGetContactDisplayName((HANDLE)wParam, 0);
 			mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), contactName);
 			cle.ptszTooltip = toolTip;
-			CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)& cle);
+			CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 		}
 		tabSRMM_ShowPopup(wParam, lParam, dbei.eventType, 0, 0, 0, dbei.szModule, 0);
 	}

@@ -23,23 +23,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-MIR_CORE_DLL(char*) replaceStr( char* &dest, const char *src )
+MIR_CORE_DLL(char*) replaceStr( char* &dest, const char *src)
 {
-	if ( dest != NULL )
-		mir_free( dest );
+	if (dest != NULL)
+		mir_free(dest);
 
-	return dest = ( src != NULL ) ? mir_strdup( src ) : NULL;
+	return dest = (src != NULL) ? mir_strdup(src) : NULL;
 }
 
-MIR_CORE_DLL(WCHAR*) replaceStrW( WCHAR* &dest, const WCHAR *src )
+MIR_CORE_DLL(WCHAR*) replaceStrW( WCHAR* &dest, const WCHAR *src)
 {
-	if ( dest != NULL )
-		mir_free( dest );
+	if (dest != NULL)
+		mir_free(dest);
 
-	return dest = ( src != NULL ) ? mir_wstrdup( src ) : NULL;
+	return dest = (src != NULL) ? mir_wstrdup(src) : NULL;
 }
 
-MIR_CORE_DLL(char*) rtrim(char* str)
+MIR_CORE_DLL(char*) rtrim(char *str)
 {
 	if (str == NULL)
 		return NULL;

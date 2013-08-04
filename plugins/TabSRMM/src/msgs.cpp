@@ -206,7 +206,7 @@ static INT_PTR GetMessageWindowFlags(WPARAM wParam, LPARAM lParam)
 		hwndTarget = M.FindWindow((HANDLE)wParam);
 
 	if (hwndTarget) {
-		struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwndTarget, GWLP_USERDATA);
+		TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndTarget, GWLP_USERDATA);
 		if (dat)
 			return (dat->dwFlags);
 		else
@@ -305,9 +305,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE) wParam;
-	struct TNewWindowData newData = {
-		0
-	};
+	TNewWindowData newData = { 0 };
 	int isSplit = 1;
 
 	/*
@@ -365,9 +363,7 @@ INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE) wParam;
-	struct TNewWindowData newData = {
-		0
-	};
+	TNewWindowData newData = { 0 };
 	int isSplit = 1;
 
 	if (GetCurrentThreadId() != PluginConfig.dwThreadID) {
@@ -483,7 +479,7 @@ int MyAvatarChanged(WPARAM wParam, LPARAM lParam)
 
 int AvatarChanged(WPARAM wParam, LPARAM lParam)
 {
-	struct avatarCacheEntry *ace = (struct avatarCacheEntry *)lParam;
+	avatarCacheEntry *ace = (avatarCacheEntry *)lParam;
 	HWND hwnd = M.FindWindow((HANDLE)wParam);
 
 	if (wParam == 0) {			// protocol picture has changed...
@@ -491,7 +487,7 @@ int AvatarChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 	if (hwnd) {
-		struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 		if (dat) {
 			dat->ace = ace;
 			if (dat->hTaskbarIcon)
@@ -637,7 +633,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 {
 	NMHDR nmhdr;
 
-	struct TWindowData *dat = (struct TWindowData *) GetWindowLongPtr(hwndChild, GWLP_USERDATA);	// needed to obtain the hContact for the message window
+	TWindowData *dat = (TWindowData*) GetWindowLongPtr(hwndChild, GWLP_USERDATA);	// needed to obtain the hContact for the message window
 	if (dat && pContainer) {
 		ZeroMemory((void*)&nmhdr, sizeof(nmhdr));
 		nmhdr.code = TCN_SELCHANGE;
@@ -706,7 +702,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, i
 		}
 	}
 
-	struct 	TNewWindowData newData = {0};
+	TNewWindowData newData = {0};
 	newData.hContact = hContact;
 	newData.isWchar = isSend;
 	newData.szInitialText = pszInitialText;
@@ -764,7 +760,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, i
 				item.mask = TCIF_PARAM;
 				TabCtrl_GetItem(hwndTab, i, &item);
 				HWND hwnd = (HWND)item.lParam;
-				struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+				TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				if (dat) {
 					relPos = M.GetDword(dat->hContact, "tabindex", i * 100);
 					if (iTabIndex_wanted <= relPos)
@@ -784,12 +780,12 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, i
 	pContainer->iChilds++;
 	newData.bWantPopup = bWantPopup;
 	newData.hdbEvent = hdbEvent;
-	HWND hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGSPLITNEW), GetDlgItem(pContainer->hwnd, IDC_MSGTABS), DlgProcMessage, (LPARAM)& newData);
+	HWND hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGSPLITNEW), GetDlgItem(pContainer->hwnd, IDC_MSGTABS), DlgProcMessage, (LPARAM)&newData);
 	/*
 	 * switchbar support
 	 */
 	if (pContainer->dwFlags & CNT_SIDEBAR) {
-		TWindowData *dat = (TWindowData *)GetWindowLongPtr(hwndNew, GWLP_USERDATA);
+		TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndNew, GWLP_USERDATA);
 		if (dat)
 			pContainer->SideBar->addSession(dat, pContainer->iTabIndex);
 	}
@@ -908,7 +904,7 @@ int TABSRMM_FireEvent(HANDLE hContact, HWND hwnd, unsigned int type, unsigned in
 	if (hContact == NULL || hwnd == NULL || !M.GetByte("_eventapi", 1))
 		return 0;
 
-	struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	BYTE bType = dat ? dat->bType : SESSIONTYPE_IM;
 
 	MessageWindowEventData mwe = { sizeof(mwe) };

@@ -470,7 +470,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 			item.mask = TCIF_PARAM;
 			TabCtrl_GetItem(hwndTab, i, &item);
 			HWND hwnd = (HWND)item.lParam;
-			TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+			TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			if (dat) {
 				int relPos = M.GetDword(dat->hContact, "tabindex", i * 100);
 				if (iTabIndex_wanted <= relPos)
@@ -490,9 +490,9 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	pContainer->iChilds++;
 	newData.bWantPopup = bWantPopup;
 	newData.hdbEvent = (HANDLE)si;
-	HWND hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CHANNEL), GetDlgItem(pContainer->hwnd, 1159), RoomWndProc, (LPARAM)& newData);
+	HWND hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CHANNEL), GetDlgItem(pContainer->hwnd, 1159), RoomWndProc, (LPARAM)&newData);
 	if (pContainer->dwFlags & CNT_SIDEBAR) {
-		TWindowData *dat = (TWindowData *)GetWindowLongPtr(hwndNew, GWLP_USERDATA);
+		TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndNew, GWLP_USERDATA);
 		if (dat)
 			pContainer->SideBar->addSession(dat, pContainer->iTabIndex);
 	}

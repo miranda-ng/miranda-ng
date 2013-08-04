@@ -196,7 +196,7 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 	ofn.lpstrInitialDir = szFinalPath;
 	ofn.nMaxFile = MAX_PATH;
 	ofn.nMaxFileTitle = MAX_PATH;
-	ofn.lCustData = (LPARAM)& setView;
+	ofn.lCustData = (LPARAM)&setView;
 	if (GetSaveFileName(&ofn)) {
 		if (PathFileExists(szFinalFilename)) {
 			if (MessageBox(0, TranslateT("The file exists. Do you want to overwrite it?"),
@@ -218,7 +218,7 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
  * store flashing state into bState
  */
 
-void TSAPI FlashTab(struct TWindowData *dat, HWND hwndTab, int iTabindex, BOOL *bState, BOOL mode, HICON origImage)
+void TSAPI FlashTab(TWindowData *dat, HWND hwndTab, int iTabindex, BOOL *bState, BOOL mode, HICON origImage)
 {
 	TCITEM item;
 
@@ -247,14 +247,14 @@ void TSAPI CalcDynamicAvatarSize(TWindowData *dat, BITMAP *bminfo)
 	double picProjectedWidth = 0;
 	BOOL bBottomToolBar=dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR;
 	BOOL bToolBar=dat->pContainer->dwFlags & CNT_HIDETOOLBAR?0:1;
-	bool fInfoPanel = dat->Panel->isActive();
+	bool bInfoPanel = dat->Panel->isActive();
 	int	 iSplitOffset = dat->fIsAutosizingInput ? 1 : 0;
 
 	if (PluginConfig.g_FlashAvatarAvail) {
 		FLASHAVATAR fa = {0};
 		fa.cProto = dat->szProto;
 		fa.id = 25367;
-		fa.hContact = fInfoPanel ? NULL : dat->hContact;
+		fa.hContact = bInfoPanel ? NULL : dat->hContact;
 		CallService(MS_FAVATAR_GETINFO, (WPARAM)&fa, 0);
 		if (fa.hWindow) {
 			bminfo->bmHeight = FAVATAR_HEIGHT;
@@ -300,10 +300,10 @@ void TSAPI CalcDynamicAvatarSize(TWindowData *dat, BITMAP *bminfo)
 int TSAPI MsgWindowUpdateMenu(TWindowData *dat, HMENU submenu, int menuID)
 {
 	HWND	hwndDlg = dat->hwnd;
-	bool 	fInfoPanel = dat->Panel->isActive();
+	bool 	bInfoPanel = dat->Panel->isActive();
 
 	if (menuID == MENU_TABCONTEXT) {
-		SESSION_INFO *si = (SESSION_INFO*)dat->si;
+		SESSION_INFO *si = dat->si;
 		int iTabs = TabCtrl_GetItemCount(GetParent(hwndDlg));
 
 		EnableMenuItem(submenu, ID_TABMENU_ATTACHTOCONTAINER, M.GetByte("useclistgroups", 0) || M.GetByte("singlewinmode", 0) ? MF_GRAYED : MF_ENABLED);
@@ -313,7 +313,7 @@ int TSAPI MsgWindowUpdateMenu(TWindowData *dat, HMENU submenu, int menuID)
 		TCHAR *szText = NULL;
 		char  avOverride = (char)M.GetByte(dat->hContact, "hideavatar", -1);
 		HMENU visMenu = GetSubMenu(submenu, 0);
-		BOOL picValid = fInfoPanel ? (dat->hOwnPic != 0) : (dat->ace && dat->ace->hbmPic && dat->ace->hbmPic != PluginConfig.g_hbmUnknown);
+		BOOL picValid = bInfoPanel ? (dat->hOwnPic != 0) : (dat->ace && dat->ace->hbmPic && dat->ace->hbmPic != PluginConfig.g_hbmUnknown);
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_STRING;
 
@@ -324,7 +324,7 @@ int TSAPI MsgWindowUpdateMenu(TWindowData *dat, HMENU submenu, int menuID)
 		CheckMenuItem(visMenu, ID_VISIBILITY_VISIBLEFORTHISCONTACT, MF_BYCOMMAND | (avOverride == 1 ? MF_CHECKED : MF_UNCHECKED));
 
 		CheckMenuItem(submenu, ID_PICMENU_ALWAYSKEEPTHEBUTTONBARATFULLWIDTH, MF_BYCOMMAND | (PluginConfig.m_AlwaysFullToolbarWidth ? MF_CHECKED : MF_UNCHECKED));
-		if (!fInfoPanel) {
+		if (!bInfoPanel) {
 			EnableMenuItem(submenu, ID_PICMENU_SETTINGS, MF_BYCOMMAND | (ServiceExists(MS_AV_GETAVATARBITMAP) ? MF_ENABLED : MF_GRAYED));
 			szText = TranslateT("Contact Picture Settings...");
 			EnableMenuItem(submenu, 0, MF_BYPOSITION | MF_ENABLED);
@@ -380,7 +380,7 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 				break;
 			case ID_TABMENU_LEAVECHATROOM: {
 				if (dat && dat->bType == SESSIONTYPE_CHAT) {
-					SESSION_INFO *si = (SESSION_INFO*)dat->si;
+					SESSION_INFO *si = dat->si;
 					if ( (si != NULL) && (dat->hContact != NULL)) {
 						char *szProto = GetContactProto(dat->hContact);
 						if (szProto)
@@ -573,7 +573,7 @@ void TSAPI HandleIconFeedback(TWindowData *dat, HICON iIcon)
  * and local mode
  */
 
-int TSAPI GetAvatarVisibility(HWND hwndDlg, struct TWindowData *dat)
+int TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 {
 	BYTE bAvatarMode = dat->pContainer->avatarMode;
 	BYTE bOwnAvatarMode = dat->pContainer->ownAvatarMode;
@@ -805,8 +805,8 @@ TCHAR* TSAPI QuoteText(const TCHAR *text, int charsPerLine, int removeExistingQu
 void TSAPI AdjustBottomAvatarDisplay(TWindowData *dat)
 {
 	if (dat) {
-		bool fInfoPanel = dat->Panel->isActive();
-		HBITMAP hbm = (fInfoPanel && dat->pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown);
+		bool bInfoPanel = dat->Panel->isActive();
+		HBITMAP hbm = (bInfoPanel && dat->pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown);
 		HWND	hwndDlg = dat->hwnd;
 
 		if (PluginConfig.g_FlashAvatarAvail) {
@@ -819,11 +819,11 @@ void TSAPI AdjustBottomAvatarDisplay(TWindowData *dat)
 			CallService(MS_FAVATAR_GETINFO, (WPARAM)&fa, 0);
 			if (fa.hWindow) {
 				dat->hwndFlash = fa.hWindow;
-				SetParent(dat->hwndFlash, fInfoPanel ? dat->hwndPanelPicParent : GetDlgItem(dat->hwnd, IDC_CONTACTPIC));
+				SetParent(dat->hwndFlash, bInfoPanel ? dat->hwndPanelPicParent : GetDlgItem(dat->hwnd, IDC_CONTACTPIC));
 			}
 			fa.hContact = 0;
 			fa.hWindow = 0;
-			if (fInfoPanel) {
+			if (bInfoPanel) {
 				fa.hParentWindow = GetDlgItem(hwndDlg, IDC_CONTACTPIC);
 				CallService(MS_FAVATAR_MAKE, (WPARAM)&fa, 0);
 				if (fa.hWindow) {
@@ -888,7 +888,7 @@ void TSAPI ShowPicture(TWindowData *dat, BOOL showNewPic)
 
 }
 
-void TSAPI FlashOnClist(HWND hwndDlg, struct TWindowData *dat, HANDLE hEvent, DBEVENTINFO *dbei)
+void TSAPI FlashOnClist(HWND hwndDlg, TWindowData *dat, HANDLE hEvent, DBEVENTINFO *dbei)
 {
 	CLISTEVENT cle;
 
@@ -912,7 +912,7 @@ void TSAPI FlashOnClist(HWND hwndDlg, struct TWindowData *dat, HANDLE hEvent, DB
 		cle.hDbEvent = hEvent;
 		cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 		cle.pszService = "SRMsg/ReadMessage";
-		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)& cle);
+		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 		dat->dwFlagsEx |= MWF_SHOW_FLASHCLIST;
 		dat->hFlashingEvent = hEvent;
 	}
@@ -967,7 +967,7 @@ char* TSAPI Message_GetFromStream(HWND hwndRtf, const TWindowData *dat, DWORD dw
 		dwFlags = (CP_UTF8 << 16) | (SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE);
 	else
 		dwFlags = (CP_UTF8 << 16) | dwPassedFlags;
-	SendMessage(hwndRtf, EM_STREAMOUT, (WPARAM)dwFlags, (LPARAM)& stream);
+	SendMessage(hwndRtf, EM_STREAMOUT, (WPARAM)dwFlags, (LPARAM)&stream);
 
 	return pszText; // pszText contains the text
 }
@@ -1224,7 +1224,7 @@ void TSAPI GetMYUIN(TWindowData *dat)
 	ci.szProto = const_cast<char *>(dat->cache->getActiveProto());
 	ci.dwFlag = CNF_TCHAR | CNF_DISPLAYUID;
 
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
+	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
 		switch (ci.type) {
 		case CNFT_ASCIIZ:
 			mir_sntprintf(dat->myUin, SIZEOF(dat->myUin), _T("%s"), reinterpret_cast<TCHAR *>(ci.pszVal));
@@ -1267,7 +1267,7 @@ UINT TSAPI GetIEViewMode(HWND hwndDlg, HANDLE hContact)
 }
 
 #if defined(__FEAT_DEPRECATED_DYNAMICSWITCHLOGVIEWER)
-static void CheckAndDestroyHPP(struct TWindowData *dat)
+static void CheckAndDestroyHPP(TWindowData *dat)
 {
 	if (dat->hwndHPP) {
 		IEVIEWWINDOW ieWindow;
@@ -1756,22 +1756,22 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 		HRGN 		clipRgn = 0;
 		int  		iRad = PluginConfig.m_WinVerMajor >= 5 ? 4 : 6;
 		BOOL 		flashAvatar = FALSE;
-		bool 		fInfoPanel = dat->Panel->isActive();
+		bool 		bInfoPanel = dat->Panel->isActive();
 
 		if (PluginConfig.g_FlashAvatarAvail && (!bPanelPic || (bPanelPic && dat->showInfoPic == 1))) {
 			FLASHAVATAR fa = {0};
 
 			fa.id = 25367;
 			fa.cProto = dat->szProto;
-			if (!bPanelPic && fInfoPanel) {
+			if (!bPanelPic && bInfoPanel) {
 				fa.hParentWindow = GetDlgItem(hwndDlg, IDC_CONTACTPIC);
 				CallService(MS_FAVATAR_MAKE, (WPARAM)&fa, 0);
 				Utils::enableDlgControl(hwndDlg, IDC_CONTACTPIC, fa.hWindow != 0);
 			} else {
 				fa.hContact = dat->hContact;
-				fa.hParentWindow = fInfoPanel ? dat->hwndPanelPicParent : GetDlgItem(hwndDlg, IDC_CONTACTPIC);
+				fa.hParentWindow = bInfoPanel ? dat->hwndPanelPicParent : GetDlgItem(hwndDlg, IDC_CONTACTPIC);
 				CallService(MS_FAVATAR_MAKE, (WPARAM)&fa, 0);
-				if (fInfoPanel) {
+				if (bInfoPanel) {
 					if (fa.hWindow != NULL&&dat->hwndPanelPic) {
 						DestroyWindow(dat->hwndPanelPic);
 						dat->hwndPanelPic = NULL;
@@ -1815,13 +1815,13 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 				return TRUE;
 			}
 		} else  {
-			if (!fInfoPanel || dat->pContainer->avatarMode == 3) {
+			if (!bInfoPanel || dat->pContainer->avatarMode == 3) {
 				if (dat->ace)
 					aceFlags = dat->ace->dwFlags;
 			} else if (dat->ownAce)
 				aceFlags = dat->ownAce->dwFlags;
 
-			GetObject((fInfoPanel && dat->pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown), sizeof(bminfo), &bminfo);
+			GetObject((bInfoPanel && dat->pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown), sizeof(bminfo), &bminfo);
 		}
 
 		GetClientRect(hwndDlg, &rc);
@@ -1919,9 +1919,9 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 			}
 		}
 
-		if ((((fInfoPanel && dat->pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown)) && dat->showPic) || bPanelPic) {
+		if ((((bInfoPanel && dat->pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown)) && dat->showPic) || bPanelPic) {
 			HDC hdcMem = CreateCompatibleDC(dis->hDC);
-			HBITMAP hbmAvatar = bPanelPic ? (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown) : ((fInfoPanel && dat->pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown));
+			HBITMAP hbmAvatar = bPanelPic ? (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown) : ((bInfoPanel && dat->pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown));
 			HBITMAP hbmMem = 0;
 			if (bPanelPic) {
 				bool	bBorder = (CSkin::m_bAvatarBorderType ? true : false);
@@ -2320,7 +2320,7 @@ void TSAPI ClearLog(TWindowData *dat)
 		dat->hDbEventFirst = NULL;
 	}
 	else if (dat && dat->bType == SESSIONTYPE_CHAT && dat->si) {
-		SESSION_INFO *si = reinterpret_cast<SESSION_INFO *>(dat->si);
+		SESSION_INFO *si = dat->si;
 		SESSION_INFO* s = SM_FindSession(si->ptszID, si->pszModule);
 		if (s) {
 			SetDlgItemText(dat->hwnd, IDC_CHAT_LOG, _T(""));

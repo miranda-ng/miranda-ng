@@ -30,7 +30,7 @@
  *
  */
 
-void    TSAPI DM_SetDBButtonStates(HWND hwndChild, struct TWindowData *dat);
+void    TSAPI DM_SetDBButtonStates(HWND hwndChild, TWindowData *dat);
 HWND    TSAPI DM_CreateClist(TWindowData *dat);
 
 void    TSAPI DM_OptionsApplied(TWindowData *dat, WPARAM wParam, LPARAM lParam);
@@ -40,7 +40,7 @@ void    TSAPI DM_LoadLocale(TWindowData *dat);
 void    TSAPI DM_SaveLocale(TWindowData *dat, WPARAM wParam, LPARAM lParam);
 void    TSAPI DM_UpdateLastMessage(const TWindowData *dat);
 LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT uMsg, WPARAM wParam, LPARAM lParam);
-LRESULT TSAPI DM_MouseWheelHandler(HWND hwnd, HWND hwndParent, struct TWindowData *mwdat, WPARAM wParam, LPARAM lParam);
+LRESULT TSAPI DM_MouseWheelHandler(HWND hwnd, HWND hwndParent, TWindowData *mwdat, WPARAM wParam, LPARAM lParam);
 LRESULT TSAPI DM_ThemeChanged(TWindowData *dat);
 void    TSAPI DM_Typing(TWindowData *dat, bool fForceOff = false);
 void    TSAPI DM_FreeTheme(TWindowData *dat);

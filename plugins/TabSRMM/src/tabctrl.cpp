@@ -245,7 +245,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 
 static RECT rcTabPage = {0};
 
-static void DrawItemRect(struct TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, int iItem, const TWindowData *dat)
+static void DrawItemRect(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, int iItem, const TWindowData *dat)
 {
 	POINT pt;
 	DWORD dwStyle = tabdat->dwStyle;
@@ -452,7 +452,7 @@ static HRESULT DrawThemesPart(const TabControlData *tabdat, HDC hDC, int iPartId
  * handles image mirroring for tabs at the bottom
  */
 
-static void DrawThemesXpTabItem(HDC pDC, int ixItem, RECT *rcItem, UINT uiFlag, struct TabControlData *tabdat, TWindowData *dat)
+static void DrawThemesXpTabItem(HDC pDC, int ixItem, RECT *rcItem, UINT uiFlag, TabControlData *tabdat, TWindowData *dat)
 {
 	BOOL bBody  = (uiFlag & 1) ? TRUE : FALSE;
 	BOOL bSel   = (uiFlag & 2) ? TRUE : FALSE;
@@ -649,7 +649,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	tabdat->helperDat = 0;
 
 	if (tabdat->fAeroTabs && tabdat->pContainer) {
-		TWindowData *dat = (TWindowData *)GetWindowLongPtr(tabdat->pContainer->hwndActive, GWLP_USERDATA);
+		TWindowData *dat = (TWindowData*)GetWindowLongPtr(tabdat->pContainer->hwndActive, GWLP_USERDATA);
 		if (dat)
 			tabdat->helperDat = dat;
 		else
@@ -888,7 +888,7 @@ page_done:
 		if (i != iActive) {
 			TabCtrl_GetItem(hwnd, i, &item);
 			if (item.lParam)
-				dat = (TWindowData *)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
+				dat = (TWindowData*)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
 			TabCtrl_GetItemRect(hwnd, i, &rcItem);
 			if (!bClassicDraw && uiBottom) {
 				rcItem.top -= PluginConfig.tabConfig.m_bottomAdjust;
@@ -925,7 +925,7 @@ page_done:
 		rcItem = rctActive;
 		TabCtrl_GetItem(hwnd, iActive, &item);
 		if (item.lParam)
-			dat = (TWindowData *)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
+			dat = (TWindowData*)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
 
 		if (!bClassicDraw && !(dwStyle & TCS_BUTTONS)) {
 			InflateRect(&rcItem, 2, 2);
@@ -992,9 +992,8 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			GetClassInfoExA(g_hInst, "SysTabControl32", &wcl);
 			OldTabControlClassProc = wcl.lpfnWndProc;
 
-			tabdat = (struct TabControlData *)mir_alloc(sizeof(struct TabControlData));
+			tabdat = (TabControlData *)mir_calloc(sizeof(TabControlData));
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)tabdat);
-			ZeroMemory((void*)tabdat, sizeof(struct TabControlData));
 			tabdat->hwnd = hwnd;
 			tabdat->cx = GetSystemMetrics(SM_CXSMICON);
 			tabdat->cy = GetSystemMetrics(SM_CYSMICON);
@@ -1176,11 +1175,11 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 				i = TabCtrl_HitTest(hwnd, &tci);
 				if (i != -1) {
 					TCITEM tc;
-					struct TWindowData *dat = NULL;
+					TWindowData *dat = NULL;
 
 					tc.mask = TCIF_PARAM;
 					TabCtrl_GetItem(hwnd, i, &tc);
-					dat = (struct TWindowData *)GetWindowLongPtr((HWND)tc.lParam, GWLP_USERDATA);
+					dat = (TWindowData*)GetWindowLongPtr((HWND)tc.lParam, GWLP_USERDATA);
 					if (dat)	{
 						tabdat->bDragging = TRUE;
 						tabdat->iBeginIndex = i;
@@ -1214,7 +1213,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 					tc.mask = TCIF_PARAM;
 					TabCtrl_GetItem(hwnd, i, &tc);
-					dat = (TWindowData *)GetWindowLongPtr((HWND)tc.lParam, GWLP_USERDATA);
+					dat = (TWindowData*)GetWindowLongPtr((HWND)tc.lParam, GWLP_USERDATA);
 					if (dat)	{
 						tabdat->bDragging = TRUE;
 						tabdat->iBeginIndex = i;
@@ -1333,7 +1332,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 					 */
 					TWindowData *dat = 0;
 					if (IsWindow((HWND)item.lParam) && item.lParam != 0)
-						dat = (struct TWindowData *)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
+						dat = (TWindowData*)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
 					if (dat) {
 						tabdat->fTipActive = TRUE;
 						ti.isGroup = 0;

@@ -39,7 +39,8 @@
 #define FONTF_BOLD   1
 #define FONTF_ITALIC 2
 
-struct FontOptionsList {
+struct FontOptionsList
+{
 	TCHAR*   szDescr;
 	COLORREF defColour;
 	TCHAR*   szDefFace;
@@ -51,7 +52,8 @@ struct FontOptionsList {
 	char     size;
 };
 
-struct ColorOptionsList {
+struct ColorOptionsList
+{
 	int			order;
 	TCHAR*		tszGroup;
 	TCHAR*		tszName;
@@ -167,7 +169,7 @@ struct branch_t {
 	BYTE      bDefault;
 	HTREEITEM hItem;
 };
-static struct branch_t branch1[] = {
+static branch_t branch1[] = {
 	{LPGENT("Open new chat rooms in the default container"), "DefaultContainer", 0, 1, NULL},
 	{LPGENT("Flash window when someone speaks"), "FlashWindow", 0, 0, NULL},
 	{LPGENT("Flash window when a word is highlighted"), "FlashWindowHighlight", 0, 1, NULL},
@@ -192,7 +194,7 @@ static struct branch_t branch1[] = {
 	{LPGENT("Use alternative sorting method in member list"), "AlternativeSorting", 0, 1, NULL},
 
 };
-static struct branch_t branch2[] = {
+static branch_t branch2[] = {
 	{LPGENT("Prefix all events with a timestamp"), "ShowTimeStamp", 0, 1, NULL},
 	{LPGENT("Timestamp only when event time differs"), "ShowTimeStampIfChanged", 0, 0, NULL},
 	{LPGENT("Timestamp has same color as the event"), "TimeStampEventColour", 0, 0, NULL},
@@ -222,7 +224,7 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 	DBVARIANT dbv;
 	int j = (i >= 100 ? i - 100 : i);
 
-	struct FontOptionsList *fol = fontOptionsList;
+	FontOptionsList *fol = fontOptionsList;
 	switch (section) {
 		case FONTSECTION_CHAT: fol = CHAT_fontOptionsList; break;
 		case FONTSECTION_IM: fol = IM_fontOptionsList; break;
@@ -287,7 +289,7 @@ static HTREEITEM InsertBranch(HWND hwndTree, TCHAR* pszDescr, BOOL bExpanded)
 	return TreeView_InsertItem(hwndTree, &tvis);
 }
 
-static void FillBranch(HWND hwndTree, HTREEITEM hParent, struct branch_t *branch, int nValues, DWORD defaultval)
+static void FillBranch(HWND hwndTree, HTREEITEM hParent, branch_t *branch, int nValues, DWORD defaultval)
 {
 	if (hParent == 0)
 		return;
@@ -310,7 +312,7 @@ static void FillBranch(HWND hwndTree, HTREEITEM hParent, struct branch_t *branch
 	}
 }
 
-static void SaveBranch(HWND hwndTree, struct branch_t *branch, int nValues)
+static void SaveBranch(HWND hwndTree, branch_t *branch, int nValues)
 {
 	TVITEM tvi;
 	BYTE bChecked;

@@ -752,7 +752,7 @@ static int TSAPI PopupPreview(NEN_OPTIONS *pluginOptions)
 * updates the menu entry...
 * bForced is used to only update the status, nickname etc. and does NOT update the unread count
 */
-void TSAPI UpdateTrayMenuState(struct TWindowData *dat, BOOL bForced)
+void TSAPI UpdateTrayMenuState(TWindowData *dat, BOOL bForced)
 {
 	MENUITEMINFO	mii = {0};
 	TCHAR			szMenuEntry[80];
@@ -858,7 +858,7 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 }
 
 
-int tabSRMM_ShowPopup(WPARAM wParam, LPARAM lParam, WORD eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto, struct TWindowData *dat)
+int tabSRMM_ShowPopup(WPARAM wParam, LPARAM lParam, WORD eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto, TWindowData *dat)
 {
 	if (nen_options.iDisable) // no popups at all. Period
 		return 0;

@@ -893,9 +893,9 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 			cii.cbSize = sizeof(cii);
 			cii.flags = CLCIIF_GROUPFONT | CLCIIF_CHECKBOX;
 			cii.pszText = TranslateT("** New contacts **");
-			hItemNew = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)& cii);
+			hItemNew = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 			cii.pszText = TranslateT("** Unknown contacts **");
-			hItemUnknown = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)& cii);
+			hItemUnknown = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 		}
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE) | (CLS_SHOWHIDDEN));
 		ResetCList(hwndDlg);
@@ -1411,14 +1411,14 @@ DWORD OptCheckBox_LoadValue(struct OptCheckBox *cb)
 	return cb->defValue;
 }
 
-void OptCheckBox_Load(HWND hwnd, struct OptCheckBox *cb)
+void OptCheckBox_Load(HWND hwnd, OptCheckBox *cb)
 {
 	DWORD value = OptCheckBox_LoadValue(cb);
 	if (cb->dwBit) value &= cb->dwBit;
 	CheckDlgButton(hwnd, cb->idc, value ? BST_CHECKED : BST_UNCHECKED);
 }
 
-void OptCheckBox_Save(HWND hwnd, struct OptCheckBox *cb)
+void OptCheckBox_Save(HWND hwnd, OptCheckBox *cb)
 {
 	DWORD value = IsDlgButtonChecked(hwnd, cb->idc) == BST_CHECKED;
 
@@ -1460,7 +1460,7 @@ void OptCheckBox_Save(HWND hwnd, struct OptCheckBox *cb)
 
 static INT_PTR CALLBACK DlgProcTabSrmmModernOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct OptCheckBox opts[] =
+	OptCheckBox opts[] =
 	{
 		//{IDC_, def, bit, dbtype, dbmodule, dbsetting, valtype, pval},
 		{IDC_CLOSEONESC, FALSE, 0, DBVT_BYTE, SRMSGMOD_T, "escmode"},

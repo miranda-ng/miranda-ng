@@ -146,8 +146,6 @@ void CGlobals::reloadSystemStartup()
  */
 void CGlobals::reloadSystemModulesChanged()
 {
-	BOOL bIEView = FALSE;
-
 	m_MathModAvail = ServiceExists(MATH_RTF_REPLACE_FORMULAE);
 
 	/*
@@ -168,7 +166,7 @@ void CGlobals::reloadSystemModulesChanged()
 	 * ieView
 	 */
 
-	bIEView = ServiceExists(MS_IEVIEW_WINDOW);
+	BOOL bIEView = ServiceExists(MS_IEVIEW_WINDOW);
 	if (bIEView) {
 		BOOL bOldIEView = M.GetByte("ieview_installed", 0);
 		if (bOldIEView != bIEView)
@@ -659,7 +657,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 				TCHAR toolTip[256];
 				mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 				cle.ptszTooltip = toolTip;
-				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)& cle);
+				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 			}
 			hDbEvent = db_event_next(hDbEvent);
 		}

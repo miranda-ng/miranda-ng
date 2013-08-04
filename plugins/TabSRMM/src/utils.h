@@ -40,7 +40,8 @@
 #define	CNT_KEYNAME "CNTW_Def"
 #define CNT_BASEKEYNAME "CNTW_"
 
-struct TRTFColorTable {
+struct TRTFColorTable
+{
     TCHAR 		szName[10];
     COLORREF 	clr;
     int 		index;

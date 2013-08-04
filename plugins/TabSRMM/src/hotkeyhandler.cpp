@@ -68,7 +68,7 @@ static HOTKEYDESC _hotkeydescs[] = {
 	{ 0, "tabsrmm_muc_filter", LPGEN("Toggle filter"), TABSRMM_HK_SECTION_GC, 0, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, 'F'), TABSRMM_HK_FILTERTOGGLE },
 	{ 0, "tabsrmm_muc_nick", LPGEN("Toggle nick list"), TABSRMM_HK_SECTION_GC, 0, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, 'N'), TABSRMM_HK_LISTTOGGLE },
 	{ 0, "tabsrmm_muc_server_show", LPGEN("Show server window"), TABSRMM_HK_SECTION_GC, 0, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, '1'), TABSRMM_HK_MUC_SHOWSERVER },
-  { 0, "tabsrmm_close_other", LPGEN("Close Other Tabs"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT|HOTKEYF_CONTROL, 'W'), TABSRMM_HK_CLOSE_OTHER },
+   { 0, "tabsrmm_close_other", LPGEN("Close Other Tabs"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT|HOTKEYF_CONTROL, 'W'), TABSRMM_HK_CLOSE_OTHER },
 };
 
 static 	SendLaterJobIterator g_jobs;
@@ -84,7 +84,7 @@ LRESULT ProcessHotkeysByMsgFilter(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	mf.wParam = wParam;
 	mf.msg = msg;
 
-	return(SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&mf));
+	return SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&mf);
 }
 
 static INT_PTR HotkeyProcessor(WPARAM wParam, LPARAM lParam)
@@ -199,7 +199,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_DRAWITEM:
 		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT) lParam;
-			struct TWindowData *dat = 0;
+			TWindowData *dat = 0;
 			if (dis->CtlType == ODT_MENU && (dis->hwndItem == (HWND)PluginConfig.g_hMenuFavorites || dis->hwndItem == (HWND)PluginConfig.g_hMenuRecent)) {
 				HICON hIcon = (HICON)dis->itemData;
 
@@ -216,7 +216,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 
 				if (hWnd)
-					dat = (struct TWindowData *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+					dat = (TWindowData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
 				if (dis->itemData >= 0) {
 					HICON hIcon;
@@ -455,7 +455,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			HWND	hWnd = M.FindWindow(hContact);
 			if (hWnd) {
-				TWindowData *dat = (TWindowData *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+				TWindowData *dat = (TWindowData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 				if (dat) {
 					if (hkl) {
 						dat->hkl = hkl;

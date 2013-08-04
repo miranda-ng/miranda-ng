@@ -158,7 +158,7 @@ int   TSAPI UnloadTSButtonModule();
 int   _DebugTraceW(const wchar_t *fmt, ...);
 int   _DebugTraceA(const char *fmt, ...);
 int   _DebugPopup(HANDLE hContact, const TCHAR *fmt, ...);
-int   _DebugMessage(HWND hwndDlg, struct TWindowData *dat, const char *fmt, ...);
+int   _DebugMessage(HWND hwndDlg, TWindowData *dat, const char *fmt, ...);
 
 // themes
 

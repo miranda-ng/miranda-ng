@@ -399,7 +399,7 @@ void CMenuBar::invoke(const int id)
 
 	m_isContactMenu = m_isMainMenu = false;
 
-	TWindowData *dat = (TWindowData *)GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
+	TWindowData *dat = (TWindowData*)GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
 
 	HANDLE hContact = dat ? dat->hContact : 0;
 
@@ -455,7 +455,7 @@ void CMenuBar::Cancel(void)
 
 void CMenuBar::updateState(const HMENU hMenu) const
 {
-	TWindowData *dat = (TWindowData *)GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
+	TWindowData *dat = (TWindowData*)GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
 
 	if (dat) {
 		::CheckMenuItem(hMenu, ID_VIEW_SHOWMENUBAR, MF_BYCOMMAND | m_pContainer->dwFlags & CNT_NOMENUBAR ? MF_UNCHECKED : MF_CHECKED);
@@ -495,7 +495,7 @@ void CMenuBar::updateState(const HMENU hMenu) const
 
 void CMenuBar::configureMenu() const
 {
-	TWindowData *dat = (TWindowData *)::GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
+	TWindowData *dat = (TWindowData*)::GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
 
 	BOOL fDisable = FALSE;
 
@@ -774,7 +774,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			TWindowData *dat = 0;
 
 			if (pContainer)
-				dat = (TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+				dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 
 			GetClientRect(hWnd, &rcClient);
 
@@ -872,7 +872,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 				szText[0] = 0;
 				result = SendMessage(hWnd, SB_GETTEXT, i, (LPARAM)szText);
 				if (i == 2 && pContainer) {
-					TWindowData *dat = (TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+					TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 
 					if (dat)
 						DrawStatusIcons(dat, hdcMem, itemRect, 2);
@@ -924,7 +924,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 	case WM_USER + 101:
 		{
 			int list_icons = 0;
-			struct TWindowData *dat = (struct TWindowData *)lParam;
+			TWindowData *dat = (TWindowData*)lParam;
 			if (dat)
 				while ( Srmm_GetNthIcon(dat->hContact, list_icons))
 					list_icons++;
@@ -998,7 +998,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			GetCursorPos(&pt);
 			if (pt.x == ptMouse.x && pt.y == ptMouse.y) {
 				RECT rc;
-				struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+				TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 				SIZE size;
 				TCHAR wBuf[512]; wBuf[0] = 0;
 				ti.ptCursor = pt;

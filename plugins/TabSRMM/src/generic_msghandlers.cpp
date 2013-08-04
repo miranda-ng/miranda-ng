@@ -77,7 +77,7 @@ void TSAPI DM_SaveLogAsRTF(const TWindowData *dat)
 			stream.dwCookie = (DWORD_PTR)szFilename;
 			stream.dwError = 0;
 			stream.pfnCallback = Utils::StreamOut;
-			SendDlgItemMessage(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG, EM_STREAMOUT, SF_RTF | SF_USECODEPAGE, (LPARAM)& stream);
+			SendDlgItemMessage(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG, EM_STREAMOUT, SF_RTF | SF_USECODEPAGE, (LPARAM)&stream);
 		}
 	}
 }
@@ -627,7 +627,7 @@ LRESULT TSAPI DM_ContainerCmdHandler(TContainerData *pContainer, UINT cmd, WPARA
 		return 0;
 
 	HWND hwndDlg = pContainer->hwnd;
-	TWindowData *dat = (TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+	TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 
 	switch(cmd) {
 	case IDC_CLOSE:
@@ -875,7 +875,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 * set the states of defined database action buttons (only if button is a toggle)
 */
 
-void TSAPI DM_SetDBButtonStates(HWND hwndChild, struct TWindowData *dat)
+void TSAPI DM_SetDBButtonStates(HWND hwndChild, TWindowData *dat)
 {
 	ButtonItem *buttonItem = dat->pContainer->buttonItems;
 	HANDLE hContact = dat->hContact, hFinalContact = 0;
@@ -1159,7 +1159,7 @@ HWND TSAPI DM_CreateClist(TWindowData *dat)
 	return hwndClist;
 }
 
-LRESULT TSAPI DM_MouseWheelHandler(HWND hwnd, HWND hwndParent, struct TWindowData *mwdat, WPARAM wParam, LPARAM lParam)
+LRESULT TSAPI DM_MouseWheelHandler(HWND hwnd, HWND hwndParent, TWindowData *mwdat, WPARAM wParam, LPARAM lParam)
 {
 	RECT rc, rc1;
 	UINT uID = mwdat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG;
@@ -1275,7 +1275,7 @@ LRESULT TSAPI DM_ThemeChanged(TWindowData *dat)
  * send out message typing notifications (MTN) when the
  * user is typing/editing text in the messgae input area.
  */
-void TSAPI DM_NotifyTyping(struct TWindowData *dat, int mode)
+void TSAPI DM_NotifyTyping(TWindowData *dat, int mode)
 {
 	DWORD 	protoStatus;
 	DWORD 	protoCaps;
@@ -1415,7 +1415,7 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 				SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
 		}
 		else {
-			struct TWindowData *dat_active = NULL;
+			TWindowData *dat_active = NULL;
 
 			if (!fForceOff) {
 				dat->showTyping = 2;
@@ -1428,7 +1428,7 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 			}
 			SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
 			HandleIconFeedback(dat, (HICON) - 1);
-			dat_active = (struct TWindowData *)GetWindowLongPtr(dat->pContainer->hwndActive, GWLP_USERDATA);
+			dat_active = (TWindowData*)GetWindowLongPtr(dat->pContainer->hwndActive, GWLP_USERDATA);
 			if (dat_active && dat_active->bType == SESSIONTYPE_IM)
 				SendMessage(hwndContainer, DM_UPDATETITLE, 0, 0);
 			else
@@ -1906,7 +1906,7 @@ static int OnSrmmIconChanged(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-void DrawStatusIcons(struct TWindowData *dat, HDC hDC, RECT r, int gap)
+void DrawStatusIcons(TWindowData *dat, HDC hDC, RECT r, int gap)
 {
 	HICON hIcon = NULL;
 	int 	x = r.left;
@@ -1956,7 +1956,7 @@ void DrawStatusIcons(struct TWindowData *dat, HDC hDC, RECT r, int gap)
 	}
 }
 
-void SI_CheckStatusIconClick(struct TWindowData *dat, HWND hwndFrom, POINT pt, RECT r, int gap, int code)
+void SI_CheckStatusIconClick(TWindowData *dat, HWND hwndFrom, POINT pt, RECT r, int gap, int code)
 {
 	if (dat && (code == NM_CLICK || code == NM_RCLICK)) {
 		POINT	ptScreen;

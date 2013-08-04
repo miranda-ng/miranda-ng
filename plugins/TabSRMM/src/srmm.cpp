@@ -212,7 +212,7 @@ int _DebugPopup(HANDLE hContact, const TCHAR *fmt, ...)
 		tn.dwInfoFlags = NIIF_INFO;
 		tn.dwInfoFlags |= NIIF_INTERN_UNICODE;
 		tn.uTimeout = 1000 * 4;
-		CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)& tn);
+		CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&tn);
 	}
 	return 0;
 }

@@ -50,7 +50,7 @@ int CInfoPanel::setPanelHandler(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		dat->Panel->showHide();
 	}
 	else {
-		TWindowData *srcDat = (TWindowData *)wParam;
+		TWindowData *srcDat = (TWindowData*)wParam;
 		if (lParam == 0)
 			dat->Panel->loadHeight();
 		else {
@@ -1025,7 +1025,7 @@ LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wP
 		 * parent window of the infopanel ACC control
 		 */
 		RECT rc, rcItem;
-		TWindowData *dat = (TWindowData *)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
+		TWindowData *dat = (TWindowData*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 		if (dat == 0)
 			break;
 

@@ -62,16 +62,6 @@
  * used by getMUCBigICon()
  */
 
-/*
-struct TMUCLargeIconsMap { 
-	UINT	eventType;
-	char*	szIconDesc;
-} MUCLargeIconMap[] = {
-	{ GC_EVENT_NICK, "chat_nick" },
-	{ GC_EVENT_PART, "chat_part" }
-};
-*/
-
 CTaskbarInteract* Win7Taskbar = 0;
 
 /**

@@ -166,7 +166,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 		bool 		fVSThemed = (!CSkin::m_skinEnabled && M.isVSThemed());
 		HANDLE 		hbp = 0;
 
-		TWindowData *dat = (TWindowData *)GetWindowLongPtr(GetParent(ctl->hwnd), GWLP_USERDATA);
+		TWindowData *dat = (TWindowData*)GetWindowLongPtr(GetParent(ctl->hwnd), GWLP_USERDATA);
 		GetClientRect(ctl->hwnd, const_cast<RECT *>(&rcClient));
 		CopyRect(&rcContent, &rcClient);
 

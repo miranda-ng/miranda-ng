@@ -149,7 +149,7 @@ static int SendChunkA(char *chunk, HANDLE hContact, char *szSvc, DWORD dwFlags)
 
 static void DoSplitSendW(LPVOID param)
 {
-	struct  SendJob *job = sendQueue->getJobByIndex((int)param);
+	SendJob *job = sendQueue->getJobByIndex((int)param);
 	BOOL    fFirstSend = FALSE;
 	WCHAR   *wszSaved, savedChar;
 	int     iCur = 0, iSavedCur = 0, i;
@@ -223,7 +223,7 @@ static void DoSplitSendW(LPVOID param)
 
 static void DoSplitSendA(LPVOID param)
 {
-	struct  SendJob *job = sendQueue->getJobByIndex((int)param);
+	SendJob *job = sendQueue->getJobByIndex((int)param);
 	int     id;
 	BOOL    fFirstSend = FALSE;
 	char    *szBegin, *szTemp, *szSaved, savedChar;

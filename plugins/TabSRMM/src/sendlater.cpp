@@ -796,7 +796,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			Utils::showDlgControl(m_hwndDlg, IDC_QMGR_SUCCESSPOPUPS, SW_HIDE);
 		}
 		::ShowWindow(hwnd, SW_NORMAL);
-		return(FALSE);
+		return FALSE;
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->hwndFrom == m_hwndList) {

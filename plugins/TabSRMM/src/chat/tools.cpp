@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -39,7 +36,6 @@
 int GetRichTextLength(HWND hwnd)
 {
 	GETTEXTLENGTHEX gtl;
-
 	gtl.flags = GTL_PRECISE;
 	gtl.codepage = CP_ACP ;
 	return (int) SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
@@ -67,7 +63,8 @@ TCHAR* RemoveFormatting(const TCHAR* pszWord, bool fToLower, bool fStripCR, TCHA
 	if (0 == buf) {
 		szTemp = _szTemp;
 		_buflen = 20000;
-	} else {
+	}
+	else {
 		szTemp = buf;
 		_buflen = len;
 		szTemp[len - 1] = 0;
@@ -292,7 +289,7 @@ static BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 	return TRUE;
 }
 
-static BOOL DoPopup(SESSION_INFO *si, GCEVENT* gce, struct TWindowData *dat)
+static BOOL DoPopup(SESSION_INFO *si, GCEVENT* gce, TWindowData *dat)
 {
 	int iEvent = gce->pDest->iType;
 	TContainerData *pContainer = dat ? dat->pContainer : NULL;
@@ -1157,15 +1154,13 @@ TCHAR* a2tf(const TCHAR* str, int flags, DWORD cp)
 
 void Chat_SetFilters(SESSION_INFO *si)
 {
-	DWORD dwFlags_default = 0, dwMask = 0, dwFlags_local = 0;
-	int i;
-
 	if (si == NULL)
 		return;
 
-	dwFlags_default = M.GetDword("Chat", "FilterFlags", 0x03E0);
-	dwFlags_local = db_get_dw(si->hContact, "Chat", "FilterFlags", 0x03E0);
-	dwMask = db_get_dw(si->hContact, "Chat", "FilterMask", 0);
+	int i;
+	DWORD dwFlags_default = M.GetDword("Chat", "FilterFlags", 0x03E0);
+	DWORD dwFlags_local = db_get_dw(si->hContact, "Chat", "FilterFlags", 0x03E0);
+	DWORD dwMask = db_get_dw(si->hContact, "Chat", "FilterMask", 0);
 
 	si->iLogFilterFlags = dwFlags_default;
 	for (int i=0; i < 32; i++)
@@ -1177,24 +1172,21 @@ void Chat_SetFilters(SESSION_INFO *si)
 	dwMask = db_get_dw(si->hContact, "Chat", "PopupMask", 0);
 
 	si->iLogPopupFlags = dwFlags_default;
-	for (i=0; i < 32; i++) {
+	for (i=0; i < 32; i++)
 		if (dwMask & (1 << i))
 			si->iLogPopupFlags = (dwFlags_local & (1 << i) ? si->iLogPopupFlags | (1 << i) : si->iLogPopupFlags & ~(1 << i));
-	}
 
 	dwFlags_default = M.GetDword("Chat", "TrayIconFlags", 0x03E0);
 	dwFlags_local = db_get_dw(si->hContact, "Chat", "TrayIconFlags", 0x03E0);
 	dwMask = db_get_dw(si->hContact, "Chat", "TrayIconMask", 0);
 
 	si->iLogTrayFlags = dwFlags_default;
-	for (i=0; i < 32; i++) {
+	for (i=0; i < 32; i++)
 		if (dwMask & (1 << i))
 			si->iLogTrayFlags = (dwFlags_local & (1 << i) ? si->iLogTrayFlags | (1 << i) : si->iLogTrayFlags & ~(1 << i));
-	}
 
 	dwFlags_default = M.GetDword("Chat", "DiskLogFlags", 0xFFFF);
 	si->iDiskLogFlags = dwFlags_default;
-
 
 	if (si->iLogFilterFlags == 0)
 		si->bFilterEnabled = 0;
@@ -1204,12 +1196,6 @@ static TCHAR tszOldTimeStamp[30] = _T("\0");
 
 TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 {
-	REPLACEVARSARRAY 	rva[11];
-	REPLACEVARSDATA 	dat = {0};
-	TCHAR				*p = 0, *tszParsedName = 0;
-	int 				i;
-	bool				fReparse = false;
-
 	if (!tTime)
 		time(&tTime);
 
@@ -1220,13 +1206,15 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 
 	TCHAR *tszNow = MakeTimeStamp(_T("%a%d%m%Y"), tTime);
 
+	bool fReparse = false;
 	if (_tcscmp(tszOldTimeStamp, tszNow)) {
-		   _tcsncpy(tszOldTimeStamp, tszNow, 30);
-		   tszOldTimeStamp[29] = 0;
-		   fReparse = true;
+		_tcsncpy(tszOldTimeStamp, tszNow, 30);
+		tszOldTimeStamp[29] = 0;
+		fReparse = true;
 	}
 
 	if (fReparse || 0 == si->pszLogFileName[0]) {
+		REPLACEVARSARRAY rva[11];
 		rva[0].lptzKey = _T("d");
 		rva[0].lptzValue = mir_tstrdup(MakeTimeStamp(_T("%#d"), tTime));
 		// day 01-31
@@ -1263,11 +1251,11 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 		if (g_Settings.pszLogDir[lstrlen(g_Settings.pszLogDir)-1] == '\\')
 			_tcscat(g_Settings.pszLogDir, _T("%userid%.log"));
 
-		dat.cbSize    = sizeof(dat);
-		dat.dwFlags   = RVF_TCHAR;
-		dat.hContact  = si->hContact;
+		REPLACEVARSDATA dat = { sizeof(dat) };
+		dat.dwFlags = RVF_TCHAR;
+		dat.hContact = si->hContact;
 		dat.variables = rva;
-		tszParsedName = (TCHAR*) CallService(MS_UTILS_REPLACEVARS, (WPARAM)g_Settings.pszLogDir, (LPARAM)&dat);
+		TCHAR *tszParsedName = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)g_Settings.pszLogDir, (LPARAM)&dat);
 
 		if (!M.pathIsAbsolute(tszParsedName))
 			mir_sntprintf(si->pszLogFileName, MAX_PATH, _T("%s%s"), M.getChatLogPath(), tszParsedName);
@@ -1276,13 +1264,12 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 
 		mir_free(tszParsedName);
 
-		for (i=0; i < SIZEOF(rva);i++)
+		for (int i=0; i < SIZEOF(rva);i++)
 			mir_free(rva[i].lptzValue);
 
-		for (p = si->pszLogFileName + 2; *p; ++p) {
+		for (TCHAR *p = si->pszLogFileName + 2; *p; ++p)
 			if (*p == ':' || *p == '*' || *p == '?' || *p == '"' || *p == '<' || *p == '>' || *p == '|' )
 				*p = _T('_');
-		}
 	}
 
 	return si->pszLogFileName;

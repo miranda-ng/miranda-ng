@@ -43,7 +43,7 @@
 
 #define MODULE "tabSRMM_NEN"
 
-int tabSRMM_ShowPopup(WPARAM wParam, LPARAM lParam, WORD eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto, struct TWindowData *dat);
+int tabSRMM_ShowPopup(WPARAM wParam, LPARAM lParam, WORD eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto, TWindowData *dat);
 
 
 #define DEFAULT_COLBACK RGB(255,255,128)
@@ -97,7 +97,8 @@ int tabSRMM_ShowPopup(WPARAM wParam, LPARAM lParam, WORD eventType, int windowOp
 #define OPT_LIMITPREVIEW "LimitPreview"
 #define OPT_REMOVEMASK "removemask"
 
-struct NEN_OPTIONS {
+struct NEN_OPTIONS
+{
 	BOOL bPreview;
 	BOOL bDefaultColorMsg;
 	BOOL bDefaultColorOthers;

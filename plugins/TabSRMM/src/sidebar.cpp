@@ -523,7 +523,7 @@ void CSideBar::populateAll()
 		for (int i=0; i < iItems; i++) {
 			TabCtrl_GetItem(hwndTab, i, &item);
 			if (item.lParam && ::IsWindow((HWND)item.lParam)) {
-				TWindowData *dat = (TWindowData *)::GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
+				TWindowData *dat = (TWindowData*)::GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
 				if (dat) {
 			    	if ((b_item = findSession(dat)) == m_buttonlist.end())
 						addSession(dat, i);

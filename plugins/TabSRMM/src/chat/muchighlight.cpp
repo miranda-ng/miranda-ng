@@ -300,7 +300,7 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		Utils::enableDlgControl(hwndDlg, IDC_HIGHLIGHTME, 
 			::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTTEXTENABLE) ? TRUE : FALSE);
-		return(FALSE);
+		return FALSE;
 
 	case WM_COMMAND:
 		if ((LOWORD(wParam)		  == IDC_HIGHLIGHTNICKPATTERN
@@ -351,7 +351,7 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		}
 		break;
 	}
-	return(FALSE);
+	return FALSE;
 }
 
 /**

@@ -91,7 +91,7 @@ struct RemoveSettings {
 
 static int DBRemoveEnumProc(const char *szSetting, LPARAM lParam)
 {
-	struct RemoveSettings *rs = (struct RemoveSettings *)lParam;
+	RemoveSettings *rs = (RemoveSettings *)lParam;
 
 	if (!rs->szPrefix || !strncmp(szSetting, rs->szPrefix, strlen(rs->szPrefix))) {
 		rs->szSettings = (char **)realloc(rs->szSettings, (rs->count + 1) * sizeof(char *));
@@ -104,14 +104,14 @@ static int DBRemoveEnumProc(const char *szSetting, LPARAM lParam)
 static int Hlp_RemoveDatabaseSettings(HANDLE hContact, char *szModule, char *szPrefix)
 {
 	DBCONTACTENUMSETTINGS dbces;
-	struct RemoveSettings rs;
+	RemoveSettings rs;
 	int i, count;
 
-	ZeroMemory(&rs, sizeof(struct RemoveSettings));
+	ZeroMemory(&rs, sizeof(RemoveSettings));
 	rs.szPrefix = szPrefix;
 	ZeroMemory(&dbces, sizeof(DBCONTACTENUMSETTINGS));
 	dbces.pfnEnumProc = DBRemoveEnumProc;
-	dbces.lParam = (LPARAM)& rs;
+	dbces.lParam = (LPARAM)&rs;
 	dbces.szModule = szModule;
 	if (CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)(HANDLE)hContact, (LPARAM)&dbces) == -1) {
 
@@ -166,7 +166,7 @@ void CB_DeInitCustomButtons()
 	DestroyServiceFunction(hButtonsBarSetButtonState);
 }
 
-void CB_DestroyAllButtons(HWND hwndDlg, struct TWindowData *dat)
+void CB_DestroyAllButtons(HWND hwndDlg, TWindowData *dat)
 {
 	int i;
 	HWND hwndBtn = NULL;
@@ -187,7 +187,7 @@ void CB_DestroyAllButtons(HWND hwndDlg, struct TWindowData *dat)
 	}
 }
 
-void CB_DestroyButton(HWND hwndDlg, struct TWindowData *dat, DWORD dwButtonCID, DWORD dwFlags)
+void CB_DestroyButton(HWND hwndDlg, TWindowData *dat, DWORD dwButtonCID, DWORD dwFlags)
 {
 	HWND hwndBtn = GetDlgItem(hwndDlg, dwButtonCID);
 	RECT rc = {0};
@@ -203,7 +203,7 @@ void CB_DestroyButton(HWND hwndDlg, struct TWindowData *dat, DWORD dwButtonCID, 
 	}
 }
 
-void CB_ChangeButton(HWND hwndDlg, struct TWindowData *dat, CustomButtonData* cbd)
+void CB_ChangeButton(HWND hwndDlg, TWindowData *dat, CustomButtonData* cbd)
 {
 	HWND hwndBtn = GetDlgItem(hwndDlg, cbd->dwButtonCID);
 	if (hwndBtn) {
@@ -489,7 +489,7 @@ static INT_PTR CB_ModifyButton(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void BB_UpdateIcons(HWND hdlg, struct TWindowData *dat)
+void BB_UpdateIcons(HWND hdlg, TWindowData *dat)
 {
 	int i;
 	HWND hwndBtn = NULL;
@@ -798,7 +798,7 @@ BOOL TSAPI BB_SetButtonsPos(TWindowData *dat)
 	return EndDeferWindowPos(hdwp);
 }
 
-void TSAPI BB_CustomButtonClick(struct TWindowData *dat, DWORD idFrom, HWND hwndFrom, BOOL code)
+void TSAPI BB_CustomButtonClick(TWindowData *dat, DWORD idFrom, HWND hwndFrom, BOOL code)
 {
 	RECT rc;
 	int i;

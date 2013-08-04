@@ -265,7 +265,7 @@ struct TWindowData
 
 	SESSION_INFO *si;
 
-	RECT     rcNick, rcUIN, rcStatus, rcPic;
+	RECT    rcNick, rcUIN, rcStatus, rcPic;
 	HANDLE  hDbEventFirst, hDbEventLast;
 	int     sendMode;
 	int     splitterY, originalSplitterY, dynaSplitter, savedSplitter, savedSplitY, savedDynaSplit;
@@ -833,8 +833,8 @@ struct SIDEBARITEM {
 	DWORD   dwFlags;
 	HICON   *hIcon, *hIconPressed, *hIconHover;
 	TCHAR   *szName;
-	void (*pfnAction)(ButtonItem *item, HWND hwndDlg, struct TWindowData *dat, HWND hwndItem);
-	void (*pfnCallback)(ButtonItem *item, HWND hwndDlg, struct TWindowData *dat, HWND hwndItem);
+	void (*pfnAction)(ButtonItem *item, HWND hwndDlg, TWindowData *dat, HWND hwndItem);
+	void (*pfnCallback)(ButtonItem *item, HWND hwndDlg, TWindowData *dat, HWND hwndItem);
 	TCHAR   *tszTip;
 };
 
@@ -942,7 +942,7 @@ typedef struct {
 //obtain the message window flags
 //wParam = hContact - ignored if lParam is given.
 //lParam = hwnd
-//returns struct MessageWindowData *dat, 0 if no window is found
+//returns MessageWindowData *dat, 0 if no window is found
 #define MS_MSG_MOD_GETWINDOWFLAGS "SRMsg_MOD/GetWindowFlags"
 
 // custom tabSRMM events
@@ -1012,13 +1012,14 @@ int SI_InitStatusIcons();
 int SI_DeinitStatusIcons();
 
 int  GetStatusIconsCount();
-void DrawStatusIcons(struct TWindowData *dat, HDC hdc, RECT r, int gap);
-void SI_CheckStatusIconClick(struct TWindowData *dat, HWND hwndFrom, POINT pt, RECT rc, int gap, int code);
+void DrawStatusIcons(TWindowData *dat, HDC hdc, RECT r, int gap);
+void SI_CheckStatusIconClick(TWindowData *dat, HWND hwndFrom, POINT pt, RECT rc, int gap, int code);
 
-typedef struct _tagSKINDesc {
+struct SKINDESC
+{
 	ULONG	ulID;				// resource id
 	TCHAR	tszName[30];
-} SKINDESC;
+};
 
 #define SKIN_NR_ELEMENTS 6
 #define SKIN_VERSION	 2

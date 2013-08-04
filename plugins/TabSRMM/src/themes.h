@@ -41,7 +41,8 @@ HBITMAP IMG_LoadLogo(const TCHAR *szName);
 
 class CSideBarButton;
 
-typedef struct {
+struct MButtonCtrl
+{
 	HWND    hwnd;
 	int     stateId; // button state
 	int     focus;   // has focus (1 or 0)
@@ -61,9 +62,9 @@ typedef struct {
 	int     flatBtn;
 	int     dimmed;
 	HICON	  overlay;
-	struct  TContainerData *pContainer;
+	TContainerData *pContainer;
 	CSideBarButton *sitem;
-} MButtonCtrl;
+};
 
 #define BUTTONSETASDIMMED        (BUTTONSETASFLATBTN + 11)
 #define BUTTONSETCONTAINER       (BUTTONSETASFLATBTN + 12)
@@ -74,7 +75,8 @@ typedef struct {
 #define BUTTONSETASSIDEBARBUTTON (BUTTONSETASFLATBTN + 22)
 #define BUTTONSETOVERLAYICON	   (BUTTONSETASFLATBTN + 23)
 
-struct AeroEffect {
+struct AeroEffect
+{
 	TCHAR		tszName[40];
 	DWORD		m_baseColor;
 	DWORD		m_gradientColor;
@@ -384,7 +386,8 @@ private:
  * window data for the tab control window class
  */
 
-struct TabControlData {
+struct TabControlData
+{
 	BOOL    m_VisualStyles;
 	HWND    hwnd;
 	DWORD   dwStyle;

@@ -65,7 +65,7 @@ void TSAPI SetAeroMargins(TContainerData *pContainer)
 		return;
 	}
 
-	TWindowData *dat = (TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+	TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 	if (!dat)
 		return;
 
@@ -376,8 +376,8 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			GetCursorPos(&pt);
 			GetWindowRect(hwndDlg, &rcWindow);
 
-			CopyMemory(&pContainer->oldbuttons[0], &pContainer->buttons[0], sizeof(struct TitleBtn) * 3);
-			ZeroMemory(&pContainer->buttons[0], sizeof(struct TitleBtn) * 3);
+			CopyMemory(&pContainer->oldbuttons[0], &pContainer->buttons[0], sizeof(TitleBtn) * 3);
+			ZeroMemory(&pContainer->buttons[0], sizeof(TitleBtn) * 3);
 			isMin = isMax = isClose = FALSE;
 
 			if (pt.x >= (rcWindow.left + pContainer->rcMin.left) && pt.x <= (rcWindow.left + pContainer->rcClose.right) && pt.y < rcWindow.top + 24 && wParam != HTTOPRIGHT) {
@@ -760,7 +760,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			pContainer->MenuBar->getClientRect();
 
 			if (pContainer->hwndStatus) {
-				TWindowData *dat = (TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+				TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 				RECT   rcs;
 
 				SendMessage(pContainer->hwndStatus, WM_USER + 101, 0, (LPARAM)dat);
@@ -824,7 +824,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					SetWindowPos((HWND)item.lParam, 0, rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top),
 						SWP_NOSENDCHANGING|SWP_NOACTIVATE/*|SWP_NOCOPYBITS*/);
 					if (!pContainer->bSizingLoop && sizeChanged) {
-						TWindowData *dat = (TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+						TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 						DM_ScrollToBottom(dat, 0, 1);
 					}
 				}
@@ -902,7 +902,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					nPanel = nm->dwItemSpec;
 panel_found:
 				if (nPanel == 2) {
-					struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+					TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 					SendMessage(pContainer->hwndStatus, SB_GETRECT, nPanel, (LPARAM)&rc);
 					if (dat)
 						SI_CheckStatusIconClick(dat, pContainer->hwndStatus, nm->pt, rc, 2, ((LPNMHDR)lParam)->code);
@@ -956,7 +956,7 @@ panel_found:
 				HMENU 	subMenu;
 				int 	iSelection, iItem;
 				TCITEM 	item = {0};
-				struct 	TWindowData *dat = 0;
+				TWindowData *dat = 0;
 				bool	fFromSidebar = false;
 
 				POINT pt, pt1;
@@ -971,7 +971,7 @@ panel_found:
 					item.mask = TCIF_PARAM;
 					TabCtrl_GetItem(hwndTab, iItem, &item);
 					if (item.lParam && IsWindow((HWND)item.lParam))
-						dat = (struct TWindowData *)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
+						dat = (TWindowData*)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
 				}
 				/*
 				* sent from a sidebar button (RMB click) instead of the tab control
@@ -1017,7 +1017,7 @@ panel_found:
 					break;
 				case ID_TABMENU_LEAVECHATROOM:
 					if (dat && dat->bType == SESSIONTYPE_CHAT) {
-						SESSION_INFO *si = (SESSION_INFO*)dat->si;
+						SESSION_INFO *si = dat->si;
 						if (si && dat->hContact) {
 							char *szProto = GetContactProto(dat->hContact);
 							if (szProto)
@@ -1054,7 +1054,7 @@ panel_found:
 			pContainer->MenuBar->Cancel();
 
 			HANDLE hContact;
-			TWindowData *dat = (TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+			TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 			DWORD dwOldFlags = pContainer->dwFlags;
 			int i=0;
 			ButtonItem *pItem = pContainer->buttonItems;
@@ -1139,7 +1139,7 @@ panel_found:
 			RECT rc;
 			GetClientRect(GetDlgItem(hwndDlg, IDC_MSGTABS), &rc);
 			if (!((rc.right - rc.left) == pContainer->oldSize.cx && (rc.bottom - rc.top) == pContainer->oldSize.cy)) {
-				TWindowData *dat = (TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+				TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 				DM_ScrollToBottom(dat, 0, 0);
 				SendMessage(pContainer->hwndActive, WM_SIZE, 0, 0);
 			}
@@ -1246,7 +1246,7 @@ panel_found:
 
 			if (lParam) {               // lParam != 0 means sent by a chat window
 				TCHAR szText[512];
-				dat = (struct TWindowData *)GetWindowLongPtr((HWND)wParam, GWLP_USERDATA);
+				dat = (TWindowData*)GetWindowLongPtr((HWND)wParam, GWLP_USERDATA);
 				GetWindowText((HWND)wParam, szText, SIZEOF(szText));
 				szText[SIZEOF(szText)-1] = 0;
 				SetWindowText(hwndDlg, szText);
@@ -1259,7 +1259,7 @@ panel_found:
 					SendMessage(pContainer->hwndActive, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
 				else
 					break;
-				dat = (struct TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+				dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 			}
 			else {
 				HWND hwnd = M.FindWindow((HANDLE)wParam);
@@ -1272,7 +1272,7 @@ panel_found:
 				}
 				hContact = (HANDLE)wParam;
 				if (hwnd && hContact)
-					dat = (struct TWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+					dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			}
 			if (dat) {
 				SendMessage(hwndDlg, DM_SETICON, (WPARAM)dat, (LPARAM)(dat->hXStatusIcon ? dat->hXStatusIcon : dat->hTabStatusIcon));
@@ -1295,7 +1295,7 @@ panel_found:
 				if (fResult && 0 == pContainer->hWndOptions)
 					PostMessage(hwndDlg, WM_CLOSE, 1, 0);
 			}
-			dat = (TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+			dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 			if (dat && dat->bType == SESSIONTYPE_IM) {
 				if (dat->idle && pContainer->hwndActive && IsWindow(pContainer->hwndActive))
 					dat->Panel->Invalidate(TRUE);
@@ -1376,7 +1376,7 @@ panel_found:
 			}
 
 			if (iNewTab != iCurrent) {
-				struct TabControlData *tabdat = (struct TabControlData *)GetWindowLongPtr(hwndTab, GWLP_USERDATA);
+				TabControlData *tabdat = (TabControlData *)GetWindowLongPtr(hwndTab, GWLP_USERDATA);
 				ZeroMemory((void*)&item, sizeof(item));
 				item.mask = TCIF_PARAM;
 				if (TabCtrl_GetItem(hwndTab, iNewTab, &item)) {
@@ -1676,7 +1676,7 @@ panel_found:
 					SetWindowPos(hwndDlg,  0, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE | SWP_FRAMECHANGED | SWP_NOCOPYBITS);
 					RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
 					if (pContainer->hwndActive != 0) {
-						TWindowData *dat = (TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+						TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 						DM_ScrollToBottom(dat, 0, 0);
 					}
 				}
@@ -1781,7 +1781,7 @@ panel_found:
 	case DM_SETICON:
 		{
 			HICON 			hIconMsg = PluginConfig.g_IconMsgEvent;
-			TWindowData*	dat = (TWindowData *)wParam;
+			TWindowData*	dat = (TWindowData*)wParam;
 			HICON 			hIconBig = (dat && dat->cache) ? LoadSkinnedProtoIconBig(dat->cache->getActiveProto(), dat->cache->getActiveStatus()) : 0;
 
 			if (Win7Taskbar->haveLargeIcons()) {
@@ -1856,7 +1856,7 @@ panel_found:
 			int id = LOWORD(dis->itemID);
 
 			if (dis->hwndItem == pContainer->hwndStatus && !(pContainer->dwFlags & CNT_NOSTATUSBAR)) {
-				struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+				TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 				if (dat)
 					DrawStatusIcons(dat, dis->hDC, dis->rcItem, 2);
 				return TRUE;
@@ -1883,7 +1883,7 @@ panel_found:
 	case WM_DESTROY:
 		if (PluginConfig.g_FlashAvatarAvail) { // destroy own flash avatar
 			FLASHAVATAR fa = {0};
-			struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+			TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 
 			fa.id = 25367;
 			fa.cProto = dat ? dat->szProto : NULL;
@@ -2480,7 +2480,7 @@ HMENU TSAPI BuildContainerMenu()
 
 HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg)
 {
-	TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	if (dat == NULL)
 		return NULL;
 
@@ -2619,7 +2619,7 @@ void TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WP
 			if (bType == SESSIONTYPE_ANY)
 				SendMessage((HWND)item.lParam, message, wParam, lParam);
 			else {
-				TWindowData *dat = (TWindowData *)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
+				TWindowData *dat = (TWindowData*)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
 				if (dat && dat->bType == bType)
 					SendMessage((HWND)item.lParam, message, wParam, lParam);
 			}

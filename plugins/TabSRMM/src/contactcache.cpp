@@ -197,7 +197,7 @@ bool CContactCache::updateUIN()
 		ci.hContact = getActiveContact();
 		ci.szProto = const_cast<char *>(getActiveProto());
 		ci.dwFlag = CNF_DISPLAYUID | CNF_TCHAR;
-		if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
+		if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
 			switch (ci.type) {
 			case CNFT_ASCIIZ:
 				mir_sntprintf(m_szUIN, SIZEOF(m_szUIN), _T("%s"), reinterpret_cast<TCHAR *>(ci.pszVal));
