@@ -30,6 +30,8 @@ Místo:
 Sdílet
 [Cancel]
 Zrušit
+[Contacts >>]
+Kontakty >>
 [Attach contacts:]
 Označit kontakty:
 [User Details]
@@ -82,11 +84,6 @@ Použít lokální čas počítače pro příchozí zprávy
 Pro otevírání odkazů použít tento server:
 [Allow posting statuses to my pages (may slow down login)]
 Umožnit sdílení stavů na mé stránky (může zpomalit přihlašování)
-;file \protocols\FacebookRM\proto_facebook\src\resource.h
-[Facebook icon]
-Ikona Facebooku
-[Mind]
-Zpráva stavu
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Chyba připojení: %s
@@ -160,6 +157,8 @@ Nastala chyba při rušení požadavku o přátelství.
 ;file \protocols\FacebookRM\src\dialogs.cpp
 [Default]
 Výchozí
+[<< Contacts]
+<< Kontakty
 [What's on your mind, %s?]
 Co se vám honí hlavou, %s?
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
@@ -173,6 +172,18 @@ Ukázková novinka
 [Sample notification]
 Ukázkové upozornění
 ;file \protocols\FacebookRM\src\json.cpp
+[a sticker]
+samolepku
+[files]
+soubory
+[a file]
+soubor
+[photos]
+fotky
+[a photo]
+fotku
+[User sent you %s:]
+Uživatel vám poslal %s:
 [Message read: %s]
 Zpráva byla přečtena: %s
 ;file \protocols\FacebookRM\src\messages.cpp
@@ -221,6 +232,10 @@ Novinky
 [Other Event]
 Ostatní události
 ;file \protocols\FacebookRM\src\theme.cpp
+[Facebook icon]
+Ikona Facebooku
+[Mind]
+Zpráva stavu
 [Poke]
 Šťouchnout
 [Newsfeed]

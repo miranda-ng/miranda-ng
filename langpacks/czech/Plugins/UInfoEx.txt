@@ -607,6 +607,8 @@ Výročí později
 Upozornění: Váše současná verze knihovny ikon pro Detaily uživatele se liší od verze, pro kterou byl tento doplněk vytvořen.\n Některé ikony se nemusí zobrazit správně.
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 Upozornění: Nebyla nalezena žádná knihovna ikon v žádné z těchto složek: 'customize\\icons', 'icons' or 'plugins'!
+[Main]
+Hlavní
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [UserInfoEx]
 Detaily uživatele

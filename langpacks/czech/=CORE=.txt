@@ -1949,8 +1949,6 @@ Zpráva od: %s
 %s píše zprávu
 [Typing Notification]
 Upozornění na psaní zprávy
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Chybí knihovna riched20.dll, což znemožňuje použití interního modulu pro zprávy. Pokud používáte Windows 95 nebo emulaci WINE, doinstalujte si tuto knihovnu.
 [Instant messages]
 Zprávy
 [Incoming (Focused Window)]
@@ -1961,6 +1959,10 @@ Příchozí (neaktivní okno)
 Příchozí (nová konverzace)
 [Message send error]
 Chyba při odesílání
+[Contact started typing]
+Kontakt začal psát
+[Contact stopped typing]
+Kontakt přestal psát
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occured.]
 Neznámá chyba.

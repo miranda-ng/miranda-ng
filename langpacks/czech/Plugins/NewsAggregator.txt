@@ -91,6 +91,10 @@ Zadejte vaše heslo
 [empty]
 
 ;file \plugins\NewsAggregator\Src\ExportImport.cpp
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+
+[Imported %d feed(s).]
+
 [OPML files]
 
 [Not valid import file.]

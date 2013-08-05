@@ -2095,16 +2095,6 @@ Verze operačního systému
 Verze softwaru
 [Miranda NG core version]
 Verze jádra Mirandy NG
-[Unicode build]
-Unicode sestavení
-[Yes]
-Ano
-[No]
-Ne
-[Alpha build]
-Alpha sestavení
-[Debug build]
-Vývojové sestavení
 [Mood]
 Nálada
 [Activity]
