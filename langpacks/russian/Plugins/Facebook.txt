@@ -157,6 +157,18 @@
 Мнение
 [Other Event]
 Другое событие
+[a sticker]
+стикер
+[files]
+файлы
+[a file]
+файл
+[photos]
+фотографии
+[a photo]
+фотографию
+[User sent you %s:]
+Контакт послал вам %s:
 [Message read: %s]
 Сообщение прочтено в: %s
 [Poke]
