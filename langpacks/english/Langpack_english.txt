@@ -996,12 +996,13 @@
 [Message from %s]
 [%s is typing a message]
 [Typing Notification]
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 [Instant messages]
 [Incoming (Focused Window)]
 [Incoming (Unfocused Window)]
 [Incoming (New Session)]
 [Message send error]
+[Contact started typing]
+[Contact stopped typing]
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occured.]
 ;file \src\core\stduihist\history.cpp
@@ -5750,6 +5751,12 @@
 [Sample newsfeed]
 [Sample notification]
 ;file \protocols\FacebookRM\src\json.cpp
+[a sticker]
+[files]
+[a file]
+[photos]
+[a photo]
+[User sent you %s:]
 [Message read: %s]
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
@@ -18407,6 +18414,7 @@
 [Anniversary later]
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
+[Main]
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [UserInfoEx]
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp

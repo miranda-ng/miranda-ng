@@ -312,6 +312,7 @@
 [Anniversary later]
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
+[Main]
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [UserInfoEx]
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp

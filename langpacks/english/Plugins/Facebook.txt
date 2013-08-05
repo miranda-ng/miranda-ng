@@ -92,6 +92,12 @@
 [Sample newsfeed]
 [Sample notification]
 ;file \protocols\FacebookRM\src\json.cpp
+[a sticker]
+[files]
+[a file]
+[photos]
+[a photo]
+[User sent you %s:]
 [Message read: %s]
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]

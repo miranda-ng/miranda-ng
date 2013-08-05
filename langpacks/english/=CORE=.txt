@@ -995,12 +995,13 @@
 [Message from %s]
 [%s is typing a message]
 [Typing Notification]
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 [Instant messages]
 [Incoming (Focused Window)]
 [Incoming (Unfocused Window)]
 [Incoming (New Session)]
 [Message send error]
+[Contact started typing]
+[Contact stopped typing]
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occured.]
 ;file \src\core\stduihist\history.cpp
