@@ -311,7 +311,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 			char title[200];
 			mir_snprintf(title, SIZEOF(title), Translate("User sent you %s:"), type.c_str()); 
 
-			*message_text += title;
+			*message_text += ptrA(mir_utf8encode(title));
 			*message_text += attachments_text;
 		}
 	}
