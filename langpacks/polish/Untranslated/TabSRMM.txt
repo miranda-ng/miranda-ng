@@ -62,6 +62,7 @@
 [%s disables '%s' status for %s in %s]
 [The topic is '%s']
 [The topic is '%s' (set by %s)]
+[&Message %s]
 [, %d %s, %d %s idle]
 [The filter canoot be enabled, because there are no event types selected either global or for this chat room]
 [Event filter error]

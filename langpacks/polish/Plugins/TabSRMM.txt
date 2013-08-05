@@ -2275,6 +2275,8 @@ Powiadomienie od %s: %s
 Zobacz '%s':
 [No word to look up]
 Nie podano słowa do wyszukania
+[&Message %s]
+
 [Highlight User...]
 Podświetlany użytkownik...
 [Edit Highlight List...]

@@ -1,3 +1,5 @@
-﻿[Not valid import file.]
+﻿[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+[Imported %d feed(s).]
+[Not valid import file.]
 [Contact deleting]
 [NewsAggregator HTTP connection]

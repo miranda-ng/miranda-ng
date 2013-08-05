@@ -91,6 +91,10 @@ nie jest poprawnym adresem RSS.
 [empty]
 pusty
 ;file \plugins\NewsAggregator\Src\ExportImport.cpp
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+
+[Imported %d feed(s).]
+
 [OPML files]
 Pliki OPML
 [Not valid import file.]

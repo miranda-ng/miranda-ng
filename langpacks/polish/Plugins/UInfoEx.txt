@@ -607,6 +607,8 @@ Późniejsze rocznice
 Ostrzeżenie: Wersja twojego obecnego IconPacka różni się od wersji, dla której przeznaczony jest UserInfoEx.\nNiektóre ikony mogą nie być wyświetlane poprawnie
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 Ostrzeżenie: Nie znaleziono paczki ikon w żadnym z folderów: "customize\\icons", "icons", "plugins"!
+[Main]
+Ogólne
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [UserInfoEx]
 Dane kontkatu

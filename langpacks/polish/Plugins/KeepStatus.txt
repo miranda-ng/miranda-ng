@@ -275,8 +275,8 @@ Status: Status konta został zmieniony do\r\Konto: Konto zmieniło status
 %s błąd połączenia (następna próba (%d) za %d s) 
 [Status error (next retry (%d) in %d s)]
 Błąd połączenia (następna próba (%d) za %d s) 
-[will be set to]
-przywracany status:
+[%s\t(will be set to %s)\r\n]
+%s\t (przywracany na %s)\r\n
 [Resetting status... (last try (%d))%s]
 Zerowanie statusu...(ostatnia próba (%d)) %s
 [Resetting status... (next retry (%d) in %d s)%s]

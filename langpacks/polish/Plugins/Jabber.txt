@@ -2095,16 +2095,6 @@ Wersja systemu operacyjnego
 Wersja komunikatora
 [Miranda NG core version]
 Wersja rdzenia Mirandy NG
-[Unicode build]
-Unicode
-[Yes]
-Tak
-[No]
-Nie
-[Alpha build]
-Alpha
-[Debug build]
-Debug
 [Mood]
 Nastrój
 [Activity]

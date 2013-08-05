@@ -6,6 +6,6 @@
 [Show email notifications using popup module]
 [Entry ID]
 [Exchange email]
-[Do you want to see the email headers?]
+[Do you want to see the email headers ?]
 [Check exchange mailbox]
 [Exchange notify]

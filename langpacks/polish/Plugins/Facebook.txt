@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.1
+;  Version: 0.2.0.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -16,16 +16,24 @@ Hasło:
 Stwórz nowe konto na Facebooku
 [What's on your mind?]
 Co masz na mysli?
-[Text:]
-Tekst:
-[Place:]
-Miejsce:
+[Wall:]
+
 [Visibility:]
 Widoczność:
+[Text:]
+Tekst:
+[URL:]
+URL:
+[Place:]
+Miejsce:
 [Share]
 Wyślij
 [Cancel]
 Anuluj
+[Contacts >>]
+
+[Attach contacts:]
+
 [User Details]
 Dane kontaktu
 [Default group:]
@@ -40,32 +48,20 @@ Użyj większych awatarów
 Pokazuj kontakty z statusem 'Pod telefonem'
 [Event notifications]
 Zdarzenia
-[Colors]
-Kolory
-[Back]
-Wstecz
-[Text]
-Tekst
 [Notifications]
 Powiadomienia
-[Default]
-Domyślny
 [News feeds]
 Nowe kanały
+[News Feed types to notify:]
+Kanał powiadomień:
 [Other events]
 Inne zdarzenia
 [Client notifications]
 Powiadomienia klienta
-[Timeout (sec.)]
-Wyświetlaj (s)
-[(0 = default, -1 = infinite)]
-(0 = Domyślny, -1 = Nie chowaj)
 [Preview]
 Podgląd
 [Use balloon notifications in system tray instead of popups]
 Użyj baloników systemowych w zasobniku zamiast popupów
-[News Feed types to notify:]
-Kanał powiadomień:
 [Advanced Settings]
 Ustawienia zaawansowane
 [Force secure (HTTPS) connection]
@@ -84,10 +80,10 @@ Niestandardowy status jako Niewidoczny (zamiast Dostępnego)
 Wsparcie dla niestandardowych emotikon (EKSPERYMENTALNY)
 [Use local time for received messages]
 Użyj czasu lokalnego dla odebranych wiadomości
-[Send "Seen" info when marking messages as read]
-
 [Use this server for opening links:]
 Użyj tego serwera do otwierania linków:
+[Allow posting statuses to my pages (may slow down login)]
+
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Błąd logowania: %s
@@ -109,6 +105,8 @@ Coś stało się z Facebook. Może było trochę więcej aktualizacji, więc poc
 Potrzebujesz potwierdzenia dla wysyłania wiadomości do innych klientów.\nOtwórz stronę facebook i spróbuj wysłać wiadomość do kontaktu ponownie!
 [Timeout when sending message.]
 Upłynęło zbyt dużo czasu wysyłania wiadomości.
+[Status update was successful.]
+
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Wprowadź nazwę użytkownika.
@@ -133,14 +131,16 @@ Klasyczna strona
 Strona mobilna
 [Smartphone website]
 Strona smartphone
-[For everyone]
-Dla wszystkich
-[For friends of friends]
+[Public]
+Publiczny
+[Friends of friends]
 
-[For friends]
-Dla znajmych
-[Only for me]
-Tylko dla mnie
+[Friends]
+
+[Friends except acquaintances]
+
+[Only me]
+
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Kontakt został usunięty z listy serwera.
@@ -155,6 +155,10 @@ Pytanie o znajomość zostało cofnięte.
 [Error occured when canceling friendship request.]
 Błąd podczas anulowania pytania o znajomość.
 ;file \protocols\FacebookRM\src\dialogs.cpp
+[Default]
+Domyślny
+[<< Contacts]
+
 [What's on your mind, %s?]
 Co masz na myśli, %s?
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
@@ -168,6 +172,18 @@ Próbny kanał
 [Sample notification]
 Próbne powiadomienie
 ;file \protocols\FacebookRM\src\json.cpp
+[a sticker]
+
+[files]
+
+[a file]
+
+[photos]
+
+[a photo]
+
+[User sent you %s:]
+
 [Message read: %s]
 
 ;file \protocols\FacebookRM\src\messages.cpp
@@ -179,18 +195,10 @@ Kontakt powrócił na listę na serwerze.
 [Contact is no longer on server-list.]
 Kontakt jest już na liście serwera.
 ;file \protocols\FacebookRM\src\proto.cpp
-[Show Mind Window]
-
 [%s server connection]
 Połączenie %s
 [Unable to get Netlib connection for Facebook]
 Nie można uzyskać połączenia Netlib Facebook
-[Notification]
-Powiadomienie
-[News Feed]
-Nowe kanały
-[Other Event]
-Inne zdarzenie
 [Avatars]
 Awatary
 [Facebook ID must be numeric value.]
@@ -199,12 +207,14 @@ Awatary
 Protokoły
 [Account]
 Konto
-[Advanced]
-Zaawansowane
-[Popups]
-Popupy
 [Events]
 Zdarzenia
+[Advanced]
+Zaawansowane
+[Share status...]
+
+[Own wall]
+
 [Loading newsfeeds...]
 Sprawdzanie subskrypcji...
 [Checking friend requests...]
@@ -213,6 +223,14 @@ Sprawdzanie zaproszeń od znajomych...
 Odświeżanie listy kontaktów...
 [Do you want to cancel your friendship with '%s'?]
 Czy chcesz anulować znajomość z '%s'?
+[Show 'Share status' window]
+
+[Notification]
+Powiadomienie
+[News Feed]
+Nowe kanały
+[Other Event]
+Inne zdarzenie
 ;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]
 Facebook
@@ -236,8 +254,6 @@ Cofnij pytanie o znajomość
 Pytanie o znajomość
 [Approve friendship]
 Zatwierdź znajomość
-[Mind...]
-Udostępnij...
 [Services...]
 Usługi...
 [Refresh Buddy List]

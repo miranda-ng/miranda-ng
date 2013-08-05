@@ -1685,6 +1685,8 @@ Powiadomienie od %s: %s
 Zobacz '%s':
 [No word to look up]
 Nie podano słowa do wyszukania
+[&Message %s]
+
 ;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 Wstaw emotikonę
@@ -1947,8 +1949,6 @@ Wiadomość od %s
 %s pisze wiadomość
 [Typing Notification]
 Pisanie
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-
 [Instant messages]
 Wiadomości
 [Incoming (Focused Window)]
@@ -1959,6 +1959,10 @@ Przychodzące (Nieaktywne okno)
 Przychodzące (Nowa sesja)
 [Message send error]
 Błąd wysyłania wiadomości
+[Contact started typing]
+Kontakt pisze wiadomość 
+[Contact stopped typing]
+Kontakt przestał pisać
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occured.]
 Nieznany błąd.

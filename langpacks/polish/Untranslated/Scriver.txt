@@ -38,4 +38,5 @@
 [%s disables '%s' status for %s in %s]
 [The topic is '%s']
 [The topic is '%s' (set by %s)]
+[&Message %s]
 [Manager]
