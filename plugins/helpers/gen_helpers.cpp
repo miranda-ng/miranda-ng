@@ -19,15 +19,6 @@
 #include "commonheaders.h"
 #include "gen_helpers.h"
 
-char *Hlp_GetProtocolNameA(const char *proto) {
-
-	char protoname[256];
-	if ((!ProtoServiceExists(proto, PS_GETNAME)) || (CallProtoService(proto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname)))
-		return NULL;
-
-	return mir_strdup(protoname);
-}
-
 TCHAR *Hlp_GetProtocolName(const char *proto) {
 
 	char protoname[256];
@@ -36,19 +27,6 @@ TCHAR *Hlp_GetProtocolName(const char *proto) {
 
 	return mir_a2t(protoname);
 
-}
-
-char *Hlp_GetDlgItemTextA(HWND hwndDlg, int nIDDlgItem) {
-
-	int len = SendDlgItemMessageA(hwndDlg, nIDDlgItem, WM_GETTEXTLENGTH, 0, 0);
-	if (len < 0)
-		return NULL;
-
-	char *res = ( char* )mir_alloc((len+1));
-	ZeroMemory(res, (len+1));
-	GetDlgItemTextA(hwndDlg, nIDDlgItem, res, len+1);
-
-	return res;
 }
 
 TCHAR *Hlp_GetDlgItemText(HWND hwndDlg, int nIDDlgItem) {
@@ -60,19 +38,6 @@ TCHAR *Hlp_GetDlgItemText(HWND hwndDlg, int nIDDlgItem) {
 	TCHAR *res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
 	ZeroMemory(res, (len+1)*sizeof(TCHAR));
 	GetDlgItemText(hwndDlg, nIDDlgItem, res, len+1);
-
-	return res;
-}
-
-char *Hlp_GetWindowTextA(HWND hwndDlg)
-{
-	int len = SendMessageA(hwndDlg, WM_GETTEXTLENGTH, 0, 0);
-	if (len < 0)
-		return NULL;
-
-	char *res = ( char* )mir_alloc((len+1));
-	ZeroMemory(res, (len+1));
-	GetWindowTextA(hwndDlg, res, len+1);
 
 	return res;
 }
@@ -95,7 +60,8 @@ TCHAR *Hlp_GetWindowText(HWND hwndDlg)
  **/
 
 // Logging
-static int WriteToDebugLogA(const char *szMsg) {
+static int WriteToDebugLogA(const char *szMsg)
+{
 
 	int res = 0;
 	if (ServiceExists(MS_NETLIB_LOG))
@@ -127,7 +93,8 @@ int AddDebugLogMessageA(const char* fmt, ...)
 	return res;
 }
 
-int AddDebugLogMessage(const TCHAR* fmt, ...) {
+int AddDebugLogMessage(const TCHAR* fmt, ...)
+{
 
 	int res;
 	TCHAR tszText[MAX_DEBUG], tszFinal[MAX_DEBUG];
@@ -152,60 +119,13 @@ int AddDebugLogMessage(const TCHAR* fmt, ...) {
 	return res;
 }
 
-int AddErrorLogMessageA(const char* fmt, ...) {
-
-	int res;
-	char szText[MAX_DEBUG], szFinal[MAX_DEBUG];
-	va_list va;
-
-	va_start(va,fmt);
-	mir_vsnprintf(szText, sizeof(szText), fmt, va);
-	va_end(va);
-#ifdef MODULENAME
-	mir_snprintf(szFinal, sizeof(szFinal), "%s: %s", MODULENAME, szText);
-#else
-	strncpy(szFinal, szText, SIZEOF(szFinal));
-#endif
-	res = WriteToDebugLogA(szFinal);
-	MessageBoxA(NULL, szFinal, "Error", MB_OK|MB_ICONERROR);
-
-	return res;
-}
-
-int AddErrorLogMessage(const TCHAR* fmt, ...) {
-
-	int res;
-	TCHAR tszText[MAX_DEBUG], tszFinal[MAX_DEBUG];
-	char *szFinal;
-	va_list va;
-
-	va_start(va,fmt);
-	mir_vsntprintf(tszText, SIZEOF(tszText), fmt, va);
-	va_end(va);
-#ifdef MODULENAME
-	mir_sntprintf(tszFinal, SIZEOF(tszFinal), _T("%s: %s"), MODULENAME, tszText);
-#else
-	_tcsncpy(tszFinal, tszText, SIZEOF(tszFinal));
-#endif
-
-
-	szFinal = mir_t2a(tszFinal);
-
-	res = WriteToDebugLogA(szFinal);
-	MessageBoxA(NULL, szFinal, "Error", MB_OK|MB_ICONERROR);
-	mir_free(szFinal);
-
-	return res;
-}
-
-
-//
 int ttoi(TCHAR *string)
 {
 	return ( string == NULL) ? 0 : _ttoi( string );
 }
 
-TCHAR *itot(int num) {
+TCHAR *itot(int num)
+{
 
 	char tRes[32];
 

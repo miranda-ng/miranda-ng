@@ -19,16 +19,10 @@
 #ifndef __GEN_HELPERS_H
 #define __GEN_HELPERS_H
 
-char *Hlp_GetProtocolNameA(const char *proto);
 TCHAR *Hlp_GetProtocolName(const char *proto);
-
-char *Hlp_GetDlgItemTextA(HWND hwndDlg, int nIDDlgItem);
 TCHAR *Hlp_GetDlgItemText(HWND hwndDlg, int nIDDlgItem);
-char *Hlp_GetWindowTextA(HWND hwndDlg);
 TCHAR *Hlp_GetWindowText(HWND hwndDlg);
 
-char* u2a( wchar_t* src );
-wchar_t* a2u( char* src );
 int ttoi(TCHAR *string);
 TCHAR *itot(int num);
 
@@ -36,9 +30,6 @@ TCHAR *itot(int num);
 
 #define __LOGLEVEL_DEBUG	10
 #define __LOGLEVEL_INFO		9
-#define __LOGLEVEL_WARN		8
-#define __LOGLEVEL_ERROR	7
-#define __LOGLEVEL_FATAL	6
 
 #ifndef LOGLEVEL
  #ifdef _DEBUG
@@ -50,8 +41,6 @@ TCHAR *itot(int num);
 
 int AddDebugLogMessageA(const char* fmt, ...);
 int AddDebugLogMessage(const TCHAR* fmt, ...);
-int AddErrorLogMessageA(const char* fmt, ...);
-int AddErrorLogMessage(const TCHAR* fmt, ...);
 
 #if LOGLEVEL >= __LOGLEVEL_DEBUG
 #define log_debugA AddDebugLogMessageA
@@ -67,30 +56,6 @@ static __inline int log_debug(const TCHAR* fmt, ...) { return 0; }
 #else
 static __inline int log_infoA(const char* fmt, ...) { return 0; }
 static __inline int log_info(const TCHAR* fmt, ...) { return 0; }
-#endif
-
-#if LOGLEVEL >= __LOGLEVEL_WARN
-#define log_warnA AddDebugLogMessageA
-#define log_warn AddDebugLogMessage
-#else
-static __inline int log_warnA(const char* fmt, ...) { return 0; }
-static __inline int log_warn(const TCHAR* fmt, ...) { return 0; }
-#endif
-
-#if LOGLEVEL >= __LOGLEVEL_ERROR
-#define log_errorA AddErrorLogMessageA
-#define log_error AddErrorLogMessage
-#else
-static __inline int log_errorA(const char* fmt, ...) { return 0; }
-static __inline int log_error(const TCHAR* fmt, ...) { return 0; }
-#endif
-
-#if LOGLEVEL >= __LOGLEVEL_FATAL
-#define log_fatalA AddErrorLogMessageA
-#define log_fatal AddErrorMessage
-#else
-static __inline int log_fatalA(const char* fmt, ...) { return 0; }
-static __inline int log_fatal(const TCHAR* fmt, ...) { return 0; }
 #endif
 
 #endif
