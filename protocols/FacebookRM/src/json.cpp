@@ -252,50 +252,67 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 	// Process attachements and stickers
 	JSONNODE *has_attachment = json_get(it, "has_attachment");
 	if (has_attachment != NULL && json_as_bool(has_attachment)) {
-		JSONNODE *admin_snippet = json_get(it, "admin_snippet");
-		if (admin_snippet != NULL) {
-			// Append attachements
-			std::string attachments_text = "";
-			JSONNODE *attachments = json_get(it, "attachments");
-			for (unsigned int j = 0; j < json_size(attachments); j++) {
-				JSONNODE *itAttachment = json_at(attachments, j);
-
-				// TODO: behave different for stickers and classic attachements?
-				// JSONNODE *attach_type = json_get(itAttachment, "attach_type"); // "sticker", "photo", "file"
-
-				JSONNODE *name = json_get(itAttachment, "name");
-				JSONNODE *url = json_get(itAttachment, "url");
-				if (url != NULL) {
-					std::string link = json_as_string(url);
+		// Append attachements
+		std::string type = "";
+		std::string attachments_text = "";
+		JSONNODE *attachments = json_get(it, "attachments");
+		for (unsigned int j = 0; j < json_size(attachments); j++) {
+			JSONNODE *itAttachment = json_at(attachments, j);
+			JSONNODE *attach_type = json_get(itAttachment, "attach_type"); // "sticker", "photo", "file"
+			if (attach_type != NULL) {
+				// Get attachment type - "file" has priority over other types
+				if (type.empty() || type != "file")
+					type = json_as_string(attach_type);
+			}
+			JSONNODE *name = json_get(itAttachment, "name");
+			JSONNODE *url = json_get(itAttachment, "url");
+			if (url != NULL) {
+				std::string link = json_as_string(url);
 							
-					if (link.find("/ajax/mercury/attachments/photo/view/") != std::string::npos)
-						// fix photo url
-						link = utils::url::decode(utils::text::source_get_value(&link, 2, "?uri=", "&"));
-					else if (link.find("/") == 0) {
-						// make absolute url
-						bool useHttps = proto->getByte(FACEBOOK_KEY_FORCE_HTTPS, 1) > 0;
-						link = (useHttps ? HTTP_PROTO_SECURE : HTTP_PROTO_REGULAR) + std::string(FACEBOOK_SERVER_REGULAR) + link;
-					}
+				if (link.find("/ajax/mercury/attachments/photo/view/") != std::string::npos)
+					// fix photo url
+					link = utils::url::decode(utils::text::source_get_value(&link, 2, "?uri=", "&"));
+				else if (link.find("/") == 0) {
+					// make absolute url
+					bool useHttps = proto->getByte(FACEBOOK_KEY_FORCE_HTTPS, 1) > 0;
+					link = (useHttps ? HTTP_PROTO_SECURE : HTTP_PROTO_REGULAR) + std::string(FACEBOOK_SERVER_REGULAR) + link;
+				}
 								
-					if (!link.empty()) {
-						std::string filename;
-						if (name != NULL)
-							filename = json_as_string(name);
-						if (filename == "null")
-							filename.clear();
+				if (!link.empty()) {
+					std::string filename;
+					if (name != NULL)
+						filename = json_as_string(name);
+					if (filename == "null")
+						filename.clear();
 
-						attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + link + "\n";
-					}
+					attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + link + "\n";
 				}
 			}
+		}
 
-			if (!attachments_text.empty()) {
-				// TODO: have this as extra event, not replace or append message content
-				if (!message_text->empty())
-					*message_text += "\n\n";
+		if (!attachments_text.empty()) {
+			// TODO: have this as extra event, not replace or append message content
+			if (!message_text->empty())
+				*message_text += "\n\n";
+			
+			// we can use this as offline messages doesn't have it
+			/* JSONNODE *admin_snippet = json_get(it, "admin_snippet");
+			if (admin_snippet != NULL) {
 				*message_text += json_as_string(admin_snippet);
-				*message_text += attachments_text;
-			}
+			} */
+
+			if (type == "sticker")
+				type = Translate("a sticker");
+			else if (type == "file")
+				type = (json_size(attachments) > 1) ? Translate("files") : Translate("a file");
+			else if (type == "photo")
+				type = (json_size(attachments) > 1) ? Translate("photos") : Translate("a photo");
+
+			char title[200];
+			mir_snprintf(title, SIZEOF(title), Translate("User sent you %s:"), type.c_str()); 
+
+			*message_text += title;
+			*message_text += attachments_text;
 		}
 	}
 }
@@ -427,7 +444,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				std::string message_text = json_as_string(body);
 
 				// Process attachements and stickers
-				parseAttachments(proto, &message_text, it);
+				parseAttachments(proto, &message_text, msg);
 
 				// Ignore messages from myself, as there is no id of recipient
 				if (id == proto->facy.self_.user_id)
