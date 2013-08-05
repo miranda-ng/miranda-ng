@@ -732,7 +732,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 		// After close, free
 		popup_data *data = (popup_data *)PUGetPluginData(hwnd);
 		if (data != NULL)
-			mir_free(data);
+			delete data;
 	} return FALSE;
 
 	default:
