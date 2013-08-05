@@ -69,7 +69,7 @@ MIR_CORE_DLL(void) json_set_n(JSONNODE * node, const JSONNODE * orig);
 MIR_CORE_DLL(char) json_type(const JSONNODE * node);
 MIR_CORE_DLL(size_t) json_size(const JSONNODE * node);
 MIR_CORE_DLL(int) json_empty(const JSONNODE * node);
-MIR_CORE_DLL(char*) json_name(const JSONNODE * node);
+MIR_CORE_DLL(const char*) json_name(const JSONNODE * node);
 #ifdef JSON_COMMENTS
 	MIR_CORE_DLL(char * json_get_comment(const JSONNODE * node);
 #endif
@@ -117,6 +117,22 @@ MIR_CORE_DLL(int) json_equal(JSONNODE * node, JSONNODE * node2);
 
 #ifdef __cplusplus
 }
+
+class json_ptr
+{
+	char *data;
+
+public:
+	__inline json_ptr() : data(NULL) {}
+	__inline json_ptr(char *_p) : data(_p) {}
+	__inline ~json_ptr() { json_free(data); }
+	__inline char* operator = (char* _p) { if (data) json_free(data); data = _p; return data; }
+	__inline char* operator->() const { return data; }
+	__inline operator char*() const { return data; }
+};
+
+#define JSON_AS_STRING(A) ((char*)json_ptr(json_as_string(A)))
+
 #endif
 
 #endif // MIM_LIBJSON_H

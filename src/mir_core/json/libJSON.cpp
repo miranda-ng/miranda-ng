@@ -266,9 +266,9 @@ MIR_CORE_DLL(int) json_empty(const JSONNODE * node){
 	return (int)(((JSONNode*)node) -> empty());
 }
 
-MIR_CORE_DLL(json_char*) json_name(const JSONNODE * node){
-	JSON_ASSERT_SAFE(node, JSON_TEXT("null node to json_name"), return toCString(EMPTY_CSTRING););
-	return toCString(((JSONNode*)node) -> name());
+MIR_CORE_DLL(const json_char*) json_name(const JSONNODE * node){
+	JSON_ASSERT_SAFE(node, JSON_TEXT("null node to json_name"), return EMPTY_CSTRING;);
+	return ((JSONNode*)node) -> name();
 }
 
 #ifdef JSON_COMMENTS

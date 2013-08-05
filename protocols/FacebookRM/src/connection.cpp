@@ -185,8 +185,9 @@ bool FacebookProto::NegotiateConnection()
 	facy.https_ = getByte(FACEBOOK_KEY_FORCE_HTTPS, DEFAULT_FORCE_HTTPS) != 0;
 
 	// Create default group for new contacts
-	if (!getTString(FACEBOOK_KEY_DEF_GROUP, &dbv) && lstrlen(dbv.ptszVal) > 0)
-		CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)dbv.ptszVal);
+	ptrT groupName( getTStringA(FACEBOOK_KEY_DEF_GROUP));
+	if (groupName != NULL)
+		CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)groupName);
 	
 	return facy.login(user, pass);
 }

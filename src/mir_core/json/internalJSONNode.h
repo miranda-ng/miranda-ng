@@ -81,7 +81,7 @@ public:
 	bool empty(void) const;
 	unsigned char type(void) const;
 
-	json_string name(void) const;
+	const json_char* name(void) const;
 	void setname(const json_string & newname);
 	#ifdef JSON_COMMENTS
 		void setcomment(const json_string & comment);
@@ -260,8 +260,8 @@ inline unsigned char internalJSONNode::type(void) const {
 	#endif
 }
 
-inline json_string internalJSONNode::name(void) const {
-	return _name;
+inline const json_char* internalJSONNode::name(void) const {
+	return _name.c_str();
 }
 
 inline void internalJSONNode::setname(const json_string & newname){
