@@ -301,17 +301,20 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 				*message_text += json_as_string(admin_snippet);
 			} */
 
+			std::tstring newText;
 			if (type == "sticker")
-				type = Translate("a sticker");
+				newText = TranslateT("a sticker");
 			else if (type == "file")
-				type = (json_size(attachments) > 1) ? Translate("files") : Translate("a file");
+				newText = (json_size(attachments) > 1) ? TranslateT("files") : TranslateT("a file");
 			else if (type == "photo")
-				type = (json_size(attachments) > 1) ? Translate("photos") : Translate("a photo");
+				newText = (json_size(attachments) > 1) ? TranslateT("photos") : TranslateT("a photo");
+			else
+				newText = _A2T(type.c_str());
 
-			char title[200];
-			mir_snprintf(title, SIZEOF(title), Translate("User sent you %s:"), type.c_str()); 
+			TCHAR title[200];
+			mir_sntprintf(title, SIZEOF(title), TranslateT("User sent you %s:"), newText.c_str()); 
 
-			*message_text += ptrA(mir_utf8encode(title));
+			*message_text += ptrA(mir_utf8encodeT(title));
 			*message_text += attachments_text;
 		}
 	}
