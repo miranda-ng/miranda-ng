@@ -336,6 +336,7 @@ void ChatRoom::Join(const wchar_t *joinBlob, CSkypeProto *ppro)
 
 		CSkypeProto::ReplaceSpecialChars(cid);
 		ChatRoom *room = new ChatRoom(cid, name, ppro);
+		ppro->chatRooms.insert(room);
 		room->Start(conversation, true);
 	}
 }
@@ -1660,6 +1661,7 @@ void __cdecl CSkypeProto::LoadChatList(void*)
 				ptrW name = ::mir_utf8decodeW(data);
 
 				ChatRoom *room = new ChatRoom(cid, name, this);
+				chatRooms.insert(room);
 				room->Start(conversation);
 			}
 		}
@@ -1695,6 +1697,7 @@ void CSkypeProto::OnChatEvent(const ConversationRef &conversation, const Message
 			ptrW name = ::mir_utf8decodeW(data);
 
 			ChatRoom *room = new ChatRoom(cid, name, this);
+			chatRooms.insert(room);
 			room->Start(conversation, true);
 		}
 	}
@@ -1720,6 +1723,7 @@ void CSkypeProto::OnConversationListChange(
 			ptrW name = ::mir_utf8decodeW(data);
 
 			ChatRoom *room = new ChatRoom(cid, name, this);
+			chatRooms.insert(room);
 			room->Start(conversation, true);
 		}
 	}

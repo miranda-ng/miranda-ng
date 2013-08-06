@@ -135,5 +135,5 @@ void WASocketConnection::forceShutdown() {
 
 WASocketConnection::~WASocketConnection() {
 	this->forceShutdown();
-	//SDLNet_TCP_Close(this->socket);
+	Netlib_CloseHandle(this->hConn);
 }

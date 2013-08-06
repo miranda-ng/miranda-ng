@@ -349,6 +349,8 @@ protected:
 
 	void	OnChatEvent(const ConversationRef &conversation, const MessageRef &message);
 
+	OBJLIST<ChatRoom> chatRooms;
+
 	// contacts
 	void	UpdateContactAuthState(HANDLE hContact, const ContactRef &contact);
 	void	UpdateContactStatus(HANDLE hContact, const ContactRef &contact);

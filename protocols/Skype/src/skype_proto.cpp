@@ -1,9 +1,11 @@
 ﻿#include "skype.h"
+#include "skype_chat.h"
 
 CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 	PROTO<CSkypeProto>(protoName, userName),
 	Skype(1), 
-	skypeKitPort(8963)
+	skypeKitPort(8963),
+	chatRooms(5)
 {
 	this->rememberPassword = false;
 
@@ -42,6 +44,8 @@ CSkypeProto::~CSkypeProto()
 		::mir_free(this->password);
 		this->password = NULL;
 	}
+
+	this->chatRooms.destroy();
 }
 
 HANDLE __cdecl CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT* psr)

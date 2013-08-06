@@ -131,7 +131,7 @@ private:
 
 	HANDLE hContact;	
 
-	LIST<ChatMember> members;
+	OBJLIST<ChatMember> members;
 
 	CSkypeProto *ppro;
 
