@@ -34,3 +34,15 @@ struct XSN_Data
 		ignore = _ignore;
 	}
 };
+
+extern LIST<XSN_Data> XSN_Users;
+
+extern HINSTANCE hInst;
+extern HANDLE hChangeSoundDlgList;
+extern BYTE isIgnoreSound, isOwnSound;
+
+bool IsSuitableProto(PROTOACCOUNT* pa);
+
+INT OptInit(WPARAM wParam, LPARAM lParam);
+
+INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam);
