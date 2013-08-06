@@ -276,8 +276,8 @@ MIR_CORE_DLL(json_char*) json_as_string(const JSONNODE * node){
 	return toCString(((JSONNode*)node) -> as_string());
 }
 
-MIR_CORE_DLL(std::string) json_as_pstring(const JSONNODE * node){
-	JSON_ASSERT_SAFE(node, JSON_TEXT("null node to json_as_string"), return toCString(EMPTY_CSTRING););
+MIR_C_CORE_DLL(std::string) json_as_pstring(const JSONNODE * node){
+	JSON_ASSERT_SAFE(node, JSON_TEXT("null node to json_as_string"), return EMPTY_CSTRING;);
 	return ((JSONNode*)node) -> as_string();
 }
 

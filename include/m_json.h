@@ -119,7 +119,7 @@ MIR_CORE_DLL(int) json_equal(JSONNODE * node, JSONNODE * node2);
 
 #ifdef __cplusplus
 #ifdef _XSTRING_
-MIR_CORE_DLL(std::string) json_as_pstring(const JSONNODE * node);
+MIR_C_CORE_DLL(std::string) json_as_pstring(const JSONNODE * node);
 #endif
 }
 
