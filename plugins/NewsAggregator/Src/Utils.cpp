@@ -267,6 +267,8 @@ time_t __stdcall DateToUnixTime(TCHAR *stamp, BOOL FeedType)
 				month = 11;
 			if (!lstrcmpi(monthstr, _T("Dec")))
 				month = 12;
+			if (year < 2000)
+				year += 2000;
 			if (!lstrcmp(timezonesign, _T("+")))
 				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour-timezoneh, min-timezonem, sec);
 			else if (!lstrcmp(timezonesign, _T("-")))
