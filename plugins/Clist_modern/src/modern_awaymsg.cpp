@@ -173,4 +173,5 @@ void UninitAwayMsgModule()
 
 	CloseHandle(hamProcessEvent);
 	DeleteCriticalSection(&amCS);
+	amItems.destroy();
 }
