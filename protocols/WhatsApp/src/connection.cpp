@@ -144,23 +144,19 @@ void WhatsAppProto::stayConnectedLoop(void*)
 		CODE_BLOCK_TRY
 			unsigned passLen;
 			ptrA passBin((char*)mir_base64_decode(pass.c_str(), &passLen));
-			std::string password(passBin, passLen);
-			BYTE UseSSL = getByte(WHATSAPP_KEY_SSL, 0);
-			if (UseSSL) {
-				this->conn = new WASocketConnection("c.whatsapp.net", 443);
+			std::string password(passBin, passLen), resource = ACCOUNT_RESOURCE;
+			int portNumber;
+			if (getByte(WHATSAPP_KEY_SSL, 0))
+				portNumber = 443, resource += "-443";
+			else
+				portNumber = 5222, resource += "-5222";
+				
+			this->conn = new WASocketConnection("c.whatsapp.net", portNumber);
 
-				connection = new WAConnection(&this->connMutex, this, this);
-				login = new WALogin(connection, new BinTreeNodeReader(connection, conn, WAConnection::dictionary, WAConnection::DICTIONARY_LEN),
-						new BinTreeNodeWriter(connection, conn, WAConnection::dictionary, WAConnection::DICTIONARY_LEN, &writerMutex),
-						"s.whatsapp.net", this->phoneNumber, std::string(ACCOUNT_RESOURCE) +"-443", password, nick);
-			} else {
-				this->conn = new WASocketConnection("c.whatsapp.net", 5222);
-
-				connection = new WAConnection(&this->connMutex, this, this);
-				login = new WALogin(connection, new BinTreeNodeReader(connection, conn, WAConnection::dictionary, WAConnection::DICTIONARY_LEN),
-						new BinTreeNodeWriter(connection, conn, WAConnection::dictionary, WAConnection::DICTIONARY_LEN, &writerMutex),
-						"s.whatsapp.net", this->phoneNumber, std::string(ACCOUNT_RESOURCE) +"-5222", password, nick);
-			}
+			connection = new WAConnection(&this->connMutex, this, this);
+			login = new WALogin(connection, new BinTreeNodeReader(connection, conn, WAConnection::dictionary, WAConnection::DICTIONARY_LEN),
+					new BinTreeNodeWriter(connection, conn, WAConnection::dictionary, WAConnection::DICTIONARY_LEN, &writerMutex),
+					"s.whatsapp.net", this->phoneNumber, resource, password, nick);
 
 			std::vector<unsigned char>* nextChallenge = login->login(*this->challenge);
 			delete this->challenge;

@@ -542,8 +542,8 @@ void WAConnection::setLogin(WALogin* login) {
 	this->jid = this->login->user + "@" + this->login->domain;
 	this->fromm = this->login->user + "@" + this->login->domain + "/" + this->login->resource;
 
-	this->in = login->inn;
-	this->out = login->out;
+	this->in = login->getTreeNodeReader();
+	this->out = login->getTreeNodeWriter();
 }
 
 WALogin* WAConnection::getLogin() {
@@ -635,10 +635,10 @@ void WAConnection::sendMessage(FMessage* message) throw(WAException) {
 
 
 WAConnection::~WAConnection() {
-	if (this->inputKey != NULL)
-		delete this->inputKey;
-	if (this->outputKey != NULL)
-		delete this->outputKey;
+	delete this->inputKey;
+	delete this->outputKey;
+	delete this->in;
+	delete this->out;
 	std::map<string, IqResultHandler*>::iterator it;
 	for (it = this->pending_server_requests.begin(); it != this->pending_server_requests.end(); it++) {
 		delete it->second;

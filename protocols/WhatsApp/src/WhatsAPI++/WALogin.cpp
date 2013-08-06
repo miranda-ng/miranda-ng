@@ -179,9 +179,9 @@ std::vector<unsigned char>* WALogin::getAuthBlob(const std::vector<unsigned char
 
 	this->outputKey = new KeyStream(out, 20);
 	std::vector<unsigned char>* list = new std::vector<unsigned char>(0);
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; i++)
 		list->push_back(0);
-	}
+
 	list->insert(list->end(), this->user.begin(), this->user.end());
 	list->insert(list->end(), nonce.begin(), nonce.end());
 	std::string strTime = Utilities::intToStr( time(NULL));

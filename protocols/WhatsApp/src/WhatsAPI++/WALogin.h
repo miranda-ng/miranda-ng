@@ -44,6 +44,8 @@ private:
 	static const std::string NONCE_KEY;
 	KeyStream* outputKey;
 	WAConnection* connection;
+	BinTreeNodeReader* inn;
+	BinTreeNodeWriter* out;
 
 	std::vector<unsigned char>* getAuthBlob(const std::vector<unsigned char>& nonce);
 	void sendResponse(const std::vector<unsigned char>& challengeData);
@@ -63,8 +65,6 @@ public:
 	bool supports_receipt_acks;
 	time_t expire_date;
 	int account_kind;
-	BinTreeNodeReader* inn;
-	BinTreeNodeWriter* out;
 
 	WALogin(WAConnection* connection, BinTreeNodeReader *reader, BinTreeNodeWriter *writer, const std::string& domain, const std::string& user, const std::string& resource, const std::string& password, const std::string& push_name);
 	std::vector<unsigned char>* login(const std::vector<unsigned char>& blobLength);
