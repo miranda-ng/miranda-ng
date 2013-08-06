@@ -37,10 +37,10 @@
 struct TSplitterBroadCast {
 	TContainerData *pSrcContainer;
 	TWindowData  *pSrcDat;
-	LONG				pos, pos_chat;
-	LONG				off_chat, off_im;
-	LPARAM				lParam;
-	BYTE				bSync;
+	LONG pos, pos_chat;
+	LONG off_chat, off_im;
+	LPARAM lParam;
+	BYTE bSync;
 };
 
 typedef BOOL (WINAPI *pfnSetMenuInfo )( HMENU hmenu, LPCMENUINFO lpcmi );
@@ -71,13 +71,6 @@ public:
 	{
 		if (m_MenuBar)
 			::DestroyMenu(m_MenuBar);
-
-		CContactCache* c = CContactCache::m_cCache, *cTemp;
-		while(c) {
-			cTemp = c->m_next;
-			delete c;
-			c = cTemp;
-		}
 	}
 	void        reloadAdv();
    void        reloadSystemStartup();
@@ -184,7 +177,6 @@ public:
 
 	static TCHAR* m_default_container_name;
 	
-	static void cacheUpdateMetaChanged();
 	static void logStatusChange(WPARAM wParam, const CContactCache *c);
 
 	static void Ex_CopyEditToClipboard(HWND hWnd);

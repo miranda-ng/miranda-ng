@@ -1568,13 +1568,13 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			else if (wParam < ' ')
 				break;
 			else {
-				TCHAR szNew[2];
-				szNew[0] = (TCHAR) wParam;
-				szNew[1] = '\0';
 				if (lstrlen(si->szSearch) >= SIZEOF(si->szSearch) - 2) {
 					MessageBeep(MB_OK);
 					break;
 				}
+				TCHAR szNew[2];
+				szNew[0] = (TCHAR) wParam;
+				szNew[1] = '\0';
 				_tcscat(si->szSearch, szNew);
 			}
 			if (si->szSearch[0]) {
@@ -3003,10 +3003,10 @@ LABEL_SHOWWINDOW:
 				SM_AddCommand(si->ptszID, si->pszModule, pszRtf);
 
 				ptrT ptszText( Chat_DoRtfToTags(pszRtf, si));
-				if ((TCHAR*)ptszText == NULL)
+				if (ptszText == NULL)
 					break;
 
-				DoTrimMessage(ptszText);
+				rtrimt(ptszText);
 
 				if (mi && mi->bAckMsg) {
 					Utils::enableDlgControl(hwndDlg, IDC_CHAT_MESSAGE, FALSE);

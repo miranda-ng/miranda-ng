@@ -141,8 +141,9 @@ class CTaskbarInteract;
 class CMenuBar;
 class CInfoPanel;
 class CSideBar;
-class CContactCache;
 class CProxyWindow;
+
+struct CContactCache;
 
 #define STICK_ICON_MSG 10
 

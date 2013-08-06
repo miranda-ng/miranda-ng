@@ -35,18 +35,12 @@
 
 #include "commonheaders.h"
 
-CContactCache* CContactCache::m_cCache = 0;
+static OBJLIST<CContactCache> arContacts(50, HandleKeySortT);
 
 CContactCache::CContactCache(const HANDLE hContact)
 {
-	ZeroMemory(this, sizeof(CContactCache));
-
-	m_Valid = m_isMeta = false;
 	m_hContact = hContact;
 	m_wOldStatus = m_wStatus = m_wMetaStatus = ID_STATUS_OFFLINE;
-
-	m_szStatusMsg = m_ListeningInfo = m_xStatusMsg = 0;
-	m_nMax = 0;
 
 	if (hContact) {
 		m_szProto = ::GetContactProto(m_hContact);
@@ -69,11 +63,9 @@ CContactCache::CContactCache(const HANDLE hContact)
  */
 void CContactCache::initPhaseTwo()
 {
-	PROTOACCOUNT*	acc = 0;
-
 	m_szAccount = 0;
 	if (m_szProto) {
-		acc = reinterpret_cast<PROTOACCOUNT *>(::CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)m_szProto));
+		PROTOACCOUNT *acc = reinterpret_cast<PROTOACCOUNT *>(::CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)m_szProto));
 		if (acc && acc->tszAccountName)
 			m_szAccount = acc->tszAccountName;
 	}
@@ -363,7 +355,8 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 			if (m_iHistoryCurrent == 0)
 				return;
 			m_iHistoryCurrent--;
-		} else {
+		}
+		else {
 			m_iHistoryCurrent++;
 			if (m_iHistoryCurrent > m_iHistoryTop)
 				m_iHistoryCurrent = m_iHistoryTop;
@@ -374,13 +367,14 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 				::SendMessage(hwndEdit, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_history[m_iHistorySize].szText);
 				::SendMessage(hwndEdit, EM_SETSEL, (WPARAM)- 1, (LPARAM)- 1);
 			}
-		} else {
+		}
+		else {
 			if (m_history[m_iHistoryCurrent].szText != NULL) {
 				::SetWindowText(hwndEdit, _T(""));
 				::SendMessage(hwndEdit, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_history[m_iHistoryCurrent].szText);
 				::SendMessage(hwndEdit, EM_SETSEL, (WPARAM)- 1, (LPARAM)- 1);
-			} else
-				::SetWindowText(hwndEdit, _T(""));
+			}
+			else ::SetWindowText(hwndEdit, _T(""));
 		}
 		::SendMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(::GetDlgCtrlID(hwndEdit), EN_CHANGE), (LPARAM)hwndEdit);
 		m_dat->dwFlags &= ~MWF_NEEDHISTORYSAVE;
@@ -518,27 +512,44 @@ void CContactCache::updateStatusMsg(const char *szKey)
  * @return	CContactCache*		pointer to the cache entry for this contact
  */
 
-CContactCache* CContactCache::getContactCache(const HANDLE hContact)
+CContactCache* CContactCache::getContactCache(HANDLE hContact)
 {
-	CContactCache *c = m_cCache, *cTemp;
+	CContactCache *cc = arContacts.find((CContactCache*)&hContact);
+	if (cc == NULL) {
+		cc = new CContactCache(hContact);
+		arContacts.insert(cc);
+	}
+	return cc;
+}
 
-	cTemp = c;
+/**
+ * when the state of the meta contacts protocol changes from enabled to disabled
+ * (or vice versa), this updates the contact cache
+ *
+ * it is ONLY called from the DBSettingChanged() event handler when the relevant
+ * database value is touched.
+ */
+void CContactCache::cacheUpdateMetaChanged()
+{
+	bool fMetaActive = (PluginConfig.g_MetaContactsAvail && PluginConfig.bMetaEnabled) ? true : false;
 
-	while(c) {
-		cTemp = c;
-		if (c->m_hContact == hContact) {
-			c->inc();
-			return(c);
+	for (int i=0; i < arContacts.getCount(); i++) {
+		CContactCache &c = arContacts[i];
+		if (c.isMeta() && PluginConfig.bMetaEnabled == false) {
+			c.closeWindow();
+			c.resetMeta();
 		}
-		c = c->m_next;
+
+		// meta contacts are enabled, but current contact is a subcontact - > close window
+
+		if (fMetaActive && c.isSubContact())
+			c.closeWindow();
+
+		// reset meta contact information, if metacontacts protocol became avail
+
+		if (fMetaActive && !strcmp(c.getProto(), PluginConfig.szMetaName))
+			c.resetMeta();
 	}
-	CContactCache* _c = new CContactCache(hContact);
-	if (cTemp) {
-		cTemp->m_next = _c;
-		return(_c);
-	}
-	m_cCache = _c;
-	return(_c);
 }
 
 /**

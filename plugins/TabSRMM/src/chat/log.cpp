@@ -517,13 +517,14 @@ static void Log_Append(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, co
 static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buffer, int *cbBufferEnd, int *cbBufferAlloced, const TCHAR *fmt, ...)
 {
 	va_list va;
-	int lineLen, textCharsCount = 0;
-	TCHAR* line = (TCHAR*)alloca(8001 * sizeof(TCHAR));
-	char* d;
+	int textCharsCount = 0;
+	char *d;
+	TCHAR *line = (TCHAR*)alloca(8001 * sizeof(TCHAR));
 
 	va_start(va, fmt);
-	lineLen = mir_vsntprintf(line, 8000, fmt, va);
-	if (lineLen < 0) lineLen = 8000;
+	int lineLen = mir_vsntprintf(line, 8000, fmt, va);
+	if (lineLen < 0)
+		lineLen = 8000;
 	line[lineLen] = 0;
 	va_end(va);
 
@@ -546,9 +547,7 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 			CopyMemory(d, "\\line ", 6);
 			d += 6;
 		} else if (*line == '%' && !simpleMode) {
-			char szTemp[200];
-
-			szTemp[0] = '\0';
+			char szTemp[200]; szTemp[0] = '\0';
 			switch (*++line) {
 			case '\0':
 			case '%':
@@ -559,7 +558,6 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 			case 'f':
 				if (g_Settings.bStripFormat || streamData->bStripFormat)
 					line += 2;
-
 				else if (line[1] != '\0' && line[2] != '\0') {
 					TCHAR szTemp3[3], c = *line;
 					int col;

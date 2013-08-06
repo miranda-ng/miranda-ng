@@ -1198,22 +1198,6 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 }
 
 /*
- * trims the output from DoRtfToTags(), removes trailing newlines and whitespaces...
- */
-
-void TSAPI DoTrimMessage(TCHAR *msg)
-{
-	size_t iLen = lstrlen(msg);
-	size_t i = iLen;
-
-	while (i && (msg[i-1] == '\r' || msg[i-1] == '\n') || msg[i-1] == ' ') {
-		i--;
-	}
-	if (i < iLen)
-		msg[i] = '\0';
-}
-
-/*
  * retrieve both buddys and my own UIN for a message session and store them in the message window *dat
  * respects metacontacts and uses the current protocol if the contact is a MC
  */

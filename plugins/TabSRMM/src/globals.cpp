@@ -467,7 +467,7 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (wParam == 0 && !lstrcmpA(setting, "Enabled")) {
 		if (PluginConfig.g_MetaContactsAvail && !lstrcmpA(cws->szModule, PluginConfig.szMetaName)) { 		// catch the disabled meta contacts
 			PluginConfig.bMetaEnabled = abs(M.GetByte(PluginConfig.szMetaName, "Enabled", -1));
-			cacheUpdateMetaChanged();
+			CContactCache::cacheUpdateMetaChanged();
 		}
 	}
 
@@ -718,38 +718,6 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 		dbei.timestamp = time(NULL);
 		dbei.szModule = const_cast<char *>(c->getProto());
 		db_event_add(hContact, &dbei);
-	}
-}
-
-/**
- * when the state of the meta contacts protocol changes from enabled to disabled
- * (or vice versa), this updates the contact cache
- *
- * it is ONLY called from the DBSettingChanged() event handler when the relevant
- * database value is touched.
- */
-void CGlobals::cacheUpdateMetaChanged()
-{
-	CContactCache* 	c = CContactCache::m_cCache;
-	bool			fMetaActive = (PluginConfig.g_MetaContactsAvail && PluginConfig.bMetaEnabled) ? true : false;
-
-	while(c) {
-		if (c->isMeta() && PluginConfig.bMetaEnabled == false) {
-			c->closeWindow();
-			c->resetMeta();
-		}
-
-		// meta contacts are enabled, but current contact is a subcontact - > close window
-
-		if (fMetaActive && c->isSubContact())
-			c->closeWindow();
-
-		// reset meta contact information, if metacontacts protocol became avail
-
-		if (fMetaActive && !strcmp(c->getProto(), PluginConfig.szMetaName))
-			c->resetMeta();
-
-		c = c->m_next;
 	}
 }
 

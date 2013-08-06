@@ -2953,7 +2953,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						char* utfResult = NULL;
 						if (final_sendformat)
 							DoRtfToTags(decoded, dat);
-						DoTrimMessage(decoded);
+						rtrimt(decoded);
 						bufSize = WideCharToMultiByte(dat->codePage, 0, decoded, -1, dat->sendBuffer, 0, 0, 0);
 
 						if (!IsUtfSendAvailable(dat->hContact)) {

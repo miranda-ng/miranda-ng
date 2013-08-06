@@ -49,7 +49,6 @@ void	TSAPI SetDialogToType				(HWND hwndDlg);
 void	TSAPI FlashOnClist					(HWND hwndDlg, TWindowData *dat, HANDLE hEvent, DBEVENTINFO *dbei);
 char*	TSAPI Message_GetFromStream			(HWND hwndDlg, const TWindowData *dat, DWORD dwPassedFlags);
 BOOL	TSAPI DoRtfToTags					(TCHAR * pszText, const TWindowData *dat);
-void	TSAPI DoTrimMessage					(TCHAR *msg);
 void	TSAPI GetMYUIN						(TWindowData *dat);
 void	TSAPI SetMessageLog					(TWindowData *dat);
 void	TSAPI SwitchMessageLog				(TWindowData *dat, int iMode);

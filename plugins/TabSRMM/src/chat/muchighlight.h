@@ -58,26 +58,26 @@ public:
 		cleanup();
 	}
 
-	void                                    init        ();
-	void                                    cleanup     ();
-	int                                 	match       (const GCEVENT *pgce, const SESSION_INFO *psi,
-														 DWORD dwFlags = MATCH_NICKNAME);
+	void init();
+	void cleanup();
+	int  match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwFlags = MATCH_NICKNAME);
 
-	static INT_PTR CALLBACK                	dlgProc     (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);		   // option page dlg proc
-	static INT_PTR CALLBACK                	dlgProcAdd  (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);		   // for the "add to" dialog
+	static INT_PTR CALLBACK dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);		   // option page dlg proc
+	static INT_PTR CALLBACK dlgProcAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);		   // for the "add to" dialog
+
 private:
-	void 									tokenize(TCHAR *tszString, TCHAR**& patterns, UINT& nr);
-	int 									wildmatch	(const TCHAR *pattern, const TCHAR *tszString);
-	DWORD									m_dwFlags;
-	bool                                   	m_fInitialized;
-	TCHAR**									m_NickPatterns;
-	TCHAR**									m_TextPatterns;
-	UINT									m_iNickPatterns;
-	UINT									m_iTextPatterns;
-	TCHAR                             *    	m_NickPatternString;
-	TCHAR                             *    	m_TextPatternString;
-	bool									m_Valid;
-	bool									m_fHighlightMe;
+	void    tokenize(TCHAR *tszString, TCHAR**& patterns, UINT& nr);
+	int     wildmatch	(const TCHAR *pattern, const TCHAR *tszString);
+	DWORD   m_dwFlags;
+	bool    m_fInitialized;
+	TCHAR** m_NickPatterns;
+	TCHAR** m_TextPatterns;
+	UINT    m_iNickPatterns;
+	UINT    m_iTextPatterns;
+	TCHAR  *m_NickPatternString;
+	TCHAR  *m_TextPatternString;
+	bool    m_Valid;
+	bool    m_fHighlightMe;
 };
 
 struct THighLightEdit
@@ -87,8 +87,8 @@ struct THighLightEdit
 		CMD_EDIT = 2
 	};
 
-	UINT			uCmd;
-	SESSION_INFO	*si;
-	USERINFO		*ui;
+	UINT uCmd;
+	SESSION_INFO *si;
+	USERINFO *ui;
 };
 
