@@ -48,6 +48,8 @@ DBVTranslation idleTr[TRANSNUMBER]={
 
 BOOL includeIdle;
 LIST<logthread_info> arContacts(16, HandleKeySortT);
+CRITICAL_SECTION csContacts;
+
 
 int MainInit(WPARAM,LPARAM)
 {
@@ -97,6 +99,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfo);
 
 	g_hShutdownEvent = CreateEvent(0, TRUE, FALSE, 0); 
+	InitializeCriticalSection(&csContacts);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
@@ -114,6 +117,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 		UnhookEvent(ehmissed);
 
 	arContacts.destroy();
+	DeleteCriticalSection(&csContacts);
 	CloseHandle(g_hShutdownEvent);
 	return 0;
 }

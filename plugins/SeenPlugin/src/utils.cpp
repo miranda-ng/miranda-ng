@@ -516,17 +516,6 @@ void myPlaySound(HANDLE hcontact, WORD newStatus, WORD oldStatus)
 }
 
 //will add hContact to queue and will return position;
-static logthread_info* addContactToQueue(HANDLE hContact)
-{
-	if (!hContact)
-		return NULL;
-
-	logthread_info *p = (logthread_info*)mir_calloc(sizeof(logthread_info));
-	p->hContact = hContact;
-	arContacts.insert(p);
-	return p;
-}
-
 static void waitThread(void *param)
 {
 	logthread_info* infoParam = (logthread_info*)param;
@@ -547,8 +536,10 @@ static void waitThread(void *param)
 			db_set_w(infoParam->hContact,S_MOD,"StatusTriger",infoParam->currStatus);
 		}
 	}
-
-	arContacts.remove(infoParam);
+	{
+		mir_cslock lck(csContacts);
+		arContacts.remove(infoParam);
+	}
 	mir_free(infoParam);
 }
 
@@ -626,13 +617,16 @@ int UpdateValues(WPARAM wparam,LPARAM lparam)
 			db_set_b(hContact, S_MOD, "Offline", 0);
 		}
 	}
-	else if (IsWatchedProtocol(cws->szModule)) {
+	else if (hContact && IsWatchedProtocol(cws->szModule)) {
 		//here we will come when <User>/<module>/Status is changed or it is idle event and if <module> is watched
 		if ( CallProtoService(cws->szModule,PS_GETSTATUS,0,0) > ID_STATUS_OFFLINE){
+			mir_cslock lck(csContacts);
 			logthread_info *p = arContacts.find((logthread_info*)&hContact);
 			if (p == NULL) {
-				p = addContactToQueue(hContact);
+				p = (logthread_info*)mir_calloc(sizeof(logthread_info));
+				p->hContact = hContact;
 				strncpy(p->sProtoName, cws->szModule, MAXMODULELABELLENGTH);
+				arContacts.insert(p);
 				mir_forkthread(waitThread, p);
 			}
 			p->currStatus = isIdleEvent ? db_get_w(hContact, cws->szModule, "Status", ID_STATUS_OFFLINE) : cws->value.wVal;

@@ -124,3 +124,4 @@ extern HGENMENU hmenuitem;
 extern DWORD dwmirver;
 
 extern LIST<logthread_info> arContacts;
+extern CRITICAL_SECTION csContacts;
