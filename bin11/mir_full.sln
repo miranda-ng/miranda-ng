@@ -403,6 +403,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Exchange", "..\plugins\Exch
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Skype", "..\protocols\Skype\Skype_11.vcxproj", "{F5282DBC-756B-4071-B186-3E82C0E8E1F7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WebView", "..\plugins\WebView\webview_11.vcxproj", "{475ED6ED-C311-4188-ACB2-1C41830B22EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1803,6 +1805,14 @@ Global
 		{F5282DBC-756B-4071-B186-3E82C0E8E1F7}.Debug|x64.ActiveCfg = Debug|x64
 		{F5282DBC-756B-4071-B186-3E82C0E8E1F7}.Release|Win32.ActiveCfg = Release|Win32
 		{F5282DBC-756B-4071-B186-3E82C0E8E1F7}.Release|x64.ActiveCfg = Release|x64
+		{475ED6ED-C311-4188-ACB2-1C41830B22EE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{475ED6ED-C311-4188-ACB2-1C41830B22EE}.Debug|Win32.Build.0 = Debug|Win32
+		{475ED6ED-C311-4188-ACB2-1C41830B22EE}.Debug|x64.ActiveCfg = Debug|x64
+		{475ED6ED-C311-4188-ACB2-1C41830B22EE}.Debug|x64.Build.0 = Debug|x64
+		{475ED6ED-C311-4188-ACB2-1C41830B22EE}.Release|Win32.ActiveCfg = Release|Win32
+		{475ED6ED-C311-4188-ACB2-1C41830B22EE}.Release|Win32.Build.0 = Release|Win32
+		{475ED6ED-C311-4188-ACB2-1C41830B22EE}.Release|x64.ActiveCfg = Release|x64
+		{475ED6ED-C311-4188-ACB2-1C41830B22EE}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
