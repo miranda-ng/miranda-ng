@@ -284,7 +284,7 @@ static int VisibilityOptInitialise(WPARAM wParam, LPARAM)
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_VISIBILITY);
 	odp.pszTitle = LPGEN("Visibility");
-	odp.pszGroup = LPGEN("Status");
+	odp.pszGroup = LPGEN("Contacts");
 	odp.pfnDlgProc = DlgProcVisibilityOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
