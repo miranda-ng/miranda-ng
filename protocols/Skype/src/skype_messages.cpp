@@ -47,7 +47,7 @@ void CSkypeProto::OnMessageReceived(const ConversationRef &conversation, const M
 	message->GetPropConsumptionStatus(status);
 		
 	message->GetPropBodyXml(data);
-	char *text = CSkypeProto::RemoveHtml(data);
+	ptrA text( CSkypeProto::RemoveHtml(data));
 
 	ContactRef author;
 	message->GetPropAuthor(data);

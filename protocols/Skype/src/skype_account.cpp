@@ -107,7 +107,7 @@ bool CSkypeProto::LogIn()
 	if (this->IsOnline() || !this->PrepareLogin())
 		return false;
 
-	if (this->GetAccount(::mir_u2a(this->login), this->account))
+	if (this->GetAccount((char*)_T2A(this->login), this->account))
 	{
 		if ( !this->PreparePassword())
 			return false;

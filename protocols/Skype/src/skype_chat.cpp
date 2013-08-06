@@ -134,12 +134,10 @@ ChatRoom::ChatRoom(const wchar_t *cid, const wchar_t *name, CSkypeProto *ppro) :
 
 ChatRoom::~ChatRoom()
 {
-	if (this->cid != NULL)
-		::mir_free(this->cid);
-	if (this->name != NULL)
-		::mir_free(this->name);
-	if (this->me != NULL)
-		delete this->me;
+	::mir_free(this->cid);
+	::mir_free(this->name);
+	delete this->me;
+	delete this->sys;
 	this->members.destroy();
 }
 
@@ -664,7 +662,7 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 			ptrW sid = ::mir_utf8decodeW(data);
 
 			message->GetPropBodyXml(data);
-			ptrW text =::mir_utf8decodeW(CSkypeProto::RemoveHtml(data));
+			ptrW text =::mir_utf8decodeW( ptrA(CSkypeProto::RemoveHtml(data)));
 
 			uint timestamp;
 			message->GetPropTimestamp(timestamp);
@@ -1290,7 +1288,7 @@ ChatRoom *CSkypeProto::FindChatRoom(const wchar_t *cid)
 	GC_INFO gci = {0};
 	gci.Flags = BYID | DATA;
 	gci.pszModule = this->m_szModuleName;
-	gci.pszID = ::mir_wstrdup(cid);
+	gci.pszID = (wchar_t*)cid;
 
 	if ( !::CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci))
 		return (ChatRoom *)gci.dwItemData;
