@@ -26,6 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_core.h>
 
+#pragma warning(disable:4190)
+
 #ifdef __cplusplus
 
 typedef void JSONNODE;
@@ -116,22 +118,10 @@ MIR_CORE_DLL(JSONNODE*) json_pop_back(JSONNODE * node, const char * name);
 MIR_CORE_DLL(int) json_equal(JSONNODE * node, JSONNODE * node2);
 
 #ifdef __cplusplus
+#ifdef _XSTRING_
+MIR_CORE_DLL(std::string) json_as_pstring(const JSONNODE * node);
+#endif
 }
-
-class json_ptr
-{
-	char *data;
-
-public:
-	__inline json_ptr() : data(NULL) {}
-	__inline json_ptr(char *_p) : data(_p) {}
-	__inline ~json_ptr() { json_free(data); }
-	__inline char* operator = (char* _p) { if (data) json_free(data); data = _p; return data; }
-	__inline char* operator->() const { return data; }
-	__inline operator char*() const { return data; }
-};
-
-#define JSON_AS_STRING(A) ((char*)json_ptr(json_as_string(A)))
 
 #endif
 

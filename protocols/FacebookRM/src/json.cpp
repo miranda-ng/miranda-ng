@@ -71,7 +71,7 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 	if (mobileFriends != NULL) {
 		for (unsigned int i = 0; i < json_size(mobileFriends); i++) {
 			JSONNODE *it = json_at(mobileFriends, i);
-			std::string id( JSON_AS_STRING(it));
+			std::string id = json_as_pstring(it);
 			
 			current = buddy_list->find(id);
 			if (current == NULL) {
@@ -122,9 +122,9 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 			JSONNODE *thumbSrc = json_get(it, "thumbSrc");
 
 			if (name != NULL)
-				current->real_name = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(JSON_AS_STRING(name)));
+				current->real_name = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_pstring(name)));
 			if (thumbSrc != NULL)			
-				current->image_url = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(JSON_AS_STRING(thumbSrc)));
+				current->image_url = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_pstring(thumbSrc)));
 		}
 	}
 
@@ -162,9 +162,9 @@ int facebook_json_parser::parse_friends(void* data, std::map< std::string, faceb
 
 		fbu->user_id = id;
 		if (name)
-			fbu->real_name = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(JSON_AS_STRING(name)));
+			fbu->real_name = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_pstring(name)));
 		if (thumbSrc)
-			fbu->image_url = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(JSON_AS_STRING(thumbSrc)));
+			fbu->image_url = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_pstring(thumbSrc)));
 
 		if (gender)
 			switch (json_as_int(gender)) {
@@ -216,7 +216,7 @@ int facebook_json_parser::parse_notifications(void *data, std::vector< facebook_
 		if (markup == NULL || unread == NULL || json_as_int(unread) == 0)
 			continue;
 
-		std::string text = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(JSON_AS_STRING(markup)));
+		std::string text = utils::text::slashu_to_utf8(utils::text::special_expressions_decode(json_as_pstring(markup)));
 
 		facebook_notification* notification = new facebook_notification();
 
@@ -262,12 +262,12 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 			if (attach_type != NULL) {
 				// Get attachment type - "file" has priority over other types
 				if (type.empty() || type != "file")
-					type = JSON_AS_STRING(attach_type);
+					type = json_as_pstring(attach_type);
 			}
 			JSONNODE *name = json_get(itAttachment, "name");
 			JSONNODE *url = json_get(itAttachment, "url");
 			if (url != NULL) {
-				std::string link = JSON_AS_STRING(url);
+				std::string link = json_as_pstring(url);
 							
 				if (link.find("/ajax/mercury/attachments/photo/view/") != std::string::npos)
 					// fix photo url
@@ -281,7 +281,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 				if (!link.empty()) {
 					std::string filename;
 					if (name != NULL)
-						filename = JSON_AS_STRING(name);
+						filename = json_as_pstring(name);
 					if (filename == "null")
 						filename.clear();
 
@@ -298,7 +298,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 			// we can use this as offline messages doesn't have it
 			/* JSONNODE *admin_snippet = json_get(it, "admin_snippet");
 			if (admin_snippet != NULL) {
-				*message_text += JSON_AS_STRING(admin_snippet);
+				*message_text += json_as_pstring(admin_snippet);
 			} */
 
 			std::tstring newText;
@@ -341,7 +341,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 		if (type == NULL)
 			continue;
 
-		std::string t = JSON_AS_STRING(type);
+		std::string t = json_as_pstring(type);
 		if (t == "msg" || t == "offline_msg") {
 			// we use this only for outgoing messages
 			
@@ -361,14 +361,14 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			if (from == NULL || from_name == NULL || text == NULL || messageId == NULL || time == NULL)
 				continue;
 
-			std::string from_id = JSON_AS_STRING(from);
+			std::string from_id = json_as_pstring(from);
 
 			// ignore incomming messages
 			if (from_id != proto->facy.self_.user_id)
 				continue;
 
-			std::string message_id = JSON_AS_STRING(messageId);
-			std::string message_text = JSON_AS_STRING(text);
+			std::string message_id = json_as_pstring(messageId);
+			std::string message_text = json_as_pstring(text);
 
 			message_text = utils::text::trim(utils::text::special_expressions_decode(utils::text::slashu_to_utf8(message_text)), true);
 			if (message_text.empty())
@@ -394,9 +394,9 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 			facebook_message* message = new facebook_message();
 			message->message_text = message_text;
-			message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(JSON_AS_STRING(to_name)));
+			message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_pstring(to_name)));
 			message->time = utils::time::fix_timestamp(json_as_float(time));
-			message->user_id = JSON_AS_STRING(to); // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
+			message->user_id = json_as_pstring(to); // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
 			message->message_id = message_id;
 			message->isIncoming = false;
 
@@ -408,7 +408,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			if (type == NULL)
 				continue;
 
-			std::string t = JSON_AS_STRING(type);
+			std::string t = json_as_pstring(type);
 
 			if (t == "read_receipt") {
 				// user read message
@@ -419,7 +419,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					continue;
 
 				// TODO: add check for chat contacts
-				HANDLE hContact = proto->ContactIDToHContact(JSON_AS_STRING(reader));
+				HANDLE hContact = proto->ContactIDToHContact(json_as_pstring(reader));
 				if (hContact) {
 					TCHAR ttime[64], tstr[100];
 					_tcsftime(ttime, SIZEOF(ttime), _T("%X"), utils::conversion::fbtime_to_timeinfo(json_as_float(time)));
@@ -442,9 +442,9 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				if (sender_fbid == NULL || sender_name == NULL || body == NULL || mid == NULL || timestamp == NULL)
 					continue;
 
-				std::string id = JSON_AS_STRING(sender_fbid);
-				std::string message_id = JSON_AS_STRING(mid);
-				std::string message_text = JSON_AS_STRING(body);
+				std::string id = json_as_pstring(sender_fbid);
+				std::string message_id = json_as_pstring(mid);
+				std::string message_text = json_as_pstring(body);
 
 				// Process attachements and stickers
 				parseAttachments(proto, &message_text, msg);
@@ -463,7 +463,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 				facebook_message* message = new facebook_message();
 				message->message_text = message_text;
-				message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(JSON_AS_STRING(sender_name)));
+				message->sender_name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_pstring(sender_name)));
 				message->time = utils::time::fix_timestamp(json_as_float(timestamp));
 				message->user_id = id; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
 				message->message_id = message_id;
@@ -488,9 +488,9 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			if (from_id == NULL || text == NULL || messageId == NULL)
 				continue;
 
-			std::string id = JSON_AS_STRING(from_id);
-			std::string message_id = JSON_AS_STRING(messageId);
-			std::string message_text = JSON_AS_STRING(text);
+			std::string id = json_as_pstring(from_id);
+			std::string message_id = json_as_pstring(messageId);
+			std::string message_text = json_as_pstring(text);
 
 			// Ignore messages from myself
 			if (id == proto->facy.self_.user_id)
@@ -504,9 +504,9 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			if (message_text.empty())
 				continue;
 
-			std::string title = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(JSON_AS_STRING(to_name)));
+			std::string title = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_pstring(to_name)));
 			std::string url = "/?action=read&sk=inbox&page&query&tid=" + id;
-			std::string popup_text = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(JSON_AS_STRING(from_name)));
+			std::string popup_text = utils::text::special_expressions_decode(utils::text::slashu_to_utf8(json_as_pstring(from_name)));
 			popup_text += ": " + message_text;
 
 			proto->Log("      Got multichat message");
@@ -547,9 +547,9 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					proto->facy.last_notification_time_ = timestamp;
 
 					facebook_notification* notification = new facebook_notification();
-					notification->text = utils::text::slashu_to_utf8(JSON_AS_STRING(text));
-  					notification->link = utils::text::special_expressions_decode(JSON_AS_STRING(url));					
-					notification->id = JSON_AS_STRING(alert_id);
+					notification->text = utils::text::slashu_to_utf8(json_as_pstring(text));
+  					notification->link = utils::text::special_expressions_decode(json_as_pstring(url));					
+					notification->id = json_as_pstring(alert_id);
 
 					std::string::size_type pos = notification->id.find(":");
 					if (pos != std::string::npos)
@@ -566,7 +566,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				continue;
 
 			facebook_user fbu;
-			fbu.user_id = JSON_AS_STRING(from);
+			fbu.user_id = json_as_pstring(from);
 
 			HANDLE hContact = proto->AddToContactList(&fbu, CONTACT_FRIEND);
 				
@@ -587,7 +587,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			if (event_type == NULL || event_data == NULL)
 				continue;
 
-			std::string t = JSON_AS_STRING(event_type);
+			std::string t = json_as_pstring(event_type);
 			if (t == "visibility_update") {
 				// change of chat status
 				JSONNODE *visibility = json_get(event_data, "visibility");
@@ -641,7 +641,7 @@ int facebook_json_parser::parse_unread_threads(void* data, std::vector< std::str
 
 		for (unsigned int j = 0; j < json_size(thread_ids); j++) {
 			JSONNODE *id = json_at(thread_ids, j);
-			threads->push_back(JSON_AS_STRING(id));
+			threads->push_back(json_as_pstring(id));
 		}
 	}
 
@@ -680,11 +680,11 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		if (canonical == NULL || thread_id == NULL)
 			continue;
 
-		std::string id = JSON_AS_STRING(canonical);
+		std::string id = json_as_pstring(canonical);
 		if (id == "null")
 			continue;
 		
-		std::string tid = JSON_AS_STRING(thread_id);
+		std::string tid = json_as_pstring(thread_id);
 		thread_ids.insert(std::make_pair(tid, id));
 	}
 
@@ -707,14 +707,14 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 			continue;
 
 		// Try to get user id from "threads" array (and simultaneously ignore multi user threads)		
-		std::map<std::string, std::string>::iterator iter = thread_ids.find(JSON_AS_STRING(tid));
+		std::map<std::string, std::string>::iterator iter = thread_ids.find(json_as_pstring(tid));
 		if (iter == thread_ids.end())
 			continue; // not found or ignored multi user thread
 
 		std::string user_id = iter->second;
-		std::string message_id = JSON_AS_STRING(mid);
-		std::string message_text = JSON_AS_STRING(body);
-		std::string author_id = JSON_AS_STRING(author);
+		std::string message_id = json_as_pstring(mid);
+		std::string message_text = json_as_pstring(body);
+		std::string author_id = json_as_pstring(author);
 		std::string::size_type pos = author_id.find(":");
 		if (pos != std::string::npos)
 			author_id = author_id.substr(pos+1);
@@ -729,7 +729,7 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		facebook_message* message = new facebook_message();
 		message->message_text = message_text;
 		if (author_email != NULL)
-			message->sender_name = JSON_AS_STRING(author_email);
+			message->sender_name = json_as_pstring(author_email);
 		message->time = utils::time::fix_timestamp(json_as_float(timestamp));
 		message->user_id = user_id; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
 		message->message_id = message_id;

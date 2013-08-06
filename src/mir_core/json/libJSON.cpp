@@ -152,13 +152,6 @@ MIR_CORE_DLL(json_char*) json_strip_white_space(const json_char * json){
 	}
 #endif
 
-#ifdef JSON_MEMORY_CALLBACKS
-	MIR_CORE_DLL(void) json_register_memory_callbacks(json_malloc_t mal, json_realloc_t real, json_free_t fre){
-		JSONMemory::registerMemoryCallbacks(mal, real, fre);
-	}
-#endif
-
-
 /*
 stuff that's in class JSONNode
 */
@@ -281,6 +274,11 @@ MIR_CORE_DLL(const json_char*) json_name(const JSONNODE * node){
 MIR_CORE_DLL(json_char*) json_as_string(const JSONNODE * node){
 	JSON_ASSERT_SAFE(node, JSON_TEXT("null node to json_as_string"), return toCString(EMPTY_CSTRING););
 	return toCString(((JSONNode*)node) -> as_string());
+}
+
+MIR_CORE_DLL(std::string) json_as_pstring(const JSONNODE * node){
+	JSON_ASSERT_SAFE(node, JSON_TEXT("null node to json_as_string"), return toCString(EMPTY_CSTRING););
+	return ((JSONNode*)node) -> as_string();
 }
 
 MIR_CORE_DLL(long) json_as_int(const JSONNODE * node){
