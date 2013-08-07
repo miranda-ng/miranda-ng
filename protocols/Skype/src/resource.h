@@ -104,6 +104,12 @@
 #define IDC_PRIVACY_WEB                 1073
 #define IDC_CREDITVALUE                 1074
 #define IDC_CREDITCURRENCY              1075
+#define IDC_PRIVACY_AVATAR_ANYONE       1076
+#define IDC_PRIVACY_AVATARS_CONTACTLIST 1077
+#define IDC_PRIVACY_COUNT_ANYONE        1078
+#define IDC_PRIVACY_COUNT_CONTACTLIST   1079
+#define IDC_PRIVACY_TIME_ANYONE         1080
+#define IDC_PRIVACY_TIME_CONTACTLIST    1081
 
 // Next default values for new objects
 // 
@@ -111,7 +117,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        118
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1076
+#define _APS_NEXT_CONTROL_VALUE         1082
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

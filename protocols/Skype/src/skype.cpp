@@ -92,7 +92,7 @@ int UnpackSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName)
 	wchar_t *skypeKitPath = ::wcsrchr(fileName, '\\');
 	if (skypeKitPath != NULL)
 		*skypeKitPath = 0;
-	::swprintf(fileName, SIZEOF(fileName), L"%s\\%s", fileName, L"SkypeKit.exe");
+	::mir_snwprintf(fileName, SIZEOF(fileName), L"%s\\%s", fileName, L"SkypeKit.exe");
 	if ( ::GetFileAttributes(fileName) == DWORD(-1))
 	{
 		HRSRC hRes = ::FindResource(hInstance, MAKEINTRESOURCE(IDR_RUNTIME), L"BIN");
@@ -126,14 +126,14 @@ int UnpackSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName)
 						::GetModuleFileName(NULL, path, ARRAYSIZE(path));
 
 						if (profileName)
-							::swprintf(
+							::mir_snwprintf(
 							cmdLine,
 							SIZEOF(cmdLine),
 							L" /restart:%d /profile=%s",
 							::GetCurrentProcessId(),
 							profileName);
 						else
-							::swprintf(
+							::mir_snwprintf(
 							cmdLine,
 							SIZEOF(cmdLine),
 							L" /restart:%d",

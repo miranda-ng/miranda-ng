@@ -274,21 +274,33 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Allow IMs from...",IDC_STATIC,4,4,294,39
-    CONTROL         "Anyone",IDC_PRIVACY_IM_ANYONE,"Button",BS_AUTORADIOBUTTON,11,17,58,10
+    GROUPBOX        "Allow IMs from...",IDC_STATIC,4,1,294,31
+    CONTROL         "Anyone",IDC_PRIVACY_IM_ANYONE,"Button",BS_AUTORADIOBUTTON,11,10,126,10
     CONTROL         "People in my Contact list only",IDC_PRIVACY_IM_CONTACTLIST,
-                    "Button",BS_AUTORADIOBUTTON,11,29,138,10
-    GROUPBOX        "Allow calls from...",IDC_STATIC,5,44,293,40
-    CONTROL         "Anyone",IDC_PRIVACY_CALL_ANYONE,"Button",BS_AUTORADIOBUTTON,15,56,69,10
+                    "Button",BS_AUTORADIOBUTTON,11,20,158,10
+    GROUPBOX        "Allow calls from...",IDC_STATIC,5,32,293,31
+    CONTROL         "Anyone",IDC_PRIVACY_CALL_ANYONE,"Button",BS_AUTORADIOBUTTON,12,41,69,10
     CONTROL         "People in my Contact list only",IDC_PRIVACY_CALL_CONTACTLIST,
-                    "Button",BS_AUTORADIOBUTTON,15,68,129,10
-    GROUPBOX        "Automatically receive video and share screens with...",IDC_STATIC,6,87,291,46
-    CONTROL         "Anyone",IDC_PRIVACY_SHARE_ANYONE,"Button",BS_AUTORADIOBUTTON,12,96,41,10
+                    "Button",BS_AUTORADIOBUTTON,12,51,129,10
+    GROUPBOX        "Automatically receive video and share screens with...",IDC_STATIC,6,63,291,42
+    CONTROL         "Anyone",IDC_PRIVACY_SHARE_ANYONE,"Button",BS_AUTORADIOBUTTON,12,72,41,10
     CONTROL         "People in my Contact list only",IDC_PRIVACY_SHARE_CONTACTLIST,
-                    "Button",BS_AUTORADIOBUTTON,12,107,123,10
-    CONTROL         "No one",IDC_PRIVACY_SHARE_NOONE,"Button",BS_AUTORADIOBUTTON,11,118,39,10
+                    "Button",BS_AUTORADIOBUTTON,12,82,123,10
+    CONTROL         "No one",IDC_PRIVACY_SHARE_NOONE,"Button",BS_AUTORADIOBUTTON,12,92,39,10
     CONTROL         "Allow my online status to be shown on the web",IDC_PRIVACY_WEB,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,138,187,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,204,187,10
+    GROUPBOX        "Show avatars",IDC_STATIC,7,104,289,33
+    CONTROL         "Anyone",IDC_PRIVACY_AVATAR_ANYONE,"Button",BS_AUTORADIOBUTTON,13,113,41,10
+    CONTROL         "People in my Contact list only",IDC_PRIVACY_AVATARS_CONTACTLIST,
+                    "Button",BS_AUTORADIOBUTTON,13,124,109,10
+    GROUPBOX        "Contacts count",IDC_STATIC,8,137,289,31
+    CONTROL         "Anyone",IDC_PRIVACY_COUNT_ANYONE,"Button",BS_AUTORADIOBUTTON,13,146,41,10
+    CONTROL         "People in my Contact list only",IDC_PRIVACY_COUNT_CONTACTLIST,
+                    "Button",BS_AUTORADIOBUTTON,13,156,109,10
+    GROUPBOX        "Local time",IDC_STATIC,9,168,287,32
+    CONTROL         "Anyone",IDC_PRIVACY_TIME_ANYONE,"Button",BS_AUTORADIOBUTTON,15,177,66,10
+    CONTROL         "People in my Contact list only",IDC_PRIVACY_TIME_CONTACTLIST,
+                    "Button",BS_AUTORADIOBUTTON,15,187,109,10
 END
 
 IDD_BLOCK DIALOGEX 0, 0, 295, 170

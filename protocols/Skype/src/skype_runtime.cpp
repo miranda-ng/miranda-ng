@@ -23,8 +23,8 @@ char *CSkypeProto::LoadKeyPair()
 		return NULL;
 
 	char* pData = (char*)_alloca(length + 1);
-    ::memcpy(pData, pLockedResource, length);
-    pData[length] = 0;
+	::memcpy(pData, pLockedResource, length);
+	pData[length] = 0;
 
 	unsigned decodedLen;
 	mir_ptr<BYTE> tmpD((BYTE*)::mir_base64_decode(pData, &decodedLen));
@@ -55,7 +55,7 @@ int CSkypeProto::StartSkypeRuntime(const wchar_t *profileName)
 	wchar_t *skypeKitPath = ::wcsrchr(fileName, '\\');
 	if (skypeKitPath != NULL)
 		*skypeKitPath = 0;
-	::swprintf(fileName, SIZEOF(fileName), L"%s\\%s", fileName, L"SkypeKit.exe");
+	::mir_snwprintf(fileName, SIZEOF(fileName), L"%s\\%s", fileName, L"SkypeKit.exe");
 
 	PROCESSENTRY32 entry;
 	entry.dwSize = sizeof(PROCESSENTRY32);
@@ -77,7 +77,7 @@ int CSkypeProto::StartSkypeRuntime(const wchar_t *profileName)
 
 	wchar_t param[128];
 	VARST dbPath( _T("%miranda_userdata%\\SkypeKit"));
-	::swprintf(param, SIZEOF(param), L"-p -P %d -f \"%s\"", this->skypeKitPort, dbPath);
+	::mir_snwprintf(param, SIZEOF(param), L"-p -P %d -f \"%s\"", this->skypeKitPort, dbPath);
 	int startingrt = ::CreateProcess(
 		fileName, param,
 		NULL, NULL, FALSE,
@@ -89,59 +89,59 @@ int CSkypeProto::StartSkypeRuntime(const wchar_t *profileName)
 
 BOOL CSkypeProto::SafeTerminateProcess(HANDLE hProcess, UINT uExitCode)
 {
-    DWORD dwTID, dwCode, dwErr = 0;
-    HANDLE hProcessDup = INVALID_HANDLE_VALUE;
-    HANDLE hRT = NULL;
-    HINSTANCE hKernel = ::GetModuleHandle(L"Kernel32");
-    BOOL bSuccess = FALSE;
+	DWORD dwTID, dwCode, dwErr = 0;
+	HANDLE hProcessDup = INVALID_HANDLE_VALUE;
+	HANDLE hRT = NULL;
+	HINSTANCE hKernel = ::GetModuleHandle(L"Kernel32");
+	BOOL bSuccess = FALSE;
 
-    BOOL bDup = ::DuplicateHandle(
-		::GetCurrentProcess(), 
-		hProcess, 
-		GetCurrentProcess(), 
-		&hProcessDup, 
-		PROCESS_ALL_ACCESS, 
+	BOOL bDup = ::DuplicateHandle(
+		::GetCurrentProcess(),
+		hProcess,
+		GetCurrentProcess(),
+		&hProcessDup,
+		PROCESS_ALL_ACCESS,
 		FALSE, 
 		0);
 
-    // Detect the special case where the process is 
-    // already dead...
-    if (::GetExitCodeProcess((bDup) ? hProcessDup : hProcess, &dwCode) && (dwCode == STILL_ACTIVE))
-    {
-        FARPROC pfnExitProc;
-           
-        pfnExitProc = GetProcAddress(hKernel, "ExitProcess");
+	// Detect the special case where the process is 
+	// already dead...
+	if (::GetExitCodeProcess((bDup) ? hProcessDup : hProcess, &dwCode) && (dwCode == STILL_ACTIVE))
+	{
+		FARPROC pfnExitProc;
 
-        hRT = ::CreateRemoteThread(
+		pfnExitProc = GetProcAddress(hKernel, "ExitProcess");
+
+		hRT = ::CreateRemoteThread(
 			(bDup) ? hProcessDup : hProcess, 
 			NULL, 
 			0, 
 			(LPTHREAD_START_ROUTINE)pfnExitProc,
 			(PVOID)uExitCode, 0, &dwTID);
 
-        if ( hRT == NULL )
-            dwErr = GetLastError();
-    }
-    else
-        dwErr = ERROR_PROCESS_ABORTED;
+		if ( hRT == NULL )
+			dwErr = GetLastError();
+	}
+	else
+		dwErr = ERROR_PROCESS_ABORTED;
 
-    if (hRT)
-    {
-        // Must wait process to terminate to 
-        // guarantee that it has exited...
-        ::WaitForSingleObject((bDup) ? hProcessDup : hProcess, INFINITE);
+	if (hRT)
+	{
+		// Must wait process to terminate to 
+		// guarantee that it has exited...
+		::WaitForSingleObject((bDup) ? hProcessDup : hProcess, INFINITE);
 
-        ::CloseHandle(hRT);
-        bSuccess = TRUE;
-    }
+		::CloseHandle(hRT);
+		bSuccess = TRUE;
+	}
 
-    if ( bDup )
-        ::CloseHandle(hProcessDup);
+	if ( bDup )
+		::CloseHandle(hProcessDup);
 
-    if ( !bSuccess )
-        ::SetLastError(dwErr);
+	if ( !bSuccess )
+		::SetLastError(dwErr);
 
-    return bSuccess;
+	return bSuccess;
 }
 
 void CSkypeProto::StopSkypeRuntime()
