@@ -662,7 +662,7 @@ u_char* CMLan::CreatePacket(TPacket& pak, int* pBufLen)
 	int len = 1;
 
 	if (pak.idVersion != -1)
-		pak.idVersion = __FILEVERSION_STRING;
+		pak.idVersion = __FILEVERSION_DWORD;
 	else
 		pak.idVersion = 0;
 	if (pak.idStatus != -1)
