@@ -55,12 +55,17 @@
 #include <m_clc.h>
 #include <m_utils.h>
 #include <m_popup.h>
-
 #include <win2k.h>
 
 #include "m_toptoolbar.h"
 #include "m_smileyadd.h"
 #include "m_metacontacts.h"
+
+#include "..\zlib\src\zlib.h"
+#include "..\zlib\src\ioapi.h"
+#include "..\zlib\src\zip.h"
+#include "..\zlib\src\unzip.h"
+#include "..\zlib\src\iowin32.h"
 
 #include "version.h"
 #include "HistoryWindow.h"
