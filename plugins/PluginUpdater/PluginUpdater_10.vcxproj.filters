@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="Source Files\Minizip">
-      <UniqueIdentifier>{845e5403-a8df-47fc-a179-7ac2048f954d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Resource.rc">
@@ -37,27 +34,6 @@
     </ClInclude>
     <ClInclude Include="src\Notifications.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Minizip\crypt.h">
-      <Filter>Source Files\Minizip</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Minizip\ioapi.h">
-      <Filter>Source Files\Minizip</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Minizip\iowin32.h">
-      <Filter>Source Files\Minizip</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Minizip\unzip.h">
-      <Filter>Source Files\Minizip</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Minizip\zconf.h">
-      <Filter>Source Files\Minizip</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Minizip\zip.h">
-      <Filter>Source Files\Minizip</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Minizip\zlib.h">
-      <Filter>Source Files\Minizip</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -81,15 +57,6 @@
     </ClCompile>
     <ClCompile Include="src\unzipfile.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Minizip\ioapi.c">
-      <Filter>Source Files\Minizip</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Minizip\iowin32.c">
-      <Filter>Source Files\Minizip</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Minizip\unzip.c">
-      <Filter>Source Files\Minizip</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>

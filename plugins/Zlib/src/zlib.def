@@ -97,4 +97,8 @@ EXPORTS
     unzOpenCurrentFilePassword
     unzCloseCurrentFile
     unzReadCurrentFile
-	fill_win32_filefunc
+    fill_win32_filefunc
+    unzGetCurrentFileInfo64
+    unzOpenCurrentFile
+    fill_fopen64_filefunc
+    unzOpen2_64
