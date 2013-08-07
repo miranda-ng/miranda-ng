@@ -909,19 +909,19 @@ static VOID CALLBACK CheckContinueslyTimer(HWND hwnd, UINT message, UINT_PTR idE
 }
 
 // =============== popup ======================
+static TCHAR* GetHumanName(LPARAM lParam)
+{
+	PROTOACCOUNT *ProtoAccount = ProtoGetAccount((char*)lParam);
+	return (ProtoAccount != NULL) ? ProtoAccount->tszAccountName : TranslateT("Protocol");
+}
+
 static int ProcessPopup(int reason, LPARAM lParam)
 {
 	HICON hIcon = NULL;
-	PROTOACCOUNT *ProtoAccount;
-	TCHAR text[MAX_SECONDLINE], ProtoName[128] = {0};
+	TCHAR text[MAX_SECONDLINE];
 
 	if ( !db_get_b(NULL, MODULENAME, SETTING_SHOWCONNECTIONPOPUPS,FALSE) || !ServiceExists(MS_POPUP_ADDPOPUP))
 		return -1;
-
-	// Get human readable account name.
-	if (lParam)
-		if (ProtoAccount = ProtoGetAccount((char*)lParam))
-			_tcscpy(ProtoName, ProtoAccount->tszAccountName);
 
 	switch(reason) {
 	case KS_CONN_STATE_OTHERLOCATION: // lParam = 1 proto
@@ -929,24 +929,21 @@ static int ProcessPopup(int reason, LPARAM lParam)
 			return -1;
 
 		hIcon = LoadSkinnedProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
-		mir_sntprintf(text, SIZEOF(text), TranslateT("%s connected from another location"), ProtoName);
+		mir_sntprintf(text, SIZEOF(text), TranslateT("%s connected from another location"), GetHumanName(lParam));
 		break;
 
 	case KS_CONN_STATE_LOGINERROR:	// lParam = 1 proto
-		/*******************
-		rethink this
-		********************/
 		if (!db_get_b(NULL, MODULENAME, SETTING_PUOTHER, TRUE))
 			return -1;
-
-		hIcon = LoadSkinnedProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
-		if ( db_get_b(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_CANCEL)
-			mir_sntprintf(text, SIZEOF(text), TranslateT("%s login error, cancel reconnecting"), ProtoName);
-		else if ( db_get_b(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_SETDELAY)
-			mir_sntprintf(text, SIZEOF(text), TranslateT("%s login error (next retry (%d) in %d s)"), ProtoName, retryCount+1, db_get_dw(NULL, MODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY));
-		else
-			return -1;
-
+		else {
+			hIcon = LoadSkinnedProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
+			if ( db_get_b(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_CANCEL)
+				mir_sntprintf(text, SIZEOF(text), TranslateT("%s login error, cancel reconnecting"), GetHumanName(lParam));
+			else if ( db_get_b(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_SETDELAY)
+				mir_sntprintf(text, SIZEOF(text), TranslateT("%s login error (next retry (%d) in %d s)"), GetHumanName(lParam), retryCount+1, db_get_dw(NULL, MODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY));
+			else
+				return -1;
+		}
 		break;
 
 	case KS_CONN_STATE_LOST: // lParam = 1 proto, or NULL
@@ -955,7 +952,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 
 		if (lParam) { // ”казатель на им€ модул€. 
 			hIcon = LoadSkinnedProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
-			mir_sntprintf(text, SIZEOF(text), TranslateT("%s status error (next retry (%d) in %d s)"), ProtoName, retryCount+1, currentDelay/1000);
+			mir_sntprintf(text, SIZEOF(text), TranslateT("%s status error (next retry (%d) in %d s)"), GetHumanName(lParam), retryCount+1, currentDelay/1000);
 		}
 		else mir_sntprintf(text, SIZEOF(text), TranslateT("Status error (next retry (%d) in %d s)"), retryCount+1, currentDelay/1000);
 		break;
