@@ -41,6 +41,7 @@
 
 #endif
 
+#include <tchar.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "zlib.h"
@@ -132,7 +133,7 @@ extern "C" {
 
 
 
-typedef voidpf   (ZCALLBACK *open_file_func)      OF((voidpf opaque, const char* filename, int mode));
+typedef voidpf   (ZCALLBACK *open_file_func)      OF((voidpf opaque, const TCHAR* filename, int mode));
 typedef uLong    (ZCALLBACK *read_file_func)      OF((voidpf opaque, voidpf stream, void* buf, uLong size));
 typedef uLong    (ZCALLBACK *write_file_func)     OF((voidpf opaque, voidpf stream, const void* buf, uLong size));
 typedef int      (ZCALLBACK *close_file_func)     OF((voidpf opaque, voidpf stream));

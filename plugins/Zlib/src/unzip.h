@@ -47,6 +47,8 @@
 extern "C" {
 #endif
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #ifndef _ZLIB_H
 #include "zlib.h"
 #endif
