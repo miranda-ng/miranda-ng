@@ -400,12 +400,8 @@ void InitTimer(int type)
 			break;
 		}
 
-		_int64 qwDueTime = -10000i64 * interval;
-
 		LARGE_INTEGER li = {0};
-		li.LowPart = (DWORD) ( qwDueTime & 0xFFFFFFFF );
-		li.HighPart = (LONG) ( qwDueTime >> 32 );
-
+		li.QuadPart = -1 * (interval * 10000LL);
 		SetWaitableTimer(Timer, &li, 0, TimerAPCProc, NULL, 0);
 	}
 }
