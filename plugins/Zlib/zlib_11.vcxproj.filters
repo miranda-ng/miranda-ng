@@ -55,6 +55,21 @@
     <ClCompile Include="src\gzlib.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ioapi.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\iowin32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mztools.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unzip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\zip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\crc32.h">
@@ -84,10 +99,39 @@
     <ClInclude Include="src\zutil.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\crypt.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gzguts.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inffixed.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ioapi.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\iowin32.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mztools.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\unzip.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\zip.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\zlib.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\zlib.def">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
