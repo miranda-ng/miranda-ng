@@ -193,7 +193,7 @@ extern "C" int __declspec(dllexport) Load()
 	SkinAddNewSoundEx("webviewalert", optionsname, Translate("Alert Event"));
 
 	//add module to known list
-	db_set_s(NULL, "KnownModules", "Webview Protocol", MODULENAME);
+	db_set_s(NULL, "KnownModules", "Webview", MODULENAME);
 
 	//value is 1 if menu is disabled
 	db_set_b(NULL, MODULENAME, MENU_IS_DISABLED_KEY, 1);
