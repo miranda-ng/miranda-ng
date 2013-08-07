@@ -309,6 +309,9 @@ HICON Proto_GetIcon(PROTO_INTERFACE *ppro, int iconIndex)
 
 PROTOACCOUNT* __fastcall Proto_GetAccount(const char* accName)
 {
+	if (accName == NULL)
+		return NULL;
+
 	int idx;
 	PROTOACCOUNT temp;
 	temp.szModuleName = (char*)accName;
