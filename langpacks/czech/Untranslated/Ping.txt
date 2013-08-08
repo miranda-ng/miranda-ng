@@ -20,7 +20,6 @@
 [%s - reply, %d]
 [%s - timeout]
 [double clicked]
-[Ping]
 [Show/Hide &Ping Window]
 [Unknown Address]
 [Responding]

@@ -87,7 +87,7 @@ Nezjišťovat, překročí-li počet:
 [User information]
 Informace o uživateli
 [Ping]
-
+Ping
 [Version]
 Verze
 [Time]

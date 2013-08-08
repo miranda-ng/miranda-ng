@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Skype.dll
 ;  Plugin: Skype Protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: unsane, mataes, ghazan
 ;============================================================
 [Skype protocol support for Miranda NG.]
@@ -136,6 +136,12 @@ Automaticky přijímat video a sdílet obrazovku...
 Od nikoho
 [Allow my online status to be shown on the web]
 Povolit zobrazení mého online stavu na webu
+[Show avatars]
+Zobrazit avatary
+[Contacts count]
+Počet kontaktů
+[Local time]
+Lokální čas
 [Block this person]
 Blkovat tohoto uživatele
 [Remove from your Contact List]
@@ -359,7 +365,7 @@ SkypeKit nebyl spuštěn.
 [Unblock this person...]
 Odblokovat tohoto uživatele...
 [Block this person...]
-Zablokvoat tohoto uživatele...
+Zablokovat tohoto uživatele...
 [Request authorization]
 Požádat o autorizaci
 [Grant authorization]

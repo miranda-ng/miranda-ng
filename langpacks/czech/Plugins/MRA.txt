@@ -376,41 +376,41 @@ Není mi dobře
 [Home]
 Domov
 [Eating]
-jím
+Jím
 [Compass]
-
+Kompas
 [On WC]
-jsem na WC
+Jsem na WC
 [Cooking]
-vařím
+Vařím
 [Walking]
-
+Procházka
 [Alien]
-
+Mimozemšťan
 [Shrimp]
 
 [Got lost]
 
 [Crazy]
-šílenství
+Šílenství
 [Duck]
 Koupání
 [Playing]
 Hraje
 [Smoking]
-kouřím
+Kouřím
 [Office]
 
 [Meeting]
-na schůzce
+Na schůzce
 [Beer]
 Jsem na pivku
 [Coffee]
-dávám si kafe
+Dávám si kafe
 [Working]
-pracuju
+Pracuju
 [Relaxing]
-odpočinek
+Odpočinek
 [On the phone]
 Mám telefon
 [In institute]
@@ -428,21 +428,21 @@ Smích
 [Blind]
 
 [Disappointed]
-rozčarování
+Rozčarování
 [Almost crying]
 
 [Fearful]
 
 [Angry]
-zlost
+Zlost
 [Vampire]
 
 [Ass]
 
 [Love]
-láska
+Láska
 [Sleeping]
-spím
+Spím
 [Cool!]
 
 [Peace!]

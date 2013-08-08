@@ -83,11 +83,11 @@ OK
 [Cancel]
 Zrušit
 [Mobile Device (used for SMS)]
-
+Mobilní zařízení (použito pro SMS)
 [Spouse/Partner]
-
+Manžel(ka)/Partner
 [Middle Name]
-
+Prostřední jméno
 [First Name]
 Jméno
 [Last Name]
@@ -101,11 +101,11 @@ Přezdívka
 [Place:]
 Místo:
 [MSN Delete Contact]
-
+Smazat kontakt (MSN)
 [Remove from Hotmail Address book]
-
+Odebrat z adresáře Hotmail
 [Block Contact]
-
+Zablokovat kontakt
 [Invite Contact To Chat]
 Pozvat k diskusi
 [Live ID]
@@ -135,13 +135,13 @@ Zobrazit &historii
 [Contact tried to open an audio conference (currently not supported)]
 MirandaIM zatím nepodporuje hlasovou konferenci v rámci sítě MSN.
 [%I64u bytes]
-
+%I64u bajtů
 [Accept NetMeeting request from %s?]
-
+Přijmout NetMeeting požadavek od %s?
 [MSN Protocol]
 Protokol MSN
 [MSN Alert]
-
+Upozornění MSN
 [Chat session established by my request]
 Spojení navázáno (vlastní žádost)
 [Chat session established by contact request]
@@ -157,18 +157,18 @@ Konverzace probíhá jen s jedním člověkem. Chcete přepnout do klasického k
 [MSN Chat]
 MSN :: diskuse
 [Message delivery failed]
-
+Zpráva nebyla doručena
 ;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
-
+Uživatel není online
 ;file \protocols\MSN\src\msn_links.cpp
 [MSN Link Protocol]
 Odkaz protokolu MSN
 ;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
-
+Kontakt %s byl odebrán ze serveru.\nPřejete si kontakt ponechat uložený lokálně pro zachování historie?
 [%s protocol]
-
+%s protokol
 ;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
 Předmět: %s
@@ -205,7 +205,7 @@ Spustit Netmeetin&g
 [Avatars]
 Avatary
 [Custom Smileys]
-
+Vlastní smajlíky
 [Notify]
 Oznámení
 [Error]
@@ -249,9 +249,9 @@ Ručně zadat kombinaci hostitel/port
 [Disable]
 Vypnout
 [IP info available only after login]
-
+Informace o IP jsou dostupné až po přihlášení
 [MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
-
+MSN protokol vyžaduje časový interval pro odeslání zprávy 60 sek. a vyšší. Opravte nastavenou hodnotu.
 [Network]
 Sítě
 [Account]
@@ -279,7 +279,7 @@ Upozornění (Live)
 [Contact already in your contact list]
 Kontakt je již ve vašem seznamu
 [Protocol is offline]
-
+Protokol je offline
 [You cannot send message to yourself]
 Nemůžete poslat zprávu sami sobě.
 [Message is too long: SMS page limited to 133 UTF8 chars]
@@ -287,12 +287,12 @@ Příliš dlouhá zpráva: Max. počet znaků je 133 (s diakritikou)
 [Message is too long: MSN messages are limited by 1202 UTF8 chars]
 Zpráva je příliš dlouhá. Protokol MSN umožňuje napsat max. 1202 znaků (v kódování UTF8).
 [Offline messaging is not allowed for LCS contacts]
-
+Pro LCS kontakty není umožněna offline komunikace
 ;file \protocols\MSN\src\msn_svcs.cpp
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
-
+MSN protokol vyžaduje časový interval pro odeslání zprávy 60 sek. a vyšší. Opravte prosím nastavenou hodnotu.
 [Convert to Chat]
-
+Převést na chat
 ;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
 Spojení ukončeno (neaktivní)

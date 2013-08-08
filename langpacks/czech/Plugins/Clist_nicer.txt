@@ -9,7 +9,7 @@
 Zobrazuje kontakty, upozornění na události, stavy protokolů a podporuje rámečky.
 ;file \plugins\Clist_nicer\res\resource.rc
 [CList Nicer exception]
-
+Výjimka v Clist Nicer
 [Copy to clipboard]
 Zkopírovat do schránky
 [Continue]
@@ -25,7 +25,7 @@ OK
 [Clist Nicer+]
 Clist Nicer+
 [Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
-
+Copyright © 2004-2010 Miranda IM projekt, 2012-2013 Miranda NG projekt. Detailnější informace týkající se copyrightu naleznete v přiloženém README souboru.
 [Version]
 Verze
 [Support and latest version information]
@@ -584,9 +584,9 @@ Minimalizovat seznam
 [Status menu]
 Nabídka stavů
 [tabSRMM session list]
-
+Seznam relací TabSRMM
 [tabSRMM Menu]
-
+Nabídka TabSRMM
 [Select view mode]
 Vybrat režim zobrazení
 [Setup view modes]
@@ -718,19 +718,19 @@ Připojování %s
 [Menu]
 Menu
 [Open main menu]
-
+Otevřít hlavní nabídku
 [Set status modes]
-
+Nastavit stavové módy
 [The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
 Požadovanou operaci lze provést až po výběru osoby ze seznamu kontaktů.
 [Parameter mismatch]
 Parametry nesouhlasí
 [The service %s specified by the %s button definition was not found. You may need to install additional plugins]
-
+Služba %s, specifikovaná tlačítkem %s, nebyla nalezena. Může být potřeba nainstalovat chybějící doplněk
 [Service failure]
-
+Chyba služby
 [You need the FloatingContacts plugin, cause the embedded floating contacts were removed]
-
+Potřebujete doplněk pro Plovoucí kontakty, neboť jejich vestavěná podpora byla zrušena
 [Warning]
 Upozornění
 [Standard contacts]
@@ -768,9 +768,9 @@ Tenký okraj
 Bez okraje
 ;file \plugins\Clist_nicer\src\Docking.cpp
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-
+Seznam kontaktů nemůže být ukotven při použití výchozího stylu záhlaví a okraje. Použijte tenký styl záhlaví nebo okno bez okraje.
 [Clist docking]
-
+Ukotvení seznamu kontaktů
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Použití

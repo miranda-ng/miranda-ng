@@ -323,7 +323,7 @@ Detekován spamovací robot
 Kontakt smazán a pro příště zablokován.
 ;file \protocols\IcqOscarJ\src\fam_04message.cpp
 [Incoming URL:]
-
+Příchozí URL:
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
 Posíláte zprávy příliš rychle. Počkejte chvíli a zkuste znovu.\r\nSNAC(4.1) Chyba x02
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x03]
@@ -1529,17 +1529,17 @@ Fotbal
 [Pirate]
 Pirát
 [Cyclop]
-
+Kyklop
 [Monkey]
 Opice
 [Birdie]
-
+Ptáček
 [Cool]
 
 [Evil]
-
+Ďábel
 [Alien]
-
+Mimozemšťan
 [Scooter]
 Skútr
 [Mask]
@@ -1547,7 +1547,7 @@ Maska
 [Money]
 Peníze
 [Pilot]
-
+Pilot
 [Afro]
 
 [St. Patrick]
@@ -1571,23 +1571,23 @@ Bonbón
 [Crazy Professor]
 Šílený vědec
 [Ninja]
-
+Ninja
 [Cocktail]
 Koktejl
 [Punch]
-
+Rána pěstí
 [Donut]
-
+Kobliha
 [Feeling Good]
 
 [Lollypop]
 Lízátko
 [Oink Oink]
-
+Kvík kvík
 [Kitty]
-
+Kočička
 [Sumo]
-
+Sumo
 [Broken hearted]
 Zlomené srdce
 [Free for Chat]
@@ -1601,7 +1601,7 @@ Jahoda
 [Angel]
 Andílek
 [Pizza]
-
+Pizza
 [Snoring]
 Chrápu
 [On my mobile]
@@ -1615,11 +1615,11 @@ Dvojitá duha
 [Basketball]
 Basket
 [Cupid shot me]
-
+Zasažen Amorkem
 [Celebrating]
 Slavím
 [Sushi]
-
+Suši
 [Playing]
 Hraje
 [Writing]
@@ -1632,7 +1632,7 @@ Píšu
 Rozšířený stav
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
-
+Pohlednice:
 ;file \protocols\IcqOscarJ\src\init.cpp
 [ICQ XStatus]
 ICQ XStatus
@@ -1656,7 +1656,7 @@ Proxy odmítla zadané uživatelské jméno a heslo. Zkontrolujte prosím nastav
 [The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
 Zadaný server ICQ neexistuje. Zkontrolujte prosím nastavení v nastavení Mirandy (položka Síť->ICQ).
 [error]
-
+chyba
 ;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
 [%d Files]
 %d soubory
@@ -1946,10 +1946,10 @@ Momentálně nejste připojeni k síti ICQ. Chcete-li zaktualizovat informace na
 Prosím potvrďte můj požadavek o přidání vás do mého seznamu kontaktů.
 ;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 [Enter a password for UIN %u:]
-
+Zadejte heslo pro UIN %u:
 ;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
 [ (DC Established)]
-
+ (přímé spojení)
 [ScreenName:]
 Jméno:
 [<not specified>]

@@ -1,7 +1,6 @@
 ﻿[Internet Relay Chat (IRC) protocol support for Miranda NG.]
 [Ident]
 [Fear the monkeys!!!]
-[Ping]
 [Host address]
 [Server description]
 [Filter by]

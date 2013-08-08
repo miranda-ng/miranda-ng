@@ -1120,15 +1120,15 @@ změnil/a stav z %s na %s.
 [Most recent unread session]
 
 [Paste and send]
-
+Vložit a odeslat
 [Contact's messaging prefs]
 
 [Send nudge]
-
+Odeslat drcnutí
 [Send a file]
-
+Odeslat soubor
 [Quote message]
-
+Citovat zprávu
 [Toggle send later]
 
 [Send message]
@@ -1154,16 +1154,16 @@ Zobrazit uživatelské menu
 [Collapse side bar]
 
 [Toggle filter]
-
+Přepnout filtr
 [Show server window]
-
+Zobrazit okno serveru
 ;file \plugins\TabSRMM\src\infopanel.cpp
 [%s    Idle: %dh,%02dm]
 %s    Nečinný: %dh,%02dm
 [  Client: %s]
-
+  Klient: %s
 [  Client not cached yet]
-
+  Klient není zjištěn
 [Topic is: %s]
 Téma je: %s
 [no topic set.]
@@ -1218,7 +1218,7 @@ Zobrazit vždy (je-li k dispozici)
 Nezobrazovat nikdy
 ;file \plugins\TabSRMM\src\mim.cpp
 [TabSRMM]
-
+TabSRMM
 [Data path]
 
 [Skins]
@@ -1620,15 +1620,15 @@ tabSRMM témata
 [No effect]
 Bez efektu
 [Milky Glass]
-
+Mléčné sklo
 [Carbon]
-
+Uhelný
 [Semi transparent, custom colors]
-
+Poloprůhledný s vlastními barvami
 [Silver shadow]
-
+Stříbrný stín
 [Custom (use own gradient colors)]
-
+Uživatelský (vlastní barvy gradientu)
 [All message containers need to close before the skin can be changed\nProceed?]
 Všechny kontejnery se zprávami musí být před aplikací skinu zavřeny\nPokračovat?
 [Change skin]
@@ -2134,9 +2134,9 @@ Zvýraznění (10x10)
 [Information (10x10)]
 Informace (10x10)
 [Group chat windows]
-
+Okna skupinových rozhovorů
 [Group chat log]
-
+Záznam skupinových rozhovorů
 [Appearance and functionality of chat room windows]
 Nastavení vzhledu a funkcí komunikačních oken
 [Appearance of the message log]

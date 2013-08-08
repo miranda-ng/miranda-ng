@@ -148,7 +148,7 @@ zapnuto
 [double clicked]
 
 [Ping]
-
+Ping
 [Show/Hide &Ping Window]
 
 ;file \plugins\Ping\src\rawping.cpp

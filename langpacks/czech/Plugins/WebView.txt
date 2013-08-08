@@ -1,0 +1,321 @@
+﻿#muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
+;============================================================
+;  File: Webview.dll
+;  Plugin: Webview
+;  Version: 0.1.3.0
+;  Authors: Vincent Joyce
+;============================================================
+[Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
+
+;file \plugins\WebView\res\webview.rc
+[Webview]
+
+[Update data every]
+
+[minutes]
+min.
+[Delay update on start]
+
+[seconds]
+sek.
+[Hide icon on status bar]
+
+[Disable main menu items]
+Vypnout položky v hlavním menu
+[Load Page on Window Open]
+
+[Update data on start-up]
+Při spuštění zaktualizovat data
+[Only Update Window on Alert]
+
+[Window Appearance]
+
+[Background Color:]
+Barva pozadí:
+[Text Color:]
+Barva textu:
+[Bold]
+Tučné
+[Italic]
+Kurzíva
+[Underline]
+Podtržené
+[Save Individual Window Positions]
+
+[Error Messages]
+
+[Suppress error messages]
+Potlačit chybová hlášení
+[Display using PopUp or OSD plugin]
+
+[Expert Options]
+Možnosti pro experty
+[Disable Download Protection]
+
+[(Not Recommended)]
+
+[Display Data in Popup on Alert]
+
+[Display Data in Popup]
+
+[You may need to restart Miranda IM for this change to take effect.]
+
+[Contact name:]
+
+[URL:]
+Odkaz:
+[Display]
+Zobrazení
+[Between Start and End strings]
+
+[Whole web page]
+
+[Start:]
+
+[End:]
+
+[Copy Strings to Alerts]
+
+[Double click action]
+
+[Opens Web page]
+
+[Opens Data Window]
+
+[Display Clean-up]
+
+[Remove HTML]
+
+[OK]
+OK
+[Cancel]
+Zrušit
+[Apply]
+Použít
+[Find]
+Najít
+[&Find Next]
+&Najít další
+[Find What:]
+Najít:
+[Search was completed.]
+
+[Alert Options]
+
+[Events And Alerts]
+
+[Enable Alerts]
+
+[Always Log To File]
+
+[Add Time And Date Of Alert To Contact Name]
+
+[Use 24 hour time format instead of 12 hour]
+
+[Add As Prefix]
+
+[Add As Suffix]
+
+[Alert When:]
+
+[Alert Type:]
+
+[Test Conditions]
+
+[Alert When String Is Present On Web Page]
+
+[String:]
+
+[Alert When Specific Area Of Web Page Changes]
+
+[Log To file]
+
+[Log File:]
+
+[Append data to file]
+
+[Save as raw data]
+
+[Popup Delay]
+Doba zobrazení
+[Delay]
+Prodleva
+[From PopUp Plugin]
+
+[Permanent]
+Trvale
+[Preview]
+Náhled
+[Colors]
+Barvy
+[Use Custom Colors]
+Použít vlastní barvy
+[Background]
+Pozadí
+[Text]
+Text
+[Use Windows Colors]
+Použít barvy Windows
+[Use Same Colors As Data Window]
+
+[Left Click Action]
+
+[Open Data Display Window]
+
+[Open Web Page]
+
+[Dismiss PopUp]
+Zavřít oznámení
+[Right Click Action]
+
+[Log]
+Záznam
+[&Copy]
+Z&kopírovat
+[C&ut]
+Vyjmou&t
+[&Delete]
+&Smazat
+[&Paste]
+&Vložit
+[Co&py All]
+Zko&pírovat vše
+[&Select All]
+&Vybrat vše
+[C&lear All]
+S&mazat vše
+;file \plugins\WebView\src\main.cpp
+[Alert Event]
+
+;file \plugins\WebView\src\webview.cpp
+[Auto Update Enabled]
+Deaktivovat automatickou aktualizaci
+[Auto Update Disabled]
+Aktivovat automatickou aktualizaci
+[All Webview sites have been updated.]
+
+[Network]
+Sítě
+[PopUps]
+Oznámení
+;file \plugins\WebView\src\webview_alerts.cpp
+[Cannot write to file]
+Nelze zapsat do souboru
+[Last updated on]
+
+[Start/end strings not found or strings not set.]
+
+[Alert start/end strings not found or strings not set.]
+
+[The string]
+
+[has been found on the web page]
+
+[Download successful; about to process data...]
+
+[Unknown Alert Type.]
+
+[Cannot read from file]
+
+[Cannot write to file 1]
+
+[The Web Page Has Changed.]
+
+[Cannot write to file 2]
+
+[Specific Part Of The Web Page Has Changed.]
+
+[Cannot read from cache file]
+
+[Loaded From Cache]
+
+;file \plugins\WebView\src\webview_datawnd.cpp
+[ERROR: You have two or more Webview contacts with the same URL and contact name.]
+
+[Update Data]
+
+[Contact Options]
+
+[Stop Processing]
+
+[Click here to open this URL in a browser window.]
+
+[Stick to the front]
+
+[Disable Stick to the Front]
+
+[Disable Stick to the front]
+
+;file \plugins\WebView\src\webview_getdata.cpp
+[URL not supplied]
+
+[Download in progress, please wait...]
+
+[Updating...]
+
+[The server replied with a failure code]
+
+[The server is down or lagging.]
+
+[Invalid search parameters.]
+
+[Both search strings not found or strings not set.]
+
+[at the time]
+
+[Processing data (Stage 1)]
+
+[Processing data stopped by user.]
+
+[Processing data (Stage 2)]
+
+[Processing data (Stage 3)]
+
+[Processing data (Stage 4)]
+
+[Processing data (Stage 5)]
+
+[Processing data (Stage 6)]
+
+[Processing data (Stage 7)]
+
+[Processing data (Stage 8)]
+
+[Alert!]
+
+[Online]
+Online
+[A site is already downloading, try again in a moment.]
+
+[Bytes in display]
+
+[Bytes downloaded]
+
+[Alert test conditions not met; press the refresh button to view content.]
+
+;file \plugins\WebView\src\webview_opts.cpp
+[This is a preview popup.]
+
+[You need to supply a search string.]
+
+[You need to supply a start string.]
+
+[You need to supply an end string.]
+
+[You need to supply a file name and path.]
+
+[You need to supply a URL.]
+
+[You need to supply a name for the contact.]
+
+[Invalid symbol present in contact name.]
+
+;file \plugins\WebView\src\webview_services.cpp
+[Cache folder does not exist.]
+
+[Missing "psite.bat" file.]
+
+[Site URL]
+
+[Please select site in Find/Add Contacts...]
+
