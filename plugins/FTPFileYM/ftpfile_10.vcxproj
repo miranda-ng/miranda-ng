@@ -193,12 +193,6 @@
     <ClCompile Include="src\serverlist.cpp" />
     <ClCompile Include="src\ftpfile.cpp" />
     <ClCompile Include="src\utils.cpp" />
-    <ClCompile Include="src\zip\ioapi.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\zip\zip.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h" />
@@ -216,8 +210,6 @@
     <ClInclude Include="src\serverlist.h" />
     <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\version.h" />
-    <ClInclude Include="src\zip\ioapi.h" />
-    <ClInclude Include="src\zip\zip.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\ftpfile.rc" />
