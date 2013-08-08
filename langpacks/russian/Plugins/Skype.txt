@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Skype.dll
 ;  Plugin: Skype Protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: unsane, mataes, ghazan
 ;============================================================
 [Skype protocol support for Miranda NG.]
@@ -121,6 +121,12 @@ Skype протокол для Miranda NG.
 Никого
 [Allow my online status to be shown on the web]
 Разрешить показ моего онлайн статуса в интернете
+[Show avatars]
+Показывать аватары
+[Contacts count]
+Счетчик контактов
+[Local time]
+Местное время
 [Block this person]
 Блокировать пользователя
 [Remove from your Contact List]
