@@ -1,0 +1,5 @@
+﻿Miranda Language Pack Version 1
+Language: Belarusian (BY)
+Locale: 0423
+Last-Modified-Using: 0.94.5
+Authors: Jerbifor, Inha
