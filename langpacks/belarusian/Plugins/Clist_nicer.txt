@@ -19,7 +19,7 @@
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
 Было злоўлена выключэнне. Вы можаце і далей працаваць з праграмай, але пажадана перазапусціць Міранду як мага хутчэй. Магчыма, пашкоджаны ўнутраныя структуры дадзеных і гэта можа аказаць сур'ёзны ўплыў на стабільнасць.
 [About CList Nicer+]
-Пра модуль Nicer+
+Пра плагін Nicer+
 [OK]
 ОК
 [Clist Nicer+]
@@ -708,7 +708,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 [Configure view modes]
 Налада рэжымаў выгляду
 [Setup accounts]
-Уліковыя запісы
+Конты
 [Event Area]
 Вобласць падзей
 [My Contacts]

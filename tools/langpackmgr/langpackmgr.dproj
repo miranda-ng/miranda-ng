@@ -1,9 +1,9 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{09EFF320-8309-4D4B-A78A-3B3997206B39}</ProjectGuid>
+        <ProjectGuid>{0EBDA2CA-166A-4A20-9D10-AC4E99A83991}</ProjectGuid>
         <ProjectVersion>14.6</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
-        <MainSource>langpackmgr.dpr</MainSource>
+        <MainSource>LangPackMgr.dpr</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
@@ -15,11 +15,6 @@
     </PropertyGroup>
     <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
         <Base_Win32>true</Base_Win32>
-        <CfgParent>Base</CfgParent>
-        <Base>true</Base>
-    </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
-        <Base_Win64>true</Base_Win64>
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
@@ -46,8 +41,14 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <Icon_MainIcon>langpackmgr.ico</Icon_MainIcon>
+        <VerInfo_MajorVer>2</VerInfo_MajorVer>
+        <VerInfo_Locale>2057</VerInfo_Locale>
+        <VerInfo_PreRelease>true</VerInfo_PreRelease>
+        <Manifest_File>None</Manifest_File>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=2.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
+        <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
         <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
         <DCC_ExeOutput>.\$(Platform)\$(Config)</DCC_ExeOutput>
         <DCC_E>false</DCC_E>
@@ -57,20 +58,12 @@
         <DCC_K>false</DCC_K>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <DCC_UsePackage>bindcompfmx;DBXSqliteDriver;vcldbx;fmx;rtl;dbrtl;DbxClientDriver;IndySystem;TeeDB;bindcomp;inetdb;vclib;inetdbbde;DBXInterBaseDriver;DataSnapClient;DataSnapCommon;DBXOdbcDriver;DataSnapServer;Tee;DataSnapProviderClient;xmlrtl;svnui;ibxpress;DbxCommonDriver;DBXSybaseASEDriver;vclimg;IndyProtocols;dbxcds;DBXMySQLDriver;DatasnapConnectorsFreePascal;MetropolisUILiveTile;vclactnband;bindengine;vcldb;soaprtl;bindcompdbx;vcldsnap;bindcompvcl;FMXTee;TeeUI;vclie;vcltouch;DBXDb2Driver;websnap;DBXOracleDriver;CustomIPTransport;vclribbon;VclSmp;dsnap;IndyIPServer;DBXInformixDriver;Intraweb;IndyCore;vcl;DataSnapConnectors;IndyIPCommon;CloudService;DBXMSSQLDriver;dsnapcon;DBXFirebirdDriver;FmxTeeUI;inet;vclx;inetdbxpress;webdsnap;svn;DBXSybaseASADriver;bdertl;dbexpress;adortl;DataSnapIndy10ServerTransport;IndyIPClient;$(DCC_UsePackage)</DCC_UsePackage>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
-        <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <DCC_UsePackage>bindcompfmx;vcldbx;rtl;dbrtl;IndySystem;bindcomp;DataSnapClient;DataSnapCommon;DBXOdbcDriver;DataSnapServer;DataSnapProviderClient;xmlrtl;svnui;DBXSybaseASEDriver;DbxCommonDriver;vclimg;IndyProtocols;dbxcds;MetropolisUILiveTile;bindcompdbx;vclactnband;bindengine;vcldb;soaprtl;vcldsnap;bindcompvcl;vclie;vcltouch;VclSmp;dsnap;IndyIPServer;IndyCore;vcl;dsnapcon;vclx;inetdbxpress;webdsnap;svn;bdertl;adortl</DCC_UsePackage>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
-        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
-        <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <DCC_UsePackage>bindcompfmx;DBXSqliteDriver;rtl;dbrtl;DbxClientDriver;IndySystem;bindcomp;inetdb;DBXInterBaseDriver;DataSnapClient;DataSnapCommon;DBXOdbcDriver;DataSnapServer;DataSnapProviderClient;xmlrtl;DBXSybaseASEDriver;DbxCommonDriver;vclimg;IndyProtocols;dbxcds;DBXMySQLDriver;DatasnapConnectorsFreePascal;MetropolisUILiveTile;bindcompdbx;vclactnband;bindengine;vcldb;soaprtl;vcldsnap;bindcompvcl;vclie;vcltouch;DBXDb2Driver;DBXOracleDriver;CustomIPTransport;VclSmp;dsnap;IndyIPServer;DBXInformixDriver;IndyCore;vcl;DataSnapConnectors;IndyIPCommon;CloudService;DBXMSSQLDriver;dsnapcon;DBXFirebirdDriver;inet;vclx;inetdbxpress;webdsnap;DBXSybaseASADriver;dbexpress;adortl;DataSnapIndy10ServerTransport;IndyIPClient;$(DCC_UsePackage)</DCC_UsePackage>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -81,9 +74,6 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <DCC_ExeOutput>D:\Delphi\langpacks\tool\</DCC_ExeOutput>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -93,14 +83,16 @@
         <DCC_DebugInformation>false</DCC_DebugInformation>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <VerInfo_MinorVer>1</VerInfo_MinorVer>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.1.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_MajorVer>2</VerInfo_MajorVer>
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
-        <Manifest_File>None</Manifest_File>
-        <DCC_DcuOutput>.\</DCC_DcuOutput>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=2.0.0.0;Comments=</VerInfo_Keys>
+        <DCC_ExeOutput>.\..\..\langpacks\</DCC_ExeOutput>
+        <DCC_DcuOutput>.\..\..\langpacks\</DCC_DcuOutput>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <Icon_MainIcon>langpackmgr.ico</Icon_MainIcon>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <DCC_ExeOutput>..\..\langpacks\tool\</DCC_ExeOutput>
+        <DCC_AssertionsAtRuntime>false</DCC_AssertionsAtRuntime>
+        <DCC_ImportedDataReferences>false</DCC_ImportedDataReferences>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -108,6 +100,7 @@
         </DelphiCompile>
         <DCCReference Include="Unit1.pas">
             <Form>Form1</Form>
+            <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
@@ -154,21 +147,15 @@
                     <VersionInfoKeys Name="Comments"/>
                     <VersionInfoKeys Name="CFBundleName"/>
                     <VersionInfoKeys Name="CFBundleDisplayName"/>
-                    <VersionInfoKeys Name="UIDeviceFamily"/>
                     <VersionInfoKeys Name="CFBundleIdentifier"/>
                     <VersionInfoKeys Name="CFBundleVersion"/>
                     <VersionInfoKeys Name="CFBundlePackageType"/>
                     <VersionInfoKeys Name="CFBundleSignature"/>
                     <VersionInfoKeys Name="CFBundleAllowMixedLocalizations"/>
-                    <VersionInfoKeys Name="UISupportedInterfaceOrientations"/>
                     <VersionInfoKeys Name="CFBundleExecutable"/>
-                    <VersionInfoKeys Name="CFBundleResourceSpecification"/>
-                    <VersionInfoKeys Name="LSRequiresIPhoneOS"/>
-                    <VersionInfoKeys Name="CFBundleInfoDictionaryVersion"/>
-                    <VersionInfoKeys Name="CFBundleDevelopmentRegion"/>
                 </VersionInfoKeys>
                 <Source>
-                    <Source Name="MainSource">langpackmgr.dpr</Source>
+                    <Source Name="MainSource">LangPackMgr.dpr</Source>
                 </Source>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k180.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
@@ -178,7 +165,6 @@
             <Deployment/>
             <Platforms>
                 <Platform value="Win32">True</Platform>
-                <Platform value="Win64">False</Platform>
             </Platforms>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>

@@ -6,7 +6,7 @@
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper for Miranda NG.]
-Модуль стварэння справаздач пра памылкі ў выпадку аварыйнага завяршэння працы праграмы. Падтрымка www.miranda-vi.org
+Плагін стварэння справаздач пра памылкі ў выпадку аварыйнага завяршэння працы праграмы. Падтрымка www.miranda-vi.org
 ;file \plugins\CrashDumper\res\crshdmp.rc
 [View Version Information]
 Інфармацыя пра версіі
@@ -88,7 +88,7 @@ Miranda  NG была завершана аварыйна. Справаздача
 Інфармацыя пра версіі(з бібліятэкамі)
 ;file \plugins\CrashDumper\src\upload.cpp
 [VersionInfo upload successful,\n %d old plugins]
-Версіі паспяхова загружаны,\n%d старых модуляў
+Версіі паспяхова загружаны,\n%d старых плагінаў
 [Cannot upload VersionInfo. Incorrect username or password]
 Нельга загрузіць інфармацыю пра версіі. Няправільнае імя карыстача ці пароль
 [Cannot upload VersionInfo. User is banned]
@@ -103,4 +103,4 @@ Miranda  NG была завершана аварыйна. Справаздача
 HTTP далучэнне Crash Dumper
 ;file \plugins\CrashDumper\src\utils.cpp
 [More then one crash reporting plugin installed. This will result in inability of creating crash reports]
-Усталявана больш аднаго модуля справаздач пра памылкі. Гэта вядзе да немагчымасці стварэння справаздач
+Усталявана больш аднаго плагіна справаздач пра памылкі. Гэта вядзе да немагчымасці стварэння справаздач

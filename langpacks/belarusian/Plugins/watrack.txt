@@ -18,7 +18,7 @@
 [If this option is "ON", XStatus doesn't depend of protocol status.]
 Калі ўключана гэта опцыя, xСтатус не будзе залежаць ад статусу пратаколу.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
-Выкарыстоўваць модуль "Variables" ці няма. Гэты модуль дазваляе вам ператвараць радкі, выкарыстоўваць матэматычныя функцыі і функцыі даты. Без гэтага модуля, WATrack будзе працаваць хутчэй.
+Выкарыстоўваць плагін "Variables" ці няма. Гэты плагін дазваляе вам ператвараць радкі, выкарыстоўваць матэматычныя функцыі і функцыі даты. Без гэтага плагіна, WATrack будзе працаваць хутчэй.
 [Replaces "_" (underscores) globally in pasted os status text, sometimes may be useful]
 Замяняць "_" (падкрэсленне) прабеламі ў тэксце, часам можа быць карысна.
 [Check file date and time to tag updates while playing.]
@@ -294,7 +294,7 @@ VBR ці пуста
 [If this option is "ON", all plugin settings saved in ini-file. They deleted from Miranda DB. Else ini-file will be deleted.]
 Калі опцыя ўключана, усе налады захаваюцца ў INI-файле і сатруцца з базы Miranda, інакш - выдаліцца INI-файл (калі быў).
 [If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
-Калі опцыя ўключана, модуль паспрабуе атрымаць інфармацыю пра музыку ад плэера, працуе не з усімі плэерамі
+Калі опцыя ўключана, плагін паспрабуе атрымаць інфармацыю пра музыку ад плэера, працуе не з усімі плэерамі
 [If this option is "ON", XStatus changes only if "Music" XStatus was set already.]
 Калі опцыя ўключана, xСтатус змяняецца толькі пры ўжо ўсталяваным у "Музыка" статуце.
 [If this option is "ON", XStatus doesn't depend of ICQ's status.]
@@ -312,9 +312,9 @@ VBR ці пуста
 [Use this option if WATrack freeze while player running. Slower processing.]
 Уключыце, калі WATrack падвісае падчас прайгравання. Больш нагрузкі на працэсар.
 [Use "Variables" plugin]
-Выкарыстоўваць модуль Variables
+Выкарыстоўваць плагін Variables
 [Sorry, but i don't use WATrack right now!]
-Выбачыце, але цяпер я не выкарыстоўваю модуль WATrack!
+Выбачыце, але цяпер я не выкарыстоўваю WATrack!
 [Next track]
 След. трэк
 [Show player]
@@ -376,7 +376,7 @@ VBR ці пуста
 [FPS (Frames per second)]
 FPS (кадраў у секунду)
 [If Variables service used, returned value will be in ANSI encoding (default is UTF8)]
-Калі выкарыстоўваецца модуль Variables, якія вяртаюцца значэнні будуць у кадоўцы ANSI (па змаўчанні - UTF8)
+Калі выкарыстоўваецца плагін Variables, якія вяртаюцца значэнні будуць у кадоўцы ANSI (па змаўчанні - UTF8)
 [Save settings in INI-file]
 Захоўваць налады ў файле
 [VBR or not]
@@ -420,9 +420,9 @@ VBR ці няма
 [Frame Controls]
 Кнопкі кіравання
 [Plugin Enabled]
-Модуль уключаны
+Плагін уключаны
 [Plugin Disabled]
-Модуль выключаны
+Плагін выключаны
 [Create Report]
 Стварыць справаздачу
 [Context menu]
@@ -464,7 +464,7 @@ VBR ці няма
 [Use ICQ XStatus]
 Выкарыстоўваць xCтатус ICQ
 [Winamp Track]
-Цяпер гуляе (WATrack)
+Слухаю (WATrack)
 [Pause Pushed]
 Паўза націснута
 [-default-]
@@ -476,9 +476,9 @@ VBR ці няма
 [WATrack popup hotkey]
 Усплывальнае акно
 [Switch ON these modules]
-Укл./выкл. модуляў Watrack
+Укл./выкл. плагінаў Watrack
 [Modules]
-Модулі
+Плагіны
 [Statistic]
 Статыстыка
 [Export text template]
@@ -506,9 +506,9 @@ VBR ці няма
 [(%artist%, %title%, %album% and %year% macros can be used only)]
 (выкарыстоўваюцца толькі макрасы %artist%, %title%, %album% і %year%)
 [Disable Plugin]
-Адключыць модуль
+Адключыць плагін
 [Enable Plugin]
-Уключыць модуль
+Уключыць плагін
 [Don't forget to enter Login and Password to use Last.fm service]
 Не забудзьцеся ўвесці лагін і пароль, што б карыстацца сэрвісам Last.fm
 [Don't forget to enter Login and Password to use MyShows service]

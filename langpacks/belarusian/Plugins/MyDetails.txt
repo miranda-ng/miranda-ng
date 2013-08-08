@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Shows and allows you to edit your details for all protocols.]
-Модуль дазваляе паказваць і рэдагаваць вашы дэталі для ўсіх пратаколаў.
+Дазваляе паказваць і рэдагаваць вашы дэталі для ўсіх пратаколаў.
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Мой нік

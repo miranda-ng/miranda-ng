@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.1.4
+;  Version: 0.1.1.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
@@ -34,8 +34,6 @@
 (але толькі 1 раз у дзень)
 [Every]
 Кожныя
-[Update icons]
-Абнаўляць значкі
 [Files source]
 Крыніца абнаўлення
 [Stable version]
@@ -134,6 +132,8 @@
 Загрузка завершана. Прыступіць да абнаўлення? Усе дадзеныя будуць захаваны, а Miranda NG зачынена.
 [You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
 Вы адмовіліся ад неадкладнай усталёўкі абнаўлення плагінаў.\nВы можаце ўсталяваць гэта абнаўленне ўручную адгэтуль:\n\n%s
+[<< Details]
+<< Дэталі
 [No updates found.]
 Абнаўленняў няма.
 [Update checking already started!]

@@ -6,7 +6,7 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
-Модуль дазваляе кіраваць Miranda праз камандны радок.
+Плагін дазваляе кіраваць Miranda праз камандны радок.
 ;file \plugins\CmdLine\MimCmd\src\commands.cpp
 [No help for '%s'.]
 Няма дапамогі для '%s'.
@@ -47,13 +47,13 @@ Miranda была зачынена ці адбылася памылка пры ч
 [Changed '%s' status message to '%s' (status is '%s').]
 Зменена '%s' паведамленне статуту на '%s' (статут '%s').
 [Issued check email command to Exchange plugin.]
-Адпраўлена каманда праверкі пошты для модуля Exchange.
+Адпраўлена каманда праверкі пошты для плагіна Exchange.
 [Exchange plugin is not running.]
-Модуль Exchange не запушчаны.
+Плагін Exchange не запушчаны.
 [Issued check email command to YAMN plugin.]
-Адпраўлена каманда праверкі пошты для модуля YAMN.
+Адпраўлена каманда праверкі пошты для плагіна YAMN.
 [YAMN plugin is not running.]
-Модуль YAMN не запушчаны.
+Плагін YAMN не запушчаны.
 [Invalid parameter '%s' passed to CallService command.]
 Няправільны аргумент '%s' адпраўлены камандзе CallService.
 [Service '%s' does not exist.]
@@ -90,7 +90,7 @@ Miranda была зачынена ці адбылася памылка пры ч
 Кантакт '%s' мае '%d' падзей у гісторыі.
 ;file \plugins\CmdLine\src\services.cpp
 [You can only run one instance of CmdLine plugin.]
-Вы можаце запускаць толькі адну копію модуля CmdLine.
+Вы можаце запускаць толькі адну копію плагіна CmdLine.
 ;file \plugins\CmdLine\src\utils.cpp
 [Notify]
 Апавяшчэнне

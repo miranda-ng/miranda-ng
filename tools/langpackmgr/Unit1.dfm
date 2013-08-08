@@ -1,144 +1,134 @@
 object Form1: TForm1
   Left = 0
   Top = 0
-  BiDiMode = bdLeftToRight
-  BorderIcons = [biSystemMenu, biMinimize]
-  Caption = 'Miranda NG Langpack Manager'
-  ClientHeight = 323
-  ClientWidth = 679
+  Caption = 'LangPackMgr'
+  ClientHeight = 342
+  ClientWidth = 785
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  Menu = MainMenu1
   OldCreateOrder = False
-  ParentBiDiMode = False
   OnCreate = FormCreate
-  OnKeyDown = enter
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 8
-    Top = 19
-    Width = 20
-    Height = 13
-    Caption = 'File:'
-  end
-  object Label2: TLabel
-    Left = 328
-    Top = 19
+    Left = 514
+    Top = 320
     Width = 6
     Height = 13
-    Caption = '1'
-  end
-  object Label3: TLabel
-    Left = 356
-    Top = 19
-    Width = 3
-    Height = 13
-  end
-  object ListBox1: TListBox
-    Left = 478
-    Top = 38
-    Width = 193
-    Height = 277
-    ItemHeight = 13
-    TabOrder = 0
-    OnClick = ListBox1Click
-  end
-  object Edit1: TEdit
-    Left = 37
-    Top = 11
-    Width = 204
-    Height = 21
-    Enabled = False
-    TabOrder = 1
+    Caption = '0'
   end
   object Button1: TButton
-    Left = 247
-    Top = 7
-    Width = 75
+    Left = 631
+    Top = 308
+    Width = 146
     Height = 25
-    Caption = 'OPEN'
-    TabOrder = 2
+    Caption = 'Save and refresh'
+    TabOrder = 0
+    TabStop = False
     OnClick = Button1Click
   end
   object Button2: TButton
-    Left = 480
-    Top = 7
-    Width = 193
+    Left = 8
+    Top = 308
+    Width = 146
     Height = 25
-    Caption = 'SAVE AND REFRESH'
-    TabOrder = 3
+    Caption = 'Custom Plugins'
+    TabOrder = 1
+    TabStop = False
     OnClick = Button2Click
   end
-  object C: TBitBtn
-    Left = 8
-    Top = 290
-    Width = 27
+  object BitBtn1: TBitBtn
+    Left = 160
+    Top = 308
+    Width = 41
     Height = 25
-    Hint = 'Copy Original'
-    Caption = 'C'
-    ParentShowHint = False
-    ShowHint = True
+    Caption = 'Copy'
+    TabOrder = 2
+    TabStop = False
+    OnClick = BitBtn1Click
+  end
+  object BitBtn2: TBitBtn
+    Left = 207
+    Top = 308
+    Width = 42
+    Height = 25
+    Caption = 'Google:'
+    TabOrder = 3
+    TabStop = False
+    OnClick = BitBtn2Click
+  end
+  object BitBtn3: TBitBtn
+    Left = 279
+    Top = 308
+    Width = 50
+    Height = 25
+    Caption = 'Clear'
     TabOrder = 4
-    OnClick = CClick
+    TabStop = False
+    OnClick = BitBtn3Click
   end
-  object X: TBitBtn
-    Left = 74
-    Top = 290
-    Width = 27
-    Height = 25
-    Hint = 'Clear Translate'
-    Caption = 'X'
-    ParentShowHint = False
-    ShowHint = True
+  object ListBox1: TListBox
+    Left = 8
+    Top = 8
+    Width = 146
+    Height = 294
+    TabStop = False
+    Enabled = False
+    ItemHeight = 13
     TabOrder = 5
-    OnClick = XClick
+    OnClick = ListBox1Click
   end
-  object G: TBitBtn
-    Left = 41
-    Top = 290
-    Width = 27
-    Height = 25
-    Hint = 'Google Translator'
-    Caption = 'G'
-    ParentShowHint = False
-    ShowHint = True
+  object ListBox2: TListBox
+    Left = 631
+    Top = 8
+    Width = 146
+    Height = 294
+    ItemHeight = 13
     TabOrder = 6
-    OnClick = GClick
+    OnClick = ListBox2Click
+  end
+  object Edit1: TEdit
+    Left = 255
+    Top = 312
+    Width = 18
+    Height = 21
+    TabOrder = 7
+    Text = 'be'
   end
   object Memo1: TMemo
-    Left = 8
-    Top = 38
-    Width = 466
-    Height = 120
-    ScrollBars = ssBoth
-    TabOrder = 7
-  end
-  object Memo2: TMemo
-    Left = 8
-    Top = 156
-    Width = 466
-    Height = 120
-    ScrollBars = ssBoth
+    Left = 160
+    Top = 8
+    Width = 465
+    Height = 144
+    ScrollBars = ssHorizontal
     TabOrder = 8
   end
-  object T: TBitBtn
-    Left = 447
-    Top = 290
-    Width = 27
-    Height = 25
-    Hint = 'Enable On Top'
-    Caption = 'T'
-    ParentShowHint = False
-    ShowHint = True
+  object Memo2: TMemo
+    Left = 160
+    Top = 158
+    Width = 465
+    Height = 144
+    ScrollBars = ssHorizontal
     TabOrder = 9
-    OnClick = TClick
   end
-  object OpenDialog1: TOpenDialog
-    Left = 448
-    Top = 7
+  object MainMenu1: TMainMenu
+    Left = 512
+    Top = 309
+    object File1: TMenuItem
+      Caption = 'File'
+      object Open1: TMenuItem
+        Caption = 'Open'
+        OnClick = Open1Click
+      end
+    end
+  end
+  object SaveTextFileDialog1: TSaveTextFileDialog
+    Left = 480
+    Top = 309
   end
 end

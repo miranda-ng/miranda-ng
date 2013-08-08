@@ -137,15 +137,15 @@
 Не магу стварыць карту файла  (%u)
 ;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp
 [Processing module name chain]
-Апрацоўка ланцужка імёнаў модуляў
+Апрацоўка ланцужка імёнаў плагінаў
 [Module chain corrupted, further entries ignored]
-Ланцужок модуляў пашкоджана, наступныя дадзеныя ігнараваны
+Ланцужок плагінаў пашкоджаны, наступныя дадзеныя ігнараваны
 [Unreasonably long module name, skipping]
-Занадта доўгае імя модуля, прапусканы
+Занадта доўгае імя плагіна, прапускаю
 [Module name '%s' is not unique: %d duplicates found)]
-Імя модуля '%s' не ўнікальна: знойдзена %d дублікатаў)
+Імя плагіна '%s' не паўторана: знойдзена %d дублікатаў)
 [Invalid module name offset, skipping data]
-Няправільнае зрушэнне імя модуля, прапусканы дадзеныя
+Няправільнае зрушэнне імя плагіна, прапушчаны дадзеныя
 ;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
 [Settings chain corrupted, further entries ignored]
 Ланцужок налад пашкоджана, наступныя дадзеныя ігнараваны

@@ -37,13 +37,13 @@
 [Apply template for info from contacts (overrides contacts template)]
 Ужыць шаблон для інфармацыі ад кантактаў
 [Get info from WATrack plugin]
-Атрымаць інфармацыю з модуля WATrack
+Атрымаць інфармацыю з WATrack
 [Get info from these players:]
 Атрымліваць інфармацыю з плэераў:
 [Windows Media Player]
 Прайгравальнік Windows Media
 [foobar2000 (need to install the plugin manually)]
-foobar2000 (усталюйце модуль уручную)
+foobar2000 (усталюйце плагін уручную)
 [Other players]
 Астатнія плэеры
 [Ask for new info every]
@@ -51,7 +51,7 @@ foobar2000 (усталюйце модуль уручную)
 [seconds]
 секунд(ы)
 [Allow auto-loading plugins into players (affect players with *)]
-Аўтаматычна загружаць модулі ў плэеры (толькі для пазначаных *)
+Аўтаматычна загружаць плагіны ў плэеры (толькі для пазначаных *)
 [Listening to]
 Слухаю
 [Template:]

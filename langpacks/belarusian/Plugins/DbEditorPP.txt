@@ -13,7 +13,7 @@
 [Case Sensitive]
 Улік рэгістра
 [Module Name]
-Модуль
+Плагін
 [Exact Match]
 Дакладна
 [Setting Name]
@@ -43,17 +43,17 @@
 [Automatically expand "settings" when Database Editor ++ starts]
 Адкрываць галінку "налады" пры запуску
 [Use known modules list]
-Выкарыстоўваць спіс вядомых модуляў
+Выкарыстоўваць спіс вядомых плагінаў
 [Warn when deleting modules]
-Папярэджваць пры выдаленні модуляў
+Папярэджваць пры выдаленні плагінаў
 ["Open user tree in DBE++" menu item]
 Пункт меню "адкрыць у рэдактары базы" ў кожнага кантакту
 [Use popups when watched settings change values]
 Усплывальныя вокны пры змене назіраных значэнняў
 [Modules to ALWAYS mark as known (e.g core modules)]
-Модулі, ЗАЎСЁДЫ адзначаныя як вядомыя
+Плагіны, ЗАЎСЁДЫ адзначаныя як вядомыя
 [Put a space or comma between each module name]
-Модулі падзяляць прабеламі ці коскамі
+плагіны падзяляць прабеламі ці коскамі
 [Changes to this list will take effect next time miranda starts]
 Змены ў гэтым спісе набудуць моц пры наступным запуску Miranda NG
 [Popup timeout (0 for infinite)]
@@ -61,11 +61,11 @@
 [Background colour]
 Колер фону
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
-Калі ў імі модуля ёсць прабел, змесціце \\ перад ім, напр. "aaa\\ bbb"
+Калі ў назве плагіна ёсць прабел, змесціце \\ перад ім, напр. "aaa\\ bbb"
 [Add a module to contact]
-Дадаць модуль у кантакт
+Дадаць плагін у кантакт
 [Add a module named]
-Дадаць модуль з назвай
+Дадаць плагін з назвай
 [Add to all contacts (Includes Settings)]
 Ва ўсе кантакты (уключаючы налады)
 [OK]
@@ -85,13 +85,13 @@
 [Watched Database Variables]
 Зменныя пад назіраннем
 [Copy module to contact]
-Капіяваць модуль у кантакт
+Капіяваць плагін у кантакт
 [Copy to all contacts (Includes Settings)]
 Ва ўсе кантакты (і агульныя налады)
 [Contact to copy module and settings to]
-Капіяваць модуль і налады ў
+Капіяваць плагін і налады ў
 [Import Module/Settings]
-Імпартаваць модуль/налады
+Імпартаваць плагін/налады
 [Import]
 Імпартаваць
 [Insert &CR/LF]
@@ -103,7 +103,7 @@
 [&Main]
 &Галоўнае
 [&Refresh Modules]
-&Абнавіць модулі
+&Абнавіць плагіны
 [Refresh &Settings]
 Абнавіць &налады
 [E&xit]
@@ -113,7 +113,7 @@
 [&Search and Replace]
 &Знайсці і замяніць...
 [&Delete Module]
-&Выдаліць модуль...
+&Выдаліць плагін...
 [&Watches]
 &Назіранні
 [&View all]
@@ -195,9 +195,9 @@ Null Mod кантэкст
 [Copy To Contact]
 Капіяваць у кантакт...
 [Export Module]
-Экспартаваць модуль...
+Экспартаваць плагін...
 [Add To Known Modules]
-Дадаць у вядомыя модулі
+Дадаць у вядомыя плагіны
 [Contact menu]
 Меню кантакту
 [&Clone]
@@ -211,7 +211,7 @@ Null Mod кантэкст
 [From pasted text]
 З устаўленага тэксту...
 [&Add Module]
-Дадаць модуль...
+Дадаць плагін...
 [NULL contact menu]
 NULL меню кантакту
 [Export Settings]
@@ -223,7 +223,7 @@ NULL меню кантакту
 [Import Contacts]
 Імпартаваць кантакты
 [Export Module from all contacts]
-Экспартаваць модуль з усіх кантактаў...
+Экспартаваць плагін з усіх кантактаў...
 [new item]
 новы пункт
 [Watch Window]
@@ -264,13 +264,13 @@ NULL меню кантакту
 Налады
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
-Выдаліць модуль "%s"?
+Выдаліць плагін "%s"?
 [Confirm Module Deletion]
-Выдаліць модуль?
+Выдаліць плагін?
 [Delete module from Database]
-Выдаліць модуль з базы
+Выдаліць плагін з базы
 [Delete module from Database... Loading]
-Выдаленне модуля з базы... Загрузка
+Выдаленне плагіна з базы... Загрузка
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 INI файлы
@@ -279,7 +279,7 @@ INI файлы
 [Export to file]
 Экспарт
 [Error Loading Module List]
-Памылка загрузкі спісу модуляў
+Памылка загрузкі спісу плагінаў
 [Couldn't open file for writing]
 Не атрымоўваецца адкрыць файл на запіс
 [Import from files]
@@ -296,13 +296,13 @@ INI файлы
 [Found]
 Знойдзена
 [%s Module "%s" in contact "%s"]
-%s модуль "%s" у кантакце "%s"
+%s плагін "%s" у кантакце "%s"
 [%s Setting "%s" in module "%s" in contact "%s" - "%s"]
-%s налада "%s" у модулі "%s" кантакту "%s" - "%s"
+%s налада "%s" у плагіны "%s" кантакту "%s" - "%s"
 [%s Setting "%s" in module "%s" in contact "%s"]
-%s налада "%s" у модулі "%s" кантакту "%s"
+%s налада "%s" у плагіны "%s" кантакту "%s"
 [%s "%s" in Setting "%s" in module "%s" in contact "%s"]
-%s "%s" у наладзе "%s" у модулі "%s" кантакту "%s"
+%s "%s" у наладзе "%s" у плагіны "%s" кантакту "%s"
 [Searching...]
 Пошук...
 [Error Loading Setting List]
@@ -315,13 +315,13 @@ INI файлы
 Пошук завершаны, знойдзена %d элемент(аў).
 ;file \plugins\DbEditorPP\src\icons.cpp
 [Closed Known Module]
-Вядомы модуль (зачынены)
+Вядомы плагін (зачынены)
 [Open Known Module]
-Вядомы модуль (адкрыты)
+Вядомы плагін (адкрыты)
 [Closed Unknown Module]
-Невядомы модуль (зачынены)
+Невядомы плагін (зачынены)
 [Open Unknown Module]
-Невядомы модуль (адкрыты)
+Невядомы плагін (адкрыты)
 [Contacts Group]
 Група кантактаў
 [Unknown Contact]
@@ -345,13 +345,13 @@ INI файлы
 [Loading contacts...]
 Загрузка кантактаў...
 [Loading modules...]
-Загрузка модуляў...
+Загрузка плагінаў...
 [Contacts]
 Кантакты
 [HANDLE]
 HANDLE
 [Add module to contact "%s"]
-Дадаць модуль кантакту "%s"
+Дадаць плагін кантакту "%s"
 ;file \plugins\DbEditorPP\src\options.cpp
 [Database]
 Профіль
@@ -388,14 +388,14 @@ HANDLE
 [Module]
 Плагiн
 [Setting]
-Параметр
+Налада
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
-Зменена налада базы: \n модуль: "%s" , налада: "%s"\n новае значэнне: (байт) %d
+Зменена налада базы: \nПлагін: "%s" , налада: "%s"\nНовае значэнне: (байт) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]
-Зменена налада базы: \n модуль: "%s" , налада: "%s"\n новае значэнне: (слова) %d
+Зменена налада базы: \nПлагін: "%s" , налада: "%s"\nНовае значэнне: (слова) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (DWORD) 0x%X]
-Зменена налада базы: \n модуль: "%s" , налада: "%s"\n новае значэнне: (падвойнае слова) 0x%X
+Зменена налада базы: \nПлагін: "%s" , налада: "%s"\nНовае значэнне: (падвойнае слова) 0x%X
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
-Зменена налада базы: \n модуль: "%s" , налада: "%s"\n новае значэнне: "%s"
+Зменена налада базы: \nПлагін: "%s" , налада: "%s"\nНовае значэнне: "%s"
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
-Зменена налада БД: \n Модуль: "%s" , Налада: "%s"\n Новае значэнне: (UTF8) "%s"
+Зменена налада БД: \nПлагін: "%s" , Налада: "%s"\nНовае значэнне: (UTF8) "%s"

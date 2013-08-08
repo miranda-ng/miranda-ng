@@ -1,6 +1,7 @@
 ﻿;============================================================
 ;  File: wundergrnd_intl.ini
 ;  Module: weather
+;============================================================
 [Light Rain Showers]
 Ідзе слабы дождж
 [Thunderstorms And Rain]
@@ -483,3 +484,17 @@
 Снег, 60% верагоднасць ападкаў
 [Light Low Drifting Snow]
 Слабы снег, замець
+[Snow 30% Chance Of Precipitation]
+Снег 30% верагоднасць ападкаў
+[Light Snow Rain]
+Невялікі снег з дажджом
+[Chance Rain 90% Chance Of Precipitation]
+Дождж 90% верагоднасць ападкаў
+[Chance Of T-Storms 70% Chance Of Precipitation]
+Магчымы навальніцы, 70% верагоднасць ападкаў
+[T-Storms 30% Chance Of Precipitation]
+T-навальніцы, 30% верагоднасць ападкаў
+[Chance Of T-Storms 90% Chance Of Precipitation]
+Т-навальніцы, 90% верагоднасць ападкаў
+[Chance Of T-Storms 80% Chance Of Precipitation]
+Т-навальніцы, 80% верагоднасць ападкаў

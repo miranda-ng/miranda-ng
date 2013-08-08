@@ -31,7 +31,7 @@
 [Generate and use random key]
 Згенераваць і выкарыстоўваць ключ
 [Account:]
-Уліковы запіс:
+Конт:
 [Change password]
 Змяніць пароль
 [Set GPG bin path and keyring home dir.]

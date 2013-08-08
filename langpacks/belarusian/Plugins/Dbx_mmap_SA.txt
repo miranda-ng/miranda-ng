@@ -130,7 +130,7 @@ EN
 [Error]
 Памылка
 [Crypto modules not found]
-Модулі шыфравання не знойдзены
+Плагіны шыфравання не знойдзены
 [DB is already secured!]
 Профіль ужо зашыфраваны!
 [current database]

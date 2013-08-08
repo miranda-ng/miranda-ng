@@ -170,7 +170,7 @@ Id
 Выдаліць метакантакт?
 ;file \plugins\MetaContacts\src\meta_main.cpp
 [Error - Database corruption.\nPlugin disabled.]
-Памылка - база пашкоджана.\n Модуль адключаны.
+Памылка - база пашкоджана.\nПлагін адключаны.
 [MetaContacts]
 Метакантакты
 ;file \plugins\MetaContacts\src\meta_menu.cpp

@@ -29,7 +29,7 @@
 Аднавіць пераклад
 ;file \plugins\LangMan\src\options.cpp
 [All installed plugins are included.]
-Усе модулі перакладзены.
+Усе плагіны перакладзены.
 [(incompatible)]
 (несумяшчальны)
 [Unknown]

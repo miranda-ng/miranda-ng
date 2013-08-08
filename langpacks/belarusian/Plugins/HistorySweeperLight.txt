@@ -6,7 +6,7 @@
 ;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico
 ;============================================================
 [This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.]
-Гэты модуль можа чысціць сістэмную гісторыю, гісторыю ўсіх кантактаў ці толькі абраных; чысціць гісторыю больш старую чым вызначаны час; і можа рабіць гэта пры запуску/выключэнні праграмы.
+Гэты плагін можа чысціць сістэмную гісторыю, гісторыю ўсіх кантактаў ці толькі абраных; чысціць гісторыю больш старую чым вызначаны час; і можа рабіць гэта пры запуску/выключэнні праграмы.
 ;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
 [History Sweeper Light]
 Чыстка гісторыі

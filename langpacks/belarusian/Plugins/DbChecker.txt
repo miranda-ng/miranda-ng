@@ -6,7 +6,7 @@
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
-Модуль праверкі БД Miranda NG.
+Плагін праверкі БД Miranda NG.
 ;file \plugins\DbChecker\res\resource.rc
 [Welcome to the Miranda Database Wizard]
 Сардэчна запрашаем у майстар базы дадзеных
@@ -102,7 +102,7 @@
 Апрацоўка яшчэ не завершана; калі вы пяройдзеце назад цяпер, то змены не будуць ужыты да арыгінальнай базы дадзеных. Вы жадаеце перайсці назад?
 ;file \plugins\DbChecker\src\selectdb.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
-Модуль праверкі не можа знайсці падыходнага драйвера БД для адкрыцця '%s'.
+Плагін праверкі не можа знайсці патэбнага драйвера БД для адкрыцця '%s'.
 [Error]
 Памылка
 [Database driver '%s' doesn't support checking.]

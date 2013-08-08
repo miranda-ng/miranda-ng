@@ -203,7 +203,7 @@
 [Scan SubContacts for missing information]
 Пошук адсутнай інфармацыі ў субкантактах
 [Enable extended 'send/receive email' service (*)]
-Уключыць пашыраны модуль электроннай пошты (*)
+Уключыць пашыраны плагін электроннай пошты (*)
 [Use Windows Timezone]
 Гадзінны пояс Windows
 [(*) Requires Miranda to be restarted.]
@@ -311,9 +311,9 @@ E-Mail
 [Contact History]
 Гісторыя кантакту
 [Select Modules]
-Абярыце модулі
+Абярыце плагіны
 [Check the Modules in the TreeView which you want to export for the contact. To add    the file as a new list entry later you need to export at least the protocol module.]
-Адзначце ў спісе тыя модулі, якія вы жадаеце экспартаваць для кантактаў. Для дадання кантакту з файла ў выглядзе новага запісу, неабходна экспартаваць хоць бы модуль пратаколу.
+Адзначце ў спісе тыя плагіны, якія вы жадаеце экспартаваць для кантактаў. Для дадання кантакту з файла ў выглядзе новага запісу, неабходна экспартаваць хоць бы плагін пратаколу.
 [Check all]
 Абраць усё
 [Uncheck all]
@@ -446,7 +446,7 @@ E-Mail
 [Address]
 Адрас
 [Export: Modules]
-Экспарт: Модулі
+Экспарт: Плагіны
 [Export: Folder]
 Экспарт: Тэчка
 [Default]
@@ -1022,9 +1022,9 @@ Web Дызайн
 [All Contacts]
 Усе кантакты
 [Required modules]
-Абавязковыя модулі
+Абавязковыя плагіны
 [Optional modules]
-Дадатковыя модулі
+Дадатковыя плагіны
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 [Import complete]

@@ -79,6 +79,10 @@
 Схаваць
 [NeverHide]
 Ніколі не хаваць
+[Hiding %s (%S)]
+Утойванне %s (%S)
+[%d days since last message]
+апошняе паведамленне %d
 [Disable Miss You]
 Выключыць "Чакаю цябе"
 [You awaited this contact!]

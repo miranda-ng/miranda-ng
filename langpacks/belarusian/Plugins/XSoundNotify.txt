@@ -9,7 +9,7 @@
 Падае пашыраныя опцыі гукавых апавяшчэнняў пра ўваходныя паведамленні.
 ;file \plugins\XSoundNotify\res\XSoundNotify.rc
 [Account:]
-Уліковы запіс:
+Конт:
 [Nick:]
 Нік:
 [Sound:]

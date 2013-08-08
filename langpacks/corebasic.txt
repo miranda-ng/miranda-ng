@@ -1,0 +1,22 @@
+﻿This file contains a list of plug-ins that run in build:
+AIM
+AVS
+AdvaImg
+Clist_modern
+Clist_mw
+Clist_nicer
+Dbchecker
+Dbx_3x
+Dbx_mmap
+Facebook
+GG
+ICQ
+Import
+IRC
+Jabber
+MSN
+PluginUpdater
+Scriver
+TabSRMM
+TopToolBar
+Yahoo

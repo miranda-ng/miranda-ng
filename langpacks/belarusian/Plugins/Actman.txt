@@ -23,6 +23,10 @@
 Тып lParam
 [Service name]
 Імя службы
+[wParam]
+wParam
+[lParam]
+lParam
 [Structure]
 Структура
 [Result action]

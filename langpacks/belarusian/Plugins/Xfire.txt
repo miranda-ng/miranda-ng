@@ -5,6 +5,8 @@
 Пароль:
 [Loginname:]
 Лагін
+[XFire]
+XFire
 [Nick:]
 Нік:
 [Current Protocolversion:]
@@ -79,16 +81,26 @@
 Змяняць статус на Заняты ці Не турбаваць
 [The status message and status will be reset, if you close the game.]
 Статуснае паведамленне і статус будуць скінуты, калі вы зачыніце гульню.
+[Prefer dnd when it is available]
+Не турбаваць, калі магчыма
 [Games]
 Гульні
+[Game:]
+Гульня:
 [Dont detect this game as running]
 Не выяўляць гульню калі запушчана
 [Apply]
 Ужыць
 [Dont set status message for other protocols]
 Не ставіць паведамленне статусу іншым пратаколам
+[Add new game]
+Дадаць новую гульню
 [Remove]
 Выдаліць
+[Extra Command Line Parameters:]
+Дадатковыя параметры каманднага радка:
+[Edit ...]
+Рэдагаваць...
 [Username:]
 Карыстач:
 [Game]
@@ -97,24 +109,40 @@
 Галасавы чат
 [Name:]
 Імя:
+[Unreal Tournament 2004]
+Unreal Tournament 2004
+[IP:]
+IP:
 [Port:]
 Порт:
 [Userdetails]
 Дэталі карыстача
+[dufte]
+добра
 [Copy]
 Капіяваць
+[Enter Password]
+Увядзіце пароль
+[Join]
+Далучыцца
 [Set Nickname]
 Увод ніка
 [OK]
 ОК
 [Cancel]
 Скасаваць
+[New supported Games:]
+Падтрымліваюцца новыя гульні:
 [Update]
 Абнавіць
 [Add Game]
 Дадаць
 [Search:]
 Шукаць:
+[Custom ...]
+Налаздіць...
+[Game name:]
+Назва гульні:
 [Browse ...]
 Агляд...
 [Add a new game]
@@ -129,6 +157,8 @@
 Налады XFire
 [Please choose one game in the list!]
 Калі ласка, абярыце гульню са спісу!
+[Supported Games]
+Падтрымліваемыя гульні
 ;file \protocols\Xfire\src\all_statusmsg.cpp
 [Yep, I'm here.]
 Так, я тут.
@@ -176,10 +206,14 @@
 Перасканаваць мае гульні...
 [Set &Nickname]
 Псеўданім...
+[Protocols/XFire]
+Пратаколы/XFire
 [XFire game icon]
 Абразок гульні XFire
 [XFire voice icon]
 Абразок голаса XFire
+[XFire does not support offline messaging!]
+XFireне падтрымлівае паведамленні адключаным!
 [Username]
 Імя карыстача
 [Unable to connect to XFire.]
@@ -192,15 +226,23 @@
 Вы сапраўды жадаеце выдаліць %s?
 [Confirm Delete]
 Пацвердзіце выдаленне
+[Block this user from ever contacting you again?]
+Блакаваць гэтага карыстальніка калі ён звяжацца з Вамі зноў?
+[Block Confirmation]
+Блок пацверджання
 ;file \protocols\Xfire\src\options.cpp
 [Avatars]
 Аватары
 [Disable avatars]
 Выключыць аватары
+[Dont download avatars of clan members]
+Не пампаваць аватары членаў клана
 [Use alternate way for Avatar download]
 Выкарыстоўваць альтэрнатыўны шлях спампоўкі аватараў
 [General]
 Агульнае
+[Use UTF8 for messaging and nick's (beta)]
+Выкарыстоўвайць UTF8 для абмену паведамленнямі і нікаў (тэстава)
 [Automatically reconnect on protocol version changes]
 Аўтаматычна пяры далучацца пры змене версіі пратаколу
 [No Ip/Port in StatusMsg]
@@ -221,6 +263,8 @@
 Не паказваць акно пры пошуку гульняў
 [Display popup, if someone start a game]
 Усплывальныя вокны, калі хто-небудзь пачынае гульню
+[Enable MBot support]
+Дадаць падтрымку MBot
 [Gamedetection]
 Выяўленне гульні
 [Disable game detection]
@@ -241,6 +285,8 @@
 Не ствараць бекапы пры абнаўленні
 [Background updating]
 Абнаўляць фон
+[The username must be lowercase, so it will be lowercased saved.]
+Імя карыстача павінна быць у ніжнім рэгістры, таму яно будзе захавана ў ніжнім рэгістры.
 [The changes you have made require you to reconnect to the XFire network before they take effect]
 Зробленыя вамі змены будуць дзейнічаць пры наступным далучэнні да XFire.
 [Hidden]
@@ -257,8 +303,18 @@
 Дзён
 [<Root Group>]
 <Каранёвая група>
+[Are you sure you want to remove this game?]
+Вы ўпэунены, што жадаеце выдаліць гульню?
+[Please select a game.]
+Абярыце гульню.
+[Error unknown game id.]
+Памылка невядомы ID гульні.
 [Not supported]
 Не падтрымліваецца
+[Configuration saved!]
+Канфігурацыя захавана!
+[Game not found?!]
+Гульня не знойдзена?!
 [Network]
 Сеціва
 [Account]
@@ -270,6 +326,8 @@
 [StatusMsg]
 Статусныя паведамленні
 ;file \protocols\Xfire\src\searching4games.cpp
+[Write to database ...]
+Запісь у БД...
 [Games found:%s%s]
 Знойдзены гульні:%s%s
 ;file \protocols\Xfire\src\userdetails.cpp

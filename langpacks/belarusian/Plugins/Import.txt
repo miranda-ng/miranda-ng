@@ -13,21 +13,21 @@
 [From a Miranda NG database.]
 З базы Miranda NG/IM.
 [This wizard will help you import contacts and message history from another Miranda profile or from an external program.]
-Гэты майстар дапаможа вам імпартаваць кантакты і гісторыю з Mirabilis ICQ, а таксама з іншых профіляў Miranda.
+Гэты візард дапаможа вам імпартаваць кантакты і гісторыю з Mirabilis ICQ, а таксама з іншых профіляў Miranda.
 [Click "Next" to choose the information you wish to import, or click "Cancel" to exit the wizard and continue using Miranda.]
 Націсніце "Далей", каб абраць інфармацыю для імпартавання, ці "Скасаваць", каб выйсці з гэтага майстра.
 [It is recommended that you create a backup of your current Miranda profile before importing.]
 Рэкамендуецца стварыць рэзервовую копію бягучага профіля перад імпартаваннем.
 [If you wish to import more information, click "Next" to return to the start of the wizard, otherwise click "Finish" to start using Miranda.]
-Націсніце "Далей", каб імпартаваць яшчэ адну базу, ці "Завяршыць", каб запусціць Miranda IM
+Націсніце "Далей", каб імпартаваць яшчэ адну базу, ці "Завяршыць", каб запусціць Miranda.
 [You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the import menu item will no longer be available.]
-Хутчэй за ўсё, вам больш не спатрэбіцца гэты майстар. Вы можаце вызваліць памяць, не загружаючы яго пры запуску Miranda.
+Хутчэй за ўсё, вам больш не спатрэбіцца гэты візард. Вы можаце вызваліць памяць, не загружаючы яго пры запуску Miranda.
 [Do not load the import plugin at startup again]
-Не загружаць майстар пры наступным запуску
+Не загружаць візард пры наступным запуску
 [Import completed]
 Імпарт завершаны
 [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
-Калі вам у будучыні спатрэбіцца гэты майстар, адзначце модуль import.dll у наладах (частка "Модулі").
+Калі вам у будучыні спатрэбіцца гэты візард, уключыце плагін import.dll у наладах (частка "Плагіны").
 [Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
 Miranda знайшла наступныя профілі. Абярыце профіль са спісу, ці націсніце "Іншы профіль", калі Вашага профіля няма ў спісе ці спіс пусты.
 [&Other Profile...]

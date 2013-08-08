@@ -1,11 +1,17 @@
 ﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
-;  Plugin: MSN
+;  Plugin: MSN Protocol
 ;  Version: 0.11.0.2
-;  Authors: 
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
+[Microsoft Network (MSN) protocol support for Miranda NG.]
+Падтрымка пратакола Microsoft Network (MSN).
 ;file \protocols\MSN\res\msn.rc
+[MSN]
+MSN
+[Live ID:]
+Live ID:
 [Password:]
 Пароль:
 [Nickname:]
@@ -102,6 +108,8 @@
 Заблакаваць
 [Invite Contact To Chat]
 Запрасіць да чата
+[Live ID]
+Live ID
 [&Invite]
 Запрасіць
 [&Cancel]
@@ -126,6 +134,8 @@
 ;file \protocols\MSN\src\msn_commands.cpp
 [Contact tried to open an audio conference (currently not supported)]
 Кантакт спрабаваў адкрыць аўдыёканферэнцыю (не падтрымліваецца)
+[%I64u bytes]
+%I64u bytes
 [Accept NetMeeting request from %s?]
 Прымеце запыт NetMeeting ад  %s?
 [MSN Protocol]
@@ -169,6 +179,10 @@ MSN Чат
 [Unread mail is available: %d in Inbox and %d in other folders).]
 Маецца непрачытаная пошта: %d уваходных пісьмаў і %d у іншых тэчках.
 ;file \protocols\MSN\src\msn_menu.cpp
+[&Unblock]
+Разблакаваць
+[&Block]
+Блакаваць
 [Open &Hotmail Inbox]
 Адкрыць скрыню &Hotmail
 [Send &Hotmail E-mail]
@@ -185,8 +199,6 @@ MSN Чат
 Прагледзець &профіль
 [Setup Live &Alerts]
 Налады Live &Alerts
-[&Block]
-Блакаваць
 [&Start Netmeeting]
 Запусціць Netmeeting
 ;file \protocols\MSN\src\msn_misc.cpp
@@ -278,7 +290,7 @@ Live апавяшчэнне
 Паведамленні адключаным LCS кантактам немагчымыя
 ;file \protocols\MSN\src\msn_svcs.cpp
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
-Для MSN таймаўт адпраўлення паведамлення павінен быць не меней, чым 60 секунд. Калі ласка, наладзьце ваш модуль паведамленняў.
+Для MSN таймаўт адпраўлення паведамлення павінен быць не меней, чым 60 секунд. Калі ласка, наладзьце ваш плагін гутаркі.
 [Convert to Chat]
 Канвертаваць у чат
 ;file \protocols\MSN\src\msn_ws.cpp

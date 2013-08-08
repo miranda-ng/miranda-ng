@@ -1,4 +1,4 @@
-program langpackmgr;
+program LangPackMgr;
 
 uses
   Vcl.Forms,

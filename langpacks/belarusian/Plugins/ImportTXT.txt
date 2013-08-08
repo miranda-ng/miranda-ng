@@ -52,7 +52,7 @@
 [Import Text Files Wizard]
 Майстар Імпарту Тэкставых Файлаў
 [This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
-Гэты майстар дапаможа вам імпартаваць паведамленні з некаторых іншых кліентаў і модуляў Miranda IM, якія захоўваюць іх у тэкставых файлах.
+Гэты майстар дапаможа вам імпартаваць паведамленні з некаторых іншых кліентаў і модуляў Miranda, якія захоўваюць іх у тэкставых файлах.
 [Click ""Next"" to choose the information you wish to import, or click ""Cancel"" to exit the wizard and continue using Miranda.]
 Націсніце "Далей" каб абраць інфармацыю для імпартавання, ці "Адмена" каб выйсці з гэтага майстра.
 [Choose type of imported files:]
@@ -92,7 +92,7 @@
 [Show duplicates]
 Выводзіць дублікаты
 [Error at initialization XML parser]
-Памылка ініцыялізацыі XML-модуля
+Памылка ініцыялізацыі XML-праглядчыка
 [Import history to %s (%s)]
 Імпартаваць гісторыю ў %s (%s)
 [Can't determine destination contact]

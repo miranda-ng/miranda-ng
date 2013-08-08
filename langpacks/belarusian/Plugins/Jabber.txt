@@ -456,7 +456,7 @@ Jabber Ad-Hoc каманды на
 [Supports generic publish-subscribe functionality]
 Асноўная функцыянальнасць падпісак
 [Supports SecureIM plugin for Miranda NG]
-Падтрымка модуля SecureIM Miranda
+Падтрымка плагіна SecureIM Miranda
 [Can block communications from particular other users using Privacy lists]
 Блакаванне карыстачоў з выкарыстаннем лістоў прыватнасці
 [Supports Message Receipts]
@@ -767,7 +767,7 @@ Jabber памылка
 [Registration successful]
 Рэгістрацыя паспяхова пройдзена
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
-Пароль паспяхова зменены. Не забудзьцеся абнавіць Ваш пароль у наладах уліковага запісу Jabber.
+Пароль паспяхова зменены. Не забудзьцеся абнавіць Ваш пароль у наладах Конта Jabber.
 [Password cannot be changed.]
 Пароль не можа быць зменены
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
@@ -1244,7 +1244,7 @@ Jabber Рэсурс
 [Confirm password]
 Увядзіце пароль
 [This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
-Гэта аперацыя выдаліць Ваш конт, росцер і ўсю інфармацыю захоўваемую на серверы. Вы сапраўды жадаеце выдаліць уліковы запіс?
+Гэта аперацыя выдаліць Ваш конт, росцер і ўсю інфармацыю захоўваемую на серверы. Вы сапраўды жадаеце выдаліць Конт?
 [Account removal warning]
 Выдаленне конту
 [You can change your password only when you are online]
@@ -1296,7 +1296,7 @@ Jabber Рэсурс
 [Disable frame]
 Выключыць фрэйм
 [Enable XMPP link processing (requires Association Manager)]
-Апрацоўваць XMPP спасылкі (патрабуецца модуль "Association Manager")
+Апрацоўваць XMPP спасылкі (патрабуецца плагін "Association Manager")
 [Keep contacts assigned to local groups (ignore roster group)]
 Выкарыстоўваць лакальныя групы (ігнараваць групы росцеру)
 [Security]

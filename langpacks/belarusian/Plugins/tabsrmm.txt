@@ -46,6 +46,8 @@
 Налады
 [Add new rooms to group:]
 Дадаваць чат-пакоі ў групу:
+[Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
+Інтэграваны чат выключаны. Вы можаце ўключыць яго тут, а затым вам неабходны перазапуск Міранды пасля занясення гэтай змены.\n\nНеабходна адключыць стандартны модуль чата, калі вы ўключаеце падтрымку групавых чатаў тут. Інакш чаты могуць наогул не працаваць.
 [Log files]
 Файлы лога
 [Enable logging to disk]
@@ -116,6 +118,10 @@
 Капіяваць усё
 [Word lookup]
 Знайсці слова
+[Google]
+Google
+[Wikipedia]
+Wikipedia
 [Link]
 Спасылка
 [Open a &new browser window]
@@ -157,6 +163,8 @@
 Працягнуць
 [Exit Miranda]
 Выйсці з Міранды
+[Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
+Хаця выключэнне было ​​злоўлена, і вы можаце працягваць працаваць з Мірандай, вы павінны перазапусціць праграму як мага хутчэй. Выключэнне, магчыма, пашкоджаны ўнутраныя структуры дадзеных і можа аказаць сур'ёзны ўплыў на стабільнасць.
 [Customize the panel]
 Наладзіць інфа-панэль
 [Scope of settings]
@@ -185,8 +193,8 @@
 Дадатковыя налады
 [Message send timeout]
 Таймаўт адпраўкі
-[seconds.]
-секунд.
+[seconds]
+секунд
 [Input history size]
 Памер гісторыі ўводу
 [entries]

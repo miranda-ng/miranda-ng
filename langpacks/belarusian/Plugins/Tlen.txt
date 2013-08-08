@@ -214,7 +214,7 @@ Tlen запрашэнне галасавога чата
 %d файлаў
 ;file \protocols\Tlen\src\tlen_muc.cpp
 [You have been kicked. Reason: %s ]
-Вас выкінулі. Чыннік: %s
+Вас выгналі. Чыннік: %s
 [You cannot join this chat room, because you are banned.]
 Вы не можаце ўвайсці ў пакой, таму што Вы заблакаваны.
 [Chat room not found.]

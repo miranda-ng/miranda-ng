@@ -86,7 +86,7 @@ E-mail:
 [InfoType:]
 Тып пёр.:
 [Module/InfoType]
-Модуль/Тып пёр.
+Плагін/Тып
 [Not Selected]
 Не абрана
 [FIRSTNAME]
@@ -118,9 +118,9 @@ E-mail:
 [UNIQUEID]
 Ідэнтыфікатар
 [This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.]
-Модуль дазволіць вам хутка знайсці нік, імя, прозвішча, e-mail, uin у вашым спісе кантактаў. Зараз вы можаце дадаць любы радок, каб адлюстроўваць, напрыклад, версіі Miranda, групы ці гарады.
+Плагін дазволіць вам хутка знайсці мянушку, імя, прозвішча, e-mail, uin у вашым спісе кантактаў. Зараз вы можаце дадаць любы радок, каб адлюстроўваць, напрыклад, версіі Miranda, групы ці гарады.
 [This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.Press F3 for activate...]
-Модуль дазволіць вам хутка знайсці мянушку, імя, прозвішча, e-mail, uin у вашым спісе кантактаў. Зараз вы можаце дадаць любы радок, каб адлюстроўваць, напрыклад, версіі Miranda, групы ці гарады. Націсніце F3 для запуску.
+Плагін дазволіць вам хутка знайсці мянушку, імя, прозвішча, e-mail, uin у вашым спісе кантактаў. Зараз вы можаце дадаць любы радок, каб адлюстроўваць, напрыклад, версіі Miranda, групы ці гарады. Націсніце F3 для запуску.
 [New Column]
 Дадаць
 [Save Column]
@@ -176,13 +176,13 @@ CSV з загалоўкамі
 [Odd foreground]
 Тэкст няцотных радкоў
 [Disabled account background]
-Фон адключаных уліковых запісаў
+Фон адключаных контаў
 [Disabled account foreground]
-Тэкст адключаных уліковых запісаў
+Тэкст адключаных контаў
 [Deleted account background]
 Фон выдаленых уліковых запісаў
 [Deleted account foreground]
-Тэкст выдаленых уліковых запісаў
+Тэкст выдаленых контаў
 [Not-in-list contact background]
 Фон кантактаў не ў спісе
 [Not-in-list contact foreground]

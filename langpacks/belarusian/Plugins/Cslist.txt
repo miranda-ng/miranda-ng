@@ -6,7 +6,7 @@
 ;  Authors: Mataes, jarvis
 ;============================================================
 [This plugin offers simple management functions to keep your extra statuses on one place.]
-Гэты модуль падае просты ў выкарыстанні мэнэджар хстатусу ICQ і магчымасць захоўвання хстатусаў у адным месцы.
+Гэты плагін падае просты ў выкарыстанні мэнэджар хстатусу ICQ і магчымасць захоўвання хстатусаў у адным месцы.
 ;file \plugins\CSList\res\cslist.rc
 [Custom Status List]
 Карыстацкі спіс статусаў
@@ -23,7 +23,7 @@
 [Remember last window position]
 Памятаць апошняе становішча акна
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
-Нататка: Пункты меню адлюстроўваюцца толькі пры наяўнасці хоць бы аднаго правільна ўсталяванага ўліковага запісу ICQ. Праверце, калі ў вас ёсць прынамсі адзін уліковы запіс з UIN.
+Нататка: Пункты меню адлюстроўваюцца толькі пры наяўнасці хоць бы аднаго правільна ўсталяванага ўліковага запісу ICQ. Праверце, калі ў вас ёсць прынамсі адзін Конт з UIN.
 ;file \plugins\CSList\src\cslist.cpp
 [Status]
 Статус

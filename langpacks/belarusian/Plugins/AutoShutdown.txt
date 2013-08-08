@@ -172,7 +172,7 @@ Miranda NG аўтаматычна зачынецца праз %u секунд(ы
 [Sets all Miranda NG protocols to offline.]
 Адключыць усе пратаколы Miranda NG.
 [Logs the current Windows user off so that another user can log in.]
-Выйсці з уліковага запісу Windows, каб іншы карыстач змог увайсці.
+Выйсці з Конту Windows, каб іншы карыстач змог увайсці.
 [Shuts down Windows and then restarts Windows.]
 Адключыць і затым перазапусціць Windows.
 [Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power.]

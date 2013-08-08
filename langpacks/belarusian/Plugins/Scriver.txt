@@ -926,6 +926,8 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Тэма '%s'
 [The topic is '%s' (set by %s)]
 Тэма '%s' (усталявана %s)
+[&Message %s]
+Паведамленне %s
 ;file \plugins\Scriver\src\chat\window.cpp
 [Italic]
 Курсіў

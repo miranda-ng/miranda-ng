@@ -13,7 +13,7 @@
 [Add Contact\nAdd a contact to your contact list]
 Дадаць кантакт\nДадаць кантакт у спіс кантактаў
 [Account:]
-Уліковы запіс:
+Конт:
 [Contact ID:]
 ID Кантакта:
 [Custom name:]

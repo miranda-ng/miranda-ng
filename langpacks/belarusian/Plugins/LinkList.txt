@@ -130,7 +130,7 @@
 Немагчыма стварыць акно!
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 [Linklist Plugin]
-Linklist Модуль
+Плагін Linklist
 ;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
 [Matches for searchtext]
 Выяўлена супадзенняў пры пошуку

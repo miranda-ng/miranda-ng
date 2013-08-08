@@ -203,6 +203,26 @@ AIM Усталяваць Instant Idle
 Няслушны пароль.
 [Invalid Email.]
 Няслушная скрыня.
+[Invalid Old Password.]
+Няслушны стары пароль.
+[Need Old Password.]
+Патрэбны стары пароль.
+[Read Only Field.]
+Поле толькі для чытання.
+[Write Only Field.]
+Поле толькі для запісу.
+[Unsupported Type.]
+Непадтрымваемы тып.
+[Invalid Account.]
+Няслушны конт.
+[Delete Account.]
+Выдалены конт.
+[Expired Account.]
+Мінулы конт.
+[No Database access.]
+Няма доступу да БД.
+[Invalid Database fields.]
+Няслушны файл ДБ.
 [Internal Error.]
 Унутраная памылка.
 [No Email Address.]
@@ -224,8 +244,12 @@ AIM Усталяваць Instant Idle
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
 (Аўтаадказ):
+[Contact tried to open an audio/video conference (currently not supported)]
+Кантакт спрабаваў адкрыць аўдыё / відэа канферэнцыі (зараз не падтрымліваецца)
 [No information has been provided by the server.]
 Сервер не падаў ніякай інфармацыі.
+[Cannot add buddy. Limit for this type of item exceeded.]
+Немагчыма дадаць кантакт. У вас ужо максімальна магчымая колькасць.
 [Error? Attempting to add ICQ contact to an AIM list.]
 Памылка? Спроба дадаць кантакт ICQ у AIM.
 [Cannot add this buddy because it requires authorization.]
@@ -269,8 +293,6 @@ ICQ
 Пошта AOL
 [AIM Icon]
 Значок AIM
-[Hiptop]
-Паведамленне было адпраўлена на ваш электронны адрас. Калі ласка, прытрымлівайцеся яго ўказанням.
 [AOL Bot]
 Бот AOL
 [Admin]
