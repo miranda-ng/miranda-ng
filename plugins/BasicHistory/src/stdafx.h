@@ -61,7 +61,7 @@
 #include "m_smileyadd.h"
 #include "m_metacontacts.h"
 
-#include "..\zlib\src\zlib.h"
+#include "..\zlib\src\zconf.h"
 #include "..\zlib\src\ioapi.h"
 #include "..\zlib\src\zip.h"
 #include "..\zlib\src\unzip.h"
