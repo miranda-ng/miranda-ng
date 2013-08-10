@@ -207,17 +207,19 @@ static INT_PTR TypingMessageCommand(WPARAM wParam, LPARAM lParam)
 
 static int TypingMessage(WPARAM wParam, LPARAM lParam)
 {
-	HWND hwnd;
-
-	if (!(g_dat.flags2&SMF2_SHOWTYPING))
+	if (!(g_dat.flags2 & SMF2_SHOWTYPING))
 		return 0;
-	if ((hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)wParam))) {
+
+	SkinPlaySound((lParam) ? "TNStart" : "TNStop");
+
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)wParam);
+	if (hwnd)
 		SendMessage(hwnd, DM_TYPING, 0, lParam);
-	} else if ((int) lParam && (g_dat.flags2&SMF2_SHOWTYPINGTRAY)) {
+	else if (lParam && (g_dat.flags2 & SMF2_SHOWTYPINGTRAY)) {
 		TCHAR szTip[256];
 
 		mir_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message"), (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR));
-		if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && !(g_dat.flags2&SMF2_SHOWTYPINGCLIST)) {
+		if ( ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && !(g_dat.flags2 & SMF2_SHOWTYPINGCLIST)) {
 			MIRANDASYSTRAYNOTIFY tn;
 			tn.szProto = NULL;
 			tn.cbSize = sizeof(tn);
@@ -559,6 +561,9 @@ int OnLoadModule(void)
 	SkinAddNewSoundEx("RecvMsgInactive", LPGEN("Instant messages"), LPGEN("Incoming (Unfocused Window)"));
 	SkinAddNewSoundEx("AlertMsg", LPGEN("Instant messages"), LPGEN("Incoming (New Session)"));
 	SkinAddNewSoundEx("SendMsg", LPGEN("Instant messages"), LPGEN("Outgoing"));
+	SkinAddNewSoundEx("TNStart", LPGEN("Instant messages"), LPGEN("Contact started typing"));
+	SkinAddNewSoundEx("TNStop",  LPGEN("Instant messages"), LPGEN("Contact stopped typing"));
+
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(NULL, IDC_SIZEWE);
 	hCurHyperlinkHand = LoadCursor(NULL, IDC_HAND);
