@@ -45,16 +45,10 @@ A queue to request items. One request is done at a time, REQUEST_WAIT_TIME milis
 static void RequestThread(void *vParam);
 
 extern HANDLE hShutdownEvent;
-extern char *g_szMetaName;
-extern int ChangeAvatar(HANDLE hContact, BOOL fLoad, BOOL fNotifyHist = FALSE, int pa_format = 0);
 extern int DeleteAvatar(HANDLE hContact);
 extern void MakePathRelative(HANDLE hContact, TCHAR *path);
 int Proto_GetDelayAfterFail(const char *proto);
 BOOL Proto_IsFetchingAlwaysAllowed(const char *proto);
-
-struct CacheNode *FindAvatarInCache(HANDLE hContact, BOOL add, BOOL findAny = FALSE);
-
-extern BOOL g_AvatarHistoryAvail;
 
 #ifdef _DEBUG
 int _DebugTrace(const char *fmt, ...);
@@ -209,7 +203,7 @@ void ProcessAvatarInfo(HANDLE hContact, int type, PROTO_AVATAR_INFORMATIONT *pai
 	}
 }
 
-int FetchAvatarFor(HANDLE hContact, char *szProto = NULL)
+int FetchAvatarFor(HANDLE hContact, char *szProto)
 {
 	int result = GAIR_NOAVATAR;
 

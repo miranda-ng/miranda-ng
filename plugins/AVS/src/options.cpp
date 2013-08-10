@@ -35,13 +35,6 @@ extern HANDLE hEventChanged;
 extern HINSTANCE g_hInst;
 extern HICON g_hIcon;
 
-extern int CreateAvatarInCache(HANDLE hContact, struct avatarCacheEntry *ace, char *szProto);
-extern INT_PTR ProtectAvatar(WPARAM wParam, LPARAM lParam);
-extern int ChangeAvatar(HANDLE hContact, BOOL fLoad, BOOL fNotifyHist = FALSE, int pa_format = 0);
-extern HBITMAP LoadPNG(struct avatarCacheEntry *ace, char *szFilename);
-extern HANDLE GetContactThatHaveTheAvatar(HANDLE hContact, int locked = -1);
-
-extern BOOL Proto_IsAvatarsEnabled(const char *proto);
 extern BOOL ScreenToClient(HWND hWnd, LPRECT lpRect);
 
 static BOOL dialoginit = TRUE;

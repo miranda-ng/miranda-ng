@@ -50,9 +50,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "poll.h"
 #include "acc.h"
 
-
-// shared vars
-//extern HINSTANCE g_hInst;
+#ifndef SHVIEW_THUMBNAIL
+#define SHVIEW_THUMBNAIL 0x702D
+#endif
 
 /* most free()'s are invalid when the code is executed from a dll, so this changes
  all the bad free()'s to good ones, however it's still incorrect code. The reasons for not
@@ -89,10 +89,16 @@ struct protoPicCacheEntry : public avatarCacheEntry, public MZeroedObject
 
 extern OBJLIST<protoPicCacheEntry> g_ProtoPictures, g_MyAvatars;
 
-extern FI_INTERFACE *fei;
+struct SetMyAvatarHookData
+{
+	char *protocol;
+	BOOL square;
+	BOOL grow;
 
-int SetAvatarAttribute(HANDLE hContact, DWORD attrib, int mode);
-void DeleteAvatarFromCache(HANDLE, BOOL);
+	BOOL thumbnail;
+};
+
+extern FI_INTERFACE *fei;
 
 #define GAIR_FAILED 1000
 
@@ -101,4 +107,59 @@ void DeleteAvatarFromCache(HANDLE, BOOL);
 #define AVS_DEFAULT "Global avatar"
 
 void mir_sleep(int time);
-extern bool g_shutDown;
+extern bool  g_shutDown;
+extern char *g_szMetaName;
+extern TCHAR g_szDataPath[];		// user datae path (read at startup only)
+extern BOOL  g_MetaAvail, g_AvatarHistoryAvail;
+extern HWND  hwndSetMyAvatar;
+
+extern HINSTANCE g_hInst;
+
+extern HANDLE hMyAvatarsFolder;
+extern HANDLE hGlobalAvatarFolder;
+extern HANDLE hLoaderEvent, hShutdownEvent;
+extern HANDLE hEventChanged, hEventContactAvatarChanged, hMyAvatarChanged;
+
+int   GetFileHash(TCHAR* filename);
+DWORD GetFileSize(TCHAR *szFilename);
+const TCHAR *GetFormatExtension(int format);
+int   GetImageFormat(TCHAR *filename);
+void  MakePathRelative(HANDLE hContact);
+void  MakePathRelative(HANDLE hContact, TCHAR *dest);
+
+HBITMAP LoadPNG(struct avatarCacheEntry *ace, char *szFilename);
+
+void InitCache(void);
+void UnloadCache(void);
+int  CreateAvatarInCache(HANDLE hContact, avatarCacheEntry *ace, char *szProto);
+void DeleteAvatarFromCache(HANDLE, BOOL);
+void PicLoader(LPVOID param);
+
+void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bmHeight, DWORD dwFlags);
+
+int ChangeAvatar(HANDLE hContact, BOOL fLoad, BOOL fNotifyHist = FALSE, int pa_format = 0);
+void DeleteGlobalUserAvatar();
+int  FetchAvatarFor(HANDLE hContact, char *szProto = NULL);
+CacheNode* FindAvatarInCache(HANDLE hContact, BOOL add, BOOL findAny = FALSE);
+int  SetAvatarAttribute(HANDLE hContact, DWORD attrib, int mode);
+void SetIgnoreNotify(char *protocol, BOOL ignore);
+
+INT_PTR DrawAvatarPicture(WPARAM wParam, LPARAM lParam);
+INT_PTR GetAvatarBitmap(WPARAM wParam, LPARAM lParam);
+INT_PTR GetMyAvatar(WPARAM wParam, LPARAM lParam);
+INT_PTR ProtectAvatar(WPARAM wParam, LPARAM lParam);
+INT_PTR ReportMyAvatarChanged(WPARAM wParam, LPARAM lParam);
+
+HANDLE GetContactThatHaveTheAvatar(HANDLE hContact, int locked = -1);
+
+void ProcessAvatarInfo(HANDLE hContact, int type, PROTO_AVATAR_INFORMATIONT *pai, const char *szProto);
+
+int  Proto_GetDelayAfterFail(const char *proto);
+BOOL Proto_NeedDelaysForAvatars(const char *proto);
+BOOL Proto_IsAvatarsEnabled(const char *proto);
+BOOL Proto_IsAvatarFormatSupported(const char *proto, int format);
+int  Proto_AvatarImageProportion(const char *proto);
+void Proto_GetAvatarMaxSize(const char *proto, int *width, int *height);
+int  Proto_GetAvatarMaxFileSize(const char *proto);
+
+protoPicCacheEntry* GetProtoDefaultAvatar(HANDLE hContact);

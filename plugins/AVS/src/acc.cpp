@@ -23,13 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-int GetImageFormat(TCHAR *filename);
-INT_PTR DrawAvatarPicture(WPARAM wParam, LPARAM lParam);
-INT_PTR GetAvatarBitmap(WPARAM wParam, LPARAM lParam);
-INT_PTR GetMyAvatar(WPARAM wParam, LPARAM lParam);
-void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bmHeight, DWORD dwFlags);
-
-
 #define DM_AVATARCHANGED (WM_USER + 20)
 #define DM_MYAVATARCHANGED (WM_USER + 21)
 
