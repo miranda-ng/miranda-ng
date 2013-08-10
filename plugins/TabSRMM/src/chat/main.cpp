@@ -115,25 +115,19 @@ void LoadLogIcons(void)
 	hIcons[ICON_STATUS4] = LoadIconEx(IDI_STATUS4, "status4", 16, 16);
 	hIcons[ICON_STATUS0] = LoadIconEx(IDI_STATUS0, "status0", 16, 16);
 	hIcons[ICON_STATUS5] = LoadIconEx(IDI_STATUS5, "status5", 16, 16);
-
-	return;
 }
 
 void LoadIcons(void)
 {
-	int i;
-
-	for (i=0; i < 20; i++)
+	for (int i=0; i < 20; i++)
 		hIcons[i] = NULL;
 
 	LoadLogIcons();
 	g_Settings.hIconOverlay = LoadIconEx(IDI_OVERLAY, "overlay", 16, 16);
 	LoadMsgLogBitmaps();
-	return ;
 }
 
 void FreeIcons(void)
 {
 	FreeMsgLogBitmaps();
-	return;
 }

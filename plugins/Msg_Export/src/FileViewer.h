@@ -22,12 +22,12 @@
 void Initialize();
 void Uninitilize();
 
-void UpdateFileViews( const TCHAR *pszFile );
+void UpdateFileViews( const TCHAR *pszFile);
 
-bool bOpenExternaly( HANDLE hContact );
-bool bShowFileViewer( HANDLE hContact );
+bool bOpenExternaly( HANDLE hContact);
+bool bShowFileViewer( HANDLE hContact);
 
-bool bUseInternalViewer( bool bNew );
+bool bUseInternalViewer( bool bNew);
 bool bUseInternalViewer();
 
 extern tstring sFileViewerPrg;
