@@ -28,8 +28,6 @@ int hLangpack;
 
 HANDLE hHeap = NULL;
 
-LPSTR g_szClientDescription = NULL;
-
 //End of header
 
 // PluginInfo & PluginInfoEx
@@ -70,9 +68,6 @@ extern "C" int	__declspec(dllexport) Load(void)
 
 extern "C" int	__declspec(dllexport) Unload()
 {
-	if (g_szClientDescription != NULL)
-		mir_free(g_szClientDescription);
-
 	HeapDestroy(hHeap);
 	ClearFI();
 	UninitFingerModule();

@@ -378,14 +378,14 @@ void getIP(HANDLE hContact,LPSTR szProto,LPSTR szIP)
 	strcat(szIP, szmIP);
 }
 
-LPSTR getMirVer(HANDLE hContact)
+LPTSTR getMirVer(HANDLE hContact)
 {
 	LPSTR szProto = GetContactProto(hContact);
 	if (!szProto) return NULL;
 
-	LPSTR msg = db_get_sa(hContact,szProto,"MirVer");
+	LPTSTR msg = db_get_tsa(hContact,szProto,"MirVer");
 	if (msg) {
-		if (strlen(msg))	
+		if (msg[0] != 0)	
 			return msg;
 		mir_free(msg);
 	}
@@ -601,10 +601,10 @@ void ModifyCopyMirVer(HANDLE hContact)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_ICON;
 
-	if (ServiceExists(MS_FP_GETCLIENTICON)) {
-		LPSTR msg = getMirVer(hContact);
+	if ( ServiceExists(MS_FP_GETCLIENTICONT)) {
+		LPTSTR msg = getMirVer(hContact);
 		if (msg) {
-			mi.hIcon = (HICON)CallService(MS_FP_GETCLIENTICON,(WPARAM)msg,(LPARAM)1);
+			mi.hIcon = Finger_GetClientIcon(msg, 1);
 			mir_free(msg);
 		}
 	}
@@ -703,11 +703,11 @@ INT_PTR onCopyIP(WPARAM wparam,LPARAM lparam)
 
 INT_PTR onCopyMirVer(WPARAM wparam,LPARAM lparam)
 {
-	LPSTR msg = getMirVer((HANDLE)wparam);
+	LPTSTR msg = getMirVer((HANDLE)wparam);
 	if (msg) {
-		CopyToClipboard((HWND)lparam, msg, 0);
+		CopyToClipboard((HWND)lparam, _T2A(msg), 0);
 		if (CTRL_IS_PRESSED && bPopupService)
-			ShowPopup(msg, 0, (HANDLE)wparam);
+			ShowPopup( _T2A(msg), 0, (HANDLE)wparam);
 
 		mir_free(msg);
 	}

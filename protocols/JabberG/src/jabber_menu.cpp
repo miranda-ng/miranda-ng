@@ -456,7 +456,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 						if (ServiceExists(MS_FP_GETCLIENTICONT)) {
 							clmi.flags |= CMIM_ICON;
 							FormatMirVer(r, szTmp, SIZEOF(szTmp));
-							clmi.hIcon = (HICON)CallService(MS_FP_GETCLIENTICONT, (WPARAM)szTmp, 0);
+							clmi.hIcon = Finger_GetClientIcon(szTmp, 0);
 						}
 						mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%s [%s, %d]"), r->resourceName, pcli->pfnGetStatusModeDescription(r->status, 0), r->priority);
 						clmi.ptszName = szTmp;

@@ -176,7 +176,7 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 	POPUPDATAT ppd = {0};
 	ppd.lchContact = sd->hContact;
 	char *szProto = GetContactProto(sd->hContact);
-	pdata->hIcon = ppd.lchIcon = (HICON)CallService(MS_FP_GETCLIENTICON, (WPARAM)(const char*)TCHAR2ANSI(sd->MirVer), false);
+	pdata->hIcon = ppd.lchIcon = Finger_GetClientIcon(sd->MirVer, false);
 	_ASSERT(ppd.lchIcon);
 	if (!ppd.lchIcon || (DWORD)ppd.lchIcon == CALLSERVICE_NOTFOUND) {
 		// if we didn't succeed retrieving client icon, show the usual status icon instead
@@ -247,8 +247,8 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 		sd.PopupOptPage = &PopupOptPage;
 		if (!PopupOptPage.GetValue(IDC_POPUPOPTDLG_VERCHGNOTIFY) || !PopupOptPage.GetValue(IDC_POPUPOPTDLG_SHOWVER)) {
 			if (bFingerprintExists) {
-				LPCTSTR ptszOldClient = (LPCTSTR)CallService(MS_FP_SAMECLIENTST, (WPARAM)(TCHAR*)sd.OldMirVer, (LPARAM)(TCHAR*)sd.OldMirVer); // remove version from MirVer strings. I know, the way in which MS_FP_SAMECLIENTS is used here is pretty ugly, but at least it gives necessary results
-				LPCTSTR ptszClient = (LPCTSTR)CallService(MS_FP_SAMECLIENTST, (WPARAM)(TCHAR*)sd.MirVer, (LPARAM)(TCHAR*)sd.MirVer);
+				LPCTSTR ptszOldClient = Finger_IsSameClents(sd.OldMirVer, sd.OldMirVer); 
+				LPCTSTR ptszClient = Finger_IsSameClents(sd.MirVer, sd.MirVer);
 				if (ptszOldClient && ptszClient) {
 					if (PerContactSetting != NOTIFY_ALMOST_ALWAYS && PerContactSetting != NOTIFY_ALWAYS && !PopupOptPage.GetValue(IDC_POPUPOPTDLG_VERCHGNOTIFY) && !_tcscmp(ptszClient, ptszOldClient))
 						return 0;
@@ -371,7 +371,7 @@ static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 {
 	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUP);
 	bMetaContactsExists = ServiceExists(MS_MC_GETPROTOCOLNAME) && ServiceExists(MS_MC_GETMETACONTACT);
-	bFingerprintExists = ServiceExists(MS_FP_SAMECLIENTS) && ServiceExists(MS_FP_GETCLIENTICON);
+	bFingerprintExists = ServiceExists(MS_FP_SAMECLIENTST) && ServiceExists(MS_FP_GETCLIENTICONT);
 	bVariablesExists = ServiceExists(MS_VARS_FORMATSTRING);
 	return 0;
 }

@@ -141,10 +141,7 @@ HBITMAP __inline CreateBitmap32(int cx, int cy);
 HBITMAP __fastcall CreateBitmap32Point(int cx, int cy, LPVOID* bits);
 HANDLE __fastcall GetIconIndexFromFI(LPTSTR szMirVer);
 
-BOOL __fastcall WildCompareA(LPSTR name, LPSTR mask);
 BOOL __fastcall WildCompareW(LPWSTR name, LPWSTR mask);
-BOOL __inline WildCompareProcA(LPSTR name, LPSTR mask);
-BOOL __inline WildCompareProcW(LPWSTR name, LPWSTR mask);
 
 void __fastcall Prepare(KN_FP_MASK* mask);
 void RegisterIcons();
@@ -154,7 +151,6 @@ void RegisterIcons();
 
 extern HINSTANCE g_hInst;
 extern HANDLE hHeap;
-extern LPSTR g_szClientDescription;
 
 extern KN_FP_MASK 
 	def_kn_fp_mask[], 

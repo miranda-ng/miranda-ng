@@ -713,7 +713,7 @@ begin
       CheckDlgButton(Dialog,IDC_CH_EXPORTHEADERS  ,ORD(qsopt.exportheaders));
       CheckDlgButton(Dialog,IDC_CH_SKIPMINIMIZED  ,ORD(qsopt.skipminimized));
       CheckDlgButton(Dialog,IDC_CH_SAVEPATTERN    ,ORD(qsopt.savepattern));
-      if ServiceExists(MS_FP_GETCLIENTICON)<>0 then
+      if ServiceExists(MS_FP_GETCLIENTICONW)<>0 then
         CheckDlgButton(Dialog,IDC_CH_SHOWCLIENTICONS,ORD(qsopt.showclienticons))
       else
         EnableWindow(GetDlgItem(Dialog,IDC_CH_SHOWCLIENTICONS),false);

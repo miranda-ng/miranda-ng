@@ -402,17 +402,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						for (i = 0; opt.exIconsOrder[i] != 5; i++);
 						if ( ServiceExists(MS_FP_GETCLIENTICONT)) {
 							if (!db_get_ts(pwd->hContact, szProto, "MirVer", &dbv)) {
-								pwd->extraIcons[i].hIcon = (HICON)CallService(MS_FP_GETCLIENTICONT, (WPARAM)dbv.ptszVal, 0);
+								pwd->extraIcons[i].hIcon = Finger_GetClientIcon(dbv.ptszVal, 0);
 								pwd->extraIcons[i].bDestroy = true;
 								db_free(&dbv);
 							}
-						}
-						else if (ServiceExists(MS_FP_GETCLIENTICON)) {
-							if (!db_get_s(pwd->hContact, szProto, "MirVer", &dbv)) {
-								pwd->extraIcons[i].hIcon = (HICON)CallService(MS_FP_GETCLIENTICON, (WPARAM)dbv.pszVal, 0);
-								pwd->extraIcons[i].bDestroy = true;
-								db_free(&dbv);
-							}	
 						}
 					}
 

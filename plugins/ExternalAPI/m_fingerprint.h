@@ -24,47 +24,33 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /*  January 12, 2006													*/
 /************************************************************************/
 
-
 /*
  *   FINGERPRINT PLUGIN SERVICES HEADER
  */
 
 /*
- *   Service SameClients MS_FP_SAMECLIENTS
- *	 wParam - char * first MirVer value 
- *   lParam - char * second MirVer value 
- *	 return pointer to char string - client desription (DO NOT DESTROY) if clients are same otherwise NULL
- */
-#define MS_FP_SAMECLIENTS "Fingerprint/SameClients"
-
-/*
- *   Service SameClientsW MS_FP_SAMECLIENTSW
+ *  Service SameClientsW MS_FP_SAMECLIENTSW
  *	 wParam - LPWSTR first MirVer value 
- *   lParam - LPWSTR second MirVer value 
- *	 return pointer to char string - client desription (DO NOT DESTROY) if clients are same otherwise NULL
+ *  lParam - LPWSTR second MirVer value 
+ *	 return LPWSTR: client desription (DO NOT DESTROY) if clients are same otherwise NULL
  */
 #define MS_FP_SAMECLIENTSW "Fingerprint/SameClientsW"
 
-/*
- *   Service GetClientIcon MS_FP_GETCLIENTICON
- *	 wParam - char * MirVer value to get client for.
- *   lParam - int noCopy - if wParam is equal to "1"  will return icon handler without copiing icon.
- *   the returned in this case handler is static valid  only till next service call.
- */
-#define MS_FP_GETCLIENTICON "Fingerprint/GetClientIcon"
+__forceinline LPCWSTR Finger_IsSameClents(LPCWSTR pwszName1, LPCWSTR pwszName2)
+{	return (LPCWSTR)CallService(MS_FP_SAMECLIENTSW, (WPARAM)pwszName1, (WPARAM)pwszName2);
+}
 
 /*
- *   Service GetClientIconW MS_FP_GETCLIENTICONW
+ *  Service GetClientIconW MS_FP_GETCLIENTICONW
  *	 wParam - LPWSTR MirVer value to get client for.
- *   lParam - int noCopy - if wParam is equal to "1"  will return icon handler without copiing icon.
- *   the returned in this case handler is static valid  only till next service call.
+ *  lParam - int noCopy - if wParam is equal to "1"  will return icon handler without copiing icon.
+ *  the returned in this case handler is static valid  only till next service call.
  */
 #define MS_FP_GETCLIENTICONW "Fingerprint/GetClientIconW"
 
-#if defined( _UNICODE )
-	#define MS_FP_SAMECLIENTST MS_FP_SAMECLIENTSW
-	#define MS_FP_GETCLIENTICONT MS_FP_GETCLIENTICONW
-#else
-	#define MS_FP_SAMECLIENTST MS_FP_SAMECLIENTS
-	#define MS_FP_GETCLIENTICONT MS_FP_GETCLIENTICON
-#endif
+__forceinline HICON Finger_GetClientIcon(LPCWSTR pwszName, BOOL bNoCopy)
+{	return (HICON)CallService(MS_FP_SAMECLIENTSW, (WPARAM)pwszName, bNoCopy);
+}
+
+#define MS_FP_SAMECLIENTST MS_FP_SAMECLIENTSW
+#define MS_FP_GETCLIENTICONT MS_FP_GETCLIENTICONW

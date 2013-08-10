@@ -48,7 +48,7 @@ const
   ptString  = 2;
   ptUnicode = 3;
   ptCurrent = 4;
-  
+
 const //types
   ST_BYTE        = 0;
   ST_WORD        = 1;
@@ -169,7 +169,7 @@ const
   so_skipminimized   :PAnsiChar = 'skipminimized';
   so_showoffline     :PAnsiChar = 'showoffline';
   so_colorize        :PAnsiChar = 'colorize';
-  
+
   so__title          :PAnsiChar = '_title';
   so__setting_type   :PAnsiChar = '_setting_type';
   so__setting_cnftype:PAnsiChar = '_setting_cnftype';
@@ -220,7 +220,7 @@ var
   ttbopt:TTBButton;
 begin
   removetoolbar;
-  
+
   if qsopt.showintoptoolbar then
   begin
     if ServiceExists(MS_TTB_ADDBUTTON)>0 then
@@ -681,7 +681,7 @@ begin
     qsopt.savepattern     :=GetBool(so_savepattern     ,true);
     qsopt.colorize        :=GetBool(so_colorize        ,true);
 
-    if ServiceExists(MS_FP_GETCLIENTICON)<>0 then
+    if ServiceExists(MS_FP_GETCLIENTICONW)<>0 then
       qsopt.showclienticons:=GetBool(so_showclienticons,true)
     else
       qsopt.showclienticons:=false;

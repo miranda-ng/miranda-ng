@@ -178,59 +178,6 @@ int OnExtraIconClick(WPARAM wParam, LPARAM lParam, LPARAM)
 	return 0;
 }
 
-/*
-*	WildCompareA
-*	Compare 'name' string with 'mask' strings.
-*	Masks can contain '*' or '?' wild symbols
-*	Asterics '*' symbol covers 'empty' symbol too e.g WildCompare("Tst","T*st*"), returns TRUE
-*	In order to handle situation 'at least one any sybol' use "?*" combination:
-*	e.g WildCompare("Tst","T?*st*"), returns FALSE, but both WildCompare("Test","T?*st*") and
-*	WildCompare("Teeest","T?*st*") return TRUE.
-*
-*	Function is case sensitive! so convert input or modify func to use _qtoupper()
-*
-*	Mask can contain several submasks. In this case each submask (including first)
-*	should start from '|' e.g: "|first*submask|second*mask".
-*
-*	Dec 25, 2006 by FYR:
-*	Added Exception to masks: the mask "|^mask3|mask2|mask1" means:
-*	if NOT according to mask 3 AND (mask1 OR mask2)
-*	EXCEPTION should be BEFORE main mask:
-*		IF Exception match - the comparing stops as FALSE
-*		IF Exception does not match - comparing continue
-*		IF Mask match - comparing stops as TRUE
-*		IF Mask does not not match comparing continue
-*/
-BOOL __fastcall WildCompareA(LPSTR szName, LPSTR szMask)
-{
-	if (*szMask != '|')
-		return WildCompareProcA(szName, szMask);
-
-	size_t s = 1, e = 1;
-	LPSTR szTemp = (LPSTR)_alloca(strlen(szMask) * sizeof(CHAR) + sizeof(CHAR));
-	BOOL bExcept;
-
-	while(szMask[e] != '\0') {
-		s = e;
-		while(szMask[e] != '\0' && szMask[e] != '|') e++;
-
-		// exception mask
-		bExcept = (*(szMask + s) == '^');
-		if (bExcept) s++;
-
-		memcpy(szTemp, szMask + s, (e - s) * sizeof(CHAR));
-		szTemp[e - s] = '\0';
-
-		if (WildCompareProcA(szName, szTemp))
-			return !bExcept;
-
-		if (szMask[e] != '\0')
-			e++;
-		else
-			return FALSE;
-	}
-	return FALSE;
-}
 
 /*
 *	WildCompareW
@@ -261,7 +208,7 @@ BOOL __fastcall WildCompareW(LPWSTR wszName, LPWSTR wszMask)
 		return NULL;
 
 	if (*wszMask != L'|')
-		return WildCompareProcW(wszName, wszMask);
+		return wildcmpw(wszName, wszMask);
 
 	size_t s = 1, e = 1;
 	LPWSTR wszTemp = (LPWSTR)_alloca(wcslen(wszMask) * sizeof(WCHAR) + sizeof(WCHAR));
@@ -279,7 +226,7 @@ BOOL __fastcall WildCompareW(LPWSTR wszName, LPWSTR wszMask)
 		memcpy(wszTemp, wszMask + s, (e - s) * sizeof(WCHAR));
 		wszTemp[e - s] = L'\0';
 
-		if (WildCompareProcW(wszName, wszTemp))
+		if ( wildcmpw(wszName, wszTemp))
 			return !bExcept;
 
 		if (wszMask[e] != L'\0')
@@ -288,56 +235,6 @@ BOOL __fastcall WildCompareW(LPWSTR wszName, LPWSTR wszMask)
 			return FALSE;
 	}
 	return FALSE;
-}
-
-BOOL __inline WildCompareProcA(LPSTR szName, LPSTR szMask)
-{
-	LPSTR szLast = NULL;
-	for (;; szMask++, szName++)
-	{
-		if (*szMask != '?' && *szMask != *szName) break;
-		if (*szName == '\0') return ((BOOL)!*szMask);
-	}
-	if (*szMask != '*') return FALSE;
-	for (;; szMask++, szName++)
-	{
-		while(*szMask == '*')
-		{
-			szLast = szMask++;
-			if (*szMask == '\0') return ((BOOL)!*szMask);	/* true */
-		}
-		if (*szName == '\0') return ((BOOL)!*szMask);		/* *mask == EOS */
-		if (*szMask != '?' && *szMask != *szName && szLast != NULL)
-		{
-			szName -= (size_t)(szMask - szLast) - 1;
-			szMask = szLast;
-		}
-	}
-}
-
-BOOL __inline WildCompareProcW(LPWSTR wszName, LPWSTR wszMask)
-{
-	LPWSTR wszLast = NULL;
-	for (;; wszMask++, wszName++)
-	{
-		if (*wszMask != L'?' && *wszMask != *wszName) break;
-		if (*wszName == L'\0') return ((BOOL)!*wszMask);
-	}
-	if (*wszMask != L'*') return FALSE;
-	for (;; wszMask++, wszName++)
-	{
-		while(*wszMask == L'*')
-		{
-			wszLast = wszMask++;
-			if (*wszMask == L'\0') return ((BOOL)!*wszMask);	/* true */
-		}
-		if (*wszName == L'\0') return ((BOOL)!*wszMask);		/* *mask == EOS */
-		if (*wszMask != L'?' && *wszMask != *wszName && wszLast != NULL)
-		{
-			wszName -= (size_t)(wszMask - wszLast) - 1;
-			wszMask = wszLast;
-		}
-	}
 }
 
 static void MatchMasks(TCHAR* szMirVer, short *base, short *overlay, short *overlay2, short *overlay3, short *overlay4)
@@ -852,102 +749,6 @@ VOID ClearFI()
 }
 
 /****************************************************************************************
-*	ServiceGetClientIconA
-*	MS_FP_GETCLIENTICON service implementation.
-*	wParam - char * MirVer value to get client for.
-*	lParam - int noCopy - if wParam is equal to "1"	will return icon handler without copiing icon.
-*	ICON IS ALWAYS COPIED!!!
-*/
-
-static INT_PTR ServiceGetClientIconA(WPARAM wParam, LPARAM lParam)
-{
-	LPSTR szMirVer = (LPSTR)wParam;			// MirVer value to get client for.
-	if (szMirVer == NULL)
-		return 0;
-
-	HICON hIcon = NULL;			// returned HICON
-	int NoCopy = (int)lParam;	// noCopy
-	short base, overlay, overlay2, overlay3, overlay4;
-
-	GetIconsIndexesA(szMirVer, &base, &overlay, &overlay2, &overlay3, &overlay4);
-	if (base != -1)
-		hIcon = CreateIconFromIndexes(base, overlay, overlay2, overlay3, overlay4);
-	return (INT_PTR)hIcon;
-}
-
-/****************************************************************************************
- *	 ServiceSameClientA
- *	 MS_FP_SAMECLIENTS service implementation.
- *	 wParam - char * first MirVer value
- *	 lParam - char * second MirVer value
- *	 return pointer to char string - client desription (do not destroy) if clients are same
- */
-
-static INT_PTR ServiceSameClientsA(WPARAM wParam, LPARAM lParam)
-{
-	LPSTR szMirVerFirst = (LPSTR)wParam;	// MirVer value to get client for.
-	LPSTR szMirVerSecond = (LPSTR)lParam;	// MirVer value to get client for.
-	int firstIndex, secondIndex;
-	BOOL Result = FALSE;
-
-	firstIndex = secondIndex = 0;
-	if (!szMirVerFirst || !szMirVerSecond)
-		return (INT_PTR)NULL;	//one of its is not null
-
-	{
-		LPTSTR tszMirVerFirstUp, tszMirVerSecondUp;
-		int iMirVerFirstUpLen, iMirVerSecondUpLen;
-
-		iMirVerFirstUpLen = MultiByteToWideChar(g_LPCodePage, 0, szMirVerFirst, -1, NULL, 0);
-		iMirVerSecondUpLen = MultiByteToWideChar(g_LPCodePage, 0, szMirVerSecond, -1, NULL, 0);
-
-		tszMirVerFirstUp = (LPTSTR)mir_alloc(iMirVerFirstUpLen * sizeof(TCHAR));
-		tszMirVerSecondUp = (LPTSTR)mir_alloc(iMirVerSecondUpLen * sizeof(TCHAR));
-
-		MultiByteToWideChar(g_LPCodePage, 0, szMirVerFirst, -1, tszMirVerFirstUp, iMirVerFirstUpLen);
-		MultiByteToWideChar(g_LPCodePage, 0, szMirVerSecond, -1, tszMirVerSecondUp, iMirVerSecondUpLen);
-
-		_tcsupr_s(tszMirVerFirstUp, iMirVerFirstUpLen);
-		_tcsupr_s(tszMirVerSecondUp, iMirVerSecondUpLen);
-
-		if (_tcscmp(tszMirVerFirstUp, _T("?")) == 0)
-			firstIndex = UNKNOWN_MASK_NUMBER;
-		else
-			while(firstIndex < DEFAULT_KN_FP_MASK_COUNT) {
-				if (WildCompare(tszMirVerFirstUp, def_kn_fp_mask[firstIndex].szMaskUpper))
-					break;
-				firstIndex++;
-			}
-
-		if (_tcscmp(tszMirVerSecondUp, _T("?")) == 0)
-			secondIndex = UNKNOWN_MASK_NUMBER;
-		else
-			while(secondIndex < DEFAULT_KN_FP_MASK_COUNT) {
-				if (WildCompare(tszMirVerSecondUp, def_kn_fp_mask[secondIndex].szMaskUpper))
-					break;
-	 			secondIndex++;
-			}
-
-		mir_free(tszMirVerFirstUp);
-		mir_free(tszMirVerSecondUp);
-
-		if (firstIndex == secondIndex && firstIndex < DEFAULT_KN_FP_MASK_COUNT)
-		{
-			int iClientDescriptionLen = WideCharToMultiByte(g_LPCodePage, 0, def_kn_fp_mask[firstIndex].szClientDescription, -1, NULL, 0, NULL, NULL);
-			if (iClientDescriptionLen > 0)
-				g_szClientDescription = (LPSTR)mir_realloc(g_szClientDescription, iClientDescriptionLen * sizeof(CHAR));
-			else
-				return (INT_PTR)NULL;
-
-			WideCharToMultiByte(g_LPCodePage, 0, def_kn_fp_mask[firstIndex].szClientDescription, -1, g_szClientDescription, iClientDescriptionLen, NULL, NULL);
-			return (INT_PTR)g_szClientDescription;
-
-		}
-	}
-	return (INT_PTR)NULL;
-}
-
-/****************************************************************************************
 *	ServiceGetClientIconW
 *	MS_FP_GETCLIENTICONW service implementation.
 *	wParam - LPWSTR MirVer value to get client for.
@@ -1174,8 +975,6 @@ void InitFingerModule()
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	
-	CreateServiceFunction(MS_FP_SAMECLIENTS, ServiceSameClientsA);
-	CreateServiceFunction(MS_FP_GETCLIENTICON, ServiceGetClientIconA);
 	CreateServiceFunction(MS_FP_SAMECLIENTSW, ServiceSameClientsW);
 	CreateServiceFunction(MS_FP_GETCLIENTICONW, ServiceGetClientIconW);
 }

@@ -228,8 +228,9 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 	if (ServiceExists(MS_FP_GETCLIENTICONT)) {
 		if (res->software != NULL) {
 			mir_sntprintf(buf, SIZEOF(buf), _T("%s %s"), res->software, res->version);
-			hIcon = (HICON)CallService(MS_FP_GETCLIENTICONT, (WPARAM)buf, 0);
-	}	}
+			hIcon = Finger_GetClientIcon(buf, 0);
+		}
+	}
 
 	sttFillInfoLine(hwndTree, htiResource, hIcon, TranslateT("Software"),
 		res->software ? res->software : TranslateT("<not specified>"),

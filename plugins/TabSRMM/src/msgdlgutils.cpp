@@ -2177,17 +2177,14 @@ void TSAPI SendNudge(const TWindowData *dat)
 
 void TSAPI GetClientIcon(TWindowData *dat)
 {
-	DBVARIANT dbv = {0};
-
 	if (dat->hClientIcon)
 		DestroyIcon(dat->hClientIcon);
 
 	dat->hClientIcon = 0;
-	if (ServiceExists(MS_FP_GETCLIENTICON)) {
-		if (!db_get_s(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "MirVer", &dbv)) {
-			dat->hClientIcon = (HICON)CallService(MS_FP_GETCLIENTICON, (WPARAM)dbv.pszVal, 1);
-			db_free(&dbv);
-		}
+	if ( ServiceExists(MS_FP_GETCLIENTICONT)) {
+		ptrT tszMirver( db_get_tsa(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "MirVer"));
+		if (tszMirver)
+			dat->hClientIcon = Finger_GetClientIcon(tszMirver, 1);
 	}
 }
 

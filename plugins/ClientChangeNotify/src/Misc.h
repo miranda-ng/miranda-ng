@@ -38,27 +38,6 @@ __inline void ShowMsg(TCHAR *FirstLine, TCHAR *SecondLine = _T(""), bool IsError
 	}
 }
 
-
-__inline TCString Path_ToRelative(TCString &Path)
-{
-	CString Str;
-	Str.GetBuffer(MAX_PATH);
-	PathToRelative(TCHAR2ANSI(Path), Str);
-	Str.ReleaseBuffer();
-	return ANSI2TCHAR(Str);
-}
-
-
-__inline TCString Path_ToAbsolute(TCString &Path)
-{
-	CString Str;
-	Str.GetBuffer(MAX_PATH);
-	PathToAbsolute( TCHAR2ANSI(Path), Str);
-	Str.ReleaseBuffer();
-	return ANSI2TCHAR(Str);
-}
-
-
 __inline void ShowLog(TCString &LogFilePath)
 {
 	int Result = (int)ShellExecute(NULL, _T("open"), LogFilePath, NULL, NULL, SW_SHOW);
@@ -69,7 +48,6 @@ __inline void ShowLog(TCString &LogFilePath)
 		ShowMsg(szError, TranslateT("Can't open log file ") + LogFilePath, true);
 	}
 }
-
 
 __inline void RecompileRegexps(TCString IgnoreSubstrings)
 {
