@@ -520,28 +520,28 @@ int TN_OptionsInitialize(WPARAM wParam, LPARAM lParam)
 
 int TN_ModuleInit()
 {
-	hPopupsList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
+	hPopupsList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
-	OnePopup = M.GetByte(Module,SET_ONEPOPUP,DEF_ONEPOPUP);
-	ShowMenu = M.GetByte(Module,SET_SHOWDISABLEMENU,DEF_SHOWDISABLEMENU);
+	OnePopup = M.GetByte(Module, SET_ONEPOPUP, DEF_ONEPOPUP);
+	ShowMenu = M.GetByte(Module, SET_SHOWDISABLEMENU, DEF_SHOWDISABLEMENU);
 
-	int i = M.GetByte(Module,SET_DISABLED,DEF_DISABLED);
+	int i = M.GetByte(Module, SET_DISABLED, DEF_DISABLED);
 	Disabled = i & 1;
 	StartDisabled = i & 2;
 	StopDisabled = i & 4;
 
-	ColorMode = M.GetByte(Module,SET_COLOR_MODE,DEF_COLOR_MODE);
-	TimeoutMode = M.GetByte(Module,SET_TIMEOUT_MODE,DEF_TIMEOUT_MODE);
-	Timeout = M.GetByte(Module,SET_TIMEOUT,DEF_TIMEOUT);
-	TimeoutMode2 = M.GetByte(Module,SET_TIMEOUT_MODE2,DEF_TIMEOUT_MODE2);
-	Timeout2 = M.GetByte(Module,SET_TIMEOUT2,DEF_TIMEOUT2);
+	ColorMode = M.GetByte(Module, SET_COLOR_MODE, DEF_COLOR_MODE);
+	TimeoutMode = M.GetByte(Module, SET_TIMEOUT_MODE, DEF_TIMEOUT_MODE);
+	Timeout = M.GetByte(Module, SET_TIMEOUT, DEF_TIMEOUT);
+	TimeoutMode2 = M.GetByte(Module, SET_TIMEOUT_MODE2, DEF_TIMEOUT_MODE2);
+	Timeout2 = M.GetByte(Module, SET_TIMEOUT2, DEF_TIMEOUT2);
 
 	if (!(M.GetDword(Module, colorPicker[0].desc, 1) && !M.GetDword(Module, colorPicker[0].desc, 0)))
 		for (i=0; i < SIZEOF(colorPicker); i++)
 			colorPicker[i].color = M.GetDword(Module,colorPicker[i].desc,0);
 
-	mir_sntprintf(szStart, sizeof(szStart), TranslateT("...is typing a message."));
-	mir_sntprintf(szStop, sizeof(szStop), TranslateT("...has stopped typing."));
+	mir_sntprintf(szStart, SIZEOF(szStart), TranslateT("...is typing a message."));
+	mir_sntprintf(szStop, SIZEOF(szStop), TranslateT("...has stopped typing."));
 
 	if (PluginConfig.g_PopupAvail && ShowMenu) {
 		hTypingNotify = CreateServiceFunction("TypingNotify/EnableDisableMenuCommand", EnableDisableMenuCommand);

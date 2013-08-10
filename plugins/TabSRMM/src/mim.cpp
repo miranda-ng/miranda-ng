@@ -436,7 +436,7 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 		}
 		else fShowOnClist = FALSE;
 
-		if ((!foundWin || !(pContainer->dwFlags&CNT_NOSOUND)) && preTyping != (lParam != 0))
+		if ((!foundWin || !(pContainer->dwFlags & CNT_NOSOUND)) && preTyping != (lParam != 0))
 			SkinPlaySound((lParam) ? "TNStart" : "TNStop");
 
 		if (M.GetByte(SRMSGMOD, "ShowTypingPopup", 0)) {
@@ -529,18 +529,15 @@ int CMimAPI::ProtoAck(WPARAM wParam, LPARAM lParam)
 					return 0;
 				}
 			}
-			if (iFound == SendQueue::NR_SENDJOBS)          // no mathing entry found in this queue entry.. continue
+			if (iFound == SendQueue::NR_SENDJOBS)  // no mathing entry found in this queue entry.. continue
 				continue;
 			else
 				break;
 		}
-		if (iFound == SendQueue::NR_SENDJOBS) {             // no matching send info found in the queue
-			sendLater->processAck(pAck);											   //
-			return 0;									   // try to find the process handle in the list of open send later jobs
-		} else {                                  // the job was found
+		if (iFound == SendQueue::NR_SENDJOBS)     // no matching send info found in the queue
+			sendLater->processAck(pAck);
+		else                                      // try to find the process handle in the list of open send later jobs
 			SendMessage(jobs[iFound].hwndOwner, HM_EVENTSENT, (WPARAM)MAKELONG(iFound, i), lParam);
-			return 0;
-		}
 	}
 	return 0;
 }
@@ -556,7 +553,7 @@ int CMimAPI::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	if (szProto) {
 		// leave this menu item hidden for chats
 		if ( !db_get_b(hContact, szProto, "ChatRoom", 0 ))
-			if ( CallProtoService( szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND )
+			if ( CallProtoService( szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
 				bEnabled = true;
 	}
 
