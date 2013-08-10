@@ -123,7 +123,7 @@ BEGIN
     CONTROL         "Show Formatting",IDC_SHOWFORMATTING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,169,10,126,10
 END
 
-IDD_OPT_MSGTYPE DIALOGEX 0, 0, 283, 252
+IDD_OPT_MSGTYPE DIALOGEX 0, 0, 283, 234
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -264,12 +264,12 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "..\\sxr\\resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include <winres.h>\r\n"
     "#include <richedit.h>\r\n"
@@ -277,7 +277,7 @@ BEGIN
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -358,4 +358,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-

@@ -158,15 +158,12 @@ static int TypingMessage(WPARAM wParam, LPARAM lParam)
 	if (!(g_dat.flags & SMF_SHOWTYPING))
 		return 0;
 
-	HWND hwnd;
-	if (hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)wParam)) {
-		SendMessage(hwnd, DM_TYPING, 0, lParam);
-		return 0;
-	}
-
 	SkinPlaySound((lParam) ? "TNStart" : "TNStop");
 
-	if (lParam && (g_dat.flags & SMF_SHOWTYPINGTRAY)) {
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)wParam);
+	if (hwnd)
+		SendMessage(hwnd, DM_TYPING, 0, lParam);
+	else if (lParam && (g_dat.flags & SMF_SHOWTYPINGTRAY)) {
 		TCHAR szTip[256];
 		mir_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message"), (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR));
 
