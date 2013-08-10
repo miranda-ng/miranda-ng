@@ -13,25 +13,28 @@
       <UniqueIdentifier>{3887cace-f8eb-45a3-854b-f32b02819763}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
+    <Filter Include="Source Files\CommonLibs">
+      <UniqueIdentifier>{e1c3e36c-54d1-4e6e-83db-68358191bda8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ClientChangeNotify.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\CommonLibs\CString.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CommonLibs\CString.cpp">
+      <Filter>Source Files\CommonLibs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CommonLibs\pcre.cpp">
+      <Filter>Source Files\CommonLibs</Filter>
     </ClCompile>
     <ClCompile Include="src\OptDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\CommonLibs\Options.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CommonLibs\pcre.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\stdafx.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\CommonLibs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

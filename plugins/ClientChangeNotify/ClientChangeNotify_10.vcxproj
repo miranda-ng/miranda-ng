@@ -184,10 +184,16 @@
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\CommonLibs\CString.cpp" />
+    <ClCompile Include="src\CommonLibs\CString.cpp">
+      <PrecompiledHeaderFile>../Common.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="src\OptDlg.cpp" />
-    <ClCompile Include="src\CommonLibs\Options.cpp" />
-    <ClCompile Include="src\CommonLibs\pcre.cpp" />
+    <ClCompile Include="src\CommonLibs\Options.cpp">
+      <PrecompiledHeaderFile>../Common.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\CommonLibs\pcre.cpp">
+      <PrecompiledHeaderFile>../Common.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="src\ClientChangeNotify.cpp" />
   </ItemGroup>
   <ItemGroup>

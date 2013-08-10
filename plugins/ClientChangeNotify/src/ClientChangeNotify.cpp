@@ -54,16 +54,12 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
 
 static int CALLBACK MenuWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (uMsg)
-	{
-		case WM_MEASUREITEM:
-		{
-			return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
-		}
-		case WM_DRAWITEM:
-		{
-			return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
-		}
+	switch (uMsg) {
+	case WM_MEASUREITEM:
+		return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
+
+	case WM_DRAWITEM:
+		return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
 	}
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
@@ -202,99 +198,99 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (!lstrcmpA(cws->szSetting, DB_MIRVER)) {
-		HANDLE hContact = (HANDLE)wParam;
-		SHOWPOPUP_DATA sd = {0};
-		char *szProto = GetContactProto(hContact);
-		if (g_PreviewOptPage)
-			sd.MirVer = _T("Miranda NG ICQ 0.93.5.3007");
-		else {
-			if (!hContact) // exit if hContact == NULL and it's not a popup preview
-				return 0;
+	if (lstrcmpA(cws->szSetting, DB_MIRVER))
+		return 0;
 
-			_ASSERT(szProto);
-			if (bMetaContactsExists && !strcmp(szProto, (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0))) // workaround for metacontacts
-				return 0;
-
-			sd.MirVer = db_get_s(hContact, szProto, DB_MIRVER, _T(""));
-			if (sd.MirVer.IsEmpty())
-				return 0;
-		}
-		sd.OldMirVer = db_get_s(hContact, MOD_NAME, DB_OLDMIRVER, _T(""));
-		db_set_ts(hContact, MOD_NAME, DB_OLDMIRVER, sd.MirVer); // we have to write it here, because we modify sd.OldMirVer and sd.MirVer to conform our settings later
-		if (sd.OldMirVer.IsEmpty())  // looks like it's the right way to do
+	HANDLE hContact = (HANDLE)wParam;
+	SHOWPOPUP_DATA sd = {0};
+	char *szProto = GetContactProto(hContact);
+	if (g_PreviewOptPage)
+		sd.MirVer = _T("Miranda NG ICQ 0.93.5.3007");
+	else {
+		if (!hContact) // exit if hContact == NULL and it's not a popup preview
 			return 0;
 
-		COptPage PopupOptPage;
-		if (g_PreviewOptPage)
-			PopupOptPage = *g_PreviewOptPage;
-		else {
-			PopupOptPage = g_PopupOptPage;
-			PopupOptPage.DBToMem();
-		}
-
-		HANDLE hContactOrMeta = (hContact && bMetaContactsExists) ? (HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0) : hContact;
-		if (!hContactOrMeta)
-			hContactOrMeta = hContact;
-
-		if (hContact && db_get_b(hContactOrMeta, "CList", "Hidden", 0))
+		_ASSERT(szProto);
+		if (bMetaContactsExists && !strcmp(szProto, (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0))) // workaround for metacontacts
 			return 0;
 
-		int PerContactSetting = hContact ? db_get_b(hContact, MOD_NAME, DB_CCN_NOTIFY, NOTIFY_USEGLOBAL) : NOTIFY_ALWAYS; // NOTIFY_ALWAYS for preview
-		if (PerContactSetting == NOTIFY_USEGLOBAL && hContactOrMeta != hContact) // subcontact setting has a priority over a metacontact setting
-			PerContactSetting = db_get_b(hContactOrMeta, MOD_NAME, DB_CCN_NOTIFY, NOTIFY_USEGLOBAL);
+		sd.MirVer = db_get_s(hContact, szProto, DB_MIRVER, _T(""));
+		if (sd.MirVer.IsEmpty())
+			return 0;
+	}
+	sd.OldMirVer = db_get_s(hContact, MOD_NAME, DB_OLDMIRVER, _T(""));
+	db_set_ts(hContact, MOD_NAME, DB_OLDMIRVER, sd.MirVer); // we have to write it here, because we modify sd.OldMirVer and sd.MirVer to conform our settings later
+	if (sd.OldMirVer.IsEmpty())  // looks like it's the right way to do
+		return 0;
 
-		if (PerContactSetting && (PerContactSetting == NOTIFY_ALMOST_ALWAYS || PerContactSetting == NOTIFY_ALWAYS || !PopupOptPage.GetValue(IDC_POPUPOPTDLG_USESTATUSNOTIFYFLAG) || !(db_get_dw(hContactOrMeta, "Ignore", "Mask1", 0) & 0x8))) { // check if we need to notify at all
-			sd.hContact = hContact;
-			sd.PopupOptPage = &PopupOptPage;
-			if (!PopupOptPage.GetValue(IDC_POPUPOPTDLG_VERCHGNOTIFY) || !PopupOptPage.GetValue(IDC_POPUPOPTDLG_SHOWVER)) {
-				CString OldMirVerA = TCHAR2ANSI(sd.OldMirVer);
-				CString MirVerA = TCHAR2ANSI(sd.MirVer);
-				if (bFingerprintExists) {
-					char *szOldClient = (char*)CallService(MS_FP_SAMECLIENTS, (WPARAM)(const char*)OldMirVerA, (LPARAM)(const char*)OldMirVerA); // remove version from MirVer strings. I know, the way in which MS_FP_SAMECLIENTS is used here is pretty ugly, but at least it gives necessary results
-					char *szClient = (char*)CallService(MS_FP_SAMECLIENTS, (WPARAM)(const char*)MirVerA, (LPARAM)(const char*)MirVerA);
-					if (szOldClient && szClient) {
-						if (PerContactSetting != NOTIFY_ALMOST_ALWAYS && PerContactSetting != NOTIFY_ALWAYS && !PopupOptPage.GetValue(IDC_POPUPOPTDLG_VERCHGNOTIFY) && !strcmp(szClient, szOldClient))
-							return 0;
+	COptPage PopupOptPage;
+	if (g_PreviewOptPage)
+		PopupOptPage = *g_PreviewOptPage;
+	else {
+		PopupOptPage = g_PopupOptPage;
+		PopupOptPage.DBToMem();
+	}
 
-						if (!PopupOptPage.GetValue(IDC_POPUPOPTDLG_SHOWVER)) {
-							sd.MirVer = ANSI2TCHAR(szClient);
-							sd.OldMirVer = ANSI2TCHAR(szOldClient);
-						}
+	HANDLE hContactOrMeta = (hContact && bMetaContactsExists) ? (HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0) : hContact;
+	if (!hContactOrMeta)
+		hContactOrMeta = hContact;
+
+	if (hContact && db_get_b(hContactOrMeta, "CList", "Hidden", 0))
+		return 0;
+
+	int PerContactSetting = hContact ? db_get_b(hContact, MOD_NAME, DB_CCN_NOTIFY, NOTIFY_USEGLOBAL) : NOTIFY_ALWAYS; // NOTIFY_ALWAYS for preview
+	if (PerContactSetting == NOTIFY_USEGLOBAL && hContactOrMeta != hContact) // subcontact setting has a priority over a metacontact setting
+		PerContactSetting = db_get_b(hContactOrMeta, MOD_NAME, DB_CCN_NOTIFY, NOTIFY_USEGLOBAL);
+
+	if (PerContactSetting && (PerContactSetting == NOTIFY_ALMOST_ALWAYS || PerContactSetting == NOTIFY_ALWAYS || !PopupOptPage.GetValue(IDC_POPUPOPTDLG_USESTATUSNOTIFYFLAG) || !(db_get_dw(hContactOrMeta, "Ignore", "Mask1", 0) & 0x8))) { // check if we need to notify at all
+		sd.hContact = hContact;
+		sd.PopupOptPage = &PopupOptPage;
+		if (!PopupOptPage.GetValue(IDC_POPUPOPTDLG_VERCHGNOTIFY) || !PopupOptPage.GetValue(IDC_POPUPOPTDLG_SHOWVER)) {
+			if (bFingerprintExists) {
+				LPCTSTR ptszOldClient = (LPCTSTR)CallService(MS_FP_SAMECLIENTST, (WPARAM)(TCHAR*)sd.OldMirVer, (LPARAM)(TCHAR*)sd.OldMirVer); // remove version from MirVer strings. I know, the way in which MS_FP_SAMECLIENTS is used here is pretty ugly, but at least it gives necessary results
+				LPCTSTR ptszClient = (LPCTSTR)CallService(MS_FP_SAMECLIENTST, (WPARAM)(TCHAR*)sd.MirVer, (LPARAM)(TCHAR*)sd.MirVer);
+				if (ptszOldClient && ptszClient) {
+					if (PerContactSetting != NOTIFY_ALMOST_ALWAYS && PerContactSetting != NOTIFY_ALWAYS && !PopupOptPage.GetValue(IDC_POPUPOPTDLG_VERCHGNOTIFY) && !_tcscmp(ptszClient, ptszOldClient))
+						return 0;
+
+					if (!PopupOptPage.GetValue(IDC_POPUPOPTDLG_SHOWVER)) {
+						sd.MirVer = ptszClient;
+						sd.OldMirVer = ptszOldClient;
 					}
 				}
 			}
-			if (sd.MirVer == (const TCHAR*)sd.OldMirVer) {
-				_ASSERT(hContact);
-				return 0;
-			}
-			if (PerContactSetting == NOTIFY_ALWAYS || (PopupOptPage.GetValue(IDC_POPUPOPTDLG_POPUPNOTIFY) && (g_PreviewOptPage || PerContactSetting == NOTIFY_ALMOST_ALWAYS || !PcreCheck(sd.MirVer)))) {
-				ShowPopup(&sd);
-				SkinPlaySound(CLIENTCHANGED_SOUND);
-			}
 		}
-		if (hContact) {
-			TCString ClientName;
-			if (PopupOptPage.GetValue(IDC_POPUPOPTDLG_SHOWPREVCLIENT) && sd.OldMirVer.GetLen()) {
-				mir_sntprintf(ClientName.GetBuffer(MAX_MSG_LEN), MAX_MSG_LEN, TranslateT("%s (was %s)"), (const TCHAR*)sd.MirVer, (const TCHAR*)sd.OldMirVer);
-				ClientName.ReleaseBuffer();
-			}
-			else ClientName = sd.MirVer;
-
-			if (bVariablesExists)
-				logservice_log(LOG_ID, hContact, ClientName);
-			else {
-				_ASSERT(szProto);
-				TCString szUID(_T(""));
-				char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-				if (uid && (INT_PTR)uid != CALLSERVICE_NOTFOUND)
-					szUID = DBGetContactSettingAsString(hContact, szProto, uid, _T(""));
-
-				logservice_log(LOG_ID, hContact, TCString((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)) + _T(" (") + szUID + TranslateT(") changed client to ") + ClientName);
-			}
+		if (sd.MirVer == (const TCHAR*)sd.OldMirVer) {
+			_ASSERT(hContact);
+			return 0;
 		}
-		_ASSERT(sd.MirVer.GetLen()); // save the last known MirVer value even if the new one is empty
+		if (PerContactSetting == NOTIFY_ALWAYS || (PopupOptPage.GetValue(IDC_POPUPOPTDLG_POPUPNOTIFY) && (g_PreviewOptPage || PerContactSetting == NOTIFY_ALMOST_ALWAYS || -1 == PcreCheck(sd.MirVer)))) {
+			ShowPopup(&sd);
+			SkinPlaySound(CLIENTCHANGED_SOUND);
+		}
 	}
+
+	if (hContact) {
+		TCString ClientName;
+		if (PopupOptPage.GetValue(IDC_POPUPOPTDLG_SHOWPREVCLIENT) && sd.OldMirVer.GetLen()) {
+			mir_sntprintf(ClientName.GetBuffer(MAX_MSG_LEN), MAX_MSG_LEN, TranslateT("%s (was %s)"), (const TCHAR*)sd.MirVer, (const TCHAR*)sd.OldMirVer);
+			ClientName.ReleaseBuffer();
+		}
+		else ClientName = sd.MirVer;
+
+		if (bVariablesExists)
+			logservice_log(LOG_ID, hContact, ClientName);
+		else {
+			_ASSERT(szProto);
+			TCString szUID(_T(""));
+			char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+			if (uid && (INT_PTR)uid != CALLSERVICE_NOTFOUND)
+				szUID = DBGetContactSettingAsString(hContact, szProto, uid, _T(""));
+
+			logservice_log(LOG_ID, hContact, TCString((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)) + _T(" (") + szUID + TranslateT(") changed client to ") + ClientName);
+		}
+	}
+	_ASSERT(sd.MirVer.GetLen()); // save the last known MirVer value even if the new one is empty
 	return 0;
 }
 
