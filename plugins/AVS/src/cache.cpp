@@ -32,9 +32,7 @@ static CRITICAL_SECTION cachecs, alloccs;
 
 static CacheNode *AllocCacheBlock()
 {
-	CacheNode *allocedBlock = NULL;
-
-	allocedBlock = (CacheNode *)malloc(CACHE_BLOCKSIZE * sizeof(struct CacheNode));
+	CacheNode *allocedBlock = (CacheNode*)malloc(CACHE_BLOCKSIZE * sizeof(struct CacheNode));
 	ZeroMemory((void *)allocedBlock, sizeof(struct CacheNode) * CACHE_BLOCKSIZE);
 
 	for(int i = 0; i < CACHE_BLOCKSIZE - 1; i++)
@@ -47,7 +45,7 @@ static CacheNode *AllocCacheBlock()
 
 	if (g_curBlock == g_maxBlock) {
 		g_maxBlock += 10;
-		g_cacheBlocks = (CacheNode **)realloc(g_cacheBlocks, g_maxBlock * sizeof(CacheNode *));
+		g_cacheBlocks = (CacheNode **)realloc(g_cacheBlocks, g_maxBlock * sizeof(CacheNode*));
 	}
 	g_cacheBlocks[g_curBlock++] = allocedBlock;
 
@@ -63,12 +61,9 @@ void InitCache(void)
 
 void UnloadCache(void)
 {
-	CacheNode *pNode = g_Cache;
-	while(pNode) {
-		if (pNode->ace.hbmPic != 0)
-			DeleteObject(pNode->ace.hbmPic);
-		pNode = pNode->pNextNode;
-	}
+	for (CacheNode *cc = g_Cache; cc; cc = cc->pNextNode)
+		if (cc->ace.hbmPic != 0)
+			DeleteObject(cc->ace.hbmPic);
 
 	for(int i = 0; i < g_curBlock; i++)
 		free(g_cacheBlocks[i]);
@@ -82,7 +77,7 @@ void UnloadCache(void)
  * link a new cache block with the already existing chain of blocks
  */
 
-static CacheNode *AddToList(CacheNode *node)
+static CacheNode* AddToList(CacheNode *node)
 {
 	CacheNode *pCurrent = g_Cache;
 
@@ -184,31 +179,8 @@ void NotifyMetaAware(HANDLE hContact, CacheNode *node = NULL, AVATARCACHEENTRY *
 					if (dbv.type == DBVT_TCHAR)
 						_tcsncpy_s(cacn.hash, SIZEOF(cacn.hash), dbv.ptszVal, _TRUNCATE);
 					else if (dbv.type == DBVT_BLOB) {
-						// Lets use base64 encode
-						char *tab = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-						int i;
-						for(i = 0; i < dbv.cpbVal / 3 && i*4+3 < sizeof(cacn.hash)-1; i++) {
-							BYTE a = dbv.pbVal[i*3];
-							BYTE b = i*3 + 1 < dbv.cpbVal ? dbv.pbVal[i*3 + 1] : 0;
-							BYTE c = i*3 + 2 < dbv.cpbVal ? dbv.pbVal[i*3 + 2] : 0;
-
-							cacn.hash[i*4] = tab[(a & 0xFC) >> 2];
-							cacn.hash[i*4+1] = tab[((a & 0x3) << 4) + ((b & 0xF0) >> 4)];
-							cacn.hash[i*4+2] = tab[((b & 0xF) << 2) + ((c & 0xC0) >> 6)];
-							cacn.hash[i*4+3] = tab[c & 0x3F];
-						}
-						if (dbv.cpbVal % 3 != 0 && i*4+3 < sizeof(cacn.hash)-1) {
-							BYTE a = dbv.pbVal[i*3];
-							BYTE b = i*3 + 1 < dbv.cpbVal ? dbv.pbVal[i*3 + 1] : 0;
-
-							cacn.hash[i*4] = tab[(a & 0xFC) >> 2];
-							cacn.hash[i*4+1] = tab[((a & 0x3) << 4) + ((b & 0xF0) >> 4)];
-							if (i + 1 < dbv.cpbVal)
-								cacn.hash[i*4+2] = tab[((b & 0xF) << 4)];
-							else
-								cacn.hash[i*4+2] = '=';
-							cacn.hash[i*4+3] = '=';
-						}
+						ptrA szHash( mir_base64_encode(dbv.pbVal, dbv.cpbVal));
+						_tcsncpy_s(cacn.hash, SIZEOF(cacn.hash), _A2T(szHash), _TRUNCATE);
 					}
 					db_free(&dbv);
 				}
@@ -222,6 +194,50 @@ void NotifyMetaAware(HANDLE hContact, CacheNode *node = NULL, AVATARCACHEENTRY *
 		}
 		else NotifyEventHooks(hEventContactAvatarChanged, (WPARAM)hContact, NULL);
 	}
+}
+
+
+// Just delete an avatar from cache
+// An cache entry is never deleted. What is deleted is the image handle inside it
+// This is done this way to keep track of which avatars avs have to keep track
+void DeleteAvatarFromCache(HANDLE hContact, BOOL forever)
+{
+	if (g_shutDown)
+		return;
+
+	hContact = GetContactThatHaveTheAvatar(hContact);
+	CacheNode *node = FindAvatarInCache(hContact, FALSE);
+	if (node == NULL) {
+		struct CacheNode temp_node = {0};
+		if (g_MetaAvail)
+			temp_node.dwFlags |= (db_get_b(hContact, g_szMetaName, "IsSubcontact", 0) ? MC_ISSUBCONTACT : 0);
+		NotifyMetaAware(hContact, &temp_node, (AVATARCACHEENTRY *)GetProtoDefaultAvatar(hContact));
+		return;
+	}
+	node->mustLoad = -1;                        // mark for deletion
+	if (forever)
+		node->dwFlags |= AVS_DELETENODEFOREVER;
+	SetEvent(hLoaderEvent);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int SetAvatarAttribute(HANDLE hContact, DWORD attrib, int mode)
+{
+	if (g_shutDown)
+		return 0;
+
+	for (CacheNode *сс = g_Cache; сс; сс = сс->pNextNode) {
+		if (сс->ace.hContact != hContact)
+			continue;
+
+		DWORD dwFlags = сс->ace.dwFlags;
+		сс->ace.dwFlags = mode ? (сс->ace.dwFlags | attrib) : (сс->ace.dwFlags & ~attrib);
+		if (сс->ace.dwFlags != dwFlags)
+			NotifyMetaAware(hContact, сс);
+		break;
+	}
+	return 0;
 }
 
 /*
@@ -316,45 +332,3 @@ void PicLoader(LPVOID param)
 		ResetEvent(hLoaderEvent);
 	}
 }
-
-// Just delete an avatar from cache
-// An cache entry is never deleted. What is deleted is the image handle inside it
-// This is done this way to keep track of which avatars avs have to keep track
-void DeleteAvatarFromCache(HANDLE hContact, BOOL forever)
-{
-	hContact = GetContactThatHaveTheAvatar(hContact);
-
-	CacheNode *node = FindAvatarInCache(hContact, FALSE);
-	if (node == NULL) {
-		struct CacheNode temp_node = {0};
-		if (g_MetaAvail)
-			temp_node.dwFlags |= (db_get_b(hContact, g_szMetaName, "IsSubcontact", 0) ? MC_ISSUBCONTACT : 0);
-		NotifyMetaAware(hContact, &temp_node, (AVATARCACHEENTRY *)GetProtoDefaultAvatar(hContact));
-		return;
-	}
-	node->mustLoad = -1;                        // mark for deletion
-	if (forever)
-		node->dwFlags |= AVS_DELETENODEFOREVER;
-	SetEvent(hLoaderEvent);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-int SetAvatarAttribute(HANDLE hContact, DWORD attrib, int mode)
-{
-	CacheNode *сс = g_Cache;
-
-	while(сс) {
-		if (сс->ace.hContact == hContact) {
-			DWORD dwFlags = сс->ace.dwFlags;
-
-			сс->ace.dwFlags = mode ? (сс->ace.dwFlags | attrib) : (сс->ace.dwFlags & ~attrib);
-			if (сс->ace.dwFlags != dwFlags)
-				NotifyMetaAware(hContact, сс);
-			break;
-		}
-		сс = сс->pNextNode;
-	}
-	return 0;
-}
-
