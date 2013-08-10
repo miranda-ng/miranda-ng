@@ -773,66 +773,46 @@ static INT_PTR ServiceGetClientIconW(WPARAM wParam, LPARAM lParam)
 }
 
 /****************************************************************************************
+ *	 ServiceGetClientDescrW
+ *	 MS_FP_GETCLIENTDESCRW service implementation.
+ *	 wParam - LPCWSTR MirVer value
+ *	 lParam - (NULL) unused
+ *	 returns LPCWSTR: client desription (do not destroy) or NULL
+ */
+
+static INT_PTR ServiceGetClientDescrW(WPARAM wParam, LPARAM lParam)
+{
+	LPWSTR wszMirVer = (LPWSTR)wParam;  // MirVer value to get client for.
+	if (wszMirVer == NULL)
+		return 0;
+
+	LPWSTR wszMirVerUp = NEWWSTR_ALLOCA(wszMirVer); _wcsupr(wszMirVerUp);
+	if (wcscmp(wszMirVerUp, L"?") == 0)
+		return (INT_PTR)def_kn_fp_mask[UNKNOWN_MASK_NUMBER].szClientDescription;
+
+	for (int index = 0; index < DEFAULT_KN_FP_MASK_COUNT; index++)
+		if (WildCompareW(wszMirVerUp, def_kn_fp_mask[index].szMaskUpper))
+			return (INT_PTR)def_kn_fp_mask[index].szClientDescription;
+
+	return NULL;
+}
+
+/****************************************************************************************
  *	 ServiceSameClientW
  *	 MS_FP_SAMECLIENTSW service implementation.
  *	 wParam - LPWSTR first MirVer value
  *	 lParam - LPWSTR second MirVer value
- *	 return pointer to char string - client desription (do not destroy) if clients are same
+ *	 returns LPCWSTR: client desñription (do not destroy) if clients are same or NULL
  */
 
 static INT_PTR ServiceSameClientsW(WPARAM wParam, LPARAM lParam)
 {
-	LPWSTR wszMirVerFirst = (LPWSTR)wParam;	// MirVer value to get client for.
-	LPWSTR wszMirVerSecond = (LPWSTR)lParam;	// MirVer value to get client for.
-	int firstIndex, secondIndex;
-	BOOL Result = FALSE;
+	if (!wParam || !lParam)
+		return NULL; //one of its is not null
 
-	firstIndex = secondIndex = 0;
-	if (!wszMirVerFirst || !wszMirVerSecond) return (INT_PTR)NULL;	//one of its is not null
-
-	{
-		LPWSTR wszMirVerFirstUp, wszMirVerSecondUp;
-		size_t iMirVerFirstUpLen, iMirVerSecondUpLen;
-
-		iMirVerFirstUpLen = wcslen(wszMirVerFirst) + 1;
-		iMirVerSecondUpLen = wcslen(wszMirVerSecond) + 1;
-
-		wszMirVerFirstUp = (LPWSTR)mir_alloc(iMirVerFirstUpLen * sizeof(WCHAR));
-		wszMirVerSecondUp = (LPWSTR)mir_alloc(iMirVerSecondUpLen * sizeof(WCHAR));
-
-		wcscpy_s(wszMirVerFirstUp, iMirVerFirstUpLen, wszMirVerFirst);
-		wcscpy_s(wszMirVerSecondUp, iMirVerSecondUpLen, wszMirVerSecond);
-
-		_wcsupr_s(wszMirVerFirstUp, iMirVerFirstUpLen);
-		_wcsupr_s(wszMirVerSecondUp, iMirVerSecondUpLen);
-
-		if (wcscmp(wszMirVerFirstUp, L"?") == 0)
-			firstIndex = UNKNOWN_MASK_NUMBER;
-		else
-			while(firstIndex < DEFAULT_KN_FP_MASK_COUNT) {
-				if (WildCompareW(wszMirVerFirstUp, def_kn_fp_mask[firstIndex].szMaskUpper))
-					break;
-				firstIndex++;
-			}
-
-		if (wcscmp(wszMirVerSecondUp, L"?") == 0)
-			secondIndex = UNKNOWN_MASK_NUMBER;
-		else
-			while(secondIndex < DEFAULT_KN_FP_MASK_COUNT) {
-				if (WildCompareW(wszMirVerSecondUp, def_kn_fp_mask[secondIndex].szMaskUpper))
-					break;
-	 			secondIndex++;
-			}
-
-		mir_free(wszMirVerFirstUp);
-		mir_free(wszMirVerSecondUp);
-
-		if (firstIndex == secondIndex && firstIndex < DEFAULT_KN_FP_MASK_COUNT)
-		{
-			return (INT_PTR)def_kn_fp_mask[firstIndex].szClientDescription;
-		}
-	}
-	return (INT_PTR)NULL;
+	INT_PTR res1 = ServiceGetClientDescrW(wParam, 0);
+	INT_PTR res2 = ServiceGetClientDescrW(lParam, 0);
+	return (res1 == res2 && res1 != 0) ? res1 : NULL;
 }
 
 /****************************************************************************************
@@ -976,6 +956,7 @@ void InitFingerModule()
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	
 	CreateServiceFunction(MS_FP_SAMECLIENTSW, ServiceSameClientsW);
+	CreateServiceFunction(MS_FP_GETCLIENTDESCRW, ServiceGetClientDescrW);
 	CreateServiceFunction(MS_FP_GETCLIENTICONW, ServiceGetClientIconW);
 }
 

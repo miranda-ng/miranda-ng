@@ -247,8 +247,8 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 		sd.PopupOptPage = &PopupOptPage;
 		if (!PopupOptPage.GetValue(IDC_POPUPOPTDLG_VERCHGNOTIFY) || !PopupOptPage.GetValue(IDC_POPUPOPTDLG_SHOWVER)) {
 			if (bFingerprintExists) {
-				LPCTSTR ptszOldClient = Finger_IsSameClents(sd.OldMirVer, sd.OldMirVer); 
-				LPCTSTR ptszClient = Finger_IsSameClents(sd.MirVer, sd.MirVer);
+				LPCTSTR ptszOldClient = Finger_GetClientDescr(sd.OldMirVer); 
+				LPCTSTR ptszClient = Finger_GetClientDescr(sd.MirVer);
 				if (ptszOldClient && ptszClient) {
 					if (PerContactSetting != NOTIFY_ALMOST_ALWAYS && PerContactSetting != NOTIFY_ALWAYS && !PopupOptPage.GetValue(IDC_POPUPOPTDLG_VERCHGNOTIFY) && !_tcscmp(ptszClient, ptszOldClient))
 						return 0;
