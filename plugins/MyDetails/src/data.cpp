@@ -59,13 +59,6 @@ Protocol::Protocol(const char *aName, const TCHAR* descr)
 	lstrcpynA(name, aName, SIZEOF(name));
 	lstrcpyn(description, descr, SIZEOF(description));
 
-	nickname[0] = _T('\0');
-	status_message[0] = _T('\0');
-	listening_to[0] = _T('\0');
-	ace = NULL;
-	avatar_file[0] = _T('\0');
-	avatar_bmp = NULL;
-	custom_status = 0;
 	data_changed = true;
 
 	// Load services
@@ -79,16 +72,9 @@ Protocol::Protocol(const char *aName, const TCHAR* descr)
 
 	can_have_listening_to = (ProtoServiceExists(name, PS_SET_LISTENINGTO) != 0);
 
+	PF3 = CallProtoService(name, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0);
 	caps = CallProtoService(name, PS_GETCAPS, PFLAGNUM_4, 0);
 	can_have_avatar = (caps & PF4_AVATARS) != 0;
-
-	PF3 = CallProtoService(name, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0);
-
-	avatar_max_width = 0;
-	avatar_max_height = 0;
-	if (ProtoServiceExists(name, PS_GETMYAVATARMAXSIZE))
-		CallProtoService(name, PS_GETMYAVATARMAXSIZE, (WPARAM) &avatar_max_width, (LPARAM) &avatar_max_height);
-
 	can_set_nick = ProtoServiceExists(name, PS_SETMYNICKNAME) != FALSE;
 
 	// Initial value

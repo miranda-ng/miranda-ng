@@ -70,7 +70,6 @@ extern long nickname_dialog_open;
 extern long status_msg_dialog_open;
 extern bool g_bFramesExist;
 
-#define PS_GETMYAVATARMAXSIZE "/GetMyAvatarMaxSize"
 #define PS_GETMYNICKNAMEMAXLENGTH "/GetMyNicknameMaxLength"
 
 // Helper

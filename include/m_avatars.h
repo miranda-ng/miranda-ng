@@ -80,15 +80,6 @@ typedef struct avatarCacheEntry {
 	TCHAR szFilename[MAX_PATH];		// filename of the avatar (absolute path)
 } AVATARCACHEENTRY;
 
-struct CacheNode {
-	struct CacheNode *pNextNode;
-	struct avatarCacheEntry ace;
-	BOOL   loaded;
-	int    mustLoad;
-	DWORD  dwFlags;
-	int    pa_format;
-};
-
 #define AVDRQ_FALLBACKPROTO            0x0001        // use the protocol picture as fallback (currently not used)
 #define AVDRQ_FAILIFNOTCACHED          0x0002        // don't create a cache entry if it doesn't already exist. (currently not working)
 #define AVDRQ_ROUNDEDCORNER            0x0004        // draw with rounded corners

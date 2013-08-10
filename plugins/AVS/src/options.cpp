@@ -37,9 +37,7 @@ extern HICON g_hIcon;
 
 extern int CreateAvatarInCache(HANDLE hContact, struct avatarCacheEntry *ace, char *szProto);
 extern INT_PTR ProtectAvatar(WPARAM wParam, LPARAM lParam);
-extern int SetAvatarAttribute(HANDLE hContact, DWORD attrib, int mode);
 extern int ChangeAvatar(HANDLE hContact, BOOL fLoad, BOOL fNotifyHist = FALSE, int pa_format = 0);
-extern void DeleteAvatarFromCache(HANDLE, BOOL);
 extern HBITMAP LoadPNG(struct avatarCacheEntry *ace, char *szFilename);
 extern HANDLE GetContactThatHaveTheAvatar(HANDLE hContact, int locked = -1);
 
@@ -188,7 +186,7 @@ static void SetProtoPic(char *szProto)
 
 static char* g_selectedProto;
 
-INT_PTR CALLBACK DlgProcOptionsAvatars(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcOptionsAvatars(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -253,7 +251,9 @@ INT_PTR CALLBACK DlgProcOptionsAvatars(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	return FALSE;
 }
 
-INT_PTR CALLBACK DlgProcOptionsOwn(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR CALLBACK DlgProcOptionsOwn(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -289,11 +289,11 @@ static char* GetProtoFromList(HWND hwndDlg, int iItem)
 	if ( !ListView_GetItem( GetDlgItem(hwndDlg, IDC_PROTOCOLS), &item ))
 		return NULL;
 
-	protoPicCacheEntry* pce = ( protoPicCacheEntry* )item.lParam;
+	protoPicCacheEntry *pce = ( protoPicCacheEntry* )item.lParam;
 	return ( pce == NULL ) ? NULL : pce->szProtoname;
 }
 
-INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_PROTOCOLS);
 	HWND hwndChoosePic = GetDlgItem(hwndDlg, IDC_SETPROTOPIC);
@@ -419,9 +419,9 @@ INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				}
 			}
 			break;
+
 		case 0:
-			switch (((LPNMHDR) lParam)->code) {
-			case PSN_APPLY:
+			if (((LPNMHDR) lParam)->code == PSN_APPLY) {
 				for (int i = 0; i < ListView_GetItemCount(hwndList); i++) {
 					char *szProto = GetProtoFromList(hwndDlg, i);
 
@@ -444,7 +444,9 @@ INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	return FALSE;
 }
 
-void LoadTransparentData(HWND hwndDlg, HANDLE hContact)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void LoadTransparentData(HWND hwndDlg, HANDLE hContact)
 {
 	CheckDlgButton(hwndDlg, IDC_MAKETRANSPBKG, db_get_b(hContact, "ContactPhoto", "MakeTransparentBkg", db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0)));
 	SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETPOS, 0, (LPARAM)db_get_w(hContact, "ContactPhoto", "TranspBkgNumPoints", db_get_w(0, AVS_MODULE, "TranspBkgNumPoints", 5)));
@@ -459,7 +461,7 @@ void LoadTransparentData(HWND hwndDlg, HANDLE hContact)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE), transp_enabled);
 }
 
-void SaveTransparentData(HWND hwndDlg, HANDLE hContact)
+static void SaveTransparentData(HWND hwndDlg, HANDLE hContact)
 {
 	BOOL transp = IsDlgButtonChecked(hwndDlg, IDC_MAKETRANSPBKG);
 	if (db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0) == transp)
@@ -480,7 +482,7 @@ void SaveTransparentData(HWND hwndDlg, HANDLE hContact)
 		db_set_w(hContact, "ContactPhoto", "TranspBkgColorDiff", tmp);
 }
 
-void SaveTransparentData(HWND hwndDlg, HANDLE hContact, BOOL locked)
+static void SaveTransparentData(HWND hwndDlg, HANDLE hContact, BOOL locked)
 {
 	SaveTransparentData(hwndDlg, hContact);
 
@@ -734,7 +736,34 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	return FALSE;
 }
 
-INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+int OptInit(WPARAM wParam, LPARAM lParam)
+{
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	odp.hInstance = g_hInst;
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pszGroup = LPGEN("Contacts");
+	odp.pszTitle = LPGEN("Avatars");
+
+	odp.pszTab = LPGEN("Protocols");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_PICTS);
+	odp.pfnDlgProc = DlgProcOptionsProtos;
+	Options_AddPage(wParam, &odp);
+
+	odp.pszTab = LPGEN("Contact Avatars");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_AVATARS);
+	odp.pfnDlgProc = DlgProcOptionsAvatars;
+	Options_AddPage(wParam, &odp);
+
+	odp.pszTab = LPGEN("Own Avatars");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_OWN);
+	odp.pfnDlgProc = DlgProcOptionsOwn;
+	Options_AddPage(wParam, &odp);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact;
 	struct WindowData *dat = (struct WindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -889,7 +918,9 @@ INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	return FALSE;
 }
 
-static char * GetSelectedProtocol(HWND hwndDlg)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static char* GetSelectedProtocol(HWND hwndDlg)
 {
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_PROTOCOLS);
 
@@ -1005,7 +1036,7 @@ static void EnableDisableProtocols(HWND hwndDlg, BOOL init)
 	}
 }
 
-INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {
 	case WM_INITDIALOG:
@@ -1130,4 +1161,31 @@ INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		break;
 	}
 	return FALSE;
+}
+
+int OnDetailsInit(WPARAM wParam, LPARAM lParam)
+{
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	odp.hIcon = g_hIcon;
+	odp.hInstance = g_hInst;
+	odp.pszTitle = LPGEN("Avatar");
+
+	HANDLE hContact = (HANDLE)lParam;
+	if (hContact == NULL) {
+		// User dialog
+		odp.pfnDlgProc = DlgProcAvatarProtoInfo;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROTO_AVATARS);
+		UserInfo_AddPage(wParam, &odp);
+	}
+	else {
+		char *szProto = GetContactProto(hContact);
+		if (szProto == NULL || db_get_b(NULL, AVS_MODULE, szProto, 1)) {
+			// Contact dialog
+			odp.pfnDlgProc = DlgProcAvatarUserInfo;
+			odp.position = -2000000000;
+			odp.pszTemplate = MAKEINTRESOURCEA(IDD_USER_AVATAR);
+			UserInfo_AddPage(wParam, &odp);
+		}
+	}
+	return 0;
 }

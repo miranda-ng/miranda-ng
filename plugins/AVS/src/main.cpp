@@ -67,9 +67,12 @@ char* g_szMetaName = NULL;
 // Stores the id of the dialog
 
 int ChangeAvatar(HANDLE hContact, BOOL fLoad, BOOL fNotifyHist = FALSE, int pa_format = 0);
+
+int OnDetailsInit(WPARAM wParam, LPARAM lParam);
+int OptInit(WPARAM wParam, LPARAM lParam);
+
 static int ShutdownProc(WPARAM wParam, LPARAM lParam);
 static int OkToExitProc(WPARAM wParam, LPARAM lParam);
-static int OnDetailsInit(WPARAM wParam, LPARAM lParam);
 static int GetFileHash(TCHAR* filename);
 static DWORD GetFileSize(TCHAR *szFilename);
 
@@ -101,12 +104,7 @@ PLUGININFOEX pluginInfoEx = {
 	{0xe00f1643, 0x263c, 0x4599, {0xb8, 0x4b, 0x5, 0x3e, 0x5c, 0x51, 0x1d, 0x29}}
 };
 
-extern INT_PTR CALLBACK DlgProcOptionsAvatars(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern INT_PTR CALLBACK DlgProcOptionsOwn(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 extern INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, TCHAR *originalFilename, int format, BOOL square, BOOL grow);
 
@@ -217,6 +215,9 @@ size_t AVS_pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut)
 
 static void NotifyMetaAware(HANDLE hContact, struct CacheNode *node = NULL, AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)-1)
 {
+	if (g_shutDown)
+		return;
+
 	if (ace == (AVATARCACHEENTRY *)-1)
 		ace = &node->ace;
 
@@ -224,11 +225,11 @@ static void NotifyMetaAware(HANDLE hContact, struct CacheNode *node = NULL, AVAT
 
 	if (g_MetaAvail && (node->dwFlags & MC_ISSUBCONTACT) && db_get_b(NULL, g_szMetaName, "Enabled", 0)) {
 		HANDLE hMasterContact = (HANDLE)db_get_dw(hContact, g_szMetaName, "Handle", 0);
-
 		if (hMasterContact && (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hMasterContact, 0) == hContact &&
 			!db_get_b(hMasterContact, "ContactPhoto", "Locked", 0))
 			NotifyEventHooks(hEventChanged, (WPARAM)hMasterContact, (LPARAM)ace);
 	}
+
 	if (node->dwFlags & AVH_MUSTNOTIFY) {
 		// Fire the event for avatar history
 		node->dwFlags &= ~AVH_MUSTNOTIFY;
@@ -245,9 +246,9 @@ static void NotifyMetaAware(HANDLE hContact, struct CacheNode *node = NULL, AVAT
 			if (szProto != NULL) {
 				DBVARIANT dbv = {0};
 				if ( !db_get_s(hContact, szProto, "AvatarHash", &dbv)) {
-					if (dbv.type == DBVT_TCHAR) {
-						_tcsncpy(cacn.hash, dbv.ptszVal, SIZEOF(cacn.hash));
-					} else if (dbv.type == DBVT_BLOB) {
+					if (dbv.type == DBVT_TCHAR)
+						_tcsncpy_s(cacn.hash, SIZEOF(cacn.hash), dbv.ptszVal, _TRUNCATE);
+					else if (dbv.type == DBVT_BLOB) {
 						// Lets use base64 encode
 						char *tab = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 						int i;
@@ -284,8 +285,7 @@ static void NotifyMetaAware(HANDLE hContact, struct CacheNode *node = NULL, AVAT
 
 			NotifyEventHooks(hEventContactAvatarChanged, (WPARAM)cacn.hContact, (LPARAM)&cacn);
 		}
-		else
-			NotifyEventHooks(hEventContactAvatarChanged, (WPARAM)hContact, NULL);
+		else NotifyEventHooks(hEventContactAvatarChanged, (WPARAM)hContact, NULL);
 	}
 }
 
@@ -305,11 +305,7 @@ static struct CacheNode *AllocCacheBlock()
 	ZeroMemory((void *)allocedBlock, sizeof(struct CacheNode) * CACHE_BLOCKSIZE);
 
 	for(int i = 0; i < CACHE_BLOCKSIZE - 1; i++)
-	{
-		//InitializeCriticalSection(&allocedBlock[i].cs);
 		allocedBlock[i].pNextNode = &allocedBlock[i + 1];				// pre-link the alloced block
-	}
-	//InitializeCriticalSection(&allocedBlock[CACHE_BLOCKSIZE - 1].cs);
 
 	if (g_Cache == NULL)													// first time only...
 		g_Cache = allocedBlock;
@@ -327,18 +323,18 @@ static struct CacheNode *AllocCacheBlock()
 
 int SetAvatarAttribute(HANDLE hContact, DWORD attrib, int mode)
 {
-	struct CacheNode *cacheNode = g_Cache;
+	struct CacheNode *сс = g_Cache;
 
-	while(cacheNode) {
-		if (cacheNode->ace.hContact == hContact) {
-			DWORD dwFlags = cacheNode->ace.dwFlags;
+	while(сс) {
+		if (сс->ace.hContact == hContact) {
+			DWORD dwFlags = сс->ace.dwFlags;
 
-			cacheNode->ace.dwFlags = mode ? cacheNode->ace.dwFlags | attrib : cacheNode->ace.dwFlags & ~attrib;
-			if (cacheNode->ace.dwFlags != dwFlags)
-				NotifyMetaAware(hContact, cacheNode);
+			сс->ace.dwFlags = mode ? (сс->ace.dwFlags | attrib) : (сс->ace.dwFlags & ~attrib);
+			if (сс->ace.dwFlags != dwFlags)
+				NotifyMetaAware(hContact, сс);
 			break;
 		}
-		cacheNode = cacheNode->pNextNode;
+		сс = сс->pNextNode;
 	}
 	return 0;
 }
@@ -421,9 +417,8 @@ int CreateAvatarInCache(HANDLE hContact, avatarCacheEntry *ace, char *szProto)
 
 	if (szProto == NULL) {
 		char *proto = GetContactProto(hContact);
-		if (proto == NULL || !db_get_b(NULL, AVS_MODULE, proto, 1)) {
+		if (proto == NULL || !db_get_b(NULL, AVS_MODULE, proto, 1))
 			return -1;
-		}
 
 		if (db_get_b(hContact, "ContactPhoto", "Locked", 0)
 			&& !db_get_ts(hContact, "ContactPhoto", "Backup", &dbv)) {
@@ -438,9 +433,7 @@ int CreateAvatarInCache(HANDLE hContact, avatarCacheEntry *ace, char *szProto)
 			AVS_pathToAbsolute(dbv.ptszVal, tszFilename);
 			db_free(&dbv);
 		}
-		else {
-			return -2;
-		}
+		else return -2;
 	}
 	else {
 		if (hContact == 0) {				// create a protocol picture in the proto picture cache
@@ -479,11 +472,11 @@ int CreateAvatarInCache(HANDLE hContact, avatarCacheEntry *ace, char *szProto)
 				AVS_pathToAbsolute(dbv.ptszVal, tszFilename);
 				db_free(&dbv);
 			}
-			else if (ProtoServiceExists(szProto, PS_GETMYAVATART)) {
+			else if ( ProtoServiceExists(szProto, PS_GETMYAVATART)) {
 				if (CallProtoService(szProto, PS_GETMYAVATART, (WPARAM)tszFilename, (LPARAM)MAX_PATH))
 					tszFilename[0] = '\0';
 			}
-			else if (ProtoServiceExists(szProto, PS_GETMYAVATAR)) {
+			else if ( ProtoServiceExists(szProto, PS_GETMYAVATAR)) {
 				char szFileName[ MAX_PATH ];
 				if (CallProtoService(szProto, PS_GETMYAVATAR, (WPARAM)szFileName, (LPARAM)MAX_PATH))
 					tszFilename[0] = '\0';
@@ -498,13 +491,10 @@ int CreateAvatarInCache(HANDLE hContact, avatarCacheEntry *ace, char *szProto)
 		}
 	}
 
-	if ( lstrlen(tszFilename) < 4 )
+	if ( lstrlen(tszFilename) < 4)
 		return -1;
 
-	TCHAR* tmpPath = Utils_ReplaceVarsT(tszFilename);
-	mir_sntprintf(tszFilename, SIZEOF(tszFilename), _T("%s"), tmpPath);
-	mir_free(tmpPath);
-
+	_tcsncpy_s(tszFilename, SIZEOF(tszFilename), VARST(tszFilename), _TRUNCATE);
 	if ((hFile = CreateFile(tszFilename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL)) == INVALID_HANDLE_VALUE)
 		return -2;
 
@@ -534,13 +524,10 @@ int CreateAvatarInCache(HANDLE hContact, avatarCacheEntry *ace, char *szProto)
 		BOOL noTransparency = db_get_b(0, AVS_MODULE, "RemoveAllTransparency", 0);
 
 		// Calc image hash
-		if (hContact != 0 && hContact != (HANDLE)-1)
-		{
+		if (hContact != 0 && hContact != (HANDLE)-1) {
 			// Have to reset settings? -> do it if image changed
 			DWORD imgHash = GetImgHash(ace->hbmPic);
-
-			if (imgHash != db_get_dw(hContact, "ContactPhoto", "ImageHash", 0))
-			{
+			if (imgHash != db_get_dw(hContact, "ContactPhoto", "ImageHash", 0)) {
 				ResetTranspSettings(hContact);
 				db_set_dw(hContact, "ContactPhoto", "ImageHash", imgHash);
 			}
@@ -550,22 +537,19 @@ int CreateAvatarInCache(HANDLE hContact, avatarCacheEntry *ace, char *szProto)
 				&& db_get_b(hContact, "ContactPhoto", "MakeTransparentBkg",
 				db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0)))
 			{
-				if (MakeTransparentBkg(hContact, &ace->hbmPic))
-				{
+				if (MakeTransparentBkg(hContact, &ace->hbmPic)) {
 					ace->dwFlags |= AVS_CUSTOMTRANSPBKG | AVS_HASTRANSPARENCY;
 					GetObject(ace->hbmPic, sizeof(bminfo), &bminfo);
 					isTransparentImage = TRUE;
 				}
 			}
 		}
-		else if (hContact == (HANDLE)-1) // My avatars
-		{
+		else if (hContact == (HANDLE)-1) { // My avatars
 			if (!noTransparency && !isTransparentImage
 				&& db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0)
 				&& db_get_b(0, AVS_MODULE, "MakeMyAvatarsTransparent", 0))
 			{
-				if (MakeTransparentBkg(0, &ace->hbmPic))
-				{
+				if (MakeTransparentBkg(0, &ace->hbmPic)) {
 					ace->dwFlags |= AVS_CUSTOMTRANSPBKG | AVS_HASTRANSPARENCY;
 					GetObject(ace->hbmPic, sizeof(bminfo), &bminfo);
 					isTransparentImage = TRUE;
@@ -574,27 +558,21 @@ int CreateAvatarInCache(HANDLE hContact, avatarCacheEntry *ace, char *szProto)
 		}
 
 		if (db_get_b(0, AVS_MODULE, "MakeGrayscale", 0))
-		{
 			ace->hbmPic = MakeGrayscale(hContact, ace->hbmPic);
-		}
 
-		if (noTransparency)
-		{
+		if (noTransparency) {
 			fei->FI_CorrectBitmap32Alpha(ace->hbmPic, TRUE);
 			isTransparentImage = FALSE;
 		}
 
-		if (bminfo.bmBitsPixel == 32 && isTransparentImage)
-		{
+		if (bminfo.bmBitsPixel == 32 && isTransparentImage) {
 			if (fei->FI_Premultiply(ace->hbmPic))
-			{
 				ace->dwFlags |= AVS_HASTRANSPARENCY;
-			}
+
 			ace->dwFlags |= AVS_PREMULTIPLIED;
 		}
 
-		if (szProto)
-		{
+		if (szProto) {
 			protoPicCacheEntry *pAce = (protoPicCacheEntry *)ace;
 			if (hContact == 0)
 				pAce->dwFlags |= AVS_PROTOPIC;
@@ -611,7 +589,8 @@ int CreateAvatarInCache(HANDLE hContact, avatarCacheEntry *ace, char *szProto)
  * link a new cache block with the already existing chain of blocks
  */
 
-static struct CacheNode *AddToList(struct CacheNode *node) {
+static struct CacheNode *AddToList(struct CacheNode *node)
+{
 	struct CacheNode *pCurrent = g_Cache;
 
 	while(pCurrent->pNextNode != 0)
@@ -623,7 +602,8 @@ static struct CacheNode *AddToList(struct CacheNode *node) {
 
 struct CacheNode *FindAvatarInCache(HANDLE hContact, BOOL add, BOOL findAny = FALSE)
 {
-	struct CacheNode *cacheNode = g_Cache, *foundNode = NULL;
+	if (g_shutDown)
+		return NULL;
 
 	char *szProto = GetContactProto(hContact);
 	if (szProto == NULL || !db_get_b(NULL, AVS_MODULE, szProto, 1))
@@ -631,25 +611,26 @@ struct CacheNode *FindAvatarInCache(HANDLE hContact, BOOL add, BOOL findAny = FA
 
 	mir_cslock lck(cachecs);
 
-	while(cacheNode) {
-		if (cacheNode->ace.hContact == hContact) {
-			cacheNode->ace.t_lastAccess = time(NULL);
-			foundNode = cacheNode->loaded || findAny ? cacheNode : NULL;
+	struct CacheNode *сс = g_Cache, *foundNode = NULL;
+	while(сс) {
+		if (сс->ace.hContact == hContact) {
+			сс->ace.t_lastAccess = time(NULL);
+			foundNode = сс->loaded || findAny ? сс : NULL;
 			return foundNode;
 		}
 
 		// found an empty and usable node
-		if (foundNode == NULL && cacheNode->ace.hContact == 0)
-			foundNode = cacheNode;
+		if (foundNode == NULL && сс->ace.hContact == 0)
+			foundNode = сс;
 
-		cacheNode = cacheNode->pNextNode;
+		сс = сс->pNextNode;
 	}
 
 	// not found
 	if (!add)
 		return NULL;
 
-	if (foundNode == NULL) {					// no free entry found, create a new and append it to the list
+	if (foundNode == NULL) {        // no free entry found, create a new and append it to the list
 		mir_cslock all(alloccs);     // protect memory block allocation
 		struct CacheNode *newNode = AllocCacheBlock();
 		AddToList(newNode);
@@ -660,8 +641,8 @@ struct CacheNode *FindAvatarInCache(HANDLE hContact, BOOL add, BOOL findAny = FA
 	if (g_MetaAvail)
 		foundNode->dwFlags |= (db_get_b(hContact, g_szMetaName, "IsSubcontact", 0) ? MC_ISSUBCONTACT : 0);
 	foundNode->loaded = FALSE;
-	foundNode->mustLoad = 1;                                 // pic loader will watch this and load images
-	SetEvent(hLoaderEvent);                                     // wake him up
+	foundNode->mustLoad = 1;        // pic loader will watch this and load images
+	SetEvent(hLoaderEvent);         // wake him up
 	return NULL;
 }
 
@@ -697,7 +678,8 @@ static int GetFileHash(TCHAR* filename)
 					remainder = (remainder << 1);
 			}
 		}
-	} while(dwRead == 1024);
+	}
+		while(dwRead == 1024);
 
 	CloseHandle(hFile);
 
@@ -708,32 +690,24 @@ static int ProtocolAck(WPARAM wParam, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *) lParam;
 
-	if (ack != NULL && ack->type == ACKTYPE_AVATAR && ack->hContact != 0
-		// Ignore metacontacts
-		&& (!g_MetaAvail || strcmp(ack->szModule, g_szMetaName)))
-	{
-		if (ack->result == ACKRESULT_SUCCESS)
-		{
+	if (ack != NULL && ack->type == ACKTYPE_AVATAR && ack->hContact != 0 && (!g_MetaAvail || strcmp(ack->szModule, g_szMetaName))) {
+		if (ack->result == ACKRESULT_SUCCESS) {
 			if (ack->hProcess == NULL)
 				ProcessAvatarInfo(ack->hContact, GAIR_NOAVATAR, NULL, ack->szModule);
 			else
 				ProcessAvatarInfo(ack->hContact, GAIR_SUCCESS, (PROTO_AVATAR_INFORMATIONT *) ack->hProcess, ack->szModule);
 		}
-		else if (ack->result == ACKRESULT_FAILED)
-		{
+		else if (ack->result == ACKRESULT_FAILED) {
 			ProcessAvatarInfo(ack->hContact, GAIR_FAILED, (PROTO_AVATAR_INFORMATIONT *) ack->hProcess, ack->szModule);
 		}
-		else if (ack->result == ACKRESULT_STATUS)
-		{
+		else if (ack->result == ACKRESULT_STATUS) {
 			char *szProto = GetContactProto(ack->hContact);
-			if (szProto == NULL || Proto_NeedDelaysForAvatars(szProto))
-			{
+			if (szProto == NULL || Proto_NeedDelaysForAvatars(szProto)) {
 				// Queue
 				db_set_b(ack->hContact, "ContactPhoto", "NeedUpdate", 1);
 				QueueAdd(ack->hContact);
 			}
-			else
-			{
+			else {
 				// Fetch it now
 				FetchAvatarFor(ack->hContact, szProto);
 			}
@@ -1123,7 +1097,7 @@ static int InternalRemoveMyAvatar(char *protocol)
 	int ret = 0;
 	if (protocol != NULL)
 	{
-		if (ProtoServiceExists(protocol, PS_SETMYAVATAR))
+		if ( ProtoServiceExists(protocol, PS_SETMYAVATAR))
 			ret = SaveAvatar(protocol, NULL);
 		else
 			ret = -3;
@@ -1783,23 +1757,15 @@ static void PicLoader(LPVOID param)
 
 				int result = CreateAvatarInCache(node->ace.hContact, &ace_temp, NULL);
 
-				if (result == -2)
-				{
+				if (result == -2) {
 					char *szProto = GetContactProto(node->ace.hContact);
 					if (szProto == NULL || Proto_NeedDelaysForAvatars(szProto))
-					{
 						QueueAdd(node->ace.hContact);
-					}
-					else
-					{
-						if (FetchAvatarFor(node->ace.hContact, szProto) == GAIR_SUCCESS)
-							// Try yo create again
-							result = CreateAvatarInCache(node->ace.hContact, &ace_temp, NULL);
-					}
+					else if (FetchAvatarFor(node->ace.hContact, szProto) == GAIR_SUCCESS) // Try yo create again
+						result = CreateAvatarInCache(node->ace.hContact, &ace_temp, NULL);
 				}
 
-				if ((result == 1 && ace_temp.hbmPic != 0)) // Loaded
-				{
+				if (result == 1 && ace_temp.hbmPic != 0) { // Loaded
 					HBITMAP oldPic = node->ace.hbmPic;
 
 					EnterCriticalSection(&cachecs);
@@ -1810,8 +1776,7 @@ static void PicLoader(LPVOID param)
 						DeleteObject(oldPic);
 					NotifyMetaAware(node->ace.hContact, node);
 				}
-				else if (result == 0 || result == -3) // Has no avatar
-				{
+				else if (result == 0 || result == -3) { // Has no avatar
 					HBITMAP oldPic = node->ace.hbmPic;
 
 					EnterCriticalSection(&cachecs);
@@ -1834,11 +1799,11 @@ static void PicLoader(LPVOID param)
 				if (node->ace.hbmPic)
 					DeleteObject(node->ace.hbmPic);
 				ZeroMemory(&node->ace, sizeof(AVATARCACHEENTRY));
-				if (node->dwFlags & AVS_DELETENODEFOREVER) {
+				if (node->dwFlags & AVS_DELETENODEFOREVER)
 					node->dwFlags &= ~AVS_DELETENODEFOREVER;
-				} else {
+				else
 					node->ace.hContact = hContact;
-				}
+
 				LeaveCriticalSection(&cachecs);
 				NotifyMetaAware(hContact, node, (AVATARCACHEENTRY *)GetProtoDefaultAvatar(hContact));
 			}
@@ -1870,8 +1835,7 @@ static int MetaChanged(WPARAM wParam, LPARAM lParam)
 		ace = (AVATARCACHEENTRY *)GetProtoDefaultAvatar(hSubContact);
 		QueueAdd(hSubContact);
 	}
-	else
-		ace = &node->ace;
+	else ace = &node->ace;
 
 	NotifyEventHooks(hEventChanged, (WPARAM)hContact, (LPARAM)ace);
 	return 0;
@@ -1879,7 +1843,7 @@ static int MetaChanged(WPARAM wParam, LPARAM lParam)
 
 static void LoadDefaultInfo()
 {
-	protoPicCacheEntry* pce = new protoPicCacheEntry;
+	protoPicCacheEntry *pce = new protoPicCacheEntry;
 	if (CreateAvatarInCache(0, pce, AVS_DEFAULT) != 1)
 		db_unset(0, PPICT_MODULE, AVS_DEFAULT);
 
@@ -1890,48 +1854,47 @@ static void LoadDefaultInfo()
 
 static void LoadProtoInfo(PROTOCOLDESCRIPTOR* proto)
 {
-	if ( proto->type == PROTOTYPE_PROTOCOL && proto->cbSize == sizeof( *proto ))
-	{
-		char protoName[MAX_PATH];
-		mir_snprintf(protoName, SIZEOF(protoName), "Global avatar for %s accounts", proto->szName);
-		TCHAR protoNameTmp[MAX_PATH];
-		TCHAR *tszName = mir_a2t(proto->szName);
-		mir_sntprintf(protoNameTmp, SIZEOF(protoNameTmp), TranslateT("Global avatar for %s accounts"), tszName);
-		protoPicCacheEntry* pce = new protoPicCacheEntry;
-		if (CreateAvatarInCache(0, pce, protoName) != 1)
-			db_unset(0, PPICT_MODULE, protoName);
+	if (proto->type != PROTOTYPE_PROTOCOL || proto->cbSize != sizeof(*proto))
+		return;
 
-		pce->szProtoname = mir_strdup(protoName);
-		pce->tszAccName = mir_tstrdup(protoNameTmp);
-		g_ProtoPictures.insert(pce);
-		mir_free(tszName);
-	}
+	char protoName[MAX_PATH];
+	mir_snprintf(protoName, SIZEOF(protoName), "Global avatar for %s accounts", proto->szName);
+
+	TCHAR protoNameTmp[MAX_PATH];
+	mir_sntprintf(protoNameTmp, SIZEOF(protoNameTmp), TranslateT("Global avatar for %s accounts"), _A2T(proto->szName));
+	protoPicCacheEntry *pce = new protoPicCacheEntry;
+	if (CreateAvatarInCache(0, pce, protoName) != 1)
+		db_unset(0, PPICT_MODULE, protoName);
+
+	pce->szProtoname = mir_strdup(protoName);
+	pce->tszAccName = mir_tstrdup(protoNameTmp);
+	g_ProtoPictures.insert(pce);
 }
 
 static void LoadAccountInfo( PROTOACCOUNT* acc )
 {
-	protoPicCacheEntry* pce = new protoPicCacheEntry;
-	if ( CreateAvatarInCache(0, pce, acc->szModuleName ) != 1 )
+	protoPicCacheEntry *pce = new protoPicCacheEntry;
+	if ( CreateAvatarInCache(0, pce, acc->szModuleName) != 1)
 		db_unset(0, PPICT_MODULE, acc->szModuleName);
 
-	pce->szProtoname = mir_strdup( acc->szModuleName );
-	pce->tszAccName = mir_tstrdup( acc->tszAccountName );
-	g_ProtoPictures.insert( pce );
+	pce->szProtoname = mir_strdup( acc->szModuleName);
+	pce->tszAccName = mir_tstrdup( acc->tszAccountName);
+	g_ProtoPictures.insert(pce);
 
 	pce = new protoPicCacheEntry;
-	CreateAvatarInCache((HANDLE)-1, pce, acc->szModuleName );
-	pce->szProtoname = mir_strdup( acc->szModuleName );
-	pce->tszAccName = mir_tstrdup( acc->tszAccountName );
-	g_MyAvatars.insert( pce );
+	CreateAvatarInCache((HANDLE)-1, pce, acc->szModuleName);
+	pce->szProtoname = mir_strdup(acc->szModuleName);
+	pce->tszAccName = mir_tstrdup(acc->tszAccountName);
+	g_MyAvatars.insert(pce);
 }
 
 static int OnAccChanged(WPARAM wParam, LPARAM lParam)
 {
-	PROTOACCOUNT* pa = ( PROTOACCOUNT* )lParam;
+	PROTOACCOUNT *pa = (PROTOACCOUNT*)lParam;
 
 	switch( wParam ) {
 	case PRAC_ADDED:
-		LoadAccountInfo( pa );
+		LoadAccountInfo(pa);
 		break;
 
 	case PRAC_REMOVED:
@@ -1939,9 +1902,9 @@ static int OnAccChanged(WPARAM wParam, LPARAM lParam)
 			int idx;
 			protoPicCacheEntry tmp;
 			tmp.szProtoname = mir_strdup(pa->szModuleName);
-			if (( idx = g_ProtoPictures.getIndex( &tmp )) != -1 )
+			if ((idx = g_ProtoPictures.getIndex( &tmp )) != -1)
 				g_ProtoPictures.remove( idx );
-			if (( idx = g_MyAvatars.getIndex( &tmp )) != -1 )
+			if ((idx = g_MyAvatars.getIndex( &tmp )) != -1)
 				g_MyAvatars.remove( idx );
 		}
 		break;
@@ -1990,7 +1953,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Load global avatar
-	protoPicCacheEntry* pce = new protoPicCacheEntry;
+	protoPicCacheEntry *pce = new protoPicCacheEntry;
 	CreateAvatarInCache((HANDLE)-1, pce, "");
 	pce->szProtoname = mir_strdup("");
 	g_MyAvatars.insert( pce );
@@ -2078,32 +2041,6 @@ static int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 static int ContactDeleted(WPARAM wParam, LPARAM lParam)
 {
 	DeleteAvatarFromCache((HANDLE)wParam, TRUE);
-
-	return 0;
-}
-
-static int OptInit(WPARAM wParam, LPARAM lParam)
-{
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.hInstance = g_hInst;
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszGroup = LPGEN("Contacts");
-	odp.pszTitle = LPGEN("Avatars");
-
-	odp.pszTab = LPGEN("Protocols");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_PICTS);
-	odp.pfnDlgProc = DlgProcOptionsProtos;
-	Options_AddPage(wParam, &odp);
-
-	odp.pszTab = LPGEN("Contact Avatars");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_AVATARS);
-	odp.pfnDlgProc = DlgProcOptionsAvatars;
-	Options_AddPage(wParam, &odp);
-
-	odp.pszTab = LPGEN("Own Avatars");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_OWN);
-	odp.pfnDlgProc = DlgProcOptionsOwn;
-	Options_AddPage(wParam, &odp);
 	return 0;
 }
 
@@ -2113,10 +2050,6 @@ static int ShutdownProc(WPARAM wParam, LPARAM lParam)
 	SetEvent(hLoaderEvent);
 	SetEvent(hShutdownEvent);
 	CloseHandle(hShutdownEvent); hShutdownEvent = NULL;
-
-	DestroyHookableEvent(hEventChanged); hEventChanged = 0;
-	DestroyHookableEvent(hEventContactAvatarChanged); hEventContactAvatarChanged = 0;
-	DestroyHookableEvent(hMyAvatarChanged); hMyAvatarChanged = 0;
 	return 0;
 }
 
@@ -2273,41 +2206,6 @@ INT_PTR DrawAvatarPicture(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnDetailsInit(WPARAM wParam, LPARAM lParam)
-{
-	HANDLE hContact = (HANDLE) lParam;
-	if (hContact == NULL)
-	{
-		// User dialog
-		OPTIONSDIALOGPAGE odp = {0};
-		odp.cbSize = sizeof(odp);
-		odp.hIcon = g_hIcon;
-		odp.hInstance = g_hInst;
-		odp.pfnDlgProc = DlgProcAvatarProtoInfo;
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROTO_AVATARS);
-		odp.pszTitle = LPGEN("Avatar");
-		UserInfo_AddPage(wParam, &odp);
-	}
-	else
-	{
-		char *szProto = GetContactProto(hContact);
-		if (szProto == NULL || db_get_b(NULL, AVS_MODULE, szProto, 1))
-		{
-			// Contact dialog
-			OPTIONSDIALOGPAGE odp = {0};
-			odp.cbSize = sizeof(odp);
-			odp.hIcon = g_hIcon;
-			odp.hInstance = g_hInst;
-			odp.pfnDlgProc = DlgProcAvatarUserInfo;
-			odp.position = -2000000000;
-			odp.pszTemplate = MAKEINTRESOURCEA(IDD_USER_AVATAR);
-			odp.pszTitle = LPGEN("Avatar");
-			UserInfo_AddPage(wParam, &odp);
-		}
-	}
-	return 0;
-}
-
 static int LoadAvatarModule()
 {
 	InitializeCriticalSection(&cachecs);
@@ -2401,6 +2299,10 @@ extern "C" int __declspec(dllexport) Unload(void)
 	g_ProtoPictures.destroy();
 	g_MyAvatars.destroy();
 
+	DestroyHookableEvent(hEventChanged);
+	DestroyHookableEvent(hEventContactAvatarChanged);
+	DestroyHookableEvent(hMyAvatarChanged);
+
 	CloseHandle(hLoaderEvent);
 	DeleteCriticalSection(&alloccs);
 	DeleteCriticalSection(&cachecs);
@@ -2411,10 +2313,10 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 protoPicCacheEntry::~protoPicCacheEntry()
 {
-	if ( hbmPic != 0 )
-		DeleteObject( hbmPic );
-	mir_free( szProtoname );
-	mir_free( tszAccName );
+	if (hbmPic != 0)
+		DeleteObject(hbmPic);
+	mir_free(szProtoname);
+	mir_free(tszAccName);
 }
 
 void protoPicCacheEntry::clear()
@@ -2425,32 +2327,9 @@ void protoPicCacheEntry::clear()
 	memset(this, 0, sizeof(avatarCacheEntry));
 }
 
-/*
-wParam=(int *)max width of avatar - will be set (-1 for no max)
-lParam=(int *)max height of avatar - will be set (-1 for no max)
-return=0 for sucess
-*/
-#define PS_GETMYAVATARMAXSIZE "/GetMyAvatarMaxSize"
-
-/*
-wParam=0
-lParam=0
-return=One of PIP_SQUARE, PIP_FREEPROPORTIONS
-*/
-#define PIP_FREEPROPORTIONS	0
-#define PIP_SQUARE			1
-#define PS_GETMYAVATARIMAGEPROPORTION "/GetMyAvatarImageProportion"
-
-/*
-wParam = 0
-lParam = PA_FORMAT_*   // avatar format
-return = 1 (supported) or 0 (not supported)
-*/
-#define PS_ISAVATARFORMATSUPPORTED "/IsAvatarFormatSupported"
-
 BOOL Proto_IsAvatarsEnabled(const char *proto)
 {
-	if (ProtoServiceExists(proto, PS_GETAVATARCAPS))
+	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS))
 		return CallProtoService(proto, PS_GETAVATARCAPS, AF_ENABLED, 0);
 
 	return TRUE;
@@ -2458,11 +2337,8 @@ BOOL Proto_IsAvatarsEnabled(const char *proto)
 
 BOOL Proto_IsAvatarFormatSupported(const char *proto, int format)
 {
-	if (ProtoServiceExists(proto, PS_GETAVATARCAPS))
+	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS))
 		return CallProtoService(proto, PS_GETAVATARCAPS, AF_FORMATSUPPORTED, format);
-
-	if (ProtoServiceExists(proto, PS_ISAVATARFORMATSUPPORTED))
-		return CallProtoService(proto, PS_ISAVATARFORMATSUPPORTED, 0, format);
 
 	if (format >= PA_FORMAT_SWF)
 		return FALSE;
@@ -2472,30 +2348,21 @@ BOOL Proto_IsAvatarFormatSupported(const char *proto, int format)
 
 int Proto_AvatarImageProportion(const char *proto)
 {
-	if (ProtoServiceExists(proto, PS_GETAVATARCAPS))
+	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS))
 		return CallProtoService(proto, PS_GETAVATARCAPS, AF_PROPORTION, 0);
-
-	if (ProtoServiceExists(proto, PS_GETMYAVATARIMAGEPROPORTION))
-		return CallProtoService(proto, PS_GETMYAVATARIMAGEPROPORTION, 0, 0);
 
 	return 0;
 }
 
 void Proto_GetAvatarMaxSize(const char *proto, int *width, int *height)
 {
-	if (ProtoServiceExists(proto, PS_GETAVATARCAPS))
-	{
+	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS)) {
 		POINT maxSize;
 		CallProtoService(proto, PS_GETAVATARCAPS, AF_MAXSIZE, (LPARAM) &maxSize);
 		*width = maxSize.y;
 		*height = maxSize.x;
 	}
-	else if (ProtoServiceExists(proto, PS_GETMYAVATARMAXSIZE))
-	{
-		CallProtoService(proto, PS_GETMYAVATARMAXSIZE, (WPARAM) width, (LPARAM) height);
-	}
-	else
-	{
+	else {
 		*width = 300;
 		*height = 300;
 	}
@@ -2513,8 +2380,7 @@ void Proto_GetAvatarMaxSize(const char *proto, int *width, int *height)
 
 BOOL Proto_NeedDelaysForAvatars(const char *proto)
 {
-	if (ProtoServiceExists(proto, PS_GETAVATARCAPS))
-	{
+	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS)) {
 		int ret = CallProtoService(proto, PS_GETAVATARCAPS, AF_DONTNEEDDELAYS, 0);
 		if (ret > 0)
 			return FALSE;
@@ -2527,7 +2393,7 @@ BOOL Proto_NeedDelaysForAvatars(const char *proto)
 
 int Proto_GetAvatarMaxFileSize(const char *proto)
 {
-	if (ProtoServiceExists(proto, PS_GETAVATARCAPS))
+	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS))
 		return CallProtoService(proto, PS_GETAVATARCAPS, AF_MAXFILESIZE, 0);
 
 	return 0;
@@ -2535,7 +2401,7 @@ int Proto_GetAvatarMaxFileSize(const char *proto)
 
 int Proto_GetDelayAfterFail(const char *proto)
 {
-	if (ProtoServiceExists(proto, PS_GETAVATARCAPS))
+	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS))
 		return CallProtoService(proto, PS_GETAVATARCAPS, AF_DELAYAFTERFAIL, 0);
 
 	return 0;
@@ -2543,7 +2409,7 @@ int Proto_GetDelayAfterFail(const char *proto)
 
 BOOL Proto_IsFetchingAlwaysAllowed(const char *proto)
 {
-	if (ProtoServiceExists(proto, PS_GETAVATARCAPS))
+	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS))
 		return CallProtoService(proto, PS_GETAVATARCAPS, AF_FETCHALWAYS, 0);
 
 	return FALSE;

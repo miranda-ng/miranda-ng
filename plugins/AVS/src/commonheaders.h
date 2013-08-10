@@ -64,6 +64,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+struct CacheNode
+{
+	CacheNode *pNextNode;
+	avatarCacheEntry ace;
+	
+	BOOL   loaded;
+	int    mustLoad;
+	DWORD  dwFlags;
+	int    pa_format;
+};
+
 // The same fields as avatarCacheEntry + proto name
 struct protoPicCacheEntry : public avatarCacheEntry, public MZeroedObject
 {
@@ -81,6 +92,7 @@ extern OBJLIST<protoPicCacheEntry> g_ProtoPictures, g_MyAvatars;
 extern FI_INTERFACE *fei;
 
 int SetAvatarAttribute(HANDLE hContact, DWORD attrib, int mode);
+void DeleteAvatarFromCache(HANDLE, BOOL);
 
 #define GAIR_FAILED 1000
 
