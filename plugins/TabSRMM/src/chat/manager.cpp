@@ -751,7 +751,6 @@ SESSION_INFO* SM_FindSessionByIndex(const char* pszModule, int iItem)
 	}
 
 	return NULL;
-
 }
 
 SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const TCHAR* pszOriginal, const TCHAR* pszCurrent)
@@ -903,8 +902,7 @@ STATUSINFO * TM_AddStatus(STATUSINFO** ppStatusList, const TCHAR* pszStatus, int
 		return NULL;
 
 	if (!TM_FindStatus(*ppStatusList, pszStatus)) {
-		STATUSINFO *node = (STATUSINFO*) mir_alloc(sizeof(STATUSINFO));
-		ZeroMemory(node, sizeof(STATUSINFO));
+		STATUSINFO *node = (STATUSINFO*)mir_calloc(sizeof(STATUSINFO));
 		replaceStrT(node->pszGroup, pszStatus);
 		node->hIcon = (HICON)(*iCount);
 		while ((int)node->hIcon > STATUSICONCOUNT - 1)
@@ -927,60 +925,48 @@ STATUSINFO * TM_AddStatus(STATUSINFO** ppStatusList, const TCHAR* pszStatus, int
 
 STATUSINFO * TM_FindStatus(STATUSINFO* pStatusList, const TCHAR* pszStatus)
 {
-	STATUSINFO *pTemp = pStatusList;
-
 	if (!pStatusList || !pszStatus)
 		return NULL;
 
-	while (pTemp != NULL) {
-		if (lstrcmpi(pTemp->pszGroup, pszStatus) == 0)
-			return pTemp;
+	for (STATUSINFO *si = pStatusList; si != NULL; si = si->next)
+		if (lstrcmpi(si->pszGroup, pszStatus) == 0)
+			return si;
 
-		pTemp = pTemp->next;
-	}
 	return 0;
 }
 
 WORD TM_StringToWord(STATUSINFO* pStatusList, const TCHAR* pszStatus)
 {
-	STATUSINFO *pTemp = pStatusList;
-
 	if (!pStatusList || !pszStatus)
 		return 0;
 
-	while (pTemp != NULL) {
-		if (lstrcmpi(pTemp->pszGroup, pszStatus) == 0)
-			return pTemp->Status;
+	for (STATUSINFO *si = pStatusList; si != NULL; si = si->next) {
+		if (lstrcmpi(si->pszGroup, pszStatus) == 0)
+			return si->Status;
 
-		if (pTemp->next == NULL)
+		if (si->next == NULL)
 			return pStatusList->Status;
-
-		pTemp = pTemp->next;
 	}
 	return 0;
 }
 
 TCHAR* TM_WordToString(STATUSINFO* pStatusList, WORD Status)
 {
-	STATUSINFO *pTemp = pStatusList;
-
 	if (!pStatusList)
 		return NULL;
 
-	while (pTemp != NULL) {
-		if (pTemp->Status&Status) {
-			Status -= pTemp->Status;
+	for (STATUSINFO *si = pStatusList; si != NULL; si = si->next)
+		if (si->Status&Status) {
+			Status -= si->Status;
 			if (Status == 0)
-				return pTemp->pszGroup;
+				return si->pszGroup;
 		}
-		pTemp = pTemp->next;
-	}
+
 	return 0;
 }
 
 BOOL TM_RemoveAll(STATUSINFO** ppStatusList)
 {
-
 	if (!ppStatusList)
 		return FALSE;
 
