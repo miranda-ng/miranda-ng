@@ -375,7 +375,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static TCHAR tszError[] = _T("Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.");
+static TCHAR tszError[] = LPGENT("Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.");
 
 int LoadSendRecvMessageModule(void)
 {
