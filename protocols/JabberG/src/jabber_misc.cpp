@@ -287,7 +287,7 @@ void CJabberProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbL
 	else {
 		ptrA res1( getStringA("LoginName")), res2( getStringA("LoginServer"));
 		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S@%S avatar%s"),
-			res1 ? res1 : "noname", res2 ? res2 : m_szModuleName, szFileType);
+			(res1) ? (LPSTR)res1 : "noname", (res2) ? (LPSTR)res2 : m_szModuleName, szFileType);
 	}
 }
 

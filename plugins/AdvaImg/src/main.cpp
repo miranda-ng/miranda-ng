@@ -1193,6 +1193,8 @@ static int IMGSERVICE_Load()
 {
 	FI_Populate();
 
+	CreateServiceFunction(MS_DIB2PNG, serviceDib2Png);
+	CreateServiceFunction(MS_PNG2DIB, servicePng2Dib);
 	CreateServiceFunction(MS_IMG_GETINTERFACE, serviceGetInterface);
 	CreateServiceFunction(MS_IMG_LOAD, serviceLoad);
 	CreateServiceFunction(MS_IMG_LOADFROMMEM, serviceLoadFromMem);
