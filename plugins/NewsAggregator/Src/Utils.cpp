@@ -58,32 +58,6 @@ static void arrayToHex(BYTE *data, size_t datasz, char *res)
 	*resptr = '\0';
 } 
 
-int GetImageFormat(const TCHAR *ext)
-{
-	if (!lstrcmp(ext, _T(".jpg")) || !lstrcmp(ext, _T(".jpeg")))
-		return PA_FORMAT_JPEG;
-
-	if (!lstrcmp(ext, _T(".png")))
-		return PA_FORMAT_PNG;
-
-	if (!lstrcmp(ext, _T(".gif")))
-		return PA_FORMAT_GIF;
-
-	if (!lstrcmp(ext, _T(".ico")))
-		return PA_FORMAT_ICON;
-
-	if (!lstrcmp(ext, _T(".bmp")))
-		return PA_FORMAT_BMP;
-
-	if (!lstrcmp(ext, _T(".swf")))
-		return PA_FORMAT_SWF;
-
-	if (!lstrcmp(ext, _T(".xml")))
-		return PA_FORMAT_XML;
-
-	return PA_FORMAT_UNKNOWN;
-}
-
 VOID GetNewsData(TCHAR *tszUrl, char **szData, HANDLE hContact, HWND hwndDlg)
 {
 	NETLIBHTTPREQUEST nlhr = {0};

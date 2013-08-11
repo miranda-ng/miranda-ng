@@ -350,7 +350,7 @@ void CMsnProto::MsnRemoveMainMenus(void)
 		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)mainMenuRoot, 0);
 }
 
-void  CMsnProto::MSN_EnableMenuItems(bool bEnable)
+void CMsnProto::MSN_EnableMenuItems(bool bEnable)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS;

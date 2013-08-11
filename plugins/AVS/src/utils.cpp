@@ -398,6 +398,8 @@ void protoPicCacheEntry::clear()
 	memset(this, 0, sizeof(avatarCacheEntry));
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL Proto_IsAvatarsEnabled(const char *proto)
 {
 	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS))
@@ -451,13 +453,8 @@ void Proto_GetAvatarMaxSize(const char *proto, int *width, int *height)
 
 BOOL Proto_NeedDelaysForAvatars(const char *proto)
 {
-	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS)) {
-		int ret = CallProtoService(proto, PS_GETAVATARCAPS, AF_DONTNEEDDELAYS, 0);
-		if (ret > 0)
-			return FALSE;
-		else
-			return TRUE;
-	}
+	if ( ProtoServiceExists(proto, PS_GETAVATARCAPS))
+		return CallProtoService(proto, PS_GETAVATARCAPS, AF_DONTNEEDDELAYS, 0) <= 0;
 
 	return TRUE;
 }
@@ -492,7 +489,7 @@ protoPicCacheEntry *GetProtoDefaultAvatar(HANDLE hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	if (szProto) {
-		for(int i = 0; i < g_ProtoPictures.getCount(); i++) {
+		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			protoPicCacheEntry& p = g_ProtoPictures[i];
 			if ( !lstrcmpA(p.szProtoname, szProto) && p.hbmPic != NULL)
 				return &g_ProtoPictures[i];
@@ -552,7 +549,7 @@ void DeleteGlobalUserAvatar()
 
 void SetIgnoreNotify(char *protocol, BOOL ignore)
 {
-	for(int i = 0; i < g_MyAvatars.getCount(); i++) {
+	for (int i = 0; i < g_MyAvatars.getCount(); i++) {
 		if (protocol == NULL || !lstrcmpA(g_MyAvatars[i].szProtoname, protocol)) {
 			if (ignore)
 				g_MyAvatars[i].dwFlags |= AVS_IGNORENOTIFY;
@@ -562,73 +559,10 @@ void SetIgnoreNotify(char *protocol, BOOL ignore)
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-const TCHAR *GetFormatExtension(int format)
-{
-	if (format == PA_FORMAT_PNG)
-		return _T(".png");
-	if (format == PA_FORMAT_JPEG)
-		return _T(".jpg");
-	if (format == PA_FORMAT_ICON)
-		return _T(".ico");
-	if (format == PA_FORMAT_BMP)
-		return _T(".bmp");
-	if (format == PA_FORMAT_GIF)
-		return _T(".gif");
-	if (format == PA_FORMAT_SWF)
-		return _T(".swf");
-	if (format == PA_FORMAT_XML)
-		return _T(".xml");
-
-	return NULL;
-}
-
-int GetImageFormat(TCHAR *filename)
-{
-	size_t len = lstrlen(filename);
-
-	if (len < 5)
-		return PA_FORMAT_UNKNOWN;
-
-	if (_tcsicmp(_T(".png"), &filename[len-4]) == 0)
-		return PA_FORMAT_PNG;
-
-	if (_tcsicmp(_T(".jpg"), &filename[len-4]) == 0 || _tcsicmp(_T(".jpeg"), &filename[len-4]) == 0)
-		return PA_FORMAT_JPEG;
-
-	if (_tcsicmp(_T(".ico"), &filename[len-4]) == 0)
-		return PA_FORMAT_ICON;
-
-	if (_tcsicmp(_T(".bmp"), &filename[len-4]) == 0 || _tcsicmp(_T(".rle"), &filename[len-4]) == 0)
-		return PA_FORMAT_BMP;
-
-	if (_tcsicmp(_T(".gif"), &filename[len-4]) == 0)
-		return PA_FORMAT_GIF;
-
-	if (_tcsicmp(_T(".swf"), &filename[len-4]) == 0)
-		return PA_FORMAT_SWF;
-
-	if (_tcsicmp(_T(".xml"), &filename[len-4]) == 0)
-		return PA_FORMAT_XML;
-
-	return PA_FORMAT_UNKNOWN;
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 DWORD GetFileSize(TCHAR *szFilename)
 {
-	HANDLE hFile = CreateFile(szFilename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-	if (hFile == INVALID_HANDLE_VALUE)
-		return 0;
-
-	DWORD low = GetFileSize(hFile, NULL);
-
-	CloseHandle(hFile);
-
-	if (low == INVALID_FILE_SIZE)
-		return 0;
-
-	return low;
+	struct _stat info;
+	return ( _tstat(szFilename, &info) == -1) ? 0 : info.st_size;
 }

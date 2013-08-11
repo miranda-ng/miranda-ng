@@ -35,7 +35,7 @@ void CMsnProto::Lists_Uninit(void)
 	DeleteCriticalSection(&csLists);
 }
 
-void  CMsnProto::Lists_Wipe(void)
+void CMsnProto::Lists_Wipe(void)
 {
 	EnterCriticalSection(&csLists);
 	contList.destroy();
@@ -220,7 +220,7 @@ int CMsnProto::Lists_Add(int list, int netId, const char* email, HANDLE hContact
 	return result;
 }
 
-void  CMsnProto::Lists_Remove(int list, const char* email)
+void CMsnProto::Lists_Remove(int list, const char* email)
 {
 	EnterCriticalSection(&csLists);
 	int i = contList.getIndex((MsnContact*)&email);
@@ -236,7 +236,7 @@ void  CMsnProto::Lists_Remove(int list, const char* email)
 }
 
 
-void  CMsnProto::Lists_Populate(void)
+void CMsnProto::Lists_Populate(void)
 {
 	HANDLE hContact = db_find_first(m_szModuleName);
 	while (hContact) {

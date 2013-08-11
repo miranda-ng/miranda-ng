@@ -30,7 +30,6 @@ void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 {
 	int tPathLen;
 	TCHAR *path = (TCHAR*)alloca(cbLen * sizeof(TCHAR));
-	TCHAR *avatartype = NULL;
 
 	if (hAvatarsFolder == NULL || FoldersGetCustomPathT(hAvatarsFolder, path, cbLen, _T("")))
 		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), VARST( _T("%miranda_avatarcache%")), m_szModuleName);
@@ -51,22 +50,18 @@ void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 		}
 	}
 
-	switch (getByte(hContact, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE)) {
-		case PA_FORMAT_JPEG: avatartype = _T("jpg"); break;
-		case PA_FORMAT_GIF: avatartype = _T("gif"); break;
-		case PA_FORMAT_PNG: avatartype = _T("png"); break;
-	}
+	const TCHAR *avatartype = ProtoGetAvatarExtension( getByte(hContact, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE));
 
 	if (hContact != NULL) {
 		DBVARIANT dbv;
 		if (!getString(hContact, GG_KEY_AVATARHASH, &dbv)) {
 			TCHAR* avatarHashT = mir_a2t(dbv.pszVal);
-			mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s.%s"), avatarHashT, avatartype);
+			mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s%s"), avatarHashT, avatartype);
 			mir_free(avatarHashT);
 			db_free(&dbv);
 		}
 	}
-	else mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%S avatar.%s"), m_szModuleName, avatartype);
+	else mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%S avatar%s"), m_szModuleName, avatartype);
 }
 
 bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
@@ -247,7 +242,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 					for (int i=0; i < resp->headersCount; i++)
 					{
 						NETLIBHTTPHEADER& tHeader = resp->headers[i];
-						if (!_stricmp(tHeader.szName, "Content-Type")){
+						if (!_stricmp(tHeader.szName, "Content-Type")) {
 							if (!_stricmp(tHeader.szValue, "image/jpeg"))
 								avatarType = PA_FORMAT_JPEG;
 							else if (!_stricmp(tHeader.szValue, "image/gif"))

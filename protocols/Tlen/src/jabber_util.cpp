@@ -615,17 +615,6 @@ void JabberStringAppend(char **str, int *sizeAlloced, const char *fmt, ...)
 	va_end(vararg);
 }
 
-int JabberGetPictureType( const char* buf )
-{
-	if ( buf != NULL ) {
-		if ( memcmp( buf, "GIF89", 5 ) == 0 )    return PA_FORMAT_GIF;
-		if ( memcmp( buf, "\x89PNG", 4 ) == 0 )  return PA_FORMAT_PNG;
-		if ( memcmp( buf, "BM", 2 ) == 0 )       return PA_FORMAT_BMP;
-		if ( memcmp( buf, "\xFF\xD8", 2 ) == 0 ) return PA_FORMAT_JPEG;
-	}
-	return PA_FORMAT_UNKNOWN;
-}
-
 BOOL IsAuthorized(TlenProtocol *proto, const char *jid)
 {
 	JABBER_LIST_ITEM *item = JabberListGetItemPtr(proto, LIST_ROSTER, jid);

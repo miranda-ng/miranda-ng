@@ -21,39 +21,6 @@ bool CSkypeProto::IsAvatarChanged(const SEBinary &avatar, HANDLE hContact)
 	return result;
 }
 
-int CSkypeProto::DetectAvatarFormatBuffer(const char *pBuffer)
-{
-	if (!strncmp(pBuffer, "%PNG", 4))
-		return PA_FORMAT_PNG;
-
-	if (!strncmp(pBuffer, "GIF8", 4))
-		return PA_FORMAT_GIF;
-
-	if (!_strnicmp(pBuffer, "<?xml", 5))
-		return PA_FORMAT_XML;
-
-	if ((((DWORD *)pBuffer)[0] == 0xE0FFD8FFul) || (((DWORD *)pBuffer)[0] == 0xE1FFD8FFul))
-		return PA_FORMAT_JPEG;
-
-	if (!strncmp(pBuffer, "BM", 2))
-		return PA_FORMAT_BMP;
-
-	return PA_FORMAT_UNKNOWN;
-}
-
-int CSkypeProto::DetectAvatarFormat(const wchar_t *path)
-{
-	int src = _wopen(path, _O_BINARY | _O_RDONLY, 0);
-	if (src == -1)
-		return PA_FORMAT_UNKNOWN;
-
-	char pBuf[32];
-	_read(src, pBuf, 32);
-	_close(src);
-
-	return CSkypeProto::DetectAvatarFormatBuffer(pBuf);
-}
-
 wchar_t * CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)
 {
 	wchar_t *path = (wchar_t*)::mir_alloc(MAX_PATH * sizeof(wchar_t));

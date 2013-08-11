@@ -35,7 +35,7 @@ static CacheNode *AllocCacheBlock()
 	CacheNode *allocedBlock = (CacheNode*)malloc(CACHE_BLOCKSIZE * sizeof(struct CacheNode));
 	ZeroMemory((void *)allocedBlock, sizeof(struct CacheNode) * CACHE_BLOCKSIZE);
 
-	for(int i = 0; i < CACHE_BLOCKSIZE - 1; i++)
+	for (int i = 0; i < CACHE_BLOCKSIZE - 1; i++)
 		allocedBlock[i].pNextNode = &allocedBlock[i + 1];				// pre-link the alloced block
 
 	if (g_Cache == NULL)													// first time only...
@@ -65,7 +65,7 @@ void UnloadCache(void)
 		if (cc->ace.hbmPic != 0)
 			DeleteObject(cc->ace.hbmPic);
 
-	for(int i = 0; i < g_curBlock; i++)
+	for (int i = 0; i < g_curBlock; i++)
 		free(g_cacheBlocks[i]);
 	free(g_cacheBlocks);
 

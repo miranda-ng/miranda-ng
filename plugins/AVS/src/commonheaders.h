@@ -122,8 +122,6 @@ extern HANDLE hEventChanged, hEventContactAvatarChanged, hMyAvatarChanged;
 
 int   GetFileHash(TCHAR* filename);
 DWORD GetFileSize(TCHAR *szFilename);
-const TCHAR *GetFormatExtension(int format);
-int   GetImageFormat(TCHAR *filename);
 void  MakePathRelative(HANDLE hContact);
 void  MakePathRelative(HANDLE hContact, TCHAR *dest);
 

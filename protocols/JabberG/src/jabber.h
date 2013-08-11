@@ -753,7 +753,6 @@ void          __stdcall JabberStringAppend(char* *str, int *sizeAlloced, const c
 TCHAR*        __stdcall JabberStripJid(const TCHAR *jid, TCHAR* dest, size_t destLen);
 int           __stdcall JabberGetPacketID(HXML n);
 
-int           __stdcall JabberGetPictureType(const char* buf);
 LPCTSTR       __stdcall JabberGetPictureType(HXML node, const char *picBuf);
 
 TCHAR* time2str(time_t _time, TCHAR *buf, size_t bufLen);

@@ -168,37 +168,6 @@ INT_PTR GGPROTO::getavatarcaps(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int GetImageFormat(TCHAR *filename)
-{
-	size_t len = lstrlen(filename);
-
-	if (len < 5)
-		return PA_FORMAT_UNKNOWN;
-
-	if (_tcsicmp(_T(".png"), &filename[len-4]) == 0)
-		return PA_FORMAT_PNG;
-
-	if (_tcsicmp(_T(".jpg"), &filename[len-4]) == 0 || _tcsicmp(_T(".jpeg"), &filename[len-4]) == 0)
-		return PA_FORMAT_JPEG;
-
-	if (_tcsicmp(_T(".ico"), &filename[len-4]) == 0)
-		return PA_FORMAT_ICON;
-
-	if (_tcsicmp(_T(".bmp"), &filename[len-4]) == 0 || _tcsicmp(_T(".rle"), &filename[len-4]) == 0)
-		return PA_FORMAT_BMP;
-
-	if (_tcsicmp(_T(".gif"), &filename[len-4]) == 0)
-		return PA_FORMAT_GIF;
-
-	if (_tcsicmp(_T(".swf"), &filename[len-4]) == 0)
-		return PA_FORMAT_SWF;
-
-	if (_tcsicmp(_T(".xml"), &filename[len-4]) == 0)
-		return PA_FORMAT_XML;
-
-	return PA_FORMAT_UNKNOWN;
-}
-
 //////////////////////////////////////////////////////////
 // gets avatar information
 // registered as ProtoService PS_GETAVATARINFOT
@@ -226,7 +195,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 		if ((_tcslen(dbv.ptszVal)>0) && db_get_b(pai->hContact, "ContactPhoto", "Locked", 0)){
 			netlog("getavatarinfo(): Incoming request for avatar information. Contact has assigned Locked ContactPhoto. return GAIR_SUCCESS");
 			_tcscpy_s(pai->filename, SIZEOF(pai->filename) ,dbv.ptszVal);
-			pai->format = GetImageFormat(pai->filename);
+			pai->format = ProtoGetAvatarFormat(pai->filename);
 			db_free(&dbv);
 			return GAIR_SUCCESS;
 		}
@@ -357,20 +326,10 @@ INT_PTR GGPROTO::setmyavatar(WPARAM wParam, LPARAM lParam)
 			m_tszUserName, MB_OK | MB_ICONINFORMATION);
 		return -1;
 	}
-	
 
-	TCHAR *szAvType = _tcsrchr(szFilename, '.');
-	int iAvType = -1;
-	szAvType++;
-	if (!_tcsicmp(szAvType, _T("jpg")))
-		iAvType = PA_FORMAT_JPEG;
-	else if (!_tcsicmp(szAvType, _T("gif")))
-		iAvType = PA_FORMAT_GIF;
-	else if (!_tcsicmp(szAvType, _T("png")))
-		iAvType = PA_FORMAT_PNG;
-
-	if ( iAvType == -1) {
-		netlog("setmyavatar(): Failed to set user avatar. File %S has incompatible extansion.", szAvType);
+	int iAvType = ProtoGetAvatarFormat(szFilename);
+	if ( iAvType == PA_FORMAT_UNKNOWN) {
+		netlog("setmyavatar(): Failed to set user avatar. File %s has incompatible extension.", szFilename);
 		return -1;
 	}
 

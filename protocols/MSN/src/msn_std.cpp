@@ -34,7 +34,7 @@ int CMsnProto::getStringUtf(const char* name, DBVARIANT* result)
 {	return db_get_utf(NULL, m_szModuleName, name, result);
 }
 
-int  CMsnProto::getStaticString(HANDLE hContact, const char* valueName, char* dest, unsigned dest_len)
+int CMsnProto::getStaticString(HANDLE hContact, const char* valueName, char* dest, unsigned dest_len)
 {
 	DBVARIANT dbv;
 	dbv.pszVal = dest;

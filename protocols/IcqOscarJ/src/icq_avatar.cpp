@@ -177,55 +177,8 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, 
 
 void AddAvatarExt(int dwFormat, TCHAR *pszDest)
 {
-	if (dwFormat == PA_FORMAT_JPEG)
-		_tcscat(pszDest, _T(".jpg"));
-	else if (dwFormat == PA_FORMAT_GIF)
-		_tcscat(pszDest, _T(".gif"));
-	else if (dwFormat == PA_FORMAT_PNG)
-		_tcscat(pszDest, _T(".png"));
-	else if (dwFormat == PA_FORMAT_BMP)
-		_tcscat(pszDest, _T(".bmp"));
-	else if (dwFormat == PA_FORMAT_XML)
-		_tcscat(pszDest, _T(".xml"));
-	else if (dwFormat == PA_FORMAT_SWF)
-		_tcscat(pszDest, _T(".swf"));
-	else
-		_tcscat(pszDest, _T(".dat"));
-}
-
-
-int DetectAvatarFormatBuffer(const char *pBuffer)
-{
-	if (!strncmp(pBuffer, "%PNG", 4))
-		return PA_FORMAT_PNG;
-
-	if (!strncmp(pBuffer, "GIF8", 4))
-		return PA_FORMAT_GIF;
-
-	if (!_strnicmp(pBuffer, "<?xml", 5))
-		return PA_FORMAT_XML;
-
-	if ((((DWORD*)pBuffer)[0] == 0xE0FFD8FFul) || (((DWORD*)pBuffer)[0] == 0xE1FFD8FFul))
-		return PA_FORMAT_JPEG;
-
-	if (!strncmp(pBuffer, "BM", 2))
-		return PA_FORMAT_BMP;
-
-	return PA_FORMAT_UNKNOWN;
-}
-
-
-int DetectAvatarFormat(const TCHAR *tszFile)
-{
-	int src = _topen(tszFile, _O_BINARY | _O_RDONLY, 0);
-	if (src == -1)
-		return PA_FORMAT_UNKNOWN;
-
-	char pBuf[32];
-	_read(src, pBuf, 32);
-	_close(src);
-
-	return DetectAvatarFormatBuffer(pBuf);
+	const TCHAR *ext = ProtoGetAvatarExtension(dwFormat);
+	_tcscat(pszDest, (*ext == 0) ? _T(".dat") : ext);
 }
 
 
@@ -424,7 +377,7 @@ void CIcqProto::handleAvatarOwnerHash(WORD wItemID, BYTE bFlags, BYTE *pData, BY
 					{ // we have different avatar, sync that
 						if (m_bSsiEnabled && getByte("ForceOurAvatar", 1))
 						{ // we want our avatar, update hash
-							DWORD dwPaFormat = DetectAvatarFormat(file);
+							DWORD dwPaFormat = ::ProtoGetAvatarFileFormat(file);
 							BYTE *pHash = (BYTE*)_alloca(0x14);
 
 							NetLog_Server("Our avatar is different, setting our new hash.");
@@ -463,7 +416,7 @@ void CIcqProto::handleAvatarOwnerHash(WORD wItemID, BYTE bFlags, BYTE *pData, BY
 					SetMyAvatar(0, 0);
 					break;
 				}
-				DWORD dwPaFormat = DetectAvatarFormat(file);
+				DWORD dwPaFormat = ::ProtoGetAvatarFileFormat(file);
 				BYTE *hash = calcMD5HashOfFile(file);
 
 				if (!hash)
@@ -1653,11 +1606,10 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 					{
 						NetLog_Server("Received user avatar, storing (%d bytes).", datalen);
 
-						int dwPaFormat = DetectAvatarFormatBuffer((char*)pBuffer);
-						TCHAR *tszImageFile = (TCHAR*)_alloca(sizeof(TCHAR)*(strlennull(pCookieData->szFile) + 6));
-
-						_tcscpy(tszImageFile, pCookieData->szFile);
-						AddAvatarExt(dwPaFormat, tszImageFile);
+						const TCHAR *ptszExt;
+						int dwPaFormat = ProtoGetBufferFormat(pBuffer, &ptszExt);
+						TCHAR tszImageFile[MAX_PATH];
+						mir_sntprintf(tszImageFile, SIZEOF(tszImageFile), _T("%s%s"), pCookieData->szFile, ptszExt);
 
 						ppro->setByte(pCookieData->hContact, "AvatarType", (BYTE)dwPaFormat);
 						ai.format = dwPaFormat; // set the format

@@ -426,7 +426,7 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 
 	PROTO_AVATAR_INFORMATIONT ai = {sizeof(ai)};
 	ai.hContact = data->hContact;
-	ai.format = ext_to_format(ext);
+	ai.format = ProtoGetAvatarFormat(filename.c_str());
 
 	if (ai.format == PA_FORMAT_UNKNOWN) {
 		LOG( _T("***** Update avatar: Terminated for this contact, extension format unknown for %s"), data->url.c_str());

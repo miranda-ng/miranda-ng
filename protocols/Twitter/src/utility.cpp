@@ -195,27 +195,3 @@ bool save_url(HANDLE hNetlib,const std::string &url,const std::tstring &filename
 	else
 		return false;
 }
-
-static const struct
-{
-	char *ext;
-	int fmt;
-} formats[] = {
-	{ ".png",  PA_FORMAT_PNG  },
-	{ ".jpg",  PA_FORMAT_JPEG },
-	{ ".jpeg", PA_FORMAT_JPEG },
-	{ ".ico",  PA_FORMAT_ICON },
-	{ ".bmp",  PA_FORMAT_BMP  },
-	{ ".gif",  PA_FORMAT_GIF  },
-};
-
-int ext_to_format(const std::string &ext)
-{
-	for(size_t i=0; i<SIZEOF(formats); i++)
-	{
-		if(ext == formats[i].ext)
-			return formats[i].fmt;
-	}
-	
-	return PA_FORMAT_UNKNOWN;
-}

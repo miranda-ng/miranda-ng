@@ -464,7 +464,6 @@ char *JabberTextEncode(const char *str);
 char *JabberTextDecode(const char *str);
 char *JabberBase64Encode(const char *buffer, int bufferLen);
 char *JabberBase64Decode(const char *buffer, int *resultLen);
-int JabberGetPictureType(const char* buf);
 void TlenLogMessage(TlenProtocol *proto, HANDLE hContact, DWORD flags, const char *message);
 BOOL IsAuthorized(TlenProtocol *proto, const char *jid);
 //char *JabberGetVersionText();

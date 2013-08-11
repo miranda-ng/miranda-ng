@@ -149,7 +149,7 @@ void StartFlash(HWND hwnd, ACCData* data)
 	else if (data->proto[0] != '\0')
 	{
 		protoPicCacheEntry *ace = NULL;
-		for(int i = 0; i < g_MyAvatars.getCount(); i++) 
+		for (int i = 0; i < g_MyAvatars.getCount(); i++) 
 		{
 			if (!lstrcmpA(data->proto, g_MyAvatars[i].szProtoname))
 			{
@@ -159,7 +159,7 @@ void StartFlash(HWND hwnd, ACCData* data)
 		}
 
 		if (ace != NULL && ace->szFilename != NULL)
-			format = GetImageFormat(ace->szFilename);
+			format = ProtoGetAvatarFormat(ace->szFilename);
 		else 
 			format = 0;
 	}
@@ -365,7 +365,7 @@ void StartAnimatedGif(HWND hwnd, ACCData* data)
 	if (ace == NULL)
 		return;
 
-	int format = GetImageFormat(ace->szFilename);
+	int format = ProtoGetAvatarFormat(ace->szFilename);
 	if (format != PA_FORMAT_GIF)
 		return;
 

@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_global.h"
 #include "msn_proto.h"
 
-HANDLE  CMsnProto::MSN_HContactFromEmail(const char* wlid, const char* msnNick, bool addIfNeeded, bool temporary)
+HANDLE CMsnProto::MSN_HContactFromEmail(const char* wlid, const char* msnNick, bool addIfNeeded, bool temporary)
 {
 	HANDLE hContact = NULL;
 

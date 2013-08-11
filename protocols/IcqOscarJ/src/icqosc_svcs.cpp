@@ -333,49 +333,37 @@ INT_PTR CIcqProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 	if (wParam == AF_MAXSIZE)
 	{
 		POINT *size = (POINT*)lParam;
-
-		if (size)
-		{
+		if (size) {
 			size->x = 64;
 			size->y = 64;
-
-			return 0;
 		}
-	}
-	else if (wParam == AF_PROPORTION)
-	{
-		return PIP_NONE;
-	}
-	else if (wParam == AF_FORMATSUPPORTED)
-	{
-		if (lParam == PA_FORMAT_JPEG || lParam == PA_FORMAT_GIF || lParam == PA_FORMAT_XML || lParam == PA_FORMAT_BMP)
-			return 1;
-		else
-			return 0;
-	}
-	else if (wParam == AF_ENABLED)
-	{
-		if (m_bSsiEnabled && m_bAvatarsEnabled)
-			return 1;
-		else
-			return 0;
-	}
-	else if (wParam == AF_DONTNEEDDELAYS)
-	{
 		return 0;
 	}
-	else if (wParam == AF_MAXFILESIZE)
-	{ // server accepts images of 7168 bytees, not bigger
+
+	if (wParam == AF_PROPORTION)
+		return PIP_NONE;
+
+	if (wParam == AF_FORMATSUPPORTED)
+		return (lParam == PA_FORMAT_JPEG || lParam == PA_FORMAT_GIF || lParam == PA_FORMAT_XML || lParam == PA_FORMAT_BMP);
+
+	if (wParam == AF_ENABLED)
+		return (m_bSsiEnabled && m_bAvatarsEnabled);
+
+	if (wParam == AF_DONTNEEDDELAYS)
+		return 0;
+
+	// server accepts images of 7168 bytees, not bigger
+	if (wParam == AF_MAXFILESIZE)
 		return 7168;
-	}
-	else if (wParam == AF_DELAYAFTERFAIL)
-	{ // do not request avatar again if server gave an error
+
+	// do not request avatar again if server gave an error
+	if (wParam == AF_DELAYAFTERFAIL)
 		return 1 * 60 * 60 * 1000; // one hour
-	}
-	else if (wParam == AF_FETCHALWAYS)
-	{ // avatars can be fetched all the time (server only operation)
+
+	// avatars can be fetched all the time (server only operation)
+	if (wParam == AF_FETCHALWAYS)
 		return 1;
-	}
+
 	return 0;
 }
 
@@ -561,7 +549,7 @@ INT_PTR CIcqProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 	if (tszFile)
 	{ // set file for avatar
-		int dwPaFormat = DetectAvatarFormat(tszFile);
+		int dwPaFormat = ::ProtoGetAvatarFileFormat(tszFile);
 		if (dwPaFormat != PA_FORMAT_XML)
 		{ 
 			// if it should be image, check if it is valid

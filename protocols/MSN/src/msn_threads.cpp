@@ -300,12 +300,12 @@ LBL_Exit:
 	MSN_DebugLog("Thread [%08X] ending now", GetCurrentThreadId());
 }
 
-void  CMsnProto::MSN_InitThreads(void)
+void CMsnProto::MSN_InitThreads(void)
 {
 	InitializeCriticalSection(&sttLock);
 }
 
-void  CMsnProto::MSN_CloseConnections(void)
+void CMsnProto::MSN_CloseConnections(void)
 {
 	EnterCriticalSection(&sttLock);
 
@@ -349,7 +349,7 @@ void CMsnProto::Threads_Uninit(void)
 	DeleteCriticalSection(&sttLock);
 }
 
-ThreadData*  CMsnProto::MSN_GetThreadByContact(const char* wlid, TInfoType type)
+ThreadData* CMsnProto::MSN_GetThreadByContact(const char* wlid, TInfoType type)
 {
 	ThreadData* result = NULL;
 	EnterCriticalSection(&sttLock);
@@ -393,7 +393,7 @@ ThreadData*  CMsnProto::MSN_GetThreadByContact(const char* wlid, TInfoType type)
 	return result;
 }
 
-ThreadData*  CMsnProto::MSN_GetThreadByChatId(const TCHAR* chatId)
+ThreadData* CMsnProto::MSN_GetThreadByChatId(const TCHAR* chatId)
 {
 	ThreadData* result = NULL;
 	EnterCriticalSection(&sttLock);
@@ -413,7 +413,7 @@ ThreadData*  CMsnProto::MSN_GetThreadByChatId(const TCHAR* chatId)
 	return result;
 }
 
-ThreadData*  CMsnProto::MSN_GetThreadByTimer(UINT timerId)
+ThreadData* CMsnProto::MSN_GetThreadByTimer(UINT timerId)
 {
 	ThreadData* result = NULL;
 	EnterCriticalSection(&sttLock);
@@ -432,7 +432,7 @@ ThreadData*  CMsnProto::MSN_GetThreadByTimer(UINT timerId)
 	return result;
 }
 
-ThreadData*  CMsnProto::MSN_GetP2PThreadByContact(const char *wlid)
+ThreadData* CMsnProto::MSN_GetP2PThreadByContact(const char *wlid)
 {
 	ThreadData *result = NULL;
 
@@ -479,7 +479,7 @@ ThreadData*  CMsnProto::MSN_GetP2PThreadByContact(const char *wlid)
 }
 
 
-void  CMsnProto::MSN_StartP2PTransferByContact(const char* wlid)
+void CMsnProto::MSN_StartP2PTransferByContact(const char* wlid)
 {
 	EnterCriticalSection(&sttLock);
 
@@ -499,7 +499,7 @@ void  CMsnProto::MSN_StartP2PTransferByContact(const char* wlid)
 }
 
 
-ThreadData*  CMsnProto::MSN_GetOtherContactThread(ThreadData* thread)
+ThreadData* CMsnProto::MSN_GetOtherContactThread(ThreadData* thread)
 {
 	ThreadData* result = NULL;
 	EnterCriticalSection(&sttLock);
@@ -521,7 +521,7 @@ ThreadData*  CMsnProto::MSN_GetOtherContactThread(ThreadData* thread)
 	return result;
 }
 
-ThreadData*  CMsnProto::MSN_GetUnconnectedThread(const char* wlid, TInfoType type)
+ThreadData* CMsnProto::MSN_GetUnconnectedThread(const char* wlid, TInfoType type)
 {
 	ThreadData* result = NULL;
 	EnterCriticalSection(&sttLock);
@@ -567,7 +567,7 @@ ThreadData* CMsnProto::MSN_StartSB(const char* wlid, bool& isOffline)
 
 
 
-int  CMsnProto::MSN_GetActiveThreads(ThreadData** parResult)
+int CMsnProto::MSN_GetActiveThreads(ThreadData** parResult)
 {
 	int tCount = 0;
 	EnterCriticalSection(&sttLock);
@@ -583,7 +583,7 @@ int  CMsnProto::MSN_GetActiveThreads(ThreadData** parResult)
 	return tCount;
 }
 
-ThreadData*  CMsnProto::MSN_GetThreadByConnection(HANDLE s)
+ThreadData* CMsnProto::MSN_GetThreadByConnection(HANDLE s)
 {
 	ThreadData* tResult = NULL;
 	EnterCriticalSection(&sttLock);
@@ -602,7 +602,7 @@ ThreadData*  CMsnProto::MSN_GetThreadByConnection(HANDLE s)
 	return tResult;
 }
 
-ThreadData*  CMsnProto::MSN_GetThreadByPort(WORD wPort)
+ThreadData* CMsnProto::MSN_GetThreadByPort(WORD wPort)
 {
 	ThreadData* result = NULL;
 	EnterCriticalSection(&sttLock);

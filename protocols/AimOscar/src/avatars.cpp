@@ -102,7 +102,7 @@ void CAimProto::avatar_retrieval_handler(const char* sn, const char* hash, const
 	if (data_len > 0)
 	{
 		const TCHAR *type;
-		AI.format = detect_image_type(data, type);
+		AI.format = ProtoGetBufferFormat(data, &type);
 		get_avatar_filename(AI.hContact, AI.filename, SIZEOF(AI.filename), type);
 
 		int fileId = _topen(AI.filename, _O_CREAT | _O_TRUNC | _O_WRONLY | O_BINARY,  _S_IREAD | _S_IWRITE);
@@ -121,45 +121,6 @@ void CAimProto::avatar_retrieval_handler(const char* sn, const char* hash, const
 	else LOG("AIM sent avatar of zero length for %s.(Usually caused by repeated request for the same icon)", sn);
 
 	ProtoBroadcastAck(AI.hContact, ACKTYPE_AVATAR, res ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, &AI, 0);
-}
-
-int detect_image_type(const char* stream, const TCHAR* &type_ret)
-{
-	if (stream[0]=='G'&&stream[1]=='I'&&stream[2]=='F')
-	{
-		type_ret = _T(".gif");
-		return PA_FORMAT_GIF;
-	}
-	else if (stream[1]=='P'&&stream[2]=='N'&&stream[3]=='G')
-	{
-		type_ret = _T(".png");
-		return PA_FORMAT_PNG;
-	}
-	else if (stream[0]=='B'&&stream[1]=='M')
-	{
-		type_ret = _T(".bmp");
-		return PA_FORMAT_BMP;
-	}
-	else//assume jpg
-	{
-		type_ret = _T(".jpg");
-		return PA_FORMAT_JPEG;
-	}
-}
-
-int detect_image_type(const TCHAR* file)
-{
-   const TCHAR *ext = _tcsrchr(file, '.');
-   if (ext == NULL)
-	   return PA_FORMAT_UNKNOWN;
-   if (_tcsicmp(ext, _T(".gif")) == 0)
-	   return PA_FORMAT_GIF;
-   else if (_tcsicmp(ext, _T(".bmp")) == 0)
-	   return PA_FORMAT_BMP;
-   else if (_tcsicmp(ext, _T(".png")) == 0)
-	   return PA_FORMAT_PNG;
-   else
-	   return PA_FORMAT_JPEG;
 }
 
 void CAimProto::init_custom_folders(void)

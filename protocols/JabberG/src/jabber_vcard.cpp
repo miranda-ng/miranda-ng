@@ -1158,7 +1158,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 						if ((str=mir_base64_encode((PBYTE)buffer, nRead)) != NULL) {
 							n = v << XCHILD(_T("PHOTO"));
 							TCHAR *szFileType;
-							switch(JabberGetPictureType(buffer)) {
+							switch( ProtoGetBufferFormat(buffer)) {
 								case PA_FORMAT_PNG:  szFileType = _T("image/png");   break;
 								case PA_FORMAT_GIF:  szFileType = _T("image/gif");   break;
 								case PA_FORMAT_BMP:  szFileType = _T("image/bmp");   break;
@@ -1181,7 +1181,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 							for (int j=0; j<MIR_SHA1_HASH_SIZE; j++)
 								sprintf(buf+(j<<1), "%02x", digest[j]);
 
-							m_options.AvatarType = JabberGetPictureType(buffer);
+							m_options.AvatarType = ProtoGetBufferFormat(buffer);
 
 							if (bPhotoChanged) {
 								DeleteFile(szAvatarName);

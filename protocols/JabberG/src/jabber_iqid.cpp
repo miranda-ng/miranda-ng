@@ -1457,7 +1457,7 @@ LBL_ErrFormat:
 			Log("Invalid mime type specified for picture: %S", mimeType);
 			return;
 	}	}
-	else if ((pictureType = JabberGetPictureType(body)) == PA_FORMAT_UNKNOWN)
+	else if ((pictureType = ProtoGetBufferFormat(body, 0)) == PA_FORMAT_UNKNOWN)
 		goto LBL_ErrFormat;
 
 	TCHAR tszFileName[ MAX_PATH ];

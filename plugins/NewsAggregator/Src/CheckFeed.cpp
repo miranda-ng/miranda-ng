@@ -177,7 +177,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 
 										if (!db_get_ts(hContact, MODULE, "Nick", &dbVar)) {
 											TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;
-											pai.format = GetImageFormat(ext);
+											pai.format = ProtoGetAvatarFormat(ext);
 
 											TCHAR *filename = dbVar.ptszVal;
 											mir_sntprintf(pai.filename, SIZEOF(pai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
@@ -412,7 +412,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 
 										if (!db_get_ts(hContact, MODULE, "Nick", &dbVar)) {
 											TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;
-											pai.format = GetImageFormat(ext);
+											pai.format = ProtoGetAvatarFormat(ext);
 
 											TCHAR *filename = dbVar.ptszVal;
 											mir_sntprintf(pai.filename, SIZEOF(pai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
@@ -639,7 +639,7 @@ VOID CheckCurrentFeedAvatar(HANDLE hContact)
 
 										if (!db_get_ts(hContact, MODULE, "Nick", &dbVar)) {
 											TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;
-											pai.format = GetImageFormat(ext);
+											pai.format = ProtoGetAvatarFormat(ext);
 
 											TCHAR *filename = dbVar.ptszVal;
 											mir_sntprintf(pai.filename, SIZEOF(pai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
@@ -673,7 +673,7 @@ VOID CheckCurrentFeedAvatar(HANDLE hContact)
 
 										if (!db_get_ts(hContact, MODULE, "Nick", &dbVar)) {
 											TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;
-											pai.format = GetImageFormat(ext);
+											pai.format = ProtoGetAvatarFormat(ext);
 
 											TCHAR *filename = dbVar.ptszVal;
 											mir_sntprintf(pai.filename, SIZEOF(pai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);

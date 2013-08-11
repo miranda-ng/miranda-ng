@@ -615,10 +615,29 @@ MIR_CORE_DLL(void)   ProtoHookEvent(struct PROTO_INTERFACE *pThis, const char* s
 MIR_CORE_DLL(HANDLE) ProtoCreateHookableEvent(struct PROTO_INTERFACE *pThis, const char* szService);
 
 typedef INT_PTR (__cdecl PROTO_INTERFACE::*ProtoServiceFunc)(WPARAM, LPARAM);
-MIR_CORE_DLL(void)   ProtoCreateService(struct PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFunc);
+MIR_CORE_DLL(void) ProtoCreateService(struct PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFunc);
 
 typedef INT_PTR (__cdecl PROTO_INTERFACE::*ProtoServiceFuncParam)(WPARAM, LPARAM, LPARAM);
-MIR_CORE_DLL(void)   ProtoCreateServiceParam(struct PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFuncParam, LPARAM);
+MIR_CORE_DLL(void) ProtoCreateServiceParam(struct PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFuncParam, LPARAM);
+#endif
+
+// avatar support functions
+
+// returns image extension by a PA_* constant or empty string for PA_FORMAT_UNKNOWN
+MIR_CORE_DLL(const TCHAR*) ProtoGetAvatarExtension(int format);
+
+// detects image format by extension
+MIR_CORE_DLL(int) ProtoGetAvatarFormat(const TCHAR *ptszFileName);
+
+// detects image format by its contents
+MIR_CORE_DLL(int) ProtoGetAvatarFileFormat(const TCHAR *ptszFileName);
+
+// returns the image format and extension by the first bytes of picture
+// ptszExtension might be NULL
+#if defined( __cplusplus )
+	MIR_CORE_DLL(int) ProtoGetBufferFormat(const void *buf, const TCHAR **ptszExtension = NULL);
+#else
+	MIR_CORE_DLL(int) ProtoGetBufferFormat(const void *buf, const TCHAR **ptszExtension);
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////

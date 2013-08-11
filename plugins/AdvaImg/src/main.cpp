@@ -795,12 +795,6 @@ extern "C" BOOL __declspec(dllexport) dib2mempng( BITMAPINFO* pbmi, png_byte* pD
 	return TRUE;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// Standard Miranda structures & functions
-
-static HANDLE hDib2mempng = NULL;
-static HANDLE hMempng2Dib = NULL;
-
 ///////////////////////////////////////////////////////////////////////////////
 // Load - initializes the plugin instance
 
@@ -1195,21 +1189,17 @@ void FI_Populate(void)
 	feif.FI_CorrectBitmap32Alpha = FI_CorrectBitmap32Alpha;
 }
 
-static HANDLE hGetIF, hLoad, hLoadFromMem, hSave, hUnload, hResize, hGetVersion;
-
 static int IMGSERVICE_Load()
 {
 	FI_Populate();
 
-	hDib2mempng = CreateServiceFunction( MS_DIB2PNG, serviceDib2Png );
-	hMempng2Dib = CreateServiceFunction( MS_PNG2DIB, servicePng2Dib );
-	hGetIF = CreateServiceFunction(MS_IMG_GETINTERFACE, serviceGetInterface);
-	hLoad = CreateServiceFunction(MS_IMG_LOAD, serviceLoad);
-	hLoadFromMem = CreateServiceFunction(MS_IMG_LOADFROMMEM, serviceLoadFromMem);
-	hSave = CreateServiceFunction(MS_IMG_SAVE, serviceSave);
-	hUnload = CreateServiceFunction(MS_IMG_UNLOAD, serviceUnload);
-	hResize = CreateServiceFunction(MS_IMG_RESIZE, serviceBmpFilterResizeBitmap);
-	hGetVersion = CreateServiceFunction(MS_IMG_GETIFVERSION, serviceGetVersion);
+	CreateServiceFunction(MS_IMG_GETINTERFACE, serviceGetInterface);
+	CreateServiceFunction(MS_IMG_LOAD, serviceLoad);
+	CreateServiceFunction(MS_IMG_LOADFROMMEM, serviceLoadFromMem);
+	CreateServiceFunction(MS_IMG_SAVE, serviceSave);
+	CreateServiceFunction(MS_IMG_UNLOAD, serviceUnload);
+	CreateServiceFunction(MS_IMG_RESIZE, serviceBmpFilterResizeBitmap);
+	CreateServiceFunction(MS_IMG_GETIFVERSION, serviceGetVersion);
 	return 0;
 }
 
@@ -1223,15 +1213,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 static int IMGSERVICE_Unload( void )
 {
-	DestroyServiceFunction( hDib2mempng );
-	DestroyServiceFunction( hMempng2Dib );
-	DestroyServiceFunction( hGetIF );
-	DestroyServiceFunction( hLoad );
-	DestroyServiceFunction( hLoadFromMem );
-	DestroyServiceFunction( hSave );
-	DestroyServiceFunction( hUnload );
-	DestroyServiceFunction( hResize );
-	DestroyServiceFunction( hGetVersion );
 	return 0;
 }
 

@@ -38,7 +38,7 @@ void CMsnProto::MsgQueue_Uninit(void)
 	DeleteCriticalSection(&csMsgQueue);
 }
 
-int  CMsnProto::MsgQueue_Add(const char* wlid, int msgType, const char* msg, int msgSize, filetransfer* ft, int flags, STRLIST *cnt)
+int CMsnProto::MsgQueue_Add(const char* wlid, int msgType, const char* msg, int msgSize, filetransfer* ft, int flags, STRLIST *cnt)
 {
 	EnterCriticalSection(&csMsgQueue);
 
@@ -112,7 +112,7 @@ const char* CMsnProto::MsgQueue_GetNextRecipient(void)
 }
 
 //deletes from list. Must mir_free() return value
-bool  CMsnProto::MsgQueue_GetNext(const char* wlid, MsgQueueEntry& retVal)
+bool CMsnProto::MsgQueue_GetNext(const char* wlid, MsgQueueEntry& retVal)
 {
 	int i;
 
@@ -131,7 +131,7 @@ bool  CMsnProto::MsgQueue_GetNext(const char* wlid, MsgQueueEntry& retVal)
 	return res;
 }
 
-int  CMsnProto::MsgQueue_NumMsg(const char* wlid)
+int CMsnProto::MsgQueue_NumMsg(const char* wlid)
 {
 	int res = 0;
 	EnterCriticalSection(&csMsgQueue);
@@ -143,7 +143,7 @@ int  CMsnProto::MsgQueue_NumMsg(const char* wlid)
 	return res;
 }
 
-void  CMsnProto::MsgQueue_Clear(const char* wlid, bool msg)
+void CMsnProto::MsgQueue_Clear(const char* wlid, bool msg)
 {
 	int i;
 

@@ -406,36 +406,29 @@ struct SaveProtocolData {
 
 void SaveImage(SaveProtocolData &d, char *protocol, int format)
 {
-	if (Proto_IsAvatarFormatSupported(protocol, format))
-	{
-		mir_sntprintf(d.image_file_name, SIZEOF(d.image_file_name), _T("%s%s"), d.temp_file, GetFormatExtension(format));
-		if (!BmpFilterSaveBitmapT(d.hBmpProto, d.image_file_name, format == PA_FORMAT_JPEG ? JPEG_QUALITYSUPERB : 0))
-		{
-			if (d.max_size != 0 && GetFileSize(d.image_file_name) > d.max_size)
-			{
-				DeleteFile(d.image_file_name);
+	if ( !Proto_IsAvatarFormatSupported(protocol, format))
+		return;
 
-				if (format == PA_FORMAT_JPEG)
-				{
-					// Try with lower quality
-					if (!BmpFilterSaveBitmapT(d.hBmpProto, d.image_file_name, JPEG_QUALITYGOOD))
-					{
-						if (GetFileSize(d.image_file_name) > d.max_size)
-						{
-							DeleteFile(d.image_file_name);
-							d.need_smaller_size = TRUE;
-						}
-						else
-							d.saved = TRUE;
-					}
-				}
-				else
+	mir_sntprintf(d.image_file_name, SIZEOF(d.image_file_name), _T("%s%s"), d.temp_file, ProtoGetAvatarExtension(format));
+	if ( BmpFilterSaveBitmapT(d.hBmpProto, d.image_file_name, format == PA_FORMAT_JPEG ? JPEG_QUALITYSUPERB : 0))
+		return;
+
+	if (d.max_size != 0 && GetFileSize(d.image_file_name) > d.max_size) {
+		DeleteFile(d.image_file_name);
+
+		if (format == PA_FORMAT_JPEG) {
+			// Try with lower quality
+			if (!BmpFilterSaveBitmapT(d.hBmpProto, d.image_file_name, JPEG_QUALITYGOOD)) {
+				if (GetFileSize(d.image_file_name) > d.max_size) {
+					DeleteFile(d.image_file_name);
 					d.need_smaller_size = TRUE;
+				}
+				else d.saved = TRUE;
 			}
-			else
-				d.saved = TRUE;
 		}
+		else d.need_smaller_size = TRUE;
 	}
+	else d.saved = TRUE;
 }
 
 static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, TCHAR *originalFilename, int originalFormat, BOOL square, BOOL grow)
@@ -576,7 +569,7 @@ static int InternalSetMyAvatar(char *protocol, TCHAR *szFinalName, SetMyAvatarHo
 {
 	HANDLE hFile = 0;
 
-	int format = GetImageFormat(szFinalName);
+	int format = ProtoGetAvatarFormat(szFinalName);
 	if (format == PA_FORMAT_UNKNOWN || (hFile = CreateFile(szFinalName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL)) == INVALID_HANDLE_VALUE)
 		return -3;
 
@@ -867,7 +860,7 @@ INT_PTR DrawAvatarPicture(WPARAM wParam, LPARAM lParam)
 		if (r->szProto == NULL)
 			return 0;
 
-		for(int i = 0; i < g_ProtoPictures.getCount(); i++) {
+		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			protoPicCacheEntry& p = g_ProtoPictures[i];
 			if ( !lstrcmpA(p.szProtoname, r->szProto) && lstrlenA(r->szProto) == lstrlenA(p.szProtoname) && p.hbmPic != 0) {
 				ace = (AVATARCACHEENTRY *)&g_ProtoPictures[i];
@@ -911,7 +904,7 @@ INT_PTR GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	if (lParam == 0 || IsBadReadPtr(szProto, 4))
 		return 0;
 
-	for(int i = 0; i < g_MyAvatars.getCount(); i++)
+	for (int i = 0; i < g_MyAvatars.getCount(); i++)
 		if (!lstrcmpA(szProto, g_MyAvatars[i].szProtoname) && g_MyAvatars[i].hbmPic != 0)
 			return (INT_PTR)&g_MyAvatars[i];
 
@@ -925,7 +918,7 @@ static void ReloadMyAvatar(LPVOID lpParam)
 	char *szProto = (char *)lpParam;
 
 	mir_sleep(500);
-	for(int i = 0; !g_shutDown && i < g_MyAvatars.getCount(); i++) {
+	for (int i = 0; !g_shutDown && i < g_MyAvatars.getCount(); i++) {
 		char *myAvatarProto = g_MyAvatars[i].szProtoname;
 
 		if (szProto[0] == 0) {
@@ -959,7 +952,7 @@ INT_PTR ReportMyAvatarChanged(WPARAM wParam, LPARAM lParam)
 	if (proto == NULL)
 		return -1;
 
-	for(int i = 0; i < g_MyAvatars.getCount(); i++) {
+	for (int i = 0; i < g_MyAvatars.getCount(); i++) {
 		if (g_MyAvatars[i].dwFlags & AVS_IGNORENOTIFY)
 			continue;
 

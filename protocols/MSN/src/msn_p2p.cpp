@@ -219,8 +219,7 @@ void CMsnProto::p2p_savePicture2disk(filetransfer* ft)
 	if (p2p_IsDlFileOk(ft))
 	{
 		int fileId = _topen(ft->std.tszCurrentFile, O_RDONLY | _O_BINARY, _S_IREAD);
-		if (fileId == -1)
-		{
+		if (fileId == -1) {
 			p2p_pictureTransferFailed(ft);
 			return;
 		}
@@ -232,9 +231,8 @@ void CMsnProto::p2p_savePicture2disk(filetransfer* ft)
 		int bytes = _read(fileId, buf, sizeof(buf));
 		_close(fileId);
 		if (bytes > 4)
-			format = MSN_GetImageFormat(buf, &ext);
-		else
-		{
+			format = ProtoGetBufferFormat(buf, &ext);
+		else {
 			p2p_pictureTransferFailed(ft);
 			return;
 		}
@@ -293,7 +291,7 @@ void CMsnProto::p2p_savePicture2disk(filetransfer* ft)
 
 static const char sttVoidSession[] = "ACHTUNG!!! an attempt made to send a message via the empty session";
 
-void  CMsnProto::p2p_sendMsg(const char *wlid, unsigned appId, P2PB_Header& hdrdata, char* msgbody, size_t msgsz)
+void CMsnProto::p2p_sendMsg(const char *wlid, unsigned appId, P2PB_Header& hdrdata, char* msgbody, size_t msgsz)
 {
 	ThreadData* info = MSN_GetP2PThreadByContact(wlid);
 	if (info == NULL)
@@ -304,7 +302,7 @@ void  CMsnProto::p2p_sendMsg(const char *wlid, unsigned appId, P2PB_Header& hdrd
 	p2p_sendMsg(info, wlid, appId, hdrdata, msgbody, msgsz);
 }
 
-void  CMsnProto::p2p_sendMsg(ThreadData* info, const char *wlid, unsigned appId, P2PB_Header& hdrdata, char* msgbody, size_t msgsz)
+void CMsnProto::p2p_sendMsg(ThreadData* info, const char *wlid, unsigned appId, P2PB_Header& hdrdata, char* msgbody, size_t msgsz)
 {
 	unsigned msgType;
 
@@ -416,7 +414,7 @@ void  CMsnProto::p2p_sendMsg(ThreadData* info, const char *wlid, unsigned appId,
 }
 
 
-void  CMsnProto::p2p_sendAck(const char *wlid, P2PB_Header* hdr)
+void CMsnProto::p2p_sendAck(const char *wlid, P2PB_Header* hdr)
 {
 	if (hdr == NULL) return;
 
@@ -448,7 +446,7 @@ void  CMsnProto::p2p_sendAck(const char *wlid, P2PB_Header* hdr)
 /////////////////////////////////////////////////////////////////////////////////////////
 // p2p_sendEndSession - sends MSN P2P file transfer end packet
 
-void  CMsnProto::p2p_sendAbortSession(filetransfer* ft)
+void CMsnProto::p2p_sendAbortSession(filetransfer* ft)
 {
 	if (ft == NULL)
 	{
@@ -480,7 +478,7 @@ void  CMsnProto::p2p_sendAbortSession(filetransfer* ft)
 	ft->ts = time(NULL);
 }
 
-void  CMsnProto::p2p_sendRedirect(filetransfer* ft)
+void CMsnProto::p2p_sendRedirect(filetransfer* ft)
 {
 	if (ft == NULL)
 	{
@@ -507,7 +505,7 @@ void  CMsnProto::p2p_sendRedirect(filetransfer* ft)
 /////////////////////////////////////////////////////////////////////////////////////////
 // p2p_sendSlp - send MSN P2P SLP packet
 
-void  CMsnProto::p2p_sendSlp(int iKind, filetransfer *ft, MimeHeaders &pHeaders,
+void CMsnProto::p2p_sendSlp(int iKind, filetransfer *ft, MimeHeaders &pHeaders,
 	MimeHeaders &pContent, const char *wlid)
 {
 	if (ft == NULL)
@@ -602,7 +600,7 @@ void  CMsnProto::p2p_sendSlp(int iKind, filetransfer *ft, MimeHeaders &pHeaders,
 /////////////////////////////////////////////////////////////////////////////////////////
 // p2p_sendBye - closes P2P session
 
-void  CMsnProto::p2p_sendBye(filetransfer* ft)
+void CMsnProto::p2p_sendBye(filetransfer* ft)
 {
 	if (ft == NULL)
 	{
@@ -623,13 +621,13 @@ void  CMsnProto::p2p_sendBye(filetransfer* ft)
 	p2p_sendSlp(-1, ft, tHeaders, chdrs);
 }
 
-void  CMsnProto::p2p_sendCancel(filetransfer* ft)
+void CMsnProto::p2p_sendCancel(filetransfer* ft)
 {
 	p2p_sendBye(ft);
 	p2p_sendAbortSession(ft);
 }
 
-void  CMsnProto::p2p_sendNoCall(filetransfer* ft)
+void CMsnProto::p2p_sendNoCall(filetransfer* ft)
 {
 	if (ft == NULL)
 	{
@@ -653,7 +651,7 @@ void  CMsnProto::p2p_sendNoCall(filetransfer* ft)
 /////////////////////////////////////////////////////////////////////////////////////////
 // p2p_sendStatus - send MSN P2P status and its description
 
-void  CMsnProto::p2p_sendStatus(filetransfer* ft, long lStatus)
+void CMsnProto::p2p_sendStatus(filetransfer* ft, long lStatus)
 {
 	if (ft == NULL)
 	{
@@ -681,7 +679,7 @@ void  CMsnProto::p2p_sendStatus(filetransfer* ft, long lStatus)
 	p2p_sendSlp(lStatus, ft, tHeaders, chdrs);
 }
 
-void  CMsnProto::p2p_sendAvatarInit(filetransfer* ft)
+void CMsnProto::p2p_sendAvatarInit(filetransfer* ft)
 {
 	unsigned body = 0;
 
@@ -888,7 +886,7 @@ LBL_Error:
 	return true;
 }
 
-LONG  CMsnProto::p2p_sendPortion(filetransfer* ft, ThreadData* T, bool isV2)
+LONG CMsnProto::p2p_sendPortion(filetransfer* ft, ThreadData* T, bool isV2)
 {
 	LONG trid;
 	char databuf[1500], *p = databuf;
@@ -1068,7 +1066,7 @@ void __cdecl CMsnProto::p2p_sendFeedThread(void* arg)
 }
 
 
-void  CMsnProto::p2p_sendFeedStart(filetransfer* ft)
+void CMsnProto::p2p_sendFeedStart(filetransfer* ft)
 {
 	if (ft->std.flags & PFTS_SENDING)
 	{
@@ -1860,7 +1858,7 @@ void CMsnProto::p2p_processSIP(ThreadData* info, char* msgbody, P2PB_Header* hdr
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // p2p_processMsg - processes all MSN P2P incoming messages
-void  CMsnProto::p2p_processMsgV2(ThreadData* info,  char* msgbody, const char* wlid)
+void CMsnProto::p2p_processMsgV2(ThreadData* info,  char* msgbody, const char* wlid)
 {
 	P2PV2_Header hdrdata;
 
@@ -1966,7 +1964,7 @@ void  CMsnProto::p2p_processMsgV2(ThreadData* info,  char* msgbody, const char* 
 	}
 }
 
-void  CMsnProto::p2p_processMsg(ThreadData* info,  char* msgbody, const char* wlid)
+void CMsnProto::p2p_processMsg(ThreadData* info,  char* msgbody, const char* wlid)
 {
 	P2P_Header hdrdata;
 	msgbody = hdrdata.parseMsg(msgbody);
@@ -2153,7 +2151,7 @@ void  CMsnProto::p2p_processMsg(ThreadData* info,  char* msgbody, const char* wl
 /////////////////////////////////////////////////////////////////////////////////////////
 // p2p_invite - invite another side to transfer an avatar
 
-void  CMsnProto::p2p_invite(unsigned iAppID, filetransfer* ft, const char *wlid)
+void CMsnProto::p2p_invite(unsigned iAppID, filetransfer* ft, const char *wlid)
 {
 	const char* szAppID;
 	switch(iAppID)
@@ -2394,7 +2392,7 @@ void CMsnProto::p2p_sendSessionAck(filetransfer* ft)
 	p2p_sendSlp(-3, ft, tResult, chdrs);
 }
 */
-void  CMsnProto::p2p_sessionComplete(filetransfer* ft)
+void CMsnProto::p2p_sessionComplete(filetransfer* ft)
 {
 	if (ft->p2p_appID != MSN_APPID_FILE)
 		p2p_unregisterSession(ft);

@@ -25,8 +25,7 @@ void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
 
 				if (hContact)
 				{
-					PROTO_AVATAR_INFORMATIONW pai = {0};
-					pai.cbSize = sizeof(pai);
+					PROTO_AVATAR_INFORMATIONW pai = { sizeof(pai) };
 					pai.format = PA_FORMAT_JPEG;
 					pai.hContact = hContact;
 					::wcscpy(pai.filename, path);

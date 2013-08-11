@@ -41,10 +41,8 @@ bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *
 			db_free(&dbv);			
 
 			ai.hContact = ai.hContact;
-			ai.format = ext_to_format(ext);
-			_tcsncpy(ai.filename, filename.c_str(), SIZEOF(ai.filename));
-			ai.filename[SIZEOF(ai.filename)-1] = 0;
-
+			_tcsncpy_s(ai.filename, SIZEOF(ai.filename), filename.c_str(), _TRUNCATE);
+			ai.format = ProtoGetAvatarFormat(ai.filename);
 			return true;
 		}
 	}

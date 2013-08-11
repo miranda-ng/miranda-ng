@@ -489,28 +489,3 @@ int utils::debug::log(std::string file_name, std::string text)
 
 	return EXIT_SUCCESS;
 }
-
-struct
-{
-	char *ext;
-	int fmt;
-}
-static formats[] = {
-	{ ".png",  PA_FORMAT_PNG  },
-	{ ".jpg",  PA_FORMAT_JPEG },
-	{ ".jpeg", PA_FORMAT_JPEG },
-	{ ".ico",  PA_FORMAT_ICON },
-	{ ".bmp",  PA_FORMAT_BMP  },
-	{ ".gif",  PA_FORMAT_GIF  },
-};
-
-int ext_to_format(const std::string &ext)
-{
-	for(size_t i=0; i<SIZEOF(formats); i++)
-	{
-		if(ext == formats[i].ext)
-			return formats[i].fmt;
-	}
-	
-	return PA_FORMAT_UNKNOWN;
-}

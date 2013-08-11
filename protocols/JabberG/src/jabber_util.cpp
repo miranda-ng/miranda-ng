@@ -969,18 +969,6 @@ TCHAR* __stdcall JabberStripJid(const TCHAR *jid, TCHAR *dest, size_t destLen)
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberGetPictureType - tries to autodetect the picture type from the buffer
 
-int __stdcall JabberGetPictureType(const char* buf)
-{
-	if (buf != NULL) {
-		if (memcmp(buf, "GIF8", 4) == 0)     return PA_FORMAT_GIF;
-		if (memcmp(buf, "\x89PNG", 4) == 0)  return PA_FORMAT_PNG;
-		if (memcmp(buf, "BM", 2) == 0)       return PA_FORMAT_BMP;
-		if (memcmp(buf, "\xFF\xD8", 2) == 0) return PA_FORMAT_JPEG;
-	}
-
-	return PA_FORMAT_UNKNOWN;
-}
-
 LPCTSTR __stdcall JabberGetPictureType(HXML node, const char *picBuf)
 {
 	if (LPCTSTR ptszType = xmlGetText( xmlGetChild(node , "TYPE")))
@@ -990,7 +978,7 @@ LPCTSTR __stdcall JabberGetPictureType(HXML node, const char *picBuf)
 		     !_tcscmp(ptszType, _T("image/bmp")))
 			return ptszType;
 
-	switch(JabberGetPictureType(picBuf)) {
+	switch( ProtoGetBufferFormat(picBuf)) {
 		case PA_FORMAT_GIF:	return _T("image/gif");
 		case PA_FORMAT_BMP:  return _T("image/bmp");
 		case PA_FORMAT_PNG:  return _T("image/png");
@@ -1641,7 +1629,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 		if (res) {
 			hHttpCon = res->nlc;
 			if (res->resultCode == 200 && res->dataLength) {
-				int pictureType = JabberGetPictureType(res->pData);
+				int pictureType = ProtoGetBufferFormat(res->pData);
 				if (pictureType != PA_FORMAT_UNKNOWN) {
 					PROTO_AVATAR_INFORMATIONT AI;
 					AI.cbSize = sizeof(AI);

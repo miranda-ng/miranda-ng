@@ -173,8 +173,6 @@ void     	UrlEncode(const char* src, char* dest, size_t cbDest);
 void		__cdecl MSN_ConnectionProc(HANDLE hNewConnection, DWORD dwRemoteIP, void*);
 
 char*		MSN_GetAvatarHash(char* szContext, char** pszUrl = NULL);
-int			MSN_GetImageFormat(void* buf, const TCHAR** ext);
-int			MSN_GetImageFormat(const TCHAR* file);
 bool		MSN_MsgWndExist(HANDLE hContact);
 
 #define		MSN_SendNickname(a) MSN_SendNicknameUtf(UTF8(a))

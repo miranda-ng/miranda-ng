@@ -141,3 +141,103 @@ MIR_CORE_DLL(HANDLE) ProtoForkThreadEx(PROTO_INTERFACE *pThis, ProtoThreadFunc p
 	UINT lthreadID;
 	return (HANDLE)::mir_forkthreadowner((pThreadFuncOwner) *(void**)&pFunc, pThis, param, threadID ? threadID : &lthreadID);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_CORE_DLL(LPCTSTR) ProtoGetAvatarExtension(int format)
+{
+	if (format == PA_FORMAT_PNG)
+		return _T(".png");
+	if (format == PA_FORMAT_JPEG)
+		return _T(".jpg");
+	if (format == PA_FORMAT_ICON)
+		return _T(".ico");
+	if (format == PA_FORMAT_BMP)
+		return _T(".bmp");
+	if (format == PA_FORMAT_GIF)
+		return _T(".gif");
+	if (format == PA_FORMAT_SWF)
+		return _T(".swf");
+	if (format == PA_FORMAT_XML)
+		return _T(".xml");
+
+	return _T("");
+}
+
+MIR_CORE_DLL(int) ProtoGetAvatarFormat(const TCHAR *ptszFileName)
+{
+	if (ptszFileName == NULL)
+		return PA_FORMAT_UNKNOWN;
+
+	const TCHAR *ptszExt = _tcsrchr(ptszFileName, '.');
+	if (ptszExt == NULL)
+		return PA_FORMAT_UNKNOWN;
+
+	if (!_tcsicmp(ptszExt, _T(".png")))
+		return PA_FORMAT_PNG;
+
+	if (!_tcsicmp(ptszExt, _T(".jpg")) || !_tcsicmp(ptszExt, _T(".jpeg")))
+		return PA_FORMAT_JPEG;
+
+	if (!_tcsicmp(ptszExt, _T(".ico")))
+		return PA_FORMAT_ICON;
+
+	if (!_tcsicmp(ptszExt, _T(".bmp")) || _tcsicmp(ptszExt, _T(".rle")))
+		return PA_FORMAT_BMP;
+
+	if (!_tcsicmp(ptszExt, _T(".gif")))
+		return PA_FORMAT_GIF;
+
+	if (!_tcsicmp(ptszExt, _T(".swf")))
+		return PA_FORMAT_SWF;
+
+	if (!_tcsicmp(ptszExt, _T(".xml")))
+		return PA_FORMAT_XML;
+
+	return PA_FORMAT_UNKNOWN;
+}
+
+MIR_CORE_DLL(int) ProtoGetBufferFormat(const void *pBuffer, const TCHAR **ptszExtension)
+{
+	if (!memcmp(pBuffer, "%PNG", 4)) {
+		if (ptszExtension) *ptszExtension = _T(".png");
+		return PA_FORMAT_PNG;
+	}
+
+	if (!memcmp(pBuffer, "GIF8", 4)) {
+		if (ptszExtension) *ptszExtension = _T(".gif");
+		return PA_FORMAT_GIF;
+	}
+
+	if (!memicmp(pBuffer, "<?xml", 5)) {
+		if (ptszExtension) *ptszExtension = _T(".xml");
+		return PA_FORMAT_XML;
+	}
+
+	if (!memcmp(pBuffer, "\xFF\xD8\xFF\xE0", 4) || !memcmp(pBuffer, "\xFF\xD8\xFF\xE1", 4)) {
+		if (ptszExtension) *ptszExtension = _T(".jpg");
+		return PA_FORMAT_JPEG;
+	}
+
+	if (!memcmp(pBuffer, "BM", 2)) {
+		if (ptszExtension) *ptszExtension = _T(".bmp");
+		return PA_FORMAT_BMP;
+	}
+
+	if (ptszExtension) *ptszExtension = _T("");
+	return PA_FORMAT_UNKNOWN;
+}
+
+MIR_CORE_DLL(int) ProtoGetAvatarFileFormat(const TCHAR *ptszFileName)
+{
+	HANDLE hFile = CreateFile(ptszFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	if (hFile == INVALID_HANDLE_VALUE)
+		return PA_FORMAT_UNKNOWN;
+
+	DWORD dwBytes;
+	char buf[32];
+	BOOL res = ReadFile(hFile, buf, SIZEOF(buf), &dwBytes, NULL);
+	CloseHandle(hFile);
+
+	return (res && dwBytes == SIZEOF(buf)) ? ProtoGetBufferFormat(buf) : PA_FORMAT_UNKNOWN;
+}

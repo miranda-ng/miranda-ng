@@ -339,7 +339,7 @@ void AddToStack(int *stack, int *topPos, int x, int y)
 	int i;
 
 	// Already is in stack?
-	for(i = 0 ; i < *topPos ; i += 2)
+	for (i = 0 ; i < *topPos ; i += 2)
 	{
 		if (stack[i] == x && stack[i+1] == y)
 			return;

@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaStatusToMSN - status helper functions
 
-const char*  CMsnProto::MirandaStatusToMSN(int status)
+const char* CMsnProto::MirandaStatusToMSN(int status)
 {
 	switch(status)
 	{
@@ -44,7 +44,7 @@ const char*  CMsnProto::MirandaStatusToMSN(int status)
 		default:					return "NLN";
 }	}
 
-WORD  CMsnProto::MSNStatusToMiranda(const char *status)
+WORD CMsnProto::MSNStatusToMiranda(const char *status)
 {
 	switch((*(PDWORD)status&0x00FFFFFF) | 0x20000000)
 	{
@@ -60,7 +60,7 @@ WORD  CMsnProto::MSNStatusToMiranda(const char *status)
 	}
 }
 
-char**  CMsnProto::GetStatusMsgLoc(int status)
+char** CMsnProto::GetStatusMsgLoc(int status)
 {
 	static const int modes[MSN_NUM_MODES] =
 	{
@@ -84,7 +84,7 @@ char**  CMsnProto::GetStatusMsgLoc(int status)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MSN_AddAuthRequest - adds the authorization event to the database
 
-void  CMsnProto::MSN_AddAuthRequest(const char *email, const char *nick, const char *reason)
+void CMsnProto::MSN_AddAuthRequest(const char *email, const char *nick, const char *reason)
 {
 	//blob is: UIN=0(DWORD), hContact(DWORD), nick(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), email(ASCIIZ), ""(ASCIIZ)
 
@@ -197,7 +197,7 @@ char* MSN_GetAvatarHash(char* szContext, char** pszUrl)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MSN_GetAvatarFileName - gets a file name for an contact's avatar
 
-void  CMsnProto::MSN_GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext)
+void CMsnProto::MSN_GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext)
 {
 	size_t tPathLen;
 
@@ -268,45 +268,7 @@ void  CMsnProto::MSN_GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t c
 	else mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, ext);
 }
 
-int MSN_GetImageFormat(void* buf, const TCHAR** ext)
-{
-	if (*(unsigned short*)buf == 0xd8ff) {
-		*ext = _T("jpg");
-		return PA_FORMAT_JPEG;
-	}
-	if (*(unsigned short*)buf == 0x4d42) {
-		*ext = _T("bmp");
-		return PA_FORMAT_BMP;
-	}
-	if (*(unsigned*)buf == 0x474e5089) {
-		*ext = _T("png");
-		return PA_FORMAT_PNG;
-	}
-	if (*(unsigned*)buf == 0x38464947) {
-		*ext = _T("gif");
-		return PA_FORMAT_GIF;
-	}
-
-	*ext = _T("unk");
-	return PA_FORMAT_UNKNOWN;
-}
-
-int MSN_GetImageFormat(const TCHAR* file)
-{
-	const TCHAR *ext = _tcsrchr(file, '.');
-	if (ext == NULL)
-		return PA_FORMAT_UNKNOWN;
-	if (_tcsicmp(ext, _T(".gif")) == 0)
-		return PA_FORMAT_GIF;
-	else if (_tcsicmp(ext, _T(".bmp")) == 0)
-		return PA_FORMAT_BMP;
-	else if (_tcsicmp(ext, _T(".png")) == 0)
-		return PA_FORMAT_PNG;
-	else
-		return PA_FORMAT_JPEG;
-}
-
-int  CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen)
+int CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen)
 {
 	mir_sha1_ctx sha1ctx;
 	BYTE sha1c[MIR_SHA1_HASH_SIZE], sha1d[MIR_SHA1_HASH_SIZE];
@@ -363,8 +325,9 @@ int  CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen
 	free(szBuffer);
 
 	const TCHAR *szExt;
-	int fmt = MSN_GetImageFormat(pData, &szExt);
-	if (fmt == PA_FORMAT_UNKNOWN) return fmt;
+	int fmt = ProtoGetBufferFormat(pData, &szExt);
+	if (fmt == PA_FORMAT_UNKNOWN)
+		return fmt;
 
 	TCHAR szFileName[MAX_PATH];
 	MSN_GetAvatarFileName(NULL, szFileName, SIZEOF(szFileName), NULL);
@@ -395,7 +358,7 @@ int  CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen
 /////////////////////////////////////////////////////////////////////////////////////////
 // MSN_GetCustomSmileyFileName - gets a file name for an contact's custom smiley
 
-void  CMsnProto::MSN_GetCustomSmileyFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen, const char* SmileyName, int type)
+void CMsnProto::MSN_GetCustomSmileyFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen, const char* SmileyName, int type)
 {
 	size_t tPathLen;
 
@@ -629,7 +592,7 @@ static VOID CALLBACK TypingTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWO
 }
 
 
-void  CMsnProto::MSN_StartStopTyping(ThreadData* info, bool start)
+void CMsnProto::MSN_StartStopTyping(ThreadData* info, bool start)
 {
 	if (start && info->mTimerId == 0) {
 		info->mTimerId = SetTimer(NULL, 0, 5000, TypingTimerProc);
@@ -654,7 +617,7 @@ static char * HtmlEncodeUTF8T(const TCHAR *src)
 	return HtmlEncode(UTF8(src));
 }
 
-void  CMsnProto::MSN_SendStatusMessage(const char* msg)
+void CMsnProto::MSN_SendStatusMessage(const char* msg)
 {
 	if (!msnLoggedIn)
 		return;
@@ -770,7 +733,7 @@ int ThreadData::sendPacket(const char* cmd, const char* fmt,...)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MSN_SetServerStatus - changes plugins status at the server
 
-void  CMsnProto::MSN_SetServerStatus(int newStatus)
+void CMsnProto::MSN_SetServerStatus(int newStatus)
 {
 	MSN_DebugLog("Setting MSN server status %d, logged in = %d", newStatus, msnLoggedIn);
 

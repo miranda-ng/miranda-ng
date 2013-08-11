@@ -283,9 +283,6 @@ protected:
 	// avatars
 	bool IsAvatarChanged(const SEBinary &avatar, HANDLE hContact = NULL);
 
-	static int DetectAvatarFormatBuffer(const char *pBuffer);
-	static int DetectAvatarFormat(const wchar_t *path);
-
 	wchar_t* GetContactAvatarFilePath(HANDLE hContact);
 
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);

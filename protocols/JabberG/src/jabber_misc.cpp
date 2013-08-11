@@ -267,13 +267,7 @@ void CJabberProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbL
 
 	pszDest[ tPathLen++ ] = '\\';
 
-	char* szFileType = NULL;
-	switch(getByte(hContact, "AvatarType", PA_FORMAT_PNG)) {
-		case PA_FORMAT_JPEG: szFileType = "jpg";   break;
-		case PA_FORMAT_PNG:  szFileType = "png";   break;
-		case PA_FORMAT_GIF:  szFileType = "gif";   break;
-		case PA_FORMAT_BMP:  szFileType = "bmp";   break;
-	}
+	const TCHAR* szFileType = ProtoGetAvatarExtension( getByte(hContact, "AvatarType", PA_FORMAT_PNG));
 
 	if (hContact != NULL) {
 		char str[ 256 ];
@@ -284,22 +278,16 @@ void CJabberProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbL
 			db_free(&dbv);
 		}
 		else _i64toa((LONG_PTR)hContact, str, 10);
-		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S.%S"), ptrA(JabberSha1(str)), szFileType);
+		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S%s"), ptrA(JabberSha1(str)), szFileType);
 	}
 	else if (m_ThreadInfo != NULL) {
-		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%s@%S avatar.%S"),
+		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%s@%S avatar%s"),
 			m_ThreadInfo->username, m_ThreadInfo->server, szFileType);
 	}
 	else {
-		DBVARIANT dbv1, dbv2;
-		BOOL res1 = getString("LoginName", &dbv1);
-		BOOL res2 = getString("LoginServer", &dbv2);
-		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S@%S avatar.%S"),
-			res1 ? "noname" : dbv1.pszVal,
-			res2 ? m_szModuleName : dbv2.pszVal,
-			szFileType);
-		if ( !res1) db_free(&dbv1);
-		if ( !res2) db_free(&dbv2);
+		ptrA res1( getStringA("LoginName")), res2( getStringA("LoginServer"));
+		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S@%S avatar%s"),
+			res1 ? res1 : "noname", res2 ? res2 : m_szModuleName, szFileType);
 	}
 }
 

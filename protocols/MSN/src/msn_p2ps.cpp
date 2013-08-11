@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /////////////////////////////////////////////////////////////////////////////////////////
 // add file session to a list
 
-void  CMsnProto::p2p_registerSession(filetransfer* ft)
+void CMsnProto::p2p_registerSession(filetransfer* ft)
 {
 	EnterCriticalSection(&sessionLock);
 	sessionList.insert(ft);
@@ -36,7 +36,7 @@ void  CMsnProto::p2p_registerSession(filetransfer* ft)
 /////////////////////////////////////////////////////////////////////////////////////////
 // remove file session from a list
 
-void  CMsnProto::p2p_unregisterSession(filetransfer* ft)
+void CMsnProto::p2p_unregisterSession(filetransfer* ft)
 {
 	EnterCriticalSection(&sessionLock);
 //	int idx = sessionList.getIndex(ft);
@@ -48,7 +48,7 @@ void  CMsnProto::p2p_unregisterSession(filetransfer* ft)
 /////////////////////////////////////////////////////////////////////////////////////////
 // get session by some parameter
 
-filetransfer*  CMsnProto::p2p_getSessionByID(unsigned id)
+filetransfer* CMsnProto::p2p_getSessionByID(unsigned id)
 {
 	if (id == 0)
 		return NULL;
@@ -73,7 +73,7 @@ filetransfer*  CMsnProto::p2p_getSessionByID(unsigned id)
 	return ft;
 }
 
-filetransfer*  CMsnProto::p2p_getSessionByUniqueID(unsigned id)
+filetransfer* CMsnProto::p2p_getSessionByUniqueID(unsigned id)
 {
 	if (id == 0)
 		return NULL;
@@ -99,7 +99,7 @@ filetransfer*  CMsnProto::p2p_getSessionByUniqueID(unsigned id)
 }
 
 
-bool  CMsnProto::p2p_sessionRegistered(filetransfer* ft)
+bool CMsnProto::p2p_sessionRegistered(filetransfer* ft)
 {
 	if (ft != NULL && ft->p2p_appID == 0)
 		return true;
@@ -110,7 +110,7 @@ bool  CMsnProto::p2p_sessionRegistered(filetransfer* ft)
 	return idx > -1;
 }
 
-filetransfer*  CMsnProto::p2p_getThreadSession(HANDLE hContact, TInfoType mType)
+filetransfer* CMsnProto::p2p_getThreadSession(HANDLE hContact, TInfoType mType)
 {
 	EnterCriticalSection(&sessionLock);
 
@@ -129,7 +129,7 @@ filetransfer*  CMsnProto::p2p_getThreadSession(HANDLE hContact, TInfoType mType)
 	return result;
 }
 
-void  CMsnProto::p2p_clearThreadSessions(HANDLE hContact, TInfoType mType)
+void CMsnProto::p2p_clearThreadSessions(HANDLE hContact, TInfoType mType)
 {
 	EnterCriticalSection(&sessionLock);
 
@@ -147,7 +147,7 @@ void  CMsnProto::p2p_clearThreadSessions(HANDLE hContact, TInfoType mType)
 	LeaveCriticalSection(&sessionLock);
 }
 
-filetransfer*  CMsnProto::p2p_getAvatarSession(HANDLE hContact)
+filetransfer* CMsnProto::p2p_getAvatarSession(HANDLE hContact)
 {
 	EnterCriticalSection(&sessionLock);
 
@@ -165,7 +165,7 @@ filetransfer*  CMsnProto::p2p_getAvatarSession(HANDLE hContact)
 	return result;
 }
 
-bool  CMsnProto::p2p_isAvatarOnly(HANDLE hContact)
+bool CMsnProto::p2p_isAvatarOnly(HANDLE hContact)
 {
 	EnterCriticalSection(&sessionLock);
 
@@ -180,7 +180,7 @@ bool  CMsnProto::p2p_isAvatarOnly(HANDLE hContact)
 	return result;
 }
 
-void  CMsnProto::p2p_clearDormantSessions(void)
+void CMsnProto::p2p_clearDormantSessions(void)
 {
 	EnterCriticalSection(&sessionLock);
 
@@ -204,7 +204,7 @@ void  CMsnProto::p2p_clearDormantSessions(void)
 	LeaveCriticalSection(&sessionLock);
 }
 
-void  CMsnProto::p2p_redirectSessions(const char *wlid)
+void CMsnProto::p2p_redirectSessions(const char *wlid)
 {
 	EnterCriticalSection(&sessionLock);
 
@@ -232,7 +232,7 @@ void  CMsnProto::p2p_redirectSessions(const char *wlid)
 	LeaveCriticalSection(&sessionLock);
 }
 
-void  CMsnProto::p2p_startSessions(const char* wlid)
+void CMsnProto::p2p_startSessions(const char* wlid)
 {
 	EnterCriticalSection(&sessionLock);
 
@@ -254,7 +254,7 @@ void  CMsnProto::p2p_startSessions(const char* wlid)
 	LeaveCriticalSection(&sessionLock);
 }
 
-void  CMsnProto::p2p_cancelAllSessions(void)
+void CMsnProto::p2p_cancelAllSessions(void)
 {
 	EnterCriticalSection(&sessionLock);
 
@@ -267,7 +267,7 @@ void  CMsnProto::p2p_cancelAllSessions(void)
 	LeaveCriticalSection(&sessionLock);
 }
 
-filetransfer*  CMsnProto::p2p_getSessionByCallID(const char* CallID, const char* wlid)
+filetransfer* CMsnProto::p2p_getSessionByCallID(const char* CallID, const char* wlid)
 {
 	if (CallID == NULL)
 		return NULL;
@@ -301,21 +301,21 @@ filetransfer*  CMsnProto::p2p_getSessionByCallID(const char* CallID, const char*
 }
 
 
-void  CMsnProto::p2p_registerDC(directconnection* dc)
+void CMsnProto::p2p_registerDC(directconnection* dc)
 {
 	EnterCriticalSection(&sessionLock);
 	dcList.insert(dc);
 	LeaveCriticalSection(&sessionLock);
 }
 
-void  CMsnProto::p2p_unregisterDC(directconnection* dc)
+void CMsnProto::p2p_unregisterDC(directconnection* dc)
 {
 	EnterCriticalSection(&sessionLock);
 	dcList.remove(dc);
 	LeaveCriticalSection(&sessionLock);
 }
 
-directconnection*  CMsnProto::p2p_getDCByCallID(const char* CallID, const char* wlid)
+directconnection* CMsnProto::p2p_getDCByCallID(const char* CallID, const char* wlid)
 {
 	if (CallID == NULL)
 		return NULL;

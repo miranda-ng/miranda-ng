@@ -218,3 +218,7 @@ json_type                     @215
 json_write                    @216
 json_write_formatted          @217
 mir_subclassWindowFull        @218
+ProtoGetAvatarFormat          @219
+ProtoGetAvatarExtension       @220
+ProtoGetBufferFormat          @221
+ProtoGetAvatarFileFormat      @222

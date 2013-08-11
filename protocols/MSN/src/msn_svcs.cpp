@@ -77,7 +77,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)
 
 	if (AI->hContact == NULL || _stricmp(cont->email, MyOptions.szEmail) == 0) {
 		MSN_GetAvatarFileName(NULL, filename, SIZEOF(filename), NULL);
-		AI->format = MSN_GetImageFormat(filename);
+		AI->format = ProtoGetAvatarFormat(filename);
 		if (AI->format != PA_FORMAT_UNKNOWN)
 			_tcscpy(AI->filename, filename);
 		return AI->format == PA_FORMAT_UNKNOWN ? GAIR_NOAVATAR : GAIR_SUCCESS;
@@ -92,7 +92,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)
 	else return GAIR_NOAVATAR;
 
 	MSN_GetAvatarFileName(AI->hContact, filename, SIZEOF(filename), NULL);
-	AI->format = MSN_GetImageFormat(filename);
+	AI->format = ProtoGetAvatarFormat(filename);
 
 	if (AI->format != PA_FORMAT_UNKNOWN) {
 		bool needupdate = true;

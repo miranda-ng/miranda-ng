@@ -109,7 +109,5 @@ private:
 	int timeout_;
 };
 
-int ext_to_format(const std::string &ext);
-
 void MB(const char* m);
 void MBI(int a);

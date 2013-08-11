@@ -227,7 +227,7 @@ void CMsnProto::MSN_RenameServerGroup(LPCSTR szId, const char* newName)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MSN_UploadServerGroups - adds a group to the server list and contacts into the group
 
-void  CMsnProto::MSN_UploadServerGroups(char* group)
+void CMsnProto::MSN_UploadServerGroups(char* group)
 {
 	if (!MyOptions.ManageServer) return;
 
@@ -314,7 +314,7 @@ void CMsnProto::MSN_SyncContactToServerGroup(HANDLE hContact, const char* szCont
 /////////////////////////////////////////////////////////////////////////////////////////
 // Msn_SendNickname - update our own nickname on the server
 
-void  CMsnProto::MSN_SendNicknameUtf(const char* nickname)
+void CMsnProto::MSN_SendNicknameUtf(const char* nickname)
 {
 	if (nickname[0])
 		setStringUtf(NULL, "Nick", nickname);
@@ -326,7 +326,7 @@ void  CMsnProto::MSN_SendNicknameUtf(const char* nickname)
 	ForkThread(&CMsnProto::msn_storeProfileThread, (void*)1);
 }
 
-void  CMsnProto::MSN_SetNicknameUtf(const char* nickname)
+void CMsnProto::MSN_SetNicknameUtf(const char* nickname)
 {
 	const size_t urlNickSz = strlen(nickname) * 3 + 1;
 	char* urlNick = (char*)alloca(urlNickSz);

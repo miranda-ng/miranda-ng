@@ -75,7 +75,7 @@ LBL_Error:
 	}
 
 	const TCHAR *szExt;
-	int fmt = MSN_GetImageFormat(nlhrReply->pData, &szExt);
+	int fmt = ProtoGetBufferFormat(nlhrReply->pData, &szExt);
 	if (fmt == PA_FORMAT_UNKNOWN)
 		goto LBL_Error;
 

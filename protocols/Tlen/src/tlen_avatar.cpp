@@ -33,45 +33,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void TlenGetAvatarFileName(TlenProtocol *proto, JABBER_LIST_ITEM *item, TCHAR* ptszDest, int cbLen)
 {
-	DWORD dwAttributes;
-	int tPathLen;
 	int format = PA_FORMAT_PNG;
-	TCHAR* tszFileType;
 	TCHAR* tmpPath = Utils_ReplaceVarsT( TEXT("%miranda_avatarcache%") );
-	tPathLen = mir_sntprintf( ptszDest, cbLen, TEXT("%s\\Tlen"), tmpPath );
+	int tPathLen = mir_sntprintf(ptszDest, cbLen, TEXT("%s\\Tlen"), tmpPath );
 	mir_free(tmpPath);
-	dwAttributes = GetFileAttributes( ptszDest );
+	DWORD dwAttributes = GetFileAttributes( ptszDest );
 	if (dwAttributes == 0xffffffff || ( dwAttributes & FILE_ATTRIBUTE_DIRECTORY ) == 0)
 		CreateDirectoryTreeT(ptszDest);
 
 	ptszDest[ tPathLen++ ] = '\\';
-	if (item != NULL) {
+	if (item != NULL)
 		format = item->avatarFormat;
-	} else if (proto->threadData != NULL) {
+	else if (proto->threadData != NULL)
 		format = proto->threadData->avatarFormat;
-	} else {
+	else
 		format = db_get_dw(NULL, proto->m_szModuleName, "AvatarFormat", PA_FORMAT_UNKNOWN);
-	}
-	tszFileType = TEXT("png");
-	switch(format) {
-		case PA_FORMAT_JPEG: tszFileType = TEXT("jpg");   break;
-		case PA_FORMAT_ICON: tszFileType = TEXT("ico");   break;
-		case PA_FORMAT_PNG:  tszFileType = TEXT("png");   break;
-		case PA_FORMAT_GIF:  tszFileType = TEXT("gif");   break;
-		case PA_FORMAT_BMP:  tszFileType = TEXT("bmp");   break;
-	}
-	if ( item != NULL ) {
-		char* hash;
-		hash = JabberSha1(item->jid);
-		TCHAR* hashT = mir_a2t(hash);
-		mir_free( hash );
-		mir_sntprintf( ptszDest + tPathLen, MAX_PATH - tPathLen, TEXT("%s.%s"), hashT, tszFileType );
-		mir_free( hashT );
-	} else {
-		TCHAR* m_tszModuleName = mir_a2t(proto->m_szModuleName);
-		mir_sntprintf( ptszDest + tPathLen, MAX_PATH - tPathLen, TEXT("%s_avatar.%s"), m_tszModuleName, tszFileType );
-		mir_free( m_tszModuleName );
-	}
+
+	const TCHAR *tszFileType = ProtoGetAvatarExtension(format);
+	if ( item != NULL )
+		mir_sntprintf(ptszDest + tPathLen, MAX_PATH - tPathLen, TEXT("%S%s"), ptrA( JabberSha1(item->jid)), tszFileType);
+	else
+		mir_sntprintf(ptszDest + tPathLen, MAX_PATH - tPathLen, TEXT("%S_avatar%s"), proto->m_szModuleName, tszFileType);
 }
 
 static void RemoveAvatar(TlenProtocol *proto, HANDLE hContact) {
@@ -88,15 +70,13 @@ static void RemoveAvatar(TlenProtocol *proto, HANDLE hContact) {
 }
 
 static void SetAvatar(TlenProtocol *proto, HANDLE hContact, JABBER_LIST_ITEM *item, char *data, int len, DWORD format) {
-	FILE* out;
 	TCHAR filename[MAX_PATH];
 	char md5[33];
 	mir_md5_state_t ctx;
 	DWORD digest[4];
 
-	if (format == PA_FORMAT_UNKNOWN && len > 4) {
-		format = JabberGetPictureType(data);
-	}
+	if (format == PA_FORMAT_UNKNOWN && len > 4)
+		format = ProtoGetBufferFormat(data);
 
 	mir_md5_init( &ctx );
 	mir_md5_append( &ctx, ( BYTE* )data, len);
@@ -114,10 +94,10 @@ static void SetAvatar(TlenProtocol *proto, HANDLE hContact, JABBER_LIST_ITEM *it
 	}
 	TlenGetAvatarFileName(proto, item, filename, sizeof filename );
 	DeleteFile(filename);
-	out = _tfopen( filename, TEXT("wb") );
-	if ( out != NULL ) {
-		fwrite( data, len, 1, out );
-		fclose( out );
+	FILE *out = _tfopen( filename, TEXT("wb") );
+	if (out != NULL) {
+		fwrite(data, len, 1, out);
+		fclose(out);
 		db_set_ts(hContact, "ContactPhoto", "File", filename );
 		db_set_s(hContact, proto->m_szModuleName, "AvatarHash",  md5);
 		db_set_dw(hContact, proto->m_szModuleName, "AvatarFormat",  format);
@@ -274,20 +254,20 @@ static void TlenGetAvatarThread(void *ptr) {
 				if (resp->dataLength > 0) {
 					int i;
 					for (i=0; i<resp->headersCount; i++ ) {
-						if (strcmpi(resp->headers[i].szName, "Content-Type") == 0) {
-							if (strcmpi(resp->headers[i].szValue, "image/png") == 0) {
+						if (!strcmpi(resp->headers[i].szName, "Content-Type")) {
+							if (!strcmpi(resp->headers[i].szValue, "image/png"))
 								format = PA_FORMAT_PNG;
-							} else if (strcmpi(resp->headers[i].szValue, "image/x-png") == 0) {
+							else if (!strcmpi(resp->headers[i].szValue, "image/x-png"))
 								format = PA_FORMAT_PNG;
-							} else if (strcmpi(resp->headers[i].szValue, "image/jpeg") == 0) {
+							else if (!strcmpi(resp->headers[i].szValue, "image/jpeg"))
 								format = PA_FORMAT_JPEG;
-							} else if (strcmpi(resp->headers[i].szValue, "image/jpg") == 0) {
+							else if (!strcmpi(resp->headers[i].szValue, "image/jpg"))
 								format = PA_FORMAT_JPEG;
-							} else if (strcmpi(resp->headers[i].szValue, "image/gif") == 0) {
+							else if (!strcmpi(resp->headers[i].szValue, "image/gif"))
 								format = PA_FORMAT_GIF;
-							} else if (strcmpi(resp->headers[i].szValue, "image/bmp") == 0) {
+							else if (!strcmpi(resp->headers[i].szValue, "image/bmp"))
 								format = PA_FORMAT_BMP;
-							}
+
 							break;
 						}
 					}

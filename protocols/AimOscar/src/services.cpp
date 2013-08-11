@@ -384,7 +384,7 @@ INT_PTR CAimProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 			return GAIR_SUCCESS;
 
 	case GAIR_WAITFOR:
-		AI->format = detect_image_type(AI->filename);
+		AI->format = ProtoGetAvatarFormat(AI->filename);
 		break;
 
 	default:

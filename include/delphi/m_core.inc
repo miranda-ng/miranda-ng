@@ -534,6 +534,23 @@ function ProtoCallService(const szModule, szName:PAnsiChar; wParam:WPARAM; lPara
 function ProtoServiceExists(const szModule, szName:PAnsiChar):int; stdcall;
                  external CoreDLL name 'ProtoServiceExists';
 
+// returns image extension by a PA_* constant or empty string for PA_FORMAT_UNKNOWN
+function ProtoGetAvatarExtension(format:int):PWideChar; stdcall;
+                 external CoreDLL name 'ProtoGetAvatarExtension';
+
+// detects image format by extension
+function ProtoGetAvatarFormat(const szFileName:PWideChar):int; stdcall;
+                 external CoreDLL name 'ProtoGetAvatarFormat';
+
+// detects image format by its contents
+function ProtoGetAvatarFileFormat(const szFileName:PWideChar):int; stdcall;
+                 external CoreDLL name 'ProtoGetAvatarFileFormat';
+
+// returns the image format and extension by the first bytes of picture
+// ptszExtension might be NULL
+function ProtoGetBufferFormat(const buf:PByte; var ext:PWideChar):int; stdcall;
+                 external CoreDLL name 'ProtoGetBufferFormat';
+
 ///////////////////////////////////////////////////////////////////////////////
 // sha1 functions
 type
