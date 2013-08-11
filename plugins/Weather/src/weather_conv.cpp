@@ -322,10 +322,8 @@ static const WORD statusValue[10] = { LIGHT, FOG, SSHOWER, SNOW, RSHOWER, RAIN, 
 
 WORD GetIcon(const TCHAR* cond, WIDATA *Data) 
 {
-	int i;
-
 	// set the icon using ini
-	for (i=0; i<10; i++)
+	for (int i=0; i<10; i++)
 		if ( IsContainedInCondList(cond, &Data->CondList[i]))
 			return statusValue[i];
 
@@ -389,7 +387,7 @@ WORD GetIcon(const TCHAR* cond, WIDATA *Data)
 	}
 
 	// set the icon using langpack
-	for (i=0; i < 9; i++) {
+	for (int i=0; i < 9; i++) {
 		TCHAR LangPackStr[64], LangPackStr1[128];
 		int j = 0;
 		do {

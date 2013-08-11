@@ -134,7 +134,7 @@ INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			LOWORD(wParam) == IDC_RELOADINI )
 		{
 			DestroyWIList();
-			LoadWIData(TRUE);
+			LoadWIData(true);
 			INIInfo(hwndDlg);
 		}
 		break;

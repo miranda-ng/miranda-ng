@@ -191,7 +191,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	EraseAllInfo();
 
 	// load weather update data
-	LoadWIData(TRUE);
+	LoadWIData(true);
 
 	// set status to online if "Do not display weather condition as protocol status" is enabled
 	old_status = status = ID_STATUS_OFFLINE;

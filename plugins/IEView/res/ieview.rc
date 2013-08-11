@@ -7,26 +7,23 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
-
+#include "afxres.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// английский (США) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Menu
 //
 
-IDR_CONTEXTMENU MENU 
+IDR_CONTEXTMENU MENU
 BEGIN
     POPUP "", MENUBREAK
     BEGIN
@@ -61,20 +58,23 @@ IDI_GROUP_OFF           ICON                    "group_off.ico"
 // Dialog
 //
 
-IDD_GENERAL_OPTIONS DIALOGEX 0, 0, 306, 228
+IDD_GENERAL_OPTIONS DIALOGEX 0, 0, 306, 165
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Options",IDC_STATIC,4,2,297,155
-    CONTROL         "Enable BBCodes",IDC_ENABLE_BBCODES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,19,265,10
+    CONTROL         "Enable BBCodes",IDC_ENABLE_BBCODES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,19,279,10
     LTEXT           "Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]",IDC_STATIC,26,31,265,12
-    CONTROL         "Enable support for Flash files in smileys and BBCodes",IDC_ENABLE_FLASH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,46,265,10
-    CONTROL         "Enable workaround for PNG transparency",IDC_ENABLE_PNGHACK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,61,265,10
-    CONTROL         "Enable MathModule support",IDC_ENABLE_MATHMODULE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,76,265,10
-    CONTROL         "Replace smileys in user names",IDC_SMILEYS_IN_NAMES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,91,265,10
-    CONTROL         "Hide window border",IDC_NO_BORDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,106,265,10
-    CONTROL         "Embed YouTube videos",IDC_ENABLE_EMBED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,121,265,10
+    CONTROL         "Enable support for Flash files in smileys and BBCodes",IDC_ENABLE_FLASH,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,46,279,10
+    CONTROL         "Enable workaround for PNG transparency",IDC_ENABLE_PNGHACK,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,61,279,10
+    CONTROL         "Enable MathModule support",IDC_ENABLE_MATHMODULE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,76,279,10
+    CONTROL         "Replace smileys in user names",IDC_SMILEYS_IN_NAMES,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,91,279,10
+    CONTROL         "Hide window border",IDC_NO_BORDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,106,279,10
+    CONTROL         "Embed YouTube videos",IDC_ENABLE_EMBED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,121,279,10
     LTEXT           "Size:",IDC_STATIC,26,138,30,8
     COMBOBOX        IDC_EMBED_SIZE,57,136,56,130,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
 END
@@ -86,8 +86,8 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Mode",IDC_STATIC,4,2,297,222
     CONTROL         "Compatibility Mode",IDC_MODE_COMPATIBLE,"Button",BS_AUTORADIOBUTTON,118,15,100,10
-    CONTROL         "Use External CSS",IDC_MODE_CSS,"Button",BS_AUTORADIOBUTTON,118,58,86,10
-    CONTROL         "Use Templates",IDC_MODE_TEMPLATE,"Button",BS_AUTORADIOBUTTON,118,112,86,10
+    CONTROL         "Use External CSS",IDC_MODE_CSS,"Button",BS_AUTORADIOBUTTON,118,58,147,10
+    CONTROL         "Use Templates",IDC_MODE_TEMPLATE,"Button",BS_AUTORADIOBUTTON,118,112,147,10
     CONTROL         "",IDC_PROTOLIST,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_CHECKBOXES | WS_BORDER | WS_HSCROLL | WS_TABSTOP,10,15,100,143
     CONTROL         "Background image",IDC_BACKGROUND_IMAGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,118,26,86,10
     CONTROL         "Scroll with text",IDC_SCROLL_BACKGROUND_IMAGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,206,26,93,10
@@ -97,16 +97,16 @@ BEGIN
     PUSHBUTTON      "...",IDC_BROWSE_EXTERNALCSS,278,68,15,11
     EDITTEXT        IDC_TEMPLATES_FILENAME,118,122,153,12,ES_AUTOHSCROLL
     PUSHBUTTON      "...",IDC_BROWSE_TEMPLATES,278,122,15,11
-    ICON            IDI_GROUP_OFF,IDC_GROUPSUPPORT,245,135,20,20
-    ICON            IDI_RTL_OFF,IDC_RTLSUPPORT,260,135,20,20
+    ICON            IDI_GROUP_OFF,IDC_GROUPSUPPORT,245,135,21,20
+    ICON            IDI_RTL_OFF,IDC_RTLSUPPORT,260,135,21,20
     GROUPBOX        "Template Options",IDC_STATIC,10,161,284,57
     CONTROL         "Use message grouping",IDC_LOG_GROUP_MESSAGES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,173,125,10
     CONTROL         "Show nicknames",IDC_LOG_SHOW_NICKNAMES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,183,125,10
     CONTROL         "Show time",IDC_LOG_SHOW_TIME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,193,125,10
     CONTROL         "Show seconds",IDC_LOG_SHOW_SECONDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,203,110,10
-    CONTROL         "Show date",IDC_LOG_SHOW_DATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,145,173,120,10
-    CONTROL         "Use long date format",IDC_LOG_LONG_DATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,183,110,10
-    CONTROL         "Use relative timestamp",IDC_LOG_RELATIVE_DATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,193,110,10
+    CONTROL         "Show date",IDC_LOG_SHOW_DATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,145,173,143,10
+    CONTROL         "Use long date format",IDC_LOG_LONG_DATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,183,131,10
+    CONTROL         "Use relative timestamp",IDC_LOG_RELATIVE_DATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,193,131,10
 END
 
 
@@ -133,7 +133,32 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // английский (США) resources
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_GENERAL_OPTIONS, DIALOG
+    BEGIN
+        VERTGUIDE, 14
+        VERTGUIDE, 293
+    END
+
+    IDD_SRMM_OPTIONS, DIALOG
+    BEGIN
+        VERTGUIDE, 145
+        VERTGUIDE, 157
+        VERTGUIDE, 265
+        VERTGUIDE, 288
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -143,8 +168,7 @@ END
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-
-
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 

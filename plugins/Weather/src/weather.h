@@ -449,10 +449,10 @@ void NetlibHttpDisconnect(void);
 void WIListAdd(WIDATA Data);
 WIDATA* GetWIData(TCHAR *pszServ);
 
-BOOL IsContainedInCondList(const TCHAR *pszStr, WICONDLIST *List);
+bool IsContainedInCondList(const TCHAR *pszStr, WICONDLIST *List);
 
 void DestroyWIList();
-BOOL LoadWIData(BOOL dial);
+bool LoadWIData(bool dial);
 void FreeWIData(WIDATA *Data);
 
 INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
