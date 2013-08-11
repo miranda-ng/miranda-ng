@@ -340,7 +340,7 @@ INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 			SendMessage(hEdit, EM_SETSEL, -1, SendMessage(hEdit, WM_GETTEXTLENGTH, 0, 0));
 			SendMessage(hEdit, EM_REPLACESEL, FALSE, (LPARAM)(TCHAR *) lParam);
 		}
-		SendMessage(hwnd, DM_ACTIVATEME, 0, (LPARAM)0);
+		SendMessage(hwnd, DM_ACTIVATEME, 0, 0);
 	} else {
 		TCHAR szName[CONTAINER_NAMELEN + 1];
 

@@ -1182,7 +1182,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 				char* sztext;
 				if ((this->m_lpwzText) || (this->m_lpwzTitle))
 				{
-					int size = _tcslen(this->m_lpwzText) + _tcslen(this->m_lpwzTitle) + 3;
+					size_t size = _tcslen(this->m_lpwzText) + _tcslen(this->m_lpwzTitle) + 3;
 					text = (TCHAR*)mir_alloc(size * sizeof(TCHAR));
 					mir_sntprintf(text, size, _T("%s\n\n%s"), this->m_lpwzTitle, this->m_lpwzText);
 				}

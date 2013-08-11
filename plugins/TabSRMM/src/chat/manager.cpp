@@ -352,12 +352,11 @@ BOOL SM_RemoveUser(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUI
 
 	for (SESSION_INFO *si = s_WndList; si; si = si->next) {
 		if ((!pszID || !lstrcmpi(si->ptszID, pszID)) && !lstrcmpiA(si->pszModule, pszModule)) {
-			DWORD dw;
 			USERINFO *ui = UM_FindUser(si->pUsers, pszUID);
 			if (ui) {
 				si->nUsersInNicklist--;
 
-				dw = UM_RemoveUser(&si->pUsers, pszUID);
+				UM_RemoveUser(&si->pUsers, pszUID);
 
 				if (si->hWnd)
 					SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
@@ -507,12 +506,11 @@ BOOL SM_ReconfigureFilters()
 
 BOOL SM_InvalidateLogDirectories()
 {
-	EnterCriticalSection(&cs);
+	mir_cslock lck(cs);
 
 	for (SESSION_INFO *si = s_WndList; si; si = si->next)
-		si->pszLogFileName[0] = 0;
+		si->pszLogFileName[0] = si->pszLogFileName[1] = 0;
 
-	LeaveCriticalSection(&cs);
 	return TRUE;
 }
 

@@ -36,17 +36,17 @@
 
 #include "..\commonheaders.h"
 
-HANDLE		g_hWindowList;
-HMENU		g_hMenu = NULL;
+HANDLE g_hWindowList;
+HMENU  g_hMenu = NULL;
 
 FONTINFO	aFonts[OPTIONS_FONTCOUNT];
-HICON		hIcons[30];
-HBRUSH		hListBkgBrush = NULL;
+HICON	   hIcons[30];
+HBRUSH   hListBkgBrush = NULL;
 
 TMUCSettings g_Settings;
 
-TCHAR		*pszActiveWndID = 0;
-char		*pszActiveWndModule = 0;
+TCHAR *pszActiveWndID = 0;
+char  *pszActiveWndModule = 0;
 
 /*
  * load the group chat module
@@ -95,26 +95,26 @@ int Chat_Unload(void)
 void LoadLogIcons(void)
 {
 	ZeroMemory(hIcons, sizeof(HICON) * (ICON_STATUS5 - ICON_ACTION));
-	hIcons[ICON_ACTION] = LoadIconEx(IDI_ACTION, "log_action", 16, 16);
-	hIcons[ICON_ADDSTATUS] = LoadIconEx(IDI_ADDSTATUS, "log_addstatus", 16, 16);
-	hIcons[ICON_HIGHLIGHT] = LoadIconEx(IDI_HIGHLIGHT, "log_highlight", 16, 16);
-	hIcons[ICON_INFO] = LoadIconEx(IDI_INFO, "log_info", 16, 16);
-	hIcons[ICON_JOIN] = LoadIconEx(IDI_JOIN, "log_join", 16, 16);
-	hIcons[ICON_KICK] = LoadIconEx(IDI_KICK, "log_kick", 16, 16);
-	hIcons[ICON_MESSAGE] = LoadIconEx(IDI_MESSAGE, "log_message_in", 16, 16);
+	hIcons[ICON_ACTION]     = LoadIconEx(IDI_ACTION, "log_action", 16, 16);
+	hIcons[ICON_ADDSTATUS]  = LoadIconEx(IDI_ADDSTATUS, "log_addstatus", 16, 16);
+	hIcons[ICON_HIGHLIGHT]  = LoadIconEx(IDI_HIGHLIGHT, "log_highlight", 16, 16);
+	hIcons[ICON_INFO]       = LoadIconEx(IDI_INFO, "log_info", 16, 16);
+	hIcons[ICON_JOIN]       = LoadIconEx(IDI_JOIN, "log_join", 16, 16);
+	hIcons[ICON_KICK]       = LoadIconEx(IDI_KICK, "log_kick", 16, 16);
+	hIcons[ICON_MESSAGE]    = LoadIconEx(IDI_MESSAGE, "log_message_in", 16, 16);
 	hIcons[ICON_MESSAGEOUT] = LoadIconEx(IDI_MESSAGEOUT, "log_message_out", 16, 16);
-	hIcons[ICON_NICK] = LoadIconEx(IDI_NICK, "log_nick", 16, 16);
-	hIcons[ICON_NOTICE] = LoadIconEx(IDI_NOTICE, "log_notice", 16, 16);
-	hIcons[ICON_PART] = LoadIconEx(IDI_PART, "log_part", 16, 16);
-	hIcons[ICON_QUIT] = LoadIconEx(IDI_QUIT, "log_quit", 16, 16);
-	hIcons[ICON_REMSTATUS] = LoadIconEx(IDI_REMSTATUS, "log_removestatus", 16, 16);
-	hIcons[ICON_TOPIC] = LoadIconEx(IDI_TOPIC, "log_topic", 16, 16);
-	hIcons[ICON_STATUS1] = LoadIconEx(IDI_STATUS1, "status1", 16, 16);
-	hIcons[ICON_STATUS2] = LoadIconEx(IDI_STATUS2, "status2", 16, 16);
-	hIcons[ICON_STATUS3] = LoadIconEx(IDI_STATUS3, "status3", 16, 16);
-	hIcons[ICON_STATUS4] = LoadIconEx(IDI_STATUS4, "status4", 16, 16);
-	hIcons[ICON_STATUS0] = LoadIconEx(IDI_STATUS0, "status0", 16, 16);
-	hIcons[ICON_STATUS5] = LoadIconEx(IDI_STATUS5, "status5", 16, 16);
+	hIcons[ICON_NICK]       = LoadIconEx(IDI_NICK, "log_nick", 16, 16);
+	hIcons[ICON_NOTICE]     = LoadIconEx(IDI_NOTICE, "log_notice", 16, 16);
+	hIcons[ICON_PART]       = LoadIconEx(IDI_PART, "log_part", 16, 16);
+	hIcons[ICON_QUIT]       = LoadIconEx(IDI_QUIT, "log_quit", 16, 16);
+	hIcons[ICON_REMSTATUS]  = LoadIconEx(IDI_REMSTATUS, "log_removestatus", 16, 16);
+	hIcons[ICON_TOPIC]      = LoadIconEx(IDI_TOPIC, "log_topic", 16, 16);
+	hIcons[ICON_STATUS1]    = LoadIconEx(IDI_STATUS1, "status1", 16, 16);
+	hIcons[ICON_STATUS2]    = LoadIconEx(IDI_STATUS2, "status2", 16, 16);
+	hIcons[ICON_STATUS3]    = LoadIconEx(IDI_STATUS3, "status3", 16, 16);
+	hIcons[ICON_STATUS4]    = LoadIconEx(IDI_STATUS4, "status4", 16, 16);
+	hIcons[ICON_STATUS0]    = LoadIconEx(IDI_STATUS0, "status0", 16, 16);
+	hIcons[ICON_STATUS5]    = LoadIconEx(IDI_STATUS5, "status5", 16, 16);
 }
 
 void LoadIcons(void)
