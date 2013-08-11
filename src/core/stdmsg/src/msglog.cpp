@@ -367,7 +367,7 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, HANDLE hContact, HANDLE h
 				szName = ci.pszVal;
 			}
 		}
-		else szName = ( TCHAR* ) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR);
+		else szName = pcli->pfnGetContactDisplayName(hContact, 0);
 
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, " %s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
 		AppendToBufferWithRTF(&buffer, &bufferEnd, &bufferAlloced, szName);
@@ -408,7 +408,7 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, HANDLE hContact, HANDLE h
 					szName = ci.pszVal;
 				}
 			}
-			else szName = ( TCHAR* )CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR);
+			else szName = pcli->pfnGetContactDisplayName(hContact, 0);
 
 			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, " %s ", SetToStyle(MSGFONTID_NOTICE));
 			AppendToBufferWithRTF(&buffer, &bufferEnd, &bufferAlloced, szName);

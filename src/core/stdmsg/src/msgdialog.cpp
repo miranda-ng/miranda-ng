@@ -1124,7 +1124,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					int statusIcon = db_get_b(NULL, SRMMMOD, SRMSGSET_STATUSICON, SRMSGDEFSET_STATUSICON);
 
 					dat->wStatus = db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
-					contactName = ( TCHAR* )CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) dat->hContact, GCDNF_TCHAR);
+					contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 
 					if (strcmp(dat->szProto, "MetaContacts")) {
 						CONTACTINFO ci = {0};
@@ -1440,7 +1440,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			else {
 				if (dat->nTypeSecs) {
 					TCHAR szBuf[256];
-					TCHAR* szContactName = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) dat->hContact, GCDNF_TCHAR);
+					TCHAR* szContactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 					HICON hTyping = LoadSkinnedIcon(SKINICON_OTHER_TYPING);
 
 					mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("%s is typing a message..."), szContactName);

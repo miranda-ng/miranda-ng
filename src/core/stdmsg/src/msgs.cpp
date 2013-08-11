@@ -95,7 +95,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	cle.flags = CLEF_TCHAR;
 	cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = "SRMsg/ReadMessage";
-	contactName = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR);
+	contactName = pcli->pfnGetContactDisplayName((HANDLE)wParam, 0);
 	mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), contactName);
 	cle.ptszTooltip = toolTip;
 	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM) & cle);
@@ -165,7 +165,7 @@ static int TypingMessage(WPARAM wParam, LPARAM lParam)
 		SendMessage(hwnd, DM_TYPING, 0, lParam);
 	else if (lParam && (g_dat.flags & SMF_SHOWTYPINGTRAY)) {
 		TCHAR szTip[256];
-		mir_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message"), (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR));
+		mir_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message"), pcli->pfnGetContactDisplayName((HANDLE)wParam, 0));
 
 		if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && !(g_dat.flags&SMF_SHOWTYPINGCLIST)) {
 			MIRANDASYSTRAYNOTIFY tn = { sizeof(tn) };
@@ -260,7 +260,7 @@ static void RestoreUnreadMessageAlerts(void)
 				else {
 					cle.hContact = hContact;
 					cle.hDbEvent = hDbEvent;
-					mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR));
+					mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 					CallService(MS_CLIST_ADDEVENT, 0, (LPARAM) & cle);
 				}
 			}
@@ -277,7 +277,7 @@ static int FontsChanged(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int SplitmsgModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int SplitmsgModulesLoaded(WPARAM, LPARAM)
 {
 	RegisterSRMMFonts();
 	LoadMsgLogIcons();
@@ -296,14 +296,14 @@ static int SplitmsgModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
+int PreshutdownSendRecv(WPARAM, LPARAM)
 {
 	WindowList_BroadcastAsync(g_dat.hMessageWindowList, WM_CLOSE, 0, 0);
 	DeinitStatusIcons();
 	return 0;
 }
 
-static int IconsChanged(WPARAM wParam, LPARAM lParam)
+static int IconsChanged(WPARAM, LPARAM)
 {
 	FreeMsgLogIcons();
 	LoadMsgLogIcons();

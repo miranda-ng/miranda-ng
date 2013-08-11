@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int LoadSendRecvMessageModule(void);
 int SplitmsgShutdown(void);
 
+CLIST_INTERFACE *pcli;
 HINSTANCE g_hInst;
 int hLangpack;
 
@@ -59,6 +60,7 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	return LoadSendRecvMessageModule();
 }
