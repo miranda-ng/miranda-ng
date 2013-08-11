@@ -71,6 +71,12 @@ SESSION_INFO* SM_AddSession(const TCHAR* pszID, const char* pszModule)
 	node->ptszID = mir_tstrdup(pszID);
 	node->pszModule = mir_strdup(pszModule);
 
+	{
+		char *p = (char*)node;
+		_DebugTraceA("SESSION_INFO allocated: crashes at %lp %lp %lp %lp",
+			p + offsetof(SESSION_INFO, wStatus), p + offsetof(SESSION_INFO, wState), p + offsetof(SESSION_INFO, wCommandsNum), p + offsetof(SESSION_INFO, szSearch));
+	}
+
 	MODULEINFO *mi = MM_FindModule(pszModule);
 	if (mi) {
 		mi->idleTimeStamp = time(0);
@@ -903,6 +909,10 @@ STATUSINFO * TM_AddStatus(STATUSINFO** ppStatusList, const TCHAR* pszStatus, int
 
 	if (!TM_FindStatus(*ppStatusList, pszStatus)) {
 		STATUSINFO *node = (STATUSINFO*)mir_calloc(sizeof(STATUSINFO));
+		{
+			char *p = (char*)node;
+			_DebugTraceA("STATUSINFO allocated: crashes at %lp", p + offsetof(STATUSINFO, Status));
+		}
 		replaceStrT(node->pszGroup, pszStatus);
 		node->hIcon = (HICON)(*iCount);
 		while ((int)node->hIcon > STATUSICONCOUNT - 1)
@@ -1012,40 +1022,32 @@ static int sttCompareNicknames(const TCHAR *s1, const TCHAR *s2)
 
 static int UM_CompareItem(USERINFO * u1, const TCHAR* pszNick, WORD wStatus)
 {
-	int i;
-
 	WORD dw1 = u1->Status;
 	WORD dw2 = wStatus;
 
-	for (i=0; i < 8; i++) {
+	for (int i=0; i < 8; i++) {
 		if ((dw1 & 1) && !(dw2 & 1))
 			return -1;
+
 		if ((dw2 & 1) && !(dw1 & 1))
 			return 1;
-		if ((dw1 & 1) && (dw2 & 1))
-			//
-		{
+
+		if ((dw1 & 1) && (dw2 & 1)) {
 			if (g_Settings.bAlternativeSorting)
 				return sttCompareNicknames(u1->pszNick, pszNick);
-			else
-				return lstrcmp(u1->pszNick, pszNick);
-		}//
+			return lstrcmp(u1->pszNick, pszNick);
+		}
 		dw1 = dw1 >> 1;
 		dw2 = dw2 >> 1;
 	}
 	if (g_Settings.bAlternativeSorting)
-		//
 		return sttCompareNicknames(u1->pszNick, pszNick);
-	else
-		return lstrcmp(u1->pszNick, pszNick);
-	//
+	return lstrcmp(u1->pszNick, pszNick);
 }
 
-USERINFO * UM_SortUser(USERINFO** ppUserList, const TCHAR* pszUID)
+USERINFO* UM_SortUser(USERINFO** ppUserList, const TCHAR* pszUID)
 {
-	USERINFO * pTemp = *ppUserList, *pLast = NULL;
-	USERINFO * node = NULL;
-
+	USERINFO *pTemp = *ppUserList, *pLast = NULL;
 	if (!pTemp || !pszUID)
 		return NULL;
 
@@ -1054,140 +1056,124 @@ USERINFO * UM_SortUser(USERINFO** ppUserList, const TCHAR* pszUID)
 		pTemp = pTemp->next;
 	}
 
-	if (pTemp) {
-		node = pTemp;
-		if (pLast)
-			pLast->next = pTemp->next;
-		else
-			*ppUserList = pTemp->next;
-		pTemp = *ppUserList;
+	if (pTemp == NULL)
+		return NULL;
 
-		pLast = NULL;
+	USERINFO *node = pTemp;
+	if (pLast)
+		pLast->next = pTemp->next;
+	else
+		*ppUserList = pTemp->next;
+	pTemp = *ppUserList;
 
-		while (pTemp && UM_CompareItem(pTemp, node->pszNick, node->Status) <= 0) {
-			pLast = pTemp;
-			pTemp = pTemp->next;
-		}
+	pLast = NULL;
 
-		if (*ppUserList == NULL) { // list is empty
-			*ppUserList = node;
-			node->next = NULL;
-		} else {
-			if (pLast) {
-				node->next = pTemp;
-				pLast->next = node;
-			} else {
-				node->next = *ppUserList;
-				*ppUserList = node;
-			}
-		}
-
-		return node;
+	while (pTemp && UM_CompareItem(pTemp, node->pszNick, node->Status) <= 0) {
+		pLast = pTemp;
+		pTemp = pTemp->next;
 	}
-	return NULL;
+
+	if (*ppUserList == NULL) { // list is empty
+		*ppUserList = node;
+		node->next = NULL;
+	}
+	else if (pLast) {
+		node->next = pTemp;
+		pLast->next = node;
+	}
+	else {
+		node->next = *ppUserList;
+		*ppUserList = node;
+	}
+
+	return node;
 }
 
 USERINFO* UM_AddUser(STATUSINFO* pStatusList, USERINFO** ppUserList, const TCHAR* pszUID, const TCHAR* pszNick, WORD wStatus)
 {
-	USERINFO * pTemp = *ppUserList, *pLast = NULL;
-
 	if (!pStatusList || !ppUserList || !ppUserList)
 		return NULL;
 
+	USERINFO *pTemp = *ppUserList, *pLast = NULL;
 	while (pTemp && UM_CompareItem(pTemp, pszNick, wStatus) <= 0) {
 		pLast = pTemp;
 		pTemp = pTemp->next;
 	}
 
-	//	if (!UM_FindUser(*ppUserList, pszUI, wStatus)
+	USERINFO *node = (USERINFO*)mir_calloc(sizeof(USERINFO));
 	{
-		USERINFO *node = (USERINFO*) mir_alloc(sizeof(USERINFO));
-		ZeroMemory(node, sizeof(USERINFO));
-		replaceStrT(node->pszUID, pszUID);
-
-		if (*ppUserList == NULL) { // list is empty
-			*ppUserList = node;
-			node->next = NULL;
-		} else {
-			if (pLast) {
-				node->next = pTemp;
-				pLast->next = node;
-			} else {
-				node->next = *ppUserList;
-				*ppUserList = node;
-			}
-		}
-
-		return node;
+		char *p = (char*)node;
+		_DebugTraceA("USERINFO allocated: crashes at %lp", 
+			p + offsetof(USERINFO, Status), p + offsetof(USERINFO, ContactStatus));
 	}
-	return NULL;
+	replaceStrT(node->pszUID, pszUID);
+
+	if (*ppUserList == NULL) { // list is empty
+		*ppUserList = node;
+		node->next = NULL;
+	}
+	else if (pLast) {
+		node->next = pTemp;
+		pLast->next = node;
+	}
+	else {
+		node->next = *ppUserList;
+		*ppUserList = node;
+	}
+
+	return node;
 }
 
 USERINFO* UM_FindUser(USERINFO* pUserList, const TCHAR* pszUID)
 {
-	USERINFO *pTemp = pUserList;
-
 	if (!pUserList || !pszUID)
 		return NULL;
 
-	while (pTemp != NULL) {
+	for (USERINFO *pTemp = pUserList; pTemp != NULL; pTemp = pTemp->next)
 		if (!lstrcmpi(pTemp->pszUID, pszUID))
 			return pTemp;
 
-		pTemp = pTemp->next;
-	}
 	return 0;
 }
 
 USERINFO* UM_FindUserFromIndex(USERINFO* pUserList, int index)
 {
-	int i=0;
-	USERINFO *pTemp = pUserList;
-
 	if (!pUserList)
 		return NULL;
 
-	while (pTemp != NULL) {
-		if (i == index) {
+	int i=0;
+	for (USERINFO *pTemp = pUserList; pTemp != NULL; pTemp = pTemp->next, i++)
+		if (i == index)
 			return pTemp;
-		}
-		pTemp = pTemp->next;
-		i++;
-	}
+
 	return NULL;
 }
 
 USERINFO* UM_GiveStatus(USERINFO* pUserList, const TCHAR* pszUID, WORD status)
 {
-	USERINFO *pTemp = pUserList;
-
 	if (!pUserList || !pszUID)
 		return NULL;
 
-	while (pTemp != NULL) {
+	for (USERINFO *pTemp = pUserList; pTemp != NULL; pTemp = pTemp->next)
 		if (!lstrcmpi(pTemp->pszUID, pszUID)) {
 			pTemp->Status |= status;
 			return pTemp;
 		}
-		pTemp = pTemp->next;
-	}
+
 	return 0;
 }
 
 USERINFO* UM_SetContactStatus(USERINFO* pUserList, const TCHAR* pszUID, WORD status)
 {
-	USERINFO *pTemp = pUserList;
-
 	if (!pUserList || !pszUID)
 		return NULL;
 
-	while (pTemp != NULL) {
+	for (USERINFO *pTemp = pUserList; pTemp != NULL; pTemp = pTemp->next)
 		if (!lstrcmpi(pTemp->pszUID, pszUID)) {
 			pTemp->ContactStatus = status;
 			return pTemp;
 		}
-		pTemp = pTemp->next;
-	}
+
 	return 0;
 }
 
@@ -1223,36 +1209,29 @@ BOOL UM_SetStatusEx(USERINFO* pUserList, const TCHAR* pszText, int flags)
 
 USERINFO* UM_TakeStatus(USERINFO* pUserList, const TCHAR* pszUID, WORD status)
 {
-	USERINFO *pTemp = pUserList;
-
 	if (!pUserList || !pszUID)
 		return NULL;
 
-	while (pTemp != NULL) {
+	for (USERINFO *pTemp = pUserList; pTemp != NULL; pTemp = pTemp->next)
 		if (!lstrcmpi(pTemp->pszUID, pszUID)) {
 			pTemp->Status &= ~status;
 			return pTemp;
 		}
-		pTemp = pTemp->next;
-	}
+
 	return 0;
 }
 
 TCHAR* UM_FindUserAutoComplete(USERINFO* pUserList, const TCHAR* pszOriginal, const TCHAR* pszCurrent)
 {
-	TCHAR* pszName = NULL;
-	USERINFO *pTemp = pUserList;
-
 	if (!pUserList || !pszOriginal || !pszCurrent)
 		return NULL;
 
-	while (pTemp != NULL) {
+	TCHAR *pszName = NULL;
+	for (USERINFO *pTemp = pUserList; pTemp != NULL; pTemp = pTemp->next)
 		if (my_strstri(pTemp->pszNick, pszOriginal) == pTemp->pszNick)
 			if (lstrcmpi(pTemp->pszNick, pszCurrent) > 0 && (!pszName || lstrcmpi(pTemp->pszNick, pszName) < 0))
 				pszName = pTemp->pszNick;
 
-		pTemp = pTemp->next;
-	}
 	return pszName;
 }
 
@@ -1305,15 +1284,10 @@ BOOL UM_RemoveAll(USERINFO** ppUserList)
 
 LOGINFO * LM_AddEvent(LOGINFO** ppLogListStart, LOGINFO** ppLogListEnd)
 {
-
-	LOGINFO *node = NULL;
-
 	if (!ppLogListStart || !ppLogListEnd)
 		return NULL;
 
-	node = (LOGINFO*) mir_alloc(sizeof(LOGINFO));
-	ZeroMemory(node, sizeof(LOGINFO));
-
+	LOGINFO *node = (LOGINFO*)mir_calloc(sizeof(LOGINFO));
 
 	if (*ppLogListStart == NULL) { // list is empty
 		*ppLogListStart = node;

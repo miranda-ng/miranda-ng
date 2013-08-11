@@ -166,11 +166,9 @@ int _DebugTraceA(const char *fmt, ...)
 #else
 	{
 		char szLogFileName[MAX_PATH], szDataPath[MAX_PATH];
-		FILE *f;
-
 		CallService(MS_DB_GETPROFILEPATH, MAX_PATH, (LPARAM)szDataPath);
-		mir_snprintf(szLogFileName, MAX_PATH, "%s\\%s", szDataPath, "tabsrmm_debug.log");
-		f = fopen(szLogFileName, "a+");
+		mir_snprintf(szLogFileName, MAX_PATH, "%s\\tabsrmm_debug.log", szDataPath);
+		FILE *f = fopen(szLogFileName, "a+");
 		if (f) {
 			fputs(debug, f);
 			fputs("\n", f);

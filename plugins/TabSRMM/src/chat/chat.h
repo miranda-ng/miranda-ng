@@ -154,7 +154,7 @@ struct STATUSINFO
 {
 	TCHAR      *pszGroup;
 	HICON       hIcon;
-	DWORD       Status;
+	WORD        Status;
 	STATUSINFO *next;
 };
 

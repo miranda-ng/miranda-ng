@@ -793,7 +793,6 @@ void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 	bottomEnabled = (m_totalItemHeight - m_firstVisibleOffset > rc->bottom);
 	::EndDeferWindowPos(hdwp);
 
-	//_DebugTraceA("layout: total %d, used: %d, first visible: %d", m_totalItemHeight, spaceUsed, m_firstVisibleOffset);
 	if (!fOnlyCalc) {
 		RECT	rcContainer;
 		::GetClientRect(m_pContainer->hwnd, &rcContainer);

@@ -1985,7 +1985,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 				else
 					StretchBlt(hdcDraw, xy_off, top + xy_off, (int)dNewWidth + width_off,
 							   iMaxHeight + width_off, hdcMem, 0, 0, bminfo.bmWidth, bminfo.bmHeight, SRCCOPY);
-				//_DebugTraceA("metrics: %d, %d %d, %d", (int)dNewWidth + width_off, iMaxHeight + width_off,  bminfo.bmWidth, bminfo.bmHeight);
+
 				SelectObject(hdcMem, hbmMem);
 				DeleteObject(hbmMem);
 				DeleteDC(hdcMem);
