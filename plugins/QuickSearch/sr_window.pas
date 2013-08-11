@@ -1948,7 +1948,7 @@ begin
       begin
         i:=LV_GetLParam(grid,lplvcd^.nmcd.dwItemSpec);
         MirVerW:=MainBuf[i,sub].text;
-        if (MirVerW[0]<>#0) and (ServiceExists(MS_FP_GETCLIENTICONW)<>0) then
+        if (lstrlenW(MirVerW)<>0) and (ServiceExists(MS_FP_GETCLIENTICONW)<>0) then
         begin
           h:=CallService(MS_FP_GETCLIENTICONW,tlparam(MirVerW),0);
           ListView_GetSubItemRect(grid,lplvcd^.nmcd.dwItemSpec,lplvcd^.iSubItem,LVIR_ICON,@rc);
