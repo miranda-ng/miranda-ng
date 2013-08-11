@@ -99,19 +99,19 @@ CacheNode *FindAvatarInCache(HANDLE hContact, BOOL add, BOOL findAny)
 
 	mir_cslock lck(cachecs);
 
-	CacheNode *сс = g_Cache, *foundNode = NULL;
-	while(сс) {
-		if (сс->ace.hContact == hContact) {
-			сс->ace.t_lastAccess = time(NULL);
-			foundNode = сс->loaded || findAny ? сс : NULL;
+	CacheNode *cc = g_Cache, *foundNode = NULL;
+	while(cc) {
+		if (cc->ace.hContact == hContact) {
+			cc->ace.t_lastAccess = time(NULL);
+			foundNode = cc->loaded || findAny ? cc : NULL;
 			return foundNode;
 		}
 
 		// found an empty and usable node
-		if (foundNode == NULL && сс->ace.hContact == 0)
-			foundNode = сс;
+		if (foundNode == NULL && cc->ace.hContact == 0)
+			foundNode = cc;
 
-		сс = сс->pNextNode;
+		cc = cc->pNextNode;
 	}
 
 	// not found
@@ -227,14 +227,14 @@ int SetAvatarAttribute(HANDLE hContact, DWORD attrib, int mode)
 	if (g_shutDown)
 		return 0;
 
-	for (CacheNode *сс = g_Cache; сс; сс = сс->pNextNode) {
-		if (сс->ace.hContact != hContact)
+	for (CacheNode *cc = g_Cache; cc; cc = cc->pNextNode) {
+		if (cc->ace.hContact != hContact)
 			continue;
 
-		DWORD dwFlags = сс->ace.dwFlags;
-		сс->ace.dwFlags = mode ? (сс->ace.dwFlags | attrib) : (сс->ace.dwFlags & ~attrib);
-		if (сс->ace.dwFlags != dwFlags)
-			NotifyMetaAware(hContact, сс);
+		DWORD dwFlags = cc->ace.dwFlags;
+		cc->ace.dwFlags = mode ? (cc->ace.dwFlags | attrib) : (cc->ace.dwFlags & ~attrib);
+		if (cc->ace.dwFlags != dwFlags)
+			NotifyMetaAware(hContact, cc);
 		break;
 	}
 	return 0;
