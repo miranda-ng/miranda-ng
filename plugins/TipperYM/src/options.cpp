@@ -1553,8 +1553,7 @@ INT_PTR CALLBACK DlgProcOptsAppearance(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	EXTRAICONDATA *dat;
-	dat = (EXTRAICONDATA *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	EXTRAICONDATA *dat = (EXTRAICONDATA *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg)
 	{
@@ -1589,8 +1588,7 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			ImageList_AddIcon(himlStates, LoadSkinnedIcon(SKINICON_OTHER_TICK));
 			TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), himlStates, TVSIL_STATE);
 
-			int i;
-			for (i = 0; i < EXICONS_COUNT; i++)
+			for (int i = 0; i < EXICONS_COUNT; i++)
 			{
 				exIcons[i].order = opt.exIconsOrder[i];
 				exIcons[i].vis = opt.exIconsVis[i];
@@ -1606,7 +1604,7 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			tvi.hInsertAfter = TVI_LAST;
 			tvi.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
 			tvi.item.stateMask = TVIS_STATEIMAGEMASK;
-			for (i = 0; i < SIZEOF(extraIconName); i++ )
+			for (int i = 0; i < SIZEOF(extraIconName); i++ )
 			{
 				tvi.item.lParam = (LPARAM)(&exIcons[i]);
 				tvi.item.pszText = TranslateTS(extraIconName[exIcons[i].order]);
@@ -1843,7 +1841,7 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	return 0;
 }
 
-void EnableControls(HWND hwndDlg, BOOL bEnableSkin)
+void EnableControls(HWND hwndDlg, bool bEnableSkin)
 {
 	ShowWindow(GetDlgItem(hwndDlg, IDC_ST_PREVIEW), (bEnableSkin && opt.szPreviewFile[0]) ? SW_HIDE : SW_SHOW);
 	ShowWindow(GetDlgItem(hwndDlg, IDC_PIC_PREVIEW), (bEnableSkin && opt.szPreviewFile[0]) ? SW_SHOW : SW_HIDE);
@@ -1852,7 +1850,22 @@ void EnableControls(HWND hwndDlg, BOOL bEnableSkin)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_ROUNDCORNERS), !bEnableSkin);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_LOADFONTS), bEnableSkin);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_LOADPROPORTIONS), bEnableSkin);
-	EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_ENABLECOLORING), bEnableSkin && opt.iEnableColoring != -1);
+
+	if(!bEnableSkin)
+	{
+		CheckDlgButton(hwndDlg, IDC_CHK_ENABLECOLORING, FALSE);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_ENABLECOLORING),FALSE);
+	}
+	else if (opt.iEnableColoring == -1)
+	{
+		CheckDlgButton(hwndDlg, IDC_CHK_ENABLECOLORING, TRUE);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_ENABLECOLORING),FALSE);
+	}
+	else
+	{
+		CheckDlgButton(hwndDlg, IDC_CHK_ENABLECOLORING, opt.iEnableColoring ? 1 : 0);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_ENABLECOLORING), TRUE);
+	}						
 }
 
 int iLastSel;
@@ -1891,8 +1904,6 @@ INT_PTR CALLBACK DlgProcOptsSkin(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			CheckDlgButton(hwndDlg, IDC_CHK_AEROGLASS, opt.bAeroGlass);
 			CheckDlgButton(hwndDlg, IDC_CHK_LOADFONTS, opt.bLoadFonts);
 			CheckDlgButton(hwndDlg, IDC_CHK_LOADPROPORTIONS, opt.bLoadProportions);
-			if (opt.iEnableColoring != -1)
-				CheckDlgButton(hwndDlg, IDC_CHK_ENABLECOLORING, opt.iEnableColoring ? 1 : 0);
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_AEROGLASS), MyDwmEnableBlurBehindWindow != 0);
 
@@ -1964,16 +1975,14 @@ INT_PTR CALLBACK DlgProcOptsSkin(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 							if (iSel == 0)
 							{
 								opt.szPreviewFile[0] = 0;
-								EnableControls(hwndDlg, FALSE);
+								EnableControls(hwndDlg, false);
 							}
 							else if (iSel != LB_ERR)
 							{
 								TCHAR swzSkinName[256];
 								if (ListBox_GetText(hwndList, iSel, swzSkinName) > 0)
 									ParseSkinFile(swzSkinName, false, true);
-								EnableControls(hwndDlg, TRUE);
-								if (opt.iEnableColoring != -1)
-									CheckDlgButton(hwndDlg, IDC_CHK_ENABLECOLORING, opt.iEnableColoring ? 1 : 0);
+								EnableControls(hwndDlg, true);
 							}
 
 							InvalidateRect(GetDlgItem(hwndDlg, IDC_PIC_PREVIEW), 0, FALSE);
