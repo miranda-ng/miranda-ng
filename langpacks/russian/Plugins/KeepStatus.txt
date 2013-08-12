@@ -173,7 +173,7 @@ Dial-Up (прочтите keepstatus.txt)
 Переподключение
 [Protocol Connection]
 Соединение
-[%s	(will be set to %s)]
+[%s (will be set to %s)]
 %s (будет "%s")
 [%s\t(will be set to %s)]
 %s (будет "%s")
