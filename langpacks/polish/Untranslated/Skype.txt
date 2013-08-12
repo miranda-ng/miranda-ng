@@ -23,6 +23,8 @@
 [Automatically receive video and share screens with...]
 [No one]
 [Allow my online status to be shown on the web]
+[Contacts count]
+[Local time]
 [Block this person]
 [Remove from your Contact List]
 [Abuse]

@@ -13,7 +13,7 @@ Wyłączanie
 [&Show confirmation dialog before shutdown]
 Pokaż okno potwierdzenia przed zamknięciem
 [&Countdown starts at:]
-Odliczanie zaczana się w:
+Wyświetl przez:
 [seconds]
 s
 [Shutdown Events]
@@ -27,21 +27,21 @@ Krytyczne zdarzenia wyłączania
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Automatycznie wyłącz komputer kiedy:
 [&Thunderstorm warning is issued  (Weather)]
-Ostrzeżenia z piorunami (Weather)
+Ostrzeżenia o burzy z piorunami (Weather)
 [&Harddrive overheats (HDD Info)]
 Przegrzewa się dysk twardy (HDD Info)
 [Automatic Shutdown]
 Autowyłączanie
 [Select the automatic shutdown event]
-Wybierz zdarzenie aby aktywować automatyczne wyłączanie
+Wybierz zdarzenie automatycznego zamykania
 [Shutdown at &specific time]
-Wyłącz dokładnie:
+Wyłącz dokładnie...
 [Shutdown a&t:]
-Wyłącz:
+o:
 [Shutdown i&n:]
-Wyłącz w:
+po czasie:
 [Shutdown when a &message is received containing the following text:]
-Wyłącz kiedy opis zostanie zmieniony na poniższy tekst:
+Wyłącz kiedy otrzymasz wiadomość zawierającą poniższy tekst:
 [Shutdown when Miranda NG becomes &idle]
 Wyłącz kiedy Miranda NG stanie się bezczynna
 [Configure]
@@ -63,12 +63,12 @@ Anuluj
 [Unsaved data in open applications except Miranda NG might get lost.]
 Niezapisane dane w otwartych aplikacjach z wyjątkiem Mirandy NG mogą zostać utracone.
 [Please click "Cancel" if you would like to abort the process.]
-
+Naciśnij "Anuluj" jeśli chcesz przerwać akcję wyłączania.
 [&Now!]
 Teraz!
 ;file \plugins\AutoShutdown\src\frame.cpp
 [Shutdown at:]
-
+Wyłącz o:
 [Time left:]
 Pozostało:
 [Paused]
@@ -113,11 +113,11 @@ Tygodni
 [Month(s)]
 Miesięcy
 [Start/Stop automatic shutdown]
-
+Włącz/wyłącz autowyłączanie
 [Stop automatic shutdown]
-
+Wyłącz autowyłączanie
 [Start automatic shutdown]
-
+Włącz autowyłączanie
 [Stop automatic &shutdown]
 Zatrzymaj autowyłączanie
 [Automatic &shutdown...]
@@ -126,33 +126,33 @@ Automatyczne wyłączanie...
 [Automatic Shutdown Error]
 Błąd autowyłączania
 [The shutdown process failed!\nReason: %s]
-
+Nieudane autowyłączanie!\nPowód: %s
 [Unknown]
 Nieznany
 [Miranda NG is going to be automatically closed in %u second(s).]
-
+Miranda NG zostanie automatycznie zamknięta za %u sek.
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
-
+Wszystkie protokoły zostaną ustawione na Rozłączony za %u sek.
 [You will be logged off automatically in %u second(s).]
-Zostaniesz zalogowany automatycznie w %u sekund.
+Zostaniesz automatycznie wylogowany za %u sek.
 [The computer will automatically be restarted in %u second(s).]
-
+Komputer zostanie uruchomiony ponownie za %u sek.
 [The computer will automatically be set to standby mode in %u second(s).]
-
+Komputer zostanie uśpiony za %u sek.
 [The computer will automatically be set to hibernate mode in %u second(s).]
-
+Komputer zostanie zahibernowany za %u sek.
 [The workstation will automatically get locked in %u second(s).]
-
+Komputer zostanie zablokowany za %u sek.
 [All dialup connections will be closed in %u second(s).]
-
+Wszystkie połączenia zostaną zamknięte za %u sek.
 [The computer will automatically be shut down in %u second(s).]
-
+Komputer zostanie wyłączony za %u sek.
 [Inititiating the shutdown process failed!\nReason: %s]
-
+Nieudane zainicjowanie procesu zamykania!\nPowód: %s
 [Close Miranda NG]
 Wyłącz Mirandę NG
 [Set Miranda NG offline]
-Ustaw status rozłączony
+Ustaw status Rozłączony
 [Log off user]
 Wyloguj użytkownika
 [Restart computer]
@@ -168,7 +168,7 @@ Zablokuj komputer
 [Hang up dialup connections]
 Zawieś aktywne połączenia
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]
-Ustawia status wszystkich protokołów na rozłączony i zamknij Mirandę NG.
+Ustawia status wszystkich protokołów na Rozłączony i zamyka Mirandę NG.
 [Sets all Miranda NG protocols to offline.]
 Ustawia status wszystkich ptorokołów na rozłączony.
 [Logs the current Windows user off so that another user can log in.]
@@ -178,13 +178,13 @@ Uruchamia ponownie komputer.
 [Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power.]
 Wyłącza wszystkie uruchomione programy i wyłącza komputer.
 [Saves the current Windows session in memory and sets the system to suspend mode.]
-Zapisuje aktualną sesję Windows w pamięci i ustawia system w tryb uśpienia
+Zapisuje aktualną sesję Windows w pamięci i ustawia system w tryb uśpienia.
 [Saves the current Windows session on harddisc, so that the power can be turned off.]
 Zapisuje aktualną sesję Windows na dysku twardym, dzięki czemu komputer może zostać wyłączony.
 [Locks the computer. To unlock the computer, you must log in.]
-Blokuje komputer. Aby odblokować, należu się najpierw zalogować.
+Blokuje komputer. Aby go odblokować, należy się zalogować.
 [Sets all protocols to offline and closes all RAS connections.]
-Ustawia status wszystkich protokołów na rozłączony i zamyka połączenia RAS.
+Ustawia status wszystkich protokołów na Rozłączony i zamyka połączenia RAS.
 [Alerts]
 Alarmy
 [Automatic Shutdown Countdown]

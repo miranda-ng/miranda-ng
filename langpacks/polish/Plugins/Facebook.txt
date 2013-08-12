@@ -31,7 +31,7 @@ Wyślij
 [Cancel]
 Anuluj
 [Contacts >>]
-
+Kontakty >>
 [Attach contacts:]
 
 [User Details]
@@ -134,13 +134,13 @@ Strona smartphone
 [Public]
 Publiczny
 [Friends of friends]
-
+Znajomi znajomych
 [Friends]
-
+Znajomi
 [Friends except acquaintances]
 
 [Only me]
-
+Tylko ja
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Kontakt został usunięty z listy serwera.
@@ -158,7 +158,7 @@ Błąd podczas anulowania pytania o znajomość.
 [Default]
 Domyślny
 [<< Contacts]
-
+<< Kontakty
 [What's on your mind, %s?]
 Co masz na myśli, %s?
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]

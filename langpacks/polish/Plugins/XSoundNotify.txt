@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: XSoundNotify.dll
 ;  Plugin: XSoundNotify
-;  Version: 1.0.0.1
+;  Version: 1.0.1.2
 ;  Authors: Roman Torsten
 ;============================================================
 [Provides extended options for sound notifications.]
@@ -30,16 +30,20 @@ XSoundNotify
 OK
 [Cancel]
 Anuluj
-;file \plugins\XSoundNotify\src\xsn_main.cpp
+;file \plugins\XSoundNotify\src\dialog.cpp
+[Custom sound for %s (%s)]
+
 [Sound files]
 Pliki dźwiękowe
 [WAV files]
 Pliki WAV
+;file \plugins\XSoundNotify\src\options.cpp
 [Sounds]
 Dźwięki
 [XSound Notify]
 XSound Notify
-[Custom sound for %s (%s)]
+;file \plugins\XSoundNotify\src\xsn_main.cpp
+[Self status]
 
 [Custom contact sound]
 
