@@ -521,6 +521,17 @@ MIR_CORE_DLL(void)        List_Copy(SortedList* s, SortedList* d, size_t itemSiz
 MIR_CORE_DLL(void)        List_ObjCopy(SortedList* s, SortedList* d, size_t itemSize);
 
 ///////////////////////////////////////////////////////////////////////////////
+// logging functions
+
+MIR_CORE_DLL(HANDLE) mir_createLog(const TCHAR *ptszFile, unsigned options);
+
+MIR_C_CORE_DLL(int) mir_writeLogA(HANDLE logger, const char *format, ...);
+MIR_C_CORE_DLL(int) mir_writeLogW(HANDLE logger, const WCHAR *format, ...);
+
+MIR_CORE_DLL(int) mir_writeLogVA(HANDLE logger, const char *format, va_list args);
+MIR_CORE_DLL(int) mir_writeLogVW(HANDLE logger, const WCHAR *format, va_list args);
+
+///////////////////////////////////////////////////////////////////////////////
 // md5 functions
 
 /* Define the state of the MD5 Algorithm. */
@@ -719,6 +730,9 @@ __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 
 	#define mir_sntprintf mir_snwprintf
 	#define mir_vsntprintf mir_vsnwprintf
+
+	#define mir_writeLogT mir_writeLogW
+	#define mir_writeLogVT mir_writeLogVW
 #else
 	#define mir_t2a(s) mir_strdup(s)
 	#define mir_a2t(s) mir_strdup(s)
@@ -743,6 +757,9 @@ __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 
 	#define mir_sntprintf mir_snprintf
 	#define mir_vsntprintf mir_vsnprintf
+
+	#define mir_writeLogT mir_writeLogA
+	#define mir_writeLogVT mir_writeLogVA
 #endif
 
 MIR_CORE_DLL(WCHAR*) mir_a2u_cp(const char* src, int codepage);

@@ -426,6 +426,17 @@ procedure List_ObjCopy(src:PSortedList; dst:PSortedList; size:size_t); stdcall;
 
 
 ///////////////////////////////////////////////////////////////////////////////
+// log functions
+
+function mir_createLog(pszName:PAnsiChar; ptszDescr, ptszFile:PWideChar; options:Cardinal):THandle;stdcall;
+                 external CoreDLL name 'mir_createLog';
+
+function mir_writeLogA(hLog:THandle; format:PAnsiChar):int;cdecl;
+                 external CoreDLL name 'mir_writeLogA';
+function mir_writeLogW(hLog:THandle; format:PWideChar):int;cdecl;
+                 external CoreDLL name 'mir_writeLogW';
+
+///////////////////////////////////////////////////////////////////////////////
 // md5 functions
 
 // Define the state of the MD5 Algorithm.

@@ -29,6 +29,10 @@ HWND hAPCWindow = NULL;
 int  InitPathUtils(void);
 void (*RecalculateTime)(void);
 
+void CheckLogs();
+void InitLogs();
+void UninitLogs();
+
 int hLangpack = 0;
 HINSTANCE hInst = 0;
 
@@ -47,8 +51,12 @@ static LRESULT CALLBACK APCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		return 0;
 	}
 
+	if (msg == WM_TIMER)
+		CheckLogs();
+
 	if (msg == WM_TIMECHANGE && RecalculateTime)
 		RecalculateTime();
+
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
@@ -68,6 +76,7 @@ static void LoadCoreModule(void)
 
 	hAPCWindow = CreateWindowEx(0, _T("STATIC"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
 	SetWindowLongPtr(hAPCWindow, GWLP_WNDPROC, (LONG_PTR)APCWndProc);
+	SetTimer(hAPCWindow, 1, 60*1000, NULL);
 	hStackMutex = CreateMutex(NULL, FALSE, NULL);
 	hThreadQueueEmpty = CreateEvent(NULL, TRUE, TRUE, NULL);
 
@@ -79,6 +88,7 @@ static void LoadCoreModule(void)
 	RecalculateTime = (void (*)()) GetProcAddress(mirInst, "RecalculateTime");
 
 	InitPathUtils();
+	InitLogs();
 	InitialiseModularEngine();
 	InitProtocols();
 }
@@ -93,6 +103,7 @@ MIR_CORE_DLL(void) UnloadCoreModule(void)
 	UninitSubclassing();
 	UninitProtocols();
 	DestroyModularEngine();
+	UninitLogs();
 	UnloadLangPackModule();
 }
 

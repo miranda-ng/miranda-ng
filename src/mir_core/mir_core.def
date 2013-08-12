@@ -222,3 +222,8 @@ ProtoGetAvatarFormat          @219
 ProtoGetAvatarExtension       @220
 ProtoGetBufferFormat          @221
 ProtoGetAvatarFileFormat      @222
+mir_createLog                 @223
+mir_writeLogA                 @224
+mir_writeLogW                 @225
+mir_writeLogVA                @226
+mir_writeLogVW                @227
