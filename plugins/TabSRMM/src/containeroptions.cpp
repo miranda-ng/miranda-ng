@@ -279,7 +279,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 							mir_snprintf(szCname, 40, "%s%d_Blob", CNT_BASEKEYNAME, pContainer->iContainerIndex);
 							pContainer->settings->fPrivate = false;
 							db_set_blob(0, SRMSGMOD_T, szCname, pContainer->settings, sizeof(TContainerSettings));
-							free(pContainer->settings);
+							mir_free(pContainer->settings);
 						}
 						pContainer->settings = &PluginConfig.globalContainerSettings;
 						pContainer->settings->fPrivate = false;

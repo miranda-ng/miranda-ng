@@ -139,8 +139,8 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			TemplateEditorNew *teNew = (TemplateEditorNew *)lParam;
 			COLORREF url_visited = RGB(128, 0, 128);
 			COLORREF url_unvisited = RGB(0, 0, 255);
-			dat = (TWindowData*)calloc( sizeof(TWindowData), 1);
-			dat->pContainer = (TContainerData *)malloc(sizeof(TContainerData));
+			dat = (TWindowData*)mir_calloc( sizeof(TWindowData));
+			dat->pContainer = (TContainerData *)mir_alloc(sizeof(TContainerData));
 			ZeroMemory((void*)dat->pContainer, sizeof(TContainerData));
 			teInfo = (TemplateEditorInfo *)dat->pContainer;
 			ZeroMemory((void*)teInfo, sizeof(TemplateEditorInfo));
@@ -378,9 +378,9 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		Utils::enableDlgControl(teInfo->hwndParent, IDC_MODIFY, TRUE);
 		Utils::enableDlgControl(teInfo->hwndParent, IDC_RTLMODIFY, TRUE);
 		if (dat->pContainer)
-			free(dat->pContainer);
+			mir_free(dat->pContainer);
 		if (dat)
-			free(dat);
+			mir_free(dat);
 
 		db_set_dw(0, SRMSGMOD_T, "cc1", SendDlgItemMessage(hwndDlg, IDC_COLOR1, CPM_GETCOLOUR, 0, 0));
 		db_set_dw(0, SRMSGMOD_T, "cc2", SendDlgItemMessage(hwndDlg, IDC_COLOR2, CPM_GETCOLOUR, 0, 0));

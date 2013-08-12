@@ -126,11 +126,11 @@ void TSAPI SetAeroMargins(TContainerData *pContainer)
 }
 
 /*
- * CreateContainer MUST malloc() a struct ContainerWindowData and pass its address
+ * CreateContainer MUST mir_alloc() a struct ContainerWindowData and pass its address
  * to CreateDialogParam() via the LPARAM. It also adds the struct to the linked list
  * of containers.
  *
- * The WM_DESTROY handler of the container DlgProc is responsible for free()'ing the
+ * The WM_DESTROY handler of the container DlgProc is responsible for mir_free()'ing the
  * pointer and for removing the struct from the linked list.
  */
 
@@ -139,7 +139,7 @@ TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HANDLE hCont
 	char *szKey = "TAB_ContainersW";
 	int iFirstFree = -1, iFound = FALSE;
 
-	TContainerData *pContainer = (TContainerData *)calloc(sizeof(TContainerData), 1);
+	TContainerData *pContainer = (TContainerData *)mir_calloc( sizeof(TContainerData));
 	if (!pContainer)
 		return NULL;
 
@@ -175,7 +175,7 @@ TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HANDLE hCont
 						pContainer->iContainerIndex = i;
 						iFound = TRUE;
 					}
-					else if (!_tcsncmp(dbv.ptszVal, _T("**free**"), CONTAINER_NAMELEN))
+					else if (!_tcsncmp(dbv.ptszVal, _T("**mir_free**"), CONTAINER_NAMELEN))
 						iFirstFree =  i;
 				}
 				db_free(&dbv);
@@ -1279,7 +1279,7 @@ panel_found:
 				szNewTitle = Utils::FormatTitleBar(dat, pContainer->settings->szTitleFormat);
 				if (szNewTitle) {
 					SetWindowText(hwndDlg, szNewTitle);
-					free((void*)szNewTitle);
+					mir_free((void*)szNewTitle);
 				}
 			}
 		}
@@ -1576,7 +1576,7 @@ panel_found:
 
 			if (pContainer->isCloned && pContainer->hContactFrom != 0) {
 				//if (pContainer->settings == 0)
-				//	pContainer->settings = (TContainerSettings *)malloc(sizeof(TContainerSettings));
+				//	pContainer->settings = (TContainerSettings *)mir_alloc(sizeof(TContainerSettings));
 
 				//CopyMemory((void*)pContainer->settings, (void*)&PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
 				//Utils::ReadContainerSettingsFromDB(pContainer->hContactFrom, pContainer->settings);
@@ -1896,13 +1896,13 @@ panel_found:
 		if (pContainer->hwndStatus)
 			DestroyWindow(pContainer->hwndStatus);
 
-		// free private theme...
+		// mir_free private theme...
 		if (pContainer->theme.isPrivate) {
-			free(pContainer->ltr_templates);
-			free(pContainer->rtl_templates);
-			free(pContainer->theme.logFonts);
-			free(pContainer->theme.fontColors);
-			free(pContainer->theme.rtfFonts);
+			mir_free(pContainer->ltr_templates);
+			mir_free(pContainer->rtl_templates);
+			mir_free(pContainer->theme.logFonts);
+			mir_free(pContainer->theme.fontColors);
+			mir_free(pContainer->theme.rtfFonts);
 		}
 
 		if (pContainer->hwndTip)
@@ -1928,8 +1928,8 @@ panel_found:
 			delete pContainer->MenuBar;
 			delete pContainer->SideBar;
 			if (pContainer->settings != &PluginConfig.globalContainerSettings)
-				free(pContainer->settings);
-			free(pContainer);
+				mir_free(pContainer->settings);
+			mir_free(pContainer);
 		}
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;
@@ -2379,7 +2379,7 @@ void TSAPI DeleteContainer(int iIndex)
 	if (!db_get_ts(NULL, szKey, szIndex, &dbv)) {
 		if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {
 			TCHAR *wszContainerName = dbv.ptszVal;
-			db_set_ts(NULL, szKey, szIndex, _T("**free**"));
+			db_set_ts(NULL, szKey, szIndex, _T("**mir_free**"));
 
 			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 				DBVARIANT dbv_c;
@@ -2464,7 +2464,7 @@ HMENU TSAPI BuildContainerMenu()
 			break;
 
 		if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {
-			if (_tcsncmp(dbv.ptszVal, _T("**free**"), CONTAINER_NAMELEN))
+			if (_tcsncmp(dbv.ptszVal, _T("**mir_free**"), CONTAINER_NAMELEN))
 				AppendMenu(hMenu, MF_STRING, IDM_CONTAINERMENU + i, !_tcscmp(dbv.ptszVal, _T("default")) ?
 				TranslateT("Default container") : dbv.ptszVal);
 		}

@@ -1275,7 +1275,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			TNewWindowData *newData = (TNewWindowData *) lParam;
 
-			dat = (TWindowData*)calloc(sizeof(TWindowData), 1);
+			dat = (TWindowData*)mir_calloc(sizeof(TWindowData));
 			if (newData->iTabID >= 0) {
 				dat->pContainer = newData->pContainer;
 				m_pContainer = dat->pContainer;
@@ -1337,7 +1337,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->sendMode |= dat->hContact == 0 ? SMODE_MULTIPLE : 0;
 			dat->sendMode |= M.GetByte(dat->hContact, "no_ack", 0) ? SMODE_NOACK : 0;
 
-			dat->hQueuedEvents = (HANDLE*)calloc(sizeof(HANDLE), EVENT_QUEUE_SIZE);
+			dat->hQueuedEvents = (HANDLE*)mir_calloc(sizeof(HANDLE) * EVENT_QUEUE_SIZE);
 			dat->iEventQueueSize = EVENT_QUEUE_SIZE;
 			dat->iCurrentQueueError = -1;
 
@@ -1349,7 +1349,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->maxHistory = M.GetDword(dat->hContact, "maxhist", M.GetDword("maxhist", 0));
 			dat->curHistory = 0;
 			if (dat->maxHistory)
-				dat->hHistoryEvents = (HANDLE *)malloc(dat->maxHistory * sizeof(HANDLE));
+				dat->hHistoryEvents = (HANDLE *)mir_alloc(dat->maxHistory * sizeof(HANDLE));
 			else
 				dat->hHistoryEvents = NULL;
 
@@ -2199,7 +2199,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 									if (streamOut) {
 										Utils::FilterEventMarkers(streamOut);
 										SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)streamOut);
-										free(streamOut);
+										mir_free(streamOut);
 									}
 									SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 								} else if (M.GetByte("autocopy", 1) && !isShift) {
@@ -2983,7 +2983,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						InvalidateRect(hwndEdit, NULL, FALSE);
 
 						if (memRequired > dat->iSendBufferSize) {
-							dat->sendBuffer = (char *) realloc(dat->sendBuffer, memRequired);
+							dat->sendBuffer = (char *) mir_realloc(dat->sendBuffer, memRequired);
 							dat->iSendBufferSize = memRequired;
 						}
 						if (utfResult) {
@@ -2997,7 +2997,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						}
 						mir_free(decoded);
 					}
-					free(streamOut);
+					mir_free(streamOut);
 				}
 				if (memRequired == 0 || dat->sendBuffer[0] == 0)
 					break;
@@ -3027,7 +3027,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						}
 					}
 					if (szFromStream)
-						free(szFromStream);
+						mir_free(szFromStream);
 				}
 				// END /all /MOD
 				if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON)
@@ -3076,7 +3076,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						szQuoted = QuoteText(selected, iCharsPerLine, 0);
 						SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szQuoted);
 						if (szQuoted)
-							free(szQuoted);
+							mir_free(szQuoted);
 						break;
 					}
 					else {
@@ -3094,7 +3094,7 @@ quote_from_last:
 				if (sel.cpMin == sel.cpMax) {
 					DBEVENTINFO dbei = { sizeof(dbei) };
 					dbei.cbBlob = db_event_getBlobSize(hDBEvent);
-					szText = (TCHAR*)malloc((dbei.cbBlob + 1) * sizeof(TCHAR));   //URLs are made one char bigger for crlf
+					szText = (TCHAR*)mir_alloc((dbei.cbBlob + 1) * sizeof(TCHAR));   //URLs are made one char bigger for crlf
 					dbei.pBlob = (BYTE *)szText;
 					db_event_get(hDBEvent, &dbei);
 					iSize = (int)(strlen((char *)dbei.pBlob)) + 1;
@@ -3106,7 +3106,7 @@ quote_from_last:
 						if (iSize != dbei.cbBlob)
 							szConverted = (TCHAR*) & dbei.pBlob[iSize];
 						else {
-							szConverted = (TCHAR*)malloc(sizeof(TCHAR) * iSize);
+							szConverted = (TCHAR*)mir_alloc(sizeof(TCHAR) * iSize);
 							iAlloced = TRUE;
 							MultiByteToWideChar(CP_ACP, 0, (char *) dbei.pBlob, -1, szConverted, iSize);
 						}
@@ -3117,14 +3117,14 @@ quote_from_last:
 						MoveMemory(szText + iDescr + 2, szText + sizeof(DWORD) + iDescr, dbei.cbBlob - iDescr - sizeof(DWORD) - 1);
 						szText[iDescr] = '\r';
 						szText[iDescr+1] = '\n';
-						szConverted = (TCHAR*)malloc(sizeof(TCHAR) * (1 + lstrlenA((char *)szText)));
+						szConverted = (TCHAR*)mir_alloc(sizeof(TCHAR) * (1 + lstrlenA((char *)szText)));
 						MultiByteToWideChar(CP_ACP, 0, (char *) szText, -1, szConverted, 1 + lstrlenA((char *)szText));
 						iAlloced = TRUE;
 					}
 					szQuoted = QuoteText(szConverted, iCharsPerLine, 0);
 					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szQuoted);
-					free(szText);
-					free(szQuoted);
+					mir_free(szText);
+					mir_free(szQuoted);
 					if (iAlloced)
 						mir_free(szConverted);
 				}
@@ -3134,9 +3134,9 @@ quote_from_last:
 					Utils::FilterEventMarkers(converted);
 					szQuoted = QuoteText(converted, iCharsPerLine, 0);
 					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szQuoted);
-					free(szQuoted);
+					mir_free(szQuoted);
 					mir_free(converted);
-					free(szFromStream);
+					mir_free(szFromStream);
 				}
 				SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 			}
@@ -3615,7 +3615,7 @@ quote_from_last:
 					char *msg = Message_GetFromStream(GetDlgItem(hwndDlg, IDC_MESSAGE), dat, (CP_UTF8 << 16) | (SF_TEXT | SF_USECODEPAGE));
 					if (msg) {
 						db_set_s(dat->hContact, SRMSGMOD, "SavedMsg", msg);
-						free(msg);
+						mir_free(msg);
 					} else
 						db_set_s(dat->hContact, SRMSGMOD, "SavedMsg", "");
 				}
@@ -3630,12 +3630,12 @@ quote_from_last:
 		DM_FreeTheme(dat);
 
 		if (dat->sendBuffer != NULL)
-			free(dat->sendBuffer);
+			mir_free(dat->sendBuffer);
 		if (dat->hHistoryEvents)
-			free(dat->hHistoryEvents);
+			mir_free(dat->hHistoryEvents);
 
 		/*
-		 * search the sendqueue for unfinished send jobs and free them. Leave unsent
+		 * search the sendqueue for unfinished send jobs and mir_free them. Leave unsent
 		 * messages in the queue as they can be acked later
 		 */
 		{
@@ -3657,7 +3657,7 @@ quote_from_last:
 		}
 
 		if (dat->hQueuedEvents)
-			free(dat->hQueuedEvents);
+			mir_free(dat->hQueuedEvents);
 
 		if (dat->hSmileyIcon)
 			DestroyIcon(dat->hSmileyIcon);
@@ -3748,7 +3748,7 @@ quote_from_last:
 					CallService(MS_DB_CONTACT_DELETE, (WPARAM)dat->hContact, 0);
 
 			delete dat->Panel;
-			free(dat);
+			mir_free(dat);
 		}
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;

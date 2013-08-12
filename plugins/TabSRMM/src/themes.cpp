@@ -937,7 +937,7 @@ void CImageItem::SetBitmap32Alpha(HBITMAP hBitmap, BYTE bAlpha)
 		return;
 
 	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
-	BYTE *p = (BYTE *)malloc(dwLen);
+	BYTE *p = (BYTE *)mir_alloc(dwLen);
 	if (p == NULL)
 		return;
 	memset(p, 0, dwLen);
@@ -953,7 +953,7 @@ void CImageItem::SetBitmap32Alpha(HBITMAP hBitmap, BYTE bAlpha)
 		}
 	}
 	SetBitmapBits(hBitmap, bmp.bmWidth * bmp.bmHeight * 4, p);
-	free(p);
+	mir_free(p);
 }
 
 void CImageItem::PreMultiply(HBITMAP hBitmap, int mode)
@@ -964,7 +964,7 @@ void CImageItem::PreMultiply(HBITMAP hBitmap, int mode)
 	int width = bmp.bmWidth;
 	int height = bmp.bmHeight;
 	DWORD dwLen = width * height * 4;
-	BYTE *p = (BYTE *)malloc(dwLen);
+	BYTE *p = (BYTE *)mir_alloc(dwLen);
 	if (p) {
 		::GetBitmapBits(hBitmap, dwLen, p);
 		for (int y = 0; y < height; ++y) {
@@ -982,7 +982,7 @@ void CImageItem::PreMultiply(HBITMAP hBitmap, int mode)
 			}
 		}
 		dwLen = ::SetBitmapBits(hBitmap, dwLen, p);
-		free(p);
+		mir_free(p);
 	}
 }
 
@@ -1001,7 +1001,7 @@ void CImageItem::Colorize(HBITMAP hBitmap, BYTE dr, BYTE dg, BYTE db, BYTE alpha
 	width = bmp.bmWidth;
 	height = bmp.bmHeight;
 	dwLen = width * height * 4;
-	p = (BYTE *)malloc(dwLen);
+	p = (BYTE *)mir_alloc(dwLen);
 	if (p) {
 		::GetBitmapBits(hBitmap, dwLen, p);
 		for (y = 0; y < height; ++y) {
@@ -1016,7 +1016,7 @@ void CImageItem::Colorize(HBITMAP hBitmap, BYTE dr, BYTE dg, BYTE db, BYTE alpha
 			}
 		}
 		dwLen = ::SetBitmapBits(hBitmap, dwLen, p);
-		free(p);
+		mir_free(p);
 	}
 }
 
@@ -1101,7 +1101,7 @@ bool CSkin::warnToClose() const
 }
 
 /**
- * free the aero tab bitmaps
+ * mir_free the aero tab bitmaps
  * only called on exit, NOT when a skin is unloaded as these elements
  * are always needed (even without a skin)
  */
@@ -1406,7 +1406,7 @@ void CSkin::Load(void)
 		return;
 
 	TCHAR *p;
-	TCHAR *szSections = (TCHAR*)malloc(6004);
+	TCHAR *szSections = (TCHAR*)mir_alloc(6004);
 	int i = 1, j = 0;
 	UINT  data;
 	TCHAR buffer[500];
@@ -1547,7 +1547,7 @@ void CSkin::Load(void)
 	else
 		CSkin::m_DefaultFontColor = GetSysColor(COLOR_BTNTEXT);
 	buffer[499] = 0;
-	free(szSections);
+	mir_free(szSections);
 
 	LoadItems();
 	::FreeTabConfig();
@@ -1573,7 +1573,7 @@ void CSkin::LoadItems()
 
 	m_nrSkinIcons = 0;
 
-	szSections = (TCHAR*)malloc((SECT_BUFFER_SIZE + 2) * sizeof(TCHAR));
+	szSections = (TCHAR*)mir_alloc((SECT_BUFFER_SIZE + 2) * sizeof(TCHAR));
 	ZeroMemory(szSections, (SECT_BUFFER_SIZE + 2) * sizeof(TCHAR));
 
 	GetPrivateProfileSection(_T("Icons"), szSections, SECT_BUFFER_SIZE, m_tszFileName);
@@ -1590,7 +1590,7 @@ void CSkin::LoadItems()
 				ZeroMemory(&m_skinIcons[m_nrSkinIcons], sizeof(TIconDesc));
 				m_skinIcons[m_nrSkinIcons].uId = tmpIconDesc.uId;
 				m_skinIcons[m_nrSkinIcons].phIcon = (HICON *)(&m_skinIcons[m_nrSkinIcons].uId);
-				m_skinIcons[m_nrSkinIcons].szName = (TCHAR*)malloc(sizeof(TCHAR) * (lstrlen(p) + 1));
+				m_skinIcons[m_nrSkinIcons].szName = (TCHAR*)mir_alloc(sizeof(TCHAR) * (lstrlen(p) + 1));
 				lstrcpy(m_skinIcons[m_nrSkinIcons].szName, p);
 				m_nrSkinIcons++;
 			}
@@ -1620,7 +1620,7 @@ void CSkin::LoadItems()
 		p += (lstrlen(p) + 1);
 	}
 	*/
-	free(szSections);
+	mir_free(szSections);
 	g_ButtonSet.top = GetPrivateProfileInt(_T("ButtonArea"), _T("top"), 0, m_tszFileName);
 	g_ButtonSet.bottom = GetPrivateProfileInt(_T("ButtonArea"), _T("bottom"), 0, m_tszFileName);
 	g_ButtonSet.left = GetPrivateProfileInt(_T("ButtonArea"), _T("left"), 0, m_tszFileName);

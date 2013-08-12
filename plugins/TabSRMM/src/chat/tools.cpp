@@ -504,7 +504,7 @@ void TSAPI DoFlashAndSoundWorker(FLASH_PARAMS* p)
 			UpdateTrayMenu(dat, si->wStatus, si->pszModule, dat ? dat->szStatus : NULL, si->hContact, p->bHighlight ? 1 : 1);
 	}
 
-	free(p);
+	mir_free(p);
 }
 
 BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix)
@@ -513,7 +513,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		return FALSE;
 
 	TWindowData *dat = NULL;
-	FLASH_PARAMS *params = (FLASH_PARAMS*)calloc(1, sizeof(FLASH_PARAMS));
+	FLASH_PARAMS *params = (FLASH_PARAMS*)mir_calloc( sizeof(FLASH_PARAMS));
 	params->hContact = si->hContact;
 	params->bInactive = TRUE;
 	if (si->hWnd && si->dat) {

@@ -140,7 +140,7 @@ static int TSAPI ScanSkinDir(const TCHAR* tszFolder, HWND hwndCombobox)
 
 		M.pathToRelative(tszFinalName, tszRel, M.getSkinPath());
 		if ((lr = SendMessage(hwndCombobox, CB_INSERTSTRING, -1, (LPARAM)szBuf)) != CB_ERR) {
-			TCHAR *idata = (TCHAR*)malloc((lstrlen(tszRel) + 1) * sizeof(TCHAR));
+			TCHAR *idata = (TCHAR*)mir_alloc((lstrlen(tszRel) + 1) * sizeof(TCHAR));
 
 			_tcscpy(idata, tszRel);
 			SendMessage(hwndCombobox, CB_SETITEMDATA, lr, (LPARAM)idata);
@@ -206,7 +206,7 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 }
 
 /**
- * free the item extra data (used to store the skin filenames for
+ * mir_free the item extra data (used to store the skin filenames for
  * each entry).
  */
 static void TSAPI FreeComboData(HWND hwndCombobox)
@@ -217,7 +217,7 @@ static void TSAPI FreeComboData(HWND hwndCombobox)
 		void *idata = (void*)SendMessage(hwndCombobox, CB_GETITEMDATA, i, 0);
 
 		if (idata && idata != (void*)CB_ERR)
-			free(idata);
+			mir_free(idata);
 	}
 }
 

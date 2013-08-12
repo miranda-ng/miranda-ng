@@ -81,7 +81,7 @@ int SendQueue::addTo(TWindowData *dat, const int iLen, int dwFlags)
 		return 0;
 	}
 	/*
-	 * find a free entry in the send queue...
+	 * find a mir_free entry in the send queue...
 	 */
 	for (i=0; i < NR_SENDJOBS; i++) {
 		if (m_jobs[i].hOwner != 0 || m_jobs[i].iStatus != 0) {

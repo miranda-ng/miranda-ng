@@ -580,7 +580,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 					iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_GROUP));
 					if (iLen > 0) {
-						pszText = (TCHAR*)realloc(pszText, (iLen + 2) * sizeof(TCHAR));
+						pszText = (TCHAR*)mir_realloc(pszText, (iLen + 2) * sizeof(TCHAR));
 						GetDlgItemText(hwndDlg, IDC_GROUP, pszText, iLen + 1);
 						db_set_ts(NULL, "Chat", "AddToGroup", pszText);
 					} else
@@ -588,12 +588,11 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 					g_Settings.hGroup = 0;
 
-					if (pszText)
-						free(pszText);
+					mir_free(pszText);
 
 					b = M.GetByte("Chat", "Tabs", 1);
-					SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch1, sizeof(branch1) / sizeof(branch1[0]));
-					SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch2, sizeof(branch2) / sizeof(branch2[0]));
+					SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch1, SIZEOF(branch1));
+					SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch2, SIZEOF(branch2));
 
 					LoadGlobalSettings();
 					MM_FontsChanged();
@@ -1029,10 +1028,10 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			if (PluginConfig.m_chat_enabled) {
 				int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY));
 				if (iLen > 0) {
-					TCHAR *pszText1 = (TCHAR*)malloc(iLen*sizeof(TCHAR) + 2);
+					TCHAR *pszText1 = (TCHAR*)mir_alloc(iLen*sizeof(TCHAR) + 2);
 					GetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, pszText1, iLen + 1);
 					db_set_ts(NULL, "Chat", "LogDirectory", pszText1);
-					free(pszText1);
+					mir_free(pszText1);
 					g_Settings.bLoggingEnabled = IsDlgButtonChecked(hwndDlg, IDC_LOGGING) == BST_CHECKED;
 					db_set_b(0, "Chat", "LoggingEnabled", g_Settings.bLoggingEnabled);
 				}
@@ -1053,28 +1052,28 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOGTIMESTAMP));
 				if (iLen > 0) {
-					pszText = (char *)realloc(pszText, iLen + 1);
+					pszText = (char *)mir_realloc(pszText, iLen + 1);
 					GetDlgItemTextA(hwndDlg, IDC_LOGTIMESTAMP, pszText, iLen + 1);
 					db_set_s(NULL, "Chat", "LogTimestamp", pszText);
 				} else db_unset(NULL, "Chat", "LogTimestamp");
 
 				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_TIMESTAMP));
 				if (iLen > 0) {
-					pszText = (char *)realloc(pszText, iLen + 1);
+					pszText = (char *)mir_realloc(pszText, iLen + 1);
 					GetDlgItemTextA(hwndDlg, IDC_TIMESTAMP, pszText, iLen + 1);
 					db_set_s(NULL, "Chat", "HeaderTime", pszText);
 				} else db_unset(NULL, "Chat", "HeaderTime");
 
 				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_INSTAMP));
 				if (iLen > 0) {
-					pszText = (char *)realloc(pszText, iLen + 1);
+					pszText = (char *)mir_realloc(pszText, iLen + 1);
 					GetDlgItemTextA(hwndDlg, IDC_INSTAMP, pszText, iLen + 1);
 					db_set_s(NULL, "Chat", "HeaderIncoming", pszText);
 				} else db_unset(NULL, "Chat", "HeaderIncoming");
 
 				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_OUTSTAMP));
 				if (iLen > 0) {
-					pszText = (char *)realloc(pszText, iLen + 1);
+					pszText = (char *)mir_realloc(pszText, iLen + 1);
 					GetDlgItemTextA(hwndDlg, IDC_OUTSTAMP, pszText, iLen + 1);
 					db_set_s(NULL, "Chat", "HeaderOutgoing", pszText);
 				} else db_unset(NULL, "Chat", "HeaderOutgoing");
@@ -1082,9 +1081,8 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN2, UDM_GETPOS, 0, 0);
 				db_set_w(NULL, "Chat", "LogLimit", (WORD)iLen);
 			}
+			mir_free(pszText);
 
-			if (pszText != NULL)
-				free(pszText);
 			if (hListBkgBrush)
 				DeleteObject(hListBkgBrush);
 			hListBkgBrush = CreateSolidBrush(M.GetDword("Chat", "ColorNicklistBG", SRMSGDEFSET_BKGCOLOUR));

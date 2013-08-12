@@ -867,7 +867,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 	if (szStreamOut != NULL) {
 		SETTEXTEX stx = {ST_DEFAULT, CP_UTF8};
 		SendMessage(hwndEdit, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szStreamOut);
-		free(szStreamOut);
+		mir_free(szStreamOut);
 	}
 }
 
@@ -1099,7 +1099,7 @@ LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT msg, WPARAM w
 		if (hClip) {
 			HGLOBAL hgbl;
 			TCHAR *tszLocked;
-			TCHAR *tszText = (TCHAR*)malloc((lstrlen((TCHAR*)hClip) + 2) * sizeof(TCHAR));
+			TCHAR *tszText = (TCHAR*)mir_alloc((lstrlen((TCHAR*)hClip) + 2) * sizeof(TCHAR));
 
 			lstrcpy(tszText, (TCHAR*)hClip);
 			Utils::FilterEventMarkers(tszText);
@@ -1111,7 +1111,7 @@ LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT msg, WPARAM w
 			GlobalUnlock(hgbl);
 			SetClipboardData(CF_UNICODETEXT, hgbl);
 			if (tszText)
-				free(tszText);
+				mir_free(tszText);
 		}
 		CloseClipboard();
 	}
@@ -1644,7 +1644,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 					TCHAR szBuf[100];
 
 					if (dat->iNextQueuedEvent >= dat->iEventQueueSize) {
-						dat->hQueuedEvents = (HANDLE *)realloc(dat->hQueuedEvents, (dat->iEventQueueSize + 10) * sizeof(HANDLE));
+						dat->hQueuedEvents = (HANDLE *)mir_realloc(dat->hQueuedEvents, (dat->iEventQueueSize + 10) * sizeof(HANDLE));
 						dat->iEventQueueSize += 10;
 					}
 					dat->hQueuedEvents[dat->iNextQueuedEvent++] = hDbEvent;

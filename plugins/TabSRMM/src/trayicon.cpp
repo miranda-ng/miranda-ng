@@ -346,7 +346,7 @@ void TSAPI LoadFavoritesAndRecent()
 	}
 
 	if (iIndex == 0) {
-		free(recentEntries);
+		mir_free(recentEntries);
 		return;
 	}
 

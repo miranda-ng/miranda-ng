@@ -58,7 +58,7 @@ LRESULT TSAPI _dlgReturn(HWND hWnd, LRESULT result)
 void* Utils::safeAlloc(const size_t size)
 {
 	__try {
-		unsigned char* _p = reinterpret_cast<unsigned char*>(malloc(size));
+		unsigned char* _p = reinterpret_cast<unsigned char*>(mir_alloc(size));
 		*_p = 0;
 
 		return(reinterpret_cast<void*>(_p));
@@ -327,7 +327,7 @@ ok:
 
 /**
  * format the title bar string for IM chat sessions using placeholders.
- * the caller must free() the returned string
+ * the caller must mir_free() the returned string
  */
 const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat)
 {
@@ -475,7 +475,7 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 	}
 	length = title.length();
 
-	szResult = (TCHAR*)malloc((length + 2) * sizeof(TCHAR));
+	szResult = (TCHAR*)mir_alloc((length + 2) * sizeof(TCHAR));
 	if (szResult) {
 		_tcsncpy(szResult, title.c_str(), length);
 		szResult[length] = 0;
@@ -608,7 +608,7 @@ void Utils::RTF_CTableInit()
 {
 	int iSize = sizeof(TRTFColorTable) * RTF_CTABLE_DEFSIZE;
 
-	rtf_ctable = (TRTFColorTable *)malloc(iSize);
+	rtf_ctable = (TRTFColorTable *)mir_alloc(iSize);
 	ZeroMemory(rtf_ctable, iSize);
 	CopyMemory(rtf_ctable, _rtf_ctable, iSize);
 	rtf_ctable_size = RTF_CTABLE_DEFSIZE;
@@ -624,7 +624,7 @@ void Utils::RTF_ColorAdd(const TCHAR *tszColname, size_t length)
 	COLORREF clr;
 
 	rtf_ctable_size++;
-	rtf_ctable = (TRTFColorTable *)realloc(rtf_ctable, sizeof(TRTFColorTable) * rtf_ctable_size);
+	rtf_ctable = (TRTFColorTable *)mir_realloc(rtf_ctable, sizeof(TRTFColorTable) * rtf_ctable_size);
 	clr = _tcstol(tszColname, &stopped, 16);
 	mir_sntprintf(rtf_ctable[rtf_ctable_size - 1].szName, length + 1, _T("%06x"), clr);
 	rtf_ctable[rtf_ctable_size - 1].menuid = rtf_ctable[rtf_ctable_size - 1].index = 0;
@@ -776,7 +776,7 @@ void Utils::ReadPrivateContainerSettings(TContainerData *pContainer, bool fForce
 	Utils::ReadContainerSettingsFromDB(0, &csTemp, szCname);
 	if (csTemp.fPrivate || fForce) {
 		if (pContainer->settings == 0 || pContainer->settings == &PluginConfig.globalContainerSettings)
-			pContainer->settings = (TContainerSettings *)malloc(sizeof(TContainerSettings));
+			pContainer->settings = (TContainerSettings *)mir_alloc(sizeof(TContainerSettings));
 		CopyMemory((void*)pContainer->settings, (void*)&csTemp, sizeof(TContainerSettings));
 		pContainer->settings->fPrivate = true;
 	}

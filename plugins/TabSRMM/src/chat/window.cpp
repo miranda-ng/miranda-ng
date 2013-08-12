@@ -1699,7 +1699,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 					if (iCount != LB_ERR) {
 						int iSelectedItems = SendMessage(hwnd, LB_GETSELCOUNT, 0, 0);
 						if (iSelectedItems != LB_ERR) {
-							int *pItems = (int *)malloc(sizeof(int) * (iSelectedItems + 1));
+							int *pItems = (int *)mir_alloc(sizeof(int) * (iSelectedItems + 1));
 							if (pItems) {
 								if (SendMessage(hwnd, LB_GETSELITEMS, (WPARAM)iSelectedItems, (LPARAM)pItems) != LB_ERR) {
 									for (int i=0; i < iSelectedItems; i++) {
@@ -1708,7 +1708,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 											DoEventHookAsync(hwndParent, parentdat->ptszID, parentdat->pszModule, GC_USER_NICKLISTMENU, ui1->pszUID, NULL, (LPARAM)uID);
 									}
 								}
-								free(pItems);
+								mir_free(pItems);
 							}
 						}
 					}
@@ -1866,7 +1866,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			TNewWindowData *newData = (TNewWindowData*)lParam;
 			si = (SESSION_INFO*)newData->hdbEvent;
 
-			TWindowData *dat = (TWindowData*)calloc( sizeof(TWindowData), 1);
+			TWindowData *dat = (TWindowData*)mir_calloc( sizeof(TWindowData));
 			dat->si = si;
 			dat->hContact = si->hContact;
 			dat->szProto = GetContactProto(si->hContact);
@@ -2871,8 +2871,8 @@ LABEL_SHOWWINDOW:
 								USERINFO	*ui = si->pUsers;
 								SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_EXGETSEL, 0, (LPARAM)&chr);
 								size_t bufSize = lstrlen(tr.lpstrText) + lstrlen(tszAplTmpl) + 3;
-								tszTmp = tszAppeal = (TCHAR*)malloc(bufSize * sizeof(TCHAR));
-								tr2.lpstrText = (LPTSTR) malloc(sizeof(TCHAR) * 2);
+								tszTmp = tszAppeal = (TCHAR*)mir_alloc(bufSize * sizeof(TCHAR));
+								tr2.lpstrText = (LPTSTR) mir_alloc(sizeof(TCHAR) * 2);
 								if (chr.cpMin) {
 									/* prepend nick with space if needed */
 									tr2.chrg.cpMin = chr.cpMin - 1;
@@ -2901,8 +2901,8 @@ LABEL_SHOWWINDOW:
 									tszAppeal[st++] = _T('\0');
 								}
 								SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_REPLACESEL,  FALSE, (LPARAM)tszAppeal);
-								free((void*) tr2.lpstrText);
-								free((void*) tszAppeal);
+								mir_free((void*) tr2.lpstrText);
+								mir_free((void*) tszAppeal);
 							}
 						}
 						SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
@@ -3573,7 +3573,7 @@ LABEL_SHOWWINDOW:
 			delete dat->Panel;
 			if (dat->pContainer->dwFlags & CNT_SIDEBAR)
 				dat->pContainer->SideBar->removeSession(dat);
-			free(dat);
+			mir_free(dat);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		}
 		break;

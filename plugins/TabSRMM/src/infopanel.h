@@ -77,8 +77,7 @@ public:
 	CTip													(const HWND hwndParent, const HANDLE hContact, const TCHAR *pszText = 0, const CInfoPanel *panel = 0);
 	~CTip()
 	{
-		if (m_pszText)
-			mir_free(m_pszText);
+		mir_free(m_pszText);
 	}
 	void						show						(const RECT& rc, POINT& pt, const HICON hIcon = 0, const TCHAR *szTitle = 0);
 	const HWND					getHwnd						() const { return(m_hwnd); }

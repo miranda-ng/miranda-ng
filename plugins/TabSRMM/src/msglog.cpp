@@ -225,7 +225,7 @@ static void AppendToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferAlloced
 		if (charsDone >= 0)
 			break;
 		*cbBufferAlloced += 1024;
-		*buffer = (char *) realloc(*buffer, *cbBufferAlloced);
+		*buffer = (char *) mir_realloc(*buffer, *cbBufferAlloced);
 	}
 	va_end(va);
 	*cbBufferEnd += charsDone;
@@ -239,7 +239,7 @@ static int AppendUnicodeToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferA
 	int  lineLen = (int)(wcslen(line)) * 9 + 8;
 	if (*cbBufferEnd + lineLen > *cbBufferAlloced) {
 		cbBufferAlloced[0] += (lineLen + 1024UL - lineLen % 1024UL);
-		*buffer = (char *) realloc(*buffer, *cbBufferAlloced);
+		*buffer = (char *) mir_realloc(*buffer, *cbBufferAlloced);
 	}
 
 	d = *buffer + *cbBufferEnd;
@@ -335,7 +335,7 @@ static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int 
 		if (charsDone >= 0)
 			break;
 		*cbBufferAlloced += 1024;
-		*buffer = (char *) realloc(*buffer, *cbBufferAlloced);
+		*buffer = (char *) mir_realloc(*buffer, *cbBufferAlloced);
 	}
 	va_end(va);
 	*cbBufferEnd += charsDone;
@@ -351,7 +351,7 @@ static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int 
 
 					if (*cbBufferEnd + 5 > *cbBufferAlloced) {
 						*cbBufferAlloced += 1024;
-						*buffer = (char *) realloc(*buffer, *cbBufferAlloced);
+						*buffer = (char *) mir_realloc(*buffer, *cbBufferAlloced);
 					}
 					switch (tag) {
 						case 'b':
@@ -367,7 +367,7 @@ static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int 
 							continue;
 						case 's':
 							*cbBufferAlloced += 20;
-							*buffer = (char *)realloc(*buffer, *cbBufferAlloced);
+							*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
 							MoveMemory(*buffer + i + 6, *buffer + i + 1, (*cbBufferEnd - i) + 1);
 							CopyMemory(*buffer + i, begin ? "\\strike1 " : "\\strike0 ", begin ? 9 : 9);
 							*cbBufferEnd += 5;
@@ -392,7 +392,7 @@ static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int 
 		if ((*buffer)[i] == '\r' && (*buffer)[i + 1] == '\n') {
 			if (*cbBufferEnd + 5 > *cbBufferAlloced) {
 				*cbBufferAlloced += 1024;
-				*buffer = (char *) realloc(*buffer, *cbBufferAlloced);
+				*buffer = (char *) mir_realloc(*buffer, *cbBufferAlloced);
 			}
 			MoveMemory(*buffer + i + 6, *buffer + i + 2, *cbBufferEnd - i - 1);
 			CopyMemory(*buffer + i, "\\line ", 6);
@@ -400,7 +400,7 @@ static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int 
 		} else if ((*buffer)[i] == '\n') {
 			if (*cbBufferEnd + 6 > *cbBufferAlloced) {
 				*cbBufferAlloced += 1024;
-				*buffer = (char *) realloc(*buffer, *cbBufferAlloced);
+				*buffer = (char *) mir_realloc(*buffer, *cbBufferAlloced);
 			}
 			MoveMemory(*buffer + i + 6, *buffer + i + 1, *cbBufferEnd - i);
 			CopyMemory(*buffer + i, "\\line ", 6);
@@ -408,7 +408,7 @@ static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int 
 		} else if ((*buffer)[i] == '\t') {
 			if (*cbBufferEnd + 5 > *cbBufferAlloced) {
 				*cbBufferAlloced += 1024;
-				*buffer = (char *) realloc(*buffer, *cbBufferAlloced);
+				*buffer = (char *) mir_realloc(*buffer, *cbBufferAlloced);
 			}
 			MoveMemory(*buffer + i + 5, *buffer + i + 1, *cbBufferEnd - i);
 			CopyMemory(*buffer + i, "\\tab ", 5);
@@ -416,7 +416,7 @@ static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int 
 		} else if ((*buffer)[i] == '\\' || (*buffer)[i] == '{' || (*buffer)[i] == '}') {
 			if (*cbBufferEnd + 2 > *cbBufferAlloced) {
 				*cbBufferAlloced += 1024;
-				*buffer = (char *) realloc(*buffer, *cbBufferAlloced);
+				*buffer = (char *) mir_realloc(*buffer, *cbBufferAlloced);
 			}
 			MoveMemory(*buffer + i + 1, *buffer + i, *cbBufferEnd - i + 1);
 			(*buffer)[i] = '\\';
@@ -501,7 +501,7 @@ static void Build_RTF_Header(char **buffer, int *bufferEnd, int *bufferAlloced, 
 }
 
 
-//free() the return value
+//mir_free() the return value
 static char *CreateRTFHeader(TWindowData *dat)
 {
 	char *buffer;
@@ -509,7 +509,7 @@ static char *CreateRTFHeader(TWindowData *dat)
 
 	bufferEnd = 0;
 	bufferAlloced = 1024;
-	buffer = (char *) malloc(bufferAlloced);
+	buffer = (char *) mir_alloc(bufferAlloced);
 	buffer[0] = '\0';
 
 	Build_RTF_Header(&buffer, &bufferEnd, &bufferAlloced, dat);
@@ -527,7 +527,7 @@ static void AppendTimeStamp(TCHAR *szFinalTimestamp, int isSent, char **buffer, 
 	}
 }
 
-//free() the return value
+//mir_free() the return value
 static char *CreateRTFTail(TWindowData *dat)
 {
 	char *buffer;
@@ -535,7 +535,7 @@ static char *CreateRTFTail(TWindowData *dat)
 
 	bufferEnd = 0;
 	bufferAlloced = 1024;
-	buffer = (char *) malloc(bufferAlloced);
+	buffer = (char *) mir_alloc(bufferAlloced);
 	buffer[0] = '\0';
 	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "}");
 	return buffer;
@@ -582,7 +582,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, HANDLE hContact, HA
 
 	bufferEnd = 0;
 	bufferAlloced = 1024;
-	buffer = (char *) malloc(bufferAlloced);
+	buffer = (char *) mir_alloc(bufferAlloced);
 	buffer[0] = '\0';
 
 	if (streamData->dbei != 0)
@@ -591,14 +591,14 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, HANDLE hContact, HA
 		dbei.cbSize = sizeof(dbei);
 		dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 		if (dbei.cbBlob == -1) {
-			free(buffer);
+			mir_free(buffer);
 			return NULL;
 		}
-		dbei.pBlob = (PBYTE) malloc(dbei.cbBlob);
+		dbei.pBlob = (PBYTE) mir_alloc(dbei.cbBlob);
 		db_event_get(hDbEvent, &dbei);
 		if (!DbEventIsShown(dat, &dbei)) {
-			free(dbei.pBlob);
-			free(buffer);
+			mir_free(dbei.pBlob);
+			mir_free(buffer);
 			return NULL;
 		}
 	}
@@ -609,8 +609,8 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, HANDLE hContact, HA
 	if (rtfMessage == NULL) {
 		msg = DbGetEventTextT(&dbei, dat->codePage);
 		if (!msg) {
-			free(dbei.pBlob);
-			free(buffer);
+			mir_free(dbei.pBlob);
+			mir_free(buffer);
 			return NULL;
 		}
 		TrimMessage(msg);
@@ -1150,7 +1150,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, HANDLE hContact, HA
 	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\par");
 
 	if (streamData->dbei == 0)
-		free(dbei.pBlob);
+		mir_free(dbei.pBlob);
 
 	dat->iLastEventType = MAKELONG((dbei.flags & (DBEF_SENT | DBEF_READ | DBEF_RTL)), dbei.eventType);
 	dat->lastEventTime = dbei.timestamp;
@@ -1165,14 +1165,14 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 		dat->bufferOffset = 0;
 		switch (dat->stage) {
 			case STREAMSTAGE_HEADER:
-				if (dat->buffer) free(dat->buffer);
+				if (dat->buffer) mir_free(dat->buffer);
 				dat->buffer = CreateRTFHeader(dat->dlgDat);
 				dat->stage = STREAMSTAGE_EVENTS;
 				break;
 			case STREAMSTAGE_EVENTS:
 				if (dat->eventsToInsert) {
 					do {
-						if (dat->buffer) free(dat->buffer);
+						if (dat->buffer) mir_free(dat->buffer);
 						dat->buffer = Template_CreateRTFFromDbEvent(dat->dlgDat, dat->hContact, dat->hDbEvent, !dat->isEmpty, dat);
 						if (dat->buffer)
 							dat->hDbEventLast = dat->hDbEvent;
@@ -1188,7 +1188,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 				dat->stage = STREAMSTAGE_TAIL;
 				//fall through
 			case STREAMSTAGE_TAIL: {
-				if (dat->buffer) free(dat->buffer);
+				if (dat->buffer) mir_free(dat->buffer);
 				dat->buffer = CreateRTFTail(dat->dlgDat);
 				dat->stage = STREAMSTAGE_STOP;
 				break;
@@ -1203,7 +1203,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 	CopyMemory(pbBuff, dat->buffer + dat->bufferOffset, *pcb);
 	dat->bufferOffset += *pcb;
 	if (dat->bufferOffset == dat->bufferLen) {
-		free(dat->buffer);
+		mir_free(dat->buffer);
 		dat->buffer = NULL;
 	}
 	return 0;
@@ -1402,7 +1402,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 	SendDlgItemMessage(hwndDlg, IDC_LOG, WM_SETREDRAW, TRUE, 0);
 	InvalidateRect(GetDlgItem(hwndDlg, IDC_LOG), NULL, FALSE);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_QUOTE), dat->hDbEventLast != NULL);
-	if (streamData.buffer) free(streamData.buffer);
+	if (streamData.buffer) mir_free(streamData.buffer);
 }
 
 static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppend, BOOL isSent)

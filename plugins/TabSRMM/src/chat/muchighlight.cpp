@@ -34,18 +34,12 @@
 
 void CMUCHighlight::cleanup()
 {
-	if (m_NickPatternString)
-		mir_free(m_NickPatternString);
-	if (m_TextPatternString)
-		mir_free(m_TextPatternString);
-
+	mir_free(m_NickPatternString);
+	mir_free(m_TextPatternString);
 	m_TextPatternString = m_NickPatternString = 0;
 
-	if (m_NickPatterns)
-		mir_free(m_NickPatterns);
-	if (m_TextPatterns)
-		mir_free(m_TextPatterns);
-
+	mir_free(m_NickPatterns);
+	mir_free(m_TextPatterns);
 	m_iNickPatterns = m_iTextPatterns = 0;
 	m_NickPatterns = m_TextPatterns = 0;
 }
@@ -194,8 +188,7 @@ skip_textpatterns:
 					::SendMessage(psi->dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)psi->dat->szStatusBar);
 			}
 	#endif
-			if (tszMe)
-				mir_free(tszMe);
+			mir_free(tszMe);
 		}
 
 		/*

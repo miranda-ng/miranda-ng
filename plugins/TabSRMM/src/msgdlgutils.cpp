@@ -742,7 +742,7 @@ int TSAPI CheckValidSmileyPack(const char *szProto, HANDLE hContact)
 }
 
 /*
- * return value MUST be free()'d by caller.
+ * return value MUST be mir_free()'d by caller.
  */
 
 TCHAR* TSAPI QuoteText(const TCHAR *text, int charsPerLine, int removeExistingQuotes)
@@ -752,13 +752,13 @@ TCHAR* TSAPI QuoteText(const TCHAR *text, int charsPerLine, int removeExistingQu
 	TCHAR *strout;
 
 	bufSize = lstrlenW(text) + 23;
-	strout = (TCHAR*)malloc(bufSize * sizeof(TCHAR));
+	strout = (TCHAR*)mir_alloc(bufSize * sizeof(TCHAR));
 	inChar = 0;
 	justDoneLineBreak = 1;
 	for (outChar = 0, lineChar = 0;text[inChar];) {
 		if (outChar >= bufSize - 8) {
 			bufSize += 20;
-			strout = (TCHAR*)realloc(strout, bufSize * sizeof(TCHAR));
+			strout = (TCHAR*)mir_realloc(strout, bufSize * sizeof(TCHAR));
 		}
 		if (justDoneLineBreak && text[inChar] != '\r' && text[inChar] != '\n') {
 			if (removeExistingQuotes)
@@ -928,13 +928,13 @@ static DWORD CALLBACK Message_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, 
 	char ** ppText = (char **) dwCookie;
 
 	if (*ppText == NULL) {
-		*ppText = (char *)malloc(cb + 2);
+		*ppText = (char *)mir_alloc(cb + 2);
 		CopyMemory(*ppText, pbBuff, cb);
 		*pcb = cb;
 		dwRead = cb;
 		*(*ppText + cb) = '\0';
 	} else {
-		char  *p = (char *)realloc(*ppText, dwRead + cb + 2);
+		char  *p = (char *)mir_realloc(*ppText, dwRead + cb + 2);
 		CopyMemory(p + dwRead, pbBuff, cb);
 		*ppText = p;
 		*pcb = cb;
@@ -947,7 +947,7 @@ static DWORD CALLBACK Message_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, 
 /*
  * retrieve contents of the richedit control by streaming. Used to get the
  * typed message before sending it.
- * caller must free the returned pointer.
+ * caller must mir_free the returned pointer.
  * UNICODE version returns UTF-8 encoded string.
  */
 
@@ -2087,17 +2087,17 @@ void TSAPI LoadOverrideTheme(TContainerData *pContainer)
 				return;
 			}
 			if (pContainer->ltr_templates == NULL) {
-				pContainer->ltr_templates = (TTemplateSet *)malloc(sizeof(TTemplateSet));
+				pContainer->ltr_templates = (TTemplateSet *)mir_alloc(sizeof(TTemplateSet));
 				CopyMemory(pContainer->ltr_templates, &LTR_Active, sizeof(TTemplateSet));
 			}
 			if (pContainer->rtl_templates == NULL) {
-				pContainer->rtl_templates = (TTemplateSet *)malloc(sizeof(TTemplateSet));
+				pContainer->rtl_templates = (TTemplateSet *)mir_alloc(sizeof(TTemplateSet));
 				CopyMemory(pContainer->rtl_templates, &RTL_Active, sizeof(TTemplateSet));
 			}
 
-			pContainer->theme.logFonts = (LOGFONTA *)malloc(sizeof(LOGFONTA) * (MSGDLGFONTCOUNT + 2));
-			pContainer->theme.fontColors = (COLORREF *)malloc(sizeof(COLORREF) * (MSGDLGFONTCOUNT + 2));
-			pContainer->theme.rtfFonts = (char *)malloc((MSGDLGFONTCOUNT + 2) * RTFCACHELINESIZE);
+			pContainer->theme.logFonts = (LOGFONTA *)mir_alloc(sizeof(LOGFONTA) * (MSGDLGFONTCOUNT + 2));
+			pContainer->theme.fontColors = (COLORREF *)mir_alloc(sizeof(COLORREF) * (MSGDLGFONTCOUNT + 2));
+			pContainer->theme.rtfFonts = (char *)mir_alloc((MSGDLGFONTCOUNT + 2) * RTFCACHELINESIZE);
 
 			ReadThemeFromINI(pContainer->szAbsThemeFile, pContainer, bReadTemplates ? 0 : 1, THEME_READ_ALL);
 			pContainer->theme.left_indent *= 15;
@@ -2237,7 +2237,7 @@ static void TSAPI MTH_updatePreview(const TWindowData *dat)
 	HWND hwndEdit = GetDlgItem(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE);
 	int len = GetWindowTextLengthA(hwndEdit);
 	RECT windRect;
-	char * thestr = (char *)malloc(len + 5);
+	char * thestr = (char *)mir_alloc(len + 5);
 
 	GetWindowTextA(hwndEdit, thestr, len + 1);
 	GetWindowRect(dat->pContainer->hwnd, &windRect);
@@ -2248,7 +2248,7 @@ static void TSAPI MTH_updatePreview(const TWindowData *dat)
 
 	CallService(MTH_SETFORMULA, 0, (LPARAM)thestr);
 	CallService(MTH_RESIZE, 0, (LPARAM)&mathWndInfo);
-	free(thestr);
+	mir_free(thestr);
 }
 
 void TSAPI MTH_updateMathWindow(const TWindowData *dat)

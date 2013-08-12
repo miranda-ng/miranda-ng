@@ -444,9 +444,9 @@ static TCHAR * _tcsrplc(TCHAR **src, const TCHAR *ptrn, const TCHAR *rplc)
 	lRplc = lstrlen(rplc);
 	if (lPtrn && lSrc && lSrc >= lPtrn && (tszFound = _tcsstr(*src, ptrn)) != NULL) {
 		if (lRplc > lPtrn)
-			*src = (TCHAR*) realloc((void*) * src,
+			*src = (TCHAR*) mir_realloc((void*) * src,
 									 sizeof(TCHAR) * (lSrc + lRplc - lPtrn + 1));
-		if (tszTail = (TCHAR*) malloc(sizeof(TCHAR) *
+		if (tszTail = (TCHAR*) mir_alloc(sizeof(TCHAR) *
 									   (lSrc - (tszFound - *src) - lPtrn + 1))) {
 			/* save tail */
 			_tcscpy(tszTail, tszFound + lPtrn);
@@ -454,7 +454,7 @@ static TCHAR * _tcsrplc(TCHAR **src, const TCHAR *ptrn, const TCHAR *rplc)
 			_tcscpy(tszFound, rplc);
 			/* write tail */
 			_tcscpy(tszFound + lRplc, tszTail);
-			free((void*) tszTail);
+			mir_free((void*) tszTail);
 		}
 	}
 	return *src;
@@ -476,7 +476,7 @@ static TCHAR * _tcsnrplc(TCHAR *src, size_t n, const TCHAR *ptrn, const TCHAR *r
 	if (lPtrn && lSrc && lSrc >= lPtrn && /* lengths are ok */
 			(tszFound = _tcsstr(src, ptrn)) != NULL && /* pattern was found in string */
 			(n < 0 || lSrc - lPtrn + lRplc < n) && /* there is enough room in the string */
-			(tszTail = (TCHAR*) malloc(sizeof(TCHAR) *
+			(tszTail = (TCHAR*) mir_alloc(sizeof(TCHAR) *
 										(lSrc - (tszFound - src) - lPtrn + 1))) != NULL) {
 		/* save tail */
 		_tcscpy(tszTail, tszFound + lPtrn);
@@ -484,7 +484,7 @@ static TCHAR * _tcsnrplc(TCHAR *src, size_t n, const TCHAR *ptrn, const TCHAR *r
 		_tcscpy(tszFound, rplc);
 		/* write tail */
 		_tcscpy(tszFound + lRplc, tszTail);
-		free((void*) tszTail);
+		mir_free(tszTail);
 	}
 	return src;
 }
@@ -942,7 +942,7 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 		CopyMemory(pbBuff, lstrdat->buffer + lstrdat->bufferOffset, *pcb);
 		lstrdat->bufferOffset += *pcb;
 
-		// free stuff if the streaming operation is complete
+		// mir_free stuff if the streaming operation is complete
 		if (lstrdat->bufferOffset == lstrdat->bufferLen) {
 			mir_free(lstrdat->buffer);
 			lstrdat->buffer = NULL;
@@ -1323,7 +1323,6 @@ void LoadMsgLogBitmaps(void)
 
 void FreeMsgLogBitmaps(void)
 {
-	int i;
-	for (i=0; i < SIZEOF(pLogIconBmpBits); i++)
+	for (int i=0; i < SIZEOF(pLogIconBmpBits); i++)
 		mir_free(pLogIconBmpBits[i]);
 }

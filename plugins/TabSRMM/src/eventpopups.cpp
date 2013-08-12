@@ -603,7 +603,7 @@ static int PopupUpdateT(HANDLE hContact, HANDLE hEvent)
 	DBEVENTINFO dbe = { sizeof(dbe) };
 	if (pdata->pluginOptions->bPreview && hContact) {
 		dbe.cbBlob = db_event_getBlobSize(hEvent);
-		dbe.pBlob = (PBYTE)malloc(dbe.cbBlob);
+		dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob);
 	}
 	db_event_get(hEvent, &dbe);
 
@@ -648,7 +648,7 @@ static int PopupUpdateT(HANDLE hContact, HANDLE hEvent)
 		pdata->eventData = (EVENT_DATAT *)mir_realloc(pdata->eventData, pdata->nrEventsAlloced * sizeof(EVENT_DATAT));
 	}
 	if (dbe.pBlob)
-		free(dbe.pBlob);
+		mir_free(dbe.pBlob);
 
 	CallService(MS_POPUP_CHANGETEXTT, (WPARAM)pdata->hWnd, (LPARAM)lpzText);
 	return 0;
@@ -667,7 +667,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 	// fix for a crash
 	if (hEvent && (pluginOptions->bPreview || hContact == 0)) {
 		dbe.cbBlob = db_event_getBlobSize(hEvent);
-		dbe.pBlob = (PBYTE)malloc(dbe.cbBlob);
+		dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob);
 	}
 	db_event_get(hEvent, &dbe);
 
@@ -737,7 +737,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 	else PopupList.push_back(pdata);
 
 	if (dbe.pBlob)
-		free(dbe.pBlob);
+		mir_free(dbe.pBlob);
 
 	return 0;
 }

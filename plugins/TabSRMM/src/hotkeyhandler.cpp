@@ -431,13 +431,13 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case DM_SENDMESSAGECOMMANDW:
 		SendMessageCommand_W(wParam, lParam);
 		if (lParam)
-			free((void*)lParam);
+			mir_free((void*)lParam);
 		return 0;
 
 	case DM_SENDMESSAGECOMMAND:
 		SendMessageCommand(wParam, lParam);
 		if (lParam)
-			free((void*)lParam);
+			mir_free((void*)lParam);
 		return 0;
 
 		/*

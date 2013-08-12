@@ -187,7 +187,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				if (db_get_ts(NULL, szKey, szValue, &dbv))
 					break;          // end of list
 				if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {
-					if (_tcsncmp(dbv.ptszVal, _T("**free**"), CONTAINER_NAMELEN)) {
+					if (_tcsncmp(dbv.ptszVal, _T("**mir_free**"), CONTAINER_NAMELEN)) {
 						iItemNew = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_ADDSTRING, 0, (LPARAM)(!_tcscmp(dbv.ptszVal, _T("default")) ?
 													  TranslateT("Default container") : dbv.ptszVal));
 						if (iItemNew != LB_ERR)

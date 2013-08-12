@@ -94,7 +94,7 @@ static int DBRemoveEnumProc(const char *szSetting, LPARAM lParam)
 	RemoveSettings *rs = (RemoveSettings *)lParam;
 
 	if (!rs->szPrefix || !strncmp(szSetting, rs->szPrefix, strlen(rs->szPrefix))) {
-		rs->szSettings = (char **)realloc(rs->szSettings, (rs->count + 1) * sizeof(char *));
+		rs->szSettings = (char **)mir_realloc(rs->szSettings, (rs->count + 1) * sizeof(char *));
 		rs->szSettings[rs->count] = _strdup(szSetting);
 		rs->count += 1;
 	}
@@ -124,10 +124,10 @@ static int Hlp_RemoveDatabaseSettings(HANDLE hContact, char *szModule, char *szP
 				if (!db_unset(hContact, szModule, rs.szSettings[i])) {
 					count += 1;
 				}
-				free(rs.szSettings[i]);
+				mir_free(rs.szSettings[i]);
 			}
 		}
-		free(rs.szSettings);
+		mir_free(rs.szSettings);
 	}
 
 	return count;

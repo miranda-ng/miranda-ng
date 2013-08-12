@@ -130,7 +130,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 				menulimit = M.GetByte("tabmodplus","MenuCount", 0);
 				if ( menulimit ) {
 					hMenu = CreatePopupMenu();
-					//pszMenu=malloc(menulimit*sizeof(TCHAR*));
+					//pszMenu=mir_alloc(menulimit*sizeof(TCHAR*));
 				} else break;
 				for ( menunum=0;menunum<menulimit;menunum++ ) {
 					pszMenu[menunum]=getMenuEntry(menunum);

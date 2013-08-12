@@ -314,7 +314,7 @@ INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 	if (GetCurrentThreadId() != PluginConfig.dwThreadID) {
 		if (lParam) {
 			unsigned iLen = lstrlenW((wchar_t *)lParam);
-			wchar_t *tszText = (wchar_t *)malloc((iLen + 1) * sizeof(wchar_t));
+			wchar_t *tszText = (wchar_t *)mir_alloc((iLen + 1) * sizeof(wchar_t));
 			wcsncpy(tszText, (wchar_t *)lParam, iLen + 1);
 			tszText[iLen] = 0;
 			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMANDW, wParam, (LPARAM)tszText);
@@ -369,7 +369,7 @@ INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 	if (GetCurrentThreadId() != PluginConfig.dwThreadID) {
 		if (lParam) {
 			unsigned iLen = lstrlenA((char *)lParam);
-			char *szText = (char *)malloc(iLen + 1);
+			char *szText = (char *)mir_alloc(iLen + 1);
 			strncpy(szText, (char *)lParam, iLen + 1);
 			szText[iLen] = 0;
 			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMAND, wParam, (LPARAM)szText);
@@ -450,7 +450,7 @@ int SplitmsgShutdown(void)
 		FreeTabConfig();
 
 		if (Utils::rtf_ctable)
-			free(Utils::rtf_ctable);
+			mir_free(Utils::rtf_ctable);
 
 		UnloadTSButtonModule();
 

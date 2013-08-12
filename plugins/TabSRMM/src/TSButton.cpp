@@ -107,16 +107,16 @@ static void TSAPI LoadTheme(MButtonCtrl *ctl)
 int TSAPI TBStateConvert2Flat(int state)
 {
 	switch (state) {
-		case PBS_NORMAL:
-			return TS_NORMAL;
-		case PBS_HOT:
-			return TS_HOT;
-		case PBS_PRESSED:
-			return TS_PRESSED;
-		case PBS_DISABLED:
-			return TS_DISABLED;
-		case PBS_DEFAULTED:
-			return TS_NORMAL;
+	case PBS_NORMAL:
+		return TS_NORMAL;
+	case PBS_HOT:
+		return TS_HOT;
+	case PBS_PRESSED:
+		return TS_PRESSED;
+	case PBS_DISABLED:
+		return TS_DISABLED;
+	case PBS_DEFAULTED:
+		return TS_NORMAL;
 	}
 	return TS_NORMAL;
 }
@@ -375,12 +375,12 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, 
 	switch (msg) {
 	case WM_NCCREATE:
 		SetWindowLongPtr(hwndDlg, GWL_STYLE, GetWindowLongPtr(hwndDlg, GWL_STYLE) | BS_OWNERDRAW);
-		bct = (MButtonCtrl*)malloc(sizeof(MButtonCtrl));
+		bct = (MButtonCtrl*)mir_alloc(sizeof(MButtonCtrl));
 		if (bct == NULL)
 			return FALSE;
 		{
 			char *p = (char*)bct ;
-			_DebugTraceA("SESSION_INFO allocated: crashes at %lp", p + offsetof(MButtonCtrl, cHot));
+			_DebugTraceA("MButtonCtrl allocated: crashes at %lp", p + offsetof(MButtonCtrl, cHot));
 		}
 		ZeroMemory(bct, sizeof(MButtonCtrl));
 		bct->hwnd = hwndDlg;
@@ -415,7 +415,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, 
 		break;	// DONT! fall thru
 
 	case WM_NCDESTROY:
-		free(bct);
+		mir_free(bct);
 		SetWindowLongPtr(hwndDlg, 0, (LONG_PTR)NULL);
 		break;
 

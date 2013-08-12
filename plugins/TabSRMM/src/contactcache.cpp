@@ -308,11 +308,11 @@ void CContactCache::saveHistory(WPARAM wParam, LPARAM lParam)
 			if (m_history[m_iHistoryTop].szText == NULL) {
 				if (iLength < HISTORY_INITIAL_ALLOCSIZE)
 					iLength = HISTORY_INITIAL_ALLOCSIZE;
-				m_history[m_iHistoryTop].szText = (TCHAR*)malloc(iLength);
+				m_history[m_iHistoryTop].szText = (TCHAR*)mir_alloc(iLength);
 				m_history[m_iHistoryTop].lLen = iLength;
 			} else {
 				if (iLength > m_history[m_iHistoryTop].lLen) {
-					m_history[m_iHistoryTop].szText = (TCHAR*)realloc(m_history[m_iHistoryTop].szText, iLength);
+					m_history[m_iHistoryTop].szText = (TCHAR*)mir_realloc(m_history[m_iHistoryTop].szText, iLength);
 					m_history[m_iHistoryTop].lLen = iLength;
 				}
 			}
@@ -326,7 +326,7 @@ void CContactCache::saveHistory(WPARAM wParam, LPARAM lParam)
 		}
 	}
 	if (szFromStream)
-		free(szFromStream);
+		mir_free(szFromStream);
 	if (oldTop)
 		m_iHistoryTop = oldTop;
 }
@@ -394,12 +394,12 @@ void CContactCache::allocHistory()
 	m_iHistorySize = M.GetByte("historysize", 15);
 	if (m_iHistorySize < 10)
 		m_iHistorySize = 10;
-	m_history = (TInputHistory *)malloc(sizeof(TInputHistory) * (m_iHistorySize + 1));
+	m_history = (TInputHistory *)mir_alloc(sizeof(TInputHistory) * (m_iHistorySize + 1));
 	m_iHistoryCurrent = 0;
 	m_iHistoryTop = 0;
 	if (m_history)
 		ZeroMemory(m_history, sizeof(TInputHistory) * m_iHistorySize);
-	m_history[m_iHistorySize].szText = (TCHAR*)malloc((HISTORY_INITIAL_ALLOCSIZE + 1) * sizeof(TCHAR));
+	m_history[m_iHistorySize].szText = (TCHAR*)mir_alloc((HISTORY_INITIAL_ALLOCSIZE + 1) * sizeof(TCHAR));
 	m_history[m_iHistorySize].lLen = HISTORY_INITIAL_ALLOCSIZE;
 }
 
@@ -418,10 +418,10 @@ void CContactCache::releaseAlloced()
 	if (m_history) {
 		for (i=0; i <= m_iHistorySize; i++) {
 			if (m_history[i].szText != 0) {
-				free(m_history[i].szText);
+				mir_free(m_history[i].szText);
 			}
 		}
-		free(m_history);
+		mir_free(m_history);
 		m_history = 0;
 	}
 	if ( lstrcmp( m_tszProto, C_INVALID_PROTO_T ))
@@ -556,7 +556,7 @@ void CContactCache::cacheUpdateMetaChanged()
  * normalize the status message with proper cr/lf sequences.
  * @param src TCHAR*:		original status message
  * @param fStripAll bool:	strip all cr/lf sequences and replace them with spaces (use for title bar)
- * @return TCHAR*:			converted status message. CALLER is responsible to free it, MUST use mir_free()
+ * @return TCHAR*:			converted status message. CALLER is responsible to mir_free it, MUST use mir_free()
  */
 TCHAR* CContactCache::getNormalizedStatusMsg(const TCHAR *src, bool fStripAll)
 {
