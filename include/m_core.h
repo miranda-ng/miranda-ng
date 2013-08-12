@@ -523,7 +523,7 @@ MIR_CORE_DLL(void)        List_ObjCopy(SortedList* s, SortedList* d, size_t item
 ///////////////////////////////////////////////////////////////////////////////
 // logging functions
 
-MIR_CORE_DLL(HANDLE) mir_createLog(const TCHAR *ptszFile, unsigned options);
+MIR_CORE_DLL(HANDLE) mir_createLog(const char *pszName, const TCHAR *ptszDescr, const TCHAR *ptszFile, unsigned options);
 
 MIR_C_CORE_DLL(int) mir_writeLogA(HANDLE logger, const char *format, ...);
 MIR_C_CORE_DLL(int) mir_writeLogW(HANDLE logger, const WCHAR *format, ...);

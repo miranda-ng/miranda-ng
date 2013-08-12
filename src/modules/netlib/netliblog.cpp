@@ -37,13 +37,12 @@ struct {
 	int    toOutputDebugString;
 	int    toFile;
 	int    toLog;
-	TCHAR* szFile;
-	TCHAR* szUserFile;
+	TCHAR *szFile;
+	TCHAR *szUserFile;
 	int    timeFormat;
 	int    showUser;
 	int    dumpSent, dumpRecv, dumpProxy, dumpSsl;
 	int    textDumps, autoDetectText;
-	CRITICAL_SECTION cs;
 	int    save;
 } logOptions = {0};
 
@@ -55,6 +54,7 @@ typedef struct {
 static __int64 mirandaStartTime, perfCounterFreq;
 static int bIsActive = TRUE;
 static HANDLE hLogEvent = NULL;
+static HANDLE hLogger = NULL;
 
 static const TCHAR* szTimeFormats[] = 
 {
@@ -210,8 +210,6 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				db_set_ts(NULL, "Netlib", "RunAtStart", str);
 				db_set_b(NULL, "Netlib", "ShowLogOptsAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTHISDLGATSTART));
 
-				mir_cslock lck(logOptions.cs);
-
 				mir_free(logOptions.szUserFile);
 				GetWindowText( GetDlgItem(hwndDlg, IDC_FILENAME), str, MAX_PATH);
 				logOptions.szUserFile = mir_tstrdup(str);
@@ -309,8 +307,8 @@ static INT_PTR ShowOptions(WPARAM, LPARAM)
 
 static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 {
-	struct NetlibUser *nlu = (struct NetlibUser*)wParam;
-	struct NetlibUser nludummy;
+	NetlibUser *nlu = (NetlibUser*)wParam;
+	NetlibUser nludummy;
 	const char *pszMsg = (const char*)lParam;
 	char szTime[32], szHead[128];
 	LARGE_INTEGER liTimeNow;
@@ -374,18 +372,8 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 	}
 
 	if (logOptions.toFile && logOptions.szFile[0]) {
-		mir_cslock lck(logOptions.cs);
-
-		FILE *fp = _tfopen(logOptions.szFile, _T("ab"));
-		if ( !fp) {
-			CreatePathToFileT(logOptions.szFile);
-			fp = _tfopen(logOptions.szFile, _T("at"));
-		}
-		if (fp) {
-			size_t len = strlen(pszMsg);
-			fprintf(fp, "%s%s%s", szHead, pszMsg, pszMsg[len-1] == '\n' ? "" : "\r\n");
-			fclose(fp);
-		}
+		size_t len = strlen(pszMsg);
+		mir_writeLogA(hLogger, "%s%s%s", szHead, pszMsg, pszMsg[len-1] == '\n' ? "" : "\r\n");
 	}
 
 	LOGMSG logMsg = { szHead, pszMsg };
@@ -424,13 +412,13 @@ void NetlibLogf(NetlibUser* nlu, const char *fmt, ...)
 	NetlibLog((WPARAM)nlu, (LPARAM)szText);
 }
 
-void NetlibDumpData(struct NetlibConnection *nlc, PBYTE buf, int len, int sent, int flags)
+void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int flags)
 {
 	int isText = 1;
 	char szTitleLine[128];
 	char *szBuf;
 	int titleLineLen;
-	struct NetlibUser *nlu;
+	NetlibUser *nlu;
 	bool useStack = false;
 
 	// This section checks a number of conditions and aborts
@@ -550,7 +538,6 @@ void NetlibLogInit(void)
 	CreateServiceFunction(MS_NETLIB_LOGW, NetlibLogW);
 	hLogEvent = CreateHookableEvent(ME_NETLIB_FASTDUMP);
 
-	InitializeCriticalSection(&logOptions.cs);
 	logOptions.dumpRecv = db_get_b(NULL, "Netlib", "DumpRecv", 1);
 	logOptions.dumpSent = db_get_b(NULL, "Netlib", "DumpSent", 1);
 	logOptions.dumpProxy = db_get_b(NULL, "Netlib", "DumpProxy", 1);
@@ -577,12 +564,7 @@ void NetlibLogInit(void)
 		logOptions.szFile = Utils_ReplaceVarsT(logOptions.szUserFile);
 	}
 
-	if (logOptions.toFile && logOptions.szFile[0]) {
-		FILE *fp;
-		fp = _tfopen(logOptions.szFile, _T("wt"));
-		if (fp)
-			fclose(fp);
-	}
+	hLogger = mir_createLog("Netlib", LPGENT("Standard netlib log"), logOptions.szFile, 0);
 
 	if (db_get_b(NULL, "Netlib", "ShowLogOptsAtStart", 0))
 		NetlibLogShowOptions();
@@ -603,7 +585,6 @@ void NetlibLogShutdown(void)
 	DestroyHookableEvent(hLogEvent); hLogEvent = NULL;
 	if (IsWindow(logOptions.hwndOpts))
 		DestroyWindow(logOptions.hwndOpts);
-	DeleteCriticalSection(&logOptions.cs);
 	mir_free(logOptions.szFile);
 	mir_free(logOptions.szUserFile);
 }

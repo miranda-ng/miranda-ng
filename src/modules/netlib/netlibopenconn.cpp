@@ -33,7 +33,7 @@ static int iUPnPCleanup = 0;
 #define RECV_DEFAULT_TIMEOUT	60000
 
 //returns in network byte order
-DWORD DnsLookup(struct NetlibUser *nlu, const char *szHost)
+DWORD DnsLookup(NetlibUser *nlu, const char *szHost)
 {
 	HOSTENT* host;
 	DWORD ip = inet_addr(szHost);
@@ -91,7 +91,7 @@ int WaitUntilWritable(SOCKET s, DWORD dwTimeout)
 	return 1;
 }
 
-bool RecvUntilTimeout(struct NetlibConnection *nlc, char *buf, int len, int flags, DWORD dwTimeout)
+bool RecvUntilTimeout(NetlibConnection *nlc, char *buf, int len, int flags, DWORD dwTimeout)
 {
 	int nReceived = 0;
 	DWORD dwTimeNow, dwCompleteTime = GetTickCount() + dwTimeout;
@@ -156,7 +156,7 @@ static int NetlibInitSocks4Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	return 0;
 }
 
-static int NetlibInitSocks5Connection(struct NetlibConnection *nlc, struct NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
+static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
 {
 	//rfc1928
 	BYTE buf[258];
@@ -297,7 +297,7 @@ static int NetlibInitSocks5Connection(struct NetlibConnection *nlc, struct Netli
 	return 1;
 }
 
-static bool NetlibInitHttpsConnection(struct NetlibConnection *nlc, struct NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
+static bool NetlibInitHttpsConnection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
 {
 	//rfc2817
 	NETLIBHTTPREQUEST nlhrSend = {0}, *nlhrReply;
@@ -344,7 +344,7 @@ static bool NetlibInitHttpsConnection(struct NetlibConnection *nlc, struct Netli
 	return true;
 }
 
-static void FreePartiallyInitedConnection(struct NetlibConnection *nlc)
+static void FreePartiallyInitedConnection(NetlibConnection *nlc)
 {
 	DWORD dwOriginalLastError = GetLastError();
 
@@ -672,7 +672,7 @@ static bool my_connect(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 	return MyGetaddrinfo && MyFreeaddrinfo ? my_connectIPv6(nlc, nloc) : my_connectIPv4(nlc, nloc);
 }
 
-static int NetlibHttpFallbackToDirect(struct NetlibConnection *nlc, struct NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
+static int NetlibHttpFallbackToDirect(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
 {
 	NetlibDoClose(nlc, true);
 

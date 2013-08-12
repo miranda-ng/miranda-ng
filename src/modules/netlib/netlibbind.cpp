@@ -123,7 +123,7 @@ static void NetlibBindAcceptThread(void* param)
 	SOCKET s;
 	SOCKADDR_INET_M sin;
 	int sinLen;
-	struct NetlibConnection *nlc;
+	NetlibConnection *nlc;
 	struct NetlibBoundPort *nlbp = (NetlibBoundPort*)param;
 
 	NetlibLogf(nlbp->nlu, "(%u) Port %u opened for incoming connections", nlbp->s, nlbp->wPort);
@@ -173,7 +173,7 @@ static void NetlibBindAcceptThread(void* param)
 INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 {
 	NETLIBBIND *nlb = (NETLIBBIND*)lParam;
-	struct NetlibUser *nlu = (struct NetlibUser*)wParam;
+	NetlibUser *nlu = (NetlibUser*)wParam;
 	struct NetlibBoundPort *nlbp;
 	SOCKADDR_IN sin = {0};
 	SOCKADDR_IN6 sin6 = {0};

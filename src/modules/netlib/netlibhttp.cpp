@@ -104,7 +104,7 @@ static void AppendToCharBuffer(struct ResizableCharBuffer *rcb, const char *fmt,
 	rcb->iEnd += charsDone;
 }
 
-static int RecvWithTimeoutTime(struct NetlibConnection *nlc, unsigned dwTimeoutTime, char *buf, int len, int flags)
+static int RecvWithTimeoutTime(NetlibConnection *nlc, unsigned dwTimeoutTime, char *buf, int len, int flags)
 {
 	DWORD dwTimeNow;
 
@@ -363,7 +363,7 @@ static int HttpPeekFirstResponseLine(NetlibConnection *nlc, DWORD dwTimeoutTime,
 	return 1;
 }
 
-static int SendHttpRequestAndData(struct NetlibConnection *nlc, struct ResizableCharBuffer *httpRequest, NETLIBHTTPREQUEST *nlhr, int sendContentLengthHeader)
+static int SendHttpRequestAndData(NetlibConnection *nlc, struct ResizableCharBuffer *httpRequest, NETLIBHTTPREQUEST *nlhr, int sendContentLengthHeader)
 {
 	bool sendData = (nlhr->requestType == REQUEST_POST || nlhr->requestType == REQUEST_PUT);
 
@@ -396,7 +396,7 @@ static int SendHttpRequestAndData(struct NetlibConnection *nlc, struct Resizable
 
 INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 {
-	struct NetlibConnection *nlc = (struct NetlibConnection*)wParam;
+	NetlibConnection *nlc = (struct NetlibConnection*)wParam;
 	NETLIBHTTPREQUEST *nlhr = (NETLIBHTTPREQUEST*)lParam;
 	NETLIBHTTPREQUEST *nlhrReply = NULL;
 	HttpSecurityContext httpSecurity;
@@ -725,7 +725,7 @@ INT_PTR NetlibHttpFreeRequestStruct(WPARAM, LPARAM lParam)
 
 INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam)
 {
-	struct NetlibConnection *nlc = (struct NetlibConnection*)wParam;
+	NetlibConnection *nlc = (struct NetlibConnection*)wParam;
 	if ( !NetlibEnterNestedCS(nlc, NLNCS_RECV))
 		return 0;
 

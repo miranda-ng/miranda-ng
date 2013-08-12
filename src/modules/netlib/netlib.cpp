@@ -52,21 +52,21 @@ void NetlibFreeUserSettingsStruct(NETLIBUSERSETTINGS *settings)
 	mir_free(settings->szProxyServer);
 }
 
-void NetlibInitializeNestedCS(struct NetlibNestedCriticalSection *nlncs)
+void NetlibInitializeNestedCS(NetlibNestedCriticalSection *nlncs)
 {
 	nlncs->dwOwningThreadId = 0;
 	nlncs->lockCount = 0;
 	nlncs->hMutex = CreateMutex(NULL, FALSE, NULL);
 }
 
-void NetlibDeleteNestedCS(struct NetlibNestedCriticalSection *nlncs)
+void NetlibDeleteNestedCS(NetlibNestedCriticalSection *nlncs)
 {
 	CloseHandle(nlncs->hMutex);
 }
 
-int NetlibEnterNestedCS(struct NetlibConnection *nlc, int which)
+int NetlibEnterNestedCS(NetlibConnection *nlc, int which)
 {
-	struct NetlibNestedCriticalSection *nlncs;
+	NetlibNestedCriticalSection *nlncs;
 	DWORD dwCurrentThreadId = GetCurrentThreadId();
 
 	WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
@@ -92,7 +92,7 @@ int NetlibEnterNestedCS(struct NetlibConnection *nlc, int which)
 	return 1;
 }
 
-void NetlibLeaveNestedCS(struct NetlibNestedCriticalSection *nlncs)
+void NetlibLeaveNestedCS(NetlibNestedCriticalSection *nlncs)
 {
 	if (--nlncs->lockCount == 0) {
 		nlncs->dwOwningThreadId = 0;
@@ -138,7 +138,7 @@ static INT_PTR NetlibRegisterUser(WPARAM, LPARAM lParam)
 		return 0;
 	}
 
-	NetlibUser *thisUser = (struct NetlibUser*)mir_calloc(sizeof(struct NetlibUser));
+	NetlibUser *thisUser = (NetlibUser*)mir_calloc(sizeof(NetlibUser));
 	thisUser->handleType = NLH_USER;
 	thisUser->user = *nlu;
 
@@ -201,7 +201,7 @@ static INT_PTR NetlibRegisterUser(WPARAM, LPARAM lParam)
 static INT_PTR NetlibGetUserSettings(WPARAM wParam, LPARAM lParam)
 {
 	NETLIBUSERSETTINGS *nlus = (NETLIBUSERSETTINGS*)lParam;
-	struct NetlibUser *nlu = (struct NetlibUser*)wParam;
+	NetlibUser *nlu = (NetlibUser*)wParam;
 
 	if (GetNetlibHandleType(nlu) != NLH_USER || nlus == NULL || nlus->cbSize != sizeof(NETLIBUSERSETTINGS)) {
 		SetLastError(ERROR_INVALID_PARAMETER);
@@ -214,7 +214,7 @@ static INT_PTR NetlibGetUserSettings(WPARAM wParam, LPARAM lParam)
 static INT_PTR NetlibSetUserSettings(WPARAM wParam, LPARAM lParam)
 {
 	NETLIBUSERSETTINGS *nlus = (NETLIBUSERSETTINGS*)lParam;
-	struct NetlibUser *nlu = (struct NetlibUser*)wParam;
+	NetlibUser *nlu = (NetlibUser*)wParam;
 
 	if (GetNetlibHandleType(nlu) != NLH_USER || nlus == NULL || nlus->cbSize != sizeof(NETLIBUSERSETTINGS)) {
 		SetLastError(ERROR_INVALID_PARAMETER);
@@ -245,7 +245,7 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 	{
 		case NLH_USER:
 		{
-			struct NetlibUser *nlu = (struct NetlibUser*)wParam;
+			NetlibUser *nlu = (NetlibUser*)wParam;
 			{
 				mir_cslock lck(csNetlibUser);
 				int i = netlibUser.getIndex(nlu);
@@ -263,7 +263,7 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 		}
 		case NLH_CONNECTION:
 		{
-			struct NetlibConnection *nlc = (struct NetlibConnection*)wParam;
+			NetlibConnection *nlc = (struct NetlibConnection*)wParam;
 			HANDLE waitHandles[4];
 			DWORD waitResult;
 
