@@ -141,11 +141,17 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData* info)
 	if (o == NULL || xmlGetText(o) == NULL)
 		return false;
 
-	TCHAR *CaptchaPath = 0;
-	GetCaptchaImage(parentNode, CaptchaPath);
-	param.bmp = (HBITMAP) CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)CaptchaPath);
-	DeleteFile(CaptchaPath);
-	mir_free(CaptchaPath);
+	unsigned bufferLen;
+	ptrA buffer((char*)mir_base64_decode( _T2A(xmlGetText(o)), &bufferLen));
+	if (buffer == NULL)
+		return false;
+	
+	IMGSRVC_MEMIO memio;
+	memio.iLen = bufferLen;
+	memio.pBuf = (void *)buffer;
+	memio.fif = FIF_UNKNOWN; /* detect */
+	memio.flags = 0;
+	param.bmp = (HBITMAP)CallService(MS_IMG_LOADFROMMEM, (WPARAM)&memio, 0);
 
 	BITMAP bmp = {0};
 	GetObject(param.bmp, sizeof(bmp), &bmp);
@@ -157,32 +163,6 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData* info)
 	else
 		sendCaptchaResult (param.Result, info, param.from, param.challenge, param.fromjid, param.sid);
 	return true;
-}
-
-bool CJabberProto::GetCaptchaImage(HXML node, TCHAR*& CaptchaPath)
-{
-	HXML o = xmlGetChild(node , "data");
-	unsigned bufferLen;
-	ptrA buffer((char*)mir_base64_decode( _T2A(xmlGetText(o)), &bufferLen));
-	if (buffer == NULL)
-		return false;
-
-	const TCHAR *szPicType = JabberGetPictureType(node, buffer);
-	if (szPicType == NULL)
-		return false;
-
-	TCHAR *ext = _tcsstr((TCHAR*)szPicType, _T("/"))+1;
-	TCHAR filename[MAX_PATH];
-	mir_sntprintf(filename, SIZEOF(filename), _T("%%TEMP%%\\captcha.%s"), ext);
-	CaptchaPath = Utils_ReplaceVarsT(filename);
-	HANDLE hFile = CreateFile(CaptchaPath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-	if (hFile == INVALID_HANDLE_VALUE)
-		return false;
-
-	DWORD nWritten;
-	bool res = WriteFile(hFile, buffer, bufferLen, &nWritten, NULL) != 0;
-	CloseHandle(hFile);
-	return res;
 }
 
 void CJabberProto::sendCaptchaResult(TCHAR* buf, ThreadData* info, LPCTSTR from, LPCTSTR challenge, LPCTSTR fromjid,  LPCTSTR sid)
