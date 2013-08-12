@@ -247,7 +247,6 @@ static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
 	if (si->hwndFilter) {
 		POINT pt;
 		RECT  rcFilter;
-
 		GetCursorPos(&pt);
 		GetWindowRect(si->hwndFilter, &rcFilter);
 		if (!PtInRect(&rcFilter, pt)) {

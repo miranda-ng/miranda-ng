@@ -204,8 +204,8 @@ struct SESSION_INFO
 	HANDLE          hContact;
 	HWND            hwndFilter;
 	time_t          LastTime;
-	TCHAR           szSearch[255];
 	int             iSearchItem;
+	TCHAR           szSearch[255];
 	CMUCHighlight  *Highlight;
 	COMMAND_INFO   *lpCommands;
 	COMMAND_INFO   *lpCurrentCommand;
