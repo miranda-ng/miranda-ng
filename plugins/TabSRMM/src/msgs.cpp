@@ -150,7 +150,7 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 
-		_tcsncpy(dat->szStatusBar, (TCHAR *)lParam, SIZEOF(dat->szStatusBar));
+		_tcsncpy(dat->szStatusBar, (TCHAR*)lParam, SIZEOF(dat->szStatusBar));
 
 		if (pContainer->hwndActive != dat->hwnd)
 			return 1;
@@ -338,7 +338,7 @@ INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 		if (lParam) {
 			HWND hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
 			SendMessage(hEdit, EM_SETSEL, -1, SendMessage(hEdit, WM_GETTEXTLENGTH, 0, 0));
-			SendMessage(hEdit, EM_REPLACESEL, FALSE, (LPARAM)(TCHAR *) lParam);
+			SendMessage(hEdit, EM_REPLACESEL, FALSE, (LPARAM)(TCHAR*) lParam);
 		}
 		SendMessage(hwnd, DM_ACTIVATEME, 0, 0);
 	} else {
@@ -730,7 +730,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, i
 		lstrcpyn(newcontactname, _T("_U_"), SIZEOF(newcontactname));
 
 	WORD wStatus = (szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE));
-	TCHAR *szStatus = (TCHAR *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE), GSMDF_TCHAR);
+	TCHAR *szStatus = (TCHAR*) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE), GSMDF_TCHAR);
 
 	if (M.GetByte("tabstatus", 1))
 		mir_sntprintf(tabtitle, SIZEOF(tabtitle), _T("%s (%s)  "), newcontactname, szStatus);

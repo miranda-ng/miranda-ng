@@ -105,7 +105,7 @@ void CMUCHighlight::tokenize(TCHAR *tszString, TCHAR**& patterns, UINT& nr)
 		}
 		p++;
 	}
-	patterns = (TCHAR **)mir_alloc(nr * sizeof(TCHAR *));
+	patterns = (TCHAR **)mir_alloc(nr * sizeof(TCHAR*));
 
 	p = tszString;
 	nr = 0;

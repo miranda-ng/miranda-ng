@@ -580,7 +580,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 					iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_GROUP));
 					if (iLen > 0) {
-						pszText = (TCHAR *)realloc(pszText, (iLen + 2) * sizeof(TCHAR));
+						pszText = (TCHAR*)realloc(pszText, (iLen + 2) * sizeof(TCHAR));
 						GetDlgItemText(hwndDlg, IDC_GROUP, pszText, iLen + 1);
 						db_set_ts(NULL, "Chat", "AddToGroup", pszText);
 					} else
@@ -1029,7 +1029,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			if (PluginConfig.m_chat_enabled) {
 				int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY));
 				if (iLen > 0) {
-					TCHAR *pszText1 = (TCHAR *)malloc(iLen*sizeof(TCHAR) + 2);
+					TCHAR *pszText1 = (TCHAR*)malloc(iLen*sizeof(TCHAR) + 2);
 					GetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, pszText1, iLen + 1);
 					db_set_ts(NULL, "Chat", "LogDirectory", pszText1);
 					free(pszText1);

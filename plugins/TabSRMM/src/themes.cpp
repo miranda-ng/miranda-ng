@@ -1406,7 +1406,7 @@ void CSkin::Load(void)
 		return;
 
 	TCHAR *p;
-	TCHAR *szSections = (TCHAR *)malloc(6004);
+	TCHAR *szSections = (TCHAR*)malloc(6004);
 	int i = 1, j = 0;
 	UINT  data;
 	TCHAR buffer[500];
@@ -1573,7 +1573,7 @@ void CSkin::LoadItems()
 
 	m_nrSkinIcons = 0;
 
-	szSections = (TCHAR *)malloc((SECT_BUFFER_SIZE + 2) * sizeof(TCHAR));
+	szSections = (TCHAR*)malloc((SECT_BUFFER_SIZE + 2) * sizeof(TCHAR));
 	ZeroMemory(szSections, (SECT_BUFFER_SIZE + 2) * sizeof(TCHAR));
 
 	GetPrivateProfileSection(_T("Icons"), szSections, SECT_BUFFER_SIZE, m_tszFileName);
@@ -1590,7 +1590,7 @@ void CSkin::LoadItems()
 				ZeroMemory(&m_skinIcons[m_nrSkinIcons], sizeof(TIconDesc));
 				m_skinIcons[m_nrSkinIcons].uId = tmpIconDesc.uId;
 				m_skinIcons[m_nrSkinIcons].phIcon = (HICON *)(&m_skinIcons[m_nrSkinIcons].uId);
-				m_skinIcons[m_nrSkinIcons].szName = (TCHAR *)malloc(sizeof(TCHAR) * (lstrlen(p) + 1));
+				m_skinIcons[m_nrSkinIcons].szName = (TCHAR*)malloc(sizeof(TCHAR) * (lstrlen(p) + 1));
 				lstrcpy(m_skinIcons[m_nrSkinIcons].szName, p);
 				m_nrSkinIcons++;
 			}

@@ -197,7 +197,7 @@ search_again:
 					int ii = 0;
 					TCHAR szTemp[5];
 					for (ii = 0; ii < rtf_ctable_size; ii++) {
-						if (!_tcsnicmp((TCHAR *)colorname.c_str(), rtf_ctable[ii].szName, lstrlen(rtf_ctable[ii].szName))) {
+						if (!_tcsnicmp((TCHAR*)colorname.c_str(), rtf_ctable[ii].szName, lstrlen(rtf_ctable[ii].szName))) {
 							closing = beginmark + 7 + lstrlen(rtf_ctable[ii].szName);
 							if (endmark != message.npos) {
 								message.erase(endmark, 4);
@@ -307,7 +307,7 @@ ok:
 			smbp.cbSize = sizeof(smbp);
 			smbp.Protocolname = dat->cache->getActiveProto();
 			smbp.flag = SAFL_TCHAR | SAFL_PATH | (isSent ? SAFL_OUTGOING : 0);
-			smbp.str = (TCHAR *)smcode.c_str();
+			smbp.str = (TCHAR*)smcode.c_str();
 			smbp.hContact = dat->hContact;
 			smbpr = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&smbp);
 			if (smbpr) {
@@ -436,7 +436,7 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 				} else
 					szFinalStatus = xStatusDescr[xStatus - 1];
 			} else
-				szFinalStatus = (TCHAR *)(dat->szStatus && dat->szStatus[0] ? dat->szStatus : _T("(undef)"));
+				szFinalStatus = (TCHAR*)(dat->szStatus && dat->szStatus[0] ? dat->szStatus : _T("(undef)"));
 
 			if (szFinalStatus) {
 				title.insert(tempmark + 2, szFinalStatus);
@@ -475,7 +475,7 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 	}
 	length = title.length();
 
-	szResult = (TCHAR *)malloc((length + 2) * sizeof(TCHAR));
+	szResult = (TCHAR*)malloc((length + 2) * sizeof(TCHAR));
 	if (szResult) {
 		_tcsncpy(szResult, title.c_str(), length);
 		szResult[length] = 0;
@@ -1006,7 +1006,7 @@ void TSAPI Utils::showDlgControl(const HWND hwnd, UINT id, int showCmd)
 DWORD CALLBACK Utils::StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
 {
 	HANDLE hFile;
-	TCHAR *szFilename = (TCHAR *)dwCookie;
+	TCHAR *szFilename = (TCHAR*)dwCookie;
 	if ((hFile = CreateFile(szFilename, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL)) != INVALID_HANDLE_VALUE) {
 		SetFilePointer(hFile, 0, NULL, FILE_END);
 		FilterEventMarkers(reinterpret_cast<TCHAR *>(pbBuff));

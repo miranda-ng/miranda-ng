@@ -657,7 +657,8 @@ void SM_AddCommand(const TCHAR* pszID, const char* pszModule, const char* lpNewC
 			if (si->lpCommands == NULL) {
 				node->next = NULL;
 				si->lpCommands = node;
-			} else {
+			}
+			else {
 				node->next = si->lpCommands;
 				si->lpCommands->last = node; // hmm, weird
 				si->lpCommands = node;
@@ -1189,7 +1190,7 @@ BOOL UM_SetStatusEx(USERINFO* pUserList, const TCHAR* pszText, int flags)
 		if (pszText == NULL)
 			continue;
 			
-		TCHAR* s = (TCHAR *)_tcsstr(pszText, p->pszUID);
+		TCHAR* s = (TCHAR*)_tcsstr(pszText, p->pszUID);
 		if (s == NULL)
 			continue;
 

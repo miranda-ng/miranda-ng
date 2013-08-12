@@ -100,7 +100,7 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, TCHAR **
 	lineLen = lineLen*9 + 8;
 	if (*cbBufferEnd + lineLen > *cbBufferAlloced) {
 		cbBufferAlloced[0] += (lineLen + 1024 - lineLen % 1024);
-		*buffer = (TCHAR *) mir_realloc(*buffer, *cbBufferAlloced * sizeof(TCHAR));
+		*buffer = (TCHAR*) mir_realloc(*buffer, *cbBufferAlloced * sizeof(TCHAR));
 	}
 
 	d = *buffer + *cbBufferEnd;
@@ -444,9 +444,9 @@ static TCHAR * _tcsrplc(TCHAR **src, const TCHAR *ptrn, const TCHAR *rplc)
 	lRplc = lstrlen(rplc);
 	if (lPtrn && lSrc && lSrc >= lPtrn && (tszFound = _tcsstr(*src, ptrn)) != NULL) {
 		if (lRplc > lPtrn)
-			*src = (TCHAR *) realloc((void*) * src,
+			*src = (TCHAR*) realloc((void*) * src,
 									 sizeof(TCHAR) * (lSrc + lRplc - lPtrn + 1));
-		if (tszTail = (TCHAR *) malloc(sizeof(TCHAR) *
+		if (tszTail = (TCHAR*) malloc(sizeof(TCHAR) *
 									   (lSrc - (tszFound - *src) - lPtrn + 1))) {
 			/* save tail */
 			_tcscpy(tszTail, tszFound + lPtrn);
@@ -476,7 +476,7 @@ static TCHAR * _tcsnrplc(TCHAR *src, size_t n, const TCHAR *ptrn, const TCHAR *r
 	if (lPtrn && lSrc && lSrc >= lPtrn && /* lengths are ok */
 			(tszFound = _tcsstr(src, ptrn)) != NULL && /* pattern was found in string */
 			(n < 0 || lSrc - lPtrn + lRplc < n) && /* there is enough room in the string */
-			(tszTail = (TCHAR *) malloc(sizeof(TCHAR) *
+			(tszTail = (TCHAR*) malloc(sizeof(TCHAR) *
 										(lSrc - (tszFound - src) - lPtrn + 1))) != NULL) {
 		/* save tail */
 		_tcscpy(tszTail, tszFound + lPtrn);

@@ -77,19 +77,18 @@ struct MButtonCtrl
 
 struct AeroEffect
 {
-	TCHAR		tszName[40];
-	DWORD		m_baseColor;
-	DWORD		m_gradientColor;
-	BYTE		m_baseAlpha;
-	BYTE		m_finalAlpha;
-	BYTE		m_cornerType;
-	BYTE		m_gradientType;
-	DWORD		m_cornerRadius;
-	DWORD		m_glowSize;
-	COLORREF	m_clrBack;
-	COLORREF 	m_clrToolbar;
-	COLORREF 	m_clrToolbar2;
-	void 		(TSAPI	*pfnEffectRenderer)(const HDC hdc, const RECT *rc, int iEffectArea);
+	TCHAR    tszName[40];
+	DWORD    m_baseColor;
+	DWORD    m_gradientColor;
+	BYTE     m_baseAlpha;
+	BYTE     m_finalAlpha;
+	BYTE     m_cornerType;
+	BYTE     m_gradientType;
+	DWORD    m_cornerRadius;
+	DWORD    m_glowSize;
+	COLORREF m_clrBack, m_clrToolbar, m_clrToolbar2;
+	
+	void (TSAPI	*pfnEffectRenderer)(const HDC hdc, const RECT *rc, int iEffectArea);
 };
 /**
  * CImageItem implementes image-based skin items. These items are loaded
@@ -180,14 +179,14 @@ public:
 		const BLENDFUNCTION &bf = m_bf;
 		return(bf);
 	}
-	const TCHAR*		getName() const { return (m_szName); }
-	TCHAR*				Read(const TCHAR *szFilename);
-	void 				Create(const TCHAR *szImageFile);
-	void __fastcall		Render(const HDC hdc, const RECT *rc, bool fIgnoreGlyph) const;
+	const TCHAR*      getName() const { return (m_szName); }
+	TCHAR*            Read(const TCHAR *szFilename);
+	void              Create(const TCHAR *szImageFile);
+	void __fastcall   Render(const HDC hdc, const RECT *rc, bool fIgnoreGlyph) const;
 	static void TSAPI	PreMultiply(HBITMAP hBitmap, int mode);
 	static void TSAPI	SetBitmap32Alpha(HBITMAP hBitmap, BYTE bAlpha = 255);
 	static void TSAPI	Colorize(HBITMAP hBitmap, BYTE dr, BYTE dg, BYTE db, BYTE alpha = 0);
-    static HBITMAP TSAPI LoadPNG(const TCHAR *szFilename);
+	static HBITMAP TSAPI LoadPNG(const TCHAR *szFilename);
 
 public:
 	bool			m_fValid;									// verified item, indicates that all parameters are valid

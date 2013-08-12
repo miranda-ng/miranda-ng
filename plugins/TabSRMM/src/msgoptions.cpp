@@ -140,7 +140,7 @@ static int TSAPI ScanSkinDir(const TCHAR* tszFolder, HWND hwndCombobox)
 
 		M.pathToRelative(tszFinalName, tszRel, M.getSkinPath());
 		if ((lr = SendMessage(hwndCombobox, CB_INSERTSTRING, -1, (LPARAM)szBuf)) != CB_ERR) {
-			TCHAR *idata = (TCHAR *)malloc((lstrlen(tszRel) + 1) * sizeof(TCHAR));
+			TCHAR *idata = (TCHAR*)malloc((lstrlen(tszRel) + 1) * sizeof(TCHAR));
 
 			_tcscpy(idata, tszRel);
 			SendMessage(hwndCombobox, CB_SETITEMDATA, lr, (LPARAM)idata);
@@ -192,8 +192,8 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 		LRESULT lr = SendMessage(hwndCombobox, CB_GETCOUNT, 0, 0);
 		for (int i = 1; i < lr; i++) {
 
-			TCHAR* idata = (TCHAR *)SendMessage(hwndCombobox, CB_GETITEMDATA, i, 0);
-			if (idata && idata != (TCHAR *)CB_ERR) {
+			TCHAR* idata = (TCHAR*)SendMessage(hwndCombobox, CB_GETITEMDATA, i, 0);
+			if (idata && idata != (TCHAR*)CB_ERR) {
 				if (!_tcsicmp(dbv.ptszVal, idata)) {
 					SendMessage(hwndCombobox, CB_SETCURSEL, i, 0);
 					break;
@@ -373,8 +373,8 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					if (HIWORD(wParam) == CBN_SELCHANGE) {
 						LRESULT lr = SendDlgItemMessage(hwndDlg, IDC_SKINNAME, CB_GETCURSEL, 0 ,0);
 						if (lr != CB_ERR && lr > 0) {
-							TCHAR	*tszRelPath = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_SKINNAME, CB_GETITEMDATA, lr, 0);
-							if (tszRelPath && tszRelPath != (TCHAR *)CB_ERR)
+							TCHAR	*tszRelPath = (TCHAR*)SendDlgItemMessage(hwndDlg, IDC_SKINNAME, CB_GETITEMDATA, lr, 0);
+							if (tszRelPath && tszRelPath != (TCHAR*)CB_ERR)
 								db_set_ts(0, SRMSGMOD_T, "ContainerSkin", tszRelPath);
 							SendMessage(hwndDlg, WM_COMMAND, IDC_RELOADSKIN, 0);
 						}
@@ -1663,7 +1663,7 @@ INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		SetWindowText(hwndDlg, TranslateT("Choose status modes"));
 		{
 			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
-				SetWindowText(GetDlgItem(hwndDlg, i), (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)i, GSMDF_TCHAR));
+				SetWindowText(GetDlgItem(hwndDlg, i), (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)i, GSMDF_TCHAR));
 				if (dwStatusMask != -1 && (dwStatusMask & (1 << (i - ID_STATUS_ONLINE))))
 					CheckDlgButton(hwndDlg, i, TRUE);
 				Utils::enableDlgControl(hwndDlg, i, dwStatusMask != -1);

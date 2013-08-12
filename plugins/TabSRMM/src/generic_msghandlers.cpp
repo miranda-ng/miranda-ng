@@ -553,7 +553,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 		else {
 			int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE));
 
-			TCHAR *buf = (TCHAR *)mir_alloc((iLen + 2) * sizeof(TCHAR));
+			TCHAR *buf = (TCHAR*)mir_alloc((iLen + 2) * sizeof(TCHAR));
 			GetDlgItemText(hwndDlg, IDC_MESSAGE, buf, iLen + 1);
 			db_set_ts(dat->hContact, "UserInfo", "MyNotes", buf);
 			SetDlgItemText(hwndDlg, IDC_MESSAGE, _T(""));
@@ -1099,14 +1099,14 @@ LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT msg, WPARAM w
 		if (hClip) {
 			HGLOBAL hgbl;
 			TCHAR *tszLocked;
-			TCHAR *tszText = (TCHAR *)malloc((lstrlen((TCHAR *)hClip) + 2) * sizeof(TCHAR));
+			TCHAR *tszText = (TCHAR*)malloc((lstrlen((TCHAR*)hClip) + 2) * sizeof(TCHAR));
 
-			lstrcpy(tszText, (TCHAR *)hClip);
+			lstrcpy(tszText, (TCHAR*)hClip);
 			Utils::FilterEventMarkers(tszText);
 			EmptyClipboard();
 
 			hgbl = GlobalAlloc(GMEM_MOVEABLE, (lstrlen(tszText) + 1) * sizeof(TCHAR));
-			tszLocked = (TCHAR *)GlobalLock(hgbl);
+			tszLocked = (TCHAR*)GlobalLock(hgbl);
 			lstrcpy(tszLocked, tszText);
 			GlobalUnlock(hgbl);
 			SetClipboardData(CF_UNICODETEXT, hgbl);

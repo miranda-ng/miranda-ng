@@ -250,7 +250,7 @@ void TSAPI AddContactToFavorites(HANDLE hContact, const TCHAR *szNickname, const
 		if (wStatus == 0)
 			wStatus = db_get_w((HANDLE)hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		if (szStatus == NULL)
-			szStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, wStatus, GSMDF_TCHAR);
+			szStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, wStatus, GSMDF_TCHAR);
 	}
 	else
 		return;
@@ -296,7 +296,7 @@ void TSAPI AddContactToFavorites(HANDLE hContact, const TCHAR *szNickname, const
 						mii2.cch++;
 						mii2.dwTypeData = szBuffer;
 						GetMenuItemInfo(PluginConfig.g_hMenuFavorites, i, TRUE, &mii2);
-						if (_tcsncmp((TCHAR *)mii2.dwTypeData, szMenuEntry, 140) > 0 || i == c) {
+						if (_tcsncmp((TCHAR*)mii2.dwTypeData, szMenuEntry, 140) > 0 || i == c) {
 							InsertMenu(PluginConfig.g_hMenuFavorites, i, MF_BYPOSITION, (UINT_PTR)hContact, szMenuEntry);
 							break;
 						}

@@ -87,7 +87,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 	CHARRANGE cr;
 	TCHAR* pszMenu[256]={0};//=NULL;
 	int i=0;
-	TCHAR* pszText = (TCHAR *)_T("");
+	TCHAR* pszText = (TCHAR*)_T("");
 	TCHAR* pszFormatedText=NULL;
 	UINT textlenght=0;
 	BBButton bbd={0};
@@ -105,7 +105,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 	SendDlgItemMessage(cbcd->hwndFrom,IDC_MESSAGE, EM_EXGETSEL, 0, (LPARAM)&cr);
 	textlenght=cr.cpMax-cr.cpMin;
 	if ( textlenght ) {
-		pszText = (TCHAR *)mir_alloc((textlenght+1)*sizeof(TCHAR));
+		pszText = (TCHAR*)mir_alloc((textlenght+1)*sizeof(TCHAR));
 		ZeroMemory(pszText,(textlenght+1)*sizeof(TCHAR));
 		SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE,EM_GETSELTEXT, 0, (LPARAM)pszText);
 	}
@@ -139,7 +139,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 				res = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, NULL);
 				if ( res==0 ) break;
 
-				pszFormatedText = (TCHAR *)mir_alloc((textlenght+lstrlen(pszMenu[res-1])+2)*sizeof(TCHAR));
+				pszFormatedText = (TCHAR*)mir_alloc((textlenght+lstrlen(pszMenu[res-1])+2)*sizeof(TCHAR));
 				ZeroMemory(pszFormatedText,(textlenght+lstrlen(pszMenu[res-1])+2)*sizeof(TCHAR));
 
 				mir_sntprintf(pszFormatedText,(textlenght+lstrlen(pszMenu[res-1])+2)*sizeof(TCHAR),pszMenu[res-1],pszText);
@@ -147,7 +147,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 			}break;
 		case 2:
 			{
-				pszFormatedText = (TCHAR *)mir_alloc((textlenght+12)*sizeof(TCHAR));
+				pszFormatedText = (TCHAR*)mir_alloc((textlenght+12)*sizeof(TCHAR));
 				ZeroMemory(pszFormatedText,(textlenght+12)*sizeof(TCHAR));
 
 				SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE,EM_GETSELTEXT, 0, (LPARAM)pszText);
@@ -161,7 +161,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 
 		case 3:
 			{
-				pszFormatedText = (TCHAR *)mir_alloc(6*sizeof(TCHAR));
+				pszFormatedText = (TCHAR*)mir_alloc(6*sizeof(TCHAR));
 				ZeroMemory(pszFormatedText,6*sizeof(TCHAR));
 
 				mir_sntprintf(pszFormatedText,6*sizeof(TCHAR),_T("%s"),_T("[img]"));
@@ -173,7 +173,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 		case 4:
 			{
 
-				pszFormatedText = (TCHAR *)mir_alloc(7*sizeof(TCHAR));
+				pszFormatedText = (TCHAR*)mir_alloc(7*sizeof(TCHAR));
 				ZeroMemory(pszFormatedText,7*sizeof(TCHAR));
 				mir_sntprintf(pszFormatedText,7*sizeof(TCHAR),_T("%s"),_T("[/img]"));
 

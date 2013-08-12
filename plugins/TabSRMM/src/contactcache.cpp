@@ -308,11 +308,11 @@ void CContactCache::saveHistory(WPARAM wParam, LPARAM lParam)
 			if (m_history[m_iHistoryTop].szText == NULL) {
 				if (iLength < HISTORY_INITIAL_ALLOCSIZE)
 					iLength = HISTORY_INITIAL_ALLOCSIZE;
-				m_history[m_iHistoryTop].szText = (TCHAR *)malloc(iLength);
+				m_history[m_iHistoryTop].szText = (TCHAR*)malloc(iLength);
 				m_history[m_iHistoryTop].lLen = iLength;
 			} else {
 				if (iLength > m_history[m_iHistoryTop].lLen) {
-					m_history[m_iHistoryTop].szText = (TCHAR *)realloc(m_history[m_iHistoryTop].szText, iLength);
+					m_history[m_iHistoryTop].szText = (TCHAR*)realloc(m_history[m_iHistoryTop].szText, iLength);
 					m_history[m_iHistoryTop].lLen = iLength;
 				}
 			}
@@ -399,7 +399,7 @@ void CContactCache::allocHistory()
 	m_iHistoryTop = 0;
 	if (m_history)
 		ZeroMemory(m_history, sizeof(TInputHistory) * m_iHistorySize);
-	m_history[m_iHistorySize].szText = (TCHAR *)malloc((HISTORY_INITIAL_ALLOCSIZE + 1) * sizeof(TCHAR));
+	m_history[m_iHistorySize].szText = (TCHAR*)malloc((HISTORY_INITIAL_ALLOCSIZE + 1) * sizeof(TCHAR));
 	m_history[m_iHistorySize].lLen = HISTORY_INITIAL_ALLOCSIZE;
 }
 
@@ -583,7 +583,7 @@ TCHAR* CContactCache::getNormalizedStatusMsg(const TCHAR *src, bool fStripAll)
 	}
 
 	if (i) {
-		tszResult = (TCHAR *)mir_alloc((dest.length() + 1) * sizeof(TCHAR));
+		tszResult = (TCHAR*)mir_alloc((dest.length() + 1) * sizeof(TCHAR));
 		_tcscpy(tszResult, dest.c_str());
 		tszResult[dest.length()] = 0;
 	}

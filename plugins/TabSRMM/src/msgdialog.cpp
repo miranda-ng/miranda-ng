@@ -1518,7 +1518,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (newData->szInitialText) {
 				int len;
 				if (newData->isWchar)
-					SetDlgItemTextW(hwndDlg, IDC_MESSAGE, (TCHAR *)newData->szInitialText);
+					SetDlgItemTextW(hwndDlg, IDC_MESSAGE, (TCHAR*)newData->szInitialText);
 				else
 					SetDlgItemTextA(hwndDlg, IDC_MESSAGE, newData->szInitialText);
 				len = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE));
@@ -3065,11 +3065,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 					if (dat->hwndIEView) {
 						event.hwnd = dat->hwndIEView;
-						selected = (TCHAR *)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
+						selected = (TCHAR*)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
 					}
 					else {
 						event.hwnd = dat->hwndHPP;
-						selected = (TCHAR *)CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&event);
+						selected = (TCHAR*)CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&event);
 					}
 
 					if (selected != NULL) {
@@ -3094,7 +3094,7 @@ quote_from_last:
 				if (sel.cpMin == sel.cpMax) {
 					DBEVENTINFO dbei = { sizeof(dbei) };
 					dbei.cbBlob = db_event_getBlobSize(hDBEvent);
-					szText = (TCHAR *)malloc((dbei.cbBlob + 1) * sizeof(TCHAR));   //URLs are made one char bigger for crlf
+					szText = (TCHAR*)malloc((dbei.cbBlob + 1) * sizeof(TCHAR));   //URLs are made one char bigger for crlf
 					dbei.pBlob = (BYTE *)szText;
 					db_event_get(hDBEvent, &dbei);
 					iSize = (int)(strlen((char *)dbei.pBlob)) + 1;
@@ -3104,9 +3104,9 @@ quote_from_last:
 					}
 					else {
 						if (iSize != dbei.cbBlob)
-							szConverted = (TCHAR *) & dbei.pBlob[iSize];
+							szConverted = (TCHAR*) & dbei.pBlob[iSize];
 						else {
-							szConverted = (TCHAR *)malloc(sizeof(TCHAR) * iSize);
+							szConverted = (TCHAR*)malloc(sizeof(TCHAR) * iSize);
 							iAlloced = TRUE;
 							MultiByteToWideChar(CP_ACP, 0, (char *) dbei.pBlob, -1, szConverted, iSize);
 						}
@@ -3117,7 +3117,7 @@ quote_from_last:
 						MoveMemory(szText + iDescr + 2, szText + sizeof(DWORD) + iDescr, dbei.cbBlob - iDescr - sizeof(DWORD) - 1);
 						szText[iDescr] = '\r';
 						szText[iDescr+1] = '\n';
-						szConverted = (TCHAR *)malloc(sizeof(TCHAR) * (1 + lstrlenA((char *)szText)));
+						szConverted = (TCHAR*)malloc(sizeof(TCHAR) * (1 + lstrlenA((char *)szText)));
 						MultiByteToWideChar(CP_ACP, 0, (char *) szText, -1, szConverted, 1 + lstrlenA((char *)szText));
 						iAlloced = TRUE;
 					}
@@ -3257,11 +3257,11 @@ quote_from_last:
 		return 0;
 		/*
 		* sent by the select container dialog box when a container was selected...
-		* lParam = (TCHAR *)selected name...
+		* lParam = (TCHAR*)selected name...
 		*/
 	case DM_CONTAINERSELECTED:
 		{
-			TCHAR *szNewName = (TCHAR *)lParam;
+			TCHAR *szNewName = (TCHAR*)lParam;
 			if (!_tcscmp(szNewName, TranslateT("Default container")))
 				szNewName = CGlobals::m_default_container_name;
 

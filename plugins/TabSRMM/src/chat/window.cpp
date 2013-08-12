@@ -233,9 +233,12 @@ static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
 	if (dat == NULL)
 		return;
 
+	SESSION_INFO *si = dat->si;
+	if (si == NULL)
+		return;
+
 	HWND hwndDlg = dat->hwnd;
 	HWND hwndTab = GetParent(hwndDlg);
-	SESSION_INFO *si = dat->si;
 
 	if (msg == WM_ACTIVATE) {
 		if (dat->pContainer->dwFlags & CNT_TRANSPARENCY && CMimAPI::m_pSetLayeredWindowAttributes != NULL) {
@@ -246,8 +249,9 @@ static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
 
 	if (si->hwndFilter) {
 		POINT pt;
-		RECT  rcFilter;
 		GetCursorPos(&pt);
+
+		RECT rcFilter;
 		GetWindowRect(si->hwndFilter, &rcFilter);
 		if (!PtInRect(&rcFilter, pt)) {
 			SendMessage(si->hwndFilter, WM_CLOSE, 1, 1);
@@ -1860,14 +1864,12 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	case WM_INITDIALOG:
 		{
 			TNewWindowData *newData = (TNewWindowData*)lParam;
-			SESSION_INFO *psi = (SESSION_INFO*)newData->hdbEvent;
-			RECT rc;
+			si = (SESSION_INFO*)newData->hdbEvent;
 
 			TWindowData *dat = (TWindowData*)calloc( sizeof(TWindowData), 1);
-			si = psi;
-			dat->si = psi;
-			dat->hContact = psi->hContact;
-			dat->szProto = GetContactProto(psi->hContact);
+			dat->si = si;
+			dat->hContact = si->hContact;
+			dat->szProto = GetContactProto(si->hContact);
 			dat->bType = SESSIONTYPE_CHAT;
 			dat->Panel = new CInfoPanel(dat);
 
@@ -1879,25 +1881,25 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			TabCtrl_SetItem(hwndTab, newData->iTabID, &newData->item);
 			dat->iTabID = newData->iTabID;
 			dat->pContainer = newData->pContainer;
-			psi->pContainer = newData->pContainer;
+			si->pContainer = newData->pContainer;
 			dat->hwnd = hwndDlg;
-			psi->hWnd = hwndDlg;
-			psi->dat = dat;
+			si->hWnd = hwndDlg;
+			si->dat = dat;
 			dat->fIsAutosizingInput = IsAutoSplitEnabled(dat);
 			dat->fLimitedUpdate = false;
 			dat->iInputAreaHeight = -1;
 			if (!dat->pContainer->settings->fPrivate)
-				psi->iSplitterY = g_Settings.iSplitterY;
+				si->iSplitterY = g_Settings.iSplitterY;
 			else {
 				if (M.GetByte("Chat", "SyncSplitter", 0))
-					psi->iSplitterY = dat->pContainer->settings->splitterPos - DPISCALEY_S(23);
+					si->iSplitterY = dat->pContainer->settings->splitterPos - DPISCALEY_S(23);
 				else
-					psi->iSplitterY = g_Settings.iSplitterY;
+					si->iSplitterY = g_Settings.iSplitterY;
 			}
-#if defined(__FEAT_EXP_AUTOSPLITTER)
-			if (dat->fIsAutosizingInput)
-				psi->iSplitterY = GetDefaultMinimumInputHeight(dat);
-#endif
+			#if defined(__FEAT_EXP_AUTOSPLITTER)
+				if (dat->fIsAutosizingInput)
+					si->iSplitterY = GetDefaultMinimumInputHeight(dat);
+			#endif
 			dat->pWnd = 0;
 			CProxyWindow::add(dat);
 
@@ -1933,11 +1935,11 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			int mask = (int)SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_GETEVENTMASK, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETEVENTMASK, 0, mask | ENM_LINK | ENM_MOUSEEVENTS | ENM_KEYEVENTS);
 
-#if defined(__FEAT_EXP_AUTOSPLITTER)
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETEVENTMASK, 0, ENM_REQUESTRESIZE | ENM_MOUSEEVENTS | ENM_SCROLL | ENM_KEYEVENTS | ENM_CHANGE);
-#else
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_SCROLL | ENM_KEYEVENTS | ENM_CHANGE);
-#endif
+			#if defined(__FEAT_EXP_AUTOSPLITTER)
+				SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETEVENTMASK, 0, ENM_REQUESTRESIZE | ENM_MOUSEEVENTS | ENM_SCROLL | ENM_KEYEVENTS | ENM_CHANGE);
+			#else
+				SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_SCROLL | ENM_KEYEVENTS | ENM_CHANGE);
+			#endif
 
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_LIMITTEXT, (WPARAM)0x7FFFFFFF, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
@@ -1967,6 +1969,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			SendMessage(hwndDlg, GC_SETWNDPROPS, 0, 0);
 			SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
 			SendMessage(hwndDlg, GC_UPDATETITLE, 0, 1);
+
+			RECT rc;
 			SendMessage(dat->pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
 			SetWindowPos(hwndDlg, HWND_TOP, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), 0);
 			ShowWindow(hwndDlg, SW_SHOW);
@@ -2002,10 +2006,10 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 			DM_InitRichEdit(dat);
 			SendDlgItemMessage(hwndDlg, IDOK, BUTTONSETASNORMAL, TRUE, 0);
-			{
-				SendMessage(GetDlgItem(hwndDlg, IDC_LIST), LB_SETITEMHEIGHT, 0, (LPARAM)g_Settings.iNickListFontHeight);
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_LIST), NULL, TRUE);
-			}
+			
+			SendMessage(GetDlgItem(hwndDlg, IDC_LIST), LB_SETITEMHEIGHT, 0, (LPARAM)g_Settings.iNickListFontHeight);
+			InvalidateRect(GetDlgItem(hwndDlg, IDC_LIST), NULL, TRUE);
+			
 			SendDlgItemMessage(hwndDlg, IDC_FILTER, BUTTONSETOVERLAYICON, 
 				(LPARAM)(si->bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
 			SendMessage(hwndDlg, WM_SIZE, 0, 0);
@@ -2065,7 +2069,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				TCITEM item = { 0 };
 				item.mask = TCIF_TEXT;
 
-				lstrcpyn(dat->szStatus, (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)dat->wStatus, GSMDF_TCHAR), 50);
+				lstrcpyn(dat->szStatus, (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)dat->wStatus, GSMDF_TCHAR), 50);
 				dat->szStatus[49] = 0;
 				item.pszText = dat->newtitle;
 				item.cchTextMax = 120;
@@ -2680,7 +2684,7 @@ LABEL_SHOWWINDOW:
 
 						TEXTRANGE tr = { 0 };
 						tr.chrg = cr;
-						tr.lpstrText = (TCHAR *)pszWord;
+						tr.lpstrText = (TCHAR*)pszWord;
 						int iRes = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 
 						if (iRes > 0) {
@@ -2786,7 +2790,7 @@ LABEL_SHOWWINDOW:
 						TEXTRANGE tr;
 						tr.lpstrText = NULL;
 						tr.chrg = ((ENLINK *) lParam)->chrg;
-						tr.lpstrText = (TCHAR *)mir_alloc(sizeof(TCHAR) * (tr.chrg.cpMax - tr.chrg.cpMin + 2));
+						tr.lpstrText = (TCHAR*)mir_alloc(sizeof(TCHAR) * (tr.chrg.cpMax - tr.chrg.cpMin + 2));
 						SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 
 						BOOL isLink = IsStringValidLink(tr.lpstrText);
@@ -3350,7 +3354,7 @@ LABEL_SHOWWINDOW:
 	case DM_CONTAINERSELECTED:
 		{
 			TContainerData *pNewContainer = 0;
-			TCHAR *szNewName = (TCHAR *)lParam;
+			TCHAR *szNewName = (TCHAR*)lParam;
 			if (!_tcscmp(szNewName, TranslateT("Default container")))
 				szNewName = CGlobals::m_default_container_name;
 			int iOldItems = TabCtrl_GetItemCount(hwndTab);

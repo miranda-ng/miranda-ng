@@ -528,7 +528,7 @@ static TCHAR *ShortenPreview(DBEVENTINFO* dbe)
 		buf[iIndex] = 0;
 	}
 	if (fAddEllipsis) {
-		buf = (TCHAR *)mir_realloc(buf, (lstrlen(buf) + 5) * sizeof(TCHAR));
+		buf = (TCHAR*)mir_realloc(buf, (lstrlen(buf) + 5) * sizeof(TCHAR));
 		_tcscat(buf, _T("..."));
 	}
 	return buf;
@@ -810,7 +810,7 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 			return 0;									// should also NOT happen
 
 		wMyStatus = (wStatus == 0) ? db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) : wStatus;
-		szMyStatus = (szStatus == NULL) ? (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wMyStatus, GSMDF_TCHAR) : szStatus;
+		szMyStatus = (szStatus == NULL) ? (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wMyStatus, GSMDF_TCHAR) : szStatus;
 		mii.wID = (UINT)hContact;
 		mii.hbmpItem = HBMMENU_CALLBACK;
 

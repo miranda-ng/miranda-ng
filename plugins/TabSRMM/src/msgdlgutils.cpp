@@ -758,7 +758,7 @@ TCHAR* TSAPI QuoteText(const TCHAR *text, int charsPerLine, int removeExistingQu
 	for (outChar = 0, lineChar = 0;text[inChar];) {
 		if (outChar >= bufSize - 8) {
 			bufSize += 20;
-			strout = (TCHAR *)realloc(strout, bufSize * sizeof(TCHAR));
+			strout = (TCHAR*)realloc(strout, bufSize * sizeof(TCHAR));
 		}
 		if (justDoneLineBreak && text[inChar] != '\r' && text[inChar] != '\n') {
 			if (removeExistingQuotes)

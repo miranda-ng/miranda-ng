@@ -684,19 +684,15 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 		if (CallProtoService(c->getProto(), PS_GETSTATUS, 0, 0) == ID_STATUS_OFFLINE)
 			return;
 
-		WORD	wStatus, wOldStatus;
-
-		wStatus = LOWORD(wParam);
-		wOldStatus = HIWORD(wParam);
-
+		WORD wStatus = LOWORD(wParam);
+		WORD wOldStatus = HIWORD(wParam);
 		if (wStatus == wOldStatus)
 			return;
 
-		TCHAR 			buffer[450];
+		TCHAR buffer[450];
 
-		TCHAR *szOldStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wOldStatus, GSMDF_TCHAR);
-		TCHAR *szNewStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wStatus, GSMDF_TCHAR);
-
+		TCHAR *szOldStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wOldStatus, GSMDF_TCHAR);
+		TCHAR *szNewStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wStatus, GSMDF_TCHAR);
 		if (szOldStatus == 0 || szNewStatus == 0)
 			return;
 
