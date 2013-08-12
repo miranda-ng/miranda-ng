@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static WNDPROC OldListProc;
 
-BOOL CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int bInitializing; //true when dialog is being created
 	
@@ -217,27 +217,6 @@ void AddAnchorWindowToDeferList(HDWP &hdWnds, HWND window, RECT *rParent, WINDOW
 	hdWnds = DeferWindowPos(hdWnds, window, HWND_NOTOPMOST, rChild.left, rChild.top, rChild.right - rChild.left, rChild.bottom - rChild.top, SWP_NOZORDER);
 }
 
-void SavePosition(HWND hWnd)
-{
-	RECT rWnd;
-	GetWindowRect(hWnd, &rWnd);
-	db_set_dw(0, ModuleName, "PosX", rWnd.left);
-	db_set_dw(0, ModuleName, "PosY", rWnd.top);
-	//DBWriteContactSettingDword(0, ModuleName, "Width", rWnd.right - rWnd.left);
-	//DBWriteContactSettingDword(0, ModuleName, "Height", rWnd.bottom - rWnd.top);
-}
-
-void LoadPosition(HWND hWnd)
-{
-	int x, y;
-	int width = 500, height = 300;
-	x = db_get_dw(0, ModuleName, "PosX", 0);
-	y = db_get_dw(0, ModuleName, "PosY", 0);
-	//width = DBGetContactSettingDword(0, ModuleName, "Width", 500);
-	//height = DBGetContactSettingDword(0, ModuleName, "Height", 300);
-	SetWindowPos(hWnd, NULL, x, y, width, height, SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOSIZE);
-}
-
 int CALLBACK ListSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
@@ -264,9 +243,8 @@ int CALLBACK ListSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				
 			case WM_LBUTTONDBLCLK:
 				{
-					int i;
 					int count = ListView_GetItemCount(hWnd);
-					for (i = 0; i < count; i++)	
+					for (int i = 0; i < count; i++)	
 						{
 							if (ListView_GetItemState(hWnd, i, LVIS_SELECTED))
 								{
@@ -283,7 +261,7 @@ int CALLBACK ListSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return CallWindowProc(OldListProc, hWnd, msg, wParam, lParam);
 }
 
-BOOL CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 		{
@@ -312,10 +290,7 @@ BOOL CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					col.cchTextMax = _tcslen(col.pszText) + 1;
 					ListView_InsertColumn(hList, 0, &col);
 					
-					//LoadPosition(hWnd);
-					
 					return TRUE;
-					break;
 				}
 				
 			case WM_DESTROY:
@@ -338,7 +313,6 @@ BOOL CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				{
 					HWND hList = GetDlgItem(hWnd, IDC_EMAILS_LIST);
 					ListView_DeleteAllItems(hList);
-					int i;
 					int count = GetWindowLong(hWnd, GWLP_USERDATA);
 					LVITEM item = {0};
 					TEmailHeader email = {0};
@@ -352,7 +326,7 @@ BOOL CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					email.szSubject = subject;
 					item.mask = LVIF_TEXT;
 					
-					for (i = 0; i < count; i++)
+					for (int i = 0; i < count; i++)
 						{
 							exchangeServer.GetEmailHeader(i, &email);
 							item.iItem = i;
@@ -442,9 +416,8 @@ BOOL CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 							case IDC_MARK_READ:
 								{
 									HWND hList = GetDlgItem(hWnd, IDC_EMAILS_LIST);
-									int i;
 									int count = ListView_GetItemCount(hList);
-									for (i = 0; i < count; i++)
+									for (int i = 0; i < count; i++)
 										{
 											if (ListView_GetCheckState(hList, i))
 												{
@@ -488,7 +461,7 @@ BOOL CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-BOOL CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 		{

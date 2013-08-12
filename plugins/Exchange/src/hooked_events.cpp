@@ -63,7 +63,8 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	cl.hIcon = hiMailIcon;
 	cl.position = 10000000;
 	cl.pszService = MS_EXCHANGE_CHECKEMAIL;
-	cl.pszName = Translate("Check exchange mailbox");
+	cl.flags = CMIF_TCHAR;
+	cl.ptszName = LPGENT("Check exchange mailbox");
 	Menu_AddMainMenuItem (&cl);
 	
 	hEmailsDlg = NULL; //CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EMAILS), NULL, DlgProcEmails); //create emails window
@@ -73,7 +74,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 }
 
 //add the exchange options dialog to miranda
-int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
+int OnOptionsInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {0};
 	
@@ -85,13 +86,12 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 	odp.ptszGroup = LPGENT("Plugins");
 	odp.groupPosition = 910000000;
 	odp.flags=ODPF_BOLDGROUPS|ODPF_TCHAR;
-	odp.pfnDlgProc = (DLGPROC)DlgProcOptions;
-	//CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
 
-int OnSystemPreShutdown(WPARAM wParam, LPARAM lParam)
+int OnSystemPreShutdown(WPARAM, LPARAM)
 {
 	if (hEmailsDlg)
 	{

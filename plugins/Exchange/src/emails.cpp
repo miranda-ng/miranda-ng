@@ -388,9 +388,9 @@ int ShowPopupMessage(TCHAR *title, TCHAR *message, int cUnreadEmails)
 	popup.colorBack = NULL;
 	popup.colorText = NULL;
 	popup.lchIcon = hiMailIcon;
-	_tcsncpy(popup.lptzContactName, title,_tcslen(title));
-	_tcsncpy(popup.lptzText, message,_tcslen(message));
-	popup.PluginWindowProc = (WNDPROC) DlgProcPopup;
+	_tcsncpy(popup.lptzContactName, title, MAX_CONTACTNAME);
+	_tcsncpy(popup.lptzText, message, MAX_SECONDLINE);
+	popup.PluginWindowProc = DlgProcPopup;
 	popup.PluginData = (int *) cUnreadEmails;
 	return PUAddPopupT(&popup);
 }
@@ -411,7 +411,7 @@ int ShowEmailsWindow(int cUnreadEmails)
 	{
 		if (!hEmailsDlg)
 		{
-			hEmailsDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EMAILS), NULL, (DLGPROC)DlgProcEmails);
+			hEmailsDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EMAILS), NULL, DlgProcEmails);
 		}
 		
 		SetWindowLong(hEmailsDlg, GWLP_USERDATA, cUnreadEmails);
