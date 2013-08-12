@@ -707,7 +707,6 @@ typedef void (DLL_CALLCONV *FI_InitProc)(Plugin *plugin, int format_id);
 #define PNG_DEFAULT         0
 #define PNG_IGNOREGAMMA		1		// loading: avoid gamma correction
 #define PNG_Z_BEST_SPEED			0x0001	// save using ZLib level 1 compression flag (default value is 6)
-#define PNG_Z_DEFAULT_COMPRESSION	0x0006	// save using ZLib level 6 compression flag (default recommended value)
 #define PNG_Z_BEST_COMPRESSION		0x0009	// save using ZLib level 9 compression flag (default value is 6)
 #define PNG_Z_NO_COMPRESSION		0x0100	// save without ZLib compression
 #define PNG_INTERLACED				0x0200	// save using Adam7 interlacing (use | to combine with other save flags)
