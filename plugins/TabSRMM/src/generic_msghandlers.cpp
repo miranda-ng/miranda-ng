@@ -1829,7 +1829,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 							  TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status."),
 							  bHasName ? dat->cache->getUIN() : TranslateT("No UID"));
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_NAME), BUTTONADDTOOLTIP, /*bHasName ?*/ (WPARAM)fulluin /*: (WPARAM)_T("")*/, 0);
+			SendMessage(GetDlgItem(hwndDlg, IDC_NAME), BUTTONADDTOOLTIP, (WPARAM)fulluin, BATF_TCHAR);
 		}
 	}
 	else lstrcpyn(newtitle, pszNewTitleEnd, SIZEOF(newtitle));

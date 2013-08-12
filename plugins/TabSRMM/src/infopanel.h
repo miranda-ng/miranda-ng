@@ -162,7 +162,7 @@ public:
 	void Configure() const;
 	void showHide() const;
 	bool getVisibility();
-	void renderBG(const HDC hdc, RECT& rc, CSkinItem *item, bool fAero, bool fAutoCalc = true) const;
+	void renderBG(const HDC hdc, RECT& rc, CSkinItem *item, bool bAero, bool fAutoCalc = true) const;
 	void renderContent(const HDC hdcMem);
 	void Invalidate(BOOL fErase = FALSE) const;
 	void trackMouse(POINT& pt);

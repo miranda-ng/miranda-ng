@@ -100,15 +100,15 @@ void CSideBarButton::_create()
 	m_isTopAligned = true;
 	m_sz.cx = m_sz.cy = 0;
 
-	m_hwnd = ::CreateWindowEx(0, _T("TSButtonClass"), _T(""), WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
+	m_hwnd = ::CreateWindowEx(0, _T("MButtonClass"), _T(""), WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
 							  0, 0, 40, 40, m_sideBar->getScrollWnd(), reinterpret_cast<HMENU>(m_id), g_hInst, NULL);
-
 	if (m_hwnd) {
+		CustomizeButton(m_hwnd);
 		::SendMessage(m_hwnd, BUTTONSETASSIDEBARBUTTON, (WPARAM)this, 0);
 		::SendMessage(m_hwnd, BUTTONSETASFLATBTN, FALSE,  0);
 		::SendMessage(m_hwnd, BUTTONSETASTHEMEDBTN, TRUE,  0);
 		::SendMessage(m_hwnd, BUTTONSETCONTAINER, (LPARAM)m_sideBar->getContainer(), 0);
-		m_buttonControl = (MButtonCtrl *)::GetWindowLongPtr(m_hwnd, 0);
+		m_buttonControl = (TSButtonCtrl *)::GetWindowLongPtr(m_hwnd, 0);
 	}
 	else
 		delete this;
@@ -170,7 +170,7 @@ const SIZE& CSideBarButton::measureItem()
 /**
  * Render the button item. Callback from the button window procedure
  *
- * @param ctl    MButtonCtrl *: pointer to the private button data structure
+ * @param ctl    TSButtonCtrl *: pointer to the private button data structure
  * @param hdc    HDC: device context for painting
  */
 void CSideBarButton::RenderThis(const HDC hdc) const
@@ -987,18 +987,17 @@ LRESULT CALLBACK CSideBar::wndProcStub(HWND hwnd, UINT msg, WPARAM wParam, LPARA
  * @param rc      RECT*: target rectangle
  * @param stateId the state identifier (normal, pressed, hot, disabled etc.)
  */
-void __fastcall CSideBar::m_DefaultBackgroundRenderer(const HDC hdc, const RECT *rc,
-													  const CSideBarButton *item)
+void __fastcall CSideBar::m_DefaultBackgroundRenderer(const HDC hdc, const RECT *rc, const CSideBarButton *item)
 {
-	UINT	id = item->getID();
-	int		stateId = item->m_buttonControl->stateId;
-	bool	fIsActiveItem = (item->m_sideBar->getActiveItem() == item);
+	UINT  id = item->getID();
+	int   stateId = item->m_buttonControl->stateId;
+	bool  fIsActiveItem = (item->m_sideBar->getActiveItem() == item);
 
 	if (CSkin::m_skinEnabled) {
-		TContainerData*	pContainer = const_cast<TContainerData *>(item->m_sideBar->getContainer());
-		int 		id = stateId == PBS_PRESSED || fIsActiveItem ? ID_EXTBKBUTTONSPRESSED : (stateId == PBS_HOT ? ID_EXTBKBUTTONSMOUSEOVER : ID_EXTBKBUTTONSNPRESSED);
-		CSkinItem*	skinItem = &SkinItems[id];
-		HWND		hwnd;
+		TContainerData *pContainer = const_cast<TContainerData *>(item->m_sideBar->getContainer());
+		int id = stateId == PBS_PRESSED || fIsActiveItem ? ID_EXTBKBUTTONSPRESSED : (stateId == PBS_HOT ? ID_EXTBKBUTTONSMOUSEOVER : ID_EXTBKBUTTONSNPRESSED);
+		CSkinItem *skinItem = &SkinItems[id];
+		HWND hwnd;
 
 		if (id == IDC_SIDEBARUP)
 			hwnd = item->m_sideBar->getScrollUp()->m_buttonControl->hwnd;

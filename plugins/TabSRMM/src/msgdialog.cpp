@@ -34,13 +34,13 @@
 
 #define MS_HTTPSERVER_ADDFILENAME "HTTPServer/AddFileName"
 
-const 	TCHAR*		pszIDCSAVE_close = 0, *pszIDCSAVE_save = 0;
+const TCHAR *pszIDCSAVE_close = 0, *pszIDCSAVE_save = 0;
 
-static const UINT sendControls[] 			= { IDC_MESSAGE, IDC_LOG };
-static const UINT formatControls[] 			= { IDC_SMILEYBTN, IDC_FONTBOLD, IDC_FONTITALIC, IDC_FONTUNDERLINE, IDC_FONTFACE,IDC_FONTSTRIKEOUT };
-static const UINT addControls[] 			= { IDC_ADD, IDC_CANCELADD };
-
-static const UINT errorControls[] 			= { IDC_STATICERRORICON, IDC_STATICTEXT, IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER};
+static const UINT sendControls[]   = { IDC_MESSAGE, IDC_LOG };
+static const UINT formatControls[] = { IDC_SMILEYBTN, IDC_FONTBOLD, IDC_FONTITALIC, IDC_FONTUNDERLINE, IDC_FONTFACE,IDC_FONTSTRIKEOUT };
+static const UINT addControls[]    = { IDC_ADD, IDC_CANCELADD };
+static const UINT btnControls[]    = { IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER, IDC_ADD, IDC_CANCELADD };
+static const UINT errorControls[]  = { IDC_STATICERRORICON, IDC_STATICTEXT, IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER};
 
 static struct {
 	int id;
@@ -457,11 +457,8 @@ void TSAPI ShowMultipleControls(HWND hwndDlg, const UINT *controls, int cControl
 
 void TSAPI SetDialogToType(HWND hwndDlg)
 {
-	TWindowData *dat;
-	int showToolbar = 0;
-
-	dat = (TWindowData*) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	showToolbar = dat->pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
+	TWindowData *dat = (TWindowData*) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	int showToolbar = dat->pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
 
 	if (dat->hContact) {
 		if (db_get_b(dat->hContact, "CList", "NotOnList", 0)) {
@@ -1321,14 +1318,17 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (dat->hContact && dat->szProto != NULL) {
 				dat->wStatus = db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
 				mir_sntprintf(dat->szStatus, SIZEOF(dat->szStatus), _T("%s"), (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, GSMDF_TCHAR));
-			} else
-				dat->wStatus = ID_STATUS_OFFLINE;
+			}
+			else dat->wStatus = ID_STATUS_OFFLINE;
+
+			for (i=0; i < SIZEOF(btnControls); i++)
+				CustomizeButton( GetDlgItem(hwndDlg, btnControls[i]));
 
 			GetMYUIN(dat);
 			GetClientIcon(dat);
 
-			CreateWindowEx(0, _T("TSButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20),
-				hwndDlg, (HMENU)IDC_TOGGLESIDEBAR, g_hInst, NULL);
+			CustomizeButton( CreateWindowEx(0, _T("MButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20),
+				hwndDlg, (HMENU)IDC_TOGGLESIDEBAR, g_hInst, NULL));
 			dat->hwndPanelPicParent = CreateWindowEx(WS_EX_TOPMOST, _T("Static"), _T(""), SS_OWNERDRAW | WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, hwndDlg, (HMENU)6000, NULL, NULL);
 			mir_subclassWindow(dat->hwndPanelPicParent, CInfoPanel::avatarParentSubclass);
 
@@ -1370,16 +1370,16 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			// load log option flags...
 			dat->dwFlags = dat->pContainer->theme.dwFlags;
 			/*
-			* consider per-contact message setting overrides
-			*/
+			 * consider per-contact message setting overrides
+			 */
 
 			if (M.GetDword(dat->hContact, "mwmask", 0))
 				if (dat->hContact)
 					LoadLocalFlags(hwndDlg, dat);
 
 			/*
-			* allow disabling emoticons per contact (note: currently unused feature)
-			*/
+			 * allow disabling emoticons per contact (note: currently unused feature)
+			 */
 
 			dwLocalSmAdd = (int)M.GetByte(dat->hContact, "doSmileys", 0xff);
 			if (dwLocalSmAdd != 0xffffffff)
@@ -1433,13 +1433,13 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			TABSRMM_FireEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_OPENING, 0);
 
 			for (i=0; i < SIZEOF(tooltips); i++)
-				SendDlgItemMessage(hwndDlg, tooltips[i].id, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(tooltips[i].text), 0);
+				SendDlgItemMessage(hwndDlg, tooltips[i].id, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(tooltips[i].text), BATF_TCHAR);
 
 			SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, dat->bNotOnList ? TranslateT("Contact not on list. You may add it...") :
 				TranslateT("Autoscrolling is disabled (press F12 to enable it)"));
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_SAVE), BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, 0);
-			SendMessage(GetDlgItem(hwndDlg, IDC_PROTOCOL), BUTTONADDTOOLTIP, (WPARAM)TranslateT("Click for contact menu\nClick dropdown for window settings"), 0);
+			SendMessage(GetDlgItem(hwndDlg, IDC_SAVE), BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, BATF_TCHAR);
+			SendMessage(GetDlgItem(hwndDlg, IDC_PROTOCOL), BUTTONADDTOOLTIP, (WPARAM)TranslateT("Click for contact menu\nClick dropdown for window settings"), BATF_TCHAR);
 
 			SetWindowText(GetDlgItem(hwndDlg, IDC_RETRY), TranslateT("Retry"));
 
@@ -1634,7 +1634,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 
 			bool	bInfoPanel = dat->Panel->isActive();
-			bool	fAero = M.isAero();
+			bool	bAero = M.isAero();
 
 			if (CSkin::m_skinEnabled) {
 				CSkinItem *item;
@@ -1686,7 +1686,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			*/
 
 			GetClientRect(hwndDlg, &rc);
-			dat->Panel->renderBG(hdcMem, rc, &SkinItems[ID_EXTBKINFOPANELBG], fAero);
+			dat->Panel->renderBG(hdcMem, rc, &SkinItems[ID_EXTBKINFOPANELBG], bAero);
 
 			/*
 			* draw aero related stuff

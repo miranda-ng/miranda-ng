@@ -65,7 +65,7 @@
 #include <m_imgsrvc.h>
 #include <m_database.h>
 #include <m_langpack.h>
-#include <m_button.h>
+#include <m_button_int.h>
 #include <m_protosvc.h>
 #include <m_skin.h>
 #include <m_contacts.h>

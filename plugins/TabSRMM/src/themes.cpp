@@ -1987,7 +1987,7 @@ void CSkin::MY_AlphaBlend(HDC hdcDraw, DWORD left, DWORD top,  int width, int he
 }
 
 /**
- * draw an icon "dimmed" (small amount of transparency applied)
+ * draw an icon "bDimmed" (small amount of transparency applied)
 */
 
 void CSkin::DrawDimmedIcon(HDC hdc, LONG left, LONG top, LONG dx, LONG dy, HICON hIcon, BYTE alpha)
@@ -2303,10 +2303,10 @@ void CSkin::RenderToolbarBG(const TWindowData *dat, HDC hdc, const RECT &rcWindo
 		if (dat->pContainer->dwFlags & CNT_HIDETOOLBAR)
 			return;
 
-		bool	 fAero = M.isAero();
+		bool	 bAero = M.isAero();
 		bool	 fTbColorsValid = PluginConfig.m_tbBackgroundHigh && PluginConfig.m_tbBackgroundLow;
 		BYTE	 bAlphaOffset = 0;
-		BOOL 	fMustDrawNonThemed = ((fAero || fTbColorsValid) && !M.GetByte(SRMSGMOD_T, "forceThemedToolbar", 0));
+		BOOL 	fMustDrawNonThemed = ((bAero || fTbColorsValid) && !M.GetByte(SRMSGMOD_T, "forceThemedToolbar", 0));
 		RECT 	rc, rcToolbar;;
 		POINT	pt;
 
@@ -2374,9 +2374,9 @@ void CSkin::RenderToolbarBG(const TWindowData *dat, HDC hdc, const RECT &rcWindo
 		else {
 			dat->pContainer->bTBRenderingMode = (M.isVSThemed() ? 1 : 0);
 			m_tmp_tb_high = PluginConfig.m_tbBackgroundHigh ? PluginConfig.m_tbBackgroundHigh :
-					((fAero && m_pCurrentAeroEffect) ? m_pCurrentAeroEffect->m_clrToolbar : ::GetSysColor(COLOR_3DFACE));
+					((bAero && m_pCurrentAeroEffect) ? m_pCurrentAeroEffect->m_clrToolbar : ::GetSysColor(COLOR_3DFACE));
 			m_tmp_tb_low = PluginConfig.m_tbBackgroundLow ? PluginConfig.m_tbBackgroundLow :
-					((fAero && m_pCurrentAeroEffect) ? m_pCurrentAeroEffect->m_clrToolbar2 : ::GetSysColor(COLOR_3DFACE));
+					((bAero && m_pCurrentAeroEffect) ? m_pCurrentAeroEffect->m_clrToolbar2 : ::GetSysColor(COLOR_3DFACE));
 
 			bAlphaOffset = PluginConfig.m_tbBackgroundHigh ? 40 : 0;
 			::DrawAlpha(dat->pContainer->cachedToolbarDC, &rcCachedToolbar, m_tmp_tb_high, 55 + bAlphaOffset, m_tmp_tb_low, 0, 9, 0, 0, 0);

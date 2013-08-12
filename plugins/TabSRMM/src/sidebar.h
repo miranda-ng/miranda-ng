@@ -89,7 +89,7 @@ public:
 
 public:
 	CSideBar* 					m_sideBar;
-	const	MButtonCtrl*		m_buttonControl;						// private data struct of the Win32 button object
+	const	TSButtonCtrl*		m_buttonControl;						// private data struct of the Win32 button object
 private:
 	void						_create();
 private:

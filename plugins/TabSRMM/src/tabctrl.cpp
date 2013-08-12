@@ -403,20 +403,20 @@ static int DWordAlign(int n)
 static HRESULT DrawThemesPartWithAero(const TabControlData *tabdat, HDC hDC, int iPartId, int iStateId, LPRECT prcBox, TWindowData *dat)
 {
 	HRESULT hResult = 0;
-	bool	fAero = M.isAero();
+	bool	bAero = M.isAero();
 
 	if (tabdat->fAeroTabs) {
 		if (tabdat->dwStyle & TCS_BOTTOM)
-			prcBox->top += (fAero ? 2 : iStateId == PBS_PRESSED ? (M.isVSThemed() ? 1 : -1) : 0);
-		else if (!fAero)
+			prcBox->top += (bAero ? 2 : iStateId == PBS_PRESSED ? (M.isVSThemed() ? 1 : -1) : 0);
+		else if (!bAero)
 			prcBox->bottom -= (iStateId == PBS_PRESSED ? (M.isVSThemed() ? 1 : -1) : 0);
 
-		if (fAero)
+		if (bAero)
 			FillRect(hDC, prcBox, CSkin::m_BrushBack);
 		else if (dat)
 			FillTabBackground(hDC, iStateId, dat, prcBox);
 
-		tabdat->helperItem->setAlphaFormat(AC_SRC_ALPHA, iStateId == PBS_PRESSED ? 255 : (fAero ? 240 : 255));
+		tabdat->helperItem->setAlphaFormat(AC_SRC_ALPHA, iStateId == PBS_PRESSED ? 255 : (bAero ? 240 : 255));
 		tabdat->helperItem->Render(hDC, prcBox, true);
 		tabdat->helperGlowItem->setAlphaFormat(AC_SRC_ALPHA, iStateId == PBS_PRESSED ? 220 : 180);
 

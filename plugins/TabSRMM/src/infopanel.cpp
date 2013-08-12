@@ -277,16 +277,16 @@ HFONT CInfoPanel::setUnderlinedFont(const HDC hdc, HFONT hFontOrig)
  * @param hdc	 HDC: target device context
  * @param rc     RECT&: target rectangle
  * @param item   CSkinItem *: The item to render in non-aero mode
- * @param fAero  bool: aero active
+ * @param bAero  bool: aero active
  */
-void CInfoPanel::renderBG(const HDC hdc, RECT& rc, CSkinItem *item, bool fAero, bool fAutoCalc) const
+void CInfoPanel::renderBG(const HDC hdc, RECT& rc, CSkinItem *item, bool bAero, bool fAutoCalc) const
 {
 	if (!m_active)
 		return;
 
 	if (fAutoCalc)
 		rc.bottom = m_height + 1;
-	if (fAero) {
+	if (bAero) {
 		RECT	rcBlack = rc;
 		rc.bottom -= 2;
 		::FillRect(hdc, &rc, CSkin::m_BrushBack);

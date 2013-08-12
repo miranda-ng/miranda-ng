@@ -1953,8 +1953,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			DM_ThemeChanged(dat);
 			SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_HIDESELECTION, TRUE, 0);
 
-			CreateWindowEx(0, _T("TSButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20),
-				hwndDlg, (HMENU)IDC_CHAT_TOGGLESIDEBAR, g_hInst, NULL);
+			CustomizeButton( CreateWindowEx(0, _T("MButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20),
+				hwndDlg, (HMENU)IDC_CHAT_TOGGLESIDEBAR, g_hInst, NULL));			
 
 			GetMYUIN(dat);
 			GetMyNick(dat);
@@ -1962,7 +1962,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETASFLATBTN, FALSE, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETASTOOLBARBUTTON, TRUE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Expand or collapse the side bar"), 1);
+			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Expand or collapse the side bar"), BATF_TCHAR);
 
 			dat->hwndIEView = dat->hwndHPP = 0;
 
@@ -3215,10 +3215,9 @@ LABEL_SHOWWINDOW:
 		{
 			HDC  hdc = (HDC)wParam;
 			RECT rcClient, rcWindow, rc;
-			CSkinItem *item;
 			UINT item_ids[3] = {ID_EXTBKUSERLIST, ID_EXTBKHISTORY, ID_EXTBKINPUTAREA};
 			UINT ctl_ids[3] = {IDC_LIST, IDC_CHAT_LOG, IDC_CHAT_MESSAGE};
-			bool 	fAero = M.isAero();
+			bool 	bAero = M.isAero();
 			bool 	bInfoPanel = dat->Panel->isActive();
 			HANDLE 	hbp = 0;
 			HDC 	hdcMem = 0;
@@ -3236,10 +3235,10 @@ LABEL_SHOWWINDOW:
 				hbmOld = (HBITMAP)SelectObject(hdcMem, hbm);
 			}
 
-			if (CSkin::m_skinEnabled && !fAero) {
+			if (CSkin::m_skinEnabled && !bAero) {
 				CSkin::SkinDrawBG(hwndDlg, dat->pContainer->hwnd, dat->pContainer, &rcClient, hdcMem);
 				for (int i=0; i < 3; i++) {
-					item = &SkinItems[item_ids[i]];
+					CSkinItem *item = &SkinItems[item_ids[i]];
 					if (!item->IGNORED) {
 						GetWindowRect(GetDlgItem(hwndDlg, ctl_ids[i]), &rcWindow);
 						pt.x = rcWindow.left;
@@ -3265,7 +3264,7 @@ LABEL_SHOWWINDOW:
 			}
 
 			GetClientRect(hwndDlg, &rc);
-			dat->Panel->renderBG(hdcMem, rc, &SkinItems[ID_EXTBKINFOPANELBG], fAero);
+			dat->Panel->renderBG(hdcMem, rc, &SkinItems[ID_EXTBKINFOPANELBG], bAero);
 			dat->Panel->renderContent(hdcMem);
 
 			if (!CSkin::m_skinEnabled)

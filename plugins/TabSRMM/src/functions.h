@@ -147,9 +147,7 @@ int   TSAPI RegisterTabCtrlClass(void);
 
 // buttons
 
-int   TSAPI LoadTSButtonModule(void);
 int   TSAPI UnloadTSButtonModule();
-
 
 /*
  * debugging support

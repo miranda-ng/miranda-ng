@@ -107,7 +107,6 @@ void CGlobals::reloadSystemStartup()
 	m_bIsVista = IsWinVerVistaPlus();
 	m_bIsWin7 = IsWinVer7Plus();
 
-	::LoadTSButtonModule();
 	::RegisterTabCtrlClass();
 	CTip::registerClass();
 

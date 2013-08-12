@@ -246,7 +246,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 
 static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM lParam)
 {
-	MButtonCtrl* bct = (MButtonCtrl *)GetWindowLongPtr(hwnd, 0);
+	MButtonCtrl *bct = (MButtonCtrl *)GetWindowLongPtr(hwnd, 0);
 
 	switch(msg) {
 	case WM_NCCREATE:
@@ -259,13 +259,16 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 		bct->fnPainter = PaintWorker;
 		bct->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 		LoadTheme(bct);
-		if (SUCCEEDED(CoCreateInstance(CLSID_AccPropServices, NULL, CLSCTX_SERVER, IID_IAccPropServices, (void**)&bct->pAccPropServices))) {
-			// Annotating the Role of this object to be PushButton
+		
+		// Annotating the Role of this object to be PushButton
+		if (SUCCEEDED(CoCreateInstance(CLSID_AccPropServices, NULL, CLSCTX_SERVER, IID_IAccPropServices, (void**)&bct->pAccPropServices)))
 			SetHwndPropInt(bct, OBJID_CLIENT, CHILDID_SELF, PROPID_ACC_ROLE, ROLE_SYSTEM_PUSHBUTTON);
-		}
-		else bct->pAccPropServices = NULL;
+		else
+			bct->pAccPropServices = NULL;
+
 		SetWindowLongPtr(hwnd, 0, (LONG_PTR)bct);
-		if (((CREATESTRUCT *)lParam)->lpszName) SetWindowText(hwnd, ((CREATESTRUCT *)lParam)->lpszName);
+		if (((CREATESTRUCT *)lParam)->lpszName)
+			SetWindowText(hwnd, ((CREATESTRUCT*)lParam)->lpszName);
 		return TRUE;
 
 	case WM_DESTROY:
@@ -300,7 +303,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 			if (bct->arrow) IcoLib_ReleaseIcon(bct->arrow, 0);
 			DestroyTheme(bct);
 		}
-		break;	// DONT! fall thru
+		break;
 
 	case WM_NCDESTROY:
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
@@ -323,7 +326,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 		break;
 
 	case WM_KEYUP:
-		if (bct->stateId != PBS_DISABLED && wParam == VK_SPACE) {
+		if (bct->stateId != PBS_DISABLED && wParam == VK_SPACE && !(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_SHIFT) & 0x8000)) {
 			if (bct->bIsPushBtn) {
 				if (bct->bIsPushed) {
 					bct->bIsPushed = 0;

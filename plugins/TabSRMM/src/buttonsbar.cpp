@@ -210,7 +210,7 @@ void CB_ChangeButton(HWND hwndDlg, TWindowData *dat, CustomButtonData* cbd)
 		if (cbd->hIcon)
 			SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIconByHandle(cbd->hIcon));
 		if (cbd->ptszTooltip)
-			SendMessage(hwndBtn, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(cbd->ptszTooltip), 0);
+			SendMessage(hwndBtn, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(cbd->ptszTooltip), BATF_TCHAR);
 		SendMessage(hwndBtn, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
 	}
 }
@@ -384,12 +384,8 @@ static INT_PTR CB_SetButtonState(WPARAM wParam, LPARAM lParam)
 	hwndDlg = M.FindWindow((HANDLE)wParam);
 	if (hwndDlg && realbutton && bbdi->hIcon)
 		SendMessage(GetDlgItem(hwndDlg, tempCID), BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIconByHandle(bbdi->hIcon));
-	if (hwndDlg && realbutton && bbdi->pszTooltip) {
-		if (bbdi->bbbFlags&BBBF_ANSITOOLTIP)
-			SendMessage(GetDlgItem(hwndDlg, tempCID), BUTTONADDTOOLTIP, (WPARAM)mir_a2u(bbdi->pszTooltip), 0);
-		else
-			SendMessage(GetDlgItem(hwndDlg, tempCID), BUTTONADDTOOLTIP, (WPARAM)bbdi->ptszTooltip, 0);
-	}
+	if (hwndDlg && realbutton && bbdi->pszTooltip)
+		SendMessage(GetDlgItem(hwndDlg, tempCID), BUTTONADDTOOLTIP, (WPARAM)bbdi->ptszTooltip, (bbdi->bbbFlags & BBBF_ANSITOOLTIP) ? 0 : BATF_TCHAR);
 	if (hwndDlg && realbutton && bbdi->bbbFlags) {
 		Utils::showDlgControl(hwndDlg, tempCID, (bbdi->bbbFlags&BBSF_HIDDEN) ? SW_HIDE : SW_SHOW);
 		Utils::enableDlgControl(hwndDlg, tempCID, (bbdi->bbbFlags&BBSF_DISABLED) ? 0 : 1);
@@ -561,15 +557,17 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 				rwidth += cbd->iButtonWidth + gap;
 			if (!cbd->bHidden && !cbd->bCanBeHidden)
 				dat->iButtonBarReallyNeeds += cbd->iButtonWidth + gap;
-			if (!cbd->bDummy && !GetDlgItem(hdlg, cbd->dwButtonCID))
-				hwndBtn = CreateWindowEx(0, _T("TSButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, rect.right - rwidth + gap, splitterY, cbd->iButtonWidth, DPISCALEY_S(22), hdlg, (HMENU) cbd->dwButtonCID, g_hInst, NULL);
+			if (!cbd->bDummy && !GetDlgItem(hdlg, cbd->dwButtonCID)) {
+				hwndBtn = CreateWindowEx(0, _T("MButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, rect.right - rwidth + gap, splitterY, cbd->iButtonWidth, DPISCALEY_S(22), hdlg, (HMENU) cbd->dwButtonCID, g_hInst, NULL);
+				CustomizeButton(hwndBtn);
+			}
 			if (!cbd->bDummy && hwndBtn) {
 				SendMessage(hwndBtn, BUTTONSETASFLATBTN, TRUE, 0);
 				SendMessage(hwndBtn, BUTTONSETASTHEMEDBTN, isThemed != 0, 0);
 				if (cbd->hIcon)
 					SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIconByHandle(cbd->hIcon));
 				if (cbd->ptszTooltip)
-					SendMessage(hwndBtn, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(cbd->ptszTooltip), 0);
+					SendMessage(hwndBtn, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(cbd->ptszTooltip), BATF_TCHAR);
 				SendMessage(hwndBtn, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
 				SendMessage(hwndBtn, BUTTONSETASTOOLBARBUTTON, TRUE, 0);
 
@@ -594,9 +592,11 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 		CustomButtonData* cbd = (CustomButtonData *)LButtonsList->items[i];
 		if (((dat->bType == SESSIONTYPE_IM && cbd->bIMButton)
 				|| (dat->bType == SESSIONTYPE_CHAT && cbd->bChatButton))) {
-			if (!cbd->bDummy && !GetDlgItem(hdlg, cbd->dwButtonCID))
-				hwndBtn = CreateWindowEx(0, _T("TSButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, 2 + lwidth, splitterY,
+			if (!cbd->bDummy && !GetDlgItem(hdlg, cbd->dwButtonCID)) {
+				hwndBtn = CreateWindowEx(0, _T("MButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, 2 + lwidth, splitterY,
 										 cbd->iButtonWidth, DPISCALEY_S(22), hdlg, (HMENU) cbd->dwButtonCID, g_hInst, NULL);
+				CustomizeButton(hwndBtn);
+			}
 			if (!cbd->bHidden)
 				lwidth += cbd->iButtonWidth + gap;
 			if (!cbd->bHidden && !cbd->bCanBeHidden)
@@ -607,7 +607,7 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 				if (cbd->hIcon)
 					SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIconByHandle(cbd->hIcon));
 				if (cbd->ptszTooltip)
-					SendMessage(hwndBtn, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(cbd->ptszTooltip), 0);
+					SendMessage(hwndBtn, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(cbd->ptszTooltip), BATF_TCHAR);
 				SendMessage(hwndBtn, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
 				SendMessage(hwndBtn, BUTTONSETASTOOLBARBUTTON, TRUE, 0);
 

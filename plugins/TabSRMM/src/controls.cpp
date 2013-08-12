@@ -769,8 +769,8 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			CSkinItem *		item = &SkinItems[ID_EXTBKSTATUSBARPANEL];
 			COLORREF		clr = 0;
 
-			BOOL			fAero = M.isAero();
-			HANDLE  		hTheme = fAero ? CMimAPI::m_pfnOpenThemeData(hWnd, L"ButtonStyle") : 0;
+			BOOL			bAero = M.isAero();
+			HANDLE  		hTheme = bAero ? CMimAPI::m_pfnOpenThemeData(hWnd, L"ButtonStyle") : 0;
 			TWindowData *dat = 0;
 
 			if (pContainer)
@@ -794,7 +794,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 
 			if (pContainer && CSkin::m_skinEnabled)
 				CSkin::SkinDrawBG(hWnd, GetParent(hWnd), pContainer, &rcClient, hdcMem);
-			else if (fAero) {
+			else if (bAero) {
 				FillRect(hdcMem, &rcClient, CSkin::m_BrushBack);
 				CSkin::ApplyAeroEffect(hdcMem, &rcClient, CSkin::AERO_EFFECT_AREA_STATUSBAR);
 			} else {
@@ -811,7 +811,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			}
 			for (i=0; i < (int)nParts; i++) {
 				SendMessage(hWnd, SB_GETRECT, (WPARAM)i, (LPARAM)&itemRect);
-				if (!item->IGNORED && !fAero && pContainer && CSkin::m_skinEnabled)
+				if (!item->IGNORED && !bAero && pContainer && CSkin::m_skinEnabled)
 					CSkin::DrawItem(hdcMem, &itemRect, item);
 
 				if (i == 0)

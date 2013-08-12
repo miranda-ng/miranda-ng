@@ -41,30 +41,18 @@ HBITMAP IMG_LoadLogo(const TCHAR *szName);
 
 class CSideBarButton;
 
-struct MButtonCtrl
+struct TSButtonCtrl : public MButtonCtrl
 {
-	HWND    hwnd;
-	int     stateId; // button state
-	int     focus;   // has focus (1 or 0)
-	HFONT   hFont;   // font
-	HICON   arrow;   // uses down arrow
-	int     defbutton; // default button
-	HICON   hIcon, hIconPrivate;
-	HBITMAP hBitmap;
-	int     pushBtn;
-	int     pbState;
-	HANDLE  hThemeButton;
-	HANDLE  hThemeToolbar;
-	BOOL    bThemed;
-	BOOL	  bToolbarButton;			// is a toolbar button (important for aero background rendering)
-	BOOL	  bTitleButton;
-	TCHAR	  cHot;
-	int     flatBtn;
-	int     dimmed;
-	HICON	  overlay;
+	HICON   hIconPrivate, overlay;
+	bool    bToolbarButton;			// is a toolbar button (important for aero background rendering)
+	bool    bTitleButton;
+	bool    bDimmed;
+
 	TContainerData *pContainer;
 	CSideBarButton *sitem;
 };
+
+void CustomizeButton(HWND hwndButton);
 
 #define BUTTONSETASDIMMED        (BUTTONSETASFLATBTN + 11)
 #define BUTTONSETCONTAINER       (BUTTONSETASFLATBTN + 12)

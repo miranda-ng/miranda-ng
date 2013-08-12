@@ -572,7 +572,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			int i=0;
 			ButtonItem *pbItem;
 			HWND  hwndButton = 0;
-			bool fAero = M.isAero();
+			bool bAero = M.isAero();
 			BOOL isFlat = M.GetByte("tbflat", 1);
 			BOOL isThemed = !M.GetByte("nlflat", 0);
 
@@ -1630,7 +1630,7 @@ panel_found:
 			HANDLE hContact = 0;
 			int i=0;
 			UINT sBarHeight;
-			bool fAero = M.isAero();
+			bool bAero = M.isAero();
 
 			ws = wsold = GetWindowLongPtr(hwndDlg, GWL_STYLE);
 			if (!CSkin::m_frameSkins) {
@@ -1654,7 +1654,7 @@ panel_found:
 
 				ex = exold = GetWindowLongPtr(hwndDlg, GWL_EXSTYLE);
 				ex =  (pContainer->dwFlags & CNT_TRANSPARENCY && (!CSkin::m_skinEnabled || fTransAllowed)) ? ex | WS_EX_LAYERED : ex & ~(WS_EX_LAYERED);
-				//if (fAero && !pContainer->bSkinned && IsWinVerVistaPlus())
+				//if (bAero && !pContainer->bSkinned && IsWinVerVistaPlus())
 				//	ex = ex | (WS_EX_COMPOSITED);//|WS_EX_LAYERED); // | WS_EX_COMPOSITED);			// faster/smoother redrawing on Vista+, especially with skins
 
 				SetWindowLongPtr(hwndDlg, GWL_EXSTYLE, ex);
