@@ -15,7 +15,7 @@
 %s подключён из другого места
 [%s login error, cancel reconnecting]
 %s ошибка подключения, отменяю подключение
-[%s login error (next retry (%d) in %d s)] 
+[%s login error (next retry (%d) in %d s)]
 %s ошибка подключения (попытка № %d через %d с.)
 [%s status error (next retry (%d) in %d s)]
 %s ошибка статуса (следующий повтор (%d) через %d с.)
@@ -173,12 +173,6 @@ Dial-Up (прочтите keepstatus.txt)
 Переподключение
 [Protocol Connection]
 Соединение
-[%s (will be set to %s)]
-%s (будет "%s")
-[%s\t(will be set to %s)]
-%s (будет "%s")
-[%s\t(will be set to %s)\n]
-%s\t(будет установлен %s)\n
 [%s\t(will be set to %s)\r\n]
 %s\t(будет %s)\r\n
 [(will be set to %s)]
