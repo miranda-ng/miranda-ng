@@ -149,8 +149,8 @@ extern HANDLE hMenuItem1, hMenuItemCountdown;
 extern char optionsname[80];
 
 //lets get rid of some warnings
-void timerfunc(void);
-void Countdownfunc(void);
+void CALLBACK timerfunc(HWND, UINT, UINT_PTR, DWORD);
+void CALLBACK Countdownfunc(HWND, UINT, UINT_PTR, DWORD);
 void SavewinSettings(void);
 void ValidatePosition(HWND hwndDlg);
 int  ModulesLoaded(WPARAM wParam, LPARAM lParam);

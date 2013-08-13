@@ -24,16 +24,16 @@
 #include "webview.h"
 
 const TCHAR *szTrackerBarDescr[] = {
-	_T("No whitespace removal"),
-	_T("Minimal level of whitespace removal"),
-	_T("Medium level of whitespace removal"),
-	_T("Large level of whitespace removal"),
-	_T("Remove all whitespace")
+	LPGENT("No whitespace removal"),
+	LPGENT("Minimal level of whitespace removal"),
+	LPGENT("Medium level of whitespace removal"),
+	LPGENT("Large level of whitespace removal"),
+	LPGENT("Remove all whitespace")
 };
 
 static char  *fontSizes[] = {"8", "10", "14", "16", "18", "20", "24", "28"};
-static TCHAR *AlertTypes[] = { _T("Popup Plugin"), _T("Log To File"), _T("Open Data Display Window"), _T("Use OSD Plugin") };
-static TCHAR *EventTypes[] = { _T("A String Is Present"), _T("The Web Page Changes"), _T("A Specific Part of Web Page Changes") };
+static TCHAR *AlertTypes[] = { LPGENT("Popup Plugin"), LPGENT("Log To File"), LPGENT("Open Data Display Window"), LPGENT("Use OSD Plugin") };
+static TCHAR *EventTypes[] = { LPGENT("A String Is Present"), LPGENT("The Web Page Changes"), LPGENT("A Specific Part of Web Page Changes") };
 
 #define M_FILLSCRIPTCOMBO    (WM_USER+16)
 
@@ -64,7 +64,7 @@ TCHAR* FixButtonText(TCHAR *url, size_t len)
 			int posafter = (stringafter - buttontext) + 1;
 			strdel(stringafter, 1);
 			_tcsncpy_s(stringbefore, pos, buttontext, _TRUNCATE);
-			mir_sntprintf(newbuttontext, SIZEOF(buttontext), _T("%s%S%s"), stringbefore, "!!", stringafter);
+			mir_sntprintf(newbuttontext, SIZEOF(buttontext), _T("%s!!%s"), stringbefore, stringafter);
 
 			posafter = 0;
 			posbefore = 0;
@@ -180,11 +180,11 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case IDC_PD1:
-			SetDlgItemTextA(hdlg, IDC_DELAY, "0");
+			SetDlgItemText(hdlg, IDC_DELAY, _T("0"));
 			break;
 		case IDC_PD2:
 			// Popup delay = permanent
-			SetDlgItemTextA(hdlg, IDC_DELAY, "-1");
+			SetDlgItemText(hdlg, IDC_DELAY, _T("-1"));
 			break;
 
 		case IDC_DELAY:
@@ -217,7 +217,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 					TextColour = TextClr;
 				}
 				ppd.lchContact = NULL;
-				_tcscpy(ppd.lptzContactName, _A2T(MODULENAME));
+				_tcscpy(ppd.lptzContactName, _T(MODULENAME));
 				ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
 				_tcscpy(ppd.lptzText, TranslateT("This is a preview popup."));
 				ppd.colorBack = BGColour;
@@ -225,7 +225,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				ppd.PluginWindowProc = NULL;
 				ppd.iSeconds = _ttol(str3);
 				// display popups
-				CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);
+				PUAddPopupT(&ppd);
 			}
 		}
 		break;
@@ -1305,8 +1305,8 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			{
 				KillTimer(NULL, timerId);
 				KillTimer(NULL, Countdown);
-				timerId = SetTimer(NULL, 0, ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, 0)) * MINUTE), (TIMERPROC) timerfunc);
-				Countdown = SetTimer(NULL, 0, MINUTE, (TIMERPROC) Countdownfunc);
+				timerId = SetTimer(NULL, 0, ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, 0)) * MINUTE), timerfunc);
+				Countdown = SetTimer(NULL, 0, MINUTE, Countdownfunc);
 			}
 			if ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, 0) == 0))
 			{

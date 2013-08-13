@@ -85,12 +85,12 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 			TCHAR *cacheend = _tcsrchr(cachepath, '\\');
 			cacheend++;
 			*cacheend = '\0';
-			mir_sntprintf(cachedirectorypath, SIZEOF(cachedirectorypath), _T("%s%S%S"), cachepath, MODULENAME, "cache\\");
+			mir_sntprintf(cachedirectorypath, SIZEOF(cachedirectorypath), _T("%s")_T(MODULENAME)_T("cache\\"), cachepath);
 			CreateDirectory(cachedirectorypath, NULL);
 
 			TCHAR newcachepath[MAX_PATH + 50], renamedcachepath[MAX_PATH + 50];
-			mir_sntprintf(newcachepath, SIZEOF(newcachepath), _T("%s%S%S%s%S"), cachepath, MODULENAME, "cache\\", oldName, ".txt");
-			mir_sntprintf(renamedcachepath, SIZEOF(newcachepath), _T("%s%S%S%s%S"), cachepath, MODULENAME, "cache\\", nick, ".txt");
+			mir_sntprintf(newcachepath, SIZEOF(newcachepath), _T("%s")_T(MODULENAME)_T("cache\\%s.txt"), cachepath, oldName);
+			mir_sntprintf(renamedcachepath, SIZEOF(newcachepath), _T("%s")_T(MODULENAME)_T("cache\\%s.txt"), cachepath, nick);
 
 			// file exists?
 			if ( _taccess(newcachepath, 0) != -1) {
@@ -124,9 +124,9 @@ int SiteDeleted(WPARAM wParam, LPARAM lParam)
 	cacheend++;
 	*cacheend = '\0';
 
-	mir_sntprintf(cachedirectorypath, SIZEOF(cachedirectorypath), _T("%s%S%S"), cachepath, MODULENAME, "cache\\");
+	mir_sntprintf(cachedirectorypath, SIZEOF(cachedirectorypath), _T("%s")_T(MODULENAME)_T("cache\\"), cachepath);
 	CreateDirectory(cachedirectorypath, NULL);
-	mir_sntprintf(newcachepath, SIZEOF(newcachepath), _T("%s%S%S%s%S"), cachepath, MODULENAME, "cache\\", contactName, ".txt");
+	mir_sntprintf(newcachepath, SIZEOF(newcachepath), _T("%s")_T(MODULENAME)_T("cache\\%s.txt"), cachepath,  contactName);
 	// file exists?
 	if ( _taccess(newcachepath, 0) != -1) {
 		FILE *pcachefile = _tfopen(newcachepath, _T("r"));
@@ -140,7 +140,7 @@ int SiteDeleted(WPARAM wParam, LPARAM lParam)
 }
 
 /*****************************************************************************/
-INT_PTR OpenCacheDir(WPARAM wParam, LPARAM lParam)
+INT_PTR OpenCacheDir(WPARAM, LPARAM)
 {
 	//GET NAME FOR CACHE
 	TCHAR cachepath[MAX_PATH], cachedirectorypath[MAX_PATH];
@@ -149,7 +149,7 @@ INT_PTR OpenCacheDir(WPARAM wParam, LPARAM lParam)
 	cacheend++;
 	*cacheend = '\0';
 
-	mir_sntprintf(cachedirectorypath, SIZEOF(cachedirectorypath), _T("%s%S%S%s"), cachepath, MODULENAME, "cache\\", cacheend);
+	mir_sntprintf(cachedirectorypath, SIZEOF(cachedirectorypath), _T("%s")_T(MODULENAME)_T("cache\\%s"), cachepath, cacheend);
 
 	if( _taccess(cachedirectorypath, 0) != 0)
 		WErrorPopup("ERROR", TranslateT("Cache folder does not exist."));
@@ -186,7 +186,7 @@ INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM lParam)
 }
 
 /*****************************************************************************/
-INT_PTR StpPrcssMenuCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR StpPrcssMenuCommand(WPARAM wParam, LPARAM)
 {
 	db_set_b((HANDLE)wParam, MODULENAME, STOP_KEY, 1);  
 	return 0;
@@ -196,28 +196,27 @@ INT_PTR StpPrcssMenuCommand(WPARAM wParam, LPARAM lParam)
 // GetCaps
 // =======================================================
 
-INT_PTR GetCaps(WPARAM wParam, LPARAM lParam)
+INT_PTR GetCaps(WPARAM wParam, LPARAM)
 {
-	if (wParam == PFLAGNUM_1)
+	switch(wParam)
+	{
+	case PFLAGNUM_1:
 		return PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_VISLIST;
-
-	if (wParam == PFLAGNUM_2)
-		if (!(db_get_b(NULL, MODULENAME, HIDE_STATUS_ICON_KEY, 0)))
-			return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND; // add 
-
-	if (wParam == PFLAG_UNIQUEIDTEXT)
-		return (INT_PTR)Translate("Site URL");
-
-	if (wParam == PFLAGNUM_3)
+	case PFLAGNUM_2:
+		return db_get_b(NULL, MODULENAME, HIDE_STATUS_ICON_KEY, 0) ? 0 : (PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND); 
+	case PFLAGNUM_3:
 		return 0;
-
-	if (wParam == PFLAGNUM_5)
+	case PFLAGNUM_4:
+		return PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON;
+	case PFLAGNUM_5:
 		return PF2_INVISIBLE|PF2_SHORTAWAY|PF2_LONGAWAY|PF2_LIGHTDND|PF2_HEAVYDND|PF2_FREECHAT|PF2_OUTTOLUNCH|PF2_ONTHEPHONE;
-
-	if (wParam == PFLAG_UNIQUEIDSETTING)
+	case PFLAG_UNIQUEIDTEXT:
+		return (INT_PTR)Translate("Site URL");
+	case PFLAG_UNIQUEIDSETTING:
 		return (INT_PTR)"PreserveName";
-
-	return 0;
+	default:
+		return 0;
+	}
 }
 
 // =======================================================
@@ -342,8 +341,7 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 	int samename = 0;
 
 	// search for existing contact
-	HANDLE hContact;
-	for (hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
+	for (HANDLE hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
 		// check ID to see if the contact already exist in the database
 		if (!db_get_ts(hContact, MODULENAME, "URL", &dbv)) {
 			if (!lstrcmpi(psr->nick, dbv.ptszVal)) {
@@ -369,7 +367,7 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 	if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
 		return NULL;
 
-	hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
+	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
 	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) MODULENAME);
 
 	/////////write to db
@@ -454,7 +452,7 @@ INT_PTR AddToList(WPARAM wParam, LPARAM lParam)
 }
 
 /*****************************************************************************/
-INT_PTR GetInfo(WPARAM wParam, LPARAM lParam)
+INT_PTR GetInfo(WPARAM, LPARAM)
 {
 	mir_forkthread(AckFunc, NULL);
 	return 1;

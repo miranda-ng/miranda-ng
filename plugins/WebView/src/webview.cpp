@@ -43,7 +43,6 @@ HMENU     hMenu;
 int       bpStatus;
 HANDLE    hMenuItem1;
 HANDLE    hMenuItemCountdown;
-char      optionsname[80];
 
 /*****************************************************************************/
 void ChangeMenuItem1()
@@ -51,15 +50,14 @@ void ChangeMenuItem1()
 	/*
 	* Enable or Disable auto updates
 	*/
-
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_NAME | CMIM_ICON;
+	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SITE));
 
-	if ( !db_get_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0))
-		mi.pszName = Translate("Auto Update Enabled");
+	if (!db_get_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0))
+		mi.ptszName = LPGENT("Auto Update Enabled");
 	else
-		mi.pszName = Translate("Auto Update Disabled");
+		mi.ptszName = LPGENT("Auto Update Disabled");
 
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem1, (LPARAM)&mi);
 }
@@ -70,20 +68,19 @@ void ChangeMenuItemCountdown()
 	/*
 	* countdown
 	*/
-
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_NAME | CMIM_ICON;
+	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR  | CMIF_KEEPUNTRANSLATED;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_UPDATEALL));
 
-	char countername[100]; 
-	sprintf(countername, "%d Minutes to Update", db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
-	mi.pszName = countername;
+	TCHAR countername[100]; 
+	mir_sntprintf(countername,SIZEOF(countername), TranslateT("%d Minutes to Update"), db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0));
+	mi.ptszName = countername;
 
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItemCountdown, (LPARAM)&mi);
 }
 
 /*****************************************************************************/
-static int CALLBACK EnumFontsProc(ENUMLOGFONTEX * lpelfe, NEWTEXTMETRICEX * lpntme, int FontType, LPARAM lParam)
+static int CALLBACK EnumFontsProc(ENUMLOGFONTEX *lpelfe, NEWTEXTMETRICEX *lpntme, int FontType, LPARAM lParam)
 {
 	if (!IsWindow((HWND) lParam))
 		return FALSE;
@@ -109,7 +106,7 @@ void TxtclrLoop()
 {
 	for (HANDLE hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
 		HWND hwndDlg = WindowList_Find(hWindowList, hContact);
-		SetDlgItemTextA(hwndDlg, IDC_DATA, "");
+		SetDlgItemText(hwndDlg, IDC_DATA, _T(""));
 		InvalidateRect(hwndDlg, NULL, 1);
 	}
 }
@@ -119,7 +116,7 @@ void BGclrLoop()
 {
 	for (HANDLE hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
 		HWND hwndDlg = (WindowList_Find(hWindowList, hContact));
-		SetDlgItemTextA(hwndDlg, IDC_DATA, "");
+		SetDlgItemText(hwndDlg, IDC_DATA, _T(""));
 		SendMessage(GetDlgItem(hwndDlg, IDC_DATA), EM_SETBKGNDCOLOR, 0, BackgoundClr);
 		InvalidateRect(hwndDlg, NULL, 1);
 	}
@@ -192,8 +189,8 @@ int Doubleclick(WPARAM wParam, LPARAM lParam)
 	}
 
 	if ( db_get_b(hContact, MODULENAME, DBLE_WIN_KEY, 1)) {
-		HWND hwndDlg;
-		if (hwndDlg = WindowList_Find(hWindowList, hContact)) {
+		HWND hwndDlg = WindowList_Find(hWindowList, hContact);
+		if (hwndDlg) {
 			SetForegroundWindow(hwndDlg);
 			SetFocus(hwndDlg);
 		}
@@ -236,7 +233,7 @@ int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgb
 	DWORD  underline = 0;
 
 	int len = GetWindowTextLength(GetDlgItem(hWindow, IDC_DATA));
-	SetDlgItemTextA(hWindow, IDC_DATA, "");
+	SetDlgItemText(hWindow, IDC_DATA, _T(""));
 
 	CHARFORMAT2 cfFM;
 	ZeroMemory(&cfFM, sizeof(cfFM));
@@ -260,8 +257,7 @@ int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgb
 	}
 	else lstrcpy(cfFM.szFaceName, Def_font_face);
 
-	HDC hDC;
-	hDC = GetDC(hWindow);
+	HDC hDC = GetDC(hWindow);
 	cfFM.yHeight = (BYTE)MulDiv(abs(lf.lfHeight), 120, GetDeviceCaps(GetDC(hWindow), LOGPIXELSY)) * (db_get_b(NULL, MODULENAME, FONT_SIZE_KEY, 14));
 	ReleaseDC(hWindow, hDC);
 
@@ -269,7 +265,7 @@ int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgb
 	cfFM.bPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 	cfFM.crTextColor = rgbText;
 	cfFM.crBackColor = rgbBack;
-	SendMessage(GetDlgItem(hWindow, IDC_DATA), EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) & cfFM);
+	SendDlgItemMessage(hWindow, IDC_DATA, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) & cfFM);
 
 	SendDlgItemMessage(hWindow, IDC_DATA, EM_SETSEL, 0, -1);
 	SendDlgItemMessageA(hWindow, IDC_DATA, EM_REPLACESEL, FALSE, (LPARAM)truncated);
@@ -278,7 +274,7 @@ int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgb
 }
 
 /*****************************************************************************/
-void timerfunc(void)
+void CALLBACK timerfunc(HWND, UINT, UINT_PTR, DWORD)
 {
 	db_set_b(NULL, MODULENAME, HAS_CRASHED_KEY, 0);
 
@@ -290,16 +286,15 @@ void timerfunc(void)
 }
 
 /*****************************************************************************/
-void Countdownfunc(void)
+void CALLBACK Countdownfunc(HWND, UINT, UINT_PTR, DWORD)
 {
 	DWORD timetemp = db_get_dw(NULL, MODULENAME, COUNTDOWN_KEY, 100);
-	if(timetemp < 0 || timetemp == 0) {
+	if(timetemp <= 0) {
 		timetemp = db_get_dw(NULL, MODULENAME, REFRESH_KEY, TIME);
 		db_set_dw(NULL, MODULENAME, COUNTDOWN_KEY, timetemp);
 	}
 
-	timetemp = timetemp - 1;
-	db_set_dw(NULL, MODULENAME, COUNTDOWN_KEY, timetemp);
+	db_set_dw(NULL, MODULENAME, COUNTDOWN_KEY, timetemp-1);
 
 	ChangeMenuItemCountdown();
 }
@@ -311,23 +306,16 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
-	odp.pszGroup = Translate("Network");
-	odp.pszTitle = optionsname;
+	odp.ptszGroup = LPGENT("Network");
+	odp.ptszTitle = _T(MODULENAME);
 	odp.pfnDlgProc = DlgProcOpt;
-	odp.flags = ODPF_BOLDGROUPS;
+	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 	Options_AddPage(wParam, &odp);
 
 	// if popup service exists
 	if ((ServiceExists(MS_POPUP_ADDPOPUP))) {
-		ZeroMemory(&odp, sizeof(odp));
-		odp.cbSize = sizeof(odp);
-		odp.position = 100000000;
-		odp.hInstance = hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
-		odp.pszTitle = optionsname;
-		odp.pszGroup = Translate("PopUps");
-		odp.groupPosition = 910000000;
-		odp.flags = ODPF_BOLDGROUPS;
+		odp.ptszGroup = LPGENT("Popups");
 		odp.pfnDlgProc = DlgPopUpOpts;
 		Options_AddPage(wParam, &odp);
 	}
@@ -354,7 +342,7 @@ void FontSettings(void)
 }
 
 /*****************************************************************************/
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int ModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_OPT_INITIALISE, OptInitialise);
 
@@ -392,7 +380,7 @@ INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM lParam)
 
 	HWND hTopmost = db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0) ? HWND_TOPMOST : HWND_NOTOPMOST;
 	hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DISPLAY_DATA), NULL, DlgProcDisplayData, (LPARAM) hContact);
-	SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) ((HICON) LoadImage(hInst, MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0)));
+	SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(hInst, MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
 	if ( db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0))
 		SetWindowPos(hwndDlg, hTopmost,
 			db_get_dw(hContact, MODULENAME, "WVx", 100), // Xposition,
@@ -428,7 +416,7 @@ INT_PTR AutoUpdateMCmd(WPARAM wParam, LPARAM lParam)
 {
 	if (db_get_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0))
 		db_set_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0);
-	else if (!(db_get_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0)))
+	else
 		db_set_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 1);
 
 	ChangeMenuItem1();
@@ -436,7 +424,7 @@ INT_PTR AutoUpdateMCmd(WPARAM wParam, LPARAM lParam)
 }
 
 /*****************************************************************************/
-INT_PTR AddContactMenuCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR AddContactMenuCommand(WPARAM, LPARAM)
 {
 	db_set_s(NULL, "FindAdd", "LastSearched", MODULENAME);
 	CallService(MS_FINDADD_FINDADD, 0, 0);
@@ -470,7 +458,7 @@ INT_PTR WebsiteMenuCommand(WPARAM wParam, LPARAM lParam)
 	HANDLE hContact = (HANDLE)wParam;
 	ptrT url( db_get_tsa(hContact, MODULENAME, "URL"));
 	if (url)
-		CallService(MS_UTILS_OPENURL, OUF_TCHAR, (WPARAM)url);
+		CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)url);
 
 	db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE); 
 	return 0;
@@ -491,7 +479,7 @@ int ContactMenuItemUpdateData(WPARAM wParam, LPARAM lParam)
 }
 
 /*****************************************************************************/
-INT_PTR CntOptionsMenuCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR CntOptionsMenuCommand(WPARAM wParam, LPARAM)
 {
 	HWND hwndDlg = WindowList_Find(hWindowList, (HANDLE)wParam);
 	if (hwndDlg) {
@@ -499,14 +487,14 @@ INT_PTR CntOptionsMenuCommand(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONTACT_OPT ), NULL, DlgProcContactOpt, (LPARAM) (HANDLE) wParam);
+	hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONTACT_OPT), NULL, DlgProcContactOpt, (LPARAM) wParam);
 	ShowWindow(hwndDlg, SW_SHOW);
 	SetActiveWindow(hwndDlg);
 	return 0;
 }
 
 /*****************************************************************************/
-INT_PTR CntAlertMenuCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR CntAlertMenuCommand(WPARAM wParam, LPARAM)
 {
 	HWND hwndDlg = WindowList_Find(hWindowList, (HANDLE) wParam);
 	if (hwndDlg) {
@@ -514,7 +502,7 @@ INT_PTR CntAlertMenuCommand(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ALRT_OPT), NULL, DlgProcAlertOpt, (LPARAM) (HANDLE) wParam);
+	hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ALRT_OPT), NULL, DlgProcAlertOpt, (LPARAM) wParam);
 	ShowWindow(hwndDlg, SW_SHOW);
 	SetActiveWindow(hwndDlg);
 	return 0;
