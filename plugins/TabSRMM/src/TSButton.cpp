@@ -500,7 +500,13 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, 
 		return 0;
 	}
 
-	return mir_callNextSubclass(hwndDlg, TSButtonWndProc, msg, wParam, lParam);
+	LRESULT res = mir_callNextSubclass(hwndDlg, TSButtonWndProc, msg, wParam, lParam);
+
+	if (msg == WM_NCCREATE)
+		if (M.isVSAPIState())
+			bct->hThemeToolbar = (M.isAero() || IsWinVerVistaPlus()) ? CMimAPI::m_pfnOpenThemeData(bct->hwnd, L"MENU") : CMimAPI::m_pfnOpenThemeData(bct->hwnd, L"TOOLBAR");
+
+	return res;
 }
 
 int TSAPI UnloadTSButtonModule()
