@@ -258,13 +258,14 @@ void CJabberProto::ServerThread(ThreadData* info)
 	info->resolveID = -1;
 	info->auth = NULL;
 
-	if (m_options.ManualConnect == TRUE) {
+	if (info->proto->m_options.ManualConnect == TRUE) {
 		if ( !getString("ManualHost", &dbv)) {
 			strncpy(info->manualHost, dbv.pszVal, SIZEOF(info->manualHost));
 			info->manualHost[SIZEOF(info->manualHost)-1] = '\0';
 			db_free(&dbv);
 		}
-		info->port = getWord("ManualPort", JABBER_DEFAULT_PORT);
+		if (getWord("ManualPort", JABBER_DEFAULT_PORT) != JABBER_DEFAULT_PORT)
+			info->port = getWord("ManualPort", JABBER_DEFAULT_PORT);
 	}
 	else info->port = getWord("Port", JABBER_DEFAULT_PORT);
 
@@ -2100,7 +2101,7 @@ int ThreadData::send(const char* fmt, ...)
 	va_start(vararg, fmt);
 	int size = 512;
 	char* str = (char*)mir_alloc(size);
-	while (_vsnprintf(str, size, fmt, vararg) == -1) {
+	while (mir_vsnprintf(str, size, fmt, vararg) == -1) {
 		size += 512;
 		str = (char*)mir_realloc(str, size);
 	}

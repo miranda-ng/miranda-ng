@@ -161,7 +161,7 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData* info)
 	if (lstrcmp(param.Result, _T("")) == 0 || !res)
 		sendCaptchaError(info, param.from, param.to, param.challenge);
 	else
-		sendCaptchaResult (param.Result, info, param.from, param.challenge, param.fromjid, param.sid);
+		sendCaptchaResult(param.Result, info, param.from, param.challenge, param.fromjid, param.sid);
 	return true;
 }
 

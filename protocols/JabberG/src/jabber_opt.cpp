@@ -289,7 +289,7 @@ private:
 		strncpy(thread->manualHost, m_regInfo->manualHost, SIZEOF(thread->manualHost));
 		thread->port = m_regInfo->port;
 		thread->useSSL = m_regInfo->useSSL;
-		thread->reg_hwndDlg= m_hwnd;
+		thread->reg_hwndDlg = m_hwnd;
 		m_proto->ForkThread((CJabberProto::MyThreadFunc)&CJabberProto::ServerThread, thread);
 
 		m_btnOk.SetText(TranslateT("Cancel"));
@@ -589,6 +589,7 @@ private:
 		if (m_chkManualHost.GetState() == BST_CHECKED) {
 			regInfo.port = (WORD)m_txtManualPort.GetInt();
 			m_txtManualHost.GetTextA(regInfo.manualHost, SIZEOF(regInfo.manualHost));
+			regInfo.proto->m_options.ManualConnect = TRUE;
 		}
 		else {
 			regInfo.port = (WORD)m_txtPort.GetInt();
@@ -1914,6 +1915,7 @@ private:
 		if (m_chkManualHost.GetState() == BST_CHECKED)
 		{
 			m_txtManualHost.GetTextA(regInfo.manualHost, SIZEOF(regInfo.manualHost));
+			regInfo.proto->m_options.ManualConnect = TRUE;
 		} else
 		{
 			regInfo.manualHost[0] = '\0';

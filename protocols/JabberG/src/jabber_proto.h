@@ -437,7 +437,6 @@ struct CJabberProto : public PROTO<CJabberProto>
 
 	//---- jabber_captcha.cpp ------------------------------------------------------------
 
-	bool   GetCaptchaImage(HXML node, TCHAR*& CaptchaPath);
 	void   sendCaptchaResult(TCHAR* buf, ThreadData* info, LPCTSTR from, LPCTSTR challenge, LPCTSTR fromjid, LPCTSTR sid);
 	void   sendCaptchaError(ThreadData* info, LPCTSTR from, LPCTSTR to, LPCTSTR challenge);
 
