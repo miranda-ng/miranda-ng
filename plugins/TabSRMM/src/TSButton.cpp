@@ -500,13 +500,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, 
 		return 0;
 	}
 
-	LRESULT res = mir_callNextSubclass(hwndDlg, TSButtonWndProc, msg, wParam, lParam);
-
-	if (msg == WM_NCCREATE)
-		if (M.isVSAPIState())
-			bct->hThemeToolbar = (M.isAero() || IsWinVerVistaPlus()) ? CMimAPI::m_pfnOpenThemeData(bct->hwnd, L"MENU") : CMimAPI::m_pfnOpenThemeData(bct->hwnd, L"TOOLBAR");
-
-	return res;
+	return mir_callNextSubclass(hwndDlg, TSButtonWndProc, msg, wParam, lParam);
 }
 
 int TSAPI UnloadTSButtonModule()
@@ -524,4 +518,9 @@ void CustomizeButton(HWND hwndButton)
 	SendMessage(hwndButton, BUTTONSETCUSTOMPAINT, sizeof(TSButtonCtrl), 0);
 
 	mir_subclassWindow(hwndButton, TSButtonWndProc);
+
+	TSButtonCtrl *bct = (TSButtonCtrl*)GetWindowLongPtr(hwndButton, 0);
+	if (bct && M.isVSAPIState())
+		bct->hThemeToolbar = (M.isAero() || IsWinVerVistaPlus()) ? CMimAPI::m_pfnOpenThemeData(bct->hwnd, L"MENU") : CMimAPI::m_pfnOpenThemeData(bct->hwnd, L"TOOLBAR");
+
 }
