@@ -294,7 +294,7 @@ BEGIN
     GROUPBOX        "Contacts count",IDC_STATIC,5,137,294,31
     CONTROL         "Anyone",IDC_PRIVACY_COUNT_ANYONE,"Button",BS_AUTORADIOBUTTON,12,146,250,10
     CONTROL         "People in my Contact list only",IDC_PRIVACY_COUNT_CONTACTLIST,
-                    "Button",BS_AUTORADIOBUTTON,12,250,109,10
+                    "Button",BS_AUTORADIOBUTTON,12,156,250,10
     GROUPBOX        "Local time",IDC_STATIC,5,168,294,32
     CONTROL         "Anyone",IDC_PRIVACY_TIME_ANYONE,"Button",BS_AUTORADIOBUTTON,12,177,250,10
     CONTROL         "People in my Contact list only",IDC_PRIVACY_TIME_CONTACTLIST,
