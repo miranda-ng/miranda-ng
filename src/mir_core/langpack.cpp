@@ -79,6 +79,7 @@ static int ConvertBackslashes(char *str, UINT fileCp)
 				case 'n': *pstr = '\n'; break;
 				case 't': *pstr = '\t'; break;
 				case 'r': *pstr = '\r'; break;
+				case 's': *pstr = ' ';  break;
 				default:  *pstr = pstr[1]; break;
 			}
 			memmove(pstr+1, pstr+2, strlen(pstr+2) + 1);
@@ -213,9 +214,7 @@ static void LoadLangPackFile(FILE *fp, char *line, UINT fileCp)
 		if (IsEmpty(line) || line[0] == ';' || line[0] == 0)
 			continue;
 
-		size_t cbLen = strlen(line)-1;
-		if (line[cbLen] == '\n')
-			line[cbLen--] = 0;
+		rtrim(line);
 
 		if (line[0] == '#') {
 			strlwr(line);
@@ -259,8 +258,9 @@ static void LoadLangPackFile(FILE *fp, char *line, UINT fileCp)
 			continue;
 		}
 
-		cbLen -= ConvertBackslashes(line, fileCp);
+		ConvertBackslashes(line, fileCp);
 
+		size_t cbLen = strlen(line)-1;
 		if (line[0] == '[' && line[cbLen] == ']') {
 			if (langPack.entryCount && langPack.entry[ langPack.entryCount-1].wszLocal == NULL)
 				langPack.entryCount--;
