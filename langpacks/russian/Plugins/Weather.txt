@@ -482,7 +482,7 @@ URL полного прогноза погоды не установлен. Вы
 [Current condition for %n]
 Текущее состояние для %n
 [Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-Ощущение: %f\nДавление: %p\nВетер: %i  %w\nВлажность: %m\nРоса: %e\nВидимость: %v\n\nВосход: %r\nЗакат: %y\n\nПрогноз на 5 дней:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5] 
+Ощущение: %f\nДавление: %p\nВетер: %i  %w\nВлажность: %m\nРоса: %e\nВидимость: %v\n\nВосход: %r\nЗакат: %y\n\nПрогноз на 5 дней:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
 [Feel-like]
 Ощущения
 [in]

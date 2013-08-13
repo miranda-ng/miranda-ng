@@ -111,7 +111,7 @@ Yahoo ошибка
 Установка xСтатуса
 [YAHOO plugin connections]
 Подключения плагина YAHOO
-[YAHOO plugin HTTP connections] 
+[YAHOO plugin HTTP connections]
 Yahoo подключения по HTTP
 [AutoLogin to Yahoo ]
 Автоматический вход

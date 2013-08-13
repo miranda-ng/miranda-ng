@@ -117,7 +117,7 @@
 ; Popups tab
 [Enable popup notifications]
 Включить уведомления всплывающими окнами
-[Appearance]	
+[Appearance]
 Внешний вид
 [Contact blocked]
 Контакт заблокирован
