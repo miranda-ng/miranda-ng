@@ -631,7 +631,7 @@ Nickserv убить фантома
 Введите пароль
 [Register nick]
 Зарегистрировать ник
-[Remind password ]
+[Remind password]
 Напомнить пароль
 [Remove security for nick]
 Удалить защиту ника
