@@ -75,8 +75,8 @@
 для хранения данных.
 [in birthday list window]
 в списке дней рождений
-[Start notifying ]
-Напомнить за 
+[Start notifying]
+Напомнить за
 [afterwards]
  после
 [UserInfo module]

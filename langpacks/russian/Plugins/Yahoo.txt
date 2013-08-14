@@ -137,7 +137,7 @@ Yahoo Япония
 Введите правильное имя контакта для игнорирования.
 [Please select a buddy on the ignore list to remove.]
 Выберите контакт для удаления из списка игнора.
-[The buddy is already on your ignore list. ]
+[The buddy is already on your ignore list.]
 Этот контакт уже в Вашем списке игнора.
 [YAHOO Options]
 Настройки Yahoo
@@ -183,9 +183,9 @@ Yahoo
 Настройки соединений
 [Ignore List]
 Черный список
-[Ignore anyone who is not on my Yahoo buddy list ]
+[Ignore anyone who is not on my Yahoo buddy list]
 Игнорировать всех, кто не в моём списке друзей
-[Ignore only the people below: ]
+[Ignore only the people below:]
 Игнорировать выбранных:
 [Disable Yahoo Menu Items]
 Отключить пункты меню Yahoo

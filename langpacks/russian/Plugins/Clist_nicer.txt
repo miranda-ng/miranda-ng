@@ -127,7 +127,7 @@
 Всегда видим для контакта
 [Apply group indent values to background drawing]
 Применить настройки отступа для группы к фону
-[Apply last active view mode ]
+[Apply last active view mode]
 Применить последний активный режим
 [Auto mode]
 Режим авто

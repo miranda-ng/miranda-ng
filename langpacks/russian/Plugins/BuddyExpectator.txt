@@ -54,8 +54,6 @@
 [Return notification]
 Уведомление возвращения
 [When a contact returns after]
-Когда контакт появляется после
-[When a contact returns after ]
 При появлении контакта после
 [or comes online for the first time]
 или выходит в сеть в первый раз

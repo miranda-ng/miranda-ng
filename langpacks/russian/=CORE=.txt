@@ -2179,6 +2179,8 @@ Cвернуть
 Авторизовать
 [Revoke authorization]
 Отозвать авторизацию
+[Standard netlib log]
+Стандартный журнал netlib
 
 
 ;ПЛАГИН КЛИСТА

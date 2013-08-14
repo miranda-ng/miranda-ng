@@ -55,7 +55,7 @@
 Значок xСтатуса
 [Show normal status as overlay]
 Обычный статус поверх
-[Status overlay opacity is 75% ]
+[Status overlay opacity is 75%]
 Непрозрачность 75%
 [only when statuses differ]
 при разных статусах
@@ -101,7 +101,7 @@
 
 [Bring to front if covered]
 Перемещать на передний план
-[Hide contact list after ]
+[Hide contact list after]
 Скрывать список после
 [Hide method]
 Метод скрытия
@@ -123,7 +123,7 @@
 Запретить изменение размера
 [and minimum]
 и минимум
-[Drag to ]
+[Drag to]
 Перетаскивание
 [Easy Scroll]
 Простая прокрутка

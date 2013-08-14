@@ -49,8 +49,8 @@
 Показать консоль
 [Show Console]
 Показать консоль
-[Console                                    ]
-Консоль                                    
+[Console]
+Консоль
 [Miranda Netlib Log]
 Журнал Miranda Netlib
 [Save log to file]

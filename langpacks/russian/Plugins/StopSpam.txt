@@ -44,10 +44,10 @@
 Антиспам
 
 ;0.0.0.21 - GetFromSource.cmd
-[ questions to one contact (0 - for no limit)]
- вопросов контакту (0 - неограниченно)
-[Do not send more than ]
-Не отправлять больше 
+[questions to one contact (0 - for no limit)]
+вопросов контакту (0 - неограниченно)
+[Do not send more than]
+Не отправлять больше
 [Question: (Ctrl-Enter for carriage return)]
 Вопрос: (Ctrl+Enter для начала новой строки)
 [Enable auth. requests blocking]

@@ -2367,7 +2367,7 @@ ID пользователя:
 Удаление режима просмотра
 [Really delete this view mode? This cannot be undone]
 Действительно удалить режим? Отмена не возможна!
-[Last message ]
+[Last message]
 Последнее сообщение
 [Listening to]
 Слушаю
@@ -3089,7 +3089,7 @@ Web Дизайн
 Вдовец/Вдова
 [Auth]
 Авторизация
-[Name: ]
+[Name:]
 Имя:
 [Server port:]
 Порт сервера:
