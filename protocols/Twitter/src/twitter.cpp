@@ -445,7 +445,7 @@ string twitter::urlencode(const string &c)
 {
 
 	string escaped;
-	int max = c.length();
+	size_t max = c.length();
 	for(int i=0; i<max; i++)
 	{
 		if ( (48 <= c[i] && c[i] <= 57) ||//0-9
@@ -516,11 +516,10 @@ static char *month_names[] = { "Jan","Feb","Mar","Apr","May","Jun",
 
 int parse_month(const char *m)
 {
-	for(size_t i=0; i<12; i++)
-	{
+	for(int i=0; i<12; i++)
 		if(strcmp(month_names[i],m) == 0)
 			return i;
-	}
+
 	return -1;
 }
 

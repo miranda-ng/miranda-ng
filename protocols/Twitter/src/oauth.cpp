@@ -643,14 +643,6 @@ ErrorExit:
 	return hash;
 }
 
-wstring mir_twitter::Base64String( const string& hash ) 
-{
-	Base64Coder coder;
-	coder.Encode((BYTE*)hash.c_str(), (DWORD)hash.size());
-	wstring encoded = UTF8ToWide(coder.EncodedMessage());
-	return encoded;
-}
-
 wstring mir_twitter::OAuthCreateSignature( const wstring& signatureBase, const wstring& consumerSecret, const wstring& requestTokenSecret ) 
 {
 	// URL encode key elements
@@ -662,7 +654,8 @@ wstring mir_twitter::OAuthCreateSignature( const wstring& signatureBase, const w
 
 	string data = WideToUTF8(signatureBase);
 	string hash = HMACSHA1(keyBytes, data);
-	wstring signature = Base64String(hash);
+	ptrA encoded( mir_base64_encode((PBYTE)hash.c_str(), (unsigned)hash.length()));
+	wstring signature = _A2T(encoded);
 
 	// URL encode the returned signature
 	signature = UrlEncode(signature);

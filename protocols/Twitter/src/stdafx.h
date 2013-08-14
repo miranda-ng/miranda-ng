@@ -8,7 +8,6 @@
 #include "targetver.h"
 
 #include <Windows.h>
-//#include <WinInet.h>
 #include <Shlwapi.h>
 #include <Wincrypt.h>
 #include <stdio.h>
@@ -22,11 +21,9 @@
 #include <fstream>
 
 typedef std::basic_string<TCHAR> tstring;
-//#define SIZEOF(x) (sizeof(x)/sizeof(*x))
 
 #include "StringConv.h"
 #include "StringUtil.h"
-#include "Base64Coder.h"
 
 #include "Debug.h"
 

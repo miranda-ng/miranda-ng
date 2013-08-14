@@ -165,7 +165,6 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Base64Coder.cpp" />
     <ClCompile Include="src\chat.cpp" />
     <ClCompile Include="src\connection.cpp" />
     <ClCompile Include="src\contacts.cpp" />
@@ -183,7 +182,6 @@
     <ClCompile Include="src\utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Base64Coder.h" />
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\http.h" />
     <ClInclude Include="src\proto.h" />
