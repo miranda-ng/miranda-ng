@@ -3420,7 +3420,7 @@
 [2nd:]
 [3rd:]
 [Always on top]
-[Hide contact list after ]
+[Hide contact list after]
 [seconds]
 [Fade contact list in/out]
 [Transparent contact list]
@@ -3538,7 +3538,6 @@
 [No selection]
 [Selection Mode]
 [Bring to front if covered]
-[Hide contact list after]
 [Automatically resize window to height of list]
 [maximum]
 [% of screen]
@@ -3593,7 +3592,6 @@
 [System tray icon]
 [System tray icon mode]
 [Use xStatus icon]
-[Status overlay opacity is 75% ]
 [Ignore Empty Extra icons places (arrange to right).]
 [Use 'Meta' protocol icons for Metacontacts]
 [Expand metacontacts]
@@ -4794,7 +4792,7 @@
 [Popup options]
 [Background]
 [Text]
-[Close after: ]
+[Close after:]
 [sec.(0 default, -1 disabled)]
 [Settings]
 [try resolve addresses]
@@ -8718,7 +8716,7 @@
 [NickServ]
 [Register nick]
 [Auth nick]
-[Remind password ]
+[Remind password]
 [Set language]
 [Set homepage]
 [Set e-mail]
@@ -13796,13 +13794,6 @@
 [Last Year]
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[Log Files (*.txt,*.log)]
-[Enter integer value]
-[Enter log file name.]
-[Enter log file format.]
-[Enter history format.]
-[Enter popup window format.]
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -13832,6 +13823,12 @@
 [Previous Close]
 [Change]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+[Enter integer value]
+[Enter log file name.]
+[Enter log file format.]
+[Enter history format.]
+[Enter popup window format.]
 ﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll

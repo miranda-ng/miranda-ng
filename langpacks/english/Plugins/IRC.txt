@@ -326,7 +326,7 @@
 [NickServ]
 [Register nick]
 [Auth nick]
-[Remind password ]
+[Remind password]
 [Set language]
 [Set homepage]
 [Set e-mail]
