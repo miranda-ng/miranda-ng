@@ -158,8 +158,7 @@ public:
 
 	void    startTimer();
 	void    stopTimer(const char *szMsg = 0);
-	void    timerMsg(const char *szMsg);
-
+	
 	__forceinline __int64 getTimerStart() const { return m_tStart; }
 	__forceinline __int64 getTimerStop() const { return m_tStop; }
 	__forceinline __int64 getTicks() const { return m_tStop - m_tStart; }
@@ -273,19 +272,6 @@ private:
 private:
 	static TCHAR m_userDir[MAX_PATH + 2];
 };
-
-inline void CMimAPI::startTimer()
-{
-	::QueryPerformanceCounter((LARGE_INTEGER *)&m_tStart);
-}
-
-inline void CMimAPI::stopTimer(const char *szMsg)
-{
-	::QueryPerformanceCounter((LARGE_INTEGER *)&m_tStop);
-
-	if (szMsg)
-		timerMsg(szMsg);
-}
 
 extern  CMimAPI M;
 

@@ -71,12 +71,6 @@ SESSION_INFO* SM_AddSession(const TCHAR* pszID, const char* pszModule)
 	node->ptszID = mir_tstrdup(pszID);
 	node->pszModule = mir_strdup(pszModule);
 
-	{
-		char *p = (char*)node;
-		_DebugTraceA("SESSION_INFO allocated: crashes at %lp %lp %lp %lp",
-			p + offsetof(SESSION_INFO, wStatus), p + offsetof(SESSION_INFO, wState), p + offsetof(SESSION_INFO, wCommandsNum), p + offsetof(SESSION_INFO, szSearch));
-	}
-
 	MODULEINFO *mi = MM_FindModule(pszModule);
 	if (mi) {
 		mi->idleTimeStamp = time(0);
@@ -910,11 +904,7 @@ STATUSINFO * TM_AddStatus(STATUSINFO** ppStatusList, const TCHAR* pszStatus, int
 
 	if (!TM_FindStatus(*ppStatusList, pszStatus)) {
 		STATUSINFO *node = (STATUSINFO*)mir_calloc(sizeof(STATUSINFO));
-		{
-			char *p = (char*)node;
-			_DebugTraceA("STATUSINFO allocated: crashes at %lp", p + offsetof(STATUSINFO, Status));
-		}
-		replaceStrT(node->pszGroup, pszStatus);
+		node->pszGroup = mir_tstrdup(pszStatus);
 		node->hIcon = (HICON)(*iCount);
 		while ((int)node->hIcon > STATUSICONCOUNT - 1)
 			node->hIcon--;
@@ -1102,12 +1092,7 @@ USERINFO* UM_AddUser(STATUSINFO* pStatusList, USERINFO** ppUserList, const TCHAR
 	}
 
 	USERINFO *node = (USERINFO*)mir_calloc(sizeof(USERINFO));
-	{
-		char *p = (char*)node;
-		_DebugTraceA("USERINFO allocated: crashes at %lp", 
-			p + offsetof(USERINFO, Status), p + offsetof(USERINFO, ContactStatus));
-	}
-	replaceStrT(node->pszUID, pszUID);
+	node->pszUID = mir_tstrdup(pszUID);
 
 	if (*ppUserList == NULL) { // list is empty
 		*ppUserList = node;

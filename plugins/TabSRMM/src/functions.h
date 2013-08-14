@@ -153,8 +153,6 @@ int   TSAPI UnloadTSButtonModule();
  * debugging support
  */
 
-int   _DebugTraceW(const wchar_t *fmt, ...);
-int   _DebugTraceA(const char *fmt, ...);
 int   _DebugPopup(HANDLE hContact, const TCHAR *fmt, ...);
 int   _DebugMessage(HWND hwndDlg, TWindowData *dat, const char *fmt, ...);
 

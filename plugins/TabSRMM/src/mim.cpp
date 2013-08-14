@@ -71,12 +71,6 @@ TCHAR	CMimAPI::m_userDir[] = _T("\0");
 
 bool	CMimAPI::m_haveBufferedPaint = false;
 
-void CMimAPI::timerMsg(const char *szMsg)
-{
-	mir_snprintf(m_timerMsg, 256, "%s: %d ticks = %f msec", szMsg, (int)(m_tStop - m_tStart), 1000 * ((double)(m_tStop - m_tStart) * m_dFreq));
-	_DebugTraceA(m_timerMsg);
-}
-
 /**
  * Case insensitive _tcsstr
  *
