@@ -1643,3 +1643,5 @@ ID пользователя в панели статуса
 Только одно всплывающее окно на контакт
 [Custom]
 Указать
+[Filetransfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.]
+Проблема передачи файла|Неудачная пересылка изображения.\n\nВозможные причины: передача файлов не поддерживается, контакт не в сети, вы находитесь в стаусе "Невидимый" и контакт, которому отсылается файл не в списке видимых.
