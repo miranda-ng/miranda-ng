@@ -345,6 +345,8 @@
 [Incoming (Unfocused Window)]
 [Incoming (New Session)]
 [Outgoing]
+[Contact started typing]
+[Contact stopped typing]
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occured.]
 ;file \plugins\Scriver\src\msgwindow.cpp

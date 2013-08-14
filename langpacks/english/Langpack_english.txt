@@ -996,6 +996,7 @@
 [Message from %s]
 [%s is typing a message]
 [Typing Notification]
+[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
 [Instant messages]
 [Incoming (Focused Window)]
 [Incoming (Unfocused Window)]
@@ -1192,6 +1193,7 @@
 [(Miranda Core Logging)]
 [Select where log file will be created]
 [Select program to be run]
+[Standard netlib log]
 ;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 [Network]
@@ -2547,7 +2549,7 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.11.0.2
+;  Version: 0.11.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -2590,26 +2592,11 @@
 ;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
 ;file \plugins\AVS\src\main.cpp
-[Grow avatar to fit max allowed protocol size]
-[All Files]
-[Windows Bitmaps]
-[JPEG Bitmaps]
-[GIF Bitmaps]
-[PNG Bitmaps]
-[Flash Animations]
-[XML Files]
-[Set My Avatar]
-[Set My Avatar for %s]
 [Global avatar]
 [Global avatar for %s accounts]
 [Avatars]
 [My Avatars]
 [My Global Avatar Cache]
-[Contacts]
-[Protocols]
-[Contact Avatars]
-[Own Avatars]
-[Avatar]
 [Fatal error, image services not found. Avatar services will be disabled.]
 [Avatar Service]
 ;file \plugins\AVS\src\options.cpp
@@ -2617,9 +2604,25 @@
 [Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
 [Reset contact picture]
 [Contact has no avatar]
+[Contacts]
+[Protocols]
+[Contact Avatars]
+[Own Avatars]
 [No avatar]
 [Are you sure you want to remove your avatar?]
 [Global Avatar]
+[Avatar]
+;file \plugins\AVS\src\services.cpp
+[All Files]
+[Windows Bitmaps]
+[JPEG Bitmaps]
+[GIF Bitmaps]
+[PNG Bitmaps]
+[Flash Animations]
+[XML Files]
+[Grow avatar to fit max allowed protocol size]
+[Set My Avatar]
+[Set My Avatar for %s]
 ﻿#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
 ;============================================================
 ;  File: BasicHistory.dll
@@ -3008,7 +3011,7 @@
 ;============================================================
 [Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions.]
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
-[When a contact returns after ]
+[When a contact returns after]
 [Show a popup]
 [Add an event (flashing icon) to the contact]
 [On event action (double click) or popup click:]
@@ -3485,7 +3488,7 @@
 [Automatically clear this view mode after]
 [View mode options]
 [Editing view mode]
-[Last message ]
+[Last message]
 [Status Bar]
 [Show status bar]
 [Make sections equal width]
@@ -3507,7 +3510,7 @@
 [Show xStatus icon]
 [Show both icons]
 [Show normal status as overlay]
-[Status overlay opacity is 75% ]
+[Status overlay opacity is 75%]
 [Show unread emails (if supported)]
 [Right click opens status menu]
 [Right click opens Miranda menu]
@@ -3535,13 +3538,14 @@
 [No selection]
 [Selection Mode]
 [Bring to front if covered]
+[Hide contact list after]
 [Automatically resize window to height of list]
 [maximum]
 [% of screen]
 [Size upwards]
 [Behaviour]
 [Lock manual resize]
-[Drag to ]
+[Drag to]
 [Easy Scroll]
 [Easy move]
 [x100 msec]
@@ -3589,6 +3593,7 @@
 [System tray icon]
 [System tray icon mode]
 [Use xStatus icon]
+[Status overlay opacity is 75% ]
 [Ignore Empty Extra icons places (arrange to right).]
 [Use 'Meta' protocol icons for Metacontacts]
 [Expand metacontacts]
@@ -4227,7 +4232,7 @@
 [Disable groups]
 [Ask before deleting contacts]
 [Disable icon blinking]
-[Apply last active view mode ]
+[Apply last active view mode]
 [Contact list layout]
 [Show menu and status buttons]
 [Draw sunken edge]
@@ -4375,7 +4380,7 @@
 [Automatically clear this view mode after]
 [View mode options]
 [Editing view mode]
-[Last message ]
+[Last message]
 [Per contact skins:]
 [< Reload]
 [Contact list skin]
@@ -4830,7 +4835,7 @@
 ;============================================================
 [Console log window for Miranda.]
 ;file \plugins\Console\res\resource.rc
-[Console                                    ]
+[Console]
 [Single window mode*]
 [Show icons in log*]
 [New lines between events*]
@@ -4858,7 +4863,6 @@
 [*** Console cleared ***]
 [Miranda Console]
 [Services]
-[Console]
 [Text]
 [&Help]
 [Text Files (*.txt)]
@@ -5604,7 +5608,7 @@
 ;============================================================
 ;  File: EmLanProto.dll
 ;  Plugin: E-mage LAN protocol
-;  Version: 0.0.1.1
+;  Version: 0.0.1.2
 ;  Authors: kva
 ;============================================================
 [E-mage LAN protocol support for Miranda NG.]
@@ -8429,7 +8433,6 @@
 [Reconnect]
 [Wait (s)]
 [Retry count]
-[Fear the monkeys!!!]
 [Check every (s):]
 [SSL]
 [Don't check if more than (users):]
@@ -10223,6 +10226,7 @@
 [TriggerData]
 [Status: The status the account will change to\r\nAccount: The account changing state]
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
+[Protocol]
 [%s connected from another location]
 [%s login error, cancel reconnecting]
 [%s login error (next retry (%d) in %d s)]
@@ -10237,7 +10241,6 @@
 [Giving up]
 [KeepStatus]
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
-[Protocol]
 [Basic]
 [Advanced]
 [You broke the Internet!]
@@ -10590,11 +10593,11 @@
 [Popup options]
 [Background]
 [Text]
-[Close after: ]
+[Close after:]
 [sek.(0 default,\n -1 disabled)]
 [...but only if popup not clicked]
-[Left button click cmd: ]
-[Command parameters: ]
+[Left button click cmd:]
+[Command parameters:]
 [Remember newest message ID\n and don't show older]
 [version:]
 [Clear popups history]
@@ -10603,14 +10606,14 @@
 [Subject]
 [Lotus connection settings]
 [Primary server:]
-[Database: ]
+[Database:]
 [try detect]
-[Secondary server: ]
-[Check interval: ]
+[Secondary server:]
+[Check interval:]
 [(0-disabled)]
 [min.]
 [Password:]
-[Offline status mean: ]
+[Offline status mean:]
 [To / CopyTo]
 [autoregister]
 ;file \plugins\LotusNotify\src\LotusNotify.cpp
@@ -12184,7 +12187,7 @@
 [Delete key]
 [Generate and use random key]
 [Account:]
-[key id: ]
+[key id:]
 [Copy public key]
 [Export private key]
 [Change password]
@@ -13128,7 +13131,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.1.5
+;  Version: 0.1.1.6
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
@@ -14225,6 +14228,8 @@
 [Incoming (Unfocused Window)]
 [Incoming (New Session)]
 [Outgoing]
+[Contact started typing]
+[Contact stopped typing]
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occured.]
 ;file \plugins\Scriver\src\msgwindow.cpp
@@ -15228,10 +15233,10 @@
 [Allow calls from...]
 [Automatically receive video and share screens with...]
 [No one]
-[Allow my online status to be shown on the web]
 [Show avatars]
 [Contacts count]
 [Local time]
+[Allow my online status to be shown on the web]
 [Block this person]
 [Remove from your Contact List]
 [Abuse]
@@ -16038,8 +16043,8 @@
 [Divider:]
 [Vars]
 [Disable protection for following accounts:]
-[Do not send more than ]
-[ questions to one contact (0 - for no limit)]
+[Do not send more than]
+[questions to one contact (0 - for no limit)]
 [Enable StopSpam-StopSpam infinite talk protection]
 [Add contact permanently]
 [Enable auth. requests blocking]
@@ -16080,8 +16085,8 @@
 [Vars]
 [Available accounts:]
 [Filtered accounts:]
-[Do not send more than ]
-[ questions to one contact (0 - for no limit)]
+[Do not send more than]
+[questions to one contact (0 - for no limit)]
 [Enable StopSpam-StopSpam infinite talk protection]
 [Add contact permanently]
 [Enable auth. requests blocking]
@@ -16192,7 +16197,7 @@
 [&Open in current browser window]
 [&Copy link]
 [Message]
-[Undo  ]
+[Undo]
 [Redo]
 [Copy]
 [Cut]
@@ -17929,7 +17934,7 @@
 [Add Separator]
 [Add Launch]
 [Del Sep/Launch Button]
-[Name: ]
+[Name:]
 [Path:]
 [Set]
 ;file \plugins\TopToolBar\src\toolbar.cpp
@@ -19648,7 +19653,7 @@
 [Description:]
 [Here is a list of custom variables that are currently available]
 ;file \plugins\Weather\src\weather_ini.cpp
-[No update data file is found.  Please check your Plugins\\Weather directory.]
+[No update data file is found. Please check your Plugins\\Weather directory.]
 [Invalid ini format for: %s]
 [All update data has been reloaded.]
 ;file \plugins\Weather\src\weather_mwin.cpp
@@ -19717,7 +19722,7 @@
 [Save Individual Window Positions]
 [Error Messages]
 [Suppress error messages]
-[Display using PopUp or OSD plugin]
+[Display using Popup or OSD plugin]
 [Expert Options]
 [Disable Download Protection]
 [(Not Recommended)]
@@ -19764,7 +19769,7 @@
 [Save as raw data]
 [Popup Delay]
 [Delay]
-[From PopUp Plugin]
+[From Popup Plugin]
 [Permanent]
 [Preview]
 [Colors]
@@ -19776,7 +19781,7 @@
 [Left Click Action]
 [Open Data Display Window]
 [Open Web Page]
-[Dismiss PopUp]
+[Dismiss Popup]
 [Right Click Action]
 [Log]
 [&Copy]
@@ -19788,12 +19793,23 @@
 [C&lear All]
 ;file \plugins\WebView\src\main.cpp
 [Alert Event]
-;file \plugins\WebView\src\webview.cpp
-[Auto Update Enabled]
 [Auto Update Disabled]
+[Auto Update Enabled]
+[Update All Webview Sites]
+[Mark All Webview Sites Read]
+[Open Cache Folder]
+[%d Minutes to Update]
+[Open web page]
+[Open/Close window]
+[Update Data]
+[Contact Options]
+[Contact Alert Options]
+[Ping Web Site]
+[Stop Data Processing]
+;file \plugins\WebView\src\webview.cpp
 [All Webview sites have been updated.]
 [Network]
-[PopUps]
+[Popups]
 ;file \plugins\WebView\src\webview_alerts.cpp
 [Cannot write to file]
 [Last updated on]
@@ -19812,8 +19828,6 @@
 [Loaded From Cache]
 ;file \plugins\WebView\src\webview_datawnd.cpp
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
-[Update Data]
-[Contact Options]
 [Stop Processing]
 [Click here to open this URL in a browser window.]
 [Stick to the front]
@@ -19844,6 +19858,17 @@
 [Bytes downloaded]
 [Alert test conditions not met; press the refresh button to view content.]
 ;file \plugins\WebView\src\webview_opts.cpp
+[No whitespace removal]
+[Minimal level of whitespace removal]
+[Medium level of whitespace removal]
+[Large level of whitespace removal]
+[Remove all whitespace]
+[Popup Plugin]
+[Log To File]
+[Use OSD Plugin]
+[A String Is Present]
+[The Web Page Changes]
+[A Specific Part of Web Page Changes]
 [This is a preview popup.]
 [You need to supply a search string.]
 [You need to supply a start string.]
@@ -19920,7 +19945,7 @@
 [Sounds]
 [Play sounds when there are]
 [days or less to birthday.]
-[Start notifying ]
+[Start notifying]
 [days in advance and]
 [Check every]
 [hours]
@@ -20371,8 +20396,8 @@
 [Port:]
 [Reset]
 [Yahoo Ignore List]
-[Ignore anyone who is not on my Yahoo buddy list ]
-[Ignore only the people below: ]
+[Ignore anyone who is not on my Yahoo buddy list]
+[Ignore only the people below:]
 [&Add]
 [&Remove]
 [Set Custom Status]
@@ -20428,7 +20453,7 @@
 [You need to be connected to Yahoo to add to Ignore List.]
 [Yahoo Ignore]
 [Please enter a valid buddy name to ignore.]
-[The buddy is already on your ignore list. ]
+[The buddy is already on your ignore list.]
 [You need to be connected to Yahoo to remove from the Ignore List.]
 [Please select a buddy on the ignore list to remove.]
 [Network]

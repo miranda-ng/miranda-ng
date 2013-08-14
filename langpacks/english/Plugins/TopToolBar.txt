@@ -18,7 +18,7 @@
 [Add Separator]
 [Add Launch]
 [Del Sep/Launch Button]
-[Name: ]
+[Name:]
 [Path:]
 [Set]
 ;file \plugins\TopToolBar\src\toolbar.cpp

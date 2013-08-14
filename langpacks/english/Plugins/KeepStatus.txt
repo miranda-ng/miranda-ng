@@ -136,6 +136,7 @@
 [TriggerData]
 [Status: The status the account will change to\r\nAccount: The account changing state]
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
+[Protocol]
 [%s connected from another location]
 [%s login error, cancel reconnecting]
 [%s login error (next retry (%d) in %d s)]
@@ -150,7 +151,6 @@
 [Giving up]
 [KeepStatus]
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
-[Protocol]
 [Basic]
 [Advanced]
 [You broke the Internet!]

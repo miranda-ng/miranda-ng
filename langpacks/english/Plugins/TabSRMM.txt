@@ -69,7 +69,7 @@
 [&Open in current browser window]
 [&Copy link]
 [Message]
-[Undo  ]
+[Undo]
 [Redo]
 [Copy]
 [Cut]

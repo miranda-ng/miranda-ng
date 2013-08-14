@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.11.0.2
+;  Version: 0.11.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -45,26 +45,11 @@
 ;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
 ;file \plugins\AVS\src\main.cpp
-[Grow avatar to fit max allowed protocol size]
-[All Files]
-[Windows Bitmaps]
-[JPEG Bitmaps]
-[GIF Bitmaps]
-[PNG Bitmaps]
-[Flash Animations]
-[XML Files]
-[Set My Avatar]
-[Set My Avatar for %s]
 [Global avatar]
 [Global avatar for %s accounts]
 [Avatars]
 [My Avatars]
 [My Global Avatar Cache]
-[Contacts]
-[Protocols]
-[Contact Avatars]
-[Own Avatars]
-[Avatar]
 [Fatal error, image services not found. Avatar services will be disabled.]
 [Avatar Service]
 ;file \plugins\AVS\src\options.cpp
@@ -72,6 +57,22 @@
 [Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
 [Reset contact picture]
 [Contact has no avatar]
+[Contacts]
+[Protocols]
+[Contact Avatars]
+[Own Avatars]
 [No avatar]
 [Are you sure you want to remove your avatar?]
 [Global Avatar]
+[Avatar]
+;file \plugins\AVS\src\services.cpp
+[All Files]
+[Windows Bitmaps]
+[JPEG Bitmaps]
+[GIF Bitmaps]
+[PNG Bitmaps]
+[Flash Animations]
+[XML Files]
+[Grow avatar to fit max allowed protocol size]
+[Set My Avatar]
+[Set My Avatar for %s]

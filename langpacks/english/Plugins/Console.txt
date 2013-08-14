@@ -7,7 +7,7 @@
 ;============================================================
 [Console log window for Miranda.]
 ;file \plugins\Console\res\resource.rc
-[Console                                    ]
+[Console]
 [Single window mode*]
 [Show icons in log*]
 [New lines between events*]
@@ -35,7 +35,6 @@
 [*** Console cleared ***]
 [Miranda Console]
 [Services]
-[Console]
 [Text]
 [&Help]
 [Text Files (*.txt)]

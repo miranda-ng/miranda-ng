@@ -41,7 +41,6 @@
 [Reconnect]
 [Wait (s)]
 [Retry count]
-[Fear the monkeys!!!]
 [Check every (s):]
 [SSL]
 [Don't check if more than (users):]

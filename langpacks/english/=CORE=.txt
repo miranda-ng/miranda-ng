@@ -995,6 +995,7 @@
 [Message from %s]
 [%s is typing a message]
 [Typing Notification]
+[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
 [Instant messages]
 [Incoming (Focused Window)]
 [Incoming (Unfocused Window)]
@@ -1191,6 +1192,7 @@
 [(Miranda Core Logging)]
 [Select where log file will be created]
 [Select program to be run]
+[Standard netlib log]
 ;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 [Network]
