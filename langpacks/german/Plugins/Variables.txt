@@ -76,7 +76,7 @@ Variablen
 [Alias]
 Alias
 [user defined]
-
+benutzerdefiniert
 [stores y as alias named x]
 Speichert y als Alias x
 ;file \plugins\Variables\src\parse_external.cpp

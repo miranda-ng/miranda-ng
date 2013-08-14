@@ -60,8 +60,6 @@ Datenbanksicherung
 Sicherungsordner
 [Database]
 Datenbank
-[Database/Database Backups]
-
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to root miranda folder]
 Pfad zum Miranda-Hauptverzeichnis

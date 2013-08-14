@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
-Unterstützung für Miranda-Datenbank: Globale Einstellungen, Kontakte, Verlauf, Einstellungen pro Kontakt
+Unterstützung für Miranda-Datenbank: Globale Einstellungen, Kontakte, Verlauf, Einstellungen pro Kontakt.
 ;file \plugins\Db3x\res\resource.rc
 [Install Database Settings]
 Datenbankeinstellungen installieren
@@ -41,7 +41,7 @@ Ja
 [&No]
 &Nein
 [Cancel Import]
-Importierung abbrechen
+Import abbrechen
 [Database Import Complete]
 Datenbank-Import abgeschlossen
 [The import has completed from]

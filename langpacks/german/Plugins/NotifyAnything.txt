@@ -9,7 +9,7 @@
 Zeigt Popups für eigene Ereignisse, ausgelöst durch UDP-Pakete.
 ;file \plugins\NotifyAnything\res\NotifyAnything.rc
 [Property Page]
-
+Eigenschaftenseite
 [Security]
 Sicherheit
 [Only listen to localhost]
@@ -25,18 +25,18 @@ Debug
 [Log to file]
 In Datei speichern
 [Message debugging]
-
+Nachrichtendebugging
 [Port:]
 Port:
 [(Default is 12001)]
 (Standard ist 12001)
 [Allow actions to execute programs]
-
+Erlaube es Aktionen, Programme auszuführen
 [Password:]
 Passwort:
 ;file \plugins\NotifyAnything\src\common.h
 [NotifyAnything]
-
+NotifyAnything
 ;file \plugins\NotifyAnything\src\main.cpp
 [No resource name given.]
 
@@ -70,10 +70,10 @@ Fehler
 [Services]
 Dienste
 [LogService]
-
+Verlaufsdienst
 [Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0]
-
+Verlauf (*.log)\0*.log\0Text (*.txt)\0*.txt\0Alle Dateien (*.*)\0*.*\0
 [Invalid port number]
-
+Ungültige Portnummer
 [Plugins]
 Plugins

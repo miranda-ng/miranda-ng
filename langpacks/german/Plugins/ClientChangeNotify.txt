@@ -64,17 +64,17 @@ Folgende Clients ignorieren (durch Semikolon trennen):
 [%s (was %s)]
 %s (war %s)
 [) changed client to ]
-) andert Client zu
+) andert Client zu\s
 [Client change notifications:]
-
+Benachrichtigungen über Clientänderungen:
 [Never, ignore client changes for this contact]
-
+Niemals, Clientänderungen für diesen Kontakt ignorieren
 [Always except when client change notifications are disabled globally]
-
+Immer, außer wenn Benachrichtigungen über Clientänderungen global deaktiviert sind
 [Always, even when client change notifications are disabled globally]
-
+Immer, auch wenn Benachrichtigungen über Clientänderungen global deaktiviert sind
 [Use global settings (default)]
-
+Globale Einstellungen verwenden (Standard)
 [Disable c&lient change notification]
 C&lient Benachrichtigungen deaktivieren
 [Enable c&lient change notification]
@@ -84,14 +84,14 @@ Popups
 [ClientChangeNotify: Client changed]
 ClientChangeNotify: Client geändert
 [ClientChangeNotify]
-
+ClientChangeNotify
 [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
 `[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) ändert Client zu %extratext%
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Fehler #%d
 [Can't open log file ]
-
+Kann Log-Datei nicht öffnen\s
 ;file \plugins\ClientChangeNotify\src\OptDlg.cpp
 [(you can use regular expressions here)]
 (reguläre Ausdrücke können verwendet werden)

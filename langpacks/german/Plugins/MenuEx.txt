@@ -51,24 +51,24 @@ Zu lange ID kürzen
 [* Use Ctrl+click to see popup with the copied text]
 * Strg+Klick = Popup mit dem kopierten Text anzeigen
 [Hide contact on 'Ignore all']
-Kontakt bei 'Alles Ignorieren' ausblenden
+'Alles ign.' versteckt Kontakt
 [Other options]
 Andere Einstellungen
 [Automatically refresh contact's details after they come online]
-Details eines Kontaktes automatisch aktualisieren, nachdem er Online geht
+Details eines Kontaktes automatisch aktualisieren, wenn er online geht
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 Statusnachricht
 [XStatus title]
-XStatus-Titel
+xStatus-Titel
 [XStatus message]
 xStatus-Nachricht
 [Listening to]
 Höre gerade
 [Activity title]
-Aktivität Titel
+Aktivitätstitel
 [Activity text]
-Aktivität Text
+Aktivitätstext
 [Show in list]
 In Liste anzeigen
 [Always visible]

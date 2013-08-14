@@ -72,7 +72,7 @@ Schieberegler stylen
 [Use buttons gap]
 Abstand zwischen Knöpfen einfügen
 [Frame template]
-
+Framevorlage
 [Text effect]
 Texteffekte
 [Text movement]
@@ -162,27 +162,27 @@ Formate
 [Player name letters]
 Playernamen-Buchstaben
 [Players list]
-
+Playerliste
 [Popup Title / Text]
 Popuptitel/-Text
 [Frame Text]
 WATrack-Frametext
 [Export Text]
-
+Text exportieren
 [Postfix]
 
 [Refresh time, sec]
 Erneuerungszeit (Sek.)
 [Report]
-
+Bericht
 [Report Items]
-Reporteinträge
+Berichtseinträge
 [Report file]
-Reportdatei
+Berichtsdatei
 [Report format]
-
+Berichtsformat
 [Show in report]
-Im Report anzeigen
+Im Bericht anzeigen
 [Sort]
 Sortieren
 [Sort log file]
@@ -314,7 +314,7 @@ Verwenden Sie diese Option, wenn WATrack während der Wiedergabe häufig einfrie
 [Use "Variables" plugin]
 "Variablen"-Modul verwenden
 [Sorry, but i don't use WATrack right now!]
-
+Pardon, aber ich benutze gerade kein WATrack!
 [Next track]
 Nächst. Track
 [Show player]
@@ -358,7 +358,7 @@ Samplerrate
 [song title]
 Liedtitel
 [song year]
-
+Liedjahr
 [total song length (sec)]
 Gesamtzeit des Liedes in Sekunden
 [track number]
@@ -366,9 +366,9 @@ Titelnummer
 [Try to use OLE interface]
 Versuche OLE-Interface zu verwenden
 [player status (stopped, playing, paused)]
-
+Playerzustand (angehalten, spielt, pausiert)
 [player]
-
+Player
 [Independed Xstatus]
 Unabhängiger XStatus
 ["Variables" ANSI output]
@@ -416,17 +416,17 @@ Playerstatus (nicht übersetzt)
 [Format text Info]
 Formatierungs Info
 [Controls]
-
+Steuerung
 [Frame Controls]
-
+Framesteuerung
 [Plugin Enabled]
 Plugin aktiviert
 [Plugin Disabled]
 Plugin deaktiviert
 [Create Report]
-
+Bericht erzeugen
 [Context menu]
-
+Kontextmenü
 [/me listening "%title%"]
 /me hört "%title%"
 [Report file name not defined]
@@ -434,7 +434,7 @@ Berichtsdateiname nicht definiert!
 [Status Template]
 Statusvorlage
 [XStatus Title]
-XStatus-Titel
+xStatus-Titel
 ['mono' / 'stereo']
 
 [- "mono" / "stereo"]
@@ -458,27 +458,27 @@ XStatus-Titel
 [  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music XStatus sets already.\n  Keep 'Music' XStatus - if player stopped or shutdowned, save or not 'Music' XStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
 
 ["Variables" module use]
-"Variables" Modul verwenden
+"Variablen"-Modul verwenden
 [Acoustic]
-
+Akustisch
 [Use ICQ XStatus]
-ICQ XStatus verwenden
+ICQ-xStatus verwenden
 [Winamp Track]
 Winamp Track
 [Pause Pushed]
-
+Pause gedrückt
 [-default-]
-
+-Standard-
 [Global WATrack hotkey]
 Globaler Hotkey für WATrack
 [WATrack data insert hotkey]
-WATrack Musikinfo einfügen
+WATrack-Musikinfo einfügen
 [WATrack popup hotkey]
-WATrack Popups de-/aktivieren
+WATrack-Popups de-/aktivieren
 [Switch ON these modules]
 Aktiviere die folgenden Module
 [Modules]
-
+Module
 [Statistic]
 Statistik
 [Export text template]
@@ -490,7 +490,7 @@ Wenn diese Einstellung aktiv ist, wird das "Listening To"-Feld mit Musikinfos ge
 [Enable Status message]
 Statusnachricht setzen
 [Enable XStatus message]
-XStatus-Nachricht setzen
+xStatus-Nachricht setzen
 [Enable Tunes message]
 "Ich höre gerade"-Nachricht setzen
 [Tunes]
@@ -516,9 +516,9 @@ Bitte vergessen Sie nicht, Ihren MyShows-Nutzernamen und Passwort anzugeben!
 [Attempts]
 Versuche
 [Disable scrobbling]
-Deaktiviere Scrobbling
+Scrobbeln deaktivieren
 [Enable scrobbling]
-
+Scrobbeln aktivieren
 [no language]
 Keine Sprache
 [Content language]
@@ -542,13 +542,13 @@ Status (Allgemein)
 [Status (templates)]
 Status (Vorlagen)
 [Set XStatus when...]
-Setze XStatus wenn...
+Setze xStatus, wenn...
 [XStatus is empty or 'Music']
-XStatus leer oder 'Musik' ist
+xStatus leer oder 'Musik' ist
 ['Music' status is set]
-XStatus 'Musik' gesetzt ist
+xStatus 'Musik' gesetzt ist
 [any XStatus is set]
-irgendein XStatus gesetzt ist
+irgendein xStatus gesetzt ist
 [Players list\n(F1 for note)]
 Liste der Player\n(F1 für Hilfe)
 [Chat Template]
@@ -614,33 +614,33 @@ Ausgehend
 [Choose font...]
 Schriftart wählen
 [Genres]
-
+Genres
 [[X]Status Title / Text]
 
 ;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]
-
+Scrobbeln bei
 [Timeout, ms]
-
+Zeitüberschreitung, ms
 [Get Series Info]
 
 [Episode]
-
+Episode
 ;file \plugins\Watrack\lastfm\i_last_api.inc
 [Last.fm error: ]
-
+Last.fm-Fehler: 
 [Client is banned]
-
+Client wurde verbannt
 [Bad Auth. Check login and password]
-
+Falsche Anmeldedaten. Überprüfen Sie Login und Passwort
 [Bad TimeStamp]
-
+Falscher Zeitstempel
 ;file \plugins\Watrack\lastfm\i_last_dlg.inc
 [Similar artists]
 Ähnliche Künstler
 ;file \plugins\Watrack\proto\proto.pas
 [Music Info from ]
-Musik Info von
+Musikinfo von
 [You Get Error]
 Uuups, ein Fehler trat auf!
 ;other strings
@@ -651,4 +651,4 @@ Uuups, ein Fehler trat auf!
 [Slider Pushed]
 
 [WATrack status]
-WATrack Status
+WATrack-Status

@@ -6,7 +6,7 @@
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
-Internet Relay Chat (IRC) Protokoll Unterstützung für Miranda NG.
+Internet Relay Chat (IRC)-Protokollunterstützung für Miranda NG.
 ;file \protocols\IRCG\res\IRC.rc
 [&Add]
 Hinzufügen
@@ -35,7 +35,7 @@ Serverfenster beim Start öffnen
 [Keep connection alive]
 Verbindung aufrechterhalten
 [Automatically join on invite]
-Channel bei Einladung automatisch betreten
+Bei Einladung automatisch beitreten
 ['Old style' mode changes]
 'Alter Stil' Statusänderungen
 [Update online statuses for users]
@@ -76,8 +76,6 @@ wieder verbinden
 Warten (s)
 [Retry count]
 Neuversuche
-[Fear the monkeys!!!]
-Fürchte die Affen!!!
 [Check every (s):]
 Prüfe alle (s):
 [SSL]
@@ -241,7 +239,7 @@ IP-Adresse vom Server beziehen
 [Auto-accept from:]
 Automatisch annehmen von:
 [Send notice]
-Private Nachricht senden
+Notiz senden
 [CTCP Chat Request]
 CTCP-Chatanfrage
 [&Accept]
@@ -267,7 +265,7 @@ Querys
 [Messages]
 Nachrichten
 [Notices]
-Hinweise
+Notizen
 [CTCP]
 CTCP
 [DCC]
@@ -351,7 +349,7 @@ Sie sind hier nicht erwünscht!
 [*Disconnected*]
 *Getrennt*
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
-Die Benutzung von /AWAY in Ihrem 'Perform Buffer' ist limitiert.\n weil IRC dieses Kommando automatisch sendet.
+Die Benutzung von /AWAY in Ihrem 'Perform Buffer' ist limitiert,\nweil IRC dieses Kommando automatisch sendet.
 [IRC Error]
 IRC Fehler
 ;file \protocols\IRCG\src\input.cpp
@@ -386,7 +384,7 @@ IRC-Warnung
 [Aborted]
 Abgebrochen
 [CTCP %s request sent to %s]
-CTCP %s Anfrage gesendet an %s
+CTCP-%s-Anfrage gesendet an %s
 [DCC ERROR: Unable to automatically resolve external IP]
 DCC-FEHLER: Es ist nicht möglich, die externe IP aufzulösen.
 [DCC CHAT request sent to %s]
@@ -399,16 +397,16 @@ Eingehender Befehl
 Bitte Antwort eingeben
 ;file \protocols\IRCG\src\irclib.cpp
 [Failed to connect to]
-
+Konnte nicht verbinden mit
 [DCC ERROR: Unable to bind local port for passive filetransfer]
-DCC Fehler: Konnte den lokalen Port für passiven Dateitransfer nicht einbinden
+DCC-FEHLER: Konnte den lokalen Port für passiven Dateitransfer nicht einbinden
 ;file \protocols\IRCG\src\ircproto.cpp
 [%s server connection]
 %s Serververbindung
 [%s client-to-client connections]
 %s Client-to-Client-Verbindungen
 [The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
-
+Das IRC-Protokoll hängt von einem anderen Plugin namens 'Chat' ab.\n\nMöchten Sie es nun von der Miranda-NG-Website herunterladen?
 [Information]
 Information
 [Nickname]
@@ -443,7 +441,7 @@ Bearbeiten
 [Cancel]
 Abbrechen
 [Channel list]
-Senderliste
+Channelliste
 [Quick connect]
 Schnellzugriff
 [Server window]
@@ -503,11 +501,11 @@ Server löschen
 [Edit server]
 Server bearbeiten
 [<Resolved IP: ]
-<Aufgeloste IP:
+<Aufgeloste IP:\s
 [<Automatic>]
 <Automatisch>
 [<Local IP: ]
-<lokale IP:
+<lokale IP:\s
 [Click to set commands that will be performed for this event]
 Klicken Sie hier, um die Befehle zu setzen, die bei diesem Ereignis ausgeführt werden.
 [Click to delete the commands for this event]
@@ -525,9 +523,9 @@ Ignoriermaske
 [Flags]
 Flaggen
 [Add ignore]
-
+Hinzufügen
 [Edit ignore]
-
+Bearbeiten
 [Account]
 Konto
 [DCC'n CTCP]
@@ -536,19 +534,19 @@ DCC und CTCP
 Erweitert
 ;file \protocols\IRCG\src\output.cpp
 [WallOps from %s: ]
-WallOps von %s:
+WallOps von %s:\s
 [%s invites you to %s]
-%s lädt dich nach Channel %s ein
+%s lädt dich in den Channel %s ein
 [%s is away]
 %s ist abwesend
 [These are online: ]
-Diese Personen sind online:
+Diese Personen sind online:\s
 [CTCP %s reply sent to %s]
-CTCP %s Antwort gesendet an %s
+CTCP-%s-Antwort gesendet an %s
 [CTCP %s reply sent to %s: %s]
-CTCP %s Antwort gesendet an %s: %s
+CTCP-%s-Antwort gesendet an %s: %s
 [Notice to %s: ]
-Private Nachricht an %s:
+Notiz an %s:\s
 ;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 Schnellzugriff
@@ -615,7 +613,7 @@ Hier können Sie Informationen zu Ihrem Nick angeben
 [Set information for nick]
 Informationen über Nick angeben
 [Please enter nick you want to link to your current nick]
-Geben Sie bitte den Nick ein, den Sie mit ihrem aktuellen Nick verknüpfen wollen.
+Geben Sie bitte den Nick ein, den Sie mit Ihrem aktuellen Nick verknüpfen wollen.
 [Link another nick to current nick]
 Einen Nick verknüpfen
 [Please enter nick you want to unlink from your current nick]
@@ -627,20 +625,20 @@ Geben Sie bitte den Nick ein, den Sie als Hauptnick verwenden wollen.
 [Set main nick]
 Hauptnick setzen
 [Kick]
-
+Kicken
 [Please enter the notice text]
-Bitte die private Mitteilung, welche Sie diesem Benutzer senden wollen, hier eingeben.
+Bitte die Notiz hier eingeben.
 [Please enter the channel name to invite to]
-Bitte den Namen des Channels, in welchen Sie diesen Benutzer einladen wollen, hier eingeben.
+Bitte den Namen des Channels hier eingeben.
 [Invite to channel]
 In einen anderen Channel einladen
 [NickServ]
-
+NickServ
 [Register nick]
 Nick registrieren
 [Auth nick]
 Nick authentifizieren
-[Remind password ]
+[Remind password]
 Passwort zuschicken
 [Set language]
 Sprache setzen
@@ -683,7 +681,7 @@ Channel ver&lassen
 [&Invite to channel]
 E&inladen in Channel
 [Send &notice]
-&Notice senden
+&Notiz senden
 [&Slap]
 &Schlagen
 [Nickserv info]
@@ -741,22 +739,22 @@ Wiederverbinden mit
 Offline
 ;file \protocols\IRCG\src\userinfo.cpp
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
-Schneller! Durchsucht das Netzwerk nur nach einer exakten Übereinstimmung mit dem \"Nick\". Die Adresse ist optional und gibt zusätzliche Genauigkeit. Platzhalter (? und *) sind erlaubt.
+Schneller! Durchsucht das Netzwerk nur nach einer exakten Übereinstimmung mit dem Nicknamen. Die Hostmaske ist optional und gibt zusätzliche Sicherheit. Platzhalter (? und *) sind erlaubt.
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
-
+Langsamer! Durchsucht das Netzwerk nach Nicknamen anhand eines Suchmusters mit Platzhaltern. Die Hostmaske ist obligatorisch und der angegebene "Nick" muss mindestens 4 Zeichen beinhalten. Platzhalter (? und *) sind erlaubt.
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
-
+Einstellungen können nicht gespeichert werden! Das Feld "Nick" muss mindestens 4 Zeichen inkl. Platzhaltern enthalten\nund muss außerdem zu dem Standardnicknamen dieses Kontakts passen.
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 Einstellungen konnten nicht gespeichert werden!\n\nFür diese Methode der Statusbestimmung muss eine komplette Hostmaske angegeben werden.
 ;file \protocols\IRCG\src\windows.cpp
 [Please wait...]
 Bitte warten...
 [Channel]
-
+Channel
 [Mode]
 Modus
 [%s - Filtered - %d items]
-%S - gefilterte - %d Elemente
+%s - gefilterte - %d Elemente
 [---- Not listed server ----]
 --- nicht aufgeführter Server ---
 [Type new server address here]
@@ -768,7 +766,7 @@ Bann/Einladung/Ausnahme bearbeiten
 [Delete selected ban/invite/exception]
 Bann/Einladung/Ausnahme löschen
 [Set these modes for the channel]
-Modus für den Channel setzen
+Modi für den Channel setzen
 [Set this topic for the channel]
 Thema für den Channel setzen
 [You have not applied all changes!\n\nApply before exiting?]

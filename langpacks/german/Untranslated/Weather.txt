@@ -1,7 +1,0 @@
-﻿[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-[Temperature: %[Temperature]]
-[mb]
-[mm]
-[Variable]
-[No information available.\r\nPlease update weather condition first.]

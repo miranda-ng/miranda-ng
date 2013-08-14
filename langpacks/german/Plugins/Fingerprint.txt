@@ -90,27 +90,27 @@ Miranda IM (alte Versionen)
 [Miranda (unknown)]
 Miranda (unbekannt)
 [spam client]
-
+Spamclient
 [PHP Jabber Client]
-
+PHP-Jabber-Client
 [MP3 Script for mIRC]
-
+MP3-Script für mIRC
 [Mail.Ru Agent (official)]
 
 [Mail.Ru (unknown client)]
 
 [TM 2008 and >]
-
+TM 2008 und höher
 [Gadu-Gadu client]
-
+Gadu-Gadu-Client
 [Tlen.pl client]
-
+Tlen.pl-Client
 [Python-based clients]
-
+Python-basierte Clients
 [Jabber client]
-
+Jabberclient
 [XMPP client]
-
+XMPP-Client
 [Client not found]
 
 [Unknown client]
@@ -226,45 +226,45 @@ Unerkannter Client
 [home overlay]
 
 [work overlay]
-
+Arbeitsoverlay
 [notebook overlay]
-
+Notebookverlay
 [MirandaNG v0.6 #2 overlay]
-
+Miranda-NG-v0.6-#2-Overlay
 [MirandaNG v0.5 #2 overlay]
-
+Miranda-NG-v0.5-#2-Overlay
 [MirandaNG v0.4 #2 overlay]
-
+Miranda-NG-v0.4-#2-Overlay
 [MirandaNG v0.3 #2 overlay]
-
+Miranda-NG-v0.3-#2-Overlay
 [MirandaNG v0.2 #2 overlay]
-
+Miranda-NG-v0.2-#2-Overlay
 [MirandaNG v0.1 #2 overlay]
-
+Miranda-NG-v0.1-#2-Overlay
 [MirandaIM v0.10 #2 overlay]
-
+Miranda-IM-v0.10-#2-Overlay
 [MirandaIM v0.9 #2 overlay]
-
+Miranda-IM-v0.9-#2-Overlay
 [MirandaIM v0.8 #2 overlay]
-
+Miranda-IM-v0.8-#2-Overlay
 [MirandaIM v0.7 #2 overlay]
-
+Miranda-IM-v0.7-#2-Overlay
 [MirandaIM v0.6 #2 overlay]
-
+Miranda-IM-v0.6-#2-Overlay
 [MirandaIM v0.5 #2 overlay]
-
+Miranda-IM-v0.5-#2-Overlay
 [MirandaIM v0.4 #2 overlay]
-
+Miranda-IM-v0.4-#2-Overlay
 [x64 overlay]
-
+x64-Overlay
 [x32 overlay]
-
+x86-Overlay
 [NewGPG overlay]
-
+NewGPG-Overlay
 [MirOTR overlay]
-
+MirOTR-Overlay
 [SecureIM overlay]
-
+SecureIM-Overlay
 ;file \plugins\FingerprintNG\src\options.cpp
 [Icons]
 Icons

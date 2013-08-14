@@ -1,10 +1,12 @@
 ﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: ICQ
+;  Plugin: IcqOscarJ Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc
 ;============================================================
+[ICQ protocol support for Miranda NG.]
+ICQ-Protokollunterstützung für Miranda NG.
 ;file \protocols\IcqOscarJ\res\resources.rc
 [ICQ Number:]
 ICQ-Nummer:
@@ -143,9 +145,9 @@ Anzeigen des Online-/Offline-Status' im Internet (Web Aware) erlauben
 [Allow others to view my primary e-mail address]
 Erlaube anderen meine erste E-Mail-Adresse zu sehen
 [Only reply to status message requests from users on my contact list]
-Nur auf Statusnachrichtenanfragen von Kontakten aus meiner Kontaktliste antworten
+Nur Statusnachrichtenanfragen von Kontakten aus meiner Kontaktliste beantworten
 [Only reply to status message request from visible contacts]
-Nur auf Statusnachrichtenanfragen von sichtbaren Kontakten antworten
+Nur Statusnachrichtenanfragen von sichtbaren Kontakten beantworten
 [Some options are greyed out because they can only be changed when you are online.]
 Ausgegraute Einstellungen können nur geändert werden, wenn Sie online sind.
 [Options]
@@ -165,7 +167,7 @@ Textfarbe
 [Timeout]
 Zeitüberschreitung
 [Note]
-Anmerkung
+Hinweis
 [Warning]
 Warnung
 [Error]
@@ -370,7 +372,7 @@ Verschieben des Kontakts zu einer anderen Gruppe auf dem Server fehlgeschlagen.
 [Renaming of server group failed.]
 Umbenennen der Gruppe auf dem Server fehlgeschlagen.
 [Contact "%s" was authorized in the server list.]
-Kontakt "%s" wurde in der Serverliste aktuallisiert.
+Kontakt "%s" wurde in der Serverliste autorisiert.
 [Contact "%s" lost its authorization in the server list.]
 Kontakt "%s" hat seine Autorisierung in der Serverliste verloren
 [User "%s" was removed from server list.]
@@ -425,7 +427,7 @@ Armenien
 [Aruba]
 Aruba
 [Ascension Island]
-Ascension Inseln
+Ascension-Inseln
 [Australia]
 Australien
 [Australia, Antarctic Territory]
@@ -433,7 +435,7 @@ Australien, Antarktisches Territorium
 [Australia, Christmas Island]
 Australien, Weihnachtsinsel
 [Australia, Cocos (Keeling) Islands]
-Australien, Kokos (Keeling) Inseln
+Australien, Kokos-(Keeling)-Inseln
 [Australia, Norfolk Island]
 Australien, Norfolk-Insen
 [Austria]
@@ -489,7 +491,7 @@ Kanarische Inseln
 [Cape Verde Islands]
 Kapverdische Inseln
 [Cayman Islands]
-Cayman Inseln
+Cayman-Inseln
 [Central African Republic]
 Zentralafrikanische Republik
 [Chad]
@@ -547,9 +549,9 @@ Estland
 [Europe]
 Europa
 [Faeroe Islands]
-Färöer Inseln
+Färöer-Inseln
 [Falkland Islands]
-Falkland Inseln
+Falkland-Inseln
 [Fiji]
 Fidschi
 [Finland]
@@ -671,7 +673,7 @@ Mali
 [Malta]
 Malta
 [Marshall Islands]
-Marshall Inseln
+Marshall-Inseln
 [Martinique]
 Martinique
 [Mauritania]
@@ -679,7 +681,7 @@ Mauretanien
 [Mauritius]
 Mauritius
 [Mayotte Island]
-Mayotte Inseln
+Mayotte-Insel
 [Mexico]
 Mexiko
 [Micronesia, Federated States of]
@@ -809,7 +811,7 @@ Südafrika
 [Spain]
 Spanien
 [Spain, Canary Islands]
-Spanien, Kanarische inseln
+Spanien, Kanarische Inseln
 [Sri Lanka]
 Sri Lanka
 [Sudan]
@@ -851,7 +853,7 @@ Türkei, Republik Nordzypern
 [Turkmenistan]
 Turkmenistan
 [Turks and Caicos Islands]
-Turks und Caicos Inseln
+Turks- und Caicos-Inseln
 [Tuvalu]
 Tuvalu
 [Uganda]
@@ -883,7 +885,7 @@ Jungferninseln (USA)
 [Wales]
 Wales
 [Wallis and Futuna Islands]
-Wallis und Futuna Inseln
+Wallis- und Futuna-Inseln
 [Yemen]
 Jemen
 [Yugoslavia]
@@ -1037,7 +1039,7 @@ Niederländisch
 [English]
 Englisch
 [Esperanto]
-Esperanto (Plansprache)
+Esperanto
 [Estonian]
 Estnisch
 [Farsi]
@@ -1161,51 +1163,51 @@ weiblich
 [Male]
 männlich
 [Associated degree]
-
+Berufsabschluss
 [Bachelor's degree]
-
+Bachelor-Abschluss
 [Elementary]
 
 [High-school]
 
 [Master's degree]
-
+Master-Abschluss
 [PhD]
 
 [Postdoctoral]
 
 [University / College]
-
+Universität / Hochschule
 [Agriculture]
-
+Landwirtschaft
 [Arts]
-
+Kunst
 [Construction]
-
+Bau
 [Consumer Goods]
-
+Verbrauchsgüter
 [Corporate Services]
 
 [Education]
-Schule und Studium
+Bildung
 [Finance]
-
+Finanzen
 [High Tech]
-
+High Tech
 [Legal]
-
+Recht
 [Manufacturing]
 Fertigung
 [Medical & Health Care]
-
+Medizin & Gesundheitspflege
 [Non-Profit Organization Management]
 
 [Recreation, Travel & Entertainment]
-
+Erholung, Reisen & Unterhaltung
 [Service Industry]
-
+Dienstleistungsbetrieb
 [Transportation]
-
+Transport
 [Academic]
 Akademisch
 [Administrative]
@@ -1213,7 +1215,7 @@ Verwaltung
 [Art/Entertainment]
 Kunst/Unterhaltung
 [College Student]
-Schüler
+Hochschul-Schüler
 [Community & Social]
 Gemeinde & Soziales
 [Engineering]
@@ -1221,7 +1223,7 @@ Ingenieurwesen
 [Financial Services]
 Finanzservice
 [High School Student]
-Mittelschüler
+Oberstufenschüler
 [Home]
 Wohnort
 [ICQ - Providing Help]
@@ -1233,7 +1235,7 @@ geschäftsführend
 [Medical/Health]
 Medizin/Gesundheit
 [Non-Government Organization]
-Nichtpolitische Organisation
+Nichtregierungsorganisation
 [Professional]
 Experte
 [Retail]
@@ -1267,23 +1269,23 @@ Bruder-/Schwesternschaft
 [Hobbyists Org.]
 Hobby-Organisationen
 [International Org.]
-Internationale Org.
+Internationale Organisation
 [Nature and Environment Org.]
-Natur- & Umwelt-Organisationen
+Natur- und Umwelt-Organisationen
 [Professional Org.]
-Professionelle Org.
+Professionelle Organisation
 [Scientific/Technical Org.]
-Wissenschaftliche/Technische Org.
+Wissenschaftliche/Technische Organisation
 [Self Improvement Group]
-Selbsterfahrungsgruppen
+Selbsthilfegruppe
 [Spiritual/Religious Org.]
-Spirituelle/Religiöse Org.
+Spirituelle/Religiöse Organisation
 [Sports Org.]
 Sportverein
 [Support Org.]
-Unterstützungs-Org.
+Unterstützungs-Organisation
 [Trade and Business Org.]
-Handels- & Geschäfts-Org.
+Handels- & Geschäfts-Organisation
 [Union]
 Gewerkschaft
 [Volunteer Org.]
@@ -1406,7 +1408,7 @@ Die Kontaktinformationen sind zu groß und werden abgekürzt.
 
 ;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [NOT FOUND]
-
+Nicht gefunden
 [ALREADY EXISTS]
 Existiert bereits
 [INVALID DATA]
@@ -1687,7 +1689,7 @@ GMT-12:00 Eniwetok; Kwajalein
 [GMT-11:30]
 GMT-11:30
 [GMT-11:00 Midway Island; Samoa]
-GMT-11:00 Midway Inseln; Samoa
+GMT-11:00 Midway-Inseln; Samoa
 [GMT-10:30]
 GMT-10:30
 [GMT-10:00 Hawaii]
@@ -1779,7 +1781,7 @@ GMT+11:00 Magadan; Salomonen; Neukaledonien
 [GMT+11:30]
 GMT+11:30
 [GMT+12:00 Auckland; Wellington; Fiji; Kamchatka; Marshall Is.]
-GMT+12:00 Auckland; Wellington; Fidschi; Kamtschatka; Marshallinseln
+GMT+12:00 Auckland; Wellington; Fidschi; Kamtschatka; Marshall-Inseln
 [January]
 Januar
 [February]
@@ -1855,19 +1857,19 @@ Geburtstag
 [Marital Status]
 Familienstand
 [Spoken language 1]
-erste Sprache
+Erste Sprache
 [Spoken language 2]
-zweite Sprache
+Zweite Sprache
 [Spoken language 3]
-dritte Sprache
+Dritte Sprache
 [Originally from]
 Herkunft
 [Level]
 Schulart
 [Institute]
-Name der Hochschule
+Institut
 [Degree]
-Akademischer Grad
+Grad
 [Graduation Year]
 Abschlussjahr
 [Company name]

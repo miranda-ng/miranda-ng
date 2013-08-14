@@ -2,11 +2,11 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.1
+;  Version: 0.2.0.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
-Facebook-Protokollunterstützung für Miranda NG
+Facebook-Protokollunterstützung für Miranda NG.
 ;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
 E-Mail:
@@ -16,16 +16,24 @@ Passwort:
 Ein neues Facebook-Konto erstellen
 [What's on your mind?]
 Was machst du gerade?
-[Text:]
-Text:
-[Place:]
-Ort:
+[Wall:]
+Pinnwand:
 [Visibility:]
 Sichtbarkeit:
+[Text:]
+Text:
+[URL:]
+URL:
+[Place:]
+Ort:
 [Share]
 Teilen
 [Cancel]
 Abbrechen
+[Contacts >>]
+Kontakte >>
+[Attach contacts:]
+Kontakte anhängen:
 [User Details]
 Kontaktprofil
 [Default group:]
@@ -40,32 +48,20 @@ Größere Avatare nutzen
 Lade auch Kontakte mit 'Am Telefon' Status
 [Event notifications]
 Ereignisbenachrichtigungen
-[Colors]
-Farben
-[Back]
-Hgrd.
-[Text]
-Text
 [Notifications]
 Benachrichtigung
-[Default]
-Standard
 [News feeds]
 News-Feeds
+[News Feed types to notify:]
+Newsfeed-Ereignisse melden:
 [Other events]
 Sonstige Ereignisse
 [Client notifications]
 Client-Benachrichtigungen
-[Timeout (sec.)]
-Timeout (Sek.)
-[(0 = default, -1 = infinite)]
-(0 = Standard, -1 = unendlich)
 [Preview]
 Vorschau
 [Use balloon notifications in system tray instead of popups]
 Ballonereignisse im Systemtray anstatt Popups verwenden
-[News Feed types to notify:]
-Newsfeed-Ereignisse melden:
 [Advanced Settings]
 Erweiterte Einstellungen
 [Force secure (HTTPS) connection]
@@ -84,10 +80,10 @@ Nicht-Standard Status auf 'Unsichtbar' setzen (anstatt 'Online')
 Unterstützung für Custom Smileys aktivieren (EXPERIMENTELL + VERBUGGT!)
 [Use local time for received messages]
 Lokale Zeit für empfangene Nachrichten verwenden
-[Send "Seen" info when marking messages as read]
-"Gesehen"-Info senden, wenn Nachrichten als gelesen markiert werden
 [Use this server for opening links:]
 Öffne Links auf diesem Server:
+[Allow posting statuses to my pages (may slow down login)]
+Posten von Status auf meinen Seiten erlauben (kann Anmeldung verlangsamen)
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Loginfehler: %s
@@ -109,6 +105,8 @@ Irgendwas geschah mit Facebook. Vielleicht gab es ein großes Update, warten Sie
 Eine Bestätigung zum Nachrichtenversand zu anderen Clients wird benötigt.\nÖffnen Sie die Facebook-Seite und senden Sie dem Kontakt die Nachricht erneut!
 [Timeout when sending message.]
 Zeitüberschreitung beim Senden der Nachricht.
+[Status update was successful.]
+Status-Aktualisierung erfolgreich.
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Bitte geben Sie einen Benutzernamen ein.
@@ -133,14 +131,16 @@ Klassische Webseite
 Mobile Webseite
 [Smartphone website]
 Smartphone-Webseite
-[For everyone]
-Für Jeden
-[For friends of friends]
-Für Freunde von Freunden
-[For friends]
-Für Freunde
-[Only for me]
-Nur für mich
+[Public]
+Öffentlich
+[Friends of friends]
+Freunde von Freunden
+[Friends]
+Freunde
+[Friends except acquaintances]
+Freunde ohne Bekannte
+[Only me]
+Nur ich
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Kontakt wurde aus Ihrer Server-Liste entfernt.
@@ -155,6 +155,10 @@ Freundschaftsanfrage wurde zurückgezogen.
 [Error occured when canceling friendship request.]
 Fehler beim Zurückziehen der Freundschaftsanfrage
 ;file \protocols\FacebookRM\src\dialogs.cpp
+[Default]
+Standard
+[<< Contacts]
+<< Kontakte
 [What's on your mind, %s?]
 Was machen Sie gerade, %s?
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
@@ -168,6 +172,18 @@ Beispielnewsfeed
 [Sample notification]
 Beispielbenachrichtigung
 ;file \protocols\FacebookRM\src\json.cpp
+[a sticker]
+ein Sticker
+[files]
+Dateien
+[a file]
+eine Datei
+[photos]
+Fotos
+[a photo]
+ein Foto
+[User sent you %s:]
+Benutzer hat Ihnen %s gesendet:
 [Message read: %s]
 Nachricht gelesen: %s
 ;file \protocols\FacebookRM\src\messages.cpp
@@ -179,30 +195,26 @@ Kontakt ist wieder in Ihrer Server-Liste.
 [Contact is no longer on server-list.]
 Kontakt ist nicht mehr in Ihrer Server-Liste.
 ;file \protocols\FacebookRM\src\proto.cpp
-[Show Mind Window]
-Mind-Fenster anzeigen
 [%s server connection]
 %s Serververbindung
 [Unable to get Netlib connection for Facebook]
 Es konnte keine Netlib-Verbindung zu Facebook hergestellt werden
-[Notification]
-Benachrichtigung
-[News Feed]
-Newsfeed
-[Other Event]
-Andere Ereignisse
 [Avatars]
 Avatare
+[Facebook ID must be numeric value.]
+Facebook-ID muss ein numerischer Wert sein.
 [Network]
 Netzwerk
 [Account]
 Konto
-[Advanced]
-Erweitert
-[Popups]
-Popups
 [Events]
 Ereignisse
+[Advanced]
+Erweitert
+[Share status...]
+Status teilen...
+[Own wall]
+Eigene Pinnwand
 [Loading newsfeeds...]
 Newsfeeds laden...
 [Checking friend requests...]
@@ -211,6 +223,14 @@ Freundschaftsanfragen überprüfen...
 Freundesliste aktuallisieren...
 [Do you want to cancel your friendship with '%s'?]
 Möchten Sie Ihre Freundschaft mit "%s" beenden?
+[Show 'Share status' window]
+'Status teilen'-Fenster anzeigen
+[Notification]
+Benachrichtigung
+[News Feed]
+Newsfeed
+[Other Event]
+Andere Ereignisse
 ;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]
 Facebook-Icon
@@ -234,8 +254,6 @@ Freundschaftsanfrage abbrechen
 Freundschaftsanfrage
 [Approve friendship]
 Freundschaft genehmigen
-[Mind...]
-Was machst du gerade?
 [Services...]
 Dienste...
 [Refresh Buddy List]

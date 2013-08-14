@@ -23,9 +23,9 @@ Nachrichten
 [Nick changes]
 Nickänderungen
 [Users joining]
-Betritt Channel
+Beitretende Benutzer
 [Users leaving]
-Verlässt Channel
+Verlassende Benutzer
 [Topic changes]
 Themenänderungen
 [Status changes]
@@ -37,7 +37,7 @@ Verbindungsabbrüche
 [User kicks]
 Gekickte Benutzer
 [Notices]
-Hinweise
+Notizen
 [Popup]
 Popup
 [Tray]
@@ -45,7 +45,7 @@ Tray
 [Options]
 Einstellungen
 [Add new rooms to group:]
-Gruppe für neue Channel:
+Gruppe für neue Räume:
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
 Unterstützung für Gruppenchats ist deaktiviert. Nachdem sie aktiviert wurde, muss Miranda neu gestartet werden!\n\nDas Standard-Chat-Plugin muss deaktiviert werden, anderenfalls funktioniert keinerlei Gruppenchat!
 [Log files]
@@ -79,17 +79,17 @@ Zeige, wenn Filter aktiv ist
 [Log to file]
 In Datei speichern
 [Show Popup]
-Zeige Popup
+Popup anzeig.
 [Notify in tray]
-Tray Ereignis
+Tray-Benachr.
 [Suppress tray notifications for focused channel windows]
-Verberge Tray-Benachrichtigungen wenn Channelfenster fokusiert ist
+Tray-Benachrichtigungen verbergen wenn Channelfenster fokusiert ist
 [Do not show popups when the channel window is not open]
-Zeige keine Popups, wenn das Channelfenster nicht geöffnet ist
+Keine Popups anzeigen wenn das Channelfenster nicht geöffnet ist
 [Highlight event]
 Hebe Ereignis hervor
 [Line markers in the message log]
-Markierungen im Nachrichtenverlauf:
+Markierungen im Nachrichtenverlauf
 [Highlight user names]
 Hervorherbungen für Benutzernamen
 [Enable highlighting for user names]
@@ -132,8 +132,8 @@ In aktuellem Br&owserfenster öffnen
 Link kopieren
 [Message]
 Nachricht
-[Undo  ]
-Rückgängig  
+[Undo]
+Rückgängig
 [Redo]
 Wiederherstellen
 [Copy]
@@ -156,7 +156,7 @@ Andere Tabs sch&ließen
 An dieser Position öffnen
 ;file \plugins\TabSRMM\res\resource.rc
 [TabSRMM exception]
-
+TabSRMM-Ausnahme
 [Copy to clipboard]
 In Zwischenablage kopieren
 [Continue]
@@ -164,7 +164,7 @@ Wiederholen
 [Exit Miranda]
 Miranda beenden
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
-
+Obwohl die Ausnahme abgefangen wurde und Sie mit Miranda weiterarbeiten können, sollten Sie das Programm baldestmöglich neu starten. Die Ausnahme könnte interne Datenstrukturen beschädigt haben und einen nennenswerten Einfluss auf die Stabilität ausüben.
 [Customize the panel]
 Anpassung des Infobereichs
 [Scope of settings]
@@ -448,13 +448,13 @@ Einen neuen Container erstellen
 [Create new]
 Neu erstellen
 [Show in IM chats]
-Zeige Schaltfläche in Einzelchats
+In Einzelchats anzeigen
 [Show in chat rooms]
-Zeige Schaltfläche in Gruppenchats
+In Gruppenchats anzeigen
 [Gap between buttons:]
 Schaltflächenabstand:
 [Hide if there isn't enough space]
-Verstecke, wenn nicht genügend Platz
+Verstecken, wenn nicht genügend Platz
 [Reset]
 Standard
 [Insert Separator]
@@ -542,9 +542,9 @@ Zurücksetzen
 [Reset all templates...]
 Alle Vorlagen zurücksetzen
 [Default width for fixed (single row) tabs]
-Standardgröße für fixierte (einzeilige) Tabs:
+Standardgröße für fixierte (einzeilige) Tabs
 [Tab text label padding vertical]
-Vertikaler Abstand zum Text:
+Vertikaler Abstand zum Text
 [horizontal]
 Horizontal
 [Tab page padding:]
@@ -710,7 +710,7 @@ In &neuem Fenster öffnen
 [&Open in existing window]
 In bestehendem Fenster öffnen
 [Editor]
-
+Editor
 [Paste formatted Text]
 Formatierten Text einfügen
 [Paste and Send immediately]
@@ -1128,7 +1128,7 @@ Sende eine Nudge
 [Send a file]
 Eine Datei senden
 [Quote message]
-Zitiere Nachrichten
+Nachrichtenzitieren
 [Toggle send later]
 Später senden
 [Send message]
@@ -1142,11 +1142,11 @@ Benutzermenü anzeigen
 [Show user details]
 Kontaktdetails anzeigen
 [Toggle tool bar]
-Wechsel Werkzeugleiste
+Toolbar umschalten
 [Toggle info panel]
-Wechsel Infoleiste
+Infoleiste umschalten
 [Toggle text direction]
-Wechsel Textausrichtung
+Textrichtung umschalten
 [Toggle multi send]
 Nachrichten an mehrere Personen senden
 [Clear message log]
@@ -1156,7 +1156,7 @@ Schließe Sidebar
 [Toggle filter]
 Wechsel Filter
 [Show server window]
-Zeige Serverfenster
+Serverfenster anzeigen
 ;file \plugins\TabSRMM\src\infopanel.cpp
 [%s    Idle: %dh,%02dm]
 %s    Untätig: %dh,%02dm
@@ -1466,7 +1466,7 @@ Durchgestrichen
 [Background colour]
 Hintergrundfarbe
 [Room settings]
-Channeleinstellungen
+Raumeinstellungen
 [Event filter]
 Ereignisfilter
 [Nick list]
@@ -1494,13 +1494,13 @@ Pfeil nach oben
 [Session List]
 Sitzungsliste
 [Frame 1]
-
+Frame 1
 [Frame 2]
-
+Frame 2
 [Frame 3]
-
+Frame 3
 [Frame 4]
-
+Frame 4
 [Toolbar]
 Toolbar
 [Message Log]
@@ -1572,7 +1572,7 @@ Eine Nachrichtenübertragung schlug fehl, nachdem der Kontakt das Chatfenster ge
 [There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
 Ungesendete Nachrichten warten auf Bestätigung.\nWenn Sie das Fenster nun schließen, wird Miranda weiterhin versuchen, sie zu senden; es ist aber nicht immer möglich, Sie über mögliche Übertragungsfehler zu informieren.\n\Wollen Sie das Nachrichtenfenster wirklich schließen?
 [Message window warning]
-
+Nachrichtenfensterwarnung
 [Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.]
 Nachricht erfolgreich in der Warteschlange für spätere Übertragung gesichert.\nSie wird so bald wie möglich gesendet werden, Sie werden über ein Popup über das Ergebnis informiert.
 [The send later feature is not available on this protocol.]
@@ -1647,7 +1647,7 @@ Animierte GIF-Avatare deaktivieren (hat keinen Effekt auf bereits geöffnete Fen
 [Close current tab on send]
 Aktuellen Tab nach dem Senden schließen
 [Disable error popups on sending failures]
-Deaktiviere Fehler-Popups bei Sendefehlern
+Fehler-Popups bei Sendefehlern deaktivieren
 [Automatic keyboard layout: Do not load the system default for new contacts]
 Automatisches Tastaturlayout: Lade nicht das Systemstandard-Layout für neue Kontakte
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
@@ -1673,11 +1673,11 @@ Ereignis öffnen
 [Dismiss event]
 Ereignis löschen
 [Disable event notifications for instant messages]
-Deaktiviere Benachrichtigungen für Sofortnachrichten
+Benachrichtigungen für Sofortnachrichten deaktivieren
 [Disable event notifications for group chats]
-Deaktiviere Benachrichtigungen für Gruppenchats
+Benachrichtigungen für Gruppenchats deaktivieren
 [Disable notifications for non-message events]
-Deaktiviere Benachrichtigungen für 'Nicht-Nachrichten'-Ereignisse
+Benachrichtigungen für 'Nicht-Nachrichten'-Ereignisse deaktivieren
 [Remove popups for a contact when the message window is focused]
 Entferne Popups für einen Kontakt, wenn das Fenster fokusiert ist
 [Remove popups for a contact when I start typing a reply]
@@ -1749,7 +1749,7 @@ Einfache Textformatierung (*fett* etc.)
 [Support BBCode formatting]
 BBCode-Formatierung verwenden
 [Place a separator in the log after a window lost its foreground status]
-Platziere einen Abstandshalter im Verlauf, wenn ein Fenster den Fokus verliert
+Einen Abstandshalter im Verlaufplatzieren, wenn ein Fenster den Fokus verliert
 [Only place a separator when an incoming event is announced with a popup]
 Nur einen Abstandshalter platzieren, wenn eingehendes Ereignis mit einem Popup angekündigt wird
 [Show events at the new line (IEView Compatibility Mode)]
@@ -1850,17 +1850,17 @@ Textfarbe
 Hintergrundfarbe
 ;file \plugins\TabSRMM\src\chat\log.cpp
 [%s has joined]
-%s betritt den Channel
+%s ist beigetreten
 [You have joined %s]
-Sie sind in %s
+Sie haben %s betreten
 [%s has left]
-%s verlässt den Channel
+%s ist gegangen
 [%s has disconnected]
 %s wurde getrennt
 [%s is now known as %s]
-%s heißt jetzt %s
+%s ist nun bekannt als %s
 [You are now known as %s]
-Ihr Name ist nun %s
+Sie sind nun bekannt als %s
 [%s kicked %s]
 %s kickte %s
 [Notice from %s: ]
@@ -1946,17 +1946,17 @@ Andere Nicks
 [Your nickname]
 Ihr Nick
 [User has joined]
-Benutzer hat den Channel betreten
+Benutzer ist beigetreten
 [User has left]
-Benutzer hat den Channel verlassen
+Benutzer ist gegangen
 [User has disconnected]
 Benutzer hat Verbindung getrennt
 [User kicked ...]
-Benutzer kickt ...
+Benutzer hat gekickt ...
 [User is now known as ...]
 Benutzer ändert Nick
 [Notice from user]
-Private Nachricht von Benutzer
+Notiz von Benutzer
 [The topic is ...]
 Das Thema ist ...
 [Information messages]
@@ -2036,47 +2036,47 @@ Fenster blinkt, wenn jemand schreibt
 [Flash window when a word is highlighted]
 Fenster blinkt, wenn Wort hervorgehoben wird
 [Create tabs or windows for highlight events]
-Erstelle Tabs oder Fenster bei "Highlight"-Hervorhebung
+Tabs oder Fenster bei Hervorhebung aktivieren
 [Activate chat window on highlight]
-Aktiviere Chatfenster bei "Highlight"
+Chatfenster bei Hervorhebung aktivieren
 [Show list of users in the chat room]
 Benutzerliste im Chatfenster anzeigen
 [Colorize nicknames in member list]
-Färbe Nicknamen in der Nickliste
+Nicknamen in der Nickliste färben
 [Show button menus when right clicking the buttons]
 Buttonmenü bei Rechtsklick auf Button anzeigen (Farben, Ereignisse)
 [Show topic as status message on the contact list]
-Zeige Thema als Statusnachricht in der Kontaktliste
+Thema als Statusnachricht in der Kontaktliste anzeigen
 [Do not pop up the window when joining a chat room]
 Fenster nicht automatisch anzeigen, wenn man einen Raum betritt
 [Hide or show the window by double click in the contact list]
-Zeige oder verstecke das Fenster bei Doppelklick in der Kontaktliste
+Fenster bei Doppelklick in der Kontaktliste anzeigen oder verstecken
 [Sync splitter position with standard IM sessions]
 Splitterposition mit Standard-Nachrichtensitzungen synchronisieren
 [Show contact's status modes if supported by the protocol]
-Zeige Kontaktstatus, falls das Protokoll dies beherrscht
+Kontaktstatus anzeigen, falls das Protokoll dies unterstützt
 [Display contact's status icon before user role icon]
-Zeige Statusicon vor dem Rollen-/Rangicon des Kontakts
+Statusicon vor dem Rollen-/Rangicon des Kontakts anzeigen
 [Use IRC style status indicators in the user list]
-Verwende IRC-ähnliche Statusanzeigen in der Nickliste
+IRC-ähnliche Statusanzeigen in der Nickliste verwenden
 [Use alternative sorting method in member list]
-Verwende alternative Sortierung in der Nickliste
+Alternative Sortierung in der Nickliste verwenden
 [Prefix all events with a timestamp]
-Zeitanzeige bei allen Verlaufseinträgen
+Zeitstempel bei allen Ereignissen als Perfix
 [Timestamp only when event time differs]
 Zeitstempel nur wenn Ereignis-Zeit abweicht
 [Timestamp has same color as the event]
 Zeitstempel hat die selbe Farbe wie das Ereignis
 [Indent the second line of a message]
-2. Zeile einer Nachricht einziehen
+Zweite Zeile einer Nachricht einziehen
 [Limit user names in the message log to 20 characters]
 Benutzername im Nachrichtenverlauf auf 20 Zeichen beschränken
 [Add a colon (:) to auto-completed user names]
-Füge einen Doppelpunkt (:) zu autom. vervollständigten Benutzernamen hinzu
+Doppelpunkt (:) zu automatisch vervollständigten Benutzernamen hinzufügen
 [Start private conversation on doubleclick in nick list (insert nick if unchecked)]
-Starte private Unterhaltung bei Doppelklick in Nickliste (fügt sonst Nick ein)
+Private Unterhaltung bei Doppelklick in Nickliste starten (fügt sonst Nick ein)
 [Strip colors from messages in the log]
-Farben aus der Verlaufsanzeige entfernen
+Farben aus Nachrichten im Verlauf entfernen
 [Enable the 'event filter' for new rooms]
 'Ereignis-Filter' für neue Nachrichten aktivieren
 [Use IRC style status indicators in the log]
@@ -2084,7 +2084,7 @@ IRC-ähnliche Statusanzeigen im Verlauf verwenden
 [Allow clickable user names in the message log]
 Nicknamen im Nachrichtenverlauf in anklickbare Hyperlinks umwandeln
 [Colorize user names in message log]
-Färbe Nutzername im Nachrichtenverlauf
+Nutzernamen im Nachrichtenverlauf färben
 [Scale down icons to 10x10 pixels in the chat log]
 Icons auf 10 x 10 Pixel im Verlauf verkleinern
 [Support the math module plugin]
@@ -2124,7 +2124,7 @@ Beenden (10x10)
 [Kick (10x10)]
 Kick (10x10)
 [Notice (10x10)]
-Hinweis (10x10)
+Notiz (10x10)
 [Nickchange (10x10)]
 Nick ändern (10x10)
 [Topic (10x10)]
@@ -2228,7 +2228,7 @@ Benutzer hat Status gewechselt
 [User has changed name]
 Benutzer hat Nickname gewechselt
 [User has sent a notice]
-Benutzer hat eine private Nachricht geschickt
+Benutzer hat eine Notiz geschickt
 [The topic has been changed]
 Das Thema wurde geändert
 ;file \plugins\TabSRMM\src\chat\services.cpp
@@ -2242,13 +2242,13 @@ Ver&lassen
 [%s speaks in %s]
 %s spricht in %s
 [%s has joined %s]
-%s betritt %s
+%s hat %s betreten
 [%s has left %s]
-%s verlässt %s
+%s hat %s verlassen
 [%s kicked %s from %s]
 %s kickt %s aus %s
 [Notice from %s]
-Private Nachricht von %s
+Notiz von %s
 [Topic change in %s]
 Themenänderung in %s
 [Information in %s]
@@ -2260,13 +2260,13 @@ Informationen in %s
 [%s%s says:%s %s]
 %s%s sagt:%s %s
 [%s has left (%s)]
-%s verlässt den Channel (%s)
+%s verlässt (%s)
 [%s has disconnected (%s)]
 %s wurde getrennt (%s)
 [%s kicked %s (%s)]
 %s kickt %s (%s)
 [Notice from %s: %s]
-Private Nachricht von %s: %s
+Notiz von %s: %s
 [The topic is '%s']
 Das Thema ist '%s'
 [The topic is '%s' (set by %s)]
@@ -2275,6 +2275,8 @@ Das Thema ist '%s' (gesetzt von %s)
 Suche nach '%s'
 [No word to look up]
 Kein Wort zum Nachschlagen
+[&Message %s]
+&Nachricht an %s
 [Highlight User...]
 "Highlighte" Benutzer ...
 [Edit Highlight List...]

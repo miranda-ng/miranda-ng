@@ -83,7 +83,7 @@ Popup
 [Changing Layout]
 Layout ändern
 [Changing Case]
-
+Groß-/Kleinschreibung ändern
 [Message Sessions]
 Nachrichtensitzungen
 [Popups]

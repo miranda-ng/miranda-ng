@@ -6,7 +6,7 @@
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 [Anti-Boss plugin.]
-Anti-Boss plugin.
+Anti-Boss-plugin.
 ;file \plugins\BossKeyPlus\res\BossKey.rc
 [BossKey]
 BossKey
@@ -47,13 +47,13 @@ Bildschirmschoner läuft
 [Windows is inactive]
 Windows inaktiv ist
 [Hide Miranda when:]
-Verstecke Miranda wenn:
+Verstecke Miranda, wenn:
 [Miranda is inactive]
 Miranda inaktiv ist
 [min]
 Min
 [Miranda is started]
-Miranda gestartet ist
+Miranda gestartet wurde
 [Others]
 Sonstiges
 [Create a main menu item]

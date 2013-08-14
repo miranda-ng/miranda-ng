@@ -6,4 +6,4 @@
 ;  Authors: Yasnovidyashii
 ;============================================================
 [Displays the Accounts window at the first start.]
-Zeigt die Kontenverwaltung beim ersten Start
+Zeigt die Kontenverwaltung beim ersten Start an.

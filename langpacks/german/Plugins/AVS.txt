@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.11.0.1
+;  Version: 0.11.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -82,8 +82,46 @@ Avatare je Protokoll setzen
 [Protocols have different avatars]
 Protokolle haben unterschiedliche Avatare
 ;file \plugins\AVS\src\main.cpp
-[Grow avatar to fit max allowed protocol size]
-Avatargröße an maximale Protokollgröße anpassen
+[Global avatar]
+Globaler Avatar
+[Global avatar for %s accounts]
+Globaler Avatar für %s-Konten
+[Avatars]
+Avatare
+[My Avatars]
+Meine Avatare
+[My Global Avatar Cache]
+Mein globaler Avatar-Cache
+[Fatal error, image services not found. Avatar services will be disabled.]
+Schwerwiegender Fehler, Bilddienste-Plugin wurde nicht gefunden. Der Dienst wird nun deaktiviert.
+[Avatar Service]
+Avatardienst
+;file \plugins\AVS\src\options.cpp
+[Set avatar options for %s]
+Avatar-Einstellungen für %s
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Alten Avatar von der Festplatte löschen? (u. U. notwendig, um neues Bild zu setzen)
+[Reset contact picture]
+Avatar zurücksetzen
+[Contact has no avatar]
+Kontakt hat kein Avatar
+[Contacts]
+Kontakte
+[Protocols]
+Protokolle
+[Contact Avatars]
+Kontaktavatare
+[Own Avatars]
+Eigene Avatare
+[No avatar]
+Kein Avatar
+[Are you sure you want to remove your avatar?]
+Sind Sie sich sicher, dass Sie Ihren Avatar entfernen wollen?
+[Global Avatar]
+Globaler Avatar
+[Avatar]
+Avatar
+;file \plugins\AVS\src\services.cpp
 [All Files]
 Alle Dateien
 [Windows Bitmaps]
@@ -98,46 +136,9 @@ PNG-Bilder
 Flash-Animationen
 [XML Files]
 XML-Dateien
+[Grow avatar to fit max allowed protocol size]
+Avatargröße an maximale Protokollgröße anpassen
 [Set My Avatar]
 Meinen Avatar setzen
 [Set My Avatar for %s]
 Meinen Avatar für %s setzen
-[Global avatar]
-Globaler Avatar
-[Global avatar for %s accounts]
-Globaler Avatar für %s-Konten
-[Avatars]
-Avatare
-[My Avatars]
-Meine Avatare
-[My Global Avatar Cache]
-Mein globaler Avatar-Cache
-[Contacts]
-Kontakte
-[Protocols]
-Protokolle
-[Contact Avatars]
-Kontaktavatare
-[Own Avatars]
-Eigene Avatare
-[Avatar]
-Avatar
-[Fatal error, image services not found. Avatar services will be disabled.]
-Schwerwiegender Fehler, Bilddienste-Plugin wurde nicht gefunden. Der Dienst wird nun deaktiviert.
-[Avatar Service]
-Avatardienst
-;file \plugins\AVS\src\options.cpp
-[Set avatar options for %s]
-Avatar-Einstellungen für %s
-[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
-Alten Avatar von der Festplatte löschen? (u. U. notwendig, um neues Bild zu setzen)
-[Reset contact picture]
-Avatar zurücksetzen
-[Contact has no avatar]
-Kontakt hat kein Avatar
-[No avatar]
-Kein Avatar
-[Are you sure you want to remove your avatar?]
-Sind Sie sich sicher, dass Sie Ihren Avatar entfernen wollen?
-[Global Avatar]
-Globaler Avatar

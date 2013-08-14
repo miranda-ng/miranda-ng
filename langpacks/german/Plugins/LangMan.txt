@@ -31,7 +31,7 @@ Sprachdatei neu laden
 [All installed plugins are included.]
 Alle installierten Plugins sind enthalten.
 [(incompatible)]
-
+(inkompatibel)
 [Unknown]
 Unbekannt
 [Current]
@@ -41,7 +41,7 @@ Installierte Sprachpakete
 [File]
 Datei
 [built-in]
-
+eingebaut
 [&Remove...]
 &Entfernen...
 [Languages]

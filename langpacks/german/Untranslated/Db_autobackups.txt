@@ -1,2 +1,1 @@
-﻿[Database/Database Backups]
-[Error creating backup folder]
+﻿[Error creating backup folder]

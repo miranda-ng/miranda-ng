@@ -1,3 +1,0 @@
-﻿[XSoundNotify]
-[Custom sound for %s (%s)]
-[Custom contact sound]

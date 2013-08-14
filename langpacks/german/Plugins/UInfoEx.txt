@@ -147,13 +147,13 @@ Benutzerdef.
 [Permanent]
 Dauerhaft
 [Show reminder messages as popups (if reminder is enabled)]
-Zeige Erinnerungen als Popup (wenn Erinnerung aktiviert)
+Erinnerungen als Popup anzeigen (wenn Erinnerung aktiviert)
 [Anniversary popup colours]
 Farben für Jahrestage
 [Replace progress dialogs with popups]
-Ersetze Fortschrittsanzeige durch Popups
+Fortschrittsanzeige durch Popups
 [Replace message boxes with popups]
-Ersetze Hinweisfenster durch Popups
+Meldungsfenster durch Popups ersetzen
 [Preview]
 Vorschau
 [Homepage:]
@@ -440,7 +440,7 @@ Nur Jahrestage
 [Disabled reminder]
 Deaktivierte Erinnerung
 [Popup Anniversary list]
-Zeige Jahrestagsliste
+Jahrestagsliste anzeigen
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Retry]
 Wiederholen
@@ -607,6 +607,8 @@ Jahrestag später
 Achtung: Ihre aktuelle Icon-Paket-Version ist unterschiedlich zu der des UserInfoEx-Pakets, das hierfür erstellt wurde.\nEinige Icons werden eventuell nicht korrekt dargestellt.]
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 Achtung: Kein Iconpack wurde in folgendem Ordner gefunden: 'customize\\Icons', 'Icons' oder 'Plugins'!
+[Main]
+Allgemein
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [UserInfoEx]
 UserInfoEx

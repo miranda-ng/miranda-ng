@@ -1,5 +1,0 @@
-﻿[Found field]
-[Module tree not found]
-[HANDLE]
-[Decoded string..]
-[Encoded string..]

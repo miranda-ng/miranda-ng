@@ -20,16 +20,16 @@ Popup-Einstellungen
 Hintergrund
 [Text]
 Text
-[Close after: ]
+[Close after:]
 Schließe nach:
 [sek.(0 default,\n -1 disabled)]
 Sek. (0 Standard\n-1 deaktiviert)
 [...but only if popup not clicked]
 ... nur falls Popup nicht angeklickt
-[Left button click cmd: ]
+[Left button click cmd:]
 Linker Button Klick Befehl:
-[Command parameters: ]
-Kommando Parameter: 
+[Command parameters:]
+Kommando Parameter:
 [Remember newest message ID\n and don't show older]
 Neuste Nachricht-ID merken\nund keine älteren anzeigen
 [version:]
@@ -37,7 +37,7 @@ Version:
 [Clear popups history]
 Lösche Popup-Verlauf
 [Filter messages contain below strings in:]
-Gefilterte Nachrichten enthalten untere W�rter:
+Gefilterte Nachrichten enthalten untere Wörter:
 [Sender]
 Sender
 [Subject]
@@ -46,22 +46,22 @@ Betreff
 Lotus Verbindungseinstellungen
 [Primary server:]
 Hauptserver:
-[Database: ]
-Datenbank: 
+[Database:]
+Datenbank:
 [try detect]
 Erkennen
-[Secondary server: ]
+[Secondary server:]
 Zweiter Server:
-[Check interval: ]
-Prüfintervall: 
+[Check interval:]
+Prüfintervall:
 [(0-disabled)]
 (0-deaktiviert)
 [min.]
 Min.
 [Password:]
 Passwort:
-[Offline status mean: ]
-Offline-Status bedeutet: 
+[Offline status mean:]
+Offline-Status bedeutet:
 [To / CopyTo]
 
 [autoregister]

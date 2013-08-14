@@ -75,7 +75,7 @@ Fremder 2
 [Stranger]
 Unbekannter
 [You and the Stranger both like: ]
-Sie und der Fremde mögen beide:
+Sie und der Fremde mögen beide:\s
 [Stranger is typing.]
 Fremder tippt
 [Stranger stopped typing.]
@@ -85,7 +85,7 @@ Fremder tippt nicht mehr
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
 Recaptcha benötigt.\nÖffnen Sie http://omegle.com, lösen Sie das Recaptcha, und versuchen Sie es nochmal
 [Error: ]
-Fehler:
+Fehler:\s
 [We are still waiting...]
 Wir warten immer noch...
 ;file \protocols\Omegle\src\connection.cpp

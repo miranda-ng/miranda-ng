@@ -16,33 +16,33 @@ Verlauf importieren
 [Choose a file...]
 Datei auswählen...
 [Choose a pattern...]
-
+Muster auswählen...
 [Choose a file for import...]
-
+Datei zum Import auswählen...
 [Text files (*.txt)]
-
+Textdateien (*.txt)
 [All files (*.*)]
 Alle Dateien (*.*)
 [Error in cfg file: ]
-
+Fehler in Konfigurationsdatei: 
 [No Files Patterns Found]
-
+Keine Dateimuster gefunden
 [No messages in this file]
-
+Keine Nachrichten in dieser Datei
 [Import started...]
-
+Import begonnen...
 [Added: %d messages]
-
+Hinzugefügt: %d Nachrichten
 [Duplicates: %d messages]
-
+Duplikate: %d Nachrichten
 [In: %d:%d:%d]
-
+Ein: %d:%d:%d
 [Import not finished. Do you realy want close?]
-
+Import nicht abgeschlossen. Möchten Sie wirklich abbrechen?
 [Error adding message to DB]
-
+Fehler beim Hinzufügen der Nachricht in die Datenbank
 [Error opening file]
-
+Fehler beim Öffnen der Datei
 [Error mapping file]
 
 [Error mapping]
@@ -52,9 +52,9 @@ Kopfinformationen nicht gefunden
 [Import Text Files Wizard]
 Textdateien importieren
 [This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
-Dieses Plugin hilft Ihnen, Verläufe anderer Clients oder Miranda-Plugins in Miranda zu importieren.
+Dieser Assistent hilft Ihnen, Verläufe anderer Clients oder Miranda-Plugins in Miranda zu importieren.
 [Click ""Next"" to choose the information you wish to import, or click ""Cancel"" to exit the wizard and continue using Miranda.]
-
+Klicken Sie auf "Weiter", um die zu importierenden Informationen auszuwählen, oder auf "Abbrechen", um den Assistenten zu beenden und zu Miranda zurückzukehren.
 [Choose type of imported files:]
 Wählen Sie den Typ der zu importierenden Dateien aus:
 [Select files or the whole directory for import:]
@@ -72,19 +72,19 @@ Klicken Sie auf "Weiter", um fortzufahren, oder auf "Abbrechen", um abzubrechen.
 [Select folder for import...]
 Wählen Sie einen Ordner für den Import aus...
 [File: %s]
-
+Datei: %s
 [To: %s]
-
+An: %s
 [Can''t determine destination contact]
-
+Kann Zielkontakt nicht ermitteln
 [Default extension]
-
+Standarderweiterung
 [Its not %s file]
-
+Es ist keine %s-Datei
 [Duplicate:]
-
+Duplikat:
 [Your version of Miranda don't support XML parsing]
-
+Ihre Version von Miranda unterstützt kein XML-Parsen
 [Check for duplicates]
 Nach Duplikaten prüfen
 [Check messages for duplicates]
@@ -92,8 +92,8 @@ Prüfe Nachrichten auf doppelte Einträge
 [Show duplicates]
 Zeige doppelte Einträge
 [Error at initialization XML parser]
-
+Fehler beim Initialisieren des XML-Parsers
 [Import history to %s (%s)]
-
+Verlauf nach %s (%s) importieren
 [Can't determine destination contact]
-
+Kann Zielkontakt nicht ermitteln

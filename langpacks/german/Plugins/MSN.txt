@@ -1,10 +1,12 @@
 ﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
-;  Plugin: MSN
+;  Plugin: MSN Protocol
 ;  Version: 0.11.0.2
-;  Authors: 
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
+[Microsoft Network (MSN) protocol support for Miranda NG.]
+Microsoft Netzwerk (MSN Protokollunterstützung für Miranda NG:
 ;file \protocols\MSN\res\msn.rc
 [MSN]
 MSN
@@ -177,6 +179,10 @@ Hotmail von %s
 [Unread mail is available: %d in Inbox and %d in other folders).]
 Ungelesene E-Mails sind verfügbar: %d im Posteingang und %d in anderen Verzeichnissen.
 ;file \protocols\MSN\src\msn_menu.cpp
+[&Unblock]
+Blockieren a&ufheben
+[&Block]
+&Blockieren
 [Open &Hotmail Inbox]
 &Hotmail Posteingang öffnen
 [Send &Hotmail E-mail]
@@ -193,8 +199,6 @@ Sie müssen reden, um NetMeeting zu starten, beachten Sie die Hilfedatei zu NetM
 &Profil ansehen
 [Setup Live &Alerts]
 Live &Alerts einstellen
-[&Block]
-&Blockieren
 [&Start Netmeeting]
 NetMeeting &starten
 ;file \protocols\MSN\src\msn_misc.cpp

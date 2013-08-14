@@ -159,11 +159,11 @@ Nachrichtensitzung
 [&D]
 &D
 [&E]
-
+&E
 [&H]
 &H
 [&Q]
-
+&Q
 [Send To All Tabs]
 An alle Tabs senden
 [You are about to send a message to all open tabs.\nAre you sure ?]
@@ -183,9 +183,9 @@ Nachrichten
 [Nick changes]
 Nickänderungen
 [Users joining]
-Betritt Channel
+Benutzer betritt
 [Users leaving]
-Verlässt Channel
+Benutzer verlässt
 [Topic changes]
 Themenänderungen
 [Status changes]
@@ -197,13 +197,13 @@ Verbindungsabbrüche
 [User kicks]
 Gekickte Benutzer
 [Notices]
-Hinweise
+Notizen
 [Options]
 Einstellungen
 [Other]
 Sonstige
 [Add new rooms to group:]
-Gruppe für neue Channel:
+Gruppe für neue Räume:
 [User list row height]
 Höhe einer Benutzerzeile
 [pixels]
@@ -215,9 +215,9 @@ Ihr Nick
 [Other name]
 Andere Nicks
 [Timestamp]
-Zeitanzeige
+Zeitstempel
 [Log timestamp]
-Zeitverlauf in Logdatei
+Zeitstempel in Logdatei
 [Limit log text to (events):]
 Textbegrenzung (Ereignisse):
 [Enable highlighting]
@@ -344,7 +344,7 @@ Eingehende Nachricht (10x10)
 [Outgoing message (10x10)]
 Ausgehende Nachricht (10x10)
 [Notice (10x10)]
-Hinweis (10x10)
+Notiz (10x10)
 [Window Icon]
 Fenstericon
 [Text colour]
@@ -358,9 +358,9 @@ Kursiv
 [Underlined]
 Unterstrichen
 [Room history]
-Channelverlauf
+Raumverlauf
 [Room settings]
-Channeleinstellungen
+Raumeinstellungen
 [Event filter disabled]
 Ereignisfilter deaktiviert
 [Event filter enabled]
@@ -449,13 +449,13 @@ Wechseln: Voriger Tab
 [Navigate: Next Tab]
 Wechseln: Nächster Tab
 [Navigate: Tab %d]
-
+Wechseln: Tab %d
 [Window: Toggle Statusbar]
 Fenster: Statusleiste umschalten
 [Window: Toggle Titlebar]
 Fenster: Titelleiste umschalten
 [Window: Toggle Toolbar]
-Fenster: Werkzeugleiste umschalten
+Fenster: Toolbar umschalten
 [Window: Toggle Infobar]
 Fenster: Infoleiste umschalten
 [Window: Clear Log]
@@ -588,17 +588,17 @@ Andere Nicks
 [Your nickname]
 Ihr Nick
 [User has joined]
-Benutzer hat den Channel betreten
+Benutzer ist beigetreten
 [User has left]
-Benutzer hat den Channel verlassen
+Benutzer hat verlassen
 [User has disconnected]
 Benutzer hat Verbindung getrennt
 [User kicked ...]
-Benutzer kickt ...
+Benutzer kickt...
 [User is now known as ...]
-Benutzer ändert Nick
+Benutzer ist nun bekannt als...
 [Notice from user]
-Private Nachricht von Benutzer
+Notiz von Benutzer
 [Incoming message]
 Eingehende Nachricht
 [Outgoing message]
@@ -678,6 +678,10 @@ Eingehend (Fenster im Hintergrund)
 Eingehend (Neue Sitzung)
 [Outgoing]
 Ausgehend
+[Contact started typing]
+Kontakt beginnt zu tippen
+[Contact stopped typing]
+Kontakt tippt nicht mehr
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occured.]
 Ein unbekannter Fehler ist aufgetreten.
@@ -695,21 +699,21 @@ Chatfenster öffnen
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\log.cpp
 [%s has joined]
-%s betritt den Channel
+%s ist beigetreten
 [You have joined %s]
-Sie sind in %s
+Sie haben %s betreten
 [%s has left]
-%s verlässt den Channel
+%s ist gegangen
 [%s has disconnected]
 %s wurde getrennt
 [%s is now known as %s]
-%s heißt jetzt %s
+%s ist nun bekannt als %s
 [You are now known as %s]
-Ihr Name ist nun %s
+Sie sind nun bekannt als %s
 [%s kicked %s]
-%s kickte %s
+%s hat %s gekickt
 [Notice from %s]
-Private Nachricht von %s
+Notiz von %s
 [The topic is '%s%s']
 Das Thema ist '%s%s'
 [ (set by %s on %s)]
@@ -737,7 +741,7 @@ Chatbenutzerliste zeigen
 [Enable button context menus]
 Buttonkontextmenüs nutzen
 [Show topic on your contact list (if supported)]
-Thema in Kontaktliste zeigen, falls unterstützt
+Thema in Kontaktliste zeigen (falls unterstützt)
 [Do not play sounds when focused]
 Keine Klänge abspielen, wenn im Vordergrund
 [Do not pop up when joining]
@@ -745,19 +749,19 @@ Beim Betreten nicht in den Vordergrund holen
 [Show and hide by double clicking in the contact list]
 Zeigen und Verstecken via Doppelklick in der Kontaktliste
 [Show contact statuses (if supported)]
-Kontaktstatus zeigen, falls unterstützt
+Kontaktstatus zeigen (falls unterstützt)
 [Display contact status icon before role icon]
 Statusicon vor Rollenicon zeigen
 [Add ':' to auto-completed names]
 Autom. vervollständigten Namen ':' anfügen
 [Prefix all events with a timestamp]
-Zeitanzeige bei allen Verlaufseinträgen
+Zeitstempel bei allen Ereignissen
 [Only prefix with timestamp if it has changed]
-Zeitanzeige nur bei Änderungen
+Zeitstempel nur bei Änderungen
 [Timestamp has same colour as event]
 Zeitstempel hat dieselbe Farbe wie das Ereignis
 [Indent the second line of a message]
-2. Zeile einer Nachricht einziehen
+Zweite Zeile einer Nachricht einziehen
 [Limit user names to 20 characters]
 Benutzernamen auf 20 Zeichen beschränken
 [Strip colors from messages]
@@ -767,7 +771,7 @@ Ereignisfilter für neue Räume aktivieren
 [Show topic changes]
 Themenänderungen anzeigen
 [Show users joining]
-Wenn Benutzer den Channel betritt
+Wenn Benutzer beitreten
 [Show users disconnecting]
 Wenn Benutzer Verbindung unterbricht
 [Show messages]
@@ -775,11 +779,11 @@ Nachrichten anzeigen
 [Show actions]
 Aktionen anzeigen
 [Show users leaving]
-Wenn Benutzer den Channel verlässt
+Wenn Benutzer verlassen
 [Show users being kicked]
 Wenn Benutzer gekickt wird
 [Show notices]
-Hinweise anzeigen
+Notizen anzeigen
 [Show users changing name]
 Nicknamenänderungen anzeigen
 [Show information messages]
@@ -791,7 +795,7 @@ Icon nur im Tray anzeigen, wenn Chatfenster nicht aktiv
 [Show icon in tray for topic changes]
 Trayicon für Themenänderungen anzeigen
 [Show icon in tray for users joining]
-Trayicon anzeigen, wenn Benutzer Channel betritt
+Trayicon anzeigen, wenn Benutzer beitreten
 [Show icon in tray for users disconnecting]
 Trayicon anzeigen, wenn Benutzer Verbindung unterbricht
 [Show icon in tray for messages]
@@ -801,11 +805,11 @@ Trayicon für Aktionen anzeigen
 [Show icon in tray for highlights]
 Trayicon für Hervorhebungen anzeigen
 [Show icon in tray for users leaving]
-Trayicon anzeigen, wenn Benutzer Channel verlässt
+Trayicon anzeigen, wenn Benutzer verlassen
 [Show icon in tray for users kicking other user]
 Trayicon anzeigen, wenn Benutzer gekickt wird
 [Show icon in tray for notices]
-Trayicon für Hinweise anzeigen
+Trayicon für Notizen anzeigen
 [Show icon in tray for name changes]
 Trayicon bei Namensänderung anzeigen
 [Show icon in tray for information messages]
@@ -813,11 +817,11 @@ Trayicon für Informationsnachrichten anzeigen
 [Show icon in tray for status changes]
 Trayicon für Statusänderungen anzeigen
 [Show popups only when the chat room is not active]
-Popup nur wenn Chatfenster nicht aktiv
+Popup nur anzeigen wenn Chatfenster nicht aktiv
 [Show popup for topic changes]
 Popup für Titeländerungen
 [Show popup for users joining]
-Popup anzeigen, wenn Benutzer Channel betritt
+Popup anzeigen, wenn Benutzer beitreten
 [Show popup for users disconnecting]
 Popup anzeigen, wenn Benutzer Verbindung unterbricht
 [Show popup for messages]
@@ -827,11 +831,11 @@ Popup für Aktionen anzeigen
 [Show popup for highlights]
 Popup für Hervorhebungen anzeigen
 [Show popup for users leaving]
-Popup anzeigen, wenn Benutzer Channel verlässt
+Popup anzeigen, wenn Benutzer verlassen
 [Show popup for users kicking other user]
 Popup anzeigen, wenn Benutzer gekickt wird
 [Show popup for notices]
-Popup für Hinweise anzeigen
+Popup für Notizen anzeigen
 [Show popup for name changes]
 Popup für Namensänderungen anzeigen
 [Show popup for information messages]
@@ -909,7 +913,7 @@ Benutzer hat Status gewechselt
 [User has changed name]
 Benutzer hat Nickname gewechselt
 [User has sent a notice]
-Benutzer hat eine private Nachricht geschickt
+Benutzer hat eine Notiz geschickt
 [The topic has been changed]
 Das Thema wurde geändert
 ;file \plugins\Scriver\src\chat\services.cpp
@@ -921,9 +925,9 @@ Server: %s
 [%s speaks in %s]
 %s spricht in %s
 [%s has joined %s]
-%s betritt %s
+%s hat %s betreien
 [%s has left %s]
-%s verlässt %s
+%s hat %s verlassen
 [%s kicked %s from %s]
 %s kickt %s aus %s
 [Topic change in %s]
@@ -937,17 +941,19 @@ Informationen in %s
 [%s says: %s]
 %s sagt: %s
 [%s has left (%s)]
-%s verlässt den Channel (%s)
+%s verlässt (%s)
 [%s has disconnected (%s)]
 %s wurde getrennt (%s)
 [%s kicked %s (%s)]
 %s kickt %s (%s)
 [Notice from %s: %s]
-Private Nachricht von %s: %s
+Notiz von %s: %s
 [The topic is '%s']
 Das Thema ist '%s'
 [The topic is '%s' (set by %s)]
 Das Thema ist '%s' (gesetzt von %s)
+[&Message %s]
+&Nachricht an %s
 ;file \plugins\Scriver\src\chat\window.cpp
 [Italic]
 Kursiv
@@ -980,7 +986,7 @@ Logdatei öffnen (Strg+H)
 [Show/hide the nicklist (CTRL+N)]
 Benutzerliste anzeigen/verstecken (Strg+N)
 [Control this room (CTRL+O)]
-Channeleinstellungen (Strg+O)
+Raumeinstellungen (Strg+O)
 [Enable/disable the event filter (CTRL+F)]
 Ereignisfilter aktivieren/deaktivieren (Strg+F)
 [Nick name]

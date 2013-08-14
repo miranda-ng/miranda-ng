@@ -42,7 +42,7 @@ Alles ko&pieren
 [VersionInfo stored into file %s]
 Versionsinfo gespeichert in Datei:\n%s
 [VersionInfo file %s is inaccessible]
-Versionsinfo Datei %s ist nicht verfügbar.
+Versionsinfodatei %s ist nicht verfügbar.
 [Services]
 Dienste
 [Version Information To Clipboard]
@@ -54,7 +54,7 @@ Versionsinformation anzeigen
 [Upload Version Information]
 Versionsinformation hochladen
 [Crash Reports]
-Crash Reports
+Absturzberichte
 [Version Information]
 Versionsinformation
 [Copy to clipboard]
@@ -68,7 +68,7 @@ Zeige mit DLLs
 [Upload]
 Hochladen
 [Open crash report directory]
-Crash-Report-Verzeichnis öffnen
+Absturzberichte-Verzeichnis öffnen
 [Open miranda-vi.org]
 Miranda-vi.org aufrufen
 [Copy Version Info to clipboard]
@@ -80,7 +80,7 @@ Version-Info anzeigen
 Crash Dumper
 ;file \plugins\CrashDumper\src\exhndlr.cpp
 [Crash Report write location is inaccesible]
-Pfad zur Erstellung des Crash Reports ist nicht verfügbar!
+Pfad zur Erstellung des Absturzberichts ist nicht verfügbar!
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
 Miranda ist abgestürzt.\nSie finden alle wichtigen Informationen dazu im Verzeichnis\n%s\nMöchten Sie diese nun auch in der Zwischenablage speichern?
 ;file \plugins\CrashDumper\src\ui.cpp
@@ -103,4 +103,4 @@ Kann Versionsinfo nicht hochladen: Der Host ist nicht erreichbar!
 Crash-Dumper-HTTP-Verbindungen
 ;file \plugins\CrashDumper\src\utils.cpp
 [More then one crash reporting plugin installed. This will result in inability of creating crash reports]
-Es ist mehr als ein Plugin zur Erstellung eines Crash Reportes installiert.\nDadurch kann gar keiner erstellt werden!
+Es ist mehr als ein Plugin zur Erstellung eines Absturzberichts installiert.\nDadurch kann gar keiner erstellt werden!

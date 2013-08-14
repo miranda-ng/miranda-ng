@@ -164,9 +164,9 @@ Finde nächste
 [Find Previous]
 Finde vorherige
 [Plus in export]
-
+Plus in Export
 [Minus in export]
-
+Minus in Export
 [History]
 Verlauf
 ;file \plugins\BasicHistory\src\EventList.cpp
@@ -186,13 +186,13 @@ Ungültige Nachricht
 Autorisierungsanfrage von %s (%s%d): %s
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
-
+%s-Dateien (*.%s)
 [Import]
 Importieren
 [Export]
 Exportieren
 [File do not contain selected contact]
-
+Datei beinhaltet den ausgewählten Kontakt nicht
 [File is corrupted]
 Datei ist beschädigt.
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
@@ -201,7 +201,7 @@ Diese Operation wird alle Verlaufseinträge für diesen Kontakt DAUERHAFT LÖSCH
 [Are You sure?]
 Sind Sie sicher?
 [Do you want delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
-
+Wollen Sie alle importierten Nachrichten für diesen Kontakt löschen?\nBeachten Sie, dass der nächste Sheduler-Task diese Nachrichten wieder importiert.
 [Open in &new window]
 In &neuem Fenster öffnen
 [&Open in existing window]
@@ -243,9 +243,9 @@ Speichere Fensterposition als Standard
 [Save window position for all contacts]
 Speichere Fensterposition für alle Kontakte
 [Do you want save imported messages to local profile?]
-
+Wollen Sie die importierten Nachrichten im lokalen Profil speichern?
 [File contain history for different contact. Do you want to change contact and import?]
-
+Datei beinhaltet Verlauf für einen anderen Kontakt. Wollen Sie den Kontakt ändern und importieren?
 [Error]
 Fehler
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
@@ -260,7 +260,7 @@ Link
 [Authorization request]
 Eingehende Autorisierungsanfrage
 [You were added]
-
+Sie wurden hinzugefügt.
 [Contacts recieved]
 Kontakt empfangen
 [SMTP Simple Email]
@@ -294,11 +294,11 @@ Eingehender Hintergrund
 [<< Incoming messages]
 << Eingehende Nachrichten
 [Group list background]
-
+Hintergrund Gruppenliste
 [Find window]
 Finde-Fenster
 [Find window background]
-
+Hintergrund Suchfenster
 [Window background]
 Fenster-Hintergrund
 [Contact list background]
@@ -336,33 +336,33 @@ Eingehende Ereignisse
 [Outgoing events]
 Ausgehende Ereignisse
 [File do not exist. Enter correct file path.]
-
+Datei existiert nicht. Geben Sie den richtigen Pfad ein.
 [Invalid file]
-
+Ungültige Datei
 [All Files (*.*)]
 Alle Dateien (*.*)
 [Enter filter name]
 Filtername eingeben
 [Filter name exists]
-
+Filtername existiert
 [Event already exists]
-
+Ereignis existiert bereits
 [Browse WinSCP file]
-
+Win-SCP-Verlaufsdatei auswählen
 [Save WinSCP log file]
-
+WinSCP-Verlaufsdatei speichern
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
 Sie haben eine falsche Kodierung gewählt. Bitte wählen Sie aus dem Listenfeld die korrekte oder geben sie eine richtige Nummer ein.
 [Invalid codepage]
 Falsche Kodierung
 [Browse CSS file]
-
+CSS-Datei auswählen
 [Export and Delete]
 Exportieren und Löschen
 [Import and Marge]
 Importieren und Zusammenführen
 [Minute]
-
+Minute
 [Hour]
 Stunde
 [At Start]
@@ -396,9 +396,9 @@ Sonntag
 [Invalid '%s' value.]
 Ungültiger '%s'-Wert.
 [Events older than]
-
+Ereignisse älter als
 [Some value is invalid]
-
+Ein Wert ist ungültig.
 [Invalid '%s' value.\n%s]
 Ungültiger '%s'-Wert.\n%s
 [** Use <ext> to insert extension, <contact> to insert contact name]
@@ -425,9 +425,9 @@ Unterhaltung begonnen am %s
 [Menu]
 Menü
 [Open all]
-
+Alle öffnen
 [Close all]
-
+Alle schließen
 ;file \plugins\BasicHistory\src\Scheduler.cpp
 [History task]
 
@@ -477,7 +477,7 @@ Unbekannter Fehler
 [Search]
 Suchen
 [You have reached the end of the group.]
-
+Das Ende der Gruppe wurde erreicht.
 [You have reached the end of the history.]
 Das Ende des Verlaufs wurde erreicht.
 ;file \plugins\BasicHistory\src\TxtExport.cpp

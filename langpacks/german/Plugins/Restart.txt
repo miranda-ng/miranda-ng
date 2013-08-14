@@ -6,9 +6,9 @@
 ;  Authors: eugene.nv
 ;============================================================
 [Adds Restart menu item.]
-Fügt einen Neustart-Menueintrag hinzu.
+Fügt einen Neustart-Menüeintrag hinzu.
 ;file \plugins\Restart\src\restart.cpp
 [Restart]
 Neustart
 [Restart Plugin]
-Restart Plugin
+Neustart-Plugin

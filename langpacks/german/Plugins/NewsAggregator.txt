@@ -6,7 +6,7 @@
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
-RSS/Atom Neuigkeiten abrufen.
+RSS/Atom-Neuigkeiten abrufen.
 ;file \plugins\NewsAggregator\Res\Resource.rc
 [Add]
 Hinzufügen
@@ -54,6 +54,51 @@ Alle Elemente sind gültig, diese zwischen # setzen; z. B: #<author>#
 Standard
 [0 - check manually]
 0 - manuell prüfen
+[Feed name]
+Feedname
+[This feed seems to need authentication. Please fill username and password fields:]
+Dieser Feed scheint eine Authentizierung zu brauchen. Bitte geben Sie Benutzername und Passwort ein:
+[Username]
+Benutzername
+[Available feeds:]
+Verfügbare Newsfeeds:
+[Feeds to be exported:]
+Folgende Feeds exportieren:
+[&Export]
+&Exportieren
+[&Close]
+S&chließen
+[Import from:]
+Importieren aus:
+[Feeds to be imported:]
+Folgende Feeds importieren:
+[&Import]
+&Importieren
+;file \plugins\NewsAggregator\Src\Authentication.cpp
+[Enter your username]
+Geben Sie Ihren Benutzernamen ein
+[Error]
+Fehler
+[Enter your password]
+Geben Sie Ihr Passwort ein
+;file \plugins\NewsAggregator\Src\CheckFeed.cpp
+[%s\nis a valid feed's address.]
+%s\nist eine gültige Feed-Adresse
+[News Aggregator]
+News-Aggregator
+[%s\nis not a valid feed's address.]
+%s\nist keine gültige Feed-Adresse
+[empty]
+leer
+;file \plugins\NewsAggregator\Src\ExportImport.cpp
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+%d Feed(s) wurden importiert.\r\n%d Duplikate wurden nicht importiert.
+[Imported %d feed(s).]
+%d Feed(s) wurden importiert.
+[OPML files]
+OPML-Dateien
+[Not valid import file.]
+Keine gültige Import-Datei.
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Protokollicon
@@ -69,8 +114,6 @@ Exportiere Feeds
 Autom. Aktualisierung aktiviert
 [Auto Update Disabled]
 Autom. Aktualisierung deaktiviert
-[News Aggregator]
-News Aggregator
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
 Feed prüfen
@@ -78,11 +121,9 @@ Feed prüfen
 Feed ändern
 ;file \plugins\NewsAggregator\Src\Options.cpp
 [Enter Feed name]
-Feed Name eingeben:
-[Error]
-Fehler
+Feednamen eingeben:
 [Enter Feed URL]
-Feed URL eingeben:
+Feed-URL eingeben:
 [Enter checking interval]
 Prüfintervall eingeben
 [Enter message format]
@@ -96,17 +137,17 @@ URL des Eintrages.
 [Email address of the author of the item.]
 E-Mail-Adresse des Autors des Beitrages.
 [URL of a page for comments relating to the item.]
-URL einer Seite für Kommentare  zu diesem Eintrag.
+URL einer Seite für Kommentare zu diesem Eintrag.
 [A string that uniquely identifies the item.]
-Ein String, der den Beitrag einseutig identifiziert.
+Ein String, der den Beitrag eindeutig identifiziert.
 [Specify one or more categories that the item belongs to.]
-Ordnet den Beitrag einer oder mehrerer Kategorien zu.
+Ordnet den Beitrag einer oder mehreren Kategorien zu.
 [Feed Tag Help]
-Feed Tag Hilfe
+Feed-Tag-Hilfe
 [Are you sure?]
 Sind Sie sich sicher?
 [Tags Mask Reset]
-
+Maske zurücksetzen
 [Wait...]
 Warten...
 [Change Feed]
@@ -122,16 +163,6 @@ Avatare
 Auto-Update de-/aktivieren
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
-NewsAggregator HTTP Verbindung
+News-Aggregator-HTTP-Verbindung
 [Feed]
 Feed
-[%s\nis a valid feed's address.]
-%s\nist eine gültige Feed-Adresse
-[%s\nis not a valid feed's address.]
-
-[empty]
-leer
-[OPML files]
-OPML-Dateien
-[Not valid import file.]
-Keine gültige Import-Datei.

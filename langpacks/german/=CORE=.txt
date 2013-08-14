@@ -431,11 +431,11 @@ Diese Schriftart wird für die meisten Textelemente oder für Sektionen verwende
 Zusatztexte:
 [This font is used to display various addtional notes.]
 Diese Schriftart wird für Zusatztexte in der Kontaktliste verwendet.
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
 Willkommen in der Miranda-NG-Kontoverwaltung!\nHier können Sie Ihre IM-Konten einrichten.\n\nWählen Sie ein Konto aus der Liste auf der linken Seite aus, um die verfügbaren Einstellungen zu sehen.\nAnsonsten klicken Sie einfach auf das grüne Pluszeichen links unter der Liste, um ein neues IM-Konto einzurichten.
 [Event icon legend:]
 Zeichenerklärung:
-[Choose events you wish to ingonre:]
+[Choose events you wish to ignore:]
 Die folgenden Ereignisse werden ignoriert:
 [Font Effect]
 Texteffekt
@@ -569,9 +569,9 @@ Aktionen
 [Nick changes]
 Nickänderungen
 [Users joining]
-Betritt Channel
+Beitretende Benutzer
 [Users leaving]
-Verlässt Channel
+Verlassende Benutzer
 [Topic changes]
 Themenänderungen
 [Status changes]
@@ -583,17 +583,17 @@ Verbindungsabbrüche
 [User kicks]
 Gekickte Benutzer
 [Notices]
-Hinweise
+Notizen
 [Log Options]
 Verlaufseinstellungen
 [Log timestamp]
-Zeitverlauf in Logdatei
+Zeitstempel in Logdatei
 [Timestamp]
-Zeitanzeige
+Zeitstempel
 [Other name]
-Andere Nicks
+Andere Namen
 [Your name]
-Ihr Nick
+Ihr Name
 [Enable highlighting]
 Hervorhebungen aktivieren
 [Limit log text to (events):]
@@ -609,7 +609,7 @@ Verzeichnis für Logdateien
 [Other]
 Sonstige
 [Add new rooms to group:]
-Gruppe für neue Channel:
+Gruppe für neue Räume:
 [Userlist row distance (pixels):]
 Vertikaler Abstand Benutzerliste:
 [Use same style as in the message log]
@@ -626,8 +626,8 @@ Zeitüberschreitung (s)
 Text
 [Background]
 Hintergrund
-[(The timeout require at least Popup plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
- 0 = Standardwert vom Popup-Plugin\n-1 = Dauerhafte Anzeige
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(0 = Standardwert vom Popup-Plugin, -1 = dauerhafte Anzeige)
 [List]
 Liste
 [&Message]
@@ -650,8 +650,6 @@ In &neuem Browserfenster öffnen
 In aktuellem Br&owserfenster öffnen
 [Message]
 Nachricht
-[Undo  ]
-Rückgängig  
 [Redo]
 Wiederherstellen
 [Copy]
@@ -866,25 +864,25 @@ Kontaktlisten-Hintergrund:
 [&Status]
 &Status
 [&Offline\tCtrl+0]
-
+&Offline\tStrg+0
 [On&line\tCtrl+1]
-
+On&line\tStrg+1
 [&Away\tCtrl+2]
-
+&Abwesend\tStrg+2
 [&NA\tCtrl+3]
-
+Au&ßer Haus\tStrg+3
 [Occ&upied\tCtrl+4]
-
+Besch&äftigt\tStrg+4
 [&DND\tCtrl+5]
-
+Bitte nicht st&ören\tStrg+5
 [&Free for chat\tCtrl+6]
-
+&Für Chat bereit\tStrg+6
 [&Invisible\tCtrl+7]
-
+Uns&ichtbar\tStrg+7
 [On the &Phone\tCtrl+8]
-
+Am Telefon\tStrg+8
 [Out to &Lunch\tCtrl+9]
-
+&Beim Essen\tStrg+9
 ;file \src\core\stdfile\resource.rc
 [Send File(s)]
 Datei(en) senden
@@ -1301,21 +1299,21 @@ Chatfenster öffnen
 Textfarbe
 ;file \src\core\stdchat\src\log.cpp
 [%s has joined]
-%s betritt den Channel
+%s ist beigetreten
 [You have joined %s]
-Sie sind in %s
+Sie sind %s beigetreten
 [%s has left]
-%s verlässt den Channel
+%s ist gegangen
 [%s has disconnected]
 %s wurde getrennt
 [%s is now known as %s]
-%s heißt jetzt %s
+%s ist nun bekannt als %s
 [You are now known as %s]
-Ihr Name ist nun %s
+Sie sind nun bekannt als %s
 [%s kicked %s]
-%s kickte %s
+%s hat %s gekickt
 [Notice from %s: ]
-Notiz von %s: 
+Notiz von %s:\s
 [The topic is '%s%s']
 Das Thema ist '%s%s'
 [ (set by %s on %s)]
@@ -1330,21 +1328,21 @@ Das Thema ist '%s%s'
 <ungültig>
 ;file \src\core\stdchat\src\options.cpp
 [Others nicknames]
-Andere Nicks
+Andere Nicknamen
 [Your nickname]
-Ihr Nick
+Ihr Nickname
 [User has joined]
-Benutzer hat den Channel betreten
+Benutzer ist beigetreten
 [User has left]
-Benutzer hat den Channel verlassen
+Benutzer ist gegangen
 [User has disconnected]
 Benutzer hat Verbindung getrennt
 [User kicked ...]
 Benutzer gekickt ...
 [User is now known as ...]
-Benutzer ändert Nick
+Benutzer ist nun bekannt als...
 [Notice from user]
-Private Nachricht von Benutzer
+Notiz von Benutzer
 [Incoming message]
 Eingehende Nachricht
 [Outgoing message]
@@ -1362,7 +1360,7 @@ Aktionsnachricht
 [Highlighted message]
 Hervorgehobene Nachricht
 [Message typing area]
-Eingabefeld Nachrichten
+Nachrichteneingabefeld
 [User list members (Online)]
 Benutzerliste (online)
 [User list members (away)]
@@ -1384,13 +1382,13 @@ Fenster blinkt, wenn jemand schreibt
 [Flash window when a word is highlighted]
 Fenster blinkt, wenn Wort hervorgehoben wird
 [Show list of users in the chat room]
-Benutzerliste im Chatfenster anzeigen
+Benutzerliste im Chatraum anzeigen
 [Show button for sending messages]
-Button zum Senden von Nachrichten anzeigen
+Schaltfläche zum Senden von Nachrichten anzeigen
 [Show buttons for controlling the chat room]
-Button für Channeleinstellungen anzeigen
+Schaltfläche für Chatraumeinstellungen anzeigen
 [Show buttons for formatting the text you are typing]
-Button für Smileys und Schriftformatierung anzeigen
+Schaltfläche für Smileys und Schriftformatierung anzeigen
 [Show button menus when right clicking the buttons]
 Buttonmenü bei Rechtsklick auf Button anzeigen (Farben, Ereignisse)
 [Show new windows cascaded]
@@ -1406,13 +1404,13 @@ Fenster nicht automatisch anzeigen, wenn man einen Raum betritt
 [Toggle the visible state when double clicking in the contact list]
 Anzeigestatus bei einem Doppelklick in der Kontaktliste umschalten
 [Show contact statuses if protocol supports them]
-Zeige Statusicons der Kontakte, falls das Protokoll das unterstützt
+Statusicons der Kontakte anzeigen, falls das Protokoll das unterstützt
 [Display contact status icon before user role icon]
-Zeige Statusicon vor dem Rangicon
+Statusicon vor dem Rangicon anzeigen
 [Prefix all events with a timestamp]
-Zeitanzeige bei allen Verlaufseinträgen
+Zeitstempel bei allen Ereignissen
 [Only prefix with timestamp if it has changed]
-Zeitanzeige nur bei Änderungen
+Zeitstempel nur bei Änderungen
 [Timestamp has same colour as the event]
 Zeitstempel hat die gleiche Farbe wie das Ereignis
 [Indent the second line of a message]
@@ -1424,23 +1422,23 @@ Benutzername im Nachrichtenverlauf auf 20 Zeichen beschränken
 [Strip colors from messages in the log]
 Farben aus der Verlaufsanzeige entfernen
 [Enable the 'event filter' for new rooms]
-'Ereignis-Filter' für neue Nachrichten aktivieren
+Ereignisfilter für neue Räume aktivieren
 [Show topic changes]
 Themenänderungen anzeigen
 [Show users joining]
-Wenn Benutzer den Channel betritt
+Beitretende Benutzer anzeigen
 [Show users disconnecting]
-Wenn Benutzer Verbindung unterbricht
+Benutzer, die getrennt wurden, anzeigen
 [Show messages]
 Nachrichten anzeigen
 [Show actions]
 Aktionen anzeigen
 [Show users leaving]
-Wenn Benutzer den Channel verlässt
+Verlassende Benutzer anzeigen
 [Show users being kicked]
-Wenn Benutzer gekickt wird
+Benutzer, die gekickt werden, anzeigen
 [Show notices]
-Hinweise anzeigen
+Notizen anzeigen
 [Show users changing name]
 Nicknamenänderungen anzeigen
 [Show information messages]
@@ -1448,9 +1446,9 @@ Informationsnachrichten anzeigen
 [Show status changes of users]
 Statusänderungen von Benutzern anzeigen
 [Show icon for topic changes]
-Icon für Titeländerungen
+Icon für Themenänderungen anzeigen
 [Show icon for users joining]
-Icon anzeigen, wenn Benutzer Channel betritt
+Icon für beitretende Benutzer anzeigen
 [Show icon for users disconnecting]
 Icon anzeigen, wenn Benutzer Verbindung unterbricht
 [Show icon for messages]
@@ -1460,13 +1458,13 @@ Icon für Aktionen anzeigen
 [Show icon for highlights]
 Icon für Hervorhebungen anzeigen
 [Show icon for users leaving]
-Icon anzeigen, wenn Benutzer Channel verlässt
+Icon für verlassende Benutzer anzeigen
 [Show icon for users kicking other user]
 Icon anzeigen, wenn Benutzer gekickt wird
 [Show icon for notices]
-Icon für Hinweise anzeigen
+Icon für Notizen anzeigen
 [Show icon for name changes]
-Icon bei Namensänderungen anzeigen
+Icon für Namensänderungen anzeigen
 [Show icon for information messages]
 Icon für Informationsnachrichten anzeigen
 [Show icon for status changes]
@@ -1476,7 +1474,7 @@ Icon nur im Tray anzeigen, wenn Chatfenster nicht aktiv
 [Show icon in tray for topic changes]
 Trayicon für Themenänderungen anzeigen
 [Show icon in tray for users joining]
-Trayicon anzeigen, wenn Benutzer Channel betritt
+Trayicon für beitretende Benutzer anzeigen
 [Show icon in tray for users disconnecting]
 Trayicon anzeigen, wenn Benutzer Verbindung unterbricht
 [Show icon in tray for messages]
@@ -1486,11 +1484,11 @@ Trayicon für Aktionen anzeigen
 [Show icon in tray for highlights]
 Trayicon für Hervorhebungen anzeigen
 [Show icon in tray for users leaving]
-Trayicon anzeigen, wenn Benutzer Channel verlässt
+Trayicon für verlassende Benutzer anzeigen
 [Show icon in tray for users kicking other user]
 Trayicon anzeigen, wenn Benutzer gekickt wird
 [Show icon in tray for notices]
-Trayicon für Hinweise anzeigen
+Trayicon für Notizen anzeigen
 [Show icon in tray for name changes]
 Trayicon bei Namensänderung anzeigen
 [Show icon in tray for information messages]
@@ -1502,7 +1500,7 @@ Popup nur wenn Chatfenster nicht aktiv
 [Show popup for topic changes]
 Popup für Titeländerungen
 [Show popup for users joining]
-Popup anzeigen, wenn Benutzer Channel betritt
+Popup für beitretende Benutzer anzeigen
 [Show popup for users disconnecting]
 Popup anzeigen, wenn Benutzer Verbindung unterbricht
 [Show popup for messages]
@@ -1512,11 +1510,11 @@ Popup für Aktionen anzeigen
 [Show popup for highlights]
 Popup für Hervorhebungen anzeigen
 [Show popup for users leaving]
-Popup anzeigen, wenn Benutzer Channel verlässt
+Popup für verlassende Benutzer anzeigen
 [Show popup for users kicking other user]
 Popup anzeigen, wenn Benutzer gekickt wird
 [Show popup for notices]
-Popup für Hinweise anzeigen
+Popup für Notizen anzeigen
 [Show popup for name changes]
 Popup für Namensänderungen anzeigen
 [Show popup for information messages]
@@ -1544,9 +1542,9 @@ Unterstrichen
 [Smiley button]
 Smileybutton
 [Room history]
-Channelverlauf
+Raumverlauf
 [Room settings]
-Channeleinstellungen
+Raumeinstellungen
 [Event filter disabled]
 Ereignisfilter deaktiviert
 [Event filter enabled]
@@ -1590,7 +1588,7 @@ Kick (10x10)
 [Nickchange (10x10)]
 Nick ändern (10x10)
 [Notice (10x10)]
-Hinweis (10x10)
+Notiz (10x10)
 [Topic (10x10)]
 Thema (10x10)
 [Highlight (10x10)]
@@ -1636,13 +1634,13 @@ Nachricht ist hervorgehoben
 [User has performed an action]
 Benutzer hat eine Aktion ausgeführt
 [User has kicked some other user]
-Benutzer hat einen anderen gekickt
+Benutzer hat einen anderen Benutzer gekickt
 [User's status was changed]
 Benutzer hat Status gewechselt
 [User has changed name]
-Benutzer hat Nickname gewechselt
+Benutzer hat Namen geändert
 [User has sent a notice]
-Benutzer hat eine private Nachricht geschickt
+Benutzer hat eine Notiz geschickt
 [The topic has been changed]
 Das Thema wurde geändert
 ;file \src\core\stdchat\src\services.cpp
@@ -1654,13 +1652,13 @@ Betreten
 [%s speaks in %s]
 %s spricht in %s
 [%s has joined %s]
-%s betritt %s
+%s ist %s beigetreten
 [%s has left %s]
-%s verlässt %s
+%s hat %s verlassen
 [%s kicked %s from %s]
 %s kickt %s aus %s
 [Notice from %s]
-Private Nachricht von %s
+Notiz von %s
 [Topic change in %s]
 Themenänderung in %s
 [Information in %s]
@@ -1672,13 +1670,13 @@ Informationen in %s
 [%s says: %s]
 %s sagt: %s
 [%s has left (%s)]
-%s verlässt den Channel (%s)
+%s ist gegangen (%s)
 [%s has disconnected (%s)]
 %s wurde getrennt (%s)
 [%s kicked %s (%s)]
 %s kickt %s (%s)
 [Notice from %s: %s]
-Private Nachricht von %s: %s
+Notiz von %s: %s
 [The topic is '%s']
 Das Thema ist '%s'
 [The topic is '%s' (set by %s)]
@@ -1687,6 +1685,8 @@ Das Thema ist '%s' (gesetzt von %s)
 Suche nach '%s'
 [No word to look up]
 Kein Wort zum Nachschlagen
+[&Message %s]
+&Nachricht an %s
 ;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 Smiley einfügen
@@ -1705,7 +1705,7 @@ Logdatei öffnen (Strg+H)
 [Show/hide the nicklist (CTRL+N)]
 Benutzerliste anzeigen/verstecken (Strg+N)
 [Control this room (CTRL+O)]
-Channeleinstellungen (Strg+O)
+Diesen Raum kontrollieren (Strg+O)
 [Enable/disable the event filter (CTRL+F)]
 Ereignisfilter aktivieren/deaktivieren (Strg+F)
 [Close current tab (CTRL+F4)]
@@ -1949,8 +1949,8 @@ Nachricht von %s
 %s tippt eine Nachricht
 [Typing Notification]
 Tippbenachrichtigungen
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda NG konnte nicht das eingebaute Nachrichtenmodul laden, riched20.dll fehlt. Falls Sie Windows 95 oder Wine benutzen, stellen Sie sicher das sie die riched20.dll installiert haben. Drücken Sie "Ja" um Miranda NG weiter laden zu können.
+[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda konnte nicht das eingebaute Nachrichtenmodul laden, riched20.dll fehlt. Drücken Sie "Ja" um Miranda weiter laden zu können.
 [Instant messages]
 Sofortnachrichten
 [Incoming (Focused Window)]
@@ -1961,6 +1961,10 @@ Eingehend (Fenster im Hintergrund)
 Eingehend (Neue Sitzung)
 [Message send error]
 Fehler beim Senden der Nachricht
+[Contact started typing]
+Kontakt beginnt zu tippen
+[Contact stopped typing]
+Kontakt tippt nicht mehr
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occured.]
 Ein unbekannter Fehler ist aufgetreten.
@@ -2305,6 +2309,8 @@ Zeit in Mikrosekunden
 Dateiauswahl zum Erstellen der Verlaufsdatei
 [Select program to be run]
 Programmauswahl für den Start
+[Standard netlib log]
+Standard Netlib Log
 ;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <Alle Verbindungen>
@@ -2333,8 +2339,8 @@ Einstellungen...
 Core-Plugin '%s' kann nicht geladen werden oder fehlt. Miranda wird nun beendet.
 [Fatal error]
 Fataler Fehler
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
-Kein Nachrichtenfenster-Plugin gefunden. Bitte installieren/aktivieren Sie eines der Nachrichtenfenster-Plugins, z.B. srmm.dll.
+[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
+Kein Nachrichtenfenster-Plugin gefunden. Bitte installieren/aktivieren Sie eines der Nachrichtenfenster-Plugins, z.B. StdMsg.dll.
 ['%s' is disabled, re-enable?]
 '%s' ist deaktiviert, erneut aktivieren?
 [Re-enable Miranda plugin?]
@@ -2343,8 +2349,8 @@ Miranda-Plugin erneut aktivieren?
 Kann Plugin nicht im Service-Modus starten.
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Miranda kann keines der angegebenen Plugins für die Kontaktliste starten, die entsprechenden Einstellungen für die \nKontaktliste werden ebenfalls ignoriert.
-[Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
-Kann kein Kontaktlisten-Plugin finden!\nSie brauchen clist_classic oder ein anderes Kontaktlisten-Plugin.
+[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
+Kann kein Kontaktlisten-Plugin finden!\nSie brauchen StdClist oder ein anderes Kontaktlisten-Plugin.
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Plugin
@@ -2413,13 +2419,13 @@ Um dieses Konto zu loschen, mussen Sie das dazugehorige Plugin deaktivieren
 Konten
 ;file \src\modules\skin\hotkey_opts.cpp
 [Ctrl + ]
-Strg + 
+Strg +\s
 [Alt + ]
-Alt + 
+Alt +\s
 [Shift + ]
-Umschalt+ 
+Umschalt +\s
 [Win + ]
-Win + 
+Win +\s
 [Remove shortcut]
 Shortcut entfernen
 [Add another shortcut]

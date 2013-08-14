@@ -30,7 +30,7 @@ Summe der Kontakte ausblenden, wenn niemand online ist
 3.:
 [Always on top]
 Immer im Vordergrund
-[Hide contact list after ]
+[Hide contact list after]
 Fenster verstecken nach
 [seconds]
 Sekunden
@@ -166,7 +166,7 @@ Diesen Kontaktfilter automatisch löschen nach
 Kontaktfiltereinstellungen
 [Editing view mode]
 Kontaktfilter bearbeiten
-[Last message ]
+[Last message]
 Letzte Nachricht
 [Status Bar]
 Statusleiste
@@ -210,8 +210,8 @@ XStatus-Icon anzeigen
 Beide Icons anzeigen
 [Show normal status as overlay]
 Norm. Status als Overlay zeigen
-[Status overlay opacity is 75% ]
-Overlayicon, Deckkraft: 75 %
+[Status overlay opacity is 75%]
+Overlayicon, Deckkraft: 75%
 [Show unread emails (if supported)]
 Ungelesene E-Mails anzeigen (falls unterstützt)
 [Right click opens status menu]
@@ -278,7 +278,7 @@ Größenanpassung nach oben
 Verhalten
 [Lock manual resize]
 Manuelle Größenänderung deaktivieren
-[Drag to ]
+[Drag to]
 Mausziehen bewirkt:
 [Easy Scroll]
 Einfaches Scrollen
@@ -401,7 +401,7 @@ Statusnachricht entfernen, wenn Kontakt offline
 [Use improved search method in contactlist]
 Verbesserte Suchmethode in Kontaktliste verwenden
 [Show time only if it is different from current time]
-Zeige Zeit nur, wenn Lokalzeit anders ist
+Zeit nur anzeigen, wenn lokale Zeit anders ist
 [Show contact time as row item]
 Kontaktzeit anzeigen
 [Appearance]
@@ -607,25 +607,25 @@ B&eenden
 [&Status]
 &Status
 [&Offline\tCtrl+0]
-
+&Offline\tStrg+0
 [On&line\tCtrl+1]
-
+On&line\tStrg+1
 [&Away\tCtrl+2]
-
+&Abwesend\tStrg+2
 [&NA\tCtrl+3]
-
+Au&ßer Haus\tStrg+3
 [Occ&upied\tCtrl+4]
-
+Besch&äftigt\tStrg+4
 [&DND\tCtrl+5]
-
+Bitte nicht st&ören\tStrg+5
 [&Free for chat\tCtrl+6]
-
+&Für Chat bereit\tStrg+6
 [&Invisible\tCtrl+7]
-
+Uns&ichtbar\tStrg+7
 [On the &Phone\tCtrl+8]
-
+Am Telefon\tStrg+8
 [Out to &Lunch\tCtrl+9]
-
+&Beim Essen\tStrg+9
 [Tray]
 Tray
 [&Hide/Show]

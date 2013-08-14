@@ -39,7 +39,7 @@ Teile mir mit, wenn eine Nachricht nicht gesendet werden konnte
 [Click to Inbox]
 Klicke hier, um zum Posteingang zu gelangen
 [Show received formatted text (receive RTF)]
-Empfangenen Text formatiert anzeigen (RTF empfangen
+Empfangenen Text formatiert anzeigen (RTF empfangen)
 [Send formatted text (send RTF)]
 Formatierten Text senden (RTF senden)
 [Background colour]

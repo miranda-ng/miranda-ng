@@ -200,9 +200,9 @@ Sende Nachricht...
 [Message Received...]
 Nachricht erhalten.
 [Encrypting File:]
-
+Verschlüssele Datei:
 [Decrypting File:]
-
+Entschlüssele Datei:
 [Bad key received...]
 Falschen Schlüssel erhalten...
 [SecureIM: Error while decrypting the message.]
@@ -264,7 +264,7 @@ Privater Schlüssel geladen.
 [Private key not loaded!]
 Privater Schlüssel nicht geladen!
 [The new settings will become valid when you restart MirandaNG!]
-
+Die neuen Einstellungen werden nach einem Neustart von Miranda NG wirksam!
 [Keyrings disabled!]
 Schlüsselringe deaktiviert!
 [Native]

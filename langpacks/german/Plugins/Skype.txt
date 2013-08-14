@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Skype.dll
 ;  Plugin: Skype Protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.0.2
 ;  Authors: unsane, mataes, ghazan
 ;============================================================
 [Skype protocol support for Miranda NG.]
@@ -134,6 +134,12 @@ Anrufe erlauben von...
 Videos empfangen und Bildschirm teilen mit...
 [No one]
 Keinem
+[Show avatars]
+Avatare anzeigen
+[Contacts count]
+Anzahl Kontakte
+[Local time]
+Lokale Zeit
 [Allow my online status to be shown on the web]
 Erlaube, meinen Online-Status im Netz anzuzeigen
 [Block this person]

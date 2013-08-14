@@ -6,12 +6,12 @@
 ;  Authors: Baloo
 ;============================================================
 [Crypto++ library for SecureIM plugin.]
-Crypto++ Bibliothek für SecureIM.
+Crypto++-Bibliothek für SecureIM.
 ;file \plugins\CryptoPP\src\GPGw\gpg.rc
 [GnuPG Plugin - Passphrase]
-GnuPG Plugin - Passphrase
+GnuPG-Plugin - Passphrase
 [Enter passphrase for the secret key of user:]
-Passwort des geheimen Schlüssels des Users eingeben:
+Passwort des geheimen Schlüssels des Benutzers eingeben:
 [User ID]
 Nutzer-ID
 [OK]
@@ -19,6 +19,6 @@ OK
 [Cancel]
 Abbrechen
 [GnuPG Plugin - Select public key]
-GnuPG Plugin - öffentlichen Schlüssel auswählen
+GnuPG-Plugin - öffentlichen Schlüssel auswählen
 [Refresh]
 Aktualisieren

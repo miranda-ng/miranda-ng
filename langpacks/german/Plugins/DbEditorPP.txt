@@ -23,7 +23,7 @@ Einstell. Werte
 [&Search]
 &Suchen
 [Found field]
-
+Feld gefunden
 [&Replace]
 E&rsetzen
 [&Cancel]
@@ -335,11 +335,11 @@ Lade Kontakte...
 [Loading modules...]
 Lade Module...
 [Module tree not found]
-
+Modulbaum nicht gefunden
 [Contacts]
 Kontakte
 [HANDLE]
-
+HANDLE
 [Add module to contact "%s"]
 Modul zum Kontakt "%s" hinzufügen
 ;file \plugins\DbEditorPP\src\options.cpp
@@ -371,9 +371,9 @@ UNICODE
 [<unknown>]
 <unbekannt>
 [Decoded string..]
-
+Dekodierte Zeichenkette..
 [Encoded string..]
-
+Kodierte Zeichenkette..
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
 [Contact]
 Kontakt

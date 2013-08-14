@@ -9,7 +9,7 @@
 Zeigt Kontakte, Ereignisse und Protokollstatus an.
 ;file \plugins\Clist_nicer\res\resource.rc
 [CList Nicer exception]
-
+CList-Nicer-Ausnahme
 [Copy to clipboard]
 In Zwischenablage kopieren
 [Continue]
@@ -17,7 +17,7 @@ Wiederholen
 [Exit Miranda]
 Miranda beenden
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
-
+Obwohl die Ausnahme abgefangen wurde und Sie mit Miranda weiterarbeiten können, sollten Sie das Programm baldestmöglich neu starten. Die Ausnahme könnte interne Datenstrukturen beschädigt haben und einen nennenswerten Einfluss auf die Stabilität ausüben.
 [About CList Nicer+]
 Über CList Nicer+
 [OK]
@@ -56,7 +56,7 @@ Gruppenfunktion ausschalten
 Vor Löschen von Kontakten fragen
 [Disable icon blinking]
 Iconblinken deaktivieren
-[Apply last active view mode ]
+[Apply last active view mode]
 Zuletzt aktiven Kontaktfilter wiederherstellen
 [Contact list layout]
 Kontaktlistenaussehen
@@ -352,7 +352,7 @@ Diesen Kontaktfilter automatisch löschen nach
 Kontaktfiltereinstellungen
 [Editing view mode]
 Kontaktfilter bearbeiten
-[Last message ]
+[Last message]
 Letzte Nachricht
 [Per contact skins:]
 kontaktabh. Skins:
@@ -445,25 +445,25 @@ B&eenden
 [&Status]
 &Status
 [&Offline\tCtrl+0]
-
+&Offline\tStrg+0
 [On&line\tCtrl+1]
-
+On&line\tStrg+1
 [&Away\tCtrl+2]
-
+&Abwesend\tStrg+2
 [&NA\tCtrl+3]
-
+Au&ßer Haus\tStrg+3
 [Occ&upied\tCtrl+4]
-
+Besch&äftigt\tStrg+4
 [&DND\tCtrl+5]
-
+Bitte nicht st&ören\tStrg+5
 [&Free for chat\tCtrl+6]
-
+&Für Chat bereit\tStrg+6
 [&Invisible\tCtrl+7]
-
+Uns&ichtbar\tStrg+7
 [On the &Phone\tCtrl+8]
-
+Am Telefon\tStrg+8
 [Out to &Lunch\tCtrl+9]
-
+&Beim Essen\tStrg+9
 [Tray]
 Tray
 [&Hide/Show]
@@ -553,7 +553,7 @@ Element ignorieren
 Noch nicht unterstützt
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]
-
+Kopieren von
 [<None>]
 <Keine>
 [Raised]
@@ -724,11 +724,11 @@ Status auswählen
 [The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
 
 [Parameter mismatch]
-
+Parameter stimmen nicht überein
 [The service %s specified by the %s button definition was not found. You may need to install additional plugins]
 
 [Service failure]
-
+Dienstfehler
 [You need the FloatingContacts plugin, cause the embedded floating contacts were removed]
 Sie benötigen das FloatingContacts Plugin, die eingebauten schwebenden Kontakte wurden entfernt.
 [Warning]
@@ -770,7 +770,7 @@ Kein Rahmen
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 CList Nicer kann nicht andocken wenn Sie die Standard Titelleiste und Umrandung benutzen. Benutzen Sie ein Bearbeitungsfenster anstatt ein randlosen Stil.
 [Clist docking]
-
+Kontaktliste andocken
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Skin laden

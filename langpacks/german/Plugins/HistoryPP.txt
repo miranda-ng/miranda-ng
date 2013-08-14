@@ -24,7 +24,7 @@ Dropdownpfeil
 [&Pseudo-edit]
 &Pseudobearbeitung
 [Pseudo-edit mode...]
-
+Pseudobearbeitungsmodus...
 [Easy, fast and feature complete history viewer.]
 Einfacher, schneller und funktionsreicher Verlaufsbetrachter.
 [Group log messages]
@@ -42,13 +42,13 @@ WATrack-Benachrichtigung
 [Open Link]
 Link öffnen
 [WATrack: information request]
-
+WATrack: Informationsanfrage
 [Artist: %s\\nTitle: %s\\nAlbum: %s]
-
+Künstler: %s\\nTitel: %s\\nAlbum: %s
 [WATrack: %s]
-
+WATrack: %s
 [WATrack: request denied]
-
+WATrack: Anfrage abgewiesen
 [Imitate IEView API]
 IEView-API imitieren
 [Text formatting options]
@@ -88,7 +88,7 @@ Filter anpassen
 [Filter Properties]
 Filtereigenschaften
 [&Name:]
-
+&Name:
 [Show all except selected events]
 Alles außer ausgewählten Ereignissen anzeigen
 [Show only selected events]
@@ -266,7 +266,7 @@ Datei ö&ffnen
 [Open File Fo&lder]
 Ordner öffnen
 [Disable &Processing]
-
+Verarbeitung dea&ktivieren
 [Export as &HTML...]
 Als &HTML exportieren
 [Export as &XML...]
@@ -308,7 +308,7 @@ Sie haben ein falsches Passwort eingegeben
 [%0.n events (%s)]
 %0.n Ereignisse (%s)
 [Enable &Processing]
-
+Verarbeitung a&ktivieren
 [Do you really want to delete ALL items (%.0f) for this contact?]
 Alle Einträge des Kontakts wirklich löschen (%.0f)?
 [Note: It can take several minutes for large history.]
@@ -402,7 +402,7 @@ Statusänderung: %s
 [Broadcast message from %s (%s): %s]
 
 [All except status]
-
+Alle außer Status
 [Show all events]
 Alle Ereignisse
 [Avatar changes]
@@ -510,7 +510,7 @@ Senderinformationen anzeigen
 [Show receiver information]
 Empfängerinformationen anzeigen
 [Toggle &Processing]
-
+Verarbeitung umschalten
 [Toolbar]
 Toolbar
 [Incoming SMS Message]
@@ -606,17 +606,17 @@ Vorherige Nachricht
 [%s Header]
 
 [&Additional]
-
+Zus&ätzlich
 [&Delete All]
-
+Alles l&öschen
 [&Password Protection...]
-
+&Passwortschutz...
 [(time and date)]
-
+(Zeit und Datum)
 [All Items]
-
+Alle Elemente
 [and]
-
+und
 [Authorisation Request by %s (%s%s%d): %s]
 
 [Authorisation Request Sample]
@@ -624,7 +624,7 @@ Vorherige Nachricht
 [Change nick and date font for %s.]
 
 [Customize %s]
-
+%s anpassen
 [Customize the look of %s Event. Select it's font, font color and background color.]
 
 [Date Font Color]
@@ -634,13 +634,13 @@ Vorherige Nachricht
 [Easy, fast and feature complete history viewer]
 Einfacher, schneller und funktionsreicher Verlaufsbetrachter
 [Event Icons]
-
+Ereignissymbole
 [Forward &Message]
-
+Nachricht weiterleiten
 [History++ Options]
-
+History++-Optionen
 [History++ [%s]]
-
+History++ [%s]
 [HTML file (*.htm)|*.htm;*.html|All files (*.*)|*.*]
 
 [HTML file (*.htm; *.html)|*.htm;*.html]
@@ -654,7 +654,7 @@ Einfacher, schneller und funktionsreicher Verlaufsbetrachter
 [Incoming URL Sample]
 
 [Incoming Url]
-
+Eingehender URL
 [Make shure you have CAPS LOCK turned off.]
 Achten Sie darauf, Caps Lock ausgeschaltet zu haben.
 [Make sure you have CAPS LOCK turned off.]
@@ -694,15 +694,15 @@ Achten Sie darauf, Caps Lock ausgeschaltet zu haben.
 [Selected file and contact file folder not found]
 
 [SMS Sample]
-
+SMS-Beispiel
 [Some Contact]
-
+Irgendein Kontakt
 [System History (%s)]
 
 [System Message Sample]
-
+Systemnachrichtenbeispiel
 [System Message]
-
+Systemnachricht
 [Use Miranda default settings]
 
 [You were added by %s (%s%s%d)]
@@ -744,15 +744,15 @@ Datenbank:
 [Fast history plugin with filter capability\\nBased on improved code of History+ plugin]
 
 [History++ (2in1)]
-
+History++ (2 in 1)
 [History++ Error]
-History++ Fehler
+History++-Fehler
 [History++ Warning]
-
+History++-Warnung
 [%0.1n h]
-
+%0.1n Std.
 [%d min]
-
+%d Min.
 [&Reset to Default]
 Auf Standar&d zurücksetzen
 [Contact history]

@@ -245,25 +245,25 @@ B&eenden
 [&Status]
 &Status
 [&Offline\tCtrl+0]
-
+&Offline\tStrg+0
 [On&line\tCtrl+1]
-
+On&line\tStrg+1
 [&Away\tCtrl+2]
-
+&Abwesend\tStrg+2
 [&NA\tCtrl+3]
-
+Au&ßer Haus\tStrg+3
 [Occ&upied\tCtrl+4]
-
+Besch&äftigt\tStrg+4
 [&DND\tCtrl+5]
-
+Bitte nicht st&ören\tStrg+5
 [&Free for chat\tCtrl+6]
-
+&Für Chat bereit\tStrg+6
 [&Invisible\tCtrl+7]
-
+Uns&ichtbar\tStrg+7
 [On the &Phone\tCtrl+8]
-
+Am Telefon\tStrg+8
 [Out to &Lunch\tCtrl+9]
-
+&Beim Essen\tStrg+9
 [Tray]
 Tray
 [&Hide/Show]

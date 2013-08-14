@@ -8,7 +8,7 @@
 [Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions.]
 Reagiert auf die Rückkehr, oder eine längere Abwesenheit, von Kontakten mit Benachrichtigungen und anderen Aktionen.
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
-[When a contact returns after ]
+[When a contact returns after]
 Wenn ein Kontakt erscheint nach
 [Show a popup]
 Zeige Popup

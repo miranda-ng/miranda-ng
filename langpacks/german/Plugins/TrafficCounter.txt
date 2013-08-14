@@ -6,10 +6,10 @@
 ;  Authors: Ghost, Mironych
 ;============================================================
 [Adding traffic and time counters.]
-Zeigt Statistiken über den ein- und ausgehenden Verkehr an.
+Zeigt Statistiken über den ein- und ausgehenden Datenverkehr an.
 ;file \plugins\TrafficCounter\res\resource.rc
 [Selected totals]
-Ausgewä. Summen
+Ausgew. Summen
 [Accounts]
 Konten
 [Units]
@@ -56,13 +56,13 @@ Icon
 [Account name]
 Kontoname
 [Current traffic]
-Aktueller Traffic
+Aktueller Datenverkehr
 [Total traffic]
-Insgesamter Traffic
+Insgesamter Datenverkehr
 [Current online]
-Aktuell Online
+Aktuell online
 [Total online]
-Insgesamt Online
+Insgesamt online
 [General]
 Allgemein
 [Draw frame as skin element]
@@ -92,7 +92,7 @@ Dienste
 [Options]
 Einstellungen
 [Traffic counter]
-Traffic Counter
+Trafficzähler
 [Statistics]
 Statistiken
 [Popups]
@@ -131,7 +131,7 @@ Der aktuelle Traffic für den ausgewählten Account wird gelöscht.\nWeitermache
 [Couldn't read statistics file]
 Konnte die Statistikdatei nicht lesen
 [Traffic Counter]
-Traffic Counter
+Trafficzähler
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 Schriftart
@@ -142,9 +142,9 @@ verstecke Trafficfenster
 [Clear the current (Now:) value]
 Lösche aktuellen Wert
 [Toggle traffic counter]
-Traffic Counter zeigen
+Trafficzähler zeigen
 [Traffic counter notification]
-Traffic Counter Benachrichtigungen
+Trafficzähler-Benachrichtigungen
 [%d kilobytes sent]
 %d Kilobytes gesendet
 [%d kilobytes received]

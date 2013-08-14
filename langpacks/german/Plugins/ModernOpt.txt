@@ -9,13 +9,13 @@
 Unterstützung für den neuen Einstellungsdialog.
 ;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
-Besuchen Sie die offizielle Miranda NG Webseite
+Besuchen Sie die offizielle Miranda-NG-Website
 [Sample page]
 Beispielseite
 [Miranda NG Options]
-Miranda NG Einstellungen
+Miranda-NG-Einstellungen
 [Use arrow keys to choose category]
-
+Benutzen Sie Pfeiltasten, um eine Kategorie auszuwählen
 [OK]
 OK
 [Cancel]
@@ -30,7 +30,7 @@ Erweitert
 [Home]
 Home
 [Miranda NG configuration center]
-Miranda NG Einstellungen
+Miranda-NG-Einstellungen
 [Accounts]
 Konten
 [Setup your account information to start messaging.]

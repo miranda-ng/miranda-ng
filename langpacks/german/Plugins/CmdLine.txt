@@ -6,17 +6,17 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
-Dieses Plugin lässt Sie Miranda von der Kommandozeile aus kontrollieren.
+Dieses Plugin lässt Sie Miranda von der Kommandozeile aus steuern.
 ;file \plugins\CmdLine\MimCmd\src\commands.cpp
 [No help for '%s'.]
-
+Keine Hilfe für '%s'.
 [Available commands: ]
 
 [Miranda has been closed or an error has occured while waiting for the result, could not process request.]
 
 ;file \plugins\CmdLine\MimCmd\src\MimCmd.cpp
 [%s usage:\n]
-
+%s Verwendung:\n
 [%s <command> [<param> [, <param> ..]]\n]
 
 [This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n]
@@ -26,10 +26,10 @@ Dieses Plugin lässt Sie Miranda von der Kommandozeile aus kontrollieren.
 [%s version %s]
 
 [Unknown command '%s'.\n]
-
+Unbekannter Befehl '%s'.\n
 ;file \plugins\CmdLine\src\CmdLine.cpp
 [Could not initialize CmdLine plugin property]
-
+Konnte CmdLine-Plugin nicht sauber initialisieren
 [Error]
 Fehler
 ;file \plugins\CmdLine\src\mimcmd_data.h
@@ -113,13 +113,13 @@ Fehler
 [Invalid parameter '%s' passed to CallService command.]
 
 [Service '%s' does not exist.]
-
+Dienst '%s' existiert nicht.
 [Message sent to '%s'.]
-
+Nachricht an '%s' versandt.
 [Message to '%s' was marked as sent but the account seems to be offline]
-
+Nachricht an '%s' wurde als gesendet markiert, der Kontakt scheint jedoch offline zu sein
 [Could not send message to '%s'.]
-
+Konnte Nachricht nicht an '%s' senden.
 [Timed out while waiting for acknowledgement for contact '%s'.]
 
 [Could not find contact handle for contact '%s'.]

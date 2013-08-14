@@ -11,7 +11,7 @@ Stellt Popup-Benachrichtigungen für verschiedene andere Plugins bereit.
 [Content && Style]
 Inhalt && Stil
 [Go to Customize > Fonts && Colors for fonts and colors options]
-
+Gehen Sie zu Customize->Schriften && Farben für Schrift- und Farbeinstellungen.
 [Miscellaneous]
 Sonstiges
 [Effects]
@@ -71,7 +71,7 @@ Einblendzeit:
 [ms]
 ms
 [Time (out):]
-Ausblenzeit:
+Ausblendzeit:
 [Limit window amount to:]
 Begrenze Popupanzahl auf:
 [Skins]
@@ -155,7 +155,7 @@ Farbkonfiguration unter 'Customize -> Schriftarten'
 [More...]
 Mehr...
 [Disable if message window is open]
-
+Deaktivieren, falls Nachrichtenfenster offen
 [Sec]
 Sek.
 [0 = Default]
@@ -246,9 +246,9 @@ Markierte Aktion
 Uhrzeit
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
-
+Popupverlauf ist deaktiviert
 [Popup History message]
-
+Popupverlaufsnachricht
 ;file \plugins\Popup\src\icons.cpp
 [Popups are enabled]
 Popups aktiviert
@@ -402,7 +402,7 @@ Warnung
 Benachrichtigung
 ;file \plugins\Popup\src\skin.cpp
 [The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
-
+Der Skin, den Sie zu laden versuchen, wurde für\r\neine neuere Popup+-Version entwickelt und wird\r\nnicht korrekt angezeigt werden.\r\n\r\nBitte wählen Sie einen anderen Skin aus.
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Popup Mode: Auto]
 Popup-Modus: Auto

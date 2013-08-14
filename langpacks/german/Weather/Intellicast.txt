@@ -31,11 +31,11 @@ Zunehmender Halbmond
 [Waxing Gibbous]
 Zunehmender Mond
 [Last Quarter]
-letztes Viertel
+Letztes Viertel
 [First Quarter]
-erstes Viertel
+Erstes Viertel
 [Partly Sunny]
-Teils Sonnig
+Teils sonnig
 [Mostly Sunny]
 Meist sonnig
 [Partly Cloudy]

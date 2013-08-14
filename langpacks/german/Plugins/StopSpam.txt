@@ -24,9 +24,9 @@ Trennung:
 Vars
 [Disable protection for following accounts:]
 Schutz für folgende Konten deaktivieren:
-[Do not send more than ]
+[Do not send more than]
 Sende nicht mehr als
-[ questions to one contact (0 - for no limit)]
+[questions to one contact (0 - for no limit)]
 Fragen an den Kontakt (0 = Kein Limit)
 [Enable StopSpam-StopSpam infinite talk protection]
 Stop Spam 'infinite talk'-Schutz aktivieren

@@ -45,7 +45,7 @@ nach
 [minutes of inactivity]
 Minuten der Inaktivität
 [minutes of level 1 mode]
-
+Minuten im Level-1-Modus
 [Confirm resetting status]
 Zurücksetzen des Status bestätigen
 [Account]
@@ -249,21 +249,21 @@ fehlgeschlagenen Pings
 [Continuously check interval (secs)]
 Prüfintervall(e) (in Sek.)
 [Entering first auto-away status]
-
+Aktiviere ersten Auto-abwesend-Status
 [Entering second auto-away status]
-
+Aktiviere zweiten Auto-abwesend-Status
 [Leaving first auto-away status]
-
+Verlasse ersten Auto-abwesend-Status
 [Leaving second auto-away status]
-
+Verlasse zweiten Auto-abwesend-Status
 [Becoming active without status change]
-
+Reaktiviert ohne Statuswechsel
 [Pre-conditions]
 Vorbedingungen
 [TriggerData]
 
 [Status: The status the account will change to\r\nAccount: The account changing state]
-
+Status: Der Status, in den das Konto wechselt\r\nKonto: Das Konto, dessen Status wechselt
 ;file \plugins\StatusPlugins\StartupStatus\options.cpp
 [<last>]
 <letzter>

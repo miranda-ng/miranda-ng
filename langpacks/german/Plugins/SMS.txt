@@ -39,7 +39,7 @@ Nachrichteingabe:
 [Chars:]
 Zeichen:
 [%d/160]
-
+%d/160
 [&Send]
 &Senden
 [SMS Message Didn't Send]
@@ -51,7 +51,7 @@ Abbre&chen
 [The SMS message send timed out]
 Die SMS-Nachricht konnte nicht zugestellt werden.
 [SMS Plugin]
-
+SMS-Plugin
 [Begining]
 Anfang
 [End]
@@ -67,13 +67,13 @@ Fenster bei neuer Nachricht automatisch öffnen
 [Save window position per contact]
 Fenster-Position per Kontat speichern
 [SMS Message Sent]
-
+SMS-Nachricht versandt
 [&OK]
 &OK
 [Message ID:]
 Nachricht-ID:
 [Source:]
-
+Quelle:
 [Network:]
 Netzwerk:
 ;file \plugins\SMS\src\options.cpp
@@ -81,7 +81,7 @@ Netzwerk:
 Von %s:\r\n\r\n
 ;file \plugins\SMS\src\receive.cpp
 [SMS message didn't send by %S to %s because: %S]
-
+SMS-Nachricht wurde nicht von %S an %s gesandt. Grund: %S
 [SMS Message from %s]
 SMS-Nachricht von %s
 [SMS Confirmation from %s]
@@ -111,13 +111,13 @@ Die Nachricht ist zu lang. Klicken Sie auf OK, um fortzufahren.
 [Error - Message too long]
 Fehler - Nachricht zu lang
 [There must be numbers in the list first.]
-
+Zunächst müssen Nummern in der Liste sein.
 [No Numbers]
 Keine Nummern
 [Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
 
 [Invalid phone number]
-
+Ungültige Telefonnummer
 [<< Single]
 << Weniger
 ;file \plugins\SMS\src\SMS_svc.cpp

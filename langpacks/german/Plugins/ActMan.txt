@@ -210,15 +210,15 @@ Sende Ereignis an die Startzeit
 [Send event just once]
 Ereignis nur einmalig senden
 [Use Actions]
-
+Aktionen verwenden
 [Action list]
 Aktionsliste
 [Where to use]
 Wo anzuwenden?
 [CList Modern toolbar]
-CList-Modern-Werkzeugleiste
+CList-Modern-Toolbar
 [TabSRMM toolbar]
-TabSRMM-Werkzeugleiste
+TabSRMM-Toolbar
 [Core Hotkey]
 Core-Hotkey
 [Tray menu]

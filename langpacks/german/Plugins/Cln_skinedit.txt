@@ -60,7 +60,7 @@ Dialog
 Noch nicht unterstützt
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]
-
+Kopieren von
 [<None>]
 <Keine>
 [Raised]

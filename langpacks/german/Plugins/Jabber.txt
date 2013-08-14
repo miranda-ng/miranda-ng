@@ -1,13 +1,15 @@
 ﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
-;  Plugin: Jabber
-;  Version: 0.11.0.2
-;  Authors: 
+;  Plugin: Jabber Protocol
+;  Version: 0.11.0.3
+;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
+[Jabber protocol support for Miranda NG.]
+Jabber-Protokollunterstützung für Miranda NG.
 ;file \protocols\JabberG\res\jabber.rc
 [Edit Note]
-Notiz editieren
+Notiz bearbeiten
 [Tags:]
 Schlagwörter:
 [OK]
@@ -123,11 +125,11 @@ bei speziellem Agenten anmelden
 [Close]
 Schließen
 [Command]
-
+Befehl
 [Jabber Form]
-
+Jabberformular
 [Instruction:]
-Hinweis
+Hinweis:
 [Submit]
 Senden
 [Next]
@@ -143,7 +145,7 @@ Passwort für diese Sitzung behalten
 [Save password permanently]
 Passwort dauerhaft speichern
 [Data form test]
-
+Datenformulartest
 [Address1:]
 Adresse 1:
 [Address2:]
@@ -197,7 +199,7 @@ Arbeit
 [Internet]
 Internet
 [X400]
-
+X400
 [Jabber vCard: Add Phone Number]
 Jabber-vCard: Telefonnummer hinzufügen
 [Phone number:]
@@ -253,21 +255,21 @@ Zuletzt besuchte Konferenzräume:
 [Bookmarks]
 Lesezeichen
 [JID List]
-
+JID-Liste
 [Apply Filter]
-
+Filter anwenden
 [Reset Filter]
-
+Filter zurücksetzen
 [Jabber Agent Registration]
 Anmeldung an Jabberagenten
 [JID:]
-
+JID:
 [Register]
 Registrieren
 [Invite Users]
 Benutzer einladen
 [<room jid>\nSend groupchat invitation.]
-
+<Raum-JID>\nGruppenchateinladung senden.
 [Other JID:]
 Andere JID:
 [Add]
@@ -277,13 +279,13 @@ Einladungsgrund:
 [&Invite]
 E&inladen
 [Groupchat Invitation]
-
+Gruppenchateinladung
 [<room jid>\nIncoming groupchat invitation.]
-
+<Raum-JID>\nEingehende Gruppenchateinladung.
 [You are invited to conference room by]
-
+Sie wurden in den Konferenzraum von
 [with following reason:]
-
+aus folgendem Grund eingeladen:
 [Nickname:]
 Nick:
 [&Accept]
@@ -325,23 +327,23 @@ Einfacher Modus
 [Advanced Mode]
 Erweiterter Modus
 [Add list... (Ins)]
-
+Liste hinzufügen... (Einfg.)
 [Activate (Space)]
-
+Aktivieren (Leertaste)
 [Set as default (Ctrl+Space)]
-
+Als Standard setzen (Strg.+Leertaste)
 [Remove list (Del)]
-
+Liste entfernen (Entf.)
 [Add rule (Ins)]
-
+Regel hinzufügen (Einfg.)
 [Edit rule... (F2)]
-
+Regel bearbeiten... (F2)
 [Move rule up (Alt+Up)]
-
+Regel nach oben (Alt+auf)
 [Move rule down (Alt+Down)]
-
+Regel nach unten (Alt+ab)
 [Remove rule (Del)]
-
+Regel entfernen (Entf.)
 [Privacy rule]
 Privatsphäreregel
 [If:]
@@ -373,7 +375,7 @@ Favoriten
 [Refresh]
 Aktualisieren
 [Node:]
-
+Knoten:
 [Change %s Message]
 '%s'-Nachricht ändern
 [Closing in %d]
@@ -383,9 +385,9 @@ Account-Typ:
 [Login server:]
 Loginserver:
 [Register account now]
-
+Konto jetzt registrieren
 [Jabber Account Information:]
-
+Jabber-Kontoinformationen:
 [Member Information]
 Information über Mitglied:
 [Member Information\n<user id>]
@@ -435,7 +437,7 @@ Jabber-Notizbuch
 [Jabber notebook\nStore notes on server and access them from anywhere.]
 Jabber-Notizbuch\nAuf diese Notizen haben Sie von überall aus Zugriff.
 [Bots Challenge Test]
-
+Bottest
 [XML Console]
 XML-Konsole
 [Reset log]
@@ -455,12 +457,12 @@ Jabber-Aktivität
 Jabber-Stimmung
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
-Ich bin ein fröhlicher Miranda NG Nutzer. Sie bekommen es unter http://miranda-ng.org.
+Ich bin ein fröhlicher Miranda-NG-Nutzer. Sie bekommen es unter http://miranda-ng.org.
 [/me slaps %s around a bit with a large trout]
 /me schlägt %s mit einem großen Hering.
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
 [Error %s %s]
-
+Fehler %s %s
 [Select Command]
 Befehl wählen
 [Not supported]
@@ -468,7 +470,7 @@ Wird nicht unterstützt
 [Done]
 Fertig
 [In progress. Please Wait...]
-
+Vorgang läuft. Bitte warten Sie...
 [Execute]
 Ausführen
 [Requesting command list. Please wait...]
@@ -484,7 +486,7 @@ Keine Nachr.
 Bitte warten...
 ;file \protocols\JabberG\src\jabber_bookmarks.cpp
 [Bookmark Name]
-Lesezeichennamen
+Lesezeichenname
 [Address (JID or URL)]
 Adresse (JID oder URL)
 [Nickname]
@@ -502,45 +504,45 @@ Bytestream-Proxy nicht verfügbar
 [Supports Service Discovery items list]
 
 [Can inform about its Jabber capabilities]
-
+Kann über seine Jabberfähigkeiten informieren
 [Supports stream initiation (for filetransfers for ex.)]
-
+Unterstützt Streaminitiierung (z.B. für Dateiübertragungen)
 [Supports stream initiation for file transfers]
-
+Unterstützt Streaminitiierung für Dateiübertragungen
 [Supports file transfers via SOCKS5 Bytestreams]
-
+Unterstützt Dateiübertragungen via SOCKS5-Bytestreams
 [Supports file transfers via In-Band Bytestreams]
-
+Unterstützt Dateiübertragungen via In-Band-Bytestreams
 [Supports file transfers via Out-of-Band Bytestreams]
-
+Unterstützt Dateiübertragungen via Out-of-Band-Bytestreams
 [Supports execution of Ad-Hoc commands]
-
+Unterstützt Ausführung von Ad-hoc-Befehlen
 [Supports in-band registration]
-
+Unterstützt In-Band Registrierung
 [Supports multi-user chat]
-
+Unterstützt Mehrbenutzerchat
 [Can report chat state in a chat session]
-
+Kann Chatzustand in einer Chatsitzung melden
 [Can report information about the last activity of the user]
-
+Kann Informationen über die letzte Aktivität des Benutzers veröffentlichen
 [Can report own version information]
-
+Kann eigene Versionsinformationen veröffentlichen
 [Can report local time of the user]
-
+Kann lokale Zeit des Nutzers veröffentlichen
 [Can send and receive ping requests]
-
+Kann Pinganfragen senden und empfangen
 [Supports data forms]
-
+Unterstützt Datenformulare
 [Can request and respond to events relating to the delivery, display, and composition of messages]
 
 [Supports vCard]
-
+Unterstützt vCard
 [Supports iq-based avatars]
 
 [Supports XHTML formatting of chat messages]
-
+Unterstützt XHTML-Formatierung von Chatnachrichten
 [Supports Jabber Browsing]
-
+Unterstützt Jabberbrowsen
 [Can negotiate options for specific features]
 
 [Can request advanced processing of message stanzas]
@@ -552,15 +554,15 @@ Bytestream-Proxy nicht verfügbar
 [Supports generic publish-subscribe functionality]
 
 [Supports SecureIM plugin for Miranda NG]
-
+Unterstützt SecureIM-Plugin für Miranda NG
 [Supports MirOTR plugin for Miranda NG]
-
+Unterstützt MirOTR-Plugin für Miranda NG
 [Supports New_GPG plugin for Miranda NG]
-
+Unterstützt New_GPG-Plugin für Miranda NG
 [Can block communications from particular other users using Privacy lists]
 
 [Supports Message Receipts]
-
+Unterstützt Lesebestätigungen
 [Can report information about the music to which a user is listening]
 
 [Receives information about the music to which a user is listening]
@@ -570,24 +572,24 @@ Bytestream-Proxy nicht verfügbar
 [Supports attention requests ('nudge')]
 
 [Supports chat history retrieving]
-
+Unterstützt das Erhalten von Chatverläufen
 [Supports chat history management]
-
+Unterstützt die Verwaltung von Chatverläufen
 [Can report information about user activity]
-
+Kann Informationen über die Aktivität des Benutzers veröffentlichen
 [Receives information about user activity]
-
+Empfängt Informationen über die Aktivität des Benutzers
 [Supports Miranda NG notes extension]
-
+Unterstützt die Miranda-NG-Notizenerweiterung
 [Supports Jingle]
-
+Unterstützt Jingle
 [Supports Roster Exchange]
-
+Unterstützt Kontaktlistenaustausch
 [Supports GTalk private multi-user chat]
 
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
-
+Geben Sie den Text ein, den Sie sehen
 ;file \protocols\JabberG\src\jabber_chat.cpp
 [None]
 Keine
@@ -626,9 +628,9 @@ Mitgliedschaft von %s wurde geändert in '%s'.
 [Role of %s was changed to '%s'.]
 Rolle von %s wurde geändert in '%s'.
 [because room is now members-only]
-
+weil der Raum nun nur für Mitglieder offen ist
 [user banned]
-
+Benutzer verbannt
 [Change &nickname]
 &Nickname ändern
 [&Invite a user]
@@ -726,7 +728,7 @@ Echte &JID: %s
 [Send groupchat invitation.]
 Versende Gruppenchat-Einladung.
 [not on roster]
-Nicht im Roster
+Nicht in der Kontaktliste
 [Member Info:]
 Mitgliederinfo:
 [from]
@@ -747,20 +749,20 @@ Nickname ändern in
 Grund der Zerstörung von:
 ;file \protocols\JabberG\src\jabber_console.cpp
 [Can't send data while you are offline.]
-
+Kann keine Daten senden, so lange Sie offline sind.
 [Jabber Error]
-
+Jabberfehler
 [Outgoing XML parsing error]
-
+Verarbeitungsfehler bei ausgehendem XML
 ;file \protocols\JabberG\src\jabber_disco.cpp
 [request timeout.]
-
+Zeitüberschreitung der Anfrage.
 [Node hierarchy]
-Node-Struktur
+Knotenstruktur
 [Node]
-
+Knoten
 [Navigate]
-
+Navigieren
 [Browse all favorites]
 Alle Favoriten durchsuchen
 [Remove all favorites]
@@ -805,21 +807,21 @@ Nodenamen kopieren
 Nodeinformationen kopieren
 ;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
-
+Identitäten
 [category]
-
+Kategorie
 [type]
 Typ
 [Category]
-
+Kategorie
 [Type]
 Typ
 [Supported features]
-
+Unterstützte Funktionen
 [Info request error]
-
+Infoanfragefehler
 [Items request error]
-
+Elementanfragefehler
 ;file \protocols\JabberG\src\jabber_form2.cpp
 [One or more addresses for communication related to abusive traffic]
 
@@ -852,7 +854,7 @@ Typ
 [The number of disabled entities]
 
 [The email address for a user]
-
+Die E-Mail-Adresse eines Benutzers
 [The given (first) name of a user]
 
 [The number of online entities that are idle]
@@ -866,29 +868,29 @@ Typ
 [The maximum number of items associated with a search or list]
 
 [The text of a message of the day]
-
+Der Text einer Nachricht des Tages
 [The names of an account's online sessions]
 
 [The Jabber IDs associated with online users]
 
 [The number of online entities]
-
+Die Anzahl der Onlineentitäten
 [The password for an account]
-
+Das Passwort für ein Konto
 [Password verification]
-
+Passwortverifizierung
 [A list of registered entities]
-
+Eine Liste registrierter Entitäten
 [The number of registered entities]
-
+Die Anzahl registrierter Entitäten
 [Number of roster items for an account]
 
 [The number of stanzas being sent per second by an account]
 
 [The family (last) name of a user]
-
+Der Familienname (Nachname) eines Benutzers
 [The text of a welcome message]
-
+Der Text einer Willkommensnachricht
 [A list of entities with whom communication is allowed]
 
 [First Name]
@@ -896,9 +898,9 @@ Vorname
 [Last Name]
 Nachname
 [Desired Nickname]
-
+Gewünschter Nickname
 [Your URL]
-Ihre URL
+Ihr URL
 [Email Address]
 E-Mail-Adresse
 [FAQ Entry]
@@ -928,13 +930,13 @@ FAQ-Eintrag
 [Full List of Room Admins]
 
 [Short Description of Room]
-
+Kurzbeschreibung des Raums
 [Natural-Language Room Name]
 
 [Full List of Room Owners]
-
+Vollständige Liste der Raumbesitzer
 [The Room Password]
-
+Das Raumpasswort
 [Affiliations that May Discover Real JIDs of Occupants]
 
 [Precondition: node configuration with the specified access model]
@@ -996,7 +998,7 @@ FAQ-Eintrag
 [Whether to deliver notifications to available users only]
 
 [The publisher model]
-
+Das Veröffentlichungsmodell
 [The specific multi-user chat rooms to specify for replyroom]
 
 [The specific JID(s) to specify for replyto]
@@ -1006,21 +1008,21 @@ FAQ-Eintrag
 [Whether to send items to new subscribers]
 
 [Whether to allow subscriptions]
-
+Ob Abonnements erlaubt werden sollen
 [A friendly name for the node]
-
+Ein freundlicher Name für den Knoten
 [The type of node data, usually specified by the namespace of the payload (if any); MAY be list-single rather than text-single]
 
 [The JIDs of those to contact with questions]
 
 [The datetime when the node was created]
-
+Datum und Uhrzeit der Knotenerzeugung
 [The JID of the node creator]
-
+Die JID des Knotenerzeugers
 [A description of the node]
-
+Eine Beschreibung des Knotens
 [The default language of the node]
-
+Die Standardsprache des Knotens
 [The number of subscribers to the node]
 
 [The JIDs of those with an affiliation of owner]
@@ -1028,7 +1030,7 @@ FAQ-Eintrag
 [The JIDs of those with an affiliation of publisher]
 
 [The name of the node]
-
+Der Name des Knotens
 [Payload type]
 
 [Whether to automatically authorize subscription requests]
@@ -1040,31 +1042,31 @@ FAQ-Eintrag
 [Whether to automatically go offline when idle]
 
 [Whether to play sounds]
-
+Ob Klänge abgespielt werden sollen
 [A list of pending file transfers]
-
+Eine Liste ausstehender Dateiübertragungen
 [A list of joined groupchat rooms]
-
+Eine Liste betretener Gruppenchaträume
 [A presence or availability status]
 
 [The status message text]
-
+Der Statusnachrichtentext
 [The new priority for the client]
-
+Die neue Priorität für den Client
 [Account name associated with the user]
-
+Mit dem Benutzer verknüpfter Kontoname
 [Familiar name of the user]
-
+Bekannter Name des Benutzers
 [Password or secret for the user]
 
 [Full name of the user]
-
+Voller Name des Benutzers
 [First name or given name of the user]
 
 [Last name, surname, or family name of the user]
 
 [Email address of the user]
-
+E-Mail-Adresse des Benutzers
 [Street portion of a physical or mailing address]
 
 [Locality portion of a physical or mailing address]
@@ -1092,9 +1094,9 @@ FAQ-Eintrag
 [Whether to renegotiate the session]
 
 [Minimum security level]
-
+Mindestsicherheitsstufe
 [Whether to terminate the session]
-
+Ob die Sitzung terminiert werden soll
 [Whether to enable Message Receipts per XEP-0184]
 
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
@@ -1115,12 +1117,12 @@ Geben Sie zuerst einen Konferenzserver an.
 [Bookmarks...]
 Lesezeichen...
 [has set the subject to:]
-
+hat den Betreff geändert auf:
 [Incoming groupchat invitation.]
 Einladung zu einem Gruppenchat.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [transport]
-
+Transport
 [Notes]
 Notizen
 [Multi-User Conference]
@@ -1213,7 +1215,7 @@ Passwort wurde geändert, bitte das entsprechende Feld unter Einstellungen->Prot
 [Password cannot be changed.]
 Passwort kann nicht geändert werden
 [Jabber Bookmarks Error]
-
+Jabberlesezeichenfehler
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
 %s, %d Einträge (%s)
@@ -1230,10 +1232,10 @@ Administratorenliste
 [Owner List]
 Besitzerliste
 [Removing]
-
+Entferne
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
-
+HTTP-Authentifizierungsanfrage empfangen
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Request authorization]
 Autorisierung anfragen
@@ -1298,7 +1300,7 @@ Statusnachricht
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
-Chat.dll ist für Mehrbenutzerkonferenzen erforderlich. Bitte installieren Sie diese Datei nach.
+StdChat.dll ist für Mehrbenutzerkonferenzen erforderlich. Bitte installieren Sie diese Datei nach.
 [Avatars]
 Avatare
 [To]
@@ -1654,7 +1656,7 @@ Tibetisch
 [Tigrinya]
 Tigrinnisch
 [Tonga (Tonga Islands)]
-Tongaisch (Tonga Inseln)
+Tongaisch (Tonga-Inseln)
 [Tswana]
 Setswana
 [Tsonga]
@@ -1698,17 +1700,17 @@ Zulu
 [These changes will take effect the next time you connect to the Jabber network.]
 Die Änderungen werden erst nach einer Neueinwahl ins Jabbernetzwerk aktiv.
 [Jabber Protocol Option]
-Jabber Protkolloption
+Jabber-Protokolloption
 [Confirm password]
 Passwort bestätigen
 [Passwords do not match.]
 Passwörter stimmen nicht überein.
 [This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
-Dieser Vorgang wird Ihr Konto auf diesem Server entgültig löschen. Alle Kontakte und andere, auf dem Server, gespeicherten Daten gehen unwiederbringlich verloren. Wollen Sie dieses wirklich ausführen?
+Dieser Vorgang wird Ihr Konto auf diesem Server endgültig löschen. Alle Kontakte und andere auf dem Server gespeicherten Daten gehen unwiederbringlich verloren. Wollen Sie dies wirklich machen?
 [Account removal warning]
 Konto wirklich löschen?
 [You can change your password only when you are online]
-Du kannst dein Passwort nur ändern wenn du Online bist.
+Sie können Ihr Passwort nur ändern, wenn Sie online sind.
 [You must be online]
 Du musst Online sein
 [Messaging]
@@ -1806,9 +1808,9 @@ Autorisierung
 [Uploading...]
 Hochladen...
 [Downloading...]
-Runterladen...
+Herunterladen...
 [XML for MS Excel (UTF-8 encoded)]
-XML für MS Excel (UTF-8 Kodierung)
+XML für MS Excel (UTF-8-Kodierung)
 [Connecting...]
 Verbinden...
 [Network]
@@ -1834,7 +1836,7 @@ Vkontakte
 [Odnoklassniki]
 Odnoklassniki
 [Some changes will take effect the next time you connect to the Jabber network.]
-
+Einige Änderungen werden sich erst bei Ihrer nächsten Verbindung mit Jabber auswirken.
 ;file \protocols\JabberG\src\jabber_password.cpp
 [Set New Password for]
 Neues Passwort für
@@ -1844,7 +1846,7 @@ Neues Passwort und Bestätigung stimmen nicht überein.
 Aktuelles Passwort ist falsch.
 ;file \protocols\JabberG\src\jabber_privacy.cpp
 [Sending request, please wait...]
-
+Sende Anfrage, bitte warten Sie...
 [Warning: privacy lists were changed on server.]
 Warnung: Privatsphäreliste wurde auf Server geändert
 [Error occurred while applying changes]
@@ -1874,7 +1876,7 @@ Aktivieren
 [Set default]
 Als Standard
 [Edit rule]
-Regel editieren
+Regel bearbeiten
 [Add rule]
 Regel hinzufügen
 [Delete rule]
@@ -1900,15 +1902,15 @@ Liste löschen
 [<none>]
 <keine>
 [allow ]
-erlaube
+erlaube\s
 [deny ]
-verweigere
+verweigere\s
 [all.]
 alle.
 [messages]
 Nachrichten
 [ and ]
- UND
+ UND\s
 [incoming presences]
 eingehenden Status
 [outgoing presences]
@@ -1916,7 +1918,7 @@ ausgehenden Status
 [queries]
 Querys
 [Else ]
-SONST
+SONST\s
 [If jabber id is ']
 WENN JID ist gleich '
 [ (nickname: ]
@@ -1926,7 +1928,7 @@ WENN Gruppe ist gleich '
 [If subscription is ']
 WENN Autorisierung ist gleich '
 [then ]
-DANN
+DANN\s
 [ (act., def.)]
  (aktiv, std.)
 [ (active)]
@@ -1938,7 +1940,7 @@ Bereit.
 [Privacy lists are not saved, discard any changes and exit?]
 Privatsphärenlisten nicht gespeichert, Änderungen ignorieren und schließen?
 [Please save list before activating]
-
+Bitte speichern Sie die Liste vor der Aktivierung
 [First, save the list]
 Zuerst Liste speichern
 [Please save list before you make it the default list]
@@ -1949,14 +1951,14 @@ Liste kann nicht gespeichert werden, weil Sie zurzeit offline sind.
 Liste bearbeiten...
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [No compatible file transfer machanism exist]
-
+Kein kompatibler Dateiübertragungsmechanismus vorhanden
 [Protocol is offline or no jid]
-
+Protokoll ist offline oder keine JID
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
-
+Befehl erfolgreich ausgeführt
 [Error occured during processing command]
-
+Ein Fehler ist bei der Verarbeitung des Befehls aufgetreten
 [Set status]
 Status setzen
 [Set options]
@@ -1968,7 +1970,7 @@ Konferenzräume verlassen
 [Lock workstation]
 Arbeitsstation sperren
 [Quit Miranda NG]
-Miranda NG schließen
+Miranda NG beenden
 [Change Status]
 Status wechseln
 [Choose the status and status message]
@@ -1976,9 +1978,9 @@ Bitte wählen Sie den Status und die Statusnachricht aus
 [Status]
 Status
 [Extended Away (N/A)]
-
+Erweiterte Abwesenheit (n.v.)
 [Do Not Disturb]
-
+Bitte nicht stören
 [Invisible]
 Unsichtbar
 [Offline]
@@ -1988,9 +1990,9 @@ Priorität
 [Status message]
 Statusnachricht
 [Change global status]
-
+Globalen Status ändern
 [Set Options]
-
+Optionen festlegen
 [Set the desired options]
 Die gewünschten Einstellungen vornehmen
 [Automatically Accept File Transfers]
@@ -1998,42 +2000,42 @@ Dateitransfer automatisch annehmen
 [Play sounds]
 Klänge abspielen
 [Disable remote controlling (check twice what you are doing)]
-
+Fernbedienung deaktivieren (prüfen Sie zweimal was Sie machen)
 [There is no messages to forward]
-
+Es gibt keine weiterzuleitenden Nachrichten
 [Forward options]
-
+Weiterleitungsoptionen
 [%d message(s) to be forwarded]
-
+%d Nachricht(en) werden weitergeleitet
 [Mark messages as read]
-
+Nachrichten als gelesen markieren
 [%d message(s) forwarded]
-
+%d Nachricht(en) weitergeleitet
 [Workstation successfully locked]
 Arbeitsstation erfolgreich gesperrt!
 [Error %d occured during workstation lock]
-
+Fehler &d ist beim Sperren der Arbeitsstation aufgetreten.
 [Confirmation needed]
-
+Bestätigung benötigt
 [Please confirm Miranda NG shutdown]
 Bitte bestätigen Sie das Beenden von Miranda NG
 [There is no groupchats to leave]
-
+Es gibt keine zu verlassenden Gruppenchats
 [Choose the groupchats you want to leave]
-
+Wählen Sie aus, welche Gruppenchats Sie verlassen wollen.
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Fehler %s %s\r\nBitte den Server wechseln!
 [Error Unknown reply recieved\r\nPlease select other server]
-
+Fehler: Unbekannte Antwort erhalten.\r\nBitte den Server wechseln!
 [Error %s %s\r\nTry to specify more detailed]
-
+Fehler %s %s\r\nBitte gehen Sie ins Detail
 [Search error]
-
+Suchfehler
 [Select/type search service URL above and press <Go>]
 Bitte die Suchdienst-URL eingeben oder auswählen!
 [Please wait...\r\nConnecting search server...]
-
+Bitte warten...\r\nVerbinde mit Suchserver
 [You have to be connected to server]
 Hinweis: Sie müssen mit dem Server verbunden sein!
 ;file \protocols\JabberG\src\jabber_svc.cpp
@@ -2061,7 +2063,7 @@ Fehler: Verbindung unterbrochen
 [Requesting registration instruction...]
 Registrierungsanweisung wird empfangen...
 [Message redirected from: %s\r\n%s]
-
+Nachricht umgeleitet von: %s\r\n%s
 [Sending registration information...]
 Registrierungsdaten werden gesendet...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
@@ -2093,16 +2095,6 @@ Betriebssystem-Version
 Software-Version
 [Miranda NG core version]
 Miranda NG Core-Version
-[Unicode build]
-Unicode Build
-[Yes]
-Ja
-[No]
-Nein
-[Alpha build]
-Alpha Build
-[Debug build]
-Debug Build
 [Mood]
 Stimmung
 [Activity]
@@ -2118,7 +2110,7 @@ Keine
 [Last logoff time]
 Zuletzt abgemeldet
 [Uptime]
-
+Laufzeit
 [Logoff message]
 Abmeldenachricht
 [<no information available>]
@@ -2126,7 +2118,7 @@ Abmeldenachricht
 [Last active resource]
 Letzter aktiver Standort
 [Please switch online to see more details.]
-
+Bitte wechseln Sie auf online, um weitere Details zu sehen.
 [Copy]
 Kopieren
 [Copy only this value]
@@ -2134,7 +2126,7 @@ Nur diesen Wert kopieren
 [format]
 
 [Unknown format]
-
+Unbekanntes Format
 [<Photo not available while offline>]
 <Foto im Offlinemodus nicht verfügbar>
 [<No photo>]
@@ -2183,22 +2175,22 @@ Unbekannte Fehlernachricht
 [Advanced Status]
 Erweiterter Status
 [Set mood...]
-Setze Stimmung...
+Stimmung setzen...
 [Set activity...]
-Setze Aktivität...
+Aktivität setzen...
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 männlich
 [Female]
 weiblich
 [Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
-
+Nur JPG-, GIF- und BMP-Bilder unter 40 KB werden unterstützt.
 [Jabber vCard]
 Jabber-vCard
 [Jabber vCard: Edit Email Address]
-Jabber-vCard: E-Mail-Adresse ändern
+Jabber-vCard: E-Mail-Adresse bearbeiten
 [Jabber vCard: Edit Phone Number]
-Jabber-vCard: Telefonnummer ändern
+Jabber-vCard: Telefonnummer bearbeiten
 [Contacts]
 Kontakte
 [Note]
@@ -2378,7 +2370,7 @@ Besorgt
 [Mood: %s]
 Stimmung: %s
 [Set Mood]
-Setze Stimmung
+Stimmung setzen
 [Doing chores]
 Hausarbeiten
 [buying groceries]
@@ -2536,9 +2528,9 @@ Schreiben
 [Activity: %s]
 Aktivität: %s
 [Set Activity]
-Setze Aktivität
+Aktivität setzen
 [Listening To]
-
+Hört gerade
 [Moods]
 Stimmungen
 [Activities]

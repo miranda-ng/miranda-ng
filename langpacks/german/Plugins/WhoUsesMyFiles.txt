@@ -70,7 +70,7 @@ Datei
 [Plugin WhoUsesMyFiles requires admin privileges in order to work.]
 
 [Error opening file]
-
+Fehler beim Öffnen der Datei
 [Error memory allocation]
 
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
@@ -79,7 +79,7 @@ Datei
 [Popup plugin not found!]
 
 [Error]
-
+Fehler
 [Enable WUMF popups]
 WUMF Popups aktivieren
 [Disable WUMF popups]

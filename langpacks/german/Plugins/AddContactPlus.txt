@@ -11,13 +11,13 @@ Möglichkeit, neue Kontakte schnell hinzuzufügen.
 [Add Contact]
 Kontakt hinzufügen
 [Add Contact\nAdd a contact to your contact list]
-Kontakt hinzufügen\nFügt einen Kontakt in ihre Liste hinzu
+Kontakt hinzufügen\nFügt einen Kontakt Ihrer Liste hinzu
 [Account:]
 Konto:
 [Contact ID:]
-Kontakt ID:
+Kontakt-ID:
 [Custom name:]
-Name:
+Eigener Name:
 [Group:]
 Gruppe:
 [Options]
@@ -49,7 +49,7 @@ Der Kontakt kann nicht zur Kontaktliste hinzugefügt werden. Wenn Sie mit dem be
 [&Add contact...]
 &Kontakt hinzufügen...
 [Open add contact dialog]
-Kontakt Hinzufügen Dialog öffnen
+Kontakt-hinzufügen-Dialog öffnen
 [Main]
 Allgemein
 [AddContact+]

@@ -6,7 +6,6 @@
 [Hooks]
 [hook sample]
 [NativeInt]
-[Use Actions]
 [Data align]
 [Miranda service help]
 [Start]

@@ -1,7 +1,0 @@
-﻿[Denial Message]
-[Invitation Message]
-[Host]
-[%s denied invitation with message: %s]
-[Unknown Error??.]
-[Yahoo System Message]
-[Custom error %s]

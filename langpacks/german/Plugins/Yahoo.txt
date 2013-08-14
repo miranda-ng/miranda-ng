@@ -1,10 +1,12 @@
 ﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
 ;  File: Yahoo.dll
-;  Plugin: Yahoo
+;  Plugin: Yahoo Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Gennady Feldman
 ;============================================================
+[Yahoo Protocol support for Miranda NG.]
+Yahoo-Protokollunterstützung für Miranda NG.
 ;file \protocols\Yahoo\res\Yahoo.rc
 [Yahoo]
 Yahoo
@@ -42,9 +44,9 @@ Port:
 Standard
 [Yahoo Ignore List]
 Yahoo-Ignorierliste
-[Ignore anyone who is not on my Yahoo buddy list ]
+[Ignore anyone who is not on my Yahoo buddy list]
 Jeden ignorieren, der nicht in der Server-Kontaktliste steht.
-[Ignore only the people below: ]
+[Ignore only the people below:]
 Ignoriere nur folgende Nutzer:
 [&Add]
 Hzfg.
@@ -69,11 +71,11 @@ Betreten
 [&Deny]
 Ablehnen
 [Denial Message]
-
+Ablehnungsnachricht
 [Invitation Message]
-
+Einladungsnachricht
 [Host]
-
+Gastgeber
 [Invite Buddy To Chat Room]
 Kontakt in Chatraum einladen
 [Screen Name]
@@ -93,7 +95,7 @@ Avatare
 [[miranda] Got conference invite to room: %s with msg: %s]
 [Miranda] Chateinladung in Raum: %s mit Nachricht: %s
 [%s denied invitation with message: %s]
-
+%s hat die Einladung mit folgender Nachricht abgelehnt: %s
 [Me]
 Ich
 [Others]
@@ -149,7 +151,7 @@ Sie müssen mit Yahoo online sein, um jemanden zu Ihrer Ignorierliste hinzufüge
 Yahoo-Ignorierliste
 [Please enter a valid buddy name to ignore.]
 Bitte einen gültigen Benutzernamen zum Ignorieren eingeben
-[The buddy is already on your ignore list. ]
+[The buddy is already on your ignore list.]
 Dieser Kontakt befindet sich bereits auf Ihrer Ignorierliste.
 [You need to be connected to Yahoo to remove from the Ignore List.]
 Sie müssen mit Yahoo verbunden sein, um jemanden von Ihrer Ignorierliste zu entfernen.
@@ -210,7 +212,7 @@ Ungültiger Kontakt
 [The id you tried to add is invalid.]
 Die ID, die Sie versuchen hinzuzufügen, ist ungültig.
 [Unknown Error??.]
-
+Unbekannter Fehler??.
 [New Mail]
 Neue E-Mail
 [You Have %i unread msgs]
@@ -220,7 +222,7 @@ Neue E-Mail (%i Nachr.)
 [From: %s\nSubject: %s]
 Von: %s\nBetreff: %s
 [Yahoo System Message]
-
+Yahoo-Systemnachricht
 [Yahoo Ping Error]
 Yahoo-Pingfehler
 [Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
@@ -238,7 +240,7 @@ Verbindungsfehler zum Yahoo-Server, unbekannter Grund: %d.
 [Unknown error %s]
 Unbekannter Fehler %s
 [Custom error %s]
-
+Eigener Fehler %s
 [%s is not available for the conference]
 %s ist nicht erreichbar für die Konferenz
 [%s is already ignored]

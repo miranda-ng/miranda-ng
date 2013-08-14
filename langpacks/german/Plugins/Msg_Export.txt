@@ -176,53 +176,53 @@ Dateiname von Benutzer "%s" hat sich geändert!\n\nVon:\t%s\nIn:\t%s\n\nMöchten
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Umbenennen der Datei\n\nvon:\t%s\nzu:\t%s\n\nmit folgendem Fehler: %s fehlgeschlagen
 [\nError: ]
-
+\nFehler: 
 [\nMessage has not been saved!\n]
-
+\nNachricht wurde nicht gespeichert!\n
 [Do you wish to save debug information?]
-
+Möchten Sie Debuginformationen speichern?
 [All\0*.*\0Text\0*.TXT\0\0]
-
+Alle\0*.*\0Text\0*.TXT\0\0
 [Failed to open or create file :\n]
-Konnte Datei nicht öffnen bzw. anlegen :\n
+Konnte Datei nicht öffnen bzw. anlegen:\n
 [Failed to move to the end of the file :\n]
-Konnte nicht an das Ende der Datei schreiben :\n
+Konnte nicht an das Ende der Datei schreiben:\n
 [Failed to UTF8 byte order code to file :\n]
 
 [      History for\r\n]
-
+      Verlauf für\r\n
 [User      : %User%\r\n]
-
+Benutzer  : %User%\r\n
 [Protocol  : %Proto%\r\n]
-
+Protokoll : %Proto%\r\n
 [UIN       : %UIN%\r\n]
-
+UIN       : %UIN%\r\n
 [FirstName : %FirstName%\r\n]
-
+Vorname   : %FirstName%\r\n
 [LastName  : %LastName%\r\n]
-
+Nachname  : %LastName%\r\n
 [Age       : %Age%\r\n]
-
+Alter     : %Age%\r\n
 [Gender    : %Gender%\r\n]
-
+Geschlecht: %Gender%\r\n
 [e-mail    : %e-mail%\r\n]
-
+E-Mail    : %e-mail%\r\n
 [Nick      : %Nick%\r\n]
-
+Nickname  : %Nick%\r\n
 [City      : %City%\r\n]
-
+Stadt     : %City%\r\n
 [State     : %State%\r\n]
-
+Staat     : %State%\r\n
 [Phone     : %Phone%\r\n]
-
+Telefon   : %Phone%\r\n
 [Homepage  : %Homepage%\r\n]
-
+Homepage  : %Homepage%\r\n
 [- About -\r\n%About%\r\n]
-
+- Über -\r\n%About%\r\n
 [Failed to write user details to file :\n]
-
+Konnte Benutzerdetails nicht in Datei schreiben:\n
 [Failed to write timestamp and username to file :\n]
-
+Konnte Zeitstempel und Benutzernamen nicht in Datei schreiben:\n
 [Failed to write message to the file :\n]
 Nachricht konnte nicht in die Datei geschrieben werden :\n
 [URL: ]
@@ -234,13 +234,13 @@ Beschreibung:
 [Failed to write URL/File to the file :\n]
 URL/File konnte nicht in die Datei geschrieben werden :\n
 [Nick      :]
-Nick:
+Nickname:
 [FirstName :]
 Vorname:
 [LastName  :]
 Nachname:
 [e-mail    :]
-e-mail:
+E-Mail:
 [Reason    :]
 Grund:
 [Invalid Database event received. Type %d, size %d]

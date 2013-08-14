@@ -36,8 +36,8 @@ Schlüssel löschen
 Generiere zufälligen Schlüssel
 [Account:]
 Konto:
-[key id: ]
-SAchlüssel-ID:
+[key id:]
+
 [Copy public key]
 Öffentlichen Schlüssen kopieren
 [Export private key]
@@ -107,11 +107,11 @@ Wählen Sie den Keyserver für die Schlüsselsuche aus:
 [Recieved encrypted file]
 
 [Decrypt]
-
+Entschlüsseln
 [Recieved encrypted file form contact whith disabled encryption.]
 
 [Remember choice]
-
+Auswahl merken
 [Choose which  keys to export]
 
 [Export public keys (only set for contacts)]
@@ -123,9 +123,9 @@ Wählen Sie den Keyserver für die Schlüsselsuche aus:
 [Change private key password]
 
 [Current password:]
-
+Aktuelles Passwort:
 [New password twice:]
-
+Neues Passwort (zweimal):
 [Userlist:]
 Benutzerliste:
 [Export PubKey]
@@ -137,7 +137,7 @@ Schalte Debug-Log ein
 [Use jabber api on Miranda NG (recomended)]
 Jabber-API in Miranda NG verwenden (empfohlen)
 [Default key]
-
+Standardschlüssel
 [Encrypt file transfers]
 Dateitransfer verschlüsseln
 [Automatic key exchange]
@@ -187,7 +187,7 @@ Name
 [Creation date]
 Erstelldatum
 [Expire date]
-
+Ablaufdatum
 [Key length]
 Schlüssellänge
 [Accounts]
@@ -195,7 +195,7 @@ Konten
 [Default]
 Standard
 [key id]
-
+Schlüssel-ID
 [not set]
 nicht gesetzt
 [Default private key id]
@@ -223,7 +223,7 @@ Eine nicht unterstützte GnuPG-Version wurde gefunden, benutzen Sie diese auf ei
 [Info]
 Info
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
-
+Ihre GPG-Version wird unterstützt. Die Sprachdatei wurde gefunden.\nDas GPG-Plugin sollte funktionieren.\nKlicken Sie auf OK, um fortzufahren.
 [gpg binary does not exists.\nplease choose another location]
 GPG-Verzeichnis existiert nicht.\nBitte wählen Sie ein anderes Verzeichnis aus.
 [please choose gpg binary location]
@@ -253,29 +253,29 @@ Der Name darf kein '(' oder ')' beinhalten
 [Invalid Email]
 Ungültige E-Mail-Adresse
 [Generating new key, please wait...]
-
+Erzeuge neuen Schlüssel, bitte warten Sie...
 [Failed to export public key.]
-
+Konnte öffentlichen Schlüssel nicht exportieren.
 [GPG binary is set and valid (this is good).\n]
-
+GPG-Programm ist gesetzt und gültig (das ist gut).\n
 [GPG binary unset or invalid (plugin will not work).\n]
-
+GPG-Programm ist nicht gesetzt oder ungültig (Plugin wird nicht funktionieren).\n
 [Home dir write access granted (this is good).\n]
-
+Schreibzugriff auf Benutzerverzeichnis gewährt (das ist gut).\n
 [Home dir have not write access (plugin most probably will not work).\n]
-
+Schreibzugriff auf Benutzerverzeichnis nicht gewährt (Plugin wird höchstwahrscheinlich nicht funktionieren).\n
 [Temp dir write access granted (this is good).\n]
-
+Schreibzugriff auf temporäres Verzeichnis gewährt (das ist gut).\n
 [Temp dir have not write access (plugin should work, but may have some problems, filetransfers will not work).]
-
+Schreibzugriff auf temporäres Verzeichnis nicht gewährt (Plugin sollte funktionieren, aber könnte Probleme verursachen, Dateiübertragungen funktionieren nicht).
 [\nGPG will be disabled until you solve this problems]
 
 [GPG plugin problems]
-
+GPG-Pluginprobleme
 [Your secret key whith id: ]
 Ihr geheimer Schlüssel mit ID:
 [ for account ]
-
+ für Konto 
 [ deleted from gpg secret keyring\nDo you want to set another key ?]
  gelöscht vom GPG-Schlüsselring\nWollen Sie einen anderen Schlüssel setzen?
 [Own secret key warning]
@@ -300,16 +300,16 @@ Wollen Sie versuchen, die verschlüsselte Nachricht zu entschlüsseln?
 [We trying to encrypt with untrusted key, do you want to trust this key permanently ?]
 Sie versuchen, mit nicht vertrauenswürdigem Schlüssel zu verschlüsseln, wollen Sie diesem Schlüssel dauerhaft vertrauen?
 [failed o encrypt message, GPG returned error, turn on debug log for more details]
-
+Konnte Nachricht nicht verschlüsseln, GPG gab einen Fehler zurück, schalten Sie den Debugverlauf für weitere Informationen ein
 [Something wrong, gpg does not understand us, aborting encryption.]
-
+Etwas läuft falsch, GPG versteht uns nicht, breche Verschlüsselung ab.
 ;file \plugins\New_GPG\src\options.cpp
 [Services]
 Dienste
 [Main]
 Allgemein
 [GnuPG Variables]
-GnuPG Variablen
+GnuPG-Variablen
 [Messages]
 Nachrichten
 [Advanced]
@@ -327,7 +327,7 @@ Schlüssel-Info
 [we have secret key for this public key, do not removing from GPG keyring]
 Sie haben einen geheimen Schlüssel, entfernen Sie ihn nicht aus dem GPG-Schlüsselbund!
 [info]
-
+Info
 [Key removed from GPG keyring]
 Schlüssel aus dem GPG-Schlüsselbund entfernt
 [Do you want to remove key from entire metacontact (all subcontacts) ?]
@@ -368,30 +368,30 @@ Wo ist der öffentliche oder private Schlüssel?
 [Do you want to toggle encryption for all subcontacts ?]
 Wollen Sie die Verschlüsselung für alle Unterkontakte wechseln?
 [Send publick key]
-
+Öffentlichen Schlüssel senden
 [Target file exists, do you want to replace it ?]
 Die Zieldatei ist bereits vorhanden, wollen Sie diese ersetzen?
 [Capability to decrypt file not found on other side\nRecipient may be unable to decrypt file(s)\nDo you want to encrypt file(s) anyway?]
 
 [Filetransfer warning]
-
+Dateiübertragungswarnung
 [Unable to check encryption support on other side\nRecipient may be unable to decrypt file(s)\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with new_gpg used on other side.\nDo you want to encrypt file(s) anyway?]
 
 [encrypting file for transfer]
 
 [we have succesfully exported]
-
+erfolgreich exportiert wurden
 [public keys]
-
+öffentliche Schlüssel
 [and]
-
+und
 [all private keys]
-
+alle privaten Schlüssel
 [Keys export result]
 
 [Keys import result]
 
 [New passwords not match]
-
+Die neuen Passwörter stimmen nicht überein
 [Old password not match, you can continue, but gpg will reject wrong password.\nDo you want to continue?]
 

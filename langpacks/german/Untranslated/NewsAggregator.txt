@@ -1,2 +1,0 @@
-﻿[Tags Mask Reset]
-[%s\nis not a valid feed's address.]

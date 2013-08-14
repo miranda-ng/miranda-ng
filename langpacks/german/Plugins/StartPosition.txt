@@ -32,4 +32,4 @@ Geöffnet
 [Contact List]
 Kontaktliste
 [Start position]
-Start-Position
+Startposition

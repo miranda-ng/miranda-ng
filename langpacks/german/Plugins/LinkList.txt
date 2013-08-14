@@ -97,7 +97,7 @@ Su&chergebnisse löschen
 [&Search]
 &Suchen
 [link]
-
+Link
 [Open]
 Öffnen
 [Open in new Window]
@@ -108,7 +108,7 @@ In Zwischenablage kopieren
 Zeige Nachricht
 ;file \plugins\HistoryLinkListPlus\src\language.h
 [History Linklist]
-
+Verlaufslinkliste
 [History is empty!]
 Keine Nachrichten im Verlauf!
 [There are no links in history!]
@@ -122,11 +122,11 @@ ausgehende
 [Filter]
 Filter
 [no filter]
-
+kein Filter
 [Search Filter]
-
+Suchfilter
 [no settings]
-
+keine Einstellungen
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
 [&Create Linklist]
 Linkliste erstellen
@@ -153,4 +153,4 @@ RTF-Datei
 [All files]
 Alle Dateien
 [Save RTF File]
-
+RTF-Datei speichern

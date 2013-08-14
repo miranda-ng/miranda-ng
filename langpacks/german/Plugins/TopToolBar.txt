@@ -30,7 +30,7 @@ Platzhalter hinzufügen
 Ausführung hinzufügen
 [Del Sep/Launch Button]
 Platzhalter/Ausführung Löschen
-[Name: ]
+[Name:]
 Name:
 [Path:]
 Pfad:

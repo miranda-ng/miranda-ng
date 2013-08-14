@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.1.1.4
+;  Version: 0.1.1.6
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
@@ -34,8 +34,6 @@ Beim Start
 (aber nur einmal täglich)
 [Every]
 Alle
-[Update icons]
-Icons aktualisieren
 [Files source]
 Quelle der Dateien
 [Stable version]
@@ -134,6 +132,8 @@ Wird gelöscht!
 Download vollständig, Aktualisierung durchführen? Alle ihre Daten werden gespeichert und Miranda NG wird geschlossen.
 [You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
 Sie haben sich dazu entschieden, nicht alle Plugins sofort zu installieren.\nSie können diese manuell aus folgendem Verzeichnis installieren:\n\n%s
+[<< Details]
+<< Details
 [No updates found.]
 Keine Aktualisierungen gefunden.
 [Update checking already started!]

@@ -16,7 +16,7 @@ Offlinekontakte anzeigen
 [New column]
 Neue Spalte
 [Set Item]
-
+Element setzen
 [wParam type:]
 wParam-Typ:
 [lParam type:]
@@ -24,7 +24,7 @@ lParam-Typ:
 [Sort by Status]
 Nach Status sortieren
 [Don't Use Tool Window Style]
-
+Kein Werkzeugfensterstil
 [Draw Grid]
 Gitter zeichnen
 [integer value]
@@ -38,15 +38,15 @@ Schnellsuche
 [Quick search]
 Schnellsuche
 [Search on:]
-
+Suchen in:
 [Quick Search:]
-
+Schnellsuche:
 [UID:]
-
+UID:
 [E-mail Address:]
 E-Mail-Adresse:
 [MirandaV]
-
+Mirandaversion
 [Ext IP]
 Externe IP
 [Last Event]
@@ -54,17 +54,17 @@ Letztes Ereignis
 [Online Since]
 Online seit
 [Quick Search Options]
-
+Schnellsuchoptionen
 [&New]
-
+&Neu
 [D&n]
 
 [Setting:]
 Einstellung:
 [De&fault]
-
+Standard
 [&Set Item]
-
+Element &setzen
 [At Start Sort by Status]
 
 [Global scope hotkey:]
@@ -80,13 +80,13 @@ Einstellung:
 [Additional Options]
 Zusätzliche Einstellungen
 [Columns && Data]
-
+Spalten && Daten
 [Auto Close mode]
 Automatisch schließen
 [InfoType:]
 Infotyp:
 [Module/InfoType]
-
+Modul/Infotyp
 [Not Selected]
 Nicht ausgewählt
 [FIRSTNAME]
@@ -120,7 +120,7 @@ UID
 [This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.]
 Dieses Plugin ermöglicht es Ihnen, in Ihrer Kontaktliste nach Nicknamen, Namen, Vornamen, UIN usw. zu suchen.
 [This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.Press F3 for activate...]
-
+Dieses Plugin ermöglicht es Ihnen, in Ihrer Kontaktliste nach Nicknamen, Namen, Vornamen, UIN usw. zu suchen. Drücken Sie auf F3 zur Aktivierung...
 [New Column]
 Neue Spalte
 [Save Column]
@@ -146,7 +146,7 @@ Globaler Hotkey
 [Miranda scope hotkey]
 Miranda-Hotkey
 [CSV with headers]
-CSV mit Header
+CSV mit Kopfbereich
 [Skip minimized columns]
 Minim. Spalten auslassen
 [Copy line to CSV]
@@ -158,17 +158,17 @@ Schnellsuche-Fehler
 [Quick Search Mod]
 
 [Script]
-
+Skript
 [Int]
-
+Int
 [ContactInfo]
-
+Kontaktinfo
 [LastEvent]
-
+LetztesEreignis
 [TimeStamp]
-
+Zeitstempel
 [Script Editor]
-
+Skripteditor
 [Normal foreground]
 Normaler Vordergrund
 [Odd background]
@@ -206,19 +206,19 @@ Sub-Metakontakt-Vordergrund
 [%u users found (%u) Online: %u]
 %u Nutzer gefunden (Gesamt: %u | Online: %u)
 [ users found (]
-
+Benutzer gefunden
 [) Online: ]
-
+) online: 
 [Colorize]
 Einfärben
 [Metacontact]
-
+Metakontakt
 [Hidden contact background]
 Hintergrund versteckter Kontakte
 [Hidden contact foreground]
 Vordergrund versteckter Kontakte
 [QuickSearch window hotkey]
-Schnellsuche-Fenster Hotkey
+Schnellsuchfensterhotkey
 [Previous item]
 Vorheriger Gegenstand
 [Next item]
@@ -226,4 +226,4 @@ Nächster Gegenstand
 [Open main window]
 Öffne Hauptfenster
 [Frame background]
-Frame Hintergrund
+Framehintergrund

@@ -6,7 +6,7 @@
 ;  Authors: jarvis, Kreisquadratur
 ;============================================================
 [Adds a menu/toobar item which opens the main Miranda NG folder.]
-Fügt einen Menueintrag zum Öffnen des Miranda NG Verzeichnisses hinzu.
+Fügt einen Menüeintrag zum Öffnen des Miranda-NG-Verzeichnisses hinzu.
 ;file \plugins\OpenFolder\src\openFolder.cpp
 [Open Folder]
 Ordner öffnen

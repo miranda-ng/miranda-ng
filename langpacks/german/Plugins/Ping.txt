@@ -6,20 +6,20 @@
 ;  Authors: Scott Ellis
 ;============================================================
 [Ping labelled IP addresses or domain names.]
-Pingt IP-Addressen und Domain-Namen an.
+Pingt IP-Adressen und Domainnamen an.
 ;file \plugins\Ping\res\ping.rc
 [Delay between pings (secs):]
 Verzögerung zwischen den Pings (Sek):
 [Timeout]
-Timeout
+Zeitüberschreitung
 [Ping timeout (secs):]
-Ping timeout (Sek):
+Pingtimeout (Sek.):
 [Logging]
 Speichern
 [Log to File]
 In Datei speichern
 [Log Filename:]
-Log Dateiname:
+Verlaufsdateiname:
 [Network]
 Netzwerk
 [Popups]
@@ -27,23 +27,23 @@ Popups
 [Reply]
 Antworten
 [Block Repetitions]
-Wiederhol. blocken
+Wiederhol. blockieren
 [View Log]
 Log anzeigen
 [Browse...]
 Durchsuchen...
 [Interface]
-
+Oberfläche
 [Do not change icon when testing]
-
+Symbol beim Testen nicht ändern
 [Use the Customize/Fonts options to change text size and colour.]
 Verwenden Sie Customize/Schriften, um Textgröße und -farbe zu ändern.
 [Indent:]
-Einzug:
+Einrückung:
 [Row height:]
 Zeilenhöhe:
 [Repeats for success/failure:]
-Wiederholung bis Erfolg/Fehler:
+Wiederholungen, bis Erfolg/Fehler:
 [Attach to contact list]
 An Kontaktliste anheften
 [Use CSV format]
@@ -69,23 +69,23 @@ Adresse:
 [Label:]
 Titel:
 [TCP Connect]
-TCP Verbindung
+TCP-Verbindung
 [Port:]
 Port:
 [Control Protocol:]
 Kontrollprotokoll:
 [Set my status to:]
-Wechsel meinen Status zu:
+Wechsle meinen Status zu:
 [On success, if my status is:]
 Bei Erfolg, wenn mein Status ist:
 [Execute the following command on double-click:]
-
+Folgenden Befehl bei Doppelklick ausführen:
 [Contact]
 Kontakt
 [Protocols]
 Protokolle
 [(Optional) Command Parameters:]
-(Optional) Befehl Parameter:
+Befehlsparameter (optional):
 [Menu]
 Menü
 [Graph]
@@ -102,14 +102,14 @@ Einstellungen...
 Hosts...
 ;file \plugins\Ping\src\menu.cpp
 [PING]
-
+Ping
 [Enable All Pings]
 Alle Pings aktivieren
 [Disable All Pings]
 Alle Pings deaktivieren
 ;file \plugins\Ping\src\options.cpp
 [All\0*.*\0Text\0*.TXT\0]
-
+Alle\0*.*\0Text\0*.txt\0
 [<none>]
 <keine>
 [<all>]
@@ -123,47 +123,47 @@ Hosts
 Ping-Plugin
 ;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
-
+Gitter zeichnen
 [Show stats]
-
+Statistiken
 [%d ms]
-
+%d ms
 [AVG %.1lf ms]
-
+Ø %.1lf ms
 [MAX %hd ms]
-
+Max. %hd ms
 [MIN %hd ms]
-
+Min. %hd ms
 ;file \plugins\Ping\src\pingthread.cpp
 [%s - setting status of protocol '%s' (%d)]
-
+%s - setze Status des Protokolls '%s' (%d)
 [%s - reply, %d]
-
+%s - Antwort, %d
 [%s - timeout]
-
+%s - Zeitüberschreitung
 [Disable]
 Deaktivieren
 [enabled]
 aktiviert
 [double clicked]
-
+bei Doppelklick
 [Ping]
 Ping
 [Show/Hide &Ping Window]
-
+&Pingfenster zeigen/verstecken
 ;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
-
+Host %s fordert Sie dazu auf, die Menge an gesendetem Datenverkehr zu reduzieren.
 ;file \plugins\Ping\src\utils.cpp
 [Unknown Address]
-
+Unbekannte Adresse
 [Unknown]
 Unbekannt
 [Responding]
-
+Antwortet
 [Not Responding]
-
+Antwortet nicht
 [Testing]
-
+Teste
 [Disabled]
 Deaktiviert

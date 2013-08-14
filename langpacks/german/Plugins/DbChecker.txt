@@ -6,10 +6,10 @@
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
-Miranda NG Database Checker.
+Miranda-NG-Datenbankprüfung.
 ;file \plugins\DbChecker\res\resource.rc
 [Welcome to the Miranda Database Wizard]
-Willkommen zum Miranda-Datenbankreparaturtool
+Willkommen zum Miranda-Datenbankreparaturassistenten
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
 Die Verwendung dieses Tools löscht unnütze Einträge, die beim normalen Gebrauch entstehen können, untersucht die Datenbank auf mögliche Fehler und versucht diese zu beheben.
 [To continue, click Next.]
@@ -17,7 +17,7 @@ Um fortzufahren, drücken Sie "Weiter".
 [This programme is licenced under the terms of the GNU General Public License.]
 Dieses Programm wurde unter der GNU General Public License lizenziert.
 [Miranda Database Tool]
-Miranda-Datenbanktool
+Miranda-Datenbankassistent
 [< &Back]
 < Zurück
 [&Next >]
@@ -95,14 +95,14 @@ Die Verarbeitung der Datenbank wurde beendet. Klicken Sie auf "Weiter", um das T
 &Fertig
 ;file \plugins\DbChecker\src\progress.cpp
 [Click Next to continue]
-Drücken Sie "Weiter" zum Fortfahren
+Klicken Sie auf "Weiter" zum Fortfahren
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
 Die Verarbeitung wurde noch nicht beendet. Wenn Sie den Vorgang jetzt abbrechen, wird die Originaldatei wiederhergestellt, und die Änderungen gehen verloren. Wollen Sie den Vorgang abbrechen?
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
 Die Verarbeitung wurde noch nicht beendet. Wenn Sie jetzt zurückgehen, wird die Originaldatei wiederhergestellt, und die Änderungen gehen verloren. Wollen Sie jetzt zurückgehen?
 ;file \plugins\DbChecker\src\selectdb.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
-Database Checker kann kein passendes Datenbank-Plugin finden um '%s' zu öffnen.
+Datenbankprüfung kann kein passendes Datenbank-Plugin finden um '%s' zu öffnen.
 [Error]
 Fehler
 [Database driver '%s' doesn't support checking.]
@@ -114,13 +114,13 @@ Gesamtgröße
 [Wasted]
 Überflüssig
 [Miranda Databases (*.dat)]
-Miranda Datenbanken (*.dat)
+Miranda-Datenbanken (*.dat)
 [All Files]
 Alle Dateien
 ;file \plugins\DbChecker\src\wizard.cpp
 ;file \plugins\DbChecker\src\worker.cpp
 [Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
-Es wurden Fehler gefunden, und Sie haben ausgewahlt, keine Sicherungskopie der Originaldatei zu machen. Diese Fehler konnen zu Datenverlust fuhren! Wollen Sie eine Sicherheitskopie der Originaldatei beibehalten?
+Es wurden Fehler gefunden, und Sie haben ausgewählt, keine Sicherungskopie der Originaldatei zu machen. Diese Fehler konnen zu Datenverlust fuhren! Wollen Sie eine Sicherheitskopie der Originaldatei beibehalten?
 [%s\\Backup of %s]
 %s\\Sicherheitskopie von %s
 [%s\\Backup (%d) of %s]
@@ -134,7 +134,7 @@ Ausgabedatei konnte nicht umbenannt werden
 [Database worker thread activated]
 Datenbankverarbeitungsfunktion gestartet
 [<check only>]
-<Nur prüfen>
+<nur prüfen>
 [ (Output).dat]
  (Ausgabe).dat
 [Can't create output file (%u)]

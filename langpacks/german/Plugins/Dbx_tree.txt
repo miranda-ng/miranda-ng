@@ -9,19 +9,19 @@
 Bietet erweiterte Miranda-Datenbankunterstützung.
 ;file \plugins\Dbx_tree\res\dbConfig.rc
 [dbxTree Profile Wizard]
-
+dbx_tree-Profilassistent
 [Cancel]
 Abbrechen
 [Next >]
-
+Weiter >
 [< Prev]
-
+< Zurück
 ;file \plugins\Dbx_tree\src\FileAccess.cpp
 [Journal "%s" was found on start.\nBackup "%s"%s created and backup "%s"%s created.\nYou may delete these file(s) after successful start from "%s".]
-
+Journal "%s" wurde beim Start gefunden.\nSicherung "%s"%s erstellt und Sicherung "%s"%s erstellt.\nSie können diese Datei(en) nach einem erfolgreichen Start von "%s" löschen.
 [ was successfully]
  wurde erfolgreich
 [ could not be]
  konnte nicht
 [Journal "%s" was found on start.\nBackups "%s"and "%s" could not be created in "%s".]
-
+Journal "%s" wurde beim Start gefunden.\nSicherungen "%s" und "%s" konnten nicht in "%s" erstellt werden.

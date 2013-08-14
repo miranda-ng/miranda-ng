@@ -8,10 +8,10 @@
 [Console log window for Miranda.]
 Konsolen-Fenster für Miranda NG
 ;file \plugins\Console\res\resource.rc
-[Console                                    ]
-Konsole                                    
+[Console]
+Konsole
 [Single window mode*]
-Einzelner Fenster-Modus*
+Einzelfenstermodus*
 [Show icons in log*]
 Icons im Verlauf anzeigen*
 [New lines between events*]
@@ -63,8 +63,6 @@ Tab schließen (Strg+W)
 Miranda Konsole
 [Services]
 Dienste
-[Console]
-Konsole
 [Text]
 Text
 [&Help]
