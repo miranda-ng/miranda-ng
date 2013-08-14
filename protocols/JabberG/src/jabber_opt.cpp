@@ -582,6 +582,11 @@ private:
 			return;
 		}
 
+		PSHNOTIFY pshn = {0};
+		pshn.hdr.code = PSN_APPLY;
+		pshn.hdr.hwndFrom = m_hwnd;
+		SendMessage(m_hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
+
 		ThreadData regInfo(m_proto, JABBER_SESSION_NORMAL);
 		m_txtUsername.GetText(regInfo.username, SIZEOF(regInfo.username));
 		m_txtPassword.GetText(regInfo.password, SIZEOF(regInfo.password));
@@ -589,7 +594,6 @@ private:
 		if (m_chkManualHost.GetState() == BST_CHECKED) {
 			regInfo.port = (WORD)m_txtManualPort.GetInt();
 			m_txtManualHost.GetTextA(regInfo.manualHost, SIZEOF(regInfo.manualHost));
-			regInfo.proto->m_options.ManualConnect = TRUE;
 		}
 		else {
 			regInfo.port = (WORD)m_txtPort.GetInt();
@@ -1907,6 +1911,11 @@ private:
 			return;
 		}
 
+		PSHNOTIFY pshn = {0};
+		pshn.hdr.code = PSN_APPLY;
+		pshn.hdr.hwndFrom = m_hwnd;
+		SendMessage(m_hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
+
 		ThreadData regInfo(m_proto, JABBER_SESSION_NORMAL);
 		m_txtUsername.GetText(regInfo.username, SIZEOF(regInfo.username));
 		m_txtPassword.GetText(regInfo.password, SIZEOF(regInfo.password));
@@ -1915,7 +1924,6 @@ private:
 		if (m_chkManualHost.GetState() == BST_CHECKED)
 		{
 			m_txtManualHost.GetTextA(regInfo.manualHost, SIZEOF(regInfo.manualHost));
-			regInfo.proto->m_options.ManualConnect = TRUE;
 		} else
 		{
 			regInfo.manualHost[0] = '\0';
