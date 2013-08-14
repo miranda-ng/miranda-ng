@@ -29,7 +29,7 @@ FONT 8, "Ms Shell Dlg", 400, 0, 1
     LTEXT           "Background", IDC_STATIC, 34, 186, 43, 8, SS_LEFT
     LTEXT           "Text", IDC_STATIC, 94, 187, 41, 8, SS_LEFT
     EDITTEXT        IDC_INTERVAL1, 60, 195, 21, 12, WS_GROUP | ES_AUTOHSCROLL
-    RTEXT           "Close after: ", IDC_STATIC, 12, 197, 47, 9, SS_RIGHT
+    RTEXT           "Close after:", IDC_STATIC, 12, 197, 47, 9, SS_RIGHT
     LTEXT           "sec.(0 default, -1 disabled)", IDC_STATIC, 84, 197, 111, 8, SS_LEFT
     CONTROL         "", IDC_LIST_EXCEPTIONS, WC_LISTVIEW, WS_TABSTOP | WS_BORDER | LVS_ALIGNLEFT | LVS_REPORT, 5, 14, 292, 104
     CTEXT           "", IDC_VERSION, 39, 222, 52, 9, SS_CENTER, WS_EX_STATICEDGE

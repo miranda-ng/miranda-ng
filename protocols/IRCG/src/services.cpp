@@ -858,7 +858,7 @@ static gc_item logItems[] = {
 	{ LPGENT("Auth nick" ),                 6, MENU_POPUPITEM,      FALSE },
 	{ LPGENT("Delete nick" ),               7, MENU_POPUPITEM,      FALSE },
 	{ LPGENT("Identify nick" ),             8, MENU_POPUPITEM,      FALSE },
-	{ LPGENT("Remind password " ),          9, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Remind password" ),          9, MENU_POPUPITEM,      FALSE },
 	{ LPGENT("Set new password" ),         10, MENU_POPUPITEM,      TRUE  },
 	{ LPGENT("Set language" ),             11, MENU_POPUPITEM,      FALSE },
 	{ LPGENT("Set homepage" ),             12, MENU_POPUPITEM,      FALSE },
