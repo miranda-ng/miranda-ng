@@ -33,7 +33,7 @@ Přehrát zvuk, když zbývá
 [days or less to birthday.]
 dnů do oslavy narozenin
 [Start notifying ]
-Poprvé upozornit
+Poprvé upozornit\s
 [days in advance and]
 
 [Check every]

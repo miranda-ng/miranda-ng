@@ -9,7 +9,7 @@
 
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [When a contact returns after ]
-Vrátí-li se kontakt po době
+Vrátí-li se kontakt po době\s
 [Show a popup]
 Zobrazit oznámení
 [Add an event (flashing icon) to the contact]

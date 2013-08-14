@@ -226,11 +226,11 @@ Chyba při přesunu na konec souboru\n
 [Failed to write message to the file :\n]
 Chyba při zápisu zprávy do souboru:\n
 [URL: ]
-Adresa: 
+Adresa:\s
 [File: ]
-Soubor: 
+Soubor:\s
 [Description: ]
-Popis: 
+Popis:\s
 [Failed to write URL/File to the file :\n]
 Chyba při zápisu adresy nebo souboru do souboru:\n
 [Nick      :]

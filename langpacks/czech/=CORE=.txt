@@ -1313,7 +1313,7 @@ Změna vlastní přezdívky: %s
 [%s kicked %s]
 Vykopnutí: %s -> %s
 [Notice from %s: ]
-Poznámka od %s:
+Poznámka od %s:\s
 [The topic is '%s%s']
 Aktuální téma: '%s%s'
 [ (set by %s on %s)]
@@ -2415,13 +2415,13 @@ Pro smazání tohoto účtu musíte deaktivovat doplněk
 Účt&y...
 ;file \src\modules\skin\hotkey_opts.cpp
 [Ctrl + ]
-Ctrl + 
+Ctrl +\s
 [Alt + ]
-Alt + 
+Alt +\s
 [Shift + ]
-Shift + 
+Shift +\s
 [Win + ]
-Win + 
+Win +\s
 [Remove shortcut]
 Odstranit zkratku
 [Add another shortcut]

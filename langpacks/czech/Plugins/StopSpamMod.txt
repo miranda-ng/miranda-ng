@@ -25,7 +25,7 @@ Po úspěšné odpovědi:
 [Filtered accounts:]
 
 [Do not send more than ]
-Neposílat více než 
+Neposílat více než\s
 [ questions to one contact (0 - for no limit)]
  otázek na jeden kontakt (0 - bez omezení)
 [Enable StopSpam-StopSpam infinite talk protection]

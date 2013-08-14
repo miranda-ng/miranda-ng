@@ -31,7 +31,7 @@ Pořadí tlačítek:
 [Del Sep/Launch Button]
 Smazat oddělovač/tlačítko
 [Name: ]
-Název
+Název:\s
 [Path:]
 Cesta:
 [Set]

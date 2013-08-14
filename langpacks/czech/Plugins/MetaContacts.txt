@@ -250,7 +250,7 @@ Nelze zapsat přezdívku kontaktu do metakontaktu
 [MetaContact default contact number out of range - deleting MetaContact]
 
 [MetaId: ]
-MetaId: 
+MetaId:\s
 [MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
 Metakontakt je poškozen - počet podkontaktů nesouhlasí.\nMazání metakontaktu.
 [The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]

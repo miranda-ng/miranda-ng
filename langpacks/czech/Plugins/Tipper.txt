@@ -317,7 +317,7 @@ Zkopírovat všechny položky
 [Copy avatar]
 Zkopírovat avatar
 [<No Label>: ]
-<bez titulku>: 
+<bez titulku>:\s
 [<No Value>]
 <bez hodnoty>
 [Fav. contacts]

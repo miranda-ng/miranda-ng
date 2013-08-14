@@ -21,7 +21,7 @@ Pozadí
 [Text]
 Text
 [Close after: ]
-Zavřít po: 
+Zavřít po:\s
 [sek.(0 default,\n -1 disabled)]
 
 [...but only if popup not clicked]

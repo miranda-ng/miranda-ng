@@ -57,7 +57,7 @@ Potvrdit smazání kontaktů
 [Disable icon blinking]
 Vypnout blikání ikon
 [Apply last active view mode ]
-Použít poslední režim zobrazení
+Použít poslední režim zobrazení\s
 [Contact list layout]
 Vzhled seznamu kontaktů
 [Show menu and status buttons]
@@ -353,7 +353,7 @@ Možnosti režimu zobrazení
 [Editing view mode]
 Úprava pohledu
 [Last message ]
-Poslední zpráva 
+Poslední zpráva\s
 [Per contact skins:]
 Skin na kontakt:
 [< Reload]

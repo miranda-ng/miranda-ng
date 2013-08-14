@@ -64,7 +64,7 @@ změnil klienta na %s
 [%s (was %s)]
 %s (předtím %s)
 [) changed client to ]
-) změna klienta na 
+) změna klienta na\s
 [Client change notifications:]
 Upozorňovat na změnu klienta:
 [Never, ignore client changes for this contact]
@@ -91,7 +91,7 @@ Změna klienta
 [Error #%d]
 Chyba č.%d
 [Can't open log file ]
-Nepodařilo se otevřít soubor záznamu
+Nepodařilo se otevřít soubor záznamu\s
 ;file \plugins\ClientChangeNotify\src\OptDlg.cpp
 [(you can use regular expressions here)]
 (zde můžete použít regulární výrazy)

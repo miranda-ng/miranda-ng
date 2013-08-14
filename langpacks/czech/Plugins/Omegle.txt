@@ -75,7 +75,7 @@ Cizinec 2
 [Stranger]
 Cizinec
 [You and the Stranger both like: ]
-Vy i cizinec máte rádi: 
+Vy i cizinec máte rádi:\s
 [Stranger is typing.]
 Cizinec píše zprávu.
 [Stranger stopped typing.]
@@ -85,7 +85,7 @@ Cizinec přestal psát.
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
 Je vyžadována Recaptcha.\nOtevřte http://omegle.com , vyřešte Recaptchu a zkuste znovu.
 [Error: ]
-Chyba: 
+Chyba:\s
 [We are still waiting...]
 Stále čekáme...
 ;file \protocols\Omegle\src\connection.cpp
