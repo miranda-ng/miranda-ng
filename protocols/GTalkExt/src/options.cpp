@@ -140,8 +140,8 @@ INT_PTR CALLBACK AccOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lPa
 void ShowTestPopup(HWND wnd)
 {
 	POPUPDATAT data = {0};
-	wsprintf(&data.lptzContactName[0], TEST_LETTER_INBOX);
-	wsprintf(&data.lptzText[0], TranslateTS(FULL_NOTIFICATION_FORMAT),
+	mir_sntprintf(&data.lptzContactName[0], SIZEOF(data.lptzContactName), TEST_LETTER_INBOX);
+	mir_sntprintf(&data.lptzText[0], SIZEOF(data.lptzText), TranslateTS(FULL_NOTIFICATION_FORMAT),
 		TEST_LETTER_SUBJECT, TEST_LETTER_SENDER, TEST_LETTER_SNIP);
 
 	int len = SendMessage(GetDlgItem(wnd, IDC_TIMEOUTEDIT), WM_GETTEXTLENGTH, 0, 0) + 1;
@@ -177,7 +177,7 @@ INT_PTR CALLBACK PopupsOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM 
 		{
 			LPTSTR timeout = (LPTSTR)malloc(11 * sizeof(TCHAR));
 			__try {
-				wsprintf(timeout, _T("%d"), db_get_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, 0));
+				mir_sntprintf(timeout, 11, _T("%d"), db_get_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, 0));
 				SendMessage(GetDlgItem(wnd, IDC_TIMEOUTEDIT), WM_SETTEXT, 0, (LPARAM)timeout);
 			}
 			__finally {

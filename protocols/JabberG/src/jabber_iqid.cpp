@@ -791,13 +791,13 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 							if (nEmail == 0)
 								strcpy(text, "e-mail");
 							else
-								sprintf(text, "e-mail%d", nEmail-1);
+								mir_snprintf(text, SIZEOF(text), "e-mail%d", nEmail - 1);
 						}
-						else sprintf(text, "e-mail%d", nEmail);
+						else mir_snprintf(text, SIZEOF(text), "e-mail%d", nEmail);
 						setTString(hContact, text, xmlGetText(m));
 
 						if (hContact == NULL) {
-							sprintf(text, "e-mailFlag%d", nEmail);
+							mir_snprintf(text, SIZEOF(text), "e-mailFlag%d", nEmail);
 							int nFlag = 0;
 							if (xmlGetChild(n, "HOME") != NULL) nFlag |= JABBER_VCEMAIL_HOME;
 							if (xmlGetChild(n, "WORK") != NULL) nFlag |= JABBER_VCEMAIL_WORK;
@@ -963,11 +963,11 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 							}
 						}
 						else {
-							char text[ 100 ];
-							sprintf(text, "Phone%d", nPhone);
+							char text[100];
+							mir_snprintf(text, SIZEOF(text), "Phone%d", nPhone);
 							setTString(text, xmlGetText(m));
 
-							sprintf(text, "PhoneFlag%d", nPhone);
+							mir_snprintf(text, SIZEOF(text), "PhoneFlag%d", nPhone);
 							int nFlag = 0;
 							if (xmlGetChild(n,"HOME") != NULL) nFlag |= JABBER_VCTEL_HOME;
 							if (xmlGetChild(n,"WORK") != NULL) nFlag |= JABBER_VCTEL_WORK;
@@ -1049,8 +1049,8 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 				if (nEmail <= 0)
 					delSetting(hContact, "e-mail");
 				else {
-					char text[ 100 ];
-					sprintf(text, "e-mail%d", nEmail-1);
+					char text[100];
+					mir_snprintf(text, SIZEOF(text), "e-mail%d", nEmail - 1);
 					if ( db_get_s(hContact, m_szModuleName, text, &dbv)) break;
 					db_free(&dbv);
 					delSetting(hContact, text);
@@ -1060,12 +1060,12 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 		}
 		else {
 			while (true) {
-				char text[ 100 ];
-				sprintf(text, "e-mail%d", nEmail);
+				char text[100];
+				mir_snprintf(text, SIZEOF(text), "e-mail%d", nEmail);
 				if ( getString(text, &dbv)) break;
 				db_free(&dbv);
 				delSetting(text);
-				sprintf(text, "e-mailFlag%d", nEmail);
+				mir_snprintf(text, SIZEOF(text), "e-mailFlag%d", nEmail);
 				delSetting(text);
 				nEmail++;
 		}	}
@@ -1093,12 +1093,12 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 		}
 		else {
 			while (true) {
-				char text[ 100 ];
-				sprintf(text, "Phone%d", nPhone);
+				char text[100];
+				mir_snprintf(text, SIZEOF(text), "Phone%d", nPhone);
 				if ( getString(text, &dbv)) break;
 				db_free(&dbv);
 				delSetting(text);
-				sprintf(text, "PhoneFlag%d", nPhone);
+				mir_snprintf(text, SIZEOF(text), "PhoneFlag%d", nPhone);
 				delSetting(text);
 				nPhone++;
 		}	}
@@ -1474,14 +1474,14 @@ LBL_ErrFormat:
 
 	setByte(hContact, "AvatarType", pictureType);
 
-	char buffer[ 41 ];
+	char buffer[41];
 	mir_sha1_byte_t digest[20];
 	mir_sha1_ctx sha;
 	mir_sha1_init(&sha);
 	mir_sha1_append(&sha, (mir_sha1_byte_t*)(char*)body, resultLen);
 	mir_sha1_finish(&sha, digest);
 	for (int i=0; i<20; i++)
-		sprintf(buffer+(i<<1), "%02x", digest[i]);
+		mir_snprintf(buffer + (i << 1), 2, "%02x", digest[i]);
 
 	GetAvatarFileName(hContact, tszFileName, SIZEOF(tszFileName));
 	_tcsncpy(AI.filename, tszFileName, SIZEOF(AI.filename));

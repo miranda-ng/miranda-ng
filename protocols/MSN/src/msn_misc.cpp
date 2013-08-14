@@ -126,7 +126,7 @@ void CMsnProto::MSN_DebugLog(const char *fmt, ...)
 	va_list	vararg;
 
 	va_start(vararg, fmt);
-	if (_vsnprintf(str, sizeof(str), fmt, vararg) != 0)
+	if (mir_vsnprintf(str, sizeof(str), fmt, vararg) != 0)
 	{
 		str[sizeof(str)-1] = 0;
 		CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, (LPARAM)str);
@@ -714,7 +714,7 @@ int ThreadData::sendPacket(const char* cmd, const char* fmt,...)
 			va_start(vararg, fmt);
 
 			int paramStart = mir_snprintf(str, strsize, "%s %d ", cmd, thisTrid);
-			while (_vsnprintf(str+paramStart, strsize-paramStart-3, fmt, vararg) == -1)
+			while (mir_vsnprintf(str+paramStart, strsize-paramStart-3, fmt, vararg) == -1)
 				str = (char*)mir_realloc(str, strsize += 512);
 
 			str[strsize-3] = 0;

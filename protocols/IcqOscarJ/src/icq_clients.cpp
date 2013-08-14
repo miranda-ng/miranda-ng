@@ -34,11 +34,11 @@ const capstr capShortCaps = {0x09, 0x46, 0x00, 0x00, 0x4c, 0x7f, 0x11, 0xd1, 0x8
 static const char* makeClientVersion(char *szBuf, const char *szClient, unsigned v1, unsigned v2, unsigned v3, unsigned v4)
 {
 	if (v4)
-		null_snprintf(szBuf, 64, "%s%u.%u.%u.%u", szClient, v1, v2, v3, v4);
+		mir_snprintf(szBuf, 64, "%s%u.%u.%u.%u", szClient, v1, v2, v3, v4);
 	else if (v3)
-		null_snprintf(szBuf, 64, "%s%u.%u.%u", szClient, v1, v2, v3);
+		mir_snprintf(szBuf, 64, "%s%u.%u.%u", szClient, v1, v2, v3);
 	else
-		null_snprintf(szBuf, 64, "%s%u.%u", szClient, v1, v2);
+		mir_snprintf(szBuf, 64, "%s%u.%u", szClient, v1, v2);
 
 	return szBuf;
 }
@@ -248,7 +248,7 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 		szClient = "&RQ";
 	else if (dwFT1 == 0xFFFFF666) {
 		// this is R&Q (Rapid Edition)
-		null_snprintf(szClientBuf, 64, "R&Q %u", (unsigned)dwFT2);
+		mir_snprintf(szClientBuf, 64, "R&Q %u", (unsigned)dwFT2);
 		szClient = szClientBuf;
 	}
 	else if (dwFT1 == 0xFFFFFFAB)
@@ -479,7 +479,7 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 
 			strcpy(szClientBuf, "QIP Infium");
 			if (dwFT1) {
-				null_snprintf(ver, 10, " (%d)", dwFT1);
+				mir_snprintf(ver, 10, " (%d)", dwFT1);
 				strcat(szClientBuf, ver);
 			}
 			if (dwFT2 == 0x0B)
@@ -490,7 +490,7 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 		else if (MatchCapability(caps, wLen, &capQip2010, 12)) {
 			strcpy(szClientBuf, "QIP 2010");
 			if (dwFT1) {
-				null_snprintf(ver, 10, " (%d)", dwFT1);
+				mir_snprintf(ver, 10, " (%d)", dwFT1);
 				strcat(szClientBuf, ver);
 			}
 
@@ -499,7 +499,7 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 		else if (MatchCapability(caps, wLen, &capQip2012, 12)) {
 			strcpy(szClientBuf, "QIP 2012");
 			if (dwFT1) {
-				null_snprintf(ver, 10, " (%d)", dwFT1);
+				mir_snprintf(ver, 10, " (%d)", dwFT1);
 				strcat(szClientBuf, ver);
 			}
 
@@ -511,9 +511,9 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 			else
 				null_strcpy(ver, (char*)(*capId) + 11, 5);
 
-			null_snprintf(szClientBuf, 64, cliQip, ver);
+			mir_snprintf(szClientBuf, 64, cliQip, ver);
 			if (dwFT1 && dwFT2 == 0x0E) {
-				null_snprintf(ver, 10, " (%d%d%d%d)", dwFT1 >> 0x18, (dwFT1 >> 0x10) & 0xFF, (dwFT1 >> 0x08) & 0xFF, dwFT1 & 0xFF);
+				mir_snprintf(ver, 10, " (%d%d%d%d)", dwFT1 >> 0x18, (dwFT1 >> 0x10) & 0xFF, (dwFT1 >> 0x08) & 0xFF, dwFT1 & 0xFF);
 				strcat(szClientBuf, ver);
 			}
 			szClient = szClientBuf;
@@ -534,7 +534,7 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 			if (dwFT2 == 0x0FFFF0011 && dwFT3 == 0x1100FFFF && (dwFT1 >> 0x18)) {
 				char ver[16];
 
-				null_snprintf(ver, 10, " %d.%d", dwFT1 >> 0x18, (dwFT1 >> 0x10) & 0xFF);
+				mir_snprintf(ver, 10, " %d.%d", dwFT1 >> 0x18, (dwFT1 >> 0x10) & 0xFF);
 				if ((dwFT1 & 0xFF) == 0x0B)
 					strcat(ver, " Beta");
 				strcat(szClientBuf, ver);
@@ -946,7 +946,7 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 		capstr* capId;
 		if (capId = MatchCapability(caps, wLen, &capMimPack, 4)) {
 			char szPack[16];
-			null_snprintf(szPack, 16, " [%.12s]", (*capId)+4);
+			mir_snprintf(szPack, 16, " [%.12s]", (*capId)+4);
 
 			// make sure client string is not constant
 			if (szClient != szClientBuf) {

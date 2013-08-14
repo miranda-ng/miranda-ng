@@ -276,7 +276,7 @@ char *oauth_generate_nonce()
 
 	char *result = (char *)mir_alloc(32 + 1);
 	for (int i = 0; i < 16; i++)
-		sprintf(result + (i<<1), "%02x", digest[i]);
+		mir_snprintf(result + (i<<1), 2, "%02x", digest[i]);
 	return result;
 }
 

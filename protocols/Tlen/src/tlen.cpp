@@ -242,7 +242,7 @@ INT_PTR TlenMenuHandleInbox(void *ptr, LPARAM wParam, LPARAM lParam)
 	}
 	mir_free(login);
 	mir_free(password);
-	_snprintf(szFileName, sizeof(szFileName), "http://poczta.o2.pl/login.html?sid=%s", cookie);
+	mir_snprintf(szFileName, sizeof(szFileName), "http://poczta.o2.pl/login.html?sid=%s", cookie);
 	CallService(MS_UTILS_OPENURL, (WPARAM) 1, (LPARAM) szFileName);
 	return 0;
 }
@@ -258,11 +258,11 @@ int TlenOnModulesLoaded(void *ptr, WPARAM wParam, LPARAM lParam)
 			db_set_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
 
 	TlenMUCInit(proto);
-	sprintf(str, "%s", LPGEN("Incoming mail"));
+	mir_snprintf(str, SIZEOF(str), "%s", LPGEN("Incoming mail"));
 	SkinAddNewSoundEx("TlenMailNotify", proto->m_szModuleName, str);
-	sprintf(str, "%s", LPGEN("Alert"));
+	mir_snprintf(str, SIZEOF(str), "%s", LPGEN("Alert"));
 	SkinAddNewSoundEx("TlenAlertNotify", proto->m_szModuleName, str);
-	sprintf(str, "%s", LPGEN("Voice chat"));
+	mir_snprintf(str, SIZEOF(str), "%s", LPGEN("Voice chat"));
 	SkinAddNewSoundEx("TlenVoiceNotify", proto->m_szModuleName, str);
 
 	HookEventObj_Ex(ME_USERINFO_INITIALISE, proto, TlenUserInfoInit);
@@ -305,7 +305,7 @@ static void initMenuItems(TlenProtocol *proto)
 	proto->hMenuChats = NULL;
 	if (ServiceExists(MS_MUCC_NEW_WINDOW))
 	{
-		sprintf(text, "%s/MainMenuChats", proto->m_szModuleName);
+		mir_snprintf(text, SIZEOF(text), "%s/MainMenuChats", proto->m_szModuleName);
 		CreateServiceFunction_Ex(text, proto, TlenMUCMenuHandleChats);
 		mi.pszName = LPGEN("Tlen Chats");
 		mi.position = 2000050001;
@@ -316,7 +316,7 @@ static void initMenuItems(TlenProtocol *proto)
 	}
 
 	// "Multi-User Conference"
-	sprintf(text, "%s/MainMenuMUC", proto->m_szModuleName);
+	mir_snprintf(text, SIZEOF(text), "%s/MainMenuMUC", proto->m_szModuleName);
 	CreateServiceFunction_Ex(text, proto, TlenMUCMenuHandleMUC);
 	mi.pszName = LPGEN("Multi-User Conference");
 	mi.position = 2000050002;
@@ -325,7 +325,7 @@ static void initMenuItems(TlenProtocol *proto)
 	proto->hMenuMUC = Menu_AddMainMenuItem(&mi);
 	Menu_ModifyItem(proto->hMenuMUC, &clmi);
 
-	sprintf(text, "%s/MainMenuInbox", proto->m_szModuleName);
+	mir_snprintf(text, SIZEOF(text), "%s/MainMenuInbox", proto->m_szModuleName);
 	CreateServiceFunction_Ex(text, proto, TlenMenuHandleInbox);
 	mi.pszName = LPGEN("Tlen Mail");
 	mi.position = 2000050003;
@@ -336,7 +336,7 @@ static void initMenuItems(TlenProtocol *proto)
 	mi.hParentMenu = NULL;
 
 	// "Send picture"
-	sprintf(text, "%s/SendPicture", proto->m_szModuleName);
+	mir_snprintf(text, SIZEOF(text), "%s/SendPicture", proto->m_szModuleName);
 	CreateServiceFunction_Ex(text, proto, TlenContactMenuHandleSendPicture);
 	mi.pszName = LPGEN("Send picture");
 	mi.position = -2000019030;
@@ -345,7 +345,7 @@ static void initMenuItems(TlenProtocol *proto)
 	proto->hMenuPicture = Menu_AddContactMenuItem(&mi);
 
 	// "Invite to MUC"
-	sprintf(text, "%s/ContactMenuMUC", proto->m_szModuleName);
+	mir_snprintf(text, SIZEOF(text), "%s/ContactMenuMUC", proto->m_szModuleName);
 	CreateServiceFunction_Ex(text, proto, TlenMUCContactMenuHandleMUC);
 	mi.pszName = LPGEN("Multi-User Conference");
 	mi.position = -2000019020;
@@ -354,7 +354,7 @@ static void initMenuItems(TlenProtocol *proto)
 	proto->hMenuContactMUC = Menu_AddContactMenuItem(&mi);
 
 	// "Invite to voice chat"
-	sprintf(text, "%s/ContactMenuVoice", proto->m_szModuleName);
+	mir_snprintf(text, SIZEOF(text), "%s/ContactMenuVoice", proto->m_szModuleName);
 	CreateServiceFunction_Ex(text, proto, TlenVoiceContactMenuHandleVoice);
 	mi.pszName = LPGEN("Voice Chat");
 	mi.position = -2000019010;
@@ -363,7 +363,7 @@ static void initMenuItems(TlenProtocol *proto)
 	proto->hMenuContactVoice = Menu_AddContactMenuItem(&mi);
 
 	// "Request authorization"
-	sprintf(text, "%s/RequestAuth", proto->m_szModuleName);
+	mir_snprintf(text, SIZEOF(text), "%s/RequestAuth", proto->m_szModuleName);
 	CreateServiceFunction_Ex(text, proto, TlenContactMenuHandleRequestAuth);
 	mi.pszName = LPGEN("Request authorization");
 	mi.position = -2000001001;
@@ -372,7 +372,7 @@ static void initMenuItems(TlenProtocol *proto)
 	proto->hMenuContactRequestAuth = Menu_AddContactMenuItem(&mi);
 
 	// "Grant authorization"
-	sprintf(text, "%s/GrantAuth", proto->m_szModuleName);
+	mir_snprintf(text, SIZEOF(text), "%s/GrantAuth", proto->m_szModuleName);
 	CreateServiceFunction_Ex(text, proto, TlenContactMenuHandleGrantAuth);
 	mi.pszName = LPGEN("Grant authorization");
 	mi.position = -2000001000;

@@ -92,7 +92,7 @@ void CIcqProto::InitAvatars()
 
 	// check if it does make sense
 	TCHAR tszPath[MAX_PATH * 2];
-	null_snprintf(tszPath, MAX_PATH * 2, _T("%%miranda_avatarcache%%\\%S"), m_szModuleName);
+	mir_sntprintf(tszPath, MAX_PATH * 2, _T("%%miranda_avatarcache%%\\%S"), m_szModuleName);
 	hAvatarsFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, tszPath, m_tszUserName);
 }
 
@@ -134,7 +134,7 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, 
 	if (CallService(MS_FOLDERS_GET_PATH, (WPARAM)hAvatarsFolder, (LPARAM)&fgd))
 	{
 		TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_avatarcache%"));
-		null_snprintf(szPath, MAX_PATH * 2, _T("%s\\%S\\"), tmpPath, m_szModuleName);
+		mir_sntprintf(szPath, MAX_PATH * 2, _T("%s\\%S\\"), tmpPath, m_szModuleName);
 		mir_free(tmpPath);
 	}
 	else

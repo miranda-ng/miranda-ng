@@ -1440,7 +1440,7 @@ char * CYahooProto::ext_send_https_request(struct yahoo_data *yd, const char *ho
 	char z[4096], *result=NULL;
 	int i;
 	
-	wsprintfA(z, "https://%s%s", host, path);
+	mir_snprintf(z, SIZEOF(z), "https://%s%s", host, path);
 	nlhr.cbSize		= sizeof(nlhr);
 	nlhr.requestType= REQUEST_GET;
 	nlhr.flags		= NLHRF_HTTP11 | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT; /* Use HTTP/1.1 and don't dump the requests to the log */
@@ -1511,7 +1511,7 @@ void CYahooProto::ext_login(enum yahoo_status login_mode)
 	NETLIBHTTPREQUEST nlhr={0},*nlhrReply;
 	char z[4096];
 
-	wsprintfA(z, "http://%s%s", getByte("YahooJapan",0) != 0 ? "cs1.msg.vip.ogk.yahoo.co.jp" : "vcs.msg.yahoo.com", "/capacity");
+	mir_snprintf(z, SIZEOF(z), "http://%s%s", getByte("YahooJapan",0) != 0 ? "cs1.msg.vip.ogk.yahoo.co.jp" : "vcs.msg.yahoo.com", "/capacity");
 	nlhr.cbSize		= sizeof(nlhr);
 	nlhr.requestType= REQUEST_GET;
 	nlhr.flags		= NLHRF_HTTP11;
@@ -1548,7 +1548,7 @@ void CYahooProto::ext_login(enum yahoo_status login_mode)
 			db_free(&dbv);
 		}
 		else {
-			snprintf(host, sizeof(host), "%s", 
+			mir_snprintf(host, sizeof(host), "%s", 
 							getByte("YahooJapan",0) != 0 ? YAHOO_DEFAULT_JAPAN_LOGIN_SERVER :
 															YAHOO_DEFAULT_LOGIN_SERVER
 					);

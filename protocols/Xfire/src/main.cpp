@@ -428,7 +428,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 			  for(int i=0;i<claninv->numberOfInv;i++)
 			  {
 				  char msg[XFIRE_MAX_STATIC_STRING_LEN];
-				  sprintf(msg,Translate("%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation."),claninv->invitefromusername[i].c_str(),
+				  mir_snprintf(msg, SIZEOF(msg), Translate("%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation."),claninv->invitefromusername[i].c_str(),
 																								claninv->invitefrom[i].c_str(),
 																								claninv->clanname[i].c_str(),
 																								claninv->invitemsg[i].c_str(),"\n");
@@ -648,10 +648,10 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 
 			for(int i=0;i<clan->count;i++)
 			{
-				sprintf(temp,"Clan_%d",clan->clanid[i]);
+				mir_snprintf(temp, SIZEOF(temp), "Clan_%d", clan->clanid[i]);
 				db_set_s(NULL, protocolname, temp, (char*)clan->name[i].c_str());
 
-				sprintf(temp,"ClanUrl_%d",clan->clanid[i]);
+				mir_snprintf(temp, SIZEOF(temp), "ClanUrl_%d", clan->clanid[i]);
 				db_set_s(NULL, protocolname, temp, (char*)clan->url[i].c_str());
 
 				if(!db_get_b(NULL,protocolname,"noclangroups",0)) {
@@ -691,7 +691,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 				//recprotoverchg
 				if(db_get_w(NULL,protocolname,"recprotoverchg",0)==0)
 				{
-					sprintf_s(temp,255,Translate("The protocol version is too old. Changed current version from %d to %d. You can reconnect now."),client->protocolVersion,version->newversion);
+					mir_snprintf(temp, SIZEOF(temp), Translate("The protocol version is too old. Changed current version from %d to %d. You can reconnect now."),client->protocolVersion,version->newversion);
 					MSGBOXE(temp);
 				}
 				else
@@ -702,7 +702,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 			}
 			else
 			{
-				sprintf_s(temp,255,Translate("The protocol version is too old. Cannot detect a new version number."));
+				mir_snprintf(temp, SIZEOF(temp), Translate("The protocol version is too old. Cannot detect a new version number."));
 				MSGBOXE(temp);
 				SetStatus(ID_STATUS_OFFLINE,NULL);
 			}
@@ -867,7 +867,7 @@ INT_PTR UrlCall(WPARAM wparam,LPARAM lparam) {
 							if(strlen(g)>25) //zugroße abschneiden
 								*(g+25)=0;
 
-							sprintf_s(temp,100,Translate("Do you really want to add %s to your friend list?"),g);
+							mir_snprintf(temp, SIZEOF(temp), Translate("Do you really want to add %s to your friend list?"),g);
 							//Nutzer vorher fragen, ob er wirklich user xyz adden möchte
 							if(MessageBoxA(NULL,temp,"Miranda XFire Protocol Plugin",MB_YESNO|MB_ICONQUESTION)==IDYES)
 							{
@@ -2067,7 +2067,7 @@ static INT_PTR GetIPPort(WPARAM wParam,LPARAM lParam)
 	if(db_get_s((HANDLE)wParam, protocolname, "ServerIP",&dbv))
 		return 0;
 
-	sprintf(temp,"%s:%d",dbv.pszVal,db_get_w((HANDLE)wParam, protocolname, "Port", -1));
+	mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv.pszVal, db_get_w((HANDLE)wParam, protocolname, "Port", -1));
 
 	db_free(&dbv);
 
@@ -2100,7 +2100,7 @@ static INT_PTR GetVIPPort(WPARAM wParam,LPARAM lParam)
 	if(db_get_s((HANDLE)wParam, protocolname, "VServerIP",&dbv))
 		return 0;
 
-	sprintf(temp,"%s:%d",dbv.pszVal,db_get_w((HANDLE)wParam, protocolname, "VPort", -1));
+	mir_snprintf(temp, SIZEOF(temp), "%s:%d", dbv.pszVal, db_get_w((HANDLE)wParam, protocolname, "VPort", -1));
 
 	db_free(&dbv);
 
@@ -2142,7 +2142,7 @@ static INT_PTR GotoXFireClanSite(WPARAM wParam,LPARAM lParam) {
 	char temp[64]="";
 
 	int clanid=db_get_dw((HANDLE)wParam, protocolname, "Clan",-1);
-	sprintf(temp,"ClanUrl_%d",clanid);
+	mir_snprintf(temp, SIZEOF(temp), "ClanUrl_%d", clanid);
 
 	if(db_get_s(NULL, protocolname, temp,&dbv))
 		return 0;
@@ -2524,7 +2524,7 @@ void gamedetectiont(LPVOID lparam)
 										myClient->Status(statusmessage[1]);
 						}
 
-						sprintf(temp,Translate("Last game: %s playtime: %.2d:%.2d:%.2d"),currentgame->name,mytm->tm_hour,mytm->tm_min,mytm->tm_sec);
+						mir_snprintf(temp, SIZEOF(temp), Translate("Last game: %s playtime: %.2d:%.2d:%.2d"), currentgame->name, mytm->tm_hour, mytm->tm_min, mytm->tm_sec);
 						db_set_s(NULL, protocolname, "LastGame", temp);
 
 						if(currentgame->noicqstatus!=TRUE&&db_get_b(NULL,protocolname,"autosetstatusmsg",0))
@@ -2582,7 +2582,7 @@ void gamedetectiont(LPVOID lparam)
 
 									if(packet->ip[3]!=0)
 									{
-										sprintf(temp,"%d.%d.%d.%d:%d",(unsigned char)packet->ip[3],(unsigned char)packet->ip[2],(unsigned char)packet->ip[1],(unsigned char)packet->ip[0],packet->port);
+										mir_snprintf(temp, SIZEOF(temp), "%d.%d.%d.%d:%d", (unsigned char)packet->ip[3], (unsigned char)packet->ip[2], (unsigned char)packet->ip[1], (unsigned char)packet->ip[0], packet->port);
 										db_set_s(NULL, protocolname, "ServerIP", temp);
 										XFireLog("Got IPPort: %s",temp);
 									}
@@ -2922,7 +2922,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 					{
 						if((unsigned char)gameob->ip[3]!=0) // wenn ip, dann speichern
 						{
-							sprintf(temp,"%d.%d.%d.%d",(unsigned char)gameob->ip[3],(unsigned char)gameob->ip[2],(unsigned char)gameob->ip[1],(unsigned char)gameob->ip[0]);
+							mir_snprintf(temp, SIZEOF(temp), "%d.%d.%d.%d", (unsigned char)gameob->ip[3], (unsigned char)gameob->ip[2], (unsigned char)gameob->ip[1], (unsigned char)gameob->ip[0]);
 							db_set_s(hContact, protocolname, "VServerIP", temp);
 							db_set_w(hContact, protocolname, "VPort", (unsigned long)gameob->port);
 						}
@@ -2962,7 +2962,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 					if(db_get_b(NULL,protocolname,"gamepopup",0)==1) {
 						char temp[256]="";
 
-						sprintf(temp,Translate("%s is playing %s."),
+						mir_snprintf(temp, SIZEOF(temp), Translate("%s is playing %s."),
 							//ist ein nick gesetzt?
 							(entry->nick.length()==0?
 								//nein dann username
@@ -2975,7 +2975,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 						{
 							if((unsigned char)gameob->ip[3]!=0)
 							{
-								sprintf(temp,Translate("%s is playing %s on server %d.%d.%d.%d:%d."),
+								mir_snprintf(temp, SIZEOF(temp), Translate("%s is playing %s on server %d.%d.%d.%d:%d."),
 									//ist ein nick gesetzt?
 								(entry->nick.length()==0?
 									//nein dann username
@@ -3025,7 +3025,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 						if((unsigned char)gameob->ip[3]!=0)
 						{
 							//ip und port in kontakt speichern
-							sprintf(temp,"%d.%d.%d.%d",(unsigned char)gameob->ip[3],(unsigned char)gameob->ip[2],(unsigned char)gameob->ip[1],(unsigned char)gameob->ip[0]);
+							mir_snprintf(temp, SIZEOF(temp), "%d.%d.%d.%d", (unsigned char)gameob->ip[3], (unsigned char)gameob->ip[2], (unsigned char)gameob->ip[1], (unsigned char)gameob->ip[0]);
 							db_set_s(hContact, protocolname, "ServerIP", temp);
 							db_set_w(hContact, protocolname, "Port", (unsigned long)gameob->port);
 
@@ -3141,11 +3141,11 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 						{
 							char temp[256];
 							DBVARIANT dbv;
-							sprintf_s(temp,256,"%d",val-1);
+							mir_snprintf(temp, SIZEOF(temp), "%d", val - 1);
 							db_get_s(NULL,"CListGroups",temp,&dbv);
 							if(dbv.pszVal!=NULL)
 							{
-								sprintf_s(temp,256,"%s\\%s",&dbv.pszVal[1],group);
+								mir_snprintf(temp, SIZEOF(temp), "%s\\%s", &dbv.pszVal[1], group);
 								db_set_s(entry->hcontact, "CList", "Group", temp);
 								db_free(&dbv);
 							}
@@ -3164,11 +3164,11 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 					{
 						char temp[256];
 						DBVARIANT dbv;
-						sprintf_s(temp,256,"%d",val-1);
+						mir_snprintf(temp, SIZEOF(temp), "%d", val - 1);
 						db_get_s(NULL,"CListGroups",temp,&dbv);
 						if(dbv.pszVal!=NULL)
 						{
-							sprintf_s(temp,256,"%s\\%s",&dbv.pszVal[1],group);
+							mir_snprintf(temp, SIZEOF(temp), "%s\\%s", &dbv.pszVal[1], group);
 							db_set_s(entry->hcontact, "CList", "Group", temp);
 							db_free(&dbv);
 						}
@@ -3274,11 +3274,11 @@ void CreateGroup(char*grpn,char*field) {
 	{
 		char temp[255];
 		DBVARIANT dbv;
-		sprintf_s(temp,255,"%d",val-1);
+		mir_snprintf(temp, SIZEOF(temp), "%d", val - 1);
 		db_get_s(NULL,"CListGroups",temp,&dbv);
 		if(dbv.pszVal!=NULL)
 		{
-			sprintf_s((char*)grp,255,"%s\\%s",&dbv.pszVal[1],(char*)grpn);
+			mir_snprintf((char*)grp, 255, "%s\\%s", &dbv.pszVal[1], (char*)grpn);
 			db_free(&dbv);
 		}
 		else //gruppe existiert nciht mehr, auf root alles legen
@@ -3294,7 +3294,7 @@ void CreateGroup(char*grpn,char*field) {
 	int i=0;
 	for (i = 0;; i++)
 	{
-		sprintf(temp,"%d",i);
+		mir_snprintf(temp, SIZEOF(temp), "%d", i);
 		if (db_get_s(NULL, "CListGroups", temp, &dbv))
 		{
 			i--;
@@ -3309,7 +3309,7 @@ void CreateGroup(char*grpn,char*field) {
 	strcpy_s(group,255,"D");
 	strcat_s(group,255,(char*)grp);
 	group[0]= 1 | GROUPF_EXPANDED;
-	sprintf(temp,"%d",i+1);
+	mir_snprintf(temp, SIZEOF(temp), "%d", i + 1);
 	db_set_s(NULL, "CListGroups", temp, group);
 	CallServiceSync(MS_CLUI_GROUPADDED, i + 1, 0);
 }
@@ -3455,7 +3455,7 @@ INT_PTR RemoveFriend(WPARAM wParam,LPARAM lParam) {
 
 	if(!db_get_s((HANDLE)wParam, protocolname, "Username",&dbv))
 	{
-		sprintf(temp,Translate("Do you really want delete your friend %s?"),dbv.pszVal);
+		mir_snprintf(temp, SIZEOF(temp), Translate("Do you really want delete your friend %s?"), dbv.pszVal);
 		if(MessageBoxA(NULL,temp,Translate("Confirm Delete"),MB_YESNO|MB_ICONQUESTION)==IDYES)
 		{
 			if(myClient!=NULL)
@@ -3561,7 +3561,7 @@ int doneQuery( WPARAM wParam, LPARAM lParam ) {
 	db_set_s(bud->hcontact, protocolname, "ServerName", gameinfo->name);
 	db_set_s(bud->hcontact, protocolname, "GameType", gameinfo->gametype);
 	db_set_s(bud->hcontact, protocolname, "Map", gameinfo->map);
-	sprintf(temp,"(%d/%d)",gameinfo->players,gameinfo->maxplayers);
+	mir_snprintf(temp, SIZEOF(temp), "(%d/%d)", gameinfo->players, gameinfo->maxplayers);
 	db_set_s(bud->hcontact, protocolname, "Players", temp);
 	db_set_b(bud->hcontact, protocolname, "Passworded", gameinfo->password);
 

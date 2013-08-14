@@ -26,7 +26,7 @@ BOOL bChatInstalled = FALSE, m_bMbotInstalled = FALSE;
 void CIrcProto::InitMainMenus(void)
 {
 	char temp[ MAXMODULELABELLENGTH ];
-	char *d = temp + sprintf( temp, m_szModuleName );
+	char *d = temp + mir_snprintf(temp, SIZEOF(temp), m_szModuleName);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = temp;
@@ -141,7 +141,7 @@ int IrcPrebuildContactMenu( WPARAM wParam, LPARAM lParam )
 void InitContactMenus(void)
 {
 	char temp[MAXMODULELABELLENGTH];
-	char *d = temp + sprintf(temp, "IRC");
+	char *d = temp + mir_snprintf(temp, SIZEOF(temp), "IRC");
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = temp;
@@ -202,7 +202,7 @@ INT_PTR __cdecl CIrcProto::OnDoubleclicked(WPARAM, LPARAM lParam)
 		dlg->Show();
 		HWND hWnd = dlg->GetHwnd();
 		TCHAR szTemp[500];
-		mir_sntprintf( szTemp, SIZEOF(szTemp), TranslateT("%s (%s) is requesting a client-to-client chat connection."),
+		mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("%s (%s) is requesting a client-to-client chat connection."),
 			pdci->sContactName.c_str(), pdci->sHostmask.c_str());
 		SetDlgItemText( hWnd, IDC_TEXT, szTemp );
 		ShowWindow( hWnd, SW_SHOW );

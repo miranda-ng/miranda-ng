@@ -94,7 +94,7 @@ void CIcqProto::handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD w
 							int nResponseLen = 212 + strlennull(szXName) + strlennull(szXMsg) + UINMAXLEN + 2;
 							char *szResponse = (char*)_alloca(nResponseLen + 1);
 							// send response
-							null_snprintf(szResponse, nResponseLen, 
+							mir_snprintf(szResponse, nResponseLen, 
 								"<ret event=\"OnRemoteNotification\">"
 								"<srv><id>cAwaySrv</id>"
 								"<val srv_id=\"cAwaySrv\"><Root>"
@@ -415,7 +415,7 @@ DWORD CIcqProto::SendXtrazNotifyRequest(HANDLE hContact, char* szQuery, char* sz
 	szNotifyBody = MangleXml(szNotify, strlennull(szNotify));
 	nBodyLen = strlennull(szQueryBody) + strlennull(szNotifyBody) + 41;
 	szBody = (char*)_alloca(nBodyLen);
-	nBodyLen = null_snprintf(szBody, nBodyLen, "<N><QUERY>%s</QUERY><NOTIFY>%s</NOTIFY></N>", szQueryBody, szNotifyBody);
+	nBodyLen = mir_snprintf(szBody, nBodyLen, "<N><QUERY>%s</QUERY><NOTIFY>%s</NOTIFY></N>", szQueryBody, szNotifyBody);
 	SAFE_FREE((void**)&szQueryBody);
 	SAFE_FREE((void**)&szNotifyBody);
 
@@ -446,7 +446,7 @@ void CIcqProto::SendXtrazNotifyResponse(DWORD dwUin, DWORD dwMID, DWORD dwMID2, 
 		return; // Contact does not support xtraz, do not send anything
 	}
 
-	nBodyLen = null_snprintf(szBody, nBodyLen, "<NR><RES>%s</RES></NR>", szResBody);
+	nBodyLen = mir_snprintf(szBody, nBodyLen, "<NR><RES>%s</RES></NR>", szResBody);
 	SAFE_FREE(&szResBody);
 
 	// Was request received thru DC and have we a open DC, send through that

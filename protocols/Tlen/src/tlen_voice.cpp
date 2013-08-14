@@ -516,7 +516,7 @@ static void TlenVoiceReceiveParse(TLEN_FILE_TRANSFER *ft)
 		}
 		{
 			char ttt[2048];
-			sprintf(ttt, "%s %d %d ", statusTxt, ft->proto->framesAvailableForPlayback, ft->proto->availOverrunValue);
+			mir_snprintf(ttt, SIZEOF(ttt), "%s %d %d ", statusTxt, ft->proto->framesAvailableForPlayback, ft->proto->availOverrunValue);
 			SetDlgItemTextA(ft->proto->voiceDlgHWND, IDC_STATUS, ttt);
 		}
 		TlenP2PPacketFree(packet);
@@ -710,7 +710,7 @@ INT_PTR TlenVoiceContactMenuHandleVoice(void *ptr, LPARAM wParam, LPARAM lParam)
 	if ((hContact=(HANDLE) wParam) != NULL) {
 		if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
 			char serialId[32];
-			sprintf(serialId, "%d", JabberSerialNext(proto));
+			mir_snprintf(serialId, SIZEOF(serialId), "%d", JabberSerialNext(proto));
 			if ((item = JabberListAdd(proto, LIST_VOICE, serialId)) != NULL) {
 				ft = TlenFileCreateFT(proto, dbv.pszVal);
 				ft->iqId = mir_strdup(serialId);
@@ -871,7 +871,7 @@ static INT_PTR CALLBACK TlenVoiceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					} else {
 						fv = 0;
 					}
-					sprintf(str, "%.1f kB/s", fv / 1024);
+					mir_snprintf(str, SIZEOF(str), "%.1f kB/s", fv / 1024);
 					SetDlgItemTextA(hwndDlg, IDC_BYTESOUT, str);
 					if (proto->playbackControl != NULL) {
 						fv = (float)proto->playbackControl->bytesSum;
@@ -879,7 +879,7 @@ static INT_PTR CALLBACK TlenVoiceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					} else {
 						fv = 0;
 					}
-					sprintf(str, "%.1f kB/s", fv / 1024);
+					mir_snprintf(str, SIZEOF(str), "%.1f kB/s", fv / 1024);
 					SetDlgItemTextA(hwndDlg, IDC_BYTESIN, str);
 			}
 			break;
@@ -954,7 +954,7 @@ static char *getDisplayName(TlenProtocol *proto, const char *id)
 	HANDLE hContact;
 	DBVARIANT dbv;
 	if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
-		_snprintf(jid, sizeof(jid), "%s@%s", id, dbv.pszVal);
+		mir_snprintf(jid, sizeof(jid), "%s@%s", id, dbv.pszVal);
 		db_free(&dbv);
 		if ((hContact=JabberHContactFromJID(proto, jid)) != NULL) {
 			return mir_strdup((char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, 0));
@@ -1035,7 +1035,7 @@ int TlenVoiceAccept(TlenProtocol *proto, const char *id, const char *from)
 				char jid[256];
 				DBVARIANT dbv;
 				if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
-					_snprintf(jid, sizeof(jid), "%s@%s", from, dbv.pszVal);
+					mir_snprintf(jid, sizeof(jid), "%s@%s", from, dbv.pszVal);
 					db_free(&dbv);
 				} else {
 					strcpy(jid, from);
@@ -1046,7 +1046,7 @@ int TlenVoiceAccept(TlenProtocol *proto, const char *id, const char *from)
 				char jid[256];
 				DBVARIANT dbv;
 				if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
-					_snprintf(jid, sizeof(jid), "%s@%s", from, dbv.pszVal);
+					mir_snprintf(jid, sizeof(jid), "%s@%s", from, dbv.pszVal);
 					db_free(&dbv);
 				} else {
 					strcpy(jid, from);

@@ -1510,7 +1510,7 @@ DWORD CIcqProto::icq_sendSMSServ(const char *szPhoneNumber, const char *szMsg)
 	if (szBuffer = (char *)_alloca(nBufferSize))
 	{
 
-		wBufferLen = null_snprintf(szBuffer, nBufferSize,
+		wBufferLen = mir_snprintf(szBuffer, nBufferSize,
 			"<icq_sms_message>"
 			"<destination>"
 			"%s"   /* phone number */
@@ -1874,8 +1874,9 @@ void CIcqProto::oft_sendFileRequest(DWORD dwUin, char *szUid, oscar_filetransfer
 {
 	icq_packet packet;
 
-	char *szCoolStr = (char*)_alloca(strlennull(ft->szDescription)+strlennull(pszFiles) + 160);
-	sprintf(szCoolStr, "<ICQ_COOL_FT><FS>%s</FS><S>%I64u</S><SID>1</SID><DESC>%s</DESC></ICQ_COOL_FT>", pszFiles, ft->qwTotalSize, ft->szDescription);
+	size_t size = strlennull(ft->szDescription)+strlennull(pszFiles) + 160;
+	char *szCoolStr = (char *)_alloca(size);
+	mir_snprintf(szCoolStr, size, "<ICQ_COOL_FT><FS>%s</FS><S>%I64u</S><SID>1</SID><DESC>%s</DESC></ICQ_COOL_FT>", pszFiles, ft->qwTotalSize, ft->szDescription);
 	szCoolStr = MangleXml(szCoolStr, strlennull(szCoolStr));
 
 	WORD wDataLen = 93 + strlennull(szCoolStr) + strlennull(pszFiles);

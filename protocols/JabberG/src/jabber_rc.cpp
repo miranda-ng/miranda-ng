@@ -587,8 +587,8 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 
 							time_t ltime = (time_t)dbei.timestamp;
 							struct tm *gmt = gmtime(&ltime);
-							TCHAR stime[ 512 ];
-							wsprintf(stime, _T("%.4i-%.2i-%.2iT%.2i:%.2i:%.2iZ"), gmt->tm_year + 1900, gmt->tm_mon + 1, gmt->tm_mday,
+							TCHAR stime[512];
+							mir_sntprintf(stime, SIZEOF(stime), _T("%.4i-%.2i-%.2iT%.2i:%.2i:%.2iZ"), gmt->tm_year + 1900, gmt->tm_mon + 1, gmt->tm_mday,
 								gmt->tm_hour, gmt->tm_min, gmt->tm_sec);
 							msg << XCHILDNS(_T("delay"), _T("urn:xmpp:delay")) << XATTR(_T("stamp"), stime);
 

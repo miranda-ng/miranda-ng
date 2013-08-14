@@ -217,7 +217,7 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, WORD wBufferLength, snac_heade
 				else if (pSnacHeader->wSubtype == ICQ_LISTS_REMOVEFROMLIST)
 					szChange = "Server removed %u item(s) from list";
 
-				null_snprintf(szLogText, MAX_PATH, szChange, nItems);
+				mir_snprintf(szLogText, MAX_PATH, szChange, nItems);
 				NetLog_Server("Server sent SNAC(x13,x%02x) - %s", pSnacHeader->wSubtype, szLogText);
 			}
 		}
@@ -1487,7 +1487,7 @@ void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wGrou
 				char *nick = NickFromHandleUtf(hContact);
 
 				setByte(hContact, "Auth", 0);
-				null_snprintf(str, MAX_PATH, ICQTranslateUtfStatic(LPGEN("Contact \"%s\" was authorized in the server list."), msg, MAX_PATH), nick);
+				mir_snprintf(str, MAX_PATH, ICQTranslateUtfStatic(LPGEN("Contact \"%s\" was authorized in the server list."), msg, MAX_PATH), nick);
 				icq_LogMessage(LOG_WARNING, str);
 				SAFE_FREE(&nick);
 			}
@@ -1498,7 +1498,7 @@ void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wGrou
 				char *nick = NickFromHandleUtf(hContact);
 
 				setByte(hContact, "Auth", 1);
-				null_snprintf(str, MAX_PATH, ICQTranslateUtfStatic(LPGEN("Contact \"%s\" lost its authorization in the server list."), msg, MAX_PATH), nick);
+				mir_snprintf(str, MAX_PATH, ICQTranslateUtfStatic(LPGEN("Contact \"%s\" lost its authorization in the server list."), msg, MAX_PATH), nick);
 				icq_LogMessage(LOG_WARNING, str);
 				SAFE_FREE(&nick);
 			}
@@ -1601,7 +1601,7 @@ void CIcqProto::handleServerCListItemDelete(const char *szRecordName, WORD wGrou
 				char msg[MAX_PATH];
 				char *nick = NickFromHandleUtf(hContact);
 
-				null_snprintf(str, MAX_PATH, ICQTranslateUtfStatic(LPGEN("User \"%s\" was removed from server list."), msg, MAX_PATH), nick);
+				mir_snprintf(str, MAX_PATH, ICQTranslateUtfStatic(LPGEN("User \"%s\" was removed from server list."), msg, MAX_PATH), nick);
 				icq_LogMessage(LOG_WARNING, str);
 				SAFE_FREE(&nick);
 			}

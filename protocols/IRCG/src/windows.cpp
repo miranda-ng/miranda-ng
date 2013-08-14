@@ -385,7 +385,7 @@ INT_PTR CListDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			// New dialog title
 			TCHAR newTitle[255];
-			wsprintf( newTitle, TranslateT("%s - Filtered - %d items"), m_title, itemCount );
+			mir_sntprintf(newTitle, SIZEOF(newTitle), TranslateT("%s - Filtered - %d items"), m_title, itemCount);
 			SetWindowText( m_hwnd, newTitle );
 		}
 		else {

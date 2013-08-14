@@ -47,7 +47,7 @@ INT_PTR CALLBACK LoginPasswdDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			DWORD dwUin = ppro->getContactUin(NULL);
 
 			char pszUIN[MAX_PATH], str[MAX_PATH];
-			null_snprintf(pszUIN, 128, ICQTranslateUtfStatic(LPGEN("Enter a password for UIN %u:"), str, MAX_PATH), dwUin);
+			mir_snprintf(pszUIN, 128, ICQTranslateUtfStatic(LPGEN("Enter a password for UIN %u:"), str, MAX_PATH), dwUin);
 			SetDlgItemTextUtf(hwndDlg, IDC_INSTRUCTION, pszUIN);
 
 			SendDlgItemMessage(hwndDlg, IDC_LOGINPW, EM_LIMITTEXT, PASSWORDMAXLEN - 1, 0);

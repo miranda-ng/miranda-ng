@@ -36,7 +36,7 @@ static void accountLoadDetails(CIcqProto *ppro, HWND hwndDlg)
 	DWORD dwUIN = ppro->getContactUin(NULL);
 	if (dwUIN)
 	{
-		null_snprintf(pszUIN, 20, "%u", dwUIN);
+		mir_snprintf(pszUIN, 20, "%u", dwUIN);
 		SetDlgItemTextA(hwndDlg, IDC_UIN, pszUIN);
 	}
 

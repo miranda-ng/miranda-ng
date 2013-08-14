@@ -688,31 +688,6 @@ char* __fastcall strstrnull(const char *str, const char *substr)
 	return NULL;
 }
 
-int null_snprintf(char *buffer, size_t count, const char *fmt, ...)
-{
-	va_list va;
-	int len;
-
-	ZeroMemory(buffer, count);
-	va_start(va, fmt);
-	len = _vsnprintf(buffer, count-1, fmt, va);
-	va_end(va);
-	return len;
-}
-
-int null_snprintf(WCHAR *buffer, size_t count, const WCHAR *fmt, ...)
-{
-	va_list va;
-	int len;
-
-	ZeroMemory(buffer, count * sizeof(WCHAR));
-	va_start(va, fmt);
-	len = _vsnwprintf(buffer, count, fmt, va);
-	va_end(va);
-	return len;
-}
-
-
 char* __fastcall null_strdup(const char *string)
 {
 	if (string)

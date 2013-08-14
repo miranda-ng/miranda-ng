@@ -138,7 +138,7 @@ void CIcqProto::icq_LogUsingErrorCode(int level, DWORD dwError, const char *szMs
 		}
 	}
 
-	null_snprintf(szBuf, sizeof(szBuf), "%s%s%s (%s %d)", 
+	mir_snprintf(szBuf, sizeof(szBuf), "%s%s%s (%s %d)", 
 		szMsg ? ICQTranslateUtfStatic(szMsg, str, 1024) : "", 
 		szMsg ? "\r\n\r\n" : "",
 		ICQTranslateUtfStatic(pszErrorMsg, szErrorMsg, 512), 
@@ -156,6 +156,6 @@ void CIcqProto::icq_LogFatalParam(const char *szMsg, WORD wError)
 	char str[MAX_PATH];
 	char buf[MAX_PATH];
 
-	null_snprintf(buf, MAX_PATH, ICQTranslateUtfStatic(szMsg, str, MAX_PATH), wError);
+	mir_snprintf(buf, MAX_PATH, ICQTranslateUtfStatic(szMsg, str, MAX_PATH), wError);
 	icq_LogMessage(LOG_FATAL, buf);
 }

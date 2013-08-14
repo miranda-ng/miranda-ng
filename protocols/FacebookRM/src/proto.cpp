@@ -235,7 +235,7 @@ HANDLE FacebookProto::SearchByEmail(const PROTOCHAR* email)
 HANDLE FacebookProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName)
 {
 	TCHAR arg[200];
-	_sntprintf (arg, SIZEOF(arg), _T("%s %s %s"), nick, firstName, lastName);
+	mir_sntprintf (arg, SIZEOF(arg), _T("%s %s %s"), nick, firstName, lastName);
 	return SearchByEmail(arg); // Facebook is using one search method for everything (except IDs)
 }
 

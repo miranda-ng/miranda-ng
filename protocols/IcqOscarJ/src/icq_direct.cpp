@@ -982,7 +982,7 @@ int DecryptDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 		char* pszBuf;
 
 
-		titleLineLen = null_snprintf(szTitleLine, 128, "DECRYPTED\n");
+		titleLineLen = mir_snprintf(szTitleLine, 128, "DECRYPTED\n");
 		szBuf = (char*)_alloca(titleLineLen + ((wLen+15)>>4) * 76 + 1);
 		CopyMemory(szBuf, szTitleLine, titleLineLen);
 		pszBuf = szBuf + titleLineLen;
@@ -990,10 +990,10 @@ int DecryptDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 		for (line = 0; ; line += 16)
 		{
 			colsInLine = min(16, wLen - line);
-			pszBuf += wsprintfA(pszBuf, "%08X: ", line);
+			pszBuf += wsprintfA(pszBuf, "%08X: ", line); //!!!!!!!!!!!!!
 
 			for (col = 0; col<colsInLine; col++)
-				pszBuf += wsprintfA(pszBuf, "%02X%c", buf[line+col], (col&3)==3 && col!=15?'-':' ');
+				pszBuf += wsprintfA(pszBuf, "%02X%c", buf[line+col], (col&3)==3 && col!=15?'-':' '); //!!!!!!!!!!!!!
 
 			for (; col<16; col++)
 			{

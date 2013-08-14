@@ -220,7 +220,7 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 			gci.pszID = (TCHAR*)S.c_str();
 			if ( !CallServiceSync( MS_GC_GETINFO, 0, (LPARAM)&gci )) {
 				TCHAR szTemp[40];
-				_sntprintf( szTemp, 35, _T("%u"), gci.iCount);
+				mir_sntprintf(szTemp, 35, _T("%u"), gci.iCount);
 				sOutput = szTemp;
 			}
 		}

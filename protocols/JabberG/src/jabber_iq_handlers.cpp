@@ -118,7 +118,6 @@ typedef BOOL (WINAPI *PGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 
 #define StringCchCopy(x,y,z)      lstrcpyn((x),(z),(y))
 #define StringCchCat(x,y,z)       lstrcat((x),(z))
-#define StringCchPrintf           mir_sntprintf
 
 // slightly modified sample from MSDN
 BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
@@ -339,7 +338,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 
 		TCHAR buf[80];
 
-		StringCchPrintf(buf, 80, TEXT(" (build %d)"), osvi.dwBuildNumber);
+		mir_sntprintf(buf, 80, TEXT(" (build %d)"), osvi.dwBuildNumber);
 		StringCchCat(pszOS, BUFSIZE, buf);
 
 		return TRUE;
@@ -780,7 +779,7 @@ BOOL CJabberProto::AddClistHttpAuthEvent(CJabberHttpAuthParams *pParams)
 {
 	CLISTEVENT cle = {0};
 	char szService[256];
-	mir_snprintf(szService, sizeof(szService),"%s%s", m_szModuleName, JS_HTTP_AUTH);
+	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, JS_HTTP_AUTH);
 	cle.cbSize = sizeof(CLISTEVENT);
 	cle.hIcon = (HICON) LoadIconEx("openid");
 	cle.flags = CLEF_PROTOCOLGLOBAL | CLEF_TCHAR;

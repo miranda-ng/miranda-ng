@@ -544,7 +544,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 						pszFileName = (char*)_alloca(64);
 
 						char tmp[64];
-						null_snprintf(pszFileName, 64, ICQTranslateUtfStatic(LPGEN("%d Files"), tmp, SIZEOF(tmp)), ft->wFilesCount);
+						mir_snprintf(pszFileName, 64, ICQTranslateUtfStatic(LPGEN("%d Files"), tmp, SIZEOF(tmp)), ft->wFilesCount);
 					}
 				}
 				// Total Size TLV (ICQ 6 and AIM 6)
@@ -1835,7 +1835,7 @@ int CIcqProto::oft_handleFileData(oscar_connection *oc, BYTE *buf, int len)
 				char *pszMsg = ICQTranslateUtf(LPGEN("The checksum of file \"%s\" does not match, the file is probably damaged."));
 				char szBuf[MAX_PATH];
 
-				null_snprintf(szBuf, MAX_PATH, pszMsg, ExtractFileName(ft->szThisFile));
+				mir_snprintf(szBuf, MAX_PATH, pszMsg, ExtractFileName(ft->szThisFile));
 				icq_LogMessage(LOG_ERROR, szBuf);
 
 				SAFE_FREE(&pszMsg);

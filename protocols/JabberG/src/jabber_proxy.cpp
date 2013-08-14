@@ -55,7 +55,7 @@ int JabberHttpGatewayInit(HANDLE /*hConn*/, NETLIBOPENCONNECTION* /*nloc*/, NETL
 	unpackDWord(&buf, &dwSid2);
 	unpackDWord(&buf, &dwSid3);
 	unpackDWord(&buf, &dwSid4);
-	sprintf(szSid, "%08x%08x%08x%08x", dwSid1, dwSid2, dwSid3, dwSid4);
+	mir_snprintf(szSid, SIZEOF(szSid), "%08x%08x%08x%08x", dwSid1, dwSid2, dwSid3, dwSid4);
 	unpackWord(&buf, &wIpLen);
 	if (responseBytes < 30 + wIpLen || wIpLen == 0 || wIpLen > sizeof(szHttpServer) - 1)
 	{
@@ -70,8 +70,8 @@ int JabberHttpGatewayInit(HANDLE /*hConn*/, NETLIBOPENCONNECTION* /*nloc*/, NETL
 	nlhpi.szHttpGetUrl = szHttpGetUrl;
 	nlhpi.szHttpPostUrl = szHttpPostUrl;
 	nlhpi.firstPostSequence = 1;
-	sprintf(szHttpGetUrl, "http://%s/monitor?sid=%s", szHttpServer, szSid);
-	sprintf(szHttpPostUrl, "http://%s/data?sid=%s&seq=", szHttpServer, szSid);
+	mir_snprintf(szHttpGetUrl, SIZEOF(szHttpGetUrl), "http://%s/monitor?sid=%s", szHttpServer, szSid);
+	mir_snprintf(szHttpPostUrl, SIZEOF(szHttpPostUrl), "http://%s/data?sid=%s&seq=", szHttpServer, szSid);
 	return CallService(MS_NETLIB_SETHTTPPROXYINFO, (WPARAM)hConn, (LPARAM)&nlhpi);
 #endif
 	return 1;

@@ -118,7 +118,7 @@ char *gg_avatarhash(char *param)
 
 	mir_sha1_hash((BYTE*)param, (int)strlen(param), digest);
 	for (i = 0; i < MIR_SHA1_HASH_SIZE; i++)
-		sprintf(result + (i<<1), "%02x", digest[i]);
+		mir_snprintf(result + (i<<1), 2, "%02x", digest[i]);
 
 	return result;
 }

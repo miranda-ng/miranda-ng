@@ -100,7 +100,7 @@ void Xfire_base::readStringfromDB(char*name,unsigned int dbid,char**to)
 		return;
 
 	//wert aus der dblesen
-	sprintf_s(temp,128,"%s_%i",name,dbid);
+	mir_snprintf(temp, 128, "%s_%i", name, dbid);
 	if(!db_get_s(NULL, protocolname, temp,&dbv))
 	{
 		//string setzen
@@ -118,7 +118,7 @@ void Xfire_base::readStringfromDB(char*name,unsigned int dbid,int id,char**to)
 		return;
 
 	//wert aus der dblesen
-	sprintf_s(temp,128,"%s_%i_%i",name,dbid,id);
+	mir_snprintf(temp, 128, "%s_%i_%i", name, dbid, id);
 	if(!db_get_s(NULL, protocolname, temp,&dbv))
 	{
 		//string setzen
@@ -136,7 +136,7 @@ void Xfire_base::readUtf8StringfromDB(char*name,unsigned int dbid,char**to)
 		return;
 
 	//wert aus der dblesen
-	sprintf_s(temp,128,"%s_%i",name,dbid);
+	mir_snprintf(temp, 128, "%s_%i", name, dbid);
 	if(!db_get_utf(NULL, protocolname, temp,&dbv))
 	{
 		//string setzen
@@ -154,7 +154,7 @@ void Xfire_base::readUtf8StringfromDB(char*name,unsigned int dbid,int id,char**t
 		return;
 
 	//wert aus der dblesen
-	sprintf_s(temp,128,"%s_%i_%i",name,dbid,id);
+	mir_snprintf(temp, 128, "%s_%i_%i", name, dbid, id);
 	if(!db_get_utf(NULL, protocolname, temp,&dbv))
 	{
 		//string setzen

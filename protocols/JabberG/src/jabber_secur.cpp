@@ -177,7 +177,7 @@ char* TMD5Auth::getChallenge(const TCHAR *challenge)
 	mir_md5_state_t ctx;
 
 	CallService(MS_UTILS_GETRANDOM, sizeof(digest), (LPARAM)digest);
-	sprintf(cnonce, "%08x%08x%08x%08x", htonl(digest[0]), htonl(digest[1]), htonl(digest[2]), htonl(digest[3]));
+	mir_snprintf(cnonce, SIZEOF(cnonce), "%08x%08x%08x%08x", htonl(digest[0]), htonl(digest[1]), htonl(digest[2]), htonl(digest[3]));
 
 	ptrA uname( mir_utf8encodeT(info->username)),
 	     passw( mir_utf8encodeT(info->password)),
@@ -205,15 +205,15 @@ char* TMD5Auth::getChallenge(const TCHAR *challenge)
 	mir_md5_finish(&ctx, (BYTE*)hash2);
 
 	mir_md5_init(&ctx);
-	sprintf(tmpBuf, "%08x%08x%08x%08x", htonl(hash1[0]), htonl(hash1[1]), htonl(hash1[2]), htonl(hash1[3]));
+	mir_snprintf(tmpBuf, SIZEOF(tmpBuf), "%08x%08x%08x%08x", htonl(hash1[0]), htonl(hash1[1]), htonl(hash1[2]), htonl(hash1[3]));
 	mir_md5_append(&ctx, (BYTE*)tmpBuf, (int)strlen(tmpBuf));
 	mir_md5_append(&ctx, (BYTE*)":",    1);
 	mir_md5_append(&ctx, (BYTE*)nonce,  (int)strlen(nonce));
-	sprintf(tmpBuf, ":%08d:", iCallCount);
+	mir_snprintf(tmpBuf, SIZEOF(tmpBuf), ":%08d:", iCallCount);
 	mir_md5_append(&ctx, (BYTE*)tmpBuf, (int)strlen(tmpBuf));
 	mir_md5_append(&ctx, (BYTE*)cnonce, (int)strlen(cnonce));
 	mir_md5_append(&ctx, (BYTE*)":auth:", 6);
-	sprintf(tmpBuf, "%08x%08x%08x%08x", htonl(hash2[0]), htonl(hash2[1]), htonl(hash2[2]), htonl(hash2[3]));
+	mir_snprintf(tmpBuf, SIZEOF(tmpBuf), "%08x%08x%08x%08x", htonl(hash2[0]), htonl(hash2[1]), htonl(hash2[2]), htonl(hash2[3]));
 	mir_md5_append(&ctx, (BYTE*)tmpBuf, (int)strlen(tmpBuf));
 	mir_md5_finish(&ctx, (BYTE*)digest);
 

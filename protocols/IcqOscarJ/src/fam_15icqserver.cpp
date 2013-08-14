@@ -594,7 +594,7 @@ int CIcqProto::parseUserInfoRecord(HANDLE hContact, oscar_tlv *pData, UserInfoRe
 			for (int i = 0; i < nRecordDef; i++) {
 				char szItemKey[MAX_PATH];
 
-				null_snprintf(szItemKey, MAX_PATH, pRecordDef[i].szDbSetting, nRecords);
+				mir_snprintf(szItemKey, MAX_PATH, pRecordDef[i].szDbSetting, nRecords);
 
 				switch (pRecordDef[i].dbType) {
 				case DBVT_UTF8:
@@ -619,7 +619,7 @@ int CIcqProto::parseUserInfoRecord(HANDLE hContact, oscar_tlv *pData, UserInfoRe
 		for (int i = nRecords; i <= nMaxRecords; i++)
 			for (int j = 0; j < nRecordDef; j++) {
 				char szItemKey[MAX_PATH];
-				null_snprintf(szItemKey, MAX_PATH, pRecordDef[j].szDbSetting, i);
+				mir_snprintf(szItemKey, MAX_PATH, pRecordDef[j].szDbSetting, i);
 				delSetting(hContact, szItemKey);
 			}
 

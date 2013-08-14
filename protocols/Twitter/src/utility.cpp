@@ -158,7 +158,7 @@ INT_PTR mir_twitter::LOG(const char *fmt,...)
 INT_PTR mir_twitter::WLOG(const char* first, const std::wstring last)
 {
 	char *str1 = new char[1024*96];
-	sprintf(str1,"%ls", last.c_str());
+	mir_snprintf(str1, 1024*96, "%ls", last.c_str());
 
 	return LOG(first, str1); 
 }

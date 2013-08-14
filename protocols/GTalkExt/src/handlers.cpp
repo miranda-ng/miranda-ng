@@ -81,7 +81,7 @@ void FormatMessageUrl(LPCTSTR format, LPTSTR buf, LPCTSTR mailbox, LPCTSTR tid)
 {
 	ULARGE_INTEGER iTid; iTid.QuadPart = _tstoi64(tid);
 	int l = lstrlen(buf);
-	wsprintf(buf, format, mailbox, iTid.HighPart, iTid.LowPart);
+	mir_sntprintf(buf, l, format, mailbox, iTid.HighPart, iTid.LowPart);
 	assert(l >= lstrlen(buf));
 }
 
@@ -90,7 +90,7 @@ void MakeUrlHex(LPTSTR url, LPCTSTR tid)
 	ULARGE_INTEGER iTid; iTid.QuadPart = _tstoi64(tid);
 	LPTSTR tidInUrl = _tcsstr(url, tid);
 	LPTSTR trail = tidInUrl + lstrlen(tid);
-	wsprintf(tidInUrl, _T("%x%08x"), iTid.HighPart, iTid.LowPart);
+	wsprintf(tidInUrl, _T("%x%08x"), iTid.HighPart, iTid.LowPart); //!!!!!!!!!!!!
 	wmemmove(tidInUrl + lstrlen(tidInUrl), trail, lstrlen(trail) + 1);
 }
 

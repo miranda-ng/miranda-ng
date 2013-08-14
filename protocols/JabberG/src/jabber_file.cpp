@@ -297,8 +297,9 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 			if (pFileName != NULL) {
 				int id = SerialNext();
 				if (ft->iqId) mir_free(ft->iqId);
-				ft->iqId = (TCHAR*)mir_alloc(sizeof(TCHAR)*(strlen(JABBER_IQID)+20));
-				wsprintf(ft->iqId, _T(JABBER_IQID)_T("%d"), id);
+				size_t size = strlen(JABBER_IQID) + 20;
+				ft->iqId = (TCHAR *)mir_alloc(sizeof(TCHAR) * size);
+				mir_sntprintf(ft->iqId, size, _T(JABBER_IQID)_T("%d"), id);
 
 				char *myAddr = NULL;
 				DBVARIANT dbv;
@@ -317,8 +318,8 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 				mir_free(myAddr);
 
 				int len = lstrlen(ptszResource) + lstrlen(ft->jid) + 2;
-				TCHAR *fulljid = (TCHAR*)alloca(sizeof(TCHAR)*len);
-				wsprintf(fulljid, _T("%s/%s"), ft->jid, ptszResource);
+				TCHAR *fulljid = (TCHAR *)alloca(sizeof(TCHAR) * len);
+				mir_sntprintf(fulljid, len, _T("%s/%s"), ft->jid, ptszResource);
 
 				XmlNodeIq iq(_T("set"), id, fulljid);
 				HXML query = iq << XQUERY(JABBER_FEAT_OOB);

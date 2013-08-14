@@ -28,7 +28,7 @@ int CYahooProto::DebugLog( const char *fmt, ... )
 	va_list vararg;
 	va_start( vararg, fmt );
 	
-	int tBytes = _vsnprintf( str, sizeof( str ), fmt, vararg );
+	int tBytes = mir_vsnprintf(str, sizeof(str), fmt, vararg);
 	if ( tBytes > 0)
 		str[ tBytes ] = 0;
 
@@ -45,7 +45,7 @@ int DebugLog( const char *fmt, ... )
 	va_list vararg;
 	va_start( vararg, fmt );
 	
-	int tBytes = _vsnprintf( str, sizeof( str ), fmt, vararg );
+	int tBytes = mir_vsnprintf(str, sizeof(str), fmt, vararg);
 	if ( tBytes > 0)
 		str[ tBytes ] = 0;
 
@@ -203,7 +203,7 @@ extern PLUGININFOEX pluginInfo;
 void CYahooProto::YAHOO_utils_logversion()
 {
     char str[256];
-    _snprintf(str, sizeof(str), "Yahoo v%d.%d.%d.%d", (pluginInfo.version >> 24) & 0xFF, (pluginInfo.version >> 16) & 0xFF,
+    mir_snprintf(str, sizeof(str), "Yahoo v%d.%d.%d.%d", (pluginInfo.version >> 24) & 0xFF, (pluginInfo.version >> 16) & 0xFF,
               (pluginInfo.version >> 8) & 0xFF, pluginInfo.version & 0xFF);
     DebugLog(str);
 }

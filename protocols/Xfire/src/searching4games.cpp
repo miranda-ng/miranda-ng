@@ -254,9 +254,9 @@ void Scan4Games( LPVOID lparam  )
 	{
 		//2 gameids?
 		if(split)
-			sprintf(temp,"%i_%i",i,i2);
+			mir_snprintf(temp, SIZEOF(temp), "%i_%i", i, i2);
 		else
-			sprintf(temp,"%i",i);
+			mir_snprintf(temp, SIZEOF(temp), "%i", i);
 
 		//MessageBoxA(0,temp,temp,0);
 
@@ -468,7 +468,7 @@ void Scan4Games( LPVOID lparam  )
 									multiexe=FALSE;
 									for(int i=1;i<9;i++)
 									{
-										sprintf(ret,"DetectExe[%d]",i);
+										mir_snprintf(ret, SIZEOF(ret), "DetectExe[%d]", i);
 										if(xfire_GetPrivateProfileString(temp, ret, "", ret2, 512, inipath))
 										{
 											char* pos=strrchr(path,'\\');
@@ -551,7 +551,7 @@ void Scan4Games( LPVOID lparam  )
 									newgame->setString(ret2,&newgame->launchparams);
 
 								//soll alle string, welche nicht in der commandline eines spiels sein soll in einen string pakcen semikolon getrennt
-								sprintf(ret,"CommandLineMustNotContain[0]");
+								mir_snprintf(ret, SIZEOF(ret), "CommandLineMustNotContain[0]");
 								int i=0;
 
 								while(xfire_GetPrivateProfileString(temp, ret, "", ret2, 512, inipath))
@@ -562,7 +562,7 @@ void Scan4Games( LPVOID lparam  )
 									newgame->appendString(ret2,&newgame->notcontain);
 
 									i++;
-									sprintf(ret,"CommandLineMustNotContain[%d]",i);
+									mir_snprintf(ret, SIZEOF(ret), "CommandLineMustNotContain[%d]", i);
 								}
 
 								newgame->setNameandIcon();
@@ -653,7 +653,7 @@ void Scan4Games( LPVOID lparam  )
 						newgame->setstatusmsg=atoi(ret2);
 
 					//soll alle string, welche nicht in der commandline eines spiels sein soll in einen string pakcen semikolon getrennt
-					sprintf(ret,"CommandLineMustNotContain[0]");
+					mir_snprintf(ret, SIZEOF(ret), "CommandLineMustNotContain[0]");
 					int i=0;
 
 					while(xfire_GetPrivateProfileString(temp, ret, "", ret2, 512, inipath))
@@ -664,7 +664,7 @@ void Scan4Games( LPVOID lparam  )
 						newgame->appendString(ret2,&newgame->notcontain);
 
 						i++;
-						sprintf(ret,"CommandLineMustNotContain[%d]",i);
+						mir_snprintf(ret, SIZEOF(ret), "CommandLineMustNotContain[%d]", i);
 					}
 
 					newgame->setNameandIcon();
@@ -726,7 +726,7 @@ void Scan4Games( LPVOID lparam  )
 		int p=strlen(gamelist)-2;
 		if(p>-1)
 			gamelist[p]=0; //letztes koma killen
-		sprintf(ret,Translate("Games found:%s%s"),"\r\n\r\n",gamelist);
+		mir_snprintf(ret, SIZEOF(ret), Translate("Games found:%s%s"), "\r\n\r\n", gamelist);
 		MSGBOX(ret);
 	}
 

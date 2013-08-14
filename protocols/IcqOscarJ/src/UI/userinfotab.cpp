@@ -97,7 +97,7 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, HANDLE hContact,
 				{
 					char szExtra[80];
 
-					null_snprintf(str, 250, "%d", dbv.wVal);
+					mir_snprintf(str, 250, "%d", dbv.wVal);
 					pstr = str;
 
 					if (hContact && ppro->IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 1))
@@ -123,11 +123,11 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, HANDLE hContact,
 					{ // give default name
 						pXName = ICQTranslateUtf(nameXStatus[bXStatus-1]);
 					}
-					null_snprintf(str, sizeof(str), "%s (%s)", pszStatus, pXName);
+					mir_snprintf(str, sizeof(str), "%s (%s)", pszStatus, pXName);
 					SAFE_FREE((void**)&pXName);
 				}
 				else
-					null_snprintf(str, sizeof(str), pszStatus);
+					mir_snprintf(str, sizeof(str), pszStatus);
 
 				bUtf = 1;
 				SAFE_FREE(&pszStatus);
@@ -301,7 +301,7 @@ int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	if (!lParam)
 	{
 		TCHAR buf[200];
-		null_snprintf(buf, SIZEOF(buf), TranslateT("%s Details"), m_tszUserName);
+		mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s Details"), m_tszUserName);
 		odp.ptszTitle = buf;
 
 		odp.position = -1899999999;

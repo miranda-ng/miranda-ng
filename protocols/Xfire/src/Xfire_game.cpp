@@ -57,7 +57,7 @@ BOOL Xfire_game::start_game(char*ip,unsigned int port,char*pw) {
 			//port begrenzen
 			port=port%65535;
 			//port in string wandeln
-			sprintf_s(portstr,6,"%d",port);
+			mir_snprintf(portstr,6,"%d",port);
 
 			str_replace(mynetworkparams,"%UA_GAME_HOST_NAME%",ip);
 			str_replace(mynetworkparams,"%UA_GAME_HOST_PORT%",portstr);
@@ -443,7 +443,7 @@ void Xfire_game::createMenuitem(unsigned int pos,int dbid)
 	mi.pszPopupName = Translate("Start game");
 	mi.pszContactOwner=protocolname;
 
-	sprintf(temp,servicefunction,this->id);
+	mir_snprintf(temp, SIZEOF(temp), servicefunction, this->id);
 	//wenn die servicefunktion schon exisitert vernichten, hehe
 	if(ServiceExists(temp)) 
 		DestroyServiceFunction(temp);

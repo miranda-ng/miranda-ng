@@ -34,7 +34,7 @@ static void LogPictureMessage(TlenProtocol *proto, const char *jid, const char *
 {
 	char message[1024];
 	const char *msg = isSent ? LPGEN("Image sent file://%s") : LPGEN("Image received file://%s");
-	_snprintf(message, sizeof(message), Translate(msg), filename);
+	mir_snprintf(message, sizeof(message), Translate(msg), filename);
 	TlenLogMessage(proto, JabberHContactFromJID(proto, jid), isSent ? DBEF_SENT : 0, message);
 }
 
@@ -49,7 +49,7 @@ static void TlenPsPostThread(void *ptr) {
 		DWORD ret;
 		item->ft->s = socket;
 		item->ft->hFileEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-		_snprintf(header, sizeof(header), "<pic auth='%s' t='p' to='%s' size='%d' idt='%s'/>", proto->threadData->username, item->ft->jid, item->ft->fileTotalSize, item->jid);
+		mir_snprintf(header, sizeof(header), "<pic auth='%s' t='p' to='%s' size='%d' idt='%s'/>", proto->threadData->username, item->ft->jid, item->ft->fileTotalSize, item->jid);
 		JabberWsSend(proto, socket, header, (int)strlen(header));
 		ret = WaitForSingleObject(item->ft->hFileEvent, 1000 * 60 * 5);
 		if (ret == WAIT_OBJECT_0) {
@@ -58,7 +58,7 @@ static void TlenPsPostThread(void *ptr) {
 				int i;
 				char header[512];
 				char fileBuffer[2048];
-				_snprintf(header, sizeof(header), "<pic st='%s' idt='%s'/>", item->ft->iqId, item->jid);
+				mir_snprintf(header, sizeof(header), "<pic st='%s' idt='%s'/>", item->ft->iqId, item->jid);
 				JabberWsSend(proto, socket, header, (int)strlen(header));
 				JabberLog(proto, "Sending picture data...");
 				for (i = item->ft->filesSize[0]; i > 0; ) {
@@ -114,7 +114,7 @@ static void TlenPsGetThread(void *ptr) {
 			char header[512];
 			char fileBuffer[2048];
 			JabberXmlInitState(&xmlState);
-			_snprintf(header, sizeof(header), "<pic auth='%s' t='g' to='%s' pid='1001' idt='%s' rt='%s'/>", proto->threadData->username, item->ft->jid, item->jid, item->ft->id2);
+			mir_snprintf(header, sizeof(header), "<pic auth='%s' t='g' to='%s' pid='1001' idt='%s' rt='%s'/>", proto->threadData->username, item->ft->jid, item->jid, item->ft->id2);
 			JabberWsSend(proto, socket, header, (int)strlen(header));
 			JabberLog(proto, "Reveiving picture data...");
 			{
@@ -221,7 +221,7 @@ void TlenProcessPic(XmlNode *node, TlenProtocol *proto) {
 			char fileName[MAX_PATH];
 			char *ext = JabberXmlGetAttrValue(node, "ext");
 			char *tmpPath = Utils_ReplaceVars( "%miranda_userdata%" );
-			int tPathLen = mir_snprintf( fileName, MAX_PATH, "%s\\Images\\Tlen", tmpPath );
+			int tPathLen = mir_snprintf(fileName, MAX_PATH, "%s\\Images\\Tlen", tmpPath);
 			long oldSize = 0, lSize = atol(size);
 			DWORD dwAttributes = GetFileAttributesA( fileName );
 			if ( dwAttributes == 0xffffffff || ( dwAttributes & FILE_ATTRIBUTE_DIRECTORY ) == 0 )
@@ -284,7 +284,7 @@ BOOL SendPicture(TlenProtocol *proto, HANDLE hContact) {
 					char idStr[10];
 					char fileBuffer[2048];
 					int id = JabberSerialNext(proto);
-					_snprintf(idStr, sizeof(idStr), "%d", id);
+					mir_snprintf(idStr, sizeof(idStr), "%d", id);
 					item = JabberListAdd(proto, LIST_PICTURE, idStr);
 					item->ft = TlenFileCreateFT(proto, jid);
 					item->ft->files = (char **) mir_alloc(sizeof(char *));

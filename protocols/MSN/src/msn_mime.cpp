@@ -170,7 +170,7 @@ char* MimeHeaders::writeToBuffer(char* dest)
 			*dest = 0;
 		}
 		else
-			dest += sprintf(dest, "%s: %s\r\n", H.name, H.value);
+			dest += sprintf(dest, "%s: %s\r\n", H.name, H.value); //!!!!!!!!!!!!
 	}
 
 	if (mCount)

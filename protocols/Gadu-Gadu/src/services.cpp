@@ -222,7 +222,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 		char *AvatarName = strrchr(AvatarURL, '/');
 		AvatarName++;
 		char AvatarNameWithTS[128];
-		sprintf(AvatarNameWithTS, "%s%s", AvatarName, AvatarTs);
+		mir_snprintf(AvatarNameWithTS, SIZEOF(AvatarNameWithTS), "%s%s", AvatarName, AvatarTs);
 		AvatarHash = gg_avatarhash(AvatarNameWithTS);
 	}
 

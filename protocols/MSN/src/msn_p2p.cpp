@@ -326,7 +326,7 @@ void CMsnProto::p2p_sendMsg(ThreadData* info, const char *wlid, unsigned appId, 
 
 		// add message header
 		p += msgType == 1 ? sizeof(unsigned) :
-			sprintf(p, hdrdata.isV2Hdr() ? sttP2PheaderV2 : sttP2Pheader, wlid, MyOptions.szEmail, MyOptions.szMachineGuidP2P);
+			sprintf(p, hdrdata.isV2Hdr() ? sttP2PheaderV2 : sttP2Pheader, wlid, MyOptions.szEmail, MyOptions.szMachineGuidP2P); //!!!!!!!!!!!
 
 		if (hdrdata.isV2Hdr())
 		{
@@ -524,14 +524,14 @@ void CMsnProto::p2p_sendSlp(int iKind, filetransfer *ft, MimeHeaders &pHeaders,
 
 	switch (iKind)
 	{
-		case -3:   p += sprintf(p, "ACK MSNMSGR:%s MSNSLP/1.0", wlid); break;
-		case -2:   p += sprintf(p, "INVITE MSNMSGR:%s MSNSLP/1.0", wlid); break;
-		case -1:   p += sprintf(p, "BYE MSNMSGR:%s MSNSLP/1.0", wlid); break;
-		case 200:  p += sprintf(p, "MSNSLP/1.0 200 OK");	break;
-		case 481:  p += sprintf(p, "MSNSLP/1.0 481 No Such Call"); break;
-		case 500:  p += sprintf(p, "MSNSLP/1.0 500 Internal Error"); break;
-		case 603:  p += sprintf(p, "MSNSLP/1.0 603 DECLINE"); break;
-		case 1603: p += sprintf(p, "MSNSLP/1.0 603 Decline"); break;
+		case -3:   p += sprintf(p, "ACK MSNMSGR:%s MSNSLP/1.0", wlid); break; //!!!!!!!!!!!!!!!!!!
+		case -2:   p += sprintf(p, "INVITE MSNMSGR:%s MSNSLP/1.0", wlid); break; //!!!!!!!!!!!!!!!!!!
+		case -1:   p += sprintf(p, "BYE MSNMSGR:%s MSNSLP/1.0", wlid); break; //!!!!!!!!!!!!!!!!!!
+		case 200:  p += sprintf(p, "MSNSLP/1.0 200 OK");	break; //!!!!!!!!!!!!!!!!!!
+		case 481:  p += sprintf(p, "MSNSLP/1.0 481 No Such Call"); break; //!!!!!!!!!!!!!!!!!!
+		case 500:  p += sprintf(p, "MSNSLP/1.0 500 Internal Error"); break; //!!!!!!!!!!!!!!!!!!
+		case 603:  p += sprintf(p, "MSNSLP/1.0 603 DECLINE"); break; //!!!!!!!!!!!!!!!!!!
+		case 1603: p += sprintf(p, "MSNSLP/1.0 603 Decline"); break; //!!!!!!!!!!!!!!!!!!
 		default: return;
 	}
 
@@ -547,7 +547,7 @@ void CMsnProto::p2p_sendSlp(int iKind, filetransfer *ft, MimeHeaders &pHeaders,
 			"\r\nTo: <msnmsgr:%s>\r\n"
 			"From: <msnmsgr:%s;%s>\r\n"
 			"Via: MSNSLP/1.0/TLP ;branch=%s\r\n",
-			wlid, MyOptions.szEmail, MyOptions.szMachineGuidP2P, ft->p2p_branch);
+			wlid, MyOptions.szEmail, MyOptions.szMachineGuidP2P, ft->p2p_branch); //!!!!!!!!!!!!!!!!!!
 	}
 	else
 	{
@@ -555,7 +555,7 @@ void CMsnProto::p2p_sendSlp(int iKind, filetransfer *ft, MimeHeaders &pHeaders,
 			"\r\nTo: <msnmsgr:%s>\r\n"
 			"From: <msnmsgr:%s>\r\n"
 			"Via: MSNSLP/1.0/TLP ;branch=%s\r\n",
-			wlid, MyOptions.szEmail, ft->p2p_branch);
+			wlid, MyOptions.szEmail, ft->p2p_branch); //!!!!!!!!!!!!!!!!!!
 	}
 
 	p = pHeaders.writeToBuffer(p);
@@ -901,7 +901,7 @@ LONG CMsnProto::p2p_sendPortion(filetransfer* ft, ThreadData* T, bool isV2)
 	// Fill data size for direct transfer
 
 	if (T->mType != SERVER_P2P_DIRECT)
-		p += sprintf(p, isV2 ? sttP2PheaderV2 : sttP2Pheader, ft->p2p_dest, MyOptions.szEmail, MyOptions.szMachineGuidP2P);
+		p += sprintf(p, isV2 ? sttP2PheaderV2 : sttP2Pheader, ft->p2p_dest, MyOptions.szEmail, MyOptions.szMachineGuidP2P); //!!!!!!!!!!!!!!!!!!
 	else
 		p += sizeof(unsigned);
 

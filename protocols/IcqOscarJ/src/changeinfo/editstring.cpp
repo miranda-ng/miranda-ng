@@ -240,7 +240,7 @@ void ChangeInfoData::BeginStringEdit(int iItem, RECT *rc, int i, WORD wVKey)
 	else if ((setting[i].displayType & LIM_TYPE) == LI_NUMBER) 
 	{
 		szValue = str;
-		null_snprintf(str, sizeof(str), "%d", settingData[i].value );
+		mir_snprintf(str, sizeof(str), "%d", settingData[i].value );
 	}
 	else if (settingData[i].value) 
 	{

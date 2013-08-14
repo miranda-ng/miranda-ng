@@ -160,7 +160,7 @@ int CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, HXML iqNode, Jabbe
 			code = xmlGetAttrValue(errorNode, _T("code"));
 			description = xmlGetText(errorNode);
 		}
-		_sntprintf(buff, SIZEOF(buff), TranslateT("Error %s %s"), (code) ? code : _T(""), (description) ? description : _T(""));
+		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Error %s %s"), (code) ? code : _T(""), (description) ? description : _T(""));
 		JabberFormSetInstruction(hwndDlg, buff);
 	}
 	else if ( !_tcscmp(type, _T("result"))) {
@@ -288,7 +288,7 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, HXML workNode, JabberA
 			code = xmlGetAttrValue(errorNode, _T("code"));
 			description = xmlGetText(errorNode);
 		}
-		_sntprintf(buff,SIZEOF(buff),TranslateT("Error %s %s"),code ? code : _T(""),description?description:_T(""));
+		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Error %s %s"), code ? code : _T(""), description ? description : _T(""));
 		JabberFormSetInstruction(hwndDlg,buff);
 	}
 	JabberAdHoc_RefreshFrameScroll(hwndDlg, dat);
@@ -397,8 +397,8 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 			if ( !pStartupParams->m_szNode) {
 				dat->proto->AdHoc_RequestListOfCommands(pStartupParams->m_szJid, hwndDlg);
 
-				TCHAR Caption[ 512 ];
-				_sntprintf(Caption, SIZEOF(Caption), _T("%s %s"), TranslateT("Jabber Ad-Hoc commands at"), dat->ResponderJID);
+				TCHAR Caption[512];
+				mir_sntprintf(Caption, SIZEOF(Caption), _T("%s %s"), TranslateT("Jabber Ad-Hoc commands at"), dat->ResponderJID);
 				SetWindowText(hwndDlg, Caption);
 			}
 			else
@@ -413,8 +413,8 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 				EnableDlgItem(hwndDlg, IDC_SUBMIT, FALSE);
 				SetDlgItemText(hwndDlg, IDC_SUBMIT, TranslateT("OK"));
 
-				TCHAR Caption[ 512 ];
-				_sntprintf(Caption, SIZEOF(Caption), _T("%s %s"), TranslateT("Sending Ad-Hoc command to"), dat->ResponderJID);
+				TCHAR Caption[512];
+				mir_sntprintf(Caption, SIZEOF(Caption), _T("%s %s"), TranslateT("Sending Ad-Hoc command to"), dat->ResponderJID);
 				SetWindowText(hwndDlg, Caption);
 			}
 

@@ -497,7 +497,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				dat->hUpload[i] = NULL;
 				for (done = 0, i = 0; i < SIZEOF(dat->hUpload); i++)
 					done += dat->hUpload[i] == NULL;
-				null_snprintf(buf, sizeof(buf), "%s%d%%", ICQTranslateUtfStatic(LPGEN("Upload in progress..."), str, MAX_PATH), 100*done/(SIZEOF(dat->hUpload)));
+				mir_snprintf(buf, sizeof(buf), "%s%d%%", ICQTranslateUtfStatic(LPGEN("Upload in progress..."), str, MAX_PATH), 100*done/(SIZEOF(dat->hUpload)));
 				SetDlgItemTextUtf(hwndDlg, IDC_UPLOADING, buf);
 				if (done < SIZEOF(dat->hUpload)) break;
 

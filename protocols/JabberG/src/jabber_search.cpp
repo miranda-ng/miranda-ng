@@ -191,7 +191,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode)
 			code = xmlGetAttrValue(errorNode, _T("code"));
 			description = xmlGetText(errorNode);
 		}
-		_sntprintf(buff,SIZEOF(buff),TranslateT("Error %s %s\r\nPlease select other server"),code ? code : _T(""),description?description:_T(""));
+		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Error %s %s\r\nPlease select other server"), code ? code : _T(""), description ? description : _T(""));
 		SetDlgItemText(searchHandleDlg,IDC_INSTRUCTIONS,buff);
 	}
 	else SetDlgItemText(searchHandleDlg, IDC_INSTRUCTIONS, TranslateT("Error Unknown reply recieved\r\nPlease select other server"));
@@ -269,7 +269,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 		   int k=0;
 		   while (nickfields[k] && !nick)   nick=pmUserData->operator [](nickfields[k++]);
 		   if (_tcsicmp(nick, Results.jsr.jid))
-			   _sntprintf(buff,SIZEOF(buff),_T("%s (%s)"),nick, Results.jsr.jid);
+			   mir_sntprintf(buff, SIZEOF(buff), _T("%s (%s)"), nick, Results.jsr.jid);
 		   else
 				_tcsncpy(buff, nick, SIZEOF(buff));
 		   Results.jsr.hdr.nick = nick ? buff : NULL;
@@ -378,7 +378,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode)
 			description = xmlGetText(errorNode);
 		}
 
-		_sntprintf(buff,SIZEOF(buff),TranslateT("Error %s %s\r\nTry to specify more detailed"),code ? code : _T(""),description?description:_T(""));
+		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Error %s %s\r\nTry to specify more detailed"), code ? code : _T(""), description ? description : _T(""));
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 		if (searchHandleDlg)
 			SetDlgItemText(searchHandleDlg,IDC_INSTRUCTIONS,buff);
@@ -486,20 +486,20 @@ void CJabberProto::SearchDeleteFromRecent(const TCHAR *szAddr, BOOL deleteLastFr
 	char key[30];
 	//search in recent
 	for (int i=0; i<10; i++) {
-		sprintf(key,"RecentlySearched_%d",i);
+		mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", i);
 		if ( !getTString(key, &dbv)) {
 			if ( !_tcsicmp(szAddr, dbv.ptszVal)) {
 				db_free(&dbv);
 				for (int j=i; j<10; j++) {
-					sprintf(key, "RecentlySearched_%d", j+1);
+					mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", j + 1);
 					if ( !getTString(key, &dbv)) {
-						sprintf(key,"RecentlySearched_%d",j);
+						mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", j);
 						setTString(NULL,key,dbv.ptszVal);
 						db_free(&dbv);
 					}
 					else {
 						if (deleteLastFromDB) {
-							sprintf(key,"RecentlySearched_%d",j);
+							mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", j);
 							delSetting(NULL,key);
 						}
 						break;
@@ -515,14 +515,14 @@ void CJabberProto::SearchAddToRecent(const TCHAR *szAddr, HWND hwndDialog)
 	char key[30];
 	SearchDeleteFromRecent(szAddr);
 	for (int j=9; j > 0; j--) {
-		sprintf(key, "RecentlySearched_%d", j-1);
+		mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", j - 1);
 		if ( !getTString(key, &dbv)) {
-			sprintf(key,"RecentlySearched_%d",j);
+			mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", j);
 			setTString(NULL,key,dbv.ptszVal);
 			db_free(&dbv);
 	}	}
 
-	sprintf(key, "RecentlySearched_%d", 0);
+	mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", 0);
 	setTString(key, szAddr);
 	if (hwndDialog)
 		JabberSearchAddUrlToRecentCombo(hwndDialog, szAddr);
@@ -555,7 +555,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 			DBVARIANT dbv;
 			for (i=0; i < 10; i++) {
 				char key[30];
-				sprintf(key,"RecentlySearched_%d",i);
+				mir_snprintf(key, SIZEOF(key), "RecentlySearched_%d", i);
 				if ( !dat->ppro->getTString(key, &dbv)) {
 					JabberSearchAddUrlToRecentCombo(hwndDlg, dbv.ptszVal);
 					db_free(&dbv);

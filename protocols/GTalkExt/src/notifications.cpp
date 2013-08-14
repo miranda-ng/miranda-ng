@@ -125,9 +125,9 @@ static bool DoAddPopup(POPUPDATAT *data)
 void FormatPseudocontactDisplayName(LPTSTR buff, LPCTSTR jid, LPCTSTR unreadCount)
 {
 	if (lstrcmp(unreadCount,  _T("0")))
-		wsprintf(buff, _T("%s [%s]"), jid, unreadCount);
+		wsprintf(buff, _T("%s [%s]"), jid, unreadCount); //!!!!!!!!!!!
 	else
-		wsprintf(buff, _T("%s"), jid);
+		wsprintf(buff, _T("%s"), jid); //!!!!!!!!!!!
 }
 
 BOOL UsePopups()
@@ -173,7 +173,7 @@ void UnreadMailNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unread
 	POPUPDATAT data = {0};
 
 	FormatPseudocontactDisplayName(&data.lptzContactName[0], jid, unreadCount);
-	wsprintf(&data.lptzText[0], TranslateT(NUMBER_EMAILS_MESSAGE), unreadCount);
+	mir_sntprintf(&data.lptzText[0], SIZEOF(data.lptzText), TranslateT(NUMBER_EMAILS_MESSAGE), unreadCount);
 
 	ShowNotification(acc, &data, jid, url, unreadCount);
 }
@@ -187,14 +187,14 @@ void UnreadThreadNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unre
 	LPTSTR currSender = senders;
 
 	for (int i = 0; i < SENDER_COUNT && mtn->senders[i].addr; i++) {
-		wsprintf(currSender, _T("    %s <%s>\n"), mtn->senders[i].name, mtn->senders[i].addr);
+		mir_sntprintf(currSender, SENDER_COUNT * 100, _T("    %s <%s>\n"), mtn->senders[i].name, mtn->senders[i].addr);
 		currSender += lstrlen(currSender);
 	}
 
 	if (ReadCheckbox(0, IDC_ADDSNIP, (DWORD)TlsGetValue(itlsSettings)))
-		wsprintf(&data.lptzText[0], TranslateTS(FULL_NOTIFICATION_FORMAT), mtn->subj, senders, mtn->snip);
+		mir_sntprintf(&data.lptzText[0], SIZEOF(data.lptzText), TranslateTS(FULL_NOTIFICATION_FORMAT), mtn->subj, senders, mtn->snip);
 	else
-		wsprintf(&data.lptzText[0], TranslateTS(SHORT_NOTIFICATION_FORMAT), mtn->subj, senders);
+		mir_sntprintf(&data.lptzText[0], SIZEOF(data.lptzText), TranslateTS(SHORT_NOTIFICATION_FORMAT), mtn->subj, senders);
 
 	free(senders);
 

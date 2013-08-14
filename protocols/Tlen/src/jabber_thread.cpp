@@ -72,7 +72,7 @@ static INT_PTR CALLBACK JabberPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		sprintf(text, "%s %s", Translate("Enter password for"), (char *) lParam);
+		mir_snprintf(text, SIZEOF(text), "%s %s", Translate("Enter password for"), (char *) lParam);
 		SetDlgItemTextA(hwndDlg, IDC_JID, text);
 		return TRUE;
 	case WM_COMMAND:
@@ -204,7 +204,7 @@ void __cdecl JabberServerThread(ThreadData *info)
 		return;
 	}
 
-	_snprintf(jidStr, sizeof(jidStr), "%s@%s", info->username, info->server);
+	mir_snprintf(jidStr, sizeof(jidStr), "%s@%s", info->username, info->server);
 	db_set_s(NULL, info->proto->m_szModuleName, "jid", jidStr);
 
 	if (!db_get(NULL, info->proto->m_szModuleName, "ManualHost", &dbv)) {
@@ -401,7 +401,7 @@ static void TlenSendAuth(TlenProtocol *proto) {
 	char *str;
 	char text[128];
 	str = TlenPasswordHash(proto->threadData->password);
-	sprintf(text, "%s%s", proto->threadData->streamId, str);
+	mir_snprintf(text, SIZEOF(text), "%s%s", proto->threadData->streamId, str);
 	mir_free(str);
 	str = JabberSha1(text);
 	if ((p=JabberTextEncode(proto->threadData->username)) != NULL) {
@@ -624,8 +624,9 @@ static void JabberProcessMessage(XmlNode *node, ThreadData *info)
 				if ((bodyNode=JabberXmlGetChild(node, "body")) != NULL) {
 					if (bodyNode->text != NULL) {
 						if ((subjectNode=JabberXmlGetChild(node, "subject")) != NULL && subjectNode->text != NULL && subjectNode->text[0] != '\0') {
-							p = (char *) mir_alloc(strlen(subjectNode->text)+strlen(bodyNode->text)+5);
-							sprintf(p, "%s\r\n%s", subjectNode->text, bodyNode->text);
+							int size = strlen(subjectNode->text)+strlen(bodyNode->text)+5;
+							p = (char *)mir_alloc(size);
+							mir_snprintf(p, size, "%s\r\n%s", subjectNode->text, bodyNode->text);
 							localMessage = JabberTextDecode(p);
 							mir_free(p);
 						} else {
@@ -962,7 +963,7 @@ static void TlenProcessW(XmlNode *node, ThreadData *info)
 	if ((f=JabberXmlGetAttrValue(node, "f")) != NULL) {
 
 		char webContactName[128];
-		sprintf(webContactName, Translate("%s Web Messages"), info->proto->m_szModuleName);
+		mir_snprintf(webContactName, SIZEOF(webContactName), Translate("%s Web Messages"), info->proto->m_szModuleName);
 		if ((hContact=JabberHContactFromJID(info->proto, webContactName)) == NULL) {
 			hContact = JabberDBCreateContact(info->proto, webContactName, webContactName, TRUE);
 		}
@@ -1260,7 +1261,7 @@ static void TlenProcessP(XmlNode *node, ThreadData *info)
 			} else {
 				n = mir_strdup(Translate("Private conference"));// JabberNickFromJID(f);
 			}
-			sprintf(jid, "%s/%s", f, info->username);
+			mir_snprintf(jid, SIZEOF(jid), "%s/%s", f, info->username);
 //			if (!db_get(NULL, info->proto->m_szModuleName, "LoginName", &dbv)) {
 				// always real username
 //				sprintf(jid, "%s/%s", f, dbv.pszVal);
@@ -1290,9 +1291,9 @@ static void TlenProcessV(XmlNode *node, ThreadData *info)
 
 	if ((from=JabberXmlGetAttrValue(node, "f")) != NULL) {
 		if (strchr(from, '@') == NULL) {
-			_snprintf(jid, sizeof(jid), "%s@%s", from, info->server);
+			mir_snprintf(jid, sizeof(jid), "%s@%s", from, info->server);
 		} else {
-			_snprintf(jid, sizeof(jid), "%s", from);
+			mir_snprintf(jid, sizeof(jid), "%s", from);
 		}
 		if ((e=JabberXmlGetAttrValue(node, "e")) != NULL) {
 			if (!strcmp(e, "1")) {

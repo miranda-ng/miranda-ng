@@ -350,7 +350,7 @@ char* __stdcall JabberSha1(char* str)
 	char *result = (char*)mir_alloc(41);
 	if (result)
 		for (int i=0; i < 20; i++)
-			sprintf(result+(i<<1), "%02x", digest[i]);
+			mir_snprintf(result + (i << 1), 2, "%02x", digest[i]);
 	return result;
 }
 
@@ -442,13 +442,14 @@ TCHAR* __stdcall JabberHttpUrlEncode(const TCHAR *str)
 	TCHAR *p, *q, *res;
 
 	if (str == NULL) return NULL;
-	res = (TCHAR*) mir_alloc(3*_tcslen(str) + 1);
+	size_t size = 3 * _tcslen(str) + 1;
+	res = (TCHAR *)mir_alloc(size);
 	for (p = (TCHAR*)str, q = res; *p!='\0'; p++,q++) {
 		if ((*p>='A' && *p<='Z') || (*p>='a' && *p<='z') || (*p>='0' && *p<='9') || strchr("$-_.+!*'(),", *p) != NULL) {
 			*q = *p;
 		}
 		else {
-			wsprintf(q, _T("%%%02X"), *p);
+			mir_sntprintf(q, size, _T("%%%02X"), *p);
 			q += 2;
 		}
 	}
@@ -886,7 +887,7 @@ void __stdcall JabberStringAppend(char* *str, int *sizeAlloced, const char* fmt,
 
 	p = *str + len;
 	va_start(vararg, fmt);
-	while (_vsnprintf(p, size, fmt, vararg) == -1) {
+	while (mir_vsnprintf(p, size, fmt, vararg) == -1) {
 		size += 2048;
 		(*sizeAlloced) += 2048;
 		*str = (char*)mir_realloc(*str, *sizeAlloced);
@@ -1651,7 +1652,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 					mir_sha1_append(&sha, (mir_sha1_byte_t*)res->pData, res->dataLength);
 					mir_sha1_finish(&sha, digest);
 					for (int i=0; i<20; i++)
-						sprintf(buffer+(i<<1), "%02x", digest[i]);
+						mir_snprintf(buffer + (i << 1), 2, "%02x", digest[i]);
 
 					ptrA cmpsha( getStringA(AI.hContact, "AvatarSaved"));
 					if (cmpsha == NULL || strnicmp(cmpsha, buffer, sizeof(buffer))) {

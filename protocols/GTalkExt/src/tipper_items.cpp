@@ -48,7 +48,7 @@ void ShiftTipperSettings(LPSTR buff, int count, LPSTR format)
 {
 	for (int i = count; i > 0; i--) {
 		DBVARIANT dbv;
-		sprintf(buff, format, i - 1);
+		sprintf(buff, format, i - 1); //!!!!!!!!!!!!!!!
 
 		if (db_get(0, TIPPER_ITEMS_MOD_NAME, buff, &dbv))
 			break;
@@ -63,7 +63,7 @@ void ShiftTipperSettings(LPSTR buff, int count, LPSTR format)
 			if (db_get_s(0, TIPPER_ITEMS_MOD_NAME, buff, &dbv))
 				break;
 
-			sprintf(buff, format, i);
+			sprintf(buff, format, i); //!!!!!!!!!!!!!!!!
 			db_set(NULL, TIPPER_ITEMS_MOD_NAME, buff, &dbv);
 		}
 		__finally {
@@ -74,7 +74,7 @@ void ShiftTipperSettings(LPSTR buff, int count, LPSTR format)
 
 void SetLabelProp(int index, LPSTR setting)
 {
-	sprintf(setting, LABEL_SETTING_PROP, index);
+	sprintf(setting, LABEL_SETTING_PROP, index); //!!!!!!!!!!!!!!
 
 	DBVARIANT dbv1 = {0};
 	if (!db_get_ts(0, TIPPER_ITEMS_MOD_NAME, setting, &dbv1))
@@ -110,7 +110,7 @@ void AddTipperItem()
 	LPSTR setting = (LPSTR)malloc(l * sizeof(TCHAR));
 	__try {
 		for (i = 0; i < itemCount; i++) {
-			sprintf(setting, VALUE_SETTING_PROP, i);
+			mir_snprintf(setting, l, VALUE_SETTING_PROP, i);
 
 			DBVARIANT dbv = {0};
 			if (!db_get_ts(0, TIPPER_ITEMS_MOD_NAME, setting, &dbv))
@@ -129,10 +129,10 @@ void AddTipperItem()
 			ShiftTipperSettings(setting, itemCount, TipperItemProps[i]);
 
 		#define WRITE_TIPPER_PROPS(index, value)\
-			sprintf(setting, TipperItemProps[##index##], 0);\
+			mir_snprintf(setting, l, TipperItemProps[##index##], 0);\
 			db_set_ts(0, TIPPER_ITEMS_MOD_NAME, setting, ##value##)
 		#define WRITE_TIPPER_PROPB(index, value)\
-			sprintf(setting, TipperItemProps[##index##], 0);\
+			mir_snprintf(setting, l, TipperItemProps[##index##], 0);\
 			db_set_b(0, TIPPER_ITEMS_MOD_NAME, setting, ##value##)
 
 		LPTSTR label = TranslateTS(UNREAD_THREADS_LABEL);
