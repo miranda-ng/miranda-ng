@@ -169,7 +169,6 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Base64.cpp" />
     <ClCompile Include="src\ComHelper.cpp" />
     <ClCompile Include="src\CommonOptionDlg.cpp" />
     <ClCompile Include="src\CreateFilePath.cpp" />
@@ -208,7 +207,6 @@
     <ClCompile Include="src\XMLEngineMI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Base64.h" />
     <ClInclude Include="src\Chart.h" />
     <ClInclude Include="src\ComHelper.h" />
     <ClInclude Include="src\CommonOptionDlg.h" />

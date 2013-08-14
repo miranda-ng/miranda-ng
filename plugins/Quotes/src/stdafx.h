@@ -93,7 +93,6 @@ inline int quotes_stricmp(LPCTSTR p1,LPCTSTR p2)
 #include "CurrencyConverter.h"
 #include "WinCtrlHelper.h"
 #include "ImportExport.h"
-#include "Base64.h"
 #include "ComHelper.h"
 #include "Log.h"
 #include "CommonOptionDlg.h"

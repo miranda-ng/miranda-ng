@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Base64.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\ComHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -122,9 +119,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Base64.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\ComHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>

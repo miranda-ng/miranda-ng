@@ -94,11 +94,9 @@ namespace
 				sType = g_pszXmlTypeBlob;
 				if(dbv.pbVal)
 				{
-					std::vector<char> buf;
-					if(true == base64::encode(dbv.pbVal,dbv.cpbVal,buf))
-					{
-						buf.push_back('\0');
-						sValue << &*buf.begin();
+					ptrA buf = mir_base64_encode(dbv.pbVal, dbv.cpbVal);
+					if (buf) {
+						sValue << buf;
 					}
 				}
 				break;
@@ -368,9 +366,7 @@ namespace
 								{
 									dbs.value.type = DBVT_BYTE;
 									if(set_contact_settings(hContact,dbs))
-									{
 										++cCreatedRecords;
-									}
 								}
 							}
 							else if(0 == quotes_stricmp(g_pszXmlTypeWord,sType.c_str()))
@@ -382,9 +378,7 @@ namespace
 								{
 									dbs.value.type = DBVT_WORD;
 									if(set_contact_settings(hContact,dbs))
-									{
 										++cCreatedRecords;
-									}
 								}
 							}
 							else if(0 == quotes_stricmp(g_pszXmlTypeDword,sType.c_str()))
@@ -396,9 +390,7 @@ namespace
 								{
 									dbs.value.type = DBVT_DWORD;
 									if(set_contact_settings(hContact,dbs))
-									{
 										++cCreatedRecords;
-									}
 								}
 							}
 							else if(0 == quotes_stricmp(g_pszXmlTypeAsciiz,sType.c_str()))
@@ -407,18 +399,15 @@ namespace
 								dbs.value.pszVal = v;
 								dbs.value.type = DBVT_ASCIIZ;
 								if(set_contact_settings(hContact,dbs))
-								{
 									++cCreatedRecords;
-								}
 							}
 							else if(0 == quotes_stricmp(g_pszXmlTypeUtf8,sType.c_str()))
 							{					
 								dbs.value.pszVal = mir_utf8encodeT(sValue.c_str());
 								dbs.value.type = DBVT_UTF8;
 								if(set_contact_settings(hContact,dbs))
-								{
 									++cCreatedRecords;
-								}
+
 								mir_free(dbs.value.pszVal);
 							}
 							else if(0 == quotes_stricmp(g_pszXmlTypeWchar,sType.c_str()))
@@ -427,32 +416,26 @@ namespace
 								dbs.value.pwszVal = val;
 								dbs.value.type = DBVT_WCHAR;
 								if(set_contact_settings(hContact,dbs))
-								{
 									++cCreatedRecords;
-								}
+
 								mir_free(dbs.value.pwszVal);
 							}
 							else if(0 == quotes_stricmp(g_pszXmlTypeBlob,sType.c_str()))
 							{
-								std::vector<BYTE> blob_buf;
-								std::string p = quotes_t2a(sValue.c_str());//T2A(sValue.c_str());
-								if(true == base64::decode(p.c_str(),lstrlenA(p.c_str()),blob_buf))
-								{
-									dbs.value.pbVal = &*blob_buf.begin();
-									dbs.value.cpbVal = (WORD)blob_buf.size();
+								unsigned bufLen;
+								mir_ptr<BYTE> buf((PBYTE)mir_base64_decode(_T2A(sValue.c_str()), &bufLen));
+								if(buf) {
+									dbs.value.pbVal = buf;
+									dbs.value.cpbVal = (WORD)bufLen;
 									dbs.value.type = DBVT_BLOB;
 
 									if(set_contact_settings(hContact,dbs))
-									{
 										++cCreatedRecords;
-									}
 								}
 							}
 
 							if ((true == bCListModule) && (0 == quotes_stricmp(sName.c_str(),_T("Group"))))
-							{
 								CallService(MS_CLIST_GROUPCREATE,NULL,reinterpret_cast<LPARAM>(sValue.c_str()));
-							}
 						}
 					}
 				}		
