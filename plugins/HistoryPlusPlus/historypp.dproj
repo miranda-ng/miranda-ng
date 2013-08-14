@@ -176,7 +176,6 @@
 			<DCCReference Include="hpp_richedit.pas"/>
 			<DCCReference Include="hpp_olesmileys.pas"/>
 			<DCCReference Include="HistoryControls.pas"/>
-			<DCCReference Include="Base64.pas"/>
 			<DCCReference Include="Checksum.pas"/>
 			<DCCReference Include="hpp_JclSysUtils.pas"/>
 			<DCCReference Include="hpp_puny.pas"/>

@@ -60,7 +60,7 @@ var
 implementation
 
 uses
-  SysUtils, Base64;
+  SysUtils, m_api;
 
 const
   DIGEST_DIV = '-';
@@ -71,18 +71,25 @@ const
 function DigToBase(Digest: TDig64): AnsiString;
 var
   DigStr: AnsiString;
+  EncodedStr: PAnsiChar;
 begin
   SetLength(DigStr, SizeOf(Digest));
   Move(Digest, DigStr[1], SizeOf(Digest));
-  Result := Base64EncodeStr(DigStr);
+  EncodedStr := mir_base64_encode(PByte(@DigStr[1]), Length(DigStr));
+  Result := EncodedStr;
+  mir_free(EncodedStr);
 end;
 
 function BaseToDig(const Str: AnsiString): TDig64;
 var
   DigStr: AnsiString;
+  BufLen: int;
+  Buf: PByte;
 begin
-  DigStr := Base64DecodeStr(Str);
-  Move(DigStr[1], Result, SizeOf(Result));
+  Buf := mir_base64_decode(PAnsiChar(Str), BufLen);
+  if (BufLen = SizeOf(Result)) then
+    Move(Buf^, Result, SizeOf(Result));
+  mir_free(Buf);
 end;
 
 function HashString(const Str: AnsiString): TDig64;
@@ -90,27 +97,8 @@ begin
   Result := ZeroDig;
   Result[0] := InitCRC;
   CalcCRC32(@Str[1], Length(Str), Result[0]);
-  // CalcSampleHash(@Str[1],Length(Str),Result);
 end;
-(*
-function StrToDig(Str: AnsiString): TDig64;
-var
-  Dig1, Dig2: AnsiString;
-  n: Integer;
-begin
-  Result[0] := 0;
-  Result[1] := 0;
-  n := Pos(DIGEST_DIV, Str);
-  if n = 0 then
-    exit;
 
-  Dig1 := Copy(Str, 1, n - 1);
-  Dig2 := Copy(Str, n + 1, Length(Str));
-
-  Result[0] := StrToInt('$' + Dig1);
-  Result[1] := StrToInt('$' + Dig2);
-end;
-*)
 function DigToStr(Digest: TDig64): AnsiString;
 begin
   Result := AnsiString(IntToHex(Digest[0], 8)) + DIGEST_DIV + AnsiString(IntToHex(Digest[1], 8));

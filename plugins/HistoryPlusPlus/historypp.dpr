@@ -68,7 +68,6 @@ uses
   hpp_richedit in 'hpp_richedit.pas',
   hpp_olesmileys in 'hpp_olesmileys.pas',
   HistoryControls in 'HistoryControls.pas',
-  Base64 in 'Base64.pas',
   Checksum in 'Checksum.pas',
   hpp_JclSysUtils in 'hpp_JclSysUtils.pas',
   hpp_puny in 'hpp_puny.pas';
