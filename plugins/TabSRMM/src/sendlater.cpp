@@ -58,12 +58,12 @@ bool CSendLaterJob::isPersistentJob()
 bool CSendLaterJob::mustDelete()
 {
 	if (fSuccess)
-		return(true);
-	else if (fFailed) {
-		if (bCode == JOB_REMOVABLE)
-			return(true);
-	}
-	return(false);
+		return true;;
+	
+	if (fFailed && bCode == JOB_REMOVABLE)
+		return true;
+
+	return false;
 }
 
 /**
@@ -228,7 +228,7 @@ void CSendLater::startJobListProcess()
 bool CSendLater::processCurrentJob()
 {
 	if (m_sendLaterJobList.empty() || m_jobIterator == m_sendLaterJobList.end())
-		return(false);
+		return false;
 
 	if ((*m_jobIterator)->fSuccess || (*m_jobIterator)->fFailed) {
 		if ((*m_jobIterator)->mustDelete()) {

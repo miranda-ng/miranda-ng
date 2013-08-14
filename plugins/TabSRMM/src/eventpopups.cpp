@@ -401,9 +401,7 @@ static int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATAT* pdata)
 {
 	pdata->iActionTaken = TRUE;
 	if (mask & MASK_OPEN) {
-		int i;
-
-		for (i=0; i < pdata->nrMerged; i++) {
+		for (int i=0; i < pdata->nrMerged; i++) {
 			if (pdata->eventData[i].hEvent != 0) {
 				PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_HANDLECLISTEVENT, (WPARAM)pdata->hContact, (LPARAM)pdata->eventData[i].hEvent);
 				pdata->eventData[i].hEvent = 0;
@@ -411,20 +409,16 @@ static int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATAT* pdata)
 		}
 	}
 	if (mask & MASK_REMOVE) {
-		int i;
-
-		for (i=0; i < pdata->nrMerged; i++) {
+		for (int i=0; i < pdata->nrMerged; i++) {
 			if (pdata->eventData[i].hEvent != 0) {
 				PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_REMOVECLISTEVENT, (WPARAM)pdata->hContact, (LPARAM)pdata->eventData[i].hEvent);
 				pdata->eventData[i].hEvent = 0;
 			}
 		}
 	}
-	if (mask & MASK_DISMISS)
-	{
+	if (mask & MASK_DISMISS) {
 		PUDeletePopup(hWnd);
-		if (pdata->hContainer)
-		{
+		if (pdata->hContainer) {
 			FLASHWINFO fwi = { sizeof(fwi) };
 			fwi.dwFlags = FLASHW_STOP;
 			fwi.hwnd = pdata->hContainer;
@@ -589,16 +583,16 @@ static int PopupUpdateT(HANDLE hContact, HANDLE hEvent)
 
 	TCHAR timestamp[MAX_DATASIZE];
 	_tcsftime(timestamp, MAX_DATASIZE, _T("%Y.%m.%d %H:%M"), _localtime32((__time32_t *)&dbe.timestamp));
-	mir_sntprintf(pdata->eventData[pdata->nrMerged].szText, MAX_SECONDLINE, _T("\n\n%s\n"), timestamp);
+	mir_sntprintf(pdata->eventData[pdata->nrMerged].tszText, MAX_SECONDLINE, _T("\n\n%s\n"), timestamp);
 
 	TCHAR *szPreview = GetPreviewT(dbe.eventType, &dbe);
 	if (szPreview) {
-		_tcsncat(pdata->eventData[pdata->nrMerged].szText, szPreview, MAX_SECONDLINE);
+		_tcsncat(pdata->eventData[pdata->nrMerged].tszText, szPreview, MAX_SECONDLINE);
 		mir_free(szPreview);
 	}
-	else _tcsncat(pdata->eventData[pdata->nrMerged].szText, _T(" "), MAX_SECONDLINE);
+	else _tcsncat(pdata->eventData[pdata->nrMerged].tszText, _T(" "), MAX_SECONDLINE);
 
-	pdata->eventData[pdata->nrMerged].szText[MAX_SECONDLINE - 1] = 0;
+	pdata->eventData[pdata->nrMerged].tszText[MAX_SECONDLINE - 1] = 0;
 
 	/*
 	* now, reassemble the popup text, make sure the *last* event is shown, and then show the most recent events
@@ -611,14 +605,16 @@ static int PopupUpdateT(HANDLE hContact, HANDLE hEvent)
 		_tcsncpy(lpzText, szHeader, MAX_SECONDLINE);
 		available -= lstrlen(szHeader);
 	}
+	else lpzText[0] = 0;
+
 	for (i = pdata->nrMerged; i >= 0; i--) {
-		available -= lstrlen(pdata->eventData[i].szText);
+		available -= lstrlen(pdata->eventData[i].tszText);
 		if (available <= 0)
 			break;
 	}
 	i = (available > 0) ? i + 1 : i + 2;
 	for (; i <= pdata->nrMerged; i++)
-		_tcsncat(lpzText, pdata->eventData[i].szText, MAX_SECONDLINE);
+		_tcsncat(lpzText, pdata->eventData[i].tszText, MAX_SECONDLINE);
 
 	pdata->eventData[pdata->nrMerged].hEvent = hEvent;
 	pdata->eventData[pdata->nrMerged].timestamp = dbe.timestamp;
@@ -688,24 +684,21 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 
 	if (hContact)
 		mir_sntprintf(pud.lptzContactName, MAX_CONTACTNAME, _T("%s"), pcli->pfnGetContactDisplayName(hContact, 0));
-	else {
-		TCHAR *szModule = mir_a2t(dbe.szModule);
-		mir_sntprintf(pud.lptzContactName, MAX_CONTACTNAME, _T("%s"), szModule);
-		mir_free(szModule);
-	}
+	else 
+		_tcsncpy_s(pud.lptzContactName, SIZEOF(pud.lptzContactName), _A2T(dbe.szModule), _TRUNCATE);
 
 	TCHAR *szPreview = GetPreviewT((WORD)eventType, &dbe);
 	if (szPreview) {
 		mir_sntprintf(pud.lptzText, MAX_SECONDLINE, _T("%s"), szPreview);
 		mir_free(szPreview);
-	} else
-		mir_sntprintf(pud.lptzText, MAX_SECONDLINE, _T(" "));
+	}
+	else _tcscpy(pud.lptzText, _T(" "));
 
 	pdata->eventData = (EVENT_DATAT *)mir_alloc(NR_MERGED * sizeof(EVENT_DATAT));
 	pdata->eventData[0].hEvent = hEvent;
 	pdata->eventData[0].timestamp = dbe.timestamp;
-	_tcsncpy(pdata->eventData[0].szText, pud.lptzText, MAX_SECONDLINE);
-	pdata->eventData[0].szText[MAX_SECONDLINE - 1] = 0;
+	_tcsncpy(pdata->eventData[0].tszText, pud.lptzText, MAX_SECONDLINE);
+	pdata->eventData[0].tszText[MAX_SECONDLINE - 1] = 0;
 	pdata->nrEventsAlloced = NR_MERGED;
 	pdata->nrMerged = 1;
 
@@ -734,38 +727,37 @@ static int TSAPI PopupPreview(NEN_OPTIONS *pluginOptions)
 */
 void TSAPI UpdateTrayMenuState(TWindowData *dat, BOOL bForced)
 {
-	MENUITEMINFO	mii = {0};
-	TCHAR			szMenuEntry[80];
-
-	if (PluginConfig.g_hMenuTrayUnread == 0)
+	if (PluginConfig.g_hMenuTrayUnread == 0 || dat->hContact == NULL)
 		return;
 
+	MENUITEMINFO mii = {0};
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_DATA | MIIM_BITMAP;
 
-	if (dat->hContact != 0) {
-		const TCHAR *tszProto = dat->cache->getRealAccount();
+	const TCHAR *tszProto = dat->cache->getRealAccount();
+	assert(tszProto != 0);
 
-		assert(tszProto != 0);
+	GetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)dat->hContact, FALSE, &mii);
+	if (!bForced)
+		PluginConfig.m_UnreadInTray -= (mii.dwItemData & 0x0000ffff);
+	if (mii.dwItemData > 0 || bForced) {
+		TCHAR szMenuEntry[80];
+		mir_sntprintf(szMenuEntry, SIZEOF(szMenuEntry), _T("%s: %s (%s) [%d]"), tszProto, 
+			dat->cache->getNick(), dat->szStatus[0] ? dat->szStatus : _T("(undef)"), mii.dwItemData & 0x0000ffff);
 
-		GetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)dat->hContact, FALSE, &mii);
 		if (!bForced)
-			PluginConfig.m_UnreadInTray -= (mii.dwItemData & 0x0000ffff);
-		if (mii.dwItemData > 0 || bForced) {
-			if (!bForced)
-				mii.dwItemData = 0;
-			mii.fMask |= MIIM_STRING;
-			mir_sntprintf(szMenuEntry, SIZEOF(szMenuEntry), _T("%s: %s (%s) [%d]"), tszProto, dat->cache->getNick(), dat->szStatus[0] ? dat->szStatus : _T("(undef)"), mii.dwItemData & 0x0000ffff);
-			mii.dwTypeData = (LPTSTR)szMenuEntry;
-			mii.cch = lstrlen(szMenuEntry) + 1;
-		}
-		mii.hbmpItem = HBMMENU_CALLBACK;
-		SetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)dat->hContact, FALSE, &mii);
+			mii.dwItemData = 0;
+		mii.fMask |= MIIM_STRING;
+		mii.dwTypeData = (LPTSTR)szMenuEntry;
+		mii.cch = lstrlen(szMenuEntry) + 1;
 	}
+	mii.hbmpItem = HBMMENU_CALLBACK;
+	SetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)dat->hContact, FALSE, &mii);
 }
+
 /*
-* if we want tray support, add the contact to the list of unread sessions in the tray menu
-*/
+ * if we want tray support, add the contact to the list of unread sessions in the tray menu
+ */
 
 int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szProto, const TCHAR *szStatus, HANDLE hContact, DWORD fromEvent)
 {
@@ -802,7 +794,8 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 			if (PluginConfig.m_UnreadInTray)
 				SetEvent(g_hEvent);
 			SetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, FALSE, &mii);
-		} else {
+		}
+		else {
 			szNick = pcli->pfnGetContactDisplayName(hContact, 0);
 			if (CheckMenuItem(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, MF_BYCOMMAND | MF_UNCHECKED) == -1) {
 				mir_sntprintf(szMenuEntry, SIZEOF(szMenuEntry), _T("%s: %s (%s) [%d]"), tszFinalProto, szNick, szMyStatus, fromEvent ? 1 : 0);
@@ -813,7 +806,8 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 					SetEvent(g_hEvent);
 				if (fromEvent == 2)
 					mii.dwItemData |= 0x10000000;
-			} else {
+			}
+			else {
 				GetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, FALSE, &mii);
 				mii.dwItemData += (fromEvent ? 1 : 0);
 				PluginConfig.m_UnreadInTray += (fromEvent ? 1 : 0);
@@ -832,8 +826,7 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 	return 0;
 }
 
-
-int tabSRMM_ShowPopup(WPARAM wParam, LPARAM lParam, WORD eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto, TWindowData *dat)
+int tabSRMM_ShowPopup(HANDLE hContact, HANDLE hDbEvent, WORD eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto, TWindowData *dat)
 {
 	if (nen_options.iDisable) // no popups at all. Period
 		return 0;
@@ -848,32 +841,30 @@ int tabSRMM_ShowPopup(WPARAM wParam, LPARAM lParam, WORD eventType, int windowOp
 	*/
 
 	if (nen_options.dwStatusMask != -1) {
-		DWORD dwStatus = 0;
 		if (szProto != NULL) {
-			dwStatus = (DWORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+			DWORD dwStatus = (DWORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 			if (!(dwStatus == 0 || dwStatus <= ID_STATUS_OFFLINE || ((1 << (dwStatus - ID_STATUS_ONLINE)) & nen_options.dwStatusMask)))           // should never happen, but...
 				return 0;
 		}
 	}
 	if (nen_options.bNoRSS && szProto != NULL && !strncmp(szProto, "RSS", 3))
 		return 0;                                        // filter out RSS popups
-	//
+
 	if (windowOpen && pContainer != 0) {               // message window is open, need to check the container config if we want to see a popup nonetheless
 		if (nen_options.bWindowCheck && windowOpen)                  // no popups at all for open windows... no exceptions
 			return 0;
 		if (pContainer->dwFlags & CNT_DONTREPORT && (IsIconic(pContainer->hwnd)))        // in tray counts as "minimised"
 			goto passed;
-		if (pContainer->dwFlags & CNT_DONTREPORTUNFOCUSED) {
+
+		if (pContainer->dwFlags & CNT_DONTREPORTUNFOCUSED)
 			if (!IsIconic(pContainer->hwnd) && GetForegroundWindow() != pContainer->hwnd && GetActiveWindow() != pContainer->hwnd)
 				goto passed;
-		}
+
 		if (pContainer->dwFlags & CNT_ALWAYSREPORTINACTIVE) {
 			if (pContainer->dwFlags & CNT_DONTREPORTFOCUSED)
 				goto passed;
 
-			if (pContainer->hwndActive == hwndChild)
-				return 0;
-			else
+			if (pContainer->hwndActive != hwndChild)
 				goto passed;
 		}
 		return 0;
@@ -882,12 +873,11 @@ passed:
 	if ( !PluginConfig.g_PopupAvail)
 		return 0;
 
-	if (PU_GetByContact((HANDLE)wParam) && nen_options.bMergePopup && eventType == EVENTTYPE_MESSAGE) {
-		if (PopupUpdateT((HANDLE)wParam, (HANDLE)lParam) != 0)
-			PopupShowT(&nen_options, (HANDLE)wParam, (HANDLE)lParam, (UINT)eventType, pContainer ? pContainer->hwnd : 0);
+	if ( PU_GetByContact(hContact) && nen_options.bMergePopup && eventType == EVENTTYPE_MESSAGE) {
+		if (PopupUpdateT(hContact, hDbEvent) != 0)
+			PopupShowT(&nen_options, hContact, hDbEvent, eventType, pContainer ? pContainer->hwnd : 0);
 	}
-	else
-		PopupShowT(&nen_options, (HANDLE)wParam, (HANDLE)lParam, (UINT)eventType, pContainer ? pContainer->hwnd : 0);
+	else PopupShowT(&nen_options, hContact, hDbEvent, eventType, pContainer ? pContainer->hwnd : 0);
 
 	return 0;
 }
@@ -898,13 +888,11 @@ passed:
 
 void TSAPI DeletePopupsForContact(HANDLE hContact, DWORD dwMask)
 {
-	int i=0;
-	PLUGIN_DATAT* _T = 0;
-
 	if (!(dwMask & nen_options.dwRemoveMask) || nen_options.iDisable || !PluginConfig.g_PopupAvail)
 		return;
 
-	while ((_T = const_cast<PLUGIN_DATAT *>(PU_GetByContact(hContact))) != 0) {
+	PLUGIN_DATAT *_T = 0;
+	while ((_T = PU_GetByContact(hContact)) != 0) {
 		_T->hContact = 0;									// make sure, it never "comes back"
 		if (_T->hWnd != 0 && IsWindow(_T->hWnd))
 			PUDeletePopup(_T->hWnd);

@@ -537,7 +537,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 				break;
 			}
 
-			if (!dat->fIsAutosizingInput) {
+			if (!dat->bIsAutosizingInput) {
 				dat->iSplitterSaved = dat->splitterY;
 				dat->splitterY = rc.bottom / 2;
 				SendMessage(hwndDlg, WM_SIZE, 1, 1);
@@ -558,7 +558,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 			db_set_ts(dat->hContact, "UserInfo", "MyNotes", buf);
 			SetDlgItemText(hwndDlg, IDC_MESSAGE, _T(""));
 
-			if (!dat->fIsAutosizingInput) {
+			if (!dat->bIsAutosizingInput) {
 				dat->splitterY = dat->iSplitterSaved;
 				SendMessage(hwndDlg, WM_SIZE, 0, 0);
 				DM_ScrollToBottom(dat, 0, 1);
@@ -1133,7 +1133,7 @@ HWND TSAPI DM_CreateClist(TWindowData *dat)
 	HWND hwndClist = CreateWindowExA(0, "CListControl", "", WS_TABSTOP | WS_VISIBLE | WS_CHILD | 0x248,
 								 184, 0, 30, 30, dat->hwnd, (HMENU)IDC_CLIST, g_hInst, NULL);
 	SendMessage(hwndClist, WM_TIMER, 14, 0);
-	HANDLE hItem = (HANDLE) SendMessage(hwndClist, CLM_FINDCONTACT, (WPARAM)dat->hContact, 0);
+	HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_FINDCONTACT, (WPARAM)dat->hContact, 0);
 
 	SetWindowLongPtr(hwndClist, GWL_EXSTYLE, GetWindowLongPtr(hwndClist, GWL_EXSTYLE) & ~CLS_EX_TRACKSELECT);
 	SetWindowLongPtr(hwndClist, GWL_EXSTYLE, GetWindowLongPtr(hwndClist, GWL_EXSTYLE) | (CLS_EX_NOSMOOTHSCROLLING | CLS_EX_NOTRANSLUCENTSEL));
@@ -1170,6 +1170,7 @@ LRESULT TSAPI DM_MouseWheelHandler(HWND hwnd, HWND hwndParent, TWindowData *mwda
 	GetWindowRect(hwnd, &rc);
 	if (PtInRect(&rc, pt))
 		return 1;
+
 	if (mwdat->pContainer->dwFlags & CNT_SIDEBAR) {
 		GetWindowRect(GetDlgItem(mwdat->pContainer->hwnd, IDC_SIDEBARUP), &rc);
 		GetWindowRect(GetDlgItem(mwdat->pContainer->hwnd, IDC_SIDEBARDOWN), &rc1);
@@ -1257,7 +1258,8 @@ LRESULT TSAPI DM_ThemeChanged(TWindowData *dat)
 			SetWindowLongPtr(GetDlgItem(hwnd, IDC_LOG), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwnd, IDC_LOG), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
 		if (dat->hTheme != 0 || (CSkin::m_skinEnabled && !item_msg->IGNORED))
 			SetWindowLongPtr(GetDlgItem(hwnd, IDC_MESSAGE), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwnd, IDC_MESSAGE), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
-	} else {
+	}
+	else {
 		if (dat->hTheme != 0 || (CSkin::m_skinEnabled && !item_log->IGNORED)) {
 			SetWindowLongPtr(GetDlgItem(hwnd, IDC_CHAT_LOG), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwnd, IDC_CHAT_LOG), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
 			SetWindowLongPtr(GetDlgItem(hwnd, IDC_LIST), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwnd, IDC_LIST), GWL_EXSTYLE) & ~(WS_EX_CLIENTEDGE | WS_EX_STATICEDGE));
@@ -1436,7 +1438,8 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 			if (!(dat->pContainer->dwFlags & CNT_NOFLASH) && PluginConfig.m_FlashOnMTN)
 				ReflashContainer(dat->pContainer);
 		}
-	} else if (dat->showTyping == 2) {
+	}
+	else if (dat->showTyping == 2) {
 		if (dat->nTypeSecs > 0)
 			dat->nTypeSecs--;
 		else {
@@ -1445,38 +1448,36 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 		}
 		UpdateStatusBar(dat);
 	}
-	else {
-		if (dat->nTypeSecs > 0) {
-			mir_sntprintf(dat->szStatusBar, SIZEOF(dat->szStatusBar), TranslateT("%s is typing a message."), dat->cache->getNick());
+	else if (dat->nTypeSecs > 0) {
+		mir_sntprintf(dat->szStatusBar, SIZEOF(dat->szStatusBar), TranslateT("%s is typing a message."), dat->cache->getNick());
 
-			dat->nTypeSecs--;
-			if (hwndStatus && dat->pContainer->hwndActive == hwndDlg) {
-				SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM)dat->szStatusBar);
-				SendMessage(hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
-			}
-			if (IsIconic(hwndContainer) || GetForegroundWindow() != hwndContainer || GetActiveWindow() != hwndContainer) {
-				SetWindowText(hwndContainer, dat->szStatusBar);
-				dat->pContainer->dwFlags |= CNT_NEED_UPDATETITLE;
-				if (!(dat->pContainer->dwFlags & CNT_NOFLASH) && PluginConfig.m_FlashOnMTN)
-					ReflashContainer(dat->pContainer);
-			}
-
-			if (dat->pContainer->hwndActive != hwndDlg) {
-				if (dat->mayFlashTab)
-					dat->iFlashIcon = PluginConfig.g_IconTypingEvent;
-				HandleIconFeedback(dat, PluginConfig.g_IconTypingEvent);
-			}
-			else {         // active tab may show icon if status bar is disabled
-				if (!hwndStatus) {
-					if (TabCtrl_GetItemCount(GetParent(hwndDlg)) > 1 || !(dat->pContainer->dwFlags & CNT_HIDETABS))
-						HandleIconFeedback(dat, PluginConfig.g_IconTypingEvent);
-				}
-			}
-			if ((GetForegroundWindow() != hwndContainer) || (dat->pContainer->hwndStatus == 0) || (dat->pContainer->hwndActive != hwndDlg))
-				SendMessage(hwndContainer, DM_SETICON, (WPARAM)dat, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
-
-			dat->showTyping = 1;
+		dat->nTypeSecs--;
+		if (hwndStatus && dat->pContainer->hwndActive == hwndDlg) {
+			SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM)dat->szStatusBar);
+			SendMessage(hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 		}
+		if (IsIconic(hwndContainer) || GetForegroundWindow() != hwndContainer || GetActiveWindow() != hwndContainer) {
+			SetWindowText(hwndContainer, dat->szStatusBar);
+			dat->pContainer->dwFlags |= CNT_NEED_UPDATETITLE;
+			if (!(dat->pContainer->dwFlags & CNT_NOFLASH) && PluginConfig.m_FlashOnMTN)
+				ReflashContainer(dat->pContainer);
+		}
+
+		if (dat->pContainer->hwndActive != hwndDlg) {
+			if (dat->mayFlashTab)
+				dat->iFlashIcon = PluginConfig.g_IconTypingEvent;
+			HandleIconFeedback(dat, PluginConfig.g_IconTypingEvent);
+		}
+		else {         // active tab may show icon if status bar is disabled
+			if (!hwndStatus) {
+				if (TabCtrl_GetItemCount(GetParent(hwndDlg)) > 1 || !(dat->pContainer->dwFlags & CNT_HIDETABS))
+					HandleIconFeedback(dat, PluginConfig.g_IconTypingEvent);
+			}
+		}
+		if ((GetForegroundWindow() != hwndContainer) || (dat->pContainer->hwndStatus == 0) || (dat->pContainer->hwndActive != hwndDlg))
+			SendMessage(hwndContainer, DM_SETICON, (WPARAM)dat, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
+
+		dat->showTyping = 1;
 	}
 }
 
@@ -1495,7 +1496,7 @@ int TSAPI DM_SplitterGlobalEvent(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	bool fCntGlobal = (!dat->pContainer->settings->fPrivate ? true : false);
 
 #if defined(__FEAT_EXP_AUTOSPLITTER)
-	if (dat->fIsAutosizingInput)
+	if (dat->bIsAutosizingInput)
 		return 0;
 #endif
 
@@ -1593,173 +1594,176 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	if (dat->hDbEventFirst == NULL)
 		dat->hDbEventFirst = hDbEvent;
 
-	BOOL fIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
-	//BOOL fIsNotifyEvent = (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE);
+	BOOL bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
 
 	if (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ))
 		return;
 
-	if (DbEventIsShown(dat, &dbei)) {
-		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT))) {
-			dat->lastMessage = dbei.timestamp;
-			dat->szStatusBar[0] = 0;
-			if (dat->showTyping) {
-				dat->nTypeSecs = 0;
-				DM_Typing(dat, true);
-				dat->showTyping = 0;
-			}
-			HandleIconFeedback(dat, (HICON)-1);
-			if (m_pContainer->hwndStatus)
-				PostMessage(hwndDlg, DM_UPDATELASTMESSAGE, 0, 0);
+	if ( !DbEventIsShown(dat, &dbei))
+		return;
+
+	if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT))) {
+		dat->lastMessage = dbei.timestamp;
+		dat->szStatusBar[0] = 0;
+		if (dat->showTyping) {
+			dat->nTypeSecs = 0;
+			DM_Typing(dat, true);
+			dat->showTyping = 0;
 		}
-		/*
-		* set the message log divider to mark new (maybe unseen) messages, if the container has
-		* been minimized or in the background.
-		*/
-		if (!(dbei.flags & DBEF_SENT) && !fIsStatusChangeEvent) {
-
-			if (PluginConfig.m_DividersUsePopupConfig && PluginConfig.m_UseDividers) {
-				if (!MessageWindowOpened((WPARAM)dat->hContact, 0))
-					SendMessage(hwndDlg, DM_ADDDIVIDER, 0, 0);
-			} else if (PluginConfig.m_UseDividers) {
-				if ((GetForegroundWindow() != hwndContainer || GetActiveWindow() != hwndContainer))
-					SendMessage(hwndDlg, DM_ADDDIVIDER, 0, 0);
-				else {
-					if (m_pContainer->hwndActive != hwndDlg)
-						SendMessage(hwndDlg, DM_ADDDIVIDER, 0, 0);
-				}
-			}
-			tabSRMM_ShowPopup(wParam, lParam, dbei.eventType, m_pContainer->fHidden ? 0 : 1, m_pContainer, hwndDlg, dat->cache->getActiveProto(), dat);
-			if (IsWindowVisible(m_pContainer->hwnd))
-				m_pContainer->fHidden = false;
-		}
-		dat->cache->updateStats(TSessionStats::UPDATE_WITH_LAST_RCV, 0);
-
-		if (hDbEvent != dat->hDbEventFirst) {
-			HANDLE nextEvent = db_event_next(hDbEvent);
-			if (1 || nextEvent == 0) {
-				if (!(dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
-					SendMessage(hwndDlg, DM_APPENDTOLOG, lParam, 0);
-				else {
-					TCHAR szBuf[100];
-
-					if (dat->iNextQueuedEvent >= dat->iEventQueueSize) {
-						dat->hQueuedEvents = (HANDLE *)mir_realloc(dat->hQueuedEvents, (dat->iEventQueueSize + 10) * sizeof(HANDLE));
-						dat->iEventQueueSize += 10;
-					}
-					dat->hQueuedEvents[dat->iNextQueuedEvent++] = hDbEvent;
-					mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)"),
-								  dat->iNextQueuedEvent);
-					SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, szBuf);
-					RedrawWindow(GetDlgItem(hwndDlg, IDC_LOGFROZENTEXT), NULL, NULL, RDW_INVALIDATE);
-				}
-			} else
-				SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
-		} else
-			SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
-
-		// handle tab flashing
-
-		if ((TabCtrl_GetCurSel(hwndTab) != dat->iTabID) && !(dbei.flags & DBEF_SENT) && !fIsStatusChangeEvent) {
-			switch (dbei.eventType) {
-			case EVENTTYPE_MESSAGE:
-				dat->iFlashIcon = PluginConfig.g_IconMsgEvent;
-				break;
-			case EVENTTYPE_FILE:
-				dat->iFlashIcon = PluginConfig.g_IconFileEvent;
-				break;
-			default:
-				dat->iFlashIcon = PluginConfig.g_IconMsgEvent;
-				break;
-			}
-			SetTimer(hwndDlg, TIMERID_FLASHWND, TIMEOUT_FLASHWND, NULL);
-			dat->mayFlashTab = TRUE;
-		}
-		/*
-		* try to flash the contact list...
-		*/
-
-		FlashOnClist(hwndDlg, dat, hDbEvent, &dbei);
-		/*
-		* autoswitch tab if option is set AND container is minimized (otherwise, we never autoswitch)
-		* never switch for status changes...
-		*/
-		if (!(dbei.flags & DBEF_SENT) && !fIsStatusChangeEvent) {
-			if (PluginConfig.haveAutoSwitch() && m_pContainer->hwndActive != hwndDlg) {
-				if ((IsIconic(hwndContainer) && !IsZoomed(hwndContainer)) || (PluginConfig.m_HideOnClose && !IsWindowVisible(m_pContainer->hwnd))) {
-					int iItem = GetTabIndexFromHWND(GetParent(hwndDlg), hwndDlg);
-					if (iItem >= 0) {
-						TabCtrl_SetCurSel(GetParent(hwndDlg), iItem);
-						ShowWindow(m_pContainer->hwndActive, SW_HIDE);
-						m_pContainer->hwndActive = hwndDlg;
-						SendMessage(hwndContainer, DM_UPDATETITLE, (WPARAM)dat->hContact, 0);
-						m_pContainer->dwFlags |= CNT_DEFERREDTABSELECT;
-					}
-				}
-			}
-		}
-		/*
-		* flash window if it is not focused
-		*/
-		if ((GetActiveWindow() != hwndContainer || GetForegroundWindow() != hwndContainer || dat->pContainer->hwndActive != hwndDlg) && !(dbei.flags & DBEF_SENT) && !fIsStatusChangeEvent) {
-			if (!(m_pContainer->dwFlags & CNT_NOFLASH) && (GetActiveWindow() != hwndContainer || GetForegroundWindow() != hwndContainer))
-				FlashContainer(m_pContainer, 1, 0);
-			SendMessage(hwndContainer, DM_SETICON, (WPARAM)dat, (LPARAM)LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
-			m_pContainer->dwFlags |= CNT_NEED_UPDATETITLE;
-		}
-		/*
-		* play a sound
-		*/
-		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT)))
-			PostMessage(hwndDlg, DM_PLAYINCOMINGSOUND, 0, 0);
-
-		if (dat->pWnd)
-			dat->pWnd->Invalidate();
+		HandleIconFeedback(dat, (HICON)-1);
+		if (m_pContainer->hwndStatus)
+			PostMessage(hwndDlg, DM_UPDATELASTMESSAGE, 0, 0);
 	}
+	/*
+	* set the message log divider to mark new (maybe unseen) messages, if the container has
+	* been minimized or in the background.
+	*/
+	if (!(dbei.flags & DBEF_SENT) && !bIsStatusChangeEvent) {
+		if (PluginConfig.m_DividersUsePopupConfig && PluginConfig.m_UseDividers) {
+			if (!MessageWindowOpened((WPARAM)dat->hContact, 0))
+				SendMessage(hwndDlg, DM_ADDDIVIDER, 0, 0);
+		}
+		else if (PluginConfig.m_UseDividers) {
+			if ((GetForegroundWindow() != hwndContainer || GetActiveWindow() != hwndContainer))
+				SendMessage(hwndDlg, DM_ADDDIVIDER, 0, 0);
+			else {
+				if (m_pContainer->hwndActive != hwndDlg)
+					SendMessage(hwndDlg, DM_ADDDIVIDER, 0, 0);
+			}
+		}
+		tabSRMM_ShowPopup((HANDLE)wParam, hDbEvent, dbei.eventType, m_pContainer->fHidden ? 0 : 1, m_pContainer, hwndDlg, dat->cache->getActiveProto(), dat);
+		if (IsWindowVisible(m_pContainer->hwnd))
+			m_pContainer->fHidden = false;
+	}
+	dat->cache->updateStats(TSessionStats::UPDATE_WITH_LAST_RCV, 0);
+
+	if (hDbEvent != dat->hDbEventFirst) {
+		HANDLE nextEvent = db_event_next(hDbEvent);
+		if (1 || nextEvent == 0) {
+			if (!(dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
+				SendMessage(hwndDlg, DM_APPENDTOLOG, lParam, 0);
+			else {
+				TCHAR szBuf[100];
+
+				if (dat->iNextQueuedEvent >= dat->iEventQueueSize) {
+					dat->hQueuedEvents = (HANDLE*)mir_realloc(dat->hQueuedEvents, (dat->iEventQueueSize + 10) * sizeof(HANDLE));
+					dat->iEventQueueSize += 10;
+				}
+				dat->hQueuedEvents[dat->iNextQueuedEvent++] = hDbEvent;
+				mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)"),
+					dat->iNextQueuedEvent);
+				SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, szBuf);
+				RedrawWindow(GetDlgItem(hwndDlg, IDC_LOGFROZENTEXT), NULL, NULL, RDW_INVALIDATE);
+			}
+		}
+		else SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
+	}
+	else SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
+
+	// handle tab flashing
+	if ((TabCtrl_GetCurSel(hwndTab) != dat->iTabID) && !(dbei.flags & DBEF_SENT) && !bIsStatusChangeEvent) {
+		switch (dbei.eventType) {
+		case EVENTTYPE_MESSAGE:
+			dat->iFlashIcon = PluginConfig.g_IconMsgEvent;
+			break;
+		case EVENTTYPE_FILE:
+			dat->iFlashIcon = PluginConfig.g_IconFileEvent;
+			break;
+		default:
+			dat->iFlashIcon = PluginConfig.g_IconMsgEvent;
+			break;
+		}
+		SetTimer(hwndDlg, TIMERID_FLASHWND, TIMEOUT_FLASHWND, NULL);
+		dat->mayFlashTab = TRUE;
+	}
+	/*
+	 * try to flash the contact list...
+	 */
+	FlashOnClist(hwndDlg, dat, hDbEvent, &dbei);
+
+	/*
+	 * autoswitch tab if option is set AND container is minimized (otherwise, we never autoswitch)
+	 * never switch for status changes...
+	 */
+	if (!(dbei.flags & DBEF_SENT) && !bIsStatusChangeEvent) {
+		if (PluginConfig.haveAutoSwitch() && m_pContainer->hwndActive != hwndDlg) {
+			if ((IsIconic(hwndContainer) && !IsZoomed(hwndContainer)) || (PluginConfig.m_HideOnClose && !IsWindowVisible(m_pContainer->hwnd))) {
+				int iItem = GetTabIndexFromHWND(GetParent(hwndDlg), hwndDlg);
+				if (iItem >= 0) {
+					TabCtrl_SetCurSel(GetParent(hwndDlg), iItem);
+					ShowWindow(m_pContainer->hwndActive, SW_HIDE);
+					m_pContainer->hwndActive = hwndDlg;
+					SendMessage(hwndContainer, DM_UPDATETITLE, (WPARAM)dat->hContact, 0);
+					m_pContainer->dwFlags |= CNT_DEFERREDTABSELECT;
+				}
+			}
+		}
+	}
+
+	/*
+	 * flash window if it is not focused
+	 */
+	if ((GetActiveWindow() != hwndContainer || GetForegroundWindow() != hwndContainer || dat->pContainer->hwndActive != hwndDlg) && !(dbei.flags & DBEF_SENT) && !bIsStatusChangeEvent) {
+		if (!(m_pContainer->dwFlags & CNT_NOFLASH) && (GetActiveWindow() != hwndContainer || GetForegroundWindow() != hwndContainer))
+			FlashContainer(m_pContainer, 1, 0);
+		SendMessage(hwndContainer, DM_SETICON, (WPARAM)dat, (LPARAM)LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
+		m_pContainer->dwFlags |= CNT_NEED_UPDATETITLE;
+	}
+
+	/*
+	 * play a sound
+	 */
+	if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT)))
+		PostMessage(hwndDlg, DM_PLAYINCOMINGSOUND, 0, 0);
+
+	if (dat->pWnd)
+		dat->pWnd->Invalidate();
 }
 
 void TSAPI DM_HandleAutoSizeRequest(TWindowData *dat, REQRESIZE* rr)
 {
-	if (dat && rr && GetForegroundWindow() == dat->pContainer->hwnd) {
-		if (dat->fIsAutosizingInput && dat->iInputAreaHeight != -1) {
-			LONG heightLimit = M.GetDword("autoSplitMinLimit", 0);
-			LONG iNewHeight = rr->rc.bottom - rr->rc.top;
+	if (dat == NULL || rr == NULL || GetForegroundWindow() != dat->pContainer->hwnd)
+		return;
 
-			if (CSkin::m_skinEnabled && !SkinItems[ID_EXTBKINPUTAREA].IGNORED)
-				iNewHeight += (SkinItems[ID_EXTBKINPUTAREA].MARGIN_TOP + SkinItems[ID_EXTBKINPUTAREA].MARGIN_BOTTOM - 2);
+	if (!dat->bIsAutosizingInput || dat->iInputAreaHeight == -1)
+		return;
 
-			if (heightLimit && iNewHeight < heightLimit)
-				iNewHeight = heightLimit;
+	LONG heightLimit = M.GetDword("autoSplitMinLimit", 0);
+	LONG iNewHeight = rr->rc.bottom - rr->rc.top;
 
-			if (iNewHeight != dat->iInputAreaHeight) {
-				RECT	rc;
+	if (CSkin::m_skinEnabled && !SkinItems[ID_EXTBKINPUTAREA].IGNORED)
+		iNewHeight += (SkinItems[ID_EXTBKINPUTAREA].MARGIN_TOP + SkinItems[ID_EXTBKINPUTAREA].MARGIN_BOTTOM - 2);
 
-				GetClientRect(dat->hwnd, &rc);
-				LONG cy = rc.bottom - rc.top;
-				LONG panelHeight = (dat->Panel->isActive() ? dat->Panel->getHeight() : 0);
+	if (heightLimit && iNewHeight < heightLimit)
+		iNewHeight = heightLimit;
 
-				if (iNewHeight > (cy - panelHeight) / 2)
-					iNewHeight = (cy - panelHeight) / 2;
+	if (iNewHeight == dat->iInputAreaHeight)
+		return;
 
-				if (dat->bType == SESSIONTYPE_IM) {
-					dat->dynaSplitter = rc.bottom - (rc.bottom - iNewHeight + DPISCALEY_S(2));
-					if (dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR)
-						dat->dynaSplitter += DPISCALEY_S(22);
-					dat->splitterY = dat->dynaSplitter + DPISCALEY_S(34);
-					DM_RecalcPictureSize(dat);
-				}
-				else if (dat->si) {
-					dat->si->iSplitterY = (rc.bottom - (rc.bottom - iNewHeight + DPISCALEY_S(3))) + DPISCALEY_S(34);
-					if (!(dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR))
-						dat->si->iSplitterY -= DPISCALEY_S(22);
-					SendMessage(dat->hwnd, WM_SIZE, 0, 0);
-				}
-				dat->iInputAreaHeight = iNewHeight;
-				CSkin::UpdateToolbarBG(dat);
-				DM_ScrollToBottom(dat, 1, 0);
-			}
-		}
+	RECT rc;
+	GetClientRect(dat->hwnd, &rc);
+	LONG cy = rc.bottom - rc.top;
+	LONG panelHeight = (dat->Panel->isActive() ? dat->Panel->getHeight() : 0);
+
+	if (iNewHeight > (cy - panelHeight) / 2)
+		iNewHeight = (cy - panelHeight) / 2;
+
+	if (dat->bType == SESSIONTYPE_IM) {
+		dat->dynaSplitter = rc.bottom - (rc.bottom - iNewHeight + DPISCALEY_S(2));
+		if (dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR)
+			dat->dynaSplitter += DPISCALEY_S(22);
+		dat->splitterY = dat->dynaSplitter + DPISCALEY_S(34);
+		DM_RecalcPictureSize(dat);
 	}
+	else if (dat->si) {
+		dat->si->iSplitterY = (rc.bottom - (rc.bottom - iNewHeight + DPISCALEY_S(3))) + DPISCALEY_S(34);
+		if (!(dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR))
+			dat->si->iSplitterY -= DPISCALEY_S(22);
+		SendMessage(dat->hwnd, WM_SIZE, 0, 0);
+	}
+	dat->iInputAreaHeight = iNewHeight;
+	CSkin::UpdateToolbarBG(dat);
+	DM_ScrollToBottom(dat, 1, 0);
 }
 
 void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)

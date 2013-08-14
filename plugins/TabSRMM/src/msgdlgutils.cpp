@@ -248,7 +248,7 @@ void TSAPI CalcDynamicAvatarSize(TWindowData *dat, BITMAP *bminfo)
 	BOOL bBottomToolBar=dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR;
 	BOOL bToolBar=dat->pContainer->dwFlags & CNT_HIDETOOLBAR?0:1;
 	bool bInfoPanel = dat->Panel->isActive();
-	int	 iSplitOffset = dat->fIsAutosizingInput ? 1 : 0;
+	int	 iSplitOffset = dat->bIsAutosizingInput ? 1 : 0;
 
 	if (PluginConfig.g_FlashAvatarAvail) {
 		FLASHAVATAR fa = {0};
@@ -908,7 +908,7 @@ void TSAPI FlashOnClist(HWND hwndDlg, TWindowData *dat, HANDLE hEvent, DBEVENTIN
 	if ((GetForegroundWindow() != dat->pContainer->hwnd || dat->pContainer->hwndActive != hwndDlg) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE && !(dat->dwFlagsEx & MWF_SHOW_FLASHCLIST)) {
 		ZeroMemory(&cle, sizeof(cle));
 		cle.cbSize = sizeof(cle);
-		cle.hContact = (HANDLE) dat->hContact;
+		cle.hContact = (HANDLE)dat->hContact;
 		cle.hDbEvent = hEvent;
 		cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 		cle.pszService = "SRMsg/ReadMessage";
@@ -1450,7 +1450,7 @@ void TSAPI SaveSplitter(TWindowData *dat)
 		return;
 
 #if defined(__FEAT_EXP_AUTOSPLITTER)
-	if (dat->fIsAutosizingInput)
+	if (dat->bIsAutosizingInput)
 		return;
 #endif
 	if (dat->splitterY < DPISCALEY_S(MINSPLITTERY) || dat->splitterY < 0)
@@ -1469,7 +1469,7 @@ void TSAPI SaveSplitter(TWindowData *dat)
 void TSAPI LoadSplitter(TWindowData *dat)
 {
 #if defined(__FEAT_EXP_AUTOSPLITTER)
-	if (dat->fIsAutosizingInput) {
+	if (dat->bIsAutosizingInput) {
 		dat->splitterY = GetDefaultMinimumInputHeight(dat);
 		return;
 	}
@@ -2345,7 +2345,7 @@ bool TSAPI IsAutoSplitEnabled(const TWindowData *dat)
 #if defined(__FEAT_EXP_AUTOSPLITTER)
 	return((dat && (dat->pContainer->dwFlags & CNT_AUTOSPLITTER) && !(dat->dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE)) ? true : false);
 #else
-	return(false);
+	return false;
 #endif
 }
 

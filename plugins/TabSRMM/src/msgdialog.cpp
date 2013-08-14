@@ -330,7 +330,7 @@ static void MsgWindowUpdateState(TWindowData *dat, UINT msg)
 			}
 		}
 #if defined(__FEAT_EXP_AUTOSPLITTER)
-		if (dat->fIsAutosizingInput && dat->iInputAreaHeight == -1) {
+		if (dat->bIsAutosizingInput && dat->iInputAreaHeight == -1) {
 			dat->iInputAreaHeight = 0;
 			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_REQUESTRESIZE, 0, 0);
 		}
@@ -498,7 +498,7 @@ void TSAPI SetDialogToType(HWND hwndDlg)
 	GetAvatarVisibility(hwndDlg, dat);
 
 	Utils::showDlgControl(hwndDlg, IDC_CONTACTPIC, dat->showPic ? SW_SHOW : SW_HIDE);
-	Utils::showDlgControl(hwndDlg, IDC_SPLITTER, dat->fIsAutosizingInput ? SW_HIDE : SW_SHOW);
+	Utils::showDlgControl(hwndDlg, IDC_SPLITTER, dat->bIsAutosizingInput ? SW_HIDE : SW_SHOW);
 	Utils::showDlgControl(hwndDlg, IDC_MULTISPLITTER, (dat->sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
 
 	EnableSendButton(dat, GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE)) != 0);
@@ -983,7 +983,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				break;
 			GetCursorPos(&pt);
 #if defined(__FEAT_EXP_AUTOSPLITTER)
-			if (dat->fIsAutosizingInput)
+			if (dat->bIsAutosizingInput)
 				selection = ID_SPLITTERCONTEXT_SETPOSITIONFORTHISSESSION;
 			else
 				selection = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndParent, NULL);
@@ -1004,7 +1004,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 			case ID_SPLITTERCONTEXT_SETPOSITIONFORTHISSESSION:
 #if defined(__FEAT_EXP_AUTOSPLITTER)
-				if (dat->fIsAutosizingInput) {
+				if (dat->bIsAutosizingInput) {
 					RECT	rc;
 					GetWindowRect(GetDlgItem(dat->hwnd, IDC_MESSAGE), &rc);
 					dat->iInputAreaHeight = 0;
@@ -1124,7 +1124,7 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 
 		if (showToolbar && bBottomToolbar && (PluginConfig.m_AlwaysFullToolbarWidth || ((dat->pic.cy - DPISCALEY_S(6)) < rc.bottom))) {
 			urc->rcItem.bottom -= DPISCALEY_S(22);
-			if (dat->fIsAutosizingInput) {
+			if (dat->bIsAutosizingInput) {
 				urc->rcItem.left--;
 				urc->rcItem.top--;
 			}
@@ -1165,7 +1165,7 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 		if (bBottomToolbar&&showToolbar)
 			urc->rcItem.bottom -= DPISCALEY_S(22);
 
-		if (dat->fIsAutosizingInput)
+		if (dat->bIsAutosizingInput)
 			urc->rcItem.top -= DPISCALEY_S(1);
 
 		msgTop = urc->rcItem.top;
@@ -1337,7 +1337,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->sendMode |= dat->hContact == 0 ? SMODE_MULTIPLE : 0;
 			dat->sendMode |= M.GetByte(dat->hContact, "no_ack", 0) ? SMODE_NOACK : 0;
 
-			dat->hQueuedEvents = (HANDLE*)mir_calloc(sizeof(HANDLE) * EVENT_QUEUE_SIZE);
+			dat->hQueuedEvents = (HANDLE*)mir_calloc(sizeof(HANDLE)* EVENT_QUEUE_SIZE);
 			dat->iEventQueueSize = EVENT_QUEUE_SIZE;
 			dat->iCurrentQueueError = -1;
 
@@ -1349,7 +1349,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->maxHistory = M.GetDword(dat->hContact, "maxhist", M.GetDword("maxhist", 0));
 			dat->curHistory = 0;
 			if (dat->maxHistory)
-				dat->hHistoryEvents = (HANDLE *)mir_alloc(dat->maxHistory * sizeof(HANDLE));
+				dat->hHistoryEvents = (HANDLE*)mir_alloc(dat->maxHistory * sizeof(HANDLE));
 			else
 				dat->hHistoryEvents = NULL;
 
@@ -1389,7 +1389,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->Panel->getVisibility();
 
 			dat->dwFlagsEx |= M.GetByte(dat->hContact, "splitoverride", 0) ? MWF_SHOW_SPLITTEROVERRIDE : 0;
-			dat->fIsAutosizingInput = IsAutoSplitEnabled(dat);
+			dat->bIsAutosizingInput = IsAutoSplitEnabled(dat);
 			dat->iInputAreaHeight = -1;
 			SetMessageLog(dat);
 			dat->panelWidth = -1;
@@ -1601,7 +1601,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				DBEVENTINFO dbei = { sizeof(dbei) };
 				newData->bWantPopup = FALSE;
 				db_event_get(newData->hdbEvent, &dbei);
-				tabSRMM_ShowPopup((WPARAM)dat->hContact, (LPARAM)newData->hdbEvent, dbei.eventType, 0, 0, hwndDlg, dat->cache->getActiveProto(), dat);
+				tabSRMM_ShowPopup(dat->hContact, newData->hdbEvent, dbei.eventType, 0, 0, hwndDlg, dat->cache->getActiveProto(), dat);
 			}
 			if (m_pContainer->dwFlags & CNT_CREATE_MINIMIZED) {
 				m_pContainer->dwFlags &= ~CNT_CREATE_MINIMIZED;
@@ -2548,7 +2548,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		return 0;
 
 	case DM_APPENDTOLOG:
-		StreamInEvents(hwndDlg, (HANDLE) wParam, 1, 1, NULL);
+		StreamInEvents(hwndDlg, (HANDLE)wParam, 1, 1, NULL);
 		return 0;
 		/*
 		* replays queued events after the message log has been frozen for a while
@@ -2698,7 +2698,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					if (job->hSendId == 0 && job->hOwner == 0)
 						break;
 
-					job->hSendId = (HANDLE) CallContactService(job->hOwner, PSS_MESSAGE,
+					job->hSendId = (HANDLE)CallContactService(job->hOwner, PSS_MESSAGE,
 						(dat->sendMode & SMODE_FORCEANSI) ? (job->dwFlags & ~PREF_UNICODE) : job->dwFlags, (LPARAM)job->szSendBuffer);
 					resent++;
 				}
@@ -2754,7 +2754,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 									}
 
 	case DM_QUERYHCONTACT: {
-		HANDLE *phContact = (HANDLE *) lParam;
+		HANDLE *phContact = (HANDLE*) lParam;
 		if (phContact)
 			*phContact = dat->hContact;
 		return 0;

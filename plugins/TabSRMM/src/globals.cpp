@@ -726,7 +726,7 @@ bool CGlobals::haveAutoSwitch()
 {
 	if (m_bIsWin7) {
 		if (m_useAeroPeek && !CSkin::m_skinEnabled)
-			return(false);
+			return false;
 	}
 	return(m_AutoSwitchTabs ? true : false);
 }

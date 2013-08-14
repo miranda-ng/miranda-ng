@@ -321,8 +321,8 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 						(PluginConfig.m_fillColor ? PluginConfig.m_genericTxtColor : 
 						(uState & (CDIS_SELECTED | CDIS_HOT | CDIS_MARKED)) ? ::GetSysColor(COLOR_HIGHLIGHTTEXT) : ::GetSysColor(COLOR_BTNTEXT));
 
-				::SetBkMode(m_hdcDraw, TRANSPARENT);
-				CSkin::RenderText(m_hdcDraw, m_hTheme, szText, &nmtb->nmcd.rc, DT_SINGLELINE | DT_VCENTER | DT_CENTER, CSkin::m_glowSize, clr);
+					::SetBkMode(m_hdcDraw, TRANSPARENT);
+					CSkin::RenderText(m_hdcDraw, m_hTheme, szText, &nmtb->nmcd.rc, DT_SINGLELINE | DT_VCENTER | DT_CENTER, CSkin::m_glowSize, clr);
 				}
 				if (iIndex == 0) 
 					::DrawIconEx(m_hdcDraw, (nmtb->nmcd.rc.left + nmtb->nmcd.rc.right) / 2 - 8,

@@ -576,7 +576,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, HANDLE hContact, HA
 	BOOL isBold = FALSE, isItalic = FALSE, isUnderline = FALSE;
 	DWORD dwEffectiveFlags;
 	DWORD dwFormattingParams = MAKELONG(PluginConfig.m_FormatWholeWordsOnly, 0);
-	BOOL  fIsStatusChangeEvent = FALSE;
+	BOOL  bIsStatusChangeEvent = FALSE;
 	TCHAR *msg, *formatted = NULL;
 	char *rtfMessage = NULL;
 
@@ -618,7 +618,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, HANDLE hContact, HA
 		mir_free(msg);
 	}
 
-	fIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
+	bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
 
 	if (dat->isAutoRTL & 2) {                                     // means: last \\par was deleted to avoid new line at end of log
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\par");
@@ -637,7 +637,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, HANDLE hContact, HA
 	iFontIDOffset = dat->isHistory ? 8 : 0;     // offset into the font table for either history (old) or new events... (# of fonts per configuration set)
 	isSent = (dbei.flags & DBEF_SENT);
 
-	if (!isSent && (fIsStatusChangeEvent || dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
+	if (!isSent && (bIsStatusChangeEvent || dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
 		db_event_markRead(hContact, hDbEvent);
 		CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)hDbEvent);
 	}
@@ -666,7 +666,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, HANDLE hContact, HA
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\ltrpar");
 
 	/* OnO: highlight start */
-	if (fIsStatusChangeEvent)
+	if (bIsStatusChangeEvent)
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\highlight%d\\cf%d", MSGDLGFONTCOUNT + 7, MSGDLGFONTCOUNT + 7);
 	else
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\highlight%d\\cf%d", MSGDLGFONTCOUNT + (dat->isHistory?5:1) + ((isSent) ? 1 : 0), MSGDLGFONTCOUNT + (dat->isHistory?5:1) + ((isSent) ? 1 : 0));
@@ -691,7 +691,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, HANDLE hContact, HA
 	}
 	this_templateset = dbei.flags & DBEF_RTL ? dat->pContainer->rtl_templates : dat->pContainer->ltr_templates;
 
-	if (fIsStatusChangeEvent)
+	if (bIsStatusChangeEvent)
 		szTemplate = this_templateset->szTemplates[TMPL_STATUSCHG];
 	else if (dbei.eventType == EVENTTYPE_ERRMSG)
 		szTemplate = this_templateset->szTemplates[TMPL_ERRMSG];
@@ -709,7 +709,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, HANDLE hContact, HA
 
 	if (dat->hHistoryEvents) {
 		if (dat->curHistory == dat->maxHistory) {
-			MoveMemory(dat->hHistoryEvents, &dat->hHistoryEvents[1], sizeof(HANDLE) * (dat->maxHistory - 1));
+			MoveMemory(dat->hHistoryEvents, &dat->hHistoryEvents[1], sizeof(HANDLE)* (dat->maxHistory - 1));
 			dat->curHistory--;
 		}
 		dat->hHistoryEvents[dat->curHistory++] = hDbEvent;
@@ -794,7 +794,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, HANDLE hContact, HA
 								icon = LOGICON_MSG;
 								break;
 							}
-							if (fIsStatusChangeEvent)
+							if (bIsStatusChangeEvent)
 								icon = LOGICON_STATUS;
 						}
 						AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s\\fs1  #~#%01d%c%s ", GetRTFFont(MSGFONTID_SYMBOLS_IN), icon, isSent ? '>' : '<', GetRTFFont(isSent ? MSGFONTID_MYMSG + iFontIDOffset : MSGFONTID_YOURMSG + iFontIDOffset));
@@ -937,7 +937,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, HANDLE hContact, HA
 								c = (char)0xaa;
 								break;
 							}
-							if (fIsStatusChangeEvent)
+							if (bIsStatusChangeEvent)
 								c = 0x4e;
 						}
 						if (skipFont)
@@ -975,23 +975,23 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, HANDLE hContact, HA
 					AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, (wchar_t *)dbei.szModule, MAKELONG(isSent, dat->isHistory));
 					break;
 				case 'M':           // message
-					if (fIsStatusChangeEvent)
+					if (bIsStatusChangeEvent)
 						dbei.eventType = EVENTTYPE_STATUSCHANGE;
 					switch (dbei.eventType) {
 						case EVENTTYPE_MESSAGE:
 						case EVENTTYPE_ERRMSG:
 						case EVENTTYPE_STATUSCHANGE: {
-							if (fIsStatusChangeEvent || dbei.eventType == EVENTTYPE_ERRMSG) {
+							if (bIsStatusChangeEvent || dbei.eventType == EVENTTYPE_ERRMSG) {
 								if (dbei.eventType == EVENTTYPE_ERRMSG && dbei.cbBlob == 0)
 									break;
 								if (dbei.eventType == EVENTTYPE_ERRMSG) {
 									if (!skipFont)
-										AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\line%s ", GetRTFFont(fIsStatusChangeEvent ? H_MSGFONTID_STATUSCHANGES : MSGFONTID_MYMSG));
+										AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\line%s ", GetRTFFont(bIsStatusChangeEvent ? H_MSGFONTID_STATUSCHANGES : MSGFONTID_MYMSG));
 									else
 										AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\line ");
 								} else  {
 									if (!skipFont)
-										AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", GetRTFFont(fIsStatusChangeEvent ? H_MSGFONTID_STATUSCHANGES : MSGFONTID_MYMSG));
+										AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", GetRTFFont(bIsStatusChangeEvent ? H_MSGFONTID_STATUSCHANGES : MSGFONTID_MYMSG));
 								}
 							} else {
 								if (!skipFont)

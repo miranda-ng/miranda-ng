@@ -2231,9 +2231,9 @@ bool __fastcall CSkin::DrawItem(const HDC hdc, const RECT *rc, const CSkinItem *
 	if (!item->IGNORED) {
 		::DrawAlpha(hdc, const_cast<RECT *>(rc), item->COLOR, item->ALPHA, item->COLOR2, item->COLOR2_TRANSPARENT,
 				  item->GRADIENT, item->CORNER, item->BORDERSTYLE, item->imageItem);
-		return(true);
+		return true;;
 	}
-	return(false);
+	return false;
 }
 
 /**
@@ -2332,7 +2332,7 @@ void CSkin::RenderToolbarBG(const TWindowData *dat, HDC hdc, const RECT &rcWindo
 			}
 
 			::GetWindowRect(::GetDlgItem(dat->hwnd, dat->bType == SESSIONTYPE_CHAT ? IDC_CHAT_MESSAGE : IDC_MESSAGE), &rc);
-			pt.y = rc.top - (dat->fIsAutosizingInput ? 1 : 2);
+			pt.y = rc.top - (dat->bIsAutosizingInput ? 1 : 2);
 			::ScreenToClient(dat->hwnd, &pt);
 			rcToolbar.bottom = pt.y;
 		}

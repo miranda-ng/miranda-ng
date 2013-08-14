@@ -68,7 +68,7 @@ HANDLE CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* p
 		return hContact;
 
 	// here we create a new one since no one is to be found
-	if ((hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0)) == NULL)
+	if ((hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0)) == NULL)
 		return NULL;
 
 	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)pszModule);

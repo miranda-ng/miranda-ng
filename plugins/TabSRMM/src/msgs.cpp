@@ -304,7 +304,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 
 INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE) wParam;
+	HANDLE hContact = (HANDLE)wParam;
 	TNewWindowData newData = { 0 };
 	int isSplit = 1;
 
@@ -362,7 +362,7 @@ INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 
 INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE) wParam;
+	HANDLE hContact = (HANDLE)wParam;
 	TNewWindowData newData = { 0 };
 	int isSplit = 1;
 
@@ -398,7 +398,7 @@ INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 		SendMessage(hwnd, DM_ACTIVATEME, 0, 0);          // ask the message window about its parent...
 	} else {
 		TCHAR szName[CONTAINER_NAMELEN + 1];
-		GetContainerNameForContact((HANDLE) wParam, szName, CONTAINER_NAMELEN);
+		GetContainerNameForContact((HANDLE)wParam, szName, CONTAINER_NAMELEN);
 		TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer == NULL)
 			pContainer = CreateContainer(szName, FALSE, hContact);
@@ -586,8 +586,8 @@ int LoadSendRecvMessageModule(void)
 	Win7Taskbar->updateMetrics();
 
 	ZeroMemory((void*)&nen_options, sizeof(nen_options));
-	M.m_hMessageWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
-	PluginConfig.hUserPrefsWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	M.m_hMessageWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	PluginConfig.hUserPrefsWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 	sendQueue = new SendQueue;
 	Skin = new CSkin;
 	sendLater = new CSendLater;

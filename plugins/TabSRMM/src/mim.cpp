@@ -477,8 +477,8 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 			}
 			if (fShowOnClist) {
 				CLISTEVENT cle = { sizeof(cle) };
-				cle.hContact = (HANDLE) wParam;
-				cle.hDbEvent = (HANDLE) 1;
+				cle.hContact = (HANDLE)wParam;
+				cle.hDbEvent = (HANDLE)1;
 				cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
 				cle.hIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 				cle.pszService = "SRMsg/TypingMessage";
@@ -585,78 +585,74 @@ int CMimAPI::DispatchNewEvent(WPARAM wParam, LPARAM lParam)
 int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 {
 	BYTE bAutoPopup = FALSE, bAutoCreate = FALSE, bAutoContainer = FALSE, bAllowAutoCreate = 0;
-	TContainerData *pContainer = 0;
 	TCHAR szName[CONTAINER_NAMELEN + 1];
 	DWORD dwStatusMask = 0;
-	TWindowData *mwdat=NULL;
 
+	HANDLE hDbEvent = (HANDLE)lParam;
 	DBEVENTINFO dbei = { sizeof(dbei) };
-	db_event_get((HANDLE)lParam, &dbei);
+	db_event_get(hDbEvent, &dbei);
 
-	HWND hwnd = M.FindWindow((HANDLE)wParam);
+	HANDLE hContact = (HANDLE)wParam;
+	HWND hwnd = M.FindWindow(hContact);
 
 	BOOL isCustomEvent = IsCustomEvent(dbei.eventType);
 	BOOL isShownCustomEvent = DbEventIsForMsgWindow(&dbei);
 	if (dbei.flags & DBEF_SENT || (isCustomEvent && !isShownCustomEvent) || dbei.flags & DBEF_READ)
 		return 0;
 
-	CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, (LPARAM)1);
-		//MaD: hide on close mod, simulating standard behavior for hidden container
+	CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, 1);
+
 	if (hwnd) {
 		TContainerData *pTargetContainer = 0;
 		WINDOWPLACEMENT wp={0};
 		wp.length = sizeof(wp);
 		SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pTargetContainer);
 
-		if (pTargetContainer && PluginConfig.m_HideOnClose && !IsWindowVisible(pTargetContainer->hwnd))	{
-			GetWindowPlacement(pTargetContainer->hwnd, &wp);
-			GetContainerNameForContact((HANDLE) wParam, szName, CONTAINER_NAMELEN);
+		if (pTargetContainer == NULL || !PluginConfig.m_HideOnClose || IsWindowVisible(pTargetContainer->hwnd))
+			return 0;
 
-			bAutoPopup = M.GetByte(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP);
-			bAutoCreate = M.GetByte("autotabs", 1);
-			bAutoContainer = M.GetByte("autocontainer", 1);
-			dwStatusMask = M.GetDword("autopopupmask", -1);
+		GetWindowPlacement(pTargetContainer->hwnd, &wp);
+		GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
 
-			bAllowAutoCreate = FALSE;
+		bAutoPopup = M.GetByte(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP);
+		bAutoCreate = M.GetByte("autotabs", 1);
+		bAutoContainer = M.GetByte("autocontainer", 1);
+		dwStatusMask = M.GetDword("autopopupmask", -1);
 
-			if (bAutoPopup || bAutoCreate) {
-				BOOL bActivate = TRUE, bPopup = TRUE;
-				if (bAutoPopup) {
-					if (wp.showCmd == SW_SHOWMAXIMIZED)
-						ShowWindow(pTargetContainer->hwnd, SW_SHOWMAXIMIZED);
-					else
-						ShowWindow(pTargetContainer->hwnd, SW_SHOWNOACTIVATE);
+		bAllowAutoCreate = FALSE;
+
+		if (bAutoPopup || bAutoCreate) {
+			BOOL bActivate = TRUE, bPopup = TRUE;
+			if (bAutoPopup) {
+				if (wp.showCmd == SW_SHOWMAXIMIZED)
+					ShowWindow(pTargetContainer->hwnd, SW_SHOWMAXIMIZED);
+				else
+					ShowWindow(pTargetContainer->hwnd, SW_SHOWNOACTIVATE);
+				return 0;
+			}
+
+			bActivate = FALSE;
+			bPopup = (BOOL)M.GetByte("cpopup", 0);
+			TContainerData *pContainer = FindContainerByName(szName);
+			if (pContainer != NULL) {
+				if (bAutoContainer) {
+					ShowWindow(pTargetContainer->hwnd, SW_SHOWMINNOACTIVE);
 					return 0;
 				}
-				else {
-					bActivate = FALSE;
-					bPopup = (BOOL) M.GetByte("cpopup", 0);
-					pContainer = FindContainerByName(szName);
-					if (pContainer != NULL) {
-						if (bAutoContainer) {
-							ShowWindow(pTargetContainer->hwnd, SW_SHOWMINNOACTIVE);
-							return 0;
-						}
-						else goto nowindowcreate;
-					}
-					else {
-						if (bAutoContainer) {
-							ShowWindow(pTargetContainer->hwnd, SW_SHOWMINNOACTIVE);
-							return 0;
-						}
-					}
-				}
+				goto nowindowcreate;
+			}
+			else if (bAutoContainer) {
+				ShowWindow(pTargetContainer->hwnd, SW_SHOWMINNOACTIVE);
+				return 0;
 			}
 		}
-		else
-			return 0;
 	}
 	else {
 		if (dbei.eventType == EVENTTYPE_AUTHREQUEST)
 			return 0;
 
 		if (dbei.eventType == EVENTTYPE_FILE) {
-			tabSRMM_ShowPopup(wParam, lParam, dbei.eventType, 0, 0, 0, dbei.szModule, 0);
+			tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, 0, 0, 0, dbei.szModule, 0);
 			return 0;
 		}
 	}
@@ -672,7 +668,7 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	if (nen_options.iNoAutoPopup)
 		goto nowindowcreate;
 
-	GetContainerNameForContact((HANDLE) wParam, szName, CONTAINER_NAMELEN);
+	GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
 
 	bAutoPopup = M.GetByte(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP);
 	bAutoCreate = M.GetByte("autotabs", 1);
@@ -684,7 +680,7 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	if (dwStatusMask == -1)
 		bAllowAutoCreate = TRUE;
 	else {
-		char *szProto = GetContactProto((HANDLE)wParam);
+		char *szProto = GetContactProto(hContact);
 		if (PluginConfig.g_MetaContactsAvail && szProto && !strcmp(szProto, (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0))) {
 			HANDLE hSubconttact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, wParam, 0);
 			szProto = GetContactProto(hSubconttact);
@@ -700,38 +696,39 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 		BOOL bActivate = TRUE, bPopup = TRUE;
 		if (bAutoPopup) {
 			bActivate = bPopup = TRUE;
-			if ((pContainer = FindContainerByName(szName)) == NULL)
-				pContainer = CreateContainer(szName, FALSE, (HANDLE)wParam);
-			CreateNewTabForContact(pContainer, (HANDLE) wParam, 0, NULL, bActivate, bPopup, FALSE, 0);
+			TContainerData *pContainer = FindContainerByName(szName);
+			if (pContainer == NULL)
+				pContainer = CreateContainer(szName, FALSE, hContact);
+			CreateNewTabForContact(pContainer, hContact, 0, NULL, bActivate, bPopup, FALSE, 0);
 			return 0;
 		}
 		
 		bActivate = FALSE;
-		bPopup = (BOOL) M.GetByte("cpopup", 0);
-		pContainer = FindContainerByName(szName);
+		bPopup = (BOOL)M.GetByte("cpopup", 0);
+		TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer != NULL) {
 			//if ((IsIconic(pContainer->hwnd)) && PluginConfig.haveAutoSwitch())
 			//	pContainer->dwFlags |= CNT_DEFERREDTABSELECT;
 			if (M.GetByte("limittabs", 0) && !wcsncmp(pContainer->szName, L"default", 6)) {
-				if ((pContainer = FindMatchingContainer(L"default", (HANDLE)wParam)) != NULL) {
-					CreateNewTabForContact(pContainer, (HANDLE) wParam, 0, NULL, bActivate, bPopup, TRUE, (HANDLE)lParam);
+				if ((pContainer = FindMatchingContainer(L"default", hContact)) != NULL) {
+					CreateNewTabForContact(pContainer, hContact, 0, NULL, bActivate, bPopup, TRUE, hDbEvent);
 					return 0;
 				}
 				if (bAutoContainer) {
-					pContainer = CreateContainer(szName, CNT_CREATEFLAG_MINIMIZED, (HANDLE)wParam);         // 2 means create minimized, don't popup...
-					CreateNewTabForContact(pContainer, (HANDLE) wParam,  0, NULL, bActivate, bPopup, TRUE, (HANDLE)lParam);
+					pContainer = CreateContainer(szName, CNT_CREATEFLAG_MINIMIZED, hContact);         // 2 means create minimized, don't popup...
+					CreateNewTabForContact(pContainer, hContact,  0, NULL, bActivate, bPopup, TRUE, hDbEvent);
 					SendMessageW(pContainer->hwnd, WM_SIZE, 0, 0);
 					return 0;
 				}
 			}
 			else {
-				CreateNewTabForContact(pContainer, (HANDLE) wParam, 0, NULL, bActivate, bPopup, TRUE, (HANDLE)lParam);
+				CreateNewTabForContact(pContainer, hContact, 0, NULL, bActivate, bPopup, TRUE, hDbEvent);
 				return 0;
 			}
 		}
 		else if (bAutoContainer) {
-			pContainer = CreateContainer(szName, CNT_CREATEFLAG_MINIMIZED, (HANDLE)wParam);         // 2 means create minimized, don't popup...
-			CreateNewTabForContact(pContainer, (HANDLE) wParam,  0, NULL, bActivate, bPopup, TRUE, (HANDLE)lParam);
+			pContainer = CreateContainer(szName, CNT_CREATEFLAG_MINIMIZED, hContact);         // 2 means create minimized, don't popup...
+			CreateNewTabForContact(pContainer, hContact,  0, NULL, bActivate, bPopup, TRUE, hDbEvent);
 			SendMessageW(pContainer->hwnd, WM_SIZE, 0, 0);
 			return 0;
 		}
@@ -743,22 +740,22 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	 */
 nowindowcreate:
 	if (!(dbei.flags & DBEF_READ)) {
-		UpdateTrayMenu(0, 0, dbei.szModule, NULL, (HANDLE)wParam, 1);
+		UpdateTrayMenu(0, 0, dbei.szModule, NULL, hContact, 1);
 		if (!nen_options.bTraySupport) {
 			TCHAR toolTip[256], *contactName;
 
 			CLISTEVENT cle = { sizeof(cle) };
-			cle.hContact = (HANDLE)wParam;
-			cle.hDbEvent = (HANDLE)lParam;
+			cle.hContact = hContact;
+			cle.hDbEvent = hDbEvent;
 			cle.flags = CLEF_TCHAR;
 			cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 			cle.pszService = "SRMsg/ReadMessage";
-			contactName = pcli->pfnGetContactDisplayName((HANDLE)wParam, 0);
+			contactName = pcli->pfnGetContactDisplayName(hContact, 0);
 			mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), contactName);
 			cle.ptszTooltip = toolTip;
 			CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 		}
-		tabSRMM_ShowPopup(wParam, lParam, dbei.eventType, 0, 0, 0, dbei.szModule, 0);
+		tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, 0, 0, 0, dbei.szModule, 0);
 	}
 	return 0;
 }

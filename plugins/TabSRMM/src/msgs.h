@@ -341,7 +341,7 @@ struct TWindowData
 	BOOL    bActualHistory;
 	POINT   ptTipActivation;
 	LONG    iInputAreaHeight;
-	bool    fIsAutosizingInput;
+	bool    bIsAutosizingInput;
 	bool    fLimitedUpdate;
 };
 

@@ -446,7 +446,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	else lstrcpyn(newcontactname, _T("_U_"), SIZEOF(newcontactname));
 
 	char *szProto = GetContactProto(newData.hContact);
-	WORD wStatus = (szProto == NULL) ? ID_STATUS_OFFLINE : db_get_w((HANDLE) newData.hContact, szProto, "Status", ID_STATUS_OFFLINE);
+	WORD wStatus = (szProto == NULL) ? ID_STATUS_OFFLINE : db_get_w((HANDLE)newData.hContact, szProto, "Status", ID_STATUS_OFFLINE);
 	char *szStatus = (char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, 
 		(szProto == NULL) ? ID_STATUS_OFFLINE : db_get_w((HANDLE)newData.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 

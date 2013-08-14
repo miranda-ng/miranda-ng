@@ -363,7 +363,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						}
 
 						ppd.lchIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
-						ppd.lchContact = (HANDLE) wParam;
+						ppd.lchContact = (HANDLE)wParam;
 						ppd.PluginWindowProc = NULL;
 						ppd.PluginData = NULL;
 						PUAddPopupT(&ppd);
@@ -520,7 +520,7 @@ int TN_OptionsInitialize(WPARAM wParam, LPARAM lParam)
 
 int TN_ModuleInit()
 {
-	hPopupsList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	hPopupsList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
 	OnePopup = M.GetByte(Module, SET_ONEPOPUP, DEF_ONEPOPUP);
 	ShowMenu = M.GetByte(Module, SET_SHOWDISABLEMENU, DEF_SHOWDISABLEMENU);

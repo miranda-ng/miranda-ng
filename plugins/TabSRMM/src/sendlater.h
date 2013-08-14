@@ -107,9 +107,9 @@ public:
 	bool											haveJobs() const
 		{
 			if (m_sendLaterJobList.empty() || m_jobIterator == m_sendLaterJobList.end())
-				return(false);
+				return false;
 			else
-				return(true);
+				return true;;
 		}
 	bool											processCurrentJob();
 	void											processContacts();

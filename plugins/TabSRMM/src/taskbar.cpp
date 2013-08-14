@@ -76,9 +76,9 @@ bool CTaskbarInteract::setOverlayIcon(HWND hwndDlg, LPARAM lParam) const
 {
 	if (m_pTaskbarInterface && m_isEnabled && m_fHaveLargeicons) {
 		m_pTaskbarInterface->SetOverlayIcon(hwndDlg,(HICON)lParam, NULL);
-		return(true);
+		return true;;
 	}
-	return(false);
+	return false;
 }
 
 /**

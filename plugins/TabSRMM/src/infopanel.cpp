@@ -225,7 +225,7 @@ bool CInfoPanel::getVisibility()
 {
 	if (m_dat->hContact == 0) {
 		setActive(false);    // no info panel, if no hcontact
-		return(false);
+		return false;
 	}
 
 	BYTE 	bDefault = (m_dat->pContainer->dwFlags & CNT_INFOPANEL) ? 1 : 0;

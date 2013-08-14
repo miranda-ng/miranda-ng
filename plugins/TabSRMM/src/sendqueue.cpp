@@ -323,7 +323,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		int iSendLength = getSendLength(iEntry, dat->sendMode);
 
 		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-			HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+			HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 			if (hItem && SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 				CContactCache *c = CContactCache::getContactCache(hContact);
 				if (c)
@@ -340,7 +340,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		}
 
 		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-			HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+			HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 			if (hItem && SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 				doSendLater(iEntry, 0, hContact, false);
 				iJobs++;
@@ -414,7 +414,7 @@ send_unsplitted:
 			clearJob(iEntry);
 			return 0;
 		}
-		m_jobs[iEntry].hSendId = (HANDLE) CallContactService(dat->hContact, PSS_MESSAGE,
+		m_jobs[iEntry].hSendId = (HANDLE)CallContactService(dat->hContact, PSS_MESSAGE,
 			(dat->sendMode & SMODE_FORCEANSI) ? (m_jobs[iEntry].dwFlags & ~PREF_UNICODE) : m_jobs[iEntry].dwFlags, (LPARAM)m_jobs[iEntry].szSendBuffer);
 
 		if (dat->sendMode & SMODE_NOACK) {              // fake the ack if we are not interested in receiving real acks

@@ -260,7 +260,7 @@ static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
 	}
 
 #if defined(__FEAT_EXP_AUTOSPLITTER)
-	if (dat->fIsAutosizingInput && dat->iInputAreaHeight == -1) {
+	if (dat->bIsAutosizingInput && dat->iInputAreaHeight == -1) {
 		dat->iInputAreaHeight = 0;
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_REQUESTRESIZE, 0, 0);
 	}
@@ -402,7 +402,7 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 	GetClientRect(hwndDlg, &rcTabs);
 	int TabHeight = rcTabs.bottom - rcTabs.top;
 
-	if (dat->fIsAutosizingInput)
+	if (dat->bIsAutosizingInput)
 		Utils::showDlgControl(hwndDlg, IDC_SPLITTERY, SW_HIDE);
 
 	if (si->iType != GCW_SERVER) {
@@ -493,7 +493,7 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY + 3;
 		urc->rcItem.bottom = urc->dlgNewSize.cy; // - 1 ;
 
-		if (dat->fIsAutosizingInput)
+		if (dat->bIsAutosizingInput)
 			urc->rcItem.top -= DPISCALEY_S(1);
 
 		if (bBottomToolbar && bToolbar)
@@ -1885,7 +1885,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			dat->hwnd = hwndDlg;
 			si->hWnd = hwndDlg;
 			si->dat = dat;
-			dat->fIsAutosizingInput = IsAutoSplitEnabled(dat);
+			dat->bIsAutosizingInput = IsAutoSplitEnabled(dat);
 			dat->fLimitedUpdate = false;
 			dat->iInputAreaHeight = -1;
 			if (!dat->pContainer->settings->fPrivate)
@@ -1897,7 +1897,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					si->iSplitterY = g_Settings.iSplitterY;
 			}
 			#if defined(__FEAT_EXP_AUTOSPLITTER)
-				if (dat->fIsAutosizingInput)
+				if (dat->bIsAutosizingInput)
 					si->iSplitterY = GetDefaultMinimumInputHeight(dat);
 			#endif
 			dat->pWnd = 0;
@@ -3590,7 +3590,7 @@ LABEL_SHOWWINDOW:
 
 		TABSRMM_FireEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_CLOSING, 0);
 
-		if (!dat->fIsAutosizingInput)
+		if (!dat->bIsAutosizingInput)
 			db_set_w(NULL, "Chat", "SplitterX", (WORD)g_Settings.iSplitterX);
 
 		if (dat->pContainer->settings->fPrivate && !IsAutoSplitEnabled(dat))
