@@ -349,7 +349,7 @@ BEGIN
     MENUITEM "",                            65535
     POPUP "Message"
     BEGIN
-        MENUITEM "Undo  ",                      ID_MESSAGE_UNDO, GRAYED
+        MENUITEM "Undo",                      ID_MESSAGE_UNDO, GRAYED
         MENUITEM "Redo",                        ID_MESSAGE_REDO, GRAYED
         MENUITEM SEPARATOR
         MENUITEM "Copy",                        ID_MESSAGE_COPY, GRAYED

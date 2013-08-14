@@ -72,9 +72,9 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Yahoo Ignore List",IDC_STIGNGROUP,8,10,280,210
-    CONTROL         "Ignore anyone who is not on my Yahoo buddy list ",IDC_OPT_IGN_UNKNOWN,
+    CONTROL         "Ignore anyone who is not on my Yahoo buddy list",IDC_OPT_IGN_UNKNOWN,
                     "Button",BS_AUTORADIOBUTTON,16,20,232,10
-    CONTROL         "Ignore only the people below: ",IDC_OPT_IGN_LIST,"Button",BS_AUTORADIOBUTTON,16,36,232,10
+    CONTROL         "Ignore only the people below:",IDC_OPT_IGN_LIST,"Button",BS_AUTORADIOBUTTON,16,36,232,10
     EDITTEXT        IDC_YIGN_EDIT,16,53,232,13,ES_AUTOHSCROLL
     PUSHBUTTON      "&Add",IDC_IGN_ADD,250,52,34,12
     LISTBOX         IDC_YIGN_LIST,16,68,232,150,LBS_SORT | LBS_HASSTRINGS | WS_VSCROLL

@@ -95,14 +95,14 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case WM_NOTIFY: 
 
 		if (((LPNMHDR)lParam)->code == (UINT) PSN_APPLY ) {
-			BOOL reconnectRequired = FALSE;
+			bool reconnectRequired = false;
 
 			char str[128];
 			GetDlgItemTextA(hwndDlg, IDC_HANDLE, str, sizeof( str ));
 			dbv.pszVal = NULL;
 
 			if ( ppro->getString( YAHOO_LOGINID, &dbv) || lstrcmpA( str, dbv.pszVal ))
-				reconnectRequired = TRUE;
+				reconnectRequired = true;
 
 			if ( dbv.pszVal != NULL)
 				db_free(&dbv);
@@ -113,7 +113,7 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), (LPARAM)str);
 			dbv.pszVal = NULL;
 			if ( ppro->getString( YAHOO_PASSWORD, &dbv) || lstrcmpA( str, dbv.pszVal ))
-				reconnectRequired = TRUE;
+				reconnectRequired = true;
 			if ( dbv.pszVal != NULL)
 				db_free(&dbv);
 
@@ -295,19 +295,19 @@ static INT_PTR CALLBACK DlgProcYahooOptsIgnore(HWND hwndDlg, UINT msg, WPARAM wP
 
 		case IDC_IGN_ADD: 
 			if (!ppro->m_bLoggedIn)
-				MessageBoxA(hwndDlg, Translate("You need to be connected to Yahoo to add to Ignore List."), Translate("Yahoo Ignore"), MB_OK| MB_ICONINFORMATION);
+				MessageBox(hwndDlg, TranslateT("You need to be connected to Yahoo to add to Ignore List."), TranslateT("Yahoo Ignore"), MB_OK| MB_ICONINFORMATION);
 			else {
 				char id[128];
 				int i = GetDlgItemTextA(hwndDlg, IDC_YIGN_EDIT, id, sizeof( id ));
 
 				if (i < 3) {
-					MessageBoxA(hwndDlg, Translate("Please enter a valid buddy name to ignore."), Translate("Yahoo Ignore"), MB_OK| MB_ICONINFORMATION);
+					MessageBox(hwndDlg, TranslateT("Please enter a valid buddy name to ignore."), TranslateT("Yahoo Ignore"), MB_OK| MB_ICONINFORMATION);
 					break;
 				}
 
-				i = SendMessageA(GetDlgItem(hwndDlg,IDC_YIGN_LIST), LB_FINDSTRINGEXACT,(WPARAM) -1, (LPARAM)id);
+				i = SendDlgItemMessageA(hwndDlg, IDC_YIGN_LIST, LB_FINDSTRINGEXACT,(WPARAM) -1, (LPARAM)id);
 				if (i != LB_ERR ) {
-					MessageBoxA(hwndDlg, Translate("The buddy is already on your ignore list. "), Translate("Yahoo Ignore"), MB_OK | MB_ICONINFORMATION);
+					MessageBox(hwndDlg, TranslateT("The buddy is already on your ignore list."), TranslateT("Yahoo Ignore"), MB_OK | MB_ICONINFORMATION);
 					break;
 				}
 				ppro->IgnoreBuddy(id, 0);
@@ -322,13 +322,13 @@ static INT_PTR CALLBACK DlgProcYahooOptsIgnore(HWND hwndDlg, UINT msg, WPARAM wP
 				char id[128];
 
 				if (!ppro->m_bLoggedIn) {
-					MessageBoxA(hwndDlg, Translate("You need to be connected to Yahoo to remove from the Ignore List."), Translate("Yahoo Ignore"), MB_OK| MB_ICONINFORMATION);
+					MessageBox(hwndDlg, TranslateT("You need to be connected to Yahoo to remove from the Ignore List."), TranslateT("Yahoo Ignore"), MB_OK| MB_ICONINFORMATION);
 					break;
 				}
 
 				i = SendMessage(GetDlgItem(hwndDlg,IDC_YIGN_LIST), LB_GETCURSEL, 0, 0);
 				if (i == LB_ERR) {
-					MessageBoxA(hwndDlg, Translate("Please select a buddy on the ignore list to remove."), Translate("Yahoo Ignore"), MB_OK| MB_ICONINFORMATION);
+					MessageBox(hwndDlg, TranslateT("Please select a buddy on the ignore list to remove."), TranslateT("Yahoo Ignore"), MB_OK| MB_ICONINFORMATION);
 					break;
 				}
 

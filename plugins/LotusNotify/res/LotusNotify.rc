@@ -64,13 +64,13 @@ BEGIN
     LTEXT           "Background",IDC_STATIC,31,88,43,8
     LTEXT           "Text",IDC_STATIC,91,89,41,8
     EDITTEXT        IDC_INTERVAL1,57,97,21,12,ES_AUTOHSCROLL | WS_GROUP
-    RTEXT           "Close after: ",IDC_STATIC,9,99,47,9
+    RTEXT           "Close after:",IDC_STATIC,9,99,47,9
     LTEXT           "sek.(0 default,\n -1 disabled)",IDC_STATIC,81,99,89,15
     CONTROL         "...but only if popup not clicked",IDC_NONCLICKEDONLY,
                     "Button",BS_AUTOCHECKBOX | BS_LEFT | BS_PUSHLIKE | 
                     WS_TABSTOP,177,80,130,10
-    LTEXT           "Left button click cmd: ",IDC_STATIC,10,117,80,9
-    LTEXT           "Command parameters: ",IDC_STATIC,10,130,80,9
+    LTEXT           "Left button click cmd:",IDC_STATIC,10,117,80,9
+    LTEXT           "Command parameters:",IDC_STATIC,10,130,80,9
     CONTROL         "Remember newest message ID\n and don't show older",
                     IDC_NEWEST,"Button",BS_AUTOCHECKBOX | BS_LEFT | 
                     BS_PUSHLIKE | BS_MULTILINE | WS_TABSTOP,177,103,130,20
@@ -97,15 +97,15 @@ BEGIN
     LTEXT           "Primary server:",IDC_STATIC,10,18,65,9
     COMBOBOX        IDC_SERVER,75,16,115,11,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
                     CBS_SORT | CBS_DISABLENOSCROLL | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Database: ",IDC_STATIC,10,40,65,9
+    LTEXT           "Database:",IDC_STATIC,10,40,65,9
     PUSHBUTTON      "try detect",IDC_BUTTON_DETECT,191,14,51,36,BS_MULTILINE
-    LTEXT           "Secondary server: ",IDC_STATIC,10,29,65,9
-    GROUPBOX        "Check interval: ",IDC_STATIC,246,7,61,57
+    LTEXT           "Secondary server:",IDC_STATIC,10,29,65,9
+    GROUPBOX        "Check interval:",IDC_STATIC,246,7,61,57
     LTEXT           "(0-disabled)",IDC_STATIC,250,34,56,8
     LTEXT           "min.",IDC_STATIC,273,19,19,8
     EDITTEXT        IDC_PASSWORD,75,50,115,11,ES_PASSWORD | ES_AUTOHSCROLL
     LTEXT           "Password:",IDC_STATIC,10,51,65,9
-    GROUPBOX        "Offline status mean: ",IDC_STATIC,206,123,101,110
+    GROUPBOX        "Offline status mean:",IDC_STATIC,206,123,101,110
     CONTROL         "",IDC_STATUS,"SysListView32",LVS_REPORT | 
                     LVS_NOLABELWRAP | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | 
                     LVS_NOSORTHEADER | WS_TABSTOP,209,133,96,97,

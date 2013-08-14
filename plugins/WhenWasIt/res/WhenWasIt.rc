@@ -75,7 +75,7 @@ BEGIN
     LTEXT           "Play sounds when there are",IDC_STATIC,18,137,104,8
     EDITTEXT        IDC_SOUND_NEAR_DAYS_EDIT,124,134,19,14,ES_AUTOHSCROLL
     LTEXT           "days or less to birthday.",IDC_STATIC,149,137,128,8
-    LTEXT           "Start notifying ",IDC_STATIC,12,160,52,8
+    LTEXT           "Start notifying",IDC_STATIC,12,160,52,8
     EDITTEXT        IDC_DAYS_IN_ADVANCE,65,158,15,14,ES_AUTOHSCROLL
     LTEXT           "days in advance and",IDC_STATIC,83,160,91,8
     LTEXT           "Check every",IDC_STATIC,12,178,52,8

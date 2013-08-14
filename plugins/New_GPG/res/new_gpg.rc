@@ -79,7 +79,7 @@ BEGIN
     PUSHBUTTON      "Generate and use random key",IDC_GENERATE_RANDOM,143,220,141,14
     LTEXT           "",IDC_GENERATING_KEY,82,207,174,8
     LTEXT           "Account:",IDC_STATIC,15,12,42,8
-    LTEXT           "key id: ",IDC_KEY_ID,178,12,99,8
+    LTEXT           "key id:",IDC_KEY_ID,178,12,99,8
     COMBOBOX        IDC_ACCOUNT,66,9,104,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Copy public key",IDC_COPY_PUBKEY,7,169,101,14
     PUSHBUTTON      "Export private key",IDC_EXPORT_PRIVATE,182,169,102,14

@@ -59,9 +59,9 @@ STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_SYSMENU
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     EDITTEXT        ID_DESCRIPTION,12,7,290,82,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | NOT WS_TABSTOP
-    LTEXT           "Do not send more than ",IDC_STATIC,11,89,87,12,SS_CENTERIMAGE
+    LTEXT           "Do not send more than",IDC_STATIC,11,89,87,12,SS_CENTERIMAGE
     EDITTEXT        ID_MAXQUESTCOUNT,107,89,30,12,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           " questions to one contact (0 - for no limit)",IDC_STATIC,144,89,155,12,SS_CENTERIMAGE
+    LTEXT           "questions to one contact (0 - for no limit)",IDC_STATIC,144,89,155,12,SS_CENTERIMAGE
     CONTROL         "Enable StopSpam-StopSpam infinite talk protection",ID_INFTALKPROT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,106,290,10
     CONTROL         "Add contact permanently",ID_ADDPERMANENT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,118,290,8
