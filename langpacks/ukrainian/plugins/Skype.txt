@@ -2,7 +2,8 @@
 ;============================================================
 ;  File: Skype.dll
 ;  Module: Skype Protocol
-;  Versions: 0.0.0.1
+;  Version: 0.11.0.2
+;  Authors: unsane, mataes, ghazan
 ;============================================================
 [Skype login:]
 Ім'я у Skype:

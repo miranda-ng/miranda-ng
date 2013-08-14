@@ -434,7 +434,7 @@ HTTP падлучэнне Weather
 [Here is a list of custom variables that are currently available]
 Спіс дадатковых зменных, даступных на дадзены момант
 ;file \plugins\Weather\src\weather_ini.cpp
-[No update data file is found.  Please check your Plugins\\Weather directory.]
+[No update data file is found. Please check your Plugins\\Weather directory.]
 Не знойдзены файл абнаўлення. Калі ласка, праверце тэчку Plugins\\Weather.
 [Invalid ini format for: %s]
 Уласны фармат ini для: %s

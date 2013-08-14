@@ -18,7 +18,7 @@ Hiç kimse çevrim içi değilken grup sayılarını gizle
 3.:
 [Always on top]
 Her zaman üstte
-[Hide contact list after ]
+[Hide contact list after]
 Şu kadar süre sonra gizle
 [seconds]
 saniye
@@ -134,7 +134,7 @@ xDurum simgesini göster
 İki simgeyi de göster
 [Show normal status as overlay]
 Normal drumu katman olarak göster
-[Status overlay opacity is 75% ]
+[Status overlay opacity is 75%]
 Durum katmanı matlığı %75
 [Show unread emails (if supported)]
 Okunmamış e-postaları göster (destekleniyorsa)
@@ -196,7 +196,7 @@ ekran yüzdesi
 Şundan büyük
 [Lock manual resize]
 El ile boyutlandırmayı kilitle
-[Drag to ]
+[Drag to]
 Şuna sürükle
 [Easy Scroll]
 Kolay Kaydır

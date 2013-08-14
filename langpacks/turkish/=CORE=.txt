@@ -1717,8 +1717,8 @@ Yazıyor Uyarısı
 %s bir ileti yazıyor
 [Typing Notification]
 Yazıyor Uyarısı
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda kendi ileti modülünü yükleyemedi. riched20.dll dosyası kayıp. Windows 95 veya WINE kullanıyorsanız lütfen riched20.dll dosyasının kurulu olduğundan emin olun. Miranda'yı yüklemeye devam etmek için 'Evet'e tıklayın.
+[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda kendi ileti modülünü yükleyemedi. riched20.dll dosyası kayıp. Miranda'yı yüklemeye devam etmek için 'Evet'e tıklayın.
 [Incoming (Focused Window)]
 Alınan (Odaklanmış Pencere)
 [Incoming (Unfocused Window)]

@@ -30,8 +30,8 @@ Dodaj separator
 Dodaj przycisk
 [Del Sep/Launch Button]
 Usuń przycisk
-[Name: ]
-Nazwa: 
+[Name:]
+Nazwa:
 [Path:]
 Folder:
 [Set]

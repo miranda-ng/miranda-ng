@@ -2063,8 +2063,8 @@ Mensagem de %s
 Escrevendo Notificação
 [Typing Notification]
 Digitação de notificação
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda não pôde carregar o plugin Chat porque o Microsoft Rich Edit v 3 não foi encontrado.\nSe estiver a usar o Windows 95/98/NT ou WINE por favor, atualize o seu 'Rich Edit control'.\n\nPretende descarregar a atualização agora?
+[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda não pôde carregar o plugin Chat porque o Microsoft Rich Edit v 3 não foi encontrado.\nPretende descarregar a atualização agora?
 [Incoming (Focused Window)]
 Recebendo (janela visível)
 [Incoming (Unfocused Window)]

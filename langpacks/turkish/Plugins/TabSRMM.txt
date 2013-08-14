@@ -98,7 +98,7 @@ Geçerli &web tarayıcı penceresinde aç
 &Bağlantıyı kopyala
 [Message]
 İleti
-[Undo  ]
+[Undo]
 Geri Al 
 [Redo]
 Yeniden

@@ -452,7 +452,7 @@ Popis:
 [Here is a list of custom variables that are currently available]
 Seznam ostatních proměnných, které jsou k dispozici:
 ;file \plugins\Weather\src\weather_ini.cpp
-[No update data file is found.  Please check your Plugins\\Weather directory.]
+[No update data file is found. Please check your Plugins\\Weather directory.]
 Nelze najít konfigurační soubor. Podívejte se do složky Plugins\\Weather.
 [Invalid ini format for: %s]
 Neplatný formát souboru ini: %s

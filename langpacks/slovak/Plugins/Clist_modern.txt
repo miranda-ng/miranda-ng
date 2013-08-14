@@ -30,7 +30,7 @@ Skryť počet kontaktov v skupine ak sú všetci odpojený
 
 [Always on top]
 Vždy navrchu
-[Hide contact list after ]
+[Hide contact list after]
 
 [seconds]
 sekúnd
@@ -166,7 +166,7 @@ Všetko vyčistiť
 
 [Editing view mode]
 
-[Last message ]
+[Last message]
 
 [Status Bar]
 Stavový riadok
@@ -210,7 +210,7 @@ Rovnaká šírka oddielov
 
 [Show normal status as overlay]
 
-[Status overlay opacity is 75% ]
+[Status overlay opacity is 75%]
 
 [Show unread emails (if supported)]
 
@@ -266,6 +266,8 @@ Prednastavené
 
 [Bring to front if covered]
 
+[Hide contact list after]
+
 [Automatically resize window to height of list]
 Prispôsobiť veľkosť okna dlžke zoznamu
 [maximum]
@@ -278,7 +280,7 @@ Zväčšovať smerom hore
 
 [Lock manual resize]
 
-[Drag to ]
+[Drag to]
 
 [Easy Scroll]
 

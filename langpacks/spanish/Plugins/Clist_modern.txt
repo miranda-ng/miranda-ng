@@ -26,7 +26,7 @@ Ocultar grupo cuenta cuando no hay ninguna línea
 3.:
 [Always on top]
 Siempre en la parte superior
-[Hide contact list after ]
+[Hide contact list after]
 Ocultar la lista de contactos después de
 [seconds]
 segundo
@@ -146,8 +146,8 @@ Mostrar icono xStatus
 Mostrar los iconos
 [Show normal status as overlay]
 Mostrar normal condición de superposición
-[Status overlay opacity is 75% ]
-opacidad de estado de superposición es 75% 
+[Status overlay opacity is 75%]
+opacidad de estado de superposición es 75%
 [Show unread emails (if supported)]
 Mostrar mensajes de correo electrónico sin leer (si es compatible)
 [Right click opens status menu]
@@ -208,7 +208,7 @@ máximo
 Tamaño hacia arriba
 [Lock manual resize]
 Bloqueo manual de cambiar el tamaño
-[Drag to ]
+[Drag to]
 Arrastre
 [Easy Scroll]
 Easy Scroll

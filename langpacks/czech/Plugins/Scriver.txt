@@ -678,6 +678,10 @@ Příchozí (neaktivní okno)
 Příchozí (nová konverzace)
 [Outgoing]
 Odchozí
+[Contact started typing]
+
+[Contact stopped typing]
+
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occured.]
 Neznámá chyba.

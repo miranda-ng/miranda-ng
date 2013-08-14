@@ -32,8 +32,8 @@
 Прайграць, калі засталося
 [days or less to birthday.]
  дзён ці меней да ІНШ.
-[Start notifying ]
-Нагадаць за 
+[Start notifying]
+Нагадаць за
 [days in advance and]
 дзён да даты
 [Check every]

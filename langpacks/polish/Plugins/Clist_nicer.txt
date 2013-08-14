@@ -56,7 +56,7 @@ Wyłącz grupy
 Pytaj przed usunięciem kontaktów
 [Disable icon blinking]
 Wyłącz miganie ikony
-[Apply last active view mode ]
+[Apply last active view mode]
 Zastosuj ostatni aktywny tryb widoku
 [Contact list layout]
 Układ listy
@@ -352,7 +352,7 @@ Automatycznie wyczyść ten tryb widoku po
 Opcje trybu widoku
 [Editing view mode]
 Edytowanie trybu widoku
-[Last message ]
+[Last message]
 Ostatnia wiadomość 
 [Per contact skins:]
 Skóra kontaktu:
@@ -628,9 +628,7 @@ automatycznie (RTL)
 Nazwa
 [Status]
 Status
-[Last Message]
-Ostatnia wiadomość
-[Message Frequency]
+[Message frequency]
 Częstotliwość wiadomości
 [Never]
 Nigdy

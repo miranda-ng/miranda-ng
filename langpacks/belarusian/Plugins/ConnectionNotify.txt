@@ -16,7 +16,7 @@
 Фон
 [Text]
 Тэкст
-[Close after: ]
+[Close after:]
 Зачыніць пасля:
 [sec.(0 default, -1 disabled)]
 сек.(0 змаўчанне, -1 адключана)

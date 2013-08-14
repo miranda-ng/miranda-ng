@@ -676,6 +676,10 @@ Správa od %s
 
 [Incoming (New Session)]
 
+[Contact started typing]
+
+[Contact stopped typing]
+
 [Outgoing]
 
 ;file \plugins\Scriver\src\msgtimedout.cpp

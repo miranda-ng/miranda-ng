@@ -191,7 +191,7 @@
 [Item Count:]
 [Memory Used:]
 [Here is a list of custom variables that are currently available]
-[No update data file is found.  Please check your Plugins\\Weather directory.]
+[No update data file is found. Please check your Plugins\\Weather directory.]
 [Invalid ini format for: %s]
 [All update data has been reloaded.]
 [Frame Font]

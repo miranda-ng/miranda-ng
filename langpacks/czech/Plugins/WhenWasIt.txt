@@ -32,8 +32,8 @@ Zvuky
 Přehrát zvuk, když zbývá
 [days or less to birthday.]
 dnů do oslavy narozenin
-[Start notifying ]
-Poprvé upozornit\s
+[Start notifying]
+Poprvé upozornit
 [days in advance and]
 
 [Check every]

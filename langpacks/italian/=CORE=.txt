@@ -1317,8 +1317,8 @@ Messaggio da %s
 %s sta digitando un messaggio
 [Typing Notification]
 Notifica digitazione
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda non è riuscito a caricare il modulo per i messaggi predefinito, il file riched20.dll è mancante. Se stai utilizzando Windows 95 o WINE assicurati di averlo installato. Premi 'Sì' per continuare a caricare Miranda.
+[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda non è riuscito a caricare il modulo per i messaggi predefinito, il file riched20.dll è mancante. Premi 'Sì' per continuare a caricare Miranda.
 [Message send error]
 Errore nell'invio del messaggio
 ;file \src\core\stdmsg\src\msgtimedout.cpp

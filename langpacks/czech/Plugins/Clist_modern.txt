@@ -30,8 +30,8 @@ Skrýt počet kontaktů ve skupině, jsou-li všichni offline
 3)
 [Always on top]
 Vždy navrchu
-[Hide contact list after ]
-Skrýt seznam kontaktů po\s
+[Hide contact list after]
+Skrýt seznam kontaktů po
 [seconds]
 sek.
 [Fade contact list in/out]
@@ -166,7 +166,7 @@ Automaticky vymazat vybraný režim zobrazení po
 Možnosti režimu zobrazení
 [Editing view mode]
 Úprava pohledu
-[Last message ]
+[Last message]
 Poslední zpráva\s
 [Status Bar]
 Stavová lišta
@@ -210,8 +210,8 @@ Zobrazit ikonu rozš. stavu
 Zobrazit obě ikony
 [Show normal status as overlay]
 Zobrazit stav překryvnou ikonou
-[Status overlay opacity is 75% ]
-Zprůhlednit překryv na 75%\s
+[Status overlay opacity is 75%]
+Zprůhlednit překryv na 75%
 [Show unread emails (if supported)]
 Zobrazit nepřečtené maily (je-li podporováno)
 [Right click opens status menu]
@@ -266,6 +266,8 @@ Bez výběru
 Způsob výběru
 [Bring to front if covered]
 Při překrytí přenést do popředí
+[Hide contact list after]
+
 [Automatically resize window to height of list]
 Podle položek automaticky změnit výšku okna
 [maximum]
@@ -278,8 +280,8 @@ Zvětšovat okno směrem nahoru
 Chování
 [Lock manual resize]
 Zamezit ruční změně velikosti
-[Drag to ]
-Táhnutí myši\s
+[Drag to]
+Táhnutí myši
 [Easy Scroll]
 Vylepšené rolování
 [Easy move]

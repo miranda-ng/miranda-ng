@@ -452,7 +452,7 @@ Opis:
 [Here is a list of custom variables that are currently available]
 Poniżej znajduje się lista niestandardowych zmiennych, które są obecnie dostępne
 ;file \plugins\Weather\src\weather_ini.cpp
-[No update data file is found.  Please check your Plugins\\Weather directory.]
+[No update data file is found. Please check your Plugins\\Weather directory.]
 Nie znaleziono plików aktualizacji. Proszę sprawdzić folder Plugins\\Weather.
 [Invalid ini format for: %s]
 Niepoprawny format INI dla: %s

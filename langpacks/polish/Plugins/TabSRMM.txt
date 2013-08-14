@@ -132,7 +132,7 @@ Otwórz w bieżącym oknie przeglądarki
 Kopiuj link
 [Message]
 Wiadomość
-[Undo  ]
+[Undo]
 Cofnij
 [Redo]
 Powtórz

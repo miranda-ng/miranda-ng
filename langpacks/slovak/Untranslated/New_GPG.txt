@@ -12,7 +12,7 @@
 [Delete key]
 [Generate and use random key]
 [Account:]
-[key id: ]
+[key id:]
 [Copy public key]
 [Export private key]
 [Change password]

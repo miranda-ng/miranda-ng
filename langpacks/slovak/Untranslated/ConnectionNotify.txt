@@ -1,7 +1,7 @@
 ﻿[Notify with popup if some connection established]
 [Set popup colours]
 [Popup options]
-[Close after: ]
+[Close after:]
 [sec.(0 default, -1 disabled)]
 [Settings]
 [try resolve addresses]

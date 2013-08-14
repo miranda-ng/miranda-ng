@@ -42,9 +42,9 @@ Port:
 Reset
 [Yahoo Ignore List]
 
-[Ignore anyone who is not on my Yahoo buddy list ]
+[Ignore anyone who is not on my Yahoo buddy list]
 
-[Ignore only the people below: ]
+[Ignore only the people below:]
 
 [&Add]
 
@@ -149,7 +149,7 @@ Storno
 
 [Please enter a valid buddy name to ignore.]
 
-[The buddy is already on your ignore list. ]
+[The buddy is already on your ignore list.]
 
 [You need to be connected to Yahoo to remove from the Ignore List.]
 

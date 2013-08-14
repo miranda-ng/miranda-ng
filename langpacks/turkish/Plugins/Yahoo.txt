@@ -85,7 +85,7 @@ Yoksay listesine ek yapabilmek için Yahoo ağına bağlı olmalısınız.
 Yahoo Yoksay
 [Please enter a valid buddy name to ignore.]
 Lütfen yoksayılacak geçerli bir ahbap adı yazın.
-[The buddy is already on your ignore list. ]
+[The buddy is already on your ignore list.]
 Bu ahbap zaten yoksay listesinde.
 [You need to be connected to Yahoo to remove from the Ignore List.]
 Yoksay listesinden çıkarabilmek için Yahoo ağına bağlı olmalısınız.

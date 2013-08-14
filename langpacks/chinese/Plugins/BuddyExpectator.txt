@@ -6,7 +6,7 @@
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
-[When a contact returns after ]
+[When a contact returns after]
 当联系人返回于 
 [Show a popup]
 显示弹出提示

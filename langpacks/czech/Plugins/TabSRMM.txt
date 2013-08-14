@@ -132,8 +132,8 @@ Otevřít v &novém okně
 Z&kopírovat odkaz
 [Message]
 Zpráva
-[Undo  ]
-Zpět 
+[Undo]
+Zpět
 [Redo]
 Znovu
 [Copy]

@@ -66,8 +66,6 @@ Koble på nytt
 Vent (s)
 [Retry count]
 Gjenta telling
-[Fear the monkeys!!!]
-Frykt apene!!!
 [Check every (s):]
 Sjekk hvert (s):
 [Don't check if more than (users):]

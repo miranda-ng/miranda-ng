@@ -1867,8 +1867,8 @@ Miranda NG 主页(&M)
 %s 正在键入消息
 [Typing Notification]
 键入通知
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda 无法加载内置消息模块, riched20.dll 丢失. 如您在使用 Windows 95 或 WINE 请确认已安装 riched20.dll. 按下 '是' 继续加载 Miranda.
+[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续加载 Miranda.
 [Instant messages]
 即时消息
 [Incoming (Focused Window)]

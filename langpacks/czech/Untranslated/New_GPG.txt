@@ -10,7 +10,7 @@
 [Key password:]
 [Load other]
 [Generate and use random key]
-[key id: ]
+[key id:]
 [Copy public key]
 [Export private key]
 [Set GPG bin path and keyring home dir.]

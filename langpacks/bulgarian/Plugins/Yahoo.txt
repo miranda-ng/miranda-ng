@@ -30,9 +30,9 @@
 Анулиране
 [Yahoo Ignore List]
 Yahoo списък за игнориране
-[Ignore anyone who is not on my Yahoo buddy list ]
+[Ignore anyone who is not on my Yahoo buddy list]
 Игнориране на всеки, който не е в списъка с контакти
-[Ignore only the people below: ]
+[Ignore only the people below:]
 Игнориране само на следните хора:
 [&Add]
 Добавяне
@@ -81,7 +81,7 @@ YAHOO настройки
 Yahoo игнориране
 [Please enter a valid buddy name to ignore.]
 Моля, въдете валидно име.
-[The buddy is already on your ignore list. ]
+[The buddy is already on your ignore list.]
 Контактът е вече в списъка за игнориране.
 [You need to be connected to Yahoo to remove from the Ignore List.]
 Необходимо е да сте свързани към Yahoo, за да редактирате списъка за игнориране.

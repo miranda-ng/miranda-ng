@@ -18,8 +18,8 @@ második:
 harmadik:
 [Always on top]
 Mindig legfelül
-[Hide contact list after ]
-Partnerlista elrejtése 
+[Hide contact list after]
+Partnerlista elrejtése
 [seconds]
 mp.
 [Fade contact list in/out]
@@ -128,7 +128,7 @@ XÁllapot ikon mutatása
 Mindkét ikon mutatása
 [Show normal status as overlay]
 Normál állapot mutatása felsõ lapon
-[Status overlay opacity is 75% ]
+[Status overlay opacity is 75%]
 Állapot felsõ lap átlátszatlansága 75%
 [Show unread emails (if supported)]
 Olvasatlan e-levelek mutatása (ha támogatott)
@@ -188,8 +188,8 @@ képernyõ %-a
 Méret felfelé
 [Lock manual resize]
 Kézi átméretezés zárolása
-[Drag to ]
-Húzás 
+[Drag to]
+Húzás
 [Easy Scroll]
 Könnyû görgetés
 [Easy move]

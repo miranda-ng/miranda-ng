@@ -56,8 +56,8 @@ Vypnout skupiny
 Potvrdit smazání kontaktů
 [Disable icon blinking]
 Vypnout blikání ikon
-[Apply last active view mode ]
-Použít poslední režim zobrazení\s
+[Apply last active view mode]
+Použít poslední režim zobrazení
 [Contact list layout]
 Vzhled seznamu kontaktů
 [Show menu and status buttons]
@@ -352,8 +352,8 @@ Automaticky vymazat vybraný režim zobrazení po
 Možnosti režimu zobrazení
 [Editing view mode]
 Úprava pohledu
-[Last message ]
-Poslední zpráva\s
+[Last message]
+Poslední zpráva
 [Per contact skins:]
 Skin na kontakt:
 [< Reload]
@@ -628,9 +628,9 @@ Nic
 Jméno
 [Status]
 Stavy
-[Last Message]
+[Last message]
 Poslední zpráva
-[Message Frequency]
+[Message frequency]
 Četnost zpráv
 [Never]
 Nikdy

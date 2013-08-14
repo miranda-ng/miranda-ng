@@ -8,8 +8,8 @@
 [Console log window for Miranda.]
 Дадатак вакна кансолі Miranda NG.
 ;file \plugins\Console\res\resource.rc
-[Console                                    ]
-Кансоль                                    
+[Console]
+Кансоль
 [Single window mode*]
 Просты рэжым акна*
 [Show icons in log*]
@@ -63,8 +63,6 @@
 Кансоль Міранды
 [Services]
 Службы
-[Console]
-Кансоль
 [Text]
 Тэкст
 [&Help]

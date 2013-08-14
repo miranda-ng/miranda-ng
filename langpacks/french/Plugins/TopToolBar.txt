@@ -11,13 +11,13 @@ Ordre && Visibilité des Boutons
 [Button width]
 Largeur
 [Buttons order:]
-Ordre des boutons :
+Ordre des boutons:
 [Add Separator]
 Ajouter
 [Add Launch]
 Ajouter Fonction
-[Name: ]
-Nom :
+[Name:]
+Nom:
 [Set]
 OK
 ;file \plugins\TopToolBar\src\toolbar.cpp

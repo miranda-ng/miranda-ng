@@ -18,7 +18,7 @@ Skjul telling av grupper når ingen er påkoblet
 3. :
 [Always on top]
 Alltid øverst
-[Hide contact list after ]
+[Hide contact list after]
 Skjul kontaktlisten etter
 [seconds]
 sekunder
@@ -114,7 +114,7 @@ Vis xStatus ikon
 Vis begge ikoner
 [Show normal status as overlay]
 Vis vanlig status som overlapping
-[Status overlay opacity is 75% ]
+[Status overlay opacity is 75%]
 Status overlappings-uklarhet er 75%
 [Show unread emails (if supported)]
 Vis ulest epost (hvis støttet)
@@ -170,8 +170,8 @@ maksimum
 Størrelse oppover
 [Lock manual resize]
 Lås manuell størrelse
-[Drag to ]
-Dra til 
+[Drag to]
+Dra til
 [Easy move]
 Enkel flytting
 [x100 msec]

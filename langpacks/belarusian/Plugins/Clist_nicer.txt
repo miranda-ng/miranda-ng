@@ -56,7 +56,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 Пацверджанне выдалення
 [Disable icon blinking]
 Выключыць мігценне
-[Apply last active view mode ]
+[Apply last active view mode]
 Ужыць апошні актыўны рэжым
 [Contact list layout]
 Адлюстраванне спісу кантактаў
@@ -352,7 +352,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 Налады рэжыму выгляду
 [Editing view mode]
 Рэжым прагляду па змаўчанні
-[Last message ]
+[Last message]
 Апошняе паведамленне
 [Per contact skins:]
 Скіны кантактаў
@@ -628,9 +628,7 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 Імя
 [Status]
 Статус
-[Last Message]
-Па апошнім паведамленні
-[Message Frequency]
+[Message frequency]
 Па чашчыні паведамленняў
 [Never]
 Не выкарыстоўваць

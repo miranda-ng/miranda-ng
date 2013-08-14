@@ -285,6 +285,8 @@
 [Incoming (Unfocused Window)]
 [Incoming (New Session)]
 [Outgoing]
+[Contact started typing]
+[Contact stopped typing]
 [An unknown error has occured.]
 [Always On Top]
 [The message send timed out.]

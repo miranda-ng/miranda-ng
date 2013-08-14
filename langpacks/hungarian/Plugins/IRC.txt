@@ -66,8 +66,6 @@ Egyéb
 Várj (mp)
 [Retry count]
 Szám újrapróbálása
-[Fear the monkeys!!!]
-Rettegj a majmoktól!!!
 [Check every (s):]
 Összes ellenõrzése (s):
 [Don't check if more than (users):]
@@ -532,7 +530,7 @@ BecenévSzerver
 Becenév regisztrálása
 [Auth nick]
 Hiteles becenév
-[Remind password ]
+[Remind password]
 Jelszóemlékeztetõ
 [Set language]
 Nyelv beállítása

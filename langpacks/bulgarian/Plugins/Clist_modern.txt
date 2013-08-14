@@ -28,7 +28,7 @@
 3ти:
 [Always on top]
 Винаги отгоре
-[Hide contact list after ]
+[Hide contact list after]
 Скриване на списъка след
 [seconds]
 секунди
@@ -138,7 +138,7 @@
 Показване и на 2те икони
 [Show normal status as overlay]
 Насложено състояние, вместо нормално
-[Status overlay opacity is 75% ]
+[Status overlay opacity is 75%]
 75% плътност на насложената икона
 [Show unread emails (if supported)]
 Брой непрочетени имейли (ако се поддържа)
@@ -196,7 +196,7 @@
 Оразмеряване нагоре
 [Lock manual resize]
 Без ръчно оразмеряване
-[Drag to ]
+[Drag to]
 При влачене
 [Easy Scroll]
 Лесно придвижване

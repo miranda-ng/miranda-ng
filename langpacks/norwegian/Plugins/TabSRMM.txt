@@ -80,8 +80,8 @@ Link
 Melding
 [Message]
 Melding
-[Undo  ]
-Omgjør  
+[Undo]
+Omgjør
 [Redo]
 Gjør om
 [Copy]

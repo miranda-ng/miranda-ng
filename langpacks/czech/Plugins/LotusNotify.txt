@@ -20,15 +20,15 @@ Možnosti oznámení
 Pozadí
 [Text]
 Text
-[Close after: ]
-Zavřít po:\s
+[Close after:]
+Zavřít po:
 [sek.(0 default,\n -1 disabled)]
 
 [...but only if popup not clicked]
 
-[Left button click cmd: ]
+[Left button click cmd:]
 
-[Command parameters: ]
+[Command parameters:]
 
 [Remember newest message ID\n and don't show older]
 
@@ -46,13 +46,13 @@ Předmět
 
 [Primary server:]
 
-[Database: ]
+[Database:]
 
 [try detect]
 
-[Secondary server: ]
+[Secondary server:]
 
-[Check interval: ]
+[Check interval:]
 
 [(0-disabled)]
 
@@ -60,7 +60,7 @@ Předmět
 min.
 [Password:]
 Heslo:
-[Offline status mean: ]
+[Offline status mean:]
 
 [To / CopyTo]
 

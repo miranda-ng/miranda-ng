@@ -1857,7 +1857,7 @@ Miranda NG ホームページ
 %s はメッセージを入力中
 [Typing Notification]
 入力中通知
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda は組み込みメッセージモジュールの読み込みができませんでした。riched20.dll が見つかりません。Windows 95 か WINE を使用中の場合は , riched20.dll がインストールされているかどうか確認してください。Miranda の読み込みを続けるには「はい」を押してください。
 [Instant messages]
 インスタントメッセージ

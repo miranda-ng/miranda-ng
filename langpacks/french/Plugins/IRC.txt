@@ -66,8 +66,6 @@ Reconnexion
 Attente (s)
 [Retry count]
 Nb d'essais
-[Fear the monkeys!!!]
-Attention aux singes !
 [Check every (s):]
 Vérifier toutes les (secondes) :
 [Don't check if more than (users):]

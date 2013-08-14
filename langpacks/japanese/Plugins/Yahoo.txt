@@ -34,9 +34,9 @@ Yahoo Japan
 リセット
 [Yahoo Ignore List]
 Yahoo 無視リスト
-[Ignore anyone who is not on my Yahoo buddy list ]
+[Ignore anyone who is not on my Yahoo buddy list]
 自分の Yahoo メンバーリストにない人は全て無視する
-[Ignore only the people below: ]
+[Ignore only the people below:]
 以下の人々のみ無視 :
 [&Add]
 追加 (&A)
@@ -105,7 +105,7 @@ Yahoo オプション
 Yahoo 無視
 [Please enter a valid buddy name to ignore.]
 無視するメンバーの有効な名前を入力してください
-[The buddy is already on your ignore list. ]
+[The buddy is already on your ignore list.]
 そのメンバーはすでに無視リストにあります
 [You need to be connected to Yahoo to remove from the Ignore List.]
 無視リストから削除するには , Yahoo に接続する必要があります

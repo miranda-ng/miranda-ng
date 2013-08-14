@@ -28,7 +28,7 @@
 [NickServ]
 [Register nick]
 [Auth nick]
-[Remind password ]
+[Remind password]
 [Hide e-mail from info]
 [Show e-mail in info]
 [Set security for nick]

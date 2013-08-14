@@ -20,15 +20,15 @@
 Pozadie
 [Text]
 Text
-[Close after: ]
+[Close after:]
 
 [sek.(0 default,\n -1 disabled)]
 
 [...but only if popup not clicked]
 
-[Left button click cmd: ]
+[Left button click cmd:]
 
-[Command parameters: ]
+[Command parameters:]
 
 [Remember newest message ID\n and don't show older]
 
@@ -46,13 +46,13 @@ Text
 
 [Primary server:]
 
-[Database: ]
+[Database:]
 
 [try detect]
 
-[Secondary server: ]
+[Secondary server:]
 
-[Check interval: ]
+[Check interval:]
 
 [(0-disabled)]
 
@@ -60,7 +60,7 @@ Text
 min.
 [Password:]
 Heslo:
-[Offline status mean: ]
+[Offline status mean:]
 
 [To / CopyTo]
 

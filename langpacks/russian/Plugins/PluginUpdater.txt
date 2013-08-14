@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Module: PluginUpdater
-;  Versions: 	0.0.1.2
+;  Versions: 	0.0.1.6
 ;============================================================
 [Plugin updater for Miranda NG.]
 Обновление плагинов Miranda NG.

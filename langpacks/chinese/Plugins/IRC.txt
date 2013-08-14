@@ -66,8 +66,6 @@
 等待 (秒)
 [Retry count]
 重试次数
-[Fear the monkeys!!!]
-恐惧猴子! ! ! 
 [Check every (s):]
 检查每 (秒): 
 [Don't check if more than (users):]
@@ -538,7 +536,7 @@ WhoIs 信息(&W)
 注册昵称
 [Auth nick]
 认证昵称
-[Remind password ]
+[Remind password]
 提醒密码
 [Set language]
 设置语言

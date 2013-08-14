@@ -24,9 +24,9 @@
 
 [Filtered accounts:]
 
-[Do not send more than ]
+[Do not send more than]
 
-[ questions to one contact (0 - for no limit)]
+[questions to one contact (0 - for no limit)]
 
 [Enable StopSpam-StopSpam infinite talk protection]
 

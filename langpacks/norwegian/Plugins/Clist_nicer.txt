@@ -38,7 +38,7 @@ Deaktiver grupper
 Spør før sletting av kontakter
 [Disable icon blinking]
 Deaktiver ikonblinking
-[Apply last active view mode ]
+[Apply last active view mode]
 Bruk siste aktive filtermodus
 [Contact list layout]
 Kontaktliste layout
@@ -480,9 +480,9 @@ Automatisk (RTL)
 Navn
 [Status]
 Status
-[Last Message]
-Siste Melding
-[Message Frequency]
+[Last message]
+Siste melding
+[Message frequency]
 Meldingsfrekvens
 [When space allows it]
 Når plassen tillater det

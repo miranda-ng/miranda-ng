@@ -22,8 +22,8 @@
 播放声音当
 [days or less to birthday.]
 天或更短至生日.
-[Start notifying ]
-开始通知 
+[Start notifying]
+开始通知
 [days in advance and]
 天之前且
 [hours]

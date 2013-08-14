@@ -66,8 +66,6 @@
 待機 ( 秒 )
 [Retry count]
 再試行回数
-[Fear the monkeys!!!]
-サルを怖がれ !!!
 [Check every (s):]
 必ずチェック (s):
 [Don't check if more than (users):]
@@ -544,7 +542,7 @@ NickServ
 ニックの再登録
 [Auth nick]
 ニック認証
-[Remind password ]
+[Remind password]
 パスワードを思い出す
 [Set language]
 言語を設定

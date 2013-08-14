@@ -18,8 +18,8 @@ Cacher le nombre de contacts quand aucun n'est en ligne
 3ème :
 [Always on top]
 Toujours visible
-[Hide contact list after ]
-Cacher liste contact après 
+[Hide contact list after]
+Cacher liste contact après
 [seconds]
 secondes
 [Fade contact list in/out]
@@ -126,8 +126,8 @@ Afficher l'icône xStatus
 Afficher les deux icônes
 [Show normal status as overlay]
 Icônes d'état en surimpression
-[Status overlay opacity is 75% ]
-Opacité icônes d'état à 75% 
+[Status overlay opacity is 75%]
+Opacité icônes d'état à 75%
 [Show unread emails (if supported)]
 Voir les e-mails non lus (si supporté)
 [Right click opens status menu]
@@ -184,7 +184,7 @@ Redimensionnement automatique de la fenêtre
 Agrandir vers le haut
 [Lock manual resize]
 Verrouiller le redimensionnement manuel
-[Drag to ]
+[Drag to]
 Le "Drag && Drop"
 [Easy Scroll]
 Défilement fluide

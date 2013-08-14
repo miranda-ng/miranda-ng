@@ -126,7 +126,7 @@ Wikipedia
 リンクをコピー (&C)
 [Message]
 メッセージ
-[Undo  ]
+[Undo]
 取り消し　
 [Redo]
 やり直し

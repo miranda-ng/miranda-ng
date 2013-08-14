@@ -124,7 +124,7 @@
 复制链接(&C)
 [Message]
 消息
-[Undo  ]
+[Undo]
 撤销
 [Redo]
 重做

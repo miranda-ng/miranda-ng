@@ -30,7 +30,7 @@
 
 [Del Sep/Launch Button]
 
-[Name: ]
+[Name:]
 
 [Path:]
 

@@ -32,8 +32,8 @@ Désactiver les groupes
 Demander avant de supprimer
 [Disable icon blinking]
 Sans clignotement
-[Apply last active view mode ]
-Appliquer le dernier mode d'affichage actif 
+[Apply last active view mode]
+Appliquer le dernier mode d'affichage actif
 [Contact list layout]
 Liste de contacts - Apparence
 [Show menu and status buttons]
@@ -462,9 +462,9 @@ Automatique (GàD)
 Nom
 [Status]
 État
-[Last Message]
+[Last message]
 Dernier message
-[Message Frequency]
+[Message frequency]
 Fréquence des messages
 [For RTL only]
 Pour GàD uniquement

@@ -52,7 +52,7 @@ Desativar grupos
 Perguntar antes de deletar contatos
 [Disable icon blinking]
 Desativar piscar ícone
-[Apply last active view mode ]
+[Apply last active view mode]
 Aplicar último modo de visualização ativo
 [Contact list layout]
 Layout da Lista de Contatos
@@ -544,10 +544,10 @@ Automático (RTL)
 Nome
 [Status]
 Status
-[Last Message]
+[Last message]
 Última mensagem
-[Message Frequency]
-Freqüência de Mensagem
+[Message frequency]
+Freqüência de mensagem
 [For RTL only]
 Somente para RTL
 [RTL TEXT only]

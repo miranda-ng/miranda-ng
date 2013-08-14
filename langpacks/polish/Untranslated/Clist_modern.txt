@@ -1,5 +1,6 @@
 ﻿[Info]
 [Show status name]
+[Hide contact list after]
 [Draw border on avatar]
 [Round corners of avatars]
 [Nowhere]

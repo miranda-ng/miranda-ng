@@ -350,7 +350,7 @@ Açıklama:
 [Here is a list of custom variables that are currently available]
 Kullanabileceğiniz tüm özel değişkenlerin listesini burada görebilirsiniz
 ;file \plugins\Weather\src\weather_ini.cpp
-[No update data file is found.  Please check your Plugins\\Weather directory.]
+[No update data file is found. Please check your Plugins\\Weather directory.]
 Güncelleme veri dosyası bulunamadı. Lütfen plugins\\weather klasörünü denetleyin.
 [Invalid ini format for: %s]
 %s için geçersiz ini biçimi

@@ -6,8 +6,8 @@
 ;  Authors: Bio
 ;============================================================
 ;file \plugins\Console\res\resource.rc
-[Console                                    ]
-控制台                                    
+[Console]
+控制台
 [Single window mode*]
 单窗口模式*
 [Show icons in log*]
@@ -51,8 +51,6 @@
 关闭标签 (Ctrl+W)
 [Miranda Console]
 Miranda 控制台
-[Console]
-控制台
 [Text]
 文本
 [&Help]

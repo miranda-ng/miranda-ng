@@ -1337,8 +1337,8 @@
 מקליד הודעה %s
 [Typing Notification]
 התראת כתיבה
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-מירנדה לא יכלה לטעון את מודול ההודעות, riched20.dll חסר. אם אתה משתמש ב Windows 95 או ב WINE אנא וודא שיש לך את riched20.dll מותקן. לחץ ב 'כן' בכדי להמשיך לטעון את מירנדה.
+[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
+מירנדה לא יכלה לטעון את מודול ההודעות, riched20.dll חסר. לחץ ב 'כן' בכדי להמשיך לטעון את מירנדה.
 [Incoming (Focused Window)]
 (נכנסות (חלון ממוקד
 [Incoming (Unfocused Window)]

@@ -36,8 +36,8 @@ Usuń klucz
 Generuj i użyj losowego klucza
 [Account:]
 Konto:
-[key id: ]
-id klucza: 
+[key id:]
+id klucza:
 [Copy public key]
 Kopiuj klucz publiczny
 [Export private key]

@@ -44,9 +44,9 @@ Port:
 Domyślne
 [Yahoo Ignore List]
 Lista ignorowania Yahoo
-[Ignore anyone who is not on my Yahoo buddy list ]
+[Ignore anyone who is not on my Yahoo buddy list]
 Ignoruj wszystkich spoza listy kontaktów
-[Ignore only the people below: ]
+[Ignore only the people below:]
 Ignoruj tylko osoby z listy poniżej:
 [&Add]
 Dodaj
@@ -151,7 +151,7 @@ Musisz być połączony z Yahoo aby dodać kogoś do listy ignorowanych.
 Yahoo - Ignoruj
 [Please enter a valid buddy name to ignore.]
 Podaj nazwę znajomego, którego chcesz ignorować.
-[The buddy is already on your ignore list. ]
+[The buddy is already on your ignore list.]
 Ten znajomy już znajduje się na liście ignorowanych.
 [You need to be connected to Yahoo to remove from the Ignore List.]
 Musisz być połączony z Yahoo aby usunąć kogoś z listy ignorowanych.

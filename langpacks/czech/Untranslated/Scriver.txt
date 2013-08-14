@@ -1,0 +1,2 @@
+﻿[Contact started typing]
+[Contact stopped typing]

@@ -22,7 +22,7 @@
 הסתר מספרי קבוצות כשאף אחד לא מחובר
 [Always on top]
 מעל הכול
-[Hide contact list after ]
+[Hide contact list after]
 החבא רשימת משתמשים אחרי
 [seconds]
 שניות
@@ -110,7 +110,7 @@
 הראה את שתי האייקונים
 [Show normal status as overlay]
 הראה מצב נורמלי כפרוש
-[Status overlay opacity is 75% ]
+[Status overlay opacity is 75%]
 אטימות מצב פרוש היא 75%
 [Show unread emails (if supported)]
 הראה אימיילים חדשים אם נתמך\n
@@ -168,7 +168,7 @@
 שנה לכיוון מעלה
 [Lock manual resize]
 נעל הגדלה ידנית
-[Drag to ]
+[Drag to]
 גרור ל
 [Easy Scroll]
 גלגול קל

@@ -28,7 +28,7 @@
 3 番目 :
 [Always on top]
 常に一番前
-[Hide contact list after ]
+[Hide contact list after]
 以下の後でコンタクトリストを非表示
 [seconds]
 秒
@@ -144,7 +144,7 @@ xStatus アイコンを表示
 両方のアイコンを表示
 [Show normal status as overlay]
 オーバーレイで通常ステータスを表示
-[Status overlay opacity is 75% ]
+[Status overlay opacity is 75%]
 ステータスオーバーレイの不透明度は 75%
 [Show unread emails (if supported)]
 未読の電子メールを表示 ( サポート時のみ )
@@ -204,7 +204,7 @@ xStatus アイコンを表示
 サイズを上げる
 [Lock manual resize]
 手動リサイズをロック
-[Drag to ]
+[Drag to]
 ドラッグする
 [Easy Scroll]
 簡易スクロール

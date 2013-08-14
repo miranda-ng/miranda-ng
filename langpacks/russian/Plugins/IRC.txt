@@ -413,8 +413,6 @@ ID пользователя
 Ждать (с)
 [Retry count]
 Количество попыток
-[Fear the monkeys!!!]
-Бойся обезьян!!!
 [Check every (s):]
 Проверять каждые (с):
 [Channels]

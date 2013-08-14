@@ -76,8 +76,6 @@ ID карыстача
 Чакаць (з)
 [Retry count]
 Колькасць спроб
-[Fear the monkeys!!!]
-Бойся малп!!!
 [Check every (s):]
 Правяраць кожныя (з):
 [SSL]
@@ -628,7 +626,7 @@ CTCP %s адказ пасланы для %s: %s
 Зарэгістраваць нік
 [Auth nick]
 Аўтарызаваць
-[Remind password ]
+[Remind password]
 Нагадаць пароль
 [Set language]
 Усталяваць мову

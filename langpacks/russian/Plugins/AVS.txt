@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: avs.dll
 ;  Plugin: Avatar service
-;  Versions: 0.10.0.2
+;  Versions: 0.11.1.1
 ;  URL: http://code.google.com/p/miranda/downloads/list`
 ;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/avs/
 ;  Authors: Nightwish, Pescuma

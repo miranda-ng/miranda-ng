@@ -28,7 +28,7 @@
 三:
 [Always on top]
 始终置顶
-[Hide contact list after ]
+[Hide contact list after]
 隐藏联系人列表于
 [seconds]
 秒
@@ -146,7 +146,7 @@ W x H: 0 x 0 像素
 显示双方图标
 [Show normal status as overlay]
 以层叠方式显示标准状态
-[Status overlay opacity is 75% ]
+[Status overlay opacity is 75%]
 状态层叠不透明度为 75%
 [Show unread emails (if supported)]
 显示未读邮件 (仅支持时)
@@ -206,7 +206,7 @@ W x H: 0 x 0 像素
 向上量度大小
 [Lock manual resize]
 锁定手动变更大小
-[Drag to ]
+[Drag to]
 拖放到
 [Easy Scroll]
 容易滚动

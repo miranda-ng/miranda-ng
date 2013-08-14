@@ -1657,8 +1657,8 @@ Gépelés értesítés
 %s gépel
 [Typing Notification]
 Gépelés értesítés
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Nem sikerült betölteni a beépített üzenõ modult, a riched20.dll hiányzik. Ha Windows 95-t vagy WINE-t használ, gyõzõdjön meg róla, hogy a fájl telepítve van. Kattintson az 'Igen' gombra a betöltés folytatásához.
+[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
+Nem sikerült betölteni a beépített üzenõ modult, a riched20.dll hiányzik. Kattintson az 'Igen' gombra a betöltés folytatásához.
 [Incoming (Focused Window)]
 Bejövõ (kijelölt ablak)
 [Incoming (Unfocused Window)]

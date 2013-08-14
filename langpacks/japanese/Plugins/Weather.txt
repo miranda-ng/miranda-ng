@@ -342,7 +342,7 @@ INI バージョン :
 [Here is a list of custom variables that are currently available]
 現在利用可能なカスタム変数のリスト
 ;file \plugins\Weather\src\weather_ini.cpp
-[No update data file is found.  Please check your Plugins\\Weather directory.]
+[No update data file is found. Please check your Plugins\\Weather directory.]
 更新データファイルが見つかりませんでした。Plugins\\Weather フォルダーを確認して下さい
 [Invalid ini format for: %s]
 以下に対する不正な ini 形式です : %s

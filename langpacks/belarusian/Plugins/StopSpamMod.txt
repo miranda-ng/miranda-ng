@@ -24,10 +24,10 @@
 Даступныя конты:
 [Filtered accounts:]
 Засцярожаныя конты:
-[Do not send more than ]
-Не адпраўляць больш 
-[ questions to one contact (0 - for no limit)]
- пытанняў кантакту (0 - неабмежавана)
+[Do not send more than]
+Не адпраўляць больш
+[questions to one contact (0 - for no limit)]
+пытанняў кантакту (0 - неабмежавана)
 [Enable StopSpam-StopSpam infinite talk protection]
 Не адсылаць пытанне анціспаму
 [Add contact permanently]

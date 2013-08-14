@@ -24,10 +24,10 @@ Separator:
 
 [Disable protection for following accounts:]
 
-[Do not send more than ]
-Nie wysyłaj wiecej niż 
-[ questions to one contact (0 - for no limit)]
-  pytań do jednego kontaktu (0 - brak limitu)
+[Do not send more than]
+Nie wysyłaj wiecej niż
+[questions to one contact (0 - for no limit)]
+pytań do jednego kontaktu (0 - brak limitu)
 [Enable StopSpam-StopSpam infinite talk protection]
 Włącz ochronę nieskończonej rozmowy StopSpam-StopSpam
 [Add contact permanently]

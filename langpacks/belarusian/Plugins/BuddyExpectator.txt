@@ -8,7 +8,7 @@
 [Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions.]
 Плагiн апавяшчае пра вяртанне кантакту ці яго працяглай адсутнасці.
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
-[When a contact returns after ]
+[When a contact returns after]
 Пры з'яўленні кантакту пасля
 [Show a popup]
 Паказваць усплывальнае акно

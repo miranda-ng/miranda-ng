@@ -16,7 +16,7 @@
 Pozadie
 [Text]
 Text
-[Close after: ]
+[Close after:]
 
 [sec.(0 default, -1 disabled)]
 

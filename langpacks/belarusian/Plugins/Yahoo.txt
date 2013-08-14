@@ -44,9 +44,9 @@ Yahoo Японія
 Скід
 [Yahoo Ignore List]
 Ігнараваць на Yahoo
-[Ignore anyone who is not on my Yahoo buddy list ]
+[Ignore anyone who is not on my Yahoo buddy list]
 Ігнараваць усіх, хто не ў маім спісе сяброў
-[Ignore only the people below: ]
+[Ignore only the people below:]
 Ігнараваць абраных:
 [&Add]
 &Дадаць
@@ -151,7 +151,7 @@ YAHOO плагіна HTTP злучэнні
 Yahoo Ігнор
 [Please enter a valid buddy name to ignore.]
 Увядзіце правільнае імя кантакту для ігнаравання.
-[The buddy is already on your ignore list. ]
+[The buddy is already on your ignore list.]
 Гэты кантакт ужо ў Вашым спісе ігнаравання.
 [You need to be connected to Yahoo to remove from the Ignore List.]
 Вы павінны далучыцца для выдалення са спісу ігнаравання.

@@ -68,7 +68,7 @@ Ouvrir &nouvelle fenêtre de navigateur
 &Ouvrir dans la fenêtre active du navigateur
 [&Copy link]
 &Copier le lien
-[Undo  ]
+[Undo]
 Annuler
 [Redo]
 Refaire

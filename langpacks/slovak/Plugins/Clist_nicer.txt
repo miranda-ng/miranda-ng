@@ -56,7 +56,7 @@ Skryť skupiny
 
 [Disable icon blinking]
 
-[Apply last active view mode ]
+[Apply last active view mode]
 
 [Contact list layout]
 
@@ -352,7 +352,7 @@ Všetko vyčistiť
 
 [Editing view mode]
 
-[Last message ]
+[Last message]
 
 [Per contact skins:]
 
@@ -628,9 +628,8 @@ Telefonuje
 Meno
 [Status]
 Stav
-[Last Message]
 
-[Message Frequency]
+[Message frequency]
 
 [Never]
 

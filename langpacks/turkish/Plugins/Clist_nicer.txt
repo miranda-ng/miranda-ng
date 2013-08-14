@@ -40,7 +40,7 @@ Grupları devredışı bırak
 Kişileri silmeden önce sor
 [Disable icon blinking]
 Simgenin yanıp sönmesini önle
-[Apply last active view mode ]
+[Apply last active view mode]
 Son etkin görünüm kipini uygula
 [Contact list layout]
 Kişi listesi yerleşimi
@@ -500,9 +500,9 @@ Kendiliğinden (RTL)
 Ad
 [Status]
 Durum
-[Last Message]
+[Last message]
 Son İleti
-[Message Frequency]
+[Message frequency]
 İleti sıklığı
 [For RTL only]
 Yalnız RTL için

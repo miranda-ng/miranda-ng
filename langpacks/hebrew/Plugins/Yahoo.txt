@@ -28,9 +28,9 @@
 אפס
 [Yahoo Ignore List]
 רשימת התעלמות של יאהו
-[Ignore anyone who is not on my Yahoo buddy list ]
+[Ignore anyone who is not on my Yahoo buddy list]
 התעלם מכל אחד שלא ברשימת החברים שלי ביאהו
-[Ignore only the people below: ]
+[Ignore only the people below:]
 התעלם רק מהאנשים למטה:
 [&Add]
 &הוסף

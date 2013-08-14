@@ -36,7 +36,7 @@ Smazat klíč
 
 [Account:]
 Účet:
-[key id: ]
+[key id:]
 
 [Copy public key]
 

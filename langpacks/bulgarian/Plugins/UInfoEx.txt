@@ -459,6 +459,8 @@ popup за годишнина
 Внимание: Вашият пакет икони се различава от необходимия за инсталираната версия на UserInfoEx.\nНякои икони нямат да бъдат изобразявани правилно
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 Внимание: Не е открит пакет икони в нито една от следните директории:\n- customize\\icons\n- icons\n- plugins
+[Main]
+
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]

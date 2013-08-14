@@ -34,7 +34,7 @@
 Запитване преди изтриване на контакт
 [Disable icon blinking]
 Без мигане на икони
-[Apply last active view mode ]
+[Apply last active view mode]
 Ползвай последния режим за преглед
 [Contact list layout]
 Изглед на списъка с контакти
@@ -450,9 +450,9 @@ tabSRMM Меню
 Име
 [Status]
 Състояние
-[Last Message]
+[Last message]
 Последно съобщение
-[Message Frequency]
+[Message frequency]
 Честота на съобщенията
 [For RTL only]
 Само при Л<Д

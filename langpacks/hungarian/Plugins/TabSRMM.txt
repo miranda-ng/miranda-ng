@@ -90,8 +90,8 @@ Megnyitás az aktuális böngészõ ablakban
 &Link másolása
 [Message]
 Üzenet
-[Undo  ]
-Visszavonás  
+[Undo]
+Visszavonás
 [Redo]
 Újra
 [Copy]

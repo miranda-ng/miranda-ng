@@ -16,8 +16,8 @@ Možnosti oznámení
 Pozadí
 [Text]
 Text
-[Close after: ]
-Zavřít po:\s
+[Close after:]
+Zavřít po:
 [sec.(0 default, -1 disabled)]
 sek. (0 výchozí, -1 vypnuto)
 [Settings]

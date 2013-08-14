@@ -148,8 +148,8 @@ Abrir nova &janela de pesquisa
 &Copiar link
 [Message]
 Mensagem
-[Undo  ]
-Desfazer  
+[Undo]
+Desfazer
 [Redo]
 Refazer
 [Copy]

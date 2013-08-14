@@ -132,7 +132,7 @@ Log
 Kopírovať odkaz
 [Message]
 
-[Undo  ]
+[Undo]
 
 [Redo]
 

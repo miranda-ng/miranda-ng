@@ -34,10 +34,8 @@ Ocultar grupo quando não houver contato online
 3º:
 [Always on top]
 Sempre no alto
-[Hide contact list after ]
+[Hide contact list after]
 Ocultar lista de contato após
-[Hide contact list after ]
-Ocultar lista contato após
 [seconds]
 segundos
 [Fade contact list in/out]
@@ -244,9 +242,7 @@ Mostrar os ícones
 Mostrar estado normal, como superposição
 [Show normal status as overlay]
 Mostrar estado normal, como superposição
-[Status overlay opacity is 75% ]
-Estado de opacidade de sobreposição é de 75%
-[Status overlay opacity is 75% ]
+[Status overlay opacity is 75%]
 Estado de opacidade de sobreposição é de 75%
 [Show unread emails (if supported)]
 Mostrar e-mails não lidos (se suportado)
@@ -336,9 +332,7 @@ Ajustar para cima
 Bloquear redimensionar manual
 [Lock manual resize]
 Bloquear redimensionar manual
-[Drag to ]
-Arraste para
-[Drag to ]
+[Drag to]
 Arraste para
 [Easy Scroll]
 Rolagem Fácil

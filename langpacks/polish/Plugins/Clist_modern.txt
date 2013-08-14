@@ -30,8 +30,8 @@ Ukryj liczbę kontaktów, jeśli nikt nie jest połączony
 3:
 [Always on top]
 Zawsze na wierzchu
-[Hide contact list after ]
-Ukryj listę kontaktów po 
+[Hide contact list after]
+Ukryj listę kontaktów po
 [seconds]
 s
 [Fade contact list in/out]
@@ -166,7 +166,7 @@ Automatycznie wyczyść ten tryb widoku po
 Opcje trybu widoku
 [Editing view mode]
 Edytowanie trybu widoku
-[Last message ]
+[Last message]
 Ostatnia wiadomość 
 [Status Bar]
 Pasek statusu
@@ -210,8 +210,8 @@ Pokaż ikonę xStatus
 Pokaż obie ikony
 [Show normal status as overlay]
 Pokaż status jako nakładkę
-[Status overlay opacity is 75% ]
-Widoczność nakładki statusu - 75% 
+[Status overlay opacity is 75%]
+Widoczność nakładki statusu - 75%
 [Show unread emails (if supported)]
 Pokaż nieprzeczytane emaile (jeśli obsługiwane)
 [Right click opens status menu]
@@ -266,6 +266,8 @@ Brak zaznaczenia
 Tryb zaznaczenia
 [Bring to front if covered]
 Przesuń na wierzch, jeśli zakryty
+[Hide contact list after]
+
 [Automatically resize window to height of list]
 Dopasuj rozmiar okna rozmowy do wysokości listy
 [maximum]
@@ -278,8 +280,8 @@ Rozciągnij do góry
 Zachowanie
 [Lock manual resize]
 Zablokuj ręczną zmianię rozmiaru
-[Drag to ]
-Przeciągnij do 
+[Drag to]
+Przeciągnij do
 [Easy Scroll]
 Łatwe przewijanie
 [Easy move]

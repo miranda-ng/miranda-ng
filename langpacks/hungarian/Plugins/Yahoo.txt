@@ -81,7 +81,7 @@ Kapcsolódva kell lenned a Yahoo-hoz elvetési listához történõ hozzáadásh
 Yahoo Elvetés
 [Please enter a valid buddy name to ignore.]
 Kérlek adj meg érvényes haver nevet az elvetéshez.
-[The buddy is already on your ignore list. ]
+[The buddy is already on your ignore list.]
 A haver már az elvetési listádon van.
 [You need to be connected to Yahoo to remove from the Ignore List.]
 Kapcsolódva kell lenned a Yahoo-hoz elvetési listáról történõ eltávolításhoz.

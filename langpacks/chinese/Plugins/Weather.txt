@@ -346,7 +346,7 @@ INI 版本:
 [Here is a list of custom variables that are currently available]
 这里是当前可用自定义变量列表
 ;file \plugins\Weather\src\weather_ini.cpp
-[No update data file is found.  Please check your Plugins\\Weather directory.]
+[No update data file is found. Please check your Plugins\\Weather directory.]
 找不到任何更新资料文件. 请检查您的 Plugins\\Weather 目录. 
 [Invalid ini format for: %s]
 无效 ini 格式: %s

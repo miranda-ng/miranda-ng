@@ -8,8 +8,8 @@
 [Console log window for Miranda.]
 Dziennik konsoli dla Mirandy NG.
 ;file \plugins\Console\res\resource.rc
-[Console                                    ]
-Konsola                                     
+[Console]
+Konsola
 [Single window mode*]
 Tryb pojedyńczego okna*
 [Show icons in log*]
@@ -63,8 +63,6 @@ Zamknij zakłądkę (Ctrl+W)
 Konsola
 [Services]
 Usługi
-[Console]
-Konsola
 [Text]
 Tekst
 [&Help]

@@ -30,7 +30,7 @@
 3-ці:
 [Always on top]
 Па-над усімі вокнамі
-[Hide contact list after ]
+[Hide contact list after]
 Хаваць спіс пасля
 [seconds]
 секунд(ы)
@@ -166,7 +166,7 @@
 Налады рэжыму выгляду
 [Editing view mode]
 Рэжым прагляду па змаўчанні
-[Last message ]
+[Last message]
 Апошняе паведамленне
 [Status Bar]
 Панэль статусу
@@ -210,7 +210,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Абодва значка
 [Show normal status as overlay]
 Звычайны статус па-над
-[Status overlay opacity is 75% ]
+[Status overlay opacity is 75%]
 Непразрыстасць 75%
 [Show unread emails (if supported)]
 Непрачытаная пошта (калі падтрымліваецца)
@@ -278,7 +278,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Паводзіны
 [Lock manual resize]
 Забараніць змену памеру
-[Drag to ]
+[Drag to]
 Перацягванне
 [Easy Scroll]
 Простая прагортка

@@ -50,7 +50,7 @@ On huidige browser scherm &openen
 Link kopiëreren
 [Message]
 Bericht
-[Undo  ]
+[Undo]
 Ongedaan maken
 [Redo]
 Opnieuw

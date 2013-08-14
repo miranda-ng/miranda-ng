@@ -36,7 +36,7 @@
 删除联系人前先询问
 [Disable icon blinking]
 禁用图标闪动
-[Apply last active view mode ]
+[Apply last active view mode]
 应用最后使用的查看模式
 [Contact list layout]
 联系人列表布局
@@ -488,9 +488,9 @@ tabSRMM 菜单
 名称
 [Status]
 状态
-[Last Message]
+[Last message]
 最后消息
-[Message Frequency]
+[Message frequency]
 消息频率
 [For RTL only]
 由右向左专用

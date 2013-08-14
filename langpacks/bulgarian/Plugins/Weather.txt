@@ -302,7 +302,7 @@ HTTP връзки на метео протокола
 [Here is a list of custom variables that are currently available]
 Списък на наличните променливи
 ;file \plugins\Weather\src\weather_ini.cpp
-[No update data file is found.  Please check your Plugins\\Weather directory.]
+[No update data file is found. Please check your Plugins\\Weather directory.]
 Не е открит файл с данни. Моля, проверете директорията Plugins\\Weather
 [Invalid ini format for: %s]
 Невалиден .INI формат за: %s

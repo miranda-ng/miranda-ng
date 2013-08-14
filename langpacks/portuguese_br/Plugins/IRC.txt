@@ -72,8 +72,6 @@ Reconectar
 Aguarde (s)
 [Retry count]
 Repetir contagem
-[Fear the monkeys!!!]
-Medo dos macacos!!!
 [Check every (s):]
 Verifique a cada (s):
 [Don't check if more than (users):]
@@ -564,7 +562,7 @@ NickServ
 Registrar apelido
 [Auth nick]
 Autorização de Apelido
-[Remind password ]
+[Remind password]
 Lembrar a senha
 [Set language]
 Definir idioma

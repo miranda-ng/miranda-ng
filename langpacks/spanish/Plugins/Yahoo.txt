@@ -30,9 +30,9 @@ Puerto:
 Restablecer
 [Yahoo Ignore List]
 Yahoo lista de ignorados
-[Ignore anyone who is not on my Yahoo buddy list ]
+[Ignore anyone who is not on my Yahoo buddy list]
 No haga caso de alguien que no está en mi lista de contactos de Yahoo
-[Ignore only the people below: ]
+[Ignore only the people below:]
 No haga caso a continuación sólo las personas:
 [&Add]
 &Agregar
@@ -87,7 +87,7 @@ Usted necesita estar conectado a Yahoo para agregar a la lista de ignorados.
 No haga caso de yahoo
 [Please enter a valid buddy name to ignore.]
 Por favor, escriba un nombre del contacto válida para ignorar.
-[The buddy is already on your ignore list. ]
+[The buddy is already on your ignore list.]
 El amigo ya está en la lista de ignorados.
 [You need to be connected to Yahoo to remove from the Ignore List.]
 Usted necesita estar conectado a Yahoo a quitar de la lista de ignorados.

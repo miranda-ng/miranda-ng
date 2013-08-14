@@ -76,8 +76,6 @@ Połącz ponownie
 Czekaj (s)
 [Retry count]
 Powtórne liczenie
-[Fear the monkeys!!!]
-Bój się małp!!!
 [Check every (s):]
 Sprawdzaj co (s):
 [SSL]
@@ -640,7 +638,7 @@ Zaproś na kanał
 
 [Auth nick]
 
-[Remind password ]
+[Remind password]
 
 [Set language]
 Ustaw język

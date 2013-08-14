@@ -16,7 +16,7 @@ Opcje popupów
 Tło
 [Text]
 Tekst
-[Close after: ]
+[Close after:]
 Zamknij po:
 [sec.(0 default, -1 disabled)]
 

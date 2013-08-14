@@ -66,8 +66,6 @@ Yeniden bağlan
 Bekleme (sn)
 [Retry count]
 Yineleme sayısı
-[Fear the monkeys!!!]
-Maymunları korkut!!!
 [Check every (s):]
 Şu aralıkla denetle:
 [Don't check if more than (users):]
@@ -536,7 +534,7 @@ NickServ
 Kısa adı kaydet
 [Auth nick]
 Kısa ad izni
-[Remind password ]
+[Remind password]
 Parolayı hatırla
 [Set language]
 Dili ayarla

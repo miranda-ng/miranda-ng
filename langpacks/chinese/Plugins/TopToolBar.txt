@@ -16,8 +16,8 @@
 添加分隔器
 [Add Launch]
 添加运行项目
-[Name: ]
-名称: 
+[Name:]
+名称:
 [Set]
 设置
 ;file \plugins\TopToolBar\src\toolbar.cpp

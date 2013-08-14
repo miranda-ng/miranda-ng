@@ -46,9 +46,9 @@ Apagar
 Limpar
 [Yahoo Ignore List]
 Ignorar Lista do Yahoo
-[Ignore anyone who is not on my Yahoo buddy list ]
+[Ignore anyone who is not on my Yahoo buddy list]
 Ignorar qualquer um que não esteja nos amigos do Yahoo
-[Ignore only the people below: ]
+[Ignore only the people below:]
 ignorar somente as pessoas abaixo:
 [&Add]
 &Adicionar
@@ -127,7 +127,7 @@ Você precisa estar conectado ao Yahoo para adicionar à lista de ignorados.
 Ignorar Yahoo
 [Please enter a valid buddy name to ignore.]
 Por favor, digite um nome de amigo válido para ignorar.
-[The buddy is already on your ignore list. ]
+[The buddy is already on your ignore list.]
 O amigo já está na sua lista de ignorados.
 [You need to be connected to Yahoo to remove from the Ignore List.]
 Você precisa estar conectado ao Yahoo para remover da lista de ignorados.

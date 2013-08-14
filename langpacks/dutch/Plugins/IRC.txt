@@ -60,8 +60,6 @@ Opnieuw verbinden
 Wacht (s)
 [Retry count]
 Opnieuw proberen
-[Fear the monkeys!!!]
-Vrees de apen!!!
 [User information]
 Gebruikers informatie
 [Version]

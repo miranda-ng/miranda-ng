@@ -77,7 +77,7 @@ Vous devez être connecté à Yahoo pour pourvoir ajouter un contact à ignorer.
 Contact Yahoo
 [Please enter a valid buddy name to ignore.]
 Veuillez entrer un nom de contact valide afin de l'ignorer.
-[The buddy is already on your ignore list. ]
+[The buddy is already on your ignore list.]
 Ce contact est déjà dans votre liste.
 [You need to be connected to Yahoo to remove from the Ignore List.]
 Vous devez être connecté à Yahoo afin de retirer un contact de la liste.

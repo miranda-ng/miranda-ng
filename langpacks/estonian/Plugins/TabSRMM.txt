@@ -44,8 +44,8 @@ Link
 Kopeeri link
 [Message]
 Teade
-[Undo  ]
-Ennista 
+[Undo]
+Ennista
 [Copy]
 Kopeeri
 [Cut]

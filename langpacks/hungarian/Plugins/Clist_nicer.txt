@@ -38,7 +38,7 @@ Csoportok kikapcsolása
 Partnerek törlésének megerõsítése
 [Disable icon blinking]
 Ikon villogás kikapcsolása
-[Apply last active view mode ]
+[Apply last active view mode]
 Utolsó aktív nézet mód alkalmazása
 [Contact list layout]
 Partnerlista felosztás
@@ -484,9 +484,9 @@ Automatikus (RTL)
 Név
 [Status]
 Állpot
-[Last Message]
+[Last message]
 Utolsó üzenet
-[Message Frequency]
+[Message frequency]
 Üzenet gyakoriság
 [For RTL only]
 Csak RTL esetén

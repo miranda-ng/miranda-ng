@@ -15,7 +15,7 @@
 Фон
 [Text]
 Тэкст
-[Close after: ]
+[Close after:]
 Закрыць пасля:
 [version:]
 версія:

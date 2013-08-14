@@ -678,6 +678,10 @@ Przychodzące (Nieaktywne okno)
 Przychodzące (Nowa sesja)
 [Outgoing]
 Wychodzące
+[Contact started typing]
+
+[Contact stopped typing]
+
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occured.]
 Nieznany błąd.

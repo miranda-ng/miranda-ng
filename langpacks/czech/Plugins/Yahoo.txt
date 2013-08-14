@@ -44,10 +44,10 @@ Port:
 Reset
 [Yahoo Ignore List]
 Seznam filtrovaných
-[Ignore anyone who is not on my Yahoo buddy list ]
-Ignorovat všechny, kdo nejsou v seznamu kontaktů\s
-[Ignore only the people below: ]
-Ignorovat pouze níže uvedené uživatele:\s
+[Ignore anyone who is not on my Yahoo buddy list]
+Ignorovat všechny, kdo nejsou v seznamu kontaktů
+[Ignore only the people below:]
+Ignorovat pouze níže uvedené uživatele:
 [&Add]
 Přid&at
 [&Remove]
@@ -151,8 +151,8 @@ Novou položku lze přidat až po připojení do sítě Yahoo.
 Yahoo :: Seznam filtrovaných
 [Please enter a valid buddy name to ignore.]
 Zadejte prosím platnou přezdívku.
-[The buddy is already on your ignore list. ]
-Tento uživatel je již ve vašem seznamu ignorovaných.\s
+[The buddy is already on your ignore list.]
+Tento uživatel je již ve vašem seznamu ignorovaných.
 [You need to be connected to Yahoo to remove from the Ignore List.]
 Položku ze seznamu lze odebrat až po připojení do sítě Yahoo.
 [Please select a buddy on the ignore list to remove.]

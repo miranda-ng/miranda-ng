@@ -38,7 +38,7 @@ Clist Nicer+
 コンタクトを削除する前に確認する
 [Disable icon blinking]
 アイコン点滅を無効
-[Apply last active view mode ]
+[Apply last active view mode]
 表示モードの最終動作を適用
 [Contact list layout]
 コンタクトリストのレイアウト
@@ -490,9 +490,9 @@ tabSRMMメニュー
 名前
 [Status]
 ステータス
-[Last Message]
+[Last message]
 最終メッセージ
-[Message Frequency]
+[Message frequency]
 メッセージの頻度
 [For RTL only]
 RTL のみ

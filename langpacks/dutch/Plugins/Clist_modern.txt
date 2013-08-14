@@ -18,7 +18,7 @@ Groep aantallen wanneer er niemand online is verbergen
 3e:
 [Always on top]
 Altijd bovenop
-[Hide contact list after ]
+[Hide contact list after]
 Lijst verbergen na
 [seconds]
 seconden
