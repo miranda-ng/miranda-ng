@@ -690,7 +690,7 @@ int Utils::RTFColorToIndex(int iCol)
  */
 INT_PTR CALLBACK Utils::PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, (LPARAM)&hContact);
+	HANDLE hContact = (HANDLE)PUGetPluginData(hWnd);
 
 	switch (message) {
 	case WM_COMMAND:

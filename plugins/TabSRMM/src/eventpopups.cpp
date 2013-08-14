@@ -40,22 +40,13 @@
 
 #include "commonheaders.h"
 
-typedef std::vector<PLUGIN_DATAT *>::iterator PopupListIterator;
-static std::vector<PLUGIN_DATAT *> PopupList;
+static LIST<PLUGIN_DATAT> arPopupList(10, HandleKeySortT);
 
-BOOL        bWmNotify = TRUE;
+BOOL bWmNotify = TRUE;
 
-static const PLUGIN_DATAT* PU_GetByContact(const HANDLE hContact)
+static PLUGIN_DATAT* PU_GetByContact(const HANDLE hContact)
 {
-	if (PopupList.size()) {
-		PopupListIterator it = PopupList.begin();
-		while(it != PopupList.end()) {
-			if ((*it)->hContact == hContact)
-				return(*it);
-			it++;
-		}
-	}
-	return 0;
+	return arPopupList.find((PLUGIN_DATAT*)&hContact);
 }
 
 /**
@@ -65,22 +56,12 @@ static const PLUGIN_DATAT* PU_GetByContact(const HANDLE hContact)
  */
 static void PU_CleanUp()
 {
-	if (PopupList.size()) {
-		PopupListIterator it = PopupList.begin();
-		while(it != PopupList.end()) {
-			if (PopupList.size() == 0)
-				break;
-			if ((*it)->hContact == 0) {
-				//_DebugTraceW(_T("found stale popup %s"), (*it)->eventData->szText);
-				if ((*it)->eventData)
-					mir_free((*it)->eventData);
-				mir_free(*it);
-				it = PopupList.erase(it);
-				continue;
-			}
-			it++;
-		}
+	for (int i=0; i < arPopupList.getCount(); i++) {
+		PLUGIN_DATAT *p = arPopupList[i];
+		mir_free(p->eventData);
+		mir_free(p);
 	}
+	arPopupList.destroy();
 }
 
 static void CheckForRemoveMask()
@@ -441,12 +422,9 @@ static int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATAT* pdata)
 		PUDeletePopup(hWnd);
 		if (pdata->hContainer)
 		{
-			FLASHWINFO fwi;
-			fwi.cbSize = sizeof(fwi);
-			fwi.uCount = 0;
+			FLASHWINFO fwi = { sizeof(fwi) };
 			fwi.dwFlags = FLASHW_STOP;
 			fwi.hwnd = pdata->hContainer;
-			fwi.dwTimeout = 0;
 			FlashWindowEx(&fwi);
 		}
 	}
@@ -455,10 +433,9 @@ static int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATAT* pdata)
 
 static BOOL CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	PLUGIN_DATAT* pdata = NULL;
-
-	pdata = (PLUGIN_DATAT *)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, (LPARAM)pdata);
-	if (!pdata) return FALSE;
+	PLUGIN_DATAT *pdata = (PLUGIN_DATAT*)PUGetPluginData(hWnd);
+	if (pdata == NULL)
+		return FALSE;
 
 	switch (message) {
 	case WM_COMMAND:
@@ -510,7 +487,7 @@ static BOOL CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 * @return
 */
 
-static TCHAR *ShortenPreview(DBEVENTINFO* dbe)
+static TCHAR* ShortenPreview(DBEVENTINFO* dbe)
 {
 	bool	fAddEllipsis = false;
 	int iPreviewLimit = nen_options.iLimitPreview;
@@ -534,9 +511,9 @@ static TCHAR *ShortenPreview(DBEVENTINFO* dbe)
 	return buf;
 }
 
-static TCHAR *GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
+static TCHAR* GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 {
-	char	*pBlob = (char *)dbe->pBlob;
+	char *pBlob = (char *)dbe->pBlob;
 
 	switch (eventType) {
 	case EVENTTYPE_MESSAGE:
@@ -594,11 +571,11 @@ static int PopupUpdateT(HANDLE hContact, HANDLE hEvent)
 	if (hEvent == NULL)
 		return 0;
 
-	if (pdata->pluginOptions->bShowHeaders) {
-		mir_sntprintf(pdata->szHeader, SIZEOF(pdata->szHeader), _T("%s %d\n"),
-			TranslateT("New messages: "), pdata->nrMerged + 1);
-		pdata->szHeader[255] = 0;
-	}
+	TCHAR szHeader[256];
+	if (pdata->pluginOptions->bShowHeaders)
+		mir_sntprintf(szHeader, SIZEOF(szHeader), _T("%s %d\n"), TranslateT("New messages: "), pdata->nrMerged + 1);
+	else
+		szHeader[0] = 0;
 
 	DBEVENTINFO dbe = { sizeof(dbe) };
 	if (pdata->pluginOptions->bPreview && hContact) {
@@ -625,11 +602,11 @@ static int PopupUpdateT(HANDLE hContact, HANDLE hEvent)
 	* for which there is enough space in the popup text
 	*/
 
-	TCHAR lpzText[MAX_SECONDLINE] = _T("");
+	TCHAR lpzText[MAX_SECONDLINE];
 	int i, available = MAX_SECONDLINE - 1;
 	if (pdata->pluginOptions->bShowHeaders) {
-		_tcsncpy(lpzText, pdata->szHeader, MAX_SECONDLINE);
-		available -= lstrlen(pdata->szHeader);
+		_tcsncpy(lpzText, szHeader, MAX_SECONDLINE);
+		available -= lstrlen(szHeader);
 	}
 	for (i = pdata->nrMerged; i >= 0; i--) {
 		available -= lstrlen(pdata->eventData[i].szText);
@@ -657,8 +634,8 @@ static int PopupUpdateT(HANDLE hContact, HANDLE hEvent)
 static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent, UINT eventType, HWND hContainer)
 {
 	//there has to be a maximum number of popups shown at the same time
-	if (PopupList.size() >= MAX_POPUPS)
-		return(2);
+	if (arPopupList.getCount() >= MAX_POPUPS)
+		return 2;
 
 	if (!PluginConfig.g_PopupAvail)
 		return 0;
@@ -734,7 +711,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 		mir_free(pdata->eventData);
 		mir_free(pdata);
 	}
-	else PopupList.push_back(pdata);
+	else arPopupList.insert(pdata);
 
 	if (dbe.pBlob)
 		mir_free(dbe.pBlob);

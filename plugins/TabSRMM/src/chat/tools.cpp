@@ -158,7 +158,7 @@ static void TSAPI Chat_DismissPopup(const SESSION_INFO *si, HWND hwndPopup)
 
 static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	SESSION_INFO *si = (SESSION_INFO*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, 0);;
+	SESSION_INFO *si = (SESSION_INFO*)PUGetPluginData(hWnd);
 
 	switch (message) {
 	case WM_COMMAND:

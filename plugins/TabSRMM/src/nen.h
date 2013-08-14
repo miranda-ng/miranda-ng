@@ -143,13 +143,12 @@ struct EVENT_DATAT
 
 struct PLUGIN_DATAT
 {
-	UINT         eventType;
 	HANDLE       hContact;
+	UINT         eventType;
 	NEN_OPTIONS *pluginOptions;
 	POPUPDATAT  *pud;
 	HWND         hWnd;
 	long         iSeconds;
-	TCHAR        szHeader[256];
 	int          nrMerged;
 	EVENT_DATAT *eventData;
 	int          nrEventsAlloced;
