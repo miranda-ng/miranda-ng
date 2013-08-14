@@ -41,12 +41,12 @@
 Только для RTL
 [Groups and layout]
 Группы и расположение
-[Last Message]
-По последнему сообщению
+[Last message]
+Последнее сообщение
 [List layout]
 Расположение списка
-[Message Frequency]
-По частоте сообщений
+[Message frequency]
+Частота сообщений
 [RTL TEXT only]
 Для RTL текста
 [Rename...]
