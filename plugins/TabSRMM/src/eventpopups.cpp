@@ -56,12 +56,15 @@ static PLUGIN_DATAT* PU_GetByContact(const HANDLE hContact)
  */
 static void PU_CleanUp()
 {
-	for (int i=0; i < arPopupList.getCount(); i++) {
+	for (int i=arPopupList.getCount()-1; i >= 0; i--) {
 		PLUGIN_DATAT *p = arPopupList[i];
+		if (p->hContact != NULL)
+			continue;
+
 		mir_free(p->eventData);
 		mir_free(p);
+		arPopupList.remove(i);
 	}
-	arPopupList.destroy();
 }
 
 static void CheckForRemoveMask()
@@ -767,30 +770,25 @@ void TSAPI UpdateTrayMenuState(TWindowData *dat, BOOL bForced)
 int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szProto, const TCHAR *szStatus, HANDLE hContact, DWORD fromEvent)
 {
 	if (PluginConfig.g_hMenuTrayUnread != 0 && hContact != 0 && szProto != NULL) {
-		TCHAR			szMenuEntry[80], *tszFinalProto = NULL;
-		MENUITEMINFO	mii = {0};
-		WORD			wMyStatus;
-		const TCHAR		*szMyStatus;
-		const TCHAR		*szNick = NULL;
-
-		mii.cbSize = sizeof(mii);
-		mii.fMask = MIIM_DATA | MIIM_ID | MIIM_BITMAP;
-
 		if (szProto == NULL)
 			return 0;                                     // should never happen...
 
 		PROTOACCOUNT *acc = (PROTOACCOUNT *)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)szProto);
-
-		tszFinalProto = (acc && acc->tszAccountName ? acc->tszAccountName : 0);
-
+		TCHAR *tszFinalProto = (acc && acc->tszAccountName ? acc->tszAccountName : 0);
 		if (tszFinalProto == 0)
 			return 0;									// should also NOT happen
 
-		wMyStatus = (wStatus == 0) ? db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) : wStatus;
-		szMyStatus = (szStatus == NULL) ? (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wMyStatus, GSMDF_TCHAR) : szStatus;
+		WORD wMyStatus = (wStatus == 0) ? db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) : wStatus;
+		const TCHAR	*szMyStatus = (szStatus == NULL) ? (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wMyStatus, GSMDF_TCHAR) : szStatus;
+
+		MENUITEMINFO mii = {0};
+		mii.cbSize = sizeof(mii);
+		mii.fMask = MIIM_DATA | MIIM_ID | MIIM_BITMAP;
 		mii.wID = (UINT)hContact;
 		mii.hbmpItem = HBMMENU_CALLBACK;
 
+		TCHAR	szMenuEntry[80];
+		const TCHAR *szNick = NULL;
 		if (dat != 0) {
 			szNick = dat->cache->getNick();
 			GetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, FALSE, &mii);
