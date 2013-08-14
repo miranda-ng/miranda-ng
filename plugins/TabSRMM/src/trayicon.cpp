@@ -346,7 +346,7 @@ void TSAPI LoadFavoritesAndRecent()
 	}
 
 	if (iIndex == 0) {
-		mir_free(recentEntries);
+		delete[] recentEntries;
 		return;
 	}
 
