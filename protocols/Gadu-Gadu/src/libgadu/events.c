@@ -2617,12 +2617,8 @@ struct gg_event *gg_watch_fd(struct gg_session *sess)
 				case GG_LOGIN_HASH_SHA1:
 				{
 					char tmp[41];
-					int i;
-
 					gg_login_hash_sha1((char*) password, w->key, login_hash);
-					for (i = 0; i < 40; i += 2)
-						snprintf(tmp + i, sizeof(tmp) - i, "%02x", login_hash[i / 2]);
-
+					bin2hex(login_hash, 20, tmp);
 					gg_debug_session(sess, GG_DEBUG_DUMP, "// gg_watch_fd() challenge %.4x --> SHA1 hash: %s\n", w->key, tmp);
 
 					break;

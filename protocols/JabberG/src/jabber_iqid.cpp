@@ -1474,22 +1474,22 @@ LBL_ErrFormat:
 
 	setByte(hContact, "AvatarType", pictureType);
 
-	char buffer[41];
 	mir_sha1_byte_t digest[20];
 	mir_sha1_ctx sha;
 	mir_sha1_init(&sha);
 	mir_sha1_append(&sha, (mir_sha1_byte_t*)(char*)body, resultLen);
 	mir_sha1_finish(&sha, digest);
-	bin2hex(digest, sizeof(digest), buffer);
 
 	GetAvatarFileName(hContact, tszFileName, SIZEOF(tszFileName));
 	_tcsncpy(AI.filename, tszFileName, SIZEOF(AI.filename));
 
-	FILE* out = _tfopen(tszFileName, _T("wb"));
+	FILE *out = _tfopen(tszFileName, _T("wb"));
 	if (out != NULL) {
 		fwrite(body, resultLen, 1, out);
 		fclose(out);
-		setString(hContact, "AvatarSaved", buffer);
+
+		char buffer[41];
+		setString(hContact, "AvatarSaved", bin2hex(digest, sizeof(digest), buffer));
 		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&AI), NULL);
 		Log("Broadcast new avatar: %s",AI.filename);
 	}
