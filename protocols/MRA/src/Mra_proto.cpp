@@ -1759,14 +1759,14 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 
 	// pre processing - extracting/decoding
 	if (dwFlags & MESSAGE_FLAG_AUTHORIZE) { // extract auth message из обычного текста
-		size_t dwAuthPartsCount, dwAuthBuffSize = (plpsText->dwSize+32), dwAuthDataSize;
-		LPBYTE lpbAuthData, lpbDataCurrent;
+		size_t dwAuthPartsCount, dwAuthBuffSize = (plpsText->dwSize+32);
+		LPBYTE lpbDataCurrent;
 		MRA_LPS lpsAuthFrom, lpsAuthMessage;
 
-		lpbAuthData = (LPBYTE)mir_calloc(dwAuthBuffSize);
+		LPS2ANSI(szText, plpsText->lpszData, plpsText->dwSize);
+		unsigned dwAuthDataSize;
+		LPBYTE lpbAuthData = (LPBYTE)mir_base64_decode(szText, &dwAuthDataSize);
 		if (lpbAuthData) {
-			BASE64DecodeFormated(plpsText->lpszData, plpsText->dwSize, lpbAuthData, dwAuthBuffSize, &dwAuthDataSize);
-
 			lpbDataCurrent = lpbAuthData;
 			dwAuthPartsCount = GetUL(&lpbDataCurrent);
 			if ( !GetLPS(lpbAuthData, dwAuthDataSize, &lpbDataCurrent, &lpsAuthFrom))
@@ -1809,14 +1809,15 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 		else {
 			if ((dwFlags & MESSAGE_FLAG_RTF) && plpsRFTText) //MESSAGE_FLAG_FLASH there
 			if (plpsRFTText->lpszData && plpsRFTText->dwSize) { // decode RTF
-				size_t dwRTFPartsCount, dwCompressedSize, dwRFTBuffSize = ((plpsRFTText->dwSize*16)+8192), dwRTFDataSize;
-				LPBYTE lpbRTFData, lpbCompressed, lpbDataCurrent;
+				size_t dwRTFPartsCount, dwRFTBuffSize = ((plpsRFTText->dwSize*16)+8192), dwRTFDataSize;
+				LPBYTE lpbDataCurrent;
 				MRA_LPS lpsRTFString, lpsBackColour, lpsString;
 
-				lpbRTFData = (LPBYTE)mir_calloc(dwRFTBuffSize);
-				lpbCompressed = (LPBYTE)mir_calloc((plpsRFTText->dwSize+32));
-				if (lpbRTFData && lpbCompressed) {
-					BASE64DecodeFormated(plpsRFTText->lpszData, plpsRFTText->dwSize, lpbCompressed, (plpsRFTText->dwSize+32), &dwCompressedSize);
+				mir_ptr<BYTE> lpbRTFData((LPBYTE)mir_calloc(dwRFTBuffSize));
+				if (lpbRTFData) {
+					LPS2ANSI(szRtf, plpsRFTText->lpszData, plpsRFTText->dwSize);
+					unsigned dwCompressedSize;
+					mir_ptr<BYTE> lpbCompressed((LPBYTE)mir_base64_decode(szRtf, &dwCompressedSize));
 					dwRTFDataSize = dwRFTBuffSize;
 					if ( uncompress(lpbRTFData, (DWORD*)&dwRTFDataSize, lpbCompressed, dwCompressedSize) == Z_OK) {
 						lpbDataCurrent = lpbRTFData;
@@ -1867,8 +1868,6 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 						DebugBreak();
 					}
 				}
-				mir_free(lpbCompressed);
-				mir_free(lpbRTFData);
 			}
 		}
 	}

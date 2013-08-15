@@ -80,23 +80,18 @@ DWORD CMraProto::MraMessageW(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType,
 
 	// pack auth message
 	if (dwFlags & MESSAGE_FLAG_AUTHORIZE) {
-		LPBYTE lpbAuthMsgBuff;
-		size_t dwMessageConvertedBuffSize = (((((dwMessageSize*sizeof(WCHAR))+1024)+2)/3)*4);
-
-		lpszMessageConverted = (LPSTR)mir_calloc(dwMessageConvertedBuffSize);
-		lpbAuthMsgBuff = (LPBYTE)mir_calloc(((dwMessageSize*sizeof(WCHAR))+1024));
-		if (lpszMessageConverted && lpbAuthMsgBuff) {
+		LPBYTE lpbAuthMsgBuff = (LPBYTE)mir_calloc(((dwMessageSize*sizeof(WCHAR))+1024));
+		if (lpbAuthMsgBuff) {
 			lpbDataCurrent = lpbAuthMsgBuff;
 			SetUL(&lpbDataCurrent, 2);
 			SetLPSW(&lpbDataCurrent, NULL, 0);//***deb possible nick here
 			SetLPSW(&lpbDataCurrent, lpwszMessage, dwMessageSize);
 
-			BASE64EncodeUnSafe(lpbAuthMsgBuff, (lpbDataCurrent-lpbAuthMsgBuff), lpszMessageConverted, dwMessageConvertedBuffSize, &dwMessageConvertedSize);
+			lpszMessageConverted = mir_base64_encode(lpbAuthMsgBuff, (lpbDataCurrent-lpbAuthMsgBuff));
+			dwMessageConvertedSize = strlen(lpszMessageConverted);
 		}
-		else {
-			mir_free(lpszMessageConverted);
-			lpszMessageConverted = (LPSTR)lpwszMessage;
-		}
+		else lpszMessageConverted = (LPSTR)lpwszMessage;
+
 		mir_free(lpbAuthMsgBuff);
 	}
 	// messages with Flash
@@ -104,9 +99,8 @@ DWORD CMraProto::MraMessageW(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType,
 		size_t dwRFTBuffSize = (((dwMessageSize*sizeof(WCHAR))*4)+8192), dwRTFDataSize;
 
 		dwFlags |= MESSAGE_FLAG_RTF;
-		lpszMessageRTF = (LPSTR)mir_calloc(dwRFTBuffSize);
 		ptrA lpbRTFData((char*)mir_calloc(dwRFTBuffSize));
-		if (lpszMessageRTF && lpbRTFData) {
+		if (lpbRTFData) {
 			DWORD dwBackColour = getDword("RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR);
 			lpbDataCurrent = (LPBYTE)lpszMessageRTF;
 
@@ -119,8 +113,10 @@ DWORD CMraProto::MraMessageW(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType,
 			SetLPSW(&lpbDataCurrent, lpwszMessage, dwMessageSize);// сам мульт UNICODE
 
 			dwRTFDataSize = dwRFTBuffSize;
-			if ( compress2((LPBYTE)(LPSTR)lpbRTFData, (DWORD*)&dwRTFDataSize, (LPBYTE)lpszMessageRTF, (lpbDataCurrent-(LPBYTE)lpszMessageRTF), Z_BEST_COMPRESSION) == Z_OK)
-				BASE64EncodeUnSafe(lpbRTFData, dwRTFDataSize, lpszMessageRTF, dwRFTBuffSize, &dwMessageRTFSize);
+			if ( compress2((LPBYTE)(LPSTR)lpbRTFData, (DWORD*)&dwRTFDataSize, (LPBYTE)lpszMessageRTF, (lpbDataCurrent-(LPBYTE)lpszMessageRTF), Z_BEST_COMPRESSION) == Z_OK) {
+				lpszMessageRTF = mir_base64_encode((LPBYTE)(char*)lpbRTFData, dwRTFDataSize);
+				dwMessageRTFSize = lstrlenA(lpszMessageRTF);
+			}
 		}
 	}
 	// standart message
@@ -129,9 +125,8 @@ DWORD CMraProto::MraMessageW(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType,
 		if (dwFlags & MESSAGE_FLAG_RTF) { // add RFT part
 			size_t dwRFTBuffSize = (((dwMessageSize*sizeof(WCHAR))*16)+8192), dwRTFDataSize;
 
-			lpszMessageRTF = (LPSTR)mir_calloc(dwRFTBuffSize);
 			ptrA lpbRTFData((char*)mir_calloc(dwRFTBuffSize));
-			if (lpszMessageRTF && lpbRTFData) {
+			if (lpbRTFData) {
 				if ( !MraConvertToRTFW(lpwszMessage, dwMessageSize, (LPSTR)lpbRTFData, dwRFTBuffSize, &dwRTFDataSize)) {
 					DWORD dwBackColour = getDword("RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR);
 					lpbDataCurrent = (LPBYTE)lpszMessageRTF;
@@ -141,8 +136,10 @@ DWORD CMraProto::MraMessageW(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType,
 					SetLPS(&lpbDataCurrent, (LPSTR)&dwBackColour, sizeof(DWORD));
 
 					dwRTFDataSize = dwRFTBuffSize;
-					if ( compress2((LPBYTE)(LPSTR)lpbRTFData, (DWORD*)&dwRTFDataSize, (LPBYTE)lpszMessageRTF, (lpbDataCurrent-(LPBYTE)lpszMessageRTF), Z_BEST_COMPRESSION) == Z_OK)
-						BASE64EncodeUnSafe(lpbRTFData, dwRTFDataSize, lpszMessageRTF, dwRFTBuffSize, &dwMessageRTFSize);
+					if ( compress2((LPBYTE)(LPSTR)lpbRTFData, (DWORD*)&dwRTFDataSize, (LPBYTE)lpszMessageRTF, (lpbDataCurrent-(LPBYTE)lpszMessageRTF), Z_BEST_COMPRESSION) == Z_OK) {
+						lpszMessageRTF = mir_base64_encode((LPBYTE)(char*)lpbRTFData, dwRTFDataSize);
+						dwMessageRTFSize = lstrlenA(lpszMessageRTF);
+					}
 				}
 			}
 		}
@@ -236,22 +233,23 @@ DWORD CMraProto::MraAddContactW(HANDLE hContact, DWORD dwContactFlag, DWORD dwGr
 			SetLPS(&lpbDataCurrent, lpszPhones, dwPhonesSize);
 
 			// pack auth message
-			LPBYTE lpbAuthMsgBuff, lpbAuthMessageConverted, lpbAuthDataCurrent;
+			LPBYTE lpbAuthMsgBuff, lpbAuthDataCurrent;
+			LPSTR lpszAuthMessageConverted;
 			size_t dwAuthMessageConvertedBuffSize = (((((dwAuthMessageSize*sizeof(WCHAR))+1024)+2)/3)*4), dwAuthMessageConvertedSize = 0;
 
-			lpbAuthMessageConverted = (LPBYTE)mir_calloc(dwAuthMessageConvertedBuffSize);
 			lpbAuthMsgBuff = (LPBYTE)mir_calloc(((dwAuthMessageSize*sizeof(WCHAR))+1024));
-			if (lpbAuthMessageConverted && lpbAuthMsgBuff) {
+			if (lpbAuthMsgBuff) {
 				lpbAuthDataCurrent = lpbAuthMsgBuff;
 				SetUL(&lpbAuthDataCurrent, 2);
 				SetLPSW(&lpbAuthDataCurrent, NULL, 0);//***deb possible nick here
 				SetLPSW(&lpbAuthDataCurrent, lpwszAuthMessage, dwAuthMessageSize);
 
-				BASE64EncodeUnSafe(lpbAuthMsgBuff, (lpbAuthDataCurrent-lpbAuthMsgBuff), lpbAuthMessageConverted, dwAuthMessageConvertedBuffSize, &dwAuthMessageConvertedSize);
+				lpszAuthMessageConverted = mir_base64_encode(lpbAuthMsgBuff, (lpbAuthDataCurrent-lpbAuthMsgBuff));
+				dwAuthMessageConvertedSize = lstrlenA(lpszAuthMessageConverted);
 			}
-			SetLPS(&lpbDataCurrent, (LPSTR)lpbAuthMessageConverted, dwAuthMessageConvertedSize);
+			SetLPS(&lpbDataCurrent, (LPSTR)lpszAuthMessageConverted, dwAuthMessageConvertedSize);
 			mir_free(lpbAuthMsgBuff);
-			mir_free(lpbAuthMessageConverted);
+			mir_free(lpszAuthMessageConverted);
 
 			SetUL(&lpbDataCurrent, dwActions);
 

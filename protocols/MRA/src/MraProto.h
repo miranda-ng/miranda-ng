@@ -272,8 +272,6 @@ struct CMraProto : public PROTO<CMraProto>
 
 	BOOL   SetPassDB(LPSTR lpszBuff, size_t dwBuffSize);
 	BOOL   GetPassDB(LPSTR lpszBuff, size_t dwBuffSize, size_t *pdwBuffSize);
-	BOOL   GetPassDB_v1(LPSTR lpszBuff, size_t dwBuffSize, size_t *pdwBuffSize);
-	BOOL   GetPassDB_v2(LPSTR lpszBuff, size_t dwBuffSize, size_t *pdwBuffSize);
 
 	BOOL   MraRequestXStatusDetails(DWORD dwXStatus);
 	BOOL   MraSendReplyBlogStatus(HANDLE hContact);

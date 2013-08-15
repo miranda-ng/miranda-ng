@@ -15,17 +15,12 @@ DWORD MraOfflineMessageGetHeaderValue		(LPSTR lpszHeader, LPSTR lpszHeaderLow, s
 DWORD MraOfflineMessageGetHeaderValueLow	(LPSTR lpszHeaderLow, size_t dwHeaderSize, LPSTR lpszValueName, size_t dwValueNameSize, LPSTR *plpszValue, size_t *pdwValueSize);
 DWORD MraOfflineMessageConvertTime			(INTERNET_TIME *pitTime);
 
-
-
-
 DWORD MraOfflineMessageGet(MRA_LPS *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, MRA_LPS *plpsEMail, MRA_LPS *plpsText, MRA_LPS *plpsRTFText, MRA_LPS *plpsMultiChatData, LPBYTE *plpbBuff)
 {// Сообщение
 	DWORD dwRetErrorCode = ERROR_INVALID_HANDLE;
 
-
 	if (plpsMsg)
-	if (plpsMsg->lpszData && plpsMsg->dwSize)
-	{
+	if (plpsMsg->lpszData && plpsMsg->dwSize) {
 		LPSTR lpszHeader, lpszHeaderLow, lpszBody, lpszContentTypeLow, lpszTemp;
 		size_t dwHeaderSize, dwBodySize, dwContentTypeSize, dwTempSize;
 		DWORD dwMultichatType;
@@ -34,153 +29,121 @@ DWORD MraOfflineMessageGet(MRA_LPS *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, MR
 			DebugPrintCRLFA(plpsMsg->lpszData);
 		#endif
 
-		if (MraOfflineMessageGetMIMEHeadAndBody(plpsMsg->lpszData, plpsMsg->dwSize, &lpszHeader, &dwHeaderSize, &lpszBody, &dwBodySize) == NO_ERROR)
-		{
+		if (MraOfflineMessageGetMIMEHeadAndBody(plpsMsg->lpszData, plpsMsg->dwSize, &lpszHeader, &dwHeaderSize, &lpszBody, &dwBodySize) == NO_ERROR) {
 			lpszHeaderLow = (LPSTR)mir_calloc(dwHeaderSize);
 			if (lpszHeaderLow) BuffToLowerCase(lpszHeaderLow, lpszHeader, dwHeaderSize);
 
 			if (pdwTime)
-			if (MraOfflineMessageGetHeaderValue(lpszHeader, lpszHeaderLow, dwHeaderSize, "date", 4, &lpszTemp, &dwTempSize) == NO_ERROR)
-			{
+			if (MraOfflineMessageGetHeaderValue(lpszHeader, lpszHeaderLow, dwHeaderSize, "date", 4, &lpszTemp, &dwTempSize) == NO_ERROR) {
 				INTERNET_TIME itTime;
 				InternetTimeGetTime(lpszTemp, dwTempSize, &itTime);
 				(*pdwTime) = MraOfflineMessageConvertTime(&itTime);
-			}else {
-				(*pdwTime) = 0;
 			}
+			else (*pdwTime) = 0;
 
 			if (pdwFlags)
 			if (MraOfflineMessageGetHeaderValue(lpszHeader, lpszHeaderLow, dwHeaderSize, "x-mrim-flags", 12, &lpszTemp, &dwTempSize) == NO_ERROR)
-			{
 				(*pdwFlags) = StrHexToUNum32(lpszTemp, dwTempSize);
-			}else {
+			else
 				(*pdwFlags) = 0;
-			}
 
 			if (MraOfflineMessageGetHeaderValue(lpszHeader, lpszHeaderLow, dwHeaderSize, "x-mrim-multichat-type", 21, &lpszTemp, &dwTempSize) == NO_ERROR)
-			{
 				dwMultichatType = StrHexToUNum32(lpszTemp, dwTempSize);
-			}else {
+			else
 				dwMultichatType = 0;
-			}
-
 
 			if (plpsEMail)
-			if (MraOfflineMessageGetHeaderValue(lpszHeader, lpszHeaderLow, dwHeaderSize, "from", 4, &plpsEMail->lpszData, &plpsEMail->dwSize) != NO_ERROR)
-			{
+			if (MraOfflineMessageGetHeaderValue(lpszHeader, lpszHeaderLow, dwHeaderSize, "from", 4, &plpsEMail->lpszData, &plpsEMail->dwSize) != NO_ERROR) {
 				plpsEMail->lpszData = NULL;
 				plpsEMail->dwSize = 0;
 			}
 
-
-			if (plpsText)
-			{
+			if (plpsText) {
 				plpsText->lpszData = NULL;
 				plpsText->dwSize = 0;
 			}
-			if (plpsRTFText)
-			{
+			if (plpsRTFText) {
 				plpsRTFText->lpszData = NULL;
 				plpsRTFText->dwSize = 0;
 			}
-			if (plpsMultiChatData)
-			{
+			if (plpsMultiChatData) {
 				plpsMultiChatData->lpszData = NULL;
 				plpsMultiChatData->dwSize = 0;
 			}
 			if (plpbBuff) (*plpbBuff) = NULL;
 
 			if (plpsText || plpsRTFText)
-			if (MraOfflineMessageGetHeaderValueLow(lpszHeaderLow, dwHeaderSize, "content-type", 12, &lpszContentTypeLow, &dwContentTypeSize) == NO_ERROR)
-			{
-
-				if (MemoryFind(0, lpszContentTypeLow, dwContentTypeSize, "multipart/alternative", 21))
-				{// Content-Type: multipart/alternative; boundary = 1217508709J3777283291217508709T31197726
+			if (MraOfflineMessageGetHeaderValueLow(lpszHeaderLow, dwHeaderSize, "content-type", 12, &lpszContentTypeLow, &dwContentTypeSize) == NO_ERROR) {
+				if (MemoryFind(0, lpszContentTypeLow, dwContentTypeSize, "multipart/alternative", 21)) {
+					// Content-Type: multipart/alternative; boundary = 1217508709J3777283291217508709T31197726
 					LPSTR lpszBoundary, lpszMIMEPart, lpszCurMIMEPos, lpszMIMEHeader, lpszMIMEHeaderLow, lpszMIMEBody, lpszMIMEContentType;
 					size_t i, dwBoundarySize, dwMIMEPartSize, dwMIMEHeaderSize, dwMIMEBodySize, dwMIMEContentTypeSize;
 
 					lpszBoundary = (LPSTR)MemoryFind(0, lpszContentTypeLow, dwContentTypeSize, "boundary=", 9);
-					if (lpszBoundary)
-					{
+					if (lpszBoundary) {
 						dwBoundarySize = ((dwContentTypeSize-(lpszBoundary-lpszContentTypeLow))-9);
 						lpszBoundary = (lpszHeader+((lpszBoundary+9)-lpszHeaderLow));
 
 						i = 0;
 						lpszCurMIMEPos = lpszBody;
-						while (MraOfflineMessageGetNextMIMEPart(lpszBody, dwBodySize, lpszBoundary, dwBoundarySize, &lpszCurMIMEPos, &lpszMIMEPart, &dwMIMEPartSize) == NO_ERROR)
-						{
-							if (MraOfflineMessageGetMIMEHeadAndBody(lpszMIMEPart, dwMIMEPartSize, &lpszMIMEHeader, &dwMIMEHeaderSize, &lpszMIMEBody, &dwMIMEBodySize) == NO_ERROR)
-							{
+						while (MraOfflineMessageGetNextMIMEPart(lpszBody, dwBodySize, lpszBoundary, dwBoundarySize, &lpszCurMIMEPos, &lpszMIMEPart, &dwMIMEPartSize) == NO_ERROR) {
+							if (MraOfflineMessageGetMIMEHeadAndBody(lpszMIMEPart, dwMIMEPartSize, &lpszMIMEHeader, &dwMIMEHeaderSize, &lpszMIMEBody, &dwMIMEBodySize) == NO_ERROR) {
 								lpszMIMEHeaderLow = (LPSTR)mir_calloc(dwMIMEHeaderSize);
-								if (lpszMIMEHeaderLow)
-								{
+								if (lpszMIMEHeaderLow) {
 									BuffToLowerCase(lpszMIMEHeaderLow, lpszMIMEHeader, dwMIMEHeaderSize);
-									if (MraOfflineMessageGetHeaderValueLow(lpszMIMEHeaderLow, dwMIMEHeaderSize, "content-type", 12, &lpszMIMEContentType, &dwMIMEContentTypeSize) == NO_ERROR)
-									{
-										if (MemoryFind(0, lpszMIMEContentType, dwMIMEContentTypeSize, "text/plain", 10))
-										{// this is simple text part: text/plain
-											if (plpsText)
-											{
-												if (MemoryFind(0, lpszMIMEContentType, dwMIMEContentTypeSize, "utf-16le", 8))
-												{// charset = UTF-16LE// предполагаем что оно в base64
-													if (plpbBuff)
-													{// буффер для декодирования текста можно выделять
-														LPWSTR lpwszText;
-														size_t dwTextSize;
-
-														lpwszText = (LPWSTR)mir_calloc(dwMIMEBodySize);
-														if (lpwszText)
-														{
-															BASE64DecodeFormated(lpszMIMEBody, dwMIMEBodySize, lpwszText, dwMIMEBodySize, &dwTextSize);
+									if (MraOfflineMessageGetHeaderValueLow(lpszMIMEHeaderLow, dwMIMEHeaderSize, "content-type", 12, &lpszMIMEContentType, &dwMIMEContentTypeSize) == NO_ERROR) {
+										if (MemoryFind(0, lpszMIMEContentType, dwMIMEContentTypeSize, "text/plain", 10)) {
+											// this is simple text part: text/plain
+											if (plpsText) {
+												if (MemoryFind(0, lpszMIMEContentType, dwMIMEContentTypeSize, "utf-16le", 8)) {
+													// charset = UTF-16LE// предполагаем что оно в base64
+													if (plpbBuff) {
+														// буффер для декодирования текста можно выделять
+														LPS2ANSI(szMime, lpszMIMEBody, dwMIMEBodySize);
+														unsigned dwTextSize;
+														LPWSTR lpwszText = (LPWSTR)mir_base64_decode(szMime, &dwTextSize);
+														if (lpwszText) {															
 															plpsText->lpwszData = lpwszText;
 															plpsText->dwSize = dwTextSize;
-															if (pdwFlags)
-															{
+															if (pdwFlags) {
 																(*pdwFlags) |= MESSAGE_FLAG_v1p16; // set unocode flag if not exist
 																(*pdwFlags) &= ~MESSAGE_FLAG_CP1251; // reset ansi flag if exist
 															}
-															(*plpbBuff) = (LPBYTE)lpwszText;
+															*plpbBuff = (LPBYTE)lpwszText;
 															dwRetErrorCode = NO_ERROR;
 														}
 													}
-												}else
-												if (MemoryFind(0, lpszMIMEContentType, dwMIMEContentTypeSize, "cp-1251", 7))
-												{// charset = CP-1251
+												}
+												else if ( MemoryFind(0, lpszMIMEContentType, dwMIMEContentTypeSize, "cp-1251", 7)) {
+													// charset = CP-1251
 													plpsText->lpszData = lpszMIMEBody;
 													plpsText->dwSize = dwMIMEBodySize;
-													if (pdwFlags)
-													{
+													if (pdwFlags) {
 														(*pdwFlags) &= ~MESSAGE_FLAG_v1p16; // reset unocode flag if exist
 														(*pdwFlags) |= MESSAGE_FLAG_CP1251; // set ansi flag
 													}
 													dwRetErrorCode = NO_ERROR;
-												}else {
-													DebugBreak();
 												}
+												else DebugBreak();
 											}
-										}else
-										if (MemoryFind(0, lpszMIMEContentType, dwMIMEContentTypeSize, "application/x-mrim-rtf", 22))
-										{
-											if (plpsRTFText)
-											{
+										}
+										else if (MemoryFind(0, lpszMIMEContentType, dwMIMEContentTypeSize, "application/x-mrim-rtf", 22)) {
+											if (plpsRTFText) {
 												plpsRTFText->lpszData = lpszMIMEBody;
 												plpsRTFText->dwSize = dwMIMEBodySize;
 												if (pdwFlags) (*pdwFlags) |= MESSAGE_FLAG_RTF; // set RTF flag if not exist
 												dwRetErrorCode = NO_ERROR;
 											}
-										}else
-										if (MemoryFind(0, lpszMIMEContentType, dwMIMEContentTypeSize, "application/x-mrim+xml", 22))
-										{
-											if (plpsMultiChatData)
-											{
+										}
+										else if (MemoryFind(0, lpszMIMEContentType, dwMIMEContentTypeSize, "application/x-mrim+xml", 22)) {
+											if (plpsMultiChatData) {
 												plpsMultiChatData->lpszData = lpszMIMEBody;
 												plpsMultiChatData->dwSize = dwMIMEBodySize;
 												if (pdwFlags) (*pdwFlags) |= MESSAGE_FLAG_MULTICHAT; // set MESSAGE_FLAG_MULTICHAT flag if not exist
 												dwRetErrorCode = NO_ERROR;
 											}
-										}else {
-											DebugBreak();
 										}
+										else DebugBreak();
 									}
 									mir_free(lpszMIMEHeaderLow);
 								}
@@ -189,23 +152,19 @@ DWORD MraOfflineMessageGet(MRA_LPS *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, MR
 						}
 
 						DebugBreakIf((i>3 || i == 0));
-					}else {// boundary not found
-						DebugBreak();
 					}
-				}else
-				if (MemoryFind(0, lpszContentTypeLow, dwContentTypeSize, "text/plain", 10))
-				{// Content-Type: text/plain; charset = CP-1251
-					if (MemoryFind(0, lpszContentTypeLow, dwContentTypeSize, "utf-16le", 8))
-					{// charset = UTF-16LE// предполагаем что оно в base64
-						if (plpbBuff)
-						{// буффер для декодирования текста можно выделять
-							LPWSTR lpwszText;
-							size_t dwTextSize;
-
-							lpwszText = (LPWSTR)mir_calloc(dwBodySize);
-							if (lpwszText)
-							{
-								BASE64DecodeFormated(lpszBody, dwBodySize, lpwszText, dwBodySize, &dwTextSize);
+					else DebugBreak(); // boundary not found
+				}
+				else if (MemoryFind(0, lpszContentTypeLow, dwContentTypeSize, "text/plain", 10)) {
+					// Content-Type: text/plain; charset = CP-1251
+					if (MemoryFind(0, lpszContentTypeLow, dwContentTypeSize, "utf-16le", 8)) {
+						// charset = UTF-16LE// предполагаем что оно в base64
+						if (plpbBuff) {
+							// буфер для декодирования текста можно выделять
+							LPS2ANSI(szMime, lpszBody, dwBodySize);
+							unsigned dwTextSize;
+							LPWSTR lpwszText = (LPWSTR)mir_base64_decode(szMime, &dwTextSize);
+							if (lpwszText) {															
 								plpsText->lpwszData = lpwszText;
 								plpsText->dwSize = dwTextSize;
 								if (pdwFlags)

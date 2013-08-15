@@ -190,6 +190,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\MraUtils.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -234,6 +235,25 @@
     <ClInclude Include="src\MraSendQueue.h" />
     <ClInclude Include="src\proto.h" />
     <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\Sdk\BuffToLowerCase.h" />
+    <ClInclude Include="src\Sdk\DebugFunctions.h" />
+    <ClInclude Include="src\Sdk\FIFOMT.h" />
+    <ClInclude Include="src\Sdk\InterlockedFunctions.h" />
+    <ClInclude Include="src\Sdk\InternetTime.h" />
+    <ClInclude Include="src\Sdk\ListMT.h" />
+    <ClInclude Include="src\Sdk\MemoryCompare.h" />
+    <ClInclude Include="src\Sdk\MemoryFind.h" />
+    <ClInclude Include="src\Sdk\MemoryFindByte.h" />
+    <ClInclude Include="src\Sdk\MemoryReplace.h" />
+    <ClInclude Include="src\Sdk\RC4.h" />
+    <ClInclude Include="src\Sdk\SHA1.h" />
+    <ClInclude Include="src\Sdk\SocketFunctions.h" />
+    <ClInclude Include="src\Sdk\StrHexToNum.h" />
+    <ClInclude Include="src\Sdk\StrToNum.h" />
+    <ClInclude Include="src\Sdk\SystemHeaders.h" />
+    <ClInclude Include="src\Sdk\timefuncs.h" />
+    <ClInclude Include="src\Sdk\zconf.h" />
+    <ClInclude Include="src\Sdk\zlib.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>

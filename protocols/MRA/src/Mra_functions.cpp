@@ -1524,7 +1524,7 @@ DWORD MemFillRandom(LPVOID lpBuff, size_t dwBuffSize)
 BOOL CMraProto::SetPassDB(LPSTR lpszBuff, size_t dwBuffSize)
 {
 	BOOL bRet = FALSE;
-	BYTE btRandomData[256], btCryptedPass[256] = {0}, bthmacSHA1[SHA1HashSize] = {0};
+	BYTE btRandomData[256], btCryptedPass[256] = {0}, bthmacSHA1[MIR_SHA1_HASH_SIZE] = {0};
 	char szEMail[MAX_EMAIL_LEN] = {0};
 	size_t dwEMailSize;
 
@@ -1539,18 +1539,17 @@ BOOL CMraProto::SetPassDB(LPSTR lpszBuff, size_t dwBuffSize)
 
 		SHA1GetDigest(lpszBuff, dwBuffSize, &btCryptedPass[1]);
 
-		//BASE64EncodeUnSafe(lpszBuff, dwBuffSize, &btCryptedPass[(1+SHA1HashSize)], (sizeof(btCryptedPass)-1), &dwBuffSize);
-		memmove(&btCryptedPass[(1+SHA1HashSize)], lpszBuff, dwBuffSize);
+		//BASE64EncodeUnSafe(lpszBuff, dwBuffSize, &btCryptedPass[(1+MIR_SHA1_HASH_SIZE)], (sizeof(btCryptedPass)-1), &dwBuffSize);
+		memmove(&btCryptedPass[(1+MIR_SHA1_HASH_SIZE)], lpszBuff, dwBuffSize);
 		btCryptedPass[0] = (BYTE)dwBuffSize;
 		//memmove(&btCryptedPass[1], lpszBuff, dwBuffSize);
 
 		hmac_sha1(btRandomData, sizeof(btRandomData), (BYTE*)szEMail, dwEMailSize, bthmacSHA1);
 
-		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, SHA1HashSize);
+		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);
 		RC4(btCryptedPass, sizeof(btCryptedPass), btRandomData, sizeof(btRandomData));
 		CopyMemoryReverseDWORD(btCryptedPass, btCryptedPass, sizeof(btCryptedPass));
-		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, SHA1HashSize);
-
+		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);
 
 		setDword("pCryptVer", MRA_PASS_CRYPT_VER);
 		mraWriteContactSettingBlob(NULL, "pCryptData", btRandomData, sizeof(btRandomData));
@@ -1563,50 +1562,22 @@ return(bRet);
 }
 
 
-BOOL CMraProto::GetPassDB_v1(LPSTR lpszBuff, size_t dwBuffSize, size_t *pdwBuffSize)
+BOOL CMraProto::GetPassDB(LPSTR lpszBuff, size_t dwBuffSize, size_t *pdwBuffSize)
 {
-	BYTE btRandomData[256] = {0}, btCryptedPass[256] = {0}, bthmacSHA1[SHA1HashSize] = {0};
-	char szEMail[MAX_EMAIL_LEN] = {0};
-	size_t dwRandomDataSize, dwCryptedPass, dwEMailSize, dwPassSize;
-
-	if (getDword("pCryptVer", 0) == 1)
-	if (mraGetContactSettingBlob(NULL, "pCryptData", btRandomData, sizeof(btRandomData), &dwRandomDataSize))
-	if (dwRandomDataSize == sizeof(btRandomData))
-	if (mraGetContactSettingBlob(NULL, "pCryptPass", btCryptedPass, sizeof(btCryptedPass), &dwCryptedPass))
-	if (dwCryptedPass == sizeof(btCryptedPass))
-	if (mraGetStaticStringA(NULL, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize)) {
-		hmac_sha1(btRandomData, sizeof(btRandomData), (BYTE*)szEMail, dwEMailSize, bthmacSHA1);
-
-		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, SHA1HashSize);
-		CopyMemoryReverseDWORD(btCryptedPass, btCryptedPass, sizeof(btCryptedPass));
-		RC4(btCryptedPass, sizeof(btCryptedPass), btRandomData, dwRandomDataSize);
-		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, SHA1HashSize);
-
-		dwPassSize = (*btCryptedPass);
-		BASE64DecodeUnSafe(&btCryptedPass[(1+SHA1HashSize)], dwPassSize, &btCryptedPass[(1+SHA1HashSize)], (sizeof(btCryptedPass)-1), &dwPassSize);
-		SHA1GetDigest(&btCryptedPass[(1+SHA1HashSize)], dwPassSize, btRandomData);
-		if (MemoryCompare(&btCryptedPass[1], SHA1HashSize, btRandomData, SHA1HashSize) == CMEM_EQUAL)
-		if (dwBuffSize >= dwPassSize) {
-			memmove(lpszBuff, &btCryptedPass[(1+SHA1HashSize)], dwPassSize);
-			*(lpszBuff + dwPassSize) = 0;
-
-			if (pdwBuffSize)
-				*pdwBuffSize = dwPassSize;
-			return TRUE;
-		}
+	switch (getDword("pCryptVer", 0)) {
+	case 1:
+		MessageBox(NULL, TranslateT("Your password expired. Please reenter password in the Options dialog"), TranslateT("Error"), MB_OK);
+		return FALSE;
+	case 2:
+		break;
+	default:
+		return FALSE;
 	}
 
-	return FALSE;
-}
-
-
-BOOL CMraProto::GetPassDB_v2(LPSTR lpszBuff, size_t dwBuffSize, size_t *pdwBuffSize)
-{
-	BYTE btRandomData[256] = {0}, btCryptedPass[256] = {0}, bthmacSHA1[SHA1HashSize] = {0};
+	BYTE btRandomData[256] = {0}, btCryptedPass[256] = {0}, bthmacSHA1[MIR_SHA1_HASH_SIZE] = {0};
 	char szEMail[MAX_EMAIL_LEN] = {0};
 	size_t dwRandomDataSize, dwCryptedPass, dwEMailSize, dwPassSize;
 
-	if (getDword("pCryptVer", 0) == 2)
 	if (mraGetContactSettingBlob(NULL, "pCryptData", btRandomData, sizeof(btRandomData), &dwRandomDataSize))
 	if (dwRandomDataSize == sizeof(btRandomData))
 	if (mraGetContactSettingBlob(NULL, "pCryptPass", btCryptedPass, sizeof(btCryptedPass), &dwCryptedPass))
@@ -1614,17 +1585,16 @@ BOOL CMraProto::GetPassDB_v2(LPSTR lpszBuff, size_t dwBuffSize, size_t *pdwBuffS
 	if (mraGetStaticStringA(NULL, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize)) {
 		hmac_sha1(btRandomData, sizeof(btRandomData), (BYTE*)szEMail, dwEMailSize, bthmacSHA1);
 
-		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, SHA1HashSize);
+		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);
 		CopyMemoryReverseDWORD(btCryptedPass, btCryptedPass, sizeof(btCryptedPass));
 		RC4(btCryptedPass, sizeof(btCryptedPass), btRandomData, dwRandomDataSize);
-		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, SHA1HashSize);
+		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);
 
 		dwPassSize = ((*btCryptedPass)&0xff);
-		SHA1GetDigest(&btCryptedPass[(1+SHA1HashSize)], dwPassSize, btRandomData);
-		if (MemoryCompare(&btCryptedPass[1], SHA1HashSize, btRandomData, SHA1HashSize) == CMEM_EQUAL)
-		if (dwBuffSize >= dwPassSize)
-		{
-			memmove(lpszBuff, &btCryptedPass[(1+SHA1HashSize)], dwPassSize);
+		SHA1GetDigest(&btCryptedPass[(1+MIR_SHA1_HASH_SIZE)], dwPassSize, btRandomData);
+		if (MemoryCompare(&btCryptedPass[1], MIR_SHA1_HASH_SIZE, btRandomData, MIR_SHA1_HASH_SIZE) == CMEM_EQUAL)
+		if (dwBuffSize >= dwPassSize) {
+			memmove(lpszBuff, &btCryptedPass[(1+MIR_SHA1_HASH_SIZE)], dwPassSize);
 			(*(lpszBuff+dwPassSize)) = 0;
 
 			if (pdwBuffSize) (*pdwBuffSize) = dwPassSize;
@@ -1633,23 +1603,6 @@ BOOL CMraProto::GetPassDB_v2(LPSTR lpszBuff, size_t dwBuffSize, size_t *pdwBuffS
 	}
 
 	return FALSE;
-}
-
-BOOL CMraProto::GetPassDB(LPSTR lpszBuff, size_t dwBuffSize, size_t *pdwBuffSize)
-{
-	#if /*defined (_DEBUG) ||*/ defined (REL_DEB)
-		mraGetStaticStringA(NULL, "Pass", lpszBuff, dwBuffSize, pdwBuffSize);
-		return TRUE;
-	#else
-		switch (getDword("pCryptVer", 0)) {
-		case 1:
-			return GetPassDB_v1(lpszBuff, dwBuffSize, pdwBuffSize);
-		case 2:
-			return GetPassDB_v2(lpszBuff, dwBuffSize, pdwBuffSize);
-		default:
-			return FALSE;
-		}
-	#endif
 }
 
 DWORD ReplaceInBuff(LPVOID lpInBuff, size_t dwInBuffSize, size_t dwReplaceItemsCount, LPVOID *plpInReplaceItems, size_t *pdwInReplaceItemsCounts, LPVOID *plpOutReplaceItems, size_t *pdwOutReplaceItemsCounts, LPVOID lpOutBuff, size_t dwOutBuffSize, size_t *pdwOutBuffSize)
