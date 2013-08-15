@@ -28,7 +28,6 @@
 [Edit]
 [No popups for RSS contacts]
 [No popups for read messages]
-[Message Received]
 [Popups]
 [You were added!]
 [Requests your authorisation]
@@ -47,4 +46,4 @@
 [This is a sample file event :-D]
 [This is a sample other event ;-D]
 [Plugin Test]
-[Number of new message: ]
+[[b]Number of new message(s): %d[/b]\n]

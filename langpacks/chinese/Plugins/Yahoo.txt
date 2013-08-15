@@ -95,7 +95,7 @@ Yahoo 忽略
 请输入有效好友名称以忽略. 
 [The buddy is already on your ignore list.]
 此好友已在您的忽略列表中.
-[You need to be connected to Yahoo to remove from the Ignore List.]
+[You need to be connected to Yahoo to remove from the ignore list.]
 您需要连接至 Yahoo 才能从忽略列表中移除. 
 [Please select a buddy on the ignore list to remove.]
 请在忽略列表中选择要移除的好友. 

@@ -76,8 +76,6 @@
 События
 [Notifies you when you receive a message, url, file or any other event by displaying a popup.]
 Уведомляет о получении сообщения, URL, файла или другого события, отображая информацию во всплывающих окнах.
-[Message Received]
-Получено сообщение
 [Received %d contacts.]
 Получено %d контактов.
 [ added you to the contact list]
@@ -94,5 +92,5 @@
 Это пример других событий ;-D
 [Plugin Test]
 Тест плагина
-[Number of new message: ]
-Количество новых сообщений: 
+[[b]Number of new message(s): %d[/b]\n]
+[b]Количество новых сообщений: %d[/b]\n

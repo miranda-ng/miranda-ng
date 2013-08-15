@@ -322,7 +322,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsIgnore(HWND hwndDlg, UINT msg, WPARAM wP
 				char id[128];
 
 				if (!ppro->m_bLoggedIn) {
-					MessageBox(hwndDlg, TranslateT("You need to be connected to Yahoo to remove from the Ignore List."), TranslateT("Yahoo Ignore"), MB_OK| MB_ICONINFORMATION);
+					MessageBox(hwndDlg, TranslateT("You need to be connected to Yahoo to remove from the ignore list."), TranslateT("Yahoo Ignore"), MB_OK| MB_ICONINFORMATION);
 					break;
 				}
 

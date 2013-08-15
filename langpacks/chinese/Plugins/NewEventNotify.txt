@@ -61,10 +61,6 @@ RSS 联系人不使用弹出窗口
 [No popups for read messages]
 读取消息时无弹出窗口
 ;file \plugins\NewEventNotify\src\main.cpp
-[Message Session]
-消息会话
-[Message Received]
-已收到消息
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 弹出窗口
@@ -107,5 +103,5 @@ ICQ 邮件快递
 这是范例其它事件 ;-D
 [Plugin Test]
 插件测试
-[Number of new message: ]
-新消息数量: 
+[[b]Number of new message(s): %d[/b]\n]
+[b]新消息数量: %d[/b]\n

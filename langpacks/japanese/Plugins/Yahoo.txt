@@ -107,7 +107,7 @@ Yahoo 無視
 無視するメンバーの有効な名前を入力してください
 [The buddy is already on your ignore list.]
 そのメンバーはすでに無視リストにあります
-[You need to be connected to Yahoo to remove from the Ignore List.]
+[You need to be connected to Yahoo to remove from the ignore list.]
 無視リストから削除するには , Yahoo に接続する必要があります
 [Please select a buddy on the ignore list to remove.]
 無視リストから削除するメンバーを選択してください

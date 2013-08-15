@@ -77,10 +77,6 @@ Nie wyświetlaj popupów dla kanałów RSS
 [No popups for read messages]
 Nie wyświetlaj popupów dla przeczytanych wiadomości
 ;file \plugins\NewEventNotify\src\main.cpp
-[Message Session]
-Sesja rozmowy
-[Message Received]
-Otrzymano wiadomość
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Popupy
@@ -123,5 +119,5 @@ To jest przykładowe powiadomienie o pliku :-D
 To jest przykładowe powiadomienie o innym zdarzeniu ;-D
 [Plugin Test]
 Test wtyczki
-[Number of new message: ]
-Liczba nowych wiadomości: 
+[[b]Number of new message(s): %d[/b]\n]
+[b]Liczba nowych wiadomości: %d[/b]\n

@@ -153,7 +153,7 @@ Yahoo - Ignoruj
 Podaj nazwę znajomego, którego chcesz ignorować.
 [The buddy is already on your ignore list.]
 Ten znajomy już znajduje się na liście ignorowanych.
-[You need to be connected to Yahoo to remove from the Ignore List.]
+[You need to be connected to Yahoo to remove from the ignore list.]
 Musisz być połączony z Yahoo aby usunąć kogoś z listy ignorowanych.
 [Please select a buddy on the ignore list to remove.]
 Wybierz znajomego, którego chcesz usunąć z listy ignorowanych.

@@ -59,10 +59,6 @@ Dernier message en dernier
 [No popups for RSS contacts]
 Pas de popup pour les contacts RSS
 ;file \plugins\NewEventNotify\src\main.cpp
-[Message Session]
-Session message
-[Message Received]
-Message reçu
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 ;file \plugins\NewEventNotify\src\neweventnotify.h
 [You were added!]
@@ -95,5 +91,5 @@ Ceci est un exemple de lien  ;-)
 Ceci est un exemple de transfert de fichier  :-D
 [This is a sample other event ;-D]
 Ceci est un exemple d'évènement  ;-D
-[Number of new message: ]
-Nombre de nouveaux messages
+[[b]Number of new message(s): %d[/b]\n]
+[b]Nombre de nouveaux messages: %d[/b]\n

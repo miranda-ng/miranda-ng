@@ -89,7 +89,7 @@ No haga caso de yahoo
 Por favor, escriba un nombre del contacto válida para ignorar.
 [The buddy is already on your ignore list.]
 El amigo ya está en la lista de ignorados.
-[You need to be connected to Yahoo to remove from the Ignore List.]
+[You need to be connected to Yahoo to remove from the ignore list.]
 Usted necesita estar conectado a Yahoo a quitar de la lista de ignorados.
 [Please select a buddy on the ignore list to remove.]
 Por favor, seleccione un amigo en la lista de ignorados para eliminar.

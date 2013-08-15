@@ -71,7 +71,7 @@ Message trop grand : Les messages de Yahoo sont limités à 800 caractères de t
 Les changements que vous avez faits exigent une reconnexion à Yahoo! pour entrer en vigueur
 [YAHOO Options]
 Options YAHOO
-[You need to be connected to Yahoo to add to Ignore List.]
+[You need to be connected to Yahoo to add to ignore list.]
 Vous devez être connecté à Yahoo pour pourvoir ajouter un contact à ignorer.
 [Yahoo Ignore]
 Contact Yahoo
@@ -79,7 +79,7 @@ Contact Yahoo
 Veuillez entrer un nom de contact valide afin de l'ignorer.
 [The buddy is already on your ignore list.]
 Ce contact est déjà dans votre liste.
-[You need to be connected to Yahoo to remove from the Ignore List.]
+[You need to be connected to Yahoo to remove from the ignore list.]
 Vous devez être connecté à Yahoo afin de retirer un contact de la liste.
 [Please select a buddy on the ignore list to remove.]
 Vous devez sélectionner un contact dans la liste des ignorés afin de l'y retirer.

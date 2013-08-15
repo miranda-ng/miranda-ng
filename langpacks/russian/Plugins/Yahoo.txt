@@ -145,7 +145,7 @@ Yahoo Япония
 Yahoo Игнор
 [You need to be connected to Yahoo to add to Ignore List.]
 Вы должны быть в сети для добавление в список игнорирования.
-[You need to be connected to Yahoo to remove from the Ignore List.]
+[You need to be connected to Yahoo to remove from the ignore list.]
 Вы должны быть в сети для удаления из списка игнорирования.
 [&Show Profile]
 Профиль

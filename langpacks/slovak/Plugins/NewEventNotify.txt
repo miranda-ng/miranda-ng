@@ -77,10 +77,6 @@ Pozadie
 [No popups for read messages]
 
 ;file \plugins\NewEventNotify\src\main.cpp
-[Message Session]
-Rozhovor
-[Message Received]
-
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 
@@ -123,5 +119,5 @@ Kontakty
 
 [Plugin Test]
 
-[Number of new message: ]
+[[b]Number of new message(s): %d[/b]\n]
 

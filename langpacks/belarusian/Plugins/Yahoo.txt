@@ -153,7 +153,7 @@ Yahoo Ігнор
 Увядзіце правільнае імя кантакту для ігнаравання.
 [The buddy is already on your ignore list.]
 Гэты кантакт ужо ў Вашым спісе ігнаравання.
-[You need to be connected to Yahoo to remove from the Ignore List.]
+[You need to be connected to Yahoo to remove from the ignore list.]
 Вы павінны далучыцца для выдалення са спісу ігнаравання.
 [Please select a buddy on the ignore list to remove.]
 Абярыце кантакт для выдалення са спісу ігнаравання.

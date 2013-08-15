@@ -83,7 +83,7 @@ Yahoo игнориране
 Моля, въдете валидно име.
 [The buddy is already on your ignore list.]
 Контактът е вече в списъка за игнориране.
-[You need to be connected to Yahoo to remove from the Ignore List.]
+[You need to be connected to Yahoo to remove from the ignore list.]
 Необходимо е да сте свързани към Yahoo, за да редактирате списъка за игнориране.
 [Please select a buddy on the ignore list to remove.]
 Моля, изберете контакт, който да бъде премахнат от списъка за игнориране.
