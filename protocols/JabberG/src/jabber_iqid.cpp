@@ -1474,10 +1474,10 @@ LBL_ErrFormat:
 
 	setByte(hContact, "AvatarType", pictureType);
 
-	mir_sha1_byte_t digest[20];
+	BYTE digest[20];
 	mir_sha1_ctx sha;
 	mir_sha1_init(&sha);
-	mir_sha1_append(&sha, (mir_sha1_byte_t*)(char*)body, resultLen);
+	mir_sha1_append(&sha, (BYTE*)(char*)body, resultLen);
 	mir_sha1_finish(&sha, digest);
 
 	GetAvatarFileName(hContact, tszFileName, SIZEOF(tszFileName));

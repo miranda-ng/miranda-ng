@@ -329,66 +329,26 @@ int CMsnProto::MSN_GetPassportAuth(void)
 	return retVal;
 }
 
-void hmac_sha1 (mir_sha1_byte_t *md, mir_sha1_byte_t *key, size_t keylen, mir_sha1_byte_t *text, size_t textlen)
+static void derive_key(BYTE* der, unsigned char* key, size_t keylen, unsigned char* data, size_t datalen)
 {
-	const unsigned SHA_BLOCKSIZE = 64;
-
-	unsigned char mdkey[MIR_SHA1_HASH_SIZE];
-	unsigned char k_ipad[SHA_BLOCKSIZE], k_opad[SHA_BLOCKSIZE];
-	mir_sha1_ctx ctx;
-
-	if (keylen > SHA_BLOCKSIZE)
-	{
-		mir_sha1_init(&ctx);
-		mir_sha1_append(&ctx, key, (int)keylen);
-		mir_sha1_finish(&ctx, mdkey);
-		keylen = 20;
-		key = mdkey;
-	}
-
-	memcpy(k_ipad, key, keylen);
-	memcpy(k_opad, key, keylen);
-	memset(k_ipad+keylen, 0x36, SHA_BLOCKSIZE - keylen);
-	memset(k_opad+keylen, 0x5c, SHA_BLOCKSIZE - keylen);
-
-	for (unsigned i = 0; i < keylen; i++)
-	{
-		k_ipad[i] ^= 0x36;
-		k_opad[i] ^= 0x5c;
-	}
-
-	mir_sha1_init(&ctx);
-	mir_sha1_append(&ctx, k_ipad, SHA_BLOCKSIZE);
-	mir_sha1_append(&ctx, text, (int)textlen);
-	mir_sha1_finish(&ctx, md);
-
-	mir_sha1_init(&ctx);
-	mir_sha1_append(&ctx, k_opad, SHA_BLOCKSIZE);
-	mir_sha1_append(&ctx, md, MIR_SHA1_HASH_SIZE);
-	mir_sha1_finish(&ctx, md);
-}
-
-
-static void derive_key(mir_sha1_byte_t* der, unsigned char* key, size_t keylen, unsigned char* data, size_t datalen)
-{
-	mir_sha1_byte_t hash1[MIR_SHA1_HASH_SIZE];
-	mir_sha1_byte_t hash2[MIR_SHA1_HASH_SIZE];
-	mir_sha1_byte_t hash3[MIR_SHA1_HASH_SIZE];
-	mir_sha1_byte_t hash4[MIR_SHA1_HASH_SIZE];
+	BYTE hash1[MIR_SHA1_HASH_SIZE];
+	BYTE hash2[MIR_SHA1_HASH_SIZE];
+	BYTE hash3[MIR_SHA1_HASH_SIZE];
+	BYTE hash4[MIR_SHA1_HASH_SIZE];
 
 	const size_t buflen = MIR_SHA1_HASH_SIZE + datalen;
-	mir_sha1_byte_t* buf = (mir_sha1_byte_t*)alloca(buflen);
+	BYTE* buf = (BYTE*)alloca(buflen);
 
-	hmac_sha1(hash1, key, keylen, data, datalen);
-	hmac_sha1(hash3, key, keylen, hash1, MIR_SHA1_HASH_SIZE);
+	mir_hmac_sha1(hash1, key, keylen, data, datalen);
+	mir_hmac_sha1(hash3, key, keylen, hash1, MIR_SHA1_HASH_SIZE);
 
 	memcpy(buf, hash1, MIR_SHA1_HASH_SIZE);
 	memcpy(buf + MIR_SHA1_HASH_SIZE, data, datalen);
-	hmac_sha1(hash2, key, keylen, buf, buflen);
+	mir_hmac_sha1(hash2, key, keylen, buf, buflen);
 
 	memcpy(buf, hash3, MIR_SHA1_HASH_SIZE);
 	memcpy(buf + MIR_SHA1_HASH_SIZE, data, datalen);
-	hmac_sha1(hash4, key, keylen, buf, buflen);
+	mir_hmac_sha1(hash4, key, keylen, buf, buflen);
 
 	memcpy(der, hash2, MIR_SHA1_HASH_SIZE);
 	memcpy(der + MIR_SHA1_HASH_SIZE, hash4, 4);
@@ -436,8 +396,8 @@ char* CMsnProto::GenerateLoginBlob(char* challenge)
 	unsigned key1len;
 	BYTE *key1 = (BYTE*)mir_base64_decode(authSecretToken, &key1len);
 
-	mir_sha1_byte_t key2[MIR_SHA1_HASH_SIZE+4];
-	mir_sha1_byte_t key3[MIR_SHA1_HASH_SIZE+4];
+	BYTE key2[MIR_SHA1_HASH_SIZE+4];
+	BYTE key3[MIR_SHA1_HASH_SIZE+4];
 
 	static const unsigned char encdata1[] = "WS-SecureConversationSESSION KEY HASH";
 	static const unsigned char encdata2[] = "WS-SecureConversationSESSION KEY ENCRYPTION";
@@ -447,8 +407,8 @@ char* CMsnProto::GenerateLoginBlob(char* challenge)
 
 	size_t chllen = strlen(challenge);
 
-	mir_sha1_byte_t hash[MIR_SHA1_HASH_SIZE];
-	hmac_sha1(hash, key2, MIR_SHA1_HASH_SIZE+4, (mir_sha1_byte_t*)challenge, chllen);
+	BYTE hash[MIR_SHA1_HASH_SIZE];
+	mir_hmac_sha1(hash, key2, MIR_SHA1_HASH_SIZE+4, (BYTE*)challenge, chllen);
 
 	unsigned char* newchl = PKCS5_Padding(challenge, chllen);
 
@@ -514,8 +474,8 @@ char* CMsnProto::HotmailLogin(const char* url)
 	UrlEncode(noncenc, fnpst + sz, fnpstlen - sz);
 	sz = strlen(fnpst);
 
-	mir_sha1_byte_t hash[MIR_SHA1_HASH_SIZE];
-	hmac_sha1(hash, key2, sizeof(key2), (mir_sha1_byte_t*)fnpst, sz);
+	BYTE hash[MIR_SHA1_HASH_SIZE];
+	mir_hmac_sha1(hash, key2, sizeof(key2), (BYTE*)fnpst, sz);
 
 	noncenc = mir_base64_encode(hash, sizeof(hash));
 

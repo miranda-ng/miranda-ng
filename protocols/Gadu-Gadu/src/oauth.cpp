@@ -50,46 +50,6 @@ static int paramsortFunc(const OAUTHPARAMETER *p1, const OAUTHPARAMETER *p2)
 	return res != 0 ? res : strcmp(p1->value, p2->value);
 }
 
-// HMAC-SHA1 (see RFC 2104 for details)
-void hmacsha1_hash(mir_sha1_byte_t *text, int text_len, mir_sha1_byte_t *key, int key_len,
-				   mir_sha1_byte_t digest[MIR_SHA1_HASH_SIZE])
-{
-	mir_sha1_ctx context;
-	mir_sha1_byte_t k_ipad[64];
-	mir_sha1_byte_t k_opad[64];
-	int i;
-
-	if (key_len > 64) {
-		mir_sha1_ctx tctx;
-		mir_sha1_byte_t tk[MIR_SHA1_HASH_SIZE];
-
-		mir_sha1_init(&tctx);
-		mir_sha1_append(&tctx, key, key_len);
-		mir_sha1_finish(&tctx, tk);
-
-		key = tk;
-		key_len = MIR_SHA1_HASH_SIZE;
-	}
-
-	memset(k_ipad, 0x36, 64);
-	memset(k_opad, 0x5c, 64);
-
-	for (i = 0; i < key_len; i++) {
-		k_ipad[i] ^= key[i];
-		k_opad[i] ^= key[i];
-	}
-
-	mir_sha1_init(&context);
-	mir_sha1_append(&context, k_ipad, 64);
-	mir_sha1_append(&context, text, text_len);
-	mir_sha1_finish(&context, digest);
-
-	mir_sha1_init(&context);
-	mir_sha1_append(&context, k_opad, 64);
-	mir_sha1_append(&context, digest, MIR_SHA1_HASH_SIZE);
-	mir_sha1_finish(&context, digest);
-}
-
 // see RFC 3986 for details
 #define isunreserved(c) ( isalnum((unsigned char)c) || c == '-' || c == '.' || c == '_' || c == '~')
 char *oauth_uri_escape(const char *str)
@@ -239,12 +199,10 @@ int oauth_sign_request(LIST<OAUTHPARAMETER> &params, const char *httpmethod, con
 		strcat(key, "&");
 		strcat(key, tsenc);
 
-		mir_sha1_byte_t digest[MIR_SHA1_HASH_SIZE];
-		hmacsha1_hash((BYTE*)(char*)text, (int)strlen(text), (BYTE*)(char*)key, (int)strlen(key), digest);
+		BYTE digest[MIR_SHA1_HASH_SIZE];
+		mir_hmac_sha1(digest, (BYTE*)(char*)text, strlen(text), (BYTE*)(char*)key, strlen(key));
 		sign = mir_base64_encode(digest, MIR_SHA1_HASH_SIZE);
 	}
-//	else if (!strcmp(signmethod, "RSA-SHA1")) { // unimplemented
-//	}
 	else { // PLAINTEXT
 		ptrA csenc( oauth_uri_escape(consumer_secret));
 		ptrA tsenc( oauth_uri_escape(token_secret));

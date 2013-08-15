@@ -227,48 +227,8 @@ char* TMD5Auth::getChallenge(const TCHAR *challenge)
    return mir_base64_encode((PBYTE)buf, cbLen);
 }
 
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // SCRAM-SHA-1 authorization
-
-void hmac_sha1(mir_sha1_byte_t *md, mir_sha1_byte_t *key, size_t keylen, mir_sha1_byte_t *text, size_t textlen)
-{
-	const unsigned SHA_BLOCKSIZE = 64;
-
-	unsigned char mdkey[MIR_SHA1_HASH_SIZE];
-	unsigned char k_ipad[SHA_BLOCKSIZE], k_opad[SHA_BLOCKSIZE];
-	mir_sha1_ctx ctx;
-
-	if (keylen > SHA_BLOCKSIZE)
-	{
-		mir_sha1_init(&ctx);
-		mir_sha1_append(&ctx, key, (int)keylen);
-		mir_sha1_finish(&ctx, mdkey);
-		keylen = 20;
-		key = mdkey;
-	}
-
-	memcpy(k_ipad, key, keylen);
-	memcpy(k_opad, key, keylen);
-	memset(k_ipad+keylen, 0x36, SHA_BLOCKSIZE - keylen);
-	memset(k_opad+keylen, 0x5c, SHA_BLOCKSIZE - keylen);
-
-	for (unsigned i = 0; i < keylen; i++)
-	{
-		k_ipad[i] ^= 0x36;
-		k_opad[i] ^= 0x5c;
-	}
-
-	mir_sha1_init(&ctx);
-	mir_sha1_append(&ctx, k_ipad, SHA_BLOCKSIZE);
-	mir_sha1_append(&ctx, text, (int)textlen);
-	mir_sha1_finish(&ctx, md);
-
-	mir_sha1_init(&ctx);
-	mir_sha1_append(&ctx, k_opad, SHA_BLOCKSIZE);
-	mir_sha1_append(&ctx, md, MIR_SHA1_HASH_SIZE);
-	mir_sha1_finish(&ctx, md);
-}
 
 TScramAuth::TScramAuth(ThreadData* info) :
 	TJabberAuth(info)
@@ -284,15 +244,15 @@ TScramAuth::~TScramAuth()
 	mir_free(serverSignature);
 }
 
-void TScramAuth::Hi(mir_sha1_byte_t* res , char* passw, size_t passwLen, char* salt, size_t saltLen, int ind)
+void TScramAuth::Hi(BYTE* res , char* passw, size_t passwLen, char* salt, size_t saltLen, int ind)
 {
-	mir_sha1_byte_t u[ MIR_SHA1_HASH_SIZE ];
+	BYTE u[ MIR_SHA1_HASH_SIZE ];
 	memcpy(u, salt,  saltLen); *(unsigned*)(u + saltLen) = htonl(1); saltLen += 4;
 	memset(res, 0, MIR_SHA1_HASH_SIZE);
 
 	for (int i = 0; i < ind; i++)
 	{
-		hmac_sha1(u, (mir_sha1_byte_t*)passw, passwLen, u, saltLen);
+		mir_hmac_sha1(u, (BYTE*)passw, passwLen, u, saltLen);
 		saltLen = sizeof(u);
 
 		for (unsigned j = 0; j < sizeof(u); j++)
@@ -339,13 +299,13 @@ char* TScramAuth::getChallenge(const TCHAR *challenge)
 	ptrA passw( mir_utf8encodeT(info->password));
 	size_t passwLen = strlen(passw);
 
-	mir_sha1_byte_t saltedPassw[ MIR_SHA1_HASH_SIZE ];
+	BYTE saltedPassw[ MIR_SHA1_HASH_SIZE ];
 	Hi(saltedPassw, passw, passwLen, salt,  saltLen, ind);
 
-	mir_sha1_byte_t clientKey[ MIR_SHA1_HASH_SIZE ];
-	hmac_sha1(clientKey, saltedPassw, sizeof(saltedPassw), (mir_sha1_byte_t*)"Client Key", 10);
+	BYTE clientKey[ MIR_SHA1_HASH_SIZE ];
+	mir_hmac_sha1(clientKey, saltedPassw, sizeof(saltedPassw), (BYTE*)"Client Key", 10);
 
-	mir_sha1_byte_t storedKey[ MIR_SHA1_HASH_SIZE ];
+	BYTE storedKey[ MIR_SHA1_HASH_SIZE ];
 
 	mir_sha1_ctx ctx;
 	mir_sha1_init(&ctx);
@@ -355,19 +315,19 @@ char* TScramAuth::getChallenge(const TCHAR *challenge)
 	char authmsg[4096];
 	int authmsgLen = mir_snprintf(authmsg, sizeof(authmsg), "%s,%s,c=biws,r=%s", msg1, chl, snonce);
 
-	mir_sha1_byte_t clientSig[ MIR_SHA1_HASH_SIZE ];
-	hmac_sha1(clientSig, storedKey, sizeof(storedKey), (mir_sha1_byte_t*)authmsg, authmsgLen);
+	BYTE clientSig[ MIR_SHA1_HASH_SIZE ];
+	mir_hmac_sha1(clientSig, storedKey, sizeof(storedKey), (BYTE*)authmsg, authmsgLen);
 
-	mir_sha1_byte_t clientProof[ MIR_SHA1_HASH_SIZE ];
+	BYTE clientProof[ MIR_SHA1_HASH_SIZE ];
 	for (unsigned j = 0; j < sizeof(clientKey); j++)
 		clientProof[j] = clientKey[j] ^ clientSig[j];
 
 	/* Calculate the server signature */
-	mir_sha1_byte_t serverKey[ MIR_SHA1_HASH_SIZE ];
-	hmac_sha1(serverKey, saltedPassw, sizeof(saltedPassw), (mir_sha1_byte_t*)"Server Key", 10);
+	BYTE serverKey[ MIR_SHA1_HASH_SIZE ];
+	mir_hmac_sha1(serverKey, saltedPassw, sizeof(saltedPassw), (BYTE*)"Server Key", 10);
 
-	mir_sha1_byte_t srvSig[ MIR_SHA1_HASH_SIZE ];
-	hmac_sha1(srvSig, serverKey, sizeof(serverKey), (mir_sha1_byte_t*)authmsg, authmsgLen);
+	BYTE srvSig[ MIR_SHA1_HASH_SIZE ];
+	mir_hmac_sha1(srvSig, serverKey, sizeof(serverKey), (BYTE*)authmsg, authmsgLen);
 	serverSignature = mir_base64_encode((PBYTE)srvSig, sizeof(srvSig));
 
 	char buf[4096];

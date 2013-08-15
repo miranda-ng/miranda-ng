@@ -276,7 +276,7 @@ int CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen)
 	char *szFname = mir_utf8encodeT(sztFname);
 
 	mir_sha1_init(&sha1ctx);
-	mir_sha1_append(&sha1ctx, (mir_sha1_byte_t*)pData, (int)cbLen);
+	mir_sha1_append(&sha1ctx, (BYTE*)pData, (int)cbLen);
 	mir_sha1_finish(&sha1ctx, sha1d);
 
 	ptrA szSha1d( mir_base64_encode((PBYTE)sha1d, sizeof(sha1d)));

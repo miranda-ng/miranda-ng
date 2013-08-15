@@ -299,13 +299,13 @@ BOOL SendPicture(TlenProtocol *proto, HANDLE hContact) {
 						int readcount = (int)fread(fileBuffer, (size_t)1, (size_t)toread, fp);
 						i -= readcount;
 						if (readcount > 0) {
-							mir_sha1_append( &sha, (mir_sha1_byte_t* )fileBuffer, readcount);
+							mir_sha1_append( &sha, (BYTE* )fileBuffer, readcount);
 						}
 						if (toread != readcount) {
 							break;
 						}
 					}
-					mir_sha1_finish( &sha, (mir_sha1_byte_t* )digest );
+					mir_sha1_finish( &sha, (BYTE* )digest );
 					JabberSend(proto, "<message type='pic' to='%s' crc='%08x%08x%08x%08x%08x' idt='%s' size='%d' ext='%s'/>", jid,
 						(int)htonl(digest[0]), (int)htonl(digest[1]), (int)htonl(digest[2]), (int)htonl(digest[3]), (int)htonl(digest[4]), idStr, item->ft->filesSize[0], "jpg");
 				} else {

@@ -593,6 +593,8 @@ procedure mir_sha1_finish(ctx:pmir_sha1_ctx; hashout:SHA1Hash); stdcall;
 procedure mir_sha1_hash(dataIn:pmir_sha1_byte_t; len:int;hashout:SHA1Hash); stdcall;
                  external CoreDLL name 'mir_sha1_hash';
 
+procedure mir_hmac_sha1(hashout:SHA1Hash; const key:pmir_sha1_byte_t; keyLen:size_t; const dataIn:pmir_sha1_byte_t; dataLen:size_t); stdcall;
+                 external CoreDLL name 'mir_hmac_sha1';
 
 ///////////////////////////////////////////////////////////////////////////////
 // strings

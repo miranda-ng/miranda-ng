@@ -654,22 +654,21 @@ MIR_CORE_DLL(int) ProtoGetAvatarFileFormat(const TCHAR *ptszFileName);
 ///////////////////////////////////////////////////////////////////////////////
 // sha1 functions
 
-typedef unsigned char mir_sha1_byte_t;
-typedef unsigned long mir_sha1_long_t;
-
 #define MIR_SHA1_HASH_SIZE 20
 
 typedef struct {
-  mir_sha1_long_t H[5];
-  mir_sha1_long_t W[80];
+  ULONG H[5];
+  ULONG W[80];
   int lenW;
-  mir_sha1_long_t sizeHi, sizeLo;
+  ULONG sizeHi, sizeLo;
 } mir_sha1_ctx;
 
 MIR_CORE_DLL(void) mir_sha1_init(mir_sha1_ctx *ctx);
-MIR_CORE_DLL(void) mir_sha1_append(mir_sha1_ctx *ctx, mir_sha1_byte_t *dataIn, int len);
-MIR_CORE_DLL(void) mir_sha1_finish(mir_sha1_ctx *ctx, mir_sha1_byte_t hashout[20]);
-MIR_CORE_DLL(void) mir_sha1_hash(mir_sha1_byte_t *dataIn, int len, mir_sha1_byte_t hashout[20]);
+MIR_CORE_DLL(void) mir_sha1_append(mir_sha1_ctx *ctx, const BYTE *dataIn, int len);
+MIR_CORE_DLL(void) mir_sha1_finish(mir_sha1_ctx *ctx, BYTE hashout[MIR_SHA1_HASH_SIZE]);
+MIR_CORE_DLL(void) mir_sha1_hash(BYTE *dataIn, int len, BYTE hashout[MIR_SHA1_HASH_SIZE]);
+
+MIR_CORE_DLL(void) mir_hmac_sha1(BYTE hashout[MIR_SHA1_HASH_SIZE], const BYTE *key, size_t keylen, const BYTE *text, size_t textlen);
 
 ///////////////////////////////////////////////////////////////////////////////
 // strings

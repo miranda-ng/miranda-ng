@@ -1544,7 +1544,7 @@ BOOL CMraProto::SetPassDB(LPSTR lpszBuff, size_t dwBuffSize)
 		btCryptedPass[0] = (BYTE)dwBuffSize;
 		//memmove(&btCryptedPass[1], lpszBuff, dwBuffSize);
 
-		hmac_sha1(btRandomData, sizeof(btRandomData), (BYTE*)szEMail, dwEMailSize, bthmacSHA1);
+		mir_hmac_sha1(bthmacSHA1, (BYTE*)szEMail, dwEMailSize, btRandomData, sizeof(btRandomData));
 
 		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);
 		RC4(btCryptedPass, sizeof(btCryptedPass), btRandomData, sizeof(btRandomData));
@@ -1583,7 +1583,7 @@ BOOL CMraProto::GetPassDB(LPSTR lpszBuff, size_t dwBuffSize, size_t *pdwBuffSize
 	if (mraGetContactSettingBlob(NULL, "pCryptPass", btCryptedPass, sizeof(btCryptedPass), &dwCryptedPass))
 	if (dwCryptedPass == sizeof(btCryptedPass))
 	if (mraGetStaticStringA(NULL, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize)) {
-		hmac_sha1(btRandomData, sizeof(btRandomData), (BYTE*)szEMail, dwEMailSize, bthmacSHA1);
+		mir_hmac_sha1(bthmacSHA1, (BYTE*)szEMail, dwEMailSize, btRandomData, sizeof(btRandomData));
 
 		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);
 		CopyMemoryReverseDWORD(btCryptedPass, btCryptedPass, sizeof(btCryptedPass));

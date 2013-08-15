@@ -313,10 +313,10 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 		_read(fileIn, pResult, dwPngSize);
 		_close(fileIn);
 
-		mir_sha1_byte_t digest[MIR_SHA1_HASH_SIZE];
+		BYTE digest[MIR_SHA1_HASH_SIZE];
 		mir_sha1_ctx sha1ctx;
 		mir_sha1_init(&sha1ctx);
-		mir_sha1_append(&sha1ctx, (mir_sha1_byte_t*)pResult, dwPngSize);
+		mir_sha1_append(&sha1ctx, (BYTE*)pResult, dwPngSize);
 		mir_sha1_finish(&sha1ctx, digest);
 
 		TCHAR tFileName[ MAX_PATH ];

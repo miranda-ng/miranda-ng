@@ -114,7 +114,7 @@ char *gg_avatarhash(char *param)
 	if (param == NULL || (result = (char *)mir_alloc(MIR_SHA1_HASH_SIZE * 2 + 1)) == NULL)
 		return NULL;
 
-	mir_sha1_byte_t digest[MIR_SHA1_HASH_SIZE];
+	BYTE digest[MIR_SHA1_HASH_SIZE];
 	mir_sha1_hash((BYTE*)param, (int)strlen(param), digest);
 	return bin2hex(digest, sizeof(digest), result);
 }

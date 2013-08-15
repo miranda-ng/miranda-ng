@@ -1171,10 +1171,10 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 
 							// NEED TO UPDATE OUR AVATAR HASH:
 
-							mir_sha1_byte_t digest[MIR_SHA1_HASH_SIZE];
+							BYTE digest[MIR_SHA1_HASH_SIZE];
 							mir_sha1_ctx sha1ctx;
 							mir_sha1_init(&sha1ctx);
-							mir_sha1_append(&sha1ctx, (mir_sha1_byte_t*)buffer, nRead);
+							mir_sha1_append(&sha1ctx, (BYTE*)buffer, nRead);
 							mir_sha1_finish(&sha1ctx, digest);
 
 							char buf[MIR_SHA1_HASH_SIZE*2+1];

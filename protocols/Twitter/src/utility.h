@@ -76,7 +76,6 @@ public:
 
 	std::wstring OAuthCreateNonce();
 	std::wstring OAuthCreateTimestamp();
-	std::string HMACSHA1( const std::string& keyBytes, const std::string& data );
 	std::wstring OAuthCreateSignature( const std::wstring& signatureBase, const std::wstring& consumerSecret, const std::wstring& requestTokenSecret );
 
 protected:

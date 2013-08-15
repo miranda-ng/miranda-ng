@@ -259,8 +259,8 @@ char *JabberSha1(char *str)
 		return NULL;
 
 	mir_sha1_init( &sha );
-	mir_sha1_append( &sha, (mir_sha1_byte_t* )str, (int)strlen( str ));
-	mir_sha1_finish( &sha, (mir_sha1_byte_t* )digest );
+	mir_sha1_append( &sha, (BYTE* )str, (int)strlen( str ));
+	mir_sha1_finish( &sha, (BYTE* )digest );
 	if ((result=(char *)mir_alloc(41)) == NULL)
 		return NULL;
 	sprintf(result, "%08x%08x%08x%08x%08x", (int)htonl(digest[0]), (int)htonl(digest[1]), (int)htonl(digest[2]), (int)htonl(digest[3]), (int)htonl(digest[4]));
@@ -270,7 +270,7 @@ char *JabberSha1(char *str)
 char *TlenSha1(char *str, int len)
 {
 	mir_sha1_ctx sha;
-	mir_sha1_byte_t digest[20];
+	BYTE digest[20];
 	char* result;
 	int i;
 
@@ -278,7 +278,7 @@ char *TlenSha1(char *str, int len)
 		return NULL;
 
 	mir_sha1_init( &sha );
-	mir_sha1_append( &sha, (mir_sha1_byte_t* )str, len);
+	mir_sha1_append( &sha, (BYTE* )str, len);
 	mir_sha1_finish( &sha, digest );
 	if (( result=( char* )mir_alloc( 20 )) == NULL )
 		return NULL;
