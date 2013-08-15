@@ -24,7 +24,6 @@
 
 #include "neweventnotify.h"
 
-int g_IsSrmmServiceAvail = 0;
 int g_IsSrmmWindowAPI = 0;
 extern PLUGIN_DATA* PopupList[20];
 
@@ -64,7 +63,6 @@ int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	PLUGIN_DATA* pdata;
-	DBEVENTTYPEDESCR* pei;
 
 	//are popups currently enabled?
 	if (pluginOptions.bDisable)
@@ -85,7 +83,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 	//custom database event types
 	if (ServiceExists(MS_DB_EVENT_GETTYPE))
 	{
-		pei = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbe.szModule, (LPARAM)dbe.eventType);
+		DBEVENTTYPEDESCR *pei = (DBEVENTTYPEDESCR*)CallService(MS_DB_EVENT_GETTYPE, (WPARAM)dbe.szModule, (LPARAM)dbe.eventType);
 		if (pei && pei->cbSize >= DBEVENTTYPEDESCR_SIZE && pei->flags & DETF_NONOTIFY)
 		// ignore events according to flags
 			return 0;
@@ -125,7 +123,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 }
 
 //---Called when all the modules are loaded
-int HookedInit(WPARAM wParam, LPARAM lParam)
+int HookedInit(WPARAM, LPARAM)
 {
 	hHookedNewEvent = HookEvent(ME_DB_EVENT_ADDED, HookedNewEvent);
 	// Plugin sweeper support
@@ -136,11 +134,6 @@ int HookedInit(WPARAM wParam, LPARAM lParam)
 		g_IsSrmmWindowAPI = 1;
 	else
 		g_IsSrmmWindowAPI = 0;
-
-	if (ServiceExists(MS_MSG_MOD_MESSAGEDIALOGOPENED))
-		g_IsSrmmServiceAvail = 1;
-	else
-		g_IsSrmmServiceAvail = 0;
 
 	return 0;
 }
@@ -214,42 +207,5 @@ int CheckMsgWnd(HANDLE hContact)
 		if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM) &mwid, (LPARAM) &mwd)) {
 			if (mwd.hwndWindow != NULL && (mwd.uState & MSG_WINDOW_STATE_EXISTS)) return 1;
 		}
-	}
-	if (g_IsSrmmServiceAvail) {   // use the service provided by tabSRMM
-		if (CallService(MS_MSG_MOD_MESSAGEDIALOGOPENED, (WPARAM)hContact, 0))
-			return 1;
-		else 
-			return 0;
-	}
-	else 
-	{	// old way: find it by using the window class & title
-		TCHAR newtitle[256];
-		char *szProto;
-		TCHAR *contactName, *szStatus;
-
-		szProto = GetContactProto(hContact);
-		contactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
-		szStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, szProto?db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE):ID_STATUS_OFFLINE, GSMDF_TCHAR);
-
-		// vj: This code was added by preeze and it does not work:
-		// vlko: it maybe work with other plugins 
-		mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s  (%s)"), contactName, szStatus);
-		if(FindWindow(_T("TMsgWindow"), newtitle))
-			return 2;
-
-		mir_sntprintf(newtitle, SIZEOF(newtitle), _T("[%s  (%s)]"), contactName, szStatus);
-		if(FindWindow(_T("TfrmContainer"), newtitle))
-			return 1;
-
-		// vj: I have restored this code from original plugin's source: (NewEventNotify 0.0.4)
-		mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message Session"));
-		if(FindWindow(_T("#32770"), newtitle)) // JK, this works for old SRMMs (1.0.4.x) and for mine SRMMJ
-			return 1;
-
-		mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message Received"));
-		if(FindWindow(_T("#32770"), newtitle))
-			return 2;
-
-		return 0;
 	}
 }

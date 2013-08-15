@@ -125,11 +125,9 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata)
 	return 0;
 }
 
-static BOOL CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	PLUGIN_DATA* pdata = NULL;
-
-	pdata = (PLUGIN_DATA*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, (LPARAM)pdata);
+	PLUGIN_DATA *pdata = (PLUGIN_DATA*)PUGetPluginData(hWnd);
 	if (!pdata) return FALSE;
 
 	switch (message) {
@@ -384,8 +382,6 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 
 int PopupShow(PLUGIN_OPTIONS* pluginOptions, HANDLE hContact, HANDLE hEvent, UINT eventType)
 {
-	PLUGIN_DATA* pdata;
-	EVENT_DATA_EX* eventData;
 	TCHAR* sampleEvent;
 	long iSeconds;
 
@@ -447,7 +443,7 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, HANDLE hContact, HANDLE hEvent, UIN
 		db_event_get(hEvent, &dbe);
 	}
 
-	eventData = (EVENT_DATA_EX*)mir_alloc(sizeof(EVENT_DATA_EX));
+	EVENT_DATA_EX *eventData = (EVENT_DATA_EX*)mir_alloc(sizeof(EVENT_DATA_EX));
 	eventData->hEvent = hEvent;
 	eventData->number = 1;
 	eventData->next = NULL;
@@ -458,7 +454,7 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, HANDLE hContact, HANDLE hEvent, UIN
 		hContact = DbGetAuthEventContact(&dbe);
 
 	// set plugin_data ... will be usable within PopupDlgProc
-	pdata = (PLUGIN_DATA*)mir_alloc(sizeof(PLUGIN_DATA));
+	PLUGIN_DATA *pdata = (PLUGIN_DATA*)mir_alloc(sizeof(PLUGIN_DATA));
 	pdata->eventType = eventType;
 	pdata->hContact = hContact;
 	pdata->pluginOptions = pluginOptions;
@@ -469,20 +465,18 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, HANDLE hContact, HANDLE hEvent, UIN
 
 	// finally create the popup
 	pudw.lchContact = hContact;
-	pudw.PluginWindowProc = (WNDPROC)PopupDlgProc;
+	pudw.PluginWindowProc = PopupDlgProc;
 	pudw.PluginData = pdata;
 
 	// if hContact is NULL, && hEvent is NULL then popup is only Test
 	if ((hContact == NULL) && (hEvent == NULL)) {
-		_tcsncpy((TCHAR*)pudw.lptzContactName, TranslateT("Plugin Test"), MAX_CONTACTNAME);
-		_tcsncpy((TCHAR*)pudw.lptzText, TranslateTS(sampleEvent), MAX_SECONDLINE);
+		_tcsncpy(pudw.lptzContactName, TranslateT("Plugin Test"), MAX_CONTACTNAME);
+		_tcsncpy(pudw.lptzText, TranslateTS(sampleEvent), MAX_SECONDLINE);
 	}
 	else { // get the needed event data
-		TCHAR* szEventPreview;
-
-		_tcsncpy((TCHAR*)pudw.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR), MAX_CONTACTNAME);
-		szEventPreview = GetEventPreview(&dbe);
-		_tcsncpy((TCHAR*)pudw.lptzText, szEventPreview, MAX_SECONDLINE);
+		_tcsncpy(pudw.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR), MAX_CONTACTNAME);
+		TCHAR *szEventPreview = GetEventPreview(&dbe);
+		_tcsncpy(pudw.lptzText, szEventPreview, MAX_SECONDLINE);
 		mir_free(szEventPreview);
 	}
 
@@ -493,7 +487,7 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, HANDLE hContact, HANDLE hEvent, UIN
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT))
 	{
-		if (CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pudw, 0) < 0)
+		if (PUAddPopupW(&pudw) < 0)
 		{ // popup creation failed, release popupdata
 			FreePopupEventData(pdata);
 			mir_free(pdata);
@@ -508,15 +502,8 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, HANDLE hContact, HANDLE hEvent, UIN
 
 int PopupUpdate(HANDLE hContact, HANDLE hEvent)
 {
-	PLUGIN_DATA* pdata;
-	DBEVENTINFO dbe = {0};
-	EVENT_DATA_EX* eventData;
-	TCHAR lpzText[MAX_SECONDLINE*2] = _T("\0\0");
-	int iEvent = 0;
-	int doReverse = 0;
-
 	// merge only message popups
-	pdata = (PLUGIN_DATA*)PopupList[NumberPopupData(hContact, EVENTTYPE_MESSAGE)];
+	PLUGIN_DATA *pdata = (PLUGIN_DATA*)PopupList[NumberPopupData(hContact, EVENTTYPE_MESSAGE)];
 
 	if (hEvent) {
 		pdata->countEvent++;
@@ -534,18 +521,20 @@ int PopupUpdate(HANDLE hContact, HANDLE hEvent)
 		SetTimer(pdata->hWnd, TIMER_TO_ACTION, pdata->iSeconds * 1000, NULL);
 	}
 
+	TCHAR lpzText[MAX_SECONDLINE*2] = _T("\0\0");
 	if (pdata->pluginOptions->bShowHeaders)
-		mir_sntprintf(lpzText, SIZEOF(lpzText), _T("[b]%s %d[/b]\n"), TranslateT("Number of new message: "), pdata->countEvent);
+		mir_sntprintf(lpzText, SIZEOF(lpzText), TranslateT("[b]Number of new message(s): %d[/b]\n"), pdata->countEvent);
 
-	doReverse = pdata->pluginOptions->bShowON;
+	int doReverse = pdata->pluginOptions->bShowON;
 
 	if ((pdata->firstShowEventData != pdata->firstEventData && doReverse) || (pdata->firstShowEventData != pdata->lastEventData && !doReverse))
 		mir_sntprintf(lpzText, SIZEOF(lpzText), _T("%s...\n"), lpzText);
 
 	//take the active event as starting one
-	eventData = pdata->firstShowEventData;
+	EVENT_DATA_EX *eventData = pdata->firstShowEventData;
 
-	while (TRUE) {
+	int iEvent = 0;
+	while (true) {
 		if (iEvent) {
 			if (doReverse)
 				eventData = eventData->next;
@@ -554,6 +543,7 @@ int PopupUpdate(HANDLE hContact, HANDLE hEvent)
 		}
 		iEvent++;
 		//get DBEVENTINFO with pBlob if preview is needed (when is test then is off)
+		DBEVENTINFO dbe = {0};
 		dbe.cbSize = sizeof(dbe);
 		dbe.pBlob = NULL;
 		dbe.cbBlob = 0;
@@ -597,7 +587,7 @@ int PopupUpdate(HANDLE hContact, HANDLE hEvent)
 	if ((doReverse && eventData->next) || (!doReverse && eventData->prev))
 		mir_sntprintf(lpzText, SIZEOF(lpzText), _T("%s\n..."), lpzText);
 
-	CallService(MS_POPUP_CHANGETEXTT, (WPARAM)pdata->hWnd, (LPARAM)lpzText);
+	PUChangeTextT(pdata->hWnd, lpzText);
 	return 0;
 }
 

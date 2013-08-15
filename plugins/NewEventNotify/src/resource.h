@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by resource.rc
+// Used by ..\res\resource.rc
 //
 #define IDD_OPT                         101
 #define IDI_ENABLED                     106
@@ -61,7 +61,6 @@
 #define IDC_CHKACTTE_DISMISS            1049
 #define IDC_CHKACTTE_OPEN               1050
 #define IDC_CHKACTTE_REMOVE             1051
-#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 

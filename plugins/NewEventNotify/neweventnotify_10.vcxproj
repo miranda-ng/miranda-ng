@@ -201,6 +201,10 @@
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\popup.ico" />
+    <None Include="res\popup_no.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

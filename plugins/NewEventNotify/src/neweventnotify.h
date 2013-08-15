@@ -52,8 +52,6 @@
 #define MS_NEN_MENUNOTIFY "NewEventNotify/MenuitemNotifyCommand"
 //VERY_PUBLIC End
 
-#define MS_MSG_MOD_MESSAGEDIALOGOPENED "SRMsg_MOD/MessageDialogOpened"
-
 //---------------------------
 //---Definitions
 
