@@ -692,6 +692,9 @@ MIR_CORE_DLL(int) wildcmpw(const WCHAR *name, const WCHAR *mask);
 MIR_CORE_DLL(int) wildcmpi(const char *name, const char *mask);
 MIR_CORE_DLL(int) wildcmpiw(const WCHAR *name, const WCHAR *mask);
 
+MIR_CORE_DLL(char*)  bin2hex(const void *pData, size_t len, char *dest);
+MIR_CORE_DLL(WCHAR*) bin2hexW(const void *pData, size_t len, WCHAR *dest);
+
 __forceinline char* lrtrim(char *str) { return ltrim(rtrim(str)); };
 __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 
@@ -719,19 +722,21 @@ __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 
 	#define mir_tstrdup  mir_wstrdup
 	#define mir_tstrndup mir_wstrndup
-	#define replaceStrT  replaceStrW
 
-	#define rtrimt rtrimw
-	#define ltrimt ltrimw
+	#define replaceStrT replaceStrW
+	#define bin2hexT    bin2hexW
+
+	#define rtrimt  rtrimw
+	#define ltrimt  ltrimw
 	#define ltrimpt ltrimpw
 
-	#define wildcmpt wildcmpw
+	#define wildcmpt  wildcmpw
 	#define wildcmpit wildcmpiw
 
-	#define mir_sntprintf mir_snwprintf
+	#define mir_sntprintf  mir_snwprintf
 	#define mir_vsntprintf mir_vsnwprintf
 
-	#define mir_writeLogT mir_writeLogW
+	#define mir_writeLogT  mir_writeLogW
 	#define mir_writeLogVT mir_writeLogVW
 #else
 	#define mir_t2a(s) mir_strdup(s)
@@ -746,7 +751,9 @@ __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 
 	#define mir_tstrdup  mir_strdup
 	#define mir_tstrndup mir_strndup
-	#define replaceStrT  replaceStr
+
+	#define replaceStrT replaceStr
+	#define bin2hexT    bin2hex
 
 	#define rtrimt rtrim
 	#define ltrimt ltrim
@@ -755,10 +762,10 @@ __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 	#define wildcmpt wildcmp
 	#define wildcmpit wildcmpi
 
-	#define mir_sntprintf mir_snprintf
+	#define mir_sntprintf  mir_snprintf
 	#define mir_vsntprintf mir_vsnprintf
 
-	#define mir_writeLogT mir_writeLogA
+	#define mir_writeLogT  mir_writeLogA
 	#define mir_writeLogVT mir_writeLogVA
 #endif
 

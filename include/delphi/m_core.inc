@@ -633,6 +633,12 @@ function replaceStr(var dest:pAnsiChar; const src:pAnsiChar):pAnsiChar; stdcall;
                  external CoreDLL name 'replaceStr';
 function replaceStrW(var dest:pWideChar; const src:pWideChar):pWideChar; stdcall;
                  external CoreDLL name 'replaceStrW';
+
+function bin2hex(data:pointer; dataLen:uint_ptr; pDest:pAnsiChar):pAnsiChar; stdcall;
+                 external CoreDLL name 'bin2hex';
+function bin2hexW(data:pointer; dataLen:uint_ptr; pDest:pWideChar):pWideChar; stdcall;
+                 external CoreDLL name 'bin2hexW';
+
 ///////////////////////////////////////////////////////////////////////////////
 // text conversion functions
 

@@ -139,6 +139,8 @@ MIR_CORE_DLL(WCHAR*) ltrimpw(WCHAR *str)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_CORE_DLL(int) wildcmp(const char *name, const char *mask)
 {
 	const char *last='\0';
@@ -211,4 +213,36 @@ MIR_CORE_DLL(int) wildcmpiw(const WCHAR *name, const WCHAR *mask)
 		if (*name == '\0') return ((BOOL)!*mask);      /* *mask == EOS */
 		if (*mask != '?' && _qtoupper(*mask)  != _qtoupper(*name)) name -= (size_t)(mask - last) - 1, mask = last;
 	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static char szHexTable[] = "0123456789abcdef";
+
+MIR_CORE_DLL(char*) bin2hex(const void *pData, size_t len, char *dest)
+{
+	const BYTE *p = (const BYTE*)pData;
+	char *d = dest;
+
+	for (size_t i=0; i < len; i++, p++) {
+		*d++ = szHexTable[*p >> 4];
+		*d++ = szHexTable[*p & 0x0F];
+	}
+	*d = 0;
+
+	return dest;
+}
+
+MIR_CORE_DLL(WCHAR*) bin2hexW(const void *pData, size_t len, WCHAR *dest)
+{
+	const BYTE *p = (const BYTE*)pData;
+	WCHAR *d = dest;
+
+	for (size_t i=0; i < len; i++, p++) {
+		*d++ = szHexTable[*p >> 4];
+		*d++ = szHexTable[*p & 0x0F];
+	}
+	*d = 0;
+
+	return dest;
 }

@@ -227,3 +227,5 @@ mir_writeLogA                 @224
 mir_writeLogW                 @225
 mir_writeLogVA                @226
 mir_writeLogVW                @227
+bin2hex                       @228
+bin2hexW                      @229
