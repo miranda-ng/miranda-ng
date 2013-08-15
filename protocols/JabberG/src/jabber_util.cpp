@@ -349,8 +349,7 @@ char* __stdcall JabberSha1(char* str)
 
 	char *result = (char*)mir_alloc(41);
 	if (result)
-		for (int i=0; i < 20; i++)
-			mir_snprintf(result + (i << 1), 2, "%02x", digest[i]);
+		bin2hex(digest, sizeof(digest), result);
 	return result;
 }
 
@@ -434,26 +433,6 @@ WCHAR* __stdcall JabberUnixToDosW(const WCHAR* str)
 		}
 		*q = '\0';
 	}
-	return res;
-}
-
-TCHAR* __stdcall JabberHttpUrlEncode(const TCHAR *str)
-{
-	TCHAR *p, *q, *res;
-
-	if (str == NULL) return NULL;
-	size_t size = 3 * _tcslen(str) + 1;
-	res = (TCHAR *)mir_alloc(size);
-	for (p = (TCHAR*)str, q = res; *p!='\0'; p++,q++) {
-		if ((*p>='A' && *p<='Z') || (*p>='a' && *p<='z') || (*p>='0' && *p<='9') || strchr("$-_.+!*'(),", *p) != NULL) {
-			*q = *p;
-		}
-		else {
-			mir_sntprintf(q, size, _T("%%%02X"), *p);
-			q += 2;
-		}
-	}
-	*q = '\0';
 	return res;
 }
 
@@ -1651,8 +1630,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 					mir_sha1_init(&sha);
 					mir_sha1_append(&sha, (mir_sha1_byte_t*)res->pData, res->dataLength);
 					mir_sha1_finish(&sha, digest);
-					for (int i=0; i<20; i++)
-						mir_snprintf(buffer + (i << 1), 2, "%02x", digest[i]);
+					bin2hex(digest, sizeof(digest), buffer);
 
 					ptrA cmpsha( getStringA(AI.hContact, "AvatarSaved"));
 					if (cmpsha == NULL || strnicmp(cmpsha, buffer, sizeof(buffer))) {

@@ -47,7 +47,7 @@ int Log(char *format, ...)
 	strftime(str, sizeof(str), "%d %b %Y @ %H:%M:%S: ", now);
 	fputs(str, fout);
 	va_start(vararg, format);
-	
+
 	tBytes = mir_vsnprintf(str, sizeof(str), format, vararg);
 	if (tBytes > 0)
 		{
@@ -77,7 +77,7 @@ int Info(char *title, char *format, ...)
 			str[tBytes] = 0;
 		}
 	va_end(vararg);
-	return MessageBoxA(0, str, title, MB_OK | MB_ICONINFORMATION);		
+	return MessageBoxA(0, str, title, MB_OK | MB_ICONINFORMATION);
 }
 
 int MyPUShowMessage(char *lpzText, BYTE kind)
@@ -88,7 +88,7 @@ int MyPUShowMessage(char *lpzText, BYTE kind)
 	}
 	else{
 		char *title = (kind == SM_NOTIFY) ? Translate("Notify") : Translate("Warning");
-		
+
 		return MessageBox(NULL, lpzText, title, MB_OK | (kind == SM_NOTIFY) ? MB_ICONINFORMATION : MB_ICONEXCLAMATION);
 	}
 }
@@ -101,16 +101,8 @@ char *BinToHex(int size, PBYTE data)
 	char buffer[32] = {0}; //should be more than enough
 	int maxSize = size * 2 + HEX_SIZE + 1;
 	szresult = (char *) new char[ maxSize ];
-	memset(szresult, 0, maxSize);
-	mir_snprintf(buffer, SIZEOF(buffer), "%0*X", HEX_SIZE, size);
-	strcpy(szresult, buffer);
-	int i;
-	for (i = 0; i < size; i++)
-		{
-			mir_snprintf(buffer, SIZEOF(buffer), "%02X", data[i]);
-			strcpy(szresult + (HEX_SIZE + i * 2), buffer);
-		}
-	return szresult; 
+	mir_snprintf(szresult, maxSize, "%0*X", HEX_SIZE, size);
+	return bin2hex(data, size, szresult + HEX_SIZE);
 }
 
 void HexToBin(char *inData, ULONG &size, LPBYTE &outData)
@@ -210,14 +202,14 @@ int GetStringFromDatabase(char *szSettingName, WCHAR *szError, WCHAR *szResult, 
 	return GetStringFromDatabase(NULL, ModuleName, szSettingName, szError, szResult, count);
 }
 
-#pragma warning (disable: 4312) 
+#pragma warning (disable: 4312)
 TCHAR *GetContactName(HANDLE hContact, char *szProto)
 {
 	CONTACTINFO ctInfo;
 	INT_PTR ret;
 	char proto[200];
-	
-	ZeroMemory((void *) &ctInfo, sizeof(ctInfo));	
+
+	ZeroMemory((void *) &ctInfo, sizeof(ctInfo));
 	ctInfo.cbSize = sizeof(ctInfo);
 	if (szProto)
 		{
@@ -230,7 +222,7 @@ TCHAR *GetContactName(HANDLE hContact, char *szProto)
 	ctInfo.dwFlag = CNF_DISPLAY;
 #ifdef _UNICODE
 	ctInfo.dwFlag += CNF_UNICODE;
-#endif	
+#endif
 	ctInfo.hContact = hContact;
 	//_debug_message("retrieving contact name for %d", hContact);
 	ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ctInfo);
@@ -252,7 +244,7 @@ TCHAR *GetContactName(HANDLE hContact, char *szProto)
 }
 #pragma warning (default: 4312)
 
-#pragma warning (disable: 4312) 
+#pragma warning (disable: 4312)
 void GetContactProto(HANDLE hContact, char *szProto, size_t size)
 {
 	GetStringFromDatabase(hContact, "Protocol", "p", NULL, szProto, size);
@@ -273,7 +265,7 @@ TCHAR *GetContactID(HANDLE hContact, char *szProto)
 	CONTACTINFO ctInfo;
 	INT_PTR ret;
 
-	ZeroMemory((void *) &ctInfo, sizeof(ctInfo));	
+	ZeroMemory((void *) &ctInfo, sizeof(ctInfo));
 	ctInfo.cbSize = sizeof(ctInfo);
 	ctInfo.szProto = szProto;
 	ctInfo.dwFlag = CNF_UNIQUEID;
@@ -292,35 +284,35 @@ TCHAR *GetContactID(HANDLE hContact, char *szProto)
 						{
 							mir_sntprintf(tmp, SIZEOF(tmp), _T("%d"), ctInfo.bVal);
 							buffer = _tcsdup(tmp);
-						
+
 							break;
 						}
-						
+
 					case CNFT_WORD:
 						{
 							mir_sntprintf(tmp, SIZEOF(tmp), _T("%d"), ctInfo.wVal);
 							buffer = _tcsdup(tmp);
-						
+
 							break;
 						}
-						
+
 					case CNFT_DWORD:
 						{
 							mir_sntprintf(tmp, SIZEOF(tmp), _T("%ld"), ctInfo.dVal);
 							buffer = _tcsdup(tmp);
-							
+
 							break;
 						}
-						
+
 					case CNFT_ASCIIZ:
 					default:
 						{
 							buffer = _tcsdup(ctInfo.pszVal);
-							
+
 							break;
 						}
 				}
-				
+
 
 		}
 	mir_free(ctInfo.pszVal);
@@ -345,18 +337,18 @@ HANDLE GetContactFromID(TCHAR *szID, char *szProto)
 	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		GetContactProto(hContact, cProtocol, sizeof(cProtocol));
 		TCHAR *szHandle = GetContactID(hContact, cProtocol);
-		
+
 		tmp = (char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, 0);
 		STRNCPY(dispName, tmp, sizeof(dispName));
-		
+
 		if ((szHandle) && ((_tcsicmp(szHandle, szID) == 0) || (_tcsicmp(dispName, szID) == 0)) && ((szProto == NULL) || (_stricmp(szProto, cProtocol) == 0)))
 			found = 1;
 
 		if (szHandle) free(szHandle);
-	
+
 		if (found) return hContact;
 	}
-	
+
 	return NULL;
 }
 #pragma warning (default: 4312)
@@ -388,7 +380,7 @@ void AnchorMoveWindow(HWND window, const WINDOWPOS *parentPos, int anchors)
 {
 	RECT rParent;
 	RECT rChild;
-	
+
 	if (parentPos->flags & SWP_NOSIZE)
 		{
 			return;
@@ -421,10 +413,10 @@ RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos,
 	rTmp.right = (parentPos->x + parentPos->cx) - rParent->right;
 	rTmp.bottom = (parentPos->y + parentPos->cy) - rParent->bottom;
 	rTmp.top = parentPos->y - rParent->top;
-	
+
 	cx = (rTmp.left) ? -rTmp.left : rTmp.right;
-	cy = (rTmp.top) ? -rTmp.top : rTmp.bottom;	
-	
+	cy = (rTmp.top) ? -rTmp.top : rTmp.bottom;
+
 	rChild.right += cx;
 	rChild.bottom += cy;
 	//expanded the window accordingly, now we need to enforce the anchors
@@ -451,6 +443,6 @@ inline char *STRNCPY(char *output, const char *input, size_t size)
 {
 	char *res = strncpy(output, input, size);
 	output[size - 1] = 0;
-	
+
 	return res;
 }

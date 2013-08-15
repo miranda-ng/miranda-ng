@@ -269,9 +269,6 @@ LBL_NotPE:
 
 	BYTE digest[16];
 	mir_md5_finish(&pms, digest);
-
-	for (int i=0; i < sizeof(digest); i++)
-		sprintf(szDest + i*2, "%02x", digest[i]); //!!!!!!!!!!!
-
+	bin2hex(digest, sizeof(digest), szDest);
 	return RESULT_OK;
 }

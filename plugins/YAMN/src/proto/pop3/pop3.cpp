@@ -238,7 +238,6 @@ char* CPop3Client::APOP(char* name, char* pw, char* timestamp)
 	char query[512];
 	char *Result;
 	unsigned char digest[16];
-	char hexdigest[40];
 
 	if (timestamp==NULL)
 		throw POP3Error=(DWORD)EPOP3_APOP;
@@ -247,13 +246,10 @@ char* CPop3Client::APOP(char* name, char* pw, char* timestamp)
 	mir_md5_append(&ctx,(const unsigned char *)timestamp,(unsigned int)strlen(timestamp));
 	mir_md5_append(&ctx,(const unsigned char *)pw,(unsigned int)strlen(pw));
 	mir_md5_finish(&ctx, digest);
-	hexdigest[0]='\0';
-	for (int i=0; i < 16; i++) {
-		char tmp[4];
-		mir_snprintf(tmp, SIZEOF(tmp), "%02x", digest[i]);
-		strcat(hexdigest, tmp);
-	}
-	mir_snprintf(query, SIZEOF(query), "APOP %s %s\r\n", name, hexdigest);
+
+	char hexdigest[40];
+	mir_snprintf(query, SIZEOF(query), "APOP %s %s\r\n", name, bin2hex(digest, sizeof(digest), hexdigest));
+
 	NetClient->Send(query);
 	Result=RecvRest(NetClient->Recv(),POP3_SEARCHACK);
 	if (AckFlag==POP3_FERR)

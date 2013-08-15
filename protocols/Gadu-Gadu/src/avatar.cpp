@@ -109,18 +109,14 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 
 char *gg_avatarhash(char *param)
 {
-	mir_sha1_byte_t digest[MIR_SHA1_HASH_SIZE];
 	char *result;
-	int i;
 
 	if (param == NULL || (result = (char *)mir_alloc(MIR_SHA1_HASH_SIZE * 2 + 1)) == NULL)
 		return NULL;
 
+	mir_sha1_byte_t digest[MIR_SHA1_HASH_SIZE];
 	mir_sha1_hash((BYTE*)param, (int)strlen(param), digest);
-	for (i = 0; i < MIR_SHA1_HASH_SIZE; i++)
-		mir_snprintf(result + (i<<1), 2, "%02x", digest[i]);
-
-	return result;
+	return bin2hex(digest, sizeof(digest), result);
 }
 
 void GGPROTO::requestAvatarTransfer(HANDLE hContact, char *szAvatarURL)

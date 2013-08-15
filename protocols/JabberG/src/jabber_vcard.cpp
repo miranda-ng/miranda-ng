@@ -1178,9 +1178,8 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 							mir_sha1_finish(&sha1ctx, digest);
 
 							char buf[MIR_SHA1_HASH_SIZE*2+1];
-							for (int j=0; j<MIR_SHA1_HASH_SIZE; j++)
-								mir_snprintf(buf + (j << 1), 2, "%02x", digest[j]);
-
+							bin2hex(digest, sizeof(digest), buf);
+							
 							m_options.AvatarType = ProtoGetBufferFormat(buffer);
 
 							if (bPhotoChanged) {

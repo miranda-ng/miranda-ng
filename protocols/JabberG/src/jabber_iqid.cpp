@@ -1480,8 +1480,7 @@ LBL_ErrFormat:
 	mir_sha1_init(&sha);
 	mir_sha1_append(&sha, (mir_sha1_byte_t*)(char*)body, resultLen);
 	mir_sha1_finish(&sha, digest);
-	for (int i=0; i<20; i++)
-		mir_snprintf(buffer + (i << 1), 2, "%02x", digest[i]);
+	bin2hex(digest, sizeof(digest), buffer);
 
 	GetAvatarFileName(hContact, tszFileName, SIZEOF(tszFileName));
 	_tcsncpy(AI.filename, tszFileName, SIZEOF(AI.filename));

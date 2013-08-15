@@ -744,7 +744,6 @@ TCHAR*        __stdcall JabberStrFixLines(const TCHAR *str);
 char*         __stdcall JabberUnixToDos(const char* str);
 WCHAR*        __stdcall JabberUnixToDosW(const WCHAR* str);
 void          __stdcall JabberHttpUrlDecode(TCHAR* str);
-TCHAR*        __stdcall JabberHttpUrlEncode(const TCHAR *str);
 int           __stdcall JabberCombineStatus(int status1, int status2);
 TCHAR*        __stdcall JabberErrorStr(int errorCode);
 TCHAR*        __stdcall JabberErrorMsg(HXML errorNode, int* errorCode = NULL);

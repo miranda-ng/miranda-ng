@@ -293,7 +293,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 			else
 				p = ft->std.ptszFiles[i];
 
-			TCHAR *pFileName = JabberHttpUrlEncode(p);
+			char *pFileName = mir_urlEncode( ptrA( mir_utf8encodeT(p)));
 			if (pFileName != NULL) {
 				int id = SerialNext();
 				if (ft->iqId) mir_free(ft->iqId);

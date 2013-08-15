@@ -273,11 +273,7 @@ char *oauth_generate_nonce()
 
 	mir_md5_byte_t digest[16];
 	mir_md5_hash((BYTE*)(char*)str, (int)strlen(str), digest);
-
-	char *result = (char *)mir_alloc(32 + 1);
-	for (int i = 0; i < 16; i++)
-		mir_snprintf(result + (i<<1), 2, "%02x", digest[i]);
-	return result;
+	return bin2hex(digest, sizeof(digest), (char *)mir_alloc(32 + 1));
 }
 
 char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD signmethod,

@@ -45,7 +45,7 @@ int Log(char *format, ...)
 		}
 
 	va_start(vararg, format);
-	
+
 	tBytes = mir_vsnprintf(str, sizeof(str), format, vararg);
 	if (tBytes > 0)
 		{
@@ -75,7 +75,7 @@ int Info(char *title, char *format, ...)
 			str[tBytes] = 0;
 		}
 	va_end(vararg);
-	return MessageBoxA(0, str, title, MB_OK | MB_ICONINFORMATION);		
+	return MessageBoxA(0, str, title, MB_OK | MB_ICONINFORMATION);
 }
 
 #define HEX_SIZE 8
@@ -86,36 +86,9 @@ char *BinToHex(int size, PBYTE data)
 	char buffer[32] = {0}; //should be more than enough
 	int maxSize = size * 2 + HEX_SIZE + 1;
 	szresult = (char *) new char[ maxSize ];
-	memset(szresult, 0, maxSize);
-	mir_snprintf(buffer, SIZEOF(buffer), "%0*X", HEX_SIZE, size);
-	strcpy(szresult, buffer);
-	int i;
-	for (i = 0; i < size; i++)
-		{
-			mir_snprintf(buffer, SIZEOF(buffer), "%02X", data[i]);
-			strcpy(szresult + (HEX_SIZE + i * 2), buffer);
-		}
-	return szresult; 
+	mir_snprintf(szresult, maxSize, "%0*X", HEX_SIZE, size);
+	return bin2hex(data, size, szresult + HEX_SIZE);
 }
-/*
-TCHAR *BinToHex(int size, PBYTE data)
-{
-	TCHAR *szresult = NULL;
-	TCHAR buffer[32] = {0}; //should be more than enough
-	int maxSize = size * 2 + HEX_SIZE + 1;
-	szresult = (TCHAR *) new TCHAR[ maxSize ];
-	memset(szresult, 0, maxSize);
-	mir_sntprintf(buffer,_countof(buffer), _T("%0*X"), HEX_SIZE, size);
-	_tcsncpy(szresult, buffer,_countof(buffer));
-	int i;
-	for (i = 0; i < size; i++)
-		{
-			mir_sntprintf(buffer, _countof(buffer),_T("%02X"), data[i]);
-			_tcsncpy(szresult + (HEX_SIZE + i * 2), buffer,_countof(buffer));
-		}
-	return szresult; 
-}
-*/
 
 void HexToBin(TCHAR *inData, ULONG &size, LPBYTE &outData)
 {
@@ -179,7 +152,7 @@ void AnchorMoveWindow(HWND window, const WINDOWPOS *parentPos, int anchors)
 {
 	RECT rParent;
 	RECT rChild;
-	
+
 	if (parentPos->flags & SWP_NOSIZE)
 		{
 			return;
@@ -212,10 +185,10 @@ RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos,
 	rTmp.right = (parentPos->x + parentPos->cx) - rParent->right;
 	rTmp.bottom = (parentPos->y + parentPos->cy) - rParent->bottom;
 	rTmp.top = parentPos->y - rParent->top;
-	
+
 	cx = (rTmp.left) ? -rTmp.left : rTmp.right;
-	cy = (rTmp.top) ? -rTmp.top : rTmp.bottom;	
-	
+	cy = (rTmp.top) ? -rTmp.top : rTmp.bottom;
+
 	rChild.right += cx;
 	rChild.bottom += cy;
 	//expanded the window accordingly, now we need to enforce the anchors
@@ -241,17 +214,17 @@ RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos,
 DWORD WINAPI CheckEmailWorkerThread(LPVOID data)
 {
 	EnterCriticalSection(&csCheck);
-	
+
 	int bForceAttempt = (int) data;
-	
+
 	if (!exchangeServer.IsConnected())
 		{
 			exchangeServer.Connect(bForceAttempt);
 		}
 	exchangeServer.Check(bForceAttempt);
-		
+
 	LeaveCriticalSection(&csCheck);
-	
+
 	return 0;
 }
 
@@ -260,7 +233,7 @@ int ThreadCheckEmail(int bForceAttempt)
 	DWORD idThread;
 	HANDLE hCheckThread = CreateThread(NULL, NULL, CheckEmailWorkerThread, (void *) bForceAttempt, 0, &idThread);
 	CloseHandle(hCheckThread);
-	
+
 	return 0;
 }
 

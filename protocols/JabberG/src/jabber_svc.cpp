@@ -324,8 +324,7 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 		DeleteFile(tFileName);
 
 		char buf[MIR_SHA1_HASH_SIZE*2+1];
-		for (int i=0; i<MIR_SHA1_HASH_SIZE; i++)
-			mir_snprintf(buf + (i << 1), 2, "%02x", digest[i]);
+		bin2hex(digest, sizeof(digest), buf);
 
 		m_options.AvatarType = ProtoGetBufferFormat(pResult);
 
