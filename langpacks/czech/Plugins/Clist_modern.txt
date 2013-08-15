@@ -167,7 +167,7 @@ Možnosti režimu zobrazení
 [Editing view mode]
 Úprava pohledu
 [Last message]
-Poslední zpráva\s
+Poslední zpráva
 [Status Bar]
 Stavová lišta
 [Show status bar]
@@ -266,8 +266,6 @@ Bez výběru
 Způsob výběru
 [Bring to front if covered]
 Při překrytí přenést do popředí
-[Hide contact list after]
-
 [Automatically resize window to height of list]
 Podle položek automaticky změnit výšku okna
 [maximum]

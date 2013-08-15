@@ -1949,6 +1949,8 @@ Zpráva od: %s
 %s píše zprávu
 [Typing Notification]
 Upozornění na psaní zprávy
+[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda nemůže načíst vestavěný komunikační modul, riched20.dll nebyl nalezen. Stiskněte 'Ano' pro pokračování ve spouštění Mirandy.
 [Instant messages]
 Zprávy
 [Incoming (Focused Window)]
@@ -2307,6 +2309,8 @@ Záznam jádra Mirandy
 Zadejte požadovaný soubor pro záznam
 [Select program to be run]
 Vyberte požadovaný program
+[Standard netlib log]
+Výchozí záznam pro netlib
 ;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <všechna spojení>

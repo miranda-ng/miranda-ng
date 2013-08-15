@@ -225,17 +225,7 @@ všechno
 
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
 ;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[Log Files (*.txt,*.log)]
-
-[Enter integer value]
-
-[Enter log file name.]
-
-[Enter log file format.]
-
-[Enter history format.]
-
-[Enter popup window format.]
+[<all>]
 
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
@@ -291,3 +281,15 @@ všechno
 [Change]
 Změnit
 ;file \plugins\Quotes\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+
+[Enter integer value]
+
+[Enter log file name.]
+
+[Enter log file format.]
+
+[Enter history format.]
+
+[Enter popup window format.]
+

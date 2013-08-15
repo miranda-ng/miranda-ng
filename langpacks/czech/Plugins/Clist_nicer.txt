@@ -57,7 +57,7 @@ Potvrdit smazání kontaktů
 [Disable icon blinking]
 Vypnout blikání ikon
 [Apply last active view mode]
-Použít poslední režim zobrazení
+Použít poslední aktivní režim zobrazení
 [Contact list layout]
 Vzhled seznamu kontaktů
 [Show menu and status buttons]
@@ -628,8 +628,6 @@ Nic
 Jméno
 [Status]
 Stavy
-[Last message]
-Poslední zpráva
 [Message frequency]
 Četnost zpráv
 [Never]

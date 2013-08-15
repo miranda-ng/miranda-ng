@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.11.0.2
+;  Version: 0.11.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -82,8 +82,46 @@ Pro každý protokol jiný avatar
 [Protocols have different avatars]
 Jednotlivé protokoly mají definované různé avatary.
 ;file \plugins\AVS\src\main.cpp
-[Grow avatar to fit max allowed protocol size]
-Upravit rozměry na max. velikost danou protokolem
+[Global avatar]
+Globální avatar
+[Global avatar for %s accounts]
+Globální avatar pro účty na %s
+[Avatars]
+Avatary
+[My Avatars]
+Osobní avatary
+[My Global Avatar Cache]
+Úložiště avatarů
+[Fatal error, image services not found. Avatar services will be disabled.]
+Závažná chyba, nebyly nalezeny služby pro obrázky. Avatary budou vypnuty.
+[Avatar Service]
+Avatary
+;file \plugins\AVS\src\options.cpp
+[Set avatar options for %s]
+%s: avatar
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Chcete odstranit i obrázek z disku (nutno provést při vynucené aktualizaci avataru)?
+[Reset contact picture]
+Resetovat obrázek kontaktu
+[Contact has no avatar]
+<avatar není definovaný>
+[Contacts]
+Kontakty
+[Protocols]
+Protokoly
+[Contact Avatars]
+Pro kontakty
+[Own Avatars]
+Pro sebe
+[No avatar]
+Bez avataru
+[Are you sure you want to remove your avatar?]
+Opravdu chcete odstranit svůj avatar?
+[Global Avatar]
+Globální avatar
+[Avatar]
+Avatar
+;file \plugins\AVS\src\services.cpp
 [All Files]
 Všechny soubory
 [Windows Bitmaps]
@@ -98,46 +136,9 @@ obrázky typu PNG
 animace typu Flash
 [XML Files]
 soubory typu XML
+[Grow avatar to fit max allowed protocol size]
+Upravit rozměry na max. velikost danou protokolem
 [Set My Avatar]
 Nastavit avatar
 [Set My Avatar for %s]
 Nastavit avatar pro %s
-[Global avatar]
-Globální avatar
-[Global avatar for %s accounts]
-Globální avatar pro účty na %s
-[Avatars]
-Avatary
-[My Avatars]
-Osobní avatary
-[My Global Avatar Cache]
-Úložiště avatarů
-[Contacts]
-Kontakty
-[Protocols]
-Protokoly
-[Contact Avatars]
-Pro kontakty
-[Own Avatars]
-Pro sebe
-[Avatar]
-Avatar
-[Fatal error, image services not found. Avatar services will be disabled.]
-Závažná chyba, nebyly nalezeny služby pro obrázky. Avatary budou vypnuty.
-[Avatar Service]
-Avatary
-;file \plugins\AVS\src\options.cpp
-[Set avatar options for %s]
-%s: avatar
-[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
-Chcete odstranit i obrázek z disku (nutno provést při vynucené aktualizaci avataru)?
-[Reset contact picture]
-Resetovat obrázek kontaktu
-[Contact has no avatar]
-<avatar není definovaný>
-[No avatar]
-Bez avataru
-[Are you sure you want to remove your avatar?]
-Opravdu chcete odstranit svůj avatar?
-[Global Avatar]
-Globální avatar

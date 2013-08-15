@@ -1,5 +1,4 @@
 ﻿[Console log window for Miranda.]
-[Console]
 [Single window mode*]
 [Show icons in log*]
 [New lines between events*]
@@ -25,6 +24,5 @@
 [*** Console resumed ***]
 [*** Console cleared ***]
 [Miranda Console]
-[Console]
 [Save selection to file]
 [Save log to file]

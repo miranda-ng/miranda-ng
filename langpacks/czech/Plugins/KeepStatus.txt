@@ -265,6 +265,8 @@ Data spouštěče
 [Status: The status the account will change to\r\nAccount: The account changing state]
 Stav: Stav účtu bude změněn na\r\nÚčet: Účet mění svůj stav
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
+[Protocol]
+Protokol
 [%s connected from another location]
 Připojení z jiného místa (%s)
 [%s login error, cancel reconnecting]
@@ -292,8 +294,6 @@ Stav nelze obnovit
 [KeepStatus]
 Udržování stavu
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
-[Protocol]
-Protokol
 [Basic]
 Obecné
 [Advanced]

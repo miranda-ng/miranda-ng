@@ -45,7 +45,7 @@ Reset
 [Yahoo Ignore List]
 Seznam filtrovaných
 [Ignore anyone who is not on my Yahoo buddy list]
-Ignorovat všechny, kdo nejsou v seznamu kontaktů
+Ignorovat všechny, kteří nejsou v seznamu kontaktů
 [Ignore only the people below:]
 Ignorovat pouze níže uvedené uživatele:
 [&Add]

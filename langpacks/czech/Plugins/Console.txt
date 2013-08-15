@@ -9,7 +9,7 @@
 
 ;file \plugins\Console\res\resource.rc
 [Console]
-
+Konzole
 [Single window mode*]
 
 [Show icons in log*]
@@ -63,8 +63,6 @@
 
 [Services]
 Služby
-[Console]
-
 [Text]
 Text
 [&Help]

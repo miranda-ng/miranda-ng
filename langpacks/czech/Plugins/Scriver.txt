@@ -679,9 +679,9 @@ Příchozí (nová konverzace)
 [Outgoing]
 Odchozí
 [Contact started typing]
-
+Kontakt začal psát
 [Contact stopped typing]
-
+Kontakt přestal psát
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occured.]
 Neznámá chyba.

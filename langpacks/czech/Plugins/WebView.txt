@@ -46,7 +46,7 @@ Podtržené
 
 [Suppress error messages]
 Potlačit chybová hlášení
-[Display using PopUp or OSD plugin]
+[Display using Popup or OSD plugin]
 
 [Expert Options]
 Možnosti pro experty
@@ -140,7 +140,7 @@ Najít:
 Doba zobrazení
 [Delay]
 Prodleva
-[From PopUp Plugin]
+[From Popup Plugin]
 
 [Permanent]
 Trvale
@@ -164,7 +164,7 @@ Použít barvy Windows
 
 [Open Web Page]
 
-[Dismiss PopUp]
+[Dismiss Popup]
 Zavřít oznámení
 [Right Click Action]
 
@@ -187,16 +187,38 @@ S&mazat vše
 ;file \plugins\WebView\src\main.cpp
 [Alert Event]
 
-;file \plugins\WebView\src\webview.cpp
-[Auto Update Enabled]
-Deaktivovat automatickou aktualizaci
 [Auto Update Disabled]
 Aktivovat automatickou aktualizaci
+[Auto Update Enabled]
+Deaktivovat automatickou aktualizaci
+[Update All Webview Sites]
+
+[Mark All Webview Sites Read]
+
+[Open Cache Folder]
+
+[%d Minutes to Update]
+
+[Open web page]
+
+[Open/Close window]
+
+[Update Data]
+
+[Contact Options]
+
+[Contact Alert Options]
+
+[Ping Web Site]
+
+[Stop Data Processing]
+
+;file \plugins\WebView\src\webview.cpp
 [All Webview sites have been updated.]
 
 [Network]
 Sítě
-[PopUps]
+[Popups]
 Oznámení
 ;file \plugins\WebView\src\webview_alerts.cpp
 [Cannot write to file]
@@ -231,10 +253,6 @@ Nelze zapsat do souboru
 
 ;file \plugins\WebView\src\webview_datawnd.cpp
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
-
-[Update Data]
-
-[Contact Options]
 
 [Stop Processing]
 
@@ -294,6 +312,28 @@ Online
 [Alert test conditions not met; press the refresh button to view content.]
 
 ;file \plugins\WebView\src\webview_opts.cpp
+[No whitespace removal]
+
+[Minimal level of whitespace removal]
+
+[Medium level of whitespace removal]
+
+[Large level of whitespace removal]
+
+[Remove all whitespace]
+
+[Popup Plugin]
+
+[Log To File]
+
+[Use OSD Plugin]
+
+[A String Is Present]
+
+[The Web Page Changes]
+
+[A Specific Part of Web Page Changes]
+
 [This is a preview popup.]
 
 [You need to supply a search string.]

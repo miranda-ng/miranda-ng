@@ -134,14 +134,14 @@ Přijímat hovory...
 Automaticky přijímat video a sdílet obrazovku...
 [No one]
 Od nikoho
-[Allow my online status to be shown on the web]
-Povolit zobrazení mého online stavu na webu
 [Show avatars]
 Zobrazit avatary
 [Contacts count]
 Počet kontaktů
 [Local time]
 Lokální čas
+[Allow my online status to be shown on the web]
+Povolit zobrazení mého online stavu na webu
 [Block this person]
 Blkovat tohoto uživatele
 [Remove from your Contact List]
