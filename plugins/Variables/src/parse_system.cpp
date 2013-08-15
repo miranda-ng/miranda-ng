@@ -54,7 +54,7 @@ static TCHAR *parseCpuLoad(ARGUMENTSINFO *ai) {
 	if ( _tcslen(ai->targv[1]) == 0)
 		szCounter = mir_tstrdup(_T("\\Processor(_Total)\\% Processor Time"));
 	else {
-		int size = _tcslen(ai->targv[1]) + 32;
+		int size = (int)_tcslen(ai->targv[1]) + 32;
 		szCounter = (TCHAR *)mir_alloc(size * sizeof(TCHAR));
 		if (szCounter == NULL)
 			return NULL;

@@ -59,7 +59,7 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 			return NULL;
 	}
 
-	int size = strlen(szProto) + _tcslen(szUniqueID) + 4;
+	size_t size = strlen(szProto) + _tcslen(szUniqueID) + 4;
 	TCHAR *res = (TCHAR *)mir_alloc(size * sizeof(TCHAR));
 	if (res == NULL) {
 		mir_free(szUniqueID);
@@ -115,7 +115,7 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 			return NULL;
 	}
 
-	int size = strlen(szProto) + _tcslen(szUniqueID) + 4;
+	size_t size = strlen(szProto) + _tcslen(szUniqueID) + 4;
 	TCHAR *res = (TCHAR *)mir_alloc(size * sizeof(TCHAR));
 	if (res == NULL) {
 		mir_free(szUniqueID);
@@ -171,7 +171,7 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 			return NULL;
 	}
 
-	int size = strlen(szProto) + _tcslen(szUniqueID) + 4;
+	size_t size = strlen(szProto) + _tcslen(szUniqueID) + 4;
 	TCHAR *res = (TCHAR *)mir_alloc(size * sizeof(TCHAR));
 	if (res == NULL) {
 		mir_free(szUniqueID);

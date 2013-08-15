@@ -25,22 +25,22 @@ int UploadJob::iRunningJobCount = 0;
 extern UploadDialog *uDlg;
 extern ServerList &ftpList;
 
-UploadJob::UploadJob(HANDLE _hContact, int _iFtpNum, EMode _mode)
-:GenericJob(_hContact, _iFtpNum, _mode),fp(NULL) 
+UploadJob::UploadJob(HANDLE _hContact, int _iFtpNum, EMode _mode) :
+	GenericJob(_hContact, _iFtpNum, _mode),fp(NULL) 
 { 
 	this->szFileLink[0] = 0;
 }
 
-UploadJob::UploadJob(UploadJob *job)
-:GenericJob(job),fp(NULL),uiSent(0),uiTotalSent(0),uiFileSize(0)
+UploadJob::UploadJob(UploadJob *job) :
+	GenericJob(job),fp(NULL),uiSent(0),uiTotalSent(0),uiFileSize(0)
 { 
 	strcpy(this->szFileLink, job->szFileLink);
 	for (int i = 0; i < SIZEOF(this->lastSpeed); i++)
 		this->lastSpeed[i] = 0;
 }
 
-UploadJob::UploadJob(PackerJob *job)
-:GenericJob(job),fp(NULL),uiSent(0),uiTotalSent(0),uiFileSize(0)
+UploadJob::UploadJob(PackerJob *job) :
+	GenericJob(job),fp(NULL),uiSent(0),uiTotalSent(0),uiFileSize(0)
 { 
 	for (int i = 0; i < SIZEOF(this->lastSpeed); i++)
 		this->lastSpeed[i] = 0;
@@ -60,8 +60,7 @@ UploadJob::~UploadJob()
 
 void UploadJob::addToUploadDlg()
 {
-	for (UINT i = 0; i < this->files.size(); i++)
-	{
+	for (UINT i = 0; i < this->files.size(); i++) {
 		UploadJob *jobCopy = new UploadJob(this);
 		_tcscpy(jobCopy->stzFilePath, this->files[i]);
 		_tcscpy(jobCopy->stzFileName, Utils::getFileNameFromPath(jobCopy->stzFilePath));
@@ -77,40 +76,37 @@ void UploadJob::addToUploadDlg()
 
 void UploadJob::autoSend()
 {
-	if (this->hContact != NULL)
-	{
-		char *szProto = GetContactProto(this->hContact);
-		if (szProto)
-		{
-			DBEVENTINFO dbei = {0};
-			dbei.cbSize = sizeof(dbei);
-			dbei.eventType = EVENTTYPE_MESSAGE;
-			dbei.flags = DBEF_SENT;
-			dbei.szModule = szProto;
-			dbei.timestamp = (DWORD)time(NULL);
-			dbei.cbBlob = (DWORD)strlen(this->szFileLink) + 1;
-			dbei.pBlob = (PBYTE)this->szFileLink;
-			db_event_add(this->hContact, &dbei);
-			CallContactService(this->hContact, PSS_MESSAGE, 0, (LPARAM)this->szFileLink);
-			CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)this->hContact, 0);
-		}
-	}
+	if (this->hContact == NULL)
+		return;
+
+	char *szProto = GetContactProto(this->hContact);
+	if (szProto == NULL)
+		return;
+
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.eventType = EVENTTYPE_MESSAGE;
+	dbei.flags = DBEF_SENT;
+	dbei.szModule = szProto;
+	dbei.timestamp = (DWORD)time(NULL);
+	dbei.cbBlob = (DWORD)strlen(this->szFileLink) + 1;
+	dbei.pBlob = (PBYTE)this->szFileLink;
+	db_event_add(this->hContact, &dbei);
+	CallContactService(this->hContact, PSS_MESSAGE, 0, (LPARAM)this->szFileLink);
+	CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)this->hContact, 0);
 }
 
 void UploadJob::copyLinkToML()
 {
-	if (this->hContact != NULL)
-	{
+	if (this->hContact != NULL) {
 		char buff[256];
-		mir_snprintf(buff, sizeof(buff), "%s\r\n", this->szFileLink);
+		mir_snprintf(buff, SIZEOF(buff), "%s\r\n", this->szFileLink);
 		CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)this->hContact, (LPARAM)buff);
 	}
 }
 
 void UploadJob::pause()
 {
-	if (!isCompleted())
-	{
+	if (!isCompleted()) {
 		curl_easy_pause(this->hCurl, CURLPAUSE_SEND);
 		this->setStatus(STATUS_PAUSED);
 	}
@@ -136,8 +132,7 @@ void UploadJob::resume()
 {
 	this->uiSent = 0;
 	this->startTS = time(NULL);
-	if (!isCompleted())
-	{
+	if (!isCompleted()) {
 		curl_easy_pause(this->hCurl, CURLPAUSE_CONT);
 		this->setStatus(STATUS_UPLOADING);
 	}
@@ -153,11 +148,9 @@ void UploadJob::waitingThread(void *arg)
 {
 	UploadJob *job = (UploadJob *)arg;
 
-	while (!Miranda_Terminated())
-	{
+	while (!Miranda_Terminated()) {
 		Lock *lock = new Lock(mutexJobCount);
-		if (iRunningJobCount < MAX_RUNNING_JOBS)
-		{
+		if (iRunningJobCount < MAX_RUNNING_JOBS) {
 			iRunningJobCount++;
 			delete lock;
 			job->upload();
@@ -249,25 +242,22 @@ bool UploadJob::fileExistsOnServer()
 
 INT_PTR CALLBACK UploadJob::DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
-	switch (msg) 
-	{
-		case WM_INITDIALOG:
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
-			TranslateDialogDefault(hwndDlg);
-
 			TCHAR buff[256];
 			TCHAR *fileName = mir_a2t((char *)lParam);
 			mir_sntprintf(buff, SIZEOF(buff), TranslateT("File exists - %s"), fileName);
 			SetWindowText(hwndDlg, buff);
 			FREE(fileName);
-			return TRUE;
 		}
-		case WM_COMMAND:
-		{
-			if (HIWORD(wParam) == BN_CLICKED) 
-				EndDialog(hwndDlg, LOWORD(wParam));
-			break;
-		}
+		return TRUE;
+
+	case WM_COMMAND:
+		if (HIWORD(wParam) == BN_CLICKED) 
+			EndDialog(hwndDlg, LOWORD(wParam));
+		break;
 	}
 
 	return FALSE;
@@ -278,8 +268,7 @@ void UploadJob::upload()
 	this->refreshTab(true);
 
 	this->fp = _tfopen(this->stzFilePath, _T("rb"));
-	if (this->fp == NULL) 
-	{
+	if (this->fp == NULL) {
 		Utils::msgBox(TranslateT("Error occurred when opening local file.\nAborting file upload..."), MB_OK | MB_ICONERROR);
 		return;
 	}
@@ -293,27 +282,22 @@ void UploadJob::upload()
 	this->uiFileSize = (UINT64)fileInfo.st_size;
 
 	CURL *hCurl = this->curlInit(getUrlString(), headerList);
-	if (!hCurl)
-	{
+	if (!hCurl) {
 		Utils::msgBox(TranslateT("Error occurred when initializing libcurl.\nAborting file upload..."), MB_OK | MB_ICONERROR);
 		return;
 	}
 
 	bool uploadFile = true;
-	if (fileExistsOnServer())
-	{
+	if (fileExistsOnServer()) {
 		int res = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_FILEEXISTS), 0, DlgProcFileExists, (LPARAM)this->szSafeFileName);
-		if (res == IDC_RENAME)
-		{
+		if (res == IDC_RENAME) {
 			if (Utils::setFileNameDlgA(this->szSafeFileName) == true)
 				curl_easy_setopt(hCurl, CURLOPT_URL, getUrlString());	
 		}
-		else if (res == IDC_COPYURL)
-		{
+		else if (res == IDC_COPYURL) {
 			uploadFile = false;
 		}
-		else if (res == IDC_CANCEL)
-		{
+		else if (res == IDC_CANCEL) {
 			this->setStatus(STATUS_CANCELED);	
 			delete this->tab;
 			return;
@@ -330,21 +314,18 @@ void UploadJob::upload()
 		curl_slist_free_all(headerList);
 		curl_easy_cleanup(hCurl);
 		
-		if (result != CURLE_OK && result != CURLE_ABORTED_BY_CALLBACK)
-		{
+		if (result != CURLE_OK && result != CURLE_ABORTED_BY_CALLBACK) {
 			char buff[256];
 			mir_snprintf(buff, sizeof(buff), Translate("FTP error occurred.\n%s"), this->szError);
 			Utils::msgBoxA(buff, MB_OK | MB_ICONERROR);
 		}
 			
-		if (result > CURLE_OPERATION_TIMEDOUT)
-		{
+		if (result > CURLE_OPERATION_TIMEDOUT) {
 			struct curl_slist *headerList = NULL;
 			headerList = curl_slist_append(headerList, getDelFileString());
 
 			CURL *hCurl = curl_easy_init();	
-			if (hCurl)
-			{
+			if (hCurl) {
 				Utils::curlSetOpt(hCurl, this->ftp, getDelUrlString(), headerList, this->szError);
 				curl_easy_perform(hCurl);
 				curl_slist_free_all(headerList);
@@ -352,10 +333,8 @@ void UploadJob::upload()
 			}
 		}		
 
-		if (result != CURLE_OK && result != CURLE_QUOTE_ERROR)
-		{
-			if (!this->isCanceled())
-			{
+		if (result != CURLE_OK && result != CURLE_QUOTE_ERROR) {
+			if (!this->isCanceled()) {
 				this->setStatus(STATUS_CANCELED);	
 				delete this->tab;	
 			}
@@ -376,13 +355,11 @@ void UploadJob::upload()
 	else if (this->tab->bOptCopyLink) 
 		this->copyLinkToML();		
 
-	if (!this->tab->bOptCloseDlg) 
-	{
+	if (!this->tab->bOptCloseDlg) {
 		this->tab->labelCompleted();
 		this->tab->select();
 	}
-	else
-		this->closeTab();
+	else this->closeTab();
 }
 
 size_t UploadJob::ReadCallback(void *ptr, size_t size, size_t nmemb, void *arg)
@@ -405,12 +382,10 @@ size_t UploadJob::ReadCallback(void *ptr, size_t size, size_t nmemb, void *arg)
 
 void UploadJob::updateStats()
 {
-	if (this->uiSent && (time(NULL) > this->startTS))
-	{
+	if (this->uiSent && (time(NULL) > this->startTS)) {
 		double speed = ((double)this->uiSent / 1024)/(time(NULL) - this->startTS);
 		this->avgSpeed = speed;
-		for (int i = 0; i < SIZEOF(this->lastSpeed); i++)
-		{
+		for (int i = 0; i < SIZEOF(this->lastSpeed); i++) {
 			this->avgSpeed += (this->lastSpeed[i] == 0 ? speed : this->lastSpeed[i]);
 			if (i < SIZEOF(this->lastSpeed) - 1)
 				this->lastSpeed[i + 1] = this->lastSpeed[i];
@@ -441,8 +416,7 @@ void UploadJob::updateStats()
 
 void UploadJob::refreshTab(bool bTabChanged)
 {
-	if (uDlg->activeTab == this->tab->index())
-	{
+	if (uDlg->activeTab == this->tab->index()) {
 		GenericJob::refreshTab(bTabChanged);
 
 		ShowWindow(GetDlgItem(uDlg->hwnd, IDC_BTN_CLIPBOARD), this->isCompleted() ? SW_SHOW : SW_HIDE);
@@ -460,15 +434,12 @@ void UploadJob::refreshTab(bool bTabChanged)
 		else
 			SetDlgItemText(uDlg->hwnd, IDC_STATUSBAR, TranslateT("UPLOADING..."));	
 
-		if (bTabChanged)
-		{
-			if (this->isPaused()) 
-			{
+		if (bTabChanged) {
+			if (this->isPaused()) {
 				SendDlgItemMessage(uDlg->hwnd, IDC_BTN_PAUSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Utils::loadIconEx("resume"));
 				SendDlgItemMessage(uDlg->hwnd, IDC_BTN_PAUSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Resume"), BATF_TCHAR);
 			} 
-			else 
-			{
+			else {
 				SendDlgItemMessage(uDlg->hwnd, IDC_BTN_PAUSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Utils::loadIconEx("pause"));
 				SendDlgItemMessage(uDlg->hwnd, IDC_BTN_PAUSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Pause"), BATF_TCHAR);
 			}
@@ -480,8 +451,7 @@ void UploadJob::refreshTab(bool bTabChanged)
 			SetDlgItemText(uDlg->hwnd, IDC_ST_COMPLETED, this->isCompleted() ? TranslateT("Download link:") : TranslateT("Completed:"));
 		}
 
-		if (this->isCompleted()) 
-		{	
+		if (this->isCompleted()) {	
 			SetDlgItemText(uDlg->hwnd, IDC_UP_SPEED, _T(""));
 			SetDlgItemText(uDlg->hwnd, IDC_UP_COMPLETED, _T(""));
 			SetDlgItemText(uDlg->hwnd, IDC_UP_REMAIN, _T(""));
@@ -504,11 +474,9 @@ void UploadJob::refreshTab(bool bTabChanged)
 
 void UploadJob::closeTab()
 { 
-	if (!this->isCompleted())
-	{
+	if (!this->isCompleted()) {
 		this->pause();
-		if (Utils::msgBox(TranslateT("Do you really want to cancel running upload?"), MB_YESNO | MB_ICONQUESTION) == IDNO)
-		{
+		if (Utils::msgBox(TranslateT("Do you really want to cancel running upload?"), MB_YESNO | MB_ICONQUESTION) == IDNO) {
 			this->resume();
 			return;
 		}
@@ -532,17 +500,12 @@ void UploadJob::createToolTip()
 	TCHAR *server = mir_a2t(this->ftp->szServer);
 	mir_sntprintf(uDlg->stzToolTipText, SIZEOF(uDlg->stzToolTipText), 
 		TranslateT("Status: %s\r\nFile: %s\r\nServer: %s"), 
-		this->getStatusString(), 
-		this->stzFileName, 
-		server);
+		this->getStatusString(), this->stzFileName, server);
 
 	if (this->tab->stzSpeed[0] && this->tab->stzComplet[0] && this->tab->stzRemain[0])
 		mir_sntprintf(uDlg->stzToolTipText, SIZEOF(uDlg->stzToolTipText), 
-		TranslateT("%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s"), 
-		uDlg->stzToolTipText, 
-		this->tab->stzSpeed, 
-		this->tab->stzComplet, 
-		this->tab->stzRemain);
+			TranslateT("%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s"), 
+			uDlg->stzToolTipText, this->tab->stzSpeed, this->tab->stzComplet, this->tab->stzRemain);
 		
 	FREE(server);
 }

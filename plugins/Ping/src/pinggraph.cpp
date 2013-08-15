@@ -191,20 +191,19 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				if(wd->show_grid)
 				{
 					mir_snprintf(buff, SIZEOF(buff), Translate("%d ms"), MARK_TIME);
-					TextOut(hdc, r.right - 100, r.bottom - (int)(unit_height * MARK_TIME + 0.5f), buff, strlen(buff));
+					TextOut(hdc, r.right - 100, r.bottom - (int)(unit_height * MARK_TIME + 0.5f), buff, (int)strlen(buff));
 				}
 
 				if (wd->show_stat)
 				{
 					SetTextColor(hdc, RGB(255, 0, 0));
 					mir_snprintf(buff, SIZEOF(buff), Translate("AVG %.1lf ms"), avg);
-					TextOut(hdc, r.left + 10, r.bottom - (int)(avg * unit_height + 0.5f), buff, strlen(buff));
-					if (max_value != avg)
-					{
+					TextOut(hdc, r.left + 10, r.bottom - (int)(avg * unit_height + 0.5f), buff, (int)strlen(buff));
+					if (max_value != avg) {
 						mir_snprintf(buff, SIZEOF(buff), Translate("MAX %hd ms"), max_value);
-						TextOut(hdc, r.left + 10, r.bottom - (int)(max_value * unit_height + 0.5f), buff, strlen(buff));
+						TextOut(hdc, r.left + 10, r.bottom - (int)(max_value * unit_height + 0.5f), buff, (int)strlen(buff));
 						mir_snprintf(buff, SIZEOF(buff), Translate("MIN %hd ms"), min_value);
-						TextOut(hdc, r.left + 10, r.bottom - (int)(min_value * unit_height + 0.5f), buff, strlen(buff));
+						TextOut(hdc, r.left + 10, r.bottom - (int)(min_value * unit_height + 0.5f), buff, (int)strlen(buff));
 					}
 				}
 

@@ -28,8 +28,8 @@ void replace(char *atext, const char *apattern, const char *areplacement)
   long replacementsize;
 
   pos=atext;
-  patternsize=strlen(apattern);
-  replacementsize=strlen(areplacement);
+  patternsize = (long)strlen(apattern);
+  replacementsize = (long)strlen(areplacement);
 
   do
   {
@@ -40,7 +40,7 @@ void replace(char *atext, const char *apattern, const char *areplacement)
     if(pos==NULL) break;
 
     // laenge des textes ermitteln
-    textsize=strlen(last);
+    textsize = (long)strlen(last);
     // platz schaffen
     memmove(pos+replacementsize, pos+patternsize, textsize-((pos-last)+patternsize)+1);
     // ersetzen
@@ -77,12 +77,12 @@ void getLastPart(char *aresult, char *atext)
 
 void appendText(char **abuffer, const char *atext, int atextsize)
 {
-  int size;
+  size_t size;
 
   if (*abuffer==NULL) size=0;
-  else size=strlen(*abuffer);
+  else size = strlen(*abuffer);
   size++; // abschliessende 0
-  if(atextsize==0) atextsize=strlen(atext);
+  if(atextsize==0) atextsize = (int)strlen(atext);
   size+=atextsize;
 
   *abuffer=(char *)realloc(*abuffer, size);

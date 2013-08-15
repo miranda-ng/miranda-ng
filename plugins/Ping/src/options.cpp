@@ -404,7 +404,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				add_edit_addr.get_status = ID_STATUS_OFFLINE;
 				add_edit_addr.status = PS_NOTRESPONDING;
 				add_edit_addr.item_id = 0;
-				add_edit_addr.index = temp_list.size();
+				add_edit_addr.index = (int)temp_list.size();
 
 				if(DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG3), hwndDlg, DlgProcDestEdit) == IDOK)
 				{
@@ -421,7 +421,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					hw = GetDlgItem(hwndDlg, IDC_BTN_DESTEDIT);
 					EnableWindow(hw, TRUE);
 
-					sel = temp_list.size() - 1;
+					sel = (int)temp_list.size() - 1;
 					hw = GetDlgItem(hwndDlg, IDC_BTN_DESTUP);
 					EnableWindow(hw, (sel > 0));
 					hw = GetDlgItem(hwndDlg, IDC_LST_DEST);

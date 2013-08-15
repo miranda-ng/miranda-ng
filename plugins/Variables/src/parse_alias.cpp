@@ -159,17 +159,17 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai) {
 
 	int res;
 	int argc, i;
-	TCHAR *cur, *alias, **argv, *szArgs;
+	TCHAR **argv;
 	char *szHelp, *szArgsA;
 
 	if (ai->argc != 3)
 		return NULL;
 
-	cur = ai->targv[1];
+	TCHAR *cur = ai->targv[1];
 	while (isValidTokenChar(*cur))
 		cur++;
 
-	alias = (TCHAR*)mir_calloc(((cur-ai->targv[1])+1)*sizeof(TCHAR));
+	TCHAR *alias = (TCHAR*)mir_calloc(((cur-ai->targv[1])+1)*sizeof(TCHAR));
 	if (alias == NULL)
 		return NULL;
 
@@ -177,8 +177,8 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai) {
 	getArguments(cur, &argv, &argc);
 	deRegisterToken(alias);
 	addToAliasRegister(alias, argc, argv, ai->targv[2]);
-	szArgs = NULL;
-	for (i=0;i<argc;i++) {
+	TCHAR *szArgs = NULL;
+	for (i=0; i < argc; i++) {
 		if (i == 0)
 			szArgs = (TCHAR*)mir_calloc(( _tcslen(argv[i])+2)*sizeof(TCHAR));
 		else
@@ -192,7 +192,7 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai) {
 
 		szArgsA = mir_t2a(szArgs);
 
-		int size = 32 + strlen(szArgsA);
+		size_t size = 32 + strlen(szArgsA);
 		szHelp = (char *)mir_alloc(size);
 		memset(szHelp, '\0', 32 + strlen(szArgsA));
 		mir_snprintf(szHelp, size, LPGEN("Alias")"\t(%s)\t"LPGEN("user defined"), szArgsA);
@@ -207,8 +207,7 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai) {
 	}
 	mir_free(szArgs);
 	mir_free(szHelp);
-	
-	return res==0?mir_tstrdup(_T("")):NULL;
+	return (res == 0) ? mir_tstrdup(_T("")) : NULL;
 }
 
 int registerAliasTokens()
