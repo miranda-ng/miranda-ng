@@ -375,7 +375,7 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		return "/logout.php";
 
 	case REQUEST_HOME:
-		return "/profile.php?v=edit";
+		return "/profile.php?v=info";
 
 	case REQUEST_DTSG:
 		return "/editprofile.php?edit=current_city&type=basic";
