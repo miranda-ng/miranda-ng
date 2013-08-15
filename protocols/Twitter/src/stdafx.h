@@ -27,6 +27,4 @@ typedef std::basic_string<TCHAR> tstring;
 #include "StringConv.h"
 #include "StringUtil.h"
 
-#include "Debug.h"
-
 #include "win2k.h"

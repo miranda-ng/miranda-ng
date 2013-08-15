@@ -168,7 +168,6 @@
     <ClCompile Include="src\chat.cpp" />
     <ClCompile Include="src\connection.cpp" />
     <ClCompile Include="src\contacts.cpp" />
-    <ClCompile Include="src\Debug.c" />
     <ClCompile Include="src\http.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\oauth.cpp" />
