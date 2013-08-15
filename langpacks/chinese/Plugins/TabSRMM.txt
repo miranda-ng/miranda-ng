@@ -12,8 +12,8 @@
 确定
 [Cancel]
 取消
-[  Show these events]
-  显示这些事件
+[Show these events]
+显示这些事件
 [Actions]
 操作
 [Messages]

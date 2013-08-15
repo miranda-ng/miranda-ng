@@ -14,8 +14,8 @@ Tamam
 İptal
 [Cancel]
 İptal
-[  Show these events]
-  Şu etkinlikleri göster
+[Show these events]
+Şu etkinlikleri göster
 [Actions]
 Eylemler
 [Messages]

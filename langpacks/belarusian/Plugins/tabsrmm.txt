@@ -14,8 +14,8 @@
 ОК
 [Cancel]
 Скасаваць
-[  Show these events]
-  Паказваць элементы
+[Show these events]
+Паказваць элементы
 [Actions]
 Дзеянні
 [Messages]

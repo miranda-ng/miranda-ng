@@ -14,7 +14,7 @@
 OK
 [Cancel]
 Storno
-[  Show these events]
+[Show these events]
 
 [Actions]
 

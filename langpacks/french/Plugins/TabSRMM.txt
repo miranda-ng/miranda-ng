@@ -8,8 +8,8 @@
 ;file \plugins\TabSRMM\res\chat.rc
 [Cancel]
 Annuler
-[  Show these events]
- Afficher ces événements
+[Show these events]
+Afficher ces événements
 [Nick changes]
 Changements de pseudo
 [Users joining]

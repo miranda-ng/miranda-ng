@@ -14,8 +14,8 @@ Możesz dodać osobę wybierając imię lub id. Znaki dozwolone i rekomendowane.
 OK
 [Cancel]
 Anuluj
-[  Show these events]
-  Pokaż te wydarzenia
+[Show these events]
+Pokaż te wydarzenia
 [Actions]
 Akcje
 [Messages]

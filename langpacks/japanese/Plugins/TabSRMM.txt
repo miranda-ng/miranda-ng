@@ -12,7 +12,7 @@
 OK
 [Cancel]
 Cancel
-[  Show these events]
+[Show these events]
 これらのイベントを表示
 [Actions]
 アクション

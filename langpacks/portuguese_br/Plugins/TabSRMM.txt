@@ -30,10 +30,8 @@ Cancelar
 Cancelar
 [Cancel]
 Cancelar
-[  Show these events]
-   Mostrar esses eventos
-[  Show these events]
-   Mostrar esses eventos
+[Show these events]
+Mostrar esses eventos
 [Actions]
 Ações
 [Messages]

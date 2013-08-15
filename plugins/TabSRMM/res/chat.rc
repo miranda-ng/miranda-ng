@@ -54,7 +54,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_BORDER
 FONT 8, "MS Shell Dlg"
 BEGIN
     LTEXT           "",IDC_STATIC,0,0,201,124
-    LTEXT           "  Show these events",IDC_TEXTO,1,0,91,13,SS_CENTERIMAGE
+    LTEXT           "Show these events",IDC_TEXTO,3,0,91,13,SS_CENTERIMAGE
     CONTROL         "Actions",IDC_1,"Button",BS_AUTO3STATE | WS_TABSTOP,3,13,114,10
     CONTROL         "Messages",IDC_2,"Button",BS_AUTO3STATE | WS_TABSTOP,3,23,114,10
     CONTROL         "Nick changes",IDC_3,"Button",BS_AUTO3STATE | WS_TABSTOP,3,33,114,10

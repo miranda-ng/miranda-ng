@@ -14,7 +14,7 @@ OK
 Cancelar
 [Cancel]
 Cancelar
-[  Show these events]
+[Show these events]
 Mostrar los eventos
 [Actions]
 Acciones

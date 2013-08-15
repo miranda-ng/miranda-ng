@@ -10,8 +10,8 @@
 OK
 [Cancel]
 Mégsem
-[  Show these events]
-  Alábbi események mutatása
+[Show these events]
+Alábbi események mutatása
 [Actions]
 Akciók
 [Messages]

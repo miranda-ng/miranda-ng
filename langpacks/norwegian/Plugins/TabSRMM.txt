@@ -10,8 +10,8 @@
 OK
 [Cancel]
 Avbryt
-[  Show these events]
-  Vis følgende hendelser
+[Show these events]
+Vis følgende hendelser
 [Actions]
 Handlinger
 [Messages]

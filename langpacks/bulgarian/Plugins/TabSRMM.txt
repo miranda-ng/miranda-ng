@@ -10,8 +10,8 @@
 ;file \plugins\TabSRMM\res\chat.rc
 [Cancel]
 Отказ
-[  Show these events]
-  Показване в:
+[Show these events]
+Показване в:
 [Actions]
 Действия
 [Messages]
