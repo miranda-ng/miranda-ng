@@ -19,9 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 #include "utility.h"
-//#include "tc2.h"
 #include "stdafx.h"
-#include "oauth.h"
 
 #include <m_protoint.h>
 
