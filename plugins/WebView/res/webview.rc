@@ -93,7 +93,7 @@ BEGIN
 ///////////
    GROUPBOX        "Error Messages",IDC_STATIC,1,137,278,25
    CONTROL         "Suppress error messages",IDC_SUPPRESS,"Button",
-        BS_AUTOCHECKBOX | WS_TABSTOP,16,153,105,8
+        BS_AUTOCHECKBOX | WS_TABSTOP,16,149,110,8
    CONTROL         "Display using Popup or OSD plugin",IDC_ERROR_POPUP,"Button",
         BS_AUTOCHECKBOX | WS_TABSTOP,140,149,130,8
 //////////
@@ -106,7 +106,7 @@ BEGIN
    CONTROL "Display Data in Popup", IDC_DATAPOPUP , "Button",
         BS_AUTOCHECKBOX | WS_TABSTOP, 16, 177, 120, 8
 /////
-   LTEXT "You may need to restart Miranda IM for this change to take effect.",IDC_RESTART,
+   LTEXT "You may need to restart Miranda NG for this change to take effect.",IDC_RESTART,
          30,220,230,8,NOT WS_VISIBLE
 
 

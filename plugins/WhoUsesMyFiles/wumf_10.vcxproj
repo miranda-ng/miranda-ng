@@ -195,6 +195,11 @@
     <ClCompile Include="src\wumf.cpp" />
     <ClCompile Include="src\wumfplug.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\drive.ico" />
+    <None Include="res\popup.ico" />
+    <None Include="res\popup_no.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
-// Used by resource.rc
+// Microsoft Visual C++ generated include file.
+// Used by ..\res\resource.rc
 //
 #define IDD_OPTIONS                     101
 #define IDI_POPUP                       102
@@ -20,7 +20,6 @@
 #define IDC_DELAY_SET                   1049
 #define IDC_DELAY_INF                   1050
 #define IDC_DELAY_DEF                   1051
-#define IDC_DELAY_NOTE                  1052
 #define IDC_TX_DELAY_SEC                1053
 #define IDC_LOG_INTO_FILE               1054
 #define IDC_LOG_FOLDER                  1055

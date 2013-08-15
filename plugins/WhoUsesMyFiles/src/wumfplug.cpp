@@ -27,7 +27,10 @@ void LoadOptions()
 	dbv.type = DBVT_TCHAR;
 	ZeroMemory(&WumfOptions, sizeof(WumfOptions));
 	if (db_get(NULL, MODULENAME, OPT_FILE, &dbv) == 0)
+	{
 		_tcsncpy(WumfOptions.LogFile, dbv.ptszVal, 255);
+		db_free(&dbv);
+	}
 	else
 		WumfOptions.LogFile[0] = '\0';
 
@@ -44,7 +47,7 @@ void LoadOptions()
 	WumfOptions.DelayInf = db_get_b(NULL, MODULENAME, DELAY_INF, FALSE);
 	WumfOptions.DelaySet = db_get_b(NULL, MODULENAME, DELAY_SET, FALSE);
 	WumfOptions.DelaySec = db_get_b(NULL, MODULENAME, DELAY_SEC, 0);
-	if (!ServiceExists(MS_POPUP_ADDPOPUP)) {
+	if (!ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		WumfOptions.DelayDef = TRUE;
 		WumfOptions.DelaySet = FALSE;
 		WumfOptions.DelayInf = FALSE;
@@ -62,7 +65,7 @@ void ExecuteMenu(HWND hWnd)
 {
     HMENU hMenu = CreatePopupMenu();
     if (!hMenu) {
-        msg(TranslateT("Error crerating menu"));
+        msg(TranslateT("Error creating menu"));
         return;
     }
     AppendMenu(hMenu, MF_STRING, IDM_ABOUT, _T("About\0"));
@@ -208,7 +211,7 @@ void ThreadProc(LPVOID)
 	hDlg = NULL;
 }
 
-static INT_PTR WumfShowConnections(WPARAM wParam,LPARAM lParam)
+static INT_PTR WumfShowConnections(WPARAM,LPARAM)
 {
 	mir_forkthread(ThreadProc, NULL);
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hWumfBut, TTBST_RELEASED);
@@ -252,7 +255,6 @@ void DisableDelayOptions(HWND hwndDlg)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY_DEF), FALSE);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY_SEC), FALSE);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_TX_DELAY_SEC), FALSE);
-	EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY_NOTE), TRUE);
 }
 
 void ChooseFile(HWND hDlg)
@@ -302,7 +304,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 			SendDlgItemMessage(hwndDlg,IDC_COLOR_BACK,CPM_SETCOLOUR,0,WumfOptions.ColorBack);
 			SendDlgItemMessage(hwndDlg,IDC_COLOR_TEXT,CPM_SETCOLOUR,0,WumfOptions.ColorText);
 		}
-		if ( !ServiceExists(MS_POPUP_ADDPOPUP)) {
+		if ( !ServiceExists(MS_POPUP_ADDPOPUPT)) {
 			DisableDelayOptions(hwndDlg);
 			break;
 		}

@@ -47,4 +47,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\popup.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\popup_no.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\drive.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>
