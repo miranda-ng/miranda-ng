@@ -44,8 +44,8 @@ Chwilowa bezczynność przy logowaniu
 Wymuszanie transferu plików przez proxy
 [Masquerade as a Sidekick/Hiptop User]
 Wystąp jako użytkownik Sidekick/Hiptop
-[*Aim must be reconnected  for some option to take effect.]
-*Aim musi być ponownie uruchomiony, aby opcje odniosły żądany efekt.
+[*Aim must be reconnected for some option to take effect]
+*Aim musi być ponownie uruchomiony, aby opcje odniosły żądany efekt
 [Connection]
 Połączenie
 [Port:]

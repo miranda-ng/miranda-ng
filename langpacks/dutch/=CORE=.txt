@@ -390,8 +390,6 @@ Een &nieuw browser scherm openen
 On huidige browser scherm &openen
 [Message]
 Bericht
-[Undo  ]
-Ongedaan maken
 [Redo]
 Opnieuw
 [Copy]

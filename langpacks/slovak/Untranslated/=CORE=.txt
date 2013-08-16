@@ -195,7 +195,6 @@
 [Open a &new browser window]
 [&Open in current browser window]
 [Message]
-[Undo  ]
 [Redo]
 [Copy]
 [Cut]

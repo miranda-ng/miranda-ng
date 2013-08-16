@@ -38,7 +38,7 @@ AIM オプション
 プロキシファイル転送を強制
 [Masquerade as a Sidekick/Hiptop User]
 Sidekick / Hiptop ユーザーを装う
-[*Aim must be reconnected  for some option to take effect.]
+[*Aim must be reconnected for some option to take effect]
 * Aim にいくつかのオプションを反映させるには再接続が必要です
 [Port:]
 ポート :

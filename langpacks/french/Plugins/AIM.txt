@@ -30,8 +30,8 @@ Options avancées
 Être inactif au démarrage
 [Force Proxy File Transfers]
 Transfert de fichier par Proxy
-[*Aim must be reconnected  for some option to take effect.]
-*AIM doit être reconnecter pour valider certaines options.
+[*Aim must be reconnected for some option to take effect]
+*AIM doit être reconnecter pour valider certaines options
 [Port:]
 Port :
 [Reset]

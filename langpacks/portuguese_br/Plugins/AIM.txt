@@ -40,8 +40,8 @@ Ficar inativo após ligado
 Força Proxy para Transferência de Arquivos
 [Masquerade as a Sidekick/Hiptop User]
 Perfil de usuário 'Hiptop'
-[*Aim must be reconnected  for some option to take effect.]
-* Objetivo deve ser restabelecido por alguma opção para fazer efeito.
+[*Aim must be reconnected for some option to take effect]
+* Objetivo deve ser restabelecido por alguma opção para fazer efeito
 [Port:]
 Porta:
 [Reset]

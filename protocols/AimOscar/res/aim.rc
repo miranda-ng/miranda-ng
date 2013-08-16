@@ -58,7 +58,7 @@ BEGIN
     GROUPBOX        "AIM User Details",IDC_DETAILS,3,7,147,80,WS_GROUP
     LTEXT           "Screen Name:",IDC_STATIC,8,20,45,11
     EDITTEXT        IDC_SN,59,17,86,15,ES_LOWERCASE | ES_AUTOHSCROLL
-    LTEXT           "Display Name:",IDC_STATIC,5,39,48,9
+    LTEXT           "Display Name:",IDC_STATIC,6,39,51,9
     EDITTEXT        IDC_NK,59,37,86,15,ES_AUTOHSCROLL
     LTEXT           "Password:",IDC_STATIC,17,59,35,15
     EDITTEXT        IDC_PW,59,57,86,15,ES_PASSWORD | ES_AUTOHSCROLL
@@ -66,7 +66,7 @@ BEGIN
     EDITTEXT        IDC_HN,206,102,83,13,ES_AUTOHSCROLL
     GROUPBOX        "AIM Options",IDC_OPTIONS,3,89,147,120,WS_GROUP
     CONTROL         "Message Delivery Confirmation",IDC_DC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,99,130,13
-    CONTROL         "Do Not Autoreply When Away",IDC_DM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,111,134,13
+    CONTROL         "Do Not Autoreply When Away",IDC_DM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,111,139,13
     CONTROL         "Convert Incoming Messages to BBCode",IDC_FI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,123,137,13
     CONTROL         "Convert Outgoing Messages to HTML",IDC_FO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,135,136,13
     CONTROL         "Disable Avatars",IDC_DA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,147,136,13
@@ -77,7 +77,7 @@ BEGIN
     CONTROL         "Instant Idle on Login",IDC_II,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,158,18,131,15
     CONTROL         "Force Proxy File Transfers",IDC_FP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,158,31,130,11
     CONTROL         "Masquerade as a Sidekick/Hiptop User",IDC_HF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,158,42,135,13
-    LTEXT           "*Aim must be reconnected  for some option to take effect.",IDC_MASQ,171,169,115,18,NOT WS_VISIBLE
+    CTEXT           "*Aim must be reconnected for some option to take effect",IDC_MASQ,171,169,115,28,NOT WS_VISIBLE
     GROUPBOX        "Connection",IDC_STATIC,154,89,142,71
     EDITTEXT        IDC_PN,207,119,37,13,ES_AUTOHSCROLL
     LTEXT           "Port:",IDC_STATIC,158,121,44,12

@@ -538,8 +538,6 @@ Hivatkozás
 Megnyitás az aktuális böngészõ ablakban
 [Message]
 Üzenet
-[Undo  ]
-Visszavonás  
 [Redo]
 Újra
 [Copy]

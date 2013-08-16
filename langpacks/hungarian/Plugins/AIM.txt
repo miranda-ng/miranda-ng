@@ -34,8 +34,8 @@ Azonnali idle bejelentkezéskor
 Proxy fájlátvitelek kényszerítése
 [Masquerade as a Sidekick/Hiptop User]
 Álcázás oldal-csúszkás/kinyitható felhasználóként
-[*Aim must be reconnected  for some option to take effect.]
-*Aim újracsatlakoztatása szükséges néhány beállítás életbelépéséhez.
+[*Aim must be reconnected for some option to take effect]
+*Aim újracsatlakoztatása szükséges néhány beállítás életbelépéséhez
 [Port:]
 Port:
 [Reset]

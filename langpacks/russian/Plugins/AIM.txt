@@ -9,8 +9,8 @@
 ;============================================================
 [(seconds)]
 (секунды)
-[*Aim must be reconnected  for some option to take effect.]
-*AIM должен быть переподключён, чтобы изменения вступили в силу.
+[*Aim must be reconnected for some option to take effect]
+*AIM должен быть переподключён, чтобы изменения вступили в силу
 [AOL Instant Messenger (AIM) protocol support for Miranda NG.]
 Поддержка протокола AOL Instant Messenger (AIM) в Miranda NG.
 [AIM Account Setup]
@@ -428,10 +428,10 @@ AIM Журналы
 [Superscript]
 Суперскрипт
 [Not Superscript]
-Не супер скрипт
+Не суперскрипт
 [Normal Script]
 Стандартный скрипт
 [Not Normal Script]
-Не стандартный скрипт
-[*AimOSCAR must be reconnected  for some option to take effect.]
-*AimOSCAR должен быть переподключён для вступления в силу изменений.
+Нестандартный скрипт
+[Display Name:]
+Показыв. имя:

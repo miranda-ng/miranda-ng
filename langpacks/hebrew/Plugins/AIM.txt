@@ -36,8 +36,8 @@ AIM אפשרויות
 הכרח העברת קבצים דרך פרוקסי
 [Masquerade as a Sidekick/Hiptop User]
 הסתר כ Sidekick/Hiptop משתמש
-[*Aim must be reconnected  for some option to take effect.]
-*Aim חייב להתנתק ולהתחבר מחדש בשביל שהשינויים יתרחשו.
+[*Aim must be reconnected for some option to take effect]
+*Aim חייב להתנתק ולהתחבר מחדש בשביל שהשינויים יתרחשו
 [Port:]
 יציאה:
 [Reset]

@@ -572,8 +572,6 @@ Ye&ni bir tarayıcı penceresi aç
 Geçerli &web tarayıcı penceresinde aç
 [Message]
 İleti
-[Undo  ]
-Geri Al 
 [Redo]
 Yeniden
 [Copy]

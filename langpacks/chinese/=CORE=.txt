@@ -608,8 +608,6 @@ Miranda NG 正准备重启. \n请稍候...
 在当前浏览器窗口中打开(&O)
 [Message]
 消息
-[Undo  ]
-撤销
 [Redo]
 重做
 [Copy]

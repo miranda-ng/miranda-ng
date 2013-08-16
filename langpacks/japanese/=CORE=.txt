@@ -620,8 +620,6 @@ Wikipedia
 現在のブラウザウィンドウを開く (&O)
 [Message]
 メッセージ
-[Undo  ]
-取り消し　
 [Redo]
 やり直し
 [Copy]

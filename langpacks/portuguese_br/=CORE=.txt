@@ -359,8 +359,6 @@ Reinicie o Miranda NG BR para que as alterações surtam efeito.
 Fontes e Cores
 [Undo]
 Desfazer
-[Undo]
-Desfazer
 [Reset]
 Limpar
 [Reset]
@@ -716,8 +714,6 @@ Abrir nova &janela de pesquisa
 &Abrir na janela atual do navegador
 [Message]
 Mensagem
-[Undo  ]
-Desfazer  
 [Redo]
 Refazer
 [Copy]

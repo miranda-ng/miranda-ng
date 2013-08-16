@@ -44,8 +44,8 @@ AIM Дэталі карыстача
 Перадачы файлаў праз проксі
 [Masquerade as a Sidekick/Hiptop User]
 Уяўляцца як Sidekick/Hiptop
-[*Aim must be reconnected  for some option to take effect.]
-*AIM павінен быць перадалучаны, каб змены набылі моц.
+[*Aim must be reconnected for some option to take effect]
+*AIM павінен быць перадалучаны, каб змены набылі моц
 [Connection]
 Далучэнне
 [Port:]

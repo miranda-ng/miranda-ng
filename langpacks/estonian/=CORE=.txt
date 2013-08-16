@@ -338,8 +338,6 @@ Wikipedia
 Link
 [Message]
 Teade
-[Undo  ]
-Ennista 
 [Copy]
 Kopeeri
 [Cut]

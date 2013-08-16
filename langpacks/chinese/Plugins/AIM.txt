@@ -38,8 +38,8 @@ AIM 选项
 强制使用代理服务器进行文件传输
 [Masquerade as a Sidekick/Hiptop User]
 伪装成 Sidekick/Hiptop 用户
-[*Aim must be reconnected  for some option to take effect.]
-*Aim 必须重新连接才能使某些选项生效. 
+[*Aim must be reconnected for some option to take effect]
+*Aim 必须重新连接才能使某些选项生效
 [Port:]
 端口:
 [Reset]

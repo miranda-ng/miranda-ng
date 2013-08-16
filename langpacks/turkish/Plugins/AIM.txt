@@ -36,8 +36,8 @@ Girişte Boşta Ol
 Vekil Dosya Aktarımını Dayat
 [Masquerade as a Sidekick/Hiptop User]
 Yadımcı Kişi Olarak Maskele
-[*Aim must be reconnected  for some option to take effect.]
-* Ayarların etkin olması için AIM'e yeniden bağlanmalısınız.
+[*Aim must be reconnected for some option to take effect]
+* Ayarların etkin olması için AIM'e yeniden bağlanmalısınız
 [Port:]
 Port:
 [Reset]

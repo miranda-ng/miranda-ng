@@ -520,8 +520,6 @@ Link
 Melding
 [Message]
 Melding
-[Undo  ]
-Omgjør  
 [Redo]
 Gjør om
 [Copy]

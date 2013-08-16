@@ -34,8 +34,8 @@ AIM настройки
 Бездействащ веднага след вписване
 [Force Proxy File Transfers]
 Задължително прехвърляне на файлове през прокси сървър
-[*Aim must be reconnected  for some option to take effect.]
-*Необходимо е Aim да се свърже наново, за да бъдат осъществени.
+[*Aim must be reconnected for some option to take effect]
+*Необходимо е Aim да се свърже наново, за да бъдат осъществени
 [Port:]
 Порт:
 [Reset]
