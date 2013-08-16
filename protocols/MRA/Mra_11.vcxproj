@@ -251,8 +251,6 @@
     <ClInclude Include="src\Sdk\StrToNum.h" />
     <ClInclude Include="src\Sdk\SystemHeaders.h" />
     <ClInclude Include="src\Sdk\timefuncs.h" />
-    <ClInclude Include="src\Sdk\zconf.h" />
-    <ClInclude Include="src\Sdk\zlib.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
