@@ -2,7 +2,7 @@
 set myopts=-dMiranda
 set dprname=actman.dpr
 
-for /R %%I in (*.rc) do ..\delphi\brcc32.exe %myopts% %%I -fo%%~npI.res >nul
+for /R %%I in (*.rc) do brcc32.exe %myopts% %%I -fo%%~npI.res >nul
 
 if /i '%1' == 'fpc' (
   ..\FPC\bin\fpc.exe %myopts% %dprname% %2 %3 %4 %5 %6 %7 %8 %9

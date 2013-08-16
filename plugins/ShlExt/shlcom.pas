@@ -2104,7 +2104,6 @@ var
   dbv: TDBVariant;
   bits: pint;
   bGroupMode: Boolean;
-  tid: Cardinal;
   cloned: PHeaderIPC;
   szMiranda: PChar;
 begin
@@ -2278,12 +2277,6 @@ begin
 end;
 
 procedure InvokeThreadServer;
-var
-{$IFDEF FPC}
-  tid: LongWord;
-{$ELSE}
-  tid: Cardinal;
-{$ENDIF}
 var
   hMainThread: THandle;
 begin

@@ -38,7 +38,6 @@ uses
   dbsettings,
   mirutils,
   syswin,
-  base64,
   question,
   mApiCardM,
   global,

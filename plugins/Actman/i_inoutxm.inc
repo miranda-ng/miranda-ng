@@ -215,6 +215,7 @@ var
   tmpbuf:array [0..63] of AnsiChar;
   dbv:TDBVARIANT;
   is_chat:boolean;
+  bufLen:int;
 begin
   with xmlparser do
   begin
@@ -242,7 +243,8 @@ begin
         DBVT_UTF8  : WideToUTF8(getAttrValue(node,ioCUID),dbv.szVal.A);
         DBVT_WCHAR : StrDupW(dbv.szVal.W,getAttrValue(node,ioCUID));
         DBVT_BLOB  : begin
-          Base64Decode(FastWideToAnsi(getAttrValue(node,ioCUID),pAnsiChar(dbv.pbVal)),dbv.pbVal);
+          dbv.pbVal := mir_base64_decode(FastWideToAnsi(getAttrValue(node,ioCUID),pAnsiChar(dbv.pbVal)), bufLen);
+          dbv.cpbVal := bufLen;
         end;
       end;
     end;
@@ -813,7 +815,7 @@ begin
             end;
             DBVT_WCHAR : AddAttr(node,ioCUID,cws.szVal.W);
             DBVT_BLOB  : begin
-              p1:=Base64Encode(cws.pbVal,cws.cpbVal);
+              p1:=mir_base64_encode(cws.pbVal,cws.cpbVal);
               AddAttr(node,ioCUID,FastAnsiToWide(p1,p));
               mFreeMem(p1);
               mFreeMem(p);

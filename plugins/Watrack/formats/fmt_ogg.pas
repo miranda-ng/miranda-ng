@@ -3,14 +3,14 @@ unit fmt_OGG;
 {$include compilers.inc}
 
 interface
-uses wat_api;
+uses wat_api, m_api;
 
 function ReadOGG(var Info:tSongInfo):boolean; cdecl;
 function ReadSPX(var Info:tSongInfo):boolean; cdecl;
 function ReadfLaC(var Info:tSongInfo):boolean; cdecl;
 
 implementation
-uses windows,common,io,tags,srv_format,base64,utils;
+uses windows,common,io,tags,srv_format,utils;
 
 const
   OGGSign = $5367674F; //OggS
@@ -111,7 +111,8 @@ type
 
 procedure OGGGetComment(ptr:PAnsiChar;size:integer;var Info:tSongInfo);
 var
-  clen,alen,len,values:dword;
+  alen,len,values:dword;
+  clen:int;
   ls:PAnsiChar;
   value:PAnsiChar;
   cover:pByte;
@@ -150,7 +151,7 @@ begin
 
       else if (Info.track=0) and (lstrcmpia(ls,'TRACKNUMBER')=0) then Info.track:=StrToInt(value)
 
-      else if (cover=nil) and (lstrcmpia(ls,'COVERART')=0) then clen:=Base64Decode(value,cover)
+      else if (cover=nil) and (lstrcmpia(ls,'COVERART')=0) then cover:=mir_base64_decode(value,clen)
       else if  lstrcmpia(ls,'COVERARTMIME')=0 then ext:=GetImageType(nil,value);
     end;
     dec(values);
