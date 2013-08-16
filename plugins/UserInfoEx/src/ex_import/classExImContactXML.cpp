@@ -412,16 +412,14 @@ int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LP
 		case DBVT_BLOB:		//'n' cpbVal and pbVal are valid
 		{
 			// new buffer for base64 encoded data
-			INT_PTR baselen = Base64EncodeGetRequiredLength(dbv.cpbVal, BASE64_FLAG_NOCRLF);
+			INT_PTR baselen = mir_base64_encode_bufsize(dbv.cpbVal);
 			str = (LPSTR)mir_alloc(baselen + 6);
 			assert(str != NULL);
 			// encode data
-			if (Base64Encode(dbv.pbVal, dbv.cpbVal, str+1, &baselen, BASE64_FLAG_NOCRLF)) {
-				if (baselen){
-					str[baselen+1] = 0;
-					str[0] = 'n';
-					xmlValue = new TiXmlText(str);
-				}
+			if ( mir_base64_encodebuf(dbv.pbVal, dbv.cpbVal, str+1, baselen)) {
+				str[baselen+1] = 0;
+				str[0] = 'n';
+				xmlValue = new TiXmlText(str);
 			}
 			mir_free(str);
 			break;
@@ -463,7 +461,6 @@ BYTE CExImContactXML::ExportEvents()
 	PBYTE		pbEventBuf			= NULL;
 	DWORD		cbEventBuf			= 0,
 				dwNumEventsAdded	= 0;
-	LPSTR		pBase64Data			= NULL;
 
 	int dwNumEvents = db_event_count(_hContact);
 	if (dwNumEvents == 0)
@@ -477,20 +474,9 @@ BYTE CExImContactXML::ExportEvents()
 		// read out all events for the current contact
 		for (HANDLE hDbEvent = db_event_first(_hContact); hDbEvent != NULL; hDbEvent = db_event_next(hDbEvent)) {
 			if (!DB::Event::GetInfoWithData(hDbEvent, &dbei)) {
-				// new buffer for base64 encoded data
-				INT_PTR cbNewBase64Data = Base64EncodeGetRequiredLength(dbei.cbBlob, BASE64_FLAG_NOCRLF);
-				if (cbNewBase64Data > cbBase64Data) {
-					pBase64Data = (LPSTR)mir_realloc(pBase64Data, cbNewBase64Data + 5);
-					if (pBase64Data == NULL) {
-						MessageBoxA(NULL, "mir_realloc(cbNewBase64Data + 5) == NULL", "Error", 0);
-						break;
-					}
-					cbBase64Data = cbNewBase64Data;
-				}
-
 				// encode data
-				if (Base64Encode(dbei.pBlob, dbei.cbBlob, pBase64Data, &cbNewBase64Data, BASE64_FLAG_NOCRLF)) {
-					pBase64Data[cbNewBase64Data] = 0;
+				LPSTR pBase64Data = mir_base64_encode(dbei.pBlob, dbei.cbBlob);
+				if (pBase64Data) {
 					TiXmlElement *xmlEvent = new TiXmlElement("evt");
 					if (xmlEvent) {
 						xmlEvent->SetAttribute("type", dbei.eventType);
@@ -529,7 +515,6 @@ BYTE CExImContactXML::ExportEvents()
 	}
 
 	mir_free(pbEventBuf);
-	mir_free(pBase64Data);
 
 	return dwNumEventsAdded == dwNumEvents;
 }
@@ -631,43 +616,34 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 			LPCSTR pUID = xContact->Attribute("uidv");
 
 			if (pUID != NULL) {
-				size_t	len		= 0;
-				INT_PTR	baselen	= NULL;
+				unsigned valLen;
 				PBYTE	pbVal	= NULL;
 
 				switch (*(pUID++)) {
-					case 'b':
-						uid((BYTE)atoi(pUID));
-						break;
-					case 'w':
-						uid((WORD)atoi(pUID));
-						break;
-					case 'd':
-						uid((DWORD)_atoi64(pUID));
-						break;
-					case 's':
-						// utf8 -> asci
-						uida(pUID);
-						break;
-					case 'u':
-						uidu(pUID);
-						break;
-					case 'n':
-						len		= strlen(pUID);
-						baselen	= Base64DecodeGetRequiredLength(len);
-						pbVal	= (PBYTE)mir_alloc(baselen /*+1*/);
-						if (pbVal != NULL){
-							if (Base64Decode(pUID, len, pbVal, &baselen)) {
-								uidn(pbVal, baselen);
-							}
-							else {
-								assert(pUID != NULL);
-							}
-						}
-						break;
-					default:
-						uidu((LPCSTR)NULL);
-						break;
+				case 'b':
+					uid((BYTE)atoi(pUID));
+					break;
+				case 'w':
+					uid((WORD)atoi(pUID));
+					break;
+				case 'd':
+					uid((DWORD)_atoi64(pUID));
+					break;
+				case 's':
+					// utf8 -> asci
+					uida(pUID);
+					break;
+				case 'u':
+					uidu(pUID);
+					break;
+				case 'n':
+					pbVal	= (PBYTE)mir_base64_decode(pUID, &valLen);
+					if (pbVal != NULL)
+						uidn(pbVal, valLen);
+					break;
+				default:
+					uidu((LPCSTR)NULL);
+					break;
 				}
 			}
 		}
@@ -977,8 +953,7 @@ int CExImContactXML::ImportSetting(LPCSTR pszModule, TiXmlElement *xmlEntry)
 	DBVARIANT dbv = { 0 };
 	
 	// convert data
-	size_t	len		= 0;
-	INT_PTR	baselen	= NULL;
+	unsigned baselen;
 
 	switch (value[0]) {
 	case 'b':			//'b' bVal and cVal are valid
@@ -1002,17 +977,13 @@ int CExImContactXML::ImportSetting(LPCSTR pszModule, TiXmlElement *xmlEntry)
 		dbv.pszVal = (LPSTR)mir_strdup((LPSTR)(value + 1));
 		break;
 	case 'n':
-		len = strlen(value + 1);
-		baselen = Base64DecodeGetRequiredLength(len);
 		dbv.type = DBVT_BLOB;
-		dbv.pbVal = (PBYTE)mir_alloc(baselen +1);
-		if (dbv.pbVal != NULL){
-			if (Base64Decode((value + 1), len, dbv.pbVal, &baselen))
-				dbv.cpbVal = baselen;
-			else {
-				mir_free(dbv.pbVal);
-				return ERROR_NOT_ADDED;
-			}
+		dbv.pbVal = (PBYTE)mir_base64_decode(value+1, &baselen);
+		if (dbv.pbVal != NULL)
+			dbv.cpbVal = baselen;
+		else {
+			mir_free(dbv.pbVal);
+			return ERROR_NOT_ADDED;
 		}
 		break;
 	default:
@@ -1067,14 +1038,13 @@ int CExImContactXML::ImportEvent(LPCSTR pszModule, TiXmlElement *xmlEvent)
 	if (!tmp || tmp[0] == 0)
 		return ERROR_INVALID_VALUE;
 
-	size_t cbSrc = strlen(tmp);
-	INT_PTR baselen = Base64DecodeGetRequiredLength(cbSrc);
-
-	dbei.pBlob = (PBYTE)_alloca(baselen+1);
-	if (Base64Decode(tmp, cbSrc, dbei.pBlob, &baselen)) {
+	unsigned baselen;
+	mir_ptr<BYTE> tmpVal((PBYTE)mir_base64_decode(tmp, &baselen));
+	if (tmpVal != NULL) {
 		// event owning module
-		dbei.szModule	= (LPSTR)pszModule;
-		dbei.cbBlob		= baselen;
+		dbei.pBlob = tmpVal;
+		dbei.cbBlob	= baselen;
+		dbei.szModule = (LPSTR)pszModule;
 
 		xmlEvent->Attribute("type", (LPINT)&dbei.eventType);
 		xmlEvent->Attribute("flag", (LPINT)&dbei.flags);
@@ -1082,10 +1052,8 @@ int CExImContactXML::ImportEvent(LPCSTR pszModule, TiXmlElement *xmlEvent)
 			dbei.flags = DBEF_READ;
 
 		// search in new and existing contact for existing event to avoid duplicates
-		if (/*!_isNewContact && */DB::Event::Exists(_hContact, _hEvent, &dbei)) {
-			mir_free(dbei.pBlob);
+		if (/*!_isNewContact && */DB::Event::Exists(_hContact, _hEvent, &dbei))
 			return ERROR_DUPLICATED;
-		}
 
 		if ((_hEvent = db_event_add(_hContact, &dbei)) != 0)
 			return ERROR_OK;

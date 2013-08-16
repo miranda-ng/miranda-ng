@@ -28,197 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define TSSMTPMAX_UUENCODE_LINE_LENGTH 45
 
 //=======================================================================
-// Base64Encode/Base64Decode
-// compliant with RFC 2045
-//=======================================================================
-//
-#define BASE64_FLAG_NONE	0
-#define BASE64_FLAG_NOPAD	1
-#define BASE64_FLAG_NOCRLF	2
-
-inline INT_PTR Base64EncodeGetRequiredLength(INT_PTR nSrcLen, DWORD dwFlags = BASE64_FLAG_NONE)
-{
-	INT_PTR nRet = nSrcLen*4/3;
-
-	if ((dwFlags & BASE64_FLAG_NOPAD) == 0)
-		nRet += nSrcLen % 3;
-
-	INT_PTR nCRLFs = nRet / 76 + 3;
-	INT_PTR nOnLastLine = nRet % 76;
-
-	if (nOnLastLine) {
-		if (nOnLastLine % 4)
-			nRet += 4 - (nOnLastLine % 4);
-	}
-
-	nCRLFs *= 2;
-
-	if ((dwFlags & BASE64_FLAG_NOCRLF) == 0)
-		nRet += nCRLFs;
-
-	return nRet;
-}
-
-inline INT_PTR Base64DecodeGetRequiredLength(INT_PTR nSrcLen)
-{
-	return nSrcLen;
-}
-
-inline BOOL Base64Encode(
-	const BYTE *pbSrcData,
-	INT_PTR nSrcLen,
-	LPSTR szDest,
-	INT_PTR *pnDestLen,
-	DWORD dwFlags = BASE64_FLAG_NONE)
-{
-	static const char s_chBase64EncodingTable[64] = {
-		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
-		'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g',	'h',
-		'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
-		'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/' };
-
-	if (!pbSrcData || !szDest || !pnDestLen)
-		return FALSE;
-
-	INT_PTR nWritten(0);
-	INT_PTR nLen1((nSrcLen / 3) * 4);
-	INT_PTR nLen2(nLen1 / 76);
-	INT_PTR nLen3(19);
-	INT_PTR i, j, k, n;
-
-	for (i = 0; i <= nLen2; i++) {
-		if (i == nLen2)
-			nLen3 = (nLen1 % 76) / 4;
-
-		for (j = 0; j < nLen3; j++) {
-			DWORD dwCurr(0);
-			for (INT_PTR n = 0; n < 3; n++)	{
-				dwCurr |= *pbSrcData++;
-				dwCurr <<= 8;
-			}
-			for (k = 0; k < 4; k++) {
-				BYTE b = (BYTE)(dwCurr >> 26);
-				*szDest++ = s_chBase64EncodingTable[b];
-				dwCurr <<= 6;
-			}
-		}
-		nWritten += nLen3 * 4;
-
-		if ((dwFlags & BASE64_FLAG_NOCRLF) == 0) {
-			*szDest++ = '\r';
-			*szDest++ = '\n';
-			*szDest++ = '\t';		// as vcards have tabs in second line of binary data
-			nWritten += 3;
-		}
-	}
-
-	if (nWritten && (dwFlags & BASE64_FLAG_NOCRLF) == 0) {
-		szDest -= 2;
-		nWritten -= 2;
-	}
-
-	nLen2 = nSrcLen % 3 ? nSrcLen % 3 + 1 : 0;
-	if (nLen2) {
-		DWORD dwCurr(0);
-		for (n = 0; n < 3; n++)
-		{
-			if (n < (nSrcLen % 3))
-				dwCurr |= *pbSrcData++;
-			dwCurr <<= 8;
-		}
-		for (k = 0; k < nLen2; k++) {
-			BYTE b = (BYTE)(dwCurr >> 26);
-			*szDest++ = s_chBase64EncodingTable[b];
-			dwCurr <<= 6;
-		}
-		nWritten+= nLen2;
-		if ((dwFlags & BASE64_FLAG_NOPAD) == 0) {
-			nLen3 = nLen2 ? 4 - nLen2 : 0;
-			for (j = 0; j < nLen3; j++)	{
-				*szDest++ = '=';
-			}
-			nWritten+= nLen3;
-		}
-	}
-
-	*pnDestLen = nWritten;
-	return TRUE;
-}
-
-inline INT_PTR DecodeBase64Char(UINT ch) throw()
-{
-	// returns -1 if the character is invalid
-	// or should be skipped
-	// otherwise, returns the 6-bit code for the character
-	// from the encoding table
-	if (ch >= 'A' && ch <= 'Z')
-		return ch - 'A' + 0;	// 0 range starts at 'A'
-	if (ch >= 'a' && ch <= 'z')
-		return ch - 'a' + 26;	// 26 range starts at 'a'
-	if (ch >= '0' && ch <= '9')
-		return ch - '0' + 52;	// 52 range starts at '0'
-	if (ch == '+')
-		return 62;
-	if (ch == '/')
-		return 63;
-	return -1;
-}
-
-inline BOOL Base64Decode(LPCSTR szSrc, INT_PTR nSrcLen, BYTE *pbDest, INT_PTR *pnDestLen) throw()
-{
-	// walk the source buffer
-	// each four character sequence is converted to 3 bytes
-	// CRLFs and =, and any characters not in the encoding table
-	// are skiped
-
-	if (szSrc == NULL || pnDestLen == NULL) {
-		return FALSE;
-	}
-
-	LPCSTR szSrcEnd = szSrc + nSrcLen;
-	INT_PTR nWritten = 0;
-
-	BOOL bOverflow = (pbDest == NULL) ? TRUE : FALSE;
-
-	while (szSrc < szSrcEnd) {
-		DWORD dwCurr = 0;
-		INT_PTR i;
-		INT_PTR nBits = 0;
-		for (i=0; i<4; i++) {
-			if (szSrc >= szSrcEnd)
-				break;
-			INT_PTR nCh = DecodeBase64Char(*szSrc);
-			szSrc++;
-			if (nCh == -1) {
-				// skip this char
-				i--;
-				continue;
-			}
-			dwCurr <<= 6;
-			dwCurr |= nCh;
-			nBits += 6;
-		}
-
-		if (!bOverflow && nWritten + (nBits/8) > (*pnDestLen))
-			bOverflow = TRUE;
-
-		// dwCurr has the 3 bytes to write to the output buffer
-		// left to right
-		dwCurr <<= 24-nBits;
-		for (i=0; i<nBits/8; i++) {
-			if (!bOverflow) {
-				*pbDest = (BYTE) ((dwCurr & 0x00ff0000) >> 16);
-				pbDest++;
-			}
-			dwCurr <<= 8;
-			nWritten++;
-		}
-	}
-	*pnDestLen = nWritten;
-	return bOverflow ? FALSE:TRUE;
-}
-
-//=======================================================================
 // Quoted Printable encode/decode
 // compliant with RFC 2045
 //=======================================================================
@@ -242,7 +51,7 @@ inline INT_PTR QPDecodeGetRequiredLength(INT_PTR nSrcLen)
 inline BOOL QPEncode(BYTE* pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR* pnDestLen, BYTE *bEncoded, DWORD dwFlags = 0)
 {
 	//The hexadecimal character set
-	static const CHAR s_chHexChars[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
+	static const CHAR s_chHexChars[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 											'A', 'B', 'C', 'D', 'E', 'F'};
 	INT_PTR nRead = 0, nWritten = 0, nLineLen = 0;
 	CHAR ch;
@@ -272,7 +81,7 @@ inline BOOL QPEncode(BYTE* pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR* pn
 			*szDest++ = ch;
 			nWritten++;
 			nLineLen++;
-		}	
+		}
 		else {
 			*szDest++ = '=';
 			*szDest++ = s_chHexChars[(ch >> 4) & 0x0F];

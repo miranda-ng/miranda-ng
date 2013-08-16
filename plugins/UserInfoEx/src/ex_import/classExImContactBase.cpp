@@ -454,15 +454,13 @@ LPSTR CExImContactBase::uid2String(BYTE bPrependType)
 		case DBVT_BLOB:		//'n' cpbVal and pbVal are valid
 		{
 			if (bPrependType) {		//True = XML
-				INT_PTR baselen = Base64EncodeGetRequiredLength(_dbvUID.cpbVal, BASE64_FLAG_NOCRLF);
+				INT_PTR baselen = mir_base64_encode_bufsize(_dbvUID.cpbVal);
 				LPSTR t = (LPSTR)mir_alloc(baselen + 5 + bPrependType);
 				assert(t != NULL);
-				if (Base64Encode(_dbvUID.pbVal, _dbvUID.cpbVal, t + bPrependType, &baselen, BASE64_FLAG_NOCRLF)) {
-					if (baselen){
-						t[baselen + bPrependType] = 0;
-						if (bPrependType) t[0] = 'n';
-						return t;
-					}
+				if ( mir_base64_encodebuf(_dbvUID.pbVal, _dbvUID.cpbVal, t + bPrependType, baselen)) {
+					t[baselen + bPrependType] = 0;
+					if (bPrependType) t[0] = 'n';
+					return t;
 				}
 				mir_free(t);
 				return NULL;
