@@ -127,33 +127,28 @@ static void FetchCombo(HWND hwndDlg, UINT idCtrl, char *fieldName, char **str, i
 	}
 }
 
-
-int TlenUserInfoInit(void *ptr, WPARAM wParam, LPARAM lParam)
+int TlenProtocol::UserInfoInit(WPARAM wParam, LPARAM lParam)
 {
-	char *szProto;
-	HANDLE hContact;
-	OPTIONSDIALOGPAGE odp = {0};
-	TlenProtocol *proto = (TlenProtocol *)ptr;
-
-	if (!CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM) proto->m_szModuleName))
+	if (!CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)m_szModuleName))
 		return 0;
-	hContact = (HANDLE) lParam;
-	szProto = GetContactProto(hContact);
-	if ((szProto != NULL && !strcmp(szProto, proto->m_szModuleName)) || !lParam) {
-		odp.cbSize = sizeof(odp);
+
+	HANDLE hContact = (HANDLE) lParam;
+	char *szProto = GetContactProto(hContact);
+	if ((szProto != NULL && !strcmp(szProto, m_szModuleName)) || !lParam) {
+		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 		odp.hInstance = hInst;
 		odp.flags = ODPF_TCHAR;
 		odp.pfnDlgProc = TlenUserInfoDlgProc;
 		odp.position = -2000000000;
 		odp.pszTemplate = ((HANDLE)lParam != NULL) ? MAKEINTRESOURCEA(IDD_USER_INFO):MAKEINTRESOURCEA(IDD_USER_VCARD);
-		odp.ptszTitle = (hContact != NULL) ? LPGENT("Account") : proto->m_tszUserName;
-		odp.dwInitParam = (LPARAM)proto;
+		odp.ptszTitle = (hContact != NULL) ? LPGENT("Account") : m_tszUserName;
+		odp.dwInitParam = (LPARAM)this;
 		UserInfo_AddPage(wParam, &odp);
 
 	}
-	if (!lParam && proto->isOnline) {
+	if (!lParam && isOnline) {
 		CCSDATA ccs = {0};
-		proto->GetInfo(0, (LPARAM) &ccs);
+		GetInfo(0, (LPARAM) &ccs);
 	}
 	return 0;
 }

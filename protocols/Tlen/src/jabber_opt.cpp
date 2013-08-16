@@ -82,19 +82,15 @@ static void MarkChanges(int i, HWND hWnd) {
 }
 
 
-int TlenOptionsInit(void *ptr, WPARAM wParam, LPARAM lParam)
+int TlenProtocol::OptionsInit(WPARAM wParam, LPARAM lParam)
 {
-	int i;
-	TlenProtocol *proto = (TlenProtocol *)ptr;
-
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.ptszGroup = LPGENT("Network");
-	odp.ptszTitle = proto->m_tszUserName;
+	odp.ptszTitle = m_tszUserName;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	odp.dwInitParam = (LPARAM)proto;
-	for (i = 0; i < SIZEOF(tabPages); i++) {
+	odp.dwInitParam = (LPARAM)this;
+	for (int i = 0; i < SIZEOF(tabPages); i++) {
 		odp.pszTemplate = MAKEINTRESOURCEA(tabPages[i].dlgId);
 		odp.pfnDlgProc = tabPages[i].dlgProc;
 		odp.ptszTab = tabPages[i].tabName;

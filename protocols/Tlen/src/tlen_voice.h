@@ -57,14 +57,15 @@ typedef struct TLEN_VOICE_CONTROL_STRUCT {
 } TLEN_VOICE_CONTROL;
 
 
-extern void __cdecl TlenVoiceSendingThread(TLEN_FILE_TRANSFER *ft);
-extern void __cdecl TlenVoiceReceiveThread(TLEN_FILE_TRANSFER *ft);
-extern int TlenVoiceIsInUse(TlenProtocol *proto);
-extern INT_PTR TlenVoiceContactMenuHandleVoice(void *ptr, LPARAM wParam, LPARAM lParam);
-extern int TlenVoiceCancelAll(TlenProtocol *proto);
-extern int TlenVoiceStart(TLEN_FILE_TRANSFER *ft, int mode) ;
-extern int TlenVoiceAccept(TlenProtocol *proto, const char *id, const char *from);
-extern int TlenVoiceBuildInDeviceList(TlenProtocol *proto, HWND hWnd);
-extern int TlenVoiceBuildOutDeviceList(TlenProtocol *proto, HWND hWnd);
+void __cdecl TlenVoiceSendingThread(TLEN_FILE_TRANSFER *ft);
+void __cdecl TlenVoiceReceiveThread(TLEN_FILE_TRANSFER *ft);
+
+int TlenVoiceStart(TLEN_FILE_TRANSFER *ft, int mode) ;
+int TlenVoiceAccept(TlenProtocol *proto, const char *id, const char *from);
+int TlenVoiceIsInUse(TlenProtocol *proto);
+int TlenVoiceCancelAll(TlenProtocol *proto);
+int TlenVoiceBuildInDeviceList(TlenProtocol *proto, HWND hWnd);
+int TlenVoiceBuildOutDeviceList(TlenProtocol *proto, HWND hWnd);
+
 #endif
 

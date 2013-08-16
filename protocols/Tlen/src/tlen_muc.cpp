@@ -68,7 +68,6 @@ static int stringToHex(const char *str)
 }
 static char *getDisplayName(TlenProtocol *proto, const char *id)
 {
-	CONTACTINFO ci;
 	char jid[256];
 	HANDLE hContact;
 	DBVARIANT dbv;
@@ -76,8 +75,7 @@ static char *getDisplayName(TlenProtocol *proto, const char *id)
 		mir_snprintf(jid, sizeof(jid), "%s@%s", id, dbv.pszVal);
 		db_free(&dbv);
 		if (((hContact=JabberHContactFromJID(proto, jid)) != NULL) || !strcmp(id, proto->threadData->username)) {
-			ZeroMemory(&ci, sizeof(ci));
-			ci.cbSize = sizeof(ci);
+			CONTACTINFO ci = { sizeof(ci) };
 			ci.hContact = hContact;
 			ci.szProto = (char *)proto->m_szModuleName;
 			ci.dwFlag = CNF_DISPLAY;
@@ -97,176 +95,172 @@ static char *getDisplayName(TlenProtocol *proto, const char *id)
 
 BOOL TlenMUCInit(TlenProtocol *proto)
 {
-	HookEventObj_Ex(ME_MUCC_EVENT, proto, TlenMUCHandleEvent);
+	proto->HookProtoEvent(ME_MUCC_EVENT, &TlenProtocol::MUCHandleEvent);
 	return 0;
 }
-static int TlenMUCHandleEvent(void *ptr, WPARAM wParam, LPARAM lParam)
+
+int TlenProtocol::MUCHandleEvent(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact;
 	int id;
 	MUCCEVENT *mucce=(MUCCEVENT *) lParam;
-	TlenProtocol *proto = (TlenProtocol *)ptr;
-	if (!strcmp(mucce->pszModule, proto->m_szModuleName)) {
+	if (!strcmp(mucce->pszModule, m_szModuleName)) {
 		switch (mucce->iType) {
-			case MUCC_EVENT_INVITE:
-				TlenMUCSendInvitation(proto, mucce->pszID, mucce->pszNick);
+		case MUCC_EVENT_INVITE:
+			TlenMUCSendInvitation(this, mucce->pszID, mucce->pszNick);
+			break;
+		case MUCC_EVENT_MESSAGE:
+			TlenMUCSendMessage(this, mucce);
+			break;
+		case MUCC_EVENT_TOPIC:
+			TlenMUCSendTopic(this, mucce);
+			break;
+		case MUCC_EVENT_LEAVE:
+			TlenMUCSendPresence(this, mucce->pszID, NULL, ID_STATUS_OFFLINE);
+			break;
+		case MUCC_EVENT_QUERY_GROUPS:
+			TlenMUCSendQuery(this, 1, mucce->pszID, 0);
+			break;
+		case MUCC_EVENT_QUERY_ROOMS:
+			TlenMUCSendQuery(this, 2, mucce->pszID, mucce->dwData);
+			break;
+		case MUCC_EVENT_QUERY_SEARCH:
+			TlenMUCSendQuery(this, 3, mucce->pszName, 0);
+			break;
+		case MUCC_EVENT_QUERY_USERS:
+			switch (mucce->dwFlags) {
+			case MUCC_EF_USER_OWNER:
+				id = 1;
 				break;
-			case MUCC_EVENT_MESSAGE:
-				TlenMUCSendMessage(proto, mucce);
+			case MUCC_EF_USER_ADMIN:
+				id = 2;
 				break;
-			case MUCC_EVENT_TOPIC:
-				TlenMUCSendTopic(proto, mucce);
+			case MUCC_EF_USER_MEMBER:
+				id = 3;
 				break;
-			case MUCC_EVENT_LEAVE:
-				TlenMUCSendPresence(proto, mucce->pszID, NULL, ID_STATUS_OFFLINE);
+			case MUCC_EF_USER_BANNED:
+				id = 4;
 				break;
-			case MUCC_EVENT_QUERY_GROUPS:
-				TlenMUCSendQuery(proto, 1, mucce->pszID, 0);
+			case MUCC_EF_USER_MODERATOR:
+				id = 6;
 				break;
-			case MUCC_EVENT_QUERY_ROOMS:
-				TlenMUCSendQuery(proto, 2, mucce->pszID, mucce->dwData);
-				break;
-			case MUCC_EVENT_QUERY_SEARCH:
-				TlenMUCSendQuery(proto, 3, mucce->pszName, 0);
-				break;
-			case MUCC_EVENT_QUERY_USERS:
-				switch (mucce->dwFlags) {
-				case MUCC_EF_USER_OWNER:
-					id = 1;
-					break;
-				case MUCC_EF_USER_ADMIN:
-					id = 2;
-					break;
-				case MUCC_EF_USER_MEMBER:
-					id = 3;
-					break;
-				case MUCC_EF_USER_BANNED:
-					id = 4;
-					break;
-				case MUCC_EF_USER_MODERATOR:
-					id = 6;
-					break;
-				default:
-					id = 0;
-				}
-				TlenMUCSendQuery(proto, 4, mucce->pszID, id);
-				break;
-			case MUCC_EVENT_REGISTER_NICK:
-				TlenMUCSendQuery(proto, 6, mucce->pszNick, 0);
-				break;
-			case MUCC_EVENT_REMOVE_NICK:
-				TlenMUCSendQuery(proto, 6, mucce->pszNick, 1);
-				break;
-			case MUCC_EVENT_REGISTER_ROOM:
-				id = JabberSerialNext(proto);
-				if (proto->isOnline) {
-					if (mucce->pszNick != NULL) {
-						JabberSend(proto, "<p to='c' tp='c' id='"JABBER_IQID"%d' x='%d' n='%s' p='%s' nick='%s'/>", id, mucce->dwFlags | 0x10, mucce->pszName, mucce->pszID);
-					} else {
-						JabberSend(proto, "<p to='c' tp='c' id='"JABBER_IQID"%d' x='%d' n='%s' p='%s'/>", id, mucce->dwFlags | 0x10, mucce->pszName, mucce->pszID);
-					}
-				}
-				break;
-			case MUCC_EVENT_REMOVE_ROOM:
-				if (proto->isOnline) {
-					JabberSend(proto, "<p to='%s' type='d'/>", mucce->pszID);
-					JabberListRemove(proto, LIST_CHATROOM, mucce->pszID);
+			default:
+				id = 0;
+			}
+			TlenMUCSendQuery(this, 4, mucce->pszID, id);
+			break;
+		case MUCC_EVENT_REGISTER_NICK:
+			TlenMUCSendQuery(this, 6, mucce->pszNick, 0);
+			break;
+		case MUCC_EVENT_REMOVE_NICK:
+			TlenMUCSendQuery(this, 6, mucce->pszNick, 1);
+			break;
+		case MUCC_EVENT_REGISTER_ROOM:
+			id = JabberSerialNext(this);
+			if (isOnline) {
+				if (mucce->pszNick != NULL)
+					JabberSend(this, "<p to='c' tp='c' id='"JABBER_IQID"%d' x='%d' n='%s' p='%s' nick='%s'/>", id, mucce->dwFlags | 0x10, mucce->pszName, mucce->pszID);
+				else
+					JabberSend(this, "<p to='c' tp='c' id='"JABBER_IQID"%d' x='%d' n='%s' p='%s'/>", id, mucce->dwFlags | 0x10, mucce->pszName, mucce->pszID);
+			}
+			break;
+		case MUCC_EVENT_REMOVE_ROOM:
+			if (isOnline) {
+				JabberSend(this, "<p to='%s' type='d'/>", mucce->pszID);
+				JabberListRemove(this, LIST_CHATROOM, mucce->pszID);
 				//	TlenMUCSendPresence(mucce->pszID, NULL, ID_STATUS_OFFLINE);
+			}
+			break;
+		case MUCC_EVENT_KICK_BAN:
+			if (isOnline) {
+				char *nick;
+				nick = JabberResourceFromJID(mucce->pszUID);
+				if (!isSelf(this, mucce->pszID, nick)) {
+					char *reason = JabberTextEncode(mucce->pszText);
+					JabberSend(this, "<p to='%s'><x><i i='%s' a='4' ex='%d' rs='%s'/></x></p>", mucce->pszID, nick, mucce->dwData, reason);
+					mir_free(reason);
 				}
-				break;
-			case MUCC_EVENT_KICK_BAN:
-				if (proto->isOnline) {
-					char *nick;
-					nick = JabberResourceFromJID(mucce->pszUID);
-					if (!isSelf(proto, mucce->pszID, nick)) {
-						char *reason = JabberTextEncode(mucce->pszText);
-						JabberSend(proto, "<p to='%s'><x><i i='%s' a='4' ex='%d' rs='%s'/></x></p>", mucce->pszID, nick, mucce->dwData, reason);
-						mir_free(reason);
+				mir_free(nick);
+			}
+			break;
+		case MUCC_EVENT_UNBAN:
+			if (isOnline) {
+				char *nick;
+				nick = JabberResourceFromJID(mucce->pszUID);
+				if (!isSelf(this, mucce->pszID, nick)) {
+					JabberSend(this, "<p to='%s'><x><i i='%s' a='0'/></x></p>", mucce->pszID, nick);
+				}
+				mir_free(nick);
+			}
+			break;
+		case MUCC_EVENT_SET_USER_ROLE:
+			if (isOnline) {
+				char *nick;
+				nick = JabberResourceFromJID(mucce->pszUID);
+				if (!isSelf(this, mucce->pszID, nick)) {
+					if (mucce->dwFlags == MUCC_EF_USER_ADMIN) {
+						id = 2;
+					} else if (mucce->dwFlags == MUCC_EF_USER_MEMBER) {
+						id = 3;
+					} else {
+						id = 0;
 					}
-					mir_free(nick);
+					JabberSend(this, "<p to='%s'><x><i i='%s' a='%d' /></x></p>", mucce->pszID, nick, id);
 				}
-				break;
-			case MUCC_EVENT_UNBAN:
-				if (proto->isOnline) {
-					char *nick;
-					nick = JabberResourceFromJID(mucce->pszUID);
-					if (!isSelf(proto, mucce->pszID, nick)) {
-						JabberSend(proto, "<p to='%s'><x><i i='%s' a='0'/></x></p>", mucce->pszID, nick);
+				mir_free(nick);
+			}
+			break;
+		case MUCC_EVENT_QUERY_USER_NICKS:
+			TlenMUCSendQuery(this, 7, mucce->pszID, 0);
+			break;
+		case MUCC_EVENT_QUERY_USER_ROOMS:
+			TlenMUCSendQuery(this, 8, mucce->pszID, 0);
+			break;
+		case MUCC_EVENT_QUERY_CONTACTS:
+			TlenMUCQueryContacts(this, mucce->pszID);
+			break;
+		case MUCC_EVENT_JOIN:
+			if (isOnline) {
+				if (mucce->pszID == NULL || strlen(mucce->pszID) == 0) {
+					if (mucce->pszName == NULL || strlen(mucce->pszName) == 0) { // create a new chat room
+						id = JabberSerialNext(this);
+						JabberSend(this, "<p to='c' tp='c' id='"JABBER_IQID"%d'/>", id);
 					}
-					mir_free(nick);
+					else TlenMUCSendQuery(this, 3, mucce->pszName, 0);  // find a chat room by name
 				}
-				break;
-			case MUCC_EVENT_SET_USER_ROLE:
-				if (proto->isOnline) {
-					char *nick;
-					nick = JabberResourceFromJID(mucce->pszUID);
-					if (!isSelf(proto, mucce->pszID, nick)) {
-						if (mucce->dwFlags == MUCC_EF_USER_ADMIN) {
-							id = 2;
-						} else if (mucce->dwFlags == MUCC_EF_USER_MEMBER) {
-							id = 3;
-						} else {
-							id = 0;
+				else  // join existing chat room
+					if (!TlenMUCCreateWindow(this, mucce->pszID, mucce->pszName, mucce->dwFlags, mucce->pszNick, NULL))
+						TlenMUCSendPresence(this, mucce->pszID, mucce->pszNick, ID_STATUS_ONLINE);
+			}
+			break;
+		case MUCC_EVENT_START_PRIV:
+			if (isOnline) {
+				JABBER_LIST_ITEM *item = JabberListGetItemPtr(this, LIST_CHATROOM, mucce->pszID);
+				if (item != NULL) {
+					char *nick = JabberResourceFromJID(mucce->pszUID);
+					if (!isSelf(this, mucce->pszID, nick)) {
+						if (nick[0] == '~' || item->nick != NULL) {
+							char str[256];
+							mir_snprintf(str, SIZEOF(str), "%s/%s", mucce->pszID, nick);
+							hContact = JabberDBCreateContact(this, str, nick, TRUE); //(char *)mucce->pszUID
+							db_set_b(hContact, m_szModuleName, "bChat", TRUE);
+							CallService(MS_MSG_SENDMESSAGE, (WPARAM) hContact, (LPARAM) NULL);
 						}
-						JabberSend(proto, "<p to='%s'><x><i i='%s' a='%d' /></x></p>", mucce->pszID, nick, id);
-					}
-					mir_free(nick);
-				}
-				break;
-			case MUCC_EVENT_QUERY_USER_NICKS:
-				TlenMUCSendQuery(proto, 7, mucce->pszID, 0);
-				break;
-			case MUCC_EVENT_QUERY_USER_ROOMS:
-				TlenMUCSendQuery(proto, 8, mucce->pszID, 0);
-				break;
-			case MUCC_EVENT_QUERY_CONTACTS:
-				TlenMUCQueryContacts(proto, mucce->pszID);
-				break;
-			case MUCC_EVENT_JOIN:
-				if (proto->isOnline) {
-					if (mucce->pszID == NULL || strlen(mucce->pszID) == 0) {
-						if (mucce->pszName == NULL || strlen(mucce->pszName) == 0) { // create a new chat room
-							id = JabberSerialNext(proto);
-							JabberSend(proto, "<p to='c' tp='c' id='"JABBER_IQID"%d'/>", id);
-						} else { // find a chat room by name
-							TlenMUCSendQuery(proto, 3, mucce->pszName, 0);
-						}
-					} else { // join existing chat room
-						if (!TlenMUCCreateWindow(proto, mucce->pszID, mucce->pszName, mucce->dwFlags, mucce->pszNick, NULL)) {
-							TlenMUCSendPresence(proto, mucce->pszID, mucce->pszNick, ID_STATUS_ONLINE);
-						}
-					}
-				}
-				break;
-			case MUCC_EVENT_START_PRIV:
-				if (proto->isOnline) {
-					JABBER_LIST_ITEM *item;
-					item = JabberListGetItemPtr(proto, LIST_CHATROOM, mucce->pszID);
-					if (item != NULL) {
-						char *nick;
-						nick = JabberResourceFromJID(mucce->pszUID);
-						if (!isSelf(proto, mucce->pszID, nick)) {
-							if (nick[0] == '~' || item->nick != NULL) {
-								char str[256];
-								mir_snprintf(str, SIZEOF(str), "%s/%s", mucce->pszID, nick);
-								hContact = JabberDBCreateContact(proto, str, nick, TRUE); //(char *)mucce->pszUID
-								db_set_b(hContact, proto->m_szModuleName, "bChat", TRUE);
+						else {
+							DBVARIANT dbv;
+							if (!db_get(NULL, m_szModuleName, "LoginServer", &dbv)) {
+								char str[512];
+								mir_snprintf(str, sizeof(str), "%s@%s", nick, dbv.pszVal);
+								db_free(&dbv);
+								hContact = JabberDBCreateContact(this, str, nick, TRUE);
 								CallService(MS_MSG_SENDMESSAGE, (WPARAM) hContact, (LPARAM) NULL);
-							} else {
-								DBVARIANT dbv;
-								if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
-									char str[512];
-									mir_snprintf(str, sizeof(str), "%s@%s", nick, dbv.pszVal);
-									db_free(&dbv);
-									hContact = JabberDBCreateContact(proto, str, nick, TRUE);
-									CallService(MS_MSG_SENDMESSAGE, (WPARAM) hContact, (LPARAM) NULL);
-								}
 							}
 						}
-						mir_free(nick);
 					}
+					mir_free(nick);
 				}
-				break;
+			}
+			break;
 		}
 	}
 	return 0;
@@ -1006,60 +1000,44 @@ static int TlenMUCQueryContacts(TlenProtocol *proto, const char *roomId) {
 	return 1;
 }
 
-INT_PTR TlenMUCMenuHandleMUC(void *ptr, LPARAM wParam, LPARAM lParam)
+int TlenProtocol::MUCMenuHandleMUC(WPARAM wParam, LPARAM lParam)
 {
-	TlenProtocol *proto = (TlenProtocol *)ptr;
-	if (!proto->isOnline) {
+	if (!isOnline)
 		return 1;
-	}
-	JabberSend(proto, "<p to='c' tp='c' id='"JABBER_IQID"%d'/>", JabberSerialNext(proto));
-	/*
-	MUCCEVENT *mucce;
-	mucce = (MUCCEVENT *) mir_alloc (sizeof(MUCCEVENT));
-	mucce->cbSize = sizeof(MUCCEVENT);
-	mucce->iType = MUCC_EVENT_JOIN;
-	mucce->dwFlags = 0;
-	mucce->pszModule = proto->m_szModuleName;
-	mucce->pszID = NULL;
-	mucce->pszName = NULL;
-	mucce->pszNick = NULL;
-	CallService(MS_MUCC_EVENT, 0, (LPARAM) mucce);
-	mir_free(mucce);
-	*/
+
+	JabberSend(this, "<p to='c' tp='c' id='"JABBER_IQID"%d'/>", JabberSerialNext(this));
 	return 0;
 }
 
-INT_PTR TlenMUCMenuHandleChats(void *ptr, LPARAM wParam, LPARAM lParam)
+int TlenProtocol::MUCMenuHandleChats(WPARAM wParam, LPARAM lParam)
 {
-	MUCCWINDOW mucw;
-	TlenProtocol *proto = (TlenProtocol *)ptr;
-	if (!proto->isOnline) {
+	if (!isOnline)
 		return 1;
-	}
+
+	MUCCWINDOW mucw;
 	mucw.cbSize = sizeof(MUCCWINDOW);
 	mucw.iType = MUCC_WINDOW_CHATLIST;
-	mucw.pszModule = proto->m_szModuleName;
-	mucw.pszModuleName = proto->m_szModuleName;
+	mucw.pszModule = m_szModuleName;
+	mucw.pszModuleName = m_szModuleName;
 	CallService(MS_MUCC_NEW_WINDOW, 0, (LPARAM) &mucw);
 	return 0;
 }
 
-INT_PTR TlenMUCContactMenuHandleMUC(void *ptr, LPARAM wParam, LPARAM lParam)
+int TlenProtocol::MUCContactMenuHandleMUC(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact;
 	DBVARIANT dbv;
 	JABBER_LIST_ITEM *item;
-	TlenProtocol *proto = (TlenProtocol *)ptr;
-	if (!proto->isOnline) {
+	if (!isOnline)
 		return 1;
-	}
-	if ((hContact=(HANDLE) wParam) != NULL && proto->isOnline) {
-		if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
+
+	if ((hContact=(HANDLE) wParam) != NULL && isOnline) {
+		if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
 			char serialId[32];
-			mir_snprintf(serialId, SIZEOF(serialId), JABBER_IQID"%d", JabberSerialNext(proto));
-			item = JabberListAdd(proto, LIST_INVITATIONS, serialId);
+			mir_snprintf(serialId, SIZEOF(serialId), JABBER_IQID"%d", JabberSerialNext(this));
+			item = JabberListAdd(this, LIST_INVITATIONS, serialId);
 			item->nick = mir_strdup(dbv.pszVal);
-			JabberSend(proto, "<p to='c' tp='c' id='%s'/>", serialId);
+			JabberSend(this, "<p to='c' tp='c' id='%s'/>", serialId);
 			db_free(&dbv);
 		}
 	}

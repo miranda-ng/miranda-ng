@@ -697,26 +697,23 @@ int TlenVoiceCancelAll(TlenProtocol *proto)
 	return 0;
 }
 
-INT_PTR TlenVoiceContactMenuHandleVoice(void *ptr, LPARAM wParam, LPARAM lParam)
+int TlenProtocol::VoiceContactMenuHandleVoice(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact;
 	DBVARIANT dbv;
 	JABBER_LIST_ITEM *item;
 	TLEN_FILE_TRANSFER *ft;
-	TlenProtocol *proto =(TlenProtocol *)ptr;
-	if (!proto->isOnline) {
+	if (!isOnline)
 		return 1;
-	}
+
 	if ((hContact=(HANDLE) wParam) != NULL) {
-		if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
+		if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
 			char serialId[32];
-			mir_snprintf(serialId, SIZEOF(serialId), "%d", JabberSerialNext(proto));
-			if ((item = JabberListAdd(proto, LIST_VOICE, serialId)) != NULL) {
-				ft = TlenFileCreateFT(proto, dbv.pszVal);
+			mir_snprintf(serialId, SIZEOF(serialId), "%d", JabberSerialNext(this));
+			if ((item = JabberListAdd(this, LIST_VOICE, serialId)) != NULL) {
+				ft = TlenFileCreateFT(this, dbv.pszVal);
 				ft->iqId = mir_strdup(serialId);
 				item->ft = ft;
-//				JabberSend(ft->proto, "<iq to='%s'><query xmlns='voip'><voip k='1' s='1' v='1' i='51245604'/></query></iq>", ft->jid);
-//				Sleep(5000);
 				TlenVoiceStart(ft, 2);
 				JabberSend(ft->proto, "<v t='%s' e='1' i='%s' v='1'/>", ft->jid, serialId);
 			}

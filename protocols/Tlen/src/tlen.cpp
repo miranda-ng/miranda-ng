@@ -55,9 +55,6 @@ PLUGININFOEX pluginInfoEx = {
 
 // Main jabber server connection thread global variables
 
-int TlenUserInfoInit(void *ptr, WPARAM wParam, LPARAM lParam);
-int TlenSystemModulesLoaded(void *ptr, WPARAM wParam, LPARAM lParam);
-
 BOOL WINAPI DllMain(HINSTANCE hModule, DWORD dwReason, LPVOID lpvReserved)
 {
 #ifdef _DEBUG
@@ -114,72 +111,68 @@ static void TlenRegisterIcons()
 	Icon_Register(hInst, "Protocols/Tlen", iconList, SIZEOF(iconList), "TLEN");
 }
 
-int TlenPrebuildContactMenu(void *ptr, WPARAM wParam, LPARAM lParam)
+int TlenProtocol::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	TlenProtocol *proto = (TlenProtocol *)ptr;
-	if (hContact != NULL && proto->isOnline) {
+	if (hContact != NULL && isOnline) {
 		DBVARIANT dbv;
-		if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
-			JABBER_LIST_ITEM *item = JabberListGetItemPtr(proto, LIST_ROSTER, dbv.pszVal);
+		if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
+			JABBER_LIST_ITEM *item = JabberListGetItemPtr(this, LIST_ROSTER, dbv.pszVal);
 			db_free(&dbv);
 			if (item != NULL) {
-				Menu_ShowItem(proto->hMenuContactRequestAuth, item->subscription == SUB_NONE || item->subscription == SUB_FROM);
-				Menu_ShowItem(proto->hMenuContactGrantAuth, item->subscription == SUB_NONE || item->subscription == SUB_TO);
-				Menu_ShowItem(proto->hMenuContactMUC, item->status != ID_STATUS_OFFLINE);
-				Menu_ShowItem(proto->hMenuContactVoice, item->status != ID_STATUS_OFFLINE && !TlenVoiceIsInUse(proto));
-				Menu_ShowItem(proto->hMenuPicture, item->status != ID_STATUS_OFFLINE);
+				Menu_ShowItem(hMenuContactRequestAuth, item->subscription == SUB_NONE || item->subscription == SUB_FROM);
+				Menu_ShowItem(hMenuContactGrantAuth, item->subscription == SUB_NONE || item->subscription == SUB_TO);
+				Menu_ShowItem(hMenuContactMUC, item->status != ID_STATUS_OFFLINE);
+				Menu_ShowItem(hMenuContactVoice, item->status != ID_STATUS_OFFLINE && !TlenVoiceIsInUse(this));
+				Menu_ShowItem(hMenuPicture, item->status != ID_STATUS_OFFLINE);
 				return 0;
 			}
 		}
 	}
 
-	Menu_ShowItem(proto->hMenuContactMUC, false);
-	Menu_ShowItem(proto->hMenuContactVoice, false);
-	Menu_ShowItem(proto->hMenuContactRequestAuth, false);
-	Menu_ShowItem(proto->hMenuContactGrantAuth, false);
+	Menu_ShowItem(hMenuContactMUC, false);
+	Menu_ShowItem(hMenuContactVoice, false);
+	Menu_ShowItem(hMenuContactRequestAuth, false);
+	Menu_ShowItem(hMenuContactGrantAuth, false);
 	return 0;
 }
 
-INT_PTR TlenContactMenuHandleRequestAuth(void *ptr, LPARAM wParam, LPARAM lParam)
+int TlenProtocol::ContactMenuHandleRequestAuth(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact;
-	DBVARIANT dbv;
-	TlenProtocol *proto = (TlenProtocol *)ptr;
-	if ((hContact=(HANDLE) wParam) != NULL && proto->isOnline) {
-		if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
-			JabberSend(proto, "<presence to='%s' type='subscribe'/>", dbv.pszVal);
+	HANDLE hContact = (HANDLE)wParam;
+	if (hContact != NULL && isOnline) {
+		DBVARIANT dbv;
+		if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
+			JabberSend(this, "<presence to='%s' type='subscribe'/>", dbv.pszVal);
 			db_free(&dbv);
 		}
 	}
 	return 0;
 }
 
-INT_PTR TlenContactMenuHandleGrantAuth(void *ptr, LPARAM wParam, LPARAM lParam)
+int TlenProtocol::ContactMenuHandleGrantAuth(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact;
-	DBVARIANT dbv;
-	TlenProtocol *proto = (TlenProtocol *)ptr;
-	if ((hContact=(HANDLE) wParam) != NULL && proto->isOnline) {
-		if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
-			JabberSend(proto, "<presence to='%s' type='subscribed'/>", dbv.pszVal);
+	HANDLE hContact = (HANDLE)wParam;
+	if (hContact != NULL && isOnline) {
+		DBVARIANT dbv;
+		if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
+			JabberSend(this, "<presence to='%s' type='subscribed'/>", dbv.pszVal);
 			db_free(&dbv);
 		}
 	}
 	return 0;
 }
 
-INT_PTR TlenContactMenuHandleSendPicture(void *ptr, LPARAM wParam, LPARAM lParam)
+int TlenProtocol::ContactMenuHandleSendPicture(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact;
-	TlenProtocol *proto = (TlenProtocol *)ptr;
-	if ((hContact=(HANDLE) wParam) != NULL && proto->isOnline) {
-		SendPicture(proto, hContact);
-	}
+	HANDLE hContact = (HANDLE)wParam;
+	if (hContact != NULL && isOnline)
+		SendPicture(this, hContact);
+
 	return 0;
 }
 
-INT_PTR TlenMenuHandleInbox(void *ptr, LPARAM wParam, LPARAM lParam)
+int TlenProtocol::MenuHandleInbox(WPARAM wParam, LPARAM lParam)
 {
 	char szFileName[ MAX_PATH ];
 	DBVARIANT dbv;
@@ -189,20 +182,19 @@ INT_PTR TlenMenuHandleInbox(void *ptr, LPARAM wParam, LPARAM lParam)
 	char *login = NULL, *password = NULL;
 	char form[1024];
 	char cookie[1024];
-	TlenProtocol *proto = (TlenProtocol *)ptr;
-	if (!db_get(NULL, proto->m_szModuleName, "LoginName", &dbv)) {
+	if (!db_get(NULL, m_szModuleName, "LoginName", &dbv)) {
 		login = mir_strdup(dbv.pszVal);
 		db_free(&dbv);
 	}
-	if (db_get_b(NULL, proto->m_szModuleName, "SavePassword", TRUE) == TRUE) {
-		if (!db_get(NULL, proto->m_szModuleName, "Password", &dbv)) {
+	if (db_get_b(NULL, m_szModuleName, "SavePassword", TRUE) == TRUE) {
+		if (!db_get(NULL, m_szModuleName, "Password", &dbv)) {
 			CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM) dbv.pszVal);
 			password = mir_strdup(dbv.pszVal);
 			db_free(&dbv);
 		}
-	} else if (proto->threadData != NULL && strlen(proto->threadData->password) > 0) {
-		password = mir_strdup(proto->threadData->password);
 	}
+	else if (threadData != NULL && strlen(threadData->password) > 0)
+		password = mir_strdup(threadData->password);
 
 	ZeroMemory(&cookie, sizeof(cookie));
 	if (login != NULL && password != NULL) {
@@ -218,7 +210,7 @@ INT_PTR TlenMenuHandleInbox(void *ptr, LPARAM wParam, LPARAM lParam)
 		req.pData = form;
 		req.dataLength = (int)strlen(form);
 		req.szUrl = "http://poczta.o2.pl/login.html";
-		resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)proto->hNetlibUser, (LPARAM)&req);
+		resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&req);
 		if (resp != NULL) {
 			if (resp->resultCode/100 == 2 || resp->resultCode == 302) {
 				int i;
@@ -247,141 +239,133 @@ INT_PTR TlenMenuHandleInbox(void *ptr, LPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int TlenOnModulesLoaded(void *ptr, WPARAM wParam, LPARAM lParam)
+int TlenProtocol::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	char str[128];
-	TlenProtocol *proto = (TlenProtocol *)ptr;
 	/* Set all contacts to offline */
 
-	for (HANDLE hContact = db_find_first(proto->m_szModuleName); hContact; hContact = db_find_next(hContact, proto->m_szModuleName))
-		if (db_get_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
-			db_set_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+		if (db_get_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+			db_set_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE);
 
-	TlenMUCInit(proto);
+	TlenMUCInit(this);
 	mir_snprintf(str, SIZEOF(str), "%s", LPGEN("Incoming mail"));
-	SkinAddNewSoundEx("TlenMailNotify", proto->m_szModuleName, str);
+	SkinAddNewSoundEx("TlenMailNotify", m_szModuleName, str);
 	mir_snprintf(str, SIZEOF(str), "%s", LPGEN("Alert"));
-	SkinAddNewSoundEx("TlenAlertNotify", proto->m_szModuleName, str);
+	SkinAddNewSoundEx("TlenAlertNotify", m_szModuleName, str);
 	mir_snprintf(str, SIZEOF(str), "%s", LPGEN("Voice chat"));
-	SkinAddNewSoundEx("TlenVoiceNotify", proto->m_szModuleName, str);
+	SkinAddNewSoundEx("TlenVoiceNotify", m_szModuleName, str);
 
-	HookEventObj_Ex(ME_USERINFO_INITIALISE, proto, TlenUserInfoInit);
-
+	HookProtoEvent(ME_USERINFO_INITIALISE, &TlenProtocol::UserInfoInit);
 	return 0;
 }
 
 
-int TlenPreShutdown(void *ptr, WPARAM wParam, LPARAM lParam)
+int TlenProtocol::PreShutdown(WPARAM wParam, LPARAM lParam)
 {
-	TlenProtocol *proto = (TlenProtocol *)ptr;
-	JabberLog(proto, "TLEN TlenPreShutdown");
+	JabberLog(this, "TLEN TlenPreShutdown");
 	return 0;
 }
 
-
-static void initMenuItems(TlenProtocol *proto)
+void TlenProtocol::initMenuItems()
 {
 	char text[_MAX_PATH];
+	strncpy_s(text, sizeof(text), m_szModuleName, _TRUNCATE);
+	char *pSvcName = text + strlen(text);
 
 	CLISTMENUITEM mi = { sizeof(mi) }, clmi = { sizeof(clmi) };
 	clmi.flags = CMIM_FLAGS | CMIF_GRAYED;
 
-	mi.pszContactOwner = proto->m_szModuleName;
+	mi.pszContactOwner = m_szModuleName;
 	mi.popupPosition = 500090000;
 
-	strcpy(text, proto->m_szModuleName);
+	strcpy(text, m_szModuleName);
 	mi.pszService = text;
-	mi.ptszName = proto->m_tszUserName;
+	mi.ptszName = m_tszUserName;
 	mi.position = -1999901009;
-	mi.pszPopupName = (char *)-1;
+	mi.hParentMenu = HGENMENU_ROOT;
 	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
 	mi.icolibItem = GetIconHandle(IDI_TLEN);
-	proto->hMenuRoot = Menu_AddMainMenuItem(&mi);
+	hMenuRoot = Menu_AddMainMenuItem(&mi);
 
 	mi.flags = CMIF_CHILDPOPUP;
-	//mi.pszPopupName = (char *)proto->hMenuRoot;
-	mi.hParentMenu = (HGENMENU)proto->hMenuRoot;
+	//mi.pszPopupName = (char *)hMenuRoot;
+	mi.hParentMenu = (HGENMENU)hMenuRoot;
 
-	proto->hMenuChats = NULL;
-	if (ServiceExists(MS_MUCC_NEW_WINDOW))
-	{
-		mir_snprintf(text, SIZEOF(text), "%s/MainMenuChats", proto->m_szModuleName);
-		CreateServiceFunction_Ex(text, proto, TlenMUCMenuHandleChats);
+	hMenuChats = NULL;
+	if ( ServiceExists(MS_MUCC_NEW_WINDOW)) {
+		strcpy(pSvcName, "/MainMenuChats");
+		CreateProtoService(pSvcName, &TlenProtocol::MUCMenuHandleChats);
 		mi.pszName = LPGEN("Tlen Chats");
 		mi.position = 2000050001;
 		mi.icolibItem = GetIconHandle(IDI_CHATS);
-		mi.pszService = text;
-		proto->hMenuChats = Menu_AddMainMenuItem(&mi);
-		Menu_ModifyItem(proto->hMenuChats, &clmi);
+		hMenuChats = Menu_AddMainMenuItem(&mi);
+		Menu_ModifyItem(hMenuChats, &clmi);
 	}
 
 	// "Multi-User Conference"
-	mir_snprintf(text, SIZEOF(text), "%s/MainMenuMUC", proto->m_szModuleName);
-	CreateServiceFunction_Ex(text, proto, TlenMUCMenuHandleMUC);
+	strcpy(pSvcName, "/MainMenuMUC");
+	CreateProtoService(pSvcName, &TlenProtocol::MUCMenuHandleMUC);
 	mi.pszName = LPGEN("Multi-User Conference");
 	mi.position = 2000050002;
 	mi.icolibItem = GetIconHandle(IDI_MUC);
 	mi.pszService = text;
-	proto->hMenuMUC = Menu_AddMainMenuItem(&mi);
-	Menu_ModifyItem(proto->hMenuMUC, &clmi);
+	hMenuMUC = Menu_AddMainMenuItem(&mi);
+	Menu_ModifyItem(hMenuMUC, &clmi);
 
-	mir_snprintf(text, SIZEOF(text), "%s/MainMenuInbox", proto->m_szModuleName);
-	CreateServiceFunction_Ex(text, proto, TlenMenuHandleInbox);
+	strcpy(pSvcName, "/MainMenuInbox");
+	CreateProtoService(pSvcName, &TlenProtocol::MenuHandleInbox);
 	mi.pszName = LPGEN("Tlen Mail");
 	mi.position = 2000050003;
 	mi.icolibItem = GetIconHandle(IDI_MAIL);
 	mi.pszService = text;
-	proto->hMenuInbox = Menu_AddMainMenuItem(&mi);
+	hMenuInbox = Menu_AddMainMenuItem(&mi);
 
 	mi.hParentMenu = NULL;
 
 	// "Send picture"
-	mir_snprintf(text, SIZEOF(text), "%s/SendPicture", proto->m_szModuleName);
-	CreateServiceFunction_Ex(text, proto, TlenContactMenuHandleSendPicture);
+	strcpy(pSvcName, "/SendPicture");
+	CreateProtoService(pSvcName, &TlenProtocol::ContactMenuHandleSendPicture);
 	mi.pszName = LPGEN("Send picture");
 	mi.position = -2000019030;
 	mi.icolibItem = GetIconHandle(IDI_IMAGE);
-	mi.pszService = text;
-	proto->hMenuPicture = Menu_AddContactMenuItem(&mi);
+	hMenuPicture = Menu_AddContactMenuItem(&mi);
 
 	// "Invite to MUC"
-	mir_snprintf(text, SIZEOF(text), "%s/ContactMenuMUC", proto->m_szModuleName);
-	CreateServiceFunction_Ex(text, proto, TlenMUCContactMenuHandleMUC);
+	strcpy(pSvcName, "/ContactMenuMUC");
+	CreateProtoService(pSvcName, &TlenProtocol::MUCContactMenuHandleMUC);
 	mi.pszName = LPGEN("Multi-User Conference");
 	mi.position = -2000019020;
 	mi.icolibItem = GetIconHandle(IDI_MUC);
-	mi.pszService = text;
-	proto->hMenuContactMUC = Menu_AddContactMenuItem(&mi);
+	hMenuContactMUC = Menu_AddContactMenuItem(&mi);
 
 	// "Invite to voice chat"
-	mir_snprintf(text, SIZEOF(text), "%s/ContactMenuVoice", proto->m_szModuleName);
-	CreateServiceFunction_Ex(text, proto, TlenVoiceContactMenuHandleVoice);
+	strcpy(pSvcName, "/ContactMenuVoice");
+	CreateProtoService(pSvcName, &TlenProtocol::VoiceContactMenuHandleVoice);
 	mi.pszName = LPGEN("Voice Chat");
 	mi.position = -2000019010;
 	mi.icolibItem = GetIconHandle(IDI_VOICE);
-	mi.pszService = text;
-	proto->hMenuContactVoice = Menu_AddContactMenuItem(&mi);
+	hMenuContactVoice = Menu_AddContactMenuItem(&mi);
 
 	// "Request authorization"
-	mir_snprintf(text, SIZEOF(text), "%s/RequestAuth", proto->m_szModuleName);
-	CreateServiceFunction_Ex(text, proto, TlenContactMenuHandleRequestAuth);
+	strcpy(pSvcName, "/RequestAuth");
+	CreateProtoService(pSvcName, &TlenProtocol::ContactMenuHandleRequestAuth);
 	mi.pszName = LPGEN("Request authorization");
 	mi.position = -2000001001;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_REQUEST);
-	mi.pszService = text;
-	proto->hMenuContactRequestAuth = Menu_AddContactMenuItem(&mi);
+	hMenuContactRequestAuth = Menu_AddContactMenuItem(&mi);
 
 	// "Grant authorization"
-	mir_snprintf(text, SIZEOF(text), "%s/GrantAuth", proto->m_szModuleName);
-	CreateServiceFunction_Ex(text, proto, TlenContactMenuHandleGrantAuth);
+	strcpy(pSvcName, "/GrantAuth");
+	CreateProtoService(pSvcName, &TlenProtocol::ContactMenuHandleGrantAuth);
 	mi.pszName = LPGEN("Grant authorization");
 	mi.position = -2000001000;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_AUTH_GRANT);
-	mi.pszService = text;
-	proto->hMenuContactGrantAuth = Menu_AddContactMenuItem(&mi);
+	hMenuContactGrantAuth = Menu_AddContactMenuItem(&mi);
 }
 
-void uninitMenuItems(TlenProtocol *proto) {
+void uninitMenuItems(TlenProtocol *proto)
+{
 	CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)proto->hMenuChats, (LPARAM) 0);
 	CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)proto->hMenuMUC, (LPARAM) 0);
 	CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)proto->hMenuInbox, (LPARAM) 0);
@@ -393,23 +377,13 @@ void uninitMenuItems(TlenProtocol *proto) {
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)proto->hMenuContactGrantAuth, (LPARAM) 0);
 }
 
-TlenProtocol* tlenProtoInit( const char* pszProtoName, const TCHAR* tszUserName )
+TlenProtocol* tlenProtoInit(const char* pszProtoName, const TCHAR* tszUserName)
 {
 	TlenProtocol* ppro = new TlenProtocol( pszProtoName, tszUserName );
-
 	return ppro;
 }
 
-int TlenSystemModulesLoaded(void *ptr, WPARAM wParam, LPARAM lParam)
-{
-
-	TlenProtocol *proto = (TlenProtocol *)ptr;
-	initMenuItems(proto);
-
-	return 0;
-}
-
-static int tlenProtoUninit( TlenProtocol* ppro )
+static int tlenProtoUninit(TlenProtocol* ppro)
 {
 	delete ppro;
 	return 0;

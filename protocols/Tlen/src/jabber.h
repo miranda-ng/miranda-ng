@@ -266,10 +266,42 @@ struct TlenProtocol : public PROTO<TlenProtocol>
 
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
 
+	//====================================================================================
+	// Services
 
+	INT_PTR __cdecl GetName(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl GetAvatarInfo(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl SendAlert(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl GetAvatarCaps(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl SetMyAvatar(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl GetMyAvatar(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl GetStatus(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl AccMgrUI(WPARAM wParam, LPARAM lParam);
 
+	INT_PTR __cdecl MUCMenuHandleChats(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl MUCMenuHandleMUC(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl MenuHandleInbox(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl ContactMenuHandleSendPicture(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl MUCContactMenuHandleMUC(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl VoiceContactMenuHandleVoice(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl ContactMenuHandleRequestAuth(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl ContactMenuHandleGrantAuth(WPARAM wParam, LPARAM lParam);
 
+	//====================================================================================
+	// Events 
 
+	int __cdecl OnModulesLoaded(WPARAM wParam, LPARAM lParam);
+	int __cdecl OptionsInit(WPARAM wParam, LPARAM lParam);
+	int __cdecl JabberDbSettingChanged(WPARAM wParam, LPARAM lParam);
+	int __cdecl JabberContactDeleted(WPARAM wParam, LPARAM lParam);
+	int __cdecl PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
+	int __cdecl PreShutdown(WPARAM wParam, LPARAM lParam);
+
+	int __cdecl UserInfoInit(WPARAM wParam, LPARAM lParam);
+
+	int __cdecl MUCHandleEvent(WPARAM wParam, LPARAM lParam);
+
+	//====================================================================================
 	HANDLE hNetlibUser;
 	HANDLE hFileNetlibUser;
 
@@ -285,12 +317,6 @@ struct TlenProtocol : public PROTO<TlenProtocol>
 	HGENMENU hMenuContactGrantAuth;
 	HGENMENU hMenuContactRequestAuth;
 	HGENMENU hMenuPicture;
-
-	HANDLE* hServices;
-	unsigned serviceNum;
-	HANDLE* hHooks;
-	unsigned hookNum;
-
 
 	int listsCount;
 	struct JABBER_LIST_ITEM_STRUCT *lists;
@@ -308,6 +334,7 @@ struct TlenProtocol : public PROTO<TlenProtocol>
 
 	CRITICAL_SECTION modeMsgMutex;
 
+	void initMenuItems();
 	HGENMENU hMenuRoot;
 
 	char *searchJID;
@@ -438,11 +465,8 @@ int JabberWsSend(TlenProtocol *proto, JABBER_SOCKET s, char *data, int datalen);
 int JabberWsRecv(TlenProtocol *proto, JABBER_SOCKET s, char *data, long datalen);
 int JabberWsSendAES(TlenProtocol *proto, char *data, int datalen, aes_context *aes_ctx, unsigned char *aes_iv);
 int JabberWsRecvAES(TlenProtocol *proto, char *data, long datalen, aes_context *aes_ctx, unsigned char *aes_iv);
+
 // jabber_util.cpp
-HANDLE HookEventObj_Ex(const char *name, TlenProtocol *proto, MIRANDAHOOKOBJ hook);
-HANDLE CreateServiceFunction_Ex(const char *name, TlenProtocol *proto, MIRANDASERVICEOBJ service);
-void UnhookEvents_Ex(TlenProtocol *proto);
-void DestroyServices_Ex(TlenProtocol *proto);
 void JabberSerialInit(TlenProtocol *proto);
 void JabberSerialUninit(TlenProtocol *proto);
 unsigned int JabberSerialNext(TlenProtocol *proto);
@@ -462,8 +486,6 @@ void TlenUrlDecode(char *str);
 char *TlenUrlEncode(const char *str);
 char *JabberTextEncode(const char *str);
 char *JabberTextDecode(const char *str);
-char *JabberBase64Encode(const char *buffer, int bufferLen);
-char *JabberBase64Decode(const char *buffer, int *resultLen);
 void TlenLogMessage(TlenProtocol *proto, HANDLE hContact, DWORD flags, const char *message);
 BOOL IsAuthorized(TlenProtocol *proto, const char *jid);
 //char *JabberGetVersionText();
