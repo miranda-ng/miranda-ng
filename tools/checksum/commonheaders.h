@@ -17,16 +17,16 @@
 
 
 /* Define the state of the MD5 Algorithm. */
-typedef unsigned char mir_md5_byte_t; /* 8-bit byte */
+typedef unsigned char BYTE; /* 8-bit byte */
 typedef unsigned int mir_md5_word_t; /* 32-bit word */
 
 typedef struct mir_md5_state_s {
 	mir_md5_word_t count[2];  /* message length in bits, lsw first */
 	mir_md5_word_t abcd[4];    /* digest buffer */
-	mir_md5_byte_t buf[64];    /* accumulate block */
+	BYTE buf[64];    /* accumulate block */
 } mir_md5_state_t;
 
 MIR_CORE_DLL(void) mir_md5_init(mir_md5_state_t *pms);
-MIR_CORE_DLL(void) mir_md5_append(mir_md5_state_t *pms, const mir_md5_byte_t *data, int nbytes);
-MIR_CORE_DLL(void) mir_md5_finish(mir_md5_state_t *pms, mir_md5_byte_t digest[16]);
-MIR_CORE_DLL(void) mir_md5_hash(const mir_md5_byte_t *data, int len, mir_md5_byte_t digest[16]);
+MIR_CORE_DLL(void) mir_md5_append(mir_md5_state_t *pms, const BYTE *data, int nbytes);
+MIR_CORE_DLL(void) mir_md5_finish(mir_md5_state_t *pms, BYTE digest[16]);
+MIR_CORE_DLL(void) mir_md5_hash(const BYTE *data, int len, BYTE digest[16]);

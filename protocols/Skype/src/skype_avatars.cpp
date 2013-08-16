@@ -4,7 +4,7 @@ bool CSkypeProto::IsAvatarChanged(const SEBinary &avatar, HANDLE hContact)
 {
 	bool result = false;
 
-	::mir_md5_byte_t digest[16];
+	BYTE digest[16];
 	::mir_md5_hash((PBYTE)avatar.data(), (int)avatar.size(), digest);
 
 	DBVARIANT dbv;

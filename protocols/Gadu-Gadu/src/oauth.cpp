@@ -229,7 +229,7 @@ char *oauth_generate_nonce()
 	strcpy(str, timestamp);
 	strcat(str, randnum);
 
-	mir_md5_byte_t digest[16];
+	BYTE digest[16];
 	mir_md5_hash((BYTE*)(char*)str, (int)strlen(str), digest);
 	return bin2hex(digest, sizeof(digest), (char *)mir_alloc(32 + 1));
 }

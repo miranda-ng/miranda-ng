@@ -196,11 +196,11 @@ BYTE* calcMD5HashOfFile(const TCHAR *tszFile)
 		{
 			long cbFileSize = GetFileSize(hFile, NULL);
 
-			res = (BYTE*)SAFE_MALLOC(16 * sizeof(mir_md5_byte_t));
+			res = (BYTE*)SAFE_MALLOC(16 * sizeof(BYTE));
 			if (cbFileSize != 0 && res)
 			{
 				mir_md5_state_t state;
-				mir_md5_byte_t digest[16];
+				BYTE digest[16];
 				int dwOffset = 0;
 
 				mir_md5_init(&state);
@@ -211,12 +211,12 @@ BYTE* calcMD5HashOfFile(const TCHAR *tszFile)
 
 					if (!(ppMap = (BYTE*)MapViewOfFile(hMap, FILE_MAP_READ, 0, dwOffset, dwBlockSize)))
 						break;
-					mir_md5_append(&state, (const mir_md5_byte_t *)ppMap, dwBlockSize);
+					mir_md5_append(&state, (const BYTE *)ppMap, dwBlockSize);
 					UnmapViewOfFile(ppMap);
 					dwOffset += dwBlockSize;
 				}
 				mir_md5_finish(&state, digest);
-				memcpy(res, digest, 16 * sizeof(mir_md5_byte_t));
+				memcpy(res, digest, 16 * sizeof(BYTE));
 			}
 		}
 
@@ -1593,10 +1593,10 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 					if (pCookieData->hashlen == 0x14 && pCookieData->hash[3] == 0x10 && ppro->getByte("StrictAvatarCheck", DEFAULT_AVATARS_CHECK))
 					{ // check only standard hashes
 						mir_md5_state_t state;
-						mir_md5_byte_t digest[16];
+						BYTE digest[16];
 
 						mir_md5_init(&state);
-						mir_md5_append(&state, (const mir_md5_byte_t *)pBuffer, datalen);
+						mir_md5_append(&state, (const BYTE *)pBuffer, datalen);
 						mir_md5_finish(&state, digest);
 						// check if received data corresponds to specified hash
 						if (memcmp(pCookieData->hash+4, digest, 0x10)) aValid = 0;

@@ -603,6 +603,8 @@ function mir_base64_decode(str:pAnsiChar; var resultSize:int):PByte; stdcall;
                external CoreDLL name 'mir_base64_decode';
 function mir_base64_encode(data:PByte; dataSize:int):pAnsiChar; stdcall;
                external CoreDLL name 'mir_base64_encode';
+function mir_base64_encodebuf(data:PByte; dataSize:int; output:pAnsiChar; outputLen:int):pAnsiChar; stdcall;
+               external CoreDLL name 'mir_base64_encodebuf';
 
 function rtrim(str:pAnsiChar):pAnsiChar; stdcall;
                external CoreDLL name 'rtrim';

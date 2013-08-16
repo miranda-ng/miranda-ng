@@ -43,7 +43,7 @@ static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, PBYTE pBase)
 		PatchResourceEntry(pIRDE, pBase);
 }
 
-int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
+int PEChecksum( TCHAR *filename, BYTE digest[16] )
 {
 	HANDLE hFile = INVALID_HANDLE_VALUE;
 	HANDLE hMap;
@@ -364,7 +364,7 @@ int PEChecksum( TCHAR *filename, mir_md5_byte_t digest[16] )
 						if ( debug )
 						{
 							int i;
-							mir_md5_byte_t digest2[16];
+							BYTE digest2[16];
 							mir_md5_state_t pms2;
 
 							mir_md5_init( &pms2 );
@@ -423,7 +423,7 @@ TCHAR* trtrim( TCHAR *str )
 int process(TCHAR *filename)
 {
 	int res;
-	mir_md5_byte_t digest[16] = {0};
+	BYTE digest[16] = {0};
 
 	res = PEChecksum( filename,  digest);
 

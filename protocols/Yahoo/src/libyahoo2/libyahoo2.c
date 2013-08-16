@@ -2397,7 +2397,7 @@ static void yahoo_process_auth_0x0f(struct yahoo_input_data *yid, const char *se
 	char *response = NULL;
 	char url[1024];
 	char *c, *t;
-	mir_md5_byte_t result[16];
+	BYTE result[16];
 	mir_md5_state_t ctx;
 	unsigned char *magic_hash = (unsigned char*) malloc(50); /* this one is like 26 bytes? */
 	int i;
@@ -2657,8 +2657,8 @@ LBL_FAILED:
 	*/
 	mir_md5_init(&ctx);
 
-	mir_md5_append(&ctx, (mir_md5_byte_t *)crumb,  strlen(crumb));
-	mir_md5_append(&ctx, (mir_md5_byte_t *)seed,  strlen(seed));
+	mir_md5_append(&ctx, (BYTE *)crumb,  strlen(crumb));
+	mir_md5_append(&ctx, (BYTE *)seed,  strlen(seed));
 	mir_md5_finish(&ctx, result);
 	
 	to_y64(magic_hash, result, 16);
@@ -6477,17 +6477,17 @@ char *yahoo_ft7dc_send(int id, const char *buddy, YList *files)
 	struct yahoo_packet *pkt = NULL;
 	char ft_token[32]; // we only need 23 chars actually
 	YList *l=files;
-	mir_md5_byte_t result[16];
+	BYTE result[16];
 	mir_md5_state_t ctx;
 
 	if (!yid)
 		return NULL;
 
 	mir_md5_init(&ctx);
-	mir_md5_append(&ctx, (mir_md5_byte_t *)buddy, strlen(buddy));
+	mir_md5_append(&ctx, (BYTE *)buddy, strlen(buddy));
 	
 	snprintf(ft_token, 32, "%lu", time(NULL));
-	mir_md5_append(&ctx, (mir_md5_byte_t *)ft_token, strlen(ft_token));
+	mir_md5_append(&ctx, (BYTE *)ft_token, strlen(ft_token));
 	mir_md5_finish(&ctx, result);
 	to_y64((unsigned char *)ft_token, result, 16);
 	

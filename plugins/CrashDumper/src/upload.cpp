@@ -52,7 +52,7 @@ void GetLoginStr(char* user, size_t szuser, char* pass)
 	{
 		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM)dbv.pszVal);
 
-		mir_md5_byte_t hash[16];
+		BYTE hash[16];
 		mir_md5_state_t context;
 
 		mir_md5_init(&context);
@@ -251,7 +251,7 @@ bool ProcessVIHash(bool store)
 	buffer.reserve(0x1800);
 	PrintVersionInfo(buffer, 0);
 
-	mir_md5_byte_t hash[16];
+	BYTE hash[16];
 	mir_md5_state_t context;
 
 	mir_md5_init(&context);

@@ -230,3 +230,4 @@ mir_writeLogVW                @227
 bin2hex                       @228
 bin2hexW                      @229
 mir_hmac_sha1                 @230
+mir_base64_encodebuf          @231

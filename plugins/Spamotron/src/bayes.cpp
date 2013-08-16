@@ -97,9 +97,9 @@ int OpenBayes()
 	return 0;
 }
 
-char *tokenhash(const char *token, mir_md5_byte_t *digest)
+char *tokenhash(const char *token, BYTE *digest)
 {
-	mir_md5_hash((mir_md5_byte_t *)token, (int)strlen(token), digest);
+	mir_md5_hash((BYTE *)token, (int)strlen(token), digest);
 	return (char*)digest;
 }
 
@@ -161,7 +161,7 @@ int get_token_score(int type, char *token)
 {
 	char sql[200];
 	int score = 0;
-	mir_md5_byte_t digest[16];
+	BYTE digest[16];
 	sqlite3_stmt *stmt;
 
 	if (bayesdb == NULL)
@@ -310,7 +310,7 @@ void dequeue_messages()
 void learn(int type, TCHAR *msg)
 {
 	char *tok, *message;
-	mir_md5_byte_t digest[16];
+	BYTE digest[16];
 	char sql_select[200], sql_update[200], sql_insert[200], sql_counter[200];
 	sqlite3_stmt *stmt;
 #ifdef _DEBUG

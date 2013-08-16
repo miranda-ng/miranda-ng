@@ -34,7 +34,7 @@ void CSkypeProto::UpdateProfileAvatar(SEObject *obj, HANDLE hContact)
 				}
 				else
 				{
-					::mir_md5_byte_t digest[16];
+					BYTE digest[16];
 					::mir_md5_hash((BYTE*)data.data(), (int)data.size(), digest);
 					::db_set_blob(hContact, this->m_szModuleName, "AvatarHash", digest, 16);
 
