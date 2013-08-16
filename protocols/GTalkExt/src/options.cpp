@@ -31,15 +31,10 @@ static const LPTSTR NETWORK_OPTIONS_GROUP = LPGENT("Network");
 
 static const LPSTR NOTIFY_SETTINGS_FROM_MOD_NAME = SHORT_PLUGIN_NAME ".NotifySettingsFromModName";
 
-static const LPTSTR TEST_LETTER_SUBJECT = _T("Why C sucks");
-static const LPTSTR TEST_LETTER_INBOX = _T("brickstrace@gmail.com [1]");
-static const LPTSTR TEST_LETTER_SENDER = _T("    bems <bems@vingrad.ru>\n");
-static const LPTSTR TEST_LETTER_SNIP =
-	LPGENT("* Primitive type system\n")
-	LPGENT("* No overloading\n")
-	LPGENT("* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n")
-	LPGENT("* No metaprogramming except preprocessor macros\n")
-	LPGENT("* No exceptions");
+static const LPTSTR TEST_LETTER_SUBJECT = LPGENT("Why C sucks");
+static const LPTSTR TEST_LETTER_INBOX = LPGENT("brickstrace@gmail.com [1]");
+static const LPTSTR TEST_LETTER_SENDER = LPGENT("    bems <bems@vingrad.ru>\n");
+static const LPTSTR TEST_LETTER_SNIP = LPGENT("* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions");
 
 extern HINSTANCE g_hInst;
 
@@ -140,14 +135,13 @@ INT_PTR CALLBACK AccOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lPa
 void ShowTestPopup(HWND wnd)
 {
 	POPUPDATAT data = {0};
-	mir_sntprintf(&data.lptzContactName[0], SIZEOF(data.lptzContactName), TEST_LETTER_INBOX);
-	mir_sntprintf(&data.lptzText[0], SIZEOF(data.lptzText), TranslateTS(FULL_NOTIFICATION_FORMAT),
-		TEST_LETTER_SUBJECT, TEST_LETTER_SENDER, TEST_LETTER_SNIP);
+	mir_sntprintf(data.lptzContactName, MAX_CONTACTNAME, TEST_LETTER_INBOX);
+	mir_sntprintf(data.lptzText, MAX_SECONDLINE, TranslateTS(FULL_NOTIFICATION_FORMAT), TranslateTS(TEST_LETTER_SUBJECT), TranslateTS(TEST_LETTER_SENDER), TranslateTS(TEST_LETTER_SNIP));
 
-	int len = SendMessage(GetDlgItem(wnd, IDC_TIMEOUTEDIT), WM_GETTEXTLENGTH, 0, 0) + 1;
+	int len = SendDlgItemMessage(wnd, IDC_TIMEOUTEDIT, WM_GETTEXTLENGTH, 0, 0) + 1;
 	LPTSTR timeout = (LPTSTR)malloc(len * sizeof(TCHAR));
 	__try {
-		SendMessage(GetDlgItem(wnd, IDC_TIMEOUTEDIT), WM_GETTEXT, len, (LPARAM)timeout);
+		GetDlgItemText(wnd, IDC_TIMEOUTEDIT, timeout, len);
 		data.iSeconds = _ttoi(timeout);
 	}
 	__finally {
@@ -156,13 +150,13 @@ void ShowTestPopup(HWND wnd)
 
 	extern HICON g_hPopupIcon;
 	data.lchIcon = g_hPopupIcon;
-	data.colorBack = (COLORREF)SendMessage(GetDlgItem(wnd, IDC_BACKCOLORPICKER), CPM_GETCOLOUR, 0, 0);
-	data.colorText = (COLORREF)SendMessage(GetDlgItem(wnd, IDC_TEXTCOLORPICKER), CPM_GETCOLOUR, 0, 0);
+	data.colorBack = (COLORREF)SendDlgItemMessage(wnd, IDC_BACKCOLORPICKER, CPM_GETCOLOUR, 0, 0);
+	data.colorText = (COLORREF)SendDlgItemMessage(wnd, IDC_TEXTCOLORPICKER, CPM_GETCOLOUR, 0, 0);
 	if (data.colorBack == data.colorText) {
 		data.colorBack = 0;
 		data.colorText = 0;
 	}
-	CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&data, 0);
+	PUAddPopupT(&data);
 }
 
 INT_PTR CALLBACK PopupsOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -170,15 +164,13 @@ INT_PTR CALLBACK PopupsOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(wnd);
-		SendMessage(GetDlgItem(wnd, IDC_BACKCOLORPICKER), CPM_SETCOLOUR, 0,
-			(LPARAM)db_get_dw(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING, 0));
-		SendMessage(GetDlgItem(wnd, IDC_TEXTCOLORPICKER), CPM_SETCOLOUR, 0,
-			(LPARAM)db_get_dw(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING, 0));
+		SendDlgItemMessage(wnd, IDC_BACKCOLORPICKER, CPM_SETCOLOUR, 0, (LPARAM)db_get_dw(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING, 0));
+		SendDlgItemMessage(wnd, IDC_TEXTCOLORPICKER, CPM_SETCOLOUR, 0, (LPARAM)db_get_dw(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING, 0));
 		{
 			LPTSTR timeout = (LPTSTR)malloc(11 * sizeof(TCHAR));
 			__try {
-				mir_sntprintf(timeout, 11, _T("%d"), db_get_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, 0));
-				SendMessage(GetDlgItem(wnd, IDC_TIMEOUTEDIT), WM_SETTEXT, 0, (LPARAM)timeout);
+				wsprintf(timeout, _T("%d"), db_get_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, 0));
+				SetDlgItemText(wnd, IDC_TIMEOUTEDIT, timeout);
 			}
 			__finally {
 				free(timeout);
@@ -206,15 +198,13 @@ INT_PTR CALLBACK PopupsOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_NOTIFY:
 		if (!((LPNMHDR)lParam)->idFrom  && ((LPNMHDR)lParam)->code == PSN_APPLY)
-			db_set_dw(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING,
-			(DWORD)SendMessage(GetDlgItem(wnd, IDC_BACKCOLORPICKER), CPM_GETCOLOUR, 0, 0));
-		db_set_dw(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING,
-			(DWORD)SendMessage(GetDlgItem(wnd, IDC_TEXTCOLORPICKER), CPM_GETCOLOUR, 0, 0));
+			db_set_dw(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING, (DWORD)SendDlgItemMessage(wnd, IDC_BACKCOLORPICKER, CPM_GETCOLOUR, 0, 0));
+		db_set_dw(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING, (DWORD)SendDlgItemMessage(wnd, IDC_TEXTCOLORPICKER, CPM_GETCOLOUR, 0, 0));
 
 		int len = SendMessage(GetDlgItem(wnd, IDC_TIMEOUTEDIT), WM_GETTEXTLENGTH, 0, 0) + 1;
 		LPTSTR timeout = (LPTSTR)malloc(len * sizeof(TCHAR));
 		__try {
-			SendMessage(GetDlgItem(wnd, IDC_TIMEOUTEDIT), WM_GETTEXT, len, (LPARAM)timeout);
+			GetDlgItemText(wnd, IDC_TIMEOUTEDIT, timeout, len);
 			db_set_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, _ttoi(timeout));
 		}
 		__finally {
@@ -258,7 +248,7 @@ int OptionsInitialization(WPARAM wParam, LPARAM lParam)
 {
 	int count;
 	PROTOACCOUNT **accs;
-	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&count, (LPARAM)&accs);
+	ProtoEnumAccounts(&count, &accs);
 	for (int i = 0; i < count; i++) {
 		IJabberInterface *ji = IsGoogleAccount(accs[i]->szModuleName);
 		if (ji)
