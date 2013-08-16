@@ -147,10 +147,10 @@ ezxml_t ezxml_err(ezxml_root_t root, char *s, const char *err, ...)
     char *t, fmt[EZXML_ERRL];
     
     for (t = root->s; t < s; t++) if (*t == '\n') line++;
-    _snprintf(fmt, EZXML_ERRL, "[error near line %d]: %s", line, err);
+    mir_snprintf(fmt, EZXML_ERRL, "[error near line %d]: %s", line, err);
 
     va_start(ap, err);
-    _vsnprintf(root->err, EZXML_ERRL, fmt, ap);
+    mir_vsnprintf(root->err, EZXML_ERRL, fmt, ap);
     va_end(ap);
 
     return &root->xml;
@@ -639,13 +639,13 @@ char *ezxml_ampencode(const char *s, size_t len, char **dst, size_t *dlen,
 
         switch (*s) {
         case '\0': return *dst;
-        case '&': *dlen += sprintf(*dst + *dlen, "&amp;"); break;
-        case '<': *dlen += sprintf(*dst + *dlen, "&lt;"); break;
-        case '>': *dlen += sprintf(*dst + *dlen, "&gt;"); break;
-        case '"': *dlen += sprintf(*dst + *dlen, (a) ? "&quot;" : "\""); break;
-//        case '\n': *dlen += sprintf(*dst + *dlen, (a) ? "&#xA;" : "\n"); break;
-        case '\t': *dlen += sprintf(*dst + *dlen, (a) ? "&#x9;" : "\t"); break;
-//        case '\r': *dlen += sprintf(*dst + *dlen, "&#xD;"); break;
+        case '&': *dlen += sprintf(*dst + *dlen, "&amp;"); break; //!!!!!!!!!!!!!!
+        case '<': *dlen += sprintf(*dst + *dlen, "&lt;"); break; //!!!!!!!!!!!!!!
+        case '>': *dlen += sprintf(*dst + *dlen, "&gt;"); break; //!!!!!!!!!!!!!!
+        case '"': *dlen += sprintf(*dst + *dlen, (a) ? "&quot;" : "\""); break; //!!!!!!!!!!!!!!
+//        case '\n': *dlen += sprintf(*dst + *dlen, (a) ? "&#xA;" : "\n"); break; //!!!!!!!!!!!!!!
+        case '\t': *dlen += sprintf(*dst + *dlen, (a) ? "&#x9;" : "\t"); break; //!!!!!!!!!!!!!!
+//        case '\r': *dlen += sprintf(*dst + *dlen, "&#xD;"); break; //!!!!!!!!!!!!!!
         default: (*dst)[(*dlen)++] = *s;
         }
     }
@@ -668,15 +668,15 @@ char *ezxml_toxml_r(ezxml_t xml, char **s, size_t *len, size_t *max,
     while (*len + strlen(xml->name) + 4 > *max) // reallocate s
         *s = realloc(*s, *max += EZXML_BUFSIZE);
 
-    *len += sprintf(*s + *len, "<%s", xml->name); // open tag
+    *len += sprintf(*s + *len, "<%s", xml->name); // open tag //!!!!!!!!!!!!!!
     for (i = 0; xml->attr[i]; i += 2) { // tag attributes
         if (ezxml_attr(xml, xml->attr[i]) != xml->attr[i + 1]) continue;
         while (*len + strlen(xml->attr[i]) + 7 > *max) // reallocate s
             *s = realloc(*s, *max += EZXML_BUFSIZE);
 
-        *len += sprintf(*s + *len, " %s=\"", xml->attr[i]);
+        *len += sprintf(*s + *len, " %s=\"", xml->attr[i]); //!!!!!!!!!!!!!!
         ezxml_ampencode(xml->attr[i + 1], SIZE_MAX, s, len, max, 1);
-        *len += sprintf(*s + *len, "\"");
+        *len += sprintf(*s + *len, "\""); //!!!!!!!!!!!!!!
     }
 
     for (i = 0; attr[i] && strcmp(attr[i][0], xml->name); i++);
@@ -686,15 +686,15 @@ char *ezxml_toxml_r(ezxml_t xml, char **s, size_t *len, size_t *max,
         while (*len + strlen(attr[i][j]) + 7 > *max) // reallocate s
             *s = realloc(*s, *max += EZXML_BUFSIZE);
 
-        *len += sprintf(*s + *len, " %s=\"", attr[i][j]);
+        *len += sprintf(*s + *len, " %s=\"", attr[i][j]); //!!!!!!!!!!!!!!
         ezxml_ampencode(attr[i][j + 1], SIZE_MAX, s, len, max, 1);
-        *len += sprintf(*s + *len, "\"");
+        *len += sprintf(*s + *len, "\""); //!!!!!!!!!!!!!!
     }
 	if (xml->attr != EZXML_NIL && xml->child == NULL && xml->txt[0] == 0)
-		*len += sprintf(*s + *len, "/>");
+		*len += sprintf(*s + *len, "/>"); //!!!!!!!!!!!!!!
 	else
 	{
-		*len += sprintf(*s + *len, ">");
+		*len += sprintf(*s + *len, ">"); //!!!!!!!!!!!!!!
 
 		*s = (xml->child) ? ezxml_toxml_r(xml->child, s, len, max, 0, attr) //child
 						  : ezxml_ampencode(xml->txt, SIZE_MAX, s, len, max, 0);  //data
@@ -702,7 +702,7 @@ char *ezxml_toxml_r(ezxml_t xml, char **s, size_t *len, size_t *max,
 		while (*len + strlen(xml->name) + 4 > *max) // reallocate s
 			*s = realloc(*s, *max += EZXML_BUFSIZE);
 
-		*len += sprintf(*s + *len, "</%s>", xml->name); // close tag
+		*len += sprintf(*s + *len, "</%s>", xml->name); // close tag //!!!!!!!!!!!!!!
 	}
 
     while (txt[off] && off < xml->off) off++; // make sure off is within bounds
@@ -732,7 +732,7 @@ char *ezxml_toxml(ezxml_t xml, int addhdr)
             if (root->pi[i][k][j - 1] == '>') continue; // not pre-root
             while (len + strlen(t = root->pi[i][0]) + strlen(n) + 7 > max)
                 s = realloc(s, max += EZXML_BUFSIZE);
-            len += sprintf(s + len, "<?%s%s%s?>\n", t, *n ? " " : "", n);
+            len += sprintf(s + len, "<?%s%s%s?>\n", t, *n ? " " : "", n); //!!!!!!!!!!!!!!
         }
     }
 
@@ -747,7 +747,7 @@ char *ezxml_toxml(ezxml_t xml, int addhdr)
             if (root->pi[i][k][j - 1] == '<') continue; // not post-root
             while (len + strlen(t = root->pi[i][0]) + strlen(n) + 7 > max)
                 s = realloc(s, max += EZXML_BUFSIZE);
-            len += sprintf(s + len, "\n<?%s%s%s?>", t, *n ? " " : "", n);
+            len += sprintf(s + len, "\n<?%s%s%s?>", t, *n ? " " : "", n); //!!!!!!!!!!!!!!
         }
     }
     return realloc(s, len + 1);

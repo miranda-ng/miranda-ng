@@ -82,7 +82,7 @@ static void SetAvatar(TlenProtocol *proto, HANDLE hContact, JABBER_LIST_ITEM *it
 	mir_md5_append( &ctx, ( BYTE* )data, len);
 	mir_md5_finish( &ctx, ( BYTE* )digest );
 
-	sprintf( md5, "%08x%08x%08x%08x", (int)htonl(digest[0]), (int)htonl(digest[1]), (int)htonl(digest[2]), (int)htonl(digest[3]));
+	sprintf( md5, "%08x%08x%08x%08x", (int)htonl(digest[0]), (int)htonl(digest[1]), (int)htonl(digest[2]), (int)htonl(digest[3])); //!!!!!!!!!!!!!!
 	if (item != NULL) {
 		char *hash = item->avatarHash;
 		item->avatarFormat = format;

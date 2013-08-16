@@ -137,7 +137,7 @@ Xfire_icon_cache Xfire_icon_mng::LoadGameIcon(unsigned int gameid) {
 	if(hIconDll) {
 		char resourcename[255]="";
 		//kurznamen des spiels uppercasen und .ICO anhängen
-		sprintf_s(resourcename,255,"XF_%s.ICO",shortname);
+		mir_snprintf(resourcename,255,"XF_%s.ICO",shortname);
 		Xfire_base::strtoupper(resourcename);
 
 		//versuche die resource zufinden

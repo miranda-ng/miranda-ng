@@ -727,15 +727,6 @@ public:
 
 	static int __stdcall GetFormattedLength(LPCSTR pszFormat, va_list args);
 
-	static int __stdcall Format(LPSTR pszBuffer, LPCSTR pszFormat, va_list args)
-	{
-#pragma warning (push)
-#pragma warning(disable : 4996)
-		return vsprintf(pszBuffer, pszFormat, args);
-#pragma warning (pop)
-
-	}
-
 	static int __stdcall Format(LPSTR pszBuffer, size_t nlength, LPCSTR pszFormat, va_list args);
 
 	static int __stdcall GetBaseTypeLength(LPCSTR pszSrc)
@@ -979,7 +970,7 @@ public:
 	{
 #pragma warning (push)
 #pragma warning(disable : 4996)
-		return vswprintf(pszBuffer, pszFormat, args);
+		return vswprintf(pszBuffer, pszFormat, args); //!!!!!!!!!
 #pragma warning (pop)
 	}
 

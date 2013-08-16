@@ -831,7 +831,7 @@ HANDLE __cdecl TlenProtocol::SendFile(HANDLE hContact, const PROTOCHAR* szDescri
 	db_free(&dbv);
 
 	id = JabberSerialNext(this);
-	_snprintf(idStr, sizeof(idStr), "%d", id);
+	mir_snprintf(idStr, sizeof(idStr), "%d", id);
 	if ((item=JabberListAdd(this, LIST_FILE, idStr)) != NULL) {
 		ft->iqId = mir_strdup(idStr);
 		nick = JabberNickFromJID(ft->jid);
@@ -1237,28 +1237,28 @@ void TlenInitServicesVTbl(TlenProtocol *proto) {
 
 	char s[128];
 
-	sprintf(s, "%s%s", proto->m_szModuleName, PS_GETNAME);
+	mir_snprintf(s, SIZEOF(s), "%s%s", proto->m_szModuleName, PS_GETNAME);
 	CreateServiceFunction_Ex(s, proto, TlenGetName);
 
-	sprintf(s, "%s%s", proto->m_szModuleName, PS_GETAVATARINFO);
+	mir_snprintf(s, SIZEOF(s), "%s%s", proto->m_szModuleName, PS_GETAVATARINFO);
 	CreateServiceFunction_Ex(s, proto, TlenGetAvatarInfo);
 
-	sprintf(s, "%s%s", proto->m_szModuleName, PS_SEND_NUDGE);
+	mir_snprintf(s, SIZEOF(s), "%s%s", proto->m_szModuleName, PS_SEND_NUDGE);
 	CreateServiceFunction_Ex(s, proto, TlenSendAlert);
 
-	sprintf(s, "%s%s", proto->m_szModuleName, PS_GETAVATARCAPS);
+	mir_snprintf(s, SIZEOF(s), "%s%s", proto->m_szModuleName, PS_GETAVATARCAPS);
 	CreateServiceFunction_Ex(s, proto, TlenGetAvatarCaps);
 
-	sprintf(s, "%s%s", proto->m_szModuleName, PS_SETMYAVATART);
+	mir_snprintf(s, SIZEOF(s), "%s%s", proto->m_szModuleName, PS_SETMYAVATART);
 	CreateServiceFunction_Ex(s, proto, TlenSetMyAvatar);
 
-	sprintf(s, "%s%s", proto->m_szModuleName, PS_GETMYAVATART);
+	mir_snprintf(s, SIZEOF(s), "%s%s", proto->m_szModuleName, PS_GETMYAVATART);
 	CreateServiceFunction_Ex(s, proto, TlenGetMyAvatar);
 
-	sprintf(s, "%s%s", proto->m_szModuleName, PS_GETSTATUS);
+	mir_snprintf(s, SIZEOF(s), "%s%s", proto->m_szModuleName, PS_GETSTATUS);
 	CreateServiceFunction_Ex(s, proto, TlenGetStatus);
 
-	sprintf(s, "%s%s", proto->m_szModuleName, PS_CREATEACCMGRUI);
+	mir_snprintf(s, SIZEOF(s), "%s%s", proto->m_szModuleName, PS_CREATEACCMGRUI);
 	CreateServiceFunction_Ex(s, proto, TlenAccMgrUI);
 
 }
@@ -1272,7 +1272,7 @@ TlenProtocol::TlenProtocol( const char *aProtoName, const TCHAR *aUserName) :
 	InitializeCriticalSection(&csSend);
 
 	char text[_MAX_PATH];
-	sprintf(text, "%s/%s", m_szModuleName, "Nudge");
+	mir_snprintf(text, SIZEOF(text), "%s/%s", m_szModuleName, "Nudge");
 	hTlenNudge = CreateProtoEvent(text);
 
 	HookEventObj_Ex(ME_SYSTEM_MODULESLOADED, this, TlenSystemModulesLoaded);

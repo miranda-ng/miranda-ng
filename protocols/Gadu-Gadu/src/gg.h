@@ -88,8 +88,6 @@
 
 // Visual C++ extras
 #ifdef _MSC_VER
-#define vsnprintf _vsnprintf
-#define snprintf _snprintf
 #define GGINLINE
 #else
 #define GGINLINE inline

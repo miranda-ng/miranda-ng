@@ -13,12 +13,6 @@
 #ifndef _YAHOO_YAHOO_H_
 #define _YAHOO_YAHOO_H_
 
-#define MIRANDA_VER 0x0A00
-
-#ifdef _MSC_VER
-	#define snprintf  _snprintf
-#endif
-
 #include <windows.h>
 #include <shlwapi.h>
 

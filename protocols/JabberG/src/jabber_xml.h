@@ -358,7 +358,7 @@ public:
 
 		va_list args;
 		va_start(args, path);
-		_vsntprintf(m_buf, BUFSIZE, path, args);
+		mir_vsntprintf(m_buf, BUFSIZE, path, args);
 		m_buf[BUFSIZE-1] = 0;
 		va_end(args);
 	}
@@ -370,7 +370,7 @@ public:
 
 		va_list args;
 		va_start(args, path);
-		_vsnprintf(buf, BUFSIZE, path, args);
+		mir_vsnprintf(buf, BUFSIZE, path, args);
 		buf[BUFSIZE-1] = 0;
 		MultiByteToWideChar(CP_ACP, 0, buf, -1, m_buf, BUFSIZE);
 		va_end(args);

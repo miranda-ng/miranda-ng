@@ -42,9 +42,9 @@ extern HANDLE hNetlib;
 	for(int i=0;i<size;i++)
 	{
 		if(i%16==0&&i!=0)
-			sprintf(buffer,"%s\n%02x ",buffer,buf[i]);
+			mir_snprintf(buffer, SIZEOF(buffer), "%s\n%02x ", buffer, buf[i]);
 		else
-			sprintf(buffer,"%s%02x ",buffer,buf[i]);
+			mir_snprintf(buffer, SIZEOF(buffer), "%s%02x ", buffer, buf[i]);
 	}
 
 	return buffer;

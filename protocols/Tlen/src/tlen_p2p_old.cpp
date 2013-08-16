@@ -164,7 +164,7 @@ void TlenP2PEstablishOutgoingConnection(TLEN_FILE_TRANSFER *ft, BOOL sendAck)
 		TlenP2PPacketSetType(packet, TLEN_FILE_PACKET_CONNECTION_REQUEST);
 		TlenP2PPacketPackDword(packet, 1);
 		TlenP2PPacketPackDword(packet, (DWORD) atoi(ft->iqId));
-		_snprintf(str, sizeof(str), "%08X%s%d", atoi(ft->iqId), proto->threadData->username, atoi(ft->iqId));
+		mir_snprintf(str, sizeof(str), "%08X%s%d", atoi(ft->iqId), proto->threadData->username, atoi(ft->iqId));
 		hash = TlenSha1(str, (int)strlen(str));
 		TlenP2PPacketPackBuffer(packet, hash, 20);
 		mir_free(hash);
@@ -208,12 +208,12 @@ TLEN_FILE_TRANSFER* TlenP2PEstablishIncomingConnection(TlenProtocol *proto, JABB
 	i = 0;
 	while ((i=JabberListFindNext(proto, list, i)) >= 0) {
 		if ((item=JabberListGetItemPtrFromIndex(proto, i)) != NULL) {
-			_snprintf(str, sizeof(str), "%d", iqId);
+			mir_snprintf(str, sizeof(str), "%d", iqId);
 			if (!strcmp(item->ft->iqId, str)) {
 				char *hash, *nick;
 				int j;
 				nick = JabberNickFromJID(item->ft->jid);
-				_snprintf(str, sizeof(str), "%08X%s%d", iqId, nick, iqId);
+				mir_snprintf(str, sizeof(str), "%08X%s%d", iqId, nick, iqId);
 				mir_free(nick);
 				hash = TlenSha1(str, (int)strlen(str));
 				for (j=0;j<20;j++) {

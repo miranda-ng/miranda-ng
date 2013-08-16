@@ -6,7 +6,7 @@
 
 CNilMStringData CMBaseString::m_nil;
 
-CMStringData* CMBaseString::Allocate( int nChars, int nCharSize )
+CMStringData* CMBaseString::Allocate(int nChars, int nCharSize)
 {
 	CMStringData* pData;
 	nChars++; // nil char
@@ -75,7 +75,7 @@ bool CMStringData::IsShared() const
 void CMStringData::Lock()
 {
 	nRefs--;  // Locked buffers can't be shared, so no interlocked operation necessary
-	if ( nRefs == 0 )
+	if (nRefs == 0)
 		nRefs = -1;
 }
 
@@ -107,67 +107,14 @@ CNilMStringData::CNilMStringData()
 /////////////////////////////////////////////////////////////////////////////////////////
 // ChTraitsCRT<wchar_t>
 
-#if _MSC_VER < 1400
-static HINSTANCE hCrt = NULL;
-
-typedef int ( __cdecl *_vscprintf_func )( LPCSTR pszFormat, va_list args );
-static _vscprintf_func _vscprintf_ptr = NULL;
-
-typedef int ( __cdecl *_vscwprintf_func )( LPCWSTR pszFormat, va_list args );
-static _vscwprintf_func _vscwprintf_ptr = NULL;
-
-typedef int ( __cdecl *_vsnprintf_func )( char*, size_t, const char*, va_list );
-static _vsnprintf_func _vsnprintf_ptr = NULL;
-
-typedef int ( __cdecl *_vsnwprintf_func )( wchar_t *, size_t, const wchar_t *, va_list );
-static _vsnwprintf_func _vsnwprintf_ptr = NULL;
-
-typedef int ( __cdecl *vswprintf_func )( wchar_t *, size_t, const wchar_t *, va_list );
-static vswprintf_func vswprintf_ptr = NULL;
-
-typedef int ( __cdecl *vsprintf_func )( char*, size_t, const char*, va_list );
-static vsprintf_func vsprintf_ptr = NULL;
-
-static void checkCrt( void )
-{
-	if ( hCrt == NULL ) {
-		hCrt = GetModuleHandleA( "msvcrt.dll" );
-		_vscprintf_ptr = (_vscprintf_func)GetProcAddress( hCrt, "_vscprintf" );
-		_vscwprintf_ptr = (_vscwprintf_func)GetProcAddress( hCrt, "_vscwprintf" );
-		_vsnprintf_ptr = (_vsnprintf_func)GetProcAddress( hCrt, "_vsnprintf" );
-		_vsnwprintf_ptr = (_vsnwprintf_func)GetProcAddress( hCrt, "_vsnwprintf" );
-		vswprintf_ptr = (vswprintf_func)GetProcAddress( hCrt, "vswprintf" );
-		vsprintf_ptr = (vsprintf_func)GetProcAddress( hCrt, "vsprintf" );
-}	}
-#endif
-
 int __stdcall ChTraitsCRT<wchar_t>::GetFormattedLength( LPCWSTR pszFormat, va_list args )
 {
-	#if _MSC_VER < 1400
-		checkCrt();
-
-		if ( _vscwprintf_ptr != NULL )
-			return _vscwprintf_ptr( pszFormat, args );
-
-		WCHAR buf[ 4000 ];
-		return vswprintf_ptr( buf, SIZEOF(buf), pszFormat, args );
-	#else
-		return _vscwprintf( pszFormat, args );
-	#endif
+	return _vscwprintf(pszFormat, args);
 }
 
 int __stdcall ChTraitsCRT<wchar_t>::Format( LPWSTR pszBuffer, size_t nLength, LPCWSTR pszFormat, va_list args)
 {
-	#if _MSC_VER < 1400
-		checkCrt();
-
-		if ( _vsnwprintf_ptr != NULL )
-			return _vsnwprintf_ptr( pszBuffer, nLength, pszFormat, args );
-
-		return vswprintf_ptr( pszBuffer, nLength, pszFormat, args );
-	#else
-		return _vsnwprintf( pszBuffer, nLength, pszFormat, args );
-	#endif
+	return _vsnwprintf(pszBuffer, nLength, pszFormat, args);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -175,27 +122,10 @@ int __stdcall ChTraitsCRT<wchar_t>::Format( LPWSTR pszBuffer, size_t nLength, LP
 
 int __stdcall ChTraitsCRT<char>::GetFormattedLength( LPCSTR pszFormat, va_list args )
 {
-	#if _MSC_VER < 1400
-		checkCrt();
-
-		if ( _vscprintf_ptr != NULL )
-			return _vscprintf_ptr( pszFormat, args );
-
-		char buf[4000];
-		return vsprintf_ptr( buf, sizeof(buf), pszFormat, args );
-	#else
-		return _vscprintf( pszFormat, args );
-	#endif
+	return _vscprintf(pszFormat, args);
 }
 
 int __stdcall ChTraitsCRT<char>::Format( LPSTR pszBuffer, size_t nlength, LPCSTR pszFormat, va_list args )
 {
-	#if _MSC_VER < 1400
-		checkCrt();
-
-		return _vsnprintf( pszBuffer, nlength, pszFormat, args );
-	#else
-		return vsprintf_s( pszBuffer, nlength, pszFormat, args );
-	#endif
+	return vsprintf_s(pszBuffer, nlength, pszFormat, args);
 }
-

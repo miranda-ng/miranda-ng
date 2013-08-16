@@ -232,23 +232,23 @@ void CSHA1::ReportHash(char *szReport, unsigned char uReportType)
 
 	if(uReportType == REPORT_HEX)
 	{
-		sprintf(szTemp, "%02X", m_digest[0]);
+		mir_snprintf(szTemp, SIZEOF(szTemp), "%02X", m_digest[0]);
 		strcat(szReport, szTemp);
 
 		for(i = 1; i < 20; i++)
 		{
-			sprintf(szTemp, " %02X", m_digest[i]);
+			mir_snprintf(szTemp, SIZEOF(szTemp), " %02X", m_digest[i]);
 			strcat(szReport, szTemp);
 		}
 	}
 	else if(uReportType == REPORT_DIGIT)
 	{
-		sprintf(szTemp, "%u", m_digest[0]);
+		mir_snprintf(szTemp, SIZEOF(szTemp), "%u", m_digest[0]);
 		strcat(szReport, szTemp);
 
 		for(i = 1; i < 20; i++)
 		{
-			sprintf(szTemp, " %u", m_digest[i]);
+			mir_snprintf(szTemp, SIZEOF(szTemp), " %u", m_digest[i]);
 			strcat(szReport, szTemp);
 		}
 	}

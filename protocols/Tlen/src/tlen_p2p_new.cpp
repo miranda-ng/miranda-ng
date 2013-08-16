@@ -36,7 +36,7 @@ static void logInfo(const char *filename, const char *fmt, ...) {
 		GetLocalTime(&time);
 		va_start(vararg, fmt);
 		str = (char *) mir_alloc(strsize=2048);
-		while (_vsnprintf(str, strsize, fmt, vararg) == -1)
+		while (mir_vsnprintf(str, strsize, fmt, vararg) == -1)
 			str = (char *) realloc(str, strsize+=2048);
 		va_end(vararg);
 		fprintf(flog,"%04d-%02d-%02d %02d:%02d:%02d,%03d [%s]",time.wYear,time.wMonth,time.wDay,time.wHour,time.wMinute,time.wSecond,time.wMilliseconds, "INFO");

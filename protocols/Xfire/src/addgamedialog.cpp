@@ -144,12 +144,12 @@ static void FillGameList( LPVOID hwndDlg ) {
 						if(z2!=zahlbuffer2)
 						{
 							listentry.gameid=MAKELONG(gameid,atoi(zahlbuffer2));
-							sprintf_s(gameidtemp,10,"%d_%d",gameid,atoi(zahlbuffer2));
+							mir_snprintf(gameidtemp,10,"%d_%d",gameid,atoi(zahlbuffer2));
 						}
 						else
 						{
 							listentry.gameid=gameid;
-							sprintf_s(gameidtemp,10,"%d",gameid);
+							mir_snprintf(gameidtemp,10,"%d",gameid);
 						}
 
 
@@ -265,7 +265,7 @@ BOOL OpenFileDialog(HWND hwndDlg,OPENFILENAME*ofn,char*exe) {
 	//kein backslash dann normal ret als exenamen verwenden
 	if((int)exename==1) exename=exe;
 	//filterstring aufbauen
-	sprintf(szFilter,"%s|%s|%s|*.*|",exename,exename,Translate("All Files"));
+	mir_snprintf(szFilter, SIZEOF(szFilter), "%s|%s|%s|*.*|", exename, exename, Translate("All Files"));
 	//umbruch in 0 wandeln
 	unsigned int sizeFilter=strlen(szFilter);
 	for(unsigned int i=0;i<sizeFilter;i++)
@@ -345,13 +345,13 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 					int gameid2=HIWORD(gameids);
 
 					if(gameid2!=0)
-						sprintf_s(gameidtemp,10,"%d_%d",gameid1,gameid2);
+						mir_snprintf(gameidtemp,10,"%d_%d",gameid1,gameid2);
 					else
-						sprintf_s(gameidtemp,10,"%d",gameid1);
+						mir_snprintf(gameidtemp,10,"%d",gameid1);
 
 					//spielnamen holen
 					if(xfire_GetPrivateProfileString(gameidtemp, "LongName", "", ret, 512, inipath)) {
-						sprintf_s(gameidtemp,10,"%d",gameid1);
+						mir_snprintf(gameidtemp,10,"%d",gameid1);
 
 						//einige felder vorbelegen
 						SetDlgItemText(hPage,IDC_ADD_NAME,ret);
@@ -389,9 +389,9 @@ INT_PTR CALLBACK DlgAddGameProc (HWND hwndDlg,
 					char ret[512];
 					
 					if(gameid2!=0)
-						sprintf_s(gameidtemp,10,"%d_%d",gameid1,gameid2);
+						mir_snprintf(gameidtemp,10,"%d_%d",gameid1,gameid2);
 					else
-						sprintf_s(gameidtemp,10,"%d",gameid1);
+						mir_snprintf(gameidtemp,10,"%d",gameid1);
 
 					//neuen gameeintrag anlegen
 					Xfire_game* newgame=new Xfire_game();

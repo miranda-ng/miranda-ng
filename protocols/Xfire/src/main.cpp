@@ -491,7 +491,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 				char temp[255];
 				char * dummy;
 				ClanBuddyListNamesPacket *clan = (ClanBuddyListNamesPacket*)content;
-				sprintf(temp,"Clan_%d",clan->clanid);
+				mir_snprintf(temp, SIZEOF(temp), "Clan_%d", clan->clanid);
 
 				DBVARIANT dbv;
 				if(!db_get(NULL,protocolname,temp,&dbv))
@@ -2389,7 +2389,7 @@ void gamedetectiont(LPVOID lparam)
 
 							if(packet->ip[3]!=0)
 							{
-								sprintf(temp,"%d.%d.%d.%d:%d",(unsigned char)packet->ip[3],(unsigned char)packet->ip[2],(unsigned char)packet->ip[1],(unsigned char)packet->ip[0],packet->port);
+								mir_snprintf(temp, SIZEOF(temp), "%d.%d.%d.%d:%d", (unsigned char)packet->ip[3], (unsigned char)packet->ip[2], (unsigned char)packet->ip[1], (unsigned char)packet->ip[0],packet->port);
 								db_set_s(NULL, protocolname, "VServerIP", temp);
 								db_set_s(NULL, protocolname, "currentvoicename", "Teamspeak");
 							}
@@ -2429,7 +2429,7 @@ void gamedetectiont(LPVOID lparam)
 
 											db_set_w(NULL,protocolname,"currentvoice",vid);
 
-											sprintf(temp,"%d.%d.%d.%d:%d",(unsigned char)packet->ip[3],(unsigned char)packet->ip[2],(unsigned char)packet->ip[1],(unsigned char)packet->ip[0],packet->port);
+											mir_snprintf(temp, SIZEOF(temp), "%d.%d.%d.%d:%d", (unsigned char)packet->ip[3], (unsigned char)packet->ip[2], (unsigned char)packet->ip[1],(unsigned char)packet->ip[0],packet->port);
 											db_set_s(NULL, protocolname, "VServerIP", temp);
 
 											if(myClient!=NULL)
@@ -2469,7 +2469,7 @@ void gamedetectiont(LPVOID lparam)
 											packet->gameid=vid;
 											db_set_w(NULL,protocolname,"currentvoice",vid);
 
-											sprintf(temp,"%d.%d.%d.%d:%d",(unsigned char)packet->ip[3],(unsigned char)packet->ip[2],(unsigned char)packet->ip[1],(unsigned char)packet->ip[0],packet->port);
+											mir_snprintf(temp, SIZEOF(temp), "%d.%d.%d.%d:%d", (unsigned char)packet->ip[3], (unsigned char)packet->ip[2], (unsigned char)packet->ip[1],(unsigned char)packet->ip[0],packet->port);
 											db_set_s(NULL, protocolname, "VServerIP", temp);
 
 											if(myClient!=NULL)
@@ -3586,7 +3586,7 @@ int IconLibChanged(WPARAM wParam, LPARAM lParam) {
 			//ImageList_ReplaceIcon(hAdvancedStatusIcon,(int)icocache[i].handle,icocache[i].hicon);
 			HANDLE before=icocache[i].handle;
 			icocache[i].handle=(HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)icocache[i].hicon, 0);
-			sprintf(temp,"before: %d after: %d",before,icocache[i].handle);
+			mir_snprintf(temp, SIZEOF(temp), "before: %d after: %d", before, icocache[i].handle);
 			MessageBoxA(NULL,temp,temp,0);
 			DrawIcon(GetDC(NULL),x,0,(HICON)CallService(MS_SKIN2_GETICONBYHANDLE,0,(LPARAM)icocache[i].handle));
 			x+=32;

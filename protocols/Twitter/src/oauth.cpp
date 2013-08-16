@@ -329,7 +329,7 @@ wstring mir_twitter::OAuthNormalizeUrl( const wstring& url )
 		if(Compare(brokenURL[L"scheme"], L"http", false) && !(Compare(brokenURL[L"port"], L"80", false)) || 
 			(Compare(brokenURL[L"scheme"], L"https", false) && !(Compare(brokenURL[L"port"], L"443", false))))
 		{
-			swprintf_s(port, SIZEOF(port), L":%s", brokenURL[L"port"]);
+			mir_snwprintf(port, SIZEOF(port), L":%s", brokenURL[L"port"]);
 		}
 
 		// InternetCrackUrl includes ? and # elements in the path, 
@@ -411,7 +411,7 @@ wstring mir_twitter::OAuthCreateTimestamp()
 	_ASSERTE(ret != -1);
 
 	wchar_t buf[100] = {};
-	swprintf_s(buf, SIZEOF(buf), L"%I64u", utcNow);
+	mir_snwprintf(buf, SIZEOF(buf), L"%I64u", utcNow);
 
 	return buf;
 }

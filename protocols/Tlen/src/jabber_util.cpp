@@ -103,7 +103,7 @@ void JabberLog(TlenProtocol *proto, const char *fmt, ...)
 
 	va_start(vararg, fmt);
 	str = (char *) mir_alloc(strsize=2048);
-	while (_vsnprintf(str, strsize, fmt, vararg) == -1)
+	while (mir_vsnprintf(str, strsize, fmt, vararg) == -1)
 		str = (char *) mir_realloc(str, strsize+=2048);
 	va_end(vararg);
 
@@ -111,8 +111,9 @@ void JabberLog(TlenProtocol *proto, const char *fmt, ...)
 	for (p=str; *p != '\0'; p++)
 		if (*p == '\n' || *p == '\r')
 			extra++;
-	text = (char *) mir_alloc(strlen("TLEN")+2+strlen(str)+2+extra);
-	sprintf(text, "[%s]", "TLEN");
+	size_t size = strlen("TLEN") + 2 + strlen(str) + 2 + extra;
+	text = (char *) mir_alloc(size);
+	mir_snprintf(text, size, "[%s]", "TLEN");
 	for (p=str,q=text+strlen(text); *p != '\0'; p++,q++) {
 		if (*p == '\r') {
 			*q = '\\';
@@ -152,7 +153,7 @@ int JabberSend(TlenProtocol *proto, const char *fmt, ...)
 	va_start(vararg,fmt);
 	size = 512;
 	str = (char *) mir_alloc(size);
-	while (_vsnprintf(str, size, fmt, vararg) == -1) {
+	while (mir_vsnprintf(str, size, fmt, vararg) == -1) {
 		size += 512;
 		str = (char *) mir_realloc(str, size);
 	}
@@ -263,7 +264,7 @@ char *JabberSha1(char *str)
 	mir_sha1_finish( &sha, (BYTE* )digest );
 	if ((result=(char *)mir_alloc(41)) == NULL)
 		return NULL;
-	sprintf(result, "%08x%08x%08x%08x%08x", (int)htonl(digest[0]), (int)htonl(digest[1]), (int)htonl(digest[2]), (int)htonl(digest[3]), (int)htonl(digest[4]));
+	sprintf(result, "%08x%08x%08x%08x%08x", (int)htonl(digest[0]), (int)htonl(digest[1]), (int)htonl(digest[2]), (int)htonl(digest[3]), (int)htonl(digest[4])); //!!!!!!!!!!!
 	return result;
 }
 
@@ -303,7 +304,7 @@ char *TlenPasswordHash(const char *str)
 	magic1 &= 0x7fffffff;
 	magic2 &= 0x7fffffff;
 	res = (char *) mir_alloc(17);
-	sprintf(res, "%08x%08x", magic1, magic2);
+	sprintf(res, "%08x%08x", magic1, magic2); //!!!!!!!!!!!
 	return res;
 }
 
@@ -329,7 +330,7 @@ char *TlenUrlEncode(const char *str)
 			case 0x9f: c = (unsigned char) 0xbc; break;
 			default: c = (unsigned char) *p; break;
 			}
-			sprintf(q, "%%%02X", c);
+			sprintf(q, "%%%02X", c); //!!!!!!!!!!!
 			q += 2;
 		}
 		else {
@@ -606,7 +607,7 @@ void JabberStringAppend(char **str, int *sizeAlloced, const char *fmt, ...)
 
 	p = *str + len;
 	va_start(vararg, fmt);
-	while (_vsnprintf(p, size, fmt, vararg) == -1) {
+	while (mir_vsnprintf(p, size, fmt, vararg) == -1) {
 		size += 2048;
 		(*sizeAlloced) += 2048;
 		*str = (char *) mir_realloc(*str, *sizeAlloced);

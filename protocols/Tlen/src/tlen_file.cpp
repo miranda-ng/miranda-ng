@@ -278,7 +278,7 @@ static void TlenFileSendParse(TLEN_FILE_TRANSFER *ft)
 					t++;
 				else
 					t = ft->files[i];
-				_snprintf(filename, sizeof(filename)-1, t);
+				mir_snprintf(filename, sizeof(filename)-1, t);
 				TlenP2PPacketPackBuffer(packet, filename, sizeof(filename));
 			}
 			TlenP2PPacketSend(ft->s, packet);
@@ -574,9 +574,9 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 	if ((from=JabberXmlGetAttrValue(node, "f")) != NULL) {
 
 		if (strchr(from, '@') == NULL) {
-			_snprintf(jid, sizeof(jid), "%s@%s", from, info->server);
+			mir_snprintf(jid, sizeof(jid), "%s@%s", from, info->server);
 		} else {
-			_snprintf(jid, sizeof(jid), "%s", from);
+			mir_snprintf(jid, sizeof(jid), "%s", from);
 		}
 		if ((e=JabberXmlGetAttrValue(node, "e")) != NULL) {
 
@@ -601,7 +601,7 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 						}
 					}
 					else if (numFiles > 1) {
-						_snprintf(szFilename, sizeof(szFilename), Translate("%d Files"), numFiles);
+						mir_snprintf(szFilename, sizeof(szFilename), Translate("%d Files"), numFiles);
 					}
 				}
 

@@ -146,7 +146,7 @@ namespace xfirelib {
 	  /* ## buddies im miranda verarbietn */
 	  char temp[255];
 	  char * dummy;
-	  sprintf_s(temp,255,"Clan_%d",entry->clanid);
+	  mir_snprintf(temp,255,"Clan_%d",entry->clanid);
 
 	  DBVARIANT dbv;
 	  if(!db_get(NULL,protocolname,temp,&dbv))
