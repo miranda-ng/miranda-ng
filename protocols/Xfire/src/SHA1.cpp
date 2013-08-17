@@ -21,6 +21,7 @@
 */
 
 #include "stdafx.h"
+#include "baseProtocol.h"
 
 #include "SHA1.h"
 

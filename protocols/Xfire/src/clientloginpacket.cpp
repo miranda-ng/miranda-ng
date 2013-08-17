@@ -26,6 +26,7 @@
 #include "SHA1.h"
 #include <string.h>
 #include <iostream>
+#include "baseProtocol.h"
 
 namespace xfirelib {
   using namespace std;
