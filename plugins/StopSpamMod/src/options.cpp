@@ -272,7 +272,7 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		switch (LOWORD(wParam))
 		{
 		case IDC_MATH_DETAILS: {
-				MessageBox(NULL, TranslateT("If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one ruandom number and answer will be expression result\nMessage must contain only one expression without spaces"), TranslateT("Info"), MB_OK);
+				MessageBox(hwnd, TranslateT("If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result\nMessage must contain only one expression without spaces"), TranslateT("Info"), MB_OK);
 			}
 			break;
 		case IDC_INVIS_DISABLE: 
