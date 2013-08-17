@@ -1,0 +1,124 @@
+﻿#muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
+;============================================================
+;  File: stopspam.dll
+;  Module: StopSpam, StopSpam+, StopSpam Mod
+;  Versions: 0.0.1.5
+;  URL: http://www.miranda-im.org/download/details.php?action=viewfile&id=1561
+;  URL: http://svn.miranda.im/mainrepo/stopspam
+;============================================================ 
+[Automatically delete contacts from "Not In List" group]
+Автоматически удалять контакты из группы "Not In List"
+[StopSpam mod]
+Антиспам
+[Exclude contacts which we sending something from spam check]
+Отключать антиспам для контактов, которым послали сообщение
+[Remove Excluded contacts after restart]
+Удалять временно добавленные контакты после перезапуска
+[Add contacts to specified group:]
+Добавить контакты в группу:
+[Hide unanswered contacts and spammers from contact list]
+Скрыть неответившие контакты из контакт-листа
+[Ignore spammers (do not write messages to history)]
+Игнорировать спамеров (не писать сообщения в историю)
+[Enable integration with DOS plugin]
+Включить интеграцию с DOS плагином
+[No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
+Нет больше спама! Роботы отдыхают!\r\n\r\nЭтот плагин работает просто:\r\nВ то время как сообщения от пользователей в Вашем списке приходят без проверки на спам, сообщения от неизвестных пользователей вам не доставляются. Но они не игнорируются, плагин отвечает простым вопросом, и если пользователь дает правильный ответ, плагин добавляет его в список, для того чтобы он мог связаться с Вами.
+[Enable StopSpam-StopSpam infinite talk protection]
+Выключение антиспама при попытке ответа другому антиспаму
+[Add contact permanently]
+Добавлять в постоянный список
+[Autoreply to auth. requests]
+Автоответ на запросы авторизации
+[Question: (Ctrl+Enter for carriage return)]
+Вопрос: (Ctrl+Enter для начала новой строки)
+[Answer:]
+Ответ:
+[Congratulation:]
+Поздравление:
+[Installed protocols:]
+Протоколы:
+[Despammed protocols:]
+Антиспам включён для:
+[StopSpam]
+Антиспам
+
+;0.0.0.21 - GetFromSource.cmd
+[questions to one contact (0 - for no limit)]
+вопросов контакту (0 - неограниченно)
+[Do not send more than]
+Не отправлять больше
+[Question: (Ctrl-Enter for carriage return)]
+Вопрос: (Ctrl+Enter для начала новой строки)
+[Enable auth. requests blocking]
+Блокировать запросы авторизации
+[Auth. request reply:]
+Ответ на запросы авторизации:
+[StopSpam+]
+Антиспам+
+[Remove Temporary Contacts]
+Удалить временные контакты
+[No more spam! Robots can't go! Only human beings invited!]
+Нет больше спама! Роботы отдыхают!
+[Choose despammed protocols:]
+Антиспам включён для:
+[Case insensitive answer checking]
+Не учитывать регистр ответа
+[Disable question in invisible mode]
+Отключить вопрос при статусе "Невидимый"
+[Answer is not case sensitive]
+Не учитывать регистр ответа
+[Ignore Authorization requests with URL]
+Игнорировать запросы авторизации, содержащие ссылки
+[Avaible accounts:]
+Доступные аккаунты:
+[Filtered accounts:]
+Защищённые аккаунты:
+[Disable protection for following accounts:]
+Отключить защиту для следующих учётных записей:
+[Ignore URL in messages and auth requests]
+Игнорировать ссылки в сообщениях и запросах авторизации
+[After congratulation (ICQ only)]
+После поздравления (только для ICQ)
+[Add contact to server list]
+Добавить контакт в список на сервере
+[Automatically grant authorization]
+Авторизовать автоматически
+[Request authorization from contacts which pass stopspam test]
+Запрашивать авторизацию у контактов прошедших проверку антиспама
+[Available accounts:]
+Доступные аккаунты:
+[Log spam to file]
+Записывать спам в файл
+[Remove all tempory contacts after restart]
+Удалять все временные контакты после перезапуска
+[Answer (Use divider to separate answers):]
+Ответ (Используйте разделитель для отделения вариантов ответа):
+[Divider:]
+Разделитель:
+[It remains to attempt:]
+Осталось попыток:
+[The last attempt!]
+Последняя попытка!
+[Congratulations! You just passed human/robot test. Now you can write me a message.]
+Поздравляем! Вы прошли тест, теперь можете отправлять сообщения пользователю.
+[StopSpam: send a message and reply to a anti-spam bot question.]
+StopSpam: отправьте сообщение и ответьте на вопрос антиспам-бота.
+[Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]
+Здравствуйте! Вы говорите с антиспам-ботом. Пожалуйста напишите слово "nospam" без кавычек, чтобы пройти проверку на спам.
+[Use regex for answers checking]
+Использовать регулярные выражения для проверки ответов
+[Log Spammers to system history]
+Записывать спамеров в системную историю
+[Use math expression in question]
+Математические выражения
+[If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result\nMessage must contain only one expression without spaces]
+Если включены математические выражения, то их можно использовать в тексте вопроса:\nXX+XX-X/X*X\nкаждый X будет заменён случайным числом и ответом будет решение выражения\nВопрос может включать только одно математическое выражение, записанное без пробелов
+[Details..]
+Детали..
+[Antispam plugin for Miranda NG.]
+Антиспам плагин для Miranda NG.
+[StopSpam Logs]
+Логи StopSpam
+[StopSpam automatic message:\r\n]
+Сообщение антиспама:\r\n

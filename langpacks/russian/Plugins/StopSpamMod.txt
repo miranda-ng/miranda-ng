@@ -1,0 +1,99 @@
+﻿#muuid {94ced94c-a94a-4bb1-acbd-5cc6ebb689d4}
+;============================================================
+;  File: StopSpamMod.dll
+;  Plugin: StopSpam mod
+;  Version: 0.0.2.0
+;  Authors: Roman Miklashevsky, sss, Elzor
+;============================================================
+[Antispam plugin for Miranda NG.]
+Антиспам плагин для Miranda NG.
+[Question: (Ctrl-Enter for carriage return)]
+Вопрос: (Ctrl+Enter для начала новой строки)
+[Restore defaults]
+Сбросить
+[Answer:]
+Ответ:
+[Congratulation:]
+Поздравление:
+[Auth. request reply:]
+Ответ на запросы авторизации:
+[Available accounts:]
+Доступные аккаунты:
+[Filtered accounts:]
+Защищённые аккаунты:
+[Do not send more than]
+Не отправлять больше
+[questions to one contact (0 - for no limit)]
+вопросов контакту (0 - неограниченно)
+[Enable StopSpam-StopSpam infinite talk protection]
+Выключение антиспама при попытке ответа другому антиспаму
+[Add contact permanently]
+Добавлять в постоянный список
+[Enable auth. requests blocking]
+Блокировать запросы авторизации
+[Hide unanswered contacts and spammers from contact list]
+Скрыть неответившие контакты из контакт-листа
+[Ignore spammers (do not write messages to history)]
+Игнорировать спамеров (не писать сообщения в историю)
+[Log spam to file]
+Записывать спам в файл
+[Case insensitive answer checking]
+Не учитывать регистр ответа
+[Disable question in invisible mode]
+Отключить вопрос при статусе "Невидимый"
+[Enable integration with DOS plugin]
+Включить интеграцию с DOS плагином
+[Exclude contacts which we sending something from spam check]
+Отключать антиспам для контактов, которым послали сообщение
+[Remove Excluded contacts after restart]
+Удалять временно добавленные контакты после перезапуска
+[Add contacts to specified group:]
+Добавить контакты в группу:
+[Ignore URL in messages and auth requests]
+Игнорировать ссылки в сообщениях и запросах авторизации
+[Add contact to server list]
+Добавить контакт в список на сервере
+[After congratulation (ICQ only)]
+После поздравления (только для ICQ)
+[Automatically grant authorization]
+Авторизовать автоматически
+[Request authorization from contacts which pass stopspam test]
+Запрашивать авторизацию у контактов прошедших проверку антиспама
+[Remove all tempory contacts after restart]
+Удалять все временные контакты после перезапуска
+[Use regex for answers checking]
+Использовать регулярные выражения для проверки ответов
+[Log Spammers to system history]
+Записывать спамеров в системную историю
+[Use math expression in question]
+Математические выражения
+[Details..]
+Детали..
+[StopSpam]
+Антиспам
+[StopSpam Logs]
+Логи антиспама
+[Remove Temporary Contacts]
+Удалить временные контакты
+[No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
+Нет больше спама! Роботы отдыхают!\r\n\r\nЭтот плагин работает просто:\r\nВ то время как сообщения от пользователей в Вашем списке приходят без проверки на спам, сообщения от неизвестных пользователей вам не доставляются. Но они не игнорируются, плагин отвечает простым вопросом, и если пользователь дает правильный ответ, плагин добавляет его в список, для того чтобы он мог связаться с Вами.
+[Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]
+Здравствуйте! Вы говорите с антиспам-ботом. Пожалуйста напишите слово "nospam" без кавычек, чтобы пройти проверку на спам.
+[StopSpam: send a message and reply to a anti-spam bot question.]
+StopSpam: отправьте сообщение и ответьте на вопрос антиспам-бота.
+[Congratulations! You just passed human/robot test. Now you can write me a message.]
+Поздравляем! Вы прошли тест, теперь можете отправлять сообщения пользователю.
+[If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result\nMessage must contain only one expression without spaces]
+Если включены математические выражения, то их можно использовать в тексте вопроса:\nXX+XX-X/X*X\nкаждый X будет заменён случайным числом и ответом будет решение выражения\nВопрос может включать только одно математическое выражение, записанное без пробелов
+[Info]
+Инфо
+[Message Sessions]
+Беседы
+[General]
+Общее
+[Messages]
+Сообщения
+[Accounts]
+Учётные записи
+[Advanced]
+Дополнительно
