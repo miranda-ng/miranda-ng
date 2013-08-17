@@ -70,7 +70,6 @@
 #include <m_icolib.h>
 #include <m_genmenu.h>
 #include <m_extraicons.h>
-#include <m_extraicons.h>
 #include <m_xstatus.h>
 
 #include "services.h"
