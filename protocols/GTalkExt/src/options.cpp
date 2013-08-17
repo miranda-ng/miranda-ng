@@ -40,7 +40,7 @@ extern HINSTANCE g_hInst;
 
 void CheckControlsEnabled(HWND wnd)
 {
-	BOOL PopupsEnabled = (SendMessage(GetDlgItem(wnd, IDC_POPUPSENABLED), BM_GETSTATE, 0, 0) & BST_CHECKED) == BST_CHECKED;
+	BOOL PopupsEnabled = (SendDlgItemMessage(wnd, IDC_POPUPSENABLED, BM_GETSTATE, 0, 0) & BST_CHECKED) == BST_CHECKED;
 	EnableWindow(GetDlgItem(wnd, IDC_POPUPSINFULLSCREEN), PopupsEnabled);
 	EnableWindow(GetDlgItem(wnd, IDC_POPUPSINFULLSCREENLABEL), PopupsEnabled);
 	EnableWindow(GetDlgItem(wnd, IDC_ADDSNIP), PopupsEnabled);
@@ -135,7 +135,7 @@ INT_PTR CALLBACK AccOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lPa
 void ShowTestPopup(HWND wnd)
 {
 	POPUPDATAT data = {0};
-	mir_sntprintf(data.lptzContactName, MAX_CONTACTNAME, TEST_LETTER_INBOX);
+	mir_sntprintf(data.lptzContactName, MAX_CONTACTNAME, TranslateTS(TEST_LETTER_INBOX));
 	mir_sntprintf(data.lptzText, MAX_SECONDLINE, TranslateTS(FULL_NOTIFICATION_FORMAT), TranslateTS(TEST_LETTER_SUBJECT), TranslateTS(TEST_LETTER_SENDER), TranslateTS(TEST_LETTER_SNIP));
 
 	int len = SendDlgItemMessage(wnd, IDC_TIMEOUTEDIT, WM_GETTEXTLENGTH, 0, 0) + 1;
