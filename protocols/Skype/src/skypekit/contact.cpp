@@ -28,14 +28,18 @@ SEString CContact::GetNick()
 		this->GetPropPstnnumber(result);
 	else
 	{
+		SEString sid;
+		this->GetIdentity(sid);
+
 		this->GetPropDisplayname(result);
 		if (this->proto && this->proto->login)
 		{
-			SEString sid;
-			this->GetIdentity(sid);
 			if (sid.equals(result))
 				this->GetPropFullname(result);
 		}
+
+		if (result.size() == 0)
+			result = sid;
 	}
 	return result;
 }

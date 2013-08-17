@@ -1565,10 +1565,7 @@ void CSkypeProto::UpdateChatUserNick(const ContactRef &contact)
 	contact->GetIdentity(data);
 	ptrW sid(::mir_utf8decodeW(data));
 
-	contact->GetPropFullname(data);
-	ptrW nick(::mir_utf8decodeW(data));
-	if (data.length() == 0)
-		nick = ::mir_wstrdup(sid);
+	ptrW nick(::mir_utf8decodeW(((CContact::Ref)contact)->GetNick()));
 
 	GC_INFO gci = {0};
 	gci.Flags = BYINDEX | DATA;

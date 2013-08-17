@@ -119,6 +119,47 @@ struct PasswordChangeBoxParam
 	}
 };
 
+struct FileParam
+{
+	bool isCanceled;
+	bool isCompleted;
+	
+	unsigned __int64 size;
+	unsigned __int64 transfered;
+
+	FileParam() { }
+	FileParam(unsigned __int64 size) 
+	{
+		this->size = size;
+		this->transfered = 0;
+		this->isCanceled = this->isCompleted = false;
+	}
+};
+
+struct FileTransferParam
+{
+	//CTransfer::Refs transfers;
+	PROTOFILETRANSFERSTATUS pfts;
+	std::map<int, FileParam> files;
+
+	FileTransferParam() 
+	{
+		this->pfts.cbSize = sizeof(this->pfts);
+		this->pfts.flags = 0;
+		this->pfts.currentFileNumber = 0;
+		this->pfts.currentFileProgress = 0;
+		this->pfts.currentFileSize = 0;
+		this->pfts.currentFileTime = 0;
+		this->pfts.totalBytes = 0;
+		this->pfts.totalFiles = 0;
+		this->pfts.totalProgress = 0;
+		this->pfts.tszWorkingDir = NULL;
+		this->pfts.wszCurrentFile = NULL;
+
+		//Sid::fetch(this->transfers);
+	}
+};
+
 class ChatMember;
 class ChatRoom;
 
@@ -313,6 +354,8 @@ protected:
 
 	// transfer
 	static wchar_t *TransferFailureReasons[];
+
+	std::map<int, FileTransferParam> transferts;
 
 	void	OnFileEvent(const ConversationRef &conversation, const MessageRef &message);
 	void	OnTransferChanged(const TransferRef &transfer, int prop);

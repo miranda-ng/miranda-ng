@@ -203,13 +203,13 @@ INT_PTR CALLBACK CSkypeProto::SkypePrivacyOptionsProc(HWND hwndDlg, UINT msg, WP
 		}
 		break;
 
-	case WM_COMMAND:
+	/*case WM_COMMAND:
 		{
 			switch(LOWORD(wParam))
 			{
 			}
 		}
-		break;
+		break;*/
 
 	case WM_NOTIFY:
 		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY && !ppro->IsOnline())
@@ -218,10 +218,10 @@ INT_PTR CALLBACK CSkypeProto::SkypePrivacyOptionsProc(HWND hwndDlg, UINT msg, WP
 		}
 		break;
 
-		switch(LOWORD(wParam))
+		/*switch(LOWORD(wParam))
 		{
 		}
-		break;
+		break;*/
 	}
 	return FALSE;
 }

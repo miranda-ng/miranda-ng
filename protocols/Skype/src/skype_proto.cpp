@@ -16,7 +16,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName) :
 	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
 	dbEventType.module = this->m_szModuleName;
 	dbEventType.flags = DETF_HISTORY | DETF_MSGWINDOW;
-	
+
 	dbEventType.eventType = SKYPE_DB_EVENT_TYPE_EMOTE;
 	dbEventType.descr = "Skype emote";
 	::CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
@@ -62,17 +62,17 @@ HANDLE __cdecl CSkypeProto::AddToListByEvent(int flags, int iContact, HANDLE hDb
 
 	/*if ((dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) != -1)
 	{
-		dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
-		if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei) == 0 &&
-				!strcmp(dbei.szModule, m_szModuleName) &&
-				(dbei.eventType == EVENTTYPE_AUTHREQUEST || dbei.eventType == EVENTTYPE_CONTACTS))
-		{
-			char *nick = (char*)(dbei.pBlob + sizeof(DWORD) * 2);
-			char *firstName = nick + strlen(nick) + 1;
-			char *lastName = firstName + strlen(firstName) + 1;
-			char *skypeName = lastName + strlen(lastName) + 1;
-			return AddContactBySkypeName(::mir_a2u(skypeName), ::mir_a2u(nick), 0);
-		}
+	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
+	if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei) == 0 &&
+	!strcmp(dbei.szModule, m_szModuleName) &&
+	(dbei.eventType == EVENTTYPE_AUTHREQUEST || dbei.eventType == EVENTTYPE_CONTACTS))
+	{
+	char *nick = (char*)(dbei.pBlob + sizeof(DWORD) * 2);
+	char *firstName = nick + strlen(nick) + 1;
+	char *lastName = firstName + strlen(firstName) + 1;
+	char *skypeName = lastName + strlen(lastName) + 1;
+	return AddContactBySkypeName(::mir_a2u(skypeName), ::mir_a2u(nick), 0);
+	}
 	}*/
 	return 0;
 }
@@ -156,36 +156,40 @@ HANDLE __cdecl CSkypeProto::FileAllow( HANDLE hContact, HANDLE hTransfer, const 
 	wchar_t fullPath[MAX_PATH] = {0};
 
 	SEString data;
-	TransferRef transfer(oid);
-	//TransferRefs transfers;
-	//msgRef->GetTransfers(transfers);
-	//for (uint i = 0; i < transfers.size(); i++)
+	MessageRef msgRef(oid);
+	TransferRefs transfers;
+	msgRef->GetTransfers(transfers);
+	for (uint i = 0; i < transfers.size(); i++)
 	{
+		auto transfer = transfers[i];
 		transfer->GetPropFilename(data);
 		ptrW name(::mir_utf8decodeW(data));
 		::mir_sntprintf(fullPath, MAX_PATH, L"%s%s", szPath, name);
 
-		//PROTOFILETRANSFERSTATUS pfts = {0};
-		//ZeroMemory(&pfts, sizeof(PROTOFILETRANSFERSTATUS));
-		//pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
+		auto fOid = transfer->getOID();
+		FileTransferParam ftp = this->transferts[oid];
+
+		//PROTOFILETRANSFERSTATUS pfts = { sizeof(pfts) };
 		//pfts.hContact = hContact;
-		//pfts.flags = PFTS_TCHAR | PFTS_RECEIVING; /* Standard FT is Ansi only */
-		//pfts.pszFiles = NULL;  /* FIXME */
-		//pfts.totalFiles = transfers.size();
+		//pfts.flags = PFTS_UNICODE | PFTS_RECEIVING;
+		//pfts.ptszFiles = ftp.pfts.ptszFiles;
+		//pfts.totalFiles = ftp.pfts.totalFiles;
 		//pfts.currentFileNumber = i;
-		////pfts.totalBytes = transfers[i]->GetUintProp(Transfer::P_FILESIZE);
-		////pfts->totalProgress = ft->dwBytesDone;
-		////pfts->szWorkingDir = ft->szSavePath;
-		//pfts.tszCurrentFile = fullPath;
-		//pfts.currentFileSize = transfers[i]->GetUintProp(Transfer::P_FILESIZE);
-		////pfts->currentFileTime = ft->dwThisFileDate;
-		////pfts->currentFileProgress = ft->dwFileBytesDone;
+		//pfts.totalBytes = ftp.files[fOid].size;
+		//pfts.totalProgress = ftp.files[fOid].transfered;
+		//pfts.tszWorkingDir = mir_wstrdup(szPath);
+		//pfts.currentFileNumber = 0;
+		//pfts.tszCurrentFile = mir_wstrdup(fullPath);
+		////pfts.tszCurrentFile = ::mir_utf8decodeW(data);
+		//pfts.currentFileSize = ftp.files[fOid].size;
+		//pfts.currentFileProgress = ftp.files[fOid].transfered;
 
-		/*if (ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)oid, (LPARAM)&pfts))
-			return 0;*/
-
-		if ( !transfer->Accept((char *)ptrA(::mir_utf8encodeW(fullPath)), success) || !success)
-			return 0;
+		//if ( !ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)oid, (LPARAM)&pfts))
+			if ( !transfer->Accept((char *)ptrA(::mir_utf8encodeW(fullPath)), success) || !success)
+			{
+				this->Log(L"Cannot accept file transfer");
+				this->transferList.remove_val(transfer);
+			}
 	}
 
 	return hTransfer; 
@@ -195,16 +199,22 @@ int    __cdecl CSkypeProto::FileCancel( HANDLE hContact, HANDLE hTransfer )
 {
 	uint oid = (uint)hTransfer;
 
-	//SEString data;
-	/*MessageRef msgRef(oid);
+	MessageRef msgRef(oid);
 	TransferRefs transfers;
+	Transfer::STATUS transferStatus;
 	msgRef->GetTransfers(transfers);
-	for (uint i = 0; i < transfers.size(); i++)*/
-	TransferRef transfer(oid);
-	if ( !transfer->Cancel())
-		return 0;
-
-	this->Log(L"Incoming file transfer is cancelled");
+	for (uint i = 0; i < transfers.size(); i++)
+	{
+		auto transfer = transfers[i];
+		transfer->GetPropStatus(transferStatus);
+		if (transferStatus <= Transfer::CANCELLED && this->transferList.contains(transfer))
+		{
+			if ( !transfer->Cancel())
+				this->Log(L"Incoming file transfer is cancelled");
+			this->transferList.remove_val(transfer);
+		}
+	}
+	this->transferts.erase(this->transferts.find(oid));
 
 	return 1; 
 }
@@ -212,19 +222,23 @@ int    __cdecl CSkypeProto::FileCancel( HANDLE hContact, HANDLE hTransfer )
 int    __cdecl CSkypeProto::FileDeny( HANDLE hContact, HANDLE hTransfer, const TCHAR* szReason )
 {
 	uint oid = (uint)hTransfer;
-	
-	//SEString data;
-	/*MessageRef msgRef(oid);
+
+	MessageRef msgRef(oid);
 	TransferRefs transfers;
+	Transfer::STATUS transferStatus;
 	msgRef->GetTransfers(transfers);
 	for (uint i = 0; i < transfers.size(); i++)
-		if ( !transfers[i]->Cancel())
-			return 0;*/
-	TransferRef transfer(oid);
-	if ( !transfer->Cancel())
-		return 0;
-
-	this->Log(L"Incoming file transfer is denied");
+	{
+		auto transfer = transfers[i];
+		transfer->GetPropStatus(transferStatus);
+		if (transferStatus <= Transfer::CANCELLED && this->transferList.contains(transfer))
+		{
+			if ( !transfer->Cancel())
+				this->Log(L"Incoming file transfer is denied");
+			this->transferList.remove_val(transfer);
+		}
+	}
+	this->transferts.erase(this->transferts.find(oid));
 
 	return 1;
 }
@@ -234,13 +248,27 @@ int    __cdecl CSkypeProto::FileResume( HANDLE hTransfer, int* action, const TCH
 	if ( !this->IsOnline())
 		return 1;
 
+	uint oid = (uint)hTransfer;
+
+	//auto fOid = transfers[i]->getOID();
+	FileTransferParam ftp = this->transferts[oid];
+
+	MessageRef msgRef(oid);
+	TransferRefs transfers;
+	msgRef->GetTransfers(transfers);
+	for (uint i = 0; i < transfers.size(); i++){}
+
 	switch (*action)
 	{
 	case FILERESUME_SKIP:
 		/*if (ft->p2p_appID != 0)
-			p2p_sendStatus(ft, 603);
+		p2p_sendStatus(ft, 603);
 		else
-			msnftp_sendAcceptReject (ft, false);*/
+		msnftp_sendAcceptReject (ft, false);*/
+		break;
+
+	case FILERESUME_RESUME:
+		//replaceStrT(ft->std.tszCurrentFile, *szFilename);
 		break;
 
 	case FILERESUME_RENAME:
@@ -251,13 +279,13 @@ int    __cdecl CSkypeProto::FileResume( HANDLE hTransfer, int* action, const TCH
 		/*bool fcrt = ft->create() != -1;
 		if (ft->p2p_appID != 0)
 		{
-			if (fcrt)
-				p2p_sendFeedStart(ft);
+		if (fcrt)
+		p2p_sendFeedStart(ft);
 
-			p2p_sendStatus(ft, fcrt ? 200 : 603);
+		p2p_sendStatus(ft, fcrt ? 200 : 603);
 		}
 		else
-			msnftp_sendAcceptReject (ft, fcrt);*/
+		msnftp_sendAcceptReject (ft, fcrt);*/
 
 		//ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
 		break;
@@ -336,7 +364,7 @@ int    __cdecl CSkypeProto::RecvContacts( HANDLE hContact, PROTORECVEVENT* pre)
 {
 	this->Log(L"Incoming contacts");
 	::db_unset(hContact, "CList", "Hidden");
-	
+
 	return (INT_PTR)this->AddDBEvent(
 		hContact,
 		EVENTTYPE_CONTACTS,
@@ -402,7 +430,7 @@ int __cdecl CSkypeProto::SendContacts(HANDLE hContact, int flags, int nContacts,
 		for (int i = 0; i < nContacts; i++)
 		{
 			CContact::Ref contact;
-			
+
 			ptrW csid(::db_get_wsa(hContactsList[i], this->m_szModuleName, SKYPE_SETTINGS_SID));
 			this->GetContact((char *)ptrA(::mir_utf8encodeW(csid)), contact);
 			contacts.append(contact);
@@ -416,7 +444,7 @@ int __cdecl CSkypeProto::SendContacts(HANDLE hContact, int flags, int nContacts,
 		// todo: bad hack
 		CMessage::Refs msgs;
 		this->GetMessageListByType(Message::POSTED_CONTACTS, true, msgs, timestamp);
-		
+
 		if (msgs.size() == 0)
 			return 0;
 
@@ -449,30 +477,51 @@ HANDLE __cdecl CSkypeProto::SendFile(HANDLE hContact, const TCHAR *szDescription
 		if ( !conversation)
 			return 0; 
 
+		FileTransferParam ftp;
+		ftp.pfts.flags = PFTS_SENDING | PFTS_UNICODE;
+		ftp.pfts.hContact = hContact;
+		for (ftp.pfts.totalFiles = 0; ppszFiles[ftp.pfts.totalFiles]; ftp.pfts.totalFiles++);
+		ftp.pfts.ptszFiles = new wchar_t*[ftp.pfts.totalFiles + 1];
+
+		wchar_t *wd = new wchar_t[wcslen(ppszFiles[0]) + 1];
+		wcscpy(wd, ppszFiles[0]);
+		PathRemoveFileSpec(wd);
+		ftp.pfts.tszWorkingDir = wd;
+
 		SEFilenameList fileList;
-		//for (int i = 0; ppszFiles[i]; i++)
-			fileList.append((char *)ptrA(::mir_utf8encodeW(ppszFiles[0])));
+		for (int i = 0; ppszFiles[i]; i++)
+		{
+			ftp.pfts.ptszFiles[i] = ::mir_wstrdup(ppszFiles[i]);
+			fileList.append((char *)ptrA(::mir_utf8encodeW(ppszFiles[i])));
+		}
 
 		auto error = TRANSFER_OPEN_SUCCESS;
 		SEFilename errFile;
 		MessageRef msgRef;
 		if ( !conversation->PostFiles(fileList, " ", error, errFile, msgRef) || error)
-			return 0;
+			return 0;		
 
+		SEString data;
 		TransferRefs transfers;
 		if (msgRef->GetTransfers(transfers))
 		{
-			//for (uint i = 0; i < transfers.size(); i++)
+			for (uint i = 0; i < transfers.size(); i++)
 			{
-				auto transfer = transfers[0];
-				transfer.fetch();
-				this->transferList.append(transfer);
+				transfers[i].fetch();
+				this->transferList.append(transfers[i]);				
 
-				return (HANDLE)transfer->getOID();
+				transfers[i]->GetPropFilesize(data);
+				Sid::uint64 size = data.toUInt64();
+
+				ftp.files.insert(std::make_pair(transfers[i]->getOID(), FileParam(size)));
+				ftp.pfts.totalBytes += size;
 			}
 		}
 
-		//return (HANDLE)msgRef->getOID();
+		auto oid = msgRef->getOID();
+		this->transferts.insert(std::make_pair(oid, ftp));
+
+		return (HANDLE)oid;
 	}
 
 	return 0; 
@@ -507,16 +556,16 @@ int CSkypeProto::SetStatus(int new_status)
 {
 	switch (new_status)
 	{
-		case ID_STATUS_OCCUPIED:
-			new_status = ID_STATUS_DND;
+	case ID_STATUS_OCCUPIED:
+		new_status = ID_STATUS_DND;
 		break;
-		case ID_STATUS_FREECHAT:
-			new_status = ID_STATUS_ONLINE;
+	case ID_STATUS_FREECHAT:
+		new_status = ID_STATUS_ONLINE;
 		break;
-		case ID_STATUS_ONTHEPHONE:
-		case ID_STATUS_OUTTOLUNCH:
-		case ID_STATUS_NA:
-			new_status = ID_STATUS_AWAY;
+	case ID_STATUS_ONTHEPHONE:
+	case ID_STATUS_OUTTOLUNCH:
+	case ID_STATUS_NA:
+		new_status = ID_STATUS_AWAY;
 		break;
 	}
 
@@ -588,13 +637,13 @@ int __cdecl CSkypeProto::UserIsTyping(HANDLE hContact, int type)
 			{
 				switch (type)
 				{
-					case PROTOTYPE_SELFTYPING_ON:
-						conversation->SetMyTextStatusTo(Participant::WRITING);
-						return 0;
+				case PROTOTYPE_SELFTYPING_ON:
+					conversation->SetMyTextStatusTo(Participant::WRITING);
+					return 0;
 
-					case PROTOTYPE_SELFTYPING_OFF:
-						conversation->SetMyTextStatusTo(Participant::READING); //todo: mb TEXT_UNKNOWN?
-						return 0;
+				case PROTOTYPE_SELFTYPING_OFF:
+					conversation->SetMyTextStatusTo(Participant::READING); //todo: mb TEXT_UNKNOWN?
+					return 0;
 				}
 			}
 		}
@@ -615,7 +664,7 @@ int __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM
 
 	case EV_PROTO_ONOPTIONS:
 		return this->OnOptionsInit(wParam,lParam);
-		
+
 	case EV_PROTO_ONCONTACTDELETED:
 		return this->OnContactDeleted(wParam, lParam);
 
