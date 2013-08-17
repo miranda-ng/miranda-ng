@@ -10,7 +10,7 @@
 [You can add the user by user name or his id. Wildcards are allowed and recommended.]
 [OK]
 [Cancel]
-[  Show these events]
+[Show these events]
 [Actions]
 [Messages]
 [Nick changes]

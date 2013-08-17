@@ -25,7 +25,7 @@
 [Instant Idle on Login]
 [Force Proxy File Transfers]
 [Masquerade as a Sidekick/Hiptop User]
-[*Aim must be reconnected  for some option to take effect.]
+[*Aim must be reconnected for some option to take effect]
 [Connection]
 [Port:]
 [Reset]

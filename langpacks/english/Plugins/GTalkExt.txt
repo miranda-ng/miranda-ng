@@ -30,11 +30,10 @@
 ;file \protocols\GTalkExt\src\options.cpp
 [Popups]
 [Network]
-[* Primitive type system\n]
-[* No overloading\n]
-[* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n]
-[* No metaprogramming except preprocessor macros\n]
-[* No exceptions]
+[Why C sucks]
+[brickstrace@gmail.com [1]]
+[    bems <bems@vingrad.ru>\n]
+[* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions]
 ;file \protocols\GTalkExt\src\options.h
 [GMail notifications]
 [subject\n    %s\nfrom\n%s\n%s\n]

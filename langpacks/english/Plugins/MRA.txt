@@ -173,6 +173,7 @@
 [Reply to %s blog status]
 [Set my blog status]
 [Writed]
+[Your password expired. Please reenter password in the Options dialog]
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 [Account]

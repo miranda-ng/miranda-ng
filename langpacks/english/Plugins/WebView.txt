@@ -32,7 +32,7 @@
 [(Not Recommended)]
 [Display Data in Popup on Alert]
 [Display Data in Popup]
-[You may need to restart Miranda IM for this change to take effect.]
+[You may need to restart Miranda NG for this change to take effect.]
 [Contact name:]
 [URL:]
 [Display]

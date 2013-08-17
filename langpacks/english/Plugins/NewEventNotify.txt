@@ -41,9 +41,6 @@
 [Edit]
 [No popups for RSS contacts]
 [No popups for read messages]
-;file \plugins\NewEventNotify\src\main.cpp
-[Message Session]
-[Message Received]
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 ;file \plugins\NewEventNotify\src\neweventnotify.h
@@ -67,4 +64,4 @@
 [This is a sample file event :-D]
 [This is a sample other event ;-D]
 [Plugin Test]
-[Number of new message: ]
+[[b]Number of new message(s): %d[/b]\n]

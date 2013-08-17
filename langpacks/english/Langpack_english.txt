@@ -1959,7 +1959,7 @@
 [Instant Idle on Login]
 [Force Proxy File Transfers]
 [Masquerade as a Sidekick/Hiptop User]
-[*Aim must be reconnected  for some option to take effect.]
+[*Aim must be reconnected for some option to take effect]
 [Connection]
 [Port:]
 [Reset]
@@ -6605,11 +6605,10 @@
 ;file \protocols\GTalkExt\src\options.cpp
 [Popups]
 [Network]
-[* Primitive type system\n]
-[* No overloading\n]
-[* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n]
-[* No metaprogramming except preprocessor macros\n]
-[* No exceptions]
+[Why C sucks]
+[brickstrace@gmail.com [1]]
+[    bems <bems@vingrad.ru>\n]
+[* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions]
 ;file \protocols\GTalkExt\src\options.h
 [GMail notifications]
 [subject\n    %s\nfrom\n%s\n%s\n]
@@ -11195,6 +11194,7 @@
 [Reply to %s blog status]
 [Set my blog status]
 [Writed]
+[Your password expired. Please reenter password in the Options dialog]
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 [Account]
@@ -11840,9 +11840,6 @@
 [Edit]
 [No popups for RSS contacts]
 [No popups for read messages]
-;file \plugins\NewEventNotify\src\main.cpp
-[Message Session]
-[Message Received]
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 ;file \plugins\NewEventNotify\src\neweventnotify.h
@@ -11866,7 +11863,7 @@
 [This is a sample file event :-D]
 [This is a sample other event ;-D]
 [Plugin Test]
-[Number of new message: ]
+[[b]Number of new message(s): %d[/b]\n]
 ﻿#muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
 ;============================================================
 ;  File: NewsAggregator.dll
@@ -13794,7 +13791,12 @@
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
 ;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[<all>]
+[Log Files (*.txt,*.log)]
+[Enter integer value]
+[Enter log file name.]
+[Enter log file format.]
+[Enter history format.]
+[Enter popup window format.]
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -13824,12 +13826,6 @@
 [Previous Close]
 [Change]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
-[Log Files (*.txt,*.log)]
-[Enter integer value]
-[Enter log file name.]
-[Enter log file format.]
-[Enter history format.]
-[Enter popup window format.]
 ﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
@@ -16136,7 +16132,7 @@
 [You can add the user by user name or his id. Wildcards are allowed and recommended.]
 [OK]
 [Cancel]
-[  Show these events]
+[Show these events]
 [Actions]
 [Messages]
 [Nick changes]
@@ -19726,7 +19722,7 @@
 [(Not Recommended)]
 [Display Data in Popup on Alert]
 [Display Data in Popup]
-[You may need to restart Miranda IM for this change to take effect.]
+[You may need to restart Miranda NG for this change to take effect.]
 [Contact name:]
 [URL:]
 [Display]
@@ -20077,7 +20073,6 @@
 [Use default Popup colors]
 [Choose colors]
 [File access filter && logging settings]
-[Please note that this settings has effect only with Popups Interoperability plugin version 1.0.1.9 or higher]
 [Log into text file]
 [Log folders access]
 [Alerts on folders access]
@@ -20096,7 +20091,7 @@
 [Error opening file]
 [Error memory allocation]
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
-[Error crerating menu]
+[Error creating menu]
 [Popup plugin not found!]
 [Error]
 [Enable WUMF popups]
@@ -20452,7 +20447,7 @@
 [Yahoo Ignore]
 [Please enter a valid buddy name to ignore.]
 [The buddy is already on your ignore list.]
-[You need to be connected to Yahoo to remove from the Ignore List.]
+[You need to be connected to Yahoo to remove from the ignore list.]
 [Please select a buddy on the ignore list to remove.]
 [Network]
 [Account]
