@@ -60,7 +60,6 @@
 RSS 联系人不使用弹出窗口
 [No popups for read messages]
 读取消息时无弹出窗口
-;file \plugins\NewEventNotify\src\main.cpp
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 弹出窗口

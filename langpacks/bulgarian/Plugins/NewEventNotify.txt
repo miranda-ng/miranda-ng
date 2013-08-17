@@ -16,9 +16,6 @@
 Фон
 [Edit]
 Редактиране
-;file \plugins\NewEventNotify\src\main.cpp
-[Message Session]
-Разговор
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 РopUps

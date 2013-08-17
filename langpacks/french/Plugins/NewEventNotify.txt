@@ -58,7 +58,6 @@ Dernier message en dernier
 Éditer
 [No popups for RSS contacts]
 Pas de popup pour les contacts RSS
-;file \plugins\NewEventNotify\src\main.cpp
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 ;file \plugins\NewEventNotify\src\neweventnotify.h
 [You were added!]

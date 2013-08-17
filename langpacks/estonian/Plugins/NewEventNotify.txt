@@ -16,7 +16,6 @@ Fail
 Tekst
 [Background]
 Taust
-;file \plugins\NewEventNotify\src\main.cpp
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 ;file \plugins\NewEventNotify\src\neweventnotify.h
 [Contacts]

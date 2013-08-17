@@ -68,6 +68,7 @@
 [Reply to %s blog status]
 [Set my blog status]
 [Writed]
+[Your password expired. Please reenter password in the Options dialog]
 [Connections]
 [Logon error: invalid login/password]
 [MRIM_CS_MESSAGE_STATUS: not found in queue]

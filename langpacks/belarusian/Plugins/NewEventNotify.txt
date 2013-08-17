@@ -74,9 +74,6 @@
 Выключыць для RSS навін
 [No popups for read messages]
 Не паказваць для прачытаных паведамленняў
-;file \plugins\NewEventNotify\src\main.cpp
-[Message Session]
-Гутарка
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Усплывальныя вокны

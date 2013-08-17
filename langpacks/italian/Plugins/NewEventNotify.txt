@@ -40,9 +40,6 @@ Sfondo
 Altro
 [Background]
 Sfondo
-;file \plugins\NewEventNotify\src\main.cpp
-[Message Session]
-Sessione messaggi
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Popup

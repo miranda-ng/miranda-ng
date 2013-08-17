@@ -28,9 +28,6 @@ Izquierda Haga clic en Acciones
 Derecho Haga clic en Acciones
 [Edit]
 Editar
-;file \plugins\NewEventNotify\src\main.cpp
-[Message Session]
-Mensaje de sesión
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 ;file \plugins\NewEventNotify\src\neweventnotify.h
 [Contacts]

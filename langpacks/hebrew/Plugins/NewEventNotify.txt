@@ -42,9 +42,6 @@
 ערוך
 [No popups for RSS contacts]
 RSS ללא פופאפים  לאנשי קשר מסוג
-;file \plugins\NewEventNotify\src\main.cpp
-[Message Session]
-חלון הודעות
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 פופ אפ

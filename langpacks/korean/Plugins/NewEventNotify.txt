@@ -10,7 +10,6 @@
 파일
 [Background]
 배경
-;file \plugins\NewEventNotify\src\main.cpp
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 ;file \plugins\NewEventNotify\src\neweventnotify.h
 ;file \plugins\NewEventNotify\src\options.cpp

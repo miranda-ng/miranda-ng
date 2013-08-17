@@ -38,8 +38,6 @@ Ukázať
 
 [File access filter && logging settings]
 
-[Please note that this settings has effect only with Popups Interoperability plugin version 1.0.1.9 or higher]
-
 [Log into text file]
 
 [Log folders access]
@@ -74,7 +72,7 @@ Súbor
 [Error memory allocation]
 
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
-[Error crerating menu]
+[Error creating menu]
 
 [Popup plugin not found!]
 

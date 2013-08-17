@@ -24,9 +24,6 @@ Fundo
 Editar
 [Edit]
 Editar
-;file \plugins\NewEventNotify\src\main.cpp
-[Message Session]
-Sessão de Mensagem
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 ;file \plugins\NewEventNotify\src\neweventnotify.h
 [Contacts]

@@ -76,7 +76,6 @@ Pozadie
 
 [No popups for read messages]
 
-;file \plugins\NewEventNotify\src\main.cpp
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 

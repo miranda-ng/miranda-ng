@@ -18,9 +18,6 @@ Yazı
 Art Alan
 [Edit]
 Değiştir
-;file \plugins\NewEventNotify\src\main.cpp
-[Message Session]
-İleti Oturumu
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Açılır Pencereler

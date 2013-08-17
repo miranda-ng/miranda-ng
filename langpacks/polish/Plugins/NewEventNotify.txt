@@ -76,7 +76,6 @@ Edytuj
 Nie wyświetlaj popupów dla kanałów RSS
 [No popups for read messages]
 Nie wyświetlaj popupów dla przeczytanych wiadomości
-;file \plugins\NewEventNotify\src\main.cpp
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Popupy

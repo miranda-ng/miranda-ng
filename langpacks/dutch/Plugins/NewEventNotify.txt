@@ -16,7 +16,6 @@ Tekst
 Achtergrond
 [Edit]
 Bewerken
-;file \plugins\NewEventNotify\src\main.cpp
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Popups

@@ -22,9 +22,6 @@ Bakgrunn
 Vis Dato
 [Edit]
 Rediger
-;file \plugins\NewEventNotify\src\main.cpp
-[Message Session]
-Meldingsøkt
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Popups

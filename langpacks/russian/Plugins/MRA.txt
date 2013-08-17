@@ -363,3 +363,5 @@ MRA подключение
 Ответ на статус в блоге
 [Avatars' plugin connections]
 Подключение аватаров
+[Your password expired. Please reenter password in the Options dialog]
+Ваш пароль просрочен. Введите его заново в диалоге настроек

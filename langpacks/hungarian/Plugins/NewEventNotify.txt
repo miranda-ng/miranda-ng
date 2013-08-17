@@ -18,9 +18,6 @@ Szöveg
 Háttér
 [Edit]
 Szerkeszt
-;file \plugins\NewEventNotify\src\main.cpp
-[Message Session]
-Üzenet mukamenet
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Felugrók

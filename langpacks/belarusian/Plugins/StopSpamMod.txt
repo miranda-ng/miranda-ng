@@ -88,7 +88,7 @@
 StopSpam: адпраўце паведамленне і адкажыце на простае пытанне анты-спам бота.
 [Congratulations! You just passed human/robot test. Now you can write me a message.]
 Віншуем! Вы прайшлі тэст, зараз можаце адпраўляць паведамленні карыстачу.
-[If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one ruandom number and answer will be expression result\nMessage must contain only one expression without spaces]
+[If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result\nMessage must contain only one expression without spaces]
 Калі адключаны матэматычныя выразы, іх магчыма выкарыстоўваць у тэксце пытання:\nXX+XX-X/X*X\nкожны X будзе заменены выпадковай лічбай, адказам будзе рашэнне\nПытанне можа ўключаць толькі адзін выраз, запісаны без прабелаў
 [Info]
 Інфа

@@ -330,6 +330,8 @@ Zamykanie w
 
 [Writed]
 
+[Your password expired. Please reenter password in the Options dialog]
+
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Protokoły
