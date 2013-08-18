@@ -584,8 +584,7 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			CheckDlgButton(hwndDlg, IDC_CHK_VALNEWLINE, di->bValueNewline ? TRUE : FALSE);
 			CheckDlgButton(hwndDlg, IDC_CHK_PARSETIPPERFIRST, di->bParseTipperVarsFirst ? TRUE : FALSE);
 
-			int i;
-			for (i = 0; presetItems[i].szID; i++)
+			for (int i = 0; presetItems[i].szID; i++)
 				SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_ADDSTRING, 0, (LPARAM)TranslateTS(presetItems[i].swzName));
 
 			variables_skin_helpbutton(hwndDlg, IDC_BTN_VARIABLE);
@@ -601,7 +600,6 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				{
 					case IDOK:
 					{
-						int sel;
 						GetDlgItemText(hwndDlg, IDC_ED_LABEL, di->swzLabel, LABEL_LEN);
 						GetDlgItemText(hwndDlg, IDC_ED_VALUE, di->swzValue, VALUE_LEN);
 
@@ -609,21 +607,22 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						di->bValueNewline = (IsDlgButtonChecked(hwndDlg, IDC_CHK_VALNEWLINE) ? true : false);
 						di->bParseTipperVarsFirst = (IsDlgButtonChecked(hwndDlg, IDC_CHK_PARSETIPPERFIRST) ? true : false);
 
-						sel = SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETCURSEL, 0, 0);
+						int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETCURSEL, 0, 0);
 						if (sel != CB_ERR)
 						{
-							TCHAR buff[256]; int i;
+							TCHAR buff[256];
 							SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETLBTEXT, sel, (LPARAM)buff);
-							for (i = 0; presetItems[i].szID; i++)
+							for (int i = 0; presetItems[i].szID; i++)
 							{
 								if (_tcscmp(buff, TranslateTS(presetItems[i].swzName)) == 0)
+								{
+									if (presetItems[i].szNeededSubst[0])
+										EndDialog(hwndDlg, IDPRESETITEM + i);
+									else
+										EndDialog(hwndDlg, IDOK);
 									break;
+								}
 							}
-
-							if (presetItems[i].szNeededSubst[0])
-								EndDialog(hwndDlg, IDPRESETITEM + i);
-							else
-								EndDialog(hwndDlg, IDOK);
 						}
 						else
 						{
@@ -654,16 +653,17 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETCURSEL, 0, 0);
 					if (sel != CB_ERR)
 					{
-						TCHAR buff[256]; int i;
+						TCHAR buff[256];
 						SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETLBTEXT, sel, (LPARAM)buff);
-						for (i = 0; presetItems[i].szID; i++)
+						for (int i = 0; presetItems[i].szID; i++)
 						{
 							if (_tcscmp(buff, TranslateTS(presetItems[i].swzName)) == 0)
+							{
+								SetDlgItemText(hwndDlg, IDC_ED_LABEL, TranslateTS(presetItems[i].swzLabel));
+								SetDlgItemText(hwndDlg, IDC_ED_VALUE, presetItems[i].swzValue);
 								break;
+							}
 						}
-
-						SetDlgItemText(hwndDlg, IDC_ED_LABEL, TranslateTS(presetItems[i].swzLabel));
-						SetDlgItemText(hwndDlg, IDC_ED_VALUE, presetItems[i].swzValue);
 					}
 				}
 			}
@@ -700,16 +700,15 @@ INT_PTR CALLBACK DlgProcAddSubst(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					break;
 			}
 
-			int index, id, i;
-			for (i = 0; i < iTransFuncsCount; i++)
+			for (int i = 0; i < iTransFuncsCount; i++)
 			{
-				index = SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_ADDSTRING, (WPARAM)-1, (LPARAM)TranslateTS(translations[i].swzName));
+				int index = SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_ADDSTRING, (WPARAM)-1, (LPARAM)TranslateTS(translations[i].swzName));
 				SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_SETITEMDATA, index, (LPARAM)translations[i].id);
 			}
 
-			for (i = 0; i < iTransFuncsCount; i++)
+			for (int i = 0; i < iTransFuncsCount; i++)
 			{
-				id = SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_GETITEMDATA, i, 0);
+				int id = SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_GETITEMDATA, i, 0);
 				if (id == ds->iTranslateFuncId)
 					SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_SETCURSEL, i, 0);
 			}

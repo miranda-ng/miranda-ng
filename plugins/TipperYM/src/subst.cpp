@@ -539,10 +539,10 @@ bool ApplySubst(HANDLE hContact, const TCHAR *swzSource, bool parseTipperVarsFir
 
 	// pass to variables plugin if available
 	TCHAR *swzVarSrc;
-	if (parseTipperVarsFirst == false)
-		swzVarSrc = variables_parsedup((TCHAR *)swzSource, 0, hContact);
-	else
+	if (parseTipperVarsFirst)
 		swzVarSrc = mir_tstrdup(swzSource);
+	else
+		swzVarSrc = variables_parsedup((TCHAR *)swzSource, 0, hContact);
 
 	size_t iSourceLen = _tcslen(swzVarSrc);
 	size_t si = 0, di = 0, v = 0;
@@ -894,7 +894,7 @@ TCHAR *GetProtoExtraStatusMessage(char *szProto)
 				}
 			}
 
-			TCHAR *tszParsed = (TCHAR *)variables_parse(swzText, NULL, hContact);
+			TCHAR *tszParsed = variables_parse(swzText, NULL, hContact);
 			if (tszParsed)
 				replaceStrT(swzText, tszParsed);
 		}

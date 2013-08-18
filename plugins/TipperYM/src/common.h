@@ -72,7 +72,6 @@ Boston, MA 02111-1307, USA.
 #include <m_metacontacts.h>
 #include <m_variables.h>
 #include <m_smileyadd.h>
-#include <m_gender.h>
 
 #include "resource.h"
 #include "version.h"

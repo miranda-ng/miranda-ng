@@ -243,7 +243,7 @@ void InitFonts()
 	hReloadFonts = HookEvent(ME_FONT_RELOAD, ReloadFont);
 }
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int ModulesLoaded(WPARAM, LPARAM)
 {
 	InitFonts();
 	
@@ -303,8 +303,6 @@ HANDLE hEventPreShutdown, hEventModulesLoaded;
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
-
 	CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fii);
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfoEx);

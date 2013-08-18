@@ -366,18 +366,14 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					// gender icon
 					if (pwd->bIsIconVisible[3]) {
 						for (i = 0; opt.exIconsOrder[i] != 3; i++);
-						if (ServiceExists(MS_GENDER_GETICON))
-							pwd->extraIcons[i].hIcon = (HICON)CallService(MS_GENDER_GETICON, (WPARAM)pwd->hContact, 0);
-						else {
-							int iGender = db_get_b(pwd->hContact, "UserInfo", "Gender", 0);
-							if (iGender == 0) 
-								iGender = db_get_b(pwd->hContact, szProto, "Gender", 0);
+						int iGender = db_get_b(pwd->hContact, "UserInfo", "Gender", 0);
+						if (iGender == 0) 
+							iGender = db_get_b(pwd->hContact, szProto, "Gender", 0);
 
-							if (iGender == GEN_FEMALE)
-								pwd->extraIcons[i].hIcon = Skin_GetIcon("UserInfoEx_common_female");
-							else if (iGender == GEN_MALE)
-								pwd->extraIcons[i].hIcon = Skin_GetIcon("UserInfoEx_common_male");
-						}
+						if (iGender == GEN_FEMALE)
+							pwd->extraIcons[i].hIcon = Skin_GetIcon("gender_female");
+						else if (iGender == GEN_MALE)
+							pwd->extraIcons[i].hIcon = Skin_GetIcon("gender_male");
 						pwd->extraIcons[i].bDestroy = false;
 					}
 
@@ -385,13 +381,11 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					if (pwd->bIsIconVisible[4]) {
 						for (i = 0; opt.exIconsOrder[i] != 4; i++);
 
-						int iCountry = 0;
-						if (ServiceExists(MS_FLAGS_DETECTCONTACTORIGINCOUNTRY))
-							iCountry = CallService(MS_FLAGS_DETECTCONTACTORIGINCOUNTRY, (WPARAM)pwd->hContact, 0);
-						else if (ServiceExists(MS_FLAGS_GETCONTACTORIGINCOUNTRY))
+						INT_PTR iCountry = CallService(MS_FLAGS_DETECTCONTACTORIGINCOUNTRY, (WPARAM)pwd->hContact, 0);
+						if (iCountry == CALLSERVICE_NOTFOUND)
 							iCountry = CallService(MS_FLAGS_GETCONTACTORIGINCOUNTRY, (WPARAM)pwd->hContact, 0);
 
-						if (iCountry != 0 && iCountry != CTRY_UNKNOWN && iCountry != CTRY_ERROR) {
+						if (iCountry != CALLSERVICE_NOTFOUND && iCountry != 0 && iCountry != CTRY_UNKNOWN && iCountry != CTRY_ERROR) {
 							pwd->extraIcons[i].hIcon = LoadFlagIcon(iCountry);
 							pwd->extraIcons[i].bDestroy = false;
 						}
