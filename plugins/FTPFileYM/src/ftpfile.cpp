@@ -230,7 +230,8 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 void PrebuildMainMenu()
 {
 	for (int i=0; i < ServerList::FTP_COUNT; i++)
-		Menu_ShowItem(hMainSubMenu[i], ftpList[i]->bEnabled);
+		if (ftpList[i])
+			Menu_ShowItem(hMainSubMenu[i], ftpList[i]->bEnabled);
 }
 
 int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam) 
