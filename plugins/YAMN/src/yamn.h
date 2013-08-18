@@ -76,7 +76,7 @@ void UnInitDebug();
 //From yamn.cpp
 INT_PTR GetFcnPtrSvc(WPARAM wParam,LPARAM lParam);
 INT_PTR GetVariablesSvc(WPARAM,LPARAM);
-void CALLBACK TimerProc(HWND,UINT,UINT,DWORD);
+void CALLBACK TimerProc(HWND,UINT,UINT_PTR,DWORD);
 INT_PTR ForceCheckSvc(WPARAM,LPARAM);
 
 extern struct YAMNExportedFcns *pYAMNFcn;

@@ -315,7 +315,6 @@ static void LoadPlugins()
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	int i, k;
 	mir_getLP(&pluginInfo);
 
 	YAMN_STATUS = ID_STATUS_OFFLINE;
@@ -334,7 +333,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	// Enumerate all the code pages available for the System Locale
 	EnumSystemCodePages(EnumSystemCodePagesProc, CP_INSTALLED);
 	CodePageNamesSupp = new _tcptable[CPLENSUPP];
-	for (i = 0, k = 0; i < CPLENALL; i++) {
+	for (int i = 0, k = 0; i < CPLENALL; i++) {
 		if (CodePageNamesAll[i].isValid) {
 			CodePageNamesSupp[k] = CodePageNamesAll[i];
 			k++;
@@ -395,6 +394,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HOTKEYDESC hkd = {0};
 	hkd.cbSize = sizeof(hkd);
+	hkd.pszName = "YAMN_hotkey";
 	hkd.pszService = MS_YAMN_FORCECHECK;
 	hkd.pszSection = YAMN_DBMODULE;
 	hkd.pszDescription = LPGEN("Check mail");
@@ -402,7 +402,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	Hotkey_Register(&hkd);
 
 	//Create thread that will be executed every second
-	if (!(SecTimer = SetTimer(NULL, 0, 1000, (TIMERPROC)TimerProc)))
+	if (!(SecTimer = SetTimer(NULL, 0, 1000, TimerProc)))
 		return 1;
 
 	return 0;
