@@ -266,10 +266,11 @@ bool CVersionInfo::GetHWSettings()
 	{
 		TCHAR cpuIdent[512] = {0}, cpuName[512] = {0};
 		DWORD size;
-		if (RegQueryValueEx(hKey, _T("ProcessorNameString"), NULL, NULL, (LPBYTE)cpuName, &size) != ERROR_SUCCESS)
+		size = SIZEOF(cpuName);
+		if (RegQueryValueEx(hKey, TEXT("ProcessorNameString"), NULL, NULL, (LPBYTE) cpuName, &size) != ERROR_SUCCESS)
 			_tcscpy(cpuName, _T("Unknown"));
 		lpzCPUName = cpuName;
-
+		size = SIZEOF(cpuIdent);
 		if (RegQueryValueEx(hKey, TEXT("Identifier"), NULL, NULL, (LPBYTE) cpuIdent, &size) != ERROR_SUCCESS)
 			if (RegQueryValueEx(hKey, TEXT("VendorIdentifier"), NULL, NULL, (LPBYTE) cpuIdent, &size) != ERROR_SUCCESS)
 				_tcscpy(cpuIdent, _T("Unknown"));
