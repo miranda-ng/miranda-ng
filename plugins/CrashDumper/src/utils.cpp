@@ -458,11 +458,11 @@ void GetProcessorString(bkstring& buffer)
 	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("Hardware\\Description\\System\\CentralProcessor\\0"), 0, 
 		KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS)
 	{
-		size = sizeof(cpuName)/sizeof(cpuName[0]);
+		size = SIZEOF(cpuName);
 		if (RegQueryValueEx(hKey, TEXT("ProcessorNameString"), NULL, NULL, (LPBYTE) cpuName, &size) != ERROR_SUCCESS)
 			_tcscpy(cpuName, TEXT("Unknown"));
 
-		size = sizeof(cpuIdent)/sizeof(cpuIdent[0]);
+		size = SIZEOF(cpuIdent);
 		if (RegQueryValueEx(hKey, TEXT("Identifier"), NULL, NULL, (LPBYTE) cpuIdent, &size) != ERROR_SUCCESS)
 			if (RegQueryValueEx(hKey, TEXT("VendorIdentifier"), NULL, NULL, (LPBYTE) cpuIdent, &size) != ERROR_SUCCESS)
 				_tcscpy(cpuIdent, TEXT("Unknown"));
