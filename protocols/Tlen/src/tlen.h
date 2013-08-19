@@ -24,8 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _TLEN_H_
 #define _TLEN_H_
 
-#define MIRANDA_VER 0x0A00
-
 #undef _WIN32_WINNT
 #undef _WIN32_IE
 #define _WIN32_WINNT 0x0501

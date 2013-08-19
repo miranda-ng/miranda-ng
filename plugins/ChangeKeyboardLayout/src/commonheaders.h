@@ -3,8 +3,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define _CRT_NONSTDC_NO_DEPRECATE
 
-#define MIRANDA_VER    0x0A00 
-
 #include <windows.h>
 #include <commctrl.h>
 #include <richedit.h>

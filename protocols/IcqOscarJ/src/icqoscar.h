@@ -27,8 +27,6 @@
 // Includes all header files that should be precompiled to speed up compilation.
 //
 // -----------------------------------------------------------------------------
-#define MIRANDA_VER 0x0A00
-
 #define _WIN32_WINNT 0x0501
 #define _WIN32_IE 0x0501
 

@@ -32,8 +32,6 @@
 #include <fstream>
 #include <functional>
 
-#define MIRANDA_VER		0x0A00
-
 #include <newpluginapi.h>
 #include <m_langpack.h>
 #include <m_system.h>

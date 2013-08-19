@@ -20,9 +20,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// this plugin is for Miranda 0.9 or later
-#define MIRANDA_VER 0x0A00
-
 #include <windows.h>
 #include <commctrl.h>
 

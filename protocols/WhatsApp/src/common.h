@@ -12,7 +12,6 @@ Copyright © 2013 Uli Hecht
 #pragma warning(disable:4996)
 #pragma warning(disable:4290)
 
-#define MIRANDA_VER    0x090E
 #define _WIN32_WINNT   0x0500
 #define _WIN32_WINDOWS 0x0500
 

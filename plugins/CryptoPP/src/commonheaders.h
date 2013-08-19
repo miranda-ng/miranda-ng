@@ -24,8 +24,6 @@
 
 #include <limits>
 
-#define MIRANDA_VER 0x0A00
-
 #include <windows.h>
 #include <wincrypt.h>
 #include <winsock2.h>

@@ -31,8 +31,6 @@
 
 #include "../../plugins/zlib/src/zlib.h"
 
-#define MIRANDA_VER 0x0A00
-
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_system_cpp.h>

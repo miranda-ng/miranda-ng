@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _IRCWIN_H_
 #define _IRCWIN_H_
 
-#define MIRANDA_VER  0x0A00
 #define _WIN32_WINNT 0x0501
 #define _WIN32_IE 0x0501
 

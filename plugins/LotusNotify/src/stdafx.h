@@ -10,7 +10,6 @@
 
 
 // Miranda headers
-#define MIRANDA_VER 0x0A00
 //LotusNotify.h
 #include <m_core.h>
 #include <win2k.h>

@@ -17,8 +17,6 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 */
 
-
-#define MIRANDA_VER 0x0A00
 #include "mir_smileys.h"
 #include "mir_memory.h"
 #include "utf8_helpers.h"

@@ -4,12 +4,6 @@
 #pragma comment(lib, "comctl32.lib")
 #include <commctrl.h>
 
-
-
-#define MIRANDA_VER 0x0A00
-
-
-
 //Miranda headers
 #include <win2k.h>
 #include <newpluginapi.h>
