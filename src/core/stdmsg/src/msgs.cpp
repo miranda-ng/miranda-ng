@@ -516,7 +516,7 @@ STDMETHODIMP CREOleCallback::GetNewStorage(LPSTORAGE * lplpstg)
 {
 	WCHAR szwName[64];
 	char szName[64];
-	wsprintfA(szName, "s%u", nextStgId++);
+	mir_snprintf(szName, SIZEOF(szName), "s%u", nextStgId++);
 	MultiByteToWideChar(CP_ACP, 0, szName, -1, szwName, SIZEOF(szwName));
 	if (pictStg == NULL)
 		return STG_E_MEDIUMFULL;

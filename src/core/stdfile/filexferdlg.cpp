@@ -493,9 +493,10 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						if ((pszFilename = _tcsrchr(szOriginalFilename, '\\')) == NULL) pszFilename = szOriginalFilename;
 						if ((pszExtension = _tcsrchr(pszFilename+1, '.')) == NULL) pszExtension = pszFilename+lstrlen(pszFilename);
 						if (pfr->szFilename) mir_free((TCHAR*)pfr->szFilename);
-						pfr->szFilename = (TCHAR*)mir_alloc(sizeof(TCHAR)*((pszExtension-szOriginalFilename)+21+lstrlen(pszExtension)));
+						size_t size = (pszExtension-szOriginalFilename)+21+lstrlen(pszExtension);
+						pfr->szFilename = (TCHAR*)mir_alloc(sizeof(TCHAR)*size);
 						for (i = 1;;i++) {
-							_stprintf((TCHAR*)pfr->szFilename, _T("%.*s (%u)%s"), pszExtension-szOriginalFilename, szOriginalFilename, i, pszExtension);
+							mir_sntprintf((TCHAR*)pfr->szFilename, size, _T("%.*s (%u)%s"), pszExtension-szOriginalFilename, szOriginalFilename, i, pszExtension);
 							if (_taccess(pfr->szFilename, 0) != 0)
 								break;
 						}

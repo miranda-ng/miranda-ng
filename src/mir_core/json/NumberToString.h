@@ -78,9 +78,9 @@ public:
 	static json_string _ftoa(T value){
 		json_char result[64];
 		#ifdef JSON_UNICODE
-			swprintf(result, 63, L"%f", value); 
+			mir_snwprintf(result, 63, L"%f", value); 
 		#else
-			snprintf(result, 63, "%f", value); 
+			mir_snprintf(result, 63, "%f", value); 
 		#endif
 		//strip the trailing zeros
 		for(json_char * pos = &result[0]; *pos; ++pos){

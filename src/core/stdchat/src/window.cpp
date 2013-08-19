@@ -1111,13 +1111,13 @@ static int RestoreWindowPosition(HWND hwnd, HANDLE hContact, char * szModule, ch
 
 	wp.length=sizeof(wp);
 	GetWindowPlacement(hwnd,&wp);
-	wsprintfA(szSettingName,"%sx",szNamePrefix);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sx", szNamePrefix);
 	x=db_get_dw(hContact,szModule,szSettingName,-1);
-	wsprintfA(szSettingName,"%sy",szNamePrefix);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sy", szNamePrefix);
 	y=(int)db_get_dw(hContact,szModule,szSettingName,-1);
-	wsprintfA(szSettingName,"%swidth",szNamePrefix);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%swidth", szNamePrefix);
 	width=db_get_dw(hContact,szModule,szSettingName,-1);
-	wsprintfA(szSettingName,"%sheight",szNamePrefix);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sheight", szNamePrefix);
 	height=db_get_dw(hContact,szModule,szSettingName,-1);
 
 	if (x==-1)

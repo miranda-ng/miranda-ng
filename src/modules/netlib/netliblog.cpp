@@ -491,13 +491,13 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 				PBYTE p = buf + line;
 				pszBuf += wsprintfA(
 					pszBuf, "%08X: %02X %02X %02X %02X-%02X %02X %02X %02X-%02X %02X %02X %02X-%02X %02X %02X %02X  ", 
-					line, p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11], p[12], p[13], p[14], p[15]);
+					line, p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11], p[12], p[13], p[14], p[15]); //!!!!!!!!!!
 			}
 			else {
-				pszBuf += wsprintfA(pszBuf, "%08X: ", line);
+				pszBuf += wsprintfA(pszBuf, "%08X: ", line); //!!!!!!!!!!
 				// Dump data as hex
 				for (col = 0; col < colsInLine; col++)
-					pszBuf += wsprintfA(pszBuf, "%02X%c", buf[line + col], ((col&3) == 3 && col != 15)?'-':' ');
+					pszBuf += wsprintfA(pszBuf, "%02X%c", buf[line + col], ((col&3) == 3 && col != 15)?'-':' '); //!!!!!!!!!!
 				// Fill out last line with blanks
 				for (; col<16; col++) {
 					lstrcpyA(pszBuf, "   ");

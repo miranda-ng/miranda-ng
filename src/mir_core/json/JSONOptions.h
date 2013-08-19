@@ -1,8 +1,6 @@
 #ifndef JSON_OPTIONS_H
 #define JSON_OPTIONS_H
 
-#define snprintf _snprintf
-
 /**
  *  This file holds all of the compiling options for easy access and so
  *  that you don't have to remember them, or look them up all the time

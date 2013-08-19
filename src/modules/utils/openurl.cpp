@@ -37,9 +37,10 @@ static void OpenURLThread(void *arg)
 		return;
 
 	//wack a protocol on it
-	TCHAR *szResult = (TCHAR*)mir_alloc(sizeof(TCHAR)*(lstrlen(hUrlInfo->szUrl)+9));
+	size_t size = lstrlen(hUrlInfo->szUrl)+9;
+	TCHAR *szResult = (TCHAR*)mir_alloc(sizeof(TCHAR)*size);
 	if ((isalpha(hUrlInfo->szUrl[0]) && hUrlInfo->szUrl[1] == ':') || hUrlInfo->szUrl[0] == '\\') {
-		wsprintf(szResult, _T("file:///%s"), hUrlInfo->szUrl);
+		mir_sntprintf(szResult, size, _T("file:///%s"), hUrlInfo->szUrl);
 	}
 	else {
 		int i;
@@ -48,9 +49,9 @@ static void OpenURLThread(void *arg)
 			szResult = mir_tstrdup(hUrlInfo->szUrl);
 		else {
 			if ( !_tcsnicmp(hUrlInfo->szUrl, _T("ftp."), 4))
-				wsprintf(szResult, _T("ftp://%s"), hUrlInfo->szUrl);
+				mir_sntprintf(szResult, size, _T("ftp://%s"), hUrlInfo->szUrl);
 			else
-				wsprintf(szResult, _T("http://%s"), hUrlInfo->szUrl);
+				mir_sntprintf(szResult, size, _T("http://%s"), hUrlInfo->szUrl);
 		}
 	}
 

@@ -133,7 +133,7 @@ static int ShowPopup (HANDLE hContact, SESSION_INFO* si, HICON hIcon,  char* psz
 		return 0;
 
 	va_start(marker, fmt);
-	_vsntprintf(szBuf, 4096, fmt, marker);
+	mir_vsntprintf(szBuf, 4096, fmt, marker);
 	va_end(marker);
 
 	pd.lchContact = hContact;
