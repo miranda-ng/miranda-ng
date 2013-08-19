@@ -114,7 +114,7 @@ void TlenP2PInit() {
 void TlenP2PUninit() {
 }
 
-int TlenP2PPacketSend(JABBER_SOCKET s, TLEN_FILE_PACKET *packet)
+int TlenP2PPacketSend(TLEN_SOCKET s, TLEN_FILE_PACKET *packet)
 {
 	DWORD sendResult;
 	if (packet != NULL && packet->packet != NULL) {
@@ -126,7 +126,7 @@ int TlenP2PPacketSend(JABBER_SOCKET s, TLEN_FILE_PACKET *packet)
 	return 1;
 }
 
-TLEN_FILE_PACKET* TlenP2PPacketReceive(JABBER_SOCKET s)
+TLEN_FILE_PACKET* TlenP2PPacketReceive(TLEN_SOCKET s)
 {
 	TLEN_FILE_PACKET *packet;
 	DWORD recvResult;
@@ -158,7 +158,7 @@ void TlenP2PEstablishOutgoingConnection(TLEN_FILE_TRANSFER *ft, BOOL sendAck)
 	TLEN_FILE_PACKET *packet;
 	TlenProtocol *proto = ft->proto;
 
-	JabberLog(proto, "Establishing outgoing connection.");
+	TlenLog(proto, "Establishing outgoing connection.");
 	ft->state = FT_ERROR;
 	if ((packet = TlenP2PPacketCreate(2*sizeof(DWORD) + 20)) != NULL) {
 		TlenP2PPacketSetType(packet, TLEN_FILE_PACKET_CONNECTION_REQUEST);
@@ -185,9 +185,9 @@ void TlenP2PEstablishOutgoingConnection(TLEN_FILE_TRANSFER *ft, BOOL sendAck)
 	}
 }
 
-TLEN_FILE_TRANSFER* TlenP2PEstablishIncomingConnection(TlenProtocol *proto, JABBER_SOCKET s, JABBER_LIST list, BOOL sendAck)
+TLEN_FILE_TRANSFER* TlenP2PEstablishIncomingConnection(TlenProtocol *proto, TLEN_SOCKET s, TLEN_LIST list, BOOL sendAck)
 {
-	JABBER_LIST_ITEM *item = NULL;
+	TLEN_LIST_ITEM *item = NULL;
 	TLEN_FILE_PACKET *packet;
 	int i;
 	char str[300];
@@ -206,13 +206,13 @@ TLEN_FILE_TRANSFER* TlenP2PEstablishIncomingConnection(TlenProtocol *proto, JABB
 	}
 	iqId = *((DWORD *)(packet->packet+sizeof(DWORD)));
 	i = 0;
-	while ((i=JabberListFindNext(proto, list, i)) >= 0) {
-		if ((item=JabberListGetItemPtrFromIndex(proto, i)) != NULL) {
+	while ((i=TlenListFindNext(proto, list, i)) >= 0) {
+		if ((item=TlenListGetItemPtrFromIndex(proto, i)) != NULL) {
 			mir_snprintf(str, sizeof(str), "%d", iqId);
 			if (!strcmp(item->ft->iqId, str)) {
 				char *hash, *nick;
 				int j;
-				nick = JabberNickFromJID(item->ft->jid);
+				nick = TlenNickFromJID(item->ft->jid);
 				mir_snprintf(str, sizeof(str), "%08X%s%d", iqId, nick, iqId);
 				mir_free(nick);
 				hash = TlenSha1(str, (int)strlen(str));
@@ -248,9 +248,9 @@ static void __cdecl TlenFileBindSocks4Thread(TLEN_FILE_TRANSFER* ft)
 	BYTE buf[8];
 	int status;
 
-//	JabberLog("Waiting for the file to be sent via SOCKS...");
+//	TlenLog("Waiting for the file to be sent via SOCKS...");
 	status = Netlib_Recv(ft->s, (char*)buf, 8, MSG_NODUMP);
-//	JabberLog("accepted connection !!!");
+//	TlenLog("accepted connection !!!");
 	if ( status == SOCKET_ERROR || status < 8 || buf[1] != 90) {
 		status = 1;
 	} else {
@@ -263,7 +263,7 @@ static void __cdecl TlenFileBindSocks4Thread(TLEN_FILE_TRANSFER* ft)
 			ft->state = FT_ERROR;
 		}
 	}
-	JabberLog(ft->proto, "Closing connection for this file transfer...");
+	TlenLog(ft->proto, "Closing connection for this file transfer...");
 //	Netlib_CloseHandle(ft->s);
 	if (ft->hFileEvent != NULL)
 		SetEvent(ft->hFileEvent);
@@ -274,9 +274,9 @@ static void __cdecl TlenFileBindSocks5Thread(TLEN_FILE_TRANSFER* ft)
 	BYTE buf[256];
 	int status;
 
-//	JabberLog("Waiting for the file to be sent via SOCKS...");
+//	TlenLog("Waiting for the file to be sent via SOCKS...");
 	status = Netlib_Recv(ft->s, (char*)buf, sizeof(buf), MSG_NODUMP);
-//	JabberLog("accepted connection !!!");
+//	TlenLog("accepted connection !!!");
 	if ( status == SOCKET_ERROR || status < 7 || buf[1] != 0) {
 		status = 1;
 	} else {
@@ -289,21 +289,21 @@ static void __cdecl TlenFileBindSocks5Thread(TLEN_FILE_TRANSFER* ft)
 			ft->state = FT_ERROR;
 		}
 	}
-//	JabberLog("Closing connection for this file transfer...");
+//	TlenLog("Closing connection for this file transfer...");
 //	Netlib_CloseHandle(ft->s);
 	if (ft->hFileEvent != NULL)
 		SetEvent(ft->hFileEvent);
 
 }
 
-static JABBER_SOCKET TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
+static TLEN_SOCKET TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 {	//rfc1928
 	int len;
 	BYTE buf[256];
 	int status;
 	struct in_addr in;
 	NETLIBOPENCONNECTION nloc;
-	JABBER_SOCKET s;
+	TLEN_SOCKET s;
 
 	nloc.cbSize = NETLIBOPENCONNECTION_V1_SIZE;//sizeof(NETLIBOPENCONNECTION);
 	nloc.szHost = sb->szHost;
@@ -311,7 +311,7 @@ static JABBER_SOCKET TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	nloc.flags = 0;
 	s = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) ft->proto->hFileNetlibUser, (LPARAM) &nloc);
 	if (s == NULL) {
-//		JabberLog("Connection failed (%d), thread ended", WSAGetLastError());
+//		TlenLog("Connection failed (%d), thread ended", WSAGetLastError());
 		return NULL;
 	}
 	buf[0] = 4;  //socks4
@@ -328,19 +328,19 @@ static JABBER_SOCKET TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	len += 9;
 	status = Netlib_Send(s, (char*)buf, len, MSG_NODUMP);
 	if (status == SOCKET_ERROR || status < len) {
-//		JabberLog("Send failed (%d), thread ended", WSAGetLastError());
+//		TlenLog("Send failed (%d), thread ended", WSAGetLastError());
 		Netlib_CloseHandle(s);
 		return NULL;
 	}
 	status = Netlib_Recv(s, (char*)buf, 8, MSG_NODUMP);
 	if (status == SOCKET_ERROR || status < 8 || buf[1] != 90) {
-//		JabberLog("SOCKS4 negotiation failed");
+//		TlenLog("SOCKS4 negotiation failed");
 		Netlib_CloseHandle(s);
 		return NULL;
 	}
 	status = Netlib_Recv(s, (char*)buf, sizeof(buf), MSG_NODUMP);
 	if ( status == SOCKET_ERROR || status < 7 || buf[0] != 5 || buf[1] != 0) {
-//		JabberLog("SOCKS5 request failed");
+//		TlenLog("SOCKS5 request failed");
 		Netlib_CloseHandle(s);
 		return NULL;
 	}
@@ -348,17 +348,17 @@ static JABBER_SOCKET TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	strcpy(sb->szHost, inet_ntoa(in));
 	sb->wPort = htons(*(PWORD)(buf+2));
 	ft->s = s;
-	JabberForkThread((void (__cdecl *)(void*))TlenFileBindSocks4Thread, 0, ft);
+	TlenForkThread((void (__cdecl *)(void*))TlenFileBindSocks4Thread, 0, ft);
 	return s;
 }
 
-static JABBER_SOCKET TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
+static TLEN_SOCKET TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 {	//rfc1928
 	BYTE buf[512];
 	int len, status;
 	NETLIBOPENCONNECTION nloc;
 	struct in_addr in;
-	JABBER_SOCKET s;
+	TLEN_SOCKET s;
 
 	nloc.cbSize = NETLIBOPENCONNECTION_V1_SIZE;//sizeof(NETLIBOPENCONNECTION);
 	nloc.szHost = sb->szHost;
@@ -366,7 +366,7 @@ static JABBER_SOCKET TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	nloc.flags = 0;
 	s = (HANDLE) CallService(MS_NETLIB_OPENCONNECTION, (WPARAM) ft->proto->hFileNetlibUser, (LPARAM) &nloc);
 	if (s == NULL) {
-		JabberLog(ft->proto, "Connection failed (%d), thread ended", WSAGetLastError());
+		TlenLog(ft->proto, "Connection failed (%d), thread ended", WSAGetLastError());
 		return NULL;
 	}
 	buf[0] = 5;  //yep, socks5
@@ -374,13 +374,13 @@ static JABBER_SOCKET TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	buf[2] = sb->useAuth?2:0; // authorization
 	status = Netlib_Send(s, (char*)buf, 3, MSG_NODUMP);
 	if (status == SOCKET_ERROR || status < 3) {
-		JabberLog(ft->proto, "Send failed (%d), thread ended", WSAGetLastError());
+		TlenLog(ft->proto, "Send failed (%d), thread ended", WSAGetLastError());
 		Netlib_CloseHandle(s);
 		return NULL;
 	}
 	status = Netlib_Recv(s, (char*)buf, 2, MSG_NODUMP);
 	if (status == SOCKET_ERROR || status < 2 || (buf[1] != 0 && buf[1] != 2)) {
-		JabberLog(ft->proto, "SOCKS5 negotiation failed");
+		TlenLog(ft->proto, "SOCKS5 negotiation failed");
 		Netlib_CloseHandle(s);
 		return NULL;
 	}
@@ -399,13 +399,13 @@ static JABBER_SOCKET TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 		status = Netlib_Send(s, (char*)pAuthBuf, 3+nUserLen+nPassLen, MSG_NODUMP);
 		mir_free(pAuthBuf);
 		if (status == SOCKET_ERROR || status < 3 + nUserLen+nPassLen) {
-			JabberLog(ft->proto, "Send failed (%d), thread ended", WSAGetLastError());
+			TlenLog(ft->proto, "Send failed (%d), thread ended", WSAGetLastError());
 			Netlib_CloseHandle(s);
 			return NULL;
 		}
 		status = Netlib_Recv(s, (char*)buf, sizeof(buf), MSG_NODUMP);
 		if (status == SOCKET_ERROR || status < 2 || buf[1] != 0) {
-			JabberLog(ft->proto, "SOCKS5 sub-negotiation failed");
+			TlenLog(ft->proto, "SOCKS5 sub-negotiation failed");
 			Netlib_CloseHandle(s);
 			return NULL;
 		}
@@ -424,14 +424,14 @@ static JABBER_SOCKET TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 		status = Netlib_Send(s, (char*)pInit, 6+nHostLen, MSG_NODUMP);
 		mir_free(pInit);
 		if (status == SOCKET_ERROR || status < 6 + nHostLen) {
-//			JabberLog("Send failed (%d), thread ended", WSAGetLastError());
+//			TlenLog("Send failed (%d), thread ended", WSAGetLastError());
 			Netlib_CloseHandle(s);
 			return NULL;
 		}
 	}
 	status = Netlib_Recv(s, (char*)buf, sizeof(buf), MSG_NODUMP);
 	if ( status == SOCKET_ERROR || status < 7 || buf[0] != 5 || buf[1] != 0) {
-//		JabberLog("SOCKS5 request failed");
+//		TlenLog("SOCKS5 request failed");
 		Netlib_CloseHandle(s);
 		return NULL;
 	}
@@ -448,15 +448,15 @@ static JABBER_SOCKET TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	sb->wPort = htons(*(PWORD)(buf+len));
 	ft->s = s;
 
-	JabberForkThread((void (__cdecl *)(void*))TlenFileBindSocks5Thread, 0, ft);
+	TlenForkThread((void (__cdecl *)(void*))TlenFileBindSocks5Thread, 0, ft);
 	return s;
 }
 
 
-JABBER_SOCKET TlenP2PListen(TLEN_FILE_TRANSFER *ft)
+TLEN_SOCKET TlenP2PListen(TLEN_FILE_TRANSFER *ft)
 {
 	NETLIBBIND nlb = {0};
-	JABBER_SOCKET s = NULL;
+	TLEN_SOCKET s = NULL;
 	int	  useProxy;
 	DBVARIANT dbv;
 	SOCKSBIND sb;
@@ -509,9 +509,9 @@ JABBER_SOCKET TlenP2PListen(TLEN_FILE_TRANSFER *ft)
 		nlb.pfnNewConnectionV2 = ft->pfnNewConnectionV2;
 		nlb.wPort = 0;	// Use user-specified incoming port ranges, if available
 		nlb.pExtra = proto;
-		JabberLog(ft->proto, "Calling MS_NETLIB_BINDPORT");
+		TlenLog(ft->proto, "Calling MS_NETLIB_BINDPORT");
 		s = (HANDLE) CallService(MS_NETLIB_BINDPORT, (WPARAM) ft->proto->hNetlibUser, (LPARAM) &nlb);
-		JabberLog(ft->proto, "listening on %d",s);
+		TlenLog(ft->proto, "listening on %d",s);
 	}
 	if (useProxy == 0) {
 		in.S_un.S_addr = htonl(nlb.dwExternalIP);
@@ -525,7 +525,7 @@ JABBER_SOCKET TlenP2PListen(TLEN_FILE_TRANSFER *ft)
 	return s;
 }
 
-void TlenP2PStopListening(JABBER_SOCKET s) {
+void TlenP2PStopListening(TLEN_SOCKET s) {
 	if (s != NULL) {
 //		listenCount--;
 //		if (listenCount <= 0) {

@@ -24,10 +24,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "tlen.h"
 #include <ctype.h>
 
-static BOOL JabberXmlProcessElem(XmlState *xmlState, XmlElemType elemType, char *elemText, char *elemAttr);
-static void JabberXmlRemoveChild(XmlNode *node, XmlNode *child);
+static BOOL TlenXmlProcessElem(XmlState *xmlState, XmlElemType elemType, char *elemText, char *elemAttr);
+static void TlenXmlRemoveChild(XmlNode *node, XmlNode *child);
 
-void JabberXmlInitState(XmlState *xmlState)
+void TlenXmlInitState(XmlState *xmlState)
 {
 	if (xmlState == NULL) return;
 	xmlState->root.name = NULL;
@@ -50,18 +50,18 @@ void JabberXmlInitState(XmlState *xmlState)
 	xmlState->userdata2_close = NULL;
 }
 
-void JabberXmlDestroyState(XmlState *xmlState)
+void TlenXmlDestroyState(XmlState *xmlState)
 {
 	int i;
 	XmlNode *node;
 
 	if (xmlState == NULL) return;
-	// Note: cannot use JabberXmlFreeNode() to free xmlState->root
+	// Note: cannot use TlenXmlFreeNode() to free xmlState->root
 	// because it will do mir_free(xmlState->root) which is not freeable.
 	node = &(xmlState->root);
 	// Free all children first
 	for (i=0; i<node->numChild; i++)
-		JabberXmlFreeNode(node->child[i]);
+		TlenXmlFreeNode(node->child[i]);
 	if (node->child) mir_free(node->child);
 	// Free all attributes
 	for (i=0; i<node->numAttr; i++) {
@@ -75,7 +75,7 @@ void JabberXmlDestroyState(XmlState *xmlState)
 	if (node->name) mir_free(node->name);
 }
 
-BOOL JabberXmlSetCallback(XmlState *xmlState, int depth, XmlElemType type, void (*callback)(XmlNode*, void*), void *userdata)
+BOOL TlenXmlSetCallback(XmlState *xmlState, int depth, XmlElemType type, void (*callback)(XmlNode*, void*), void *userdata)
 {
 	if (depth == 1 && type == ELEM_OPEN) {
 		xmlState->callback1_open = callback;
@@ -101,7 +101,7 @@ BOOL JabberXmlSetCallback(XmlState *xmlState, int depth, XmlElemType type, void 
 
 #define TAG_MAX_LEN 50
 #define ATTR_MAX_LEN 1024
-int JabberXmlParse(XmlState *xmlState, char *buffer, int datalen)
+int TlenXmlParse(XmlState *xmlState, char *buffer, int datalen)
 {
 	char *p, *q, *r, *eob;
 	char *str;
@@ -120,7 +120,7 @@ int JabberXmlParse(XmlState *xmlState, char *buffer, int datalen)
 			if (q < eob) {	// found closing bracket
 				for (r=p+1; *r != '>' && *r != ' ' && *r != '\t'; r++);
 				if (r-(p+1) > TAG_MAX_LEN) {
-//					JabberLog("TAG_MAX_LEN too small, ignore current tag");
+//					TlenLog("TAG_MAX_LEN too small, ignore current tag");
 				}
 				else {
 					if (*(p+1) == '/') {	// closing tag
@@ -142,7 +142,7 @@ int JabberXmlParse(XmlState *xmlState, char *buffer, int datalen)
 					}
 					for (;r<q && (*r == ' ' || *r == '\t'); r++);
 					if (q-r > ATTR_MAX_LEN) {
-//						JabberLog("ATTR_MAX_LEN too small, ignore current tag");
+//						TlenLog("ATTR_MAX_LEN too small, ignore current tag");
 					}
 					else {
 						strncpy(attr, r, q-r);
@@ -152,7 +152,7 @@ int JabberXmlParse(XmlState *xmlState, char *buffer, int datalen)
 						}
 						else
 							attr[q-r] = '\0';
-						JabberXmlProcessElem(xmlState, elemType, tag, attr);
+						TlenXmlProcessElem(xmlState, elemType, tag, attr);
 					}
 				}
 				num += (q-p+1);
@@ -171,7 +171,7 @@ int JabberXmlParse(XmlState *xmlState, char *buffer, int datalen)
 				str = (char *) mir_alloc(q-p+1);
 				strncpy(str, p, q-p);
 				str[q-p] = '\0';
-				JabberXmlProcessElem(xmlState, ELEM_TEXT, str, NULL);
+				TlenXmlProcessElem(xmlState, ELEM_TEXT, str, NULL);
 				mir_free(str);
 				num += (q-p);
 				p = q;
@@ -184,7 +184,7 @@ int JabberXmlParse(XmlState *xmlState, char *buffer, int datalen)
 	return num;
 }
 
-static void JabberXmlParseAttr(XmlNode *node, char *text)
+static void TlenXmlParseAttr(XmlNode *node, char *text)
 {
 	char *kstart, *vstart;
 	int klen, vlen;
@@ -269,7 +269,7 @@ static void JabberXmlParseAttr(XmlNode *node, char *text)
 	}
 }
 
-static BOOL JabberXmlProcessElem(XmlState *xmlState, XmlElemType elemType, char *elemText, char *elemAttr)
+static BOOL TlenXmlProcessElem(XmlState *xmlState, XmlElemType elemType, char *elemText, char *elemAttr)
 {
 	XmlNode *node, *parentNode, *n;
 	//BOOL activateCallback = FALSE;
@@ -278,7 +278,7 @@ static BOOL JabberXmlProcessElem(XmlState *xmlState, XmlElemType elemType, char 
 	if (elemText == NULL) return FALSE;
 
 	if (elemType == ELEM_OPEN && !strcmp(elemText, "?xml")) {
-//		JabberLog("XML: skip <?xml> tag");
+//		TlenLog("XML: skip <?xml> tag");
 		return TRUE;
 	}
 
@@ -314,7 +314,7 @@ static BOOL JabberXmlProcessElem(XmlState *xmlState, XmlElemType elemType, char 
 		n->child = NULL;
 		n->numAttr = n->maxNumAttr = 0;
 		n->attr = NULL;
-		JabberXmlParseAttr(n, attr);
+		TlenXmlParseAttr(n, attr);
 		n->text = NULL;
 		if (n->depth == 1 && xmlState->callback1_open != NULL)
 			(*(xmlState->callback1_open))(n, xmlState->userdata1_open);
@@ -335,15 +335,15 @@ static BOOL JabberXmlProcessElem(XmlState *xmlState, XmlElemType elemType, char 
 		n->child = NULL;
 		n->numAttr = n->maxNumAttr = 0;
 		n->attr = NULL;
-		JabberXmlParseAttr(n, attr);
+		TlenXmlParseAttr(n, attr);
 		n->text = NULL;
 		if (n->depth == 1 && xmlState->callback1_close != NULL) {
 			(*(xmlState->callback1_close))(n, xmlState->userdata1_close);
-			JabberXmlRemoveChild(node, n);
+			TlenXmlRemoveChild(node, n);
 		}
 		if (n->depth == 2 && xmlState->callback2_close != NULL) {
 			(*xmlState->callback2_close)(n, xmlState->userdata2_close);
-			JabberXmlRemoveChild(node, n);
+			TlenXmlRemoveChild(node, n);
 		}
 		break;
 	case ELEM_CLOSE:
@@ -351,16 +351,16 @@ static BOOL JabberXmlProcessElem(XmlState *xmlState, XmlElemType elemType, char 
 			node->state = NODE_CLOSE;
 			if (node->depth == 1 && xmlState->callback1_close != NULL) {
 				(*(xmlState->callback1_close))(node, xmlState->userdata1_close);
-				JabberXmlRemoveChild(parentNode, node);
+				TlenXmlRemoveChild(parentNode, node);
 			}
 			if (node->depth == 2 && xmlState->callback2_close != NULL) {
 				(*xmlState->callback2_close)(node, xmlState->userdata2_close);
-				JabberXmlRemoveChild(parentNode, node);
+				TlenXmlRemoveChild(parentNode, node);
 			}
 			mir_free(text);
 		}
 		else {
-//			JabberLog("XML: Closing </%s> without opening tag", text);
+//			TlenLog("XML: Closing </%s> without opening tag", text);
 			mir_free(text);
 			if (attr) mir_free(attr);
 			return FALSE;
@@ -380,7 +380,7 @@ static BOOL JabberXmlProcessElem(XmlState *xmlState, XmlElemType elemType, char 
 	return TRUE;
 }
 
-char *JabberXmlGetAttrValue(XmlNode *node, char *key)
+char *TlenXmlGetAttrValue(XmlNode *node, char *key)
 {
 	int i;
 
@@ -393,12 +393,12 @@ char *JabberXmlGetAttrValue(XmlNode *node, char *key)
 	return NULL;
 }
 
-XmlNode *JabberXmlGetChild(XmlNode *node, char *tag)
+XmlNode *TlenXmlGetChild(XmlNode *node, char *tag)
 {
-	return JabberXmlGetNthChild(node, tag, 1);
+	return TlenXmlGetNthChild(node, tag, 1);
 }
 
-XmlNode *JabberXmlGetNthChild(XmlNode *node, char *tag, int nth)
+XmlNode *TlenXmlGetNthChild(XmlNode *node, char *tag, int nth)
 {
 	int i, num;
 
@@ -416,7 +416,7 @@ XmlNode *JabberXmlGetNthChild(XmlNode *node, char *tag, int nth)
 	return NULL;
 }
 
-XmlNode *JabberXmlGetChildWithGivenAttrValue(XmlNode *node, char *tag, char *attrKey, char *attrValue)
+XmlNode *TlenXmlGetChildWithGivenAttrValue(XmlNode *node, char *tag, char *attrKey, char *attrValue)
 {
 	int i;
 	char *str;
@@ -425,7 +425,7 @@ XmlNode *JabberXmlGetChildWithGivenAttrValue(XmlNode *node, char *tag, char *att
 		return NULL;
 	for (i=0; i<node->numChild; i++) {
 		if (node->child[i]->name && !strcmp(tag, node->child[i]->name)) {
-			if ((str=JabberXmlGetAttrValue(node->child[i], attrKey)) != NULL)
+			if ((str=TlenXmlGetAttrValue(node->child[i], attrKey)) != NULL)
 				if (!strcmp(str, attrValue))
 					return node->child[i];
 		}
@@ -433,7 +433,7 @@ XmlNode *JabberXmlGetChildWithGivenAttrValue(XmlNode *node, char *tag, char *att
 	return NULL;
 }
 
-static void JabberXmlRemoveChild(XmlNode *node, XmlNode *child)
+static void TlenXmlRemoveChild(XmlNode *node, XmlNode *child)
 {
 	int i;
 
@@ -446,18 +446,18 @@ static void JabberXmlRemoveChild(XmlNode *node, XmlNode *child)
 		for (++i; i<node->numChild; i++)
 			node->child[i-1] = node->child[i];
 		node->numChild--;
-		JabberXmlFreeNode(child);
+		TlenXmlFreeNode(child);
 	}
 }
 
-void JabberXmlFreeNode(XmlNode *node)
+void TlenXmlFreeNode(XmlNode *node)
 {
 	int i;
 
 	if (node == NULL) return;
 	// Free all children first
 	for (i=0; i<node->numChild; i++)
-		JabberXmlFreeNode(node->child[i]);
+		TlenXmlFreeNode(node->child[i]);
 	if (node->child) mir_free(node->child);
 	// Free all attributes
 	for (i=0; i<node->numAttr; i++) {
@@ -473,7 +473,7 @@ void JabberXmlFreeNode(XmlNode *node)
 	mir_free(node);
 }
 
-XmlNode *JabberXmlCopyNode(XmlNode *node)
+XmlNode *TlenXmlCopyNode(XmlNode *node)
 {
 	XmlNode *n;
 	int i;
@@ -497,7 +497,7 @@ XmlNode *JabberXmlCopyNode(XmlNode *node)
 	if (node->numChild > 0) {
 		n->child = (XmlNode **) mir_alloc(node->numChild*sizeof(XmlNode *));
 		for (i=0; i<node->numChild; i++)
-			n->child[i] = JabberXmlCopyNode(node->child[i]);
+			n->child[i] = TlenXmlCopyNode(node->child[i]);
 	}
 	else
 		n->child = NULL;
@@ -514,7 +514,7 @@ XmlNode *JabberXmlCopyNode(XmlNode *node)
 	return n;
 }
 
-XmlNode *JabberXmlCreateNode(char *name)
+XmlNode *TlenXmlCreateNode(char *name)
 {
 	XmlNode *n;
 
@@ -527,7 +527,7 @@ XmlNode *JabberXmlCreateNode(char *name)
 	return n;
 }
 
-void JabberXmlAddAttr(XmlNode *n, char *name, char *value)
+void TlenXmlAddAttr(XmlNode *n, char *name, char *value)
 {
 	int i;
 
@@ -542,7 +542,7 @@ void JabberXmlAddAttr(XmlNode *n, char *name, char *value)
 	n->attr[i]->value = mir_strdup(value);
 }
 
-XmlNode *JabberXmlAddChild(XmlNode *n, char *name)
+XmlNode *TlenXmlAddChild(XmlNode *n, char *name)
 {
 	int i;
 
@@ -558,7 +558,7 @@ XmlNode *JabberXmlAddChild(XmlNode *n, char *name)
 	return n->child[i];
 }
 
-void JabberXmlAddText(XmlNode *n, char *text)
+void TlenXmlAddText(XmlNode *n, char *text)
 {
 	if (n != NULL && text != NULL) {
 		if (n->text) mir_free(n->text);

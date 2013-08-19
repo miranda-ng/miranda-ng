@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "tlen.h"
 #include "resource.h"
 
-static void InitComboBox(HWND hwndCombo, JABBER_FIELD_MAP *fieldMap)
+static void InitComboBox(HWND hwndCombo, TLEN_FIELD_MAP *fieldMap)
 {
 	int i, n;
 
@@ -63,9 +63,9 @@ static void FetchField(HWND hwndDlg, UINT idCtrl, char *fieldName, char **str, i
 		return;
 	GetDlgItemTextA(hwndDlg, idCtrl, text, sizeof(text));
 	if (text[0]) {
-		if ((localFieldName=JabberTextEncode(fieldName)) != NULL) {
-			if ((localText=JabberTextEncode(text)) != NULL) {
-				JabberStringAppend(str, strSize, "<%s>%s</%s>", localFieldName, localText, localFieldName);
+		if ((localFieldName=TlenTextEncode(fieldName)) != NULL) {
+			if ((localText=TlenTextEncode(text)) != NULL) {
+				TlenStringAppend(str, strSize, "<%s>%s</%s>", localFieldName, localText, localFieldName);
 				mir_free(localText);
 			}
 			mir_free(localFieldName);
@@ -82,8 +82,8 @@ static void FetchCombo(HWND hwndDlg, UINT idCtrl, char *fieldName, char **str, i
 		return;
 	value = (int) SendDlgItemMessage(hwndDlg, idCtrl, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, idCtrl, CB_GETCURSEL, 0, 0), 0);
 	if (value > 0) {
-		if ((localFieldName=JabberTextEncode(fieldName)) != NULL) {
-			JabberStringAppend(str, strSize, "<%s>%d</%s>", localFieldName, value, localFieldName);
+		if ((localFieldName=TlenTextEncode(fieldName)) != NULL) {
+			TlenStringAppend(str, strSize, "<%s>%d</%s>", localFieldName, value, localFieldName);
 			mir_free(localFieldName);
 		}
 	}

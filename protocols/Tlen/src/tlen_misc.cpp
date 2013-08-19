@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "tlen.h"
 #include "tlen_list.h"
 
-void JabberDBAddEvent(TlenProtocol *proto, HANDLE hContact, int eventType, DWORD flags, PBYTE pBlob, DWORD cbBlob)
+void TlenDBAddEvent(TlenProtocol *proto, HANDLE hContact, int eventType, DWORD flags, PBYTE pBlob, DWORD cbBlob)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = proto->m_szModuleName;
@@ -36,7 +36,7 @@ void JabberDBAddEvent(TlenProtocol *proto, HANDLE hContact, int eventType, DWORD
 	db_event_add(hContact, &dbei);
 }
 
-void JabberDBAddAuthRequest(TlenProtocol *proto, char *jid, char *nick)
+void TlenDBAddAuthRequest(TlenProtocol *proto, char *jid, char *nick)
 {
 	char *s;
 	PBYTE pCurBlob;
@@ -44,11 +44,11 @@ void JabberDBAddAuthRequest(TlenProtocol *proto, char *jid, char *nick)
 	DWORD cbBlob;
 	HANDLE hContact;
 
-	if ((hContact=JabberHContactFromJID(proto, jid)) == NULL) {
+	if ((hContact=TlenHContactFromJID(proto, jid)) == NULL) {
 		hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) proto->m_szModuleName);
 		// strip resource if present
-		s = JabberLoginFromJID(jid);
+		s = TlenLoginFromJID(jid);
 		_strlwr(s);
 		db_set_s(hContact, proto->m_szModuleName, "jid", s);
 		mir_free(s);
@@ -57,7 +57,7 @@ void JabberDBAddAuthRequest(TlenProtocol *proto, char *jid, char *nick)
 		db_unset(hContact, proto->m_szModuleName, "Hidden");
 	}
 	db_set_s(hContact, proto->m_szModuleName, "Nick", nick);
-	JabberLog(proto, "auth request: %s, %s", jid, nick);
+	TlenLog(proto, "auth request: %s, %s", jid, nick);
 	//blob is: uin(DWORD), hContact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 	//blob is: 0(DWORD), hContact(HANDLE), nick(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), email(ASCIIZ), ""(ASCIIZ)
 	cbBlob = sizeof(DWORD) + sizeof(HANDLE) + (int)strlen(nick) + (int)strlen(jid) + 5;
@@ -69,10 +69,10 @@ void JabberDBAddAuthRequest(TlenProtocol *proto, char *jid, char *nick)
 	*pCurBlob = '\0'; pCurBlob++;		//lastName
 	strcpy((char *) pCurBlob, jid); pCurBlob += strlen(jid)+1;
 	*pCurBlob = '\0';					//reason
-	JabberDBAddEvent(proto, NULL, EVENTTYPE_AUTHREQUEST, 0, pBlob, cbBlob);
+	TlenDBAddEvent(proto, NULL, EVENTTYPE_AUTHREQUEST, 0, pBlob, cbBlob);
 }
 
-char *JabberJIDFromHContact(TlenProtocol *proto, HANDLE hContact)
+char *TlenJIDFromHContact(TlenProtocol *proto, HANDLE hContact)
 {
 	char *p = NULL;
 	DBVARIANT dbv;
@@ -83,7 +83,7 @@ char *JabberJIDFromHContact(TlenProtocol *proto, HANDLE hContact)
 	return p;
 }
 
-HANDLE JabberHContactFromJID(TlenProtocol *proto, const char *jid)
+HANDLE TlenHContactFromJID(TlenProtocol *proto, const char *jid)
 {
 	DBVARIANT dbv;
 	char *p;
@@ -106,13 +106,13 @@ HANDLE JabberHContactFromJID(TlenProtocol *proto, const char *jid)
 	return NULL;
 }
 
-HANDLE JabberDBCreateContact(TlenProtocol *proto, char *jid, char *nick, BOOL temporary)
+HANDLE TlenDBCreateContact(TlenProtocol *proto, char *jid, char *nick, BOOL temporary)
 {
 	HANDLE hContact;
 	if (jid == NULL || jid[0] == '\0')
 		return NULL;
 
-	if ((hContact=JabberHContactFromJID(proto, jid)) == NULL) {
+	if ((hContact=TlenHContactFromJID(proto, jid)) == NULL) {
 		hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) proto->m_szModuleName);
 		db_set_s(hContact, proto->m_szModuleName, "jid", jid);
@@ -124,7 +124,7 @@ HANDLE JabberDBCreateContact(TlenProtocol *proto, char *jid, char *nick, BOOL te
 	return hContact;
 }
 
-static void JabberContactListCreateClistGroup(char *groupName)
+static void TlenContactListCreateClistGroup(char *groupName)
 {
 	char str[33], newName[128];
 	int i;
@@ -152,7 +152,7 @@ static void JabberContactListCreateClistGroup(char *groupName)
 	CallService(MS_CLUI_GROUPADDED, i+1, 0);
 }
 
-void JabberContactListCreateGroup(char *groupName)
+void TlenContactListCreateGroup(char *groupName)
 {
 	char name[128];
 	char *p;
@@ -164,11 +164,11 @@ void JabberContactListCreateGroup(char *groupName)
 	for (p=name; *p != '\0'; p++) {
 		if (*p == '\\') {
 			*p = '\0';
-			JabberContactListCreateClistGroup(name);
+			TlenContactListCreateClistGroup(name);
 			*p = '\\';
 		}
 	}
-	JabberContactListCreateClistGroup(name);
+	TlenContactListCreateClistGroup(name);
 }
 
 
@@ -189,7 +189,7 @@ static void __cdecl forkthread_r(struct FORK_ARG *fa)
 	return;
 }
 
-unsigned long JabberForkThread(
+unsigned long TlenForkThread(
 	void (__cdecl *threadcode)(void*),
 	unsigned long stacksize,
 	void *arg

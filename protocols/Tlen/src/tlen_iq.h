@@ -20,30 +20,30 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#ifndef _JABBER_IQ_H_
-#define _JABBER_IQ_H_
+#ifndef _TLEN_IQ_H_
+#define _TLEN_IQ_H_
 
 #include "tlen_xml.h"
 #include "tlen.h"
 
-typedef void (*JABBER_IQ_PFUNC)(TlenProtocol *proto, XmlNode *iqNode);
+typedef void (*TLEN_IQ_PFUNC)(TlenProtocol *proto, XmlNode *iqNode);
 
-typedef struct JABBER_IQ_FUNC_STRUCT {
+typedef struct TLEN_IQ_FUNC_STRUCT {
 	int iqId;					// id to match IQ get/set with IQ result
-	JABBER_IQ_PROCID procId;	// must be unique in the list, except for IQ_PROC_NONE which can have multiple entries
-	JABBER_IQ_PFUNC func;		// callback function
+	TLEN_IQ_PROCID procId;	// must be unique in the list, except for IQ_PROC_NONE which can have multiple entries
+	TLEN_IQ_PFUNC func;		// callback function
 	time_t requestTime;			// time the request was sent, used to remove relinquent entries
-} JABBER_IQ_FUNC;
+} TLEN_IQ_FUNC;
 
-void JabberIqInit(TlenProtocol *proto);
-void JabberIqUninit(TlenProtocol *proto);
-JABBER_IQ_PFUNC JabberIqFetchFunc(TlenProtocol *proto, int iqId);
-void JabberIqAdd(TlenProtocol *proto, unsigned int iqId, JABBER_IQ_PROCID procId, JABBER_IQ_PFUNC func);
+void TlenIqInit(TlenProtocol *proto);
+void TlenIqUninit(TlenProtocol *proto);
+TLEN_IQ_PFUNC TlenIqFetchFunc(TlenProtocol *proto, int iqId);
+void TlenIqAdd(TlenProtocol *proto, unsigned int iqId, TLEN_IQ_PROCID procId, TLEN_IQ_PFUNC func);
 
-void JabberIqResultAuth(TlenProtocol *proto, XmlNode *iqNode);
-void JabberIqResultRoster(TlenProtocol *proto, XmlNode *iqNode);
+void TlenIqResultAuth(TlenProtocol *proto, XmlNode *iqNode);
+void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode);
 void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode);
-void JabberIqResultSearch(TlenProtocol *proto, XmlNode *iqNode);
+void TlenIqResultSearch(TlenProtocol *proto, XmlNode *iqNode);
 void TlenIqResultVersion(TlenProtocol *proto, XmlNode *iqNode);
 void TlenIqResultInfo(TlenProtocol *proto, XmlNode *iqNode);
 void TlenIqResultTcfg(TlenProtocol *proto, XmlNode *iqNode);
@@ -55,7 +55,7 @@ void TlenIqResultUserNicks(TlenProtocol *proto, XmlNode *iqNode);
 void TlenIqResultRoomSearch(TlenProtocol *proto, XmlNode *iqNode);
 void TlenIqResultRoomInfo(TlenProtocol *proto, XmlNode *iqNode);
 void TlenIqResultChatRoomUsers(TlenProtocol *proto, XmlNode *iqNode);
-//void JabberIqResultSetPassword(XmlNode *iqNode, void *userdata);
+//void TlenIqResultSetPassword(XmlNode *iqNode, void *userdata);
 
 #endif
 

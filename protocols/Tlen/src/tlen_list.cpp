@@ -25,28 +25,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "tlen_list.h"
 
 
-static void JabberListFreeItemInternal(JABBER_LIST_ITEM *item);
+static void TlenListFreeItemInternal(TLEN_LIST_ITEM *item);
 
-void JabberListInit(TlenProtocol *proto)
+void TlenListInit(TlenProtocol *proto)
 {
 	proto->lists = NULL;
 	proto->listsCount = 0;
 	InitializeCriticalSection(&proto->csLists);
 }
 
-void JabberListUninit(TlenProtocol *proto)
+void TlenListUninit(TlenProtocol *proto)
 {
-	JabberListWipe(proto);
+	TlenListWipe(proto);
 	DeleteCriticalSection(&proto->csLists);
 }
 
-void JabberListWipe(TlenProtocol *proto)
+void TlenListWipe(TlenProtocol *proto)
 {
 	int i;
 
 	EnterCriticalSection(&proto->csLists);
 	for (i=0; i<proto->listsCount; i++)
-		JabberListFreeItemInternal(&(proto->lists[i]));
+		TlenListFreeItemInternal(&(proto->lists[i]));
 	if (proto->lists != NULL) {
 		mir_free(proto->lists);
 		proto->lists = NULL;
@@ -55,23 +55,23 @@ void JabberListWipe(TlenProtocol *proto)
 	LeaveCriticalSection(&proto->csLists);
 }
 
-void JabberListWipeSpecial(TlenProtocol *proto)
+void TlenListWipeSpecial(TlenProtocol *proto)
 {
 	int i;
 	EnterCriticalSection(&proto->csLists);
 	for (i=0; i<proto->listsCount; i++) {
 		if (proto->lists[i].list != LIST_FILE && proto->lists[i].list != LIST_VOICE) {
-			JabberListFreeItemInternal(&(proto->lists[i]));
+			TlenListFreeItemInternal(&(proto->lists[i]));
 			proto->listsCount--;
-			memmove(proto->lists+i, proto->lists+i+1, sizeof(JABBER_LIST_ITEM)*(proto->listsCount-i));
+			memmove(proto->lists+i, proto->lists+i+1, sizeof(TLEN_LIST_ITEM)*(proto->listsCount-i));
 			i--;
 		}
 	}
-	proto->lists = (JABBER_LIST_ITEM *) mir_realloc(proto->lists, sizeof(JABBER_LIST_ITEM)*proto->listsCount);
+	proto->lists = (TLEN_LIST_ITEM *) mir_realloc(proto->lists, sizeof(TLEN_LIST_ITEM)*proto->listsCount);
 	LeaveCriticalSection(&proto->csLists);
 }
 
-static void JabberListFreeItemInternal(JABBER_LIST_ITEM *item)
+static void TlenListFreeItemInternal(TLEN_LIST_ITEM *item)
 {
 	if (item == NULL)
 		return;
@@ -82,7 +82,7 @@ static void JabberListFreeItemInternal(JABBER_LIST_ITEM *item)
 	if (item->group) mir_free(item->group);
 	if (item->messageEventIdStr) mir_free(item->messageEventIdStr);
 //	if (item->type) mir_free(item->type);
-	//if (item->ft) JabberFileFreeFt(item->ft); // No need to free (it is always free when exit from JabberFileServerThread())
+	//if (item->ft) TlenFileFreeFt(item->ft); // No need to free (it is always free when exit from TlenFileServerThread())
 	if (item->roomName) mir_free(item->roomName);
 	if (item->version) mir_free(item->version);
 	if (item->software) mir_free(item->software);
@@ -93,7 +93,7 @@ static void JabberListFreeItemInternal(JABBER_LIST_ITEM *item)
 	if (item->id2) mir_free(item->id2);
 }
 
-static char * GetItemId(JABBER_LIST list, const char *jid)
+static char * GetItemId(TLEN_LIST list, const char *jid)
 {
 	char *s, *p, *q;
 	s = mir_strdup(jid);
@@ -109,7 +109,7 @@ static char * GetItemId(JABBER_LIST list, const char *jid)
 }
 
 
-int JabberListExist(TlenProtocol *proto, JABBER_LIST list, const char *jid)
+int TlenListExist(TlenProtocol *proto, TLEN_LIST list, const char *jid)
 {
 	int i;
 	size_t len;
@@ -132,21 +132,21 @@ int JabberListExist(TlenProtocol *proto, JABBER_LIST list, const char *jid)
 	return 0;
 }
 
-JABBER_LIST_ITEM *JabberListAdd(TlenProtocol *proto, JABBER_LIST list, const char *jid)
+TLEN_LIST_ITEM *TlenListAdd(TlenProtocol *proto, TLEN_LIST list, const char *jid)
 {
 	char *s;
-	JABBER_LIST_ITEM *item;
+	TLEN_LIST_ITEM *item;
 
 	EnterCriticalSection(&proto->csLists);
-	if ((item=JabberListGetItemPtr(proto, list, jid)) != NULL) {
+	if ((item=TlenListGetItemPtr(proto, list, jid)) != NULL) {
 		LeaveCriticalSection(&proto->csLists);
 		return item;
 	}
 
 	s = GetItemId(list, jid);
-	proto->lists = (JABBER_LIST_ITEM *) mir_realloc(proto->lists, sizeof(JABBER_LIST_ITEM)*(proto->listsCount+1));
+	proto->lists = (TLEN_LIST_ITEM *) mir_realloc(proto->lists, sizeof(TLEN_LIST_ITEM)*(proto->listsCount+1));
 	item = &(proto->lists[proto->listsCount]);
-	memset(item, 0, sizeof(JABBER_LIST_ITEM));
+	memset(item, 0, sizeof(TLEN_LIST_ITEM));
 	item->list = list;
 	item->jid = s;
 	item->nick = NULL;
@@ -173,52 +173,52 @@ JABBER_LIST_ITEM *JabberListAdd(TlenProtocol *proto, JABBER_LIST list, const cha
 	return item;
 }
 
-void JabberListRemove(TlenProtocol *proto, JABBER_LIST list, const char *jid)
+void TlenListRemove(TlenProtocol *proto, TLEN_LIST list, const char *jid)
 {
 	int i;
 
 	EnterCriticalSection(&proto->csLists);
-	i = JabberListExist(proto, list, jid);
+	i = TlenListExist(proto, list, jid);
 	if (!i) {
 		LeaveCriticalSection(&proto->csLists);
 		return;
 	}
 	i--;
-	JabberListFreeItemInternal(&(proto->lists[i]));
+	TlenListFreeItemInternal(&(proto->lists[i]));
 	proto->listsCount--;
-	memmove(proto->lists+i, proto->lists+i+1, sizeof(JABBER_LIST_ITEM)*(proto->listsCount-i));
-	proto->lists = (JABBER_LIST_ITEM *) mir_realloc(proto->lists, sizeof(JABBER_LIST_ITEM)*proto->listsCount);
+	memmove(proto->lists+i, proto->lists+i+1, sizeof(TLEN_LIST_ITEM)*(proto->listsCount-i));
+	proto->lists = (TLEN_LIST_ITEM *) mir_realloc(proto->lists, sizeof(TLEN_LIST_ITEM)*proto->listsCount);
 	LeaveCriticalSection(&proto->csLists);
 }
 
-void JabberListRemoveList(TlenProtocol *proto, JABBER_LIST list)
+void TlenListRemoveList(TlenProtocol *proto, TLEN_LIST list)
 {
 	int i;
 
 	i = 0;
-	while ((i=JabberListFindNext(proto, list, i)) >= 0) {
-		JabberListRemoveByIndex(proto, i);
+	while ((i=TlenListFindNext(proto, list, i)) >= 0) {
+		TlenListRemoveByIndex(proto, i);
 	}
 }
 
-void JabberListRemoveByIndex(TlenProtocol *proto, int index)
+void TlenListRemoveByIndex(TlenProtocol *proto, int index)
 {
 	EnterCriticalSection(&proto->csLists);
 	if (index >= 0 && index<proto->listsCount) {
-		JabberListFreeItemInternal(&(proto->lists[index]));
+		TlenListFreeItemInternal(&(proto->lists[index]));
 		proto->listsCount--;
-		memmove(proto->lists+index, proto->lists+index+1, sizeof(JABBER_LIST_ITEM)*(proto->listsCount-index));
-		proto->lists = (JABBER_LIST_ITEM *) mir_realloc(proto->lists, sizeof(JABBER_LIST_ITEM)*proto->listsCount);
+		memmove(proto->lists+index, proto->lists+index+1, sizeof(TLEN_LIST_ITEM)*(proto->listsCount-index));
+		proto->lists = (TLEN_LIST_ITEM *) mir_realloc(proto->lists, sizeof(TLEN_LIST_ITEM)*proto->listsCount);
 	}
 	LeaveCriticalSection(&proto->csLists);
 }
 
-void JabberListAddResource(TlenProtocol *proto, JABBER_LIST list, const char *jid, int status, const char *statusMessage)
+void TlenListAddResource(TlenProtocol *proto, TLEN_LIST list, const char *jid, int status, const char *statusMessage)
 {
 	int i;
 
 	EnterCriticalSection(&proto->csLists);
-	i = JabberListExist(proto, list, jid);
+	i = TlenListExist(proto, list, jid);
 	if (!i) {
 		LeaveCriticalSection(&proto->csLists);
 		return;
@@ -234,11 +234,11 @@ void JabberListAddResource(TlenProtocol *proto, JABBER_LIST list, const char *ji
 	LeaveCriticalSection(&proto->csLists);
 }
 
-void JabberListRemoveResource(TlenProtocol *proto, JABBER_LIST list, const char *jid)
+void TlenListRemoveResource(TlenProtocol *proto, TLEN_LIST list, const char *jid)
 {
 	int i;
 	EnterCriticalSection(&proto->csLists);
-	i = JabberListExist(proto, list, jid);
+	i = TlenListExist(proto, list, jid);
 	if (!i) {
 		LeaveCriticalSection(&proto->csLists);
 		return;
@@ -247,7 +247,7 @@ void JabberListRemoveResource(TlenProtocol *proto, JABBER_LIST list, const char 
 	LeaveCriticalSection(&proto->csLists);
 }
 
-int JabberListFindNext(TlenProtocol *proto, JABBER_LIST list, int fromOffset)
+int TlenListFindNext(TlenProtocol *proto, TLEN_LIST list, int fromOffset)
 {
 	int i;
 
@@ -262,12 +262,12 @@ int JabberListFindNext(TlenProtocol *proto, JABBER_LIST list, int fromOffset)
 	return -1;
 }
 
-JABBER_LIST_ITEM *JabberListGetItemPtr(TlenProtocol *proto, JABBER_LIST list, const char *jid)
+TLEN_LIST_ITEM *TlenListGetItemPtr(TlenProtocol *proto, TLEN_LIST list, const char *jid)
 {
 	int i;
 
 	EnterCriticalSection(&proto->csLists);
-	i = JabberListExist(proto, list, jid);
+	i = TlenListExist(proto, list, jid);
 	if (!i) {
 		LeaveCriticalSection(&proto->csLists);
 		return NULL;
@@ -277,7 +277,7 @@ JABBER_LIST_ITEM *JabberListGetItemPtr(TlenProtocol *proto, JABBER_LIST list, co
 	return &(proto->lists[i]);
 }
 
-JABBER_LIST_ITEM *JabberListFindItemPtrById2(TlenProtocol *proto, JABBER_LIST list, const char *id)
+TLEN_LIST_ITEM *TlenListFindItemPtrById2(TlenProtocol *proto, TLEN_LIST list, const char *id)
 {
 
 	int i;
@@ -302,7 +302,7 @@ JABBER_LIST_ITEM *JabberListFindItemPtrById2(TlenProtocol *proto, JABBER_LIST li
 	return NULL;
 }
 
-JABBER_LIST_ITEM *JabberListGetItemPtrFromIndex(TlenProtocol *proto, int index)
+TLEN_LIST_ITEM *TlenListGetItemPtrFromIndex(TlenProtocol *proto, int index)
 {
 	EnterCriticalSection(&proto->csLists);
 	if (index >= 0 && index<proto->listsCount) {

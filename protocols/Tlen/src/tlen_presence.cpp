@@ -28,32 +28,32 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 {
 	HANDLE hContact;
 	XmlNode *showNode, *statusNode;
-	JABBER_LIST_ITEM *item;
+	TLEN_LIST_ITEM *item;
 	char *from, *type, *nick, *show;
 	int status, laststatus = ID_STATUS_OFFLINE;
 	char *p;
 
-	if ((from=JabberXmlGetAttrValue(node, "from")) != NULL) {
-		if (JabberListExist(proto, LIST_CHATROOM, from)); //JabberGroupchatProcessPresence(node, userdata);
+	if ((from=TlenXmlGetAttrValue(node, "from")) != NULL) {
+		if (TlenListExist(proto, LIST_CHATROOM, from)); //TlenGroupchatProcessPresence(node, userdata);
 
 		else {
-			type = JabberXmlGetAttrValue(node, "type");
-			item = JabberListGetItemPtr(proto, LIST_ROSTER, from);
+			type = TlenXmlGetAttrValue(node, "type");
+			item = TlenListGetItemPtr(proto, LIST_ROSTER, from);
 			if (item != NULL) {
 				if (proto->tlenOptions.enableAvatars) {
 					TlenProcessPresenceAvatar(proto, node, item);
 				}
 			}
 			if (type == NULL || (!strcmp(type, "available"))) {
-				if ((nick=JabberLocalNickFromJID(from)) != NULL) {
-					if ((hContact=JabberHContactFromJID(proto, from)) == NULL)
-						hContact = JabberDBCreateContact(proto, from, nick, FALSE);
-					if (!JabberListExist(proto, LIST_ROSTER, from)) {
-						JabberLog(proto, "Receive presence online from %s (who is not in my roster)", from);
-						JabberListAdd(proto, LIST_ROSTER, from);
+				if ((nick=TlenLocalNickFromJID(from)) != NULL) {
+					if ((hContact=TlenHContactFromJID(proto, from)) == NULL)
+						hContact = TlenDBCreateContact(proto, from, nick, FALSE);
+					if (!TlenListExist(proto, LIST_ROSTER, from)) {
+						TlenLog(proto, "Receive presence online from %s (who is not in my roster)", from);
+						TlenListAdd(proto, LIST_ROSTER, from);
 					}
 					status = ID_STATUS_ONLINE;
-					if ((showNode=JabberXmlGetChild(node, "show")) != NULL) {
+					if ((showNode=TlenXmlGetChild(node, "show")) != NULL) {
 						if ((show=showNode->text) != NULL) {
 							if (!strcmp(show, "away")) status = ID_STATUS_AWAY;
 							else if (!strcmp(show, "xa")) status = ID_STATUS_NA;
@@ -66,12 +66,12 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 						}
 					}
 
-					statusNode = JabberXmlGetChild(node, "status");
+					statusNode = TlenXmlGetChild(node, "status");
 					if (statusNode)
-						p = JabberTextDecode(statusNode->text);
+						p = TlenTextDecode(statusNode->text);
 					else
 						p = NULL;
-					JabberListAddResource(proto, LIST_ROSTER, from, status, statusNode?p:NULL);
+					TlenListAddResource(proto, LIST_ROSTER, from, status, statusNode?p:NULL);
 					if (p) {
 						db_set_s(hContact, "CList", "StatusMsg", p);
 						mir_free(p);
@@ -89,38 +89,38 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 					}
 					if (item != NULL) {
 						if (!item->infoRequested) {
-							int iqId = JabberSerialNext(proto);
+							int iqId = TlenSerialNext(proto);
 							item->infoRequested = TRUE;
-							JabberSend( proto, "<iq type='get' id='"JABBER_IQID"%d'><query xmlns='jabber:iq:info' to='%s'></query></iq>", iqId, from);
+							TlenSend( proto, "<iq type='get' id='"TLEN_IQID"%d'><query xmlns='tlen:iq:info' to='%s'></query></iq>", iqId, from);
 						}
 						if (proto->tlenOptions.enableVersion && !item->versionRequested) {
 							item->versionRequested = TRUE;
 							if (proto->m_iStatus != ID_STATUS_INVISIBLE) {
-								JabberSend( proto, "<message to='%s' type='iq'><iq type='get'><query xmlns='jabber:iq:version'/></iq></message>", from );
+								TlenSend( proto, "<message to='%s' type='iq'><iq type='get'><query xmlns='tlen:iq:version'/></iq></message>", from );
 							}
 						}
 					}
-					JabberLog(proto, "%s (%s) online, set contact status to %d", nick, from, status);
+					TlenLog(proto, "%s (%s) online, set contact status to %d", nick, from, status);
 					mir_free(nick);
 				}
 			}
 			else if (!strcmp(type, "unavailable")) {
-				if (!JabberListExist(proto, LIST_ROSTER, from)) {
-					JabberLog(proto, "Receive presence offline from %s (who is not in my roster)", from);
-					JabberListAdd(proto, LIST_ROSTER, from);
+				if (!TlenListExist(proto, LIST_ROSTER, from)) {
+					TlenLog(proto, "Receive presence offline from %s (who is not in my roster)", from);
+					TlenListAdd(proto, LIST_ROSTER, from);
 				}
 				else {
-					JabberListRemoveResource(proto, LIST_ROSTER, from);
+					TlenListRemoveResource(proto, LIST_ROSTER, from);
 				}
 				status = ID_STATUS_OFFLINE;
-				statusNode = JabberXmlGetChild(node, "status");
+				statusNode = TlenXmlGetChild(node, "status");
 				if (statusNode) {
 					if (proto->tlenOptions.offlineAsInvisible) {
 						status = ID_STATUS_INVISIBLE;
 					}
-					p = JabberTextDecode(statusNode->text);
-					JabberListAddResource(proto, LIST_ROSTER, from, status, p);
-					if ((hContact=JabberHContactFromJID(proto, from)) != NULL) {
+					p = TlenTextDecode(statusNode->text);
+					TlenListAddResource(proto, LIST_ROSTER, from, status, p);
+					if ((hContact=TlenHContactFromJID(proto, from)) != NULL) {
 						if (p) {
 							db_set_s(hContact, "CList", "StatusMsg", p);
 						} else {
@@ -129,13 +129,13 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 					}
 					if (p) mir_free(p);
 				}
-				if ((item=JabberListGetItemPtr(proto, LIST_ROSTER, from)) != NULL) {
+				if ((item=TlenListGetItemPtr(proto, LIST_ROSTER, from)) != NULL) {
 					// Determine status to show for the contact based on the remaining resources
 					item->status = status;
 					item->versionRequested = FALSE;
 					item->infoRequested = FALSE;
 				}
-				if ((hContact=JabberHContactFromJID(proto, from)) != NULL) {
+				if ((hContact=TlenHContactFromJID(proto, from)) != NULL) {
 					if (strchr(from, '@') != NULL || db_get_b(NULL, proto->m_szModuleName, "ShowTransport", TRUE) == TRUE) {
 						if (db_get_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != status)
 							db_set_w(hContact, proto->m_szModuleName, "Status", (WORD) status);
@@ -144,22 +144,22 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 						item->isTyping = FALSE;
 						CallService(MS_PROTO_CONTACTISTYPING, (WPARAM) hContact, PROTOTYPE_CONTACTTYPING_OFF);
 					}
-					JabberLog(proto, "%s offline, set contact status to %d", from, status);
+					TlenLog(proto, "%s offline, set contact status to %d", from, status);
 				}
 			}
 			else if (!strcmp(type, "subscribe")) {
 				if (strchr(from, '@') == NULL) {
 					// automatically send authorization allowed to agent/transport
-					JabberSend(proto, "<presence to='%s' type='subscribed'/>", from);
+					TlenSend(proto, "<presence to='%s' type='subscribed'/>", from);
 				}
-				else if ((nick=JabberNickFromJID(from)) != NULL) {
-					JabberLog(proto, "%s (%s) requests authorization", nick, from);
-					JabberDBAddAuthRequest(proto, from, nick);
+				else if ((nick=TlenNickFromJID(from)) != NULL) {
+					TlenLog(proto, "%s (%s) requests authorization", nick, from);
+					TlenDBAddAuthRequest(proto, from, nick);
 					mir_free(nick);
 				}
 			}
 			else if (!strcmp(type, "subscribed")) {
-				if ((item=JabberListGetItemPtr(proto, LIST_ROSTER, from)) != NULL) {
+				if ((item=TlenListGetItemPtr(proto, LIST_ROSTER, from)) != NULL) {
 					if (item->subscription == SUB_FROM) item->subscription = SUB_BOTH;
 					else if (item->subscription == SUB_NONE) {
 						item->subscription = SUB_TO;
@@ -170,7 +170,7 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 	}
 }
 
-static void JabberSendPresenceTo(TlenProtocol *proto, int status, char *to)
+static void TlenSendPresenceTo(TlenProtocol *proto, int status, char *to)
 {
 	char *showBody, *statusMsg, *presenceType;
 	char *ptr = NULL;
@@ -178,7 +178,7 @@ static void JabberSendPresenceTo(TlenProtocol *proto, int status, char *to)
 	if (!proto->isOnline) return;
 
 	// Send <presence/> update for status (we won't handle ID_STATUS_OFFLINE here)
-	// Note: jabberModeMsg is already encoded using JabberTextEncode()
+	// Note: tlenModeMsg is already encoded using TlenTextEncode()
 	EnterCriticalSection(&proto->modeMsgMutex);
 
 	showBody = NULL;
@@ -273,14 +273,14 @@ static void JabberSendPresenceTo(TlenProtocol *proto, int status, char *to)
 	proto->m_iStatus = status;
 	if (presenceType) {
 		if (statusMsg)
-			JabberSend(proto, "<presence type='%s'><status>%s</status></presence>", presenceType, statusMsg);
+			TlenSend(proto, "<presence type='%s'><status>%s</status></presence>", presenceType, statusMsg);
 		else
-			JabberSend(proto, "<presence type='%s'></presence>", presenceType);
+			TlenSend(proto, "<presence type='%s'></presence>", presenceType);
 	} else {
 		if (statusMsg)
-			JabberSend(proto, "<presence><show>%s</show><status>%s</status></presence>", showBody, statusMsg);
+			TlenSend(proto, "<presence><show>%s</show><status>%s</status></presence>", showBody, statusMsg);
 		else
-			JabberSend(proto, "<presence><show>%s</show></presence>", showBody);
+			TlenSend(proto, "<presence><show>%s</show></presence>", showBody);
 	}
 	if (ptr) {
 		mir_free(ptr);
@@ -290,7 +290,7 @@ static void JabberSendPresenceTo(TlenProtocol *proto, int status, char *to)
 
 
 
-void JabberSendPresence(TlenProtocol *proto, int statusIn)
+void TlenSendPresence(TlenProtocol *proto, int statusIn)
 {
 	int statusOut;
 	switch (statusIn) {
@@ -312,7 +312,7 @@ void JabberSendPresence(TlenProtocol *proto, int statusIn)
 			statusOut = ID_STATUS_DND;
 			break;
 	}
-	JabberSendPresenceTo(proto, statusOut, NULL);
+	TlenSendPresenceTo(proto, statusOut, NULL);
 }
 
 

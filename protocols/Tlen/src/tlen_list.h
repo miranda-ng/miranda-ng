@@ -23,11 +23,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "tlen.h"
 
-#ifndef _JABBER_LIST_H_
-#define _JABBER_LIST_H_
+#ifndef _TLEN_LIST_H_
+#define _TLEN_LIST_H_
 
-typedef struct JABBER_LIST_ITEM_STRUCT {
-	JABBER_LIST list;
+typedef struct TLEN_LIST_ITEM_STRUCT {
+	TLEN_LIST list;
 	char *jid;
 	char *id2;
 
@@ -36,7 +36,7 @@ typedef struct JABBER_LIST_ITEM_STRUCT {
 	char *nick;
 	int status;	// Main status, currently useful for transport where no resource information is kept.
 				// On normal contact, this is the same status as shown on contact list.
-	JABBER_SUBSCRIPTION subscription;
+	TLEN_SUBSCRIPTION subscription;
 	char *statusMessage;	// Status message when the update is to JID with no resource specified (e.g. transport user)
 	char *software;
 	char *version;
@@ -61,30 +61,30 @@ typedef struct JABBER_LIST_ITEM_STRUCT {
 	// LIST_CHATROOM
 	// jid = room JID
 	// char *nick;	// my nick in this chat room (SPECIAL: in UTF8)
-	// JABBER_RESOURCE_STATUS *resource;	// participant nicks in this room
+	// TLEN_RESOURCE_STATUS *resource;	// participant nicks in this room
 	char *roomName;
 
 	// LIST_FILE
 	struct TLEN_FILE_TRANSFER_STRUCT *ft;
-} JABBER_LIST_ITEM;
+} TLEN_LIST_ITEM;
 
 
-void JabberListInit(TlenProtocol *proto);
-void JabberListUninit(TlenProtocol *proto);
-void JabberListWipe(TlenProtocol *proto);
-void JabberListWipeSpecial(TlenProtocol *proto);
-int JabberListExist(TlenProtocol *proto, JABBER_LIST list, const char *jid);
-JABBER_LIST_ITEM *JabberListAdd(TlenProtocol *proto, JABBER_LIST list, const char *jid);
-void JabberListRemove(TlenProtocol *proto, JABBER_LIST list, const char *jid);
-void JabberListRemoveList(TlenProtocol *proto, JABBER_LIST list);
-void JabberListRemoveByIndex(TlenProtocol *proto, int index);
-int JabberListFindNext(TlenProtocol *proto, JABBER_LIST list, int fromOffset);
-JABBER_LIST_ITEM *JabberListGetItemPtr(TlenProtocol *proto, JABBER_LIST list, const char *jid);
-JABBER_LIST_ITEM *JabberListGetItemPtrFromIndex(TlenProtocol *proto, int index);
-JABBER_LIST_ITEM *JabberListFindItemPtrById2(TlenProtocol *proto, JABBER_LIST list, const char *id);
+void TlenListInit(TlenProtocol *proto);
+void TlenListUninit(TlenProtocol *proto);
+void TlenListWipe(TlenProtocol *proto);
+void TlenListWipeSpecial(TlenProtocol *proto);
+int TlenListExist(TlenProtocol *proto, TLEN_LIST list, const char *jid);
+TLEN_LIST_ITEM *TlenListAdd(TlenProtocol *proto, TLEN_LIST list, const char *jid);
+void TlenListRemove(TlenProtocol *proto, TLEN_LIST list, const char *jid);
+void TlenListRemoveList(TlenProtocol *proto, TLEN_LIST list);
+void TlenListRemoveByIndex(TlenProtocol *proto, int index);
+int TlenListFindNext(TlenProtocol *proto, TLEN_LIST list, int fromOffset);
+TLEN_LIST_ITEM *TlenListGetItemPtr(TlenProtocol *proto, TLEN_LIST list, const char *jid);
+TLEN_LIST_ITEM *TlenListGetItemPtrFromIndex(TlenProtocol *proto, int index);
+TLEN_LIST_ITEM *TlenListFindItemPtrById2(TlenProtocol *proto, TLEN_LIST list, const char *id);
 
-void JabberListAddResource(TlenProtocol *proto, JABBER_LIST list, const char *jid, int status, const char *statusMessage);
-void JabberListRemoveResource(TlenProtocol *proto, JABBER_LIST list, const char *jid);
+void TlenListAddResource(TlenProtocol *proto, TLEN_LIST list, const char *jid, int status, const char *statusMessage);
+void TlenListRemoveResource(TlenProtocol *proto, TLEN_LIST list, const char *jid);
 
 #endif
 

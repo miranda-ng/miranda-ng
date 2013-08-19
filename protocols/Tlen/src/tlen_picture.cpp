@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef struct {
 	TlenProtocol *proto;
-	JABBER_LIST_ITEM *item;
+	TLEN_LIST_ITEM *item;
 } TLENPSREQUESTTHREADDATA;
 
 static void LogPictureMessage(TlenProtocol *proto, const char *jid, const char *filename, BOOL isSent)
@@ -35,14 +35,14 @@ static void LogPictureMessage(TlenProtocol *proto, const char *jid, const char *
 	char message[1024];
 	const char *msg = isSent ? LPGEN("Image sent file://%s") : LPGEN("Image received file://%s");
 	mir_snprintf(message, sizeof(message), Translate(msg), filename);
-	TlenLogMessage(proto, JabberHContactFromJID(proto, jid), isSent ? DBEF_SENT : 0, message);
+	TlenLogMessage(proto, TlenHContactFromJID(proto, jid), isSent ? DBEF_SENT : 0, message);
 }
 
 static void TlenPsPostThread(void *ptr) {
 	TLENPSREQUESTTHREADDATA *data = (TLENPSREQUESTTHREADDATA *)ptr;
 	TlenProtocol *proto = data->proto;
-	JABBER_LIST_ITEM *item = data->item;
-	JABBER_SOCKET socket = JabberWsConnect(proto, "ps.tlen.pl", 443);
+	TLEN_LIST_ITEM *item = data->item;
+	TLEN_SOCKET socket = TlenWsConnect(proto, "ps.tlen.pl", 443);
 	BOOL bSent = FALSE;
 	if (socket != NULL) {
 		char header[512];
@@ -50,7 +50,7 @@ static void TlenPsPostThread(void *ptr) {
 		item->ft->s = socket;
 		item->ft->hFileEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 		mir_snprintf(header, sizeof(header), "<pic auth='%s' t='p' to='%s' size='%d' idt='%s'/>", proto->threadData->username, item->ft->jid, item->ft->fileTotalSize, item->jid);
-		JabberWsSend(proto, socket, header, (int)strlen(header));
+		TlenWsSend(proto, socket, header, (int)strlen(header));
 		ret = WaitForSingleObject(item->ft->hFileEvent, 1000 * 60 * 5);
 		if (ret == WAIT_OBJECT_0) {
 			FILE *fp = fopen( item->ft->files[0], "rb" );
@@ -59,14 +59,14 @@ static void TlenPsPostThread(void *ptr) {
 				char header[512];
 				char fileBuffer[2048];
 				mir_snprintf(header, sizeof(header), "<pic st='%s' idt='%s'/>", item->ft->iqId, item->jid);
-				JabberWsSend(proto, socket, header, (int)strlen(header));
-				JabberLog(proto, "Sending picture data...");
+				TlenWsSend(proto, socket, header, (int)strlen(header));
+				TlenLog(proto, "Sending picture data...");
 				for (i = item->ft->filesSize[0]; i > 0; ) {
 					int toread = min(2048, i);
 					int readcount = (int)fread(fileBuffer, (size_t)1, (size_t)toread, fp);
 					i -= readcount;
 					if (readcount > 0) {
-						JabberWsSend(proto, socket, fileBuffer, readcount);
+						TlenWsSend(proto, socket, fileBuffer, readcount);
 					}
 					if (toread != readcount) {
 						break;
@@ -83,46 +83,46 @@ static void TlenPsPostThread(void *ptr) {
 		}
 		Netlib_CloseHandle(socket);
 		if (bSent) {
-			JabberSend(proto, "<message to='%s' idt='%s' rt='%s' pid='1001' type='pic' />", item->ft->jid, item->jid, item->ft->id2);
+			TlenSend(proto, "<message to='%s' idt='%s' rt='%s' pid='1001' type='pic' />", item->ft->jid, item->jid, item->ft->id2);
 			LogPictureMessage(proto, item->ft->jid, item->ft->files[0], TRUE);
 		}
 		TlenP2PFreeFileTransfer(item->ft);
-		JabberListRemove(proto, LIST_PICTURE, item->jid);
+		TlenListRemove(proto, LIST_PICTURE, item->jid);
 	} else {
 		/* cannot connect to ps server */
 	}
 	mir_free(data);
 }
 
-static void TlenPsPost(TlenProtocol *proto, JABBER_LIST_ITEM *item) {
+static void TlenPsPost(TlenProtocol *proto, TLEN_LIST_ITEM *item) {
 	TLENPSREQUESTTHREADDATA *threadData = (TLENPSREQUESTTHREADDATA *)mir_alloc(sizeof(TLENPSREQUESTTHREADDATA));
 	threadData->proto = proto;
 	threadData->item = item;
-	JabberForkThread(TlenPsPostThread, 0, threadData);
+	TlenForkThread(TlenPsPostThread, 0, threadData);
 }
 
 static void TlenPsGetThread(void *ptr) {
 	TLENPSREQUESTTHREADDATA *data = (TLENPSREQUESTTHREADDATA *)ptr;
 	TlenProtocol *proto = data->proto;
-	JABBER_LIST_ITEM *item = data->item;
+	TLEN_LIST_ITEM *item = data->item;
 	FILE *fp;
 	fp = fopen( item->ft->files[0], "wb" );
 	if (fp) {
-		JABBER_SOCKET socket = JabberWsConnect(proto, "ps.tlen.pl", 443);
+		TLEN_SOCKET socket = TlenWsConnect(proto, "ps.tlen.pl", 443);
 		if (socket != NULL) {
 			XmlState xmlState;
 			char header[512];
 			char fileBuffer[2048];
-			JabberXmlInitState(&xmlState);
+			TlenXmlInitState(&xmlState);
 			mir_snprintf(header, sizeof(header), "<pic auth='%s' t='g' to='%s' pid='1001' idt='%s' rt='%s'/>", proto->threadData->username, item->ft->jid, item->jid, item->ft->id2);
-			JabberWsSend(proto, socket, header, (int)strlen(header));
-			JabberLog(proto, "Reveiving picture data...");
+			TlenWsSend(proto, socket, header, (int)strlen(header));
+			TlenLog(proto, "Reveiving picture data...");
 			{
 				int totalcount = 0;
 				int size = item->ft->filesSize[0];
 				BOOL bHeader = TRUE;
 				while (TRUE) {
-					int readcount = JabberWsRecv(proto, socket, fileBuffer, 2048 - totalcount);
+					int readcount = TlenWsRecv(proto, socket, fileBuffer, 2048 - totalcount);
 					if (readcount == 0) {
 						break;
 					}
@@ -131,7 +131,7 @@ static void TlenPsGetThread(void *ptr) {
 						char * tagend = (char*)memchr(fileBuffer, '/', totalcount);
 						tagend = (char*)memchr(tagend + 1, '>', totalcount - (tagend - fileBuffer) - 1);
 						if (tagend != NULL) {
-							int parsed = JabberXmlParse(&xmlState, fileBuffer, tagend - fileBuffer + 1);
+							int parsed = TlenXmlParse(&xmlState, fileBuffer, tagend - fileBuffer + 1);
 							if (parsed == 0) {
 								continue;
 							}
@@ -153,7 +153,7 @@ static void TlenPsGetThread(void *ptr) {
 				}
 			}
 			Netlib_CloseHandle(socket);
-			JabberLog(proto, "Picture received...");
+			TlenLog(proto, "Picture received...");
 			LogPictureMessage(proto, item->ft->jid, item->ft->files[0], FALSE);
 		} else {
 		  /* cannot connect to ps server */
@@ -163,33 +163,33 @@ static void TlenPsGetThread(void *ptr) {
 		/* cannot create file */
 	}
 	TlenP2PFreeFileTransfer(item->ft);
-	JabberListRemove(proto, LIST_PICTURE, item->jid);
+	TlenListRemove(proto, LIST_PICTURE, item->jid);
 	mir_free(data);
 }
 
-static void TlenPsGet(TlenProtocol *proto, JABBER_LIST_ITEM *item) {
+static void TlenPsGet(TlenProtocol *proto, TLEN_LIST_ITEM *item) {
 	TLENPSREQUESTTHREADDATA *threadData = (TLENPSREQUESTTHREADDATA *)mir_alloc(sizeof(TLENPSREQUESTTHREADDATA));
 	threadData->proto = proto;
 	threadData->item = item;
-	JabberForkThread(TlenPsGetThread, 0, threadData);
+	TlenForkThread(TlenPsGetThread, 0, threadData);
 }
 
 void TlenProcessPic(XmlNode *node, TlenProtocol *proto) {
-	JABBER_LIST_ITEM *item = NULL;
+	TLEN_LIST_ITEM *item = NULL;
 	char *crc, *crc_c, *idt, *size, *from, *fromRaw, *rt;
-	from = JabberXmlGetAttrValue(node, "from");
-	fromRaw = JabberLoginFromJID(from);
-	idt = JabberXmlGetAttrValue(node, "idt");
-	size = JabberXmlGetAttrValue(node, "size");
-	crc_c = JabberXmlGetAttrValue(node, "crc_c");
-	crc = JabberXmlGetAttrValue(node, "crc");
-	rt = JabberXmlGetAttrValue(node, "rt");
+	from = TlenXmlGetAttrValue(node, "from");
+	fromRaw = TlenLoginFromJID(from);
+	idt = TlenXmlGetAttrValue(node, "idt");
+	size = TlenXmlGetAttrValue(node, "size");
+	crc_c = TlenXmlGetAttrValue(node, "crc_c");
+	crc = TlenXmlGetAttrValue(node, "crc");
+	rt = TlenXmlGetAttrValue(node, "rt");
 	if (idt != NULL) {
-		item = JabberListGetItemPtr(proto, LIST_PICTURE, idt);
+		item = TlenListGetItemPtr(proto, LIST_PICTURE, idt);
 	}
 	if (item != NULL) {
 		if (!strcmp(from, "ps")) {
-			char *st = JabberXmlGetAttrValue(node, "st");
+			char *st = TlenXmlGetAttrValue(node, "st");
 			if (st != NULL) {
 				item->ft->iqId = mir_strdup(st);
 				item->ft->id2 = mir_strdup(rt);
@@ -207,7 +207,7 @@ void TlenProcessPic(XmlNode *node, TlenProtocol *proto) {
 					/* crc_c = f, picture cached, no need to transfer again */
 					LogPictureMessage(proto, item->ft->jid, item->ft->files[0], TRUE);
 					TlenP2PFreeFileTransfer(item->ft);
-					JabberListRemove(proto, LIST_PICTURE, idt);
+					TlenListRemove(proto, LIST_PICTURE, idt);
 				}
 			} else if (rt != NULL) {
 				item->ft->id2 = mir_strdup(rt);
@@ -219,7 +219,7 @@ void TlenProcessPic(XmlNode *node, TlenProtocol *proto) {
 		if (bAccept) {
 			FILE* fp;
 			char fileName[MAX_PATH];
-			char *ext = JabberXmlGetAttrValue(node, "ext");
+			char *ext = TlenXmlGetAttrValue(node, "ext");
 			char *tmpPath = Utils_ReplaceVars( "%miranda_userdata%" );
 			int tPathLen = mir_snprintf(fileName, MAX_PATH, "%s\\Images\\Tlen", tmpPath);
 			long oldSize = 0, lSize = atol(size);
@@ -237,16 +237,16 @@ void TlenProcessPic(XmlNode *node, TlenProtocol *proto) {
 				fclose(fp);
 			}
 			if (oldSize != lSize) {
-				item = JabberListAdd(proto, LIST_PICTURE, idt);
+				item = TlenListAdd(proto, LIST_PICTURE, idt);
 				item->ft = TlenFileCreateFT(proto, from);
 				item->ft->files = (char **) mir_alloc(sizeof(char *));
 				item->ft->filesSize = (long *) mir_alloc(sizeof(long));
 				item->ft->files[0] = mir_strdup(fileName);
 				item->ft->filesSize[0] = lSize;
 				item->ft->fileTotalSize = item->ft->filesSize[0];
-				JabberSend(proto, "<message type='pic' to='%s' crc_c='n' idt='%s'/>", from, idt);
+				TlenSend(proto, "<message type='pic' to='%s' crc_c='n' idt='%s'/>", from, idt);
 			} else {
-				JabberSend(proto, "<message type='pic' to='%s' crc_c='f' idt='%s'/>", from, idt);
+				TlenSend(proto, "<message type='pic' to='%s' crc_c='f' idt='%s'/>", from, idt);
 				LogPictureMessage(proto, from, fileName, FALSE);
 			}
 		}
@@ -277,15 +277,15 @@ BOOL SendPicture(TlenProtocol *proto, HANDLE hContact) {
 				fseek(fp, 0, SEEK_END);
 				size = ftell(fp);
 				if (size > 0 && size < 256*1024) {
-					JABBER_LIST_ITEM *item;
+					TLEN_LIST_ITEM *item;
 					mir_sha1_ctx sha;
 					DWORD digest[5];
 					int i;
 					char idStr[10];
 					char fileBuffer[2048];
-					int id = JabberSerialNext(proto);
+					int id = TlenSerialNext(proto);
 					mir_snprintf(idStr, sizeof(idStr), "%d", id);
-					item = JabberListAdd(proto, LIST_PICTURE, idStr);
+					item = TlenListAdd(proto, LIST_PICTURE, idStr);
 					item->ft = TlenFileCreateFT(proto, jid);
 					item->ft->files = (char **) mir_alloc(sizeof(char *));
 					item->ft->filesSize = (long *) mir_alloc(sizeof(long));
@@ -306,7 +306,7 @@ BOOL SendPicture(TlenProtocol *proto, HANDLE hContact) {
 						}
 					}
 					mir_sha1_finish( &sha, (BYTE* )digest );
-					JabberSend(proto, "<message type='pic' to='%s' crc='%08x%08x%08x%08x%08x' idt='%s' size='%d' ext='%s'/>", jid,
+					TlenSend(proto, "<message type='pic' to='%s' crc='%08x%08x%08x%08x%08x' idt='%s' size='%d' ext='%s'/>", jid,
 						(int)htonl(digest[0]), (int)htonl(digest[1]), (int)htonl(digest[2]), (int)htonl(digest[3]), (int)htonl(digest[4]), idStr, item->ft->filesSize[0], "jpg");
 				} else {
 					/* file too big */

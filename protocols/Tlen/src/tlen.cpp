@@ -117,7 +117,7 @@ int TlenProtocol::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	if (hContact != NULL && isOnline) {
 		DBVARIANT dbv;
 		if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
-			JABBER_LIST_ITEM *item = JabberListGetItemPtr(this, LIST_ROSTER, dbv.pszVal);
+			TLEN_LIST_ITEM *item = TlenListGetItemPtr(this, LIST_ROSTER, dbv.pszVal);
 			db_free(&dbv);
 			if (item != NULL) {
 				Menu_ShowItem(hMenuContactRequestAuth, item->subscription == SUB_NONE || item->subscription == SUB_FROM);
@@ -143,7 +143,7 @@ INT_PTR TlenProtocol::ContactMenuHandleRequestAuth(WPARAM wParam, LPARAM lParam)
 	if (hContact != NULL && isOnline) {
 		DBVARIANT dbv;
 		if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
-			JabberSend(this, "<presence to='%s' type='subscribe'/>", dbv.pszVal);
+			TlenSend(this, "<presence to='%s' type='subscribe'/>", dbv.pszVal);
 			db_free(&dbv);
 		}
 	}
@@ -156,7 +156,7 @@ INT_PTR TlenProtocol::ContactMenuHandleGrantAuth(WPARAM wParam, LPARAM lParam)
 	if (hContact != NULL && isOnline) {
 		DBVARIANT dbv;
 		if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
-			JabberSend(this, "<presence to='%s' type='subscribed'/>", dbv.pszVal);
+			TlenSend(this, "<presence to='%s' type='subscribed'/>", dbv.pszVal);
 			db_free(&dbv);
 		}
 	}
@@ -263,7 +263,7 @@ int TlenProtocol::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 int TlenProtocol::PreShutdown(WPARAM wParam, LPARAM lParam)
 {
-	JabberLog(this, "TLEN TlenPreShutdown");
+	TlenLog(this, "TLEN TlenPreShutdown");
 	return 0;
 }
 

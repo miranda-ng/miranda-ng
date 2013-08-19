@@ -31,12 +31,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "resource.h"
 #include "tlen_avatar.h"
 
-JABBER_FIELD_MAP tlenFieldGender[] = {
+TLEN_FIELD_MAP tlenFieldGender[] = {
 	{ 1, _T("Male") },
 	{ 2, _T("Female") },
 	{ 0, NULL }
 };
-JABBER_FIELD_MAP tlenFieldLookfor[] = {
+TLEN_FIELD_MAP tlenFieldLookfor[] = {
 	{ 1, _T("Somebody to talk") },
 	{ 2, _T("Friendship") },
 	{ 3, _T("Flirt/romance") },
@@ -44,13 +44,13 @@ JABBER_FIELD_MAP tlenFieldLookfor[] = {
 	{ 5, _T("Nothing") },
 	{ 0, NULL }
 };
-JABBER_FIELD_MAP tlenFieldStatus[] = {
+TLEN_FIELD_MAP tlenFieldStatus[] = {
 	{ 1, _T("All") },
 	{ 2, _T("Available") },
 	{ 3, _T("Free for chat") },
 	{ 0, NULL }
 };
-JABBER_FIELD_MAP tlenFieldOccupation[] = {
+TLEN_FIELD_MAP tlenFieldOccupation[] = {
 	{ 1, _T("Student") },
 	{ 2, _T("College student") },
 	{ 3, _T("Farmer") },
@@ -65,7 +65,7 @@ JABBER_FIELD_MAP tlenFieldOccupation[] = {
 	{ 12, _T("Other") },
 	{ 0, NULL }
 };
-JABBER_FIELD_MAP tlenFieldPlan[] = {
+TLEN_FIELD_MAP tlenFieldPlan[] = {
 	{ 1, _T("I'd like to go downtown") },
 	{ 2, _T("I'd like to go to the cinema") },
 	{ 3, _T("I'd like to take a walk") },
@@ -77,7 +77,7 @@ JABBER_FIELD_MAP tlenFieldPlan[] = {
 
 static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
-static void InitComboBox(HWND hwndCombo, JABBER_FIELD_MAP *fieldMap)
+static void InitComboBox(HWND hwndCombo, TLEN_FIELD_MAP *fieldMap)
 {
 	int i, n;
 
@@ -101,9 +101,9 @@ static void FetchField(HWND hwndDlg, UINT idCtrl, char *fieldName, char **str, i
 		return;
 	GetDlgItemTextA(hwndDlg, idCtrl, text, sizeof(text));
 	if (text[0]) {
-		if ((localFieldName=JabberTextEncode(fieldName)) != NULL) {
-			if ((localText=JabberTextEncode(text)) != NULL) {
-				JabberStringAppend(str, strSize, "<%s>%s</%s>", localFieldName, localText, localFieldName);
+		if ((localFieldName=TlenTextEncode(fieldName)) != NULL) {
+			if ((localText=TlenTextEncode(text)) != NULL) {
+				TlenStringAppend(str, strSize, "<%s>%s</%s>", localFieldName, localText, localFieldName);
 				mir_free(localText);
 			}
 			mir_free(localFieldName);
@@ -120,8 +120,8 @@ static void FetchCombo(HWND hwndDlg, UINT idCtrl, char *fieldName, char **str, i
 		return;
 	value = (int) SendDlgItemMessage(hwndDlg, idCtrl, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, idCtrl, CB_GETCURSEL, 0, 0), 0);
 	if (value > 0) {
-		if ((localFieldName=JabberTextEncode(fieldName)) != NULL) {
-			JabberStringAppend(str, strSize, "<%s>%d</%s>", localFieldName, value, localFieldName);
+		if ((localFieldName=TlenTextEncode(fieldName)) != NULL) {
+			TlenStringAppend(str, strSize, "<%s>%d</%s>", localFieldName, value, localFieldName);
 			mir_free(localFieldName);
 		}
 	}
@@ -180,7 +180,7 @@ static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			DBVARIANT dbv;
 			char *jid;
 			int i;
-			JABBER_LIST_ITEM *item;
+			TLEN_LIST_ITEM *item;
 
 			SetDlgItemText(hwndDlg, IDC_INFO_JID, _T(""));
 			SetDlgItemText(hwndDlg, IDC_SUBSCRIPTION, _T(""));
@@ -249,12 +249,12 @@ static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			i = db_get_w(data->hContact, data->proto->m_szModuleName, "PublicStatus", 0);
 			CheckDlgButton(hwndDlg, IDC_PUBLICSTATUS, i);
 			if (!db_get(data->hContact, data->proto->m_szModuleName, "jid", &dbv)) {
-				jid = JabberTextDecode(dbv.pszVal);
+				jid = TlenTextDecode(dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_INFO_JID, jid);
 				mir_free(jid);
 				jid = dbv.pszVal;
 				if (data->proto->isOnline) {
-					if ((item=JabberListGetItemPtr(data->proto, LIST_ROSTER, jid)) != NULL) {
+					if ((item=TlenListGetItemPtr(data->proto, LIST_ROSTER, jid)) != NULL) {
 						switch (item->subscription) {
 						case SUB_BOTH:
 							SetDlgItemText(hwndDlg, IDC_SUBSCRIPTION, TranslateT("both"));
@@ -303,7 +303,7 @@ static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 		if (LOWORD(wParam) == IDC_SAVE && HIWORD(wParam) == BN_CLICKED) {
 			char *str = NULL;
 			int strSize;
-			JabberStringAppend(&str, &strSize, "<iq type='set' id='"JABBER_IQID"%d' to='tuba'><query xmlns='jabber:iq:register'>", JabberSerialNext(data->proto));
+			TlenStringAppend(&str, &strSize, "<iq type='set' id='"TLEN_IQID"%d' to='tuba'><query xmlns='tlen:iq:register'>", TlenSerialNext(data->proto));
 			FetchField(hwndDlg, IDC_FIRSTNAME, "first", &str, &strSize);
 			FetchField(hwndDlg, IDC_LASTNAME, "last", &str, &strSize);
 			FetchField(hwndDlg, IDC_NICKNAME, "nick", &str, &strSize);
@@ -314,10 +314,10 @@ static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			FetchCombo(hwndDlg, IDC_OCCUPATION, "j", &str, &strSize);
 			FetchField(hwndDlg, IDC_SCHOOL, "e", &str, &strSize);
 			FetchCombo(hwndDlg, IDC_LOOKFOR, "r", &str, &strSize);
-			JabberStringAppend(&str, &strSize, "<g>%d</g>", IsDlgButtonChecked(hwndDlg, IDC_VOICECONVERSATIONS) ? 1 : 0);
-			JabberStringAppend(&str, &strSize, "<v>%d</v>", IsDlgButtonChecked(hwndDlg, IDC_PUBLICSTATUS) ? 1 : 0);
-			JabberStringAppend(&str, &strSize, "</query></iq>");
-			JabberSend(data->proto, "%s", str);
+			TlenStringAppend(&str, &strSize, "<g>%d</g>", IsDlgButtonChecked(hwndDlg, IDC_VOICECONVERSATIONS) ? 1 : 0);
+			TlenStringAppend(&str, &strSize, "<v>%d</v>", IsDlgButtonChecked(hwndDlg, IDC_PUBLICSTATUS) ? 1 : 0);
+			TlenStringAppend(&str, &strSize, "</query></iq>");
+			TlenSend(data->proto, "%s", str);
 			mir_free(str);
 			data->proto->GetInfo(NULL, 0);
 		}

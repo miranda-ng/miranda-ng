@@ -99,7 +99,7 @@ int TlenProtocol::OptionsInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static LRESULT CALLBACK JabberValidateUsernameWndProc(HWND hwndEdit, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK TlenValidateUsernameWndProc(HWND hwndEdit, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_CHAR:
@@ -107,7 +107,7 @@ static LRESULT CALLBACK JabberValidateUsernameWndProc(HWND hwndEdit, UINT msg, W
 			return 0;
 		break;
 	}
-	return mir_callNextSubclass(hwndEdit, JabberValidateUsernameWndProc, msg, wParam, lParam);
+	return mir_callNextSubclass(hwndEdit, TlenValidateUsernameWndProc, msg, wParam, lParam);
 }
 
 INT_PTR CALLBACK TlenAccMgrUIDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -133,7 +133,7 @@ INT_PTR CALLBACK TlenAccMgrUIDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}
 			CheckDlgButton(hwndDlg, IDC_SAVEPASSWORD, db_get_b(NULL, proto->m_szModuleName, "SavePassword", TRUE));
 
-			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_EDIT_USERNAME), JabberValidateUsernameWndProc);
+			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_EDIT_USERNAME), TlenValidateUsernameWndProc);
 		}
 		return TRUE;
 
@@ -251,7 +251,7 @@ static INT_PTR CALLBACK TlenBasicOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 			oldProc = (WNDPROC) GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_EDIT_USERNAME), GWLP_WNDPROC);
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_EDIT_USERNAME), GWLP_USERDATA, (LONG_PTR) oldProc);
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_EDIT_USERNAME), GWLP_WNDPROC, (LONG_PTR) JabberValidateUsernameWndProc);
+			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_EDIT_USERNAME), GWLP_WNDPROC, (LONG_PTR) TlenValidateUsernameWndProc);
 			return TRUE;
 		}
 	case WM_COMMAND:

@@ -21,8 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#ifndef _JABBER_XML_H_
-#define _JABBER_XML_H_
+#ifndef _TLEN_XML_H_
+#define _TLEN_XML_H_
 
 typedef enum { ELEM_OPEN, ELEM_CLOSE, ELEM_OPENCLOSE, ELEM_TEXT } XmlElemType;
 typedef enum { NODE_OPEN, NODE_CLOSE } XmlNodeType;
@@ -59,21 +59,21 @@ typedef struct tagXmlState {
 	void *userdata2_close;
 } XmlState;
 
-void JabberXmlInitState(XmlState *xmlState);
-void JabberXmlDestroyState(XmlState *xmlState);
-BOOL JabberXmlSetCallback(XmlState *xmlState, int depth, XmlElemType type, void (*callback)(XmlNode*, void*), void *userdata);
-int JabberXmlParse(XmlState *xmlState, char *buffer, int datalen);
-char *JabberXmlGetAttrValue(XmlNode *node, char *key);
-XmlNode *JabberXmlGetChild(XmlNode *node, char *tag);
-XmlNode *JabberXmlGetNthChild(XmlNode *node, char *tag, int nth);
-XmlNode *JabberXmlGetChildWithGivenAttrValue(XmlNode *node, char *tag, char *attrKey, char *attrValue);
-void JabberXmlFreeNode(XmlNode *node);
-XmlNode *JabberXmlCopyNode(XmlNode *node);
+void TlenXmlInitState(XmlState *xmlState);
+void TlenXmlDestroyState(XmlState *xmlState);
+BOOL TlenXmlSetCallback(XmlState *xmlState, int depth, XmlElemType type, void (*callback)(XmlNode*, void*), void *userdata);
+int TlenXmlParse(XmlState *xmlState, char *buffer, int datalen);
+char *TlenXmlGetAttrValue(XmlNode *node, char *key);
+XmlNode *TlenXmlGetChild(XmlNode *node, char *tag);
+XmlNode *TlenXmlGetNthChild(XmlNode *node, char *tag, int nth);
+XmlNode *TlenXmlGetChildWithGivenAttrValue(XmlNode *node, char *tag, char *attrKey, char *attrValue);
+void TlenXmlFreeNode(XmlNode *node);
+XmlNode *TlenXmlCopyNode(XmlNode *node);
 
-XmlNode *JabberXmlCreateNode(char *name);
-void JabberXmlAddAttr(XmlNode *n, char *name, char *value);
-XmlNode *JabberXmlAddChild(XmlNode *n, char *name);
-void JabberXmlAddText(XmlNode *n, char *text);
+XmlNode *TlenXmlCreateNode(char *name);
+void TlenXmlAddAttr(XmlNode *n, char *name, char *value);
+XmlNode *TlenXmlAddChild(XmlNode *n, char *name);
+void TlenXmlAddText(XmlNode *n, char *text);
 
 #endif
 

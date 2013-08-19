@@ -21,8 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#ifndef _JABBER_H_
-#define _JABBER_H_
+#ifndef _TLEN_H_
+#define _TLEN_H_
 
 #define MIRANDA_VER 0x0A00
 
@@ -91,29 +91,29 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  * Global constants
  *******************************************************************/
 #define TLEN_DEFAULT_PORT 443
-#define JABBER_IQID "mim_"
+#define TLEN_IQID "mim_"
 #define TLEN_REGISTER   "http://reg.tlen.pl/"
 #define TLEN_MAX_SEARCH_RESULTS_PER_PAGE 20
 
 // User-defined message
 #define WM_TLEN_REFRESH						(WM_USER + 100)
 // Error code
-#define JABBER_ERROR_REDIRECT				302
-#define JABBER_ERROR_BAD_REQUEST			400
-#define JABBER_ERROR_UNAUTHORIZED			401
-#define JABBER_ERROR_PAYMENT_REQUIRED		402
-#define JABBER_ERROR_FORBIDDEN				403
-#define JABBER_ERROR_NOT_FOUND				404
-#define JABBER_ERROR_NOT_ALLOWED			405
-#define JABBER_ERROR_NOT_ACCEPTABLE			406
-#define JABBER_ERROR_REGISTRATION_REQUIRED	407
-#define JABBER_ERROR_REQUEST_TIMEOUT		408
-#define JABBER_ERROR_CONFLICT				409
-#define JABBER_ERROR_INTERNAL_SERVER_ERROR	500
-#define JABBER_ERROR_NOT_IMPLEMENTED		501
-#define JABBER_ERROR_REMOTE_SERVER_ERROR	502
-#define JABBER_ERROR_SERVICE_UNAVAILABLE	503
-#define JABBER_ERROR_REMOTE_SERVER_TIMEOUT	504
+#define TLEN_ERROR_REDIRECT				302
+#define TLEN_ERROR_BAD_REQUEST			400
+#define TLEN_ERROR_UNAUTHORIZED			401
+#define TLEN_ERROR_PAYMENT_REQUIRED		402
+#define TLEN_ERROR_FORBIDDEN				403
+#define TLEN_ERROR_NOT_FOUND				404
+#define TLEN_ERROR_NOT_ALLOWED			405
+#define TLEN_ERROR_NOT_ACCEPTABLE			406
+#define TLEN_ERROR_REGISTRATION_REQUIRED	407
+#define TLEN_ERROR_REQUEST_TIMEOUT		408
+#define TLEN_ERROR_CONFLICT				409
+#define TLEN_ERROR_INTERNAL_SERVER_ERROR	500
+#define TLEN_ERROR_NOT_IMPLEMENTED		501
+#define TLEN_ERROR_REMOTE_SERVER_ERROR	502
+#define TLEN_ERROR_SERVICE_UNAVAILABLE	503
+#define TLEN_ERROR_REMOTE_SERVER_TIMEOUT	504
 
 #define TLEN_ALERTS_ACCEPT_ALL 0
 #define TLEN_ALERTS_IGNORE_NIR 1
@@ -134,7 +134,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /*******************************************************************
  * Global data structures and data type definitions
  *******************************************************************/
-typedef HANDLE JABBER_SOCKET;
+typedef HANDLE TLEN_SOCKET;
 
 typedef enum {
 	LIST_ROSTER,	// Roster list
@@ -144,19 +144,19 @@ typedef enum {
 	LIST_SEARCH,	 // Rooms names being searched
 	LIST_VOICE,
 	LIST_PICTURE
-} JABBER_LIST;
+} TLEN_LIST;
 
 typedef enum {
 	IQ_PROC_NONE,
 	IQ_PROC_GETSEARCH
-} JABBER_IQ_PROCID;
+} TLEN_IQ_PROCID;
 
 typedef enum {
 	SUB_NONE,
 	SUB_TO,
 	SUB_FROM,
 	SUB_BOTH
-} JABBER_SUBSCRIPTION;
+} TLEN_SUBSCRIPTION;
 
 typedef struct {
 	char *szOnline;
@@ -165,7 +165,7 @@ typedef struct {
 	char *szDnd;
 	char *szFreechat;
 	char *szInvisible;
-} JABBER_MODEMSGS;
+} TLEN_MODEMSGS;
 
 typedef struct {
 	char mailBase[256];
@@ -207,8 +207,8 @@ typedef struct {
 } TlenOptions;
 
 
-struct JABBER_IQ_FUNC_STRUCT;
-struct JABBER_LIST_ITEM_STRUCT;
+struct TLEN_IQ_FUNC_STRUCT;
+struct TLEN_LIST_ITEM_STRUCT;
 struct TLEN_VOICE_CONTROL_STRUCT;
 
 struct TlenProtocol : public PROTO<TlenProtocol>
@@ -292,8 +292,8 @@ struct TlenProtocol : public PROTO<TlenProtocol>
 
 	int __cdecl OnModulesLoaded(WPARAM wParam, LPARAM lParam);
 	int __cdecl OptionsInit(WPARAM wParam, LPARAM lParam);
-	int __cdecl JabberDbSettingChanged(WPARAM wParam, LPARAM lParam);
-	int __cdecl JabberContactDeleted(WPARAM wParam, LPARAM lParam);
+	int __cdecl TlenDbSettingChanged(WPARAM wParam, LPARAM lParam);
+	int __cdecl TlenContactDeleted(WPARAM wParam, LPARAM lParam);
 	int __cdecl PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 	int __cdecl PreShutdown(WPARAM wParam, LPARAM lParam);
 
@@ -305,7 +305,7 @@ struct TlenProtocol : public PROTO<TlenProtocol>
 	HANDLE hNetlibUser;
 	HANDLE hFileNetlibUser;
 
-	JABBER_MODEMSGS modeMsgs;
+	TLEN_MODEMSGS modeMsgs;
 
 	struct ThreadDataStruct *threadData;
 	HANDLE hTlenNudge;
@@ -319,12 +319,12 @@ struct TlenProtocol : public PROTO<TlenProtocol>
 	HGENMENU hMenuPicture;
 
 	int listsCount;
-	struct JABBER_LIST_ITEM_STRUCT *lists;
+	struct TLEN_LIST_ITEM_STRUCT *lists;
 	CRITICAL_SECTION csLists;
 
 	int iqCount;
 	int iqAlloced;
-	struct JABBER_IQ_FUNC_STRUCT *iqList;
+	struct TLEN_IQ_FUNC_STRUCT *iqList;
 	CRITICAL_SECTION csIqList;
 
 	CRITICAL_SECTION csSerial;
@@ -370,7 +370,7 @@ typedef struct ThreadDataStruct{
 	WORD port;
 	BOOL useEncryption;
 
-	JABBER_SOCKET s;    //HANDLE from CallService(MS_NETLIB_OPENCONNECTION (jabber_ws.c:68)
+	TLEN_SOCKET s;    //HANDLE from CallService(MS_NETLIB_OPENCONNECTION (tlen_ws.c:68)
 	aes_context aes_in_context;
 	aes_context aes_out_context;
 	unsigned char aes_in_iv[16];
@@ -382,13 +382,13 @@ typedef struct ThreadDataStruct{
 } ThreadData;
 
 
-typedef enum { FT_CONNECTING, FT_INITIALIZING, FT_RECEIVING, FT_DONE, FT_ERROR, FT_DENIED, FT_SWITCH } JABBER_FILE_STATE;
-typedef enum { FT_RECV, FT_SEND} JABBER_FILE_MODE;
+typedef enum { FT_CONNECTING, FT_INITIALIZING, FT_RECEIVING, FT_DONE, FT_ERROR, FT_DENIED, FT_SWITCH } TLEN_FILE_STATE;
+typedef enum { FT_RECV, FT_SEND} TLEN_FILE_MODE;
 typedef struct TLEN_FILE_TRANSFER_STRUCT{
 	HANDLE hContact;
-	JABBER_SOCKET s;
+	TLEN_SOCKET s;
 	NETLIBNEWCONNECTIONPROC_V2 pfnNewConnectionV2;
-	JABBER_FILE_STATE state;
+	TLEN_FILE_STATE state;
 	char *jid;
 	int fileId;
 	char *iqId;
@@ -427,7 +427,7 @@ typedef struct TLEN_FILE_TRANSFER_STRUCT{
 typedef struct {
 	PROTOSEARCHRESULT hdr;
 	char jid[256];
-} JABBER_SEARCH_RESULT;
+} TLEN_SEARCH_RESULT;
 
 typedef struct {
 	char *iqId;
@@ -439,7 +439,7 @@ typedef struct {
 typedef struct {
 	int id;
 	TCHAR *name;
-} JABBER_FIELD_MAP;
+} TLEN_FIELD_MAP;
 
 
 /*******************************************************************
@@ -455,63 +455,63 @@ void uninitMenuItems(TlenProtocol *proto);
 HICON GetIcolibIcon(int iconId);
 void ReleaseIcolibIcon(HICON hIcon);
 
-void JabberLog(TlenProtocol *proto, const char *fmt, ...);
-void __cdecl JabberServerThread(ThreadData *info);
-// jabber_ws.cpp
-BOOL JabberWsInit(TlenProtocol *proto);
-void JabberWsUninit(TlenProtocol *proto);
-JABBER_SOCKET JabberWsConnect(TlenProtocol *proto, char *host, WORD port);
-int JabberWsSend(TlenProtocol *proto, JABBER_SOCKET s, char *data, int datalen);
-int JabberWsRecv(TlenProtocol *proto, JABBER_SOCKET s, char *data, long datalen);
-int JabberWsSendAES(TlenProtocol *proto, char *data, int datalen, aes_context *aes_ctx, unsigned char *aes_iv);
-int JabberWsRecvAES(TlenProtocol *proto, char *data, long datalen, aes_context *aes_ctx, unsigned char *aes_iv);
+void TlenLog(TlenProtocol *proto, const char *fmt, ...);
+void __cdecl TlenServerThread(ThreadData *info);
+// tlen_ws.cpp
+BOOL TlenWsInit(TlenProtocol *proto);
+void TlenWsUninit(TlenProtocol *proto);
+TLEN_SOCKET TlenWsConnect(TlenProtocol *proto, char *host, WORD port);
+int TlenWsSend(TlenProtocol *proto, TLEN_SOCKET s, char *data, int datalen);
+int TlenWsRecv(TlenProtocol *proto, TLEN_SOCKET s, char *data, long datalen);
+int TlenWsSendAES(TlenProtocol *proto, char *data, int datalen, aes_context *aes_ctx, unsigned char *aes_iv);
+int TlenWsRecvAES(TlenProtocol *proto, char *data, long datalen, aes_context *aes_ctx, unsigned char *aes_iv);
 
-// jabber_util.cpp
-void JabberSerialInit(TlenProtocol *proto);
-void JabberSerialUninit(TlenProtocol *proto);
-unsigned int JabberSerialNext(TlenProtocol *proto);
-int JabberSend(TlenProtocol *proto, const char *fmt, ...);
-HANDLE JabberHContactFromJID(TlenProtocol *proto, const char *jid);
-char *JabberJIDFromHContact(TlenProtocol *proto, HANDLE hContact);
-char *JabberLoginFromJID(const char *jid);
-char *JabberResourceFromJID(const char *jid);
-char *JabberNickFromJID(const char *jid);
-char *JabberLocalNickFromJID(const char *jid);
+// tlen_util.cpp
+void TlenSerialInit(TlenProtocol *proto);
+void TlenSerialUninit(TlenProtocol *proto);
+unsigned int TlenSerialNext(TlenProtocol *proto);
+int TlenSend(TlenProtocol *proto, const char *fmt, ...);
+HANDLE TlenHContactFromJID(TlenProtocol *proto, const char *jid);
+char *TlenJIDFromHContact(TlenProtocol *proto, HANDLE hContact);
+char *TlenLoginFromJID(const char *jid);
+char *TlenResourceFromJID(const char *jid);
+char *TlenNickFromJID(const char *jid);
+char *TlenLocalNickFromJID(const char *jid);
 char *TlenGroupEncode(const char *str);
 char *TlenGroupDecode(const char *str);
-char *JabberSha1(char *str);
+char *TlenSha1(char *str);
 char *TlenSha1(char *str, int len);
 char *TlenPasswordHash(const char *str);
 void TlenUrlDecode(char *str);
 char *TlenUrlEncode(const char *str);
-char *JabberTextEncode(const char *str);
-char *JabberTextDecode(const char *str);
+char *TlenTextEncode(const char *str);
+char *TlenTextDecode(const char *str);
 void TlenLogMessage(TlenProtocol *proto, HANDLE hContact, DWORD flags, const char *message);
 BOOL IsAuthorized(TlenProtocol *proto, const char *jid);
-//char *JabberGetVersionText();
-time_t JabberIsoToUnixTime(char *stamp);
+//char *TlenGetVersionText();
+time_t TlenIsoToUnixTime(char *stamp);
 time_t TlenTimeToUTC(time_t time);
-void JabberSendPresence(TlenProtocol *proto,int status);
-void JabberStringAppend(char **str, int *sizeAlloced, const char *fmt, ...);
-//char *JabberGetClientJID(char *jid);
-// jabber_misc.cpp
-void JabberDBAddEvent(TlenProtocol *proto, HANDLE hContact, int eventType, DWORD flags, PBYTE pBlob, DWORD cbBlob);
-void JabberDBAddAuthRequest(TlenProtocol *proto, char *jid, char *nick);
-HANDLE JabberDBCreateContact(TlenProtocol *proto, char *jid, char *nick, BOOL temporary);
-void JabberContactListCreateGroup(char *groupName);
-unsigned long JabberForkThread(void (__cdecl *threadcode)(void*), unsigned long stacksize, void *arg);
-// jabber_svc.cpp
+void TlenSendPresence(TlenProtocol *proto,int status);
+void TlenStringAppend(char **str, int *sizeAlloced, const char *fmt, ...);
+//char *TlenGetClientJID(char *jid);
+// tlen_misc.cpp
+void TlenDBAddEvent(TlenProtocol *proto, HANDLE hContact, int eventType, DWORD flags, PBYTE pBlob, DWORD cbBlob);
+void TlenDBAddAuthRequest(TlenProtocol *proto, char *jid, char *nick);
+HANDLE TlenDBCreateContact(TlenProtocol *proto, char *jid, char *nick, BOOL temporary);
+void TlenContactListCreateGroup(char *groupName);
+unsigned long TlenForkThread(void (__cdecl *threadcode)(void*), unsigned long stacksize, void *arg);
+// tlen_svc.cpp
 int TlenRunSearch(TlenProtocol *proto);
-// jabber_opt.cpp
+// tlen_opt.cpp
 void TlenLoadOptions(TlenProtocol *proto);
 // tlen_voice.cpp
 int TlenVoiceCancelAll(TlenProtocol *proto);
-// jabber_advsearch.cpp
-extern JABBER_FIELD_MAP tlenFieldGender[];
-extern JABBER_FIELD_MAP tlenFieldLookfor[];
-extern JABBER_FIELD_MAP tlenFieldStatus[];
-extern JABBER_FIELD_MAP tlenFieldOccupation[];
-extern JABBER_FIELD_MAP tlenFieldPlan[];
+// tlen_advsearch.cpp
+extern TLEN_FIELD_MAP tlenFieldGender[];
+extern TLEN_FIELD_MAP tlenFieldLookfor[];
+extern TLEN_FIELD_MAP tlenFieldStatus[];
+extern TLEN_FIELD_MAP tlenFieldOccupation[];
+extern TLEN_FIELD_MAP tlenFieldPlan[];
 // tlen_advsearch.cpp
 INT_PTR CALLBACK TlenAdvSearchDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 char *TlenAdvSearchCreateQuery(HWND hwndDlg, int iqId);

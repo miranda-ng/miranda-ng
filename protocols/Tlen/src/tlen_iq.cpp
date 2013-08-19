@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "tlen_iq.h"
 
 
-void JabberIqInit(TlenProtocol *proto)
+void TlenIqInit(TlenProtocol *proto)
 {
 	InitializeCriticalSection(&proto->csIqList);
 	proto->iqList = NULL;
@@ -32,7 +32,7 @@ void JabberIqInit(TlenProtocol *proto)
 	proto->iqAlloced = 0;
 }
 
-void JabberIqUninit(TlenProtocol *proto)
+void TlenIqUninit(TlenProtocol *proto)
 {
 	if (proto->iqList) mir_free(proto->iqList);
 	proto->iqList = NULL;
@@ -41,17 +41,17 @@ void JabberIqUninit(TlenProtocol *proto)
 	DeleteCriticalSection(&proto->csIqList);
 }
 
-static void JabberIqRemove(TlenProtocol *proto, int index)
+static void TlenIqRemove(TlenProtocol *proto, int index)
 {
 	EnterCriticalSection(&proto->csIqList);
 	if (index >= 0 && index<proto->iqCount) {
-		memmove(proto->iqList+index, proto->iqList+index+1, sizeof(JABBER_IQ_FUNC)*(proto->iqCount-index-1));
+		memmove(proto->iqList+index, proto->iqList+index+1, sizeof(TLEN_IQ_FUNC)*(proto->iqCount-index-1));
 		proto->iqCount--;
 	}
 	LeaveCriticalSection(&proto->csIqList);
 }
 
-static void JabberIqExpire(TlenProtocol *proto)
+static void TlenIqExpire(TlenProtocol *proto)
 {
 	int i;
 	time_t expire;
@@ -61,33 +61,33 @@ static void JabberIqExpire(TlenProtocol *proto)
 	i = 0;
 	while (i < proto->iqCount) {
 		if (proto->iqList[i].requestTime < expire)
-			JabberIqRemove(proto, i);
+			TlenIqRemove(proto, i);
 		else
 			i++;
 	}
 	LeaveCriticalSection(&proto->csIqList);
 }
 
-JABBER_IQ_PFUNC JabberIqFetchFunc(TlenProtocol *proto, int iqId)
+TLEN_IQ_PFUNC TlenIqFetchFunc(TlenProtocol *proto, int iqId)
 {
 	int i;
-	JABBER_IQ_PFUNC res;
+	TLEN_IQ_PFUNC res;
 
 	EnterCriticalSection(&proto->csIqList);
-	JabberIqExpire(proto);
+	TlenIqExpire(proto);
 	for (i=0; i<proto->iqCount && proto->iqList[i].iqId != iqId; i++);
 	if (i < proto->iqCount) {
 		res = proto->iqList[i].func;
-		JabberIqRemove(proto, i);
+		TlenIqRemove(proto, i);
 	}
 	else {
-		res = (JABBER_IQ_PFUNC) NULL;
+		res = (TLEN_IQ_PFUNC) NULL;
 	}
 	LeaveCriticalSection(&proto->csIqList);
 	return res;
 }
 
-void JabberIqAdd(TlenProtocol *proto, unsigned int iqId, JABBER_IQ_PROCID procId, JABBER_IQ_PFUNC func)
+void TlenIqAdd(TlenProtocol *proto, unsigned int iqId, TLEN_IQ_PROCID procId, TLEN_IQ_PFUNC func)
 {
 	int i;
 
@@ -99,7 +99,7 @@ void JabberIqAdd(TlenProtocol *proto, unsigned int iqId, JABBER_IQ_PROCID procId
 
 	if (i >= proto->iqCount && proto->iqCount >= proto->iqAlloced) {
 		proto->iqAlloced = proto->iqCount + 8;
-		proto->iqList = (JABBER_IQ_FUNC*)mir_realloc(proto->iqList, sizeof(JABBER_IQ_FUNC)*proto->iqAlloced);
+		proto->iqList = (TLEN_IQ_FUNC*)mir_realloc(proto->iqList, sizeof(TLEN_IQ_FUNC)*proto->iqAlloced);
 	}
 
 	if (proto->iqList != NULL) {

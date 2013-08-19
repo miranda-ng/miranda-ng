@@ -26,19 +26,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <ctype.h>
 #include <win2k.h>
 
-void JabberSerialInit(TlenProtocol *proto)
+void TlenSerialInit(TlenProtocol *proto)
 {
 	InitializeCriticalSection(&proto->csSerial);
 	proto->serial = 0;
 }
 
-void JabberSerialUninit(TlenProtocol *proto)
+void TlenSerialUninit(TlenProtocol *proto)
 {
 	DeleteCriticalSection(&proto->csSerial);
 }
 
 
-unsigned int JabberSerialNext(TlenProtocol *proto)
+unsigned int TlenSerialNext(TlenProtocol *proto)
 {
 	unsigned int ret;
 
@@ -50,7 +50,7 @@ unsigned int JabberSerialNext(TlenProtocol *proto)
 }
 
 
-void JabberLog(TlenProtocol *proto, const char *fmt, ...)
+void TlenLog(TlenProtocol *proto, const char *fmt, ...)
 {
 #ifdef ENABLE_LOGGING
 	char *str;
@@ -98,9 +98,9 @@ void JabberLog(TlenProtocol *proto, const char *fmt, ...)
 #endif
 }
 
-// Caution: DO NOT use JabberSend() to send binary (non-string) data
+// Caution: DO NOT use TlenSend() to send binary (non-string) data
 
-int JabberSend(TlenProtocol *proto, const char *fmt, ...)
+int TlenSend(TlenProtocol *proto, const char *fmt, ...)
 {
 	char *str;
 	int size;
@@ -118,13 +118,13 @@ int JabberSend(TlenProtocol *proto, const char *fmt, ...)
 	}
 	va_end(vararg);
 
-	JabberLog(proto, "SEND:%s", str);
+	TlenLog(proto, "SEND:%s", str);
 	size = (int)strlen(str);
 	if (proto->threadData != NULL) {
 		if (proto->threadData->useAES) {
-			result = JabberWsSendAES(proto, str, size, &proto->threadData->aes_out_context, proto->threadData->aes_out_iv);
+			result = TlenWsSendAES(proto, str, size, &proto->threadData->aes_out_context, proto->threadData->aes_out_iv);
 		} else {
-			result = JabberWsSend(proto, proto->threadData->s, str, size);
+			result = TlenWsSend(proto, proto->threadData->s, str, size);
 		}
 	}
 	LeaveCriticalSection(&proto->csSend);
@@ -133,7 +133,7 @@ int JabberSend(TlenProtocol *proto, const char *fmt, ...)
 	return result;
 }
 
-char *JabberResourceFromJID(const char *jid2)
+char *TlenResourceFromJID(const char *jid2)
 {
 	char *p;
 	char *nick;
@@ -155,7 +155,7 @@ char *JabberResourceFromJID(const char *jid2)
 	return nick;
 }
 
-char *JabberNickFromJID(const char *jid2)
+char *TlenNickFromJID(const char *jid2)
 {
 	char *p;
 	char *nick;
@@ -177,7 +177,7 @@ char *JabberNickFromJID(const char *jid2)
 	return nick;
 }
 
-char *JabberLoginFromJID(const char *jid2)
+char *TlenLoginFromJID(const char *jid2)
 {
 	char *p;
 	char *nick;
@@ -198,18 +198,18 @@ char *JabberLoginFromJID(const char *jid2)
 	return nick;
 }
 
-char *JabberLocalNickFromJID(const char *jid)
+char *TlenLocalNickFromJID(const char *jid)
 {
 	char *p;
 	char *localNick;
 
-	p = JabberNickFromJID(jid);
-	localNick = JabberTextDecode(p);
+	p = TlenNickFromJID(jid);
+	localNick = TlenTextDecode(p);
 	mir_free(p);
 	return localNick;
 }
 
-char *JabberSha1(char *str)
+char *TlenSha1(char *str)
 {
 	mir_sha1_ctx sha;
 	DWORD digest[5];
@@ -335,7 +335,7 @@ char * TlenGroupDecode(const char *str)
 {
 	char *p, *q;
 	if (str == NULL) return NULL;
-	p = q = JabberTextDecode(str);
+	p = q = TlenTextDecode(str);
 	for (; *p != '\0'; p++) {
 		if (*p == '/') {
 			*p = '\\';
@@ -354,12 +354,12 @@ char * TlenGroupEncode(const char *str)
 			*p = '/';
 		}
 	}
-	p = JabberTextEncode(q);
+	p = TlenTextEncode(q);
 	mir_free(q);
 	return p;
 }
 
-char *JabberTextEncode(const char *str)
+char *TlenTextEncode(const char *str)
 {
 	char *s1;
 
@@ -369,7 +369,7 @@ char *JabberTextEncode(const char *str)
 	return s1;
 }
 
-char *JabberTextDecode(const char *str)
+char *TlenTextDecode(const char *str)
 {
 	char *s1;
 
@@ -396,7 +396,7 @@ time_t  TlenTimeToUTC(time_t time) {
 	return time;
 }
 
-time_t JabberIsoToUnixTime(char *stamp)
+time_t TlenIsoToUnixTime(char *stamp)
 {
 	struct tm timestamp;
 	char date[9];
@@ -450,7 +450,7 @@ time_t JabberIsoToUnixTime(char *stamp)
 		return (time_t) 0;
 }
 
-void JabberStringAppend(char **str, int *sizeAlloced, const char *fmt, ...)
+void TlenStringAppend(char **str, int *sizeAlloced, const char *fmt, ...)
 {
 	va_list vararg;
 	char *p;
@@ -481,7 +481,7 @@ void JabberStringAppend(char **str, int *sizeAlloced, const char *fmt, ...)
 
 BOOL IsAuthorized(TlenProtocol *proto, const char *jid)
 {
-	JABBER_LIST_ITEM *item = JabberListGetItemPtr(proto, LIST_ROSTER, jid);
+	TLEN_LIST_ITEM *item = TlenListGetItemPtr(proto, LIST_ROSTER, jid);
 	if (item != NULL) {
 		return item->subscription == SUB_BOTH || item->subscription == SUB_FROM;
 	}
@@ -495,6 +495,6 @@ void TlenLogMessage(TlenProtocol *proto, HANDLE hContact, DWORD flags, const cha
 	char *localMessage = (char *)mir_alloc(size);
 	strcpy(localMessage, message);
 	localMessage[size - 1] = '\0';
-	JabberDBAddEvent(proto, hContact, EVENTTYPE_MESSAGE, flags, (PBYTE)message, (DWORD)size);
+	TlenDBAddEvent(proto, hContact, EVENTTYPE_MESSAGE, flags, (PBYTE)message, (DWORD)size);
 	mir_free(localMessage);
 }
