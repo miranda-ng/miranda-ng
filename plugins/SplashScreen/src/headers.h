@@ -83,16 +83,13 @@ extern BOOL bserviceinvoked, bmodulesloaded, png2dibavail;
 extern HANDLE hSplashThread;
 extern HINSTANCE hInst;
 
-extern BOOL (WINAPI *MyUpdateLayeredWindow)
-   (HWND hwnd, HDC hdcDST, POINT *pptDst, SIZE *psize, HDC hdcSrc, POINT *pptSrc,
-    COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags);
 // png2dib interface
 typedef BOOL ( *pfnConvertPng2dib )( char*, size_t, BITMAPINFOHEADER** );
 extern pfnConvertPng2dib png2dibConvertor;
 
 extern int OptInit(WPARAM wParam, LPARAM lParam);
 extern BOOL ShowSplash(BOOL bpreview);
-extern VOID ReadIniConfig();
+extern VOID ReadDbConfig();
 extern INT_PTR ShowSplashService(WPARAM wparam,LPARAM lparam);
 #ifdef _DEBUG
 	extern INT_PTR TestService(WPARAM wParam,LPARAM lParam);

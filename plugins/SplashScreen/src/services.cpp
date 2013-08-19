@@ -23,14 +23,13 @@ INT_PTR ShowSplashService(WPARAM wparam,LPARAM lparam)
 {
 	bserviceinvoked = true;
 	TCHAR szOldfn [256];
-	TCHAR* pos;
 	TCHAR* filename = (TCHAR*) wparam;
 	int timetoshow = (int) lparam;
 
 	_tcscpy_s(szOldfn, szSplashFile);
 	options.showtime = timetoshow;
 
-	pos = _tcsrchr(filename, _T(':'));
+	TCHAR *pos = _tcsrchr(filename, _T(':'));
 	if (pos == NULL)
 		mir_sntprintf(szSplashFile, SIZEOF(szSplashFile), _T("%s\\%s"), szMirDir, filename);
 	else

@@ -23,7 +23,6 @@ HINSTANCE hInst = 0;
 
 int hLangpack;
 
-static HMODULE hUserDll = NULL;
 static HMODULE hAdvaimg = NULL;
 
 pfnConvertPng2dib png2dibConvertor = NULL;
@@ -42,9 +41,6 @@ char szVersion[MAX_PATH];
 #endif
 SPLASHOPTS options;
 HWND hwndSplash;
-BOOL (WINAPI *MyUpdateLayeredWindow)
-   (HWND hwnd, HDC hdcDST, POINT *pptDst, SIZE *psize, HDC hdcSrc, POINT *pptSrc,
-    COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags);
 HANDLE hSplashThread;
 
 PLUGININFOEX pluginInfo={
@@ -86,7 +82,7 @@ void SplashMain()
 			logMessage(_T("Advaimg path"), szhAdvaimgPath);
 		#endif
 
-		ReadIniConfig();
+		ReadDbConfig();
 	}
 
 	if (bstartup & (options.active == 1))
@@ -95,13 +91,6 @@ void SplashMain()
 		{
 			db_set_b(NULL, MODNAME, "Active", 0);
 			db_set_b(NULL, MODNAME, "DisableAfterStartup", 0);
-		}
-
-		if (hUserDll == NULL)
-		{
-			hUserDll = LoadLibrary(_T("user32.dll"));
-			if (hUserDll)
-				MyUpdateLayeredWindow = (BOOL (WINAPI *)(HWND, HDC, POINT *, SIZE *, HDC, POINT *, COLORREF, BLENDFUNCTION *, DWORD))GetProcAddress(hUserDll, "UpdateLayeredWindow");
 		}
 
 		if (hAdvaimg == NULL)
@@ -351,13 +340,14 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	if (hSplashThread) CloseHandle(hSplashThread);
+	if (hSplashThread)
+		CloseHandle(hSplashThread);
 
 	UnregisterClass(_T(SPLASH_CLASS), hInst);
 
 	// Freeing loaded libraries
-	if (hUserDll) FreeLibrary(hUserDll);
-	if (hAdvaimg) FreeLibrary(hAdvaimg);
+	if (hAdvaimg)
+		FreeLibrary(hAdvaimg);
 
 	#ifdef _DEBUG
 		logMessage(_T("Unload"), _T("Job done"));

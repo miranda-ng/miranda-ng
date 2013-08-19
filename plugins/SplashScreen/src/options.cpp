@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 TCHAR szPath2Spash [MAX_PATH], szSoundFilePath[MAX_PATH];
 
 // Reads values from db
-void ReadIniConfig()
+void ReadDbConfig()
 {
 	options.active = db_get_b(NULL, MODNAME, "Active", 1);
 	options.playsnd = db_get_b(NULL, MODNAME, "PlaySound", 0);
@@ -57,7 +57,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SPLASHPATH), false);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CHOOSESPLASH), false);
 			}
-			ReadIniConfig();
+			ReadDbConfig();
 			TCHAR inBuf[80];
 			DBVARIANT dbv = {0};
 			db_get_ts(NULL, MODNAME, "Path", &dbv);

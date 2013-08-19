@@ -32,7 +32,6 @@ LRESULT CALLBACK SplashWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 				logMessage(_T("WM_LOADED"), _T("called"));
 			#endif
 
-			if (!MyUpdateLayeredWindow) ShowWindow(hwndSplash, SW_SHOWNORMAL);
 			if (!options.showtime) SetTimer(hwnd, 7, 2000, 0);
 
 			break;
@@ -91,29 +90,26 @@ LRESULT CALLBACK SplashWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
 		case WM_CLOSE:
 		{
-			if (MyUpdateLayeredWindow) // Win 2000+
+			RECT rc; GetWindowRect(hwndSplash, &rc);
+			POINT ptDst = { rc.left, rc.top };
+			POINT ptSrc = { 0, 0 };
+			SIZE sz = { rc.right - rc.left, rc.bottom - rc.top };
+
+			BLENDFUNCTION blend;
+			blend.BlendOp =             AC_SRC_OVER;
+			blend.BlendFlags =          0;
+			blend.SourceConstantAlpha = 255;
+			blend.AlphaFormat =         AC_SRC_ALPHA;
+
+			// Fade Out
+			if (options.fadeout)
 			{
-				RECT rc; GetWindowRect(hwndSplash, &rc);
-				POINT ptDst = { rc.left, rc.top };
-				POINT ptSrc = { 0, 0 };
-				SIZE sz = { rc.right - rc.left, rc.bottom - rc.top };
-
-				BLENDFUNCTION blend;
-				blend.BlendOp =             AC_SRC_OVER;
-				blend.BlendFlags =          0;
-				blend.SourceConstantAlpha = 255;
-				blend.AlphaFormat =         AC_SRC_ALPHA;
-
-				// Fade Out
-				if (options.fadeout)
+				int i;
+				for (i = 255; i>=0; i -= options.fosteps)
 				{
-					int i;
-					for (i = 255; i>=0; i -= options.fosteps)
-					{
-						blend.SourceConstantAlpha = i;
-						MyUpdateLayeredWindow(hwndSplash, NULL, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
-						Sleep(1);
-					}
+					blend.SourceConstantAlpha = i;
+					UpdateLayeredWindow(hwndSplash, NULL, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
+					Sleep(1);
 				}
 			}
 			if (bserviceinvoked) bserviceinvoked = false;
@@ -283,34 +279,24 @@ int SplashThread(void *arg)
 			//free (ptr_verString);
 	}
 
-	if (MyUpdateLayeredWindow) // Win 2000+
+	SetWindowLongPtr(hwndSplash, GWL_EXSTYLE, GetWindowLongPtr(hwndSplash, GWL_EXSTYLE) | WS_EX_LAYERED);
+	UpdateLayeredWindow(hwndSplash, NULL, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
+
+	ShowWindow(hwndSplash, SW_SHOWNORMAL);
+
+	if (options.fadein)
 	{
-		SetWindowLongPtr(hwndSplash, GWL_EXSTYLE, GetWindowLongPtr(hwndSplash, GWL_EXSTYLE) | WS_EX_LAYERED);
-		/*
-		if (splashWithMarkers)
+		// Fade in
+		int i;
+		for (i = 0; i < 255; i += options.fisteps)
 		{
-		++ptSrc.x;
-		++ptSrc.y;
+			blend.SourceConstantAlpha = i;
+			UpdateLayeredWindow(hwndSplash, NULL, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
+			Sleep(1);
 		}
-		*/
-		MyUpdateLayeredWindow(hwndSplash, NULL, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
-
-		ShowWindow(hwndSplash, SW_SHOWNORMAL);
-
-		if (options.fadein)
-		{
-			// Fade in
-			int i;
-			for (i = 0; i < 255; i += options.fisteps)
-			{
-				blend.SourceConstantAlpha = i;
-				MyUpdateLayeredWindow(hwndSplash, NULL, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
-				Sleep(1);
-			}
-		}
-		blend.SourceConstantAlpha = 255;
-		MyUpdateLayeredWindow(hwndSplash, NULL, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
 	}
+	blend.SourceConstantAlpha = 255;
+	UpdateLayeredWindow(hwndSplash, NULL, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
 
 	if (DWORD(arg) > 0)
 	{
