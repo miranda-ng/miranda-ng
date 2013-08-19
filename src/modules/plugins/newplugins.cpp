@@ -31,7 +31,8 @@ void LoadExtraIconsModule();
 extern bool bModulesLoadedFired;
 
 static int sttComparePluginsByName(const pluginEntry* p1, const pluginEntry* p2)
-{	return lstrcmp(p1->pluginname, p2->pluginname);
+{
+	return lstrcmp(p1->pluginname, p2->pluginname);
 }
 
 LIST<pluginEntry>
@@ -74,7 +75,6 @@ bool hasMuuid(const MUUID* p, const MUUID& uuid)
 
 	return false;
 }
-
 
 bool hasMuuid(const BASIC_PLUGIN_INFO& bpi, const MUUID& uuid)
 {
@@ -217,28 +217,6 @@ static bool validInterfaceList(MUUID *piface)
 	return true;
 }
 
-/*
- * historyeditor added by nightwish - plugin is problematic and can ruin database as it does not understand UTF-8 message
- * storage
- */
-
-static const TCHAR* modulesToSkip[] =
-{
-	_T("autoloadavatars.dll"), _T("multiwindow.dll"), _T("fontservice.dll"),
-	_T("icolib.dll"), _T("historyeditor.dll")
-};
-
-// The following plugins will be checked for a valid MUUID or they will not be loaded
-static const TCHAR* expiredModulesToSkip[] =
-{
-	_T("scriver.dll"), _T("nconvers.dll"), _T("tabsrmm.dll"), _T("nhistory.dll"),
-	_T("historypp.dll"), _T("help.dll"), _T("loadavatars.dll"), _T("tabsrmm_unicode.dll"),
-	_T("clist_nicer_plus.dll"), _T("changeinfo.dll"), _T("png2dib.dll"), _T("dbx_mmap.dll"),
-	_T("dbx_3x.dll"), _T("sramm.dll"), _T("srmm_mod.dll"), _T("srmm_mod (no Unicode).dll"),
-	_T("singlemodeSRMM.dll"), _T("msg_export.dll"), _T("clist_modern.dll"),
-	_T("clist_nicer.dll")
-};
-
 static int checkPI(BASIC_PLUGIN_INFO* bpi, PLUGININFOEX* pi)
 {
 	if (pi == NULL)
@@ -260,15 +238,6 @@ static int checkPI(BASIC_PLUGIN_INFO* bpi, PLUGININFOEX* pi)
 int checkAPI(TCHAR* plugin, BASIC_PLUGIN_INFO* bpi, DWORD mirandaVersion, int checkTypeAPI)
 {
 	HINSTANCE h = NULL;
-
-	// this is evil but these plugins are buggy/old and people are blaming Miranda
-	// fontservice plugin is built into the core now
-	TCHAR* p = _tcsrchr(plugin, '\\');
-	if (p != NULL && ++p) {
-		for (int i=0; i < SIZEOF(modulesToSkip); i++)
-			if (lstrcmpi(p, modulesToSkip[i]) == 0)
-				return 0;
-	}
 
 	h = LoadLibrary(plugin);
 	if (h == NULL)
@@ -545,7 +514,10 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 					if ( !(p->pclass & PCLASS_CORE)) {
 						Plugin_UnloadDyn(pluginDefault[idx].pImpl);
 						pluginDefault[idx].pImpl = NULL;
-		}	}	}	}
+					}
+				}
+			}
+		}
 
 		RegisterModule(p->bpi.hInst);
 		if (p->bpi.Load() != 0)
@@ -744,7 +716,8 @@ void UnloadNewPlugins(void)
 		pluginEntry* p = pluginList[i];
 		if ( !(p->pclass & PCLASS_LAST) && (p->pclass & PCLASS_OK))
 			Plugin_Uninit(p);
-}	}
+	}
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Loads all plugins
@@ -778,7 +751,8 @@ int LoadNewPluginsModule(void)
 				pluginList_freeimg->pclass |= PCLASS_LOADED;
 			else
 				Plugin_Uninit(pluginList_freeimg);
-	}	}
+		}
+	}
 
 	// first load the clist cos alot of plugins need that to be present at Load(void)
 	pluginEntry* clist = getCListModule(exe, slice);
