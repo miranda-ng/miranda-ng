@@ -21,12 +21,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "commons.h"
-#include "jabber.h"
+#include "tlen.h"
 #include "tlen_muc.h"
 #include "tlen_file.h"
 #include "tlen_voice.h"
-#include "jabber_list.h"
-#include "jabber_iq.h"
+#include "tlen_list.h"
+#include "tlen_iq.h"
 #include "resource.h"
 #include "tlen_picture.h"
 #include <richedit.h>
@@ -53,7 +53,7 @@ PLUGININFOEX pluginInfoEx = {
 	{0x748f8934, 0x781a, 0x528d, { 0x52, 0x08, 0x00, 0x12, 0x65, 0x40, 0x4a, 0xb3 }}
 };
 
-// Main jabber server connection thread global variables
+// Main tlen server connection thread global variables
 
 BOOL WINAPI DllMain(HINSTANCE hModule, DWORD dwReason, LPVOID lpvReserved)
 {
@@ -137,7 +137,7 @@ int TlenProtocol::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int TlenProtocol::ContactMenuHandleRequestAuth(WPARAM wParam, LPARAM lParam)
+INT_PTR TlenProtocol::ContactMenuHandleRequestAuth(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact != NULL && isOnline) {
@@ -150,7 +150,7 @@ int TlenProtocol::ContactMenuHandleRequestAuth(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int TlenProtocol::ContactMenuHandleGrantAuth(WPARAM wParam, LPARAM lParam)
+INT_PTR TlenProtocol::ContactMenuHandleGrantAuth(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact != NULL && isOnline) {
@@ -163,7 +163,7 @@ int TlenProtocol::ContactMenuHandleGrantAuth(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int TlenProtocol::ContactMenuHandleSendPicture(WPARAM wParam, LPARAM lParam)
+INT_PTR TlenProtocol::ContactMenuHandleSendPicture(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact != NULL && isOnline)
@@ -172,7 +172,7 @@ int TlenProtocol::ContactMenuHandleSendPicture(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int TlenProtocol::MenuHandleInbox(WPARAM wParam, LPARAM lParam)
+INT_PTR TlenProtocol::MenuHandleInbox(WPARAM wParam, LPARAM lParam)
 {
 	char szFileName[ MAX_PATH ];
 	DBVARIANT dbv;

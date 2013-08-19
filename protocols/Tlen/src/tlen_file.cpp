@@ -19,12 +19,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "jabber.h"
+#include "tlen.h"
 #include <io.h>
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include "jabber_list.h"
+#include "tlen_list.h"
 #include "tlen_p2p_old.h"
 
 static void TlenFileReceiveParse(TLEN_FILE_TRANSFER *ft)

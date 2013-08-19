@@ -28,34 +28,34 @@
     <ClCompile Include="src\crypto\padlock.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\jabber_iq.cpp">
+    <ClCompile Include="src\tlen_iq.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\jabber_iqid.cpp">
+    <ClCompile Include="src\tlen_iqid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\jabber_list.cpp">
+    <ClCompile Include="src\tlen_list.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\jabber_misc.cpp">
+    <ClCompile Include="src\tlen_misc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\jabber_opt.cpp">
+    <ClCompile Include="src\tlen_opt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\jabber_svc.cpp">
+    <ClCompile Include="src\tlen_svc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\jabber_thread.cpp">
+    <ClCompile Include="src\tlen_thread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\jabber_util.cpp">
+    <ClCompile Include="src\tlen_util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\jabber_ws.cpp">
+    <ClCompile Include="src\tlen_ws.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\jabber_xml.cpp">
+    <ClCompile Include="src\tlen_xml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\tlen.cpp">
@@ -108,13 +108,13 @@
     <ClInclude Include="src\codec\gsm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\jabber_iq.h">
+    <ClInclude Include="src\tlen_iq.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\jabber.h">
+    <ClInclude Include="src\tlen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\jabber_list.h">
+    <ClInclude Include="src\tlen_list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\tlen_voice.h">
@@ -144,7 +144,7 @@
     <ClInclude Include="src\crypto\polarssl\padlock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\jabber_xml.h">
+    <ClInclude Include="src\tlen_xml.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\commons.h">

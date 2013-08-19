@@ -78,28 +78,19 @@
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Midl>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MkTypLibCompatible>true</MkTypLibCompatible>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <TargetEnvironment>Win32</TargetEnvironment>
-      <TypeLibraryName>.\Release/jabber.tlb</TypeLibraryName>
-      <HeaderFileName>
-      </HeaderFileName>
-    </Midl>
     <ClCompile>
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <AdditionalIncludeDirectories>../../include;../../plugins/ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;JABBER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>false</ExceptionHandling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <PrecompiledHeaderFile>jabber.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>tlen.h</PrecompiledHeaderFile>
       <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
       <BrowseInformationFile>
       </BrowseInformationFile>
@@ -130,27 +121,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Midl>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MkTypLibCompatible>true</MkTypLibCompatible>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <TypeLibraryName>.\Release/jabber.tlb</TypeLibraryName>
-      <HeaderFileName>
-      </HeaderFileName>
-    </Midl>
     <ClCompile>
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <AdditionalIncludeDirectories>../../include;../../plugins/ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;JABBER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>false</ExceptionHandling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <PrecompiledHeaderFile>jabber.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>tlen.h</PrecompiledHeaderFile>
       <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
       <BrowseInformationFile>
       </BrowseInformationFile>
@@ -182,19 +165,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Midl>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MkTypLibCompatible>true</MkTypLibCompatible>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <TargetEnvironment>Win32</TargetEnvironment>
-      <TypeLibraryName>.\Debug/jabber.tlb</TypeLibraryName>
-      <HeaderFileName>
-      </HeaderFileName>
-    </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>../../include;../../plugins/ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;JABBER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <ExceptionHandling>false</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -203,7 +177,7 @@
       <FloatingPointModel>Precise</FloatingPointModel>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <PrecompiledHeaderFile>jabber.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>tlen.h</PrecompiledHeaderFile>
       <AssemblerListingLocation>
       </AssemblerListingLocation>
       <BrowseInformationFile>
@@ -239,18 +213,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Midl>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MkTypLibCompatible>true</MkTypLibCompatible>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <TypeLibraryName>.\Debug/jabber.tlb</TypeLibraryName>
-      <HeaderFileName>
-      </HeaderFileName>
-    </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>../../include;../../plugins/ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;JABBER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <ExceptionHandling>false</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -259,7 +225,7 @@
       <FloatingPointModel>Precise</FloatingPointModel>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <PrecompiledHeaderFile>jabber.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>tlen.h</PrecompiledHeaderFile>
       <AssemblerListingLocation>
       </AssemblerListingLocation>
       <BrowseInformationFile>
@@ -302,16 +268,16 @@
     <ClCompile Include="src\codec\gsm_preprocess.c" />
     <ClCompile Include="src\codec\gsm_rpe.c" />
     <ClCompile Include="src\codec\gsm_short.c" />
-    <ClCompile Include="src\jabber_iq.cpp" />
-    <ClCompile Include="src\jabber_iqid.cpp" />
-    <ClCompile Include="src\jabber_list.cpp" />
-    <ClCompile Include="src\jabber_misc.cpp" />
-    <ClCompile Include="src\jabber_opt.cpp" />
-    <ClCompile Include="src\jabber_svc.cpp" />
-    <ClCompile Include="src\jabber_thread.cpp" />
-    <ClCompile Include="src\jabber_util.cpp" />
-    <ClCompile Include="src\jabber_ws.cpp" />
-    <ClCompile Include="src\jabber_xml.cpp" />
+    <ClCompile Include="src\tlen_iq.cpp" />
+    <ClCompile Include="src\tlen_iqid.cpp" />
+    <ClCompile Include="src\tlen_list.cpp" />
+    <ClCompile Include="src\tlen_misc.cpp" />
+    <ClCompile Include="src\tlen_opt.cpp" />
+    <ClCompile Include="src\tlen_svc.cpp" />
+    <ClCompile Include="src\tlen_thread.cpp" />
+    <ClCompile Include="src\tlen_util.cpp" />
+    <ClCompile Include="src\tlen_ws.cpp" />
+    <ClCompile Include="src\tlen_xml.cpp" />
     <ClCompile Include="src\crypto\padlock.c" />
     <ClCompile Include="src\tlen.cpp" />
     <ClCompile Include="src\tlen_advsearch.cpp" />
@@ -335,10 +301,10 @@
     <ClInclude Include="src\crypto\polarssl\bn_mul.h" />
     <ClInclude Include="src\crypto\polarssl\config.h" />
     <ClInclude Include="src\codec\gsm.h" />
-    <ClInclude Include="src\jabber.h" />
-    <ClInclude Include="src\jabber_iq.h" />
-    <ClInclude Include="src\jabber_list.h" />
-    <ClInclude Include="src\jabber_xml.h" />
+    <ClInclude Include="src\tlen.h" />
+    <ClInclude Include="src\tlen_iq.h" />
+    <ClInclude Include="src\tlen_list.h" />
+    <ClInclude Include="src\tlen_xml.h" />
     <ClInclude Include="src\crypto\polarssl\padlock.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\tlen_avatar.h" />

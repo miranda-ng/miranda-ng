@@ -19,9 +19,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "jabber.h"
-#include "jabber_list.h"
-#include "jabber_iq.h"
+#include "tlen.h"
+#include "tlen_list.h"
+#include "tlen_iq.h"
 #include "resource.h"
 #include "tlen_muc.h"
 
@@ -1000,7 +1000,7 @@ static int TlenMUCQueryContacts(TlenProtocol *proto, const char *roomId) {
 	return 1;
 }
 
-int TlenProtocol::MUCMenuHandleMUC(WPARAM wParam, LPARAM lParam)
+INT_PTR TlenProtocol::MUCMenuHandleMUC(WPARAM wParam, LPARAM lParam)
 {
 	if (!isOnline)
 		return 1;
@@ -1009,7 +1009,7 @@ int TlenProtocol::MUCMenuHandleMUC(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int TlenProtocol::MUCMenuHandleChats(WPARAM wParam, LPARAM lParam)
+INT_PTR TlenProtocol::MUCMenuHandleChats(WPARAM wParam, LPARAM lParam)
 {
 	if (!isOnline)
 		return 1;
@@ -1023,7 +1023,7 @@ int TlenProtocol::MUCMenuHandleChats(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int TlenProtocol::MUCContactMenuHandleMUC(WPARAM wParam, LPARAM lParam)
+INT_PTR TlenProtocol::MUCContactMenuHandleMUC(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact;
 	DBVARIANT dbv;

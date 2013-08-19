@@ -23,8 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _JABBER_IQ_H_
 #define _JABBER_IQ_H_
 
-#include "jabber_xml.h"
-#include "jabber.h"
+#include "tlen_xml.h"
+#include "tlen.h"
 
 typedef void (*JABBER_IQ_PFUNC)(TlenProtocol *proto, XmlNode *iqNode);
 

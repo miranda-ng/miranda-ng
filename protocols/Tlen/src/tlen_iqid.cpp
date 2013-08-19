@@ -21,10 +21,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "jabber.h"
+#include "tlen.h"
 #include "resource.h"
-#include "jabber_list.h"
-#include "jabber_iq.h"
+#include "tlen_list.h"
+#include "tlen_iq.h"
 #include "tlen_muc.h"
 
 void JabberIqResultAuth(TlenProtocol *proto, XmlNode *iqNode)

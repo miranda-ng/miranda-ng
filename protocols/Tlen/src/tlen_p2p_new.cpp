@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include "jabber_list.h"
+#include "tlen_list.h"
 
 
 static void logInfo(const char *filename, const char *fmt, ...) {

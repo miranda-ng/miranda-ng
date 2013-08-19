@@ -21,13 +21,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "jabber.h"
+#include "tlen.h"
 #include <commctrl.h>
 #include <io.h>
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include "jabber_list.h"
+#include "tlen_list.h"
 #include "resource.h"
 #include "tlen_avatar.h"
 

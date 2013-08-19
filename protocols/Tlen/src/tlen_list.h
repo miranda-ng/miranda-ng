@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "jabber.h"
+#include "tlen.h"
 
 #ifndef _JABBER_LIST_H_
 #define _JABBER_LIST_H_

@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define	_TLEN_PICTURE_H
 
 #include <windows.h>
-#include "jabber.h"
+#include "tlen.h"
 
 void TlenProcessPic(XmlNode *node, TlenProtocol *proto);
 BOOL SendPicture(TlenProtocol *, HANDLE hContact);

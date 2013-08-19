@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#include "jabber.h"
+#include "tlen.h"
 #include "resource.h"
 
 static void InitComboBox(HWND hwndCombo, JABBER_FIELD_MAP *fieldMap)
