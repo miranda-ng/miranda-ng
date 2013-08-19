@@ -383,7 +383,7 @@ void GetInternetExplorerVersion(bkstring& buffer)
 	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\Internet Explorer"), 0, 
 		KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS)
 	{
-		SIZEOF(ieBuild);
+		size = SIZEOF(ieBuild);
 		if (RegQueryValueEx(hKey, TEXT("Build"), NULL, NULL, (LPBYTE) ieBuild, &size) != ERROR_SUCCESS)
 			ieBuild[0] = 0;
 
