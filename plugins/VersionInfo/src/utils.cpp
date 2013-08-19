@@ -363,11 +363,14 @@ BOOL GetInternetExplorerVersion(TCHAR *ieVersion, size_t ieSize)
 	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\Microsoft\\Internet Explorer"), 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS)
 	{
 		DWORD size;
-		if (RegQueryValueEx(hKey, _T("Version"), NULL, NULL, (LPBYTE) ieVer, &size) != ERROR_SUCCESS)
+		size = SIZEOF(ieVer);
+		if (RegQueryValueEx(hKey, TEXT("Version"), NULL, NULL, (LPBYTE) ieVer, &size) != ERROR_SUCCESS)
 			ieVer[0] = 0;
-		if (RegQueryValueEx(hKey, _T("Build"), NULL, NULL, (LPBYTE) ieBuild, &size) != ERROR_SUCCESS)
+		size = SIZEOF(ieBuild);
+		if (RegQueryValueEx(hKey, TEXT("Build"), NULL, NULL, (LPBYTE) ieBuild, &size) != ERROR_SUCCESS)
 			ieBuild[0] = 0;
-		if (RegQueryValueEx(hKey, _T("IVer"), NULL, NULL, (LPBYTE) iVer, &size) != ERROR_SUCCESS)
+		size = SIZEOF(iVer);
+		if (RegQueryValueEx(hKey, TEXT("IVer"), NULL, NULL, (LPBYTE) iVer, &size) != ERROR_SUCCESS)
 			iVer[0] = 0;
 
 		RegCloseKey(hKey);
