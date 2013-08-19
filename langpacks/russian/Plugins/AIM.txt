@@ -87,8 +87,6 @@ AIM протокол
 Сервер не предоставил никакой информации.
 [[Auto-Response]:]
 (Автоответ):
-[[Auto-Response]: ]
-(Автоответ):
 
 ; protocols/AimOscar/services.cpp
 [Add To Server List]

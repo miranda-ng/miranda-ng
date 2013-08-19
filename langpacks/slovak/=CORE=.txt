@@ -2104,7 +2104,7 @@ Meno Priezvisko
 ;file \src\modules\clist\groups.cpp
 [New Group]
 Nová skupina
-[Are you sure you want to delete group '%s'?  This operation can not be undone.]
+[Are you sure you want to delete group '%s'? This operation can not be undone.]
 
 [Delete Group]
 

@@ -1844,7 +1844,7 @@ Menús
 ;file \src\modules\clist\groups.cpp
 [New Group]
 Nuevo grupo
-[Are you sure you want to delete group '%s'?  This operation can not be undone.]
+[Are you sure you want to delete group '%s'? This operation can not be undone.]
 ¿Está seguro que desea eliminar el grupo '%s'? Esta operación no se puede deshacer.
 [Delete Group]
 Eliminar grupo

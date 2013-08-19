@@ -2016,8 +2016,8 @@ Miranda 无法加载内置消息模块, riched20.dll 丢失. 按下 '是' 继续
 ;file \src\modules\clist\groups.cpp
 [New Group]
 新增群组
-[Are you sure you want to delete group '%s'?  This operation can not be undone.]
-您确定想删除群组 '%s'?  此操作不可恢复.
+[Are you sure you want to delete group '%s'? This operation can not be undone.]
+您确定想删除群组 '%s'? 此操作不可恢复.
 [Delete Group]
 删除群组
 [You already have a group with that name. Please enter a unique name for the group.]

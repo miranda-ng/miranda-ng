@@ -2108,7 +2108,7 @@ URL ад %s
 ;file \src\modules\clist\groups.cpp
 [New Group]
 Новая група
-[Are you sure you want to delete group '%s'?  This operation can not be undone.]
+[Are you sure you want to delete group '%s'? This operation can not be undone.]
 Вы ўпэўнены, што жадаеце выдаліць групу "%s"? Аперацыя не можа быць адменена.
 [Delete Group]
 Выдаленне групы

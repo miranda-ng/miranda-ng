@@ -616,7 +616,7 @@
 [Menu Icons]
 [Menus]
 [Customize]
-[Are you sure you want to delete group '%s'?  This operation can not be undone.]
+[Are you sure you want to delete group '%s'? This operation can not be undone.]
 [Delete Group]
 [Show Hide Contact List]
 [Read Message]

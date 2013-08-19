@@ -2108,7 +2108,7 @@ Personalizacja
 ;file \src\modules\clist\groups.cpp
 [New Group]
 Nowa grupa
-[Are you sure you want to delete group '%s'?  This operation can not be undone.]
+[Are you sure you want to delete group '%s'? This operation can not be undone.]
 Czy napewno chcesz usunąć grupę '%s'? Ta operacja nie może być odwrócona.
 [Delete Group]
 Usuń grupę

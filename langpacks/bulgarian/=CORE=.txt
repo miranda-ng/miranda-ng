@@ -1964,7 +1964,7 @@ URL адрес от %s
 ;file \src\modules\clist\groups.cpp
 [New Group]
 Нова група
-[Are you sure you want to delete group '%s'?  This operation can not be undone.]
+[Are you sure you want to delete group '%s'? This operation can not be undone.]
 Сигурни ли сте, че желаете групата '%s' да бъде изтрита? Това действие не може да бъде отменено.
 [Delete Group]
 Изтриване на групата
