@@ -1022,34 +1022,31 @@ DWORD CALLBACK Utils::StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG
  * extract a resource from the given module
  * tszPath must end with \
  */
-void TSAPI Utils::extractResource(const HMODULE h, const UINT uID, const TCHAR *tszName, const TCHAR *tszPath,
+bool TSAPI Utils::extractResource(const HMODULE h, const UINT uID, const TCHAR *tszName, const TCHAR *tszPath,
 								  const TCHAR *tszFilename, bool fForceOverwrite)
 {
-	HRSRC 	hRes;
-	HGLOBAL	hResource;
-	TCHAR	szFilename[MAX_PATH];
-
-	hRes = FindResource(h, MAKEINTRESOURCE(uID), tszName);
-
+	HRSRC hRes = FindResource(h, MAKEINTRESOURCE(uID), tszName);
 	if (hRes) {
-		hResource = LoadResource(h, hRes);
+		HGLOBAL hResource = LoadResource(h, hRes);
 		if (hResource) {
-			HANDLE  hFile;
 			char 	*pData = (char *)LockResource(hResource);
 			DWORD	dwSize = SizeofResource(g_hInst, hRes), written = 0;
+
+			TCHAR	szFilename[MAX_PATH];
 			mir_sntprintf(szFilename, MAX_PATH, _T("%s%s"), tszPath, tszFilename);
-			if (!fForceOverwrite) {
+			if (!fForceOverwrite)
 				if (PathFileExists(szFilename))
-					return;
-			}
-			if ((hFile = CreateFile(szFilename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0)) != INVALID_HANDLE_VALUE) {
-				WriteFile(hFile, (void*)pData, dwSize, &written, NULL);
-				CloseHandle(hFile);
-			}
-			else
-				throw(CRTException("Error while extracting aero skin images, Aero mode disabled.", szFilename));
+					return true;
+			
+			HANDLE hFile = CreateFile(szFilename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+			if (hFile == INVALID_HANDLE_VALUE)
+				return false;
+
+			WriteFile(hFile, (void*)pData, dwSize, &written, NULL);
+			CloseHandle(hFile);
 		}
 	}
+	return true;
 }
 
 /**
@@ -1141,24 +1138,19 @@ HMODULE Utils::loadSystemLibrary(const wchar_t* szFilename)
 	wchar_t		sysPathName[MAX_PATH + 2];
 	HMODULE		_h = 0;
 
-	try {
-		if (0 == ::GetSystemDirectoryW(sysPathName, MAX_PATH))
-			throw(CRTException("Error while loading system library", szFilename));
-
-		sysPathName[MAX_PATH - 1] = 0;
-		if (wcslen(sysPathName) + wcslen(szFilename) >= MAX_PATH)
-			throw(CRTException("Error while loading system library", szFilename));
-
-		lstrcatW(sysPathName, szFilename);
-		_h = LoadLibraryW(sysPathName);
-		if (0 == _h)
-			throw(CRTException("Error while loading system library", szFilename));
-	}
-	catch(CRTException& ex) {
-		ex.display();
+	if (0 == ::GetSystemDirectoryW(sysPathName, MAX_PATH))
 		return 0;
-	}
-	return(_h);
+
+	sysPathName[MAX_PATH - 1] = 0;
+	if (wcslen(sysPathName) + wcslen(szFilename) >= MAX_PATH)
+		return 0;
+
+	lstrcatW(sysPathName, szFilename);
+	_h = LoadLibraryW(sysPathName);
+	if (0 == _h)
+		return 0;
+
+	return _h;
 }
 
 /**
@@ -1197,10 +1189,11 @@ static wchar_t* warnings[] = {
 	LPGENT("Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?"), /* WARN_THEME_OVERWRITE */
 };
 
-CWarning::CWarning(const wchar_t *tszTitle, const wchar_t *tszText, const UINT uId, const DWORD dwFlags)
+CWarning::CWarning(const wchar_t *tszTitle, const wchar_t *tszText, const UINT uId, const DWORD dwFlags) :
+	m_szTitle( mir_wstrdup(tszTitle)),
+	m_szText( mir_wstrdup(tszText))
+
 {
-	m_szTitle = new std::basic_string<wchar_t>(tszTitle);
-	m_szText = new std::basic_string<wchar_t>(tszText);
 	m_uId = uId;
 	m_hFontCaption = 0;
 	m_dwFlags = dwFlags;
@@ -1391,7 +1384,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			mir_sntprintf(temp, 1024, RTF_DEFAULT_HEADER, 0, 0, 0, 30*15);
 			tstring *str = new tstring(temp);
 
-			str->append(m_szText->c_str());
+			str->append(m_szText);
 			str->append(L"}");
 
 			TranslateDialogDefault(hwnd);
@@ -1409,7 +1402,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			mir_free(utf8);
 			delete str;
 
-			::SetDlgItemTextW(hwnd, IDC_CAPTION, m_szTitle->c_str());
+			::SetDlgItemTextW(hwnd, IDC_CAPTION, m_szTitle);
 
 			if (m_dwFlags & CWF_NOALLOWHIDE)
 				Utils::showDlgControl(hwnd, IDC_DONTSHOWAGAIN, SW_HIDE);

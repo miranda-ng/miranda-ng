@@ -2555,14 +2555,9 @@ void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 
 	m_fAeroSkinsValid = true;
 
-	try {
-		for (int i=0; i < SIZEOF(my_default_skin); i++)
-			Utils::extractResource(g_hInst, my_default_skin[i].ulID, _T("SKIN_GLYPH"), tszBasePath, my_default_skin[i].tszName, fForceOverwrite);
-	}
-	catch(CRTException& ex) {
-		ex.display();
-		m_fAeroSkinsValid = false;
-	}
+	for (int i=0; i < SIZEOF(my_default_skin); i++)
+		if ( !Utils::extractResource(g_hInst, my_default_skin[i].ulID, _T("SKIN_GLYPH"), tszBasePath, my_default_skin[i].tszName, fForceOverwrite))
+			m_fAeroSkinsValid = false;
 }
 
 /**

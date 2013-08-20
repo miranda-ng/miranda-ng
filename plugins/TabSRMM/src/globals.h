@@ -45,19 +45,6 @@ struct TSplitterBroadCast {
 
 typedef BOOL (WINAPI *pfnSetMenuInfo )( HMENU hmenu, LPCMENUINFO lpcmi );
 
-class CRTException : public std::runtime_error
-{
-public:
-	CRTException(const char *szMsg, const TCHAR *szParam);
-	~CRTException() {}
-
-	void display() const;
-
-private:
-	TCHAR	m_szParam[MAX_PATH];
-};
-
-
 class CGlobals
 {
 public:

@@ -74,23 +74,6 @@ bool			 CGlobals::m_exAllowContinue = false;
 	static char *szFLVersionUrl = "http://miranda-ng.org/";
 	static char *szFLUpdateurl =  "http://miranda-ng.org/";
 #endif
-	static char *szPrefix = "tabsrmm ";
-
-
-CRTException::CRTException(const char *szMsg, const TCHAR *szParam) : std::runtime_error(std::string(szMsg))
-{
-	mir_sntprintf(m_szParam, MAX_PATH, szParam);
-}
-
-void CRTException::display() const
-{
-	TCHAR*	tszMsg = mir_a2t(what());
-	TCHAR  	tszBoxMsg[500];
-
-	mir_sntprintf(tszBoxMsg, 500, _T("%s\n\n(%s)"), tszMsg, m_szParam);
-	::MessageBox(0, tszBoxMsg, _T("TabSRMM runtime error"), MB_OK | MB_ICONERROR);
-	mir_free(tszMsg);
-}
 
 /**
  * reload system values. These are read ONCE and are not allowed to change

@@ -96,7 +96,7 @@ public:
 	static 	HICON				TSAPI iconFromAvatar				(const TWindowData *dat);
 	static	void				TSAPI getIconSize					(HICON hIcon, int& sizeX, int& sizeY);
 
-	static  void 				TSAPI extractResource				(const HMODULE h, const UINT uID, const TCHAR *tszName, const TCHAR *tszPath,
+	static   bool				TSAPI extractResource				(const HMODULE h, const UINT uID, const TCHAR *tszName, const TCHAR *tszPath,
 																	 const TCHAR *tszFilename, bool fForceOverwrite);
 	static	void				TSAPI scaleAvatarHeightLimited		(const HBITMAP hBm, double& dNewWidth, double& dNewHeight, const LONG maxHeight);
 
@@ -247,8 +247,7 @@ public:
 	LRESULT					ShowDialog			() const;
 
 private:
-	std::basic_string<wchar_t>*		m_szTitle;
-	std::basic_string<wchar_t>*		m_szText;
+	ptrT                    m_szTitle, m_szText;
 	UINT							m_uId;
 	HFONT							m_hFontCaption;
 	DWORD							m_dwFlags;
