@@ -2367,7 +2367,7 @@ LONG TSAPI GetDefaultMinimumInputHeight(const TWindowData *dat)
 }
 #endif
 
-static std::vector<TCHAR *> vTempFilenames;
+static LIST<TCHAR> vTempFilenames(5);
 
 /**
  * send a pasted bitmap by file transfer.
@@ -2463,7 +2463,7 @@ void TSAPI SendHBitmapAsFile(const TWindowData *dat, HBITMAP hbmp)
 	Utils::AddToFileList(&ppFiles, &totalCount, filename);
 
 	wchar_t* _t = mir_tstrdup(filename);
-	vTempFilenames.push_back(_t);
+	vTempFilenames.insert(_t);
 
 	CallService(MS_FILE_SENDSPECIFICFILEST, (WPARAM)dat->cache->getActiveContact(), (LPARAM)ppFiles);
 
@@ -2476,10 +2476,9 @@ void TSAPI SendHBitmapAsFile(const TWindowData *dat, HBITMAP hbmp)
  */
 void TSAPI CleanTempFiles()
 {
-	std::vector<wchar_t *>::iterator it = vTempFilenames.begin();
-
-	while(it != vTempFilenames.end()) {
-		DeleteFileW(*it);
-		mir_free(*it++);
+	for (int i=0; i < vTempFilenames.getCount(); i++) {
+		wchar_t* _t = vTempFilenames[i];
+		DeleteFileW(_t);
+		mir_free(_t);
 	}
 }

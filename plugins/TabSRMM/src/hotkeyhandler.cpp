@@ -71,8 +71,6 @@ static HOTKEYDESC _hotkeydescs[] = {
    { 0, "tabsrmm_close_other", LPGEN("Close Other Tabs"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT|HOTKEYF_CONTROL, 'W'), TABSRMM_HK_CLOSE_OTHER },
 };
 
-static 	SendLaterJobIterator g_jobs;
-
 LRESULT ProcessHotkeysByMsgFilter(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, UINT_PTR ctrlId)
 {
 	MSGFILTER  mf;
