@@ -85,17 +85,17 @@ BEGIN
     CONTROL         "Tree1",IDC_NAMEORDER,"SysTreeView32",TVS_NOTOOLTIPS | TVS_FULLROWSELECT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,65,78,182,93
 END
 
-IDD_PROFILEMANAGER DIALOGEX 0, 0, 400, 211
+IDD_PROFILEMANAGER DIALOGEX 0, 0, 219, 211
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Miranda NG Profile Manager"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_NAME,"MHeaderbarCtrl",0x0,0,0,400,25
-    CONTROL         "Tab1",IDC_TABS,"SysTabControl32",TCS_HOTTRACK | WS_TABSTOP,4,31,393,160
-    PUSHBUTTON      "&Run",IDOK,298,194,48,14
-    PUSHBUTTON      "&Exit",IDCANCEL,348,194,48,14
-    RTEXT           "Start in Service Mode with",IDC_SM_LABEL,10,196,106,10
-    COMBOBOX        IDC_SM_COMBO,120,195,123,72,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_NAME,"MHeaderbarCtrl",0x0,0,0,220,25
+    CONTROL         "Tab1",IDC_TABS,"SysTabControl32",TCS_HOTTRACK | WS_TABSTOP,2,31,215,137
+    PUSHBUTTON      "&Run",IDOK,169,195,48,14
+    PUSHBUTTON      "&Exit",IDCANCEL,112,195,48,14
+    RTEXT           "Start in Service Mode with",IDC_SM_LABEL,10,178,106,10
+    COMBOBOX        IDC_SM_COMBO,118,176,98,12,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_FINDADD DIALOGEX 0, 0, 427, 257
@@ -387,28 +387,28 @@ BEGIN
     CTEXT           "You will need to reconnect for the changes you have made on this page to take effect.",IDC_RECONNECTREQD,4,224,307,8,NOT WS_VISIBLE
 END
 
-IDD_PROFILE_SELECTION DIALOGEX 0, 0, 386, 142
+IDD_PROFILE_SELECTION DIALOGEX 0, 0, 208, 122
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "List1",IDC_PROFILELIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_TABSTOP,3,2,382,137
+    CONTROL         "List1",IDC_PROFILELIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_TABSTOP,0,3,365,138
 END
 
-IDD_PROFILE_NEW DIALOGEX 0, 0, 386, 142
+IDD_PROFILE_NEW DIALOGEX 0, 0, 208, 122
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "Please complete the following form to create a new user profile",IDC_STATIC,4,3,205,16
-    EDITTEXT        IDC_PROFILENAME,67,27,75,12,ES_AUTOHSCROLL
-    COMBOBOX        IDC_PROFILEDRIVERS,67,72,75,56,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Profile",IDC_STATIC,20,28,40,9
-    LTEXT           "e.g. Workplace",IDC_STATIC,161,28,77,11
-    LTEXT           "You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.",IDC_STATIC,7,49,231,17
-    LTEXT           "e.g. Miranda Database",IDC_STATIC,154,73,84,11
-    LTEXT           "Driver",IDC_STATIC,20,74,43,9
-    LTEXT           "Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll",IDC_NODBDRIVERS,7,113,231,22,NOT WS_VISIBLE
+    EDITTEXT        IDC_PROFILENAME,61,13,105,12,ES_AUTOHSCROLL
+    COMBOBOX        IDC_PROFILEDRIVERS,58,75,105,56,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Profile",IDC_STATIC,20,14,38,9
+    LTEXT           "e.g. Workplace",IDC_STATIC,71,27,77,11
+    LTEXT           "You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.",IDC_STATIC,4,46,207,24
+    LTEXT           "e.g. Miranda Database",IDC_STATIC,62,91,84,11
+    LTEXT           "Driver",IDC_STATIC,20,77,37,9
+    LTEXT           "Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll",IDC_NODBDRIVERS,4,104,203,22,NOT WS_VISIBLE
 END
 
 IDD_OPT_PLUGINS DIALOGEX 0, 0, 315, 252

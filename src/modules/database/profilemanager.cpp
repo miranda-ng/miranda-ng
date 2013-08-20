@@ -316,14 +316,6 @@ BOOL EnumProfilesForList(TCHAR *fullpath, TCHAR *profile, LPARAM lParam)
 				SendMessage(hwndList, LVM_SETITEMTEXT, iItem, (LPARAM)&item);
 			}
 		}
-
-		item2.iSubItem = 3;
-		item2.pszText = rtrimt(_tctime(&statbuf.st_ctime));
-		SendMessage(hwndList, LVM_SETITEMTEXT, iItem, (LPARAM)&item2);
-
-		item2.iSubItem = 4;
-		item2.pszText = rtrimt(_tctime(&statbuf.st_mtime));
-		SendMessage(hwndList, LVM_SETITEMTEXT, iItem, (LPARAM)&item2);
 	}
 	return TRUE;
 }
@@ -393,24 +385,16 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			LVCOLUMN col;
 			col.mask = LVCF_TEXT | LVCF_WIDTH;
 			col.pszText = TranslateT("Profile");
-			col.cx = 122;
+			col.cx = 100;
 			ListView_InsertColumn(hwndList, 0, &col);
 
 			col.pszText = TranslateT("Driver");
-			col.cx = 100;
+			col.cx = 150;
 			ListView_InsertColumn(hwndList, 1, &col);
 
 			col.pszText = TranslateT("Size");
 			col.cx = 60;
 			ListView_InsertColumn(hwndList, 2, &col);
-
-			col.pszText = TranslateT("Created");
-			col.cx = 145;
-			ListView_InsertColumn(hwndList, 3, &col);
-
-			col.pszText = TranslateT("Modified");
-			col.cx = 145;
-			ListView_InsertColumn(hwndList, 4, &col);
 
 			// icons
 			HIMAGELIST hImgList = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16), 2, 1);
@@ -421,7 +405,7 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SetWindowLongPtr(hwndList, GWL_STYLE, GetWindowLongPtr(hwndList, GWL_STYLE) | LVS_SORTASCENDING);
 			ListView_SetImageList(hwndList, hImgList, LVSIL_SMALL);
 			ListView_SetExtendedListViewStyle(hwndList, 
-				ListView_GetExtendedListViewStyle(hwndList) | LVS_EX_DOUBLEBUFFER | LVS_EX_LABELTIP | LVS_EX_FULLROWSELECT);
+				ListView_GetExtendedListViewStyle(hwndList) | LVS_EX_DOUBLEBUFFER | LVS_EX_INFOTIP | LVS_EX_LABELTIP | LVS_EX_FULLROWSELECT);
 
 			// find all the profiles
 			ProfileEnumData ped = { hwndDlg, dat->pd->szProfile };
@@ -543,6 +527,20 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 							DeleteProfile(hwndList, ListView_GetNextItem(hwndList, -1, LVNI_SELECTED | LVNI_ALL), dat);
 						break;
 					}
+				case LVN_GETINFOTIP:
+					{
+						NMLVGETINFOTIP *pInfoTip = (NMLVGETINFOTIP *)lParam;
+						if (pInfoTip != NULL)
+						{
+							TCHAR profilename[MAX_PATH], fullpath[MAX_PATH];
+							struct _stat statbuf;
+							ListView_GetItemText(hwndList, pInfoTip->iItem, 0, profilename, MAX_PATH);
+							mir_sntprintf(fullpath, SIZEOF(fullpath), _T("%s\\%s\\%s.dat"), dat->pd->szProfileDir, profilename, profilename);
+							_tstat(fullpath, &statbuf);
+							mir_sntprintf(pInfoTip->pszText, pInfoTip->cchTextMax, _T("%s\n%s: %s\n%s: %s"), fullpath, TranslateT("Created"), rtrimt(NEWTSTR_ALLOCA(_tctime(&statbuf.st_ctime))), TranslateT("Modified"), rtrimt(NEWTSTR_ALLOCA(_tctime(&statbuf.st_mtime))));
+						}
+					}
+					break;
 				}
 			}
 			break;
@@ -562,8 +560,8 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 		{
 			struct DlgProfData * prof = (struct DlgProfData *)lParam;
 			PROPSHEETHEADER *psh = prof->psh;
-			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_USERDETAILS), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
-			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_USERDETAILS), IMAGE_ICON, GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), 0));
+			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_DETAILSLOGO), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_DETAILSLOGO), IMAGE_ICON, GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), 0));
 			dat = (struct DetailsData*)mir_alloc(sizeof(struct DetailsData));
 			dat->prof = prof;
 			prof->hwndOK = GetDlgItem(hwndDlg, IDOK);
@@ -572,8 +570,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 
 			TCHAR buf[512];
-			mir_sntprintf(buf, SIZEOF(buf), _T("%s: %s\n%s"), TranslateT("Miranda Profiles from"), prof->pd->szProfileDir, 
-				TranslateT("Select or create your Miranda NG user profile"));
+			mir_sntprintf(buf, SIZEOF(buf), _T("%s\n%s"), TranslateT("Miranda NG Profile Manager"), TranslateT("Manage your Miranda NG profile"));
 			SetDlgItemText(hwndDlg, IDC_NAME, buf);
 
 			dat->currentPage = 0;
