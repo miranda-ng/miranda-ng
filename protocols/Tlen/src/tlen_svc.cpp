@@ -643,14 +643,14 @@ int TlenProtocol::SendMsg(HANDLE hContact, int flags, const char* msgRAW)
 				else if (!strcmp(msgType, "privchat"))
 					TlenSend(this, "<m to='%s'><b n='6' s='10' f='0' c='000000'>%s</b></m>", dbv.pszVal, msgEnc);
 				else
-					TlenSend(this, "<message to='%s' type='%s' id='"TLEN_IQID"%d'><body>%s</body><x xmlns='tlen:x:event'><composing/></x></message>", dbv.pszVal, msgType, id, msgEnc);
+					TlenSend(this, "<message to='%s' type='%s' id='"TLEN_IQID"%d'><body>%s</body><x xmlns='jabber:x:event'><composing/></x></message>", dbv.pszVal, msgType, id, msgEnc);
 
 				TlenForkThread(TlenSendMessageAckThread, 0, new SENDACKTHREADDATA(this, hContact, id));
 			}
 			else {
 				if ((item=TlenListGetItemPtr(this, LIST_ROSTER, dbv.pszVal)) != NULL)
 					item->idMsgAckPending = id;
-				TlenSend(this, "<message to='%s' type='%s' id='"TLEN_IQID"%d'><body>%s</body><x xmlns='tlen:x:event'><offline/><delivered/><composing/></x></message>", dbv.pszVal, msgType, id, msgEnc);
+				TlenSend(this, "<message to='%s' type='%s' id='"TLEN_IQID"%d'><body>%s</body><x xmlns='jabber:x:event'><offline/><delivered/><composing/></x></message>", dbv.pszVal, msgType, id, msgEnc);
 			}
 		}
 		mir_free(msgEnc);

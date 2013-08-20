@@ -638,17 +638,17 @@ static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 						i = 1;
 						while ((xNode=TlenXmlGetNthChild(node, "x", i)) != NULL) {
 							if ((p=TlenXmlGetAttrValue(xNode, "xmlns")) != NULL) {
-								if (!strcmp(p, "tlen:x:delay") && msgTime==0) {
+								if (!strcmp(p, "jabber:x:delay") && msgTime==0) {
 									if ((p=TlenXmlGetAttrValue(xNode, "stamp")) != NULL) {
 										msgTime = TlenIsoToUnixTime(p);
 									}
 								}
-								else if (!strcmp(p, "tlen:x:event")) {
+								else if (!strcmp(p, "jabber:x:event")) {
 									// Check whether any event is requested
 									if (!delivered && (n=TlenXmlGetChild(xNode, "delivered")) != NULL) {
 										delivered = TRUE;
 										idStr = TlenXmlGetAttrValue(node, "id");
-										TlenSend(info->proto, "<message to='%s'><x xmlns='tlen:x:event'><delivered/><id>%s</id></x></message>", from, (idStr != NULL)?idStr:"");
+										TlenSend(info->proto, "<message to='%s'><x xmlns='jabber:x:event'><delivered/><id>%s</id></x></message>", from, (idStr != NULL)?idStr:"");
 									}
 									if (item != NULL && TlenXmlGetChild(xNode, "composing") != NULL) {
 										composing = TRUE;
