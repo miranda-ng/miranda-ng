@@ -813,8 +813,6 @@ Miranda не может распознать этот профиль
 Менеджер профилей Miranda NG
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
 Miranda не может открыть '%s', так как плагины для поддержки профилей не установлены.\nВам нужно установить плагин dbx_3x.dll или подобный.
-[Miranda Profiles from]
-Профили Miranda NG из
 [Miranda scope]
 Сочетание в Miranda
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DB-tool which should be installed.]
@@ -1095,8 +1093,8 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Выделить &всё
 [Select Folder]
 Выбрать папку
-[Select or create your Miranda NG user profile]
-Выбор или создание профиля пользователя
+[Manage your Miranda NG profile]
+Управление профилями пользователя
 [Select program to be run]
 Выбрать программу для запуска
 [Select where log file will be created]
