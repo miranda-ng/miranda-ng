@@ -407,7 +407,7 @@ static void TlenSendAuth(TlenProtocol *proto) {
 	if ((p=TlenTextEncode(proto->threadData->username)) != NULL) {
 		iqId = TlenSerialNext(proto->threadData->proto);
 		TlenIqAdd(proto, iqId, IQ_PROC_NONE, TlenIqResultAuth);
-		TlenSend(proto, "<iq type='set' id='"TLEN_IQID"%d'><query xmlns='tlen:iq:auth'><username>%s</username><digest>%s</digest><resource>t</resource><host>tlen.pl</host></query></iq>", iqId, p /*info->username*/, str);
+		TlenSend(proto, "<iq type='set' id='"TLEN_IQID"%d'><query xmlns='jabber:iq:auth'><username>%s</username><digest>%s</digest><resource>t</resource><host>tlen.pl</host></query></iq>", iqId, p /*info->username*/, str);
 		mir_free(p);
 	}
 	mir_free(str);
@@ -556,10 +556,10 @@ static void TlenProcessIqGetVersion(TlenProtocol *proto, XmlNode* node)
 	strcat(mversion, TLEN_VERSION_STRING);
 	strcat(mversion, ")");
 	mver = TlenTextEncode( mversion );
-	TlenSend( proto, "<message to='%s' type='iq'><iq type='result'><query xmlns='tlen:iq:version'><name>%s</name><version>%s</version><os>%s</os></query></iq></message>", from, mver?mver:"", version?version:"", os?os:"" );
+	TlenSend( proto, "<message to='%s' type='iq'><iq type='result'><query xmlns='jabber:iq:version'><name>%s</name><version>%s</version><os>%s</os></query></iq></message>", from, mver?mver:"", version?version:"", os?os:"" );
 	if (!item->versionRequested) {
 		item->versionRequested = TRUE;
-		TlenSend(proto, "<message to='%s' type='iq'><iq type='get'><query xmlns='tlen:iq:version'/></iq></message>", from);
+		TlenSend(proto, "<message to='%s' type='iq'><iq type='get'><query xmlns='jabber:iq:version'/></iq></message>", from);
 	}
 
 	if ( mver ) mir_free( mver );
@@ -764,7 +764,7 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 
 		// RECVED: roster push
 		// ACTION: similar to iqIdGetRoster above
-		if (!strcmp(xmlns, "tlen:iq:roster")) {
+		if (!strcmp(xmlns, "jabber:iq:roster")) {
 			XmlNode *itemNode, *groupNode;
 			TLEN_LIST_ITEM *item;
 			char *name;
@@ -840,16 +840,16 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 	else if ( !strcmp( type, "get" ) && queryNode != NULL && xmlns != NULL ) {
 		// RECVED: software version query
 		// ACTION: return my software version
-		if ( !strcmp( xmlns, "tlen:iq:version" )) TlenProcessIqGetVersion(info->proto, node);
+		if ( !strcmp( xmlns, "jabber:iq:version" )) TlenProcessIqGetVersion(info->proto, node);
 	}
 	// RECVED: <iq type='result'><query ...
 	else if ( !strcmp( type, "result") && queryNode != NULL) {
 		if (xmlns != NULL ) {
-			if ( !strcmp(xmlns, "tlen:iq:roster" )) {
+			if ( !strcmp(xmlns, "jabber:iq:roster" )) {
 				TlenIqResultRoster(info->proto, node);
-			} else if ( !strcmp( xmlns, "tlen:iq:version" )) {
+			} else if ( !strcmp( xmlns, "jabber:iq:version" )) {
 				TlenIqResultVersion(info->proto, node);
-			} else if ( !strcmp( xmlns, "tlen:iq:info" )) {
+			} else if ( !strcmp( xmlns, "jabber:iq:info" )) {
 				TlenIqResultInfo(info->proto, node);
 			}
 		} else {

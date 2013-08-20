@@ -315,17 +315,13 @@
     <ClInclude Include="src\tlen_voice.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\auth_grant.ico" />
-    <None Include="res\auth_request.ico" />
     <None Include="res\groupchats.ico" />
     <None Include="res\image.ico" />
     <None Include="res\mail.ico" />
     <None Include="res\microphone.ico" />
     <None Include="res\speaker.ico" />
     <None Include="res\tlen.ico" />
-    <None Include="res\tlenbig.ico" />
     <None Include="res\tlenchats.ico" />
-    <None Include="res\tlensmall.ico" />
     <None Include="res\voicechat.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

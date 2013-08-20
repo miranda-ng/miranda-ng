@@ -152,12 +152,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\auth_grant.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\auth_request.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\groupchats.ico">
       <Filter>Resource Files</Filter>
     </None>
@@ -176,13 +170,7 @@
     <None Include="res\tlen.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\tlenbig.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\tlenchats.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\tlensmall.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\voicechat.ico">

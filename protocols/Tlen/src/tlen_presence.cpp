@@ -91,12 +91,12 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 						if (!item->infoRequested) {
 							int iqId = TlenSerialNext(proto);
 							item->infoRequested = TRUE;
-							TlenSend( proto, "<iq type='get' id='"TLEN_IQID"%d'><query xmlns='tlen:iq:info' to='%s'></query></iq>", iqId, from);
+							TlenSend( proto, "<iq type='get' id='"TLEN_IQID"%d'><query xmlns='jabber:iq:info' to='%s'></query></iq>", iqId, from);
 						}
 						if (proto->tlenOptions.enableVersion && !item->versionRequested) {
 							item->versionRequested = TRUE;
 							if (proto->m_iStatus != ID_STATUS_INVISIBLE) {
-								TlenSend( proto, "<message to='%s' type='iq'><iq type='get'><query xmlns='tlen:iq:version'/></iq></message>", from );
+								TlenSend( proto, "<message to='%s' type='iq'><iq type='get'><query xmlns='jabber:iq:version'/></iq></message>", from );
 							}
 						}
 					}

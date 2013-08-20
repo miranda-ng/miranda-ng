@@ -44,9 +44,9 @@ void TlenIqResultAuth(TlenProtocol *proto, XmlNode *iqNode)
 			db_free(&dbv);
 //		iqId = TlenSerialNext();
 //		TlenIqAdd(iqId, IQ_PROC_NONE, TlenIqResultGetRoster);
-//		TlenSend(info, "<iq type='get' id='"TLEN_IQID"%d'><query xmlns='tlen:iq:roster'/></iq>", iqId);
+//		TlenSend(info, "<iq type='get' id='"TLEN_IQID"%d'><query xmlns='jabber:iq:roster'/></iq>", iqId);
 
-		TlenSend(proto, "<iq type='get' id='GetRoster'><query xmlns='tlen:iq:roster'/></iq>");
+		TlenSend(proto, "<iq type='get' id='GetRoster'><query xmlns='jabber:iq:roster'/></iq>");
 		TlenSend(proto, "<iq to='tcfg' type='get' id='TcfgGetAfterLoggedIn'></iq>");
 	}
 	// What to do if password error? etc...
@@ -140,7 +140,7 @@ void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 
 	if (!strcmp(type, "result")) {
 		str = TlenXmlGetAttrValue(queryNode, "xmlns");
-		if (str != NULL && !strcmp(str, "tlen:iq:roster")) {
+		if (str != NULL && !strcmp(str, "jabber:iq:roster")) {
 			DBVARIANT dbv;
 			XmlNode *itemNode, *groupNode;
 			TLEN_SUBSCRIPTION sub;
@@ -235,7 +235,7 @@ void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 }
 
 
-// Tlen actually use tlen:iq:search for other users vCard or tlen:iq:register for own vCard
+// Tlen actually use jabber:iq:search for other users vCard or jabber:iq:register for own vCard
 void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 {
 	XmlNode *queryNode, *itemNode, *n;
