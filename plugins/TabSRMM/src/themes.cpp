@@ -1142,18 +1142,17 @@ void CSkin::UnloadAeroTabs()
 
 void CSkin::Unload()
 {
-	int i;
-	CImageItem *tmp = m_ImageItems, *nextItem = 0;
+	// do nothing when user decides to not close any window
+	if (warnToClose() == false)
+		return;				  						
 
 	/*
 	 * delete all image items
 	 */
 
-	if (warnToClose() == false)
-		return;				  						// do nothing when user decides to not close any window
-
 	m_skinEnabled = m_frameSkins = false;
 
+	CImageItem *tmp = m_ImageItems, *nextItem;
 	while(tmp) {
 		nextItem = tmp->getNextItem();
 		delete tmp;
@@ -1181,7 +1180,7 @@ void CSkin::Unload()
 	m_SkinDarkShadowPen = 0;
 
 	if (m_SkinItems) {
-		for (i=0; i < ID_EXTBK_LAST; i++) {
+		for (int i=0; i < ID_EXTBK_LAST; i++) {
 			m_SkinItems[i].IGNORED = 1;
 			m_SkinItems[i].imageItem = 0;
 		}
@@ -1214,7 +1213,7 @@ void CSkin::Unload()
 
 	m_closeIcon = m_maxIcon = m_minIcon = 0;
 
-	for (i=0; i < m_nrSkinIcons; i++)
+	for (int i=0; i < m_nrSkinIcons; i++)
 		if (m_skinIcons[i].phIcon )
 			::DestroyIcon(*(m_skinIcons[i].phIcon));
 	mir_free(m_skinIcons);

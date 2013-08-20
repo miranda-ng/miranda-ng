@@ -96,7 +96,6 @@ static INT_PTR HotkeyProcessor(WPARAM wParam, LPARAM lParam)
 void TSAPI HandleMenuEntryFromhContact(int iSelection)
 {
 	HWND hWnd = M.FindWindow((HANDLE)iSelection);
-	SESSION_INFO *si = NULL;
 
 	if (iSelection == 0)
 		return;
@@ -110,8 +109,11 @@ void TSAPI HandleMenuEntryFromhContact(int iSelection)
 			SetForegroundWindow(pContainer->hwnd);
 		}
 		else CallService(MS_MSG_SENDMESSAGE, (WPARAM)iSelection, 0);
+		return;
 	}
-	else if ((si = SM_FindSessionByHCONTACT((HANDLE)iSelection)) != NULL) {
+	
+	SESSION_INFO *si = SM_FindSessionByHCONTACT((HANDLE)iSelection);
+	if (si != NULL) {
 		// session does exist, but no window is open for it
 		if (si->hWnd) {
 			TContainerData *pContainer = 0;
@@ -121,14 +123,12 @@ void TSAPI HandleMenuEntryFromhContact(int iSelection)
 				if (GetForegroundWindow() != pContainer->hwnd)
 					SetForegroundWindow(pContainer->hwnd);
 				SetFocus(GetDlgItem(pContainer->hwndActive, IDC_CHAT_MESSAGE));
-			} else
-				goto nothing_open;
-		} else
-			goto nothing_open;
-	} else {
-nothing_open:
-		CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)iSelection, 0);
+				return;
+			}
+		}
 	}
+
+	CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)iSelection, 0);
 }
 
 void TSAPI DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, DWORD dwIdle)

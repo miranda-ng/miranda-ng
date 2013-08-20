@@ -36,30 +36,20 @@
 CGlobals 	PluginConfig;
 CGlobals*	pConfig = &PluginConfig;
 
-static TContainerSettings _cnt_default = {
-		false,
-		CNT_FLAGS_DEFAULT,
-		CNT_FLAGSEX_DEFAULT,
-		255,
-		CInfoPanel::DEGRADE_THRESHOLD,
-		60,
-		_T("%n (%s)"),
-		1,
-		0
-};
+static TContainerSettings _cnt_default = { false, CNT_FLAGS_DEFAULT, CNT_FLAGSEX_DEFAULT, 255, CInfoPanel::DEGRADE_THRESHOLD, 60, _T("%n (%s)"), 1, 0 };
 
-TCHAR*		CGlobals::m_default_container_name = _T("default");
+TCHAR* CGlobals::m_default_container_name = _T("default");
 
-extern 		HANDLE 	hHookButtonPressedEvt;
-extern		HANDLE 	hHookToolBarLoadedEvt;
+extern HANDLE 	hHookButtonPressedEvt;
+extern HANDLE 	hHookToolBarLoadedEvt;
 
 EXCEPTION_RECORD CGlobals::m_exRecord = {0};
-CONTEXT		 	 CGlobals::m_exCtx = {0};
-LRESULT			 CGlobals::m_exLastResult = 0;
-char			 CGlobals::m_exSzFile[MAX_PATH] = "\0";
-wchar_t			 CGlobals::m_exReason[256] = L"\0";
-int				 CGlobals::m_exLine = 0;
-bool			 CGlobals::m_exAllowContinue = false;
+CONTEXT          CGlobals::m_exCtx = {0};
+LRESULT          CGlobals::m_exLastResult = 0;
+char             CGlobals::m_exSzFile[MAX_PATH] = "\0";
+wchar_t          CGlobals::m_exReason[256] = L"\0";
+int              CGlobals::m_exLine = 0;
+bool             CGlobals::m_exAllowContinue = false;
 
 #if defined(_WIN64)
 	static char szCurrentVersion[30];
@@ -542,70 +532,52 @@ int CGlobals::MetaContactEvent(WPARAM wParam, LPARAM lParam)
 
 int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 {
-#if defined(__USE_EX_HANDLERS)
-	__try {
-#endif
-		if (PluginConfig.m_chat_enabled)
-			::Chat_PreShutdown();
+	if (PluginConfig.m_chat_enabled)
+		::Chat_PreShutdown();
 
-		::TN_ModuleDeInit();
+	::TN_ModuleDeInit();
 
-		while(pFirstContainer){
-			if (PluginConfig.m_HideOnClose)
-				PluginConfig.m_HideOnClose = FALSE;
-			::SendMessage(pFirstContainer->hwnd, WM_CLOSE, 0, 1);
-		}
-
-		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-			db_set_dw(hContact, SRMSGMOD_T, "messagecount", 0);
-
-		::SI_DeinitStatusIcons();
-		::CB_DeInitCustomButtons();
-		/*
-		 * the event API
-		 */
-
-		DestroyHookableEvent(PluginConfig.m_event_MsgWin);
-		DestroyHookableEvent(PluginConfig.m_event_MsgPopup);
-		DestroyHookableEvent(PluginConfig.m_event_WriteEvent);
-
-		::NEN_WriteOptions(&nen_options);
-		::DestroyWindow(PluginConfig.g_hwndHotkeyHandler);
-
-		::UnregisterClass(_T("TSStatusBarClass"), g_hInst);
-		::UnregisterClass(_T("SideBarClass"), g_hInst);
-		::UnregisterClassA("TSTabCtrlClass", g_hInst);
-		::UnregisterClass(_T("RichEditTipClass"), g_hInst);
-		::UnregisterClass(_T("TSHK"), g_hInst);
-#if defined(__USE_EX_HANDLERS)
+	while(pFirstContainer){
+		if (PluginConfig.m_HideOnClose)
+			PluginConfig.m_HideOnClose = FALSE;
+		::SendMessage(pFirstContainer->hwnd, WM_CLOSE, 0, 1);
 	}
-	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"SHUTDOWN_STAGE2", false)) {
-		return 0;
-	}
-#endif
+
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		db_set_dw(hContact, SRMSGMOD_T, "messagecount", 0);
+
+	::SI_DeinitStatusIcons();
+	::CB_DeInitCustomButtons();
+	/*
+	 * the event API
+	 */
+
+	DestroyHookableEvent(PluginConfig.m_event_MsgWin);
+	DestroyHookableEvent(PluginConfig.m_event_MsgPopup);
+	DestroyHookableEvent(PluginConfig.m_event_WriteEvent);
+
+	::NEN_WriteOptions(&nen_options);
+	::DestroyWindow(PluginConfig.g_hwndHotkeyHandler);
+
+	::UnregisterClass(_T("TSStatusBarClass"), g_hInst);
+	::UnregisterClass(_T("SideBarClass"), g_hInst);
+	::UnregisterClassA("TSTabCtrlClass", g_hInst);
+	::UnregisterClass(_T("RichEditTipClass"), g_hInst);
+	::UnregisterClass(_T("TSHK"), g_hInst);
 	return 0;
 }
 
 int CGlobals::OkToExit(WPARAM wParam, LPARAM lParam)
 {
-#if defined(__USE_EX_HANDLERS)
-	__try {
-#endif
-		::CreateSystrayIcon(0);
-		::CreateTrayMenus(0);
+	::CreateSystrayIcon(0);
+	::CreateTrayMenus(0);
 
-		CWarning::destroyAll();
+	CWarning::destroyAll();
 
-		CMimAPI::m_shutDown = true;
+	CMimAPI::m_shutDown = true;
 
-		PluginConfig.globalContainerSettings.fPrivate = false;
-		::db_set_blob(0, SRMSGMOD_T, CNT_KEYNAME, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
-#if defined(__USE_EX_HANDLERS)
-	}
-	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"SHUTDOWN_STAGE1", false)) {
-		return 0;
-	}
-#endif
+	PluginConfig.globalContainerSettings.fPrivate = false;
+	::db_set_blob(0, SRMSGMOD_T, CNT_KEYNAME, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
 	return 0;
 }
 

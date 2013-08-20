@@ -423,47 +423,38 @@ static INT_PTR TypingMessageCommand(WPARAM wParam, LPARAM lParam)
 
 int SplitmsgShutdown(void)
 {
-#if defined(__USE_EX_HANDLERS)
-	__try {
-#endif
-		DestroyCursor(PluginConfig.hCurSplitNS);
-		DestroyCursor(PluginConfig.hCurHyperlinkHand);
-		DestroyCursor(PluginConfig.hCurSplitWE);
-		FreeLibrary(GetModuleHandleA("riched20"));
-		if (g_hIconDLL)
-			FreeLibrary(g_hIconDLL);
+	DestroyCursor(PluginConfig.hCurSplitNS);
+	DestroyCursor(PluginConfig.hCurHyperlinkHand);
+	DestroyCursor(PluginConfig.hCurSplitWE);
+	FreeLibrary(GetModuleHandleA("riched20"));
+	if (g_hIconDLL)
+		FreeLibrary(g_hIconDLL);
 
-		ImageList_RemoveAll(PluginConfig.g_hImageList);
-		ImageList_Destroy(PluginConfig.g_hImageList);
+	ImageList_RemoveAll(PluginConfig.g_hImageList);
+	ImageList_Destroy(PluginConfig.g_hImageList);
 
-		delete Win7Taskbar;
-		delete mREOLECallback;
+	delete Win7Taskbar;
+	delete mREOLECallback;
 
-		OleUninitialize();
-		DestroyMenu(PluginConfig.g_hMenuContext);
-		if (PluginConfig.g_hMenuContainer)
-			DestroyMenu(PluginConfig.g_hMenuContainer);
-		if (PluginConfig.g_hMenuEncoding)
-			DestroyMenu(PluginConfig.g_hMenuEncoding);
+	OleUninitialize();
+	DestroyMenu(PluginConfig.g_hMenuContext);
+	if (PluginConfig.g_hMenuContainer)
+		DestroyMenu(PluginConfig.g_hMenuContainer);
+	if (PluginConfig.g_hMenuEncoding)
+		DestroyMenu(PluginConfig.g_hMenuEncoding);
 
-		UnloadIcons();
-		FreeTabConfig();
+	UnloadIcons();
+	FreeTabConfig();
 
-		if (Utils::rtf_ctable)
-			mir_free(Utils::rtf_ctable);
+	if (Utils::rtf_ctable)
+		mir_free(Utils::rtf_ctable);
 
-		UnloadTSButtonModule();
+	UnloadTSButtonModule();
 
-		if (g_hIconDLL) {
-			FreeLibrary(g_hIconDLL);
-			g_hIconDLL = 0;
-		}
-#if defined(__USE_EX_HANDLERS)
+	if (g_hIconDLL) {
+		FreeLibrary(g_hIconDLL);
+		g_hIconDLL = 0;
 	}
-	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"SHUTDOWN_STAGE3", false)) {
-		return 0;
-	}
-#endif
 	return 0;
 }
 
@@ -631,49 +622,47 @@ STDMETHODIMP REOLECallback::GetNewStorage(LPSTORAGE FAR *lplpstg)
 
 int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 {
-	NMHDR nmhdr;
-
 	TWindowData *dat = (TWindowData*) GetWindowLongPtr(hwndChild, GWLP_USERDATA);	// needed to obtain the hContact for the message window
-	if (dat && pContainer) {
-		ZeroMemory((void*)&nmhdr, sizeof(nmhdr));
-		nmhdr.code = TCN_SELCHANGE;
-		if (TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, IDC_MSGTABS)) > 1 && !(pContainer->dwFlags & CNT_DEFERREDTABSELECT)) {
-			TabCtrl_SetCurSel(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), GetTabIndexFromHWND(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), hwndChild));
-			SendMessage(pContainer->hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);	// just select the tab and let WM_NOTIFY do the rest
-		}
-		if (dat->bType == SESSIONTYPE_IM)
-			SendMessage(pContainer->hwnd, DM_UPDATETITLE, (WPARAM)dat->hContact, 0);
-		if (IsIconic(pContainer->hwnd)) {
-			SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
-			SetForegroundWindow(pContainer->hwnd);
-		}
-		//MaD - hide on close feature
-		if (!IsWindowVisible(pContainer->hwnd)) {
-			WINDOWPLACEMENT wp={0};
-			wp.length = sizeof(wp);
-			GetWindowPlacement(pContainer->hwnd, &wp);
-
-			/*
-			 * all tabs must re-check the layout on activation because adding a tab while
-			 * the container was hidden can make this necessary
-             */
-			BroadCastContainer(pContainer, DM_CHECKSIZE, 0, 0);
-			if (wp.showCmd == SW_SHOWMAXIMIZED)
-				ShowWindow(pContainer->hwnd, SW_SHOWMAXIMIZED);
-			else {
-				ShowWindow(pContainer->hwnd, SW_SHOWNA);
-				SetForegroundWindow(pContainer->hwnd);
-			}
-			SendMessage(pContainer->hwndActive, WM_SIZE, 0, 0);			// make sure the active tab resizes its layout properly
-		}
-		//MaD_
-		else if (GetForegroundWindow() != pContainer->hwnd)
-			SetForegroundWindow(pContainer->hwnd);
-		if (dat->bType == SESSIONTYPE_IM)
-			SetFocus(GetDlgItem(hwndChild, IDC_MESSAGE));
-		return TRUE;
-	} else
+	if (!dat || !pContainer)
 		return FALSE;
+
+	NMHDR nmhdr = { 0 };
+	nmhdr.code = TCN_SELCHANGE;
+	if (TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, IDC_MSGTABS)) > 1 && !(pContainer->dwFlags & CNT_DEFERREDTABSELECT)) {
+		TabCtrl_SetCurSel(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), GetTabIndexFromHWND(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), hwndChild));
+		SendMessage(pContainer->hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);	// just select the tab and let WM_NOTIFY do the rest
+	}
+	if (dat->bType == SESSIONTYPE_IM)
+		SendMessage(pContainer->hwnd, DM_UPDATETITLE, (WPARAM)dat->hContact, 0);
+	if (IsIconic(pContainer->hwnd)) {
+		SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
+		SetForegroundWindow(pContainer->hwnd);
+	}
+	//MaD - hide on close feature
+	if (!IsWindowVisible(pContainer->hwnd)) {
+		WINDOWPLACEMENT wp={0};
+		wp.length = sizeof(wp);
+		GetWindowPlacement(pContainer->hwnd, &wp);
+
+		/*
+		 * all tabs must re-check the layout on activation because adding a tab while
+		 * the container was hidden can make this necessary
+		 */
+		BroadCastContainer(pContainer, DM_CHECKSIZE, 0, 0);
+		if (wp.showCmd == SW_SHOWMAXIMIZED)
+			ShowWindow(pContainer->hwnd, SW_SHOWMAXIMIZED);
+		else {
+			ShowWindow(pContainer->hwnd, SW_SHOWNA);
+			SetForegroundWindow(pContainer->hwnd);
+		}
+		SendMessage(pContainer->hwndActive, WM_SIZE, 0, 0);			// make sure the active tab resizes its layout properly
+	}
+	//MaD_
+	else if (GetForegroundWindow() != pContainer->hwnd)
+		SetForegroundWindow(pContainer->hwnd);
+	if (dat->bType == SESSIONTYPE_IM)
+		SetFocus(GetDlgItem(hwndChild, IDC_MESSAGE));
+	return TRUE;
 }
 
 /*
@@ -781,6 +770,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, i
 	newData.bWantPopup = bWantPopup;
 	newData.hdbEvent = hdbEvent;
 	HWND hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGSPLITNEW), GetDlgItem(pContainer->hwnd, IDC_MSGTABS), DlgProcMessage, (LPARAM)&newData);
+
 	/*
 	 * switchbar support
 	 */
@@ -792,18 +782,19 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, i
 	SendMessage(pContainer->hwnd, WM_SIZE, 0, 0);
 
 	// if the container is minimized, then pop it up...
-
 	if (IsIconic(pContainer->hwnd)) {
 		if (bPopupContainer) {
 			SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
 			SetFocus(pContainer->hwndActive);
-		} else {
+		}
+		else {
 			if (pContainer->dwFlags & CNT_NOFLASH)
 				SendMessage(pContainer->hwnd, DM_SETICON, 0, (LPARAM)LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
 			else
 				FlashContainer(pContainer, 1, 0);
 		}
 	}
+
 	if (bActivateTab) {
 		ActivateExistingTab(pContainer, hwndNew);
 		SetFocus(hwndNew);
@@ -824,7 +815,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, i
 		wp.length = sizeof(wp);
 		GetWindowPlacement(pContainer->hwnd, &wp);
 
-		BroadCastContainer(pContainer, DM_CHECKSIZE, 0, 0);			// make sure all tabs will re-check layout on activation
+		BroadCastContainer(pContainer, DM_CHECKSIZE, 0, 0); // make sure all tabs will re-check layout on activation
 		if (wp.showCmd == SW_SHOWMAXIMIZED)
 			ShowWindow(pContainer->hwnd, SW_SHOWMAXIMIZED);
 		else {
@@ -835,13 +826,14 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, i
 		}
 		SendMessage(pContainer->hwndActive, WM_SIZE, 0, 0);
 	}
-	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek && CSkin::m_skinEnabled) // && !M.GetByte("forceAeroPeek", 0))
+
+	if (PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek && CSkin::m_skinEnabled)
 		CWarning::show(CWarning::WARN_AEROPEEK_SKIN, MB_ICONWARNING|MB_OK);
 
-	if (ServiceExists(MS_HPP_EG_EVENT) && ServiceExists(MS_IEVIEW_EVENT) && db_get_b(0, "HistoryPlusPlus", "IEViewAPI", 0)) {
+	if (ServiceExists(MS_HPP_EG_EVENT) && ServiceExists(MS_IEVIEW_EVENT) && db_get_b(0, "HistoryPlusPlus", "IEViewAPI", 0))
 		if (IDYES == CWarning::show(CWarning::WARN_HPP_APICHECK, MB_ICONWARNING|MB_YESNO))
 			db_set_b(0, "HistoryPlusPlus", "IEViewAPI", 0);
-	}
+
 	return hwndNew;		// return handle of the new dialog
 }
 
@@ -931,72 +923,75 @@ int TABSRMM_FireEvent(HANDLE hContact, HWND hwnd, unsigned int type, unsigned in
  * standard icon definitions
  */
 
-static TIconDesc _toolbaricons[] = {
-	"tabSRMM_mlog", LPGEN("Message Log Options"), &PluginConfig.g_buttonBarIcons[2], -IDI_MSGLOGOPT, 1,
-	"tabSRMM_multi", LPGEN("Image tag"), &PluginConfig.g_buttonBarIcons[3], -IDI_IMAGETAG, 1,
-	"tabSRMM_quote", LPGEN("Quote text"), &PluginConfig.g_buttonBarIcons[8], -IDI_QUOTE, 1,
-	"tabSRMM_save", LPGEN("Save and close"), &PluginConfig.g_buttonBarIcons[7], -IDI_SAVE, 1,
-	"tabSRMM_send", LPGEN("Send message"), &PluginConfig.g_buttonBarIcons[9], -IDI_SEND, 1,
-	"tabSRMM_avatar", LPGEN("Edit user notes"), &PluginConfig.g_buttonBarIcons[10], -IDI_CONTACTPIC, 1,
-	"tabSRMM_close", LPGEN("Close"), &PluginConfig.g_buttonBarIcons[6], -IDI_CLOSEMSGDLG, 1,
-	NULL, NULL, NULL, 0, 0
+static TIconDesc _toolbaricons[] =
+{
+	{ "tabSRMM_mlog", LPGEN("Message Log Options"), &PluginConfig.g_buttonBarIcons[2], -IDI_MSGLOGOPT, 1 },
+	{ "tabSRMM_multi", LPGEN("Image tag"), &PluginConfig.g_buttonBarIcons[3], -IDI_IMAGETAG, 1 },
+	{ "tabSRMM_quote", LPGEN("Quote text"), &PluginConfig.g_buttonBarIcons[8], -IDI_QUOTE, 1 },
+	{ "tabSRMM_save", LPGEN("Save and close"), &PluginConfig.g_buttonBarIcons[7], -IDI_SAVE, 1 },
+	{ "tabSRMM_send", LPGEN("Send message"), &PluginConfig.g_buttonBarIcons[9], -IDI_SEND, 1 },
+	{ "tabSRMM_avatar", LPGEN("Edit user notes"), &PluginConfig.g_buttonBarIcons[10], -IDI_CONTACTPIC, 1 },
+	{ "tabSRMM_close", LPGEN("Close"), &PluginConfig.g_buttonBarIcons[6], -IDI_CLOSEMSGDLG, 1 }
 };
 
-static TIconDesc _exttoolbaricons[] = {
-	"tabSRMM_emoticon", LPGEN("Smiley button"), &PluginConfig.g_buttonBarIcons[11], -IDI_SMILEYICON, 1,
-	"tabSRMM_bold", LPGEN("Format bold"), &PluginConfig.g_buttonBarIcons[17], -IDI_FONTBOLD, 1,
-	"tabSRMM_italic", LPGEN("Format italic"), &PluginConfig.g_buttonBarIcons[18], -IDI_FONTITALIC, 1,
-	"tabSRMM_underline", LPGEN("Format underline"), &PluginConfig.g_buttonBarIcons[19], -IDI_FONTUNDERLINE, 1,
-	"tabSRMM_face", LPGEN("Font face"), &PluginConfig.g_buttonBarIcons[20], -IDI_FONTFACE, 1,
-	"tabSRMM_color", LPGEN("Font color"), &PluginConfig.g_buttonBarIcons[21], -IDI_FONTCOLOR, 1,
-	"tabSRMM_strikeout", LPGEN("Format strike-through"), &PluginConfig.g_buttonBarIcons[30], -IDI_STRIKEOUT, 1,
-	NULL, NULL, NULL, 0, 0
-};
-//MAD
-static TIconDesc _chattoolbaricons[] = {
-	"chat_bkgcol",LPGEN("Background colour"), &PluginConfig.g_buttonBarIcons[31] ,-IDI_BKGCOLOR, 1,
-	"chat_settings",LPGEN("Room settings"),  &PluginConfig.g_buttonBarIcons[32],-IDI_TOPICBUT, 1,
-	"chat_filter",LPGEN("Event filter"), &PluginConfig.g_buttonBarIcons[33] ,-IDI_FILTER2, 1,
-	"chat_shownicklist",LPGEN("Nick list"),&PluginConfig.g_buttonBarIcons[35]  ,-IDI_SHOWNICKLIST, 1,
-	NULL, NULL, NULL, 0, 0
-	};
-//
-static TIconDesc _logicons[] = {
-	"tabSRMM_error", LPGEN("Message delivery error"), &PluginConfig.g_iconErr, -IDI_MSGERROR, 1,
-	"tabSRMM_in", LPGEN("Incoming message"), &PluginConfig.g_iconIn, -IDI_ICONIN, 0,
-	"tabSRMM_out", LPGEN("Outgoing message"), &PluginConfig.g_iconOut, -IDI_ICONOUT, 0,
-	"tabSRMM_status", LPGEN("Statuschange"), &PluginConfig.g_iconStatus, -IDI_STATUSCHANGE, 0,
-	NULL, NULL, NULL, 0, 0
-};
-static TIconDesc _deficons[] = {
-	"tabSRMM_container", LPGEN("Static container icon"), &PluginConfig.g_iconContainer, -IDI_CONTAINER, 1,
-	"tabSRMM_sounds_on", LPGEN("Sounds (status bar)"), &PluginConfig.g_buttonBarIcons[ICON_DEFAULT_SOUNDS], -IDI_SOUNDSON, 1,
-	"tabSRMM_pulldown", LPGEN("Pulldown Arrow"), &PluginConfig.g_buttonBarIcons[ICON_DEFAULT_PULLDOWN], -IDI_PULLDOWNARROW, 1,
-	"tabSRMM_Leftarrow", LPGEN("Left Arrow"), &PluginConfig.g_buttonBarIcons[ICON_DEFAULT_LEFT], -IDI_LEFTARROW, 1,
-	"tabSRMM_Rightarrow", LPGEN("Right Arrow"), &PluginConfig.g_buttonBarIcons[ICON_DEFAULT_RIGHT], -IDI_RIGHTARROW, 1,
-	"tabSRMM_Pulluparrow", LPGEN("Up Arrow"), &PluginConfig.g_buttonBarIcons[ICON_DEFAULT_UP], -IDI_PULLUPARROW, 1,
-	"tabSRMM_sb_slist", LPGEN("Session List"), &PluginConfig.g_sideBarIcons[0], -IDI_SESSIONLIST, 1,
-	NULL, NULL, NULL, 0, 0
-};
-static TIconDesc _trayIcon[] = {
-	"tabSRMM_frame1", LPGEN("Frame 1"), &PluginConfig.m_AnimTrayIcons[0], -IDI_TRAYANIM1, 1,
-	"tabSRMM_frame2", LPGEN("Frame 2"), &PluginConfig.m_AnimTrayIcons[1], -IDI_TRAYANIM2, 1,
-	"tabSRMM_frame3", LPGEN("Frame 3"), &PluginConfig.m_AnimTrayIcons[2], -IDI_TRAYANIM3, 1,
-	"tabSRMM_frame4", LPGEN("Frame 4"), &PluginConfig.m_AnimTrayIcons[3], -IDI_TRAYANIM4, 1,
-	NULL, NULL, NULL, 0, 0
+static TIconDesc _exttoolbaricons[] =
+{
+	{ "tabSRMM_emoticon", LPGEN("Smiley button"), &PluginConfig.g_buttonBarIcons[11], -IDI_SMILEYICON, 1 },
+	{ "tabSRMM_bold", LPGEN("Format bold"), &PluginConfig.g_buttonBarIcons[17], -IDI_FONTBOLD, 1 },
+	{ "tabSRMM_italic", LPGEN("Format italic"), &PluginConfig.g_buttonBarIcons[18], -IDI_FONTITALIC, 1 },
+	{ "tabSRMM_underline", LPGEN("Format underline"), &PluginConfig.g_buttonBarIcons[19], -IDI_FONTUNDERLINE, 1 },
+	{ "tabSRMM_face", LPGEN("Font face"), &PluginConfig.g_buttonBarIcons[20], -IDI_FONTFACE, 1 },
+	{ "tabSRMM_color", LPGEN("Font color"), &PluginConfig.g_buttonBarIcons[21], -IDI_FONTCOLOR, 1 },
+	{ "tabSRMM_strikeout", LPGEN("Format strike-through"), &PluginConfig.g_buttonBarIcons[30], -IDI_STRIKEOUT, 1 }
 };
 
-static struct _iconblocks {
+static TIconDesc _chattoolbaricons[] =
+{
+	{ "chat_bkgcol",LPGEN("Background colour"), &PluginConfig.g_buttonBarIcons[31] ,-IDI_BKGCOLOR, 1 },
+	{ "chat_settings",LPGEN("Room settings"),  &PluginConfig.g_buttonBarIcons[32],-IDI_TOPICBUT, 1 },
+	{ "chat_filter",LPGEN("Event filter"), &PluginConfig.g_buttonBarIcons[33] ,-IDI_FILTER2, 1 },
+	{ "chat_shownicklist",LPGEN("Nick list"),&PluginConfig.g_buttonBarIcons[35]  ,-IDI_SHOWNICKLIST, 1 }
+};
+
+static TIconDesc _logicons[] =
+{
+	{ "tabSRMM_error", LPGEN("Message delivery error"), &PluginConfig.g_iconErr, -IDI_MSGERROR, 1 },
+	{ "tabSRMM_in", LPGEN("Incoming message"), &PluginConfig.g_iconIn, -IDI_ICONIN, 0 },
+	{ "tabSRMM_out", LPGEN("Outgoing message"), &PluginConfig.g_iconOut, -IDI_ICONOUT, 0 },
+	{ "tabSRMM_status", LPGEN("Statuschange"), &PluginConfig.g_iconStatus, -IDI_STATUSCHANGE, 0 }
+};
+
+static TIconDesc _deficons[] =
+{
+	{ "tabSRMM_container", LPGEN("Static container icon"), &PluginConfig.g_iconContainer, -IDI_CONTAINER, 1 },
+	{ "tabSRMM_sounds_on", LPGEN("Sounds (status bar)"), &PluginConfig.g_buttonBarIcons[ICON_DEFAULT_SOUNDS], -IDI_SOUNDSON, 1 },
+	{ "tabSRMM_pulldown", LPGEN("Pulldown Arrow"), &PluginConfig.g_buttonBarIcons[ICON_DEFAULT_PULLDOWN], -IDI_PULLDOWNARROW, 1 },
+	{ "tabSRMM_Leftarrow", LPGEN("Left Arrow"), &PluginConfig.g_buttonBarIcons[ICON_DEFAULT_LEFT], -IDI_LEFTARROW, 1 },
+	{ "tabSRMM_Rightarrow", LPGEN("Right Arrow"), &PluginConfig.g_buttonBarIcons[ICON_DEFAULT_RIGHT], -IDI_RIGHTARROW, 1 },
+	{ "tabSRMM_Pulluparrow", LPGEN("Up Arrow"), &PluginConfig.g_buttonBarIcons[ICON_DEFAULT_UP], -IDI_PULLUPARROW, 1 },
+	{ "tabSRMM_sb_slist", LPGEN("Session List"), &PluginConfig.g_sideBarIcons[0], -IDI_SESSIONLIST, 1 },
+};
+
+static TIconDesc _trayIcon[] =
+{
+	{ "tabSRMM_frame1", LPGEN("Frame 1"), &PluginConfig.m_AnimTrayIcons[0], -IDI_TRAYANIM1, 1 },
+	{ "tabSRMM_frame2", LPGEN("Frame 2"), &PluginConfig.m_AnimTrayIcons[1], -IDI_TRAYANIM2, 1 },
+	{ "tabSRMM_frame3", LPGEN("Frame 3"), &PluginConfig.m_AnimTrayIcons[2], -IDI_TRAYANIM3, 1 },
+	{ "tabSRMM_frame4", LPGEN("Frame 4"), &PluginConfig.m_AnimTrayIcons[3], -IDI_TRAYANIM4, 1 },
+};
+
+struct {
 	char *szSection;
 	TIconDesc *idesc;
-} ICONBLOCKS[] = {
-	LPGEN("Message Sessions")"/"LPGEN("Default"), _deficons,
-	LPGEN("Message Sessions")"/"LPGEN("Toolbar"), _toolbaricons,
-	LPGEN("Message Sessions")"/"LPGEN("Toolbar"), _exttoolbaricons,
-	LPGEN("Message Sessions")"/"LPGEN("Toolbar"), _chattoolbaricons,
-	LPGEN("Message Sessions")"/"LPGEN("Message Log"), _logicons,
-	LPGEN("Message Sessions")"/"LPGEN("Animated Tray"), _trayIcon,
-	NULL, 0
+	int nItems;
+}
+static ICONBLOCKS[] = {
+	{ LPGEN("Message Sessions")"/"LPGEN("Default"),       _deficons,          SIZEOF(_deficons) },
+	{ LPGEN("Message Sessions")"/"LPGEN("Toolbar"),       _toolbaricons,		  SIZEOF(_toolbaricons) },
+	{ LPGEN("Message Sessions")"/"LPGEN("Toolbar"),       _exttoolbaricons,	  SIZEOF(_exttoolbaricons) },
+	{ LPGEN("Message Sessions")"/"LPGEN("Toolbar"),       _chattoolbaricons,  SIZEOF(_chattoolbaricons) },
+	{ LPGEN("Message Sessions")"/"LPGEN("Message Log"),   _logicons,			  SIZEOF(_logicons) },
+	{ LPGEN("Message Sessions")"/"LPGEN("Animated Tray"), _trayIcon,			  SIZEOF(_trayIcon) }
 };
 
 static int GetIconPackVersion(HMODULE hDLL)
@@ -1023,6 +1018,7 @@ static int GetIconPackVersion(HMODULE hDLL)
 		CWarning::show(CWarning::WARN_ICONPACK_VERSION, MB_OK|MB_ICONERROR);
 	return version;
 }
+
 /*
  * setup default icons for the IcoLib service. This needs to be done every time the plugin is loaded
  * default icons are taken from the icon pack in either \icons or \plugins
@@ -1030,7 +1026,7 @@ static int GetIconPackVersion(HMODULE hDLL)
 
 static int TSAPI SetupIconLibConfig()
 {
-	int i=0, j = 2, version = 0, n = 0;
+	int j = 2, version = 0;
 
 	TCHAR szFilename[MAX_PATH];
 	_tcsncpy(szFilename, _T("icons\\tabsrmm_icons.dll"), MAX_PATH);
@@ -1051,20 +1047,18 @@ static int TSAPI SetupIconLibConfig()
 	sid.ptszDefaultFile = szFilename;
 	sid.flags = SIDF_PATH_TCHAR;
 
-	while (ICONBLOCKS[n].szSection) {
-		i = 0;
+	for (int n=0; n < SIZEOF(ICONBLOCKS); n++) {
 		sid.pszSection = ICONBLOCKS[n].szSection;
-		while (ICONBLOCKS[n].idesc[i].szDesc) {
+		for (int i=0; i < ICONBLOCKS[n].nItems; i++) {
 			sid.pszName = ICONBLOCKS[n].idesc[i].szName;
 			sid.pszDescription = ICONBLOCKS[n].idesc[i].szDesc;
 			sid.iDefaultIndex = ICONBLOCKS[n].idesc[i].uId == -IDI_HISTORY ? 0 : ICONBLOCKS[n].idesc[i].uId;        // workaround problem /w icoLib and a resource id of 1 (actually, a Windows problem)
-			i++;
+
 			if (n > 0 && n < 4)
 				PluginConfig.g_buttonBarIconHandles[j++] = Skin_AddIcon(&sid);
 			else
 				Skin_AddIcon(&sid);
 		}
-		n++;
 	}
 
 	sid.pszSection = LPGEN("Message Sessions")"/"LPGEN("Default");
@@ -1091,11 +1085,10 @@ static int TSAPI SetupIconLibConfig()
 
 static int TSAPI LoadFromIconLib()
 {
-	for (int n = 0;ICONBLOCKS[n].szSection;n++) {
-		for (int i=0;ICONBLOCKS[n].idesc[i].szDesc;i++) {
+	for (int n = 0; n < SIZEOF(ICONBLOCKS); n++)
+		for (int i=0; i < ICONBLOCKS[n].nItems; i++)
 			*(ICONBLOCKS[n].idesc[i].phIcon) = Skin_GetIcon(ICONBLOCKS[n].idesc[i].szName);
-		}
-	}
+
 	PluginConfig.g_buttonBarIcons[0] = LoadSkinnedIcon(SKINICON_OTHER_ADDCONTACT);
 	PluginConfig.g_buttonBarIcons[1] = LoadSkinnedIcon(SKINICON_OTHER_HISTORY);
 	PluginConfig.g_buttonBarIconHandles[0] = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
@@ -1135,18 +1128,17 @@ void TSAPI LoadIconTheme()
 
 static void UnloadIcons()
 {
-	for (int n = 0;ICONBLOCKS[n].szSection;n++) {
-		for (int i=0;ICONBLOCKS[n].idesc[i].szDesc;i++) {
+	for (int n = 0; n < SIZEOF(ICONBLOCKS); n++)
+		for (int i=0; i < ICONBLOCKS[n].nItems; i++)
 			if (*(ICONBLOCKS[n].idesc[i].phIcon) != 0) {
 				DestroyIcon(*(ICONBLOCKS[n].idesc[i].phIcon));
 				*(ICONBLOCKS[n].idesc[i].phIcon) = 0;
 			}
-		}
-	}
+
 	if (PluginConfig.g_hbmUnknown)
 		DeleteObject(PluginConfig.g_hbmUnknown);
-	for (int i=0; i < 4; i++) {
+
+	for (int i=0; i < 4; i++) 
 		if (PluginConfig.m_AnimTrayIcons[i])
 			DestroyIcon(PluginConfig.m_AnimTrayIcons[i]);
-	}
 }

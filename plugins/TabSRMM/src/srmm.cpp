@@ -90,26 +90,16 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	int iRet;
-#if defined(__USE_EX_HANDLERS)
-	__try {
-#endif
-		FreeLogFonts();
-		Chat_Unload();
-		iRet = SplitmsgShutdown();
-		Skin->setupTabCloseBitmap(true);
-		Skin->UnloadAeroTabs();
-		CleanTempFiles();
-		delete Skin;
-		DestroyServiceFunction(hTypingNotify);
-		delete sendLater;
-		delete sendQueue;
-#if defined(__USE_EX_HANDLERS)
-	}
-	__except(CGlobals::Ex_ShowDialog(GetExceptionInformation(), __FILE__, __LINE__, L"SHUTDOWN_STAGE_UNLOAD", false)) {
-		return 0;
-	}
-#endif
+	FreeLogFonts();
+	Chat_Unload();
+	int iRet = SplitmsgShutdown();
+	Skin->setupTabCloseBitmap(true);
+	Skin->UnloadAeroTabs();
+	CleanTempFiles();
+	delete Skin;
+	DestroyServiceFunction(hTypingNotify);
+	delete sendLater;
+	delete sendQueue;
 	return iRet;
 }
 
