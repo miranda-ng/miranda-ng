@@ -82,7 +82,7 @@ static void MarkChanges(int i, HWND hWnd) {
 }
 
 
-int TlenProtocol::OptionsInit(WPARAM wParam, LPARAM lParam)
+int TlenProtocol::OptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
@@ -191,7 +191,6 @@ INT_PTR CALLBACK TlenAccMgrUIDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 static INT_PTR CALLBACK TlenBasicOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	char text[256];
-	WNDPROC oldProc;
 
 	TlenProtocol *proto = (TlenProtocol *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg) {
@@ -249,9 +248,7 @@ static INT_PTR CALLBACK TlenBasicOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			SendDlgItemMessage(hwndDlg, IDC_OFFLINE_MESSAGE_OPTION, CB_ADDSTRING, 0, (LPARAM)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,ID_STATUS_INVISIBLE,GSMDF_TCHAR));
 			SendDlgItemMessage(hwndDlg, IDC_OFFLINE_MESSAGE_OPTION, CB_SETCURSEL, proto->tlenOptions.offlineMessageOption, 0);
 
-			oldProc = (WNDPROC) GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_EDIT_USERNAME), GWLP_WNDPROC);
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_EDIT_USERNAME), GWLP_USERDATA, (LONG_PTR) oldProc);
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_EDIT_USERNAME), GWLP_WNDPROC, (LONG_PTR) TlenValidateUsernameWndProc);
+			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_EDIT_USERNAME), TlenValidateUsernameWndProc);
 			return TRUE;
 		}
 	case WM_COMMAND:
