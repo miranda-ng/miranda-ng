@@ -1086,7 +1086,7 @@
 [Customize]
 ;file \src\modules\clist\groups.cpp
 [New Group]
-[Are you sure you want to delete group '%s'?  This operation can not be undone.]
+[Are you sure you want to delete group '%s'? This operation can not be undone.]
 [Delete Group]
 [You already have a group with that name. Please enter a unique name for the group.]
 [Rename Group]
@@ -1129,12 +1129,11 @@
 [<In Use>]
 [Are you sure you want to remove profile "%s"?]
 [Size]
-[Created]
-[Modified]
 [Run]
 [Check database]
-[Miranda Profiles from]
-[Select or create your Miranda NG user profile]
+[Created]
+[Modified]
+[Manage your Miranda NG profile]
 [My Profiles]
 [New Profile]
 ;file \src\modules\extraicons\DefaultExtraIcons.cpp
@@ -6607,7 +6606,7 @@
 [Network]
 [Why C sucks]
 [brickstrace@gmail.com [1]]
-[    bems <bems@vingrad.ru>\n]
+[    bems\n]
 [* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions]
 ;file \protocols\GTalkExt\src\options.h
 [GMail notifications]
@@ -16062,7 +16061,7 @@
 [nospam]
 ;file \plugins\StopSpamPlus\src\stopspam.cpp
 [Remove Temporary Contacts]
-﻿#muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
+﻿#muuid {94ced94c-a94a-4bb1-acbd-5cc6ebb689d4}
 ;============================================================
 ;  File: StopSpamMod.dll
 ;  Plugin: StopSpam mod
@@ -16113,7 +16112,7 @@
 [nospam]
 [StopSpam: send a message and reply to a anti-spam bot question.]
 [Congratulations! You just passed human/robot test. Now you can write me a message.]
-[If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one ruandom number and answer will be expression result\nMessage must contain only one expression without spaces]
+[If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result\nMessage must contain only one expression without spaces]
 [Info]
 [Message Sessions]
 [General]
@@ -17715,7 +17714,7 @@
 [&Custom]
 [P&ermanent]
 [Preview]
-[Jabber Password]
+[Tlen Password]
 [OK]
 [Cancel]
 [Nick name:]
@@ -17755,10 +17754,45 @@
 [&Accept]
 [From:]
 [The following invitation to join a voice chat is received.]
-;file \protocols\Tlen\src\jabber_iqid.cpp
+;file \protocols\Tlen\src\tlen.cpp
+[Protocol icon]
+[Tlen inbox]
+[Group chats]
+[Tlen chats]
+[Voice chat]
+[Microphone]
+[Speaker]
+[Send image]
+[Incoming mail]
+[Alert]
+[Tlen Chats]
+[Multi-User Conference]
+[Tlen Mail]
+[Send picture]
+[Voice Chat]
+[Request authorization]
+[Grant authorization]
+;file \protocols\Tlen\src\tlen_file.cpp
+[1 File]
+[%d Files]
+;file \protocols\Tlen\src\tlen_iqid.cpp
 [Authentication failed for]
 [Tlen Authentication]
-;file \protocols\Tlen\src\jabber_opt.cpp
+;file \protocols\Tlen\src\tlen_muc.cpp
+[You have been kicked. Reason: %s ]
+[You cannot join this chat room, because you are banned.]
+[Chat room not found.]
+[This is a private chat room and you are not one of the members.]
+[You cannot send any message unless you join this chat room.]
+[Chat room with already created.]
+[Nickname '%s' is already registered.]
+[Nickname already in use, please try another one. Hint: '%s' is free.]
+[You cannot register more than %s nicknames.]
+[You cannot create more than %s chat rooms.]
+[You cannot join more than %s chat rooms.]
+[Anonymous nicknames are not allowed in this chat room.]
+[Unknown error code : %d]
+;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
 [Advanced]
 [Notifications]
@@ -17781,11 +17815,14 @@
 [SOCKS4]
 [SOCKS5]
 [%s mail]
-;file \protocols\Tlen\src\jabber_svc.cpp
+;file \protocols\Tlen\src\tlen_picture.cpp
+[Image sent file://%s]
+[Image received file://%s]
+;file \protocols\Tlen\src\tlen_svc.cpp
 [Tlen login]
-;file \protocols\Tlen\src\jabber_thread.cpp
+;file \protocols\Tlen\src\tlen_thread.cpp
 [Enter password for]
-[Jabber Connection Error]
+[Tlen Connection Error]
 [Windows Server 2003]
 [Windows XP]
 [Windows 2000]
@@ -17801,47 +17838,6 @@
 [An alert has been received.]
 [Private conference]
 [Subject]
-;file \protocols\Tlen\src\jabber_ws.cpp
-[%s connection]
-[%s SOCKS connection]
-;file \protocols\Tlen\src\tlen.cpp
-[Protocol icon]
-[Tlen inbox]
-[Group chats]
-[Tlen chats]
-[Voice chat]
-[Microphone]
-[Speaker]
-[Send image]
-[Incoming mail]
-[Alert]
-[Tlen Chats]
-[Multi-User Conference]
-[Tlen Mail]
-[Send picture]
-[Voice Chat]
-[Request authorization]
-[Grant authorization]
-;file \protocols\Tlen\src\tlen_file.cpp
-[1 File]
-[%d Files]
-;file \protocols\Tlen\src\tlen_muc.cpp
-[You have been kicked. Reason: %s ]
-[You cannot join this chat room, because you are banned.]
-[Chat room not found.]
-[This is a private chat room and you are not one of the members.]
-[You cannot send any message unless you join this chat room.]
-[Chat room with already created.]
-[Nickname '%s' is already registered.]
-[Nickname already in use, please try another one. Hint: '%s' is free.]
-[You cannot register more than %s nicknames.]
-[You cannot create more than %s chat rooms.]
-[You cannot join more than %s chat rooms.]
-[Anonymous nicknames are not allowed in this chat room.]
-[Unknown error code : %d]
-;file \protocols\Tlen\src\tlen_picture.cpp
-[Image sent file://%s]
-[Image received file://%s]
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 [Account]
 [both]
@@ -17855,6 +17851,9 @@
 [...Error...]
 [...Denied...]
 [Default]
+;file \protocols\Tlen\src\tlen_ws.cpp
+[%s connection]
+[%s SOCKS connection]
 ﻿#muuid {5906a545-f31a-4726-b48f-03a09f060318}
 ;============================================================
 ;  File: TooltipNotify.dll

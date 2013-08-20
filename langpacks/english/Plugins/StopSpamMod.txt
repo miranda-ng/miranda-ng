@@ -1,4 +1,4 @@
-﻿#muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
+﻿#muuid {94ced94c-a94a-4bb1-acbd-5cc6ebb689d4}
 ;============================================================
 ;  File: StopSpamMod.dll
 ;  Plugin: StopSpam mod
@@ -49,7 +49,7 @@
 [nospam]
 [StopSpam: send a message and reply to a anti-spam bot question.]
 [Congratulations! You just passed human/robot test. Now you can write me a message.]
-[If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one ruandom number and answer will be expression result\nMessage must contain only one expression without spaces]
+[If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result\nMessage must contain only one expression without spaces]
 [Info]
 [Message Sessions]
 [General]
