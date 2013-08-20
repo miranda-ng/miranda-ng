@@ -364,12 +364,12 @@ void CSideBarButton::invokeContextMenu()
 	}
 }
 
-CSideBar::CSideBar(TContainerData *pContainer)
+CSideBar::CSideBar(TContainerData *pContainer) :
+	m_buttonlist(1, PtrKeySortT)
 {
 	m_pContainer = pContainer;
 	m_up = m_down = 0;
 	m_hwndScrollWnd = 0;
-	m_buttonlist.clear();
 	m_activeItem = 0;
 	m_isVisible = true;
 
@@ -379,7 +379,6 @@ CSideBar::CSideBar(TContainerData *pContainer)
 CSideBar::~CSideBar()
 {
 	destroyScroller();
-	m_buttonlist.clear();
 
 	if (m_hwndScrollWnd)
 		::DestroyWindow(m_hwndScrollWnd);
@@ -488,15 +487,10 @@ void CSideBar::destroyScroller()
  * Does not remove the sessions. This is basically only used when switching
  * from a sidebar to a tabbed interface
  */
+
 void CSideBar::removeAll()
 {
-	ButtonIterator item = m_buttonlist.begin();
-
-	while(item != m_buttonlist.end()) {
-		delete *item;
-		item++;
-	}
-	m_buttonlist.clear();
+	m_buttonlist.destroy();
 }
 
 /**
@@ -510,37 +504,39 @@ void CSideBar::removeAll()
 void CSideBar::populateAll()
 {
 	HWND	hwndTab = ::GetDlgItem(m_pContainer->hwnd, IDC_MSGTABS);
+	if (hwndTab == NULL)
+		return;
 
-	if (hwndTab) {
-		int			iItems = (int)TabCtrl_GetItemCount(hwndTab);
-		TCITEM		item = {0};
+	int iItems = (int)TabCtrl_GetItemCount(hwndTab);
 
-		item.mask = TCIF_PARAM;
-		std::vector<CSideBarButton *>::iterator b_item;
+	TCITEM item = {0};
+	item.mask = TCIF_PARAM;
 
-		m_iTopButtons = 0;
+	m_iTopButtons = 0;
 
-		for (int i=0; i < iItems; i++) {
-			TabCtrl_GetItem(hwndTab, i, &item);
-			if (item.lParam && ::IsWindow((HWND)item.lParam)) {
-				TWindowData *dat = (TWindowData*)::GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
-				if (dat) {
-			    	if ((b_item = findSession(dat)) == m_buttonlist.end())
-						addSession(dat, i);
-					else {
-						(*b_item)->setLayout(m_currentLayout);
-						if (m_dwFlags & SIDEBARLAYOUT_VERTICALORIENTATION) {
-							(*b_item)->measureItem();
-							m_topHeight += ((*b_item)->getHeight() + 1);
-						}
-						else
-							m_topHeight += (m_elementHeight + 1);
-					}
-				}
+	for (int i=0; i < iItems; i++) {
+		TabCtrl_GetItem(hwndTab, i, &item);
+		if (item.lParam == 0 || !IsWindow((HWND)item.lParam))
+			continue;
+			
+		TWindowData *dat = (TWindowData*)::GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
+		if (dat == NULL)
+			continue;
+
+		CSideBarButton *b_item = findSession(dat);
+		if (b_item == NULL)
+			addSession(dat, i);
+		else {
+			b_item->setLayout(m_currentLayout);
+			if (m_dwFlags & SIDEBARLAYOUT_VERTICALORIENTATION) {
+				b_item->measureItem();
+				m_topHeight += b_item->getHeight() + 1;
 			}
+			else m_topHeight += m_elementHeight + 1;
 		}
 	}
 }
+
 /**
  * Add a new session to the switchbar.
  *
@@ -565,12 +561,11 @@ void CSideBar::addSession(const TWindowData *dat, int position)
 		m_topHeight += (m_elementHeight + 1);
 
 	m_iTopButtons++;
-	if (position == -1 || (size_t)position >= m_buttonlist.size())
-		m_buttonlist.push_back(item);
-	else {
-		ButtonIterator it = m_buttonlist.begin() + position;
-		m_buttonlist.insert(it, item);
-	}
+	if (position == -1 || position >= m_buttonlist.getCount())
+		m_buttonlist.insert(item);
+	else
+		m_buttonlist.insert(item, position);
+
 	SendDlgItemMessage(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_TOGGLESIDEBAR : IDC_CHAT_TOGGLESIDEBAR, BM_SETIMAGE, IMAGE_ICON,
 					   (LPARAM)(m_dwFlags & SIDEBARORIENTATION_LEFT ? PluginConfig.g_buttonBarIcons[ICON_DEFAULT_LEFT] : PluginConfig.g_buttonBarIcons[ICON_DEFAULT_RIGHT]));
 
@@ -585,18 +580,17 @@ void CSideBar::addSession(const TWindowData *dat, int position)
 HRESULT CSideBar::removeSession(const TWindowData *dat)
 {
 	if (dat) {
-		std::vector<CSideBarButton *>::iterator item = findSession(dat);
+		CSideBarButton *item = findSession(dat);
 
-		if (item != m_buttonlist.end()) {
+		if (item != NULL) {
 			m_iTopButtons--;
 			if (m_dwFlags & SIDEBARLAYOUT_DYNHEIGHT) {
-				SIZE sz = (*item)->getSize();
+				SIZE sz = item->getSize();
 				m_topHeight -= (sz.cy + 1);
 			}
-			else
-				m_topHeight -= (m_elementHeight + 1);
-			delete *item;
-			m_buttonlist.erase(item);
+			else m_topHeight -= (m_elementHeight + 1);
+
+			m_buttonlist.remove(item);
 			Invalidate();
 			return(S_OK);
 		}
@@ -620,17 +614,16 @@ void CSideBar::scrollIntoView(const CSideBarButton *item)
 	if (item == 0)
 		item = m_activeItem;
 
-	ButtonIterator it = m_buttonlist.begin();
-
-	while(it != m_buttonlist.end()) {
-		itemHeight = (*it)->getHeight();
+	int i;
+	for (i=0; i < m_buttonlist.getCount(); i++) {
+		CSideBarButton &p = m_buttonlist[i];
+		itemHeight = p.getHeight();
 		spaceUsed += (itemHeight + 1);
-		if (*it == item )
+		if (&p == item)
 			break;
-		it++;
 	}
 
-	RECT	rc;
+	RECT rc;
 	GetClientRect(m_hwndScrollWnd, &rc);
 
 	if (m_topHeight <= rc.bottom) {
@@ -638,14 +631,15 @@ void CSideBar::scrollIntoView(const CSideBarButton *item)
 		Layout();
 		return;
 	}
-	if (it == m_buttonlist.end() || (it == m_buttonlist.begin() && m_firstVisibleOffset == 0)) {
+
+	if (i == m_buttonlist.getCount() || (i == 0 && m_firstVisibleOffset == 0)) {
 		Layout();
-		return;									// do nothing for the first item and .end() should not really happen
+		return;   // do nothing for the first item and .end() should not really happen
 	}
 
 	if (spaceUsed <= rc.bottom && spaceUsed - (itemHeight + 1) >= m_firstVisibleOffset) {
 		Layout();
-		return;						// item fully visible, do nothing
+		return;   // item fully visible, do nothing
 	}
 
 	/*
@@ -654,15 +648,15 @@ void CSideBar::scrollIntoView(const CSideBarButton *item)
 	if (spaceUsed < m_firstVisibleOffset || spaceUsed - (itemHeight + 1) < m_firstVisibleOffset) {
 		m_firstVisibleOffset = spaceUsed - (itemHeight + 1);
 		fNeedLayout = true;
-	} else {
+	}
+	else {
 		if (spaceUsed > rc.bottom) {				// partially or not at all visible at the bottom
 			fNeedLayout = true;
 			m_firstVisibleOffset = spaceUsed - rc.bottom;
 		}
 	}
 
-	//if (fNeedLayout)
-		Layout();
+	Layout();
 }
 /**
  * Invalidate the button associated with the given session.
@@ -674,23 +668,22 @@ void CSideBar::updateSession(const TWindowData *dat)
 	if (!m_isVisible || !m_isActive)
 		return;
 
-	ButtonIterator item = findSession(dat);
-	if (item != m_buttonlist.end()) {
-		if (m_dwFlags & SIDEBARLAYOUT_DYNHEIGHT) {
-			LONG oldHeight = (*item)->getHeight();
-			m_topHeight -= (oldHeight + 1);
-			SIZE sz = (*item)->measureItem();
-			m_topHeight += (sz.cy + 1);
-			if (sz.cy != oldHeight) {
-				Invalidate();
-				::InvalidateRect((*item)->getHwnd(), NULL, TRUE);
-			}
-			else
-				::InvalidateRect((*item)->getHwnd(), NULL, FALSE);
+	CSideBarButton *item = findSession(dat);
+	if (item == NULL)
+		return;
+
+	if (m_dwFlags & SIDEBARLAYOUT_DYNHEIGHT) {
+		LONG oldHeight = item->getHeight();
+		m_topHeight -= (oldHeight + 1);
+		SIZE sz = item->measureItem();
+		m_topHeight += (sz.cy + 1);
+		if (sz.cy != oldHeight) {
+			Invalidate();
+			::InvalidateRect(item->getHwnd(), NULL, TRUE);
 		}
-		else
-			::InvalidateRect((*item)->getHwnd(), NULL, FALSE);
+		else ::InvalidateRect(item->getHwnd(), NULL, FALSE);
 	}
+	else ::InvalidateRect(item->getHwnd(), NULL, FALSE);
 }
 
 /**
@@ -704,10 +697,10 @@ void CSideBar::updateSession(const TWindowData *dat)
  */
 const CSideBarButton* CSideBar::setActiveItem(const TWindowData *dat)
 {
-	ButtonIterator item = findSession(dat);
-	if (item != m_buttonlist.end()) {
-		return(setActiveItem(*item));
-	}
+	CSideBarButton *item = findSession(dat);
+	if (item != NULL)
+		return setActiveItem(item);
+
 	return 0;
 }
 
@@ -741,7 +734,7 @@ void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 	HDWP hdwp = ::BeginDeferWindowPos(1);
 
 	int 	topCount = 0, bottomCount = 0;
-	size_t  i = 0, j = 0;
+	size_t j = 0;
 	BOOL 	topEnabled = FALSE, bottomEnabled = FALSE;
 	HWND 	hwnd;
 	LONG 	spaceUsed = 0;
@@ -750,26 +743,24 @@ void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 
 	m_firstVisibleOffset = max(0, m_firstVisibleOffset);
 
-	ButtonIterator item = m_buttonlist.begin();
-
 	m_totalItemHeight = 0;
 
 	LONG height = m_elementHeight;
 
-	while (item != m_buttonlist.end()) {
-		hwnd = (*item)->getHwnd();
+	for (int i=0; i < m_buttonlist.getCount(); i++) {
+		CSideBarButton &p = m_buttonlist[i];
+		hwnd = p.getHwnd();
 
 		if (m_dwFlags & SIDEBARLAYOUT_DYNHEIGHT)
-			height = (*item)->getHeight();
+			height = p.getHeight();
 
 		if (spaceUsed > iSpaceAvail || m_totalItemHeight + height < m_firstVisibleOffset) {
 			::ShowWindow(hwnd, SW_HIDE);
-			item++;
 			m_totalItemHeight += (height + 1);
 			continue;
 		}
 
-		if ((*item)->isTopAligned()) {
+		if (p.isTopAligned()) {
 			if (m_totalItemHeight <= m_firstVisibleOffset) {				// partially visible
 				if (!fOnlyCalc)
 					hdwp = ::DeferWindowPos(hdwp, hwnd, 0, 2, -(m_firstVisibleOffset - m_totalItemHeight),
@@ -779,15 +770,11 @@ void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 			}
 			else {
 				if (!fOnlyCalc)
-					hdwp = ::DeferWindowPos(hdwp, hwnd, 0, 2, spaceUsed,
-								   m_elementWidth, height, SWP_SHOWWINDOW | dwFlags);
+					hdwp = ::DeferWindowPos(hdwp, hwnd, 0, 2, spaceUsed, m_elementWidth, height, SWP_SHOWWINDOW | dwFlags);
 				spaceUsed += (height + 1);
 				m_totalItemHeight += (height + 1);
 			}
-		}/*
-		else {
-		}*/
-		item++;
+		}
 	}
 	topEnabled = m_firstVisibleOffset > 0;
 	bottomEnabled = (m_totalItemHeight - m_firstVisibleOffset > rc->bottom);
@@ -821,10 +808,8 @@ void CSideBar::showAll(int showCmd)
 	::ShowWindow(m_up->getHwnd(), showCmd);
 	::ShowWindow(m_down->getHwnd(), showCmd);
 
-	std::vector<CSideBarButton *>::iterator item = m_buttonlist.begin();
-
-	while(item != m_buttonlist.end())
-		::ShowWindow((*item++)->getHwnd(), showCmd);
+	for (int i=0; i < m_buttonlist.getCount(); i++)
+		::ShowWindow(m_buttonlist[i].getHwnd(), showCmd);
 }
 
 /**
@@ -835,20 +820,19 @@ void CSideBar::showAll(int showCmd)
  *
  * @return CSideBarButtonItem*: pointer to the found item. Zero, if none was found
  */
-ButtonIterator CSideBar::findSession(const TWindowData *dat)
-{
-	if (dat) {
-		std::vector<CSideBarButton *>::iterator item = m_buttonlist.begin();
 
-		if (m_buttonlist.size() > 0) {
-			while(item != m_buttonlist.end()) {
-				if ((*item)->getDat() == dat)
-					return(item);
-				item++;
-			}
-		}
+CSideBarButton* CSideBar::findSession(const TWindowData *dat)
+{
+	if (dat == NULL)
+		return NULL;
+
+	for (int i=0; i < m_buttonlist.getCount(); i++) {
+		CSideBarButton &p = m_buttonlist[i];
+		if (p.getDat() == dat)
+			return &p;
 	}
-	return(m_buttonlist.end());
+
+	return NULL;
 }
 
 /**
@@ -859,20 +843,19 @@ ButtonIterator CSideBar::findSession(const TWindowData *dat)
  *
  * @return CSideBarButtonItem*: pointer to the found item. Zero, if none was found
  */
-ButtonIterator CSideBar::findSession(const HANDLE hContact)
-{
-	if (hContact) {
-		std::vector<CSideBarButton *>::iterator item = m_buttonlist.begin();
 
-		if (m_buttonlist.size() > 0) {
-			while(item != m_buttonlist.end()) {
-				if ((*item)->getContactHandle() == hContact)
-					return(item);
-				item++;
-			}
-		}
+CSideBarButton* CSideBar::findSession(const HANDLE hContact)
+{
+	if (hContact == NULL)
+		return NULL;
+
+	for (int i=0; i < m_buttonlist.getCount(); i++) {
+		CSideBarButton &p = m_buttonlist[i];
+		if (p.getContactHandle() == hContact)
+			return &p;
 	}
-	return(m_buttonlist.end());
+
+	return NULL;
 }
 
 void CSideBar::processScrollerButtons(UINT commandID)
@@ -901,10 +884,9 @@ void CSideBar::resizeScrollWnd(LONG x, LONG y, LONG width, LONG height) const
 void CSideBar::invalidateButton(const TWindowData *dat)
 {
 	if (m_isActive && m_isVisible) {
-		ButtonIterator it = findSession(dat);
-
-		if (it != this->m_buttonlist.end())
-			RedrawWindow((*it)->m_buttonControl->hwnd, 0, 0, RDW_INVALIDATE | RDW_UPDATENOW);
+		CSideBarButton *item = findSession(dat);
+		if (item != NULL)
+			RedrawWindow(item->m_buttonControl->hwnd, 0, 0, RDW_INVALIDATE | RDW_UPDATENOW);
 	}
 }
 
