@@ -2197,10 +2197,8 @@ Zmodyfikowano
 Uruchom
 [Check database]
 Sprawdź profil
-[Miranda Profiles from]
-Profil Mirandy z
-[Select or create your Miranda NG user profile]
-Wybierz lub utwórz profil w Miranda NG
+[Manage your Miranda NG profile]
+
 [My Profiles]
 Moje profile
 [New Profile]

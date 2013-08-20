@@ -2059,10 +2059,6 @@ Miranda はプロファイルを開けませんでした
 変更済
 [Run]
 実行
-[Miranda Profiles from]
-以下からの Miranda プロファイル :
-[Select or create your Miranda NG user profile]
-Miranda NG ユーザープロファイルを選択もしくは新規作成する
 [My Profiles]
 マイプロファイル
 [New Profile]

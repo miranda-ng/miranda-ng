@@ -2087,10 +2087,6 @@ Miranda 无法打开此配置文件
 建立于
 [Run]
 运行
-[Miranda Profiles from]
-Miranda 配置文件从
-[Select or create your Miranda NG user profile]
-选择或新建 Miranda NG 用户配置文件
 [My Profiles]
 我的配置文件
 [New Profile]

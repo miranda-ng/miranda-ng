@@ -27,6 +27,7 @@
 [This change is known to be safe.]
 [This change is known to be potentially hazardous.]
 [This change is not known to be safe.]
+[Manage your Miranda NG profile]
 [Failed to create file]
 [Contour thin]
 [Contour heavy]

@@ -2193,9 +2193,7 @@ Veľkosť
 
 [Check database]
 
-[Miranda Profiles from]
-
-[Select or create your Miranda NG user profile]
+[Manage your Miranda NG profile]
 
 [My Profiles]
 

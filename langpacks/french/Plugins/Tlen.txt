@@ -111,10 +111,10 @@ Invitation à un chat vocal Tlen
 De :
 [The following invitation to join a voice chat is received.]
 L'invitation suivante à un chat vocal, a été reçue.
-;file \protocols\Tlen\src\jabber_iqid.cpp
+;file \protocols\Tlen\src\tlen_iqid.cpp
 [Tlen Authentication]
 Authentification Tlen
-;file \protocols\Tlen\src\jabber_opt.cpp
+;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
 Général
 [Advanced]
@@ -145,12 +145,12 @@ Ignorer toutes les invitations
 <Dernier message>
 [Forwarding]
 Envoi en cours
-;file \protocols\Tlen\src\jabber_svc.cpp
+;file \protocols\Tlen\src\tlen_svc.cpp
 [Tlen login]
 login Tlen
-;file \protocols\Tlen\src\jabber_thread.cpp
-[Jabber Connection Error]
-Erreur lors de la connexion à Jabber
+;file \protocols\Tlen\src\tlen_thread.cpp
+[Tlen Connection Error]
+Erreur lors de la connexion à Tlen
 [Windows]
 Windows
 [%s Web Messages]
@@ -161,7 +161,7 @@ message Web
 Vous avez reçu une alerte.
 [Private conference]
 Chat privé
-;file \protocols\Tlen\src\jabber_ws.cpp
+;file \protocols\Tlen\src\tlen_ws.cpp
 ;file \protocols\Tlen\src\tlen.cpp
 [Group chats]
 Chats

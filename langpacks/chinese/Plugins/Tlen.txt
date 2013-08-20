@@ -127,10 +127,10 @@ Tlen 语音聊天聊天邀请
 从: 
 [The following invitation to join a voice chat is received.]
 收到以下邀请, 邀请您加入语音聊天.
-;file \protocols\Tlen\src\jabber_iqid.cpp
+;file \protocols\Tlen\src\tlen_iqid.cpp
 [Tlen Authentication]
 Tlen 验证
-;file \protocols\Tlen\src\jabber_opt.cpp
+;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
 常规
 [Advanced]
@@ -163,12 +163,12 @@ Tlen 协议选项
 转发
 [%s mail]
 %s 邮件
-;file \protocols\Tlen\src\jabber_svc.cpp
+;file \protocols\Tlen\src\tlen_svc.cpp
 [Tlen login]
 Tlen 登录
-;file \protocols\Tlen\src\jabber_thread.cpp
-[Jabber Connection Error]
-Jabber 连接错误
+;file \protocols\Tlen\src\tlen_thread.cpp
+[Tlen Connection Error]
+Tlen 连接错误
 [Windows]
 窗口
 [%s Web Messages]
@@ -181,7 +181,7 @@ Jabber 连接错误
 警报已收到
 [Private conference]
 私人会议
-;file \protocols\Tlen\src\jabber_ws.cpp
+;file \protocols\Tlen\src\tlen_ws.cpp
 ;file \protocols\Tlen\src\tlen.cpp
 [Group chats]
 群组聊天

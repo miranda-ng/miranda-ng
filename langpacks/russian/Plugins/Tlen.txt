@@ -207,3 +207,5 @@ Tlen чаты
 Микрофон
 [Speaker]
 Динамик
+[Tlen Password]
+Пароль Tlen

@@ -57,10 +57,10 @@ Nick:
 edad
 [From:]
 De:
-;file \protocols\Tlen\src\jabber_iqid.cpp
+;file \protocols\Tlen\src\tlen_iqid.cpp
 [Tlen Authentication]
 El oxígeno de autenticación
-;file \protocols\Tlen\src\jabber_opt.cpp
+;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
 General
 [General]
@@ -73,15 +73,15 @@ Avanzada
 Red
 [Network]
 red
-;file \protocols\Tlen\src\jabber_svc.cpp
-;file \protocols\Tlen\src\jabber_thread.cpp
-[Jabber Connection Error]
-Error de conexión Jabber
+;file \protocols\Tlen\src\tlen_svc.cpp
+;file \protocols\Tlen\src\tlen_thread.cpp
+[Tlen Connection Error]
+Error de conexión Tlen
 [Windows]
 Windows
 [E-mail]
 E-Mail
-;file \protocols\Tlen\src\jabber_ws.cpp
+;file \protocols\Tlen\src\tlen_ws.cpp
 ;file \protocols\Tlen\src\tlen.cpp
 [Group chats]
 Conversaciones en grupo

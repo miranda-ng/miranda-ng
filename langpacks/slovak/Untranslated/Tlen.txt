@@ -27,7 +27,7 @@
 [Enable incoming mail notification]
 [Delay]
 [Preview]
-[Jabber Password]
+[Tlen Password]
 [Year of birth:]
 [School:]
 [Occupation:]

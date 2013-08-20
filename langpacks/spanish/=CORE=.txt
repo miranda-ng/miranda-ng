@@ -1915,8 +1915,6 @@ Creado
 Modificado
 [Run]
 Ejecutar
-[Miranda Profiles from]
-Perfiles de Miranda
 [My Profiles]
 Mis perfiles
 [New Profile]

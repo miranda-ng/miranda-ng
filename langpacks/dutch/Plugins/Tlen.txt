@@ -37,17 +37,17 @@ Bijnaam:
 Leeftijd:
 [From:]
 Van:
-;file \protocols\Tlen\src\jabber_iqid.cpp
-;file \protocols\Tlen\src\jabber_opt.cpp
+;file \protocols\Tlen\src\tlen_iqid.cpp
+;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
 Algemeen
 [Advanced]
 Geavanceerd
 [Network]
 Netwerk
-;file \protocols\Tlen\src\jabber_svc.cpp
-;file \protocols\Tlen\src\jabber_thread.cpp
-;file \protocols\Tlen\src\jabber_ws.cpp
+;file \protocols\Tlen\src\tlen_svc.cpp
+;file \protocols\Tlen\src\tlen_thread.cpp
+;file \protocols\Tlen\src\tlen_ws.cpp
 ;file \protocols\Tlen\src\tlen.cpp
 ;file \protocols\Tlen\src\tlen_file.cpp
 ;file \protocols\Tlen\src\tlen_muc.cpp

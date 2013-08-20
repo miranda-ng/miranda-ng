@@ -2197,10 +2197,6 @@ Miranda NG не можа адкрыць гэты профіль
 Запусціць
 [Check database]
 Праверыць базу
-[Miranda Profiles from]
-Профілі Miranda з
-[Select or create your Miranda NG user profile]
-Выбар ці стварэнне профіля карыстача
 [My Profiles]
 Мае профілі
 [New Profile]

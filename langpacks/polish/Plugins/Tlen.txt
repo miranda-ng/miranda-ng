@@ -89,8 +89,8 @@ Z wtyczki PopUp
 
 [Preview]
 Podgląd
-[Jabber Password]
-Hasło Jabber
+[Tlen Password]
+Hasło Tlen
 [OK]
 OK
 [Cancel]
@@ -169,12 +169,12 @@ Akceptuj
 Od:
 [The following invitation to join a voice chat is received.]
 
-;file \protocols\Tlen\src\jabber_iqid.cpp
+;file \protocols\Tlen\src\tlen_iqid.cpp
 [Authentication failed for]
 Autoryzacja nieudana dla 
 [Tlen Authentication]
 Autoryzacja Tlen
-;file \protocols\Tlen\src\jabber_opt.cpp
+;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
 Ogólne
 [Advanced]
@@ -219,14 +219,14 @@ SOCKS4
 SOCKS5
 [%s mail]
 
-;file \protocols\Tlen\src\jabber_svc.cpp
+;file \protocols\Tlen\src\tlen_svc.cpp
 [Tlen login]
 
-;file \protocols\Tlen\src\jabber_thread.cpp
+;file \protocols\Tlen\src\tlen_thread.cpp
 [Enter password for]
 Wprowadź hasło dla
-[Jabber Connection Error]
-Błąd połączenia z Jabberem
+[Tlen Connection Error]
+
 [Windows Server 2003]
 Windows Server 2003
 [Windows XP]
@@ -257,7 +257,7 @@ E-mail
 
 [Subject]
 Temat
-;file \protocols\Tlen\src\jabber_ws.cpp
+;file \protocols\Tlen\src\tlen_ws.cpp
 [%s connection]
 Połączenie %s
 [%s SOCKS connection]

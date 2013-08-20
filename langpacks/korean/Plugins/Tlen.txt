@@ -35,19 +35,19 @@
 대화명:
 [Age:]
 나이:
-;file \protocols\Tlen\src\jabber_iqid.cpp
-;file \protocols\Tlen\src\jabber_opt.cpp
+;file \protocols\Tlen\src\tlen_iqid.cpp
+;file \protocols\Tlen\src\tlen_opt.cpp
 [Advanced]
 고급
 [Network]
 네트워크
-;file \protocols\Tlen\src\jabber_svc.cpp
-;file \protocols\Tlen\src\jabber_thread.cpp
+;file \protocols\Tlen\src\tlen_svc.cpp
+;file \protocols\Tlen\src\tlen_thread.cpp
 [Windows]
 창
 [E-mail]
 이메일
-;file \protocols\Tlen\src\jabber_ws.cpp
+;file \protocols\Tlen\src\tlen_ws.cpp
 ;file \protocols\Tlen\src\tlen.cpp
 ;file \protocols\Tlen\src\tlen_file.cpp
 ;file \protocols\Tlen\src\tlen_muc.cpp

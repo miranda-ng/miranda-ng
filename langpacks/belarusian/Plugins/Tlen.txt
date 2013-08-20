@@ -75,8 +75,8 @@ P2P далучэнні
 Увесь час
 [Preview]
 Тэст
-[Jabber Password]
-Jabber Пароль
+[Tlen Password]
+Tlen Пароль
 [OK]
 ОК
 [Cancel]
@@ -135,8 +135,8 @@ Tlen запрашэнне галасавога чата
 Ад:
 [The following invitation to join a voice chat is received.]
 Атрымана запрашэнне ўвайсці ў галасавы чат.
-;file \protocols\Tlen\src\jabber_iqid.cpp
-;file \protocols\Tlen\src\jabber_opt.cpp
+;file \protocols\Tlen\src\tlen_iqid.cpp
+;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
 Агульнае
 [Advanced]
@@ -169,8 +169,8 @@ Tlen запрашэнне галасавога чата
 (Апошняе паведамленне)
 [Forwarding]
 Перанакіраванне
-;file \protocols\Tlen\src\jabber_svc.cpp
-;file \protocols\Tlen\src\jabber_thread.cpp
+;file \protocols\Tlen\src\tlen_svc.cpp
+;file \protocols\Tlen\src\tlen_thread.cpp
 [Enter password for]
 Увядзіце пароль для
 [%s Web Messages]
@@ -185,7 +185,7 @@ Tlen запрашэнне галасавога чата
 Асабістая канферэнцыя
 [Subject]
 Тэма
-;file \protocols\Tlen\src\jabber_ws.cpp
+;file \protocols\Tlen\src\tlen_ws.cpp
 [%s connection]
 Злучэнне %s
 ;file \protocols\Tlen\src\tlen.cpp

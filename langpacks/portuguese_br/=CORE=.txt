@@ -2273,10 +2273,6 @@ Tamanho
 Criado
 [Run]
 Ativar
-[Miranda Profiles from]
-Perfil do Miranda NG BR em
-[Select or create your Miranda NG user profile]
-Selecione ou crie seu perfil do Miranda NG BR
 [My Profiles]
 Meus Perfis
 [New Profile]

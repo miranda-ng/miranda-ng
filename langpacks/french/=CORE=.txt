@@ -2193,10 +2193,6 @@ Créée
 Lancer
 [Check database]
 
-[Miranda Profiles from]
-
-[Select or create your Miranda NG user profile]
-
 [My Profiles]
 Mes Profils
 [New Profile]

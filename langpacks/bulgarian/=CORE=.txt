@@ -2037,10 +2037,6 @@ URL адрес от %s
 Създаден
 [Modified]
 Променен
-[Miranda Profiles from]
-Профили за Miranda в
-[Select or create your Miranda NG user profile]
-Изберете или създайте вашият потребителски профил за Miranda NG
 [My Profiles]
 Моите профили
 [New Profile]

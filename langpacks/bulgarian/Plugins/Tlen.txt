@@ -43,19 +43,19 @@
 Възраст:
 [From:]
 От:
-;file \protocols\Tlen\src\jabber_iqid.cpp
-;file \protocols\Tlen\src\jabber_opt.cpp
+;file \protocols\Tlen\src\tlen_iqid.cpp
+;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
 Основни
 [Advanced]
 Разширени
 [Network]
 Мрежа
-;file \protocols\Tlen\src\jabber_svc.cpp
-;file \protocols\Tlen\src\jabber_thread.cpp
+;file \protocols\Tlen\src\tlen_svc.cpp
+;file \protocols\Tlen\src\tlen_thread.cpp
 [E-mail]
 Имейл
-;file \protocols\Tlen\src\jabber_ws.cpp
+;file \protocols\Tlen\src\tlen_ws.cpp
 ;file \protocols\Tlen\src\tlen.cpp
 [Group chats]
 Групови чатове
