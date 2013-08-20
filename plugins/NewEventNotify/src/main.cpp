@@ -130,11 +130,7 @@ int HookedInit(WPARAM, LPARAM)
 	if (ServiceExists("PluginSweeper/Add"))
     CallService("PluginSweeper/Add", (WPARAM)MODULE, (LPARAM)MODULE);
 
-	if (ServiceExists(MS_MSG_GETWINDOWDATA))
-		g_IsSrmmWindowAPI = 1;
-	else
-		g_IsSrmmWindowAPI = 0;
-
+	g_IsSrmmWindowAPI = ServiceExists(MS_MSG_GETWINDOWDATA) != 0;
 	return 0;
 }
 
@@ -204,8 +200,10 @@ int CheckMsgWnd(HANDLE hContact)
 		mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 		mwd.cbSize = sizeof(MessageWindowData);
 		mwd.hContact = hContact;
-		if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM) &mwid, (LPARAM) &mwd)) {
-			if (mwd.hwndWindow != NULL && (mwd.uState & MSG_WINDOW_STATE_EXISTS)) return 1;
-		}
+		if (!CallService(MS_MSG_GETWINDOWDATA, (WPARAM) &mwid, (LPARAM) &mwd))
+			if (mwd.hwndWindow != NULL && (mwd.uState & MSG_WINDOW_STATE_EXISTS))
+				return 1;
 	}
+
+	return 0;
 }
