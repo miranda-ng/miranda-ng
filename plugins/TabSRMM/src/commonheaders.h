@@ -50,7 +50,6 @@
 #include <time.h>
 #include <shlwapi.h>
 #include <shlobj.h>
-#include <vector>
 #include <assert.h>
 #include <mbstring.h>
 #include <richedit.h>

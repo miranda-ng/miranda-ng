@@ -82,8 +82,6 @@ public:
 	BYTE	bCode;										// error/progress code (for the UI)
 };
 
-typedef std::vector<CSendLaterJob *>::iterator SendLaterJobIterator;
-
 class CSendLater {
 	
 public:
@@ -94,58 +92,56 @@ public:
 	};
 
 	CSendLater();
-	~CSendLater();
-	bool											isAvail() const { return(m_fAvail); }
-	bool											isInteractive() const { return(m_fIsInteractive); }
-	bool											isJobListEmpty() const { return(m_sendLaterJobList.empty() ? true : false); }
-	bool											haveErrorPopups() const { return(m_fErrorPopups); }
-	bool											haveSuccessPopups() const { return(m_fSuccessPopups); }
-	void											startJobListProcess();
-	time_t											lastProcessed() const { return(m_last_sendlater_processed); }
-	void											setLastProcessed(const time_t _t) { m_last_sendlater_processed = _t; }
-	void											flushQueue() { m_last_sendlater_processed = 0; }
-	bool											haveJobs() const
-		{
-			if (m_sendLaterJobList.empty() || m_jobIterator == m_sendLaterJobList.end())
-				return false;
-			else
-				return true;;
-		}
-	bool											processCurrentJob();
-	void											processContacts();
-	int												addJob(const char *szSetting, LPARAM lParam);
-	void											addContact(const HANDLE hContact);
-	static int _cdecl								addStub(const char *szSetting, LPARAM lParam);
-	HANDLE											processAck(const ACKDATA *ack);
+   ~CSendLater();
+   bool   isAvail() const { return(m_fAvail); }
+   bool   isInteractive() const { return(m_fIsInteractive); }
+   bool   isJobListEmpty() const { return(m_sendLaterJobList.getCount() == 0); }
+   bool   haveErrorPopups() const { return(m_fErrorPopups); }
+   bool   haveSuccessPopups() const { return(m_fSuccessPopups); }
+   void   startJobListProcess();
+   time_t lastProcessed() const { return(m_last_sendlater_processed); }
+   void   setLastProcessed(const time_t _t) { m_last_sendlater_processed = _t; }
+   void   flushQueue() { m_last_sendlater_processed = 0; }
+   bool   haveJobs() const { return (m_sendLaterJobList.getCount() != 0 && m_currJob != -1); }
 
-	void											invokeQueueMgrDlg();
-	void											qMgrUpdate(bool fReEnable = false);
-	static INT_PTR									svcQMgr(WPARAM wParam, LPARAM lParam);
+   static int _cdecl addStub(const char *szSetting, LPARAM lParam);
+
+	bool   processCurrentJob();
+   void   processContacts();
+   int    addJob(const char *szSetting, LPARAM lParam);
+   void   addContact(const HANDLE hContact);
+   HANDLE processAck(const ACKDATA *ack);
+
+   void   invokeQueueMgrDlg();
+   void   qMgrUpdate(bool fReEnable = false);
+   static INT_PTR svcQMgr(WPARAM wParam, LPARAM lParam);
 
 private:
-	void											processSingleContact(const HANDLE hContact);
-	int												sendIt(CSendLaterJob *job);
+   void    processSingleContact(const HANDLE hContact);
+   int     sendIt(CSendLaterJob *job);
 
-	INT_PTR	CALLBACK								DlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK	 						DlgProcStub(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	void											qMgrFillList(bool fClear = true);
-	void											qMgrSetupColumns();
-	void											qMgrSaveColumns();
-	LRESULT											qMgrAddFilter(const HANDLE hContact, const TCHAR* tszNick);
+   INT_PTR CALLBACK DlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+   static INT_PTR CALLBACK DlgProcStub(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	std::vector<HANDLE>								m_sendLaterContactList;
-	std::vector<CSendLaterJob *>					m_sendLaterJobList;
-	bool											m_fAvail;
-	bool											m_fIsInteractive;
-	bool											m_fErrorPopups;
-	bool											m_fSuccessPopups;
-	time_t											m_last_sendlater_processed;
-	SendLaterJobIterator							m_jobIterator;
+	void    qMgrFillList(bool fClear = true);
+   void    qMgrSetupColumns();
+   void    qMgrSaveColumns();
+   LRESULT qMgrAddFilter(const HANDLE hContact, const TCHAR* tszNick);
 
-	HWND											m_hwndDlg;
-	HWND											m_hwndList, m_hwndFilter;
-	HANDLE											m_hFilter;		// contact handle to filter the qmgr list (0 = no filter, show all)
-	LRESULT											m_sel;			// index of the combo box entry corresponding to the contact filter;
+   LIST<void> m_sendLaterContactList;
+   LIST<CSendLaterJob> m_sendLaterJobList;
+
+	bool    m_fAvail;
+   bool    m_fIsInteractive;
+   bool    m_fErrorPopups;
+   bool    m_fSuccessPopups;
+   time_t  m_last_sendlater_processed;
+   int     m_currJob;
+
+   HWND    m_hwndDlg;
+   HWND    m_hwndList, m_hwndFilter;
+   HANDLE  m_hFilter;      // contact handle to filter the qmgr list (0 = no filter, show all)
+   LRESULT m_sel;         // index of the combo box entry corresponding to the contact filter;
 };
 
 extern CSendLater* sendLater;
