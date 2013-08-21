@@ -1516,6 +1516,11 @@ ID пользователя в панели статуса
 Критическая ошибка TabSRMM
 [The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
 Не установлен плагин службы изображений (advaimg.dll)\n\nTabSRMM отключен.
+[All message containers need to close before the skin can be changed\nProceed?]
+Перед сменой скина нужно закрыть все контейнеры\nПродолжить?
+[Change skin]
+Изменение скина
+
 ;Уведомления
 
 [Contact not on list. You may add it...]
