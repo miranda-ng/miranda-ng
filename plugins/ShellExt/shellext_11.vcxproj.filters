@@ -27,6 +27,9 @@
     <ClInclude Include="src\shlcom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\shlicons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Version.rc">

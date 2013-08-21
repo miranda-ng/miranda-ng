@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "shlcom.h"
 
-struct dllpublic
+struct
 {
 	int FactoryCount, ObjectCount;
-};
+}
+static dllpublic;
 
 bool VistaOrLater;
 
@@ -463,7 +464,6 @@ void BuildSkinIcons(TEnumData *lParam)
 	TSlotIPC *pct;
 	TShlComRec *Self;
 	UINT j;
-	IImageFactory *imageFactory;
 
 	pct = lParam->ipch->NewIconsBegin;
 	Self = lParam->Self;
@@ -480,24 +480,9 @@ void BuildSkinIcons(TEnumData *lParam)
 		// if using anything older, just use the default code, the bitmaps (&& | icons) will be freed
 		// with the shell object.
 
-		imageFactory = NULL;
-
 		for (j = 0; j < 10; j++) {
-			if (imageFactory == NULL)
-				imageFactory = ARGB_GetWorker();
-			if (VistaOrLater) {
-				d->hBitmaps[j] = ARGB_BitmapFromIcon(imageFactory, Self->hMemDC, p->hIcons[j]);
-				d->hIcons[j] = 0;
-			}
-			else {
-				d->hBitmaps[j] = 0;
-				d->hIcons[j] = CopyIcon(p->hIcons[j]);
-			}
-		}
-
-		if (imageFactory != NULL) {
-			imageFactory->ptrVTable->Release(imageFactory);
-			imageFactory = NULL;
+			d->hBitmaps[j] = 0;
+			d->hIcons[j] = CopyIcon(p->hIcons[j]);
 		}
 
 		Self->ProtoIconsCount++;
@@ -505,12 +490,13 @@ void BuildSkinIcons(TEnumData *lParam)
 	}
 }
 
-BOOL __stdcall ProcessRequest(HWND hwnd, TEnumData *lParam)
+BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 {
 	HANDLE hMirandaWorkEvent;
 	int replyBits;
 	char szBuf[MAX_PATH];
 
+	TEnumData *lParam = (TEnumData*)param;
 	BOOL Result = true;
 	DWORD pid = 0;
 	GetWindowThreadProcessId(hwnd, &pid);
@@ -522,7 +508,7 @@ BOOL __stdcall ProcessRequest(HWND hwnd, TEnumData *lParam)
 		hMirandaWorkEvent = OpenEventA(EVENT_ALL_ACCESS, false, CreateProcessUID(pid).c_str());
 		if (hMirandaWorkEvent != 0) {
 			GetClassNameA(hwnd, szBuf, sizeof(szBuf));
-			if ( lstrcmpA(szBuf, MirandaName) != 0) {
+			if ( lstrcmpA(szBuf, MIRANDANAME) != 0) {
 				// opened but not valid.
 				CloseHandle(hMirandaWorkEvent);
 				return Result;
@@ -551,7 +537,7 @@ BOOL __stdcall ProcessRequest(HWND hwnd, TEnumData *lParam)
 				// on the final menu maybe on a different instance && another OpenEvent() will be needed.
 				lParam->pid = pid;
 				// check out the user options from the server
-				lParam->bShouldOwnerDraw = (lParam->ipch->dwFlags && HIPC_NOICONS) = 0;
+				lParam->bShouldOwnerDraw = (lParam->ipch->dwFlags & HIPC_NOICONS) == 0;
 				// process the icons
 				BuildSkinIcons(lParam);
 				// process other replies
@@ -563,738 +549,489 @@ BOOL __stdcall ProcessRequest(HWND hwnd, TEnumData *lParam)
 	}
 }
 
-function TShlComRec_QueryInterface(Self: PCommon_Interface; const IID: TIID;  Obj): HResult; stdcall;
+/////////////////////////////////////////////////////////////////////////////////////////
+
+TShlComRec::TShlComRec()
 {
-  Pointer(Obj) = NULL;
-  { IShellExtInit is given when the TShlRec is created }
-  if IsEqualIID(IID, IID_IContextMenu) | IsEqualIID(IID, IID_IContextMenu2) |
-    IsEqualIID(IID, IID_IContextMenu3) 
-  {
-    with Self->ptrInstance^ do
-    {
-      Pointer(Obj) = @ContextMenu3_Interface;
-      inc(RefCount);
-    } { with }
-    Result = S_OK;
-  }
-  else
-  {
-    // under XP, it may ask for IShellExtInit again, this fixes the -double- click to see menus issue
-    // which was really just the object not being created
-    if IsEqualIID(IID, IID_IShellExtInit) 
-    {
-      with Self->ptrInstance^ do
-      {
-        Pointer(Obj) = @ShellExtInit_Interface;
-        inc(RefCount);
-      } // if
-      Result = S_OK;
-    }
-    else
-    {
-      Result = CLASS_E_CLASSNOTAVAILABLE;
-    } // if
-  } // if
+  HDC DC;
+
+  RefCount = 1;
+  hDllHeap = HeapCreate(0, 0, 0);
+  hRootMenu = 0;
+  hRecentMenu = 0;
+  RecentCount = 0;
+  idCmdFirst = 0;
+  pDataObject = NULL;
+  ProtoIcons = NULL;
+  ProtoIconsCount = 0;
+  // create an inmemory DC
+  DC = GetDC(0);
+  hMemDC = CreateCompatibleDC(DC);
+  ReleaseDC(0, DC);
+  // keep count on the number of objects
+  dllpublic.ObjectCount++;
 }
 
-function TShlComRec_AddRef(Self: PCommon_Interface): LongInt; stdcall;
+HRESULT TShlComRec::QueryInterface(REFIID riid, void **ppvObject)
 {
-  with Self->ptrInstance^ do
-  {
-    inc(RefCount);
-    Result = RefCount;
-  } { with }
+	*ppvObject = NULL;
+	// IShellExtInit is given when the TShlRec is created 
+	if (riid == IID_IContextMenu || riid == IID_IContextMenu2 || riid == IID_IContextMenu3) {
+		*ppvObject = (IContextMenu3*)this;
+		RefCount++;
+		return S_OK;
+	}
+
+	// under XP, it may ask for IShellExtInit again, this fixes the -double- click to see menus issue
+	// which was really just the object not being created
+	if (riid == IID_IShellExtInit) {
+		*ppvObject = (IShellExtInit*)this;
+		RefCount++;
+		return S_OK;
+	}
+
+	return CLASS_E_CLASSNOTAVAILABLE;
 }
 
-function TShlComRec_Release(Self: PCommon_Interface): LongInt; stdcall;
-
-  j, c: Cardinal;
+ULONG TShlComRec::AddRef()
 {
-  with Self->ptrInstance^ do
-  {
-    dec(RefCount);
-    Result = RefCount;
-    if RefCount = 0 
-    {
-      // time to go byebye.
-      with Self->ptrInstance^ do
-      {
-        // Note MRU menu is associated with a window (indirectly) so windows will free it.
-        // free icons!
-        if ProtoIcons != NULL 
-        {
-          c = ProtoIconsCount;
-          while c > 0 do
-          {
-            dec(c);
-            for j = 0 to 9 do
-            {
-              with ProtoIcons[c] do
-              {
-                if hIcons[j] != 0 
-                  DestroyIcon(hIcons[j]);
-                if hBitmaps[j] != 0 
-                  DeleteObject(hBitmaps[j]);
-              }
-            }
-          }
-          FreeMem(ProtoIcons);
-          ProtoIcons = NULL;
-        } // if
-        // free IDataObject reference if pointer exists
-        if pDataObject != NULL 
-        {
-          pDataObject->ptrVTable->Release(pDataObject);
-        } // if
-        pDataObject = NULL;
-        // free the heap && any memory allocated on it
-        HeapDestroy(hDllHeap);
-        // destroy the DC
-        if hMemDC != 0 
-          DeleteDC(hMemDC);
-      } // with
-      // free the instance (class record) created
-      Dispose(Self->ptrInstance);
-      dec(dllpublic.ObjectCount);
-    } { if }
-  } { with }
+	RefCount++;
+	return RefCount;
 }
 
-function TShlComRec_Initialise(Self: PContextMenu3_Interface; pidLFolder: Pointer;
-  DObj: PDataObject_Interface; hKeyProdID: HKEY): HResult; stdcall;
+ULONG TShlComRec::Release()
+{
+	ULONG ret = --RefCount;
+	if (RefCount == 0) {
+		// time to go byebye.
+		// Note MRU menu is associated with a window (indirectly) so windows will free it.
+		// free icons!
+		if (ProtoIcons != NULL) {
+			ULONG c = ProtoIconsCount;
+			while (c > 0) {
+				c--;
+				TSlotProtoIcons *p = &ProtoIcons[c];
+				for (int j = 0; j < 10; j++) {
+					if (p->hIcons[j] != 0)
+						DestroyIcon(p->hIcons[j]);
+					if (p->hBitmaps[j] != 0)
+						DeleteObject(p->hBitmaps[j]);
+				}
+			}
+			mir_free(ProtoIcons);
+			ProtoIcons = NULL;
+		}
+		// free IDataObject reference if pointer exists
+		if (pDataObject != NULL) {
+			pDataObject->Release();
+			pDataObject = NULL;
+		}
+		// free the heap && any memory allocated on it
+		HeapDestroy(hDllHeap);
+		// destroy the DC
+		if (hMemDC != 0)
+			DeleteDC(hMemDC);
+
+		// free the instance (class record) created
+		delete this;
+		dllpublic.ObjectCount--;
+	} 
+	return ret;
+}
+
+HRESULT TShlComRec::Initialize(PCIDLIST_ABSOLUTE pidlFolder, IDataObject *pdtobj, HKEY hkeyProgID)
 {
   // DObj is a pointer to an instance of IDataObject which is a pointer itself
   // it contains a pointer to a function table containing the function pointer
   // address of GetData() - the instance data has to be passed explicitly since
   // all compiler magic has gone.
-  with Self->ptrInstance^ do
-  {
-    if DObj != NULL 
-    {
-      Result = S_OK;
-      // if an instance already exists, free it.
-      if pDataObject != NULL 
-        pDataObject->ptrVTable->Release(pDataObject);
-      // store the new one && AddRef() it
-      pDataObject = DObj;
-      pDataObject->ptrVTable->AddRef(pDataObject);
-    }
-    else
-    {
-      Result = E_INVALIDARG;
-    } // if
-  } // if
+	if (pdtobj == NULL)
+		return E_INVALIDARG;
+
+	// if an instance already exists, free it.
+	if (pDataObject != NULL)
+		pDataObject->Release();
+
+	// store the new one && AddRef() it
+	pDataObject = pdtobj;
+	pDataObject->AddRef();
 }
 
-function MAKE_HRESULT(Severity, Facility, Code: Integer): HResult;
-{$IFDEF FPC}
-inline;
-{$ENDIF}
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct DllVersionInfo
 {
-  Result = (Severity shl 31) | (Facility shl 16) | Code;
+   DWORD cbSize;
+   DWORD dwMajorVersion, dwMinorVersion, dwBuildNumber, dwPlatformID;
+};
+
+typedef HRESULT (__stdcall *pfnDllGetVersion)(DllVersionInfo*);
+
+HRESULT TShlComRec::QueryContextMenu(HMENU hmenu, UINT indexMenu, UINT _idCmdFirst, UINT _idCmdLast, UINT uFlags)
+{
+	if (((LOWORD(uFlags) & CMF_VERBSONLY) != CMF_VERBSONLY) && ((LOWORD(uFlags) & CMF_DEFAULTONLY) != CMF_DEFAULTONLY)) {
+		bool bMF_OWNERDRAW = false;
+		// get the shell version
+		HINSTANCE hShellInst = LoadLibraryA("shell32.dll");
+		if (hShellInst != 0) {
+			pfnDllGetVersion DllGetVersionProc = (pfnDllGetVersion)GetProcAddress(hShellInst, "DllGetVersion");
+			if (DllGetVersionProc != NULL) {
+				DllVersionInfo dvi;
+				dvi.cbSize = sizeof(dvi);
+				if (DllGetVersionProc(&dvi) >= 0)
+					// it's at least 4.00
+					bMF_OWNERDRAW = (dvi.dwMajorVersion > 4) | (dvi.dwMinorVersion >= 71);
+			}
+			FreeLibrary(hShellInst);
+		}
+
+		// if we're using Vista (| later),  the ownerdraw code will be disabled, because the system draws the icons.
+		if (VistaOrLater)
+			bMF_OWNERDRAW = false;
+
+		HANDLE hMap = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, IPC_PACKET_SIZE, IPC_PACKET_NAME);
+		if (hMap != 0 && GetLastError() != ERROR_ALREADY_EXISTS) {
+			TEnumData ed;
+			// map the memory to this address space
+			THeaderIPC *pipch = (THeaderIPC*)MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);
+			if (pipch != NULL) {
+				// let the callback have instance vars
+				ed.Self = this;
+				// not used 'ere
+				hRootMenu = hmenu;
+				// store the first ID to offset with index for InvokeCommand()
+				idCmdFirst = _idCmdFirst;
+				// store the starting index to offset
+				ed.bOwnerDrawSupported = bMF_OWNERDRAW;
+				ed.bShouldOwnerDraw = true;
+				ed.idCmdFirst = idCmdFirst;
+				ed.ipch = pipch;
+				// allocate a wait object so the ST can signal us, it can't be anon
+				// since it has to used by OpenEvent()
+				lstrcpyA(pipch->SignalEventName, CreateUID().c_str());
+				// create the wait wait-for-wait object
+				ed.hWaitFor = CreateEventA(NULL, false, false, pipch->SignalEventName);
+				if (ed.hWaitFor != 0) {
+					// enumerate all the top level windows to find all loaded MIRANDANAME classes
+					EnumWindows(&ProcessRequest, LPARAM(&ed));
+					// close the wait-for-reply object
+					CloseHandle(ed.hWaitFor);
+				}
+				// unmap the memory from this address space
+				UnmapViewOfFile(pipch);
+			}
+			// close the mapping
+			CloseHandle(hMap);
+			// use the MSDN recommended way, thou there ain't much difference
+			return MAKE_HRESULT(0, 0, (ed.idCmdFirst - _idCmdFirst) + 1);
+		}
+	}
+
+	// same as giving a SEVERITY_SUCCESS, FACILITY_NULL, since that
+	// just clears the higher bits, which is done anyway
+	return MAKE_HRESULT(0, 0, 1);
 }
 
-function TShlComRec_QueryContextMenu(Self: PContextMenu3_Interface; Menu: HMENU;
-  indexMenu, idCmdFirst, idCmdLast, uFlags: UINT): HResult; stdcall;
-type
-  TDllVersionInfo = record
-    cbSize: DWORD;
-    dwMajorVersion: DWORD;
-    dwMinorVersion: DWORD;
-    dwBuildNumber: DWORD;
-    dwPlatformID: DWORD;
-  }
-
-  TDllGetVersionProc = function( dv: TDllVersionInfo): HResult; stdcall;
-
-  hShellInst: HANDLE;
-  bMF_OWNERDRAW: Boolean;
-  DllGetVersionProc: TDllGetVersionProc;
-  dvi: TDllVersionInfo;
-  ed: TEnumData;
-  hMap: HANDLE;
-  pipch: THeaderIPC *;
+HRESULT TShlComRec::GetCommandString(UINT_PTR idCmd, UINT uType, UINT *pReserved, LPSTR pszName, UINT cchMax)
 {
-  Result = 0;
-  if ((LOWORD(uFlags) && CMF_VERBSONLY) != CMF_VERBSONLY) &&
-    ((LOWORD(uFlags) && CMF_DEFAULTONLY) != CMF_DEFAULTONLY) 
-  {
-    bMF_OWNERDRAW = false;
-    // get the shell version
-    hShellInst = LoadLibrary('shell32.dll');
-    if hShellInst != 0 
-    {
-      DllGetVersionProc = GetProcAddress(hShellInst, 'DllGetVersion');
-      if @DllGetVersionProc != NULL 
-      {
-        dvi.cbSize = sizeof(TDllVersionInfo);
-        if DllGetVersionProc(dvi) >= 0 
-        {
-          // it's at least 4.00
-          bMF_OWNERDRAW = (dvi.dwMajorVersion > 4) | (dvi.dwMinorVersion >= 71);
-        } // if
-      } // if
-      FreeLibrary(hShellInst);
-    } // if
-
-    // if we're using Vista (| later),  the ownerdraw code will be disabled, because the system draws the icons.
-    if VistaOrLater 
-      bMF_OWNERDRAW = false;
-
-    hMap = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, IPC_PACKET_SIZE,
-      IPC_PACKET_NAME);
-    if (hMap != 0) && (GetLastError != ERROR_ALREADY_EXISTS) 
-    {
-      { map the memory to this address space }
-      pipch = MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);
-      if pipch != NULL 
-      {
-        { let the callback have instance vars }
-        ed.Self = Self->ptrInstance;
-        // not used 'ere
-        ed.Self->hRootMenu = Menu;
-        // store the first ID to offset with index for InvokeCommand()
-        Self->ptrInstance->idCmdFirst = idCmdFirst;
-        // store the starting index to offset
-        Result = idCmdFirst;
-        ed.bOwnerDrawSupported = bMF_OWNERDRAW;
-        ed.bShouldOwnerDraw = true;
-        ed.idCmdFirst = idCmdFirst;
-        ed.ipch = pipch;
-        { allocate a wait object so the ST can signal us, it can't be anon
-          since it has to used by OpenEvent() }
-        lstrcpyA(@pipch->SignalEventName, LPSTR(CreateUID()));
-        { create the wait wait-for-wait object }
-        ed.hWaitFor = CreateEvent(NULL, false, false, pipch->SignalEventName);
-        if ed.hWaitFor != 0 
-        {
-          { enumerate all the top level windows to find all loaded MIRANDANAME
-            classes -- }
-          EnumWindows(@ProcessRequest, lParam(@ed));
-          { close the wait-for-reply object }
-          CloseHandle(ed.hWaitFor);
-        }
-        { unmap the memory from this address space }
-        UnmapViewOfFile(pipch);
-      } { if }
-      { close the mapping }
-      CloseHandle(hMap);
-      // use the MSDN recommended way, thou there ain't much difference
-      Result = MAKE_HRESULT(0, 0, (ed.idCmdFirst - Result) + 1);
-    }
-    else
-    {
-      // the mapping file already exists, which is not good!
-    }
-  }
-  else
-  {
-    // same as giving a SEVERITY_SUCCESS, FACILITY_NULL, since that
-    // just clears the higher bits, which is done anyway
-    Result = MAKE_HRESULT(0, 0, 1);
-  } // if
+	return E_NOTIMPL;
 }
 
-function TShlComRec_GetCommandString(Self: PContextMenu3_Interface; idCmd, uType: UINT;
-  pwReserved: PUINT; pszName: LPSTR; cchMax: UINT): HResult; stdcall;
+HRESULT ipcGetFiles(THeaderIPC *pipch, IDataObject* pDataObject, HANDLE hContact)
 {
-  Result = E_NOTIMPL;
+	FORMATETC fet;
+	fet.cfFormat = CF_HDROP;
+	fet.ptd = NULL;
+	fet.dwAspect = DVASPECT_CONTENT;
+	fet.lindex = -1;
+	fet.tymed = TYMED_HGLOBAL;
+
+	STGMEDIUM stgm;
+	HRESULT hr = pDataObject->GetData(&fet, &stgm);
+	if (hr == S_OK) {
+		// FIX, actually lock the global object && get a pointer
+		HANDLE hDrop = GlobalLock(stgm.hGlobal);
+		if (hDrop != 0) {
+			// get the maximum number of files
+			UINT iFile, iFileMax = DragQueryFileA((HDROP)stgm.hGlobal, -1, NULL, 0);
+			for (iFile = 0; iFile < iFileMax; iFile++) {
+				// get the size of the file path
+				int cbSize = DragQueryFileA((HDROP)stgm.hGlobal, iFile, NULL, 0);
+				// get the buffer
+				TSlotIPC *pct = ipcAlloc(pipch, cbSize + 1); // including null term
+				// allocated?
+				if (pct == NULL)
+					break;
+				// store the hContact
+				pct->hContact = hContact;
+				// copy it to the buffer
+				DragQueryFileA((HDROP)stgm.hGlobal, iFile, LPSTR(pct) + sizeof(TSlotIPC), pct->cbStrSection);
+			}
+			// store the number of files
+			pipch->Slots = iFile;
+			GlobalUnlock(stgm.hGlobal);
+		} // if hDrop check
+		// release the mediumn the lock may of failed
+		ReleaseStgMedium(&stgm);
+	}
+	return hr;
 }
 
-function ipcGetFiles(pipch: THeaderIPC *; pDataObject: PDataObject_Interface; const hContact: HANDLE): Integer;
-type
-  TDragQueryFile = function(hDrop: HANDLE; fileIndex: Integer; FileName: LPSTR;
-    cbSize: Integer): Integer; stdcall;
-
-  fet: TFormatEtc;
-  stgm: TStgMedium;
-  pct: TSlotIPC *;
-  iFile: Cardinal;
-  iFileMax: Cardinal;
-  hShell: HANDLE;
-  DragQueryFile: TDragQueryFile;
-  cbSize: Integer;
-  hDrop: HANDLE;
+HRESULT RequestTransfer(TShlComRec *Self, int idxCmd)
 {
-  Result = E_INVALIDARG;
-  hShell = LoadLibrary('shell32.dll');
-  if hShell != 0 
-  {
-    DragQueryFile = GetProcAddress(hShell, 'DragQueryFileA');
-    if @DragQueryFile != NULL 
-    {
-      fet.cfFormat = CF_HDROP;
-      fet.ptd = NULL;
-      fet.dwAspect = DVASPECT_CONTENT;
-      fet.lindex = -1;
-      fet.tymed = TYMED_HGLOBAL;
-      Result = pDataObject->ptrVTable->GetData(pDataObject, fet, stgm);
-      if Result = S_OK 
-      {
-        // FIX, actually lock the global object && get a pointer
-        Pointer(hDrop) = GlobalLock(stgm.hGlobal);
-        if hDrop != 0 
-        {
-          // get the maximum number of files
-          iFileMax = DragQueryFile(stgm.hGlobal, 0xFFFFFFFF, NULL, 0);
-          iFile = 0;
-          while iFile < iFileMax do
-          {
-            // get the size of the file path
-            cbSize = DragQueryFile(stgm.hGlobal, iFile, NULL, 0);
-            // get the buffer
-            pct = ipcAlloc(pipch, cbSize + 1); // including null term
-            // allocated?
-            if pct = NULL 
-              break;
-            // store the hContact
-            pct->hContact = hContact;
-            // copy it to the buffer
-            DragQueryFile(stgm.hGlobal, iFile, LPSTR(UINT_PTR(pct) + sizeof(TSlotIPC)), pct->cbStrSection);
-            // next file
-            inc(iFile);
-          } // while
-          // store the number of files
-          pipch->Slots = iFile;
-          GlobalUnlock(stgm.hGlobal);
-        } // if hDrop check
-        // release the mediumn the lock may of failed
-        ReleaseStgMedium(stgm);
-      } // if
-    } // if
-    // free the dll
-    FreeLibrary(hShell);
-  } // if
+	// get the contact information
+	MENUITEMINFOA mii;
+	mii.cbSize = sizeof(MENUITEMINFO);
+	mii.fMask = MIIM_ID | MIIM_DATA;
+	if ( !GetMenuItemInfoA(Self->hRootMenu, Self->idCmdFirst + idxCmd, false, &mii))
+		return E_INVALIDARG;
+
+	// get the pointer
+	TMenuDrawInfo *psd = (TMenuDrawInfo*)mii.dwItemData;
+	// the ID stored in the item pointer and the ID for the menu must match
+	if (psd == NULL || psd->wID != mii.wID)
+		return E_INVALIDARG;
+
+	// is there an IDataObject instance?
+	HRESULT hr = E_INVALIDARG;
+	if (Self->pDataObject != NULL) {
+		// OpenEvent() the work object to see if the instance is still around
+		HANDLE hTransfer = OpenEventA(EVENT_ALL_ACCESS, false, CreateProcessUID(psd->pid).c_str());
+		if (hTransfer != 0) {
+			// map the ipc file again
+			HANDLE hMap = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, IPC_PACKET_SIZE, IPC_PACKET_NAME);
+			if (hMap != 0 && GetLastError() != ERROR_ALREADY_EXISTS) {
+				// map it to process
+				THeaderIPC *pipch = (THeaderIPC*)MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);
+				if (pipch != NULL) {
+					// create the name of the object to be signalled by the ST
+					lstrcpyA(pipch->SignalEventName, CreateUID().c_str());
+					// create it
+					HANDLE hReply = CreateEventA(NULL, false, false, pipch->SignalEventName);
+					if (hReply != 0) {
+						if (psd->fTypes & dtCommand) {
+							if (psd->MenuCommandCallback) 
+								hr = psd->MenuCommandCallback(pipch, hTransfer, hReply, psd);
+						}
+						else {
+							// prepare the buffer
+							ipcPrepareRequests(IPC_PACKET_SIZE, pipch, REQUEST_XFRFILES);
+							// get all the files into the packet
+							if (ipcGetFiles(pipch, Self->pDataObject, psd->hContact) == S_OK) {
+								// need to wait for the ST to open the mapping object
+								// since if we close it before it's opened it the data it
+								// has will be undefined
+								int replyBits = ipcSendRequest(hTransfer, hReply, pipch, 200);
+								if (replyBits != REPLY_FAIL) // they got the files!
+									hr = S_OK;
+							}
+						}
+						// close the work object name
+						CloseHandle(hReply);
+					}
+					// unmap it from this process
+					UnmapViewOfFile(pipch);
+				}
+				// close the map
+				CloseHandle(hMap);
+			}
+			// close the handle to the ST object name
+			CloseHandle(hTransfer);
+		}
+	}
+	return hr;
 }
 
-function RequestTransfer(Self: PShlComRec; idxCmd: Integer): Integer;
+HRESULT TShlComRec::InvokeCommand(CMINVOKECOMMANDINFO *pici)
 {
-  hMap: HANDLE;
-  pipch: THeaderIPC *;
-  mii: MENUITEMINFO;
-  hTransfer: HANDLE;
-  psd: PMenuDrawInfo;
-  hReply: HANDLE;
-  replyBits: Integer;
-
-  Result = E_INVALIDARG;
-  // get the contact information
-  mii.cbSize = sizeof(MENUITEMINFO);
-  mii.fMask = MIIM_ID | MIIM_DATA;
-  if GetMenuItemInfo(Self->hRootMenu, Self->idCmdFirst + idxCmd, false, mii) 
-  {
-    // get the pointer
-    UINT_PTR(psd) = mii.dwItemData;
-    // the ID stored in the item pointer && the ID for the menu must match
-    if (psd = NULL) | (psd->wID != mii.wID) 
-    {
-      // MessageBox(0,'ptr assocated with menu is NULL','',MB_OK);
-      Exit;
-    } // if
-  }
-  else
-  {
-    // MessageBox(0,'GetMenuItemInfo failed?','',MB_OK);
-    // couldn't get the info, can't start the transfer
-    Result = E_INVALIDARG;
-    Exit;
-  } // if
-  // is there an IDataObject instance?
-  if Self->pDataObject != NULL 
-  {
-    // OpenEvent() the work object to see if the instance is still around
-    hTransfer = OpenEvent(EVENT_ALL_ACCESS, false, LPSTR(CreateProcessUID(psd->pid)));
-    if hTransfer != 0 
-    {
-      // map the ipc file again
-      hMap = CreateFileMapping(INVALID_HANDLE_VALUE,NULL,PAGE_READWRITE,0,IPC_PACKET_SIZE,IPC_PACKET_NAME);
-      if (hMap != 0) && (GetLastError != ERROR_ALREADY_EXISTS) 
-      {
-        // map it to process
-        pipch = MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);
-        if pipch != NULL 
-        {
-          // create the name of the object to be signalled by the ST
-          lstrcpyA(pipch->SignalEventName, LPSTR(CreateUID()));
-          // create it
-          hReply = CreateEvent(NULL, false, false, pipch->SignalEventName);
-          if hReply != 0 
-          {
-            if dtCommand in psd->fTypes 
-            {
-              if Assigned(psd->MenuCommandCallback) 
-                Result = psd->MenuCommandCallback(pipch, hTransfer, hReply, psd);
-            }
-            else
-            {
-
-              // prepare the buffer
-              ipcPrepareRequests(IPC_PACKET_SIZE, pipch, REQUEST_XFRFILES);
-              // get all the files into the packet
-              if ipcGetFiles(pipch, Self->pDataObject, psd->hContact) = S_OK 
-              {
-                // need to wait for the ST to open the mapping object
-                // since if we close it before it's opened it the data it
-                // has will be undefined
-                replyBits = ipcSendRequest(hTransfer, hReply, pipch, 200);
-                if replyBits != REPLY_FAIL 
-                {
-                  // they got the files!
-                  Result = S_OK;
-                } // if
-              }
-
-            }
-            // close the work object name
-            CloseHandle(hReply);
-          } // if
-          // unmap it from this process
-          UnmapViewOfFile(pipch);
-        } // if
-        // close the map
-        CloseHandle(hMap);
-      } // if
-      // close the handle to the ST object name
-      CloseHandle(hTransfer);
-    } // if
-  } // if;
+	return RequestTransfer(this, LOWORD(UINT_PTR(pici->lpVerb)));
 }
 
-function TShlComRec_InvokeCommand(Self: PContextMenu3_Interface;
-   lpici: TCMInvokeCommandInfo): HResult; stdcall;
+HRESULT TShlComRec::HandleMenuMsg2(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT *plResult)
 {
-  Result = RequestTransfer(Self->ptrInstance, LOWORD(UINT_PTR(lpici.lpVerb)));
+	LRESULT Dummy;
+	if (plResult == NULL)
+		plResult = &Dummy;
+
+	SIZE tS;
+	HBRUSH hBr;
+
+	*plResult = true;
+	if (uMsg == WM_DRAWITEM && wParam == 0) {
+		// either a main sub menu, a group menu | a contact
+		DRAWITEMSTRUCT *dwi = (DRAWITEMSTRUCT*)lParam;
+		TMenuDrawInfo *psd = (TMenuDrawInfo*)dwi->itemData;
+		// don't fill
+		SetBkMode(dwi->hDC, TRANSPARENT);
+		// where to draw the icon?
+		RECT icorc;
+		icorc.left = 0;
+		icorc.top = dwi->rcItem.top + ((dwi->rcItem.bottom - dwi->rcItem.top) / 2) - (16 / 2);
+		icorc.right = icorc.left + 16;
+		icorc.bottom = icorc.top + 16;
+		// draw for groups
+		if (psd->fTypes & (dtGroup | dtEntry)) {
+			hBr = GetSysColorBrush(COLOR_MENU);
+			FillRect(dwi->hDC, &dwi->rcItem, hBr);
+			DeleteObject(hBr);
+
+			if (dwi->itemState & ODS_SELECTED) {
+				// only do this for entry menu types otherwise a black mask
+				// is drawn under groups
+				hBr = GetSysColorBrush(COLOR_HIGHLIGHT);
+				FillRect(dwi->hDC, &dwi->rcItem, hBr);
+				DeleteObject(hBr);
+				SetTextColor(dwi->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
+			}
+			// draw icon
+			if (dwi->itemState & ODS_SELECTED)
+				hBr = GetSysColorBrush(COLOR_HIGHLIGHT);
+			else
+				hBr = GetSysColorBrush(COLOR_MENU);
+
+			DrawIconEx(dwi->hDC, icorc.left + 1, icorc.top, psd->hStatusIcon, 16, 16, 0, hBr, DI_NORMAL);
+			DeleteObject(hBr);
+
+			// draw the text
+			dwi->rcItem.left += dwi->rcItem.bottom - dwi->rcItem.top - 2;
+			DrawTextA(dwi->hDC, psd->szText, psd->cch, &dwi->rcItem, DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
+			// draw the name of the database text if it's there
+			if (psd->szProfile != NULL) {
+				GetTextExtentPoint32A(dwi->hDC, psd->szText, psd->cch, &tS);
+				dwi->rcItem.left += tS.cx + 8;
+				SetTextColor(dwi->hDC, GetSysColor(COLOR_GRAYTEXT));
+				DrawTextA(dwi->hDC, psd->szProfile, lstrlenA(psd->szProfile), &dwi->rcItem, DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
+			}
+		}
+		else {
+			// it's a contact!
+			hBr = GetSysColorBrush(COLOR_MENU);
+			FillRect(dwi->hDC, &dwi->rcItem, hBr);
+			DeleteObject(hBr);
+			if (dwi->itemState & ODS_SELECTED) {
+				hBr = GetSysColorBrush(COLOR_HIGHLIGHT);
+				FillRect(dwi->hDC, &dwi->rcItem, hBr);
+				DeleteObject(hBr);
+				SetTextColor(dwi->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
+			}
+			// draw icon
+			if (dwi->itemState & ODS_SELECTED)
+				hBr = GetSysColorBrush(COLOR_HIGHLIGHT);
+			else
+				hBr = GetSysColorBrush(COLOR_MENU);
+
+			DrawIconEx(dwi->hDC, icorc.left + 2, icorc.top, psd->hStatusIcon, 16, 16, 0, hBr, DI_NORMAL);
+			DeleteObject(hBr);
+
+			// draw the text
+			dwi->rcItem.left += dwi->rcItem.bottom - dwi->rcItem.top + 1;
+			DrawTextA(dwi->hDC, psd->szText, psd->cch, &dwi->rcItem, DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
+		}
+	}
+	else if (uMsg == WM_MEASUREITEM) {
+		// don't check if it's really a menu
+		MEASUREITEMSTRUCT *msi = (MEASUREITEMSTRUCT*)lParam;
+		TMenuDrawInfo *psd = (TMenuDrawInfo*)msi->itemData;
+		NONCLIENTMETRICSA ncm;
+		ncm.cbSize = sizeof(ncm);
+		SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, &ncm, 0);
+		// create the font used in menus, this font should be cached somewhere really
+		HFONT hFont = CreateFontIndirectA(&ncm.lfMenuFont);
+		// select in the font
+		HFONT hOldFont = (HFONT)SelectObject(hMemDC, hFont);
+		// default to an icon
+		int dx = 16;
+		// get the size 'n' account for the icon
+		GetTextExtentPoint32A(hMemDC, psd->szText, psd->cch, &tS);
+		dx += tS.cx;
+		// main menu item?
+		if (psd->szProfile != NULL) {
+			GetTextExtentPoint32A(hMemDC, psd->szProfile, lstrlenA(psd->szProfile), &tS);
+			dx += tS.cx;
+		}
+		// store it
+		msi->itemWidth = dx + ncm.iMenuWidth;
+		msi->itemHeight = ncm.iMenuHeight + 2;
+		if (tS.cy > (int)msi->itemHeight) 
+			msi->itemHeight += tS.cy - msi->itemHeight;
+		// clean up
+		SelectObject(hMemDC, hOldFont);
+		DeleteObject(hFont);
+	}
+	return S_OK;
 }
 
-function TShlComRec_HandleMenuMsgs(Self: PContextMenu3_Interface; uMsg: UINT; wParam: wParam;
-  lParam: lParam; pResult: PLResult): HResult;
-const
-  WM_DRAWITEM = $002B;
-  WM_MEASUREITEM = $002C;
-
-  dwi: PDrawItemStruct;
-  msi: PMeasureItemStruct;
-  psd: PMenuDrawInfo;
-  ncm: TNonClientMetrics;
-  hOldFont: HANDLE;
-  hFont: HANDLE;
-  tS: TSize;
-  dx: Integer;
-  hBr: HBRUSH;
-  icorc: TRect;
-  hMemDC: HDC;
+HRESULT TShlComRec::HandleMenuMsg(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-  pResult^ = Integer(true);
-  if (uMsg = WM_DRAWITEM) && (wParam = 0) 
-  {
-    // either a main sub menu, a group menu | a contact
-    dwi = PDrawItemStruct(lParam);
-    UINT_PTR(psd) = dwi->itemData;
-    // don't fill
-    SetBkMode(dwi->HDC, TRANSPARENT);
-    // where to draw the icon?
-    icorc.Left = 0;
-    // center it
-    with dwi^ do
-      icorc.Top = rcItem.Top + ((rcItem.Bottom - rcItem.Top) div 2) - (16 div 2);
-    icorc.Right = icorc.Left + 16;
-    icorc.Bottom = icorc.Top + 16;
-    // draw for groups
-    if (dtGroup in psd->fTypes) | (dtEntry in psd->fTypes) 
-    {
-      hBr = GetSysColorBrush(COLOR_MENU);
-      FillRect(dwi->HDC, dwi->rcItem, hBr);
-      DeleteObject(hBr);
-      //
-      if (ODS_SELECTED && dwi->itemState = ODS_SELECTED) 
-      {
-        // only do this for entry menu types otherwise a black mask
-        // is drawn under groups
-        hBr = GetSysColorBrush(COLOR_HIGHLIGHT);
-        FillRect(dwi->HDC, dwi->rcItem, hBr);
-        DeleteObject(hBr);
-        SetTextColor(dwi->HDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
-      } // if
-      // draw icon
-      with dwi^, icorc do
-      {
-        if (ODS_SELECTED && dwi->itemState) = ODS_SELECTED 
-        {
-          hBr = GetSysColorBrush(COLOR_HIGHLIGHT);
-        }
-        else
-        {
-          hBr = GetSysColorBrush(COLOR_MENU);
-        } // if
-        DrawIconEx(HDC, Left + 1, Top, psd->hStatusIcon, 16, 16, // width, height
-          0, // step
-          hBr, // brush
-          DI_NORMAL);
-        DeleteObject(hBr);
-      } // with
-      // draw the text
-      with dwi^ do
-      {
-        inc(rcItem.Left, ((rcItem.Bottom - rcItem.Top) - 2));
-        DrawText(HDC, psd->szText, psd->cch, rcItem, DT_NOCLIP | DT_NOPREFIX |
-          DT_SINGLELINE | DT_VCENTER);
-        // draw the name of the database text if it's there
-        if psd->szProfile != NULL 
-        {
-          GetTextExtentPoint32(dwi->HDC, psd->szText, psd->cch, tS);
-          inc(rcItem.Left, tS.cx + 8);
-          SetTextColor(HDC, GetSysColor(COLOR_GRAYTEXT));
-          DrawText(HDC, psd->szProfile, lstrlenA(psd->szProfile), rcItem,
-            DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
-        } // if
-      } // with
-    }
-    else
-    {
-      // it's a contact!
-      hBr = GetSysColorBrush(COLOR_MENU);
-      FillRect(dwi->HDC, dwi->rcItem, hBr);
-      DeleteObject(hBr);
-      if ODS_SELECTED && dwi->itemState = ODS_SELECTED 
-      {
-        hBr = GetSysColorBrush(COLOR_HIGHLIGHT);
-        FillRect(dwi->HDC, dwi->rcItem, hBr);
-        DeleteObject(hBr);
-        SetTextColor(dwi->HDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
-      }
-      // draw icon
-      with dwi^, icorc do
-      {
-        if (ODS_SELECTED && dwi->itemState) = ODS_SELECTED 
-        {
-          hBr = GetSysColorBrush(COLOR_HIGHLIGHT);
-        }
-        else
-        {
-          hBr = GetSysColorBrush(COLOR_MENU);
-        } // if
-        DrawIconEx(HDC, Left + 2, Top, psd->hStatusIcon, 16, 16, // width, height
-          0, // step
-          hBr, // brush
-          DI_NORMAL);
-        DeleteObject(hBr);
-      } // with
-      // draw the text
-      with dwi^ do
-      {
-        inc(rcItem.Left, (rcItem.Bottom - rcItem.Top) + 1);
-        DrawText(HDC, psd->szText, psd->cch, rcItem, DT_NOCLIP | DT_NOPREFIX |
-          DT_SINGLELINE | DT_VCENTER);
-      } // with
-    } // if
-  }
-  else if (uMsg = WM_MEASUREITEM) 
-  {
-    // don't check if it's really a menu
-    msi = PMeasureItemStruct(lParam);
-    UINT_PTR(psd) = msi->itemData;
-    ncm.cbSize = sizeof(TNonClientMetrics);
-    SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, @ncm, 0);
-    // create the font used in menus, this font should be cached somewhere really
-{$IFDEF FPC}
-    hFont = CreateFontIndirect(@ncm.lfMenuFont);
-{$ELSE}
-    hFont = CreateFontIndirect(ncm.lfMenuFont);
-{$ENDIF}
-    hMemDC = Self->ptrInstance->hMemDC;
-    // select in the font
-    hOldFont = SelectObject(hMemDC, hFont);
-    // default to an icon
-    dx = 16;
-    // get the size 'n' account for the icon
-    GetTextExtentPoint32(hMemDC, psd->szText, psd->cch, tS);
-    inc(dx, tS.cx);
-    // main menu item?
-    if psd->szProfile != NULL 
-    {
-      GetTextExtentPoint32(hMemDC, psd->szProfile, lstrlenA(psd->szProfile), tS);
-      inc(dx, tS.cx);
-    }
-    // store it
-    msi->itemWidth = dx + Integer(ncm.iMenuWidth);
-    msi->itemHeight = Integer(ncm.iMenuHeight) + 2;
-    if tS.cy > msi->itemHeight 
-      inc(msi->itemHeight, tS.cy - msi->itemHeight);
-    // clean up
-    SelectObject(hMemDC, hOldFont);
-    DeleteObject(hFont);
-  }
-  Result = S_OK;
+	return HandleMenuMsg2(uMsg, wParam, lParam, NULL);
 }
 
-function TShlComRec_HandleMenuMsg(Self: PContextMenu3_Interface; uMsg: UINT; wParam: wParam;
-  lParam: lParam): HResult; stdcall;
+/////////////////////////////////////////////////////////////////////////////////////////
 
-  Dummy: HResult;
+struct TClassFactoryRec : public IClassFactory
 {
-  Result = TShlComRec_HandleMenuMsgs(Self, uMsg, wParam, lParam, @Dummy);
+	TClassFactoryRec() :
+		RefCount(1)
+		{	dllpublic.FactoryCount++;
+		}
+
+	LONG RefCount;
+
+	HRESULT STDMETHODCALLTYPE QueryInterface(REFIID riid, void **ppvObject);
+	ULONG   STDMETHODCALLTYPE AddRef(void);
+	ULONG   STDMETHODCALLTYPE Release(void);
+
+	HRESULT STDMETHODCALLTYPE CreateInstance(IUnknown *pUnkOuter, REFIID riid, void **ppvObject);
+	HRESULT STDMETHODCALLTYPE LockServer(BOOL fLock);
+};
+
+HRESULT TClassFactoryRec::QueryInterface(REFIID riid, void **ppvObject)
+{
+	*ppvObject = NULL;
+	return E_NOTIMPL;
 }
 
-function TShlComRec_HandleMenuMsg2(Self: PContextMenu3_Interface; uMsg: UINT; wParam: wParam;
-  lParam: lParam; PLResult: Pointer { ^LResult } ): HResult; stdcall;
-
-  Dummy: HResult;
+ULONG TClassFactoryRec::AddRef()
 {
-  // this will be null if a return value isn't needed.
-  if PLResult = NULL 
-    PLResult = @Dummy;
-  Result = TShlComRec_HandleMenuMsgs(Self, uMsg, wParam, lParam, PLResult);
+	return ++RefCount;
 }
 
-function TShlComRec_Create: PShlComRec;
-
-  DC: HDC;
+ULONG TClassFactoryRec::Release()
 {
-  New(Result);
-  { build all the function tables for interfaces }
-  with Result->ShellExtInit_Interface do
-  {
-    { this is only owned by us... }
-    ptrVTable = @vTable;
-    { IUnknown }
-    vTable.QueryInterface = @TShlComRec_QueryInterface;
-    vTable.AddRef = @TShlComRec_AddRef;
-    vTable.Release = @TShlComRec_Release;
-    { IShellExtInit }
-    vTable.Initialise = @TShlComRec_Initialise;
-    { instance of a TShlComRec }
-    ptrInstance = Result;
-  }
-  with Result->ContextMenu3_Interface do
-  {
-    ptrVTable = @vTable;
-    { IUnknown }
-    vTable.QueryInterface = @TShlComRec_QueryInterface;
-    vTable.AddRef = @TShlComRec_AddRef;
-    vTable.Release = @TShlComRec_Release;
-    { IContextMenu }
-    vTable.QueryContextMenu = @TShlComRec_QueryContextMenu;
-    vTable.InvokeCommand = @TShlComRec_InvokeCommand;
-    vTable.GetCommandString = @TShlComRec_GetCommandString;
-    { IContextMenu2 }
-    vTable.HandleMenuMsg = @TShlComRec_HandleMenuMsg;
-    { IContextMenu3 }
-    vTable.HandleMenuMsg2 = @TShlComRec_HandleMenuMsg2;
-    { instance data }
-    ptrInstance = Result;
-  }
-  { initalise variables }
-  Result->RefCount = 1;
-  Result->hDllHeap = HeapCreate(0, 0, 0);
-  Result->hRootMenu = 0;
-  Result->hRecentMenu = 0;
-  Result->RecentCount = 0;
-  Result->idCmdFirst = 0;
-  Result->pDataObject = NULL;
-  Result->ProtoIcons = NULL;
-  Result->ProtoIconsCount = 0;
-  // create an inmemory DC
-  DC = GetDC(0);
-  Result->hMemDC = CreateCompatibleDC(DC);
-  ReleaseDC(0, DC);
-  { keep count on the number of objects }
-  inc(dllpublic.ObjectCount);
+	ULONG result = --RefCount;
+	if (result == 0) {
+		delete this;
+		dllpublic.FactoryCount--;
+	}
+	return result;
 }
 
-{ IClassFactory }
-
-type
-
-  PVTable_IClassFactory = ^TVTable_IClassFactory;
-
-  TVTable_IClassFactory = record
-    { IUnknown }
-    QueryInterface: Pointer;
-    AddRef: Pointer;
-    Release: Pointer;
-    { IClassFactory }
-    CreateInstance: Pointer;
-    LockServer: Pointer;
-  }
-
-  PClassFactoryRec = ^TClassFactoryRec;
-
-  TClassFactoryRec = record
-    ptrVTable: PVTable_IClassFactory;
-    vTable: TVTable_IClassFactory;
-    { fields }
-    RefCount: LongInt;
-  }
-
-function TClassFactoryRec_QueryInterface(Self: PClassFactoryRec; const IID: TIID;  Obj): HResult; stdcall;
+HRESULT TClassFactoryRec::CreateInstance(IUnknown *pUnkOuter, REFIID riid, void **ppvObject)
 {
-  Pointer(Obj) = NULL;
-  Result = E_NOTIMPL;
+	*ppvObject = NULL;
+
+	if (pUnkOuter != NULL)
+		return CLASS_E_NOAGGREGATION;
+
+	// Before Vista, the system queried for a IShell interface  queried for a context menu, Vista now
+	// queries for a context menu (| a shell menu)  QI()'s the other interface
+	if (riid == IID_IContextMenu) {
+		TShlComRec *p = new TShlComRec();
+		*ppvObject = (IContextMenu3*)p;
+		return S_OK;
+	}
+	if (riid == IID_IShellExtInit) {
+		TShlComRec *p = new TShlComRec();
+		*ppvObject = (IContextMenu3*)p;
+		return S_OK;
+	}
+
+	return E_NOTIMPL;
 }
 
-function TClassFactoryRec_AddRef(Self: PClassFactoryRec): LongInt; stdcall;
+HRESULT TClassFactoryRec::LockServer(BOOL)
 {
-  inc(Self->RefCount);
-  Result = Self->RefCount;
-}
-
-function TClassFactoryRec_Release(Self: PClassFactoryRec): LongInt; stdcall;
-{
-  dec(Self->RefCount);
-  Result = Self->RefCount;
-  if Result = 0 
-  {
-    Dispose(Self);
-    dec(dllpublic.FactoryCount);
-  } { if }
-}
-
-function TClassFactoryRec_CreateInstance(Self: PClassFactoryRec; unkOuter: Pointer;
-  const IID: TIID;  Obj): HResult; stdcall;
-
-  ShlComRec: PShlComRec;
-{
-  Pointer(Obj) = NULL;
-  Result = CLASS_E_NOAGGREGATION;
-  if unkOuter = NULL 
-  {
-    { Before Vista, the system queried for a IShell interface  queried for a context menu, Vista now
-      queries for a context menu (| a shell menu)  QI()'s the other interface }
-    if IsEqualIID(IID, IID_IContextMenu) 
-    {
-      Result = S_OK;
-      ShlComRec = TShlComRec_Create;
-      Pointer(Obj) = @ShlComRec->ContextMenu3_Interface;
-    }
-    if IsEqualIID(IID, IID_IShellExtInit) 
-    {
-      Result = S_OK;
-      ShlComRec = TShlComRec_Create;
-      Pointer(Obj) = @ShlComRec->ShellExtInit_Interface;
-    } // if
-  } // if
-}
-
-function TClassFactoryRec_LockServer(Self: PClassFactoryRec; fLock: BOOL): HResult; stdcall;
-{
-  Result = E_NOTIMPL;
-}
-
-function TClassFactoryRec_Create: PClassFactoryRec;
-{
-  New(Result);
-  Result->ptrVTable = @Result->vTable;
-  { IUnknown }
-  Result->vTable.QueryInterface = @TClassFactoryRec_QueryInterface;
-  Result->vTable.AddRef = @TClassFactoryRec_AddRef;
-  Result->vTable.Release = @TClassFactoryRec_Release;
-  { IClassFactory }
-  Result->vTable.CreateInstance = @TClassFactoryRec_CreateInstance;
-  Result->vTable.LockServer = @TClassFactoryRec_LockServer;
-  { inital the variables }
-  Result->RefCount = 1;
-  { count the number of factories }
-  inc(dllpublic.FactoryCount);
+	return E_NOTIMPL;
 }
 
 //

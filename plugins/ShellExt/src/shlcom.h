@@ -38,6 +38,8 @@
 #define IGCS_HELPTEXT  GCS_HELPTEXTA
 #define IGCS_VALIDATE  GCS_VALIDATEA
 
+#define HIPC_NOICONS   1
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 struct TGroupNode
@@ -111,12 +113,12 @@ struct THeaderIPC
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct TShlComRec
-{
-	IShellExtInit *ShellExtInit_Interface;
-	IContextMenu3 *ContextMenu3_Interface;
 
-	LONG RefCount;
+struct TShlComRec : public IShellExtInit, public IContextMenu3
+{
+	TShlComRec();
+
+	ULONG RefCount;
 	// this is owned by the shell after items are added 'n' is used to
 	// grab menu information directly via id rather than array indexin'
 	HMENU hRootMenu;
@@ -125,21 +127,33 @@ struct TShlComRec
 	// can do most of the cleanup, extremely lazy I know.
 	HANDLE hDllHeap;
 	// This is a submenu that recently used contacts are inserted into
-	// the contact is inserted twice, once in its normal list (| group) && here
+	// the contact is inserted twice, once in its normal list (or group) and here
 	// Note: These variables are global data, but refered to locally by each instance
 	// Do not rely on these variables outside the process enumeration.
 	HMENU hRecentMenu;
-	ULONG RecentCount; // number of added items
+	UINT  RecentCount; // number of added items
 	// array of all the protocol icons, for every running instance!
 	TSlotProtoIcons *ProtoIcons;
-	int ProtoIconsCount;
-	// maybe null, taken from IShellExtInit_Initalise() && AddRef()'d
-	// only used if a Miranda instance is actually running && a user
+	UINT ProtoIconsCount;
+	// maybe null, taken from IShellExtInit_Initalise() and AddRef()'d
+	// only used if a Miranda instance is actually running and a user
 	// is selected
 	IDataObject *pDataObject;
-	// DC is used for font metrics && saves on creating && destroying lots of DC handles
+	// DC is used for font metrics and saves on creating and destroying lots of DC handles
 	// during WM_MEASUREITEM
 	HDC hMemDC;
+
+	HRESULT STDMETHODCALLTYPE QueryInterface(REFIID riid, void **ppvObject);
+	ULONG   STDMETHODCALLTYPE AddRef(void);
+	ULONG   STDMETHODCALLTYPE Release(void);
+
+	HRESULT STDMETHODCALLTYPE Initialize(PCIDLIST_ABSOLUTE pidlFolder, IDataObject *pdtobj, HKEY hkeyProgID);
+
+	HRESULT STDMETHODCALLTYPE QueryContextMenu(HMENU hmenu, UINT indexMenu, UINT idCmdFirst, UINT idCmdLast, UINT uFlags);
+	HRESULT STDMETHODCALLTYPE InvokeCommand(CMINVOKECOMMANDINFO *pici);
+	HRESULT STDMETHODCALLTYPE GetCommandString(UINT_PTR idCmd, UINT uType, UINT *pReserved, LPSTR pszName, UINT cchMax);
+	HRESULT STDMETHODCALLTYPE HandleMenuMsg(UINT uMsg, WPARAM wParam, LPARAM lParam);
+	HRESULT STDMETHODCALLTYPE HandleMenuMsg2(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT *plResult);
 };
 
 struct TEnumData

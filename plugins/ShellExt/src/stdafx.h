@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <CommCtrl.h>
 #include <ShlObj.h>
+#include <Wincodec.h>
 
 #include <string>
 
