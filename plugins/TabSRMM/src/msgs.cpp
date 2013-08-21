@@ -291,7 +291,8 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 		TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer == NULL)
 			pContainer = CreateContainer(szName, FALSE, hContact);
-		CreateNewTabForContact(pContainer, hContact, 0, NULL, TRUE, TRUE, FALSE, 0);
+		if (pContainer)
+			CreateNewTabForContact(pContainer, hContact, 0, NULL, TRUE, TRUE, FALSE, 0);
 	}
 	return 0;
 }
@@ -348,7 +349,8 @@ INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 		TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer == NULL)
 			pContainer = CreateContainer(szName, FALSE, hContact);
-		CreateNewTabForContact(pContainer, hContact, 1, (const char *)lParam, TRUE, TRUE, FALSE, 0);
+		if (pContainer)
+			CreateNewTabForContact(pContainer, hContact, 1, (const char *)lParam, TRUE, TRUE, FALSE, 0);
 	}
 	return 0;
 }
@@ -402,7 +404,8 @@ INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 		TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer == NULL)
 			pContainer = CreateContainer(szName, FALSE, hContact);
-		CreateNewTabForContact(pContainer, hContact, 0, (const char *) lParam, TRUE, TRUE, FALSE, 0);
+		if (pContainer)
+			CreateNewTabForContact(pContainer, hContact, 0, (const char *) lParam, TRUE, TRUE, FALSE, 0);
 	}
 	return 0;
 }
@@ -685,9 +688,9 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, HANDLE hContact, i
 	if (hContact != 0 && M.GetByte("limittabs", 0) &&  !_tcsncmp(pContainer->szName, _T("default"), 6)) {
 		if ((pContainer = FindMatchingContainer(_T("default"), hContact)) == NULL) {
 			TCHAR szName[CONTAINER_NAMELEN + 1];
-
 			mir_sntprintf(szName, CONTAINER_NAMELEN, _T("default"));
-			pContainer = CreateContainer(szName, CNT_CREATEFLAG_CLONED, hContact);
+			if ((pContainer = CreateContainer(szName, CNT_CREATEFLAG_CLONED, hContact)) == NULL)
+				return 0;
 		}
 	}
 

@@ -3271,7 +3271,8 @@ quote_from_last:
 			
 			TContainerData *pNewContainer = FindContainerByName(szNewName);
 			if (pNewContainer == NULL)
-				pNewContainer = CreateContainer(szNewName, FALSE, dat->hContact);
+				if ((pNewContainer = CreateContainer(szNewName, FALSE, dat->hContact)) == NULL)
+					break;
 			db_set_ts(dat->hContact, SRMSGMOD_T, "containerW", szNewName);
 			dat->fIsReattach = TRUE;
 			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_DOCREATETAB, (WPARAM)pNewContainer, (LPARAM)dat->hContact);

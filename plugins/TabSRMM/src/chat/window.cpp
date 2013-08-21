@@ -3361,7 +3361,8 @@ LABEL_SHOWWINDOW:
 				break;
 			pNewContainer = FindContainerByName(szNewName);
 			if (pNewContainer == NULL)
-				pNewContainer = CreateContainer(szNewName, FALSE, dat->hContact);
+				if ((pNewContainer = CreateContainer(szNewName, FALSE, dat->hContact)) == NULL)
+					break;
 			db_set_ts(dat->hContact, SRMSGMOD_T, "containerW", szNewName);
 			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_DOCREATETAB_CHAT, (WPARAM)pNewContainer, (LPARAM)hwndDlg);
 			if (iOldItems > 1)                // there were more than 1 tab, container is still valid

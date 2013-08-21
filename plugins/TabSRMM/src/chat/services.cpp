@@ -418,7 +418,8 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 			TCHAR szName[CONTAINER_NAMELEN + 1];
 
 			mir_sntprintf(szName, CONTAINER_NAMELEN, _T("default"));
-			pContainer = CreateContainer(szName, CNT_CREATEFLAG_CLONED, hContact);
+			if ((pContainer = CreateContainer(szName, CNT_CREATEFLAG_CLONED, hContact)) == NULL)
+				return 0;
 		}
 	}
 
@@ -565,7 +566,8 @@ void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
 	}
 	if (pContainer == NULL)
 		pContainer = CreateContainer(szName, FALSE, si->hContact);
-	si->hWnd = CreateNewRoom(pContainer, si, TRUE, TRUE, FALSE);
+	if (pContainer)
+		si->hWnd = CreateNewRoom(pContainer, si, TRUE, TRUE, FALSE);
 }
 
 INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)

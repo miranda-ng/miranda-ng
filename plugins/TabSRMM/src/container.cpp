@@ -136,6 +136,9 @@ void TSAPI SetAeroMargins(TContainerData *pContainer)
 
 TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HANDLE hContactFrom)
 {
+	if (CMimAPI::m_shutDown)
+		return NULL;
+
 	char *szKey = "TAB_ContainersW";
 	int iFirstFree = -1, iFound = FALSE;
 
