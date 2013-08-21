@@ -67,8 +67,8 @@
 Гц
 [Beep]
 Сигнал
-[Workstation is locked ]
-Компьютер заблокирован
+[Workstation is locked\s]
+Компьютер заблокирован\s
 [Beep the PC Speaker]
 Сигнал в PC Speaker
 [sequence]

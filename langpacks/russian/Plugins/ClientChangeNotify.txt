@@ -11,8 +11,8 @@
 Оповещает, если кто-то из вашего списка контактов сменил свой клиент.
 [%s (was %s)]
 %s (был %s)
-[) changed client to ]
-) сменил клиент на 
+[) changed client to\s]
+) сменил клиент на\s
 [ClientChangeNotify: Client changed]
 Уведомление о смене клиента: Клиент изменился
 [(you can use regular expressions here)]
@@ -37,10 +37,10 @@
 Показать версию клиента 
 [Show previous client name]
 Показывать предыдущее имя клиента 
-[\r\n(was ]
-\r\n(был 
-[changed client to ]
-сменил клиент на 
+[\r\n(was\s]
+\r\n(был\s
+[changed client to\s]
+сменил клиент на\s 
 [Fingerprint plugin not found. Please make sure that you have the latest version installed. ClientChangeNotify requires it to work properly.]
 Плагин Fingerprint  не найден. Удостоверьтесь что вы установили самую последнюю версию, это необходимо для нормальной работы.
 [ClientChangeNotify]

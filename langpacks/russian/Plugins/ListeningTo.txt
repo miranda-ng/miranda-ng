@@ -19,14 +19,14 @@
 Вкл/Выкл отправку информации о музыке (все протоколы)
 [Listening info]
 Музыка в статусе
-[ Listening to information ]
- Прослушиваемая музыка 
+[ Listening to information\s]
+ Прослушиваемая музыка\s
 [Enable sending listening information to contacts:]
 Включить отправку информации контактам
 [You also have to enable it per protocol in the main menu]
 Попротокольная настройка находится в главном меню
-[ XStatus ]
- хСтатус 
+[ XStatus\s]
+ хСтатус\s
 [For protocols that don't support listening to but support XStatus:]
 При отсутствии прямой поддержки протоколом, но поддержке хСтатусов:
 [Set XStatus to Music and show listening info]
@@ -39,8 +39,8 @@
 Применить шаблон для информации от контактов
 [Show advanced icon in slot]
 Доп. значок в слоте
-[ Listening to ]
- Прослушиваемая музыка 
+[ Listening to\s]
+ Прослушиваемая музыка\s
 [Variables:]
 Переменные:
 [%artist% - Artist name]

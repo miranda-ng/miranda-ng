@@ -69,12 +69,12 @@ e-mail    :
 Не удалось записать сообщение в файл:\n
 [Failed to write URL/File to the file :\n]
 Не удалось записать передачу файла или URL в файл:\n
-[URL: ]
-URL: 
-[File: ]
-Файл: 
-[Description: ]
-Описание :
+[URL:\s]
+URL:\s
+[File:\s]
+Файл:\s
+[Description:\s]
+Описание:\s
 [EmailExpress from:]
 EmailExpress от:
 [No from address]

@@ -95,8 +95,8 @@
 Последний раз в сети
 [Note: in additional you may specify any sound  on 'Sounds' panel]
 Дополнительно вы можете настроить звуки в панели "Звуки"
-[Notify after an absence of ]
-Напоминать после 
+[Notify after an absence of\s]
+Напоминать после\s
 [On event action (double click):]
 По событию (двойной клик):
 [This plugin notifies you when any contact comes online after an absence of long period.]
