@@ -344,6 +344,7 @@ static INT_PTR CALLBACK TlenVoiceOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
+			TranslateDialogDefault(hwndDlg);
 			proto = (TlenProtocol *)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)proto);
 			SendDlgItemMessage(hwndDlg, IDC_VOICE_POLICY, CB_ADDSTRING, 0, (LPARAM)TranslateT("Always ask me"));
