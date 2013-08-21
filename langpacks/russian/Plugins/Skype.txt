@@ -134,7 +134,7 @@ Skype протокол для Miranda NG.
 [Abuse]
 Нарушение
 [You can also report abuse from this user.]
-Вы также можете сообщить о нарущении правил этим пользователем.
+Вы также можете сообщить о нарушении правил этим пользователем.
 [Report abuse]
 Сообщить о нарушении
 [Did not unpack SkypeKit.exe.]
