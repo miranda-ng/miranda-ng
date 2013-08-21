@@ -43,12 +43,12 @@ TCHAR *tcpStates[]={_T("CLOSED"),_T("LISTEN"),_T("SYN_SENT"),_T("SYN_RCVD"),_T("
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	PLUGINNAME,
-	PLUGIN_MAKE_VERSION(0,1,0,5),
-	"Notify with popup if some connection established",
-	"MaKaR",
-	"makar@poczta.of.pl",
-	"© 2011-2013 MaKaRSoFT",
-	"http://maciej.wycik.pl/miranda",
+	VERSION,
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,		//not transient
 	//	4BB5B4AA-C364-4F23-9746-D5B708A286A5
 	{0x4bb5b4aa, 0xc364, 0x4f23, { 0x97, 0x46, 0xd5, 0xb7, 0x8, 0xa2, 0x86, 0xa5 } }
@@ -93,7 +93,6 @@ __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
 
 extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	pluginInfo.cbSize=sizeof(PLUGININFOEX);
 	return &pluginInfo;
 }
 extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
@@ -167,8 +166,6 @@ struct CONNECTION* LoadSettingsConnections()
 //called to load settings from database
 void LoadSettings()
 {
-	char buff[128];
-	int i;
 	settingInterval=(INT)db_get_dw(NULL, PLUGINNAME, "Interval", 500);
 	settingInterval1=(INT)db_get_dw (NULL, PLUGINNAME, "PopupInterval", 0);
 	settingResolveIp=db_get_b  (NULL, PLUGINNAME, "ResolveIp",TRUE);
@@ -179,8 +176,9 @@ void LoadSettings()
 	settingFgColor = (COLORREF)db_get_dw(NULL, PLUGINNAME, "PopupFgColor", (DWORD)0x000000);
 	settingFiltersCount=(INT)db_get_dw (NULL, PLUGINNAME, "FiltersCount", 0);
 	settingStatusMask=(WORD)db_get_w(NULL, PLUGINNAME, "StatusMask", 16);
-	for(i = 0; i < STATUS_COUNT; i++) 
+	for(int i = 0; i < STATUS_COUNT; i++) 
 	{
+		char buff[128];
 		mir_snprintf(buff,sizeof(buff), "Status%d", i);
 		settingStatus[i] = (db_get_b(0, PLUGINNAME, buff, 0) == 1);
 	}
@@ -189,19 +187,17 @@ void LoadSettings()
 
 void fillExceptionsListView(HWND hwndDlg)
 {
-	HWND hwndList=NULL;
 	LVITEM lvI={0};
 
 	int i=0;
 	struct CONNECTION *tmp=connExceptionsTmp;
-	hwndList = GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS);
+	HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS);
 	ListView_DeleteAllItems(hwndList);
 
 	// Some code to create the list-view control.
 	// Initialize LVITEM members that are common to all
 	// items. 
 	lvI.mask = LVIF_TEXT;
-	i=0;
 	while(tmp)
 	{
 		TCHAR tmpAddress[25];
@@ -224,7 +220,7 @@ void fillExceptionsListView(HWND hwndDlg)
 		lvI.pszText=tmpAddress;
 		ListView_SetItem(hwndList, &lvI);
 		lvI.iSubItem=3;
-		lvI.pszText=mir_a2t(tmp->Pid?"Show":"Hide");
+		lvI.pszText=tmp->Pid? LPGENT("Show"):LPGENT("Hide");
 		ListView_SetItem(hwndList, &lvI);
 
 		tmp=tmp->next;
@@ -232,7 +228,7 @@ void fillExceptionsListView(HWND hwndDlg)
 			
 }
 //filter editor dialog box procedure opened modally from options dialog
-static int CALLBACK FilterEditProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK FilterEditProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch(message) 
 	{
@@ -305,7 +301,7 @@ static int CALLBACK FilterEditProc(HWND hWnd, UINT message, WPARAM wParam, LPARA
 }
 
 //options page on miranda called
-BOOL CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndList;
 	switch(msg)
@@ -315,19 +311,16 @@ BOOL CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			LVCOLUMN lvc={0};
 			LVITEM lvI={0};
-			char *strptr;
-			char buff[256];
-			int i=0;
+			TCHAR buff[256];
 			struct CONNECTION *tmp=connExceptions;
 			bOptionsOpen=TRUE;
 			TranslateDialogDefault(hwndDlg);//translate miranda function
-			mir_snprintf(buff,sizeof(buff),"%d.%d.%d.%d", HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
-#ifdef WIN64
-			strncat(buff,"/64",strlen("/64"));
+#ifdef _WIN64
+			mir_sntprintf(buff,SIZEOF(buff),_T("%d.%d.%d.%d/64"), HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
 #else
-			strncat(buff,"/32",strlen("/32"));
+			mir_sntprintf(buff,SIZEOF(buff),_T("%d.%d.%d.%d/32"), HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
 #endif
-			SetDlgItemText(hwndDlg, IDC_VERSION, mir_a2t(buff));
+			SetDlgItemText(hwndDlg, IDC_VERSION, buff);
 			LoadSettings();
 			//connExceptionsTmp=LoadSettingsConnections();
 			SetDlgItemInt(hwndDlg, IDC_INTERVAL , settingInterval,FALSE);
@@ -346,10 +339,10 @@ BOOL CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				hwnd = GetDlgItem(hwndDlg, IDC_FGCOLOR);
 				EnableWindow(hwnd, FALSE);
 			}
-			SendDlgItemMessage(hwndDlg, ID_ADD, BM_SETIMAGE, (WPARAM)IMAGE_ICON, ( LPARAM )LoadImage(hInst,MAKEINTRESOURCE(IDI_ICON6),IMAGE_ICON,16,16,0));
-			SendDlgItemMessage(hwndDlg, ID_DELETE, BM_SETIMAGE, (WPARAM)IMAGE_ICON, ( LPARAM )LoadImage(hInst,MAKEINTRESOURCE(IDI_ICON3),IMAGE_ICON,16,16,0));	
-			SendDlgItemMessage(hwndDlg, ID_DOWN, BM_SETIMAGE, (WPARAM)IMAGE_ICON, ( LPARAM )LoadImage(hInst,MAKEINTRESOURCE(IDI_ICON4),IMAGE_ICON,16,16,0));
-			SendDlgItemMessage(hwndDlg, ID_UP, BM_SETIMAGE, (WPARAM)IMAGE_ICON, ( LPARAM )LoadImage(hInst,MAKEINTRESOURCE(IDI_ICON5),IMAGE_ICON,16,16,0));
+			SendDlgItemMessage(hwndDlg, ID_ADD, BM_SETIMAGE, IMAGE_ICON, ( LPARAM )LoadImage(hInst,MAKEINTRESOURCE(IDI_ICON6),IMAGE_ICON,16,16,0));
+			SendDlgItemMessage(hwndDlg, ID_DELETE, BM_SETIMAGE, IMAGE_ICON, ( LPARAM )LoadImage(hInst,MAKEINTRESOURCE(IDI_ICON3),IMAGE_ICON,16,16,0));	
+			SendDlgItemMessage(hwndDlg, ID_DOWN, BM_SETIMAGE, IMAGE_ICON, ( LPARAM )LoadImage(hInst,MAKEINTRESOURCE(IDI_ICON4),IMAGE_ICON,16,16,0));
+			SendDlgItemMessage(hwndDlg, ID_UP, BM_SETIMAGE, IMAGE_ICON, ( LPARAM )LoadImage(hInst,MAKEINTRESOURCE(IDI_ICON5),IMAGE_ICON,16,16,0));
 			// initialise and fill listbox
 			hwndList = GetDlgItem(hwndDlg, IDC_STATUS);
 			ListView_DeleteAllItems(hwndList);
@@ -360,18 +353,16 @@ BOOL CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM; 
 			lvc.fmt = LVCFMT_LEFT;
 			lvc.iSubItem = 0;
-			lvc.pszText = mir_a2t(Translate("Status"));	
+			lvc.pszText = TranslateT("Status");	
 			lvc.cx = 120;     // width of column in pixels
 			ListView_InsertColumn(hwndList, 0, &lvc);
 			// Some code to create the list-view control.
 			// Initialize LVITEM members that are common to all
 			// items. 
 			lvI.mask = LVIF_TEXT;
-			for(i = 0; i < STATUS_COUNT; i++) 
+			for(int i = 0; i < STATUS_COUNT; i++) 
 			{
-				strptr = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)(ID_STATUS_ONLINE + i), (LPARAM)0);
-				//MultiByteToWideChar((int)CallService(MS_LANGPACK_GETCODEPAGE, 0, 0), 0, strptr, -1, buff, 256);
-				lvI.pszText= mir_a2t(strptr);
+				lvI.pszText= (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)(ID_STATUS_ONLINE + i), GSMDF_TCHAR);
 				lvI.iItem = i;
 				ListView_InsertItem(hwndList, &lvI);
 				ListView_SetCheckState(hwndList, i, settingStatus[i]);
@@ -386,13 +377,13 @@ BOOL CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			lvc.fmt = LVCFMT_LEFT;
 			lvc.iSubItem = 0;
 			lvc.cx = 120;     // width of column in pixels
-			lvc.pszText = mir_a2t(Translate("Application"));
+			lvc.pszText = TranslateT("Application");
 			ListView_InsertColumn(hwndList, 1, &lvc);
-			lvc.pszText = mir_a2t(Translate("Internal socket"));	
+			lvc.pszText = TranslateT("Internal socket");	
 			ListView_InsertColumn(hwndList, 2, &lvc);
-			lvc.pszText = mir_a2t(Translate("External socket"));
+			lvc.pszText = TranslateT("External socket");
 			ListView_InsertColumn(hwndList, 3, &lvc);
-			lvc.pszText = mir_a2t(Translate("Action"));
+			lvc.pszText = TranslateT("Action");
 			lvc.cx = 50;
 			ListView_InsertColumn(hwndList, 4, &lvc);
 
@@ -420,7 +411,7 @@ BOOL CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					cur->strExtIp[0]='*';
 					cur->strIntIp[0]='*';
 
-					if(DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_FILTER_DIALOG), hwndDlg, (DLGPROC)FilterEditProc, (LPARAM)cur)==IDCANCEL)
+					if(DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_FILTER_DIALOG), hwndDlg, FilterEditProc, (LPARAM)cur)==IDCANCEL)
 					{
 						mir_free(cur);
 						cur=NULL;
@@ -556,8 +547,6 @@ BOOL CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 							return TRUE;
 						case PSN_APPLY:
 						{
-							char buff[128];
-							int i=0;
 							db_set_dw (NULL, PLUGINNAME, "Interval", settingInterval );
 							db_set_dw (NULL, PLUGINNAME, "PopupInterval", settingInterval1 );
 							db_set_b(NULL, PLUGINNAME, "PopupSetColours", settingSetColours);
@@ -566,8 +555,9 @@ BOOL CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 							db_set_b(NULL, PLUGINNAME, "ResolveIp", settingResolveIp);
 							db_set_b(NULL, PLUGINNAME, "FilterDefaultAction", settingDefaultAction);
 								
-							for(i = 0; i < STATUS_COUNT ; i++) 
+							for(int i = 0; i < STATUS_COUNT ; i++) 
 							{
+								char buff[128];
 								mir_snprintf(buff,_countof(buff), "Status%d", i);
 								settingStatus[i] = (ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_STATUS), i) ? TRUE : FALSE);
 								db_set_b(0, PLUGINNAME, buff, settingStatus[i] ? 1 : 0);
@@ -607,7 +597,7 @@ BOOL CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						{
 							cur=cur->next;
 						}
-						DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_FILTER_DIALOG), hwndDlg, (DLGPROC)FilterEditProc, (LPARAM)cur);
+						DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_FILTER_DIALOG), hwndDlg, FilterEditProc, (LPARAM)cur);
 						fillExceptionsListView(hwndDlg);
 						ListView_SetItemState(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS),pos1,LVNI_FOCUSED|LVIS_SELECTED , LVNI_FOCUSED|LVIS_SELECTED );
 						SetFocus(GetDlgItem(hwndDlg,IDC_LIST_EXCEPTIONS));
@@ -644,25 +634,23 @@ BOOL CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 	return 0;
 }
 //options page on miranda called
-int ConnectionNotifyOptInit(WPARAM wParam,LPARAM lParam)
+int ConnectionNotifyOptInit(WPARAM wParam,LPARAM)
 {
 	OPTIONSDIALOGPAGE odp={0};
-	//ZeroMemory(&odp,sizeof(odp));
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DIALOG);
-	odp.ptszTitle = LPGENT(PLUGINNAME);
+	odp.ptszTitle = _T(PLUGINNAME);
 	odp.ptszGroup = LPGENT("Plugins");
 	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
-	odp.pfnDlgProc = (DLGPROC)DlgProcConnectionNotifyOpts;//callback function name
-//	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);//add page to options menu pages
+	odp.pfnDlgProc = DlgProcConnectionNotifyOpts;//callback function name
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
 
 
 //gives protocol avainable statuses
-int GetCaps(WPARAM wParam,LPARAM lParam)
+INT_PTR GetCaps(WPARAM wParam,LPARAM lParam)
 {
 	if(wParam==PFLAGNUM_1)
 		return 0;
@@ -673,14 +661,14 @@ int GetCaps(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 //gives  name to protocol module
-int GetName(WPARAM wParam,LPARAM lParam)
+INT_PTR GetName(WPARAM wParam,LPARAM lParam)
 {
 	lstrcpynA((char*)lParam,PLUGINNAME,wParam);
 	return 0;
 }
 
 //gives icon for proto module
-int TMLoadIcon(WPARAM wParam,LPARAM lParam)
+INT_PTR TMLoadIcon(WPARAM wParam,LPARAM lParam)
 {
 	UINT id;
 
@@ -695,7 +683,7 @@ int TMLoadIcon(WPARAM wParam,LPARAM lParam)
 //=======================================================
 //SetStatus
 //=======================================================
-int SetStatus(WPARAM wParam,LPARAM lParam)
+INT_PTR SetStatus(WPARAM wParam,LPARAM lParam)
 {
 	if (wParam == ID_STATUS_OFFLINE)
 	{
@@ -737,7 +725,7 @@ int SetStatus(WPARAM wParam,LPARAM lParam)
 //=======================================================
 //GetStatus
 //=======================================================
-int GetStatus(WPARAM wParam,LPARAM lParam)
+INT_PTR GetStatus(WPARAM,LPARAM)
 {
 	return currentStatus;
 	if (diffstat )
@@ -746,43 +734,6 @@ int GetStatus(WPARAM wParam,LPARAM lParam)
 		return currentStatus ;
 
 }
-/*
-void updaterRegister()
-{
-
-	Update update = {0}; // for c you'd use memset or ZeroMemory...
-	//ZeroMemory(&update,sizeof(update));
-	TCHAR buff[256];
-#ifdef _DEBUG
-	_OutputDebugString("Registering updater...");
-#endif
-	update.cbSize = sizeof(Update);
-
-	update.szComponentName = pluginInfo.shortName;
-	mir_snprintf(buff,sizeof(buff),"%d.%d.%d.%d", HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOWORD(pluginInfo.version)));
-	update.pbVersion = (BYTE*)buff;
-	update.cpbVersion = _tcslen((TCHAR *)update.pbVersion);
-
-	update.szUpdateURL=UPDATER_AUTOREGISTER;
-
-#ifdef WIN64
-	update.szBetaUpdateURL = _T("http://maciej.wycik.pl/miranda/getconnectionnotifybeta.php?dl=64");
-	update.pbBetaVersionPrefix = (BYTE *)"beta version ";
-#else
-	update.szBetaUpdateURL = _T("http://maciej.wycik.pl/miranda/getconnectionnotifybeta.php?dl=");
-	update.pbBetaVersionPrefix = (BYTE *)"beta version ";
-#endif
-	update.szBetaVersionURL  = _T("http://maciej.wycik.pl/connectionnotify.php");
-	update.cpbBetaVersionPrefix = _tcslen((TCHAR *)update.pbBetaVersionPrefix);
-	
-
-	// do the same for the beta versions of the above struct members if you wish to allow beta updates from another URL
-
-	CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
-
-	return;
-}
-*/
 
 //thread function with connections check loop
 static unsigned __stdcall checkthread(void *dummy)
@@ -825,7 +776,10 @@ static unsigned __stdcall checkthread(void *dummy)
 				if( WAIT_OBJECT_0 == WaitForSingleObject( hExceptionsMutex, 100 ) )
 				{
 					if(checkFilter(connExceptions,cur))
+					{
 						showMsg(cur->PName,cur->Pid,cur->strIntIp,cur->strExtIp,cur->intIntPort,cur->intExtPort,cur->state);
+						SkinPlaySound(PLUGINNAME_NEWSOUND);
+					}
 					ReleaseMutex(hExceptionsMutex);
 				}
 			}
@@ -841,7 +795,7 @@ static unsigned __stdcall checkthread(void *dummy)
 }
 
 //popup reactions
-static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch(message) 
 	{
@@ -849,16 +803,12 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 			{
 				if (HIWORD(wParam) == STN_CLICKED)//client clicked on popup with left mouse button
 				{
-					struct CONNECTION *conn,*mpd=NULL;
-
-					conn = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
-					mpd=(struct CONNECTION*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,(LPARAM)mpd);
+					struct CONNECTION *conn = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
+					struct CONNECTION *mpd=(struct CONNECTION*) PUGetPluginData(hWnd);
 					
 					memcpy(conn,mpd,sizeof(struct CONNECTION));
 					PUDeletePopup(hWnd);
 					PostThreadMessage(FilterOptionsThreadId,WM_ADD_FILTER,(WPARAM)0, (LPARAM)conn);
-					
-
 				}
 				break;
 			}
@@ -880,8 +830,7 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 
 		case UM_FREEPLUGINDATA: 
 			{
-				struct CONNECTION * mpd = NULL;
-				mpd = (struct CONNECTION*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,(LPARAM)mpd);
+				struct CONNECTION *mpd = (struct CONNECTION*)PUGetPluginData(hWnd);
 				if (mpd > 0) mir_free(mpd);
 				return TRUE; //TRUE or FALSE is the same, it gets ignored.
 			}
@@ -897,7 +846,6 @@ void showMsg(TCHAR *pName, DWORD pid,TCHAR *intIp,TCHAR *extIp,int intPort,int e
 {
 
 	POPUPDATAT ppd;
-	TCHAR hostName[128];
 	//hContact = A_VALID_HANDLE_YOU_GOT_FROM_SOMEWHERE;
 	//hIcon = A_VALID_HANDLE_YOU_GOT_SOMEWHERE;
 	//char * lpzContactName = (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)lhContact,0);
@@ -912,17 +860,22 @@ void showMsg(TCHAR *pName, DWORD pid,TCHAR *intIp,TCHAR *extIp,int intPort,int e
 	ppd.lchContact = NULL;//(HANDLE)hContact; //Be sure to use a GOOD handle, since this will not be checked.
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
 	if(settingResolveIp)
+	{
+		TCHAR hostName[128];
 		getDnsName(extIp,hostName);
+		mir_sntprintf(ppd.lptzText,MAX_SECONDLINE,_T("%s:%d\n%s:%d"),hostName,extPort,intIp,intPort);
+	}
+	else
+		mir_sntprintf(ppd.lptzText,MAX_SECONDLINE,_T("%s:%d\n%s:%d"),extIp,extPort,intIp,intPort);
 
-	mir_sntprintf(ppd.lpwzText,_countof(ppd.lpwzText),_T("%s:%d\n%s:%d"),(settingResolveIp?hostName:extIp),extPort,intIp,intPort);
-	mir_sntprintf(ppd.lpwzContactName,_countof(ppd.lpwzContactName),_T("%s (%s)"),pName,tcpStates[state-1]);
+	mir_sntprintf(ppd.lptzContactName,MAX_CONTACTNAME,_T("%s (%s)"),pName,tcpStates[state-1]);
 	//lstrcpy(ppd.lpzText, text);
 	if(settingSetColours)
 	{
 		ppd.colorBack = settingBgColor; 
 		ppd.colorText = settingFgColor;
 	}
-	ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
+	ppd.PluginWindowProc = PopupDlgProc;
 
 	ppd.iSeconds=settingInterval1;
 	//Now the "additional" data.
@@ -940,7 +893,6 @@ void showMsg(TCHAR *pName, DWORD pid,TCHAR *intIp,TCHAR *extIp,int intPort,int e
 	ppd.PluginData = mpd;
 
 	//Now that every field has been filled, we want to see the popup.
-	//CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);
 	PUAddPopupT(&ppd);
 }
 
@@ -948,7 +900,7 @@ void showMsg(TCHAR *pName, DWORD pid,TCHAR *intIp,TCHAR *extIp,int intPort,int e
 
 //called after all plugins loaded.
 //all Connection staff will be called, that will not hang miranda on startup
-static int modulesloaded(WPARAM wParam,LPARAM lParam)
+static int modulesloaded(WPARAM,LPARAM)
 {
 	
 #ifdef _DEBUG
@@ -966,9 +918,8 @@ static int modulesloaded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 //function hooks before unload
-static int preshutdown(WPARAM wParam,LPARAM lParam)
+static int preshutdown(WPARAM,LPARAM)
 {
-
 	deleteConnectionsTable(first);
 	deleteConnectionsTable(connExceptions);
 	deleteConnectionsTable(connExceptionsTmp);
@@ -1008,23 +959,22 @@ extern "C" int __declspec(dllexport) Load(void)
 	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);
 	//set all contacts to offline
 
-	for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
-		if(!lstrcmpA(PLUGINNAME,(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0)))
-			db_set_w(hContact,PLUGINNAME,"status",ID_STATUS_OFFLINE);
+	for (HANDLE hContact = db_find_first(PLUGINNAME); hContact != NULL; hContact = db_find_next(hContact,PLUGINNAME))
+		db_set_w(hContact,PLUGINNAME,"status",ID_STATUS_OFFLINE);
 
 	mir_snprintf(service,sizeof(service), "%s%s", PLUGINNAME, PS_GETCAPS);
-	CreateServiceFunction(service, (MIRANDASERVICE)GetCaps);
+	CreateServiceFunction(service, GetCaps);
 	mir_snprintf(service,sizeof(service), "%s%s", PLUGINNAME, PS_GETNAME);
-	CreateServiceFunction(service, (MIRANDASERVICE)GetName);
+	CreateServiceFunction(service, GetName);
 	mir_snprintf(service,sizeof(service), "%s%s", PLUGINNAME, PS_LOADICON);
-	CreateServiceFunction(service, (MIRANDASERVICE)TMLoadIcon);
+	CreateServiceFunction(service, TMLoadIcon);
 	mir_snprintf(service,sizeof(service), "%s%s", PLUGINNAME, PS_SETSTATUS);
-	CreateServiceFunction(service, (MIRANDASERVICE)SetStatus);
+	CreateServiceFunction(service, SetStatus);
 	mir_snprintf(service,sizeof(service), "%s%s", PLUGINNAME, PS_GETSTATUS);
-	CreateServiceFunction(service, (MIRANDASERVICE)GetStatus);
+	CreateServiceFunction(service, GetStatus);
 
 
-	SkinAddNewSound(PLUGINNAME,Translate("ConnectionNotify: New Connection Notification"),NULL);
+	SkinAddNewSoundEx(PLUGINNAME_NEWSOUND,PLUGINNAME, LPGEN("New Connection Notification"));
 	hOptInit = HookEvent(ME_OPT_INITIALISE, ConnectionNotifyOptInit);//register service to hook option call
 	assert(hOptInit);
 	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, modulesloaded);//hook event that all plugins are loaded

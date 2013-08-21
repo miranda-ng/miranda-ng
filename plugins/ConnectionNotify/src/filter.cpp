@@ -19,7 +19,7 @@ extern BOOL settingDefaultAction;
 extern HANDLE hExceptionsMutex;
 extern BOOL bOptionsOpen;
 static unsigned __stdcall filterQueue(void *dummy);
-static int CALLBACK ConnectionFilterEditProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+static INT_PTR CALLBACK ConnectionFilterEditProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 HANDLE startFilterThread()
 {
@@ -36,8 +36,7 @@ static unsigned __stdcall filterQueue(void *dummy)
 		if(msg.message==WM_ADD_FILTER )
 		{
 			struct CONNECTION *conn=(struct CONNECTION *)msg.lParam;
-			filterAddDlg=CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILTER_DIALOG), NULL , (DLGPROC)ConnectionFilterEditProc,(LPARAM)conn);
-					//SetWindowLongPtr( GetDlgItem(filterAddDlg, ID_TXT_LOCAL_IP), GWL_WNDPROC, (LONG)ConnectionFilterEditProc );
+			filterAddDlg=CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILTER_DIALOG), NULL, ConnectionFilterEditProc,(LPARAM)conn);
 			ShowWindow(filterAddDlg,SW_SHOW);
 
 		}
@@ -51,7 +50,7 @@ static unsigned __stdcall filterQueue(void *dummy)
 	return TRUE;
 }
 
-static int CALLBACK ConnectionFilterEditProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK ConnectionFilterEditProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch(message) 
 	{

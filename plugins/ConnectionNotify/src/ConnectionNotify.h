@@ -8,7 +8,6 @@
 #include <m_core.h>
 #include <m_clist.h>
 #include <m_skin.h>
-#include <m_database.h>
 #include <m_langpack.h>
 #include <m_options.h>
 #include <m_popup.h>
@@ -30,6 +29,8 @@
 #define PLUGINNAME "ConnectionNotify"
 #define MAX_LENGTH 512
 #define STATUS_COUNT 9
+
+#define PLUGINNAME_NEWSOUND PLUGINNAME "_new_sound"
 
 #if !defined(MIID_CONNECTIONNOTIFY)
 	#define MIID_CONNECTIONNOTIFY  {0x4bb5b4aa, 0xc364, 0x4f23, { 0x97, 0x46, 0xd5, 0xb7, 0x8, 0xa2, 0x86, 0xa5 } }
