@@ -430,8 +430,10 @@ int SplitmsgShutdown(void)
 	DestroyCursor(PluginConfig.hCurHyperlinkHand);
 	DestroyCursor(PluginConfig.hCurSplitWE);
 	FreeLibrary(GetModuleHandleA("riched20"));
-	if (g_hIconDLL)
+	if (g_hIconDLL) {
 		FreeLibrary(g_hIconDLL);
+		g_hIconDLL = NULL;
+	}
 
 	ImageList_RemoveAll(PluginConfig.g_hImageList);
 	ImageList_Destroy(PluginConfig.g_hImageList);
@@ -453,11 +455,6 @@ int SplitmsgShutdown(void)
 		mir_free(Utils::rtf_ctable);
 
 	UnloadTSButtonModule();
-
-	if (g_hIconDLL) {
-		FreeLibrary(g_hIconDLL);
-		g_hIconDLL = 0;
-	}
 	return 0;
 }
 
