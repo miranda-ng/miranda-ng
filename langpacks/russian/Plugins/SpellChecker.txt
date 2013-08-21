@@ -53,10 +53,10 @@
 Значок с флагом (ICO)
 [Flags DLL]
 Библиотека с флагами (DLL)
-[ Spell Checker\s]
- Проверка орфографии\s
-[ Advanced\s]
- Дополнительно\s
+[ Spell Checker ]
+Проверка орфографии
+[ Advanced ]
+Дополнительно
 [Always replace with]
 Всегда заменять на
 [Add to dictionary]

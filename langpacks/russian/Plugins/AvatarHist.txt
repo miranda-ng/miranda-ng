@@ -13,16 +13,16 @@
 История аватаров
 [View Avatar History]
 Показать историю аватаров
-[ Logging options\s]
- Настройка журнала\s
+[ Logging options ]
+ Настройка журнала 
 [Store old avatars on disk]
 Хранить старые аватары на диске
 [Also create per contact folders with shortcuts]
 Также поконтактно создавать папки с ярлыками
 [Log avatar changes to history]
 Записывать изменения аватаров в историю
-[ History templates\s]
- Шаблоны сообщений\s
+[ History templates ]
+ Шаблоны сообщений 
 [Avatar change:]
 Смена аватара:
 [Track when contacts remove their avatars too]

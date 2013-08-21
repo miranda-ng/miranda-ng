@@ -3,14 +3,14 @@
 ;============================================================
 [-1 = Infinite]
 -1=Бесконечно
-[ Actions\s]
- Действия\s
-[ Colours\s]
- Цвета\s
-[ Delay\s]
- Задержка\s
-[ Protocols\s]
- Протоколы\s
+[ Actions ]
+ Действия
+[ Colours ]
+ Цвета
+[ Delay ]
+ Задержка
+[ Protocols ]
+ Протоколы
 [%d Files]
 %d файлов
 [%s Custom Status]
@@ -1995,8 +1995,8 @@ ID пользователя:
 Примечание: если вы не видите значки, поменяйте слот. Может быть он уже используется другим плагином.
 [Number of backups to keep:]
 Количество резервных копий:
-[ Track\s]
- Отслеживание\s
+[ Track ]
+ Отслеживание 
 [Protect the picture and prevent automatic avatars from overwriting it]
 Защитить изображение и не позволять аватарам его заменять
 [Protect the picture]
@@ -2039,8 +2039,8 @@ ID пользователя:
 Настройки изображения
 [Use defaults]
 Стандартные
-[ Options\s]
-Параметры\s
+[ Options ]
+Параметры
 [Points:]
 Точки:
 [Color diff:]
@@ -2313,8 +2313,8 @@ ID пользователя:
 %s вышел (%s)
 [Custom1]
 Набор 1
-[Notice from %s:\s]
-Уведомление от %s:\s
+[Notice from %s: ]
+Уведомление от %s: 
 [Show these events only:]
 Показывать только:
 [%s: Server]
@@ -2809,8 +2809,8 @@ ID пользователя
 Бегунок
 [Tool Bar]
 Панель инструментов
-[ Tracking\s]
- Уведомление\s
+[ Tracking ]
+ Уведомление
 [Log Status Message changes]
 Сохранять смены статусного сообщения
 [Don't log Nickname changes]
@@ -3213,8 +3213,8 @@ Web Дизайн
 Основные настройки
 [Search for:]
 Найти:
-[ Contacts\s]
- Контакты\s
+[ Contacts ]
+ Контакты 
 [album]
 альбом
 [genre]
@@ -3371,8 +3371,8 @@ Web Дизайн
 Основные настройки
 [Read status message]
 Читать статусное сообщение
-[Can't open log file\s]
-Невозможно открыть файл журнала\s
+[Can't open log file ]
+Невозможно открыть файл журнала
 [Error #%d]
 Ошибка #%d
 [&Variables]

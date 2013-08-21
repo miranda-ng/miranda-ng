@@ -86,8 +86,8 @@ Id
 Отправка в оффлайн
 [Remove from MetaContact]
 Удалить из метаконтакта
-[MetaId:\s]
-MetaId:\s
+[MetaId: ]
+MetaId: 
 [MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
 Метаконтакт поврежден - неверное количество субконтактов.\nУдаляю метаконтакт.
 [Context]

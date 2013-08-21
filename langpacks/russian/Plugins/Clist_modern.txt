@@ -144,8 +144,8 @@
 
 ;Панель статуса
 
-[Space between\s]
-Расстояние между\s
+[Space between ]
+Расстояние между
 [Borders]
 Границы
 [Horizontal Align]

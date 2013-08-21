@@ -503,8 +503,8 @@ xСтатус
 Вначале сортировать по
 [Right align]
 Выравнивать по правому краю
-[Use per protocol/contact skinning\s]
-Использовать скины для отдельных протоколов/контактов\s
+[Use per protocol/contact skinning ]
+Использовать скины для отдельных протоколов/контактов
 [Connecting Icons]
 Значки соединения
 [Overlay Icons]

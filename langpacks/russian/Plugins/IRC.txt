@@ -113,12 +113,12 @@ Jerk
 Введите ответ
 [Please complete all fields]
 Заполните все поля
-[<Resolved IP:\s]
-<Определённые IP:\s
+[<Resolved IP: ]
+<Определённые IP>
 [<Automatic>]
 <Автоматически>
-[<Local IP:\s]
-<Локальный IP:\s
+[<Local IP: ]
+<Локальный IP:>
 [Click to set commands that will be performed for this event]
 Кликните для установки команд обработки этого события
 [Click to delete the commands for this event]
@@ -149,20 +149,20 @@ DCC & CTCP %s
 Входящий DCC-чат
 [Logo (48x48)]
 Лого (48x48)
-[WallOps from %s:\s]
-WallOps от %s:\s
+[WallOps from %s: ]
+WallOps от %s:
 [%s is away]
 %s отсутствует...
 [%s invites you to %s]
 %s приглашает вас на %s
-[These are online:\s]
-В сети:\s
+[These are online: ]
+В сети:
 [CTCP %s reply sent to %s]
 СТСР %s ответ послан для %s
 [CTCP %s reply sent to %s: %s]
 СТСР %s ответ послан для %s: %s
-[Notice to %s:\s]
-Уведомление для %s:\s
+[Notice to %s: ]
+Уведомление для %s:
 [&Quick connect]
 &Быстрый коннект
 [&Join a channel]
@@ -679,8 +679,8 @@ Nickserv убить фантома
 %s уже не игнорируется
 [%s is now ignored]
 %s игнорируется.
-[Automatically accept chat requests from...\s]
-Автоматически принимать запросы на чат от...\s
+[Automatically accept chat requests from... ]
+Автоматически принимать запросы на чат от...
 [%s Ignore]
 %s Игнор
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]

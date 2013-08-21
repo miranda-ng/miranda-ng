@@ -80,8 +80,8 @@
 Передача Miranda указанной команды на выполнение. Команды могут иметь или не иметь аргумент(ы). Используйте '%s help' для получения списка доступных команд.\n
 [%s The port or the proxy type parameter is invalid.]
 %s Порт или тип прокси неправильный.
-[Available commands:\s]
-Доступные команды:\s
+[Available commands: ]
+Доступные команды: 
 [Contact '%s' has '%d' events in history.]
 Контакт '%s' имеет '%d' событий в истории.
 [YAMN plugin is not running.]

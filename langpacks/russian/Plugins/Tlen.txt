@@ -115,8 +115,8 @@ Tlen приглашение голосового чата
 Сохр. увед. как сооб.
 [Ignore alerts from unauthorized contacts]
 Игнорировать уведомления от неавторизованных контактов
-[You have been kicked. Reason: %s\s]
-Вас выкинули. Причина: %s\s
+[You have been kicked. Reason: %s ]
+Вас выкинули. Причина: %s
 [P2P Connections]
 P2P Подключения
 [Enable Always Visible and Never Visible]

@@ -796,8 +796,8 @@ Nсход. присутствие
 Если JID  '
 [If subscription is ']
 Если подписка  '
-[ and\s]
- и\s
+[ and ]
+ и
 [Other JID:]
 Другой JID:
 [Active privacy list successfully declined]
@@ -816,8 +816,8 @@ Nсход. присутствие
  (активный)
 [ (default)]
  (основной)
-[ (nickname:\s]
- (ник:\s
+[ (nickname: ]
+ (ник:
 [all.]
 всё.
 [New privacy list name:]

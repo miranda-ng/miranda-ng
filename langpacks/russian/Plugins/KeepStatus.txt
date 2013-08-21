@@ -163,8 +163,8 @@ Dial-Up (прочтите keepstatus.txt)
 Начальная задержка
 [Max. delay (seconds)]
 Задержка (секунд)
-[minutes of\s]
-минут от\s
+[minutes of ]
+минут от
 [Basic]
 Основные
 [Timers]
