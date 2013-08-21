@@ -1192,7 +1192,6 @@ static wchar_t* warnings[] = {
 CWarning::CWarning(const wchar_t *tszTitle, const wchar_t *tszText, const UINT uId, const DWORD dwFlags) :
 	m_szTitle( mir_wstrdup(tszTitle)),
 	m_szText( mir_wstrdup(tszText))
-
 {
 	m_uId = uId;
 	m_hFontCaption = 0;
@@ -1203,15 +1202,8 @@ CWarning::CWarning(const wchar_t *tszTitle, const wchar_t *tszText, const UINT u
 
 CWarning::~CWarning()
 {
-	delete m_szText;
-	delete m_szTitle;
-
 	if (m_hFontCaption)
 		::DeleteObject(m_hFontCaption);
-
-#if defined(__LOGDEBUG_)
-	_DebugTraceW(L"destroy object");
-#endif
 }
 
 LRESULT CWarning::ShowDialog() const
@@ -1220,10 +1212,8 @@ LRESULT CWarning::ShowDialog() const
 		::CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_WARNING), 0, stubDlgProc, reinterpret_cast<LPARAM>(this));
 		return 0;
 	}
-	else {
-		LRESULT res = ::DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_WARNING), 0, stubDlgProc, reinterpret_cast<LPARAM>(this));
-		return(res);
-	}
+
+	return ::DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_WARNING), 0, stubDlgProc, reinterpret_cast<LPARAM>(this));
 }
 
 __int64 CWarning::getMask()
@@ -1234,7 +1224,6 @@ __int64 CWarning::getMask()
 	DWORD	dwHigh = M.GetDword("cWarningsH", 0);
 
 	mask = ((((__int64)dwHigh) << 32) & 0xffffffff00000000) | dwLow;
-
 	return(mask);
 }
 
