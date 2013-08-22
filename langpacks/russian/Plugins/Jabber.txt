@@ -223,7 +223,7 @@ TLS
 [Accept only in band incoming filetransfers (don't disclose own IP)]
 Разрешать передачу файлов только внутри потока (не раскрывать свой IP)
 [Accept HTTP Authentication requests (XEP-0070)]
-Принимать запросы аутентификации HTTP  (XEP-0070)
+Принимать запросы аутентификации HTTP (XEP-0070)
 [Jabber Activity]
 Занятие Jabber
 [Jabber Mood]

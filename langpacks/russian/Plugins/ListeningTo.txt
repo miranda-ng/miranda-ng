@@ -66,7 +66,7 @@
 [Other Variables:]
 Остальные переменные:
 [%listening% - Listening to info (as set above)]
-%listening% -  преднастроенная выше информация
+%listening% - преднастроенная выше информация
 [When nothing is playing, replace %listening% with:]
 Когда ничего не играет, писать:
 [Players]

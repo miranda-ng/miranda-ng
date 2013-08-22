@@ -81,8 +81,10 @@ Pounce отослан %s за %d секунд
 Окно подтверждения
 [Show Delivery Messages]
 Показ. доставл. сообщения
-[Default Settings        These settings are also used when sending a "Simple" pounce]
-Стандартные настройки    Эти настройки также используются для "простых" отлож.сообщений
+[Default Settings]
+Стандартные настройки
+[These settings are also used when sending a "Simple" pounce]
+Эти настройки также используются для "простых" отлож.сообщений
 [Buddy Pounce]
 Отложенное сообщение
 [Reuse Pounce]

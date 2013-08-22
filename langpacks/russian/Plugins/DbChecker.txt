@@ -39,7 +39,7 @@
 [Can't create file mapping (%u)]
 Не могу создать файл карты (%u)
 [Can't create map view of file (%u)]
-Не могу создать карту файла  (%u)
+Не могу создать карту файла (%u)
 [Can't create output file (%u)]
 Невозможно создать файл на выходе (%u)
 [Can't write to output file - disk full? (%u)]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PackUpdater.dll
 ;  Module: PackUpdater
-;  Versions: 	0.0.6
+;  Versions: 0.0.6
 ;============================================================
 [Simple updater for Miranda NG premodified packs.]
 Простой плагин для обновлений сборок Miranda NG.

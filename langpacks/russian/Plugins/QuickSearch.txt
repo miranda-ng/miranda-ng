@@ -1,4 +1,4 @@
-﻿#muuid  {e4058506-6494-4d60-9cf4-40bf545f78bd}
+﻿#muuid {e4058506-6494-4d60-9cf4-40bf545f78bd}
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Module: Quick Search, Quick Search Mod
@@ -36,7 +36,7 @@ lParam тип:
 [Quick search]
 Поиск по списку
 [Search on:]
-Искать в  
+Искать в:
 [Quick Search:]
 Быстрый поиск:
 [UID:]
@@ -136,7 +136,7 @@ Cохранить
 [Item in Main Menu]
 Пункт в главном меню
 [Button on TopToolBar]
-Кнопка в  Панели кнопок
+Кнопка в Панели кнопок
 [Tool Window Style]
 Окно в стиле панели
 [Global scope hotkey]
@@ -206,7 +206,7 @@ CSV с заголовками
 [ users found (]
  пользователей найдено (
 [) Online: ]
-) В сети:  
+) В сети: 
 [Colorize]
 Добавить цвет
 [Metacontact]

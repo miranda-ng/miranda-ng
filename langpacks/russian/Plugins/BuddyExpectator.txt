@@ -93,8 +93,6 @@
 Последнее введённое сообщение
 [Last seen online]
 Последний раз в сети
-[Note: in additional you may specify any sound  on 'Sounds' panel]
-Дополнительно вы можете настроить звуки в панели "Звуки"
 [Notify after an absence of ]
 Напоминать после 
 [On event action (double click):]

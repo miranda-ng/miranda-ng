@@ -436,18 +436,18 @@ RTL шаблоны
 Темы tabSRMM
 [Send typing notifications to the following users when you are typing a message to the them:]
 Посылать уведомления набора указанным контактам в то время, когда вы набираете им сообщение:
-[          Show typing notifications in the message window]
-        Показывать уведомление о наборе в окне сообщений
+[        Show typing notifications in the message window]
+       Показывать уведомление о наборе в окне сообщений
 [Flash window once on typing events (only if flashing enabled)]
 Мигать один раз (если мигание включено)
-[          Show typing notifications in the contact list and tray]
-        Показывать уведомление о наборе в списке контактов и трее
+[        Show typing notifications in the contact list and tray]
+       Показывать уведомление о наборе в списке контактов и трее
 [Show typing notification when message dialog is open]
 Уведомлять о наборе текста, когда окно беседы открыто
 [Show balloon tooltip in the system tray]
 Показывать подсказки в трее
-[          Show popups when a user is typing]
-        Всплывающие окна, когда пользователь набирает текст
+[        Show popups when a user is typing]
+       Всплывающие окна, когда пользователь набирает текст
 [Always, but no popup when window is focused]
 Всегда, но не показывать когда окно в фокусе
 [Only when no message window is open]
@@ -1495,7 +1495,7 @@ ID пользователя в панели статуса
 [You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
 Вы собираетесь изменить состояние одного или нескольких элементов в очереди отправки. Требуемое действие(я) будет выполнено при следующей запланированной обработке очереди. Это действие не может быть отменено.
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
-Шаблоны сброшены. Пожалуйста, закройте и откройте снова все окна сообщений.  Это окно сейчас будет закрыто.
+Шаблоны сброшены. Пожалуйста, закройте и откройте снова все окна сообщений. Это окно сейчас будет закрыто.
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Удаление всех шаблонов и сброс на шаблоны по умолчанию. Вы уверены, что хотите этого?
 [There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]

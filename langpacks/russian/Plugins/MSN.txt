@@ -161,7 +161,7 @@ MSN уведомление
 [Manually specify host/port]
 Указывать хост/порт
 [Message is too long: SMS page limited to 133 UTF8 chars]
-Слишком большое сообщение, максимум 133  символа UTF8
+Слишком большое сообщение, максимум 133 символа UTF8
 [You cannot send message to yourself]
 Вы не можете посылать сообщения самому себе
 [Chat session dropped due to inactivity]

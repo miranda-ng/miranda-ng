@@ -3,7 +3,7 @@
 ;  Module: XFire protocol
 ;  Versions: 0.1.5.3
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3701
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3741  (icons)
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3741 (icons)
 ;============================================================
 [Xfire protocol support for Miranda NG.]
 Поддержка протокола XFire в Miranda NG.
@@ -36,7 +36,7 @@
 [Enable server IP/Port detection]
 Включить обнаружение сервера IP/Port
 [Enable TeamSpeak2/Ventrilo detection]
-Включить обнаружение  TeamSpeak2/Ventrilo
+Включить обнаружение TeamSpeak2/Ventrilo
 [Scan for games on every Miranda start]
 Искать игры при запуске Miranda
 [Use TSRemote.dll to get teamspeak server info]

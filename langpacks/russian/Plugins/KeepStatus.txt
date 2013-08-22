@@ -132,7 +132,7 @@ KeepStatus: отмена из-за ошибки (%s)
 [KeepStatus: connection lost! (%s)]
 KeepStatus: подключение потеряно! (%s)
 [KeepStatus: connection lost! (continuesly check)]
-KeepStatus:  подключение потеряно! (постоянная проверка)
+KeepStatus: подключение потеряно! (постоянная проверка)
 [KeepStatus: connection state change]
 KeepStatus: состояние подключения изменилось
 [KeepStatus: Enable/Disable checking]

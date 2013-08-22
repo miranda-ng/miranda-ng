@@ -5,7 +5,6 @@
 ;  Versions: 1.0.0.2
 ;  URL: http://code.google.com/p/alfamar/
 ;============================================================
-
 [Simple Auto Replier.]
 Простой автоответчик.
 [Simple Auto Replier]

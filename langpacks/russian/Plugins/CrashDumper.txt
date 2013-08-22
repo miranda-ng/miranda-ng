@@ -76,8 +76,6 @@ HTTP подключение Crash Dumper
 Открыть miranda-vi.org
 [Use classic dates]
 Классический формат времени и даты
-[Caution: Do not enable this option unless there is no other way you can  get a crash report When in use you will get much more crash reports then you expect or need to worry about]
-Предупреждение: Включайте эту опцию только тогда, когда нет другого способа получить отчёт об ошибке. Вы получите на много больше отчётов об ошибках чем ожидали или о которых нужно беспокоится.
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
 Miranda NG была завершена аварийно. Отчёт сохранен в \n %s\n\n Хотите ли вы сохранить его в буфер обмена?
 [Disable Crash Reporting]

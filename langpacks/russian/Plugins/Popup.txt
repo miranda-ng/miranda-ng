@@ -5,6 +5,8 @@
 ;  Versions: 1.0.2.1-2.1.1.6
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3400
 ;============================================================
+[Provides popup notification services for different plugins.]
+Предоставляет сервис всплывающих окон для различных плагинов.
 [Popup Mode: Auto]
 Режим всплывающих окон: по умолчанию
 [Popup Mode: Favourtite]
@@ -421,8 +423,6 @@ BBCode ([b]..[/b] - жирный)
 Значки и подписи снизу
 [One more action]
 Еще действие
-[Provides popup notification services for different plugins.]
-Предоставляет сервис всплывающих окон для различных плагинов.
 [Pin popup]
 Закрепить
 [This is an error message]
@@ -507,8 +507,6 @@ BBCode ([b]..[/b] - жирный)
 Классы Popup:
 [Popup Interoperability]
 Совместимые всплывающие окна
-[Provides a common Popup interface for different plugins. Development of famous Popup seems to be stopped so this is an update for  Luca Santarelli`s Popup. Now it supports wrapping and emoticons ;). But this is just alpha-version and so contains lots of bugs :(]
-Предоставляет интерфейс всплывающих окон для различных плагинов. Развитие известного плагина Popup будет остановлено. Это обновление от Luca Santarelli . Теперь плагин поддерживает перенос и дополнительные значки. Это альфа версия и поэтому содержит в себе много ошибок.
 [Reload skins]
 Обновить список
 [Using SmileyAdd's settings is preferred due to bugs in internal MSL loading code. Also it allows you to select the same emoticons both for Popup and message dialog.]
@@ -523,8 +521,6 @@ SmileyAdd предпочтительней из-за дефектов во вн�
 Выравнивать аватар справа
 [Black background]
 Чёрный фон
-[Here you are! :-)  ;-)  :-(]
-Вот они! :-) ;-) :-(
 [Quick reply]
 Быстрый ответ
 [Show clock]

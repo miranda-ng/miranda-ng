@@ -43,7 +43,7 @@
 [&Read Blog]
 Блог
 [View Video]
-Посмотреть  видео
+Посмотреть видео
 [Answers]
 Ответы
 [World]
@@ -338,7 +338,7 @@ MraFilesQueueConnectionReceived: входящее подключение при�
 [MRA Avatars plugin connections]
 MRA подключение для аватаров
 [MRA Avatars]
-MRA Аватары   
+MRA Аватары
 [MRA plugin connections]
 MRA подключение
 [AvatarsPath]

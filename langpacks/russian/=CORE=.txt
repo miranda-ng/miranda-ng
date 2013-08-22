@@ -338,7 +338,7 @@ ANSI плагин
 [Can't find a contact list plugin! You need StdClist or any other clist plugin.]
 Не найден плагин списка контактов! Вам нужен StdClist или clist_*.dll плагин.
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
-Не найден плагин окна диалога. Пожалуйста установите/задействуйте один из подобных плагиноа, например  "StdMsg.dll"
+Не найден плагин окна диалога. Пожалуйста установите/задействуйте один из подобных плагиноа, например "StdMsg.dll"
 [Cancel Change]
 Откатить изменения
 [Cancel Import]
@@ -1026,7 +1026,7 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 [Remove]
 Удалить
 [Rename (append " (1)", etc.)]
-Дописать "(1)" и т. д.
+Дописать "(1)" и т.д.
 [Rename Group]
 Переименовать группу
 [Rename]
@@ -1050,7 +1050,7 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 [Run now]
 Зап. сейчас
 [Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
-Запустить программу при запуске (например, tail -f, dbgview, etc):
+Запустить программу при запуске (например, tail -f, dbgview и т.д.):
 [Running plugin]
 Запущенный плагин
 [Sample]
@@ -1207,7 +1207,7 @@ Cлужба:
 Импорт завершен из
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 Телефон должен начинаться с + и состоять только из цифр, пробелов, скобок и тире.
-[The profile '%s' already exists. Do you want to move it to the Recycle Bin? \n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
+[The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Профиль '%s" уже существует. Хотите переместить его в корзину?\n\nВНИМАНИЕ: Профиль будет удалён, если корзина отключена\nВНИМАНИЕ: Профиль может содержать конфиденциальную информацию и должен быть правильно удалён.
 [The profile already exists]
 Профиль уже существует

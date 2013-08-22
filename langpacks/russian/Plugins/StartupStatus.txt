@@ -1,8 +1,9 @@
 ﻿#muuid {4b733944-5a70-4b52-ab2d-68b1ef38ffe8}
 ;============================================================
-;  File: startupstatus.dll
-;  Module: StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.
-;  Versions: 0.0.0.36
+;  File: StartupStatus.dll
+;  Plugin: StartupStatus
+;  Version: 0.8.0.45
+;  Authors: P Boon
 ;============================================================
 [<last>]
 <последний>

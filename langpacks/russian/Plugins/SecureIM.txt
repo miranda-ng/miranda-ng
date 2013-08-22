@@ -117,8 +117,6 @@ UIN/E-mail/JID/Компьютер
 Длительность
 [Time in Seconds]
 Время (с)
-[You should select the value that identify each user of the protocol you choose as unique.\nFor exemple ICQ unique value is UIN and MSN unique value is e-mail ...\n\nYou  must restart miranda to apply the changes.]
-Вы должны выбрать поле, которое идентифицирует пользователя для данного протокола.\nНапример, в ICQ уникальным полем является UIN, а в MSN это e-mail ...\n\nДля вступления изменений в силу вы должны перезапустить Miranda.
 [Add Protocol/Value]
 Добавить протокол
 [Delete enabled Protocol]

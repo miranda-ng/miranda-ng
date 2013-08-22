@@ -303,12 +303,12 @@ INI файл погоды для этой станции не найден (20)
 <Ошибка>
 [Fahrenheit]
 Фаренгейт
-[The URL for complete forcast have not been set.  You can set it from the Edit Settings dialog.]
+[The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
 Не указан URL для полного прогноза погоды. Вы можете указать его в меню Настройки.
-[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
+[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
 Не указан URL для карты погоды. Вы можете указать его в меню Настройки.
 [Open URLs in new browser window]
-Открывать ссылки в новом окне       
+Открывать ссылки в новом окне
 [Units]
 Единицы
 [Temperature]

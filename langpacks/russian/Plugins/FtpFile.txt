@@ -38,7 +38,7 @@
 [Error writing remote file file %s]
 Ошибка записи удалённого файла %s
 [Error reading local file %s (%d)\nIgnoring this file...]
-Ошибка чтения локального файла %s (%d)\nИгнорировать этот файл ...  
+Ошибка чтения локального файла %s (%d)\nФайл проигнорирован...
 [%s\nsent bytes (%d) didn't match filesize (%d)]
 %s\nотправлено бит (%d) не соответствует размеру файла (%d)
 [FtpCommand error]

@@ -36,7 +36,7 @@ AIM Опции
 [Disable Extended Status Icons]
 Откл. расширенные значки статуса
 [Do Not Autoreply When Away]
-Не отвечать авт. когда  Отсутствую
+Не отвечать авт. когда Отсутствую
 [File Transfer Grace Period:]
 Период ожидания передачи:
 [Force Proxy File Transfers]
@@ -141,8 +141,6 @@ AIM Предупреждение
 %s - AIM чат, %d участников
 [%s (%s) changed status to %s.]
 %s (%s) меняет статус на %s.
-[%s is currently offline.  Please try again later when the user is online.]
-%s сейчас отключён. Попробуйте позже.
 [&Add User to List...]
 Добавить в список...
 [&Leave Channel]
@@ -181,8 +179,8 @@ AIM Предупреждение
 Все сообщения сброшены. Вы превысили ограничение скорости сервера.
 [Administrator]
 Администратор
-[An unknown signon error has occurred.  Please try again later.]
-Неизвестная ошибка. Попробуйте еще раз позже.
+[Unknown error occured when attempting to connect]
+Неизвестная ошибка при соединении
 [Anonymous]
 Анонимно
 [AOL has reported that you have been warned by another user.]
@@ -237,8 +235,6 @@ AOL® Логин
 Игнорировать запросы
 [Import extra contacts from the server list on next login]
 Импортировать контакты с сервера со следующим логином
-[Incorrect nickname or password.  Please change your login details and try again.]
-Имя или пароль неверны. Измените настройки и попробуйте снова.
 [Invite to Group Chat...]
 Пригласить в чат...
 [Join me in this chat.]
@@ -315,8 +311,8 @@ AOL® Логин
 Синхронизировать список с сервером
 [Sync Buddy with Server-side list]
 Синхронизировать с сервером
-[The service is temporarily unavailable.  Please try again later.]
-Сервис временно не доступен. Попробуйте позже.
+[Service temporarily unavailable.]
+Сервис временно недоступен.
 [Unable to add buddy or group. You may have the max allowed buddies or groups or are trying to add a buddy to a group that doesn't exist and cannot be created.]
 Невозможно добавить контакт или группу. Возможно, вы достигли максимума контактов или групп, либо вы пытаетесь добавить контакт в несуществующую группу, которую нельзя создать.
 [Unconfirmed AOL User]
@@ -345,9 +341,9 @@ AOL® Логин
 Беспроводной AOL пользователь
 [Wireless User]
 Беспроводной пользователь
-[You are sending messages too fast.  Some messages may have been dropped.]
+[You are sending messages too fast. Some messages may have been dropped.]
 Вы отправляете сообщения слишком быстро. Некоторые из них могут быть отброшены.
-[You have been connecting and disconnecting too frequently.  Wait 10 minutes and try again.  If you continue to try, you will need to wait even longer.]
+[You have been connecting and disconnecting too frequently. Wait 10 minutes and try again. If you continue to try, you will need to wait even longer.]
 Вы переподключаетесь слишком часто. Подождите 10 минут и попробуйте снова. Если вы продолжите попытки, придется ждать дольше.
 [You have been invited to the following chat:]
 Вас пригласили в чат:
@@ -357,11 +353,11 @@ AOL® Логин
 Вы пропустили слишком быстро посланное сообщение.
 [You missed a message because it was too big.]
 Вы пропустили слишком большое сообщение
-[You were warned by %s.  Your new warning level is %d%%.]
-Вы предупреждены %s. ваш уровень предупреждений %d%%.
+[You were warned by %s. Your new warning level is %d%%.]
+Вы предупреждены %s. Ваш уровень предупреждений %d%%.
 [Your warning level has been changed to %d%%.]
 Ваш уровень предупреждений сменился на %d%%.
-[Your warning level is currently too high to sign on.  Please try again later.]
+[Your warning level is currently too high to sign on. Please try again later.]
 Ваш уровень предупреждений слишком высок. Попробуйте позже.
 [AIM Group Chats (%d)]
 AIM Групповые чаты (%d)

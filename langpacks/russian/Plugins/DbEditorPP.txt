@@ -316,8 +316,6 @@ HANDLE
 Найдено в настройке "%s" в модуле "%s" в контакте "%s"
 [Database &Editor]
 &Редактор базы данных
-[Database Editor++               LOADING...]
-Редактор базы данных загружается...
 [Database Editor++ Find Dialog]
 Редактор базы: Поиск
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]

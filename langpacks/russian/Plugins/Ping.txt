@@ -1,5 +1,12 @@
 ﻿#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
-;langpack template for Ping
+;============================================================
+;  File: Ping.dll
+;  Plugin: Ping
+;  Version: 0.9.1.1
+;  Authors: Scott Ellis
+;============================================================
+[Ping labelled IP addresses or domain names.]
+Пингует IP адрес или доменное имя.
 ;file \plugins\Ping\res\ping.rc
 [Delay between pings (secs):]
 Задержка между пингами (сек):
@@ -156,5 +163,3 @@ TCP соединение
 Тестирование
 [Disabled]
 Выключен
-[Ping labelled IP addresses or domain names.]
-Пингует IP адрес или доменное имя.

@@ -1,7 +1,7 @@
 ﻿;============================================================
-; File: EmLanProto.dll
-; Module: E-mage LAN protocol
-; Versions: 0.0.1.2
+;  File: EmLanProto.dll
+;  Module: E-mage LAN protocol
+;  Versions: 0.0.1.2
 ;============================================================
 [E-mage LAN protocol support for Miranda NG.]
 Поддержка протокола E-mage LAN в Miranda NG.

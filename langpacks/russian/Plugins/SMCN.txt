@@ -53,7 +53,7 @@ URL в статусном сообщении
 [%o Old Status Message]
 %o Старое статусное сообщение
 [%D/%M/%Y day/month/year]
-%D/%M/%Y  день/месяц/год
+%D/%M/%Y день/месяц/год
 [%c Custom nickname]
 %c Свой ник
 [%H:%m Time (in 24h format)]

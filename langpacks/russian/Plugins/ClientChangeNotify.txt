@@ -42,7 +42,7 @@
 [changed client to ]
 сменил клиент на 
 [Fingerprint plugin not found. Please make sure that you have the latest version installed. ClientChangeNotify requires it to work properly.]
-Плагин Fingerprint  не найден. Удостоверьтесь что вы установили самую последнюю версию, это необходимо для нормальной работы.
+Плагин Fingerprint не найден. Удостоверьтесь что вы установили самую последнюю версию, это необходимо для нормальной работы.
 [ClientChangeNotify]
 Уведомление о смене клиента
 [Disable c&lient change notification]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NotifyAnything.dll 
 ;  Module: NotifyAnything
-;  Versions:  0.0.2.7
+;  Versions: 0.0.2.7
 ;============================================================
 [Allow actions to execute programs]
 Разрешить выполнение программ
