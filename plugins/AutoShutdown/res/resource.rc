@@ -80,7 +80,7 @@ BEGIN
     GROUPBOX        "Critical Shutdown Events",IDC_STATIC,3,123,196,66
     LTEXT           "Automatically shutdown the computer and turn the power off when one of the following occurs:",
                     IDC_STATIC,12,135,182,18,SS_NOPREFIX
-    CONTROL         "&Thunderstorm warning is issued  (Weather)",
+    CONTROL         "&Thunderstorm warning is issued (Weather)",
                     IDC_CHECK_WEATHER,"Button",BS_AUTOCHECKBOX | BS_TOP | 
                     WS_DISABLED | WS_TABSTOP,12,157,182,11
     CONTROL         "&Harddrive overheats (HDD Info)",IDC_CHECK_HDDOVERHEAT,
