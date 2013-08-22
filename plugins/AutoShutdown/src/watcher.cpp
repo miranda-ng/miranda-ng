@@ -166,7 +166,7 @@ static int ProtoAck(WPARAM wParam,LPARAM lParam)
 
 /************************* Idle Shutdown ******************************/
 
-static int IdleChanged(WPARAM wParam,LPARAM lParam)
+static int IdleChanged(WPARAM,LPARAM lParam)
 {
 	if(currentWatcherType&SDWTF_IDLE && lParam&IDF_ISIDLE)
 		ShutdownAndStopWatcher();
@@ -258,11 +258,19 @@ static int HddOverheat(WPARAM wParam,LPARAM lParam)
 INT_PTR ServiceStartWatcher(WPARAM wParam,LPARAM lParam)
 {
 	/* passing watcherType as lParam is only to be used internally, undocumented */
-	if(lParam==0) lParam=(LPARAM)db_get_w(NULL,"AutoShutdown","WatcherFlags",0);
+	if(lParam==0)
+		lParam=(LPARAM)db_get_w(NULL,"AutoShutdown","WatcherFlags",0);
 
-	if(!(lParam&SDWTF_MASK)) return 1; /* invalid flags or empty? */
-	if(lParam&SDWTF_SPECIFICTIME && !(lParam&SDWTF_ST_MASK)) return 2; /* no specific time choice? */
-	if(currentWatcherType==(WORD)lParam) return 3;
+	/* invalid flags or empty? */
+	if(!(lParam&SDWTF_MASK))
+		return 1;
+
+	/* no specific time choice? */
+	if(lParam&SDWTF_SPECIFICTIME && !(lParam&SDWTF_ST_MASK))
+		return 2;
+
+	if(currentWatcherType==(WORD)lParam)
+		return 3;
 
 	if(currentWatcherType!=0) {
 		/* Time Shutdown */
@@ -270,8 +278,8 @@ INT_PTR ServiceStartWatcher(WPARAM wParam,LPARAM lParam)
 		/* Cpu Shutdown */
 		idCpuUsageThread=0;
 	}
-	SetShutdownMenuItem(TRUE);
-	SetShutdownToolbarButton(TRUE);
+	SetShutdownMenuItem(true);
+	SetShutdownToolbarButton(true);
 	currentWatcherType=(WORD)lParam;
 	NotifyEventHooks(hEventWatcherChanged,TRUE,0);
 
@@ -290,7 +298,7 @@ INT_PTR ServiceStartWatcher(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ServiceStopWatcher(WPARAM wParam,LPARAM lParam)
+INT_PTR ServiceStopWatcher(WPARAM,LPARAM)
 {
 	if(currentWatcherType==0) return 1;
 
@@ -307,14 +315,14 @@ INT_PTR ServiceStopWatcher(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ServiceIsWatcherEnabled(WPARAM wParam,LPARAM lParam)
+INT_PTR ServiceIsWatcherEnabled(WPARAM,LPARAM)
 {
 	return currentWatcherType!=0;
 }
 
 /************************* Misc ***********************************/
 
-static int WatcherModulesLoaded(WPARAM wParam,LPARAM lParam)
+void WatcherModulesLoaded(void)
 {
 	/* Weather Shutdown */
 	if(ServiceExists(MS_WEATHER_UPDATE))
@@ -328,7 +336,6 @@ static int WatcherModulesLoaded(WPARAM wParam,LPARAM lParam)
 		db_set_b(NULL,"AutoShutdown","RememberOnRestart",1);
 		ServiceStartWatcher(0,0); /* after modules loaded */
 	}
-	return 0;
 }
 
 void InitWatcher(void)
@@ -354,8 +361,6 @@ void InitWatcher(void)
 	hServiceStartWatcher = CreateServiceFunction(MS_AUTOSHUTDOWN_STARTWATCHER, ServiceStartWatcher);
  	hServiceStopWatcher = CreateServiceFunction(MS_AUTOSHUTDOWN_STOPWATCHER, ServiceStopWatcher);
 	hServiceIsEnabled = CreateServiceFunction(MS_AUTOSHUTDOWN_ISWATCHERENABLED, ServiceIsWatcherEnabled);
-	/* Misc */
-	hHookModulesLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,WatcherModulesLoaded);
 }
 
 void UninitWatcher(void)

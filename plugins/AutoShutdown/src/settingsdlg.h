@@ -20,11 +20,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 /* Menu Item */
-void SetShutdownMenuItem(BOOL fActive);
+void SetShutdownMenuItem(bool fActive);
 
 /* Toolbar Button */
-void SetShutdownToolbarButton(BOOL fActive);
+void SetShutdownToolbarButton(bool fActive);
 
 /* Misc */
 void InitSettingsDlg(void);
 void UninitSettingsDlg(void);
+int ToolbarLoaded(WPARAM,LPARAM);

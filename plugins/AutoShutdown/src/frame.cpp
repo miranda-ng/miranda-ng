@@ -227,15 +227,14 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			return 0;
 		}
 		case WM_DESTROY:
-		{	HICON hIcon;
+		{
 			if(dat==NULL) return 0;
 			UnhookEvent(dat->hHookColorsChanged);
 			UnhookEvent(dat->hHookFontsChanged);
 			UnhookEvent(dat->hHookIconsChanged);
 			/* other childs are destroyed automatically */
 			if(dat->hwndToolTip!=NULL) DestroyWindow(dat->hwndToolTip);
-			hIcon=(HICON)SendMessage(dat->hwndIcon,STM_SETIMAGE,IMAGE_ICON,0);
-			Skin_ReleaseIcon(hIcon); /* does NULL check */
+			HICON hIcon=(HICON)SendMessage(dat->hwndIcon,STM_SETIMAGE,IMAGE_ICON,0);
 			break;
 		}
 		case WM_NCDESTROY:
@@ -246,14 +245,14 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			SetWindowLongPtr(hwndFrame, GWLP_USERDATA, (LONG)NULL);
 			break;
 		case WM_SIZE:
-		{	RECT rc;
+		{
+			RECT rc;
 			LONG width,height;
-			HDWP hdwp;
 			UINT defflg=SWP_NOZORDER|SWP_NOOWNERZORDER|SWP_NOACTIVATE;
 			SetRect(&rc,0,0,LOWORD(lParam),HIWORD(lParam)); /* width,height */
 			/* workaround: reduce flickering of frame in clist */
 			InvalidateRect(hwndFrame,&rc,FALSE);
-			hdwp=BeginDeferWindowPos(3);
+			HDWP hdwp=BeginDeferWindowPos(3);
 			/* progress */
 			width=rc.right-GetSystemMetrics(SM_CXICON)-10;
 			height=rc.bottom-(GetSystemMetrics(SM_CYICON)/2)-5;
@@ -267,7 +266,8 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			return 0;
 		}
 		case M_REFRESH_COLORS:
-		{	COLORREF clrBar;
+		{
+			COLORREF clrBar;
 			if(FontService_GetColor(_T("Automatic Shutdown"),_T("Progress Bar"),&clrBar))
 				clrBar=GetDefaultColor(FRAMEELEMENT_BAR);
 			if(FontService_GetColor(_T("Automatic Shutdown"),_T("Background"),&dat->clrBackground))
@@ -280,13 +280,10 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			return 0;
 		}
 		case M_REFRESH_ICONS:
-			if(dat->hwndIcon!=NULL)
-				Skin_ReleaseIcon((HICON)SendMessage(dat->hwndIcon,STM_SETIMAGE,IMAGE_ICON,(LPARAM)Skin_GetIcon("AutoShutdown_Header")));
-			if(hFrame) /* refresh frame title icon */
-				Skin_ReleaseIcon(SetFrameTitleIcon(hFrame,Skin_GetIcon("AutoShutdown_Active")));
 			return 0;
 		case M_REFRESH_FONTS:
-		{	LOGFONT lf;
+		{
+			LOGFONT lf;
 			if(!FontService_GetFont(_T("Automatic Shutdown"),_T("Countdown on Frame"),&dat->clrText,&lf)) {
 				if(dat->hFont!=NULL) DeleteObject(dat->hFont);
 				dat->hFont=CreateFontIndirect(&lf);
@@ -568,7 +565,6 @@ void CloseCountdownFrame(void)
 	if(hwndCountdownFrame!=NULL) {
 		SendMessage(hwndCountdownFrame,M_CLOSE_COUNTDOWN,0,0);
 		if(hFrame) {
-			Skin_ReleaseIcon(SetFrameTitleIcon(hFrame,NULL));
 			/* HACKS TO FIX CLUIFrames:
 			 * workaround #6: MS_CLIST_FRAMES_REMOVEFRAME does not finish with
 			 * destroy cycle (clist_modern, clist_nicer crashes) */

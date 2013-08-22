@@ -28,6 +28,9 @@ static HANDLE hServiceShowDlg;
 static HWND hwndSettingsDlg;
 extern HINSTANCE hInst;
 
+const DWORD unitValues[]={1,60,60*60,60*60*24,60*60*24*7,60*60*24*31};
+const TCHAR *unitNames[]={LPGENT("Second(s)"), LPGENT("Minute(s)"), LPGENT("Hour(s)"), LPGENT("Day(s)"), LPGENT("Week(s)"), LPGENT("Month(s)")};
+
 /************************* Dialog *************************************/
 
 static void EnableDlgItem(HWND hwndDlg,int idCtrl,BOOL fEnable)
@@ -39,23 +42,23 @@ static void EnableDlgItem(HWND hwndDlg,int idCtrl,BOOL fEnable)
 
 static BOOL CALLBACK DisplayCpuUsageProc(BYTE nCpuUsage,LPARAM lParam)
 {
-	TCHAR str[64];
 	/* dialog closed? */
 	if(!IsWindow((HWND)lParam)) return FALSE; /* stop poll thread */
+	TCHAR str[64];
 	mir_sntprintf(str,SIZEOF(str),TranslateT("(current: %u%%)"),nCpuUsage);
 	SetWindowText((HWND)lParam,str);
 	return TRUE;
 }
 
-static BOOL AnyProtoHasCaps(DWORD caps1)
+static bool AnyProtoHasCaps(DWORD caps1)
 {
-	int nProtoCount,i;
+	int nProtoCount;
 	PROTOACCOUNT **protos;
 	if(!ProtoEnumAccounts(&nProtoCount, &protos))
-		for(i=0;i<nProtoCount;++i)
+		for(int i=0;i<nProtoCount;++i)
 			if(CallProtoService(protos[i]->szModuleName,PS_GETCAPS,(WPARAM)PFLAGNUM_1,0)&caps1)
-				return TRUE; /* CALLSERVICE_NOTFOUND also handled gracefully */
-	return FALSE;
+				return true; /* CALLSERVICE_NOTFOUND also handled gracefully */
+	return false;
 }
 
 #define M_ENABLE_SUBCTLS       (WM_APP+111)
@@ -82,8 +85,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			}
 			/* read-in watcher flags */
 			{
-				WORD watcherType;
-				watcherType=db_get_w(NULL,"AutoShutdown","WatcherFlags",SETTING_WATCHERFLAGS_DEFAULT);
+				WORD watcherType=db_get_w(NULL,"AutoShutdown","WatcherFlags",SETTING_WATCHERFLAGS_DEFAULT);
 				CheckRadioButton(hwndDlg,IDC_RADIO_STTIME,IDC_RADIO_STCOUNTDOWN,(watcherType&SDWTF_ST_TIME)?IDC_RADIO_STTIME:IDC_RADIO_STCOUNTDOWN);
 				CheckDlgButton(hwndDlg,IDC_CHECK_SPECIFICTIME,(watcherType&SDWTF_SPECIFICTIME)!=0);
 				CheckDlgButton(hwndDlg,IDC_CHECK_MESSAGE,(watcherType&SDWTF_MESSAGE)!=0);
@@ -102,8 +104,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				SendMessage(hwndDlg,M_CHECK_DATETIME,0,0);
 			}
 			{
-				DWORD setting;
-				setting=db_get_dw(NULL,"AutoShutdown","Countdown",SETTING_COUNTDOWN_DEFAULT);
+				DWORD setting=db_get_dw(NULL,"AutoShutdown","Countdown",SETTING_COUNTDOWN_DEFAULT);
 				if(setting<1) setting=SETTING_COUNTDOWN_DEFAULT;
 				SendDlgItemMessage(hwndDlg,IDC_SPIN_COUNTDOWN,UDM_SETRANGE,0,MAKELPARAM(UD_MAXVAL,1));
 				SendDlgItemMessage(hwndDlg,IDC_EDIT_COUNTDOWN,EM_SETLIMITTEXT,(WPARAM)10,0);
@@ -111,18 +112,12 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				SetDlgItemInt(hwndDlg,IDC_EDIT_COUNTDOWN,setting,FALSE);
 			}
 			{
-				HWND hwndCombo;
-				DWORD lastUnit;
-				int i,index;
-				const DWORD unitValues[]={1,60,60*60,60*60*24,60*60*24*7,60*60*24*31};
-				const TCHAR *unitNames[]={TranslateT("Second(s)"), TranslateT("Minute(s)"), TranslateT("Hour(s)"),
-					TranslateT("Day(s)"), TranslateT("Week(s)"), TranslateT("Month(s)")};
-				hwndCombo=GetDlgItem(hwndDlg,IDC_COMBO_COUNTDOWNUNIT);
-				lastUnit=db_get_dw(NULL,"AutoShutdown","CountdownUnit",SETTING_COUNTDOWNUNIT_DEFAULT);
+				HWND hwndCombo=GetDlgItem(hwndDlg,IDC_COMBO_COUNTDOWNUNIT);
+				DWORD lastUnit=db_get_dw(NULL,"AutoShutdown","CountdownUnit",SETTING_COUNTDOWNUNIT_DEFAULT);
 				SendMessage(hwndCombo,CB_SETLOCALE,(WPARAM)locale,0); /* sort order */
 				SendMessage(hwndCombo,CB_INITSTORAGE,SIZEOF(unitNames),SIZEOF(unitNames)*16); /* approx. */
-				for(i=0;i<SIZEOF(unitNames);++i) {
-					index=SendMessage(hwndCombo,CB_ADDSTRING,0,(LPARAM)TranslateTS(unitNames[i]));
+				for(int i=0;i<SIZEOF(unitNames);++i) {
+					int index=SendMessage(hwndCombo,CB_ADDSTRING,0,(LPARAM)TranslateTS(unitNames[i]));
 					if(index!=LB_ERR) {
 						SendMessage(hwndCombo,CB_SETITEMDATA,index,(LPARAM)unitValues[i]);
 						if(i==0 || unitValues[i]==lastUnit) SendMessage(hwndCombo,CB_SETCURSEL,index,0);
@@ -140,8 +135,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			}
 			/* cpuusage threshold */
 			{
-				BYTE setting;
-				setting=DBGetContactSettingRangedByte(NULL,"AutoShutdown","CpuUsageThreshold",SETTING_CPUUSAGETHRESHOLD_DEFAULT,1,100);
+				BYTE setting=DBGetContactSettingRangedByte(NULL,"AutoShutdown","CpuUsageThreshold",SETTING_CPUUSAGETHRESHOLD_DEFAULT,1,100);
 				SendDlgItemMessage(hwndDlg,IDC_SPIN_CPUUSAGE,UDM_SETRANGE,0,MAKELPARAM(100,1));
 				SendDlgItemMessage(hwndDlg,IDC_EDIT_CPUUSAGE,EM_SETLIMITTEXT,(WPARAM)3,0);
 				SendDlgItemMessage(hwndDlg,IDC_SPIN_CPUUSAGE,UDM_SETPOS,0,MAKELPARAM(setting,0));
@@ -191,7 +185,6 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				CallService(MS_AUTOREPLACER_REMWINHANDLE,0,(LPARAM)GetDlgItem(hwndDlg,IDC_EDIT_MESSAGE));
 			Utils_SaveWindowPosition(hwndDlg,NULL,"AutoShutdown","SettingsDlg_");
 			HICON hIcon=(HICON)SendDlgItemMessage(hwndDlg,IDC_ICON_HEADER,STM_SETIMAGE,IMAGE_ICON,0);
-			Skin_ReleaseIcon(hIcon); /* does NULL check */
 			HFONT hFont=(HFONT)SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_GETFONT,0,0);
 			SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_SETFONT,0,FALSE); /* no return value */
 			if(hFont!=NULL) DeleteObject(hFont);
@@ -323,8 +316,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 
 		case IDC_EDIT_CPUUSAGE:
 			if(HIWORD(wParam)==EN_KILLFOCUS) {
-				WORD val;
-				val=(WORD)GetDlgItemInt(hwndDlg,IDC_EDIT_CPUUSAGE,NULL,FALSE);
+				WORD val=(WORD)GetDlgItemInt(hwndDlg,IDC_EDIT_CPUUSAGE,NULL,FALSE);
 				if(val<1) val=1;
 				else if(val>100) val=100;
 				SendDlgItemMessage(hwndDlg,IDC_SPIN_CPUUSAGE,UDM_SETPOS,0,MAKELPARAM(val,0));
@@ -392,9 +384,13 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				db_set_w(NULL,"AutoShutdown","WatcherFlags",watcherType);
 				ServiceStartWatcher(0,watcherType);
 			}
+			DestroyWindow(hwndDlg);
+			return TRUE;
 			/* fall through */
 		case IDCANCEL: /* WM_CLOSE */
 			DestroyWindow(hwndDlg);
+			SetShutdownToolbarButton(false);
+			SetShutdownMenuItem(false);
 			return TRUE;
 		}
 		break;
@@ -418,39 +414,45 @@ static INT_PTR ServiceShowSettingsDialog(WPARAM wParam,LPARAM lParam)
 
 static HANDLE hToolbarButton;
 
-static int ToolbarLoaded(WPARAM wParam,LPARAM lParam)
+int ToolbarLoaded(WPARAM,LPARAM)
 {
 	TTBButton ttb = { sizeof(ttb) };
-	ttb.hIconHandleUp = iconList[1].hIcolib;
-	ttb.hIconHandleDn = iconList[2].hIcolib;
+	ttb.hIconHandleUp = iconList[2].hIcolib;
+	ttb.hIconHandleDn = iconList[1].hIcolib;
 	ttb.pszService = "AutoShutdown/MenuCommand";
-	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ASPUSHBUTTON;
 	ttb.name = LPGEN("Start/Stop automatic shutdown");
-	ttb.pszTooltipUp = LPGEN("Stop automatic shutdown");
-	ttb.pszTooltipDn = LPGEN("Start automatic shutdown");
+	ttb.pszTooltipUp = LPGEN("Start automatic shutdown");
+	ttb.pszTooltipDn = LPGEN("Stop automatic shutdown");
 	hToolbarButton = TopToolbar_AddButton(&ttb);
 	return 0;
 }
 
-void SetShutdownToolbarButton(BOOL fActive)
+void SetShutdownToolbarButton(bool fActive)
 {
-	if(hToolbarButton) {
+	if(hToolbarButton)
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hToolbarButton,fActive?TTBST_PUSHED:TTBST_RELEASED);
-		CallService(MS_TTB_SETBUTTONOPTIONS,MAKEWPARAM(TTBO_TIPNAME,hToolbarButton),(LPARAM)(fActive?Translate("Stop automatic shutdown"):Translate("Start automatic shutdown")));
-	}
 }
 
 /************************* Menu Item **********************************/
 
 static HGENMENU hMainMenuItem,hTrayMenuItem;
 
-void SetShutdownMenuItem(BOOL fActive)
+void SetShutdownMenuItem(bool fActive)
 {
 	/* main menu */
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 2001090000;
-	mi.icolibItem = fActive ? iconList[1].hIcolib : iconList[2].hIcolib;
-	mi.ptszName = fActive ? LPGENT("Stop automatic &shutdown") : LPGENT("Automatic &shutdown..."); /* autotranslated */
+	if(fActive)
+	{
+		mi.icolibItem = iconList[1].hIcolib;
+		mi.ptszName = LPGENT("Stop automatic &shutdown");
+	}
+	else
+	{
+		mi.icolibItem = iconList[2].hIcolib;
+		mi.ptszName = LPGENT("Automatic &shutdown...");
+	}
 	mi.pszService = "AutoShutdown/MenuCommand";
 	mi.flags = CMIF_TCHAR;
 	if (hMainMenuItem != NULL) {
@@ -466,11 +468,9 @@ void SetShutdownMenuItem(BOOL fActive)
 		Menu_ModifyItem(hTrayMenuItem, &mi);
 	}
 	else hTrayMenuItem = Menu_AddTrayMenuItem(&mi);
-
-	Skin_ReleaseIcon(mi.hIcon);
 }
 
-static INT_PTR MenuItemCommand(WPARAM wParam,LPARAM lParam)
+static INT_PTR MenuItemCommand(WPARAM,LPARAM)
 {
 	/* toggle between StopWatcher and ShowSettingsDdialog */
 	if(ServiceIsWatcherEnabled(0,0))
@@ -487,9 +487,7 @@ void InitSettingsDlg(void)
 	/* Menu Item */
 	hServiceMenuCommand = CreateServiceFunction("AutoShutdown/MenuCommand", MenuItemCommand);
 	hMainMenuItem=hTrayMenuItem=NULL;
-	SetShutdownMenuItem(FALSE);
-	/* Toolbar Item */
-	HookEvent(ME_TTB_MODULELOADED,ToolbarLoaded); /* no service to check for */
+	SetShutdownMenuItem(false);
 	/* Hotkey */
 	AddHotkey();
 	/* Services */

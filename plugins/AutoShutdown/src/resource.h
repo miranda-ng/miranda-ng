@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
-// Used by resource.rc
+// Microsoft Visual C++ generated include file.
+// Used by ..\res\resource.rc
 //
 #define IDI_ACTIVE                      101
 #define IDI_INACTIVE                    102

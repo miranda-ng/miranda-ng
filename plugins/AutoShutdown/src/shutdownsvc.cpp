@@ -30,6 +30,17 @@ static HANDLE hServiceShutdown,hServiceIsTypeEnabled,hServiceGetTypeDesc;
 
 /************************* Utils **************************************/
 
+TCHAR *desc[]={LPGENT("Miranda NG is going to be automatically closed in %u second(s)."),
+			    LPGENT("All Miranda NG protocols are going to be set to offline in %u second(s)."),
+			    LPGENT("You will be logged off automatically in %u second(s)."),
+			    LPGENT("The computer will automatically be restarted in %u second(s)."),
+			    LPGENT("The computer will automatically be set to standby mode in %u second(s)."),
+			    LPGENT("The computer will automatically be set to hibernate mode in %u second(s)."),
+			    LPGENT("The workstation will automatically get locked in %u second(s)."),
+			    LPGENT("All dialup connections will be closed in %u second(s)."),
+			    LPGENT("The computer will automatically be shut down in %u second(s).")};
+
+
 static BOOL WinNT_SetPrivilege(TCHAR *pszPrivName,BOOL bEnable)
 {
 	BOOL bReturn=FALSE;
@@ -397,16 +408,14 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			SendMessage(hwndDlg,WM_NEXTDLGCTL,(WPARAM)GetDlgItem(hwndDlg,IDCANCEL),TRUE);
 			return FALSE; /* focus set on cancel */
 		case WM_DESTROY:
-		{	HFONT hFont;
-			HICON hIcon;
+		{
 			hwndShutdownDlg=NULL;
 			ShowWindow(hwndDlg,SW_HIDE);
 			/* reallow foreground window changes (WinMe/2000+) */
 			if(pfnLockSetForegroundWindow) pfnLockSetForegroundWindow(LSFW_UNLOCK);
 			Utils_SaveWindowPosition(hwndDlg,NULL,"AutoShutdown","ConfirmDlg_");
-			hIcon=(HICON)SendDlgItemMessage(hwndDlg,IDC_ICON_HEADER,STM_SETIMAGE,IMAGE_ICON,0);
-			Skin_ReleaseIcon(hIcon); /* does NULL check */
-			hFont=(HFONT)SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_GETFONT,0,0);
+			HICON hIcon=(HICON)SendDlgItemMessage(hwndDlg,IDC_ICON_HEADER,STM_SETIMAGE,IMAGE_ICON,0);
+			HFONT hFont=(HFONT)SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_GETFONT,0,0);
 			SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_SETFONT,0,FALSE); /* no return value */
 			if(hFont!=NULL) DeleteObject(hFont);
 			return TRUE;
@@ -439,16 +448,8 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			PostMessage(hwndDlg,M_UPDATE_COUNTDOWN,0,countdown);
 			return TRUE;
 		case M_UPDATE_COUNTDOWN:  /* lParam=(WORD)countdown */
-		{	TCHAR szText[256];
-			TCHAR *desc[]={LPGENT("Miranda NG is going to be automatically closed in %u second(s)."),
-			               LPGENT("All Miranda NG protocols are going to be set to offline in %u second(s)."),
-			               LPGENT("You will be logged off automatically in %u second(s)."),
-			               LPGENT("The computer will automatically be restarted in %u second(s)."),
-			               LPGENT("The computer will automatically be set to standby mode in %u second(s)."),
-			               LPGENT("The computer will automatically be set to hibernate mode in %u second(s)."),
-			               LPGENT("The workstation will automatically get locked in %u second(s)."),
-			               LPGENT("All dialup connections will be closed in %u second(s)."),
-			               LPGENT("The computer will automatically be shut down in %u second(s).")};
+		{
+			TCHAR szText[256];
 			mir_sntprintf(szText,SIZEOF(szText),TranslateTS(desc[shutdownType-1]),lParam);
 			SetDlgItemText(hwndDlg,IDC_TEXT_HEADER,szText);
 			/* countdown finished */
@@ -509,7 +510,7 @@ INT_PTR ServiceShutdown(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ServiceIsTypeEnabled(WPARAM wParam,LPARAM lParam)
+INT_PTR ServiceIsTypeEnabled(WPARAM wParam,LPARAM)
 {
 	return IsShutdownTypeEnabled((BYTE)wParam); /* does shutdownType range check */
 }

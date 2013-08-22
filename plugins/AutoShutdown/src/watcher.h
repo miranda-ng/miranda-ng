@@ -27,3 +27,4 @@ INT_PTR ServiceIsWatcherEnabled(WPARAM wParam,LPARAM lParam);
 /* Misc */
 void InitWatcher(void);
 void UninitWatcher(void);
+void WatcherModulesLoaded(void);
