@@ -4811,6 +4811,8 @@
 [* and ? wildcard characters also available (for port enter number or *)]
 [Remote IP:Port]
 ;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+[Show]
+[Hide]
 [Always show popup]
 [Never show popup]
 [Status]
@@ -4819,7 +4821,7 @@
 [External socket]
 [Action]
 [Plugins]
-[ConnectionNotify: New Connection Notification]
+[New Connection Notification]
 ;file \plugins\ConnectionNotify\src\filter.cpp
 [First close options window]
 ﻿#muuid {23d4f302-d513-45b7-9027-445f29557311}
@@ -13789,13 +13791,6 @@
 [Last Year]
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[Log Files (*.txt,*.log)]
-[Enter integer value]
-[Enter log file name.]
-[Enter log file format.]
-[Enter history format.]
-[Enter popup window format.]
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -13825,6 +13820,12 @@
 [Previous Close]
 [Change]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+[Enter integer value]
+[Enter log file name.]
+[Enter log file format.]
+[Enter history format.]
+[Enter popup window format.]
 ﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll

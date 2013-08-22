@@ -32,6 +32,8 @@
 [* and ? wildcard characters also available (for port enter number or *)]
 [Remote IP:Port]
 ;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+[Show]
+[Hide]
 [Always show popup]
 [Never show popup]
 [Status]
@@ -40,6 +42,6 @@
 [External socket]
 [Action]
 [Plugins]
-[ConnectionNotify: New Connection Notification]
+[New Connection Notification]
 ;file \plugins\ConnectionNotify\src\filter.cpp
 [First close options window]
