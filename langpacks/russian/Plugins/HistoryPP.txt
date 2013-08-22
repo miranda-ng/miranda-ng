@@ -382,7 +382,7 @@ id неизвестен
 [Authorisation request by %s (%s%d): %s]
 Запрос авторизации от %s (%s%d): %s
 [You were added by %s (%s%d)]
-Вас добавил(а) %s (%s%d)
+Вас добавил %s (%s%d)
 [Outgoing contacts: %s]
 Отправка контактов: %s
 [Incoming contacts: %s]
@@ -708,7 +708,7 @@ HTML файл
 [Use Miranda default settings]
 Использовать настройки Miranda NG
 [You were added by %s (%s%s%d)]
-Вас добавил(а) %s (%s%s%d)
+Вас добавил %s (%s%s%d)
 [You Were Added Message Sample]
 Это сообщение "Вас добавили"
 [Authorisation request]

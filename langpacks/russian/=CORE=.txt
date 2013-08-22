@@ -26,7 +26,7 @@
 [%s (locked)]
 %s (заблокирован)
 [%s added you to their contact list]
-%s добавил(а) вас в свой список
+%s добавил вас в свой список
 [%s File]
 %s файл
 [%s Icons]
@@ -44,7 +44,7 @@
 [%s\nView personal user details and more]
 %s\nПросмотр личных данных пользователя
 [%u added you to their contact list]
-%u добавил(а) вас в свой список
+%u добавил вас в свой список
 [%u requests authorization]
 %u запрашивает авторизацию
 [&About...]
@@ -2068,11 +2068,11 @@ URL от %s
 [View User Details]
 Посмотреть информацию о пользователе
 [%s added you to the contact list\n%u (%s) on %s]
-%s добавлен(а) в Ваш список контактов\n%u (%s) в %s
+%s добавил вас в свой список контактов\n%u (%s) в %s
 [%s added you to the contact list\n%u on %s]
-%s добавлен(а) в Ваш список контактов\n%u в %s
+%s добавил вас в свой список контактов\n%u в %s
 [%s added you to the contact list\n%s on %s]
-%s добавлен(а) в Ваш список контактов\n%s в %s
+%s добавил вас в свой список контактов\n%s в %s
 [Are you sure you want to remove profile "%s"?]
 Вы уверены, что хотите удалить профиль "%s"?
 [Modified]
