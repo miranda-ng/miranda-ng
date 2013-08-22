@@ -679,9 +679,9 @@ Przychodzące (Nowa sesja)
 [Outgoing]
 Wychodzące
 [Contact started typing]
-
+Kontakt pisze wiadomość 
 [Contact stopped typing]
-
+Kontakt przestał pisać
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occured.]
 Nieznany błąd.

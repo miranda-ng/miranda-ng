@@ -197,7 +197,7 @@ Z rozłączonego
 ** Wszystkie kontakty **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
-(domyślny  dźwięk)
+(domyślny dźwięk)
 ;file \plugins\NewXstatusNotify\src\main.cpp
 [<no status message>]
 <brak opisu>

@@ -18,7 +18,6 @@
 [Do not reply to messages with words in this list:]
 [Do not reply to the same message more than]
 [Flood protection]
-[Do not send more than]
 [messages to one contact per day]
 [times a day]
 [Incoming message with any word from list:]

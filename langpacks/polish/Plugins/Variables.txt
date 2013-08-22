@@ -335,7 +335,7 @@ nazwa komputera
 [cpu load of process x (without extension) (x is optional)]
 obciążenie cpu procesu x (bez rozszerzenia) (x jest opcjonalne)
 [current date in format y (y is optional)]
-aktualna data w formacie  y (y jest opcjonalne)
+aktualna data w formacie y (y jest opcjonalne)
 [current time in format y (y is optional)]
 aktualny czas w formacie y (y jest opcjonalne)
 [the directory y directories above x]

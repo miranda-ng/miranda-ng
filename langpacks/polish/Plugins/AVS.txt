@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.11.0.2
+;  Version: 0.11.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -82,8 +82,46 @@ Użyj na protokole awataru
 [Protocols have different avatars]
 Protokoły mają różne awatary
 ;file \plugins\AVS\src\main.cpp
-[Grow avatar to fit max allowed protocol size]
-Dopasuj awatar do maksymalnego dozwolonego rozmiaru protokołu
+[Global avatar]
+Awatar globalny
+[Global avatar for %s accounts]
+Awatar globalny dla konta %s
+[Avatars]
+Awatary
+[My Avatars]
+Moje awatary
+[My Global Avatar Cache]
+Cache mojego głównego awataru
+[Fatal error, image services not found. Avatar services will be disabled.]
+Błąd, nie znaleziono wtyczki 'advaimg.dll'. Usługa awatarów zostanie wyłączona.
+[Avatar Service]
+Usługa awatarów
+;file \plugins\AVS\src\options.cpp
+[Set avatar options for %s]
+Ustaw opcje awataru dla %s
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Usunąć obrazek z dysku (może być konieczne do przeładowania, ale usunie lokalne obrazki)?
+[Reset contact picture]
+Domyślny obrazek kontaktu
+[Contact has no avatar]
+Kontakt nie ma awataru
+[Contacts]
+Kontakty
+[Protocols]
+Protokoły
+[Contact Avatars]
+Awatary kontaktu
+[Own Avatars]
+Własne awatary
+[No avatar]
+Brak awatara
+[Are you sure you want to remove your avatar?]
+Czy na pewno chcesz usunąć swój awatar?
+[Global Avatar]
+Globalny Awatar
+[Avatar]
+Awatar
+;file \plugins\AVS\src\services.cpp
 [All Files]
 Wszystkie pliki
 [Windows Bitmaps]
@@ -98,46 +136,9 @@ Mapa bitowa PNG
 Animacja Flash
 [XML Files]
 Pliki XML
+[Grow avatar to fit max allowed protocol size]
+Dopasuj awatar do maksymalnego dozwolonego rozmiaru protokołu
 [Set My Avatar]
 Ustaw mój awatar
 [Set My Avatar for %s]
 Ustaw mój awatar dla %s
-[Global avatar]
-Awatar globalny
-[Global avatar for %s accounts]
-Awatar globalny dla konta %s
-[Avatars]
-Awatary
-[My Avatars]
-Moje awatary
-[My Global Avatar Cache]
-Cache mojego głównego awataru
-[Contacts]
-Kontakty
-[Protocols]
-Protokoły
-[Contact Avatars]
-Awatary kontaktu
-[Own Avatars]
-Własne awatary
-[Avatar]
-Awatar
-[Fatal error, image services not found. Avatar services will be disabled.]
-Błąd, nie znaleziono wtyczki 'advaimg.dll'. Usługa awatarów zostanie wyłączona.
-[Avatar Service]
-Usługa awatarów
-;file \plugins\AVS\src\options.cpp
-[Set avatar options for %s]
-Ustaw opcje awataru dla %s
-[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
-Usunąć obrazek z dysku (może być konieczne do przeładowania, ale usunie lokalne obrazki)?
-[Reset contact picture]
-Domyślny obrazek kontaktu
-[Contact has no avatar]
-Kontakt nie ma awataru
-[No avatar]
-Brak awatara
-[Are you sure you want to remove your avatar?]
-Czy na pewno chcesz usunąć swój awatar?
-[Global Avatar]
-Globalny Awatar

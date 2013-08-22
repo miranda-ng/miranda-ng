@@ -1922,7 +1922,7 @@ W przeciwnym razie
 [If jabber id is ']
 Jeśli Jabber ID jest '
 [ (nickname: ]
- ( pseudonim:  
+ ( pseudonim: 
 [If group is ']
 Jeśli grupa jest '
 [If subscription is ']

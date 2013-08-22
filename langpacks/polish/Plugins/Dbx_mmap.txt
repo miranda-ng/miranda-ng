@@ -64,7 +64,7 @@ Awaria profilu. Miranda zostanie zamknięta.
 [Database Error]
 Błąd profilu
 [Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
-Miranda wykryła błąd w twojej bazie danych. Może być naprawiony przez wtyczkę DbChecker. Pobierz go z  http://miranda-ng.org/p/DbChecker/. Miranda zostanie teraz  zamknięta.
+Miranda wykryła błąd w twojej bazie danych. Może być naprawiony przez wtyczkę DbChecker. Pobierz go z http://miranda-ng.org/p/DbChecker/. Miranda zostanie teraz zamknięta.
 [Database Panic]
 Panika profilu
 ;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp

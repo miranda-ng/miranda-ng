@@ -165,7 +165,7 @@ Wyślij plik(i)
 [Zip and upload file(s)]
 Spakuj i wyślij plik(i)
 [Zip and upload folder]
-Spakuj i  wyślij folder
+Spakuj i wyślij folder
 [FTP File manager]
 Menedżer FTP
 [Show FTPFile manager]

@@ -55,7 +55,7 @@ Obszar klienta
 [Caption :]
 Uchwyć :
 [Size (HxW) :]
-Rozmiar  (HxW) :
+Rozmiar (HxW) :
 [Target Tool]
 Celownik
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp

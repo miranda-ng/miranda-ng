@@ -167,7 +167,7 @@ Opcje trybu widoku
 [Editing view mode]
 Edytowanie trybu widoku
 [Last message]
-Ostatnia wiadomość 
+Ostatnia wiadomość
 [Status Bar]
 Pasek statusu
 [Show status bar]
@@ -266,8 +266,6 @@ Brak zaznaczenia
 Tryb zaznaczenia
 [Bring to front if covered]
 Przesuń na wierzch, jeśli zakryty
-[Hide contact list after]
-
 [Automatically resize window to height of list]
 Dopasuj rozmiar okna rozmowy do wysokości listy
 [maximum]

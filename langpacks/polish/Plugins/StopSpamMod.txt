@@ -35,7 +35,7 @@ Dodaj kontakt na stałe
 [Enable auth. requests blocking]
 Włącz blokowanie pytań o autoryzację
 [Hide unanswered contacts and spammers from contact list]
-Ukryj spamerów oraz  kontakty, które nie odpowiedziały z listy
+Ukryj spamerów oraz kontakty, które nie odpowiedziały z listy
 [Ignore spammers (do not write messages to history)]
 Ignoruj spamerów (nie zapisuj wiadomości do historii)
 [Log spam to file]
@@ -65,7 +65,7 @@ Pytanie o autoryzację od kontaktów, które przechodzą test stopspam
 [Remove all tempory contacts after restart]
 Usuń wszystkie tymczasowe kontakty po restarcie
 [Use regex for answers checking]
-Użyj  regex dla kontroli odpowiedzi
+Użyj regex dla kontroli odpowiedzi
 [Log Spammers to system history]
 Dziennik spamu w historii systemowej
 [Use math expression in question]

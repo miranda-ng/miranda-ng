@@ -169,11 +169,78 @@ Akceptuj
 Od:
 [The following invitation to join a voice chat is received.]
 
+;file \protocols\Tlen\src\tlen.cpp
+[Protocol icon]
+Ikona protokołu
+[Tlen inbox]
+
+[Group chats]
+Rozmowy grupowe
+[Tlen chats]
+
+[Voice chat]
+
+[Microphone]
+
+[Speaker]
+
+[Send image]
+Wyślij obrazek
+[Incoming mail]
+
+[Alert]
+
+[Tlen Chats]
+
+[Multi-User Conference]
+Konferencja
+[Tlen Mail]
+
+[Send picture]
+Wyślij obrazek
+[Voice Chat]
+
+[Request authorization]
+Poproś o autoryzację
+[Grant authorization]
+Udziel autoryzacji
+;file \protocols\Tlen\src\tlen_file.cpp
+[1 File]
+1 Plik
+[%d Files]
+%d Plików
 ;file \protocols\Tlen\src\tlen_iqid.cpp
 [Authentication failed for]
 Autoryzacja nieudana dla 
 [Tlen Authentication]
 Autoryzacja Tlen
+;file \protocols\Tlen\src\tlen_muc.cpp
+[You have been kicked. Reason: %s ]
+
+[You cannot join this chat room, because you are banned.]
+
+[Chat room not found.]
+Pokój czatowy nie znaleziony.
+[This is a private chat room and you are not one of the members.]
+
+[You cannot send any message unless you join this chat room.]
+
+[Chat room with already created.]
+Pokój czatowy już istnieje.
+[Nickname '%s' is already registered.]
+
+[Nickname already in use, please try another one. Hint: '%s' is free.]
+
+[You cannot register more than %s nicknames.]
+
+[You cannot create more than %s chat rooms.]
+
+[You cannot join more than %s chat rooms.]
+
+[Anonymous nicknames are not allowed in this chat room.]
+
+[Unknown error code : %d]
+Kod nieznanego błędu: %d
 ;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
 Ogólne
@@ -219,6 +286,11 @@ SOCKS4
 SOCKS5
 [%s mail]
 
+;file \protocols\Tlen\src\tlen_picture.cpp
+[Image sent file://%s]
+Wysłany obrazek://%s
+[Image received file://%s]
+Otrzymany obrazek://%s
 ;file \protocols\Tlen\src\tlen_svc.cpp
 [Tlen login]
 
@@ -257,83 +329,6 @@ E-mail
 
 [Subject]
 Temat
-;file \protocols\Tlen\src\tlen_ws.cpp
-[%s connection]
-Połączenie %s
-[%s SOCKS connection]
-
-;file \protocols\Tlen\src\tlen.cpp
-[Protocol icon]
-Ikona protokołu
-[Tlen inbox]
-
-[Group chats]
-Rozmowy grupowe
-[Tlen chats]
-
-[Voice chat]
-
-[Microphone]
-
-[Speaker]
-
-[Send image]
-Wyślij obrazek
-[Incoming mail]
-
-[Alert]
-
-[Tlen Chats]
-
-[Multi-User Conference]
-Konferencja
-[Tlen Mail]
-
-[Send picture]
-Wyślij obrazek
-[Voice Chat]
-
-[Request authorization]
-Poproś o autoryzację
-[Grant authorization]
-Udziel autoryzacji
-;file \protocols\Tlen\src\tlen_file.cpp
-[1 File]
-1 Plik
-[%d Files]
-%d Plików
-;file \protocols\Tlen\src\tlen_muc.cpp
-[You have been kicked. Reason: %s ]
-
-[You cannot join this chat room, because you are banned.]
-
-[Chat room not found.]
-Pokój czatowy nie znaleziony.
-[This is a private chat room and you are not one of the members.]
-
-[You cannot send any message unless you join this chat room.]
-
-[Chat room with already created.]
-Pokój czatowy już istnieje.
-[Nickname '%s' is already registered.]
-
-[Nickname already in use, please try another one. Hint: '%s' is free.]
-
-[You cannot register more than %s nicknames.]
-
-[You cannot create more than %s chat rooms.]
-
-[You cannot join more than %s chat rooms.]
-
-[Anonymous nicknames are not allowed in this chat room.]
-
-[Unknown error code : %d]
-Kod nieznanego błędu: %d
-;file \protocols\Tlen\src\tlen_picture.cpp
-[Image sent file://%s]
-Wysłany obrazek://%s
-[Image received file://%s]
-Otrzymany obrazek://%s
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 [Account]
 Konto
@@ -358,3 +353,8 @@ nie na liście
 ...Odmówiono...
 [Default]
 Domyślny
+;file \protocols\Tlen\src\tlen_ws.cpp
+[%s connection]
+Połączenie %s
+[%s SOCKS connection]
+

@@ -1949,6 +1949,8 @@ Wiadomość od %s
 %s pisze wiadomość
 [Typing Notification]
 Pisanie
+[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
+Miranda nie może załadować wbudowanego modułu wiadomości, brakuje riched20.dll. Wciśnij 'Tak' aby kontynuować.
 [Instant messages]
 Wiadomości
 [Incoming (Focused Window)]
@@ -2189,14 +2191,14 @@ Utwórz
 Czy napewano chcesz usunąć profil "%s"?
 [Size]
 Rozmiar
-[Created]
-Utworzono
-[Modified]
-Zmodyfikowano
 [Run]
 Uruchom
 [Check database]
 Sprawdź profil
+[Created]
+Utworzono
+[Modified]
+Zmodyfikowano
 [Manage your Miranda NG profile]
 
 [My Profiles]
@@ -2305,6 +2307,8 @@ Czas w mikrosekundach
 Wybierz gdzie zostanie utworzony dziennik
 [Select program to be run]
 Wybierz program do uruchomienia
+[Standard netlib log]
+
 ;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <Wszystkie połączenia>

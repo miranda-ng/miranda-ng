@@ -33,7 +33,7 @@ Usuń starsze niż 1 dzień
 [Delete older than 3 days]
 Usuń starsze niż 3 dni
 [Delete older than 7 days]
-Usuń starsze niż  7 dni
+Usuń starsze niż 7 dni
 [Delete older than 2 weeks (14 days)]
 Usuń starsze niż 2 tygodnie (14 dni)
 [Delete older than 1 month (30 days)]

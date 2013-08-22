@@ -57,6 +57,10 @@ Anuluj
 [Remote IP:Port]
 
 ;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+[Show]
+Pokaż
+[Hide]
+Ukryj
 [Always show popup]
 
 [Never show popup]
@@ -73,7 +77,7 @@ Status
 Akcja
 [Plugins]
 Wtyczki
-[ConnectionNotify: New Connection Notification]
+[New Connection Notification]
 
 ;file \plugins\ConnectionNotify\src\filter.cpp
 [First close options window]

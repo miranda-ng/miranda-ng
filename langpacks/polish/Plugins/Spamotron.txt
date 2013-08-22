@@ -51,7 +51,7 @@ Włączony
 [Flood protection]
 
 [Do not send more than]
-
+Nie wysyłaj więcej niż
 [messages to one contact per day]
 
 [times a day]

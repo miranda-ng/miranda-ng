@@ -42,7 +42,7 @@ Zaznacz wszystko
 [VersionInfo stored into file %s]
 Informaje o wersji zachowano w pliku: %s
 [VersionInfo file %s is inaccessible]
-Plik VersionInfo  %s jest niedostępny
+Plik VersionInfo %s jest niedostępny
 [Services]
 Usługi
 [Version Information To Clipboard]

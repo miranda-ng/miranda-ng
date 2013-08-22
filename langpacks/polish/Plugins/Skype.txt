@@ -134,13 +134,13 @@ Blokuj
 
 [No one]
 
-[Allow my online status to be shown on the web]
-
 [Show avatars]
 Pokaż awatar
 [Contacts count]
 
 [Local time]
+
+[Allow my online status to be shown on the web]
 
 [Block this person]
 

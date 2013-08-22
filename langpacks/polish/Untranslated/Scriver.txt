@@ -20,8 +20,6 @@
 [Incoming background]
 [Infobar background]
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-[Contact started typing]
-[Contact stopped typing]
 [%s enables '%s' status for %s]
 [%s disables '%s' status for %s]
 [<invalid>]

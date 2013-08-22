@@ -27,7 +27,7 @@ Anuluj
 [Misc. Options]
 Opcje
 [Use group chat for Twitter feed]
-Użyj pokoju czatowego dla wiadomości  Twittera
+Użyj pokoju czatowego dla wiadomości Twittera
 [Base URL:]
 URL:
 [Polling rate:]

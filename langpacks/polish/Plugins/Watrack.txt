@@ -647,7 +647,7 @@ Info muzyczne z
 [Slider]
 Sówak
 [Slider Hovered]
-Suwak  - po najechaniu
+Suwak - po najechaniu
 [Slider Pushed]
 Suwak - po naciśnięciu
 [WATrack status]
