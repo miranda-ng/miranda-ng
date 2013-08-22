@@ -218,7 +218,7 @@ bool TwitterProto::NegotiateConnection()
 			db_free(&dbv);
 		}
 		else {
-			ShowPopup(TranslateT("OAuth variables are out of sequence, they have been reset.  Please reconnect and reauthorise Miranda to Twitter.com (do the PIN stuff again)"));
+			ShowPopup(TranslateT("OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorise Miranda to Twitter.com (do the PIN stuff again)"));
 			LOG( _T("**NegotiateConnection - We don't have a PIN?  this doesn't make sense.  Resetting OAuth keys and setting offline."));
 			resetOAuthKeys();
 
@@ -245,7 +245,7 @@ bool TwitterProto::NegotiateConnection()
 		http::response accessResp = twit_.request_access_tokens();
 		if (accessResp.code != 200) {
 			LOG( _T("**NegotiateConnection - Failed to get Access Tokens, HTTP response code is: %d"), accessResp.code);
-			ShowPopup(TranslateT("Failed to get Twitter Access Tokens, please go offline and try again.  If this keeps happening, check your internet connection."));
+			ShowPopup(TranslateT("Failed to get Twitter Access Tokens, please go offline and try again. If this keeps happening, check your internet connection."));
 
 			resetOAuthKeys();
 
@@ -309,7 +309,7 @@ bool TwitterProto::NegotiateConnection()
 	LOG("**NegotiateConnection - sending set_cred: no pin");*/
 
 	if (screenName.empty()) {
-		ShowPopup(TranslateT("You're missing the Nick key in the database.  This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc).  To fix it either add it manually or reset your twitter account in the miranda account options"));
+		ShowPopup(TranslateT("You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or reset your twitter account in the miranda account options"));
 		LOG( _T("**NegotiateConnection - Missing the Nick key in the database.  Everything will still work, but it's nice to have"));
 	}
 

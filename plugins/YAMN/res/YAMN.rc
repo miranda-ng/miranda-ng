@@ -254,7 +254,7 @@ BEGIN
     GROUPBOX        "YAMN General Options",IDC_STATIC,3,2,303,65
     CONTROL         "TopToolBar button ""Check mail""",IDC_CHECKTTB,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,15,294,11
     CONTROL         "Enable YAMN Main Menu",IDC_MAINMENU,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,33,293,9
-    CONTROL         "Show YAMN as a Protocol  (Require Restart)",IDC_YAMNASPROTO,
+    CONTROL         "Show YAMN as a Protocol (Require Restart)",IDC_YAMNASPROTO,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,50,293,9
 
     GROUPBOX        "MailBrowser Options",IDC_STATIC,3,68,151,47

@@ -61,7 +61,7 @@ BEGIN
     GROUPBOX        "Other options",IDC_GROUP_OTHER,5,105,271,39
     CONTROL         "",IDC_NOSYNC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,114,254,9
     LTEXT           "Note: All settings are applied immediately",IDC_IPCONFIG_FOOTER,7,146,267,11
-    LTEXT           "The container is using private settings. The panel  height  will not be shared with other containers.",IDC_IPCONFIG_PRIVATECONTAINER,7,157,267,18
+    LTEXT           "The container is using private settings. The panel height will not be shared with other containers.",IDC_IPCONFIG_PRIVATECONTAINER,7,157,267,18
     LTEXT           "Show picture for this contact",IDC_STATIC,10,129,128,10
     COMBOBOX        IDC_PANELPICTUREVIS,149,126,118,16,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
 END
@@ -332,11 +332,11 @@ BEGIN
     GROUPBOX        "Typing Notification",IDC_STATIC,7,0,269,121
     LTEXT           "Send typing notifications to the following users when you are typing a message to the them:",IDC_STATIC,19,10,245,19
     CONTROL         "",IDC_CLIST,"CListControl",WS_TABSTOP | 0x3da,18,29,248,88,WS_EX_CLIENTEDGE
-    GROUPBOX        "          Show typing notifications in the message window",IDC_STATIC,7,124,269,25
+    GROUPBOX        "        Show typing notifications in the message window",IDC_STATIC,7,124,269,25
     CONTROL         "",IDC_SHOWNOTIFY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,123,12,12
     CONTROL         "Flash window once on typing events (only if flashing enabled)",IDC_TYPEFLASHWIN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,33,135,230,10
-    GROUPBOX        "          Show typing notifications in the contact list and tray",IDC_STATIC,7,152,269,48
+    GROUPBOX        "        Show typing notifications in the contact list and tray",IDC_STATIC,7,152,269,48
     CONTROL         "",IDC_NOTIFYTRAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,150,12,12
     CONTROL         "Show typing notification when message dialog is open",IDC_TYPEWIN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,33,163,230,10
@@ -344,7 +344,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,33,175,230,10
     CONTROL         "Show balloon tooltip in the system tray",IDC_NOTIFYBALLOON,
                     "Button",BS_AUTOCHECKBOX | WS_GROUP,44,188,206,10
-    GROUPBOX        "          Show popups when a user is typing",IDC_STATIC111,7,203,269,30
+    GROUPBOX        "        Show popups when a user is typing",IDC_STATIC111,7,203,269,30
     CONTROL         "",IDC_NOTIFYPOPUP,"Button",BS_AUTOCHECKBOX,16,202,12,12
     COMBOBOX        IDC_MTN_POPUPMODE,32,216,230,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "More about typing notifications",IDC_MTN_HELP,"Hyperlink",WS_TABSTOP | 0x1,9,237,262,9

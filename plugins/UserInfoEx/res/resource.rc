@@ -528,7 +528,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     LTEXT           "",STATIC_WHITERECT,0,0,242,35
     ICON            IDI_MAIN,ICO_DLGLOGO,213,3,20,20,SS_REALSIZEIMAGE
-    LTEXT           "Check the Modules in the TreeView which you want to export for the contact. To add    the file as a new list entry later you need to export at least the protocol module.",TXT_NAME,5,5,199,25,0,WS_EX_TRANSPARENT
+    LTEXT           "Check the Modules in the TreeView which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.",TXT_NAME,5,5,199,25,0,WS_EX_TRANSPARENT
     CONTROL         "",STATIC_LINE1,"Static",SS_ETCHEDHORZ,0,34,241,1
     CONTROL         "",IDC_TREE,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_NOTOOLTIPS | WS_TABSTOP,3,39,160,117,WS_EX_CLIENTEDGE
     PUSHBUTTON      "Check all",BTN_CHECK,167,49,70,14

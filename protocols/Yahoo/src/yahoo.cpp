@@ -1121,15 +1121,15 @@ void CYahooProto::ext_login_response(int succ, const char *url)
 	}
 	
 	if (succ == YAHOO_LOGIN_UNAME) {
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed."));
+		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed."));
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
 	}
 	else if (succ == YAHOO_LOGIN_PASSWD) {
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed."));
+		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed."));
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 	}
 	else if (succ == YAHOO_LOGIN_LOCK) {
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it."), url);
+		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it."), url);
 	}
 	else if (succ == YAHOO_LOGIN_DUPL) {
 		mir_sntprintf(buff, SIZEOF(buff), TranslateT("You have been logged out of the yahoo service, possibly due to a duplicate login."));
@@ -1584,8 +1584,8 @@ void CYahooProto::ext_login(enum yahoo_status login_mode)
 	yahoo_login(m_id, login_mode);
 
 	if (m_id <= 0) {
-		LOG(("Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered."));
-		ShowError( TranslateT("Yahoo Login Error"), TranslateT("Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered."));
+		LOG(("Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered."));
+		ShowError( TranslateT("Yahoo Login Error"), TranslateT("Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered."));
 		return;
 	}
 

@@ -82,7 +82,7 @@ INT_PTR WeatherMap(WPARAM wParam, LPARAM lParam)
 	if (id[0] != 0) {
 		// check if the weather map URL is set. If it is not, display warning and quit
 		if ( DBGetStaticString((HANDLE)wParam, WEATHERPROTONAME, "MapURL", loc2, SIZEOF(loc2)) || loc2[0] == 0) {
-			MessageBox(NULL, TranslateT("The URL for weather map have not been set.  You can set it from the Edit Settings dialog."), TranslateT("Weather Protocol"), MB_ICONINFORMATION);
+			MessageBox(NULL, TranslateT("The URL for weather map have not been set. You can set it from the Edit Settings dialog."), TranslateT("Weather Protocol"), MB_ICONINFORMATION);
 			return 1;
 		}
 
