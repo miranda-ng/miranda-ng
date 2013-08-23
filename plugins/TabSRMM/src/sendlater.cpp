@@ -243,7 +243,7 @@ bool CSendLater::processCurrentJob()
 		}
 		else m_currJob++;
 	}
-	else m_currJob++;
+	else sendIt(m_sendLaterJobList[m_currJob++]);
 
 	if (m_currJob >= m_sendLaterJobList.getCount()) {
 		m_currJob = -1;
