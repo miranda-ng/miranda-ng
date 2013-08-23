@@ -258,17 +258,14 @@ void WINAPI g_ReleaseIcon( HICON hIcon )
 
 static void LoadPlugins()
 {
-	HANDLE hFind;
-	WIN32_FIND_DATA fd;
 	TCHAR szSearchPath[MAX_PATH];
-	TCHAR szPluginPath[MAX_PATH];
-	lstrcpy(szSearchPath, szMirandaDir);
-	lstrcat(szSearchPath, _T("\\Plugins\\YAMN\\*.dll"));
-	typedef INT_PTR (*LOADFILTERFCN)(MIRANDASERVICE GetYAMNFcn);
+	mir_sntprintf(szSearchPath, MAX_PATH, _T("%s\\Plugins\\YAMN\\*.dll"), szMirandaDir);
 
 	hDllPlugins = NULL;
 
-	if (INVALID_HANDLE_VALUE != (hFind = FindFirstFile(szSearchPath, &fd))) {
+	WIN32_FIND_DATA fd;
+	HANDLE hFind = FindFirstFile(szSearchPath, &fd);
+	if (hFind != INVALID_HANDLE_VALUE) {
 		do {
 			//rewritten from Miranda sources... Needed because Win32 API has a bug in FindFirstFile, search is done for *.dlllllll... too
 			TCHAR *dot = _tcsrchr(fd.cFileName, '.');
@@ -276,21 +273,20 @@ static void LoadPlugins()
 				continue;
 
 			// we have a dot
-			int len = (int)lstrlen(fd.cFileName); // find the length of the string
+			int len = lstrlen(fd.cFileName); // find the length of the string
 			TCHAR* end = fd.cFileName+len; // get a pointer to the NULL
 			int safe = (end-dot)-1;	// figure out how many chars after the dot are "safe", not including NULL
 
 			if ((safe != 3) || (lstrcmpi(dot+1, _T("dll")) != 0)) //not bound, however the "dll" string should mean only 3 chars are compared
 				continue;
 
-			HINSTANCE hDll;
-			LOADFILTERFCN LoadFilter;
+			TCHAR szPluginPath[MAX_PATH];
+			mir_sntprintf(szPluginPath, MAX_PATH,_T("%s\\Plugins\\YAMN\\%s"), szMirandaDir, fd.cFileName);
+			HINSTANCE hDll = LoadLibrary(szPluginPath);
+			if (hDll == NULL)
+				continue;
 
-			lstrcpy(szPluginPath, szMirandaDir);
-			lstrcat(szPluginPath, _T("\\Plugins\\YAMN\\"));
-			lstrcat(szPluginPath, fd.cFileName);
-			if ((hDll = LoadLibrary(szPluginPath)) == NULL) continue;
-			LoadFilter = (LOADFILTERFCN)GetProcAddress(hDll, "LoadFilter");
+			LOADFILTERFCN LoadFilter = (LOADFILTERFCN) GetProcAddress(hDll, "LoadFilter");
 			if (NULL == LoadFilter) {
 				FreeLibrary(hDll);
 				hDll = NULL;
