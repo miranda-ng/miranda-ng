@@ -76,11 +76,6 @@ Upravit
 Nezobrazit oznámení pro zdroje RSS
 [No popups for read messages]
 Neoznamovat přečtené zprávy
-;file \plugins\NewEventNotify\src\main.cpp
-[Message Session]
-Rozhovor
-[Message Received]
-Přijata zpráva
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Oznámení
@@ -123,5 +118,5 @@ Zkouška události Soubor :-D
 Zkouška  jiné události ;-D
 [Plugin Test]
 Zkouška doplňku
-[Number of new message: ]
-Počet nových zpráv:\s
+[[b]Number of new message(s): %d[/b]\n]
+[b]Počet nových zpráv: %d[/b]\n

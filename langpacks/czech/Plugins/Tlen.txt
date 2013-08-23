@@ -89,8 +89,8 @@ G&lobální nastavení
 Trval&e
 [Preview]
 Náhled
-[Jabber Password]
-Jabber :: Heslo
+[Tlen Password]
+Tlen :: Heslo
 [OK]
 OK
 [Cancel]
@@ -169,12 +169,79 @@ Pozvánka k hovoru
 Od:
 [The following invitation to join a voice chat is received.]
 Přišla vám pozvánka k hovoru.
-;file \protocols\Tlen\src\jabber_iqid.cpp
+;file \protocols\Tlen\src\tlen.cpp
+[Protocol icon]
+Ikona protokolu
+[Tlen inbox]
+
+[Group chats]
+Skupinové rozhovory
+[Tlen chats]
+
+[Voice chat]
+Telefonní hovor
+[Microphone]
+
+[Speaker]
+
+[Send image]
+Poslat
+[Incoming mail]
+Nová pošta
+[Alert]
+Upozornění
+[Tlen Chats]
+Diskuse
+[Multi-User Conference]
+Diskusní skupina
+[Tlen Mail]
+Pošta Tlen
+[Send picture]
+Odeslat obrázek
+[Voice Chat]
+Hovor
+[Request authorization]
+Požádat o autorizaci
+[Grant authorization]
+Udělit autorizaci
+;file \protocols\Tlen\src\tlen_file.cpp
+[1 File]
+1 soubor
+[%d Files]
+%d soubory
+;file \protocols\Tlen\src\tlen_iqid.cpp
 [Authentication failed for]
 Chyba při ověřování:
 [Tlen Authentication]
 
-;file \protocols\Tlen\src\jabber_opt.cpp
+;file \protocols\Tlen\src\tlen_muc.cpp
+[You have been kicked. Reason: %s ]
+
+[You cannot join this chat room, because you are banned.]
+
+[Chat room not found.]
+
+[This is a private chat room and you are not one of the members.]
+
+[You cannot send any message unless you join this chat room.]
+
+[Chat room with already created.]
+
+[Nickname '%s' is already registered.]
+
+[Nickname already in use, please try another one. Hint: '%s' is free.]
+
+[You cannot register more than %s nicknames.]
+
+[You cannot create more than %s chat rooms.]
+
+[You cannot join more than %s chat rooms.]
+
+[Anonymous nicknames are not allowed in this chat room.]
+
+[Unknown error code : %d]
+
+;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
 Obecné
 [Advanced]
@@ -219,14 +286,19 @@ Přeposílání
 
 [%s mail]
 
-;file \protocols\Tlen\src\jabber_svc.cpp
+;file \protocols\Tlen\src\tlen_picture.cpp
+[Image sent file://%s]
+
+[Image received file://%s]
+
+;file \protocols\Tlen\src\tlen_svc.cpp
 [Tlen login]
 
-;file \protocols\Tlen\src\jabber_thread.cpp
+;file \protocols\Tlen\src\tlen_thread.cpp
 [Enter password for]
 Zadejte heslo pro
-[Jabber Connection Error]
-Jabber :: Chyba spojení
+[Tlen Connection Error]
+Tlen :: Chyba spojení
 [Windows Server 2003]
 Windows Server 2003
 [Windows XP]
@@ -257,83 +329,6 @@ E-mail
 
 [Subject]
 Předmět
-;file \protocols\Tlen\src\jabber_ws.cpp
-[%s connection]
-%s - spojení se serverem
-[%s SOCKS connection]
-
-;file \protocols\Tlen\src\tlen.cpp
-[Protocol icon]
-Ikona protokolu
-[Tlen inbox]
-
-[Group chats]
-Skupinové rozhovory
-[Tlen chats]
-
-[Voice chat]
-Telefonní hovor
-[Microphone]
-
-[Speaker]
-
-[Send image]
-Poslat
-[Incoming mail]
-Nová pošta
-[Alert]
-Upozornění
-[Tlen Chats]
-Diskuse
-[Multi-User Conference]
-Diskusní skupina
-[Tlen Mail]
-Pošta Tlen
-[Send picture]
-Odeslat obrázek
-[Voice Chat]
-Hovor
-[Request authorization]
-Požádat o autorizaci
-[Grant authorization]
-Udělit autorizaci
-;file \protocols\Tlen\src\tlen_file.cpp
-[1 File]
-1 soubor
-[%d Files]
-%d soubory
-;file \protocols\Tlen\src\tlen_muc.cpp
-[You have been kicked. Reason: %s ]
-
-[You cannot join this chat room, because you are banned.]
-
-[Chat room not found.]
-
-[This is a private chat room and you are not one of the members.]
-
-[You cannot send any message unless you join this chat room.]
-
-[Chat room with already created.]
-
-[Nickname '%s' is already registered.]
-
-[Nickname already in use, please try another one. Hint: '%s' is free.]
-
-[You cannot register more than %s nicknames.]
-
-[You cannot create more than %s chat rooms.]
-
-[You cannot join more than %s chat rooms.]
-
-[Anonymous nicknames are not allowed in this chat room.]
-
-[Unknown error code : %d]
-
-;file \protocols\Tlen\src\tlen_picture.cpp
-[Image sent file://%s]
-
-[Image received file://%s]
-
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 [Account]
 Účet
@@ -358,3 +353,8 @@ není v seznamu
 
 [Default]
 Výchozí
+;file \protocols\Tlen\src\tlen_ws.cpp
+[%s connection]
+%s - spojení se serverem
+[%s SOCKS connection]
+

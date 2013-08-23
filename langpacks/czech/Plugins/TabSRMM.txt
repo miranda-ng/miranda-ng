@@ -14,8 +14,8 @@ Můžete přidat uživatelské jméno nebo ID. Zástupné znaky jsou povoleny a 
 OK
 [Cancel]
 Zrušit
-[  Show these events]
-   Zobrazit tyto události
+[Show these events]
+Zobrazit tyto události
 [Actions]
 Akce
 [Messages]

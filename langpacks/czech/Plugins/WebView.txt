@@ -58,7 +58,7 @@ Možnosti pro experty
 
 [Display Data in Popup]
 
-[You may need to restart Miranda IM for this change to take effect.]
+[You may need to restart Miranda NG for this change to take effect.]
 
 [Contact name:]
 

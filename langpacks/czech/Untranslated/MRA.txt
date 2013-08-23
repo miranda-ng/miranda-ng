@@ -94,6 +94,7 @@
 [Reply to %s blog status]
 [Set my blog status]
 [Writed]
+[Your password expired. Please reenter password in the Options dialog]
 [Anti spam]
 [Please, setup e-mail in options]
 [Please, setup password in options]

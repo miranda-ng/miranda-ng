@@ -44,7 +44,7 @@ Po přihlášení nečinnost
 Data přenášet jen přes proxy server
 [Masquerade as a Sidekick/Hiptop User]
 Vydávat se za uživatele Sidekick/Hiptop
-[*Aim must be reconnected  for some option to take effect.]
+[*Aim must be reconnected for some option to take effect]
 *Musíte se znovu připojit pro uvedení některých změn v platnost.
 [Connection]
 Spojení

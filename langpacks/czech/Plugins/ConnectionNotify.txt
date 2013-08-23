@@ -57,6 +57,10 @@ Můžete používat zástupné znaky * a ? (pro port zadejte číslo nebo *)
 [Remote IP:Port]
 Vzdálená IP:port
 ;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
+[Show]
+Zobrazit
+[Hide]
+Skrýt
 [Always show popup]
 Vždy zobrazit oznámení
 [Never show popup]
@@ -73,8 +77,8 @@ Externí soket
 Akce
 [Plugins]
 Doplňky
-[ConnectionNotify: New Connection Notification]
-ConnectionNotify: Upozornění na nové připojení
+[New Connection Notification]
+Upozornění na nové připojení
 ;file \plugins\ConnectionNotify\src\filter.cpp
 [First close options window]
 Nejprve zavřete okno s nastavením

@@ -51,15 +51,13 @@ Přečíst poštu
 Oznámení
 [Network]
 Sítě
-[* Primitive type system\n]
+[Why C sucks]
 
-[* No overloading\n]
+[brickstrace@gmail.com [1]]
 
-[* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n]
+[    bems\n]
 
-[* No metaprogramming except preprocessor macros\n]
-
-[* No exceptions]
+[* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions]
 
 ;file \protocols\GTalkExt\src\options.h
 [GMail notifications]

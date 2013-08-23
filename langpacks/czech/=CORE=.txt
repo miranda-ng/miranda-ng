@@ -2110,7 +2110,7 @@ Vlastní úpravy
 ;file \src\modules\clist\groups.cpp
 [New Group]
 nová skupina
-[Are you sure you want to delete group '%s'?  This operation can not be undone.]
+[Are you sure you want to delete group '%s'? This operation can not be undone.]
 Opravdu chcete smazat skupinu '%s'? Tuto operaci nelze vrátit.
 [Delete Group]
 Smazat skupinu
@@ -2191,18 +2191,16 @@ Chyba při vytváření profilu
 Opravdu si přejete odstranit profil "%s"?
 [Size]
 Velikost
-[Created]
-Vytvořeno
-[Modified]
-Změněno
 [Run]
 Spustit
 [Check database]
 Zkontrolovat databázi
-[Miranda Profiles from]
-Umístění profilů
-[Select or create your Miranda NG user profile]
-Výběr nebo vytvoření nového profilu
+[Created]
+Vytvořeno
+[Modified]
+Změněno
+[Manage your Miranda NG profile]
+Spravovat vaše profily Mirandy NG
 [My Profiles]
 Seznam profilů
 [New Profile]

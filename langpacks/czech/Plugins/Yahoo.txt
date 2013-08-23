@@ -153,7 +153,7 @@ Yahoo :: Seznam filtrovaných
 Zadejte prosím platnou přezdívku.
 [The buddy is already on your ignore list.]
 Tento uživatel je již ve vašem seznamu ignorovaných.
-[You need to be connected to Yahoo to remove from the Ignore List.]
+[You need to be connected to Yahoo to remove from the ignore list.]
 Položku ze seznamu lze odebrat až po připojení do sítě Yahoo.
 [Please select a buddy on the ignore list to remove.]
 Nejdříve vyberte požadovanou položku ze seznamu.
