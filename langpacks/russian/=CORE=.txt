@@ -338,7 +338,7 @@ ANSI плагин
 [Can't find a contact list plugin! You need StdClist or any other clist plugin.]
 Не найден плагин списка контактов! Вам нужен StdClist или clist_*.dll плагин.
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
-Не найден плагин окна диалога. Пожалуйста установите/задействуйте один из подобных плагиноа, например "StdMsg.dll"
+Не найден плагин окна диалога. Пожалуйста установите/задействуйте один из подобных плагинов, например "StdMsg.dll"
 [Cancel Change]
 Откатить изменения
 [Cancel Import]
@@ -815,8 +815,6 @@ Miranda не может распознать этот профиль
 Miranda не может открыть '%s', так как плагины для поддержки профилей не установлены.\nВам нужно установить плагин dbx_3x.dll или подобный.
 [Miranda scope]
 Сочетание в Miranda
-[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DB-tool which should be installed.]
-Miranda NG не может открыть '%s', профиль в неизвестном формате.\nЭтот профиль также может быть повреждён, попробуйте исправить его с помощью dbtool.
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DBChecker which should be installed.]
 Miranda NG не может открыть '%s', профиль в неизвестном формате.\nЭтот профиль также может быть повреждён, попробуйте исправить его с помощью DBChecker.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
@@ -2396,7 +2394,7 @@ Miranda не может загрузить плагин Chat, потому чт�
 [Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda не смогла загрузить встроенную систему сообщений, так как отсутствует riched20.dll. Нажмите "Да" для продолжения загрузки программы.
 [Show 'Send' button]
-Показывать кнопку "отправить"
+Показывать кнопку "Отправить"
 [Show username on top row]
 Показывать имя в верхней строке
 [Show toolbar buttons on top row]

@@ -164,7 +164,7 @@ APOP
 [Codepage:]
 Кодировка:
 [New Account]
-Новая Запись
+Новая запись
 [Execute Application]
 Запуск приложения
 [Please select application to run]
