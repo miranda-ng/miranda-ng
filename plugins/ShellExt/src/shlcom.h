@@ -94,16 +94,17 @@ struct TSlotIPC
 
 struct THeaderIPC
 {
-	int cbSize;
-	DWORD dwVersion;
-	void *pServerBaseAddress, *pClientBaseAddress;
-	int   fRequests;
-	DWORD dwFlags;
-	int   Slots, Cardinal;
-	char  SignalEventName[64];
-	char  MirandaName[64];
-	char  MRUMenuName[64];
-	char  ClearEntries[64];
+	int    cbSize;
+	DWORD  dwVersion;
+	void  *pServerBaseAddress, *pClientBaseAddress;
+	int    fRequests;
+	DWORD  dwFlags;
+	int    Slots;
+	HANDLE Param;
+	char   SignalEventName[64];
+	char   MirandaName[64];
+	char   MRUMenuName[64];
+	char   ClearEntries[64];
 	TSlotIPC *IconsBegin, *ContactsBegin, *GroupsBegin, *NewIconsBegin;
 	// start of an flat memory stack, which is referenced as a linked list
 	int DataSize;
