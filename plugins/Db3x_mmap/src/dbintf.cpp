@@ -35,11 +35,12 @@ static int OfsCompare(const ModuleName *mn1, const ModuleName *mn2 )
 	return ( mn1->ofs - mn2->ofs );
 }
 
-static int stringCompare2(const char* p1, const char* p2)
-{	return strcmp(p1, p2);
+static int stringCompare2(const char *p1, const char *p2)
+{
+	return strcmp(p1, p2);
 }
 
-CDb3Base::CDb3Base(const TCHAR* tszFileName) :
+CDb3Base::CDb3Base(const TCHAR *tszFileName) :
 	m_hDbFile(INVALID_HANDLE_VALUE),
 	m_safetyMode(true),
 	m_bReadOnly(true),
@@ -98,7 +99,10 @@ int CDb3Base::Load(bool bSkipInit)
 	log0("DB logging running");
 	
 	DWORD dummy = 0;
-	m_hDbFile = CreateFile(m_tszProfileName, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, 0, NULL);
+	if (bSkipInit)
+		m_hDbFile = CreateFile(m_tszProfileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+	else
+		m_hDbFile = CreateFile(m_tszProfileName, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, 0, NULL);
 	if ( m_hDbFile == INVALID_HANDLE_VALUE )
 		return EGROKPRF_CANTREAD;
 
