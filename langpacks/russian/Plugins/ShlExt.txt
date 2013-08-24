@@ -1,12 +1,34 @@
-﻿#muuid {72013a26-a94c-11d6-8540-a5e62932711d}
+﻿#muuid {7993ab24-1fda-428c-a89b-be377a10be3a}
 ;============================================================
-;  File: shlext.dll
-;  Module: shlext - Shell context menus for transfers
-;  Versions: 1.0.0.6-1.0.6.6
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=534
+;  File: ShlExt.dll
+;  Plugin: ShlExt
+;  Version: 2.2.0.1
+;  Authors: Sam Kothari, Miranda NG Team
 ;============================================================
-[Click 'n' send support from Explorer/Common dialogs/Desktop, Right click on a file/folder to be presented with all your Miranda contact lists and then select the profile/contact you want to send to.]
+[Windows Explorer extension for Miranda NG.]
 Интеграция Miranda NG в контекстное меню оболочки ОС.
+[Display contacts in their assigned groups (if any)]
+Отображать контакты по группам (если есть)
+[Only if/when the contact list is using them]
+Только если их использует список контактов
+[Display hidden, ignored or temporary contacts]
+Показывать скрытые, игнорируемые и временные контакты
+[Menus]
+Меню
+[Shell Status]
+Интеграция
+[Shell context menus]
+Контекстное меню оболочки
+[Do not display the profile name in use]
+Не показывать в меню название текущего профиля
+[Show contacts that you have set privacy rules for]
+Показывать контакты, для которых установлены правила конфиденциальности
+[Remove]
+Удалить
+[Do not show status icons in menus]
+Не показывать в меню значки статуса
+[Do not show contacts that are offline, even if my contact list does]
+Не показывать контакты, не находящиеся в сети
 [Problem, registration missing/deleted.]
 Проблема! Интеграция в оболочку отсутствует!
 [Successfully created shell registration.]
@@ -15,29 +37,11 @@
 Не разрешено
 [Approved]
 Разрешено
-[Are you sure? this will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
-Вы уверены? Это удалит все настройки данного плагин в вашей БД и все ключи реестра, отвечающие за его интеграцию в Explorer.
+[Are you sure? this will remove all the settings stored in your database && all registry entries created for shlext to work with Explorer]
+Вы уверены? Это удалит все настройки данного плагин в вашем профиле и все ключи реестра, отвечающие за его интеграцию в оболочку ОС.
 [Disable/Remove shlext]
 Отключить/Удалить shlext
-[Shell context menus]
-Контекстное меню оболочки
-[Display contacts in their assigned groups (if any)]
-Отображать контакты по группам (если есть)
-[Only if/when the contact list is using them]
-Только если их использует список контактов
-[Display hidden, ignored or temporary contacts]
-Показывать скрытые, игнорируемые и временные контакты
-[Shell Status]
-Интеграция
-[Do not display the profile name in use]
-Не показывать в меню название текущего профиля
-[Contact Status]
-Статус контакта
-[Show contacts that you have set privacy rules for]
-Показывать контакты, для которых установлены правила конфиденциальности
-[Do not show status icons in menus]
-Не показывать в меню значки статуса
-[Do not show contacts that are offline, even if my contact list does]
-Не показывать контакты, не находящиеся в сети
-[Shell context menus for transfers]
-Контекстное меню оболочки
+[Clear entries]
+Очистить историю
+[Recently]
+Последние
