@@ -60,7 +60,7 @@ void ipcPrepareRequests(int ipcPacketSize, THeaderIPC *pipch, DWORD fRequests)
 	pipch->DataSize = ipcPacketSize - pipch->cbSize;
 	// the server side will adjust these pointers as soon as it opens
 	// the mapped file to it's base address, these are set 'ere because ipcAlloc()
-	// maybe used on the client side && are translated by the server side.
+	// maybe used on the client side and are translated by the server side.
 	// ipcAlloc() is used on the client side when transferring filenames
 	// to the ST thread.
 	pipch->DataPtr = (TSlotIPC*)(LPSTR(pipch) + sizeof(THeaderIPC));
@@ -74,7 +74,7 @@ DWORD ipcSendRequest(HANDLE hSignal, HANDLE hWaitFor, THeaderIPC *pipch, DWORD d
 {
 	// signal ST to work
 	SetEvent(hSignal);
-	// wait for reply, it should open a h&&le to hWaitFor... 
+	// wait for reply, it should open a handle to hWaitFor... 
 	while (true) {
 		switch ( WaitForSingleObjectEx(hWaitFor, dwTimeoutMsecs, true)) {
 		case WAIT_OBJECT_0:
@@ -137,7 +137,7 @@ void ipcFixupAddresses(BOOL FromServer, THeaderIPC *pipch)
 	TSlotIPC *pct = pipch->DataPtr;
 	while (pct != NULL) {
 		// the first pointer is already fixed up, have to get a pointer
-		// to the next pointer && modify where it jumps to
+		// to the next pointer and modify where it jumps to
 		TSlotIPC **q = &pct->Next;
 		if (*q != NULL)
 			*q = (TSlotIPC*)(UINT_PTR(*q) + diff);

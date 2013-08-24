@@ -177,9 +177,9 @@ void BuildContactTree(TGroupNode *group, TEnumData *lParam)
 		if (pct->hGroup != 0) {
 			// at the } of the slot header is the contact's display name
 			// && after a double NULL char there is the group string, which has the full path of the group
-			// this must be tokenised at '\' && we must walk the in memory group tree til we find our group
+			// this must be tokenised at '\' and we must walk the in memory group tree til we find our group
 			// this is faster than the old version since we only ever walk one | at most two levels of the tree
-			// per tokenised section, && it doesn't matter if two levels use the same group name (which is valid)
+			// per tokenised section, and it doesn't matter if two levels use the same group name (which is valid)
 			// as the tokens processed is equatable to depth of the tree
 
 			char *sz = strtok(LPSTR(UINT_PTR(pct) + sizeof(TSlotIPC) + UINT_PTR(pct->cbStrSection) + 1), "\\");
@@ -190,7 +190,7 @@ void BuildContactTree(TGroupNode *group, TEnumData *lParam)
 				UINT Hash = mir_hashstr(sz);
 				// find this node within
 				while (pg != NULL) {
-					// does this node have the right hash && the right depth?
+					// does this node have the right hash and the right depth?
 					if (Hash == pg->Hash && Depth == pg->Depth) 
 						break;
 					// each node may have a left pointer going to a sub tree
@@ -245,7 +245,7 @@ void BuildMenuGroupTree(TGroupNode *p, TEnumData *lParam, HMENU hLastMenu)
 	}
 }
 
-// this callback is triggered by the menu code && IPC is already taking place,
+// this callback is triggered by the menu code and IPC is already taking place,
 // just the transfer type+data needs to be setup
 
 int __stdcall ClearMRUIPC(
@@ -306,9 +306,9 @@ void BuildMenus(TEnumData *lParam)
 				// trouble is contacts don't come with depths!
 				q->Hash = Hash;
 				// don't assume that pg->hGroup's hash is valid for this token
-				// since it maybe Miranda\Blah\Blah && we have created the first node
+				// since it maybe Miranda\Blah\Blah and we have created the first node
 				// which maybe Miranda, thus giving the wrong hash
-				// since "Miranda" can be a group of it's own && a full path
+				// since "Miranda" can be a group of it's own and a full path
 				q->cchGroup = lstrlenA(Token);
 				q->szGroup = (LPSTR)HeapAlloc(hDllHeap, 0, q->cchGroup + 1);
 				lstrcpyA(q->szGroup, Token);
@@ -355,12 +355,12 @@ void BuildMenus(TEnumData *lParam)
 	// insert MRU menu as a submenu of the contact menu only if
 	// the MRU list has been created, the menu popup will be deleted by itself
 	if (lParam->Self->RecentCount > 0) {
-		// insert seperator && 'clear list' menu
+		// insert seperator and 'clear list' menu
 		mii.fType = MFT_SEPARATOR;
 		mii.fMask = MIIM_TYPE;
 		InsertMenuItemA(lParam->Self->hRecentMenu, 0xFFFFFFFF, true, &mii);
 
-		// insert 'clear MRU' item && setup callback
+		// insert 'clear MRU' item and setup callback
 		mii.fMask = MIIM_TYPE | MIIM_ID | MIIM_DATA;
 		mii.wID = lParam->idCmdFirst;
 		lParam->idCmdFirst++;
@@ -414,7 +414,7 @@ void BuildMenus(TEnumData *lParam)
 
 	mii.hSubMenu = hGroupMenu;
 
-	// by default, the menu will have space for icons && checkmarks (on Vista+) && we don't need this
+	// by default, the menu will have space for icons and checkmarks (on Vista+) && we don't need this
 	RemoveCheckmarkSpace(hGroupMenu);
 
 	psd = (TMenuDrawInfo*)HeapAlloc(hDllHeap, 0, sizeof(TMenuDrawInfo));
@@ -512,8 +512,8 @@ BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 	DWORD pid = 0;
 	GetWindowThreadProcessId(hwnd, &pid);
 	if (pid != 0) {
-		// old system would get a window's pid && the module handle that created it
-		// && try to OpenEvent() a event object name to it (prefixed with a string)
+		// old system would get a window's pid and the module handle that created it
+		// and try to OpenEvent() a event object name to it (prefixed with a string)
 		// this was fine for most Oses (not the best way) but now actually compares
 		// the class string (a bit slower) but should get rid of those bugs finally.
 		hMirandaWorkEvent = OpenEventA(EVENT_ALL_ACCESS, false, CreateProcessUID(pid, szBuf, sizeof(szBuf)));
@@ -545,7 +545,7 @@ BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 				ipcFixupAddresses(false, lParam->ipch);
 				// store the PID used to create the work event object
 				// that got replied to -- this is needed since each contact
-				// on the final menu maybe on a different instance && another OpenEvent() will be needed.
+				// on the final menu maybe on a different instance and another OpenEvent() will be needed.
 				lParam->pid = pid;
 				// check out the user options from the server
 				lParam->bShouldOwnerDraw = (lParam->ipch->dwFlags & HIPC_NOICONS) == 0;
@@ -636,7 +636,7 @@ ULONG TShlComRec::Release()
 			pDataObject->Release();
 			pDataObject = NULL;
 		}
-		// free the heap && any memory allocated on it
+		// free the heap and any memory allocated on it
 		HeapDestroy(hDllHeap);
 		// destroy the DC
 		if (hMemDC != 0)
@@ -662,7 +662,7 @@ HRESULT TShlComRec::Initialize(PCIDLIST_ABSOLUTE pidlFolder, IDataObject *pdtobj
 	if (pDataObject != NULL)
 		pDataObject->Release();
 
-	// store the new one && AddRef() it
+	// store the new one and AddRef() it
 	pDataObject = pdtobj;
 	pDataObject->AddRef();
 	return S_OK;
@@ -756,7 +756,7 @@ HRESULT ipcGetFiles(THeaderIPC *pipch, IDataObject* pDataObject, HANDLE hContact
 	STGMEDIUM stgm;
 	HRESULT hr = pDataObject->GetData(&fet, &stgm);
 	if (hr == S_OK) {
-		// FIX, actually lock the global object && get a pointer
+		// FIX, actually lock the global object and get a pointer
 		HANDLE hDrop = GlobalLock(stgm.hGlobal);
 		if (hDrop != 0) {
 			// get the maximum number of files
@@ -1193,7 +1193,7 @@ void ipcGetSkinIcons(THeaderIPC *ipch)
 			lstrcpyA(szTmp, pa->szModuleName);
 			lstrcatA(szTmp, PS_GETCAPS);
 			DWORD dwCaps = CallService(szTmp, PFLAGNUM_1, 0);
-			if (dwCaps && PF1_FILESEND) {
+			if (dwCaps & PF1_FILESEND) {
 				TSlotIPC *pct = ipcAlloc(ipch, sizeof(TSlotProtoIcons));
 				if (pct != NULL) {
 					// capture all the icons!
@@ -1257,7 +1257,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 		if (szProto != NULL) {
 			// does it support file sends?
 			DWORD dwCaps = ProtoCallService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-			if ((dwCaps && PF1_FILESEND) == 0)
+			if ((dwCaps & PF1_FILESEND) == 0)
 				continue;
 
 			int dwStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
@@ -1287,7 +1287,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 		}
 	}
 
-	// if no one is online && the CList isn't showing offliners, quit
+	// if no one is online and the CList isn't showing offliners, quit
 	if (dwOnline == 0 && bHideOffline) {
 		mir_free(pContacts);
 		return false;
@@ -1296,7 +1296,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 	dwContacts = i;
 	qsort(pContacts, dwContacts, sizeof(TSlotInfo), SortContact);
 
-	// create an IPC slot for each contact && store display name, etc
+	// create an IPC slot for each contact and store display name, etc
 	for (i=0; i < dwContacts; i++) {
 		char *szContact = (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)pContacts[i].hContact, 0);
 		if (szContact != NULL) {
@@ -1411,7 +1411,7 @@ void __stdcall ipcService(ULONG_PTR dwParam)
 		szBuf = Translate("Recently");
 		lstrcpynA(pMMT->MRUMenuName, szBuf, sizeof(pMMT->MRUMenuName) - 1);
 
-		// && a custom string for "clear entries"
+		// and a custom string for "clear entries"
 		szBuf = Translate("Clear entries");
 		lstrcpynA(pMMT->ClearEntries, szBuf, sizeof(pMMT->ClearEntries) - 1);
 
@@ -1570,7 +1570,7 @@ HRESULT RemoveCOMRegistryEntries()
 	return S_OK;
 }
 
-// called by the options code to remove COM entries, && before that, get permission, if required.
+// called by the options code to remove COM entries, and before that, get permission, if required.
 
 void CheckUnregisterServer()
 {
@@ -1591,7 +1591,7 @@ void CheckUnregisterServer()
 	RemoveCOMRegistryEntries();
 }
 
-// Wow, I can't believe there isn't a direct API for this - 'runas' will invoke the UAC && ask
+// Wow, I can't believe there isn't a direct API for this - 'runas' will invoke the UAC and ask
 // for permission before installing the shell extension.  note the filepath arg has to be quoted }
 
 void CheckRegisterServer()
