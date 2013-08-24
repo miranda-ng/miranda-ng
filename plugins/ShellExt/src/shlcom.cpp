@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "shlcom.h"
+#include "shlicons.h"
 
 static bool VistaOrLater;
 
@@ -59,14 +60,14 @@ int IsCOMRegistered()
 static string CreateProcessUID(int pid)
 {
 	char buf[100];
-	mir_snprintf(buf, sizeof(buf), "mim.shlext.%d$", pid);
+	sprintf_s(buf, sizeof(buf), "mim.shlext.%d$", pid);
 	return buf;
 }
 
 static string CreateUID()
 {
 	char buf[100];
-	mir_snprintf(buf, sizeof(buf), "'mim.shlext.caller%d$%d", GetCurrentProcessId(), GetCurrentThreadId());
+	sprintf_s(buf, sizeof(buf), "'mim.shlext.caller%d$%d", GetCurrentProcessId(), GetCurrentThreadId());
 	return buf;
 }
 
@@ -467,33 +468,40 @@ void BuildMenus(TEnumData *lParam)
 
 void BuildSkinIcons(TEnumData *lParam)
 {
-	TSlotIPC *pct;
-	TShlComRec *Self;
-	UINT j;
+	IWICImagingFactory *factory = (VistaOrLater) ? ARGB_GetWorker() : NULL;
 
-	pct = lParam->ipch->NewIconsBegin;
-	Self = lParam->Self;
+	TSlotIPC *pct = lParam->ipch->NewIconsBegin;
+	TShlComRec *Self = lParam->Self;
 	while (pct != NULL) {
 		if (pct->cbSize != sizeof(TSlotIPC) || pct->fType != REQUEST_NEWICONS) 
 			break;
 		
 		TSlotProtoIcons *p = (TSlotProtoIcons*)(PBYTE(pct) + sizeof(TSlotIPC));
-		Self->ProtoIcons = (TSlotProtoIcons*)mir_realloc(Self->ProtoIcons, (Self->ProtoIconsCount + 1) * sizeof(TSlotProtoIcons));
+		Self->ProtoIcons = (TSlotProtoIcons*)realloc(Self->ProtoIcons, (Self->ProtoIconsCount + 1) * sizeof(TSlotProtoIcons));
 		TSlotProtoIcons *d = &Self->ProtoIcons[Self->ProtoIconsCount];
 		memmove(d, p, sizeof(TSlotProtoIcons));
 
-		// if using Vista (| later), clone all the icons into bitmaps && keep these around,
-		// if using anything older, just use the default code, the bitmaps (&& | icons) will be freed
+		// if using Vista (or later), clone all the icons into bitmaps and keep these around,
+		// if using anything older, just use the default code, the bitmaps (and/or icons) will be freed
 		// with the shell object.
 
-		for (j = 0; j < 10; j++) {
-			d->hBitmaps[j] = 0;
-			d->hIcons[j] = CopyIcon(p->hIcons[j]);
+		for (int j = 0; j < 10; j++) {
+			if (VistaOrLater) {
+				d->hBitmaps[j] = ARGB_BitmapFromIcon(factory, Self->hMemDC, p->hIcons[j]);
+				d->hIcons[j] = NULL;				
+			}
+			else {
+				d->hBitmaps[j] = NULL;
+				d->hIcons[j] = CopyIcon(p->hIcons[j]);
+			}
 		}
 
 		Self->ProtoIconsCount++;
 		pct = pct->Next;
 	}
+
+	if (factory)
+		factory->Release();
 }
 
 BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
@@ -513,7 +521,7 @@ BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 		hMirandaWorkEvent = OpenEventA(EVENT_ALL_ACCESS, false, CreateProcessUID(pid).c_str());
 		if (hMirandaWorkEvent != 0) {
 			GetClassNameA(hwnd, szBuf, sizeof(szBuf));
-			if ( lstrcmpA(szBuf, MIRANDANAME) != 0) {
+			if ( lstrcmpA(szBuf, MIRANDACLASS) != 0) {
 				// opened but not valid.
 				CloseHandle(hMirandaWorkEvent);
 				return true;
@@ -559,8 +567,6 @@ BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 
 TShlComRec::TShlComRec()
 {
-  HDC DC;
-
   RefCount = 1;
   hDllHeap = HeapCreate(0, 0, 0);
   hRootMenu = 0;
@@ -571,7 +577,7 @@ TShlComRec::TShlComRec()
   ProtoIcons = NULL;
   ProtoIconsCount = 0;
   // create an inmemory DC
-  DC = GetDC(0);
+  HDC DC = GetDC(0);
   hMemDC = CreateCompatibleDC(DC);
   ReleaseDC(0, DC);
   // keep count on the number of objects
@@ -624,7 +630,7 @@ ULONG TShlComRec::Release()
 						DeleteObject(p->hBitmaps[j]);
 				}
 			}
-			mir_free(ProtoIcons);
+			free(ProtoIcons);
 			ProtoIcons = NULL;
 		}
 		// free IDataObject reference if pointer exists
@@ -679,17 +685,13 @@ HRESULT TShlComRec::QueryContextMenu(HMENU hmenu, UINT indexMenu, UINT _idCmdFir
 	if (((LOWORD(uFlags) & CMF_VERBSONLY) != CMF_VERBSONLY) && ((LOWORD(uFlags) & CMF_DEFAULTONLY) != CMF_DEFAULTONLY)) {
 		bool bMF_OWNERDRAW = false;
 		// get the shell version
-		HINSTANCE hShellInst = LoadLibraryA("shell32.dll");
-		if (hShellInst != 0) {
-			pfnDllGetVersion DllGetVersionProc = (pfnDllGetVersion)GetProcAddress(hShellInst, "DllGetVersion");
-			if (DllGetVersionProc != NULL) {
-				DllVersionInfo dvi;
-				dvi.cbSize = sizeof(dvi);
-				if (DllGetVersionProc(&dvi) >= 0)
-					// it's at least 4.00
-					bMF_OWNERDRAW = (dvi.dwMajorVersion > 4) | (dvi.dwMinorVersion >= 71);
-			}
-			FreeLibrary(hShellInst);
+		pfnDllGetVersion DllGetVersionProc = (pfnDllGetVersion)GetProcAddress( GetModuleHandleA("shell32.dll"), "DllGetVersion");
+		if (DllGetVersionProc != NULL) {
+			DllVersionInfo dvi;
+			dvi.cbSize = sizeof(dvi);
+			if (DllGetVersionProc(&dvi) >= 0)
+				// it's at least 4.00
+				bMF_OWNERDRAW = (dvi.dwMajorVersion > 4) | (dvi.dwMinorVersion >= 71);
 		}
 
 		// if we're using Vista (| later),  the ownerdraw code will be disabled, because the system draws the icons.
@@ -719,7 +721,7 @@ HRESULT TShlComRec::QueryContextMenu(HMENU hmenu, UINT indexMenu, UINT _idCmdFir
 				// create the wait wait-for-wait object
 				ed.hWaitFor = CreateEventA(NULL, false, false, pipch->SignalEventName);
 				if (ed.hWaitFor != 0) {
-					// enumerate all the top level windows to find all loaded MIRANDANAME classes
+					// enumerate all the top level windows to find all loaded MIRANDACLASS classes
 					EnumWindows(&ProcessRequest, LPARAM(&ed));
 					// close the wait-for-reply object
 					CloseHandle(ed.hWaitFor);
@@ -1184,20 +1186,21 @@ void ipcGetSkinIcons(THeaderIPC *ipch)
 	char szTmp[64];
 
 	int protoCount;
-	PROTOACCOUNT *pp;
+	PROTOACCOUNT **pp;
 	if ( CallService(MS_PROTO_ENUMACCOUNTS, WPARAM(&protoCount), LPARAM(&pp)) == 0 && protoCount != 0) {
 		spi.pid = GetCurrentProcessId();
 		while (protoCount > 0) {
-			lstrcpyA(szTmp, pp->szModuleName);
+			PROTOACCOUNT *pa = *pp;
+			lstrcpyA(szTmp, pa->szModuleName);
 			lstrcatA(szTmp, PS_GETCAPS);
 			DWORD dwCaps = CallService(szTmp, PFLAGNUM_1, 0);
 			if (dwCaps && PF1_FILESEND) {
 				TSlotIPC *pct = ipcAlloc(ipch, sizeof(TSlotProtoIcons));
 				if (pct != NULL) {
 					// capture all the icons!
-					spi.hProto = mir_hashstr(pp->szModuleName);
+					spi.hProto = mir_hashstr(pa->szModuleName);
 					for (int j = 0; j <= 10; j++)
-						spi.hIcons[j] = LoadSkinnedProtoIcon(pp->szModuleName, ID_STATUS_OFFLINE + j);
+						spi.hIcons[j] = LoadSkinnedProtoIcon(pa->szModuleName, ID_STATUS_OFFLINE + j);
 
 					pct->fType = REQUEST_NEWICONS;
 					memcpy(LPSTR(pct) + sizeof(TSlotIPC), &spi, sizeof(TSlotProtoIcons));
@@ -1510,9 +1513,7 @@ const IID CLSID_ISHLCOM = { 0x72013A26, 0xA94C, 0x11d6, {0x85, 0x40, 0xA5, 0xE6,
 
 STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
 {
-	MessageBoxA(0, "Ding!", "Dong", MB_OK);
-
-	if (rclsid == CLSID_ISHLCOM && riid == IID_IClassFactory && FindWindowA(MIRANDANAME, NULL) != 0) {
+	if (rclsid == CLSID_ISHLCOM && riid == IID_IClassFactory && FindWindowA(MIRANDACLASS, NULL) != 0) {
 		*ppv = new TClassFactoryRec();
 		return S_OK;
 	}
