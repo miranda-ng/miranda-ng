@@ -1188,7 +1188,7 @@ void CYahooProto::ext_error(const char *err, int fatal, int num)
 		mir_sntprintf(buff, SIZEOF(buff), TranslateT("%s is not in the ignore list"), (TCHAR*)tszErr);
 		break;
 	case E_IGNORECONF:
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT("%s is in buddy list - cannot ignore "), (TCHAR*)tszErr);
+		mir_sntprintf(buff, SIZEOF(buff), TranslateT("%s is in buddy list - cannot ignore"), (TCHAR*)tszErr);
 		break;
 	case E_SYSTEM:
 		mir_sntprintf(buff, SIZEOF(buff), TranslateT("System Error: %s"), (TCHAR*)tszErr);
