@@ -167,7 +167,7 @@
 [Contact Information]
 [Contact History]
 [Select Modules]
-[Check the Modules in the TreeView which you want to export for the contact. To add    the file as a new list entry later you need to export at least the protocol module.]
+[Check the Modules in the TreeView which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
 [Check all]
 [Uncheck all]
 [&Export]

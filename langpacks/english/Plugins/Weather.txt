@@ -111,7 +111,7 @@
 [More...]
 [Weather Protocol INI Setup]
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
-[Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
+[Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
 [Click here to download a weather ini file from Miranda file listing]
 [Extract the weather ini file from archive to this directory]
 [Click here to load the data from the new ini file into memory]
@@ -181,7 +181,7 @@
 ;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 [The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
-[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
+[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
 [Get city name from ID]
 [Weather INI information]
 [Browse]
