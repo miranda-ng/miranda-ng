@@ -22,11 +22,6 @@ call make.bat fpc 11
 if errorlevel 1 goto :Error
 popd
 
-pushd ShlExt
-call make.bat fpc 11
-if errorlevel 1 goto :Error
-popd
-
 pushd Watrack
 call make.bat fpc 11
 if errorlevel 1 goto :Error

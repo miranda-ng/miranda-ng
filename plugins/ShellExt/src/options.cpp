@@ -110,7 +110,7 @@ int OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE opt = { sizeof(opt) };
 	opt.flags = ODPF_BOLDGROUPS;
-	opt.pszGroup = "Plugins";
+	opt.pszGroup = "Services";
 	opt.position = -1066;
 	opt.pszTitle = "Shell context menus";
 	opt.pszTemplate = MAKEINTRESOURCEA(IDD_SHLOPTS);
