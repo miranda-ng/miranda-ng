@@ -1,11 +1,33 @@
-﻿#muuid {72013a26-a94c-11d6-8540-a5e62932711d}
+﻿#muuid {7993ab24-1fda-428c-a89b-be377a10be3a}
 ;============================================================
-;  File: shlext.dll
-;  Module: shlext - Shell context menus for transfers
-;  Versions: 1.0.0.6-1.0.6.6
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=534
+;  File: ShlExt.dll
+;  Plugin: ShlExt
+;  Version: 2.2.0.1
+;  Authors: Sam Kothari, Miranda NG Team
 ;============================================================
-[Click 'n' send support from Explorer/Common dialogs/Desktop, Right click on a file/folder to be presented with all your Miranda contact lists and then select the profile/contact you want to send to.]
+[Windows Explorer extension for Miranda NG.]
+
+[Display contacts in their assigned groups (if any)]
+
+[Only if/when the contact list is using them]
+
+[Display hidden, ignored or temporary contacts]
+
+[Menus]
+
+[Shell Status]
+
+[Shell context menus]
+
+[Do not display the profile name in use]
+
+[Show contacts that you have set privacy rules for]
+
+[Remove]
+
+[Do not show status icons in menus]
+
+[Do not show contacts that are offline, even if my contact list does]
 
 [Problem, registration missing/deleted.]
 
@@ -19,25 +41,9 @@
 
 [Disable/Remove shlext]
 
-[Shell context menus]
+[Miranda]
 
-[Display contacts in their assigned groups (if any)]
+[Recently]
 
-[Only if/when the contact list is using them]
-
-[Display hidden, ignored or temporary contacts]
-
-[Shell Status]
-
-[Do not display the profile name in use]
-
-[Contact Status]
-
-[Show contacts that you have set privacy rules for]
-
-[Do not show status icons in menus]
-
-[Do not show contacts that are offline, even if my contact list does]
-
-[Shell context menus for transfers]
+[Clear entries]
 

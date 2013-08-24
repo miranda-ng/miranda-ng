@@ -223,11 +223,11 @@ Sieť
 
 [Yahoo Ping Error]
 
-[Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
 
-[Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+[Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 
-[Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
+[Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]
 
@@ -245,11 +245,11 @@ Sieť
 
 [%s is not in the ignore list]
 
-[%s is in buddy list - cannot ignore ]
+[%s is in buddy list - cannot ignore]
 
 [System Error: %s]
 
 [Server Connection Error: %s]
 
-[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+[Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
 

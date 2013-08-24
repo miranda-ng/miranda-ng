@@ -8,9 +8,9 @@
 [Provides the ability to quickly add new contacts.]
 
 ;file \plugins\AddContactPlus\res\resource.rc
-[Add Contact]
+[Add contact]
 
-[Add Contact\nAdd a contact to your contact list]
+[Add contact\nAdd a contact to your contact list]
 
 [Account:]
 
@@ -40,8 +40,6 @@ Požiadavka na autorizáciu
 [None]
 Žiadne
 [The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
-
-[Add contact]
 
 [The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
 

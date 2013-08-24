@@ -36,8 +36,8 @@
 状态
 [Use Advanced Dialog]
 使用高级对话框
-[The Message:       (Characters:  )]
-消息: (字数:   )
+[The Message (characters: )]
+消息 (字数: )
 [Show Delivery Messages]
 显示递送消息
 ;file \plugins\BuddyPounce\src\dialog.cpp

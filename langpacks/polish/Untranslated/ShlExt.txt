@@ -1,0 +1,5 @@
+﻿[Menus]
+[Remove]
+[Miranda]
+[Recently]
+[Clear entries]

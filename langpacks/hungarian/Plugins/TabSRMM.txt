@@ -241,11 +241,11 @@ perces
 Gépelés értesítés
 [Send typing notifications to the following users when you are typing a message to the them:]
 Gépelési értesítés küldése a következõ partnereknek, ha nekik gépelsz üzenetet:
-[          Show typing notifications in the message window]
+[        Show typing notifications in the message window]
            Gépelési értesítések mutatása az üzenetablakban
 [Flash window once on typing events (only if flashing enabled)]
 Ablak felvillantása egyszer gépelési eseményeknél (csak aktivált felvillantásnál)
-[          Show typing notifications in the contact list and tray]
+[        Show typing notifications in the contact list and tray]
            Gépelési értesítések mutatása a partnerlistában és a tálcán
 [Show typing notification when message dialog is open]
 Gépelési értesítés mutatása, ha az üzenetpárbeszéd nyitva
@@ -253,7 +253,7 @@ Gépelési értesítés mutatása, ha az üzenetpárbeszéd nyitva
 Gépelés értesítés mutatás, ha nincs nyitva a párbeszédablak
 [Show balloon tooltip in the system tray]
 Buboréksúgó mutatása a rendszertálcán
-[          Show popups when a user is typing]
+[        Show popups when a user is typing]
            Felugrók mutatása ha egy felhasználó gépel
 [More about typing notifications]
 Részletek gépelési értesítésekrõl

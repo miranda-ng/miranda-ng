@@ -253,11 +253,11 @@ Genel ileti günlüğü görünümü
 Yazıyor Uyarısı
 [Send typing notifications to the following users when you are typing a message to the them:]
 Şu kişilere ileti yazarken yazma uyarılarını gönder:
-[          Show typing notifications in the message window]
+[        Show typing notifications in the message window]
           İleti penceresinde yazma uyarılarını göster
 [Flash window once on typing events (only if flashing enabled)]
 Pencere yalnız yazma uyarıları sırasında bir kez yanıp sönsün (yan sön açıksa)
-[          Show typing notifications in the contact list and tray]
+[        Show typing notifications in the contact list and tray]
           Kişi listesi ve sistem tepsisinde yazma uyarılarını göster
 [Show typing notification when message dialog is open]
 İleti penceresi açıkken yazma uyarısını göster
@@ -265,7 +265,7 @@ Pencere yalnız yazma uyarıları sırasında bir kez yanıp sönsün (yan sön 
 Hiç bir ileti penceresi açık değilken yazma uyarılarını göster
 [Show balloon tooltip in the system tray]
 Balon araç açıklamasını sistem tepsisinde göster
-[          Show popups when a user is typing]
+[        Show popups when a user is typing]
           Bir kişi yazarken açılır pencereleri göster
 [More about typing notifications]
 Yazma uyarıları hakkında

@@ -5,7 +5,7 @@
 ;  Versions: 0.9.9.0
 ;  Authors: Dezeath
 ;============================================================
-[Add Contact\nAdd a contact to your contact list]
+[Add contact\nAdd a contact to your contact list]
 Додати контакт\nДодати контакт у список контактів
 [&Add contact...]
 &Додати контакт...

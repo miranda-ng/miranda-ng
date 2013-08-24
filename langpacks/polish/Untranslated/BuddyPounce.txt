@@ -9,7 +9,7 @@
 [<< Simple]
 [The Message]
 [Use Advanced Dialog]
-[The Message:       (Characters:  )]
+[The Message (characters: )]
 [Default Settings]
 [Show Delivery Messages]
 [These settings are also used when sending a "Simple" pounce]

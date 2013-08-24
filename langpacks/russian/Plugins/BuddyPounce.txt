@@ -103,8 +103,8 @@ Pounce отослан %s за %d секунд
 -> Не беспокоить
 [To Invisible]
 -> Невидимый
-[The Message:       (Characters:  )]
-Сообщение:         (Символов:  )
+[The Message (characters: )]
+Сообщение (символов: )
 [To Online]
 -> В сети
 [Pounce being sent to]

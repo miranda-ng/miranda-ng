@@ -312,7 +312,7 @@ E-Mail
 Гісторыя кантакту
 [Select Modules]
 Абярыце плагіны
-[Check the Modules in the TreeView which you want to export for the contact. To add    the file as a new list entry later you need to export at least the protocol module.]
+[Check the Modules in the TreeView which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
 Адзначце ў спісе тыя плагіны, якія вы жадаеце экспартаваць для кантактаў. Для дадання кантакту з файла ў выглядзе новага запісу, неабходна экспартаваць хоць бы плагін пратаколу.
 [Check all]
 Абраць усё

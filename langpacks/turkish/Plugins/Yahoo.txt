@@ -131,11 +131,11 @@ Yeni Posta (%i ileti)
 Kimden: %s\nKonu: %s
 [Yahoo Ping Error]
 Yahoo Ping Hatası
-[Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
 Yahoo hizmetine giriş yapılamadı - kullanıcı adı anlaşılamadı. Kullanıcı adınızı doğru yazdığınızdan emin olun.
-[Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+[Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 Yahoo hizmetine giriş yapılamadı - parola yanlış. Kullanıcı adı ve parolanızı doğru yazdığınızdan emin olun.
-[Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
+[Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Yahoo hizmetine giriş yapılamadı. Hesabınız kilitlenmiş.\nyeniden etkinleştirmek için %s adresine gidin.
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]
 Yahoo hizmetinden çıktınız. Muhtemelen aynı hesaba başka bir giriş yapıldı.
@@ -153,11 +153,11 @@ Bilinmeyen hata %s
 %s zaten yoksayılmış
 [%s is not in the ignore list]
 %s yoksay listenizde değil
-[%s is in buddy list - cannot ignore ]
+[%s is in buddy list - cannot ignore]
 %s ahbap listenizde - yoksayılamaz
 [System Error: %s]
 Sistem Hatası: %s
 [Server Connection Error: %s]
 Sunucu Bağlantı Hatası: %s
-[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+[Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
 Yahoo sunucusuna bağlanılamadı. Lütfen ağa bağlaı olduğunuza ve sunucu ile portun doğru ayarlandığına emin olun.

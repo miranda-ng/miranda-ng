@@ -122,7 +122,7 @@ Ogólne Opcje YAMN
 Przycisk paska narzędzi "Sprawdź pocztę"
 [Enable YAMN Main Menu]
 Włącz YAMN w menu głównym
-[Show YAMN as a Protocol  (Require Restart)]
+[Show YAMN as a Protocol (Require Restart)]
 Pokaż YAMN jako Protokłół (Wymagany restart)
 [MailBrowser Options]
 Opcje przeglądania wiadomości

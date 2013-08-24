@@ -188,7 +188,7 @@ Rovnaká šírka oddielov
 
 [Hold [Shift] to inverse [Right Click] behaviour]
 
-[[Ctrl]+[Left Click] to filter only  protocol. Click on empty space to show all]
+[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
 
 [Set options per account]
 

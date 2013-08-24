@@ -26,7 +26,7 @@ sekúnd
 
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 
-[&Thunderstorm warning is issued  (Weather)]
+[&Thunderstorm warning is issued (Weather)]
 
 [&Harddrive overheats (HDD Info)]
 

@@ -129,11 +129,11 @@ Naptár Emlékeztetõ
 Ettõl:%s\nTárgy: %s
 [Yahoo Ping Error]
 Yahoo Ping hiba
-[Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
 Bejelentkezés Yahoo szolgáltatásba sikertelen - ismeretlen felhasználónév. Kérlek ellenõrizd, hogy a felhasználóneved helyes-e.
-[Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+[Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 Bejelentkezés Yahoo szolgáltatásba sikertelen - helytelen jelszó. Kérlek ellenõrizd, hogy a felhasználóneved és jelszavad helyes-e.
-[Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
+[Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Bejelentkezés Yahoo szolgáltatásba sikertelen. A fiókod lezárva.\nLátogasd meg %s-t újra aktiváláshoz.
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]
 Ki lettél jelentkeztetve a yahoo szolgáltatásból, valószínüleg dupla belépés miatt.
@@ -151,11 +151,11 @@ Egyéni hiba %s
 %s már el van vetve
 [%s is not in the ignore list]
 %s nincs az elvetési listán
-[%s is in buddy list - cannot ignore ]
+[%s is in buddy list - cannot ignore]
 %s a haverlistán van - nem lehet elvetni
 [System Error: %s]
 Rendszerhiba: %s
 [Server Connection Error: %s]
 Szerver kapcsolódási Hiba: %s
-[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+[Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
 Csatlakozás Yahoo szerverhez sikertelen. Kérlek ellenõrizd, hogy csatlakozva vagy-e az internethez, és helyesen adtad-e meg a gépet és portot.

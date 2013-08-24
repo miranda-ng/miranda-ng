@@ -431,7 +431,7 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Нататкі:
 [This font is used to display various addtional notes.]
 Шрыфт для розных дадатковых нататак.
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
 Вас вітае менеджэр контаў Міранды НГ!\nТут вы можаце наладзіць свае конты.\n\nАбярыце конт з спісу злева, каб убачыць даступныя опцыі. Цi проста націсніце на кнопку "Стварыць" пад спісам, каб стварыць новы конт.
 [Event icon legend:]
 Апісанне абразкоў падзей:

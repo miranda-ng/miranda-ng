@@ -6,7 +6,7 @@
 ;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
 ;file \plugins\AddContactPlus\res\resource.rc
-[Add Contact]
+[Add contact]
 대화 상대 추가
 [Custom name:]
 임의 지정 이름:

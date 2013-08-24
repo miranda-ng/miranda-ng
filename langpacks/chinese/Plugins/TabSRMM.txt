@@ -167,7 +167,7 @@ TabSRMM 异常
 提示: 拖动面板底部边缘可自定义大小
 [Note: All settings are applied immediately]
 注意: 所有设置立即生效
-[The container is using private settings. The panel  height  will not be shared with other containers.]
+[The container is using private settings. The panel height will not be shared with other containers.]
 容器使用私有设置. 此面板高度将不会分享给其它容器.
 [Show picture for this contact]
 此联系人显示图片
@@ -363,11 +363,11 @@ ANSI 代码页
 键入通知
 [Send typing notifications to the following users when you are typing a message to the them:]
 当您正在键入消息时, 发送键入通知给这些用户: 
-[          Show typing notifications in the message window]
+[        Show typing notifications in the message window]
           在消息窗口显示键入通知
 [Flash window once on typing events (only if flashing enabled)]
 发生键入事件时闪动一次 (仅适用于启用闪动功能)
-[          Show typing notifications in the contact list and tray]
+[        Show typing notifications in the contact list and tray]
           在联系人列表及系统托盘显示键入通知
 [Show typing notification when message dialog is open]
 当消息对话框打开时显示键入通知
@@ -375,7 +375,7 @@ ANSI 代码页
 没有打开消息对话框时显示键入通知
 [Show balloon tooltip in the system tray]
 在系统托盘显示气泡式提示
-[          Show popups when a user is typing]
+[        Show popups when a user is typing]
           当用户键入时显示弹出式窗口
 [More about typing notifications]
 关于键入通知的更多信息

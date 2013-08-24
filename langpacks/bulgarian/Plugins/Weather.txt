@@ -148,7 +148,7 @@ Popup текст
 Влажност
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
 Настройване на протокола Weather\nИнсталирайте и заредете .ini файловете тук
-[Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
+[Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
 Не са намерени .INI файлове на компютъра. За настройване на INI файловете и метеостанциите следвайте следните стъпки:
 [Click here to download a weather ini file from Miranda file listing]
 Натиснете тук, за сваляне на .INI файл от сайта на Miranda
@@ -242,7 +242,7 @@ HTTP грешка: Услугата не е налична (503)
 ;file \plugins\Weather\src\weather_contacts.cpp
 [The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
 Не е зададен адрес за пълната прогноза. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
-[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
+[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
 Не е зададен URL адрес за метеокартата. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
 [Get city name from ID]
 Извличане името на града от ID

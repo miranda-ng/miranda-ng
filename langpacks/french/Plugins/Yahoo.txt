@@ -119,11 +119,11 @@ Nouveau e-mail (%i msgs)
 De : %s\nsujet : %s
 [Yahoo Ping Error]
 Erreur Ping Yahoo
-[Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
 Impossible se connecter à Yahoo - l'identifiant est inconnu. merci de le vérifier.
-[Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+[Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 Impossible se connecter à Yahoo - le mot de passe est incorrect. Merci de le vérifier.
-[Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
+[Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Impossible de se connecter à Yahoo. Votre compte est bloqué \n Visit %s pour le réactiver.
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]
 Vous avez été déconnecté de Yahoo. Probablement à cause d'un double login.
@@ -141,11 +141,11 @@ Erreur connue %s
 %s a déjà été ignoré
 [%s is not in the ignore list]
 %s ne figure pas dans la liste des ignorés
-[%s is in buddy list - cannot ignore ]
-%s est dans votre liste - il ne peut être ignoré 
+[%s is in buddy list - cannot ignore]
+%s est dans votre liste - il ne peut être ignoré
 [System Error: %s]
 Erreur Sytème : %s
 [Server Connection Error: %s]
 Erreur de connexion au serveur %s
-[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
-Impossible de connecter à Yahoo.  Veuillez vérifier votre connexion Internet et que les hôte et port soit correctement renseigné.
+[Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
+Impossible de connecter à Yahoo. Veuillez vérifier votre connexion Internet et que les hôte et port soit correctement renseigné.

@@ -46,7 +46,7 @@ Podrobne >>
 Stav
 [Use Advanced Dialog]
 
-[The Message:       (Characters:  )]
+[The Message (characters: )]
 
 [Default Settings]
 

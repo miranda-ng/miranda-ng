@@ -217,11 +217,11 @@ Plugin pour l'historique
 Notification de frappe
 [Send typing notifications to the following users when you are typing a message to the them:]
 Envoyez la notification de frappe aux contacts suivants quand vous leur écrivez un message :
-[          Show typing notifications in the message window]
+[        Show typing notifications in the message window]
           Afficher la notification de frappe dans la fenêtre de message
 [Flash window once on typing events (only if flashing enabled)]
 La fenêtre clignote une fois (seulement si clignotement activé)
-[          Show typing notifications in the contact list and tray]
+[        Show typing notifications in the contact list and tray]
           Afficher la notification de frappe dans liste de contact et Systray
 [Show typing notification when message dialog is open]
 Afficher la notification de frappe quand une fenêtre est ouverte
@@ -229,7 +229,7 @@ Afficher la notification de frappe quand une fenêtre est ouverte
 Afficher une notification quand aucune fenêtre n'est ouverte
 [Show balloon tooltip in the system tray]
 Afficher une bulle d'info dans le Systray
-[          Show popups when a user is typing]
+[        Show popups when a user is typing]
           Afficher un popup quand le contact écrit
 [More about typing notifications]
 Plus d'info sur la notification de frappe (en anglais)

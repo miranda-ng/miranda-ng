@@ -139,8 +139,8 @@ URL доп. информации
 Отменить поддержку автоназначения значков протоколов
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
 Установка INI погоды\nУстановка и загрузка вашего INI погоды здесь
-[Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
-Протокол погоды не может найти ни одного INI файла погоды на вашем компьютере.  Для установки INI погоды и добавления города следуйте этим указаниям:
+[Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
+Протокол погоды не может найти ни одного INI файла погоды на вашем компьютере. Для установки INI погоды и добавления города следуйте этим указаниям:
 [Click here to download a weather ini file from Miranda file listing]
 Нажмите здесь для загрузки INI погоды из списка файлов Miranda NG
 [Extract the weather ini file from archive to this directory]

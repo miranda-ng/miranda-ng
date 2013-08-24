@@ -54,11 +54,11 @@
 (Miranda NG) Приглашение в видеоконференцию (пока не поддерживается)
 [Yahoo Ping Error]
 Yahoo ошибка пинга
-[Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
 Не могу авторизоваться в Yahoo - имя не распознано. Проверьте Ваше имя пользователя.
-[Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+[Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 Не могу авторизоваться в Yahoo - пароль неверен. Проверьте ваши имя пользователя и пароль.
-[Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
+[Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Не могу авторизоваться в Yahoo. Ваша учётная запись заблокирована.\nПосетите %s.
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]
 Вы были отключены от сервиса Yahoo, возможно из-за второго подключения.
@@ -76,7 +76,7 @@ Yahoo ошибка пинга
 %s уже игнорируется
 [%s is not in the ignore list]
 %s не в игнор-списке
-[%s is in buddy list - cannot ignore ]
+[%s is in buddy list - cannot ignore]
 %s в списке - не могу игнорировать
 [system error %s]
 системная ошибка %s
@@ -145,7 +145,7 @@ Yahoo Игнор
 Профиль
 [Calendar Reminder]
 Календарь напоминаний
-[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+[Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
 Невозможно подключится к серверу Yahoo. Проверьте настройки, и состояния подключения к сети.
 [Custom error %s]
 Ошибка %s

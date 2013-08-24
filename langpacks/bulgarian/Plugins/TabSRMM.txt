@@ -159,7 +159,7 @@ TabSRMM грешка
 Можете да промените размера, чрез влачене долния ръб на панела
 [Note: All settings are applied immediately]
 Бележка: Настройките се прилагат незабавно
-[The container is using private settings. The panel  height  will not be shared with other containers.]
+[The container is using private settings. The panel height will not be shared with other containers.]
 Контейнерът ползва частни настройки. Височината на панела Няма да бъде споделяна с други контейнери.
 [Show picture for this contact]
 Показване картината на контакта
@@ -349,11 +349,11 @@ ID на потребителя в лентата за състояние
 Уведомявания при писане
 [Send typing notifications to the following users when you are typing a message to the them:]
 Изпращане на уведомяване за писане на съобщение до следните потребители, когато им пишете съобщение:
-[          Show typing notifications in the message window]
+[        Show typing notifications in the message window]
           Уведомяване при писане в прозореца за съобщения
 [Flash window once on typing events (only if flashing enabled)]
 Уведомяване с едно премигване (ако мигането е включено)
-[          Show typing notifications in the contact list and tray]
+[        Show typing notifications in the contact list and tray]
           Уведомяване за писане в списъка с контакти и трея
 [Show typing notification when message dialog is open]
 Уведомяване при отворен прозорец за съобщения
@@ -361,7 +361,7 @@ ID на потребителя в лентата за състояние
 Уведомяване, ако няма отворен прозорец за съобщения
 [Show balloon tooltip in the system tray]
 Показване на балонни известия в системния трей
-[          Show popups when a user is typing]
+[        Show popups when a user is typing]
           Показване на popups, когато потребител пише съобщение
 [More about typing notifications]
 Информация за уведомяването при писане на съобщения

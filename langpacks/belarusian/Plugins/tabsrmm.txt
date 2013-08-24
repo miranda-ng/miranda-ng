@@ -185,7 +185,7 @@ Wikipedia
 Іншыя параметры
 [Note: All settings are applied immediately]
 Нататка: Усе параметры ўступаюць у сілу неадкладна
-[The container is using private settings. The panel  height  will not be shared with other containers.]
+[The container is using private settings. The panel height will not be shared with other containers.]
 Кантэйнер выкарыстоўвае асобныя налады. Вышыня панэлі не ўжываецца да іншых кантэйнераў.
 [Show picture for this contact]
 Малюнак для гэтага кантакту
@@ -409,11 +409,11 @@ RTL шаблоны
 Апавяшчэнне пра набор тэксту
 [Send typing notifications to the following users when you are typing a message to the them:]
 Пасылаць апавяшчэнні набору паказаным кантактам у той час, калі вы набіраеце ім паведамленне:
-[          Show typing notifications in the message window]
+[        Show typing notifications in the message window]
         Паказваць апавяшчэнне пра набор у акне паведамленняў
 [Flash window once on typing events (only if flashing enabled)]
 Міргаць адзін раз (калі мігценне ўключана)
-[          Show typing notifications in the contact list and tray]
+[        Show typing notifications in the contact list and tray]
         Паказваць апавяшчэнне пра набор у спісе кантактаў і трэі
 [Show typing notification when message dialog is open]
 Апавяшчаць пра набор тэксту, калі акно гутаркі адкрыта
@@ -421,7 +421,7 @@ RTL шаблоны
 Апавяшчаць пра набор тэксту, пры зачыненым вакне гутаркі
 [Show balloon tooltip in the system tray]
 Паказваць падказкі ў трэі
-[          Show popups when a user is typing]
+[        Show popups when a user is typing]
         Усплывальныя вокны, калі карыстач набірае тэкст
 [More about typing notifications]
 Дадатковая інфармацыя

@@ -188,7 +188,7 @@
 * Змена вышыні радка статусу: "Галоўнае меню->Фрэймы->Панэль статусу->Плывучы рэжым" і расцягніце панэль.
 [Hold [Shift] to inverse [Right Click] behaviour]
 Shift + Правы клік - Галоўнае меню
-[[Ctrl]+[Left Click] to filter only  protocol. Click on empty space to show all]
+[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
 Ctrl + Левы клік укл. фільтр па пратаколу, клік па пустым месцы адкл.
 [Set options per account]
 Паконтная налада

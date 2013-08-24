@@ -88,7 +88,7 @@
 YAMN 常规选项
 [TopToolBar button "Check mail"]
 TopToolBar "检查邮件" 按钮
-[Show YAMN as a Protocol  (Require Restart)]
+[Show YAMN as a Protocol (Require Restart)]
 显示 YAMN 类似协议 (需要重启)
 [MailBrowser Options]
 邮件浏览选项

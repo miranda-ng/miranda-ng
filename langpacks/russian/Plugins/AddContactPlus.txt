@@ -9,9 +9,9 @@
 ;============================================================
 [Provides the ability to quickly add new contacts.]
 Предоставляет возможность быстро добавить контакт.
-[Add Contact]
+[Add contact]
 Добавить контакт
-[Add Contact\nAdd a contact to your contact list]
+[Add contact\nAdd a contact to your contact list]
 Добавить контакт\nДобавить контакт в список контактов
 [Account:]
 Аккаунт:
@@ -41,8 +41,6 @@ Custom name:
 Нет
 [The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
 Контакт не может быть добавлен в ваш список контактов. Убедитесь, что вы указали правильный ID пользователя.
-[Add contact]
-Добавить контакт
 [The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
 Контакт не может быть добавлен в ваш список контактов. Убедитесь, что вы вошли в эту учетную запись и указали правильный ID пользователя.
 [&Add contact...]

@@ -162,7 +162,7 @@
 湿度
 [Weather Protocol INI Setup]
 天气协议 INI 设置
-[Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
+[Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
 天气协议无法找到任何保存于您电脑中的天气 INI 文件. 安装天气 INI 并添加气象站, 请按照下列步骤: 
 [Click here to download a weather ini file from Miranda file listing]
 点此从 Miranda 文件列表中下载天气 ini 文件
@@ -280,7 +280,7 @@ HTTP 错误: 网关已超时 (504)
 天气情况尚未记录. 
 [The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
 完整预报网址尚未设置. 您可在编辑设置对话框中设定. 
-[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
+[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
 尚未设置气象图网址. 您可在编辑设置对话框中设定. 
 [Get city name from ID]
 从 ID 获取城市名称

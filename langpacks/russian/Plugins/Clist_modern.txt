@@ -162,7 +162,7 @@
 * Изменение высоты строки статуса: "Главное меню->Фреймы->Панель статуса->Плавающий режим" и растяните панель.
 [Hold [Shift] to inverse [Right Click] behaviour]
 Shift+Правый клик - Главное меню
-[[Ctrl]+[Left Click] to filter only  protocol. Click on empty space to show all]
+[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
 Ctrl+Левый клик вкл. фильтр по протоколу, клик по пустому месту откл.
 [Set options per account]
 Поаккаунтная настройка

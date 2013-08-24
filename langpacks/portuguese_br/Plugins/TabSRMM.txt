@@ -445,18 +445,14 @@ Digitação de notificação
 Enviar notificações de digitação para os usuários que se segue quando você está digitando uma mensagem a um deles:
 [Send typing notifications to the following users when you are typing a message to the them:]
 Enviar notificações de digitação para os usuários que se segue quando você está digitando uma mensagem a um deles:
-[          Show typing notifications in the message window]
+[        Show typing notifications in the message window]
            Mostrar notificações de digitação na janela de mensagem
-[          Show typing notifications in the message window]
-           Mostrar notificação de digitação na janela de mensagem
 [Flash window once on typing events (only if flashing enabled)]
 Piscar janela de uma vez para digitação (só se habilitado piscando)
 [Flash window once on typing events (only if flashing enabled)]
 Piscar janela de uma vez para digitação (só se habilitado piscando)
-[          Show typing notifications in the contact list and tray]
+[        Show typing notifications in the contact list and tray]
            Mostrar notificações de digitação na lista de contatos e bandeja
-[          Show typing notifications in the contact list and tray]
-           Mostrar notificações de digitação na lista de contactos e bandeja
 [Show typing notification when message dialog is open]
 Mostrar notificação digitação quando mensagem de diálogo está aberta
 [Show typing notification when message dialog is open]
@@ -469,9 +465,7 @@ Mostrar digitando notificação quando nenhuma mensagem de diálogo está aberta
 Mostrar balão de dicas na bandeja do sistema
 [Show balloon tooltip in the system tray]
 Mostrar balão de informação na bandeja do sistema
-[          Show popups when a user is typing]
-           Mostrar popups quando o usuário está digitando
-[          Show popups when a user is typing]
+[        Show popups when a user is typing]
            Mostrar popups quando o usuário está digitando
 [More about typing notifications]
 Mais sobre notificações, digitando

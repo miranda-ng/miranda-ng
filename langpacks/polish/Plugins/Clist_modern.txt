@@ -188,7 +188,7 @@ Protokołów w lini
 * Aby zwiększyć wysykość paska statusu - ustaw w głównym menu: Ramki -> Pasek statusu -> Pokaż pasek tytułu i wtedy pociągnij widoczny pasek w górę lub dół.
 [Hold [Shift] to inverse [Right Click] behaviour]
 SHIFT+PPM wywołuje menu główne.
-[[Ctrl]+[Left Click] to filter only  protocol. Click on empty space to show all]
+[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
 CTRL+LPM filtruje protokoły. Kliknięcie w pustą przestrzeń pokazuje wszystkie.
 [Set options per account]
 Ustaw opcje dla każdego konta

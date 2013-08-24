@@ -185,7 +185,7 @@ Kopírovať odkaz
 
 [Note: All settings are applied immediately]
 
-[The container is using private settings. The panel  height  will not be shared with other containers.]
+[The container is using private settings. The panel height will not be shared with other containers.]
 
 [Show picture for this contact]
 
@@ -409,11 +409,11 @@ minút staré
 
 [Send typing notifications to the following users when you are typing a message to the them:]
 
-[          Show typing notifications in the message window]
+[        Show typing notifications in the message window]
 
 [Flash window once on typing events (only if flashing enabled)]
 
-[          Show typing notifications in the contact list and tray]
+[        Show typing notifications in the contact list and tray]
 
 [Show typing notification when message dialog is open]
 
@@ -421,7 +421,7 @@ minút staré
 
 [Show balloon tooltip in the system tray]
 
-[          Show popups when a user is typing]
+[        Show popups when a user is typing]
 
 [More about typing notifications]
 

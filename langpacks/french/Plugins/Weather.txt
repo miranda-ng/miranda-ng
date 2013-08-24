@@ -132,8 +132,8 @@ Condensation
 Humidité
 [Weather Protocol INI Setup]
 Fichier INI de configuration pour Weather
-[Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
-Weather n'as pas trouvé son fichier INI de configuration.  Afin de configurer Weather et ajouter des Stations Météo, choisissez parmi les choix suivants :
+[Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
+Weather n'as pas trouvé son fichier INI de configuration. Afin de configurer Weather et ajouter des Stations Météo, choisissez parmi les choix suivants :
 [Click here to download a weather ini file from Miranda file listing]
 Cliquez ici pour télécharger ce fichier INI depuis le site de Miranda
 [Extract the weather ini file from archive to this directory]
@@ -250,7 +250,7 @@ Veuillez recommencer après la MAJ terminée.
 Les conditions météo n'ont pas été enregistrées.
 [The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
 L'adresse pour le forcast complet n'a pas été réglé. Vous pouvez le régler dans 'Modifier les réglages'.
-[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
+[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
 L'adresse pour la carte météo n'a pas été renseignées. Vous pouvez y remédier dans le menu d'édition des paramètres.
 [Get city name from ID]
 Prendre le nom de la ville d'après l'identifiant

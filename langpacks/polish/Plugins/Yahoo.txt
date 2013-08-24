@@ -225,11 +225,11 @@ Od: %s\nTemat: %s
 
 [Yahoo Ping Error]
 Błąd pingu Yahoo
-[Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
 Nie można się zalogować do usługi Yahoo - nie rozpoznano nazwy użytkownika.  Sprawdź czy poprawnie ją wpisałeś.
-[Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+[Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 Nie można się zalogować do usługi Yahoo - niepoprawne hasło. Sprawdź czy poprawnie wpisałeś nazwę użytkownika i hasło.
-[Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
+[Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Nie można zalogować się do usługi Yahoo.  Twoje konto zostało zablokowane.\n Odwiedź %s aby je reaktywować.
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]
 Zostałeś wylogowany z usługi Yahoo, prawdopodobnie z powodu zduplikowanego loginu.
@@ -247,11 +247,11 @@ Niestandardowy błąd %s
 %s jest już ignorowany
 [%s is not in the ignore list]
 %s nie jest na liście ignorowanych
-[%s is in buddy list - cannot ignore ]
-%s jest na liście znajomych - nie można go zignorować 
+[%s is in buddy list - cannot ignore]
+%s jest na liście znajomych - nie można go zignorować
 [System Error: %s]
 Błąd systemu: %s
 [Server Connection Error: %s]
 Błąd połączenia z serwerem: %s
-[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+[Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
 Nie można połączyć się z serwerem Yahoo. Sprawdź czy jesteś połączony z internetem i czy pager hosta i port zostały poprawnie wprowadzone.

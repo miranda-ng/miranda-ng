@@ -122,7 +122,7 @@
 * За увеличаване височината на лентата: Главно меню>Рамки >Лента за състояние>Показване на името, след което влачете появилото се име нагоре/надолу.
 [Hold [Shift] to inverse [Right Click] behaviour]
 "Shift"+"Десен бутон" = Главно меню
-[[Ctrl]+[Left Click] to filter only  protocol. Click on empty space to show all]
+[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
 "Ctrl"+"Ляв бутон" филтрира протоkола. За отмяна натиснете в/у празно място
 [Set options per account]
 Отделни настройки на акаунтите

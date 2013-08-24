@@ -182,7 +182,7 @@ Yoğuşma
 Nem
 [Weather Protocol INI Setup]
 Weather Protocol INI Kurulumu
-[Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
+[Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
 Weather protokolü bilgisayarınıza yüklenmiş bir weather INI dosyası bulamadı. weather INI ve hava durumu istasyonlarını kurmak için şu adımları izleyin:
 [Click here to download a weather ini file from Miranda file listing]
 Mİranda dosya listesinden bir weather ini dosyası indirmek için buraya tıklayın
@@ -288,7 +288,7 @@ Lütfen hava durumu güncellemesi tamamlandıktan sonra tekrar deneyin.
 ;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 Hava durumları günlüklenmiyor.
-[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
+[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
 Hava haritası için web adresi belirtilmemiş. Ayarları değiştir bölümünden değiştirebilirsiniz.
 [Get city name from ID]
 Koddan şehir adını bul

@@ -157,11 +157,11 @@ Yahoo メール (&Y)
 差出人 : %s\n件名 : %s
 [Yahoo Ping Error]
 Yahoo Ping エラー
-[Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
 Yahoo サービスにログインできません - ユーザー名が認識できません。ユーザー名が正しく入力されているか確認してください
-[Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+[Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 Yahoo サービスにログインできません - パスワードが違います。ユーザー名とパスワードが正しく入力されているか確認してください
-[Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
+[Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Yahoo サービスにログインできません。あなたのアカウントはロックされています\n再開するには %s にアクセスしてください
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]
 Yahoo サービスからログアウト済です。重複ログインの可能性があります
@@ -179,11 +179,11 @@ Yahoo サービスに接続できません。サーバー / ポートとプロ�
 %s は現在無視しています
 [%s is not in the ignore list]
 %s は無視リストにはいません
-[%s is in buddy list - cannot ignore ]
+[%s is in buddy list - cannot ignore]
 %s はメンバーリストにあります - 無視不可
 [System Error: %s]
 システムエラー: %s
 [Server Connection Error: %s]
 サーバー接続エラー : %s
-[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+[Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
 Yahoo サーバーに接続できません。ネットに接続してページャホストとポートが正しく入力されているか確認してください

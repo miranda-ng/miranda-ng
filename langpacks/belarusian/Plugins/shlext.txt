@@ -1,12 +1,30 @@
-﻿#muuid {72013a26-a94c-11d6-8540-a5e62932711d}
+﻿#muuid {7993ab24-1fda-428c-a89b-be377a10be3a}
 ;============================================================
-;  File: shlext.dll
-;  Module: shlext - Shell context menus for transfers
-;  Versions: 1.0.0.6-1.0.6.6
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=534
+;  File: ShlExt.dll
+;  Plugin: ShlExt
+;  Version: 2.2.0.1
+;  Authors: Sam Kothari, Miranda NG Team
 ;============================================================
-[Click 'n' send support from Explorer/Common dialogs/Desktop, Right click on a file/folder to be presented with all your Miranda contact lists and then select the profile/contact you want to send to.]
+[Windows Explorer extension for Miranda NG.]
 Інтэграцыя Miranda NG ў меню правадніка Windows.
+[Display contacts in their assigned groups (if any)]
+Адлюстроўваць кантакты па групах (калі ёсць)
+[Only if/when the contact list is using them]
+Толькі калі іх выкарыстоўвае спіс кантактаў
+[Display hidden, ignored or temporary contacts]
+Паказваць утоеныя, ігнаруемыя і часавыя кантакты
+[Shell Status]
+Інтэграцыя
+[Shell context menus]
+Кантэкстнае меню абалонкі
+[Do not display the profile name in use]
+Не паказваць у меню назва бягучага профіля
+[Show contacts that you have set privacy rules for]
+Паказваць кантакты, для якіх усталяваны правілы прыватнасці
+[Do not show status icons in menus]
+Не паказваць у меню значкі статусу
+[Do not show contacts that are offline, even if my contact list does]
+Не паказваць адключаныя кантакты
 [Problem, registration missing/deleted.]
 Праблема! Інтэграцыя ў абалонку адсутнічае!
 [Successfully created shell registration.]
@@ -19,25 +37,3 @@
 Вы ўпэўнены? Гэта выдаліць усе налады дадзенага модуля ў вашай БД і ўсе ключы рэестру, якія адказваюць за яго інтэграцыю ў Explorer.
 [Disable/Remove shlext]
 Адключыць/Выдаліць shlext
-[Shell context menus]
-Кантэкстнае меню абалонкі
-[Display contacts in their assigned groups (if any)]
-Адлюстроўваць кантакты па групах (калі ёсць)
-[Only if/when the contact list is using them]
-Толькі калі іх выкарыстоўвае спіс кантактаў
-[Display hidden, ignored or temporary contacts]
-Паказваць утоеныя, ігнаруемыя і часавыя кантакты
-[Shell Status]
-Інтэграцыя
-[Do not display the profile name in use]
-Не паказваць у меню назва бягучага профіля
-[Contact Status]
-Статус кантакту
-[Show contacts that you have set privacy rules for]
-Паказваць кантакты, для якіх усталяваны правілы прыватнасці
-[Do not show status icons in menus]
-Не паказваць у меню значкі статусу
-[Do not show contacts that are offline, even if my contact list does]
-Не паказваць адключаныя кантакты
-[Shell context menus for transfers]
-Кантэкстнае меню абалонкі

@@ -26,8 +26,8 @@
 Критические события автовыключения
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Автоматически выключать компьютер при следующих событиях:
-[&Thunderstorm warning is issued  (Weather)]
-Штормовое предупреждение (протокол Weather)
+[&Thunderstorm warning is issued (Weather)]
+Штормовое предупреждение (плагин Weather)
 [&Harddrive overheats (HDD Info)]
 Перегрев HDD (плагин HDD Info)
 [Automatic Shutdown]

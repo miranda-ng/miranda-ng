@@ -214,8 +214,8 @@ URL дап. інфармацыі
 Налады INI файла плагiна "Надвор'е"
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
 Усталёўка INI надвор'я\n Усталёўка і загрузка вашага INI надвор'я тут
-[Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
-Пратакол надвор'я не можа знайсці ніводнага INI файла надвор'я на вашым кампутары.  Для ўсталёўкі INI надвор'і і даданні горада вынікайце гэтым указанням:
+[Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
+Пратакол надвор'я не можа знайсці ніводнага INI файла надвор'я на вашым кампутары. Для ўсталёўкі INI надвор'і і даданні горада вынікайце гэтым указанням:
 [Click here to download a weather ini file from Miranda file listing]
 Націсніце тут для загрузкі INI надвор'і са спісу файлаў Miranda NG
 [Extract the weather ini file from archive to this directory]
@@ -348,7 +348,7 @@ INI файл надвор'я для гэтай станцыі не знойдз�
 Лог надвор'я не вядзецца
 [The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
 URL поўнага прагнозу надвор'я не ўсталяваны. Вы можаце ўсталяваць яго ў наладах.
-[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
+[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
 Не паказаны URL для карты надвор'я. Вы можаце паказаць яго ў меню Налады.
 [Get city name from ID]
 Атрымаць назву горада па ID

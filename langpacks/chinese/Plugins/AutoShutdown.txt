@@ -26,7 +26,7 @@
 严重关机事件
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 发生下列事件时自动关机并截断电源: 
-[&Thunderstorm warning is issued  (Weather)]
+[&Thunderstorm warning is issued (Weather)]
 闪速警告已发出 (天气) (&T)
 [&Harddrive overheats (HDD Info)]
 硬盘过热 (HDD Info) (&H)

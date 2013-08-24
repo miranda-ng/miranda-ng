@@ -328,7 +328,7 @@ Informacje o kontakcie
 Historia kontaktu
 [Select Modules]
 Wybierz moduły
-[Check the Modules in the TreeView which you want to export for the contact. To add    the file as a new list entry later you need to export at least the protocol module.]
+[Check the Modules in the TreeView which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
 Sprawdź moduły w drzewku które chcesz wyeksportować wraz z kontaktem. Aby dodać nowy wpis na nowej liście będziesz musiał eksportować co najmniej moduły protokołu.
 [Check all]
 Zaznacz wszystkie

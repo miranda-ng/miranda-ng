@@ -129,11 +129,11 @@ Yahoo поща
 Ново писмо (%i съобщения)
 [From: %s\nSubject: %s]
 От: %s\nТема: %s
-[Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
 Вписването в услугата Yahoo не е възможно - потребителското име не е разпознато. Моля, проверете правилно ли е написано.
-[Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+[Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 Вписването в услугата Yahoo не е възможно - грешна парола. Моля, проверете правилно ли са написани потребителското име и парола.
-[Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
+[Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Вписването в услугата Yahoo не е възможно. Вашият акаунт е заключен.\nПосетете %s, за да бъде активиран.
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]
 Отписан сте от услугите на YAHOO вероятно поради дублиращо се вписване.
@@ -149,5 +149,5 @@ Yahoo поща
 %s не е в списъка за игнориране
 [System Error: %s]
 Системна грешка: %s
-[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+[Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
 Свързването към Yahoo сървъра не е възможно. Моля, уверете се че имате интернет и че pager host-а и порта са правилно въведени.

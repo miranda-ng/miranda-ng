@@ -157,7 +157,7 @@ APOP
 Контакт:
 [Invalid]
 Неверно
-[Show YAMN as a Protocol  (Require Restart)]
+[Show YAMN as a Protocol (Require Restart)]
 Показывать YAMN как протокол (нужен перезапуск)
 [Only check when ...]
 Проверять, если...

@@ -40,7 +40,7 @@ URL:
 Твіти як повідомлення
 [Enter Twitter PIN]
 Введіть PIN-код з Twitter-у
-[OAuth variables are out of sequence, they have been reset.  Please reconnect and reauthorise Miranda to Twitter.com (do the PIN stuff again)]
+[OAuth variables are out of sequence, they have been reset. Please reconnect and reauthorise Miranda to Twitter.com (do the PIN stuff again)]
 Змінні OAuth втратили послідовність і були скинуті. Будь ласка, під'єднайтеся знову і авторизуйте Miranda на Twitter.com (ще раз з PIN-кодом)
 [Reply...]
 Видповідь...

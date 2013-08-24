@@ -185,7 +185,7 @@ Rada: Możesz ręcznie zmienić rozmiar panelu rozciągając go.
 Inne opcje
 [Note: All settings are applied immediately]
 Notka: Wszystkie ustawienia są używane w czasie rzeczywistym.
-[The container is using private settings. The panel  height  will not be shared with other containers.]
+[The container is using private settings. The panel height will not be shared with other containers.]
 Kontener używa prywatnych opcji. Wysokość panela nie jest dzielona z innymi kontenerami.
 [Show picture for this contact]
 Pokaż zdjęcie dla tego kontaktu
@@ -409,11 +409,11 @@ Globalny dziennik wiadomości
 Pisanie
 [Send typing notifications to the following users when you are typing a message to the them:]
 Wyślij powiadomienia o pisaniu do następujących użytkowników:
-[          Show typing notifications in the message window]
+[        Show typing notifications in the message window]
           Pokaż powiadomienia o pisaniu w oknie rozmowy
 [Flash window once on typing events (only if flashing enabled)]
 Mignij oknem przy zdarzeniach pisania (jeśli miganie jest włączone)
-[          Show typing notifications in the contact list and tray]
+[        Show typing notifications in the contact list and tray]
            Pokaż powiadomienia o pisaniu w zasobniku i liście kontaktów
 [Show typing notification when message dialog is open]
 Pokaż powiadomienie o pisaniu, kiedy okno rozmowy jest otwarte
@@ -421,7 +421,7 @@ Pokaż powiadomienie o pisaniu, kiedy okno rozmowy jest otwarte
 Pokaż powiadomienie, jeśli nie ma otwartych okien rozmowy
 [Show balloon tooltip in the system tray]
 Pokaż podpowiedź w chmurce w zasobniku systemowym
-[          Show popups when a user is typing]
+[        Show popups when a user is typing]
           Pokaż popupy, kiedy użytkownik pisze
 [More about typing notifications]
 Więcej na temat powiadomień o pisaniu

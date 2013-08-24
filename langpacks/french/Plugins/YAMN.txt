@@ -76,7 +76,7 @@ Parti manger
 Options de YAMN
 [TopToolBar button "Check mail"]
 Afficher un bouton dans la barre d'outils
-[Show YAMN as a Protocol  (Require Restart)]
+[Show YAMN as a Protocol (Require Restart)]
 Afficher YAMN comme un protocole (redémarrage nécessaire)
 [Enable Close on Delete Button]
 Fermer la fenêtre si clic sur effacer

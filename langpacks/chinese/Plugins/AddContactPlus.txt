@@ -6,7 +6,7 @@
 ;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
 ;file \plugins\AddContactPlus\res\resource.rc
-[Add Contact]
+[Add contact]
 添加联系人
 [Custom name:]
 自定义名称: 

@@ -355,11 +355,11 @@ mensaje global de la pantalla de registro
 Escribiendo notificación
 [Send typing notifications to the following users when you are typing a message to the them:]
 Enviar notificación de escritura a los siguientes usuarios cuando se está escribiendo un mensaje a los mismos:
-[          Show typing notifications in the message window]
+[        Show typing notifications in the message window]
           Mostrar notificaciones a escribir en la ventana del mensaje
 [Flash window once on typing events (only if flashing enabled)]
 Flash ventana de una vez en los eventos escribiendo (sólo si es intermitente activado)
-[          Show typing notifications in the contact list and tray]
+[        Show typing notifications in the contact list and tray]
           Mostrar notificaciones a escribir en la lista de contactos y la bandeja
 [Show typing notification when message dialog is open]
 Mostrar una notificación cuando escribe de diálogo de mensaje está abierto
@@ -367,7 +367,7 @@ Mostrar una notificación cuando escribe de diálogo de mensaje está abierto
 Mostrar escribiendo una notificación cuando hay diálogo de mensajes es abierto]
 [Show balloon tooltip in the system tray]
 Globo Mostrar información sobre herramientas en la bandeja del sistema
-[          Show popups when a user is typing]
+[        Show popups when a user is typing]
           Mostrar ventanas emergentes cuando un usuario está escribiendo
 [More about typing notifications]
 Más información sobre la notificación de escritura

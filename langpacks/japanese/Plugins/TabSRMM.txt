@@ -169,7 +169,7 @@ TabSRMM の例外
 ヒント : カスタムサイズを使うと , 常にパネルの一番下の端にドラッグできます
 [Note: All settings are applied immediately]
 注意 : 全ての設定はすぐに適用されます
-[The container is using private settings. The panel  height  will not be shared with other containers.]
+[The container is using private settings. The panel height will not be shared with other containers.]
 コンテナはプライベート設定を使用しています。パネルの高さはその他のコンテナと共有されません
 [Show picture for this contact]
 このコンタクトに画像を表示
@@ -367,11 +367,11 @@ RTL テンプレート...
 入力中通知
 [Send typing notifications to the following users when you are typing a message to the them:]
 以下のユーザーに対するメッセージを入力中の時 , 入力中通知を送信 :
-[          Show typing notifications in the message window]
+[        Show typing notifications in the message window]
           メッセージウィンドウに入力中通知を表示
 [Flash window once on typing events (only if flashing enabled)]
 入力イベント時にウィンドウを一回フラッシュ ( フラッシュ有効時のみ )
-[          Show typing notifications in the contact list and tray]
+[        Show typing notifications in the contact list and tray]
           コンタクトリストとトレイに入力中通知を表示
 [Show typing notification when message dialog is open]
 メッセージダイアログが開いている時入力中通知を表示
@@ -379,7 +379,7 @@ RTL テンプレート...
 メッセージのないダイアログが開いたら , 入力中通知を表示
 [Show balloon tooltip in the system tray]
 バルーンツールチップをシステムトレイに表示
-[          Show popups when a user is typing]
+[        Show popups when a user is typing]
           ユーザーが入力中にポップアップを表示
 [More about typing notifications]
 入力中通知についてもっと

@@ -162,7 +162,7 @@ Cancel
 Weather プロトコル INI セットアップ
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
 Weather プロトコル INI セットアップ\nWeather INI ファイルのインストールと読み込み
-[Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
+[Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
 Weather プロトコルはあなたのコンピュータ上に保存されている Weather INI ファイルを見つけられませんでした。Weather INI のセットアップと気象台の追加をするには以下の手順に従ってください :
 [Click here to download a weather ini file from Miranda file listing]
 クリックして Miranda ファイルリストから Weather INI ファイルをダウンロード
@@ -278,7 +278,7 @@ Weather プロトコル
 天気は記録されていません
 [The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
 全部予報の URL は設定されていません。設定編集ダイアログから設定可能です
-[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
+[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
 天気図の URL は設定されていません。設定編集ダイアログから設定可能です
 [Get city name from ID]
 ID から都市名を取得

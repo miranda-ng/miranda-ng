@@ -225,11 +225,11 @@ ID, якога вы сабраліся дадаць, несапраўдны.
 Яхо паведамленне.
 [Yahoo Ping Error]
 Yahoo памылка пінгу
-[Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
 Не магу аўтарызавацца ў Yahoo - імя не распазнана. Праверце Ваша імя карыстача.
-[Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+[Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 Не магу аўтарызавацца ў Yahoo - пароль няслушны. Праверце вашы імя карыстача і пароль.
-[Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
+[Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Не магу аўтарызавацца ў Yahoo. Ваш конт заблакаваны.\nНаведайце %s.
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]
 Вы былі адключаны ад сэрвісу Yahoo, магчыма з-за другога далучэння.
@@ -247,11 +247,11 @@ Yahoo памылка пінгу
 %s ужо ігнаруецца
 [%s is not in the ignore list]
 %s не ў ігнор-спісе
-[%s is in buddy list - cannot ignore ]
+[%s is in buddy list - cannot ignore]
 %s у спісе - не магу ігнараваць
 [System Error: %s]
 Сістэмная памылка: %s
 [Server Connection Error: %s]
 Памылка злучэння сервера: %s
-[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+[Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
 Немагчыма далучыцца да сервера Yahoo. Праверце налады, і станы далучэння.

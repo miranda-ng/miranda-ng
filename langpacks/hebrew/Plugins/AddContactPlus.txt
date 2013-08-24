@@ -6,7 +6,7 @@
 ;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
 ;file \plugins\AddContactPlus\res\resource.rc
-[Add Contact]
+[Add contact]
 הוסף איש קשר
 [Custom name:]
 שם מותאם אישית:

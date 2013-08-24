@@ -1,10 +1,11 @@
-﻿#muuid {72013a26-a94c-11d6-8540-a5e62932711d}
+﻿#muuid {7993ab24-1fda-428c-a89b-be377a10be3a}
 ;============================================================
-;  File: shlext.dll
-;  Module: shlext - Shell context menus for transfers
-;  Versions: 1.0.0.6-1.0.6.6
+;  File: ShlExt.dll
+;  Plugin: ShlExt
+;  Version: 2.2.0.1
+;  Authors: Sam Kothari, Miranda NG Team
 ;============================================================
-[Click 'n' send support from Explorer/Common dialogs/Desktop, Right click on a file/folder to be presented with all your Miranda contact lists and then select the profile/contact you want to send to.]
+[Windows Explorer extension for Miranda NG.]
 Інтеграція Miranda NG в контекстне меню оболонки ОС.
 [Problem, registration missing/deleted.]
 Проблема! Інтеграція в оболонку відсутня!
@@ -30,13 +31,9 @@
 Інтегрування
 [Do not display the profile name in use]
 Не показувати меню назва поточного профілю
-[Contact Status]
-Статус контакту
 [Show contacts that you have set privacy rules for]
 Показувати контакти, для яких встановлені правила конфіденційності
 [Do not show status icons in menus]
 Не показувати значки в меню статусу
 [Do not show contacts that are offline, even if my contact list does]
 Не показувати контакти, що знаходяться не в мережі
-[Shell context menus for transfers]
-Контекстне меню оболонки

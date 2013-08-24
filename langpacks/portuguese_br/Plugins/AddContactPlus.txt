@@ -6,8 +6,8 @@
 ;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
 ;file \plugins\AddContactPlus\res\resource.rc
-[Add Contact]
-Adicionar Contato
+[Add contact]
+Adicionar contato
 [Custom name:]
 Nome personalizado:
 [Group:]

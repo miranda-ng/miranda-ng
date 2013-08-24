@@ -145,11 +145,11 @@ Yahoo 邮箱(&Y)
 从: %s\n主题: %s
 [Yahoo Ping Error]
 Yahoo Ping 错误
-[Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
 无法登录到 Yahoo 服务 - 用户名无效. 请确认您的用户名填写正确. 
-[Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+[Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 无法登录到 Yahoo 服务 - 密码错误. 请确认您的用户名和密码填写正确. 
-[Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
+[Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 无法登录到 Yahoo 服务. 您的帐号已被锁定. \n请访问 %s 激活. 
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]
 您的 Yahoo 服务已登出, 可能是因为重复登录. 
@@ -167,11 +167,11 @@ Yahoo Ping 错误
 %s 已被忽略
 [%s is not in the ignore list]
 %s 不在忽略列表中
-[%s is in buddy list - cannot ignore ]
+[%s is in buddy list - cannot ignore]
 %s 在好友列表中 - 无法忽略
 [System Error: %s]
 系统错误: %s
 [Server Connection Error: %s]
 服务器连接错误: %s
-[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+[Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
 无法连接至 Yahoo 服务器. 请确认您已联网, 且传呼主机和端口正确设置. 

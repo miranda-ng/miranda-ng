@@ -188,8 +188,8 @@ Riprova dopo che l'aggiornamento del meteo è stato completato.
 ;file \plugins\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 Le condizioni meteorologiche non sono state registrate.
-[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
-L'URL per la mappa meteorologica non è stata impostata.  Lo puoi fare nella finestra Modifica impostazioni.
+[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
+L'URL per la mappa meteorologica non è stata impostata. Lo puoi fare nella finestra Modifica impostazioni.
 [Get city name from ID]
 Ottieni il nome della città dall'ID
 [Weather INI information]

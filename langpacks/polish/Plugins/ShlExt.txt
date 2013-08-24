@@ -1,12 +1,35 @@
-﻿#muuid {72013a26-a94c-11d6-8540-a5e62932711d}
+﻿#muuid {7993ab24-1fda-428c-a89b-be377a10be3a}
 ;============================================================
-;  File: shlext.dll
-;  Module: shlext - Shell context menus for transfers
-;  Versions: 1.0.0.6-1.0.6.6
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=534
+;  File: ShlExt.dll
+;  Plugin: ShlExt
+;  Version: 2.2.0.1
+;  Authors: Sam Kothari, Miranda NG Team
 ;============================================================
-[Click 'n' send support from Explorer/Common dialogs/Desktop, Right click on a file/folder to be presented with all your Miranda contact lists and then select the profile/contact you want to send to.]
-Kliknij i wyślij potwierdzenie do Explorera/Pulpitu, PPM na pliku/folderze prezentuje listę kontaktów Mirandy i wybór profilu/kontaktu do ktorego chcesz go wysłać.
+[Windows Explorer extension for Miranda NG.]
+;file \plugins\ShellExt\res\shldlgs.rc
+[Display contacts in their assigned groups (if any)]
+Pokaż kontakty w grupach
+[Only if/when the contact list is using them]
+Tylko jeśli używa ich lista kontaktów
+[Display hidden, ignored or temporary contacts]
+Ukryj tymczasowe kontakty
+[Menus]
+
+[Shell Status]
+Status
+[Shell context menus]
+Integracja z powłoką
+[Do not display the profile name in use]
+Nie pokazuj nazwy profilu
+[Show contacts that you have set privacy rules for]
+Pokaż kontakty z listy prywatności
+[Remove]
+
+[Do not show status icons in menus]
+Nie pokazuj ikon w menu
+[Do not show contacts that are offline, even if my contact list does]
+Nie pokazuj kontaktów rozłączonych
+;file \plugins\ShellExt\src\options.cpp
 [Problem, registration missing/deleted.]
 Problem, rejestracja uszkodzona/cofnięta.
 [Successfully created shell registration.]
@@ -19,25 +42,10 @@ Zatwierdzono
 Czy jestes pewien? ustawienia zostaną usunięte z profilu i Explorera
 [Disable/Remove shlext]
 Wyłącz/unuń shlext
-[Shell context menus]
-Integracja z powłoką
-[Display contacts in their assigned groups (if any)]
-Pokaż kontakty w grupach
-[Only if/when the contact list is using them]
-Tylko jeśli używa ich lista kontaktów
-[Display hidden, ignored or temporary contacts]
-Ukryj tymczasowe kontakty
-[Shell Status]
-Status
-[Do not display the profile name in use]
-Nie pokazuj nazwy profilu
-[Contact Status]
-Status kontaktu
-[Show contacts that you have set privacy rules for]
-Pokaż kontakty z listy prywatności
-[Do not show status icons in menus]
-Nie pokazuj ikon w menu
-[Do not show contacts that are offline, even if my contact list does]
-Nie pokazuj kontaktów rozłączonych
-[Shell context menus for transfers]
-Menu kontekstowe transferów shell
+;file \plugins\ShellExt\src\shlcom.cpp
+[Miranda]
+
+[Recently]
+
+[Clear entries]
+

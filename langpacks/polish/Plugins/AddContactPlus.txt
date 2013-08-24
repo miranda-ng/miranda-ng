@@ -8,9 +8,9 @@
 [Provides the ability to quickly add new contacts.]
 Umożliwia szybkie dodawanie nowych kontaktów.
 ;file \plugins\AddContactPlus\res\resource.rc
-[Add Contact]
+[Add contact]
 Dodaj kontakt
-[Add Contact\nAdd a contact to your contact list]
+[Add contact\nAdd a contact to your contact list]
 Dodawanie kontaktu\nDodaj kontakt do listy kontaktów
 [Account:]
 Konto:
@@ -41,8 +41,6 @@ Proszę, autoryzuj mnie i dodaj do swojej listy kontaktów.
 Brak
 [The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
 Nie można dodać kontaktu do listy. Upewnij się, że ID kontaktu jest prawidłowe.
-[Add contact]
-Dodaj kontakt
 [The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
 Nie można dodać kontaktu do listy. Jeżeli nie jesteś zalogowany do wybranego konta, spróbuj to zrobić. Upewnij się także, że ID kontaktu jest prawidłowe.
 ;file \plugins\AddContactPlus\src\main.cpp

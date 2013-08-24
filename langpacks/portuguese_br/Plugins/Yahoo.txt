@@ -177,11 +177,11 @@ Novo E-mail (i% msgs)
 De: %s\nAssunto: %s
 [Yahoo Ping Error]
 Erro do Ping Yahoo
-[Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
 Não foi possível logar no serviço Yahoo - nome de usuário não reconhecida. Por favor, verifique se seu nome está escrito corretamente.
-[Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+[Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 Não foi possível logar no serviço Yahoo - senha incorreta. Verifique se o seu nome de usuário e senha estão digitados corretamente.
-[Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
+[Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Não foi possível logar no serviço Yahoo. Sua conta foi bloqueada.\ NVisite %s para reativá-lo.
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]
 Você foi desconectado do serviço do Yahoo, possivelmente devido a um login duplicado.
@@ -199,11 +199,11 @@ Erro de sistema %s
 %s já é ignorado
 [%s is not in the ignore list]
 %s não está na lista de ignorados
-[%s is in buddy list - cannot ignore ]
+[%s is in buddy list - cannot ignore]
 %s está na lista de amigos - não podem ignorar
 [System Error: %s]
 Erro de sistema: %s
 [Server Connection Error: %s]
 Erro de Conexão com o Servidor: %s
-[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+[Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
 Não foi possível conectar ao servidor do Yahoo. Por favor, verifique se você está conectado à rede e o host da página e porta estão corretamente inseridos.

@@ -1,12 +1,10 @@
-﻿#muuid {72013a26-a94c-11d6-8540-a5e62932711d}
+﻿#muuid {7993ab24-1fda-428c-a89b-be377a10be3a}
 ;============================================================
-;  File: shlext.dll
-;  Module: shlext - Shell context menus for transfers
-;  Versions: 1.0.0.6-1.0.6.6
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=534
+;  File: ShlExt.dll
+;  Plugin: ShlExt
+;  Version: 2.2.0.1
+;  Authors: Sam Kothari, Miranda NG Team
 ;============================================================
-[Disable/Remove shlext]
-Изключване/Премахване на shlext
 [Display contacts in their assigned groups (if any)]
 Изобразяване на контактите в групите им (ако имат такава)
 [Only if/when the contact list is using them]
@@ -21,3 +19,5 @@
 Показване на икони за състояние
 [Do not show contacts that are offline, even if my contact list does]
 Без контакти, които са извън линия
+[Disable/Remove shlext]
+Изключване/Премахване на shlext

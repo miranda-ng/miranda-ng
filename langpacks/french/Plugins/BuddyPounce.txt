@@ -30,8 +30,8 @@ Le Message
 État
 [Use Advanced Dialog]
 Fonctions avancées
-[The Message:       (Characters:  )]
-Message  :     (caractères :   )
+[The Message (characters: )]
+Message (caractères : )
 [Show Delivery Messages]
 Afficher les msg. envoyés
 ;file \plugins\BuddyPounce\src\dialog.cpp
