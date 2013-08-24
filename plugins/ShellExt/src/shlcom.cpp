@@ -57,17 +57,15 @@ int IsCOMRegistered()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static string CreateProcessUID(int pid)
+static char* CreateProcessUID(int pid, char *buf, size_t bufLen)
 {
-	char buf[100];
-	sprintf_s(buf, sizeof(buf), "mim.shlext.%d$", pid);
+	sprintf_s(buf, bufLen, "mim.shlext.%d$", pid);
 	return buf;
 }
 
-static string CreateUID()
+static char* CreateUID(char *buf, size_t bufLen)
 {
-	char buf[100];
-	sprintf_s(buf, sizeof(buf), "'mim.shlext.caller%d$%d", GetCurrentProcessId(), GetCurrentThreadId());
+	sprintf_s(buf, bufLen, "'mim.shlext.caller%d$%d", GetCurrentProcessId(), GetCurrentThreadId());
 	return buf;
 }
 
@@ -518,7 +516,7 @@ BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 		// && try to OpenEvent() a event object name to it (prefixed with a string)
 		// this was fine for most Oses (not the best way) but now actually compares
 		// the class string (a bit slower) but should get rid of those bugs finally.
-		hMirandaWorkEvent = OpenEventA(EVENT_ALL_ACCESS, false, CreateProcessUID(pid).c_str());
+		hMirandaWorkEvent = OpenEventA(EVENT_ALL_ACCESS, false, CreateProcessUID(pid, szBuf, sizeof(szBuf)));
 		if (hMirandaWorkEvent != 0) {
 			GetClassNameA(hwnd, szBuf, sizeof(szBuf));
 			if ( lstrcmpA(szBuf, MIRANDACLASS) != 0) {
@@ -717,7 +715,7 @@ HRESULT TShlComRec::QueryContextMenu(HMENU hmenu, UINT indexMenu, UINT _idCmdFir
 				ed.ipch = pipch;
 				// allocate a wait object so the ST can signal us, it can't be anon
 				// since it has to used by OpenEvent()
-				lstrcpyA(pipch->SignalEventName, CreateUID().c_str());
+				CreateUID(pipch->SignalEventName, sizeof(pipch->SignalEventName));
 				// create the wait wait-for-wait object
 				ed.hWaitFor = CreateEventA(NULL, false, false, pipch->SignalEventName);
 				if (ed.hWaitFor != 0) {
@@ -805,7 +803,8 @@ HRESULT RequestTransfer(TShlComRec *Self, int idxCmd)
 	HRESULT hr = E_INVALIDARG;
 	if (Self->pDataObject != NULL) {
 		// OpenEvent() the work object to see if the instance is still around
-		HANDLE hTransfer = OpenEventA(EVENT_ALL_ACCESS, false, CreateProcessUID(psd->pid).c_str());
+		char szBuf[100];
+		HANDLE hTransfer = OpenEventA(EVENT_ALL_ACCESS, false, CreateProcessUID(psd->pid, szBuf, sizeof(szBuf)));
 		if (hTransfer != 0) {
 			// map the ipc file again
 			HANDLE hMap = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, IPC_PACKET_SIZE, IPC_PACKET_NAME);
@@ -814,7 +813,7 @@ HRESULT RequestTransfer(TShlComRec *Self, int idxCmd)
 				THeaderIPC *pipch = (THeaderIPC*)MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);
 				if (pipch != NULL) {
 					// create the name of the object to be signalled by the ST
-					lstrcpyA(pipch->SignalEventName, CreateUID().c_str());
+					lstrcpyA(pipch->SignalEventName, CreateUID(szBuf, sizeof(szBuf)));
 					// create it
 					HANDLE hReply = CreateEventA(NULL, false, false, pipch->SignalEventName);
 					if (hReply != 0) {
@@ -1486,7 +1485,8 @@ Reply:
 
 void __cdecl ThreadServer(HANDLE hMainThread)
 {
-	HANDLE hEvent = CreateEventA(NULL, false, false, CreateProcessUID(GetCurrentProcessId()).c_str());
+	char szBuf[100];
+	HANDLE hEvent = CreateEventA(NULL, false, false, CreateProcessUID(GetCurrentProcessId(), szBuf, sizeof(szBuf)));
 	while (true) {
 		int retVal = WaitForSingleObjectEx(hEvent, INFINITE, true);
 		if (retVal == WAIT_OBJECT_0)

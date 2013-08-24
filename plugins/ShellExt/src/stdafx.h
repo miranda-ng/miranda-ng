@@ -6,7 +6,6 @@
 #include <Wincodec.h>
 
 #include <string.h>
-#include <string>
 
 #include <newpluginapi.h>
 
@@ -23,8 +22,6 @@
 #include <win2k.h>
 
 #include "Version.h"
-
-using namespace std;
 
 #define MODULENAME             "ShellExt"
 #define SHLExt_Name            "shlext15"
