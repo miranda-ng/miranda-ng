@@ -1100,7 +1100,7 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 [Send &Message]
 Отправить сообщение
 [Send authorization request]
-Отправить запрос на авторизацию
+Отправить запрос авторизации
 [Send e-mail]
 Отправить e-mail
 [Send E-mail]

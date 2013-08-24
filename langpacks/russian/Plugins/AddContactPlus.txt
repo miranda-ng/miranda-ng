@@ -1,25 +1,58 @@
 ﻿#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
 ;============================================================
-;  File: addcontactplus.dll
-;  Plugin: AddContact+
-;  Versions: 0.9.9.1
+;  File: AddContactPlus.dll
+;  Plugin: Add contact+
+;  Version: 0.9.9.1
 ;  URL: http://miranda-ng.org/distr/x32/Plugins/addcontactplus.zip
 ;  Source: http://svn.miranda-ng.org/main/trunk/plugins/AddContactPlus/
-;  Authors: Dezeath, Miranda NG Team
+;  Authors: Bartosz 'Dezeath' Bialek
 ;============================================================
-[Add Contact\nAdd a contact to your contact list]
-Добавить контакт\nДобавить контакт в контактный лист
-[&Add contact...]
-&Добавить контакт...
 [Provides the ability to quickly add new contacts.]
 Предоставляет возможность быстро добавить контакт.
-[The contact cannot be added to your contact list. If you are not connected to that network, try to connect. Also, make sure the User ID is entered properly.]
-Контакт не может быть добавлен в ваш контакт лист. Если вы не подключены к этой сети, попробуйте подключиться. Также, убедитесь, что вы вписали правильный ID пользователя.
+;file \plugins\AddContactPlus\res\resource.rc
+[Add Contact]
+Добавить контакт
+[Add Contact\nAdd a contact to your contact list]
+Добавить контакт\nДобавить контакт в список контактов
+[Account:]
+Аккаунт:
+[Contact ID:]
+ID контакта:
+[Custom name:]
+Custom name:
+[Group:]
+Группа:
+[Options]
+Настройки
 [Add temporarily]
 Добавить временно
-[Open add contact dialog]
-Открыть диалог добавления контакта
+[Send "You were added"]
+Отправить "Вас добавили"
+[Send authorization request]
+Отправить запрос авторизации
+[Authorization Request]
+Запрос авторизации
+[&Add]
+&Добавить
+[&Cancel]
+&Отмена
+;file \plugins\AddContactPlus\src\addcontact.cpp
+[Please authorize my request and add me to your contact list.]
+Пожалуйста, разрешите добавить Вас в мой список контактов.
+[None]
+Нет
+[The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
+Контакт не может быть добавлен в ваш список контактов. Убедитесь, что вы указали правильный ID пользователя.
 [Add contact]
 Добавить контакт
+[The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
+Контакт не может быть добавлен в ваш список контактов. Убедитесь, что вы вошли в эту учетную запись и указали правильный ID пользователя.
+;file \plugins\AddContactPlus\src\main.cpp
+[&Add contact...]
+&Добавить контакт...
+[Open add contact dialog]
+Открыть диалог добавления контакта
+[Main]
+Главный
 [AddContact+]
 Добавить контакт
