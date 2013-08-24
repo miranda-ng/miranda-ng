@@ -1508,11 +1508,12 @@ void InvokeThreadServer()
 
 const IID CLSID_ISHLCOM = { 0x72013A26, 0xA94C, 0x11d6, {0x85, 0x40, 0xA5, 0xE6, 0x29, 0x32, 0x71, 0x1D }};
 
-HRESULT DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
+STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
 {
+	MessageBoxA(0, "Ding!", "Dong", MB_OK);
+
 	if (rclsid == CLSID_ISHLCOM && riid == IID_IClassFactory && FindWindowA(MIRANDANAME, NULL) != 0) {
 		*ppv = new TClassFactoryRec();
-		MessageBoxA(0, "Ding!", "Dong", MB_OK);
 		return S_OK;
 	}
 
@@ -1520,7 +1521,7 @@ HRESULT DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
 	return CLASS_E_CLASSNOTAVAILABLE;
 }
 
-HRESULT DllCanUnloadNow()
+STDAPI DllCanUnloadNow()
 {
 	if (dllobject.FactoryCount == 0 && dllobject.ObjectCount == 0)
 		return S_OK;

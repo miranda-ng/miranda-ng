@@ -6,9 +6,6 @@
 #define __FILEVERSION_STRING __MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
 #define __FILEVERSION_STRING_DOTS __MAJOR_VERSION.__MINOR_VERSION.__RELEASE_NUM.__BUILD_NUM
 
-#define __STRINGIFY(x)				#x
-#define __VERSION_STRING			__STRINGIFY(__FILEVERSION_STRING_DOTS)
-
 #define __PLUGIN_NAME        "ShlExt"
 #define __FILENAME           "ShlExt.dll"
 #define __DESCRIPTION        "Windows Explorer extension for Miranda NG."

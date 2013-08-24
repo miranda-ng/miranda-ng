@@ -25,7 +25,7 @@ static TCHAR* COM_OKSTR[2] = {
 	LPGENT("Successfully created shell registration.") };
 static TCHAR* COM_APPROVEDSTR[2] = { LPGENT("Not Approved"), LPGENT("Approved") };
 
-static LRESULT CALLBACK OptDialogProc(HWND hwndDlg, UINT wMsg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK OptDialogProc(HWND hwndDlg, UINT wMsg, WPARAM wParam, LPARAM lParam)
 {
 	int comReg, iCheck;
 	TCHAR szBuf[MAX_PATH];

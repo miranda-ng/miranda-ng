@@ -48,15 +48,16 @@ private:
 	HKEY m_key;
 };
 
-char str1[] = "shlext " __VERSION_STRING " - shell context menu support for Miranda NG";
+char str1[100];
 char str2[] = "{72013A26-A94C-11d6-8540-A5E62932711D}";
 char str3[] = "miranda.shlext";
 char str4[] = "Apartment";
 
 TCHAR key1[] = _T("miranda.shlext\\{72013A26-A94C-11d6-8540-A5E62932711D}\\InprocServer32");
  
-HRESULT __stdcall DllRegisterServer()
+STDAPI DllRegisterServer()
 {
+	sprintf_s(str1, sizeof(str1), "shlext %d.%d.%d.%d - shell context menu support for Miranda NG", __FILEVERSION_STRING);
 	if ( RegSetValueA(HKEY_CLASSES_ROOT, "miranda.shlext", REG_SZ, str1, sizeof(str1)))
 		return E_FAIL;
 	if ( RegSetValueA(HKEY_CLASSES_ROOT, "miranda.shlext\\CLSID", REG_SZ, str2, sizeof(str2)))
@@ -91,7 +92,7 @@ HRESULT __stdcall DllRegisterServer()
 	return S_OK;
 }
 
-HRESULT __stdcall DllUnregisterServer()
+STDAPI DllUnregisterServer()
 {
 	return RemoveCOMRegistryEntries();
 }
