@@ -42,10 +42,6 @@
 (Miranda NG) Получено приглашение в комнату %s:%s
 [I am sorry, but i can't join your conference since this feature is not currently implemented in my client.]
 Простите, но я не могу к вам присоединиться, т.к. эта возможность еще не реализована.
-[Please install png2dib.dll for avatar support. ]
-Установите png2dib.dll для поддержки аватаров.
-[Your png2dib.dll is either obsolete or damaged. ]
-Библиотека png2dib.dll устарела или повреждена.
 [%s has rejected your request and sent the following message:]
 %s отклонил запрос и послал сообщение:
 [You Have %i unread msgs]
@@ -113,8 +109,6 @@ Yahoo ошибка
 Подключения плагина YAHOO
 [YAHOO plugin HTTP connections]
 Yahoo подключения по HTTP
-[AutoLogin to Yahoo ]
-Автоматический вход
 [Display Yahoo notifications]
 Показывать сообщения Yahoo
 [Yahoo Ignore List]

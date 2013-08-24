@@ -87,7 +87,7 @@ Id
 [Remove from MetaContact]
 Удалить из метаконтакта
 [MetaId: ]
-MetaId: 
+MetaId:\s
 [MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
 Метаконтакт поврежден - неверное количество субконтактов.\nУдаляю метаконтакт.
 [Context]

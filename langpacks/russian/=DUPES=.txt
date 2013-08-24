@@ -4,13 +4,13 @@
 [-1 = Infinite]
 -1=Бесконечно
 [ Actions ]
- Действия
+ Действия\s
 [ Colours ]
- Цвета
+ Цвета\s
 [ Delay ]
- Задержка
+ Задержка\s
 [ Protocols ]
- Протоколы
+ Протоколы\s
 [%d Files]
 %d файлов
 [%s Custom Status]
@@ -1996,7 +1996,7 @@ ID пользователя:
 [Number of backups to keep:]
 Количество резервных копий:
 [ Track ]
- Отслеживание 
+ Отслеживание\s
 [Protect the picture and prevent automatic avatars from overwriting it]
 Защитить изображение и не позволять аватарам его заменять
 [Protect the picture]
@@ -2040,7 +2040,7 @@ ID пользователя:
 [Use defaults]
 Стандартные
 [ Options ]
-Параметры
+ Параметры\s
 [Points:]
 Точки:
 [Color diff:]
@@ -2314,7 +2314,7 @@ ID пользователя:
 [Custom1]
 Набор 1
 [Notice from %s: ]
-Уведомление от %s: 
+Уведомление от %s:\s
 [Show these events only:]
 Показывать только:
 [%s: Server]
@@ -2810,7 +2810,7 @@ ID пользователя
 [Tool Bar]
 Панель инструментов
 [ Tracking ]
- Уведомление
+ Уведомление\s
 [Log Status Message changes]
 Сохранять смены статусного сообщения
 [Don't log Nickname changes]
@@ -3214,7 +3214,7 @@ Web Дизайн
 [Search for:]
 Найти:
 [ Contacts ]
- Контакты 
+ Контакты\s
 [album]
 альбом
 [genre]
@@ -3372,7 +3372,7 @@ Web Дизайн
 [Read status message]
 Читать статусное сообщение
 [Can't open log file ]
-Невозможно открыть файл журнала
+Невозможно открыть файл журнала\s
 [Error #%d]
 Ошибка #%d
 [&Variables]

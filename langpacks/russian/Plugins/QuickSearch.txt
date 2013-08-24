@@ -206,7 +206,7 @@ CSV с заголовками
 [ users found (]
  пользователей найдено (
 [) Online: ]
-) В сети: 
+) В сети:\s
 [Colorize]
 Добавить цвет
 [Metacontact]

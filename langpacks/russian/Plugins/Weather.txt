@@ -382,7 +382,7 @@ HTTP подключение Weather
 [Do you want to view more information?]
 Хотите узнать больше?
 [Brief information for ]
-Краткая информация для
+Краткая информация для\s
 [Invalid time delay.\n\nEnter '0' for using default time.\nEnter '-1' for keeping popup forever.\nUsing value > 1 to specify the amount of seconds.]
 Неправильная задержка времени. \n\nВведите '0' для использования времени по умолчанию.\nВведите '-1' для того, чтобы вспл. окно не исчезало.\nИспользуйте значения > 1 для указания количества секунд.
 [Weather Alert Issued]

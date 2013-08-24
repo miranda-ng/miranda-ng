@@ -70,11 +70,11 @@ e-mail    :
 [Failed to write URL/File to the file :\n]
 Не удалось записать передачу файла или URL в файл:\n
 [URL: ]
-URL: 
+URL:\s
 [File: ]
-Файл: 
+Файл:\s
 [Description: ]
-Описание :
+Описание:\s
 [EmailExpress from:]
 EmailExpress от:
 [No from address]

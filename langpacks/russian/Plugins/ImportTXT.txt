@@ -10,7 +10,7 @@
 [Imports history saved in TXT files from other clients.]
 Импортирует историю из текстовых файлов.
 [Import history to ]
-Импортировать историю в
+Импортировать историю в\s
 [Import history]
 Импорт истории
 [Choose a file...]
@@ -24,7 +24,7 @@
 [All files (*.*)]
 Все файлы (*.*)
 [Error in cfg file: ]
-Ошибка в cfg файле:
+Ошибка в cfg файле:\s
 [No Files Patterns Found]
 Не найдены файлы шаблонов
 [No messages in this file]

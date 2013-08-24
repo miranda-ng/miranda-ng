@@ -164,7 +164,7 @@ Dial-Up (прочтите keepstatus.txt)
 [Max. delay (seconds)]
 Задержка (секунд)
 [minutes of ]
-минут от
+минут от\s
 [Basic]
 Основные
 [Timers]

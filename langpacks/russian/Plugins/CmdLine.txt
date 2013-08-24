@@ -81,7 +81,7 @@
 [%s The port or the proxy type parameter is invalid.]
 %s Порт или тип прокси неправильный.
 [Available commands: ]
-Доступные команды: 
+Доступные команды:\s
 [Contact '%s' has '%d' events in history.]
 Контакт '%s' имеет '%d' событий в истории.
 [YAMN plugin is not running.]

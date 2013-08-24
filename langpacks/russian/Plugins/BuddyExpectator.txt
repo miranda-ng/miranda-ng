@@ -94,7 +94,7 @@
 [Last seen online]
 Последний раз в сети
 [Notify after an absence of ]
-Напоминать после 
+Напоминать после\s
 [On event action (double click):]
 По событию (двойной клик):
 [This plugin notifies you when any contact comes online after an absence of long period.]

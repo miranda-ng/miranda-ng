@@ -2367,7 +2367,7 @@ Miranda не может загрузить плагин Chat, потому чт�
 [The following is known about this user on the network. The information is not necessarily accurate]
 Об этом пользователе известно следующее (не обязательно достоверно)
 [timer (s): ]
-Таймер (с)
+Таймер (с):\s
 [%s : Channel (%u Users)]
 %s : Канал (%u участников)
 [%s wants your attention in room %u]

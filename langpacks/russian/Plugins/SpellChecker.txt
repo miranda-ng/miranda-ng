@@ -54,9 +54,9 @@
 [Flags DLL]
 Библиотека с флагами (DLL)
 [ Spell Checker ]
-Проверка орфографии
+Проверка орфографии\s
 [ Advanced ]
-Дополнительно
+Дополнительно\s
 [Always replace with]
 Всегда заменять на
 [Add to dictionary]

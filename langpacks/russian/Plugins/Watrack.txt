@@ -596,7 +596,7 @@ VBR или нет
 [Kinopoisk info page]
 Информация с Кинопоиска
 [Last.fm error: ]
-Ошибка Last.fm:
+Ошибка Last.fm:\s
 [Client is banned]
 Клиент заблокирован
 [Bad Auth. Check login and password]
@@ -606,7 +606,7 @@ VBR или нет
 [Similar artists]
 Похожие исполнители
 [Music Info from ]
-Информация о музыке от
+Информация о музыке от\s
 [ answer you]
  ответил
 [You Get Error]

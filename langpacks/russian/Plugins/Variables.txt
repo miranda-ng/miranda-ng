@@ -276,7 +276,7 @@ y, если w > x, иначе z
 [Replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
 заменить все совпадения \\n (Unix) на \\r\\n (Windows)
 [Automatically strip ]
-Автоматически урезать
+Автоматически урезать\s
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
 Служба переменных подставляет различным маркерам соответствующие значения. Пример: Я использую Miranda NG версии %mirandaversion%. В маркер %mirandaversion% будет подставлен соответствующий номер версии вашей Miranda NG. Следующий список показывает все доступные маркеры.
 [Tokens]
