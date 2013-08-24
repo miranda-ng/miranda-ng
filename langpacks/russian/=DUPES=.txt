@@ -461,8 +461,6 @@ E-Mail
 Французский
 [Friends]
 Друзья
-[From popup plugin]
-По умолчанию
 [From Popup plugin]
 По умолчанию
 [From]
