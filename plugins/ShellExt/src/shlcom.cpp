@@ -584,7 +584,6 @@ TShlComRec::TShlComRec()
 
 HRESULT TShlComRec::QueryInterface(REFIID riid, void **ppvObject)
 {
-	*ppvObject = NULL;
 	// IShellExtInit is given when the TShlRec is created 
 	if (riid == IID_IContextMenu || riid == IID_IContextMenu2 || riid == IID_IContextMenu3) {
 		*ppvObject = (IContextMenu3*)this;
@@ -600,6 +599,7 @@ HRESULT TShlComRec::QueryInterface(REFIID riid, void **ppvObject)
 		return S_OK;
 	}
 
+	*ppvObject = NULL;
 	return CLASS_E_CLASSNOTAVAILABLE;
 }
 
@@ -1031,7 +1031,7 @@ HRESULT TClassFactoryRec::CreateInstance(IUnknown *pUnkOuter, REFIID riid, void 
 	}
 	if (riid == IID_IShellExtInit) {
 		TShlComRec *p = new TShlComRec();
-		*ppvObject = (IContextMenu3*)p;
+		*ppvObject = (IShellExtInit*)p;
 		return S_OK;
 	}
 
