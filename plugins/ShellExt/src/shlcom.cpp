@@ -178,7 +178,7 @@ void BuildContactTree(TGroupNode *group, TEnumData *lParam)
 			// at the } of the slot header is the contact's display name
 			// && after a double NULL char there is the group string, which has the full path of the group
 			// this must be tokenised at '\' and we must walk the in memory group tree til we find our group
-			// this is faster than the old version since we only ever walk one | at most two levels of the tree
+			// this is faster than the old version since we only ever walk one or at most two levels of the tree
 			// per tokenised section, and it doesn't matter if two levels use the same group name (which is valid)
 			// as the tokens processed is equatable to depth of the tree
 
@@ -195,7 +195,7 @@ void BuildContactTree(TGroupNode *group, TEnumData *lParam)
 						break;
 					// each node may have a left pointer going to a sub tree
 					// the path syntax doesn't know if a group is a group at the same level
-					// | a nested one, which means the search node can be anywhere
+					// or a nested one, which means the search node can be anywhere
 					TGroupNode *px = pg->Left;
 					if (px != NULL) {
 						// keep searching this level
@@ -436,7 +436,7 @@ void BuildMenus(TEnumData *lParam)
 	psd->wID = mii.wID;
 	psd->hContact = 0;
 
-	// get Miranda's icon | bitmap
+	// get Miranda's icon or bitmap
 	c = lParam->Self->ProtoIconsCount;
 	pp = lParam->Self->ProtoIcons;
 	while (c > 0) {
@@ -534,8 +534,8 @@ BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 			// slot will contain the profile name
 			replyBits = ipcSendRequest(hMirandaWorkEvent, lParam->hWaitFor, lParam->ipch, 1000);
 
-			// replyBits will be REPLY_FAIL if the wait timed out, | it'll be the request
-			// bits as sent | a series of *_NOTIMPL bits where the request bit were, if there are no
+			// replyBits will be REPLY_FAIL if the wait timed out, or it'll be the request
+			// bits as sent or a series of *_NOTIMPL bits where the request bit were, if there are no
 			// contacts to speak of,  don't bother showing this instance of Miranda }
 			if (replyBits != REPLY_FAIL && lParam->ipch->ContactsBegin != NULL) {
 				// load the address again, the server side will always overwrite it
@@ -689,10 +689,10 @@ HRESULT TShlComRec::QueryContextMenu(HMENU hmenu, UINT indexMenu, UINT _idCmdFir
 			dvi.cbSize = sizeof(dvi);
 			if (DllGetVersionProc(&dvi) >= 0)
 				// it's at least 4.00
-				bMF_OWNERDRAW = (dvi.dwMajorVersion > 4) | (dvi.dwMinorVersion >= 71);
+				bMF_OWNERDRAW = (dvi.dwMajorVersion > 4) || (dvi.dwMinorVersion >= 71);
 		}
 
-		// if we're using Vista (| later),  the ownerdraw code will be disabled, because the system draws the icons.
+		// if we're using Vista (or later),  the ownerdraw code will be disabled, because the system draws the icons.
 		if (VistaOrLater)
 			bMF_OWNERDRAW = false;
 
@@ -866,7 +866,7 @@ HRESULT TShlComRec::HandleMenuMsg2(UINT uMsg, WPARAM wParam, LPARAM lParam, LRES
 
 	*plResult = true;
 	if (uMsg == WM_DRAWITEM && wParam == 0) {
-		// either a main sub menu, a group menu | a contact
+		// either a main sub menu, a group menu or a contact
 		DRAWITEMSTRUCT *dwi = (DRAWITEMSTRUCT*)lParam;
 		TMenuDrawInfo *psd = (TMenuDrawInfo*)dwi->itemData;
 		// don't fill
@@ -1023,7 +1023,7 @@ HRESULT TClassFactoryRec::CreateInstance(IUnknown *pUnkOuter, REFIID riid, void 
 		return CLASS_E_NOAGGREGATION;
 
 	// Before Vista, the system queried for a IShell interface  queried for a context menu, Vista now
-	// queries for a context menu (| a shell menu)  QI()'s the other interface
+	// queries for a context menu (or a shell menu)  QI()'s the other interface
 	if (riid == IID_IContextMenu) {
 		TShlComRec *p = new TShlComRec();
 		*ppvObject = (IContextMenu3*)p;
@@ -1268,7 +1268,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 
 			// is HIT on?
 			if (BST_UNCHECKED == db_get_b(0, SHLExt_Name, SHLExt_UseHITContacts, BST_UNCHECKED)) {
-				// don't show people who are "Hidden" "NotOnList" | Ignored
+				// don't show people who are "Hidden" "NotOnList" or Ignored
 				if (db_get_b(hContact, "CList", "Hidden", 0) == 1 ||
 					 db_get_b(hContact, "CList", "NotOnList", 0) == 1 ||
 					 CallService(MS_IGNORE_ISIGNORED, (WPARAM)hContact, IGNOREEVENT_MESSAGE | IGNOREEVENT_URL | IGNOREEVENT_FILE) != 0) 
@@ -1562,7 +1562,7 @@ HRESULT RemoveCOMRegistryEntries()
 	if ( !RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved", 0, KEY_ALL_ACCESS, &hRootKey)) {
 		if ( !RegDeleteValueA(hRootKey, "{72013A26-A94C-11d6-8540-A5E62932711D}") != ERROR_SUCCESS) {
 			MessageBoxA(0,
-				"Unable to delete registry entry for 'Approved context menu handlers', this key may already be deleted | you may need admin rights.",
+				"Unable to delete registry entry for 'Approved context menu handlers', this key may already be deleted or you may need admin rights.",
 				"Problem", MB_ICONERROR);
 		}
 		RegCloseKey(hRootKey);
