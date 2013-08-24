@@ -9,8 +9,8 @@
 #define __STRINGIFY(x)				#x
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_STRING_DOTS)
 
-#define __PLUGIN_NAME        "ShellExt"
-#define __FILENAME           "ShellExt.dll"
+#define __PLUGIN_NAME        "ShlExt"
+#define __FILENAME           "ShlExt.dll"
 #define __DESCRIPTION        "Windows Explorer extension for Miranda NG."
 #define __AUTHOR             "Sam Kothari, Miranda NG Team"
 #define __AUTHOREMAIL        "egodust@users.sourceforge.net"

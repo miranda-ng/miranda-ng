@@ -1,13 +1,19 @@
 #include "stdafx.h"
 #include "shlcom.h"
 
-struct
+static bool VistaOrLater;
+
+struct SHLCOM
 {
 	int FactoryCount, ObjectCount;
-}
-static dllpublic;
 
-bool VistaOrLater;
+	SHLCOM() {
+		FactoryCount = ObjectCount = 0;
+		VistaOrLater = GetProcAddress( GetModuleHandleA("kernel32.dll"), "GetProductInfo") != NULL;
+	}		
+};
+
+static SHLCOM dllobject;
 
 #define IPC_PACKET_SIZE (0x1000 * 32)
 #define IPC_PACKET_NAME "m.mi.miranda.ipc.server"
@@ -569,7 +575,7 @@ TShlComRec::TShlComRec()
   hMemDC = CreateCompatibleDC(DC);
   ReleaseDC(0, DC);
   // keep count on the number of objects
-  dllpublic.ObjectCount++;
+  dllobject.ObjectCount++;
 }
 
 HRESULT TShlComRec::QueryInterface(REFIID riid, void **ppvObject)
@@ -634,7 +640,7 @@ ULONG TShlComRec::Release()
 
 		// free the instance (class record) created
 		delete this;
-		dllpublic.ObjectCount--;
+		dllobject.ObjectCount--;
 	} 
 	return ret;
 }
@@ -973,7 +979,8 @@ struct TClassFactoryRec : public IClassFactory
 {
 	TClassFactoryRec() :
 		RefCount(1)
-		{	dllpublic.FactoryCount++;
+		{
+			dllobject.FactoryCount++;
 		}
 
 	LONG RefCount;
@@ -1002,7 +1009,7 @@ ULONG TClassFactoryRec::Release()
 	ULONG result = --RefCount;
 	if (result == 0) {
 		delete this;
-		dllpublic.FactoryCount--;
+		dllobject.FactoryCount--;
 	}
 	return result;
 }
@@ -1505,6 +1512,7 @@ HRESULT DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
 {
 	if (rclsid == CLSID_ISHLCOM && riid == IID_IClassFactory && FindWindowA(MIRANDANAME, NULL) != 0) {
 		*ppv = new TClassFactoryRec();
+		MessageBoxA(0, "Ding!", "Dong", MB_OK);
 		return S_OK;
 	}
 
@@ -1514,7 +1522,7 @@ HRESULT DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
 
 HRESULT DllCanUnloadNow()
 {
-	if (dllpublic.FactoryCount == 0 && dllpublic.ObjectCount == 0)
+	if (dllobject.FactoryCount == 0 && dllobject.ObjectCount == 0)
 		return S_OK;
 	return S_FALSE;
 }

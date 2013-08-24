@@ -114,7 +114,6 @@ struct THeaderIPC
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-
 struct TShlComRec : public IShellExtInit, public IContextMenu3
 {
 	TShlComRec();
@@ -205,4 +204,4 @@ TSlotIPC* ipcAlloc(THeaderIPC *pipch, int nSize);
 void ipcFixupAddresses(BOOL FromServer, THeaderIPC *pipch);
 
 TGroupNode* AllocGroupNode(TGroupNodeList *list, TGroupNode *Root, int Depth);
-TGroupNode* FindGroupNode(TGroupNode* P, const DWORD Hash, DWORD Depth);
+TGroupNode* FindGroupNode(TGroupNode* p, const DWORD Hash, int Depth);

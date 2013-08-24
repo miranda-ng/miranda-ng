@@ -1,0 +1,45 @@
+#include "..\src\resource.h"
+#include "afxres.h"
+
+#ifndef IDC_STATIC
+#define IDC_STATIC (-1)
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_SHLOPTS DIALOG DISCARDABLE  0, 0, 312, 238
+STYLE WS_POPUP
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "Display contacts in their assigned groups (if any)",
+                    IDC_USEGROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,
+                    35,281,8
+    CONTROL         "Only if/when the contact list is using them",
+                    IDC_CLISTGROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,29,
+                    50,267,8
+    CONTROL         "Display hidden, ignored or temporary contacts",
+                    IDC_SHOWFULL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,65,
+                    281,8
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,26,21,192,1
+    LTEXT           "Menus",IDC_CAPMENUS,10,17,24,8
+    LTEXT           "",IDC_STATIC,214,16,10,11,NOT WS_GROUP
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,34,145,183,1
+    LTEXT           "Shell Status",IDC_CAPSHLSTATUS,10,141,43,8
+    LTEXT           "",IDC_STATIC,214,111,10,11,NOT WS_GROUP
+    LTEXT           "...",IDC_STATUS,15,154,253,12
+    GROUPBOX        "Shell context menus",IDC_STATIC,0,0,311,238
+    CONTROL         "Do not display the profile name in use",IDC_NOPROF,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,80,285,8
+    CONTROL         "Show contacts that you have set privacy rules for",
+                    IDC_SHOWINVISIBLES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    15,110,290,8
+    PUSHBUTTON      "Remove",IDC_REMOVE,14,173,42,14
+    CONTROL         "Do not show status icons in menus",IDC_USEOWNERDRAW,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,95,290,8
+    LTEXT           "",IDC_STATIC,214,136,10,11,NOT WS_GROUP
+    CONTROL         "Do not show contacts that are offline, even if my contact list does",IDC_HIDEOFFLINE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,125,290,8
+END
