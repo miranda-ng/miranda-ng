@@ -9,7 +9,6 @@
 ;============================================================
 [Provides the ability to quickly add new contacts.]
 Предоставляет возможность быстро добавить контакт.
-;file \plugins\AddContactPlus\res\resource.rc
 [Add Contact]
 Добавить контакт
 [Add Contact\nAdd a contact to your contact list]
@@ -36,7 +35,6 @@ Custom name:
 &Добавить
 [&Cancel]
 &Отмена
-;file \plugins\AddContactPlus\src\addcontact.cpp
 [Please authorize my request and add me to your contact list.]
 Пожалуйста, разрешите добавить Вас в мой список контактов.
 [None]
@@ -47,7 +45,6 @@ Custom name:
 Добавить контакт
 [The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
 Контакт не может быть добавлен в ваш список контактов. Убедитесь, что вы вошли в эту учетную запись и указали правильный ID пользователя.
-;file \plugins\AddContactPlus\src\main.cpp
 [&Add contact...]
 &Добавить контакт...
 [Open add contact dialog]
