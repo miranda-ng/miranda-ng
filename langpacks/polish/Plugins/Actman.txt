@@ -27,8 +27,6 @@ Nazwa usługi
 wParam
 [lParam]
 lParam
-[Structure]
-Struktura
 [Result action]
 Wynik akcji
 [Window option]
@@ -171,8 +169,6 @@ Tylko aktywuj konto
 Format rozwijanej listy
 [Apply format]
 Zatwierdź format
-[You can use %name%, %uid%, %account% and %group% macros]
-Możesz użyć %name%, %uid%, %account% i %group%
 [Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
 Użyj Bajt array/pointer dla stringów ANSI\n\Użyj tablicy/wskaźnika Word dla stringów Unicode\n\n\$## zastąpione przez bajt z wartością szesnastkową ##\n\$#### zastąpione przez bajt z wartością szesnastkową #### (tylko dla stringów Unicode)\n\n\Wszystkie obliczenia długości danych w bajtach
 [New]
@@ -298,11 +294,11 @@ Wybierz kontakt
 Efekt
 [Start]
 
-[action group list was changed: some was added or deleted]
+[Action group list was changed: some was added or deleted]
 
-[the context menu for a contact is about to be built]
+[The context menu for a contact is about to be built]
 
-[double click on the CList]
+[Double click on the CList]
 
 [New contact added to database]
 

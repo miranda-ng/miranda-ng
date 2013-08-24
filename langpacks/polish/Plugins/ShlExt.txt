@@ -6,6 +6,7 @@
 ;  Authors: Sam Kothari, Miranda NG Team
 ;============================================================
 [Windows Explorer extension for Miranda NG.]
+
 ;file \plugins\ShellExt\res\shldlgs.rc
 [Display contacts in their assigned groups (if any)]
 Pokaż kontakty w grupach
@@ -14,7 +15,7 @@ Tylko jeśli używa ich lista kontaktów
 [Display hidden, ignored or temporary contacts]
 Ukryj tymczasowe kontakty
 [Menus]
-
+Menu
 [Shell Status]
 Status
 [Shell context menus]
@@ -24,7 +25,7 @@ Nie pokazuj nazwy profilu
 [Show contacts that you have set privacy rules for]
 Pokaż kontakty z listy prywatności
 [Remove]
-
+Usuń
 [Do not show status icons in menus]
 Nie pokazuj ikon w menu
 [Do not show contacts that are offline, even if my contact list does]
@@ -39,12 +40,12 @@ Nie zatwierdzono
 [Approved]
 Zatwierdzono
 [Are you sure? this will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
-Czy jestes pewien? ustawienia zostaną usunięte z profilu i Explorera
+Czy jesteś pewien? Ustawienia zostaną usunięte z profilu i Explorera
 [Disable/Remove shlext]
-Wyłącz/unuń shlext
+Wyłącz/usuń shlext
 ;file \plugins\ShellExt\src\shlcom.cpp
 [Miranda]
-
+Miranda
 [Recently]
 
 [Clear entries]

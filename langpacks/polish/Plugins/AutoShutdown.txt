@@ -98,8 +98,6 @@ Nieaktywny
 [Events]
 Zdarzenia
 ;file \plugins\AutoShutdown\src\settingsdlg.cpp
-[(current: %u%%)]
-(obecnie: %u%%)
 [Second(s)]
 Sekund
 [Minute(s)]
@@ -112,23 +110,19 @@ Dni
 Tygodni
 [Month(s)]
 Miesięcy
+[(current: %u%%)]
+(obecnie: %u%%)
 [Start/Stop automatic shutdown]
 Włącz/wyłącz autowyłączanie
-[Stop automatic shutdown]
-Wyłącz autowyłączanie
 [Start automatic shutdown]
 Włącz autowyłączanie
+[Stop automatic shutdown]
+Wyłącz autowyłączanie
 [Stop automatic &shutdown]
 Zatrzymaj autowyłączanie
 [Automatic &shutdown...]
 Automatyczne wyłączanie...
 ;file \plugins\AutoShutdown\src\shutdownsvc.cpp
-[Automatic Shutdown Error]
-Błąd autowyłączania
-[The shutdown process failed!\nReason: %s]
-Nieudane autowyłączanie!\nPowód: %s
-[Unknown]
-Nieznany
 [Miranda NG is going to be automatically closed in %u second(s).]
 Miranda NG zostanie automatycznie zamknięta za %u sek.
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
@@ -147,6 +141,12 @@ Komputer zostanie zablokowany za %u sek.
 Wszystkie połączenia zostaną zamknięte za %u sek.
 [The computer will automatically be shut down in %u second(s).]
 Komputer zostanie wyłączony za %u sek.
+[Automatic Shutdown Error]
+Błąd autowyłączania
+[The shutdown process failed!\nReason: %s]
+Nieudane autowyłączanie!\nPowód: %s
+[Unknown]
+Nieznany
 [Inititiating the shutdown process failed!\nReason: %s]
 Nieudane zainicjowanie procesu zamykania!\nPowód: %s
 [Close Miranda NG]

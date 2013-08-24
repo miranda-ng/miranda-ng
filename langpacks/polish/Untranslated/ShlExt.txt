@@ -1,5 +1,3 @@
-﻿[Menus]
-[Remove]
-[Miranda]
+﻿[Windows Explorer extension for Miranda NG.]
 [Recently]
 [Clear entries]
