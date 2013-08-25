@@ -8,7 +8,6 @@
 ;  Authors: Awkward
 ;============================================================
 [Contact window]
-[Text insert]
 [vars]
 [DWord]
 [You can use %name%, %uid%, %account% and %group% macros]
