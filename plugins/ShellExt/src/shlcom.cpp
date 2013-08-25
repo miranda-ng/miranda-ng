@@ -940,11 +940,11 @@ HRESULT TShlComRec::HandleMenuMsg2(UINT uMsg, WPARAM wParam, LPARAM lParam, LRES
 		// don't check if it's really a menu
 		MEASUREITEMSTRUCT *msi = (MEASUREITEMSTRUCT*)lParam;
 		TMenuDrawInfo *psd = (TMenuDrawInfo*)msi->itemData;
-		NONCLIENTMETRICSA ncm;
-		ncm.cbSize = sizeof(ncm);
+		NONCLIENTMETRICS ncm;
+		ncm.cbSize = (VistaOrLater) ? sizeof(ncm) : offsetof(NONCLIENTMETRICS, iPaddedBorderWidth);
 		SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, &ncm, 0);
 		// create the font used in menus, this font should be cached somewhere really
-		HFONT hFont = CreateFontIndirectA(&ncm.lfMenuFont);
+		HFONT hFont = CreateFontIndirect(&ncm.lfMenuFont);
 		// select in the font
 		HFONT hOldFont = (HFONT)SelectObject(hMemDC, hFont);
 		// default to an icon

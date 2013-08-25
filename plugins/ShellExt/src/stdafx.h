@@ -6,6 +6,7 @@
 #include <Wincodec.h>
 
 #include <string.h>
+#include <stddef.h>
 
 #include <newpluginapi.h>
 

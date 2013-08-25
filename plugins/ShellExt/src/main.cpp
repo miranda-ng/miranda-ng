@@ -64,16 +64,21 @@ STDAPI DllRegisterServer()
 		return E_FAIL;
 	if ( RegSetValueA(k1, "CLSID", REG_SZ, str2, sizeof(str2)))
 		return E_FAIL;
-	if ( RegSetValueA(k1, "{72013A26-A94C-11d6-8540-A5E62932711D}", REG_SZ, str3, sizeof(str3)))
-		return E_FAIL;
-	if ( RegSetValueA(k1, "{72013A26-A94C-11d6-8540-A5E62932711D}\\ProgID", REG_SZ, str3, sizeof(str3)))
+
+	HRegKey k11(HKEY_CLASSES_ROOT, "CLSID\\{72013A26-A94C-11d6-8540-A5E62932711D}");
+	if (k11 == NULL)
 		return E_FAIL;
 
-	char tszFileName[MAX_PATH];
-	GetModuleFileNameA(hInst, tszFileName, SIZEOF(tszFileName));
-	if ( RegSetValueA(k1, "{72013A26-A94C-11d6-8540-A5E62932711D}\\InprocServer32", REG_SZ, tszFileName, lstrlenA(tszFileName)))
+	if ( RegSetValueA(k11, NULL, REG_SZ, str3, sizeof(str3)))
 		return E_FAIL;
-	if ( RegSetValueA(k1, "{72013A26-A94C-11d6-8540-A5E62932711D}\\InprocServer32\\ThreadingModel", REG_SZ, str4, sizeof(str4)))
+	if ( RegSetValueA(k11, "ProgID", REG_SZ, str3, sizeof(str3)))
+		return E_FAIL;
+
+	TCHAR tszFileName[MAX_PATH];
+	GetModuleFileName(hInst, tszFileName, SIZEOF(tszFileName));
+	if ( RegSetValue(k11, _T("InprocServer32"), REG_SZ, tszFileName, lstrlen(tszFileName)))
+		return E_FAIL;
+	if ( RegSetValueA(k11, "InprocServer32\\ThreadingModel", REG_SZ, str4, sizeof(str4)))
 		return E_FAIL;
 
 	if ( RegSetValueA(HKEY_CLASSES_ROOT, "*\\shellex\\ContextMenuHandlers\\miranda.shlext", REG_SZ, str2, sizeof(str2)))
