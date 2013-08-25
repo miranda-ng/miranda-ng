@@ -12,22 +12,30 @@
 
 //#define CRTDLL
 
-#include "resource.h"
-#include "..\xstatus_MRA\src\resource.h"
-#include <SystemHeaders.h>
-#include <Wincrypt.h>
-#include <Ntsecapi.h>
+#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
+#define WINVER       0x0502
+#define _WIN32_WINNT 0x0502
+
+#include <windows.h>
 #include <Commdlg.h>
+#include <wincrypt.h>
+#include <shlwapi.h>
+#include <winsock2.h>
+#include <mswsock.h>
+#include <WS2tcpip.h>
+
+#pragma comment(lib,"Crypt32.lib")
+#pragma comment(lib,"shlwapi.lib")
+#pragma comment(lib,"ws2_32.lib")
+#pragma comment(lib,"mswsock.lib")
+
 #include <malloc.h>
 #include <stdio.h>
 #include <time.h>
-#include <DebugFunctions.h>
 #include <commctrl.h>
 #include <uxtheme.h>
-#include <SocketFunctions.h>
 
 #define bzero(pvDst, count) memset(pvDst, 0, count)
-#include <timefuncs.h>
 
 #include "../../plugins/zlib/src/zlib.h"
 
@@ -64,21 +72,24 @@
 #include <m_nudge.h>
 #include <m_proto_listeningto.h>
 
+#include "resource.h"
+#include "..\xstatus_MRA\src\resource.h"
 
-#include <MemoryFind.h>
-#include <MemoryFindByte.h>
-#include <MemoryCompare.h>
-#include <MemoryReplace.h>
-#include <BuffToLowerCase.h>
-#include <StrToNum.h>
-#include <StrToNum.h>
-#include <StrHexToNum.h>
-#include <InternetTime.h>
-#include <ListMT.h>
-#include <FIFOMT.h>
-#include <RC4.h>
-#include <SHA1.h>
-
+#include "Sdk/DebugFunctions.h"
+#include "Sdk/SocketFunctions.h"
+#include "Sdk/MemoryFind.h"
+#include "Sdk/MemoryFindByte.h"
+#include "Sdk/MemoryCompare.h"
+#include "Sdk/MemoryReplace.h"
+#include "Sdk/BuffToLowerCase.h"
+#include "Sdk/StrToNum.h"
+#include "Sdk/StrHexToNum.h"
+#include "Sdk/timefuncs.h"
+#include "Sdk/InternetTime.h"
+#include "Sdk/ListMT.h"
+#include "Sdk/FIFOMT.h"
+#include "Sdk/RC4.h"
+#include "Sdk/SHA1.h"
 
 // LPS
 typedef struct
@@ -148,15 +159,6 @@ extern GUI_DISPLAY_ITEM gdiExtraStatusIconsItems[];
 #include "MraAntiSpam.h"
 #include "MraMPop.h"
 #include "MraChat.h"
-
-
-#ifdef MRA_EXPORTS
-	#define MRA_API __declspec(dllexport)
-#else
-	#define MRA_API
-	// __declspec(dllimport)
-	#pragma comment(lib, "MRALib.lib")
-#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //	plugin options

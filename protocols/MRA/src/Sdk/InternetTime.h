@@ -36,11 +36,9 @@
 #endif // _MSC_VER > 1000
 
 
-#include <StrToNum.h>
-#include <MemoryFind.h>
-#include <MemoryFindByte.h>
-
-
+#include "Sdk/StrToNum.h"
+#include "Sdk/MemoryFind.h"
+#include "Sdk/MemoryFindByte.h"
 
 typedef struct
 {

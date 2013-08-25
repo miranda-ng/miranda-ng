@@ -1,6 +1,5 @@
 #include "Mra.h"
 #include "MraSelectEMail.h"
-#include "BuffToLowerCase.h"
 
 struct MraSelectEMailDlgData
 {

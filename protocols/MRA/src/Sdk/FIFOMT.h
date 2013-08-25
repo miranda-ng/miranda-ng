@@ -35,12 +35,8 @@
 #endif // _MSC_VER > 1000
 
 
-#include <ListMT.h>
-#include <InterlockedFunctions.h>
-
-
-
-
+#include "Sdk/ListMT.h"
+#include "Sdk/InterlockedFunctions.h"
 
 typedef LIST_MT				FIFO_MT, *PFIFO_MT, *LPFIFO_MT;
 typedef PCLIST_MT			PCFIFO_MT, LPCFIFO_MT;
@@ -50,11 +46,6 @@ typedef PCLIST_MT_ITEM		PCFIFO_MT_ITEM, LPCFIFO_MT_ITEM;
 
 typedef LIST_MT_ITERATOR	FIFO_MT_ITERATOR, *PFIFO_MT_ITERATOR, *LPFIFO_MT_ITERATOR;
 typedef PCLIST_MT_ITERATOR	PCFIFO_MT_ITERATOR, LPCFIFO_MT_ITERATOR;
-
-
-
-
-
 
 #define FifoMTInitialize(pcpmtFifoMT,dwSpinCount) ListMTInitialize(pcpmtFifoMT,dwSpinCount)
 #define FifoMTDestroy(pcpmtFifoMT) ListMTDestroy(pcpmtFifoMT)

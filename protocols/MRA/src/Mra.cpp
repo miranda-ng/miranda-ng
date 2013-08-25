@@ -42,7 +42,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID Reserved)
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
 
-extern "C" MRA_API PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfoEx;
 }
@@ -73,7 +73,7 @@ static int mraProtoUninit(CMraProto *ppro)
 	return 0;
 }
 
-extern "C" MRA_API int Load(void)
+extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
@@ -121,7 +121,7 @@ extern "C" MRA_API int Load(void)
 	return 0;
 }
 
-extern "C" MRA_API int Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	DestroyXStatusIcons();
 	if (masMraSettings.hDLLXStatusIcons) {
