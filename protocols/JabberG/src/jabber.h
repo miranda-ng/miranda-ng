@@ -86,6 +86,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_protosvc.h>
 #include <m_protoint.h>
 #include <m_skin.h>
+#include <m_string.h>
 #include <m_timezones.h>
 #include <m_toptoolbar.h>
 #include <m_userinfo.h>
@@ -108,8 +109,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "resource.h"
 #include "version.h"
-
-#include "MString.h"
 
 #include "jabber_xml.h"
 #include "jabber_byte.h"

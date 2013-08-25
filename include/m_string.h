@@ -53,7 +53,7 @@ struct CMStringData
 	__forceinline void* data() { return (this + 1); }
 	__forceinline void AddRef() { InterlockedIncrement(&nRefs); }
 	__forceinline bool IsLocked() const { return nRefs < 0; }
-	__forceinline bool IsShared() const { return (nRefs > 1); }
+	__forceinline bool IsShared() const { return nRefs > 1; }
 
 	__forceinline void Lock() { mirstr_lock(this); }
 	__forceinline void Release() { mirstr_release(this); }
@@ -98,7 +98,7 @@ public:
 public:
 	explicit CMSimpleStringT()
 	{
-		CMStringData* pData = GetNilString();
+		CMStringData* pData = mirstr_getNil();
 		Attach(pData);
 	}
 
@@ -112,9 +112,8 @@ public:
 	CMSimpleStringT(PCXSTR pszSrc)
 	{
 		int nLength = StringLength(pszSrc);
-		CMStringData* pData = Allocate(nLength, sizeof(XCHAR));
-		if (pData != NULL)
-		{
+		CMStringData* pData = mirstr_allocate(nLength, sizeof(XCHAR));
+		if (pData != NULL) {
 			Attach(pData);
 			SetLength(nLength);
 			CopyChars(m_pszData, nLength, pszSrc, nLength);
@@ -122,9 +121,8 @@ public:
 	}
 	CMSimpleStringT(const XCHAR* pchSrc, int nLength)
 	{
-		CMStringData* pData = Allocate(nLength, sizeof(XCHAR));
-		if (pData != NULL)
-		{
+		CMStringData* pData = mirstr_allocate(nLength, sizeof(XCHAR));
+		if (pData != NULL) {
 			Attach(pData);
 			SetLength(nLength);
 			CopyChars(m_pszData, nLength, pchSrc, nLength);
@@ -145,12 +143,10 @@ public:
 	{
 		CMStringData* pSrcData = strSrc.GetData();
 		CMStringData* pOldData = GetData();
-		if (pSrcData != pOldData)
-		{
+		if (pSrcData != pOldData) {
 			if (pOldData->IsLocked())
 				SetString(strSrc.GetString(), strSrc.GetLength());
-			else
-			{
+			else {
 				CMStringData* pNewData = CloneData(pSrcData);
 				pOldData->Release();
 				Attach(pNewData);
@@ -169,32 +165,27 @@ public:
 	CMSimpleStringT& operator+=(const CMSimpleStringT& strSrc)
 	{
 		Append(strSrc);
-
 		return *this;
 	}
 
 	CMSimpleStringT& operator+=(PCXSTR pszSrc)
 	{
 		Append(pszSrc);
-
 		return *this;
 	}
 	CMSimpleStringT& operator+=(char ch)
 	{
 		AppendChar(XCHAR(ch));
-
 		return *this;
 	}
 	CMSimpleStringT& operator+=(unsigned char ch)
 	{
 		AppendChar(XCHAR(ch));
-
 		return *this;
 	}
 	CMSimpleStringT& operator+=(wchar_t ch)
 	{
 		AppendChar(XCHAR(ch));
-
 		return *this;
 	}
 
@@ -217,14 +208,14 @@ public:
 	{
 		Append(pszSrc, StringLength(pszSrc));
 	}
+
 	void Append(PCXSTR pszSrc, int nLength)
 	{
 		// See comment in SetString() about why we do this
 		UINT_PTR nOffset = pszSrc - GetString();
 
 		UINT nOldLength = GetLength();
-		if (nOldLength < 0)
-		{
+		if (nOldLength < 0) {
 			// protects from underflow
 			nOldLength = 0;
 		}
@@ -235,8 +226,7 @@ public:
 
 		int nNewLength = nOldLength+nLength;
 		PXSTR pszBuffer = GetBuffer(nNewLength);
-		if (nOffset <= nOldLength)
-		{
+		if (nOffset <= nOldLength) {
 			pszSrc = pszBuffer+nOffset;
 			// No need to call CopyCharsOverlapped, since the destination is
 			// beyond the end of the original buffer
@@ -262,15 +252,13 @@ public:
 		if (pOldData->nDataLength == 0)
 			return;
 
-		if (pOldData->IsLocked())
-		{
+		if (pOldData->IsLocked()) {
 			// Don't reallocate a locked buffer that's shrinking
 			SetLength(0);
 		}
-		else
-		{
+		else {
 			pOldData->Release();
-			CMStringData* pNewData = GetNilString();
+			CMStringData* pNewData = mirstr_getNil();
 			Attach(pNewData);
 		}
 	}
@@ -281,9 +269,8 @@ public:
 		if (pOldData->nAllocLength == nLength)
 			return;
 
-		if ( !pOldData->IsLocked())  // Don't reallocate a locked buffer that's shrinking
-		{
-			CMStringData* pNewData = Allocate(nLength, sizeof(XCHAR));
+		if ( !pOldData->IsLocked()) { // Don't reallocate a locked buffer that's shrinking
+			CMStringData* pNewData = mirstr_allocate(nLength, sizeof(XCHAR));
 			if (pNewData == NULL) {
 				SetLength(nLength);
 				return;
@@ -391,25 +378,17 @@ public:
 	void SetString(PCXSTR pszSrc, int nLength)
 	{
 		if (nLength == 0)
-		{
 			Empty();
-		}
-		else
-		{
-
+		else {
 			UINT nOldLength = GetLength();
 			UINT_PTR nOffset = pszSrc - GetString();
 
 			PXSTR pszBuffer = GetBuffer(nLength);
 			if (nOffset <= nOldLength)
-			{
-				CopyCharsOverlapped(pszBuffer, GetAllocLength(), 
-					pszBuffer+nOffset, nLength);
-			}
+				CopyCharsOverlapped(pszBuffer, GetAllocLength(), pszBuffer+nOffset, nLength);
 			else
-			{
 				CopyChars(pszBuffer, GetAllocLength(), pszSrc, nLength);
-			}
+
 			ReleaseBufferSetLength(nLength);
 		}
 	}
@@ -417,27 +396,21 @@ public:
 	friend CMSimpleStringT __stdcall operator+(const CMSimpleStringT& str1, const CMSimpleStringT& str2)
 	{
 		CMSimpleStringT s;
-
 		Concatenate(s, str1, str1.GetLength(), str2, str2.GetLength());
-
 		return s;
 	}
 
 	friend CMSimpleStringT __stdcall operator+(const CMSimpleStringT& str1, PCXSTR psz2)
 	{
 		CMSimpleStringT s;
-
 		Concatenate(s, str1, str1.GetLength(), psz2, StringLength(psz2));
-
 		return s;
 	}
 
 	friend CMSimpleStringT __stdcall operator+(PCXSTR psz1, const CMSimpleStringT& str2)
 	{
 		CMSimpleStringT s;
-
 		Concatenate(s, psz1, StringLength(psz1), str2, str2.GetLength());
-
 		return s;
 	}
 
@@ -450,11 +423,7 @@ public:
 	}
 	static void __stdcall CopyChars(XCHAR* pchDest, size_t nDestLen, const XCHAR* pchSrc, int nChars)
 	{
-		#if _MSC_VER >= 1400
-			memcpy_s(pchDest, nDestLen * sizeof(XCHAR), pchSrc, nChars * sizeof(XCHAR));
-		#else
-			memcpy(pchDest, pchSrc, nDestLen * sizeof(XCHAR));
-		#endif
+		memcpy_s(pchDest, nDestLen * sizeof(XCHAR), pchSrc, nChars * sizeof(XCHAR));
 	}
 
 	static void __stdcall CopyCharsOverlapped(XCHAR* pchDest, const XCHAR* pchSrc, int nChars)
@@ -466,18 +435,13 @@ public:
 	}
 	static void __stdcall CopyCharsOverlapped(XCHAR* pchDest, size_t nDestLen, const XCHAR* pchSrc, int nChars)
 	{
-		#if _MSC_VER >= 1400
-			memmove_s(pchDest, nDestLen * sizeof(XCHAR), pchSrc, nChars * sizeof(XCHAR));
-		#else
-			memmove(pchDest, pchSrc, nDestLen * sizeof(XCHAR));
-		#endif
+		memmove_s(pchDest, nDestLen * sizeof(XCHAR), pchSrc, nChars * sizeof(XCHAR));
 	}
 	static int __stdcall StringLength(const char* psz)
 	{
 		if (psz == NULL)
-		{
 			return(0);
-		}
+
 		return (int(strlen(psz)));
 	}
 	static int __stdcall StringLength(const wchar_t* psz)
@@ -520,9 +484,8 @@ private:
 	{
 		CMStringData* pOldData = GetData();
 		int nOldLength = pOldData->nDataLength;
-		CMStringData* pNewData = Allocate(nLength, sizeof(XCHAR));
-		if (pNewData != NULL)
-		{
+		CMStringData* pNewData = mirstr_allocate(nLength, sizeof(XCHAR));
+		if (pNewData != NULL) {
 			int nCharsToCopy = ((nOldLength < nLength) ? nOldLength : nLength)+1;  // Copy '\0'
 			CopyChars(PXSTR(pNewData->data()), nCharsToCopy, PCXSTR(pOldData->data()), nCharsToCopy);
 			pNewData->nDataLength = nOldLength;
@@ -554,8 +517,7 @@ private:
 		{
 			Fork(nLength);
 		}
-		else if (pOldData->nAllocLength < nLength)
-		{
+		else if (pOldData->nAllocLength < nLength) {
 			// Grow exponentially, until we hit 1K.
 			int nNewLength = pOldData->nAllocLength;
 			if (nNewLength > 1024)
@@ -575,7 +537,7 @@ private:
 		if (pOldData->nAllocLength >= nLength || nLength <= 0)
 			return;
 
-		CMStringData* pNewData = Realloc(pOldData, nLength, sizeof(XCHAR));
+		CMStringData* pNewData = mirstr_realloc(pOldData, nLength, sizeof(XCHAR));
 		if (pNewData != NULL)
 			Attach(pNewData);
 	}
@@ -1156,7 +1118,7 @@ public:
 
 			  XCHAR *buffBaseTypeChar = new XCHAR[nBaseTypeCharLen+1];
 			  StringTraits::ConvertToBaseType(buffBaseTypeChar, nBaseTypeCharLen+1, pszCh, 1);
-			  //Allocate enough characters in String and flood (replicate) with the (converted character)*nLength
+			  //allocate enough characters in String and flood (replicate) with the (converted character)*nLength
 			  PXSTR pszBuffer = this->GetBuffer(nLength*nBaseTypeCharLen);
 			  if (nBaseTypeCharLen == 1)
 			  {   //Optimization for a common case - wide char translates to 1 ansi/wide char.
@@ -2015,7 +1977,7 @@ public:
 
 	  // OLE BSTR support
 
-	  // Allocate a BSTR containing a copy of the string
+	  // allocate a BSTR containing a copy of the string
 	  BSTR AllocSysString() const
 	  {
 		  BSTR bstrResult = StringTraits::AllocSysString(this->GetString(), this->GetLength());
@@ -2286,3 +2248,29 @@ inline void CMStringT<BaseType, StringTraits>::AppendFormat(PCXSTR pszFormat, ..
 typedef CMStringT< wchar_t, ChTraitsCRT< wchar_t > > CMStringW;
 typedef CMStringT< char, ChTraitsCRT< char > > CMStringA;
 typedef CMStringT< TCHAR, ChTraitsCRT< TCHAR > > CMString;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// ChTraitsCRT<wchar_t>
+
+__forceinline int ChTraitsCRT<wchar_t>::GetFormattedLength( LPCWSTR pszFormat, va_list args )
+{
+	return _vscwprintf(pszFormat, args);
+}
+
+__forceinline int ChTraitsCRT<wchar_t>::Format( LPWSTR pszBuffer, size_t nLength, LPCWSTR pszFormat, va_list args)
+{
+	return _vsnwprintf(pszBuffer, nLength, pszFormat, args);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// ChTraitsCRT<char>
+
+__forceinline int ChTraitsCRT<char>::GetFormattedLength( LPCSTR pszFormat, va_list args )
+{
+	return _vscprintf(pszFormat, args);
+}
+
+__forceinline int ChTraitsCRT<char>::Format( LPSTR pszBuffer, size_t nlength, LPCSTR pszFormat, va_list args )
+{
+	return vsprintf_s(pszBuffer, nlength, pszFormat, args);
+}

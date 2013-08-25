@@ -258,7 +258,6 @@
     <ClCompile Include="src\jabber_xml.cpp" />
     <ClCompile Include="src\jabber_xstatus.cpp" />
     <ClCompile Include="src\jabber_zstream.cpp" />
-    <ClCompile Include="src\MString.cpp" />
     <ClCompile Include="src\jabber.cpp" />
     <ClCompile Include="src\ui_utils.cpp" />
   </ItemGroup>
@@ -286,7 +285,6 @@
     <ClInclude Include="src\jabber_send_manager.h" />
     <ClInclude Include="src\jabber_xml.h" />
     <ClInclude Include="src\jabber_xstatus.h" />
-    <ClInclude Include="src\MString.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\ui_utils.h" />
     <ClInclude Include="src\version.h" />

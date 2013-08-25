@@ -116,29 +116,3 @@ MIR_CORE_DLL(void) mirstr_unlock(CMStringData* pThis)
 			pThis->nRefs = 1;
 	}
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// ChTraitsCRT<wchar_t>
-
-int __stdcall ChTraitsCRT<wchar_t>::GetFormattedLength( LPCWSTR pszFormat, va_list args )
-{
-	return _vscwprintf(pszFormat, args);
-}
-
-int __stdcall ChTraitsCRT<wchar_t>::Format( LPWSTR pszBuffer, size_t nLength, LPCWSTR pszFormat, va_list args)
-{
-	return _vsnwprintf(pszBuffer, nLength, pszFormat, args);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// ChTraitsCRT<char>
-
-int __stdcall ChTraitsCRT<char>::GetFormattedLength( LPCSTR pszFormat, va_list args )
-{
-	return _vscprintf(pszFormat, args);
-}
-
-int __stdcall ChTraitsCRT<char>::Format( LPSTR pszBuffer, size_t nlength, LPCSTR pszFormat, va_list args )
-{
-	return vsprintf_s(pszBuffer, nlength, pszFormat, args);
-}

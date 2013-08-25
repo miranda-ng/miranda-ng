@@ -70,8 +70,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_ignore.h"
 #include "m_chat.h"
 #include "m_icolib.h"
-#include "m_ircscript.h"
+#include "m_string.h"
 #include "win2k.h"
+
+#include "m_ircscript.h"
 
 #include "resource.h"
 
@@ -98,8 +100,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define FILERESUME_CANCEL	11
 
 struct CIrcProto;
-
-#include "mstring.h"
 typedef CMStringA String;
 
 // special service for tweaking performance, implemented in chat.dll
