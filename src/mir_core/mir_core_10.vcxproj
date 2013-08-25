@@ -99,6 +99,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="logger.cpp" />
+    <ClCompile Include="mstring.cpp" />
     <ClCompile Include="protos.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

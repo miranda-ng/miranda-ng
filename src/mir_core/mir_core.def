@@ -231,3 +231,10 @@ bin2hex                       @228
 bin2hexW                      @229
 mir_hmac_sha1                 @230
 mir_base64_encodebuf          @231
+mirstr_allocate               @232
+mirstr_free                   @233
+mirstr_realloc                @234
+mirstr_getNil                 @235
+mirstr_lock                   @236
+mirstr_release                @237
+mirstr_unlock                 @238

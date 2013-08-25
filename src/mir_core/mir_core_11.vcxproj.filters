@@ -97,6 +97,9 @@
     <ClCompile Include="logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mstring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonheaders.h">
