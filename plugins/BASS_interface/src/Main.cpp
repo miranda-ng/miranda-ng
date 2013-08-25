@@ -551,7 +551,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	else {
 		DBVARIANT dbv;
 		if ( db_get_ts(NULL, ModuleName, OPT_BASSPATH, &dbv)) {
-			lstrcpyn(CurrBassPath, VARST( _T("%miranda_path%\\plugins\\Bass\\bass.dll")), SIZEOF(CurrBassPath));
+			lstrcpyn(CurrBassPath, VARST( _T("Plugins\\Bass\\bass.dll")), SIZEOF(CurrBassPath));
 			db_set_ts(NULL, ModuleName, OPT_BASSPATH, CurrBassPath);
 		}
 		else {
