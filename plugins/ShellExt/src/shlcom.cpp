@@ -1537,10 +1537,6 @@ HRESULT RemoveCOMRegistryEntries()
 	if ( !RegOpenKeyExA(HKEY_CLASSES_ROOT, "miranda.shlext", 0, KEY_READ, &hRootKey)) {
 		// need to delete the subkey before the parent key is deleted under NT/2000/XP
 		RegDeleteKeyA(hRootKey, "CLSID");
-		RegDeleteKeyA(hRootKey, "{72013A26-A94C-11d6-8540-A5E62932711D}\\InprocServer32\\ThreadingModel");
-		RegDeleteKeyA(hRootKey, "{72013A26-A94C-11d6-8540-A5E62932711D}\\InprocServer32");
-		RegDeleteKeyA(hRootKey, "{72013A26-A94C-11d6-8540-A5E62932711D}\\ProgID");
-		RegDeleteKeyA(hRootKey, "{72013A26-A94C-11d6-8540-A5E62932711D}");
 		// close the key
 		RegCloseKey(hRootKey);
 		// delete it
