@@ -1537,6 +1537,10 @@ HRESULT RemoveCOMRegistryEntries()
 	if ( !RegOpenKeyExA(HKEY_CLASSES_ROOT, "miranda.shlext", 0, KEY_READ, &hRootKey)) {
 		// need to delete the subkey before the parent key is deleted under NT/2000/XP
 		RegDeleteKeyA(hRootKey, "CLSID");
+		RegDeleteKeyA(hRootKey, "{72013A26-A94C-11d6-8540-A5E62932711D}\\InprocServer32\\ThreadingModel");
+		RegDeleteKeyA(hRootKey, "{72013A26-A94C-11d6-8540-A5E62932711D}\\InprocServer32");
+		RegDeleteKeyA(hRootKey, "{72013A26-A94C-11d6-8540-A5E62932711D}\\ProgID");
+		RegDeleteKeyA(hRootKey, "{72013A26-A94C-11d6-8540-A5E62932711D}");
 		// close the key
 		RegCloseKey(hRootKey);
 		// delete it
@@ -1560,7 +1564,7 @@ HRESULT RemoveCOMRegistryEntries()
 		RegCloseKey(hRootKey);
 	}
 	if ( !RegOpenKeyExA(HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved", 0, KEY_ALL_ACCESS, &hRootKey)) {
-		if ( !RegDeleteValueA(hRootKey, "{72013A26-A94C-11d6-8540-A5E62932711D}") != ERROR_SUCCESS) {
+		if ( RegDeleteValueA(hRootKey, "{72013A26-A94C-11d6-8540-A5E62932711D}") != ERROR_SUCCESS) {
 			MessageBoxA(0,
 				"Unable to delete registry entry for 'Approved context menu handlers', this key may already be deleted or you may need admin rights.",
 				"Problem", MB_ICONERROR);
@@ -1576,16 +1580,17 @@ void CheckUnregisterServer()
 {
 	if (VistaOrLater) {
 		// launches regsvr to remove the dll under admin.
-		char szFileName[MAX_PATH], szBuf[MAX_PATH * 2];
-		GetModuleFileNameA(hInst, szFileName, SIZEOF(szFileName));
-		mir_snprintf(szBuf, sizeof(szBuf), "/s /u \"%s\"", szFileName);
+		TCHAR szFileName[MAX_PATH], szBuf[MAX_PATH * 2];
+		GetModuleFileName(hInst, szFileName, SIZEOF(szFileName));
+		mir_sntprintf(szBuf, SIZEOF(szBuf), _T("/s /u \"%s\""), szFileName);
 
-		SHELLEXECUTEINFOA sei = { 0 };
-		sei.cbSize = sizeof(sei);
-		sei.lpVerb = "runas";
-		sei.lpFile = "regsvr32";
+		SHELLEXECUTEINFO sei = { sizeof(sei) };
+		sei.lpVerb = _T("runas");
+		sei.lpFile = _T("regsvr32");
 		sei.lpParameters = szBuf;
-		ShellExecuteExA(&sei);
+		if ( ShellExecuteEx(&sei) == TRUE)
+			return;
+
 		Sleep(1000);
 	}
 	RemoveCOMRegistryEntries();
@@ -1596,7 +1601,7 @@ void CheckUnregisterServer()
 
 void CheckRegisterServer()
 {
-	char szFileName[MAX_PATH], szBuf[MAX_PATH * 2];
+	TCHAR szFileName[MAX_PATH], szBuf[MAX_PATH * 2];
 
 	HKEY hRegKey;
 	if ( !RegOpenKeyExA(HKEY_CLASSES_ROOT, "miranda.shlext", 0, KEY_READ, &hRegKey))
@@ -1606,14 +1611,13 @@ void CheckRegisterServer()
 			"Shell context menus requires your permission to register with Windows Explorer (one time only).",
 			"Miranda NG - Shell context menus (shellext.dll)", MB_OK | MB_ICONINFORMATION);
 		// /s = silent
-		GetModuleFileNameA(hInst, szFileName, sizeof(szFileName));
-		mir_snprintf(szBuf, sizeof(szBuf), "/s \"%s\"", szFileName);
+		GetModuleFileName(hInst, szFileName, SIZEOF(szFileName));
+		mir_sntprintf(szBuf, SIZEOF(szBuf), _T("/s \"%s\""), szFileName);
 
-		SHELLEXECUTEINFOA sei = { 0 };
-		sei.cbSize = sizeof(sei);
-		sei.lpVerb = "runas";
-		sei.lpFile = "regsvr32";
+		SHELLEXECUTEINFO sei = { sizeof(sei) };
+		sei.lpVerb = _T("runas");
+		sei.lpFile = _T("regsvr32");
 		sei.lpParameters = szBuf;
-		ShellExecuteExA(&sei);
+		ShellExecuteEx(&sei);
 	}
 }

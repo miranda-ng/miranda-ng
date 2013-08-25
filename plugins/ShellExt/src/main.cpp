@@ -36,8 +36,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 struct HRegKey
 {
-	HRegKey(HKEY hRoot, const TCHAR *ptszKey) : m_key(NULL)
-	{	RegCreateKeyEx(hRoot, ptszKey, 0, 0, 0, KEY_SET_VALUE | KEY_CREATE_SUB_KEY, 0, &m_key, 0);
+	HRegKey(HKEY hRoot, const char *ptszKey) : m_key(NULL)
+	{	RegCreateKeyExA(hRoot, ptszKey, 0, 0, 0, KEY_SET_VALUE | KEY_CREATE_SUB_KEY, 0, &m_key, 0);
 	}
 	
 	~HRegKey() { if (m_key) RegCloseKey(m_key); }
@@ -52,30 +52,28 @@ char str1[100];
 char str2[] = "{72013A26-A94C-11d6-8540-A5E62932711D}";
 char str3[] = "miranda.shlext";
 char str4[] = "Apartment";
-
-TCHAR key1[] = _T("miranda.shlext\\{72013A26-A94C-11d6-8540-A5E62932711D}\\InprocServer32");
  
 STDAPI DllRegisterServer()
 {
-	int str1len = sprintf_s(str1, sizeof(str1), "shlext %d.%d.%d.%d - shell context menu support for Miranda NG", __FILEVERSION_STRING);
-	if ( RegSetValueA(HKEY_CLASSES_ROOT, "miranda.shlext", REG_SZ, str1, str1len))
-		return E_FAIL;
-	if ( RegSetValueA(HKEY_CLASSES_ROOT, "miranda.shlext\\CLSID", REG_SZ, str2, sizeof(str2)))
-		return E_FAIL;
-	if ( RegSetValueA(HKEY_CLASSES_ROOT, "miranda.shlext\\{72013A26-A94C-11d6-8540-A5E62932711D}", REG_SZ, str3, sizeof(str3)))
-		return E_FAIL;
-	if ( RegSetValueA(HKEY_CLASSES_ROOT, "miranda.shlext\\{72013A26-A94C-11d6-8540-A5E62932711D}\\ProgID", REG_SZ, str3, sizeof(str3)))
-		return E_FAIL;
-
-	TCHAR tszFileName[MAX_PATH];
-	GetModuleFileName(hInst, tszFileName, SIZEOF(tszFileName));
-	if ( RegSetValue(HKEY_CLASSES_ROOT, key1, REG_SZ, tszFileName, lstrlen(tszFileName)))
-		return E_FAIL;
-
-	HRegKey k1(HKEY_CLASSES_ROOT, key1);
+	HRegKey k1(HKEY_CLASSES_ROOT, "miranda.shlext");
 	if (k1 == NULL)
 		return E_FAIL;
-	if ( RegSetValueA(k1, "ThreadingModel", REG_SZ, str4, sizeof(str4)))
+
+	int str1len = sprintf_s(str1, sizeof(str1), "shlext %d.%d.%d.%d - shell context menu support for Miranda NG", __FILEVERSION_STRING);
+	if ( RegSetValueA(k1, NULL, REG_SZ, str1, str1len))
+		return E_FAIL;
+	if ( RegSetValueA(k1, "CLSID", REG_SZ, str2, sizeof(str2)))
+		return E_FAIL;
+	if ( RegSetValueA(k1, "{72013A26-A94C-11d6-8540-A5E62932711D}", REG_SZ, str3, sizeof(str3)))
+		return E_FAIL;
+	if ( RegSetValueA(k1, "{72013A26-A94C-11d6-8540-A5E62932711D}\\ProgID", REG_SZ, str3, sizeof(str3)))
+		return E_FAIL;
+
+	char tszFileName[MAX_PATH];
+	GetModuleFileNameA(hInst, tszFileName, SIZEOF(tszFileName));
+	if ( RegSetValueA(k1, "{72013A26-A94C-11d6-8540-A5E62932711D}\\InprocServer32", REG_SZ, tszFileName, lstrlenA(tszFileName)))
+		return E_FAIL;
+	if ( RegSetValueA(k1, "{72013A26-A94C-11d6-8540-A5E62932711D}\\InprocServer32\\ThreadingModel", REG_SZ, str4, sizeof(str4)))
 		return E_FAIL;
 
 	if ( RegSetValueA(HKEY_CLASSES_ROOT, "*\\shellex\\ContextMenuHandlers\\miranda.shlext", REG_SZ, str2, sizeof(str2)))
@@ -83,7 +81,7 @@ STDAPI DllRegisterServer()
 	if ( RegSetValueA(HKEY_CLASSES_ROOT, "Directory\\shellex\\ContextMenuHandlers\\miranda.shlext", REG_SZ, str2, sizeof(str2)))
 		return E_FAIL;
 
-	HRegKey k2(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved"));
+	HRegKey k2(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved");
 	if (k2 == NULL)
 		return E_FAIL;
 	if ( RegSetValueExA(k2, str2, 0, REG_SZ, (PBYTE)str1, str1len))
