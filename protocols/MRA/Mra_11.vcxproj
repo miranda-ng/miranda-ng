@@ -246,7 +246,6 @@
     <ClInclude Include="src\Sdk\SocketFunctions.h" />
     <ClInclude Include="src\Sdk\StrHexToNum.h" />
     <ClInclude Include="src\Sdk\StrToNum.h" />
-    <ClInclude Include="src\Sdk\SystemHeaders.h" />
     <ClInclude Include="src\Sdk\timefuncs.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
