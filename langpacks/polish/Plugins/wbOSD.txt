@@ -6,7 +6,7 @@
 ;  Authors: Andrej Krutak
 ;============================================================
 [Shows new message/status change info using on-screen display.]
-
+Wyświetla na ekranie informacje o nowej wiadomości lub zmianie statusu wykorzystując wyświetlanie na ekranie (OSD).
 ;file \plugins\wbOSD\res\wbOSD.rc
 [Dialog]
 Okno
