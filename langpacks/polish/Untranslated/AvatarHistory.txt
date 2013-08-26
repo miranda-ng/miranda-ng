@@ -1,3 +1,2 @@
-﻿[From popup plugin]
-[Hashes are the same... skipping]
+﻿[Hashes are the same... skipping]
 [AVH Debug: GetOldStyleAvatarName]

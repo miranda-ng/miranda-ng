@@ -29,7 +29,7 @@
 [Leave empty if you dont want change password]
 [Popup type]
 [Custom Status "%s" Details]
-[Enable Anti Spam]
+[Enable anti-spam]
 [Delete spam bot contacts]
 [Max. language changes in message (0 - disabled)]
 [Write to system history]

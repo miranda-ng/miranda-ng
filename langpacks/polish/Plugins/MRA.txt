@@ -148,7 +148,7 @@ Zamykanie w %d
 Nazwa:
 [Message:]
 Wiadomość:
-[Enable Anti Spam]
+[Enable anti-spam]
 
 [Check temp contacts]
 Sprawdź tymczasowe kontakty
@@ -339,7 +339,7 @@ Protokoły
 Konto
 [Connections]
 
-[Anti spam]
+[Anti-spam]
 Antyspam
 [Files]
 Pliki

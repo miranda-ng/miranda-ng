@@ -50,8 +50,8 @@ Użyj kolorów Windows
 Użyj domyślnych kolorów
 [Delay]
 Wyświetlaj
-[From popup plugin]
-
+[From Popup plugin]
+Z wtyczki Popup
 [Custom]
 Niestandardowe
 [Permanent]

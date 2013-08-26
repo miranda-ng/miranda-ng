@@ -9,8 +9,6 @@
 ;============================================================
 [Contact window]
 Okno kontaktu
-[Text insert]
-Umieść tekst
 [vars]
 Zmienne
 [DWord]
@@ -167,6 +165,8 @@ Format listy kontaktów
 Tylko aktywuj konto
 [Dropdown list format]
 Format rozwijanej listy
+[Apply]
+Zastosuj
 [Apply format]
 Zatwierdź format
 [Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]

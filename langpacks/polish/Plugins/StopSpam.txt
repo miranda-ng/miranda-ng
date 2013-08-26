@@ -5,7 +5,7 @@
 ;  Version: 0.0.1.4
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
-[Antispam plugin for Miranda NG.]
+[Anti-spam plugin for Miranda NG.]
 Wtyczka antyspamowa dla Mirandy NG.
 ;file \plugins\StopSpamPlus\res\stopspam.rc
 [Question: (Ctrl-Enter for carriage return)]

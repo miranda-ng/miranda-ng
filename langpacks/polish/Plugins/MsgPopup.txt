@@ -5,8 +5,8 @@
 ;  Version: 0.1.1.3
 ;  Authors: StDenis
 ;============================================================
-[Plugin replaces MessageBoxes [whose have only OK button] into Popups.]
-Zastępuje \"Okna komunikatów\" [tych tylko z przyciskiem OK], popup-ami.
+[Plugin replaces MessageBoxes (those having only OK button) with popups.]
+Zastępuje "Okna komunikatów" (tych tylko z przyciskiem OK), popup-ami.
 ;file \plugins\MsgPopup\res\MsgPopup.rc
 [ASTERISK style]
 

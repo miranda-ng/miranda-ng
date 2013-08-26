@@ -1,4 +1,4 @@
-﻿[Shows new message/status change info using onscreen display.]
+﻿[Shows new message/status change info using on-screen display.]
 [Select font]
 [Shadow color]
 [Alternative shadow]
@@ -13,4 +13,3 @@
 [Show message window after click]
 [Format:]
 [Show when my status is:]
-[OSD]
