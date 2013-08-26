@@ -2,70 +2,290 @@
 ;============================================================
 ;  File: AdvancedAutoAway.dll
 ;  Plugin: Advanced Auto Away
-;  Versions: 0.8.0.42
+;  Version: 0.8.0.42
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4254
 ;  Source: http://pboonplugins.googlecode.com/svn/trunk/StatusPlugins/AdvancedAutoAway/
 ;  Authors: P Boon
 ;============================================================
-[Auto Away General]
-AAA: настройки
-[Ignore caps-lock, num-lock and scroll-lock keys]
-Игнорировать caps-lock, num-lock и scroll-lock клавиши
-[Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
-Игнорировать клавиши Ctrl, Alt, Shift, Tab, Esc, Win
-[Ignore any key combination with above keys]
-Игнор. комбинации с упомянутыми клавишами
-[Monitor keyboard activity]
-Следить за активностью клавиатуры
-[Monitor mouse activity]
-Следить за активностью мыши
-[Auto Away Messages]
-AAA: сообщения
-[Auto Away Rules]
-AAA: правила
-[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-Вы включили функцию смены статуса в разделе настроек "Режим ожидания", настройки ААА будут игнорироваться.
-[when workstation is locked]
-при блокировке компьютера
-[only set when inactive]
-только при неактивности
-[Reset status on return]
-Восстановить статус при возвращении
-[Only set if current status is]
-Только если статус:
 [An Auto Away module with some more options than the original.]
 Плагин управления режимом ожидания с расширенным набором функций.
-[Auto Away]
-Отсутствие
-[minutes of %s mode]
-минут режима "%s"
-[Auto Away Status Messages]
-AAA: статусные сообщения
-[Monitor Miranda's activity only]
-Следить только за Miranda
-[when screen saver engages]
-при запуске заставки
-[Confirm resetting status]
-Подтвердить сброс статуса
+[Check connection]
+Проверять наличие соединения
+[Max. retries]
+Макс. попыток
+[Account Connection]
+Подключение учётной записи
+[Delay between retries (secs)]
+Задержка между попытками (сек)
+[Show popups]
+Показывать всплывающие окна
+[General]
+Общее
+[Accounts to check]
+Проверять учетные записи
+[Dial-Up]
+Удалённый доступ
+[Don't reconnect if no internet connection seems available]
+Не подключаться, если нет соединения с Интернетом
+[Continuously check for internet connection]
+Постоянно проверять подключение к Интернету
+[Do so by pinging host]
+Пинговать хост
+[Confirm Status]
+Подтвердите статус
+[Close]
+Закрыть
+[Cancel]
+Отмена
+[Profile]
+Профиль
+[Message]
+Сообщение
+[after]
+через
+[minutes of inactivity]
+минут неактивности
 [minutes of level 1 mode]
 минут режима 1
-[Only set if status is]
-Только, если статус
-[Check interval (secs)]
-Интервал проверки (сек):
-[Confirm dialog timeout (secs)]
-Интервал подтверждения (сек)
-[Advanced Auto Away]
-Расширенное отсутствие
-[Set if status is]
-Менять, если
-[only when inactive]
+[Confirm resetting status]
+Подтвердить сброс статуса
+[Account]
+Учётная запись
+[Only set if current status is]
+Только если статус:
+[Monitor Miranda's activity only]
+Следить только за Miranda
+[Reset status on return]
+Восстановить статус при возвращении
+[when screen saver engages]
+при запуске заставки
+[Set]
+Выбрать
+[only set when inactive]
 только при неактивности
-[Reset status]
-Сброс статуса
+[when workstation is locked]
+при блокировке компьютера
+[Command Line]
+Ком. строка
+[Copy to Clipboard]
+Копировать в буфер обмена
+[Command Line:]
+Ком. строка:
+[Create Shortcut]
+Создать ярлык
+[Add new profile]
+Добавить профиль
+[Profile name]
+Имя профиля
+[Set window state]
+Состояние окна
+[Show dialog]
+Показывать диалог
+[Set status to offline before exit]
+"Отключён" при выходе
+[Show CMDL]
+Ком. строка
+[Activate status profile]
+Cтатус-профиль
+[Set docked]
+Парковать
+[Other]
+Другое
+[Status on startup]
+Статус при запуске
+[ms]
+мс
+[Set after]
+через
+[Timeout]
+Таймаут
+[s]
+с
+[Set window location]
+Позиция окна
+[Set window size]
+Размер окна
+[Allow override]
+Изменять
+[Note: status profiles can be created in the 'Status Profiles' options screen]
+Статус-профиль можно создать во вкладке "Профили статусов".
+[Window on startup]
+Окно при запуске
+[Automatically dial on startup]
+Подключаться при старте
+[Automatically hang up on exit]
+Разрывать связь при выходе
+[Dial-up (experimental)]
+Уд. доступ (экспериментально)
+[Background colour]
+Цвет фона
+[Text colour]
+Цвет текста
+[Use Windows colours]
+Цвета Windows
+[Use default colours]
+Цвета по умолчанию
+[Delay]
+Задержка
+[On left click]
+Левый щелчок
+[On right click]
+Правый щелчок
+[Do nothing]
+Ничего не делать
+[Close popup]
+Закрыть окно
+[Cancel reconnecting]
+Отмена подключения
+[Colours]
+Цвета
+[Preview]
+Тест
+[Events]
+События
+[Show when connection is lost]
+Обрыв соединения
+[Show when a connection attempt is made]
+Попытка подключения
+[Show when reconnection has finished]
+Успешное подключение
+[Show other messages]
+Другие
+[From Popup plugin]
+По умолчанию
+[Custom]
+Настроить
+[Permanent]
+Постоянно
+[Show additional information in popups]
+Дополнительная информация во всплыв.окнах
+[Use Miranda's message setting]
+Использовать настройки Miranda
+[Use this message:]
+Использовать сообщение:
+[Use %time% for the current time, %date% for the current date]
+%date% - сегодняшняя дата; %time% - текущее время
+[Variables...]
+Переменные...
 [Specify settings for each account]
 Настройки для каждой учётной записи
 [Use same settings for all accounts]
 Общие настройки для всех учётных записей
-[after]
-через
+[Ignore caps-lock, num-lock and scroll-lock keys]
+Игнорировать клавиши caps-lock, num-lock и scroll-lock
+[Check interval (secs)]
+Интервал проверки (сек)
+[Confirm dialog timeout (secs)]
+Интервал подтверждения (сек)
+[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
+Вы включили функцию смены статуса в разделе настроек "Режим ожидания", настройки ААА будут игнорироваться.
+[Monitor keyboard activity]
+Следить за активностью клавиатуры
+[Monitor mouse activity]
+Следить за активностью мыши
+[Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
+Игнорировать клавиши Ctrl, Alt, Shift, Tab, Esc, Win
+[Ignore any key combination with above keys]
+Игнор. комбинации с упомянутыми клавишами
+[Accounts]
+Учётные записи
+[Enable checking]
+Вкл. проверку
+[Disable checking]
+Откл. проверку
+[Set status message]
+Установить сообщение статуса
+[Status]
+Статус
+[Add...]
+Добавить...
+[Delete]
+Удалить
+[Create a TopToolBar button]
+Создать кнопку Панели кнопок
+[Show confirm dialog when loading]
+Подтверждать при загрузке
+[Create a main menu item]
+Пункт в главном меню
+[Status Profiles]
+Профили статусов
+[Hotkey]
+Горячая клавиша
+[In submenu]
+В подменю
+[Max. delay (secs)]
+Макс. задержка (сек)
+[Increase delay exponential]
+Увеличить экспоненциально
+[Cancel all if a account connects from another location]
+Отменить, если учётная запись подключена из другого места
+[Reconnect on APM resume]
+Переподключаться после спящего режима
+[Stop trying to reconnect]
+Прекратить подключение
+[Set delay to]
+Подождать
+[React on login errors]
+Учитывать ошибки входа
+[seconds]
+секунд
+[Set account offline before a connection attempt]
+Отключать учётную запись перед подключением
+[Max. account connecting time (secs)]
+Макс. время подключения (сек)
+[Timers]
+Таймеры
+[Reconnecting]
+Переподключение
+[Ignore locked status of accounts]
+Игнорировать блокированные учётные записи
+[Consider connection lost after]
+Связь потеряна после
+[failed pings]
+неудачных пингов
+[Continuously check interval (secs)]
+Интервал проверки (сек)
+[Pre-conditions]
+Предварительные условия
+[minutes of %s mode]
+минут режима "%s"
+[Rules]
+Правила
+[Status Messages]
+Статусные сообщения
+[Auto Away]
+Отсутствие
+[I've been away since %time%.]
+Отошел в %time%. Скоро вернусь.
+[Give it up, I'm not in!]
+Меня нет.
+[Not right now.]
+Не сейчас.
+[Give a guy some peace, would ya?]
+Прошу не тревожить...
+[I'm a chatbot!]
+Свободен
+[Yep, I'm here.]
+Да, я здесь.
+[Nope, not here.]
+Нет, меня здесь нет.
+[I'm hiding from the mafia.]
+Я прячусь от мафии.
+[That'll be the phone.]
+Да дайте же человеку поговорить по телефону...
+[Mmm...food.]
+Ммм... поесть бы...
+[idleeeeeeee]
+ожидание...
+[Set %s message for %s.]
+Установить %s сообщение для %s.
+[<last>]
+<последний>
+[<current>]
+<текущий>
+[<n/a>]
+<неизвестно>
+[Protocol]
+Протокол
+[Closing in %d]
+Закрыть (%d)

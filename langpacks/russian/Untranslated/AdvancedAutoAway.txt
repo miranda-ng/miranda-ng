@@ -1,0 +1,8 @@
+﻿[OK]
+[Entering first auto-away status]
+[Entering second auto-away status]
+[Leaving first auto-away status]
+[Leaving second auto-away status]
+[Becoming active without status change]
+[TriggerData]
+[Status: The status the account will change to\r\nAccount: The account changing state]
