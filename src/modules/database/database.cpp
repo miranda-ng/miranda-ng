@@ -198,7 +198,7 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 			if (_taccess(path2, 0) == 0) {
 				TCHAR buf[512];
 				mir_sntprintf(buf, SIZEOF(buf),
-					TranslateT("Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exist. Please resolve the issue manually."),
+					TranslateT("Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually."),
 					path, path2);
 				MessageBox(NULL, buf, _T("Miranda NG"), MB_ICONERROR | MB_OK);
 			}
@@ -460,7 +460,7 @@ int LoadDatabaseModule(void)
 				// file isn't locked, just no driver could open it.
 				TCHAR buf[256];
 				TCHAR* p = _tcsrchr(szProfile, '\\');
-				mir_sntprintf(buf, SIZEOF(buf), TranslateT("Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DBChecker which should be installed."), p ? ++p : szProfile);
+				mir_sntprintf(buf, SIZEOF(buf), TranslateT("Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed."), p ? ++p : szProfile);
 				MessageBox(0, buf, TranslateT("Miranda can't understand that profile"), MB_OK | MB_ICONERROR);
 			}
 			else if ( !FindMirandaForProfile(szProfile)) {

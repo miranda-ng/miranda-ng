@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME				"Miranda NG profile changer"
 #define __FILENAME					"PManagerEx.dll"
-#define __DESCRIPTION 				"Adds a menu item to change or load a different profile of Miranda NG, restart or run a dbchecker."
+#define __DESCRIPTION 				"Adds a menu item to change or load a different profile of Miranda NG, restart or run DbChecker."
 #define __AUTHOR					"Roman Gemini"
 #define __AUTHOREMAIL				"woobind@ukr.net"
 #define __AUTHORWEB					"http://miranda-ng.org/p/PManagerEx/"

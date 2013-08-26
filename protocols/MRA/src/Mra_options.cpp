@@ -235,7 +235,7 @@ int CMraProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = DlgProcOptsConnections;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Anti spam");
+	odp.ptszTab = LPGENT("Anti-spam");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ANTISPAM);
 	odp.pfnDlgProc = MraAntiSpamDlgProcOpts;
 	Options_AddPage(wParam, &odp);

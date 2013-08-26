@@ -301,7 +301,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Configuration",IDC_GROUPCONFIG,8,6,277,197
-    CONTROL         "Enable Anti Spam",IDC_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,18,259,9
+    CONTROL         "Enable anti-spam",IDC_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,18,259,9
     CONTROL         "Check temp contacts",IDC_CHK_TEMP_CONTACTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,29,248,9
     CONTROL         "Delete spam bot contacts",IDC_DELETE_SPAMBOT_CONTACT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,34,40,238,9

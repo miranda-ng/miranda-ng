@@ -33,7 +33,7 @@ object EventDetailsFrm: TEventDetailsFrm
       Top = 4
       Width = 100
       Height = 25
-      Hint = 'Prevous message'
+      Hint = 'Previous message'
       Caption = 'Prev'
       OnClick = PrevBtnClick
     end
