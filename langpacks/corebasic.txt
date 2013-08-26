@@ -5,7 +5,7 @@ AdvaImg
 Clist_modern
 Clist_mw
 Clist_nicer
-Dbchecker
+DbChecker
 Dbx_3x
 Dbx_mmap
 Facebook

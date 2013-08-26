@@ -7,7 +7,7 @@
 ;============================================================
 [Closes Miranda NG and starts Profile Manager]
 Закриває Miranda NG і запускає менеджер профілів
-[Adds a menu item to change or load a different profile of Miranda NG, restart or run a dbchecker.]
+[Adds a menu item to change or load a different profile of Miranda NG, restart or run DbChecker.]
 Додає пункти меню для зміни або завантаження іншого профілю Miranda NG, перезавантаження і перевірки бази.
 [&Change Profile...]
 &Змінити профіль...
