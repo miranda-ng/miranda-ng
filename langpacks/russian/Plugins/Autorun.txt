@@ -1,17 +1,19 @@
 ﻿#muuid {eb0465e2-ceee-11db-83ef-c1bf55d89593}
 ;============================================================
-;  File: autorun.dll
-;  Plugin: Autorun
-;  Versions: 0.1.0.1
+;  File: AutoRun.dll
+;  Plugin: AutoRun
+;  Version: 0.1.0.1
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4353
 ;  Source: http://miranda-plugins.googlecode.com/svn/trunk/autorun/
 ;  Authors: Sergey V. Gershovich a.k.a. Jazzy$ (fixed by Wolfram3D)
 ;============================================================
+[This plugin is a simple way to enable/disable to launch Miranda NG with system startup.]
+Этот плагин позволяет включить/отключить загрузку Miranda NG при старте системы.
 [Autorun]
 Автозагрузка
 [Launch Miranda NG at system startup]
 Загружать Miranda NG при старте системы
 [Note: At startup Miranda NG will use current profile]
 Примечание: При запуске будет использован текущий профиль
-[This plugin is a simple way to enable/disable to launch Miranda NG with system startup.]
-Этот плагин позволяет включить/отключить загрузку Miranda NG при старте системы.
+[Services]
+Службы

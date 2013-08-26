@@ -163,8 +163,6 @@
 Вид выпадающего списка
 [Apply]
 Применить
-[You can use %name%, %uid%, %account% and %group% macros]
-Вы можете использовать переменные %name%, %uid%, %account% и %group%
 [Apply format]
 Применить формат
 [Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
