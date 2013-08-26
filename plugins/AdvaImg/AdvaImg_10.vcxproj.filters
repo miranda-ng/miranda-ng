@@ -495,7 +495,7 @@
     <ClInclude Include="src\LibPNG\pngconf.h">
       <Filter>Source Files\LibPNG\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\CacheFile.h">
+    <ClInclude Include="src\FreeImage\CacheFile.h">
       <Filter>Source Files\LibJPEG\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Metadata\FIRational.h">
