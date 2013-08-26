@@ -20,7 +20,7 @@ Wyślij "Zostałeś dodany"
 [Send authorization request]
 Wyślij prośbę o autoryzację
 [Open contact's chat window]
-
+Otwórz okno rozmowy z kontaktem
 [Custom name:]
 Niestandardowa nazwa:
 [Group:]
@@ -326,7 +326,7 @@ Czcionka:
 [Font st&yle:]
 Styl czcionki:
 [\nStyles and effects are disabled for this font.]
-
+\nstyle i efekty są wyłączone dla tej czcionki
 [&Size:]
 Rozmiar:
 [Effects]
@@ -376,7 +376,7 @@ Kolejność i widoczność kont
 [Note: Miranda NG will have to be restarted for changes to take effect.]
 Info: Musisz ponownie uruchomić Mirandę NG aby wprowadzić zmiany.
 [Key Bindings]
-
+Skróty klawiszowe
 [Shortcut:]
 Skrót:
 [Add]
@@ -416,9 +416,9 @@ Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG jest restartowana.\nProszę czekać...
 [Error Console]
-
+Konsola błędów
 [Error notifications]
-
+Powiadomienia o błędach
 [Headers:]
 Nagłówki:
 [This font is used to display main section titles or text elements.]
@@ -432,7 +432,7 @@ Pozostałe informacje:
 [This font is used to display various addtional notes.]
 Ta czcionka jest używana do wyświetlania różnych dodatkowych informacji.
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-
+Witaj w menedżerze kont Miranda NG.\nTutaj możesz skonfigurować konta w swoich komunikatorach.\n\nWybierz konto z listy po lewej, aby zobaczyć dostępne opcje. Możesz także kliknąć znaczek "+" pod listą, aby stworzyć nowe konto.
 [Event icon legend:]
 Znaczenia ikon zdarzeń:
 [Choose events you wish to ignore:]
@@ -460,7 +460,7 @@ Pokaż/ukryj
 [E&xit]
 Wyjdź
 [Nowhere]
-
+nigdzie
 [&New Group]
 Nowa grupa
 [&Hide Offline Users]
@@ -852,11 +852,11 @@ Pokaz separatory na panelach
 [Show resize grip indicator]
 Pokaż wskaznik rozmiaru uchwytu
 [Ordering:]
-
+sortowanie:
 [Contact list:]
 Lista kontaktów:
 [If window is partially covered, bring it to front]
-
+Jeżeli okno jest częściowo zasłonięte, przenieś je na pierwszy plan
 [Window:]
 Okno:
 [Contact list background:]
@@ -1321,11 +1321,11 @@ Temat to '%s%s'
 [ (set by %s)]
  (wybrany przez %s)
 [%s enables '%s' status for %s]
-
+%s włącza status "%s" dla %s
 [%s disables '%s' status for %s]
-
+%s wyłącza status "%s" dla %s
 [<invalid>]
-
+niepoprawny
 ;file \src\core\stdchat\src\options.cpp
 [Others nicknames]
 Pozostałe nazwy
@@ -1418,11 +1418,11 @@ Wcinaj drugą linię wiadomości
 [Limit user names in the message log to 20 characters]
 Ogranicz nazwy użytkowników do 20 znaków w dzienniku
 [Add ':' to auto-completed user names]
-
+Dodawaj ":" do automatycznie uzupełnianych nazw użytkownika
 [Strip colors from messages in the log]
 Usuń kolory z wiadomości w dzienniku
 [Enable the 'event filter' for new rooms]
-
+Włącz "filtr zdarzeń" dla nowych pokoi
 [Show topic changes]
 Pokaż zmiany tematu
 [Show users joining]
@@ -1496,7 +1496,7 @@ Pokaż ikony w zasobniku dla wiadomości informacyjnych
 [Show icon in tray for status changes]
 Pokaż ikony w zasobniku dla zmian statusu
 [Show popups only when the chat room is not active]
-
+Pokazuj Popupy tylko, gdy pokój nie jest aktywny
 [Show popup for topic changes]
 Pokaż popup zmiany tematu
 [Show popup for users joining]
@@ -1608,7 +1608,7 @@ Wygląd i funkcjonalność okna czatu
 [Appearance of the message log]
 Wygląd dziennika wiadomości
 [Default events to show in new chat rooms if the 'event filter' is enabled]
-
+Domyślne zdarzenia pokazywane w nowych pokojach, gdy "filtr zdarzeń" jest aktywny
 [Icons to display in the message log]
 Ikony wyświetlane w dzienniku wiadomości
 [Icons to display in the tray]
@@ -1664,9 +1664,9 @@ Zmieniony temat w %s
 [Information in %s]
 Informacja w %s
 [%s enables '%s' status for %s in %s]
-
+%s włącza status "%s" dla %s w %s
 [%s disables '%s' status for %s in %s]
-
+%s wyłącza status "%s" dla %s w %s
 [%s says: %s]
 %s mówi: %s
 [%s has left (%s)]
@@ -1678,15 +1678,15 @@ Informacja w %s
 [Notice from %s: %s]
 Powiadomienie od %s: %s
 [The topic is '%s']
-
+Temat to "%s"
 [The topic is '%s' (set by %s)]
-
+Temat to "%s" ustawiony przez %s
 [Look up '%s':]
 Zobacz '%s':
 [No word to look up]
 Nie podano słowa do wyszukania
 [&Message %s]
-
+&wiadomość %s
 ;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 Wstaw emotikonę
@@ -1808,7 +1808,7 @@ Pliki wykonywalne
 Zdarzenia
 ;file \src\core\stdfile\filerecvdlg.cpp
 [My Received Files]
-
+Moje odebrane  pliki
 [View User's History]
 Zobacz historię użytkownika
 [User Menu]
@@ -1899,9 +1899,9 @@ Wychodząca wiadomość (10x10)
 [Last message received on %s at %s.]
 Ostatnia wiadomość %s o %s.
 [signed off (was %s)]
-
+wylogował się (był %s)
 [signed on (%s)]
-
+zalogował się (%s)
 [is now %s (was %s)]
 jest teraz %s (był %s)
 [%s is typing a message...]
@@ -2157,17 +2157,17 @@ Miranda nie może uruchomić profilu '%s'\nProgram jest już uruchomiony lub pro
 Miranda nie może uruchomić profilu
 ;file \src\modules\database\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
-
+System bezpieczeństwa chroniący przed złośliwymi zmianami został aktywowany i będziesz powiadamiany o każdej dokonanej zmianie.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
 System bezpieczeństwa zapobiega przed wprowadzeniem złośliwych zmian i ostrzega przed zmianami, które mogą być niebezpieczne.
 [Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
-
+System bezpieczeństwa chroniący przed złośliwymi zmianami został wyłączony. Nie będziesz już otrzymywać żadnych ostrzeżeń.
 [This change is known to be safe.]
-
+Ta zmiana wydaje się być bezpieczna
 [This change is known to be potentially hazardous.]
-
+Ta zmiana wydaje się być potencjalnie ryzykowna
 [This change is not known to be safe.]
-
+Ta zmiana wydaje się być niebezpieczna. 
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Nieprawidłowe ustawienie typu dla '%s'. Pierwszym znakiem każdej wartości musi być b, w, d, l, s, e, u, g, h lub n.
 ;file \src\modules\database\profilemanager.cpp
@@ -2200,7 +2200,7 @@ Utworzono
 [Modified]
 Zmodyfikowano
 [Manage your Miranda NG profile]
-
+Zarządzaj profilem Miranda NG
 [My Profiles]
 Moje profile
 [New Profile]
@@ -2248,7 +2248,7 @@ znaleziono %d użytkowników (
 Nie znaleziono użytkowników 
 ;file \src\modules\fonts\FontOptions.cpp
 [Failed to create file]
-
+Nie udało się stworzyć pliku
 [<none>]
 <brak>
 [Shadow at left]
@@ -2262,15 +2262,15 @@ Gładki zarys
 [Smooth bump]
 Gładka bulwa
 [Contour thin]
-
+niewyraźny zarys
 [Contour heavy]
-
+silny zarys
 [Configuration Files]
 Konfiguracja pliku
 [Text Files]
 Pliki tekstowe
 [Error writing file]
-
+Błąd zapisu pliku
 [Fonts & Colors]
 Czcionki
 [Sample Text]
@@ -2308,7 +2308,7 @@ Wybierz gdzie zostanie utworzony dziennik
 [Select program to be run]
 Wybierz program do uruchomienia
 [Standard netlib log]
-
+Standardowy log Netlib
 ;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <Wszystkie połączenia>
@@ -2316,9 +2316,9 @@ Wybierz program do uruchomienia
 Protokoły
 ;file \src\modules\netlib\netlibssl.cpp
 [Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package]
-
+Klient nie może zdekodować wiadomości hosta. Możliwe przyczyny: host nie wspiera szyfrowania SSL lub wymaga nie istniejącego pakietu bezpieczeństwa.
 [Host we are connecting to is not the one certificate was issued for]
-
+Host, z którym się łączymy nie jest tym, dla którego został wystawiony certyfikat.
 ;file \src\modules\options\options.cpp
 [<all modules>]
 <wszystkie>
@@ -2327,7 +2327,7 @@ Protokoły
 [Loading... %d%%]
 Wczytywanie... %d%%
 [%s options]
-
+%s opcje
 [Miranda NG Options]
 Opcje Mirandy NG
 [&Options...]
@@ -2336,7 +2336,7 @@ Opcje...
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 Wtyczka rdzenia '%' nie może zostać załadowana bądź jej brak. Miranda zostanie teraz zamknięta
 [Fatal error]
-
+Krytyczny błąd
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Wtyczka okna rozmowy nie została załadowana. Proszę zainstalować/włączyć jedną z wtyczek okna rozmowy, dla przykładu "StdMsg.dll".
 ['%s' is disabled, re-enable?]
@@ -2344,11 +2344,11 @@ Wtyczka okna rozmowy nie została załadowana. Proszę zainstalować/włączyć 
 [Re-enable Miranda plugin?]
 Załadować ponownie wtyczkę?
 [Unable to load plugin in Service Mode!]
-
+Nie udało się załadować wtyczki w trybie serwisowym.
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Nie można załadować żadnej z zainstalowanych list kontaktów, nawet po zignorowaniu ich ustawień.
 [Can't find a contact list plugin! You need StdClist or any other clist plugin.]
-
+Nie udało się znaleźć wtyczki listy kontaktów! Potrzebujesz STDClist lub jakiejkolwiek innej wtyczki listy kontaktów.
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Wtyczka
@@ -2364,7 +2364,7 @@ Wtyczki
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 UWAGA! Konto zostanie usunięte. To znaczy że wszystkie ustawienia, kontakty i historia zostaną usunięte.\n\nCzy jesteś pewien?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
-
+Twoje konto zostało pomyślnie zaktualizowane. Do jego aktywacji niezbędny jest restart Mirandy.\n\nJeśli chcesz zrestartować Mirandę teraz naciśnij "tak". Jeśli chcesz zaktualizować kolejne konto, naciśnij "nie".
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 To konto można skonfigurować w opcjach Mirandy NG.
 [Welcome to Miranda NG's account manager!\n Here you can set up your IM accounts.\n\n Select an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
@@ -2372,13 +2372,13 @@ Witaj w menedżerze kont Mirandy NG!\nMożesz tu skonfigurować swoje konta IM.\
 [Create new account]
 Utwórz nowe konto
 [Editing account]
-
+Edycja konta
 [Upgrading account]
 Aktualizowanie konta
 [Account name has to be unique. Please enter unique name.]
 Nazwa konta musi być unikalna. Wprowadź unikalną nazwę.
 [Account Error]
-
+Błąd konta
 [Account is disabled. Please activate it to access options.]
 Konto jest wyłączone. Proszę je aktywować, by pokazać jego opcje.
 [New account]
@@ -2406,13 +2406,13 @@ Konfiguruj
 [Upgrade]
 Aktualizuj
 [Account %s is being disabled]
-
+Konto%s jest wyłączane
 [Account is online. Disable account?]
 Konto jest uruchomione. Wyłączyć to konto?
 [Account %s is being deleted]
 Konto "%s" zostanie usunięte
 [You need to disable plugin to delete this account]
-
+Musisz wyłączyć wtyczkę, by usunąć to konto.
 [&Accounts...]
 Konta...
 ;file \src\modules\skin\hotkey_opts.cpp
@@ -2529,7 +2529,7 @@ Główne ikony
 [Sound Files]
 Dźwięki
 [WAV Files]
-
+pliki wav
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Potrzebujesz wtyczki do przetworzenia obrazu PNG.
