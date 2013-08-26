@@ -1225,6 +1225,7 @@
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
+[Welcome to Miranda NG's account manager!\n Here you can set up your IM accounts.\n\n Select an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
 [Create new account]
 [Editing account]
 [Upgrading account]
@@ -13789,20 +13790,12 @@
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
 ;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[No resource name given.]
-[Icon indices start at 1.]
-[Cou件ၬ 耀࡙t find the requested icon.]
-[Application launching is disabled.]
-[Unterminated option.]
-[No argument given to msg option.]
-[Id is required for replacement.]
-[Invalid argument for replace option: ]
-[Empty message ignored.]
-[Failed to write to log file.]
-[Failed to open log file.]
-[N/A: Failed to format error message]
-[N/A: FormatMessage failed, error code was 0x]
-[Error]
+[Log Files (*.txt,*.log)]
+[Enter integer value]
+[Enter log file name.]
+[Enter log file format.]
+[Enter history format.]
+[Enter popup window format.]
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -13832,12 +13825,6 @@
 [Previous Close]
 [Change]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
-[Log Files (*.txt,*.log)]
-[Enter integer value]
-[Enter log file name.]
-[Enter log file format.]
-[Enter history format.]
-[Enter popup window format.]
 ﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll

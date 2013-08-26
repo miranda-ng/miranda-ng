@@ -593,7 +593,7 @@ HTML файл
 Также удалить историю субконтактов
 [History of this contact is password protected]
 История этого контакта защищена паролем
-[Prevous message]
+[Previous message]
 Предыдущее сообщение
 [Running version of AniSmiley is not supported]
 Эта версия AniSmiley не поддерживается

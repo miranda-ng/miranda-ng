@@ -5,7 +5,7 @@
 ;  Version: 0.0.2.0
 ;  Authors: Roman Miklashevsky, sss, Elzor
 ;============================================================
-[Antispam plugin for Miranda NG.]
+[Anti-spam plugin for Miranda NG.]
 Антиспам плагин для Miranda NG.
 [Question: (Ctrl-Enter for carriage return)]
 Вопрос: (Ctrl+Enter для начала новой строки)

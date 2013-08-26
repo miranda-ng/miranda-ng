@@ -9,7 +9,7 @@
 ;============================================================
 
 ;  Описание плагина
-[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation.]
+[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
 Показывает контакты, события, статусы протоколов с расширенными функциями оформления (скины). Мультиоконная модификация, расширенная поддержка метаконтактов.
 [Modern contact list]
 Список контактов Modern
