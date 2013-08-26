@@ -5,7 +5,7 @@
 ;  Version: 0.2.1.0
 ;  Authors: Andrej Krutak
 ;============================================================
-[Shows new message/status change info using onscreen display.]
+[Shows new message/status change info using on-screen display.]
 ;file \plugins\wbOSD\res\wbOSD.rc
 [Dialog]
 [Select font]

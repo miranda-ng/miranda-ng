@@ -77,7 +77,7 @@
 [Closing in %d]
 [Title:]
 [Message:]
-[Enable Anti Spam]
+[Enable anti-spam]
 [Check temp contacts]
 [Delete spam bot contacts]
 [Max. language changes in message (0 - disabled)]
@@ -178,7 +178,7 @@
 [Network]
 [Account]
 [Connections]
-[Anti spam]
+[Anti-spam]
 [Files]
 ;file \protocols\MRA\src\Mra_proto.cpp
 [Please, setup e-mail in options]
