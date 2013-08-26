@@ -402,7 +402,7 @@ void InitTimer(int type)
 
 		LARGE_INTEGER li = {0};
 		li.QuadPart = -1 * (interval * 10000LL);
-		SetWaitableTimer(Timer, &li, interval, TimerAPCProc, NULL, 0);
+		SetWaitableTimer(Timer, &li, 0, TimerAPCProc, NULL, 0);
 	}
 }
 
