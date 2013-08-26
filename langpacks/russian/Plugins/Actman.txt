@@ -7,15 +7,20 @@
 ;  Source: http://delphi-miranda-plugins.googlecode.com/svn/trunk/actman/
 ;  Authors: Awkward
 ;============================================================
-
 [Contact window]
 Окно контакта
-[Text insert]
-Вставка текста
 [vars]
 пер.
 [DWord]
 Дв.слово
+[You can use %name%, %uid%, %account% and %group% macros]
+Вы можете использовать переменные %name%, %uid%, %account% и %group%
+[wParam type]
+Тип wParam
+[lParam type]
+Тип lParam
+[Service name]
+Имя службы
 [Result action]
 Результат действия
 [Window option]
@@ -42,6 +47,8 @@
 Время процесса, мсек
 [No Description]
 Нет описания
+[Signed value]
+Значение со знаком
 [Process options]
 Настройки процесса
 [Do not show]
@@ -156,8 +163,6 @@
 Вид выпадающего списка
 [Apply format]
 Применить формат
-[You can use %name%, %uid%, %account% and %group% macros]
-Вы можете использовать переменные %name%, %uid%, %account% и %group%
 [Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
 Использовать массив байт/указатель на байты для строк в ANSI\nИспользовать массив слов/указатель на слова для строк в Unicode\n$## заменяется байтом с шестнадцатеричным значением ##\n$#### заменяется словом с шестнадцатеричным значением #### (только для строк в Unicode)\nВся длина данных вычисляется в байтах
 [New]
@@ -254,3 +259,41 @@
 Помощь по структуре
 [Descr]
 Описание
+[Open contact window]
+Открыть окно контакта
+[Call service]
+Вызов службы
+[Execute program]
+Выполнить
+[Insert text]
+Вставить текст
+[Use Variables]
+Включить переменные
+[number value]
+число
+[ANSI string]
+ANSI string
+[Unicode string]
+строка Unicode
+[current contact]
+current contact
+[Choose Contact]
+Выбрать контакт
+[Miranda service help]
+Помощь по сервисам
+[Return]
+Возвращаемое
+[Effect]
+Действие
+[Start]
+Начать
+[Action group list was changed: some was added or deleted]
+Список групп действий изменился: некоторые были добавлены или убраны
+[The context menu for a contact is about to be built]
+Построение контекстного меню для контакта
+[Double click on the CList]
+Двойной щелчок по списку контактов
+[New contact added to database]
+В базу добавлен новый контакт
+[Contact deleting]
+Удаление контакта
