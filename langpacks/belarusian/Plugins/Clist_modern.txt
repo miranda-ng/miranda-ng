@@ -5,7 +5,7 @@
 ;  Version: 0.9.0.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation.]
+[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
 Паказвае кантакты, падзеі, статусы пратаколаў з пашыранымі функцыямі афармлення (скіны). Мультываконная мадыфікацыя, пашыраная падтрымка метакантактаў.
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]

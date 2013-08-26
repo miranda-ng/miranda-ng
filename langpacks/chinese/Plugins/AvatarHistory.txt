@@ -40,7 +40,7 @@
 使用 Windows 颜色
 [Use default colours]
 使用默认颜色
-[From popup plugin]
+[From Popup plugin]
 从弹出窗口插件
 [Custom]
 自定义

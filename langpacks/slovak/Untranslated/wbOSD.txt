@@ -1,4 +1,4 @@
-﻿[Shows new message/status change info using onscreen display.]
+﻿[Shows new message/status change info using on-screen display.]
 [Dialog]
 [Select font]
 [Text color]

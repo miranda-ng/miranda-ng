@@ -36,7 +36,7 @@ Couleur du texte
 Utiliser les couleurs Windows
 [Use default colours]
 Couleurs par défaut
-[From popup plugin]
+[From Popup plugin]
 Comme le plugin Popup
 [Custom]
 Défini

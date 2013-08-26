@@ -96,7 +96,7 @@
 文本颜色
 [Closing in %d]
 %d 秒关闭
-[Enable Anti Spam]
+[Enable Anti-spam]
 启用垃圾信息检查
 [Check temp contacts]
 检查临时联系人

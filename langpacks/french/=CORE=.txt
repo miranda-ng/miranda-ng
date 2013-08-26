@@ -2131,7 +2131,7 @@ Ouvrir la fenêtre "Chercher un contact"
 [<Root Group>]
 <sans groupe>
 ;file \src\modules\database\database.cpp
-[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exist. Please resolve the issue manually.]
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
 
@@ -2141,7 +2141,7 @@ Ouvrir la fenêtre "Chercher un contact"
 Miranda n'a pu ouvrir '%s' car vous n'avez aucun plugin de profil installé.\nVous devez installer dbx_3x.dll ou un équivalent.
 [No profile support installed!]
 Pas de support de profil installé !
-[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DBChecker which should be installed.]
+[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
 
 [Miranda can't understand that profile]
 Miranda ne comprend pas ce profil !
@@ -2355,7 +2355,7 @@ Impossible de lancer aucune des listes de contacts installées. Vos préférence
 
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
 
-[This account uses legacy protocol plugin. Use Miranda NG options dialogs to change it's preferences.]
+[This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 
 [Welcome to Miranda NG's account manager!\n Here you can set up your IM accounts.\n\n Select an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
 

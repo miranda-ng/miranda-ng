@@ -1,4 +1,4 @@
-﻿[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation.]
+﻿[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
 [Transparency:]
 [Window behaviour:]
 [List sorting:]

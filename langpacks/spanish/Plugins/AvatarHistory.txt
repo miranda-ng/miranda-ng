@@ -20,7 +20,7 @@ Color del texto
 Usar colores de Windows
 [Use default colours]
 Utilice los colores por defecto
-[From popup plugin]
+[From Popup plugin]
 Desde emergente plugin
 [Custom]
 Personalizado

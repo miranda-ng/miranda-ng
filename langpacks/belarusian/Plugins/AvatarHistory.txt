@@ -48,7 +48,7 @@
 Колеры па змаўчанні
 [Delay]
 Затрымка
-[From popup plugin]
+[From Popup plugin]
 Па змаўчанні
 [Custom]
 Наладзіць

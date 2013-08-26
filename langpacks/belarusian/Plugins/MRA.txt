@@ -148,7 +148,7 @@ xСтатус "%s"
 Загаловак:
 [Message:]
 паведамленне:
-[Enable Anti Spam]
+[Enable Anti-spam]
 Уключыць антыспам
 [Check temp contacts]
 Правяраць часовыя кантакты са спісу
@@ -335,7 +335,7 @@ Mail.ru дадаткова
 Конт
 [Connections]
 Злучэнні
-[Anti spam]
+[Anti-spam]
 Антыспам
 [Files]
 Файлы

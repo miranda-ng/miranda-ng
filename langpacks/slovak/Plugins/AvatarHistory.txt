@@ -50,7 +50,7 @@ Fraba textu
 
 [Delay]
 
-[From popup plugin]
+[From Popup plugin]
 
 [Custom]
 

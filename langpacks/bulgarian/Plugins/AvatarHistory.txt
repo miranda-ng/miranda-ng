@@ -34,8 +34,8 @@ popup когато контакта промени аватара си
 Цветове от Windows
 [Use default colours]
 Стандартни цветове
-[From popup plugin]
-От приставката popup
+[From Popup plugin]
+От приставката Popup
 [Custom]
 Избор
 [Actions]

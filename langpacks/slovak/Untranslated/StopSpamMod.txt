@@ -1,4 +1,4 @@
-﻿[Antispam plugin for Miranda NG.]
+﻿[Anti-spam plugin for Miranda NG.]
 [Question: (Ctrl-Enter for carriage return)]
 [Restore defaults]
 [Answer:]

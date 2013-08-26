@@ -148,7 +148,7 @@ Zavrieť (za %d s)
 Názov:
 [Message:]
 
-[Enable Anti Spam]
+[Enable Anti-spam]
 
 [Check temp contacts]
 
@@ -339,7 +339,7 @@ Sieť
 
 [Connections]
 
-[Anti spam]
+[Anti-spam]
 
 [Files]
 
