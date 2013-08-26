@@ -387,7 +387,7 @@ IcoLib プラグインをダウンロード
 サブコンタクトの履歴も空にする
 [History of this contact is password protected]
 このコンタクトの履歴はパスワードで保護されています
-[Prevous message]
+[Previous message]
 前のメッセージ
 [Running version of AniSmiley is not supported]
 実行中の AniSmiley のバージョンは未サポートです

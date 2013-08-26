@@ -391,7 +391,7 @@ URL връзки
 Изтриване историята на подконтактите
 [History of this contact is password protected]
 Историята на абоната е защитена с парола
-[Prevous message]
+[Previous message]
 Предишно съобщение
 [Running version of AniSmiley is not supported]
 Инсталираната версия на AniSmiley не се поддържа

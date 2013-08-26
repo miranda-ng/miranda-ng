@@ -591,7 +591,7 @@ HTML файл
 Таксама выдаліць гісторыю субкантактаў
 [History of this contact is password protected]
 Гісторыя гэтага кантакту абаронена паролем
-[Prevous message]
+[Previous message]
 Папярэдняе паведамленне
 [Running version of AniSmiley is not supported]
 Гэта версія AniSmiley не падтрымліваецца

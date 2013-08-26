@@ -289,7 +289,7 @@
 [Note: It can take several minutes for large histories]
 [Empty history of subcontacts also]
 [History of this contact is password protected]
-[Prevous message]
+[Previous message]
 [Running version of AniSmiley is not supported]
 [Running version of SmileyAdd is not supported]
 [Running version of Emoticons is not supported]

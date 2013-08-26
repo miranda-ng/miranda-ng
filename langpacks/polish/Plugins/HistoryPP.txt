@@ -591,7 +591,7 @@ Info: To może potrwać kilka minut w przypadku obszernej historii
 Usuń również historię subkontaktów
 [History of this contact is password protected]
 Historia tego kontaktu jest chroniona hasłem
-[Prevous message]
+[Previous message]
 Poprzednia wiadomość
 [Running version of AniSmiley is not supported]
 Uruchomiona wersja AniSmiley nie jest obsługiwana

@@ -457,7 +457,7 @@ IcoLib 已经安装. 请到 "自定义->图标" 变更设置.
 同时清空子联系人历史
 [History of this contact is password protected]
 此联系人历史受密码保护
-[Prevous message]
+[Previous message]
 上一个消息
 [Running version of AniSmiley is not supported]
 运行中 AniSmiley 版本尚不支持

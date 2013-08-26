@@ -353,7 +353,7 @@ Note : Ceci peut prendre du temps sur de longs historiques
 Effacer également celui des sous-contacts.
 [History of this contact is password protected]
 L'historique de ce contact est protégé par un mot de passe.
-[Prevous message]
+[Previous message]
 Mess. précédent
 [Running version of AniSmiley is not supported]
 La version de AniSmiley n'est pas supportée.
