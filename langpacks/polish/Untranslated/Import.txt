@@ -1,6 +1,0 @@
-﻿[Failed to add %S contact %s]
-[Added %S contact %s, '%s']
-[Added %S contact %s]
-[Error retrieving current profile, exiting.]
-[Error loading source file, exiting.]
-[Miranda NG database]

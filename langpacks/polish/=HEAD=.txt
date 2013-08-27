@@ -2,4 +2,4 @@
 Language: Polish (PL)
 Locale: 0415
 Last-Modified-Using: Miranda NG 0.94.5
-Authors: bunnyhoney, Xantros, Goraf
+Authors: bunnyhoney, Xantros, Goraf, Piciok

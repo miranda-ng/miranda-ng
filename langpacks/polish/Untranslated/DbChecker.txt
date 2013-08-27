@@ -1,2 +1,0 @@
-﻿[Database driver '%s' doesn't support checking.]
-[Miranda Databases (*.dat)]

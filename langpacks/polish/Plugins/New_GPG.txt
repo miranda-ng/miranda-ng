@@ -47,7 +47,7 @@ Zmień hasło
 [Set GPG bin path and keyring home dir.]
 
 [Continue]
-
+Kontynuuj
 [Home directory:]
 
 [GnuPG binary:]
@@ -221,7 +221,7 @@ Ostrzeżenie
 [found "gpg" directory in MIranda root.\nassuming it's gpg home directory.\ngpg home directory set.]
 
 [Info]
-
+Info
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 
 [gpg binary does not exists.\nplease choose another location]

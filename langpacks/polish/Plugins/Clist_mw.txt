@@ -6,7 +6,7 @@
 ;  Authors: 
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
-Wyświetla kontakty, powiadomienia o zdarzeniach, status protokołu z modyfikacjami wielo-okiennymi
+Wyświetla kontakty, powiadomienia o zdarzeniach, status protokołu z modyfikacjami wielo-okiennymi.
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
 Ustawienia

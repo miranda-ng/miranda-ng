@@ -1,4 +1,0 @@
-﻿[Displays contacts, event notifications, protocol status with MW modifications.]
-[InsertSeparator]
-[Use connecting Icon]
-[_NoProtocol_]

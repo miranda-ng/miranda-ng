@@ -210,7 +210,7 @@ Przypomnienie o wydarzeniach
 [Invalid Contact]
 Nieprawidłowy Kontakt
 [The id you tried to add is invalid.]
-id, które próbowałeś dodać jest niepoprawne.
+Id, które próbowałeś dodać jest niepoprawne.
 [Unknown Error??.]
 Nieznany błąd??.
 [New Mail]

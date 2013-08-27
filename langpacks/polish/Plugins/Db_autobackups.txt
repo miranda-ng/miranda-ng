@@ -72,13 +72,13 @@ powróci analizowany ciąg %miranda_profile%\\Profiles\\%miranda_profilename%
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 takie samo zmienne środowisko %APPDATA% dla aktualnie zalogowanego użytkownika Windows
 [username for currently logged-on Windows user]
-
+nazwa obecnie zalogowanego użytkownika Windows
 ["My Documents" folder for currently logged-on Windows user]
 folder "Moje dokumenty" aktualnie zalogowanego użytkownika Windows
 ["Desktop" folder for currently logged-on Windows user]
 folder "Pulpit" aktualnie zalogowanego użytkownika Windows
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-
+dowolna zmienna środowiskowa zdefiniowana w obecnej sesji Windows (jak %systemroot%,%allusersprofile% itp.)
 [Variables]
 Zmienne
 [Days]

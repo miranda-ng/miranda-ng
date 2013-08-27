@@ -160,11 +160,11 @@ Otwórz w tym miejscu
 [Copy to clipboard]
 Kopiuj do schowka 
 [Continue]
-
+Kontynuuj
 [Exit Miranda]
 Wyłącz Mirandę
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
-
+Mimo, że wyjątek został wychwycony i możesz kontynuować korzystanie z Mirandy, powinieneś uruchomić program ponownie najszybciej jak to możliwe. Wyjątek mógł uszkodzić wewnętrzne struktury danych i może mieć poważny wpływ na stabilność.
 [Customize the panel]
 Ustawienia panelu
 [Scope of settings]
@@ -1894,7 +1894,7 @@ Pojedyńcze rozmowy
 [Outgoing background]
 Tło wychodzące
 [Incoming background]
-
+Tło wiadomości przychodzącej
 [Status background]
 Tło statusu
 [Incoming background(old)]
@@ -2162,11 +2162,11 @@ Tło pola
 [Userlist background]
 Kolor listy uczestników
 [nick of current contact (if defined)]
-
+Nick obecnego kontaktu (jeśli zdefiniowany)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
-
+Nazwa protokołu obecnego kontaktu (jeśli zdefiniowana). Jeżęli protokół wspiera wiele kont, zostanie użyta nazwa konta
 [UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
-
+ID użytkownika obecnego kontaktu(jeśli zdefiniowany). Jest to np. numer GG, JID Jabber itp.
 [path to root miranda folder]
 folder docelowy Mirandy
 [path to current miranda profile]
@@ -2178,13 +2178,13 @@ powróci analizowany ciąg %miranda_profile%\\Profiles\\%miranda_profilename%
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 takie samo zmienne środowisko %APPDATA% dla aktualnie zalogowanego użytkownika Windows
 [username for currently logged-on Windows user]
-
+Nazwa obecnie zalogowanego użytkownika Windows
 ["My Documents" folder for currently logged-on Windows user]
 folder "Moje dokumenty" aktualnie zalogowanego użytkownika Windows
 ["Desktop" folder for currently logged-on Windows user]
 folder "Pulpit" aktualnie zalogowanego użytkownika Windows
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-
+Dowolna zmienna środowiskowa zdefiniowana w obecnej sesji Windows (jak%systemroot%,%allusersprofile%itp.)
 [day of month, 1-31]
 dzień miesiąca, 1-31
 [day of month, 01-31]
@@ -2202,7 +2202,7 @@ rok bez stulecia, 01-99
 [year with century, 1901-9999]
 rok z stuleciem, 1901-9999
 [abbreviated weekday name]
-
+skrócona nazwa dnia tygodnia
 [full weekday name]
 pełna nazwa dnia roboczego
 [Variables]

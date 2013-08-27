@@ -82,11 +82,11 @@ Ignorowanie zdarzenia od/do siebie
 [Added contact %u (found in history)]
 Dodano kontakt %u (znaleziony w historii)
 [Failed to add %S contact %s]
-Nie udało się dodać %s kontaktu %s
+Nie udało się dodać %S kontaktu %s
 [Added %S contact %s, '%s']
-Dodano %s kontakt %s, "%s"
+Dodano %S kontakt %s, "%s"
 [Added %S contact %s]
-Dodano %s kontakt %s
+Dodano %S kontakt %s
 [Skipping contact with no protocol]
 Pomijanie kontaktu bez przypisanego protokołu
 [Skipping contact, %S not installed.]

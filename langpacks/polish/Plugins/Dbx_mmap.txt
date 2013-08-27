@@ -83,7 +83,7 @@ Przetwarzanie łańcucha kontaktu
 Uszkodzony łańcuch kontaktu, dalsze wpisy będą ignorowane
 ;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
 [Invalid offset found (database truncated?)]
-Znaleziono nieprawidłowe przesunięcie(baza danych obcięta?)
+Znaleziono nieprawidłowe przesunięcie (baza danych obcięta?)
 [Invalid offset found]
 Znaleziono nieprawidłową kompensate
 [Error reading, database truncated? (%u)]
@@ -96,7 +96,7 @@ Nie można zapisać do pliku - dysk jest pełen? (%u)
 [Event count marked wrongly: correcting]
 Źle oznaczone dane zdarzeń: poprawianie
 [Event chain corrupted, trying to recover...]
-Łańcuch zdarzeń uszkodzony, próbuję odzyskać.
+Łańcuch zdarzeń uszkodzony, próbuję odzyskać...
 [Event chain corrupted, further entries ignored]
 Uszkodzony łańcuch zdarzeń, dalsze wpisy ignorowane 
 [First event not marked as such: correcting]

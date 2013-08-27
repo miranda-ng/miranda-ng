@@ -83,11 +83,11 @@ OK
 [Cancel]
 Anuluj
 [Mobile Device (used for SMS)]
-Urządzenie przenośne używane do SMS
+Urządzenie przenośne (używane do SMS)
 [Spouse/Partner]
 Małżonek(ka)/Partner
 [Middle Name]
-drugie imię
+Drugie imię
 [First Name]
 Imię
 [Last Name]
@@ -166,7 +166,7 @@ Użytkownik jest rozłączony
 Powiązanie protokołu MSN
 ;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
-Kontakt %s został usunięty z serwera.\nCzy chciałbyś pozostawić go na liście jako kontaktl okalny w celu zachowania historii?
+Kontakt %s został usunięty z serwera.\nCzy chciałbyś pozostawić go na liście jako kontakt lokalny w celu zachowania historii?
 [%s protocol]
 protokół %s
 ;file \protocols\MSN\src\msn_mail.cpp
@@ -177,7 +177,7 @@ Hotmail od %s (%S)
 [Hotmail from %s]
 Hotmail od %s
 [Unread mail is available: %d in Inbox and %d in other folders).]
-Dostępna jest nieczytana poczta:(%d w skrzynce odbiorczej oraz %d w innych folderach)
+Dostępna jest nieprzeczytana poczta (%d w skrzynce odbiorczej oraz %d w innych folderach)
 ;file \protocols\MSN\src\msn_menu.cpp
 [&Unblock]
 Odblokuj

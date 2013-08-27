@@ -194,7 +194,7 @@ OS
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 takie samo zmienne środowisko %APPDATA% dla aktualnie zalogowanego użytkownika Windows
 [username for currently logged-on Windows user]
-
+nazwa obecnie zalogowanego użytkownika Windows
 ["My Documents" folder for currently logged-on Windows user]
 folder "Moje dokumenty" aktualnie zalogowanego użytkownika Windows
 ["Desktop" folder for currently logged-on Windows user]
@@ -365,7 +365,7 @@ y > 0: numer linii y z pliku x, y = 0: całego pliku, y < 0: linii y licząc od 
 [uptime in seconds]
 czas działania w sekundach
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-
+Dowolna zmienna środowiskowa zdefiniowana w obecnej sesji Windows (jak%systemroot%,%allusersprofile%itp.)
 [expand environment variable x]
 rozszerzenie zmiennej środowiskowej x
 [user name]

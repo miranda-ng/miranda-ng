@@ -382,17 +382,17 @@ Podkreślenie
 [Not Underline]
 Nie podkreślony
 [Subscript]
-indeks dolny
+Indeks dolny
 [Not Subscript]
-nie indeks dolny
+Nie indeks dolny
 [Superscript]
-indeks górny
+Indeks górny
 [Not Superscript]
-nie indeks górny
+Nie indeks górny
 [Normal Script]
-poziom wyrównany
+Poziom wyrównany
 [Not Normal Script]
-poziom niewyrównany
+Poziom niewyrównany
 [Profile Editor]
 Edycja profilu
 [AIM Account Type]

@@ -9,7 +9,7 @@
 Wyświetla kontakty, powiadomienia zdarzeń, statusy protokołów.
 ;file \plugins\Clist_nicer\res\resource.rc
 [CList Nicer exception]
-wyjątek CList Nicer
+Wyjątek CList Nicer
 [Copy to clipboard]
 Kopiuj do schowka 
 [Continue]
@@ -17,7 +17,7 @@ Kontynuuj
 [Exit Miranda]
 Wyłącz Mirandę
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
-Mimo,że wyjątek został wykryty i możesz kontynuować korzystanie z Mirandy, powinieneś uruchomić program ponownie najszybciej jak to możliwe. Wyjątek mógł uszkodzić wewnętrzne struktury danych i może mieć poważny wpływ na stabilność.
+Mimo, że wyjątek został wyłapany i możesz kontynuować korzystanie z Mirandy, powinieneś uruchomić program ponownie najszybciej jak to możliwe. Wyjątek mógł uszkodzić wewnętrzne struktury danych i może mieć poważny wpływ na stabilność.
 [About CList Nicer+]
 O CList Nicer+
 [OK]
@@ -766,9 +766,9 @@ Wąskie obramowanie
 Bez obramowanie
 ;file \plugins\Clist_nicer\src\Docking.cpp
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-Lista nie może być dockowana, jeżeli używany jest domyślny pasek tytułowy i obramowanie. Zamiast tego użyj stylu okna narzędziowego lub stylu bez obramowania.
+Lista nie może być dokowana, jeżeli używany jest domyślny pasek tytułowy i obramowanie. Zamiast tego użyj stylu okna narzędziowego lub stylu bez obramowania.
 [Clist docking]
-Dockowanie listy
+Dokowanie listy
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Wczytaj i zastosuj

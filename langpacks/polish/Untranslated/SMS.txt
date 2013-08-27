@@ -1,6 +1,5 @@
 ﻿[Read Next]
 [Message received:]
-[Number:]
 [Multiple >>]
 [Chars:]
 [%d/160]

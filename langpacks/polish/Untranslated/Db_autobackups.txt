@@ -1,4 +1,2 @@
 ﻿[Miranda Databases]
-[username for currently logged-on Windows user]
-[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
 [Error creating backup folder]

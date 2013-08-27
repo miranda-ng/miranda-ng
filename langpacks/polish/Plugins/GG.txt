@@ -254,17 +254,17 @@ Nie można utowrzyć transferu plików. BŁĄD: %d: %s (dcc)\n%s
 Nie można utowrzyć transferu plików. BŁĄD: %d: %s (dcc7)\n%s
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed memory]
-http błąd pamięć
+HTTP błąd pamięci
 [HTTP failed connecting]
-http błąd łączenie
+HTTP błąd łączenia
 [HTTP failed resolving]
-http błąd rozwiązywanie
+HTTP błąd rozwiązywanie
 [HTTP failed reading]
-http błąd odczyt
+HTTP błąd odczytu
 [HTTP failed writing]
-http błąd zapis
+HTTP błąd zapisu
 [Unknown HTTP error]
-Nieznany błąd http
+Nieznany błąd HTTP
 [&Unblock]
 Odblokuj
 [&Block]
@@ -431,7 +431,7 @@ Równoległe &sesje
 [Token retrieval failed because of error:\n\t%s]
 Nie można było pobrać tokena z powodu błędu:\n\t%s
 [Could not load token image.]
-Nie można było załadować obrazka z tokenem
+Nie można było załadować obrazka z tokenem.
 ;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
 Nie można zarejestrować konta z powodu błędu:\n\t%s

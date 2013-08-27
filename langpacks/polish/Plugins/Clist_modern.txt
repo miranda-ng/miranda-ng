@@ -469,7 +469,7 @@ Prawy margines:
 [Compact mode\n(Show avatars and additional text on selected contacts only)]
 Tryb kompaktowy\n(Pokaż awatary i dodatkowy tekst tylko przy zaznaczonych kontaktach)
 [Draw border on avatar]
-Rysuj granicę na awatarze
+Rysuj obramowanie awatara
 [Draw overlay icons]
 Rysuj nakładki ikon
 [Round corners of avatars]
@@ -657,6 +657,8 @@ Usuń grupę
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Skins]
 Skórki
+[Modern contact list]
+Modern contact list
 [Avatar Overlay]
 Nakładka awatara
 [Status Overlay]
@@ -952,19 +954,19 @@ linie
 [- Empty - (do not draw this object)]
 - pusty - (nie rysuj tego objektu)
 [Solid fill object]
-stałe wypełnienie objektu
+Stałe wypełnienie objektu
 [Image (draw image)]
-obraz (rysuj obraz)
+Obraz (rysuj obraz)
 [Fragment (draw portion of image)]
-fragment (rysuj fragment obrazu)
+Fragment (rysuj fragment obrazu)
 [Stretch Both directions]
 Rozciągnij w obydwie strony
 [Stretch Vertical, Tile Horizontal]
 Rozciągnij w pionie, kafelkuj w poziomie
 [Tile Vertical, Stretch Horizontal]
-kafelkuj w pionie, rozciągnij w poziomie
+Kafelkuj w pionie, rozciągnij w poziomie
 [Tile Both directions]
-kafelkuj w obydwu kierunkach
+Kafelkuj w obydwu kierunkach
 [Image size is]
 Rozmiar obrazu to
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp

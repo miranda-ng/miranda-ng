@@ -21,7 +21,7 @@ Od:
 [Message received:]
 
 [Number:]
-
+Numer:
 [Send SMS]
 Wyślij SMS
 [To:]
