@@ -164,9 +164,9 @@ Wystąpił nieznany błąd przy próbie połączenia.
 [Invalid SNAC header.]
 Niepoprawny nagłówek SNAC.
 [Server rate limit exceeded.]
-
+Przekroczono limit serwera.
 [Client rate limit exceeded]
-
+Przekroczono limit klienta.
 [Recipient is not logged in.]
 Odbiorca nie jest zalogowany.
 [Requested service is unavailable.]
@@ -295,7 +295,7 @@ Połączenie %s
 Połączenie Klient-do-Klienta %s
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
-[Auto odpowiedzi]:
+[Auto-odpowiedź]:
 [Contact tried to open an audio/video conference (currently not supported)]
 Kontakt próbował utworzyć konferencję audio/wideo (obecnie nie obsługiwane)
 [No information has been provided by the server.]
@@ -319,7 +319,7 @@ Elementu wybranego do zmodyfikowania nie ma na liście.
 [Unknown error when attempting to modify a group. Error code %#x]
 Wystąpił nieznany błąd podczas próby zmodyfikowania grupy. Kod błędu: %#x
 [You've got mail! Checked at]
-
+Masz maila! Sprawdzono
 [Error uploading avatar. (Too small)]
 Błąd przy wgrywaniu awatara. (Zbyt mały).
 [Error uploading avatar. (Too big)]
@@ -348,11 +348,11 @@ Blokuj
 [Profile]
 Profil
 [AOL Mail]
-
+AOL Mail
 [AIM Icon]
 AIM
 [Hiptop]
-
+Hiptop
 [AOL Bot]
 AOL Bot
 [Admin]
@@ -382,17 +382,17 @@ Podkreślenie
 [Not Underline]
 Nie podkreślony
 [Subscript]
-
+indeks dolny
 [Not Subscript]
-
+nie indeks dolny
 [Superscript]
-
+indeks górny
 [Not Superscript]
-
+nie indeks górny
 [Normal Script]
-
+poziom wyrównany
 [Not Normal Script]
-
+poziom niewyrównany
 [Profile Editor]
 Edycja profilu
 [AIM Account Type]
@@ -421,11 +421,11 @@ Podstawowe
 [Privacy]
 Prywatność
 [Join me in this buddy chat!]
-
+Dołącz do mnie na tym czacie!
 ;file \protocols\AimOscar\src\utility.cpp
 [Please, enter a username in the options dialog.]
 Wprowadź nazwę użytkownika w opcjach.
 [Please, enter a password in the options dialog.]
 Wprowadź hasło w opcjach.
 [Failed to open file: %s %s]
-
+Nie udało się otworzyć pliku: %s %s

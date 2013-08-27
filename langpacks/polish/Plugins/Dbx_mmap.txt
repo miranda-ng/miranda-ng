@@ -83,20 +83,20 @@ Przetwarzanie łańcucha kontaktu
 Uszkodzony łańcuch kontaktu, dalsze wpisy będą ignorowane
 ;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
 [Invalid offset found (database truncated?)]
-
+Znaleziono nieprawidłowe przesunięcie(baza danych obcięta?)
 [Invalid offset found]
 Znaleziono nieprawidłową kompensate
 [Error reading, database truncated? (%u)]
 Błąd odczytu, niekompletny plik profilu? (%u)
 [Can't write to working file, aggressive mode may be too aggressive now]
-
+Zapis do pliku roboczego niemożliwy, tryb agresywny może być teraz zbyt agresywny
 [Can't write to output file - disk full? (%u)]
 Nie można zapisać do pliku - dysk jest pełen? (%u)
 ;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
 [Event count marked wrongly: correcting]
 Źle oznaczone dane zdarzeń: poprawianie
 [Event chain corrupted, trying to recover...]
-
+Łańcuch zdarzeń uszkodzony, próbuję odzyskać.
 [Event chain corrupted, further entries ignored]
 Uszkodzony łańcuch zdarzeń, dalsze wpisy ignorowane 
 [First event not marked as such: correcting]
@@ -114,11 +114,11 @@ Niepoprawnie olinkowane zdarzenie: naprawianie
 [Duplicate event was found: skipping]
 Znaleziono duplikat zdarzenia: pomijanie
 [Event position in chain is not correct]
-
+Pozycja zdarzenia w łańcuchu jest niewłaściwa
 [Event position in chain is not correct: fixing]
-
+Pozycja zdarzenia w łańcuchu jest niewłaściwa: naprawianie
 [Event position in chain is not correct: unable to fix]
-
+Pozycja zdarzenia w łańcuchu niemożliwa: naprawa niemożliwa
 ;file \plugins\Db3x_mmap\src\dbtool\finaltasks.cpp
 [Processing final tasks]
 Wykonywanie końcowych zadań
@@ -132,9 +132,9 @@ Profil nie zawiera żadnych danych
 [Processing completed successfully]
 Przetwarzanie zakończone sukcesem
 [Can't create file mapping (%u)]
-
+Nie udało się stworzyć mapowania pliku (%u)
 [Can't create map view of file (%u)]
-
+Nie udało się stworzyć widoku mapy pliku (%u)
 ;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp
 [Processing module name chain]
 Przetwarzanie łańcucha nazwy modułu

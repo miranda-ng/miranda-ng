@@ -6,7 +6,7 @@
 ;  Authors: 
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
-
+Wyświetla kontakty, powiadomienia o zdarzeniach, status protokołu z modyfikacjami wielo-okiennymi
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
 Ustawienia
@@ -37,7 +37,7 @@ Obiekty menu
 [MenuItems]
 Elementy menu 
 [InsertSeparator]
-
+Wstaw separator
 [Service:]
 Usługa:
 [Name:]
@@ -237,7 +237,7 @@ Pokaż uchwyt
 [Show bevel effect on panels]
 Pokaz separatory na panelach
 [Use connecting Icon]
-
+Użyj ikony łączenia
 [Use New Drawer for StatusBar]
 Nowe rysowanie paska statusu
 [E&xit]
@@ -362,7 +362,7 @@ Pod telefonem
 Globalne
 ;file \plugins\Clist_mw\src\clistsettings.cpp
 [_NoProtocol_]
-
+Brak protokołu
 [(Unknown Contact)]
 (Nieznany kontakt)
 ;file \plugins\Clist_mw\src\clisttray.cpp

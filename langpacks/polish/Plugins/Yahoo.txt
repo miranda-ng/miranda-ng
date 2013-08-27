@@ -31,7 +31,7 @@ Pokaż powiadomienia Yahoo
 [Show Errors]
 Pokaż błędy
 [Yahoo Japan]
-
+Yahoo Japonia
 [Create a new Yahoo account]
 Utwórz nowe konto Yahoo
 [Connection Settings]
@@ -71,11 +71,11 @@ Dołącz
 [&Deny]
 Odrzuć
 [Denial Message]
-
+Wiadomość Odmowna
 [Invitation Message]
-
+Wiadomość Zaproszenie
 [Host]
-
+Host
 [Invite Buddy To Chat Room]
 Zaproś znajomego do czatu
 [Screen Name]
@@ -109,14 +109,14 @@ Dane kontaktu
 [User &history]
 Historia użytkownika
 [Join My Conference...]
-
+Dołącz Do Mojej Konferencji
 [No, thank you...]
-
+Nie, dziękuję
 ;file \protocols\Yahoo\src\icolib.cpp
 [Main]
 Ogólne
 [Mail]
-
+Mail
 [Profile]
 Profil
 [Refresh]
@@ -208,9 +208,9 @@ Przypomnienie o wydarzeniach
 [%s has rejected your request and sent the following message:]
 %s odrzucił(-a) twoją prośbę i wysłał(-a) tę wiadomość:
 [Invalid Contact]
-
+Nieprawidłowy Kontakt
 [The id you tried to add is invalid.]
-
+id, które próbowałeś dodać jest niepoprawne.
 [Unknown Error??.]
 Nieznany błąd??.
 [New Mail]
@@ -222,7 +222,7 @@ Nowy mail (%i wiad.)
 [From: %s\nSubject: %s]
 Od: %s\nTemat: %s
 [Yahoo System Message]
-
+Wiadomość Systemowa Yahoo
 [Yahoo Ping Error]
 Błąd pingu Yahoo
 [Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]

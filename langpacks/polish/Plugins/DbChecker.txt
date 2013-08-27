@@ -106,7 +106,7 @@ Database Checker nie może znaleźć odpowiedniej wtyczki aby otworzyć profil '
 [Error]
 Błąd
 [Database driver '%s' doesn't support checking.]
-
+Sterownik bazy danych "%s" nie wspiera sprawdzania.
 [Database]
 Profil
 [Total size]
@@ -114,7 +114,7 @@ Całkowity rozmiar
 [Wasted]
 Martwa przestrzeń
 [Miranda Databases (*.dat)]
-
+Bazy danych Mirandy (*.dat)
 [All Files]
 Wszystkie pliki
 ;file \plugins\DbChecker\src\wizard.cpp

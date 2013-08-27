@@ -75,7 +75,7 @@ Używaj forwardowania
 [Host:]
 Host:
 [Number:]
-
+Numer:
 [Internal IP:]
 IP wewnętrzne:
 [First name:]
@@ -207,7 +207,7 @@ Właśnie zalogowałeś się w innym miejscu
 [You are logged in at another location]
 Jesteś zalogowany w innym miejscu
 [Incoming image]
-
+Przychodzący obrazek
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
 [Male]
 Mężczyzna
@@ -254,17 +254,17 @@ Nie można utowrzyć transferu plików. BŁĄD: %d: %s (dcc)\n%s
 Nie można utowrzyć transferu plików. BŁĄD: %d: %s (dcc7)\n%s
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed memory]
-
+http błąd pamięć
 [HTTP failed connecting]
-
+http błąd łączenie
 [HTTP failed resolving]
-
+http błąd rozwiązywanie
 [HTTP failed reading]
-
+http błąd odczyt
 [HTTP failed writing]
-
+http błąd zapis
 [Unknown HTTP error]
-
+Nieznany błąd http
 [&Unblock]
 Odblokuj
 [&Block]
@@ -391,7 +391,7 @@ Eksportuj listę do pliku
 Powiązanie protokołu Gadu-Gadu
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
-
+Hasło nie mogło zostać przypomniane z powodu błędu:\n\t%s (błąd: %d)
 [Password was sent to your e-mail.]
 Hasło zostało wysłane na Twój e-mail.
 ;file \protocols\Gadu-Gadu\src\popups.cpp
@@ -424,14 +424,14 @@ Musisz być zalogowany, aby zobaczyć równoległe sesje.
 [Copy Text]
 Kopiuj tekst
 [Whois]
-
+Whois
 [Concurrent &sessions]
 Równoległe &sesje
 ;file \protocols\Gadu-Gadu\src\token.cpp
 [Token retrieval failed because of error:\n\t%s]
 Nie można było pobrać tokena z powodu błędu:\n\t%s
 [Could not load token image.]
-
+Nie można było załadować obrazka z tokenem
 ;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
 Nie można zarejestrować konta z powodu błędu:\n\t%s

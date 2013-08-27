@@ -9,15 +9,15 @@
 Wyświetla kontakty, powiadomienia zdarzeń, statusy protokołów.
 ;file \plugins\Clist_nicer\res\resource.rc
 [CList Nicer exception]
-
+wyjątek CList Nicer
 [Copy to clipboard]
 Kopiuj do schowka 
 [Continue]
-
+Kontynuuj
 [Exit Miranda]
 Wyłącz Mirandę
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
-
+Mimo,że wyjątek został wykryty i możesz kontynuować korzystanie z Mirandy, powinieneś uruchomić program ponownie najszybciej jak to możliwe. Wyjątek mógł uszkodzić wewnętrzne struktury danych i może mieć poważny wpływ na stabilność.
 [About CList Nicer+]
 O CList Nicer+
 [OK]
@@ -25,7 +25,7 @@ OK
 [Clist Nicer+]
 Clist Nicer+
 [Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
-
+Copyright © 2004-2010 przez projekt Miranda IM, 2012-2013 przez projekt Miranda NG. Bardziej szczegółowe informacje dotyczące praw autorskich znajdują się w dołączonym pliku README.
 [Version]
 Wersja
 [Support and latest version information]
@@ -491,7 +491,7 @@ Zmień nazwę grupy
 [&Delete Group]
 Usuń grupę
 [Move marked Contacts to this Group]
-
+Przenieś zaznaczone kontakty do tej grupy
 [Appearance]
 Personalizacja
 [Show Status Icons]
@@ -678,9 +678,9 @@ Pokaż zawsze kiedy dostępny
 [Hide always]
 Zawsze ukryty
 [When space is available]
-
+Gdy jest dostępna przestrzeń
 [When needed by status message]
-
+Gdy potrzebna na opis
 [Contact list display and ignore options for %s]
 Opcje wyświetlania i ignorowania dla %s
 [&Contact list settings...]
@@ -720,15 +720,15 @@ Otwórz menu główne
 [Set status modes]
 Ustaw status
 [The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
-
+Żądana akcja wymaga poprawnego wyboru kontaktu. Proszę wybrać kontakt z listy i powtórzyć.
 [Parameter mismatch]
-
+Niepasujący parametr
 [The service %s specified by the %s button definition was not found. You may need to install additional plugins]
-
+Usługa %s określona przez definicję przycisku %s nie została znaleziona. Konieczne może być zainstalowanie dodatkowej wtyczki.
 [Service failure]
-
+Błąd usługi
 [You need the FloatingContacts plugin, cause the embedded floating contacts were removed]
-
+Potrzebna jest wtyczka FloatingContacts, ponieważ osadzone pływające kontakty zostały usunięte
 [Warning]
 Ostrzeżenie
 [Standard contacts]
@@ -766,9 +766,9 @@ Wąskie obramowanie
 Bez obramowanie
 ;file \plugins\Clist_nicer\src\Docking.cpp
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-
+Lista nie może być dockowana, jeżeli używany jest domyślny pasek tytułowy i obramowanie. Zamiast tego użyj stylu okna narzędziowego lub stylu bez obramowania.
 [Clist docking]
-
+Dockowanie listy
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Wczytaj i zastosuj

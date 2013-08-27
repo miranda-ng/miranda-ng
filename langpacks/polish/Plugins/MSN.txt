@@ -11,7 +11,7 @@ Zapewnia obsługę protokołu Microsoft Network (MSN).
 [MSN]
 MSN
 [Live ID:]
-
+Identyfikator Live:
 [Password:]
 Hasło:
 [Nickname:]
@@ -59,7 +59,7 @@ Ktoś dodał cię do swojej listy na serwerze
 [Refresh]
 Odśwież
 [Hotmail]
-
+Hotmail
 [Disable Popup notifications]
 Wyłącz powiadomienia
 [Disable Tray notifications]
@@ -83,11 +83,11 @@ OK
 [Cancel]
 Anuluj
 [Mobile Device (used for SMS)]
-
+Urządzenie przenośne używane do SMS
 [Spouse/Partner]
-
+Małżonek(ka)/Partner
 [Middle Name]
-
+drugie imię
 [First Name]
 Imię
 [Last Name]
@@ -101,15 +101,15 @@ Nick
 [Place:]
 Miejsce:
 [MSN Delete Contact]
-
+MSN usuń kontakt
 [Remove from Hotmail Address book]
 Usuń z książki adresowej Hotmail
 [Block Contact]
-
+Zablokuj kontakt
 [Invite Contact To Chat]
 Zaproś kontakt do czatu
 [Live ID]
-
+Identyfikator Live
 [&Invite]
 Zaproś
 [&Cancel]
@@ -135,13 +135,13 @@ Historia użytkownika
 [Contact tried to open an audio conference (currently not supported)]
 Kontakt chciał otworzyć audio konferencję (obecnie niewspierane)
 [%I64u bytes]
-
+%I64u bajtów
 [Accept NetMeeting request from %s?]
-
+Przyjąć wywołanie NetMeeting od %s?
 [MSN Protocol]
 Protokół MSN
 [MSN Alert]
-
+Alert MSN
 [Chat session established by my request]
 Nawiązano sesję czatu z twojej prośby
 [Chat session established by contact request]
@@ -166,9 +166,9 @@ Użytkownik jest rozłączony
 Powiązanie protokołu MSN
 ;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
-
+Kontakt %s został usunięty z serwera.\nCzy chciałbyś pozostawić go na liście jako kontaktl okalny w celu zachowania historii?
 [%s protocol]
-
+protokół %s
 ;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
 Temat: %s
@@ -177,7 +177,7 @@ Hotmail od %s (%S)
 [Hotmail from %s]
 Hotmail od %s
 [Unread mail is available: %d in Inbox and %d in other folders).]
-
+Dostępna jest nieczytana poczta:(%d w skrzynce odbiorczej oraz %d w innych folderach)
 ;file \protocols\MSN\src\msn_menu.cpp
 [&Unblock]
 Odblokuj
@@ -205,7 +205,7 @@ Uruchom Netmeeting
 [Avatars]
 Awatary
 [Custom Smileys]
-
+Własne uśmieszki
 [Notify]
 Powiadomienia
 [Error]
@@ -287,10 +287,10 @@ Wiadomość jest za długa: SMS-y są ograniczone do 133 znaków UTF-8
 [Message is too long: MSN messages are limited by 1202 UTF8 chars]
 Wiadomość jest za długa: Wiadomości MSN są ograniczone do 1202 znaków UTF-8
 [Offline messaging is not allowed for LCS contacts]
-
+Wysyłanie wiadomości Offline nie jest dozwolone dla kontaktów LCS
 ;file \protocols\MSN\src\msn_svcs.cpp
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
-
+MSN wymaga, aby limit czasu wysyłania wiadomośći w opcjach wtyczki okna rozmowy nie był mniejszy niż 60 sekund. Proszę ustawić poprawną wartość.
 [Convert to Chat]
 Konwertuj do czatu
 ;file \protocols\MSN\src\msn_ws.cpp

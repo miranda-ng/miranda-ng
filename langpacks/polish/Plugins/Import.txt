@@ -82,11 +82,11 @@ Ignorowanie zdarzenia od/do siebie
 [Added contact %u (found in history)]
 Dodano kontakt %u (znaleziony w historii)
 [Failed to add %S contact %s]
-
+Nie udało się dodać %s kontaktu %s
 [Added %S contact %s, '%s']
-
+Dodano %s kontakt %s, "%s"
 [Added %S contact %s]
-
+Dodano %s kontakt %s
 [Skipping contact with no protocol]
 Pomijanie kontaktu bez przypisanego protokołu
 [Skipping contact, %S not installed.]
@@ -102,11 +102,11 @@ Wystąpił nieznany błąd w czasie dodawania %S kontaktu %s
 [Failed to add message]
 Nie udało się dodać wiadomości
 [Error retrieving current profile, exiting.]
-
+Błąd pobierania obecnego profilu, zamykanie.
 [There's no database driver to open the input file, exiting.]
 Brak sterownika profilu do otwarcia pliku, zamykanie.
 [Error loading source file, exiting.]
-
+Błąd ładowania pliku źródłowego, zamykanie.
 [Number of contacts in database: %d]
 Liczba kontaktów w bazie: %d
 [Importing groups.]
@@ -148,7 +148,7 @@ Dany plik nie istnieje. Sprawdź czy wpisałeś poprawnie jego nazwę.
 [Miranda Import]
 Import Mirandy
 [Miranda NG database]
-
+Baza danych Miranda NG
 [All Files]
 Wszystkie pliki
 ;file \plugins\Import\src\utils.cpp

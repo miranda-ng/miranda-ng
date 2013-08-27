@@ -17,7 +17,7 @@ Stwórz nowe konto na Facebooku
 [What's on your mind?]
 Co masz na mysli?
 [Wall:]
-
+Tablica:
 [Visibility:]
 Widoczność:
 [Text:]
@@ -33,7 +33,7 @@ Anuluj
 [Contacts >>]
 Kontakty >>
 [Attach contacts:]
-
+Dołącz kontakty:
 [User Details]
 Dane kontaktu
 [Default group:]
@@ -83,7 +83,7 @@ Użyj czasu lokalnego dla odebranych wiadomości
 [Use this server for opening links:]
 Użyj tego serwera do otwierania linków:
 [Allow posting statuses to my pages (may slow down login)]
-
+Zezwól na publikowanie postów na moich stronach (może spowolnić logowanie)
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Błąd logowania: %s
@@ -106,7 +106,7 @@ Potrzebujesz potwierdzenia dla wysyłania wiadomości do innych klientów.\nOtw�
 [Timeout when sending message.]
 Upłynęło zbyt dużo czasu wysyłania wiadomości.
 [Status update was successful.]
-
+Aktualizacja statusu powiodła się.
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Wprowadź nazwę użytkownika.
@@ -138,7 +138,7 @@ Znajomi znajomych
 [Friends]
 Znajomi
 [Friends except acquaintances]
-
+Znajomi poza dalszymi znajomymi
 [Only me]
 Tylko ja
 ;file \protocols\FacebookRM\src\contacts.cpp
@@ -173,19 +173,19 @@ Próbny kanał
 Próbne powiadomienie
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
-
+naklejka
 [files]
-
+pliki
 [a file]
-
+plik
 [photos]
-
+zdjęcia
 [a photo]
-
+zdjęcie
 [User sent you %s:]
-
+Użytkownik wysłał Ci %s:
 [Message read: %s]
-
+Wiadomość odczytana: %s
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Nie można wysłać wiadomości, gdy jesteś offline.
@@ -202,7 +202,7 @@ Nie można uzyskać połączenia Netlib Facebook
 [Avatars]
 Awatary
 [Facebook ID must be numeric value.]
-
+Facebook ID musi być wartością numeryczną
 [Network]
 Protokoły
 [Account]
@@ -212,9 +212,9 @@ Zdarzenia
 [Advanced]
 Zaawansowane
 [Share status...]
-
+Udostępnij status
 [Own wall]
-
+własna tablica
 [Loading newsfeeds...]
 Sprawdzanie subskrypcji...
 [Checking friend requests...]
@@ -224,7 +224,7 @@ Odświeżanie listy kontaktów...
 [Do you want to cancel your friendship with '%s'?]
 Czy chcesz anulować znajomość z '%s'?
 [Show 'Share status' window]
-
+Pokaż okno "Udostępnij status"
 [Notification]
 Powiadomienie
 [News Feed]
@@ -239,7 +239,7 @@ Udostępnij
 [Poke]
 Zaczep
 [Newsfeed]
-
+Newsfeed
 [Friendship details]
 Dane znajmości
 [Visit profile]

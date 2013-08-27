@@ -159,17 +159,17 @@ Sesja rozmowy
 [&D]
 &D
 [&E]
-
+&E
 [&H]
 &H
 [&Q]
-
+&Q
 [Send To All Tabs]
 Wyślij do wszystkich zakładek
 [You are about to send a message to all open tabs.\nAre you sure ?]
-
+Zamierzasz wysłać wiadomość do wszystkich otwartych zakładek.\nCzy jesteś pewien?
 [Remember my choice for this container]
-
+Pamiętaj mój wybór dla tego kontenera
 [Yes]
 Tak
 [No]
@@ -231,7 +231,7 @@ Miejsce
 [Trim to]
 Ogranicz do
 [kB]
-
+kB
 [Group Chat]
 Rozmowy grupowe
 [Use same style as in the message log]
@@ -263,19 +263,19 @@ Wyszukaj słowo
 [Google]
 Google
 [Bing]
-
+Bing
 [Yandex]
-
+Yandex
 [Wikipedia (en)]
-
+Wikipedia
 [Google Maps]
-
+Google Maps
 [Google Translate]
-
+Google Translate
 [Yahoo]
 Yahoo
 [Foodnetwork]
-
+Foodnetwork
 [C&lear Log]
 Wyczyść dziennik
 [&Open link]
@@ -510,7 +510,7 @@ zalogował się (%s)
 [is now %s (was %s)]
 jest teraz %s (był %s)
 [Sending in progress: %d message(s) left...]
-
+Wysyłanie w toku: pozostało %d wiadomości
 [%s is typing a message...]
 %s pisze wiadomość...
 [Last message received on %s at %s.]
@@ -521,15 +521,11 @@ Nieznane kontakty
 [Me]
 Ja
 [O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-
+O, Panie, niech błogosławiony będzie twój granat ręczny, którym twój majestat zmiecie twych wrogów
 [to tiny bits, in Thy mercy]
-
+na drobne kawałki, w twej litości
 [My Contact]
-
-[Lorem ipsum dolor sit amet,]
-
-[consectetur adipisicing elit]
-
+Mój kontakt
 [Today]
 Dzisiaj
 [Yesterday]
@@ -556,7 +552,7 @@ Tło wychodzące
 [Incoming messages]
 Przychodzące wiadomości
 [Incoming background]
-
+Tło wiadomości przychodzącej
 [Outgoing name]
 Wychodząca nazwa
 [Outgoing time]
@@ -580,7 +576,7 @@ Przychodzący link
 [Infobar contact name]
 Nazwa kontaktu w pasku informacyjnym
 [Infobar background]
-
+Tło paska informacyjnego
 [Infobar status message]
 Opis w pasku informacyjnym
 [Others nicknames]
@@ -667,7 +663,7 @@ Wiadomość od %s
 [Typing Notification]
 Pisanie
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-
+Miranda nie mogła załadować wbudowanego modułu obsługi wiadomości, brakujący plik Riched20.dll. Jeżęli używasz Windows 95 lub WINE, upewnij się, że posiadasz zainstalowany Riched20.dll. Naciśnij "tak", aby kontynuować ładowanie Mirandy.
 [Instant messages]
 Wiadomości
 [Incoming (Focused Window)]
@@ -753,7 +749,7 @@ Pokaż statusy kontaktów (jeśli obsługiwane)
 [Display contact status icon before role icon]
 Wyświetle ikonę statusu przed ikoną roli kontaktu
 [Add ':' to auto-completed names]
-
+Dodawaj ":" do automatycznie uzupełnianych nazw
 [Prefix all events with a timestamp]
 Poprzedź wszystkie zdarzenia czasem
 [Only prefix with timestamp if it has changed]
@@ -767,7 +763,7 @@ Ogranicz długość nazwy użytkowników do 20 znaków
 [Strip colors from messages]
 Usuń kolor z wiadomości
 [Enable 'event filter' for new rooms]
-
+Włącz "filtr zdarzeń" dla nowych pokoi
 [Show topic changes]
 Pokaż zmiany tematu
 [Show users joining]
@@ -847,11 +843,11 @@ Wygląd i zachowanie okien rozmowy
 [Icons to display in the tray]
 Ikony wyświetlane w zasobniku
 [nick of current contact (if defined)]
-
+Nick obecnego kontaktu (jeśli zdefiniowany)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
-
+Nazwa protokołu obecnego kontaktu (jeśli zdefiniowana). Jeżęli protokół wspiera wiele kont, zostanie użyta nazwa konta
 [UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
-
+ID użytkownika obecnego kontaktu(jeśli zdefiniowany). Jest to np. numer GG, JID Jabber itp.
 [path to root miranda folder]
 folder docelowy Mirandy
 [path to current miranda profile]
@@ -863,13 +859,13 @@ powróci analizowany ciąg %miranda_profile%\\Profiles\\%miranda_profilename%
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 takie samo zmienne środowisko %APPDATA% dla aktualnie zalogowanego użytkownika Windows
 [username for currently logged-on Windows user]
-
+Nazwa obecnie zalogowanego użytkownika Windows
 ["My Documents" folder for currently logged-on Windows user]
 folder "Moje dokumenty" aktualnie zalogowanego użytkownika Windows
 ["Desktop" folder for currently logged-on Windows user]
 folder "Pulpit" aktualnie zalogowanego użytkownika Windows
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-
+Dowolna zmienna środowiskowa zdefiniowana w obecnej sesji Windows (jak%systemroot%,%allusersprofile%itp.)
 [day of month, 1-31]
 dzień miesiąca, 1-31
 [day of month, 01-31]
@@ -883,11 +879,11 @@ skrócona nazwa miesiąca
 [full month name]
 pełna nazwa miesiąca
 [year without century, 01-  99]
-
+rok bez wieku, 01-  99
 [year with century, 1901-9999]
 rok z stuleciem, 1901-9999
 [abbreviated weekday name]
-
+skrócona nazwa dnia tygodnia
 [full weekday name]
 pełna nazwa dnia roboczego
 [Variables]
@@ -966,7 +962,7 @@ Kolor tła
 [Filter]
 Filtr
 [Manager]
-
+Menedżer
 [Nick list]
 Lista nicków
 [Insert a smiley]

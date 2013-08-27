@@ -85,7 +85,7 @@ Odśwież
 [Apply]
 Zastosuj
 [Info]
-
+Info
 [\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
 \n\n\nWybierz jedną z dostępnych skórek. \n\nMożesz też ręcznie wskazać jej lokalizację.
 [Skin Preview]
@@ -197,7 +197,7 @@ Włącz niestandardowe ustawienia dla konta
 [Hide account completely]
 Ukryj konto całkowicie
 [Show status name]
-
+Pokazuj nazwę statusu
 [Show xStatus name]
 Pokaż nazwę xStatus
 [Show protocol icon]
@@ -469,11 +469,11 @@ Prawy margines:
 [Compact mode\n(Show avatars and additional text on selected contacts only)]
 Tryb kompaktowy\n(Pokaż awatary i dodatkowy tekst tylko przy zaznaczonych kontaktach)
 [Draw border on avatar]
-
+Rysuj granicę na awatarze
 [Draw overlay icons]
 Rysuj nakładki ikon
 [Round corners of avatars]
-
+Zaokrąglone rogi awatarów
 [Ignore size for row height calcs]
 Ignoruj wysokość wiersza
 [Border color:]
@@ -657,8 +657,6 @@ Usuń grupę
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Skins]
 Skórki
-[Modern contact list]
-
 [Avatar Overlay]
 Nakładka awatara
 [Status Overlay]
@@ -952,21 +950,21 @@ linie
  skórkowane
 ;file \plugins\Clist_modern\src\modern_skineditor.cpp
 [- Empty - (do not draw this object)]
-
+- pusty - (nie rysuj tego objektu)
 [Solid fill object]
-
+stałe wypełnienie objektu
 [Image (draw image)]
-
+obraz (rysuj obraz)
 [Fragment (draw portion of image)]
-
+fragment (rysuj fragment obrazu)
 [Stretch Both directions]
-
+Rozciągnij w obydwie strony
 [Stretch Vertical, Tile Horizontal]
-
+Rozciągnij w pionie, kafelkuj w poziomie
 [Tile Vertical, Stretch Horizontal]
-
+kafelkuj w pionie, rozciągnij w poziomie
 [Tile Both directions]
-
+kafelkuj w obydwu kierunkach
 [Image size is]
 Rozmiar obrazu to
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
@@ -990,7 +988,7 @@ reVista dla Modern v0.5
 [This is second default Modern Contact list skin in Vista Aero style]
 To jest druga z domyślnych skórek Modern Contact list w stylu Vista Aero
 [Angeli-Ka (graphics), FYR (template)]
-
+Angeli-Ka (grafika), FYR (szablon)
 [Inside library]
 W bibliotece
 [Skin Information]
@@ -1006,7 +1004,7 @@ Podgląd jest niedostępny\n\n%s\n----------------------\n\n%s\n\nAutor(zy):\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
 %s\n\n%s\n\nAutor(zy):\n%s\n\nKontakt:\n%s\n\nStrona domowa:\n%s\n\n\n
 [graphics by Angeli-Ka\ntemplate by FYR]
-
+Grafika Angeli-Ka\nSzablon FYR
 [Select skin from list]
 Wybierz skórkę z listy
 [Please select skin to apply]
@@ -1061,7 +1059,7 @@ Minimalizuj
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 Aby wyświetlić pasek narzędzi w Clist Modern wymagana jest wtyczka TopToolBar. Kliknij Tak aby pobrać lub Nie aby kontynuować.
 [Toolbar upgrade]
-
+Aktualizacja paska narzędzi
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Ungrouped contacts]
 Niepogrupowane kontakty
