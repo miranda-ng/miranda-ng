@@ -176,8 +176,7 @@ INT_PTR ServiceToggle(WPARAM wParam, LPARAM lParam)
 	remove = !remove;
 	db_set_b(hContact, MODULE, DBSETTING_REMOVE, remove != 0);
 
-	StatusIconData sid = {0};
-	sid.cbSize = sizeof(sid);
+	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULE;
 
 	for (int i = 0; i < 2; ++i) {

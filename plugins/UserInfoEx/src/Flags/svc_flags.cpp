@@ -399,15 +399,12 @@ static __inline int MessageAPI_AddIcon(const char* pszName, const char* szModul/
 {
 	HICON hIcon = Skin_GetIcon(pszName);
 
-	StatusIconData sid		= {0};
-	sid.cbSize				= sizeof(sid);
-	sid.szModule			= (char*)szModul;
-	sid.dwId				= (DWORD)ID;
-	sid.hIcon				= (hIcon!=NULL)?CopyIcon(hIcon):NULL;
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = (char*)szModul;
+	sid.dwId = (DWORD)ID;
+	sid.hIcon = (hIcon!=NULL)?CopyIcon(hIcon):NULL;
+	sid.szTooltip = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,ID,0));
 	Skin_ReleaseIcon(hIcon); /* does NULL check */
-//	sid.hIconDisabled		= sid.hIcon/*NULL*/;
-	sid.flags				= 0;
-	sid.szTooltip			= Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,ID,0));
 
 	int res = -1;
 	IconList* p = new IconList(&sid);

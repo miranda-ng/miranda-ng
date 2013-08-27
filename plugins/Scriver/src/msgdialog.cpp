@@ -1253,8 +1253,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case DM_SWITCHTYPING:
 		if (IsTypingNotificationSupported(dat)) {
-			StatusIconData sid = {0};
-			sid.cbSize = sizeof(sid);
+			StatusIconData sid = { sizeof(sid) };
 			sid.szModule = SRMMMOD;
 			sid.dwId = 1;
 
@@ -1470,7 +1469,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		if (dat->parent->hwndActive == hwndDlg) {
 			TCHAR szText[256];
 			StatusBarData sbd= {0};
-			StatusIconData sid = {0};
 			sbd.iFlags = SBDF_TEXT | SBDF_ICON;
 			if (dat->messagesInProgress && (g_dat.flags & SMF_SHOWPROGRESS)) {
 				sbd.hIcon = GetCachedIcon("scriver_DELIVERING");
@@ -1496,7 +1494,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			SendMessage(dat->hwndParent, CM_UPDATESTATUSBAR, (WPARAM)&sbd, (LPARAM)hwndDlg);
 			UpdateReadChars(hwndDlg, dat);
-			sid.cbSize = sizeof(sid);
+
+			StatusIconData sid = { sizeof(sid) };
 			sid.szModule = SRMMMOD;
 			sid.flags = MBF_DISABLED;
 			Srmm_ModifyIcon(dat->windowData.hContact, &sid);

@@ -532,12 +532,10 @@ static BOOL sttDrawItem_Group(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 	if (options->bSysColors)
 	{
 		FillRect(lpdis->hDC, &lpdis->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
-		//FrameRect(lpdis->hDC, &lpdis->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
 		SetTextColor(lpdis->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
-	} else
-	{
-		HBRUSH hbr;
-		hbr = CreateSolidBrush(g_Options.clBackSel);
+	}
+	else {
+		HBRUSH hbr = CreateSolidBrush(g_Options.clBackSel);
 		FillRect(lpdis->hDC, &lpdis->rcItem, hbr);
 		DeleteObject(hbr);
 		//hbr = CreateSolidBrush(g_Options.clBackSel);
@@ -998,8 +996,7 @@ int ProcessSrmmEvent( WPARAM wParam, LPARAM lParam )
 		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
 
 		BYTE fav = db_get_b(event->hContact, "FavContacts", "IsFavourite", 0);
-		StatusIconData sid = {0};
-		sid.cbSize = sizeof(sid);
+		StatusIconData sid = { sizeof(sid) };
 		sid.szModule = "FavContacts";
 		sid.flags = fav ? 0 : MBF_DISABLED;
 		Srmm_ModifyIcon(event->hContact, &sid);

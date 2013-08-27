@@ -157,7 +157,7 @@ void LoadSettings(HWND hwndDlg)
 
 void SaveSettings(HWND hwndDlg)
 {
-	int st, i; StatusIconData sid = {0};
+	int st, i;
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
 
 	db_set_b(NULL, ModuleName, "StartupShutdownOlder", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_GETCURSEL, 0, 0));
@@ -166,7 +166,7 @@ void SaveSettings(HWND hwndDlg)
 	db_set_b(NULL, ModuleName, "SweepOnClose", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SWEEPONCLOSE));
 	db_set_b(NULL, ModuleName, "ChangeInMW", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_HISTMW));
 
-	sid.cbSize = sizeof(sid);
+	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = ModuleName;
 
 	db_set_b(NULL, ModuleName, "SweepHistory",
