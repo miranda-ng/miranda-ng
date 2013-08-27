@@ -2175,6 +2175,10 @@ Cвернуть
 Отозвать авторизацию
 [Standard netlib log]
 Стандартный журнал netlib
+[My Received Files]
+Принятые файлы
+[Edit Phone Number]
+Редактировать телефон
 
 
 ;ПЛАГИН КЛИСТА
@@ -2411,6 +2415,14 @@ Miranda не смогла загрузить встроенную систему
 Показывать время
 [Show dates]
 Показывать даты
+[Show Formatting]
+Показывать форматирование
+[Save the window position for each contact]
+Сохранять позицию окна для каждого контакта
+[Message window behaviour:]
+Поведение окна сообщений:
+[Messaging:]
+Сообщения:
 [Automatically popup window when:]
 Открывать окно, если:
 [Message Window Options]
