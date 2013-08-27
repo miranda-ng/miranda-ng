@@ -1082,7 +1082,7 @@ USERINFO* UM_SortUser(USERINFO** ppUserList, const TCHAR* pszUID)
 
 USERINFO* UM_AddUser(STATUSINFO* pStatusList, USERINFO** ppUserList, const TCHAR* pszUID, const TCHAR* pszNick, WORD wStatus)
 {
-	if (!pStatusList || !ppUserList || !ppUserList)
+	if (!pStatusList || !ppUserList)
 		return NULL;
 
 	USERINFO *pTemp = *ppUserList, *pLast = NULL;

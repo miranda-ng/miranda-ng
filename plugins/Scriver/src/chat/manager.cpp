@@ -1104,11 +1104,10 @@ USERINFO * UM_SortUser(USERINFO** ppUserList, const TCHAR* pszUID)
 
 USERINFO* UM_AddUser(STATUSINFO* pStatusList, USERINFO** ppUserList, const TCHAR* pszUID, const TCHAR* pszNick, WORD wStatus)
 {
-	USERINFO * pTemp = *ppUserList, *pLast = NULL;
-
-	if (!pStatusList || !ppUserList || !ppUserList)
+	if (!pStatusList || !ppUserList)
 		return NULL;
 
+	USERINFO * pTemp = *ppUserList, *pLast = NULL;
 	while(pTemp && UM_CompareItem(pTemp, pszNick, wStatus) <= 0)
 	{
 		pLast = pTemp;

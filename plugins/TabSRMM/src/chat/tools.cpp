@@ -156,7 +156,7 @@ static void TSAPI Chat_DismissPopup(const SESSION_INFO *si, HWND hwndPopup)
 	PUDeletePopup(hwndPopup);
 }
 
-static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	SESSION_INFO *si = (SESSION_INFO*)PUGetPluginData(hWnd);
 
@@ -204,9 +204,13 @@ static int ShowPopup(HANDLE hContact, SESSION_INFO *si, HICON hIcon,  char* pszP
 		pd.lchIcon = hIcon ;
 	else
 		pd.lchIcon = LoadIconEx(IDI_CHANMGR, "window", 0, 0);
+	
+	PROTOACCOUNT *pa = ProtoGetAccount(pszProtoName);
+	mir_sntprintf(pd.lptzContactName, MAX_CONTACTNAME-1, _T("%s - %s"),
+		(pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName,
+		pcli->pfnGetContactDisplayName(hContact, 0));
 
-	mir_sntprintf(pd.lptzContactName, MAX_CONTACTNAME - 1, _T("%S - %s"), pszProtoName, pcli->pfnGetContactDisplayName(hContact, 0));
-	lstrcpyn(pd.lptzText, TranslateTS(szBuf), MAX_SECONDLINE - 1);
+	lstrcpyn(pd.lptzText, TranslateTS(szBuf), MAX_SECONDLINE);
 	pd.iSeconds = g_Settings.iPopupTimeout;
 
 	if (g_Settings.iPopupStyle == 2) {
@@ -220,7 +224,7 @@ static int ShowPopup(HANDLE hContact, SESSION_INFO *si, HICON hIcon,  char* pszP
 		pd.colorText = crBkg;
 	}
 
-	pd.PluginWindowProc = (WNDPROC)PopupDlgProc;
+	pd.PluginWindowProc = PopupDlgProc;
 	pd.PluginData = si;
 	return PUAddPopupT(&pd);
 }
@@ -736,11 +740,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 {
 	TCHAR szBuffer[4096];
 	TCHAR szLine[4096];
-	TCHAR szTime[100];
-	FILE *hFile = NULL;
-	TCHAR tszFolder[MAX_PATH];
 	TCHAR p = '\0';
-	BOOL bFileJustCreated = TRUE;
 
 	if (!si || !gce)
 		return FALSE;
@@ -758,15 +758,18 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	szBuffer[0] = '\0';
 
 	GetChatLogsFilename(si, gce->time);
-	bFileJustCreated = !PathFileExists(si->pszLogFileName);
+	BOOL bFileJustCreated = !PathFileExists(si->pszLogFileName);
+
+	TCHAR tszFolder[MAX_PATH];
 	_tcscpy(tszFolder, si->pszLogFileName);
 	PathRemoveFileSpec(tszFolder);
 	if (!PathIsDirectory(tszFolder))
 		CreateDirectoryTreeT(tszFolder);
 
+	TCHAR szTime[100];
 	lstrcpyn(szTime, MakeTimeStamp(g_Settings.pszTimeStampLog, gce->time), 99);
 
-	hFile = _tfopen(si->pszLogFileName, _T("ab+"));
+	FILE *hFile = _tfopen(si->pszLogFileName, _T("ab+"));
 	if (hFile) {
 		TCHAR szTemp[512], szTemp2[512];
 		TCHAR* pszNick = NULL;
@@ -864,24 +867,15 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 			_fputts(szLine, hFile);
 
 			if (g_Settings.LoggingLimit > 0) {
-				long  dwSize;
-				long  trimlimit;
-
 				fseek(hFile, 0, SEEK_END);
-				dwSize = ftell(hFile);
+				long dwSize = ftell(hFile);
 				rewind(hFile);
 
-				trimlimit = g_Settings.LoggingLimit * 1024;
+				long trimlimit = g_Settings.LoggingLimit * 1024;
 				if (dwSize > trimlimit) {
-					TCHAR tszDrive[_MAX_DRIVE];
-					TCHAR tszDir[_MAX_DIR];
-					TCHAR tszName[_MAX_FNAME];
-					TCHAR tszExt[_MAX_EXT];
-					TCHAR tszNewName[_MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20];
-					TCHAR tszNewPath[_MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20];
-					TCHAR tszTimestamp[20];
 					time_t now = time(0);
 
+					TCHAR tszTimestamp[20];
 					_tcsftime(tszTimestamp, 20, _T("%Y%m%d-%H%M%S"), _localtime32((__time32_t *)&now));
 					tszTimestamp[19] = 0;
 					/*
@@ -889,12 +883,14 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 					 * move old logs to /archived sub folder just inside the log root folder.
 					 * add a time stamp to the file name.
 					 */
+					TCHAR tszDrive[_MAX_DRIVE], tszDir[_MAX_DIR], tszName[_MAX_FNAME],  tszExt[_MAX_EXT];
 					_tsplitpath(si->pszLogFileName, tszDrive, tszDir, tszName, tszExt);
 
-					mir_sntprintf(tszNewPath, _MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20, _T("%s%sarchived\\"),
-							tszDrive, tszDir);
-
+					TCHAR tszNewPath[_MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20];
+					mir_sntprintf(tszNewPath, _MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20, _T("%s%sarchived\\"), tszDrive, tszDir);
 					CreateDirectoryTreeT(tszNewPath);
+
+					TCHAR tszNewName[_MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20];
 					mir_sntprintf(tszNewName, _MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20, _T("%s%s-%s%s"), tszNewPath, tszName, tszTimestamp, tszExt);
 					fclose(hFile);
 					hFile = 0;
@@ -1157,7 +1153,6 @@ void Chat_SetFilters(SESSION_INFO *si)
 	if (si == NULL)
 		return;
 
-	int i;
 	DWORD dwFlags_default = M.GetDword("Chat", "FilterFlags", 0x03E0);
 	DWORD dwFlags_local = db_get_dw(si->hContact, "Chat", "FilterFlags", 0x03E0);
 	DWORD dwMask = db_get_dw(si->hContact, "Chat", "FilterMask", 0);
@@ -1172,7 +1167,7 @@ void Chat_SetFilters(SESSION_INFO *si)
 	dwMask = db_get_dw(si->hContact, "Chat", "PopupMask", 0);
 
 	si->iLogPopupFlags = dwFlags_default;
-	for (i=0; i < 32; i++)
+	for (int i=0; i < 32; i++)
 		if (dwMask & (1 << i))
 			si->iLogPopupFlags = (dwFlags_local & (1 << i) ? si->iLogPopupFlags | (1 << i) : si->iLogPopupFlags & ~(1 << i));
 
@@ -1181,7 +1176,7 @@ void Chat_SetFilters(SESSION_INFO *si)
 	dwMask = db_get_dw(si->hContact, "Chat", "TrayIconMask", 0);
 
 	si->iLogTrayFlags = dwFlags_default;
-	for (i=0; i < 32; i++)
+	for (int i=0; i < 32; i++)
 		if (dwMask & (1 << i))
 			si->iLogTrayFlags = (dwFlags_local & (1 << i) ? si->iLogTrayFlags | (1 << i) : si->iLogTrayFlags & ~(1 << i));
 

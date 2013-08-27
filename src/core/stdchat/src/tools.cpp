@@ -93,12 +93,12 @@ static void __stdcall ShowRoomFromPopup(void * pi)
 	ShowRoom(si, WINDOW_VISIBLE, TRUE);
 }
 
-static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch(message) {
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) {
-			SESSION_INFO* si = (SESSION_INFO*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,0);;
+			SESSION_INFO *si = (SESSION_INFO*) PUGetPluginData(hWnd);
 
 			CallFunctionAsync(ShowRoomFromPopup, si);
 
@@ -108,7 +108,7 @@ static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		break;
 	case WM_CONTEXTMENU:
 		{
-			SESSION_INFO* si = (SESSION_INFO*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,0);
+			SESSION_INFO *si = (SESSION_INFO*) PUGetPluginData(hWnd);
 			if (si->hContact)
 				if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
 					CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)"chaticon");
@@ -116,14 +116,14 @@ static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 			if (si->hWnd && KillTimer(si->hWnd, TIMERID_FLASHWND))
 				FlashWindow(si->hWnd, FALSE);
 
-			PUDeletePopup( hWnd );
+			PUDeletePopup(hWnd);
 		}
 		break;
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-static int ShowPopup (HANDLE hContact, SESSION_INFO* si, HICON hIcon,  char* pszProtoName,  TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...)
+static int ShowPopup(HANDLE hContact, SESSION_INFO* si, HICON hIcon,  char* pszProtoName,  TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...)
 {
 	POPUPDATAT pd = {0};
 	va_list marker;
@@ -139,13 +139,16 @@ static int ShowPopup (HANDLE hContact, SESSION_INFO* si, HICON hIcon,  char* psz
 	pd.lchContact = hContact;
 
 	if ( hIcon )
-		pd.lchIcon = hIcon ;
+		pd.lchIcon = hIcon;
 	else
 		pd.lchIcon = LoadIconEx( "window", FALSE );
 
-	mir_sntprintf(pd.lptzContactName, MAX_CONTACTNAME-1, _T("%S - %s"),
-		pszProtoName, CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR ));
-	lstrcpyn( pd.lptzText, TranslateTS(szBuf), MAX_SECONDLINE-1);
+	PROTOACCOUNT *pa = ProtoGetAccount(pszProtoName);
+	mir_sntprintf(pd.lptzContactName, MAX_CONTACTNAME-1, _T("%s - %s"),
+		(pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName,
+		pcli->pfnGetContactDisplayName(hContact, 0));
+
+	lstrcpyn( pd.lptzText, TranslateTS(szBuf), MAX_SECONDLINE);
 	pd.iSeconds = g_Settings.iPopupTimeout;
 
 	if (g_Settings.iPopupStyle == 2) {
@@ -161,7 +164,7 @@ static int ShowPopup (HANDLE hContact, SESSION_INFO* si, HICON hIcon,  char* psz
 		pd.colorText = crBkg;
 	}
 
-	pd.PluginWindowProc = (WNDPROC)PopupDlgProc;
+	pd.PluginWindowProc = PopupDlgProc;
 	pd.PluginData = si;
 	return PUAddPopupT(&pd);
 }
@@ -284,16 +287,13 @@ static BOOL DoPopup(SESSION_INFO* si, GCEVENT * gce)
 
 BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighlight, int bManyFix)
 {
-	BOOL bInactive;
-	int iEvent;
-
 	if (!gce || !si ||  gce->bIsMe || si->iType == GCW_SERVER)
 		return FALSE;
 
-	bInactive = si->hWnd == NULL || GetForegroundWindow() != si->hWnd;
+	BOOL bInactive = si->hWnd == NULL || GetForegroundWindow() != si->hWnd;
 	// bInactive |=  GetActiveWindow() != si->hWnd; // Removed this, because it seemed to be FALSE, even when window was focused, causing incorrect notifications
 
-	iEvent = gce->pDest->iType;
+	int iEvent = gce->pDest->iType;
 
 	if ( bHighlight ) {
 		gce->pDest->iType |= GC_EVENT_HIGHLIGHT;

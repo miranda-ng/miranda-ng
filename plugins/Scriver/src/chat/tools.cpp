@@ -77,12 +77,12 @@ static void __stdcall ShowRoomFromPopup(void * pi)
 	ShowRoom(si, WINDOW_VISIBLE, TRUE);
 }
 
-static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch(message) {
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) {
-			SESSION_INFO *si = (SESSION_INFO*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,0);;
+			SESSION_INFO *si = (SESSION_INFO*) PUGetPluginData(hWnd);
 
 			CallFunctionAsync(ShowRoomFromPopup, si);
 
@@ -92,7 +92,7 @@ static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		break;
 	case WM_CONTEXTMENU:
 		{
-			SESSION_INFO *si = (SESSION_INFO*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,0);
+			SESSION_INFO *si = (SESSION_INFO*) PUGetPluginData(hWnd);
 			if (si->windowData.hContact)
 				if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->windowData.hContact, 0))
 					CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->windowData.hContact, (LPARAM)"chaticon");
@@ -124,9 +124,12 @@ static int ShowPopup (HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszP
 	else
 		pd.lchIcon = GetCachedIcon("chat_window");
 
-	mir_sntprintf(pd.lptzContactName, MAX_CONTACTNAME-1, _T("%S - %s"),
-		pszProtoName, CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR ));
-	lstrcpyn( pd.lptzText, TranslateTS(szBuf), MAX_SECONDLINE-1);
+	PROTOACCOUNT *pa = ProtoGetAccount(pszProtoName);
+	mir_sntprintf(pd.lptzContactName, MAX_CONTACTNAME-1, _T("%s - %s"),
+		(pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName,
+		pcli->pfnGetContactDisplayName(hContact, 0));
+
+	lstrcpyn( pd.lptzText, TranslateTS(szBuf), MAX_SECONDLINE);
 	pd.iSeconds = g_Settings.iPopupTimeout;
 
 	if (g_Settings.iPopupStyle == 2) {
@@ -142,7 +145,7 @@ static int ShowPopup (HANDLE hContact, SESSION_INFO *si, HICON hIcon, char* pszP
 		pd.colorText = crBkg;
 	}
 
-	pd.PluginWindowProc = (WNDPROC)PopupDlgProc;
+	pd.PluginWindowProc = PopupDlgProc;
 	pd.PluginData = si;
 	return PUAddPopupT(&pd);
 }
@@ -267,16 +270,13 @@ static BOOL DoPopup(SESSION_INFO *si, GCEVENT * gce)
 
 BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT * gce, BOOL bHighlight, int bManyFix)
 {
-	BOOL bInactive;
-	int iEvent;
-
 	if (!gce || !si ||  gce->bIsMe || si->iType == GCW_SERVER)
 		return FALSE;
 
-	bInactive = si->hWnd == NULL || GetForegroundWindow() != GetParent(si->hWnd);
+	BOOL bInactive = si->hWnd == NULL || GetForegroundWindow() != GetParent(si->hWnd);
 	// bInactive |=  GetActiveWindow() != si->hWnd; // Removed this, because it seemed to be FALSE, even when window was focused, causing incorrect notifications
 
-	iEvent = gce->pDest->iType;
+	int iEvent = gce->pDest->iType;
 
 	if ( bHighlight ) {
 		gce->pDest->iType |= GC_EVENT_HIGHLIGHT;
@@ -404,9 +404,8 @@ void CheckColorsInModule(const char* pszModule)
 
 TCHAR* my_strstri( const TCHAR* s1, const TCHAR* s2)
 {
-	int i,j,k;
-	for(i=0;s1[i];i++)
-		for(j=i,k=0; _totlower(s1[j]) == _totlower(s2[k]);j++,k++)
+	for(int i=0;s1[i];i++)
+		for(int j=i,k=0; _totlower(s1[j]) == _totlower(s2[k]);j++,k++)
 			if (!s2[k+1])
 				return (TCHAR*)(s1+i);
 
@@ -493,35 +492,32 @@ BOOL IsHighlighted(SESSION_INFO *si, const TCHAR* pszText)
 
 BOOL LogToFile(SESSION_INFO *si, GCEVENT * gce)
 {
-	MODULEINFO * mi = NULL;
 	TCHAR szBuffer[4096];
 	TCHAR szLine[4096];
 	TCHAR szTime[100];
-	FILE *hFile = NULL;
 	TCHAR tszFile[MAX_PATH];
 	TCHAR tszFolder[MAX_PATH];
 	TCHAR p = '\0';
-	BOOL bFileJustCreated = TRUE;
 
 	if (!si || !gce)
 		return FALSE;
 
-	mi = MM_FindModule(si->pszModule);
+	MODULEINFO *mi = MM_FindModule(si->pszModule);
 	if ( !mi )
 		return FALSE;
 
 	szBuffer[0] = '\0';
 
 	lstrcpyn(tszFile, GetChatLogsFilename(si->windowData.hContact, gce->time), MAX_PATH);
-	bFileJustCreated = !PathFileExists(tszFile);
-	_tcscpy(tszFolder, tszFile);
+	BOOL bFileJustCreated = !PathFileExists(tszFile);
+	_tcsncpy(tszFolder, tszFile, MAX_PATH);
 	PathRemoveFileSpec(tszFolder);
 	if (!PathIsDirectory(tszFolder))
 		CreateDirectoryTreeT(tszFolder);
 
 	lstrcpyn(szTime, MakeTimeStamp(g_Settings.pszTimeStampLog, gce->time), 99);
 
-	hFile = _tfopen(tszFile, _T("ab+"));
+	FILE *hFile = _tfopen(tszFile, _T("ab+"));
 	if (hFile) {
 		TCHAR szTemp[512], szTemp2[512];
 		TCHAR* pszNick = NULL;
@@ -663,7 +659,6 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT * gce)
 UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText)
 {
 	GCMENUITEMS gcmi = {0};
-	int i;
 	HMENU hSubMenu = 0;
 
 	*hMenu = GetSubMenu(g_hMenu, iIndex);
@@ -709,7 +704,7 @@ UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *s
 	if (gcmi.nItems > 0)
 		AppendMenu(*hMenu, MF_SEPARATOR, 0, 0);
 
-	for (i = 0; i < gcmi.nItems; i++) {
+	for (int i = 0; i < gcmi.nItems; i++) {
 		TCHAR* ptszDescr = a2tf(gcmi.Item[i].pszDesc, si->dwFlags);
 		TCHAR* ptszText = TranslateTS(ptszDescr);
 		DWORD dwState = gcmi.Item[i].bDisabled ? MF_GRAYED : 0;
@@ -755,7 +750,6 @@ void DestroyGCMenu(HMENU *hMenu, int iIndex)
 
 BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem)
 {
-	SESSION_INFO *si;
 	GCHOOK* gch = (GCHOOK*)mir_alloc( sizeof( GCHOOK ));
 	GCDEST* gcd = (GCDEST*)mir_alloc( sizeof( GCDEST ));
 
@@ -763,7 +757,8 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int 
 	memset( gcd, 0, sizeof( GCDEST ));
 
 	replaceStrA( &gcd->pszModule, pszModule);
-	if (( si = SM_FindSession(pszID, pszModule)) == NULL )
+	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
+	if (si == NULL)
 		return FALSE;
 	
 	if ( !( si->dwFlags & GC_UNICODE )) {
@@ -786,12 +781,12 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int 
 
 BOOL DoEventHook(const TCHAR* pszID, const char* pszModule, int iType, const TCHAR* pszUID, const TCHAR* pszText, DWORD dwItem)
 {
-	SESSION_INFO *si;
 	GCHOOK gch = {0};
 	GCDEST gcd = {0};
 
 	gcd.pszModule = (char*)pszModule;
-	if ((si = SM_FindSession(pszID, pszModule)) == NULL)
+	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
+	if (si == NULL)
 		return FALSE;
 
 	if ( !(si->dwFlags & GC_UNICODE)) {

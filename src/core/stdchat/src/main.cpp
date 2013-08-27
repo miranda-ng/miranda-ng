@@ -21,6 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "chat.h"
 
 //globals
+CLIST_INTERFACE *pcli;
+
 HINSTANCE   g_hInst;
 HANDLE      g_hWindowList;
 HMENU       g_hMenu = NULL;
@@ -80,6 +82,7 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	// set the memory & utf8 managers
 	mir_getLP( &pluginInfo );
+	mir_getCLI();
 
 	UpgradeCheck();
 
