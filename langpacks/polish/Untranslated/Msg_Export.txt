@@ -10,7 +10,6 @@
 [With scroll to bottom %d\n]
 [Search string was not found !]
 [Syntax highlight]
-[Failed to create file]
 [Failed to create history dialog]
 [Miranda NG (Message Export Plugin)]
 [Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]

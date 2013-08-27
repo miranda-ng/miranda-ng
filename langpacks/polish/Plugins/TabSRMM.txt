@@ -1872,11 +1872,11 @@ Temat to '%s%s'
 [ (set by %s)]
  (wybrany przez %s)
 [%s enables '%s' status for %s]
-
+%s włącza status "%s" dla %s
 [%s disables '%s' status for %s]
-
+%s wyłącza status "%s" dla %s
 [<invalid>]
-
+<niepoprawny>
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 [Add user to highlight list]
 Dodaj do listy podświetleń
@@ -2078,7 +2078,7 @@ Rozpocznij prywatną rozmowę po dwukliku na liście nikców (wstaw nick, gdy ni
 [Strip colors from messages in the log]
 Usuń kolory z wiadomości w dzienniku
 [Enable the 'event filter' for new rooms]
-
+Włącz "filtr zdarzeń" dla nowych pokoi
 [Use IRC style status indicators in the log]
 Używaj ircowych wskaźników w dzienniku wiadomości
 [Allow clickable user names in the message log]
@@ -2254,9 +2254,9 @@ Zmieniony temat w %s
 [Information in %s]
 Informacja w %s
 [%s enables '%s' status for %s in %s]
-
+%s włącza status "%s" dla %s w %s
 [%s disables '%s' status for %s in %s]
-
+%s wyłącza status "%s" dla %s w %s
 [%s%s says:%s %s]
 [b]%s%s napisał:[/b]%s %s
 [%s has left (%s)]
@@ -2268,15 +2268,15 @@ Informacja w %s
 [Notice from %s: %s]
 Powiadomienie od %s: %s
 [The topic is '%s']
-
+Temat to "%s"
 [The topic is '%s' (set by %s)]
-
+Temat to "%s" (ustawiony przez %s)
 [Look up '%s':]
 Zobacz '%s':
 [No word to look up]
 Nie podano słowa do wyszukania
 [&Message %s]
-
+&Wiadomość %s
 [Highlight User...]
 Podświetlany użytkownik...
 [Edit Highlight List...]

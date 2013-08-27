@@ -504,9 +504,9 @@ Wyślij wiadomość
 [User Menu - %s]
 Menu kontaktu - %s
 [signed off (was %s)]
-
+wylogował się (był %s)
 [signed on (%s)]
-
+zalogował się (%s)
 [is now %s (was %s)]
 jest teraz %s (był %s)
 [Sending in progress: %d message(s) left...]
@@ -721,11 +721,11 @@ Temat to '%s%s'
 [ (set by %s)]
  (wybrany przez %s)
 [%s enables '%s' status for %s]
-
+%s włącza status "%s" dla %s
 [%s disables '%s' status for %s]
-
+%s wyłącza status "%s" dla %s
 [<invalid>]
-
+<niepoprawny>
 ;file \plugins\Scriver\src\chat\main.cpp
 [&Join]
 Dołącz
@@ -817,7 +817,7 @@ Pokaż ikony w zasobniku dla wiadomości informacyjnych
 [Show icon in tray for status changes]
 Pokaż ikony w zasobniku dla zmian statusu
 [Show popups only when the chat room is not active]
-
+Pokazuj popupy tylko, gdy pokój nie jest aktywny
 [Show popup for topic changes]
 Pokaż popup zmiany tematu
 [Show popup for users joining]
@@ -895,7 +895,7 @@ Zmienne
 [Appearance]
 Personalizacja
 [Default events to show in new chat rooms if the 'event filter' is enabled]
-
+Domyślne zdarzenia pokazywane w nowych pokojach, gdy "filtr zdarzeń" jest aktywny
 [Select Folder]
 Wybierz folder
 [Popups]
@@ -935,9 +935,9 @@ Zmieniony temat w %s
 [Information in %s]
 Informacja w %s
 [%s enables '%s' status for %s in %s]
-
+%s włącza status "%s" dla %s w %s
 [%s disables '%s' status for %s in %s]
-
+%s wyłącza status "%s" dla %s w %s
 [%s says: %s]
 %s mówi: %s
 [%s has left (%s)]
@@ -949,11 +949,11 @@ Informacja w %s
 [Notice from %s: %s]
 Powiadomienie od %s: %s
 [The topic is '%s']
-
+Temat to "%s"
 [The topic is '%s' (set by %s)]
-
+Temat to "%s" (ustawiony przez %s)
 [&Message %s]
-
+&Wiadomość %s
 ;file \plugins\Scriver\src\chat\window.cpp
 [Italic]
 Kursywa

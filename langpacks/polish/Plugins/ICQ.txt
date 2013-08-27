@@ -1682,7 +1682,7 @@ błąd
 
 ;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
-
+<niepoprawny>
 ;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
 [GMT-12:00 Eniwetok; Kwajalein]
 

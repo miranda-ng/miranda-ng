@@ -2,7 +2,6 @@
 [Show status name]
 [Draw border on avatar]
 [Round corners of avatars]
-[Nowhere]
 [Modern contact list]
 [- Empty - (do not draw this object)]
 [Solid fill object]

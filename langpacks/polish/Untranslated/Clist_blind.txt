@@ -1,5 +1,4 @@
 ﻿[Info:]
-[Nowhere]
 [Group: %name% %count% [%mode%]]
 [Divider: %s]
 [Info: %s]

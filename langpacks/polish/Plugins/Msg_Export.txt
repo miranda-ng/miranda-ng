@@ -102,7 +102,7 @@ Czcionki...
 [Syntax highlight]
 
 [Failed to create file]
-
+Nie udało się utworzyć pliku
 [Failed to save file]
 Błąd zapisywania pliku
 [History was saved successfully in file\r\n]

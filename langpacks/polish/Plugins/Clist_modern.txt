@@ -631,7 +631,7 @@ Zasobnik
 [&Hide/Show]
 Pokaż/ukryj
 [Nowhere]
-
+Nigdzie
 [&New Group]
 Nowa grupa
 [&Hide Offline Users]
