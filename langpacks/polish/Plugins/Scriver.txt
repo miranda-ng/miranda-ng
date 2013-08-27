@@ -849,7 +849,7 @@ Ikony wyświetlane w zasobniku
 [nick of current contact (if defined)]
 Nick obecnego kontaktu (jeśli zdefiniowany)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
-Nazwa protokołu obecnego kontaktu (jeśli zdefiniowana). Jeżeli protokół wspiera wiele kont użyta zostanie nazwa konta
+Nazwa protokołu obecnego kontaktu (jeśli zdefiniowana). Jeżeli protokół wspiera wiele kont, użyta zostanie nazwa konta.
 [UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 ID użytkownika obecnego kontaktu (jeśli zdefiniowany). Jest to np. numer GG, JID Jabber itp.
 [path to root miranda folder]
@@ -865,11 +865,11 @@ takie samo zmienne środowisko %APPDATA% dla aktualnie zalogowanego użytkownika
 [username for currently logged-on Windows user]
 Nazwa obecnie zalogowanego użytkownika Windows
 ["My Documents" folder for currently logged-on Windows user]
-folder "Moje dokumenty" aktualnie zalogowanego użytkownika Windows
+Folder "Moje dokumenty" aktualnie zalogowanego użytkownika Windows
 ["Desktop" folder for currently logged-on Windows user]
-folder "Pulpit" aktualnie zalogowanego użytkownika Windows
+Folder "Pulpit" aktualnie zalogowanego użytkownika Windows
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-Dowolna zmienna środowiskowa zdefiniowana w obecnej sesji Windows (jak%systemroot%,%allusersprofile%itp.)
+Dowolna zmienna środowiskowa zdefiniowana w obecnej sesji Windows (jak %systemroot%, %allusersprofile% itp.)
 [day of month, 1-31]
 dzień miesiąca, 1-31
 [day of month, 01-31]

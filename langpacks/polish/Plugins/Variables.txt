@@ -365,7 +365,7 @@ y > 0: numer linii y z pliku x, y = 0: całego pliku, y < 0: linii y licząc od 
 [uptime in seconds]
 czas działania w sekundach
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-Dowolna zmienna środowiskowa zdefiniowana w obecnej sesji Windows (jak%systemroot%,%allusersprofile%itp.)
+dowolna zmienna środowiskowa zdefiniowana w obecnej sesji Windows (jak %systemroot%, %allusersprofile% itp.)
 [expand environment variable x]
 rozszerzenie zmiennej środowiskowej x
 [user name]
