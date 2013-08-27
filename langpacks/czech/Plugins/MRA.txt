@@ -148,7 +148,7 @@ Zavře se za %d sek.
 Název:
 [Message:]
 Zpráva:
-[Enable Anti Spam]
+[Enable anti-spam]
 
 [Check temp contacts]
 
@@ -339,7 +339,7 @@ Sítě
 Účet
 [Connections]
 Spojení
-[Anti spam]
+[Anti-spam]
 
 [Files]
 Soubory

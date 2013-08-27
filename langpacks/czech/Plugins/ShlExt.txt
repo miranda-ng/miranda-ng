@@ -1,12 +1,36 @@
-﻿#muuid {72013a26-a94c-11d6-8540-a5e62932711d}
+﻿#muuid {7993ab24-1fda-428c-a89b-be377a10be3a}
 ;============================================================
-;  File: shlext.dll
-;  Module: shlext - Shell context menus for transfers
-;  Versions: 1.0.0.6-1.0.6.6
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=534
+;  File: ShlExt.dll
+;  Plugin: Shell extension
+;  Version: 2.2.0.1
+;  Authors: Sam Kothari, Miranda NG Team
 ;============================================================
-[Click 'n' send support from Explorer/Common dialogs/Desktop, Right click on a file/folder to be presented with all your Miranda contact lists and then select the profile/contact you want to send to.]
-Přidává podporu pro odesílání souborů z kontextové nabídky systému. Kliknutím pravým tlačítkem na soubor/složku zobrazí všechny vaše seznamy kontaktů a umožní vybrat profil/kontakt pro odeslání souboru.
+[Windows Explorer extension for Miranda NG.]
+Rozšíření Mirandy NG pro Windows Explorer.
+;file \plugins\ShellExt\res\shldlgs.rc
+[Display contacts in their assigned groups (if any)]
+Zobrazit kontakt v jeho vlastní skupině (pokud v nějaké je)
+[Only if/when the contact list is using them]
+Pouze když seznam kontaktů skupiny používá
+[Display hidden, ignored or temporary contacts]
+Zobrazovat skryté, ignorované nebo dočasné kontakty
+[Menus]
+Nabídky
+[Shell Status]
+Stav integrace v prostředí
+[Shell context menus]
+Kontextové nabídky
+[Do not display the profile name in use]
+Nezobrazovat název používaného profilu
+[Show contacts that you have set privacy rules for]
+Zobrazit kontakty pro které existují soukromá práva
+[Remove]
+Odebrat
+[Do not show status icons in menus]
+Nezobrazovat v nabídce ikonu stavu
+[Do not show contacts that are offline, even if my contact list does]
+Nezobrazovat offline kontakty 
+;file \plugins\ShellExt\src\options.cpp
 [Problem, registration missing/deleted.]
 Nalezen problém, registrace byla ztracena/smazána.
 [Successfully created shell registration.]
@@ -19,25 +43,10 @@ Odsouhlaseno
 Opravdu chcete smazat všechna nastavení ve vašem profilu a všechny položky registru vytvořené pro spolupráci s Explorerem?
 [Disable/Remove shlext]
 Zakázat/odstranit shlext
-[Shell context menus]
-Kontextové nabídky
-[Display contacts in their assigned groups (if any)]
-Zobrazit kontakt v jeho vlastní skupině (pokud v nějaké je)
-[Only if/when the contact list is using them]
-Pouze když seznam kontaktů skupiny používá
-[Display hidden, ignored or temporary contacts]
-Zobrazovat skryté, ignorované nebo dočasné kontakty
-[Shell Status]
-Stav integrace v prostředí
-[Do not display the profile name in use]
-Nezobrazovat název používaného profilu
-[Contact Status]
-Stav kontaktu
-[Show contacts that you have set privacy rules for]
-Zobrazit kontakty pro které existují soukromá práva
-[Do not show status icons in menus]
-Nezobrazovat v nabídce ikonu stavu
-[Do not show contacts that are offline, even if my contact list does]
-Nezobrazovat offline kontakty 
-[Shell context menus for transfers]
-Kontextové nabídky pro přenosy souborů
+;file \plugins\ShellExt\src\shlcom.cpp
+[Miranda]
+Miranda
+[Recently]
+Často používané
+[Clear entries]
+Vymazat položky

@@ -46,8 +46,8 @@ Dialog
 Stavy
 [Use Advanced Dialog]
 Zobrazit více možností
-[The Message:       (Characters:  )]
-Zpráva:       (Počet znaků:  )
+[The Message (characters: )]
+Zpráva (počet znaků: )
 [Default Settings]
 Výchozí nastavení
 [Show Delivery Messages]

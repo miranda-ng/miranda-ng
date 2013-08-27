@@ -1,4 +1,4 @@
-﻿[Antispam plugin for Miranda NG.]
+﻿[Anti-spam plugin for Miranda NG.]
 [Auth. request reply:]
 [Vars]
 [Available accounts:]

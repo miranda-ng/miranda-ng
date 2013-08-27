@@ -5,7 +5,7 @@
 ;  Version: 0.9.0.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation.]
+[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
 Zobrazuje kontakty, upozornění na události, stavy protokolů a umožňuje pokročilé úpravy vzhledu. Podporuje rámečky a rozšířenou práci s metakontakty.
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
@@ -188,7 +188,7 @@ Víceřádková stavová lišta
 * Stavový řádek zvýšíte takto:\nHl.nabídka: Rámečky->Stavová lišta->Zobrazit záhlaví a roztáhněte zobrazenou lištu myší.
 [Hold [Shift] to inverse [Right Click] behaviour]
 Pomocí [Shift] obrátíte funkci [pravého tlačítka].
-[[Ctrl]+[Left Click] to filter only  protocol. Click on empty space to show all]
+[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all]
 Ctrl+Levé tlačítko pro zobrazení konkrétního protokolu. Klikněte na prázdnou plochu pro zobrazení všech
 [Set options per account]
 Nastavit pro každý účet zvlášť

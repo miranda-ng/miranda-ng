@@ -185,7 +185,7 @@ Tip: Pro nastavení vlastní velikosti táhněte za dolní okraj panelu
 Ostatní možnosti
 [Note: All settings are applied immediately]
 Poznámka: Všechno nastavení bude použito okmažitě
-[The container is using private settings. The panel  height  will not be shared with other containers.]
+[The container is using private settings. The panel height will not be shared with other containers.]
 Kontejner používá vlastní nastavení. Výška panelu nebude stejná s ostatními kontejnery.
 [Show picture for this contact]
 Zobrazit obrázek pro tento kontakt
@@ -409,20 +409,20 @@ Zobrazení globálního záznamu komunikace
 Upozornění na psaní zprávy
 [Send typing notifications to the following users when you are typing a message to the them:]
 Poslat upozornění na psaní zprávy těmto vybraným kontaktům:
-[          Show typing notifications in the message window]
-          Zobrazit oznámení o psaní v komunikačním okně
+[        Show typing notifications in the message window]
+        Zobrazit oznámení o psaní v komunikačním okně
 [Flash window once on typing events (only if flashing enabled)]
 Zablikat jednou oknem jako upozornění na psaní (při povoleném blikání)
-[          Show typing notifications in the contact list and tray]
-          Zobrazit oznámení o psaní v seznamu kontaktů a oznam.oblasti
+[        Show typing notifications in the contact list and tray]
+        Zobrazit oznámení o psaní v seznamu kontaktů a oznam.oblasti
 [Show typing notification when message dialog is open]
 Upozorňovat na psaní když je komunikační okno otevřené
 [Show typing notification when no message dialog is open]
 Zobrazit upozornění i v případě, že není otevřeno okno
 [Show balloon tooltip in the system tray]
 Zobrazit bublinovou nápovědu v oznamovací oblasti
-[          Show popups when a user is typing]
-          Zobrazit oznámení pokud uživatel píše
+[        Show popups when a user is typing]
+        Zobrazit oznámení pokud uživatel píše
 [More about typing notifications]
 Více o oznamování psaní
 [Tab options]

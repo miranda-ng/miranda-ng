@@ -50,7 +50,7 @@ Použít barvy Windows
 Použít výchozí barvy
 [Delay]
 Prodleva
-[From popup plugin]
+[From Popup plugin]
 Globální nastavení
 [Custom]
 Vlastní

@@ -26,7 +26,7 @@ Události pro ukončení
 Závažné události pro ukončení
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
 Automaticky ukončit operační systém a vypnout počítač, nastane-li jedna z následujících variant:
-[&Thunderstorm warning is issued  (Weather)]
+[&Thunderstorm warning is issued (Weather)]
 Varování před bouřkou (Wea&ther)
 [&Harddrive overheats (HDD Info)]
 Přehřívání pevného disku (&HDD Info)
@@ -98,8 +98,6 @@ Neaktivní
 [Events]
 Události
 ;file \plugins\AutoShutdown\src\settingsdlg.cpp
-[(current: %u%%)]
-(aktuálně: %u %%)
 [Second(s)]
 sek.
 [Minute(s)]
@@ -112,23 +110,19 @@ dnů
 týdnů
 [Month(s)]
 měs.
+[(current: %u%%)]
+(aktuálně: %u %%)
 [Start/Stop automatic shutdown]
 Spustí nebo zastaví automatické vypnutí
-[Stop automatic shutdown]
-Deaktivuje automatické ukončení
 [Start automatic shutdown]
 Aktivuje automatické ukončení
+[Stop automatic shutdown]
+Deaktivuje automatické ukončení
 [Stop automatic &shutdown]
 Zrušit automatické &ukončení
 [Automatic &shutdown...]
 Automatické &ukončení...
 ;file \plugins\AutoShutdown\src\shutdownsvc.cpp
-[Automatic Shutdown Error]
-Chyba při automatickém ukončení
-[The shutdown process failed!\nReason: %s]
-Chyba při pokusu o automatické ukončení!\nDůvod: %s
-[Unknown]
-neznámý
 [Miranda NG is going to be automatically closed in %u second(s).]
 Program Miranda NG bude za %u sek. automaticky ukončen.
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
@@ -147,6 +141,12 @@ Tento počítač bude za %u sek. automaticky zamknut.
 Všechna modemová připojení budou za %u sek. automaticky ukončena.
 [The computer will automatically be shut down in %u second(s).]
 Tento počítač bude za %u sek. automaticky vypnut.
+[Automatic Shutdown Error]
+Chyba při automatickém ukončení
+[The shutdown process failed!\nReason: %s]
+Chyba při pokusu o automatické ukončení!\nDůvod: %s
+[Unknown]
+neznámý
 [Inititiating the shutdown process failed!\nReason: %s]
 Inicializace ukončovací procedury selhala!\nDůvod: %s
 [Close Miranda NG]

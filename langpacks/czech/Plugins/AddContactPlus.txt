@@ -8,9 +8,9 @@
 [Provides the ability to quickly add new contacts.]
 Umožňuje rychle přidávat nové kontakty.
 ;file \plugins\AddContactPlus\res\resource.rc
-[Add Contact]
+[Add contact]
 Přidat kontakt
-[Add Contact\nAdd a contact to your contact list]
+[Add contact\nAdd a contact to your contact list]
 Přidat kontakt\nPřidat kontakt do vašeho seznamu
 [Account:]
 Účet:
@@ -41,8 +41,6 @@ Autorizujte prosím můj požadavek a přidejte si mě do vašeho seznamu.
 ---
 [The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
 Kontakt nemůže být přidán do vašeho seznamu. Ujistěte se, že ID kontaktu zadáváte správně.
-[Add contact]
-Přidat kontakt
 [The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
 Kontakt nemůže být přidán do vašeho seznamu. Pokud nejste připojeni k danému účtu, vyzkoušejte nejprve to. Také se ujistěte, že ID kontaktu zadáváte správně.
 ;file \plugins\AddContactPlus\src\main.cpp

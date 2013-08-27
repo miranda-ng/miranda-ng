@@ -9,8 +9,6 @@
 ;============================================================
 [Contact window]
 Okno kontaktu
-[Text insert]
-Vložení textu
 [vars]
 
 [DWord]
@@ -27,8 +25,6 @@ Název služby
 wParam
 [lParam]
 lParam
-[Structure]
-Struktura
 [Result action]
 Výsledná akce
 [Window option]
@@ -169,10 +165,10 @@ Vložit z
 
 [Dropdown list format]
 
+[Apply]
+Použít
 [Apply format]
 
-[You can use %name%, %uid%, %account% and %group% macros]
-Můžete použít makra %name%, %uid%, %account% a %group%
 [Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
 
 [New]
@@ -298,11 +294,11 @@ Zvolit kontakt
 Efekt
 [Start]
 Začít
-[action group list was changed: some was added or deleted]
+[Action group list was changed: some was added or deleted]
 
-[the context menu for a contact is about to be built]
+[The context menu for a contact is about to be built]
 
-[double click on the CList]
+[Double click on the CList]
 
 [New contact added to database]
 

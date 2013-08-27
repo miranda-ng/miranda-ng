@@ -216,7 +216,7 @@ Více...
 Nastavení konfiguračního souboru pro počasí
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
 
-[Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
+[Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
 Nelze najít požadovaný konfigurační soubor pro počasí. Řiďte se prosím následujícími pokyny:
 [Click here to download a weather ini file from Miranda file listing]
 Stáhnout konfigurační soubor ze stránek Miranda-IM
@@ -352,7 +352,7 @@ Prosím zkuste znovu po aktualizaci předpovědi počasí.
 Předpověď počasí nebyla zaznamenána.
 [The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
 Není zadána adresa pro kompletní předpověď počasí. Z menu vyberte položku 'Upravit nastavení' a v sekci Odkazy doplňte příslušný údaj.
-[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
+[The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
 Není zadána adresa pro mapu počasí. Z menu vyberte položku 'Upravit nastavení' a v sekci Odkazy doplňte příslušný údaj.
 [Get city name from ID]
 Zjistit jméno města dle ID

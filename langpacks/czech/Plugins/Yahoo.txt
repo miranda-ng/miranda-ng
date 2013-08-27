@@ -225,11 +225,11 @@ Od: %s\nPředmět: %s
 Systémová zpráva Yahoo
 [Yahoo Ping Error]
 Chyba spojení s Yahoo
-[Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+[Could not log into Yahoo service - username not recognised. Please verify that your username is correctly typed.]
 Chyba při přihlašování do sítě Yahoo; neznámé uživatelské jméno. Zkontrolujte prosím, je-li jméno zadáno správně.
-[Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+[Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
 Chyba při přihlašování do sítě Yahoo; neplatné heslo. Zkontrolujte prosím, jsou-li jméno a heslo zadány správně.
-[Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
+[Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Chyba při přihlašování do sítě Yahoo. Váš účet je zamknutý.\nPřejděte na %s, kde ho můžete znovu aktivovat.
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]
 Byli jste odpojeni od sítě Yahoo. Jeden z důvodů může být přihlášení ke stejnému účtu z jiného počítače.
@@ -247,11 +247,11 @@ Neznámá chyba: %s
 %s již je v seznamu filtrovaných
 [%s is not in the ignore list]
 %s není v seznamu filtrovaných
-[%s is in buddy list - cannot ignore ]
-%s je v seznamu přátel - nelze odfiltrovat\s
+[%s is in buddy list - cannot ignore]
+%s je v seznamu přátel - nelze odfiltrovat
 [System Error: %s]
 Chyba systému: %s
 [Server Connection Error: %s]
 Chyba při připojování: %s
-[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+[Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
 Chyba při připojování k serveru Yahoo. Ověřte prosím, zda je funkční připojení k internetu a také položky Server a Port v nastavení.
