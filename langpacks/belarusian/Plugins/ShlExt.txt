@@ -33,7 +33,7 @@
 Не дазволена
 [Approved]
 Дазволена
-[Are you sure? this will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
+[Are you sure? This will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
 Вы ўпэўнены? Гэта выдаліць усе налады дадзенага модуля ў вашай БД і ўсе ключы рэестру, якія адказваюць за яго інтэграцыю ў Explorer.
 [Disable/Remove shlext]
 Адключыць/Выдаліць shlext

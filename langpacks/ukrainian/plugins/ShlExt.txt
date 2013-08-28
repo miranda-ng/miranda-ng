@@ -15,7 +15,7 @@
 Не дозволено
 [Approved]	
 Дозволено
-[Are you sure? this will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
+[Are you sure? This will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
 Ви впевнені? Це видалить всі налаштування даного модуля в вашої БД і всі ключі реєстру, які відповідають за його інтеграцію в Провідник.
 [Disable/Remove shlext]
 Вимкнути/Видалити shlext

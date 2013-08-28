@@ -23,5 +23,5 @@ Dziennik "%s" został znaleziony podczas uruchamiania.\nKopia bezpieczeństwa "%
 został pomyślnie
 [ could not be]
 nie mógł być
-[Journal "%s" was found on start.\nBackups "%s"and "%s" could not be created in "%s".]
+[Journal "%s" was found on start.\nBackups "%s" and "%s" could not be created in "%s".]
 Dziennik "%s" został znaleziony podczas uruchamiania.\nKopie bezpieczeństwa "%s" i "%s" nie mogły zostać stworzone w "%s".

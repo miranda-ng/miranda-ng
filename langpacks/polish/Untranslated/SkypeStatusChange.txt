@@ -1,4 +1,4 @@
 ﻿[Synchronize status message]
 [&Check any protocol or any status to exclude it from synchronization:]
 [Synchronize if current status differs from previous one]
-[Change Skype Status]
+[Change Skype status]

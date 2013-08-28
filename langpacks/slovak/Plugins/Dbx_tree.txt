@@ -23,5 +23,5 @@ Storno
 
 [ could not be]
 
-[Journal "%s" was found on start.\nBackups "%s"and "%s" could not be created in "%s".]
+[Journal "%s" was found on start.\nBackups "%s" and "%s" could not be created in "%s".]
 

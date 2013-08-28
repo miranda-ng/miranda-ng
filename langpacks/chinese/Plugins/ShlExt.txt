@@ -13,7 +13,7 @@
 未核准
 [Approved]
 核准
-[Are you sure? this will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
+[Are you sure? This will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
 您是否确定? 此操作将移除所有存储于数据库中设置及由 Shlext 创建使其工作于 Explorer 中的注册表项
 [Disable/Remove shlext]
 禁用/移除 Shlext
