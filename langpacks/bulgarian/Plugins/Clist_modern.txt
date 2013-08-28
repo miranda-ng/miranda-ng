@@ -5,6 +5,8 @@
 ;  Version: 0.9.0.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
+[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
+
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 Прозрачност:
@@ -40,6 +42,8 @@
 Неактивен прозорец:
 [Active opacity:]
 Активен прозорец:
+[Show Avatars]
+Показване на аватари
 [Animate Avatars]
 Анимирани аватари
 [Show contact time in list]
@@ -50,6 +54,14 @@
 Показване името на протокола
 [Show status text]
 Показване на текст за състоянието
+[Settings]
+Настройки
+[Background colour:]
+
+[Selection colour:]
+
+[Use background bitmap]
+
 [Stretch to width]
 Разтягане на ширина
 [Stretch to height]
@@ -62,12 +74,18 @@
 Придвижване с текста
 [Stretch proportionally]
 Пропорционално разтягане
+[Tile vertically according to Row Height]
+
 [Use Windows Colors]
 Цветове от Windows
 [Available skins]
 Налични облици
+[Rescan]
+
 [Apply]
 Прилагане
+[Info]
+
 [\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
 \n\n\nИзберете някой от наличните облици. \n\nИли разгледайте за други облици, които не са в списъка.
 [Skin Preview]
@@ -84,24 +102,72 @@
 Поставяне
 [Object properties]
 Информация за обекта
+[Type]
+Тип
 [Colour]
 Цвят
+[Alpha]
+
+[Image file and fitting mode]
+
 [File]
 Файл
 [Borders]
 Рамки
+[Fit mode]
+
+[Fragment location]
+
 [Position:]
 Позиция:
+[Left]
+
+[Top]
+
 [Size:]
 Размер:
+[Width]
+
+[Height]
+
 [W x H: 0 x 0 pixels]
 Шир х Вис: 0х0 пиксела
+[Available view modes]
+
+[Include protocols]
+
+[New]
+
+[Include groups]
+
 [Show contacts in groups]
 Показване на контактите в групи
+[Include status modes]
+
+[OK]
+ОК
 [Cancel]
 Отказ
+[Sticky contacts]
+
+[Clear all]
+
+[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
+
+[Protocol]
+Протокол
 [Group]
 Група
+[Status mode]
+
+[Automatically clear this view mode after]
+
+[View mode options]
+
+[Editing view mode]
+
+[Last message]
+Последно съобщение
 [Status Bar]
 Лента за състояние
 [Show status bar]
@@ -130,8 +196,14 @@
 Частни настройки на акаунта
 [Hide account completely]
 Цялостно скриване на акаунта
+[Show status name]
+
+[Show xStatus name]
+
 [Show protocol icon]
 Показване на икони за протоколите
+[Use connecting icon]
+
 [Show xStatus icon]
 Показване на икона за хСъстояние
 [Show both icons]
@@ -144,6 +216,8 @@
 Брой непрочетени имейли (ако се поддържа)
 [Right click opens status menu]
 Десен бутон = меню на състоянието
+[Right click opens Miranda menu]
+Десен бутон отваря главното меню
 [Space on Left]
 Отстъп отляво
 [Space on right]
@@ -156,6 +230,8 @@
 Да
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Скриване (запазва историята и настройките за игнориране/видимост)
+[Use Options->Contacts->Ignore to unhide contacts.]
+
 [Are you sure you want to delete %s?]
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
 [This will erase all history and settings for this contact!]
@@ -168,10 +244,14 @@
 Без групи
 [Ask before deleting contacts]
 Запитване преди изтриване на контакт
+[Dont move offline user to bottom]
+
 [Contact List]
 Списък с контакти
 [Contact List Sorting]
 Сортиране на списъка с контакти по:
+[Place offline users out of groups]
+
 [Gamma correction]
 Корекция на гамата
 [Default]
@@ -194,6 +274,8 @@
 % от екрана
 [Size upwards]
 Оразмеряване нагоре
+[Behaviour]
+
 [Lock manual resize]
 Без ръчно оразмеряване
 [Drag to]
@@ -212,14 +294,14 @@ x100 мсек
 Начин за скриване
 [pixels]
 пиксела
-[pixels]
-пиксела
 [keep on screen]
 задържане на екрана
 [Snap to edges]
 Захващане за ръба
 [Event notify area]
 Зона за уведомяване
+[Disabled]
+
 [Show automaticaly]
 Автоматично показване
 [Always Visible]
@@ -264,6 +346,8 @@ x100 мсек
 Време:
 [milliseconds]
 милисекунди
+[Hide vertical scrollbar]
+
 [Fade out entire list when:]
 Избледняване на списъка, когато:
 [Single click interface]
@@ -272,6 +356,8 @@ x100 мсек
 Показване на състоянието в подсказка
 [Disable icon blinking]
 Без мигане на икони
+[ms, delay between icon blinking]
+
 [Show]
 Показване
 [Cycle icons every]
@@ -280,32 +366,50 @@ x100 мсек
 секунди, при различни състояния
 [Show multiple icons]
 Всички икони
-[Only when statuses differ]
-Само при различни състояния
+[only when statuses differ]
+само при различни състояния
 [System tray icon]
 Икона в трея
 [System tray icon mode]
 Режим на иконата в трея
 [Use xStatus icon]
 Ползване на икона за хСъстояние
-[only when statuses differ]
-само при различни състояния
+[Ignore Empty Extra icons places (arrange to right).]
+
+[Use 'Meta' protocol icons for Metacontacts]
+
 [Expand metacontacts]
 Разгръщане на метаконтактите
+[Avoid doubleclick expand]
+
+[Hide all 'Extra icons' for subcontacts]
+
+[Hide offline subcontacts.]
+
 [MetaContacts stuff]
 MetaContacts - настройки
 [Additional stuff]
 И още нещо
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org]
-За допълнителни настройки трябва да заредите приставката MetaContacts.\n\nhttp://miranda-ng.org
+[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org/p/MetaContacts/]
+
+[Allow internal requesting of status message text]
+
 [Subcontacts indent:]
 Отстъп на подконтактите:
+[Remove status message if contact became offline]
+
+[Use improved search method in contactlist]
+
 [Show time only if it is different from current time]
 Показване само при различен часови пояс
 [Show contact time as row item]
 Показване на местното време като елемент на реда
+[Appearance]
+
 [Pin to desktop]
 Прилепване към работния плот
+[Client area margins]
+
 [Thin border main window]
 Прозорец с тънка рамка
 [Borderless main window]
@@ -316,20 +420,32 @@ MetaContacts - настройки
 Заглавна лента
 [Title bar text:]
 Заглавна лента:
+[Tool style main window]
+
 [Minimize to tray]
 Минимизиране в трея
+[Translucency options]
+Настройки за прозрачност
+[Enable drop shadow (restart required)]
+
 [Frames]
 Рамки
 [Between frames:]
 Между рамки:
+[After captions:]
+
 [Gaps]
 Пролуки
 [Use Non-Layered mode]
 Режим без слоеве
+[Round corners]
+
 [Non-layered mode]
 Режим без слоеве
 [Disable Skin Engine]
 Изключване на машината за облици
+[Enable Aero Glass (Vista+)]
+
 [Order of items:]
 Ред на елементите:
 [Min row height:]
@@ -342,18 +458,28 @@ MetaContacts - настройки
 Левите елементи вляво
 [Align right items to right]
 Десните елементи вдясно
+[Up]
+
+[Down]
+
 [Left margin:]
 Ляв ръб:
 [Right margin:]
 Десен ръб:
+[Compact mode\n(Show avatars and additional text on selected contacts only)]
+
 [Draw border on avatar]
 Рамка на аватара
 [Draw overlay icons]
 Наслагване на икони
 [Round corners of avatars]
 Закръглени ъгли на аватарите
+[Ignore size for row height calcs]
+
 [Border color:]
 Рамка (цвят):
+[Custom corner size:]
+
 [Normal overlay icon]
 Нормална икона за наслагване
 [Protocol status icon]
@@ -364,12 +490,16 @@ MetaContacts - настройки
 височина
 [Max width]
 Макс. ширина
+[Use old render method (fast, but has artefacts)]
+
 [Hide icon when showing avatar]
 Скриване на иконата, когато има аватар
 [Draw icon in avatar space]
 Наслагване на икона върху аватара
 [Hide groups icon]
 Без икони за групите
+[Always show "Always visibile" icon]
+
 [Use extra status icon instead protocol]
 Икона допълнителното състояние вместо тази на протокола
 [Draw normal status as overlay]
@@ -378,6 +508,8 @@ MetaContacts - настройки
 Режим на четене отдясно наляво (огледален шаблон)
 [Replace smileys in clist]
 Замяна на усмивките в списъка с контакти
+[Use protocol smileys]
+
 [Draw smileys on first line]
 Показване на усмивки в първия ред
 [Resize smileys and 'Listining to' icon]
@@ -388,12 +520,28 @@ MetaContacts - настройки
 Добавяне на прякор, ако се различава от зададеното име
 [Trim long text with ellipsis]
 Ограничаване на дълъг текст с елипси
+[Show second line]
+
 [Top space:]
 Разстояние отгоре:
 [Draw smileys on second line]
 Показване на усмивки във втория ред
+[Text:]
+Текст:
 [Status]
 Състояние
+[Nickname]
+
+[Status Message]
+
+[Listening to]
+
+[Contact time]
+
+[Show status if there is no status message]
+
+[Show listening to if there is no status message]
+
 [XStatus has priority]
 Предимство на хСъстоянието
 [Use 'XStatus: XMessage']
@@ -404,22 +552,34 @@ MetaContacts - настройки
 Показване на трети ред
 [Draw smileys on third line]
 Показване на усмивки в третия ред
+[Preview]
+Преглед
 [Top/Left]
 Горе вляво
 [Bottom/Right]
 Долу вдясно
 [Position (vertical)]
 Позиция (по вертикала)
+[Align]
+
 [Options]
 Настройки
+[Visible]
+
 [Show Title]
 Показване на заглавие
 [Locked]
 Заключена
+[Border]
+
+[Floating]
+
 [Frames Order]
 Подреждане на рамките
 [UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
 В РЕМОНТ!!!           НЕ РАБОТИ
+[Row template]
+
 [Add container]
 Добавяне на контейнер
 [Remove container]
@@ -434,6 +594,14 @@ MetaContacts - настройки
 Ширина на контейнера:
 [Container height:]
 Височина на контейнера
+[Layered]
+
+[Move up]
+
+[Move down]
+
+[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
+
 [E&xit]
 Изход
 [&Status]
@@ -462,6 +630,8 @@ MetaContacts - настройки
 Трей
 [&Hide/Show]
 Показване/Скриване
+[Nowhere]
+
 [&New Group]
 Нова група
 [&Hide Offline Users]
@@ -485,6 +655,12 @@ MetaContacts - настройки
 [&Delete Group]
 Изтриване на групата
 ;file \plugins\Clist_modern\src\modern_clc.cpp
+[Skins]
+
+[Modern contact list]
+
+[Avatar Overlay]
+
 [Status Overlay]
 Насложени над състоянието икони
 [Contact List smileys]
@@ -514,6 +690,8 @@ MetaContacts - настройки
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Имена на контактите
+[Row Items]
+
 [Frame texts]
 Текст в рамките
 [Special colours]
@@ -554,6 +732,8 @@ MetaContacts - настройки
 Брой контакти в затворена група
 [Dividers]
 Разделители
+[Second line]
+
 [Third line]
 Трети ред
 [Status bar text]
@@ -566,6 +746,8 @@ MetaContacts - настройки
 Фон
 [Hot text]
 Посочен текст
+[Selected text]
+
 [Quick search text]
 Текст за бързо търсене
 [Menu text]
@@ -576,6 +758,8 @@ MetaContacts - настройки
 Заглавие на рамките
 [Statusbar text]
 Текст в лентата за състояние
+[3rd party frames transparent back colour]
+
 [General]
 Основни
 [List]
@@ -608,8 +792,16 @@ MetaContacts - настройки
 На телефона
 [Name]
 Име
+[Name (use locale settings)]
+
+[Last message time]
+
+[Account Name]
+
 [Rate]
 Оценка
+[-Nothing-]
+
 [Global]
 Общо
 [Hide to tray]
@@ -619,11 +811,21 @@ MetaContacts - настройки
 [Behind right edge]
 Зад десния ръб
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
+[Event Area]
+
 [No Events]
 Няма събития
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
+[&Contact rate]
+
 [None]
 Няма
+[Low]
+
+[Medium]
+
+[High]
+
 [Contact rate None]
 Оценка на контакта - няма
 [Contact rate Low]
@@ -632,7 +834,13 @@ MetaContacts - настройки
 Оценка на контакта - средна
 [Contact rate High]
 Оценка на контакта - висока
+[Show even if offline]
+
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
+[Avatar]
+
+[Icon]
+
 [Text]
 Текст
 [Extra icons]
@@ -647,12 +855,12 @@ MetaContacts - настройки
 Имената на групите вдясно
 [Row]
 Ред
+[Row design]
+
 [Second Line]
 Втори ред
 [Third Line]
 Трети ред
-[Row items]
-Елементи на реда
 [Row items]
 Елементи на реда
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
@@ -665,26 +873,100 @@ MetaContacts - настройки
 Главно меню
 [&Options...]
 Настройки...
+[&About]
+
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [Show Contact &Avatar]
 Показване на аватара
 [Hide Contact &Avatar]
 Скриване на аватара
+[My Contacts]
+
 ;file \plugins\Clist_modern\src\modern_cluiframes.cpp
+[&Visible]
+
 [&Show title]
 Показване на името
+[&Locked]
+
 [&Expanded]
 Разгърнато
+[&Floating Mode]
+
+[&Border]
+
+[&Align]
+
+[&Top]
+
+[&Client]
+
+[&Bottom]
+
+[&Position]
+
+[&Up]
+
+[&Down]
+
+[Show All Frames]
+
+[Show All Titlebars]
+
+[Hide All Titlebars]
+
+[Lock Frame]
+
+[Show TitleBar]
+
 ;file \plugins\Clist_modern\src\modern_groupmenu.cpp
+[GroupMenu]
+
+[SubGroupMenu]
+
+[&New SubGroup]
+
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
+[Close Miranda]
+
+[Main]
+Основна
+[Restore last status]
+
+[Show/Hide Offline Users]
+
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
+[Empty %s cell]
+
 [column]
 колона
 [line]
 линия
 [columns]
 колони
+[lines]
+
+[%s, contain %s]
+
+[ layered]
+
 ;file \plugins\Clist_modern\src\modern_skineditor.cpp
+[- Empty - (do not draw this object)]
+
+[Solid fill object]
+
+[Image (draw image)]
+
+[Fragment (draw portion of image)]
+
+[Stretch Both directions]
+
+[Stretch Vertical, Tile Horizontal]
+
+[Tile Vertical, Stretch Horizontal]
+
+[Tile Both directions]
+
 [Image size is]
 Размера на изображението е
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
@@ -703,6 +985,14 @@ MetaContacts - настройки
 %s\n\n%s\n\nАвтор(и):\t %s\nЗа контакти:\t %s\nИнтернет:\t %s\n\nФайл:\t %s
 [%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 %s\n\n%s\n\nАвтор(и): %s\nЗа контакти:\t %s\nИнтернет:\t %s\n\nФайл:\t %s
+[reVista for Modern v0.5]
+
+[This is second default Modern Contact list skin in Vista Aero style]
+
+[Angeli-Ka (graphics), FYR (template)]
+
+[Inside library]
+
 [Skin Information]
 Информация за облика
 [Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
@@ -715,35 +1005,109 @@ MetaContacts - настройки
 Няма наличен образец\n\n%s\n----------------------\n\n%s\n\nАвтор(и):\n%s\n\nЗа контакти:\n%s\n\nДомашна страница:\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
 %s\n\n%s\n\nАвтори:\n%s\n\nЗа контакти:\n%s\n\nИнтернет:\n%s\n\n\n
+[graphics by Angeli-Ka\ntemplate by FYR]
+
 [Select skin from list]
 Изберете облик от списъка
 [Please select skin to apply]
 Изберете облик, който да бъде приложен
 [Default Skin]
 Стандартен облик
+[%Default Skin%]
+
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
+[<<Global>>]
+
+[Center]
+
+[Right]
+
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main Menu]
 Главно меню
 [Main menu]
 Главно меню
+[Status Menu]
+
+[Status menu]
+
 [Accounts]
 Акаунти
 [Accounts...]
 Акаунти...
+[Show/Hide offline contacts]
+
+[Hide offline contacts]
+
 [Show offline contacts]
 Показване на контактите "Извън линия"
 [Find User]
 Търсене на потребител
+[Use/Disable groups]
+
 [Use groups]
 Ползване на групи
 [Disable Groups]
 Без групи
-[Disable Groups]
-Без групи
+[Enable/Disable sounds]
+
+[Enable sounds]
+
+[Disable sounds]
+
 [Minimize]
 Минимизиране
+[To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+
+[Toolbar upgrade]
+
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[Ungrouped contacts]
+
+[And]
+
+[Or]
+
+[Older than]
+
+[Newer than]
+
+[Minutes]
+
+[Hours]
+
+[Days]
+
 [Configuring view mode: %s]
 Настройвате режим за преглед: %s
+[All contacts]
+
+[Filtering]
+
+[*** All contacts ***]
+
+[Configure view modes]
+
+[Really delete this view mode? This cannot be undone]
+
+[Delete a view mode]
+
+[A view mode with this name does alredy exist]
+
+[Duplicate name]
+
+[All Contacts]
+
+[Setup View Modes...]
+
+[Select a view mode]
+
+[Setup view modes]
+
+[Clear view mode and return to default display]
+
+[Reset view mode]
+
+[View Modes]
+

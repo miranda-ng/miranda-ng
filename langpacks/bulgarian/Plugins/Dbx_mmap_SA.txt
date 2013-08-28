@@ -5,13 +5,27 @@
 ;  Version: 0.7.5.4
 ;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
 ;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact. Enhanced modification with Encryption support.]
+
 ;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
 [Login to Miranda NG]
 Вписване в Miranda NG
+[EN]
+
+[OK]
+ОК
 [Cancel]
 Отказ
+[New password]
+
+[Change password]
+
+[Change]
+
 [Remove]
 Премахване
+[Old password]
+
 [Install Database Settings]
 Инсталиране на нови настройки в базата от данни
 [Yes]
@@ -48,8 +62,12 @@
 Отказ от вноса
 [Database Import Complete]
 Внасянето на базата от данни завърши
+[The import has completed from]
+
 [What do you want to do with the file now?]
 Какво желаете да стане с файла?
+[&Recycle]
+
 [&Delete]
 Изтриване
 [&Move/Rename]
@@ -58,8 +76,16 @@
 Излизане
 [Database encryption]
 Шифроване на базата от данни
+[Info:]
+
+[Author:]
+
 [Site:]
 Сайт:
+[Email:]
+
+[Unique ID:]
+
 ;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
 [Database is Secured MMAP database]
 Сигурна MMAP база от данни на Miranda
@@ -67,11 +93,19 @@
 Нямате пълномощия за достъп до базата от данни
 [Secured MMAP: authorization successful]
 Secured MMAP: успешно упълномощаване
+[Database is marked as belonging to an unknown version of Miranda]
+
 ;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
 [Database Features]
 Функции на базата от данни
+[Database]
+База от данни
+[Change Password]
+
 [Set password]
 Задаване на парола
+[Dll]
+
 [Name]
 Име
 [Version]
@@ -82,11 +116,17 @@ Secured MMAP: успешно упълномощаване
 Твърде много грешки!
 [Password is not correct!]
 Паролата е грешна!
+[Please enter your new password]
+
+[Password is too short!]
+
 [Passwords do not match!]
 Паролите не са еднакви!
 [Wrong password!]
 Грешна парола!
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
+[Sorry, but your database encrypted with unknown module]
+
 [Error]
 Грешка
 [Crypto modules not found]

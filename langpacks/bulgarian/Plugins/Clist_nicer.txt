@@ -5,11 +5,31 @@
 ;  Version: 0.9.2.1
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
+[Displays contacts, event notifications, protocol status.]
+
 ;file \plugins\Clist_nicer\res\resource.rc
+[CList Nicer exception]
+
+[Copy to clipboard]
+Копиране в клипборда
+[Continue]
+
+[Exit Miranda]
+
+[Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
+
 [About CList Nicer+]
 Относно CList Nicer+
+[OK]
+ОК
+[Clist Nicer+]
+
+[Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+
 [Version]
 Версия
+[Support and latest version information]
+
 [Delete Contact]
 Изтриване на контакта
 [No]
@@ -18,6 +38,8 @@
 Да
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Скриване (запазва историята и настройките за игнориране/видимост)
+[Use Options->Contacts->Ignore to unhide contacts.]
+
 [Are you sure you want to delete %s?]
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
 [This will erase all history and settings for this contact!]
@@ -48,8 +70,12 @@
 Интерфейс с едно натискане
 [Always show status in tooltip]
 Показване на състоянието в подсказка
+[ms]
+
 [Event area]
 Зона за събития
+[Set base visiblity on the frames menu]
+
 [Auto mode]
 Авторежим
 [System tray icon when using multiple protocols]
@@ -84,6 +110,8 @@
 Без икона за разгръщане/сгъване
 [Center groupnames horizontally]
 Хоризонтално центриране имената на групите
+[Alignment]
+
 [Margins (left/right)]
 Ръбове (ляво/дясно)
 [Row gap]
@@ -94,6 +122,8 @@
 Височина на реда на групите
 [Indent groups by:]
 Отстъп на групите:
+[Inner Row vertical padding]
+
 [Margins and spacing]
 Ръбове и разстояние
 [Contact List Sorting]
@@ -108,8 +138,16 @@
 Премествай събитията на върха\nна списъка (или групата)
 [Do not separate offline contacts]
 Без отделяне на контактите "Извън линия"
+[Hide as offline]
+
 [Right align contacts]
 Подреждане на контактите отдясно
+[Avatars]
+Аватари
+[Show avatars]
+
+[Height]
+
 [Draw a border around avatars]
 Добавяне на рамка около аватарите
 [Rounded avatars]
@@ -158,6 +196,8 @@
 Лесно местене
 [Rounded border]
 Обла рамка
+[Border]
+
 [Title bar text:]
 Заглавна лента:
 [Pin to desktop]
@@ -180,10 +220,16 @@
 Извеждане на прозорецът отпред, ако е частично покрит, вместо скриване
 [Always Hide On Taskbar]
 Скриване от лентата със задачи
+[Client margins]
+
 [Embedded frames border]
 Граница на рамките
+[Clip border by]
+
 [Gap between frames]
 Пролука между рамките
+[Translucency options]
+Настройки за прозрачност
 [Transparent contact list]
 Прозрачност на списъка с контакти
 [Inactive opacity:]
@@ -230,8 +276,6 @@
 Цветове от Windows
 [Background colour]
 Цвят на фона
-[Background colour]
-Фонов цвят
 [Use background image]
 Фоново изображение
 [Stretch to width]
@@ -270,44 +314,108 @@
 Разделител между панелите
 [Show resize grip indicator]
 Индикатор за ръчна промяна на размера
+[Draw background skin]
+
 [Show ICQ extended status icons]
 Показване на ICQ икони за разширено състояние
 [Mark protocols locked from global status changes]
 Маркиране на протоколите, чието състояние не се променя с общото
+[Available view modes]
+
+[Include protocols]
+
+[New]
+
+[Include groups]
+
+[Include status modes]
+
 [Cancel]
 Отказ
 [Apply]
 Прилагане
+[Sticky contacts]
+
+[Clear all]
+
+[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
+
+[Protocol]
+Протокол
 [Group]
 Група
+[Status mode]
+
+[Automatically clear this view mode after]
+
+[View mode options]
+
+[Editing view mode]
+
+[Last message]
+Последно съобщение
+[Per contact skins:]
+
 [< Reload]
 < Презареждане
 [Contact list skin]
 Облик на списъка с контакти
+[Load this skin on startup]
+
 [Apply skin now]
 Прилагане на облика
+[Unload skin]
+
+[Make selection shape equal to selected item]
+
+[Blend selection with background]
+
 [Automatically fill background with wallpaper (tiled wallpaper only)]
 Автозапълване на фона с изображение (само при мозаична настройка)
+[Apply group indent values to background drawing]
+
+[Use per protocol/contact skinning]
+
+[Protocol skins override status text colors]
+
 [Set all buttons to skinned mode]
 Облицоване на всички бутони
 [Use fast gradient drawing]
 Бързо поставяне на градиента
 [Corner radius]
 Радиус на ъгъла
+[Skin options]
+
+[Group top padding]
+
 [Frame titlebar height]
 Височина на имената на рамките
+[Ignore selection for groups]
+
 [Load from skin file]
 Зареждане от файл
 [Export to skin file]
 Износ като облик
+[Dialog]
+
 [Ignore these events]
 Игнориране на следните събития
 [Messages]
 Съобщения
+[Incoming file transfers]
+
+[URL events]
+
+[Suppress auth requests]
+
 [Suppress added notifications]
 Без уведомявания за добавяне
 [Suppress online notifications]
 Без уведомявания "На линия"
+[Ignore all]
+
+[Ignore none]
+
 [Visibility]
 Видимост
 [Appear always online]
@@ -360,6 +468,8 @@
 Трей
 [&Hide/Show]
 Показване/Скриване
+[Nowhere]
+
 [&New Group]
 Нова група
 [&Hide Offline Users]
@@ -382,16 +492,78 @@
 Изтриване на групата
 [Move marked Contacts to this Group]
 Преместване на маркираните контакти в групата
+[Appearance]
+
 [Show Status Icons]
 Показване на икони за състояние
+[Show Metacontact proto Icons]
+
 [Show additional Buttons]
 Показване на допълнителни бутони
 [Draw sunken Frame]
 Вградена рамка
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+[Skin items]
+
 [General]
 Основни
+[Gradient]
+
+[Left to right]
+
+[Right to left]
+
+[Top to bottom]
+
+[Bottom to top]
+
+[Round corners]
+
+[Top-Left]
+
+[Top-Right]
+
+[Bottom-Right]
+
+[Bottom-Left]
+
+[Item colors]
+
+[First color]
+
+[Textcolor]
+
+[Second color]
+
+[Transparent]
+
+[Alpha (percent)]
+
+[Item margins]
+
+[Item borders]
+
+[Border style]
+
+[3D border (bright / dark)]
+
+[Item ignored]
+
+[Not yet supported]
+
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
+[Copy from]
+
+[<None>]
+
+[Raised]
+
+[Sunken]
+
+[Bumped]
+
+[Etched]
+
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Главно меню
@@ -409,12 +581,16 @@
 Включване/Изключване на звука
 [Minimize contact list]
 Минимизиране на списъка с контакти
+[Status menu]
+
 [tabSRMM session list]
 tabSRMM списък на разговорите
 [tabSRMM Menu]
 tabSRMM Меню
 [Select view mode]
 Изберете режим за преглед
+[Setup view modes]
+
 [Clear view mode]
 Изчистване на режима за преглед
 ;file \plugins\Clist_nicer\src\clcopts.cpp
@@ -446,14 +622,18 @@ tabSRMM Меню
 Винаги отдясно
 [Automatic (RTL)]
 Автоматично Л<Д
+[Nothing]
+
 [Name]
 Име
 [Status]
 Състояние
-[Last message]
-Последно съобщение
 [Message frequency]
 Честота на съобщенията
+[Never]
+
+[Always]
+
 [For RTL only]
 Само при Л<Д
 [RTL TEXT only]
@@ -482,6 +662,10 @@ tabSRMM Меню
 Групи и изглед
 [Advanced]
 Разширени
+[Skins]
+
+[Contact list]
+
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 Добавяне за постоянно
@@ -517,14 +701,36 @@ tabSRMM Меню
 Показване на tabSRMM меню
 [Sounds are off]
 Звука е изключен
+[Reset view mode]
+
+[Configure view modes]
+
 [Setup accounts]
 Настройване на акаунтите
+[Event Area]
+
+[My Contacts]
+
 [%s Connecting]
 %s свързване
+[Menu]
+
 [Open main menu]
 Отваря главното меню
 [Set status modes]
 Задаване режим на състояние
+[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
+
+[Parameter mismatch]
+
+[The service %s specified by the %s button definition was not found. You may need to install additional plugins]
+
+[Service failure]
+
+[You need the FloatingContacts plugin, cause the embedded floating contacts were removed]
+
+[Warning]
+
 [Standard contacts]
 Стандартни контакти
 [Online contacts to whom you have a different visibility]
@@ -550,6 +756,10 @@ tabSRMM Меню
 [Quicksearch Text]
 Бързо търсен текст
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Title bar]
+
+[Tool Window]
+
 [Thin border]
 Тънка рамка
 [No border]
@@ -560,21 +770,103 @@ tabSRMM Меню
 [Clist docking]
 Загнездване на списъка
 ;file \plugins\Clist_nicer\src\extBackg.cpp
+[Load and apply]
+
 ;file \plugins\Clist_nicer\src\init.cpp
+[No events...]
+
 ;file \plugins\Clist_nicer\src\viewmodes.cpp
+[Ungrouped contacts]
+
+[And]
+
+[Or]
+
+[Older than]
+
+[Newer than]
+
+[Minutes]
+
+[Hours]
+
+[Days]
+
 [Current view mode: %s]
 Текущ режим за преглед: %s
+[Filtering]
+
+[*** All contacts ***]
+
+[Really delete this view mode? This cannot be undone]
+
+[Delete a view mode]
+
 [No view mode]
 Няма зададен режим за преглед
+[A view mode with this name does alredy exist]
+
+[Duplicate name]
+
+[Setup View Modes...]
+
 [Clear current View Mode]
 Изчистване на текущия режим за преглед
+[Select a view mode]
+
+[Clear view mode and return to default display]
+
+[View Modes]
+
 ;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
+[&FrameTitle]
+
+[&Visible]
+
+[&Show TitleBar]
+
+[&Locked]
+
+[&Collapsed]
+
+[&Floating Mode]
+
+[&Border]
+
 [&Skinned frame]
 Облицована рамка
+[&Align]
+
+[&Top]
+
+[&Client]
+
+[&Bottom]
+
+[&Position]
+
+[&Up]
+
+[&Down]
+
 [Frames]
 Рамки
+[Show All Frames]
+
+[Show All Titlebars]
+
+[Hide All Titlebars]
+
+[Lock Frame]
+
+[Visible]
+
+[Show TitleBar]
+
 [Skinned frame]
 Облицована рамка
+[Floating]
+
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 Търсене/Добавяне на контакти
@@ -584,3 +876,5 @@ tabSRMM Меню
 Настройки...
 [&About the contact list...]
 Относно списъка с контакти...
+[&New SubGroup]
+

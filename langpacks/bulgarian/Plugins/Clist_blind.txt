@@ -5,6 +5,8 @@
 ;  Version: 0.8.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
+[A contact list for blind folks.]
+
 ;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
 Изтриване на контакта
@@ -18,8 +20,22 @@
 Не
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Скриване (запазва историята и настройките за игнориране/видимост)
+[Use Options->Contacts->Ignore to unhide contacts.]
+
 [Hotkeys]
 Клавишни комбинации
+[Show/Hide:]
+
+[Read Message:]
+
+[Web Search:]
+
+[URL:]
+
+[Open in new browser window]
+
+[Show Options]
+
 [Hide offline users]
 Скриване на контактите "Извън линия"
 [Hide empty groups]
@@ -66,6 +82,8 @@
 Прозорец
 [Always on top]
 Винаги отгоре
+[Tool style main window]
+
 [Minimize to tray]
 Минимизиране в трея
 [Hide contact list after it has been idle for]
@@ -82,6 +100,8 @@
 Оразмеряване нагоре
 [Title bar text:]
 Заглавна лента:
+[Translucency options]
+Настройки за прозрачност
 [Fade contact list in/out]
 Избледняване/Изсветляване на списъка
 [Transparent contact list]
@@ -116,8 +136,16 @@
 Сортиране на групите по азбучен ред
 [Quicksearch in open groups only]
 Бързо търсене само в отворените групи
+[Templates]
+
+[Contact:]
+
 [Group:]
 Група:
+[Divider:]
+
+[Info:]
+
 [Status Bar]
 Лента за състояние
 [Show status bar]
@@ -166,6 +194,8 @@
 Трей
 [&Hide/Show]
 Показване/Скриване
+[Nowhere]
+
 [&New Group]
 Нова група
 [&Hide Offline Users]
@@ -211,6 +241,12 @@
 На обяд
 [On the phone]
 На телефона
+[Group: %name% %count% [%mode%]]
+
+[Divider: %s]
+
+[Info: %s]
+
 [List]
 Списък
 ;file \plugins\Clist_blind\src\clistopts.cpp
@@ -218,5 +254,9 @@
 Общо
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp
+[Unknown Protocol]
+
 [Expanded]
 Разгърната
+[Colapsed]
+

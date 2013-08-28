@@ -5,9 +5,33 @@
 ;  Version: 0.8.0.42
 ;  Authors: P Boon
 ;============================================================
+[An Auto Away module with some more options than the original.]
+
 ;file \Plugins\StatusPlugins\resource.rc
+[Check connection]
+
+[Max. retries]
+
+[Account Connection]
+
+[Delay between retries (secs)]
+
+[Show popups]
+
 [General]
 Основни
+[Accounts to check]
+
+[Dial-Up]
+
+[Don't reconnect if no internet connection seems available]
+
+[Continuously check for internet connection]
+
+[Do so by pinging host]
+
+[Confirm Status]
+
 [Close]
 Затваряне
 [Cancel]
@@ -16,37 +40,235 @@
 Профил
 [Message]
 Съобщение
+[after]
+
+[minutes of inactivity]
+
+[minutes of level 1 mode]
+
+[Confirm resetting status]
+
+[Account]
+Акаунт
+[Only set if current status is]
+
+[Monitor Miranda's activity only]
+
+[Reset status on return]
+
+[when screen saver engages]
+
 [Set]
 Задай
+[only set when inactive]
+
+[when workstation is locked]
+
+[Command Line]
+
+[OK]
+ОК
+[Copy to Clipboard]
+
+[Command Line:]
+
+[Create Shortcut]
+
+[Add new profile]
+
+[Profile name]
+
+[Set window state]
+
+[Show dialog]
+
+[Set status to offline before exit]
+
+[Show CMDL]
+
+[Activate status profile]
+
+[Set docked]
+
 [Other]
 Друго
+[Status on startup]
+
+[ms]
+
+[Set after]
+
+[Timeout]
+Времетраене
+[s]
+
+[Set window location]
+
+[Set window size]
+
+[x]
+
+[Allow override]
+
+[Note: status profiles can be created in the 'Status Profiles' options screen]
+
+[Window on startup]
+
+[Automatically dial on startup]
+
+[Automatically hang up on exit]
+
+[Dial-up (experimental)]
+
 [Background colour]
 Цвят на фона
-[Background colour]
-Фонов цвят
 [Text colour]
 Цвят на текста
 [Use Windows colours]
 Цветове от Windows
 [Use default colours]
 Стандартни цветове
+[Delay]
+
+[On left click]
+Ляв бутон
+[On right click]
+Десен бутон
+[Do nothing]
+Нищо
+[Close popup]
+Затваря popup
+[Cancel reconnecting]
+
+[Colours]
+Цветове
+[Preview]
+Преглед
 [Events]
 Събития
+[Show when connection is lost]
+
+[Show when a connection attempt is made]
+
+[Show when reconnection has finished]
+
+[Show other messages]
+
+[From Popup plugin]
+От приставката Popup
 [Custom]
 Избор
+[Permanent]
+
+[Show additional information in popups]
+
+[Use Miranda's message setting]
+
+[Use this message:]
+
 [Use %time% for the current time, %date% for the current date]
 Използвайте %time% и %date% за текущ час и дата.
+[Variables...]
+
+[Specify settings for each account]
+
+[Use same settings for all accounts]
+
+[Ignore caps-lock, num-lock and scroll-lock keys]
+
+[Check interval (secs)]
+
+[Confirm dialog timeout (secs)]
+
+[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
+
+[Monitor keyboard activity]
+
+[Monitor mouse activity]
+
+[Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
+
+[Ignore any key combination with above keys]
+
 [Accounts]
 Акаунти
+[Enable checking]
+
+[Disable checking]
+
+[Set status message]
+
 [Status]
 Състояние
+[Add...]
+
 [Delete]
 Изтриване
+[Create a TopToolBar button]
+
+[Show confirm dialog when loading]
+
+[Create a main menu item]
+
+[Status Profiles]
+
+[Hotkey]
+Клавишна комбинация
+[In submenu]
+
+[Max. delay (secs)]
+
+[Increase delay exponential]
+
+[Cancel all if a account connects from another location]
+
+[Reconnect on APM resume]
+
+[Stop trying to reconnect]
+
+[Set delay to]
+
+[React on login errors]
+
 [seconds]
 секунди
+[Set account offline before a connection attempt]
+
+[Max. account connecting time (secs)]
+
+[Timers]
+
+[Reconnecting]
+
+[Ignore locked status of accounts]
+
+[Consider connection lost after]
+
+[failed pings]
+
+[Continuously check interval (secs)]
+
+[Entering first auto-away status]
+
+[Entering second auto-away status]
+
+[Leaving first auto-away status]
+
+[Leaving second auto-away status]
+
+[Becoming active without status change]
+
+[Pre-conditions]
+
+[TriggerData]
+
+[Status: The status the account will change to\r\nAccount: The account changing state]
+
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
 [minutes of %s mode]
 минути "%s"
+[Rules]
+
 [Status Messages]
 Текст за състояние
 [Auto Away]
@@ -54,16 +276,36 @@
 ;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 Отсъствам от %time%.
+[Give it up, I'm not in!]
+Няма ме, откажете се!!
 [Not right now.]
 Не точно сега.
+[Give a guy some peace, would ya?]
+Дайте на човека малко спокойствие!
+[I'm a chatbot!]
+Аз съм същински чат робот!
 [Yep, I'm here.]
 Да, тук съм.
 [Nope, not here.]
 Не, не съм тук.
 [I'm hiding from the mafia.]
 Крия се от мафията.
+[That'll be the phone.]
+Това май е телефона.
 [Mmm...food.]
 Ммм... храна.
+[idleeeeeeee]
+
 ;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Set %s message for %s.]
+
+[<last>]
+
+[<current>]
+
+[<n/a>]
+
+[Protocol]
+Протокол
 [Closing in %d]
 Затваряне след %d

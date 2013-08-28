@@ -5,6 +5,8 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda-NG project
 ;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
 [Install Database Settings]
 Инсталиране на нови настройки в базата от данни
@@ -42,8 +44,12 @@
 Отказ от вноса
 [Database Import Complete]
 Внасянето на базата от данни завърши
+[The import has completed from]
+
 [What do you want to do with the file now?]
 Какво желаете да стане с файла?
+[&Recycle]
+
 [&Delete]
 Изтриване
 [&Move/Rename]
@@ -57,32 +63,100 @@
 Повреда в базата от данни. Miranda ще бъде изключена сега.
 [Database Error]
 Грешка в базата от данни
+[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shutdown.]
+
+[Database Panic]
+
 ;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
+[Performing aggressive pass]
+
+[Aggressive: random junk at %08X: skipping]
+
+[Aggressive: unlinked data at %08X: can't automatically place]
+
 ;file \plugins\Db3x_mmap\src\dbtool\contactchain.cpp
+[Processing contact chain]
+
+[Contact count marked wrongly: correcting]
+
+[Contact chain corrupted, further entries ignored]
+
 ;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
+[Invalid offset found (database truncated?)]
+
+[Invalid offset found]
+
+[Error reading, database truncated? (%u)]
+
+[Can't write to working file, aggressive mode may be too aggressive now]
+
 [Can't write to output file - disk full? (%u)]
 Файлът не може да бъде записан - пълен диск? (%u)
 ;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
 [Event count marked wrongly: correcting]
 Грешно маркиран брой на събитията: поправяне
+[Event chain corrupted, trying to recover...]
+
+[Event chain corrupted, further entries ignored]
+
 [First event not marked as such: correcting]
 Първо събитие не е маркирано като такова: поправяне
 [Event marked as first which is not: correcting]
 Събитие е маркирано като първо, но не е: поправяне
+[Extra flags found in event: removing]
+
 [First unread event marked wrong: fixing]
 Грешно маркирано първо непрочетено събитие: поправяне
+[Infeasibly large event blob: skipping]
+
+[Event not backlinked correctly: fixing]
+
 [Duplicate event was found: skipping]
 Открито е повтарящо се събитие: пропускане
+[Event position in chain is not correct]
+
+[Event position in chain is not correct: fixing]
+
+[Event position in chain is not correct: unable to fix]
+
 ;file \plugins\Db3x_mmap\src\dbtool\finaltasks.cpp
 [Processing final tasks]
 Изпълнение на последните задачи
 ;file \plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
+[Database signature is corrupted, automatic repair is impossible]
+
+[Database is marked as belonging to an unknown version of Miranda]
+
 [Database is newly created and has no data to process]
 Базата от данни е нова и не съдържа данни за обработване
 [Processing completed successfully]
 Обработването завърши успешно
+[Can't create file mapping (%u)]
+
+[Can't create map view of file (%u)]
+
 ;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp
+[Processing module name chain]
+
+[Module chain corrupted, further entries ignored]
+
+[Unreasonably long module name, skipping]
+
+[Module name '%s' is not unique: %d duplicates found)]
+
+[Invalid module name offset, skipping data]
+
 ;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
+[Settings chain corrupted, further entries ignored]
+
+[Infeasibly large settings blob: skipping]
+
+[Empty settings group at %08X: skipping]
+
 ;file \plugins\Db3x_mmap\src\dbtool\user.cpp
 [Processing user data]
 Обработване на потребителските данни
+[User corrupted, this could cause major problems]
+
+[More than one user contact: keeping only first]
+

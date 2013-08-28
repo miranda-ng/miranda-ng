@@ -5,19 +5,33 @@
 ;  Version: 2.1.0.4
 ;  Authors: Scott Ellis, yaho
 ;============================================================
+[Tool Tip notification windows.]
+
 ;file \plugins\TipperYM\res\resource.rc
 [Options]
 Настройки
+[Layout]
+
+[Text indent:]
+
 [Window]
 Прозорец
 [Max width:]
 Макс. ширина:
 [Max height:]
 Макс. височина:
+[Avatar size:]
+
 [Show if list not focused]
 Показване при дефокусиран списък
 [General padding:]
 Основен отстъп:
+[Hover time:]
+
+[Status bar tips]
+
+[Alignment]
+
 [Labels:]
 Етикети:
 [Values:]
@@ -26,10 +40,14 @@
 Мин. ширина:
 [Min height:]
 Мин. височина:
+[Sidebar width:]
+
 [Text padding:]
 Отстъп между редовете:
 [Outer avatar padding:]
 Външен отстъп (аватар):
+[Round corners (avatar)]
+
 [Keep original avatar size]
 Запазване на началния размер
 [Avatar border]
@@ -42,12 +60,18 @@
 Вътрешен отстъп (аватар):
 [Substitution]
 Заместване
+[Label:]
+
+[Contact protocol module]
+
 [Module:]
 Модул:
 [Setting or prefix:]
 Настройка (представка):
 [Translation:]
 Превод:
+[OK]
+ОК
 [Cancel]
 Отказ
 [Item]
@@ -58,6 +82,12 @@
 Добавяне на линия отгоре
 [Value on a new line]
 Стойността на нов ред
+[Preset items:]
+
+[Variables]
+
+[Parse Tipper variables first]
+
 [Items]
 Елементи
 [Substitutions]
@@ -66,6 +96,10 @@
 Добавяне
 [Remove]
 Премахване
+[Up]
+
+[Down]
+
 [Edit]
 Редактиране
 [Separator]
@@ -82,18 +116,42 @@
 Поддръжка на приставката SmileyAdd
 [Resize smileys]
 Оразмеряване на усмивките
+[Use protocol smileys]
+
 [Replace only isolated smileys]
 Замяна само на изолирани усмивки
+[Retrieve new status message]
+
 [Show tooltip after all content is ready (avatar && status message)]
 Показване след зареждане на цялото съдържание (аватар и текст за състояние)
 [Status bar and tray tooltip]
 Подсказки в лентата за състояние и трея
 [Limit status messages in status bar and tray tooltips to:]
 Ограничаване на текста за състояние в подсказките до:
+[characters]
+
+[Disable in invisible status]
+
+[Skins]
+
+[Opacity(%):]
+
+[Transparency]
+
 [Effects]
 Ефекти
+[Border]
+
+[Shadow]
+
+[Round corners (window)]
+
+[Aero Glass (Vista+)]
+
 [Animation speed:]
 Скорост на анимирането:
+[Preview]
+Преглед
 [No preview]
 Няма образец
 [Skin option]
@@ -106,20 +164,28 @@
 Презареждане на списъка с облици
 [Apply skin]
 Прилагане на облика
+[Load tooltip proportions]
+
 [Get more skins]
 Сваляне на още облици
 [Enable tray tooltips]
 Подсказки в трея
+[Handle tray tooltips by Tipper]
+
 [Favourite contacts]
 Любими контакти
 [Expand to second level after:]
 Подсказка второ ниво след:
+[ms]
+
 [First level tooltip]
 Подсказка първо ниво
 [Second level tooltip]
 Подсказка второ ниво
 [Hide offline protocols]
 Без протоколите "Извън линия"
+[Hide offline]
+
 [Append protocol name]
 Добавяне името на протокола
 ;file \plugins\TipperYM\src\mir_smileys.cpp
@@ -136,12 +202,42 @@ Tipper усмивки
 Добавяне на елемент
 [Add separator]
 Добавяне на разделител
+[Move up]
+
+[Move down]
+
+[Icon on left]
+
+[Icon on right]
+
 [No icon]
 Без икона
 [No title]
 Без заглавие
+[Bottom right]
+
+[Bottom left]
+
+[Top right]
+
+[Top left]
+
+[Top]
+
 [Centre]
 Център
+[Bottom]
+
+[Left]
+
+[Right]
+
+[No avatar]
+
+[Left avatar]
+
+[Right avatar]
+
 [Max avatar size:]
 Аватар (макс. р-р):
 [None]
@@ -150,6 +246,10 @@ Tipper усмивки
 Анимиране
 [Fade]
 Избледняване
+[Appearance]
+
+[Tooltips]
+
 [Customize]
 Персонализиране
 [Content]
@@ -161,25 +261,49 @@ Tipper усмивки
 ;file \plugins\TipperYM\src\options.h
 [Number of contacts]
 Брой контакти
+[Protocol lock status]
+
 [Logon time]
 Време на вписване
 [Unread emails]
 Непрочетени имейли
 [Status]
 Състояние
+[Status message]
+
+[Extra status]
+
+[Listening to]
+
 [Miranda uptime]
 Miranda работи от
+[Clist event]
+
 [Jabber activity]
 Jabber дейност
+[Gender]
+
+[Country flag]
+
 [Client]
 Клиент
 ;file \plugins\TipperYM\src\popwin.cpp
 [%s (locked)]
 %s (заключен)
-[ ago]
- преди
+[%s ago]
+
+[Log on:]
+
+[Log off:]
+
 [Unread emails:]
 Непрочетени имейли:
+[Status:]
+
+[Status message:]
+
+[Mood:]
+
 [XStatus:]
 хСъстояние:
 [Activity:]
@@ -203,8 +327,20 @@ Jabber дейност
 [Miranda uptime:]
 Miranda работи от:
 ;file \plugins\TipperYM\src\preset_items.cpp
+[Birthday]
+
+[Birthday:]
+
+[Client:]
+Клиент:
+[Email]
+
+[Email:]
+
 [Gender:]
 Пол:
+[Homepage]
+
 [Homepage:]
 Страница:
 [Identifier]
@@ -213,6 +349,10 @@ Miranda работи от:
 Бездействие
 [Idle:]
 Бездействие:
+[IP]
+
+[IP:]
+
 [IP internal]
 Вътрешно IP
 [IP internal:]
@@ -233,44 +373,88 @@ Miranda работи от:
 Брой изпратени съобщения
 [Number of msg [OUT]:]
 Брой съобщения (изходящи):
+[Contact time]
+
 [Time:]
 Време:
+[XStatus title]
+
 [XStatus title:]
 хСъстояние:
 [XStatus text]
 хСъстояние текст
 [XStatus text:]
 хСъстояние текст:
+[[jabber.dll] Activity title]
+
 [Activity title:]
 Дейност:
+[[jabber.dll] Activity text]
+
 [Activity text:]
 Съобщение:
+[[menuex.dll] Logon time]
+
 [Logon time:]
 Време на вписване:
+[[menuex.dll] Logoff time]
+
+[Logoff time:]
+
+[[seenplugin.dll] Last seen time]
+
 [Last seen time:]
 Последно видян на:
+[[seenplugin.dll] Last seen status]
+
 [Last seen status:]
 Последно състояние:
+[[weather.dll] Condition]
+
 [Condition:]
 Условия:
+[[weather.dll] Humidity]
+
 [Humidity:]
 Влажност:
+[[weather.dll] Max/Min temperature]
+
 [Max/Min:]
 Макс./Мин.:
+[[weather.dll] Moon]
+
 [Moon:]
 Луна:
+[[weather.dll] Pressure]
+
 [Pressure:]
 Атм. налягане:
+[[weather.dll] Sunrise]
+
 [Sunrise:]
 Изгрев:
+[[weather.dll] Sunset]
+
 [Sunset:]
 Залез:
+[[weather.dll] Temperature]
+
 [Temperature:]
 Температура:
+[[weather.dll] Update time]
+
 [Update time:]
 Обновено в:
+[[weather.dll] UV Index]
+
 [UV Index:]
 УВ индекс:
+[[weather.dll] Visibility]
+
+[Visibility:]
+
+[[weather.dll] Wind]
+
 [Wind:]
 Вятър:
 ;file \plugins\TipperYM\src\skin_parser.cpp
@@ -281,15 +465,249 @@ Miranda работи от:
 Фон
 [Dividers]
 Разделители
+[Sidebar]
+
+[Title]
+
 [Labels]
 Етикети
 [Values]
 Стойности
 [Tray title]
 Имена на протоколите в трея
+[Tipper]
+
 ;file \plugins\TipperYM\src\translations.cpp
 [Female]
 Жена
 [Male]
 Мъж
+[[No translation]]
+
+[WORD to status description]
+
+[DWORD timestamp to time]
+
+[DWORD timestamp to time difference]
+
+[BYTE to Yes/No]
+
+[BYTE to Male/Female (ICQ)]
+
+[WORD to country name]
+
+[DWORD to ip address]
+
+[<prefix>Day|Month|Year to date]
+
+[<prefix>Day|Month|Year to age]
+
+[<prefix>Hours|Minutes|Seconds to time]
+
+[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
+
+[<prefix>Day|Month to days to next birthday]
+
+[DWORD timestamp to time (no seconds)]
+
+[<prefix>Hours|Minutes to time]
+
+[DWORD timestamp to date (short)]
+
+[DWORD timestamp to date (long)]
+
+[xStatus: empty xStatus name to default name]
+
+[DWORD seconds to time difference]
+
+[BYTE timezone to time]
+
+[WORD to name of a day (0..6, 0 is Sunday)]
+
+[WORD to name of a month (1..12, 1 is January)]
+
+[BYTE to language (ICQ)]
+
 ;file \plugins\TipperYM\src\translations.h
+[Afrikaans]
+
+[Albanian]
+
+[Arabic]
+
+[Armenian]
+
+[Azerbaijani]
+
+[Belorussian]
+
+[Bhojpuri]
+
+[Bosnian]
+
+[Bulgarian]
+
+[Burmese]
+
+[Cantonese]
+
+[Catalan]
+
+[Chamorro]
+
+[Chinese]
+
+[Croatian]
+
+[Czech]
+
+[Danish]
+
+[Dutch]
+
+[English]
+
+[Esperanto]
+
+[Estonian]
+
+[Farsi]
+
+[Finnish]
+
+[French]
+
+[Gaelic]
+
+[German]
+
+[Greek]
+
+[Gujarati]
+
+[Hebrew]
+
+[Hindi]
+
+[Hungarian]
+
+[Icelandic]
+
+[Indonesian]
+
+[Italian]
+
+[Japanese]
+
+[Khmer]
+
+[Korean]
+
+[Kurdish]
+
+[Lao]
+
+[Latvian]
+
+[Lithuanian]
+
+[Macedonian]
+
+[Malay]
+
+[Mandarin]
+
+[Mongolian]
+
+[Norwegian]
+
+[Persian]
+
+[Polish]
+
+[Portuguese]
+
+[Punjabi]
+
+[Romanian]
+
+[Russian]
+
+[Serbo-Croatian]
+
+[Sindhi]
+
+[Slovak]
+
+[Slovenian]
+
+[Somali]
+
+[Spanish]
+
+[Swahili]
+
+[Swedish]
+
+[Tagalog]
+
+[Taiwanese]
+
+[Tamil]
+
+[Tatar]
+
+[Thai]
+
+[Turkish]
+
+[Ukrainian]
+
+[Urdu]
+
+[Vietnamese]
+
+[Welsh]
+
+[Yiddish]
+
+[Yoruba]
+
+[Sunday]
+
+[Monday]
+
+[Tuesday]
+
+[Wednesday]
+
+[Thursday]
+
+[Friday]
+
+[Saturday]
+
+[January]
+
+[February]
+
+[March]
+
+[April]
+
+[May]
+
+[June]
+
+[July]
+
+[August]
+
+[September]
+
+[October]
+
+[November]
+
+[December]
+

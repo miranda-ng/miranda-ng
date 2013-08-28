@@ -5,21 +5,39 @@
 ;  Version: 0.1.1.8
 ;  Authors: Ghost, Mironych
 ;============================================================
+[Adding traffic and time counters.]
+
 ;file \plugins\TrafficCounter\res\resource.rc
 [Selected totals]
 Общо за избраните
 [Accounts]
 Акаунти
+[Units]
+
 [Clear statistics]
 Изчистване
+[Notification]
+
 [Notify me on every]
 Уведомяване всеки
 [kilobytes]
 килобайта
+[minutes]
+
+[Background colour:]
+
+[Text colour:]
+
+[Reset to default]
+
 [Popup timeout]
 Popup времетраене
+[From Popup plugin]
+От приставката Popup
 [Custom]
 Избор
+[Test]
+Тест
 [Show now]
 Покажи сега
 [Space between lines:]
@@ -31,6 +49,12 @@ Popup времетраене
 [Display traffic for current]
 Стойности от посл.
 ;file \plugins\TrafficCounter\src\options.cpp
+[Display]
+
+[Icon]
+
+[Account name]
+
 [Current traffic]
 Текущ трафик
 [Total traffic]
@@ -47,16 +71,24 @@ Popup времетраене
 Подсказка в прозореца на брояча
 ["Toggle traffic counter" in main menu]
 Вкл./Изкл. на брояча от гл. меню
+[Visible accounts]
+
 [Summary traffic for visible accounts]
 Обобщение на статистика за видимите акаунти
 [Overall traffic]
 Трафик общо
 [Hide now]
 Скрий сега
+[Day]
+
+[Week]
+
 [Month]
 Месец
 [Year]
 Година
+[Services]
+Услуги
 [Options]
 Настройки
 [Traffic counter]
@@ -64,16 +96,26 @@ Popup времетраене
 [Statistics]
 Статистика
 [Popups]
-РopUps
-[Popups]
-РopUps
+Popups
 ;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 Байта
+[KB]
+
 [MB]
 МБ
+[Adaptive]
+
 [Hourly]
 Почасово
+[Daily]
+
+[Weekly]
+
+[Monthly]
+
+[Yearly]
+
 [Period]
 Период
 [Incoming]
@@ -88,9 +130,13 @@ Popup времетраене
 Трафик статистиката за всички протоколи ще бъде изчистена.\nСъгласни ли сте?
 [Couldn't read statistics file]
 Статистиката не може да бъде прочетена
+[Traffic Counter]
+
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 Шрифт
+[Show/Hide frame]
+
 [Hide traffic window]
 Скриване на трафик прозореца
 [Clear the current (Now:) value]

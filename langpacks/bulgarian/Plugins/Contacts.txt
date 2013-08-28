@@ -5,24 +5,58 @@
 ;  Version: 1.5.2.0
 ;  Authors: Joe Kucera, Todor Totev
 ;============================================================
+[Allows you to send and receive contacts.]
+
 ;file \plugins\ContactsPlus\res\contacts.rc
+[Send contacts]
+
+[&A]
+
+[&D]
+
+[&H]
+
+[Choose contacts to be send:]
+
 [&Send]
 Изпращане
 [Cancel]
 Отказ
+[&Select All]
+
+[Received contacts]
+
+[Add to &group:]
+
 [&Add]
 Добавяне
+[&Details]
+
 [Close]
 Затваряне
+[Contacts send error]
+
 [An error has occured. The protocol reported the following error:]
 Възникна следната грешка:
 [Try again]
 Опитай отново
+[Popup]
+
+[Add to List]
+
 [User Details]
 Подробности за потребителя
+[Send Message]
+
 ;file \plugins\ContactsPlus\src\main.cpp
+[Contacts received from]
+
 [Contacts]
 Контакти
+[Incoming Contacts]
+
+[Outgoing Contacts]
+
 ;file \plugins\ContactsPlus\src\receive.cpp
 [Add Contact Permanently to List]
 Добавяне на контакта за постоянно в списъка

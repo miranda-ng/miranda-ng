@@ -5,11 +5,17 @@
 ;  Version: 0.5.0.11
 ;  Authors: Scott Ellis
 ;============================================================
+[Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
+
 ;file \plugins\YAPP\res\yapp.rc
 [Popup history]
 Рopup история
 [Close]
 Затваряне
+[Case sensitive]
+
+[Default Timeout]
+
 [Never timeout]
 Безкрайно
 [Set timeout:]
@@ -20,23 +26,73 @@
 Макс. височина:
 [Options]
 Настройки
+[Opacity(%):]
+
+[Border]
+
+[Round corners (window)]
+
+[Preview]
+Преглед
 [Transparent background]
 Прозрачен фон
+[Layout]
+
+[Avatar size:]
+
 [Disable when]
 Изключване, когато
+[Global hover]
+
+[Sidebar width:]
+
+[Text indent:]
+
 [Padding:]
 Отстъп:
+[Round corners (avatar)]
+
+[Text colour:]
+
+[Background colour:]
+
 [Set timeout]
 Задаване на времетраене
 [Timeout value (0 = default):]
 Времетраене (0=стандарт):
 ;file \plugins\YAPP\src\icons.cpp
+[Popups are enabled]
+
+[Popups are disabled]
+
+[Popup History]
+
 ;file \plugins\YAPP\src\notify_imp.cpp
+[YAPP Popups]
+
 ;file \plugins\YAPP\src\options.cpp
 [Example]
 Пример
+[The quick brown fox jumped over the lazy dog.]
+
+[Example With a Long Title]
+
+[Thequickbrownfoxjumpedoverthelazydog.]
+
 [An avatar.]
 Аватар.
+[Bottom right]
+
+[Bottom left]
+
+[Top right]
+
+[Top left]
+
+[Icon on left]
+
+[Icon on right]
+
 [No time]
 Без час
 [Time on left]
@@ -45,22 +101,50 @@
 Час вдясно
 [Time above avatar]
 Час над аватара
+[No avatar]
+
+[Left avatar]
+
+[Right avatar]
+
 [Status]
 Състояние
 [Full-screen app running]
 Приложение на цял екран
+[No animate]
+
+[Horizontal animate]
+
+[Vertical animate]
+
+[You cannot set a default timeout of 0.\nValue has been reset.]
+
 [Error]
 Грешка
 [Popups]
-РopUps
-[Popups]
-РopUps
+Popups
+[Settings]
+Настройки
+[Classes]
+
 ;file \plugins\YAPP\src\services.cpp
+[Disable Popups]
+
+[Enable Popups]
+
 ;file \plugins\YAPP\src\yapp.cpp
+[Toggle Popups]
+
 [First line]
 Първи ред
+[Second line]
+
+[Time]
+
 [Background]
 Фон
+[Sidebar]
+
 [Title underline]
 Подчертаване на заглавието
 ;file \plugins\YAPP\src\yapp_history_dlg.cpp

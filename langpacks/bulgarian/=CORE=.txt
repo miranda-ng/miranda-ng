@@ -5,6 +5,8 @@
 Изберете тип на протокола
 [Specify the internal account name (optional)]
 Въведете вътрешно име (не е задължително)
+[OK]
+ОК
 [Cancel]
 Отказ
 [Add %s]
@@ -17,6 +19,8 @@
 Изпращане на съобщение "Вие бяхте добавен(а)"
 [Send authorization request]
 Изпрати молба за упълномощаване
+[Open contact's chat window]
+
 [Custom name:]
 Избор на име:
 [Group:]
@@ -33,12 +37,16 @@
 Не
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Скриване (запазва историята и настройките за игнориране/видимост)
+[Use Options->Contacts->Ignore to unhide contacts.]
+
 [Are you sure you want to delete %s?]
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
 [This will erase all history and settings for this contact!]
 Ще бъде изтрита изтрита историята и настройките за контакта!
 [Contact Display Options]
 Изобразяване на контактите
+[Instead of displaying contacts by their nickname,\ndrag to choose another order:]
+
 [Miranda NG Profile Manager]
 Miranda NG диспечер на профили
 [&Run]
@@ -79,6 +87,8 @@ Miranda NG диспечер на профили
 Настройки\nКонфигурирайте настройките на Miranda NG
 [Apply]
 Прилагане
+[Switch to simple options]
+Опростен вид на настройките
 [Please select a subentry from the list]
 Моля, изберете подраздел от списъка вляво
 [Install Database Settings]
@@ -113,8 +123,12 @@ Miranda NG диспечер на профили
 Отказ от вноса
 [Database Import Complete]
 Внасянето на базата от данни завърши
+[The import has completed from]
+
 [What do you want to do with the file now?]
 Какво желаете да стане с файла?
+[&Recycle]
+
 [&Delete]
 Изтриване
 [&Move/Rename]
@@ -131,12 +145,20 @@ Miranda NG диспечер на профили
 Изпратени байтове
 [Additional data due to proxy communication]
 Допълнителни данни поради прокси комуникация
+[Text dumps where available]
+
 [Auto-detect text]
 Автооткриване на текст
+[Calling modules' names]
+
 [Log to]
 Запис в
+[OutputDebugString()]
+
 [File]
 Файл
+[Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
+
 [Run now]
 Стартиране
 [Show this dialog box when Miranda NG starts]
@@ -209,6 +231,8 @@ URL адреси
 За да назначите икона я влачете към главния списък:
 [Import multiple]
 Внос на няколко
+[To main icons]
+Към основните икони
 [To]
 За
 [<< &Import]
@@ -229,6 +253,8 @@ URL адреси
 Порт:
 [(often %d)]
 (често %d)
+[Use Custom Login (Domain login picked up automatically)]
+
 [Username:]
 Потребител:
 [Password:]
@@ -243,6 +269,8 @@ URL адреси
 Потвърждаване на SSL сертификатите
 [Incoming Connections]
 Входящи връзки
+[Enable UPnP port mapping]
+
 [You will need to reconnect for the changes you have made on this page to take effect.]
 Необходимо е да се свържете на ново, за да бъдат осъществени промените направени тук.
 [Please complete the following form to create a new user profile]
@@ -257,6 +285,8 @@ URL адреси
 напр. db3x mmap driver
 [Driver]
 Драйвер
+[Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
+Проблем: Не е намерен нито един драйвер за базата данни. Поради това не можете да създадете нов профил. Необходим е dbx_mmap.dll
 [Download more plugins]
 Сваляне на още приставки
 [Description:]
@@ -267,6 +297,8 @@ URL адреси
 Имейл:
 [Homepage:]
 Страница:
+[Unique ID:]
+
 [Copyright:]
 Copyright:
 [Please restart Miranda NG for your changes to take effect.]
@@ -307,6 +339,8 @@ Copyright:
 Цвят:
 [Sample]
 Пример
+[AaBbYyZz]
+АаБбЮюЯя
 [Sc&ript:]
 Скрипт:
 [&Apply]
@@ -335,10 +369,14 @@ Copyright:
 Задай
 [Disable icons]
 Изключи иконите
+[Show accounts in the following order,\ndrag to choose another order:]
+Показване на акаунтите в следния ред,\nвлачете, за да промените реда:
 [Account Order && Visibility]
 Ред и видимост на акаунтите
 [Note: Miranda NG will have to be restarted for changes to take effect.]
 Бележка: За осъществяване на промени е необходимо да рестартирате Miranda.
+[Key Bindings]
+
 [Shortcut:]
 Препратка:
 [Add]
@@ -373,8 +411,12 @@ Copyright:
 Надграждане
 [&Remove...]
 Премахване...
+[Miranda NG]
+Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Miranda NG се рестартира.\nМоля, изчакайте...
+[Error Console]
+
 [Error notifications]
 Уведомяване за грешки
 [Headers:]
@@ -389,12 +431,12 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Малки бележки:
 [This font is used to display various addtional notes.]
 Шрифта за изобразяване на различни допълнителни бележки.
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-Добре дошли в диспечера на акаунти в  Miranda NG!\nОт тук можете да настроите вашите акаунти.\n\nЗа да видите наличните опции, изберете акаунт от списъка вляво. Ако желаете да създадете нов акаунт, натиснете знака "плюс" под списъка.
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+Добре дошли в диспечера на акаунти в Miranda NG!\nОт тук можете да настроите вашите акаунти.\n\nЗа да видите наличните опции, изберете акаунт от списъка вляво. Ако желаете да създадете нов акаунт, натиснете знака "плюс" под списъка.
 [Event icon legend:]
 Легенда на иконите за събития:
-[Choose events you wish to ingonre:]
-Събития, които желаете да бъдат игнорирани:
+[Choose events you wish to ignore:]
+Кои събития да бъдат игнорирани:
 [Font Effect]
 Ефекти на шрифта
 [Effect:]
@@ -409,12 +451,16 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Изберете допълнителни икони за показване в списъка с контакти:
 [* only the first %d icons will be shown]
 * ще бъдат показани само първите %d икони
+[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+Можете да групирате/дегрупирате иконите като ги избирате чрез ляв бутон+CTRL и popup менюто (десен бутон)
 [Tray]
 Трей
 [&Hide/Show]
 Показване/Скриване
 [E&xit]
 Изход
+[Nowhere]
+
 [&New Group]
 Нова група
 [&Hide Offline Users]
@@ -439,6 +485,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Изтриване на групата
 [&Reset to default]
 Стандарт
+[find/add]
+
 [&Add to List]
 Добавяне в списъка
 [User &Details]
@@ -474,6 +522,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Отхвърляне
 [Decide &Later]
 Попитай по-късно
+[&I]
+
 [Reason:]
 Причина:
 [Denial Reason:]
@@ -484,6 +534,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Вие бяхте добавен
 [&Close]
 Затваряне
+[&U]
+
 ;file \src\core\stdaway\resource.rc
 [%s Message for %s]
 Текст "%s" на %s
@@ -493,6 +545,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Текст за състояние
 [Do not reply to requests for this message]
 Без отговор на запитвания за това съобщение
+[Do not pop up dialog asking for new message]
+Без изскачащ прозорец за въвеждане на ново съобщение
 [By default, use the same message as last time]
 Ползване на последното съобщение като стандартно
 [By default, use this message:]
@@ -572,6 +626,8 @@ Popup за приставката Chat
 Текст
 [Background]
 Фон
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+
 [List]
 Списък
 [&Message]
@@ -582,6 +638,10 @@ Popup за приставката Chat
 Копиране на всичко
 [Word lookup]
 Търсене на дума
+[Google]
+Google
+[Wikipedia]
+Wikipedia
 [Link]
 Връзка
 [Open a &new browser window]
@@ -655,6 +715,8 @@ Popup за приставката Chat
 Прозорец
 [Always on top]
 Винаги отгоре
+[Tool style main window]
+
 [Minimize to tray]
 Минимизиране в трея
 [Show menu bar]
@@ -685,6 +747,8 @@ Popup за приставката Chat
 Извеждане на прозорецът отпред, ако е частично покрит, вместо скриване
 [Enable docking]
 Загнездване
+[Translucency options]
+Настройки за прозрачност
 [Fade contact list in/out]
 Избледняване/Изсветляване на списъка
 [Transparent contact list]
@@ -727,8 +791,6 @@ Popup за приставката Chat
 Отстъп на групите:
 [pixels]
 пиксела
-[pixels]
-пиксела
 [Visual]
 Визуално
 [Scroll list smoothly]
@@ -751,8 +813,6 @@ Popup за приставката Chat
 Фон на списъка с контакти
 [Background colour]
 Цвят на фона
-[Background colour]
-Фонов цвят
 [Selection colour]
 Цвят за маркиране
 [Use background image]
@@ -834,6 +894,10 @@ Popup за приставката Chat
 Изберете отново...
 [Total size:]
 Общ размер:
+[&D]
+
+[&H]
+
 [Incoming File Transfer]
 Входящ файл
 [A&ccept]
@@ -848,6 +912,8 @@ Popup за приставката Chat
 Файлове:
 [Save to:]
 Запис в:
+[&A]
+
 [Contact menu]
 Меню на контактите
 [Open...]
@@ -937,13 +1003,23 @@ Popup за приставката Chat
 ;file \src\core\stdhelp\resource.rc
 [About Miranda NG]
 Относно Miranda NG
+[Miranda NG\n%s]
+Miranda NG\n%s
 [Credits >]
 Заслуги >
 ;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 Бездействащ при липса на активност в:
+[Windows]
+Windows
+[Miranda]
+Miranda
 [Become idle if the screen saver is active]
 Бездействащ при активен screen saver
+[Become idle if the computer is locked]
+Бездействащ при заключване на компютъра
+[Become idle if a terminal session is disconnected]
+
 [Do not let protocols report any idle information]
 Без изпращане на информация за бездействие
 [minute(s)]
@@ -956,6 +1032,8 @@ Popup за приставката Chat
 Без задаване на старото състояние след излизане от бездействие
 [Idle Options]
 Настройки
+[Become idle if application full screen]
+Бездействащ при програма работеща на целия екран
 [Disable sounds on idle]
 Изключване на звука при бездействие
 [Become idle if computer is left unattended for:]
@@ -997,8 +1075,8 @@ Popup за приставката Chat
 Изтриване на временните контакти след затваряне на прозореца
 [Enable avatar support in the message window]
 Поддръжка на аватари в прозореца за съобщения
-[Limit avatar height to ]
-Височина на аватара до
+[Limit avatar height to]
+
 [Max Number of Flashes]
 Максимален брой мигания
 [Send Error]
@@ -1033,6 +1111,8 @@ Popup за приставката Chat
 Показване на секунди
 [Load History Events]
 Допълнително зареждани събития
+[Show Formatting]
+
 [Send typing notifications to the following users when you are typing a message to them:]
 Изпращане на уведомяване при писане до следните потребители, когато им пишете съобщение:
 [Show typing notifications when a user is typing a message]
@@ -1049,6 +1129,8 @@ Popup за приставката Chat
 Запис на позицията на прозореца поотделно за всеки контакт
 [Message window behaviour:]
 Поведение на прозореца за съобщения:
+[Messaging:]
+
 [&Open link]
 Отваряне на връзката
 [Paste && Send]
@@ -1185,16 +1267,26 @@ Popup за приставката Chat
 ;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
 Отсъствам от %time%.
+[Give it up, I'm not in!]
+Няма ме, откажете се!!
 [Not right now.]
 Не точно сега.
+[Give a guy some peace, would ya?]
+Дайте на човека малко спокойствие!
+[I'm a chatbot!]
+Аз съм същински чат робот!
 [Yep, I'm here.]
 Да, тук съм.
 [Nope, not here.]
 Не, не съм тук.
 [I'm hiding from the mafia.]
 Крия се от мафията.
+[That'll be the phone.]
+Това май е телефона.
 [Mmm...food.]
 Ммм... храна.
+[idleeeeeeee]
+
 [Status]
 Състояние
 ;file \src\core\stdchat\src\clist.cpp
@@ -1222,10 +1314,16 @@ Popup за приставката Chat
 %s изгони %s
 [Notice from %s: ]
 Известие от %s:
+[The topic is '%s%s']
+Темата е "%s%s"
 [ (set by %s on %s)]
  (зададена от %s на %s)
 [ (set by %s)]
  (зададена от %s)
+[%s enables '%s' status for %s]
+%s даде статут "%s" на "%s"
+[%s disables '%s' status for %s]
+%s отне статута "%s" на "%s"
 [<invalid>]
 <невалидно>
 ;file \src\core\stdchat\src\options.cpp
@@ -1303,6 +1401,8 @@ Popup за приставката Chat
 Без звук, когато чат стаята е на фокус
 [Do not pop up the window when joining a chat room]
 Без изскачане на прозореца при влизане в чат стая
+[Toggle the visible state when double clicking in the contact list]
+
 [Show contact statuses if protocol supports them]
 Показване състоянието на потребителите (ако се поддържа от протокола)
 [Display contact status icon before user role icon]
@@ -1317,8 +1417,12 @@ Popup за приставката Chat
 Отстъп на втория ред от всяко съобщение
 [Limit user names in the message log to 20 characters]
 Ограничаване на потребителските имена в дневника за съобщения до 20 знака
+[Add ':' to auto-completed user names]
+Добавяне на ":" след автодовършените потребителски имена
 [Strip colors from messages in the log]
 Премахване на цветовете от съобщенията в дневника
+[Enable the 'event filter' for new rooms]
+Включване на филтъра за събития в нови стаи
 [Show topic changes]
 Промяна на тема
 [Show users joining]
@@ -1357,7 +1461,7 @@ Popup за приставката Chat
 Излизане на потребител
 [Show icon for users kicking other user]
 Потребител изгонва друг потребител
-[Show icon for notices ]
+[Show icon for notices]
 Известие
 [Show icon for name changes]
 Промяна на прякор
@@ -1383,7 +1487,7 @@ Popup за приставката Chat
 Излизане на потребител
 [Show icon in tray for users kicking other user]
 Потребител изгонва друг потребител
-[Show icon in tray for notices ]
+[Show icon in tray for notices]
 Известие
 [Show icon in tray for name changes]
 Промяна на прякор
@@ -1409,8 +1513,8 @@ Popup за приставката Chat
 Показване на popups при излизане на потребител
 [Show popup for users kicking other user]
 Показване на popups при изгонване на потребител
-[Show popup for notices ]
-Показване на popups за известие
+[Show popup for notices]
+Показване на popup при известие
 [Show popup for name changes]
 Показване на popups при промяна на име
 [Show popup for information messages]
@@ -1423,6 +1527,8 @@ Popup за приставката Chat
 Фон на съобщенията
 [Userlist Background]
 Фон на списъка с прякори
+[Userlist Lines]
+
 [Userlist Background (selected)]
 Фон на списъка с прякори (маркирано)
 [Window Icon]
@@ -1501,6 +1607,8 @@ Popup за приставката Chat
 Външен вид и функционалност на чат стаите
 [Appearance of the message log]
 Външен вид на дневника за съобщения
+[Default events to show in new chat rooms if the 'event filter' is enabled]
+Стандартни събития за показване в чат стая при включен "филтър на събития"
 [Icons to display in the message log]
 Икони за изобразяване в дневника за съобщения
 [Icons to display in the tray]
@@ -1517,8 +1625,8 @@ Popups за изобразяване
 Основни
 [Chat Log]
 Чат дневник
-[Popups]
-РopUps
+[Chat]
+
 [Popups]
 РopUps
 [Message is highlighted]
@@ -1555,6 +1663,10 @@ Popups за изобразяване
 Промяна на темата в %s
 [Information in %s]
 Информация в %s
+[%s enables '%s' status for %s in %s]
+%s даде статут "%s" на %s в %s
+[%s disables '%s' status for %s in %s]
+%s отне статута "%s" на %s в %s
 [%s says: %s]
 %s каза: %s
 [%s has left (%s)]
@@ -1565,8 +1677,16 @@ Popups за изобразяване
 %s изгони %s (%s)
 [Notice from %s: %s]
 Известие от %s: %s
+[The topic is '%s']
+Темата е "%s"
+[The topic is '%s' (set by %s)]
+Темата е "%s" (зададена от %s)
+[Look up '%s':]
+Търсене за "%s":
 [No word to look up]
 Няма дума за търсене
+[&Message %s]
+
 ;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 Вмъкване на усмивка
@@ -1600,6 +1720,8 @@ Popups за изобразяване
 %s: Разговор (%u потребителя)
 [Nick name]
 Прякор
+[Unique id]
+
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Стандартни контакти
@@ -1723,6 +1845,10 @@ Popups за изобразяване
 Свързване с прокси...
 [Connected]
 Свързано
+[Initialising...]
+
+[Moving to next file...]
+
 [File already exists]
 Файлът вече съществува.
 [Sending...]
@@ -1752,6 +1878,8 @@ Popups за изобразяване
 ;file \src\core\stdhelp\help.cpp
 [&About...]
 Относно...
+[&Support]
+Поддръжка
 [&Miranda NG Homepage]
 Страницата на Miranda NG
 [&Report Bug]
@@ -1760,6 +1888,8 @@ Popups за изобразяване
 [Idle]
 Бездействие
 ;file \src\core\stdmsg\src\cmdlist.cpp
+[The message send timed out.]
+
 ;file \src\core\stdmsg\src\globals.cpp
 [Incoming message (10x10)]
 Входящо съобщение (10х10)
@@ -1819,6 +1949,10 @@ Popups за изобразяване
 %s пише съобщение
 [Typing Notification]
 Уведомявания при писане
+[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
+
+[Instant messages]
+Незабавни съобщения
 [Incoming (Focused Window)]
 Входящо (Фокусиран прозорец)
 [Incoming (Unfocused Window)]
@@ -1827,7 +1961,13 @@ Popups за изобразяване
 Входящо (Нов разговор)
 [Message send error]
 Грешка при опит за изпращане на съобщение
+[Contact started typing]
+Контакт започна да пише
+[Contact stopped typing]
+Контакт спря да пише
 ;file \src\core\stdmsg\src\msgtimedout.cpp
+[An unknown error has occured.]
+Възникна непозната грешка.
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]
 Невалидно съобщение
@@ -1856,9 +1996,13 @@ Popups за изобразяване
 URL адрес от %s
 [Web Page Address (&URL)]
 уебстраница (URL)
+[URL]
+URL
 ;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 Изпращане на URL до
+[Send timed out]
+
 ;file \src\core\stduserinfo\contactinfo.cpp
 [Edit E-Mail Address]
 Редактиране на имейла
@@ -1870,6 +2014,8 @@ URL адрес от %s
 Невалиден телефонен номер
 [Primary]
 Основен
+[Custom %d]
+
 [Fax]
 Факс
 [Mobile]
@@ -1991,10 +2137,18 @@ URL адрес от %s
 [<Root Group>]
 <Главна група>
 ;file \src\modules\database\database.cpp
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
+Грешка при надстройването структурата на профила.\nПреместването на профила "%s" в %s е невъзможно.\nВероятно вече съществува профил със същото име. Моля, разрешете проблема ръчно!
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
+Грешка при надстройването структурата на профила.\nПреместването на профила "%s" в %s е невъзможно.\nВероятно Miranda NG не разполага с необходимите права. Моля, преместете файла ръчно.
+[Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
+Не може да съхранявате профили в основната директория на Miranda NG.\nМоля, преместете профила в друга папка.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
 Отварянето на '%s' е невъзможно, защото липсва приставка за профили.\nНеобходимо е да инсталирате dbx_3x.dll или еквивалентна приставка.
 [No profile support installed!]
 Не е инсталирана поддръжка на профила!
+[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
+"%s" не може да бъде отворен - неизвестен формат.\nВероятно профилът е повреден. Пробвайте да го поправите с DbChecker.
 [Miranda can't understand that profile]
 Анализирането на профила е невъзможно
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
@@ -2014,7 +2168,11 @@ URL адрес от %s
 Тази промяна е известна като потенциален риск.
 [This change is not known to be safe.]
 Тази команда не е известна като сигурна.
+[Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
+Невалиден тип настройка за "%s". Първият знак на всяка стойност трябва да бъде b, w, d, l, s, e, u, g, h или n.
 ;file \src\modules\database\profilemanager.cpp
+[The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
+Профилът "%s" вече съществува. Желаете ли да бъде преместен в Кошчето?\n\nВНИМАНИЕ:Профилът ще бъде изтрит ако Кошчето е изключено.\nВНИМАНИЕ: Профилът може да съдържа поверителна и лична информация, затова е препоръчително да го изтриете по подходящ начин.
 [The profile already exists]
 Профила вече съществува
 [Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
@@ -2033,15 +2191,23 @@ URL адрес от %s
 Наистина ли желаете профилът "%s" да бъде изтрит?
 [Size]
 Размер
+[Run]
+Изпълнение
+[Check database]
+
 [Created]
 Създаден
 [Modified]
 Променен
+[Manage your Miranda NG profile]
+
 [My Profiles]
 Моите профили
 [New Profile]
 Нов профил
 ;file \src\modules\extraicons\DefaultExtraIcons.cpp
+[Chat activity]
+Чат активност
 ;file \src\modules\extraicons\extraicons.cpp
 [Chat Activity]
 Чат активност
@@ -2061,6 +2227,8 @@ URL адрес от %s
 Търсене
 [All Networks]
 Всички мрежи
+[Handle]
+
 [&Find/Add Contacts...]
 Търсене/Добавяне на контакти
 ;file \src\modules\findadd\searchresults.cpp
@@ -2083,6 +2251,20 @@ URL адрес от %s
 Грешка при създаването на файла
 [<none>]
 <няма>
+[Shadow at left]
+Сянка отляво
+[Shadow at right]
+Сянка отдясно
+[Outline]
+
+[Outline smooth]
+
+[Smooth bump]
+
+[Contour thin]
+
+[Contour heavy]
+
 [Configuration Files]
 Файлове съдържащи настройки
 [Text Files]
@@ -2111,19 +2293,37 @@ URL адрес от %s
 [Contacts]
 Контакти
 ;file \src\modules\netlib\netliblog.cpp
+[No times]
+Без час
+[Standard hh:mm:ss times]
+Стандартено чч:мм:сс
+[Times in milliseconds]
+Часът в милисекунди
+[Times in microseconds]
+Часът в микросекунди
+[(Miranda Core Logging)]
+
 [Select where log file will be created]
 Изберете къде да бъде създаден дневника
 [Select program to be run]
 Изберете програма за изпълнение
+[Standard netlib log]
+
 ;file \src\modules\netlib\netlibopts.cpp
 [<All connections>]
 <Всички връзки>
 [Network]
 Мрежа
 ;file \src\modules\netlib\netlibssl.cpp
+[Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package]
+
 [Host we are connecting to is not the one certificate was issued for]
 Хоста към който се свързвате не е този, за който е издаден сертификата
 ;file \src\modules\options\options.cpp
+[<all modules>]
+<всички модули>
+[<core modules>]
+<модули на ядрото>
 [Loading... %d%%]
 Зареждане... %d%%
 [%s options]
@@ -2133,30 +2333,52 @@ Miranda NG настройки
 [&Options...]
 Настройки...
 ;file \src\modules\plugins\newplugins.cpp
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Приставката "%s" от ядрото не може да бъде заредена. Miranda ще се изключи
 [Fatal error]
 Фатална грешка
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
-Не е заредена приставка за съобщенията. Трябва да инсталирате/включите една, например "srmm.dll".
+[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
+Няма заредена приставка за съобщения. Моля, инсталирайте/включете една приставка, например "StdMsg.dll"
 ['%s' is disabled, re-enable?]
 "%s" е изключена, желаете да бъде включена?
+[Re-enable Miranda plugin?]
+
 [Unable to load plugin in Service Mode!]
 Зареждането на приставката в сервизен режим е невъзможно!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Нито една от инсталираните приставки за списъка с контакти не може да бъде заредена.
-[Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
-Не е намерена приставка за списъка с контакти! Необходима е clist_classic или всяка друга clist приставка.
+[Can't find a contact list plugin! You need StdClist or any other clist plugin.]
+
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Приставка
 [Version]
 Версия
+[Miranda NG must be restarted to apply changes for these plugins:]
+Необходимо е Miranda NG да бъде рестартирана, за да се приложат промени касаещи:
+[Do you want to restart it now?]
+Желаете ли да бъде рестартирана сега?
 [Plugins]
 Приставки
 ;file \src\modules\protocols\protoopts.cpp
+[WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
+ВНИМАНИЕ! Акаунтът ще бъде изтрит. Тоест всички негови настройки, контакти и историята ще бъдат изтрити.\n\nНаистина ли желаете това?
+[Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
+Вашият акаунт е надграден успешно. Необходимо е да рестартирате Miranda NG, за да се активира.\n\nАко желаете Miranda NG да бъде рестартирана сега натиснете "Да", в противен случай - "Не".
+[This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
+Акаунтът изисква много стара приставка за протокола. Променете настройките на акаунта през прозореца с настройки на Miranda NG.
+[Welcome to Miranda NG's account manager!\n Here you can set up your IM accounts.\n\n Select an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+Добре дошли в диспечера на акаунти в Miranda NG!\nОт тук можете да настроите вашите акаунти.\n\nЗа да видите наличните опции, изберете акаунт от списъка вляво. Ако желаете да създадете нов акаунт, натиснете знака "плюс" под списъка.
 [Create new account]
 Създаване на акаунт
 [Editing account]
 Редактиране на акаунта
+[Upgrading account]
+Надграждане на акаунт
+[Account name has to be unique. Please enter unique name.]
+Името на акаунта трябва да бъде уникално.
+[Account Error]
+Грешка в акаунт
 [Account is disabled. Please activate it to access options.]
 Акаунтът е изключен. За достъп до настройките е необходимо да бъде включен.
 [New account]
@@ -2167,6 +2389,10 @@ Miranda NG настройки
 Премахване на акаунта
 [Configure...]
 Настройване...
+[Upgrade account]
+Надграждане на акаунт
+[Protocol]
+Протокол
 [Account ID]
 ID на акаунта
 [<unknown>]
@@ -2177,6 +2403,10 @@ ID на акаунта
 Преименуване
 [Configure]
 Настройване
+[Upgrade]
+Надграждане
+[Account %s is being disabled]
+Акаунтът "%s" се изключва в момента
 [Account is online. Disable account?]
 Акаунтът е "На линия". Желаете ли да бъде изключен?
 [Account %s is being deleted]
@@ -2186,12 +2416,22 @@ ID на акаунта
 [&Accounts...]
 Акаунти...
 ;file \src\modules\skin\hotkey_opts.cpp
+[Ctrl + ]
+Ctrl + 
+[Alt + ]
+Alt + 
+[Shift + ]
+Shift + 
+[Win + ]
+Win + 
 [Remove shortcut]
 Премахване на препратката
 [Add another shortcut]
 Добавяне на препратка
 [Scope:]
 Обхват:
+[System]
+
 [Actions:]
 Действия:
 [Add binding]
@@ -2221,6 +2461,8 @@ ID на акаунта
 Търсене на потребител
 [Send E-mail]
 Изпращане на е-писмо
+[SMS]
+SMS
 [Search All]
 Търсене на всичко
 [Tick]
@@ -2233,6 +2475,8 @@ ID на акаунта
 Сайта на Miranda
 [Small Dot]
 Малка точица
+[Filled Blob]
+
 [Empty Blob]
 Без отметка
 [Unicode plugin]
@@ -2243,6 +2487,8 @@ ANSI приставка
 Стартирана приставка
 [Unloaded plugin]
 Незаредена приставка
+[ShowHide]
+Показване/Скриване
 [Exit]
 Изход
 [Main Menu]
@@ -2269,6 +2515,8 @@ ANSI приставка
 Отнемане на пълномощното
 [Always visible]
 Винаги видимо
+[Always invisible]
+Винаги невидим
 [Locked status]
 Заключено състояние
 [Status Icons]
@@ -2280,6 +2528,8 @@ ANSI приставка
 ;file \src\modules\skin\sounds.cpp
 [Sound Files]
 Файлове със звуци
+[WAV Files]
+WAV файлове
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Необходима е услуга за изображенията за обработка на PNG изображения.
@@ -2294,6 +2544,8 @@ GIF изображения
 [PNG Bitmaps]
 PNG изображения
 ;file \src\modules\utils\timezones.cpp
+[<unspecified>]
+<Неуточнено>
 ;file \src\modules\utils\utils.cpp
 [Unspecified]
 Неуточнено
@@ -2301,16 +2553,22 @@ PNG изображения
 Неизвестно
 [Afghanistan]
 Афганистан
+[Aland Islands]
+Оландски острови
 [Albania]
 Албания
 [Algeria]
 Алжир
+[American Samoa]
+Американска Самоа
 [Andorra]
 Андора
 [Angola]
 Ангола
 [Anguilla]
 Ангила
+[Antarctica]
+Антарктида
 [Antigua and Barbuda]
 Антигуа и Барбуда
 [Argentina]
@@ -2345,12 +2603,22 @@ PNG изображения
 Бермуда
 [Bhutan]
 Бутан
+[Bolivia, Plurinational State of]
+Многонационална държава Боливия
+[Bonaire, Sint Eustatius and Saba]
+отвъдморски територии на Нидерландия
 [Bosnia and Herzegovina]
 Босна и Херцеговина
 [Botswana]
 Ботсуана
+[Bouvet Island]
+остров Буве
 [Brazil]
 Бразилия
+[British Indian Ocean Territory]
+Британска индоокеанска територия
+[Brunei Darussalam]
+Бруней
 [Bulgaria]
 България
 [Burkina Faso]
@@ -2363,30 +2631,44 @@ PNG изображения
 Камерун
 [Canada]
 Канада
+[Cape Verde]
+острови Кабо Верде
 [Cayman Islands]
 Кайманови острови
 [Central African Republic]
 Централноафриканска република
 [Chad]
 Чад
+[Chile]
+Чили
 [China]
 Китай
+[Christmas Island]
+остров Рождество
 [Cocos (Keeling) Islands]
 Кокосови строви (Кийлинг)
 [Colombia]
 Колумбия
 [Comoros]
 Коморски острови
+[Congo]
+Конго
+[Congo, the Democratic Republic of the]
+Демократична република Конго (Заир)
 [Cook Islands]
 острови Кук (Cook)
 [Costa Rica]
 Коста Рика
+[Cote d'Ivoire]
+Кот д’Ивоар
 [Croatia]
 Хърватия
 [Cuba]
 Куба
 [Curacao]
 Кюрасао
+[Cyprus]
+Кипър
 [Czech Republic]
 Чешка република
 [Denmark]
@@ -2411,6 +2693,10 @@ PNG изображения
 Естония
 [Ethiopia]
 Етиопия
+[Falkland Islands (Malvinas)]
+Фолкландски острови (Малдиви)
+[Faroe Islands]
+Фарьорски острови
 [Fiji]
 Фиджи
 [Finland]
@@ -2421,6 +2707,8 @@ PNG изображения
 Френска Гвиана
 [French Polynesia]
 Френска Полинезия
+[French Southern Territories]
+Френски южни и антарктически територии
 [Gabon]
 Габон
 [Gambia]
@@ -2441,8 +2729,12 @@ PNG изображения
 Гренада
 [Guadeloupe]
 Гваделупа
+[Guam]
+Френски южни и антарктически територии
 [Guatemala]
 Гватемала
+[Guernsey]
+Гърнси
 [Guinea]
 Гвинея
 [Guinea-Bissau]
@@ -2451,6 +2743,10 @@ PNG изображения
 Гвияна
 [Haiti]
 Хаити
+[Heard Island and McDonald Islands]
+острови Хърд и Макдоналд
+[Holy See (Vatican City State)]
+(Ватикан) Светият престол
 [Honduras]
 Хондурас
 [Hong Kong]
@@ -2463,10 +2759,14 @@ PNG изображения
 Индия
 [Indonesia]
 Индонезия
+[Iran, Islamic Republic of]
+Иран, Ислямска република
 [Iraq]
 Ирак
 [Ireland]
 Ирландия
+[Isle of Man]
+остров Ман
 [Israel]
 Израел
 [Italy]
@@ -2475,6 +2775,8 @@ PNG изображения
 Ямайка
 [Japan]
 Япония
+[Jersey]
+Джърси
 [Jordan]
 Йордания
 [Kazakhstan]
@@ -2483,10 +2785,16 @@ PNG изображения
 Кения
 [Kiribati]
 Кирибати
+[Korea, Democratic People's Republic of]
+Корейска народно-демократична република
+[Korea, Republic of]
+Република Корея (Южна Корея)
 [Kuwait]
 Кувейт
 [Kyrgyzstan]
 Киргизстан
+[Lao People's Democratic Republic]
+Лаоска народнодемократична република
 [Latvia]
 Латвия
 [Lebanon]
@@ -2495,12 +2803,18 @@ PNG изображения
 Лесото
 [Liberia]
 Либерия
+[Libya]
+Либия
 [Liechtenstein]
 Лихтенщайн
 [Lithuania]
 Литва
 [Luxembourg]
 Люксембург
+[Macao]
+Монако
+[Macedonia, The Former Yugoslav Republic of]
+Македония, Бивша югославска република
 [Madagascar]
 Мадагаскар
 [Malawi]
@@ -2521,6 +2835,8 @@ PNG изображения
 Мавритания
 [Mauritius]
 Мавриций
+[Mayotte]
+Майот
 [Mexico]
 Мексико
 [Micronesia, Federated States of]
@@ -2531,6 +2847,8 @@ PNG изображения
 Монако
 [Mongolia]
 Монголия
+[Montenegro]
+Черна гора
 [Montserrat]
 Монсерат
 [Morocco]
@@ -2559,6 +2877,10 @@ PNG изображения
 Нигерия
 [Niue]
 Ниуе
+[Norfolk Island]
+остров Норфолк
+[Northern Mariana Islands]
+Северни Мариански острови
 [Norway]
 Норвегия
 [Oman]
@@ -2567,6 +2889,8 @@ PNG изображения
 Пакистан
 [Palau]
 Палау
+[Palestinian Territory, Occupied]
+Палестински окупирани територии
 [Panama]
 Панама
 [Papua New Guinea]
@@ -2577,6 +2901,8 @@ PNG изображения
 Перу
 [Philippines]
 Филипини
+[Pitcairn]
+Питкерн
 [Poland]
 Полша
 [Portugal]
@@ -2585,18 +2911,30 @@ PNG изображения
 Пуерто Рико
 [Qatar]
 Катар
+[Reunion]
+Реюнион
 [Romania]
 Румъния
+[Russian Federation]
+Русия
 [Rwanda]
 Руанда
+[Saint Barthelemy]
+Сен Бартелми
+[Saint Helena, Ascension and Tristan da Cunha]
+Света Елена, Възнесение и Тристан да Куня
 [Saint Kitts and Nevis]
 сейнт Китс и Нейвис
 [Saint Lucia]
 сейнт Лусия
+[Saint Martin (French part)]
+Сен Мартен (френска част)
 [Saint Pierre and Miquelon]
 сен Пиер и Микелон
 [Saint Vincent and the Grenadines]
 сейнт Винсънт и Гренадини
+[Samoa]
+Самоа
 [San Marino]
 Сан Марино
 [Sao Tome and Principe]
@@ -2605,12 +2943,16 @@ PNG изображения
 Саудитска Арабия
 [Senegal]
 Сенегал
+[Serbia]
+Сърбия
 [Seychelles]
 Сейшелски острови
 [Sierra Leone]
 Сиера Леоне
 [Singapore]
 Сингапур
+[Sint Maarten (Dutch part)]
+Сен Мартен (холандска част)
 [Slovakia]
 Словакия
 [Slovenia]
@@ -2621,6 +2963,10 @@ PNG изображения
 Сомалия
 [South Africa]
 Южна Африка
+[South Georgia and the South Sandwich Islands]
+Южна Джорджия и Южни Сандвичеви острови
+[South Sudan]
+Южен Судан
 [Spain]
 Испания
 [Sri Lanka]
@@ -2629,6 +2975,8 @@ PNG изображения
 Судан
 [Suriname]
 Суринам
+[Svalbard and Jan Mayen]
+Свалбард и Ян Майен
 [Swaziland]
 Свазиленд
 [Sweden]
@@ -2637,10 +2985,16 @@ PNG изображения
 Швейцария
 [Syrian Arab Republic]
 Сирия
+[Taiwan, Province of China]
+Тайван, провинция на Китай
 [Tajikistan]
 Таджикистан
+[Tanzania, United Republic of]
+Танзания
 [Thailand]
 Тайланд
+[Timor-Leste]
+Източен Тимор
 [Togo]
 Того
 [Tokelau]
@@ -2667,12 +3021,28 @@ PNG изображения
 Обединени арабски емирства
 [United Kingdom]
 Обединено кралство
+[United States]
+Съединени американски щати
+[United States Minor Outlying Islands]
+Малки далечни острови на САЩ
 [Uruguay]
 Уругвай
 [Uzbekistan]
 Узбекистан
 [Vanuatu]
 Вануату
+[Venezuela, Bolivarian Republic of]
+Венесуела, Боливарска република
+[Viet Nam]
+Виетнам
+[Virgin Islands, British]
+Британски Вирджински острови
+[Virgin Islands, U.S.]
+Американски Вирджински острови
+[Wallis and Futuna]
+острови Уолис и Футуна
+[Western Sahara]
+Западна Сахара
 [Yemen]
 Йемен
 [Zambia]

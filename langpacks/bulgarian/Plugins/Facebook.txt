@@ -2,9 +2,11 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.1.1.1
+;  Version: 0.2.0.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
+[Facebook protocol support for Miranda NG.]
+
 ;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
 Имейл:
@@ -14,12 +16,28 @@
 Създаване на Facebook акаунт
 [What's on your mind?]
 Какво мислите?
+[Wall:]
+
+[Visibility:]
+
+[Text:]
+Текст:
+[URL:]
+
+[Place:]
+
 [Share]
 Сподели
 [Cancel]
 Отказ
+[Contacts >>]
+
+[Attach contacts:]
+
 [User Details]
 Подробности за потребителя
+[Default group:]
+
 [Automatically set 'Ignore status change' flag]
 Автозадаване на флаг "Игнориране промените на състояния"
 [Contacts Settings]
@@ -28,33 +46,51 @@
 Ползване на по-големи аватари
 [Load contacts with 'On the Mobile' status]
 Зареждай и контакти със състояние "На мобилния"
-[Text]
-Текст
-[Default]
-Стандарт
+[Event notifications]
+
+[Notifications]
+Уведомявания
 [News feeds]
 Новини
-[Client notifications]
-Уведомявания
-[Timeout (sec.)]
-Времетраене (сек)
-[(0 = default, -1 = infinite)]
-(0=стандарт, -1=безкрайно)
-[Use balloon notifications in system tray instead of popups]
-Ползване на балонни известия в трея вместо popup
 [News Feed types to notify:]
 Уведомяване за следните новини:
+[Other events]
+
+[Client notifications]
+Уведомявания
+[Preview]
+Преглед
+[Use balloon notifications in system tray instead of popups]
+Ползване на балонни известия в трея вместо popup
 [Advanced Settings]
 Допълнителни настройки
 [Force secure (HTTPS) connection]
 Задължително ползване на сигурна (HTTPS) връзка
 [Post Miranda statuses to Wall]
 Публикуване на състоянията от Miranda на стената
+[Enable logging for debugging purposes]
+
+[Use secure connection also for channel requests]
+
 [Also disconnect chat when going to offline]
 Изключване на чат функционалността при "Извън линия"
 [Map non-standard statuses to Invisible (instead of Online)]
 Ползване на състояние Невидим вместо "На линия" при нестандартно за Facebook състояние
+[Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
+
+[Use local time for received messages]
+
+[Use this server for opening links:]
+
+[Allow posting statuses to my pages (may slow down login)]
+
 ;file \protocols\FacebookRM\src\communication.cpp
+[Login error: %s]
+
+[Unknown error]
+
+[Login error: Invalid request.]
+
 [Your account requires HTTPS connection. Activating.]
 Акаунтът изисква HTTPS връзка. Активиране.
 [Login error: Some Facebook things are required.]
@@ -67,14 +103,64 @@
 Проблем с Facebook - вероятно уебсайта е обновен. Очаквайте актуализация на протокола Facebook.
 [Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
 За изпращането на съобщения до дуги клиенти е необходимо потвърждение.\nОтворете уебстраницата на Facebook и опитайте да изпратите съобщението до контакта отново!
+[Timeout when sending message.]
+
+[Status update was successful.]
+
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Моля, въведете потребителско име.
 [Please enter a password.]
 Моля, въведете парола.
 ;file \protocols\FacebookRM\src\constants.h
+[Most Recent]
+
+[Wall Posts]
+
+[Top News]
+
+[Photos]
+
+[Links]
+
+[Apps and Games]
+
+[Classic website]
+
+[Mobile website]
+
+[Smartphone website]
+
+[Public]
+
+[Friends of friends]
+
+[Friends]
+
+[Friends except acquaintances]
+
+[Only me]
+
 ;file \protocols\FacebookRM\src\contacts.cpp
+[Contact was removed from your server list.]
+
+[Error occured when removing contact from server.]
+
+[Request for friendship was sent.]
+
+[Error occured when requesting friendship.]
+
+[Request for friendship was canceled.]
+
+[Error occured when canceling friendship request.]
+
 ;file \protocols\FacebookRM\src\dialogs.cpp
+[Default]
+Стандарт
+[<< Contacts]
+
+[What's on your mind, %s?]
+
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
 Бележка: Уверете се,че сте изключили "Потвърждаване на SSL сертификатите" (в мрежовите настройки).
 [Sample event]
@@ -86,6 +172,20 @@
 [Sample notification]
 Пример за уведомяване
 ;file \protocols\FacebookRM\src\json.cpp
+[a sticker]
+
+[files]
+
+[a file]
+
+[photos]
+
+[a photo]
+
+[User sent you %s:]
+
+[Message read: %s]
+
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Не можете да изпращате съобщения, когато сте "Извън линия"
@@ -95,24 +195,72 @@
 [Contact is no longer on server-list.]
 Контактът вече не е в списъка на сървъра.
 ;file \protocols\FacebookRM\src\proto.cpp
+[%s server connection]
+
+[Unable to get Netlib connection for Facebook]
+
+[Avatars]
+Аватари
+[Facebook ID must be numeric value.]
+
+[Network]
+Мрежа
+[Account]
+Акаунт
+[Events]
+Събития
+[Advanced]
+Разширени
+[Share status...]
+
+[Own wall]
+
+[Loading newsfeeds...]
+
+[Checking friend requests...]
+
+[Refreshing buddy list...]
+
+[Do you want to cancel your friendship with '%s'?]
+
+[Show 'Share status' window]
+
+[Notification]
+
 [News Feed]
 Новина
 [Other Event]
 Друго събитие
-[Network]
-Мрежа
-[Advanced]
-Разширени
-[Popups]
-РopUps
-[Popups]
-РopUps
-[Events]
-Събития
 ;file \protocols\FacebookRM\src\theme.cpp
+[Facebook icon]
+
 [Mind]
 Мисли си
+[Poke]
+
+[Newsfeed]
+
+[Friendship details]
+
+[Visit profile]
+
+[Visit friendship details]
+
+[Cancel friendship]
+
+[Cancel friendship request]
+
 [Request friendship]
 Молба за приятелство
-[Mind...]
-Мисля...
+[Approve friendship]
+
+[Services...]
+
+[Refresh Buddy List]
+
+[Services]
+Услуги
+[Check Friends Requests]
+
+[Check Newsfeeds]
+

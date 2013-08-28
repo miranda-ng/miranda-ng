@@ -16,6 +16,8 @@
 Miranda NG настройки
 [Use arrow keys to choose category]
 Използвайте стрелките, за да изберете категория
+[OK]
+ОК
 [Cancel]
 Отказ
 [Apply]
@@ -25,17 +27,37 @@ Miranda NG настройки
 [Advanced]
 Разширени
 ;file \plugins\ModernOpt\src\modernopt.cpp
+[Home]
+
+[Miranda NG configuration center]
+
 [Accounts]
 Акаунти
+[Setup your account information to start messaging.]
+
 [Style]
 Стил
+[Change the look of Miranda NG according to your taste.]
+
 [Contacts]
 Контакти
+[Configure behaviour of your contact list.]
+
 [Chats]
 Разговори
+[Customize look&&feel of your chat windows here.]
+
 [Ignore]
 Игнориране
+[Ban those users and events, you are annoyed with.]
+
 [Status]
 Състояние
+[Set your status messages and idle reporting.]
+
+[Addons]
+
+[Miranda NG is all about plugins. Manage all the plugins you have here.]
+
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
 Направените промени не бяха запаметени.\nЖелаете ли да бъдат приложени преди да продължите?

@@ -5,7 +5,11 @@
 ;  Version: 0.1.0.1
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
+[This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
+
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
+[Avatar List Popup]
+
 [Save As...]
 Запис като...
 [Delete this entry]
@@ -14,40 +18,58 @@
 Изтриване и на файла
 [Avatar History]
 История на аватарите
+[Static]
+
+[Open Folder]
+
 [Store this user's old avatars in disk]
 Запис на старите аватари на потребителя на диска
 [Log this user's avatars changes to history]
 Запазване на промените в историята
 [Show popups for this user]
 Показване на popup за потребителя
+[OK]
+ОК
+[Protocols]
+
 [Enable tracking for these protocols:]
 Следене на следните протоколи:
+[MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
+
 [Show popup when a contact change his avatar]
 popup когато контакта промени аватара си
+[Colours]
+Цветове
 [Background colour]
 Цвят на фона
-[Background colour]
-Фонов цвят
 [Text colour]
 Цвят на текста
 [Use Windows colours]
 Цветове от Windows
 [Use default colours]
 Стандартни цветове
+[Delay]
+
 [From Popup plugin]
 От приставката Popup
 [Custom]
 Избор
+[Permanent]
+
 [Actions]
 Действия
 [On right click:]
 Десен бутон:
 [On left click:]
 Ляв бутон:
+[Track]
+
 [Avatar change:]
 Промяна на аватар:
 [Avatar removal:]
 Премахване на аватар:
+[Preview]
+Преглед
 [Avatar History: Select how to store history avatars]
 История на аватари: Изберете начин за съхраняване на историята
 [Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.]
@@ -75,6 +97,8 @@ popup когато контакта промени аватара си
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
 Всички аватари в <Профил>\\История на аватарите\\<Протокол>\\<Contact ID>\\<Времева марка> (един и същ аватар може да бъде запаметен много пъти)
 ;file \plugins\AvatarHistory\src\AvatarDlg.cpp
+[Avatar History for %s]
+
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
 Сигурни ли сте, че желаете записът в историята да бъде изтрит?\nЗаписът в историята ще бъде изтрит, а аватарът ще бъде запазен!
 [Delete avatar log?]
@@ -87,9 +111,33 @@ popup когато контакта промени аватара си
 Изтриване на аватара?
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
 Сигурни ли сте, че желаете архивираният аватар да бъде изтрит?\nПрепратката и аватарът ще бъдат изтрити също.\nВНИМАНИЕ: Възможно да бъдат засегнати и други препратки!
+[Avatar History is empty!]
+
+[avatar path is null.]
+
 [View Avatar History]
 История на аватарите
+[Save Avatar for %s]
+
+[Save Avatar]
+
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
+[AVH Debug]
+
+[Removed avatar, no avatar before...skipping]
+
+[Hashes are the same... skipping]
+
+[Avatar History: Unable to save avatar]
+
+[AVH Debug: File copied successfully]
+
+[Avatars]
+Аватари
+[Contact changed avatar]
+
+[Contact removed avatar]
+
 ;file \plugins\AvatarHistory\src\AvatarHistory.h
 [removed his/her avatar]
 премахна своя аватар
@@ -98,17 +146,35 @@ popup когато контакта промени аватара си
 ;file \plugins\AvatarHistory\src\icolib.cpp
 [History]
 История
+[Avatar Overlay]
+
 ;file \plugins\AvatarHistory\src\options.cpp
+[Do nothing]
+Нищо
+[Close popup]
+Затваря popup
 [Show avatar history]
 Показване на история за аватара
 [Show contact history]
 Показване на история за контакта
+[Test Contact]
+
+[Test description]
+
+[Avatar]
+
 [Popups]
-РopUps
-[Popups]
-РopUps
+Popups
 [Avatar Change]
 Промяна на аватар
 ;file \plugins\AvatarHistory\src\utils.cpp
 [Unknown UIN]
 Неизвестен UIN
+[Unknown Protocol]
+
+[AVH Debug: GetOldStyleAvatarName]
+
+[Avatar History: Unable to create shortcut]
+
+[AVH Debug: Shortcut created successfully]
+

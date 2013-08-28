@@ -5,35 +5,165 @@
 ;  Version: 0.9.1.1
 ;  Authors: Scott Ellis
 ;============================================================
+[Ping labelled IP addresses or domain names.]
+
 ;file \plugins\Ping\res\ping.rc
+[Delay between pings (secs):]
+
+[Timeout]
+Времетраене
+[Ping timeout (secs):]
+
+[Logging]
+
+[Log to File]
+
+[Log Filename:]
+
 [Network]
 Мрежа
 [Popups]
-РopUps
-[Popups]
-РopUps
+Popups
+[Reply]
+
+[Block Repetitions]
+
+[View Log]
+
+[Browse...]
+
+[Interface]
+
+[Do not change icon when testing]
+
+[Use the Customize/Fonts options to change text size and colour.]
+
+[Indent:]
+
 [Row height:]
 Ред (височина):
+[Repeats for success/failure:]
+
+[Attach to contact list]
+
+[Use CSV format]
+
 [Add]
 Добавяне
 [Remove]
 Премахване
 [Edit]
 Редактиране
+[Up]
+
+[Down]
+
+[Edit Host]
+
+[OK]
+ОК
 [Cancel]
 Отказ
+[Address:]
+
+[Label:]
+
+[TCP Connect]
+
 [Port:]
 Порт:
+[Control Protocol:]
+
+[Set my status to:]
+
+[On success, if my status is:]
+
+[Execute the following command on double-click:]
+
 [Contact]
 Контакт
+[Protocols]
+
+[(Optional) Command Parameters:]
+
+[Menu]
+
+[Graph]
+
+[Enable]
+
+[Disable all pings]
+
+[Enable all pings]
+
+[Options...]
+
+[Hosts...]
+
 ;file \plugins\Ping\src\menu.cpp
+[PING]
+
+[Enable All Pings]
+
+[Disable All Pings]
+
 ;file \plugins\Ping\src\options.cpp
+[All\0*.*\0Text\0*.TXT\0]
+
 [<none>]
 <няма>
+[<all>]
+
+[Settings]
+Настройки
+[Hosts]
+
 ;file \plugins\Ping\src\ping.cpp
+[Ping Plugin]
+
 ;file \plugins\Ping\src\pinggraph.cpp
+[Show grid lines]
+
+[Show stats]
+
+[%d ms]
+
+[AVG %.1lf ms]
+
+[MAX %hd ms]
+
+[MIN %hd ms]
+
 ;file \plugins\Ping\src\pingthread.cpp
+[%s - setting status of protocol '%s' (%d)]
+
+[%s - reply, %d]
+
+[%s - timeout]
+
+[Disable]
+
+[enabled]
+
+[double clicked]
+
+[Ping]
+
+[Show/Hide &Ping Window]
+
 ;file \plugins\Ping\src\rawping.cpp
+[Host %s requests that you reduce the amount of traffic you are sending.]
+
 ;file \plugins\Ping\src\utils.cpp
+[Unknown Address]
+
 [Unknown]
 Неизвестно
+[Responding]
+
+[Not Responding]
+
+[Testing]
+
+[Disabled]
+

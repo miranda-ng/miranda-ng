@@ -10,16 +10,40 @@
 Имейл:
 [Password:]
 Парола:
+[Create a new Mail.ru account]
+
 [Configuration]
 Настройване
+[Login Server:]
+
 [Port:]
 Порт:
 [Default]
 Стандарт
+[Automatically request authorization on logon]
+
+[Automatically add contacts to server list on logon]
+
+[Automatically grant authorization to users in contact list]
+
+[Automatically grant authorization to new users]
+
+[Disable spam check]
+
+[Notify me when a message delivery has failed]
+
+[Notify about new mail if increment]
+
+[Notify about new mail tray icon]
+
+[Click to Inbox]
+
+[Show received formatted text (receive RTF)]
+
+[Send formatted text (send RTF)]
+
 [Background colour]
 Цвят на фона
-[Background colour]
-Фонов цвят
 [Font]
 Шрифт
 [Summary]
@@ -34,60 +58,418 @@
 Пол:
 [Age:]
 Възраст:
+[from:]
+
+[to:]
+
+[Birthday:]
+
+[Zodiak:]
+
 [Location]
 Местоположение
 [Country:]
 Държава:
 [State:]
 Област:
+[Search online users only]
+
 [City:]
 Град:
+[Remember]
+
+[Enable avatars support (loading)]
+
+[Server:]
+
+[Updates check interval, min]
+
+[Return absolute path]
+
+[Delete avatar file with contact]
+
+[Use keep-alive connections]
+
+[Files exchange]
+
+[No out connection on send]
+
+[No out connection on receive]
+
+[Out connections: ignory additional ports (443, 2041)]
+
+[Hide my IP addresses]
+
+[Add extra address]
+
+[Your host (or router):]
+
+[File send block size:]
+
+[512 - 65536 bytes]
+
+[Enable direct connections]
+
+[Enable MRIM proxy connections]
+
+[Mail.ru Agent]
+
 [Full e-mail:]
 E-поща:
+[Example: Petrov_Ivan@mail.ru]
+
+[Create a new Mail.ru account using the Mail.ru website]
+
+[Retrieve a lost password]
+
+[Leave empty if you dont want change password]
+
+[Popup type]
+
+[Popup settings]
+
+[Enable]
+
+[&Use Windows colors]
+
+[Back Color]
+
 [Text Color]
 Цвят на текста
+[Timeout]
+Времетраене
+[Previe&w]
+
+[Custom Status "%s" Details]
+
 [Closing in %d]
 Затваряне след %d
+[Title:]
+
+[Message:]
+
+[Enable anti-spam]
+
+[Check temp contacts]
+
+[Delete spam bot contacts]
+
+[Max. language changes in message (0 - disabled)]
+
+[Show pop up]
+
+[Write to system history]
+
+[Send spam report to server]
+
+[Bad words list]
+
 [Add]
 Добавяне
 [Remove]
 Премахване
+[Ignory non AlphaNumeric characters]
+
+[OK]
+ОК
 [Cancel]
 Отказ
+[Notify]
+
+[Writed:]
+
+[Select e-mail]
+
 ;file \protocols\MRA\src\MraAntiSpam.cpp
+[Spam bot blocked]
+
+[Spam bot contact deleted]
+
 ;file \protocols\MRA\src\MraAvatars.cpp
+[Avatars' plugin connections]
+
+[Avatars]
+Аватари
+[Avatars: server return HTTP code: %lu]
+
+[Avatars: cant open file %s, error]
+
 ;file \protocols\MRA\src\MraChat.cpp
+[CHAT plugin is required for conferences. Install it before chatting]
+
+[invite sender]
+
+[invite new members]
+
 ;file \protocols\MRA\src\MraConstans.h
+[Your contact wakes you]
+
+[Display &Inbox]
+
+[Display &Inbox status]
+
+[Edit &Profile]
+
+[My Album]
+
+[My Blog]
+
+[My Blog Status]
+
+[My Video]
+
+[My Answers]
+
+[My World]
+
+[Zhuki]
+
+[Web search]
+
+[Update all users info]
+
+[Check updates users avatars]
+
+[Request authorization for all]
+
 [Request authorization]
 Молба за упълномощаване
 [Grant authorization]
 Даване на пълномощно
+[&Send postcard]
+
+[&View Album]
+
+[&Read Blog]
+
+[Reply Blog Status]
+
+[View Video]
+
+[Answers]
+
+[World]
+
+[Send &Nudge]
+
+[Mail box deleted]
+
+[Contact not on server]
+
+[Not authorized]
+
+[Phone/SMS only contact]
+
+[Blog status message]
+
+[New E-mail available in Inbox]
+Нов имейл във входящата кутия
+[Please authorize me]
+
 ;file \protocols\MRA\src\MraFilesQueue.cpp
+[Receive files: cant allocate disk space for file, size %lu bytes, error]
+
+[Receive files: cant open file %s, error]
+
+[Receive files: request for file %s not sended, error]
+
+[Send files: cant open file %s, error]
+
+[Send files: requested file: %S - not found in send files list.]
+
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
+[No description given]
+
 ;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
 Главно меню
+[Contact Menu]
+
+[Extra status]
+
+[Custom Status]
+
 ;file \protocols\MRA\src\MraPopUp.cpp
 [None]
 Няма
+[Debug]
+
 [Information]
 Информация
+[Question]
+
+[Warning]
+
 [Error]
 Грешка
+[NewMail]
+
 [Popups]
-РopUps
-[Popups]
-РopUps
+Popups
 ;file \protocols\MRA\src\MraProto.cpp
+[%s connection]
+
+[Mail.ru Xstatus]
+
+[Mail.ru extra info]
+
 [E-mail address]
 Имейл
 ;file \protocols\MRA\src\Mra_functions.cpp
+[Unread mail is available: %lu/%lu messages]
+
+[From: %s\r\nSubject: %s\r\n%s]
+
+[No unread mail is available\r\nTotal messages: %lu]
+
+[Closing in]
+
+[Reply to %s blog status]
+
+[Set my blog status]
+
+[Writed]
+
+[Your password expired. Please reenter password in the Options dialog]
+
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Мрежа
+[Account]
+Акаунт
+[Connections]
+
+[Anti-spam]
+
 [Files]
 Файлове
 ;file \protocols\MRA\src\Mra_proto.cpp
+[Please, setup e-mail in options]
+
+[Please, setup password in options]
+
+[Logon error: invalid login/password]
+
+[MRIM_CS_MESSAGE_STATUS: not found in queue]
+
+[Server error: cant get MPOP key for web authorize]
+
+[MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
+
+[invisible status changed]
+
+[MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu]
+
+[MRIM_CS_*_CONTACT_ACK: not found in queue]
+
+[MRIM_ANKETA_INFO: not found in queue]
+
+[MRIM_CS_GAME: unknown internal game message code: %lu]
+
+[MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu]
+
+[MRIM_CS_SMS_ACK: not found in queue]
+
+[Mail.ru System notify]
+
 ;file \protocols\MRA\src\Mra_svcs.cpp
+[Sick]
+
+[Home]
+
+[Eating]
+
+[Compass]
+
+[On WC]
+
+[Cooking]
+
+[Walking]
+
+[Alien]
+
+[Shrimp]
+
+[Got lost]
+
+[Crazy]
+
+[Duck]
+
+[Playing]
+
+[Smoking]
+
+[Office]
+
+[Meeting]
+
+[Beer]
+
+[Coffee]
+
+[Working]
+
+[Relaxing]
+
 [On the phone]
 На телефона
+[In institute]
+
+[At school]
+
+[Wrong number]
+
+[Laughing]
+
+[Malicious]
+
+[Imp]
+
+[Blind]
+
+[Disappointed]
+
+[Almost crying]
+
+[Fearful]
+
+[Angry]
+
+[Vampire]
+
+[Ass]
+
+[Love]
+
+[Sleeping]
+
+[Cool!]
+
+[Peace!]
+
+[Cock a snook]
+
+[Get out]
+
+[Death]
+
+[Rocket]
+
+[Devil-fish]
+
+[Heavy metal]
+
+[Things look bad]
+
+[Squirrel]
+
+[Star]
+
+[Music]
+
+[Dating]
+
+[Are you sure?]
+

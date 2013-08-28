@@ -5,17 +5,31 @@
 ;  Version: 0.5.0.0
 ;  Authors: yaho
 ;============================================================
+[FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
+
 ;file \plugins\FTPFileYM\res\ftpfile.rc
 [FTP account]
 FTP акаунт
 [Host name]
 Име на хоста
+[User]
+
+[Password]
+Парола
+[URL]
+URL
 [Directory on server]
 Директория на сървъра
+[Port]
+
 [Command after upload]
 Команда след качване
 [Use passive mode]
 Ползване на пасивен режим
+[Account name]
+
+[Protocol]
+Протокол
 [Default FTP server]
 Стандартен FTP сървър
 [File download link]
@@ -24,6 +38,8 @@ FTP акаунт
 Затваряне на прозореца след качване на файл
 [Copy download link to message log]
 Копиране на връзката за сваляне в дневника
+[Autosend download link to contact]
+
 [Menu items]
 Елементи на менюто
 [Use submenu (restart required)]
@@ -58,14 +74,22 @@ FTP акаунт
 Прякор
 [Close]
 Затваряне
+[Clipboard]
+
 [Options]
 Настройки
+[Pause]
+
 [File Manager]
 Диспечер на файлове
+[Server:]
+
 [User info]
 Подробности за потребителя
 [UPLOADING...]
 КАЧВАНЕ...
+[Open in Browser]
+
 [FTP File Manager]
 FTP File диспечер
 [Select All]
@@ -78,6 +102,8 @@ FTP File диспечер
 Изтриване от FTP
 [Enter file name]
 Въведете име на файла
+[OK]
+ОК
 [Cancel]
 Отказ
 [File exists]
@@ -96,8 +122,12 @@ FTP File диспечер
 Затваряне на прозореца след качването на файл
 [Automatically delete file after...]
 Автоматично изтриване на файла след...
+[Disabled]
+
 [Delete from List]
 Изтриване от списъка
+[Copy Link]
+
 ;file \plugins\FTPFileYM\src\dialog.cpp
 [User Info]
 Подробности за потребителя
@@ -112,8 +142,22 @@ FTP File диспечер
 [Do you really want to cancel all running jobs?]
 Наистина ли желаете всички текущи задачи да бъдат отменени?
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
+[FTP Server 1]
+
+[FTP Server 2]
+
+[FTP Server 3]
+
+[FTP Server 4]
+
+[FTP Server 5]
+
+[Send file]
+
 [Resume]
 Продължаване
+[FTP File]
+
 [FTP Server %d]
 FTP сървър %d
 [Upload file(s)]
@@ -141,6 +185,8 @@ FTP_Показване_на_диспечера
 [Upload canceled]
 Отменено качване
 ;file \plugins\FTPFileYM\src\job_generic.cpp
+[All Files (*.*)]
+
 [FTP File - Select files]
 FTP File: Изберете файлове
 [FTP File - Select a folder]
@@ -168,6 +214,12 @@ FTP File: Изберете папка
 ;file \plugins\FTPFileYM\src\job_packer.cpp
 [Error occured when zipping the file(s).]
 Възникна грешка при архивирането на файла(овете).
+[%0.1f kB/s]
+
+[%0.1f%% (%d kB/%d kB)]
+
+[%s (%d kB/%d kB)]
+
 [Do you really want to cancel this upload?]
 Наистина ли желаете качването да бъде отменено?
 [Status: %s\r\nFile: %s\r\nServer: %s]
@@ -203,6 +255,14 @@ FTP+SSL (Explicit)
 FTP+SSL (Implicit)
 [SFTP (Secure FTP over SSH)]
 SFTP (Secure FTP over SSH)
+[minutes]
+
+[hours]
+часове
+[days]
+дни
+[Services]
+Услуги
 [Accounts]
 Акаунти
 [Advanced]

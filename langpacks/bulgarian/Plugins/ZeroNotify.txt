@@ -5,6 +5,8 @@
 ;  Version: 0.0.0.5
 ;  Authors: bidyut, Maat
 ;============================================================
+[Adds options to automatically disable notifications when a protocol is in a certain status.]
+
 ;file \plugins\ZeroNotification\res\ZeroNotify.rc
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 Скриване на елемента "Вкл./Изкл. на звука" от менюто (изисква рестартиране на Miranda)
@@ -15,6 +17,12 @@
 [No CLIST blink when:]
 Без - в списъка:
 ;file \plugins\ZeroNotification\src\common.h
+[Disable &Sounds]
+
+[Enable &Sounds]
+
 ;file \plugins\ZeroNotification\src\main.cpp
+[Zero Notifications]
+
 [Plugins]
 Приставки

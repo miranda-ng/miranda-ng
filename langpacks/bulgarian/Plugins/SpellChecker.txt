@@ -5,11 +5,17 @@
 ;  Version: 0.2.6.0
 ;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
 ;============================================================
+[Spell checker for the message windows. Uses Hunspell to do the checking.]
+
 ;file \plugins\SpellChecker\res\resource.rc
 [Replacements]
 Замествания
 [Enable auto-replacements]
 Включване на автоматичното заместването
+[Language:]
+
+[Add...]
+
 [Edit...]
 Редактиране
 [Remove]
@@ -24,8 +30,12 @@
 Поправка:
 [Use variables in correction]
 Ползване на променливи
+[OK]
+ОК
 [Cancel]
 Отказ
+[Spell Checker]
+
 [Default language:]
 Стандартен език:
 [Auto-replace words with dictionary suggestions]
@@ -63,7 +73,17 @@
 Грешна поправка
 [The correction can't be empty!]
 Не сте попълнили полето "Поправка"
+[The correction can't be equal to the wrong word!]
+
 ;file \plugins\SpellChecker\src\dictionary.cpp
+[tl_PH]
+
+[Tagalog (Philippines)]
+
+[de_frami_neu]
+
+[German (Germany)]
+
 ;file \plugins\SpellChecker\src\options.cpp
 [Message Sessions]
 Разговори
@@ -96,6 +116,10 @@
 DLL файл със знамена
 [Enable/disable spell checker]
 Вкл./Изкл. проверяването на правописа
+[Enabled]
+
+[Disabled]
+
 ;file \plugins\SpellChecker\src\utils.cpp
 [There are %d spelling errors. Are you sure you want to send this message?]
 Допуснали сте %d правописни грешки. Наистина ли желаете съобщението да бъде изпратено?
@@ -105,6 +129,8 @@ DLL файл със знамена
 Други:
 [Always replace with]
 Винаги заменяй с
+[Ignore all]
+
 [Add to dictionary]
 Добавяне в речника
 [Corrections]

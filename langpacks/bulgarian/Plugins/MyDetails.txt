@@ -5,27 +5,39 @@
 ;  Version: 0.0.1.11
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
+[Shows and allows you to edit your details for all protocols.]
+
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Задаване на прякор
 [Nickname:]
 Прякор:
+[OK]
+ОК
 [Cancel]
 Отказ
 [General]
 Основни
+[...avatar]
+
 [RTL]
 Л<Д
 [Align text to right]
 Текста вдясно
+[...nickname]
+
 [Auto-resize frame]
 Авторазмер на рамката
 [Use contact list smileys]
 Ползване на усмивки в списъка с контакти
+[...status]
+
 [Replace Smileys]
 Замяна на усмивките
 [Resize Smileys]
 Оразмеряване на усмивките
+[...status message]
+
 [Top:]
 Горе:
 [Bottom:]
@@ -34,18 +46,36 @@
 Ляво:
 [Right:]
 Дясно:
+[Avatar]
+
 [Custom size:]
 Задаване на размер:
 [pixels]
 пиксела
-[pixels]
-пиксела
 [Allow it to grow]
 Възможност за увеличаване
+[Draw border]
+
+[Round corners]
+
+[Custom corner size:]
+
 [Use free space (under avatar) to other texts]
 Ползване на мястото под аватара за друг текст
+[Global On...]
+
+[Frame Options]
+
+[Cycle through accounts every:]
+
 [seconds]
 секунди
+[Account]
+Акаунт
+[Show account name]
+
+[Show account cycle button]
+
 [Set My Status Message for All Status]
 Текст за състояние за всички състояния
 [Status Message:]
@@ -78,14 +108,32 @@
 Задаване на текст за състояние...
 [Enable Listening To]
 Включване на "Слуша"
+[Show next account]
+
+[Show previous account]
+
+[Cycle through accounts]
+
+[Don't cycle through accounts]
+
 ;file \plugins\MyDetails\src\data.cpp
+[<no status name>]
+
 ;file \plugins\MyDetails\src\frame.cpp
+[Nickname]
+
 [Status]
 Състояние
+[Status Message]
+
+[Listening To]
+
 [My Details]
 Моите детайли
 [Background]
 Фон
+[Avatar Border]
+
 [Show My Details]
 Показване на моите детайли
 [Enable Listening To for %s]
@@ -99,6 +147,8 @@
 [Hide My Details]
 Скриване на моите детайли
 ;file \plugins\MyDetails\src\mydetails.cpp
+[Listening to]
+
 [Previous protocol]
 Предишен протокол
 [Next protocol]

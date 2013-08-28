@@ -5,6 +5,8 @@
 ;  Version: 0.11.0.1
 ;  Authors: Miranda NG project
 ;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+
 ;file \plugins\Db3x\res\resource.rc
 [Install Database Settings]
 Инсталиране на нови настройки в базата от данни
@@ -42,8 +44,12 @@
 Отказ от вноса
 [Database Import Complete]
 Внасянето на базата от данни завърши
+[The import has completed from]
+
 [What do you want to do with the file now?]
 Какво желаете да стане с файла?
+[&Recycle]
+
 [&Delete]
 Изтриване
 [&Move/Rename]

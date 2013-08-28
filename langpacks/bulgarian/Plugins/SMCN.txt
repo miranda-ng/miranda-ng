@@ -4,3 +4,71 @@
 ;  Versions: 0.0.1.6-0.0.3.19
 ;  URL: http://www.torun.mm.pl/~slotwin/smcn/smcnotifytest.zip
 ;============================================================
+[Status Message Change Notify]
+
+[Enable &status message change notification]
+
+[Disable &status message change notification]
+
+[View Status Message History]
+
+[List Contacts with Status Message]
+
+[Disable SMCN Popups]
+
+[Enable SMCN Popups]
+
+[Status Message Changed]
+
+[changes his/her status message to:]
+
+[cleares his/her status message]
+
+[changes his/her status message:]
+
+[<empty status message>]
+
+[Old status message]
+
+[New status message]
+
+[List Status Messages]
+
+[Go To URL in Status Message]
+
+[Status Message History]
+
+[Use OSD]
+
+[Do not notify and log when status message is empty]
+
+[Show status message changes in message window]
+
+[Message cleared]
+
+[Message changed]
+
+[%n New Status Message]
+
+[%o Old Status Message]
+
+[%D/%M/%Y day/month/year]
+
+[%c Custom nickname]
+
+[%H:%m Time (in 24h format)]
+
+[%h:%m %a (in 12h format)]
+
+[\\n line break]
+
+[\\t tab stop]
+
+[View status message history]
+
+[Clear history]
+
+[Do not log empty status messages]
+
+[Only if status message has changed]
+

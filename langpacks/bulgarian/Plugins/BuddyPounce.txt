@@ -5,14 +5,70 @@
 ;  Version: 0.3.2.1
 ;  Authors: Jonathan Gordon
 ;============================================================
+[Allows you to send a message to contacts if they change status.]
+
 ;file \plugins\BuddyPounce\res\resource.rc
+[Confirm Pounce send]
+
+[Send]
+
 [Cancel]
 Отказ
+[Pounce being sent to]
+
+[Buddy Pounce]
+
+[OK]
+ОК
+[The Message:]
+
+[Delete Pounce]
+
+[Load default Settings]
+
+[Setting Value]
+Стойност на настройката
+[Setting text...........]
+
+[Settings]
+Настройки
+[Contact To Send Pounce To]
+
+[<< Simple]
+
 [Advanced >>]
 Разширено >>
+[The Message]
+
+[Dialog]
+
 [Status]
 Състояние
+[Use Advanced Dialog]
+
+[The Message (characters: )]
+
+[Default Settings]
+
+[Show Delivery Messages]
+
+[These settings are also used when sending a "Simple" pounce]
+
 ;file \plugins\BuddyPounce\src\dialog.cpp
+[Send If My Status Is...]
+
+[Send If They Change Status to...]
+
+[Reuse Pounce]
+
+[Give Up delay]
+
+[Confirmation Window]
+
+[Send If My Status Is]
+
+[Any]
+
 [Online]
 На линия
 [Away]
@@ -23,8 +79,64 @@
 Зает
 [DND]
 Не безпокойте
+[Free For Chat]
+
 [Invisible]
 Невидим
+[On The Phone]
+
+[Out To Lunch]
+
+[Send If Their Status changes]
+
+[From Offline]
+
+[To Online]
+
+[To Away]
+
+[To NA]
+
+[To Occupied]
+
+[To DND]
+
+[To Free For Chat]
+
+[To Invisible]
+
+[To On The Phone]
+
+[To Out To Lunch]
+
+[The Message    (%d Characters)]
+
+[Couldnt Allocate enough memory]
+
+[error......]
+
+[The Message    (0 Characters)]
+
+[Reuse this message? (0 to use it once)]
+
+[Times]
+
+[Giveup after.. (0 to not giveup)]
+
+[Days]
+
+[Show confirmation window? (0 to not Show)]
+
+[Seconds to wait before sending]
+
+[Pounce being sent to %s in %d seconds]
+
+[Retry]
+
+[Message successfully sent to %s]
+
+[Message failed to send to %s]
+
 ;file \plugins\BuddyPounce\src\main.cpp
 [Message Sessions]
 Разговори

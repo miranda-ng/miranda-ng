@@ -5,6 +5,8 @@
 ;  Version: 0.0.0.8
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
+[Db autobackuper plugin.]
+
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Backup progress]
 Създаване на резервно копие
@@ -16,6 +18,8 @@
 Брой резервни копия за съхраняване:
 [Backup NOW]
 Резервно копие сега
+[Disabled]
+
 [When Miranda starts]
 При стартиране на Miranda
 [When Miranda exits]
@@ -24,15 +28,23 @@
 Всеки:
 [Backup to folder:]
 Папка за резервните копия:
+[Browse...]
+
 [Go to the "Customize -> Folders" to change settings]
 Можете да промените настройките от Персонализиране>Папки
 [Disable progress bar]
 Изключване на лентата за напредък
+[Disable Popups]
+
 ;file \plugins\Db_autobackups\src\backup.cpp
+[Miranda Databases]
+
 [All Files]
 Всички файлове
 [Backup in Progress]
 Създава се резервно копие
+[Rotating backup files...]
+
 [Copying database file...]
 Копира се файла на базата от данни...
 [Database backuped]
@@ -42,7 +54,39 @@
 Създаване резервно копие на профила
 [Save Profile As...]
 Запис на профила като...
+[Database Backups]
+
+[Backup Folder]
+
+[Database]
+База от данни
 ;file \plugins\Db_autobackups\src\options.cpp
+[path to root miranda folder]
+
+[path to current miranda profile]
+
+[name of current miranda profile (filename, without extension)]
+
+[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
+
+[same as environment variable %APPDATA% for currently logged-on Windows user]
+
+[username for currently logged-on Windows user]
+
+["My Documents" folder for currently logged-on Windows user]
+
+["Desktop" folder for currently logged-on Windows user]
+
+[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
+
+[Variables]
+
+[Days]
+
+[Hours]
+
+[Minutes]
+
 [Select Backup Folder]
 Избор на папка за резервните копия
 [Error creating backup folder]

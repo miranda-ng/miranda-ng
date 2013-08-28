@@ -5,19 +5,48 @@
 ;  Version: 2.2.0.1
 ;  Authors: Sam Kothari, Miranda NG Team
 ;============================================================
+[Windows Explorer extension for Miranda NG.]
+
+;file \plugins\ShellExt\res\shldlgs.rc
 [Display contacts in their assigned groups (if any)]
 Изобразяване на контактите в групите им (ако имат такава)
 [Only if/when the contact list is using them]
 Само ако/когато се използват в списъка с контакти
 [Display hidden, ignored or temporary contacts]
 Изобразяване на скрити, игнорирани и временни контакти
+[Menus]
+Менюта
+[Shell Status]
+
+[Shell context menus]
+
 [Do not display the profile name in use]
 Без името на профила
 [Show contacts that you have set privacy rules for]
 Показване на контакти, за които е зададено правило за поверителност
+[Remove]
+Премахване
 [Do not show status icons in menus]
 Показване на икони за състояние
 [Do not show contacts that are offline, even if my contact list does]
 Без контакти, които са извън линия
+;file \plugins\ShellExt\src\options.cpp
+[Problem, registration missing/deleted.]
+
+[Successfully created shell registration.]
+
+[Not Approved]
+
+[Approved]
+
+[Are you sure? this will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
+
 [Disable/Remove shlext]
 Изключване/Премахване на shlext
+;file \plugins\ShellExt\src\shlcom.cpp
+[Miranda]
+Miranda
+[Recently]
+
+[Clear entries]
+

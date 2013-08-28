@@ -5,7 +5,11 @@
 ;  Version: 1.3.0.9
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
+[Adds some useful options to a contacts menu.]
+
 ;file \plugins\MenuItemEx\res\resource.rc
+[Enter an authorization request]
+
 [&Send]
 Изпращане
 [&Cancel]
@@ -40,11 +44,27 @@
 Копиране на ID
 [Add protocol name]
 Добавяне името на протокола
+[Show ID in menu item]
+
+[Trim too long ID]
+
 [* Use Ctrl+click to see popup with the copied text]
 * Използвайте Ctrl+ляв бутон за показване на popup с копирания текст
+[Hide contact on 'Ignore all']
+
+[Other options]
+
+[Automatically refresh contact's details after they come online]
+
 ;file \plugins\MenuItemEx\src\main.cpp
+[Status message]
+
+[XStatus title]
+
 [XStatus message]
 Текст на хСъстояние
+[Listening to]
+
 [Activity title]
 Етикет на дейността
 [Activity text]
@@ -57,18 +77,32 @@
 Никога видимо
 [Copy to Account]
 Копиране в Акаунт
+[Copy xStatus Message]
+
+[All]
+
 [Messages]
 Съобщения
+[URL]
+URL
 [Files]
 Файлове
 [User Online]
 Потребител "На линия"
+[Authorization]
+
 [You Were Added]
 Вие бяхте добавен
 [Typing Notify]
 Уведомяване при писане
+[Please authorize me to add you to my contact list.]
+
 [Do you want to send authorization request\nto new contact?]
 Желаете ли да бъде изпратена молба за упълномощаване до\nновия контакт?
+[Miranda NG]
+Miranda NG
+[MenuItemEx]
+
 [Open ignore settings]
 Отваряне настройките за игнориране
 [Request authorization]

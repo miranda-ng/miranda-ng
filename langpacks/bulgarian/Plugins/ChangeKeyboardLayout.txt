@@ -5,11 +5,15 @@
 ;  Version: 0.0.1.5
 ;  Authors: Yasnovidyashii
 ;============================================================
+[Plugin for changing keyboard layout of text (multilayout).]
+
 ;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
 [Hotkeys]
 Клавишни комбинации
 [Changing layout:]
 Смяна на клавиатурната подредба:
+["Current word" mode]
+
 [Changing layout (alternative):]
 Смяна на клавиатурната подредба (алтернативна комбинация):
 [Inverting lettercase:]
@@ -18,12 +22,16 @@
 Настройки
 [Two-way changing layout (experimental)]
 Двупосочна смяна (експериментално)
+[Log operations]
+
 [Copy result to clipboard]
 Копиране на резултата в клипборда
 [Show result in Popup]
 Показване на резултата в Popup
 [Strings for keyboard layouts]
 Низове за клавиатурните подредби
+[EN]
+
 [Default]
 Стандарт
 [Invert current state]
@@ -36,16 +44,42 @@
 Задаване на състояние за Caps Lock при смяна на буквите:
 [Change active keyboard layout in system]
 Сменяване на клавиатурната подредба на ОС
+[Colours]
+Цветове
+[Popup colours]
+
 [Windows colours]
 Цветове от Windows
 [Custom colours]
 Избор на цветове
+[Back]
+Назад
 [Text]
 Текст
+[Timeout]
+Времетраене
+[From Popup plugin]
+От приставката Popup
+[Permanent]
+
 [Custom]
 Избор
+[On left click]
+Ляв бутон
+[Copy to clipboard]
+Копиране в клипборда
+[Dismiss]
+
+[On right click]
+Десен бутон
+[Preview]
+Преглед
 ;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
+[ChangeKeyboardLayout]
+
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
+[Popup]
+
 [Changing Layout]
 Смяна на клавиатурната подредба
 [Changing Case]
@@ -53,6 +87,4 @@
 [Message Sessions]
 Разговори
 [Popups]
-РopUps
-[Popups]
-РopUps
+Popups

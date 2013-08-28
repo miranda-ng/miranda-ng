@@ -5,6 +5,8 @@
 ;  Version: 0.2.3.17
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
+[Smiley support for Miranda NG.]
+
 ;file \plugins\SmileyAdd\res\resource.rc
 [Smiley Categories]
 Категории усмивки
@@ -12,6 +14,14 @@
 Различен пакет усмивки за всяка категория
 [Name:]
 Име:
+[Author:]
+
+[Version:]
+
+[Preview]
+Преглед
+[Display]
+
 [Replace only smileys surrounded by spaces]
 Замяна само на усмивки оградени от интервал
 [Scale smiley to textheight]
@@ -22,6 +32,8 @@
 Висококачествено мащабиране
 [Animate]
 Анимиране
+[Max "Custom Smiley" height]
+
 [Min smiley height]
 Мин. височина на усмивките
 [Smiley Selector]
@@ -30,18 +42,28 @@
 Ограждане на вмъкнатите усмивки с интервал
 [Use first smiley for selection size]
 Задаване на размер от първата усмивка
+[IEView style window]
+
 [Input Area]
 Поле за въвеждане
+[Enable Smileys]
+
 [Don't replace at cursor]
 Без замяна при посочване
 [Built-In Message Dialog Support]
 Прозорец за съобщения
+[Disable]
+
 [Smiley Button]
 Бутон "Усмивки"
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show Smiley Selection Window]
 Показване на прозореца за избор на усмивка
 ;file \plugins\SmileyAdd\src\download.cpp
+[SmileyAdd]
+
+[Smiley Cache]
+
 [SmileyAdd HTTP connections]
 HTTP връзки на SmileyAdd
 ;file \plugins\SmileyAdd\src\main.cpp
@@ -49,6 +71,8 @@ HTTP връзки на SmileyAdd
 Бутон "Усмивки"
 [Assign Smiley Category]
 Задаване на категория усмивки
+[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
+
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
 Усмивки
@@ -56,14 +80,30 @@ HTTP връзки на SmileyAdd
 Персонализиране
 [Off]
 Изкл.
+[Top]
+
+[Bottom]
+
 [Smiley Packs]
 Пакети усмивки
 [All Files]
 Всички файлове
 ;file \plugins\SmileyAdd\src\services.cpp
+[Protocol specific]
+
 ;file \plugins\SmileyAdd\src\smileys.cpp
+[Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
+
 [There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
 Проблем при зареждането на пакет усмивки (би трябвало да е отстранен).\nПрегледайте мрежовия дневник за подробности.
+[Smiley #%u in file %s for Smiley Pack %s not found.]
+
 [Standard]
 Стандарт
+[Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
+
+[Regular Expression "%s" in smiley pack "%s" malformed.]
+
 ;file \plugins\SmileyAdd\src\smltool.cpp
+[d'Oh!]
+

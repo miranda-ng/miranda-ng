@@ -5,15 +5,53 @@
 ;  Version: 1.5.7.7
 ;  Authors: TioDuke
 ;============================================================
+[Flashes your keyboard LEDs when a message has arrived.]
+
 ;file \plugins\KeyboardNotify\res\resources.rc
+[Accounts to check]
+
+[Events to react on]
+
 [Incoming messages]
 Входящите съобщения
 [Incoming files]
 Входящи файлове
 [Incoming URLs]
 Входящи URL адреси
+[Everything else]
+
+[Message-Event only]
+
+[Blink if message window is open]
+
+[     ... and not in foreground]
+
+[Only if last is]
+
+[sec. old]
+
+[Flash until]
+
 [seconds]
 секунди
+[is re-attended]
+
+[Events are opened]
+
+[End of 'notify when' conditions]
+
+[Notify when]
+
+[Full Screen mode]
+
+[Screen Saver is running]
+
+[Workstation is Locked]
+
+[Defined programs are running]
+
+[All other situations]
+
 [Only notify if status is]
 Само при състояние
 [Online]
@@ -34,33 +72,147 @@
 На телефона
 [Out to lunch]
 На обяд
+[Pending Events]
+
+[Remind me every]
+
+[minutes]
+
 [Offline]
 Извън линия
+[xStatuses]
+
+[Keys to flash]
+
+[Num Lock]
+
+[Caps Lock]
+
+[Scroll Lock]
+
+[Flashing effects]
+
+[All at the same time]
+
+[In turn]
+
+[In sequence]
+
+[Custom theme]
+
+[Accordingly to events' count]
+
+[Wait before starting flashing]
+
+[Flash speed]
+
+[Fast]
+
+[Slow]
+
 [&Preview]
 Образец
+[Emulate keypresses (Use this option if you are using an USB keyboard)]
+
+[Create/Edit Themes]
+
+[Theme]
+
+[Test]
+Тест
 [Add]
 Добавяне
+[Update]
+Обнови
 [Delete]
 Изтриване
+[Import/Export]
+
 [Export...]
 Износ...
+[Import...]
+
+[Override existing]
+
+[Set program list]
+
+[Program]
+
+[OK]
+ОК
 [Cancel]
 Отказ
+[Set LEDs for events]
+
+[Num]
+
+[Caps]
+
+[Scroll]
+
+[Message events]
+
+[File events]
+
+[URL events]
+
+[Other events]
+
+[Consider event opened after]
+
+[Use custom theme]
+
 [The following events are being ignored:]
 Следните събития ще бъдат игнорирани:
+[Ignore messages]
+
+[Ignore URLs]
+
+[Ignore files]
+
+[Ignore others]
+
+[Ignore all]
+
+[Ignore none]
+
 [Ignore]
 Игнориране
+[Set xStatus list]
+
 ;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** Всички контакти **
 [** Unknown contacts **]
 ** Непознати контакти **
 ;file \plugins\KeyboardNotify\src\options.cpp
+[left->right]
+
+[right->left]
+
+[left<->right]
+
+[Keyboard Flash]
+
 [Events]
 Събития
 [Accounts]
 Акаунти
+[Rules]
+
+[Flashing]
+
+[Themes]
+
+[Protocol]
+Протокол
+[Keyboard Notify Theme]
+
 [All Files]
 Всички файлове
+[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
+
+[\n; End of automatically generated Keyboard Notify Theme file\n]
+
 [None]
 Няма

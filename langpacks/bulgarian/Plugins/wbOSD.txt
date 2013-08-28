@@ -5,16 +5,64 @@
 ;  Version: 0.2.1.0
 ;  Authors: Andrej Krutak
 ;============================================================
+[Shows new message/status change info using on-screen display.]
+
 ;file \plugins\wbOSD\res\wbOSD.rc
+[Dialog]
+
+[Select font]
+
+[Text color]
+
+[Background color]
+
+[Transparent]
+
+[Shadow color]
+
+[Alternative shadow]
+
+[Shadow align]
+
 [General]
 Основни
+[Shadow]
+
+[Align]
+
+[Shadow distance:]
+
 [Other]
 Друго
+[Alpha:]
+
+[Announce]
+
+[Timeout (ms):]
+
 [Show]
 Показване
+[Show events]
+
 [Status changes]
 Промяна на състояние
+[Show testing OSD]
+
+[Show my status changes]
+
+[Show message window after click]
+
+[Static]
+
+[Format:]
+
+[Show when my status is:]
+
 ;file \plugins\wbOSD\src\events.cpp
+[%s is %s]
+
 ;file \plugins\wbOSD\src\options.cpp
 [Plugins]
 Приставки
+[OSD]
+

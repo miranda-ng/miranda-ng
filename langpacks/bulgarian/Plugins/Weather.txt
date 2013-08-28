@@ -5,7 +5,11 @@
 ;  Version: 0.4.0.1
 ;  Authors: Miranda NG Team
 ;============================================================
+[Retrieves weather information and displays it in your contact list.]
+
 ;file \plugins\Weather\res\resource.rc
+[Update]
+Обнови
 [Brief Info]
 Кратка инф.
 [Webpage]
@@ -18,6 +22,8 @@
 Обновяване на атмосферната информацията при стартиране
 [Update weather information every]
 Обновяване на атмосферната информацията всеки
+[minutes]
+
 [Consider weather info updated only when condition and temperature are changed]
 Обновяване при промяна на условията и температурата
 [Remove old data when updating]
@@ -30,6 +36,8 @@
 Ползване на атмосферните условия като състояние на протокола
 [Avatar only mode]
 Режим само с аватар
+[Units]
+
 [Temperature]
 Температура
 [Celsius]
@@ -40,6 +48,14 @@
 Символ градус:
 [Wind]
 Вятър
+[km/h]
+
+[m/s]
+
+[mph]
+
+[knots]
+
 [Visibility]
 Видимост
 [km]
@@ -48,12 +64,28 @@
 мили
 [Pressure]
 Атм. налягане
+[kPa]
+
+[mb (hPa)]
+
+[inches]
+
+[mm Hg (torr)]
+
 [Day/Month]
 Ден/Месец
+[No change]
+
 [2 chars]
 2 знака
 [3 chars]
 3 знака
+[Elevation]
+
+[ft]
+
+[m]
+
 [Do not append units to values]
 Без добавяне на мерна единица
 [Do not display fractional values]
@@ -68,6 +100,8 @@
 Метеостанция
 [City name]
 Име на града
+[ID]
+Идентификатор
 [Log Information]
 Информация за дневника
 [Use internal history]
@@ -76,6 +110,10 @@
 Ползване на файл
 [Overwrite file upon update]
 Презаписване при обновяване
+[Path:]
+
+[Link Settings]
+
 [More Info URL]
 URL за още инф.
 [Weather Map]
@@ -88,14 +126,20 @@ URL за още инф.
 Без автоматично обновяване за метеостанцията
 [Disable Popup for this station]
 Без Popup за станцията
+[Change]
+
 [Cancel]
 Отказ
+[Popup Options]
+
+[Enable popups]
+
 [Popup only when condition changes]
 Popup само при промяна на условията
+[Colours]
+Цветове
 [Background colour]
 Цвят на фона
-[Background colour]
-Фонов цвят
 [Text colour]
 Цвят на текста
 [Use Windows colours]
@@ -108,16 +152,30 @@ Popup Действия
 Десен бутон
 [Popup Delay]
 Popup времетраене
+[Delay]
+
 [seconds]
 секунди
+[From Popup plugin]
+От приставката Popup
+[Permanent]
+
 [Popup Text]
 Popup текст
+[Popup Title]
+
+[Variables]
+
 [Default]
 Стандарт
+[Preview]
+Преглед
 [Updates]
 Обновления
 [Alerts]
 Уведомявания
+[Errors]
+Грешки
 [Contact List]
 Списък с контакти
 [Brief Info Title]
@@ -128,10 +186,16 @@ Popup текст
 Доп. текст
 [External Log]
 Външен дневник
+[History Log]
+
+[Variable List]
+
 [More Variables]
 Още променливи
 [Reset]
 Анулиране
+[Status Message]
+
 [Sunset]
 Залез
 [Feel-like]
@@ -146,6 +210,10 @@ Popup текст
 Точка на оросяване
 [Humidity]
 Влажност
+[More...]
+
+[Weather Protocol INI Setup]
+
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
 Настройване на протокола Weather\nИнсталирайте и заредете .ini файловете тук
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
@@ -166,6 +234,10 @@ Popup текст
 Презареждане
 [City:]
 Град:
+[Menu]
+
+[Dismiss Popup]
+
 [Open brief information]
 Отваряне на кратка прогноза
 [Open complete forecast]
@@ -174,6 +246,10 @@ Popup текст
 Отваряне на метеокарта
 [View history]
 Преглед на историята
+[Open log file]
+
+[Show user menu]
+
 [Show user detail]
 Показване на подробности за потребителя
 [To old setting]
@@ -181,9 +257,21 @@ Popup текст
 [To default]
 Стандарт
 ;file \plugins\Weather\src\weather.cpp
+[Enable/disable auto update]
+
+[Auto Update Enabled]
+
+[Auto Update Disabled]
+
 [Weather Condition Changed]
 Промяна на метеорологичните условия
+[Weather Alert Issued]
+
 ;file \plugins\Weather\src\weather.h
+[N/A]
+
+[Invalid ID format, missing "/" (10)]
+
 [Invalid service (11)]
 Невалидна услуга (11)
 [Invalid station (12)]
@@ -210,12 +298,28 @@ HTTP грешка: Ползване на прокси (305)
 HTTP грешка: Временно пренасочване (307)
 [HTTP Error: Bad request (400)]
 HTTP грешка: Лоша заявка (400)
+[HTTP Error: Unauthorized (401)]
+
+[HTTP Error: Payment required (402)]
+
 [HTTP Error: Forbidden (403)]
 HTTP грешка: Необходимо е прокси удостоверяване (407)
+[HTTP Error: Not found (404)]
+
+[HTTP Error: Method not allowed (405)]
+
+[HTTP Error: Proxy authentication required (407)]
+
+[HTTP Error: Gone (410)]
+
+[HTTP Error: Internal server error (500)]
+
 [HTTP Error: Bad gateway (502)]
 HTTP грешка: Лош шлюз
 [HTTP Error: Service unavailable (503)]
 HTTP грешка: Услугата не е налична (503)
+[HTTP Error: Gateway timeout (504)]
+
 [%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
 %c\nТемпература: %t\nУсеща се като: %f\nАтм. налягане: %p\nВятър: %i  %w\nВлажност: %m\nТочка на оросяване: %e\nВидимост: %v\n\nИзгрев: %r\nЗалез: %y\n\n5-дневна прогноза:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
 [Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
@@ -228,11 +332,15 @@ HTTP грешка: Услугата не е налична (503)
 %n at %u:	%c, %t (усеща се като %f)	Вятър: %i %w	Влажност: %m
 [%c, %t\nToday:  High %h, Low %l]
 %c, %t\nДнес:	Максимална %h, Минимална %l
+[Temperature: %[Temperature]]
+
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Текуща атмосферна информация за %s.
 [%s is now the default weather station]
 %s е новата стандартна метеостанция
+[Weather Protocol]
+
 [Please try again after weather update is completed.]
 Моля, опитайте отново след като приключи обновяването.
 [<Enter station name here>]
@@ -240,6 +348,8 @@ HTTP грешка: Услугата не е налична (503)
 [<Enter station ID here>]
 <Въведете ID на станцията тук>
 ;file \plugins\Weather\src\weather_contacts.cpp
+[Weather condition was not logged.]
+
 [The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
 Не е зададен адрес за пълната прогноза. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
 [The URL for weather map have not been set. You can set it from the Edit Settings dialog.]
@@ -248,13 +358,23 @@ HTTP грешка: Услугата не е налична (503)
 Извличане името на града от ID
 [Weather INI information]
 Метео-INI информация
+[Browse]
+
 [View webpage]
 Преглед на уебстраницата
+[Reset to default]
+
 [Text Files]
 Текстови файлове
 [All Files]
 Всички файлове
 ;file \plugins\Weather\src\weather_conv.cpp
+[mb]
+
+[in]
+
+[mm]
+
 [<unknown time>]
 <неизвестно време>
 [<Error>]
@@ -270,15 +390,41 @@ HTTP грешка: %i
 [Weather HTTP connections]
 HTTP връзки на метео протокола
 ;file \plugins\Weather\src\weather_icons.cpp
+[Protocol icon]
+
 [Update Disabled]
 Обновяването е изключено
+[View Log]
+
+[Update with Clear]
+
 [View Brief]
 Кратка инф.
 [View Complete]
 Пълна прогноза
+[Weather Update]
+
+[Popup]
+
 [No Popup]
 Без Popup
+[Edit Settings]
+
 ;file \plugins\Weather\src\weather_info.cpp
+[Name]
+Име
+[Author]
+
+[File Version]
+
+[INI Version]
+
+[Items]
+Елементи
+[Display Name]
+
+[File Name]
+
 [The corresponding INI file for "%s" is not found.]
 Не е открит съответният .INI файл за "%s".
 [Weather INI information for "%s":]
@@ -287,6 +433,10 @@ HTTP връзки на метео протокола
 Име:
 [Internal Name:]
 Вътрешно име:
+[Author:]
+
+[Version:]
+
 [INI Version:]
 .INI версия:
 [File Name:]
@@ -313,20 +463,26 @@ HTTP връзки на метео протокола
 Шрифт за рамката
 [Frame Title Font]
 Шрифт за заглавие на рамките
+[Frame Background]
+
 ;file \plugins\Weather\src\weather_opt.cpp
 [Network]
 Мрежа
 [General]
 Основни
+[Display]
+
 [Popups]
-РopUps
-[Popups]
-РopUps
+Popups
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\tтекущи условия\n%d\tтекуща дата\n%e\tточка на оросяване\n%f\tусеща се като\n%h\tмаксимална\n%i\tвятър (посока)\n%l\tминимална\n%m\tвлажност\n%n\tиме на станцията\n%p\tатм. налягане\n%r\tизгрев\n%s\tstation ID\n%t\tтемпература\n%u\tобновено на\n%v\tвидимост\n%w\tвятър (скорост)\n%y\tзалез
+[Weather Protocol Text Preview]
+
 ;file \plugins\Weather\src\weather_popup.cpp
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\tусловия в момента\n%d\tтекуща дата\n%e\tточка на оросяване\n%f\tусеща се като\n%h\tмаксимална\n%i\tскорост на вятъра\n%l\tминимална\n%m\tвлажност\n%n\tиме на станцията\n%p\tатм. налягане\n%r\tизгрев\n%s\tstation ID\n%t\tтемпература\n%u\tобновено на\n%v\tвидимост\n%w\tскорост на вятъра\n%y\tзалез
+[%[..]\tcustom variables]
+
 ;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
 ID на станцията
@@ -342,6 +498,8 @@ ID на станцията
 Кратка информация
 [Read Complete Forecast]
 Цялата прогноза
+[Weather]
+
 [Enable/Disable Weather Update]
 Вкл./Изкл. обновяването на времето
 [Update All Weather]
@@ -368,3 +526,5 @@ ID на станцията
 Извличане на нови данни, моля изчакайте...
 [More Info]
 Още
+[No information available.\r\nPlease update weather condition first.]
+

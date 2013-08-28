@@ -5,13 +5,25 @@
 ;  Version: 1.5.0.3
 ;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
 ;============================================================
+[Collects and prints information related to Miranda, the plugins and the OS.]
+
 ;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
 Извеждане в:
+[OK]
+ОК
 [Cancel]
 Отказ
 [Text file]
 Текстови файл
+[MessageBox]
+
+[DialogBox]
+
+[Output Debug String]
+
+[Clipboard]
+
 [Select output:]
 Изберете извеждане:
 [Upload to site]
@@ -32,23 +44,35 @@
 Настройки за качване
 [Username]
 Потребител
+[Password]
+Парола
 [Highlight version number using]
 Отличаване на версията чрез
 [Show disabled plugins too]
 Показване и на изключените приставки
+[Attempt to find unloadable plugins]
+
 [Suppress header information]
 Подтискане на информацията от горните колонтитули
+[Enable debug messages]
+
 [Show plugin UUIDs]
 Показване на UUIDs на приставките
 [Show installed languages]
 Показване на инсталираните езици
+[Miranda Version Information]
+
 [Close]
 Затваряне
 [&Copy text]
 Копиране на текста
+[Upload]
+Качване
 [&Save to file]
 Запис като файл
 ;file \plugins\VersionInfo\src\CVersionInfo.cpp
+[If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
+
 [Information successfully written to file: "%s".]
 Информацията бе успешно записана във файла "%s".
 [Error during the creation of file "%s". Disk may be full or write protected.]
@@ -58,10 +82,22 @@
 [Information successfully copied into clipboard.]
 Информацията бе успешно копирана в клипборда.
 ;file \plugins\VersionInfo\src\dlgHandlers.cpp
+[Customize using folders plugin]
+
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 Желаете ли опцията да бъде включена?\nЖелателно е да бъде включена само при условие, че знаете какво правите и какво е предназначението й.
 [Show plugin UUIDs ?]
 Показване на UUIDs на приставките ?
 ;file \plugins\VersionInfo\src\hooked_events.cpp
+[VersionInfo]
+
+[Output folder]
+
+[Version Information]
+Информация за версията
+[Services]
+Услуги
 ;file \plugins\VersionInfo\src\main.cpp
 ;file \plugins\VersionInfo\src\utils.cpp
+[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
+

@@ -5,7 +5,11 @@
 ;  Version: 1.0.0.3
 ;  Authors: Krzysztof Kral
 ;============================================================
+[Uploads the text to web page and sends the URL to your friends.]
+
 ;file \plugins\PasteIt\res\PasteIt.rc
+[Settings]
+Настройки
 [Default web page]
 Стандартна уебстаница
 [Default file encoding]
@@ -14,6 +18,8 @@
 Автоматично засичане на UTF8
 [Show confirmation dialog box]
 Показване на прозорец за потвърждаване
+[Autosend download link to contact]
+
 [Web page settings]
 Настройки за уебстраницата
 [Web page to configure]
@@ -34,22 +40,82 @@
 Получаване на потребителски ключ
 [Configure formatting]
 Настройване на форматирането
+[OK]
+ОК
 [Cancel]
 Отказ
+[Up]
+
+[Down]
+
 [Delete]
 Изтриване
+[Restore defaults]
+
 [Download more]
 Сваляне на още
 [Login to pastebin.com]
 Вписване в pastebin.com
 [User name]
 Потребителско име
+[Password]
+Парола
+[Paste It]
+
+[Format]
+
 [Encoding]
 Кодиране
+[Recode]
+
 ;file \plugins\PasteIt\src\Options.cpp
+[Use default codepage]
+
+[Thai]
+
+[Japanese]
+
+[Simplified Chinese]
+
+[Korean]
+
+[Traditional Chinese]
+
+[Central European]
+
+[Cyrillic]
+
+[Cyrillic KOI8-R]
+
+[Latin I]
+
+[Greek]
+
+[Turkish]
+
+[Hebrew]
+
+[Arabic]
+
+[Baltic]
+
+[Vietnamese]
+
+[Korean (Johab)]
+
+[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+
+[Invalid codepage]
+
+[Services]
+Услуги
+[Main]
+Основна
 [Web page]
 уебстраница
 ;file \plugins\PasteIt\src\PasteIt.cpp
+[All Files (*.*)]
+
 [Paste It - Select file]
 Paste It - Избиране на файл
 [Error]
@@ -67,6 +133,8 @@ HTTP връзки на Paste It
 Данните от клипборда не могат да бъда извлечени
 [File size is %dKB, do you realy want to paste such large file?]
 Размерът на файла е %dKB. Желаете да поставите толкова голям файл?
+[Are You sure?]
+
 [Cannot read file '%s']
 Файлът "%s" не може да бъде прочетен
 [File size is larger then 10MB, cannot be send]
@@ -84,8 +152,14 @@ HTTP връзки на Paste It
 Грешка при получаването на потребителския ключ от уебстраницата "%s"
 [Paste expire date]
 Изтичане валидността на текста
+[Never]
+
 [10 minutes]
 10 минути
+[1 hour]
+
+[1 day]
+
 [1 month]
 1 месец
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp

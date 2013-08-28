@@ -2,9 +2,11 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.11.0.1
+;  Version: 0.11.1.1
 ;  Authors: Nightwish, Pescuma
 ;============================================================
+[Loads and manages contact pictures for other plugins.]
+
 ;file \plugins\AVS\res\avs.rc
 [The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
 Картинките, които можете да зададете тук се ползват като стандартни аватари\nза контактие, които нямат собствени.\nПолзвайте полетата за отметка, за да включите/изключите аватарите за съответните протоколи.
@@ -16,6 +18,8 @@
 ВНИМАНИЕ: Това НЕ са вашите аватари. За да зададете собствен аватар отидете\nв Главно меню(>Extentended UserInfo)>Преглед/Промяна на личните данни>Аватар
 [Try to draw avatar background transparent (for images without transparency)]
 Прозрачен фон (за непрозрачни изображения), ако е възможно
+[Num of points to define bkg:]
+
 [Color difference allowed:]
 Позволена цветова разлика:
 [Make transparency proportional to color diff]
@@ -30,36 +34,94 @@
 Прозрачен фон за собствените аватари (ако е възможно, за непрозрачни изображения)
 [This uses the same additional options as in "Contact Avatars" tab]
 Използват се допълнителните настройки от таб "Аватари на контактите"
+[Protect the picture and prevent automatic avatars from overwriting it]
+
 [Make the avatar square]
 Изграждане на квадратен аватар
 [Resize the avatar to fit max allowed protocol size]
 Оразмеряване на аватара до максималния размер за протокола
+[Dialog]
+
+[Contact picture]
+
+[Change]
+
 [Delete]
 Изтриване
 [Reset]
 Анулиране
 [Picture options]
 Конфигуриране на картинка
+[Protect the picture]
+
 [Set as hidden]
 Скриване от списъка
+[Try to make picture background transparent]
+
 [Use defaults]
 Стандартно
+[OK]
+ОК
 [Cancel]
 Отказ
 [Options]
 Настройки
 [Background]
 Фон
+[Transparent]
+
 [Points:]
 Точки:
+[Color diff:]
+
 [Set]
 Задай
 [Use per protocol avatars]
 Отделен аватар за всеки протокол
 ;file \plugins\AVS\src\acc.cpp
+[Protocols have different avatars]
+
 ;file \plugins\AVS\src\main.cpp
-[Grow avatar to fit max allowed protocol size]
-Увеличаване на аватара до максималния размер за протокола
+[Global avatar]
+
+[Global avatar for %s accounts]
+
+[Avatars]
+Аватари
+[My Avatars]
+
+[My Global Avatar Cache]
+
+[Fatal error, image services not found. Avatar services will be disabled.]
+
+[Avatar Service]
+
+;file \plugins\AVS\src\options.cpp
+[Set avatar options for %s]
+Конфигуриране на аватар за %s
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Изтриване на картината от диска (наложително е да бъде презаредена, но картината ще бъде изтрита)?
+[Reset contact picture]
+Анулиране картината на контакта
+[Contact has no avatar]
+Контактът няма аватар
+[Contacts]
+Контакти
+[Protocols]
+
+[Contact Avatars]
+Аватари на контактите
+[Own Avatars]
+Собствени аватари
+[No avatar]
+
+[Are you sure you want to remove your avatar?]
+Желаете ли аватарът ви да бъде премахнат?
+[Global Avatar]
+Общ аватар
+[Avatar]
+
+;file \plugins\AVS\src\services.cpp
 [All Files]
 Всички файлове
 [Windows Bitmaps]
@@ -74,26 +136,9 @@ PNG изображения
 Flash анимации
 [XML Files]
 XML файлове
+[Grow avatar to fit max allowed protocol size]
+Увеличаване на аватара до максималния размер за протокола
 [Set My Avatar]
 Задаване на мой аватар
 [Set My Avatar for %s]
 Задаване на мой аватар за %s
-[Contacts]
-Контакти
-[Contact Avatars]
-Аватари на контактите
-[Own Avatars]
-Собствени аватари
-;file \plugins\AVS\src\options.cpp
-[Set avatar options for %s]
-Конфигуриране на аватар за %s
-[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
-Изтриване на картината от диска (наложително е да бъде презаредена, но картината ще бъде изтрита)?
-[Reset contact picture]
-Анулиране картината на контакта
-[Contact has no avatar]
-Контактът няма аватар
-[Are you sure you want to remove your avatar?]
-Желаете ли аватарът ви да бъде премахнат?
-[Global Avatar]
-Общ аватар

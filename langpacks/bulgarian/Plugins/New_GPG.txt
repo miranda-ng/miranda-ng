@@ -5,31 +5,393 @@
 ;  Version: 0.0.0.11
 ;  Authors: sss
 ;============================================================
+[New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
+
 ;file \plugins\New_GPG\res\new_gpg.rc
+[Load Public GPG key]
+
+[OK]
+ОК
+[Load from file]
+
+[Select existing]
+
+[Turn on encryption]
+
+[Import key from keyserver]
+
+[Set own key]
+
+[Generate key]
+
+[Select key for use]
+
+[Key password:]
+
+[Load other]
+
+[Delete key]
+
+[Generate and use random key]
+
+[Account:]
+
+[key id:]
+
+[Copy public key]
+
+[Export private key]
+
+[Change password]
+
+[Set GPG bin path and keyring home dir.]
+
+[Continue]
+
+[Home directory:]
+
+[GnuPG binary:]
+
+[Browse]
+
+[Turn on key autoexchange]
+
+[The new public key was recieved]
+
+[Import key]
+
+[Accept and enable encryption]
+
 [Ignore]
 Игнориране
+[Static]
+
+[Key Generation dialog]
+
 [Cancel]
 Отказ
+[Key type:]
+
+[Key length:]
+
+[Real name:]
+
+[Email:]
+
 [Comment:]
 Коментар:
+[Expire date:]
+
+[ex.: 2010-08-15]
+
+[From 1024 to 4096]
+
+[It can take a long time, be patient]
+
+[0 - does not expire]
+
+[Select existing public key from list]
+
+[Enter password for your secret key]
+
 [Password:]
 Парола:
+[Save password to database]
+
+[Default password]
+
+[Import]
+Внос
+[Select keyserver for key search:]
+
+[Recieved encrypted file]
+
+[Decrypt]
+
+[Recieved encrypted file form contact whith disabled encryption.]
+
+[Remember choice]
+
+[Choose which  keys to export]
+
+[Export public keys (only set for contacts)]
+
+[Export all private keys]
+
+[Export public and private keys]
+
+[Change private key password]
+
+[Current password:]
+
+[New password twice:]
+
+[Userlist:]
+
+[Export PubKey]
+
+[Select own key]
+
+[Turn on debug log]
+
+[Use jabber api on Miranda NG (recomended)]
+
+[Default key]
+
+[Encrypt file transfers]
+
+[Automatic key exchange]
+
+[Copy own key]
+
+[Add tags to encoded and decoded messages]
+
+[Incomming message tags:]
+
+[Outgoing message tags:]
+
+[Open:]
+
+[Close:]
+
+[Strip all tags in outgoing messages]
+
+[Turn on presence signing (Jabber) (required by xep 0-27)]
+
+[Export keys]
+
+[Import keys]
+
 ;file \plugins\New_GPG\src\init.cpp
+[GPG Turn off encryption]
+
+[GPG Turn on encryption]
+
+[GPG encryption status]
+
+[Load GPG public key]
+
+[Toggle GPG encryption]
+
+[Send public key]
+
+[Export GPG Public keys]
+
+[Import GPG Public keys]
+
 ;file \plugins\New_GPG\src\main.cpp
+[Email]
+
 [Name]
 Име
+[Creation date]
+
+[Expire date]
+
+[Key length]
+
 [Accounts]
 Акаунти
 [Default]
 Стандарт
+[key id]
+
+[not set]
+
+[Default private key id]
+
+[Failed to open file]
+
 [Error]
 Грешка
+[Generating new random key, please wait]
+
+[Failed to alocate memory]
+
+[gpg binary found in miranda folder, but english locale does not exists.\nit's highly recommended to place \\gnupg.nls\\en@quot.mo in gnupg folder under miranda root.\nwithout this file you may expirense many problem with gpg output on non english systems.\nand plugin may completely do not work.\nyou have beed warned.]
+
+[Warning]
+
+[wrong gpg binary location found in system.\nplease choose another location]
+
+[This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn.]
+
+[Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn.]
+
+[found "gpg" directory in MIranda root.\nassuming it's gpg home directory.\ngpg home directory set.]
+
+[Info]
+
+[Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
+
+[gpg binary does not exists.\nplease choose another location]
+
+[please choose gpg binary location]
+
+[please set keyring's home directory]
+
+[There is existing key for contact, would you like to replace with new key ?]
+
+[New public key was received, do you want to import it?]
+
+[Replace]
+
+[Accept]
+
+[Received key from ]
+
+[You must set encryption algorythm first]
+
+[Key length must be of length from 1024 to 4096 bits]
+
+[Invalid date]
+
+[Name must contain at least 5 characters]
+
+[Name cannot contain '(' or ')']
+
+[Invalid Email]
+
+[Generating new key, please wait...]
+
+[Failed to export public key.]
+
+[GPG binary is set and valid (this is good).\n]
+
+[GPG binary unset or invalid (plugin will not work).\n]
+
+[Home dir write access granted (this is good).\n]
+
+[Home dir have not write access (plugin most probably will not work).\n]
+
+[Temp dir write access granted (this is good).\n]
+
+[Temp dir have not write access (plugin should work, but may have some problems, filetransfers will not work).]
+
+[\nGPG will be disabled until you solve this problems]
+
+[GPG plugin problems]
+
+[Your secret key whith id: ]
+
+[ for account ]
+
+[ deleted from gpg secret keyring\nDo you want to set another key ?]
+
+[Own secret key warning]
+
+[ expired and will not work\nDo you want to set another key ?]
+
+[You didn't set a private key.\nWould you like to set it now?]
+
+[Own private key warning]
+
+[Do you want load key for all subcontacts ?]
+
+[Metacontact detected]
+
 ;file \plugins\New_GPG\src\messages.cpp
+[We received encrypted message from contact with encryption turned off.\nDo you want turn on encryption for this contact ?]
+
+[Do you want try to decrypt encrypted message ?]
+
+[failed to decrypt message, GPG returned error, turn on debug log for more details]
+
+[We trying to encrypt with untrusted key, do you want to trust this key permanently ?]
+
+[failed o encrypt message, GPG returned error, turn on debug log for more details]
+
+[Something wrong, gpg does not understand us, aborting encryption.]
+
 ;file \plugins\New_GPG\src\options.cpp
+[Services]
+Услуги
+[Main]
+Основна
+[GnuPG Variables]
+
 [Messages]
 Съобщения
 [Advanced]
 Разширени
 [Contact]
 Контакт
+[Key ID]
+
+[Protocol]
+Протокол
+[This key not used by any contact, do you want to remove it from public keyring ?]
+
+[Key info]
+
+[we have secret key for this public key, do not removing from GPG keyring]
+
+[info]
+
+[Key removed from GPG keyring]
+
+[Do you want to remove key from entire metacontact (all subcontacts) ?]
+
+[Export public key]
+
+[.asc pubkey file]
+
+[Set log file]
+
+[LOG files]
+
+[Choose gpg.exe]
+
+[Set home diractory]
+
+[Load Public GPG Key for ]
+
+[Turn off encryption]
+
+[ found in prescense, and exists in keyring.)]
+
+[Load Public GPG Key (Key ID: ]
+
+[ found in prescense.)]
+
+[This is not public or private key]
+
+[Key already in scret key ring.]
+
+[Set file containing GPG public key]
+
+[GPG public key file]
+
+[Where is no public or private key.]
+
 ;file \plugins\New_GPG\src\utilities.cpp
+[Do you want to toggle encryption for all subcontacts ?]
+
+[Send publick key]
+
+[Target file exists, do you want to replace it ?]
+
+[Capability to decrypt file not found on other side\nRecipient may be unable to decrypt file(s)\nDo you want to encrypt file(s) anyway?]
+
+[Filetransfer warning]
+
+[Unable to check encryption support on other side\nRecipient may be unable to decrypt file(s)\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with new_gpg used on other side.\nDo you want to encrypt file(s) anyway?]
+
+[encrypting file for transfer]
+
+[we have succesfully exported]
+
+[public keys]
+
+[and]
+
+[all private keys]
+
+[Keys export result]
+
+[Keys import result]
+
+[New passwords not match]
+
+[Old password not match, you can continue, but gpg will reject wrong password.\nDo you want to continue?]
+

@@ -5,8 +5,38 @@
 ;  Versions: 0.0.2.1
 ;  URL:http://awkward.mirandaim.ru
 ;============================================================
+[This plugin plays and records Internet radio streams. Also local media files can be played.]
+
+[mRadio Mod]
+
+[REC]
+
+[Cave]
+
+[Arena]
+
 [Genre]
 Жанр
+[Plain]
+
+[Alley]
+
+[Dizzy]
+
+[Generic]
+
+[Bathroom]
+
+[Parking Lot]
+
+[Stone Corridor]
+
+[Sewer Pipe]
+
+[Auditorium]
+
+[Carpeted Hallway]
+
 [Play from first]
 Възпроизвеждане от началото
 [Shuffle playlist]
@@ -17,8 +47,16 @@
 Име на станцията
 [Timeout, ms (5000)]
 Времетраене, мс (500)
+[PreBuf, % (75%)]
+
+[Hallway]
+
+[Mountains]
+
 [Use EAX]
 Ползване на EAX
+[Under Water]
+
 [Station URL (required)]
 Адрес на станцията (необходимо)
 [To INI]
@@ -31,37 +69,127 @@
 Добавяне на нова станция
 [Bitrate]
 Честота
+[Stone Room]
+
+[Living Room]
+
+[Drugged]
+
 [Record path]
 Записване в
+[Padded Cell]
+
 [Autoconnect last station]
 Автоматично свързване към последната активна станция
+[Concert Hall]
+
+[Psychotic]
+
+[Forrest]
+
 [To list]
 списъка
+[Hangar]
+
+[Offline station as Offline]
+
+[Protocol depending status]
+
 [Continuous record]
 Запис без прекъсване
+[Quarry]
+
+[Sorry!]
+
+[BASS.DLL not found!]
+
 [Station]
 Станция
 [Custom INI file]
 Зададен .INI файл
+[Radio station URL]
+
+[Start record]
+
+[Stop record]
+
+[Currently played URL]
+
+[Current stream title]
+
+[Station/playlist URL]
+
+[Currently used decoder]
+
+[connecting]
+
+[aborting]
+
+[Can't initialize device]
+
+[Can't connect to net. Please, clear 'Work offline' option in Internet settings]
+
+[Start broadcasting]
+
+[Stop broadcasting]
+
+[Start/Stop broadcasting]
+
+[Start/Stop Record]
+
 [Record]
 Запис
 [Status message template]
 Шаблон за текста за състоянието
+[Equalizer presets]
+
 [Export All]
 Износ на всичко
+[Current status]
+
+[Broadcast ON]
+
+[Broadcast OFF]
+
+[Add EQ preset]
+
+[Delete EQ preset]
+
 [BASS library path (empty for default)]
 Път до библиотеката BASS (празно=стандартния)
 [Tries to connect]
 Опита за свързване
+[Mute]
+
+[mRadio volume control]
+
 [Import File]
 Внос от файл
+[Play Station]
+
 [Forced Mono]
 Направи моно
+[Play/Pause]
+
+[Oops! BASS error]
+
+[Mute with Miranda]
+
 [Advanced]
 Разширени
+[Stop]
+Стоп
+[Play]
+
+[Frame background]
+
 [OFF]
 Изкл.
 [Volume]
 Звук
+[Device list]
+
 [Equalizer]
 Еквалайзер
+[New]
+

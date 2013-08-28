@@ -11,6 +11,12 @@
 Гласови разговори
 [Voice call]
 Гласов разговор
+[Sh&ow in history]
+
+[Log default]
+
+[History default]
+
 [Drop down arrow]
 Падащ триъгълник
 [Status message changes]
@@ -19,6 +25,12 @@
 Псевдо редактиране
 [Pseudo-edit mode...]
 Режим на псевдо редактиране...
+[Easy, fast and feature complete history viewer.]
+
+[Group log messages]
+
+[Need more options?]
+
 [Incoming WATrack notify]
 Входящо уведомяване от WATrack
 [Outgoing WATrack notify]
@@ -27,20 +39,38 @@
 Копиране на връзката
 [WATrack notify]
 WATrack уведомяване
+[Open Link]
+
 [WATrack: information request]
 WATrack: заявка за информация
+[Artist: %s\\nTitle: %s\\nAlbum: %s]
+
+[WATrack: %s]
+
 [WATrack: request denied]
 WATrack: отхвърлена молба
 [Imitate IEView API]
 Имитиране на IEView API
+[Text formatting options]
+
+[Enable raw RTF support]
+
 [Display changed avatars]
 Изобразяване на променени аватари
+[Change appearance]
+
 [Grid background]
 Фон на мрежата
+[Grid messages]
+
+[History Actions]
+
 [Advanced search options]
 Разширени опции за търсене
 [Limit search range]
 Ограничаване обхвата на търсене
+[Limit Search Sange]
+
 [Search protected contacts]
 Търсене в защитените с парола контакти
 [Search messages from]
@@ -89,6 +119,18 @@ WATrack: отхвърлена молба
 Информация за събитието
 [Date/Time:]
 Дата/Час:
+[Copy All]
+
+[&Select All]
+
+[SMS Message]
+
+[WebPager]
+
+[EMail Express]
+
+[Other event]
+
 [Global History Search]
 Общо търсене в историята
 [Search for]
@@ -101,6 +143,8 @@ WATrack: отхвърлена молба
 Търсене на всички думи
 [Search exact phrase]
 Търсене на точен израз
+[Include password-protected contacts]
+
 [Starting up...]
 Стартиране...
 [No items found]
@@ -123,6 +167,8 @@ History++ износ
 Показване в контекста
 [Set &Bookmark]
 Поставяне на отметка
+[Rename &Bookmark]
+
 [Copy &Text]
 Копиране на текста
 [&Save Selected...]
@@ -133,16 +179,22 @@ History++ износ
 Намерени са %.0n елемента в %d абоната. Търсенето отне %.1f секунди в %.0n елемента.
 [All Results]
 Всички резултати
+[&System History]
+
 [System History]
 История на системата
 [Searching "%s"...]
 Търсене на "%s"...
+[Stop]
+Стоп
 [Searching... Please wait.]
 Търсене... Моля, изчакайте.
 [Preparing search...]
 Подготовка на търсенето...
 [Searching... %.0n items in %d contacts found]
 Търсене... Намерени са %.0n елемента в %d абоната
+[Enter the history password to search.]
+
 [History++ Password Protection]
 History++ Защита с парола
 [You have entered the wrong password.]
@@ -151,6 +203,8 @@ History++ Защита с парола
 Моля, изчакайте докато прозореца се затвори
 [Partial History [%s] - [%s]]
 Част от историята за [%s] - [%s]
+[Delete &Bookmark]
+
 [Remove &Bookmark]
 Премахване на отметката
 [Ready to search]
@@ -161,30 +215,58 @@ History++ Защита с парола
 От %s
 [To %s]
 До %s
+[Advanced <<]
+
 [HotSearch: %s (F3 to find next)]
 Бързо търсене: %s (F3 за следващия резултат)
+[You have reached the end of the history.]
+
 [Do you want to continue searching at the beginning?]
 Желаете ли търсенето да продължи от началото?
 [History++ Search]
 History++ Търсене
 [Saving...]
 Запазване...
+[Searching...]
+Търсене...
 [Deleting...]
 Изтриване...
 [Do you really want to delete selected items (%.0f)?]
 Наистина ли желаете маркираните елементи да бъдат изтрити (%.0f)?
+[Delete Selected]
+
+[Do you really want to delete selected item?]
+
+[%s - History++]
+
 [History is empty]
 Историята е празна
 [No such items]
 Няма такива елементи
 [Conversations]
 Разговори
+[Conversations (F4)]
+
 [History Search]
 Търсене в историята
+[His&tory Search]
+
 [You need password to access this history]
 Необходима е парола за достъп до историята
+[Enter]
+
 [&Open]
 Отваряне
+[Open &Link]
+
+[Open Link in New &Window]
+
+[Open &File]
+
+[Open File Fo&lder]
+
+[Disable &Processing]
+
 [Export as &HTML...]
 Износ като HTML...
 [Export as &XML...]
@@ -225,8 +307,36 @@ ANSI кодиране
 %d събитие
 [%0.n events (%s)]
 %0.n събития (%s)
+[Enable &Processing]
+
+[Do you really want to delete ALL items (%.0f) for this contact?]
+
+[Note: It can take several minutes for large history.]
+
 [Empty History]
 Изтриване на историята
+[Search Up (Ctrl+Up)]
+
+[Search Down (Ctrl+Down)]
+
+[HTML file (*.html; *.htm)|*.html;*.htm]
+
+[XML file (*.xml)|*.xml]
+
+[RTF file (*.rtf)|*.rtf]
+
+[Unicode text file (*.txt)|*.txt]
+
+[Text file (*.txt)|*.txt]
+
+[All files (*.*)|*.*]
+
+[Conversation started at %s]
+
+[Remove bookmark]
+
+[Bookmark]
+
 [Remove Bookmark]
 Премахване на отметката
 [Set Bookmark]
@@ -261,10 +371,24 @@ ANSI кодиране
 Обърнете внимание на състоянието на клавиша\n"CAPS LOCK"
 [Password and Confirm fields should be similar]
 Полетата "Парола" и "Потвърждение" трябва да съдържат еднаква информация
+[Unknown id]
+
+[Outgoing file transfer: %s]
+
+[Incoming file transfer: %s]
+
+[Authorisation request by %s (%s%d): %s]
+
 [You were added by %s (%s%d)]
 Вие бяхте добавен от %s (%s%d)
+[Outgoing contacts: %s]
+
+[Incoming contacts: %s]
+
 [Webpager message from %s (%s): %s]
 Webpager съобщение от %s (%s): %s
+[Email express from %s (%s): %s]
+
 [Status change: %s]
 Промяна на състоянието: %s
 [Authorization request granted by %s (%d): %s]
@@ -273,6 +397,12 @@ Webpager съобщение от %s (%s): %s
 Молба за упълномощаване от %s (%d): %s отхвърлено
 [User %s (%d) removed himself from your contact list: %s]
 Потребител %s (%d) се премахна от вашият списък с контакти: %s
+[Authorization future request by %s (%d): %s]
+
+[Broadcast message from %s (%s): %s]
+
+[All except status]
+
 [Show all events]
 Показване на всички събития
 [Avatar changes]
@@ -287,10 +417,32 @@ Webpager съобщение от %s (%s): %s
 Webpager съобщение
 [EMail Express message]
 EMail Express съобщение
+[Grid options]
+
 [Recent events on top]
 Скорошните събития отгоре
 [Use RTL by default]
 Л<Д като стандарт
+[Additional processing support]
+
+[Enable BBCodes]
+
+[Change Appearance]
+
+[To change fonts you need to install FontService plugin.]
+
+[FontService is installed. Go to Customize -> Fonts to change settings.]
+
+[Download FontService plugin]
+
+[To change icons you need to install IcoLib plugin.]
+
+[IcoLib is installed. Go to Customize -> Icons to change icons.]
+
+[Download IcoLib plugin]
+
+[More info on these plugins]
+
 [Open event details by Enter]
 Enter отваря подробности за събитието
 [Search panel]
@@ -321,36 +473,68 @@ Enter отваря подробности за събитието
 Скриване на разговора
 [Save All]
 Запазване на всичко
+[Delete All]
+
+[Events filter]
+
+[In-place filter wait]
+
 [Search Up]
 Търсене нагоре
 [Search Down]
 Търсене надолу
 [End of page]
 Край на страницата
+[Clear in-place filter]
+
 [Conversation header]
 Горен колонтитул на съобщенията
 [Divider]
 Разделител
 [Incoming url]
 Входящ url адрес
+[Outgoing contacts]
+
 [Outgoing file]
 Изходящи файлове
 [Outgoing SMS Message]
 Изходящо SMS съобщение
 [Outgoing url]
 Изходящ url адрес
+[Selected background]
+
+[SMTP Simple]
+
 [Show sender information]
 Показване на информация за изпращача
 [Show receiver information]
 Показване на информация за получателя
+[Toggle &Processing]
+
+[Toolbar]
+
+[Incoming SMS Message]
+
 [Link URLs]
 URL връзки
+[History++]
+
+[Unicode text file]
+
+[RTF file]
+
+[XML file]
+
 [Appearance options]
 Настройки на външния вид
 [Message log options]
 Настройки на дневника за съобщения
+[HTML file]
+
 [&Browse Received Files]
 Разглеждане на получените файлове
+[Include custom event type (0-65535)]
+
 [&Open file folder]
 Отвори папката на файла
 [&Copy Filename]
@@ -373,16 +557,32 @@ URL връзки
 Грешна парола
 [Unknown codepage %u]
 Неизвестна кодова таблица %u
+[History++ module could not be loaded, riched20.dll is missing. Press Yes to continue loading Miranda.]
+
 [User %s (%d) changed icq client: %s]
 Потребителят %s (%d) промени ICQ клиента: %s
 [Status request by %s (%d):%s]
 Заявка за състоянието от %s (%d):%s
 [Ignored status request by %s (%d):%s]
 Игнорирана заявка за състоянието от: %s (%d):%s
+[Artist: %s\\r\\nTitle: %s\\r\\nAlbum: %s]
+
 [No "%s" items]
 Няма "%s" елементи
+[Cannot load icon pack (%s) from:\\r\\n%s\\r\\nThis can cause no icons will be shown.]
+
+[You are using old icon pack from:\\r\\n%s\\r\\nThis can cause missing icons, so update the icon pack.]
+
+[Speak Message]
+
 [Next message]
 Следващо съобщение
+[History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
+
+[&Empty System History]
+
+[&Empty History]
+
 [Do you really want to delete ALL items for this contact?]
 Наистина ли желаете ВСИЧКИТЕ елементи за абоната да бъдат изтрити?
 [Note: It can take several minutes for large histories]
@@ -399,6 +599,120 @@ URL връзки
 Инсталираната версия на SmileyAdd не се поддържа
 [Running version of Emoticons is not supported]
 Инсталираната версия на Emoticons не се поддържа
+[%.0f items in history]
+
+[%s (to %s)]
+
+[%s Header]
+
+[&Additional]
+
+[&Delete All]
+
+[&Password Protection...]
+
+[(time and date)]
+
+[All Items]
+
+[and]
+
+[Authorisation Request by %s (%s%s%d): %s]
+
+[Authorisation Request Sample]
+
+[Change nick and date font for %s.]
+
+[Customize %s]
+
+[Customize the look of %s Event. Select it's font, font color and background color.]
+
+[Date Font Color]
+
+[Date Font]
+
+[Easy, fast and feature complete history viewer]
+
+[Event Icons]
+
+[Forward &Message]
+
+[History++ Options]
+
+[History++ [%s]]
+
+[HTML file (*.htm)|*.htm;*.html|All files (*.*)|*.*]
+
+[HTML file (*.htm; *.html)|*.htm;*.html]
+
+[Incoming File Transfer Sample]
+
+[Incoming File Transfer:]
+
+[Incoming Message Sample]
+
+[Incoming URL Sample]
+
+[Incoming Url]
+
+[Make shure you have CAPS LOCK turned off.]
+
+[Make sure you have CAPS LOCK turned off.]
+
+[Miranda's settings used]
+
+[Nick Font Color]
+
+[Nick Font]
+
+[Nothing selected. Select item from the left and change it's properties below.]
+
+[Nothing Selected]
+
+[Outgoing File Transfer Sample]
+
+[Outgoing File Transfer:]
+
+[Outgoing Message Sample]
+
+[Outgoing URL Sample]
+
+[Outgoing Url]
+
+[Recent at bottom]
+
+[Recent on top]
+
+[Save All as &HTML...]
+
+[Save All as &Text...]
+
+[Save All as &XML...]
+
+[Select search mode:]
+
+[Selected file and contact file folder not found]
+
+[SMS Sample]
+
+[Some Contact]
+
+[System History (%s)]
+
+[System Message Sample]
+
+[System Message]
+
+[Use Miranda default settings]
+
+[You were added by %s (%s%s%d)]
+
+[You Were Added Message Sample]
+
+[Authorisation request]
+
+[Your were added message]
+
 [Show events count in menu]
 Брой събития в менюто
 [Group messages]
@@ -411,8 +725,36 @@ URL връзки
 Преглеждане на историята
 [Visit Wiki page for more options]
 Посетете Wiki страницата за още опции
+[&Code Editor...]
+
+[&Load...]
+
+[&Save...]
+
+[&User Name:]
+
 [(Unknown Contact)']
 (Непознат контакт)"
+[0 lines]
+
+[Other (unknown)]
+
+[Database:]
+
+[Fast history plugin with filter capability\\nBased on improved code of History+ plugin]
+
+[History++ (2in1)]
+
+[History++ Error]
+
+[History++ Warning]
+
+[%0.1n h]
+
+[%d min]
+
+[&Reset to Default]
+
 [Contact history]
 История на контакта
 [Incoming nick]
@@ -421,6 +763,8 @@ URL връзки
 Изходящ прякор
 [Incoming contacts]
 Входящи контакти
+[Outgoing contacts]
+
 [System message]
 Системни съобщения
 [Incoming timestamp]

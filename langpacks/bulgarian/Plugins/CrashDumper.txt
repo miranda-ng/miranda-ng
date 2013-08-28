@@ -5,21 +5,33 @@
 ;  Version: 0.0.4.22
 ;  Authors: borkra
 ;============================================================
+[Crash Dumper for Miranda NG.]
+Crash Dumper за Miranda NG.
 ;file \plugins\CrashDumper\res\crshdmp.rc
+[View Version Information]
+Преглед на информация за версията
 [Close]
 Затваряне
+[Copy To Clipboard]
+Копиране в клипборда
 [To File]
 Във файл
 [Support for miranda-vi.org]
 Поддръжка на miranda-vi.org
 [Username]
 Потребител
+[Password]
+Парола
 [Upload automatically when changed]
 Автоматично качване при промяна
 [General]
 Основни
 [Use classic dates]
 Класическа дата
+[Create reports in subfolders naming as current date]
+Създаване на докладите в подпапки, с текущата дата като име
+[View]
+Преглед
 [&Copy]
 Копиране
 [Co&py All]
@@ -31,6 +43,8 @@
 Информация за версията е записана във файла %s
 [VersionInfo file %s is inaccessible]
 Файлът %s с информация за версиите не е достъпен
+[Services]
+Услуги
 [Version Information To Clipboard]
 Копиране на информация за версията в клипборда
 [Version Information To File]
@@ -39,12 +53,20 @@
 Показване на информация за версията
 [Upload Version Information]
 Качване на информация за версията
+[Crash Reports]
+Доклади за сривове
+[Version Information]
+Информация за версията
+[Copy to clipboard]
+Копиране в клипборда
 [Store to file]
 Запис като файл
 [Show]
 Показване
 [Show with DLLs]
 Показване и на DLLи
+[Upload]
+Качване
 [Open crash report directory]
 Отваряне на директорията за доклади
 [Open miranda-vi.org]
@@ -54,12 +76,16 @@
 [Show Version Info]
 Показване на информация за версията
 ;file \plugins\CrashDumper\src\crshdmp_icons.cpp
+[Crash Dumper]
+Crash Dumper
 ;file \plugins\CrashDumper\src\exhndlr.cpp
 [Crash Report write location is inaccesible]
 Мястото за записване на докладите за срив е недостъпно
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
 Miranda се срина. Можете да намерите доклад за срива в:\n %s\n\n Желаете ли копие от доклада да бъде съхранено в клипборда?
 ;file \plugins\CrashDumper\src\ui.cpp
+[View Version Information (with DLLs)]
+Показване на информация за версията (с DLL файлове)
 ;file \plugins\CrashDumper\src\upload.cpp
 [VersionInfo upload successful,\n %d old plugins]
 Информация за версията бе успешно качена,\n %d стари приставки

@@ -5,9 +5,21 @@
 ;  Version: 0.3.0.0
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
+[Handles listening information to/for contacts.]
+
 ;file \plugins\ListeningTo\res\resource.rc
+[Listening to information]
+
 [Enable sending listening information to contacts:]
 Изпращане на информация до контактите за:
+[Music]
+
+[Radio]
+
+[Video]
+
+[Others]
+Други
 [You also have to enable it per protocol in the main menu]
 Необходимо е да определите протоколи от главното меню
 [XStatus]
@@ -20,6 +32,8 @@
 Задаване на "Слуша музика", ако няма зададено хСъстояние и показване на информация
 [If XStatus is Music, show listening info]
 Показване на информация, ако е зададено хСъстояние "Слуша музика"
+[Do nothing]
+Нищо
 [Contacts]
 Контакти
 [Apply template for info from contacts (overrides contacts template)]
@@ -28,6 +42,12 @@
 Улавяне на информация от приставката WATrack
 [Get info from these players:]
 Улавяне на информация от следните плейъри:
+[Winamp (*)]
+
+[Windows Media Player]
+
+[iTunes]
+
 [foobar2000 (need to install the plugin manually)]
 foobar2000 (необходимо е да инсталирате компонент ръчно)
 [Other players]
@@ -40,6 +60,8 @@ foobar2000 (необходимо е да инсталирате компонен
 Разрешаване на автозареждане на приставките в плейърите (означените с *)
 [mRadio]
 mRadio
+[Listening to]
+
 [Template:]
 Шаблон:
 [Variables:]
@@ -64,6 +86,10 @@ mRadio
 %type% - Тип (Музика, Радио, Видео и други)
 [When variable not found, use:]
 При липса на променлива:
+[Title:]
+
+[Message:]
+
 [Other Variables:]
 Други променливи:
 [%listening% - Listening to info (as set above)]
@@ -73,24 +99,64 @@ mRadio
 ;file \plugins\ListeningTo\src\listeningto.cpp
 [Send to %s]
 Изпращане до %s
+[Listening to (enabled)]
+
+[Listening to (disabled)]
+
+[ListeningTo]
+
+[Listening to music]
+
 [Send to all protocols]
 Изпращане до всеки акаунт
 [Listening info]
 Слуша (информация)
+[Listening info as set in the options]
+
+[Media type: Music, Video, etc]
+
+[Artist name]
+
+[Album name]
+
+[Song name]
+
+[Track number]
+
+[Song year]
+
+[Song genre]
+
+[Song length]
+
+[Player name]
+
 [Don't send to any protocols]
 Без изпращане (за всички акаунти)
 [Toggle send to all protocols]
 До всеки акаунт (Вкл./Изкл.)
 [Enable/Disable sending Listening To info (to all protocols)]
 Включване/Изключване изпращането на "Слуша" (до вс. протоколи)
+[Disable ListeningTo (to all protocols)]
+
+[Enable ListeningTo (to all protocols)]
+
 ;file \plugins\ListeningTo\src\options.cpp
 [<Unknown>]
 <Неизвестно>
+[<Nothing is playing now>]
+
 [Status]
 Състояние
 [General]
 Основни
+[Format]
+
 [Players]
 Плейъри
 ;file \plugins\ListeningTo\src\players\generic.cpp
+[Miranda ListeningTo receiver]
+
 ;file \plugins\ListeningTo\src\players\wmp.cpp
+[Miranda ListeningTo WMP receiver]
+

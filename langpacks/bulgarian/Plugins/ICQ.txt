@@ -1,10 +1,12 @@
 ﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: ICQ
+;  Plugin: IcqOscarJ Protocol
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc
 ;============================================================
+[ICQ protocol support for Miranda NG.]
+
 ;file \protocols\IcqOscarJ\res\resources.rc
 [ICQ Number:]
 ICQ номер:
@@ -12,6 +14,8 @@ ICQ номер:
 Парола:
 [Create a new ICQ account]
 Създаване на ICQ акаунт
+[Enter an authorization request]
+
 [&Send]
 Изпращане
 [&Cancel]
@@ -20,8 +24,14 @@ ICQ номер:
 Въведете ICQ парола
 [Enter a password for UIN %d:]
 Въведете парола за UIN %d:
+[Remember this session password]
+
+[OK]
+ОК
 [Cancel]
 Отказ
+[ICQ]
+
 [ICQ number:]
 ICQ номер:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
@@ -30,6 +40,10 @@ ICQ номер:
 Получаване на забравена парола или ICQ номер
 [Create a new ICQ account using the ICQ website]
 Създаване на ICQ акаунт чрез сайта ICQ
+[Connection settings]
+
+[Login Server:]
+
 [Port:]
 Порт:
 [Default]
@@ -40,8 +54,12 @@ ICQ номер:
 Сигурна (SSL) връзка
 [Secure (MD5) login]
 Сигурно (MD5) вписване
+[Legacy fix (for ICQ Groupware or IServerD only)]
+
 [Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
 Поддържане на връзката (отметнете ако използвате прокси сървър и често бивате изключвани от мрежата ICQ)
+[Ignore concurrent error messages]
+
 [Show connection error messages:]
 Показване на съобщения при проблем с връзката:
 [ICQ contacts stored on server]
@@ -84,6 +102,8 @@ ICQ аватари
 Уведомяване при неуспешно доставяне на съобщение (препоръчително)
 [Never use legacy messaging (server acknowledgements)]
 Без използване на остарели механизми за изпращане на съобщения (потвърждения от сървъра)
+[Peer-to-peer Messaging]
+
 [Enable peer-to-peer message connections]
 Включване на peer-to-peer връзка при разговор
 [Passive mode, i.e. do not initiate new connections]
@@ -134,28 +154,54 @@ ICQ аватари
 Настройки
 [Enable popup support]
 Включване на поддръжката на popups
+[Display errors using popups]
+
 [Display popup when spambot is detected]
 Изобразяване на popup при засичане на СПАМ бот
+[Look && Feel]
+
+[Back Color]
+
 [Text Color]
 Цвят на текста
+[Timeout]
+Времетраене
+[Note]
+
+[Warning]
+
 [Error]
 Грешка
+[Fatal]
+
 [Spam detected]
 Засечен е спам
+[&Use Windows colors]
+
 [Use system &icons]
 Ползване на системните икони
+[Previe&w]
+
 [Use default colours]
 Стандартни цветове
+[UIN:]
+
 [External IP:]
 Външно IP:
+[Internal IP:]
+
 [Protocol Version:]
 Версия (протокол):
 [User Client:]
 Клиент:
+[Online since:]
+
 [System up since:]
 Системата работи от:
 [Idle since:]
 Бездейства от:
+[Status:]
+
 [Summary]
 Обобщение
 [Nickname:]
@@ -176,6 +222,8 @@ ICQ аватари
 Търси:
 [Work]
 Работа
+[Occupation:]
+
 [Company:]
 Фирма:
 [Department:]
@@ -186,6 +234,8 @@ ICQ аватари
 Организация:
 [Location]
 Местоположение
+[Language:]
+
 [Country:]
 Държава:
 [State:]
@@ -198,18 +248,32 @@ ICQ аватари
 Интереси
 [Category:]
 Категория:
+[Past]
+
+[Homepage]
+
 [Other]
 Друго
+[Search online users only]
+
 [Manage ICQ Server Contacts]
 Управление на ICQ контактите на сървъра
 [Select contacts to store:]
 Изберете кои контакти да се съхраняват:
 [Synchronize]
 Синхронизиране
+[Custom Status "%s" Details]
+
 [Closing in %d]
 Затваряне след %d
+[Title:]
+
+[Message:]
+
 [Retrieving custom status details...]
 Извличане на подробности за персонално състояние...
+[&Save changes]
+
 [Confirm Password Change]
 Потвърдете промяната на паролата
 [Please re-type your new password:]
@@ -217,6 +281,8 @@ ICQ аватари
 [Enter your current password:]
 Въведете текущата парола:
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
+[Unable to connect to migrated ICQ communication server]
+
 [Unable to connect to ICQ communication server]
 Свързването с комуникационния сървър на ICQ е невъзможно
 [You could not sign on because the server returned invalid data. Try again.]
@@ -239,11 +305,17 @@ ICQ аватари
 Неуспешно свързване.\nБяхте отхвърлени от сървъра поради неизвестна причина.\nТова може да се случи, ако вече има свързан потребител със същия UIN.
 [Connection failed.\nSecure (MD5) login is not supported on this account.]
 Неуспешно свързване.\nАкаунтът не поддържа Сигурно (MD5) вписване.
+[Connection failed.\nUnknown error during sign on: 0x%02x]
+
 [You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
 Изключен сте от мрежата ICQ поради вписване от друго място със същия ICQ номер.
+[Unknown runtime error: 0x%02x]
+
 ;file \protocols\IcqOscarJ\src\fam_01service.cpp
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 Пренасянето на сървъра се провали защото сървъра върна невалидни данни. Трябва да се свържете повторно ръчно.
+[Failed to request offline messages. They may be received next time you log in.]
+
 ;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
 [Spambot Detected]
 Засечен е СПАМ бот
@@ -266,8 +338,12 @@ ICQ аватари
 Клиентът на получателя не поддържа този тип съобщения.\r\nSNAC(4.1) Грешка x09
 [You sent too long message. The receiving client does not support it.\r\nSNAC(4.1) Error x0A]
 Изпратихте твърде дълго съобщение. Клиента на получателя не поддържа такива съобщения.\r\nSNAC(4.1) Грешка x0A
+[The SNAC format was rejected by the server.\nSNAC(4.1) Error x0E]
+
 [The user is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x13]
 Потребителя временно не е наличен. Моля опитайте отново след малко.\r\nSNAC(4.1) Грешка x13
+[SNAC(4.1) SENDMSG Error (x%02x)]
+
 [Contact "%s" has closed the message window.]
 Контакта "%s" затвори прозореца за съобщения.
 [ICQ Note]
@@ -277,6 +353,10 @@ ICQ бележка
 На сървъра няма списък с контакти. Ще бъде използвам местния списък.
 [Updating of server contact failed.]
 Неуспешно обновяване на контакт от сървъра.
+[Adding of privacy item to server list failed.]
+
+[Removing of privacy item from server list failed.]
+
 [Adding of contact to server list failed.]
 Неуспешно добавяне на контакт в списъка на сървъра.
 [Adding of group to server list failed.]
@@ -298,18 +378,28 @@ ICQ бележка
 [User "%s" was removed from server list.]
 Потребителя "%s" беше премахнат от списъка на сървъра.
 ;file \protocols\IcqOscarJ\src\fam_17signon.cpp
+[Secure login failed.\nInvalid server response.]
+
+[Secure login failed.\nInvalid key length.]
+
 ;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
 [Are you sure you want to revoke user's authorization (this will remove you from his/her list on some clients) ?]
 Желаете ли да оттеглите пълномощното на контакта (ще бъдете премахнати от списъка му, само за някои клиенти)?
+[Confirmation]
+
 [** This message was blocked by the ICQ server ** The message was invalid.]
 ** Съобщението е блокирано от ICQ сървъра ** Съобщението не е валидно.
 [** This message was blocked by the ICQ server ** The message was too long.]
 ** Съобщението е блокирано от ICQ сървъра ** Съобщението е твърде дълго.
 [** This message was blocked by the ICQ server ** The sender has flooded the server.]
 ** Съобщението е блокирано от ICQ сървъра ** Подателят наводни сървъра.
+[** This message was blocked by the ICQ server ** You are too evil.]
+
 [** Unknown missed message event.]
 ** Непознато пропуснато събитие.
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
+[Avatars]
+Аватари
 [Error uploading avatar to server, server temporarily unavailable.]
 Грешка при качването на аватара на сървъра. Сървъра е временно недостъпен.
 [Error uploading avatar to server, server refused to accept the image.]
@@ -810,40 +900,260 @@ ICQ бележка
 Замбия
 [Zimbabwe]
 Зимбабве
+[50's]
+
+[60's]
+
+[70's]
+
+[80's]
+
+[Art]
+
+[Astronomy]
+
 [Audio and Visual]
 Аудио и видео
 [Business]
 Бизнес
 [Business Services]
 Бизнес услуги
+[Cars]
+
+[Celebrity Fans]
+
+[Clothing]
+
+[Collections]
+
+[Computers]
+
 [Culture]
 Култура
 [Ecology]
 Екология
+[Entertainment]
+
 [Finance and Corporate]
 Финанси
+[Fitness]
+
 [Health and Beauty]
 Здраве и красота
+[Hobbies]
+
 [Home Automation]
 Домашна автоматизация
 [Household Products]
 Домакински продукти
+[Games]
+
+[Government]
+
 [ICQ - Help]
 ICQ - помощ
+[Internet]
+
+[Lifestyle]
+
 [Mail Order Catalog]
 Каталози за поръчка по пощата
+[Media]
+
 [Movies and TV]
 Филми и телевизия
+[Music]
+
+[Mystics]
+
 [News and Media]
 Новини и меди
+[Outdoors]
+
+[Parenting]
+
+[Parties]
+
 [Pets and Animals]
 Домашни любимци и животни
+[Publishing]
+
+[Religion]
+
 [Retail Stores]
 Търговия на дребно
 [Science]
 наука
+[Skills]
+
+[Social science]
+
+[Space]
+
 [Sporting and Athletic]
 Спортуване и атлетика
+[Sports]
+
+[Travel]
+
+[Web Design]
+
+[Women]
+
+[Afrikaans]
+
+[Albanian]
+
+[Arabic]
+
+[Armenian]
+
+[Azerbaijani]
+
+[Belorussian]
+
+[Bhojpuri]
+
+[Bosnian]
+
+[Bulgarian]
+
+[Burmese]
+
+[Cantonese]
+
+[Catalan]
+
+[Chamorro]
+
+[Chinese]
+
+[Croatian]
+
+[Czech]
+
+[Danish]
+
+[Dutch]
+
+[English]
+
+[Esperanto]
+
+[Estonian]
+
+[Farsi]
+
+[Finnish]
+
+[French]
+
+[Gaelic]
+
+[German]
+
+[Greek]
+
+[Gujarati]
+
+[Hebrew]
+
+[Hindi]
+
+[Hungarian]
+
+[Icelandic]
+
+[Indonesian]
+
+[Italian]
+
+[Japanese]
+
+[Khmer]
+
+[Korean]
+
+[Kurdish]
+
+[Lao]
+
+[Latvian]
+
+[Lithuanian]
+
+[Macedonian]
+
+[Malay]
+
+[Mandarin]
+
+[Mongolian]
+
+[Norwegian]
+
+[Persian]
+
+[Polish]
+
+[Portuguese]
+
+[Punjabi]
+
+[Romanian]
+
+[Russian]
+
+[Serbian]
+
+[Sindhi]
+
+[Slovak]
+
+[Slovenian]
+
+[Somali]
+
+[Spanish]
+
+[Swahili]
+
+[Swedish]
+
+[Tagalog]
+
+[Taiwanese]
+
+[Tamil]
+
+[Tatar]
+
+[Thai]
+
+[Turkish]
+
+[Ukrainian]
+
+[Urdu]
+
+[Vietnamese]
+
+[Welsh]
+
+[Yiddish]
+
+[Yoruba]
+
+[Elementary School]
+
+[High School]
+
+[College]
+
+[University]
+
+[Military]
+
 [Past Work Place]
 Минали работни места
 [Past Organization]
@@ -864,6 +1174,8 @@ ICQ - помощ
 Магистърска степен
 [PhD]
 Докторска степен
+[Postdoctoral]
+
 [University / College]
 Университет/Колеж
 [Agriculture]
@@ -876,26 +1188,134 @@ ICQ - помощ
 Потребителски стоки
 [Corporate Services]
 Корпоративни услуги
+[Education]
+
 [Finance]
 Финанси
 [High Tech]
 Високи технологии
+[Legal]
+
+[Manufacturing]
+
 [Medical & Health Care]
 Медицински и грижи за здравето
+[Non-Profit Organization Management]
+
 [Recreation, Travel & Entertainment]
 Развлечение, Пътуване и забавление
 [Service Industry]
 Обслужващ сектор
 [Transportation]
 Транспорт
+[Academic]
+
+[Administrative]
+
+[Art/Entertainment]
+
+[College Student]
+
+[Community & Social]
+
+[Engineering]
+
+[Financial Services]
+
+[High School Student]
+
+[Home]
+
+[ICQ - Providing Help]
+
+[Law]
+
+[Managerial]
+
+[Medical/Health]
+
+[Non-Government Organization]
+
+[Professional]
+
+[Retail]
+
+[Retired]
+
+[Science & Research]
+
+[Technical]
+
+[University Student]
+
+[Web Building]
+
+[Other Services]
+
+[Alumni Org.]
+
+[Charity Org.]
+
+[Club/Social Org.]
+
+[Community Org.]
+
+[Cultural Org.]
+
+[Fan Clubs]
+
+[Fraternity/Sorority]
+
+[Hobbyists Org.]
+
+[International Org.]
+
+[Nature and Environment Org.]
+
+[Professional Org.]
+
+[Scientific/Technical Org.]
+
+[Self Improvement Group]
+
+[Spiritual/Religious Org.]
+
+[Sports Org.]
+
+[Support Org.]
+
+[Trade and Business Org.]
+
+[Union]
+
+[Volunteer Org.]
+
 [60-above]
 над 60-те
+[Single]
+
+[Close relationships]
+
+[Engaged]
+
+[Married]
+
+[Divorced]
+
+[Separated]
+
+[Widowed]
+
 [Open relationship]
 Отворена връзка
 ;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
+[No description given]
+
 ;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
 [Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 Прехвърлянето е прекратено поради липса на един от избраните файлове. Вероятно сте изтрили или преместили файла.
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+
 ;file \protocols\IcqOscarJ\src\icq_menu.cpp
 [Request authorization]
 Молба за упълномощаване
@@ -920,33 +1340,67 @@ ICQ - помощ
 При необходимост от намеса на потребителя
 [Do not display any problems (not recommended)]
 Без изобразяване на съобщения (не е препоръчително)
+[Simplified Chinese]
+
+[Traditional Chinese]
+
+[Central European]
+
+[Cyrillic]
+
+[Latin I]
+
+[Baltic]
+
+[Korean (Johab)]
+
 [System default codepage]
 Станд. кодова таблица на системата
 [Network]
 Мрежа
+[Account]
+Акаунт
 [Contacts]
 Контакти
+[Features]
+
+[Privacy]
+
 [Popups]
-РopUps
-[Popups]
-РopUps
+Popups
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
+[Popup Title]
+
 [Sample Note]
 Пример за бележка
 [Sample Warning]
 Пример за предупреждение
 [Sample Error]
 Пример за грешка
+[Sample Fatal]
+
 [Sample Spambot]
 Пример за СПАМ бот
 ;file \protocols\IcqOscarJ\src\icq_proto.cpp
+[%s server connection]
+
+[%s client-to-client connections]
+
+[User ID]
+
 [You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
 Не сте въвели ICQ номер.\nВъведете го в Настройки>Мрежа>ICQ и опитайте отново.
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
+[Unable to connect to ICQ login server, SSL could not be negotiated]
+
 [Unable to connect to ICQ login server]
 Вписването в сървъра на ICQ е невъзможно
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
 Заделянето на порт за очакване на директни peer-to-peer връзки между клиенти е невъзможно. Повечето услуги предлагани от мрежата ICQ ще бъдат достъпни, но вероятно няма да можете да изпращате/получавате файлове.\n\nАко имате firewall вероятно той блокира Miranda. Тогава трябва да настроите firewall да оставя някои портове отворени и да зададете същите в Главно меню>Настройки>Мрежа>ICQ.
+[Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
+
+[Your connection with the ICQ server was abortively closed]
+
 ;file \protocols\IcqOscarJ\src\icq_servlist.cpp
 [The contact's information was too big and was truncated.]
 Информацията за контакта е съкратена поради размера и.
@@ -967,6 +1421,8 @@ ICQ - помощ
 Контактите, които желаете да бъдат съхранени на сървъра.
 [Ready...]
 Готово...
+[Server rate warning -> slowing down the process.]
+
 [Adding group "%s"...]
 Добавяне на група "%s"...
 [Uploading %s...]
@@ -1000,14 +1456,28 @@ ICQ - помощ
 [** All contacts **]
 ** Всички контакти **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
+[Angry]
+
 [Taking a bath]
 Къпе се
+[Tired]
+
+[Birthday]
+
 [Drinking beer]
 Пие бира
 [Thinking]
 Мисли
+[Eating]
+
 [Watching TV]
 Гледа телевизия
+[Meeting]
+
+[Coffee]
+
+[Listening to music]
+
 [Shooting]
 Снима
 [Having fun]
@@ -1022,18 +1492,36 @@ ICQ - помощ
 Пазарува
 [Feeling sick]
 Болен
+[Sleeping]
+
 [Surfing]
 Сърфира
+[Working]
+
 [Typing]
 Пише
 [Picnic]
 Пикник
+[Cooking]
+
+[Smoking]
+
+[I'm high]
+
+[On WC]
+
 [To be or not to be]
 Да бъда или да не бъда
 [Watching pro7 on TV]
 Гледа pro7
+[Love]
+
 [Hot Dog]
 Хотдог
+[Rough]
+
+[Rock On]
+
 [Baby]
 Бебе
 [Soccer]
@@ -1044,12 +1532,18 @@ ICQ - помощ
 Циклоп
 [Monkey]
 Маймуна
+[Birdie]
+
 [Cool]
 Страхотен
 [Evil]
 Зъл
+[Alien]
+
 [Scooter]
 Скутер
+[Mask]
+
 [Money]
 Пари
 [Pilot]
@@ -1064,6 +1558,12 @@ ICQ - помощ
 Устни
 [Ice-Cream]
 Сладолед
+[Pink Lady]
+
+[Up yours]
+
+[Laughing]
+
 [Dog]
 Куче
 [Candy]
@@ -1106,8 +1606,12 @@ ICQ - помощ
 Хърка
 [On my mobile]
 На мобилния
+[Depressed]
+
 [Beetle]
 Бръмбар
+[Double Rainbow]
+
 [Basketball]
 Баскетбол
 [Cupid shot me]
@@ -1116,25 +1620,37 @@ ICQ - помощ
 Празнува
 [Sushi]
 Суши
+[Playing]
+
 [Writing]
 Пише
 [%s Custom Status]
 %s персонално състояние
 [None]
 Няма
+[Custom Status]
+
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
 Поздравителна картичка:
 ;file \protocols\IcqOscarJ\src\init.cpp
+[ICQ XStatus]
+
 ;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
 ICQ предупреждение
 [ICQ Error]
 ICQ грешка
+[ICQ Fatal]
+
 [The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
 Сървърът не отговоря на опита за свързване в разумен период от време, може бе не работи временно. Опитайте по-късно.
+[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
+
 [Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
 Откриването (resolve) на името на сървъра от числовия адрес е невъзможно. Най-вероятно това е предизвикано от тотална загуба на мрежовата връзка (напр. изключен модем), но ако използвате прокси, може би трябва да отметнете "Откриване имената на хостовете чрез прокси сървъра" от Главно меню>Настройки>Мрежа.
+[Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
+
 [Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
 Потребителското име и парола, които въведохте бяха отхвърлени от прокси сървъра. Моля, проверете в Главно меню>Настройки>Мрежа.
 [The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
@@ -1142,6 +1658,8 @@ ICQ грешка
 [error]
 грешка
 ;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
+[%d Files]
+
 [The file transfer was aborted by the other user.]
 Прехвърлянето на файла бе прекратено от другия потребител.
 [The file transfer failed: Proxy error]
@@ -1150,46 +1668,82 @@ ICQ грешка
 Прехвърлянето на файла не е успешно: Невалидна заявка
 [The file transfer failed: Proxy unavailable]
 Прехвърлянето на файла не е успешно: Няма налично прокси
+[Failed to Initialize File Transfer. No valid files were specified.]
+
 [The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
 Файловете са твърде големи, за да бъдат изпратени на един път. Файлове по-големи от 4ГБ могат да бъдат изпратени поотделно.
+[Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
+
 [Connection lost during file transfer.]
 Загубена връзка по време на прехвърлянето на файла.
+[File transfer negotiation failed for unknown reason.]
+
+[The checksum of file "%s" does not match, the file is probably damaged.]
+
 ;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
 <невалидно>
 ;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
 [GMT-12:00 Eniwetok; Kwajalein]
 GMT-12:00 Eniwetok; Кваджалин
+[GMT-11:30]
+
 [GMT-11:00 Midway Island; Samoa]
 GMT-11:00 острови Мидуей; Самоа
+[GMT-10:30]
+
 [GMT-10:00 Hawaii]
 GMT-10:00 Хаваи
+[GMT-9:30]
+
 [GMT-9:00 Alaska]
 GMT-9:00 Аляска
+[GMT-8:30]
+
 [GMT-8:00 Pacific Time; Tijuana]
 GMT-8:00 Тихоокеанско стандартно време; Тихуана
+[GMT-7:30]
+
 [GMT-7:00 Arizona; Mountain Time]
 GMT-7:00 Аризона; Планинско стандартно време (Канада и САЩ)
+[GMT-6:30]
+
 [GMT-6:00 Central Time; Central America; Saskatchewan]
 GMT-6:00 Централно стандартно време; Централна Америка; Саскачеван
+[GMT-5:30]
+
 [GMT-5:00 Eastern Time; Bogota; Lima; Quito]
 GMT-5:00 Източно стандартно време; Богота; Лима; Кито
+[GMT-4:30]
+
 [GMT-4:00 Atlantic Time; Santiago; Caracas; La Paz]
 GMT-4:00 Стандартно атлантическо време; Сантяго; Каракас; Ла Пас
 [GMT-3:30 Newfoundland]
 GMT-3:30 Нюфаундленд
 [GMT-3:00 Greenland; Buenos Aires; Georgetown]
 GMT-3:00 Гренландия; Буенос Айрес; Джорджтаун
+[GMT-2:30]
+
 [GMT-2:00 Mid-Atlantic]
 GMT-2:00 Средноатлантическо време
+[GMT-1:30]
+
 [GMT-1:00 Cape Verde Islands; Azores]
 GMT-1:00 острови Кабо Верде; Азорски острови
+[GMT-0:30]
+
 [GMT+0:00 London; Dublin; Edinburgh; Lisbon; Casablanca]
 GMT+0:00 Лондон; Дъблин; Единбург; Лисабон; Казабланка
+[GMT+0:30]
+
 [GMT+1:00 Central European Time; West Central Africa; Warsaw]
 GMT+1:00 Централноевропейско време; Западноцентрална Африка; Варшава
+[GMT+1:30]
+
 [GMT+2:00 Jerusalem; Helsinki; Harare; Cairo; Bucharest; Athens]
 GMT+2:00 Йерусалим; Хелзинки; Хараре; Кайро; Букурещ; Атина
+[GMT+2:30]
+
 [GMT+3:00 Moscow; St. Petersburg; Nairobi; Kuwait; Baghdad]
 GMT+3:00 Москва; Санкт Петербург; Найроби; Кувейт; Багдад
 [GMT+3:30 Tehran]
@@ -1200,36 +1754,86 @@ GMT+4:00 Баку; Тбилиси; Ереван; Абу Даби; Маскат
 GMT+4:30 Кабул
 [GMT+5:00 Calcutta; Chennai; Mumbai; New Delhi; Ekaterinburg]
 GMT+5:00 Калкута; Ченай (Мадрас); Мумбай; Ню Делхи; Екатеринбург
+[GMT+5:30]
+
 [GMT+6:00 Astana; Dhaka; Almaty; Novosibirsk; Sri Jayawardenepura]
 GMT+6:00 Астана; Дака; Алмати; Новосибирск; Шри Джаяварданапура Коте
 [GMT+6:30 Rangoon]
 GMT+6:30 Янгон (Рангун)
 [GMT+7:00 Bankok; Hanoi; Jakarta; Krasnoyarsk]
 GMT+7:00 Банкок; Ханой; Джакарта; Красноярск
+[GMT+7:30]
+
 [GMT+8:00 Perth; Taipei; Singapore; Hong Kong; Beijing]
 GMT+8:00 Пърт; Тайпей; Сингапур; Хонконг; Бейджинг (Пекин)
+[GMT+8:30]
+
 [GMT+9:00 Tokyo; Osaka; Seoul; Sapporo; Yakutsk]
 GMT+9:00 Токио; Осака; Сеул; Сапоро; Якутск
 [GMT+9:30 Darwin; Adelaide]
 GMT+9:30 Даруин; Аделейд
 [GMT+10:00 East Australia; Guam; Vladivostok]
 GMT+10:00 Източна Австралия; Гуам; Владивосток
+[GMT+10:30]
+
 [GMT+11:00 Magadan; Solomon Is.; New Caledonia]
 GMT+11:00 Магадан; Соломонови острови; Нова Каледония
+[GMT+11:30]
+
 [GMT+12:00 Auckland; Wellington; Fiji; Kamchatka; Marshall Is.]
 GMT+12:00 Оукланд; Уелингтън; Фиджи; Камчатка; Маршалови острови
+[January]
+
+[February]
+
+[March]
+
+[April]
+
+[May]
+
+[June]
+
+[July]
+
+[August]
+
+[September]
+
+[October]
+
+[November]
+
+[December]
+
 [Personal]
 Лична
+[Nickname]
+
 [First name]
 Име
 [Last name]
 Фамилия
+[Gender]
+
+[About]
+
+[Password]
+Парола
 [Contact]
 Контакт
+[Primary e-mail]
+
+[Secondary e-mail]
+
+[Tertiary e-mail]
+
 [Street]
 Улица
 [City]
 Град
+[State]
+Състояние
 [ZIP/postcode]
 Пощенски код
 [Country]
@@ -1242,6 +1846,8 @@ GMT+12:00 Оукланд; Уелингтън; Фиджи; Камчатка; Ма
 Мобилен телефон
 [Personal Detail]
 Лични подробности
+[Timezone]
+
 [Year of birth]
 Година на раждане
 [Month of birth]
@@ -1320,6 +1926,8 @@ ICQ сървъра не поддържа пароли по-дълги от 8 з�
 ;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
 [<unremovable once applied>]
 <несменяемо след задаване>
+[<empty>]
+
 [Unknown value]
 Неисвестна стойност
 [You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
@@ -1334,10 +1942,16 @@ ICQ сървъра не поддържа пароли по-дълги от 8 з�
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 В момента не сте свързани към мрежата ICQ. Необходимо е да сте на линия, за да бъде обновена вашата информация на сървъра.
 ;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
+[Please authorize me to add you to my contact list.]
+
 ;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 [Enter a password for UIN %u:]
 Въведете нова парола за UIN %u:
 ;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
+[ (DC Established)]
+
+[ScreenName:]
+
 [<not specified>]
 <неуточнено>
 [Member since:]

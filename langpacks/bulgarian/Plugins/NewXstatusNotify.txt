@@ -5,6 +5,8 @@
 ;  Version: 1.4.0.9
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
+[Notifies you when a contact changes his/her (X)status or status message.]
+
 ;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 Уведомяване, ако контакт промени състоянието си на:
@@ -36,14 +38,38 @@
 Изключване на Popups и звука при промяна на състоянието
 [Configure]
 Настройване
+[Notify me for people not in my Contact List]
+
 [Blink icon in the system tray]
 Мигане на иконата в трея
 [Use status icon]
 Показване на икона за състоянието
 [Use individual sounds]
 Ползване на индивидуални звуци
+[Log to file]
+
+[Enable]
+
+[Go to Sound to select the sounds]
+
+[Extra status]
+
+[Open]
+
+[Status message]
+
+[IndSndList]
+
+[Change]
+
+[Preview]
+Преглед
 [Delete]
 Изтриване
+[Enable sounds]
+
+[Enable popups]
+
 [Status Notify]
 Уведомяване за състояния
 [Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
@@ -51,9 +77,11 @@
 [Sounds]
 Звук
 [Popups]
-РopUps
-[Popups]
-РopUps
+Popups
+[Extra status notify]
+
+[Extra status logging]
+
 [Disable all]
 Изкл. на всички
 [Enable all]
@@ -62,6 +90,8 @@
 Фон
 [Text]
 Текст
+[Colours]
+Цветове
 [Use custom colours]
 Зададени цветове
 [Use Windows colours]
@@ -74,16 +104,40 @@
 Показване на текста за състояние
 [Show previous status too]
 Показване и на предишното състояние
+[Timeout]
+Времетраене
 [Popups when status changes to:]
 При променено състояние на:
+[Click action]
+Действие на бутоните на мишката
 [Show contact group name]
 Показване на групата (в която е контакта)
 [Use alternative descriptions]
 Алтернативни описания
+[0 = Default]
+0 = стандарт
+[-1 = Infinite]
+-1 = безкрайно
+[Sec]
+Сек
+[On left click]
+Ляв бутон
+[On right click]
+Десен бутон
 [Show status description]
 Описание на състоянието
+[Ignore empty status and xStatus messages]
+
+[Notification]
+
 [Disable for extra status 'Music']
 Изключване за допълнително състояние "Слуша музика"
+[Truncate message length to:]
+
+[characters]
+
+[Templates]
+
 [Title - text delimiter:]
 Разделител (заглавие-текст):
 [Remove:]
@@ -92,8 +146,14 @@
 Нов текст:
 [New status:]
 Ново състояние:
+[Variables]
+
 [Reset]
 Анулиране
+[Disable notifications]
+
+[OK]
+ОК
 [Cancel]
 Отказ
 [Disable globally]
@@ -110,11 +170,23 @@
 Запазване на събитията в историята
 [Prevent identical logs]
 Предотвратяване на идентичните дневници
+[On opening ML:]
+
 [General]
 Основни
+[Show Popups when I connect]
+
 [Accounts]
 Акаунти
+[Enable/Disable accounts which you don't wish to be notified for:]
+
 ;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Sound files]
+
+[All files]
+
+[Wave files]
+
 [Status]
 Състояние
 [Sound for the status]
@@ -124,9 +196,19 @@
 [** All contacts **]
 ** Всички контакти **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
+[(default sound)]
+
 ;file \plugins\NewXstatusNotify\src\main.cpp
+[<no status message>]
+
 [Contact]
 Контакт
+[connecting]
+
+[aborting]
+
+[playing]
+
 [%s is now %s]
 %s сега е %s
 [%s, %s. %s changed to: %s (was: %s).\r\n]
@@ -215,6 +297,12 @@
 Включване уведомяването за състояния
 [Disable status notification]
 Изключване уведомяването за състояния
+[Notification enabled]
+
+[Notification disabled]
+
+[New Status Notify]
+
 [User: from offline (has priority!)]
 Потребител: от "Извън линия" (с предимство!)
 [Extra status changed]
@@ -223,6 +311,8 @@
 Промяна на текст на допълнително състояние
 [Extra status removed]
 Премахване на допълнително състояние
+[Toggle status notification]
+
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Всички файлове
@@ -238,11 +328,37 @@
 Показване на наличните променливи
 [Reset all templates to default]
 Анулиране на всички шаблони
+[Protocol]
+Протокол
+[Filtering]
+
+[Message log]
+
 ;file \plugins\NewXstatusNotify\src\popup.h
+[Open message window]
+
+[Close popup]
+Затваря popup
+[Open contact details window]
+
+[Open contact menu]
+
+[Open contact history]
+
+[Do nothing]
+Нищо
 ;file \plugins\NewXstatusNotify\src\utils.cpp
+[You cannot specify a value lower than %d and higher than %d.]
+
 [Can't open the log file!]
 Дневникът не може да бъде отворен!
+[NewXstatusNotify]
+
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[Mood]
+
+[Activity]
+
 [Xstatus]
 хСъстояние
 [<unknown>]
@@ -258,9 +374,15 @@
 промени текста за състояние "%N" на:%D%I
 [removed %N]
 премахна състоянието си "%N"
+[changed his/her status message to %n]
+
 [changed %N @ %T%D%I]
 промени състоянието си "%N" @ %T%D%I
 [changed %N message @ %I]
 промени текста за състояние "%N" @ %I
 [has %N @ %T%D%I]
 има зададено състояние "%N" @ %T%D%I
+[These variables are available:\r\n\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n%T\textra status title\r\n%I\textra status text\r\n%D\tdelimiter\r\n%B\tline break (can be used as delimiter)]
+
+[These variables are available:\r\n\r\n%n\tNew Status Message\r\n%o\tOld Status Message\r\n%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
+

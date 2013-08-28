@@ -5,7 +5,17 @@
 ;  Version: 0.9.0.0
 ;  Authors: 
 ;============================================================
+[Displays contacts, event notifications, protocol status with MW modifications.]
+
 ;file \plugins\Clist_mw\res\resource.rc
+[Settings]
+Настройки
+[Background colour:]
+
+[Selection colour:]
+
+[Use background bitmap]
+
 [Stretch to width]
 Разтягане на ширина
 [Stretch to height]
@@ -18,6 +28,8 @@
 Придвижване с текста
 [Stretch proportionally]
 Пропорционално разтягане
+[Tile vertically according to Row Height]
+
 [Warning!\r\nThis MenuObject not support user defined options.]
 Внимание!\r\nТова меню не поддържа дефиниране на елементи от потребителя.
 [MenuObjects]
@@ -42,6 +54,8 @@
 Да
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Скриване (запазва историята и настройките за игнориране/видимост)
+[Use Options->Contacts->Ignore to unhide contacts.]
+
 [Are you sure you want to delete %s?]
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
 [This will erase all history and settings for this contact!]
@@ -72,6 +86,8 @@
 Показване на състоянието в подсказка
 [Disable icon blinking]
 Без мигане на икони
+[ms, delay between icon blinking]
+
 [Show]
 Показване
 [icon when statuses differ]
@@ -92,6 +108,8 @@
 Режим на иконата в трея, когато се използват няколко протокола
 [Contact List Sorting]
 Сортиране на списъка с контакти по:
+[Dont move offline user to bottom]
+
 [Pin to desktop]
 Прилепване към работния плот
 [Rows]
@@ -100,12 +118,12 @@
 Ред (височина):
 [pixels]
 пиксела
-[pixels]
-пиксела
 [Gamma correction]
 Корекция на гамата
 [Window]
 Прозорец
+[Tool style main window]
+
 [Minimize to tray]
 Минимизиране в трея
 [Automatically resize window to height of list]
@@ -118,6 +136,8 @@
 Оразмеряване нагоре
 [Title bar text:]
 Заглавна лента:
+[Translucency options]
+Настройки за прозрачност
 [Fade contact list in/out]
 Избледняване/Изсветляване на списъка
 [Transparent contact list]
@@ -134,6 +154,8 @@
 Заглавна лента
 [If window is partially covered, bring to front instead of hiding]
 Извеждане на прозорецът отпред, ако е частично покрит, вместо скриване
+[Enable drop shadow (restart required)]
+
 [Items]
 Елементи
 [Show divider between online and offline contacts]
@@ -178,10 +200,22 @@
 Посивяване на списъка, когато:
 [Dim idle contacts]
 Потъмняване на бездействащите контакти
+[Hide vertical scrollbar]
+
 [Contact List Background]
 Фон на списъка с контакти
+[Use 'Meta' protocol icons for Metacontacts]
+
+[Avoid doubleclick expand]
+
+[Hide all 'Extra icons' for subcontacts]
+
 [MetaContacts supporting]
 Поддържа метаконтакти
+[Ignore Empty Extra icons places (arrange to right).]
+
+[Hide offline subcontacts.]
+
 [Status Bar]
 Лента за състояние
 [Show status bar]
@@ -194,10 +228,18 @@
 Показване на текст за състоянието
 [Right click opens status menu]
 Десен бутон = меню на състоянието
+[Right click opens Miranda menu]
+Десен бутон отваря главното меню
 [Make sections equal width]
 Еднакво широки панели
+[Show size grip]
+
+[Show bevel effect on panels]
+
 [Use connecting Icon]
 Ползване на икона за свързване
+[Use New Drawer for StatusBar]
+
 [E&xit]
 Изход
 [&Status]
@@ -226,6 +268,8 @@
 Трей
 [&Hide/Show]
 Показване/Скриване
+[Nowhere]
+
 [&New Group]
 Нова група
 [&Hide Offline Users]
@@ -287,6 +331,8 @@
 Списък
 [List Background]
 Фон на списъка
+[List MetaContacts]
+
 [StatusBar Background]
 Фон на лентата за състояние
 [Not focused]
@@ -315,6 +361,8 @@
 [Global]
 Общо
 ;file \plugins\Clist_mw\src\clistsettings.cpp
+[_NoProtocol_]
+
 [(Unknown Contact)]
 (Непознат контакт)
 ;file \plugins\Clist_mw\src\clisttray.cpp
@@ -324,11 +372,63 @@
 Главно меню
 [&Options...]
 Настройки...
+[&About]
+
 ;file \plugins\Clist_mw\src\clui.cpp
+[My Contacts]
+
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp
+[&New SubGroup]
+
 ;file \plugins\Clist_mw\src\keyboard.cpp
+[Close Miranda]
+
+[Restore last status]
+
 ;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+[&FrameTitle]
+
+[&Visible]
+
+[&Show TitleBar]
+
+[&Locked]
+
+[&Collapsed]
+
+[&Floating Mode]
+
+[&Border]
+
+[&Align]
+
+[&Top]
+
+[&Client]
+
+[&Bottom]
+
+[&Position]
+
+[&Up]
+
+[&Down]
+
 [Frames]
 Рамки
+[Show All Frames]
+
+[Show All Titlebars]
+
+[Hide All Titlebars]
+
+[Lock Frame]
+
+[Visible]
+
+[Show TitleBar]
+
+[Floating]
+
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

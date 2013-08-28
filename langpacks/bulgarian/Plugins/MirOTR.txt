@@ -5,6 +5,8 @@
 ;  Version: 0.11.0.4
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
+[OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
+
 ;file \plugins\MirOTR\MirOTR\res\resource.rc
 [OTR Generating Private Key]
 OTR създаване на нов частен ключ
@@ -12,10 +14,14 @@ OTR създаване на нов частен ключ
 Създаване на нов частен ключ, моля изчакайте.
 [Default Policy]
 Стандартна политика
+[Always]
+
 [Opportunistic]
 Опортюнистично
 [Manual]
 Ръчно
+[Never]
+
 [End sessions on window close]
 Приключване на сесията при затваряне на прозореца за съобщения
 [End sessions when contacts go offline]
@@ -30,6 +36,8 @@ OTR създаване на нов частен ключ
 Показване на OTR системните съобщения в прозореца за съобщения
 [Show OTR system messages as popup]
 Показване на OTR системните съобщения като Popup
+[Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
+
 [Show verification dialog when receiving unverified fingerprint]
 Изискване на потвърждаване при получаване на непотвърден отпечатък
 [Set OTR policy per protocol]
@@ -48,8 +56,18 @@ OTR създаване на нов частен ключ
 Потвърждаване
 [Set unknown]
 Задай непознат
+[Forget]
+
+[Socialist Millionaires Protocol]
+
+[Socialist Millionaires Protocol\r\nVerification progress]
+
 [&Cancel]
 Отказ
+[&OK]
+
+[Socialist Millionaires Protocol\r\nVerification]
+
 [&No]
 Не
 [&Yes]
@@ -111,12 +129,18 @@ OTR шифрованата сесия бе прекратена от "%s". Ви�
 Криптирането по време на изпращане не е възможно
 [OTR Information]
 OTR информация
+[[OTR INFO] ]
+
 [Authentication from %s]
 Удостоверяване от %s
 [Authenticae %s]
 Удостоверяване на %s
 [Unknown]
 Неизвестно
+[OTR: %s (%s)]
+
+[OTR %s (%s)]
+
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 Сега се използва ПОТВЪРДЕН отпечатък за OTR шифрованата сесия с "%s"
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
@@ -129,20 +153,30 @@ OTR НЕПОТВЪРДЕНО
 OTR частно
 [OTR not secure]
 OTR ненадеждно
+[OTR]
+
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 Създаване на нов частен ключ за протокол "%s".\nМоля, изчакайте...
 [General]
 Основни
+[Protocols]
+
 [Contacts]
 Контакти
 [Fingerprints]
 Отпечатъци
 [Contact]
 Контакт
+[Protocol]
+Протокол
 [Policy]
 Политика
 [Verified]
 Потвърдено
+[Active]
+
+[Fingerprint]
+Fingerprint
 [Conv. HTML]
 Конверт. на HTML
 [Default]
@@ -171,6 +205,10 @@ OTR удостоверяване на %s (%s)
 Ръчно сравняване на отпечатъка
 [Secret Answer]
 Таен отговор
+[Question]
+
+[Password]
+Парола
 [Authentication sucessful.]
 Успешно удостоверяване.
 [You contact authenticated you sucessful. You can send your own request to authenticate him.]
@@ -208,4 +246,10 @@ OTR: Инсталирана е приставката SecureIM
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
 В момента се използва приставката SecureIM.\nMirOTR ще може да бъде използван само с контакти, за които SecureIM е изключена.
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
+[OTR Status]
+
 ;file \plugins\MirOTR\MirOTR\src\options.cpp
+[Private Data]
+
+[Services]
+Услуги

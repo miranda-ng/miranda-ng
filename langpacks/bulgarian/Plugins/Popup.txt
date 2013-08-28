@@ -5,11 +5,15 @@
 ;  Version: 2.1.1.7
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
+[Provides popup notification services for different plugins.]
+
 ;file \plugins\Popup\res\resource.rc
 [Content && Style]
 Съдържание и стил
 [Go to Customize > Fonts && Colors for fonts and colors options]
 Персонализиране>Шрифтове за избор на шрифтове и цветове
+[Miscellaneous]
+
 [Effects]
 Ефекти
 [Live Preview]
@@ -22,24 +26,38 @@
 Включване на popup историята
 [Store last]
 Запис на посл.
+[events]
+
+[Use History++ to render log]
+
+[Avatars]
+Аватари
 [Draw avatar borders]
 Рамка на аватарите
 [Draw borders for semitransparent avatars too]
 Рамка и за полупрозрачните аватари
+[Round corners by]
+
 [pixels]
 пиксела
-[pixels]
-пиксела
+[Avatar size:]
+
 [Enable avatar updates]
 Актуализиране на аватарите
+[Multimonitor]
+
 [Start the popups in the monitor with]
 Показване на popups в монитора с
 [Miranda's window]
 прозорецът на Miranda
 [the active window]
 активният прозорец
+[Transparency]
+
 [Enable Win 9x/Me transparency]
 Включване на Win 9x/Me прозрачност
+[Use transparency]
+
 [opacity:]
 плътност:
 [Opaque popups under cursor]
@@ -48,12 +66,28 @@
 Плъзгане на popup-овете
 [Effect:]
 Ефект:
+[Time (in):]
+
+[ms]
+
 [Time (out):]
 Избледняване:
 [Limit window amount to:]
 Максимален брой прозорци:
+[Skins]
+
 [* - built-in skins]
 * - вграден
+[Skin options]
+
+[Preview]
+Преглед
+[Download more skins]
+
+[Popup History]
+
+[Desktop]
+
 [Popup Area]
 Площ на Popup-а
 [pixel(s)]
@@ -92,32 +126,54 @@ Popup действията са малките бутони под текста.
 Икони вдясно
 [Show Actions: (requires apply)]
 Действия:(натиснете "Прилагане")
+[Mouse Actions Overwrite]
+
 [LeftButton]
 Ляв бутон
 [MiddleButton]
 Среден бутон
 [RightButton]
 Десен бутон
+[Notifications]
+Уведомявания
+[General options]
+
 [Enable this notification]
 Включване на уведомяването
+[Popup timeout:]
+
 [Left click action:]
 Ляв бутон:
 [Right click action:]
 Десен бутон:
 [Disable when global status is...]
 Изключване, когато общото състояние е...
+[Disable when relevant protocol's status is...]
+
 [Colors can be configured in\r\nCustomize > Fonts && Colors]
 Цветовете се настройват от Персонализиране>\r\nШрифтове и цветове
+[More...]
+
 [Disable if message window is open]
 Изключване при отворен прозорец за съобщения
+[Sec]
+Сек
+[0 = Default]
+0 = стандарт
+[-1 = Infinite]
+-1 = безкрайно
 [Per-contact settings]
 Настройване на визуализирането по отделно за контактите
 [Show always]
 Винаги
+[Ignore fullscreen]
+
 [Never show]
 Никога
 [Show default]
 Стандартно
+[Default Timeout]
+
 [Infinite popup delay]
 Безкрайна продължителност
 [Popup delay:]
@@ -144,18 +200,36 @@ Popup действията са малките бутони под текста.
 Винаги (приоритетно)
 [Fullscreen mode]
 Режим на цял екран
+[Debug]
+
 ;file \plugins\Popup\src\actions.cpp
+[no overwrite]
+
+[Send message]
+
 [Quick reply]
 Бърз отговор
 [User details]
 Подробности за потребителя
 [Contact menu]
 Меню на контактите
+[Dismiss popup]
+
 [Pin popup]
 Прилепване на popup-а
+[Copy to clipboard]
+Копиране в клипборда
+[Action]
+
 ;file \plugins\Popup\src\config.cpp
+[The Jabberwocky]
+
+[`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
+
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
 Тестови образец за настройките на popup приставката. Би трябвало да е достатъчно дълъг, за да не се събере на един ред...
+[This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
+
 [This is a notification message]
 Това е уведомяване
 [This is a warning message]
@@ -163,19 +237,41 @@ Popup действията са малките бутони под текста.
 [This is an error message]
 Това е съобщение за грешка
 ;file \plugins\Popup\src\effects.cpp
+[Square fading]
+
 ;file \plugins\Popup\src\font.cpp
+[Hovered Action]
+
+[Clock]
+
 ;file \plugins\Popup\src\history.cpp
+[Popup History is disabled]
+
+[Popup History message]
+
 ;file \plugins\Popup\src\icons.cpp
+[Popups are enabled]
+
+[Popups are disabled]
+
+[With "favourite" overlay]
+
+[With "fullscreen" overlay]
+
 [Refresh skin list]
 Обновяване на списъка с облици
 [Popup Placement]
 Popup позиция
+[OK]
+ОК
 [Cancel]
 Отказ
 [Popup Group]
 Popup група
 [Favorite Contact]
 Любим контакт
+[Show in Fullscreen]
+
 [Blocked Contact]
 Блокиран контакт
 [Quick Reply]
@@ -184,22 +280,68 @@ Popup група
 Прилепване на popup-а
 [Pinned Popup]
 Прилепен popup
+[Send Message]
+
 [User Details]
 Подробности за потребителя
+[Contact Menu]
+
 [Add Contact Permanently]
 Добавяне на контакта за постоянно
+[Dismiss Popup]
+
 ;file \plugins\Popup\src\main.cpp
+[Classes]
+
 [Actions]
 Действия
 [Contacts]
 Контакти
 [Advanced]
 Разширени
+[Toggle Popups]
+
+[Enable Popups]
+
+[Disable Popups]
+
+[Popup Plus]
+
+[Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
+
 ;file \plugins\Popup\src\opt_adv.cpp
+[No effect]
+
 [Fade in/out]
 Избледняване/Изсветляване
 ;file \plugins\Popup\src\opt_class.cpp
+[CLASS Plugins]
+
+[Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
+
 ;file \plugins\Popup\src\opt_gen.cpp
+[Offline]
+Извън линия
+[Online]
+На линия
+[Invisible]
+Невидим
+[Away]
+Отсъстващ
+[NA]
+Недостъпен
+[Occupied]
+Зает
+[DND]
+Не безпокойте
+[Free for chat]
+Готов за чат
+[Out to lunch]
+На обяд
+[On the phone]
+На телефона
+[Width]
+
 [upper left corner]
 горен ляв ъгъл
 [lower left corner]
@@ -208,29 +350,71 @@ Popup група
 долен десен ъгъл
 [upper right corner]
 горен десен ъгъл
+[horizontal]
+
 [vertical]
 вертикално
+[Global Status]
+
+[Protocol Status]
+
+[You cannot specify a value lower than %d and higher than %d.]
+
+['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+
 [Popup Plus Warning]
 Popup Plus Предупреждение
 ;file \plugins\Popup\src\opt_skins.cpp
+[Failed to register %s class.]
+
 [Skin preview]
 Образец на облика
 [Just take a look at this skin... ;)]
 Просто погледнете този облик... ;)
 [Show clock]
 Показване на часа
+[Drop shadow effect]
+
+[non rectangular]
+
+[Enable Aero Glass (Vista+)]
+
 [Use Windows colours]
 Цветове от Windows
+[Use advanced text render]
+
+[Global settings]
+
 [Refresh List]
 Обновяване на списъка
 ;file \plugins\Popup\src\popup_thread.cpp
 ;file \plugins\Popup\src\popup_wnd2.cpp
+[Failed to GetClassInfoExW from EDIT class.]
+
+[Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
+
 ;file \plugins\Popup\src\services.cpp
 [Error]
 Грешка
+[Warning]
+
+[Notify]
+
 ;file \plugins\Popup\src\skin.cpp
+[The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
+
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Popup Mode: Auto]
 Popup режим: Автоматичен
+[Popup Mode: Favourite]
+
+[Popup Mode: Ignore fullscreen]
+
 [Popup Mode: Block contact]
 Popup режим: Блокиране на контакта
+[Auto]
+
+[Favourite]
+
+[Block]
+

@@ -5,40 +5,206 @@
 ;  Versions: 1.4.0.4 - 1.4.0.18
 ;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=260
 ;============================================================
+[QuickSearch]
+
+[Global QuickSearch hotkey]
+
+[Local QuickSearch hotkey]
+
 [Show Offline contacts]
 Показвай контактите "Извън линия"
+[New column]
+
+[Set Item]
+
+[wParam type:]
+
+[lParam type:]
+
 [Sort by Status]
 Сортиране по състояние
+[Don't Use Tool Window Style]
+
+[Draw Grid]
+
 [integer value]
 целочислена стойност
 [Save Item]
 Запис на елемента
+[ClientID]
+
+[Quick Search]
+
+[Quick search]
+
+[Search on:]
+
+[Quick Search:]
+
+[UID:]
+
+[E-mail Address:]
+
+[MirandaV]
+
+[Ext IP]
+
+[Last Event]
+
+[Online Since]
+
+[Quick Search Options]
+
+[&New]
+
+[D&n]
+
 [Setting:]
 Настройка:
+[De&fault]
+
+[&Set Item]
+
+[At Start Sort by Status]
+
+[Global scope hotkey:]
+
+[Miranda scope hotkey:]
+
+[Add Item to Main Menu]
+
+[Show Only Users in List]
+
+[Add Button to TopToolBar]
+
 [Additional Options]
 Допълнителни настройки
+[Columns && Data]
+
 [Auto Close mode]
 Режим автозатваряне
+[InfoType:]
+
+[Module/InfoType]
+
+[Not Selected]
+
+[FIRSTNAME]
+
+[LASTNAME]
+
+[CUSTOMNICK]
+
+[EMAIL]
+
+[CITY]
+
+[STATE]
+
+[COUNTRY]
+
+[PHONE]
+
+[HOMEPAGE]
+
+[ABOUT]
+
+[GENDER]
+
+[AGE]
+
+[FIRSTLAST]
+
+[UNIQUEID]
+
+[This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.]
+
+[This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.Press F3 for activate...]
+
+[New Column]
+
+[Save Column]
+
+[Column Up]
+
+[Column Down]
+
+[Delete Column]
+
 [Only Users in List]
 Само потребители от списъка
 [Show Client Icons]
 Показване икона на клиента
 [Item in Main Menu]
 Елемент в главното меню
+[Button on TopToolBar]
+
+[Tool Window Style]
+
+[Global scope hotkey]
+
+[Miranda scope hotkey]
+
 [CSV with headers]
 CSV с горни колонтитули
 [Skip minimized columns]
 Без минимизираните колони
+[Copy line to CSV]
+
+[Save search pattern]
+
+[QuickSearch error]
+
+[Quick Search Mod]
+
 [Script]
 Скрипт
+[Int]
+
+[ContactInfo]
+
+[LastEvent]
+
+[TimeStamp]
+
 [Script Editor]
 Редактор на скриптове
+[Normal foreground]
+
+[Odd background]
+
+[Odd foreground]
+
+[Disabled account background]
+
+[Disabled account foreground]
+
+[Deleted account background]
+
+[Deleted account foreground]
+
+[Not-in-list contact background]
+
+[Not-in-list contact foreground]
+
 [C&onvert to Meta]
 Превръщане в Мета
 [Some of selected contacts in different metacontacts already]
 Някои от избраните контакти са част от различни метаконтакти.
 [Do you really want to delete selected contacts?]
 Желаете ли избраните контакти да бъдат изтрити?
+[One or more contacts in same Meta already. Try to convert anyway?]
+
+[Metacontact background]
+
+[Metacontact foreground]
+
+[SubMetacontact background]
+
+[SubMetacontact foreground]
+
+[%u users found (%u) Online: %u]
+
 [ users found (]
  открити потребители (
 [) Online: ]
@@ -47,9 +213,17 @@ CSV с горни колонтитули
 Оцветяване
 [Metacontact]
 Метаконтакт
+[Hidden contact background]
+
+[Hidden contact foreground]
+
+[QuickSearch window hotkey]
+
 [Previous item]
 Предишен елемент
 [Next item]
 Следващ елемент
 [Open main window]
 Отваряне на главния прозорец
+[Frame background]
+

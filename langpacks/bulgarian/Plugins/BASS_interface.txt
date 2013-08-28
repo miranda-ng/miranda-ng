@@ -5,6 +5,8 @@
 ;  Version: 0.0.0.14
 ;  Authors: tico-tico
 ;============================================================
+[un4seen's BASS interface Miranda NG plugin.]
+
 ;file \plugins\BASS_interface\res\Bass.rc
 [un4seen's bass interface]
 Интерфейс за библиотеката BASS на un4seen
@@ -14,6 +16,8 @@
 Път до bass.dll:
 [Maximum number of bass internal channels:]
 Максимален брой вътрешни канали
+[Output device:]
+
 [Volume:]
 Сила на звука:
 [Quiet time:]
@@ -42,7 +46,11 @@
 На телефона
 [Out to lunch]
 На обяд
+[Preview]
+Преглед
 ;file \plugins\BASS_interface\src\Bass_interface.h
+[Bass Interface]
+
 ;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 Версия на библиотеката BASS: %d.%d.%d.%d
@@ -50,3 +58,15 @@
 --стандартно устройство--
 [Sounds]
 Звук
+[Disable sounds]
+
+[Enable sounds]
+
+[Frame Background]
+
+[Bass library]
+
+[Sounds enabled]
+
+[Sounds disabled]
+
