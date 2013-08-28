@@ -20,8 +20,6 @@
 Профіль за промовчанням буде змінено
 [Status Profiles]
 Профілі статусів
-[StatusProfiles]
-Профілі статусів
 [There is a maximum of 6 menu items]
 Максимум 6 пунктів меню
 [Set window state]

@@ -21,8 +21,6 @@
 Профиль по умолчанию будет изменен
 [Status Profiles]
 Профили статусов
-[StatusProfiles]
-Профили статусов
 [There is a maximum of 6 menu items]
 Максимум 6 пунктов меню
 [Set window state]
