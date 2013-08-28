@@ -4,9 +4,9 @@
 ;  Plugin: SkypeStatusChange
 ;  Authors: Dioksin
 ;============================================================
-[Skype Status Change according to miranda-Status.]
+[Skype status change according to Miranda status.]
 Меняет статус запущенного Skype в соответствии со статусом Миранды.
-[Change Skype Status]
+[Change Skype status]
 Смена статуса Skype
 [&Check any protocol or any status to exclude it from synchronization:]
 Отмеченные протоколы и статусы не будут синхронизироваться

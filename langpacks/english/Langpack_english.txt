@@ -5546,7 +5546,7 @@
 [Journal "%s" was found on start.\nBackup "%s"%s created and backup "%s"%s created.\nYou may delete these file(s) after successful start from "%s".]
 [ was successfully]
 [ could not be]
-[Journal "%s" was found on start.\nBackups "%s"and "%s" could not be created in "%s".]
+[Journal "%s" was found on start.\nBackups "%s" and "%s" could not be created in "%s".]
 ﻿#muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;============================================================
 ;  File: Db_autobackups.dll
@@ -6915,7 +6915,7 @@
 [Note: It can take several minutes for large histories]
 [Empty history of subcontacts also]
 [History of this contact is password protected]
-[[Previous message]]
+[Previous message]
 [Running version of AniSmiley is not supported]
 [Running version of SmileyAdd is not supported]
 [Running version of Emoticons is not supported]
@@ -13789,13 +13789,6 @@
 [Last Year]
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[Log Files (*.txt,*.log)]
-[Enter integer value]
-[Enter log file name.]
-[Enter log file format.]
-[Enter history format.]
-[Enter popup window format.]
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -13825,6 +13818,12 @@
 [Previous Close]
 [Change]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+[Enter integer value]
+[Enter log file name.]
+[Enter log file format.]
+[Enter history format.]
+[Enter popup window format.]
 ﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
@@ -14978,7 +14977,7 @@
 [Successfully created shell registration.]
 [Not Approved]
 [Approved]
-[Are you sure? this will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
+[Are you sure? This will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
 [Disable/Remove shlext]
 ;file \plugins\ShellExt\src\shlcom.cpp
 [Miranda]
@@ -15405,54 +15404,15 @@
 ;  Version: 0.0.0.18
 ;  Authors: Dioksin
 ;============================================================
-[Skype Status Change according to miranda-Status.]
+[Skype status change according to Miranda status.]
 ;file \plugins\SkypeStatusChange\res\SkypeStatusChange.rc
 [Synchronize status message]
 [&Check any protocol or any status to exclude it from synchronization:]
 [Synchronize if current status differs from previous one]
 ;file \plugins\SkypeStatusChange\src\options.cpp
-[Change Skype Status]
+[Change Skype status]
 [Plugins]
-﻿;============================================================
-;  File: smcn.dll, smcnotify.dll (???)
-;  Module: StatusMessageChangeNotify
-;  Versions: 0.0.1.6-0.0.3.19
-;  URL: http://www.torun.mm.pl/~slotwin/smcn/smcnotifytest.zip
-;============================================================
-[Status Message Change Notify]
-[Enable &status message change notification]
-[Disable &status message change notification]
-[View Status Message History]
-[List Contacts with Status Message]
-[Disable SMCN Popups]
-[Enable SMCN Popups]
-[Status Message Changed]
-[changes his/her status message to:]
-[cleares his/her status message]
-[changes his/her status message:]
-[<empty status message>]
-[Old status message]
-[New status message]
-[List Status Messages]
-[Go To URL in Status Message]
-[Status Message History]
-[Use OSD]
-[Do not notify and log when status message is empty]
-[Show status message changes in message window]
-[Message cleared]
-[Message changed]
-[%n New Status Message]
-[%o Old Status Message]
-[%D/%M/%Y day/month/year]
-[%c Custom nickname]
-[%H:%m Time (in 24h format)]
-[%h:%m %a (in 12h format)]
-[\\n line break]
-[\\t tab stop]
-[View status message history]
-[Clear history]
-[Do not log empty status messages]
-[Only if status message has changed]﻿#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
+﻿#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd

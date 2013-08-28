@@ -18,7 +18,7 @@
 #include <m_utils.h>
 #include <win2k.h>
 
-#define MODULENAME "Change Skype Status"
+#define MODULENAME "Change Skype status"
 
 class COptions
 {

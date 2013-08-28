@@ -5,9 +5,9 @@
 
 #define __FILEVERSION_STRING __MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
 
-#define __PLUGIN_NAME        "SkypeStatusChange"
+#define __PLUGIN_NAME        "Skype status change"
 #define __FILENAME           "SkypeStatusChange.dll"
-#define __DESCRIPTION        "Skype Status Change according to Miranda-Status."
+#define __DESCRIPTION        "Skype status change according to Miranda status."
 #define __AUTHOR             "Dioksin"
 #define __AUTHOREMAIL        "dioksin@ua.fm"
 #define __AUTHORWEB          "http://miranda-ng.org/p/SkypeStatusChange/"

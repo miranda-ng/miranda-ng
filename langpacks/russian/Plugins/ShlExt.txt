@@ -37,7 +37,7 @@
 Не разрешено
 [Approved]
 Разрешено
-[Are you sure? this will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
+[Are you sure? This will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
 Вы уверены? Это удалит все настройки данного плагин в вашем профиле и все ключи реестра, отвечающие за его интеграцию в оболочку ОС.
 [Disable/Remove shlext]
 Отключить/Удалить shlext
