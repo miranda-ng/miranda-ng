@@ -9,42 +9,42 @@
 Zastępuje "Okna komunikatów" (tych tylko z przyciskiem OK), popup-ami.
 ;file \plugins\MsgPopup\res\MsgPopup.rc
 [ASTERISK style]
-
+styl gwiazdki
 [Background]
 Tło
 [Foreground]
-
+Pierwszy Plan
 [ERROR style]
-
+Styl błędu
 [EXCLAMATION style]
-
+Styl wykrzyknienia
 [QUESTION style]
-
+Styl pytania
 [Preview]
 Podgląd
 [Timeout]
 Wyświetlaj
 [Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
-
+Specjalne wartości czasu oczekiwania:\n -1- nieskończoność, 0 - użyj domyślnej wartości czasu oczekiwania
 [Emit a sound]
-
+Emituj dźwięk
 ;file \plugins\MsgPopup\src\main.cpp
 [VirtualProtect failed. Code %d\nTry to call the author]
-
+Wirtualna ochrona zawiodła. Kod %d\nSpróbuj skontaktować się z autorem
 [MsgBox]
 Okienka
 [Hmm. Something goes wrong. I can't write into the memory.\nAnd as u can c, there are no any exception raised..\nTry to call the author]
-
+Hmm. Coś idzie nie tak. Nie mogę pisać do pamięci.\nI jak widzisz nie wygenerowano żadnych wyjątków.\nSpróbuj skontaktować się z autorem.
 [MessagePopup]
 MessagePopup
 [Popups]
 Popupy
 ;file \plugins\MsgPopup\src\options.cpp
 [Message with question]
-
+Wiadomość z pytaniem
 [Message with exclamation]
-
+Wiadomość z wykrzyknieniem
 [Message with error]
-
+Wiadomość z błędem
 [Message with asterisk]
-
+Wiadomość z gwiazdką

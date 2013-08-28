@@ -11,7 +11,7 @@ Wsparcie dla nowego interfejsu opcji
 [Visit official Miranda NG website]
 Odwiedź oficjalną stronę Mirandy NG
 [Sample page]
-
+Przykładowa strona
 [Miranda NG Options]
 Opcje Mirandy NG
 [Use arrow keys to choose category]
@@ -60,4 +60,4 @@ Wtyczki
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
 Cała Miranda NG kręci się wokół wtyczek. Tutaj możesz nimi zarządzać.
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
-
+Nie zapisałeś jeszcze wszystkich zmian.\nCzy chciałbyś je zastosować przed przełączeniem?

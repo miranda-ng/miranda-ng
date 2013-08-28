@@ -31,9 +31,9 @@ Dodaj zdarzenie
 [Delete event]
 Usuń zdarzenie
 [WinSCP path]
-
+ścieżka WinSCP
 [WinSCP log path]
-
+ścieżka logu WinSCP
 [New messages on top]
 Nowe wiadomości na górze
 [Show event icons]
@@ -113,7 +113,7 @@ Typ przełącznika
 [Time]
 Pokaż czas
 [Delta time]
-
+Czas delta
 [Day of week]
 Dzień tygodnia
 [Day]
@@ -148,7 +148,7 @@ Zobacz historię
 [Delete All User History]
 Usuń całą historię
 [Execute history task]
-
+Wykonaj zadanie historii
 [Incoming message]
 Przychodząca wiadomość
 [Outgoing message]
@@ -237,7 +237,7 @@ Plik tekstowy
 [Binary]
 Binarny
 [Dat (mContacts)]
-
+Dat (mContacts)
 [Save window position as default]
 Zapisz pozycję okna jako domyslne
 [Save window position for all contacts]
@@ -245,7 +245,7 @@ Zapisz pozycję okna dla wszystkich kontaktów
 [Do you want save imported messages to local profile?]
 Czy chcesz zapisać importowane wiadomości do lokalnego profilu?
 [File contain history for different contact. Do you want to change contact and import?]
-
+Plik zawiera historię innego kontaktu. Czy chcesz zmienić kontakt i importować?
 [Error]
 Błąd
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
@@ -298,7 +298,7 @@ Tło listy grupy
 [Find window]
 Okno wyszukiwania
 [Find window background]
-
+Znajdź tło okna
 [Window background]
 Tło okna
 [Contact list background]
@@ -396,7 +396,7 @@ Niedziela
 [Invalid '%s' value.]
 Nieprawidłowa wartość '%s'.
 [Events older than]
-
+Zdarzenia starsze niż
 [Some value is invalid]
 Jakaś wartość jest nieprawidłowa
 [Invalid '%s' value.\n%s]
@@ -430,21 +430,21 @@ Otwórz wszystko
 Zamknij wszystko
 ;file \plugins\BasicHistory\src\Scheduler.cpp
 [History task]
-
+Zadanie historii
 [Contacts]
 Kontakty
 [At least one contact should be selected.]
 Przynajmniej jeden kontakt powinien być zaznaczony.
 [Upload to FTP]
-
+Załaduj na FTP
 [Path to output file]
-
+Ścieżka pliku wyjściowego
 [To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
 Aby utworzyć sesię: otwórz WinSCP, naciśniej Nowa Sesia, wprowadź dane i zapisz z określoną nazwą. Pamiętaj, jeśli serwer FTP używa hasła, powinienieś zapisać go w WinSCP.
 [Path to file]
 Ścieżka do pliku
 [FTP path must contains '/' instead '\' and starts from '/'.]
-
+Ścieżka FTP musi zawierrać "/" zamiast "\" i zaczynać się od "/".
 [FTP path cannot contain <date> in import task.]
 Ścieżka FTP nie może zawierać <date> w zadaniu importu.
 [Unknown error]

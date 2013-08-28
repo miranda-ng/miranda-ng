@@ -84,7 +84,7 @@ Menu użytkownika
 [Send Instant Message]
 Wyślij szybką wiadomość
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
-
+ Data: %d.%m.%y(%Y) \n Opis daty: %W - %w - %E - %e \n Czas: %H:%M:%S (%h-%p) \n Użytkownik: %n - %u \n Status: %s\n IP: %i - %r
 ;file \plugins\SeenPlugin\src\main.cpp
 [LastSeen]
 Ostatnio widziany
@@ -116,7 +116,7 @@ Popupy
 [%i(%r)%bWas %o]
 %i(%r)%bBył %o
 [Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
-
+Nazwa:%t%N%bStatus:%t%s%bDzień:%t%d.%m.%Y%bCzas:%t%H:%M:%S%bPoprzedni Status:%t%o%b%b%P ID:%t%u%bIP Zewnętrzne:%t%i%bIP Wewnętrzne:%t%r%bID Klienta: %t%C%b%bOpis:%t%T
 [-- Date --]
 -- Data -- 
 [year (4 digits)]
@@ -152,7 +152,7 @@ s
 [username]
 nazwa
 [nick]
-
+Nick
 [UIN/handle]
 UIN/Nazwa użytkonika
 [Group]
@@ -179,8 +179,6 @@ Konto
 tabulator
 [line break]
 koniec linii
-[Note:]
-
 [Use]
 Użyj
 [for empty string]
@@ -246,7 +244,7 @@ Sty.
 [Feb.]
 Lut.
 [Mar.]
-
+Mar.
 [Apr.]
 Kwi.
 [Jun.]

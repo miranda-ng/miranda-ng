@@ -17,17 +17,17 @@ Pokaż informacje
 [Cancel]
 Anuluj
 [PackUpdater has detected updated versions\nof the following Miranda components:]
-
+PackUpdater wykrył nowe wersje\nnastępujących komponentów Mirandy:
 [Description]
 Opis
 [Downloading...]
 Pobieranie...
 [Pack update options]
-
+opcje aktualizacji paczki
 [On startup]
 Podczas uruchamiania
 [Remind about not installed pack update]
-
+Przypomnij o niezainstalowanej aktualizacji paczki
 [Hotkey]
 Skrót
 [Go to Customize -> Hotkeys to change the hotkey]
@@ -35,7 +35,7 @@ Przejdź do Personalizacja -> Skróty, aby je ustawić
 [Notifications]
 Powiadomienia
 [Message boxes]
-
+Okienka dialogowe
 [Errors]
 Błędy
 [Info messages]
@@ -88,7 +88,7 @@ Popupy
 [Check for pack updates]
 Sprawdź aktualizacje paczki
 [Pack Updater]
-
+Aktualizator paczek
 ;file \plugins\PackUpdater\Src\Notifications.cpp
 [An error occured while downloading the update.]
 Wystąpił błąd podczas pobierania aktualizacji
@@ -99,15 +99,15 @@ Bieżąca wersja
 [New Version]
 Nowa wersja
 [Downloading pack updates...]
-
+Pobieranie aktualizacji paczki...
 [Downloading update...]
 Pobieranie aktualizacji...
 [Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-
+Pobieranie zakończone. Rozpocząć aktualizacje? Wszystkie Twoje ustawienia zostaną zapisane i Miranda NG zostanie zamknięta.
 [Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
 Pobieranie zakończone. Rozpocząć aktualizacje? Wszystkie Twoje ustawienia zostaną zapisane i Miranda NG zostanie zamknięta.
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
-
+Wybrałeś aby nie instalować pobranych aktualizacji.\nMożesz zainstalować je ręcznie z lokalizacji:\n\n%s
 ;file \plugins\PackUpdater\Src\Notifications.h
 [Close popup]
 Zamknij popup
@@ -124,14 +124,14 @@ Test
 Usługi
 ;file \plugins\PackUpdater\Src\PackUpdater.cpp
 [Clear pack updates folder]
-
+Wyczyść folder aktualizacji paczek
 ;file \plugins\PackUpdater\Src\Utils.cpp
 ['Yes' Button]
 Przycisk 'Tak'
 ['No' Button]
 Przycisk 'Nie'
 [Pack Updater HTTP connection]
-
+Połączenie HTTP aktualizatora paczek
 [URL for checking updates not found.]
 URL do sprawdzania aktualizacji nie został odnaleziony.
 [Downloading version info...]

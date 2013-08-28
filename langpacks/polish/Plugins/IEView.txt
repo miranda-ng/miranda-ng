@@ -88,19 +88,19 @@ Otrzymany link
  został dodany.
 ;file \plugins\IEView\src\IEView.cpp
 [IID_IOleObject failed.]
-
+IID_IOleObject nie powiodły się.
 [RESULT]
-
+WYNIK
 [IID_IOleInPlaceObject failed.]
-
+IID_IOleInPlaceObject nie powiódł się.
 [Failed to Advise]
-
+Nie udało się doradzić
 [C++ Event Sink]
-
+Zamarcie zdarzenia C++
 [OleInitialize failed.]
-
+OleInitialize nie powiodło się
 [ERROR]
-
+BŁĄD
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 % dołączył.
@@ -134,7 +134,7 @@ Wszystkie pliki
 [All Images]
 Wszystkie obrazki
 [Style Sheet]
-
+Karta stylu
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [Today]
 Dzisiaj

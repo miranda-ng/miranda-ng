@@ -9,7 +9,7 @@
 Dodaje przydatne opcje do menu kontaktu.
 ;file \plugins\MenuItemEx\res\resource.rc
 [Enter an authorization request]
-
+Wprowadź tekst prośby o autoryzację
 [&Send]
 Wyślij
 [&Cancel]
@@ -96,7 +96,7 @@ Zostałeś dodany
 [Typing Notify]
 Pisanie
 [Please authorize me to add you to my contact list.]
-
+Proszę autoryzuj mnie, bym mógł dodać Cię do swoich kontaktów.
 [Do you want to send authorization request\nto new contact?]
 Czy chcesz wysłać pytanie o autoryzacje?\ndo nowego kontaktu?
 [Miranda NG]

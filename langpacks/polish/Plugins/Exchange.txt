@@ -25,26 +25,26 @@ Hasło:
 [Server:]
 Serwer:
 [Preferences]
-
+Opcje
 [Check every]
 Sprawdzaj co
 [seconds]
 s
 [Force reconnect every]
-
+Wymuszaj ponowne połączenie co
 [minutes]
 minut
 [Check server before trying to connect]
-
+Sprawdź serwer przed próbą połączenia
 [Try to connect]
-
+Próbuj się połączyć
 [times before giving up]
-
+razy przed rezygnacją
 [Show email notifications using popup module]
-
+Pokazuj powiadomienia o nowej poczcie używając modułu Popup
 ;file \plugins\Exchange\src\dlg_handlers.cpp
 [Entry ID]
-
+ID wpisu
 [Subject]
 Temat
 [Sender]
@@ -55,13 +55,13 @@ Masz %d nieprzeczytane wiadomości ...
 [You have one unread email ...]
 Masz jedną nieprzeczytaną wiadomość ...
 [Exchange email]
-
+email Exchange
 [Do you want to see the email headers ?]
-
+Czy chcesz widzieć nagłówki wiadomości?
 ;file \plugins\Exchange\src\hooked_events.cpp
 [Check exchange mailbox]
-
+Sprawdź skrzynkę Exchange
 [Exchange notify]
-
+Powiadomienia Exchange
 [Plugins]
 Wtyczki

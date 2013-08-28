@@ -59,7 +59,7 @@ Inne (rzadkie) protokoły
 [Other icons]
 Inne ikony
 [Show client icon in message window status bar]
-
+Pokaż ikonę klienta w pasku stanu okna rozmowy
 ;file \plugins\FingerprintNG\src\fingerprint.cpp
 [Fingerprint]
 Ikony klientów
@@ -90,7 +90,7 @@ Miranda IM (starsza wersja)
 [Miranda (unknown)]
 Miranda (nieznana)
 [spam client]
-
+Klient spamer
 [PHP Jabber Client]
 Klient PHP Jabber
 [MP3 Script for mIRC]

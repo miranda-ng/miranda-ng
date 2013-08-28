@@ -11,63 +11,63 @@ Chatbot w języku rosyjskim.
 [Boltun]
 Boltun
 [Boltun Autochat everybody]
-
+Boltun czatuj automatycznie ze wszystkimi
 [Boltun Autochat everybody not in contact list]
-
+Boltun czatuj automatycznie ze wszystkimi z poza listy
 [Boltun Autochat everybody while away]
-
+Boltun czatuj automatycznie ze wszystkimi, gdy oddalony
 [Warn contacts Boltun is chatting]
-
+Ostrzegaj kontakty, że czatuje Boltun
 [Mark replied messages as read]
-
+Oznacz wiadomości, na które odpowiedziano jako przeczytane
 [sec]
 s
 [Warning text]
-
+Tekst ostrzeżenia
 [Time before the answer]
-
+Czas przed odpowiedzią
 [Typing time depends on message length (in chars)]
-
+Czas pisania zależy od długości wiadomości w znakach)
 [Typing and thinking time can be much longer]
-
+Czas pisania i myślenia może być znacznie dłuższy
 [Typing time (for a message of 4 words):]
-
+Czas pisania wiadomości o długości czterech słów:
 [Thinking time:]
-
+Czas myślenia:
 [Engine]
-
+Silnik
 [Base of remarks]
-
+Baza odpowiedzi
 [Reload]
 Odśwież
 [Stay silent, if have no good aswers]
-
+Siedź cicho, gdy nie ma dobrych odpowiedzi
 [Start answers with a lowercase letter]
-
+Zaczynaj odpowiedzi z małej litery
 [Don't use "I don't understand"-like answers]
-
+Nieużywaj odpowiedzi w stylu "nie rozumiem"
 ;file \plugins\Boltun\src\boltun.h
 [Message sessions]
-
+Sesje rozmowy
 [Mind Files]
-
+Pliki umysłu
 [All Files]
 Wszystkie pliki
 [Boltun/Auto Chat]
-
+Boltun czatuj automatycznie
 [Boltun/Not to Chat]
-
+Boltun nie czatować
 [Boltun/Start Chatting]
-
+Boltun rozpocznij czat
 [Hello. I'm Boltun! I'll talk to you, while my owner is away. Please write without mistakes!]
-
+Cześć. Nazywam się Boltun! Będę rozmawiał z tobą pod nieobecność mojego właściciela. Proszę, pisz bez błędów.
 [Boltun Error]
-
+Boltun błąd
 [Failed to load base of remarks. Error at line %d of %s. (Or few lines before).]
-
+Nie udało się załadować bazy odpowiedzi. Błąd w linii %d z %s. (albo kilka linii wcześniej).
 [Failed to save base of remarks to %s]
-
+Nie udało się zapisać bazy odpowiedzi do %s
 [General Settings]
 Ogólne
 [Engine Settings]
-
+Ustawienia Silnika

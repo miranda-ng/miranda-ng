@@ -59,7 +59,7 @@ Otwórz
 [Status message]
 Opis
 [IndSndList]
-
+Lista Dźwięków Indywidualnych
 [Change]
 Zmień
 [Preview]
@@ -69,11 +69,11 @@ Usuń
 [Enable sounds]
 Włącz dźwięki
 [Enable popups]
-
+Włącz Popupy
 [Status Notify]
 Status
 [Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
-
+Indywidualne dźwięki są wyłączone.\n\nAby je włączyć, wejdź do opcji - Status - Status i zaznacz opcję "Użyj indywidualnych dźwięków, a następnie otwórz to okno ponownie.
 [Sounds]
 Dźwięki
 [Popups]
@@ -107,7 +107,7 @@ Pokaż poprzedni status
 [Timeout]
 Wyświetlaj
 [Popups when status changes to:]
-
+Popupy, gdy status zmienia się na:
 [Click action]
 Akcje przycisku
 [Show contact group name]
@@ -127,7 +127,7 @@ PPM
 [Show status description]
 Pokaż opis statusu
 [Ignore empty status and xStatus messages]
-
+Ignoruj puste opisy stanu oraz XStatus
 [Notification]
 Powiadomienie
 [Disable for extra status 'Music']

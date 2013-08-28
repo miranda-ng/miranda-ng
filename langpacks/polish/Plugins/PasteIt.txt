@@ -57,7 +57,7 @@ Pobierz więcej
 [Login to pastebin.com]
 Logowanie do pastebin.com
 [User name]
-
+Nazwa użytkownika
 [Password]
 Hasło:
 [Paste It]

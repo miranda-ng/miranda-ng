@@ -24,7 +24,7 @@ Wyłącz historię
 [History Enabled]
 Historia włączona
 [History Disabled]
-
+Wyłączono historię
 ;file \plugins\NoHistory\src\icons.cpp
 [Disable]
 Wyłącz

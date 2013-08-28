@@ -43,7 +43,7 @@ Uchwyć
 [About]
 O kontakcie
 [%s\nv%s]
-
+%s\nv%s
 [Credits >]
 Autorzy >
 [&Close]
@@ -60,7 +60,7 @@ Rozmiar (HxW) :
 Celownik
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [GCHAT error]
-
+Błąd GCHAT
 [An unknown error has occured.]
 Nieznany błąd.
 [Error]
@@ -69,7 +69,7 @@ Błąd
 [Unable to initiate %s.]
 Nie można zainicjować %s.
 [MAPI error (%i):\n%s.]
-
+Błąd MAPI (%i):\n%s.
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
 Odbiorca odpowiada więcej niż jednej strukturze opisującej odbiorców, przez co nie ustawiono MAPI_DIALOG
@@ -78,7 +78,7 @@ Nie znalezniono wskazanego załącznika
 [The specified attachment could not be opened]
 Nie można otworzyć wskazanego załącznika
 [The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC]
-
+Typem odbiorcy nie było MAPI_TO, MAPI_CC, ani MAPI_BCC
 [One or more unspecified errors occurred]
 Wystąpił jeden lub więcej nieokreślonych błędów
 [There was insufficient memory to proceed]
@@ -132,7 +132,7 @@ Błąd, usługa obrazków nie została znaleziona. Send Screenshot zostanie wył
 [SendSS]
 Wyślij zrzut ekranu
 [Screenshots]
-
+Zrzuty ekranu
 [SendSS HTTP connections]
 Połączenie HTTP SendSS
 [Could not create main dialog.]
@@ -146,7 +146,7 @@ Zrób zrzut ekranu
 [Could not register miranda service.]
 Nie można zarejestrować usługi Mirandy.
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
-
+Nie udało się stworzyć folderu zrzutów ekranu (kod błędu: %d):\n%s\nCzy posiadasz prawa do zapisu?
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
 [Screenshot Icon1]
 Zrzut ekranu - ikona 1
@@ -208,7 +208,7 @@ Pulipit
 [<entire desktop>]
 <cały pulpit>
 [Monitor]
-
+Monitoruj
 [ (primary)]
  (podstawowy)
 [<Only save>]
@@ -238,6 +238,6 @@ Zrzut ekranu
 [for Client area ]
 dla pola Klienta
 [of "]
-
+z
 [" Window]
 * Okno

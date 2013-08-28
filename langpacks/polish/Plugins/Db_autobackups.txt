@@ -38,7 +38,7 @@ Wyłącz okienko ze wskaźnikiem postępu kopiowania
 Wyłącz popupy
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Miranda Databases]
-
+Bazy danych Mirandy
 [All Files]
 Wszystkie pliki
 [Backup in Progress]
@@ -90,6 +90,6 @@ Minuty
 [Select Backup Folder]
 Wybierz folder kopii zapasowej
 [Error creating backup folder]
-
+Błąd tworzenia folderu kopii bezpieczeństwa
 [Database AutoBackups]
 Kopia zapasowa

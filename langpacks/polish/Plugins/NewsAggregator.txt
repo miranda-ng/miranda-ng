@@ -92,13 +92,13 @@ nie jest poprawnym adresem RSS.
 pusty
 ;file \plugins\NewsAggregator\Src\ExportImport.cpp
 [Imported %d feed(s)\r\nNot imported %d duplicate(s).]
-
+Zaimportowano %d kanałów\r\nNiezaimportowano %d duplikatów
 [Imported %d feed(s).]
-
+Zaimportowano %d kanałów
 [OPML files]
 Pliki OPML
 [Not valid import file.]
-
+Plik importu nieprawidłowy.
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Ikona protokołu
@@ -153,7 +153,7 @@ Czekaj...
 [Change Feed]
 Edycja kanału
 [Contact deleting]
-
+Usuwanie kontaktu
 [Network]
 Protokoły
 ;file \plugins\NewsAggregator\Src\Services.cpp
@@ -163,6 +163,6 @@ Awatary
 Włącz/wyłącz autoaktualizacje
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
-
+Połączenie HTTP NewsAggregator
 [Feed]
 Kanał

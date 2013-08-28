@@ -9,13 +9,13 @@
 Dodaje do głównego menu pozycję otwierającą okno z listą ostatnio używanych kontaktów, posortowanych w kolejności od ostatnio użytych.
 ;file \plugins\RecentContacts\res\resource.rc
 [Recent Contacts]
-
+Ostatnie kontakty
 [Plugin settings]
 Ustawienia wtyczki
 [Number shown contacts:\n (0 to show all)]
-
+Liczba pokazanych kontaktów:\n(0, by pokazać wszystkie)
 [Format of date and time\n(Look to readme for placeholders help)]
-
+Format daty i czasu\n(Zajrzyj do Readme, by uzyskać pomoc na temat znaczników miejsca)
 [Hide offline contacts]
 Ukryj rozłączone kontakty
 ;file \plugins\RecentContacts\src\options.cpp
@@ -27,11 +27,11 @@ Ikona główna
 [Contact]
 Kontakt
 [Toggle Ignore]
-
+Przełącz ignorowanie
 [Ignore Contact]
-
+Ignoruj kontakt
 [Show Contact]
 Pokaż kontakt
 [Show Recent Contacts]
-
+Pokaż ostatnie kontakty
 ;file \plugins\RecentContacts\src\RecentContacts.h

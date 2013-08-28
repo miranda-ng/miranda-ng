@@ -17,11 +17,11 @@ Użyj nazwy komputera
 [Your name]
 Twoja nazwa
 [Select your name]
-
+Wybierz nazwę
 ;file \protocols\EmLanProto\src\amdproto.cpp
 [User name or '*']
-
+Nazwa użytkownika lub "*"
 [E-mage LAN protocol]
-
+E-mage LAN protocol
 [Network]
 Protokoły

@@ -123,24 +123,24 @@ Hosty
 Wtyczka Ping
 ;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
-
+Pokaż linie siatki
 [Show stats]
-
+Pokaż statystyki
 [%d ms]
-
+%d ms
 [AVG %.1lf ms]
-
+AVG %.1lf ms
 [MAX %hd ms]
-
+MAX %hd ms
 [MIN %hd ms]
-
+MIN %hd ms
 ;file \plugins\Ping\src\pingthread.cpp
 [%s - setting status of protocol '%s' (%d)]
-
+%s - ustawianie statusu protokołu "%s" (%d)
 [%s - reply, %d]
-
+%s - odpowiedź, %d
 [%s - timeout]
-
+%s - czas oczekiwania
 [Disable]
 Wyłącz
 [enabled]

@@ -77,7 +77,7 @@ Opuść
 [Database encryption]
 Szyfrowanie
 [Info:]
-
+Info:
 [Author:]
 Autor:
 [Site:]
@@ -105,7 +105,7 @@ Zmień hasło
 [Set password]
 Ustaw/zmień hasło
 [Dll]
-
+Dll
 [Name]
 Nazwa
 [Version]
@@ -126,13 +126,13 @@ Hasła nie pasują!
 Złe hasło!
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
 [Sorry, but your database encrypted with unknown module]
-
+Przepraszamy, ale twoja baza danych została zaszyfrowana za pomocą nieznanego modułu
 [Error]
 Błąd
 [Crypto modules not found]
 Moduł szyfrujący nie został odnaleziony.
 [DB is already secured!]
-
+Baza danych jest już zabezpieczona
 [current database]
 aktualny profil
 [Set Password]

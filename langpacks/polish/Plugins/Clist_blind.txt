@@ -145,7 +145,7 @@ Grupa:
 [Divider:]
 Separator:
 [Info:]
-
+Info:
 [Status Bar]
 Pasek statusu
 [Show status bar]
@@ -242,11 +242,11 @@ Na obiedzie
 [On the phone]
 Pod telefonem
 [Group: %name% %count% [%mode%]]
-
+Grupa: %name% %count% [%mode%]
 [Divider: %s]
-
+Separator: %s
 [Info: %s]
-
+Info: %s
 [List]
 Lista
 ;file \plugins\Clist_blind\src\clistopts.cpp
@@ -259,4 +259,4 @@ Nieznany protokół
 [Expanded]
 Rozszerzony
 [Colapsed]
-
+zwinięty

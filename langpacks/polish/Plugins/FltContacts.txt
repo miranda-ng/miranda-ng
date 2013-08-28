@@ -47,7 +47,7 @@ Pokaż/ukryj listę po pojedynczym kliknięciu
 [Dim idle contacts]
 Przygaś bezczynne kontakty
 [Idle contacts]
-
+Bezczynne kontakty
 [Border]
 Obramowanie
 [Draw border]
@@ -88,7 +88,7 @@ Kontakty spoza listy
 [Floating contacts]
 Pływające kontakty
 [Show all thumbs]
-
+Pokaż wszystkie miniatury
 [Hide all thumbs]
 Ukryj pływające kontakty
 [Remove thumb]

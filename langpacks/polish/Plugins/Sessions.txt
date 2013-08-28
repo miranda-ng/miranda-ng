@@ -88,7 +88,7 @@ Wczytaj sesję
 [Load last Session]
 Wczytaj ostatnią sesję
 [Current session is empty!]
-
+Obecna sesja jest pusta
 [Session name is empty, enter the name and try again]
 Nazwa sesji jest pusta, wpisz nazwę i spróbuj ponownie
 [No sessions to open]
@@ -98,9 +98,9 @@ Ostatnia sesja jest pusta
 [No contacts to open]
 Brak kontaktów do otwarcia
 [This Session already opened]
-
+Ta sesja jest już otwarta
 [This Session already opened(but probably hidden)\nDo you want to show hidden contacts?]
-
+Ta sesja jest już otwarta (ale prawdopodobnie ukryta)\nCzy chcesz pokazać ukryte kontakty?
 [Open Sessions Manager]
 Otwórz menedżer sesji
 [Show Favorite Sessions Menu]
@@ -124,4 +124,4 @@ Pokaż
 Okno rozmowy
 ;file \plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]
-
+Sesja przed ostatnią utratą stabilności

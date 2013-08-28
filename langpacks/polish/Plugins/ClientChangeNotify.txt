@@ -68,11 +68,11 @@ zmienił(a) klienta na %s
 [Client change notifications:]
 Powiadomienia o zmianie klienta:
 [Never, ignore client changes for this contact]
-
+Nigdy, ignoruj zmiany klienta dla tego kontaktu
 [Always except when client change notifications are disabled globally]
-
+Zawsze, z wyjątkiem sytuacji, gdy powiadomienia o zmianie klienta są wyłączone globalnie
 [Always, even when client change notifications are disabled globally]
-
+Zawsze, nawet gdy powiadomienia o zmianie klienta są wyłączone globalnie
 [Use global settings (default)]
 Użyj ustawień globlanych (domyślne)
 [Disable c&lient change notification]

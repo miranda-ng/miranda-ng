@@ -57,7 +57,7 @@ Wpisz nazwę archiwum ręcznie
 [Compression level:]
 Stopień kompresji:
 [Upload File Manager]
-
+Menedżer wysyłania plików
 [File:]
 Plik:
 [Completed:]
@@ -85,7 +85,7 @@ Menedżer plików
 [Server:]
 Serwer:
 [User info]
-
+Informacje użytkownika
 [UPLOADING...]
 WYSYŁANIE...
 [Open in Browser]
@@ -101,7 +101,7 @@ Usuń z listy
 [Delete from FTP]
 Usuń z FTP
 [Enter file name]
-
+Wprowadź nazwę pliku
 [OK]
 OK
 [Cancel]
@@ -113,9 +113,9 @@ Zmień nazwę
 [Overwrite]
 Nadpisz
 [File with the same name already exists on the server.]
-
+Plik o tej samej nazwie istnieje już na serwerze.
 [How to proceed?]
-
+Co zrobić?
 [Copy URL]
 Kopiuj link
 [Close dialog after upload finishes]
@@ -130,7 +130,7 @@ Usuń z listy
 Kopiuj link
 ;file \plugins\FTPFileYM\src\dialog.cpp
 [User Info]
-
+Informacje użytkownika
 [Copy Link to Clipboard]
 Kopiuj link do schowka
 [%d minutes]
@@ -171,15 +171,15 @@ Menedżer FTP
 [Show FTPFile manager]
 Pokaż menedżera FTP
 [FTP_ShowManager]
-
+FTP_ShowManager
 [Upload file]
 Wysyłanie pliku
 [Zip and upload file]
-
+Spakuj i załaduj plik
 [You have to fill FTP server setting before upload a file.]
 Musisz uzupełnić ustawienia serwra przed wysłaniem pliku.
 [Error has occurred while trying to create a dialog!]
-
+Wystąpił błąd podczas tworzenia okna!
 [File upload complete]
 Zakończono wysyłanie
 [Upload canceled]
@@ -194,7 +194,7 @@ FTP File - wybierz folder
 [Folder not found!]
 Folder nie znaleziony!
 [The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
-
+Wskazany folder nie zawiera plików.\nFTP File wysyła pliki jedynie ze wskazanego folderu, a nie z podfolderów.
 [CANCELED]
 ANULOWANO
 [COMPLETED]
@@ -204,16 +204,16 @@ ZAKOŃCZONO
 [CREATED]
 UTWORZONO
 [PACKING...]
-
+Pakowanie...
 [PAUSED]
-
+WSTRZYMANO
 [WAITING...]
 CSEKAJ...
 [UNKNOWN]
-
+NIEZNANY
 ;file \plugins\FTPFileYM\src\job_packer.cpp
 [Error occured when zipping the file(s).]
-
+Wystąpił bląd podczas pakowania plików.
 [%0.1f kB/s]
 %0.1f kB/s
 [%0.1f%% (%d kB/%d kB)]
@@ -223,16 +223,16 @@ CSEKAJ...
 [Do you really want to cancel this upload?]
 Czy na pewno chcesz anulować to wysyłanie?
 [Status: %s\r\nFile: %s\r\nServer: %s]
-
+Stan:%s\r\nPlik: %s\r\nSerwer: %s
 ;file \plugins\FTPFileYM\src\job_upload.cpp
 [File exists - %s]
 Plik istnieje - %s
 [Error occurred when opening local file.\nAborting file upload...]
-
+Wystąpił błąd podczas otwierania pliku lokalnego.\nAnulowanie wysyłki pliku...
 [Error occurred when initializing libcurl.\nAborting file upload...]
-
+Wystąpił błąd podczas inicjalizacji libcurl.\nAnulowanie wysyłki pliku...
 [FTP error occurred.\n%s]
-
+Wystąpił błąd FTP\n%s
 [WAITTING...]
 CZEKAJ...
 [Download link:]
@@ -250,9 +250,9 @@ Wyczyść wszystko
 [FTP (Standard)]
 FTP (Standardowy)
 [FTP+SSL (Explicit)]
-
+FTP+SSL (jawny)
 [FTP+SSL (Implicit)]
-
+FTP+SSL (ukryty)
 [SFTP (Secure FTP over SSH)]
 SFTP (Bezpieczny FTP przez SSH)
 [minutes]

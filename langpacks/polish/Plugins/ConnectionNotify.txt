@@ -6,7 +6,7 @@
 ;  Authors: MaKaR
 ;============================================================
 [Notify with popup if some connection established]
-
+Powiadamiaj Popupem, gdy zostanie nawiązane połączenie
 ;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
 [Set popup colours]
 Ustaw kolory komunikatów
@@ -19,66 +19,66 @@ Tekst
 [Close after:]
 Zamknij po:
 [sec.(0 default, -1 disabled)]
-
+sek.(0 domyślnie, -1 wyłączone)
 [Settings]
 Ustawienia
 [try resolve addresses]
-
+Próbuj ustalić adresy
 [Version:]
 Wersja:
 [Show notification if no filter defined]
-
+Wyświetl powiadomienie, jeżęli żaden filtr nie jest zdefiniowany
 [Attempt interval (ms.)]
-
+Interwał próby (ms.)
 [X]
-
+X
 [Online mean]
-
+Środek Online
 [Filters]
 Filtry
 [DN]
-
+DN
 [UP]
-
+UP
 [Rule editor]
-
+Edytor reguł
 [Application name]
-
+Nazwa programu
 [Local IP:Port]
-
+Lokalne IP:Port
 [Action:]
-
+Czynność:
 [OK]
 OK
 [Cancel]
 Anuluj
 [* and ? wildcard characters also available (for port enter number or *)]
-
+Znaki * i ? są także dostępne (jako port podaj liczbę lub *)
 [Remote IP:Port]
-
+ZdalneIP:Port
 ;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
 [Show]
 Pokaż
 [Hide]
 Ukryj
 [Always show popup]
-
+Zawsze pokazuj Popup
 [Never show popup]
-
+Nigdy nie pokazuj Popupu
 [Status]
 Status
 [Application]
-
+Program
 [Internal socket]
-
+Wewnętrzna brama
 [External socket]
-
+Zewnętrzna brama
 [Action]
 Akcja
 [Plugins]
 Wtyczki
 [New Connection Notification]
-
+Powiadomienie O Nowym Połączeniu
 ;file \plugins\ConnectionNotify\src\filter.cpp
 [First close options window]
-
+Najpierw zamknij okno opcji

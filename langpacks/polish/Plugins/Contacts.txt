@@ -50,7 +50,7 @@ Dane kontaktu
 Wyślij wiadomość
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]
-
+Otrzymano kontakty od
 [Contacts]
 Kontakty
 [Incoming Contacts]

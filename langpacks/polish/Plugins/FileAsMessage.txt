@@ -9,17 +9,17 @@
 Przesyła pliki jako zwykły tekst za pomocą usługi wiadomości.
 ;file \plugins\FileAsMessage\res\resources.rc
 [fileAsMessage]
-
+fileAsMessage
 [Filename:]
 Nazwa pliku:
 [Size:]
 Rozmiar:
 [Chunk size]
-
+Rozmiar kawałka
 [ms]
 ms
 [Delays between sends]
-
+Opóźnienia między wysyłkami
 [bytes]
 bajty
 [Transfer settings]
@@ -27,46 +27,46 @@ Ustawienia transferu
 [Appearance]
 Personalizacja
 [Unsent]
-
+Niewysłane
 [Sent]
-
+Wysłane
 [To send]
-
+Wysłać
 [Received]
 Otrzymany
 [Use only alphanumeric encoding on transfer]
-
+Używaj tylko alfa-numerycznego kodowania podczas transferu
 [Extra options: Events > File Transfers, "Receiving files" group]
-
+Dodatkowe opcje: Zdarzenia > Transfery plików, grupa "Odbieranie plików"
 ;file \plugins\FileAsMessage\src\dialog.cpp
 [File already exists. Overwrite?]
-
+Plik już istnieje, nadpisać?
 [Couldn't open a file]
-
+Nie udało się otworzyć pliku
 [Size: %d bytes]
 Wielkość: %d bajtów
 [Request sent. Awaiting of acceptance..]
-
+Prośba wysłana. Oczekiwanie na akceptację..
 [Sending...]
 Wysyłanie...
 [Received successfully]
 Otrzymano pomyślnie
 [Requesting of missing chunks]
-
+Wysyłanie prośby o brakujące kawałki
 [Receiving...]
 Otrzymywanie...
 [Sent successfully]
-
+Wysłano pomyślnie
 [Unknown command for "" SERVICE_TITLE "" was received]
-
+Otrzymano nieznaną komendę dla tytułu usługi
 [Incoming file request. Do you want proceed?]
-
+Przychodzący transfer pliku. Czy chcesz kontynuować?
 [Cancelled by remote user]
-
+Anulowane przez drugą stronę
 [New incoming file request. Do you want proceed?]
 Nowy przychodzący plik. Czy odebrać?
 [Paused, 'coz connection dropped]
-
+Wstrzymane, z powodu utraconego połączenia
 [Failed on file initialization]
 Błąd inicializacji pliku
 [Paused...]
@@ -78,18 +78,18 @@ Wybierz plik
 [Save as]
 Zapisz jako
 [Can't get a file size]
-
+Nie można pobrać rozmiaru pliku
 [Cancelled by user]
-
+Anulowane przez użytkownika
 [Transfer is in progress. Do you really want to close?]
-
+Transfer w toku. Czy napewno chcesz zamknąć?
 ;file \plugins\FileAsMessage\src\main.cpp
 [Play]
 Graj
 [Pause]
 Pauza
 [Revive]
-
+Wznów
 [Stop]
 Stop
 [Main]
@@ -97,7 +97,7 @@ Ogólne
 [Plugins]
 Wtyczki
 [File As Message...]
-
+Plik jako wiadomość
 ;file \plugins\FileAsMessage\src\main.h
 [File As Message]
-
+Plik jako wiadomość

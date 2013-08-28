@@ -214,7 +214,7 @@ Dane kontaktu
 [Contact menu]
 Menu kontaktu
 [Dismiss popup]
-
+Anuluj Popup
 [Pin popup]
 Przypnij popup
 [Copy to clipboard]
@@ -223,9 +223,7 @@ Kopiuj do schowka
 Akcja
 ;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
-
-[`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
-
+The Jabbervocky
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
 Test ustawień wtyczki Popup. Ten tekst powinien być wystarczająco długi żeby nie zmieścić się w jednej linii...
 [This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
@@ -308,7 +306,7 @@ Wyłącz popupy
 [Popup Plus]
 Popupy
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
-
+Błąd: nie mogłem zarejestrować klasy okna Popup\r\nWtyczka nie będzie działać.
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 Brak efektu
@@ -361,12 +359,12 @@ Status protokołu
 [You cannot specify a value lower than %d and higher than %d.]
 Nie możesz ustawić wartości niższej niż %d ani wyższej niż %d.
 ['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
-
+Opcja zmiany kolejności Popupów jest obecnie wyłączona.\r\nMoże to spowodować źle ułożone Popupy w połączeniu z\r\nawatarami i zamianami tekstu (głównie NewStatusNotify)\r\n\r\nCzy chcesz włączyć zmianę kolejności Popupów teraz?\r
 [Popup Plus Warning]
 Ostrzeżenie Popup Plus
 ;file \plugins\Popup\src\opt_skins.cpp
 [Failed to register %s class.]
-
+Nie udało się zarejestrować klasy %s
 [Skin preview]
 Podgląd skórki
 [Just take a look at this skin... ;)]
@@ -392,7 +390,7 @@ Odśwież listę
 [Failed to GetClassInfoExW from EDIT class.]
 Błąd tworzenia GetClassInfoExW from EDIT class.
 [Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
-
+Nie udało się zarejestrować własnej klasy okna polaedycji.\r\n\r\nMIN %hd ms
 ;file \plugins\Popup\src\services.cpp
 [Error]
 Błąd
@@ -402,18 +400,18 @@ Ostrzeżenie
 Powiadomienia
 ;file \plugins\Popup\src\skin.cpp
 [The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
-
+Skórka, którą próbujesz załadować jest zaprojektowana\r\ndla nowszej wersji Popup+. I nie będzie\r\nwyświetlać się poprawnie.\r\n\r\nProszę wybrać inną skórkę.
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Popup Mode: Auto]
 Tryb Popup: Auto
 [Popup Mode: Favourite]
-
+Tryb Popupów: ulubione
 [Popup Mode: Ignore fullscreen]
 Tryb Popup: Ignoruj pełny ekran
 [Popup Mode: Block contact]
 Tryb Popup: Zablokuj kontakt
 [Auto]
-
+Automatyczny
 [Favourite]
 Ulubiony
 [Block]

@@ -42,7 +42,7 @@ Edytuj
 [Warning]
 Ostrzeżenie
 [This field doesn't accept string longer than %d characters. The string will be truncated.]
-
+Topole nie akceptuje ciągów znaków dłuższych niż %d znaków. Ciąg zostanie obcięty.
 [Favourites]
 Ulubione
 [Regular statuses]

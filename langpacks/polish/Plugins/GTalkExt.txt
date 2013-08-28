@@ -52,13 +52,13 @@ Popupy
 [Network]
 Protokoły
 [Why C sucks]
-
+Dlaczego C ssie
 [brickstrace@gmail.com [1]]
-
+brickstrace@gmail.com [1]
 [    bems\n]
-
+    bems\n
 [* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions]
-
+* System prymitywnego typu\n* brak przeładowań\n* ograniczone możliwości rozdzielenia się danych, polimorfizmu i ponownego użycia kodu\n* brak metaprogramowania z wyjątkiem makr preprocesora\n*brak wyjątków
 ;file \protocols\GTalkExt\src\options.h
 [GMail notifications]
 Powiadomienia GMail

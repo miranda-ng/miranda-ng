@@ -127,7 +127,7 @@ AVH Debug
 [Removed avatar, no avatar before...skipping]
 Usuwanie awataru, brak awataru... pomijanie
 [Hashes are the same... skipping]
-
+Sumy kontrolne są identyczne... Pominięto
 [Avatar History: Unable to save avatar]
 Historia awatara: niemożliwy do zapisania
 [AVH Debug: File copied successfully]
@@ -173,7 +173,7 @@ Nieznane UIN
 [Unknown Protocol]
 Nieznany protokół
 [AVH Debug: GetOldStyleAvatarName]
-
+AVH Debug: GetOldStyleAvatarName
 [Avatar History: Unable to create shortcut]
 Avatar History: Nie można utworzyć skrótu
 [AVH Debug: Shortcut created successfully]

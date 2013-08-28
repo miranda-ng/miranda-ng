@@ -97,7 +97,7 @@ Wyczyść wyniki wyszukiwania
 [&Search]
 Szukaj
 [link]
-
+link
 [Open]
 Otwórz
 [Open in new Window]
@@ -126,7 +126,7 @@ brak
 [Search Filter]
 Filtr wyszukiwania
 [no settings]
-
+brak ustawień
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
 [&Create Linklist]
 Utwórz listę linków

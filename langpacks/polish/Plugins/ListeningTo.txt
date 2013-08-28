@@ -156,7 +156,7 @@ Format
 Odtwarzacze
 ;file \plugins\ListeningTo\src\players\generic.cpp
 [Miranda ListeningTo receiver]
-
+odbiornik zdarzeń ListeningTo Mirandy
 ;file \plugins\ListeningTo\src\players\wmp.cpp
 [Miranda ListeningTo WMP receiver]
-
+Odbiornik zdarzeń ListeningTo z WMP Mirandy

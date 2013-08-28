@@ -91,7 +91,7 @@ Miesięczie
 [Yearly]
 Rocznie
 [i'm hiding]
-
+ukrywam się
 [Date and Time]
 Data i czas
 [Disable next occurence]
@@ -107,7 +107,7 @@ Drzemka
 [Static]
 Statyczne
 [Reminder Frame Context]
-
+Kontekst Ramki Przypomnienia
 [&Suspend]
 Zawieś
 [&Edit...]
@@ -121,7 +121,7 @@ Nowy alarm...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 [Unknown command issued: "%s"]
-
+Wydano nieznaną komendę: "%s"
 [Set Alarm]
 Ustaw alarm
 ;file \plugins\Alarms\src\alarm_win.cpp
@@ -149,9 +149,9 @@ Tło
 Okno
 ;file \plugins\Alarms\src\frame.cpp
 [Hide Reminders]
-
+Ukryj Przypomnienia
 [Show Reminders]
-
+Pokaż Przypomnienia
 [Frames]
 Ramki
 [Alarm Reminders]

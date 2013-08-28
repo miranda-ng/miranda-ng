@@ -11,43 +11,43 @@ Umożliwia zmianę układu klawiatury.
 [Hotkeys]
 Skróty
 [Changing layout:]
-
+Zmiana układu:
 ["Current word" mode]
-
+Tryb "obecnego słowa"
 [Changing layout (alternative):]
-
+Zmiana układu (alternatywa):
 [Inverting lettercase:]
-
+Zamiana wielkości liter:
 [Options]
 Opcje
 [Two-way changing layout (experimental)]
-
+Dwóstronna zmiana układu (eksperymentalne)
 [Log operations]
-
+Zapisuj operacje
 [Copy result to clipboard]
 Kopiuj rezultat do schowka
 [Show result in Popup]
-
+Pokaż wynik w Popupie
 [Strings for keyboard layouts]
-
+Ciągi dla układów klawiatur
 [EN]
 EN
 [Default]
 Domyślny
 [Invert current state]
-
+Odwróć obecny stan
 [Switch off]
-
+Wyłącz
 [Leave as it is]
-
+Zostaw tak jak jest
 [Set Caps Lock state when inverting lettercase:]
-
+Ustaw stan Caps Locka zamieniając wielkość liter:
 [Change active keyboard layout in system]
-
+Zmień aktywny układ klawiatury w systemie
 [Colours]
 Kolory
 [Popup colours]
-
+Kolory Popupów
 [Windows colours]
 Kolory Windows
 [Custom colours]
@@ -76,14 +76,14 @@ PPM
 Podgląd
 ;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
 [ChangeKeyboardLayout]
-
+ChangeKeyboardLayout
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Popup]
 Popup
 [Changing Layout]
-
+Zmienianie układu
 [Changing Case]
-
+Zmienianie wielkości liter
 [Message Sessions]
 Okno rozmowy
 [Popups]

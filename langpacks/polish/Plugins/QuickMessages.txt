@@ -17,7 +17,7 @@ Przyciski
 [Menu entry value:]
 Wartość pozycji menu:
 [Misc.]
-
+Różne
 [Auto-send on Left-Click]
 Wyślij po LPM
 [Auto-send on Right-Click]
@@ -45,7 +45,7 @@ Lista zmiennych:
 [Tips:]
 Porady:
 [*Rename menu item into "---" to insert separator]
-
+*Zmień nazwę elementu menu na "---", by wstawić separator
 [*Use drag'n'drop for arranging menu items]
 *Użyj przeciągnij i upuść do przemieszczania pozycji
 [- Contact first name]
@@ -59,9 +59,9 @@ Szybkie wiadomości
 [Enter Value]
 Wpisz wartość
 [Congratulation!\r\nYou have clicked this button 100 times!\r\nThere was access violation at this point...\r\nAnd now function for freeing resources must be called...\r\nBut no! there's only break :D]
-
+Gratulacje\r\nKliknąłeś ten przycisk 100 razy!\r\nW tym momencie wywołałeś błąd Access Violation.\r\nA teraz funkcja zwalniania zasobów musi zostać wywołana.\r\nAle nie. Jest tylko przerwa! :D
 [You win!]
-
+Wygrałeś
 [New Button]
 Nowy przycisk
 [New Menu Entry]
@@ -70,4 +70,4 @@ Nowe menu
 Okno rozmowy
 ;file \plugins\QuickMessages\src\Utils.cpp
 [Quick Messages Button %u]
-
+Przycisk szybkich wiadomości %u

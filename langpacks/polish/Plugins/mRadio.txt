@@ -46,9 +46,9 @@ Pętla jednego utworu
 [Station Name]
 Nazwa stacji
 [Timeout, ms (5000)]
-
+Czas oczekiwania, ms (5000)
 [PreBuf, % (75%)]
-
+Bufor wstępny, % (75%)
 [Hallway]
 Hangar
 [Mountains]
@@ -62,7 +62,7 @@ URL do stacji (wymagany)
 [To INI]
 Do pliku
 [Buffer, ms (5000)]
-
+bufor ms (5000)
 [Add station]
 Dodaj stacje
 [Add Station]
@@ -90,9 +90,9 @@ Las
 [To list]
 Do listy
 [Hangar]
-
+Hangar
 [Offline station as Offline]
-
+niedostępna stacja jako Offline
 [Protocol depending status]
 Status zależny od protokołu
 [Continuous record]
@@ -100,7 +100,7 @@ Ciągłe nagrywanie
 [Quarry]
 Kamieniołom
 [Sorry!]
-
+Przepraszamy!
 [BASS.DLL not found!]
 BASS.dll nie odnaleziony!
 [Station]
@@ -126,9 +126,9 @@ Aktualnie używany kodek
 [aborting]
 Zatrzymano
 [Can't initialize device]
-
+Nie udało się zainicjować urządzenia
 [Can't connect to net. Please, clear 'Work offline' option in Internet settings]
-
+Nie udało się połączyć z internetem. Proszę odznaczyć opcję "Pracuj w trybie Offline" w opcjach internetowych
 [Start broadcasting]
 Graj
 [Stop broadcasting]
@@ -188,8 +188,8 @@ Wył.
 [Volume]
 Głośność
 [Device list]
-
+Lista urządzeń
 [Equalizer]
-
+equalizer
 [New]
 Nowy
