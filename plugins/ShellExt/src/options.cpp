@@ -44,34 +44,34 @@ static INT_PTR CALLBACK OptDialogProc(HWND hwndDlg, UINT wMsg, WPARAM wParam, LP
       AutoSize(GetDlgItem(hwndDlg, IDC_CAPSTATUS));
       AutoSize(GetDlgItem(hwndDlg, IDC_CAPSHLSTATUS));
       // show all the options
-      iCheck = db_get_b(0, MODULENAME, SHLExt_UseGroups, BST_UNCHECKED);
+      iCheck = db_get_b(0, SHLExt_Name, SHLExt_UseGroups, BST_UNCHECKED);
       CheckDlgButton(hwndDlg, IDC_USEGROUPS, iCheck);
       EnableWindow(GetDlgItem(hwndDlg, IDC_CLISTGROUPS), iCheck = BST_CHECKED);
       CheckDlgButton(hwndDlg, IDC_CLISTGROUPS,
-         db_get_b(0, MODULENAME, SHLExt_UseCListSetting, BST_UNCHECKED));
+         db_get_b(0, SHLExt_Name, SHLExt_UseCListSetting, BST_UNCHECKED));
       CheckDlgButton(hwndDlg, IDC_NOPROF,
-         db_get_b(0, MODULENAME, SHLExt_ShowNoProfile, BST_UNCHECKED));
+         db_get_b(0, SHLExt_Name, SHLExt_ShowNoProfile, BST_UNCHECKED));
       CheckDlgButton(hwndDlg, IDC_SHOWFULL,
-         db_get_b(0, MODULENAME, SHLExt_UseHITContacts, BST_UNCHECKED));
+         db_get_b(0, SHLExt_Name, SHLExt_UseHITContacts, BST_UNCHECKED));
       CheckDlgButton(hwndDlg, IDC_SHOWINVISIBLES,
-         db_get_b(0, MODULENAME, SHLExt_UseHIT2Contacts, BST_UNCHECKED));
+         db_get_b(0, SHLExt_Name, SHLExt_UseHIT2Contacts, BST_UNCHECKED));
       CheckDlgButton(hwndDlg, IDC_USEOWNERDRAW,
-         db_get_b(0, MODULENAME, SHLExt_ShowNoIcons, BST_UNCHECKED));
+         db_get_b(0, SHLExt_Name, SHLExt_ShowNoIcons, BST_UNCHECKED));
       CheckDlgButton(hwndDlg, IDC_HIDEOFFLINE,
-         db_get_b(0, MODULENAME, SHLExt_ShowNoOffline, BST_UNCHECKED));
+         db_get_b(0, SHLExt_Name, SHLExt_ShowNoOffline, BST_UNCHECKED));
       // give the Remove button a Vista icon
       SendMessage(GetDlgItem(hwndDlg, IDC_REMOVE), BCM_SETSHIELD, 0, 1);
 		return TRUE;
 	
   case WM_NOTIFY:
 	  if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-		  db_set_b(0, MODULENAME, SHLExt_UseGroups,       IsDlgButtonChecked(hwndDlg, IDC_USEGROUPS));
-		  db_set_b(0, MODULENAME, SHLExt_UseCListSetting, IsDlgButtonChecked(hwndDlg, IDC_CLISTGROUPS));
-		  db_set_b(0, MODULENAME, SHLExt_ShowNoProfile,   IsDlgButtonChecked(hwndDlg, IDC_NOPROF));
-		  db_set_b(0, MODULENAME, SHLExt_UseHITContacts,  IsDlgButtonChecked(hwndDlg, IDC_SHOWFULL));
-		  db_set_b(0, MODULENAME, SHLExt_UseHIT2Contacts, IsDlgButtonChecked(hwndDlg, IDC_SHOWINVISIBLES));
-		  db_set_b(0, MODULENAME, SHLExt_ShowNoIcons,     IsDlgButtonChecked(hwndDlg, IDC_USEOWNERDRAW));
-		  db_set_b(0, MODULENAME, SHLExt_ShowNoOffline,   IsDlgButtonChecked(hwndDlg, IDC_HIDEOFFLINE));
+		  db_set_b(0, SHLExt_Name, SHLExt_UseGroups,       IsDlgButtonChecked(hwndDlg, IDC_USEGROUPS));
+		  db_set_b(0, SHLExt_Name, SHLExt_UseCListSetting, IsDlgButtonChecked(hwndDlg, IDC_CLISTGROUPS));
+		  db_set_b(0, SHLExt_Name, SHLExt_ShowNoProfile,   IsDlgButtonChecked(hwndDlg, IDC_NOPROF));
+		  db_set_b(0, SHLExt_Name, SHLExt_UseHITContacts,  IsDlgButtonChecked(hwndDlg, IDC_SHOWFULL));
+		  db_set_b(0, SHLExt_Name, SHLExt_UseHIT2Contacts, IsDlgButtonChecked(hwndDlg, IDC_SHOWINVISIBLES));
+		  db_set_b(0, SHLExt_Name, SHLExt_ShowNoIcons,     IsDlgButtonChecked(hwndDlg, IDC_USEOWNERDRAW));
+		  db_set_b(0, SHLExt_Name, SHLExt_ShowNoOffline,   IsDlgButtonChecked(hwndDlg, IDC_HIDEOFFLINE));
 	  }
 	  break;
 
@@ -88,13 +88,13 @@ static INT_PTR CALLBACK OptDialogProc(HWND hwndDlg, UINT wMsg, WPARAM wParam, LP
 			if (IDYES == MessageBox(0,
 					TranslateT("Are you sure? This will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer"),
 					TranslateT("Disable/Remove shlext"), MB_YESNO | MB_ICONQUESTION)) {
-				db_unset(0, MODULENAME, SHLExt_UseGroups);
-				db_unset(0, MODULENAME, SHLExt_UseCListSetting);
-				db_unset(0, MODULENAME, SHLExt_UseHITContacts);
-				db_unset(0, MODULENAME, SHLExt_UseHIT2Contacts);
-				db_unset(0, MODULENAME, SHLExt_ShowNoProfile);
-				db_unset(0, MODULENAME, SHLExt_ShowNoIcons);
-				db_unset(0, MODULENAME, SHLExt_ShowNoOffline);
+				db_unset(0, SHLExt_Name, SHLExt_UseGroups);
+				db_unset(0, SHLExt_Name, SHLExt_UseCListSetting);
+				db_unset(0, SHLExt_Name, SHLExt_UseHITContacts);
+				db_unset(0, SHLExt_Name, SHLExt_UseHIT2Contacts);
+				db_unset(0, SHLExt_Name, SHLExt_ShowNoProfile);
+				db_unset(0, SHLExt_Name, SHLExt_ShowNoIcons);
+				db_unset(0, SHLExt_Name, SHLExt_ShowNoOffline);
 
 				CheckUnregisterServer();
 				SendMessage(hwndDlg, WM_INITDIALOG, 0, 0);

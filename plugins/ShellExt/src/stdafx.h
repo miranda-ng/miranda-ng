@@ -24,7 +24,6 @@
 
 #include "Version.h"
 
-#define MODULENAME             "ShellExt"
 #define SHLExt_Name            "shlext15"
 #define SHLExt_MRU             "MRU"
 #define SHLExt_UseGroups       "UseGroups"
