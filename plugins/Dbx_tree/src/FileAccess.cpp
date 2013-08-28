@@ -283,7 +283,7 @@ void CFileAccess::InitJournal()
 			    path);
 			} else {
 			LOG(logWARNING,
-					TranslateT("Journal \"%s\" was found on start.\nBackups \"%s\"and \"%s\" could not be created in \"%s\"."),
+					TranslateT("Journal \"%s\" was found on start.\nBackups \"%s\" and \"%s\" could not be created in \"%s\"."),
 					fn?fn+1:m_Journal.FileName, 
 					bfn?bfn+1:bckname,
 					jrn?jrn+1:bckjrnname,
