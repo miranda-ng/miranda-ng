@@ -605,7 +605,7 @@ HRESULT TShlComRec::QueryInterface(REFIID riid, void **ppvObject)
 	}
 
 	*ppvObject = NULL;
-	logA("TShlComRec[%p] failed as {%08x-%04x-%04x-%08%x08x}\n",
+	logA("TShlComRec[%p] failed as {%08x-%04x-%04x-%08x%08x}\n",
 		riid.Data1, riid.Data2, riid.Data3, &riid.Data4[0], &riid.Data4[4]);
 	return CLASS_E_CLASSNOTAVAILABLE;
 }
