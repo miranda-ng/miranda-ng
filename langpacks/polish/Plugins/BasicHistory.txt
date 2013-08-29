@@ -113,7 +113,7 @@ Typ przełącznika
 [Time]
 Pokaż czas
 [Delta time]
-Czas delta
+Okres czasu
 [Day of week]
 Dzień tygodnia
 [Day]
@@ -374,11 +374,11 @@ Dziennie
 [Weekly]
 Tygodniowo
 [Monthly]
-Miesięczie
+Miesięcznie
 [Delta time (minutes)]
-Ilość czasu (minuty)
+Okres czasu (minuty)
 [Delta time (hours)]
-Różnica czasu (godziny)
+Okres czasu (godziny)
 [Monday]
 Poniedziałek
 [Tuesday]
@@ -444,7 +444,7 @@ Aby utworzyć sesię: otwórz WinSCP, naciśniej Nowa Sesia, wprowadź dane i za
 [Path to file]
 Ścieżka do pliku
 [FTP path must contains '/' instead '\' and starts from '/'.]
-Ścieżka FTP musi zawierrać "/" zamiast "\" i zaczynać się od "/".
+Ścieżka FTP musi zawierać "/" zamiast "\" i zaczynać się od "/".
 [FTP path cannot contain <date> in import task.]
 Ścieżka FTP nie może zawierać <date> w zadaniu importu.
 [Unknown error]

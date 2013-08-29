@@ -61,7 +61,7 @@ Wpisz wartość
 [Congratulation!\r\nYou have clicked this button 100 times!\r\nThere was access violation at this point...\r\nAnd now function for freeing resources must be called...\r\nBut no! there's only break :D]
 Gratulacje\r\nKliknąłeś ten przycisk 100 razy!\r\nW tym momencie wywołałeś błąd Access Violation.\r\nA teraz funkcja zwalniania zasobów musi zostać wywołana.\r\nAle nie. Jest tylko przerwa! :D
 [You win!]
-Wygrałeś
+Wygrałeś!
 [New Button]
 Nowy przycisk
 [New Menu Entry]

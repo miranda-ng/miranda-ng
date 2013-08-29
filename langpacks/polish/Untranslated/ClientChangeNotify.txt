@@ -1,3 +1,0 @@
-﻿[Never, ignore client changes for this contact]
-[Always except when client change notifications are disabled globally]
-[Always, even when client change notifications are disabled globally]

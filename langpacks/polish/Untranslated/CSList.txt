@@ -1,1 +1,0 @@
-﻿[This field doesn't accept string longer than %d characters. The string will be truncated.]

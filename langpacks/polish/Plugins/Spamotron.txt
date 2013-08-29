@@ -99,7 +99,7 @@ Ustaw domyślnie
 [Appearance]
 Personalizacja
 [Foreground]
-
+Pierwszy Plan
 [Background]
 Tło
 [Timeout]

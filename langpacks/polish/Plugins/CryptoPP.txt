@@ -9,7 +9,7 @@
 Biblioteka Crypto++ dla wtyczki SecureIM.
 ;file \plugins\CryptoPP\src\GPGw\gpg.rc
 [GnuPG Plugin - Passphrase]
-Wtyczka GnuPG -tekst szyfrujący
+Wtyczka GnuPG - tekst szyfrujący
 [Enter passphrase for the secret key of user:]
 Wprowadź tekst szyfrujący sekretnego klucza użytkownika:
 [User ID]

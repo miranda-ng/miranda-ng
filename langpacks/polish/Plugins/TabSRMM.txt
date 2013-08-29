@@ -1667,7 +1667,7 @@ Połącz nowe zdarzenia od tego samego w istniejącym popupie
 [Show headers]
 Pokaż nagłówki
 [Dismiss popup]
-
+Anuluj popup
 [Open event]
 Otwórz zdarzenie
 [Dismiss event]

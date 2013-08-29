@@ -132,7 +132,7 @@ Błąd
 [Crypto modules not found]
 Moduł szyfrujący nie został odnaleziony.
 [DB is already secured!]
-Baza danych jest już zabezpieczona
+Baza danych jest już zabezpieczona!
 [current database]
 aktualny profil
 [Set Password]

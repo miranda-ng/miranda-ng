@@ -1,4 +1,0 @@
-﻿[Info:]
-[Dll]
-[Sorry, but your database encrypted with unknown module]
-[DB is already secured!]

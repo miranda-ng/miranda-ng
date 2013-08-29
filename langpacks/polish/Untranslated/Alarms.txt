@@ -1,5 +1,0 @@
-﻿[i'm hiding]
-[Reminder Frame Context]
-[Unknown command issued: "%s"]
-[Hide Reminders]
-[Show Reminders]

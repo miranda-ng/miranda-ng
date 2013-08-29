@@ -238,6 +238,6 @@ Zrzut ekranu
 [for Client area ]
 dla pola Klienta
 [of "]
-z
+z "
 [" Window]
-* Okno
+" Okna

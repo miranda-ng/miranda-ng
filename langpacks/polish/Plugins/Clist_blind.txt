@@ -259,4 +259,4 @@ Nieznany protokół
 [Expanded]
 Rozszerzony
 [Colapsed]
-zwinięty
+Zwinięty

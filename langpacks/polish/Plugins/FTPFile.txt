@@ -204,16 +204,16 @@ ZAKOŃCZONO
 [CREATED]
 UTWORZONO
 [PACKING...]
-Pakowanie...
+PAKOWANIE...
 [PAUSED]
 WSTRZYMANO
 [WAITING...]
-CSEKAJ...
+CZEKAJ...
 [UNKNOWN]
 NIEZNANY
 ;file \plugins\FTPFileYM\src\job_packer.cpp
 [Error occured when zipping the file(s).]
-Wystąpił bląd podczas pakowania plików.
+Wystąpił błąd podczas pakowania plików.
 [%0.1f kB/s]
 %0.1f kB/s
 [%0.1f%% (%d kB/%d kB)]
@@ -223,7 +223,7 @@ Wystąpił bląd podczas pakowania plików.
 [Do you really want to cancel this upload?]
 Czy na pewno chcesz anulować to wysyłanie?
 [Status: %s\r\nFile: %s\r\nServer: %s]
-Stan:%s\r\nPlik: %s\r\nSerwer: %s
+Stan: %s\r\nPlik: %s\r\nSerwer: %s
 ;file \plugins\FTPFileYM\src\job_upload.cpp
 [File exists - %s]
 Plik istnieje - %s
@@ -232,7 +232,7 @@ Wystąpił błąd podczas otwierania pliku lokalnego.\nAnulowanie wysyłki pliku
 [Error occurred when initializing libcurl.\nAborting file upload...]
 Wystąpił błąd podczas inicjalizacji libcurl.\nAnulowanie wysyłki pliku...
 [FTP error occurred.\n%s]
-Wystąpił błąd FTP\n%s
+Wystąpił błąd FTP.\n%s
 [WAITTING...]
 CZEKAJ...
 [Download link:]

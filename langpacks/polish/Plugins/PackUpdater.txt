@@ -23,7 +23,7 @@ Opis
 [Downloading...]
 Pobieranie...
 [Pack update options]
-opcje aktualizacji paczki
+Opcje aktualizacji paczki
 [On startup]
 Podczas uruchamiania
 [Remind about not installed pack update]
@@ -103,11 +103,11 @@ Pobieranie aktualizacji paczki...
 [Downloading update...]
 Pobieranie aktualizacji...
 [Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Pobieranie zakończone. Rozpocząć aktualizacje? Wszystkie Twoje ustawienia zostaną zapisane i Miranda NG zostanie zamknięta.
+Pobieranie zakończone. Rozpocząć aktualizację? Wszystkie Twoje ustawienia zostaną zapisane i Miranda NG zostanie zamknięta.
 [Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Pobieranie zakończone. Rozpocząć aktualizacje? Wszystkie Twoje ustawienia zostaną zapisane i Miranda NG zostanie zamknięta.
+Pobieranie zakończone. Rozpocząć aktualizację? Wszystkie Twoje ustawienia zostaną zapisane i Miranda NG zostanie zamknięta.
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
-Wybrałeś aby nie instalować pobranych aktualizacji.\nMożesz zainstalować je ręcznie z lokalizacji:\n\n%s
+Wybrałeś, aby nie instalować pobranych aktualizacji.\nMożesz zainstalować je ręcznie z lokalizacji:\n\n%s
 ;file \plugins\PackUpdater\Src\Notifications.h
 [Close popup]
 Zamknij popup

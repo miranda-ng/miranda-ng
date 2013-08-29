@@ -27,7 +27,7 @@ Tekst ostrzeżenia
 [Time before the answer]
 Czas przed odpowiedzią
 [Typing time depends on message length (in chars)]
-Czas pisania zależy od długości wiadomości w znakach)
+Czas pisania zależy od długości wiadomości (w znakach)
 [Typing and thinking time can be much longer]
 Czas pisania i myślenia może być znacznie dłuższy
 [Typing time (for a message of 4 words):]
@@ -45,7 +45,7 @@ Siedź cicho, gdy nie ma dobrych odpowiedzi
 [Start answers with a lowercase letter]
 Zaczynaj odpowiedzi z małej litery
 [Don't use "I don't understand"-like answers]
-Nieużywaj odpowiedzi w stylu "nie rozumiem"
+Nie używaj odpowiedzi w stylu "nie rozumiem"
 ;file \plugins\Boltun\src\boltun.h
 [Message sessions]
 Sesje rozmowy
@@ -64,7 +64,7 @@ Cześć. Nazywam się Boltun! Będę rozmawiał z tobą pod nieobecność mojego
 [Boltun Error]
 Boltun błąd
 [Failed to load base of remarks. Error at line %d of %s. (Or few lines before).]
-Nie udało się załadować bazy odpowiedzi. Błąd w linii %d z %s. (albo kilka linii wcześniej).
+Nie udało się załadować bazy odpowiedzi. Błąd w linii %d z %s. (Albo kilka linii wcześniej).
 [Failed to save base of remarks to %s]
 Nie udało się zapisać bazy odpowiedzi do %s
 [General Settings]

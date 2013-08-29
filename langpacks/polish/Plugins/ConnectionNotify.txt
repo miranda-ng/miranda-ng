@@ -6,7 +6,7 @@
 ;  Authors: MaKaR
 ;============================================================
 [Notify with popup if some connection established]
-Powiadamiaj Popupem, gdy zostanie nawiązane połączenie
+Powiadamia popupem, gdy zostanie nawiązane połączenie.
 ;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
 [Set popup colours]
 Ustaw kolory komunikatów
@@ -27,7 +27,7 @@ Próbuj ustalić adresy
 [Version:]
 Wersja:
 [Show notification if no filter defined]
-Wyświetl powiadomienie, jeżęli żaden filtr nie jest zdefiniowany
+Wyświetl powiadomienie, jeżeli żaden filtr nie jest zdefiniowany
 [Attempt interval (ms.)]
 Interwał próby (ms.)
 [X]
@@ -55,16 +55,16 @@ Anuluj
 [* and ? wildcard characters also available (for port enter number or *)]
 Znaki * i ? są także dostępne (jako port podaj liczbę lub *)
 [Remote IP:Port]
-ZdalneIP:Port
+Zdalne IP:Port
 ;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
 [Show]
 Pokaż
 [Hide]
 Ukryj
 [Always show popup]
-Zawsze pokazuj Popup
+Zawsze pokazuj popup
 [Never show popup]
-Nigdy nie pokazuj Popupu
+Nigdy nie pokazuj popupu
 [Status]
 Status
 [Application]

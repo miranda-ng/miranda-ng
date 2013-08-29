@@ -40,7 +40,7 @@ Używaj tylko alfa-numerycznego kodowania podczas transferu
 Dodatkowe opcje: Zdarzenia > Transfery plików, grupa "Odbieranie plików"
 ;file \plugins\FileAsMessage\src\dialog.cpp
 [File already exists. Overwrite?]
-Plik już istnieje, nadpisać?
+Plik już istnieje. Nadpisać?
 [Couldn't open a file]
 Nie udało się otworzyć pliku
 [Size: %d bytes]
@@ -100,4 +100,4 @@ Wtyczki
 Plik jako wiadomość
 ;file \plugins\FileAsMessage\src\main.h
 [File As Message]
-Plik jako wiadomość
+File As Message

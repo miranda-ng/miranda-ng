@@ -2530,7 +2530,7 @@ Aktywność: %s
 [Set Activity]
 Wybierz aktywność
 [Listening To]
-
+Obecnie Słucham
 [Moods]
 Nastrój
 [Activities]

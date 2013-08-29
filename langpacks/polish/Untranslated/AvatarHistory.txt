@@ -1,2 +1,0 @@
-﻿[Hashes are the same... skipping]
-[AVH Debug: GetOldStyleAvatarName]

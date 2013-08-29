@@ -97,13 +97,13 @@ Paczka emotikon %s nie odnaleziona.\nZaznacz prawidłową paczkę emotikon Opcje
 [There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
 Wystąpiły problemy z wczytaniem paczki emotikon (powinny już działać).\nPo szczegóły zajrzyj do dziennika.
 [Smiley #%u in file %s for Smiley Pack %s not found.]
-Nie znaleziono uśmieszku#%u w pliku %s dla paczki uśmieszków %s.
+Nie znaleziono uśmieszku #%u w pliku %s dla paczki uśmieszków %s.
 [Standard]
 Standardowe
 [Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
-Wyrażenie regularne %s w paczce %s może spowodować puste dopasowania.
+Wyrażenie regularne "%s" w paczce %s może spowodować puste dopasowania.
 [Regular Expression "%s" in smiley pack "%s" malformed.]
-Wyrażenie regularne %s w paczce %s zniekształcone
+Wyrażenie regularne "%s" w paczce %s zniekształcone.
 ;file \plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]
 d'oh!

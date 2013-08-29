@@ -15,7 +15,7 @@ Hasło:
 [Create a new ICQ account]
 Utwórz nowe konto ICQ
 [Enter an authorization request]
-
+Wprowadź tekst prośby o autoryzację
 [&Send]
 Wyślij
 [&Cancel]
@@ -1387,7 +1387,7 @@ Połączenie %s
 [%s client-to-client connections]
 Połączenie Klient-do-Klienta %s
 [User ID]
-
+ID użytkownika
 [You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
 
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
@@ -1943,7 +1943,7 @@ Wysyłanie zakończone
 
 ;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
 [Please authorize me to add you to my contact list.]
-
+Proszę autoryzuj mnie, bym mógł dodać Cię do swoich kontaktów.
 ;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 [Enter a password for UIN %u:]
 Wpisz hasło dla UIN %u:

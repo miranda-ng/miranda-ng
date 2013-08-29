@@ -1,3 +1,0 @@
-﻿[Select your name]
-[User name or '*']
-[E-mage LAN protocol]

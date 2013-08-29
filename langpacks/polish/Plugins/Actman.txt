@@ -303,4 +303,4 @@ Efekt
 [New contact added to database]
 
 [Contact deleting]
-
+Usuwanie kontaktu

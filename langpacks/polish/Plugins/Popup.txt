@@ -214,7 +214,7 @@ Dane kontaktu
 [Contact menu]
 Menu kontaktu
 [Dismiss popup]
-Anuluj Popup
+Anuluj popup
 [Pin popup]
 Przypnij popup
 [Copy to clipboard]
@@ -224,6 +224,8 @@ Akcja
 ;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 The Jabbervocky
+[`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
+Internet nadal „nic nie rozumie”,\r\nżadnego odkrycia, choćby od niego zależał los świata,\r\nale nadanego w egzotycznym języku, nie odróżni od nieco mniej ważnej wieści,\r\nże u ciotki w placku z jabłkami zrobił się w piekarniku zakalec.\r\n\t[b][i]Stanisław Lem, 1999[/i][/b]
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
 Test ustawień wtyczki Popup. Ten tekst powinien być wystarczająco długi żeby nie zmieścić się w jednej linii...
 [This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
@@ -306,7 +308,7 @@ Wyłącz popupy
 [Popup Plus]
 Popupy
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
-Błąd: nie mogłem zarejestrować klasy okna Popup\r\nWtyczka nie będzie działać.
+Błąd: Nie mogłem zarejestrować klasy okna Popup\r\nWtyczka nie będzie działać.
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 Brak efektu
@@ -359,12 +361,12 @@ Status protokołu
 [You cannot specify a value lower than %d and higher than %d.]
 Nie możesz ustawić wartości niższej niż %d ani wyższej niż %d.
 ['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
-Opcja zmiany kolejności Popupów jest obecnie wyłączona.\r\nMoże to spowodować źle ułożone Popupy w połączeniu z\r\nawatarami i zamianami tekstu (głównie NewStatusNotify)\r\n\r\nCzy chcesz włączyć zmianę kolejności Popupów teraz?\r
+Opcja zmiany kolejności popupów jest obecnie wyłączona.\r\nMoże to spowodować źle ułożone popupy w połączeniu z\r\nawatarami i zamianami tekstu (głównie NewStatusNotify)\r\n\r\nCzy chcesz włączyć zmianę kolejności popupów teraz?\r
 [Popup Plus Warning]
 Ostrzeżenie Popup Plus
 ;file \plugins\Popup\src\opt_skins.cpp
 [Failed to register %s class.]
-Nie udało się zarejestrować klasy %s
+Nie udało się zarejestrować klasy %s.
 [Skin preview]
 Podgląd skórki
 [Just take a look at this skin... ;)]

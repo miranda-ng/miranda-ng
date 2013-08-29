@@ -62,7 +62,7 @@ URL do stacji (wymagany)
 [To INI]
 Do pliku
 [Buffer, ms (5000)]
-bufor ms (5000)
+Bufor, ms (5000)
 [Add station]
 Dodaj stacje
 [Add Station]
@@ -92,7 +92,7 @@ Do listy
 [Hangar]
 Hangar
 [Offline station as Offline]
-niedostępna stacja jako Offline
+Niedostępna stacja jako Offline
 [Protocol depending status]
 Status zależny od protokołu
 [Continuous record]
@@ -190,6 +190,6 @@ Głośność
 [Device list]
 Lista urządzeń
 [Equalizer]
-equalizer
+Equalizer
 [New]
 Nowy

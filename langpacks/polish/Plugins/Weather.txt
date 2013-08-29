@@ -133,7 +133,7 @@ Anuluj
 [Popup Options]
 Opcje Popup
 [Enable popups]
-
+Włącz popupy
 [Popup only when condition changes]
 Tylko przy zmianie warunków
 [Colours]

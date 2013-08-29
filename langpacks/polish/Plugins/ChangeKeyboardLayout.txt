@@ -27,7 +27,7 @@ Zapisuj operacje
 [Copy result to clipboard]
 Kopiuj rezultat do schowka
 [Show result in Popup]
-Pokaż wynik w Popupie
+Pokaż wynik w popupie
 [Strings for keyboard layouts]
 Ciągi dla układów klawiatur
 [EN]
@@ -47,7 +47,7 @@ Zmień aktywny układ klawiatury w systemie
 [Colours]
 Kolory
 [Popup colours]
-Kolory Popupów
+Kolory popupów
 [Windows colours]
 Kolory Windows
 [Custom colours]

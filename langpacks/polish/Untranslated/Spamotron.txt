@@ -37,7 +37,6 @@
 [Enable popup notifications]
 [Contact blocked]
 [Contact approved]
-[Foreground]
 [Default timeout]
 [Challenge sent]
 [Bayes database path]

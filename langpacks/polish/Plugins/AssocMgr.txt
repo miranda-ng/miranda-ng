@@ -47,15 +47,15 @@ Profil Mirandy NG
 [Miranda NG could not open file]
 Miranda NG nie mogła otworzyć pliku
 [Miranda NG was not able to open "%S".\n\nThere is no registered handler for this file type.]
-Miranda NG nie była w stanie otworzyć "%s".\n\nBrak zarejestrowanej obsługi tego typu plików.
+Miranda NG nie była w stanie otworzyć "%S".\n\nBrak zarejestrowanej obsługi tego typu plików.
 [Miranda NG was not able to open "%S".\n\nThe file could not be processed.]
-Miranda NG nie była w stanie otworzyć "%s".\n\nPlik nie mógł zostać przetworzony.
+Miranda NG nie była w stanie otworzyć "%S".\n\nPlik nie mógł zostać przetworzony.
 [Miranda NG could not open URL]
 Miranda NG nie mogła otworzyć linku
 [Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
-Miranda NG nie była w stanie otworzyć "%s".\n\nNie zarejestrowano obsługi dla tego typu linków.
+Miranda NG nie była w stanie otworzyć "%S".\n\nNie zarejestrowano obsługi dla tego typu linków.
 [Miranda NG was not able to open "%S".\n\nThe given URL is invalid and can not be parsed.]
-Miranda NG nie była w stanie otworzyć "%s".\n\nPodany adres jest nieprawidłowy i nie mógł zostać przetworzony.
+Miranda NG nie była w stanie otworzyć "%S".\n\nPodany adres jest nieprawidłowy i nie mógł zostać przetworzony.
 ;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 Brak dostępu:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)

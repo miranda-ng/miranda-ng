@@ -301,4 +301,3 @@
 [Mark messages as read]
 [Error %d occured during workstation lock]
 [sent unknown presence type]
-[Listening To]

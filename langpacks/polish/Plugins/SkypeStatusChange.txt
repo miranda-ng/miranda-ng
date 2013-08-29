@@ -11,9 +11,9 @@ Zmienia status Skype'a zgodnie ze statusem Mirandy.
 [Synchronize status message]
 Synchronizuj opis
 [&Check any protocol or any status to exclude it from synchronization:]
-Zaznacz którykolwiek status lub protokół, by wyłączyć go z synchronizacji
+Zaznacz którykolwiek status lub protokół, by wyłączyć go z synchronizacji:
 [Synchronize if current status differs from previous one]
-Synchronizuj jeżęli obecny status różni się od poprzedniego
+Synchronizuj, jeżeli obecny status różni się od poprzedniego
 ;file \plugins\SkypeStatusChange\src\options.cpp
 [Change Skype status]
 Zmień status Skype

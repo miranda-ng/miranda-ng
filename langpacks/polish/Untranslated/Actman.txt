@@ -22,4 +22,3 @@
 [The context menu for a contact is about to be built]
 [Double click on the CList]
 [New contact added to database]
-[Contact deleting]

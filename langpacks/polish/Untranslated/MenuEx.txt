@@ -1,2 +1,0 @@
-﻿[Enter an authorization request]
-[Please authorize me to add you to my contact list.]

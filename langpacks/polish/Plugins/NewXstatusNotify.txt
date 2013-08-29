@@ -69,11 +69,11 @@ Usuń
 [Enable sounds]
 Włącz dźwięki
 [Enable popups]
-Włącz Popupy
+Włącz popupy
 [Status Notify]
-Status
+Status Notify
 [Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
-Indywidualne dźwięki są wyłączone.\n\nAby je włączyć, wejdź do opcji - Status - Status i zaznacz opcję "Użyj indywidualnych dźwięków, a następnie otwórz to okno ponownie.
+Indywidualne dźwięki są wyłączone.\n\nAby je włączyć, wejdź do: Opcje - Status - Status Notify. \nZaznacz opcję "Użyj indywidualnych dźwięków", a następnie otwórz to okno ponownie.
 [Sounds]
 Dźwięki
 [Popups]

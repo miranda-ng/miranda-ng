@@ -84,7 +84,7 @@ Menu użytkownika
 [Send Instant Message]
 Wyślij szybką wiadomość
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
- Data: %d.%m.%y(%Y) \n Opis daty: %W - %w - %E - %e \n Czas: %H:%M:%S (%h-%p) \n Użytkownik: %n - %u \n Status: %s\n IP: %i - %r
+Data: %d.%m.%y(%Y) \n Opis daty: %W - %w - %E - %e \n Czas: %H:%M:%S (%h-%p) \n Użytkownik: %n - %u \n Status: %s \n IP: %i - %r
 ;file \plugins\SeenPlugin\src\main.cpp
 [LastSeen]
 Ostatnio widziany
@@ -179,6 +179,8 @@ Konto
 tabulator
 [line break]
 koniec linii
+[Note:]
+
 [Use]
 Użyj
 [for empty string]

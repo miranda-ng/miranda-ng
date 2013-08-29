@@ -6,7 +6,7 @@
 ;  Authors: Sam Kothari, Miranda NG Team
 ;============================================================
 [Windows Explorer extension for Miranda NG.]
-Rozszerzenie eksploratora Windows dla Miranda
+Rozszerzenie eksploratora Windows dla Mirandy NG.
 ;file \plugins\ShellExt\res\shldlgs.rc
 [Display contacts in their assigned groups (if any)]
 Pokaż kontakty w grupach

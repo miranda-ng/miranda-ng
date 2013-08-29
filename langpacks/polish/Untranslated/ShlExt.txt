@@ -1,3 +1,0 @@
-﻿[Windows Explorer extension for Miranda NG.]
-[Recently]
-[Clear entries]

@@ -1,5 +1,4 @@
-﻿[Auto]
-[Filter by]
+﻿[Filter by]
 [CTCP]
 [DCC]
 [Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]

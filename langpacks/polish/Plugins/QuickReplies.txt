@@ -19,9 +19,9 @@ Zmienne
 [Hints:]
 Wskazówki:
 [- Add "---" for separator.]
-- dodaj "---" jako separator.
+- Dodaj "---" jako separator.
 [- Press [v] button for variable's help.]
-- Aby zobaczeć zmienne naciśnij przycisk [v].
+- Aby zobaczyć zmienne naciśnij przycisk [v].
 ;file \plugins\QuickReplies\src\events.cpp
 [Button]
 Przycisk
