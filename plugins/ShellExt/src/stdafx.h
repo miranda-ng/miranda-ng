@@ -49,4 +49,10 @@ extern  HANDLE hLogger;
 
 int OnOptionsInit(WPARAM wParam, LPARAM lParam);
 
+#ifdef LOG_ENABLED
 void logA(const char *format, ...);
+#else
+#define logA(A, ...) 
+#endif
+
+UINT murmur_hash(const char *str);

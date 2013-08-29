@@ -91,7 +91,7 @@ void FreeGroupTreeAndEmptyGroups(HMENU hParentMenu, TGroupNode *pp, TGroupNode *
 			if (pp != NULL)
 				pp->dwItems++;
 
-		mir_free(p);
+		free(p);
 		p = q;
 	}
 }
@@ -189,7 +189,7 @@ void BuildContactTree(TGroupNode *group, TEnumData *lParam)
 			TGroupNode *pg = group;
 			unsigned Depth = 0;
 			while (sz != NULL) {
-				UINT Hash = mir_hashstr(sz);
+				UINT Hash = murmur_hash(sz);
 				// find this node within
 				while (pg != NULL) {
 					// does this node have the right hash and the right depth?
@@ -297,7 +297,7 @@ void BuildMenus(TEnumData *lParam)
 		// get the group
 		Token = strtok(LPSTR(pg) + sizeof(TSlotIPC), "\\");
 		while (Token != NULL) {
-			UINT Hash = mir_hashstr(Token);
+			UINT Hash = murmur_hash(Token);
 			// if the (sub)group doesn't exist, create it.
 			TGroupNode *q = FindGroupNode(p, Hash, Depth);
 			if (q == NULL) {
@@ -606,12 +606,22 @@ HRESULT TShlComRec::QueryInterface(REFIID riid, void **ppvObject)
 		return S_OK;
 	}
 
+	// and, finally, IUnknown
+	if (riid == IID_IUnknown) {
+		*ppvObject = this;
+		RefCount++;
+		logA("TShlComRec[%p] retrieved as IUnknown: %d\n", this, RefCount);
+		return S_OK;
+	}
+
 	*ppvObject = NULL;
-	RPC_CSTR szGuid;
-	UuidToStringA(&riid, &szGuid);
-	logA("TShlComRec[%p] failed as {%s}\n", this, szGuid);
-	RpcStringFreeA(&szGuid);
-	return CLASS_E_CLASSNOTAVAILABLE;
+	#ifdef LOG_ENABLED
+		RPC_CSTR szGuid;
+		UuidToStringA(&riid, &szGuid);
+		logA("TShlComRec[%p] failed as {%s}\n", this, szGuid);
+		RpcStringFreeA(&szGuid);
+	#endif
+	return E_NOINTERFACE;
 }
 
 ULONG TShlComRec::AddRef()
@@ -1011,8 +1021,14 @@ struct TClassFactoryRec : public IClassFactory
 
 HRESULT TClassFactoryRec::QueryInterface(REFIID riid, void **ppvObject)
 {
+	#ifdef LOG_ENABLED
+		RPC_CSTR szGuid;
+		UuidToStringA(&riid, &szGuid);
+		logA("TClassFactoryRec::QueryInterface {%08x-%04x-%04x-%08x%08x} failed\n", szGuid);
+		RpcStringFreeA(&szGuid);
+	#endif
 	*ppvObject = NULL;
-	return E_NOTIMPL;
+	return E_NOINTERFACE;
 }
 
 ULONG TClassFactoryRec::AddRef()
@@ -1215,7 +1231,7 @@ void ipcGetSkinIcons(THeaderIPC *ipch)
 				TSlotIPC *pct = ipcAlloc(ipch, sizeof(TSlotProtoIcons));
 				if (pct != NULL) {
 					// capture all the icons!
-					spi.hProto = mir_hashstr(pa->szModuleName);
+					spi.hProto = murmur_hash(pa->szModuleName);
 					for (int j = 0; j <= 10; j++)
 						spi.hIcons[j] = LoadSkinnedProtoIcon(pa->szModuleName, ID_STATUS_OFFLINE + j);
 
@@ -1300,7 +1316,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 			// store
 			pContacts[i].hContact = hContact;
 			pContacts[i].dwStatus = dwStatus;
-			pContacts[i].hProto = mir_hashstr(szProto);
+			pContacts[i].hProto = murmur_hash(szProto);
 			i++;
 		}
 	}
@@ -1344,7 +1360,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 				ipch->ContactsBegin = pct;
 			szSlot += cch + 1;
 			if (rc == 0) {
-				pct->hGroup = mir_hashstr(dbv.pszVal);
+				pct->hGroup = murmur_hash(dbv.pszVal);
 				lstrcpyA(szSlot, dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -1537,12 +1553,14 @@ STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
 		return S_OK;
 	}
 
-	*ppv = NULL;
-	RPC_CSTR szGuid;
-	UuidToStringA(&riid, &szGuid);
-	logA("DllGetClassObject {%08x-%04x-%04x-%08x%08x} failed\n", szGuid);
-	RpcStringFreeA(&szGuid);
+	#ifdef LOG_ENABLED
+		RPC_CSTR szGuid;
+		UuidToStringA(&riid, &szGuid);
+		logA("DllGetClassObject {%08x-%04x-%04x-%08x%08x} failed\n", szGuid);
+		RpcStringFreeA(&szGuid);
+	#endif
 
+	*ppv = NULL;
 	return CLASS_E_CLASSNOTAVAILABLE;
 }
 

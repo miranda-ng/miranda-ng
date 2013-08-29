@@ -19,9 +19,7 @@ TGroupNode* FindGroupNode(TGroupNode *p, const DWORD Hash, int Depth)
 
 TGroupNode* AllocGroupNode(TGroupNodeList *list, TGroupNode *Root, int Depth)
 {
-	TGroupNode *p = (TGroupNode*)mir_alloc( sizeof(TGroupNode));
-	p->Left = NULL;
-	p->Right = NULL;
+	TGroupNode *p = (TGroupNode*)calloc(1, sizeof(TGroupNode));
 	p->Depth = Depth;
 	if (Depth > 0) {
 		if (Root->Left == NULL)

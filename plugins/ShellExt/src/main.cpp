@@ -3,7 +3,7 @@
 HINSTANCE hInst;
 int hLangpack;
 
-static TCHAR tszLogPath[MAX_PATH];
+TCHAR tszLogPath[MAX_PATH];
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -81,11 +81,15 @@ STDAPI DllRegisterServer()
 	if ( RegSetValueA(kClsid, "ProgID", REG_SZ, str3, sizeof(str3)))
 		return E_FAIL;
 
+	HRegKey kInprocServer(kClsid, "InprocServer32");
+	if (kInprocServer == NULL)
+		return E_FAIL;
+
 	TCHAR tszFileName[MAX_PATH];
 	GetModuleFileName(hInst, tszFileName, SIZEOF(tszFileName));
-	if ( RegSetValue(kClsid, _T("InprocServer32"), REG_SZ, tszFileName, lstrlen(tszFileName)))
+	if ( RegSetValueEx(kInprocServer, NULL, 0, REG_SZ, (LPBYTE)tszFileName, sizeof(TCHAR)*(lstrlen(tszFileName)+1)))
 		return E_FAIL;
-	if ( RegSetValueA(kClsid, "InprocServer32\\ThreadingModel", REG_SZ, str4, sizeof(str4)))
+	if ( RegSetValueExA(kInprocServer, "ThreadingModel", 0, REG_SZ, (PBYTE)str4, sizeof(str4)))
 		return E_FAIL;
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -112,18 +116,6 @@ STDAPI DllUnregisterServer()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-void logA(const char *format, ...)
-{
-	FILE *out = _tfopen(tszLogPath, _T("a+"));
-	if (out) {
-		va_list args;
-		va_start(args, format);
-		vfprintf(out, format, args);
-		va_end(args);
-		fclose(out);
-	}
-}
 
 extern "C" __declspec(dllexport) int Load(void)
 {
