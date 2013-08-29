@@ -209,7 +209,7 @@
 [Show both icons]
 Показване и на 2те икони
 [Show normal status as overlay]
-Състоянието като насложена иконао
+Състоянието като насложена икона
 [Status overlay opacity is 75%]
 75% плътност на насложената икона
 [Show unread emails (if supported)]
@@ -660,7 +660,7 @@ MetaContacts - настройки
 [Modern contact list]
 Modern contact list
 [Avatar Overlay]
-
+Насложени над аватара икони
 [Status Overlay]
 Насложени над състоянието икони
 [Contact List smileys]
@@ -898,9 +898,9 @@ Modern contact list
 [&Align]
 Подреждане
 [&Top]
-
+Горе
 [&Client]
-
+Клиент
 [&Bottom]
 Долу
 [&Position]
