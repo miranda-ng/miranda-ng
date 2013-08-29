@@ -521,12 +521,14 @@ BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 			GetClassNameA(hwnd, szBuf, sizeof(szBuf));
 			if ( lstrcmpA(szBuf, MIRANDACLASS) != 0) {
 				// opened but not valid.
+				logA("ProcessRequest(%d, %p): class %s differs from %s\n", pid, hwnd, szBuf, MIRANDACLASS);
 				CloseHandle(hMirandaWorkEvent);
 				return true;
 			}
 		}
 		// if the event object exists,  a shlext.dll running in the instance must of created it.
 		if (hMirandaWorkEvent != 0) {
+			logA("ProcessRequest(%d, %p): window found\n", pid, hwnd);
 			// prep the request
 			ipcPrepareRequests(IPC_PACKET_SIZE, lParam->ipch, REQUEST_ICONS | REQUEST_GROUPS | REQUEST_CONTACTS | REQUEST_NEWICONS);
 
@@ -538,6 +540,7 @@ BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 			// bits as sent or a series of *_NOTIMPL bits where the request bit were, if there are no
 			// contacts to speak of,  don't bother showing this instance of Miranda }
 			if (replyBits != REPLY_FAIL && lParam->ipch->ContactsBegin != NULL) {
+				logA("ProcessRequest(%d, %p): IPC succeeded\n", pid, hwnd);
 				// load the address again, the server side will always overwrite it
 				lParam->ipch->pClientBaseAddress = lParam->ipch;
 				// fixup all the pointers to be relative to the memory map
@@ -588,6 +591,7 @@ HRESULT TShlComRec::QueryInterface(REFIID riid, void **ppvObject)
 	if (riid == IID_IContextMenu || riid == IID_IContextMenu2 || riid == IID_IContextMenu3) {
 		*ppvObject = (IContextMenu3*)this;
 		RefCount++;
+		logA("TShlComRec[%p] retrieved as IContextMenu3: %d\n", this, RefCount);
 		return S_OK;
 	}
 
@@ -596,16 +600,20 @@ HRESULT TShlComRec::QueryInterface(REFIID riid, void **ppvObject)
 	if (riid == IID_IShellExtInit) {
 		*ppvObject = (IShellExtInit*)this;
 		RefCount++;
+		logA("TShlComRec[%p] retrieved as IContextMenu3: %d\n", this, RefCount);
 		return S_OK;
 	}
 
 	*ppvObject = NULL;
+	logA("TShlComRec[%p] failed as {%08x-%04x-%04x-%08%x08x}\n",
+		riid.Data1, riid.Data2, riid.Data3, &riid.Data4[0], &riid.Data4[4]);
 	return CLASS_E_CLASSNOTAVAILABLE;
 }
 
 ULONG TShlComRec::AddRef()
 {
 	RefCount++;
+	logA("TShlComRec[%p] added ref: %d\n", this, RefCount);
 	return RefCount;
 }
 
@@ -643,9 +651,12 @@ ULONG TShlComRec::Release()
 			DeleteDC(hMemDC);
 
 		// free the instance (class record) created
+		logA("TShlComRec[%p] final release\n", this);
 		delete this;
 		dllobject.ObjectCount--;
 	} 
+	else logA("TShlComRec[%p] release ref: %d\n", this, RefCount);
+
 	return ret;
 }
 
@@ -1009,6 +1020,7 @@ ULONG TClassFactoryRec::Release()
 {
 	ULONG result = --RefCount;
 	if (result == 0) {
+		logA("TClassFactoryRec released\n");
 		delete this;
 		dllobject.FactoryCount--;
 	}
@@ -1027,11 +1039,13 @@ HRESULT TClassFactoryRec::CreateInstance(IUnknown *pUnkOuter, REFIID riid, void 
 	if (riid == IID_IContextMenu) {
 		TShlComRec *p = new TShlComRec();
 		*ppvObject = (IContextMenu3*)p;
+		logA("TClassFactoryRec created as IContextMenu3: %p\n", p);
 		return S_OK;
 	}
 	if (riid == IID_IShellExtInit) {
 		TShlComRec *p = new TShlComRec();
 		*ppvObject = (IShellExtInit*)p;
+		logA("TClassFactoryRec created as IShellExtInit: %p\n", p);
 		return S_OK;
 	}
 
@@ -1515,15 +1529,20 @@ STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
 {
 	if (rclsid == CLSID_ISHLCOM && riid == IID_IClassFactory && FindWindowA(MIRANDACLASS, NULL) != 0) {
 		*ppv = new TClassFactoryRec();
+		logA("DllGetClassObject succeeded\n");
 		return S_OK;
 	}
 
 	*ppv = NULL;
+	logA("DllGetClassObject {%08x-%04x-%04x-%08x%08x} failed\n",
+		rclsid.Data1, rclsid.Data2, rclsid.Data3, &rclsid.Data4[0], &rclsid.Data4[4]);
+
 	return CLASS_E_CLASSNOTAVAILABLE;
 }
 
 STDAPI DllCanUnloadNow()
 {
+	logA("DllCanUnloadNow: %d %d\n", dllobject.FactoryCount, dllobject.ObjectCount);
 	if (dllobject.FactoryCount == 0 && dllobject.ObjectCount == 0)
 		return S_OK;
 	return S_FALSE;

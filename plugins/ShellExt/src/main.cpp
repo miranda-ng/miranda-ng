@@ -108,10 +108,27 @@ STDAPI DllUnregisterServer()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static TCHAR tszLogPath[MAX_PATH];
+
+void logA(const char *format, ...)
+{
+	FILE *out = _tfopen(tszLogPath, _T("a+"));
+	if (out) {
+		va_list args;
+		va_start(args, format);
+		vfprintf(out, format, args);
+		va_end(args);
+		fclose(out);
+	}
+}
+
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
-	
+
+	GetTempPath(SIZEOF(tszLogPath), tszLogPath);
+	_tcscat_s(tszLogPath, SIZEOF(tszLogPath), _T("shlext.log"));
+
 	InvokeThreadServer();
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInit);
 	DllRegisterServer();

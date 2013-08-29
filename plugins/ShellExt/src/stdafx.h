@@ -45,5 +45,8 @@ int     IsCOMRegistered();
 HRESULT RemoveCOMRegistryEntries();
 
 extern  HINSTANCE hInst;
+extern  HANDLE hLogger;
 
 int OnOptionsInit(WPARAM wParam, LPARAM lParam);
+
+void logA(const char *format, ...);
