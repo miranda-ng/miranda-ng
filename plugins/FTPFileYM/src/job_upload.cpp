@@ -430,7 +430,7 @@ void UploadJob::refreshTab(bool bTabChanged)
 		else if (this->isPaused())
 			SetDlgItemText(uDlg->hwnd, IDC_STATUSBAR, TranslateT("PAUSED"));		
 		else if (this->isWaitting())
-			SetDlgItemText(uDlg->hwnd, IDC_STATUSBAR, TranslateT("WAITTING..."));		
+			SetDlgItemText(uDlg->hwnd, IDC_STATUSBAR, TranslateT("WAITING..."));		
 		else
 			SetDlgItemText(uDlg->hwnd, IDC_STATUSBAR, TranslateT("UPLOADING..."));	
 
