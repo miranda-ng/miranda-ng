@@ -3,6 +3,8 @@
 HINSTANCE hInst;
 int hLangpack;
 
+static TCHAR tszLogPath[MAX_PATH];
+
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -20,6 +22,9 @@ PLUGININFOEX pluginInfoEx = {
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	if (fdwReason == DLL_PROCESS_ATTACH) {
+		GetTempPath(SIZEOF(tszLogPath), tszLogPath);
+		_tcscat_s(tszLogPath, SIZEOF(tszLogPath), _T("shlext.log"));
+
 		hInst = hinstDLL;
 		DisableThreadLibraryCalls(hinstDLL);
 	}
@@ -108,8 +113,6 @@ STDAPI DllUnregisterServer()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static TCHAR tszLogPath[MAX_PATH];
-
 void logA(const char *format, ...)
 {
 	FILE *out = _tfopen(tszLogPath, _T("a+"));
@@ -125,9 +128,6 @@ void logA(const char *format, ...)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
-
-	GetTempPath(SIZEOF(tszLogPath), tszLogPath);
-	_tcscat_s(tszLogPath, SIZEOF(tszLogPath), _T("shlext.log"));
 
 	InvokeThreadServer();
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInit);
