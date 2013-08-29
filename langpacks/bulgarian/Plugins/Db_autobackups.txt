@@ -19,7 +19,7 @@
 [Backup NOW]
 Резервно копие сега
 [Disabled]
-
+Изключено
 [When Miranda starts]
 При стартиране на Miranda
 [When Miranda exits]
@@ -82,11 +82,11 @@
 [Variables]
 
 [Days]
-
+Дни
 [Hours]
-
+Часове
 [Minutes]
-
+Минути
 [Select Backup Folder]
 Избор на папка за резервните копия
 [Error creating backup folder]

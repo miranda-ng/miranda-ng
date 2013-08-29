@@ -59,7 +59,7 @@ Database Editor++ Търсене и заместване
 [Popup timeout (0 for infinite)]
 Popup времетраене (0=безкрайност)
 [Background colour]
-Цвят на фона
+Фонов цвят
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
 Поставете \\ преди интервал в името на модул, напр. "ааа\\ ббб"
 [Add a module to contact]

@@ -189,9 +189,9 @@
 [Open Status Message Dialog]
 
 [Status Message]
-
+Текст за състояние
 [Status Message...]
-
+Текст за състояние...
 [%s (locked)]
 %s (заключен)
 [External Applications]

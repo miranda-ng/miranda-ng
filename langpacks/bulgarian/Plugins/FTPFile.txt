@@ -123,7 +123,7 @@ FTP File диспечер
 [Automatically delete file after...]
 Автоматично изтриване на файла след...
 [Disabled]
-
+Изключено
 [Delete from List]
 Изтриване от списъка
 [Copy Link]
@@ -256,7 +256,7 @@ FTP+SSL (Implicit)
 [SFTP (Secure FTP over SSH)]
 SFTP (Secure FTP over SSH)
 [minutes]
-
+минути
 [hours]
 часове
 [days]

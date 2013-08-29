@@ -106,13 +106,13 @@
 [PHONE]
 
 [HOMEPAGE]
-
+ДОМАШНА СТРАНИЦА
 [ABOUT]
-
+ОТНОСНО
 [GENDER]
-
+ПОЛ
 [AGE]
-
+ВЪЗРАСТ
 [FIRSTLAST]
 
 [UNIQUEID]

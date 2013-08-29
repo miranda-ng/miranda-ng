@@ -41,7 +41,7 @@ popup когато контакта промени аватара си
 [Colours]
 Цветове
 [Background colour]
-Цвят на фона
+Фонов цвят
 [Text colour]
 Цвят на текста
 [Use Windows colours]
@@ -162,7 +162,7 @@ popup когато контакта промени аватара си
 [Test description]
 
 [Avatar]
-
+Аватар
 [Popups]
 Popups
 [Avatar Change]
@@ -171,7 +171,7 @@ Popups
 [Unknown UIN]
 Неизвестен UIN
 [Unknown Protocol]
-
+Непознат протокол
 [AVH Debug: GetOldStyleAvatarName]
 
 [Avatar History: Unable to create shortcut]

@@ -117,9 +117,9 @@ DLL файл със знамена
 [Enable/disable spell checker]
 Вкл./Изкл. проверяването на правописа
 [Enabled]
-
+Включено
 [Disabled]
-
+Изключено
 ;file \plugins\SpellChecker\src\utils.cpp
 [There are %d spelling errors. Are you sure you want to send this message?]
 Допуснали сте %d правописни грешки. Наистина ли желаете съобщението да бъде изпратено?
@@ -130,7 +130,7 @@ DLL файл със знамена
 [Always replace with]
 Винаги заменяй с
 [Ignore all]
-
+Игнорирай всичко
 [Add to dictionary]
 Добавяне в речника
 [Corrections]

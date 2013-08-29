@@ -57,7 +57,7 @@
 [Date]
 
 [Time]
-
+Час
 [Reminder Note:]
 
 [None]
@@ -115,7 +115,7 @@
 [&Delete Note]
 
 [Appearance]
-
+Външен вид
 [Background Color]
 
 [Custom...]
@@ -147,7 +147,7 @@
 [Edi&t Note]
 
 [&Visible]
-
+Видима
 [Always &On Top]
 
 [Delete &All Notes]
@@ -279,15 +279,15 @@
 
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [Minutes]
-
+Минути
 [Hours]
-
+Часове
 [Hour]
 
 [Day]
 
 [Days]
-
+Дни
 [Week]
 
 [The specified time is invalid due to begin of daylight saving (summer time).]
@@ -301,9 +301,9 @@
 [Every]
 Всеки
 [Seconds]
-
+Секунди
 [Never]
-
+Никога
 [Default]
 Стандарт
 [Alternative 1]

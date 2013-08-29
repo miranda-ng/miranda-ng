@@ -55,9 +55,9 @@ Popups
 [Edit]
 Редактиране
 [Up]
-
+Нагоре
 [Down]
-
+Надолу
 [Edit Host]
 
 [OK]
@@ -87,7 +87,7 @@ Popups
 [(Optional) Command Parameters:]
 
 [Menu]
-
+Меню
 [Graph]
 
 [Enable]
@@ -166,4 +166,4 @@ Popups
 [Testing]
 
 [Disabled]
-
+Изключено

@@ -77,7 +77,7 @@
 [Remind me every]
 
 [minutes]
-
+минути
 [Offline]
 Извън линия
 [xStatuses]
@@ -155,9 +155,9 @@
 [File events]
 
 [URL events]
-
+URL събития
 [Other events]
-
+Други събития
 [Consider event opened after]
 
 [Use custom theme]
@@ -173,9 +173,9 @@
 [Ignore others]
 
 [Ignore all]
-
+Игнорирай всичко
 [Ignore none]
-
+Без игнориране
 [Ignore]
 Игнориране
 [Set xStatus list]

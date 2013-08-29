@@ -13,7 +13,7 @@
 [Including country code, without '+' or '00']
 
 [Nickname]
-
+Прякор
 [Request Code]
 
 [Register Code]

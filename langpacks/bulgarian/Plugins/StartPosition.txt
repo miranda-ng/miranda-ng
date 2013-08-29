@@ -11,9 +11,9 @@
 [Contact List Window Start Position]
 
 [Left]
-
+Ляво
 [Right]
-
+Дясно
 [Pixels from Top]
 
 [Pixels from Bottom]
@@ -21,7 +21,7 @@
 [Pixels from Side]
 
 [Width]
-
+Ширина
 [Always start...]
 
 [Minimized to System Tray]

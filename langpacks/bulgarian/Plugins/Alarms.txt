@@ -9,7 +9,7 @@
 
 ;file \plugins\Alarms\res\resource.rc
 [New]
-
+Нов
 [Delete]
 Изтриване
 [Edit]
@@ -21,7 +21,7 @@
 [Default snooze:]
 
 [minutes]
-
+минути
 [Row Height:]
 
 [Indent:]
@@ -43,7 +43,7 @@
 [Alert Window]
 
 [Round corners]
-
+Закръглени ъгли
 [Don't steal focus unless idle]
 
 [Preview]

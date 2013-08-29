@@ -11,9 +11,9 @@
 [Customize]
 Персонализиране
 [Show second line]
-
+Показване на втори ред
 [Show avatars]
-
+Показване на аватари
 [Draw avatar border]
 Рамка на аватарите
 [Round corners by]
@@ -53,9 +53,9 @@
 [Regular Contact]
 
 [Contact name]
-
+Име на контакта
 [Second line]
-
+Втори ред
 [Selected contact name (color)]
 
 [Selected second line (color)]

@@ -23,9 +23,9 @@
 [kilobytes]
 килобайта
 [minutes]
-
+минути
 [Background colour:]
-
+Цвят на фона:
 [Text colour:]
 
 [Reset to default]
@@ -52,7 +52,7 @@ Popup времетраене
 [Display]
 
 [Icon]
-
+Икона
 [Account name]
 
 [Current traffic]

@@ -57,7 +57,7 @@
 [Open]
 
 [Status message]
-
+Текст за състояние
 [IndSndList]
 
 [Change]
@@ -67,7 +67,7 @@
 [Delete]
 Изтриване
 [Enable sounds]
-
+Включване на звука
 [Enable popups]
 
 [Status Notify]
@@ -137,7 +137,7 @@ Popups
 [characters]
 
 [Templates]
-
+Шаблони
 [Title - text delimiter:]
 Разделител (заглавие-текст):
 [Remove:]
@@ -331,7 +331,7 @@ Popups
 [Protocol]
 Протокол
 [Filtering]
-
+Филтриране
 [Message log]
 
 ;file \plugins\NewXstatusNotify\src\popup.h

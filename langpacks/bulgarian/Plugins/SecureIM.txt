@@ -238,7 +238,7 @@
 [General]
 Основни
 [Nickname]
-
+Прякор
 [Name]
 Име
 [Password is too short!]
@@ -270,9 +270,9 @@
 [Native]
 
 [Disabled]
-
+Изключено
 [Enabled]
-
+Включено
 [Always try]
 
 [Create SecureIM connection]

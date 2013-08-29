@@ -6,7 +6,7 @@
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
-
+Осигурява комуникация чрез протокола Microsoft Network (MSN) в Miranda NG.
 ;file \protocols\MSN\res\msn.rc
 [MSN]
 
@@ -41,7 +41,7 @@
 [Notify me when a message delivery has failed]
 
 [Incoming file transfers]
-
+Входящо прехвърляне на файл
 [Your host (or router):]
 
 [Server List Manager]
@@ -97,7 +97,7 @@ popup при излизане на контакт от канал
 [Birthday]
 
 [Nickname]
-
+Прякор
 [Place:]
 
 [MSN Delete Contact]
@@ -227,7 +227,7 @@ MSN услуги
 [Start Netmeeting]
 Иницииране на Netmeeting
 [Contact list]
-
+Списък с контакти
 [Allowed list]
 
 [Blocked list]

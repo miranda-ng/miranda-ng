@@ -73,7 +73,7 @@
 [Only Selected Group]
 
 [All Contacts]
-
+Всички контакти
 [Export To Txt]
 
 [File encoding*]
@@ -111,7 +111,7 @@
 [Triger type]
 
 [Time]
-
+Час
 [Delta time]
 
 [Day of week]
@@ -423,7 +423,7 @@ SMS съобщение
 [_files]
 
 [Menu]
-
+Меню
 [Open all]
 
 [Close all]

@@ -47,7 +47,7 @@
 [Set GPG bin path and keyring home dir.]
 
 [Continue]
-
+Продължение
 [Home directory:]
 
 [GnuPG binary:]
@@ -211,7 +211,7 @@
 [gpg binary found in miranda folder, but english locale does not exists.\nit's highly recommended to place \\gnupg.nls\\en@quot.mo in gnupg folder under miranda root.\nwithout this file you may expirense many problem with gpg output on non english systems.\nand plugin may completely do not work.\nyou have beed warned.]
 
 [Warning]
-
+Предупреждение
 [wrong gpg binary location found in system.\nplease choose another location]
 
 [This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn.]
@@ -221,7 +221,7 @@
 [found "gpg" directory in MIranda root.\nassuming it's gpg home directory.\ngpg home directory set.]
 
 [Info]
-
+Информация
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 
 [gpg binary does not exists.\nplease choose another location]

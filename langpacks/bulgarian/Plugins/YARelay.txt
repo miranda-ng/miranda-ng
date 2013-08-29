@@ -35,7 +35,7 @@
 [Forward messages to...]
 
 [Template]
-
+Шаблон
 [%u - user nick;   %i - uin;    %t - time;   \r%d - date;   %m - message]
 
 [Forwarding options]

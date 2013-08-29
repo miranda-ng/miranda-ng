@@ -77,7 +77,7 @@ Popup настройки...
 [Use user-defined colours]
 Избор на цветове
 [Background colour]
-Цвят на фона
+Фонов цвят
 [Text colour]
 Цвят на текста
 [Delay]
@@ -137,11 +137,11 @@ Quote\\Инф. за курса
 Няма за изобразяване
 ;file \plugins\Quotes\src\CommonOptionDlg.cpp
 [Seconds]
-
+Секунди
 [Minutes]
-
+Минути
 [Hours]
-
+Часове
 [Enter integer value between 1 and 60.]
 Въведете цяла стойност между 1 и 60.
 [Enter integer value between 1 and 24.]
@@ -224,19 +224,6 @@ Xml файлове (*.xml)
 [User-Defined]
 
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[Log Files (*.txt,*.log)]
-
-[Enter integer value]
-
-[Enter log file name.]
-Въведете име на дневника.
-[Enter log file format.]
-Въведете формат за името.
-[Enter history format.]
-Въведете формат за историята.
-[Enter popup window format.]
-
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -291,3 +278,15 @@ Xml файлове (*.xml)
 [Change]
 
 ;file \plugins\Quotes\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+
+[Enter integer value]
+
+[Enter log file name.]
+Въведете име на дневника.
+[Enter log file format.]
+Въведете формат за името.
+[Enter history format.]
+Въведете формат за историята.
+[Enter popup window format.]
+

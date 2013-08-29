@@ -33,7 +33,7 @@
 [Force reconnect every]
 
 [minutes]
-
+минути
 [Check server before trying to connect]
 
 [Try to connect]

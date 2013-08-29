@@ -31,7 +31,7 @@
 [Status bar tips]
 
 [Alignment]
-
+Подреждане
 [Labels:]
 Етикети:
 [Values:]
@@ -97,9 +97,9 @@
 [Remove]
 Премахване
 [Up]
-
+Нагоре
 [Down]
-
+Надолу
 [Edit]
 Редактиране
 [Separator]
@@ -133,7 +133,7 @@
 [Disable in invisible status]
 
 [Skins]
-
+Облици
 [Opacity(%):]
 
 [Transparency]
@@ -141,7 +141,7 @@
 [Effects]
 Ефекти
 [Border]
-
+Рамка
 [Shadow]
 
 [Round corners (window)]
@@ -177,7 +177,7 @@
 [Expand to second level after:]
 Подсказка второ ниво след:
 [ms]
-
+мсек
 [First level tooltip]
 Подсказка първо ниво
 [Second level tooltip]
@@ -203,9 +203,9 @@ Tipper усмивки
 [Add separator]
 Добавяне на разделител
 [Move up]
-
+Местене нагоре
 [Move down]
-
+Местене надолу
 [Icon on left]
 
 [Icon on right]
@@ -223,17 +223,17 @@ Tipper усмивки
 [Top left]
 
 [Top]
-
+Горе
 [Centre]
 Център
 [Bottom]
-
+Долу
 [Left]
-
+Ляво
 [Right]
-
+Дясно
 [No avatar]
-
+Без аватар
 [Left avatar]
 
 [Right avatar]
@@ -247,7 +247,7 @@ Tipper усмивки
 [Fade]
 Избледняване
 [Appearance]
-
+Външен вид
 [Tooltips]
 
 [Customize]
@@ -270,11 +270,11 @@ Tipper усмивки
 [Status]
 Състояние
 [Status message]
-
+Текст за състояние
 [Extra status]
 
 [Listening to]
-
+Слуша..
 [Miranda uptime]
 Miranda работи от
 [Clist event]
@@ -282,7 +282,7 @@ Miranda работи от
 [Jabber activity]
 Jabber дейност
 [Gender]
-
+Пол
 [Country flag]
 
 [Client]
@@ -303,7 +303,7 @@ Jabber дейност
 [Status message:]
 
 [Mood:]
-
+Настроение:
 [XStatus:]
 хСъстояние:
 [Activity:]
@@ -340,7 +340,7 @@ Miranda работи от:
 [Gender:]
 Пол:
 [Homepage]
-
+Домашна страница
 [Homepage:]
 Страница:
 [Identifier]
@@ -374,7 +374,7 @@ Miranda работи от:
 [Number of msg [OUT]:]
 Брой съобщения (изходящи):
 [Contact time]
-
+Часът при контакта
 [Time:]
 Време:
 [XStatus title]

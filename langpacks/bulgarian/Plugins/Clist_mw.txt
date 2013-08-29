@@ -6,16 +6,16 @@
 ;  Authors: 
 ;============================================================
 [Displays contacts, event notifications, protocol status with MW modifications.]
-
+Изобразява контакти, уведомявания за събития, състояние на протоколите и поддържа множество прозорци (в списъка).
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
 Настройки
 [Background colour:]
-
+Цвят на фона:
 [Selection colour:]
-
+Цвят за маркиране:
 [Use background bitmap]
-
+Ползване на фоново изображение
 [Stretch to width]
 Разтягане на ширина
 [Stretch to height]
@@ -55,7 +55,7 @@
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Скриване (запазва историята и настройките за игнориране/видимост)
 [Use Options->Contacts->Ignore to unhide contacts.]
-
+Може да отмените скриването от Настройки > Контакти > Игнориране
 [Are you sure you want to delete %s?]
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
 [This will erase all history and settings for this contact!]
@@ -87,7 +87,7 @@
 [Disable icon blinking]
 Без мигане на икони
 [ms, delay between icon blinking]
-
+мсек между две мигания
 [Show]
 Показване
 [icon when statuses differ]
@@ -159,7 +159,7 @@
 [Items]
 Елементи
 [Show divider between online and offline contacts]
-Разделител м/у контактите "На/Извън линия"
+Разделител между контактите "На/Извън линия"
 [Hot track items as mouse passes over]
 Изтъкване на посочените с курсора елементи
 [Disable drag and drop of items]
@@ -201,21 +201,21 @@
 [Dim idle contacts]
 Потъмняване на бездействащите контакти
 [Hide vertical scrollbar]
-
+Без вертикална лента за придвижване
 [Contact List Background]
 Фон на списъка с контакти
 [Use 'Meta' protocol icons for Metacontacts]
-
+Ползване на метаикони за метаконтактите
 [Avoid doubleclick expand]
-
+Без разгръщане при двукратно натискане
 [Hide all 'Extra icons' for subcontacts]
-
+Без "Допълнителни икони" за подконтактите
 [MetaContacts supporting]
-Поддържа метаконтакти
+Метаконтакти
 [Ignore Empty Extra icons places (arrange to right).]
-
+Заемане мястото на липсващи допълнителни икони (подреждане вдясно).
 [Hide offline subcontacts.]
-
+Скриване на подконтактите "Извън линия".
 [Status Bar]
 Лента за състояние
 [Show status bar]
@@ -233,7 +233,7 @@
 [Make sections equal width]
 Еднакво широки панели
 [Show size grip]
-
+Индикатор за ръчна промяна на размера
 [Show bevel effect on panels]
 
 [Use connecting Icon]
@@ -269,7 +269,7 @@
 [&Hide/Show]
 Показване/Скриване
 [Nowhere]
-
+Никъде
 [&New Group]
 Нова група
 [&Hide Offline Users]
@@ -332,7 +332,7 @@
 [List Background]
 Фон на списъка
 [List MetaContacts]
-
+Метаконтакти
 [StatusBar Background]
 Фон на лентата за състояние
 [Not focused]
@@ -362,7 +362,7 @@
 Общо
 ;file \plugins\Clist_mw\src\clistsettings.cpp
 [_NoProtocol_]
-
+_НпмаПротокол_
 [(Unknown Contact)]
 (Непознат контакт)
 ;file \plugins\Clist_mw\src\clisttray.cpp
@@ -373,62 +373,62 @@
 [&Options...]
 Настройки...
 [&About]
-
+Относно
 ;file \plugins\Clist_mw\src\clui.cpp
 [My Contacts]
-
+Моите контакти
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\groupmenu.cpp
 [&New SubGroup]
-
+Нова подгрупа
 ;file \plugins\Clist_mw\src\keyboard.cpp
 [Close Miranda]
-
+Затваряне на Miranda
 [Restore last status]
-
+Възстановя предишното състояние
 ;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
 [&FrameTitle]
-
+Заглавие на рамката
 [&Visible]
-
+Видима
 [&Show TitleBar]
-
+Показване на заглавна лента
 [&Locked]
-
+Заключена
 [&Collapsed]
-
+Сгъната
 [&Floating Mode]
-
+Плаващ режим
 [&Border]
-
+Рамка
 [&Align]
-
+Подреждане
 [&Top]
 
 [&Client]
 
 [&Bottom]
-
+Долу
 [&Position]
-
+Позиция
 [&Up]
-
+Нагоре
 [&Down]
-
+Надолу
 [Frames]
 Рамки
 [Show All Frames]
-
+Показване на всички рамки
 [Show All Titlebars]
-
+Показване на всички заглавни ленти
 [Hide All Titlebars]
-
+Скриване на всички заглавни ленти
 [Lock Frame]
-
+Заключване на рамката
 [Visible]
-
+Видима
 [Show TitleBar]
-
+Показване на заглавна лента
 [Floating]
-
+Плаващо
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp

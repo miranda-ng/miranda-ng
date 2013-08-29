@@ -6,7 +6,7 @@
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
-
+Осигурява комуникация чрез протокола Internet Relay Chat (IRC) в Miranda NG.
 ;file \protocols\IRCG\res\IRC.rc
 [&Add]
 Добавяне
@@ -89,7 +89,7 @@
 [Version]
 Версия
 [Time]
-
+Час
 [Userinfo]
 
 [&Refresh]
@@ -410,7 +410,7 @@ IRC предупреждение
 [Information]
 Информация
 [Nickname]
-
+Прякор
 [DCC ERROR: No valid files specified]
 
 [DCC reversed file transfer request sent to %s [%s]]

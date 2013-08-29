@@ -58,13 +58,13 @@
 
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
-
+Текст за състояние
 [XStatus title]
 
 [XStatus message]
 Текст на хСъстояние
 [Listening to]
-
+Слуша..
 [Activity title]
 Етикет на дейността
 [Activity text]

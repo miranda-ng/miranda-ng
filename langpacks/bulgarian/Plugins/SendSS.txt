@@ -41,7 +41,7 @@
 [&Capture]
 
 [About]
-
+Относно
 [%s\nv%s]
 
 [Credits >]

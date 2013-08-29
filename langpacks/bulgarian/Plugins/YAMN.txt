@@ -19,7 +19,7 @@
 [Copyright:]
 Copyright:
 [Contact:]
-
+Контакт:
 [WWW:]
 
 [Check this account]
@@ -161,7 +161,7 @@ Copyright:
 [Preview]
 Преглед
 [Background colour]
-Цвят на фона
+Фонов цвят
 [Text colour]
 Цвят на текста
 ;file \plugins\YAMN\src\main.cpp

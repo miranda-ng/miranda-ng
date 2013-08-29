@@ -6,7 +6,7 @@
 ;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
 [Gadu-Gadu protocol support for Miranda NG.]
-
+Осигурява комуникация чрез протокола Gadu-Gadu в Miranda NG.
 ;file \protocols\Gadu-Gadu\res\resource.rc
 [Gadu-Gadu User Details]
 Gadu-Gadu подробности за потребителя
@@ -270,7 +270,7 @@ Gadu-Gadu номер:
 [&Block]
 
 [Contact list]
-
+Списък с контакти
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
 [%s connection]
 

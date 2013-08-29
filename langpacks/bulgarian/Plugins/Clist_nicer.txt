@@ -6,30 +6,30 @@
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
 [Displays contacts, event notifications, protocol status.]
-
+Изобразява контакти, уведомявания за събития, състояние на протоколите.
 ;file \plugins\Clist_nicer\res\resource.rc
 [CList Nicer exception]
 
 [Copy to clipboard]
 Копиране в клипборда
 [Continue]
-
+Продължение
 [Exit Miranda]
-
+Изход от Miranda
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
-
+Въпреки проблемът ви можете да продължите работата си с Miranda, но е наложително да рестарти-\nрате програмата възможно най-скоро. Има вероятност грешката да е повредила вътрешната струк-\nтура на данните, което може да се отрази сериозно на стабилността.
 [About CList Nicer+]
 Относно CList Nicer+
 [OK]
 ОК
 [Clist Nicer+]
-
+Clist Nicer+
 [Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
-
+Авторско право © 2004-2010 на проекта Miranda IM, 2012-2013 на проекта Miranda NG.\nПодробности относно правата можете да откриете във включения README файл.
 [Version]
 Версия
 [Support and latest version information]
-
+Поддръжка и информация за последната версия
 [Delete Contact]
 Изтриване на контакта
 [No]
@@ -39,7 +39,7 @@
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Скриване (запазва историята и настройките за игнориране/видимост)
 [Use Options->Contacts->Ignore to unhide contacts.]
-
+Може да отмените скриването от Настройки > Контакти > Игнориране
 [Are you sure you want to delete %s?]
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
 [This will erase all history and settings for this contact!]
@@ -71,7 +71,7 @@
 [Always show status in tooltip]
 Показване на състоянието в подсказка
 [ms]
-
+мсек
 [Event area]
 Зона за събития
 [Set base visiblity on the frames menu]
@@ -111,7 +111,7 @@
 [Center groupnames horizontally]
 Хоризонтално центриране имената на групите
 [Alignment]
-
+Подреждане
 [Margins (left/right)]
 Ръбове (ляво/дясно)
 [Row gap]
@@ -145,9 +145,9 @@
 [Avatars]
 Аватари
 [Show avatars]
-
+Показване на аватари
 [Height]
-
+Височина
 [Draw a border around avatars]
 Добавяне на рамка около аватарите
 [Rounded avatars]
@@ -197,7 +197,7 @@
 [Rounded border]
 Обла рамка
 [Border]
-
+Рамка
 [Title bar text:]
 Заглавна лента:
 [Pin to desktop]
@@ -243,7 +243,7 @@
 [Items]
 Елементи
 [Show divider between online and offline contacts]
-Разделител м/у контактите "На/Извън линия"
+Разделител между контактите които са "На линия" и тези "Извън линия"
 [Hot track items as mouse passes over]
 Изтъкване на посочените с курсора елементи
 [Disable drag and drop of items]
@@ -257,7 +257,7 @@
 [Use full row for selection and hottracking]
 Цялостно маркиране на ред и изтъкване
 [Double click on avatar opens userinfo]
-Две натискания в/у аватар = подробности за потребителя
+Двукратно натискане върху аватар отваря подробностите за потребителя
 [Visual]
 Визуално
 [Scroll list smoothly]
@@ -269,13 +269,13 @@
 [Hide vertical scroll bar]
 Без вертикална лента за придвижване
 [Grey out entire list when:]
-Посивяване на списъка, когато:
+Посивяване на списъка с контакти, при състояние:
 [Contact List Background]
 Фон на списъка с контакти
 [Use Windows colours]
 Цветове от Windows
 [Background colour]
-Цвят на фона
+Фонов цвят
 [Use background image]
 Фоново изображение
 [Stretch to width]
@@ -321,37 +321,37 @@
 [Mark protocols locked from global status changes]
 Маркиране на протоколите, чието състояние не се променя с общото
 [Available view modes]
-
+Налични режими за преглед
 [Include protocols]
-
+Включени протоколи
 [New]
-
+Нов
 [Include groups]
-
+Включени групи
 [Include status modes]
-
+Включени състояния
 [Cancel]
 Отказ
 [Apply]
 Прилагане
 [Sticky contacts]
-
+Постоянни видими контакти
 [Clear all]
-
+Изчисти всички
 [Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-
+Поставяйки списъка с контакти на лявата страна ще можете да изберете контакти, които ще се виждат постоянно при този режим за преглед. За тях няма да важат филтрите, а само посоченият по-долу режим.
 [Protocol]
 Протокол
 [Group]
 Група
 [Status mode]
-
+Състояние
 [Automatically clear this view mode after]
-
+Автоизчистване на режима за преглед след
 [View mode options]
-
+Настройки на режима за преглед
 [Editing view mode]
-
+Редактиране на режима за преглед
 [Last message]
 Последно съобщение
 [Per contact skins:]
@@ -361,7 +361,7 @@
 [Contact list skin]
 Облик на списъка с контакти
 [Load this skin on startup]
-
+Зареждане на облика при стартиране
 [Apply skin now]
 Прилагане на облика
 [Unload skin]
@@ -385,7 +385,7 @@
 [Corner radius]
 Радиус на ъгъла
 [Skin options]
-
+Настройки на облика
 [Group top padding]
 
 [Frame titlebar height]
@@ -403,9 +403,9 @@
 [Messages]
 Съобщения
 [Incoming file transfers]
-
+Входящо прехвърляне на файл
 [URL events]
-
+URL събития
 [Suppress auth requests]
 
 [Suppress added notifications]
@@ -413,9 +413,9 @@
 [Suppress online notifications]
 Без уведомявания "На линия"
 [Ignore all]
-
+Игнорирай всичко
 [Ignore none]
-
+Без игнориране
 [Visibility]
 Видимост
 [Appear always online]
@@ -469,7 +469,7 @@
 [&Hide/Show]
 Показване/Скриване
 [Nowhere]
-
+Никъде
 [&New Group]
 Нова група
 [&Hide Offline Users]
@@ -493,7 +493,7 @@
 [Move marked Contacts to this Group]
 Преместване на маркираните контакти в групата
 [Appearance]
-
+Външен вид
 [Show Status Icons]
 Показване на икони за състояние
 [Show Metacontact proto Icons]
@@ -504,53 +504,53 @@
 Вградена рамка
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
-
+Елементи на облика
 [General]
 Основни
 [Gradient]
-
+Градиент
 [Left to right]
-
+Отляво надясно
 [Right to left]
-
+Отдясно наляво
 [Top to bottom]
-
+Отгоре надолу
 [Bottom to top]
-
+Отдолу нагоре
 [Round corners]
-
+Закръглени ъгли
 [Top-Left]
-
+Горе вляво
 [Top-Right]
-
+Горе вдясно
 [Bottom-Right]
-
+Долу вдясно
 [Bottom-Left]
-
+Долу вляво
 [Item colors]
-
+Цветове на елемента
 [First color]
-
+Първи цвят
 [Textcolor]
-
+Цвят на текста
 [Second color]
-
+Втори цвят
 [Transparent]
-
+Прозрачно
 [Alpha (percent)]
-
+Коефициент на прозрачност (%)
 [Item margins]
-
+Ръбове на елемента
 [Item borders]
-
+Рамка на елемента
 [Border style]
-
+Стил на рамката
 [3D border (bright / dark)]
-
+3D рамка (светло/тъмно)
 [Item ignored]
-
+Игнорирани елементи
 [Not yet supported]
-
+Не се поддържа
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]
 
@@ -582,7 +582,7 @@
 [Minimize contact list]
 Минимизиране на списъка с контакти
 [Status menu]
-
+Меню на състоянието
 [tabSRMM session list]
 tabSRMM списък на разговорите
 [tabSRMM Menu]
@@ -590,7 +590,7 @@ tabSRMM Меню
 [Select view mode]
 Изберете режим за преглед
 [Setup view modes]
-
+Настройване на режимите за преглед
 [Clear view mode]
 Изчистване на режима за преглед
 ;file \plugins\Clist_nicer\src\clcopts.cpp
@@ -623,7 +623,7 @@ tabSRMM Меню
 [Automatic (RTL)]
 Автоматично Л<Д
 [Nothing]
-
+Нищо
 [Name]
 Име
 [Status]
@@ -631,9 +631,9 @@ tabSRMM Меню
 [Message frequency]
 Честота на съобщенията
 [Never]
-
+Никога
 [Always]
-
+Винаги
 [For RTL only]
 Само при Л<Д
 [RTL TEXT only]
@@ -663,9 +663,9 @@ tabSRMM Меню
 [Advanced]
 Разширени
 [Skins]
-
+Облици
 [Contact list]
-
+Списък с контакти
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 Добавяне за постоянно
@@ -702,35 +702,35 @@ tabSRMM Меню
 [Sounds are off]
 Звука е изключен
 [Reset view mode]
-
+Анулиране на режима за преглед
 [Configure view modes]
-
+Настройване на режимите за преглед
 [Setup accounts]
 Настройване на акаунтите
 [Event Area]
-
+Зона за събития
 [My Contacts]
-
+Моите контакти
 [%s Connecting]
 %s свързване
 [Menu]
-
+Меню
 [Open main menu]
 Отваря главното меню
 [Set status modes]
 Задаване режим на състояние
 [The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
-
+Заявеното действие изисква да изберете валиден контакт. Моля, повторете като изберете контакт от списъка с контакти
 [Parameter mismatch]
-
+Несъвпадащи параметри
 [The service %s specified by the %s button definition was not found. You may need to install additional plugins]
-
+Услугата "%s", определена от дефиницията на бутона "%s" не е открита. Вероятно трябва да инсталирате някой допълнителна приставка
 [Service failure]
 
 [You need the FloatingContacts plugin, cause the embedded floating contacts were removed]
-
+Нуждаете се от приставката FloatingContacts. Функционалността бе\nотстранена от приставката за списъка с контакти.
 [Warning]
-
+Предупреждение
 [Standard contacts]
 Стандартни контакти
 [Online contacts to whom you have a different visibility]
@@ -757,7 +757,7 @@ tabSRMM Меню
 Бързо търсен текст
 ;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Title bar]
-
+Заглавна лента
 [Tool Window]
 
 [Thin border]
@@ -771,102 +771,102 @@ tabSRMM Меню
 Загнездване на списъка
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
-
+Зареждане и прилагане
 ;file \plugins\Clist_nicer\src\init.cpp
 [No events...]
-
+Няма събития...
 ;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Ungrouped contacts]
-
+Негрупирани контакти
 [And]
-
+И
 [Or]
-
+Или
 [Older than]
-
+По-стари от
 [Newer than]
-
+По-нови от
 [Minutes]
-
+Минути
 [Hours]
-
+Часове
 [Days]
-
+Дни
 [Current view mode: %s]
 Текущ режим за преглед: %s
 [Filtering]
-
+Филтриране
 [*** All contacts ***]
-
+*** Всички контакти ***
 [Really delete this view mode? This cannot be undone]
-
+Наистина ли желаете режимът за преглед да бъде изтрит? Това действие не може да бъде отменено.
 [Delete a view mode]
-
+Изтриване на режим за преглед
 [No view mode]
 Няма зададен режим за преглед
 [A view mode with this name does alredy exist]
-
+Вече съществува режим за преглед с въведеното име
 [Duplicate name]
-
+Повтарящо се име
 [Setup View Modes...]
-
+Настройване на режимите за преглед...
 [Clear current View Mode]
 Изчистване на текущия режим за преглед
 [Select a view mode]
-
+Изберете режим за преглед
 [Clear view mode and return to default display]
-
+Изчистване на режима за преглед и връщане към стандартния
 [View Modes]
-
+Режими за преглед
 ;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&FrameTitle]
-
+Заглавие на рамката
 [&Visible]
-
+Видима
 [&Show TitleBar]
-
+Показване на заглавна лента
 [&Locked]
-
+Заключена
 [&Collapsed]
-
+Сгъната
 [&Floating Mode]
-
+Плаващ режим
 [&Border]
-
+Рамка
 [&Skinned frame]
 Облицована рамка
 [&Align]
-
+Подреждане
 [&Top]
 
 [&Client]
 
 [&Bottom]
-
+Долу
 [&Position]
-
+Позиция
 [&Up]
-
+Нагоре
 [&Down]
-
+Надолу
 [Frames]
 Рамки
 [Show All Frames]
-
+Показване на всички рамки
 [Show All Titlebars]
-
+Показване на всички заглавни ленти
 [Hide All Titlebars]
-
+Скриване на всички заглавни ленти
 [Lock Frame]
-
+Заключване на рамката
 [Visible]
-
+Видима
 [Show TitleBar]
-
+Показване на заглавна лента
 [Skinned frame]
 Облицована рамка
 [Floating]
-
+Плаващо
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 Търсене/Добавяне на контакти
@@ -877,4 +877,4 @@ tabSRMM Меню
 [&About the contact list...]
 Относно списъка с контакти...
 [&New SubGroup]
-
+Нова подгрупа

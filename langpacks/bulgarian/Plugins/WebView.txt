@@ -13,7 +13,7 @@
 [Update data every]
 
 [minutes]
-
+минути
 [Delay update on start]
 
 [seconds]
@@ -63,7 +63,7 @@
 [Contact name:]
 
 [URL:]
-
+URL:
 [Display]
 
 [Between Start and End strings]

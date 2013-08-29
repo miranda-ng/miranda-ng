@@ -6,7 +6,7 @@
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber protocol support for Miranda NG.]
-
+Осигурява комуникация чрез протокола Jabber в Miranda NG.
 ;file \protocols\JabberG\res\jabber.rc
 [Edit Note]
 Редактиране на бележка
@@ -452,9 +452,9 @@ XML конзола
 [Frame text]
 Текст в рамката
 [Jabber Activity]
-
+Jabber дейност
 [Jabber Mood]
-
+Jabber настроение
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
 
@@ -490,7 +490,7 @@ XML конзола
 [Address (JID or URL)]
 Адрес (JID или URL)
 [Nickname]
-
+Прякор
 [Conferences]
 Конференции
 [Links]
@@ -1176,9 +1176,9 @@ RSS услуга
 [Default privacy list]
 Стандартен списък за поверителност
 [Move up]
-
+Местене нагоре
 [Move down]
-
+Местене надолу
 [Allow Messages]
 Разрешаване на съобщения
 [Allow Presences (in)]
@@ -1296,7 +1296,7 @@ Jabber източник
 [Highest priority (server's choice)]
 Най-голямо предимство (сървърът избира)
 [Status Message]
-
+Текст за състояние
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
@@ -1988,7 +1988,7 @@ Vkontakte
 [Priority]
 Предимство
 [Status message]
-
+Текст за състояние
 [Change global status]
 Промяна на общото състояние
 [Set Options]

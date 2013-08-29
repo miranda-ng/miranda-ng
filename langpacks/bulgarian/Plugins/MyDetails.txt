@@ -47,7 +47,7 @@
 [Right:]
 Дясно:
 [Avatar]
-
+Аватар
 [Custom size:]
 Задаване на размер:
 [pixels]
@@ -57,9 +57,9 @@
 [Draw border]
 
 [Round corners]
-
+Закръглени ъгли
 [Custom corner size:]
-
+Размер на ъгъла:
 [Use free space (under avatar) to other texts]
 Ползване на мястото под аватара за друг текст
 [Global On...]
@@ -121,11 +121,11 @@
 
 ;file \plugins\MyDetails\src\frame.cpp
 [Nickname]
-
+Прякор
 [Status]
 Състояние
 [Status Message]
-
+Текст за състояние
 [Listening To]
 
 [My Details]
@@ -148,7 +148,7 @@
 Скриване на моите детайли
 ;file \plugins\MyDetails\src\mydetails.cpp
 [Listening to]
-
+Слуша..
 [Previous protocol]
 Предишен протокол
 [Next protocol]

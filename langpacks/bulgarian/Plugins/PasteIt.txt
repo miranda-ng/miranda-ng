@@ -45,9 +45,9 @@
 [Cancel]
 Отказ
 [Up]
-
+Нагоре
 [Down]
-
+Надолу
 [Delete]
 Изтриване
 [Restore defaults]
@@ -153,7 +153,7 @@ HTTP връзки на Paste It
 [Paste expire date]
 Изтичане валидността на текста
 [Never]
-
+Никога
 [10 minutes]
 10 минути
 [1 hour]

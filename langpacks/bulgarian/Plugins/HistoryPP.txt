@@ -512,7 +512,7 @@ Enter отваря подробности за събитието
 [Toggle &Processing]
 
 [Toolbar]
-
+Лента с инструменти
 [Incoming SMS Message]
 
 [Link URLs]

@@ -6,7 +6,7 @@
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
 [AOL Instant Messenger (AIM) protocol support for Miranda NG.]
-
+Осигурява комуникация чрез протокола AOL Instant Messenger (AIM) в Miranda NG.
 ;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 AIM подробности за потребителя
@@ -107,7 +107,7 @@ AIM настройки
 [Original]
 
 [New]
-
+Нов
 [Repeat]
 Повтаряне
 [*Passwords don't match.]
@@ -364,7 +364,7 @@ AIM икона
 [Blocked list]
 
 [AOL]
-
+AOL
 [Foreground Color]
 
 [Background Color]
@@ -396,7 +396,7 @@ AIM икона
 [Profile Editor]
 Редактор на профили
 [AIM Account Type]
-Тип на акаунта AIM
+Тип на AIM акаунт
 [AIM Extended Status]
 Разширено състояние AIM
 [&Block]

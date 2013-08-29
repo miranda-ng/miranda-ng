@@ -95,7 +95,7 @@
 [Status on startup]
 
 [ms]
-
+мсек
 [Set after]
 
 [Timeout]
@@ -121,7 +121,7 @@
 [Dial-up (experimental)]
 
 [Background colour]
-Цвят на фона
+Фонов цвят
 [Text colour]
 Цвят на текста
 [Use Windows colours]
@@ -268,25 +268,25 @@
 [Protocol]
 Протокол
 [%s connected from another location]
-
+%s е свързан от друго място 
 [%s login error, cancel reconnecting]
-
+%s грешка при вписването, отказ от свързване
 [%s login error (next retry (%d) in %d s)]
-
+%s грешка при вписването (нов опит (%d) след %dсек)
 [%s status error (next retry (%d) in %d s)]
-
+%s грешка на състоянието (нов опит (%d) след %dсек)
 [Status error (next retry (%d) in %d s)]
-
+Грешка на състоянието (нов опит (%d) след %dсек) 
 [%s\t(will be set to %s)\r\n]
-
+%s\t(ще бъде зададено на)\r\n
 [Resetting status... (last try (%d))%s]
 Задаване на състояние... (последен опит (%d))%s
 [Resetting status... (next retry (%d) in %d s)%s]
-
+Задаване на състояние... (нов опит (%d) след %dсек)%s
 [No internet connection seems available... (last try (%d))]
 Няма налична връзка с интернет... (нов опит (%d))
 [No internet connection seems available... (next retry (%d) in %d s)]
-
+Няма налична връзка с интернет... (нов опит (%d) след %dсек) 
 [Status was set ok]
 Зададено е състояние
 [Giving up]

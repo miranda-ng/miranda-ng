@@ -55,7 +55,7 @@
 [Progress dialogs]
 Прозорци за напредъка
 [Back]
-Назад
+фон
 [Text]
 Текст
 [Colours]

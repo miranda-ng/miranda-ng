@@ -23,7 +23,7 @@
 [Update weather information every]
 Обновяване на атмосферната информацията всеки
 [minutes]
-
+минути
 [Consider weather info updated only when condition and temperature are changed]
 Обновяване при промяна на условията и температурата
 [Remove old data when updating]
@@ -139,7 +139,7 @@ Popup само при промяна на условията
 [Colours]
 Цветове
 [Background colour]
-Цвят на фона
+Фонов цвят
 [Text colour]
 Цвят на текста
 [Use Windows colours]
@@ -195,7 +195,7 @@ Popup текст
 [Reset]
 Анулиране
 [Status Message]
-
+Текст за състояние
 [Sunset]
 Залез
 [Feel-like]
@@ -235,7 +235,7 @@ Popup текст
 [City:]
 Град:
 [Menu]
-
+Меню
 [Dismiss Popup]
 
 [Open brief information]

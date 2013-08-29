@@ -72,9 +72,9 @@
 [Tray/popup icon]
 
 [Enabled]
-
+Включено
 [Disabled]
-
+Изключено
 [Hide]
 
 [NeverHide]
@@ -82,7 +82,7 @@
 [Hiding %s (%S)]
 
 [%d days since last message]
-
+%d от последното съобщение
 [Disable Miss You]
 
 [You awaited this contact!]
@@ -123,7 +123,7 @@
 [Delete the contact]
 
 [Contact name]
-
+Име на контакта
 [has returned after being absent since %d days]
 
 [Contacts]

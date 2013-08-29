@@ -33,7 +33,7 @@ URL
 [Check every]
 
 [minutes]
-
+минути
 [Check Feed]
 
 [Authentication]

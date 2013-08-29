@@ -43,7 +43,7 @@
 [Send formatted text (send RTF)]
 
 [Background colour]
-Цвят на фона
+Фонов цвят
 [Font]
 Шрифт
 [Summary]
@@ -299,7 +299,7 @@ E-поща:
 [Question]
 
 [Warning]
-
+Предупреждение
 [Error]
 Грешка
 [NewMail]

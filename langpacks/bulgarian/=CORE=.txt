@@ -38,7 +38,7 @@
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Скриване (запазва историята и настройките за игнориране/видимост)
 [Use Options->Contacts->Ignore to unhide contacts.]
-
+Може да отмените скриването от Настройки > Контакти > Игнориране
 [Are you sure you want to delete %s?]
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
 [This will erase all history and settings for this contact!]
@@ -46,7 +46,7 @@
 [Contact Display Options]
 Изобразяване на контактите
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
-
+Ако не желаете контактите Ви да бъдат изобразявани с прякора им можете да изберете друг тип име. Влачете за да промените подредбата:
 [Miranda NG Profile Manager]
 Miranda NG диспечер на профили
 [&Run]
@@ -312,7 +312,7 @@ Copyright:
 [Export...]
 Износ...
 [Color/Background]
-Цвят на фона
+Фонов цвят
 [Text Effect]
 Ефекти
 [Text Color]
@@ -460,7 +460,7 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 [E&xit]
 Изход
 [Nowhere]
-
+Никъде
 [&New Group]
 Нова група
 [&Hide Offline Users]
@@ -1076,7 +1076,7 @@ Miranda
 [Enable avatar support in the message window]
 Поддръжка на аватари в прозореца за съобщения
 [Limit avatar height to]
-
+Височина на аватара до
 [Max Number of Flashes]
 Максимален брой мигания
 [Send Error]
@@ -1514,7 +1514,7 @@ Miranda
 [Show popup for users kicking other user]
 Показване на popups при изгонване на потребител
 [Show popup for notices]
-Показване на popup при известие
+Показване на popup за известие
 [Show popup for name changes]
 Показване на popups при промяна на име
 [Show popup for information messages]
@@ -2348,7 +2348,7 @@ Miranda NG настройки
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Нито една от инсталираните приставки за списъка с контакти не може да бъде заредена.
 [Can't find a contact list plugin! You need StdClist or any other clist plugin.]
-
+Не е намерена приставка за списъка с контакти! Необходима е StdClist или всяка друга clist приставка. 
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Приставка

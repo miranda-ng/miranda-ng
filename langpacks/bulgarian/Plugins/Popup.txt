@@ -6,7 +6,7 @@
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
-
+Услуга за popup уведомяване за останалите приставки.
 ;file \plugins\Popup\res\resource.rc
 [Content && Style]
 Съдържание и стил
@@ -69,17 +69,17 @@
 [Time (in):]
 
 [ms]
-
+мсек
 [Time (out):]
 Избледняване:
 [Limit window amount to:]
 Максимален брой прозорци:
 [Skins]
-
+Облици
 [* - built-in skins]
 * - вграден
 [Skin options]
-
+Настройки на облика
 [Preview]
 Преглед
 [Download more skins]
@@ -341,7 +341,7 @@ Popup група
 [On the phone]
 На телефона
 [Width]
-
+Ширина
 [upper left corner]
 горен ляв ъгъл
 [lower left corner]
@@ -397,7 +397,7 @@ Popup Plus Предупреждение
 [Error]
 Грешка
 [Warning]
-
+Предупреждение
 [Notify]
 
 ;file \plugins\Popup\src\skin.cpp

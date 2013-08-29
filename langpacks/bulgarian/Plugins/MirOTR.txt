@@ -15,13 +15,13 @@ OTR създаване на нов частен ключ
 [Default Policy]
 Стандартна политика
 [Always]
-
+Винаги
 [Opportunistic]
 Опортюнистично
 [Manual]
 Ръчно
 [Never]
-
+Никога
 [End sessions on window close]
 Приключване на сесията при затваряне на прозореца за съобщения
 [End sessions when contacts go offline]

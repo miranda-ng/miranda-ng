@@ -126,9 +126,9 @@
 [IEView]
 
 [Skins]
-
+Облици
 [Template]
-
+Шаблон
 [All Files]
 Всички файлове
 [All Images]

@@ -39,7 +39,7 @@
 [days as spam]
 
 [Enabled]
-
+Включено
 [and learn as ham]
 
 [Enabled accounts:]
@@ -97,7 +97,7 @@
 [Contact approved]
 
 [Appearance]
-
+Външен вид
 [Foreground]
 
 [Background]

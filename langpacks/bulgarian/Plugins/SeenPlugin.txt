@@ -144,7 +144,7 @@ Popups
 [AM/PM]
 AM/PM
 [minutes]
-
+минути
 [seconds]
 секунди
 [-- User --]
@@ -160,7 +160,7 @@ AM/PM
 [Status]
 Състояние
 [Status message]
-
+Текст за състояние
 [Old status]
 Старо състояние
 [external IP]

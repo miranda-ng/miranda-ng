@@ -61,7 +61,7 @@ foobar2000 (необходимо е да инсталирате компонен
 [mRadio]
 mRadio
 [Listening to]
-
+Слуша..
 [Template:]
 Шаблон:
 [Variables:]

@@ -6,7 +6,7 @@
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
-
+Осигурява комуникация чрез социалната мрежа Facebook в Miranda NG.
 ;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
 Имейл:
@@ -23,7 +23,7 @@
 [Text:]
 Текст:
 [URL:]
-
+URL:
 [Place:]
 
 [Share]
@@ -55,7 +55,7 @@
 [News Feed types to notify:]
 Уведомяване за следните новини:
 [Other events]
-
+Други събития
 [Client notifications]
 Уведомявания
 [Preview]

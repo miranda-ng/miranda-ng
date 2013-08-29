@@ -202,7 +202,7 @@ QQ 2000
 [Windows overlay]
 Windows
 [iOS overlay (iPhone/iPad)]
-iOS overlay (iPhone/iPad)
+iOS (iPhone/iPad)
 [MacOS overlay]
 MacOS
 [Linux overlay]

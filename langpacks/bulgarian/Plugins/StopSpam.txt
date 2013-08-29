@@ -19,7 +19,7 @@
 [Auth. request reply:]
 
 [Divider:]
-
+Разделител:
 [Vars]
 
 [Disable protection for following accounts:]

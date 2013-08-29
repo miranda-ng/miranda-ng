@@ -59,9 +59,9 @@
 [Sounds]
 Звук
 [Disable sounds]
-
+Изключване на звука
 [Enable sounds]
-
+Включване на звука
 [Frame Background]
 
 [Bass library]

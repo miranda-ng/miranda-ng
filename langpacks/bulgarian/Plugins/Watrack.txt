@@ -390,7 +390,7 @@ VBR или празно
 [Show by request only]
 Показване само при заявка
 [second line]
-
+втори ред
 [Cover filenames]
 Име на обложката
 [Music Info]
@@ -566,7 +566,7 @@ VBR или празно
 [Manual element placement]
 Ръчно позициониране
 [Alpha]
-
+Алфа
 [Hide when no player]
 
 [Hide when no music]
@@ -621,7 +621,7 @@ VBR или празно
 [Scrobble at]
 
 [Timeout, ms]
-Закъснение, мс
+Закъснение, мсек
 [Get Series Info]
 Инф. за поредицата
 [Episode]

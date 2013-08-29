@@ -81,9 +81,9 @@ HTTP връзки на SmileyAdd
 [Off]
 Изкл.
 [Top]
-
+Горе
 [Bottom]
-
+Долу
 [Smiley Packs]
 Пакети усмивки
 [All Files]

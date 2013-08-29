@@ -77,7 +77,7 @@
 [About:]
 Относно:
 [Mood:]
-
+Настроение:
 [E-mail 1:]
 
 [E-mail 2:]
@@ -135,7 +135,7 @@
 [No one]
 
 [Show avatars]
-
+Показване на аватари
 [Contacts count]
 
 [Local time]

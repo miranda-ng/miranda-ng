@@ -113,7 +113,7 @@
 [Icon flashing on event]
 Мигане на иконата при събитие
 [Enabled]
-
+Включено
 [Perform check on each startup]
 Проверка при всяко стартиране
 [Time of last check:]
@@ -131,7 +131,7 @@ popup за рожден ден
 [r]
 
 [Background colour]
-Цвят на фона
+Фонов цвят
 [Text colour]
 Цвят на текста
 [Use Windows colours]
@@ -271,9 +271,9 @@ popup за годишнина
 [ContactMenu]
 Меню на контактите
 [GroupMenu]
-
+Меню на групите
 [SubGroupMenu]
-
+Меню на подгрупите
 [AccountMenu]
 Меню на акаунтите
 [Extra Icons]
@@ -283,13 +283,13 @@ popup за годишнина
 [Replace the following default icons:]
 Замяна на следните стандартни икони:
 [Homepage]
-
+Домашна страница
 [Phone]
 Телефон
 [E-Mail]
 Имейл
 [Gender]
-
+Пол
 [Misc]
 
 [Show 'Restart' menu item]
@@ -432,7 +432,7 @@ popup за годишнина
 [Date]
 
 [All contacts]
-
+Всички контакти
 [Birthdays only]
 Само рождени дни
 [Anniversaries only]
@@ -484,7 +484,7 @@ popup за годишнина
 [Contact (Work)]
 Данни (Работни)
 [About]
-
+Относно
 [Profile]
 Профил
 [Notes]
@@ -1176,7 +1176,7 @@ Popups
 Събития: %S
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
 [All Contacts]
-
+Всички контакти
 [Required modules]
 Необходими модули
 [Optional modules]

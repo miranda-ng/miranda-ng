@@ -17,7 +17,7 @@
 [Background color]
 
 [Transparent]
-
+Прозрачно
 [Shadow color]
 
 [Alternative shadow]
@@ -29,13 +29,13 @@
 [Shadow]
 
 [Align]
-
+Подреждане
 [Shadow distance:]
 
 [Other]
 Друго
 [Alpha:]
-
+Алфа:
 [Announce]
 
 [Timeout (ms):]

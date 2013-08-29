@@ -23,7 +23,7 @@ UTF8 за нови файлове
 [Auto filename]
 
 [Clear all]
-
+Изчисти всички
 [Help]
 Помощ
 [Export all history]

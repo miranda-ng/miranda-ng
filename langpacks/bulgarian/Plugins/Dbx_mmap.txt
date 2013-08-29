@@ -6,7 +6,7 @@
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
-
+Осигурява поддръжка на бази от данни за Miranda: общи настройки, контакти, история, настройки за отделните контакти.
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
 [Install Database Settings]
 Инсталиране на нови настройки в базата от данни

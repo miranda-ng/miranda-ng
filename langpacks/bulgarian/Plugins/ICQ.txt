@@ -6,7 +6,7 @@
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc
 ;============================================================
 [ICQ protocol support for Miranda NG.]
-
+Осигурява комуникация чрез протокола ICQ в Miranda NG.
 ;file \protocols\IcqOscarJ\res\resources.rc
 [ICQ Number:]
 ICQ номер:
@@ -169,7 +169,7 @@ ICQ аватари
 [Note]
 
 [Warning]
-
+Предупреждение
 [Error]
 Грешка
 [Fatal]
@@ -251,7 +251,7 @@ ICQ аватари
 [Past]
 
 [Homepage]
-
+Домашна страница
 [Other]
 Друго
 [Search online users only]
@@ -1635,7 +1635,7 @@ Popups
 Поздравителна картичка:
 ;file \protocols\IcqOscarJ\src\init.cpp
 [ICQ XStatus]
-
+ICQ хСъстояние
 ;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
 ICQ предупреждение
@@ -1809,15 +1809,15 @@ GMT+12:00 Оукланд; Уелингтън; Фиджи; Камчатка; Ма
 [Personal]
 Лична
 [Nickname]
-
+Прякор
 [First name]
 Име
 [Last name]
 Фамилия
 [Gender]
-
+Пол
 [About]
-
+Относно
 [Password]
 Парола
 [Contact]

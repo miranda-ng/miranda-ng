@@ -29,7 +29,7 @@
 [Opacity(%):]
 
 [Border]
-
+Рамка
 [Round corners (window)]
 
 [Preview]
@@ -55,7 +55,7 @@
 [Text colour:]
 
 [Background colour:]
-
+Цвят на фона:
 [Set timeout]
 Задаване на времетраене
 [Timeout value (0 = default):]
@@ -102,7 +102,7 @@
 [Time above avatar]
 Час над аватара
 [No avatar]
-
+Без аватар
 [Left avatar]
 
 [Right avatar]
@@ -138,9 +138,9 @@ Popups
 [First line]
 Първи ред
 [Second line]
-
+Втори ред
 [Time]
-
+Час
 [Background]
 Фон
 [Sidebar]

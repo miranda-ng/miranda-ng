@@ -6,7 +6,7 @@
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 [A contact list for blind folks.]
-
+Списък за контакти предназначен за хора с увредено зрение.
 ;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
 Изтриване на контакта
@@ -21,21 +21,21 @@
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 Скриване (запазва историята и настройките за игнориране/видимост)
 [Use Options->Contacts->Ignore to unhide contacts.]
-
+Може да отмените скриването от Настройки > Контакти > Игнориране
 [Hotkeys]
 Клавишни комбинации
 [Show/Hide:]
-
+Показване/Скриване:
 [Read Message:]
-
+Прочитане на съобщение:
 [Web Search:]
-
+Уеб търсене:
 [URL:]
-
+URL:
 [Open in new browser window]
-
+Отваряне в нов прозорец
 [Show Options]
-
+Показване на настройкте
 [Hide offline users]
 Скриване на контактите "Извън линия"
 [Hide empty groups]
@@ -57,7 +57,7 @@
 [Disable icon blinking]
 Без мигане на икони
 [ms delay]
-мс времетраене
+мсек времетраене
 [Show]
 Показване
 [icon when statuses differ]
@@ -137,15 +137,15 @@
 [Quicksearch in open groups only]
 Бързо търсене само в отворените групи
 [Templates]
-
+Шаблони
 [Contact:]
-
+Контакт:
 [Group:]
 Група:
 [Divider:]
-
+Разделител:
 [Info:]
-
+Информация:
 [Status Bar]
 Лента за състояние
 [Show status bar]
@@ -195,7 +195,7 @@
 [&Hide/Show]
 Показване/Скриване
 [Nowhere]
-
+Никъде
 [&New Group]
 Нова група
 [&Hide Offline Users]
@@ -244,9 +244,9 @@
 [Group: %name% %count% [%mode%]]
 
 [Divider: %s]
-
+Разделител: %s
 [Info: %s]
-
+Информация: %s
 [List]
 Списък
 ;file \plugins\Clist_blind\src\clistopts.cpp
@@ -255,7 +255,7 @@
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp
 [Unknown Protocol]
-
+Непознат протокол
 [Expanded]
 Разгърната
 [Colapsed]

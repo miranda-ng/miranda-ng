@@ -95,7 +95,7 @@
 [Status on startup]
 
 [ms]
-
+мсек
 [Set after]
 
 [Timeout]
@@ -121,7 +121,7 @@
 [Dial-up (experimental)]
 
 [Background colour]
-Цвят на фона
+Фонов цвят
 [Text colour]
 Цвят на текста
 [Use Windows colours]
@@ -270,9 +270,9 @@
 [<current>]
 
 [Left]
-
+Ляво
 [Right]
-
+Дясно
 [None]
 Няма
 [size: %d x %d]
