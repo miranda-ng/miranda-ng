@@ -2,6 +2,8 @@
 #include "shlcom.h"
 #include "shlicons.h"
 
+#pragma comment(lib, "rpcrt4.lib")
+
 static bool VistaOrLater;
 
 struct SHLCOM
@@ -605,8 +607,10 @@ HRESULT TShlComRec::QueryInterface(REFIID riid, void **ppvObject)
 	}
 
 	*ppvObject = NULL;
-	logA("TShlComRec[%p] failed as {%08x-%04x-%04x-%08x%08x}\n",
-		riid.Data1, riid.Data2, riid.Data3, &riid.Data4[0], &riid.Data4[4]);
+	RPC_CSTR szGuid;
+	UuidToStringA(&riid, &szGuid);
+	logA("TShlComRec[%p] failed as {%s}\n", this, szGuid);
+	RpcStringFreeA(&szGuid);
 	return CLASS_E_CLASSNOTAVAILABLE;
 }
 
@@ -1534,8 +1538,10 @@ STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
 	}
 
 	*ppv = NULL;
-	logA("DllGetClassObject {%08x-%04x-%04x-%08x%08x} failed\n",
-		rclsid.Data1, rclsid.Data2, rclsid.Data3, &rclsid.Data4[0], &rclsid.Data4[4]);
+	RPC_CSTR szGuid;
+	UuidToStringA(&riid, &szGuid);
+	logA("DllGetClassObject {%08x-%04x-%04x-%08x%08x} failed\n", szGuid);
+	RpcStringFreeA(&szGuid);
 
 	return CLASS_E_CLASSNOTAVAILABLE;
 }
