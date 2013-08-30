@@ -429,7 +429,7 @@ void __stdcall ipcService(ULONG_PTR dwParam)
 		// if the group mode is on, check if they want the CList setting
 		bool bGroupMode = (BST_CHECKED == db_get_b(0, SHLExt_Name, SHLExt_UseGroups, BST_UNCHECKED));
 		if (bGroupMode && BST_CHECKED == db_get_b(0, SHLExt_Name, SHLExt_UseCListSetting, BST_UNCHECKED)) 
-			bGroupMode = (1 == db_get_b(0, "CList", "UseGroups", 0));
+			bGroupMode = db_get_b(0, "CList", "UseGroups", true) != 0;
 
 		int iSlot = 0;
 		// return profile if set
