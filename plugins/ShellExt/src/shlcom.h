@@ -120,6 +120,7 @@ struct THeaderIPC
 struct TShellExt : public IShellExtInit, public IContextMenu3, public MZeroedObject
 {
 	TShellExt();
+	~TShellExt();
 
 	ULONG RefCount;
 	// this is owned by the shell after items are added 'n' is used to
