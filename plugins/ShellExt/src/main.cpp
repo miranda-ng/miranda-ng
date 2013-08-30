@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "shlcom.h"
 
 HINSTANCE hInst;
 int hLangpack;
@@ -27,6 +28,9 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 		hInst = hinstDLL;
 		DisableThreadLibraryCalls(hinstDLL);
+
+		extern bool VistaOrLater;
+		VistaOrLater = GetProcAddress( GetModuleHandleA("kernel32.dll"), "GetProductInfo") != NULL;
 	}
 
 	return TRUE;
@@ -35,6 +39,43 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfoEx;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// exported functions
+
+const IID CLSID_ISHLCOM = { 0x72013A26, 0xA94C, 0x11d6, {0x85, 0x40, 0xA5, 0xE6, 0x29, 0x32, 0x71, 0x1D }};
+
+STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv)
+{
+	if (rclsid == CLSID_ISHLCOM) {
+		TClassFactoryRec *p = new TClassFactoryRec();
+		HRESULT hr = p->QueryInterface(riid, ppv);
+		if ( FAILED(hr)) {
+			delete p;
+			return hr;
+		}
+		logA("DllGetClassObject succeeded\n");
+		return S_OK;
+	}
+
+	#ifdef LOG_ENABLED
+		RPC_CSTR szGuid;
+		UuidToStringA(&riid, &szGuid);
+		logA("DllGetClassObject {%08x-%04x-%04x-%08x%08x} failed\n", szGuid);
+		RpcStringFreeA(&szGuid);
+	#endif
+
+	*ppv = NULL;
+	return CLASS_E_CLASSNOTAVAILABLE;
+}
+
+STDAPI DllCanUnloadNow()
+{
+	logA("DllCanUnloadNow: %d %d\n", DllFactoryCount, DllObjectCount);
+	if (DllFactoryCount == 0 && DllObjectCount == 0)
+		return S_OK;
+	return S_FALSE;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

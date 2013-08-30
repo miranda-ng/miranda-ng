@@ -46,8 +46,14 @@ HRESULT RemoveCOMRegistryEntries();
 
 extern  HINSTANCE hInst;
 extern  HANDLE hLogger;
+extern  int DllFactoryCount, DllObjectCount;
+extern  bool VistaOrLater;
 
 int OnOptionsInit(WPARAM wParam, LPARAM lParam);
+
+#ifdef _DEBUG
+#define LOG_ENABLED
+#endif
 
 #ifdef LOG_ENABLED
 void logA(const char *format, ...);

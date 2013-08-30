@@ -201,6 +201,8 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\shlcom.cpp" />
+    <ClCompile Include="src\shlext.cpp" />
+    <ClCompile Include="src\shlfactory.cpp" />
     <ClCompile Include="src\shlicons.cpp" />
     <ClCompile Include="src\shlipc.cpp" />
     <ClCompile Include="src\stdafx.cpp">

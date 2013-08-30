@@ -40,6 +40,9 @@
 
 #define HIPC_NOICONS   1
 
+#define IPC_PACKET_SIZE (0x1000 * 32)
+#define IPC_PACKET_NAME "m.mi.miranda.ipc.server"
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 struct TGroupNode
@@ -114,9 +117,9 @@ struct THeaderIPC
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct TShlComRec : public IShellExtInit, public IContextMenu3
+struct TShellExt : public IShellExtInit, public IContextMenu3, public MZeroedObject
 {
-	TShlComRec();
+	TShellExt();
 
 	ULONG RefCount;
 	// this is owned by the shell after items are added 'n' is used to
@@ -158,7 +161,7 @@ struct TShlComRec : public IShellExtInit, public IContextMenu3
 
 struct TEnumData
 {
-	TShlComRec *Self;
+	TShellExt *Self;
 
    // autodetected, don't hard code since shells that don't support it
    // won't send WM_MEASUREITETM/WM_DRAWITEM at all.
@@ -170,6 +173,20 @@ struct TEnumData
 	// OpenEvent()'d handle to give each IPC server an object to set signalled
 	HANDLE hWaitFor;
 	DWORD pid; // sub-unique value used to make work object name
+};
+
+struct TClassFactoryRec : public IClassFactory
+{
+	TClassFactoryRec();
+
+	LONG RefCount;
+
+	HRESULT STDMETHODCALLTYPE QueryInterface(REFIID riid, void **ppvObject);
+	ULONG   STDMETHODCALLTYPE AddRef(void);
+	ULONG   STDMETHODCALLTYPE Release(void);
+
+	HRESULT STDMETHODCALLTYPE CreateInstance(IUnknown *pUnkOuter, REFIID riid, void **ppvObject);
+	HRESULT STDMETHODCALLTYPE LockServer(BOOL fLock);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -205,3 +222,5 @@ void ipcFixupAddresses(BOOL FromServer, THeaderIPC *pipch);
 
 TGroupNode* AllocGroupNode(TGroupNodeList *list, TGroupNode *Root, int Depth);
 TGroupNode* FindGroupNode(TGroupNode* p, const DWORD Hash, int Depth);
+
+char* CreateProcessUID(int pid, char *buf, size_t bufLen);
