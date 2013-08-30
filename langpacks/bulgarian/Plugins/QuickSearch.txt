@@ -50,7 +50,7 @@
 [Ext IP]
 
 [Last Event]
-
+Последно събитие
 [Online Since]
 
 [Quick Search Options]
@@ -118,19 +118,19 @@
 [UNIQUEID]
 
 [This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.]
-
+Дава възможност за бързо търсене на прякори, малки имена, фамилии, имейл, UIN в списъка с контакти. Може да бъде добавена, която и да е стойност от списъка, напр. версия на Miranda, група или град.
 [This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.Press F3 for activate...]
 
 [New Column]
-
+Нова колона
 [Save Column]
-
+Запис на колоната
 [Column Up]
-
+Нагоре
 [Column Down]
-
+Надолу
 [Delete Column]
-
+Изтриване на колона
 [Only Users in List]
 Само потребители от списъка
 [Show Client Icons]
@@ -142,9 +142,9 @@
 [Tool Window Style]
 
 [Global scope hotkey]
-
+За Windows
 [Miranda scope hotkey]
-
+Само за Miranda
 [CSV with headers]
 CSV с горни колонтитули
 [Skip minimized columns]
@@ -170,19 +170,19 @@ CSV с горни колонтитули
 [Script Editor]
 Редактор на скриптове
 [Normal foreground]
-
+Стандартен фон
 [Odd background]
-
+Фон на странните редове
 [Odd foreground]
-
+Цвят на текста в странен ред
 [Disabled account background]
-
+Фон на редовете с изключен акаунт
 [Disabled account foreground]
-
+Цвят на текста за изключен акаунт
 [Deleted account background]
-
+Фон на редовете с изтрит акаунт
 [Deleted account foreground]
-
+Цвят на текста за изтрит акаунт
 [Not-in-list contact background]
 
 [Not-in-list contact foreground]
@@ -196,27 +196,27 @@ CSV с горни колонтитули
 [One or more contacts in same Meta already. Try to convert anyway?]
 
 [Metacontact background]
-
+Фон на редовете с метаконтакт
 [Metacontact foreground]
-
+Цвят на текста за метаконтакт
 [SubMetacontact background]
-
+Фон на редовете с под-метаконтакт
 [SubMetacontact foreground]
-
+Цвят на текста за под-метаконтакт
 [%u users found (%u) Online: %u]
 
 [ users found (]
  открити потребители (
 [) Online: ]
-) На линия:
+) На линия:\s
 [Colorize]
 Оцветяване
 [Metacontact]
 Метаконтакт
 [Hidden contact background]
-
+Фон на редовете със скрит контакт
 [Hidden contact foreground]
-
+Цвят на текста за скрит контакт
 [QuickSearch window hotkey]
 
 [Previous item]
@@ -226,4 +226,4 @@ CSV с горни колонтитули
 [Open main window]
 Отваряне на главния прозорец
 [Frame background]
-
+Фон на рамката

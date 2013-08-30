@@ -6,7 +6,7 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 [Helps you manage Language Packs of different languages.]
-
+Спомага за управлението на езиковите пакети.
 ;file \plugins\LangMan\res\resource.rc
 [Author(s):]
 Автор(и):
@@ -17,7 +17,7 @@
 [Date:]
 Дата:
 [Version:]
-
+Версия:
 [Locale:]
 Език:
 [Download more Language Packs]
@@ -26,7 +26,7 @@
 Моля, рестартирайте Miranda NG, за да бъдат осъществени промените.
 ;file \plugins\LangMan\src\main.cpp
 [Reload langpack]
-
+Презареждане на пакета
 ;file \plugins\LangMan\src\options.cpp
 [All installed plugins are included.]
 Всички инсталирани приставки са включени.

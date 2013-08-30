@@ -47,13 +47,13 @@
 [Use individual sounds]
 Ползване на индивидуални звуци
 [Log to file]
-
+Запис във файл
 [Enable]
-
+Включване
 [Go to Sound to select the sounds]
 
 [Extra status]
-
+Допълнително състояние
 [Open]
 
 [Status message]
@@ -61,7 +61,7 @@
 [IndSndList]
 
 [Change]
-
+Промяна
 [Preview]
 Преглед
 [Delete]
@@ -69,7 +69,7 @@
 [Enable sounds]
 Включване на звука
 [Enable popups]
-
+Включване на popups
 [Status Notify]
 Уведомяване за състояния
 [Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
@@ -129,13 +129,13 @@ Popups
 [Ignore empty status and xStatus messages]
 
 [Notification]
-
+Уведомяване
 [Disable for extra status 'Music']
 Изключване за допълнително състояние "Слуша музика"
 [Truncate message length to:]
-
+Орязване на съобщенията до:
 [characters]
-
+знака
 [Templates]
 Шаблони
 [Title - text delimiter:]
@@ -147,11 +147,11 @@ Popups
 [New status:]
 Ново състояние:
 [Variables]
-
+Променливи
 [Reset]
 Анулиране
 [Disable notifications]
-
+Без уведомяване
 [OK]
 ОК
 [Cancel]
@@ -204,9 +204,9 @@ Popups
 [Contact]
 Контакт
 [connecting]
-
+свързване
 [aborting]
-
+прекратяване
 [playing]
 
 [%s is now %s]
@@ -333,7 +333,7 @@ Popups
 [Filtering]
 Филтриране
 [Message log]
-
+Дневник за съобщения
 ;file \plugins\NewXstatusNotify\src\popup.h
 [Open message window]
 
@@ -342,23 +342,23 @@ Popups
 [Open contact details window]
 
 [Open contact menu]
-
+Отваря менюто на контакта
 [Open contact history]
 
 [Do nothing]
 Нищо
 ;file \plugins\NewXstatusNotify\src\utils.cpp
 [You cannot specify a value lower than %d and higher than %d.]
-
+Не е възможно задаването на стойност по-малка от %d и по-голяма от %d.
 [Can't open the log file!]
 Дневникът не може да бъде отворен!
 [NewXstatusNotify]
 
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
 [Mood]
-
+Настроение
 [Activity]
-
+Дейност
 [Xstatus]
 хСъстояние
 [<unknown>]

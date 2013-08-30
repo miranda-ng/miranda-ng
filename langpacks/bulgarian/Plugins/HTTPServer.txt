@@ -15,7 +15,7 @@
 [Max downloads]
 
 [Address]
-
+Адрес
 [Mask]
 
 [Share name]
@@ -45,7 +45,7 @@
 [Open log]
 
 [Show popups]
-
+Показване на popups
 [Page keyword]
 
 [URL address]
@@ -63,7 +63,7 @@
 [Index creation]
 
 [Disable]
-
+Изключване
 [Create HTML (compatibility)]
 
 [Create XML]
@@ -103,7 +103,7 @@
 [Real path]
 
 [User]
-
+Потребител
 [Agent]
 
 [Completed]

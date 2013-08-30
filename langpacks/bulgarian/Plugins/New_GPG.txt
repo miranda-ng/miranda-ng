@@ -43,7 +43,7 @@
 [Export private key]
 
 [Change password]
-
+Промяна на паролата
 [Set GPG bin path and keyring home dir.]
 
 [Continue]
@@ -53,7 +53,7 @@
 [GnuPG binary:]
 
 [Browse]
-
+Разглеждане
 [Turn on key autoexchange]
 
 [The new public key was recieved]
@@ -65,7 +65,7 @@
 [Ignore]
 Игнориране
 [Static]
-
+Статичен
 [Key Generation dialog]
 
 [Cancel]
@@ -77,7 +77,7 @@
 [Real name:]
 
 [Email:]
-
+Имейл:
 [Comment:]
 Коментар:
 [Expire date:]
@@ -181,7 +181,7 @@
 
 ;file \plugins\New_GPG\src\main.cpp
 [Email]
-
+Имейл
 [Name]
 Име
 [Creation date]

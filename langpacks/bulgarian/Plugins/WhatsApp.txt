@@ -48,7 +48,7 @@
 
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
-
+%s връзка със сървъра
 [Unable to get Netlib connection for WhatsApp]
 
 [Network-connection error.]

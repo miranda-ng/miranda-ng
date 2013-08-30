@@ -57,7 +57,7 @@ OTR създаване на нов частен ключ
 [Set unknown]
 Задай непознат
 [Forget]
-
+Забравяне
 [Socialist Millionaires Protocol]
 
 [Socialist Millionaires Protocol\r\nVerification progress]
@@ -65,7 +65,7 @@ OTR създаване на нов частен ключ
 [&Cancel]
 Отказ
 [&OK]
-
+ОК
 [Socialist Millionaires Protocol\r\nVerification]
 
 [&No]
@@ -160,7 +160,7 @@ OTR ненадеждно
 [General]
 Основни
 [Protocols]
-
+Протоколи
 [Contacts]
 Контакти
 [Fingerprints]
@@ -174,7 +174,7 @@ OTR ненадеждно
 [Verified]
 Потвърдено
 [Active]
-
+Активно
 [Fingerprint]
 Fingerprint
 [Conv. HTML]
@@ -206,7 +206,7 @@ OTR удостоверяване на %s (%s)
 [Secret Answer]
 Таен отговор
 [Question]
-
+Въпрос
 [Password]
 Парола
 [Authentication sucessful.]

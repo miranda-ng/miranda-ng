@@ -33,7 +33,7 @@
 [Deep search]
 
 [Static]
-
+Статичен
 [Colour Select]
 
 [Incoming messages]
@@ -63,7 +63,7 @@
 [Show...]
 
 [Date]
-
+Дата
 [Parting line]
 
 [Timestamp]
@@ -75,7 +75,7 @@
 [&File]
 Файл
 [&Save]
-
+Запис
 [&Close]
 Затваряне
 [&Options]
@@ -103,7 +103,7 @@
 [Open in new Window]
 
 [Copy to Clipboard]
-
+Запис в клипборда
 [Show Message]
 
 ;file \plugins\HistoryLinkListPlus\src\language.h
@@ -120,7 +120,7 @@
 [outgoing]
 
 [Filter]
-
+Филтър
 [no filter]
 
 [Search Filter]

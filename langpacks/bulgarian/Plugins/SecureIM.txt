@@ -45,7 +45,7 @@
 [Reset All]
 
 [Protocols]
-
+Протоколи
 [Split Messages]
 
 [Online:]
@@ -63,7 +63,7 @@
 [E&xport]
 
 [Private]
-
+Частно
 [&Export]
 Износ
 [&Import]
@@ -75,7 +75,7 @@
 [Load &Private key]
 
 [Basic]
-
+Основни
 [Executable:]
 
 [Home Directory:]
@@ -103,7 +103,7 @@
 [SecureIM Popup Colors]
 
 [Preview]
-Преглед
+Образец
 [Events]
 Събития
 [Popup Timeout]
@@ -139,7 +139,7 @@
 [Enter passphrase for the secret key:]
 
 [Mode]
-
+Режим
 [Native SecureIM]
 
 [PGP SecureIM]
@@ -242,7 +242,7 @@
 [Name]
 Име
 [Password is too short!]
-
+Паролата е твърде кратка!
 [ON]
 
 [Off]
@@ -258,7 +258,7 @@
 [This version not supported!]
 
 [(none)]
-
+(никакво)
 [Private key loaded.]
 
 [Private key not loaded!]
@@ -341,7 +341,7 @@
 [Connection Established]
 
 [Contact Menu]
-
+Меню на контакта
 [Disable Secure Connection]
 
 [Establishe Secure Connection]

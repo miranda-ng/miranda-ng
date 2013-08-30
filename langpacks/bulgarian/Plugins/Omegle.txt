@@ -9,9 +9,9 @@
 
 ;file \protocols\Omegle\res\omegle.rc
 [Server:]
-
+Сървър:
 [Language:]
-
+Език:
 [Visible name:]
 
 [Meet strangers with common interests (separated by commas):]
@@ -40,7 +40,7 @@
 
 ;file \protocols\Omegle\src\chat.cpp
 [Server]
-
+Сървър
 [Last question is empty.]
 
 [Your question is too short.]
@@ -85,7 +85,7 @@
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
 
 [Error: ]
-
+Грешка:\s
 [We are still waiting...]
 
 ;file \protocols\Omegle\src\connection.cpp
@@ -101,14 +101,14 @@
 
 ;file \protocols\Omegle\src\constants.h
 [Random]
-
+Произволен
 [Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
 
 [You both speak the same language.]
 
 ;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
-
+%s връзка със сървъра
 [Unable to get Netlib connection for Omegle]
 
 [Stranger typing]

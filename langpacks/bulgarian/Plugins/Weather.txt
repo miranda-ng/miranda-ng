@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
-
+Извлича метеорологична информация и я представя в списъка с контакти.
 ;file \plugins\Weather\res\resource.rc
 [Update]
 Обнови
@@ -37,7 +37,7 @@
 [Avatar only mode]
 Режим само с аватар
 [Units]
-
+Единици
 [Temperature]
 Температура
 [Celsius]
@@ -49,13 +49,13 @@
 [Wind]
 Вятър
 [km/h]
-
+км/ч
 [m/s]
-
+м/сек
 [mph]
-
+мили/ч
 [knots]
-
+възела
 [Visibility]
 Видимост
 [km]
@@ -69,13 +69,13 @@
 [mb (hPa)]
 
 [inches]
-
+инча
 [mm Hg (torr)]
 
 [Day/Month]
 Ден/Месец
 [No change]
-
+Без промяна
 [2 chars]
 2 знака
 [3 chars]
@@ -111,9 +111,9 @@
 [Overwrite file upon update]
 Презаписване при обновяване
 [Path:]
-
+Път:
 [Link Settings]
-
+Настройки на връзката
 [More Info URL]
 URL за още инф.
 [Weather Map]
@@ -127,13 +127,13 @@ URL за още инф.
 [Disable Popup for this station]
 Без Popup за станцията
 [Change]
-
+Промяна
 [Cancel]
 Отказ
 [Popup Options]
-
+PopUp настройки
 [Enable popups]
-
+Включване на popups
 [Popup only when condition changes]
 Popup само при промяна на условията
 [Colours]
@@ -153,23 +153,23 @@ Popup Действия
 [Popup Delay]
 Popup времетраене
 [Delay]
-
+Закъснение
 [seconds]
 секунди
 [From Popup plugin]
 От приставката Popup
 [Permanent]
-
+Постоянно
 [Popup Text]
 Popup текст
 [Popup Title]
-
+Popup заглавие
 [Variables]
-
+Променливи
 [Default]
 Стандарт
 [Preview]
-Преглед
+Образец
 [Updates]
 Обновления
 [Alerts]
@@ -187,9 +187,9 @@ Popup текст
 [External Log]
 Външен дневник
 [History Log]
-
+Дневник на историята
 [Variable List]
-
+Списък с променливи
 [More Variables]
 Още променливи
 [Reset]
@@ -211,7 +211,7 @@ Popup текст
 [Humidity]
 Влажност
 [More...]
-
+Още...
 [Weather Protocol INI Setup]
 
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
@@ -237,7 +237,7 @@ Popup текст
 [Menu]
 Меню
 [Dismiss Popup]
-
+Затваряне на Popup
 [Open brief information]
 Отваряне на кратка прогноза
 [Open complete forecast]
@@ -247,9 +247,9 @@ Popup текст
 [View history]
 Преглед на историята
 [Open log file]
-
+Отваряне на дневника
 [Show user menu]
-
+Меню на контакта
 [Show user detail]
 Показване на подробности за потребителя
 [To old setting]
@@ -260,9 +260,9 @@ Popup текст
 [Enable/disable auto update]
 
 [Auto Update Enabled]
-
+Автообновяването е включено
 [Auto Update Disabled]
-
+Автообновяването е изключено
 [Weather Condition Changed]
 Промяна на метеорологичните условия
 [Weather Alert Issued]
@@ -359,11 +359,11 @@ HTTP грешка: Услугата не е налична (503)
 [Weather INI information]
 Метео-INI информация
 [Browse]
-
+Разглеждане
 [View webpage]
 Преглед на уебстраницата
 [Reset to default]
-
+Стандарт
 [Text Files]
 Текстови файлове
 [All Files]
@@ -391,11 +391,11 @@ HTTP грешка: %i
 HTTP връзки на метео протокола
 ;file \plugins\Weather\src\weather_icons.cpp
 [Protocol icon]
-
+Икона на протокола
 [Update Disabled]
 Обновяването е изключено
 [View Log]
-
+Преглед на дневника
 [Update with Clear]
 
 [View Brief]
@@ -405,11 +405,11 @@ HTTP връзки на метео протокола
 [Weather Update]
 
 [Popup]
-
+Рopup
 [No Popup]
 Без Popup
 [Edit Settings]
-
+Редактиране на настройките
 ;file \plugins\Weather\src\weather_info.cpp
 [Name]
 Име
@@ -434,9 +434,9 @@ HTTP връзки на метео протокола
 [Internal Name:]
 Вътрешно име:
 [Author:]
-
+Автор:
 [Version:]
-
+Версия:
 [INI Version:]
 .INI версия:
 [File Name:]
@@ -471,7 +471,7 @@ HTTP връзки на метео протокола
 [General]
 Основни
 [Display]
-
+Изобразяване
 [Popups]
 Popups
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]

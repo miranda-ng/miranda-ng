@@ -13,7 +13,7 @@
 [OK]
 ОК
 [All]
-
+Всички
 [None]
 Няма
 [Cancel]
@@ -114,7 +114,7 @@
 
 ;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
-
+Нов опит
 [Yes]
 Да
 [No]
@@ -165,7 +165,7 @@
 [Help]
 Помощ
 [Open Folder]
-
+Отваряне на папка
 [description off]
 
 [description on]
@@ -177,16 +177,16 @@
 [Prev]
 Предишно
 [Next]
-
+Следващо
 [Update]
 Обнови
 [Apply]
 Прилагане
 [Down arrow]
-
+Стрелка надолу
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.h
 [Buttons]
-
+Бутони
 [overlays]
 
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
@@ -204,7 +204,7 @@
 [Window]
 Прозорец
 [Desktop]
-
+Работен плот
 [<entire desktop>]
 
 [Monitor]
@@ -214,11 +214,11 @@
 [<Only save>]
 
 [File Transfer]
-
+Обмен на файл
 [E-mail]
 Имейл
 [FTP File]
-
+FTP File
 [ImageShack]
 
 [Information]

@@ -49,7 +49,7 @@
 [Notes]
 Бележки
 [Variables...]
-
+Променливи...
 ;file \plugins\Variables\src\help.cpp
 [Token]
 
@@ -66,12 +66,12 @@
 [Variables Help]
 За променливите
 [Open String Formatting Help]
-
+Помощ за форматирането на низове
 ;file \plugins\Variables\src\options.cpp
 [Services]
 Услуги
 [Variables]
-
+Променливи
 ;file \plugins\Variables\src\parse_alias.cpp
 [Alias]
 
@@ -85,18 +85,18 @@
 [Paused]
 
 [External Applications]
-
+Външни приложения
 [retrieves song name of the song currently playing in Winamp]
-
+Извлича името на песента, която се възпроизвежда в момента от Winamp
 [retrieves current Winamp state (Playing/Paused/Stopped)]
-
+Извлича текущото състоянието на Winamp (възпроизвеждане/пауза/стоп)
 [retrieves info from AMIP (x is var_<variable> with any AMIP variable)]
 
 [retrieves info from AMIP (x is AMIP format string)]
 
 ;file \plugins\Variables\src\parse_inet.cpp
 [Internet Related]
-
+Свързани с интернет
 [converts each non-html character into hex format]
 
 [converts each hex value into non-html character]
@@ -142,7 +142,7 @@
 
 ;file \plugins\Variables\src\parse_math.cpp
 [Mathematical Functions]
-
+Математически функции
 [x + y + ...]
 
 [x divided by y]
@@ -167,7 +167,7 @@
 
 ;file \plugins\Variables\src\parse_metacontacts.cpp
 [MetaContacts]
-
+Метаконтакти
 [get parent metacontact of contact x]
 
 [get default subcontact x]
@@ -178,11 +178,11 @@
 [Miranda Core Global]
 
 [path to root miranda folder]
-
+път до главната папка на miranda
 [path to current miranda profile]
-
+път до текущия профил на miranda
 [name of current miranda profile (filename, without extension)]
-
+име на текущия профил на miranda (име без окончание)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache]
@@ -194,13 +194,13 @@
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 
 [username for currently logged-on Windows user]
-
+потребителско име на текущия потребител вписан в Windows
 ["My Documents" folder for currently logged-on Windows user]
-
+Папка "My Documents" на потребителя, вписан в Windows
 ["Desktop" folder for currently logged-on Windows user]
-
+Папка "Desktop" на потребителя, вписан в Windows
 [Miranda Related]
-
+Свързани с Miranda
 [translates status code x into a status description]
 
 [zth contact with property y described by x, example: (unregistered,nick) (z is optional)]
@@ -250,7 +250,7 @@
 
 ;file \plugins\Variables\src\parse_str.cpp
 [String Functions]
-
+Низови функции
 [converts each first letter of a word to uppercase, all others to lowercase]
 
 [converts each first letter of a word to uppercase]
@@ -329,7 +329,7 @@
 
 ;file \plugins\Variables\src\parse_system.cpp
 [System Functions]
-
+Системни функции
 [computer name]
 
 [cpu load of process x (without extension) (x is optional)]

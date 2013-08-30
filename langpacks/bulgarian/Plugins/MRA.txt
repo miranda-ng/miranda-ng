@@ -15,7 +15,7 @@
 [Configuration]
 Настройване
 [Login Server:]
-
+Сървър:
 [Port:]
 Порт:
 [Default]
@@ -63,7 +63,7 @@
 [to:]
 
 [Birthday:]
-
+Рожден ден:
 [Zodiak:]
 
 [Location]
@@ -73,7 +73,7 @@
 [State:]
 Област:
 [Search online users only]
-
+Търси само потребители "На линия"
 [City:]
 Град:
 [Remember]
@@ -81,7 +81,7 @@
 [Enable avatars support (loading)]
 
 [Server:]
-
+Сървър:
 [Updates check interval, min]
 
 [Return absolute path]
@@ -129,25 +129,25 @@ E-поща:
 [Popup settings]
 
 [Enable]
-
+Включване
 [&Use Windows colors]
-
+Цветове от Windows
 [Back Color]
-
+Фонов цвят
 [Text Color]
 Цвят на текста
 [Timeout]
 Времетраене
 [Previe&w]
-
+Образец
 [Custom Status "%s" Details]
-
+Подробности за персоналното състояние на "%s"
 [Closing in %d]
 Затваряне след %d
 [Title:]
-
+Титла:
 [Message:]
-
+Съобщение:
 [Enable anti-spam]
 
 [Check temp contacts]
@@ -175,7 +175,7 @@ E-поща:
 [Cancel]
 Отказ
 [Notify]
-
+Уведомяване
 [Writed:]
 
 [Select e-mail]
@@ -196,7 +196,7 @@ E-поща:
 
 ;file \protocols\MRA\src\MraChat.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
-
+За конферентни разговори е необходима приставката CHAT. Инсталирайте я преди да чатите.
 [invite sender]
 
 [invite new members]
@@ -279,14 +279,14 @@ E-поща:
 
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 [No description given]
-
+Няма описание
 ;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
 Главно меню
 [Contact Menu]
-
+Меню на контакта
 [Extra status]
-
+Допълнително състояние
 [Custom Status]
 
 ;file \protocols\MRA\src\MraPopUp.cpp
@@ -297,7 +297,7 @@ E-поща:
 [Information]
 Информация
 [Question]
-
+Въпрос
 [Warning]
 Предупреждение
 [Error]
@@ -308,7 +308,7 @@ E-поща:
 Popups
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
-
+%s връзка
 [Mail.ru Xstatus]
 
 [Mail.ru extra info]
@@ -374,17 +374,17 @@ Popups
 
 ;file \protocols\MRA\src\Mra_svcs.cpp
 [Sick]
-
+Болен
 [Home]
-
+Дом
 [Eating]
-
+Яде
 [Compass]
 
 [On WC]
-
+В тоалетната
 [Cooking]
-
+Готви
 [Walking]
 
 [Alien]
@@ -394,25 +394,25 @@ Popups
 [Got lost]
 
 [Crazy]
-
+Луд
 [Duck]
 
 [Playing]
 
 [Smoking]
-
+Пуши
 [Office]
 
 [Meeting]
-
+Среща
 [Beer]
 
 [Coffee]
-
+Кафе
 [Working]
-
+Работи
 [Relaxing]
-
+Релаксира
 [On the phone]
 На телефона
 [In institute]
@@ -430,21 +430,21 @@ Popups
 [Blind]
 
 [Disappointed]
-
+Разочарован
 [Almost crying]
 
 [Fearful]
 
 [Angry]
-
+Ядосан
 [Vampire]
 
 [Ass]
 
 [Love]
-
+Любов
 [Sleeping]
-
+Спи
 [Cool!]
 
 [Peace!]
@@ -468,8 +468,8 @@ Popups
 [Star]
 
 [Music]
-
+Музика
 [Dating]
 
 [Are you sure?]
-
+Сигурни ли сте?

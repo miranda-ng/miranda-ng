@@ -6,14 +6,14 @@
 ;  Authors: yaho
 ;============================================================
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
-
+Качва файл на FTP сървър и изпраща връзка към файла до Ваш контакт. Поддържа автоматично архивиране преди качване и криптиране (SFTP и FTPS).
 ;file \plugins\FTPFileYM\res\ftpfile.rc
 [FTP account]
 FTP акаунт
 [Host name]
 Име на хоста
 [User]
-
+Потребител
 [Password]
 Парола
 [URL]
@@ -21,13 +21,13 @@ URL
 [Directory on server]
 Директория на сървъра
 [Port]
-
+Порт
 [Command after upload]
 Команда след качване
 [Use passive mode]
 Ползване на пасивен режим
 [Account name]
-
+Име на акаунта
 [Protocol]
 Протокол
 [Default FTP server]
@@ -39,7 +39,7 @@ URL
 [Copy download link to message log]
 Копиране на връзката за сваляне в дневника
 [Autosend download link to contact]
-
+Автоизпращане на връзка за сваляне на контакта
 [Menu items]
 Елементи на менюто
 [Use submenu (restart required)]
@@ -75,21 +75,21 @@ URL
 [Close]
 Затваряне
 [Clipboard]
-
+Клипборд
 [Options]
 Настройки
 [Pause]
-
+Пауза
 [File Manager]
 Диспечер на файлове
 [Server:]
-
+Сървър:
 [User info]
 Подробности за потребителя
 [UPLOADING...]
 КАЧВАНЕ...
 [Open in Browser]
-
+Отваряне в браузер
 [FTP File Manager]
 FTP File диспечер
 [Select All]
@@ -127,7 +127,7 @@ FTP File диспечер
 [Delete from List]
 Изтриване от списъка
 [Copy Link]
-
+Копиране на връзката
 ;file \plugins\FTPFileYM\src\dialog.cpp
 [User Info]
 Подробности за потребителя
@@ -143,21 +143,21 @@ FTP File диспечер
 Наистина ли желаете всички текущи задачи да бъдат отменени?
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
 [FTP Server 1]
-
+FTP сървър 1
 [FTP Server 2]
-
+FTP сървър 2
 [FTP Server 3]
-
+FTP сървър 3
 [FTP Server 4]
-
+FTP сървър 4
 [FTP Server 5]
-
+FTP сървър 5
 [Send file]
-
+Изпращане на файл
 [Resume]
 Продължаване
 [FTP File]
-
+FTP File
 [FTP Server %d]
 FTP сървър %d
 [Upload file(s)]
@@ -186,7 +186,7 @@ FTP_Показване_на_диспечера
 Отменено качване
 ;file \plugins\FTPFileYM\src\job_generic.cpp
 [All Files (*.*)]
-
+Всички файлове (*.*)
 [FTP File - Select files]
 FTP File: Изберете файлове
 [FTP File - Select a folder]

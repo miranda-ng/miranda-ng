@@ -22,7 +22,7 @@
 [Text files (*.txt)]
 
 [All files (*.*)]
-
+Всички файлове (*.*)
 [Error in cfg file: ]
 
 [No Files Patterns Found]

@@ -29,7 +29,7 @@
 [Display Name:]
 
 [Title:]
-
+Титла:
 [First name:]
 Име:
 [Second name:]
@@ -37,7 +37,7 @@
 [Last name:]
 Фамилия:
 [Prefix:]
-
+Представка:
 [Female]
 Жена
 [Male]
@@ -75,7 +75,7 @@
 [Position:]
 Позиция:
 [Occupation:]
-
+Работа:
 [Superior:]
 
 [Assistant:]
@@ -107,7 +107,7 @@
 [days before.]
 дни предварително.
 [Check every]
-
+Проверка на всеки
 [hours]
 часове
 [Icon flashing on event]
@@ -123,7 +123,7 @@
 [Automatically backup and keep protocol based birthdays up to date]
 
 [Play sound]
-
+Възпроизвеждане на звук
 [Use ignore list]
 Ползване на списък за игнориране
 [Birthday popup colours]
@@ -139,13 +139,13 @@ popup за рожден ден
 [Use default colours]
 Стандартни цветове
 [Delay]
-
+Закъснение
 [From Popup plugin]
 От приставката Popup
 [Custom]
 Избор
 [Permanent]
-
+Постоянно
 [Show reminder messages as popups (if reminder is enabled)]
 Показване на съобщенията за напомняне като popups (ако напомнянето е включено)
 [Anniversary popup colours]
@@ -155,7 +155,7 @@ popup за годишнина
 [Replace message boxes with popups]
 Замяна на текстовите кутии с popups
 [Preview]
-Преглед
+Образец
 [Homepage:]
 Страница:
 [Add Affiliation]
@@ -195,7 +195,7 @@ popup за годишнина
 [day(s)]
 ден (дни)
 [Reminder]
-
+Напомняне
 [Popup this dialog on a contact's anniversary]
 Изскачане на прозореца при годишнина на контакт
 [Icons]
@@ -205,7 +205,7 @@ popup за годишнина
 [Display icons on each dialog button]
 Икона на всеки бутон
 [MetaContacts]
-
+Метаконтакти
 [Scan SubContacts for missing information]
 Сканиране на подконтактите за липсваща информация
 [Enable extended 'send/receive email' service (*)]
@@ -255,7 +255,7 @@ popup за годишнина
 [Dialog]
 
 [All]
-
+Всичко
 [None]
 Няма
 [Show Menu Item]
@@ -291,19 +291,19 @@ popup за годишнина
 [Gender]
 Пол
 [Misc]
-
+Разни
 [Show 'Restart' menu item]
 Елемент "Рестартиране" в гл. меню
 [Use Zodiac as default avatar]
 Ползване на задията за аватар
 [Country Flags]
-
+Държавни знамена
 [Use &unknown flag if country can not be determined]
 "Непознато знаме", ако не може да се определи държавата
 [Show country flag as &status icon on message window]
-
+Знамето като икона за състояние в прозореца за съобщения
 [Birthday]
-
+Рожден ден
 [Age:]
 Възраст:
 [Zodiac:]
@@ -319,7 +319,7 @@ popup за годишнина
 [Preparing...]
 Подготвяне...
 [Hide]
-
+Скриване
 [What do you want to export?]
 Какво желаете да бъде изнесено?
 [Contact Information]
@@ -379,7 +379,7 @@ popup за годишнина
 [Show Items:]
 Показвани елементи:
 [Reset to defaults]
-
+Стандарт
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 [Creating unique name for a page failed with %d and error code %d]
 
@@ -424,13 +424,13 @@ popup за годишнина
 [Contact]
 Контакт
 [Proto]
-
+Протокол
 [Age/Nr.]
 Години/№
 [Anniversary]
-
+Годишнина
 [Date]
-
+Дата
 [All contacts]
 Всички контакти
 [Birthdays only]
@@ -443,7 +443,7 @@ popup за годишнина
 Показване на годишнините
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Retry]
-
+Нов опит
 [Yes]
 Да
 [No]
@@ -492,7 +492,7 @@ popup за годишнина
 [Export to file]
 Износ във файл
 [Import from file]
-
+Внос от файл
 [Owner]
 Собственик
 [Upload ICQ Details]
@@ -510,11 +510,11 @@ popup за годишнина
 [Password]
 Парола
 [Timezone]
-
+Часови пояс
 [Marital status]
 Брачно състояние
 [Address]
-
+Адрес
 [Export: Modules]
 Износ: Модули
 [Export: Folder]
@@ -536,19 +536,19 @@ popup за годишнина
 [Update]
 Обнови
 [Export]
-
+Износ
 [Goto]
 
 [Fax]
 Факс
 [Cellular]
-
+Мобилен тел.
 [Custom Phone]
 Зададен телефон
 [e-mail]
 имейл
 [Down arrow]
-
+Стрелка надолу
 [Add]
 Добавяне
 [Edit]
@@ -560,7 +560,7 @@ popup за годишнина
 [Backup Birthday]
 Резервно копие на рождения ден
 [Birthday today]
-
+Рожден ден днес
 [Birthday tomorrow]
 Рожден ден утре
 [Birthday in 2 days]
@@ -611,7 +611,7 @@ popup за годишнина
 Основна
 ;file \plugins\UserInfoEx\src\mir_icolib.h
 [UserInfoEx]
-
+UserInfoEx
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
 Износ/Внос на контакта
@@ -655,22 +655,22 @@ popup за годишнина
 Наистина ли желаете да изтриете %s?
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
 [Home]
-
+Дом
 [Open in Browser]
-
+Отваряне в браузер
 [Primary e-mail]
-
+Първа е-поща
 [Secondary e-mail]
-
+Втора е-поща
 [Tertiary e-mail]
-
+Трета е-поща
 [Address & Contact]
 
 [Company]
 Компания
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
-
+Въпрос
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
 Ще бъдат изтрити всички направени настройки!\nВсички TreeView настройки, позиции на прозорци и други!\n\nНаистина ли желаете това?
 [Ready]
@@ -701,7 +701,7 @@ popup за годишнина
 Popups
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
-
+Минало
 [Affiliation]
 Сдружение
 [Interest]
@@ -709,7 +709,7 @@ Popups
 [Sorry, but there is a problem with adding a new item of type "%s"]
 
 [<empty>]
-
+<празно>
 [Add Affliation]
 
 [Edit Category]
@@ -722,241 +722,241 @@ Popups
 Наистина ли желаете елементът да бъде изтрит?
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
-
+африкаанс (бурски)
 [Albanian]
-
+албански
 [Arabic]
-
+арабски
 [Armenian]
-
+арменски
 [Azerbaijani]
-
+азербайджански
 [Belorussian]
-
+белоруски
 [Bhojpuri]
-
+божпури
 [Bosnian]
-
+босненски
 [Bulgarian]
-
+български
 [Burmese]
-
+бирмански
 [Cantonese]
-
+кантонски
 [Catalan]
-
+каталонски
 [Chamorro]
-
+чаморо
 [Chinese]
-
+китайски
 [Croatian]
-
+хърватски
 [Czech]
-
+чешки
 [Danish]
-
+датски
 [Dutch]
-
+нидерландски (холандски)
 [English]
-
+английски
 [Esperanto]
-
+есперанто
 [Estonian]
-
+естонски
 [Farsi]
-
+персийски (фарси)
 [Finnish]
-
+фински (финландски)
 [French]
-
+френски
 [Gaelic]
-
+келтски
 [German]
-
+немски
 [Greek]
-
+гръцки
 [Gujarati]
-
+гуджарати (гуджаратски)
 [Hebrew]
-
+иврит
 [Hindi]
-
+хинди
 [Hungarian]
-
+унгарски
 [Icelandic]
-
+исландски
 [Indonesian]
-
+индонезийски
 [Italian]
-
+италиански
 [Japanese]
-
+японски
 [Khmer]
-
+кхмерски
 [Korean]
-
+корейски
 [Kurdish]
-
+кюрдски
 [Lao]
-
+лао (лаоски)
 [Latvian]
-
+латвийски
 [Lithuanian]
-
+литовски
 [Macedonian]
-
+македонски
 [Malay]
-
+малайски
 [Mandarin]
-
+мандарин
 [Mongolian]
-
+монголски
 [Norwegian]
-
+норвежки
 [Persian]
-
+персийски
 [Polish]
-
+полски
 [Portuguese]
-
+португалски
 [Punjabi]
-
+пенджаби (пенджабски)
 [Romanian]
-
+румънски
 [Russian]
-
+руски
 [Serbo-Croatian]
-
+сърбохърватски
 [Sindhi]
-
+синдхи
 [Slovak]
-
+словашки
 [Slovenian]
-
+словенски
 [Somali]
-
+сомали
 [Spanish]
-
+испански
 [Swahili]
-
+суахили
 [Swedish]
-
+шведски
 [Tagalog]
-
+тагалог (тагалски)
 [Taiwanese]
-
+тайвански
 [Tamil]
-
+тамилски
 [Tatar]
-
+татарски
 [Thai]
-
+тайски (тайландски)
 [Turkish]
-
+турски
 [Ukrainian]
-
+украински
 [Urdu]
-
+урду
 [Vietnamese]
-
+виетнамски
 [Welsh]
-
+уелски
 [Yiddish]
-
+идиш
 [Yoruba]
-
+йоруба
 [Academic]
-
+Академическа
 [Administrative]
-
+Администрация
 [Art/Entertainment]
-
+Изкуство/Развлечение
 [College Student]
-
+Колежанин
 [Computers]
-
+Компютри
 [Community & Social]
-
+Общност и общество
 [Education]
-
+Образование
 [Engineering]
-
+Инженерство
 [Financial Services]
-
+Финансови услуги
 [Government]
-
+Правителствена
 [High School Student]
-
+Гимназист
 [ICQ - Providing Help]
-
+ICQ - осигуряване на помощ
 [Law]
-
+Правна
 [Managerial]
-
+Ръководене
 [Manufacturing]
-
+Производство
 [Medical/Health]
-
+Медицина/Здраве
 [Military]
-
+Военен
 [Non-Government Organization]
-
+Неправителствена организация
 [Professional]
-
+Професионална
 [Retail]
-
+Търговия на дребно
 [Retired]
-
+Пенсиониран
 [Science & Research]
-
+Наука и проучване
 [Sports]
-
+Спорт
 [Technical]
-
+Технически
 [University Student]
-
+Студент
 [Web Building]
-
+Web изграждане
 [Other Services]
-
+Други услуги
 [Art]
-
+Изкуство
 [Cars]
-
+Коли
 [Celebrity Fans]
-
+Фен на знаменитости
 [Collections]
-
+Колекции
 [Culture & Literature]
 Култура и литература
 [Fitness]
-
+Фитнес
 [Games]
-
+Игри
 [Hobbies]
-
+Хобита
 [Internet]
-
+Интернет
 [Lifestyle]
-
+Стил на живот
 [Movies/TV]
 Филми/Телевизия
 [Music]
-
+Музика
 [Outdoor Activities]
 Дейности на открито
 [Parenting]
-
+Възпитание
 [Pets/Animals]
 Домашни любимци/Животни
 [Religion]
-
+Религия
 [Science/Technology]
 Наука/Технологии
 [Skills]
-
+Умения
 [Web Design]
-
+Web дизайн
 [Nature and Environment]
 Природа и околна среда
 [News & Media]
@@ -964,21 +964,21 @@ Popups
 [Business & Economy]
 Бизнес и икономика
 [Mystics]
-
+Мистика
 [Travel]
-
+Пътувания
 [Astronomy]
-
+Астрономия
 [Space]
-
+Космос
 [Clothing]
-
+Облекло
 [Parties]
-
+Партита
 [Women]
-
+Жени
 [Social science]
-
+Социални науки
 [60's]
 
 [70's]
@@ -990,7 +990,7 @@ Popups
 [Finance and corporate]
 Финанси
 [Entertainment]
-
+Забавление
 [Consumer electronics]
 Потребителска електроника
 [Retail stores]
@@ -1010,73 +1010,73 @@ Popups
 [Sporting and athletic]
 Спортуване и атлетика
 [Publishing]
-
+Издателска дейност
 [Home automation]
 Домашна автоматизация
 [Alumni Org.]
 
 [Charity Org.]
-
+Благотворителни орг.
 [Club/Social Org.]
-
+Клуб/Социална орг.
 [Community Org.]
-
+Обществени орг.
 [Cultural Org.]
-
+Културна орг.
 [Fan Clubs]
-
+Фен клубове
 [Fraternity/Sorority]
-
+Братство/Женски клуб
 [Hobbyists Org.]
 
 [International Org.]
-
+Международни орг.
 [Nature and Environment Org.]
-
+Орг. за природата и околната среда
 [Professional Org.]
-
+Професионална орг.
 [Scientific/Technical Org.]
-
+Научни/Технически орг.
 [Self Improvement Group]
-
+Група за самоусъвършенстване
 [Spiritual/Religious Org.]
-
+Духовни/Религиозни орг.
 [Sports Org.]
-
+Спортни организации
 [Support Org.]
-
+Организация за поддръжка
 [Trade and Business Org.]
-
+Търговски и бизнес орг.
 [Union]
-
+Съюз
 [Volunteer Org.]
-
+Доброволчески орг.
 [Elementary School]
-
+Начално училище
 [High School]
-
+Гимназия
 [College]
-
+Колеж
 [University]
-
+Университет
 [TmplPast Work Place]
 
 [TmplPast Organization]
 
 [Single]
-
+Необвързан(а)
 [Close relationships]
-
+Обвързан(а)
 [Engaged]
-
+Сгоден(а)
 [Married]
-
+Женен/Омъжена
 [Divorced]
-
+Разведен(а)
 [Separated]
-
+Разделен(а)
 [Widowed]
-
+Вдовец/Вдовица
 [jun.]
 младши
 [sen.]
@@ -1123,11 +1123,11 @@ Popups
 [an anniversary]
 годишнина
 [He]
-
+Той
 [She]
-
+Тя
 [He/She]
-
+Той/Тя
 [%s has the following anniversaries:\0]
 %s има следната годишнина:\0
 [%d. %s today\0]
@@ -1137,11 +1137,11 @@ Popups
 [%d. %s in %d days\0]
 %d. %s след %d дни\0]
 [%s has birthday today.]
-
+%s има рожден ден днес,
 [%s has birthday tomorrow.]
-
+%s има рожден ден утре.
 [%s has birthday in %d days.]
-
+%s има рожден ден след %d дни.
 [\n%s becomes %d years old.]
 \n%s навършва %d години.
 [No anniversaries to remind of]
@@ -1149,7 +1149,7 @@ Popups
 [Backing up and syncing all birthdays complete!]
 Синхронизирането и архивирането на рождените дни приключи!
 [Reminder (uinfoex)]
-
+Напомняне / (uinfoex)
 [Birthday reminder]
 Напомняне за рожден ден
 [Birthday reminder: it's coming]

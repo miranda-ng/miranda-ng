@@ -35,7 +35,7 @@
 [Disable progress bar]
 Изключване на лентата за напредък
 [Disable Popups]
-
+Изключване на Popups
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Miranda Databases]
 
@@ -62,25 +62,25 @@
 База от данни
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to root miranda folder]
-
+път до главната папка на miranda
 [path to current miranda profile]
-
+път до текущия профил на miranda
 [name of current miranda profile (filename, without extension)]
-
+име на текущия профил на miranda (име без окончание)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 
 [username for currently logged-on Windows user]
-
+потребителско име на текущия потребител вписан в Windows
 ["My Documents" folder for currently logged-on Windows user]
-
+Папка "My Documents" на потребителя, вписан в Windows
 ["Desktop" folder for currently logged-on Windows user]
-
+Папка "Desktop" на потребителя, вписан в Windows
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
 
 [Variables]
-
+Променливи
 [Days]
 Дни
 [Hours]

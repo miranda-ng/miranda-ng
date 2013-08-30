@@ -553,7 +553,7 @@ MetaContacts - настройки
 [Draw smileys on third line]
 Показване на усмивки в третия ред
 [Preview]
-Преглед
+Образец
 [Top/Left]
 Горе вляво
 [Bottom/Right]

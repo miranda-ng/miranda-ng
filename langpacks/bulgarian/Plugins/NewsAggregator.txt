@@ -11,13 +11,13 @@
 [Add]
 Добавяне
 [Change]
-
+Промяна
 [Remove]
 Премахване
 [Import]
 Внос
 [Export]
-
+Износ
 [Retrieve news at startup]
 
 [OK]
@@ -31,7 +31,7 @@
 [URL]
 URL
 [Check every]
-
+Проверка на всеки
 [minutes]
 минути
 [Check Feed]
@@ -101,7 +101,7 @@ URL
 
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
-
+Икона на протокола
 [Check All Feeds]
 
 [Add Feed]
@@ -111,9 +111,9 @@ URL
 [Export Feeds]
 
 [Auto Update Enabled]
-
+Автообновяването е включено
 [Auto Update Disabled]
-
+Автообновяването е изключено
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
 
@@ -145,7 +145,7 @@ URL
 [Feed Tag Help]
 
 [Are you sure?]
-
+Сигурни ли сте?
 [Tags Mask Reset]
 
 [Wait...]

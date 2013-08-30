@@ -9,14 +9,14 @@
 
 ;file \plugins\IgnoreState\res\ignore.rc
 [Plugin settings]
-
+Настройване на приставката
 [Filtered events:]
 
 [Use Miranda ignore settings for All Contacts]
 
 ;file \plugins\IgnoreState\src\main.cpp
 [All]
-
+Всички
 [Messages]
 Съобщения
 [URL]

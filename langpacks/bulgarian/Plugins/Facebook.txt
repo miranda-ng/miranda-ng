@@ -17,9 +17,9 @@
 [What's on your mind?]
 Какво мислите?
 [Wall:]
-
+Стена:
 [Visibility:]
-
+Видимост:
 [Text:]
 Текст:
 [URL:]
@@ -31,13 +31,13 @@ URL:
 [Cancel]
 Отказ
 [Contacts >>]
-
+Контакти >>
 [Attach contacts:]
 
 [User Details]
 Подробности за потребителя
 [Default group:]
-
+Стандартна група
 [Automatically set 'Ignore status change' flag]
 Автозадаване на флаг "Игнориране промените на състояния"
 [Contacts Settings]
@@ -47,7 +47,7 @@ URL:
 [Load contacts with 'On the Mobile' status]
 Зареждай и контакти със състояние "На мобилния"
 [Event notifications]
-
+Уведомявания за събития
 [Notifications]
 Уведомявания
 [News feeds]
@@ -59,7 +59,7 @@ URL:
 [Client notifications]
 Уведомявания
 [Preview]
-Преглед
+Образец
 [Use balloon notifications in system tray instead of popups]
 Ползване на балонни известия в трея вместо popup
 [Advanced Settings]
@@ -88,7 +88,7 @@ URL:
 [Login error: %s]
 
 [Unknown error]
-
+Непозната грешка
 [Login error: Invalid request.]
 
 [Your account requires HTTPS connection. Activating.]
@@ -122,7 +122,7 @@ URL:
 [Photos]
 
 [Links]
-
+Връзки
 [Apps and Games]
 
 [Classic website]
@@ -196,7 +196,7 @@ URL:
 Контактът вече не е в списъка на сървъра.
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
-
+%s връзка със сървъра
 [Unable to get Netlib connection for Facebook]
 
 [Avatars]
@@ -226,7 +226,7 @@ URL:
 [Show 'Share status' window]
 
 [Notification]
-
+Уведомяване
 [News Feed]
 Новина
 [Other Event]
@@ -255,7 +255,7 @@ URL:
 [Approve friendship]
 
 [Services...]
-
+Услуги...
 [Refresh Buddy List]
 
 [Services]

@@ -1313,7 +1313,7 @@ Miranda
 [%s kicked %s]
 %s изгони %s
 [Notice from %s: ]
-Известие от %s:
+Известие от %s:\s
 [The topic is '%s%s']
 Темата е "%s%s"
 [ (set by %s on %s)]
@@ -2417,13 +2417,13 @@ ID на акаунта
 Акаунти...
 ;file \src\modules\skin\hotkey_opts.cpp
 [Ctrl + ]
-Ctrl + 
+Ctrl +\s
 [Alt + ]
-Alt + 
+Alt +\s
 [Shift + ]
-Shift + 
+Shift +\s
 [Win + ]
-Win + 
+Win +\s
 [Remove shortcut]
 Премахване на препратката
 [Add another shortcut]

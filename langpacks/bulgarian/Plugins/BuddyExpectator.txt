@@ -33,7 +33,7 @@
 [Hide when no messages for]
 
 [Colors]
-
+Цветове
 [Background]
 Фон
 [Text]
@@ -41,15 +41,15 @@
 [Use Popups colors]
 
 [Use Windows colors]
-
+Цветове от Windows
 [Delay]
-
+Закъснение
 [Default]
 Стандарт
 [Custom]
 Избор
 [Permanent]
-
+Постоянно
 [sec]
 сек
 [Preview]
@@ -76,7 +76,7 @@
 [Disabled]
 Изключено
 [Hide]
-
+Скриване
 [NeverHide]
 
 [Hiding %s (%S)]

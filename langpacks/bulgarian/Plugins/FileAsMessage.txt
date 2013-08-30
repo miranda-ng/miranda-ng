@@ -87,7 +87,7 @@
 [Play]
 
 [Pause]
-
+Пауза
 [Revive]
 
 [Stop]

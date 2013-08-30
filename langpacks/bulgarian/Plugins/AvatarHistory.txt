@@ -6,7 +6,7 @@
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
-
+Приставката съхранява резерни копия на аватарите на вашите контакти, при промяна и/или ви известява с popup.
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
 [Avatar List Popup]
 
@@ -19,9 +19,9 @@
 [Avatar History]
 История на аватарите
 [Static]
-
+Статичен
 [Open Folder]
-
+Отваряне на папка
 [Store this user's old avatars in disk]
 Запис на старите аватари на потребителя на диска
 [Log this user's avatars changes to history]
@@ -31,11 +31,11 @@
 [OK]
 ОК
 [Protocols]
-
+Протоколи
 [Enable tracking for these protocols:]
 Следене на следните протоколи:
 [MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
-
+Метаконтактите се третират различно. Инф. винаги се взима от подконтактите (известията от метаконтактите се игнорират)
 [Show popup when a contact change his avatar]
 popup когато контакта промени аватара си
 [Colours]
@@ -49,13 +49,13 @@ popup когато контакта промени аватара си
 [Use default colours]
 Стандартни цветове
 [Delay]
-
+Закъснение
 [From Popup plugin]
 От приставката Popup
 [Custom]
 Избор
 [Permanent]
-
+Постоянно
 [Actions]
 Действия
 [On right click:]
@@ -63,7 +63,7 @@ popup когато контакта промени аватара си
 [On left click:]
 Ляв бутон:
 [Track]
-
+Песен
 [Avatar change:]
 Промяна на аватар:
 [Avatar removal:]
@@ -98,7 +98,7 @@ popup когато контакта промени аватара си
 Всички аватари в <Профил>\\История на аватарите\\<Протокол>\\<Contact ID>\\<Времева марка> (един и същ аватар може да бъде запаметен много пъти)
 ;file \plugins\AvatarHistory\src\AvatarDlg.cpp
 [Avatar History for %s]
-
+История на аватарите за %s
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
 Сигурни ли сте, че желаете записът в историята да бъде изтрит?\nЗаписът в историята ще бъде изтрит, а аватарът ще бъде запазен!
 [Delete avatar log?]
@@ -112,7 +112,7 @@ popup когато контакта промени аватара си
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
 Сигурни ли сте, че желаете архивираният аватар да бъде изтрит?\nПрепратката и аватарът ще бъдат изтрити също.\nВНИМАНИЕ: Възможно да бъдат засегнати и други препратки!
 [Avatar History is empty!]
-
+Историята на аваатарите е празна!
 [avatar path is null.]
 
 [View Avatar History]
@@ -120,7 +120,7 @@ popup когато контакта промени аватара си
 [Save Avatar for %s]
 
 [Save Avatar]
-
+Запис на аватара
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
 [AVH Debug]
 
@@ -147,7 +147,7 @@ popup когато контакта промени аватара си
 [History]
 История
 [Avatar Overlay]
-
+Насложени над аватара икони
 ;file \plugins\AvatarHistory\src\options.cpp
 [Do nothing]
 Нищо
@@ -158,9 +158,9 @@ popup когато контакта промени аватара си
 [Show contact history]
 Показване на история за контакта
 [Test Contact]
-
+Тестови контакт
 [Test description]
-
+Тестово описание
 [Avatar]
 Аватар
 [Popups]
@@ -175,6 +175,6 @@ Popups
 [AVH Debug: GetOldStyleAvatarName]
 
 [Avatar History: Unable to create shortcut]
-
+Avatar History: Създаването на препратка се провали
 [AVH Debug: Shortcut created successfully]
-
+AVH Debug: Създадена е препратка

@@ -159,6 +159,6 @@
 
 ;file \plugins\CmdLine\src\utils.cpp
 [Notify]
-
+Уведомяване
 [Warning]
 Предупреждение

@@ -19,9 +19,9 @@
 [Miranda Database Tool]
 
 [< &Back]
-
+< Назад
 [&Next >]
-
+Напред >
 [Cancel]
 Отказ
 [Select Miranda Profile]

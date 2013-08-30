@@ -6,10 +6,10 @@
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or File you receive to a text file.]
-
+Изнася всяко съобщение, URL адрес или файл, който получите като текстови файл.
 ;file \plugins\Msg_Export\res\resource.rc
 [Browse]
-
+Разглеждане
 [Use internal viewer]
 
 [Replace miranda history]
@@ -137,7 +137,7 @@ UTF8 за нови файлове
 [Nick]
 Прякор
 [Proto]
-
+Протокол
 [UIN]
 
 [You have unapplyed changes do you wish to apply these first ?]
@@ -176,7 +176,7 @@ UTF8 за нови файлове
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Неуспешен опит за преименуване на файл\n\nот:\t%s\nна:\t%s\n\nГрешка: %s
 [\nError: ]
-
+\nГрешка:\s
 [\nMessage has not been saved!\n]
 
 [Do you wish to save debug information?]
@@ -226,11 +226,11 @@ UTF8 за нови файлове
 [Failed to write message to the file :\n]
 
 [URL: ]
-
+URL:\s
 [File: ]
-
+Файл:\s
 [Description: ]
-
+Описание:\s
 [Failed to write URL/File to the file :\n]
 
 [Nick      :]

@@ -6,12 +6,12 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 [Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
-
+Осигурява възможност за асоцииране на някои типове файлове и на URL-адреси водещи към aim, ymsgr, xmpp, wpmsg, gg, tlen.
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 Регистрирани асоциации с Miranda NG:
 [Miscellaneous]
-
+Разни
 [&Start Miranda NG automatically when the Computer starts (using current profile)]
 Автостартиране на Miranda NG при включване на компютъра (за текущия профил)
 [Only associate with Miranda NG while it is &running]

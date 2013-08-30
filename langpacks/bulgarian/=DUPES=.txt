@@ -728,7 +728,7 @@ Copyright:
 [%s kicked %s]
 %s изгони %s
 [Notice from %s: ]
-Известие от %s:
+Известие от %s:\s
 [ (set by %s on %s)]
  (зададена от %s на %s)
 [ (set by %s)]
@@ -834,7 +834,7 @@ Copyright:
 [Show icon in tray for users kicking other user]
 Потребител изгонва друг потребител
 [Show icon in tray for notices ]
-Известие
+Известие\s
 [Show icon in tray for name changes]
 Промяна на прякор
 [Show icon in tray for information messages]
@@ -860,7 +860,7 @@ Copyright:
 [Show popup for users kicking other user]
 Показване на popups при изгонване на потребител
 [Show popup for notices ]
-Показване на popups за известие
+Показване на popups за известие\s
 [Show popup for name changes]
 Показване на popups при промяна на име
 [Show popup for information messages]

@@ -17,7 +17,7 @@
 [Userinfo tab]
 Таб в Userinfo
 [Log to file]
-
+Запис във файл
 [Log to history]
 Запис в историята
 [Maximum size]
@@ -190,19 +190,19 @@ AM/PM
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
 [Sunday]
-
+неделя
 [Monday]
-
+понеделник
 [Tuesday]
-
+вторник
 [Wednesday]
-
+сряда
 [Thursday]
-
+четвъртък
 [Friday]
-
+петък
 [Saturday]
-
+събота
 [Sun.]
 
 [Mon.]
@@ -218,29 +218,29 @@ AM/PM
 [Sat.]
 
 [January]
-
+януари
 [February]
-
+февруари
 [March]
-
+март
 [April]
-
+април
 [May]
-
+май
 [June]
-
+юни
 [July]
-
+юли
 [August]
-
+август
 [September]
-
+септември
 [October]
-
+октомври
 [November]
-
+ноември
 [December]
-
+декември
 [Jan.]
 
 [Feb.]

@@ -17,11 +17,11 @@
 [Popup Delay (seconds)]
 
 [Background color]
-
+Цвят на фона
 [Text color]
-
+Цвят на текста
 [Previe&w]
-
+Образец
 [Show infinitely]
 
 [Default Popup delay]
@@ -60,7 +60,7 @@
 [ID]
 Идентификатор
 [User]
-
+Потребител
 [File]
 Файл
 [Access]

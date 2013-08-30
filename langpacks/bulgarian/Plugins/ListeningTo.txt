@@ -6,18 +6,18 @@
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Handles listening information to/for contacts.]
-
+Борави с информацията за възпроизведаното (песен, видео). 
 ;file \plugins\ListeningTo\res\resource.rc
 [Listening to information]
-
+Слуша.. информация
 [Enable sending listening information to contacts:]
 Изпращане на информация до контактите за:
 [Music]
-
+Музика
 [Radio]
-
+Радио
 [Video]
-
+Видео
 [Others]
 Други
 [You also have to enable it per protocol in the main menu]
@@ -43,11 +43,11 @@
 [Get info from these players:]
 Улавяне на информация от следните плейъри:
 [Winamp (*)]
-
+Winamp (*)
 [Windows Media Player]
-
+Windows Media Player
 [iTunes]
-
+iTunes
 [foobar2000 (need to install the plugin manually)]
 foobar2000 (необходимо е да инсталирате компонент ръчно)
 [Other players]
@@ -87,9 +87,9 @@ mRadio
 [When variable not found, use:]
 При липса на променлива:
 [Title:]
-
+Заглавие:
 [Message:]
-
+Съобщение:
 [Other Variables:]
 Други променливи:
 [%listening% - Listening to info (as set above)]
@@ -100,37 +100,37 @@ mRadio
 [Send to %s]
 Изпращане до %s
 [Listening to (enabled)]
-
+ListeningTo (включена)
 [Listening to (disabled)]
-
+ListeningTo (изключена)
 [ListeningTo]
-
+ListeningTo
 [Listening to music]
-
+Слуша музика
 [Send to all protocols]
 Изпращане до всеки акаунт
 [Listening info]
 Слуша (информация)
 [Listening info as set in the options]
-
+Слуша информация според настройките
 [Media type: Music, Video, etc]
-
+Тип: музика, видео и др.
 [Artist name]
-
+Име на изпълнителя
 [Album name]
-
+Име на албума
 [Song name]
-
+Име на песента
 [Track number]
-
+Номер на песента
 [Song year]
-
+Година на песента
 [Song genre]
-
+Жанр на песента
 [Song length]
-
+Времетраене на песента
 [Player name]
-
+Име на плейъра
 [Don't send to any protocols]
 Без изпращане (за всички акаунти)
 [Toggle send to all protocols]
@@ -145,13 +145,13 @@ mRadio
 [<Unknown>]
 <Неизвестно>
 [<Nothing is playing now>]
-
+<Не слуша нищо>
 [Status]
 Състояние
 [General]
 Основни
 [Format]
-
+Формат
 [Players]
 Плейъри
 ;file \plugins\ListeningTo\src\players\generic.cpp

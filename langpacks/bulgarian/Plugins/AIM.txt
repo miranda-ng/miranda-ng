@@ -17,7 +17,7 @@ AIM подробности за потребителя
 [Password:]
 Парола:
 [Login Server:]
-
+Сървър:
 [AIM Options]
 AIM настройки
 [Message Delivery Confirmation]
@@ -103,7 +103,7 @@ AIM настройки
 [This allows access to user defined chat rooms. To access predefined chat rooms use web links]
 
 [Change Password]
-
+Промяна на паролата
 [Original]
 
 [New]
@@ -141,11 +141,11 @@ AIM настройки
 Аватари
 ;file \protocols\AimOscar\src\chat.cpp
 [Me]
-
+Аз
 [Others]
 Други
 [&Invite user...]
-
+Покани потребител...
 [&Leave chat session]
 Напускане от разговора
 [User &details]
@@ -285,12 +285,12 @@ AIM настройки
 
 ;file \protocols\AimOscar\src\popup.cpp
 [%s Protocol]
-
+%s протокол
 [Open mail account?]
 Отваряне на пощенския акаунт?
 ;file \protocols\AimOscar\src\proto.cpp
 [%s server connection]
-
+%s връзка със сървъра
 [%s Client-to-client connection]
 %s връзки клиент-с-клиент
 ;file \protocols\AimOscar\src\server.cpp
@@ -342,9 +342,9 @@ AIM настройки
 Процедурата по потвърждаване не може да бъде стартирана.
 ;file \protocols\AimOscar\src\theme.cpp
 [ICQ]
-
+ICQ
 [Block]
-
+Блокиране
 [Profile]
 Профил
 [AOL Mail]
@@ -356,7 +356,7 @@ AIM икона
 [AOL Bot]
 Бот AOL
 [Admin]
-
+Администратор
 [Confirmed]
 Потвърдено
 [Not Confirmed]
@@ -368,17 +368,17 @@ AOL
 [Foreground Color]
 
 [Background Color]
-
+Цвят за фон
 [Bold]
 Удебеляване
 [Not Bold]
 Неполучер
 [Italic]
-
+Наклоняване
 [Not Italic]
 Некусрсив
 [Underline]
-
+Подчертаване
 [Not Underline]
 Неподчертан
 [Subscript]
@@ -400,9 +400,9 @@ AOL
 [AIM Extended Status]
 Разширено състояние AIM
 [&Block]
-
+Блокиране
 [&Unblock]
-
+Деблокиране
 [Manage Account]
 Управление на акаунта
 [Instant Idle]
@@ -417,9 +417,9 @@ AOL
 [Network]
 Мрежа
 [Basic]
-
+Основни
 [Privacy]
-
+Поверителност
 [Join me in this buddy chat!]
 
 ;file \protocols\AimOscar\src\utility.cpp

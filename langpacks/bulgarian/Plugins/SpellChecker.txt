@@ -6,16 +6,16 @@
 ;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
 ;============================================================
 [Spell checker for the message windows. Uses Hunspell to do the checking.]
-
+Проверка на правописа в прозореца за съобщения. Проверката се извършва чрез Hunspell.
 ;file \plugins\SpellChecker\res\resource.rc
 [Replacements]
 Замествания
 [Enable auto-replacements]
 Включване на автоматичното заместването
 [Language:]
-
+Език:
 [Add...]
-
+Добавяне
 [Edit...]
 Редактиране
 [Remove]

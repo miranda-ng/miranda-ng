@@ -91,9 +91,9 @@
 [Header]
 
 [Active]
-
+Активно
 [Inactive]
-
+Неактивно
 ;file \plugins\AutoShutdown\src\options.cpp
 [Events]
 Събития
@@ -164,7 +164,7 @@
 [Hibernate mode]
 
 [Lock workstation]
-
+Заключване на работната станция
 [Hang up dialup connections]
 
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]

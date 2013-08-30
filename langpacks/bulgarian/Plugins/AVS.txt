@@ -45,7 +45,7 @@
 [Contact picture]
 
 [Change]
-
+Промяна
 [Delete]
 Изтриване
 [Reset]
@@ -53,7 +53,7 @@
 [Picture options]
 Конфигуриране на картинка
 [Protect the picture]
-
+Защитаване на картината
 [Set as hidden]
 Скриване от списъка
 [Try to make picture background transparent]
@@ -80,7 +80,7 @@
 Отделен аватар за всеки протокол
 ;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
-
+Протоколите имат различни аватари
 ;file \plugins\AVS\src\main.cpp
 [Global avatar]
 
@@ -108,13 +108,13 @@
 [Contacts]
 Контакти
 [Protocols]
-
+Протоколи
 [Contact Avatars]
 Аватари на контактите
 [Own Avatars]
 Собствени аватари
 [No avatar]
-Без аватар
+Няма аватар
 [Are you sure you want to remove your avatar?]
 Желаете ли аватарът ви да бъде премахнат?
 [Global Avatar]

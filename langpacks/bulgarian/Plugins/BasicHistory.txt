@@ -39,25 +39,25 @@
 [Show event icons]
 Показване на икони за събитията
 [Show timestamps]
-
+Показване на времеви марки
 [Show names]
 Показване на имена
 [Show messages]
 Съобщение
 [Truncate message length to:]
-
+Орязване на съобщенията до:
 [Delta time to group messages:]
 
 [hours]
-часове
+часа
 [Limit messages to:]
 
 [Show date in timestamps]
-
+Дата във времевата марка
 [Show seconds in timestamps]
-
+Показване на секунди във времевата марка
 [Enable Smileys]
-
+Включване на усмивките
 [Search forward in list group]
 
 [Search forward in message window]
@@ -93,7 +93,7 @@
 [Delete task]
 
 [Display errors using popups]
-
+Изобразяване на грешки чрез popups
 [Save errors to system history]
 
 [Task]
@@ -101,11 +101,11 @@
 [Name]
 Име
 [Active]
-
+Активно
 [Action type]
 
 [Filter]
-
+Филтър
 [Events older than*]
 
 [Triger type]
@@ -117,7 +117,7 @@
 [Day of week]
 
 [Day]
-
+Ден
 [Export to]
 
 [Compress output files]
@@ -179,18 +179,18 @@
 [System]
 
 [Me]
-
+Аз
 [Invalid Message]
 Невалидно съобщение
 [Authorisation request by %s (%s%d): %s]
-
+Молба за упълномощаване от %s (%s%d): %s
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
 
 [Import]
 Внос
 [Export]
-
+Износ
 [File do not contain selected contact]
 
 [File is corrupted]
@@ -199,7 +199,7 @@
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 
 [Are You sure?]
-
+Сигурни ли сте?
 [Do you want delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
 
 [Open in &new window]
@@ -213,7 +213,7 @@
 [Delete]
 Изтриване
 [Send Message]
-
+Изпращане на съобщение
 [Reply &Quoted]
 Цитиране
 [Delete Group]
@@ -254,7 +254,7 @@
 [Message]
 Съобщение
 [File transfer]
-
+Прехвърляне на файл
 [Link]
 Връзка
 [Authorization request]
@@ -278,21 +278,21 @@ SMS съобщение
 [Advanced]
 Разширени
 [>> Outgoing timestamp]
-
+>> Изходяща времева марка
 [Outgoing background]
-
+Фон на изходящите
 [<< Incoming timestamp]
-
+<< Входяща времева марка
 [Incoming background]
-
+Фон на входящите
 [>> Outgoing name]
-
+>> Изходящо име
 [<< Incoming name]
-
+<< Входящо име
 [>> Outgoing messages]
-
+>> Изходящи съобщения
 [<< Incoming messages]
-
+<< Входящи съобщения
 [Group list background]
 
 [Find window]
@@ -340,7 +340,7 @@ SMS съобщение
 [Invalid file]
 
 [All Files (*.*)]
-
+Всички файлове (*.*)
 [Enter filter name]
 
 [Filter name exists]
@@ -352,9 +352,9 @@ SMS съобщение
 [Save WinSCP log file]
 
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
-
+Въвели сте невалидна кодова страница. Изберете от падащото меню или въведете правилно число.
 [Invalid codepage]
-
+Невалидна кодова страница
 [Browse CSS file]
 
 [Export and Delete]
@@ -370,29 +370,29 @@ SMS съобщение
 [At Finish]
 
 [Daily]
-
+Дневно
 [Weekly]
-
+Седмично
 [Monthly]
-
+Месечно
 [Delta time (minutes)]
 
 [Delta time (hours)]
 
 [Monday]
-
+понеделник
 [Tuesday]
-
+вторник
 [Wednesday]
-
+сряда
 [Thursday]
-
+четвъртък
 [Friday]
-
+петък
 [Saturday]
-
+събота
 [Sunday]
-
+неделя
 [Invalid '%s' value.]
 
 [Events older than]
@@ -414,11 +414,11 @@ SMS съобщение
 ;file \plugins\BasicHistory\src\Options.h
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 [History Log]
-
+Дневник на историята
 [Filter:]
-
+Филтър:
 [Conversation started at %s]
-
+Начало на разговора в %s
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 [_files]
 
@@ -448,7 +448,7 @@ SMS съобщение
 [FTP path cannot contain <date> in import task.]
 
 [Unknown error]
-
+Непозната грешка
 [Cannot get FTP file(s).]
 
 [Cannot unzip file(s).]
@@ -479,5 +479,5 @@ SMS съобщение
 [You have reached the end of the group.]
 
 [You have reached the end of the history.]
-
+Достигнахте края на историята.
 ;file \plugins\BasicHistory\src\TxtExport.cpp

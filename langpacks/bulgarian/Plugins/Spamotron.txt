@@ -9,93 +9,93 @@
 
 ;file \plugins\Spamotron\res\spamotron.rc
 [Do not send challenge request if message score above]
-
+Без задаване на въпрос при оценка над
 [Auto-learn messages from approved contacts as ham]
-
+Заучаване на съобщения от одобрени контакти като ham
 [Filtering options]
-
+Настройки за филтриране
 [Learning options]
-
+Настройки за заучаване
 [Auto-learn outgoing messages as ham]
-
+Автозаучаване на изходящите съобщения като ham
 [Spam]
-
+SPAM
 [Ham]
-
+ham
 [Learn message:]
-
+Заучени съобщения:
 [Auto approve contact if message score below]
-
+Автоматично одобрение при оценка под
 [Do not enable any of these options until Spam-o-tron have learned at least 20 of ham and 50 of spam messages.]
-
+Без включване на опциите преди заучаването на поне 20 ham и 50 SPAM съобщения
 [Learned ham messages:]
-
+Заучени ham съобщения:
 [Learned spam messages:]
-
+Заучени SPAM съобщения:
 [Analyze]
-
+Анализиране
 [Auto-learn messages from contacts if not approved in]
-
+Заучаване на съобщения, от неодобрени контакти за
 [days as spam]
-
+дни като SPAM
 [Enabled]
 Включено
 [and learn as ham]
-
+заучи като ham
 [Enabled accounts:]
-
+Акаунти за филтриране:
 [Do not reply to messages with words in this list:]
-
+Без отговаряне на съобщения съдържащи някоя от следните думи:
 [Do not reply to the same message more than]
-
+Не отговаряй на едно съобщение повече от
 [Flood protection]
-
+Flood защита
 [Do not send more than]
-
+Не изпращай повече от
 [messages to one contact per day]
-
+съобщения до един контакт на ден
 [times a day]
-
+пъти за един ден
 [Settings]
 Настройки
 [Outgoing message]
 Изходящо съобщение
 [Incoming message with any word from list:]
-
+Входящо съобщение с дума от списъка:
 [Auto approve on:]
-
+Автоматично одобрение при:
 [Hide contact until verified]
-
+Скриване на контакта до потвърждаване
 [Add permanently to list on verified]
-
+Добавяне в списъка за постоянно при потвърждение
 [Log actions to system history]
-
+Запис на действията в историята
 [Mode:]
-
+Режим:
 [Responses: (saved in %response%, %response-n% variables)]
-
+Отговори: (съхраняват се от променливите %response% и %response-n%)
 [will be saved in %mathexpr%]
-
+ще бъде съхранене в %mathexpr%
 [Reset to defaults]
-
+Стандарт
 [Reply on success:]
-
+Отговори със следното съобщение при правилен отговор:
 [Send challenge on authorization request:]
-
+Запитване при получаване на молба за молба за упълномощаване:
 [Keep blocked messages in contact history]
-
+Запис на блокираните съобщения в историята на контакта
 [Case-sensitive]
-
+Различаване на главните от малките букви
 [Send challenge on incoming message:]
-
+Запитване при получаване на съобщение
 [and mark them unread after approval]
-
+и маркиране като непрочетени след потвърждаване
 [Enable popup notifications]
-
+Уведомяване с PopUp
 [Contact blocked]
-
+Блокиран контакт
 [Contact approved]
-
+Потвърден контакт
 [Appearance]
 Външен вид
 [Foreground]
@@ -105,50 +105,50 @@
 [Timeout]
 Времетраене
 [Default colors]
-
+Стандартни цветове
 [Default timeout]
-
+Станд. времетраене
 [Preview]
-Преглед
+Образец
 [Windows colors]
-
+Цветове от Windows
 [Challenge sent]
-
+Изпратено запитване
 ;file \plugins\Spamotron\src\bayes.cpp
 [Bayes database path]
-
+Път до Бейс базата от данни
 ;file \plugins\Spamotron\src\common.h
 [Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
-
+Трябва да докажете че не сте бот. Отговорете с "%response%" (без кавичките). /English: Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.
 [Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
-
+Трябва да докажете че не сте бот. Отговорете с резултата на израза %mathexpr%. /English: Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.
 [Verified.]
-
+Потвърдено. /English: Verified.
 [Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
-
+Молбата ви за упълномощаване е отложена. Първо трябва да отговорите с "%response%" (без кавичките). /English: Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.
 [Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
-
+Молбата ви за упълномощаване е отложена. Първо трябва да отговорите с резултата на израза %mathexpr%. /English: Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.
 ;file \plugins\Spamotron\src\options.cpp
 [Simple]
-
+Лесен
 [Math expression]
-
+Математически израз
 [Round-robin]
 
 [Random]
-
+Произволен
 [Will be automatically evaluated from %mathexpr%]
-
+Ще бъде оценено автоматично от променливата %mathexpr%
 [Invalid regular expression.\nKeeping previous value.]
-
+Нецалиден Регулярен израз.\nЩе бъде запазена предишната стойност.
 [Message score]
-
+Оценка на съобщението
 [Message Sessions]
 Разговори
 [Messages]
 Съобщения
 [Bayes]
-
+Бейс филтриране
 [Popups]
 Popups
 ;file \plugins\Spamotron\src\popups.cpp
@@ -160,23 +160,23 @@ Popups
 
 ;file \plugins\Spamotron\src\spamotron.cpp
 [Contact %s approved.]
-
+Контактът %s е потвърден.
 [Message from %s rejected because it reached a maximum for challenge requests per day.]
-
+Отхвърлено е съобщение от %s поради достигане на максималния брой запитвания за един ден.
 [Message from %s rejected because it reached a maximum for same responses per day.]
-
+Отхвърлено е съобщение от %s поради достигане на максималния брой еднакви отговори за един ден.
 [Message from %s dropped because it has a word from black list.]
-
+Пропуснато е съобщение от %s (съдържа дума от списъка за филтриране)
 [Message from %s dropped because of high spam score.]
-
+Пропуснато е съобщение от %s (оценено е като SPAM)
 [Sending plain challenge to %s.]
-
+Изпращане на запитване до %s.
 [Sending round-robin challenge to %s.]
 
 [Sending random challenge to %s.]
 
 [Sending math expression challenge to %s.]
-
+Изпращане на математически израз до %s.
 ;file \plugins\Spamotron\src\utils.cpp
 [Their message was]
-
+Съобщението е

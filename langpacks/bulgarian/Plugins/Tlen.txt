@@ -6,7 +6,7 @@
 [Password:]
 Парола:
 [Save password]
-
+Запис на паролата
 [Create new account]
 Създаване на акаунт
 [Tlen]
@@ -20,11 +20,11 @@
 [Ignore advertisements]
 
 [Automatically delete contacts not in my roster]
-
+Автоизтриване на контакти, които не са в моя списък с хора
 [Show offline users with status messages as invisible in contact list]
 
 [Enable avatars]
-
+Ползване на аватари
 [Send and receive client version information]
 
 [Alert policy]
@@ -54,7 +54,7 @@
 [Port:]
 Порт:
 [Keep connection alive]
-
+Поддържане на връзката
 [Enable encryption]
 Шифроване на базата от данни
 [Enable Always Visible and Never Visible]
@@ -80,7 +80,7 @@
 [Text]
 Текст
 [Delay]
-
+Закъснение
 [&From Popup plugin]
 От приставката Popup
 [&Custom]
@@ -96,7 +96,7 @@
 [Cancel]
 Отказ
 [Nick name:]
-
+Прякор:
 [First name:]
 Име:
 [Last name:]
@@ -112,7 +112,7 @@
 [School:]
 
 [Occupation:]
-
+Работа:
 [Looking for:]
 
 [Voice chats]
@@ -134,7 +134,7 @@
 [Software:]
 
 [Version:]
-
+Версия:
 [System:]
 
 [Personal Information]
@@ -144,11 +144,11 @@
 [Age:]
 Възраст:
 [to]
-
+до
 [Extra Search Criterias]
 
 [Status:]
-
+Състояние:
 [Plan:]
 
 [Tlen Voice Chat]
@@ -160,18 +160,18 @@
 [Out]
 
 [Finish]
-
+Готово
 [Tlen Voice Chat Invitation]
 
 [&Accept]
-
+Приемане
 [From:]
 От:
 [The following invitation to join a voice chat is received.]
 
 ;file \protocols\Tlen\src\tlen.cpp
 [Protocol icon]
-
+Икона на протокола
 [Tlen inbox]
 
 [Group chats]
@@ -193,7 +193,7 @@
 [Tlen Chats]
 
 [Multi-User Conference]
-
+Конференция
 [Tlen Mail]
 
 [Send picture]
@@ -208,10 +208,10 @@
 [1 File]
 
 [%d Files]
-
+%d файла
 ;file \protocols\Tlen\src\tlen_iqid.cpp
 [Authentication failed for]
-
+Неуспешно удостоверяване за
 [Tlen Authentication]
 
 ;file \protocols\Tlen\src\tlen_muc.cpp
@@ -296,7 +296,7 @@
 
 ;file \protocols\Tlen\src\tlen_thread.cpp
 [Enter password for]
-
+Въведете парола за
 [Tlen Connection Error]
 
 [Windows Server 2003]
@@ -320,7 +320,7 @@ Windows
 [Web message]
 
 [From]
-
+От
 [E-mail]
 Имейл
 [An alert has been received.]
@@ -333,13 +333,13 @@ Windows
 [Account]
 Акаунт
 [both]
-
+и двамата
 [from]
-
+от
 [none]
-
+няма
 [not on roster]
-
+не е в списъка с хора
 ;file \protocols\Tlen\src\tlen_voice.cpp
 [...Connecting...]
 
@@ -355,6 +355,6 @@ Windows
 Стандарт
 ;file \protocols\Tlen\src\tlen_ws.cpp
 [%s connection]
-
+%s връзка
 [%s SOCKS connection]
 

@@ -47,7 +47,7 @@
 [Notifications]
 Уведомявания
 [Message boxes (*)]
-
+Текстови кутии (*)
 [Errors]
 Грешки
 [Info messages]
@@ -67,7 +67,7 @@
 [Use Pop&up colours]
 Цветове от Popup приставката
 [Preview]
-Преглед
+Образец
 [Click action]
 Действие на бутоните на мишката
 [On left click]
@@ -81,13 +81,13 @@
 [-1 = Infinite]
 -1 = безкрайно
 [Sec]
-Сек
+сек
 [* Needs popup actions to be enabled]
 * Изисква Popup Действията да са включени
 [Not sets for "Message boxes"]
 
 [Boxes]
-
+Кутии
 [Popups]
 Рopups
 [Component list]

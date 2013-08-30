@@ -29,9 +29,9 @@
 [Basic HTML]
 Обикновен
 [Background color]
-
+Цвят на фона
 [Text color]
-
+Цвят на текста
 [Timeout]
 Времетраене
 [If both colors set to the same value, default colors will be used]

@@ -6,14 +6,14 @@
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
-Услуга за popup уведомяване за останалите приставки.
+Услуга за уведомяване чрез popup за останалите приставки.
 ;file \plugins\Popup\res\resource.rc
 [Content && Style]
 Съдържание и стил
 [Go to Customize > Fonts && Colors for fonts and colors options]
 Персонализиране>Шрифтове за избор на шрифтове и цветове
 [Miscellaneous]
-
+Разни
 [Effects]
 Ефекти
 [Live Preview]
@@ -27,7 +27,7 @@
 [Store last]
 Запис на посл.
 [events]
-
+събития
 [Use History++ to render log]
 
 [Avatars]
@@ -37,11 +37,11 @@
 [Draw borders for semitransparent avatars too]
 Рамка и за полупрозрачните аватари
 [Round corners by]
-
+Закръгляне на ъглите с
 [pixels]
 пиксела
 [Avatar size:]
-
+Аватар (размер):
 [Enable avatar updates]
 Актуализиране на аватарите
 [Multimonitor]
@@ -53,7 +53,7 @@
 [the active window]
 активният прозорец
 [Transparency]
-
+Прозрачност
 [Enable Win 9x/Me transparency]
 Включване на Win 9x/Me прозрачност
 [Use transparency]
@@ -81,13 +81,13 @@
 [Skin options]
 Настройки на облика
 [Preview]
-Преглед
+Образец
 [Download more skins]
 
 [Popup History]
-
+Popup история
 [Desktop]
-
+Работен плот
 [Popup Area]
 Площ на Popup-а
 [pixel(s)]
@@ -137,11 +137,11 @@ Popup действията са малките бутони под текста.
 [Notifications]
 Уведомявания
 [General options]
-
+Основни настройки
 [Enable this notification]
 Включване на уведомяването
 [Popup timeout:]
-
+Времетраене:
 [Left click action:]
 Ляв бутон:
 [Right click action:]
@@ -153,11 +153,11 @@ Popup действията са малките бутони под текста.
 [Colors can be configured in\r\nCustomize > Fonts && Colors]
 Цветовете се настройват от Персонализиране>\r\nШрифтове и цветове
 [More...]
-
+Още...
 [Disable if message window is open]
 Изключване при отворен прозорец за съобщения
 [Sec]
-Сек
+сек
 [0 = Default]
 0 = стандарт
 [-1 = Infinite]
@@ -173,7 +173,7 @@ Popup действията са малките бутони под текста.
 [Show default]
 Стандартно
 [Default Timeout]
-
+Стандартно времетраене
 [Infinite popup delay]
 Безкрайна продължителност
 [Popup delay:]
@@ -206,7 +206,7 @@ Popup действията са малките бутони под текста.
 [no overwrite]
 
 [Send message]
-
+Изпращане на съобщение
 [Quick reply]
 Бърз отговор
 [User details]
@@ -214,13 +214,13 @@ Popup действията са малките бутони под текста.
 [Contact menu]
 Меню на контактите
 [Dismiss popup]
-
+Затваряне на popup
 [Pin popup]
 Прилепване на popup-а
 [Copy to clipboard]
-Копиране в клипборда
+Запис в клипборда
 [Action]
-
+Действие
 ;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 
@@ -241,9 +241,9 @@ Popup действията са малките бутони под текста.
 
 ;file \plugins\Popup\src\font.cpp
 [Hovered Action]
-
+Посочено действие
 [Clock]
-
+Час
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 
@@ -251,9 +251,9 @@ Popup действията са малките бутони под текста.
 
 ;file \plugins\Popup\src\icons.cpp
 [Popups are enabled]
-
+Popups са включени
 [Popups are disabled]
-
+Popups са изключени
 [With "favourite" overlay]
 
 [With "fullscreen" overlay]
@@ -281,18 +281,18 @@ Popup група
 [Pinned Popup]
 Прилепен popup
 [Send Message]
-
+Изпращане на съобщение
 [User Details]
 Подробности за потребителя
 [Contact Menu]
-
+Меню на контакта
 [Add Contact Permanently]
 Добавяне на контакта за постоянно
 [Dismiss Popup]
-
+Затваряне на Popup
 ;file \plugins\Popup\src\main.cpp
 [Classes]
-
+Класове
 [Actions]
 Действия
 [Contacts]
@@ -300,18 +300,18 @@ Popup група
 [Advanced]
 Разширени
 [Toggle Popups]
-
+Вкл./Изкл. на Popups
 [Enable Popups]
-
+Включване на Popups
 [Disable Popups]
-
+Изключване на Popups
 [Popup Plus]
 
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
-
+Без ефект
 [Fade in/out]
 Избледняване/Изсветляване
 ;file \plugins\Popup\src\opt_class.cpp
@@ -351,15 +351,15 @@ Popup група
 [upper right corner]
 горен десен ъгъл
 [horizontal]
-
+хоризонтално
 [vertical]
 вертикално
 [Global Status]
-
+Общи състояния
 [Protocol Status]
-
+Състояния на протоколите
 [You cannot specify a value lower than %d and higher than %d.]
-
+Не е възможно задаването на стойност по-малка от %d и по-голяма от %d.
 ['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
 
 [Popup Plus Warning]
@@ -384,7 +384,7 @@ Popup Plus Предупреждение
 [Use advanced text render]
 
 [Global settings]
-
+Общи настройки
 [Refresh List]
 Обновяване на списъка
 ;file \plugins\Popup\src\popup_thread.cpp
@@ -399,7 +399,7 @@ Popup Plus Предупреждение
 [Warning]
 Предупреждение
 [Notify]
-
+Уведомяване
 ;file \plugins\Popup\src\skin.cpp
 [The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
 
@@ -413,8 +413,8 @@ Popup режим: Автоматичен
 [Popup Mode: Block contact]
 Popup режим: Блокиране на контакта
 [Auto]
-
+Авто
 [Favourite]
-
+Любим
 [Block]
-
+Блокиране

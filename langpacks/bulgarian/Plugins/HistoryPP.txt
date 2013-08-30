@@ -12,7 +12,7 @@
 [Voice call]
 Гласов разговор
 [Sh&ow in history]
-
+Показване в историята
 [Log default]
 
 [History default]
@@ -26,7 +26,7 @@
 [Pseudo-edit mode...]
 Режим на псевдо редактиране...
 [Easy, fast and feature complete history viewer.]
-
+Лесен за използване и богат на функции визуализатор на историята.
 [Group log messages]
 
 [Need more options?]
@@ -58,7 +58,7 @@ WATrack: отхвърлена молба
 [Display changed avatars]
 Изобразяване на променени аватари
 [Change appearance]
-
+Промяна на външния вид
 [Grid background]
 Фон на мрежата
 [Grid messages]
@@ -120,7 +120,7 @@ WATrack: отхвърлена молба
 [Date/Time:]
 Дата/Час:
 [Copy All]
-
+Копиране на всички
 [&Select All]
 
 [SMS Message]
@@ -168,7 +168,7 @@ History++ износ
 [Set &Bookmark]
 Поставяне на отметка
 [Rename &Bookmark]
-
+Преименуване на отметката
 [Copy &Text]
 Копиране на текста
 [&Save Selected...]
@@ -180,7 +180,7 @@ History++ износ
 [All Results]
 Всички резултати
 [&System History]
-
+История на системата
 [System History]
 История на системата
 [Searching "%s"...]
@@ -220,7 +220,7 @@ History++ Защита с парола
 [HotSearch: %s (F3 to find next)]
 Бързо търсене: %s (F3 за следващия резултат)
 [You have reached the end of the history.]
-
+Достигнахте края на историята.
 [Do you want to continue searching at the beginning?]
 Желаете ли търсенето да продължи от началото?
 [History++ Search]
@@ -234,9 +234,9 @@ History++ Търсене
 [Do you really want to delete selected items (%.0f)?]
 Наистина ли желаете маркираните елементи да бъдат изтрити (%.0f)?
 [Delete Selected]
-
+Изтриване на маркираните
 [Do you really want to delete selected item?]
-
+Наистина ли желаете маркираният елемент да бъде изтрит?
 [%s - History++]
 
 [History is empty]
@@ -250,7 +250,7 @@ History++ Търсене
 [History Search]
 Търсене в историята
 [His&tory Search]
-
+Търсене в историята
 [You need password to access this history]
 Необходима е парола за достъп до историята
 [Enter]
@@ -332,7 +332,7 @@ ANSI кодиране
 [All files (*.*)|*.*]
 
 [Conversation started at %s]
-
+Начало на разговора в %s
 [Remove bookmark]
 
 [Bookmark]
@@ -374,17 +374,17 @@ ANSI кодиране
 [Unknown id]
 
 [Outgoing file transfer: %s]
-
+Изходящо прехвърляне на файл: %s
 [Incoming file transfer: %s]
-
+Входящо прехвърляне на файл: %s
 [Authorisation request by %s (%s%d): %s]
-
+Молба за упълномощаване от %s (%s%d): %s
 [You were added by %s (%s%d)]
 Вие бяхте добавен от %s (%s%d)
 [Outgoing contacts: %s]
-
+Изходящи контакти: %s
 [Incoming contacts: %s]
-
+Входящи контакти: %s
 [Webpager message from %s (%s): %s]
 Webpager съобщение от %s (%s): %s
 [Email express from %s (%s): %s]
@@ -426,23 +426,23 @@ EMail Express съобщение
 [Additional processing support]
 
 [Enable BBCodes]
-
+Включване на BBCodes
 [Change Appearance]
 
 [To change fonts you need to install FontService plugin.]
-
+За да променяте шрифтове трябва да инсталирате приставката FontService.
 [FontService is installed. Go to Customize -> Fonts to change settings.]
-
+FontService е инсталиран. Персонализиране>Шрифтове за смяна на шрифт.
 [Download FontService plugin]
-
+Сваляне на FontService приставка
 [To change icons you need to install IcoLib plugin.]
-
+За да променяте икони трябва да инсталирате приставката IcoLib.
 [IcoLib is installed. Go to Customize -> Icons to change icons.]
-
+IcoLib е инсталирана. Персонализиране>Икони за смяна на икони.
 [Download IcoLib plugin]
-
+Сваляне на IcoLib приставка
 [More info on these plugins]
-
+Още информация за тези приставки
 [Open event details by Enter]
 Enter отваря подробности за събитието
 [Search panel]
@@ -474,9 +474,9 @@ Enter отваря подробности за събитието
 [Save All]
 Запазване на всичко
 [Delete All]
-
+Изтриване на всичко
 [Events filter]
-
+Филтър на събитията
 [In-place filter wait]
 
 [Search Up]
@@ -494,7 +494,7 @@ Enter отваря подробности за събитието
 [Incoming url]
 Входящ url адрес
 [Outgoing contacts]
-
+Изходящи контакти
 [Outgoing file]
 Изходящи файлове
 [Outgoing SMS Message]
@@ -502,7 +502,7 @@ Enter отваря подробности за събитието
 [Outgoing url]
 Изходящ url адрес
 [Selected background]
-
+Фон на маркираното
 [SMTP Simple]
 
 [Show sender information]
@@ -514,7 +514,7 @@ Enter отваря подробности за събитието
 [Toolbar]
 Лента с инструменти
 [Incoming SMS Message]
-
+Входящо SMS съобщение
 [Link URLs]
 URL връзки
 [History++]
@@ -580,9 +580,9 @@ URL връзки
 [History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
 
 [&Empty System History]
-
+Изтриване на системната история
 [&Empty History]
-
+Изтриване на историята
 [Do you really want to delete ALL items for this contact?]
 Наистина ли желаете ВСИЧКИТЕ елементи за абоната да бъдат изтрити?
 [Note: It can take several minutes for large histories]
@@ -764,7 +764,7 @@ URL връзки
 [Incoming contacts]
 Входящи контакти
 [Outgoing contacts]
-
+Изходящи контакти
 [System message]
 Системни съобщения
 [Incoming timestamp]

@@ -6,7 +6,7 @@
 ;  Authors: Sam Kothari, Miranda NG Team
 ;============================================================
 [Windows Explorer extension for Miranda NG.]
-
+Разширява интегрирането на Miranda NG в Windows Explorer.
 ;file \plugins\ShellExt\res\shldlgs.rc
 [Display contacts in their assigned groups (if any)]
 Изобразяване на контактите в групите им (ако имат такава)
@@ -32,21 +32,21 @@
 Без контакти, които са извън линия
 ;file \plugins\ShellExt\src\options.cpp
 [Problem, registration missing/deleted.]
-
+Проблем: интеграцията липсва или е изтрита.
 [Successfully created shell registration.]
-
+Успешно интегриране.
 [Not Approved]
-
+Отхвърлено
 [Approved]
-
+Одобрено
 [Are you sure? This will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
-
+Сигурни ли сте? Настройките съхранени в базата от данни ще бъдат премахнати! Също така и промените по регистъра на Windows за интегриране с Miranda NG!
 [Disable/Remove shlext]
 Изключване/Премахване на shlext
 ;file \plugins\ShellExt\src\shlcom.cpp
 [Miranda]
 Miranda
 [Recently]
-
+Наскоро
 [Clear entries]
-
+Изчистване на записите

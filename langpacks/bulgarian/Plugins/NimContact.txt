@@ -43,7 +43,7 @@ URL
 [O&pen Folder]
 
 [Link Settings]
-
+Настройки на връзката
 [CList Settings]
 
 [Group:]

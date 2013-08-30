@@ -11,21 +11,21 @@
 [Login to Miranda NG]
 Вписване в Miranda NG
 [EN]
-
+EN
 [OK]
 ОК
 [Cancel]
 Отказ
 [New password]
-
+Нова парола
 [Change password]
-
+Промяна на паролата
 [Change]
-
+Промяна
 [Remove]
 Премахване
 [Old password]
-
+Стара парола
 [Install Database Settings]
 Инсталиране на нови настройки в базата от данни
 [Yes]
@@ -79,11 +79,11 @@
 [Info:]
 Информация:
 [Author:]
-
+Автор:
 [Site:]
 Сайт:
 [Email:]
-
+Имейл:
 [Unique ID:]
 
 ;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
@@ -94,14 +94,14 @@
 [Secured MMAP: authorization successful]
 Secured MMAP: успешно упълномощаване
 [Database is marked as belonging to an unknown version of Miranda]
-
+Базата от данни принадлежи на неизвесртна версия на Miranda
 ;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
 [Database Features]
 Функции на базата от данни
 [Database]
 База от данни
 [Change Password]
-
+Промяна на паролата
 [Set password]
 Задаване на парола
 [Dll]
@@ -117,16 +117,16 @@ Secured MMAP: успешно упълномощаване
 [Password is not correct!]
 Паролата е грешна!
 [Please enter your new password]
-
+Моля, въведете новата парола
 [Password is too short!]
-
+Паролата е твърде кратка!
 [Passwords do not match!]
 Паролите не са еднакви!
 [Wrong password!]
 Грешна парола!
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
 [Sorry, but your database encrypted with unknown module]
-
+За съжаление базата ви от данни е шифрована с непознат модул
 [Error]
 Грешка
 [Crypto modules not found]

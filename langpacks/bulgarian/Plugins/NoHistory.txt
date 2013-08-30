@@ -27,9 +27,9 @@
 Без съхраняване на история
 ;file \plugins\NoHistory\src\icons.cpp
 [Disable]
-
+Изключване
 [Enable]
-
+Включване
 [Clear]
 Изчистване
 [No History]

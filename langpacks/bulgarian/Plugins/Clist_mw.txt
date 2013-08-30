@@ -362,7 +362,7 @@
 Общо
 ;file \plugins\Clist_mw\src\clistsettings.cpp
 [_NoProtocol_]
-_НпмаПротокол_
+_НямаПротокол_
 [(Unknown Contact)]
 (Непознат контакт)
 ;file \plugins\Clist_mw\src\clisttray.cpp

@@ -13,7 +13,7 @@
 [Installed plugins]
 
 [Version:]
-
+Версия:
 [Description:]
 Описание:
 [Copyright:]
@@ -45,7 +45,7 @@ Copyright:
 [Disable Events]
 
 [Server:]
-
+Сървър:
 [User Name:]
 
 [Password:]
@@ -55,7 +55,7 @@ Copyright:
 [Port:]
 Порт:
 [SSL]
-
+SSL
 [Disable STLS]
 
 [Startup check]
@@ -77,7 +77,7 @@ Copyright:
 [Default]
 Стандарт
 [Status:]
-
+Състояние:
 [Account]
 Акаунт
 [APOP]
@@ -95,7 +95,7 @@ Copyright:
 [Cancel]
 Отказ
 [Choose modes]
-
+Изберете състояния
 [Offline]
 Извън линия
 [Online]
@@ -139,7 +139,7 @@ Copyright:
 [Mail Notifications]
 
 [Popup]
-
+Рopup
 [Single popup]
 
 [Multi popup]
@@ -159,7 +159,7 @@ Copyright:
 [..s Popup duration]
 
 [Preview]
-Преглед
+Образец
 [Background colour]
 Фонов цвят
 [Text colour]
@@ -195,7 +195,7 @@ Copyright:
 [An error occured. Error code: %d]
 
 [Unknown error]
-
+Непозната грешка
 [ - connection error]
 
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
@@ -218,7 +218,7 @@ Copyright:
 [Copy Selected]
 
 [Copy All]
-
+Копиране на всички
 [Run application]
 
 [Delete selected]
@@ -226,13 +226,13 @@ Copyright:
 [Select All]
 Избор - всичко
 [From]
-
+От
 [Subject]
 
 [Size]
 Размер
 [Date]
-
+Дата
 [Do you really want to delete %d selected mails?]
 
 [Delete confirmation]
@@ -244,7 +244,7 @@ Copyright:
 
 ;file \plugins\YAMN\src\proto\netlib.cpp
 [%s connection]
-
+%s връзка
 ;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 
@@ -350,7 +350,7 @@ Popups
 [Dialog box error]
 
 [Failed]
-
+Неуспешно
 [Do you really want to delete this account?]
 
 [Delete account confirmation]

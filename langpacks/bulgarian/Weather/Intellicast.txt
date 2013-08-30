@@ -5,67 +5,67 @@
 [Ceiling]
 
 [Mon]
-
+пон
 [Tue]
-
+вто
 [Wed]
-
+сря
 [Thu]
-
+чет
 [Fri]
-
+пет
 [Sat]
-
+съб
 [Sun]
-
+нед
 [Full]
 
 [Sunny]
-
+Слънчево
 [Waning Crescent]
-
+Намаляващ полумесец
 [Waning Gibbous]
-
+Намаляваща полупълна
 [Waxing Crescent]
-
+Нарастващ полумесец
 [Waxing Gibbous]
-
+Нарастваща полупълна
 [Last Quarter]
-
+Последна четвърт
 [First Quarter]
-
+Първа четвърт
 [Partly Sunny]
-
+Отчасти слънчево
 [Mostly Sunny]
-
+Предимно слънчево
 [Partly Cloudy]
-
+Отчасти облачно
 [Mostly Cloudy]
-
+Предимно облачно
 [Mostly Clear]
-
+Предимно ясно
 [Scattered Thunderstorms]
-
+Разпръснати гръмотевични бури
 [Feel]
-
+Усеща се като
 [Forecast Day 1]
-
+Днес: _Прогноза
 [Forecast Day 2]
-
+Ден 2: _Прогноза
 [Forecast Day 3]
-
+Ден 3: _Прогноза
 [Forecast Day 4]
-
+Ден 4: _Прогноза
 [Forecast Day 5]
-
+Ден 5: _Прогноза
 [Forecast Day 6]
-
+Ден 6: _Прогноза
 [Forecast Day 7]
-
+Ден 7: _Прогноза
 [Forecast Day 8]
-
+Ден 8: _Прогноза
 [Forecast Day 9]
-
+Ден 9: _Прогноза
 [Forecast Day 10]
 
 [Forecast today]
@@ -73,7 +73,7 @@
 [Heat Index]
 
 [Moon]
-
+Лунна фаза
 [MoonRise]
 
 [MoonSet]
@@ -85,41 +85,41 @@
 [Wind Chill]
 
 [Wind Direction]
-
+Вятър (посока)
 [Wind Speed]
-
+Вятър (скорост)
 [N]
-
+С
 [W]
-
+З
 [S]
-
+Ю
 [E]
-
+И
 [NW]
-
+СЗ
 [NE]
-
+СИ
 [SW]
-
+ЮЗ
 [SE]
-
+ЮИ
 [NNW]
-
+ССЗ
 [NNE]
-
+ССИ
 [SSW]
-
+ЮЮЗ
 [SSE]
-
+ЮЮИ
 [ENE]
-
+ИСИ
 [WSW]
-
+ЗЮЗ
 [WNW]
-
+ЗНЗ
 [ESE]
-
+ИЮИ
 [WindDir1]
 
 [WindDir2]
@@ -127,20 +127,20 @@
 [Broken Clouds]
 
 [Scattered Clouds]
-
+Променлива облачност
 [North]
-
+север
 [East]
-
+изток
 [South]
-
+юг
 [West]
-
+запад
 [Northwest]
-
+северозапад
 [Northeast]
-
+североизток
 [Southwest]
-
+югозапад
 [Southeast]
-
+югоизток

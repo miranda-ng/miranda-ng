@@ -45,7 +45,7 @@
 [Make a voice call]
 
 [Send file]
-
+Изпращане на файл
 [Send URL]
 
 [Open userinfo]
@@ -53,10 +53,10 @@
 [Open history]
 Отваря историята
 [Open contact menu]
-
+Отваря менюто на контакта
 [Show all contacts]
 
 [Quick Contacts...]
 
 [Send message]
-
+Изпращане на съобщение

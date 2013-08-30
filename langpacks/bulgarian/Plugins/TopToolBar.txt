@@ -33,7 +33,7 @@ ToptoolBar - добавя бутони в лента за бърз достъп 
 [Name:]
 Име:
 [Path:]
-
+Път:
 [Set]
 Задай
 ;file \plugins\TopToolBar\src\toolbar.cpp
@@ -42,7 +42,7 @@ ToptoolBar - добавя бутони в лента за бърз достъп 
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org]
 
 [TopToolBar]
-
+TopToolBar
 ;file \plugins\TopToolBar\src\ttbopt.cpp
 [Contact List]
 Списък с контакти

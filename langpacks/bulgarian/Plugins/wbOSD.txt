@@ -13,9 +13,9 @@
 [Select font]
 
 [Text color]
-
+Цвят на текста
 [Background color]
-
+Цвят на фона
 [Transparent]
 Прозрачно
 [Shadow color]
@@ -27,7 +27,7 @@
 [General]
 Основни
 [Shadow]
-
+Сянка
 [Align]
 Подреждане
 [Shadow distance:]
@@ -53,7 +53,7 @@
 [Show message window after click]
 
 [Static]
-
+Статичен
 [Format:]
 
 [Show when my status is:]

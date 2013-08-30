@@ -9,11 +9,11 @@
 
 ;file \plugins\Quotes\res\Forex.rc
 [Variable List]
-
+Списък с променливи
 [OK]
 ОК
 [Edit Settings]
-
+Редактиране на настройките
 [Use contact specific settings]
 Ползване на частните настройки за контакта
 [Log]
@@ -55,7 +55,7 @@ Popup настройки...
 [&Swap]
 Размяна
 [Convert]
-
+Превръщане
 [Info provided by <a href="http://www.google.com">Google</a>]
 Източник на информацията Google
 [Close]
@@ -67,7 +67,7 @@ Popup настройки...
 [Get data from:]
 Извличане на данни от:
 [Filter:]
-
+Филтър:
 [Popup Window Settings]
 Настройки на Popup прозореца
 [Colours]
@@ -81,17 +81,17 @@ Popup настройки...
 [Text colour]
 Цвят на текста
 [Delay]
-
+Закъснение
 [From Popup plugin]
 От приставката Popup
 [Custom]
 Избор
 [Permanent]
-
+Постоянно
 [Do not add to popup's history]
 Без добавяне към popup историята
 [Preview]
-Преглед
+Образец
 [&Choose Quotes to watch in contact list:]
 Изберете стойности за наблюдение (в списъка с контакти):
 [&Refresh Quotes Every:]
@@ -105,7 +105,7 @@ Popup настройки...
 [&Advanced Settings...]
 Допълнителни настройки...
 [Static]
-
+Статичен
 [<a>SysLink1</a>]
 
 [Current Rate:]
@@ -150,28 +150,28 @@ Quote\\Инф. за курса
 Въведете текст за изобразяване в списъка с контакти.
 ;file \plugins\Quotes\src\CurrencyConverter.cpp
 [Info provided by]
-Източник
+Източник 
 [Enter positive number.]
 Въведете положително число.
 ;file \plugins\Quotes\src\Forex.cpp
 [Quotes]
 
 [Refresh All Quotes\\Rates]
-
+Обновяване на всички Акции\\Курсове
 [Currency Converter...]
-
+Конвертиране на валута...
 [Export All Quotes]
-
+Изнасяне на всички курсове
 [Import All Quotes]
-
+Внасяне на всички курсове
 [Refresh]
 Обновяване
 [Open Log File...]
-
+Отваряне на дневника...
 [Chart...]
-
+Диаграма...
 [Edit Settings...]
-
+Редактиране на настройките...
 [Network]
 Мрежа
 ;file \plugins\Quotes\src\HTTPSession.cpp
@@ -179,28 +179,28 @@ Quote\\Инф. за курса
 HTTP връзки на Quotes
 ;file \plugins\Quotes\src\IconLib.cpp
 [Protocol icon]
-
+Икона на протокола
 [Quote/Rate up]
-
+Покачване на акции/курс
 [Quote/Rate down]
-
+Спадане на акции/курс
 [Quote/Rate not changed]
-
+Акции/Курс без промяна
 [Quote Section]
 
 [Quote]
-
+Цитиране
 [Export]
-
+Износ
 [Swap button]
-
+Бутон за размяна
 [Import]
 Внос
 ;file \plugins\Quotes\src\ImportExport.cpp
 [Xml File (*.xml)]
 Xml файлове (*.xml)
 [All files (*.*)]
-
+Всички файлове (*.*)
 ;file \plugins\Quotes\src\ModuleInfo.cpp
 [Miranda could not load Quotes plugin. XML parser is missing.]
 Зареждането на приставката Quotes е невъзможно. Липсва Microsoft XML parser.
@@ -208,19 +208,19 @@ Xml файлове (*.xml)
 Зареждането на приставката Quotes е невъзможно. Липсва Microsoft HTML parser.
 ;file \plugins\Quotes\src\QuoteChart.cpp
 [Log File]
-
+Файл на дневника
 [Miranda's History]
 
 [All]
-
+Всички
 [Last Day]
-
+Последния ден
 [Last Week]
-
+Последната седмица
 [Last Month]
-
+Последния месец
 [Last Year]
-
+Последната година
 [User-Defined]
 
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
@@ -276,7 +276,7 @@ Xml файлове (*.xml)
 [Previous Close]
 Цена при предходното затваряне
 [Change]
-
+Промяна
 ;file \plugins\Quotes\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
 

@@ -31,7 +31,7 @@
 [Strings for keyboard layouts]
 Низове за клавиатурните подредби
 [EN]
-
+EN
 [Default]
 Стандарт
 [Invert current state]
@@ -61,7 +61,7 @@
 [From Popup plugin]
 От приставката Popup
 [Permanent]
-
+Постоянно
 [Custom]
 Избор
 [On left click]
@@ -69,7 +69,7 @@
 [Copy to clipboard]
 Копиране в клипборда
 [Dismiss]
-
+Затваряне
 [On right click]
 Десен бутон
 [Preview]
@@ -79,7 +79,7 @@
 
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Popup]
-
+Рopup
 [Changing Layout]
 Смяна на клавиатурната подредба
 [Changing Case]

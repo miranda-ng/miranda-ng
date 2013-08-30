@@ -6,37 +6,37 @@
 ;  URL:http://awkward.mirandaim.ru
 ;============================================================
 [This plugin plays and records Internet radio streams. Also local media files can be played.]
-
+Приставката възпроизвежда и записва радио потоци от интернет. Могат да бъдат възпроизвеждани и локални файлове.
 [mRadio Mod]
-
+mRadio Mod
 [REC]
-
+Запис
 [Cave]
-
+Пещера
 [Arena]
-
+Арена
 [Genre]
 Жанр
 [Plain]
-
+Равнина
 [Alley]
-
+Алея
 [Dizzy]
-
+Замайване
 [Generic]
 
 [Bathroom]
-
+Баня
 [Parking Lot]
-
+Паркинг
 [Stone Corridor]
-
+Коридор от камъни
 [Sewer Pipe]
-
+Канализационна тръба
 [Auditorium]
-
+Аудитория
 [Carpeted Hallway]
-
+Коридор с мокет
 [Play from first]
 Възпроизвеждане от началото
 [Shuffle playlist]
@@ -50,13 +50,13 @@
 [PreBuf, % (75%)]
 
 [Hallway]
-
+Коридор
 [Mountains]
-
+Планина
 [Use EAX]
 Ползване на EAX
 [Under Water]
-
+Под вода
 [Station URL (required)]
 Адрес на станцията (необходимо)
 [To INI]
@@ -70,39 +70,39 @@
 [Bitrate]
 Честота
 [Stone Room]
-
+Стая от камъни
 [Living Room]
-
+Дневна
 [Drugged]
-
+Забавяне
 [Record path]
 Записване в
 [Padded Cell]
-
+Изолирана стая
 [Autoconnect last station]
 Автоматично свързване към последната активна станция
 [Concert Hall]
-
+Концертна зала
 [Psychotic]
 
 [Forrest]
-
+Гора
 [To list]
 списъка
 [Hangar]
-
+Хангар
 [Offline station as Offline]
-
+Състояние "Извън линия" за невъзпроиз-\nвеждащите станции
 [Protocol depending status]
 
 [Continuous record]
 Запис без прекъсване
 [Quarry]
-
+Кариера
 [Sorry!]
-
+Извинете!
 [BASS.DLL not found!]
-
+BASS.DLL не може да бъде намерен!
 [Station]
 Станция
 [Custom INI file]
@@ -110,33 +110,33 @@
 [Radio station URL]
 
 [Start record]
-
+Начало на запис
 [Stop record]
-
+Край на записа
 [Currently played URL]
-
+URL, който се възпроизвежда в момента
 [Current stream title]
-
+Текущо заглавие на потока
 [Station/playlist URL]
-
+Станция/URL на плейлиста
 [Currently used decoder]
-
+Декодер използван в момента
 [connecting]
-
+свързване
 [aborting]
-
+прекратяване
 [Can't initialize device]
 
 [Can't connect to net. Please, clear 'Work offline' option in Internet settings]
 
 [Start broadcasting]
-
+Начало на предаване
 [Stop broadcasting]
-
+Край на предаването
 [Start/Stop broadcasting]
-
+Начало/Край на предаване
 [Start/Stop Record]
-
+Начало/Край на запис
 [Record]
 Запис
 [Status message template]
@@ -146,7 +146,7 @@
 [Export All]
 Износ на всичко
 [Current status]
-
+Текущо състояние
 [Broadcast ON]
 
 [Broadcast OFF]
@@ -160,9 +160,9 @@
 [Tries to connect]
 Опита за свързване
 [Mute]
-
+Вкл./Изкл. на звука
 [mRadio volume control]
-
+mRadio - управление силата на звука
 [Import File]
 Внос от файл
 [Play Station]
@@ -182,7 +182,7 @@
 [Play]
 
 [Frame background]
-
+Фон на рамката
 [OFF]
 Изкл.
 [Volume]
@@ -192,4 +192,4 @@
 [Equalizer]
 Еквалайзер
 [New]
-Нов
+Ново

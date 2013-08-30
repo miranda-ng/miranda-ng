@@ -27,9 +27,9 @@
 [ms]
 мсек
 [Tooltips]
-
+Подсказки
 [Miscellaneous]
-
+Разни
 [0 = Default]
 0 = стандарт
 [*requires Tipper plugin]

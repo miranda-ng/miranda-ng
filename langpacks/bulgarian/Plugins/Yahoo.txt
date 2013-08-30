@@ -97,11 +97,11 @@ Yahoo списък за игнориране
 [%s denied invitation with message: %s]
 %s отхвърли поканата, със съобщението: %s
 [Me]
-
+Аз
 [Others]
 Други
 [&Invite user...]
-
+Покани потребител...
 [&Leave chat session]
 Напускане от разговора
 [User &details]

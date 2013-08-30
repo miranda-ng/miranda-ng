@@ -74,13 +74,13 @@
 [Status Message]
 Текст за състояние
 [Enable]
-
+Включване
 [With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddy's can also see what you play. It will also change the status to occupied, if this option is enabled.]
 
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
 
 [Status message:]
-
+Текст за състоянието:
 [Change the status to occupied or dnd]
 
 [The status message and status will be reset, if you close the game.]
@@ -88,7 +88,7 @@
 [Prefer dnd when it is available]
 
 [Games]
-
+Игри
 [Game:]
 
 [Dont detect this game as running]
@@ -231,7 +231,7 @@
 
 ;file \protocols\Xfire\src\main.cpp
 [Protocol icon]
-
+Икона на протокола
 [%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
 
 [Friends of Friends Playing]
@@ -259,7 +259,7 @@
 [My Current ServerIP]
 
 [Voice]
-
+Глас
 [My Current Voice]
 
 [Voice ServerIP]
@@ -394,17 +394,17 @@
 [The changes you have made require you to reconnect to the XFire network before they take effect]
 
 [Hidden]
-
+Скрито
 [Messagebox]
 
 [Popup]
-
+Рopup
 [No]
 Не
 [On every start]
 
 [Daily]
-
+Дневно
 [<Root Group>]
 <Главна група>
 [Are you sure you want to remove this game?]
@@ -414,7 +414,7 @@
 [Error unknown game id.]
 
 [Not supported]
-
+Не се поддържа
 [Configuration saved!]
 
 [Game not found?!]
@@ -424,7 +424,7 @@
 [Account]
 Акаунт
 [Features]
-
+Функции
 [Blocklist / Games]
 
 [StatusMsg]

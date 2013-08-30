@@ -19,7 +19,7 @@
 [Check database]
 
 [Restart]
-
+Рестартиране
 [Profile manager]
 
 [Database]

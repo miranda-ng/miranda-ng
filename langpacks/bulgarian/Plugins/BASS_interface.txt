@@ -47,10 +47,10 @@
 [Out to lunch]
 На обяд
 [Preview]
-Преглед
+Образец
 ;file \plugins\BASS_interface\src\Bass_interface.h
 [Bass Interface]
-
+BASS интерфейс
 ;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 Версия на библиотеката BASS: %d.%d.%d.%d
@@ -65,8 +65,8 @@
 [Frame Background]
 
 [Bass library]
-
+Библиотеката Bass
 [Sounds enabled]
-
+Звукът е включен
 [Sounds disabled]
-
+Звукът е изключен

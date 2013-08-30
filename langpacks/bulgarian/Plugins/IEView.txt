@@ -11,7 +11,7 @@
 [Copy]
 Копиране
 [Copy Link]
-
+Копиране на връзката
 [Select All]
 Избор - всичко
 [Save Image As...]
@@ -19,13 +19,13 @@
 [Print]
 Отпечатване
 [Clear Log]
-
+Изчистване на дневника
 [Show source]
 Показване на кода
 [Options]
 Настройки
 [Enable BBCodes]
-
+Включване на BBCodes
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
 Поддържат се следните BBCodes: [b][i][u][s][img][size][color][url]
 [Enable support for Flash files in smileys and BBCodes]
@@ -43,7 +43,7 @@
 [Size:]
 Размер:
 [Mode]
-
+Режим
 [Compatibility Mode]
 Режим на съвместимост
 [Use External CSS]
@@ -61,11 +61,11 @@
 [Show nicknames]
 Показване на прякори
 [Show time]
-
+Показване на час
 [Show seconds]
 Показване на секунди
 [Show date]
-
+Показване на дата
 [Use long date format]
 Дълг формат за датата
 [Use relative timestamp]
@@ -76,9 +76,9 @@
 [Incoming File Transfer]
 Входящ файл
 [URL sent]
-
+изпратени URL адреси
 [URL received]
-
+получени URL адреси
 ;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Непознат контакт)
@@ -90,7 +90,7 @@
 [IID_IOleObject failed.]
 
 [RESULT]
-
+РЕЗУЛТАТ
 [IID_IOleInPlaceObject failed.]
 
 [Failed to Advise]
@@ -100,14 +100,14 @@
 [OleInitialize failed.]
 
 [ERROR]
-
+ГРЕШКА
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 
 [%s has left.]
 
 [The topic is %s.]
-
+Темата е %s.
 [Error]
 Грешка
 ;file \plugins\IEView\src\Options.cpp
@@ -124,7 +124,7 @@
 [Message Sessions]
 Разговори
 [IEView]
-
+IEView
 [Skins]
 Облици
 [Template]
@@ -132,14 +132,14 @@
 [All Files]
 Всички файлове
 [All Images]
-
+Всички изображения
 [Style Sheet]
 
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [Today]
-
+Днес
 [Yesterday]
-
+Вчера
 [File sent]
 Файлът е изпратен
 [File received]

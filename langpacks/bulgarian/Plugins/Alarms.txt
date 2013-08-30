@@ -25,13 +25,13 @@
 [Row Height:]
 
 [Indent:]
-
+Отстъп:
 [Reminder Frame]
 
 [Auto hide/show]
 
 [Loop sound]
-
+Повтаряне
 [Period (hours):]
 
 [Hide/show with clist]
@@ -55,13 +55,13 @@
 [Cancel]
 Отказ
 [Title:]
-
+Заглавие:
 [Description:]
 Описание:
 [Actions]
 Действия
 [Popup window]
-
+Рopup прозорец
 [Sound:]
 
 [Run command:]
@@ -81,15 +81,15 @@
 [Once]
 Веднъж
 [Weekly]
-
+Седмично
 [Daily]
-
+Дневно
 [Weekdays]
 
 [Monthly]
-
+Месечно
 [Yearly]
-
+Годишно
 [i'm hiding]
 
 [Date and Time]
@@ -101,11 +101,11 @@
 [No reminder]
 
 [Dismiss]
-
+Затваряне
 [Snooze]
 
 [Static]
-
+Статичен
 [Reminder Frame Context]
 
 [&Suspend]
@@ -136,9 +136,9 @@
 [30 mins]
 
 [1 hour]
-
+1 час
 [1 day]
-
+1 ден
 [1 week]
 
 [Title]
@@ -169,19 +169,19 @@
 
 ;file \plugins\Alarms\src\options.cpp
 [Sunday]
-
+неделя
 [Monday]
-
+понеделник
 [Tuesday]
-
+вторник
 [Wednesday]
-
+сряда
 [Thursday]
-
+четвъртък
 [Friday]
-
+петък
 [Saturday]
-
+събота
 [Please enter a title for this alarm.]
 
 [Error]

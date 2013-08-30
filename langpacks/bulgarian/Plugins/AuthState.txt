@@ -13,20 +13,20 @@
 [Show Grant icon]
 Показване на икона "Разрешено"
 [Plugin settings]
-
+Настройване на приставката
 [Enable Menu Item (*)]
 Елемент в менюто*
 [Show icons only for recently added contacts]
 Показване на икони само за скоро добавените контакти
 ;file \plugins\AuthState\src\main.cpp
 [Disable AuthState icons]
-
+Без икони за упълномощаване
 [Enable AuthState icons]
-
+Включване на иконите за упълномощаване
 [Auth]
-
+Упълномощаване
 [Grant]
-
+Разрешаване
 [Auth & Grant]
 
 [Auth State]

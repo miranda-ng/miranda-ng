@@ -31,7 +31,7 @@
 [On events...]
 
 [Send]
-
+Изпращане
 [Receive]
 
 [Message]
@@ -39,7 +39,7 @@
 [URL]
 URL
 [File transfer]
-
+Прехвърляне на файл
 [...change status to...]
 
 [... if status is...]

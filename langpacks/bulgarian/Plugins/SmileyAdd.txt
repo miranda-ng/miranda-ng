@@ -6,7 +6,7 @@
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
-
+Осигурява поддръжка на емотикони в Miranda NG.
 ;file \plugins\SmileyAdd\res\resource.rc
 [Smiley Categories]
 Категории усмивки
@@ -15,13 +15,13 @@
 [Name:]
 Име:
 [Author:]
-
+Автор:
 [Version:]
-
+Версия:
 [Preview]
 Преглед
 [Display]
-
+Изобразяване
 [Replace only smileys surrounded by spaces]
 Замяна само на усмивки оградени от интервал
 [Scale smiley to textheight]
@@ -47,13 +47,13 @@
 [Input Area]
 Поле за въвеждане
 [Enable Smileys]
-
+Включване на усмивките
 [Don't replace at cursor]
 Без замяна при посочване
 [Built-In Message Dialog Support]
 Прозорец за съобщения
 [Disable]
-
+Изключване
 [Smiley Button]
 Бутон "Усмивки"
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
@@ -61,7 +61,7 @@
 Показване на прозореца за избор на усмивка
 ;file \plugins\SmileyAdd\src\download.cpp
 [SmileyAdd]
-
+SmileyAdd
 [Smiley Cache]
 
 [SmileyAdd HTTP connections]

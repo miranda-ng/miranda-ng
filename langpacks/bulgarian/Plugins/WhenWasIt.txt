@@ -6,16 +6,16 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 [Notifies you of upcoming birthdays.]
-
+Уведомява ви за предстоящи рождени дни.
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Notify of birthdays:]
 
 [Popups]
 Popups
 [Popup timeout:]
-
+Времетраене:
 [Preview]
-Преглед
+Образец
 [Don't show popups for subcontacts]
 
 [Show popup when no birthdays are near]
@@ -37,7 +37,7 @@ Popups
 [days in advance and]
 
 [Check every]
-
+Проверка на всеки
 [hours]
 часове
 [Only notify once per day.]
@@ -75,13 +75,13 @@ Popups
 [Manage anniversaries]
 
 [Title:]
-
+Титла:
 [Description:]
 Описание:
 [Date:]
 Дата:
 [Save]
-
+Запис
 [Delete]
 Изтриване
 [Upcoming birthdays]
@@ -100,9 +100,9 @@ Popups
 [Nothing]
 Нищо
 [Dismiss]
-
+Затваряне
 [Message window]
-
+Прозорец за съобщения
 [All contacts]
 Всички контакти
 [All contacts except hidden ones]
@@ -132,7 +132,7 @@ Popups
 [DTB]
 
 [Birthday]
-
+Рожден ден
 [Age]
 Възраст
 [Module]
@@ -153,7 +153,7 @@ Popups
 [Birthday near]
 
 [Birthday today]
-
+Рожден ден днес
 [Birthdays (When Was It)]
 
 [Refresh user details]
@@ -183,11 +183,11 @@ Popups
 [No upcoming birthdays.]
 
 [%s has birthday in %d days.]
-
+%s има рожден ден след %d дни.
 [%s has birthday tomorrow.]
-
+%s има рожден ден утре.
 [%s has birthday today.]
-
+%s има рожден ден днес,
 [%s had birthday %d days ago.]
 
 [%s had birthday yesterday.]
@@ -197,11 +197,11 @@ Popups
 [Birthday - %s]
 
 [He]
-
+Той
 [She]
-
+Тя
 [He/She]
-
+Той/Тя
 [%s\n%s will be %d years old.]
 
 [%s\n%s just turned %d.]

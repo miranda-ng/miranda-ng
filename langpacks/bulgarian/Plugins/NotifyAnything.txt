@@ -23,7 +23,7 @@
 [Debug]
 
 [Log to file]
-
+Запис във файл
 [Message debugging]
 
 [Port:]

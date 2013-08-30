@@ -6,18 +6,18 @@
 ;  Authors: Ghost, Mironych
 ;============================================================
 [Adding traffic and time counters.]
-
+Добавя брояч за трафик и време.
 ;file \plugins\TrafficCounter\res\resource.rc
 [Selected totals]
 Общо за избраните
 [Accounts]
 Акаунти
 [Units]
-
+Единици
 [Clear statistics]
 Изчистване
 [Notification]
-
+Уведомяване
 [Notify me on every]
 Уведомяване всеки
 [kilobytes]
@@ -27,9 +27,9 @@
 [Background colour:]
 Цвят на фона:
 [Text colour:]
-
+Цвят на текста:
 [Reset to default]
-
+Стандарт
 [Popup timeout]
 Popup времетраене
 [From Popup plugin]
@@ -37,7 +37,7 @@ Popup времетраене
 [Custom]
 Избор
 [Test]
-Тест
+Проба
 [Show now]
 Покажи сега
 [Space between lines:]
@@ -47,14 +47,14 @@ Popup времетраене
 [Tooltip format string:]
 Формат (подсказка):
 [Display traffic for current]
-Стойности от посл.
+Изобразяване на трафика за текущия
 ;file \plugins\TrafficCounter\src\options.cpp
 [Display]
-
+Изобразяване
 [Icon]
 Икона
 [Account name]
-
+Име на акаунта
 [Current traffic]
 Текущ трафик
 [Total traffic]
@@ -72,7 +72,7 @@ Popup времетраене
 ["Toggle traffic counter" in main menu]
 Вкл./Изкл. на брояча от гл. меню
 [Visible accounts]
-
+Видими акаунти
 [Summary traffic for visible accounts]
 Обобщение на статистика за видимите акаунти
 [Overall traffic]
@@ -80,9 +80,9 @@ Popup времетраене
 [Hide now]
 Скрий сега
 [Day]
-
+Ден
 [Week]
-
+Седмица
 [Month]
 Месец
 [Year]
@@ -109,13 +109,13 @@ Popups
 [Hourly]
 Почасово
 [Daily]
-
+Дневно
 [Weekly]
-
+Седмично
 [Monthly]
-
+Месечно
 [Yearly]
-
+Годишно
 [Period]
 Период
 [Incoming]
@@ -136,7 +136,7 @@ Popups
 [Font]
 Шрифт
 [Show/Hide frame]
-
+Вкл./Изкл. на рамката
 [Hide traffic window]
 Скриване на трафик прозореца
 [Clear the current (Now:) value]

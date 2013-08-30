@@ -41,7 +41,7 @@
 [Configure conference]
 
 [&OK]
-
+ОК
 [Join role:]
 
 [Set password]
@@ -51,7 +51,7 @@
 [Enter password]
 Въведете на парола
 [Remember this session password]
-
+Запомняне на паролата за сесията
 [OK]
 ОК
 [Cancel]
@@ -59,13 +59,13 @@
 [Status text:]
 
 [Online since:]
-
+На линия от:
 [Last event date:]
 
 [Last profile change:]
 
 [Full name:]
-
+Трите имена:
 [Date of birth:]
 Рожден ден:
 [Gender:]
@@ -73,7 +73,7 @@
 [Homepage:]
 Страница:
 [Language:]
-
+Език:
 [About:]
 Относно:
 [Mood:]
@@ -101,7 +101,7 @@
 [Skype credit:]
 
 [Change password]
-
+Промяна на паролата
 [Old password:]
 
 [New password:]
@@ -119,9 +119,9 @@
 [Use ports 80 and 443 as alternative incoming]
 
 [Default group:]
-
+Стандартна група
 [Block]
-
+Блокиране
 [Allow IMs from...]
 
 [Anyone]
@@ -256,7 +256,7 @@
 [&Add]
 Добавяне
 [&Kick]
-
+Изгонване
 [Outlaw (&ban)]
 
 [Copy &skypename]
@@ -270,7 +270,7 @@
 [Helper]
 
 [User]
-
+Потребител
 [Listener]
 
 [Applicant]
@@ -327,22 +327,22 @@
 [Blocked contacts]
 
 [Privacy]
-
+Поверителност
 [Contacts]
 Контакти
 [Home]
-
+Дом
 [General]
 Основни
 [Skype account]
 
 ;file \protocols\Skype\src\skype_icons.cpp
 [Protocol icon]
-
+Икона на протокола
 [Call]
 
 [Conference]
-
+Конференция
 [Send contact]
 
 [Contact]
@@ -350,7 +350,7 @@
 [Delete]
 Изтриване
 [Protocols]
-
+Протоколи
 ;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
 [Skype protocol plugin only permit you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
@@ -397,7 +397,7 @@
 
 ;file \protocols\Skype\src\skype_netlib.cpp
 [%s connection]
-
+%s връзка
 ;file \protocols\Skype\src\skype_proto.cpp
 [Skype name]
 

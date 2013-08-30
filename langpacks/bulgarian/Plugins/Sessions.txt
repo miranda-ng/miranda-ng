@@ -29,7 +29,7 @@
 [Delete]
 Изтриване
 [Save]
-
+Запис
 [Action on Exit]
 
 [Ask]
@@ -41,7 +41,7 @@
 [Sessions]
 
 [Misc]
-
+Разни
 [Exclude hidden contacts from session on exit]
 
 [Warn, when some of LastSession contacts are hidden]
@@ -108,13 +108,13 @@
 [Restore last Session]
 
 [Close Session]
-
+Затваряне на разговора
 [Save session...]
 
 [Load session...]
 
 [Close session]
-
+Затваряне на разговора
 [Load last session]
 
 ;file \plugins\Sessions\Src\Options.cpp

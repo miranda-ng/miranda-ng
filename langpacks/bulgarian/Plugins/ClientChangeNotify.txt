@@ -35,7 +35,7 @@
 [On right click]
 Десен бутон
 [Delay]
-
+Закъснение
 [Sec]
 Сек
 [0 = Default]
@@ -47,7 +47,7 @@
 [Background]
 Фон
 [Use default]
-
+Стандартно
 [Text]
 Текст
 [Preview]
@@ -102,10 +102,10 @@ Popups
 [Open contact details window]
 
 [Open contact menu]
-
+Отваря менюто на контакта
 [Open contact history]
 
 [Open log file]
-
+Отваряне на дневника
 [Do nothing]
 Нищо

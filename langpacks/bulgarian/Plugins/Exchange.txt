@@ -23,11 +23,11 @@
 [Password:]
 Парола:
 [Server:]
-
+Сървър:
 [Preferences]
-
+Настройки
 [Check every]
-
+Проверка на всеки
 [seconds]
 секунди
 [Force reconnect every]

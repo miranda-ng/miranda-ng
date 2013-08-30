@@ -9,11 +9,11 @@
 
 ;file \protocols\Twitter\res\twitter.rc
 [Server:]
-
+Сървър:
 [Create a new Twitter account]
 
 [Default group:]
-
+Стандартна група
 [Username:]
 Потребител:
 [[Sign in to link your twitter account]]
@@ -21,7 +21,7 @@
 [Send Tweet]
 
 [Send]
-
+Изпращане
 [Cancel]
 Отказ
 [Misc. Options]
@@ -43,11 +43,11 @@
 [Enable popup notifications for Tweets]
 
 [Colors]
-
+Цветове
 [Use Windows colors]
-
+Цветове от Windows
 [Use Popup colors]
-Цветове от Popup приставката
+Цветове от PopUp приставката
 [Use custom colors]
 Избор на цветове
 [Back]
@@ -57,13 +57,13 @@
 [Timeouts]
 Времетраене
 [Use default]
-
+Стандартно
 [Custom]
 Избор
 [Permanent]
-
+Постоянно
 [Preview]
-Преглед
+Образец
 [But not during sign-on]
 
 [Enter Twitter PIN]
@@ -87,11 +87,11 @@
 [Network]
 Мрежа
 [Basic]
-
+Основни
 [Popups]
 Popups
 [%s server connection]
-
+%s връзка със сървъра
 [Unable to get Netlib connection for Twitter]
 
 [Twitter]
@@ -101,7 +101,7 @@ Popups
 [Unable to get avatar Netlib connection for Twitter]
 
 [%s Protocol]
-
+%s протокол
 ;file \protocols\Twitter\src\theme.cpp
 [Twitter Icon]
 

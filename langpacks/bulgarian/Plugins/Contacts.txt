@@ -41,13 +41,13 @@
 [Try again]
 Опитай отново
 [Popup]
-
+Рopup
 [Add to List]
 
 [User Details]
 Подробности за потребителя
 [Send Message]
-
+Изпращане на съобщение
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]
 

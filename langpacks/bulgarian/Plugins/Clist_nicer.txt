@@ -555,13 +555,13 @@ URL събития
 [Copy from]
 
 [<None>]
-
+<Няма>
 [Raised]
-
+Повдигнато
 [Sunken]
-
+Вградено
 [Bumped]
-
+Двойно изпъкнало
 [Etched]
 
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
@@ -838,9 +838,9 @@ tabSRMM Меню
 [&Align]
 Подреждане
 [&Top]
-
+Горе
 [&Client]
-
+Клиент
 [&Bottom]
 Долу
 [&Position]

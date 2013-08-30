@@ -141,9 +141,9 @@ Jabber формуляр
 [Jabber Password]
 Jabber парола
 [Remember password for this session]
-
+Запомни за сесията
 [Save password permanently]
-
+Запомни за постоянно
 [Data form test]
 
 [Address1:]
@@ -1760,7 +1760,7 @@ Jabber източник
 [Enable XMPP link processing (requires Association Manager)]
 Асоцииране с XMPP връзки (изисква приставка Association Manager)
 [Keep contacts assigned to local groups (ignore roster group)]
-
+Назначавай контактите към местните групи (игнориране на списъка с хора)
 [Security]
 Сигурност
 [Allow servers to request version (XEP-0092)]
@@ -1902,15 +1902,15 @@ Vkontakte
 [<none>]
 <няма>
 [allow ]
-позволяване
+позволяване\s
 [deny ]
-отхвърляне
+отхвърляне\s
 [all.]
 всичко.
 [messages]
 съобщения
 [ and ]
- и
+ и\s
 [incoming presences]
 входящи присъствия
 [outgoing presences]
@@ -1918,17 +1918,17 @@ Vkontakte
 [queries]
 запитвания
 [Else ]
-Или
+Или\s
 [If jabber id is ']
 Ако jabber id е '
 [ (nickname: ]
- (прякор:
+ (прякор:\s
 [If group is ']
 Ако групата е '
 [If subscription is ']
 Ако пълномощното е '
 [then ]
-тогава
+тогава\s
 [ (act., def.)]
  (активен, стандартен)
 [ (active)]

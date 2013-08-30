@@ -47,7 +47,7 @@
 [(but only once a day)]
 (но по веднъж на ден)
 [Message boxes (*)]
-
+Текстови кутии (*)
 [Back]
 Фон
 [Text]
@@ -81,7 +81,7 @@
 [Not sets for "Message boxes"]
 
 [Boxes]
-
+Кутии
 [Popups]
 Popups
 ;file \plugins\PackUpdater\Src\Events.cpp

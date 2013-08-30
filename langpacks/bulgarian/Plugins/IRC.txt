@@ -15,7 +15,7 @@
 [&Del]
 Изтриване
 [Enable]
-
+Включване
 [only while connecting]
 само при свързване
 [Force visible (-i)]
@@ -33,7 +33,7 @@
 [Show server window on startup]
 Показване на прозореца при стартиране
 [Keep connection alive]
-
+Поддържане на връзката
 [Automatically join on invite]
 Автоматично влизане в канал при покана
 ['Old style' mode changes]
@@ -63,7 +63,7 @@
 [System]
 
 [Port]
-
+Порт
 [Default network]
 Стандартна мрежа
 [User info - Required]
@@ -79,7 +79,7 @@
 [Check every (s):]
 Проверяване през (сек):
 [SSL]
-
+SSL
 [Don't check if more than (users):]
 Без проверка ако потр. са > от:
 [User information]
@@ -101,15 +101,15 @@
 [Name]
 Име
 [Address]
-
+Адрес
 [Channels]
 Канали
 [Auth]
-
+Упълномощаване
 [Server]
-
+Сървър
 [User]
-
+Потребител
 [Away Info]
 
 [The server returned the following information. Please note that this information might be misleading and/or falsified]
@@ -117,9 +117,9 @@
 [CTCP information]
 CTCP информация
 [Question]
-
+Въпрос
 [&OK]
-
+ОК
 [&Cancel]
 Отказ
 [Perform]
@@ -143,7 +143,7 @@ CTCP информация
 [On]
 Включено
 [Auto]
-
+Авто
 [Off]
 Изкл.
 [Host address]
@@ -161,7 +161,7 @@ CTCP информация
 [C&onnect]
 Свързване
 [&Save]
-
+Запис
 [Hostmask]
 
 [&Clear all]
@@ -169,11 +169,11 @@ CTCP информация
 [Online detection mode]
 
 [Basic]
-
+Основни
 [Wildcard enabled network search]
 
 [Channel manager]
-
+Настройки на канала
 [Bans]
 Банове
 [Invites]
@@ -187,13 +187,13 @@ CTCP информация
 [Invite only]
 Само с покана
 [Moderated]
-
+Модерирана
 [Key:]
 Ключ:
 [User limit:]
 
 [Private]
-
+Частно
 [Secret]
 Таен
 [Topic]
@@ -203,19 +203,19 @@ CTCP информация
 [Channel modes]
 Режими на канала
 [Hidden]
-
+Скрито
 [Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
 Ползвайте настройките, за да зададете режими за канала. Изисква да сте поне оператор (обикновено).
 [Strip colors]
 Премахване на цветовете
 [Normal]
-
+Нормално
 [Send-ahead]
 
 [Attempt reverse DCC (good if firewalled)]
 Опитай обратна директна възка клиен-склиент (DCC), полезно ако ползвате защитна стена
 [none]
-
+няма
 [everyone on the contact list]
 всеки в списъка с контакти
 [everyone]
@@ -243,7 +243,7 @@ CTCP информация
 [CTCP Chat Request]
 CTCP чат заявка
 [&Accept]
-
+Приемане
 [&Deny]
 Отхвърляне
 [Enable (*)]
@@ -261,15 +261,15 @@ CTCP чат заявка
 [(*) Queries from users on your contactlist are never ignored]
 (*) Запитванията от контакти в списъка ви няма да бъдат игнорирани
 [Queries]
-
+Запитвания
 [Messages]
 Съобщения
 [Notices]
 Известия
 [CTCP]
-
+CTCP
 [DCC]
-
+DCC
 [Ignore mask ( nick!user@host )]
 
 [Network (*)]
@@ -279,7 +279,7 @@ CTCP чат заявка
 [(*) blank to set this mask for all networks]
 
 [Server:]
-
+Сървър:
 [Password:]
 Парола:
 [Alternate nick]
@@ -402,11 +402,11 @@ IRC предупреждение
 
 ;file \protocols\IRCG\src\ircproto.cpp
 [%s server connection]
-
+%s връзка със сървъра
 [%s client-to-client connections]
-
+%s връзки client-to-client
 [The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
-
+Протоколът IRC е зависим от приставка наречена "Chat".\n\nЖелаете ли да я свалите сега?
 [Information]
 Информация
 [Nickname]
@@ -445,7 +445,7 @@ IRC предупреждение
 [Quick connect]
 Бързо свързване
 [Server window]
-
+Прозорец на сървъра
 [Show channel]
 Показване на канал
 [WhoIs]
@@ -455,37 +455,37 @@ IRC предупреждение
 [Logo (48x48)]
 Лого (48х48)
 [Thai]
-
+тайски (тайландски)
 [Japanese]
-
+японски
 [Simplified Chinese]
-
+опростен китайски
 [Korean]
-
+корейски
 [Traditional Chinese]
-
+традиционен китайски
 [Central European]
-
+Централна Европа
 [Cyrillic (Windows)]
 Кирилица (Windows)
 [Cyrillic (KOI8R)]
 Кирилица (KOI8R)
 [Latin I]
-
+Latin I
 [Greek]
-
+гръцки
 [Turkish]
-
+турски
 [Hebrew]
-
+иврит
 [Arabic]
-
+арабски
 [Baltic]
-
+балтийски
 [Vietnamese]
-
+виетнамски
 [Korean (Johab)]
-
+корейски (Johab)
 [Please complete all fields]
 Моля, попълнете всички полета
 [Add a new network]
@@ -505,7 +505,7 @@ IRC предупреждение
 [<Automatic>]
 <Автоматично>
 [<Local IP: ]
-<Локално IP:
+<Локално IP:\s
 [Click to set commands that will be performed for this event]
 Натиснете тук, за да зададете команди за изпълнение за събитието
 [Click to delete the commands for this event]
@@ -540,13 +540,13 @@ IRC предупреждение
 [%s is away]
 %s отсъства
 [These are online: ]
-Потребители на линия:
+Потребители на линия:\s
 [CTCP %s reply sent to %s]
 
 [CTCP %s reply sent to %s: %s]
 
 [Notice to %s: ]
-Известие до %s:
+Известие до %s:\s
 ;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 Бързо свързване
@@ -593,7 +593,7 @@ IRC предупреждение
 [Please enter your password]
 Моля, въведете вашата парола
 [Please enter your new password]
-
+Моля, въведете новата парола
 [Set new password]
 Задаване на нова парола
 [Please enter desired languageID (numeric value, depends on server)]
@@ -683,7 +683,7 @@ IRC предупреждение
 [Send &notice]
 Изпращане на известие
 [&Slap]
-
+Шамар
 [Nickserv info]
 
 [Nickserv kill ghost]
@@ -711,7 +711,7 @@ Voice (имащ право да говори)
 [Take V&oice]
 Отнемане на "Voice" статута
 [&Kick]
-
+Изгонване
 [Ki&ck (reason)]
 Изгонване (причина)
 [&Ban]
@@ -748,11 +748,11 @@ Voice (имащ право да говори)
 
 ;file \protocols\IRCG\src\windows.cpp
 [Please wait...]
-
+Моля, изчакайте...
 [Channel]
 Канал
 [Mode]
-
+Режим
 [%s - Filtered - %d items]
 
 [---- Not listed server ----]

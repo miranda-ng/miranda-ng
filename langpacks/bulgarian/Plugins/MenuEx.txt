@@ -9,7 +9,7 @@
 
 ;file \plugins\MenuItemEx\res\resource.rc
 [Enter an authorization request]
-
+Въведете молба за упълномощаване
 [&Send]
 Изпращане
 [&Cancel]
@@ -53,14 +53,14 @@
 [Hide contact on 'Ignore all']
 
 [Other options]
-
+Други настройки
 [Automatically refresh contact's details after they come online]
 
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 Текст за състояние
 [XStatus title]
-
+хСъстояние
 [XStatus message]
 Текст на хСъстояние
 [Listening to]
@@ -80,7 +80,7 @@
 [Copy xStatus Message]
 
 [All]
-
+Всички
 [Messages]
 Съобщения
 [URL]
@@ -96,7 +96,7 @@ URL
 [Typing Notify]
 Уведомяване при писане
 [Please authorize me to add you to my contact list.]
-
+Моля, упълномощете ме да ви добавя в списъка си с контакти.
 [Do you want to send authorization request\nto new contact?]
 Желаете ли да бъде изпратена молба за упълномощаване до\nновия контакт?
 [Miranda NG]

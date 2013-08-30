@@ -53,7 +53,7 @@
 [Put default message in message list]
 
 [Variables]
-
+Променливи
 [Update variables in status messages every]
 
 [seconds]
@@ -69,7 +69,7 @@
 [Exclude %date% token from parsing (restart required)]
 
 [Layout]
-
+Изглед
 [Show status list]
 
 [Show status profiles in status list]
@@ -113,7 +113,7 @@
 [Protocol:]
 Протокол:
 [Status:]
-
+Състояние:
 [Independent setting for each protocol]
 
 [Pop up dialog asking for status message]
@@ -195,22 +195,22 @@
 [%s (locked)]
 %s (заключен)
 [External Applications]
-
+Външни приложения
 [retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
 
 [Miranda Related]
-
+Свързани с Miranda
 [get the date (Simple Status Message compatible)]
 
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [<startup>]
 
 [<current>]
-
+<текущо>
 [Add to Predefined]
 
 [Delete Selected]
-
+Изтриване на маркираните
 [OK (%d)]
 
 [Global]
@@ -225,9 +225,9 @@
 [Global status change]
 
 [Open String Formatting Help]
-
+Помощ за форматирането на низове
 [Hide]
-
+Скриване
 [Show next to cancel button]
 
 [Flat, next to cancel button]

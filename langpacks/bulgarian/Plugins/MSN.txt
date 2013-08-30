@@ -31,7 +31,7 @@
 [Allow people on my contact list send messages to mobile device]
 Изпращане на съобщ. до мобилното ми устройство от хора в списъка с контакти
 [Connection settings]
-
+Настройки за свързване
 [Direct:]
 Директно:
 [Gateway:]
@@ -69,7 +69,7 @@
 [Other]
 Друго
 [Display errors using popups]
-
+Изобразяване на грешки чрез popups
 [Enable 'Chat Session Established' popup]
 popup при установяване на разговор
 [Enable 'Contact left channel' popup]
@@ -89,13 +89,13 @@ popup при излизане на контакт от канал
 [Middle Name]
 Презиме
 [First Name]
-
+Име
 [Last Name]
-
+Фамилия
 [Anniversary]
-
+Годишнина
 [Birthday]
-
+Рожден ден
 [Nickname]
 Прякор
 [Place:]
@@ -120,11 +120,11 @@ MSN изтриване на контакт
 [Chat #]
 Чат №
 [Me]
-
+Аз
 [Others]
 Други
 [&Invite user...]
-
+Покани потребител...
 [&Leave chat session]
 Напускане от разговора
 [User &details]
@@ -180,9 +180,9 @@ Hotmail от %s
 Непрочетени е-писма: %d в Inbox и %d в други папки
 ;file \protocols\MSN\src\msn_menu.cpp
 [&Unblock]
-
+Деблокиране
 [&Block]
-
+Блокиране
 [Open &Hotmail Inbox]
 
 [Send &Hotmail E-mail]
@@ -207,13 +207,13 @@ Hotmail от %s
 [Custom Smileys]
 
 [Notify]
-
+Уведомяване
 [Error]
 Грешка
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
 [Protocol icon]
-
+Икона на протокола
 [Hotmail Inbox]
 
 [Profile]
@@ -247,7 +247,7 @@ MSN настройки
 [Manually specify host/port]
 Ръчно определяне на хост/порт
 [Disable]
-
+Изключване
 [IP info available only after login]
 IP информацията е налична само след вписване
 [MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]

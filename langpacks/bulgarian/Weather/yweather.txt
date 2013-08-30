@@ -3,100 +3,100 @@
 ;  Module: weather
 ;============================================================
 [Feel]
-
+Усеща се като
 [Forecast Day 1]
-
+Днес: _Прогноза
 [Forecast Day 1 Condition]
-
+Днес: условия
 [Forecast Day 1 Date]
 
 [Forecast Day 1 Day]
-
+Днес: денем
 [Forecast Day 1 High]
-
+Днес: максимална
 [Forecast Day 1 Low]
-
+Днес: минимална
 [Heat Index]
 
 [Wind Direction]
-
+Вятър (посока)
 [Wind Speed]
-
+Вятър (скорост)
 [Wind Direction Degrees]
 
 [Mon]
-
+пон
 [Tue]
-
+вто
 [Wed]
-
+сря
 [Thu]
-
+чет
 [Fri]
-
+пет
 [Sat]
-
+съб
 [Sun]
-
+нед
 [Sunny]
-
+Слънчево
 [Partly Sunny]
-
+Отчасти слънчево
 [Mostly Sunny]
-
+Предимно слънчево
 [Partly Cloudy]
-
+Отчасти облачно
 [Mostly Cloudy]
-
+Предимно облачно
 [Mostly Clear]
-
+Предимно ясно
 [N]
-
+С
 [W]
-
+З
 [S]
-
+Ю
 [E]
-
+И
 [NW]
-
+СЗ
 [NE]
-
+СИ
 [SW]
-
+ЮЗ
 [SE]
-
+ЮИ
 [NNW]
-
+ССЗ
 [NNE]
-
+ССИ
 [SSW]
-
+ЮЮЗ
 [SSE]
-
+ЮЮИ
 [ENE]
-
+ИСИ
 [WSW]
-
+ЗЮЗ
 [WNW]
-
+ЗНЗ
 [ESE]
-
+ИЮИ
 [Scattered Clouds]
-
+Променлива облачност
 [North]
-
+север
 [East]
-
+изток
 [South]
-
+юг
 [West]
-
+запад
 [Northwest]
-
+северозапад
 [Northeast]
-
+североизток
 [Southwest]
-
+югозапад
 [Southeast]
-
+югоизток

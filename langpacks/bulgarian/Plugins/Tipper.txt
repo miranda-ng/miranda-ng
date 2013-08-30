@@ -11,9 +11,9 @@
 [Options]
 Настройки
 [Layout]
-
+Изглед
 [Text indent:]
-
+Отстъп на текста:
 [Window]
 Прозорец
 [Max width:]
@@ -21,7 +21,7 @@
 [Max height:]
 Макс. височина:
 [Avatar size:]
-
+Аватар (размер):
 [Show if list not focused]
 Показване при дефокусиран списък
 [General padding:]
@@ -41,13 +41,13 @@
 [Min height:]
 Мин. височина:
 [Sidebar width:]
-
+Странична лента:
 [Text padding:]
 Отстъп между редовете:
 [Outer avatar padding:]
 Външен отстъп (аватар):
 [Round corners (avatar)]
-
+Закръглени ъгли (на аватара)
 [Keep original avatar size]
 Запазване на началния размер
 [Avatar border]
@@ -61,7 +61,7 @@
 [Substitution]
 Заместване
 [Label:]
-
+Етикет:
 [Contact protocol module]
 
 [Module:]
@@ -85,7 +85,7 @@
 [Preset items:]
 
 [Variables]
-
+Променливи
 [Parse Tipper variables first]
 
 [Items]
@@ -129,29 +129,29 @@
 [Limit status messages in status bar and tray tooltips to:]
 Ограничаване на текста за състояние в подсказките до:
 [characters]
-
+знака
 [Disable in invisible status]
 
 [Skins]
 Облици
 [Opacity(%):]
-
+Плътност (%):
 [Transparency]
-
+Прозрачност
 [Effects]
 Ефекти
 [Border]
 Рамка
 [Shadow]
-
+Сянка
 [Round corners (window)]
-
+Закръглени ъгли (на прозореца)
 [Aero Glass (Vista+)]
 
 [Animation speed:]
 Скорост на анимирането:
 [Preview]
-Преглед
+Образец
 [No preview]
 Няма образец
 [Skin option]
@@ -207,21 +207,21 @@ Tipper усмивки
 [Move down]
 Местене надолу
 [Icon on left]
-
+Икона вляво
 [Icon on right]
-
+Икона вдясно
 [No icon]
 Без икона
 [No title]
 Без заглавие
 [Bottom right]
-
+Долу вдясно
 [Bottom left]
-
+Долу вляво
 [Top right]
-
+Горе вдясно
 [Top left]
-
+Горе вляво
 [Top]
 Горе
 [Centre]
@@ -233,11 +233,11 @@ Tipper усмивки
 [Right]
 Дясно
 [No avatar]
-Без аватар
+Няма аватар
 [Left avatar]
-
+Аватар отляво
 [Right avatar]
-
+Аватар отдясно
 [Max avatar size:]
 Аватар (макс. р-р):
 [None]
@@ -249,7 +249,7 @@ Tipper усмивки
 [Appearance]
 Външен вид
 [Tooltips]
-
+Подсказки
 [Customize]
 Персонализиране
 [Content]
@@ -266,13 +266,13 @@ Tipper усмивки
 [Logon time]
 Време на вписване
 [Unread emails]
-Непрочетени имейли
+Непрочетени e-писма
 [Status]
 Състояние
 [Status message]
 Текст за състояние
 [Extra status]
-
+Допълнително състояние
 [Listening to]
 Слуша..
 [Miranda uptime]
@@ -284,7 +284,7 @@ Jabber дейност
 [Gender]
 Пол
 [Country flag]
-
+Държавно знаме
 [Client]
 Клиент
 ;file \plugins\TipperYM\src\popwin.cpp
@@ -299,9 +299,9 @@ Jabber дейност
 [Unread emails:]
 Непрочетени имейли:
 [Status:]
-
+Състояние:
 [Status message:]
-
+Текст за състоянието:
 [Mood:]
 Настроение:
 [XStatus:]
@@ -328,15 +328,15 @@ Jabber дейност
 Miranda работи от:
 ;file \plugins\TipperYM\src\preset_items.cpp
 [Birthday]
-
+Рожден ден
 [Birthday:]
-
+Рожден ден:
 [Client:]
 Клиент:
 [Email]
-
+Имейл
 [Email:]
-
+Имейл:
 [Gender:]
 Пол:
 [Homepage]
@@ -378,7 +378,7 @@ Miranda работи от:
 [Time:]
 Време:
 [XStatus title]
-
+хСъстояние
 [XStatus title:]
 хСъстояние:
 [XStatus text]
@@ -386,11 +386,11 @@ Miranda работи от:
 [XStatus text:]
 хСъстояние текст:
 [[jabber.dll] Activity title]
-
+[jabber.dll] Етикет на дейността
 [Activity title:]
 Дейност:
 [[jabber.dll] Activity text]
-
+[jabber.dll] Текст на дейността
 [Activity text:]
 Съобщение:
 [[menuex.dll] Logon time]
@@ -402,59 +402,59 @@ Miranda работи от:
 [Logoff time:]
 
 [[seenplugin.dll] Last seen time]
-
+[seenplugin.dll] Последно видян на
 [Last seen time:]
 Последно видян на:
 [[seenplugin.dll] Last seen status]
-
+[seenplugin.dll] Последно състояние
 [Last seen status:]
 Последно състояние:
 [[weather.dll] Condition]
-
+[weather.dll] Условия
 [Condition:]
 Условия:
 [[weather.dll] Humidity]
-
+[weather.dll] Влажност
 [Humidity:]
 Влажност:
 [[weather.dll] Max/Min temperature]
-
+[weather.dll] Макс./Мин. темпрература
 [Max/Min:]
 Макс./Мин.:
 [[weather.dll] Moon]
-
+[weather.dll] Луна
 [Moon:]
 Луна:
 [[weather.dll] Pressure]
-
+[weather.dll] Налягане
 [Pressure:]
 Атм. налягане:
 [[weather.dll] Sunrise]
-
+[weather.dll] Изгрев
 [Sunrise:]
 Изгрев:
 [[weather.dll] Sunset]
-
+[weather.dll] Залез
 [Sunset:]
 Залез:
 [[weather.dll] Temperature]
-
+[weather.dll] Температура
 [Temperature:]
 Температура:
 [[weather.dll] Update time]
-
+[weather.dll] Обновено на
 [Update time:]
 Обновено в:
 [[weather.dll] UV Index]
-
+[weather.dll] УВ индекс
 [UV Index:]
 УВ индекс:
 [[weather.dll] Visibility]
-
+[weather.dll] Видимост
 [Visibility:]
-
+Видимост:
 [[weather.dll] Wind]
-
+[weather.dll] Вятър
 [Wind:]
 Вятър:
 ;file \plugins\TipperYM\src\skin_parser.cpp
@@ -466,7 +466,7 @@ Miranda работи от:
 [Dividers]
 Разделители
 [Sidebar]
-
+Странична лента
 [Title]
 
 [Labels]
@@ -530,184 +530,184 @@ Miranda работи от:
 
 ;file \plugins\TipperYM\src\translations.h
 [Afrikaans]
-
+африкаанс (бурски)
 [Albanian]
-
+албански
 [Arabic]
-
+арабски
 [Armenian]
-
+арменски
 [Azerbaijani]
-
+азербайджански
 [Belorussian]
-
+белоруски
 [Bhojpuri]
-
+божпури
 [Bosnian]
-
+босненски
 [Bulgarian]
-
+български
 [Burmese]
-
+бирмански
 [Cantonese]
-
+кантонски
 [Catalan]
-
+каталонски
 [Chamorro]
-
+чаморо
 [Chinese]
-
+китайски
 [Croatian]
-
+хърватски
 [Czech]
-
+чешки
 [Danish]
-
+датски
 [Dutch]
-
+нидерландски (холандски)
 [English]
-
+английски
 [Esperanto]
-
+есперанто
 [Estonian]
-
+естонски
 [Farsi]
-
+персийски (фарси)
 [Finnish]
-
+фински (финландски)
 [French]
-
+френски
 [Gaelic]
-
+келтски
 [German]
-
+немски
 [Greek]
-
+гръцки
 [Gujarati]
-
+гуджарати (гуджаратски)
 [Hebrew]
-
+иврит
 [Hindi]
-
+хинди
 [Hungarian]
-
+унгарски
 [Icelandic]
-
+исландски
 [Indonesian]
-
+индонезийски
 [Italian]
-
+италиански
 [Japanese]
-
+японски
 [Khmer]
-
+кхмерски
 [Korean]
-
+корейски
 [Kurdish]
-
+кюрдски
 [Lao]
-
+лао (лаоски)
 [Latvian]
-
+латвийски
 [Lithuanian]
-
+литовски
 [Macedonian]
-
+македонски
 [Malay]
-
+малайски
 [Mandarin]
-
+мандарин
 [Mongolian]
-
+монголски
 [Norwegian]
-
+норвежки
 [Persian]
-
+персийски
 [Polish]
-
+полски
 [Portuguese]
-
+португалски
 [Punjabi]
-
+пенджаби (пенджабски)
 [Romanian]
-
+румънски
 [Russian]
-
+руски
 [Serbo-Croatian]
-
+сърбохърватски
 [Sindhi]
-
+синдхи
 [Slovak]
-
+словашки
 [Slovenian]
-
+словенски
 [Somali]
-
+сомали
 [Spanish]
-
+испански
 [Swahili]
-
+суахили
 [Swedish]
-
+шведски
 [Tagalog]
-
+тагалог (тагалски)
 [Taiwanese]
-
+тайвански
 [Tamil]
-
+тамилски
 [Tatar]
-
+татарски
 [Thai]
-
+тайски (тайландски)
 [Turkish]
-
+турски
 [Ukrainian]
-
+украински
 [Urdu]
-
+урду
 [Vietnamese]
-
+виетнамски
 [Welsh]
-
+уелски
 [Yiddish]
-
+идиш
 [Yoruba]
-
+йоруба
 [Sunday]
-
+неделя
 [Monday]
-
+понеделник
 [Tuesday]
-
+вторник
 [Wednesday]
-
+сряда
 [Thursday]
-
+четвъртък
 [Friday]
-
+петък
 [Saturday]
-
+събота
 [January]
-
+януари
 [February]
-
+февруари
 [March]
-
+март
 [April]
-
+април
 [May]
-
+май
 [June]
-
+юни
 [July]
-
+юли
 [August]
-
+август
 [September]
-
+септември
 [October]
-
+октомври
 [November]
-
+ноември
 [December]
-
+декември

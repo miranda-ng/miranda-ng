@@ -6,7 +6,7 @@
 ;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
 ;============================================================
 [Collects and prints information related to Miranda, the plugins and the OS.]
-
+Събира и изобразява/съхранява информация относно Miranda, приставките и операционната система.
 ;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
 Извеждане в:
@@ -23,7 +23,7 @@
 [Output Debug String]
 
 [Clipboard]
-
+Клипборд
 [Select output:]
 Изберете извеждане:
 [Upload to site]

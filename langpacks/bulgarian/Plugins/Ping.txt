@@ -29,7 +29,7 @@ Popups
 [Block Repetitions]
 
 [View Log]
-
+Преглед на дневника
 [Browse...]
 
 [Interface]
@@ -39,7 +39,7 @@ Popups
 [Use the Customize/Fonts options to change text size and colour.]
 
 [Indent:]
-
+Отстъп:
 [Row height:]
 Ред (височина):
 [Repeats for success/failure:]
@@ -67,7 +67,7 @@ Popups
 [Address:]
 
 [Label:]
-
+Етикет:
 [TCP Connect]
 
 [Port:]
@@ -83,7 +83,7 @@ Popups
 [Contact]
 Контакт
 [Protocols]
-
+Протоколи
 [(Optional) Command Parameters:]
 
 [Menu]
@@ -91,13 +91,13 @@ Popups
 [Graph]
 
 [Enable]
-
+Включване
 [Disable all pings]
 
 [Enable all pings]
 
 [Options...]
-
+Настройки...
 [Hosts...]
 
 ;file \plugins\Ping\src\menu.cpp
@@ -142,9 +142,9 @@ Popups
 [%s - timeout]
 
 [Disable]
-
+Изключване
 [enabled]
-
+включено
 [double clicked]
 
 [Ping]

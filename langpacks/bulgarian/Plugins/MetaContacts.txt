@@ -13,7 +13,7 @@
 [Please select a MetaContact:]
 
 [&OK]
-
+ОК
 [&Cancel]
 Отказ
 [Sort Alphabetically]
@@ -91,7 +91,7 @@
 [Rank:]
 
 [Status:]
-
+Състояние:
 [Protocol:]
 Протокол:
 [Reset All]
@@ -174,7 +174,7 @@
 [Error - Database corruption.\nPlugin disabled.]
 
 [MetaContacts]
-
+Метаконтакти
 ;file \plugins\MetaContacts\src\meta_menu.cpp
 [There was a problem in assigning the contact to the MetaContact]
 
@@ -183,7 +183,7 @@
 [This will remove the MetaContact permanently.\n\nProceed Anyway?]
 
 [Are you sure?]
-
+Сигурни ли сте?
 [Remove from MetaContact]
 
 ;file \plugins\MetaContacts\src\meta_options.cpp

@@ -14,7 +14,7 @@
 [DWord]
 
 [You can use %name%, %uid%, %account% and %group% macros]
-
+Можете да използвате %name%, %uid%, %account% и %group%
 [wParam type]
 
 [lParam type]
@@ -50,7 +50,7 @@
 [Process time, ms]
 
 [No Description]
-
+Няма описание
 [Signed value]
 
 [Process options]
@@ -66,11 +66,11 @@
 [structure]
 
 [Structure]
-
+Структура
 [Link to action]
 
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
-
+Приставка за управление на клавишните комбинации за отваряне на прозореца за съобщения, вмъкване на текст, стартиране на програми и извикване на услуги
 [Action manager]
 
 [Copy to]
@@ -216,7 +216,7 @@
 [TabSRMM toolbar]
 
 [Core Hotkey]
-
+Клавишна комбинация
 [Tray menu]
 
 [2 state button/item]
@@ -228,7 +228,7 @@
 [Pressed button tooltip]
 Подсказка при натиснат бутон
 [Separated]
-
+Разделен(а)
 [Root popup:]
 Основен popup:
 [Menu item name:]
@@ -238,9 +238,9 @@
 [Contact related]
 Свързани с контакт
 [Registered actions]
-
+Регистрирани действия
 [Menu icons]
-
+Икони на менюто
 [Data align]
 
 [Native]
@@ -256,7 +256,7 @@
 [alias]
 
 [type]
-
+тип
 [length]
 
 [data]

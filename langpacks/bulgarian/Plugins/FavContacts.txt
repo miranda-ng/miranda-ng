@@ -17,7 +17,7 @@
 [Draw avatar border]
 Рамка на аватарите
 [Round corners by]
-
+Закръгляне на ъглите с
 [px.]
 пиксела
 [Hide for transparent avatars]
@@ -63,13 +63,13 @@
 [Background]
 Фон
 [Selected background]
-
+Фон на маркираното
 [Show favourite contacts]
 
 [Contacts]
 Контакти
 [Favourites]
-
+Любими
 [&Favourite Contacts...]
 
 [<No group>]

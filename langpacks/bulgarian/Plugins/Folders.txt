@@ -13,7 +13,7 @@
 [Custom folders]
 Персонални папки
 [Preview]
-Преглед
+Образец
 [Edit]
 Редактиране
 [Refresh preview]

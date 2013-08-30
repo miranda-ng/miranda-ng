@@ -69,7 +69,7 @@
 [SMS Message Sent]
 
 [&OK]
-
+ОК
 [Message ID:]
 
 [Source:]
@@ -122,6 +122,6 @@
 
 ;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
-
+Входящо SMS съобщение
 [Incoming SMS Confirmation]
 

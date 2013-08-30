@@ -11,7 +11,7 @@
 [Recent Contacts]
 
 [Plugin settings]
-
+Настройване на приставката
 [Number shown contacts:\n (0 to show all)]
 
 [Format of date and time\n(Look to readme for placeholders help)]

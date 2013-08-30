@@ -9,6 +9,6 @@
 
 ;file \plugins\OpenFolder\src\openFolder.cpp
 [Open Folder]
-
+Отваряне на папка
 [Main]
 Основна
