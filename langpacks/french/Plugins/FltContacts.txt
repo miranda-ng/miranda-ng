@@ -5,35 +5,75 @@
 ;  Version: 0.7.0.0
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
+[Floating Contacts plugin for Miranda.]
+Plugin de Contacts flottants pour Miranda.
 ;file \plugins\FloatingContacts\res\fltcnt.rc
+[Hiding contacts]
+Affichage des contacts
+[Hide offline contacts]
+Cacher les contacts Hors-Ligne
 [Stick together]
 Réunir les barres
 [Use fixed width]
 Fixer la largeur
+[pixels]
+pixels
 [Hide all contacts]
 Cacher les contacts
 [Hide when a fulscreen app is active]
 Cachez si une application est en plein écran
+[Show tooltips*]
+Afficher les Info-Bulles*
+[ms]
+ms
+[Tooltips]
+Info-Bulles
+[Miscellaneous]
+Divers
+[0 = Default]
+0 = Défaut
+[*requires Tipper plugin]
+*plugin Tipper requis
+[Bring to front]
+
+[Bring to front every]
+
 [seconds]
 secondes
+[Hide when contact list is shown]
+Cacher quand la liste est affichée
 [Single click interface]
 Clic simple
 [Dim idle contacts]
 Estomper les contacts inactifs
+[Idle contacts]
+Contacts inactifs
+[Border]
+Bordures
+[Draw border]
+Afficher les bordures
+[Left-top edge's color:]
+Couleur du bord Haut-Gauche:
+[Right-bottom edge's color:]
+Couleur du bord Bas-Droit:
 [Background]
 Arrière-plan
+[Background colour:]
+Couleur d'arrière-plan:
+[Use background bitmap]
+Utiliser une image d'arrière-plan
 [Stretch to width]
 Étirer en largeur
 [Stretch to height]
 Étirer en hauteur
 [Tile horizontally]
-Paver horizontalement
+Mosaïque horizontale
 [Tile vertically]
-Paver verticalement
+Mosaïque verticale
 [Stretch proportionally]
 Étirer proportionnellement
 [Opacity:]
-Opacité :
+Opacité:
 ;file \plugins\FloatingContacts\src\main.cpp
 [Standard contacts]
 Contacts standards
@@ -48,9 +88,19 @@ Contacts qui ne sont pas dans la liste
 [Floating contacts]
 Contacts flottants
 [Show all thumbs]
-Afficher les pouces
+Afficher les contacts flottants
 [Hide all thumbs]
-Cachez les pouces
+Cacher les contacts flottants
+[Remove thumb]
+Supprimer les contacts flottants
+[Show/Hide all thumbs]
+Afficher/Cacher tous les contacts flottants
 ;file \plugins\FloatingContacts\src\options.cpp
+[Floating Contacts]
+Contacts flottants
 [Contact List]
 Liste de contacts
+[Main Features]
+Fonctions Principales
+[Appearance]
+Apparence
