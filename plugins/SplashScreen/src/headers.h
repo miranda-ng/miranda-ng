@@ -61,14 +61,11 @@ struct SPLASHOPTS
 {
 	byte active;
 	byte playsnd;
-	byte loopsnd;
-	byte runonce;
 	byte fadein;
 	byte fadeout;
-	byte inheritGS;
+	byte inheritGS; //???
 	byte random;
 	byte showversion;
-	byte fontsize;
 	int showtime;
 	int fosteps;
 	int fisteps;

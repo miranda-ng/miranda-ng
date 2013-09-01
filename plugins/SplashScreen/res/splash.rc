@@ -55,8 +55,6 @@ BEGIN
     PUSHBUTTON      "...",IDC_CHOOSESPLASH,222,40,22,11
     CONTROL         "Play sound",IDC_PLAYSND,"Button",BS_AUTO3STATE | 
                     WS_TABSTOP,58,55,64,10
-    CONTROL         "Loop sound",IDC_LOOPSOUND,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,130,55,137,10
     EDITTEXT        IDC_SNDPATH,69,67,145,13,ES_AUTOHSCROLL
     PUSHBUTTON      "...",IDC_CHOOSESND,222,68,22,11
     GROUPBOX        "Show Miranda Version",IDC_STATIC,20,90,275,42

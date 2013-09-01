@@ -34,7 +34,6 @@ void ReadDbConfig()
 	options.inheritGS = db_get_b(NULL, MODNAME, "InheritGlobalSound", 1);
 	options.showversion = db_get_b(NULL, MODNAME, "ShowVersion", 0);
 	options.random = db_get_b(NULL, MODNAME, "Random", 0);
-	options.runonce = db_get_b(NULL, MODNAME, "DisableAfterStartup", 0);
 }
 
 BOOL Exists(LPCTSTR strName)

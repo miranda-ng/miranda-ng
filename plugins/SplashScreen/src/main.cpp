@@ -87,12 +87,6 @@ void SplashMain()
 
 	if (bstartup & (options.active == 1))
 	{
-		if (options.runonce)
-		{
-			db_set_b(NULL, MODNAME, "Active", 0);
-			db_set_b(NULL, MODNAME, "DisableAfterStartup", 0);
-		}
-
 		if (hAdvaimg == NULL)
 		{
 			hAdvaimg = LoadLibrary(szhAdvaimgPath);
