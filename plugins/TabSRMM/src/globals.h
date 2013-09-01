@@ -181,6 +181,7 @@ private:
 	static int     m_exLine;
 	static bool    m_exAllowContinue;
 private:
+	static int     TopToolbarLoaded(WPARAM,LPARAM);
 	static int     ModulesLoaded(WPARAM wParam, LPARAM lParam);
 	static int     DBSettingChanged(WPARAM wParam, LPARAM lParam);
 	static int     DBContactDeleted(WPARAM wParam, LPARAM lParam);

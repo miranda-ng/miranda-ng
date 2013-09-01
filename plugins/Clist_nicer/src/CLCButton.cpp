@@ -40,8 +40,6 @@ static BTNS[] =
 	{ IDC_TBSOUND,       "CLN_sound", "CLN_soundsoff", LPGEN("Toggle sounds"),                 0, 1, 0 },
 	{ IDC_TBMINIMIZE,    "CLN_minimize",     NULL,     LPGEN("Minimize contact list"),         1, 0, 0 },
 	{ IDC_TBTOPSTATUS,   "CLN_topstatus",    NULL,     LPGEN("Status menu"),                   1, 0, 1 },
-	{ IDC_TABSRMMSLIST,  "CLN_slist",        NULL,     LPGEN("tabSRMM session list"),          1, 0, 1 },
-	{ IDC_TABSRMMMENU,   "CLN_menu",         NULL,     LPGEN("tabSRMM Menu"),                  1, 0, 1 },
 
 	{ IDC_TBSELECTVIEWMODE,   "CLN_CLVM_select",  NULL, LPGEN("Select view mode"),             1, 0, 1 },
 	{ IDC_TBCONFIGUREVIEWMODE,"CLN_CLVM_options", NULL, LPGEN("Setup view modes"),             1, 0, 0 },

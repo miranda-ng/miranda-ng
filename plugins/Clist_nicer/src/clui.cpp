@@ -1475,11 +1475,6 @@ skipbg:
 					}
 					return 0;
 
-				case IDC_TABSRMMSLIST:
-				case IDC_TABSRMMMENU:
-					if (ServiceExists("SRMsg_MOD/GetWindowFlags"))
-						CallService("SRMsg_MOD/Show_TrayMenu", 0, LOWORD(wParam) == IDC_TABSRMMSLIST ? 0 : 1);
-					return 0;
 
 				case IDC_TBSOUND:
 					cfg::dat.soundsOff = !cfg::dat.soundsOff;

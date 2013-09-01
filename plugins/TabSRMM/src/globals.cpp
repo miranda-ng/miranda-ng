@@ -309,6 +309,26 @@ void CGlobals::hookSystemEvents()
 	HookEvent(ME_AV_MYAVATARCHANGED, ::MyAvatarChanged);
 }
 
+int CGlobals::TopToolbarLoaded(WPARAM,LPARAM)
+{
+	TTBButton ttb = {0};
+	ttb.cbSize = sizeof(ttb);
+	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
+	ttb.pszService = MS_TABMSG_TRAYSUPPORT;
+	ttb.name = "CLN_slist";
+	ttb.pszTooltipUp = LPGEN("tabSRMM session list");
+	ttb.hIconHandleUp = Skin_GetIcon("tabSRMM_sb_slist");
+	TopToolbar_AddButton(&ttb);
+	
+	ttb.name = "CLN_menu";
+	ttb.pszTooltipUp = LPGEN("tabSRMM Menu");
+	ttb.lParamUp = ttb.lParamDown = 1;
+	ttb.hIconHandleUp = Skin_GetIcon("tabSRMM_container");
+	TopToolbar_AddButton(&ttb);
+
+	return 0;
+}
+
 /**
  * second part of the startup initialisation. All plugins are now fully loaded
  */
@@ -386,6 +406,7 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		HookEvent(ME_MC_UNFORCESEND, MetaContactEvent);
 	}
 	HookEvent(ME_FONT_RELOAD, ::FontServiceFontsChanged);
+	HookEvent(ME_TTB_MODULELOADED, TopToolbarLoaded);
 	return 0;
 }
 
