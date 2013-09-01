@@ -822,7 +822,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 
 	case MRIM_ANKETA_INFO_STATUS_OK:
 		// поиск успешно завершен
-		DWORD dwFieldsNum, dwMaxRows, dwServerTime, dwStatus;
+		DWORD dwFieldsNum, dwMaxRows, dwServerTime;
 		buf >> dwFieldsNum >> dwMaxRows >> dwServerTime;
 
 		CMStringA *pmralpsFields = new CMStringA[dwFieldsNum];
@@ -956,7 +956,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 							DWORD dwID, dwContactSeverFlags, dwXStatus;
 							GetContactBasicInfoW(hContact, &dwID, NULL, NULL, &dwContactSeverFlags, NULL, NULL, NULL, NULL);
 							if (dwID == -1 || (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED)) {
-								MraSetContactStatus(hContact, GetMiradaStatusFromMraStatus(dwStatus, GetMraXStatusIDFromMraUriStatus(val), &dwXStatus));
+								MraSetContactStatus(hContact, GetMiradaStatusFromMraStatus(atoi(val), GetMraXStatusIDFromMraUriStatus(val), &dwXStatus));
 								setByte(hContact, DBSETTING_XSTATUSID, (BYTE)dwXStatus);
 							}
 						}
@@ -1840,7 +1840,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 
 					LPSTR lpbBufferCurPos = lpbBuffer;
 					while (TRUE) { // цикл замены ; на 0
-						LPSTR lpbBufferCurPos = (LPSTR)MemoryFindByte((lpbBufferCurPos-(LPSTR)lpbBuffer), lpbBuffer, pre.lParam, ';');
+						lpbBufferCurPos = (LPSTR)MemoryFindByte((lpbBufferCurPos-(LPSTR)lpbBuffer), lpbBuffer, pre.lParam, ';');
 						if (!lpbBufferCurPos)
 							break;
 
