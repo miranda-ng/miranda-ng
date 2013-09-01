@@ -501,7 +501,7 @@ RTL шаблоны
 [Use IRC style status indicators in the user list]
 IRC-стиль (текстовый) индикаторов ролей участников в списке
 [Use alternative sorting method in member list]
-Альтернативное сортирование ников в списке
+Альтернативная сортировка ников в списке
 [Timestamp only when event time differs]
 Подставлять время, если есть изменения
 [Timestamp has same color as the event]
