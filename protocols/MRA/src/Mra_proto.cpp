@@ -3,41 +3,34 @@
 #include "MraRTFMsg.h"
 #include "MraPlaces.h"
 
-DWORD     GetUL(LPBYTE *plpData);
-DWORDLONG GetUIDL(LPBYTE *plpData);
-MRA_GUID  GetGUID(LPBYTE *plpData);
-DWORD     GetLPS(LPBYTE lpbData, DWORD dwDataSize, LPBYTE *plpCurrentData, MRA_LPS *plpsString);
-
 DWORD CMraProto::StartConnect()
 {
 	if ( !InterlockedExchangeAdd((volatile LONG*)&masMraSettings.dwGlobalPluginRunning, 0))
 		return ERROR_OPERATION_ABORTED;
 
 	// поток ещё/уже не работал, поставили статус что работает и запускаем
-	if (InterlockedCompareExchange((volatile LONG*)&dwThreadWorkerRunning, TRUE, FALSE) == FALSE) {
-		char szPass[MAX_PATH];
-		size_t dwEMailSize = 0, dwPasswordSize = 0;
+	if (InterlockedCompareExchange((volatile LONG*)&m_dwThreadWorkerRunning, TRUE, FALSE) == FALSE) {
+		CMStringA szEmail;
+		mraGetStringA(NULL, "e-mail", szEmail);
 
-		mraGetStaticStringA(NULL, "e-mail", NULL, 0, &dwEMailSize);
-
-		if (dwEMailSize > 5 && GetPassDB(szPass, sizeof(szPass), &dwPasswordSize)) {
-			InterlockedExchange((volatile LONG*)&dwThreadWorkerLastPingTime, GetTickCount());
-			hThreadWorker = ForkThreadEx(&CMraProto::MraThreadProc, NULL, 0);
-			if (hThreadWorker == NULL) {
+		CMStringA szPass;
+		if (szEmail.GetLength() > 5 && GetPassDB(szPass)) {
+			InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
+			m_hThreadWorker = ForkThreadEx(&CMraProto::MraThreadProc, NULL, 0);
+			if (m_hThreadWorker == NULL) {
 				DWORD dwRetErrorCode = GetLastError();
-				InterlockedExchange((volatile LONG*)&dwThreadWorkerRunning, FALSE);
+				InterlockedExchange((volatile LONG*)&m_dwThreadWorkerRunning, FALSE);
 				SetStatus(ID_STATUS_OFFLINE);
 				return dwRetErrorCode;
 			}
 		}
 		else {
 			MraThreadClean();
-			if (dwEMailSize <= 5)
+			if (szEmail.GetLength() <= 5)
 				MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, 0, TranslateW(L"Please, setup e-mail in options"));
 			else
 				MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, 0, TranslateW(L"Please, setup password in options"));
 		}
-		SecureZeroMemory(szPass, sizeof(szPass));
 	}
 
 	return 0;
@@ -48,7 +41,7 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 	DWORD dwRetErrorCode = NO_ERROR;
 
 	BOOL bConnected = FALSE;
-	char szHost[MAX_PATH];
+	CMStringA szHost;
 	DWORD dwConnectReTryCount, dwCurConnectReTryCount;
 	NETLIBOPENCONNECTION nloc = {0};
 
@@ -58,27 +51,27 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 
 	nloc.cbSize = sizeof(nloc);
 	nloc.flags = NLOCF_V2;
-	nloc.szHost = szHost;
 	nloc.timeout = getDword("TimeOutConnectMRIM", MRA_DEFAULT_TIMEOUT_CONN_MRIM);
 	if (nloc.timeout<MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
 	if (nloc.timeout>MRA_TIMEOUT_CONN_МАХ) nloc.timeout = MRA_TIMEOUT_CONN_МАХ;
 
-	InterlockedExchange((volatile LONG*)&dwThreadWorkerLastPingTime, GetTickCount());
-	if (MraGetNLBData((LPSTR)nloc.szHost, MAX_PATH, &nloc.wPort) == NO_ERROR) {
+	InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
+	if (MraGetNLBData(szHost, &nloc.wPort) == NO_ERROR) {
+		nloc.szHost = szHost;
 		dwCurConnectReTryCount = dwConnectReTryCount;
 		do {
-			InterlockedExchange((volatile LONG*)&dwThreadWorkerLastPingTime, GetTickCount());
-			hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&nloc);
+			InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
+			m_hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
 		}
-			while (--dwCurConnectReTryCount && hConnection == NULL);
+			while (--dwCurConnectReTryCount && m_hConnection == NULL);
 
-		if (hConnection)
+		if (m_hConnection)
 			bConnected = TRUE;
 	}
 
 	if (bConnected == FALSE)
 	if (getByte("NLBFailDirectConnect", MRA_DEFAULT_NLB_FAIL_DIRECT_CONNECT)) {
-		if (IsHTTPSProxyUsed(hNetlibUser))
+		if (IsHTTPSProxyUsed(m_hNetlibUser))
 			nloc.wPort = MRA_SERVER_PORT_HTTPS;
 		else {
 			nloc.wPort = getWord("ServerPort", MRA_DEFAULT_SERVER_PORT);
@@ -86,16 +79,16 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 		}
 
 		for (DWORD i = 1;(i<MRA_MAX_MRIM_SERVER && m_iStatus != ID_STATUS_OFFLINE); i++) {
-			mir_snprintf(szHost, SIZEOF(szHost), "mrim%lu.mail.ru", i);
+			szHost.Format("mrim%lu.mail.ru", i);
 
 			dwCurConnectReTryCount = dwConnectReTryCount;
 			do {
-				InterlockedExchange((volatile LONG*)&dwThreadWorkerLastPingTime, GetTickCount());
-				hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&nloc);
+				InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
+				m_hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
 			}
-				while (--dwCurConnectReTryCount && hConnection == NULL);
+				while (--dwCurConnectReTryCount && m_hConnection == NULL);
 
-			if (hConnection) {
+			if (m_hConnection) {
 				bConnected = TRUE;
 				break;
 			}
@@ -117,21 +110,21 @@ void CMraProto::MraThreadProc(LPVOID lpParameter)
 void CMraProto::MraThreadClean()
 {
 	MraMPopSessionQueueFlush(hMPopSessionQueue);
-	Netlib_CloseHandle(hConnection);// called twice, if user set offline, its normal
-	hConnection = NULL;
+	Netlib_CloseHandle(m_hConnection);// called twice, if user set offline, its normal
+	m_hConnection = NULL;
 	dwCMDNum = 0;
 
 	SleepEx(100, FALSE);// to prevent high CPU load by some status plugins like allwaysonline
 
-	if (hThreadWorker) {
-		CloseHandle(hThreadWorker);
-		hThreadWorker = NULL;
+	if (m_hThreadWorker) {
+		CloseHandle(m_hThreadWorker);
+		m_hThreadWorker = NULL;
 	}
-	InterlockedExchange((volatile LONG*)&dwThreadWorkerRunning, FALSE);
+	InterlockedExchange((volatile LONG*)&m_dwThreadWorkerRunning, FALSE);
 	SetStatus(ID_STATUS_OFFLINE);
 }
 
-DWORD CMraProto::MraGetNLBData(LPSTR lpszHost, size_t dwHostBuffSize, WORD *pwPort)
+DWORD CMraProto::MraGetNLBData(CMStringA &szHost, WORD *pwPort)
 {
 	DWORD dwRetErrorCode;
 
@@ -147,12 +140,12 @@ DWORD CMraProto::MraGetNLBData(LPSTR lpszHost, size_t dwHostBuffSize, WORD *pwPo
 
 	nloc.cbSize = sizeof(nloc);
 	nloc.flags = NLOCF_V2;
-	if (mraGetStaticStringA(NULL, "Server", (LPSTR)btBuff, SIZEOF(btBuff), NULL))
-		nloc.szHost = (LPSTR)btBuff;
+	if (mraGetStringA(NULL, "Server", szHost))
+		nloc.szHost = szHost;
 	else
 		nloc.szHost = MRA_DEFAULT_SERVER;
 
-	if ( IsHTTPSProxyUsed(hNetlibUser))
+	if ( IsHTTPSProxyUsed(m_hNetlibUser))
 		nloc.wPort = MRA_SERVER_PORT_HTTPS;
 	else
 		nloc.wPort = getWord("ServerPort", MRA_DEFAULT_SERVER_PORT);
@@ -163,15 +156,15 @@ DWORD CMraProto::MraGetNLBData(LPSTR lpszHost, size_t dwHostBuffSize, WORD *pwPo
 
 	dwCurConnectReTryCount = dwConnectReTryCount;
 	do {
-		InterlockedExchange((volatile LONG*)&dwThreadWorkerLastPingTime, GetTickCount());
-		nls.hReadConns[0] = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&nloc);
+		InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
+		nls.hReadConns[0] = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
 	}
 		while (--dwCurConnectReTryCount && nls.hReadConns[0] == NULL);
 
 	if (nls.hReadConns[0]) {
 		nls.cbSize = sizeof(nls);
 		nls.dwTimeout = 1000 * getDword("TimeOutReceiveNLB", MRA_DEFAULT_TIMEOUT_RECV_NLB);
-		InterlockedExchange((volatile LONG*)&dwThreadWorkerLastPingTime, GetTickCount());
+		InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
 
 		while (m_iStatus != ID_STATUS_OFFLINE && bContinue) {
 			switch (CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls)) {
@@ -187,7 +180,7 @@ DWORD CMraProto::MraGetNLBData(LPSTR lpszHost, size_t dwHostBuffSize, WORD *pwPo
 					bContinue = FALSE;
 				break;
 			}
-			InterlockedExchange((volatile LONG*)&dwThreadWorkerLastPingTime, GetTickCount());
+			InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
 		}
 		Netlib_CloseHandle(nls.hReadConns[0]);
 
@@ -197,7 +190,7 @@ DWORD CMraProto::MraGetNLBData(LPSTR lpszHost, size_t dwHostBuffSize, WORD *pwPo
 				(*lpszPort) = 0;
 				lpszPort++;
 
-				lstrcpynA(lpszHost, (LPSTR)btBuff, dwHostBuffSize);
+				szHost = (LPSTR)btBuff;
 				if (pwPort) (*pwPort) = (WORD)StrToUNum32(lpszPort, (dwRcvBuffSizeUsed-(lpszPort-(LPSTR)btBuff)));
 				dwRetErrorCode = NO_ERROR;
 			}
@@ -223,25 +216,24 @@ DWORD CMraProto::MraNetworkDispatcher()
 {
 	DWORD dwRetErrorCode = NO_ERROR;
 
-	BOOL bContinue = TRUE;
-	DWORD dwSelectRet, dwBytesReceived, dwDataCurrentBuffSize, dwDataCurrentBuffSizeUsed, dwPingPeriod = MAXDWORD, dwNextPingSendTickTime = MAXDWORD;
+	bool bContinue = true;
+	DWORD dwDataCurrentBuffSize, dwDataCurrentBuffSizeUsed;
 	size_t dwRcvBuffSize = BUFF_SIZE_RCV, dwRcvBuffSizeUsed = 0, dwDataCurrentBuffOffset = 0;
 	LPBYTE lpbBufferRcv;
 	mrim_packet_header_t *pmaHeader;
 
-	NETLIBSELECT nls = {0};
-	nls.cbSize = sizeof(nls);
+	NETLIBSELECT nls = { sizeof(nls) };
 	nls.dwTimeout = NETLIB_SELECT_TIMEOUT;
-	nls.hReadConns[0] = hConnection;
+	nls.hReadConns[0] = m_hConnection;
 
 	lpbBufferRcv = (LPBYTE)mir_calloc(dwRcvBuffSize);
 
+	m_dwNextPingSendTickTime = m_dwPingPeriod = MAXDWORD;
 	dwCMDNum = 0;
 	MraSendCMD(MRIM_CS_HELLO, NULL, 0);
-	InterlockedExchange((volatile LONG*)&dwThreadWorkerLastPingTime, GetTickCount());
-	while (m_iStatus != ID_STATUS_OFFLINE && bContinue)
-	{
-		dwSelectRet = CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls);
+	m_dwThreadWorkerLastPingTime = GetTickCount();
+	while (m_iStatus != ID_STATUS_OFFLINE && bContinue) {
+		DWORD dwSelectRet = CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls);
 		switch (dwSelectRet) {
 		case SOCKET_ERROR:
 			if (m_iStatus != ID_STATUS_OFFLINE) {
@@ -253,11 +245,10 @@ DWORD CMraProto::MraNetworkDispatcher()
 
 		case 0:// Time out
 		case 1:
-			dwBytesReceived = GetTickCount();
-			InterlockedExchange((volatile LONG*)&dwThreadWorkerLastPingTime, dwBytesReceived);
+			m_dwThreadWorkerLastPingTime = GetTickCount();
 			// server ping
-			if (dwNextPingSendTickTime <= dwBytesReceived) {
-				dwNextPingSendTickTime = (dwBytesReceived+(dwPingPeriod*1000));
+			if (m_dwNextPingSendTickTime <= m_dwThreadWorkerLastPingTime) {
+				m_dwNextPingSendTickTime = (m_dwThreadWorkerLastPingTime+(m_dwPingPeriod*1000));
 				MraSendCMD(MRIM_CS_PING, NULL, 0);
 			}
 			{
@@ -298,7 +289,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 				lpbBufferRcv = (LPBYTE)mir_realloc(lpbBufferRcv, dwRcvBuffSize);
 			}
 
-			dwBytesReceived = Netlib_Recv(nls.hReadConns[0], (LPSTR)(lpbBufferRcv+dwRcvBuffSizeUsed), (dwRcvBuffSize-dwRcvBuffSizeUsed), 0);
+			DWORD dwBytesReceived = Netlib_Recv(nls.hReadConns[0], (LPSTR)(lpbBufferRcv+dwRcvBuffSizeUsed), (dwRcvBuffSize-dwRcvBuffSizeUsed), 0);
 			if (dwBytesReceived && dwBytesReceived != SOCKET_ERROR) {
 				dwRcvBuffSizeUsed += dwBytesReceived;
 
@@ -314,7 +305,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 							// full packet received, may be more than one
 							if ((dwDataCurrentBuffSizeUsed-sizeof(mrim_packet_header_t)) >= pmaHeader->dlen) {
 
-								MraCommandDispatcher(pmaHeader, &dwPingPeriod, &dwNextPingSendTickTime, &bContinue);
+								bContinue = MraCommandDispatcher(pmaHeader);
 
 								// move pointer to next packet in buffer
 								if (dwDataCurrentBuffSizeUsed - sizeof(mrim_packet_header_t) > pmaHeader->dlen)
@@ -376,1341 +367,1235 @@ DWORD CMraProto::MraNetworkDispatcher()
 	return dwRetErrorCode;
 }
 
-DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pdwPingPeriod, DWORD *pdwNextPingSendTickTime, BOOL *pbContinue)
+//Подтверждение установки соединения// UL ## ping_period ## Ожидаемая частота подтверждения соединения (в секундах)
+bool CMraProto::CmdHelloAck(BinBuffer &buf)
 {
-	WCHAR szBuff[4096] = {0};
-	DWORD dwDataSize, dwTemp, dwAckType;
-	size_t dwStringSize;
-	MRA_LPS lpsString = {0}, lpsEMail = {0};
-	HANDLE hContact = NULL;
-	LPBYTE lpbData, lpbDataCurrent;
+	buf >> m_dwPingPeriod;
 
-	lpbData = ((((LPBYTE)pmaHeader))+sizeof(mrim_packet_header_t));
-	lpbDataCurrent = lpbData;
-	dwDataSize = pmaHeader->dlen;
+	CMStringA szPass;
+	if ( !GetPassDB(szPass))
+		return false;
 
-	Netlib_Logf(hNetlibUser, "Received packet %x\n", pmaHeader->msg);
+	char szValueName[MAX_PATH];
+	CMStringA szUserAgentFormatted, szEmail;
+	CMStringW wszStatusTitle, wszStatusDesc;
 
-	switch (pmaHeader->msg) {
-	case MRIM_CS_HELLO_ACK://Подтверждение установки соединения// UL ## ping_period ## Ожидаемая частота подтверждения соединения (в секундах)
-		//bit of a security hole here, since it's easy to extract a password from an edit box
-		if (GetPassDB((LPSTR)szBuff, SIZEOF(szBuff), &dwStringSize)) {
-			CHAR szEMail[MAX_EMAIL_LEN], szSelfVersionString[MAX_PATH], szUserAgentFormated[USER_AGENT_MAX+MAX_PATH], szValueName[MAX_PATH];
-			WCHAR wszStatusTitle[STATUS_TITLE_MAX+4], wszStatusDesc[STATUS_DESC_MAX+4];
-			DWORD dwStatus, dwXStatus, dwXStatusMir, dwFutureFlags;
-			LPWSTR lpwszStatusTitle, lpwszStatusDesc;
-			size_t dwEMailSize, dwSelfVersionSize, dwStatusTitleSize, dwStatusDescSize, dwUserAgentFormattedSize;
+	DWORD dwXStatusMir = m_iXStatus, dwXStatus;
+	DWORD dwStatus = GetMraStatusFromMiradaStatus(m_iDesiredStatus, dwXStatusMir, &dwXStatus);
+	if ( IsXStatusValid(dwXStatusMir)) {// xstatuses
+		mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldName", dwXStatusMir);
+		if ( !mraGetStringW(NULL, szValueName, wszStatusTitle))
+			wszStatusTitle = TranslateW(lpcszXStatusNameDef[dwXStatusMir]);
 
-			dwXStatusMir = m_iXStatus;
-			dwStatus = GetMraStatusFromMiradaStatus(m_iDesiredStatus, dwXStatusMir, &dwXStatus);
-			if ( IsXStatusValid(dwXStatusMir)) {// xstatuses
-				mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldName", dwXStatusMir);
-				if (mraGetStaticStringW(NULL, szValueName, wszStatusTitle, (STATUS_TITLE_MAX+1), &dwStatusTitleSize))
-					lpwszStatusTitle = wszStatusTitle;
-				else { // default xstatus name
-					lpwszStatusTitle = TranslateW(lpcszXStatusNameDef[dwXStatusMir]);
-					dwStatusTitleSize = lstrlenW(lpwszStatusTitle);
-				}
+		mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldMsg", dwXStatusMir);
+		mraGetStringW(NULL, szValueName, wszStatusDesc);
+	}
+	else wszStatusTitle = GetStatusModeDescriptionW(m_iDesiredStatus);
 
-				mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldMsg", dwXStatusMir);
-				if (mraGetStaticStringW(NULL, szValueName, wszStatusDesc, (STATUS_DESC_MAX+1), &dwStatusDescSize))
-					lpwszStatusDesc = wszStatusDesc;
-				else { // default xstatus description
-					lpwszStatusDesc = NULL;
-					dwStatusDescSize = 0;
-				}
-			}
-			else { // not xstatuses
-				lpwszStatusTitle = GetStatusModeDescriptionW(m_iDesiredStatus);
-				dwStatusTitleSize = lstrlenW(lpwszStatusTitle);
-				lpwszStatusDesc = NULL;
-				dwStatusDescSize = 0;
-			}
+	CMStringA szSelfVersionString = MraGetSelfVersionString();
+	if ( !mraGetStringA(NULL, "MirVerCustom", szUserAgentFormatted))
+		szUserAgentFormatted.Format(
+			"client=\"magent\" name=\"Miranda NG\" title=\"%s\" version=\"777.%lu.%lu.%lu\" build=\"%lu\" protocol=\"%lu.%lu\"",
+			szSelfVersionString, __FILEVERSION_STRING, PROTO_VERSION_MAJOR, PROTO_VERSION_MINOR);
 
-			MraGetSelfVersionString(szSelfVersionString, SIZEOF(szSelfVersionString), &dwSelfVersionSize);
-			if ( mraGetStaticStringA(NULL, "MirVerCustom", szUserAgentFormated, SIZEOF(szUserAgentFormated), &dwUserAgentFormattedSize) == FALSE) {
-				dwUserAgentFormattedSize = mir_snprintf(szUserAgentFormated, SIZEOF(szUserAgentFormated),
-					"client=\"magent\" name=\"Miranda NG\" title=\"%s\" version=\"777.%lu.%lu.%lu\" build=\"%lu\" protocol=\"%lu.%lu\"",
-					szSelfVersionString, __FILEVERSION_STRING, PROTO_VERSION_MAJOR, PROTO_VERSION_MINOR);
-			}
+	DWORD dwFutureFlags = (getByte("RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE) ? FEATURE_FLAG_RTF_MESSAGE : 0) | MRA_FEATURE_FLAGS;
 
-			dwFutureFlags = ((getByte("RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE)? FEATURE_FLAG_RTF_MESSAGE:0)|MRA_FEATURE_FLAGS);
+	if ( !mraGetStringA(NULL, "e-mail", szEmail))
+		return false;
 
-			if (mraGetStaticStringA(NULL, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize))
-				MraLogin2W(szEMail, dwEMailSize, (LPSTR)szBuff, dwStringSize, dwStatus, lpcszStatusUri[dwXStatus], lstrlenA(lpcszStatusUri[dwXStatus]), lpwszStatusTitle, dwStatusTitleSize, lpwszStatusDesc, dwStatusDescSize, dwFutureFlags, szUserAgentFormated, dwUserAgentFormattedSize, szSelfVersionString, dwSelfVersionSize);
-			else
-				*pbContinue = FALSE;
+	MraLogin2W(szEmail, szPass, dwStatus, CMStringA(lpcszStatusUri[dwXStatus]), wszStatusTitle, wszStatusDesc, dwFutureFlags, szUserAgentFormatted, szSelfVersionString);
+	return true;
+}
 
-			SecureZeroMemory(szBuff, sizeof(szBuff));
-		}
-		else *pbContinue = FALSE;
+// Successful authorization
+bool CMraProto::CmdLoginAck()
+{
+	m_bLoggedIn = TRUE;
+	m_dwNextPingSendTickTime = 0; // force send ping
+	MraSendCMD(MRIM_CS_PING, NULL, 0);
+	SetStatus(m_iDesiredStatus);
+	MraAvatarsQueueGetAvatarSimple(hAvatarsQueueHandle, GAIF_FORCE, NULL, 0);
+	return true;
+}
 
-		*pdwPingPeriod = GetUL(&lpbDataCurrent);
-		break;
+// Unsuccessful authorization //LPS ## reason ## причина отказа
+bool CMraProto::CmdLoginRejected(BinBuffer &buf)
+{
+	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 
-	case MRIM_CS_LOGIN_ACK: // Successful authorization
-		m_bLoggedIn = TRUE;
-		*pdwNextPingSendTickTime = 0; // force send ping
-		MraSendCMD(MRIM_CS_PING, NULL, 0);
-		SetStatus(m_iDesiredStatus);
-		MraAvatarsQueueGetAvatarSimple(hAvatarsQueueHandle, GAIF_FORCE, NULL, 0);
-		break;
+	CMStringA reason; buf >> reason;
+	MraPopupShowW(NULL, MRA_POPUP_TYPE_ERROR, 0, TranslateW(L"Logon error: invalid login/password"), _A2T(reason.c_str()));
+	return false;
+}
 
-	case MRIM_CS_LOGIN_REJ: // Unsuccessful authorization //LPS ## reason ## причина отказа
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
+// Message delivery
+//LPS ## from ## Адрес отправителя
+//LPS ## message ## текстовая версия сообщения
+//LPS ## rtf-message ## форматированная версия сообщения
+bool CMraProto::CmdMessageAck(BinBuffer &buf)
+{
+	DWORD dwMsgID, dwFlags;
+	CMStringA szEmail, szText, szRTFText, szMultiChatData;
+	buf >> dwMsgID >> dwFlags >> szEmail >> szText >> szRTFText;
+	if (dwFlags & MESSAGE_FLAG_MULTICHAT)
+		buf >> szMultiChatData; // LPS multichat_data
 
-		GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-		dwStringSize = MultiByteToWideChar(MRA_CODE_PAGE, 0, lpsString.lpszData, lpsString.dwSize, szBuff, SIZEOF(szBuff));
-		szBuff[dwStringSize] = 0;
-		MraPopupShowW(NULL, MRA_POPUP_TYPE_ERROR, 0, TranslateW(L"Logon error: invalid login/password"), szBuff);
-		*pbContinue = FALSE;
-		break;
+	// подтверждаем получение, только если удалось его обработать
+	if (MraRecvCommand_Message((DWORD)_time32(NULL), dwFlags, szEmail, szText, szRTFText, szMultiChatData) == NO_ERROR)
+		if ((dwFlags & MESSAGE_FLAG_NORECV) == 0)
+			MraMessageRecv(szEmail, dwMsgID);
+	return true;
+}
 
-	case MRIM_CS_MESSAGE_ACK:// Message delivery
-		{
-			DWORD dwMsgID, dwFlags;
-			MRA_LPS lpsText, lpsRTFText, lpsMultiChatData;
-
-			dwMsgID = GetUL(&lpbDataCurrent);
-			dwFlags = GetUL(&lpbDataCurrent);
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsEMail);//LPS ## from ## Адрес отправителя
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsText);//LPS ## message ## текстовая версия сообщения
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsRTFText);//LPS ## rtf-message ## форматированная версия сообщения
-			if (dwFlags&MESSAGE_FLAG_MULTICHAT) GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsMultiChatData); // LPS multichat_data
-
-			// подтверждаем получение, только если удалось его обработать
-			if (MraRecvCommand_Message((DWORD)_time32(NULL), dwFlags, &lpsEMail, &lpsText, &lpsRTFText, &lpsMultiChatData) == NO_ERROR)
-				if ((dwFlags&MESSAGE_FLAG_NORECV) == 0)
-					MraMessageRecv(lpsEMail.lpszData, lpsEMail.dwSize, dwMsgID);
-		}
-		break;
-
-	case MRIM_CS_MESSAGE_STATUS:
-		if ( !MraSendQueueFind(hSendQueueHandle, pmaHeader->seq, NULL, &hContact, &dwAckType, (LPBYTE*)&lpsString.lpszData, &lpsString.dwSize)) {
-			dwTemp = GetUL(&lpbDataCurrent);
-			switch (dwTemp) {
-			case MESSAGE_DELIVERED:// Message delivered directly to user
-				ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)pmaHeader->seq, 0);
-				break;//***deb возможны сбои из-за асинхронности тк там передаётся указатель
-			case MESSAGE_REJECTED_NOUSER:// Message rejected - no such user
-				ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"Message rejected - no such user");
-				break;
-			case MESSAGE_REJECTED_INTERR:// Internal server error
-				ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"Internal server error");
-				break;
-			case MESSAGE_REJECTED_LIMIT_EXCEEDED:// Offline messages limit exceeded
-				ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"Offline messages limit exceeded");
-				break;
-			case MESSAGE_REJECTED_TOO_LARGE:// Message is too large
-				ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"Message is too large");
-				break;
-			case MESSAGE_REJECTED_DENY_OFFMSG:// User does not accept offline messages
-				ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"User does not accept offline messages");
-				break;
-			case MESSAGE_REJECTED_DENY_OFFFLSH:// User does not accept offline flash animation
-				ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)"User does not accept offline flash animation");
-				break;
-			default:
-				dwTemp = mir_snprintf((LPSTR)szBuff, SIZEOF(szBuff), "Undefined message delivery error, code: %lu", dwTemp);
-				ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)pmaHeader->seq, (LPARAM)szBuff);
-				break;
-			}
-			MraSendQueueFree(hSendQueueHandle, pmaHeader->seq);
-		}
-		// not found in queue
-		else if ( GetUL(&lpbDataCurrent) != MESSAGE_DELIVERED)
-			MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, TranslateW(L"MRIM_CS_MESSAGE_STATUS: not found in queue"));
-		break;
-
-	case MRIM_CS_CONNECTION_PARAMS:// Изменение параметров соединения
-		*pdwPingPeriod = GetUL(&lpbDataCurrent);
-		*pdwNextPingSendTickTime = 0; // force send ping
-		MraSendCMD(MRIM_CS_PING, NULL, 0);
-		break;
-
-	case MRIM_CS_USER_INFO:
-		while (lpbDataCurrent < lpbData + dwDataSize) {
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-			if ( !_strnicmp(lpsString.lpszData, "MESSAGES.TOTAL", 14)) {
-				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				dwEmailMessagesTotal = StrToUNum32(lpsString.lpszData, lpsString.dwSize);
-			}
-			else if ( !_strnicmp(lpsString.lpszData, "MESSAGES.UNREAD", 15)) {
-				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				dwEmailMessagesUnread = StrToUNum32(lpsString.lpszData, lpsString.dwSize);
-			}
-			else if ( !_strnicmp(lpsString.lpszData, "MRIM.NICKNAME", 13)) {
-				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				mraSetLPSStringW(NULL, "Nick", &lpsString);
-			}
-			else if ( !_strnicmp(lpsString.lpszData, "client.endpoint", 15)) {
-				LPSTR lpszDelimiter;
-
-				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				dwStringSize = WideCharToMultiByte(MRA_CODE_PAGE, 0, lpsString.lpwszData, lpsString.dwSize, (LPSTR)szBuff, sizeof(szBuff), NULL, NULL);
-				lpszDelimiter = (LPSTR)MemoryFind(0, szBuff, dwStringSize, ":", 1);
-				if (lpszDelimiter) {
-					(*lpszDelimiter) = 0;
-					lpszDelimiter = (LPSTR)szBuff;
-					setDword("IP", HTONL(inet_addr(lpszDelimiter)));
-				}
-			}
-			else if ( !_strnicmp(lpsString.lpszData, "connect.xml", 11)) {
-				DebugPrintA(lpsString.lpszData);
-				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				DebugPrintCRLFW(lpsString.lpwszData);
-			}
-			else if ( !_strnicmp(lpsString.lpszData, "micblog.show_title", 18)) {
-				DebugPrintA(lpsString.lpszData);
-				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				DebugPrintCRLFW(lpsString.lpwszData);
-			}
-			else if ( !_strnicmp(lpsString.lpszData, "micblog.status.id", 17)) {
-				DWORDLONG dwBlogStatusID;
-
-				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				dwBlogStatusID = StrToUNum64(lpsString.lpszData, lpsString.dwSize);
-				mraWriteContactSettingBlob(NULL, DBSETTING_BLOGSTATUSID, &dwBlogStatusID, sizeof(DWORDLONG));
-			}
-			else if ( !_strnicmp(lpsString.lpszData, "micblog.status.time", 19)) {
-				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
-			}
-			else if ( !_strnicmp(lpsString.lpszData, "micblog.status.text", 19)) {
-				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				mraSetLPSStringW(NULL, DBSETTING_BLOGSTATUS, &lpsString);
-			}
-			else if ( !_strnicmp(lpsString.lpszData, "HAS_MYMAIL", 10)) {
-				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
-			}
-			else if ( !_strnicmp(lpsString.lpszData, "mrim.status.open_search", 23)) {
-				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
-			}
-			else if ( !_strnicmp(lpsString.lpszData, "rb.target.cookie", 16)) {
-				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
-			}
-			else if ( !_strnicmp(lpsString.lpszData, "show_web_history_link", 21)) {
-				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
-			}
-			else if ( !_strnicmp(lpsString.lpszData, "friends_suggest", 15)) {
-				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
-			}
-			else if ( !_strnicmp(lpsString.lpszData, "timestamp", 9)) {
-				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
-			}
-			else if ( !_strnicmp(lpsString.lpszData, "trusted_update", 14)) {
-				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-				//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(lpsString.lpszData, lpsString.dwSize));
-			}
-			else {
-				#ifdef _DEBUG
-					LPSTR lpszCurrentPos = (LPSTR)szBuff;
-					memmove(lpszCurrentPos, lpsString.lpszData, lpsString.dwSize);
-					lpszCurrentPos += lpsString.dwSize;
-					*((WORD*)lpszCurrentPos) = *((WORD*)": ");
-					lpszCurrentPos += sizeof(WORD);
-
-					GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-					memmove(lpszCurrentPos, lpsString.lpszData, lpsString.dwSize);
-					lpszCurrentPos += lpsString.dwSize;
-					*((WORD*)lpszCurrentPos) = *((WORD*)szCRLF);
-					lpszCurrentPos += sizeof(WORD);(*((WORD*)lpszCurrentPos)) = 0;
-
-					DebugPrintCRLFA((LPSTR)szBuff);
-					DebugBreak();
-				#endif
-			}
-		}
-		MraUpdateEmailStatus(NULL, 0, NULL, 0, 0, 0);
-		break;
-
-	case MRIM_CS_OFFLINE_MESSAGE_ACK://Сообщение доставленное, пока пользователь не был подключен к сети
-		{
-			DWORD dwTime, dwFlags;
-			MRA_LPS lpsText, lpsRTFText, lpsMultiChatData;
-			LPBYTE lpbBuff = NULL;
-			DWORDLONG dwMsgUIDL = GetUIDL(&lpbDataCurrent);
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-
-			if (MraOfflineMessageGet(&lpsString, &dwTime, &dwFlags, &lpsEMail, &lpsText, &lpsRTFText, &lpsMultiChatData, &lpbBuff) == NO_ERROR) {
-				dwTemp = MraRecvCommand_Message(dwTime, dwFlags, &lpsEMail, &lpsText, &lpsRTFText, &lpsMultiChatData);
-				if (dwTemp == NO_ERROR || dwTemp == ERROR_ACCESS_DENIED)
-					MraOfflineMessageDel(dwMsgUIDL);
-				else
-					ShowFormattedErrorMessage(L"Offline message processing error, message will not deleted from server", NO_ERROR);
-			}
-			else ShowFormattedErrorMessage(L"Offline message processing error, message will not deleted from server", NO_ERROR);
-
-			mir_free(lpbBuff);
-		}
-		break;
-
-	case MRIM_CS_AUTHORIZE_ACK: // Auth confirmation
-		{
-			BOOL bAdded;
-			BYTE btBuff[BUFF_SIZE_BLOB];
-
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsEMail);
-			hContact = MraHContactFromEmail(lpsEMail.lpszData, lpsEMail.dwSize, TRUE, TRUE, &bAdded);
-			if (bAdded) MraUpdateContactInfo(hContact);
-
-			if (IsEMailChatAgent(lpsEMail.lpszData, lpsEMail.dwSize) == FALSE) {
-				DBEVENTINFO dbei = { sizeof(dbei) };
-				dbei.szModule = m_szModuleName;
-				dbei.timestamp = (DWORD)_time32(NULL);
-				dbei.flags = 0;
-				dbei.eventType = EVENTTYPE_ADDED;
-				CreateBlobFromContact(hContact, NULL, 0, (LPBYTE)&btBuff, SIZEOF(btBuff), &dwStringSize);
-				dbei.cbBlob = dwStringSize;
-				dbei.pBlob = btBuff;
-				db_event_add(0, &dbei);
-			}
-
-			GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwTemp, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL);
-			dwTemp &= ~CONTACT_INTFLAG_NOT_AUTHORIZED;
-			SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, SCBIF_SERVER_FLAG, 0, 0, 0, dwTemp, 0, NULL, 0, NULL, 0, NULL, 0);
-			setDword(hContact, "HooksLocked", TRUE);
-			db_unset(hContact, "CList", "NotOnList");
-			setDword(hContact, "HooksLocked", FALSE);
-		}
-		break;
-
-	case MRIM_CS_MPOP_SESSION: // Web auth key
-		if ( GetUL(&lpbDataCurrent)) {
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-			MraMPopSessionQueueSetNewMPopKey(hMPopSessionQueue, lpsString.lpszData, lpsString.dwSize);
-			MraMPopSessionQueueStart(hMPopSessionQueue);
-		}
-		else { //error
-			MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, 0, TranslateW(L"Server error: cant get MPOP key for web authorize"));
-			MraMPopSessionQueueFlush(hMPopSessionQueue);
-		}
-		break;
-
-	/////////////////////////////////////////////////////////////////////////////////////
-	case MRIM_CS_FILE_TRANSFER:
-		{
-			BOOL bAdded;
-			DWORD dwIDRequest, dwFilesTotalSize;
-			MRA_LPS lpsFiles = {0}, lpsFilesW = {0}, lpsAddreses = {0};
-
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsEMail);// LPS TO/FROM ANSI
-			dwIDRequest = GetUL(&lpbDataCurrent);// DWORD id_request
-			dwFilesTotalSize = GetUL(&lpbDataCurrent);// DWORD FILESIZE
-			if ( GetUL(&lpbDataCurrent)) {
-				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsFiles);// LPS Files (FileName;FileSize;FileName;FileSize;) ANSI
-				if ( GetUL(&lpbDataCurrent)) { // LPS DESCRIPTION
-					dwTemp = GetUL(&lpbDataCurrent);
-					DebugBreakIf(dwTemp != 1);
-					GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsFilesW);// LPS Files (FileName;FileSize;FileName;FileSize;) UNICODE
-				}
-				GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsAddreses);// LPS Conn (IP:Port;IP:Port;) ANSI
-			}
-
-			hContact = MraHContactFromEmail(lpsEMail.lpszData, lpsEMail.dwSize, TRUE, TRUE, &bAdded);
-			if (bAdded) MraUpdateContactInfo(hContact);
-
-			bAdded = FALSE;
-			if (lpsFilesW.dwSize == 0) {
-				lpsFilesW.lpwszData = (LPWSTR)mir_calloc((lpsFiles.dwSize+MAX_PATH)*sizeof(WCHAR));
-				if (lpsFilesW.lpwszData) {
-					lpsFilesW.dwSize = MultiByteToWideChar(MRA_CODE_PAGE, 0, lpsFiles.lpszData, lpsFiles.dwSize, lpsFilesW.lpwszData, (lpsFiles.dwSize+MAX_PATH));
-					bAdded = TRUE;
-				}
-			}
-
-			if (lpsFilesW.dwSize)
-				MraFilesQueueAddReceive(hFilesQueueHandle, 0, hContact, dwIDRequest, lpsFilesW.lpwszData, lpsFilesW.dwSize, lpsAddreses.lpszData, lpsAddreses.dwSize);
-			if (bAdded)
-				mir_free(lpsFilesW.lpwszData);
-		}
-		break;
-
-	case MRIM_CS_FILE_TRANSFER_ACK:
-		dwAckType = GetUL(&lpbDataCurrent);// DWORD status
-		GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsEMail);// LPS TO/FROM
-		dwTemp = GetUL(&lpbDataCurrent);// DWORD id_request
-		GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);// LPS DESCRIPTION
-
-		switch (dwAckType) {
-		case FILE_TRANSFER_STATUS_OK:// игнорируем, мы и так уже слушаем порт(ждём), то что кто то согласился ничего не меняет
-			//hContact = MraHContactFromEmail(lpsEMail.lpszData, lpsEMail.dwSize, TRUE, TRUE, NULL);
+bool CMraProto::CmdMessageStatus(ULONG seq, BinBuffer &buf)
+{
+	DWORD dwAckType, dwTemp; buf >> dwTemp;
+	HANDLE hContact;
+	if ( !MraSendQueueFind(hSendQueueHandle, seq, NULL, &hContact, &dwAckType, NULL, NULL)) {
+		switch (dwTemp) {
+		case MESSAGE_DELIVERED:// Message delivered directly to user
+			ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)seq, 0);
+			break;//***deb возможны сбои из-за асинхронности тк там передаётся указатель
+		case MESSAGE_REJECTED_NOUSER:// Message rejected - no such user
+			ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)"Message rejected - no such user");
 			break;
-		case FILE_TRANSFER_STATUS_DECLINE:
-			MraFilesQueueCancel(hFilesQueueHandle, dwTemp, FALSE);
+		case MESSAGE_REJECTED_INTERR:// Internal server error
+			ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)"Internal server error");
 			break;
-		case FILE_TRANSFER_STATUS_ERROR:
-			ShowFormattedErrorMessage(L"File transfer: error", NO_ERROR);
-			MraFilesQueueCancel(hFilesQueueHandle, dwTemp, FALSE);
+		case MESSAGE_REJECTED_LIMIT_EXCEEDED:// Offline messages limit exceeded
+			ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)"Offline messages limit exceeded");
 			break;
-		case FILE_TRANSFER_STATUS_INCOMPATIBLE_VERS:
-			ShowFormattedErrorMessage(L"File transfer: incompatible versions", NO_ERROR);
-			MraFilesQueueCancel(hFilesQueueHandle, dwTemp, FALSE);
+		case MESSAGE_REJECTED_TOO_LARGE:// Message is too large
+			ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)"Message is too large");
 			break;
-		case FILE_TRANSFER_MIRROR:
-			MraFilesQueueSendMirror(hFilesQueueHandle, dwTemp, lpsString.lpszData, lpsString.dwSize);
+		case MESSAGE_REJECTED_DENY_OFFMSG:// User does not accept offline messages
+			ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)"User does not accept offline messages");
+			break;
+		case MESSAGE_REJECTED_DENY_OFFFLSH:// User does not accept offline flash animation
+			ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)"User does not accept offline flash animation");
+			break;
+		default:
+			CMStringA szMsg;
+			szMsg.Format("Undefined message delivery error, code: %lu", dwTemp);
+			ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)szMsg.c_str());
+			break;
+		}
+		MraSendQueueFree(hSendQueueHandle, seq);
+	}
+	// not found in queue
+	else if (dwTemp != MESSAGE_DELIVERED)
+		MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, TranslateW(L"MRIM_CS_MESSAGE_STATUS: not found in queue"));
+	return true;
+}
+
+bool CMraProto::CmdUserInfo(BinBuffer &buf)
+{
+	CMStringA szString;
+	CMStringW szStringW;
+	while (buf.m_len > 0) {
+		buf >> szString;
+		if ( !_strnicmp(szString, "MESSAGES.TOTAL", 14)) {
+			buf >> szString;
+			dwEmailMessagesTotal = atoi(szString);
+		}
+		else if ( !_strnicmp(szString, "MESSAGES.UNREAD", 15)) {
+			buf >> szString;
+			m_dwEmailMessagesUnread = atoi(szString);
+		}
+		else if ( !_strnicmp(szString, "MRIM.NICKNAME", 13)) {
+			buf >> szStringW;
+			mraSetStringW(NULL, "Nick", szStringW);
+		}
+		else if ( !_strnicmp(szString, "client.endpoint", 15)) {
+			buf >> szStringW;
+			szString = szStringW;
+			int lpszDelimiter = szString.Find(':');
+			if (lpszDelimiter != -1) {
+				CMStringA szAddr(szString, lpszDelimiter);
+				setDword("IP", HTONL(inet_addr(szAddr.c_str())));
+			}
+		}
+		else if ( !_strnicmp(szString, "connect.xml", 11)) {
+			DebugPrintA(szString);
+			buf >> szStringW;
+			DebugPrintCRLFW(szStringW);
+		}
+		else if ( !_strnicmp(szString, "micblog.show_title", 18)) {
+			DebugPrintA(szString);
+			buf >> szStringW;
+			DebugPrintCRLFW(szStringW);
+		}
+		else if ( !_strnicmp(szString, "micblog.status.id", 17)) {
+			buf >> szString;
+			DWORDLONG dwBlogStatusID = StrToUNum64(szString, szString.GetLength());
+			mraWriteContactSettingBlob(NULL, DBSETTING_BLOGSTATUSID, &dwBlogStatusID, sizeof(DWORDLONG));
+		}
+		else if ( !_strnicmp(szString, "micblog.status.time", 19)) {
+			buf >> szString;
+			setDword(DBSETTING_BLOGSTATUSTIME, atoi(szString));
+		}
+		else if ( !_strnicmp(szString, "micblog.status.text", 19)) {
+			buf >> szStringW;
+			mraSetStringW(NULL, DBSETTING_BLOGSTATUS, szStringW);
+		}
+		else if ( !_strnicmp(szString, "HAS_MYMAIL", 10)) {
+			buf >> szString;
+			//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(szString.lpszData, szString.dwSize));
+		}
+		else if ( !_strnicmp(szString, "mrim.status.open_search", 23)) {
+			buf >> szString;
+			//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(szString.lpszData, szString.dwSize));
+		}
+		else if ( !_strnicmp(szString, "rb.target.cookie", 16)) {
+			buf >> szString;
+			//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(szString.lpszData, szString.dwSize));
+		}
+		else if ( !_strnicmp(szString, "show_web_history_link", 21)) {
+			buf >> szString;
+			//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(szString.lpszData, szString.dwSize));
+		}
+		else if ( !_strnicmp(szString, "friends_suggest", 15)) {
+			buf >> szString;
+			//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(szString.lpszData, szString.dwSize));
+		}
+		else if ( !_strnicmp(szString, "timestamp", 9)) {
+			buf >> szString;
+			//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(szString.lpszData, szString.dwSize));
+		}
+		else if ( !_strnicmp(szString, "trusted_update", 14)) {
+			buf >> szString;
+			//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(szString.lpszData, szString.dwSize));
+		}
+		else {
+			#ifdef _DEBUG
+				DebugBreak();
+			#endif
+		}
+	}
+	MraUpdateEmailStatus("", "", 0, 0);
+	return true;
+}
+
+//Сообщение доставленное, пока пользователь не был подключен к сети
+bool CMraProto::CmdOfflineMessageAck(BinBuffer &buf)
+{
+	CMStringA szEmail, lpsText, lpsRTFText, lpsMultiChatData, szString;
+	DWORDLONG dwMsgUIDL;
+	buf >> dwMsgUIDL >> szString;
+
+	DWORD dwTime, dwFlags;
+	if (MraOfflineMessageGet(&szString, &dwTime, &dwFlags, &szEmail, &lpsText, &lpsRTFText, &lpsMultiChatData, NULL) == NO_ERROR) {
+		DWORD dwTemp = MraRecvCommand_Message(dwTime, dwFlags, szEmail, lpsText, lpsRTFText, lpsMultiChatData);
+		if (dwTemp == NO_ERROR || dwTemp == ERROR_ACCESS_DENIED)
+			MraOfflineMessageDel(dwMsgUIDL);
+		else
+			ShowFormattedErrorMessage(L"Offline message processing error, message will not deleted from server", NO_ERROR);
+	}
+	else ShowFormattedErrorMessage(L"Offline message processing error, message will not deleted from server", NO_ERROR);
+
+	return true;
+}
+
+// Auth confirmation
+bool CMraProto::CmdAuthAck(BinBuffer &buf)
+{
+	CMStringA szEmail;
+	buf >> szEmail;
+
+	BOOL bAdded;
+	HANDLE hContact = MraHContactFromEmail(szEmail, TRUE, TRUE, &bAdded);
+	if (bAdded)
+		MraUpdateContactInfo(hContact);
+
+	if (IsEMailChatAgent(szEmail) == FALSE) {
+		CMStringA szBuff = CreateBlobFromContact(hContact, L"");
+
+		DBEVENTINFO dbei = { sizeof(dbei) };
+		dbei.szModule = m_szModuleName;
+		dbei.timestamp = (DWORD)_time32(NULL);
+		dbei.eventType = EVENTTYPE_ADDED;
+		dbei.cbBlob = szBuff.GetLength();
+		dbei.pBlob = (PBYTE)szBuff.GetBuffer();
+		db_event_add(0, &dbei);
+	}
+
+	DWORD dwTemp;
+	GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwTemp, NULL, NULL, NULL, NULL);
+	dwTemp &= ~CONTACT_INTFLAG_NOT_AUTHORIZED;
+	SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, SCBIF_SERVER_FLAG, 0, 0, 0, dwTemp, 0, "", L"", "");
+	setDword(hContact, "HooksLocked", TRUE);
+	db_unset(hContact, "CList", "NotOnList");
+	setDword(hContact, "HooksLocked", FALSE);
+	return true;
+}
+
+// Web auth key
+bool CMraProto::CmdPopSession(BinBuffer &buf)
+{
+	DWORD dwTemp; buf >> dwTemp;
+	if (dwTemp) {
+		CMStringA szString; buf >> szString;
+		MraMPopSessionQueueSetNewMPopKey(hMPopSessionQueue, szString);
+		MraMPopSessionQueueStart(hMPopSessionQueue);
+	}
+	else { //error
+		MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, 0, TranslateW(L"Server error: cant get MPOP key for web authorize"));
+		MraMPopSessionQueueFlush(hMPopSessionQueue);
+	}
+	return true;
+}
+
+bool CMraProto::CmdFileTransfer(BinBuffer &buf)
+{
+	DWORD dwIDRequest, dwFilesTotalSize, dwTemp;
+	CMStringA szFiles, szEmail, szAddresses;
+	CMStringW wszFilesW;
+
+	buf >> szEmail >> dwIDRequest >> dwFilesTotalSize >> dwTemp;
+	if (dwTemp) {
+		buf >> szFiles >> dwTemp;
+		if (dwTemp) { // LPS DESCRIPTION
+			buf >> dwTemp >> wszFilesW;
+			DebugBreakIf(dwTemp != 1);
+		}
+		buf >> szAddresses;
+	}
+
+	BOOL bAdded = FALSE;
+	HANDLE hContact = MraHContactFromEmail(szEmail, TRUE, TRUE, &bAdded);
+	if (bAdded)
+		MraUpdateContactInfo(hContact);
+
+	if ( wszFilesW.IsEmpty())
+		wszFilesW = szFiles;
+
+	if ( !wszFilesW.IsEmpty())
+		MraFilesQueueAddReceive(hFilesQueueHandle, 0, hContact, dwIDRequest, wszFilesW, szAddresses);
+	return true;
+}
+
+bool CMraProto::CmdFileTransferAck(BinBuffer &buf)
+{
+	CMStringA szEmail, szString;
+	DWORD dwAckType, dwTemp;
+	buf >> dwAckType >> szEmail >> dwTemp >> szString;
+
+	switch (dwAckType) {
+	case FILE_TRANSFER_STATUS_OK:// игнорируем, мы и так уже слушаем порт(ждём), то что кто то согласился ничего не меняет
+		//hContact = MraHContactFromEmail(szEmail.lpszData, szEmail.dwSize, TRUE, TRUE, NULL);
+		break;
+	case FILE_TRANSFER_STATUS_DECLINE:
+		MraFilesQueueCancel(hFilesQueueHandle, dwTemp, FALSE);
+		break;
+	case FILE_TRANSFER_STATUS_ERROR:
+		ShowFormattedErrorMessage(L"File transfer: error", NO_ERROR);
+		MraFilesQueueCancel(hFilesQueueHandle, dwTemp, FALSE);
+		break;
+	case FILE_TRANSFER_STATUS_INCOMPATIBLE_VERS:
+		ShowFormattedErrorMessage(L"File transfer: incompatible versions", NO_ERROR);
+		MraFilesQueueCancel(hFilesQueueHandle, dwTemp, FALSE);
+		break;
+	case FILE_TRANSFER_MIRROR:
+		MraFilesQueueSendMirror(hFilesQueueHandle, dwTemp, szString);
+		break;
+	default:// ## unknown error
+		TCHAR szBuff[1024];
+		mir_sntprintf(szBuff, SIZEOF(szBuff), TranslateW(L"MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu"), dwAckType);
+		ShowFormattedErrorMessage(szBuff, NO_ERROR);
+		break;
+	}
+	return true;
+}
+
+// Смена статуса другого пользователя
+bool CMraProto::CmdUserStatus(BinBuffer &buf)
+{
+	DWORD dwStatus, dwXStatus, dwFutureFlags;
+	CMStringA szSpecStatusUri, szUserAgentFormatted, szEmail;
+	CMStringW szStatusTitle, szStatusDesc;
+	buf >> dwStatus >> szSpecStatusUri >> szStatusTitle >> szStatusDesc >> szEmail >> dwFutureFlags >> szUserAgentFormatted;
+
+	BOOL bAdded;
+	if (HANDLE hContact = MraHContactFromEmail(szEmail, TRUE, TRUE, &bAdded)) {
+		if (bAdded)
+			MraUpdateContactInfo(hContact);
+
+		DWORD dwTemp = GetMiradaStatusFromMraStatus(dwStatus, GetMraXStatusIDFromMraUriStatus(szSpecStatusUri), &dwXStatus);
+
+		MraContactCapabilitiesSet(hContact, dwFutureFlags);
+		setByte(hContact, DBSETTING_XSTATUSID, (BYTE)dwXStatus);
+		mraSetStringW(hContact, DBSETTING_XSTATUSNAME, szStatusTitle);
+		mraSetStringW(hContact, DBSETTING_XSTATUSMSG, szStatusDesc);
+
+		if (dwTemp != ID_STATUS_OFFLINE) { // пишем клиента только если юзер не отключён, иначе не затираем старое
+			if (!szUserAgentFormatted.IsEmpty()) {
+				if (getByte("MirVerRaw", MRA_DEFAULT_MIRVER_RAW) == FALSE)
+					szUserAgentFormatted = MraGetVersionStringFromFormatted(szUserAgentFormatted);
+			}
+			else szUserAgentFormatted = MIRVER_UNKNOWN;
+			mraSetStringA(hContact, "MirVer", szUserAgentFormatted);
+		}
+
+		if (dwTemp == MraGetContactStatus(hContact)) {// меняем шило на шило, подозрительно? ;)
+			if (dwTemp == ID_STATUS_OFFLINE) { // was/now invisible
+				CMStringW szEmail, szBuff;
+				mraGetStringW(hContact, "e-mail", szEmail);
+				szBuff.Format(L"%s <%s> - %s", GetContactNameW(hContact), szEmail, TranslateW(L"invisible status changed"));
+				MraPopupShowFromContactW(hContact, MRA_POPUP_TYPE_INFORMATION, 0, szBuff);
+
+				MraSetContactStatus(hContact, ID_STATUS_INVISIBLE);
+			}
+		}
+		MraSetContactStatus(hContact, dwTemp);
+		SetExtraIcons(hContact);
+	}
+	return true;
+}
+
+bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
+{
+	CMStringA szString; buf >> szString;
+
+	DWORD dwAckType; HANDLE hContact; LPBYTE pData; size_t dataLen;
+	if ( !MraSendQueueFind(hSendQueueHandle, seq, NULL, &hContact, &dwAckType, &pData, &dataLen)) {
+		DWORD dwTemp; buf >> dwTemp;
+		switch (dwTemp) {
+		case CONTACT_OPER_SUCCESS:// ## добавление произведено успешно
+			buf >> dwTemp;
+			if (cmd == MRIM_CS_ADD_CONTACT_ACK)
+				SetContactBasicInfoW(hContact, 0, (SCBIF_ID|SCBIF_SERVER_FLAG), dwTemp, 0, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, 0, "", L"", "");
+			break;
+		case CONTACT_OPER_ERROR:// ## переданные данные были некорректны
+			ShowFormattedErrorMessage(L"Data been sent are invalid", NO_ERROR);
+			break;
+		case CONTACT_OPER_INTERR:// ## при обработке запроса произошла внутренняя ошибка
+			ShowFormattedErrorMessage(L"Internal server error", NO_ERROR);
+			break;
+		case CONTACT_OPER_NO_SUCH_USER:// ## добавляемого пользователя не существует в системе
+			SetContactBasicInfoW(hContact, 0, SCBIF_SERVER_FLAG, 0, 0, 0, -1, 0, "", L"", "");
+			ShowFormattedErrorMessage(L"User does not registred", NO_ERROR);
+			break;
+		case CONTACT_OPER_INVALID_INFO:// ## некорректное имя пользователя
+			ShowFormattedErrorMessage(L"Invalid user name", NO_ERROR);
+			break;
+		case CONTACT_OPER_USER_EXISTS:// ## пользователь уже есть в контакт-листе
+			ShowFormattedErrorMessage(L"User allready added", NO_ERROR);
+			break;
+		case CONTACT_OPER_GROUP_LIMIT:// ## превышено максимально допустимое количество групп (20)
+			ShowFormattedErrorMessage(L"Group limit is 20", NO_ERROR);
 			break;
 		default:// ## unknown error
-			mir_sntprintf(szBuff, SIZEOF(szBuff), TranslateW(L"MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu"), dwAckType);
-			ShowFormattedErrorMessage(szBuff, NO_ERROR);
+			TCHAR szBuff[1024];
+			mir_sntprintf(szBuff, SIZEOF(szBuff), TranslateW(L"MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu"), dwTemp);
+			MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, szBuff);
+			break;
+		}
+		MraSendQueueFree(hSendQueueHandle, seq);
+	}
+	else MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, TranslateW(L"MRIM_CS_*_CONTACT_ACK: not found in queue"));
+	return true;
+}
+
+bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
+{
+	DWORD dwAckType; HANDLE hContact; LPBYTE pData; size_t dataLen;
+	if ( MraSendQueueFind(hSendQueueHandle, seq, NULL, &hContact, &dwAckType, &pData, &dataLen)) {
+		MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, TranslateW(L"MRIM_ANKETA_INFO: not found in queue"));
+		return true;
+	}
+
+	DWORD dwTemp; buf >> dwTemp;
+	switch(dwTemp) {
+	case MRIM_ANKETA_INFO_STATUS_NOUSER:// не найдено ни одной подходящей записи
+		SetContactBasicInfoW(hContact, 0, SCBIF_SERVER_FLAG, 0, 0, 0, -1, 0, "", L"", "");
+	case MRIM_ANKETA_INFO_STATUS_DBERR:// ошибка базы данных
+	case MRIM_ANKETA_INFO_STATUS_RATELIMERR:// слишком много запросов, поиск временно запрещен
+		switch (dwAckType) {
+		case ACKTYPE_GETINFO:
+			ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)1, 0);
+			break;
+		case ACKTYPE_SEARCH:
+			ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)seq, 0);
 			break;
 		}
 		break;
 
-	/////////////////////////////////////////////////////////////////////////////////////
-	case MRIM_CS_USER_STATUS://Смена статуса другого пользователя
-		{
-			BOOL bAdded;
-			DWORD dwStatus, dwXStatus, dwFutureFlags;
-			MRA_LPS lpsSpecStatusUri, lpsStatusTitle, lpsStatusDesc, lpsUserAgentFormated;
+	case MRIM_ANKETA_INFO_STATUS_OK:
+		// поиск успешно завершен
+		DWORD dwFieldsNum, dwMaxRows, dwServerTime, dwStatus;
+		buf >> dwFieldsNum >> dwMaxRows >> dwServerTime;
 
-			dwStatus = GetUL(&lpbDataCurrent);
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsSpecStatusUri);
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsStatusTitle);
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsStatusDesc);
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsEMail);
-			dwFutureFlags = GetUL(&lpbDataCurrent);// com_support ( >= 1.14)
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsUserAgentFormated);
+		CMStringA *pmralpsFields = new CMStringA[dwFieldsNum];
+		CMStringA val;
+		CMStringW valW; 
 
-			if ((hContact = MraHContactFromEmail(lpsEMail.lpszData, lpsEMail.dwSize, TRUE, TRUE, &bAdded))) {
-				if (bAdded)
-					MraUpdateContactInfo(hContact);
+		// read headers name
+		for (unsigned i = 0; i < dwFieldsNum; i++) {
+			buf >> pmralpsFields[i];
+			DebugPrintCRLFA(pmralpsFields[i]);
+		}
 
-				dwTemp = GetMiradaStatusFromMraStatus(dwStatus, GetMraXStatusIDFromMraUriStatus(lpsSpecStatusUri.lpszData, lpsSpecStatusUri.dwSize), &dwXStatus);
-
-				MraContactCapabilitiesSet(hContact, dwFutureFlags);
-				setByte(hContact, DBSETTING_XSTATUSID, (BYTE)dwXStatus);
-				mraSetLPSStringW(hContact, DBSETTING_XSTATUSNAME, &lpsStatusTitle);
-				mraSetLPSStringW(hContact, DBSETTING_XSTATUSMSG, &lpsStatusDesc);
-
-				if (dwTemp != ID_STATUS_OFFLINE) { // пишем клиента только если юзер не отключён, иначе не затираем старое
-					if (lpsUserAgentFormated.dwSize) {
-						if (getByte("MirVerRaw", MRA_DEFAULT_MIRVER_RAW) == FALSE) {
-							MraGetVersionStringFromFormatted(lpsUserAgentFormated.lpszData, lpsUserAgentFormated.dwSize, (LPSTR)szBuff, SIZEOF(szBuff), &dwStringSize);
-							lpsUserAgentFormated.lpszData = (LPSTR)szBuff;
-							lpsUserAgentFormated.dwSize = dwStringSize;
+		while (buf.m_len > 0) {
+			// write to DB and exit loop
+			if (dwAckType == ACKTYPE_GETINFO && hContact) {
+				setDword(hContact, "InfoTS", (DWORD)_time32(NULL));
+				//MRA_LPS mralpsUsernameValue;
+				for (unsigned i = 0; i < dwFieldsNum; i++) {
+					CMStringA &fld = pmralpsFields[i];
+					if (fld == "Nickname") {
+						buf >> valW;
+						mraSetStringW(hContact, "Nick", valW);
+					}
+					else if (fld == "FirstName") {
+						buf >> valW;
+						mraSetStringW(hContact, "FirstName", valW);
+					}
+					else if (fld == "LastName") {
+						buf >> valW;
+						mraSetStringW(hContact, "LastName", valW);
+					}
+					else if (fld == "Sex") {
+						buf >> valW;
+						switch (_wtoi(valW)) {
+						case 1:// мужской
+							setByte(hContact, "Gender", 'M');
+							break;
+						case 2:// женский
+							setByte(hContact, "Gender", 'F');
+							break;
+						default:// а фиг его знает
+							delSetting(hContact, "Gender");
+							break;
 						}
 					}
-					else { // хз чё за клиент
-						lpsUserAgentFormated.lpszData = MIRVER_UNKNOWN;
-						lpsUserAgentFormated.dwSize = (sizeof(MIRVER_UNKNOWN)-1);
-					}
-					mraSetLPSStringA(hContact, "MirVer", &lpsUserAgentFormated);
-				}
-
-				if (dwTemp == MraGetContactStatus(hContact)) {// меняем шило на шило, подозрительно? ;)
-					if (dwTemp == ID_STATUS_OFFLINE) { // was/now invisible
-						WCHAR szEMail[MAX_EMAIL_LEN];
-
-						mraGetStaticStringW(hContact, "e-mail", szEMail, SIZEOF(szEMail), NULL);
-						mir_sntprintf(szBuff, SIZEOF(szBuff), L"%s <%s> - %s", GetContactNameW(hContact), szEMail, TranslateW(L"invisible status changed"));
-						MraPopupShowFromContactW(hContact, MRA_POPUP_TYPE_INFORMATION, 0, szBuff);
-
-						MraSetContactStatus(hContact, ID_STATUS_INVISIBLE);
-					}
-				}
-				MraSetContactStatus(hContact, dwTemp);
-				SetExtraIcons(hContact);
-			}
-		}
-		break;
-
-	case MRIM_CS_LOGOUT:// Пользователь отключен из-за параллельного входа с его логином.
-		if ( GetUL(&lpbDataCurrent) == LOGOUT_NO_RELOGIN_FLAG)
-			ShowFormattedErrorMessage(L"Another user connected with your login", NO_ERROR);
-		*pbContinue = FALSE;
-		break;
-
-	case MRIM_CS_ADD_CONTACT_ACK:
-	case MRIM_CS_MODIFY_CONTACT_ACK:
-		if ( !MraSendQueueFind(hSendQueueHandle, pmaHeader->seq, NULL, &hContact, &dwAckType, (LPBYTE*)&lpsString.lpszData, &lpsString.dwSize)) {
-			dwTemp = GetUL(&lpbDataCurrent);
-			switch (dwTemp) {
-			case CONTACT_OPER_SUCCESS:// ## добавление произведено успешно
-				if (pmaHeader->msg == MRIM_CS_ADD_CONTACT_ACK) SetContactBasicInfoW(hContact, 0, (SCBIF_ID|SCBIF_SERVER_FLAG), GetUL(&lpbDataCurrent), 0, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, 0, NULL, 0, NULL, 0, NULL, 0);
-				break;
-			case CONTACT_OPER_ERROR:// ## переданные данные были некорректны
-				ShowFormattedErrorMessage(L"Data been sent are invalid", NO_ERROR);
-				break;
-			case CONTACT_OPER_INTERR:// ## при обработке запроса произошла внутренняя ошибка
-				ShowFormattedErrorMessage(L"Internal server error", NO_ERROR);
-				break;
-			case CONTACT_OPER_NO_SUCH_USER:// ## добавляемого пользователя не существует в системе
-				SetContactBasicInfoW(hContact, 0, SCBIF_SERVER_FLAG, 0, 0, 0, -1, 0, NULL, 0, NULL, 0, NULL, 0);
-				ShowFormattedErrorMessage(L"User does not registred", NO_ERROR);
-				break;
-			case CONTACT_OPER_INVALID_INFO:// ## некорректное имя пользователя
-				ShowFormattedErrorMessage(L"Invalid user name", NO_ERROR);
-				break;
-			case CONTACT_OPER_USER_EXISTS:// ## пользователь уже есть в контакт-листе
-				ShowFormattedErrorMessage(L"User allready added", NO_ERROR);
-				break;
-			case CONTACT_OPER_GROUP_LIMIT:// ## превышено максимально допустимое количество групп (20)
-				ShowFormattedErrorMessage(L"Group limit is 20", NO_ERROR);
-				break;
-			default:// ## unknown error
-				mir_sntprintf(szBuff, SIZEOF(szBuff), TranslateW(L"MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu"), dwTemp);
-				MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, szBuff);
-				break;
-			}
-			MraSendQueueFree(hSendQueueHandle, pmaHeader->seq);
-		}
-		else MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, TranslateW(L"MRIM_CS_*_CONTACT_ACK: not found in queue"));
-		break;
-
-	case MRIM_CS_ANKETA_INFO:
-		if ( !MraSendQueueFind(hSendQueueHandle, pmaHeader->seq, NULL, &hContact, &dwAckType, (LPBYTE*)&lpsString.lpszData, &lpsString.dwSize)) {
-			switch (GetUL(&lpbDataCurrent)) {
-			case MRIM_ANKETA_INFO_STATUS_OK:// поиск успешно завершен
-				{
-					DWORD dwFeildsNum, dwMaxRows, dwServerTime, dwStatus;
-					size_t i;
-					MRA_LPS *pmralpsFeilds, *pmralpsValues;
-
-					dwFeildsNum = GetUL(&lpbDataCurrent);
-					dwMaxRows = GetUL(&lpbDataCurrent);
-					dwServerTime = GetUL(&lpbDataCurrent);
-
-					pmralpsFeilds = (MRA_LPS*)mir_calloc(((dwFeildsNum*2)+4)*sizeof(MRA_LPS));
-					if (pmralpsFeilds) {
-						pmralpsValues = (pmralpsFeilds+dwFeildsNum);
-						// read headers name
-						for (i = 0; i < dwFeildsNum; i++) {
-							GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &pmralpsFeilds[i]);
-							DebugPrintCRLFA(pmralpsFeilds[i].lpszData);
+					else if (fld == "Birthday") {
+						buf >> val;
+						if (val.GetLength() > 9) {// calc "Age"
+							SYSTEMTIME stTime = {0};
+							stTime.wYear  = (WORD)StrToUNum32(val.c_str(), 4);
+							stTime.wMonth = (WORD)StrToUNum32(val.c_str()+5, 2);
+							stTime.wDay   = (WORD)StrToUNum32(val.c_str()+8, 2);
+							setWord(hContact, "BirthYear", stTime.wYear);
+							setByte(hContact, "BirthMonth", (BYTE)stTime.wMonth);
+							setByte(hContact, "BirthDay", (BYTE)stTime.wDay);
+							setWord(hContact, "Age", (WORD)GetYears(&stTime));
 						}
-
-						while (lpbDataCurrent < lpbData+dwDataSize) {
-							// read values
-							for (i = 0;i<dwFeildsNum;i++)
-								GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &pmralpsValues[i]);
-
-							// write to DB and exit loop
-							if (dwAckType == ACKTYPE_GETINFO && hContact) {
-								setDword(hContact, "InfoTS", (DWORD)_time32(NULL));
-								//MRA_LPS mralpsUsernameValue;
-								for (i = 0; i < dwFeildsNum; i++) {
-									if ( !_strnicmp(pmralpsFeilds[i].lpszData, "Username", 8))
-										; //mralpsUsernameValue = pmralpsValues[i];
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "Domain", 6))
-										;
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "Flags", 5))
-										;
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "Nickname", 8))
-										mraSetLPSStringW(hContact, "Nick", &pmralpsValues[i]);
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "FirstName", 9))
-										mraSetLPSStringW(hContact, "FirstName", &pmralpsValues[i]);
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "LastName", 8))
-										mraSetLPSStringW(hContact, "LastName", &pmralpsValues[i]);
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "Sex", 3)) {
-										switch (StrToUNum32(pmralpsValues[i].lpszData, pmralpsValues[i].dwSize)) {
-										case 1:// мужской
-											setByte(hContact, "Gender", 'M');
-											break;
-										case 2:// женский
-											setByte(hContact, "Gender", 'F');
-											break;
-										default:// а фиг его знает
-											delSetting(hContact, "Gender");
-											break;
-										}
-									}
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "Birthday", 8)) {
-										if (pmralpsValues[i].dwSize > 9) {// calc "Age"
-											SYSTEMTIME stTime = {0};
-
-											stTime.wYear = (WORD)StrToUNum32(pmralpsValues[i].lpszData, 4);
-											stTime.wMonth = (WORD)StrToUNum32((pmralpsValues[i].lpszData+5), 2);
-											stTime.wDay = (WORD)StrToUNum32((pmralpsValues[i].lpszData+8), 2);
-											setWord(hContact, "BirthYear", stTime.wYear);
-											setByte(hContact, "BirthMonth", (BYTE)stTime.wMonth);
-											setByte(hContact, "BirthDay", (BYTE)stTime.wDay);
-
-											setWord(hContact, "Age", (WORD)GetYears(&stTime));
-										}
-										else {
-											delSetting(hContact, "BirthYear");
-											delSetting(hContact, "BirthMonth");
-											delSetting(hContact, "BirthDay");
-											delSetting(hContact, "Age");
-										}
-									}
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "City_id", 7)) {
-										dwTemp = StrToUNum32(pmralpsValues[i].lpszData, pmralpsValues[i].dwSize);
-										if (dwTemp) {
-											for (size_t j = 0;mrapPlaces[j].lpszData;j++) {
-												if (mrapPlaces[j].dwCityID == dwTemp) {
-													mraSetStringW(hContact, "City", mrapPlaces[j].lpszData);
-													break;
-												}
-											}
-										}
-										else delSetting(hContact, "City");
-									}
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "Location", 8))
-										mraSetLPSStringW(hContact, "About", &pmralpsValues[i]);
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "Zodiac", 6))
-										;
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "BMonth", 6))
-										;
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "BDay", 4))
-										;
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "Country_id", 10)) {
-										dwTemp = StrToUNum32(pmralpsValues[i].lpszData, pmralpsValues[i].dwSize);
-										if (dwTemp) {
-											for (size_t j = 0; mrapPlaces[j].lpszData; j++) {
-												if (mrapPlaces[j].dwCountryID == dwTemp) {
-													mraSetStringW(hContact, "Country", mrapPlaces[j].lpszData);
-													break;
-												}
-											}
-										}
-										else delSetting(hContact, "Country");
-									}
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "Phone", 5)) {
-										delSetting(hContact, "Phone");
-										delSetting(hContact, "Cellular");
-										delSetting(hContact, "Fax");
-
-										if (pmralpsValues[i].dwSize) {
-											lpsString.lpszData = pmralpsValues[i].lpszData;
-											LPSTR lpszCurPos = (LPSTR)MemoryFindByte(0, pmralpsValues[i].lpszData, pmralpsValues[i].dwSize, ',');
-											if (lpszCurPos)
-												lpsString.dwSize = (lpszCurPos-lpsString.lpszData);
-											else
-												lpsString.dwSize = ((pmralpsValues[i].lpszData+pmralpsValues[i].dwSize)-lpsString.lpszData);
-
-											mraSetLPSStringA(hContact, "Phone", &lpsString);
-
-											if (lpszCurPos) {
-												lpsString.lpszData = (++lpszCurPos);
-												lpszCurPos = (LPSTR)MemoryFindByte((lpszCurPos-pmralpsValues[i].lpszData), pmralpsValues[i].lpszData, pmralpsValues[i].dwSize, ',');
-												if (lpszCurPos)
-													lpsString.dwSize = (lpszCurPos-lpsString.lpszData);
-												else
-													lpsString.dwSize = ((pmralpsValues[i].lpszData+pmralpsValues[i].dwSize)-lpsString.lpszData);
-
-												mraSetLPSStringA(hContact, "Cellular", &lpsString);
-											}
-
-											if (lpszCurPos) {
-												lpsString.lpszData = (++lpszCurPos);
-												lpszCurPos = (LPSTR)MemoryFindByte((lpszCurPos-pmralpsValues[i].lpszData), pmralpsValues[i].lpszData, pmralpsValues[i].dwSize, ',');
-												if (lpszCurPos)
-													lpsString.dwSize = (lpszCurPos-lpsString.lpszData);
-												else
-													lpsString.dwSize = ((pmralpsValues[i].lpszData+pmralpsValues[i].dwSize)-lpsString.lpszData);
-
-												mraSetLPSStringA(hContact, "Fax", &lpsString);
-											}
-										}
-									}
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "mrim_status", 11)) {
-										if (pmralpsValues[i].dwSize) {
-											DWORD dwID, dwContactSeverFlags;
-
-											GetContactBasicInfoW(hContact, &dwID, NULL, NULL, &dwContactSeverFlags, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL);
-											// для авторизованного нам и так присылают правильный статус
-											if (dwID == -1 || (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED)) {
-												dwStatus = StrHexToUNum32(pmralpsValues[i].lpszData, pmralpsValues[i].dwSize);
-												MraSetContactStatus(hContact, GetMiradaStatusFromMraStatus(dwStatus, MRA_MIR_XSTATUS_NONE, NULL));
-												setByte(hContact, DBSETTING_XSTATUSID, (BYTE)MRA_MIR_XSTATUS_NONE);
-											}
-										}
-									}
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "status_uri", 10)) {
-										if (pmralpsValues[i].dwSize) {
-											DWORD dwID, dwContactSeverFlags, dwXStatus;
-
-											GetContactBasicInfoW(hContact, &dwID, NULL, NULL, &dwContactSeverFlags, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL);
-											if (dwID == -1 || dwContactSeverFlags&CONTACT_INTFLAG_NOT_AUTHORIZED) {
-												MraSetContactStatus(hContact, GetMiradaStatusFromMraStatus(dwStatus, GetMraXStatusIDFromMraUriStatus(pmralpsValues[i].lpszData, pmralpsValues[i].dwSize), &dwXStatus));
-												setByte(hContact, DBSETTING_XSTATUSID, (BYTE)dwXStatus);
-											}
-										}
-									}
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "status_title", 12)) {
-										if (pmralpsValues[i].dwSize) {
-											DWORD dwID, dwContactSeverFlags;
-
-											GetContactBasicInfoW(hContact, &dwID, NULL, NULL, &dwContactSeverFlags, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL);
-											if (dwID == -1 || dwContactSeverFlags&CONTACT_INTFLAG_NOT_AUTHORIZED)
-												mraSetLPSStringW(hContact, DBSETTING_XSTATUSNAME, &pmralpsValues[i]);
-										}
-									}
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "status_desc", 11)) {
-										if (pmralpsValues[i].dwSize) {
-											DWORD dwID, dwContactSeverFlags;
-
-											GetContactBasicInfoW(hContact, &dwID, NULL, NULL, &dwContactSeverFlags, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL);
-											if (dwID == -1 || dwContactSeverFlags&CONTACT_INTFLAG_NOT_AUTHORIZED)
-												mraSetLPSStringW(hContact, DBSETTING_XSTATUSMSG, &pmralpsValues[i]);
-										}
-									}
-									else {// for DEBUG ONLY
-										#ifdef _DEBUG
-											DebugPrintCRLFA(pmralpsFeilds[i].lpszData);
-											DebugPrintCRLFA(pmralpsValues[i].lpszData);
-											//DebugBreak();
-										#endif
-									}
+						else {
+							delSetting(hContact, "BirthYear");
+							delSetting(hContact, "BirthMonth");
+							delSetting(hContact, "BirthDay");
+							delSetting(hContact, "Age");
+						}
+					}
+					else if (fld == "City_id") {
+						buf >> val;
+						dwTemp = atoi(val);
+						if (dwTemp) {
+							for (size_t j = 0; mrapPlaces[j].lpszData; j++) {
+								if (mrapPlaces[j].dwCityID == dwTemp) {
+									mraSetStringW(hContact, "City", mrapPlaces[j].lpszData);
+									break;
 								}
 							}
-							else if (dwAckType == ACKTYPE_SEARCH) {
-								WCHAR szNick[MAX_EMAIL_LEN] = {0},
-									szFirstName[MAX_EMAIL_LEN] = {0},
-									szLastName[MAX_EMAIL_LEN] = {0},
-									szEMail[MAX_EMAIL_LEN] = {0};
-								MRA_LPS mralpsUsernameValue = {0};
-								PROTOSEARCHRESULT psr = {0};
-
-								psr.cbSize = sizeof(psr);
-								psr.flags = PSR_UNICODE;
-								psr.nick = szNick;
-								psr.firstName = szFirstName;
-								psr.lastName = szLastName;
-								psr.email = szEMail;
-								psr.id = szEMail;
-
-								for (i = 0;i<dwFeildsNum;i++) {
-									if ( !_strnicmp(pmralpsFeilds[i].lpszData, "Username", 8))
-										mralpsUsernameValue = pmralpsValues[i];
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "Domain", 6)) { // имя было уже задано ранее
-										dwStringSize = MultiByteToWideChar(MRA_CODE_PAGE, 0, mralpsUsernameValue.lpszData, mralpsUsernameValue.dwSize, szEMail, SIZEOF(szEMail));
-
-										szEMail[dwStringSize] = (*((WCHAR*)L"@"));
-										dwStringSize++;
-
-										dwStringSize += MultiByteToWideChar(MRA_CODE_PAGE, 0, pmralpsValues[i].lpszData, pmralpsValues[i].dwSize, &szEMail[dwStringSize], (SIZEOF(szEMail)-(dwStringSize+1)));
-										szEMail[dwStringSize] = 0;
-									}
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "Nickname", 8)) {
-										dwStringSize = min((sizeof(szNick)-sizeof(WCHAR)), pmralpsValues[i].dwSize);
-										memmove(szNick, pmralpsValues[i].lpwszData, dwStringSize);
-										szNick[dwStringSize] = 0;
-									}
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "FirstName", 9)) {
-										dwStringSize = min((sizeof(szFirstName)-sizeof(WCHAR)), pmralpsValues[i].dwSize);
-										memmove(szFirstName, pmralpsValues[i].lpwszData, dwStringSize);
-										szFirstName[dwStringSize] = 0;
-									}
-									else if ( !_strnicmp(pmralpsFeilds[i].lpszData, "LastName", 8)) {
-										dwStringSize = min((sizeof(szLastName)-sizeof(WCHAR)), pmralpsValues[i].dwSize);
-										memmove(szLastName, pmralpsValues[i].lpwszData, dwStringSize);
-										szLastName[dwStringSize] = 0;
-									}
-								}// end for
-								ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_DATA, (HANDLE)pmaHeader->seq, (LPARAM)&psr);
+						}
+						else delSetting(hContact, "City");
+					}
+					else if (fld == "Location") {
+						buf >> valW;
+						mraSetStringW(hContact, "About", valW);
+					}
+					else if (fld == "Country_id") {
+						buf >> val;
+						dwTemp = atoi(val);
+						if (dwTemp) {
+							for (size_t j = 0; mrapPlaces[j].lpszData; j++) {
+								if (mrapPlaces[j].dwCountryID == dwTemp) {
+									mraSetStringW(hContact, "Country", mrapPlaces[j].lpszData);
+									break;
+								}
 							}
-						}// end while
+						}
+						else delSetting(hContact, "Country");
+					}
+					else if (fld == "Phone") {
+						delSetting(hContact, "Phone");
+						delSetting(hContact, "Cellular");
+						delSetting(hContact, "Fax");
 
-						mir_free(pmralpsFeilds);
+						buf >> val;
+						if (val.GetLength()) {
+							int iStart = 0;
+							CMStringA szPhone = val.Tokenize(",", iStart);
+							if (iStart != -1) {
+								mraSetStringA(hContact, "Phone", szPhone);
+								szPhone = val.Tokenize(",", iStart);
+							}
+							if (iStart != -1) {
+								mraSetStringA(hContact, "Cellular", szPhone);
+								szPhone = val.Tokenize(",", iStart);
+							}
+							if (iStart != -1)
+								mraSetStringA(hContact, "Fax", szPhone);
+						}
+					}
+					else if (fld == "mrim_status") {
+						buf >> val;
+						if (val.GetLength()) {
+							DWORD dwID, dwContactSeverFlags;
+							GetContactBasicInfoW(hContact, &dwID, NULL, NULL, &dwContactSeverFlags, NULL, NULL, NULL, NULL);
+							// для авторизованного нам и так присылают правильный статус
+							if (dwID == -1 || (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED)) {
+								MraSetContactStatus(hContact, GetMiradaStatusFromMraStatus(atoi(val), MRA_MIR_XSTATUS_NONE, NULL));
+								setByte(hContact, DBSETTING_XSTATUSID, (BYTE)MRA_MIR_XSTATUS_NONE);
+							}
+						}
+					}
+					else if (fld == "status_uri") {
+						buf >> val;
+						if (val.GetLength()) {
+							DWORD dwID, dwContactSeverFlags, dwXStatus;
+							GetContactBasicInfoW(hContact, &dwID, NULL, NULL, &dwContactSeverFlags, NULL, NULL, NULL, NULL);
+							if (dwID == -1 || (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED)) {
+								MraSetContactStatus(hContact, GetMiradaStatusFromMraStatus(dwStatus, GetMraXStatusIDFromMraUriStatus(val), &dwXStatus));
+								setByte(hContact, DBSETTING_XSTATUSID, (BYTE)dwXStatus);
+							}
+						}
+					}
+					else if (fld == "status_title") {
+						buf >> valW;
+						if (valW.GetLength()) {
+							DWORD dwID, dwContactSeverFlags;
+							GetContactBasicInfoW(hContact, &dwID, NULL, NULL, &dwContactSeverFlags, NULL, NULL, NULL, NULL);
+							if (dwID == -1 || (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED))
+								mraSetStringW(hContact, DBSETTING_XSTATUSNAME, valW);
+						}
+					}
+					else if (fld == "status_desc") {
+						buf >> valW;
+						if (valW.GetLength()) {
+							DWORD dwID, dwContactSeverFlags;
+							GetContactBasicInfoW(hContact, &dwID, NULL, NULL, &dwContactSeverFlags, NULL, NULL, NULL, NULL);
+							if (dwID == -1 || dwContactSeverFlags&CONTACT_INTFLAG_NOT_AUTHORIZED)
+								mraSetStringW(hContact, DBSETTING_XSTATUSMSG, valW);
+						}
+					}
+					else {// for DEBUG ONLY
+						buf >> val;
+#ifdef _DEBUG
+						DebugPrintCRLFA(fld);
+						DebugPrintCRLFA(val);
+#endif
 					}
 				}
+			}
+			else if (dwAckType == ACKTYPE_SEARCH) {
+				WCHAR szNick[MAX_EMAIL_LEN] = {0},
+					szFirstName[MAX_EMAIL_LEN] = {0},
+					szLastName[MAX_EMAIL_LEN] = {0},
+					szEmail[MAX_EMAIL_LEN] = {0};
+				CMStringA mralpsUsernameValue;
+				PROTOSEARCHRESULT psr = {0};
 
-				switch (dwAckType) {
-				case ACKTYPE_GETINFO:
-					ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+				psr.cbSize = sizeof(psr);
+				psr.flags = PSR_UNICODE;
+				psr.nick = szNick;
+				psr.firstName = szFirstName;
+				psr.lastName = szLastName;
+				psr.email = szEmail;
+				psr.id = szEmail;
+
+				for (unsigned i = 0; i < dwFieldsNum; i++) {
+					CMStringA &fld = pmralpsFields[i];
+					if (fld == "Username") {
+						buf >> val; 
+						mralpsUsernameValue = val;
+					}
+					else if (fld == "Domain") { // имя было уже задано ранее
+						buf >> val; 
+						wcsncpy_s(szEmail, _A2T(mralpsUsernameValue + "@" + val), SIZEOF(szEmail));
+					}
+					else if (fld == "Nickname") {
+						buf >> valW; 
+						wcsncpy_s(szNick, valW, SIZEOF(szNick));
+					}
+					else if (fld == "FirstName") {
+						buf >> valW; 
+						wcsncpy_s(szFirstName, valW, SIZEOF(szFirstName));
+					}
+					else if (fld == "LastName") {
+						buf >> valW; 
+						wcsncpy_s(szLastName, valW, SIZEOF(szLastName));
+					}
+					else buf >> val;
+				}
+				ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_DATA, (HANDLE)seq, (LPARAM)&psr);
+			}
+		}
+
+		delete[] pmralpsFields;
+
+		switch (dwAckType) {
+		case ACKTYPE_GETINFO:
+			ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+			break;
+		case ACKTYPE_SEARCH:
+		default:
+			ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)seq, 0);
+			break;
+		}
+		break;
+	}
+	MraSendQueueFree(hSendQueueHandle, seq);
+	return true;
+}
+
+bool CMraProto::CmdGame(BinBuffer &buf)
+{
+	HANDLE hContact;
+	CMStringA szEmail, szData;
+	DWORD dwGameSessionID, dwGameMsg, dwGameMsgID, dwTemp;
+	buf >> szEmail >> dwGameSessionID >> dwGameMsg >> dwGameMsgID >> dwTemp >> szData;
+
+	switch (dwGameMsg) {
+	case GAME_CONNECTION_INVITE:
+		if (m_iStatus != ID_STATUS_INVISIBLE)
+			MraGame(szEmail, dwGameSessionID, GAME_DECLINE, dwGameMsgID, szData);
+		break;
+	case GAME_CONNECTION_ACCEPT:
+		break;
+	case GAME_DECLINE:
+		break;
+	case GAME_INC_VERSION:
+		break;
+	case GAME_NO_SUCH_GAME:// user invisible
+		if ((hContact = MraHContactFromEmail(szEmail, FALSE, TRUE, NULL)))
+		if (MraGetContactStatus(hContact) == ID_STATUS_OFFLINE)
+			MraSetContactStatus(hContact, ID_STATUS_INVISIBLE);
+		break;
+	case GAME_JOIN:
+		break;
+	case GAME_CLOSE:
+		break;
+	case GAME_SPEED:
+		break;
+	case GAME_SYNCHRONIZATION:
+		break;
+	case GAME_USER_NOT_FOUND:
+		break;
+	case GAME_ACCEPT_ACK:
+		break;
+	case GAME_PING:
+		break;
+	case GAME_RESULT:
+		break;
+	case GAME_MESSAGES_NUMBER:
+		break;
+	default:
+		WCHAR szBuff[1024];
+		mir_sntprintf(szBuff, SIZEOF(szBuff), TranslateW(L"MRIM_CS_GAME: unknown internal game message code: %lu"), dwGameMsg);
+		MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, szBuff);
+		break;
+	}
+	return true;
+}
+
+bool CMraProto::CmdClist2(BinBuffer &buf)
+{
+	DWORD dwTemp; buf >> dwTemp;
+	if (dwTemp == GET_CONTACTS_OK) { // received contact list
+		BOOL bAdded;
+		DWORD dwID, dwGroupsCount, dwGroupFlags, dwContactFlag, dwGroupID, dwContactSeverFlags, dwStatus, dwXStatus, dwFutureFlags, dwBlogStatusTime;
+		size_t i, j, dwControlParam;
+		ULARGE_INTEGER dwBlogStatusID;
+		
+		CMStringA szGroupMask, szContactMask, szEmail, szString;
+		CMStringA szCustomPhones, szSpecStatusUri, szUserAgentFormatted;
+		CMStringW wszNick, wszString, wszGroupName, wszStatusTitle, wszStatusDesc, wszBlogStatus, wszBlogStatusMusic;
+		buf >> dwGroupsCount >> szGroupMask >> szContactMask;
+
+		char szBuff[200];
+		DebugPrintCRLFW(L"Groups:");
+		DebugPrintCRLFA(szGroupMask);
+		dwID = 0;
+		for (i = 0; i < dwGroupsCount; i++) { //groups handle
+			dwControlParam = 0;
+			for (j = 0; j < szGroupMask.GetLength(); j++) { //enumerating parameters
+				switch (szGroupMask[j]) {
+				case 's'://LPS
+					buf >> wszString;
 					break;
-				case ACKTYPE_SEARCH:
-				default:
-					ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)pmaHeader->seq, 0);
+				case 'u'://UL
+					buf >> dwTemp;
 					break;
 				}
-				break;
 
-			case MRIM_ANKETA_INFO_STATUS_NOUSER:// не найдено ни одной подходящей записи
-				SetContactBasicInfoW(hContact, 0, SCBIF_SERVER_FLAG, 0, 0, 0, -1, 0, NULL, 0, NULL, 0, NULL, 0);
-			case MRIM_ANKETA_INFO_STATUS_DBERR:// ошибка базы данных
-			case MRIM_ANKETA_INFO_STATUS_RATELIMERR:// слишком много запросов, поиск временно запрещен
-				switch (dwAckType) {
-				case ACKTYPE_GETINFO:
-					ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)1, 0);
+				if (j == 0 && szGroupMask[j] == 'u') { // GroupFlags
+					dwGroupFlags = dwTemp;
+					dwControlParam++;
+				}
+				else if (j == 1 && szGroupMask[j] == 's') { // GroupName
+					wszGroupName = wszString;
+					dwControlParam++;
+				}
+			}
+
+			// add/modify group
+			if (dwControlParam > 1) { // все параметры правильно инициализированны!
+				#ifdef _DEBUG
+					DebugPrintW(wszGroupName);
+
+					mir_snprintf(szBuff, SIZEOF(szBuff), ": flags: %lu (", dwGroupFlags);
+					DebugPrintA(szBuff);
+
+					if (dwGroupFlags & CONTACT_FLAG_REMOVED)      DebugPrintA("CONTACT_FLAG_REMOVED, ");
+					if (dwGroupFlags & CONTACT_FLAG_GROUP)        DebugPrintA("CONTACT_FLAG_GROUP, ");
+					if (dwGroupFlags & CONTACT_FLAG_INVISIBLE)    DebugPrintA("CONTACT_FLAG_INVISIBLE, ");
+					if (dwGroupFlags & CONTACT_FLAG_VISIBLE)      DebugPrintA("CONTACT_FLAG_VISIBLE, ");
+					if (dwGroupFlags & CONTACT_FLAG_IGNORE)       DebugPrintA("CONTACT_FLAG_IGNORE, ");
+					if (dwGroupFlags & CONTACT_FLAG_SHADOW)       DebugPrintA("CONTACT_FLAG_SHADOW, ");
+					if (dwGroupFlags & CONTACT_FLAG_AUTHORIZED)   DebugPrintA("CONTACT_FLAG_AUTHORIZED, ");
+					if (dwGroupFlags & CONTACT_FLAG_MULTICHAT)    DebugPrintA("CONTACT_FLAG_MULTICHAT, ");
+					if (dwGroupFlags & CONTACT_FLAG_UNICODE_NAME) DebugPrintA("CONTACT_FLAG_UNICODE_NAME, ");
+					if (dwGroupFlags & CONTACT_FLAG_PHONE)        DebugPrintA("CONTACT_FLAG_PHONE, ");
+					DebugPrintCRLFA(")");
+				#endif
+			}
+			dwID++;
+		}
+
+		DebugPrintCRLFA("Contacts:");
+		DebugPrintCRLFA(szContactMask);
+		dwID = 20;
+		while (buf.m_len > 0) {
+			dwControlParam = 0;
+			for (j = 0; j < szContactMask.GetLength(); j++) { //enumerating parameters
+				switch (szContactMask[j]) {
+				case 's'://LPS
 					break;
-				case ACKTYPE_SEARCH:
-					ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)pmaHeader->seq, 0);
-					break;
-				default:
-					DebugBreak();
+				case 'u'://UL
+					buf >> dwTemp;
 					break;
 				}
+
+				if (j == 0 && szContactMask[j] == 'u') { // Flags
+					dwContactFlag = dwTemp;
+					dwControlParam++;
+				}
+				else if (j == 1 && szContactMask[j] == 'u') { // Group id
+					dwGroupID = dwTemp;
+					dwControlParam++;
+				}
+				else if (j == 2 && szContactMask[j] == 's') { // Email
+					buf >> szEmail;
+					dwControlParam++;
+				}
+				else if (j == 3 && szContactMask[j] == 's') { // Nick
+					buf >> wszNick;
+					dwControlParam++;
+				}
+				else if (j == 4 && szContactMask[j] == 'u') { // Server flags
+					dwContactSeverFlags = dwTemp;
+					dwControlParam++;
+				}
+				else if (j == 5 && szContactMask[j] == 'u') { // Status
+					dwStatus = dwTemp;
+					dwControlParam++;
+				}
+				else if (j == 6 && szContactMask[j] == 's') { // Custom Phone number,
+					buf >> szCustomPhones;
+					dwControlParam++;
+				}
+				else if (j == 7 && szContactMask[j] == 's') { // spec_status_uri
+					buf >> szSpecStatusUri;
+					dwControlParam++;
+				}
+				else if (j == 8 && szContactMask[j] == 's') { // status_title
+					buf >> wszStatusTitle;
+					dwControlParam++;
+				}
+				else if (j == 9 && szContactMask[j] == 's') { // status_desc
+					buf >> wszStatusDesc;
+					dwControlParam++;
+				}
+				else if (j == 10 && szContactMask[j] == 'u') { // com_support (future flags)
+					dwFutureFlags = dwTemp;
+					dwControlParam++;
+				}
+				else if (j == 11 && szContactMask[j] == 's') { // user_agent (formated string)
+					buf >> szUserAgentFormatted;
+					dwControlParam++;
+				}
+				else if (j == 12 && szContactMask[j] == 'u') { // BlogStatusID
+					dwBlogStatusID.LowPart = dwTemp;
+					dwControlParam++;
+				}
+				else if (j == 13 && szContactMask[j] == 'u') { // BlogStatusID
+					dwBlogStatusID.HighPart = dwTemp;
+					dwControlParam++;
+				}
+				else if (j == 14 && szContactMask[j] == 'u') { // BlogStatusTime
+					dwBlogStatusTime = dwTemp;
+					dwControlParam++;
+				}
+				else if (j == 15 && szContactMask[j] == 's') { // BlogStatus
+					buf >> wszBlogStatus;
+					dwControlParam++;
+				}
+				else if (j == 16 && szContactMask[j] == 's') { // BlogStatusMusic
+					buf >> wszBlogStatusMusic;
+					dwControlParam++;
+				}
+				else if (j == 17 && szContactMask[j] == 's') { // BlogStatusSender // ignory
+					buf >> szString;
+					dwControlParam++;
+				}
+				else if (j == 18 && szContactMask[j] == 's') { // geo data ?
+					buf >> szString;
+					dwControlParam++;
+				}
+				else if (j == 19 && szContactMask[j] == 's') { // ?????? ?
+					buf >> szString;
+					dwControlParam++;
+					DebugBreakIf(szString.GetLength());
+				}
+				else {
+					if (szContactMask[j] == 's') {
+						buf >> szString;
+						if (szString.GetLength())
+							DebugPrintCRLFA(szString);
+					}
+					else if (szContactMask[j] == 'u') {
+						mir_snprintf(szBuff, SIZEOF(szBuff), "%lu, ", dwTemp);//;
+						DebugPrintCRLFA(szBuff);
+					}
+					else DebugBreak();
+				}
+			}
+
+			#ifdef _DEBUG
+				mir_snprintf(szBuff, SIZEOF(szBuff), "ID: %lu, Group id: %lu, ", dwID, dwGroupID);
+				DebugPrintA(szBuff);
+				DebugPrintA(szEmail);
+
+				mir_snprintf(szBuff, SIZEOF(szBuff), ": flags: %lu (", dwContactFlag);
+				DebugPrintA(szBuff);
+				if (dwContactFlag & CONTACT_FLAG_REMOVED)      DebugPrintA("CONTACT_FLAG_REMOVED, ");
+				if (dwContactFlag & CONTACT_FLAG_GROUP)        DebugPrintA("CONTACT_FLAG_GROUP, ");
+				if (dwContactFlag & CONTACT_FLAG_INVISIBLE)    DebugPrintA("CONTACT_FLAG_INVISIBLE, ");
+				if (dwContactFlag & CONTACT_FLAG_VISIBLE)      DebugPrintA("CONTACT_FLAG_VISIBLE, ");
+				if (dwContactFlag & CONTACT_FLAG_IGNORE)       DebugPrintA("CONTACT_FLAG_IGNORE, ");
+				if (dwContactFlag & CONTACT_FLAG_SHADOW)       DebugPrintA("CONTACT_FLAG_SHADOW, ");
+				if (dwContactFlag & CONTACT_FLAG_AUTHORIZED)   DebugPrintA("CONTACT_FLAG_AUTHORIZED, ");
+				if (dwContactFlag & CONTACT_FLAG_MULTICHAT)    DebugPrintA("CONTACT_FLAG_MULTICHAT, ");
+				if (dwContactFlag & CONTACT_FLAG_UNICODE_NAME) DebugPrintA("CONTACT_FLAG_UNICODE_NAME, ");
+				if (dwContactFlag & CONTACT_FLAG_PHONE)        DebugPrintA("CONTACT_FLAG_PHONE, ");
+				DebugPrintA(")");
+
+				mir_snprintf(szBuff, SIZEOF(szBuff), ": server flags: %lu (", dwContactSeverFlags);
+				DebugPrintA(szBuff);
+				if (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED)
+					DebugPrintA("CONTACT_INTFLAG_NOT_AUTHORIZED, ");
+				DebugPrintCRLFA(")");
+			#endif
+
+			// add/modify contact
+			if (dwGroupID != 103)//***deb filtering phone/sms contats
+			if ( _strnicmp(szEmail, "phone", 5))
+			if (dwControlParam>5)// все параметры правильно инициализированны!
+			if ((dwContactFlag & (CONTACT_FLAG_GROUP | CONTACT_FLAG_REMOVED)) == 0) {
+				HANDLE hContact = MraHContactFromEmail(szEmail, TRUE, FALSE, &bAdded);
+				if (hContact) {
+					// already in list, remove the duplicate
+					if (GetContactBasicInfoW(hContact, &dwTemp, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == NO_ERROR && dwTemp != -1) {
+						dwTemp = dwTemp;
+						DebugBreak();
+					}
+					else {
+						dwTemp = GetMiradaStatusFromMraStatus(dwStatus, GetMraXStatusIDFromMraUriStatus(szSpecStatusUri), &dwXStatus);
+
+						if (bAdded) { // update user info
+							SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_FLAG|SCBIF_SERVER_FLAG|SCBIF_STATUS|SCBIF_NICK|SCBIF_PHONES), 
+								dwID, dwGroupID, dwContactFlag, dwContactSeverFlags, dwTemp, "", wszNick, szCustomPhones);
+							// request user info from server
+							MraUpdateContactInfo(hContact);
+						}
+						else { //****deb - check group ID param
+							SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS),
+								dwID, dwGroupID, dwContactFlag, dwContactSeverFlags, dwTemp, "", wszNick, szCustomPhones);
+							if (wszNick.IsEmpty()) { // set the server-side nick
+								wszNick = GetContactNameW(hContact);
+								MraModifyContactW(hContact, dwID, dwContactFlag, dwGroupID, szEmail, wszNick, szCustomPhones);
+							}
+						}
+
+						MraContactCapabilitiesSet(hContact, dwFutureFlags);
+						setByte(hContact, DBSETTING_XSTATUSID, (BYTE)dwXStatus);
+						mraSetStringW(hContact, DBSETTING_XSTATUSNAME, wszStatusTitle);
+						mraSetStringW(hContact, DBSETTING_XSTATUSMSG, wszStatusDesc);
+						setDword(hContact, DBSETTING_BLOGSTATUSTIME, dwBlogStatusTime);
+						mraWriteContactSettingBlob(hContact, DBSETTING_BLOGSTATUSID, &dwBlogStatusID.QuadPart, sizeof(DWORDLONG));
+						mraSetStringW(hContact, DBSETTING_BLOGSTATUS, wszBlogStatus);
+						mraSetStringW(hContact, DBSETTING_BLOGSTATUSMUSIC, wszBlogStatusMusic);
+						if ( IsXStatusValid(dwXStatus))
+							SetExtraIcons(hContact);
+
+						if (dwTemp != ID_STATUS_OFFLINE) { // пишем клиента только если юзер не отключён, иначе не затираем старое
+							if (szUserAgentFormatted.GetLength()) {
+								if (getByte("MirVerRaw", MRA_DEFAULT_MIRVER_RAW) == FALSE)
+									szUserAgentFormatted = MraGetVersionStringFromFormatted(szUserAgentFormatted);
+							}
+							else szUserAgentFormatted = MIRVER_UNKNOWN;
+							mraSetStringA(hContact, "MirVer", szUserAgentFormatted);
+						}
+
+						if (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED)
+						if (getByte("AutoAuthRequestOnLogon", MRA_DEFAULT_AUTO_AUTH_REQ_ON_LOGON))
+							CallProtoService(m_szModuleName, MRA_REQ_AUTH, (WPARAM)hContact, 0);
+					}
+				}
+			}
+			dwID++;
+		}// end while (processing contacts)
+
+		// post processing contact list
+		{
+			CMStringA szEmail, szPhones;
+			CMStringW wszAuthMessage, wszNick;
+
+			if (mraGetStringW(NULL, "AuthMessage", wszAuthMessage) == FALSE) // def auth message
+				wszAuthMessage = TranslateW(MRA_DEFAULT_AUTH_MESSAGE);
+
+			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+				if (GetContactBasicInfoW(hContact, &dwID, NULL, NULL, NULL, NULL, &szEmail, NULL, NULL) == NO_ERROR)
+				if (dwID == -1) {
+					if (IsEMailChatAgent(szEmail)) {// чат: ещё раз запросим авторизацию, пометим как видимый в списке, постоянный
+						db_unset(hContact, "CList", "Hidden");
+						db_unset(hContact, "CList", "NotOnList");
+						SetExtraIcons(hContact);
+						MraSetContactStatus(hContact, ID_STATUS_ONLINE);
+
+						CMStringW wszCustomName = GetContactNameW(hContact);
+						MraAddContactW(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_MULTICHAT|CONTACT_FLAG_UNICODE_NAME),
+							-1, szEmail, wszCustomName, "", L"", 0);
+					}
+					else {
+						if (db_get_b(hContact, "CList", "NotOnList", 0) == 0) { // set extra icons and upload contact
+							SetExtraIcons(hContact);
+							if (getByte("AutoAddContactsToServer", MRA_DEFAULT_AUTO_ADD_CONTACTS_TO_SERVER)) { //add all contacts to server
+								GetContactBasicInfoW(hContact, NULL, &dwGroupID, NULL, NULL, NULL, NULL, &wszNick, &szPhones);
+								MraAddContactW(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_UNICODE_NAME), dwGroupID, szEmail, wszNick, szPhones, wszAuthMessage, 0);
+							}
+						}
+					}
+					MraUpdateContactInfo(hContact);
+				}
+			}
+		}
+	}
+	else { // контакт лист почемуто не получили
+		// всех в offline и id в нестандарт
+		for (HANDLE hContact = db_find_first();hContact != NULL;hContact = db_find_next(hContact)) {
+			SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS),
+				-1, -2, 0, 0, ID_STATUS_OFFLINE, "", L"", "");
+			// request user info from server
+			MraUpdateContactInfo(hContact);
+		}
+
+		if (dwTemp == GET_CONTACTS_ERROR) // найденный контакт-лист некорректен
+			ShowFormattedErrorMessage(L"MRIM_CS_CONTACT_LIST2: bad contact list", NO_ERROR);
+		else if (dwTemp == GET_CONTACTS_INTERR) // произошла внутренняя ошибка
+			ShowFormattedErrorMessage(L"MRIM_CS_CONTACT_LIST2: internal server error", NO_ERROR);
+		else {
+			TCHAR szBuff[1024];
+			mir_sntprintf(szBuff, SIZEOF(szBuff), TranslateW(L"MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu"), dwTemp);
+			MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, szBuff);
+		}
+	}
+	return true;
+}
+
+bool CMraProto::CmdProxy(BinBuffer &buf)
+{
+	DWORD dwIDRequest, dwAckType;
+	CMStringA szAddresses, szEmail, szString;
+	MRA_GUID mguidSessionID;
+
+	buf >> szEmail >> dwIDRequest >> dwAckType >> szString >> szAddresses >> mguidSessionID;
+	if (dwAckType == MRIM_PROXY_TYPE_FILES) { // файлы, on file recv
+		// set proxy info to file transfer context
+		if ( !MraMrimProxySetData(MraFilesQueueItemProxyByID(hFilesQueueHandle, dwIDRequest), szEmail, dwIDRequest, dwAckType, szString, szAddresses, &mguidSessionID))
+			MraFilesQueueStartMrimProxy(hFilesQueueHandle, dwIDRequest);
+		else { // empty/invalid session
+			MraProxyAck(PROXY_STATUS_ERROR, szEmail, dwIDRequest, dwAckType, szString, szAddresses, mguidSessionID);
+			DebugBreak();
+		}
+	}
+	return true;
+}
+
+bool CMraProto::CmdProxyAck(BinBuffer &buf)
+{
+	DWORD dwIDRequest, dwTemp, dwAckType;
+	HANDLE hMraMrimProxyData;
+	CMStringA szAddresses, szEmail, szString;
+	MRA_GUID mguidSessionID;
+	buf >> dwTemp >> szEmail >> dwIDRequest >> dwAckType >> szString >> szAddresses >> mguidSessionID;
+
+	if (dwAckType == MRIM_PROXY_TYPE_FILES) { // on file send
+		if ((hMraMrimProxyData = MraFilesQueueItemProxyByID(hFilesQueueHandle, dwIDRequest))) {
+			switch (dwTemp) {
+			case PROXY_STATUS_DECLINE:
+				MraFilesQueueCancel(hFilesQueueHandle, dwIDRequest, FALSE);
 				break;
-			default:// unknown
+			case PROXY_STATUS_OK:
+				// set proxy info to file transfer context
+				if ( !MraMrimProxySetData(hMraMrimProxyData, szEmail, dwIDRequest, dwAckType, szString, szAddresses, &mguidSessionID))
+					MraFilesQueueStartMrimProxy(hFilesQueueHandle, dwIDRequest);
+				break;
+			case PROXY_STATUS_ERROR:
+				ShowFormattedErrorMessage(L"Proxy File transfer: error", NO_ERROR);
+				MraFilesQueueCancel(hFilesQueueHandle, dwIDRequest, FALSE);
+				break;
+			case PROXY_STATUS_INCOMPATIBLE_VERS:
+				ShowFormattedErrorMessage(L"Proxy File transfer: incompatible versions", NO_ERROR);
+				MraFilesQueueCancel(hFilesQueueHandle, dwIDRequest, FALSE);
+				break;
+			case PROXY_STATUS_NOHARDWARE:
+			case PROXY_STATUS_MIRROR:
+			case PROXY_STATUS_CLOSED:
+			default:
 				DebugBreak();
 				break;
 			}
-			MraSendQueueFree(hSendQueueHandle, pmaHeader->seq);
 		}
-		else MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, TranslateW(L"MRIM_ANKETA_INFO: not found in queue"));
+		else DebugBreak();
+	}
+	return true;
+}
+
+bool CMraProto::CmdNewMail(BinBuffer &buf)
+{
+	DWORD dwDate, dwUIDL, dwUnreadCount;
+	CMStringA szEmail, szString;
+	buf >> dwUnreadCount >> szEmail >> szString >> dwDate >> dwUIDL;
+
+	if (dwUnreadCount > dwEmailMessagesTotal)
+		dwEmailMessagesTotal += (dwUnreadCount - m_dwEmailMessagesUnread);
+
+	DWORD dwSave = m_dwEmailMessagesUnread;
+	m_dwEmailMessagesUnread = dwUnreadCount;// store new value
+	if (getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY) == 0 || dwSave < dwUnreadCount || dwUnreadCount == 0)
+		MraUpdateEmailStatus(szEmail, szString, dwDate, dwUIDL);
+	return true;
+}
+
+bool CMraProto::CmdBlogStatus(BinBuffer &buf)
+{
+	DWORD dwTime, dwFlags;
+	CMStringA szEmail, szString;
+	CMStringW lpsText;
+	DWORDLONG dwBlogStatusID;
+
+	buf >> dwFlags >> szEmail >> dwBlogStatusID >> dwTime >> lpsText >> szString;
+
+	if (HANDLE hContact = MraHContactFromEmail(szEmail, FALSE, TRUE, NULL)) {
+		if (dwFlags & MRIM_BLOG_STATUS_MUSIC)
+			mraSetStringW(hContact, DBSETTING_BLOGSTATUSMUSIC, lpsText);
+		else {
+			setDword(hContact, DBSETTING_BLOGSTATUSTIME, dwTime);
+			mraWriteContactSettingBlob(hContact, DBSETTING_BLOGSTATUSID, &dwBlogStatusID, sizeof(DWORDLONG));
+			mraSetStringW(hContact, DBSETTING_BLOGSTATUS, lpsText);
+		}
+	}
+	return true;
+}
+
+bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
+{
+	WCHAR szBuff[4096] = {0};
+	DWORD dwTemp, dwAckType;
+	size_t dwSize;
+	HANDLE hContact = NULL;
+	LPBYTE pByte;
+
+	Netlib_Logf(m_hNetlibUser, "Received packet %x\n", pmaHeader->msg);
+
+	BinBuffer buf((LPBYTE)pmaHeader + sizeof(mrim_packet_header_t), pmaHeader->dlen);
+
+	switch (pmaHeader->msg) {
+	case MRIM_CS_HELLO_ACK:	          return CmdHelloAck(buf);
+	case MRIM_CS_LOGIN_ACK:           return CmdLoginAck();
+	case MRIM_CS_LOGIN_REJ:           return CmdLoginRejected(buf);
+	case MRIM_CS_MESSAGE_ACK:         return CmdMessageAck(buf);
+	case MRIM_CS_MESSAGE_STATUS:      return CmdMessageStatus(pmaHeader->seq, buf);
+	case MRIM_CS_USER_INFO:           return CmdUserInfo(buf);
+	case MRIM_CS_OFFLINE_MESSAGE_ACK: return CmdOfflineMessageAck(buf);
+	case MRIM_CS_AUTHORIZE_ACK:       return CmdAuthAck(buf);
+	case MRIM_CS_MPOP_SESSION:        return CmdPopSession(buf);
+	case MRIM_CS_FILE_TRANSFER:       return CmdFileTransfer(buf);
+	case MRIM_CS_FILE_TRANSFER_ACK:   return CmdFileTransferAck(buf);
+	case MRIM_CS_USER_STATUS:         return CmdUserStatus(buf);
+	case MRIM_CS_ADD_CONTACT_ACK:
+	case MRIM_CS_MODIFY_CONTACT_ACK:  return CmdContactAck(pmaHeader->msg, pmaHeader->seq, buf);
+	case MRIM_CS_ANKETA_INFO:         return CmdAnketaInfo(pmaHeader->seq, buf);
+	case MRIM_CS_GAME:                return CmdGame(buf);
+	case MRIM_CS_CONTACT_LIST2:       return CmdClist2(buf);
+	case MRIM_CS_PROXY:               return CmdProxy(buf);
+	case MRIM_CS_PROXY_ACK:           return CmdProxyAck(buf);
+	case MRIM_CS_NEW_MAIL:            return CmdNewMail(buf);
+	case MRIM_CS_USER_BLOG_STATUS:    return CmdBlogStatus(buf);
+	
+	case MRIM_CS_CONNECTION_PARAMS:// Изменение параметров соединения
+		buf >> m_dwPingPeriod;
+		m_dwNextPingSendTickTime = 0; // force send ping
+		MraSendCMD(MRIM_CS_PING, NULL, 0);
 		break;
+
+	case MRIM_CS_LOGOUT:// Пользователь отключен из-за параллельного входа с его логином.
+		buf >> dwTemp;
+		if (dwTemp == LOGOUT_NO_RELOGIN_FLAG)
+			ShowFormattedErrorMessage(L"Another user connected with your login", NO_ERROR);
+		return false;
 
 	case MRIM_CS_MAILBOX_STATUS:
-		dwTemp = GetUL(&lpbDataCurrent);
+		buf >> dwTemp;
 		if (dwTemp > dwEmailMessagesTotal)
-			dwEmailMessagesTotal += (dwTemp - dwEmailMessagesUnread);
+			dwEmailMessagesTotal += (dwTemp - m_dwEmailMessagesUnread);
 
-		dwAckType = dwEmailMessagesUnread;// save old value
-		dwEmailMessagesUnread = dwTemp;// store new value
+		dwAckType = m_dwEmailMessagesUnread;// save old value
+		m_dwEmailMessagesUnread = dwTemp;// store new value
 		if (getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY) == 0 || dwAckType<dwTemp || dwTemp == 0)
-			MraUpdateEmailStatus(NULL, 0, NULL, 0, 0, 0);
-		break;
-
-	case MRIM_CS_GAME:
-		{
-			DWORD dwGameSessionID, dwGameMsg, dwGameMsgID;
-
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsEMail);//LPS to/from
-			dwGameSessionID = GetUL(&lpbDataCurrent);//DWORD session unique per game
-			dwGameMsg = GetUL(&lpbDataCurrent);//DWORD msg internal game message
-			dwGameMsgID = GetUL(&lpbDataCurrent);//DWORD msg_id id for ack
-			dwTemp = GetUL(&lpbDataCurrent);//DWORD time_send time of client
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);//LPS data
-
-			#ifdef _DEBUG
-				BYTE btBuff[1024] = {0};
-				memmove(btBuff, lpsString.lpszData, lpsString.dwSize);
-			#endif
-
-			switch (dwGameMsg) {
-			case GAME_CONNECTION_INVITE:
-				if (m_iStatus != ID_STATUS_INVISIBLE)
-					MraGame(lpsEMail.lpszData, lpsEMail.dwSize, dwGameSessionID, GAME_DECLINE, dwGameMsgID, lpsString.lpszData, lpsString.dwSize);
-				break;
-			case GAME_CONNECTION_ACCEPT:
-				break;
-			case GAME_DECLINE:
-				break;
-			case GAME_INC_VERSION:
-				break;
-			case GAME_NO_SUCH_GAME:// user invisible
-				if ((hContact = MraHContactFromEmail(lpsEMail.lpszData, lpsEMail.dwSize, FALSE, TRUE, NULL)))
-				if (MraGetContactStatus(hContact) == ID_STATUS_OFFLINE)
-					MraSetContactStatus(hContact, ID_STATUS_INVISIBLE);
-				break;
-			case GAME_JOIN:
-				break;
-			case GAME_CLOSE:
-				break;
-			case GAME_SPEED:
-				break;
-			case GAME_SYNCHRONIZATION:
-				break;
-			case GAME_USER_NOT_FOUND:
-				break;
-			case GAME_ACCEPT_ACK:
-				break;
-			case GAME_PING:
-				break;
-			case GAME_RESULT:
-				break;
-			case GAME_MESSAGES_NUMBER:
-				break;
-			default:
-				mir_sntprintf(szBuff, SIZEOF(szBuff), TranslateW(L"MRIM_CS_GAME: unknown internal game message code: %lu"), dwGameMsg);
-				MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, szBuff);
-				break;
-			}
-		}
-		break;
-	case MRIM_CS_CONTACT_LIST2:
-		dwTemp = GetUL(&lpbDataCurrent);
-		if (dwTemp == GET_CONTACTS_OK) { // received contact list
-			BOOL bAdded;
-			char szGroupMask[MAX_PATH], szContactMask[MAX_PATH];
-			DWORD dwID, dwGroupFlags, dwContactFlag, dwGroupID, dwContactSeverFlags, dwStatus, dwXStatus, dwFutureFlags, dwBlogStatusTime;
-			MRA_LPS mralpsGroupName, mralpsNick, mralpsCustomPhones, lpsSpecStatusUri, lpsStatusTitle, lpsStatusDesc, lpsUserAgentFormated, lpsBlogStatus, lpsBlogStatusMusic;
-			size_t i, j, dwGroupsCount, dwGroupMaskSize, dwContactMaskSize, dwControlParam;
-			ULARGE_INTEGER dwBlogStatusID;
-
-			dwGroupsCount = GetUL(&lpbDataCurrent);
-
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-			dwGroupMaskSize = lpsString.dwSize;
-			memmove(szGroupMask, lpsString.lpszData, dwGroupMaskSize);(*(szGroupMask+dwGroupMaskSize)) = 0;
-
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-			dwContactMaskSize = lpsString.dwSize;
-			memmove(szContactMask, lpsString.lpszData, dwContactMaskSize);(*(szContactMask+dwContactMaskSize)) = 0;
-
-			DebugPrintCRLFW(L"Groups:");
-			DebugPrintCRLFA(szGroupMask);
-			dwID = 0;
-			for (i = 0; i < dwGroupsCount; i++) { //groups handle
-				dwControlParam = 0;
-				for (j = 0; j < dwGroupMaskSize; j++) { //enumerating parameters
-					switch (szGroupMask[j]) {
-					case 's'://LPS
-						GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-						break;
-					case 'u'://UL
-						dwTemp = GetUL(&lpbDataCurrent);
-						break;
-					case 'z'://sz
-						lpsString.lpszData = (LPSTR)lpbDataCurrent;
-						lpsString.dwSize = lstrlenA((LPSTR)lpbDataCurrent);
-						lpbDataCurrent += lpsString.dwSize;
-						DebugBreak();
-						break;
-					}
-
-					if (j == 0 && szGroupMask[j] == 'u') {// GroupFlags
-						dwGroupFlags = dwTemp;
-						dwControlParam++;
-					}
-					else if (j == 1 && szGroupMask[j] == 's') {// GroupName
-						mralpsGroupName = lpsString;
-						dwControlParam++;
-					}
-				}
-
-				// add/modify group
-				if (dwControlParam > 1) { // все параметры правильно инициализированны!
-					#ifdef _DEBUG
-						memmove(szBuff, mralpsGroupName.lpszData, mralpsGroupName.dwSize);
-						szBuff[(mralpsGroupName.dwSize/sizeof(WCHAR))] = 0;
-						DebugPrintW(szBuff);
-
-						mir_snprintf((LPSTR)szBuff, SIZEOF(szBuff), ": flags: %lu (", dwGroupFlags);
-						DebugPrintA((LPSTR)szBuff);
-						if (dwGroupFlags&CONTACT_FLAG_REMOVED)		DebugPrintA("CONTACT_FLAG_REMOVED, ");
-						if (dwGroupFlags&CONTACT_FLAG_GROUP)		DebugPrintA("CONTACT_FLAG_GROUP, ");
-						if (dwGroupFlags&CONTACT_FLAG_INVISIBLE)	DebugPrintA("CONTACT_FLAG_INVISIBLE, ");
-						if (dwGroupFlags&CONTACT_FLAG_VISIBLE)		DebugPrintA("CONTACT_FLAG_VISIBLE, ");
-						if (dwGroupFlags&CONTACT_FLAG_IGNORE)		DebugPrintA("CONTACT_FLAG_IGNORE, ");
-						if (dwGroupFlags&CONTACT_FLAG_SHADOW)		DebugPrintA("CONTACT_FLAG_SHADOW, ");
-						if (dwGroupFlags&CONTACT_FLAG_AUTHORIZED)	DebugPrintA("CONTACT_FLAG_AUTHORIZED, ");
-						if (dwGroupFlags&CONTACT_FLAG_MULTICHAT)	DebugPrintA("CONTACT_FLAG_MULTICHAT, ");
-						if (dwGroupFlags&CONTACT_FLAG_UNICODE_NAME)	DebugPrintA("CONTACT_FLAG_UNICODE_NAME, ");
-						if (dwGroupFlags&CONTACT_FLAG_PHONE)		DebugPrintA("CONTACT_FLAG_PHONE, ");
-						DebugPrintCRLFA(")");
-					#endif//*/
-				}
-				dwID++;
-			}// end for (processing groups)
-
-			DebugPrintCRLFW(L"Contacts:");
-			DebugPrintCRLFA(szContactMask);
-			dwID = 20;
-			while (lpbDataCurrent < lpbData + dwDataSize) {
-				dwControlParam = 0;
-				for (j = 0; j < dwContactMaskSize; j++) { //enumerating parameters
-					switch (szContactMask[j]) {
-					case 's'://LPS
-						GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);
-						break;
-					case 'u'://UL
-						dwTemp = GetUL(&lpbDataCurrent);
-						break;
-					case 'z'://sz
-						lpsString.lpszData = (LPSTR)lpbDataCurrent;
-						lpsString.dwSize = lstrlenA((LPSTR)lpbDataCurrent);
-						lpbDataCurrent += lpsString.dwSize;
-						DebugBreak();
-						break;
-					}
-
-					if (j == 0 && szContactMask[j] == 'u') { // Flags
-						dwContactFlag = dwTemp;
-						dwControlParam++;
-					}
-					else if (j == 1 && szContactMask[j] == 'u') { // Group id
-						dwGroupID = dwTemp;
-						dwControlParam++;
-					}
-					else if (j == 2 && szContactMask[j] == 's') { // Email
-						lpsEMail = lpsString;
-						dwControlParam++;
-					}
-					else if (j == 3 && szContactMask[j] == 's') { // Nick
-						mralpsNick = lpsString;
-						dwControlParam++;
-					}
-					else if (j == 4 && szContactMask[j] == 'u') { // Server flags
-						dwContactSeverFlags = dwTemp;
-						dwControlParam++;
-					}
-					else if (j == 5 && szContactMask[j] == 'u') { // Status
-						dwStatus = dwTemp;
-						dwControlParam++;
-					}
-					else if (j == 6 && szContactMask[j] == 's') { // Custom Phone number,
-						mralpsCustomPhones = lpsString;
-						dwControlParam++;
-					}
-					else if (j == 7 && szContactMask[j] == 's') { // spec_status_uri
-						lpsSpecStatusUri = lpsString;
-						dwControlParam++;
-					}
-					else if (j == 8 && szContactMask[j] == 's') { // status_title
-						lpsStatusTitle = lpsString;
-						dwControlParam++;
-					}
-					else if (j == 9 && szContactMask[j] == 's') { // status_desc
-						lpsStatusDesc = lpsString;
-						dwControlParam++;
-					}
-					else if (j == 10 && szContactMask[j] == 'u') { // com_support (future flags)
-						dwFutureFlags = dwTemp;
-						dwControlParam++;
-					}
-					else if (j == 11 && szContactMask[j] == 's') { // user_agent (formated string)
-						lpsUserAgentFormated = lpsString;
-						dwControlParam++;
-					}
-					else if (j == 12 && szContactMask[j] == 'u') { // BlogStatusID
-						dwBlogStatusID.LowPart = dwTemp;
-						dwControlParam++;
-					}
-					else if (j == 13 && szContactMask[j] == 'u') { // BlogStatusID
-						dwBlogStatusID.HighPart = dwTemp;
-						dwControlParam++;
-					}
-					else if (j == 14 && szContactMask[j] == 'u') { // BlogStatusTime
-						dwBlogStatusTime = dwTemp;
-						dwControlParam++;
-					}
-					else if (j == 15 && szContactMask[j] == 's') { // BlogStatus
-						lpsBlogStatus = lpsString;
-						dwControlParam++;
-					}
-					else if (j == 16 && szContactMask[j] == 's') { // BlogStatusMusic
-						lpsBlogStatusMusic = lpsString;
-						dwControlParam++;
-					}
-					else if (j == 17 && szContactMask[j] == 's') { // BlogStatusSender // ignory
-						lpsString = lpsString;
-						dwControlParam++;
-					}
-					else if (j == 18 && szContactMask[j] == 's') { // geo data ?
-						lpsString = lpsString;
-						dwControlParam++;
-					}
-					else if (j == 19 && szContactMask[j] == 's') { // ?????? ?
-						lpsString = lpsString;
-						dwControlParam++;
-						DebugBreakIf(lpsString.dwSize);
-					}
-					else {
-						if (szContactMask[j] == 's') {
-							if (lpsString.dwSize) {
-								DebugPrintCRLFW(lpsString.lpwszData);
-							}
-						}
-						else if (szContactMask[j] == 'u') {
-							mir_snprintf((LPSTR)szBuff, SIZEOF(szBuff), "%lu, ", dwTemp);//;
-							DebugPrintCRLFA((LPSTR)szBuff);
-						}
-						else DebugBreak();
-					}
-				}
-
-				#ifdef _DEBUG
-					mir_snprintf((LPSTR)szBuff, SIZEOF(szBuff), "ID: %lu, Group id: %lu, ", dwID, dwGroupID);
-					DebugPrintA((LPSTR)szBuff);
-
-					memmove(szBuff, lpsEMail.lpszData, lpsEMail.dwSize);
-					szBuff[(lpsEMail.dwSize/sizeof(WCHAR))] = 0;
-					DebugPrintA((LPSTR)szBuff);
-
-					mir_snprintf((LPSTR)szBuff, SIZEOF(szBuff), ": flags: %lu (", dwContactFlag);
-					DebugPrintA((LPSTR)szBuff);
-					if (dwContactFlag&CONTACT_FLAG_REMOVED)		DebugPrintA("CONTACT_FLAG_REMOVED, ");
-					if (dwContactFlag&CONTACT_FLAG_GROUP)		DebugPrintA("CONTACT_FLAG_GROUP, ");
-					if (dwContactFlag&CONTACT_FLAG_INVISIBLE)	DebugPrintA("CONTACT_FLAG_INVISIBLE, ");
-					if (dwContactFlag&CONTACT_FLAG_VISIBLE)		DebugPrintA("CONTACT_FLAG_VISIBLE, ");
-					if (dwContactFlag&CONTACT_FLAG_IGNORE)		DebugPrintA("CONTACT_FLAG_IGNORE, ");
-					if (dwContactFlag&CONTACT_FLAG_SHADOW)		DebugPrintA("CONTACT_FLAG_SHADOW, ");
-					if (dwContactFlag&CONTACT_FLAG_AUTHORIZED)	DebugPrintA("CONTACT_FLAG_AUTHORIZED, ");
-					if (dwContactFlag&CONTACT_FLAG_MULTICHAT)	DebugPrintA("CONTACT_FLAG_MULTICHAT, ");
-					if (dwContactFlag&CONTACT_FLAG_UNICODE_NAME)DebugPrintA("CONTACT_FLAG_UNICODE_NAME, ");
-					if (dwContactFlag&CONTACT_FLAG_PHONE)		DebugPrintA("CONTACT_FLAG_PHONE, ");
-					DebugPrintA(")");
-
-					mir_snprintf((LPSTR)szBuff, SIZEOF(szBuff), ": server flags: %lu (", dwContactSeverFlags);
-					DebugPrintA((LPSTR)szBuff);
-					if (dwContactSeverFlags&CONTACT_INTFLAG_NOT_AUTHORIZED)		DebugPrintA("CONTACT_INTFLAG_NOT_AUTHORIZED, ");
-					DebugPrintCRLFA(")");
-				#endif
-
-				// add/modify contact
-				if (dwGroupID != 103)//***deb filtering phone/sms contats
-				if ( _strnicmp(lpsEMail.lpszData, "phone", 5))
-				if (dwControlParam>5)// все параметры правильно инициализированны!
-				if ((dwContactFlag&(CONTACT_FLAG_GROUP|CONTACT_FLAG_REMOVED)) == 0) {
-					hContact = MraHContactFromEmail(lpsEMail.lpszData, lpsEMail.dwSize, TRUE, FALSE, &bAdded);
-					if (hContact) {
-						// already in list, remove the duplicate
-						if (GetContactBasicInfoW(hContact, &dwTemp, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL) == NO_ERROR && dwTemp != -1) {
-							dwTemp = dwTemp;
-							DebugBreak();
-						}
-						else {
-							dwTemp = GetMiradaStatusFromMraStatus(dwStatus, GetMraXStatusIDFromMraUriStatus(lpsSpecStatusUri.lpszData, lpsSpecStatusUri.dwSize), &dwXStatus);
-							if ((dwContactFlag&CONTACT_FLAG_UNICODE_NAME))
-								mralpsNick.dwSize /= sizeof(WCHAR);
-
-							if (bAdded) { // update user info
-								SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_FLAG|SCBIF_SERVER_FLAG|SCBIF_STATUS|SCBIF_NICK|SCBIF_PHONES), dwID, dwGroupID, dwContactFlag, dwContactSeverFlags, dwTemp, NULL, 0, mralpsNick.lpwszData, mralpsNick.dwSize, mralpsCustomPhones.lpszData, mralpsCustomPhones.dwSize);
-								// request user info from server
-								MraUpdateContactInfo(hContact);
-							}
-							else { //****deb - check group ID param
-								SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), dwID, dwGroupID, dwContactFlag, dwContactSeverFlags, dwTemp, NULL, 0, mralpsNick.lpwszData, mralpsNick.dwSize, mralpsCustomPhones.lpszData, mralpsCustomPhones.dwSize);
-								if (mralpsNick.dwSize == 0) { // set the server-side nick
-									lstrcpynW(szBuff, GetContactNameW(hContact), SIZEOF(szBuff));
-									mralpsNick.lpwszData = szBuff;
-									mralpsNick.dwSize = lstrlenW(mralpsNick.lpwszData);
-
-									MraModifyContactW(hContact, dwID, dwContactFlag, dwGroupID, lpsEMail.lpszData, lpsEMail.dwSize, mralpsNick.lpwszData, mralpsNick.dwSize, mralpsCustomPhones.lpszData, mralpsCustomPhones.dwSize);
-								}
-							}
-
-							MraContactCapabilitiesSet(hContact, dwFutureFlags);
-							setByte(hContact, DBSETTING_XSTATUSID, (BYTE)dwXStatus);
-							mraSetLPSStringW(hContact, DBSETTING_XSTATUSNAME, &lpsStatusTitle);
-							mraSetLPSStringW(hContact, DBSETTING_XSTATUSMSG, &lpsStatusDesc);
-							setDword(hContact, DBSETTING_BLOGSTATUSTIME, dwBlogStatusTime);
-							mraWriteContactSettingBlob(hContact, DBSETTING_BLOGSTATUSID, &dwBlogStatusID.QuadPart, sizeof(DWORDLONG));
-							mraSetLPSStringW(hContact, DBSETTING_BLOGSTATUS, &lpsBlogStatus);
-							mraSetLPSStringW(hContact, DBSETTING_BLOGSTATUSMUSIC, &lpsBlogStatusMusic);
-							if ( IsXStatusValid(dwXStatus))
-								SetExtraIcons(hContact);
-
-							if (dwTemp != ID_STATUS_OFFLINE) { // пишем клиента только если юзер не отключён, иначе не затираем старое
-								if (lpsUserAgentFormated.dwSize) {
-									if (getByte("MirVerRaw", MRA_DEFAULT_MIRVER_RAW) == FALSE) {
-										MraGetVersionStringFromFormatted(lpsUserAgentFormated.lpszData, lpsUserAgentFormated.dwSize, (LPSTR)szBuff, SIZEOF(szBuff), &dwStringSize);
-										lpsUserAgentFormated.lpszData = (LPSTR)szBuff;
-										lpsUserAgentFormated.dwSize = dwStringSize;
-									}
-								}
-								else {
-									lpsUserAgentFormated.lpszData = MIRVER_UNKNOWN;
-									lpsUserAgentFormated.dwSize = (sizeof(MIRVER_UNKNOWN)-1);
-								}
-								mraSetLPSStringA(hContact, "MirVer", &lpsUserAgentFormated);
-							}
-
-							if (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED)
-							if (getByte("AutoAuthRequestOnLogon", MRA_DEFAULT_AUTO_AUTH_REQ_ON_LOGON))
-								CallProtoService(m_szModuleName, MRA_REQ_AUTH, (WPARAM)hContact, 0);
-						}
-					}
-				}
-				dwID++;
-			}// end while (processing contacts)
-
-			// post processing contact list
-			{
-				CHAR szEMail[MAX_EMAIL_LEN], szPhones[MAX_EMAIL_LEN];
-				WCHAR wszAuthMessage[MAX_PATH], wszNick[MAX_EMAIL_LEN];
-				size_t dwEMailSize, dwNickSize, dwPhonesSize, dwAuthMessageSize;
-
-				if (mraGetStaticStringW(NULL, "AuthMessage", wszAuthMessage, SIZEOF(wszAuthMessage), &dwAuthMessageSize) == FALSE) { // def auth message
-					lstrcpynW(wszAuthMessage, TranslateW(MRA_DEFAULT_AUTH_MESSAGE), SIZEOF(wszAuthMessage));
-					dwAuthMessageSize = lstrlenW(wszAuthMessage);
-				}
-
-				for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-					if (GetContactBasicInfoW(hContact, &dwID, NULL, NULL, NULL, NULL, szEMail, SIZEOF(szEMail), &dwEMailSize, NULL, 0, NULL, NULL, 0, NULL) == NO_ERROR)
-					if (dwID == -1) {
-						if (IsEMailChatAgent(szEMail, dwEMailSize)) {// чат: ещё раз запросим авторизацию, пометим как видимый в списке, постоянный
-							db_unset(hContact, "CList", "Hidden");
-							db_unset(hContact, "CList", "NotOnList");
-							SetExtraIcons(hContact);
-							MraSetContactStatus(hContact, ID_STATUS_ONLINE);
-
-							lstrcpynW(szBuff, GetContactNameW(hContact), SIZEOF(szBuff));
-							MraAddContactW(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_MULTICHAT|CONTACT_FLAG_UNICODE_NAME), -1, szEMail, dwEMailSize, szBuff, lstrlenW(szBuff), NULL, 0, NULL, 0, 0);
-						}
-						else {
-							if (db_get_b(hContact, "CList", "NotOnList", 0) == 0) { // set extra icons and upload contact
-								SetExtraIcons(hContact);
-								if (getByte("AutoAddContactsToServer", MRA_DEFAULT_AUTO_ADD_CONTACTS_TO_SERVER)) { //add all contacts to server
-									GetContactBasicInfoW(hContact, NULL, &dwGroupID, NULL, NULL, NULL, NULL, 0, NULL, wszNick, SIZEOF(wszNick), &dwNickSize, szPhones, SIZEOF(szPhones), &dwPhonesSize);
-									MraAddContactW(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_UNICODE_NAME), dwGroupID, szEMail, dwEMailSize, wszNick, dwNickSize, szPhones, dwPhonesSize, wszAuthMessage, dwAuthMessageSize, 0);
-								}
-							}
-						}
-						MraUpdateContactInfo(hContact);
-					}
-				}
-			}
-		}
-		else { // контакт лист почемуто не получили
-			// всех в offline и id в нестандарт
-			for (HANDLE hContact = db_find_first();hContact != NULL;hContact = db_find_next(hContact)) {
-				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -2, 0, 0, ID_STATUS_OFFLINE, NULL, 0, NULL, 0, NULL, 0);
-				// request user info from server
-				MraUpdateContactInfo(hContact);
-			}
-
-			if (dwTemp == GET_CONTACTS_ERROR) // найденный контакт-лист некорректен
-				ShowFormattedErrorMessage(L"MRIM_CS_CONTACT_LIST2: bad contact list", NO_ERROR);
-			else if (dwTemp == GET_CONTACTS_INTERR) // произошла внутренняя ошибка
-				ShowFormattedErrorMessage(L"MRIM_CS_CONTACT_LIST2: internal server error", NO_ERROR);
-			else {
-				mir_sntprintf(szBuff, SIZEOF(szBuff), TranslateW(L"MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu"), dwTemp);
-				MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, szBuff);
-			}
-		}
+			MraUpdateEmailStatus("", "", 0, 0);
 		break;
 
 	case MRIM_CS_SMS_ACK:
-		dwTemp = GetUL(&lpbDataCurrent);
-		if ( MraSendQueueFind(hSendQueueHandle, pmaHeader->seq, NULL, &hContact, &dwAckType, (LPBYTE*)&lpsString.lpszData, &lpsString.dwSize) == NO_ERROR) {
-			char szEMail[MAX_EMAIL_LEN];
-			LPSTR lpszPhone;
-			LPWSTR lpwszMessage;
-			size_t dwEMailSize, dwPhoneSize, dwMessageSize;
+		buf >> dwTemp;
+		if ( MraSendQueueFind(hSendQueueHandle, pmaHeader->seq, NULL, &hContact, &dwAckType, &pByte, &dwSize) == NO_ERROR) {
+			CMStringA szEmail;
+			if (mraGetStringA(NULL, "e-mail", szEmail)) {
+				DWORD dwPhoneSize = *(DWORD*)pByte;
+				DWORD dwMessageSize = dwSize-(dwPhoneSize+sizeof(DWORD)+2);
+				LPSTR lpszPhone = (LPSTR)pByte + sizeof(DWORD);
+				LPWSTR lpwszMessage = (LPWSTR)(lpszPhone + dwPhoneSize + 1);
 
-			if (mraGetStaticStringA(NULL, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize)) {
-				dwPhoneSize = (*(DWORD*)lpsString.lpszData);
-				dwMessageSize = lpsString.dwSize-(dwPhoneSize+sizeof(DWORD)+2);
-				lpszPhone = (lpsString.lpszData+sizeof(DWORD));
-				lpwszMessage = (LPWSTR)(lpszPhone+dwPhoneSize+1);
-
-				dwTemp = mir_snprintf((LPSTR)szBuff, SIZEOF(szBuff), "<sms_response><source>Mail.ru</source><deliverable>Yes</deliverable><network>Mail.ru, Russia</network><message_id>%s-1-1955988055-%s</message_id><destination>%s</destination><messages_left>0</messages_left></sms_response>\r\n", szEMail, lpszPhone, lpszPhone);
+				mir_snprintf((LPSTR)szBuff, SIZEOF(szBuff),
+					"<sms_response><source>Mail.ru</source><deliverable>Yes</deliverable><network>Mail.ru, Russia</network><message_id>%s-1-1955988055-%s</message_id><destination>%s</destination><messages_left>0</messages_left></sms_response>\r\n",
+					szEmail.c_str(), lpszPhone, lpszPhone);
 				ProtoBroadcastAck(NULL, dwAckType, ACKRESULT_SENTREQUEST, (HANDLE)pmaHeader->seq, (LPARAM)szBuff);
 			}
 
-			mir_free(lpsString.lpszData);
+			mir_free(pByte);
 			MraSendQueueFree(hSendQueueHandle, pmaHeader->seq);
 		}
 		else MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, TranslateW(L"MRIM_CS_SMS_ACK: not found in queue"));
 		break;
 
-	case MRIM_CS_PROXY:
-		{
-			DWORD dwIDRequest;
-			MRA_LPS lpsAddreses = {0};
-			MRA_GUID mguidSessionID;
-
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsEMail);// LPS to
-			dwIDRequest = GetUL(&lpbDataCurrent);// DWORD id_request
-			dwAckType = GetUL(&lpbDataCurrent);// DWORD data_type
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);// LPS user_data
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsAddreses);// LPS lps_ip_port
-			mguidSessionID = GetGUID(&lpbDataCurrent);// DWORD session_id[4]
-
-			if (dwAckType == MRIM_PROXY_TYPE_FILES) { // файлы, on file recv
-				// set proxy info to file transfer context
-				if ( !MraMrimProxySetData(MraFilesQueueItemProxyByID(hFilesQueueHandle, dwIDRequest), lpsEMail.lpszData, lpsEMail.dwSize, dwIDRequest, dwAckType, lpsString.lpszData, lpsString.dwSize, lpsAddreses.lpszData, lpsAddreses.dwSize, &mguidSessionID))
-					MraFilesQueueStartMrimProxy(hFilesQueueHandle, dwIDRequest);
-				else { // empty/invalid session
-					MraProxyAck(PROXY_STATUS_ERROR, lpsEMail.lpszData, lpsEMail.dwSize, dwIDRequest, dwAckType, lpsString.lpszData, lpsString.dwSize, lpsAddreses.lpszData, lpsAddreses.dwSize, mguidSessionID);
-					DebugBreak();
-				}
-			}
-		}
-		break;
-
-	case MRIM_CS_PROXY_ACK:
-		{
-			DWORD dwIDRequest;
-			HANDLE hMraMrimProxyData;
-			MRA_LPS lpsAddreses = {0};
-			MRA_GUID mguidSessionID;
-
-			dwTemp = GetUL(&lpbDataCurrent);// DWORD status
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsEMail);// LPS to
-			dwIDRequest = GetUL(&lpbDataCurrent);// DWORD id_request
-			dwAckType = GetUL(&lpbDataCurrent);// DWORD data_type
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);// LPS user_data
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsAddreses);// LPS lps_ip_port
-			mguidSessionID = GetGUID(&lpbDataCurrent);// DWORD session_id[4]
-
-			if (dwAckType == MRIM_PROXY_TYPE_FILES) { // on file send
-				if ((hMraMrimProxyData = MraFilesQueueItemProxyByID(hFilesQueueHandle, dwIDRequest))) {
-					switch (dwTemp) {
-					case PROXY_STATUS_DECLINE:
-						MraFilesQueueCancel(hFilesQueueHandle, dwIDRequest, FALSE);
-						break;
-					case PROXY_STATUS_OK:
-						// set proxy info to file transfer context
-						if ( !MraMrimProxySetData(hMraMrimProxyData, lpsEMail.lpszData, lpsEMail.dwSize, dwIDRequest, dwAckType, lpsString.lpszData, lpsString.dwSize, lpsAddreses.lpszData, lpsAddreses.dwSize, &mguidSessionID))
-							MraFilesQueueStartMrimProxy(hFilesQueueHandle, dwIDRequest);
-						break;
-					case PROXY_STATUS_ERROR:
-						ShowFormattedErrorMessage(L"Proxy File transfer: error", NO_ERROR);
-						MraFilesQueueCancel(hFilesQueueHandle, dwIDRequest, FALSE);
-						break;
-					case PROXY_STATUS_INCOMPATIBLE_VERS:
-						ShowFormattedErrorMessage(L"Proxy File transfer: incompatible versions", NO_ERROR);
-						MraFilesQueueCancel(hFilesQueueHandle, dwIDRequest, FALSE);
-						break;
-					case PROXY_STATUS_NOHARDWARE:
-					case PROXY_STATUS_MIRROR:
-					case PROXY_STATUS_CLOSED:
-					default:
-						DebugBreak();
-						break;
-					}
-				}
-				else DebugBreak();
-			}
-		}
-		break;
-
 	case MRIM_CS_PROXY_HELLO:
-		// DWORD[4] Session_id
 		DebugBreak();
 		break;
 
 	case MRIM_CS_PROXY_HELLO_ACK:
 		DebugBreak();
-		break;
-
-	case MRIM_CS_NEW_MAIL:
-		{
-			DWORD dwDate, dwUIDL;
-
-			dwTemp = GetUL(&lpbDataCurrent);// UL unread count
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsEMail);// LPS from
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);// LPS subject
-			dwDate = GetUL(&lpbDataCurrent);// UL date
-			dwUIDL = GetUL(&lpbDataCurrent);// UL uidl
-
-			if (dwTemp > dwEmailMessagesTotal)
-				dwEmailMessagesTotal += (dwTemp-dwEmailMessagesUnread);
-
-			dwAckType = dwEmailMessagesUnread;// save old value
-			dwEmailMessagesUnread = dwTemp;// store new value
-			if (getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY) == 0 || dwAckType<dwTemp || dwTemp == 0)
-				MraUpdateEmailStatus(lpsEMail.lpszData, lpsEMail.dwSize, lpsString.lpszData, lpsString.dwSize, dwDate, dwUIDL);
-		}
-		break;
-
-	case MRIM_CS_USER_BLOG_STATUS:
-		{
-			DWORD dwTime, dwFlags;
-			MRA_LPS lpsText;
-			LPBYTE lpbBuff = NULL;
-			DWORDLONG dwBlogStatusID;
-
-			dwFlags = GetUL(&lpbDataCurrent);// UL flags
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsEMail);// LPS user
-			dwBlogStatusID = GetUIDL(&lpbDataCurrent);// UINT64 id
-			dwTime = GetUL(&lpbDataCurrent);// UL time
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsText);// LPS text (MRIM_BLOG_STATUS_MUSIC: track)
-			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsString);// LPS reply_user_nick
-
-			if ((hContact = MraHContactFromEmail(lpsEMail.lpszData, lpsEMail.dwSize, FALSE, TRUE, NULL))) {
-				if (dwFlags & MRIM_BLOG_STATUS_MUSIC)
-					mraSetLPSStringW(hContact, DBSETTING_BLOGSTATUSMUSIC, &lpsText);
-				else {
-					setDword(hContact, DBSETTING_BLOGSTATUSTIME, dwTime);
-					mraWriteContactSettingBlob(hContact, DBSETTING_BLOGSTATUSID, &dwBlogStatusID, sizeof(DWORDLONG));
-					mraSetLPSStringW(hContact, DBSETTING_BLOGSTATUS, &lpsText);
-				}
-			}
-		}
 		break;
 
 	case MRIM_CS_UNKNOWN:
@@ -1720,380 +1605,290 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 
 	default:
 		#ifdef _DEBUG
-			BYTE btBuff[8192] = {0};
-			memmove(btBuff, lpbData, dwDataSize);
 			DebugBreak();
 		#endif
 		break;
 	}
-	return 0;
+	return true;
 }
 
-DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *plpsFrom, MRA_LPS *plpsText, MRA_LPS *plpsRFTText, MRA_LPS *plpsMultiChatData)
-{// Сообщение
-	BOOL bAdded;
+// Сообщение
+DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &plpsFrom, CMStringA &plpsText, CMStringA &plpsRFTText, CMStringA &plpsMultiChatData)
+{
 	DWORD dwRetErrorCode = NO_ERROR, dwBackColour;
-	LPSTR lpszMessageExt = NULL;
-	LPWSTR lpwszMessage = NULL;
-	size_t dwMessageSize = 0, dwMessageExtSize = 0;
+	CMStringA lpszMessageExt;
+	CMStringW wszMessage;
 
 	PROTORECVEVENT pre = {0};
 	pre.timestamp = dwTime;
 
 	// check flags and datas
-	if (dwFlags & MESSAGE_FLAG_RTF) {
-		if (plpsRFTText) {
-			if (plpsRFTText->lpszData == NULL || plpsRFTText->dwSize == 0)
-				dwFlags &= ~MESSAGE_FLAG_RTF;
-		}
-		else dwFlags &= ~MESSAGE_FLAG_RTF;
-	}
+	if ((dwFlags & MESSAGE_FLAG_RTF) && plpsRFTText.IsEmpty())
+		dwFlags &= ~MESSAGE_FLAG_RTF;
 
-	if (dwFlags & MESSAGE_FLAG_MULTICHAT) {
-		if (plpsMultiChatData) {
-			if (plpsMultiChatData->lpszData == NULL || plpsMultiChatData->dwSize == 0)
-				dwFlags &= ~MESSAGE_FLAG_MULTICHAT;
-		}
-		else dwFlags &= ~MESSAGE_FLAG_MULTICHAT;
-	}
+	if ((dwFlags & MESSAGE_FLAG_MULTICHAT) && plpsMultiChatData.IsEmpty())
+		dwFlags &= ~MESSAGE_FLAG_MULTICHAT;
 
 	// pre processing - extracting/decoding
 	if (dwFlags & MESSAGE_FLAG_AUTHORIZE) { // extract auth message из обычного текста
-		size_t dwAuthPartsCount, dwAuthBuffSize = (plpsText->dwSize+32);
-		LPBYTE lpbDataCurrent;
-		MRA_LPS lpsAuthFrom, lpsAuthMessage;
-
-		LPS2ANSI(szText, plpsText->lpszData, plpsText->dwSize);
 		unsigned dwAuthDataSize;
-		LPBYTE lpbAuthData = (LPBYTE)mir_base64_decode(szText, &dwAuthDataSize);
+		LPBYTE lpbAuthData = (LPBYTE)mir_base64_decode(plpsText, &dwAuthDataSize);
 		if (lpbAuthData) {
-			lpbDataCurrent = lpbAuthData;
-			dwAuthPartsCount = GetUL(&lpbDataCurrent);
-			if ( !GetLPS(lpbAuthData, dwAuthDataSize, &lpbDataCurrent, &lpsAuthFrom))
-			if ( !GetLPS(lpbAuthData, dwAuthDataSize, &lpbDataCurrent, &lpsAuthMessage)) {
-				if (dwFlags&MESSAGE_FLAG_v1p16 && (dwFlags&MESSAGE_FLAG_CP1251) == 0) { // unicode text
-					memmove(lpbAuthData, lpsAuthMessage.lpszData, lpsAuthMessage.dwSize);
-					lpwszMessage = (LPWSTR)lpbAuthData;
-					dwMessageSize = (lpsAuthMessage.dwSize/sizeof(WCHAR));
-				}
-				else { // преобразуем в юникод текст только если он в АНСИ и если это не Флэш мультик и будильник тоже не нуждается в этом
-					lpwszMessage = (LPWSTR)mir_calloc(((lpsAuthMessage.dwSize+MAX_PATH)*sizeof(WCHAR)));
-					if (lpwszMessage) {
-						dwMessageSize = MultiByteToWideChar(MRA_CODE_PAGE, 0, lpsAuthMessage.lpszData, lpsAuthMessage.dwSize, lpwszMessage, (lpsAuthMessage.dwSize+MAX_PATH));
-						(*(lpwszMessage+dwMessageSize)) = 0;
-					}
-					else dwRetErrorCode = GetLastError();
-				}
+			BinBuffer buf(lpbAuthData, dwAuthDataSize);
+
+			DWORD dwAuthPartsCount;
+			CMStringA lpsAuthFrom;
+			buf >> dwAuthPartsCount >> lpsAuthFrom;
+			if (dwFlags & MESSAGE_FLAG_v1p16 && (dwFlags & MESSAGE_FLAG_CP1251) == 0) { // unicode text
+				CMStringW lpsAuthMessageW;
+				buf >> lpsAuthMessageW;
+				wszMessage = lpsAuthMessageW;
 			}
-			if (lpwszMessage != (LPWSTR)lpbAuthData)
-				mir_free(lpbAuthData);
+			else { // преобразуем в юникод текст только если он в АНСИ и если это не Флэш мультик и будильник тоже не нуждается в этом
+				CMStringA lpsAuthMessage;
+				buf >> lpsAuthMessage;
+				wszMessage = ptrW( mir_a2u_cp(lpsAuthMessage, MRA_CODE_PAGE));
+			}
+			mir_free(lpbAuthData);
 		}
 	}
 	else {
 		// unicode text
 		if ((dwFlags & (MESSAGE_FLAG_ALARM|MESSAGE_FLAG_FLASH|MESSAGE_FLAG_v1p16)) && (dwFlags & MESSAGE_FLAG_CP1251) == 0) {
-			lpwszMessage = plpsText->lpwszData;
-			dwMessageSize = (plpsText->dwSize/sizeof(WCHAR));
+			plpsText.AppendChar(0);  // compensate difference between ASCIIZ & WCHARZ
+			wszMessage = (WCHAR*)plpsText.GetString();
 		}
-		else {
-			lpwszMessage = (LPWSTR)mir_calloc(((plpsText->dwSize+MAX_PATH)*sizeof(WCHAR)));
-			if (lpwszMessage) {
-				dwMessageSize = MultiByteToWideChar(MRA_CODE_PAGE, 0, plpsText->lpszData, plpsText->dwSize, lpwszMessage, (plpsText->dwSize+MAX_PATH));
-				(*(lpwszMessage+dwMessageSize)) = 0;
-			}
-			else dwRetErrorCode = GetLastError();
-		}
+		else wszMessage = plpsText;
 
 		if (dwFlags & (MESSAGE_FLAG_CONTACT|MESSAGE_FLAG_NOTIFY|MESSAGE_FLAG_SMS|MESSAGE_SMS_DELIVERY_REPORT|MESSAGE_FLAG_ALARM))
 			; // do nothing; there's no extra part in a message
 		else {
-			if ((dwFlags & MESSAGE_FLAG_RTF) && plpsRFTText) //MESSAGE_FLAG_FLASH there
-			if (plpsRFTText->lpszData && plpsRFTText->dwSize) { // decode RTF
-				size_t dwRTFPartsCount, dwRFTBuffSize = ((plpsRFTText->dwSize*16)+8192), dwRTFDataSize;
-				LPBYTE lpbDataCurrent;
-				MRA_LPS lpsRTFString, lpsBackColour, lpsString;
+			if ((dwFlags & MESSAGE_FLAG_RTF) && !plpsRFTText.IsEmpty()) { //MESSAGE_FLAG_FLASH there
+				size_t dwRFTBuffSize = ((plpsRFTText.GetLength()*16)+8192);
 
 				mir_ptr<BYTE> lpbRTFData((LPBYTE)mir_calloc(dwRFTBuffSize));
 				if (lpbRTFData) {
-					LPS2ANSI(szRtf, plpsRFTText->lpszData, plpsRFTText->dwSize);
 					unsigned dwCompressedSize;
-					mir_ptr<BYTE> lpbCompressed((LPBYTE)mir_base64_decode(szRtf, &dwCompressedSize));
-					dwRTFDataSize = dwRFTBuffSize;
-					if ( uncompress(lpbRTFData, (DWORD*)&dwRTFDataSize, lpbCompressed, dwCompressedSize) == Z_OK) {
-						lpbDataCurrent = lpbRTFData;
-						dwRTFPartsCount = GetUL(&lpbDataCurrent);// колличество частей в некоторых случаях больше 2, тогда нужно игнорировать первый текст, тк там сообщения об ущербности
-						if (GetLPS(lpbRTFData, dwRTFDataSize, &lpbDataCurrent, &lpsRTFString) == NO_ERROR)
-						if (GetLPS(lpbRTFData, dwRTFDataSize, &lpbDataCurrent, &lpsBackColour) == NO_ERROR) {
-							dwBackColour = (*(DWORD*)lpsBackColour.lpszData);
-							if (dwFlags & MESSAGE_FLAG_FLASH) {
-								if (dwRTFPartsCount == 3) { // ansi text only
-									GetLPS(lpbRTFData, dwRTFDataSize, &lpbDataCurrent, &lpsString);
-									lpwszMessage = (LPWSTR)mir_calloc(((lpsString.dwSize+MAX_PATH)*sizeof(WCHAR)));
-									if (lpwszMessage) {
-										memmove(lpwszMessage, lpsString.lpszData, lpsString.dwSize);
-										dwMessageSize = MultiByteToWideChar(MRA_CODE_PAGE, 0, lpsString.lpszData, lpsString.dwSize, lpwszMessage, (lpsString.dwSize+MAX_PATH));
-										(*(lpwszMessage+dwMessageSize)) = 0;
-									}
-									else dwRetErrorCode = GetLastError();
-								}
-								else if (dwRTFPartsCount == 4) {
-									GetLPS(lpbRTFData, dwRTFDataSize, &lpbDataCurrent, &lpsString);
-									GetLPS(lpbRTFData, dwRTFDataSize, &lpbDataCurrent, &lpsString);
-									lpwszMessage = (LPWSTR)mir_calloc(lpsString.dwSize);
-									if (lpwszMessage) {
-										memmove(lpwszMessage, lpsString.lpszData, lpsString.dwSize);
-										dwMessageSize = lpsString.dwSize;
-									}
-									else dwRetErrorCode = GetLastError();
-								}
-								else DebugBreak();
-							}
-							else { // RTF text
-								if (dwRTFPartsCount > 2) {
-									GetLPS(lpbRTFData, dwRTFDataSize, &lpbDataCurrent, &lpsString);
-									DebugBreak();
-								}
+					mir_ptr<BYTE> lpbCompressed((LPBYTE)mir_base64_decode(plpsRFTText, &dwCompressedSize));
+					DWORD dwRTFDataSize = dwRFTBuffSize;
+					if ( uncompress(lpbRTFData, &dwRTFDataSize, lpbCompressed, dwCompressedSize) == Z_OK) {
+						BinBuffer buf(lpbRTFData, dwRTFDataSize);
 
-								lpszMessageExt = (LPSTR)mir_calloc(lpsRTFString.dwSize);
-								if (lpszMessageExt) {
-									memmove(lpszMessageExt, lpsRTFString.lpszData, lpsRTFString.dwSize);
-									dwMessageExtSize = lpsRTFString.dwSize;
-								}
-								else DebugBreak();
+						CMStringA lpsRTFString, lpsBackColour, szString;
+						DWORD dwRTFPartsCount;
+
+						// количество частей в некоторых случаях больше 2, тогда нужно игнорировать первый текст, тк там сообщения об ущербности
+						buf >> dwRTFPartsCount >> lpsRTFString >> dwBackColour;
+						if (dwFlags & MESSAGE_FLAG_FLASH) {
+							if (dwRTFPartsCount == 4) {
+								buf >> szString;
+								dwRTFPartsCount--;
 							}
+							if (dwRTFPartsCount == 3) { // ansi text only
+								buf >> szString;
+								wszMessage = ptrW(mir_a2u_cp(szString, MRA_CODE_PAGE));
+							}
+							else DebugBreak();
 						}
-					}else {
-						mir_free(lpszMessageExt);
-						dwMessageExtSize = 0;
-						DebugBreak();
+						else { // RTF text
+							if (dwRTFPartsCount > 2) {
+								buf >> szString;
+								DebugBreak();
+							}
+
+							lpszMessageExt = lpsRTFString;
+						}
 					}
+					else DebugBreak();
 				}
 			}
 		}
 	}
 
-	Netlib_Logf(hNetlibUser, "Processing message: %08X, from '%s', text '%S'\n", dwFlags, plpsFrom->lpszData, lpwszMessage);
+	Netlib_Logf(m_hNetlibUser, "Processing message: %08X, from '%s', text '%S'\n", dwFlags, plpsFrom.c_str(), wszMessage.c_str());
 
 	// processing
 	if (dwRetErrorCode == NO_ERROR)
-	if (MraAntiSpamReceivedMessageW(plpsFrom->lpszData, plpsFrom->dwSize, dwFlags, lpwszMessage, dwMessageSize) == MESSAGE_NOT_SPAM) {
-		if (dwFlags & (MESSAGE_FLAG_SMS | MESSAGE_SMS_DELIVERY_REPORT)) {// SMS //if (IsPhone(plpsFrom->lpszData, plpsFrom->dwSize))
-			char szPhone[MAX_EMAIL_LEN], szEMail[MAX_EMAIL_LEN], szTime[MAX_PATH];
-			LPSTR lpszMessageUTF, lpszBuff;
-			LPWSTR lpwszMessageXMLEncoded;
-			size_t dwBuffLen, dwMessageXMLEncodedSize;
-			INTERNET_TIME itTime;
+	if (MraAntiSpamReceivedMessageW(plpsFrom, dwFlags, wszMessage) != MESSAGE_NOT_SPAM)
+		return ERROR_ACCESS_DENIED;
 
-			dwBuffLen = ((dwMessageSize+MAX_PATH)*6);
-			lpszMessageUTF = (LPSTR)mir_calloc(dwBuffLen);
-			lpwszMessageXMLEncoded = (LPWSTR)mir_calloc((dwBuffLen*sizeof(WCHAR)));
-			if (lpszMessageUTF && lpwszMessageXMLEncoded) {
-				InternetTimeGetCurrentTime(&itTime);
-				InternetTimeGetString(&itTime, szTime, SIZEOF(szTime), NULL);
-				CopyNumber(szPhone, plpsFrom->lpszData, plpsFrom->dwSize);
-				mraGetStaticStringA(NULL, "e-mail", szEMail, SIZEOF(szEMail), NULL);
+	if (dwFlags & (MESSAGE_FLAG_SMS | MESSAGE_SMS_DELIVERY_REPORT)) {// SMS //if (IsPhone(plpsFrom->lpszData, plpsFrom->dwSize))
+		INTERNET_TIME itTime;
+		InternetTimeGetCurrentTime(&itTime);
+		CMStringA szTime = InternetTimeGetString(&itTime);
+		CMStringA szPhone = CopyNumber(plpsFrom), szEmail;
+		mraGetStringA(NULL, "e-mail", szEmail);
 
-				EncodeXML(lpwszMessage, dwMessageSize, lpwszMessageXMLEncoded, dwBuffLen, &dwMessageXMLEncodedSize);
-				WideCharToMultiByte(CP_UTF8, 0, lpwszMessageXMLEncoded, dwMessageXMLEncodedSize, lpszMessageUTF, dwBuffLen, NULL, NULL);
-				lpszBuff = (LPSTR)lpwszMessageXMLEncoded;
+		CMStringW wszMessageXMLEncoded = EncodeXML(wszMessage);
+		ptrA lpszMessageUTF( mir_utf8encodeW(wszMessageXMLEncoded));
 
-				if (dwFlags & MESSAGE_SMS_DELIVERY_REPORT) {
-					dwBuffLen = mir_snprintf(lpszBuff, (dwBuffLen*sizeof(WCHAR)), "<sms_delivery_receipt><message_id>%s-1-1955988055-%s</message_id><destination>%s</destination><delivered>No</delivered><submition_time>%s</submition_time><error_code>0</error_code><error><id>15</id><params><param>%s</param></params></error></sms_delivery_receipt>", szEMail, szPhone, szPhone, szTime, lpszMessageUTF);
-					ProtoBroadcastAck(NULL, ICQACKTYPE_SMS, ACKRESULT_FAILED, (HANDLE)0, (LPARAM)lpszBuff);
-				}
-				else { // new sms
-					dwBuffLen = mir_snprintf(lpszBuff, (dwBuffLen*sizeof(WCHAR)), "<sms_message><source>Mail.ru</source><destination_UIN>%s</destination_UIN><sender>%s</sender><senders_network>Mail.ru</senders_network><text>%s</text><time>%s</time></sms_message>", szEMail, szPhone, lpszMessageUTF, szTime);
-					ProtoBroadcastAck(NULL, ICQACKTYPE_SMS, ACKRESULT_SUCCESS, (HANDLE)0, (LPARAM)lpszBuff);
+		CMStringA szText;
+		if (dwFlags & MESSAGE_SMS_DELIVERY_REPORT) {
+			szText.Format("<sms_delivery_receipt><message_id>%s-1-1955988055-%s</message_id><destination>%s</destination><delivered>No</delivered><submition_time>%s</submition_time><error_code>0</error_code><error><id>15</id><params><param>%s</param></params></error></sms_delivery_receipt>",
+				szEmail, szPhone, szPhone, szTime, lpszMessageUTF);
+			ProtoBroadcastAck(NULL, ICQACKTYPE_SMS, ACKRESULT_FAILED, 0, (LPARAM)szText.GetString());
+		}
+		else { // new sms
+			szText.Format("<sms_message><source>Mail.ru</source><destination_UIN>%s</destination_UIN><sender>%s</sender><senders_network>Mail.ru</senders_network><text>%s</text><time>%s</time></sms_message>",
+				szEmail, szPhone, lpszMessageUTF, szTime);
+			ProtoBroadcastAck(NULL, ICQACKTYPE_SMS, ACKRESULT_SUCCESS, 0, (LPARAM)szText.GetString());
+		}
+	}
+	else {
+		BOOL bAdded;
+		HANDLE hContact = MraHContactFromEmail(plpsFrom, TRUE, TRUE, &bAdded);
+		if (bAdded)
+			MraUpdateContactInfo(hContact);
+
+		// user typing
+		if (dwFlags & MESSAGE_FLAG_NOTIFY)
+			CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, MAILRU_CONTACTISTYPING_TIMEOUT);
+		else { // text/contact/auth // typing OFF
+			CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, PROTOTYPE_CONTACTTYPING_OFF);
+
+			if (dwFlags & MESSAGE_FLAG_MULTICHAT) {
+				DWORD dwMultiChatEventType;
+				CMStringA lpsEMailInMultiChat, szString;
+				CMStringW lpsMultichatName;
+
+				BinBuffer buf((PBYTE)plpsMultiChatData.GetString(), plpsMultiChatData.GetLength());
+				buf >> dwMultiChatEventType >> lpsMultichatName >> lpsEMailInMultiChat;
+
+				switch (dwMultiChatEventType) {
+				case MULTICHAT_MESSAGE:
+					MraChatSessionMessageAdd(hContact, lpsEMailInMultiChat, wszMessage, dwTime);// LPS sender
+					break;
+				case MULTICHAT_ADD_MEMBERS:
+					MraChatSessionMembersAdd(hContact, lpsEMailInMultiChat, dwTime);// LPS sender
+					buf >> szString;// CLPS members
+					MraChatSessionSetIviter(hContact, lpsEMailInMultiChat);
+				case MULTICHAT_MEMBERS:
+					{
+						DWORD dwMultiChatMembersCount;
+						BinBuffer buf((PBYTE)lpsEMailInMultiChat.GetString(), lpsEMailInMultiChat.GetLength());
+						buf >> dwMultiChatMembersCount;// count
+						for (unsigned i = 0; i < dwMultiChatMembersCount && buf.m_len > 0; i++) {
+							buf >> szString;
+							MraChatSessionJoinUser(hContact, szString, ((dwMultiChatEventType == MULTICHAT_MEMBERS) ? 0 : dwTime));
+						}
+
+						if (dwMultiChatEventType == MULTICHAT_MEMBERS) {
+							buf >> szString; // [ LPS owner ]
+							MraChatSessionSetOwner(hContact, szString);
+						}
+					}
+					break;
+				case MULTICHAT_ATTACHED:
+					MraChatSessionJoinUser(hContact, lpsEMailInMultiChat, dwTime);// LPS member
+					break;
+				case MULTICHAT_DETACHED:
+					MraChatSessionLeftUser(hContact, lpsEMailInMultiChat, dwTime);// LPS member
+					break;
+				case MULTICHAT_INVITE:
+					MraChatSessionInvite(hContact, lpsEMailInMultiChat, dwTime);// LPS sender
+					MraAddContactW(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_MULTICHAT|CONTACT_FLAG_UNICODE_NAME), -1, plpsFrom, lpsMultichatName, "", L"", 0);
+					break;
+				default:
+					DebugBreak();
+					break;
 				}
 			}
-			else dwRetErrorCode = GetLastError();
+			else if (dwFlags & MESSAGE_FLAG_AUTHORIZE) { // auth request
+				BOOL bAutoGrantAuth = FALSE;
 
-			mir_free(lpwszMessageXMLEncoded);
-			mir_free(lpszMessageUTF);
-		}
-		else {
-			HANDLE hContact = MraHContactFromEmail(plpsFrom->lpszData, plpsFrom->dwSize, TRUE, TRUE, &bAdded);
-			if (bAdded)
-				MraUpdateContactInfo(hContact);
-
-			// user typing
-			if (dwFlags & MESSAGE_FLAG_NOTIFY)
-				CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, MAILRU_CONTACTISTYPING_TIMEOUT);
-			else { // text/contact/auth // typing OFF
-				CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, PROTOTYPE_CONTACTTYPING_OFF);
-
-				if (dwFlags & MESSAGE_FLAG_MULTICHAT) {
-					LPBYTE lpbMultiChatData, lpbDataCurrent;
-					size_t dwMultiChatDataSize;
-					DWORD dwMultiChatEventType;
-					MRA_LPS lpsEMailInMultiChat, lpsString, lpsMultichatName;
-
-					lpbMultiChatData = (LPBYTE)plpsMultiChatData->lpszData;
-					dwMultiChatDataSize = plpsMultiChatData->dwSize;
-					lpbDataCurrent = lpbMultiChatData;
-
-					dwMultiChatEventType = GetUL(&lpbDataCurrent);// type
-					GetLPS(lpbMultiChatData, dwMultiChatDataSize, &lpbDataCurrent, &lpsMultichatName);// multichat_name
-					GetLPS(lpbMultiChatData, dwMultiChatDataSize, &lpbDataCurrent, &lpsEMailInMultiChat);
-
-					switch (dwMultiChatEventType) {
-					case MULTICHAT_MESSAGE:
-						MraChatSessionMessageAdd(hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize, lpwszMessage, dwMessageSize, dwTime);// LPS sender
-						break;
-					case MULTICHAT_ADD_MEMBERS:
-						MraChatSessionMembersAdd(hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize, dwTime);// LPS sender
-						GetLPS(lpbMultiChatData, dwMultiChatDataSize, &lpbDataCurrent, &lpsString);// CLPS members
-						MraChatSessionSetIviter(hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize);
-					case MULTICHAT_MEMBERS:
-						{
-							LPBYTE lpbMultiChatDataLocal, lpbDataCurrentLocal;
-							size_t i, dwMultiChatMembersCount, dwMultiChatDataLocalSize;
-
-							if (dwMultiChatEventType == MULTICHAT_MEMBERS) lpsString = lpsEMailInMultiChat;
-
-							lpbMultiChatDataLocal = (LPBYTE)lpsString.lpszData;
-							dwMultiChatDataLocalSize = lpsString.dwSize;
-							lpbDataCurrentLocal = lpbMultiChatDataLocal;
-
-							dwMultiChatMembersCount = GetUL(&lpbDataCurrentLocal);// count
-							for (i = 0; i < dwMultiChatMembersCount; i++)
-								if (GetLPS(lpbMultiChatDataLocal, dwMultiChatDataLocalSize, &lpbDataCurrentLocal, &lpsString) == NO_ERROR)
-									MraChatSessionJoinUser(hContact, lpsString.lpszData, lpsString.dwSize, ((dwMultiChatEventType == MULTICHAT_MEMBERS)? 0:dwTime));
-
-							if (dwMultiChatEventType == MULTICHAT_MEMBERS) {
-								GetLPS(lpbMultiChatData, dwMultiChatDataSize, &lpbDataCurrent, &lpsEMailInMultiChat);// [ LPS owner ]
-								MraChatSessionSetOwner(hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize);
-							}
-						}
-						break;
-					case MULTICHAT_ATTACHED:
-						MraChatSessionJoinUser(hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize, dwTime);// LPS member
-						break;
-					case MULTICHAT_DETACHED:
-						MraChatSessionLeftUser(hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize, dwTime);// LPS member
-						break;
-					case MULTICHAT_INVITE:
-						MraChatSessionInvite(hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize, dwTime);// LPS sender
-						MraAddContactW(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_MULTICHAT|CONTACT_FLAG_UNICODE_NAME), -1, plpsFrom->lpszData, plpsFrom->dwSize, lpsMultichatName.lpwszData, (lpsMultichatName.dwSize/sizeof(WCHAR)), NULL, 0, NULL, 0, 0);
-						break;
-					default:
-						DebugBreak();
-						break;
-					}
-				}
-				else if (dwFlags & MESSAGE_FLAG_AUTHORIZE) { // auth request
-					BYTE btBuff[BUFF_SIZE_BLOB];
-					BOOL bAutoGrantAuth = FALSE;
-
-					if ( IsEMailChatAgent(plpsFrom->lpszData, plpsFrom->dwSize))
-						bAutoGrantAuth = FALSE;
-					else {
-						// temporary contact
-						if (db_get_b(hContact, "CList", "NotOnList", 0)) {
-							if (getByte("AutoAuthGrandNewUsers", MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS))
-								bAutoGrantAuth = TRUE;
-						}
-						else if (getByte("AutoAuthGrandUsersInCList", MRA_DEFAULT_AUTO_AUTH_GRAND_IN_CLIST))
+				if ( IsEMailChatAgent(plpsFrom))
+					bAutoGrantAuth = FALSE;
+				else {
+					// temporary contact
+					if (db_get_b(hContact, "CList", "NotOnList", 0)) {
+						if (getByte("AutoAuthGrandNewUsers", MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS))
 							bAutoGrantAuth = TRUE;
 					}
+					else if (getByte("AutoAuthGrandUsersInCList", MRA_DEFAULT_AUTO_AUTH_GRAND_IN_CLIST))
+						bAutoGrantAuth = TRUE;
+				}
 
-					if (bAdded)
-						db_set_b(hContact, "CList", "Hidden", 1);
+				if (bAdded)
+					db_set_b(hContact, "CList", "Hidden", 1);
 
-					if (bAutoGrantAuth) { // auto grant auth
-						DBEVENTINFO dbei = { sizeof(dbei) };
-						dbei.szModule = m_szModuleName;
-						dbei.timestamp = _time32(NULL);
-						dbei.flags = DBEF_READ;
-						dbei.eventType = EVENTTYPE_AUTHREQUEST;
-						dbei.pBlob = (PBYTE)btBuff;
-						CreateBlobFromContact(hContact, lpwszMessage, dwMessageSize, btBuff, SIZEOF(btBuff), (size_t*)&dbei.cbBlob);
-						db_event_add(0, &dbei);
-						MraAuthorize(plpsFrom->lpszData, plpsFrom->dwSize);
-					}
-					else {
-						pre.szMessage = (LPSTR)btBuff;
-						CreateBlobFromContact(hContact, lpwszMessage, dwMessageSize, btBuff, SIZEOF(btBuff), (size_t*)&pre.lParam);
-						ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
-					}
+				CMStringA szBlob = CreateBlobFromContact(hContact, wszMessage);
+				if (bAutoGrantAuth) { // auto grant auth
+					DBEVENTINFO dbei = { sizeof(dbei) };
+					dbei.szModule = m_szModuleName;
+					dbei.timestamp = _time32(NULL);
+					dbei.flags = DBEF_READ;
+					dbei.eventType = EVENTTYPE_AUTHREQUEST;
+					dbei.pBlob = (PBYTE)szBlob.c_str();
+					dbei.cbBlob = szBlob.GetLength();
+					db_event_add(0, &dbei);
+					MraAuthorize(plpsFrom);
 				}
 				else {
-					db_unset(hContact, "CList", "Hidden");
+					pre.szMessage = (LPSTR)szBlob.GetString();
+					pre.lParam = szBlob.GetLength();
+					ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
+				}
+			}
+			else {
+				db_unset(hContact, "CList", "Hidden");
 
-					if (dwFlags & MESSAGE_FLAG_CONTACT) { // contacts received
-						LPBYTE lpbBuffer, lpbBufferCurPos;
+				if (dwFlags & MESSAGE_FLAG_CONTACT) { // contacts received
+					ptrA lpbBuffer( mir_u2a_cp(wszMessage, MRA_CODE_PAGE));
+					pre.flags = 0;
+					pre.szMessage = (LPSTR)lpbBuffer;
+					pre.lParam = strlen(lpbBuffer);
 
-						lpbBuffer = (LPBYTE)mir_calloc((dwMessageSize+MAX_PATH));
-						if (lpbBuffer) {
-							pre.flags = 0;
-							pre.szMessage = (LPSTR)lpbBuffer;
-							pre.lParam = WideCharToMultiByte(MRA_CODE_PAGE, 0, lpwszMessage, dwMessageSize, (LPSTR)lpbBuffer, (dwMessageSize+MAX_PATH), NULL, NULL);
+					LPSTR lpbBufferCurPos = lpbBuffer;
+					while (TRUE) { // цикл замены ; на 0
+						LPSTR lpbBufferCurPos = (LPSTR)MemoryFindByte((lpbBufferCurPos-(LPSTR)lpbBuffer), lpbBuffer, pre.lParam, ';');
+						if (!lpbBufferCurPos)
+							break;
 
-							lpbBufferCurPos = lpbBuffer;
-							while (TRUE) { // цикл замены ; на 0
-								lpbBufferCurPos = (LPBYTE)MemoryFindByte((lpbBufferCurPos-lpbBuffer), lpbBuffer, pre.lParam, ';');
-								if (!lpbBufferCurPos)
-									break;
-
-								// found
-								(*lpbBufferCurPos) = 0;
-								lpbBufferCurPos++;
-							}
-							ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
-							mir_free(lpbBuffer);
-						}
-						else dwRetErrorCode = GetLastError();
+						// found
+						(*lpbBufferCurPos) = 0;
+						lpbBufferCurPos++;
 					}
-					else if (dwFlags & MESSAGE_FLAG_ALARM) { // alarm
-						if (heNudgeReceived)
-							NotifyEventHooks(heNudgeReceived, (WPARAM)hContact, NULL);
-						else {
-							pre.flags = 0;
-							pre.szMessage = (LPSTR)TranslateTS(MRA_ALARM_MESSAGE);
-							ProtoChainRecvMsg(hContact, &pre);
-						}
+					ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
+				}
+				else if (dwFlags & MESSAGE_FLAG_ALARM) { // alarm
+					if (m_heNudgeReceived)
+						NotifyEventHooks(m_heNudgeReceived, (WPARAM)hContact, NULL);
+					else {
+						pre.flags = 0;
+						pre.szMessage = (LPSTR)TranslateTS(MRA_ALARM_MESSAGE);
+						ProtoChainRecvMsg(hContact, &pre);
 					}
-					else { // standart message// flash animation
-						// пишем в ANSI, всё равно RTF
-						if ((dwFlags & MESSAGE_FLAG_RTF) && (dwFlags & MESSAGE_FLAG_FLASH) == 0 && lpszMessageExt && dwMessageExtSize && getByte("RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE)) {
-							pre.flags = 0;
-							pre.szMessage = lpszMessageExt;
-							ProtoChainRecvMsg(hContact, &pre);
-						}
-						else {
-							// some plugins can change pre.szMessage pointer and we failed to free it
-							LPSTR lpszMessageUTF = (LPSTR)mir_calloc(((dwMessageSize+MAX_PATH)*sizeof(WCHAR)));
-							if (lpszMessageUTF) {
-								pre.szMessage = lpszMessageUTF;
-								pre.flags = PREF_UTF;
-								WideCharToMultiByte(CP_UTF8, 0, lpwszMessage, dwMessageSize, lpszMessageUTF, ((dwMessageSize+MAX_PATH)*sizeof(WCHAR)), NULL, NULL);
-								ProtoChainRecvMsg(hContact, &pre);
-								mir_free(lpszMessageUTF);
-							}
-							else dwRetErrorCode = GetLastError();
-						}
+				}
+				else { // standart message// flash animation
+					// пишем в ANSI, всё равно RTF
+					if ((dwFlags & MESSAGE_FLAG_RTF) && (dwFlags & MESSAGE_FLAG_FLASH) == 0 && !lpszMessageExt.IsEmpty() && getByte("RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE)) {
+						pre.flags = 0;
+						pre.szMessage = (LPSTR)lpszMessageExt.GetString();
+						ProtoChainRecvMsg(hContact, &pre);
+					}
+					else {
+						// some plugins can change pre.szMessage pointer and we failed to free it
+						ptrA lpszMessageUTF( mir_utf8encodeW(wszMessage));
+						pre.szMessage = lpszMessageUTF;
+						pre.flags = PREF_UTF;
+						ProtoChainRecvMsg(hContact, &pre);
+					}
 
-						if (dwFlags & MESSAGE_FLAG_SYSTEM)
-							MraPopupShowW(hContact, MRA_POPUP_TYPE_INFORMATION, 0, TranslateW(L"Mail.ru System notify"), (LPWSTR)pre.szMessage);
-					}
+					if (dwFlags & MESSAGE_FLAG_SYSTEM)
+						MraPopupShowW(hContact, MRA_POPUP_TYPE_INFORMATION, 0, TranslateW(L"Mail.ru System notify"), (LPWSTR)pre.szMessage);
 				}
 			}
 		}
 	}
-	else dwRetErrorCode = ERROR_ACCESS_DENIED;
 
-	if (lpwszMessage != plpsText->lpwszData && lpwszMessage != (LPWSTR)lpszMessageExt)
-		mir_free(lpwszMessage);
-	mir_free(lpszMessageExt);
-
-	return dwRetErrorCode;
+	return NO_ERROR;
 }
 
-DWORD GetMraXStatusIDFromMraUriStatus(LPSTR lpszStatusUri, size_t dwStatusUriSize)
+DWORD GetMraXStatusIDFromMraUriStatus(const char *szStatusUri)
 {
-	if (lpszStatusUri)
+	if (szStatusUri)
 		for (size_t i = 0; lpcszStatusUri[i]; i++)
-			if ( !_strnicmp(lpcszStatusUri[i], lpszStatusUri, dwStatusUriSize))
+			if ( !_stricmp(lpcszStatusUri[i], szStatusUri))
 				return i;
 
 	return MRA_XSTATUS_UNKNOWN;
@@ -2141,7 +1936,6 @@ DWORD GetMraStatusFromMiradaStatus(DWORD dwMirandaStatus, DWORD dwXStatusMir, DW
 	return STATUS_OFFLINE;
 }
 
-
 DWORD GetMiradaStatusFromMraStatus(DWORD dwMraStatus, DWORD dwXStatusMra, DWORD *pdwXStatusMir)
 {
 	if (pdwXStatusMir) *pdwXStatusMir = 0;
@@ -2169,43 +1963,64 @@ DWORD GetMiradaStatusFromMraStatus(DWORD dwMraStatus, DWORD dwXStatusMra, DWORD 
 	return ID_STATUS_OFFLINE;
 }
 
-DWORD GetUL(LPBYTE *plpData)
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+BinBuffer& operator >>(BinBuffer& buf, DWORD &ret)
 {
-	DWORD dwRet = *(DWORD*)(*plpData);
-	plpData[0] += sizeof(DWORD);
-	return dwRet;
+	if (buf.m_len >= sizeof(DWORD)) {
+		ret = *(DWORD*)buf.m_data;
+		buf.m_data += sizeof(DWORD);
+		buf.m_len -= sizeof(DWORD);
+	}
+	return buf;
 }
 
-DWORDLONG GetUIDL(LPBYTE *plpData)
+BinBuffer& operator >>(BinBuffer& buf, DWORDLONG &ret)
 {
-	DWORDLONG dwRet = *(DWORDLONG*)(*plpData);
-	plpData[0] += sizeof(DWORDLONG);
-	return dwRet;
+	if (buf.m_len >= sizeof(DWORDLONG)) {
+		ret = *(DWORDLONG*)buf.m_data;
+		buf.m_data += sizeof(DWORDLONG);
+		buf.m_len -= sizeof(DWORDLONG);
+	}
+	return buf;
 }
 
-MRA_GUID GetGUID(LPBYTE *plpData)
+BinBuffer& operator >>(BinBuffer& buf, MRA_GUID &ret)
 {
-	MRA_GUID guidRet = *(MRA_GUID*)(*plpData);
-	plpData[0] += sizeof(MRA_GUID);
-	return guidRet;
+	if (buf.m_len >= sizeof(MRA_GUID)) {
+		ret = *(MRA_GUID*)buf.m_data;
+		buf.m_data += sizeof(MRA_GUID);
+		buf.m_len -= sizeof(MRA_GUID);
+	}
+	return buf;
 }
 
-DWORD GetLPS(LPBYTE lpbData, DWORD dwDataSize, LPBYTE *plpCurrentData, MRA_LPS *plpsString)
+BinBuffer& operator >>(BinBuffer& buf, CMStringA &ret)
 {
-	LPBYTE lpbDataEnd = (lpbData+dwDataSize);
-
-	// хотябы длинна данных есть
-	if (lpbDataEnd >= ((*plpCurrentData)+sizeof(DWORD))) {
-		// все длинна данных в буфере равна или меньше размера буфера
-		if (lpbDataEnd >= ((*plpCurrentData)+sizeof(DWORD)+(*(DWORD*)(*plpCurrentData)))) {
-			plpsString->dwSize = (*(DWORD*)(*plpCurrentData));
-			plpsString->lpszData = (LPSTR)((*plpCurrentData)+sizeof(DWORD));
-			(*plpCurrentData) += (sizeof(DWORD)+plpsString->dwSize);
-			return NO_ERROR;
+	if (buf.m_len >= sizeof(DWORD)) {
+		DWORD dwLen = *(DWORD*)buf.m_data;
+		buf.m_data += sizeof(DWORD);
+		buf.m_len -= sizeof(DWORD);
+		if (buf.m_len >= dwLen) {
+			ret = CMStringA((LPSTR)buf.m_data, dwLen);
+			buf.m_data += dwLen;
+			buf.m_len -= dwLen;
 		}
 	}
+	return buf;
+}
 
-	plpsString->dwSize = 0;
-	plpsString->lpszData = NULL;
-	return ERROR_INVALID_USER_BUFFER;
+BinBuffer& operator >>(BinBuffer& buf, CMStringW &ret)
+{
+	if (buf.m_len >= sizeof(DWORD)) {
+		DWORD dwLen = *(DWORD*)buf.m_data;
+		buf.m_data += sizeof(DWORD);
+		buf.m_len -= sizeof(DWORD);
+		if (buf.m_len >= dwLen) {
+			ret = CMStringW((LPWSTR)buf.m_data, dwLen/2);
+			buf.m_data += dwLen;
+			buf.m_len -= dwLen;
+		}
+	}
+	return buf;
 }

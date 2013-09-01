@@ -2,74 +2,69 @@
 #include "MraOfflineMsg.h"
 #include "MraConstans.h"
 
-
 #define LF			"\n"
 #define LFLF		"\n\n"
 #define CRLF		"\r\n"
 #define CRLFCRLF	"\r\n\r\n"
 
+DWORD MraOfflineMessageGetMIMEHeadAndBody(LPCSTR lpszMessage, size_t dwMessageSize, LPSTR *plpszHeader, size_t *pdwHeaderSize, LPSTR *plpszBody, size_t *pdwBodySize);
+DWORD MraOfflineMessageGetNextMIMEPart(LPSTR lpszBody, size_t dwBodySize, LPSTR lpszBoundary, size_t dwBoundarySize, LPSTR *plpszCurMIMEPos, LPSTR *plpszMIMEPart, size_t *pdwMIMEPartSize);
+DWORD MraOfflineMessageGetHeaderValue(LPSTR lpszHeader, LPSTR lpszHeaderLow, size_t dwHeaderSize, LPSTR lpszValueName, size_t dwValueNameSize, CMStringA &plpszValue);
+DWORD MraOfflineMessageGetHeaderValueLow(LPSTR lpszHeaderLow, size_t dwHeaderSize, LPSTR lpszValueName, size_t dwValueNameSize, LPSTR *plpszValue, size_t *pdwValueSize);
+DWORD MraOfflineMessageConvertTime(INTERNET_TIME *pitTime);
 
-DWORD MraOfflineMessageGetMIMEHeadAndBody	(LPSTR lpszMessage, size_t dwMessageSize, LPSTR *plpszHeader, size_t *pdwHeaderSize, LPSTR *plpszBody, size_t *pdwBodySize);
-DWORD MraOfflineMessageGetNextMIMEPart		(LPSTR lpszBody, size_t dwBodySize, LPSTR lpszBoundary, size_t dwBoundarySize, LPSTR *plpszCurMIMEPos, LPSTR *plpszMIMEPart, size_t *pdwMIMEPartSize);
-DWORD MraOfflineMessageGetHeaderValue		(LPSTR lpszHeader, LPSTR lpszHeaderLow, size_t dwHeaderSize, LPSTR lpszValueName, size_t dwValueNameSize, LPSTR *plpszValue, size_t *pdwValueSize);
-DWORD MraOfflineMessageGetHeaderValueLow	(LPSTR lpszHeaderLow, size_t dwHeaderSize, LPSTR lpszValueName, size_t dwValueNameSize, LPSTR *plpszValue, size_t *pdwValueSize);
-DWORD MraOfflineMessageConvertTime			(INTERNET_TIME *pitTime);
-
-DWORD MraOfflineMessageGet(MRA_LPS *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, MRA_LPS *plpsEMail, MRA_LPS *plpsText, MRA_LPS *plpsRTFText, MRA_LPS *plpsMultiChatData, LPBYTE *plpbBuff)
-{// Сообщение
+// Сообщение
+DWORD MraOfflineMessageGet(CMStringA *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, CMStringA *plpsEMail, CMStringA *plpsText, CMStringA *plpsRTFText, CMStringA *plpsMultiChatData, LPBYTE *plpbBuff)
+{
 	DWORD dwRetErrorCode = ERROR_INVALID_HANDLE;
 
 	if (plpsMsg)
-	if (plpsMsg->lpszData && plpsMsg->dwSize) {
-		LPSTR lpszHeader, lpszHeaderLow, lpszBody, lpszContentTypeLow, lpszTemp;
-		size_t dwHeaderSize, dwBodySize, dwContentTypeSize, dwTempSize;
+	if (!plpsMsg->IsEmpty()) {
+		LPSTR lpszHeader, lpszHeaderLow, lpszBody, lpszContentTypeLow;
+		size_t dwHeaderSize, dwBodySize, dwContentTypeSize;
 		DWORD dwMultichatType;
+		CMStringA szTemp;
 
 		#ifdef _DEBUG
-			DebugPrintCRLFA(plpsMsg->lpszData);
+			DebugPrintCRLFA(plpsMsg->GetString());
 		#endif
 
-		if (MraOfflineMessageGetMIMEHeadAndBody(plpsMsg->lpszData, plpsMsg->dwSize, &lpszHeader, &dwHeaderSize, &lpszBody, &dwBodySize) == NO_ERROR) {
+		if (MraOfflineMessageGetMIMEHeadAndBody(plpsMsg->GetString(), plpsMsg->GetLength(), &lpszHeader, &dwHeaderSize, &lpszBody, &dwBodySize) == NO_ERROR) {
 			lpszHeaderLow = (LPSTR)mir_calloc(dwHeaderSize);
 			if (lpszHeaderLow) BuffToLowerCase(lpszHeaderLow, lpszHeader, dwHeaderSize);
 
 			if (pdwTime)
-			if (MraOfflineMessageGetHeaderValue(lpszHeader, lpszHeaderLow, dwHeaderSize, "date", 4, &lpszTemp, &dwTempSize) == NO_ERROR) {
+			if (MraOfflineMessageGetHeaderValue(lpszHeader, lpszHeaderLow, dwHeaderSize, "date", 4, szTemp) == NO_ERROR) {
 				INTERNET_TIME itTime;
-				InternetTimeGetTime(lpszTemp, dwTempSize, &itTime);
+				InternetTimeGetTime(szTemp, &itTime);
 				(*pdwTime) = MraOfflineMessageConvertTime(&itTime);
 			}
 			else (*pdwTime) = 0;
 
 			if (pdwFlags)
-			if (MraOfflineMessageGetHeaderValue(lpszHeader, lpszHeaderLow, dwHeaderSize, "x-mrim-flags", 12, &lpszTemp, &dwTempSize) == NO_ERROR)
-				(*pdwFlags) = StrHexToUNum32(lpszTemp, dwTempSize);
+			if (MraOfflineMessageGetHeaderValue(lpszHeader, lpszHeaderLow, dwHeaderSize, "x-mrim-flags", 12, szTemp) == NO_ERROR)
+				*pdwFlags = StrHexToUNum32(szTemp, szTemp.GetLength());
 			else
-				(*pdwFlags) = 0;
+				*pdwFlags = 0;
 
-			if (MraOfflineMessageGetHeaderValue(lpszHeader, lpszHeaderLow, dwHeaderSize, "x-mrim-multichat-type", 21, &lpszTemp, &dwTempSize) == NO_ERROR)
-				dwMultichatType = StrHexToUNum32(lpszTemp, dwTempSize);
+			if (MraOfflineMessageGetHeaderValue(lpszHeader, lpszHeaderLow, dwHeaderSize, "x-mrim-multichat-type", 21, szTemp) == NO_ERROR)
+				dwMultichatType = StrHexToUNum32(szTemp, szTemp.GetLength());
 			else
 				dwMultichatType = 0;
 
 			if (plpsEMail)
-			if (MraOfflineMessageGetHeaderValue(lpszHeader, lpszHeaderLow, dwHeaderSize, "from", 4, &plpsEMail->lpszData, &plpsEMail->dwSize) != NO_ERROR) {
-				plpsEMail->lpszData = NULL;
-				plpsEMail->dwSize = 0;
-			}
+			if (MraOfflineMessageGetHeaderValue(lpszHeader, lpszHeaderLow, dwHeaderSize, "from", 4, *plpsEMail) != NO_ERROR)
+				plpsEMail->Empty();
 
-			if (plpsText) {
-				plpsText->lpszData = NULL;
-				plpsText->dwSize = 0;
-			}
-			if (plpsRTFText) {
-				plpsRTFText->lpszData = NULL;
-				plpsRTFText->dwSize = 0;
-			}
-			if (plpsMultiChatData) {
-				plpsMultiChatData->lpszData = NULL;
-				plpsMultiChatData->dwSize = 0;
-			}
+			if (plpsText)
+				plpsText->Empty();
+
+			if (plpsRTFText)
+				plpsRTFText->Empty();
+
+			if (plpsMultiChatData)
+				plpsMultiChatData->Empty();
+
 			if (plpbBuff) (*plpbBuff) = NULL;
 
 			if (plpsText || plpsRTFText)
@@ -103,8 +98,7 @@ DWORD MraOfflineMessageGet(MRA_LPS *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, MR
 														unsigned dwTextSize;
 														LPWSTR lpwszText = (LPWSTR)mir_base64_decode(szMime, &dwTextSize);
 														if (lpwszText) {															
-															plpsText->lpwszData = lpwszText;
-															plpsText->dwSize = dwTextSize;
+															*plpsText = CMStringW(lpwszText, dwTextSize);
 															if (pdwFlags) {
 																(*pdwFlags) |= MESSAGE_FLAG_v1p16; // set unocode flag if not exist
 																(*pdwFlags) &= ~MESSAGE_FLAG_CP1251; // reset ansi flag if exist
@@ -116,8 +110,7 @@ DWORD MraOfflineMessageGet(MRA_LPS *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, MR
 												}
 												else if ( MemoryFind(0, lpszMIMEContentType, dwMIMEContentTypeSize, "cp-1251", 7)) {
 													// charset = CP-1251
-													plpsText->lpszData = lpszMIMEBody;
-													plpsText->dwSize = dwMIMEBodySize;
+													*plpsText = CMStringA(lpszMIMEBody, dwMIMEBodySize);
 													if (pdwFlags) {
 														(*pdwFlags) &= ~MESSAGE_FLAG_v1p16; // reset unocode flag if exist
 														(*pdwFlags) |= MESSAGE_FLAG_CP1251; // set ansi flag
@@ -129,17 +122,17 @@ DWORD MraOfflineMessageGet(MRA_LPS *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, MR
 										}
 										else if (MemoryFind(0, lpszMIMEContentType, dwMIMEContentTypeSize, "application/x-mrim-rtf", 22)) {
 											if (plpsRTFText) {
-												plpsRTFText->lpszData = lpszMIMEBody;
-												plpsRTFText->dwSize = dwMIMEBodySize;
-												if (pdwFlags) (*pdwFlags) |= MESSAGE_FLAG_RTF; // set RTF flag if not exist
+												*plpsRTFText = CMStringA(lpszMIMEBody, dwMIMEBodySize);
+												if (pdwFlags)
+													(*pdwFlags) |= MESSAGE_FLAG_RTF; // set RTF flag if not exist
 												dwRetErrorCode = NO_ERROR;
 											}
 										}
 										else if (MemoryFind(0, lpszMIMEContentType, dwMIMEContentTypeSize, "application/x-mrim+xml", 22)) {
 											if (plpsMultiChatData) {
-												plpsMultiChatData->lpszData = lpszMIMEBody;
-												plpsMultiChatData->dwSize = dwMIMEBodySize;
-												if (pdwFlags) (*pdwFlags) |= MESSAGE_FLAG_MULTICHAT; // set MESSAGE_FLAG_MULTICHAT flag if not exist
+												*plpsMultiChatData = CMStringA(lpszMIMEBody, dwMIMEBodySize);
+												if (pdwFlags)
+													(*pdwFlags) |= MESSAGE_FLAG_MULTICHAT; // set MESSAGE_FLAG_MULTICHAT flag if not exist
 												dwRetErrorCode = NO_ERROR;
 											}
 										}
@@ -164,11 +157,9 @@ DWORD MraOfflineMessageGet(MRA_LPS *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, MR
 							LPS2ANSI(szMime, lpszBody, dwBodySize);
 							unsigned dwTextSize;
 							LPWSTR lpwszText = (LPWSTR)mir_base64_decode(szMime, &dwTextSize);
-							if (lpwszText) {															
-								plpsText->lpwszData = lpwszText;
-								plpsText->dwSize = dwTextSize;
-								if (pdwFlags)
-								{
+							if (lpwszText) {
+								*plpsText = CMStringW(lpwszText, dwTextSize);
+								if (pdwFlags) {
 									(*pdwFlags) |= MESSAGE_FLAG_v1p16; // set unocode flag if not exist
 									(*pdwFlags) &= ~MESSAGE_FLAG_CP1251; // reset ansi flag if exist
 								}
@@ -179,10 +170,8 @@ DWORD MraOfflineMessageGet(MRA_LPS *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, MR
 					}else
 					if (MemoryFind(0, lpszContentTypeLow, dwContentTypeSize, "cp-1251", 7))
 					{// charset = CP-1251
-						plpsText->lpszData = lpszBody;
-						plpsText->dwSize = dwBodySize;
-						if (pdwFlags)
-						{
+						*plpsText = CMStringA(lpszBody, dwBodySize);
+						if (pdwFlags) {
 							(*pdwFlags) &= ~MESSAGE_FLAG_v1p16; // reset unocode flag if exist
 							(*pdwFlags) |= MESSAGE_FLAG_CP1251; // set ansi flag
 						}
@@ -194,17 +183,12 @@ DWORD MraOfflineMessageGet(MRA_LPS *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, MR
 				if (MemoryFind(0, lpszContentTypeLow, dwContentTypeSize, "application/x-mrim-auth-req", 27))
 				{// Content-Type: application/x-mrim-auth-req
 					if (plpsText)
-					{
-						plpsText->lpszData = lpszBody;
-						plpsText->dwSize = dwBodySize;
-					}
+						*plpsText = CMStringA(lpszBody, dwBodySize);
 					dwRetErrorCode = NO_ERROR;
-				}else {
-					DebugBreak();
 				}
-			}else {
-				DebugBreak();
+				else DebugBreak();
 			}
+			else DebugBreak();
 
 			mir_free(lpszHeaderLow);
 		}
@@ -214,7 +198,7 @@ return(dwRetErrorCode);
 }
 
 
-DWORD MraOfflineMessageGetMIMEHeadAndBody(LPSTR lpszMessage, size_t dwMessageSize, LPSTR *plpszHeader, size_t *pdwHeaderSize, LPSTR *plpszBody, size_t *pdwBodySize)
+DWORD MraOfflineMessageGetMIMEHeadAndBody(LPCSTR lpszMessage, size_t dwMessageSize, LPSTR *plpszHeader, size_t *pdwHeaderSize, LPSTR *plpszBody, size_t *pdwBodySize)
 {
 	DWORD dwRetErrorCode = ERROR_NOT_FOUND;
 
@@ -237,10 +221,10 @@ DWORD MraOfflineMessageGetMIMEHeadAndBody(LPSTR lpszMessage, size_t dwMessageSiz
 		{// нашли начало контента миме части
 			dwBodySize = (dwMessageSize-(lpszBody-lpszMessage));
 
-			if (plpszHeader)	(*plpszHeader) = lpszMessage;
-			if (pdwHeaderSize)	(*pdwHeaderSize) = ((lpszBody-(sizeof(LFLF)-1))-lpszMessage);
-			if (plpszBody)		(*plpszBody) = lpszBody;
-			if (pdwBodySize)	(*pdwBodySize) = dwBodySize;
+			if (plpszHeader)   (*plpszHeader) = (LPSTR)lpszMessage;
+			if (pdwHeaderSize) (*pdwHeaderSize) = ((lpszBody-(sizeof(LFLF)-1))-lpszMessage);
+			if (plpszBody)	    (*plpszBody) = lpszBody;
+			if (pdwBodySize)   (*pdwBodySize) = dwBodySize;
 
 			dwRetErrorCode = NO_ERROR;
 		}
@@ -316,30 +300,24 @@ return(dwRetErrorCode);
 }
 
 
-DWORD MraOfflineMessageGetHeaderValue(LPSTR lpszHeader, LPSTR lpszHeaderLow, size_t dwHeaderSize, LPSTR lpszValueName, size_t dwValueNameSize, LPSTR *plpszValue, size_t *pdwValueSize)
+DWORD MraOfflineMessageGetHeaderValue(LPSTR lpszHeader, LPSTR lpszHeaderLow, size_t dwHeaderSize, LPSTR lpszValueName, size_t dwValueNameSize, CMStringA &plpszValue)
 {
-	DWORD dwRetErrorCode = ERROR_NOT_FOUND;
-	LPSTR lpszValue, lpszValueEnd;
-	size_t dwValueSize;
-
-	lpszValue = (LPSTR)MemoryFind(0, lpszHeaderLow, dwHeaderSize, lpszValueName, dwValueNameSize);
+	LPSTR lpszValue = (LPSTR)MemoryFind(0, lpszHeaderLow, dwHeaderSize, lpszValueName, dwValueNameSize);
 	if (lpszValue)
 	{
 		lpszValue += dwValueNameSize;
-		lpszValueEnd = (LPSTR)MemoryFind((lpszValue-lpszHeaderLow), lpszHeaderLow, dwHeaderSize, CRLF, (sizeof(CRLF)-1));
+		LPSTR lpszValueEnd = (LPSTR)MemoryFind((lpszValue-lpszHeaderLow), lpszHeaderLow, dwHeaderSize, CRLF, (sizeof(CRLF)-1));
 		if (lpszValueEnd == NULL) lpszValueEnd = (LPSTR)MemoryFind((lpszValue-lpszHeaderLow), lpszHeaderLow, dwHeaderSize, LF, (sizeof(LF)-1));
 		if (lpszValueEnd == NULL) lpszValueEnd = (LPSTR)(lpszHeaderLow+dwHeaderSize);
 
 		lpszValue = (LPSTR)MemoryFind((lpszValue-lpszHeaderLow), lpszHeaderLow, (lpszValueEnd-lpszHeaderLow), ":", 1);
-		if (lpszValue)
-		{
+		if (lpszValue) {
 			lpszValue++;
-			dwValueSize = (lpszValueEnd-lpszValue);
-			SkeepSPWSP((lpszHeader+(lpszValue-lpszHeaderLow)), dwValueSize, plpszValue, pdwValueSize);
-			dwRetErrorCode = NO_ERROR;
+			plpszValue = CMStringA(lpszHeader+(lpszValue-lpszHeaderLow), (lpszValueEnd-lpszValue));
+			return NO_ERROR;
 		}
 	}
-return(dwRetErrorCode);
+	return ERROR_NOT_FOUND;
 }
 
 

@@ -349,7 +349,7 @@ HWND CMraProto::SearchAdvanced(HWND hWndDlg)
 	dwOnline = IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_ONLINEONLY);
 	if (dwOnline) SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_ONLINE);
 
-	return (HWND)MraWPRequestW(NULL, ACKTYPE_SEARCH, dwRequestFlags, szUser, dwUserSize, szDomain, dwDomainSize, wszNickName, dwNickNameSize, wszFirstName, dwFirstNameSize, wszLastName, dwLastNameSize, dwSex, dwDate1, dwDate2, dwCityID, dwZodiak, dwBirthdayMonth, dwBirthdayDay, dwCountryID, dwOnline);
+	return (HWND)MraWPRequestW(NULL, ACKTYPE_SEARCH, dwRequestFlags, szUser, szDomain, wszNickName, wszFirstName, wszLastName, dwSex, dwDate1, dwDate2, dwCityID, dwZodiak, dwBirthdayMonth, dwBirthdayDay, dwCountryID, dwOnline);
 }
 
 HWND CMraProto::CreateExtendedSearchUI(HWND owner)

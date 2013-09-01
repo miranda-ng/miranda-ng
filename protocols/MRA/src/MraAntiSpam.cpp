@@ -96,15 +96,15 @@ INT_PTR CALLBACK MraAntiSpamDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, L
 		{
 			// fill list
 			char szSettingName[MAX_PATH];
-			WCHAR wszBuff[MAX_PATH];
+			CMStringW wszBuff;
 
 			SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BAD_WORDS_LIST, LB_RESETCONTENT, 0, 0);
 			SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BAD_WORDS_LIST, LB_INITSTORAGE, (WPARAM)1024, (LPARAM)32768);
 			for (size_t i = 0; TRUE; i++) {
 				mir_snprintf(szSettingName, SIZEOF(szSettingName), "AntiSpamBadWord %lu", i);
-				if (ppro->mraGetStaticStringW(NULL, szSettingName, wszBuff, SIZEOF(wszBuff), NULL)) {
-					if (SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BAD_WORDS_LIST, LB_FINDSTRING, -1, (LPARAM)wszBuff) == LB_ERR)
-						SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BAD_WORDS_LIST, LB_ADDSTRING, 0, (LPARAM)wszBuff);
+				if (ppro->mraGetStringW(NULL, szSettingName, wszBuff)) {
+					if (SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BAD_WORDS_LIST, LB_FINDSTRING, -1, (LPARAM)wszBuff.c_str()) == LB_ERR)
+						SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BAD_WORDS_LIST, LB_ADDSTRING, 0, (LPARAM)wszBuff.c_str());
 				}
 				else break;
 			}
@@ -136,15 +136,15 @@ INT_PTR CALLBACK MraAntiSpamDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, L
 			MraAntiSpamResetBadWordsList();
 
 			char szSettingName[MAX_PATH];
-			WCHAR wszBuff[MAX_PATH];
+			CMStringW wszBuff;
 
 			SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BAD_WORDS_LIST, LB_RESETCONTENT, 0, 0);
 			SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BAD_WORDS_LIST, LB_INITSTORAGE, (WPARAM)1024, (LPARAM)32768);
 			for (size_t i = 0;TRUE;i++) {
 				mir_snprintf(szSettingName, SIZEOF(szSettingName), "AntiSpamBadWord %lu", i);
-				if (ppro->mraGetStaticStringW(NULL, szSettingName, wszBuff, SIZEOF(wszBuff), NULL)) {
-					if (SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BAD_WORDS_LIST, LB_FINDSTRING, -1, (LPARAM)wszBuff) == LB_ERR)
-						SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BAD_WORDS_LIST, LB_ADDSTRING, 0, (LPARAM)wszBuff);
+				if (ppro->mraGetStringW(NULL, szSettingName, wszBuff)) {
+					if (SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BAD_WORDS_LIST, LB_FINDSTRING, -1, (LPARAM)wszBuff.c_str()) == LB_ERR)
+						SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BAD_WORDS_LIST, LB_ADDSTRING, 0, (LPARAM)wszBuff.c_str());
 				}
 				else break;
 			}
@@ -246,19 +246,19 @@ BOOL MraAntiSpamIsCharExcepted(WCHAR wcTestChar)
 	return FALSE;
 }
 
-size_t MraAntiSpamCalcLangChanges(LPWSTR lpwszMessage, size_t dwMessageSize)
+size_t MraAntiSpamCalcLangChanges(const CMStringW &wszMessage)
 {
 	size_t dwRet = 0;
 
-	if (lpwszMessage && dwMessageSize) {
+	if (!wszMessage.IsEmpty()) {
 		WCHAR wcPrevChar = 0;
-		for (size_t i = 1; i < dwMessageSize; i++) {
-			if (MraAntiSpamIsCharExcepted(lpwszMessage[i]) == FALSE) {
+		for (size_t i = 1; i < wszMessage.GetLength(); i++) {
+			if (MraAntiSpamIsCharExcepted(wszMessage[i]) == FALSE) {
 				if (wcPrevChar)
-					if ( (max(wcPrevChar, lpwszMessage[i])-min(wcPrevChar, lpwszMessage[i])) > 255)
+					if ( (max(wcPrevChar, wszMessage[i])-min(wcPrevChar, wszMessage[i])) > 255)
 						dwRet++;
 
-				wcPrevChar = lpwszMessage[i];
+				wcPrevChar = wszMessage[i];
 			}
 		}
 	}
@@ -283,65 +283,57 @@ size_t MraAntiSpamCleanNonAlphaNumeric(LPWSTR lpwszMessage, size_t dwMessageSize
 }
 
 
-BOOL MraAntiSpamTestMessageForBadWordsW(LPWSTR lpwszMessage, size_t dwMessageSize)
+bool MraAntiSpamTestMessageForBadWordsW(const CMStringW &wszMessage)
 {
-	if (lpwszMessage && dwMessageSize)
+	if (!wszMessage.IsEmpty())
 		for (size_t i = 0; i < dwBadWordsCount; i++)
-			if (MemoryFind(0, lpwszMessage, (dwMessageSize*sizeof(WCHAR)), pmabwBadWords[i].lpwszBadWord, (pmabwBadWords[i].dwBadWordLen*sizeof(WCHAR))))
-				return TRUE;
+			if ( wcsstr(wszMessage, pmabwBadWords[i].lpwszBadWord))
+				return true;
 
-	return FALSE;
+	return false;
 }
 
-BOOL CMraProto::MraAntiSpamHasMessageBadWordsW(LPWSTR lpwszMessage, size_t dwMessageSize)
+bool CMraProto::MraAntiSpamHasMessageBadWordsW(const CMStringW &wszMessage)
 {
-	BOOL bRet = FALSE;
+	bool bRet = false;
 
-	if (lpwszMessage && dwMessageSize) {
-		LPWSTR lpwszMessageConverted = (LPWSTR)mir_alloc((dwMessageSize+1)*sizeof(WCHAR));
-		if (lpwszMessageConverted) {
-			size_t dwtm;
+	if (!wszMessage.IsEmpty()) {
+		CMStringW wszMessageConverted = wszMessage;
+		wszMessageConverted.MakeLower();
 
-			// в нижний регистр всё сообщение
-			memmove(lpwszMessageConverted, lpwszMessage, (dwMessageSize*sizeof(WCHAR)));
-			CharLowerBuffW(lpwszMessageConverted, DWORD(dwMessageSize));
+		// 1 проход: считаем колличество переключений языка
+		size_t dwtm = getDword("AntiSpamMaxLangChanges", MRA_ANTISPAM_DEFAULT_MAX_LNG_CHANGES);
+		if (dwtm)
+			if (dwtm <= MraAntiSpamCalcLangChanges(wszMessageConverted))
+				bRet = true;
 
-			// 1 проход: считаем колличество переключений языка
-			dwtm = getDword("AntiSpamMaxLangChanges", MRA_ANTISPAM_DEFAULT_MAX_LNG_CHANGES);
-			if (dwtm)
-				if (dwtm <= MraAntiSpamCalcLangChanges(lpwszMessageConverted, dwMessageSize))
-					bRet = TRUE;
+		// 2 проход: ищем плохие слова
+		if (bRet == false)
+			bRet = MraAntiSpamTestMessageForBadWordsW(wszMessageConverted);
 
-			// 2 проход: ищем плохие слова
-			if (bRet == FALSE)
-				bRet = MraAntiSpamTestMessageForBadWordsW(lpwszMessageConverted, dwMessageSize);
-
-			// 3 проход: оставляем только буквы + цифры и снова ищем плохие слова
-			if (bRet == FALSE)
-			if (getByte("AntiSpamCleanNonAlphaNumeric", MRA_ANTISPAM_DEFAULT_ENABLE)) {
-				dwMessageSize = MraAntiSpamCleanNonAlphaNumeric(lpwszMessageConverted, dwMessageSize);
-				bRet = MraAntiSpamTestMessageForBadWordsW(lpwszMessageConverted, dwMessageSize);
-			}
-
-			mir_free(lpwszMessageConverted);
+		// 3 проход: оставляем только буквы + цифры и снова ищем плохие слова
+		if (bRet == false)
+		if (getByte("AntiSpamCleanNonAlphaNumeric", MRA_ANTISPAM_DEFAULT_ENABLE)) {
+			MraAntiSpamCleanNonAlphaNumeric(wszMessageConverted.GetBuffer(), wszMessageConverted.GetLength());
+			bRet = MraAntiSpamTestMessageForBadWordsW(wszMessageConverted);
 		}
 	}
 	return bRet;
 }
 
-DWORD CMraProto::MraAntiSpamReceivedMessageW(LPSTR lpszEMail, size_t dwEMailSize, DWORD dwMessageFlags, LPWSTR lpwszMessage, size_t dwMessageSize)
+DWORD CMraProto::MraAntiSpamReceivedMessageW(const CMStringA &szEmail, DWORD dwMessageFlags, const CMStringW &wszMessage)
 {
 	DWORD dwRet = MESSAGE_NOT_SPAM;;
 
 	if ((dwMessageFlags&(MESSAGE_FLAG_SYSTEM|MESSAGE_FLAG_CONTACT|MESSAGE_FLAG_NOTIFY|MESSAGE_FLAG_SMS|MESSAGE_SMS_DELIVERY_REPORT|MESSAGE_FLAG_ALARM|MESSAGE_FLAG_MULTICHAT)) == 0)
 	if (getByte("AntiSpamEnable", MRA_ANTISPAM_DEFAULT_ENABLE))
-	if (IsEMailChatAgent(lpszEMail, dwEMailSize) == FALSE) { // enabled, message must be checked
+	if (IsEMailChatAgent(szEmail) == FALSE) { // enabled, message must be checked
 		BOOL bCheckMessage = TRUE;
 		dwRet = MESSAGE_SPAM;
-		HANDLE hContact = MraHContactFromEmail(lpszEMail, dwEMailSize, FALSE, TRUE, NULL);
+		HANDLE hContact = MraHContactFromEmail(szEmail, FALSE, TRUE, NULL);
 		if (hContact) {
 			DWORD dwID, dwGroupID, dwContactFlag, dwContactSeverFlags;
-			GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, &dwContactSeverFlags, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL);
+			GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, &dwContactSeverFlags, NULL, NULL, NULL, NULL);
 
 			// not temp contact, OK
 			if ((dwID != -1 && db_get_b(hContact, "CList", "NotOnList", 0) == 0) || dwGroupID == -2) {
@@ -359,7 +351,7 @@ DWORD CMraProto::MraAntiSpamReceivedMessageW(LPSTR lpszEMail, size_t dwEMailSize
 		}
 
 		if (bCheckMessage)
-			if (MraAntiSpamHasMessageBadWordsW(lpwszMessage, dwMessageSize) == FALSE)
+			if (MraAntiSpamHasMessageBadWordsW(wszMessage) == FALSE)
 				 dwRet = MESSAGE_NOT_SPAM;
 
 		if (dwRet == MESSAGE_SPAM) {
@@ -370,18 +362,20 @@ DWORD CMraProto::MraAntiSpamReceivedMessageW(LPSTR lpszEMail, size_t dwEMailSize
 			bAntiSpamDeteleSpamBotContacts = (BOOL)getByte("AntiSpamDeteleSpamBotContacts", MRA_ANTISPAM_DEFAULT_DELETE_SPAMBOT_CONTACT);
 
 			if (bAntiSpamShowPopup || bAntiSpamWriteToSystemHistory) {
-				char szEMail[MAX_EMAIL_LEN];
 				WCHAR wszBuff[MRA_MAXLENOFMESSAGE*2];
 				size_t dwDBMessageSize;
 
-				memmove(szEMail, lpszEMail, dwEMailSize);
-				(*((WORD*)(szEMail+dwEMailSize))) = 0;
+				char szTmp[MAX_PATH];
+				memmove(szTmp, szEmail, szEmail.GetLength());
+				*((WORD*)(szTmp+szEmail.GetLength())) = 0;
 
-				dwDBMessageSize = mir_sntprintf(wszBuff, SIZEOF(wszBuff), L"%s: %S\r\n", TranslateW(L"Spam bot blocked"), szEMail);
-				if (dwMessageSize>(SIZEOF(wszBuff)-(dwDBMessageSize+sizeof(DWORD)))) dwMessageSize = (SIZEOF(wszBuff)-(dwDBMessageSize+sizeof(DWORD)));
-				memmove((wszBuff+dwDBMessageSize), lpwszMessage, (dwMessageSize*sizeof(WCHAR)));
+				dwDBMessageSize = mir_sntprintf(wszBuff, SIZEOF(wszBuff), L"%s: %S\r\n", TranslateW(L"Spam bot blocked"), szEmail);
+				DWORD dwMessageSize = wszMessage.GetLength();
+				if (dwMessageSize > (SIZEOF(wszBuff)-(dwDBMessageSize+sizeof(DWORD))))
+					dwMessageSize = (SIZEOF(wszBuff)-(dwDBMessageSize+sizeof(DWORD)));
+				memmove(wszBuff+dwDBMessageSize, wszMessage, (dwMessageSize*sizeof(WCHAR)));
 				dwDBMessageSize += dwMessageSize;
-				(*((DWORD*)(wszBuff+dwDBMessageSize))) = 0;
+				*((DWORD*)(wszBuff+dwDBMessageSize)) = 0;
 				dwDBMessageSize += sizeof(DWORD);
 
 				if (bAntiSpamShowPopup)
@@ -402,7 +396,7 @@ DWORD CMraProto::MraAntiSpamReceivedMessageW(LPSTR lpszEMail, size_t dwEMailSize
 				}
 
 				if (hContact && bAntiSpamDeteleSpamBotContacts) {
-					dwDBMessageSize = mir_sntprintf(wszBuff, SIZEOF(wszBuff), L"%s: %S", TranslateW(L"Spam bot contact deleted"), szEMail);
+					dwDBMessageSize = mir_sntprintf(wszBuff, SIZEOF(wszBuff), L"%s: %S", TranslateW(L"Spam bot contact deleted"), szEmail);
 
 					if (bAntiSpamShowPopup)
 						MraPopupShowFromAgentW(MRA_POPUP_TYPE_INFORMATION, 0, wszBuff);

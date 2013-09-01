@@ -32,7 +32,7 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	CreateProtoService(PS_SEND_NUDGE,          &CMraProto::MraSendNudge);
 
 	if ( ServiceExists(MS_NUDGE_SEND))
-		heNudgeReceived = CreateProtoEvent(PE_NUDGE);
+		m_heNudgeReceived = CreateProtoEvent(PE_NUDGE);
 
 	TCHAR name[128];
 	mir_sntprintf( name, SIZEOF(name), TranslateT("%s connection"), m_tszUserName);
@@ -41,7 +41,7 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.ptszDescriptiveName = name;
-	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	HookProtoEvent(ME_SYSTEM_PRESHUTDOWN, &CMraProto::OnPreShutdown);
 
@@ -72,10 +72,10 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 
 CMraProto::~CMraProto()
 {
-	Netlib_CloseHandle(hNetlibUser);
+	Netlib_CloseHandle(m_hNetlibUser);
 
-	if (heNudgeReceived)
-		DestroyHookableEvent(heNudgeReceived);
+	if (m_heNudgeReceived)
+		DestroyHookableEvent(m_heNudgeReceived);
 
 	MraMPopSessionQueueDestroy(hMPopSessionQueue);
 	MraFilesQueueDestroy(hFilesQueueHandle);
@@ -100,7 +100,7 @@ int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	// всех в offline // тк unsaved values сохран€ютс€ их нужно инициализировать
 	for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
-		SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, NULL, 0, NULL, 0, NULL, 0);
+		SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, "", L"", "");
 
 	// unsaved values
 	db_set_resident(m_szModuleName, "Status");// NOTE: XStatus cannot be temporary
@@ -130,11 +130,11 @@ int CMraProto::OnPreShutdown(WPARAM, LPARAM)
 	SetStatus(ID_STATUS_OFFLINE);
 	MraAvatarsQueueDestroy(hAvatarsQueueHandle); hAvatarsQueueHandle = NULL;
 
-	if (hThreadWorker) {
-		if (IsThreadAlive(hThreadWorker))
-			WaitForSingleObjectEx(hThreadWorker, (WAIT_FOR_THREAD_TIMEOUT*1000), FALSE);
-		CloseHandle(hThreadWorker);
-		hThreadWorker = NULL;
+	if (m_hThreadWorker) {
+		if (IsThreadAlive(m_hThreadWorker))
+			WaitForSingleObjectEx(m_hThreadWorker, (WAIT_FOR_THREAD_TIMEOUT*1000), FALSE);
+		CloseHandle(m_hThreadWorker);
+		m_hThreadWorker = NULL;
 	}
 
 	return 0;
@@ -148,7 +148,7 @@ HANDLE CMraProto::AddToListByEmail(LPCTSTR plpsEMail, LPCTSTR plpsNick, LPCTSTR 
 		return NULL;
 
 	BOOL bAdded;
-	HANDLE hContact = MraHContactFromEmail( _T2A(plpsEMail), lstrlen(plpsEMail), TRUE, TRUE, &bAdded);
+	HANDLE hContact = MraHContactFromEmail(plpsEMail, TRUE, TRUE, &bAdded);
 	if (hContact) {
 		if (plpsNick)
 			mraSetStringW(hContact, "Nick", plpsNick);
@@ -225,8 +225,7 @@ int CMraProto::Authorize(HANDLE hDBEvent)
 	LPSTR lpszNick = (LPSTR)(dbei.pBlob + sizeof(DWORD)*2);
 	LPSTR lpszFirstName = lpszNick + lstrlenA(lpszNick) + 1;
 	LPSTR lpszLastName = lpszFirstName + lstrlenA(lpszFirstName) + 1;
-	LPSTR lpszEMail = lpszLastName + lstrlenA(lpszLastName) + 1;
-	MraAuthorize(lpszEMail, lstrlenA(lpszEMail));
+	MraAuthorize( CMStringA(lpszLastName + lstrlenA(lpszLastName) + 1));
 	return 0;
 }
 
@@ -246,9 +245,9 @@ int CMraProto::AuthDeny(HANDLE hDBEvent, const TCHAR* szReason)
 	LPSTR lpszNick = (LPSTR)(dbei.pBlob + sizeof(DWORD)*2);
 	LPSTR lpszFirstName = lpszNick + lstrlenA(lpszNick) + 1;
 	LPSTR lpszLastName = lpszFirstName + lstrlenA(lpszFirstName) + 1;
-	LPSTR lpszEMail = lpszLastName + lstrlenA(lpszLastName) + 1;
+	LPSTR szEmail = lpszLastName + lstrlenA(lpszLastName) + 1;
 
-	MraMessageW(FALSE, NULL, 0, 0, lpszEMail, lstrlenA(lpszEMail), szReason, lstrlen(szReason), NULL, 0);
+	MraMessageW(FALSE, NULL, 0, 0, szEmail, szReason, NULL, 0);
 	return 0;
 }
 
@@ -340,7 +339,7 @@ HANDLE CMraProto::SearchBasic(const TCHAR *id)
 HANDLE CMraProto::SearchByEmail(const TCHAR *email)
 {
 	if (m_bLoggedIn && email)
-		return MraWPRequestByEMail(NULL, ACKTYPE_SEARCH, _T2A(email), lstrlen(email));
+		return MraWPRequestByEMail(NULL, ACKTYPE_SEARCH, CMStringA(email));
 
 	return NULL;
 }
@@ -354,8 +353,7 @@ HANDLE CMraProto::SearchByName(const TCHAR *pszNick, const TCHAR *pszFirstName, 
 		if (*pszNick)      SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_NICKNAME);
 		if (*pszFirstName) SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME);
 		if (*pszLastName)  SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_LASTNAME);
-		return MraWPRequestW(NULL, ACKTYPE_SEARCH, dwRequestFlags, NULL, 0, NULL, 0,
-			pszNick, lstrlen(pszNick), pszFirstName, lstrlen(pszFirstName), pszLastName, lstrlen(pszLastName), 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		return MraWPRequestW(NULL, ACKTYPE_SEARCH, dwRequestFlags, "", "", pszNick, pszFirstName, pszLastName, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
 
 	return NULL;
@@ -394,35 +392,19 @@ int CMraProto::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* h
 
 	if (m_bLoggedIn && hContact) {
 		BOOL bSlowSend;
-		CHAR szEMail[MAX_EMAIL_LEN];
-		LPWSTR lpwszData, lpwszDataCurrent, lpwszNick;
-		size_t dwDataBuffSize, dwEMailSize, dwStringSize, dwNickSize;
-
-		dwDataBuffSize = (nContacts*(MAX_EMAIL_LEN*2));
-		lpwszData = (LPWSTR)mir_calloc((dwDataBuffSize*sizeof(WCHAR)));
-		if (lpwszData) {
-			lpwszDataCurrent = lpwszData;
-			if ( mraGetStaticStringA(hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize)) {
-				for (int i = 0; i < nContacts; i++) {
-					if ( IsContactMra( hContactsList[i] ))
-					if ( mraGetStaticStringW(hContactsList[i], "e-mail", lpwszDataCurrent, dwDataBuffSize-(lpwszDataCurrent-lpwszData), &dwStringSize)) {
-						lpwszDataCurrent += dwStringSize;
-						*lpwszDataCurrent++ = ';';
-
-						lpwszNick = GetContactNameW(hContactsList[i]);
-						dwNickSize = lstrlenW(lpwszNick);
-						memmove(lpwszDataCurrent, lpwszNick, dwNickSize*sizeof(WCHAR));
-						lpwszDataCurrent += dwNickSize;
-						*lpwszDataCurrent++ = ';';
-					}
-				}
-
-				bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);
-				iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_CONTACTS, MESSAGE_FLAG_CONTACT, szEMail, dwEMailSize, lpwszData, (lpwszDataCurrent-lpwszData), NULL, 0);
-				if (bSlowSend == FALSE)
-					ProtoBroadcastAck(hContact, ACKTYPE_CONTACTS, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
+		CMStringW wszData, wszEmail;
+		CMStringA szEmail;
+		if ( mraGetStringA(hContact, "e-mail", szEmail)) {
+			for (int i = 0; i < nContacts; i++) {
+				if ( IsContactMra( hContactsList[i] ))
+				if ( mraGetStringW(hContactsList[i], "e-mail", wszEmail))
+					wszData += wszEmail + ';' + GetContactNameW(hContactsList[i]) + ';';
 			}
-			mir_free(lpwszData);
+
+			bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);
+			iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_CONTACTS, MESSAGE_FLAG_CONTACT, szEmail, wszData, NULL, 0);
+			if (bSlowSend == FALSE)
+				ProtoBroadcastAck(hContact, ACKTYPE_CONTACTS, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
 		}
 	}
 	else ProtoBroadcastAck(hContact, ACKTYPE_CONTACTS, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send when you are offline.");
@@ -449,7 +431,6 @@ int CMraProto::SendMsg(HANDLE hContact, int flags, const char *lpszMessage)
 		return 0;
 	}
 
-	CHAR szEMail[MAX_EMAIL_LEN];
 	DWORD dwFlags = 0;
 	LPWSTR lpwszMessage = NULL;
 	int iRet = 0;
@@ -466,13 +447,13 @@ int CMraProto::SendMsg(HANDLE hContact, int flags, const char *lpszMessage)
 		return 0;
 	}
 
-	size_t dwEMailSize;
-	if ( mraGetStaticStringA(hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize)) {
+	CMStringA szEmail;
+	if ( mraGetStringA(hContact, "e-mail", szEmail)) {
 		BOOL bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);
 		if ( getByte("RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE) && (MraContactCapabilitiesGet(hContact) & FEATURE_FLAG_RTF_MESSAGE))
 			dwFlags |= MESSAGE_FLAG_RTF;
 
-		iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_MESSAGE, dwFlags, szEMail, dwEMailSize, lpwszMessage, lstrlen(lpwszMessage), NULL, 0);
+		iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_MESSAGE, dwFlags, szEmail, lpwszMessage, NULL, 0);
 		if (bSlowSend == FALSE)
 			ProtoBroadcastAckAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
 	}
@@ -494,12 +475,11 @@ int CMraProto::SetApparentMode(HANDLE hContact, int mode)
 
 		// Dont send redundant updates
 		if (mode != dwOldMode) {
-			CHAR szEMail[MAX_EMAIL_LEN], szPhones[MAX_EMAIL_LEN];
-			WCHAR wszNick[MAX_EMAIL_LEN];
+			CMStringA szEmail, szPhones;
+			CMStringW wszNick;
 			DWORD dwID, dwGroupID, dwContactFlag = 0;
-			size_t dwEMailSize, dwNickSize, dwPhonesSize;
 
-			GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, NULL, NULL, szEMail, SIZEOF(szEMail), &dwEMailSize, wszNick, SIZEOF(wszNick), &dwNickSize, szPhones, SIZEOF(szPhones), &dwPhonesSize);
+			GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, NULL, NULL, &szEmail, &wszNick, &szPhones);
 
 			dwContactFlag &= ~(CONTACT_FLAG_INVISIBLE | CONTACT_FLAG_VISIBLE);
 			switch (mode) {
@@ -511,8 +491,8 @@ int CMraProto::SetApparentMode(HANDLE hContact, int mode)
 				break;
 			}
 
-			if (MraModifyContactW(hContact, dwID, dwContactFlag, dwGroupID, szEMail, dwEMailSize, wszNick, dwNickSize, szPhones, dwPhonesSize)) {
-				SetContactBasicInfoW(hContact, 0, SCBIF_FLAG, 0, 0, dwContactFlag, 0, 0, NULL, 0, NULL, 0, NULL, 0);
+			if (MraModifyContactW(hContact, dwID, dwContactFlag, dwGroupID, szEmail, wszNick, szPhones)) {
+				SetContactBasicInfoW(hContact, 0, SCBIF_FLAG, 0, 0, dwContactFlag, 0, 0, "", L"", "");
 				return 0; // Success
 			}
 		}
@@ -550,9 +530,9 @@ int CMraProto::SetStatus(int iNewStatus)
 		if (dwOldStatusMode > ID_STATUS_OFFLINE) {
 			// функци€ сама провер€ет принадлежность контакта к MRA
 			for (HANDLE hContact = db_find_first();hContact != NULL;hContact = db_find_next(hContact))
-				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, NULL, 0, NULL, 0, NULL, 0);
+				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, "", L"", "");
 		}
-		Netlib_CloseHandle(hConnection);
+		Netlib_CloseHandle(m_hConnection);
 	}
 	else {
 		// если offline то сразу ставим connecting, но обработка как offline
@@ -571,7 +551,7 @@ int CMraProto::SetStatus(int iNewStatus)
 		case ID_STATUS_DND:
 		case ID_STATUS_FREECHAT:
 		case ID_STATUS_INVISIBLE:
-			MraSendNewStatus(m_iDesiredStatus, m_iXStatus, NULL, 0, NULL, 0);
+			MraSendNewStatus(m_iDesiredStatus, m_iXStatus, L"", L"");
 		case ID_STATUS_CONNECTING:
 			// предотвращаем переход в любой статус (кроме offline) из статуса connecting, если он не вызван самим плагином
 			if (dwOldStatusMode == ID_STATUS_CONNECTING && iNewStatus != m_iDesiredStatus)
@@ -592,11 +572,12 @@ HANDLE CMraProto::GetAwayMsg(HANDLE hContact)
 	if (!m_bLoggedIn || ! hContact)
 		return 0;
 
-	TCHAR szStatusDesc[MICBLOG_STATUS_MAX+MICBLOG_STATUS_MAX+MAX_PATH], szBlogStatus[MICBLOG_STATUS_MAX+4], szTime[64];
+	TCHAR szStatusDesc[MICBLOG_STATUS_MAX+MICBLOG_STATUS_MAX+MAX_PATH], szTime[64];
 	DWORD dwTime;
 	int iRet = 0;
 
-	if ( mraGetStaticStringW(hContact, DBSETTING_BLOGSTATUS, szBlogStatus, SIZEOF(szBlogStatus), NULL)) {
+	CMStringW szBlogStatus;
+	if ( mraGetStringW(hContact, DBSETTING_BLOGSTATUS, szBlogStatus)) {
 		SYSTEMTIME tt = {0};
 		dwTime = getDword(hContact, DBSETTING_BLOGSTATUSTIME, 0);
 		if (dwTime && MakeLocalSystemTimeFromTime32(dwTime, &tt))
@@ -604,7 +585,7 @@ HANDLE CMraProto::GetAwayMsg(HANDLE hContact)
 		else
 			szTime[0] = 0;
 
-		mir_sntprintf(szStatusDesc, SIZEOF(szStatusDesc), _T("%s%s"), szTime, szBlogStatus);
+		mir_sntprintf(szStatusDesc, SIZEOF(szStatusDesc), _T("%s%s"), szTime, szBlogStatus.c_str());
 		iRet = GetTickCount();
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)iRet, (LPARAM)szStatusDesc);
 	}
@@ -623,7 +604,7 @@ int CMraProto::SetAwayMsg(int m_iStatus, const TCHAR* msg)
 	// не отправл€ем новый статусный текст дл€ хстатусов, дл€ хстатусов только эвей сообщени€
 	if (dwStatus != ID_STATUS_ONLINE || IsXStatusValid(dwXStatus) == FALSE) {
 		dwStatusDescSize = min(dwStatusDescSize, STATUS_DESC_MAX);
-		MraSendNewStatus(dwStatus, dwXStatus, NULL, 0, msg, dwStatusDescSize);
+		MraSendNewStatus(dwStatus, dwXStatus, L"", msg);
 	}
 	return 0;
 }
@@ -633,12 +614,10 @@ int CMraProto::UserIsTyping(HANDLE hContact, int type)
 	if (!m_bLoggedIn || !hContact || type == PROTOTYPE_SELFTYPING_OFF)
 		return 1;
 
-	CHAR szEMail[MAX_EMAIL_LEN];
-	size_t dwEMailSize;
-
+	CMStringA szEmail;
 	if ( MraGetContactStatus(hContact) != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_INVISIBLE)
-	if ( mraGetStaticStringA(hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize))
-		if ( MraMessageW(FALSE, hContact, 0, MESSAGE_FLAG_NOTIFY, szEMail, dwEMailSize, L" ", 1, NULL, 0))
+	if ( mraGetStringA(hContact, "e-mail", szEmail))
+		if ( MraMessageW(FALSE, hContact, 0, MESSAGE_FLAG_NOTIFY, szEmail, L" ", NULL, 0))
 			return 0;
 
 	return 1;

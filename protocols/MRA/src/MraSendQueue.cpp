@@ -122,11 +122,11 @@ DWORD MraSendQueueFind(HANDLE hSendQueueHandle, DWORD dwCMDNum, DWORD *pdwFlags,
 	do {
 		if ( !ListMTIteratorGet(&lmtiIterator, NULL, (LPVOID*)&pmrasqiSendQueueItem))
 		if (pmrasqiSendQueueItem->dwCMDNum == dwCMDNum) {
-			if (pdwFlags)		(*pdwFlags) = pmrasqiSendQueueItem->dwFlags;
-			if (phContact)		(*phContact) = pmrasqiSendQueueItem->hContact;
-			if (pdwAckType)		(*pdwAckType) = pmrasqiSendQueueItem->dwAckType;
-			if (plpbData)		(*plpbData) = pmrasqiSendQueueItem->lpbData;
-			if (pdwDataSize)	(*pdwDataSize) = pmrasqiSendQueueItem->dwDataSize;
+			if (pdwFlags)    (*pdwFlags) = pmrasqiSendQueueItem->dwFlags;
+			if (phContact)   (*phContact) = pmrasqiSendQueueItem->hContact;
+			if (pdwAckType)  (*pdwAckType) = pmrasqiSendQueueItem->dwAckType;
+			if (plpbData)    (*plpbData) = pmrasqiSendQueueItem->lpbData;
+			if (pdwDataSize) (*pdwDataSize) = pmrasqiSendQueueItem->dwDataSize;
 			return 0;
 		}
 	}

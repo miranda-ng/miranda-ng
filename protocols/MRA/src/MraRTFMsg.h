@@ -6,6 +6,6 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-BOOL	MraIsMessageFlashAnimation	(LPCWSTR lpwszMessage, size_t dwMessageSize);
+bool MraIsMessageFlashAnimation(const CMStringW &lpwszMessage);
 
 #endif // !defined(AFX_MRA_RTFMSG_H__F58D13FF_F6F2_476C_B8F0_7B9E9357CF48__INCLUDED_)

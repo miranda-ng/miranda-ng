@@ -3,143 +3,134 @@
 #include "MraRTFMsg.h"
 #include "proto.h"
 
-static void SetUL(LPBYTE *plpBuff, DWORD dwData)
+class OutBuffer
 {
-	(*(DWORD*)(*plpBuff)) = dwData;
-	(*plpBuff) += sizeof(DWORD);
-}
+	PBYTE   m_buf;
+	size_t  m_max, m_actual;
 
-static void SetUIDL(LPBYTE *plpBuff, DWORDLONG dwData)
-{
-	(*(DWORDLONG*)(*plpBuff)) = dwData;
-	(*plpBuff) += sizeof(DWORDLONG);
-}
+public:
+	OutBuffer() : m_buf(0), m_max(0), m_actual(0) {}
 
-static void SetGUID(LPBYTE *plpBuff, MRA_GUID guidData)
-{
-	(*(MRA_GUID*)(*plpBuff)) = guidData;
-	(*plpBuff) += sizeof(MRA_GUID);
-}
+	void* Allocate(size_t len)
+	{
+		if (m_actual + len >= m_max) {
+			size_t increment = (len > 4096) ? len+4096 : 4096;
+			m_buf = (PBYTE)realloc(m_buf, m_max += increment);
+		}
 
-static void SetLPS(LPBYTE *plpBuff, LPCSTR lpszData, DWORD dwSize)
-{
-	(*(DWORD*)(*plpBuff)) = dwSize;
-	(*plpBuff) += sizeof(DWORD);
-	memmove((*plpBuff), lpszData, dwSize);
-	(*plpBuff) += dwSize;
-}
+		void *res = m_buf + m_actual; m_actual += len;
+		return res;
+	}
 
-static void SetLPSW(LPBYTE *plpBuff, LPCWSTR lpwszData, DWORD dwSize)
-{
-	dwSize *= sizeof(WCHAR);
-	(*(DWORD*)(*plpBuff)) = dwSize;
-	(*plpBuff) += sizeof(DWORD);
-	memmove((*plpBuff), lpwszData, dwSize);
-	(*plpBuff) += dwSize;
-}
+	PBYTE Data() const { return m_buf; }
+	size_t Len() const { return m_actual; }
 
-static void SetLPSWtoA(LPBYTE *plpBuff, LPCWSTR lpwszData, DWORD dwSize)
-{
-	dwSize = WideCharToMultiByte(MRA_CODE_PAGE, 0, lpwszData, dwSize, (LPSTR)((*plpBuff)+sizeof(DWORD)), (dwSize*sizeof(WCHAR)), NULL, NULL);
-	(*(DWORD*)(*plpBuff)) = dwSize;
-	(*plpBuff) += (sizeof(DWORD)+dwSize);
-}
+	void SetUL(DWORD dwData)
+	{
+		*(DWORD*)Allocate(sizeof(DWORD)) = dwData;
+	}
 
-static void SetLPSLowerCase(LPBYTE *plpBuff, LPCSTR lpszData, DWORD dwSize)
-{
-	(*(DWORD*)(*plpBuff)) = dwSize;
-	(*plpBuff) += sizeof(DWORD);
-	BuffToLowerCase((*plpBuff), lpszData, dwSize);
-	(*plpBuff) += dwSize;
-}
+	void SetUIDL(DWORDLONG dwData)
+	{
+		*(DWORDLONG*)Allocate(sizeof(dwData)) = dwData;
+	}
 
-static void SetLPSLowerCaseW(LPBYTE *plpBuff, LPCWSTR lpwszData, DWORD dwSize)
-{
-	dwSize *= sizeof(WCHAR);
-	(*(DWORD*)(*plpBuff)) = dwSize;
-	(*plpBuff) += sizeof(DWORD);
-	memmove((*plpBuff), lpwszData, dwSize);
-	CharLowerBuff((LPWSTR)(*plpBuff), (dwSize/sizeof(WCHAR)));
-	(*plpBuff) += dwSize;
-}
+	void SetGUID(MRA_GUID guidData)
+	{
+		*(MRA_GUID*)Allocate(sizeof(guidData)) = guidData;
+	}
+
+	void SetLPS(const CMStringA &str)
+	{
+		SetUL(str.GetLength());
+		memcpy( Allocate(str.GetLength()), str, str.GetLength());
+	}
+
+	void SetLPSW(const CMStringW &str)
+	{
+		DWORD dwBytes = str.GetLength() * sizeof(WCHAR);
+		SetUL(dwBytes);
+		memcpy( Allocate(dwBytes), str, dwBytes);
+	}
+
+	void SetLPSLowerCase(const CMStringA &str)
+	{
+		SetUL(str.GetLength());
+		BuffToLowerCase((LPSTR)Allocate(str.GetLength()), str, str.GetLength());
+	}
+
+	void SetLPSLowerCaseW(const CMStringW &str)
+	{
+		DWORD dwSize = str.GetLength() * sizeof(WCHAR);
+		SetUL(dwSize);
+		WCHAR *buf = (WCHAR*)Allocate(dwSize);
+		memcpy(buf, str, dwSize);
+		CharLowerBuff(buf, str.GetLength());
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-DWORD CMraProto::MraMessageW(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType, DWORD dwFlags, LPSTR lpszEMail, size_t dwEMailSize, LPCWSTR lpwszMessage, size_t dwMessageSize, LPBYTE lpbMultiChatData, size_t dwMultiChatDataSize)
+DWORD CMraProto::MraMessageW(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType, DWORD dwFlags, const CMStringA &szEmail, const CMStringW &lpwszMessage, LPBYTE lpbMultiChatData, size_t dwMultiChatDataSize)
 {
-	Netlib_Logf(hNetlibUser, "Sending message: flags %08x, to '%S', message '%S'\n", dwFlags, lpszEMail, lpwszMessage);
+	Netlib_Logf(m_hNetlibUser, "Sending message: flags %08x, to '%S', message '%S'\n", dwFlags, szEmail, lpwszMessage);
 
 	DWORD dwRet = 0;
-	LPBYTE lpbData, lpbDataCurrent;
-	LPSTR lpszMessageConverted = (LPSTR)lpwszMessage;
+	LPSTR lpszMessageConverted = (LPSTR)lpwszMessage.GetString();
 	LPSTR lpszMessageRTF = NULL;
-	size_t dwMessageConvertedSize = (dwMessageSize*sizeof(WCHAR)), dwMessageRTFSize = 0;
+	size_t dwMessageConvertedSize = lpwszMessage.GetLength()*sizeof(WCHAR), dwMessageRTFSize = 0;
 
-	if ( MraIsMessageFlashAnimation(lpwszMessage, dwMessageSize))
+	if ( MraIsMessageFlashAnimation(lpwszMessage))
 		dwFlags |= MESSAGE_FLAG_FLASH;
 
 	// pack auth message
 	if (dwFlags & MESSAGE_FLAG_AUTHORIZE) {
-		LPBYTE lpbAuthMsgBuff = (LPBYTE)mir_calloc(((dwMessageSize*sizeof(WCHAR))+1024));
-		if (lpbAuthMsgBuff) {
-			lpbDataCurrent = lpbAuthMsgBuff;
-			SetUL(&lpbDataCurrent, 2);
-			SetLPSW(&lpbDataCurrent, NULL, 0);//***deb possible nick here
-			SetLPSW(&lpbDataCurrent, lpwszMessage, dwMessageSize);
-
-			lpszMessageConverted = mir_base64_encode(lpbAuthMsgBuff, (lpbDataCurrent-lpbAuthMsgBuff));
-			dwMessageConvertedSize = strlen(lpszMessageConverted);
-		}
-		else lpszMessageConverted = (LPSTR)lpwszMessage;
-
-		mir_free(lpbAuthMsgBuff);
+		OutBuffer buf;
+		buf.SetUL(2);
+		buf.SetLPSW(L"");//***deb possible nick here
+		buf.SetLPSW(lpwszMessage);
+		lpszMessageConverted = mir_base64_encode(buf.Data(), buf.Len());
+		dwMessageConvertedSize = strlen(lpszMessageConverted);
 	}
 	// messages with Flash
 	else if (dwFlags & MESSAGE_FLAG_FLASH) {
-		size_t dwRFTBuffSize = (((dwMessageSize*sizeof(WCHAR))*4)+8192), dwRTFDataSize;
-
 		dwFlags |= MESSAGE_FLAG_RTF;
-		ptrA lpbRTFData((char*)mir_calloc(dwRFTBuffSize));
-		if (lpbRTFData) {
-			DWORD dwBackColour = getDword("RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR);
-			lpbDataCurrent = (LPBYTE)lpszMessageRTF;
 
-			WideCharToMultiByte(MRA_CODE_PAGE, 0, lpwszMessage, dwMessageSize, (LPSTR)lpbRTFData, dwRFTBuffSize, NULL, NULL);
+		DWORD dwBackColour = getDword("RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR);
+		char lpbRTFData[10000];
 
-			SetUL(&lpbDataCurrent, 4);
-			SetLPS(&lpbDataCurrent, (LPSTR)lpbRTFData, dwMessageSize);// сообщение что у собеседника плохая версия :)
-			SetLPS(&lpbDataCurrent, (LPSTR)&dwBackColour, sizeof(DWORD));// цвет фона
-			SetLPS(&lpbDataCurrent, (LPSTR)lpbRTFData, dwMessageSize);// сам мульт ANSI
-			SetLPSW(&lpbDataCurrent, lpwszMessage, dwMessageSize);// сам мульт UNICODE
+		OutBuffer buf;
+		buf.SetUL(4);
+		buf.SetLPS(lpbRTFData);// сообщение что у собеседника плохая версия :)
+		buf.SetUL(4);
+		buf.SetUL(dwBackColour);
+		buf.SetLPS(lpbRTFData);// сам мульт ANSI
+		buf.SetLPSW(lpwszMessage);// сам мульт UNICODE
 
-			dwRTFDataSize = dwRFTBuffSize;
-			if ( compress2((LPBYTE)(LPSTR)lpbRTFData, (DWORD*)&dwRTFDataSize, (LPBYTE)lpszMessageRTF, (lpbDataCurrent-(LPBYTE)lpszMessageRTF), Z_BEST_COMPRESSION) == Z_OK) {
-				lpszMessageRTF = mir_base64_encode((LPBYTE)(char*)lpbRTFData, dwRTFDataSize);
-				dwMessageRTFSize = lstrlenA(lpszMessageRTF);
-			}
+		DWORD dwRTFDataSize = buf.Len();
+		if ( compress2((LPBYTE)lpbRTFData, &dwRTFDataSize, buf.Data(), buf.Len(), Z_BEST_COMPRESSION) == Z_OK) {
+			lpszMessageRTF = mir_base64_encode((LPBYTE)lpbRTFData, dwRTFDataSize);
+			dwMessageRTFSize = lstrlenA(lpszMessageRTF);
 		}
 	}
 	// standart message
 	else if ((dwFlags & (MESSAGE_FLAG_CONTACT | MESSAGE_FLAG_NOTIFY | MESSAGE_FLAG_SMS)) == 0) {
 		// Only if message is simple text message or RTF or ALARM
 		if (dwFlags & MESSAGE_FLAG_RTF) { // add RFT part
-			size_t dwRFTBuffSize = (((dwMessageSize*sizeof(WCHAR))*16)+8192), dwRTFDataSize;
+			CMStringA lpbRTFData; lpbRTFData.Truncate(lpwszMessage.GetLength()*16 + 4096);
+			if ( !MraConvertToRTFW(lpwszMessage, lpbRTFData)) {
+				DWORD dwBackColour = getDword("RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR);
+				
+				OutBuffer buf;
+				buf.SetUL(2);
+				buf.SetLPS(lpbRTFData);
+				buf.SetUL(4);
+				buf.SetUL(dwBackColour);
 
-			ptrA lpbRTFData((char*)mir_calloc(dwRFTBuffSize));
-			if (lpbRTFData) {
-				if ( !MraConvertToRTFW(lpwszMessage, dwMessageSize, (LPSTR)lpbRTFData, dwRFTBuffSize, &dwRTFDataSize)) {
-					DWORD dwBackColour = getDword("RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR);
-					lpbDataCurrent = (LPBYTE)lpszMessageRTF;
-
-					SetUL(&lpbDataCurrent, 2);
-					SetLPS(&lpbDataCurrent, (LPSTR)lpbRTFData, dwRTFDataSize);
-					SetLPS(&lpbDataCurrent, (LPSTR)&dwBackColour, sizeof(DWORD));
-
-					dwRTFDataSize = dwRFTBuffSize;
-					if ( compress2((LPBYTE)(LPSTR)lpbRTFData, (DWORD*)&dwRTFDataSize, (LPBYTE)lpszMessageRTF, (lpbDataCurrent-(LPBYTE)lpszMessageRTF), Z_BEST_COMPRESSION) == Z_OK) {
-						lpszMessageRTF = mir_base64_encode((LPBYTE)(char*)lpbRTFData, dwRTFDataSize);
-						dwMessageRTFSize = lstrlenA(lpszMessageRTF);
-					}
+				DWORD dwRTFDataSize = lpbRTFData.GetLength();
+				if ( compress2((LPBYTE)(LPCSTR)lpbRTFData, &dwRTFDataSize, buf.Data(), buf.Len(), Z_BEST_COMPRESSION) == Z_OK) {
+					lpszMessageRTF = mir_base64_encode((LPBYTE)(LPCSTR)lpbRTFData, dwRTFDataSize);
+					dwMessageRTFSize = lstrlenA(lpszMessageRTF);
 				}
 			}
 		}
@@ -148,141 +139,94 @@ DWORD CMraProto::MraMessageW(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType,
 	if (lpszMessageRTF == NULL || dwMessageRTFSize == 0) dwFlags &= ~(MESSAGE_FLAG_RTF|MESSAGE_FLAG_FLASH);
 	if (lpbMultiChatData == NULL || dwMultiChatDataSize == 0) dwFlags &= ~MESSAGE_FLAG_MULTICHAT;
 
-	lpbData = (LPBYTE)mir_calloc((sizeof(DWORD)+dwEMailSize+dwMessageConvertedSize+dwMessageRTFSize+dwMultiChatDataSize+128));
-	if (lpbData) {
-		lpbDataCurrent = lpbData;
-		SetUL(&lpbDataCurrent, dwFlags);
-		SetLPSLowerCase(&lpbDataCurrent, lpszEMail, dwEMailSize);
-		SetLPS(&lpbDataCurrent, lpszMessageConverted, dwMessageConvertedSize);
-		SetLPS(&lpbDataCurrent, lpszMessageRTF, dwMessageRTFSize);
-		if (dwFlags&MESSAGE_FLAG_MULTICHAT) SetLPS(&lpbDataCurrent, (LPSTR)lpbMultiChatData, dwMultiChatDataSize);
+	OutBuffer buf;
+	buf.SetUL(dwFlags);
+	buf.SetLPSLowerCase(szEmail);
+	buf.SetLPS(CMStringA(lpszMessageConverted, dwMessageConvertedSize));
+	buf.SetLPS(lpszMessageRTF);
+	if (dwFlags & MESSAGE_FLAG_MULTICHAT)
+		buf.SetLPS(CMStringA((LPSTR)lpbMultiChatData, dwMultiChatDataSize));
 
-		if (bAddToQueue)
-			dwRet = MraSendQueueCMD(hSendQueueHandle, 0, hContact, dwAckType, (LPBYTE)lpwszMessage, (dwMessageSize*sizeof(WCHAR)), MRIM_CS_MESSAGE, lpbData, (lpbDataCurrent-lpbData));
-		else
-			dwRet = MraSendCMD(MRIM_CS_MESSAGE, lpbData, (lpbDataCurrent-lpbData));
-		mir_free(lpbData);
-	}
-
-	if (lpszMessageConverted != (LPSTR)lpwszMessage)
-		mir_free(lpszMessageConverted);
-	mir_free(lpszMessageRTF);
+	if (bAddToQueue)
+		dwRet = MraSendQueueCMD(hSendQueueHandle, 0, hContact, dwAckType, (LPBYTE)(LPCWSTR)lpwszMessage, lpwszMessage.GetLength()*sizeof(WCHAR), MRIM_CS_MESSAGE, buf.Data(), buf.Len());
+	else
+		dwRet = MraSendCMD(MRIM_CS_MESSAGE, buf.Data(), buf.Len());
 
 	return dwRet;
 }
 
 // Send confirmation
-DWORD CMraProto::MraMessageAskW(DWORD dwMsgID, DWORD dwFlags, LPSTR lpszEMail, size_t dwEMailSize, LPWSTR lpwszMessage, size_t dwMessageSize, LPSTR lpwszMessageRTF, size_t dwMessageRTFSize)
+DWORD CMraProto::MraMessageAskW(DWORD dwMsgID, DWORD dwFlags, const CMStringA &szEmail, const CMStringW &lpwszMessage, const CMStringW &lpwszMessageRTF)
 {
-	DWORD dwRet = 0;
+	if (szEmail.GetLength() <= 4 || lpwszMessage.IsEmpty())
+		return 0;
 
-	if (lpszEMail && dwEMailSize>4 && lpwszMessage && dwMessageSize) {
-		LPBYTE lpbData, lpbDataCurrent;
-		lpbData = (LPBYTE)mir_calloc((sizeof(DWORD)+sizeof(DWORD)+dwEMailSize+dwMessageSize+dwMessageRTFSize+32));
-		if (lpbData) {
-			lpbDataCurrent = lpbData;
-			SetUL(&lpbDataCurrent, dwMsgID);//UL msg_id
-			SetUL(&lpbDataCurrent, dwFlags);//UL flags
-			SetLPSLowerCase(&lpbDataCurrent, lpszEMail, dwEMailSize);// LPS from e-mail ANSI
-			SetLPS(&lpbDataCurrent, (LPSTR)lpwszMessage, dwMessageSize);// LPS message UNICODE
-			if (dwFlags&MESSAGE_FLAG_RTF)
-				SetLPS(&lpbDataCurrent, (LPSTR)lpwszMessageRTF, dwMessageRTFSize);// LPS	//rtf-formatted message ( >= 1.1)	- MESSAGE_FLAG_RTF
+	OutBuffer buf;
+	buf.SetUL(dwMsgID);//UL msg_id
+	buf.SetUL(dwFlags);//UL flags
+	buf.SetLPSLowerCase(szEmail);// LPS from e-mail ANSI
+	buf.SetLPSW(lpwszMessage);// LPS message UNICODE
+	if (dwFlags & MESSAGE_FLAG_RTF)
+		buf.SetLPSW(lpwszMessageRTF);// LPS	//rtf-formatted message ( >= 1.1)	- MESSAGE_FLAG_RTF
 
-			dwRet = MraSendCMD(MRIM_CS_MESSAGE_ACK, lpbData, (lpbDataCurrent-lpbData));
-			mir_free(lpbData);
-		}
-	}
-
-	return dwRet;
+	return MraSendCMD(MRIM_CS_MESSAGE_ACK, buf.Data(), buf.Len());
 }
 
-DWORD CMraProto::MraMessageRecv(LPSTR lpszFrom, size_t dwFromSize, DWORD dwMsgID)
+DWORD CMraProto::MraMessageRecv(const CMStringA &szFrom, DWORD dwMsgID)
 {
-	DWORD dwRet = 0;
+	if (szFrom.GetLength() <= 4)
+		return 0;
 
-	if (lpszFrom && dwFromSize>4) {
-		LPBYTE lpbData, lpbDataCurrent;
-		lpbData = (LPBYTE)mir_calloc((dwFromSize+sizeof(DWORD)+32));
-		if (lpbData) {
-			lpbDataCurrent = lpbData;
-			SetLPSLowerCase(&lpbDataCurrent, lpszFrom, dwFromSize);
-			SetUL(&lpbDataCurrent, dwMsgID);
-
-			dwRet = MraSendCMD(MRIM_CS_MESSAGE_RECV, lpbData, (lpbDataCurrent-lpbData));
-			mir_free(lpbData);
-		}
-	}
-	return dwRet;
+	OutBuffer buf;
+	buf.SetLPSLowerCase(szFrom);
+	buf.SetUL(dwMsgID);
+	return MraSendCMD(MRIM_CS_MESSAGE_RECV, buf.Data(), buf.Len());
 }
 
 // Adds new contact
-DWORD CMraProto::MraAddContactW(HANDLE hContact, DWORD dwContactFlag, DWORD dwGroupID, LPSTR lpszEMail, size_t dwEMailSize, LPWSTR lpwszCustomName, size_t dwCustomNameSize, LPSTR lpszPhones, size_t dwPhonesSize, LPWSTR lpwszAuthMessage, size_t dwAuthMessageSize, DWORD dwActions)
+DWORD CMraProto::MraAddContactW(HANDLE hContact, DWORD dwContactFlag, DWORD dwGroupID, const CMStringA &szEmail, const CMStringW &wszCustomName, const CMStringA &szPhones, const CMStringW &wszAuthMessage, DWORD dwActions)
 {
-	DWORD dwRet = 0;
+	if (szEmail.GetLength() <= 4)
+		return 0;
 
-	if (lpszEMail && dwEMailSize>4) {
-		LPBYTE lpbData = (LPBYTE)mir_calloc((sizeof(DWORD)+sizeof(DWORD)+dwEMailSize+(dwCustomNameSize*sizeof(WCHAR))+dwPhonesSize+(((((dwAuthMessageSize*sizeof(WCHAR))+1024)+2)/3)*4)+32)+sizeof(DWORD));
-		if (lpbData) {
-			dwContactFlag |= CONTACT_FLAG_UNICODE_NAME;
+	dwContactFlag |= CONTACT_FLAG_UNICODE_NAME;
 
-			LPBYTE lpbDataCurrent = lpbData;
-			SetUL(&lpbDataCurrent, dwContactFlag);
-			SetUL(&lpbDataCurrent, dwGroupID);
-			SetLPSLowerCase(&lpbDataCurrent, lpszEMail, dwEMailSize);
-			SetLPSW(&lpbDataCurrent, lpwszCustomName, dwCustomNameSize);
-			SetLPS(&lpbDataCurrent, lpszPhones, dwPhonesSize);
+	OutBuffer buf;
+	buf.SetUL(dwContactFlag);
+	buf.SetUL(dwGroupID);
+	buf.SetLPSLowerCase(szEmail);
+	buf.SetLPSW(wszCustomName);
+	buf.SetLPS(szPhones);
 
-			// pack auth message
-			LPBYTE lpbAuthMsgBuff, lpbAuthDataCurrent;
-			LPSTR lpszAuthMessageConverted;
-			size_t dwAuthMessageConvertedBuffSize = (((((dwAuthMessageSize*sizeof(WCHAR))+1024)+2)/3)*4), dwAuthMessageConvertedSize = 0;
+	// pack auth message
+	OutBuffer buf2;
+	buf2.SetUL(2);
+	buf2.SetLPSW(L"");//***deb possible nick here
+	buf2.SetLPSW(wszAuthMessage);
+	buf.SetLPS(CMStringA( ptrA( mir_base64_encode(buf2.Data(), buf2.Len()))));
 
-			lpbAuthMsgBuff = (LPBYTE)mir_calloc(((dwAuthMessageSize*sizeof(WCHAR))+1024));
-			if (lpbAuthMsgBuff) {
-				lpbAuthDataCurrent = lpbAuthMsgBuff;
-				SetUL(&lpbAuthDataCurrent, 2);
-				SetLPSW(&lpbAuthDataCurrent, NULL, 0);//***deb possible nick here
-				SetLPSW(&lpbAuthDataCurrent, lpwszAuthMessage, dwAuthMessageSize);
+	buf.SetUL(dwActions);
 
-				lpszAuthMessageConverted = mir_base64_encode(lpbAuthMsgBuff, (lpbAuthDataCurrent-lpbAuthMsgBuff));
-				dwAuthMessageConvertedSize = lstrlenA(lpszAuthMessageConverted);
-			}
-			SetLPS(&lpbDataCurrent, (LPSTR)lpszAuthMessageConverted, dwAuthMessageConvertedSize);
-			mir_free(lpbAuthMsgBuff);
-			mir_free(lpszAuthMessageConverted);
-
-			SetUL(&lpbDataCurrent, dwActions);
-
-			dwRet = MraSendQueueCMD(hSendQueueHandle, 0, hContact, ACKTYPE_ADDED, NULL, 0, MRIM_CS_ADD_CONTACT, lpbData, (lpbDataCurrent-lpbData));
-			mir_free(lpbData);
-		}
-	}
-	return dwRet;
+	return MraSendQueueCMD(hSendQueueHandle, 0, hContact, ACKTYPE_ADDED, NULL, 0, MRIM_CS_ADD_CONTACT, buf.Data(), buf.Len());
 }
 
 // change contact
-DWORD CMraProto::MraModifyContactW(HANDLE hContact, DWORD dwID, DWORD dwContactFlag, DWORD dwGroupID, LPSTR lpszEMail, size_t dwEMailSize, LPWSTR lpwszCustomName, size_t dwCustomNameSize, LPSTR lpszPhones, size_t dwPhonesSize)
+DWORD CMraProto::MraModifyContactW(HANDLE hContact, DWORD dwID, DWORD dwContactFlag, DWORD dwGroupID, const CMStringA &szEmail, const CMStringW &wszCustomName, const CMStringA &szPhones)
 {
-	DWORD dwRet = 0;
-	if (dwID != -1) {
-		LPBYTE lpbData = (LPBYTE)mir_calloc((sizeof(DWORD)+sizeof(DWORD)+sizeof(DWORD)+dwEMailSize+(dwCustomNameSize*sizeof(WCHAR))+dwPhonesSize+32));
-		if (lpbData)
-		{
-			dwContactFlag |= CONTACT_FLAG_UNICODE_NAME;
+	if (dwID == -1)
+		return 0;
 
-			LPBYTE lpbDataCurrent = lpbData;
-			SetUL(&lpbDataCurrent, dwID);
-			SetUL(&lpbDataCurrent, dwContactFlag);
-			SetUL(&lpbDataCurrent, dwGroupID);
-			SetLPSLowerCase(&lpbDataCurrent, lpszEMail, dwEMailSize);
-			SetLPSW(&lpbDataCurrent, lpwszCustomName, dwCustomNameSize);
-			SetLPS(&lpbDataCurrent, lpszPhones, dwPhonesSize);
+	dwContactFlag |= CONTACT_FLAG_UNICODE_NAME;
 
-			dwRet = MraSendQueueCMD(hSendQueueHandle, 0, hContact, ACKTYPE_ADDED, NULL, 0, MRIM_CS_MODIFY_CONTACT, lpbData, (lpbDataCurrent-lpbData));
-			mir_free(lpbData);
-		}
-	}
-	return dwRet;
+	OutBuffer buf;
+	buf.SetUL(dwID);
+	buf.SetUL(dwContactFlag);
+	buf.SetUL(dwGroupID);
+	buf.SetLPSLowerCase(szEmail);
+	buf.SetLPSW(wszCustomName);
+	buf.SetLPS(szPhones);
+
+	return MraSendQueueCMD(hSendQueueHandle, 0, hContact, ACKTYPE_ADDED, NULL, 0, MRIM_CS_MODIFY_CONTACT, buf.Data(), buf.Len());
 }
 
 // remove stored message
@@ -292,375 +236,267 @@ DWORD CMraProto::MraOfflineMessageDel(DWORDLONG dwMsgUIDL)
 }
 
 // autorize a user & add him to a roster
-DWORD CMraProto::MraAuthorize(LPSTR lpszEMail, size_t dwEMailSize)
+DWORD CMraProto::MraAuthorize(const CMStringA& szEmail)
 {
-	DWORD dwRet = 0;
+	if ( szEmail.GetLength() <= 4)
+		return 0;
 
-	if (lpszEMail && dwEMailSize>4) {
-		LPBYTE lpbData;
-		lpbData = (LPBYTE)mir_calloc((dwEMailSize+32));
-		if (lpbData) {
-			LPBYTE lpbDataCurrent = lpbData;
-			SetLPSLowerCase(&lpbDataCurrent, lpszEMail, dwEMailSize);
-			dwRet = MraSendCMD(MRIM_CS_AUTHORIZE, lpbData, (lpbDataCurrent-lpbData));
-			mir_free(lpbData);
-		}
-	}
-	return dwRet;
+	OutBuffer buf;
+	buf.SetLPSLowerCase(szEmail);
+	return MraSendCMD(MRIM_CS_AUTHORIZE, buf.Data(), buf.Len());
 }
 
 // change status
-DWORD CMraProto::MraChangeStatusW(DWORD dwStatus, LPSTR lpszStatusUri, size_t dwStatusUriSize, LPCWSTR lpwszStatusTitle, size_t dwStatusTitleSize, LPCWSTR lpwszStatusDesc, size_t dwStatusDescSize, DWORD dwFutureFlags)
+DWORD CMraProto::MraChangeStatusW(DWORD dwStatus, const CMStringA &szStatusUri, const CMStringW &wszStatusTitle, const CMStringW &wszStatusDesc, DWORD dwFutureFlags)
 {
-	DWORD dwRet = 0;
-
-	if (dwStatusUriSize > SPEC_STATUS_URI_MAX)  dwStatusUriSize = SPEC_STATUS_URI_MAX;
-	if (dwStatusTitleSize > STATUS_TITLE_MAX)   dwStatusTitleSize = STATUS_TITLE_MAX;
-	if (dwStatusDescSize > STATUS_DESC_MAX)     dwStatusDescSize = STATUS_DESC_MAX;
-
-	LPBYTE lpbData = (LPBYTE)mir_calloc((sizeof(DWORD)+dwStatusUriSize+(dwStatusTitleSize*sizeof(WCHAR))+(dwStatusDescSize*sizeof(WCHAR))+sizeof(DWORD)+32));
-	if (lpbData) {
-		LPBYTE lpbDataCurrent = lpbData;
-		SetUL(&lpbDataCurrent, dwStatus);
-		SetLPS(&lpbDataCurrent, lpszStatusUri, dwStatusUriSize);
-		SetLPSW(&lpbDataCurrent, lpwszStatusTitle, dwStatusTitleSize);
-		SetLPSW(&lpbDataCurrent, lpwszStatusDesc, dwStatusDescSize);
-		SetUL(&lpbDataCurrent, dwFutureFlags);
-
-		dwRet = MraSendCMD(MRIM_CS_CHANGE_STATUS, lpbData, (lpbDataCurrent-lpbData));
-		mir_free(lpbData);
-	}
-	return dwRet;
+	OutBuffer buf;
+	buf.SetUL(dwStatus);
+	buf.SetLPS(szStatusUri);
+	buf.SetLPSW(wszStatusTitle);
+	buf.SetLPSW(wszStatusDesc);
+	buf.SetUL(dwFutureFlags);
+	return MraSendCMD(MRIM_CS_CHANGE_STATUS, buf.Data(), buf.Len());
 }
 
 // Отправка файлов
-DWORD CMraProto::MraFileTransfer(LPSTR lpszEMail, size_t dwEMailSize, DWORD dwIDRequest, DWORD dwFilesTotalSize, LPWSTR lpwszFiles, size_t dwFilesSize, LPSTR lpszAddreses, size_t dwAddressesSize)
+DWORD CMraProto::MraFileTransfer(const CMStringA &szEmail, DWORD dwIDRequest, DWORD dwFilesTotalSize, const CMStringW &wszFiles, const CMStringA &szAddresses)
 {
-	DWORD dwRet = 0;
+	if (szEmail.GetLength() <= 4)
+		return 0;
 
-	if (lpszEMail && dwEMailSize>4) {
-		int dwFilesSizeA = WideCharToMultiByte(MRA_CODE_PAGE, 0, lpwszFiles, dwFilesSize, NULL, 0, NULL, NULL);
-		LPBYTE lpbData = (LPBYTE)mir_calloc((dwEMailSize+dwFilesSizeA+(dwFilesSize*sizeof(WCHAR))+dwAddressesSize+MAX_PATH));
-		if (lpbData) {
-			LPBYTE lpbDataCurrent = lpbData;
-			SetLPSLowerCase(&lpbDataCurrent, lpszEMail, dwEMailSize);
-			SetUL(&lpbDataCurrent, dwIDRequest);
-			SetUL(&lpbDataCurrent, dwFilesTotalSize);
-			SetUL(&lpbDataCurrent, sizeof(DWORD)*5 + dwFilesSizeA + dwFilesSize*sizeof(WCHAR) + DWORD(dwAddressesSize));
+	CMStringA szFiles = wszFiles;
 
-			SetLPSWtoA(&lpbDataCurrent, lpwszFiles, dwFilesSize);
-			SetUL(&lpbDataCurrent, sizeof(DWORD)*2 + dwFilesSize*sizeof(WCHAR));
+	OutBuffer buf;
+	buf.SetLPSLowerCase(szEmail);
+	buf.SetUL(dwIDRequest);
+	buf.SetUL(dwFilesTotalSize);
+	buf.SetUL(sizeof(DWORD)*5 + szFiles.GetLength() + wszFiles.GetLength()*sizeof(WCHAR) + szAddresses.GetLength());
 
-			SetUL(&lpbDataCurrent, 1);
-			SetLPSW(&lpbDataCurrent, lpwszFiles, dwFilesSize);
+	buf.SetLPS(szFiles);
+	buf.SetUL(sizeof(DWORD)*2 + wszFiles.GetLength()*sizeof(WCHAR));
 
-			SetLPS(&lpbDataCurrent, lpszAddreses, dwAddressesSize);
+	buf.SetUL(1);
+	buf.SetLPSW(wszFiles);
 
-			dwRet = MraSendCMD(MRIM_CS_FILE_TRANSFER, lpbData, lpbDataCurrent-lpbData);
-			mir_free(lpbData);
-		}
-	}
-	return dwRet;
+	buf.SetLPS(szAddresses);
+	return MraSendCMD(MRIM_CS_FILE_TRANSFER, buf.Data(), buf.Len());
 }
 
 // Ответ на отправку файлов
-DWORD CMraProto::MraFileTransferAck(DWORD dwStatus, LPSTR lpszEMail, size_t dwEMailSize, DWORD dwIDRequest, LPBYTE lpbDescription, size_t dwDescriptionSize)
+DWORD CMraProto::MraFileTransferAck(DWORD dwStatus, const CMStringA &szEmail, DWORD dwIDRequest, LPBYTE lpbDescription, size_t dwDescriptionSize)
 {
-	DWORD dwRet = 0;
+	if (szEmail.GetLength() <= 4)
+		return 0;
 
-	if (lpszEMail && dwEMailSize>4) {
-		LPBYTE lpbData = (LPBYTE)mir_calloc((dwEMailSize+dwDescriptionSize+32));
-		if (lpbData) {
-			LPBYTE lpbDataCurrent = lpbData;
-			SetUL(&lpbDataCurrent, dwStatus);
-			SetLPSLowerCase(&lpbDataCurrent, lpszEMail, dwEMailSize);
-			SetUL(&lpbDataCurrent, dwIDRequest);
-			SetLPS(&lpbDataCurrent, (LPSTR)lpbDescription, dwDescriptionSize);
-
-			dwRet = MraSendCMD(MRIM_CS_FILE_TRANSFER_ACK, lpbData, (lpbDataCurrent-lpbData));
-			mir_free(lpbData);
-		}
-	}
-	return dwRet;
+	OutBuffer buf;
+	buf.SetUL(dwStatus);
+	buf.SetLPSLowerCase(szEmail);
+	buf.SetUL(dwIDRequest);
+	buf.SetLPS(lpbDescription);
+	return MraSendCMD(MRIM_CS_FILE_TRANSFER_ACK, buf.Data(), buf.Len());
 }
 
 // Поиск контакта
-HANDLE CMraProto::MraWPRequestW(HANDLE hContact, DWORD dwAckType, DWORD dwRequestFlags, LPSTR lpszUser, size_t dwUserSize, LPSTR lpszDomain, size_t dwDomainSize, LPCWSTR lpwszNickName, size_t dwNickNameSize, LPCWSTR lpwszFirstName, size_t dwFirstNameSize, LPCWSTR lpwszLastName, size_t dwLastNameSize, DWORD dwSex, DWORD dwDate1, DWORD dwDate2, DWORD dwCityID, DWORD dwZodiak, DWORD dwBirthdayMonth, DWORD dwBirthdayDay, DWORD dwCountryID, DWORD dwOnline)
+HANDLE CMraProto::MraWPRequestW(HANDLE hContact, DWORD dwAckType, DWORD dwRequestFlags, const CMStringA &szUser, const CMStringA &szDomain, const CMStringW &wszNickName, const CMStringW &wszFirstName, const CMStringW &wszLastName, DWORD dwSex, DWORD dwDate1, DWORD dwDate2, DWORD dwCityID, DWORD dwZodiak, DWORD dwBirthdayMonth, DWORD dwBirthdayDay, DWORD dwCountryID, DWORD dwOnline)
 {
-	DWORD dwRet = 0;
-	LPBYTE lpbData = (LPBYTE)mir_calloc(((dwUserSize+dwDomainSize+dwNickNameSize+dwFirstNameSize+dwLastNameSize)*sizeof(WCHAR))+4096);
-	if (lpbData) {
-		CHAR szBuff[MAX_PATH];
-		size_t dwBuffSize;
+	OutBuffer buf;
+	CMStringA tmp;
 
-		LPBYTE lpbDataCurrent = lpbData;
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_USER))      { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_USER);buf.SetLPSLowerCase(szUser); }
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_DOMAIN))    { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_DOMAIN);buf.SetLPSLowerCase(szDomain); }
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_NICKNAME))  { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_NICKNAME);buf.SetLPSW(wszNickName); }
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME)) { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME);buf.SetLPSW(wszFirstName); }
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_LASTNAME))  { buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_LASTNAME);buf.SetLPSW(wszLastName); }
 
-		if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_USER))      { SetUL(&lpbDataCurrent, MRIM_CS_WP_REQUEST_PARAM_USER);SetLPSLowerCase(&lpbDataCurrent, lpszUser, dwUserSize); }
-		if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_DOMAIN))    { SetUL(&lpbDataCurrent, MRIM_CS_WP_REQUEST_PARAM_DOMAIN);SetLPSLowerCase(&lpbDataCurrent, lpszDomain, dwDomainSize); }
-		if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_NICKNAME))  { SetUL(&lpbDataCurrent, MRIM_CS_WP_REQUEST_PARAM_NICKNAME);SetLPSW(&lpbDataCurrent, lpwszNickName, dwNickNameSize); }
-		if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME)) { SetUL(&lpbDataCurrent, MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME);SetLPSW(&lpbDataCurrent, lpwszFirstName, dwFirstNameSize); }
-		if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_LASTNAME))  { SetUL(&lpbDataCurrent, MRIM_CS_WP_REQUEST_PARAM_LASTNAME);SetLPSW(&lpbDataCurrent, lpwszLastName, dwLastNameSize); }
-
-		if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_SEX)) {
-			dwBuffSize = mir_snprintf(szBuff, SIZEOF(szBuff), "%lu", dwSex);
-			SetUL(&lpbDataCurrent, MRIM_CS_WP_REQUEST_PARAM_SEX);
-			SetLPS(&lpbDataCurrent, szBuff, dwBuffSize);
-		}
-
-		if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_DATE1)) {
-			dwBuffSize = mir_snprintf(szBuff, SIZEOF(szBuff), "%lu", dwDate1);
-			SetUL(&lpbDataCurrent, MRIM_CS_WP_REQUEST_PARAM_DATE1);
-			SetLPS(&lpbDataCurrent, szBuff, dwBuffSize);
-		}
-
-		if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_DATE2)) {
-			dwBuffSize = mir_snprintf(szBuff, SIZEOF(szBuff), "%lu", dwDate2);
-			SetUL(&lpbDataCurrent, MRIM_CS_WP_REQUEST_PARAM_DATE2);
-			SetLPS(&lpbDataCurrent, szBuff, dwBuffSize);
-		}
-
-		if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_CITY_ID)) {
-			dwBuffSize = mir_snprintf(szBuff, SIZEOF(szBuff), "%lu", dwCityID);
-			SetUL(&lpbDataCurrent, MRIM_CS_WP_REQUEST_PARAM_CITY_ID);
-			SetLPS(&lpbDataCurrent, szBuff, dwBuffSize);
-		}
-
-		if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_ZODIAC)) {
-			dwBuffSize = mir_snprintf(szBuff, SIZEOF(szBuff), "%lu", dwZodiak);
-			SetUL(&lpbDataCurrent, MRIM_CS_WP_REQUEST_PARAM_ZODIAC);
-			SetLPS(&lpbDataCurrent, szBuff, dwBuffSize);
-		}
-
-		if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_BIRTHDAY_MONTH)) {
-			dwBuffSize = mir_snprintf(szBuff, SIZEOF(szBuff), "%lu", dwBirthdayMonth);
-			SetUL(&lpbDataCurrent, MRIM_CS_WP_REQUEST_PARAM_BIRTHDAY_MONTH);
-			SetLPS(&lpbDataCurrent, szBuff, dwBuffSize);
-		}
-
-		if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_BIRTHDAY_DAY)) {
-			dwBuffSize = mir_snprintf(szBuff, SIZEOF(szBuff), "%lu", dwBirthdayDay);
-			SetUL(&lpbDataCurrent, MRIM_CS_WP_REQUEST_PARAM_BIRTHDAY_DAY);
-			SetLPS(&lpbDataCurrent, szBuff, dwBuffSize);
-		}
-
-		if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_COUNTRY_ID)) {
-			dwBuffSize = mir_snprintf(szBuff, SIZEOF(szBuff), "%lu", dwCountryID);
-			SetUL(&lpbDataCurrent, MRIM_CS_WP_REQUEST_PARAM_COUNTRY_ID);
-			SetLPS(&lpbDataCurrent, szBuff, dwBuffSize);
-		}
-
-		if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_ONLINE)) {
-			dwBuffSize = mir_snprintf(szBuff, SIZEOF(szBuff), "%lu", dwOnline);
-			SetUL(&lpbDataCurrent, MRIM_CS_WP_REQUEST_PARAM_ONLINE);
-			SetLPS(&lpbDataCurrent, szBuff, dwBuffSize);
-		}
-
-		dwRet = MraSendQueueCMD(hSendQueueHandle, 0, hContact, dwAckType, NULL, 0, MRIM_CS_WP_REQUEST, lpbData, (lpbDataCurrent-lpbData));
-		mir_free(lpbData);
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_SEX)) {
+		tmp.Format("%lu", dwSex);
+		buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_SEX);
+		buf.SetLPS(tmp);
 	}
-	return (HANDLE)dwRet;
+
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_DATE1)) {
+		tmp.Format("%lu", dwDate1);
+		buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_DATE1);
+		buf.SetLPS(tmp);
+	}
+
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_DATE2)) {
+		tmp.Format("%lu", dwDate2);
+		buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_DATE2);
+		buf.SetLPS(tmp);
+	}
+
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_CITY_ID)) {
+		tmp.Format("%lu", dwCityID);
+		buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_CITY_ID);
+		buf.SetLPS(tmp);
+	}
+
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_ZODIAC)) {
+		tmp.Format("%lu", dwZodiak);
+		buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_ZODIAC);
+		buf.SetLPS(tmp);
+	}
+
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_BIRTHDAY_MONTH)) {
+		tmp.Format("%lu", dwBirthdayMonth);
+		buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_BIRTHDAY_MONTH);
+		buf.SetLPS(tmp);
+	}
+
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_BIRTHDAY_DAY)) {
+		tmp.Format("%lu", dwBirthdayDay);
+		buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_BIRTHDAY_DAY);
+		buf.SetLPS(tmp);
+	}
+
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_COUNTRY_ID)) {
+		tmp.Format("%lu", dwCountryID);
+		buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_COUNTRY_ID);
+		buf.SetLPS(tmp);
+	}
+
+	if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_ONLINE)) {
+		tmp.Format("%lu", dwOnline);
+		buf.SetUL(MRIM_CS_WP_REQUEST_PARAM_ONLINE);
+		buf.SetLPS(tmp);
+	}
+
+	return (HANDLE)MraSendQueueCMD(hSendQueueHandle, 0, hContact, dwAckType, NULL, 0, MRIM_CS_WP_REQUEST, buf.Data(), buf.Len());
 }
 
 // Поиск контакта по EMail
-HANDLE CMraProto::MraWPRequestByEMail(HANDLE hContact, DWORD dwAckType, LPCSTR lpszEMail, size_t dwEMailSize)
+HANDLE CMraProto::MraWPRequestByEMail(HANDLE hContact, DWORD dwAckType, CMStringA &szEmail)
 {
-	HANDLE dwRet = 0;
+	if (szEmail.GetLength() <= 4)
+		return 0;
 
-	if (lpszEMail && dwEMailSize>4) {
-		size_t dwUserSize, dwDomainSize;
-		LPSTR lpszDomain = (LPSTR)MemoryFindByte(0, lpszEMail, dwEMailSize, '@');
-		if (lpszDomain) {
-			LPSTR lpszUser = (LPSTR)lpszEMail;
-			dwUserSize = (lpszDomain-lpszEMail);
-			lpszDomain++;
-			dwDomainSize = (dwEMailSize-(dwUserSize+1));
+	int iStart = 0;
+	CMStringA szDomain = szEmail.Tokenize("@", iStart);
+	CMStringA szUser   = szEmail.Tokenize("@", iStart);
 
-			DWORD dwRequestFlags = 0;
-			SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_USER);
-			SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_DOMAIN);
-
-			dwRet = MraWPRequestW(hContact, dwAckType, dwRequestFlags, lpszUser, dwUserSize, lpszDomain, dwDomainSize, NULL, 0, NULL, 0, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-		}
-	}
-	return dwRet;
+	DWORD dwRequestFlags = 0;
+	SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_USER);
+	SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_DOMAIN);
+	return MraWPRequestW(hContact, dwAckType, dwRequestFlags, szUser, szDomain, L"", L"", L"", 0, 0, 0, 0, 0, 0, 0, 0, 0);
 }
 
 // Отправка файлов
-DWORD CMraProto::MraGame(LPSTR lpszEMail, size_t dwEMailSize, DWORD dwGameSessionID, DWORD dwGameMsg, DWORD dwGameMsgID, LPSTR lpszData, size_t dwDataSize)
+DWORD CMraProto::MraGame(const CMStringA &szEmail, DWORD dwGameSessionID, DWORD dwGameMsg, DWORD dwGameMsgID, const CMStringA &szData)
 {
-	DWORD dwRet = 0;
+	if (szEmail.GetLength() <= 4)
+		return 0;
 
-	if (lpszEMail && dwEMailSize>4) {
-		LPBYTE lpbData = (LPBYTE)mir_calloc((dwEMailSize+(sizeof(DWORD)*4)+dwDataSize+32));
-		if (lpbData) {
-			LPBYTE lpbDataCurrent = lpbData;
-			SetLPSLowerCase(&lpbDataCurrent, lpszEMail, dwEMailSize);
-			SetUL(&lpbDataCurrent, dwGameSessionID);
-			SetUL(&lpbDataCurrent, dwGameMsg);
-			SetUL(&lpbDataCurrent, dwGameMsgID);
-			SetUL(&lpbDataCurrent, _time32(NULL));
-			SetLPS(&lpbDataCurrent, lpszData, dwDataSize);
-
-			dwRet = MraSendCMD(MRIM_CS_GAME, lpbData, (lpbDataCurrent-lpbData));
-			mir_free(lpbData);
-		}
-	}
-	return dwRet;
+	OutBuffer buf;
+	buf.SetLPSLowerCase(szEmail);
+	buf.SetUL(dwGameSessionID);
+	buf.SetUL(dwGameMsg);
+	buf.SetUL(dwGameMsgID);
+	buf.SetUL(_time32(NULL));
+	buf.SetLPS(szData);
+	return MraSendCMD(MRIM_CS_GAME, buf.Data(), buf.Len());
 }
 
 // Авторизация
-DWORD CMraProto::MraLogin2W(LPSTR lpszLogin, size_t dwLoginSize, LPSTR lpszPassword, size_t dwPasswordSize, DWORD dwStatus, LPSTR lpszStatusUri, size_t dwStatusUriSize, LPWSTR lpwszStatusTitle, size_t dwStatusTitleSize, LPWSTR lpwszStatusDesc, size_t dwStatusDescSize, DWORD dwFutureFlags, LPSTR dwUserAgentFormatted, size_t dwUserAgentFormattedSize, LPSTR lpszUserAgent, size_t dwUserAgentSize)
+DWORD CMraProto::MraLogin2W(CMStringA &szLogin, CMStringA &szPassword, DWORD dwStatus, CMStringA &szStatusUri, CMStringW &wszStatusTitle, CMStringW &wszStatusDesc, DWORD dwFutureFlags, CMStringA &szUserAgentFormatted, CMStringA &szUserAgent)
 {
-	DWORD dwRet = 0;
+	if (szStatusUri.GetLength() > SPEC_STATUS_URI_MAX)     szStatusUri.Truncate(SPEC_STATUS_URI_MAX);
+	if (wszStatusTitle.GetLength() > STATUS_TITLE_MAX)     wszStatusTitle.Truncate(STATUS_TITLE_MAX);
+	if (wszStatusDesc.GetLength() > STATUS_DESC_MAX)       wszStatusDesc.Truncate(STATUS_DESC_MAX);
+	if (szUserAgentFormatted.GetLength() > USER_AGENT_MAX) szUserAgentFormatted.Truncate(USER_AGENT_MAX);
+	if (szUserAgent.GetLength() > MAX_CLIENT_DESCRIPTION)  szUserAgent.Truncate(MAX_CLIENT_DESCRIPTION);
 
-	if (dwStatusUriSize>SPEC_STATUS_URI_MAX)    dwStatusUriSize = SPEC_STATUS_URI_MAX;
-	if (dwStatusTitleSize>STATUS_TITLE_MAX)     dwStatusTitleSize = STATUS_TITLE_MAX;
-	if (dwStatusDescSize>STATUS_DESC_MAX)       dwStatusDescSize = STATUS_DESC_MAX;
-	if (dwUserAgentFormattedSize>USER_AGENT_MAX) dwUserAgentFormattedSize = USER_AGENT_MAX;
-	if (dwUserAgentSize>MAX_CLIENT_DESCRIPTION) dwUserAgentSize = MAX_CLIENT_DESCRIPTION;
+	OutBuffer buf;
+	buf.SetLPS(szLogin);
+	buf.SetLPS(szPassword);
+	buf.SetUL(dwStatus);
+	buf.SetLPS(szStatusUri);
+	buf.SetLPSW(wszStatusTitle);
+	buf.SetLPSW(wszStatusDesc);
+	buf.SetUL(dwFutureFlags);
+	buf.SetLPS(szUserAgentFormatted);
+	buf.SetLPS("ru");
+	buf.SetLPS("");
+	buf.SetLPS("");
+	buf.SetLPS(szUserAgent);// LPS client description /max 256
 
-	LPBYTE lpbData = (LPBYTE)mir_calloc((dwLoginSize+dwPasswordSize+sizeof(DWORD)+dwStatusUriSize+(dwStatusTitleSize*sizeof(WCHAR))+(dwStatusDescSize*sizeof(WCHAR))+2+sizeof(DWORD)+(sizeof(DWORD)*2)+dwUserAgentFormattedSize+dwUserAgentSize+32));
-	if (lpbData) {
-		LPBYTE lpbDataCurrent = lpbData;
-		SetLPS(&lpbDataCurrent, lpszLogin, dwLoginSize);
-		SetLPS(&lpbDataCurrent, lpszPassword, dwPasswordSize);
-		SetUL(&lpbDataCurrent, dwStatus);
-		SetLPS(&lpbDataCurrent, lpszStatusUri, dwStatusUriSize);
-		SetLPSW(&lpbDataCurrent, lpwszStatusTitle, dwStatusTitleSize);
-		SetLPSW(&lpbDataCurrent, lpwszStatusDesc, dwStatusDescSize);
-		SetUL(&lpbDataCurrent, dwFutureFlags);
-		SetLPS(&lpbDataCurrent, dwUserAgentFormatted, dwUserAgentFormattedSize);
-		SetLPS(&lpbDataCurrent, "ru", 2);
-		SetLPS(&lpbDataCurrent, NULL, 0);
-		SetLPS(&lpbDataCurrent, NULL, 0);
-		SetLPS(&lpbDataCurrent, lpszUserAgent, dwUserAgentSize);// LPS client description /max 256
-
-		dwRet = MraSendCMD(MRIM_CS_LOGIN2, lpbData, (lpbDataCurrent-lpbData));
-		mir_free(lpbData);
-	}
-	return dwRet;
+	return MraSendCMD(MRIM_CS_LOGIN2, buf.Data(), buf.Len());
 }
 
 // Отправка SMS
-DWORD CMraProto::MraSMSW(HANDLE hContact, LPSTR lpszPhone, size_t dwPhoneSize, LPWSTR lpwszMessage, size_t dwMessageSize)
+DWORD CMraProto::MraSMSW(HANDLE hContact, const CMStringA &lpszPhone, const CMStringW &lpwszMessage)
 {
-	DWORD dwRet = 0;
-	LPBYTE lpbData = (LPBYTE)mir_calloc((dwPhoneSize+(dwMessageSize*sizeof(WCHAR))+32));
-	LPBYTE lpbDataQueue = (LPBYTE)mir_calloc((dwPhoneSize+(dwMessageSize*sizeof(WCHAR))+32));
-	LPSTR lpszPhoneLocal = (LPSTR)mir_calloc((dwPhoneSize+32));
-	if (lpbData && lpbDataQueue && lpszPhoneLocal) {
-		lpszPhoneLocal[0] = '+';
-		dwPhoneSize = 1+CopyNumber((lpszPhoneLocal+1), lpszPhone, dwPhoneSize);
+	CMStringA szPhoneLocal = "+" + CopyNumber(lpszPhone);
 
-		LPBYTE lpbDataCurrent = lpbData;
-		SetUL(&lpbDataCurrent, 0);
-		SetLPS(&lpbDataCurrent, lpszPhoneLocal, dwPhoneSize);
-		SetLPSW(&lpbDataCurrent, lpwszMessage, dwMessageSize);
+	OutBuffer buf, buf2;
+	buf.SetUL(0);
+	buf.SetLPS(szPhoneLocal);
+	buf.SetLPSW(lpwszMessage);
 
-		(*(DWORD*)lpbDataQueue) = dwPhoneSize;
-		memmove((lpbDataQueue+sizeof(DWORD)), lpszPhoneLocal, (dwPhoneSize+1));
-		memmove((lpbDataQueue+sizeof(DWORD)+dwPhoneSize+1), lpwszMessage, ((dwMessageSize*sizeof(WCHAR))+1));
-
-		dwRet = MraSendQueueCMD(hSendQueueHandle, 0, hContact, ICQACKTYPE_SMS, lpbDataQueue, (dwPhoneSize+(dwMessageSize*sizeof(WCHAR))+sizeof(DWORD)+2), MRIM_CS_SMS, lpbData, (lpbDataCurrent-lpbData));
-		mir_free(lpbData);
-		mir_free(lpszPhoneLocal);
-	}
-	else {
-		mir_free(lpbData);
-		mir_free(lpbDataQueue);
-		mir_free(lpszPhoneLocal);
-	}
-	return dwRet;
+	buf2.SetLPS(szPhoneLocal);
+	buf.SetLPSW(lpwszMessage);
+	return MraSendQueueCMD(hSendQueueHandle, 0, hContact, ICQACKTYPE_SMS, buf2.Data(), buf2.Len(), MRIM_CS_SMS, buf.Data(), buf.Len());
 }
 
 // Соединение с прокси
-DWORD CMraProto::MraProxy(LPSTR lpszEMail, size_t dwEMailSize, DWORD dwIDRequest, DWORD dwDataType, LPSTR lpszData, size_t dwDataSize, LPSTR lpszAddreses, size_t dwAddressesSize, MRA_GUID mguidSessionID)
+DWORD CMraProto::MraProxy(const CMStringA &szEmail, DWORD dwIDRequest, DWORD dwDataType, const CMStringA &lpszData, const CMStringA &szAddresses, MRA_GUID mguidSessionID)
 {
-	DWORD dwRet = 0;
+	if (szEmail.GetLength() <= 4)
+		return 0;
 
-	if (lpszEMail && dwEMailSize>4) {
-		LPBYTE lpbData = (LPBYTE)mir_calloc((dwEMailSize+(sizeof(DWORD)*2)+dwDataSize+dwAddressesSize+sizeof(MRA_GUID)+32));
-		if (lpbData) {
-			LPBYTE lpbDataCurrent = lpbData;
-			SetLPSLowerCase(&lpbDataCurrent, lpszEMail, dwEMailSize);
-			SetUL(&lpbDataCurrent, dwIDRequest);
-			SetUL(&lpbDataCurrent, dwDataType);
-			SetLPS(&lpbDataCurrent, lpszData, dwDataSize);
-			SetLPS(&lpbDataCurrent, lpszAddreses, dwAddressesSize);
-			SetGUID(&lpbDataCurrent, mguidSessionID);
-
-			dwRet = MraSendCMD(MRIM_CS_PROXY, lpbData, (lpbDataCurrent-lpbData));
-			mir_free(lpbData);
-		}
-	}
-	return dwRet;
+	OutBuffer buf;
+	buf.SetLPSLowerCase(szEmail);
+	buf.SetUL(dwIDRequest);
+	buf.SetUL(dwDataType);
+	buf.SetLPS(lpszData);
+	buf.SetLPS(szAddresses);
+	buf.SetGUID(mguidSessionID);
+	return MraSendCMD(MRIM_CS_PROXY, buf.Data(), buf.Len());
 }
 
 // Ответ на соединение с прокси
-DWORD CMraProto::MraProxyAck(DWORD dwStatus, LPSTR lpszEMail, size_t dwEMailSize, DWORD dwIDRequest, DWORD dwDataType, LPSTR lpszData, size_t dwDataSize, LPSTR lpszAddreses, size_t dwAddressesSize, MRA_GUID mguidSessionID)
+DWORD CMraProto::MraProxyAck(DWORD dwStatus, const CMStringA &szEmail, DWORD dwIDRequest, DWORD dwDataType, const CMStringA &lpszData, const CMStringA &szAddresses, MRA_GUID mguidSessionID)
 {
-	DWORD dwRet = 0;
+	if (szEmail.GetLength() <= 4)
+		return 0;
 
-	if (lpszEMail && dwEMailSize>4) {
-		LPBYTE lpbData = (LPBYTE)mir_calloc((dwEMailSize+(sizeof(DWORD)*3)+dwDataSize+dwAddressesSize+sizeof(MRA_GUID)+32));
-		if (lpbData) {
-			LPBYTE lpbDataCurrent = lpbData;
-			SetUL(&lpbDataCurrent, dwStatus);
-			SetLPSLowerCase(&lpbDataCurrent, lpszEMail, dwEMailSize);
-			SetUL(&lpbDataCurrent, dwIDRequest);
-			SetUL(&lpbDataCurrent, dwDataType);
-			SetLPS(&lpbDataCurrent, lpszData, dwDataSize);
-			SetLPS(&lpbDataCurrent, lpszAddreses, dwAddressesSize);
-			SetGUID(&lpbDataCurrent, mguidSessionID);
-
-			dwRet = MraSendCMD(MRIM_CS_PROXY_ACK, lpbData, (lpbDataCurrent-lpbData));
-			mir_free(lpbData);
-		}
-	}
-	return dwRet;
+	OutBuffer buf;
+	buf.SetUL(dwStatus);
+	buf.SetLPSLowerCase(szEmail);
+	buf.SetUL(dwIDRequest);
+	buf.SetUL(dwDataType);
+	buf.SetLPS(lpszData);
+	buf.SetLPS(szAddresses);
+	buf.SetGUID(mguidSessionID);
+	return MraSendCMD(MRIM_CS_PROXY_ACK, buf.Data(), buf.Len());
 }
 
 // Отправка сообщения в микроблог
-DWORD CMraProto::MraChangeUserBlogStatus(DWORD dwFlags, LPWSTR lpwszText, size_t dwTextSize, DWORDLONG dwBlogStatusID)
+DWORD CMraProto::MraChangeUserBlogStatus(DWORD dwFlags, const CMStringW &wszText, DWORDLONG dwBlogStatusID)
 {
-	DWORD dwRet = 0;
-	if (dwTextSize > MICBLOG_STATUS_MAX)
-		dwTextSize = MICBLOG_STATUS_MAX;
-
-	LPBYTE lpbData = (LPBYTE)mir_calloc((sizeof(DWORD)+(dwTextSize*sizeof(WCHAR))+sizeof(DWORDLONG)+32));
-	if (lpbData) {
-		LPBYTE lpbDataCurrent = lpbData;
-		SetUL(&lpbDataCurrent, dwFlags);
-		SetLPSW(&lpbDataCurrent, lpwszText, dwTextSize);
-		SetUIDL(&lpbDataCurrent, dwBlogStatusID);
-
-		dwRet = MraSendCMD(MRIM_CS_CHANGE_USER_BLOG_STATUS, lpbData, (lpbDataCurrent-lpbData));
-		mir_free(lpbData);
-	}
-
-	return dwRet;
+	OutBuffer buf;
+	buf.SetUL(dwFlags);
+	buf.SetLPSW(wszText);
+	buf.SetUIDL(dwBlogStatusID);
+	return MraSendCMD(MRIM_CS_CHANGE_USER_BLOG_STATUS, buf.Data(), buf.Len());
 }
 
-DWORD CMraProto::MraSendPacket(HANDLE hConnection, DWORD dwCMDNum, DWORD dwType, LPVOID lpData, size_t dwDataSize)
+DWORD CMraProto::MraSendPacket(HANDLE m_hConnection, DWORD dwCMDNum, DWORD dwType, LPVOID lpData, size_t dwDataSize)
 {
-	DWORD dwRet;
+	LPBYTE lpbData = (LPBYTE)_alloca(dwDataSize+sizeof(mrim_packet_header_t));
 
-	LPBYTE lpbData = (LPBYTE)mir_calloc((dwDataSize+sizeof(mrim_packet_header_t)));
-	if (lpbData) {
-		mrim_packet_header_t *pmaHeader = (mrim_packet_header_t*)lpbData;
-		pmaHeader->magic = CS_MAGIC;
-		pmaHeader->proto = (PROTO_VERSION_MAJOR<<16) + PROTO_VERSION_MINOR; // Версия протокола
-		pmaHeader->seq = dwCMDNum;// Sequence
-		pmaHeader->msg = dwType;// Тип пакета
-		pmaHeader->dlen = dwDataSize;// Длина данных
+	mrim_packet_header_t *pmaHeader = (mrim_packet_header_t*)lpbData;
+	memset(pmaHeader, 0, sizeof(mrim_packet_header_t));
+	pmaHeader->magic = CS_MAGIC;
+	pmaHeader->proto = (PROTO_VERSION_MAJOR<<16) + PROTO_VERSION_MINOR; // Версия протокола
+	pmaHeader->seq = dwCMDNum;// Sequence
+	pmaHeader->msg = dwType;// Тип пакета
+	pmaHeader->dlen = dwDataSize;// Длина данных
+	
+	Netlib_Logf(m_hNetlibUser, "Sending packet %08x\n", dwType);
 
-		Netlib_Logf(hNetlibUser, "Sending packet %08x\n", dwType);
-
-		memmove((lpbData+sizeof(mrim_packet_header_t)), lpData, dwDataSize);
-		dwRet = Netlib_Send(hConnection, (LPSTR)lpbData, (dwDataSize+sizeof(mrim_packet_header_t)), 0);
-		mir_free(lpbData);
-	}
-	return dwRet;
+	memcpy(lpbData+sizeof(mrim_packet_header_t), lpData, dwDataSize);
+	return Netlib_Send(m_hConnection, (LPSTR)lpbData, (dwDataSize+sizeof(mrim_packet_header_t)), 0);
 }
 
 DWORD CMraProto::MraSendCMD(DWORD dwType, LPVOID lpData, size_t dwDataSize)
@@ -668,7 +504,7 @@ DWORD CMraProto::MraSendCMD(DWORD dwType, LPVOID lpData, size_t dwDataSize)
 	DWORD dwRet = InterlockedIncrement((LONG volatile*)&dwCMDNum);
 
 	mir_cslock l(csCriticalSectionSend); // guarding winsock internal buffers
-	return !MraSendPacket(hConnection, dwRet, dwType, lpData, dwDataSize) ? 0 : dwRet;
+	return !MraSendPacket(m_hConnection, dwRet, dwType, lpData, dwDataSize) ? 0 : dwRet;
 }
 
 
@@ -677,7 +513,7 @@ DWORD CMraProto::MraSendQueueCMD(HANDLE hSendQueueHandle, DWORD dwFlags, HANDLE 
 	DWORD dwRet = InterlockedIncrement((LONG volatile*)&dwCMDNum);
 	if ( !MraSendQueueAdd(hSendQueueHandle, dwRet, dwFlags, hContact, dwAckType, lpbDataQueue, dwDataQueueSize)) {
 		mir_cslock l(csCriticalSectionSend); // guarding winsock internal buffers
-		if ( !MraSendPacket(hConnection, dwRet, dwType, lpData, dwDataSize)) {
+		if ( !MraSendPacket(m_hConnection, dwRet, dwType, lpData, dwDataSize)) {
 			MraSendQueueFree(hSendQueueHandle, dwRet);
 			dwRet = 0;
 		}

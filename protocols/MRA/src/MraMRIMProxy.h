@@ -6,7 +6,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-DWORD	 MraMrimProxySetData(HANDLE hMraMrimProxyData, LPSTR lpszEMail, size_t dwEMailSize, DWORD dwIDRequest, DWORD dwDataType, LPSTR lpszUserData, size_t dwUserDataSize, LPSTR lpszAddreses, size_t dwAddresesSize, MRA_GUID *pmguidSessionID);
+DWORD	 MraMrimProxySetData(HANDLE hMraMrimProxyData, const CMStringA &szEmail, DWORD dwIDRequest, DWORD dwDataType, const CMStringA &lpszUserData, const CMStringA &szAddresses, MRA_GUID *pmguidSessionID);
 
 HANDLE MraMrimProxyCreate();
 void	 MraMrimProxyFree(HANDLE hMraMrimProxyData);

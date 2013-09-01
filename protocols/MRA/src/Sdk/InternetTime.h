@@ -282,61 +282,56 @@ __inline void InternetTimeGetCurrentTime(INTERNET_TIME *pitTime)
 }
 
 
-__inline DWORD InternetTimeGetString(INTERNET_TIME *pitTime,LPSTR lpszBuff,size_t dwBuffSize,size_t *pdwBuffSizeRet)
+__inline CMStringA InternetTimeGetString(INTERNET_TIME *pitTime)
 {//	Переводит время из MAILTIME в строковое
 	DWORD dwRet=NO_ERROR;
 
-	if (dwBuffSize>31)
+	char lpszBuff[100];
+	LPSTR lpszCurPos = lpszBuff;
+	size_t dwTimeLen=0,dwtm;
+
+	// day of weak// date of mounth// mounth name// year// hours // minutes// seconds
+	dwtm=wsprintfA(lpszCurPos,"%s, %02lu %s %04lu %02lu:%02lu:%02lu ",lpcszenmDayOfWeakEnum[pitTime->stTime.wDayOfWeek],pitTime->stTime.wDay,lpcszenmMonthEnum[pitTime->stTime.wMonth],pitTime->stTime.wYear,pitTime->stTime.wHour,pitTime->stTime.wMinute,pitTime->stTime.wSecond);
+	lpszCurPos+=dwtm;
+	dwTimeLen+=dwtm;
+
+	// time zone
+	if (pitTime->lTimeZone)
 	{
-		LPSTR lpszCurPos=lpszBuff;
-		size_t dwTimeLen=0,dwtm;
-
-		// day of weak// date of mounth// mounth name// year// hours // minutes// seconds
-		dwtm=wsprintfA(lpszCurPos,"%s, %02lu %s %04lu %02lu:%02lu:%02lu ",lpcszenmDayOfWeakEnum[pitTime->stTime.wDayOfWeek],pitTime->stTime.wDay,lpcszenmMonthEnum[pitTime->stTime.wMonth],pitTime->stTime.wYear,pitTime->stTime.wHour,pitTime->stTime.wMinute,pitTime->stTime.wSecond);
-		lpszCurPos+=dwtm;
-		dwTimeLen+=dwtm;
-
-		// time zone
-		if (pitTime->lTimeZone)
-		{
-			if (pitTime->lTimeZone < 0)
-			{// нужно добавить плюсик, минус добавляется автоматом
-				(*((BYTE*)lpszCurPos))='+';
-				lpszCurPos++;
-				dwTimeLen++;
-			}
-
-			dwtm=wsprintfA(lpszCurPos,"%04ld",-(((pitTime->lTimeZone/60)*100)+pitTime->lTimeZone%60));
-			lpszCurPos+=dwtm;
-			dwTimeLen+=dwtm;
-		}else{
-			dwtm=wsprintfA(lpszCurPos,"GMT");
-			lpszCurPos+=dwtm;
-			dwTimeLen+=dwtm;
+		if (pitTime->lTimeZone < 0)
+		{// нужно добавить плюсик, минус добавляется автоматом
+			(*((BYTE*)lpszCurPos))='+';
+			lpszCurPos++;
+			dwTimeLen++;
 		}
 
-		if (pdwBuffSizeRet) (*pdwBuffSizeRet)=dwTimeLen;
-	}else{// переданный буффер слишком мал
-		if (pdwBuffSizeRet) (*pdwBuffSizeRet)=32;
-		dwRet=ERROR_INSUFFICIENT_BUFFER;
+		dwtm=wsprintfA(lpszCurPos,"%04ld",-(((pitTime->lTimeZone/60)*100)+pitTime->lTimeZone%60));
+		lpszCurPos+=dwtm;
+		dwTimeLen+=dwtm;
 	}
-return(dwRet);
+	else{
+		dwtm=wsprintfA(lpszCurPos,"GMT");
+		lpszCurPos+=dwtm;
+		dwTimeLen+=dwtm;
+	}
+
+	return lpszBuff;
 }
 
 
 
-__inline DWORD InternetTimeGetTime(LPCSTR lpszTime,size_t dwTimeSize,INTERNET_TIME *pitTime)
+__inline DWORD InternetTimeGetTime(const CMStringA &lpszTime, INTERNET_TIME *pitTime)
 {//	Переводит время из строкового в INTERNET_TIME
 	DWORD dwRet=NO_ERROR;
 
-	if (lpszTime && dwTimeSize && dwTimeSize<4097 && pitTime)
+	if (!lpszTime.IsEmpty() && pitTime)
 	{// = Thu, 21 May 1998 05:33:29 -0700 =
 		char sztmBuff[4096];
 		LPSTR lpszCurPos=sztmBuff,lpszTemp;
 		size_t i,dwCurSize=4096,dwTemp;
 
 		memset(pitTime, 0, sizeof(INTERNET_TIME));
-		WSP2SP((LPSTR)lpszTime,dwTimeSize,lpszCurPos,&dwCurSize);
+		WSP2SP(lpszTime, lpszTime.GetLength(), lpszCurPos, &dwCurSize);
 
 		if (dwCurSize>3)
 		{// день недели

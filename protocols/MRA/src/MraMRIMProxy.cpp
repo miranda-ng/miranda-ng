@@ -4,15 +4,14 @@
 
 struct MRA_MRIMPROXY_DATA
 {
-	LPSTR			lpszEMail;		// LPS to
-	size_t			dwEMailSize;
+	LPSTR			szEmail;		// LPS to
 	DWORD			dwIDRequest;	// DWORD id_request
 	DWORD			dwDataType;		// DWORD data_type
 	LPSTR			lpszUserData;	// LPS user_data
 	size_t			dwUserDataSize;
 	MRA_ADDR_LIST	malAddrList;	// LPS lps_ip_port
 	MRA_GUID		mguidSessionID;	// DWORD session_id[4]
-	HANDLE			hConnection;
+	HANDLE			m_hConnection;
 	HANDLE			hWaitHandle;	// internal
 };
 
@@ -22,32 +21,24 @@ HANDLE MraMrimProxyCreate()
 	return (HANDLE)pmmpd;
 }
 
-DWORD MraMrimProxySetData(HANDLE hMraMrimProxyData, LPSTR lpszEMail, size_t dwEMailSize, DWORD dwIDRequest, DWORD dwDataType, LPSTR lpszUserData, size_t dwUserDataSize, LPSTR lpszAddreses, size_t dwAddresesSize, MRA_GUID *pmguidSessionID)
+DWORD MraMrimProxySetData(HANDLE hMraMrimProxyData, const CMStringA &szEmail, DWORD dwIDRequest, DWORD dwDataType, const CMStringA &lpszUserData, const CMStringA &szAddresses, MRA_GUID *pmguidSessionID)
 {
 	if (!hMraMrimProxyData)
 		return ERROR_INVALID_HANDLE;
 
 	MRA_MRIMPROXY_DATA *pmmpd = (MRA_MRIMPROXY_DATA*)hMraMrimProxyData;
 
-	if (lpszEMail && dwEMailSize) {
-		mir_free(pmmpd->lpszEMail);
-		pmmpd->lpszEMail = (LPSTR)mir_calloc(dwEMailSize);
-		memmove(pmmpd->lpszEMail, lpszEMail, dwEMailSize);
-		pmmpd->dwEMailSize = dwEMailSize;
-	}
+	if (!szEmail.IsEmpty())
+		replaceStr(pmmpd->szEmail, szEmail);
 
 	if (dwIDRequest) pmmpd->dwIDRequest = dwIDRequest;
 	if (dwDataType) pmmpd->dwDataType = dwDataType;
 
-	if (lpszUserData) {
-		mir_free(pmmpd->lpszUserData);
-		pmmpd->lpszUserData = (LPSTR)mir_calloc(dwUserDataSize);
-		memmove(pmmpd->lpszUserData, lpszUserData, dwUserDataSize);
-		pmmpd->dwUserDataSize = dwUserDataSize;
-	}
+	if (!lpszUserData.IsEmpty())
+		replaceStr(pmmpd->lpszUserData, lpszUserData);
 
-	if (lpszAddreses && dwAddresesSize)
-		MraAddrListGetFromBuff(lpszAddreses, dwAddresesSize, &pmmpd->malAddrList);
+	if (!szAddresses.IsEmpty())
+		MraAddrListGetFromBuff(szAddresses, &pmmpd->malAddrList);
 	if (pmguidSessionID)
 		memmove(&pmmpd->mguidSessionID, pmguidSessionID, sizeof(MRA_GUID));
 
@@ -61,8 +52,8 @@ void MraMrimProxyFree(HANDLE hMraMrimProxyData)
 		MRA_MRIMPROXY_DATA *pmmpd = (MRA_MRIMPROXY_DATA*)hMraMrimProxyData;
 
 		CloseHandle(pmmpd->hWaitHandle);
-		Netlib_CloseHandle(pmmpd->hConnection);
-		mir_free(pmmpd->lpszEMail);
+		Netlib_CloseHandle(pmmpd->m_hConnection);
+		mir_free(pmmpd->szEmail);
 		mir_free(pmmpd->lpszUserData);
 		MraAddrListFree(&pmmpd->malAddrList);
 		mir_free(hMraMrimProxyData);
@@ -74,7 +65,7 @@ void MraMrimProxyCloseConnection(HANDLE hMraMrimProxyData)
 	if (hMraMrimProxyData) {
 		MRA_MRIMPROXY_DATA *pmmpd = (MRA_MRIMPROXY_DATA*)hMraMrimProxyData;
 		SetEvent(pmmpd->hWaitHandle);
-		Netlib_CloseHandle(pmmpd->hConnection);
+		Netlib_CloseHandle(pmmpd->m_hConnection);
 	}
 }
 
@@ -93,14 +84,14 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 
 		// адреса есть, значит инициаторы не мы
 		if (pmmpd->malAddrList.dwAddrCount) {
-			MraAddrListGetToBuff(&pmmpd->malAddrList, (LPSTR)lpbBufferRcv, SIZEOF(lpbBufferRcv), &dwRcvBuffSizeUsed);
-			MraProxyAck(PROXY_STATUS_OK, pmmpd->lpszEMail, pmmpd->dwEMailSize, pmmpd->dwIDRequest, pmmpd->dwDataType, pmmpd->lpszUserData, pmmpd->dwUserDataSize, (LPSTR)lpbBufferRcv, dwRcvBuffSizeUsed, pmmpd->mguidSessionID);
+			CMStringA szAddresses = MraAddrListGetToBuff(&pmmpd->malAddrList);
+			MraProxyAck(PROXY_STATUS_OK, pmmpd->szEmail, pmmpd->dwIDRequest, pmmpd->dwDataType, pmmpd->lpszUserData, szAddresses, pmmpd->mguidSessionID);
 		}
 		// мы инициаторы
 		else {
 			pmmpd->hWaitHandle = CreateEvent(NULL, TRUE, FALSE, NULL);
-			if (pmmpd->lpszEMail && pmmpd->dwEMailSize)
-			if (MraProxy(pmmpd->lpszEMail, pmmpd->dwEMailSize, pmmpd->dwIDRequest, pmmpd->dwDataType, pmmpd->lpszUserData, pmmpd->dwUserDataSize, NULL, 0, pmmpd->mguidSessionID))
+			if (pmmpd->szEmail)
+			if (MraProxy(pmmpd->szEmail, pmmpd->dwIDRequest, pmmpd->dwDataType, pmmpd->lpszUserData, "", pmmpd->mguidSessionID))
 				WaitForSingleObjectEx(pmmpd->hWaitHandle, INFINITE, FALSE);
 
 			CloseHandle(pmmpd->hWaitHandle);
@@ -109,8 +100,8 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 
 		dwRetErrorCode = ERROR_NO_NETWORK;
 		if (pmmpd->malAddrList.dwAddrCount) {
-			pmmpd->hConnection = NULL;
-			bIsHTTPSProxyUsed = IsHTTPSProxyUsed(hNetlibUser);
+			pmmpd->m_hConnection = NULL;
+			bIsHTTPSProxyUsed = IsHTTPSProxyUsed(m_hNetlibUser);
 			dwConnectReTryCount = getDword("ConnectReTryCountMRIMProxy", MRA_DEFAULT_CONN_RETRY_COUNT_MRIMPROXY);
 			nloc.cbSize = sizeof(nloc);
 			nloc.flags = NLOCF_V2;
@@ -121,28 +112,28 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 			// Set up the sockaddr structure
 			for (size_t i = 0; i < pmmpd->malAddrList.dwAddrCount && dwRetErrorCode != NO_ERROR; i++) {
 				// через https прокси только 443 порт
-				if ((pmmpd->malAddrList.pmaliAddress[i].dwPort == MRA_SERVER_PORT_HTTPS && bIsHTTPSProxyUsed) || bIsHTTPSProxyUsed == FALSE) {
+				if ((pmmpd->malAddrList.pMailAddress[i].dwPort == MRA_SERVER_PORT_HTTPS && bIsHTTPSProxyUsed) || bIsHTTPSProxyUsed == FALSE) {
 					if (pmmpd->dwDataType == MRIM_PROXY_TYPE_FILES)
-						ProtoBroadcastAck(MraHContactFromEmail(pmmpd->lpszEMail, pmmpd->dwEMailSize, FALSE, TRUE, NULL), ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)pmmpd->dwIDRequest, 0);
+						ProtoBroadcastAck(MraHContactFromEmail(pmmpd->szEmail, FALSE, TRUE, NULL), ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)pmmpd->dwIDRequest, 0);
 
-					nloc.szHost = inet_ntoa((*((in_addr*)&pmmpd->malAddrList.pmaliAddress[i].dwAddr)));
-					nloc.wPort = (WORD)pmmpd->malAddrList.pmaliAddress[i].dwPort;
+					nloc.szHost = inet_ntoa((*((in_addr*)&pmmpd->malAddrList.pMailAddress[i].dwAddr)));
+					nloc.wPort = (WORD)pmmpd->malAddrList.pMailAddress[i].dwPort;
 
 					dwCurConnectReTryCount = dwConnectReTryCount;
 					do {
-						pmmpd->hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)hNetlibUser, (LPARAM)&nloc);
+						pmmpd->m_hConnection = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, (WPARAM)m_hNetlibUser, (LPARAM)&nloc);
 					}
-						while (--dwCurConnectReTryCount && pmmpd->hConnection == NULL);
+						while (--dwCurConnectReTryCount && pmmpd->m_hConnection == NULL);
 
-					if (pmmpd->hConnection) {
+					if (pmmpd->m_hConnection) {
 						nls.cbSize = sizeof(nls);
 						nls.dwTimeout = (MRA_TIMEOUT_DIRECT_CONN*1000*2);
-						nls.hReadConns[0] = pmmpd->hConnection;
+						nls.hReadConns[0] = pmmpd->m_hConnection;
 						bContinue = TRUE;
 						dwRcvBuffSizeUsed = 0;
 
 						if (pmmpd->dwDataType == MRIM_PROXY_TYPE_FILES)
-							ProtoBroadcastAck(MraHContactFromEmail(pmmpd->lpszEMail, pmmpd->dwEMailSize, FALSE, TRUE, NULL), ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)pmmpd->dwIDRequest, 0);
+							ProtoBroadcastAck(MraHContactFromEmail(pmmpd->szEmail, FALSE, TRUE, NULL), ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)pmmpd->dwIDRequest, 0);
 						MraSendPacket(nls.hReadConns[0], 0, MRIM_CS_PROXY_HELLO, &pmmpd->mguidSessionID, sizeof(MRA_GUID));
 
 						while (bContinue) {
@@ -200,11 +191,11 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 			}// end for
 
 			if (dwRetErrorCode != NO_ERROR) { // кажется не туда подключились :)
-				Netlib_CloseHandle(pmmpd->hConnection);
-				pmmpd->hConnection = NULL;
+				Netlib_CloseHandle(pmmpd->m_hConnection);
+				pmmpd->m_hConnection = NULL;
 			}
 		}
-		*phConnection = pmmpd->hConnection;
+		*phConnection = pmmpd->m_hConnection;
 	}
 	else dwRetErrorCode = ERROR_INVALID_HANDLE;
 	return dwRetErrorCode;

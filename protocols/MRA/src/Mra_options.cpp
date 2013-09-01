@@ -3,7 +3,7 @@
 INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CMraProto *ppro = (CMraProto*)GetWindowLongPtr(hWndDlg, GWLP_USERDATA);
-	WCHAR szBuff[MAX_EMAIL_LEN];
+	CMStringW szBuff;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -11,8 +11,8 @@ INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARA
 		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, lParam);
 		ppro = (CMraProto*)lParam;
 
-		if ( ppro->mraGetStaticStringW(NULL, "e-mail", szBuff, SIZEOF(szBuff), NULL))
-			SET_DLG_ITEM_TEXTW(hWndDlg, IDC_LOGIN, szBuff);
+		if ( ppro->mraGetStringW(NULL, "e-mail", szBuff))
+			SET_DLG_ITEM_TEXTW(hWndDlg, IDC_LOGIN, szBuff.c_str());
 
 		SET_DLG_ITEM_TEXTW(hWndDlg, IDC_PASSWORD, (LPWSTR)L"");
 		return TRUE;
@@ -36,11 +36,12 @@ INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
+			WCHAR szBuff[MAX_EMAIL_LEN];
 			GET_DLG_ITEM_TEXT(hWndDlg, IDC_LOGIN, szBuff, SIZEOF(szBuff));
-			ppro->mraSetStringW(NULL, "e-mail", szBuff);
+			ppro->setWString(NULL, "e-mail", szBuff);
 
 			if (GET_DLG_ITEM_TEXTA(hWndDlg, IDC_PASSWORD, (LPSTR)szBuff, SIZEOF(szBuff))) {
-				ppro->SetPassDB((LPSTR)szBuff, lstrlenA((LPSTR)szBuff));
+				ppro->SetPassDB((LPSTR)szBuff);
 				SecureZeroMemory(szBuff, sizeof(szBuff));
 			}
 			return TRUE;
@@ -53,7 +54,7 @@ INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARA
 INT_PTR CALLBACK DlgProcAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CMraProto *ppro = (CMraProto*)GetWindowLongPtr(hWndDlg, GWLP_USERDATA);
-	WCHAR szBuff[MAX_EMAIL_LEN];
+	CMStringW szBuff;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -61,8 +62,8 @@ INT_PTR CALLBACK DlgProcAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, lParam);
 		ppro = (CMraProto*)lParam;
 
-		if ( ppro->mraGetStaticStringW(NULL, "e-mail", szBuff, SIZEOF(szBuff), NULL))
-			SET_DLG_ITEM_TEXTW(hWndDlg, IDC_LOGIN, szBuff);
+		if ( ppro->mraGetStringW(NULL, "e-mail", szBuff))
+			SET_DLG_ITEM_TEXTW(hWndDlg, IDC_LOGIN, szBuff.c_str());
 
 		SET_DLG_ITEM_TEXTW(hWndDlg, IDC_PASSWORD, (LPWSTR)L"");
 		return TRUE;
@@ -87,11 +88,12 @@ INT_PTR CALLBACK DlgProcAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
+			WCHAR szBuff[MAX_EMAIL_LEN];
 			GET_DLG_ITEM_TEXT(hWndDlg, IDC_LOGIN, szBuff, SIZEOF(szBuff));
 			ppro->mraSetStringW(NULL, "e-mail", szBuff);
 
 			if (GET_DLG_ITEM_TEXTA(hWndDlg, IDC_PASSWORD, (LPSTR)szBuff, SIZEOF(szBuff))) {
-				ppro->SetPassDB((LPSTR)szBuff, lstrlenA((LPSTR)szBuff));
+				ppro->SetPassDB((LPSTR)szBuff);
 				SecureZeroMemory(szBuff, sizeof(szBuff));
 			}
 			return TRUE;
@@ -104,7 +106,7 @@ INT_PTR CALLBACK DlgProcAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lP
 INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CMraProto *ppro = (CMraProto*)GetWindowLongPtr(hWndDlg, GWLP_USERDATA);
-	WCHAR szBuff[MAX_PATH];
+	CMStringW szBuff;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -112,8 +114,8 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, L
 		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, lParam);
 		ppro = (CMraProto*)lParam;
 
-		if (ppro->mraGetStaticStringW(NULL, "Server", szBuff, SIZEOF(szBuff), NULL))
-			SET_DLG_ITEM_TEXT(hWndDlg, IDC_SERVER, szBuff);
+		if (ppro->mraGetStringW(NULL, "Server", szBuff))
+			SET_DLG_ITEM_TEXT(hWndDlg, IDC_SERVER, szBuff.c_str());
 		else
 			SET_DLG_ITEM_TEXTA(hWndDlg, IDC_SERVER, MRA_DEFAULT_SERVER);
 
@@ -191,6 +193,7 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, L
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
+			WCHAR szBuff[MAX_PATH];
 			GET_DLG_ITEM_TEXT(hWndDlg, IDC_SERVER, szBuff, SIZEOF(szBuff));
 			ppro->mraSetStringW(NULL, "Server", szBuff);
 			ppro->setWord("ServerPort", (WORD)GetDlgItemInt(hWndDlg, IDC_SERVERPORT, NULL, FALSE));

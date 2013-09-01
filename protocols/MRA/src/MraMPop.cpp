@@ -4,7 +4,7 @@
 //	MPOP_SESSION
 struct MRA_MPOP_SESSION_QUEUE : public FIFO_MT
 {
-	BOOL    bKeyValid;
+	bool    bKeyValid;
 	LPSTR   lpszMPOPKey;
 	size_t  dwMPOPKeySize;
 };
@@ -53,7 +53,7 @@ void CMraProto::MraMPopSessionQueueFlush(HANDLE hMPopSessionQueue)
 	if (hMPopSessionQueue) {
 		MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hMPopSessionQueue;
 		while ( FifoMTGetCount(pmpsqMPopSessionQueue)) {
-			MraMPopSessionQueueSetNewMPopKey(hMPopSessionQueue, NULL, 0);
+			MraMPopSessionQueueSetNewMPopKey(hMPopSessionQueue, "");
 			MraMPopSessionQueueStart(hMPopSessionQueue);
 		}
 	}
@@ -69,19 +69,19 @@ void MraMPopSessionQueueDestroy(HANDLE hMPopSessionQueue)
 	}
 }
 
-DWORD CMraProto::MraMPopSessionQueueAddUrl(HANDLE hMPopSessionQueue, LPSTR lpszUrl, size_t dwUrlSize)
+DWORD CMraProto::MraMPopSessionQueueAddUrl(HANDLE hMPopSessionQueue, const CMStringA &szUrl)
 {
-	if (!hMPopSessionQueue || !lpszUrl || !dwUrlSize)
+	if (!hMPopSessionQueue || szUrl.IsEmpty())
 		return ERROR_INVALID_HANDLE;
 
 	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hMPopSessionQueue;
-	MRA_MPOP_SESSION_QUEUE_ITEM *pmpsqi = (MRA_MPOP_SESSION_QUEUE_ITEM*)mir_calloc((sizeof(MRA_MPOP_SESSION_QUEUE_ITEM)+dwUrlSize+sizeof(size_t)));
+	MRA_MPOP_SESSION_QUEUE_ITEM *pmpsqi = (MRA_MPOP_SESSION_QUEUE_ITEM*)mir_calloc((sizeof(MRA_MPOP_SESSION_QUEUE_ITEM)+szUrl.GetLength()+sizeof(size_t)));
 	if (!pmpsqi)
 		return GetLastError();
 
-	pmpsqi->dwUrlSize = dwUrlSize;
+	pmpsqi->dwUrlSize = szUrl.GetLength();
 	pmpsqi->lpszUrl = (LPSTR)(pmpsqi+1);
-	memmove(pmpsqi->lpszUrl, lpszUrl, dwUrlSize);
+	memmove(pmpsqi->lpszUrl, szUrl, szUrl.GetLength());
 	FifoMTItemPush(pmpsqMPopSessionQueue, pmpsqi, (LPVOID)pmpsqi);
 	if (pmpsqMPopSessionQueue->bKeyValid)
 		return MraMPopSessionQueueStart(hMPopSessionQueue);
@@ -94,27 +94,20 @@ DWORD CMraProto::MraMPopSessionQueueAddUrl(HANDLE hMPopSessionQueue, LPSTR lpszU
 	return NO_ERROR;
 }
 
-DWORD CMraProto::MraMPopSessionQueueAddUrlAndEMail(HANDLE hMPopSessionQueue, LPSTR lpszUrl, size_t dwUrlSize, LPSTR lpszEMail, size_t dwEMailSize)
+DWORD CMraProto::MraMPopSessionQueueAddUrlAndEMail(HANDLE hMPopSessionQueue, const CMStringA &lpszUrl, CMStringA &szEmail)
 {
-	if (!hMPopSessionQueue || !lpszUrl || !dwUrlSize || !lpszEMail || !dwEMailSize)
+	if (!hMPopSessionQueue || lpszUrl.IsEmpty() || szEmail.IsEmpty())
 		return ERROR_INVALID_HANDLE;
 
-	char szUrl[BUFF_SIZE_URL], szEMail[MAX_EMAIL_LEN];
-	LPSTR lpszUser, lpszDomain;
+	szEmail.MakeLower();
 
-	BuffToLowerCase(szEMail, lpszEMail, dwEMailSize);
-	lpszDomain = (LPSTR)MemoryFindByte(0, szEMail, dwEMailSize, '@');
-	if (lpszDomain)
-	if (lpszUser = (LPSTR)MemoryFindByte((lpszDomain-szEMail), szEMail, dwEMailSize, '.')) {
-		*lpszUser = 0;
-		lpszUser = szEMail;
-		*lpszDomain = 0;
-		lpszDomain++;
+	int iStart = 0;
+	CMStringA szDomain = szEmail.Tokenize("@", iStart);
+	CMStringA szUser   = szEmail.Tokenize("@", iStart);
 
-		dwUrlSize = mir_snprintf(szUrl, SIZEOF(szUrl), "%s/%s/%s", lpszUrl, lpszDomain, lpszUser);
-		return MraMPopSessionQueueAddUrl(hMPopSessionQueue, szUrl, dwUrlSize);
-	}
-	return ERROR_INVALID_DATA;
+	CMStringA szUrl;
+	szUrl.Format("%s/%s/%s", lpszUrl.c_str(), szDomain.c_str(), szUser.c_str());
+	return MraMPopSessionQueueAddUrl(hMPopSessionQueue, szUrl);
 }
 
 DWORD CMraProto::MraMPopSessionQueueStart(HANDLE hMPopSessionQueue)
@@ -130,15 +123,12 @@ DWORD CMraProto::MraMPopSessionQueueStart(HANDLE hMPopSessionQueue)
 	dwRetErrorCode = NO_ERROR;
 	if (pmpsqMPopSessionQueue->bKeyValid == TRUE)
 	if ( FifoMTItemPop(pmpsqMPopSessionQueue, NULL, (LPVOID*)&pmpsqi) == NO_ERROR) {
-		char szUrl[BUFF_SIZE_URL], szEMail[MAX_EMAIL_LEN];
-		size_t dwUrlSize, dwEMailSize;
-
-		if (mraGetStaticStringA(NULL, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize)) {
+		CMStringA szUrl, szEmail;
+		if (mraGetStringA(NULL, "e-mail", szEmail)) {
 			pmpsqMPopSessionQueue->bKeyValid = FALSE;
-			BuffToLowerCase(szEMail, szEMail, dwEMailSize);
-			dwUrlSize = mir_snprintf(szUrl, SIZEOF(szUrl), MRA_MPOP_AUTH_URL, szEMail, pmpsqMPopSessionQueue->lpszMPOPKey, pmpsqi->lpszUrl);
-
-			CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)szUrl);
+			szEmail.MakeLower();
+			szUrl.Format(MRA_MPOP_AUTH_URL, szEmail, pmpsqMPopSessionQueue->lpszMPOPKey, pmpsqi->lpszUrl);
+			CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)szUrl.c_str());
 			DebugPrint(L"Opening URL: ");DebugPrintCRLFA(szUrl);
 		}
 		mir_free(pmpsqi);
@@ -146,24 +136,22 @@ DWORD CMraProto::MraMPopSessionQueueStart(HANDLE hMPopSessionQueue)
 	return NO_ERROR;
 }
 
-DWORD MraMPopSessionQueueSetNewMPopKey(HANDLE hMPopSessionQueue, LPSTR lpszKey, size_t dwKeySize)
+DWORD MraMPopSessionQueueSetNewMPopKey(HANDLE hMPopSessionQueue, const CMStringA &szKey)
 {
 	if (!hMPopSessionQueue)
 		return ERROR_INVALID_HANDLE;
 
-	if (lpszKey == NULL) dwKeySize = 0;
-
 	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hMPopSessionQueue;
-	if (pmpsqMPopSessionQueue->dwMPOPKeySize<dwKeySize || dwKeySize == 0) {
+	if (pmpsqMPopSessionQueue->dwMPOPKeySize < szKey.GetLength() || szKey.IsEmpty()) {
 		mir_free(pmpsqMPopSessionQueue->lpszMPOPKey);
-		pmpsqMPopSessionQueue->lpszMPOPKey = (LPSTR)mir_calloc(dwKeySize+sizeof(size_t));
+		pmpsqMPopSessionQueue->lpszMPOPKey = (LPSTR)mir_calloc(szKey.GetLength()+sizeof(size_t));
 	}
 
 	if (pmpsqMPopSessionQueue->lpszMPOPKey) {
 		pmpsqMPopSessionQueue->bKeyValid = TRUE;
-		pmpsqMPopSessionQueue->dwMPOPKeySize = dwKeySize;
-		memmove(pmpsqMPopSessionQueue->lpszMPOPKey, lpszKey, dwKeySize);
-		(*(pmpsqMPopSessionQueue->lpszMPOPKey+dwKeySize)) = 0;
+		pmpsqMPopSessionQueue->dwMPOPKeySize = szKey.GetLength();
+		memmove(pmpsqMPopSessionQueue->lpszMPOPKey, szKey, szKey.GetLength());
+		(*(pmpsqMPopSessionQueue->lpszMPOPKey + szKey.GetLength())) = 0;
 
 		DebugPrint(L"New MPOP session key: ");DebugPrintCRLFA(pmpsqMPopSessionQueue->lpszMPOPKey);
 		return NO_ERROR;

@@ -212,22 +212,22 @@ LRESULT CALLBACK MraPopupDlgProc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM l
 	return DefWindowProc(hWndDlg, msg, wParam, lParam);
 }
 
-void CMraProto::MraPopupShowFromContactW(HANDLE hContact, DWORD dwType, DWORD dwFlags, LPWSTR lpszMessage)
+void CMraProto::MraPopupShowFromContactW(HANDLE hContact, DWORD dwType, DWORD dwFlags, LPCWSTR lpszMessage)
 {
-	WCHAR szNick[MAX_EMAIL_LEN], szEMail[MAX_EMAIL_LEN], szTitle[MAX_CONTACTNAME];
+	WCHAR szTitle[MAX_CONTACTNAME];
+	CMStringW szNick, szEmail;
+	mraGetStringW(hContact, "Nick", szNick);
+	mraGetStringW(hContact, "e-mail", szEmail);
+	if (hContact)
+		mir_snwprintf(szTitle, SIZEOF(szTitle), L"%s <%s>", szNick, szEmail);
+	else
+		mir_snwprintf(szTitle, SIZEOF(szTitle), L"%s:  %s <%s>", m_tszUserName, szNick, szEmail);
 
-	mraGetStaticStringW(hContact, "Nick", szNick, SIZEOF(szNick), NULL);
-	mraGetStaticStringW(hContact, "e-mail", szEMail, SIZEOF(szEMail), NULL);
-	if (hContact) {
-		mir_sntprintf(szTitle, SIZEOF(szTitle), L"%s <%s>", szNick, szEMail);
-	}else {
-		mir_sntprintf(szTitle, SIZEOF(szTitle), L"%s:  %s <%s>", m_tszUserName, szNick, szEMail);
-	}
 	MraPopupShowW(hContact, dwType, dwFlags, szTitle, lpszMessage);
 }
 
 
-void CMraProto::MraPopupShowW(HANDLE hContact, DWORD dwType, DWORD dwFlags, LPWSTR lpszTitle, LPWSTR lpszMessage)
+void CMraProto::MraPopupShowW(HANDLE hContact, DWORD dwType, DWORD dwFlags, LPWSTR lpszTitle, LPCWSTR lpszMessage)
 {
 	if (getByte("PopupsEnabled", MRA_DEFAULT_POPUPS_ENABLED))
 	if (GetBit(getDword("PopupsEventFilter", MRA_DEFAULT_POPUPS_EVENT_FILTER), dwType))

@@ -98,15 +98,14 @@ static const size_t dwcRTFTagsCount[SYMBOLS_COUNT] =
 
 DWORD MraTextToRTFData(LPSTR lpszMessage, size_t dwMessageSize, LPSTR lpszMessageConverted, size_t dwMessageConvertedBuffSize, size_t *pdwMessageConvertedSize);
 
-BOOL MraIsMessageFlashAnimation(LPCWSTR lpwszMessage, size_t dwMessageSize)
+bool MraIsMessageFlashAnimation(const CMStringW &lpwszMessage)
 {
-	dwMessageSize *= sizeof(WCHAR);
-	LPWSTR lpwszFound = (LPWSTR)MemoryFind(0, lpwszMessage, dwMessageSize, L"<SMILE>id = flas", 28);
-	if (lpwszFound)
-		if (MemoryFind(((lpwszFound-lpwszMessage)+32), lpwszMessage, dwMessageSize, L"'</SMILE>", 18))
-			return TRUE;
+	int iStart = lpwszMessage.Find(L"<SMILE>id = flas");
+	if (iStart != -1)
+		if (lpwszMessage.Find(L"'</SMILE>", iStart) != -1)
+			return true;
 
-	return FALSE;
+	return false;
 }
 
 DWORD MraTextToRTFData(LPSTR lpszMessage, size_t dwMessageSize, LPSTR lpszMessageConverted, size_t dwMessageConvertedBuffSize, size_t *pdwMessageConvertedSize)
@@ -191,27 +190,20 @@ DWORD MraSymbolsToRTFTags(DWORD dwFlags, LPSTR lpszMessage, size_t dwMessageSize
 	return(dwRetErrorCode);
 }
 
-DWORD CMraProto::MraConvertToRTFW(LPCWSTR lpwszMessage, size_t dwMessageSize, LPSTR lpszMessageRTF, size_t dwMessageRTFBuffSize, size_t *pdwMessageRTFSize)
+DWORD CMraProto::MraConvertToRTFW(const CMStringW &wszMessage, CMStringA &szMessageRTF)
 {
-	if (!lpwszMessage || !lpszMessageRTF)
+	if (wszMessage.IsEmpty())
 		return ERROR_INVALID_HANDLE;
 
-	if ((dwMessageSize+1024) > dwMessageRTFBuffSize) {
-		if (pdwMessageRTFSize)
-			*pdwMessageRTFSize = dwMessageSize;
-		return ERROR_BUFFER_OVERFLOW;
-	}
-
-	ptrA lpszMessage((LPSTR)mir_calloc(dwMessageSize+32));
+	ptrA lpszMessage( mir_u2a(wszMessage));
 	if (!lpszMessage)
 		return GetLastError();
 
-	LPSTR lpszMessageRTFCur = lpszMessageRTF;
+	LPCSTR lpszBase = szMessageRTF;
+	LPSTR lpszMessageRTFCur = (LPSTR)lpszBase;
 	size_t dwtm;
 	DWORD dwRTFFontColour, dwFontSize;
 	LOGFONT lf = {0};
-
-	WideCharToMultiByte(MRA_CODE_PAGE, 0, lpwszMessage, dwMessageSize, lpszMessage, (dwMessageSize+32), NULL, NULL);
 
 	dwRTFFontColour = getDword("RTFFontColour", MRA_DEFAULT_RTF_FONT_COLOUR);
 	if ( !mraGetContactSettingBlob(NULL, "RTFFont", &lf, sizeof(LOGFONT), NULL)) {
@@ -223,32 +215,30 @@ DWORD CMraProto::MraConvertToRTFW(LPCWSTR lpwszMessage, size_t dwMessageSize, LP
 	}
 	dwFontSize = ((-lf.lfHeight)+(((-lf.lfHeight)+4)/8));
 
-	lpszMessageRTFCur += mir_snprintf(lpszMessageRTFCur, (dwMessageRTFBuffSize-((size_t)lpszMessageRTFCur-(size_t)lpszMessageRTF)), "{\\rtf1\\ansi\\ansicpg1251\\deff0\\deflang1049{\\fonttbl{\\f0\\fnil\\fcharset%lu %s;}}\r\n", lf.lfCharSet, lf.lfFaceName);
+	lpszMessageRTFCur += mir_snprintf(lpszMessageRTFCur, (szMessageRTF.GetLength()-(lpszMessageRTFCur-lpszBase)), "{\\rtf1\\ansi\\ansicpg1251\\deff0\\deflang1049{\\fonttbl{\\f0\\fnil\\fcharset%lu %s;}}\r\n", lf.lfCharSet, lf.lfFaceName);
 
-	if (MemoryFind(0, lpszMessage, dwMessageSize, BB_COLOR_TAG, (sizeof(BB_COLOR_TAG)-1)))
-		lpszMessageRTFCur += mir_snprintf(lpszMessageRTFCur, (dwMessageRTFBuffSize-((size_t)lpszMessageRTFCur-(size_t)lpszMessageRTF)), "{\\colortbl;\\red%lu\\green%lu\\blue%lu;%s}\r\n", (*((RGBTRIPLE*)&dwRTFFontColour)).rgbtBlue, (*((RGBTRIPLE*)&dwRTFFontColour)).rgbtGreen, (*((RGBTRIPLE*)&dwRTFFontColour)).rgbtRed, RTF_COLORTBLCOLOURS);
+	if (MemoryFind(0, lpszMessage, wszMessage.GetLength(), BB_COLOR_TAG, (sizeof(BB_COLOR_TAG)-1)))
+		lpszMessageRTFCur += mir_snprintf(lpszMessageRTFCur, (szMessageRTF.GetLength()-(lpszMessageRTFCur-lpszBase)), "{\\colortbl;\\red%lu\\green%lu\\blue%lu;%s}\r\n", (*((RGBTRIPLE*)&dwRTFFontColour)).rgbtBlue, (*((RGBTRIPLE*)&dwRTFFontColour)).rgbtGreen, (*((RGBTRIPLE*)&dwRTFFontColour)).rgbtRed, RTF_COLORTBLCOLOURS);
 	else
-		lpszMessageRTFCur += mir_snprintf(lpszMessageRTFCur, (dwMessageRTFBuffSize-((size_t)lpszMessageRTFCur-(size_t)lpszMessageRTF)), "{\\colortbl;\\red%lu\\green%lu\\blue%lu;}\r\n", (*((RGBTRIPLE*)&dwRTFFontColour)).rgbtBlue, (*((RGBTRIPLE*)&dwRTFFontColour)).rgbtGreen, (*((RGBTRIPLE*)&dwRTFFontColour)).rgbtRed);
+		lpszMessageRTFCur += mir_snprintf(lpszMessageRTFCur, (szMessageRTF.GetLength()-(lpszMessageRTFCur-lpszBase)), "{\\colortbl;\\red%lu\\green%lu\\blue%lu;}\r\n", (*((RGBTRIPLE*)&dwRTFFontColour)).rgbtBlue, (*((RGBTRIPLE*)&dwRTFFontColour)).rgbtGreen, (*((RGBTRIPLE*)&dwRTFFontColour)).rgbtRed);
 
 	LPSTR	lpszNotfink = "",
 			lpszBold = ((lf.lfWeight == FW_BOLD)? "\\b1":lpszNotfink),
 			lpszItalic = (lf.lfItalic? "\\i1":lpszNotfink),
 			lpszUnderline = (lf.lfUnderline? "\\ul1":lpszNotfink),
 			lpszStrikeOut = (lf.lfStrikeOut? "\\strike1":lpszNotfink);
-	lpszMessageRTFCur += mir_snprintf(lpszMessageRTFCur, (dwMessageRTFBuffSize-((size_t)lpszMessageRTFCur-(size_t)lpszMessageRTF)), "\\viewkind4\\uc1\\pard\\cf1\\f0\\fs%lu%s%s%s%s", dwFontSize, lpszBold, lpszItalic, lpszUnderline, lpszStrikeOut);
+	lpszMessageRTFCur += mir_snprintf(lpszMessageRTFCur, (szMessageRTF.GetLength()-(lpszMessageRTFCur-lpszBase)), "\\viewkind4\\uc1\\pard\\cf1\\f0\\fs%lu%s%s%s%s", dwFontSize, lpszBold, lpszItalic, lpszUnderline, lpszStrikeOut);
 
-	if ( !MraSymbolsToRTFTags(0, lpszMessage, dwMessageSize, lpszMessageRTFCur, (dwMessageRTFBuffSize-(lpszMessageRTFCur-lpszMessageRTF)), &dwtm)) {
+	if ( !MraSymbolsToRTFTags(0, lpszMessage, wszMessage.GetLength(), lpszMessageRTFCur, (szMessageRTF.GetLength()-(lpszMessageRTFCur-lpszBase)), &dwtm)) {
 		lpszMessageRTFCur += dwtm;
-		if ((lpszMessageRTF+dwMessageRTFBuffSize) >= (lpszMessageRTFCur+sizeof(PAR)+sizeof(CRLF)+2)) {
+		if ((lpszBase + szMessageRTF.GetLength()) >= (lpszMessageRTFCur+sizeof(PAR)+sizeof(CRLF)+2)) {
 			memmove(lpszMessageRTFCur, PAR, sizeof(PAR));lpszMessageRTFCur += (sizeof(PAR)-1);
 			memmove(lpszMessageRTFCur, CRLF, sizeof(CRLF));lpszMessageRTFCur += (sizeof(CRLF)-1);
 			memmove(lpszMessageRTFCur, "}", 2);lpszMessageRTFCur += 2;
-			if (pdwMessageRTFSize) (*pdwMessageRTFSize) = (lpszMessageRTFCur-lpszMessageRTF);
-			DebugPrintCRLFA(lpszMessageRTF);
+			DebugPrintCRLFA(szMessageRTF);
 			return NO_ERROR;
 		}
 
-		if (pdwMessageRTFSize) *pdwMessageRTFSize = dwMessageRTFBuffSize+1024;
 		return ERROR_BUFFER_OVERFLOW;
 	}
 

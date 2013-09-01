@@ -58,6 +58,7 @@
 #include <m_utils.h>
 #include <m_database.h>
 #include <m_langpack.h>
+#include <m_string.h>
 #include <m_netlib.h>
 #include <m_icolib.h>
 #include <win2k.h>
@@ -92,22 +93,22 @@
 #include "Sdk/SHA1.h"
 
 // LPS
-typedef struct
+struct MRA_LPS
 {
-	size_t	dwSize;
+	size_t dwSize;
 
 	union {
-		LPSTR	lpszData;
-		LPWSTR	lpwszData;
+		LPSTR  lpszData;
+		LPWSTR lpwszData;
 	};
-} MRA_LPS;
+};
 
 
 // GUID
-typedef struct
+struct MRA_GUID
 {
 	DWORD	id[4];
-} MRA_GUID;
+};
 
 
 
@@ -119,9 +120,27 @@ struct MRA_ADDR_LIST_ITEM
 
 struct MRA_ADDR_LIST
 {
-	DWORD				dwAddrCount;
-	MRA_ADDR_LIST_ITEM	*pmaliAddress;
+	DWORD	dwAddrCount;
+	MRA_ADDR_LIST_ITEM *pMailAddress;
 };
+
+/////////////////////////////////////////////////////////////////////////////
+
+struct BinBuffer
+{
+	BinBuffer(LPBYTE data, size_t len) : m_data(data), m_len(len) {}
+
+	LPBYTE m_data;
+	size_t m_len;
+};
+
+BinBuffer& operator >>(BinBuffer&, DWORD&);
+BinBuffer& operator >>(BinBuffer&, DWORDLONG&);
+BinBuffer& operator >>(BinBuffer&, MRA_GUID&);
+BinBuffer& operator >>(BinBuffer&, CMStringA&);
+BinBuffer& operator >>(BinBuffer&, CMStringW&);
+
+/////////////////////////////////////////////////////////////////////////////
 
 #include "MraConstans.h"
 #include "MraProto.h"
@@ -163,23 +182,24 @@ extern GUI_DISPLAY_ITEM gdiExtraStatusIconsItems[];
 /////////////////////////////////////////////////////////////////////////////////////////
 //	plugin options
 
-typedef struct
+struct MRA_SETTINGS
 {
-	HANDLE                hHeap;
-	HINSTANCE             hInstance;
-	HMODULE               hDLLXStatusIcons;
+	HANDLE    hHeap;
+	HINSTANCE hInstance;
+	HMODULE   hDLLXStatusIcons;
 
-	DWORD                 dwGlobalPluginRunning;
-	BOOL                  bChatExist;
+	DWORD     dwGlobalPluginRunning;
+	bool      bChatExist;
 
-	size_t                dwMirWorkDirPathLen;
-	WCHAR                 szMirWorkDirPath[MAX_FILEPATH];
-} MRA_SETTINGS;
+	size_t    dwMirWorkDirPathLen;
+	WCHAR     szMirWorkDirPath[MAX_FILEPATH];
+};
 
+extern MRA_SETTINGS masMraSettings;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //	External variables
-extern MRA_SETTINGS masMraSettings;
+
 extern LIST<CMraProto> g_Instances;
 
 extern HANDLE hXStatusAdvancedStatusIcons[];
@@ -188,7 +208,7 @@ INT_PTR LoadModules();
 void    UnloadModules();
 void    InitExtraIcons();
 
-DWORD   MraGetSelfVersionString(LPSTR lpszSelfVersion, size_t dwSelfVersionSize, size_t *pdwSelfVersionSizeRet);
+CMStringA MraGetSelfVersionString();
 
 #define GetContactNameA(Contact) (LPSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)Contact, 0)
 #define GetContactNameW(Contact) (LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)Contact, GCDNF_UNICODE)
@@ -221,45 +241,43 @@ DWORD   MraGetSelfVersionString(LPSTR lpszSelfVersion, size_t dwSelfVersionSize,
 
 #define GET_CURRENT_COMBO_DATA(hWndDlg, ControlID)					SEND_DLG_ITEM_MESSAGE(hWndDlg, ControlID, CB_GETITEMDATA, SEND_DLG_ITEM_MESSAGE(hWndDlg, ControlID, CB_GETCURSEL, 0, 0), 0)
 
-
 #define IsFileExist(FileName) (GetFileAttributes(FileName) != INVALID_FILE_ATTRIBUTES)
 #define IsFileExistA(FileName) (GetFileAttributesA(FileName) != INVALID_FILE_ATTRIBUTES)
 #define IsFileExistW(FileName) (GetFileAttributesW(FileName) != INVALID_FILE_ATTRIBUTES)
 
-
 #define IsThreadAlive(hThread) (GetThreadPriority(hThread) != THREAD_PRIORITY_ERROR_RETURN)
 
-void   MraAddrListFree(MRA_ADDR_LIST *pmalAddrList);
-DWORD  MraAddrListGetFromBuff(LPSTR lpszAddreses, size_t dwAddresesSize, MRA_ADDR_LIST *pmalAddrList);
-DWORD  MraAddrListGetToBuff(MRA_ADDR_LIST *pmalAddrList, LPSTR lpszBuff, size_t dwBuffSize, size_t *pdwBuffSizeRet);
+void      MraAddrListFree(MRA_ADDR_LIST *pmalAddrList);
+DWORD     MraAddrListGetFromBuff(const CMStringA &szAddresses, MRA_ADDR_LIST *pmalAddrList);
+CMStringA MraAddrListGetToBuff(MRA_ADDR_LIST *pmalAddrList);
 
-void   InitXStatusIcons();
-void   DestroyXStatusIcons();
+void      InitXStatusIcons();
+void      DestroyXStatusIcons();
 
-DWORD  MraGetVersionStringFromFormatted (LPSTR dwUserAgentFormatted, size_t dwUserAgentFormattedSize, LPSTR lpszVersion, size_t dwVersionSize, size_t *pdwVersionSizeRet);
-BOOL   IsUnicodeEnv                    ();
-BOOL   IsHTTPSProxyUsed                (HANDLE hNetlibUser);
-BOOL   IsContactMraProto               (HANDLE hContact);
-BOOL   IsEMailMR                       (LPSTR lpszEMail, size_t dwEMailSize);
-BOOL   GetEMailFromString              (LPSTR lpszBuff, size_t dwBuffSize, LPSTR *plpszEMail, size_t *pdwEMailSize);
+CMStringA MraGetVersionStringFromFormatted(const CMStringA& szUserAgentFormatted);
+CMStringA CopyNumber(const CMStringA&);
 
-DWORD  CreateBlobFromContact           (HANDLE hContact, LPWSTR lpwszRequestReason, size_t dwRequestReasonSize, LPBYTE lpbBuff, size_t dwBuffSize, size_t *pdwBuffSizeRet);
-size_t CopyNumber                      (LPCVOID lpcOutBuff, LPCVOID lpcBuff, size_t dwLen);
-BOOL   IsPhone                         (LPSTR lpszString, size_t dwStringSize);
-BOOL   IsContactPhone                  (HANDLE hContact, LPSTR lpszPhone, size_t dwPhoneSize);
-HANDLE MraHContactFromPhone            (LPSTR lpszPhone, size_t dwPhoneSize, BOOL bAddIfNeeded, BOOL bTemporary, BOOL *pbAdded);
-void   EnableControlsArray             (HWND hWndDlg, WORD *pwControlsList, size_t dwControlsListCount, BOOL bEnabled);
-BOOL   MraRequestXStatusDetails        (DWORD dwXStatus);
-BOOL   MraSendReplyBlogStatus          (HANDLE hContact);
-DWORD  GetYears                        (CONST PSYSTEMTIME pcstSystemTime);
-DWORD  FindFile                        (LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD dwFileNameLen, LPWSTR lpszRetFilePathName, DWORD dwRetFilePathLen, DWORD *pdwRetFilePathLen);
-DWORD  MemFillRandom                   (LPVOID lpBuff, size_t dwBuffSize);
-DWORD  DecodeXML                       (LPTSTR lptszMessage, size_t dwMessageSize, LPTSTR lptszMessageConverted, size_t dwMessageConvertedBuffSize, size_t *pdwMessageConvertedSize);
-DWORD  EncodeXML                       (LPTSTR lptszMessage, size_t dwMessageSize, LPTSTR lptszMessageConverted, size_t dwMessageConvertedBuffSize, size_t *pdwMessageConvertedSize);
+CMStringW DecodeXML(const CMStringW &lptszMessage);
+CMStringW EncodeXML(const CMStringW &lptszMessage);
 
-DWORD  GetMraStatusFromMiradaStatus    (DWORD dwMirandaStatus, DWORD dwXStatusMir, DWORD *pdwXStatusMra);
-DWORD  GetMiradaStatusFromMraStatus    (DWORD dwMraStatus, DWORD dwXStatusMra, DWORD *pdwXStatusMir);
-DWORD  GetMraXStatusIDFromMraUriStatus (LPSTR lpszStatusUri, size_t dwStatusUriSize);
+bool      IsHTTPSProxyUsed(HANDLE m_hNetlibUser);
+bool      IsContactMraProto(HANDLE hContact);
+bool      IsEMailMR(const CMStringA& szEmail);
+bool      GetEMailFromString(const CMStringA& szBuff, CMStringA& szEmail);
+		    
+bool      IsPhone(LPSTR lpszString, size_t dwStringSize);
+bool      IsContactPhone(HANDLE hContact, LPSTR lpszPhone, size_t dwPhoneSize);
+HANDLE    MraHContactFromPhone(LPSTR lpszPhone, size_t dwPhoneSize, BOOL bAddIfNeeded, BOOL bTemporary, BOOL *pbAdded);
+void      EnableControlsArray(HWND hWndDlg, WORD *pwControlsList, size_t dwControlsListCount, BOOL bEnabled);
+bool      MraRequestXStatusDetails(DWORD dwXStatus);
+bool      MraSendReplyBlogStatus(HANDLE hContact);
+DWORD     GetYears(CONST PSYSTEMTIME pcstSystemTime);
+DWORD     FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD dwFileNameLen, LPWSTR lpszRetFilePathName, DWORD dwRetFilePathLen, DWORD *pdwRetFilePathLen);
+DWORD     MemFillRandom(LPVOID lpBuff, size_t dwBuffSize);
+		    
+DWORD     GetMraStatusFromMiradaStatus(DWORD dwMirandaStatus, DWORD dwXStatusMir, DWORD *pdwXStatusMra);
+DWORD     GetMiradaStatusFromMraStatus(DWORD dwMraStatus, DWORD dwXStatusMra, DWORD *pdwXStatusMir);
+DWORD     GetMraXStatusIDFromMraUriStatus(const char *lpszStatusUri);
 
 INT_PTR CALLBACK DlgProcAccount(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 

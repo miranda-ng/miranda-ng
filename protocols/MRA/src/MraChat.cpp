@@ -7,14 +7,12 @@ static LPWSTR lpwszStatuses[] = { L"Owners", L"Inviter", L"Visitors" };
 #define MRA_CHAT_STATUS_INVITER	1
 #define MRA_CHAT_STATUS_VISITOR	2
 
-void MraChatSendPrivateMessage(LPWSTR lpwszEMail);
-
 void CMraProto::MraChatDllError()
 {
 	MessageBoxW(NULL, TranslateW(L"CHAT plugin is required for conferences. Install it before chatting"), m_tszUserName, (MB_OK|MB_ICONWARNING));
 }
 
-BOOL CMraProto::MraChatRegister()
+bool CMraProto::MraChatRegister()
 {
 	if ( !ServiceExists(MS_GC_REGISTER))
 		return FALSE;
@@ -37,25 +35,23 @@ INT_PTR CMraProto::MraChatSessionNew(HANDLE hContact)
 	if (bChatExists)
 	if (hContact) {
 		GCSESSION gcw = {0};
-		WCHAR wszEMail[MAX_EMAIL_LEN] = {0};
+		CMStringW wszEMail;
+		mraGetStringW(hContact, "e-mail", wszEMail);
 
 		gcw.cbSize = sizeof(GCSESSION);
 		gcw.iType = GCW_CHATROOM;
 		gcw.pszModule = m_szModuleName;
 		gcw.ptszName = GetContactNameW(hContact);
-		gcw.ptszID = (LPWSTR)wszEMail;
+		gcw.ptszID = wszEMail;
 		gcw.ptszStatusbarText = L"status bar";
 		gcw.dwFlags = GC_UNICODE;
 		gcw.dwItemData = (DWORD)hContact;
-		mraGetStaticStringW(hContact, "e-mail", wszEMail, SIZEOF(wszEMail), NULL);
 		if ( !CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw)) {
-			CHAR szEMail[MAX_EMAIL_LEN] = {0};
-			size_t dwEMailSize;
 			GCDEST gcd = {0};
 			GCEVENT gce = {0};
 
 			gcd.pszModule = m_szModuleName;
-			gcd.ptszID = (LPWSTR)wszEMail;
+			gcd.ptszID = (TCHAR*)wszEMail.c_str();
 			gcd.iType = GC_EVENT_ADDGROUP;
 
 			gce.cbSize = sizeof(GCEVENT);
@@ -73,10 +69,10 @@ INT_PTR CMraProto::MraChatSessionNew(HANDLE hContact)
 			CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, (LPARAM)&gce);
 			CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
 
-			//MraChatSessionJoinUser(hContact, NULL, 0, 0);
-			(*(DWORD*)wszEMail) = MULTICHAT_GET_MEMBERS;
-			mraGetStaticStringA(hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize);
-			MraMessageW(FALSE, NULL, 0, MESSAGE_FLAG_MULTICHAT, szEMail, dwEMailSize, NULL, 0, (LPBYTE)wszEMail, 4);
+			DWORD opcode = MULTICHAT_GET_MEMBERS;
+			CMStringA szEmail;
+			mraGetStringA(hContact, "e-mail", szEmail);
+			MraMessageW(FALSE, NULL, 0, MESSAGE_FLAG_MULTICHAT, szEmail, L"", (LPBYTE)&opcode, sizeof(opcode));
 			return 0;
 		}
 	}
@@ -90,13 +86,13 @@ void CMraProto::MraChatSessionDestroy(HANDLE hContact)
 
 	GCDEST gcd = {0};
 	GCEVENT gce = {0};
-	WCHAR wszEMail[MAX_EMAIL_LEN] = {0};
+	CMStringW wszEMail;
 
 	gcd.pszModule = m_szModuleName;
 	gcd.iType = GC_EVENT_CONTROL;
 	if (hContact) {
-		gcd.ptszID = (LPWSTR)wszEMail;
-		mraGetStaticStringW(hContact, "e-mail", wszEMail, SIZEOF(wszEMail), NULL);
+		mraGetStringW(hContact, "e-mail", wszEMail);
+		gcd.ptszID = (LPWSTR)wszEMail.c_str();
 	}
 	gce.cbSize = sizeof(GCEVENT);
 	gce.pDest = &gcd;
@@ -106,18 +102,18 @@ void CMraProto::MraChatSessionDestroy(HANDLE hContact)
 	CallServiceSync(MS_GC_EVENT, WINDOW_CLEARLOG, (LPARAM)&gce);
 }
 
-INT_PTR CMraProto::MraChatSessionEventSendByHandle(HANDLE hContactChatSession, DWORD dwType, DWORD dwFlags, LPSTR lpszUID, size_t dwUIDSize, LPWSTR lpwszStatus, LPWSTR lpwszMessage, DWORD_PTR dwItemData, DWORD dwTime)
+INT_PTR CMraProto::MraChatSessionEventSendByHandle(HANDLE hContactChatSession, DWORD dwType, DWORD dwFlags, const CMStringA &lpszUID, LPCWSTR lpwszStatus, LPCWSTR lpwszMessage, DWORD_PTR dwItemData, DWORD dwTime)
 {
 	if (!bChatExists)
 		return 1;
 
-	WCHAR wszID[MAX_EMAIL_LEN] = {0}, wszUID[MAX_EMAIL_LEN] = {0}, wszNick[MAX_EMAIL_LEN] = {0};
+	CMStringW wszID, wszUID, wszNick;
 
 	GCDEST gcd = {0};
 	gcd.pszModule = m_szModuleName;
 	if (hContactChatSession) {
-		gcd.ptszID = (LPWSTR)wszID;
-		mraGetStaticStringW(hContactChatSession, "e-mail", wszID, SIZEOF(wszID), NULL);
+		mraGetStringW(hContactChatSession, "e-mail", wszID);
+		gcd.ptszID = (LPWSTR)wszID.c_str();
 	}
 	gcd.iType = dwType;
 
@@ -131,19 +127,19 @@ INT_PTR CMraProto::MraChatSessionEventSendByHandle(HANDLE hContactChatSession, D
 	gce.dwItemData = dwItemData;
 	gce.time = dwTime;
 
-	if (lpszUID && dwUIDSize)
-		gce.bIsMe = IsEMailMy(lpszUID, dwUIDSize);
+	if (!lpszUID.IsEmpty())
+		gce.bIsMe = IsEMailMy(lpszUID);
 	else
 		gce.bIsMe = TRUE;
 
 	if (gce.bIsMe) {
-		mraGetStaticStringW(NULL, "e-mail", wszUID, SIZEOF(wszUID), NULL);
-		mraGetStaticStringW(NULL, "Nick", wszNick, SIZEOF(wszNick), NULL);
+		mraGetStringW(NULL, "e-mail", wszUID);
+		mraGetStringW(NULL, "Nick", wszNick);
 		gce.ptszNick = wszNick;
 	}
 	else {
-		HANDLE hContactSender = MraHContactFromEmail(lpszUID, dwUIDSize, FALSE, TRUE, NULL);
-		MultiByteToWideChar(MRA_CODE_PAGE, 0, lpszUID, (DWORD)dwUIDSize, wszUID, SIZEOF(wszUID));
+		HANDLE hContactSender = MraHContactFromEmail(lpszUID, FALSE, TRUE, NULL);
+		wszUID = lpszUID;
 		if (hContactSender)
 			gce.ptszNick = GetContactNameW(hContactSender);
 		else
@@ -153,68 +149,64 @@ INT_PTR CMraProto::MraChatSessionEventSendByHandle(HANDLE hContactChatSession, D
 	return CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 }
 
-INT_PTR CMraProto::MraChatSessionInvite(HANDLE hContactChatSession, LPSTR lpszEMailInMultiChat, size_t dwEMailInMultiChatSize, DWORD dwTime)
+INT_PTR CMraProto::MraChatSessionInvite(HANDLE hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime)
 {
 	if (!hContactChatSession)
 		return 1;
 
-	WCHAR wszBuff[((MAX_EMAIL_LEN*2)+MAX_PATH)];
-	mir_sntprintf(wszBuff, SIZEOF(wszBuff), L"[%s]: %s", _A2T(lpszEMailInMultiChat), TranslateW(L"invite sender"));
-	return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_ACTION, GCEF_ADDTOLOG, lpszEMailInMultiChat, dwEMailInMultiChatSize, NULL, wszBuff, 0, dwTime);
+	CMStringW wszBuff;
+	wszBuff.Format(L"[%s]: %s", _A2T(lpszEMailInMultiChat.c_str()), TranslateW(L"invite sender"));
+	return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_ACTION, GCEF_ADDTOLOG, lpszEMailInMultiChat, NULL, wszBuff, 0, dwTime);
 }
 
-INT_PTR CMraProto::MraChatSessionMembersAdd(HANDLE hContactChatSession, LPSTR lpszEMailInMultiChat, size_t dwEMailInMultiChatSize, DWORD dwTime)
+INT_PTR CMraProto::MraChatSessionMembersAdd(HANDLE hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime)
 {
 	if (!hContactChatSession)
 		return 1;
 
-	WCHAR wszBuff[((MAX_EMAIL_LEN*2)+MAX_PATH)];
-	mir_sntprintf(wszBuff, SIZEOF(wszBuff), L"[%s]: %s", _A2T(lpszEMailInMultiChat), TranslateW(L"invite new members"));
-	return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_ACTION, GCEF_ADDTOLOG, lpszEMailInMultiChat, dwEMailInMultiChatSize, NULL, wszBuff, 0, dwTime);
+	CMStringW wszBuff;
+	wszBuff.Format(L"[%s]: %s", _A2T(lpszEMailInMultiChat), TranslateW(L"invite new members"));
+	return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_ACTION, GCEF_ADDTOLOG, lpszEMailInMultiChat, NULL, wszBuff, 0, dwTime);
 }
 
-INT_PTR CMraProto::MraChatSessionJoinUser(HANDLE hContactChatSession, LPSTR lpszEMailInMultiChat, size_t dwEMailInMultiChatSize, DWORD dwTime)
+INT_PTR CMraProto::MraChatSessionJoinUser(HANDLE hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime)
 {
 	if (hContactChatSession)
-		return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_JOIN, GCEF_ADDTOLOG, lpszEMailInMultiChat, dwEMailInMultiChatSize, lpwszStatuses[MRA_CHAT_STATUS_VISITOR], L"", 0, dwTime);
+		return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_JOIN, GCEF_ADDTOLOG, lpszEMailInMultiChat, lpwszStatuses[MRA_CHAT_STATUS_VISITOR], L"", 0, dwTime);
 
 	return 1;
 }
 
-INT_PTR CMraProto::MraChatSessionLeftUser(HANDLE hContactChatSession, LPSTR lpszEMailInMultiChat, size_t dwEMailInMultiChatSize, DWORD dwTime)
+INT_PTR CMraProto::MraChatSessionLeftUser(HANDLE hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime)
 {
 	if (hContactChatSession)
-		return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_PART, GCEF_ADDTOLOG, lpszEMailInMultiChat, dwEMailInMultiChatSize, NULL, NULL, 0, dwTime);
+		return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_PART, GCEF_ADDTOLOG, lpszEMailInMultiChat, NULL, NULL, 0, dwTime);
 
 	return 1;
 }
 
-INT_PTR CMraProto::MraChatSessionSetIviter(HANDLE hContactChatSession, LPSTR lpszEMailInMultiChat, size_t dwEMailInMultiChatSize)
+INT_PTR CMraProto::MraChatSessionSetIviter(HANDLE hContactChatSession, const CMStringA &lpszEMailInMultiChat)
 {
-	if (hContactChatSession && lpszEMailInMultiChat && dwEMailInMultiChatSize)
-		return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_ADDSTATUS, 0, lpszEMailInMultiChat, dwEMailInMultiChatSize, lpwszStatuses[MRA_CHAT_STATUS_INVITER], NULL, 0, 0);
+	if (hContactChatSession && !lpszEMailInMultiChat.IsEmpty())
+		return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_ADDSTATUS, 0, lpszEMailInMultiChat, lpwszStatuses[MRA_CHAT_STATUS_INVITER], NULL, 0, 0);
 
 	return 1;
 }
 
-INT_PTR CMraProto::MraChatSessionSetOwner(HANDLE hContactChatSession, LPSTR lpszEMailInMultiChat, size_t dwEMailInMultiChatSize)
+INT_PTR CMraProto::MraChatSessionSetOwner(HANDLE hContactChatSession, const CMStringA &lpszEMailInMultiChat)
 {
-	if (hContactChatSession && lpszEMailInMultiChat && dwEMailInMultiChatSize)
-		return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_ADDSTATUS, 0, lpszEMailInMultiChat, dwEMailInMultiChatSize, lpwszStatuses[MRA_CHAT_STATUS_OWNER], NULL, 0, 0);
+	if (hContactChatSession && !lpszEMailInMultiChat.IsEmpty())
+		return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_ADDSTATUS, 0, lpszEMailInMultiChat, lpwszStatuses[MRA_CHAT_STATUS_OWNER], NULL, 0, 0);
 
 	return 1;
 }
 
 
-INT_PTR CMraProto::MraChatSessionMessageAdd(HANDLE hContactChatSession, LPSTR lpszEMailInMultiChat, size_t dwEMailInMultiChatSize, LPWSTR lpwszMessage, size_t dwMessageSize, DWORD dwTime)
+INT_PTR CMraProto::MraChatSessionMessageAdd(HANDLE hContactChatSession, const CMStringA &lpszEMailInMultiChat, const CMStringW &lpwszMessage, DWORD dwTime)
 {
-	if (hContactChatSession) {
-		LPWSTR lpwszMessageLocal = (LPWSTR)_alloca((dwMessageSize*sizeof(WCHAR)));
-		if (lpwszMessageLocal) { // we need zeros after text allways
-			memmove((LPVOID)lpwszMessageLocal, lpwszMessage, (dwMessageSize*sizeof(WCHAR)));//gce.ptszText = lpwszMessage;
-			return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_MESSAGE, GCEF_ADDTOLOG, lpszEMailInMultiChat, dwEMailInMultiChatSize, NULL, lpwszMessageLocal, 0, dwTime);
-		}
-	}
+	if (hContactChatSession)
+		return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_MESSAGE, GCEF_ADDTOLOG, lpszEMailInMultiChat, NULL, lpwszMessage, 0, dwTime);
+
 	return 1;
 }
 
@@ -228,27 +220,25 @@ int CMraProto::MraChatGcEventHook(WPARAM, LPARAM lParam)
 			switch (gch->pDest->iType) {
 			case GC_USER_MESSAGE:
 				if (gch->ptszText && lstrlen(gch->ptszText)) {
-					CHAR szEMail[MAX_EMAIL_LEN] = {0};
-
 					size_t dwMessageSize = lstrlenW(gch->ptszText);
-					size_t dwEMailSize = (WideCharToMultiByte(MRA_CODE_PAGE, 0, gch->pDest->ptszID, -1, szEMail, SIZEOF(szEMail), NULL, NULL)-1);
-					HANDLE hContact = MraHContactFromEmail(szEMail, dwEMailSize, FALSE, TRUE, NULL);
+					CMStringA szEmail = gch->pDest->ptszID;
+					HANDLE hContact = MraHContactFromEmail(szEmail, FALSE, TRUE, NULL);
 					BOOL bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);
 
 					DWORD dwFlags = 0;
 					if (getByte("RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE) && (MraContactCapabilitiesGet(hContact)&FEATURE_FLAG_RTF_MESSAGE))
 						dwFlags |= MESSAGE_FLAG_RTF;
 
-					INT_PTR iSendRet = MraMessageW(bSlowSend, hContact, ACKTYPE_MESSAGE, dwFlags, szEMail, dwEMailSize, gch->ptszText, dwMessageSize, NULL, 0);
+					INT_PTR iSendRet = MraMessageW(bSlowSend, hContact, ACKTYPE_MESSAGE, dwFlags, szEmail, gch->ptszText, NULL, 0);
 					if (bSlowSend == FALSE)
 						ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)iSendRet, 0);
 
-					MraChatSessionEventSendByHandle(hContact, GC_EVENT_MESSAGE, GCEF_ADDTOLOG, NULL, 0, NULL, gch->ptszText, 0, (DWORD)_time32(NULL));
+					MraChatSessionEventSendByHandle(hContact, GC_EVENT_MESSAGE, GCEF_ADDTOLOG, "", NULL, gch->ptszText, 0, (DWORD)_time32(NULL));
 				}
 				break;
 
 			case GC_USER_PRIVMESS:
-				MraChatSendPrivateMessage(gch->ptszUID);
+				MraChatSendPrivateMessage( _T2A(gch->ptszUID));
 				break;
 
 			case GC_USER_LOGMENU:
@@ -270,13 +260,10 @@ int CMraProto::MraChatGcEventHook(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-void CMraProto::MraChatSendPrivateMessage(LPWSTR lpwszEMail)
+void CMraProto::MraChatSendPrivateMessage(LPSTR lpszEMail)
 {
-	CHAR szEMail[MAX_EMAIL_LEN] = {0};
-	size_t dwEMailSize = WideCharToMultiByte(MRA_CODE_PAGE, 0, lpwszEMail, -1, szEMail, SIZEOF(szEMail), NULL, NULL)-1;
-
 	BOOL bAdded;
-	HANDLE hContact = MraHContactFromEmail(szEMail, dwEMailSize, TRUE, TRUE, &bAdded);
+	HANDLE hContact = MraHContactFromEmail(lpszEMail, TRUE, TRUE, &bAdded);
 	if (bAdded)
 		db_set_b(hContact, "CList", "Hidden", 1);
 

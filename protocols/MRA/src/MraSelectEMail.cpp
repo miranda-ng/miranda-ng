@@ -10,22 +10,23 @@ struct MraSelectEMailDlgData
 
 void AddContactEMailToListParam(HANDLE hContact, BOOL bMRAOnly, LPSTR lpszModule, LPSTR lpszValueName, HWND hWndList)
 {
-	CHAR szBuff[MAX_PATH], szEMail[MAX_EMAIL_LEN];
-	WCHAR wszBuff[MAX_PATH];
-	size_t i, dwEMailSize;
-
-	if (DB_GetStaticStringA(hContact, lpszModule, lpszValueName, szEMail, SIZEOF(szEMail), &dwEMailSize)) {
-		if (bMRAOnly == FALSE || IsEMailMR(szEMail, dwEMailSize)) {
-			MultiByteToWideChar(MRA_CODE_PAGE, 0, szEMail, (dwEMailSize+1), wszBuff, SIZEOF(wszBuff));
-			if (SendMessage(hWndList, LB_FINDSTRING, -1, (LPARAM)wszBuff) == LB_ERR) SendMessage(hWndList, LB_ADDSTRING, 0, (LPARAM)wszBuff);
+	CMStringA szEmail;
+	if (DB_GetStringA(hContact, lpszModule, lpszValueName, szEmail)) {
+		if (bMRAOnly == FALSE || IsEMailMR(szEmail)) {
+			WCHAR wszBuff[MAX_EMAIL_LEN];
+			MultiByteToWideChar(MRA_CODE_PAGE, 0, szEmail, -1, wszBuff, SIZEOF(wszBuff));
+			if (SendMessage(hWndList, LB_FINDSTRING, -1, (LPARAM)wszBuff) == LB_ERR)
+				SendMessage(hWndList, LB_ADDSTRING, 0, (LPARAM)wszBuff);
 		}
 	}
 
-	for (i = 0;TRUE;i++) {
+	for (int i = 0; true; i++) {
+		char szBuff[MAX_PATH];
 		mir_snprintf(szBuff, SIZEOF(szBuff), "%s%lu", lpszValueName, i);
-		if (DB_GetStaticStringA(hContact, lpszModule, szBuff, szEMail, SIZEOF(szEMail), &dwEMailSize)) {
-			if (bMRAOnly == FALSE || IsEMailMR(szEMail, dwEMailSize)) {
-				MultiByteToWideChar(MRA_CODE_PAGE, 0, szEMail, (dwEMailSize+1), wszBuff, SIZEOF(wszBuff));
+		if (DB_GetStringA(hContact, lpszModule, szBuff, szEmail)) {
+			if (bMRAOnly == FALSE || IsEMailMR(szEmail)) {
+				WCHAR wszBuff[MAX_EMAIL_LEN];
+				MultiByteToWideChar(MRA_CODE_PAGE, 0, szEmail, -1, wszBuff, SIZEOF(wszBuff));
 				if (SendMessage(hWndList, LB_FINDSTRING, -1, (LPARAM)wszBuff) == LB_ERR) SendMessage(hWndList, LB_ADDSTRING, 0, (LPARAM)wszBuff);
 			}
 		}
@@ -95,37 +96,35 @@ INT_PTR CALLBACK MraSelectEMailDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 
 		case IDOK:
 			{
-				CHAR szEMail[MAX_EMAIL_LEN];
+				CMStringA szEmail;
 				WCHAR wszBuff[MAX_PATH];
-				size_t dwEMailSize;
 
-				dwEMailSize = SendMessage(GetDlgItem(hWndDlg, IDC_LIST_EMAILS), LB_GETTEXT, SendMessage(GetDlgItem(hWndDlg, IDC_LIST_EMAILS), LB_GETCURSEL, 0, 0), (LPARAM)wszBuff);
-				WideCharToMultiByte(MRA_CODE_PAGE, 0, wszBuff, (dwEMailSize+1), szEMail, SIZEOF(szEMail), NULL, NULL);
-				BuffToLowerCase(szEMail, szEMail, dwEMailSize);
+				SendMessage(GetDlgItem(hWndDlg, IDC_LIST_EMAILS), LB_GETTEXT, SendMessage(GetDlgItem(hWndDlg, IDC_LIST_EMAILS), LB_GETCURSEL, 0, 0), (LPARAM)wszBuff);
+				szEmail = wszBuff;
+				szEmail.MakeLower();
 
 				switch (dat->dwType) {
 				case MRA_SELECT_EMAIL_TYPE_SEND_POSTCARD:
 					{
-						size_t dwUrlSize;
-						CHAR szUrl[BUFF_SIZE_URL];
-						dwUrlSize = mir_snprintf(szUrl, SIZEOF(szUrl), "http://cards.mail.ru/event.html?rcptname=%s&rcptemail=%s", GetContactNameA(dat->hContact), szEMail);
-						dat->ppro->MraMPopSessionQueueAddUrl(dat->ppro->hMPopSessionQueue, szUrl, dwUrlSize);
+						CMStringA szUrl;
+						szUrl.Format("http://cards.mail.ru/event.html?rcptname=%s&rcptemail=%s", GetContactNameA(dat->hContact), szEmail);
+						dat->ppro->MraMPopSessionQueueAddUrl(dat->ppro->hMPopSessionQueue, szUrl);
 					}
 					break;
 				case MRA_SELECT_EMAIL_TYPE_VIEW_ALBUM:
-					dat->ppro->MraMPopSessionQueueAddUrlAndEMail(dat->ppro->hMPopSessionQueue, MRA_FOTO_URL, sizeof(MRA_FOTO_URL), szEMail, dwEMailSize);
+					dat->ppro->MraMPopSessionQueueAddUrlAndEMail(dat->ppro->hMPopSessionQueue, MRA_FOTO_URL, szEmail);
 					break;
 				case MRA_SELECT_EMAIL_TYPE_READ_BLOG:
-					dat->ppro->MraMPopSessionQueueAddUrlAndEMail(dat->ppro->hMPopSessionQueue, MRA_BLOGS_URL, sizeof(MRA_BLOGS_URL), szEMail, dwEMailSize);
+					dat->ppro->MraMPopSessionQueueAddUrlAndEMail(dat->ppro->hMPopSessionQueue, MRA_BLOGS_URL, szEmail);
 					break;
 				case MRA_SELECT_EMAIL_TYPE_VIEW_VIDEO:
-					dat->ppro->MraMPopSessionQueueAddUrlAndEMail(dat->ppro->hMPopSessionQueue, MRA_VIDEO_URL, sizeof(MRA_VIDEO_URL), szEMail, dwEMailSize);
+					dat->ppro->MraMPopSessionQueueAddUrlAndEMail(dat->ppro->hMPopSessionQueue, MRA_VIDEO_URL, szEmail);
 					break;
 				case MRA_SELECT_EMAIL_TYPE_ANSWERS:
-					dat->ppro->MraMPopSessionQueueAddUrlAndEMail(dat->ppro->hMPopSessionQueue, MRA_ANSWERS_URL, sizeof(MRA_ANSWERS_URL), szEMail, dwEMailSize);
+					dat->ppro->MraMPopSessionQueueAddUrlAndEMail(dat->ppro->hMPopSessionQueue, MRA_ANSWERS_URL, szEmail);
 					break;
 				case MRA_SELECT_EMAIL_TYPE_WORLD:
-					dat->ppro->MraMPopSessionQueueAddUrlAndEMail(dat->ppro->hMPopSessionQueue, MRA_WORLD_URL, sizeof(MRA_WORLD_URL), szEMail, dwEMailSize);
+					dat->ppro->MraMPopSessionQueueAddUrlAndEMail(dat->ppro->hMPopSessionQueue, MRA_WORLD_URL, szEmail);
 					break;
 				}
 			}
