@@ -20,8 +20,8 @@ __inline size_t wcsnlen(const wchar_t *string, size_t maxlen)
 	return end ? (size_t) (end - string) : maxlen;
 }
 
-/* FIXME: This may be wrong assumption about _AtlGetConversionACP */
-#define _AtlGetConversionACP() CP_THREAD_ACP
+/* FIXME: This may be wrong assumption about Langpack_GetDefaultCodePage */
+#define Langpack_GetDefaultCodePage() CP_THREAD_ACP
 /* FIXME: This is unsafe */
 #define memcpy_s(dest,size,src,count) memcpy(dest,src,count)
 /* FIXME: This is quite silly implementation of _mbsstr */
@@ -704,27 +704,26 @@ public:
 	static int __stdcall GetBaseTypeLength(LPCWSTR pszSource)
 	{
 		// Returns required buffer length in XCHARs
-		return ::WideCharToMultiByte(_AtlGetConversionACP(), 0, pszSource, -1, NULL, 0, NULL, NULL)-1;
+		return ::WideCharToMultiByte(Langpack_GetDefaultCodePage(), 0, pszSource, -1, NULL, 0, NULL, NULL)-1;
 	}
 
 	static int __stdcall GetBaseTypeLength(LPCWSTR pszSource, int nLength)
 	{
 		// Returns required buffer length in XCHARs
-		return ::WideCharToMultiByte(_AtlGetConversionACP(), 0, pszSource, nLength, NULL, 0, NULL, NULL);
+		return ::WideCharToMultiByte(Langpack_GetDefaultCodePage(), 0, pszSource, nLength, NULL, 0, NULL, NULL);
 	}
 
 	static void __stdcall ConvertToBaseType(LPSTR pszDest, int nDestLength, LPCSTR pszSrc, int nSrcLength = -1)
 	{
 		if (nSrcLength == -1) { nSrcLength=1 + GetBaseTypeLength(pszSrc); }
 		// nLen is in XCHARs
-		memcpy_s(pszDest, nDestLength*sizeof(char), 
-			pszSrc, nSrcLength*sizeof(char));
+		memcpy_s(pszDest, nDestLength*sizeof(char), pszSrc, nSrcLength*sizeof(char));
 	}
 
 	static void __stdcall ConvertToBaseType(LPSTR pszDest, int nDestLength, LPCWSTR pszSrc, int nSrcLength = -1)
 	{
 		// nLen is in XCHARs
-		::WideCharToMultiByte(_AtlGetConversionACP(), 0, pszSrc, nSrcLength, pszDest, nDestLength, NULL, NULL);
+		::WideCharToMultiByte(Langpack_GetDefaultCodePage(), 0, pszSrc, nSrcLength, pszDest, nDestLength, NULL, NULL);
 	}
 
 	static void ConvertToOem(_CharType* pstrString)
@@ -764,20 +763,20 @@ public:
 
 	static BSTR __stdcall AllocSysString(const char* pchData, int nDataLength)
 	{
-		int nLen = ::MultiByteToWideChar(_AtlGetConversionACP(), 0, pchData, nDataLength, NULL, NULL);
+		int nLen = ::MultiByteToWideChar(Langpack_GetDefaultCodePage(), 0, pchData, nDataLength, NULL, NULL);
 		BSTR bstr = ::SysAllocStringLen(NULL, nLen);
 		if (bstr != NULL)
-			::MultiByteToWideChar(_AtlGetConversionACP(), 0, pchData, nDataLength, bstr, nLen);
+			::MultiByteToWideChar(Langpack_GetDefaultCodePage(), 0, pchData, nDataLength, bstr, nLen);
 
 		return bstr;
 	}
 
 	static BOOL __stdcall ReAllocSysString(const char* pchData, BSTR* pbstr, int nDataLength)
 	{
-		int nLen = ::MultiByteToWideChar(_AtlGetConversionACP(), 0, pchData, nDataLength, NULL, NULL);
+		int nLen = ::MultiByteToWideChar(Langpack_GetDefaultCodePage(), 0, pchData, nDataLength, NULL, NULL);
 		BOOL bSuccess = ::SysReAllocStringLen(pbstr, NULL, nLen);
 		if (bSuccess)
-			::MultiByteToWideChar(_AtlGetConversionACP(), 0, pchData, nDataLength, *pbstr, nLen);
+			::MultiByteToWideChar(Langpack_GetDefaultCodePage(), 0, pchData, nDataLength, *pbstr, nLen);
 
 		return bSuccess;
 	}
