@@ -1,3 +1,4 @@
+@echo off
 rem Download
 mkdir tmp
 wget -O tmp\miranda-ng-alpha-latest.7z http://miranda-ng.org/distr/miranda-ng-alpha-latest.7z
@@ -10,6 +11,8 @@ wget -O tmp\langpack_czech.zip http://miranda-ng.org/x32/langpack_czech.zip
 wget -O tmp\langpack_german.zip http://miranda-ng.org/x32/langpack_german.zip
 wget -O tmp\langpack_polish.zip http://miranda-ng.org/x32/langpack_polish.zip
 wget -O tmp\langpack_russian.zip http://miranda-ng.org/x32/langpack_russian.zip
+wget -O InnoNG_32\Installer\vcredist_x86.exe http://download.microsoft.com/download/C/6/D/C6D0FD4E-9E53-4897-9B91-836EBA2AACD3/vcredist_x86.exe
+wget -O InnoNG_64\Installer\vcredist_x64.exe http://download.microsoft.com/download/A/8/0/A80747C3-41BD-45DF-B505-E9710D2744E0/vcredist_x64.exe
 rem end
 
 rem Extract
@@ -30,6 +33,7 @@ rem end
 
 rem Cleanup
 rd /S /Q tmp
+del /F /S /Q vcredist*.exe
 
 pushd InnoNG_32\Files
 rd /S /Q Core
