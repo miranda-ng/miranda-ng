@@ -397,7 +397,7 @@ DWORD CMraProto::GetContactBasicInfoW(HANDLE hContact, DWORD *pdwID, DWORD *pdwG
 	return 0;
 }
 
-DWORD CMraProto::SetContactBasicInfoW(HANDLE hContact, DWORD dwSetInfoFlags, DWORD dwFlags, DWORD dwID, DWORD dwGroupID, DWORD dwContactFlag, DWORD dwContactSeverFlags, DWORD dwStatus, const CMStringA &szEmail, const CMStringW &wszNick, const CMStringA &szPhones)
+DWORD CMraProto::SetContactBasicInfoW(HANDLE hContact, DWORD dwSetInfoFlags, DWORD dwFlags, DWORD dwID, DWORD dwGroupID, DWORD dwContactFlag, DWORD dwContactSeverFlags, DWORD dwStatus, const CMStringA *szEmail, const CMStringW *wszNick, const CMStringA *szPhones)
 {
 	if ( !IsContactMra(hContact))
 		return ERROR_INVALID_HANDLE;
@@ -410,43 +410,30 @@ DWORD CMraProto::SetContactBasicInfoW(HANDLE hContact, DWORD dwSetInfoFlags, DWO
 	if (dwFlags & SCBIF_ID)
 		setDword(hContact, "ContactID", dwID);
 
-	if ((dwFlags & SCBIF_EMAIL) && !szEmail.IsEmpty())
-		mraSetStringExA(hContact, "e-mail", szEmail);
+	if ((dwFlags & SCBIF_EMAIL) && szEmail != NULL && !szEmail->IsEmpty())
+		mraSetStringExA(hContact, "e-mail", *szEmail);
 
 	// поля изменения которых отслеживаются
 	if (dwFlags & SCBIF_GROUP_ID)
 		setDword(hContact, "GroupID", dwGroupID);
 
-	if ((dwFlags & SCBIF_NICK) && !wszNick.IsEmpty()) {
+	if ((dwFlags & SCBIF_NICK) && wszNick != NULL && !wszNick->IsEmpty()) {
 		if ((dwFlags & SCBIF_FLAG) && ((dwContactFlag & CONTACT_FLAG_UNICODE_NAME) == 0))
-			DB_SetStringExA(hContact, "CList", "MyHandle", CMStringA(wszNick));
+			DB_SetStringExA(hContact, "CList", "MyHandle", CMStringA(*wszNick));
 		else
-			DB_SetStringExW(hContact, "CList", "MyHandle", wszNick);
+			DB_SetStringExW(hContact, "CList", "MyHandle", *wszNick);
 	}
 
-	if ((dwFlags & SCBIF_PHONES) && !szPhones.IsEmpty()) {
-		char szPhone[MAX_PATH], szValue[MAX_PATH];
-		LPCSTR lpszCurPhone, lpszPhoneNext;
-		size_t i, dwCurPhoneSize;
+	if ((dwFlags & SCBIF_PHONES) && szPhones != NULL && !szPhones->IsEmpty()) {
+		int iStart = 0, i = 0;
+		while (true) {
+			CMStringA szPhone = szPhones->Tokenize(",", iStart);
+			if (iStart == -1)
+				break;
 
-		i = 0;
-		lpszPhoneNext = lpszCurPhone = szPhones.c_str();
-		while (lpszPhoneNext) {
-			lpszPhoneNext = (LPSTR)MemoryFindByte((lpszCurPhone-szPhones), szPhones, szPhones.GetLength(), ',');
-			if (lpszPhoneNext)
-				dwCurPhoneSize = lpszPhoneNext - lpszCurPhone;
-			else
-				dwCurPhoneSize = (szPhones.c_str() + szPhones.GetLength()) - lpszCurPhone;
-
-			szPhone[0] = '+';
-			memmove(szPhone+1, lpszCurPhone, min(dwCurPhoneSize, (SIZEOF(szPhone)-1)));
-			szPhone[dwCurPhoneSize+1] = 0;
-
-			mir_snprintf(szValue, SIZEOF(szValue), "MyPhone%lu", i);
-			DB_SetStringExA(hContact, "UserInfo", szValue, szPhone);
-
-			i++;
-			lpszCurPhone = (lpszPhoneNext+1);
+			char szValue[MAX_PATH];
+			mir_snprintf(szValue, SIZEOF(szValue), "MyPhone%d", i++);
+			DB_SetStringExA(hContact, "UserInfo", szValue, "+" + szPhone);
 		}
 	}
 
@@ -519,12 +506,12 @@ HANDLE CMraProto::MraHContactFromEmail(const CMStringA& szEmail, BOOL bAddIfNeed
 
 		if (hContact) {
 			if ( IsEMailChatAgent(szEmail))
-				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS|SCBIF_EMAIL), -1, -1, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, ID_STATUS_ONLINE, szEmail, L"", "");
+				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS|SCBIF_EMAIL), -1, -1, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, ID_STATUS_ONLINE, &szEmail, 0, 0);
 			else {
 				if (bTemporary)
 					db_set_b(hContact, "CList", "NotOnList", 1);
 				mraSetStringExA(hContact, "MirVer", MIRVER_UNKNOWN);
-				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS|SCBIF_EMAIL), -1, -1, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, ID_STATUS_OFFLINE, szEmail, L"", "");
+				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS|SCBIF_EMAIL), -1, -1, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, ID_STATUS_OFFLINE, &szEmail, 0, 0);
 			}
 		}
 	}

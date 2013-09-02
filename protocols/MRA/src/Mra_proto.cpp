@@ -622,7 +622,7 @@ bool CMraProto::CmdAuthAck(BinBuffer &buf)
 	DWORD dwTemp;
 	GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwTemp, NULL, NULL, NULL, NULL);
 	dwTemp &= ~CONTACT_INTFLAG_NOT_AUTHORIZED;
-	SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, SCBIF_SERVER_FLAG, 0, 0, 0, dwTemp, 0, "", L"", "");
+	SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, SCBIF_SERVER_FLAG, 0, 0, 0, dwTemp, 0, 0, 0, 0);
 	setDword(hContact, "HooksLocked", TRUE);
 	db_unset(hContact, "CList", "NotOnList");
 	setDword(hContact, "HooksLocked", FALSE);
@@ -763,7 +763,7 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 		case CONTACT_OPER_SUCCESS:// ## добавление произведено успешно
 			buf >> dwTemp;
 			if (cmd == MRIM_CS_ADD_CONTACT_ACK)
-				SetContactBasicInfoW(hContact, 0, (SCBIF_ID|SCBIF_SERVER_FLAG), dwTemp, 0, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, 0, "", L"", "");
+				SetContactBasicInfoW(hContact, 0, (SCBIF_ID|SCBIF_SERVER_FLAG), dwTemp, 0, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, 0, 0, 0, 0);
 			break;
 		case CONTACT_OPER_ERROR:// ## переданные данные были некорректны
 			ShowFormattedErrorMessage(L"Data been sent are invalid", NO_ERROR);
@@ -772,7 +772,7 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 			ShowFormattedErrorMessage(L"Internal server error", NO_ERROR);
 			break;
 		case CONTACT_OPER_NO_SUCH_USER:// ## добавляемого пользователя не существует в системе
-			SetContactBasicInfoW(hContact, 0, SCBIF_SERVER_FLAG, 0, 0, 0, -1, 0, "", L"", "");
+			SetContactBasicInfoW(hContact, 0, SCBIF_SERVER_FLAG, 0, 0, 0, -1, 0, 0, 0, 0);
 			ShowFormattedErrorMessage(L"User does not registred", NO_ERROR);
 			break;
 		case CONTACT_OPER_INVALID_INFO:// ## некорректное имя пользователя
@@ -807,7 +807,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 	DWORD dwTemp; buf >> dwTemp;
 	switch(dwTemp) {
 	case MRIM_ANKETA_INFO_STATUS_NOUSER:// не найдено ни одной подходящей записи
-		SetContactBasicInfoW(hContact, 0, SCBIF_SERVER_FLAG, 0, 0, 0, -1, 0, "", L"", "");
+		SetContactBasicInfoW(hContact, 0, SCBIF_SERVER_FLAG, 0, 0, 0, -1, 0, 0, 0, 0);
 	case MRIM_ANKETA_INFO_STATUS_DBERR:// ошибка базы данных
 	case MRIM_ANKETA_INFO_STATUS_RATELIMERR:// слишком много запросов, поиск временно запрещен
 		switch (dwAckType) {
@@ -1261,8 +1261,9 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 				else {
 					if (szContactMask[j] == 's') {
 						buf >> szString;
-						if (szString.GetLength())
+						if (szString.GetLength()) {
 							DebugPrintCRLFA(szString);
+						}
 					}
 					else if (szContactMask[j] == 'u') {
 						mir_snprintf(szBuff, SIZEOF(szBuff), "%lu, ", dwTemp);//;
@@ -1315,13 +1316,13 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 
 						if (bAdded) { // update user info
 							SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_FLAG|SCBIF_SERVER_FLAG|SCBIF_STATUS|SCBIF_NICK|SCBIF_PHONES), 
-								dwID, dwGroupID, dwContactFlag, dwContactSeverFlags, dwTemp, "", wszNick, szCustomPhones);
+								dwID, dwGroupID, dwContactFlag, dwContactSeverFlags, dwTemp, NULL, &wszNick, &szCustomPhones);
 							// request user info from server
 							MraUpdateContactInfo(hContact);
 						}
 						else { //****deb - check group ID param
 							SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS),
-								dwID, dwGroupID, dwContactFlag, dwContactSeverFlags, dwTemp, "", wszNick, szCustomPhones);
+								dwID, dwGroupID, dwContactFlag, dwContactSeverFlags, dwTemp, NULL, &wszNick, &szCustomPhones);
 							if (wszNick.IsEmpty()) { // set the server-side nick
 								wszNick = GetContactNameW(hContact);
 								MraModifyContactW(hContact, dwID, dwContactFlag, dwGroupID, szEmail, wszNick, szCustomPhones);
@@ -1396,7 +1397,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 		// всех в offline и id в нестандарт
 		for (HANDLE hContact = db_find_first();hContact != NULL;hContact = db_find_next(hContact)) {
 			SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS),
-				-1, -2, 0, 0, ID_STATUS_OFFLINE, "", L"", "");
+				-1, -2, 0, 0, ID_STATUS_OFFLINE, 0, 0, 0);
 			// request user info from server
 			MraUpdateContactInfo(hContact);
 		}

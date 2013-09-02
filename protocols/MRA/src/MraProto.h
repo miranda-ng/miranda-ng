@@ -228,7 +228,7 @@ struct CMraProto : public PROTO<CMraProto>
 	DWORD  GetContactFlags(HANDLE hContact);
 	DWORD  SetContactFlags(HANDLE hContact, DWORD dwContactFlag);
 	DWORD  GetContactBasicInfoW(HANDLE hContact, DWORD *pdwID, DWORD *pdwGroupID, DWORD *pdwContactFlag, DWORD *pdwContactSeverFlags, DWORD *pdwStatus, CMStringA *szEmail, CMStringW *wszNick, CMStringA *szPhones);
-	DWORD  SetContactBasicInfoW(HANDLE hContact, DWORD dwSetInfoFlags, DWORD dwFlags, DWORD dwID, DWORD dwGroupID, DWORD dwContactFlag, DWORD dwContactSeverFlags, DWORD dwStatus, const CMStringA &szEmail, const CMStringW &wszNick, const CMStringA &szPhones);
+	DWORD  SetContactBasicInfoW(HANDLE hContact, DWORD dwSetInfoFlags, DWORD dwFlags, DWORD dwID, DWORD dwGroupID, DWORD dwContactFlag, DWORD dwContactSeverFlags, DWORD dwStatus, const CMStringA *szEmail, const CMStringW *wszNick, const CMStringA *szPhones);
 
 	DWORD  GetContactEMailCount(HANDLE hContact, BOOL bMRAOnly);
 	bool   GetContactFirstEMail(HANDLE hContact, BOOL bMRAOnly, CMStringA &szRetBuff);

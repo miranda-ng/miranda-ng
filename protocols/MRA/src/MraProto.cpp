@@ -100,7 +100,7 @@ int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	// всех в offline // тк unsaved values сохраняются их нужно инициализировать
 	for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
-		SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, "", L"", "");
+		SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, 0, 0, 0);
 
 	// unsaved values
 	db_set_resident(m_szModuleName, "Status");// NOTE: XStatus cannot be temporary
@@ -492,7 +492,7 @@ int CMraProto::SetApparentMode(HANDLE hContact, int mode)
 			}
 
 			if (MraModifyContactW(hContact, dwID, dwContactFlag, dwGroupID, szEmail, wszNick, szPhones)) {
-				SetContactBasicInfoW(hContact, 0, SCBIF_FLAG, 0, 0, dwContactFlag, 0, 0, "", L"", "");
+				SetContactBasicInfoW(hContact, 0, SCBIF_FLAG, 0, 0, dwContactFlag, 0, 0, 0, 0, 0);
 				return 0; // Success
 			}
 		}
@@ -530,7 +530,7 @@ int CMraProto::SetStatus(int iNewStatus)
 		if (dwOldStatusMode > ID_STATUS_OFFLINE) {
 			// функция сама проверяет принадлежность контакта к MRA
 			for (HANDLE hContact = db_find_first();hContact != NULL;hContact = db_find_next(hContact))
-				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, "", L"", "");
+				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, 0, 0, 0);
 		}
 		Netlib_CloseHandle(m_hConnection);
 	}
