@@ -152,7 +152,7 @@ void HookOnImport(HMODULE hModule, char *lpszImpModName, DWORD lpOrigFunc, DWORD
 						if(!g_HookError2)
 						{
 							g_HookError2 = TRUE;
-							prevMessageBox(0, TranslateT("Hmm. Something goes wrong. I can't write into the memory.\nAnd as u can c, there are no any exception raised..\nTry to call the author"), TranslateT("MsgBox"), MB_OK);
+							prevMessageBox(0, TranslateT("Hmm. Something goes wrong. I can't write into the memory.\nAnd as u can c, there are no any exception raised...\nTry to call the author"), TranslateT("MsgBox"), MB_OK);
 						}
 					}
 				}

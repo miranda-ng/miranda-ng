@@ -104,7 +104,7 @@ int CDb3Base::WorkModuleChain(int firstTime)
 						MultiByteToWideChar(CP_ACP, 0, modChain[iCurrentModName].name, -1, szModuleName, sizeof(szModuleName) / sizeof(TCHAR));
 						pszModuleName = szModuleName;
 
-						cb->pfnAddLogMessage(STATUS_WARNING,TranslateT("Module name '%s' is not unique: %d duplicates found)"), pszModuleName, n);
+						cb->pfnAddLogMessage(STATUS_WARNING,TranslateT("Module name '%s' is not unique: %d duplicates found"), pszModuleName, n);
 					}
 				}
 				if (iCurrentModName == 0)
