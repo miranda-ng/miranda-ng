@@ -1340,7 +1340,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 							SetExtraIcons(hContact);
 
 						if (dwTemp != ID_STATUS_OFFLINE) { // пишем клиента только если юзер не отключён, иначе не затираем старое
-							if (szUserAgentFormatted.GetLength()) {
+							if ( !szUserAgentFormatted.IsEmpty()) {
 								if (getByte("MirVerRaw", MRA_DEFAULT_MIRVER_RAW) == FALSE)
 									szUserAgentFormatted = MraGetVersionStringFromFormatted(szUserAgentFormatted);
 							}

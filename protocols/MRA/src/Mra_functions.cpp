@@ -43,19 +43,16 @@ static DWORD GetParamValue(const CMStringA &szData, LPCSTR szParamName, DWORD dw
 	if (szData.IsEmpty())
 		return ERROR_INVALID_HANDLE;
 
-	char tmp[USER_AGENT_MAX+4096];
-	LPSTR lpszParamDataStart, lpszParamDataEnd;
+	char *tmp = NEWSTR_ALLOCA(szData.c_str());
+	_strlwr(tmp);
 
-	DWORD dwDataSize = min(szData.GetLength(), SIZEOF(szData));
-	BuffToLowerCase(szData, tmp, dwDataSize);
-
-	lpszParamDataStart = strstr(tmp, szParamName);
+	LPSTR lpszParamDataStart = strstr(tmp, szParamName);
 	if (lpszParamDataStart)
 	if ((*((WORD*)(lpszParamDataStart+dwParamNameSize))) == (*((WORD*)"=\""))) {
 		lpszParamDataStart += dwParamNameSize+2;
-		lpszParamDataEnd = strchr(lpszParamDataStart, '"');
+		LPSTR lpszParamDataEnd = strchr(lpszParamDataStart, '"');
 		if (lpszParamDataEnd) {
-			szParamValue = CMStringA(szData.c_str()+(lpszParamDataStart-szData), lpszParamDataEnd-lpszParamDataStart);
+			szParamValue = CMStringA(szData.c_str()+(lpszParamDataStart-tmp), lpszParamDataEnd-lpszParamDataStart);
 			return NO_ERROR;
 		}
 	}
