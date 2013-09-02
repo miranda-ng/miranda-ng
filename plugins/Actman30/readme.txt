@@ -1,7 +1,7 @@
 Note
 ----
-'Actions' is action groups wich can be executed through services
-'Subactions' is single simple action like 'Call service', ' rum program' etc.
+'Actions' is action groups which can be executed through services
+'Subactions' is single simple action like 'Call service', 'run program' etc.
 
 Description
 -----------  
@@ -19,7 +19,7 @@ these lists.
 'Reload' - to reload settings from DB
 'Test'   - executes currently selected action
 'Up','Down' - for place selected subaction upper or lower current position
-With DblClick on ag list item you can rename this item
+With DblClick on action groups list item you can rename this item
 
 When action list is not empty, in right side you can see combobox for subaction type selecting.
 At this moment only next types supported:
@@ -55,30 +55,30 @@ Most upper part, 'result action' is for action, what we must to do with result:
 show in popup, in message window or paste into text.
 Option to translate result are: integer decimal value (signed or not), hex value or
 string value (Unicode or ANSI)
-'<proto>' in service name will be replaced by protocol name for contact handle in paremeter
+'<proto>' in service name will be replaced by protocol name for contact handle in parameter
 
 -- Execute program
-More hard for undestand are upper settings.
+More hard for understanding than the upper settings.
 Process settings: 'parallel' means executing next subaction or return from executing action
 immediately, 'continued' mean what next subaction will be only after finishing this program.
-Process time option is for waiting time after that runned process will be shutdowned.
+'Process time' option specifies a period of time, after which the process will be shut down.
 'Current path' mean what program will run with current directory as start directory.
 Window options are for starting window view: minimized, normal, maximized etc.
-Severl macros can be used in program name:
+Several macros can be used in program name:
 <param> - parameter
 <last> - last result
 
 -- Insert text
-You can work with Clipboard or file/mesage window here.
+You can work with Clipboard or file/message window here.
 In field below action type combobox you can write some text which will be inserted
 into text field of miranda and other program.
-Or, that text can be writed to file or some text can be readed.
+Or, that text can be written to file or some text can be readed.
 If you want help for text formatting, you can press F1.
 You can use Variables plugin. If you want it, just mark checkbox. help button can
 get help notes for available variables and functions.
 
 -- Advanced
-Most ununderstable block. Upper group is conditions for operation executing.
+This block is the most difficult for understanding. Upper group is conditions for operation executing.
 'Value' is value for comparing last subaction result with it.
 Next actions will be if condition is true:
 'Math'  - mathematic operations with last result and presented in 'value' field value.
@@ -89,7 +89,7 @@ After math calculations (or w/o it) can be used next operations:
   'NOP'   - not operation
 
 As 'Math' alternative, you can use Variables plugin scripts.
-Script can be writed in text field below and checked by pressing 'Vars' button.
+Script can be written in text field below and checked by pressing 'Vars' button.
 Variables %subject% and %extratext% can be used in the script.
 
 -- Call chain
@@ -101,7 +101,7 @@ This subaction is for database reading/writing (see Operation block).
 Value and value type is for type of data, reading or writing from/to database.
 'Last result' mean that value is result of previous action.
 Group of radioboxes is for contact type.
-  'Own settings' - all settings only for our contact (our profle settings)
+  'Own settings' - all settings only for our contact (our profile settings)
   'Parameter'    - settings for contact with handle, passed from start parameter
   'Last result'  - contact handle is result of last action
   'Manual'       - contact handle selected from combobox
