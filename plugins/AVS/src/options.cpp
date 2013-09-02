@@ -932,22 +932,17 @@ static char* GetSelectedProtocol(HWND hwndDlg)
 
 static void EnableDisableControls(HWND hwndDlg, char *proto)
 {
-	if (IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO))
-	{
-		if (proto == NULL)
-		{
+	if (IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO)) {
+		if (proto == NULL) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
 		}
-		else
-		{
-			if (!ProtoServiceExists(proto, PS_SETMYAVATAR))
-			{
+		else {
+			if (!ProtoServiceExists(proto, PS_SETMYAVATAR) && !ProtoServiceExists(proto, PS_SETMYAVATARW)) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
 			}
-			else
-			{
+			else {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), TRUE);
 
 				int width, height;
@@ -956,16 +951,12 @@ static void EnableDisableControls(HWND hwndDlg, char *proto)
 			}
 		}
 	}
-	else
-	{
+	else {
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), TRUE);
 
 		if (db_get_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1))
-		{
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
-		}
-		else
-		{
+		else {
 			int width, height;
 			SendDlgItemMessage(hwndDlg, IDC_PROTOPIC, AVATAR_GETUSEDSPACE, (WPARAM) &width, (LPARAM) &height);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), (LPARAM) width != 0 || height != 0);
@@ -988,10 +979,8 @@ static void EnableDisableProtocols(HWND hwndDlg, BOOL init)
 	BOOL perProto = IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO);
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_PROTOCOLS);
 
-	if (perProto)
-	{
-		if (!init && !IsWindowVisible(hwndList))
-		{
+	if (perProto) {
+		if (!init && !IsWindowVisible(hwndList)) {
 			// Show list of protocols
 			ShowWindow(hwndList, SW_SHOW);
 
@@ -1006,16 +995,13 @@ static void EnableDisableProtocols(HWND hwndDlg, BOOL init)
 		{
 			ListView_SetItemState(hwndList, 0, LVIS_FOCUSED | LVIS_SELECTED, 0x0F);
 		}
-		else
-		{
+		else {
 			SendDlgItemMessage(hwndDlg, IDC_PROTOPIC, AVATAR_SETPROTOCOL, 0, (LPARAM) proto);
 			EnableDisableControls(hwndDlg, proto);
 		}
 	}
-	else
-	{
-		if (init || IsWindowVisible(hwndList))
-		{
+	else {
+		if (init || IsWindowVisible(hwndList)) {
 			// Show list of protocols
 			ShowWindow(hwndList, SW_HIDE);
 
@@ -1057,11 +1043,10 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 
 			// List protocols
 			PROTOACCOUNT **accs;
-			int i, count, num = 0;
+			int count, num = 0;
 
 			ProtoEnumAccounts( &count, &accs );
-			for (i = 0; i < count; i++)
-			{
+			for (int i = 0; i < count; i++) {
 				if ( !ProtoServiceExists( accs[i]->szModuleName, PS_GETMYAVATAR))
 					continue;
 

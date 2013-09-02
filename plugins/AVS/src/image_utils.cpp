@@ -717,15 +717,9 @@ BOOL MakeTransparentBkg(HANDLE hContact, HBITMAP *hBitmap)
 
 int SaveAvatar( const char* protocol, const TCHAR* tszFileName )
 {
-	int result = CallProtoService(protocol, PS_SETMYAVATART, 0, ( LPARAM )tszFileName);
-	if ( result == CALLSERVICE_NOTFOUND ) {
-		if ( tszFileName != NULL ) {
-			char szFileName[ MAX_PATH ];
-			WideCharToMultiByte( CP_ACP, 0, tszFileName, -1, szFileName, SIZEOF(szFileName), 0, 0 );
-			result = CallProtoService(protocol, PS_SETMYAVATAR, 0, ( LPARAM )szFileName);
-		}
-		else result = CallProtoService(protocol, PS_SETMYAVATAR, 0, 0);
-	}
+	INT_PTR result = CallProtoService(protocol, PS_SETMYAVATART, 0, ( LPARAM )tszFileName);
+	if ( result == CALLSERVICE_NOTFOUND )
+		result = CallProtoService(protocol, PS_SETMYAVATAR, 0, (LPARAM)(char*)_T2A(tszFileName));
 	
 	return result;
 }
