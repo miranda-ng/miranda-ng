@@ -5,6 +5,12 @@
 #endif
 
 #ifdef ptx86
+   #define MirGroupName "Miranda NG"
+#else
+   #define MirGroupName "Miranda NG x64"
+#endif
+
+#ifdef ptx86
    #define MirOutName "miranda-ng-alpha-latest"
 #else
    #define MirOutName "miranda-ng-alpha-latest_x64"
@@ -50,7 +56,7 @@ VersionInfoVersion={#SetupSetting("AppVersion")}
 MinVersion=5.0
 ArchitecturesAllowed={#ArcAllow}
 DefaultDirName={pf}\Miranda NG
-DefaultGroupName=Miranda NG
+DefaultGroupName={#MirGroupName}
 LicenseFile=Files\Docs\license.txt
 UninstallFilesDir={app}\Uninstall
 UninstallDisplayIcon={#MirName}
@@ -208,10 +214,10 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 
 [Icons]
 Name: "{app}\DbChecker"; Filename: "{app}\{#MirName}"; Parameters: "/svc:dbchecker"; Check: IsDefault() 
-Name: "{group}\Miranda NG"; Filename: "{app}\{#MirName}" 
+Name: "{group}\{#MirGroupName}"; Filename: "{app}\{#MirName}" 
 Name: "{group}\{cm:UninstallProgram,Miranda NG}"; Filename: {app}\Uninstall\Unins000.exe 
-Name: "{userdesktop}\Miranda NG"; Filename: "{app}\{#MirName}"; WorkingDir: {app}; Tasks: desktopicon 
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Miranda NG"; Filename: "{app}\{#MirName}"; WorkingDir: {app}; Tasks: quicklaunchicon 
+Name: "{userdesktop}\{#MirGroupName}"; Filename: "{app}\{#MirName}"; WorkingDir: {app}; Tasks: desktopicon 
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MirGroupName}"; Filename: "{app}\{#MirName}"; WorkingDir: {app}; Tasks: quicklaunchicon 
 
 [Run]
 Filename: "{tmp}\{#VcRedistName}"; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist.msi"" "; Check: RedistIsNotInstalled(); StatusMsg: Installing Microsoft Visual C++ 2010 SP1 Redistributable Package ({#Ptf})
