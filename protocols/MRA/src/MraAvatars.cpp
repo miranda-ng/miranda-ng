@@ -2,18 +2,6 @@
 #include "MraAvatars.h"
 
 #define PA_FORMAT_MAX		7
-const LPTSTR lpcszExtensions[9] =
-{
-	_T(".dat"), // PA_FORMAT_UNKNOWN
-	_T(".png"), // PA_FORMAT_PNG
-	_T(".jpg"), // PA_FORMAT_JPEG
-	_T(".ico"), // PA_FORMAT_ICON
-	_T(".bmp"), // PA_FORMAT_BMP
-	_T(".gif"), // PA_FORMAT_GIF
-	_T(".swf"), // PA_FORMAT_SWF
-	_T(".xml"), // PA_FORMAT_XML
-	NULL
-};
 
 const LPSTR lpcszContentType[9] =
 {
@@ -63,7 +51,6 @@ HANDLE MraAvatarsHttpConnect(HANDLE m_hNetlibUser, LPCSTR lpszHost, DWORD dwPort
 #define MAHTRO_AVTSMALLMRIM 3
 
 DWORD MraAvatarsHttpTransaction(HANDLE m_hConnection, DWORD dwRequestType, LPCSTR lpszUser, LPCSTR lpszDomain, LPCSTR lpszHost, DWORD dwReqObj, BOOL bUseKeepAliveConn, DWORD *pdwResultCode, BOOL *pbKeepAlive, DWORD *pdwFormat, size_t *pdwAvatarSize, INTERNET_TIME *pitLastModifiedTime);
-DWORD MraAvatarsGetFileFormat(const CMString &lpszPath);
 
 DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 {
@@ -252,7 +239,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 							case 404:// return def avatar
 								if (MraAvatarsGetFileName((HANDLE)pmraaqAvatarsQueue, NULL, PA_FORMAT_DEFAULT, wszFileName) == NO_ERROR) {
 									if ( IsFileExist( wszFileName )) {
-										dwAvatarFormat = MraAvatarsGetFileFormat(wszFileName);
+										dwAvatarFormat = ProtoGetAvatarFormat(wszFileName);
 										bFailed = FALSE;
 									}
 									else//loading default avatar
@@ -504,19 +491,6 @@ void CMraProto::MraAvatarsSetContactTime(HANDLE hContact, LPSTR lpszValueName, S
 		delSetting(hContact, lpszValueName);
 }
 
-DWORD MraAvatarsGetFileFormat(const CMString &lpszPath)
-{
-	TCHAR dwExt[ 5 ];
-	BuffToLowerCase(&dwExt, lpszPath.c_str()+lpszPath.GetLength()-4, 4);
-
-	for ( DWORD i = 0; i < PA_FORMAT_MAX; i++ )
-		if ( !_tcscmp( dwExt, lpcszExtensions[i]))
-			return i;
-
-	return -1;
-}
-
-
 DWORD CMraProto::MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HANDLE hContact, DWORD dwFormat, CMStringW &res)
 {
 	res.Empty();
@@ -545,7 +519,7 @@ DWORD CMraProto::MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HANDLE hConta
 		CMStringW szEmail;
 		if ( mraGetStringW(hContact, "e-mail", szEmail)) {
 			szEmail.MakeLower();
-			res += szEmail + lpcszExtensions[dwFormat];
+			res += szEmail + ProtoGetAvatarExtension(dwFormat);
 			return NO_ERROR;
 		}
 	}
