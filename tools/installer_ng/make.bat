@@ -16,14 +16,25 @@ wget -O InnoNG_64\Installer\vcredist_x64.exe http://download.microsoft.com/downl
 rem end
 
 rem Extract
-"%ProgramFiles%\7-zip\7z.exe" x tmp\miranda-ng-alpha-latest.7z -y -oInnoNG_32\Files
-"%ProgramFiles%\7-zip\7z.exe" x tmp\clist_blind_x32.zip -y -oInnoNG_32\Files
-"%ProgramFiles%\7-zip\7z.exe" x tmp\scriver_x32.zip -y -oInnoNG_32\Files
-"%ProgramFiles%\7-zip\7z.exe" x tmp\miranda-ng-alpha-latest_x64.7z -y -oInnoNG_64\Files
-"%ProgramFiles%\7-zip\7z.exe" x tmp\clist_blind_x64.zip -y -oInnoNG_64\Files
-"%ProgramFiles%\7-zip\7z.exe" x tmp\scriver_x64.zip -y -oInnoNG_64\Files
-"%ProgramFiles%\7-zip\7z.exe" x tmp\lang*.zip -y -oInnoNG_32\Files
-"%ProgramFiles%\7-zip\7z.exe" x tmp\lang*.zip -y -oInnoNG_64\Files
+if defined ProgramFiles(x86) (
+	"%ProgramW6432%\7-zip\7z.exe" x tmp\miranda-ng-alpha-latest.7z -y -oInnoNG_32\Files
+	"%ProgramW6432%\7-zip\7z.exe" x tmp\clist_blind_x32.zip -y -oInnoNG_32\Files
+	"%ProgramW6432%\7-zip\7z.exe" x tmp\scriver_x32.zip -y -oInnoNG_32\Files
+	"%ProgramW6432%\7-zip\7z.exe" x tmp\miranda-ng-alpha-latest_x64.7z -y -oInnoNG_64\Files
+	"%ProgramW6432%\7-zip\7z.exe" x tmp\clist_blind_x64.zip -y -oInnoNG_64\Files
+	"%ProgramW6432%\7-zip\7z.exe" x tmp\scriver_x64.zip -y -oInnoNG_64\Files
+	"%ProgramW6432%\7-zip\7z.exe" x tmp\lang*.zip -y -oInnoNG_32\Files
+	"%ProgramW6432%\7-zip\7z.exe" x tmp\lang*.zip -y -oInnoNG_64\Files
+) else (
+	"%ProgramFiles%\7-zip\7z.exe" x tmp\miranda-ng-alpha-latest.7z -y -oInnoNG_32\Files
+	"%ProgramFiles%\7-zip\7z.exe" x tmp\clist_blind_x32.zip -y -oInnoNG_32\Files
+	"%ProgramFiles%\7-zip\7z.exe" x tmp\scriver_x32.zip -y -oInnoNG_32\Files
+	"%ProgramFiles%\7-zip\7z.exe" x tmp\miranda-ng-alpha-latest_x64.7z -y -oInnoNG_64\Files
+	"%ProgramFiles%\7-zip\7z.exe" x tmp\clist_blind_x64.zip -y -oInnoNG_64\Files
+	"%ProgramFiles%\7-zip\7z.exe" x tmp\scriver_x64.zip -y -oInnoNG_64\Files
+	"%ProgramFiles%\7-zip\7z.exe" x tmp\lang*.zip -y -oInnoNG_32\Files
+	"%ProgramFiles%\7-zip\7z.exe" x tmp\lang*.zip -y -oInnoNG_64\Files
+)
 rem end
 
 rem Make
