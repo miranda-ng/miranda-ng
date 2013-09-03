@@ -62,13 +62,13 @@ Dopełnienie okładki
 [Frame refresh time]
 Czas odświeżania ramki
 [Hide frame when no music played]
-
+Ukryj ramkę, gdy muzyka nie jest odtwarzana
 [Center horizontally]
 Wyśrodkuj w poziomie
 [Center vertically]
 Wyśrodkuj w pionie
 [Use styled trackbar]
-
+Użyj stylowanego paska utworu
 [Use buttons gap]
 Użyj odstępów przycisków
 [Frame template]
@@ -84,15 +84,15 @@ Krok przewijania
 [Scroll gap]
 Przerwa przewijania
 [Minimum scroll tail]
-
+Minimalny interwał przewijania
 [Wrap]
 Zawijanie
 [Roll]
 Zakręcenie
 [PingPong]
-
+PingPong
 [Hide frame when player not found]
-
+Ukryj ramkę, gdy nie znaleziono odtwarzacza
 [Pause Hovered]
 Pauza - po najechaniu
 [Prev Hovered]
@@ -142,7 +142,7 @@ nazwa odtwarzacza
 [time/length * 100%]
 czas/długość * 100%
 ["mono"/"stereo"]
-
+"mono"/"stereo"
 [height, video only]
 wyskość, tylko wideo
 [FPS (frames per second), video only]
@@ -218,7 +218,7 @@ Tryb prostego szablonu
 [Use existing XStatus]
 Użyj istniejący xStatus
 [Only if 'Music' status was set]
-
+Tylko, gdy ustawiony jest status "muzyka"
 [Keep 'Music' status]
 Utrzymuj Status "Muzyka"
 [Replace underlines with spaces]
@@ -232,7 +232,7 @@ Trzymaj stary plik
 [No Music]
 Brak muzyki
 [No player]
-
+Brak odtwarzacza
 [User message]
 Wiadomość użytkownika
 [Channel message]
@@ -242,9 +242,9 @@ Jeśli opcja jest włączona, numer xStatus nie zmieni się, tylko wiadomości b
 [Keep 'Music' XStatus]
 Utrzymuj xStatus "Muzyka"
 [No-music text]
-
+Brak tekstu muzyki
 [No-player text]
-
+Brak tekstu odtwarzacza
 [Protocol list]
 Lista protokołów
 [Use Status:]
@@ -278,7 +278,7 @@ Tylko jeśli wiadomość nie jest użyta
 [Don't use]
 Nie używaj
 [Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled.]
-
+Czas odświeżania (w sekundach) to czas co jaki odświeżane są informacje o muzyce, statystyki oraz opisy. Jeżeli 0, automatyczne odświeżanie jest wyłączone.
 [All uppercase]
 Wszystkie dużymi
 [Do not change]
@@ -296,7 +296,7 @@ Jeśli ta opcja jest włączona, wszystkie ustawienia wtyczki będą zapisywane 
 [If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
 Jeśli ta opcja jest włączona, wtyczka będzie próbowała pobrać info z odtwarzacza.
 [If this option is "ON", XStatus changes only if "Music" XStatus was set already.]
-
+Gdy ta opcja jest włączona, XStatus zmieni się tylko wtedy, gdy XStatus z muzyką jest już ustawiony.
 [If this option is "ON", XStatus doesn't depend of ICQ's status.]
 Jeśli ta opcja jest włączona, xStatus nie zależy od statusu ICQ.
 [If this option is "ON", XStatus not changed when player shutdowned.]
@@ -370,13 +370,13 @@ Status odtwarzacza (stop, gra, pauza)
 [player]
 odtwarzacz
 [Independed Xstatus]
-
+Niezależny XStatus
 ["Variables" ANSI output]
 "Variables" wyjście ANSI
 [FPS (Frames per second)]
 FPS (klatek na sekundę)
 [If Variables service used, returned value will be in ANSI encoding (default is UTF8)]
-
+Jeżeli używana jest usługa zmiennych, zwrócona wartość zostanie podana w kodowaniu ANSI (domyślnie w UTF8)
 [Save settings in INI-file]
 Zapisz ustawienia w INI
 [VBR or not]
@@ -404,7 +404,7 @@ Pokaż informacje o odtwarzanych multimediach
 [WATrack Macro Info]
 Informacje WATrack
 [Lyric from ID3v2 tag]
-
+Tekst piosenki z tagu ID3v2
 [Cover file path]
 okładka
 [Player volume (0-15)]
@@ -428,7 +428,7 @@ Utwórz raport
 [Context menu]
 Menu kontekstowe
 [/me listening "%title%"]
-
+/me słucha "%title%"
 [Report file name not defined]
 Nazwa pliku raportu niezdefiniowana
 [Status Template]
@@ -456,7 +456,7 @@ Nazwa xStatus
 [- track number]
 - numer ścieżki
 [  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music XStatus sets already.\n  Keep 'Music' XStatus - if player stopped or shutdowned, save or not 'Music' XStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
-
+Czas odświeżania (w sekundach) to czas, co jaki odświeżane są informacje o muzyce oraz opisy. Gdy 0, automatyczne odświeżanie jest wyłączone.\nTylko jeżęli status "muzyka" ustawiony- zmień status, gdy ustawiony jest już XStatus.\nUtrzymuj XStatus "muzyka" - jeżęli odtwarzanie zostanie zatrzymane lub odtwarzacz zamknięty utrzymaj lub nie XStatus "muzyka" (w przeciwnym razie zmień na pusty).
 ["Variables" module use]
 Użyto modół "Variables"
 [Acoustic]
@@ -464,7 +464,7 @@ Akustyka
 [Use ICQ XStatus]
 Użyj xStatus ICQ
 [Winamp Track]
-
+Utwór w Winampie
 [Pause Pushed]
 Pauza - po naciśnięciu
 [-default-]
@@ -494,7 +494,7 @@ Włącz opisy xStatus
 [Enable Tunes message]
 Włącz opis Tunes
 [Tunes]
-
+Utwory
 [Check all marked players for active (started and playing) or stop at first founded]
 Sprawdz aktywność wszystkich zaznaczonych odtwarzaczy (rozpoczęcie odtwarzania) lub zatrzymuje na pierzym znalezionym.
 [Check all players]
@@ -518,7 +518,7 @@ Ilość prób
 [Disable scrobbling]
 Wyłącz scrobbling
 [Enable scrobbling]
-
+Włącz scrobblowanie
 [no language]
 brak języka
 [Content language]
@@ -526,7 +526,7 @@ Język
 [Artist]
 Artysta
 [Album]
-
+Album
 [Track]
 Utwór
 [Get Artist Info]
@@ -600,11 +600,11 @@ Precyzja
 [none]
 brak
 [kb]
-
+kb
 [Kb]
-
+Kb
 [KB]
-
+KB
 [Color]
 Kolor
 [Output]
@@ -614,27 +614,27 @@ Sprawdź
 [Choose font...]
 Ustaw czcionkę...
 [Genres]
-
+Gatunki
 [[X]Status Title / Text]
 Tytuł [x]Statusu/Tekst
 ;file \plugins\Watrack\myshows\myshows.rc
 [Scrobble at]
 Scrobbluj co
 [Timeout, ms]
-
+czas oczekiwania, ms
 [Get Series Info]
-
+Pobierz informacje o serii
 [Episode]
-
+Odcinek
 ;file \plugins\Watrack\lastfm\i_last_api.inc
 [Last.fm error: ]
-
+błąd Last.fm: 
 [Client is banned]
 Klient jest zbanowany
 [Bad Auth. Check login and password]
-
+Błędne dane. Sprawdź login i hasło.
 [Bad TimeStamp]
-
+Błędny znacznik czasu
 ;file \plugins\Watrack\lastfm\i_last_dlg.inc
 [Similar artists]
 Podobni artyści
@@ -642,7 +642,7 @@ Podobni artyści
 [Music Info from ]
 Info muzyczne z 
 [You Get Error]
-
+Otrzymujesz błąd
 ;other strings
 [Slider]
 Sówak

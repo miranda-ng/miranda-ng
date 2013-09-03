@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
-
+Pobiera informacje o pogodzie wyświetlając je w twojej liście kontaktów.
 ;file \plugins\Weather\res\resource.rc
 [Update]
 Aktualizacja
@@ -49,13 +49,13 @@ Znak stopni:
 [Wind]
 Wiatr
 [km/h]
-
+km/h
 [m/s]
-
+m/s
 [mph]
-
+mph
 [knots]
-
+węzłów
 [Visibility]
 Widoczność 
 [km]
@@ -65,13 +65,13 @@ mil
 [Pressure]
 Ciśnienie
 [kPa]
-
+kPa
 [mb (hPa)]
-
+mb (hPa)
 [inches]
-
+cali
 [mm Hg (torr)]
-
+mm Hg (torr)
 [Day/Month]
 Dzień/Miesiąc
 [No change]
@@ -83,9 +83,9 @@ Brak zmian
 [Elevation]
 Podwyższenie ciśnienia
 [ft]
-
+ft
 [m]
-
+m
 [Do not append units to values]
 Nie dodawaj jednostek do liczb
 [Do not display fractional values]
@@ -213,7 +213,7 @@ Wilgotność
 [More...]
 Więcej...
 [Weather Protocol INI Setup]
-
+Tworzenie pliku INI protokołu pogody
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
 Konfiguracja INI protokołu Weather\nZainstaluj i wczytaj plik ini pogody tutaj
 [Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
@@ -271,7 +271,7 @@ Ogłoszone alarmy pogodowe
 [N/A]
 Niedostępny
 [Invalid ID format, missing "/" (10)]
-
+Nieprawidłowy format ID, brakuje "/" (10)
 [Invalid service (11)]
 Nieprawidłowy serwis (11)
 [Invalid station (12)]
@@ -370,11 +370,11 @@ Pliki tekstowe
 Wszystkie pliki
 ;file \plugins\Weather\src\weather_conv.cpp
 [mb]
-
+mb
 [in]
 w
 [mm]
-
+mm
 [<unknown time>]
 <nieznany czas>
 [<Error>]
@@ -414,17 +414,17 @@ Edytuj ustawienia
 [Name]
 Nazwa
 [Author]
-
+Autor
 [File Version]
-
+Wersja Pliku
 [INI Version]
-
+Wersja INI
 [Items]
 Obiekty
 [Display Name]
-
+Nazwa Wyświetlana
 [File Name]
-
+Nazwa Pliku
 [The corresponding INI file for "%s" is not found.]
 Zgodny plik INI dla \"%s\" nie został znaleziony.
 [Weather INI information for "%s":]

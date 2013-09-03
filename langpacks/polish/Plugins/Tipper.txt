@@ -291,11 +291,11 @@ Klient
 [%s (locked)]
 %s (zablokowane)
 [%s ago]
-
+%s temu
 [Log on:]
 Zalogowany:
 [Log off:]
-
+Wyloguj:
 [Unread emails:]
 Nieprzeczytane emaile:
 [Status:]
@@ -317,9 +317,9 @@ Kopiuj wszystkie wpisy
 [Copy avatar]
 Kopiuj awatar
 [<No Label>: ]
-
+<Brak Etykiety>:
 [<No Value>]
-
+<Brak Wartości>
 [Fav. contacts]
 Ulub. kontakty
 [Other]
@@ -348,7 +348,7 @@ Identyfikator
 [Idle]
 Bezczynność 
 [Idle:]
-
+Bezczynny:
 [IP]
 IP
 [IP:]
@@ -368,11 +368,11 @@ Nazwa:
 [Number of received messages]
 Liczba otrzymanych wiadomości
 [Number of msg [IN]:]
-
+Liczba wiad. odebr.:
 [Number of sended messages]
 Liczba wysłanych wiadomości
 [Number of msg [OUT]:]
-
+Liczba wiad. wysł.:
 [Contact time]
 Czas kontaktu
 [Time:]
@@ -386,43 +386,43 @@ Opis xStatus
 [XStatus text:]
 Tekst xStatus:
 [[jabber.dll] Activity title]
-[jabber.dll] Aktywność
+[jabber.dll] tytuł aktywności
 [Activity title:]
 Tytuł aktywności:
 [[jabber.dll] Activity text]
-[jabber.dll] Opis aktywności
+[jabber.dll] tekst aktywności
 [Activity text:]
 Tekst aktywności:
 [[menuex.dll] Logon time]
-[menuex.dll] Czas zalogowania
+[menuex.dll] Czas zalogowania się
 [Logon time:]
 Czas zalogowania:
 [[menuex.dll] Logoff time]
-[menuex.dll] Czas wylogowania
+[menuex.dll] czas wylogowania się
 [Logoff time:]
 Czas wylogowania:
 [[seenplugin.dll] Last seen time]
-[seenplugin.dll] Ostatnio widziany
+[seenplugin.dll] ostatnio widziano
 [Last seen time:]
 Czas:
 [[seenplugin.dll] Last seen status]
-[seenplugin.dll] Ostatni status
+[seenplugin.dll]ostatnio widziany status
 [Last seen status:]
 Status:
 [[weather.dll] Condition]
-[weather.dll] Kondycja
+[weather.dll] Warunki
 [Condition:]
-
+Warunki:
 [[weather.dll] Humidity]
-[weather.dll] Wilgotność
+[weather.dll] wilgotność
 [Humidity:]
 Wilgotność
 [[weather.dll] Max/Min temperature]
-[weather.dll] Maks/Min temperatura
+[weather.dll] Temperatura maks./min.
 [Max/Min:]
 Maks/Min:
 [[weather.dll] Moon]
-[weather.dll] Faza księżyca
+[weather.dll] Księżyc
 [Moon:]
 Księżyc:
 [[weather.dll] Pressure]
@@ -430,25 +430,25 @@ Księżyc:
 [Pressure:]
 Ciśnienie:
 [[weather.dll] Sunrise]
-[weather.dll] Wschód słońca
+[weather.dll] wschód słońca
 [Sunrise:]
 Wschód słońca:
 [[weather.dll] Sunset]
-[weather.dll] Zachód słońca
+[weather.dll] zachód słońca
 [Sunset:]
 Zachód słońca:
 [[weather.dll] Temperature]
-[weather.dll] Temperatura
+[weather.dll] temperatura
 [Temperature:]
 Temperatura:
 [[weather.dll] Update time]
-[weather.dll] Czas aktualizacji
+[weather.dll] zaktualizowano
 [Update time:]
 Czas aktualizacji:
 [[weather.dll] UV Index]
-[weather.dll] Promieniowanie UV
+[weather.dll] indeks UV
 [UV Index:]
-
+Indeks UV:
 [[weather.dll] Visibility]
 [weather.dll] Widoczność
 [Visibility:]
@@ -554,7 +554,7 @@ Kantoński
 [Catalan]
 Kataloński
 [Chamorro]
-
+Chamorro
 [Chinese]
 Chiński
 [Croatian]
@@ -568,11 +568,11 @@ Niderlandzki
 [English]
 Angielski
 [Esperanto]
-
+Esperanto
 [Estonian]
 Estoński
 [Farsi]
-
+Perski
 [Finnish]
 Fiński
 [French]
@@ -636,7 +636,7 @@ Rosyjski
 [Serbo-Croatian]
 Chorwackoserbski
 [Sindhi]
-
+sindhi
 [Slovak]
 Słowacki
 [Slovenian]
@@ -652,7 +652,7 @@ Szwedzki
 [Tagalog]
 Tagalog
 [Taiwanese]
-
+tajwański
 [Tamil]
 Tamilski
 [Tatar]
@@ -664,7 +664,7 @@ Turecki
 [Ukrainian]
 Ukraiński
 [Urdu]
-
+Urdu
 [Vietnamese]
 Wietnamski
 [Welsh]

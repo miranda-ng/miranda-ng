@@ -6,10 +6,10 @@
 ;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
 ;============================================================
 [Collects and prints information related to Miranda, the plugins and the OS.]
-
+Zbiera i drukuje informacje związane z Mirandą, wtyczkami i systemem operacyjnym.
 ;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
-
+Zapisz w:
 [OK]
 OK
 [Cancel]
@@ -19,49 +19,49 @@ Plik tekstowy
 [MessageBox]
 Okno komunikatu
 [DialogBox]
-
+Okno dialogowe
 [Output Debug String]
-
+Ciąg debug wyjściowy
 [Clipboard]
 Schowek
 [Select output:]
-
+Wybierz wyjście:
 [Upload to site]
-
+Prześlij na stronę
 [Forum style formatting]
-
+Styl formatowania jak na forum
 [Aditional options:]
 Dodatkowe opcje:
 [Do it now]
-
+Zrób to teraz
 [Show window in taskbar]
-
+Pokaż okno na pasku zadań
 [Ask every time]
-
+Pytaj za każdym razem
 [Also copy info to clipboard]
-
+Także kopiuj informacje do schowka
 [Upload site settings]
-
+Ustawienia strony do przesyłu
 [Username]
 Użytkownik
 [Password]
 Hasło:
 [Highlight version number using]
-
+Wyróżniaj numer wersji używając
 [Show disabled plugins too]
-
+Pokazuj także wyłączone wtyczki
 [Attempt to find unloadable plugins]
-
+Spróbuj znaleźć niemożliwe do załadowania wtyczki
 [Suppress header information]
-
+Pomiń informacje w nagłówku
 [Enable debug messages]
-
+Włącz komunikaty debugowania
 [Show plugin UUIDs]
 Pokaż UUID wtyczki
 [Show installed languages]
-
+Pokazuj zainstalowane języki
 [Miranda Version Information]
-
+Informacje o wersji Mirandy
 [Close]
 Zamknij
 [&Copy text]
@@ -72,15 +72,15 @@ Wyślij
 Zapisz do pliku
 ;file \plugins\VersionInfo\src\CVersionInfo.cpp
 [If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
-
+Jeżęli zamierzasz użyć tego raportu w celu zgłoszenia błędu, pamiętaj, by przejrzeć stronę internetową w poszukiwaniu dodatkowych pytań lub innej pomocy jakiej mogą potrzebować twórcy.\r\nJeżęli nie sprawdzisz swojego raportu błędu i prześlesz opinię, błąd nie zostanie naprawiony.
 [Information successfully written to file: "%s".]
-
+Informacje zostały pomyślnie zapisane w pliku: "%s".
 [Error during the creation of file "%s". Disk may be full or write protected.]
-
+Błąd podczas tworzenia pliku "%s". Dysk może być pełny lub chroniony przed zapisem.
 [The clipboard is not available, retry.]
-
+Schowek jest niedostępny, spróbuj ponownie
 [Information successfully copied into clipboard.]
-
+Informacje pomyślnie skopiowano do schowka.
 ;file \plugins\VersionInfo\src\dlgHandlers.cpp
 [Customize using folders plugin]
 Dostosuj używając wtyczki 'folders'
@@ -90,9 +90,9 @@ Czy na pewno chcesz włączyć tą opcję?\nNie jest to zalecane.
 Pokaż UUID wtyczki ?
 ;file \plugins\VersionInfo\src\hooked_events.cpp
 [VersionInfo]
-
+VersionInfo
 [Output folder]
-
+Folder docelowy
 [Version Information]
 Informacja o wersji
 [Services]
@@ -100,4 +100,4 @@ Usługi
 ;file \plugins\VersionInfo\src\main.cpp
 ;file \plugins\VersionInfo\src\utils.cpp
 [Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
-
+Ok, coś poszło nie tak w ustawieniu "%s". Zgłoś ponownie następujące wartości:\nFunkcja: %x\nKod błędu:%x\nNumer linii: %d

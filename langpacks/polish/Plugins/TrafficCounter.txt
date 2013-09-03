@@ -56,13 +56,13 @@ Ikona
 [Account name]
 Nazwa konta
 [Current traffic]
-
+Aktualne zużycie danych
 [Total traffic]
-
+Całkowite zużycie danych
 [Current online]
 Aktualnie połączeni
 [Total online]
-
+Całkowity czas online
 [General]
 Ogólne
 [Draw frame as skin element]
@@ -101,9 +101,9 @@ Popupy
 [Bytes]
 Bajty
 [KB]
-
+KB
 [MB]
-
+MB
 [Adaptive]
 Adaptacyjnie
 [Hourly]
@@ -127,9 +127,9 @@ Suma
 [Online]
 Dostępny
 [Now traffic statistics for selected accounts will be cleared.\nContinue?]
-
+Za chwilę statystyki zużycia danych dla wybranych kont zostaną usunięte.\nKontynuować?
 [Couldn't read statistics file]
-
+Nie udało się odczytać pliku statystyk
 [Traffic Counter]
 Licznik transferu
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
@@ -142,7 +142,7 @@ Ukryj okno licznika
 [Clear the current (Now:) value]
 Wyczyść obecne (Teraz:)
 [Toggle traffic counter]
-
+Włącz/wyłącz licznik danych
 [Traffic counter notification]
 Powiadomienia licznika transferu
 [%d kilobytes sent]

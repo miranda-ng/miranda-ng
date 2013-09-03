@@ -6,7 +6,7 @@
 ;  Authors: Yasnovidyashii
 ;============================================================
 [This plug-in adds the main menu item used to view miranda-im pack user guide.]
-
+Ta wtyczka dodaje opcję w menu głównym pozwalającą na dostęp do podręcznika użytkownika prekonfiguracji Mirandy.
 ;file \plugins\UserGuide\src\main.cpp
 [User Guide]
-
+Podręcznik użytkownika

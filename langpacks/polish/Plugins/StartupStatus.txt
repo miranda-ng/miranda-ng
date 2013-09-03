@@ -299,7 +299,7 @@ Status podczas uruchamiania
 Twój domyślny profil zostanie zmieniony
 ;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
 [Status profiles]
-
+Profile statusu
 [There is a maximum of 6 menu items]
 Może być maks. 6 wpisów w menu
 ;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp

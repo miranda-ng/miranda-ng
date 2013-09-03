@@ -6,7 +6,7 @@
 ;  Authors: Angelo Luiz Tartari
 ;============================================================
 [Change status when you send/receive an event.]
-
+Zmień status, gdy wysyłasz/odbierasz zdarzenie
 ;file \plugins\StatusChange\res\resource.rc
 [Offline]
 Rozłączony
@@ -29,11 +29,11 @@ Pod telefonem
 [Out to lunch]
 Na obiedzie
 [On events...]
-
+Przy zdarzeniach...
 [Send]
 Wyślij
 [Receive]
-
+Otrzymuj
 [Message]
 Wiadomość
 [URL]
@@ -41,9 +41,9 @@ URL
 [File transfer]
 Transfer pliku
 [...change status to...]
-
+...zmień status na...
 [... if status is...]
-
+...jeśli status to...
 ;file \plugins\StatusChange\src\main.cpp
 [Status Change]
 Status Change

@@ -11,7 +11,7 @@ Wyświetla na ekranie informacje o nowej wiadomości lub zmianie statusu wykorzy
 [Dialog]
 Okno
 [Select font]
-
+Wybierz czcionkę
 [Text color]
 Kolor tekstu
 [Background color]
@@ -19,11 +19,11 @@ Kolor tła
 [Transparent]
 Przeźroczysty
 [Shadow color]
-
+Kolor cienia
 [Alternative shadow]
-
+Alternatywny cień
 [Shadow align]
-
+Wyrównanie cienia
 [General]
 Ogólne
 [Shadow]
@@ -31,33 +31,33 @@ Cień
 [Align]
 Wyrównaj
 [Shadow distance:]
-
+Odległość cienia:
 [Other]
 Inne
 [Alpha:]
-
+Alpha:
 [Announce]
-
+Oznajmiaj
 [Timeout (ms):]
-
+Czas oczekiwania (ms)
 [Show]
 Pokaż
 [Show events]
-
+Pokazuj wydarzenia
 [Status changes]
 Zmiany statusu
 [Show testing OSD]
-
+Pokaż testowe OSD
 [Show my status changes]
-
+Pokazuj moje zmiany statusu
 [Show message window after click]
-
+Pokaż okno rozmowy po kliknięciu
 [Static]
 Statyczne
 [Format:]
-
+Format:
 [Show when my status is:]
-
+Pokaż, gdy mój status to:
 ;file \plugins\wbOSD\src\events.cpp
 [%s is %s]
 %s jest %s

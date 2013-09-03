@@ -6,26 +6,26 @@
 ;  Authors: Mataes, tico-tico, Tim
 ;============================================================
 [Allows to switch a layout or transliterate or invert case of the entered text in the message window with SmileyAdd support.]
-
+Pozwala na przełączenie układu klawiatury, transliterację lub zamianę wielkości liter wprowadzonego tekstu w oknie rozmowy ze wsparciem dla SmileyAdd.
 ;file \plugins\TranslitSwitcher\src\Layoutproc.cpp
 [TranslitSwitcher]
-
+TranslitSwitcher
 ;file \plugins\TranslitSwitcher\src\TranslitSwitcher.cpp
 [Switch Layout and Send]
-
+Przełącz układ i wyślij
 [Translit and Send]
-
+Dokonaj transliteracji i wyślij
 [Invert Case and Send]
-
+Zmień wielkość liter i wyślij
 [Convert All / Selected]
 Konwertuj wszystko/zaznaczone
 [Convert Last / Selected]
 Konwertuj ostatnie/zaznaczone
 [Translit All / Selected]
-
+Dokonaj transliteracji wszystkiego / tylko zaznaczonego
 [Translit Last / Selected]
-
+Dokonaj transliteracji ostatniego / zaznaczonego
 [Invert Case All / Selected]
-
+Zmień wielkość liter wszystkiego / zaznaczonego
 [Invert Case Last / Selected]
-
+Zmień wielkość liter ostatniego / zaznaczonego
