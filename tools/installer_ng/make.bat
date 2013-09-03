@@ -1,6 +1,10 @@
 @echo off
 rem Download
 mkdir tmp
+mkdir InnoNG_32\Installer
+mkdir InnoNG_64\Installer
+wget -O tmp\common.7z http://miranda-ng.org/distr/installer/common.7z
+wget -O tmp\MNG_Sounds.7z http://miranda-ng.org/distr/addons/Sounds/MNG_Sounds.7z
 wget -O tmp\miranda-ng-alpha-latest.7z http://miranda-ng.org/distr/miranda-ng-alpha-latest.7z
 wget -O tmp\miranda-ng-alpha-latest_x64.7z http://miranda-ng.org/distr/miranda-ng-alpha-latest_x64.7z
 wget -O tmp\clist_blind_x32.zip http://miranda-ng.org/x32/Plugins/clist_blind.zip
@@ -17,21 +21,29 @@ rem end
 
 rem Extract
 if defined ProgramFiles(x86) (
+	"%ProgramW6432%\7-zip\7z.exe" x tmp\common.7z -y -oInnoNG_32
+	"%ProgramW6432%\7-zip\7z.exe" x tmp\common.7z -y -oInnoNG_64
 	"%ProgramW6432%\7-zip\7z.exe" x tmp\miranda-ng-alpha-latest.7z -y -oInnoNG_32\Files
 	"%ProgramW6432%\7-zip\7z.exe" x tmp\clist_blind_x32.zip -y -oInnoNG_32\Files
 	"%ProgramW6432%\7-zip\7z.exe" x tmp\scriver_x32.zip -y -oInnoNG_32\Files
 	"%ProgramW6432%\7-zip\7z.exe" x tmp\miranda-ng-alpha-latest_x64.7z -y -oInnoNG_64\Files
 	"%ProgramW6432%\7-zip\7z.exe" x tmp\clist_blind_x64.zip -y -oInnoNG_64\Files
 	"%ProgramW6432%\7-zip\7z.exe" x tmp\scriver_x64.zip -y -oInnoNG_64\Files
+	"%ProgramW6432%\7-zip\7z.exe" x tmp\MNG_Sounds.7z -y -oInnoNG_32\Files
+	"%ProgramW6432%\7-zip\7z.exe" x tmp\MNG_Sounds.7z -y -oInnoNG_64\Files
 	"%ProgramW6432%\7-zip\7z.exe" x tmp\lang*.zip -y -oInnoNG_32\Files
 	"%ProgramW6432%\7-zip\7z.exe" x tmp\lang*.zip -y -oInnoNG_64\Files
 ) else (
+	"%ProgramFiles%\7-zip\7z.exe" x tmp\common.7z -y -oInnoNG_32
+	"%ProgramFiles%\7-zip\7z.exe" x tmp\common.7z -y -oInnoNG_64
 	"%ProgramFiles%\7-zip\7z.exe" x tmp\miranda-ng-alpha-latest.7z -y -oInnoNG_32\Files
 	"%ProgramFiles%\7-zip\7z.exe" x tmp\clist_blind_x32.zip -y -oInnoNG_32\Files
 	"%ProgramFiles%\7-zip\7z.exe" x tmp\scriver_x32.zip -y -oInnoNG_32\Files
 	"%ProgramFiles%\7-zip\7z.exe" x tmp\miranda-ng-alpha-latest_x64.7z -y -oInnoNG_64\Files
 	"%ProgramFiles%\7-zip\7z.exe" x tmp\clist_blind_x64.zip -y -oInnoNG_64\Files
 	"%ProgramFiles%\7-zip\7z.exe" x tmp\scriver_x64.zip -y -oInnoNG_64\Files
+	"%ProgramFiles%\7-zip\7z.exe" x tmp\MNG_Sounds.7z -y -oInnoNG_32\Files
+	"%ProgramFiles%\7-zip\7z.exe" x tmp\MNG_Sounds.7z -y -oInnoNG_64\Files
 	"%ProgramFiles%\7-zip\7z.exe" x tmp\lang*.zip -y -oInnoNG_32\Files
 	"%ProgramFiles%\7-zip\7z.exe" x tmp\lang*.zip -y -oInnoNG_64\Files
 )
