@@ -115,7 +115,7 @@ Source: "Files\Plugins\Dbx_3x.dll"; DestDir: "{app}\Plugins"; Components: dbx\3x
 ; Config files
 Source: "Files\Settings\mirandaboot_default.ini"; DestDir: "{app}"; Components: program; DestName: "mirandaboot.ini"; Check: IsDefault(); Flags: ignoreversion onlyifdoesntexist; AfterInstall: ShowPercent() 
 Source: "Files\Settings\mirandaboot_portable.ini"; DestDir: "{app}"; Components: program; DestName: "mirandaboot.ini"; Check: IsPortable(); Flags: ignoreversion onlyifdoesntexist; AfterInstall: ShowPercent() 
-Source: "Files\autoexec_sounds.ini"; DestDir: "{app}"; Components: sounds; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\Settings\autoexec_sounds.ini"; DestDir: "{app}"; Components: sounds; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\autoexec_nightly_pu.ini"; DestDir: "{app}"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 
 ; Installer add-ons
@@ -212,7 +212,7 @@ en.Msn=MSN protocol
 en.Yahoo=Yahoo protocol
 en.Clists=Contact lists
 en.StdClist=Classic contact list
-en.BlindClist=Contact list for for blind folks
+en.BlindClist=Contact list for blind folks
 en.NicerClist=Nicer contact list
 en.ModernClist=Modern contact list
 en.MessageWin=Message session
