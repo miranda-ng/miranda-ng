@@ -172,7 +172,7 @@ Name: "{userdesktop}\Miranda NG"; Filename: "{app}\Miranda64.exe"; WorkingDir: {
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Miranda NG"; Filename: "{app}\Miranda64.exe"; WorkingDir: {app}; Tasks: quicklaunchicon 
 
 [Run]
-Filename: {tmp}\vcredist_x64.exe; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist.msi"" "; Check: RedistIsNotInstalled(); StatusMsg: Installing 2010 RunTime...
+Filename: {tmp}\vcredist_x64.exe; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist.msi"" "; Check: RedistIsNotInstalled(); StatusMsg: Installing Microsoft Visual C++ 2010 SP1 Redistributable Package (x64)
 Filename: "{app}\Miranda64.exe"; Description: "{cm:LaunchProgram,Miranda NG}"; Flags: nowait postinstall skipifsilent 
 
 [UninstallDelete]
