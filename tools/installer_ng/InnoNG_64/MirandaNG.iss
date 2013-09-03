@@ -86,7 +86,6 @@ Source: "Files\Plugins\DbChecker.dll"; DestDir: "{app}\Plugins"; Components: pro
 Source: "Files\Plugins\Import.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\PluginUpdater.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\pu_stub.exe"; DestDir: "{app}"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\Plugins\TopToolBar.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 
 ; Protocols
 Source: "Files\Plugins\AIM.dll"; DestDir: "{app}\Plugins"; Components: protocols\aim; Flags: ignoreversion; AfterInstall: ShowPercent() 
@@ -103,6 +102,7 @@ Source: "Files\Plugins\Clist_blind.dll"; DestDir: "{app}\Plugins"; Components: c
 Source: "Files\Plugins\Clist_modern.dll"; DestDir: "{app}\Plugins"; Components: clicts\modern; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\Clist_nicer.dll"; DestDir: "{app}\Plugins"; Components: clicts\nicer; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\Cln_skinedit.dll"; DestDir: "{app}\Plugins"; Components: clicts\nicer; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\Plugins\TopToolBar.dll"; DestDir: "{app}\Plugins"; Components: clicts\modern or clicts\nicer; Flags: ignoreversion; AfterInstall: ShowPercent() 
 
 ; Message sessions
 Source: "Files\Plugins\TabSRMM.dll"; DestDir: "{app}\Plugins"; Components: messagewin\tabsrmm; Flags: ignoreversion; AfterInstall: ShowPercent() 
