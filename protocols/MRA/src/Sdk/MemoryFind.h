@@ -51,7 +51,7 @@ __inline void *MemoryFind(size_t dwFrom,const void *pBuff,size_t dwBuffSize,cons
 			pCurPos=(void*)(((size_t)pBuff)+dwFrom);
 
 			if ((dwFrom+dwWhatFindSize)==dwBuffSize)
-			{// only MemoryCompare
+			{
 				if (memcmp(pCurPos,pWhatFind,dwWhatFindSize)==0) pRet=pCurPos;
 			}else{
 				dwBuffSize-=(dwWhatFindSize-1);

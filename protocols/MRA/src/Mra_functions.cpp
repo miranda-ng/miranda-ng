@@ -1359,12 +1359,45 @@ bool CMraProto::SetPassDB(const CMStringA& pass)
 																		 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+
+bool CMraProto::GetPassDB_v1(CMStringA &res)
+{
+	BYTE btRandomData[256] = {0}, btCryptedPass[256] = {0}, bthmacSHA1[MIR_SHA1_HASH_SIZE] = {0};
+	size_t dwRandomDataSize, dwCryptedPass, dwPassSize;
+	CMStringA szEmail;
+
+	if (mraGetContactSettingBlob(NULL, "pCryptData", btRandomData, sizeof(btRandomData), &dwRandomDataSize))
+	if (dwRandomDataSize == sizeof(btRandomData))
+	if (mraGetContactSettingBlob(NULL, "pCryptPass", btCryptedPass, sizeof(btCryptedPass), &dwCryptedPass))
+	if (dwCryptedPass == sizeof(btCryptedPass))
+	if (mraGetStringA(NULL, "e-mail", szEmail)) {
+		mir_hmac_sha1(bthmacSHA1, (BYTE*)szEmail.c_str(), szEmail.GetLength(), btRandomData, sizeof(btRandomData));
+
+		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);
+		CopyMemoryReverseDWORD(btCryptedPass, btCryptedPass, sizeof(btCryptedPass));
+		RC4(btCryptedPass, sizeof(btCryptedPass), btRandomData, dwRandomDataSize);
+		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);
+
+		dwPassSize = (*btCryptedPass);
+		btCryptedPass[dwPassSize] = 0;
+
+		unsigned dwDecodedSize;
+		mir_ptr<BYTE> pDecoded((PBYTE)mir_base64_decode((LPCSTR)&btCryptedPass[(1+MIR_SHA1_HASH_SIZE)], &dwDecodedSize));
+		SHA1GetDigest(pDecoded, dwDecodedSize, btRandomData);
+		if ( !memcmp(&btCryptedPass[1], btRandomData, MIR_SHA1_HASH_SIZE)) {
+			res = CMStringA((LPSTR)(PBYTE)pDecoded, dwDecodedSize);
+			return true;
+		}
+	}
+
+	return false;
+}
+
 bool CMraProto::GetPassDB(CMStringA &res)
 {
 	switch (getDword("pCryptVer", 0)) {
 	case 1:
-		MessageBox(NULL, TranslateT("Your password expired. Please reenter password in the Options dialog"), TranslateT("Error"), MB_OK);
-		return false;
+		return GetPassDB_v1(res);
 	case 2:
 		break;
 	default:
@@ -1387,9 +1420,9 @@ bool CMraProto::GetPassDB(CMStringA &res)
 		RC4(btCryptedPass, sizeof(btCryptedPass), btRandomData, dwRandomDataSize);
 		RC4(btCryptedPass, sizeof(btCryptedPass), bthmacSHA1, MIR_SHA1_HASH_SIZE);
 
-		DWORD dwPassSize = ((*btCryptedPass)&0xff);
+		DWORD dwPassSize = btCryptedPass[0];
 		SHA1GetDigest(&btCryptedPass[(1+MIR_SHA1_HASH_SIZE)], dwPassSize, btRandomData);
-		if (MemoryCompare(&btCryptedPass[1], MIR_SHA1_HASH_SIZE, btRandomData, MIR_SHA1_HASH_SIZE) == CMEM_EQUAL)
+		if ( !memcmp(&btCryptedPass[1], btRandomData, MIR_SHA1_HASH_SIZE))
 			res = CMStringA((char*)&btCryptedPass[(1+MIR_SHA1_HASH_SIZE)], dwPassSize);
 		return true;
 	}

@@ -295,6 +295,7 @@ struct CMraProto : public PROTO<CMraProto>
 
 	bool   SetPassDB(const CMStringA& pass);
 	bool   GetPassDB(CMStringA& pass);
+	bool   GetPassDB_v1(CMStringA &res);
 
 	bool   MraRequestXStatusDetails(DWORD dwXStatus);
 	bool   MraSendReplyBlogStatus(HANDLE hContact);

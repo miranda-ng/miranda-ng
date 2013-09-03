@@ -161,9 +161,6 @@
     <ClInclude Include="src\Sdk\ListMT.h">
       <Filter>Header Files\SDK</Filter>
     </ClInclude>
-    <ClInclude Include="src\Sdk\MemoryCompare.h">
-      <Filter>Header Files\SDK</Filter>
-    </ClInclude>
     <ClInclude Include="src\Sdk\MemoryFind.h">
       <Filter>Header Files\SDK</Filter>
     </ClInclude>

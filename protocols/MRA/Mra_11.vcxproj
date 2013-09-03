@@ -237,7 +237,6 @@
     <ClInclude Include="src\Sdk\InterlockedFunctions.h" />
     <ClInclude Include="src\Sdk\InternetTime.h" />
     <ClInclude Include="src\Sdk\ListMT.h" />
-    <ClInclude Include="src\Sdk\MemoryCompare.h" />
     <ClInclude Include="src\Sdk\MemoryFind.h" />
     <ClInclude Include="src\Sdk\MemoryFindByte.h" />
     <ClInclude Include="src\Sdk\MemoryReplace.h" />
