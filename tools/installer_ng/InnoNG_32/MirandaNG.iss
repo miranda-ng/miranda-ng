@@ -184,7 +184,7 @@ en.InstTypeText=Select installation type
 en.DefTypeInstRadio=Normal Installation (recommended)
 en.PortTypeInstRadio=Portable Installation
 en.DefTypeInstLabel=Profiles and user data files are stored in Application Data.%nUAC compatible (Windows Vista/7/8)
-en.PortTypeInstLabel=Profiles and user data files are stored in program folder.%nVersion for installation on removable storage devices (such as USB flash drive)%n(Do not install to Program Files with enabled UAC !!!)
+en.PortTypeInstLabel=Profiles and user data files are stored in program folder.%nVersion for installation on removable storage devices (such as USB flash drive)%n(Do not install to Program Files with enabled UAC!!!)
 
 en.ProfileUninst=WARNING!!!%nYou are about to delete profile folder containing all your settings, contacts and message history!%nAre you sure you want to remove profile?%n(You may need it later)
 
@@ -246,7 +246,7 @@ en.StdClistDescription=Basic contact list core module.
 en.BlindClistDescription=This is a contact list for blind folks. It uses a list control to show all contacts, so screen readers can "read" the clist to the user.
 en.ModernClistDescription=Supports skins, displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.
 en.NicerClistDescription=Displays contacts, event notifications, protocol status.
-en.MessageWinDescription=Message session plugins
+en.MessageWinDescription=Message session plugins.
 en.StdMsgDescription=Basic messaging and group chats core modules. No tabs support.
 en.ScriverDescription=Easy and lightweight messaging plugin.
 en.TabsrmmDescription=Advanced IM and group chat module for Miranda NG. Supports skins.
@@ -266,7 +266,7 @@ ru.InstTypeText=Выберите тип установки программы.
 ru.DefTypeInstRadio=Обычная установка (рекомендуется)
 ru.PortTypeInstRadio=Портативная установка
 ru.DefTypeInstLabel=Профиль и все необходимые файлы хранятся в папке пользователя%n(Application Data).%nСовместимо с UAC (Windows Vista/7/8)
-ru.PortTypeInstLabel=Профиль и файлы пользователя находятся в папке с программой.%nПодходит для установки на Flash-накопители, не оставляет следов в ОС.%n(Не устанавливать в Program Files при включенном UAC !!!)
+ru.PortTypeInstLabel=Профиль и файлы пользователя находятся в папке с программой.%nПодходит для установки на Flash-накопители, не оставляет следов в ОС.%n(Не устанавливать в Program Files при включенном UAC!!!)
 
 ru.ProfileUninst=ПРЕДУПРЕЖДЕНИЕ!!!%nВы можете удалить папку профиля, включающую в себя настройки, контакты и историю переписки!%nВы действительно хотите удалить файлы профиля?%n(Может понадобиться в дальнейшем)
 
@@ -328,7 +328,7 @@ ru.StdClistDescription=Список контактов, являющийся м�
 ru.BlindClistDescription=Список контактов для слабовидящих. Вспомогательные программы для людей с проблемами зрения могут легко "считать" информацию пользователю.
 ru.ModernClistDescription=Показывает контакты, события, статусы протоколов с расширенными функциями оформления (скины). Мультиоконная модификация, расширенная поддержка метаконтактов.
 ru.NicerClistDescription=Показывает контакты, события, статусы протоколов.
-ru.MessageWinDescription=Плагины диалоговых окон
+ru.MessageWinDescription=Плагины диалоговых окон.
 ru.StdMsgDescription=Модули ядра, обеспечивающие базовый функционал переписки и чатов. Нет поддержки табов.
 ru.ScriverDescription=Простой плагин диалоговых окон с поддержкой вкладок. Не поддерживает скины.
 ru.TabsrmmDescription=Продвинутый плагин диалоговых окон с поддержкой вкладок и скинов.
