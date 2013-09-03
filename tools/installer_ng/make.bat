@@ -51,10 +51,10 @@ rem end
 
 rem Make
 if defined ProgramFiles(x86) (
-	"%ProgramFiles(x86)%\Inno Setup 5\Compil32.exe" /cc "InnoNG_32\MirandaNG.iss"
-	"%ProgramFiles(x86)%\Inno Setup 5\Compil32.exe" /cc "InnoNG_64\MirandaNG.iss"
+	"%ProgramFiles(x86)%\Inno Setup 5\ISCC.exe" /O"Output" "InnoNG_32\MirandaNG.iss"
+	"%ProgramFiles(x86)%\Inno Setup 5\ISCC.exe" /O"Output" "InnoNG_64\MirandaNG.iss"
 ) else (
-	"%ProgramFiles%\Inno Setup 5\Compil32.exe" /cc "InnoNG_32\MirandaNG.iss"
-	"%ProgramFiles%\Inno Setup 5\Compil32.exe" /cc "InnoNG_64\MirandaNG.iss"
-)	
+	"%ProgramFiles%\Inno Setup 5\ISCC.exe" /O"Output" "InnoNG_32\MirandaNG.iss"
+	"%ProgramFiles%\Inno Setup 5\ISCC.exe" /O"Output" "InnoNG_64\MirandaNG.iss"
+)
 rem end
