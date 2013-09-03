@@ -176,17 +176,13 @@ static int GroupEnumIdsEnumProc(const char *szSetting,LPARAM lParam)
 
 static void enumServerGroups(CIcqProto* ppro)
 {
-	DBCONTACTENUMSETTINGS dbces;
-
 	char szModule[MAX_PATH+9];
+	mir_snprintf(szModule, SIZEOF(szModule), "%s%s", ppro->m_szModuleName, "SrvGroups");
 
-	strcpy(szModule, ppro->m_szModuleName);
-	strcat(szModule, "SrvGroups");
-
+	DBCONTACTENUMSETTINGS dbces = { 0 };
 	dbces.pfnEnumProc = &GroupEnumIdsEnumProc;
 	dbces.szModule = szModule;
 	dbces.lParam = (LPARAM)szModule;
-
 	CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
 }
 

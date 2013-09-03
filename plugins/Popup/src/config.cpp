@@ -128,3 +128,47 @@ void PopupPreview()
 
 	PUShowMessageT(TranslateT("This is an error message"),			(DWORD)SM_ERROR|0x80000000);
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+struct EnumProcParam
+{
+	LPCSTR szModule, szNewModule;
+};
+
+static int EnumProc(const char *szSetting, LPARAM lParam)
+{
+	EnumProcParam* param = (EnumProcParam*)lParam;
+
+	DBVARIANT dbv;
+	if ( !db_get(NULL, param->szModule, szSetting, &dbv)) {
+		db_set(NULL, param->szNewModule, szSetting, &dbv);
+		db_free(&dbv);
+	}
+	return 0;
+}
+
+static void CopyModule(const char *szModule, const char *szNewModule)
+{
+	EnumProcParam param = { szModule, szNewModule };
+
+	DBCONTACTENUMSETTINGS dbces = { 0 };
+	dbces.pfnEnumProc = EnumProc;
+	dbces.szModule = szModule;
+	dbces.lParam = (LPARAM)&param;
+	CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
+
+	CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szModule);
+}
+
+void UpgradeDb()
+{
+	if (db_get_b(NULL, "Compatibility", "Popup+ Opts", 0) == 1)
+		return;
+
+	CopyModule("PopUp", "Popup");
+	CopyModule("PopUpCLASS", "PopupCLASS");
+	CopyModule("PopUpNotifications", "PopupNotifications");
+
+	db_set_b(NULL, "Compatibility", "Popup+ Opts", 1);
+}

@@ -289,9 +289,9 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 
 	if ( !getByte( "PerformConversionDone", 0 )) {
 		OBJLIST<String> performToConvert(10);
-		DBCONTACTENUMSETTINGS dbces;
+		DBCONTACTENUMSETTINGS dbces = { 0 };
 		dbces.pfnEnumProc = sttCheckPerform;
-		dbces.lParam = ( LPARAM )&performToConvert;
+		dbces.lParam = (LPARAM)&performToConvert;
 		dbces.szModule = m_szModuleName;
 		CallService(MS_DB_CONTACT_ENUMSETTINGS, NULL, (LPARAM)&dbces);
 

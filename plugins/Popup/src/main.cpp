@@ -36,6 +36,7 @@ WORD SETTING_MAXIMUMWIDTH_MAX = GetSystemMetrics(SM_CXSCREEN);
 
 //===== Options =====
 static int OptionsInitialize(WPARAM,LPARAM);
+void UpgradeDb();
 
 //===== Initializations =====
 static int OkToExit(WPARAM,LPARAM);
@@ -365,6 +366,7 @@ MIRAPI int Load(void)
 	RegisterOptPrevBox();
 
 	// Register in DBEditor++
+	UpgradeDb();
 	db_set_s(NULL, "KnownModules", pluginInfoEx.shortName, MODULNAME);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

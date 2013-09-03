@@ -167,7 +167,7 @@ void RereadServers()
 {
 	g_servers.destroy();
 
-	DBCONTACTENUMSETTINGS dbces;
+	DBCONTACTENUMSETTINGS dbces = { 0 };
 	dbces.pfnEnumProc = sttServerEnum;
 	dbces.szModule = SERVERSMODULE;
 	CallService(MS_DB_CONTACT_ENUMSETTINGS, NULL, (LPARAM)&dbces);

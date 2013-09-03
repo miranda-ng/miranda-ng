@@ -979,13 +979,13 @@ void CIcqProto::LoadServerIDs()
 	if (wSrvID = getWord("SrvImportID", 0))
 		ReserveServerID(wSrvID, SSIT_ITEM, 0);
 
-	DBCONTACTENUMSETTINGS dbces;
 	int nStart = nServerIDListCount;
 
 	char szModule[MAX_PATH];
 	mir_snprintf(szModule, SIZEOF(szModule), "%sSrvGroups", m_szModuleName);
-
 	GroupReserveIdsEnumParam param = { this, szModule };
+
+	DBCONTACTENUMSETTINGS dbces = { 0 };
 	dbces.pfnEnumProc = &GroupReserveIdsEnumProc;
 	dbces.szModule = szModule;
 	dbces.lParam = (LPARAM)&param;
@@ -1458,7 +1458,6 @@ static int GroupLinksEnumProc(const char *szSetting,LPARAM lParam)
 
 void CIcqProto::removeGroupPathLinks(WORD wGroupID)
 { // remove miranda grouppath links targeting to this groupid
-	DBCONTACTENUMSETTINGS dbces;
 	char szModule[MAX_PATH];
 	char* pars[3];
 
@@ -1468,6 +1467,7 @@ void CIcqProto::removeGroupPathLinks(WORD wGroupID)
 	pars[1] = (char*)wGroupID;
 	pars[2] = szModule;
 
+	DBCONTACTENUMSETTINGS dbces = { 0 };
 	dbces.pfnEnumProc = &GroupLinksEnumProc;
 	dbces.szModule = szModule;
 	dbces.lParam = (LPARAM)pars;
@@ -1809,7 +1809,6 @@ char* CIcqProto::getServListUniqueGroupName(const char *szGroupName, int bAlloce
 		dbces.pfnEnumProc = &SrvGroupNamesEnumProc;
 		dbces.szModule = szModule;
 		dbces.lParam = (LPARAM)pars;
-
 		CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
 
 		if (pars[1])

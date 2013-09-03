@@ -275,7 +275,6 @@ void CSendLater::processSingleContact(const HANDLE hContact)
 
 	if (iCount) {
 		DBCONTACTENUMSETTINGS ces = {0};
-
 		ces.pfnEnumProc = CSendLater::addStub;
 		ces.szModule = "SendLater";
 		ces.lParam = (LPARAM)hContact;

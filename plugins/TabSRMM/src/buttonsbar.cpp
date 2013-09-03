@@ -103,20 +103,19 @@ static int DBRemoveEnumProc(const char *szSetting, LPARAM lParam)
 
 static int Hlp_RemoveDatabaseSettings(HANDLE hContact, char *szModule, char *szPrefix)
 {
-	DBCONTACTENUMSETTINGS dbces;
 	RemoveSettings rs;
 	int i, count;
 
 	ZeroMemory(&rs, sizeof(RemoveSettings));
 	rs.szPrefix = szPrefix;
-	ZeroMemory(&dbces, sizeof(DBCONTACTENUMSETTINGS));
+
+	DBCONTACTENUMSETTINGS dbces = { 0 };
 	dbces.pfnEnumProc = DBRemoveEnumProc;
 	dbces.lParam = (LPARAM)&rs;
 	dbces.szModule = szModule;
-	if (CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)(HANDLE)hContact, (LPARAM)&dbces) == -1) {
-
+	if (CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)(HANDLE)hContact, (LPARAM)&dbces) == -1)
 		return -1;
-	}
+
 	count = 0;
 	if (rs.szSettings != NULL) {
 		for (i=0; i < rs.count; i++) {
