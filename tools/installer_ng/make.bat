@@ -1,8 +1,15 @@
 @echo off
-rem Download
+rem Create directories and copy script
 mkdir tmp
+mkdir InnoNG_32
+mkdir InnoNG_64
 mkdir InnoNG_32\Installer
 mkdir InnoNG_64\Installer
+copy /V /Y MirandaNG.iss InnoNG_32\
+copy /V /Y MirandaNG.iss InnoNG_64\
+rem end
+
+rem Download
 wget -O tmp\common.7z http://miranda-ng.org/distr/installer/common.7z
 wget -O tmp\MNG_Sounds.7z http://miranda-ng.org/distr/addons/Sounds/MNG_Sounds.7z
 wget -O tmp\miranda-ng-alpha-latest.7z http://miranda-ng.org/distr/miranda-ng-alpha-latest.7z
@@ -51,10 +58,10 @@ rem end
 
 rem Make
 if defined ProgramFiles(x86) (
-	"%ProgramFiles(x86)%\Inno Setup 5\ISCC.exe" /O"Output" "InnoNG_32\MirandaNG.iss"
+	"%ProgramFiles(x86)%\Inno Setup 5\ISCC.exe" /Dptx86 /O"Output" "InnoNG_32\MirandaNG.iss"
 	"%ProgramFiles(x86)%\Inno Setup 5\ISCC.exe" /O"Output" "InnoNG_64\MirandaNG.iss"
 ) else (
-	"%ProgramFiles%\Inno Setup 5\ISCC.exe" /O"Output" "InnoNG_32\MirandaNG.iss"
+	"%ProgramFiles%\Inno Setup 5\ISCC.exe" /Dptx86 /O"Output" "InnoNG_32\MirandaNG.iss"
 	"%ProgramFiles%\Inno Setup 5\ISCC.exe" /O"Output" "InnoNG_64\MirandaNG.iss"
 )
 rem end
