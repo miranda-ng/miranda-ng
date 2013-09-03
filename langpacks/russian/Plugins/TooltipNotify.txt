@@ -1,66 +1,91 @@
 ﻿#muuid {5906a545-f31a-4726-b48f-03a09f060318}
 ;============================================================
-;  File: ttnotify.dll
-;  Module: Tooltip notify plugin for Miranda NG
-;  Versions: 0.0.6.0
+;  File: TooltipNotify.dll
+;  Plugin: Tooltip notify
+;  Version: 0.7.0.1
+;  Authors: perf
 ;============================================================
-[Tooltip Notify]
-Уведомления
 [Shows a small tooltip above system tray area when a contact status is changed.]
 Уведомления в трее при смене статуса контакта.
-[Notify upon the following contact status changes]
-Уведомлять о смене статусов следующих контактов
+[Select protocols]
+Выберите протоколы
+[Choose contacts]
+Выберите контакты
+[Allow tooltip notifications for the following users:]
+Включить уведомления для отмеченных контактов:
+[Cancel]
+Отмена
+[Notify upon the following events]
+Уведомлять о следующих событиях
+[Online]
+В сети
+[Offline]
+Не в сети
 [All other]
 Другое
+[Typing]
+Набор текста
+[Protocols]
+Протоколы
+[Suppress notifications upon connection for]
+Не уведомлять при подключении
+[sec]
+сек
+[Prefix proto name]
+Имя аккаунта
 [Duration]
 Длительность
 [Show tooltip for]
 Показывать:
+[ms]
+мс
 [Duration x2 upon online event]
 В 2 раза дольше для "В сети"
-[Work in conjunction with 'Suppress online notification']
-Работать вместе с "Запретом уведомлений о выходе в сеть"
-[Default positioning]
-Позиция по умолчанию
-[[Hint: right-click on the tooltip to move it when in custom placement mode]]
-Совет: Окно уведомления можно перетаскивать правой кнопкой мыши
-[Transparent tooltip]
-Прозрачность
-[%s is %s]
-%s сейчас %s
-[Notify upon the following events]
-Уведомлять о следующих событиях
-[Auto positioning]
-Автопозиция
-[Prefix proto name]
-Имя аккаунта
-[Transparent input]
-Прозрачный вход
 [Double click on tooltip]
-Двойной клик:
-[Shows/Hides CList]
+Двойной клик открывает
+[Shows/Hides contact list]
 Список контактов
 [Opens message dialog]
 Окно сообщений
 [Behavior]
 Поведение
-[Suppress notifications upon connection for]
-Не уведомлять при подключении
+[Misc]
+Прочее
 [Obey 'Suppress online notification' settings]
 Включить временный запрет уведомлений
-[Tooltip Notify: Offline]
-Уведомления: Оффлайн
+[Auto positioning]
+Автопозиция
+[Preview]
+Просмотр
+[Translucency options]
+Настройки прозрачности
+[Transparent tooltip]
+Прозрачность
+[Contacts]
+Контакты
+[Idle]
+Ожидание
+[Tooltip Notify]
+Уведомления
+[Other Status]
+Другой статус
 [Tooltip Notify: Online]
-Уведомления: Онлайн
+Уведомления: В сети
+[Tooltip Notify: Offline]
+Уведомления: Не в сети
 [Tooltip Notify: Other]
 Уведомления: Другое
 [Tooltip Notify: Typing]
 Уведомления: Печатает
-[Other Status]
-Другой статус
+[Popups]
+Всплывающие окна
+[** New contacts **]
+** Новые контакты **
+[** Unknown contacts **]
+** Неизвестные контакты **
+[Not Idle]
+Не в ожидании
+[Unknown]
+Неизвестно
 [is]
 теперь
-[Choose contacts...]
-Выберите контакты
-[Allow tooltip notifications for the following users:]
-Включить уведомления для отмеченных контактов:

@@ -68,7 +68,7 @@ END
 IDD_CONTACTS DIALOGEX 0, 0, 284, 234
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | 
     WS_CAPTION | WS_SYSMENU
-CAPTION "Choose contacts..."
+CAPTION "Choose contacts"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     LTEXT           "Allow tooltip notifications for the following users:",
