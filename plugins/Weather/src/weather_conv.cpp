@@ -63,7 +63,7 @@ static void numToStr(double num, TCHAR *str, size_t strSize)
 		w /= 10;
 	}
 
-	if (i < 0 && (w || r)) *(str++) = '-';
+	if (i < 0 && (w || r)) w = -w;
 	if (r)
 		mir_sntprintf(str, strSize, _T("%i.%i"), w, r);
 	else
