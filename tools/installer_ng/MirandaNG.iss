@@ -1,46 +1,4 @@
-﻿#ifdef ptx86
-   #define MirName "Miranda32.exe"
-#else
-   #define MirName "Miranda64.exe"
-#endif
-
-#ifdef ptx86
-   #define MirOutName "miranda-ng-alpha-latest"
-#else
-   #define MirOutName "miranda-ng-alpha-latest_x64"
-#endif
-
-#ifndef ptx86
-   #define ArcAllow "x64"
-#else
-   #define ArcAllow ""
-#endif
-
-#ifdef ptx86
-   #define VcRedistName "vcredist_x86.exe"
-#else
-   #define VcRedistName "vcredist_x64.exe"
-#endif
-
-#ifdef ptx86
-   #define Ptf "x86"
-#else
-   #define Ptf "x64"
-#endif
-
-#ifdef ptx86
-   #define RedistRegChk "(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}')"
-#else
-   #define RedistRegChk "(HKLM64, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{1D8E6291-B0D5-35EC-8441-6616F567A0F7}')"
-#endif
-
-#ifdef ptx86
-   #define MirPfInstDir "ExpandConstant('{pf32}')"
-#else
-   #define MirPfInstDir "ExpandConstant('{pf64}')"
-#endif
-
-[Setup]
+﻿[Setup]
 AppVersion=0.94.5
 AppName=Miranda NG
 AppVerName=Miranda NG {#SetupSetting("AppVersion")}
@@ -48,12 +6,11 @@ AppPublisher=Miranda NG Team
 AppCopyRight=2013 © Miranda NG Team
 VersionInfoVersion={#SetupSetting("AppVersion")}
 MinVersion=5.0
-ArchitecturesAllowed={#ArcAllow}
 DefaultDirName={pf}\Miranda NG
 DefaultGroupName=Miranda NG
 LicenseFile=Files\Docs\license.txt
 UninstallFilesDir={app}\Uninstall
-UninstallDisplayIcon={#MirName}
+UninstallDisplayIcon=Miranda32.exe 
 UninstallDisplayName=Miranda NG
 UninstallLogMode=overwrite 
 Uninstallable=IsDefault()
@@ -62,7 +19,7 @@ Compression=lzma2/max
 SolidCompression=yes
 PrivilegesRequired=poweruser
 OutputDir=..\
-OutputBaseFilename={#MirOutName}
+OutputBaseFilename=miranda-ng-alpha-latest
 WizardImageFile=Installer\WizModernImage-IS.bmp
 WizardSmallImageFile=Installer\SetupMNGSmall.bmp
 SetupIconFile=Installer\mng_installer.ico
@@ -93,7 +50,7 @@ Source: "Files\Icons\tabsrmm_icons.dll"; DestDir: "{app}\Icons"; Components: mes
 Source: "Files\Icons\toolbar_icons.dll"; DestDir: "{app}\Icons"; Components: clicts\modern; Flags: ignoreversion; AfterInstall: ShowPercent()
 
 ; Core and core modules
-Source: "Files\{#MirName}"; DestDir: "{app}"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\Miranda32.exe"; DestDir: "{app}"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\mir_core.dll"; DestDir: "{app}"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\zlib.dll"; DestDir: "{app}"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\DbChecker.bat"; DestDir: "{app}"; Components: program; Check: IsPortable(); Flags: ignoreversion; AfterInstall: ShowPercent() 
@@ -163,7 +120,7 @@ Source: "Files\autoexec_nightly_pu.ini"; DestDir: "{app}"; Components: program; 
 ; Installer add-ons
 Source: "Installer\ISWin7.dll"; Flags: dontcopy 
 Source: "Installer\descctrl.dll"; Flags: dontcopy
-Source: "Installer\{#VcRedistName}"; DestDir: {tmp}; Flags: deleteafterinstall; Check: RedistIsNotInstalled
+Source: "Installer\vcredist_x86.exe"; DestDir: {tmp}; Flags: deleteafterinstall; Check: RedistIsNotInstalled
 
 [Components]
 Name: "program"; Description: "{cm:Program}"; Types: extended regular minimal custom; Flags: fixed 
@@ -207,15 +164,15 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked 
 
 [Icons]
-Name: "{app}\DbChecker"; Filename: "{app}\{#MirName}"; Parameters: "/svc:dbchecker"; Check: IsDefault() 
-Name: "{group}\Miranda NG"; Filename: "{app}\{#MirName}" 
+Name: "{app}\DbChecker"; Filename: "{app}\Miranda32.exe"; Parameters: "/svc:dbchecker"; Check: IsDefault() 
+Name: "{group}\Miranda NG"; Filename: "{app}\Miranda32.exe" 
 Name: "{group}\{cm:UninstallProgram,Miranda NG}"; Filename: {app}\Uninstall\Unins000.exe 
-Name: "{userdesktop}\Miranda NG"; Filename: "{app}\{#MirName}"; WorkingDir: {app}; Tasks: desktopicon 
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Miranda NG"; Filename: "{app}\{#MirName}"; WorkingDir: {app}; Tasks: quicklaunchicon 
+Name: "{userdesktop}\Miranda NG"; Filename: "{app}\Miranda32.exe"; WorkingDir: {app}; Tasks: desktopicon 
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\Miranda NG"; Filename: "{app}\Miranda32.exe"; WorkingDir: {app}; Tasks: quicklaunchicon 
 
 [Run]
-Filename: "{tmp}\{#VcRedistName}"; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist.msi"" "; Check: RedistIsNotInstalled(); StatusMsg: Installing Microsoft Visual C++ 2010 SP1 Redistributable Package ({#Ptf})
-Filename: "{app}\{#MirName}"; Description: "{cm:LaunchProgram,Miranda NG}"; Flags: nowait postinstall skipifsilent 
+Filename: {tmp}\vcredist_x86.exe; Parameters: "/passive /Q:a /c:""msiexec /qb /i vcredist.msi"" "; Check: RedistIsNotInstalled(); StatusMsg: Installing Microsoft Visual C++ 2010 SP1 Redistributable Package (x86)
+Filename: "{app}\Miranda32.exe"; Description: "{cm:LaunchProgram,Miranda NG}"; Flags: nowait postinstall skipifsilent 
 
 [UninstallDelete]
 Type: filesandordirs; Name: {app} 
@@ -534,7 +491,7 @@ end;
 //vc redist installation check
 function RedistIsNotInstalled: Boolean;
 begin
-   Result := not RegKeyExists{#RedistRegChk};
+   Result := not RegKeyExists(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}');
 end;
 
 //создание страницы установки с типами установки (обычная или портативная)
@@ -623,7 +580,7 @@ var
   FreeMB, TotalMB: Cardinal;
 begin
   if (DefTypeInstRadio.Checked) then
-    WizardForm.DirEdit.Text := {#MirPfInstDir} + '\Miranda NG';
+    WizardForm.DirEdit.Text := ExpandConstant('{pf32}') + '\Miranda NG';
 
   if (PortTypeInstRadio.Checked) then
   begin
