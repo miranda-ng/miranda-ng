@@ -1,0 +1,14 @@
+MAYBE:
+=================
+metacontacts:
+- eventuell chat für metakontakte öffnen..?!
+
+hidden contacts bei gruppen-membercounter ignorieren 
+
+FIX:
+================
+irc disconnected message fehlt?
+
+FEATURE:
+================
+status message anzeige?

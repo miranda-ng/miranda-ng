@@ -1,0 +1,129 @@
+v 0.1.1.14 - 23.04.2008
+-------------------------
+- fixed: some messages were not shown on the lcd
+- changed: updated IRC plugin
+
+v 0.1.1.12 - 05.10.2007
+-------------------------
+- fixed: wrong version displayed in last release
+- fixed: small bug in displaying notifications
+
+v 0.1.1.12 - 05.10.2007
+-------------------------
+- fixed: a bug in metacontacts handling could cause mirandag15 to crash
+- fixed: no more notifications when copying history entries
+
+v 0.1.1.11 - 26.09.2007
+-------------------------
+- added: press chat on a metacontact to chat directly, hold and release the button to view the subcontacts
+- added: chatscreen can close automatically when the applet is inactive
+- changed: performance improvements
+- fixed: improved support for metacontacts plugin
+- fixed: improved device selection
+- fixed: support for miranda 0.7
+- fixed: added new IRC.dll
+
+v 0.1.1.10 - 10.06.2007
+-------------------------
+- fixed: bug in channelname shortening
+
+v 0.1.1.9 - 10.06.2007
+-------------------------
+- fixed: the applet could crash when LCDMon.exe got terminated (fixes the crash on shutdown problem)
+- fixed: improved connection handling (applet can now reconnect when LCDMon is restarted) & hotplugging support 
+- fixed: 7zip compatible archive ;-)
+- added: irc channelnames can now be optionally shortened
+- added: applet can be locked when screensaver gets activated
+
+v 0.1.1.8 - 23.05.2007
+-------------------------
+- fixed: crash on exit that could occur with newer version of miranda
+- changed: updated to miranda 0.6.8
+
+v 0.1.1.7 - 01.01.2007
+-------------------------
+- added: the logitech lcd device to be used can now be selected on the configuration screen
+- added: option to keep contactlist selection rectangle from disappearing
+- changed: logitech drivers version 1.03 are now required
+- changed: miranda 0.6.x is now required
+- changed: updated the patched irc protocoll plugin
+- fixed: wrong nickname was displayed for authorizationrequest events
+- fixed: private messages on IRC are now working again
+- fixed: a bug that that disabled the plugin when saving the configuration without an lcd plugged in
+
+v 0.1.1.6 - 02.08.2006
+-------------------------
+- fixed: a bug in the IRC message handling could cause miranda to freeze
+
+v 0.1.1.5 - 25.07.2006
+-------------------------
+- fixed: the eventlog screen could get activated, when notifications where received on the chatscreen
+- fixed: the "Show typing notifications" option wasn't used (thanks to spiky1984)
+- fixed: no typing notifications were sent since 0.1.0.0
+
+v 0.1.1.4 - 10.07.2006
+-------------------------
+- fixed: bugs in the IRC event handling, that could cause miranda to crash (thanks to lastwebpage)
+- fixed: some IRC part/quit events were not handled correctly 
+- fixed: many improvements in the IRC handling code
+
+v 0.1.1.3 - 09.07.2006
+-------------------------
+- added: support for language packs
+- added: german language pack (available at miranda-im.de, thanks to Dober)
+- added: option to enable/disable showing the protocol on status and message notifications
+- fixed: metacontact signon notifications are no longer displayed when connecting
+
+v 0.1.1.2 - 03.07.2006
+-------------------------
+- added: support for multiple instances of the IRC protocol (thanks to lastwebpage for reporting it)
+
+v 0.1.1.1 - 02.07.2006
+-------------------------
+- fixed: a bug in the input control, that could cause miranda to freeze (thanks to QBUS for reporting it)
+
+v 0.1.1.0 - 02.07.2006
+-------------------------
+- added: IRC support
+- added: support for the metacontacts plugin
+- added: when applying configuration changes, the old screen layout morphs into the new one
+- added: a credit screen (somehow more effective than the readme I hope)
+- added: optional transition effects when changing screens
+- added: support for unicode contact-/groupnames (make sure you use a unicode font to use this)
+- added: new filters to hide protocols from the contactlist
+- added: optional timestamps in the eventlog, the chatlog and on the notificationscreen
+- added: when a chatsession is active, notifications can be skipped for that contact (optional)
+- added: option to use the volumewheel to scroll up and down
+- added: option to turn off the g15 backlight while the screensaver is active
+- added: new options to change the contactlists initial selection and groups states
+- added: some small changes to the configuration dialog
+- added: button to jump to the chatscreen from new notifications
+- added: contactlist can be displayed in two columns
+- added: replaced status strings on the contactlist with status icons, and added one to the chatscreen
+- added: events are now represented by small icons
+- added: option to shorten user nicknames inside of notifications
+- fixed: a bug with contact renaming that could result in the wrong name being displayed on the LCD
+- fixed: optimized the way contactlist & eventlog scroll
+- fixed: added case-insensitive alphabetical sorting as an additional condition for contacts
+- fixed: applet stays focused while replying even if automatic timed applet switching is enabled
+- fixed: wrong chatscreen layout when softkey labels where disabled
+- fixed: line breaks weren't displayed correctly in the eventlog
+- fixed: added scrollbar to messages on the notificationscreen
+- fixed: textlog & eventlog where immediately scrolling to the bottom on new events,
+		even if the user was just scrolling manually
+- fixed: added timeout delay to message sending, so the dialog can't get stuck
+- fixed: chatsession didn't update the status label when the contact signed off/on
+- fixed: some improvements to the hotplugging support
+- fixed: unread messages were counted wrong when a contact with unread messages was deleted
+- fixed: scrollbars could show the wrong position after starting miranda
+- fixed: some label issues (wrong cutoff positions, problems with multiline labels)
+- fixed: italic and bold fonts weren't handled correct (issues with wordwrapping, label cutoffs..)
+
+v 0.1.0.2 - 30.04.2006
+-------------------------
+- fixed: the messagelog could stop receiving messages when a notification was displayed
+
+v 0.1.0.1 - 29.04.2006
+-------------------------
+- fixed: bug that could cause a crash when the keyboard was not connected when starting miranda
+- fixed: some events were appearing in the chatlog multiple times
