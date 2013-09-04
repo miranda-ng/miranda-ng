@@ -50,54 +50,54 @@ END
 // Dialog
 //
 
-IDD_OPT_WWI DIALOGEX 0, 0, 299, 243
+IDD_OPT_WWI DIALOGEX 0, 0, 316, 247
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_POPUP
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Notify of birthdays:",IDC_STATIC,4,3,291,237
-    GROUPBOX        "  ",IDC_POPUPS_STATIC,12,36,276,90
-    CONTROL         "Popups",IDC_USE_POPUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,36,36,8
-    LTEXT           "Popup timeout:",IDC_STATIC,18,90,101,8
-    EDITTEXT        IDC_POPUP_TIMEOUT,124,87,34,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "Preview",IDC_PREVIEW,25,106,78,14
-    CONTROL         "Custom1",IDC_BACKGROUND,"ColourPicker",WS_TABSTOP,136,107,23,14
-    CONTROL         "Custom1",IDC_FOREGROUND,"ColourPicker",WS_TABSTOP,108,107,23,14
+    GROUPBOX        "Notify of birthdays:",IDC_STATIC,4,0,308,240
+    GROUPBOX        "  ",IDC_POPUPS_STATIC,12,33,292,90
+    CONTROL         "Popups",IDC_USE_POPUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,33,36,8
+    LTEXT           "Popup timeout:",IDC_STATIC,18,84,101,8
+    EDITTEXT        IDC_POPUP_TIMEOUT,126,83,34,12,ES_CENTER | ES_AUTOHSCROLL
+    PUSHBUTTON      "Preview",IDC_PREVIEW,18,103,85,14
+    CONTROL         "Custom1",IDC_BACKGROUND,"ColourPicker",WS_TABSTOP,145,103,31,14
+    CONTROL         "Custom1",IDC_FOREGROUND,"ColourPicker",WS_TABSTOP,108,103,31,14
     CONTROL         "Don't show popups for subcontacts",IDC_IGNORE_SUBCONTACTS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,52,140,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,49,140,10
     CONTROL         "Show popup when no birthdays are near",IDC_NOBIRTHDAYS_POPUP,
-                    "Button",BS_AUTOCHECKBOX | BS_VCENTER | BS_MULTILINE | WS_TABSTOP,18,63,146,21
-    GROUPBOX        "Popup mouse click",IDC_STATIC,166,41,117,79
-    CTEXT           "Left",IDC_STATIC,174,54,102,8
-    COMBOBOX        IDC_LEFT_CLICK,174,69,104,43,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CTEXT           "Right",IDC_STATIC,172,88,104,8
-    COMBOBOX        IDC_RIGHT_CLICK,173,102,105,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "Sounds",IDC_STATIC,12,126,275,27
-    LTEXT           "Play sounds when there are",IDC_STATIC,18,137,104,8
-    EDITTEXT        IDC_SOUND_NEAR_DAYS_EDIT,124,134,19,14,ES_AUTOHSCROLL
-    LTEXT           "days or less to birthday.",IDC_STATIC,149,137,128,8
-    LTEXT           "Start notifying",IDC_STATIC,12,160,52,8
-    EDITTEXT        IDC_DAYS_IN_ADVANCE,65,158,15,14,ES_AUTOHSCROLL
-    LTEXT           "days in advance and",IDC_STATIC,83,160,91,8
-    LTEXT           "Check every",IDC_STATIC,12,178,52,8
-    EDITTEXT        IDC_CHECK_INTERVAL,65,175,15,14,ES_AUTOHSCROLL
-    LTEXT           "hours",IDC_STATIC,83,178,74,8
-    CONTROL         "Only notify once per day.",IDC_ONCE_PER_DAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,159,177,112,10
-    LTEXT           "By default use",IDC_STATIC,12,194,56,8
-    COMBOBOX        IDC_DEFAULT_MODULE,72,192,84,44,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "to save birthday data.",IDC_STATIC,165,194,126,8
-    LTEXT           "Show",IDC_STATIC,12,209,55,8
-    COMBOBOX        IDC_AGE_COMBOBOX,72,207,84,48,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "in birthday list window",IDC_STATIC,166,209,125,8
-    GROUPBOX        "  ",IDC_DIALOG_STATIC,12,11,275,24
-    CONTROL         "Dialog",IDC_USE_DIALOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,11,32,8
-    LTEXT           "Timeout:",IDC_STATIC,18,21,68,8
-    EDITTEXT        IDC_DLG_TIMEOUT,90,18,16,14,ES_AUTOHSCROLL
-    LTEXT           "seconds",IDC_STATIC,110,21,58,8
-    LTEXT           "Notify for",IDC_STATIC,12,225,86,8
-    COMBOBOX        IDC_NOTIFYFOR,100,223,187,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    EDITTEXT        IDC_DAYS_AFTER,173,158,15,14,ES_AUTOHSCROLL
-    LTEXT           "afterwards",IDC_STATIC,191,160,80,8
-    CONTROL         "In background",IDC_OPENINBACKGROUND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,174,20,106,10
+                    "Button",BS_AUTOCHECKBOX | BS_VCENTER | BS_MULTILINE | WS_TABSTOP,18,60,160,21
+    GROUPBOX        "Popup mouse click",IDC_STATIC,181,38,117,79
+    CTEXT           "Left",IDC_STATIC,189,51,102,8
+    COMBOBOX        IDC_LEFT_CLICK,189,66,104,43,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CTEXT           "Right",IDC_STATIC,187,85,104,8
+    COMBOBOX        IDC_RIGHT_CLICK,188,99,105,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Sounds",IDC_STATIC,12,123,292,27
+    RTEXT           "Play sounds when there are",IDC_STATIC,20,134,120,8
+    EDITTEXT        IDC_SOUND_NEAR_DAYS_EDIT,144,131,19,12,ES_CENTER | ES_AUTOHSCROLL
+    LTEXT           "days or less to birthday.",IDC_STATIC,168,134,128,8
+    LTEXT           "Start notifying",IDC_STATIC,12,157,54,8
+    EDITTEXT        IDC_DAYS_IN_ADVANCE,69,155,15,12,ES_CENTER | ES_AUTOHSCROLL
+    LTEXT           "days in advance and",IDC_STATIC,87,157,91,8
+    LTEXT           "Check every",IDC_STATIC,12,175,54,8
+    EDITTEXT        IDC_CHECK_INTERVAL,69,172,15,12,ES_CENTER | ES_AUTOHSCROLL
+    LTEXT           "hours",IDC_STATIC,87,175,74,8
+    CONTROL         "Only notify once per day.",IDC_ONCE_PER_DAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,173,174,112,10
+    LTEXT           "By default use",IDC_STATIC,12,191,68,8
+    COMBOBOX        IDC_DEFAULT_MODULE,85,189,86,44,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "to save birthday data.",IDC_STATIC,174,191,126,8
+    LTEXT           "Show",IDC_STATIC,12,206,68,8
+    COMBOBOX        IDC_AGE_COMBOBOX,85,204,86,48,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "in birthday list window",IDC_STATIC,175,206,125,8
+    GROUPBOX        "  ",IDC_DIALOG_STATIC,12,8,291,24
+    CONTROL         "Dialog",IDC_USE_DIALOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,8,32,8
+    LTEXT           "Timeout:",IDC_STATIC,18,18,77,8
+    EDITTEXT        IDC_DLG_TIMEOUT,98,16,16,12,ES_CENTER | ES_AUTOHSCROLL
+    LTEXT           "seconds",IDC_STATIC,118,18,58,8
+    LTEXT           "Notify for",IDC_STATIC,12,222,91,8
+    COMBOBOX        IDC_NOTIFYFOR,112,220,188,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_DAYS_AFTER,183,155,15,12,ES_CENTER | ES_AUTOHSCROLL
+    LTEXT           "afterwards",IDC_STATIC,201,157,80,8
+    CONTROL         "In background",IDC_OPENINBACKGROUND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,183,17,106,10
 END
 
 IDD_BIRTHDAYS DIALOGEX 0, 0, 374, 241
@@ -155,50 +155,6 @@ GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPT_WWI, DIALOG
     BEGIN
-        LEFTMARGIN, 4
-        RIGHTMARGIN, 295
-        VERTGUIDE, 12
-        VERTGUIDE, 18
-        VERTGUIDE, 271
-        TOPMARGIN, 3
-        BOTTOMMARGIN, 240
-    END
-
-    IDD_BIRTHDAYS, DIALOG
-    BEGIN
-        LEFTMARGIN, 3
-        RIGHTMARGIN, 370
-        TOPMARGIN, 4
-        BOTTOMMARGIN, 237
-        HORZGUIDE, 236
-    END
-
-    IDD_ADD_BIRTHDAY, DIALOG
-    BEGIN
-        LEFTMARGIN, 4
-        RIGHTMARGIN, 146
-        TOPMARGIN, 3
-        BOTTOMMARGIN, 40
-        HORZGUIDE, 7
-        HORZGUIDE, 39
-    END
-
-    IDD_ADD_ANNIVERSARY, DIALOG
-    BEGIN
-        LEFTMARGIN, 4
-        RIGHTMARGIN, 239
-        VERTGUIDE, 6
-        VERTGUIDE, 237
-        TOPMARGIN, 4
-        BOTTOMMARGIN, 69
-    END
-
-    IDD_UPCOMING, DIALOG
-    BEGIN
-        LEFTMARGIN, 4
-        RIGHTMARGIN, 227
-        TOPMARGIN, 4
-        BOTTOMMARGIN, 140
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -229,7 +185,6 @@ IDI_ADD                 ICON                    "add.ico"
 IDI_REFRESH_USERDETAILS ICON                    "refresh.ico"
 IDI_IMPORT_BIRTHDAYS    ICON                    "import.ico"
 IDI_EXPORT_BIRTHDAYS    ICON                    "export.ico"
-
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
