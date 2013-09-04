@@ -27,8 +27,6 @@ rem end
 
 rem Extract
 if defined ProgramFiles(x86) (
-	"%ProgramW6432%\7-zip\7z.exe" x tmp\common.7z -y -oInnoNG_32
-	"%ProgramW6432%\7-zip\7z.exe" x tmp\common.7z -y -oInnoNG_64
 	"%ProgramW6432%\7-zip\7z.exe" x tmp\miranda-ng-alpha-latest.7z -y -oInnoNG_32\Files
 	"%ProgramW6432%\7-zip\7z.exe" x tmp\clist_blind_x32.zip -y -oInnoNG_32\Files
 	"%ProgramW6432%\7-zip\7z.exe" x tmp\scriver_x32.zip -y -oInnoNG_32\Files
@@ -40,8 +38,6 @@ if defined ProgramFiles(x86) (
 	"%ProgramW6432%\7-zip\7z.exe" x tmp\lang*.zip -y -oInnoNG_32\Files
 	"%ProgramW6432%\7-zip\7z.exe" x tmp\lang*.zip -y -oInnoNG_64\Files
 ) else (
-	"%ProgramFiles%\7-zip\7z.exe" x tmp\common.7z -y -oInnoNG_32
-	"%ProgramFiles%\7-zip\7z.exe" x tmp\common.7z -y -oInnoNG_64
 	"%ProgramFiles%\7-zip\7z.exe" x tmp\miranda-ng-alpha-latest.7z -y -oInnoNG_32\Files
 	"%ProgramFiles%\7-zip\7z.exe" x tmp\clist_blind_x32.zip -y -oInnoNG_32\Files
 	"%ProgramFiles%\7-zip\7z.exe" x tmp\scriver_x32.zip -y -oInnoNG_32\Files
