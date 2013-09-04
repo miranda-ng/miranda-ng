@@ -3,14 +3,13 @@ rem Create directories and copy script
 mkdir tmp
 mkdir InnoNG_32
 mkdir InnoNG_64
-mkdir InnoNG_32\Installer
-mkdir InnoNG_64\Installer
 copy /V /Y MirandaNG.iss InnoNG_32\
 copy /V /Y MirandaNG.iss InnoNG_64\
+xcopy Common\* InnoNG_32 /I /S /V /Y
+xcopy Common\* InnoNG_64 /I /S /V /Y
 rem end
 
 rem Download
-wget -O tmp\common.7z http://miranda-ng.org/distr/installer/common.7z
 wget -O tmp\MNG_Sounds.7z http://miranda-ng.org/distr/addons/Sounds/MNG_Sounds.7z
 wget -O tmp\miranda-ng-alpha-latest.7z http://miranda-ng.org/distr/miranda-ng-alpha-latest.7z
 wget -O tmp\miranda-ng-alpha-latest_x64.7z http://miranda-ng.org/distr/miranda-ng-alpha-latest_x64.7z
