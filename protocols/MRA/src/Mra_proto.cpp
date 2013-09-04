@@ -449,7 +449,7 @@ bool CMraProto::CmdMessageAck(BinBuffer &buf)
 
 bool CMraProto::CmdMessageStatus(ULONG seq, BinBuffer &buf)
 {
-	DWORD dwAckType, dwTemp; buf >> dwTemp;
+	DWORD dwAckType, dwTemp = buf.getDword();
 	HANDLE hContact;
 	if ( !MraSendQueueFind(hSendQueueHandle, seq, NULL, &hContact, &dwAckType, NULL, NULL)) {
 		switch (dwTemp) {
@@ -492,7 +492,7 @@ bool CMraProto::CmdUserInfo(BinBuffer &buf)
 {
 	CMStringA szString;
 	CMStringW szStringW;
-	while (buf.m_len > 0) {
+	while (!buf.eof()) {
 		buf >> szString;
 		if ( !_strnicmp(szString, "MESSAGES.TOTAL", 14)) {
 			buf >> szString;
@@ -625,7 +625,7 @@ bool CMraProto::CmdAuthAck(BinBuffer &buf)
 // Web auth key
 bool CMraProto::CmdPopSession(BinBuffer &buf)
 {
-	DWORD dwTemp; buf >> dwTemp;
+	DWORD dwTemp = buf.getDword();
 	if (dwTemp) {
 		CMStringA szString; buf >> szString;
 		MraMPopSessionQueueSetNewMPopKey(hMPopSessionQueue, szString);
@@ -749,12 +749,11 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 {
 	DWORD dwAckType; HANDLE hContact; LPBYTE pData; size_t dataLen;
 	if ( !MraSendQueueFind(hSendQueueHandle, seq, NULL, &hContact, &dwAckType, &pData, &dataLen)) {
-		DWORD dwTemp; buf >> dwTemp;
+		DWORD dwTemp = buf.getDword();
 		switch (dwTemp) {
 		case CONTACT_OPER_SUCCESS:// ## добавление произведено успешно
-			buf >> dwTemp;
 			if (cmd == MRIM_CS_ADD_CONTACT_ACK)
-				SetContactBasicInfoW(hContact, 0, (SCBIF_ID|SCBIF_SERVER_FLAG), dwTemp, 0, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, 0, 0, 0, 0);
+				SetContactBasicInfoW(hContact, 0, (SCBIF_ID|SCBIF_SERVER_FLAG), buf.getDword(), 0, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, 0, 0, 0, 0);
 			break;
 		case CONTACT_OPER_ERROR:// ## переданные данные были некорректны
 			ShowFormattedErrorMessage(L"Data been sent are invalid", NO_ERROR);
@@ -795,8 +794,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 		return true;
 	}
 
-	DWORD dwTemp; buf >> dwTemp;
-	switch(dwTemp) {
+	switch(buf.getDword()) {
 	case MRIM_ANKETA_INFO_STATUS_NOUSER:// не найдено ни одной подходящей записи
 		SetContactBasicInfoW(hContact, 0, SCBIF_SERVER_FLAG, 0, 0, 0, -1, 0, 0, 0, 0);
 	case MRIM_ANKETA_INFO_STATUS_DBERR:// ошибка базы данных
@@ -826,7 +824,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 			DebugPrintCRLFA(pmralpsFields[i]);
 		}
 
-		while (buf.m_len > 0) {
+		while (!buf.eof()) {
 			// write to DB and exit loop
 			if (dwAckType == ACKTYPE_GETINFO && hContact) {
 				setDword(hContact, "InfoTS", (DWORD)_time32(NULL));
@@ -880,7 +878,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 					}
 					else if (fld == "City_id") {
 						buf >> val;
-						dwTemp = atoi(val);
+						DWORD dwTemp = atoi(val);
 						if (dwTemp) {
 							for (size_t j = 0; mrapPlaces[j].lpszData; j++) {
 								if (mrapPlaces[j].dwCityID == dwTemp) {
@@ -897,7 +895,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 					}
 					else if (fld == "Country_id") {
 						buf >> val;
-						dwTemp = atoi(val);
+						DWORD dwTemp = atoi(val);
 						if (dwTemp) {
 							for (size_t j = 0; mrapPlaces[j].lpszData; j++) {
 								if (mrapPlaces[j].dwCountryID == dwTemp) {
@@ -1157,7 +1155,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 		DebugPrintCRLFA("Contacts:");
 		DebugPrintCRLFA(szContactMask);
 		dwID = 20;
-		while (buf.m_len > 0) {
+		while (!buf.eof()) {
 			dwControlParam = 0;
 			for (j = 0; j < szContactMask.GetLength(); j++) { //enumerating parameters
 				switch (szContactMask[j]) {
@@ -1759,7 +1757,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 						DWORD dwMultiChatMembersCount;
 						BinBuffer buf((PBYTE)lpsEMailInMultiChat.GetString(), lpsEMailInMultiChat.GetLength());
 						buf >> dwMultiChatMembersCount;// count
-						for (unsigned i = 0; i < dwMultiChatMembersCount && buf.m_len > 0; i++) {
+						for (unsigned i = 0; i < dwMultiChatMembersCount && !buf.eof(); i++) {
 							buf >> szString;
 							MraChatSessionJoinUser(hContact, szString, ((dwMultiChatEventType == MULTICHAT_MEMBERS) ? 0 : dwTime));
 						}
@@ -1957,62 +1955,69 @@ DWORD GetMiradaStatusFromMraStatus(DWORD dwMraStatus, DWORD dwXStatusMra, DWORD 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-BinBuffer& operator >>(BinBuffer& buf, DWORD &ret)
+DWORD BinBuffer::getDword()
 {
-	if (buf.m_len >= sizeof(DWORD)) {
-		ret = *(DWORD*)buf.m_data;
-		buf.m_data += sizeof(DWORD);
-		buf.m_len -= sizeof(DWORD);
+	if (m_len >= sizeof(DWORD)) {
+		DWORD ret = *(DWORD*)m_data;
+		m_data += sizeof(DWORD);
+		m_len -= sizeof(DWORD);
+		return ret;
 	}
-	return buf;
+	return 0;
 }
 
-BinBuffer& operator >>(BinBuffer& buf, DWORDLONG &ret)
+DWORDLONG BinBuffer::getInt64()
 {
-	if (buf.m_len >= sizeof(DWORDLONG)) {
-		ret = *(DWORDLONG*)buf.m_data;
-		buf.m_data += sizeof(DWORDLONG);
-		buf.m_len -= sizeof(DWORDLONG);
+	if (m_len >= sizeof(DWORDLONG)) {
+		DWORDLONG ret = *(DWORDLONG*)m_data;
+		m_data += sizeof(DWORDLONG);
+		m_len -= sizeof(DWORDLONG);
+		return ret;
 	}
-	return buf;
+	return 0;
 }
 
-BinBuffer& operator >>(BinBuffer& buf, MRA_GUID &ret)
+MRA_GUID BinBuffer::getGuid()
 {
-	if (buf.m_len >= sizeof(MRA_GUID)) {
-		ret = *(MRA_GUID*)buf.m_data;
-		buf.m_data += sizeof(MRA_GUID);
-		buf.m_len -= sizeof(MRA_GUID);
+	MRA_GUID ret;
+	if (m_len >= sizeof(MRA_GUID)) {
+		ret = *(MRA_GUID*)m_data;
+		m_data += sizeof(MRA_GUID);
+		m_len -= sizeof(MRA_GUID);
+		return ret;
 	}
-	return buf;
+	else memset(&ret, 0, sizeof(ret));
+	return ret;
 }
 
-BinBuffer& operator >>(BinBuffer& buf, CMStringA &ret)
+void BinBuffer::getStringA(CMStringA& ret)
 {
-	if (buf.m_len >= sizeof(DWORD)) {
-		DWORD dwLen = *(DWORD*)buf.m_data;
-		buf.m_data += sizeof(DWORD);
-		buf.m_len -= sizeof(DWORD);
-		if (buf.m_len >= dwLen) {
-			ret = CMStringA((LPSTR)buf.m_data, dwLen);
-			buf.m_data += dwLen;
-			buf.m_len -= dwLen;
+	if (m_len >= sizeof(DWORD)) {
+		DWORD dwLen = *(DWORD*)m_data;
+		m_data += sizeof(DWORD);
+		m_len -= sizeof(DWORD);
+		if (m_len >= dwLen) {
+			ret = CMStringA((LPSTR)m_data, dwLen);
+			m_data += dwLen;
+			m_len -= dwLen;
+			return;
 		}
 	}
-	return buf;
+	ret.Empty();
 }
 
-BinBuffer& operator >>(BinBuffer& buf, CMStringW &ret)
+void BinBuffer::getStringW(CMStringW& ret)
 {
-	if (buf.m_len >= sizeof(DWORD)) {
-		DWORD dwLen = *(DWORD*)buf.m_data;
-		buf.m_data += sizeof(DWORD);
-		buf.m_len -= sizeof(DWORD);
-		if (buf.m_len >= dwLen) {
-			ret = CMStringW((LPWSTR)buf.m_data, dwLen/2);
-			buf.m_data += dwLen;
-			buf.m_len -= dwLen;
+	if (m_len >= sizeof(DWORD)) {
+		DWORD dwLen = *(DWORD*)m_data;
+		m_data += sizeof(DWORD);
+		m_len -= sizeof(DWORD);
+		if (m_len >= dwLen) {
+			ret = CMStringW((LPWSTR)m_data, dwLen/2);
+			m_data += dwLen;
+			m_len -= dwLen;
+			return;
 		}
 	}
-	return buf;
+	ret.Empty();
 }

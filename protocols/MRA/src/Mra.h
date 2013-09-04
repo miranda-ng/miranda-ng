@@ -122,19 +122,28 @@ struct MRA_ADDR_LIST
 
 /////////////////////////////////////////////////////////////////////////////
 
-struct BinBuffer
+class BinBuffer
 {
-	BinBuffer(LPBYTE data, size_t len) : m_data(data), m_len(len) {}
-
 	LPBYTE m_data;
 	size_t m_len;
+
+public:
+	BinBuffer(LPBYTE data, size_t len) : m_data(data), m_len(len) {}
+
+	DWORD     getDword();
+	DWORDLONG getInt64();
+	MRA_GUID  getGuid();
+	void      getStringA(CMStringA&);
+	void      getStringW(CMStringW&);
+
+	__forceinline bool eof() const { return m_len > 0; }
 };
 
-BinBuffer& operator >>(BinBuffer&, DWORD&);
-BinBuffer& operator >>(BinBuffer&, DWORDLONG&);
-BinBuffer& operator >>(BinBuffer&, MRA_GUID&);
-BinBuffer& operator >>(BinBuffer&, CMStringA&);
-BinBuffer& operator >>(BinBuffer&, CMStringW&);
+__forceinline BinBuffer& operator >>(BinBuffer& buf, DWORD &dwVar)     { dwVar = buf.getDword(); return buf; }
+__forceinline BinBuffer& operator >>(BinBuffer& buf, DWORDLONG &llVar) { llVar = buf.getInt64(); return buf; }
+__forceinline BinBuffer& operator >>(BinBuffer& buf, MRA_GUID &guid)   { guid = buf.getGuid();   return buf; }
+__forceinline BinBuffer& operator >>(BinBuffer& buf, CMStringA &sVar)  { buf.getStringA(sVar);   return buf; }
+__forceinline BinBuffer& operator >>(BinBuffer& buf, CMStringW &sVar)  { buf.getStringW(sVar);   return buf; }
 
 /////////////////////////////////////////////////////////////////////////////
 
