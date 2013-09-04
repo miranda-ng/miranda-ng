@@ -1,48 +1,20 @@
 ﻿#ifdef ptx86
    #define MirName "Miranda32.exe"
-#else
-   #define MirName "Miranda64.exe"
-#endif
-
-#ifdef ptx86
    #define MirGroupName "Miranda NG"
-#else
-   #define MirGroupName "Miranda NG x64"
-#endif
-
-#ifdef ptx86
    #define MirOutName "miranda-ng-alpha-latest"
-#else
-   #define MirOutName "miranda-ng-alpha-latest_x64"
-#endif
-
-#ifndef ptx86
-   #define ArcAllow "x64"
-#else
    #define ArcAllow ""
-#endif
-
-#ifdef ptx86
    #define VcRedistName "vcredist_x86.exe"
-#else
-   #define VcRedistName "vcredist_x64.exe"
-#endif
-
-#ifdef ptx86
    #define Ptf "x86"
-#else
-   #define Ptf "x64"
-#endif
-
-#ifdef ptx86
    #define RedistRegChk "(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}')"
-#else
-   #define RedistRegChk "(HKLM64, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{1D8E6291-B0D5-35EC-8441-6616F567A0F7}')"
-#endif
-
-#ifdef ptx86
    #define MirPfInstDir "ExpandConstant('{pf32}')"
 #else
+   #define MirName "Miranda64.exe"
+   #define MirGroupName "Miranda NG x64"
+   #define MirOutName "miranda-ng-alpha-latest_x64"
+   #define ArcAllow "x64"
+   #define VcRedistName "vcredist_x64.exe"
+   #define Ptf "x64"
+   #define RedistRegChk "(HKLM64, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{1D8E6291-B0D5-35EC-8441-6616F567A0F7}')"
    #define MirPfInstDir "ExpandConstant('{pf64}')"
 #endif
 
