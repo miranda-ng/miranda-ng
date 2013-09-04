@@ -512,7 +512,7 @@ bool CMraProto::CmdUserInfo(BinBuffer &buf)
 			int lpszDelimiter = szString.Find(':');
 			if (lpszDelimiter != -1) {
 				CMStringA szAddr(szString, lpszDelimiter);
-				setDword("IP", HTONL(inet_addr(szAddr.c_str())));
+				setDword("IP", ntohl(inet_addr(szAddr.c_str())));
 			}
 		}
 		else if ( !_strnicmp(szString, "connect.xml", 11)) {

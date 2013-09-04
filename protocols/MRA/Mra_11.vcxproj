@@ -241,7 +241,6 @@
     <ClInclude Include="src\Sdk\MemoryFindByte.h" />
     <ClInclude Include="src\Sdk\RC4.h" />
     <ClInclude Include="src\Sdk\SHA1.h" />
-    <ClInclude Include="src\Sdk\SocketFunctions.h" />
     <ClInclude Include="src\Sdk\StrHexToNum.h" />
     <ClInclude Include="src\Sdk\StrToNum.h" />
     <ClInclude Include="src\Sdk\timefuncs.h" />

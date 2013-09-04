@@ -77,7 +77,6 @@
 #include "..\xstatus_MRA\src\resource.h"
 
 #include "Sdk/DebugFunctions.h"
-#include "Sdk/SocketFunctions.h"
 #include "Sdk/MemoryFind.h"
 #include "Sdk/MemoryFindByte.h"
 #include "Sdk/BuffToLowerCase.h"

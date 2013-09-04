@@ -243,7 +243,7 @@ size_t CMraProto::MraFilesQueueGetLocalAddressesList(LPSTR lpszBuff, size_t dwBu
 		size_t dwAdapter = 0;
 		hostent *sh;
 
-		dwSelfExternalIP = NTOHL(getDword("IP", 0));
+		dwSelfExternalIP = ntohl(getDword("IP", 0));
 		if (dwSelfExternalIP) {
 			memmove(&btAddress, &dwSelfExternalIP, sizeof(DWORD));
 			lpszCurPos += mir_snprintf(lpszCurPos, (dwBuffSize-((size_t)lpszCurPos-(size_t)lpszBuff)), "%lu.%lu.%lu.%lu:%lu;", btAddress[0], btAddress[1], btAddress[2], btAddress[3], dwPort);
@@ -493,7 +493,7 @@ HANDLE CMraProto::MraFilesQueueConnectOut(MRA_FILES_QUEUE_ITEM *dat)
 						if (MraFilesQueueHandCheck(dat->m_hConnection, dat)) {
 							// связь установленная с тем кем нужно
 							setDword(dat->hContact, "OldIP", getDword(dat->hContact, "IP", 0));
-							setDword(dat->hContact, "IP", HTONL(dat->malAddrList.pMailAddress[i].dwAddr));
+							setDword(dat->hContact, "IP", ntohl(dat->malAddrList.pMailAddress[i].dwAddr));
 							break;
 						}
 						else {

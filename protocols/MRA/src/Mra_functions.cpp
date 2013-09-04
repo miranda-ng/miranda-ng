@@ -155,10 +155,10 @@ void CMraProto::MraAddrListStoreToContact(HANDLE hContact, MRA_ADDR_LIST *pmalAd
 		return;
 
 	setDword(hContact, "OldIP", getDword(hContact, "IP", 0));
-	setDword(hContact, "IP", HTONL(pmalAddrList->pMailAddress[0].dwAddr));
+	setDword(hContact, "IP", ntohl(pmalAddrList->pMailAddress[0].dwAddr));
 	if (pmalAddrList->dwAddrCount > 1) {
 		setDword(hContact, "OldRealIP", getDword(hContact, "RealIP", 0));
-		setDword(hContact, "RealIP", HTONL(pmalAddrList->pMailAddress[1].dwAddr));
+		setDword(hContact, "RealIP", ntohl(pmalAddrList->pMailAddress[1].dwAddr));
 	}
 }
 
