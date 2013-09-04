@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
-;  Version: 2.0.0.1
+;  Version: 2.1.0.1
 ;  Authors: 
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
@@ -144,8 +144,6 @@
 [Receive files: request for file %s not sended, error]
 [Send files: cant open file %s, error]
 [Send files: requested file: %S - not found in send files list.]
-;file \protocols\MRA\src\MraFilesQueue_mod.cpp
-[No description given]
 ;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
 [Contact Menu]
@@ -167,13 +165,12 @@
 [E-mail address]
 ;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
-[From: %s\r\nSubject: %s\r\n%s]
+[From: %S\r\nSubject: %S\r\n%s]
 [No unread mail is available\r\nTotal messages: %lu]
 [Closing in]
 [Reply to %s blog status]
 [Set my blog status]
 [Writed]
-[Your password expired. Please reenter password in the Options dialog]
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 [Account]

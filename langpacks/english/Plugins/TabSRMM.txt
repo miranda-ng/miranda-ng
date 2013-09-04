@@ -559,6 +559,8 @@
 [No status message]
 [Other]
 [TABSRMM: Typing]
+[tabSRMM session list]
+[tabSRMM Menu]
 [&Messaging settings...]
 [&Send later job list...]
 [Message from %s]

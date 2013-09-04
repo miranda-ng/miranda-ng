@@ -4492,8 +4492,6 @@
 [Toggle sounds]
 [Minimize contact list]
 [Status menu]
-[tabSRMM session list]
-[tabSRMM Menu]
 [Select view mode]
 [Setup view modes]
 [Clear view mode]
@@ -5444,7 +5442,7 @@
 [Processing module name chain]
 [Module chain corrupted, further entries ignored]
 [Unreasonably long module name, skipping]
-[Module name '%s' is not unique: %d duplicates found)]
+[Module name '%s' is not unique: %d duplicates found]
 [Invalid module name offset, skipping data]
 ;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
 [Settings chain corrupted, further entries ignored]
@@ -6310,7 +6308,6 @@
 [Error occurred when opening local file.\nAborting file upload...]
 [Error occurred when initializing libcurl.\nAborting file upload...]
 [FTP error occurred.\n%s]
-[WAITTING...]
 [Download link:]
 [Do you really want to cancel running upload?]
 [%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
@@ -11022,7 +11019,7 @@
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
-;  Version: 2.0.0.1
+;  Version: 2.1.0.1
 ;  Authors: 
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
@@ -11164,8 +11161,6 @@
 [Receive files: request for file %s not sended, error]
 [Send files: cant open file %s, error]
 [Send files: requested file: %S - not found in send files list.]
-;file \protocols\MRA\src\MraFilesQueue_mod.cpp
-[No description given]
 ;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
 [Contact Menu]
@@ -11187,13 +11182,12 @@
 [E-mail address]
 ;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
-[From: %s\r\nSubject: %s\r\n%s]
+[From: %S\r\nSubject: %S\r\n%s]
 [No unread mail is available\r\nTotal messages: %lu]
 [Closing in]
 [Reply to %s blog status]
 [Set my blog status]
 [Writed]
-[Your password expired. Please reenter password in the Options dialog]
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 [Account]
@@ -11388,7 +11382,7 @@
 ;file \plugins\MsgPopup\src\main.cpp
 [VirtualProtect failed. Code %d\nTry to call the author]
 [MsgBox]
-[Hmm. Something goes wrong. I can't write into the memory.\nAnd as u can c, there are no any exception raised..\nTry to call the author]
+[Hmm. Something goes wrong. I can't write into the memory.\nAnd as u can c, there are no any exception raised...\nTry to call the author]
 [MessagePopup]
 [Popups]
 ;file \plugins\MsgPopup\src\options.cpp
@@ -13232,7 +13226,7 @@
 ;============================================================
 ;  File: Popup.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.1.7
+;  Version: 2.1.1.8
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -14628,7 +14622,7 @@
 [Ignore contacts going offline]
 [Enable 'Missed Ones' feature]
 [Count times]
-[Protocols to watch:]
+[Accounts to watch:]
 [Use popups]
 [Title]
 [Text]
@@ -14956,7 +14950,7 @@
 ;============================================================
 ;  File: ShlExt.dll
 ;  Plugin: Shell extension
-;  Version: 2.2.0.1
+;  Version: 2.2.0.2
 ;  Authors: Sam Kothari, Miranda NG Team
 ;============================================================
 [Windows Explorer extension for Miranda NG.]
@@ -15400,7 +15394,7 @@
 ﻿#muuid {2925520b-6677-4658-8bad-5661d13e4692}
 ;============================================================
 ;  File: SkypeStatusChange.dll
-;  Plugin: SkypeStatusChange
+;  Plugin: Skype status change
 ;  Version: 0.0.0.18
 ;  Authors: Dioksin
 ;============================================================
@@ -15734,7 +15728,6 @@
 [Show splash]
 [Show random splash]
 [Play sound]
-[Loop sound]
 [Show Miranda Version]
 [Enable]
 [Prefix:]
@@ -16646,6 +16639,8 @@
 [No status message]
 [Other]
 [TABSRMM: Typing]
+[tabSRMM session list]
+[tabSRMM Menu]
 [&Messaging settings...]
 [&Send later job list...]
 [Message from %s]
@@ -17831,7 +17826,7 @@
 ;file \plugins\TooltipNotify\res\main.rc
 [Select protocols]
 [OK]
-[Choose contacts...]
+[Choose contacts]
 [Allow tooltip notifications for the following users:]
 [Cancel]
 [Notify upon the following events]
@@ -17848,7 +17843,7 @@
 [ms]
 [Duration x2 upon online event]
 [Double click on tooltip]
-[Shows/Hides CList]
+[Shows/Hides contact list]
 [Opens message dialog]
 [Behavior]
 [Misc]

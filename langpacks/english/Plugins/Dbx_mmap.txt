@@ -78,7 +78,7 @@
 [Processing module name chain]
 [Module chain corrupted, further entries ignored]
 [Unreasonably long module name, skipping]
-[Module name '%s' is not unique: %d duplicates found)]
+[Module name '%s' is not unique: %d duplicates found]
 [Invalid module name offset, skipping data]
 ;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
 [Settings chain corrupted, further entries ignored]

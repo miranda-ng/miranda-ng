@@ -9,7 +9,7 @@
 ;file \plugins\TooltipNotify\res\main.rc
 [Select protocols]
 [OK]
-[Choose contacts...]
+[Choose contacts]
 [Allow tooltip notifications for the following users:]
 [Cancel]
 [Notify upon the following events]
@@ -26,7 +26,7 @@
 [ms]
 [Duration x2 upon online event]
 [Double click on tooltip]
-[Shows/Hides CList]
+[Shows/Hides contact list]
 [Opens message dialog]
 [Behavior]
 [Misc]

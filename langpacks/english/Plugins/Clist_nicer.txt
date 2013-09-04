@@ -296,8 +296,6 @@
 [Toggle sounds]
 [Minimize contact list]
 [Status menu]
-[tabSRMM session list]
-[tabSRMM Menu]
 [Select view mode]
 [Setup view modes]
 [Clear view mode]
