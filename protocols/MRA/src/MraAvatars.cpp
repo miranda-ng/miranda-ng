@@ -445,7 +445,7 @@ DWORD MraAvatarsHttpTransaction(HANDLE m_hConnection, DWORD dwRequestType, LPCST
 		}
 		else if ( !_strnicmp(pnlhr->headers[i].szName, "Content-Length", 14)) {
 			if (pdwAvatarSize)
-				*pdwAvatarSize = StrToUNum(pnlhr->headers[i].szValue, lstrlenA(pnlhr->headers[i].szValue));
+				*pdwAvatarSize = atol(pnlhr->headers[i].szValue);
 		}
 		else if ( !_strnicmp(pnlhr->headers[i].szName, "Last-Modified", 13)) {
 			if (pitLastModifiedTime)

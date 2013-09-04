@@ -527,7 +527,7 @@ bool CMraProto::CmdUserInfo(BinBuffer &buf)
 		}
 		else if ( !_strnicmp(szString, "micblog.status.id", 17)) {
 			buf >> szString;
-			DWORDLONG dwBlogStatusID = StrToUNum64(szString, szString.GetLength());
+			DWORDLONG dwBlogStatusID = _atoi64(szString);
 			mraWriteContactSettingBlob(NULL, DBSETTING_BLOGSTATUSID, &dwBlogStatusID, sizeof(DWORDLONG));
 		}
 		else if ( !_strnicmp(szString, "micblog.status.time", 19)) {
@@ -540,31 +540,24 @@ bool CMraProto::CmdUserInfo(BinBuffer &buf)
 		}
 		else if ( !_strnicmp(szString, "HAS_MYMAIL", 10)) {
 			buf >> szString;
-			//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(szString.lpszData, szString.dwSize));
 		}
 		else if ( !_strnicmp(szString, "mrim.status.open_search", 23)) {
 			buf >> szString;
-			//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(szString.lpszData, szString.dwSize));
 		}
 		else if ( !_strnicmp(szString, "rb.target.cookie", 16)) {
 			buf >> szString;
-			//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(szString.lpszData, szString.dwSize));
 		}
 		else if ( !_strnicmp(szString, "show_web_history_link", 21)) {
 			buf >> szString;
-			//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(szString.lpszData, szString.dwSize));
 		}
 		else if ( !_strnicmp(szString, "friends_suggest", 15)) {
 			buf >> szString;
-			//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(szString.lpszData, szString.dwSize));
 		}
 		else if ( !_strnicmp(szString, "timestamp", 9)) {
 			buf >> szString;
-			//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(szString.lpszData, szString.dwSize));
 		}
 		else if ( !_strnicmp(szString, "trusted_update", 14)) {
 			buf >> szString;
-			//setDword(DBSETTING_BLOGSTATUSTIME, StrToUNum32(szString.lpszData, szString.dwSize));
 		}
 		else {
 			#ifdef _DEBUG

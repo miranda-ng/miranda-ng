@@ -36,28 +36,6 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-
-__inline size_t StrToUNum(LPCSTR lpcszString,size_t dwStringLen)
-{
-	size_t dwNum=0;
-	BYTE bCurentFigure;
-
-
-	while(dwStringLen)
-	{
-		if ((bCurentFigure=((*lpcszString)-48))<10)
-		{
-			dwNum*=10;// сдвигаем предыдущее число на один разряд чтоб добавить в младший разряд новую цифру
-			dwNum+=bCurentFigure;// добавляем цифру в младший разряд
-		}
-		lpcszString++;// перемещаем указатель на следующую позицию
-		dwStringLen--;// уменьшаем длинну
-	}
-
-return(dwNum);
-}
-
-
 __inline DWORD StrToUNum32(LPCSTR lpcszString,size_t dwStringLen)
 {
 	DWORD dwNum=0;
@@ -75,35 +53,13 @@ __inline DWORD StrToUNum32(LPCSTR lpcszString,size_t dwStringLen)
 		dwStringLen--;// уменьшаем длинну
 	}
 
-return(dwNum);
+	return(dwNum);
 }
-
-
-__inline DWORDLONG StrToUNum64(LPCSTR lpcszString,size_t dwStringLen)
-{
-	DWORDLONG dwlNum=0;
-	BYTE bCurentFigure;
-
-
-	while(dwStringLen)
-	{
-		if ((bCurentFigure=((*lpcszString)-48))<10)
-		{
-			dwlNum*=10;// сдвигаем предыдущее число на один разряд чтоб добавить в младший разряд новую цифру
-			dwlNum+=bCurentFigure;// добавляем цифру в младший разряд
-		}
-		lpcszString++;// перемещаем указатель на следующую позицию
-		dwStringLen--;// уменьшаем длинну
-	}
-
-return(dwlNum);
-}
-
+							  
 __inline SSIZE_T StrToNum(LPCSTR lpcszString,size_t dwStringLen)
 {
 	SSIZE_T lNum=0,lSingn=1;
 	BYTE bCurentFigure;
-
 
 	while(dwStringLen && ((bCurentFigure=((*lpcszString)-48))>9))
 	{
@@ -126,7 +82,7 @@ __inline SSIZE_T StrToNum(LPCSTR lpcszString,size_t dwStringLen)
 	}
 	lNum*=lSingn;
 
-return(lNum);
+	return(lNum);
 }
 
 
