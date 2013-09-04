@@ -6,7 +6,7 @@
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Sessions Manager for Miranda NG.]
-
+Správce relací pro Mirandu NG.
 ;file \plugins\Sessions\res\Sessions.rc
 [Action on Startup]
 Akce při spuštění
@@ -61,15 +61,15 @@ Zvolit relaci pro obnovení ze seznamu:
 [Del]
 Smazat
 [Save Session]
-
+Uložit relaci
 [&Save Session]
-
+&Uložit relaci
 [Enter session name:]
-
+Zadejte název relace:
 [Save and Close]
-
+Uložit a zavřít
 [adv.]
-
+rozš.
 [Sessions Manager]
 Správce relací
 [OK]
@@ -77,36 +77,36 @@ OK
 [Cancel]
 Zrušit
 [Save your current session?]
-
+Uložit vaši aktuální relaci?
 ;file \plugins\Sessions\Src\Main.cpp
 [Favorite Session]
-
+Oblíbená relace
 [Not favorite Session]
-
+Běžná relace
 [Load Session]
-
+Načíst relaci
 [Load last Session]
-
+Načíst poslední relaci
 [Current session is empty!]
-
+Aktuální relace je prázdná!
 [Session name is empty, enter the name and try again]
-
+Nezadali jste název relace, zadejte jej a zkuste to znovu
 [No sessions to open]
-
+Neexistuje žádná relace k otevření
 [Last Sessions is empty]
-
+Poslední relace je prázdná
 [No contacts to open]
-
+Neexistují žádné kontakty k otevření
 [This Session already opened]
-
+Tato relace je již otevřena
 [This Session already opened(but probably hidden)\nDo you want to show hidden contacts?]
-
+Tato relace je již otevřena (ale nejspíše skryta)\nPřejete si zobrazit skryté kontakty?
 [Open Sessions Manager]
-
+Otevřít správce relací
 [Show Favorite Sessions Menu]
-
+Zobrazit nabídku oblíbených relací
 [Restore last Session]
-
+Obnovit poslední relaci
 [Close Session]
 Zavřít relaci
 [Save session...]
@@ -124,4 +124,4 @@ Zobrazit
 Komunikace
 ;file \plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]
-
+Relace před posledním pádem
