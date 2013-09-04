@@ -747,8 +747,6 @@ bool CMraProto::CmdUserStatus(BinBuffer &buf)
 
 bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 {
-	CMStringA szString; buf >> szString;
-
 	DWORD dwAckType; HANDLE hContact; LPBYTE pData; size_t dataLen;
 	if ( !MraSendQueueFind(hSendQueueHandle, seq, NULL, &hContact, &dwAckType, &pData, &dataLen)) {
 		DWORD dwTemp; buf >> dwTemp;
@@ -1005,7 +1003,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 					}
 					else if (fld == "Domain") { // имя было уже задано ранее
 						buf >> val; 
-						wcsncpy_s(szEmail, _A2T(mralpsUsernameValue + "@" + val), SIZEOF(szEmail));
+						wcsncpy_s(szEmail, _A2T(val + "@" + mralpsUsernameValue), SIZEOF(szEmail));
 					}
 					else if (fld == "Nickname") {
 						buf >> valW; 
