@@ -106,26 +106,4 @@ return(bRet);
 }
 
 
-
-static inline __time32_t __cdecl _mktime32(struct tm *ptmTime)
-{
-	SYSTEMTIME stTime;
-
-	stTime.wMilliseconds=0;
-	stTime.wSecond=ptmTime->tm_sec;		// seconds after the minute - [0,59]
-	stTime.wMinute=ptmTime->tm_min;		// minutes after the hour - [0,59]
-	stTime.wHour=ptmTime->tm_hour;		// hours since midnight - [0,23]
-	stTime.wDay=ptmTime->tm_mday;			// day of the month - [1,31]
-	stTime.wMonth=(ptmTime->tm_mon+1);	// months since January - [0,11]
-	stTime.wYear=(ptmTime->tm_year+1900);	// years since 1900
-	stTime.wDayOfWeek=0;//ptmTime->tm_wday;	// days since Sunday - [0,6]
-	//ptmTime->tm_yday;					// days since January 1 - [0,365]
-	//ptmTime->tm_isdst;					// daylight savings time flag
-return(MakeTime32FromLocalSystemTime(&stTime));
-}
-
-
-
-
-
 #endif // !defined(AFX_TIME_FUNCS__H__INCLUDED_)

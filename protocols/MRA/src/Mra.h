@@ -80,7 +80,6 @@
 #include "Sdk/SocketFunctions.h"
 #include "Sdk/MemoryFind.h"
 #include "Sdk/MemoryFindByte.h"
-#include "Sdk/MemoryReplace.h"
 #include "Sdk/BuffToLowerCase.h"
 #include "Sdk/StrToNum.h"
 #include "Sdk/StrHexToNum.h"

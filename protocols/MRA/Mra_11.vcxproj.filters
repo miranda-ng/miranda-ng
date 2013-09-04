@@ -167,9 +167,6 @@
     <ClInclude Include="src\Sdk\MemoryFindByte.h">
       <Filter>Header Files\SDK</Filter>
     </ClInclude>
-    <ClInclude Include="src\Sdk\MemoryReplace.h">
-      <Filter>Header Files\SDK</Filter>
-    </ClInclude>
     <ClInclude Include="src\Sdk\RC4.h">
       <Filter>Header Files\SDK</Filter>
     </ClInclude>

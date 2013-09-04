@@ -73,36 +73,7 @@ __inline DWORD FifoMTItemPop(PCFIFO_MT pcpmtFifoMT,PFIFO_MT_ITEM *ppffmtiFifoIte
 	return dwRetErrorCode;
 }
 
-
-__inline DWORD FifoMTItemGetFirst(PCFIFO_MT pcpmtFifoMT,PFIFO_MT_ITEM *ppffmtiFifoItem,LPVOID *plpData)
-{
-	mt_lock l(pcpmtFifoMT);
-	return ListMTItemGetFirst(pcpmtFifoMT,ppffmtiFifoItem,plpData);
-}
-
-
-__inline DWORD FifoMTItemGetLast(PCFIFO_MT pcpmtFifoMT,PFIFO_MT_ITEM *ppffmtiFifoItem,LPVOID *plpData)
-{
-	mt_lock l(pcpmtFifoMT);
-	return ListMTItemGetLast(pcpmtFifoMT,ppffmtiFifoItem,plpData);
-}
-
-
 #define FifoMTGetCount(pcpmtFifoMT) ListMTGetCount(pcpmtFifoMT)
-
-#define FifoMTTryLock(pcpmtFifoMT) ListMTTryLock(pcpmtFifoMT)
-#define FifoMTLock(pcpmtFifoMT) ListMTLock(pcpmtFifoMT)
-#define FifoMTUnLock(pcpmtFifoMT) ListMTUnLock(pcpmtFifoMT)
-
-#define FifoMTItemSwap(pcpmtFifoMT,pcffmtiFifoItem1,pcffmtiFifoItem2) ListMTItemSwap(pcpmtFifoMT,pcffmtiFifoItem1,pcffmtiFifoItem2)
-
-#define FifoMTIteratorMoveFirst(pcpmtFifoMT,pffmtiIterator) ListMTIteratorMoveFirst(pcpmtFifoMT,pffmtiIterator)
-#define FifoMTIteratorMoveLast(pcpmtFifoMT,pffmtiIterator) ListMTIteratorMoveLast(pcpmtFifoMT,pffmtiIterator)
-#define FifoMTIteratorMovePrev(pffmtiIterator) ListMTIteratorMovePrev(pffmtiIterator)
-#define FifoMTIteratorMoveNext(pffmtiIterator) ListMTIteratorMoveNext(pffmtiIterator)
-#define FifoMTIteratorGet(pffmtiIterator,ppffmtiFifoItem,plpData) ListMTIteratorGet(pffmtiIterator,ppffmtiFifoItem,plpData)
-
-
 
 
 #endif // !defined(AFX_FIFO_MT__H__INCLUDED_)

@@ -117,15 +117,6 @@ __inline void ListMTDestroy(PCLIST_MT pclmtListMT)
 }
 
 
-__inline BOOL ListMTTryLock(PCLIST_MT pclmtListMT)
-{
-#if (_WIN32_WINNT >= 0x0400)
-	return(TryEnterCriticalSection(&pclmtListMT->cs));
-#else
-	return(FALSE);
-#endif
-}
-
 class mt_lock
 {
 	PCLIST_MT m_list;
@@ -213,19 +204,6 @@ __inline DWORD ListMTItemDelete(PCLIST_MT pclmtListMT,PCLIST_MT_ITEM pclmtListMT
 return(dwRetErrorCode);
 }
 
-
-__inline LPVOID ListMTItemDataGet(PCLIST_MT_ITEM pclmtListMTItem)
-{
-	return(pclmtListMTItem->lpData);
-}
-
-
-__inline void ListMTItemDataSet(PCLIST_MT_ITEM pclmtListMTItem, LPVOID lpData)
-{
-	pclmtListMTItem->lpData=lpData;
-}
-
-
 __inline DWORD ListMTItemGetFirst(PCLIST_MT pclmtListMT,PLIST_MT_ITEM *pplmtListMTItem,LPVOID *plpData)
 {// если нужно гарантировать эксклюзивный доступ, то есть ListMTLock и ListMTUnLock
 	DWORD dwRetErrorCode;
@@ -241,78 +219,9 @@ __inline DWORD ListMTItemGetFirst(PCLIST_MT pclmtListMT,PLIST_MT_ITEM *pplmtList
 return(dwRetErrorCode);
 }
 
-
-__inline DWORD ListMTItemGetLast(PCLIST_MT pclmtListMT,PLIST_MT_ITEM *pplmtListMTItem,LPVOID *plpData)
-{// если нужно гарантировать эксклюзивный доступ, то есть ListMTLock и ListMTUnLock
-	DWORD dwRetErrorCode;
-
-	if (pclmtListMT->plmtiLast)
-	{
-		if (pplmtListMTItem)	(*pplmtListMTItem)=pclmtListMT->plmtiLast;
-		if (plpData)			(*plpData)=pclmtListMT->plmtiLast->lpData;
-		dwRetErrorCode=NO_ERROR;
-	}else{
-		dwRetErrorCode=ERROR_NO_MORE_ITEMS;
-	}
-return(dwRetErrorCode);
-}
-
-
-
-__inline void ListMTItemSwap(PCLIST_MT pclmtListMT,PCLIST_MT_ITEM pclmtListMTItem1,PCLIST_MT_ITEM pclmtListMTItem2)
-{// поменять два элемента списка местами, даже если они из разных списков
-
-	if (pclmtListMTItem1!=pclmtListMTItem2)
-	{// это разные элементы списка
-		PLIST_MT_ITEM lpTemp;
-
-		lpTemp=pclmtListMTItem1->plmtiPrev;
-		if ((pclmtListMTItem1->plmtiPrev=pclmtListMTItem2->plmtiPrev)==NULL)
-		{// pclmtListMTItem2 был первым, обновляем заголвок листа, теперь первый pclmtListMTItem1
-			pclmtListMT->plmtiFirst=pclmtListMTItem1;
-		}
-
-		if ((pclmtListMTItem2->plmtiPrev=lpTemp)==NULL)
-		{// pclmtListMTItem1 был первым, обновляем заголвок листа, теперь первый pclmtListMTItem2
-			pclmtListMT->plmtiFirst=pclmtListMTItem2;
-		}
-
-
-		lpTemp=pclmtListMTItem1->plmtiNext;
-		if ((pclmtListMTItem1->plmtiNext=pclmtListMTItem2->plmtiNext)==NULL)
-		{// pclmtListMTItem2 был последним, обновляем заголвок листа, теперь последний pclmtListMTItem1
-			pclmtListMT->plmtiLast=pclmtListMTItem1;
-		}
-
-		if ((pclmtListMTItem2->plmtiNext=lpTemp)==NULL)
-		{// pclmtListMTItem1 был последним, обновляем заголвок листа, теперь последний pclmtListMTItem2
-			pclmtListMT->plmtiLast=pclmtListMTItem2;
-		}
-	}
-}
-
-
 __inline BOOL ListMTIteratorMoveFirst(PCLIST_MT pclmtListMT,PCLIST_MT_ITERATOR pclmtiIterator)
 {// если нужно гарантировать эксклюзивный доступ, то есть ListMTLock и ListMTUnLock
 	return((pclmtiIterator->plmtListMTItem=pclmtListMT->plmtiFirst)? TRUE:FALSE);
-}
-
-
-__inline BOOL ListMTIteratorMoveLast(PCLIST_MT pclmtListMT,PCLIST_MT_ITERATOR pclmtiIterator)
-{// если нужно гарантировать эксклюзивный доступ, то есть ListMTLock и ListMTUnLock
-	return((pclmtiIterator->plmtListMTItem=pclmtListMT->plmtiLast)? TRUE:FALSE);
-}
-
-
-__inline BOOL ListMTIteratorMovePrev(PCLIST_MT_ITERATOR pclmtiIterator)
-{// если нужно гарантировать эксклюзивный доступ, то есть ListMTLock и ListMTUnLock
-	BOOL bRet=FALSE;
-
-	if (pclmtiIterator->plmtListMTItem)
-	{
-		if (pclmtiIterator->plmtListMTItem=pclmtiIterator->plmtListMTItem->plmtiPrev) bRet=TRUE;
-	}
-return(bRet);
 }
 
 
