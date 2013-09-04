@@ -265,7 +265,7 @@ en.ProtocolsYahooDescription=Yahoo protocol support for Miranda NG.
 en.ClistsDescription=Contact list plugins.
 en.StdClistDescription=Basic contact list core module.
 en.BlindClistDescription=This is a contact list for blind folks. It uses a list control to show all contacts, so screen readers can "read" the clist to the user.
-en.ModernClistDescription=Supports skins, displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.
+en.ModernClistDescription=Supports skins, displays contacts, event notifications, protocol status with advantage visual modifications. Supports MW modifications, enhanced metacontact cooperation.
 en.NicerClistDescription=Displays contacts, event notifications, protocol status.
 en.MessageWinDescription=Message session plugins.
 en.StdMsgDescription=Basic messaging and group chats core modules. No tabs support.
@@ -444,6 +444,88 @@ cz.LangCzechDescription=Překlad rozhraní Mirandy NG do češtiny.
 cz.LangPolishDescription=Překlad rozhraní Mirandy NG do polštiny.
 cz.LangGermanDescription=Překlad rozhraní Mirandy NG do němčiny.
 cz.LangEnglishDescription=Výchozí rozhraní Mirandy NG v angličtině.
+
+; Deutsch
+de.InstTypeHeader=Installationsmodus
+de.InstTypeText=Wählen Sie die Art der Installation aus
+de.DefTypeInstRadio=Normale Installation (empfohlen)
+de.PortTypeInstRadio=Portable Installation
+de.DefTypeInstLabel=Profil- und Benutzerdaten werden in Anwendungsdaten gespeichert.%nUAC-kompatibel (Windows Vista/7/8).
+de.PortTypeInstLabel=Profil- und Benutzerdaten werden im Programmverzeichnis gespeichert.%nDies ist die Version zur Verwendung auf portablen Laufwerken (wie USB-Sticks).%n(Installieren Sie Miranda NG mit aktivierter UAC nicht im Programme-Ordner!)
+
+de.ProfileUninst=WARNUNG!%nSie sind dabei, Ihr Profil mitsamt all Ihren Einstellungen, Kontakten und Nachrichten zu löschen!%nSind Sie sich sicher, dass Sie das Profil löschen möchten?%n(Sie könnten es später brauchen.)
+
+de.FolderExists1=Verzeichnis
+de.FolderExists2=existiert bereits. Installation fortsetzen?
+
+de.PercentDone=% erledigt
+
+de.TypeRegular=Übliche Installation
+de.TypeMinimal=Minimale Installation
+de.TypeExtended=Erweiterte Installation
+de.TypeCustom=Benutzerdefinierte Installation 
+
+de.Program=Kernkomponenten
+de.Sounds=Klangdateien
+de.Protocols=Protokolle
+de.Aim=AIM-Protokoll
+de.Facebook=Facebook-Protokoll
+de.GG=GG-Protokoll
+de.Icq=ICQ-Protokoll
+de.Irc=IRC-Protokoll
+de.Jabber=Jabber-Protokoll
+de.Msn=MSN-Protokoll
+de.Yahoo=Yahoo-Protokoll
+de.Clists=Kontaktlisten
+de.StdClist=Klassische Kontaktliste
+de.BlindClist=Kontaktliste für Blinde
+de.NicerClist=Nicer-Kontaktliste
+de.ModernClist=Moderne Kontaktliste
+de.MessageWin=Nachrichtensitzungen
+de.StdMsg=SRMM- und Chat-Plugins
+de.Scriver=Scriver-Nachrichtenplugin
+de.Tabsrmm=TabSRMM-Nachrichtenplugin
+de.Dbx=Datenbanktreiber
+de.Mmap=Dbx_mmap-Datenbanktreiber (empfohlen)
+de.Dbx_3x=Dbx_3x-Datenbanktreiber
+de.Lang=Sprachdateien
+de.LangRussian=Russische Sprachdatei
+de.LangCzech=Tschechische Sprachdatei
+de.LangPolish=Polnische Sprachdatei
+de.LangGerman=Deutsche Sprachdatei
+de.LangEnglish=Englischsprachige Oberfläche
+
+de.DescriptionTitle=Beschreibung
+de.InfoCaption=Fahren Sie mit der Maus über eine Komponente, um ihre Beschreibung anzeigen zu lassen.
+de.CoreFilesDescription=Die für den Betrieb von Miranda NG notwendigen Dateien.
+de.SoundsDescription=Klangbenachrichtigungen für eine Vielzahl an Ereignissen.
+de.ProtocolsDescription=Verschiedene Protokolle für Sofortnachrichten und mehr.
+de.ProtocolsAIMDescription=AOL-Instant-Messenger- (AIM-)Unterstützung für Miranda NG.
+de.ProtocolsFbDescription=Facebook-Protokollunterstützung für Miranda NG. Funktionsreicher als der XMPP-Facebook-Chat, unterstützt das Veröffentlichen neuer Statusnachrichren, Autorisierung, Kontaktsuche und vieles mehr.
+de.ProtocolsGGDescription=Gadu-Gadu-Protokollunterstützung für Miranda NG.
+de.ProtocolsICQDescription=ICQ- (OSCAR-)Protokollunterstützung für Miranda NG.
+de.ProtocolsIRCDescription=Internet-Relay-Chat- (IRC-)Protokollunterstützung für Miranda NG.
+de.ProtocolsJabberDescription=Unterstützung des Extensible Messaging and Presence Protocols (XMPP) für Miranda NG.
+de.ProtocolsMSNDescription=Microsoft-Network- (MSN)-Protokollunterstützung für Miranda NG.
+de.ProtocolsYahooDescription=Yahoo-Protokollunterstützung für Miranda NG.
+de.ClistsDescription=Kontaktlistenplugins.
+de.StdClistDescription=Grundlegendes Kontaktlisten-Kernmodul.
+de.BlindClistDescription=Dies ist eine Kontaktliste für Blinde. Sie benutzt eine Liste, um alle Kontakte anzuzeigen, so dass Bildschirmleser die Kontaktliste dem Benutzer "vorlesen" können.
+de.ModernClistDescription=Unterstützt Skins, zeigt Kontakte, Ereignisbenachrichtigungen und Protokollstatus mit visuellen Verbesserungen an. Unterstützt MW-Modifikationen, erweiterte Zusammenarbeit mit Metakontakten.
+de.NicerClistDescription=Zeigt Kontakte, Ereignisbenachrichtigungen und Protokollstatus an.
+de.MessageWinDescription=Nachrichtensitzungsplugins.
+de.StdMsgDescription=Grundlegende Nachrichten- und Gruppenchat-Kernmodule. Keine Tabunterstützung.
+de.ScriverDescription=Einfaches und leichtgewichtiges Nachrichtenplugin.
+de.TabsrmmDescription=Erweitertes Nachrichten- und Gruppenchatmodul für Miranda NG. Unterstützt Skins.
+de.DBXDescription=Verschiedene Datenbanktreiber.
+de.MMAPDescription=Stellt Miranda-Datenbankunterstützung bereit: globale Einstellungen, Kontakte, Verlauf, Per-Kontakt-Einstellungen. (Empfohlen.)
+de.DBX_3xDescription=Stellt Miranda-Datenbankunterstützung bereit: globale Einstellungen, Kontakte, Verlauf, Per-Kontakt-Einstellungen.
+de.LangDescription=Sprachdateien für Miranda NG.
+de.LangRussianDescription=Übersetzung der Miranda-NG-Benutzeroberfläche ins Russische.
+de.LangCzechDescription=Übersetzung der Miranda-NG-Benutzeroberfläche ins Tschechische.
+de.LangPolishDescription=Übersetzung der Miranda-NG-Benutzeroberfläche ins Polnische.
+de.LangGermanDescription=Übersetzung der Miranda-NG-Benutzeroberfläche ins Deutsche.
+de.LangEnglishDescription=Original-Miranda-NG-Benutzeroberfläche auf Englisch.
 
 [Languages]
 Name: "en"; MessagesFile: "compiler:Default.isl"
