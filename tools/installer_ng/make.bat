@@ -1,4 +1,8 @@
 @echo off
+rem Get version
+for /F "tokens=1,2,3 delims= " %%i in (..\..\build\build.no) do set MirVer=%%i.%%j.%%k
+rem end
+
 rem Create directories and copy script
 mkdir tmp
 mkdir InnoNG_32
@@ -53,11 +57,11 @@ rem end
 
 rem Make
 if defined ProgramFiles(x86) (
-	"%ProgramFiles(x86)%\Inno Setup 5\ISCC.exe" /Dptx86 /O"Output" "InnoNG_32\MirandaNG.iss"
-	"%ProgramFiles(x86)%\Inno Setup 5\ISCC.exe" /O"Output" "InnoNG_64\MirandaNG.iss"
+	"%ProgramFiles(x86)%\Inno Setup 5\ISCC.exe" /Dptx86 /DAppVer=%MirVer% /O"Output" "InnoNG_32\MirandaNG.iss"
+	"%ProgramFiles(x86)%\Inno Setup 5\ISCC.exe" /DAppVer=%MirVer% /O"Output" "InnoNG_64\MirandaNG.iss"
 ) else (
-	"%ProgramFiles%\Inno Setup 5\ISCC.exe" /Dptx86 /O"Output" "InnoNG_32\MirandaNG.iss"
-	"%ProgramFiles%\Inno Setup 5\ISCC.exe" /O"Output" "InnoNG_64\MirandaNG.iss"
+	"%ProgramFiles%\Inno Setup 5\ISCC.exe" /Dptx86 /DAppVer=%MirVer% /O"Output" "InnoNG_32\MirandaNG.iss"
+	"%ProgramFiles%\Inno Setup 5\ISCC.exe" /DAppVer=%MirVer% /O"Output" "InnoNG_64\MirandaNG.iss"
 )
 rem end
 

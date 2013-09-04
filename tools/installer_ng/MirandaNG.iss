@@ -19,7 +19,7 @@
 #endif
 
 [Setup]
-AppVersion=0.94.5
+AppVersion={#AppVer}
 AppName=Miranda NG
 AppVerName=Miranda NG {#SetupSetting("AppVersion")}
 AppPublisher=Miranda NG Team
