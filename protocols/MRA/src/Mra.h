@@ -81,7 +81,6 @@
 #include "Sdk/MemoryFind.h"
 #include "Sdk/MemoryFindByte.h"
 #include "Sdk/BuffToLowerCase.h"
-#include "Sdk/StrToNum.h"
 #include "Sdk/StrHexToNum.h"
 #include "Sdk/timefuncs.h"
 #include "Sdk/InternetTime.h"
