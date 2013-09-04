@@ -65,3 +65,5 @@ if defined ProgramFiles(x86) (
 	"%ProgramFiles%\Inno Setup 5\ISCC.exe" /O"Output" "InnoNG_64\MirandaNG.iss"
 )
 rem end
+
+call cleanup.bat

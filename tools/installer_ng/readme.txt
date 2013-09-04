@@ -8,5 +8,3 @@
 3. Run make.bat
 
 4. Collect the compiled installer files from Output folder
-
-5. Run cleanup.bat if you want to delete all the temporary files
