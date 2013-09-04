@@ -51,27 +51,6 @@ static LPCSTR lpcszenmMonthEnum[13]=	{"---","Jan","Feb","Mar","Apr","May","Jun",
 static LPCSTR lpcszenmDayOfWeakEnum[7]=	{"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
 
 #define CRLF "\r\n"
-#define LF "\n"
-//WSP++
-#define LWSHT "\r\n\t"
-#define LWSSP "\r\n "
-//WSP--
-
-//FWS++
-#define FWSHT LWSHT
-#define FWSSP LWSSP
-//FWS--
-
-#define SEPARATOR "\r\n\r\n"
-
-
-//DWORD	InternetTimeGetTime	(LPCSTR lpszTime,size_t dwTimeSize,INTERNET_TIME *pitTime);
-//BOOL	SkeepSPWSP			(LPCSTR lpszBuff,size_t dwBuffSize,LPSTR *plpszRetBuff,size_t *pdwRetBuffSize);
-//BOOL	WSP2SP				(LPCSTR lpszBuff,size_t dwBuffSize,LPSTR lpszRetBuff,size_t *pdwRetBuffSize);
-
-
-
-
 
 __inline BOOL SkeepSPWSP(LPCSTR lpszBuff,size_t dwBuffSize,LPSTR *plpszRetBuff,size_t *pdwRetBuffSize)
 {
