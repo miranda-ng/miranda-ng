@@ -67,7 +67,7 @@ void CJabberDlgPepBase::OnInitDialog()
 	SetTimer(m_hwnd, 1, 1000, NULL);
 
 	TCHAR buf[128];
-	mir_sntprintf(buf, SIZEOF(buf), _T("%s (%d)"), TranslateT("OK"), m_time);
+	mir_sntprintf(buf, SIZEOF(buf), TranslateT("OK (%d)"), m_time);
 	m_btnOk.SetText(buf);
 }
 
@@ -88,7 +88,7 @@ INT_PTR CJabberDlgPepBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_TIMER:
 		if (wParam == 1) {
 			TCHAR buf[128];
-			mir_sntprintf(buf, SIZEOF(buf), _T("%s (%d)"), TranslateT("OK"), --m_time);
+			mir_sntprintf(buf, SIZEOF(buf), TranslateT("OK (%d)"), --m_time);
 			m_btnOk.SetText(buf);
 
 			if (m_time < 0) {

@@ -348,7 +348,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 						//delete
 						TCHAR msgText[128];
 
-						mir_sntprintf(msgText, SIZEOF(msgText), _T("%s %s?"), TranslateT("Removing"), text);
+						mir_sntprintf(msgText, SIZEOF(msgText), TranslateT("Removing %s?"), text);
 						if (MessageBox(hwndDlg, msgText, dat->type2str(), MB_YESNO|MB_SETFOREGROUND) == IDYES) {
 							dat->ppro->DeleteMucListItem(dat, (TCHAR*)lvi.lParam);
 							mir_free((void *)lvi.lParam);

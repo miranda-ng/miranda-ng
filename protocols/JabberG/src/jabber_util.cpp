@@ -1272,7 +1272,7 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		{
 			SetTimer(hwndDlg, 1001, 1000, NULL);
 			TCHAR buf[128];
-			mir_sntprintf(buf, SIZEOF(buf), _T("%s (%d)"), TranslateT("OK"), params->timeout);
+			mir_sntprintf(buf, SIZEOF(buf), TranslateT("OK (%d)"), params->timeout);
 			SetDlgItemText(hwndDlg, IDOK, buf);
 		}
 
@@ -1293,7 +1293,7 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			case 1001:
 			{
 				TCHAR buf[128];
-				mir_sntprintf(buf, SIZEOF(buf), _T("%s (%d)"), TranslateT("OK"), --params->timeout);
+				mir_sntprintf(buf, SIZEOF(buf), TranslateT("OK (%d)"), --params->timeout);
 				SetDlgItemText(hwndDlg, IDOK, buf);
 
 				if (params->timeout < 0)

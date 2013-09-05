@@ -830,7 +830,7 @@ static VOID CALLBACK JabberGroupchatChangeNickname(void* arg)
 		szBuffer[ 0 ] = _T('\0');
 
 		TCHAR *roomName = item->name ? item->name : item->jid;
-		mir_sntprintf(szCaption, SIZEOF(szCaption), _T("%s <%s>"), TranslateT("Change nickname in"), roomName);
+		mir_sntprintf(szCaption, SIZEOF(szCaption), TranslateT("Change nickname in <%s>"), roomName);
 		if (item->nick)
 			mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s"), item->nick);
 
@@ -1254,7 +1254,7 @@ public:
 		CSuper::OnInitDialog();
 
 		TCHAR buf[256];
-		mir_sntprintf(buf, SIZEOF(buf), _T("%s\n%s"), m_info->roomJid, TranslateT("Incoming groupchat invitation."));
+		mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s\nIncoming groupchat invitation."), m_info->roomJid);
 		SetDlgItemText(m_hwnd, IDC_HEADERBAR, buf);
 
 		SetDlgItemText(m_hwnd, IDC_FROM, m_info->from);

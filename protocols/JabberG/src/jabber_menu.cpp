@@ -1091,7 +1091,7 @@ int CJabberProto::OnProcessSrmmIconClick(WPARAM wParam, LPARAM lParam)
 	HMENU hMenu = CreatePopupMenu();
 	TCHAR buf[256];
 
-	mir_sntprintf(buf, SIZEOF(buf), _T("%s (%s)"), TranslateT("Last active"),
+	mir_sntprintf(buf, SIZEOF(buf), TranslateT("Last active (%s)"),
 		LI->pLastSeenResource ? LI->pLastSeenResource->resourceName : TranslateT("No activity yet, use server's choice"));
 	AppendMenu(hMenu, MF_STRING, MENUITEM_LASTSEEN, buf);
 

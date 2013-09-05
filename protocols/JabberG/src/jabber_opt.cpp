@@ -609,7 +609,7 @@ private:
 	void btnUnregister_OnClick(CCtrlButton *)
 	{
 		int res = MessageBox(NULL,
-			TranslateT("This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?"),
+			TranslateT("This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?"),
 			TranslateT("Account removal warning"), MB_YESNOCANCEL);
 
 		if (res == IDYES)

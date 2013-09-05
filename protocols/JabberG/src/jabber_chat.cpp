@@ -203,7 +203,7 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, JABBER_RESOURCE_
 	switch (type) {
 	case INFO_BAN:
 		if (m_options.GcLogBans)
-			mir_sntprintf(buf, SIZEOF(buf), TranslateT("User %s in now banned."), user->resourceName);
+			mir_sntprintf(buf, SIZEOF(buf), TranslateT("User %s is now banned."), user->resourceName);
 		break;
 
 	case INFO_STATUS:
@@ -749,7 +749,7 @@ public:
 		CSuper::OnInitDialog();
 
 		TCHAR buf[256];
-		mir_sntprintf(buf, SIZEOF(buf), _T("%s\n%s"), m_room, TranslateT("Send groupchat invitation."));
+		mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s\nSend groupchat invitation."), m_room);
 		SetDlgItemText(m_hwnd, IDC_HEADERBAR, buf);
 		WindowSetIcon(m_hwnd, m_proto, "group");
 
@@ -787,7 +787,7 @@ public:
 		CLCINFOITEM cii = {0};
 		cii.cbSize = sizeof(cii);
 		cii.flags = CLCIIF_CHECKBOX;
-		mir_sntprintf(buf, SIZEOF(buf), _T("%s (%s)"), jidData->jid, TranslateT("not on roster"));
+		mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s (not on roster)"), jidData->jid);
 		cii.pszText = buf;
 		jidData->hItem = SendDlgItemMessage(m_hwnd,IDC_CLIST,CLM_ADDINFOITEM,0,(LPARAM)&cii);
 		SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETCHECKMARK, jidData->hItem, 1);
@@ -888,10 +888,10 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 			SendDlgItemMessage(hwndDlg, IDC_ICO_STATUS, STM_SETICON, (WPARAM)LoadSkinnedProtoIcon(dat->ppro->m_szModuleName, dat->him->status), 0);
 
-			mir_sntprintf(buf, SIZEOF(buf), _T("%s %s"), TranslateT("Member Info:"), dat->him->resourceName);
+			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Member Info: %s"), dat->him->resourceName);
 			SetWindowText(hwndDlg, buf);
 
-			mir_sntprintf(buf, SIZEOF(buf), _T("%s\n%s %s %s"), TranslateT("Member Information"), dat->him->resourceName, TranslateT("from"), dat->item->jid);
+			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Member Information\n%s from %s"), dat->him->resourceName, dat->item->jid);
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, buf);
 
 			SetDlgItemText(hwndDlg, IDC_TXT_NICK, dat->him->resourceName);
@@ -1102,7 +1102,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 		if ((GetTickCount() - dwLastBanKickTime) > BAN_KICK_INTERVAL) {
 			dwLastBanKickTime = GetTickCount();
 			mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s: "), me->resourceName);
-			mir_sntprintf(szTitle, SIZEOF(szTitle), _T("%s %s"), TranslateT("Reason to kick"), him->resourceName);
+			mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("Reason to kick %s"), him->resourceName);
 			TCHAR *resourceName_copy = mir_tstrdup(him->resourceName); // copy resource name to prevent possible crash if user list rebuilds
 			if (ppro->EnterString(szBuffer, SIZEOF(szBuffer), szTitle, JES_MULTINE, "gcReason_"))
 				ppro->m_ThreadInfo->send(
@@ -1181,7 +1181,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 				JabberStripJid(him->szRealJid, szVictimBareJid, SIZEOF(szVictimBareJid));
 
 				mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s: "), me->resourceName);
-				mir_sntprintf(szTitle, SIZEOF(szTitle), _T("%s %s"), TranslateT("Reason to ban"), him->resourceName);
+				mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("Reason to ban %s"), him->resourceName);
 
 				if (ppro->EnterString(szBuffer, SIZEOF(szBuffer), szTitle, JES_MULTINE, "gcReason_")) {
 					ppro->m_ThreadInfo->send(
@@ -1310,7 +1310,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 		break;
 
 	case IDM_TOPIC:
-		mir_sntprintf(szCaption, SIZEOF(szCaption), _T("%s %s"), TranslateT("Set topic for"), gch->pDest->ptszID);
+		mir_sntprintf(szCaption, SIZEOF(szCaption), TranslateT("Set topic for %s"), gch->pDest->ptszID);
 		{	
 			size_t cbLen = 2048 + lstrlen(item->itemResource.statusMessage)*2;
 			ptrT ptszBuf((TCHAR*)mir_alloc( sizeof(TCHAR) * cbLen));
@@ -1338,7 +1338,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 		break;
 
 	case IDM_NICK:
-		mir_sntprintf(szCaption, SIZEOF(szCaption), _T("%s %s"), TranslateT("Change nickname in"), gch->pDest->ptszID);
+		mir_sntprintf(szCaption, SIZEOF(szCaption), TranslateT("Change nickname in %s"), gch->pDest->ptszID);
 		if (item->nick)
 			mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s"), item->nick);
 		if (ppro->EnterString(szBuffer, SIZEOF(szBuffer), szCaption, JES_COMBO, "gcNick_")) {
@@ -1382,7 +1382,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 		break;
 	}
 	case IDM_DESTROY:
-		mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s %s"), TranslateT("Reason to destroy"), gch->pDest->ptszID);
+		mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("Reason to destroy %s"), gch->pDest->ptszID);
 		if ( !ppro->EnterString(szBuffer, SIZEOF(szBuffer), NULL, JES_MULTINE, "gcReason_"))
 			break;
 

@@ -260,7 +260,7 @@ void CJabberProto::OnIqResultGetAuth(HXML iqNode)
  		m_ThreadInfo->send("</stream:stream>");
 
 		TCHAR text[128];
-		mir_sntprintf(text, SIZEOF(text), _T("%s %s."), TranslateT("Authentication failed for"), m_ThreadInfo->username);
+		mir_sntprintf(text, SIZEOF(text), TranslateT("Authentication failed for %s."), m_ThreadInfo->username);
 		MsgPopup(NULL, text, TranslateT("Jabber Authentication"));
 		JLoginFailed(LOGINERR_WRONGPASSWORD);
 		m_ThreadInfo = NULL;	// To disallow auto reconnect
@@ -289,7 +289,7 @@ void CJabberProto::OnIqResultSetAuth(HXML iqNode)
 		TCHAR text[128];
 
 		m_ThreadInfo->send("</stream:stream>");
-		mir_sntprintf(text, SIZEOF(text), _T("%s %s."), TranslateT("Authentication failed for"), m_ThreadInfo->username);
+		mir_sntprintf(text, SIZEOF(text), TranslateT("Authentication failed for %s."), m_ThreadInfo->username);
 		MsgPopup(NULL, text, TranslateT("Jabber Authentication"));
 		JLoginFailed(LOGINERR_WRONGPASSWORD);
 		m_ThreadInfo = NULL;	// To disallow auto reconnect
