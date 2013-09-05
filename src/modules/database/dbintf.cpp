@@ -47,6 +47,11 @@ static INT_PTR srvGetContactCount(WPARAM, LPARAM)
 
 static INT_PTR srvDeleteContact(WPARAM wParam, LPARAM)
 {
+	DBVARIANT dbv = {0};
+	if ( !db_get_ts((HANDLE)wParam, "ContactPhoto", "File", &dbv)) {
+		DeleteFile(dbv.ptszVal);
+		db_free(&dbv);
+	}
 	return (currDb) ? currDb->DeleteContact((HANDLE)wParam) : 0;
 }
 
