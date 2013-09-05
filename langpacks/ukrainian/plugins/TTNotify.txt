@@ -38,7 +38,7 @@
 Прозорий вхід
 [Double click on tooltip]
 Подвійний клік:
-[Shows/Hides CList]
+[Shows/Hides contact list]
 Список контактів
 [Opens message dialog]
 Вікно повідомлень
@@ -60,7 +60,7 @@
 Інший статус
 [is]
 тепер
-[Choose contacts...]
+[Choose contacts]
 Виберіть контакти
 [Allow tooltip notifications for the following users:]
 Увімкнути сповіщення для зазначених контактів:

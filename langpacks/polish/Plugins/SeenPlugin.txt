@@ -32,7 +32,7 @@ Ignoruj rozłączające się kontakty
 Włącz funkcję "Przegapieni"
 [Count times]
 Licz ile razy
-[Protocols to watch:]
+[Accounts to watch:]
 Protokoły do obserwowania:
 [Use popups]
 Użyj popup

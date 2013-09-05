@@ -233,8 +233,6 @@ Wystąpił błąd podczas otwierania pliku lokalnego.\nAnulowanie wysyłki pliku
 Wystąpił błąd podczas inicjalizacji libcurl.\nAnulowanie wysyłki pliku...
 [FTP error occurred.\n%s]
 Wystąpił błąd FTP.\n%s
-[WAITTING...]
-CZEKAJ...
 [Download link:]
 Link do pobrania pliku:
 [Do you really want to cancel running upload?]

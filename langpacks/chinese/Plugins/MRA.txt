@@ -131,7 +131,6 @@
 [Grant authorization]
 准许授权
 ;file \protocols\MRA\src\MraFilesQueue.cpp
-;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 ;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
 主菜单

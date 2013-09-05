@@ -447,10 +447,6 @@
 切换声音
 [Minimize contact list]
 最小化联系人列表
-[tabSRMM session list]
-tabSRMM 会话列表
-[tabSRMM Menu]
-tabSRMM 菜单
 [Select view mode]
 选择查看模式
 [Clear view mode]

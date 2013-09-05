@@ -10,14 +10,6 @@
 Sobre o CList Nicer+
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
 [Clist Nicer+]
 Clist Nicer+
 [Version]
@@ -26,12 +18,6 @@ Versão
 Excluir Contato
 [No]
 Não
-[No]
-Não
-[No]
-Não
-[Yes]
-Sim
 [Yes]
 Sim
 [Hide from list only, in order to keep their history and ignore/visibility settings]
@@ -495,10 +481,6 @@ Abrir Preferências
 Alternar sons
 [Minimize contact list]
 Minimizar a lista de contatos
-[tabSRMM session list]
-lista de sessões tabSRMM
-[tabSRMM Menu]
-Menu tabSRMM
 [Select view mode]
 Selecione o modo de exibição
 [Clear view mode]

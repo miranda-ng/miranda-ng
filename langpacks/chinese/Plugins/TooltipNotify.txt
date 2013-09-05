@@ -36,7 +36,7 @@
 在线事件持续时间 x2
 [Double click on tooltip]
 双击工具提示
-[Shows/Hides CList]
+[Shows/Hides contact list]
 显示/隐藏联系人列表
 [Opens message dialog]
 打开消息对话框

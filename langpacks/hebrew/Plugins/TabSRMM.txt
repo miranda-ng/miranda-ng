@@ -698,3 +698,7 @@ IEView כפה
 כינוי
 [minutes]
 דקות
+[tabSRMM session list]
+רשימת חלונות הודעה
+[tabSRMM Menu]
+TabSRMM תפריט

@@ -449,10 +449,6 @@ Miranda を非表示
 音声の切り替え
 [Minimize contact list]
 コンタクトリストを最小化
-[tabSRMM session list]
-tabSRMMセッションリスト
-[tabSRMM Menu]
-tabSRMMメニュー
 [Select view mode]
 表示モードの選択
 [Clear view mode]

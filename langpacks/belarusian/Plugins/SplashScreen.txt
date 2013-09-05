@@ -16,8 +16,6 @@
 Паказваць выпадковую застаўку
 [Play sound]
 Прайграць гук
-[Loop sound]
-Паўтараць гук
 [Show Miranda Version]
 Паказваць версію Miranda NG
 [Enable]

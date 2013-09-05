@@ -28,7 +28,7 @@
 启用 '错过的人' 功能
 [Count times]
 计数
-[Protocols to watch:]
+[Accounts to watch:]
 要监视协议: 
 [Use popups]
 使用弹出窗口

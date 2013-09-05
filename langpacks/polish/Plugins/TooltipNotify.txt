@@ -12,8 +12,8 @@ Pokazuje małe podpowiedzi w zasobniku sytemowym o zmianach statusu kontaktów.
 Zaznacz protokoły
 [OK]
 OK
-[Choose contacts...]
-Wybierz kontakt...
+[Choose contacts]
+Wybierz kontakt
 [Allow tooltip notifications for the following users:]
 Pozwól na powiadamianie dla użytkowników:
 [Cancel]
@@ -46,7 +46,7 @@ ms
 x2 dla dostępnych zdarzeń
 [Double click on tooltip]
 Opcje dwukliku
-[Shows/Hides CList]
+[Shows/Hides contact list]
 Pokaż/ukryj listę kontaktów
 [Opens message dialog]
 Otwórz okno rozmowy

@@ -183,8 +183,6 @@ FTP 文件 - 选择一个目录
 初始化 libcurl 时发生错误.\n文件上传中止...
 [FTP error occurred.\n%s]
 FTP 发生错误.\n%s
-[WAITTING...]
-等待中...
 [Download link:]
 下载地址:
 [Do you really want to cancel running upload?]

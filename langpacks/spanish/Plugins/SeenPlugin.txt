@@ -28,8 +28,8 @@ No haga caso de contactos va] en línea
 característica Habilitar 'perdidas Unos "
 [Count times]
 Conde veces
-[Protocols to watch:]
-Protocolos a seguir:
+[Accounts to watch:]
+Cuentas a seguir:
 [Use popups]
 Utilice pop-ups
 [Text]

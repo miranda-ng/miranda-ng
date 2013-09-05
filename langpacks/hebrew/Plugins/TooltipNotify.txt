@@ -28,7 +28,7 @@
 משך כפול 2 למצב מחובר
 [Double click on tooltip]
 דאבל קליק על הסרגל
-[Shows/Hides CList]
+[Shows/Hides contact list]
 הראה/הסתר רשימה
 [Opens message dialog]
 פותח חלון שיחה

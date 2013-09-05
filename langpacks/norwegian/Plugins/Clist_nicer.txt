@@ -439,10 +439,6 @@ Finn og legg til kontakter
 Bytter lyder
 [Minimize contact list]
 Minimer kontaktlisten
-[tabSRMM session list]
-tabSRMM øktliste
-[tabSRMM Menu]
-tabSRMM Meny
 [Select view mode]
 Velg filtermodus
 [Clear view mode]

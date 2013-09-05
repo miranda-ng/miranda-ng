@@ -1094,6 +1094,10 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Іншае
 [TABSRMM: Typing]
 TABSRMM: Набірае
+[tabSRMM session list]
+Спіс сесій tabSRMM
+[tabSRMM Menu]
+Меню tabSRMM
 [&Messaging settings...]
 Налады гутарак
 [&Send later job list...]

@@ -421,10 +421,6 @@ Ouvrir les préférences
 Basculer le son
 [Minimize contact list]
 Minimiser la liste de contact
-[tabSRMM session list]
-Liste des sessions tabSRMM
-[tabSRMM Menu]
-Menu tabSRMM
 [Select view mode]
 Sélectionner mode d'affichage
 [Clear view mode]

@@ -26,7 +26,7 @@ Ignora i contatti che vanno Offline
 Attiva il "Ti sei perso..."
 [Count times]
 Conta le volte
-[Protocols to watch:]
+[Accounts to watch:]
 Protocolli da analizzare:
 [Text]
 Testo

@@ -142,7 +142,7 @@
 
 [Unreasonably long module name, skipping]
 
-[Module name '%s' is not unique: %d duplicates found)]
+[Module name '%s' is not unique: %d duplicates found]
 
 [Invalid module name offset, skipping data]
 

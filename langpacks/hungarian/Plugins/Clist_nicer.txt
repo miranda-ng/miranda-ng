@@ -443,10 +443,6 @@ Beállítások megnyitása
 Hang ki/bekapcsolása
 [Minimize contact list]
 Partnerlista lekicsinyítése
-[tabSRMM session list]
-tabSRMM munkamenet lista
-[tabSRMM Menu]
-tabSRMM menü
 [Select view mode]
 Nézet mód kiválasztása
 [Clear view mode]

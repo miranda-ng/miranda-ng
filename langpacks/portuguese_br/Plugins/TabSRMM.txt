@@ -8,26 +8,6 @@
 ;file \plugins\TabSRMM\res\chat.rc
 [OK]
 OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[OK]
-OK
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
-[Cancel]
-Cancelar
 [Cancel]
 Cancelar
 [Show these events]
@@ -36,12 +16,8 @@ Mostrar esses eventos
 Ações
 [Messages]
 Mensagens
-[Messages]
-Mensagens
 [Nick changes]
 Alterar Apelido
-[Nick changes]
-Nick alterado
 [Users joining]
 Usuário entrou
 [Users leaving]
@@ -64,16 +40,8 @@ Notificações
 Barra de tarefas
 [Options]
 Opções
-[Options]
-Opções
-[Options]
-Opções
-[Options]
-Opções
 [Add new rooms to group:]
 Adicionar novas salas ao grupo:
-[Add new rooms to group:]
-Adicionar novas salas para o grupo
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
 Integração de bate-papo está desativada. Você pode habilitá-la aqui, você PRECISARÁ REINICIAR o Miranda depois de fazer essa mudança.\n\n Você deve desativar o plugin padrão de bate-papo quando habilitar o suporte a bate-papo em grupo aqui. Caso contrário, nenhum grupo de bate-papo irá funcionar.
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
@@ -1226,6 +1194,10 @@ Enviando
 Outros
 [TABSRMM: Typing]
 TABSRMM: digitando
+[tabSRMM session list]
+lista de sessões tabSRMM
+[tabSRMM Menu]
+Menu tabSRMM
 [&Messaging settings...]
 E definições de mensagens ...
 [&Messaging settings...]

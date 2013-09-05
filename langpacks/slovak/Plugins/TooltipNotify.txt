@@ -12,7 +12,7 @@
 
 [OK]
 OK
-[Choose contacts...]
+[Choose contacts]
 
 [Allow tooltip notifications for the following users:]
 
@@ -46,7 +46,7 @@ sek
 
 [Double click on tooltip]
 
-[Shows/Hides CList]
+[Shows/Hides contact list]
 
 [Opens message dialog]
 

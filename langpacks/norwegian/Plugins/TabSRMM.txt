@@ -1044,3 +1044,7 @@ Unik id
 Filteret kan ikke aktiveres fordi det ikke er valgt noen hendelsestyper hverken globalt eller for dette samtalerommet.
 [Event filter error]
 Hendelsesfilter feil
+[tabSRMM session list]
+tabSRMM øktliste
+[tabSRMM Menu]
+tabSRMM Meny

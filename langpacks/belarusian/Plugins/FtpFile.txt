@@ -193,8 +193,6 @@ FTP файл мэнэджар
 Адбылася памылка пры ініцыялізацыі Libcurl.\n  Спыненне загрузкі файлаў ...
 [FTP error occurred.\n%s]
 Памылка FTP.\n%s
-[WAITTING...]
-Чаканне...
 [Download link:]
 Спасылка:
 [Do you really want to cancel running upload?]

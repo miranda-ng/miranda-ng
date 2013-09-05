@@ -32,8 +32,8 @@
 
 [Count times]
 
-[Protocols to watch:]
-Протоколи за наблюдаване:
+[Accounts to watch:]
+Акаунти за наблюдаване:
 [Use popups]
 Ползване на popups
 [Title]

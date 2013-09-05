@@ -956,6 +956,10 @@ UID: %s (按 SHIFT 点击 -> 复制到剪贴板)\n点击显示用户详细信息
 其它
 [TABSRMM: Typing]
 TABSRMM: 键入中
+[tabSRMM session list]
+tabSRMM 会话列表
+[tabSRMM Menu]
+tabSRMM 菜单
 [&Messaging settings...]
 通信设置(&M)...
 [&Send later job list...]

@@ -583,10 +583,6 @@ Zmazať skupinu
 
 [Status menu]
 Menu stavov
-[tabSRMM session list]
-
-[tabSRMM Menu]
-
 [Select view mode]
 
 [Setup view modes]

@@ -12,7 +12,7 @@
 Пратаколы
 [OK]
 ОК
-[Choose contacts...]
+[Choose contacts]
 Абярыце кантакты
 [Allow tooltip notifications for the following users:]
 Уключыць апавяшчэнні для адзначаных кантактаў:
@@ -46,7 +46,7 @@
 У 2 разы даўжэй для "Далучаны"
 [Double click on tooltip]
 Падвойны клік:
-[Shows/Hides CList]
+[Shows/Hides contact list]
 Спіс кантактаў
 [Opens message dialog]
 Акно паведамленняў

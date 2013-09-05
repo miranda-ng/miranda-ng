@@ -1,7 +1,7 @@
 ﻿#muuid {2925520b-6677-4658-8bad-5661d13e4692}
 ;============================================================
 ;  File: SkypeStatusChange.dll
-;  Plugin: SkypeStatusChange
+;  Plugin: Skype status change
 ;  Authors: Dioksin
 ;============================================================
 [Skype status change according to Miranda status.]

@@ -327,10 +327,6 @@
 פתח אפשרויות
 [Minimize contact list]
 מזער רשימה
-[tabSRMM session list]
-רשימת חלונות הודעה
-[tabSRMM Menu]
-TabSRMM תפריט
 [Clear view mode]
 נקה מצב תצוגה
 ;file \plugins\Clist_nicer\src\clcopts.cpp

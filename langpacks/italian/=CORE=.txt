@@ -1,26 +1,10 @@
 ﻿;file \src\resource.rc
 [OK]
 OK
-[OK]
-OK
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
-[Cancel]
-Annulla
 [Cancel]
 Annulla
 [Add %s]
 Aggiungi %s
-[&Add]
-&Aggiungi
 [&Add]
 &Aggiungi
 [&Cancel]
@@ -33,8 +17,6 @@ Invia richiesta di autorizzazione
 Nome personalizzato:
 [Group:]
 Gruppo:
-[Options]
-Opzioni
 [Options]
 Opzioni
 [Authorization Request]

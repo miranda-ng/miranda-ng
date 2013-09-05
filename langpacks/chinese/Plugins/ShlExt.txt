@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ShlExt.dll
 ;  Plugin: Shell extension
-;  Version: 2.2.0.1
+;  Version: 2.2.0.2
 ;  Authors: Sam Kothari, Miranda NG Team
 ;============================================================
 [Problem, registration missing/deleted.]

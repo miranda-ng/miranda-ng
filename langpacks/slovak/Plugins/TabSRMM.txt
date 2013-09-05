@@ -1104,6 +1104,10 @@ Zobraziť históriu
 
 [TABSRMM: Typing]
 
+[tabSRMM session list]
+
+[tabSRMM Menu]
+
 [&Messaging settings...]
 
 [&Send later job list...]

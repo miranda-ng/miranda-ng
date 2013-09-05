@@ -1104,6 +1104,10 @@ Kontakt nie ma opisu.
 Inne
 [TABSRMM: Typing]
 Okno rozmowy: Pisanie
+[tabSRMM session list]
+Lista sesji TabSRMM
+[tabSRMM Menu]
+Menu TabSRMM
 [&Messaging settings...]
 Opcje rozmowy...
 [&Send later job list...]

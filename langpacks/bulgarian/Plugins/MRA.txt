@@ -277,9 +277,6 @@ E-поща:
 
 [Send files: requested file: %S - not found in send files list.]
 
-;file \protocols\MRA\src\MraFilesQueue_mod.cpp
-[No description given]
-Няма описание
 ;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
 Главно меню
@@ -318,7 +315,7 @@ Popups
 ;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
 
-[From: %s\r\nSubject: %s\r\n%s]
+[From: %S\r\nSubject: %S\r\n%s]
 
 [No unread mail is available\r\nTotal messages: %lu]
 
@@ -329,8 +326,6 @@ Popups
 [Set my blog status]
 
 [Writed]
-
-[Your password expired. Please reenter password in the Options dialog]
 
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]

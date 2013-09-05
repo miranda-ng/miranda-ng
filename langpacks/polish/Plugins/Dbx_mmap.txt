@@ -142,7 +142,7 @@ Przetwarzanie łańcucha nazwy modułu
 Uszkodzony łańcuch modułu, dalsze wpisy będą ignorowane 
 [Unreasonably long module name, skipping]
 Zbyt długa nazwa modułu, pomijam
-[Module name '%s' is not unique: %d duplicates found)]
+[Module name '%s' is not unique: %d duplicates found]
 Nazwa modułu "%s" nie jest unikalna: znaleziono %d duplikatów 
 [Invalid module name offset, skipping data]
 Nieprawidłowy offset nazwy modułu, pomijam dane

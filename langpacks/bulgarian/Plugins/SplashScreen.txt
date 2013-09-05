@@ -16,8 +16,6 @@
 Случаен екран
 [Play sound]
 Възпроизвеждане на звук
-[Loop sound]
-Повтаряне
 [Show Miranda Version]
 Версията на Miranda
 [Enable]

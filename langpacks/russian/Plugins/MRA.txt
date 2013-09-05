@@ -58,8 +58,8 @@
 Телефонный/SMS контакт
 [plugin connections]
 соединения плагина
-[From: %s\r\nSubject: %s\r\n%s]
-От: %s\r\nТема: %s\r\n%s
+[From: %S\r\nSubject: %S\r\n%s]
+От: %S\r\nТема: %S\r\n%s
 [Unread mail is available: %lu/%lu messages]
 Непрочитанная почта: %lu/%lu сообщений
 [No unread mail is available\r\nTotal messages: %lu]
@@ -363,5 +363,3 @@ MRA подключение
 Ответ на статус в блоге
 [Avatars' plugin connections]
 Подключение аватаров
-[Your password expired. Please reenter password in the Options dialog]
-Ваш пароль просрочен. Введите его заново в диалоге настроек

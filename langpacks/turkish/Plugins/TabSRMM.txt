@@ -636,6 +636,10 @@ Gönderilen
 Diğer
 [TABSRMM: Typing]
 TABSRMM: Yazıyor
+[tabSRMM session list]
+tabSRMM oturum listesi
+[tabSRMM Menu]
+tabSRMM Menüsü
 [&Messaging settings...]
 İ&leti ayarları...
 [Message from %s]

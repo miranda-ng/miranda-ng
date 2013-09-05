@@ -85,7 +85,6 @@ Annulla
 [Request authorization]
 Richiesta di autorizzazione
 ;file \protocols\MRA\src\MraFilesQueue.cpp
-;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 ;file \protocols\MRA\src\MraIcons.cpp
 ;file \protocols\MRA\src\MraPopUp.cpp
 [None]

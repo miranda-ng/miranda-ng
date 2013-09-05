@@ -39,7 +39,7 @@
 [Processing module name chain]
 [Module chain corrupted, further entries ignored]
 [Unreasonably long module name, skipping]
-[Module name '%s' is not unique: %d duplicates found)]
+[Module name '%s' is not unique: %d duplicates found]
 [Invalid module name offset, skipping data]
 [Settings chain corrupted, further entries ignored]
 [Infeasibly large settings blob: skipping]

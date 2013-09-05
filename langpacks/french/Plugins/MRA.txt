@@ -63,7 +63,6 @@ Demander l'autorisation
 [Grant authorization]
 Accorder l'autorisation
 ;file \protocols\MRA\src\MraFilesQueue.cpp
-;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 ;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
 Menu principal

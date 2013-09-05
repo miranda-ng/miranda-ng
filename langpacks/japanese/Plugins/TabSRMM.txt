@@ -1816,3 +1816,7 @@ Voiced
 グローバルもしくはこのチャットルームのいずれにもイベントタイプが選択されていないため , フィルターは有効にできません。
 [Event filter error]
 イベントフィルターエラー
+[tabSRMM session list]
+tabSRMMセッションリスト
+[tabSRMM Menu]
+tabSRMMメニュー

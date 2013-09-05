@@ -16,8 +16,6 @@
 
 [Play sound]
 
-[Loop sound]
-
 [Show Miranda Version]
 
 [Enable]

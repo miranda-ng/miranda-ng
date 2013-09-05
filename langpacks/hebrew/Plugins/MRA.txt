@@ -47,7 +47,6 @@
 [Grant authorization]
 הענק אישור
 ;file \protocols\MRA\src\MraFilesQueue.cpp
-;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 ;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
 תפריט ראשי

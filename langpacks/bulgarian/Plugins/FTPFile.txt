@@ -233,8 +233,6 @@ FTP File: Изберете папка
 Възникна грешка при
 [FTP error occurred.\n%s]
 Възникна FTP грешка.\n%s
-[WAITTING...]
-ИЗЧАКВАНЕ...
 [Download link:]
 Връзка за сваляне:
 [Do you really want to cancel running upload?]

@@ -583,10 +583,6 @@ Włącz/wyłącz dźwięki
 Minimalizuj listę kontaktów
 [Status menu]
 Menu statusu
-[tabSRMM session list]
-Lista sesji TabSRMM
-[tabSRMM Menu]
-Menu TabSRMM
 [Select view mode]
 Wybierz tryb widoku
 [Setup view modes]

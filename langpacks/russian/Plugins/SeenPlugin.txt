@@ -70,8 +70,8 @@
 Максимальный размер
 [Variable list]
 Переменные
-[Protocols to watch:]
-Протоколы для наблюдения:
+[Accounts to watch:]
+Учетные записи для наблюдения:
 [Alert when user status changes]
 Предупреждать при изменении статуса
 [Logs when a user was last seen online and which users were online while you were away.]

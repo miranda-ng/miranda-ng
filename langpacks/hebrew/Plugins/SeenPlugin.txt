@@ -22,7 +22,7 @@
 רשימת אפשרויות
 [Ignore contacts going offline]
 התעלם מאנשי קשר המתנתקים
-[Protocols to watch:]
+[Accounts to watch:]
 :פרוטוקולים להתייחסות
 [Text]
 טקסט

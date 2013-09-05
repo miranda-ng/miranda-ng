@@ -16,8 +16,6 @@ Pokaż ekran powitalny
 Pokaż losowy ekran powitalny
 [Play sound]
 Odtwarzaj dźwięk
-[Loop sound]
-Zapętl dźwięk alarmu
 [Show Miranda Version]
 Pokaż wersję Mirandy
 [Enable]

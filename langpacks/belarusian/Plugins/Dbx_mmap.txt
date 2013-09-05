@@ -142,8 +142,8 @@
 Ланцужок плагінаў пашкоджаны, наступныя дадзеныя ігнараваны
 [Unreasonably long module name, skipping]
 Занадта доўгае імя плагіна, прапускаю
-[Module name '%s' is not unique: %d duplicates found)]
-Імя плагіна '%s' не паўторана: знойдзена %d дублікатаў)
+[Module name '%s' is not unique: %d duplicates found]
+Імя плагіна '%s' не паўторана: знойдзена %d дублікатаў
 [Invalid module name offset, skipping data]
 Няправільнае зрушэнне імя плагіна, прапушчаны дадзеныя
 ;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp

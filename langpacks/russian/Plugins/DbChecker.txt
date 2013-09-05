@@ -144,7 +144,7 @@
 Базы Miranda NG (*.dat)
 [Module chain corrupted, further entries ignored]
 Цепочка модулей повреждена, последующие данные игнорированы
-[Module name '%s' is not unique: %d duplicates found)]
+[Module name '%s' is not unique: %d duplicates found]
 Имя модуля '%s' не уникально: найдено %d дубликатов)
 [More than one user contact: keeping only first]
 Больше чем один контакт пользователя: сохраняем только первый

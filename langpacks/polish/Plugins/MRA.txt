@@ -277,9 +277,6 @@ Proszę o autoryzację
 
 [Send files: requested file: %S - not found in send files list.]
 
-;file \protocols\MRA\src\MraFilesQueue_mod.cpp
-[No description given]
-Brak opisu
 ;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
 Menu główne
@@ -318,8 +315,8 @@ Adres e-mail
 ;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
 
-[From: %s\r\nSubject: %s\r\n%s]
-Od: %s\r\nTemat: %s\r\n%s
+[From: %S\r\nSubject: %S\r\n%s]
+Od: %S\r\nTemat: %S\r\n%s
 [No unread mail is available\r\nTotal messages: %lu]
 
 [Closing in]
@@ -329,8 +326,6 @@ Zamykanie w
 [Set my blog status]
 
 [Writed]
-
-[Your password expired. Please reenter password in the Options dialog]
 
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]

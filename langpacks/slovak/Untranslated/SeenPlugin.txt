@@ -11,7 +11,7 @@
 [Ignore contacts going offline]
 [Enable 'Missed Ones' feature]
 [Count times]
-[Protocols to watch:]
+[Accounts to watch:]
 [Use popups]
 [Title]
 [Popup Colors]

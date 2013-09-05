@@ -33,7 +33,7 @@ Emituj dźwięk
 Wirtualna ochrona zawiodła. Kod %d\nSpróbuj skontaktować się z autorem
 [MsgBox]
 Okienka
-[Hmm. Something goes wrong. I can't write into the memory.\nAnd as u can c, there are no any exception raised..\nTry to call the author]
+[Hmm. Something goes wrong. I can't write into the memory.\nAnd as u can c, there are no any exception raised...\nTry to call the author]
 Hmm. Coś idzie nie tak. Nie mogę pisać do pamięci.\nI jak widzisz nie wygenerowano żadnych wyjątków.\nSpróbuj skontaktować się z autorem.
 [MessagePopup]
 MessagePopup

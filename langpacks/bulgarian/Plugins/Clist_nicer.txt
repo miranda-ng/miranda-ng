@@ -583,10 +583,6 @@ URL събития
 Минимизиране на списъка с контакти
 [Status menu]
 Меню на състоянието
-[tabSRMM session list]
-tabSRMM списък на разговорите
-[tabSRMM Menu]
-tabSRMM Меню
 [Select view mode]
 Изберете режим за преглед
 [Setup view modes]

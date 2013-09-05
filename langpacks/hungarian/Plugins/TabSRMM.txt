@@ -622,6 +622,10 @@ Kimenõ
 Egyéb
 [TABSRMM: Typing]
 TABSRMM: Gépel
+[tabSRMM session list]
+tabSRMM munkamenet lista
+[tabSRMM Menu]
+tabSRMM menü
 [&Messaging settings...]
 &Üzenetbeállítások...
 [Message from %s]

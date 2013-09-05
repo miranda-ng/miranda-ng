@@ -1104,6 +1104,10 @@ UID: %s (SHIFT+ляв бутон = копиране в клипборда)\nЛя
 Друго
 [TABSRMM: Typing]
 TABSRMM: Писане
+[tabSRMM session list]
+tabSRMM списък на разговорите
+[tabSRMM Menu]
+tabSRMM Меню
 [&Messaging settings...]
 Настройки на разговорите...
 [&Send later job list...]

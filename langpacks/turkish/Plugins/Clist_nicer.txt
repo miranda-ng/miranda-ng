@@ -459,10 +459,6 @@ Ayarları aç
 Sesleri aç/kapa
 [Minimize contact list]
 Kişi listesini küçült
-[tabSRMM session list]
-tabSRMM oturum listesi
-[tabSRMM Menu]
-tabSRMM Menüsü
 [Select view mode]
 Görünüm kipini seç
 [Clear view mode]

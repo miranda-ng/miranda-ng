@@ -1162,3 +1162,7 @@ ID unique
 heures
 [Event filter error]
 Erreur dans le filtre d'évènements
+[tabSRMM session list]
+Liste des sessions tabSRMM
+[tabSRMM Menu]
+Menu tabSRMM

@@ -6,8 +6,8 @@
 ;  Authors: perf
 ;============================================================
 ;file \plugins\TooltipNotify\res\main.rc
-[Choose contacts...]
-Choix des contacts...
+[Choose contacts]
+Choix des contacts
 [Allow tooltip notifications for the following users:]
 Autoriser les bulle d'info pour les contacts suivants :
 [Cancel]
@@ -34,8 +34,8 @@ Voir la bulle sur
 Doubler la durée de 'En ligne'
 [Double click on tooltip]
 Action du double-clic
-[Shows/Hides CList]
-Voir/Cacher la CList
+[Shows/Hides contact list]
+Voir/Cacher la liste de contacts
 [Opens message dialog]
 Afficher le message
 [Obey 'Suppress online notification' settings]

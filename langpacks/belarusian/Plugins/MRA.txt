@@ -275,9 +275,6 @@ xСтатус "%s"
 Адпраўка файла: немагчыма адкрыць файл %s, памылка
 [Send files: requested file: %S - not found in send files list.]
 Адпраўка файлаў: запытаны файл: %S - не знойдзены сярод файлаў падрыхтаваных да адпраўкі
-;file \protocols\MRA\src\MraFilesQueue_mod.cpp
-[No description given]
-Без апісання
 ;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
 Галоўнае меню
@@ -316,8 +313,8 @@ Mail.ru дадаткова
 ;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
 Непрачытаная пошта: %lu/%lu паведамленняў
-[From: %s\r\nSubject: %s\r\n%s]
-Ад: %s\r\nТэма: %s\r\n%s
+[From: %S\r\nSubject: %S\r\n%s]
+Ад: %S\r\nТэма: %S\r\n%s
 [No unread mail is available\r\nTotal messages: %lu]
 Непрачытанай пошты няма\r\nУсiх паведамленняў: %lu
 [Closing in]
