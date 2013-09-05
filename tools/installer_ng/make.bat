@@ -10,12 +10,13 @@ rem end
 rem Get archives if needed
 echo ------------------------------------------------------------------------------------
 echo ------------------------------------------------------------------------------------
-echo ------------------------------------------------------------------------------------
-echo ------------------------------------------------------------------------------------
-echo ------------------------------------------------------------------------------------
+:again
 set /p answer=Do you want to create folder structure and download new components? (Y/N):
-if %answer% == y goto download
-if %answer% == yes goto download
+if /i "%answer:~,1%" EQU "Y" goto download
+if /i "%answer:~,1%" EQU "N" goto chk32
+echo Please type Y for Yes or N for No
+goto again
+:chk32
 if not exist InnoNG_32 (goto error) else (goto chk64)
 :chk64
 if not exist InnoNG_64 (goto error) else (goto continue)
@@ -40,15 +41,14 @@ if defined ProgramFiles(x86) (
 rem end
 
 rem Cleanup
-echo -------------------------------------------------------------------------
-echo -------------------------------------------------------------------------
-echo -------------------------------------------------------------------------
-echo -------------------------------------------------------------------------
-echo -------------------------------------------------------------------------
-set /p answer=Do you wish to delete temp files and build folders? (Y/N):
-if %answer% == y goto cleanup
-if %answer% == yes goto cleanup
-goto end
+echo ------------------------------------------------------------------------------------
+echo ------------------------------------------------------------------------------------
+:again1
+set /p ans=Do you wish to delete temp files and build folders? (Y/N):
+if /i "%ans:~,1%" EQU "Y" goto cleanup
+if /i "%ans:~,1%" EQU "N" goto end
+echo Please type Y for Yes or N for No
+goto again1
 :cleanup
 echo Running cleanup!
 call cleanup.bat
