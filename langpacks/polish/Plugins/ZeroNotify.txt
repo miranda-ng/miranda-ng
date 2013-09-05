@@ -9,7 +9,7 @@
 Dodaje opcje automatycznego wyłączania powiadomień gdy protokół ma określony status.
 ;file \plugins\ZeroNotification\res\ZeroNotify.rc
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
-
+Ukryj opcję przełączania dźwięku w menu (wymaga restartu Mirandy)
 [No sounds when:]
 Brak dźwięku gdy:
 [No SysTray blink when:]

@@ -6,17 +6,17 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 [This plugin imports and creates the Yahoo groups defined in Yahoo Messenger.]
-
+Ta wtyczka importuje i tworzy grupy Yahoo zdefiniowane w Yahoo Messenger.
 ;file \plugins\YahooGroups\res\YahooGroups.rc
 [Dialog]
 Okno
 [Move yahoo contacts to groups now]
-
+Przenieś kontakty Yahoo do grup teraz
 [Move Yahoo contacts automatically on startup]
-
+Przenoś kontakty yahoo automatycznie przy starcie
 ;file \plugins\YahooGroups\src\hooked_events.cpp
 [Yahoo Groups]
-
+Grupy Yahoo
 [Plugins]
 Wtyczki
 ;file \plugins\YahooGroups\src\utils.cpp

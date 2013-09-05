@@ -6,16 +6,16 @@
 ;  Authors: Anar Ibragimoff
 ;============================================================
 [Forwards messages to some contact when you are not available.]
-
+Przekierowuje wiadomości do wybranych kontaktów, gdy jesteś niedostępny.
 ;file \plugins\YARelay\res\yaRelay.rc
 [Forward messages from...]
-
+Przekieruj wiadomości od...
 [Everyone]
-
+Każdego
 [Contact]
 Kontakt
 [Forward when your status is...]
-
+Przekierowuj, gdy twój status to...
 [Offline]
 Rozłączony
 [Online]
@@ -33,34 +33,34 @@ Porozmawiajmy
 [Invisible]
 Niewidoczny
 [Forward messages to...]
-
+Przekieruj wiadomości do...
 [Template]
 Szablon
 [%u - user nick;   %i - uin;    %t - time;   \r%d - date;   %m - message]
-
+%u- nick użytkownika;   %i - UIN;    %t - czas;   \r%d - data;   %m - wiadomość
 [Forwarding options]
-
+Opcje przekierowania
 [Split message (%m)]
-
+Podziel wiadomość (%m)
 [Send only first]
-
+Wyślij tylko pierwszą
 [Max size of split part (chars)]
-
+Maksymalny rozmiar części (znaki)
 [Mark received messages as 'read']
-
+Oznaczaj otrzymane wiadomości jako przeczytane
 [Save sent messages in recipient's history]
-
+Zachowuj  wysłane wiadomości w historii adresata
 [split parts (0 = all)]
-
+Części wysyłki (0 = wszystkie)
 [Note: Max size - it's a size of %m parameter]
-
+Uwaga: maksymalny rozmiar - to rozmiar parametru %m
 [Note: messages from this contact will not be forwarded]
-
+Uwaga: wiadomości od tego kontaktu nie będą przekierowywane
 ;file \plugins\YARelay\src\options.cpp
 [!EVERYONE!]
-
+Wszyscy
 [!DON'T FORWARD!]
-
+Nie przekazuj
 [Plugins]
 Wtyczki
 [yaRelay]

@@ -6,10 +6,10 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 [Notifies you of upcoming birthdays.]
-
+Powiadamia Cię o nadchodzących urodzinach.
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Notify of birthdays:]
-
+Powiadamiaj o urodzinach:
 [Popups]
 Popupy
 [Popup timeout:]
@@ -17,11 +17,11 @@ Czas wyświetlania:
 [Preview]
 Podgląd
 [Don't show popups for subcontacts]
-
+Nie pokazuj Popupów dla podkontaktów
 [Show popup when no birthdays are near]
 Pokaż popup kiedy nadchodzi rocznica
 [Popup mouse click]
-
+Kliknięcie myszą w Popup
 [Left]
 Lewa
 [Right]
@@ -29,27 +29,27 @@ Prawa
 [Sounds]
 Dźwięki
 [Play sounds when there are]
-
+Odgrywaj dźwięk, gdy jest
 [days or less to birthday.]
-
+dni lub mniej do urodzin
 [Start notifying]
-
+Zacznij powiadamiać
 [days in advance and]
-
+dni przed i
 [Check every]
 Sprawdzaj co
 [hours]
 godziny
 [Only notify once per day.]
-
+Powiadamiaj tylko raz dziennie
 [By default use]
-
+Domyślnie używaj
 [to save birthday data.]
-
+by zachować dane o urodzinach
 [Show]
 Pokaż
 [in birthday list window]
-
+W oknie listy urodzin
 [Dialog]
 Okno
 [Timeout:]
@@ -57,9 +57,9 @@ Wyświetlaj:
 [seconds]
 s
 [Notify for]
-
+Powiadamiaj dla
 [afterwards]
-
+po
 [In background]
 W tle
 [Birthday list]
@@ -73,7 +73,7 @@ Ustaw urodziny:
 [OK]
 OK
 [Manage anniversaries]
-
+Zarządzaj rocznicami
 [Title:]
 Nazwa:
 [Description:]
@@ -88,13 +88,13 @@ Usuń
 Nadchodzące urodziny
 ;file \plugins\WhenWasIt\src\dlg_handlers.cpp
 [Upcoming age]
-
+Nadchodzący wiek
 [Current age]
 Aktualny wiek
 [UserInfo module]
-
+Moduł UserInfo
 [Protocol module]
-
+Moduł protokołu
 [mBirthday module]
 moduł mBirthday
 [Nothing]
@@ -106,15 +106,15 @@ Okno rozmowy
 [All contacts]
 Wszystkie kontakty
 [All contacts except hidden ones]
-
+Wszystkie kontakty poza ukrytymi
 [All contacts except ignored ones]
-
+Wszystkie kontakty poza ignorowanymi
 [All contacts except hidden and ignored ones]
-
+Wszystkie kontakty poza ukrytymi i ignorowanymi
 [Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occuring today]]
-
+Ustaw opóźnienie Popupu powiadamiając o zbliżających się urodzinach.\nFormat: opóźnienie domyślne [ | opóźnienie dla urodzin mających miejsce dzisiaj]
 [Please select the module where you want the date of birth to be saved.\r\n"UserInfo" is the default location.\r\nUse "Protocol module" to make the data visible in User Details.\n"mBirthday module" uses the same module as mBirthday plugin.]
-
+Proszę wybrać moduł, w którym zapisana ma być data urodzin.\r\nDomyślną lokalizacją jest "UserInfo".\nUżyj modułu protokołu, aby data urodzin była widoczna w informacjach o użytkowniku.\r\nModuł mBirthday używa tego samego modułu co wtyczka mBirthday.
 [Set birthday for %s:]
 Ustaw urodziny dla %s:
 [%S protocol]
@@ -130,7 +130,7 @@ Protokół
 [Contact]
 Kontakt
 [DTB]
-
+DTB
 [Birthday]
 Urodziny
 [Age]
@@ -151,37 +151,37 @@ Kontakty
 [WhenWasIt]
 WhenWasIt
 [Birthday near]
-
+URodziny blisko
 [Birthday today]
 Dzisiejsze rocznice
 [Birthdays (When Was It)]
-
+Urodziny (When Was It)
 [Refresh user details]
-
+Odśwież informacje o użytkowniku
 [Import birthdays]
 Importuj urodziny
 [Export birthdays]
-
+Eksportuj urodziny
 [Add/change user &birthday]
-
+Dodaj/zmień datę urodzin
 ;file \plugins\WhenWasIt\src\icons.cpp
 [Check birthdays menu item]
 Element 'Sprawdź urodziny' w menu
 [List birthdays menu item]
-
+Element menu pokaż listę urodzin
 [Add/change birthday]
 Dodaj/zmień urodziny
 [1 day to birthday]
 1 dzień do urodzin
 [%d days to birthday]
-
+%d dni do urodzin
 [More than %d days to birthday]
-
+Więcej niż%d dni do urodzin
 [WhenWasIt birthday reminder]
-
+Przypominacz o urodzinach WhenWasIt
 ;file \plugins\WhenWasIt\src\notifiers.cpp
 [No upcoming birthdays.]
-
+Brak zbliżających się urodzin
 [%s has birthday in %d days.]
 %s ma urodziny w przeciągu %d dni.
 [%s has birthday tomorrow.]
@@ -193,7 +193,7 @@ Dodaj/zmień urodziny
 [%s had birthday yesterday.]
 %s miał(a) urodziny wczoraj.
 [%s has birthday today (Should not happen, please report).]
-
+%s ma dziś urodziny (nie powinno się zdarzyć, proszę zgłosić).
 [Birthday - %s]
 Urodziny - %s
 [He]
@@ -208,41 +208,41 @@ On/Ona
 %s\n%s właśnie powrócił %d.
 ;file \plugins\WhenWasIt\src\services.cpp
 [Starting to refresh user details]
-
+Rozpoczęcie odświeżania danych kontaktu
 [Done refreshing user details]
-
+Ukończono odświeżanie danych kontaktu
 [Could not create worker thread. Error#%d - threadID %d]
-
+Nie udało się stworzyć wątku roboczego. Error#%d - threadID %d
 [Error]
 Błąd
 [Birthdays files]
 Urodzinowe pliki
 [Please select a file to import birthdays from ...]
-
+Proszę wybrać plik, z którego mają zostać zaimportowane urodziny...
 [Importing birthdays from file: %s]
-
+Importowanie urodzin z pliku: %s
 [Done importing birthdays]
-
+Importowanie urodzin zakończone
 [All Files]
 Wszystkie pliki
 [Please select a file to export birthdays to ...]
-
+Proszę wybrać plik, do którego mają zostać wyeksportowane urodziny...
 [Exporting birthdays to file: %s]
-
+Eksportowanie urodzin do pliku: %s
 [Done exporting birthdays]
-
+Eksportowanie urodzin zakończone
 [Could not open file to import birthdays]
-
+Nie udało się otworzyć pliku, z którego mają zostać zaimportowane urodziny
 [Warning]
 Ostrzeżenie
 [Could not open file to export birthdays]
-
+Nie udało się otworzyć pliku, do którego mają zostać wyeksportowane urodziny
 [Please do not edit this file by hand. Use the export function of WhenWasIt plugin.\n]
-
+Proszę nie edytować tego pliku ręcznie i zamiast tego użyć opcji eksportowania wtyczki WhenWasIt.
 [Warning! Please do not mix Unicode and Ansi exported birthday files. You should use the same version (Ansi/Unicode) of WhenWasIt that was used to export the info.\n]
-
+Ostrzeżenie! Proszę nie mieszać wyeksportowanych plików urodzin o kodowaniu Ansi i Unicode. Powinnosię używać tej samej wersji(Ansi/Unicode) WhenWasIt, która została użyta do eksportu informacji.
 [This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n]
-
+Ten plik został wyeksportowany przy użyciu wersji Unicode WhenWasIt. Proszę używać tylko wersji Unicode do importu urodzin.
 ;file \plugins\WhenWasIt\src\services.h
 [Could not find UID '%s [%S]' in current database, skipping]
 Nie można odnaleźć UID '%s [%S]' w aktualnej bazie danych, pomijanie

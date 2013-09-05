@@ -9,11 +9,11 @@
 Yet Another Popup Plugin - Dostarcza usługi powiadomień popup dla innych wtyczek.
 ;file \plugins\YAPP\res\yapp.rc
 [Popup history]
-
+Historia Popupów
 [Close]
 Zamknij
 [Case sensitive]
-
+Wielkość liter ma znaczenie
 [Default Timeout]
 Czas oczekiwania
 [Never timeout]
@@ -43,7 +43,7 @@ Rozmiar:
 [Disable when]
 Wyłącz gdy
 [Global hover]
-
+Globalne przeciągnięcie
 [Sidebar width:]
 Boczny pasek:
 [Text indent:]
@@ -57,9 +57,9 @@ Kolor tekstu:
 [Background colour:]
 Kolor tła:
 [Set timeout]
-
+Ustaw czas oczekiwania
 [Timeout value (0 = default):]
-
+Wartość czasu oczekiwania(0 = domyślna):
 ;file \plugins\YAPP\src\icons.cpp
 [Popups are enabled]
 Popupy są włączone
@@ -118,7 +118,7 @@ Pozioma animacja
 [Vertical animate]
 Pionowa animacja
 [You cannot set a default timeout of 0.\nValue has been reset.]
-
+Nie możesz ustawić domyślnego czasu oczekiwania 0.\nWartość została zresetowana.
 [Error]
 Błąd
 [Popups]
@@ -153,4 +153,4 @@ Kopiuj tytuł do schowka
 [Copy message to clipboard]
 Kopiuj wiadomość do schowka
 [Copy timestamp to clipboard]
-
+Kopiuj czas do schowka

@@ -11,7 +11,7 @@ Powiadomienia o poczcie i przeglądarka dla Mirandy NG. Dołaczona obsługa POP3
 [OK]
 OK
 [Installed plugins]
-
+Zainstalowane wtyczki
 [Version:]
 Wersja:
 [Description:]
@@ -239,7 +239,7 @@ Naprawdę chcesz usunąć %d zaznaczonych e-maili?
 Potwierdzenie usunięcia
 ;file \plugins\YAMN\src\mails\mime.cpp
 [Translate header error]
-
+Błąd tłumaczenia nagłówka
 [Part]
 Część
 ;file \plugins\YAMN\src\proto\netlib.cpp
@@ -249,7 +249,7 @@ Połączenie %s
 [Disconnected]
 Rozłączony
 [POP3 protocol (internal)]
-
+Protokół POP3 (wewnętrzny)
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 Powiadomienia o poczcie i przeglądarka dla Mirandy NG. Dołaczona obsługa POP3
 [Found new version of account book, not compatible with this version of YAMN.]
@@ -275,7 +275,7 @@ Przeszukiwanie skrzynki
 [Reading body %s]
 Odczytytwanie treści %s
 [Reading new mail messages (%d%% done)]
-
+Czytanie nowych wiadomości email (wykonano %d%%)
 [Deleting requested mails]
 Usuwanie wybranych wiadomości
 [Deleting spam]
@@ -342,15 +342,15 @@ Czas do następnego sprawdzenia [s]: %d
 [New Account]
 Nowe konto
 [Executables]
-
+Pliki wykonywalne
 [All Files]
 Wszystkie pliki
 [Select executable used for notification]
 Wybierz plik wykonywalny używany do powiadomienia
 [Dialog box error]
-
+Błąd okna dialogowego
 [Failed]
-
+Nie powiodło się
 [Do you really want to delete this account?]
 Na prawdę chcesz usunąć to konto?
 [Delete account confirmation]

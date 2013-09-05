@@ -126,7 +126,7 @@ Port:
 [Userdetails]
 Dane kontaktu
 [dufte]
-
+niesamowite
 [Copy]
 Kopiuj
 [Enter Password]
@@ -168,7 +168,7 @@ Wyślij ID gry:
 [Statusmessage for Xfire, if this game will be started:]
 Opis statusu dla xFire, jeśli gra będzie uruchomiona:
 [Parameter:]
-
+Parametr:
 [Add a new game]
 Dodaj nową grę
 [Searching games ...]
@@ -182,21 +182,21 @@ Proszę czekać, gameini zostanie poprawnie utworzony ...
 [XFire Options]
 Opcje xFire
 [Please choose one game in the list!]
-
+Proszę wybrać jedną grę z listy
 [If you add a mod of a Xfire supported game, then you can specify what gameid will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game id and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
-
+Jeśli wybierzesz moda gry wspieranej przez Xfire, możesz określić jakie ID gry zostanie wysłane. Tak więc, gdy dodasz moda Half-Life możesz ustawić ID gry Half-Life, a gdy rozpoczniesz grę, twoi znajomi zobaczą ikonę Half-Life obok twojego kontaktu, a czas gry będzie mierzony.
 [Every game in Xfire needs an id. Use a number above the last used id to avoid problems with used ids. Every number above 10000 should be save. This id will not be sent to Xfire, when you start a game.]
-
+Każda gra w Xfire musi mieć swoje ID. Używaj liczb większych niż ostatnio użyte ID, by uniknąć problemów z używanymi ID. Każda liczba powyżej 10000 powinna być bezpieczna. To ID nie zostanie wysłane do  Xfire, gdy rozpoczniesz grę.
 [Please enter a game name.]
-
+Proszę podać nazwę gry.
 [Please enter a game id.]
-
+Proszę podać ID gry.
 [Please enter a game id above 1.]
-
+Proszę podać ID gry większe niż 1.
 [This game id is already in use.]
-
+To ID gry jest już w użyciu.
 [Please select a game exe. Note: If you dont select a launcher exe, the game exe will be used in the game start menu.]
-
+Proszę wybrać plik wykonywalny gry. Uwaga: jeśli nie wybierzesz pliku wykonywalnego uruchamiającego grę, plik wykonywalny gry zostanie użyty w menu startowym gry.
 [Supported Games]
 Wspierane gry
 [Custom game]
@@ -213,7 +213,7 @@ Nie teraz.
 [Give a guy some peace, would ya?]
 Proszę, daj mi spokój!
 [Well, I would talk to you if Miranda ICQ supported chat]
-
+hmm, chętnie bym z Tobą porozmawiał, gdyby Miranda ICQ wspierała czat.
 [That'll be the phone.]
 Muszę odebrać telefon.
 [Mmm...food.]
@@ -226,7 +226,7 @@ Błąd podczas aktualizacji xfire_games.
 [There is a new Icons.dll online, do you want to update now?]
 Dostępny jest nowy Icons.dll, czy chcesz zaktualizować teraz?
 [The Icons.dll was updated.]
-
+Icons.dll został zaktualizowany.
 [Error during Icons.dll Update.]
 Błąd podczas aktualizaji Icons.dll.
 ;file \protocols\Xfire\src\main.cpp
@@ -235,13 +235,13 @@ Ikona protokołu
 [%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
 %s (Nick: %s) zaprasza cię do klanu %s. Wiadomość: %s%s proszę przejść do XFireclan-Site aby zaakceptować zaproszenie.
 [Friends of Friends Playing]
-
+znajomi znajomych, którzy grają
 [Login failed.]
 Logowanie nieudane.
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
 Wersja protokołu jest za stara. Zmieniono aktualną wersję z %d do %d. Możesz ponownie się połączyć. 
 [The protocol version is too old. Cannot detect a new version number.]
-
+Wersja protokołu jest za stara. Nie można wykryć numeru nowszej wersji.
 [Someone loged in with your account.disconnect.]
 Ktoś zalogował się na twoje konto. Rozłączono.
 [Do you really want to add %s to your friend list?]
@@ -251,21 +251,21 @@ Dodaj mnie do swojej listy znajomych.
 [XFire is not connected.]
 xFire nie jest połączony.
 [Current Game]
-
+Obecna gra
 [My Current Game]
-
+Moja obecna gra
 [ServerIP]
-
+IP serwera
 [My Current ServerIP]
-
+Moje obecne IP serwera
 [Voice]
 Głos
 [My Current Voice]
-
+Mój obecny głos
 [Voice ServerIP]
-
+IP serwera rozmów głosowych
 [My Voice ServerIP]
-
+Moje IP serwera rozmów głosowych
 [Xfire Link Protocol]
 Powiązanie protokołu xFire
 [Buddy start a game]
@@ -273,7 +273,7 @@ Znajomy zaczą grać
 [It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the ini xfire can't detect any games on your computer.]
 Nastąpiło pierwsze uruchomienie wtyczki. Czy chcesz automatycznie pobrać xfire_games.ini i icons.dll?\r\nBez pliku ini nie można wykryć zainstalowanych na komputerze gier.
 [Away from Keyboard]
-
+Z dala od klawiatury
 [&XFire Online Profile]
 Profil xFire Online
 [XFire &Clan Site]
@@ -299,7 +299,7 @@ Przeskanuj ponownie moje Gry
 [Set &Nickname]
 Edytuj &nick
 [Protocols/XFire]
-
+Protokoły/XFire
 [XFire game icon]
 Ikona gry xFire
 [XFire voice icon]
@@ -327,9 +327,9 @@ Czy na pewno chcesz usunąć znajomego %s?
 [Confirm Delete]
 Zatwierdź usuwanie
 [Block this user from ever contacting you again?]
-
+Czy chcesz zablokować tą osobę, by nie kontaktowała się z Tobą w przyszłości?
 [Block Confirmation]
-
+Potwierdzenie zablokowania
 ;file \protocols\Xfire\src\options.cpp
 [Avatars]
 Awatary
@@ -390,7 +390,7 @@ Nie twórz kopii zapasowej po aktualizacji
 [Background updating]
 Aktualizuj w tle
 [The username must be lowercase, so it will be lowercased saved.]
-
+Nazwa użytkownika musi składać się z małych liter, zostanie więc zapisana małymi literami.
 [The changes you have made require you to reconnect to the XFire network before they take effect]
 Nowe ustawienia będą dostępne po ponownym połączeniu się do xFire
 [Hidden]
@@ -410,9 +410,9 @@ Dziennie
 [Are you sure you want to remove this game?]
 Czy na pewno chcesz usunąć tą grę?
 [Please select a game.]
-
+Proszę wybrać grę.
 [Error unknown game id.]
-
+Błąd nieznane ID gry
 [Not supported]
 Nie obsługiwane
 [Configuration saved!]
@@ -431,7 +431,7 @@ Lista zablokowanych/Gry
 Opis
 ;file \protocols\Xfire\src\searching4games.cpp
 [Write to database ...]
-
+Zapisz w bazie danych
 [Games found:%s%s]
 Znalezione gry:%s%s
 ;file \protocols\Xfire\src\userdetails.cpp
