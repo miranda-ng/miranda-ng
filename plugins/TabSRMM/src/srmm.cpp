@@ -73,7 +73,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SRMM, M
 extern "C" int __declspec(dllexport) Load(void)
 {
 	if (WinVerMajor() < 5) {
-		MessageBox(0, TranslateT("This version of tabSRMM requires Windows 2000 or later."), _T("tabSRMM"), MB_OK | MB_ICONERROR);
+		MessageBox(0, TranslateT("This version of TabSRMM requires Windows 2000 or later."), _T("tabSRMM"), MB_OK | MB_ICONERROR);
 		return 1;
 	}
 
@@ -190,7 +190,7 @@ int _DebugPopup(HANDLE hContact, const TCHAR *fmt, ...)
 	if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
 		MIRANDASYSTRAYNOTIFY tn;
 		TCHAR	szTitle[128];
-		mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("tabSRMM Message (%s)"),
+		mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("TabSRMM Message (%s)"),
 			(hContact != 0) ? pcli->pfnGetContactDisplayName(hContact, 0) : TranslateT("Global"));
 
 		tn.szProto = NULL;

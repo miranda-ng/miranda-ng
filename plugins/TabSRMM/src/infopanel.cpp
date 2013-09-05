@@ -984,7 +984,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 			m_tip->show(rc, pt, m_dat->hTabIcon, m_dat->szStatus);
 			return;
 		}
-		mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("tabSRMM Information"));
+		mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("TabSRMM Information"));
 		::SendMessage(m_dat->hwndTip, TTM_UPDATETIPTEXT, 0, (LPARAM)&m_dat->ti);
 		::SendMessage(m_dat->hwndTip, TTM_SETMAXTIPWIDTH, 0, 350);
 

@@ -274,7 +274,7 @@ void CGlobals::reloadAdv()
 	m_dontUseDefaultKbd = M.GetByte("adv_leaveKeyboardAlone", 1);
 
 	if (g_bSoundOnTyping && m_TypingSoundAdded == false) {
-		SkinAddNewSoundEx("SoundOnTyping", LPGEN("Other"), LPGEN("TABSRMM: Typing"));
+		SkinAddNewSoundEx("SoundOnTyping", LPGEN("Other"), LPGEN("TabSRMM: Typing"));
 		m_TypingSoundAdded = true;
 	}
 	m_AllowOfflineMultisend = M.GetByte("AllowOfflineMultisend", 0);
@@ -316,12 +316,12 @@ int CGlobals::TopToolbarLoaded(WPARAM,LPARAM)
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
 	ttb.pszService = MS_TABMSG_TRAYSUPPORT;
 	ttb.name = "CLN_slist";
-	ttb.pszTooltipUp = LPGEN("tabSRMM session list");
+	ttb.pszTooltipUp = LPGEN("TabSRMM session list");
 	ttb.hIconHandleUp = Skin_GetIcon("tabSRMM_sb_slist");
 	TopToolbar_AddButton(&ttb);
 	
 	ttb.name = "CLN_menu";
-	ttb.pszTooltipUp = LPGEN("tabSRMM Menu");
+	ttb.pszTooltipUp = LPGEN("TabSRMM Menu");
 	ttb.lParamUp = ttb.lParamDown = 1;
 	ttb.hIconHandleUp = Skin_GetIcon("tabSRMM_container");
 	TopToolbar_AddButton(&ttb);

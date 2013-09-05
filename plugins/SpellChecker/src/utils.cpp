@@ -891,7 +891,7 @@ void NotifyWrongSRMM()
 		return;
 
 	MessageBox(NULL,
-		TranslateT("Your message window does not support SpellChecker Plugin.\nIf you use SRMM, tabSRMM or Scriver, please update them to the latest version,\notherwise ask the author of your message window plugin to add support for Spell Checker."),
+		TranslateT("Your message window does not support SpellChecker Plugin.\nIf you use SRMM, TabSRMM or Scriver, please update them to the latest version,\notherwise ask the author of your message window plugin to add support for Spell Checker."),
 		TranslateT("Spell Checker"), MB_ICONERROR | MB_OK);
 
 	notified = TRUE;

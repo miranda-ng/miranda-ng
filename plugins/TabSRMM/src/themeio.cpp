@@ -442,7 +442,7 @@ const TCHAR* TSAPI GetThemeFileName(int iMode)
 	szFilename[0] = 0;
 
 	TCHAR filter[MAX_PATH];
-	mir_sntprintf(filter, SIZEOF(filter), _T("%s%c*.tabsrmm%c%c"), TranslateT("tabSRMM themes"), 0, 0, 0);
+	mir_sntprintf(filter, SIZEOF(filter), _T("%s%c*.tabsrmm%c%c"), TranslateT("TabSRMM themes"), 0, 0, 0);
 	ofn.lpstrFilter = filter;
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.hwndOwner = 0;
