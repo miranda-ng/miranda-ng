@@ -1,58 +1,32 @@
 @echo off
 rem Get version
-for /F "tokens=1,2,3 delims= " %%i in (..\..\build\build.no) do set MirVer=%%i.%%j.%%k
+if not exist tmp mkdir tmp
+wget -O tmp\build.no http://svn.miranda-ng.org/main/trunk/build/build.no
+pushd tmp
+for /F "tokens=1,2,3 delims= " %%i in (build.no) do set MirVer=%%i.%%j.%%k
+popd
 rem end
 
-rem Create directories and copy script
-mkdir tmp
-mkdir InnoNG_32
-mkdir InnoNG_64
-copy /V /Y MirandaNG.iss InnoNG_32\
-copy /V /Y MirandaNG.iss InnoNG_64\
-xcopy Common\* InnoNG_32 /I /S /V /Y
-xcopy Common\* InnoNG_64 /I /S /V /Y
-rem end
-
-rem Download
-wget -O tmp\MNG_Sounds.7z http://miranda-ng.org/distr/addons/Sounds/MNG_Sounds.7z
-wget -O tmp\miranda-ng-alpha-latest.7z http://miranda-ng.org/distr/miranda-ng-alpha-latest.7z
-wget -O tmp\miranda-ng-alpha-latest_x64.7z http://miranda-ng.org/distr/miranda-ng-alpha-latest_x64.7z
-wget -O tmp\clist_blind_x32.zip http://miranda-ng.org/x32/Plugins/clist_blind.zip
-wget -O tmp\clist_blind_x64.zip http://miranda-ng.org/x64/Plugins/clist_blind.zip
-wget -O tmp\scriver_x32.zip http://miranda-ng.org/x32/Plugins/scriver.zip
-wget -O tmp\scriver_x64.zip http://miranda-ng.org/x64/Plugins/scriver.zip
-wget -O tmp\langpack_czech.zip http://miranda-ng.org/x32/langpack_czech.zip
-wget -O tmp\langpack_german.zip http://miranda-ng.org/x32/langpack_german.zip
-wget -O tmp\langpack_polish.zip http://miranda-ng.org/x32/langpack_polish.zip
-wget -O tmp\langpack_russian.zip http://miranda-ng.org/x32/langpack_russian.zip
-wget -O InnoNG_32\Installer\vcredist_x86.exe http://download.microsoft.com/download/C/6/D/C6D0FD4E-9E53-4897-9B91-836EBA2AACD3/vcredist_x86.exe
-wget -O InnoNG_64\Installer\vcredist_x64.exe http://download.microsoft.com/download/A/8/0/A80747C3-41BD-45DF-B505-E9710D2744E0/vcredist_x64.exe
-rem end
-
-rem Extract
-if defined ProgramFiles(x86) (
-	"%ProgramW6432%\7-zip\7z.exe" x tmp\miranda-ng-alpha-latest.7z -y -oInnoNG_32\Files
-	"%ProgramW6432%\7-zip\7z.exe" x tmp\clist_blind_x32.zip -y -oInnoNG_32\Files
-	"%ProgramW6432%\7-zip\7z.exe" x tmp\scriver_x32.zip -y -oInnoNG_32\Files
-	"%ProgramW6432%\7-zip\7z.exe" x tmp\miranda-ng-alpha-latest_x64.7z -y -oInnoNG_64\Files
-	"%ProgramW6432%\7-zip\7z.exe" x tmp\clist_blind_x64.zip -y -oInnoNG_64\Files
-	"%ProgramW6432%\7-zip\7z.exe" x tmp\scriver_x64.zip -y -oInnoNG_64\Files
-	"%ProgramW6432%\7-zip\7z.exe" x tmp\MNG_Sounds.7z -y -oInnoNG_32\Files
-	"%ProgramW6432%\7-zip\7z.exe" x tmp\MNG_Sounds.7z -y -oInnoNG_64\Files
-	"%ProgramW6432%\7-zip\7z.exe" x tmp\lang*.zip -y -oInnoNG_32\Files
-	"%ProgramW6432%\7-zip\7z.exe" x tmp\lang*.zip -y -oInnoNG_64\Files
-) else (
-	"%ProgramFiles%\7-zip\7z.exe" x tmp\miranda-ng-alpha-latest.7z -y -oInnoNG_32\Files
-	"%ProgramFiles%\7-zip\7z.exe" x tmp\clist_blind_x32.zip -y -oInnoNG_32\Files
-	"%ProgramFiles%\7-zip\7z.exe" x tmp\scriver_x32.zip -y -oInnoNG_32\Files
-	"%ProgramFiles%\7-zip\7z.exe" x tmp\miranda-ng-alpha-latest_x64.7z -y -oInnoNG_64\Files
-	"%ProgramFiles%\7-zip\7z.exe" x tmp\clist_blind_x64.zip -y -oInnoNG_64\Files
-	"%ProgramFiles%\7-zip\7z.exe" x tmp\scriver_x64.zip -y -oInnoNG_64\Files
-	"%ProgramFiles%\7-zip\7z.exe" x tmp\MNG_Sounds.7z -y -oInnoNG_32\Files
-	"%ProgramFiles%\7-zip\7z.exe" x tmp\MNG_Sounds.7z -y -oInnoNG_64\Files
-	"%ProgramFiles%\7-zip\7z.exe" x tmp\lang*.zip -y -oInnoNG_32\Files
-	"%ProgramFiles%\7-zip\7z.exe" x tmp\lang*.zip -y -oInnoNG_64\Files
-)
+rem Get archives if needed
+echo ------------------------------------------------------------------------------------
+echo ------------------------------------------------------------------------------------
+echo ------------------------------------------------------------------------------------
+echo ------------------------------------------------------------------------------------
+echo ------------------------------------------------------------------------------------
+set /p answer=Do you want to create folder structure and download new components? (Y/N):
+if %answer% == y goto download
+if %answer% == yes goto download
+if not exist InnoNG_32 (goto error) else (goto chk64)
+:chk64
+if not exist InnoNG_64 (goto error) else (goto continue)
+:error
+echo Some of the components are missing, please run script again and agree to create folder structure and download new components!
+pause
+goto end
+:download
+echo Creating folders and downloading components!
+call createstructure.bat
+:continue
 rem end
 
 rem Make
@@ -65,4 +39,17 @@ if defined ProgramFiles(x86) (
 )
 rem end
 
+rem Cleanup
+echo -------------------------------------------------------------------------
+echo -------------------------------------------------------------------------
+echo -------------------------------------------------------------------------
+echo -------------------------------------------------------------------------
+echo -------------------------------------------------------------------------
+set /p answer=Do you wish to delete temp files and build folders? (Y/N):
+if %answer% == y goto cleanup
+if %answer% == yes goto cleanup
+goto end
+:cleanup
+echo Running cleanup!
 call cleanup.bat
+:end
