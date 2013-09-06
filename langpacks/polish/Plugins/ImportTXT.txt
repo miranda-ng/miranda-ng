@@ -42,7 +42,7 @@ Import przerwany. Czy chcesz zamknąć?
 [Error adding message to DB]
 
 [Error opening file]
-
+Błąd otwierania pliku
 [Error mapping file]
 
 [Error mapping]

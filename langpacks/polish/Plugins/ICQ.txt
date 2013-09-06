@@ -1025,7 +1025,7 @@ Kantoński
 [Catalan]
 Kataloński
 [Chamorro]
-
+Chamorro
 [Chinese]
 Chiński
 [Croatian]
@@ -1039,11 +1039,11 @@ Niderlandzki
 [English]
 Angielski
 [Esperanto]
-
+Esperanto
 [Estonian]
 Estoński
 [Farsi]
-
+Perski
 [Finnish]
 Fiński
 [French]
@@ -1107,7 +1107,7 @@ Rosyjski
 [Serbian]
 
 [Sindhi]
-
+Sindhi
 [Slovak]
 Słowacki
 [Slovenian]
@@ -1123,7 +1123,7 @@ Szwedzki
 [Tagalog]
 Tagalog
 [Taiwanese]
-
+Tajwański
 [Tamil]
 Tamilski
 [Tatar]
@@ -1135,7 +1135,7 @@ Turecki
 [Ukrainian]
 Ukraiński
 [Urdu]
-
+Urdu
 [Vietnamese]
 Wietnamski
 [Welsh]

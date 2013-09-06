@@ -1,7 +1,6 @@
 ﻿[Error in cfg file: ]
 [No Files Patterns Found]
 [Error adding message to DB]
-[Error opening file]
 [Error mapping file]
 [Error mapping]
 [Click ""Next"" to choose the information you wish to import, or click ""Cancel"" to exit the wizard and continue using Miranda.]

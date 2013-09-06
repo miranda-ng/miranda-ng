@@ -6,7 +6,7 @@
 ;  Authors: Anar Ibragimoff
 ;============================================================
 [Forwards messages to some contact when you are not available.]
-Przekierowuje wiadomości do wybranych kontaktów, gdy jesteś niedostępny.
+Przekierowuje wiadomości do wybranych kontaktów, gdy jesteś nieobecny.
 ;file \plugins\YARelay\res\yaRelay.rc
 [Forward messages from...]
 Przekieruj wiadomości od...
@@ -51,7 +51,7 @@ Oznaczaj otrzymane wiadomości jako przeczytane
 [Save sent messages in recipient's history]
 Zachowuj  wysłane wiadomości w historii adresata
 [split parts (0 = all)]
-Części wysyłki (0 = wszystkie)
+części wysyłki (0 = wszystkie)
 [Note: Max size - it's a size of %m parameter]
 Uwaga: maksymalny rozmiar - to rozmiar parametru %m
 [Note: messages from this contact will not be forwarded]

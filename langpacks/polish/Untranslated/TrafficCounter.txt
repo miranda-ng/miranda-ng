@@ -1,8 +1,0 @@
-﻿[Current traffic]
-[Total traffic]
-[Total online]
-[KB]
-[MB]
-[Now traffic statistics for selected accounts will be cleared.\nContinue?]
-[Couldn't read statistics file]
-[Toggle traffic counter]

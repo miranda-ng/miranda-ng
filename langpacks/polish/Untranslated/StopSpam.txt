@@ -1,4 +1,0 @@
-﻿[Vars]
-[Disable protection for following accounts:]
-[Not In List]
-[nospam]

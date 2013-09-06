@@ -182,9 +182,9 @@ Proszę czekać, gameini zostanie poprawnie utworzony ...
 [XFire Options]
 Opcje xFire
 [Please choose one game in the list!]
-Proszę wybrać jedną grę z listy
+Proszę wybrać jedną grę z listy!
 [If you add a mod of a Xfire supported game, then you can specify what gameid will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game id and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
-Jeśli wybierzesz moda gry wspieranej przez Xfire, możesz określić jakie ID gry zostanie wysłane. Tak więc, gdy dodasz moda Half-Life możesz ustawić ID gry Half-Life, a gdy rozpoczniesz grę, twoi znajomi zobaczą ikonę Half-Life obok twojego kontaktu, a czas gry będzie mierzony.
+Jeśli wybierzesz moda gry wspieranej przez Xfire, możesz określić jakie ID gry zostanie wysłane. Tak więc, gdy dodasz moda Half-Life możesz ustawić ID gry Half-Life, a gdy rozpoczniesz grę, Twoi znajomi zobaczą ikonę Half-Life obok Twojego kontaktu, a czas gry będzie mierzony.
 [Every game in Xfire needs an id. Use a number above the last used id to avoid problems with used ids. Every number above 10000 should be save. This id will not be sent to Xfire, when you start a game.]
 Każda gra w Xfire musi mieć swoje ID. Używaj liczb większych niż ostatnio użyte ID, by uniknąć problemów z używanymi ID. Każda liczba powyżej 10000 powinna być bezpieczna. To ID nie zostanie wysłane do  Xfire, gdy rozpoczniesz grę.
 [Please enter a game name.]
@@ -213,7 +213,7 @@ Nie teraz.
 [Give a guy some peace, would ya?]
 Proszę, daj mi spokój!
 [Well, I would talk to you if Miranda ICQ supported chat]
-hmm, chętnie bym z Tobą porozmawiał, gdyby Miranda ICQ wspierała czat.
+Hmm, chętnie bym z Tobą porozmawiał, gdyby Miranda ICQ wspierała czat.
 [That'll be the phone.]
 Muszę odebrać telefon.
 [Mmm...food.]
@@ -235,7 +235,7 @@ Ikona protokołu
 [%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
 %s (Nick: %s) zaprasza cię do klanu %s. Wiadomość: %s%s proszę przejść do XFireclan-Site aby zaakceptować zaproszenie.
 [Friends of Friends Playing]
-znajomi znajomych, którzy grają
+Znajomi znajomych, którzy grają
 [Login failed.]
 Logowanie nieudane.
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
@@ -412,7 +412,7 @@ Czy na pewno chcesz usunąć tą grę?
 [Please select a game.]
 Proszę wybrać grę.
 [Error unknown game id.]
-Błąd nieznane ID gry
+Błąd, nieznane ID gry.
 [Not supported]
 Nie obsługiwane
 [Configuration saved!]

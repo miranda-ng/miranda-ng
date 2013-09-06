@@ -1545,7 +1545,7 @@ Błąd wysłania wiadomości z listy zadań.\nOryginalna wiadomość: %s
 [Removed]
 Usuwanie
 [Failed]
-
+Nie powiodło się
 [Sent OK]
 Wysłano
 [Deferred]

@@ -6,7 +6,7 @@
 ;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
 ;============================================================
 [Collects and prints information related to Miranda, the plugins and the OS.]
-Zbiera i drukuje informacje związane z Mirandą, wtyczkami i systemem operacyjnym.
+Zbiera i wyświetla informacje o Mirandzie, używanych wtyczkach i systemie operacyjnym.
 ;file \plugins\VersionInfo\res\resource.rc
 [Output to:]
 Zapisz w:
@@ -39,9 +39,9 @@ Pokaż okno na pasku zadań
 [Ask every time]
 Pytaj za każdym razem
 [Also copy info to clipboard]
-Także kopiuj informacje do schowka
+Jednocześnie kopiuj informacje do schowka
 [Upload site settings]
-Ustawienia strony do przesyłu
+Strona do przesyłu
 [Username]
 Użytkownik
 [Password]
@@ -72,13 +72,13 @@ Wyślij
 Zapisz do pliku
 ;file \plugins\VersionInfo\src\CVersionInfo.cpp
 [If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
-Jeżęli zamierzasz użyć tego raportu w celu zgłoszenia błędu, pamiętaj, by przejrzeć stronę internetową w poszukiwaniu dodatkowych pytań lub innej pomocy jakiej mogą potrzebować twórcy.\r\nJeżęli nie sprawdzisz swojego raportu błędu i prześlesz opinię, błąd nie zostanie naprawiony.
+Jeżeli zamierzasz użyć tego raportu w celu zgłoszenia błędu, pamiętaj, by przejrzeć stronę internetową w poszukiwaniu dodatkowych pytań lub innej pomocy jakiej mogą potrzebować twórcy.\r\nJeżeli nie sprawdzisz swojego raportu błędu i nie odpowies, błąd nie zostanie naprawiony.
 [Information successfully written to file: "%s".]
 Informacje zostały pomyślnie zapisane w pliku: "%s".
 [Error during the creation of file "%s". Disk may be full or write protected.]
 Błąd podczas tworzenia pliku "%s". Dysk może być pełny lub chroniony przed zapisem.
 [The clipboard is not available, retry.]
-Schowek jest niedostępny, spróbuj ponownie
+Schowek jest niedostępny, spróbuj ponownie.
 [Information successfully copied into clipboard.]
 Informacje pomyślnie skopiowano do schowka.
 ;file \plugins\VersionInfo\src\dlgHandlers.cpp
@@ -100,4 +100,4 @@ Usługi
 ;file \plugins\VersionInfo\src\main.cpp
 ;file \plugins\VersionInfo\src\utils.cpp
 [Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
-Ok, coś poszło nie tak w ustawieniu "%s". Zgłoś ponownie następujące wartości:\nFunkcja: %x\nKod błędu:%x\nNumer linii: %d
+Ok, coś poszło nie tak w ustawieniu "%s". Zgłoś ponownie następujące wartości:\nFunkcja: %X\nKod błędu:%X\nNumer linii: %d

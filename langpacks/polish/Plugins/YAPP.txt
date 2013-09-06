@@ -9,7 +9,7 @@
 Yet Another Popup Plugin - Dostarcza usługi powiadomień popup dla innych wtyczek.
 ;file \plugins\YAPP\res\yapp.rc
 [Popup history]
-Historia Popupów
+Historia popupów
 [Close]
 Zamknij
 [Case sensitive]
@@ -59,7 +59,7 @@ Kolor tła:
 [Set timeout]
 Ustaw czas oczekiwania
 [Timeout value (0 = default):]
-Wartość czasu oczekiwania(0 = domyślna):
+Wartość czasu oczekiwania (0 = domyślna):
 ;file \plugins\YAPP\src\icons.cpp
 [Popups are enabled]
 Popupy są włączone

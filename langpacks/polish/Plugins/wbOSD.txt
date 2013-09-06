@@ -39,7 +39,7 @@ Alpha:
 [Announce]
 Oznajmiaj
 [Timeout (ms):]
-Czas oczekiwania (ms)
+Czas oczekiwania (ms):
 [Show]
 Pokaż
 [Show events]

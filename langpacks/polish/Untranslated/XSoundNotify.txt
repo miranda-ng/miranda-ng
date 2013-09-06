@@ -1,8 +1,0 @@
-﻿[Provides extended options for sound notifications.]
-[Not set]
-[Choose]
-[Test play]
-[Ignore sound for this contact]
-[Custom sound for %s (%s)]
-[Self status]
-[Custom contact sound]

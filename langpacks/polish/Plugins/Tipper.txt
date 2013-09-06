@@ -386,27 +386,27 @@ Opis xStatus
 [XStatus text:]
 Tekst xStatus:
 [[jabber.dll] Activity title]
-[jabber.dll] tytuł aktywności
+[jabber.dll] Tytuł aktywności
 [Activity title:]
 Tytuł aktywności:
 [[jabber.dll] Activity text]
-[jabber.dll] tekst aktywności
+[jabber.dll] Tekst aktywności
 [Activity text:]
 Tekst aktywności:
 [[menuex.dll] Logon time]
-[menuex.dll] Czas zalogowania się
+[menuex.dll] Czas zalogowania
 [Logon time:]
 Czas zalogowania:
 [[menuex.dll] Logoff time]
-[menuex.dll] czas wylogowania się
+[menuex.dll] Czas wylogowania
 [Logoff time:]
 Czas wylogowania:
 [[seenplugin.dll] Last seen time]
-[seenplugin.dll] ostatnio widziano
+[seenplugin.dll] Ostatnio widziano
 [Last seen time:]
 Czas:
 [[seenplugin.dll] Last seen status]
-[seenplugin.dll]ostatnio widziany status
+[seenplugin.dll] Ostatnio widziany status
 [Last seen status:]
 Status:
 [[weather.dll] Condition]
@@ -414,7 +414,7 @@ Status:
 [Condition:]
 Warunki:
 [[weather.dll] Humidity]
-[weather.dll] wilgotność
+[weather.dll] Wilgotność
 [Humidity:]
 Wilgotność
 [[weather.dll] Max/Min temperature]
@@ -430,23 +430,23 @@ Księżyc:
 [Pressure:]
 Ciśnienie:
 [[weather.dll] Sunrise]
-[weather.dll] wschód słońca
+[weather.dll] Wschód słońca
 [Sunrise:]
 Wschód słońca:
 [[weather.dll] Sunset]
-[weather.dll] zachód słońca
+[weather.dll] Zachód słońca
 [Sunset:]
 Zachód słońca:
 [[weather.dll] Temperature]
-[weather.dll] temperatura
+[weather.dll] Temperatura
 [Temperature:]
 Temperatura:
 [[weather.dll] Update time]
-[weather.dll] zaktualizowano
+[weather.dll] Zaktualizowano
 [Update time:]
 Czas aktualizacji:
 [[weather.dll] UV Index]
-[weather.dll] indeks UV
+[weather.dll] Indeks UV
 [UV Index:]
 Indeks UV:
 [[weather.dll] Visibility]
@@ -636,7 +636,7 @@ Rosyjski
 [Serbo-Croatian]
 Chorwackoserbski
 [Sindhi]
-sindhi
+Sindhi
 [Slovak]
 Słowacki
 [Slovenian]
@@ -652,7 +652,7 @@ Szwedzki
 [Tagalog]
 Tagalog
 [Taiwanese]
-tajwański
+Tajwański
 [Tamil]
 Tamilski
 [Tatar]

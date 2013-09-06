@@ -6,16 +6,16 @@
 ;  Authors: Nikolay Redko
 ;============================================================
 [Scans for network users of your shared files and notify you with popups.]
-Skanuje w poszukiwaniu użytkowników twoich udostępnionych plików i folderów w sieci i powiadamia Cię za pomocą Popupa.
+Skanuje w poszukiwaniu użytkowników twoich udostępnionych plików i folderów w sieci i powiadamia Cię za pomocą popupa.
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [WUMF: Current connections]
-WUMF: aktualne połączenia
+WUMF: Aktualne połączenia
 [OK]
 OK
 [Popup delay settings]
 Ustawienia opóźnienia Popupa
 [Popup Delay (seconds)]
-Opóźnienie Popupa (sekundy)
+Opóźnienie popupa (sekundy)
 [Background color]
 Kolor tła
 [Text color]
@@ -29,7 +29,7 @@ Domyślne opóźnienie
 [Choose delay time]
 Wybierz czas opóźnienia
 [Popup color settings]
-Ustawienia koloru Popupa
+Ustawienia koloru popupa
 [Use windows colors]
 Użyj kolorów Windows
 [Use default Popup colors]
@@ -66,16 +66,16 @@ Plik
 [Access]
 Dostęp
 [Plugin WhoUsesMyFiles requires admin privileges in order to work.]
-WTyczka WhoUsesMyFiles wymaga uprawnień administratora do poprawnego działania.
+Wtyczka WhoUsesMyFiles wymaga uprawnień administratora do poprawnego działania.
 [Error opening file]
 Błąd otwierania pliku
 [Error memory allocation]
-Błąd allokacji pamięci
+Błąd alokacji pamięci
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error creating menu]
 Błąd tworzenia menu
 [Popup plugin not found!]
-Nie znaleziono wtyczki Popup
+Nie znaleziono wtyczki Popup!
 [Error]
 Błąd
 [Enable WUMF popups]
@@ -85,7 +85,7 @@ Wyłącz popupy WUMF
 [Common Dialog Error 0x%lx]
 Powszechny błąd dialogu 0x%lx
 [Not implemented yet...]
-nie zaimplementowano
+Jeszcze nie zaimplementowano...
 [Show connections list]
 Pokaż listę połączeń
 [Wumf]
@@ -95,4 +95,4 @@ Usługi
 [Popups]
 Popupy
 [WUMF: Show connections]
-WUMF: pokaż połączenia
+WUMF: Pokaż połączenia

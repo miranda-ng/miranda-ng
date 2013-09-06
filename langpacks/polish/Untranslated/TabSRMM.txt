@@ -25,7 +25,6 @@
 [Image files]
 [Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
 [JPEG-compressed images]
-[Failed]
 [Deferred]
 [Suspended]
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]

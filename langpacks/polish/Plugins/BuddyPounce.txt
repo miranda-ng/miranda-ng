@@ -23,7 +23,7 @@ OK
 [The Message:]
 Wiadomość:
 [Delete Pounce]
-Usuń pounce
+Usuń Pounce
 [Load default Settings]
 Załaduj ustawienia domyślne
 [Setting Value]
@@ -33,9 +33,9 @@ Ustawianie tekstu.........
 [Settings]
 Ustawienia
 [Contact To Send Pounce To]
-Kontakt, do którego wysłać pounce
+Kontakt, do którego wysłać Pounce
 [<< Simple]
-Proste
+<< Proste
 [Advanced >>]
 Zaawansowane >>
 [The Message]
@@ -45,7 +45,7 @@ Okno
 [Status]
 Status
 [Use Advanced Dialog]
-Użyj dialogu zaawansowanego
+Użyj Zaawansowanego Okna
 [The Message (characters: )]
 Wiadomość (znaków)
 [Default Settings]
@@ -53,14 +53,14 @@ Ustawienia domyślne
 [Show Delivery Messages]
 Pokaż raporty doręczenia
 [These settings are also used when sending a "Simple" pounce]
-Te ustawienia są używane także przy wysyłaniu prostego Pounce
+Te ustawienia są używane także przy wysyłaniu "Prostego" Pounce
 ;file \plugins\BuddyPounce\src\dialog.cpp
 [Send If My Status Is...]
 Wysyłaj, gdy mój status to...
 [Send If They Change Status to...]
 Wysyłaj, gdy zmienią status na...
 [Reuse Pounce]
-Użyj pounce ponownie
+Użyj Pounce ponownie
 [Give Up delay]
 Opóźnienie poddania się
 [Confirmation Window]
@@ -90,25 +90,25 @@ Na obiedzie
 [Send If Their Status changes]
 Wysyłaj, gdy ich status zmieni się
 [From Offline]
-Z rozłączonego
+Z Rozłączonego
 [To Online]
-Na dostępny
+Na Dostępny
 [To Away]
-Na zaraz wracam
+Na Zaraz wracam
 [To NA]
-Na wrócę później
+Na Wrócę później
 [To Occupied]
-Na zajęty
+Na Zajęty
 [To DND]
-Na nie przeszkadzać
+Na Nie przeszkadzać
 [To Free For Chat]
-Na porozmawiajmy
+Na Porozmawiajmy
 [To Invisible]
-Na niewidoczny
+Na Niewidoczny
 [To On The Phone]
-Na przy telefonie
+Na Przy telefonie
 [To Out To Lunch]
-Na na obiedzie
+Na Na obiedzie
 [The Message    (%d Characters)]
 Wiadomość (%d znaków)
 [Couldnt Allocate enough memory]
@@ -118,17 +118,17 @@ błąd......
 [The Message    (0 Characters)]
 Wiadomość (0 znaków)
 [Reuse this message? (0 to use it once)]
-Użyt ej wiadomości ponownie? (0, by użyć tylko raz)
+Użyj wiadomości ponownie (0 = tylko raz)
 [Times]
 razy
 [Giveup after.. (0 to not giveup)]
-Zrezygnuj po (0, by nie rezygnować)
+Zrezygnuj po.. (0 = nie rezygnuj)
 [Days]
-Dni
+dniach
 [Show confirmation window? (0 to not Show)]
-Pokazywać okno potwierdzające? (0, by nie pokazywać)
+Pokaż okno potwierdzające (0 = nie pokazuj)
 [Seconds to wait before sending]
-Ile sekund czekać przed wysłaniem
+sekund przed wysłaniem
 [Pounce being sent to %s in %d seconds]
 Pounce zostanie wysłane do %s za %d sekund
 [Retry]

@@ -6,7 +6,7 @@
 ;  Authors: Angelo Luiz Tartari
 ;============================================================
 [Change status when you send/receive an event.]
-Zmień status, gdy wysyłasz/odbierasz zdarzenie
+Zmienia status, gdy wysyłasz/odbierasz określone zdarzenie.
 ;file \plugins\StatusChange\res\resource.rc
 [Offline]
 Rozłączony
@@ -31,9 +31,9 @@ Na obiedzie
 [On events...]
 Przy zdarzeniach...
 [Send]
-Wyślij
+Wysyłając
 [Receive]
-Otrzymuj
+Otrzymując
 [Message]
 Wiadomość
 [URL]

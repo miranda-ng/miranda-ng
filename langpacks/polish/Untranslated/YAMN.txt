@@ -1,7 +1,0 @@
-﻿[Installed plugins]
-[Translate header error]
-[POP3 protocol (internal)]
-[Reading new mail messages (%d%% done)]
-[Executables]
-[Dialog box error]
-[Failed]

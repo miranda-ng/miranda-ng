@@ -6,7 +6,7 @@
 ;  Authors: sss
 ;============================================================
 [Music Player Daemon support for Watrack.]
-Wsparcie usługi odtwarzacza muzyki dla Watrack
+Wsparcie usługi odtwarzacza muzyki dla Watrack.
 ;file \plugins\Watrack_MPD\res\watrack_mpd.rc
 [MPD Host]
 HostMPD
@@ -23,4 +23,4 @@ Utwór w Winampie
 [Plugins]
 Wtyczki
 [Watrack MPD]
-WatrackMPD
+Watrack MPD
