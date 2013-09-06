@@ -14,7 +14,7 @@
 [You can only change your nick, if you are connected to Xfire.]
 Вы можете изменить ник, только если Xfire подключён.
 [Create a new Xfire account on website]
-Создать новый аккаунт на сайте
+Создать новую учётную запись на сайте
 [Proxy settings]
 Настройки прокси
 [Proxy:]

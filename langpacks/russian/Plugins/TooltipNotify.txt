@@ -32,7 +32,7 @@
 [sec]
 сек
 [Prefix proto name]
-Имя аккаунта
+Имя учётной записи
 [Duration]
 Длительность
 [Show tooltip for]

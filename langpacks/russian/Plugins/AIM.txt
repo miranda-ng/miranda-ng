@@ -30,7 +30,7 @@ AIM Опции
 [Convert Outgoing Messages to HTML]
 Переводить исх. сообщения в HTML
 [Disable Account Type Icons]
-Откл. значки типов аккаунтов
+Откл. значки типов учётных записей
 [Disable Avatars]
 Отключить аватары
 [Disable Extended Status Icons]
@@ -74,7 +74,7 @@ AIM Опции
 [Save Changes]
 Сохранить изменения
 [Create a new AIM account]
-Создать новую учетную запись AIM
+Создать новую учётную запись AIM
 [*Applied upon reconnect]
 *Требуется перезапуск
 
@@ -98,7 +98,7 @@ AIM протокол
 [Instant Idle]
 Установить Instant Idle
 [Manage Account]
-Управление аккаунтом
+Управление учётной записью
 [Read &HTML Away Message]
 Читать HTML статусное сообщение
 [Read Profile]
@@ -282,7 +282,7 @@ AOL® Логин
 [Recover Lost Password]
 Восстановить пароль
 [Register Account]
-Зарегистрировать аккаунт
+Зарегистрировать учётную запись
 [Send a chat invitation to the following user:]
 Послать приглашение початиться:
 [Send Area]

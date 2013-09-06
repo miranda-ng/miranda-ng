@@ -86,9 +86,9 @@
 [Remove national characters from filename]
 Удалить национальные символы из имени файла
 [FTP account]
-FTP-аккаунты
+Учётные записи FTP
 [Account name]
-Имя аккаунта
+Имя учётной записи
 [Menu items options]
 Настройки пунктов меню
 [Use submenu in contact menu:]
@@ -96,11 +96,11 @@ FTP-аккаунты
 [Always (use submenu in any situation)]
 Всегда (подменю используется в любой ситуации)
 [When more than one account is set]
-Только когда установлено более одного FTP-аккаунта
+Только когда установлено более одной учётной записи FTP
 [Never (place items directly into contact menu)]
 Никогда (пункт непосредственно в меню контакта)
 [Hide inactive accounts]
-Прятать неактивные FTP-аккаунты
+Прятать неактивные учётные записи FTP
 [FTP File YM]
 Файл на FTP
 [File download link]

@@ -98,7 +98,7 @@ YAMN: сбой подключения
 [TopToolBar Down]
 Низ панели кнопок
 [No account selected]
-Не выбран аккаунт
+Не выбрана учётная запись
 [Check this account]
 Проверять эту учётную запись
 [Check interval [min]:]
@@ -218,11 +218,11 @@ YAMN: новое письмо
 [Check while ...]
 Проверять, если...
 [Delete account confirmation]
-Подтверждение удаления аккаунта
+Подтверждение удаления учётной записи
 [Do you also want to remove native YAMN plugins settings?]
 Удалить настройки плагина YAMN?
 [Do you really want to delete this account?]
-Вы действительно хотите удалить этот аккаунт?
+Вы действительно хотите удалить эту учётную запись?
 [Error %d-%d-%d-%d:]
 Ошибка %d-%d-%d-%d:
 [No new mail, %d spam(s)]

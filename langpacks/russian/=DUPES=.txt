@@ -3922,7 +3922,7 @@ xСтатусы
 [Show previous status too]
 Показывать предыдущий cтатус
 [Account:]
-Аккаунт:
+Учётная запись:
 [Site:]
 Сайт:
 [Frame background]

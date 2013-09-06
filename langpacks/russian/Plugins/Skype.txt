@@ -94,7 +94,7 @@ Skype протокол для Miranda NG.
 [Register new account]
 Зарегистрироваться
 [Account]
-Аккаунт
+Учётная запись
 [Connection]
 Подключение
 [Use port]

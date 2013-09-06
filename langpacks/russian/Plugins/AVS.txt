@@ -66,7 +66,7 @@ XML файлы
 [Global avatar]
 Глобальный аватар
 [Global avatar for %s accounts]
-Аватар для всех аккаунтов %s
+Аватар для всех уч. записей %s
 [Make the avatar square]
 Сделать аватар квадратным
 [Resize the avatar to fit max allowed protocol size]

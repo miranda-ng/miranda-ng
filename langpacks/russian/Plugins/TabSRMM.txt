@@ -544,7 +544,7 @@ IRC-стиль(текстовый) индикаторов ролей в журн
 [nick of current contact (if defined)]
 ник текущего контакта (если определен)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
-название протокола текущего контакта (если определено). Название учётной записи используется когда протокол поддерживает мультиаккаунтность
+название протокола текущего контакта (если определено). Название учётной записи используется когда протокол поддерживает несколько учётных записей
 [UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 ID текущего контакта (если определен). Например, UIN для ICQ, JID для Jabber и т.д.
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]

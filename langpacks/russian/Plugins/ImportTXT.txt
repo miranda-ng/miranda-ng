@@ -66,7 +66,7 @@
 [All previous chosen files will try to import to this protocol.]
 Все ранее выбранные файлы будут импортированы в этот протокол.
 [Select protocol or account:]
-Выберите протокол или аккаунт:
+Выберите протокол или учётную запись:
 [Click "Next" to start Import or "Cancel" to Abort.]
 Нажмите "Далее" для начала Импорта или "Отмена" для выхода.
 [Select folder for import...]
