@@ -210,7 +210,7 @@ en.PortTypeInstLabel=Profiles and user data files are stored in program folder.%
 en.ProfileUninst=WARNING!!!%nYou are about to delete profile folder containing all your settings, contacts and message history!%nAre you sure you want to remove profile?%n(You may need it later)
 
 en.FolderExists1=Folder
-en.FolderExists2=already exists. Continue installation?
+en.FolderExists2=already exists. This installer is for a first time install only! Please select another folder for a new installation.%nIf you wish to upgrade your current program, please use  PluginUpdater%n("Check for plugin updates" item in Miranda's main menu).
 
 en.PercentDone=% done
 
@@ -291,8 +291,8 @@ ru.PortTypeInstLabel=Профиль и файлы пользователя на�
 
 ru.ProfileUninst=ПРЕДУПРЕЖДЕНИЕ!!!%nВы можете удалить папку профиля, включающую в себя настройки, контакты и историю переписки!%nВы действительно хотите удалить файлы профиля?%n(Может понадобиться в дальнейшем)
 
-ru.FolderExists1=Папка
-ru.FolderExists2=уже существует. Продолжить установку?
+ru.FolderExists1=Выбранная папка
+ru.FolderExists2=включает в себя предыдущую установку! Установщик не предназначен для обновления.%nПожалуйста, выберите иную папку для новой установки.%nДля обновления уже установленной программы воспользуйтесь плагином PluginUpdater%n(Пункт "Проверить обновления плагинов" в главном меню).
 
 ru.PercentDone=% выполнено
 
@@ -909,13 +909,11 @@ begin
     ExpandConstant('{cm:LangEnglishDescription}') + ';' +
     '');
 
-    if DirExists(WizardForm.DirEdit.Text) then
+    if DirExists(WizardForm.DirEdit.Text) and FileExists(WizardForm.DirEdit.Text+'\{#MirName}') then
     begin
-      case MsgBox(ExpandConstant('{cm:FolderExists1}')+#10+#10+WizardForm.DirEdit.Text+#10+#10+ExpandConstant('{cm:FolderExists2}'), mbconfirmation, mb_YesNo) of
-      IDYES:;
-      IDNO:
-        Result := False;
-      end;
+      MsgBox(ExpandConstant('{cm:FolderExists1}')+#10+#10+WizardForm.DirEdit.Text+#10+#10+ExpandConstant('{cm:FolderExists2}'), mbError, MB_OK);
+      Result := False;
+      exit;
     end;
   end;
 
