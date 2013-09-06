@@ -22,7 +22,7 @@
 [General]
 Общее
 [Accounts to check]
-Проверять учетные записи
+Проверять учётные записи
 [Dial-Up]
 Удалённый доступ
 [Don't reconnect if no internet connection seems available]

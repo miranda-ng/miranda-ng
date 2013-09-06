@@ -7,12 +7,10 @@
 ;============================================================
 [MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
 MirFox (Миранда NG) - часть интеграции Миранда-Firefox - http://wsx22.3.xpdev-hosted.com
-;file \plugins\MirFox\src\MirandaInterface.cpp
 [mirfox.popup.notify.description]
 MirFox/Уведомление
 [mirfox.popup.error.description]
 MirFox/Ошибка
-;file \plugins\MirFox\src\MirandaOptions.cpp
 [mirfox.options.tab1.sendtocontacts]
 Действие при отправке контакту
 [mirfox.options.tab1.left]
@@ -34,14 +32,13 @@ MirFox/Ошибка
 [mirfox.options.tab2.allcontacts]
 ** Все контакты **
 [mirfox.options.tab3.accounts]
-Отображать эти учетные записи в опции Firefox 'Установить сообщение статуса'
+Отображать эти учётные записи в опции Firefox 'Установить сообщение статуса'
 [mirfox.options.tab1]
 Настройки
 [mirfox.options.tab2]
 Контакты
 [mirfox.options.tab3]
-Учетные записи
-;file \plugins\MirFox\src\MirandaUtils.cpp
+Учётные записи
 [mirfox.netlib.name]
 Лог MirFox
 [mirfox.message.sent]
@@ -72,7 +69,6 @@ MirFox
 Не удалось установить сообщение статуса для %s
 [mirfox.statusmsg.error.unknown]
 Не удалось установить сообщение статуса
-;file \plugins\MirFox\src\MirfoxMiranda.cpp
 [mirfox.msgbox.csmtooold.message]
 Дополнение MirFox (Firefox) устарело. Пожалуйста, обновите его.
 [mirfox.msgbox.csmtooold.title]

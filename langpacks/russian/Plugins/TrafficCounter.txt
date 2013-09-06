@@ -198,19 +198,19 @@
 [Traffic counter]
 Счётчик трафика
 [Visible accounts]
-Отображаемые учетные записи
+Отображаемые учётные записи
 [Summary traffic for active accounts]
-Суммарный трафик активных учетных записей
+Суммарный трафик активных учётных записей
 [Summary traffic for visible accounts]
-Суммарный трафик для видимых учетных записей
+Суммарный трафик для видимых учётных записей
 [Adaptive]
 Плавающий
 [Display traffic for current]
 Трафик за текущий
 [Account counters format string:]
-Формат строки счётчиков учетных записей:
+Формат строки счётчиков учётных записей:
 [Active accounts]
-Активные учетные записи
+Активные учётные записи
 [Clear statistics]
 Очистить
 [Hourly]

@@ -186,7 +186,7 @@ Skype протокол для Miranda NG.
 [The new password was unacceptable]
 Новый пароль неприемлем 
 [Account was currently not logged in]
-Учетная запись не в сети
+Учётная запись не в сети
 [You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
 Вы не ввели Skype ID.\nНастройте это в Настройки->Сеть->%s и попробуйте снова. 
 [Are you sure you want to block "%s" (%s)? They won't be able to contact you and won't appear in your Contact List.]

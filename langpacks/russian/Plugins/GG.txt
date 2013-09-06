@@ -284,7 +284,7 @@ GG: PS_AWAYMSG вызван без PS_SETSTATUS для статуса %d, выб
 [Concurrent %s Login Sessions\nView information on active concurrent sessions]
 Одновременные сессии %s\nИнформация об активных одновременных сессиях
 [There are no active concurrent sessions for this account.]
-Нет активных одновременных сессий для этой учетной записи.
+Нет активных одновременных сессий для этой учётной записи.
 [You have to be logged in to view concurrent sessions.]
 Вы должны быть подключены для просмотра одновременных сессий.
 [Client Name]

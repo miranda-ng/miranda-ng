@@ -1138,7 +1138,7 @@ Cлужба:
 [Show/Hide Offline Users]
 Показать/Скрыть отключённых
 [Show accounts in the following order,\ndrag to choose another order:]
-Порядок отображения учетных записей. \nПеретаскивайте для изменения:
+Порядок отображения учётных записей. \nПеретаскивайте для изменения:
 [Show this dialog box when Miranda NG starts]
 Показать этот диалог при запуске Miranda NG
 [Show]
@@ -1388,7 +1388,7 @@ URL от %s
 [You need an image services plugin to process PNG images.]
 Вам нужен плагин службы изображений для поддержки PNG.
 [You need to disable plugin to delete this account]
-Для удаления аккаунта необходимо отключить протокол
+Для удаления учётной записи необходимо отключить протокол
 [You Were Added]
 Вас добавили
 [You will always be asked about files from people not on your contact list]
@@ -2164,9 +2164,9 @@ Cвернуть
 [Open contact's chat window]
 Открыть окно с контактом
 [Account Error]
-Ошибка учетной записи
+Ошибка учётной записи
 [Account name has to be unique. Please enter unique name.]
-Имя учетной записи должно быть уникально. Введите уникальное имя.
+Имя учётной записи должно быть уникально. Введите уникальное имя.
 [Request authorization]
 Запросить авторизацию
 [Grant authorization]

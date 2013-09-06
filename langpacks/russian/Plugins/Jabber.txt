@@ -13,7 +13,7 @@
 Поддержка протокола Jabber в Miranda NG.
 
 ;  СЕТЬ
-;  Название учетной записи Jabber
+;  Название учётной записи Jabber
 [Register new user]
 Регистрация
 [Jabber Account Registration]
@@ -55,9 +55,9 @@
 [Reason to ban]
 Причина бана
 [Account removal warning]
-Удаление учетной записи
+Удаление учётной записи
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
-Эта операция удалит Вашу учетную запись, ростер и всю информацию хранимую на сервере. Вы действительно хотите удалить учетную запись?
+Эта операция удалит Вашу учётную запись, ростер и всю информацию хранимую на сервере. Вы действительно хотите удалить учётную запись?
 [Set New Password for %s@%S]
 Установка нового пароля для %s@%S
 [New password does not match.]
@@ -65,7 +65,7 @@
 [Current password is incorrect.]
 Текущий пароль неверен
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
-Пароль успешно изменен. Не забудьте обновить Ваш пароль в настройках учетной записи Jabber.
+Пароль успешно изменен. Не забудьте обновить Ваш пароль в настройках учётной записи Jabber.
 [Password cannot be changed.]
 Пароль не может быть изменен
 [Save password]
