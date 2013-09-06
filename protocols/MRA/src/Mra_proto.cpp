@@ -441,7 +441,7 @@ bool CMraProto::CmdMessageAck(BinBuffer &buf)
 		buf >> szMultiChatData; // LPS multichat_data
 
 	// подтверждаем получение, только если удалось его обработать
-	if (MraRecvCommand_Message((DWORD)_time32(NULL), dwFlags, szEmail, szText, szRTFText, szMultiChatData) == NO_ERROR)
+	if ( MraRecvCommand_Message((DWORD)_time32(NULL), dwFlags, szEmail, szText, szRTFText, szMultiChatData) == NO_ERROR)
 		if ((dwFlags & MESSAGE_FLAG_NORECV) == 0)
 			MraMessageRecv(szEmail, dwMsgID);
 	return true;
@@ -572,13 +572,13 @@ bool CMraProto::CmdUserInfo(BinBuffer &buf)
 //Сообщение доставленное, пока пользователь не был подключен к сети
 bool CMraProto::CmdOfflineMessageAck(BinBuffer &buf)
 {
-	CMStringA szEmail, lpsText, lpsRTFText, lpsMultiChatData, szString;
+	CMStringA szEmail, szText, lpsRTFText, lpsMultiChatData, szString;
 	DWORDLONG dwMsgUIDL;
 	buf >> dwMsgUIDL >> szString;
 
 	DWORD dwTime, dwFlags;
-	if (MraOfflineMessageGet(&szString, &dwTime, &dwFlags, &szEmail, &lpsText, &lpsRTFText, &lpsMultiChatData, NULL) == NO_ERROR) {
-		DWORD dwTemp = MraRecvCommand_Message(dwTime, dwFlags, szEmail, lpsText, lpsRTFText, lpsMultiChatData);
+	if (MraOfflineMessageGet(&szString, &dwTime, &dwFlags, &szEmail, &szText, &lpsRTFText, &lpsMultiChatData) == NO_ERROR) {
+		DWORD dwTemp = MraRecvCommand_Message(dwTime, dwFlags, szEmail, szText, lpsRTFText, lpsMultiChatData);
 		if (dwTemp == NO_ERROR || dwTemp == ERROR_ACCESS_DENIED)
 			MraOfflineMessageDel(dwMsgUIDL);
 		else
@@ -1483,18 +1483,18 @@ bool CMraProto::CmdBlogStatus(BinBuffer &buf)
 {
 	DWORD dwTime, dwFlags;
 	CMStringA szEmail, szString;
-	CMStringW lpsText;
+	CMStringW wszText;
 	DWORDLONG dwBlogStatusID;
 
-	buf >> dwFlags >> szEmail >> dwBlogStatusID >> dwTime >> lpsText >> szString;
+	buf >> dwFlags >> szEmail >> dwBlogStatusID >> dwTime >> wszText >> szString;
 
 	if (HANDLE hContact = MraHContactFromEmail(szEmail, FALSE, TRUE, NULL)) {
 		if (dwFlags & MRIM_BLOG_STATUS_MUSIC)
-			mraSetStringW(hContact, DBSETTING_BLOGSTATUSMUSIC, lpsText);
+			mraSetStringW(hContact, DBSETTING_BLOGSTATUSMUSIC, wszText);
 		else {
 			setDword(hContact, DBSETTING_BLOGSTATUSTIME, dwTime);
 			mraWriteContactSettingBlob(hContact, DBSETTING_BLOGSTATUSID, &dwBlogStatusID, sizeof(DWORDLONG));
-			mraSetStringW(hContact, DBSETTING_BLOGSTATUS, lpsText);
+			mraSetStringW(hContact, DBSETTING_BLOGSTATUS, wszText);
 		}
 	}
 	return true;
