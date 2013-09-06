@@ -112,8 +112,8 @@ MIDatabaseChecker* CheckDb(const TCHAR* profile, int *error)
 static DATABASELINK dblink =
 {
 	sizeof(DATABASELINK),
-	"db3x secure mmap driver",
-	_T("db3x secure mmap database support"),
+	"dbx_mmap_sa",
+	_T("dbx secure mmap driver"),
 	makeDatabase,
 	grokHeader,
 	LoadDatabase,

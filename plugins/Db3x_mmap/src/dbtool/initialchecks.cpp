@@ -18,8 +18,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "..\commonheaders.h"
 
-extern DBSignature dbSignature;
-
 int CDb3Base::WorkInitialCheckHeaders()
 {
 	if (memcmp(m_dbHeader.signature, &dbSignature, sizeof(m_dbHeader.signature))) {

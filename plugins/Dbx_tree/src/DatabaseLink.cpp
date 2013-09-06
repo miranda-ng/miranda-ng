@@ -86,7 +86,7 @@ static int UnloadDatabase(MIDatabase* db)
 DATABASELINK gDBLink = {
 	sizeof(DATABASELINK),
 	__INTERNAL_NAME,
-	_T(__PLUGIN_NAME),
+	_T("dbx tree driver"),
 	makeDatabase,
 	grokHeader,
 	LoadDatabase,
