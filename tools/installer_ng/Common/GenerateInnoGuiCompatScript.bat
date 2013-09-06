@@ -4,9 +4,16 @@ set BomRem=http://miranda-ng.org/distr/installer/bom_remove.exe
 set BomAdd=http://miranda-ng.org/distr/installer/bom_add.exe
 for %%* in (.) do set InnoX=%%~n*
 rem Get version
+if exist ..\..\..\build\build.no goto localgetver
 ..\Tools\wget.exe -O build.no http://svn.miranda-ng.org/main/trunk/build/build.no
 %GetVer%
 del /F /Q build.no
+goto esclocal
+:localgetver
+pushd ..\..\..\build
+%GetVer%
+popd
+:esclocal
 rem end
 
 rem Create Inno setup compatible script that compiles without passing parameters to compiler
