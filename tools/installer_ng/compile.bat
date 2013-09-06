@@ -20,9 +20,9 @@ set Compile32=Inno Setup 5\ISCC.exe" /Dptx86 /DAppVer=%MirVer% /O"Output" "InnoN
 set Compile64=Inno Setup 5\ISCC.exe" /DAppVer=%MirVer% /O"Output" "InnoNG_64\MirandaNG.iss"
 rem end
 
-:chk32
-if not exist InnoNG_32 (goto compileerror) else (goto chk64)
-:chk64
+:check32
+if not exist InnoNG_32 (goto compileerror) else (goto check64)
+:check64
 if not exist InnoNG_64 (goto compileerror) else (goto compile)
 
 rem Make
@@ -37,6 +37,7 @@ if defined ProgramFiles(x86) (
 rem end
 
 rem Error handling
+if errorlevel 1 goto :compileerror
 goto end
 :compileerror
 rem Get archives if needed
@@ -50,7 +51,7 @@ goto again3
 :download
 echo Creating folders and downloading components!
 call createstructure.bat
-goto chk32
+goto check32
 pause
 :end
 rem end
