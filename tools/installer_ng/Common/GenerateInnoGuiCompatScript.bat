@@ -19,6 +19,7 @@ rem end
 
 rem Create Inno setup compatible script that compiles without passing parameters to compiler
 if %InnoX% == InnoNG_32 (
+  if exist MirandaNG32.iss del /F /Q MirandaNG32.iss
   ..\Tools\wget.exe -O utf-8_32.vbs http://miranda-ng.org/distr/installer/utf-8_32.vbs
   ..\Tools\wget.exe -O bom_remove.exe %BomRem%
   ..\Tools\wget.exe -O bom_add.exe %BomAdd%
@@ -32,6 +33,7 @@ if %InnoX% == InnoNG_32 (
   del /f /q bom_remove.exe
   del /f /q bom_add.exe
 ) else if %InnoX% == InnoNG_64 (
+  if exist MirandaNG64.iss del /F /Q MirandaNG64.iss
   ..\Tools\wget.exe -O utf-8_64.vbs http://miranda-ng.org/distr/installer/utf-8_64.vbs
   ..\Tools\wget.exe -O bom_remove.exe %BomRem%
   ..\Tools\wget.exe -O bom_add.exe %BomAdd%

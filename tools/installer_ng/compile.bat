@@ -7,6 +7,7 @@ Tools\wget.exe -O tmp\build.no http://svn.miranda-ng.org/main/trunk/build/build.
 pushd tmp
 %GetVer%
 popd
+if exist tmp rd /S /Q tmp
 goto esclocal
 :localgetver
 pushd ..\..\build
