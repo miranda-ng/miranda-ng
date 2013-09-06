@@ -319,8 +319,8 @@ TLS
 Просмотр vCard
 [Commands...]
 Команды...
-[Jabber Ad-Hoc commands at]
-Jabber Ad-Hoc команды на
+[Jabber Ad-Hoc commands at %s]
+Jabber Ad-Hoc команды на %s
 [Instruction:]
 Инструкция:
 [Bots Challenge Test]
@@ -1304,8 +1304,8 @@ Jabber ошибка
 Команда выполнена успешно
 [Error occured during processing command]
 Возникла ошибка в процессе выполнения команды
-[Send groupchat invitation.]
-Пригласить в конференцию.
+[%s\nSend groupchat invitation.]
+%s\Пригласить в конференцию.
 [Invite Users]
 Приглашение пользователей
 [&Invite]
@@ -1324,8 +1324,8 @@ Jabber ошибка
 Изменения вступят в силу при следующем входе в сеть Jabber.
 [Incoming groupchat invitation.]
 Приглашение в конференцию.
-[Sending Ad-Hoc command to]
-Отправить Ad-Hoc команду
+[Sending Ad-Hoc command to %s]
+Отправить Ad-Hoc команду %s
 [Requesting command list. Please wait...]
 Запрос списка команд. Подождите...
 

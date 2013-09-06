@@ -432,8 +432,8 @@ RTL шаблоны
 Экспортировать...
 [Import from a file...]
 Импортировать...
-[tabSRMM themes]
-Темы tabSRMM
+[TabSRMM themes]
+Темы TabSRMM
 [Send typing notifications to the following users when you are typing a message to the them:]
 Посылать уведомления набора указанным контактам в то время, когда вы набираете им сообщение:
 [        Show typing notifications in the message window]
@@ -689,8 +689,8 @@ ID текущего контакта (если определен). Наприм
 Контакт начал набор сообщения
 [Contact stopped typing]
 Контакт закончил набор сообщения
-[TABSRMM: Typing]
-TABSRMM: Набирает
+[TabSRMM: Typing]
+TabSRMM: Набирает
 
 ;-ЗНАЧКИ-
 
@@ -934,8 +934,8 @@ TABSRMM: Набирает
 Показывать для всех окон диалогов, если они неактивны
 [Save current Window Position as Default]
 Сохранить текущую позицию окна
-[About tabSRMM...]
-О плагине tabSRMM...
+[About TabSRMM...]
+О плагине TabSRMM...
 [&Room]
 Чат-комната
 [Save and close session]
@@ -1514,8 +1514,8 @@ ID пользователя в панели статуса
 Неизвестный модуль или контакт
 [Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
 Либо плагин тряски не установлен, либо протокол контакта не поддерживает отправку события тряски.
-[tabSRMM Information]
-Информация tabSRMM
+[TabSRMM Information]
+Информация TabSRMM
 [U&se Popup colours]
 Цвета плагина Popup
 [TabSRMM fatal error]
@@ -1630,7 +1630,7 @@ ID пользователя в панели статуса
 ...закончил набирать текст
 [Popups timeout]
 Таймаут плагина Popup
-[About tabSRMM]
+[About TabSRMM]
 о TabSRMM
 [TabSRMM session list]
 Список сессий TabSRMM

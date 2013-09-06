@@ -2481,10 +2481,10 @@ ID пользователя:
 Индикатор изменения размера
 [&Floating Contact]
 Плавающий контакт
-[tabSRMM Menu]
-Меню tabSRMM
-[tabSRMM session list]
-Список сессий tabSRMM
+[TabSRMM Menu]
+Меню TabSRMM
+[TabSRMM session list]
+Список сессий TabSRMM
 [Title bar]
 Заголовок
 [Alignment]

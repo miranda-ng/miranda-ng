@@ -99,9 +99,9 @@
 Показать/скрыть оффлайн контакты
 [Show menu]
 Меню
-[Show tabSRMM menu]
+[Show TabSRMM menu]
 Меню TabSRMM
-[Show tabSRMM session list]
+[Show TabSRMM session list]
 Список сессий TabSRMM
 [Toggle group mode]
 Показать/скрыть группы
