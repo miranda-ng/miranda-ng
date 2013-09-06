@@ -210,7 +210,7 @@ en.PortTypeInstLabel=Profiles and user data files are stored in program folder.%
 en.ProfileUninst=WARNING!!!%nYou are about to delete profile folder containing all your settings, contacts and message history!%nAre you sure you want to remove profile?%n(You may need it later)
 
 en.FolderExists1=Folder
-en.FolderExists2=already exists. This installer is for a first time install only! Please select another folder for a new installation.%nIf you wish to upgrade your current program, please use  PluginUpdater%n("Check for plugin updates" item in Miranda's main menu).
+en.FolderExists2=already exists. This installer is for a first time install only! Please select another folder for a new installation.%nIf you wish to upgrade your current program, please use PluginUpdater%n("Check for plugin updates" item in Miranda's main menu).
 
 en.PercentDone=% done
 
