@@ -127,9 +127,9 @@ __inline void InternetTimeGetCurrentTime(INTERNET_TIME *pitTime)
 	GetSystemTime(&pitTime->stTime);
 }
 
-
+//	Переводит время из MAILTIME в строковое
 __inline CMStringA InternetTimeGetString(INTERNET_TIME *pitTime)
-{//	Переводит время из MAILTIME в строковое
+{
 	DWORD dwRet=NO_ERROR;
 
 	char lpszBuff[100];
@@ -164,134 +164,114 @@ __inline CMStringA InternetTimeGetString(INTERNET_TIME *pitTime)
 	return lpszBuff;
 }
 
+//	Переводит время из строкового в INTERNET_TIME
+__inline DWORD InternetTimeGetTime(const CMStringA &lpszTime, INTERNET_TIME &pitTime)
+{
+	if (lpszTime.IsEmpty())
+		return ERROR_INVALID_HANDLE;
+	
+	// = Thu, 21 May 1998 05:33:29 -0700 =
+	char sztmBuff[4096];
+	LPSTR lpszCurPos=sztmBuff,lpszTemp;
+	size_t i,dwCurSize=4096,dwTemp;
 
+	memset(&pitTime, 0, sizeof(INTERNET_TIME));
+	WSP2SP(lpszTime, lpszTime.GetLength(), lpszCurPos, &dwCurSize);
 
-__inline DWORD InternetTimeGetTime(const CMStringA &lpszTime, INTERNET_TIME *pitTime)
-{//	Переводит время из строкового в INTERNET_TIME
-	DWORD dwRet=NO_ERROR;
-
-	if (!lpszTime.IsEmpty() && pitTime)
-	{// = Thu, 21 May 1998 05:33:29 -0700 =
-		char sztmBuff[4096];
-		LPSTR lpszCurPos=sztmBuff,lpszTemp;
-		size_t i,dwCurSize=4096,dwTemp;
-
-		memset(pitTime, 0, sizeof(INTERNET_TIME));
-		WSP2SP(lpszTime, lpszTime.GetLength(), lpszCurPos, &dwCurSize);
-
-		if (dwCurSize>3)
-		{// день недели
-			if (lpszCurPos[3]==',')
-			{
-				for (i=0;i<8;i++)
-				{
-					if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,lpcszenmDayOfWeakEnum[i],3,lpszCurPos,3)==CSTR_EQUAL) 
-					{
-						pitTime->stTime.wDayOfWeek=(unsigned short)i;
-						break;
-					}
+	if (dwCurSize > 3) { // день недели
+		if (lpszCurPos[3] == ',') {
+			for (i=0; i < 8; i++) {
+				if ( !_memicmp(lpcszenmDayOfWeakEnum[i], lpszCurPos, 3)) {
+					pitTime.stTime.wDayOfWeek=(unsigned short)i;
+					break;
 				}
-
-				lpszCurPos+=4;
-				dwCurSize-=4;
 			}
 
-			if (dwCurSize>2)
-			{// день месяца
-				SkeepSPWSP(lpszCurPos,dwCurSize,&lpszCurPos,&dwCurSize);
-				if ((lpszTemp=(LPSTR)MemoryFindByte(0,lpszCurPos,dwCurSize,' ')))
-				{
-					dwTemp=(lpszTemp-lpszCurPos);
-					pitTime->stTime.wDay=(unsigned short)StrToUNum32(lpszCurPos,dwTemp);
+			lpszCurPos+=4;
+			dwCurSize-=4;
+		}
 
-					lpszCurPos=(lpszTemp+1);
-					dwCurSize-=(dwTemp+1);
+		if (dwCurSize>2) { // день месяца
+			SkeepSPWSP(lpszCurPos,dwCurSize,&lpszCurPos,&dwCurSize);
+			if ((lpszTemp = (LPSTR)MemoryFindByte(0, lpszCurPos, dwCurSize,' '))) {
+				dwTemp=(lpszTemp-lpszCurPos);
+				pitTime.stTime.wDay=(unsigned short)StrToUNum32(lpszCurPos,dwTemp);
 
-					if (dwCurSize>3)
-					{// месяц
-						SkeepSPWSP(lpszCurPos,dwCurSize,&lpszCurPos,&dwCurSize);
+				lpszCurPos=(lpszTemp+1);
+				dwCurSize-=(dwTemp+1);
 
-						for (i=1;i<14;i++)
-						{
-							if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,lpcszenmMonthEnum[i],3,lpszCurPos,3)==CSTR_EQUAL)
-							{
-								pitTime->stTime.wMonth=(unsigned short)i;
-								break;
-							}
+				if (dwCurSize > 3) { // месяц
+					SkeepSPWSP(lpszCurPos,dwCurSize,&lpszCurPos,&dwCurSize);
+
+					for (i=1; i < 14; i++)
+						if ( !_memicmp(lpcszenmMonthEnum[i], lpszCurPos, 3)) {
+							pitTime.stTime.wMonth=(unsigned short)i;
+							break;
 						}
 
-						lpszCurPos+=3;
-						dwCurSize-=3;
+					lpszCurPos += 3;
+					dwCurSize -= 3;
 
+					if (dwCurSize > 3) { // год
+						SkeepSPWSP(lpszCurPos,dwCurSize,&lpszCurPos,&dwCurSize);
+						if ((lpszTemp = (LPSTR)MemoryFindByte(0,lpszCurPos,dwCurSize,' '))) {
+							dwTemp=(lpszTemp-lpszCurPos);
+							pitTime.stTime.wYear=(unsigned short)StrToUNum32(lpszCurPos,dwTemp);
 
-						if (dwCurSize>3)
-						{// год
-							SkeepSPWSP(lpszCurPos,dwCurSize,&lpszCurPos,&dwCurSize);
-							if ((lpszTemp=(LPSTR)MemoryFindByte(0,lpszCurPos,dwCurSize,' ')))
-							{
-								dwTemp=(lpszTemp-lpszCurPos);
-								pitTime->stTime.wYear=(unsigned short)StrToUNum32(lpszCurPos,dwTemp);
+							lpszCurPos=(lpszTemp+1);
+							dwCurSize-=(dwTemp+1);
 
-								lpszCurPos=(lpszTemp+1);
-								dwCurSize-=(dwTemp+1);
+							if (dwCurSize > 2) { // часы
+								SkeepSPWSP(lpszCurPos,dwCurSize,&lpszCurPos,&dwCurSize);
+								if ((lpszTemp = (LPSTR)MemoryFindByte(0,lpszCurPos,dwCurSize,':'))) {
+									dwTemp=(lpszTemp-lpszCurPos);
+									pitTime.stTime.wHour=(unsigned short)StrToUNum32(lpszCurPos,dwTemp);
 
-								if (dwCurSize>2)
-								{ // часы
-									SkeepSPWSP(lpszCurPos,dwCurSize,&lpszCurPos,&dwCurSize);
-									if ((lpszTemp=(LPSTR)MemoryFindByte(0,lpszCurPos,dwCurSize,':')))
-									{
-										dwTemp=(lpszTemp-lpszCurPos);
-										pitTime->stTime.wHour=(unsigned short)StrToUNum32(lpszCurPos,dwTemp);
+									lpszCurPos=(lpszTemp+1);
+									dwCurSize-=(dwTemp+1);
 
-										lpszCurPos=(lpszTemp+1);
-										dwCurSize-=(dwTemp+1);
+									if (dwCurSize > 2) { // минуты
+										SkeepSPWSP(lpszCurPos,dwCurSize,&lpszCurPos,&dwCurSize);
+										if ((lpszTemp=(LPSTR)MemoryFindByte(0,lpszCurPos,dwCurSize,':')))
+										{
+											dwTemp=(lpszTemp-lpszCurPos);
+											pitTime.stTime.wMinute=(unsigned short)StrToUNum32(lpszCurPos,dwTemp);
 
-										if (dwCurSize>2)
-										{// минуты
-											SkeepSPWSP(lpszCurPos,dwCurSize,&lpszCurPos,&dwCurSize);
-											if ((lpszTemp=(LPSTR)MemoryFindByte(0,lpszCurPos,dwCurSize,':')))
-											{
-												dwTemp=(lpszTemp-lpszCurPos);
-												pitTime->stTime.wMinute=(unsigned short)StrToUNum32(lpszCurPos,dwTemp);
+											lpszCurPos = (lpszTemp+1);
+											dwCurSize -= (dwTemp+1);
 
-												lpszCurPos=(lpszTemp+1);
-												dwCurSize-=(dwTemp+1);
-
-												if (dwCurSize>2)
-												{// секунды, они есть
-													if ((lpszTemp=(LPSTR)MemoryFindByte(0,lpszCurPos,dwCurSize,' ')))
-													{
-														dwTemp=(lpszTemp-lpszCurPos);
-														pitTime->stTime.wSecond=(unsigned short)StrToUNum32(lpszCurPos,dwTemp);
-
-														lpszCurPos=(lpszTemp+1);
-														dwCurSize-=(dwTemp+1);
-													}
-												}else{// зоны нет
-													if (dwCurSize)
-													{
-														pitTime->stTime.wSecond=(unsigned short)StrToUNum32(lpszCurPos,dwCurSize);
-														lpszCurPos+=dwCurSize;
-														dwCurSize=0;
-													}
-												}
-											}else{
-												if ((lpszTemp=(LPSTR)MemoryFindByte(0,lpszCurPos,dwCurSize,' ')))
-												{
+											if (dwCurSize > 2) { // секунды, они есть
+												if ((lpszTemp = (LPSTR)MemoryFindByte(0,lpszCurPos,dwCurSize,' '))) {
 													dwTemp=(lpszTemp-lpszCurPos);
-													pitTime->stTime.wMinute=(unsigned short)StrToUNum32(lpszCurPos,dwTemp);
+													pitTime.stTime.wSecond=(unsigned short)StrToUNum32(lpszCurPos,dwTemp);
 
 													lpszCurPos=(lpszTemp+1);
 													dwCurSize-=(dwTemp+1);
 												}
 											}
-
-											if (dwCurSize)
-											{// часовой пояс
-												SkeepSPWSP(lpszCurPos,dwCurSize,&lpszCurPos,&dwCurSize);
-												pitTime->lTimeZone=(LONG)StrToNum(lpszCurPos,dwCurSize);
-												if (pitTime->lTimeZone>1300 || pitTime->lTimeZone<-1200) pitTime->lTimeZone=2400;
+											else {// зоны нет
+												if (dwCurSize) {
+													pitTime.stTime.wSecond=(unsigned short)StrToUNum32(lpszCurPos,dwCurSize);
+													lpszCurPos+=dwCurSize;
+													dwCurSize=0;
+												}
 											}
+										}
+										else {
+											if ((lpszTemp = (LPSTR)MemoryFindByte(0,lpszCurPos,dwCurSize,' '))) {
+												dwTemp = (lpszTemp-lpszCurPos);
+												pitTime.stTime.wMinute = (unsigned short)StrToUNum32(lpszCurPos,dwTemp);
+
+												lpszCurPos = (lpszTemp+1);
+												dwCurSize -= (dwTemp+1);
+											}
+										}
+
+										if (dwCurSize) { // часовой пояс
+											SkeepSPWSP(lpszCurPos, dwCurSize, &lpszCurPos, &dwCurSize);
+											pitTime.lTimeZone = (LONG)StrToNum(lpszCurPos, dwCurSize);
+											if (pitTime.lTimeZone > 1300 || pitTime.lTimeZone < -1200)
+												pitTime.lTimeZone = 2400;
 										}
 									}
 								}
@@ -301,10 +281,9 @@ __inline DWORD InternetTimeGetTime(const CMStringA &lpszTime, INTERNET_TIME *pit
 				}
 			}
 		}
-	}else{
-		dwRet=ERROR_INVALID_HANDLE;
 	}
-return(dwRet);
+
+	return NO_ERROR;
 }
 
 

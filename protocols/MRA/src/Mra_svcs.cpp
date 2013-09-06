@@ -443,9 +443,9 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 		CMStringW wszNick;
 		DWORD dwID, dwGroupID, dwContactFlag;
 
-		if ( CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szModule, -1, "CList", 5) == CSTR_EQUAL) {
+		if ( !strcmp(cws->szModule, "CList")) {
 			// MyHandle setting
-			if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szSetting, -1, "MyHandle", 8) == CSTR_EQUAL) {
+			if ( !strcmp(cws->szSetting, "MyHandle")) {
 				// always store custom nick
 				if (cws->value.type == DBVT_DELETED) {
 					wszNick = GetContactNameW(hContact);
@@ -471,7 +471,7 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 				}
 			}
 			// Group setting
-			else if ( CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szSetting, -1, "Group", 5) == CSTR_EQUAL ) {
+			else if ( !strcmp(cws->szSetting, "Group")) {
 				// manage group on server
 				switch (cws->value.type) {
 				case DBVT_ASCIIZ:
@@ -481,7 +481,7 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 				}
 			}
 			// NotOnList setting. Has a temporary contact just been added permanently?
-			else if ( CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szSetting, -1, "NotOnList", 9) == CSTR_EQUAL) {
+			else if ( !strcmp(cws->szSetting, "NotOnList")) {
 				if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0)) {
 					CMStringW wszAuthMessage;
 					if ( !mraGetStringW(NULL, "AuthMessage", wszAuthMessage))
@@ -493,7 +493,7 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 				}
 			}
 			// Hidden setting
-			else if ( CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szSetting, -1, "Hidden" , 6) == CSTR_EQUAL) {
+			else if ( !strcmp(cws->szSetting, "Hidden")) {
 				GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, NULL, NULL, &szEmail, &wszNick, &szPhones);
 				if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0))
 					dwContactFlag &= ~CONTACT_FLAG_SHADOW;
@@ -504,8 +504,8 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 			}
 		}
 		// Ignore section
-		else if ( CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szModule, -1, "Ignore", 6) == CSTR_EQUAL) {
-			if ( CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szSetting, -1, "Mask1", 5) == CSTR_EQUAL) {
+		else if ( !strcmp(cws->szModule, "Ignore")) {
+			if ( !strcmp(cws->szSetting, "Mask1")) {
 				GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, NULL, NULL, &szEmail, &wszNick, &szPhones);
 				if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_DWORD && cws->value.dVal&IGNOREEVENT_MESSAGE) == 0)
 					dwContactFlag &= ~CONTACT_FLAG_IGNORE;
@@ -516,12 +516,10 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 			}
 		}
 		// User info section
-		else if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szModule, -1, "UserInfo", 8) == CSTR_EQUAL) {
-			if ( CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szSetting, -1, "MyPhone0", 8) == CSTR_EQUAL ||
-				CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szSetting, -1, "MyPhone1", 8) == CSTR_EQUAL ||
-				CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, cws->szSetting, -1, "MyPhone2", 8) == CSTR_EQUAL) {
-					GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, NULL, NULL, &szEmail, &wszNick, &szPhones);
-					MraModifyContactW(hContact, dwID, dwContactFlag, dwGroupID, szEmail, wszNick, szPhones);
+		else if ( !strcmp(cws->szModule, "UserInfo")) {
+			if ( !strcmp(cws->szSetting, "MyPhone0") || !strcmp(cws->szSetting, "MyPhone1") || !strcmp(cws->szSetting, "MyPhone2")) {
+				GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, NULL, NULL, &szEmail, &wszNick, &szPhones);
+				MraModifyContactW(hContact, dwID, dwContactFlag, dwGroupID, szEmail, wszNick, szPhones);
 			}
 		}
 	}

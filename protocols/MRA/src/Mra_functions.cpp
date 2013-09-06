@@ -466,8 +466,9 @@ HANDLE CMraProto::MraHContactFromEmail(const CMStringA& szEmail, BOOL bAddIfNeed
 	CMStringA szEMailLocal;
 	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 		if (mraGetStringA(hContact, "e-mail", szEMailLocal))
-			if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, szEMailLocal, szEMailLocal.GetLength(), szEmail, szEmail.GetLength()) == CSTR_EQUAL) {
-				if (bTemporary == FALSE) db_unset(hContact, "CList", "NotOnList");
+			if (szEMailLocal == szEmail) {
+				if (bTemporary == FALSE)
+					db_unset(hContact, "CList", "NotOnList");
 				bFound = true;
 				break;
 			}
@@ -489,7 +490,7 @@ HANDLE CMraProto::MraHContactFromEmail(const CMStringA& szEmail, BOOL bAddIfNeed
 				BOOL bChatAdded = FALSE;
 				for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 					if (mraGetStringA(hContact, "ChatRoomID", szEMailLocal)) {
-						if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, szEMailLocal, szEMailLocal.GetLength(), szEmail, szEmail.GetLength()) == CSTR_EQUAL) {
+						if (szEMailLocal == szEmail) {
 							bChatAdded = TRUE;
 							break;
 						}
@@ -555,16 +556,10 @@ DWORD CMraProto::MraSetContactStatus(HANDLE hContact, DWORD dwNewStatus)
 {
 	DWORD dwOldStatus = MraGetContactStatus(hContact);
 
-	if (dwNewStatus != dwOldStatus)
-	{
-		BOOL bChatAgent;
-
-		bChatAgent = IsContactChatAgent(hContact);
-
-		if (dwNewStatus == ID_STATUS_OFFLINE)
-		{
-			if (hContact)
-			{
+	if (dwNewStatus != dwOldStatus) {
+		bool bChatAgent = IsContactChatAgent(hContact);
+		if (dwNewStatus == ID_STATUS_OFFLINE) {
+			if (hContact) {
 				setByte(hContact, DBSETTING_XSTATUSID, MRA_MIR_XSTATUS_NONE);
 				delSetting(hContact, DBSETTING_XSTATUSNAME);
 				delSetting(hContact, DBSETTING_XSTATUSMSG);
@@ -573,27 +568,28 @@ DWORD CMraProto::MraSetContactStatus(HANDLE hContact, DWORD dwNewStatus)
 				delSetting(hContact, DBSETTING_BLOGSTATUS);
 				delSetting(hContact, DBSETTING_BLOGSTATUSMUSIC);
 				MraContactCapabilitiesSet(hContact, 0);
-				if (bChatAgent) MraChatSessionDestroy(hContact);
+				if (bChatAgent)
+					MraChatSessionDestroy(hContact);
 			}
 			setDword(hContact, "LogonTS", 0);
 			delSetting(hContact, "IP");
 			delSetting(hContact, "RealIP");
-		}else {
-			if (dwOldStatus == ID_STATUS_OFFLINE)
-			{
+		}
+		else {
+			if (dwOldStatus == ID_STATUS_OFFLINE) {
 				DWORD dwTime = (DWORD)_time32(NULL);
-
 				setDword(hContact, "LogonTS", dwTime);
 				setDword(hContact, "OldLogonTS", dwTime);
 
-				if (bChatAgent) MraChatSessionNew(hContact);
+				if (bChatAgent)
+					MraChatSessionNew(hContact);
 			}
 			MraAvatarsQueueGetAvatarSimple(hAvatarsQueueHandle, 0, hContact, 0);
 		}
 
 		setWord(hContact, "Status", (WORD)dwNewStatus);
 	}
-	return(dwOldStatus);
+	return dwOldStatus;
 }
 
 void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &pszSubject, DWORD dwDate, DWORD dwUIDL)

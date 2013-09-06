@@ -412,7 +412,7 @@ bool CMraProto::MraFilesQueueHandCheck(HANDLE m_hConnection, MRA_FILES_QUEUE_ITE
 				if ((szEmail.GetLength()+sizeof(MRA_FT_HELLO)+1) == dwBuffSize) {
 					// email received
 					mir_snprintf(((LPSTR)btBuff+dwBuffSize), (SIZEOF(btBuff)-dwBuffSize), "%s %s", MRA_FT_HELLO, szEmail);
-					if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, (LPSTR)btBuff, dwBuffSize, ((LPSTR)btBuff+dwBuffSize), dwBuffSize) == CSTR_EQUAL)
+					if ( !_memicmp(btBuff, btBuff+dwBuffSize, dwBuffSize))
 						return true;
 				}
 			}
@@ -423,7 +423,7 @@ bool CMraProto::MraFilesQueueHandCheck(HANDLE m_hConnection, MRA_FILES_QUEUE_ITE
 				// email received
 				ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)dat->dwIDRequest, 0);
 				mir_snprintf(((LPSTR)btBuff+dwBuffSize), (SIZEOF(btBuff)-dwBuffSize), "%s %s", MRA_FT_HELLO, szEmail);
-				if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, (LPSTR)btBuff, dwBuffSize, ((LPSTR)btBuff+dwBuffSize), dwBuffSize) == CSTR_EQUAL) {
+				if ( !_memicmp(btBuff, btBuff+dwBuffSize, dwBuffSize)) {
 					// email verified
 					dwBuffSize = (mir_snprintf((LPSTR)btBuff, SIZEOF(btBuff), "%s %s", MRA_FT_HELLO, szEmailMy.c_str())+1);
 					if (dwBuffSize == Netlib_Send(m_hConnection, (LPSTR)btBuff, dwBuffSize, 0))
@@ -1063,14 +1063,14 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 
 			// ...received
 			if (dwBuffSizeUsed > (sizeof(MRA_FT_GET_FILE)+1)) {// file name received
-				if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, (LPSTR)btBuff, (sizeof(MRA_FT_GET_FILE)-1), MRA_FT_GET_FILE, (sizeof(MRA_FT_GET_FILE)-1)) == CSTR_EQUAL) {
+				if ( !_memicmp(btBuff, MRA_FT_GET_FILE, sizeof(MRA_FT_GET_FILE)-1)) {
 					// MRA_FT_GET_FILE verified
 					bFailed = TRUE;
 					for (j = 0;j<dat->dwFilesCount;j++) {
 						lpwszFileName = GetFileNameFromFullPathW(dat->pmfqfFiles[j].lpwszName, dat->pmfqfFiles[j].dwNameLen);
 						szFileName[WideCharToMultiByte(MRA_CODE_PAGE, 0, lpwszFileName, (dat->pmfqfFiles[j].dwNameLen-(lpwszFileName-dat->pmfqfFiles[j].lpwszName)), szFileName, SIZEOF(szFileName), NULL, NULL)] = 0;
 
-						if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, (((LPSTR)btBuff)+sizeof(MRA_FT_GET_FILE)), (dwBuffSizeUsed-(sizeof(MRA_FT_GET_FILE)+1)), szFileName, -1) == CSTR_EQUAL) {
+						if ( !_memicmp(btBuff+sizeof(MRA_FT_GET_FILE), szFileName, dwBuffSizeUsed-(sizeof(MRA_FT_GET_FILE)+1))) {
 							bFailed = FALSE;
 							break;
 						}

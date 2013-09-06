@@ -412,7 +412,7 @@ DWORD MraAvatarsHttpTransaction(HANDLE m_hConnection, DWORD dwRequestType, LPCST
 	nlbhHeaders[2].szName = "Pragma";			 nlbhHeaders[2].szValue = "no-cache";
 	nlbhHeaders[3].szName = "Connection";		 nlbhHeaders[3].szValue = (bUseKeepAliveConn)? "keep-alive":"close";
 
-	NETLIBHTTPREQUEST *pnlhr, nlhr = {0};
+	NETLIBHTTPREQUEST nlhr = {0};
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = dwRequestType;
 	nlhr.flags = (NLHRF_GENERATEHOST|NLHRF_SMARTREMOVEHOST|NLHRF_SMARTAUTHHEADER);
@@ -424,7 +424,7 @@ DWORD MraAvatarsHttpTransaction(HANDLE m_hConnection, DWORD dwRequestType, LPCST
 	if (dwSent == SOCKET_ERROR || !dwSent)
 		return GetLastError();
 
-	pnlhr = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_RECVHTTPHEADERS, (WPARAM)m_hConnection, 0);
+	NETLIBHTTPREQUEST *pnlhr = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_RECVHTTPHEADERS, (WPARAM)m_hConnection, 0);
 	if (!pnlhr)
 		return GetLastError();
 
@@ -449,11 +449,12 @@ DWORD MraAvatarsHttpTransaction(HANDLE m_hConnection, DWORD dwRequestType, LPCST
 		}
 		else if ( !_strnicmp(pnlhr->headers[i].szName, "Last-Modified", 13)) {
 			if (pitLastModifiedTime)
-				InternetTimeGetTime(pnlhr->headers[i].szValue, pitLastModifiedTime);
+				InternetTimeGetTime(pnlhr->headers[i].szValue, *pitLastModifiedTime);
 		}
 	}
 
-	if (pdwResultCode) (*pdwResultCode) = pnlhr->resultCode;
+	if (pdwResultCode)
+		*pdwResultCode = pnlhr->resultCode;
 	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pnlhr);
 	return 0;
 }
@@ -464,7 +465,7 @@ bool CMraProto::MraAvatarsGetContactTime(HANDLE hContact, LPSTR lpszValueName, S
 		INTERNET_TIME itAvatarLastModifiedTimeLocal;
 		CMStringA szBuff;
 		if (mraGetStringA(hContact, lpszValueName, szBuff))
-		if (InternetTimeGetTime(szBuff, &itAvatarLastModifiedTimeLocal) == NO_ERROR) {
+		if (InternetTimeGetTime(szBuff, itAvatarLastModifiedTimeLocal) == NO_ERROR) {
 			memmove(pstTime, &itAvatarLastModifiedTimeLocal.stTime, sizeof(SYSTEMTIME));
 			return TRUE;
 		}

@@ -136,7 +136,7 @@ public:
 	void      getStringA(CMStringA&);
 	void      getStringW(CMStringW&);
 
-	__forceinline bool eof() const { return m_len > 0; }
+	__forceinline bool eof() const { return m_len == 0; }
 };
 
 __forceinline BinBuffer& operator >>(BinBuffer& buf, DWORD &dwVar)     { dwVar = buf.getDword(); return buf; }
