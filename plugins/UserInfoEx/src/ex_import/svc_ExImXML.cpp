@@ -187,7 +187,7 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 			} // *end for
 #ifdef _DEBUG
 			QueryPerformanceCounter(&t2);
-			MsgErr(NULL, LPGENT("Export took %f msec"),
+			MsgErr(NULL, LPGENT("Export took %f ms"),
 				(long double)(t2.QuadPart - t1.QuadPart) / freq.QuadPart * 1000.);
 #endif
 		}// *end other export mode
@@ -415,7 +415,7 @@ int CFileXml::Import(HANDLE hContact, LPCSTR pszFileName)
 
 #ifdef _DEBUG
 			QueryPerformanceCounter(&t2);
-			MsgErr(NULL, LPGENT("Import took %f msec"),
+			MsgErr(NULL, LPGENT("Import took %f ms"),
 				(long double)(t2.QuadPart - t1.QuadPart) / freq.QuadPart * 1000.);
 #endif
 			// show results

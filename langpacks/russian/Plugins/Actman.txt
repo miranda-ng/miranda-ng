@@ -44,7 +44,7 @@
 [parameter]
 параметр
 [Process time, ms]
-Время процесса, мсек
+Время процесса, мс
 [No Description]
 Нет описания
 [Signed value]

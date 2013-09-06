@@ -97,7 +97,7 @@ begin
       CheckDlgButton(Dialog,IDC_MTHCHECK,MTHCheck);
 
       MakeHint(Dialog,IDC_TIMEOUT,
-        'Timeout (msec) for separate thread handles checking.');
+        'Timeout (ms) for separate thread handles checking.');
       SetDlgItemInt(Dialog,IDC_TIMEOUT,TimeoutForThread,false);
 
       MakeHint(Dialog,IDC_KEEPOLD,

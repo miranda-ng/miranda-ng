@@ -68,7 +68,7 @@ BEGIN
     CONTROL         "",IDC_ST_SPIN,"msctls_updown32",UDS_SETBUDDYINT | 
                     UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
                     UDS_NOTHOUSANDS,171,149,10,10
-    LTEXT           "msec",IDC_STATIC,175,150,95,9
+    LTEXT           "ms",IDC_STATIC,175,150,95,9
     CONTROL         "Fade in:",IDC_FADEIN,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,39,169,80,8
     EDITTEXT        IDC_FISTEP,130,168,39,12,ES_AUTOHSCROLL
