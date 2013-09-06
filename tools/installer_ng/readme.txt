@@ -4,8 +4,8 @@
    
    b. Download and install Inno Setup QuickStart Pack unicode from - http://www.jrsoftware.org/download.php/ispack-unicode.exe
 
-3. Run make_all.bat
+3. Run make_all.bat (will download, compile and cleanup all) or make_interactive.bat for user interactive mode
 
 4. Collect the compiled installer files from Output folder
 
-5. Optionally run cleanup.bat if you want to delete all the temporary files and build folders
+5. Optionally run cleanup.bat if you want to delete all the temporary files and build folders (if make_all.bat didn't do it for you already)
