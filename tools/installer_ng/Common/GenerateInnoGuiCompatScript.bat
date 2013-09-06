@@ -47,5 +47,5 @@ if %InnoX% == InnoNG_32 (
 rem end
 
 rem Delete bat file
-del "%~f0
+if exist MirandaNG.iss del "%~f0
 rem end
