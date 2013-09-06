@@ -146,7 +146,7 @@ Source: "Installer\{#VcRedistName}"; DestDir: {tmp}; Flags: deleteafterinstall; 
 [Components]
 Name: "program"; Description: "{cm:Program}"; Types: extended regular minimal custom; Flags: fixed 
 Name: "sounds"; Description: "{cm:Sounds}"; Types: extended custom 
-Name: "protocols"; Description: "{cm:Protocols}"; Types: extended regular minimal custom; Flags: fixed 
+Name: "protocols"; Description: "{cm:Protocols}"; Types: extended regular minimal 
 Name: "protocols\aim"; Description: "{cm:Aim}"; Types: extended regular minimal 
 Name: "protocols\facebook"; Description: "{cm:Facebook}"; Types: extended regular minimal 
 Name: "protocols\gg"; Description: "{cm:Gg}"; Types: extended regular minimal 

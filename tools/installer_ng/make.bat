@@ -1,4 +1,6 @@
 @echo off
+if /i '%1' == 'y' set answer=y
+if /i '%2' == 'y' set ans=y
 rem Get version
 if not exist tmp mkdir tmp
 wget -O tmp\build.no http://svn.miranda-ng.org/main/trunk/build/build.no
