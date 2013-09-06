@@ -30,7 +30,7 @@ IDD_OPT_FTPFILE DIALOGEX 0, 0, 268, 230
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "FTP account",IDC_STATIC,7,5,254,220
+    GROUPBOX        "FTP accounts",IDC_STATIC,7,5,254,220
     RTEXT           "Host name",IDC_STATIC,14,70,89,8
     RTEXT           "User",IDC_STATIC,14,129,89,8
     RTEXT           "Password",IDC_STATIC,14,148,89,8

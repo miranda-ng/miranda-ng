@@ -306,7 +306,7 @@ BEGIN
     RTEXT           "Horizontal Align",IDC_STATIC,27,124,61,10
     COMBOBOX        IDC_SBAR_HORIZ_ALIGN,93,123,48,48,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Multiline status bar:",IDC_STATIC,18,139,133,8
-    RTEXT           "Accounts per line",IDC_STATIC,27,150,61,10
+    RTEXT           "Accounts per line",IDC_STATIC,15,150,73,10
     EDITTEXT        IDC_MULTI_COUNT,93,148,48,12,ES_NUMBER
     CONTROL         "",IDC_MULTI_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,129,148,11,12
     LTEXT           "* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.",IDC_STATIC,27,163,123,42,WS_DISABLED
