@@ -1,4 +1,5 @@
 @echo off
+if not exist MirandaNG.iss goto end
 set GetVer=for /F "tokens=1,2,3 delims= " %%i in (build.no) do set MirVer=%%i.%%j.%%k
 set BomRem=http://miranda-ng.org/distr/installer/bom_remove.exe
 set BomAdd=http://miranda-ng.org/distr/installer/bom_add.exe
@@ -47,5 +48,6 @@ if %InnoX% == InnoNG_32 (
 rem end
 
 rem Delete bat file
-if exist MirandaNG.iss del "%~f0
+del "%~f0
 rem end
+:end
