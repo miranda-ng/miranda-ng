@@ -29,3 +29,12 @@ if defined ProgramFiles(x86) (
 	"%ProgramFiles%\%Compile64%
 )
 rem end
+
+rem Error repotrt
+if errorlevel 1 goto compileerror
+goto end
+:compileerror
+cls && echo Something went wrong... Please run createstructure.bat and try again
+pause
+:end
+rem end
