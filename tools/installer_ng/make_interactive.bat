@@ -1,7 +1,6 @@
 @echo off
 rem Get archives if needed
-echo ------------------------------------------------------------------------------------
-echo ------------------------------------------------------------------------------------
+cls
 :again
 set /p answer=Do you want to create folder structure and download new components? (Y/N):
 if /i "%answer:~,1%" EQU "Y" goto download
@@ -23,8 +22,7 @@ call createstructure.bat
 rem end
 
 rem Make
-echo ------------------------------------------------------------------------------------
-echo ------------------------------------------------------------------------------------
+cls
 :again1
 set /p answ=Do you want to compile the installers now? (Y/N):
 if /i "%answ:~,1%" EQU "Y" goto compile
@@ -38,8 +36,7 @@ call compile.bat
 rem end
 
 rem Cleanup
-echo ------------------------------------------------------------------------------------
-echo ------------------------------------------------------------------------------------
+cls
 :again2
 set /p ans=Do you want to delete temp files and build folders? (Y/N):
 if /i "%ans:~,1%" EQU "Y" goto cleanup
