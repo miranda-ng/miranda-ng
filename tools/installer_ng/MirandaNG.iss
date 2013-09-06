@@ -909,7 +909,7 @@ begin
     ExpandConstant('{cm:LangEnglishDescription}') + ';' +
     '');
 
-    if DirExists(WizardForm.DirEdit.Text) and FileExists(WizardForm.DirEdit.Text+'\{#MirName}') then
+    if DirExists(WizardForm.DirEdit.Text) and (FileExists(WizardForm.DirEdit.Text+'\{#MirName}') or FileExists(WizardForm.DirEdit.Text+'\mir_core.dll'))  then
     begin
       MsgBox(ExpandConstant('{cm:FolderExists1}')+#10+#10+WizardForm.DirEdit.Text+#10+#10+ExpandConstant('{cm:FolderExists2}'), mbError, MB_OK);
       Result := False;
