@@ -120,6 +120,16 @@
 [Last Year]
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderBase.cpp
+[upper right corner]
+[horizontal]
+[vertical]
+[Global Status]
+[Protocol Status]
+[Maximum width]
+[Width]
+[Plugins]
+[Non-IM Contacts]
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]

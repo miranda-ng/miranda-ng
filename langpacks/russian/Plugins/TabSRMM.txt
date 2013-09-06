@@ -1632,6 +1632,10 @@ ID пользователя в панели статуса
 Таймаут плагина Popup
 [About tabSRMM]
 о TabSRMM
+[TabSRMM session list]
+Список сессий TabSRMM
+[TabSRMM Menu]
+Меню TabSRMM
 [No Message Sessions opened]
 Нет открытых окон сообщений
 [Queue manager]

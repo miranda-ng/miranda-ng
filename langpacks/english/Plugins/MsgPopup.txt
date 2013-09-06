@@ -20,7 +20,7 @@
 ;file \plugins\MsgPopup\src\main.cpp
 [VirtualProtect failed. Code %d\nTry to call the author]
 [MsgBox]
-[Hmm. Something goes wrong. I can't write into the memory.\nAnd as u can c, there are no any exception raised...\nTry to call the author]
+[Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]
 [MessagePopup]
 [Popups]
 ;file \plugins\MsgPopup\src\options.cpp
