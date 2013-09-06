@@ -26,6 +26,10 @@
 Отсылка регистрационной информации...
 [Requesting registration instruction...]
 Запрос регистрационной инструкции...
+[Authentication failed for %s.]
+Аутентификация не прошла для %s.
+[Authentication failed for %s@%S.]
+Аутентификация не прошла для %s@%S.
 [Error: Not enough memory]
 Ошибка: Не хватает памяти
 [Error: Cannot resolve server address]
@@ -48,12 +52,14 @@
 Введите пароль
 [Unregister]
 Удалить
+[Reason to ban]
+Причина бана
 [Account removal warning]
 Удаление учетной записи
-[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
+[This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
 Эта операция удалит Вашу учетную запись, ростер и всю информацию хранимую на сервере. Вы действительно хотите удалить учетную запись?
-[Set New Password for]
-Установка нового пароля
+[Set New Password for %s@%S]
+Установка нового пароля для %s@%S
 [New password does not match.]
 Новые пароли не совпадают
 [Current password is incorrect.]
@@ -72,8 +78,8 @@
 Доменный логин
 [Jabber Password]
 Jabber Пароль
-[Enter password for]
-Введите пароль для
+[Enter password for %s]
+Введите пароль для %s
 [Priority:]
 Приоритет:
 [Resource:]
@@ -267,8 +273,8 @@ TLS
 Конвертировать в контакт
 [Jabber Resource]
 Ресурс
-[Last Active]
-Последний активный
+[Last active (%s)]
+Последний активный (%s)
 [Server's Choice]
 Выбор сервера
 [Resolve nicks]
@@ -289,8 +295,8 @@ TLS
 ;  Контекстное Меню
 [Voice List]
 Список участников
-[Set topic for]
-Установить тему для
+[Set topic for %s]
+Установить тему для %s
 [Join conference]
 Подключиться к чату
 [Open bookmarks]
@@ -385,8 +391,10 @@ Jabber Ad-Hoc команды на %s
 Сбросить фильтр
 [Real &JID: %s]
 Реальный JID: %s
-[Change nickname in]
-Изменить ник в
+[Change nickname in %s]
+Изменить ник в %s
+[Change nickname in <%s>]
+Изменить ник в <%s>
 [Lin&ks]
 Ссылки
 [Copy in-room JID]
@@ -425,8 +433,8 @@ Jabber Ad-Hoc команды на %s
 Пользователь
 [Moderator]
 Модератор
-[Reason to ban]
-Причина бана
+[Reason to ban %s]
+Причина бана %s
 [Invite to room]
 Пригласить в чат-комнату
 [from]
@@ -461,8 +469,8 @@ Jabber Ad-Hoc команды на %s
 Текст статуса:\t
 [Status:\t\t]
 Статус:\t
-[Removing]
-Удаление
+[Removing %s?]
+Удалить %s?
 [Real JID:]
 Реальный JID:
 
@@ -702,6 +710,12 @@ Unicode сборка
 <room jid>\nПриглашение в чат-комнату.
 [Member Information\n<user id>]
 Информация о пользователе\n<user id>
+[Member Information\n%s from %s]
+Информация о пользователе\n%s из %s
+[Member Info: %s]
+Инфо пользователя: %s
+[%s (not on roster)]
+%s (не в ростере)
 [Nick Name]
 Ник
 [Privacy Lists]
@@ -1322,8 +1336,8 @@ Jabber ошибка
 Настройки протокола Jabber
 [These changes will take effect the next time you connect to the Jabber network.]
 Изменения вступят в силу при следующем входе в сеть Jabber.
-[Incoming groupchat invitation.]
-Приглашение в конференцию.
+[%s\nIncoming groupchat invitation.]
+%s\nПриглашение в конференцию.
 [Sending Ad-Hoc command to %s]
 Отправить Ad-Hoc команду %s
 [Requesting command list. Please wait...]
@@ -1332,7 +1346,7 @@ Jabber ошибка
 ;  Информация и статусы в чатах
 [User %s changed status to %s]
 %s изменил статус на %s.
-[User %s in now banned.]
+[User %s is now banned.]
 Пользователь %s был забанен.
 [User %s changed status to %s with message: %s]
 %s изменил статус на %s: %s
@@ -1342,10 +1356,10 @@ Jabber ошибка
 Роль %s сменилась на '%s'.
 [Submit]
 Передать
-[Reason to kick]
-Причина пинка
-[Reason to destroy]
-Причина уничтожения
+[Reason to kick %s]
+Причина пинка %s
+[Reason to destroy %s]
+Причина уничтожения %s
 
 ;  Окно сообщений
 [Last active]
