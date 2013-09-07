@@ -168,6 +168,7 @@ void UpgradeDb()
 
 	CopyModule("PopUp", "Popup");
 	CopyModule("PopUpCLASS", "PopupCLASS");
+	CopyModule("PopUpActions", "PopupActions");
 	CopyModule("PopUpNotifications", "PopupNotifications");
 
 	db_set_b(NULL, "Compatibility", "Popup+ Opts", 1);
