@@ -6,7 +6,7 @@ int hLangpack;
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	PROTOCOL_DISPLAY_NAME_ORIGA,
-	__VERSION_DWORD,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 	"Mail.ru Agent (MRA) protocol support for Miranda NG.",
 	"Rozhuk Ivan",
 	"Rozhuk_I@mail.ru",

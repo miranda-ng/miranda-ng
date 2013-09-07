@@ -1,49 +1,34 @@
+// Microsoft Visual C++ generated resource script.
+//
 #ifdef APSTUDIO_INVOKED
 #error this file is not editable by Microsoft Visual C++
 #endif //APSTUDIO_INVOKED
 
+#include "afxres.h"
 #include "..\src\version.h"
-#include "winres.h"
-
-/////////////////////////////////////////////////////////////////////////////
-// Neutral resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
-#ifdef _WIN32
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1251)
-#endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1, 20, 0, 1
- PRODUCTVERSION 1, 20, 0, 1
- FILEFLAGSMASK 0x3fL
+ FILEVERSION __FILEVERSION_STRING
+ PRODUCTVERSION __FILEVERSION_STRING
+ FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
 #else
  FILEFLAGS 0x0L
 #endif
- FILEOS 0x40004L
- FILETYPE 0x1L
+ FILEOS 0x4L
+ FILETYPE 0x0L
  FILESUBTYPE 0x0L
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "About Miranda", "Miranda NG is a new generation IM client, extensible with numerous plugins. Get Miranda NG at http://miranda-ng.org/"
-            VALUE "Comments", "Rozhuk_I@mail.ru"
-            VALUE "FileDescription", "Miranda Mail.ru Agent protocol plugin"
-            VALUE "FileVersion", "1, 20, 0, 1"
-            VALUE "LegalCopyright", "Copyright © 2005-2009 Rozhuk Ivan"
-            VALUE "OriginalFilename", "Mra.dll"
-            VALUE "ProductName", "Plugin for Miranda NG"
-            VALUE "ProductVersion", "1, 20, 0, 1"
+            VALUE "FileDescription", __DESCRIPTION
+            VALUE "InternalName", __PLUGIN_NAME
+            VALUE "LegalCopyright", __COPYRIGHT
+            VALUE "OriginalFilename", __FILENAME
+            VALUE "ProductName", __PLUGIN_NAME
         END
     END
     BLOCK "VarFileInfo"
@@ -51,6 +36,3 @@ BEGIN
         VALUE "Translation", 0x0, 1200
     END
 END
-
-#endif    // Neutral resources
-/////////////////////////////////////////////////////////////////////////////

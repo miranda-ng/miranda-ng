@@ -73,6 +73,9 @@
 #include <m_nudge.h>
 #include <m_proto_listeningto.h>
 
+#define PROTO_VERSION_MAJOR     1
+#define PROTO_VERSION_MINOR     21
+
 #include "resource.h"
 #include "..\xstatus_MRA\src\resource.h"
 
