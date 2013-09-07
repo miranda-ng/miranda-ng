@@ -78,32 +78,6 @@ LRESULT CALLBACK ButtWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	return res;
 }
 
-void checkGroups(TCHAR* group)
-{
-	if (lstrlen(group) < 1)
-		return;
-
-	char str[50];
-	int i;
-	for (i=0;; i++) {
-		_itoa(i, str, 10);
-		DBVARIANT dbv;
-		if (db_get_ts(NULL, "CListGroups", str, &dbv))
-			break;
-
-		bool bFound = lstrcmpi(dbv.ptszVal+1, group) == 0;
-		db_free(&dbv);
-		if (bFound)
-			return;
-	}
-
-	TCHAR name[256];
-	name[0] = 1 | GROUPF_EXPANDED;
-	_tcsncpy(name+1, group, SIZEOF(name)-1);
-	db_set_ts(NULL, "CListGroups", str, name);
-	CallService(MS_CLUI_GROUPADDED, i+1, 0);
-}
-
 int BrowseForFolder(HWND hwnd,char *szPath)
 {
 	int result=0;
@@ -138,8 +112,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	switch(msg) {
 	case WM_INITDIALOG:
 		{
-			int i = 0;
-			DBVARIANT dbv;
+			int i;
 			char string[512];
 			HANDLE hContact = (HANDLE)((PROPSHEETPAGE*)lParam)->lParam;
 			TranslateDialogDefault(hwnd);
@@ -155,16 +128,11 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				SetDlgItemTextA(hwnd, IDC_PARAMS, string);
 
 			/* group*/
-			while (i != -1) {
-				char str[3];
-				mir_snprintf(str, SIZEOF(str), "%d", i);
-				if (!db_get_ts(NULL, "CListGroups", str, &dbv)) {
-					SendMessage(GetDlgItem(hwnd, IDC_GROUP), CB_INSERTSTRING,0, LPARAM(dbv.ptszVal+1));
-					db_free(&dbv);
-					i++;
-				}
-				else i = -1;
-			}
+			TCHAR *szGroup;
+			for (i=1; (szGroup = pcli->pfnGetGroupName(i, NULL)) != NULL; i++)
+				SendMessage(GetDlgItem(hwnd, IDC_GROUP), CB_INSERTSTRING,0, LPARAM(szGroup));
+
+			DBVARIANT dbv;
 			if (!db_get(hContact, "CList", "Group", &dbv))
 				SetDlgItemTextA(hwnd, IDC_GROUP, dbv.pszVal);
 
@@ -268,7 +236,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				if (GetWindowTextLength(GetDlgItem(hwnd,IDC_GROUP))) {
 					TCHAR text[512];
 					GetDlgItemText(hwnd, IDC_GROUP, text, SIZEOF(text));
-					checkGroups(text);
+					Clist_CreateGroup(NULL, text);
 					db_set_ts(hContact, "CList", "Group", text);
 				}
 				else db_unset(hContact, "CList", "Group");
@@ -595,7 +563,7 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 		}
 		else if (contactDone && !strcmp(line,"[/Non-IM Contact]\r\n")) {
 			if (!name) continue;
-			int size = strlen(name) + strlen("Do you want to import this Non-IM Contact?\r\n\r\nName: \r\n") + 1;
+			size_t size = strlen(name) + strlen("Do you want to import this Non-IM Contact?\r\n\r\nName: \r\n") + 1;
 			char *msg = (char*)malloc(size);
 			mir_snprintf(msg, size, "Do you want to import this Non-IM Contact?\r\n\r\nName: %s\r\n", name);
 			if (program) {

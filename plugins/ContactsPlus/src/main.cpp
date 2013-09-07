@@ -23,6 +23,7 @@
 
 #include "contacts.h"
 
+CLIST_INTERFACE *pcli;
 
 HINSTANCE hInst;
 
@@ -223,6 +224,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
+
 	InitCommonControls();
 	InitI18N();
 

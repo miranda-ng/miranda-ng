@@ -77,25 +77,15 @@ int CreateCListGroup(TCHAR* szGroupName)
 
 void DeleteCListGroupsByName(TCHAR* szGroupName)
 {
-	int GroupNumber = 0;
-	TCHAR szValue[96] = {0};
-	char szNumber[32] = {0};
-	strcpy(szNumber, "0");
-	BYTE ConfirmDelete=db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT);
+	BYTE ConfirmDelete = db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT);
 	if(ConfirmDelete)
 		db_set_b(NULL, "CList", "ConfirmDelete", 0);
-	while(strcmp(DBGetContactSettingStringPAN_A(NULL, "CListGroups", szNumber, "0").c_str(), "0") != 0)
-	{
-		wcscpy(szValue, DBGetContactSettingStringPAN(NULL, "CListGroups", szNumber, _T("0")).c_str());
-		if(wcscmp(szGroupName, szValue + 1) == 0)
-			CallService(MS_CLIST_GROUPDELETE, (WPARAM)(HANDLE)GroupNumber+1, 0); // bug or ??? @_@
-		GroupNumber++;
-#if defined(_MSC_VER) && _MSC_VER >= 1300
-		_itoa_s(GroupNumber, szNumber, sizeof(szNumber), 10);
-#else
-		_itoa(GroupNumber, szNumber, 10);
-#endif
-	};
+
+	TCHAR *szGroup;
+	for (int i=1; (szGroup = pcli->pfnGetGroupName(i, NULL)) != NULL; i++)
+		if( !wcscmp(szGroupName, szGroup))
+			CallService(MS_CLIST_GROUPDELETE, i, 0);
+
 	if(ConfirmDelete)
 		db_set_b(NULL, "CList", "ConfirmDelete", ConfirmDelete);
 }
@@ -106,6 +96,7 @@ int RemoveTmp(WPARAM,LPARAM)
 	CleanThread();
 	return 0;
 }
+
 tstring variables_parse(tstring const &tstrFormat, HANDLE hContact){
 	if (gbVarsServiceExist) {
 		FORMATINFO fi;
@@ -380,7 +371,7 @@ void HistoryLog(HANDLE hContact, char *data, int event_type, int flags)
 	Event.eventType = event_type;
 	Event.flags = flags | DBEF_UTF;
 	Event.timestamp = (DWORD)time(NULL);
-	Event.cbBlob = strlen(data)+1;
+	Event.cbBlob = (DWORD)strlen(data)+1;
 	Event.pBlob = (PBYTE)_strdup(data);
 	db_event_add(hContact, &Event);
 }
@@ -438,7 +429,7 @@ std::string get_random_num(int length)
 	std::string chars("123456789");
 	std::string data;
 	boost::random_device rng;
-	boost::variate_generator<boost::random_device&, boost::uniform_int<>> gen(rng, boost::uniform_int<>(0, chars.length()-1));
+	boost::variate_generator<boost::random_device&, boost::uniform_int<>> gen(rng, boost::uniform_int<>(0, (int)chars.length()-1));
 	for(int i = 0; i < length; ++i)
 		data += chars[gen()];
 	return data;

@@ -85,16 +85,10 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				acs->szProto = GetContactProto(acs->handle);
 
 		{
-			int groupId;
-			for (groupId = 0; groupId < 999; groupId++) {
-				DBVARIANT dbv;
-				char idstr[4];
-				int id;
-				_itoa(groupId, idstr, 10);
-				if (db_get_ts(NULL, "CListGroups", idstr, &dbv)) break;
-				id = SendDlgItemMessage(hdlg, IDC_GROUP, CB_ADDSTRING, 0, (LPARAM)(dbv.ptszVal+1));
+			TCHAR *grpName;
+			for (int groupId = 1; (grpName = cli.pfnGetGroupName(groupId, NULL)) != NULL; groupId++) {
+				int id = SendDlgItemMessage(hdlg, IDC_GROUP, CB_ADDSTRING, 0, (LPARAM)grpName);
 				SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETITEMDATA , id, groupId+1);
-				db_free(&dbv);
 			}
 		}
 

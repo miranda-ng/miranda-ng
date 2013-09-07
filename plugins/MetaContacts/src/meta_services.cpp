@@ -599,11 +599,6 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 		Meta_SuppressStatus(options.suppress_status);
 	}
 
-	if (wParam == 0 && strcmp(dcws->szModule, "CListGroups") == 0 && dcws->value.type != DBVT_DELETED && strcmp(dcws->value.pszVal, META_HIDDEN_GROUP) == 0)
-	{
-		// someone is creating our hidden group!!
-	}
-
 	// from here on, we're just interested in contact settings
 	if (wParam == 0) return 0;
 

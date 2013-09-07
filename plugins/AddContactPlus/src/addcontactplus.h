@@ -25,6 +25,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
+#include <m_clistint.h>
 #include <m_genmenu.h>
 #include <m_hotkeys.h>
 #include <m_icolib.h>

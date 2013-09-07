@@ -462,17 +462,9 @@ public:
 
 				SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_RESETCONTENT, 0, 0);
 
-				char buf[ 20 ];
-				DBVARIANT dbv;
-				for (int i = 0; ; i++)
-				{
-					mir_snprintf(buf, 20, "%d", i);
-					if ( db_get_ts(NULL, "CListGroups", buf, &dbv))
-						break;
-
-					SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_ADDSTRING, 0, (LPARAM)&dbv.ptszVal[1]);
-					db_free(&dbv);
-				}
+				TCHAR *grpName;
+				for (int i=1; (grpName = pcli->pfnGetGroupName(i, NULL)) != NULL; i++)
+					SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_ADDSTRING, 0, (LPARAM)grpName);
 
 				// FIXME: ugly code :)
 				if (m_pRule->GetValue())
@@ -641,7 +633,6 @@ protected:
 
 	void CListResetOptions(HWND hwndList);
 	void CListFilter(HWND hwndList);
-	bool CListIsGroup(HANDLE hGroup);
 	void CListResetIcons(HWND hwndList, HANDLE hItem, bool hide=false);
 	void CListSetupIcons(HWND hwndList, HANDLE hItem, int iSlot, DWORD dwProcess, BOOL bAction);
 	HANDLE CListAddContact(HWND hwndList, TCHAR *jid);
@@ -1359,19 +1350,6 @@ void CJabberDlgPrivacyLists::CListFilter(HWND)
 	}
 }
 
-bool CJabberDlgPrivacyLists::CListIsGroup(HANDLE hGroup)
-{
-	char idstr[33];
-	_i64toa((INT_PTR)hGroup-1, idstr, 10);
-
-	DBVARIANT dbv;
-	bool result = db_get_ts(NULL, "CListGroups", idstr, &dbv) == 0;
-	if (result)
-		db_free(&dbv);
-
-	return result;
-}
-
 void CJabberDlgPrivacyLists::CListResetIcons(HWND, HANDLE hItem, bool hide)
 {
 	for (int i = 0; i < 4; i++)
@@ -1418,14 +1396,13 @@ void CJabberDlgPrivacyLists::CListApplyList(HWND hwndList, CPrivacyList *pList)
 	CListResetIcons(hwndList, clc_info.hItemSubBoth, bHideIcons);
 	CListResetIcons(hwndList, clc_info.hItemSubFrom, bHideIcons);
 	CListResetIcons(hwndList, clc_info.hItemSubNone, bHideIcons);
-	CListResetIcons(hwndList, clc_info.hItemSubTo, bHideIcons);
+	CListResetIcons(hwndList, clc_info.hItemSubTo,   bHideIcons);
 
 	// group handles start with 1 (0 is "root")
-	for (int iGroup = 1; CListIsGroup((HANDLE)iGroup); ++iGroup)
-	{
+	for (int iGroup = 1; pcli->pfnGetGroupName(iGroup, NULL) != NULL; iGroup++) {
 		HANDLE hItem = m_clcClist.FindGroup((HANDLE)iGroup);
-		if ( !hItem) continue;
-		CListResetIcons(hwndList, hItem, bHideIcons);
+		if (hItem)
+			CListResetIcons(hwndList, hItem, bHideIcons);
 	}
 
 	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
@@ -1556,22 +1533,13 @@ void CJabberDlgPrivacyLists::CListBuildList(HWND hwndList, CPrivacyList *pList)
 	}
 
 	// group handles start with 1 (0 is "root")
-	for (int iGroup = 1; ; ++iGroup) {
-		char idstr[33];
-		_itoa(iGroup-1, idstr, 10);
-		DBVARIANT dbv = {0};
-		if ( db_get_ts(NULL, "CListGroups", idstr, &dbv))
-			break;
-
+	TCHAR *grpName;
+	for (int iGroup = 1; (grpName = pcli->pfnGetGroupName(iGroup, NULL)) != NULL; iGroup++) {
 		hItem = m_clcClist.FindGroup((HANDLE)iGroup);
-		szJid = dbv.ptszVal+1;
-
 		if (dwPackets = CListGetPackets(hwndList, hItem, true))
-			pList->AddRule(Group, szJid, TRUE, dwOrder++, dwPackets);
+			pList->AddRule(Group, grpName, TRUE, dwOrder++, dwPackets);
 		if (dwPackets = CListGetPackets(hwndList, hItem, false))
-			pList->AddRule(Group, szJid, FALSE, dwOrder++, dwPackets);
-
-		db_free(&dbv);
+			pList->AddRule(Group, grpName, FALSE, dwOrder++, dwPackets);
 	}
 
 	hItem = clc_info.hItemSubBoth;

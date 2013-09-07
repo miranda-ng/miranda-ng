@@ -17,6 +17,8 @@
 
 #include "headers.h"
 
+int CreateCListGroup(TCHAR* szGroupName);
+
 char * pluginDescription = LPGEN("No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.");
 TCHAR const * defQuestion = TranslateT("Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply \"nospam\" without quotes and spaces if you want to contact me.");
 
@@ -308,21 +310,7 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 						NewGroupName = GetDlgItemString(hwnd, ID_SPECIALGROUPNAME);
 						CurrentGroupName = gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", _T("0"));
 						if (wcscmp(CurrentGroupName.c_str(), NewGroupName.c_str()) != 0) {
-							int GroupNumber = 0;
-							BYTE GroupExist = 0;
-							TCHAR szValue[96] = {0};
-							char szNumber[32] = {0};
-							extern int CreateCListGroup(TCHAR* szGroupName);
-							strcpy(szNumber, "0");
-							while (strcmp(DBGetContactSettingStringPAN_A(NULL, "CListGroups", szNumber, "0").c_str(), "0") != 0) {
-								_itoa(GroupNumber, szNumber, 10);
-								wcscpy(szValue, DBGetContactSettingStringPAN(NULL, "CListGroups", szNumber, _T("0")).c_str());
-								if (wcscmp(NewGroupName.c_str(), szValue + 1) == 0) {
-									GroupExist = 1;
-									break;
-								}
-								GroupNumber++;
-							}
+							bool GroupExist = Clist_GroupExists(NewGroupName.c_str()) != NULL;
 							db_set_ws(NULL,pluginName, "SpammersGroup", NewGroupName.c_str());
 							gbSpammersGroup = DBGetContactSettingStringPAN(NULL,pluginName,"SpammersGroup", _T("Spammers"));
 							if(!GroupExist && gbSpecialGroup)
@@ -347,21 +335,7 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 						NewAGroupName = GetDlgItemString(hwnd, IDC_AUTOADDGROUP);
 						CurrentAGroupName = gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, pluginName, "AutoAuthGroup", _T("0"));
 						if (wcscmp(CurrentAGroupName.c_str(), NewAGroupName.c_str()) != 0) {
-							int GroupNumber = 0;
-							BYTE GroupExist = 0;
-							TCHAR szValue[96] = {0};
-							char szNumber[32] = {0};
-							extern int CreateCListGroup(TCHAR* szGroupName);
-							strcpy(szNumber, "0");
-							while (strcmp(DBGetContactSettingStringPAN_A(NULL, "CListGroups", szNumber, "0").c_str(), "0") != 0) {
-								_itoa(GroupNumber, szNumber, 10);
-								wcscpy(szValue, DBGetContactSettingStringPAN(NULL, "CListGroups", szNumber, _T("0")).c_str());
-								if (wcscmp(NewAGroupName.c_str(), szValue + 1) == 0) {
-									GroupExist = 1;
-									break;
-								}
-								GroupNumber++;
-							}
+							bool GroupExist = Clist_GroupExists(NewAGroupName.c_str());
 							db_set_ws(NULL,pluginName, "AutoAuthGroup", NewAGroupName.c_str());
 							gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL,pluginName,"AutoAuthGroup", _T("Not Spammers"));
 							if(!GroupExist && gbAutoAddToServerList)

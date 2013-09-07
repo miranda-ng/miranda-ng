@@ -173,7 +173,7 @@ static int FillDialog(HWND hwnd)
 	LVCOLUMN lvc = {0};
 	HWND hwndList = GetDlgItem(hwnd, IDC_PROTOCOLS);
 	LVITEMA item = {0};
-	int protoCount = 0, i, newItem;
+	int protoCount = 0, i;
 	PROTOACCOUNT **accs = 0;
 
 	CLVM_EnumModes(FillModes);
@@ -189,7 +189,7 @@ static int FillDialog(HWND hwnd)
 	item.iItem = 1000;
 	for (i = 0; i < protoCount; i++) {
 		item.pszText = accs[i]->szModuleName;
-		newItem = SendMessageA(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&item);
+		SendMessageA(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&item);
 	}
 
 	ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
@@ -197,10 +197,6 @@ static int FillDialog(HWND hwnd)
 
 	// fill groups
 	{
-		LVITEM item = {0};
-		char buf[20];
-		DBVARIANT dbv = {0};
-
 		hwndList = GetDlgItem(hwnd, IDC_GROUPS);
 
 		ListView_SetExtendedListViewStyle(hwndList, LVS_EX_CHECKBOXES);
@@ -208,33 +204,33 @@ static int FillDialog(HWND hwnd)
 		lvc.fmt = LVCFMT_IMAGE | LVCFMT_LEFT;
 		ListView_InsertColumn(hwndList, 0, &lvc);
 
+		LVITEM item = {0};
 		item.mask = LVIF_TEXT;
 		item.iItem = 1000;
 
 		item.pszText = TranslateT("Ungrouped contacts");
-		newItem = SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
+		SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 
-		for (i = 0;;i++) {
-			mir_snprintf(buf, 20, "%d", i);
-			if (cfg::getTString(NULL, "CListGroups", buf, &dbv))
-				break;
-
-			item.pszText = &dbv.ptszVal[1];
-			newItem = SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
-			db_free(&dbv);
+		TCHAR *grpName;
+		for (i = 1; (grpName = pcli->pfnGetGroupName(i, NULL)) != NULL; i++) {
+			item.pszText = grpName;
+			SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 		}
 		ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
 		ListView_Arrange(hwndList, LVA_ALIGNLEFT | LVA_ALIGNTOP);
 	}
+
 	hwndList = GetDlgItem(hwnd, IDC_STATUSMODES);
 	ListView_SetExtendedListViewStyle(hwndList, LVS_EX_CHECKBOXES);
+
 	lvc.mask = LVCF_FMT;
 	lvc.fmt = LVCFMT_IMAGE | LVCFMT_LEFT;
 	ListView_InsertColumn(hwndList, 0, &lvc);
+
 	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 		item.pszText = Translate((char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)i, 0));
 		item.iItem = i - ID_STATUS_OFFLINE;
-		newItem = SendMessageA(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&item);
+		SendMessageA(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&item);
 	}
 	ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
 	ListView_Arrange(hwndList, LVA_ALIGNLEFT | LVA_ALIGNTOP);

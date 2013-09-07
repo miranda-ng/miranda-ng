@@ -237,10 +237,6 @@ static int FillDialog(HWND hwnd)
 
 	// fill groups
 	{
-		LVITEM item = {0};
-		char buf[20];
-		DBVARIANT dbv = {0};
-
 		hwndList = GetDlgItem(hwnd, IDC_GROUPS);
 
 		ListView_SetExtendedListViewStyle(hwndList, LVS_EX_CHECKBOXES);
@@ -248,21 +244,17 @@ static int FillDialog(HWND hwnd)
 		lvc.fmt = LVCFMT_IMAGE | LVCFMT_LEFT;
 		ListView_InsertColumn(hwndList, 0, &lvc);
 
+		LVITEM item = {0};
 		item.mask = LVIF_TEXT;
 		item.iItem = 1000;
 
 		item.pszText = TranslateT("Ungrouped contacts");
 		newItem = SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 
-		for (i=0;;i++)
-		{
-			mir_snprintf(buf, 20, "%d", i);
-			if (db_get_ts(NULL, "CListGroups", buf, &dbv))
-				break;
-
-			item.pszText = &dbv.ptszVal[1];
+		TCHAR *szGroup;
+		for (int i=1; (szGroup = pcli->pfnGetGroupName(i, NULL)) != NULL; i++) {
+			item.pszText = szGroup;
 			newItem = SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
-			db_free(&dbv);
 		}
 		ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
 		ListView_Arrange(hwndList, LVA_ALIGNLEFT | LVA_ALIGNTOP);

@@ -6,6 +6,7 @@
 
 #include "Version.h"
 
+CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 int hLangpack;
 
@@ -122,6 +123,7 @@ IconItem icoList[] =
 extern "C" __declspec(dllexport) int Load()
 {
 	mir_getLP(&pluginInfoEx);
+	mir_getCLI();
 
 	Icon_Register(hInst, LPGEN("Non-IM Contact"), icoList, SIZEOF(icoList));
 

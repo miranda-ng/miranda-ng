@@ -20,6 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "headers.h"
 
+CLIST_INTERFACE *pcli;
+
 HINSTANCE g_hInst;
 
 int hLangpack;
@@ -349,79 +351,19 @@ static void sttSaveOptions()
 	db_set_w(NULL, "FavContacts", "MaxRecent",				g_Options.wMaxRecent);
 }
 
-static bool sttIsGroup(int id)
-{
-	if (id == 1) return true;
-
-	DBVARIANT dbv = {0};
-	char buf[32];
-	mir_snprintf(buf, SIZEOF(buf), "%d", (int)(id - 2));
-	if (!db_get_ts(NULL, "CListGroups", buf, &dbv))
-	{
-		db_free(&dbv);
-		return true;
-	}
-	return false;
-}
-
-static TCHAR *sttGetGroupName(int id)
-{
-	if (id == 1)
-	{
-		if (g_Options.bUseGroups)
-			return mir_tstrdup(TranslateT("<No group>"));
-		return mir_tstrdup(TranslateT("Favourite Contacts"));
-	}
-
-	DBVARIANT dbv = {0};
-	char buf[32];
-	mir_snprintf(buf, SIZEOF(buf), "%d", (int)(id - 2));
-	if (!db_get_ts(NULL, "CListGroups", buf, &dbv))
-	{
-		TCHAR *res = mir_tstrdup(dbv.ptszVal+1);
-		db_free(&dbv);
-		return res;
-	}
-	return NULL;
-}
-
-static int sttGetGroupId(TCHAR *name)
-{
-	for (int i = 0; ; ++i)
-	{
-		DBVARIANT dbv = {0};
-		char buf[32];
-		mir_snprintf(buf, SIZEOF(buf), "%d", (int)i);
-		if (!db_get_ts(NULL, "CListGroups", buf, &dbv))
-		{
-			if (!lstrcmp(dbv.ptszVal+1, name))
-			{
-				db_free(&dbv);
-				return i+2;
-			}
-
-			db_free(&dbv);
-		} else
-		{
-			// default is root
-			return 1;
-		}
-	}
-}
-
 static BOOL sttMeasureItem_Group(LPMEASUREITEMSTRUCT lpmis, Options *options)
 {
 	if (true)
 	{
 		HDC hdc = GetDC(g_hwndMenuHost);
 		HFONT hfntSave = (HFONT)SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
-		TCHAR *name = sttGetGroupName(lpmis->itemData);
+		TCHAR *name = pcli->pfnGetGroupName(lpmis->itemData-1, NULL);
 		SIZE sz;
-		if (!options->bSysColors) SelectObject(hdc, g_Options.hfntName);
+		if (!options->bSysColors)
+			SelectObject(hdc, g_Options.hfntName);
 		GetTextExtentPoint32(hdc, name, lstrlen(name), &sz);
 		lpmis->itemHeight = sz.cy + 8;
 		lpmis->itemWidth = sz.cx + 10;
-		mir_free(name);
 		SelectObject(hdc, hfntSave);
 		ReleaseDC(g_hwndMenuHost, hdc);
 	}
@@ -511,7 +453,7 @@ static BOOL sttMeasureItem(LPMEASUREITEMSTRUCT lpmis, Options *options=NULL)
 		return FALSE;
 
 	BOOL res = FALSE;
-	if (sttIsGroup(lpmis->itemData))
+	if ( pcli->pfnGetGroupName(lpmis->itemData-1, 0))
 		res = sttMeasureItem_Group(lpmis, options);
 	else if (CallService(MS_DB_CONTACT_IS, lpmis->itemData, 0))
 		res = sttMeasureItem_Contact(lpmis, options);
@@ -529,8 +471,7 @@ static BOOL sttDrawItem_Group(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 
 	HFONT hfntSave = (HFONT)SelectObject(lpdis->hDC, GetStockObject(DEFAULT_GUI_FONT));
 	SetBkMode(lpdis->hDC, TRANSPARENT);
-	if (options->bSysColors)
-	{
+	if (options->bSysColors) {
 		FillRect(lpdis->hDC, &lpdis->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
 		SetTextColor(lpdis->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
 	}
@@ -538,18 +479,14 @@ static BOOL sttDrawItem_Group(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 		HBRUSH hbr = CreateSolidBrush(g_Options.clBackSel);
 		FillRect(lpdis->hDC, &lpdis->rcItem, hbr);
 		DeleteObject(hbr);
-		//hbr = CreateSolidBrush(g_Options.clBackSel);
-		//FrameRect(lpdis->hDC, &lpdis->rcItem, hbr);
-		//DeleteObject(hbr);
 		SetTextColor(lpdis->hDC, g_Options.clLine1Sel);
 	}
 
-	if (true)
-	{
-		TCHAR *name = sttGetGroupName(lpdis->itemData);
-		if (!options->bSysColors) SelectObject(lpdis->hDC, g_Options.hfntName);
+	if (true) {
+		TCHAR *name = pcli->pfnGetGroupName(lpdis->itemData-1, NULL);
+		if (!options->bSysColors)
+			SelectObject(lpdis->hDC, g_Options.hfntName);
 		DrawText(lpdis->hDC, name, lstrlen(name), &lpdis->rcItem, DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_CENTER);
-		mir_free(name);
 	}
 
 	SelectObject(lpdis->hDC, hfntSave);
@@ -561,10 +498,9 @@ void ImageList_DrawDimmed(HIMAGELIST himl, int i, HDC hdc, int left, int top, UI
 {
 	typedef BOOL (WINAPI *TFnAlphaBlend)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION);
 	static TFnAlphaBlend pfnAlphaBlend = NULL;
-	bool load_funcs = true;
 
-	if (load_funcs)
-	{
+	bool load_funcs = true;
+	if (load_funcs) {
 		pfnAlphaBlend = (TFnAlphaBlend)GetProcAddress(GetModuleHandleA("msimg32"), "AlphaBlend");
 		load_funcs = false;
 	}
@@ -577,13 +513,12 @@ void ImageList_DrawDimmed(HIMAGELIST himl, int i, HDC hdc, int left, int top, UI
 	HBITMAP hbmOld = (HBITMAP)SelectObject(dcMem, hbm);
 	BitBlt(dcMem, 0, 0, dx, dx, hdc, left, top, SRCCOPY);
 	ImageList_Draw(himl, i, dcMem, 0, 0, fStyle);
-	if (pfnAlphaBlend)
-	{
+	if (pfnAlphaBlend) {
 		BLENDFUNCTION bf = {0};
 		bf.SourceConstantAlpha = 180;
 		pfnAlphaBlend(hdc, left, top, dx, dy, dcMem, 0, 0, dx, dy, bf);
-	} else
-	{
+	}
+	else {
 		SetStretchBltMode(hdc, HALFTONE);
 		StretchBlt(hdc, left, top, dx, dy, dcMem, 0, 0, dx, dy, SRCCOPY);
 	}
@@ -606,42 +541,37 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 	HFONT hfntSave = (HFONT)SelectObject(hdcTemp, GetStockObject(DEFAULT_GUI_FONT));
 	SetBkMode(hdcTemp, TRANSPARENT);
 	COLORREF clBack, clLine1, clLine2;
-	if (lpdis->itemState & ODS_SELECTED)
-	{
-		if (options->bSysColors)
-		{
+	if (lpdis->itemState & ODS_SELECTED) {
+		if (options->bSysColors) {
 			FillRect(hdcTemp, &lpdis->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
 			clBack = GetSysColor(COLOR_HIGHLIGHT);
 			clLine1 = GetSysColor(COLOR_HIGHLIGHTTEXT);
-		} else
-		{
+		}
+		else {
 			clBack = g_Options.clBackSel;
 			clLine1 = g_Options.clLine1Sel;
 			clLine2 = g_Options.clLine2Sel;
 		}
-	} else
-	{
-		if (options->bSysColors)
-		{
+	}
+	else {
+		if (options->bSysColors) {
 			FillRect(hdcTemp, &lpdis->rcItem, GetSysColorBrush(COLOR_MENU));
 			clBack = GetSysColor(COLOR_MENU);
 			clLine1 = GetSysColor(COLOR_MENUTEXT);
-		} else
-		{
+		}
+		else {
 			clBack = g_Options.clBack;
 			clLine1 = g_Options.clLine1;
 			clLine2 = g_Options.clLine2;
 		}
 	}
-	if (options->bSysColors)
-	{
+	if (options->bSysColors) {
 		clLine2 = RGB(
 				(GetRValue(clLine1) * 66UL + GetRValue(clBack) * 34UL) / 100,
 				(GetGValue(clLine1) * 66UL + GetGValue(clBack) * 34UL) / 100,
-				(GetBValue(clLine1) * 66UL + GetBValue(clBack) * 34UL) / 100
-			);
-	} else
-	{
+				(GetBValue(clLine1) * 66UL + GetBValue(clBack) * 34UL) / 100);
+	}
+	else {
 		HBRUSH hbr = CreateSolidBrush(clBack);
 		FillRect(hdcTemp, &lpdis->rcItem, hbr);
 		DeleteObject(hbr);
@@ -655,38 +585,31 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 
 	char *proto = GetContactProto(hContact);
 
-	if (true)
-	{
-		HIMAGELIST hIml = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
-		int iIcon = CallService(MS_CLIST_GETCONTACTICON, (WPARAM)hContact, 0);
+	HIMAGELIST hIml = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
+	int iIcon = CallService(MS_CLIST_GETCONTACTICON, (WPARAM)hContact, 0);
 
-		if (db_get_dw(hContact, proto, "IdleTS", 0))
-		{
-			ImageList_DrawDimmed(hIml, iIcon, hdcTemp,
-				lpdis->rcItem.left, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
-				ILD_TRANSPARENT);
-		} else
-		{
-			ImageList_Draw(hIml, iIcon, hdcTemp,
-				lpdis->rcItem.left, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
-				ILD_TRANSPARENT);
-		}
-
-		lpdis->rcItem.left += 20;
+	if (db_get_dw(hContact, proto, "IdleTS", 0)) {
+		ImageList_DrawDimmed(hIml, iIcon, hdcTemp,
+			lpdis->rcItem.left, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
+			ILD_TRANSPARENT);
+	}
+	else {
+		ImageList_Draw(hIml, iIcon, hdcTemp,
+			lpdis->rcItem.left, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
+			ILD_TRANSPARENT);
 	}
 
-	if (options->wMaxRecent && db_get_b(hContact, "FavContacts", "IsFavourite", 0))
-	{
+	lpdis->rcItem.left += 20;
+
+	if (options->wMaxRecent && db_get_b(hContact, "FavContacts", "IsFavourite", 0)) {
 		DrawIconEx(hdcTemp, lpdis->rcItem.right - 18, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
 			Skin_GetIconByHandle(iconList[0].hIcolib), 16, 16, 0, NULL, DI_NORMAL);
 		lpdis->rcItem.right -= 20;
 	}
 
-	if (options->bAvatars)
-	{
+	if (options->bAvatars) {
 		AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
-		if (ace && (ace != (AVATARCACHEENTRY *)CALLSERVICE_NOTFOUND))
-		{
+		if (ace && (ace != (AVATARCACHEENTRY *)CALLSERVICE_NOTFOUND)) {
 			int avatarWidth = lpdis->rcItem.bottom - lpdis->rcItem.top;
 			if (ace->bmWidth < ace->bmHeight)
 				avatarWidth = (lpdis->rcItem.bottom - lpdis->rcItem.top) * ace->bmWidth / ace->bmHeight;
@@ -701,14 +624,12 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 			else
 				avdr.rcDraw.right = avdr.rcDraw.left + avatarWidth;
 			avdr.dwFlags = AVDRQ_FALLBACKPROTO;
-			if (options->bAvatarBorder)
-			{
+			if (options->bAvatarBorder) {
 				avdr.dwFlags |= AVDRQ_DRAWBORDER;
 				avdr.clrBorder = clLine1;
 				if (options->bNoTransparentBorder)
 					avdr.dwFlags |= AVDRQ_HIDEBORDERONTRANSPARENCY;
-				if (options->wAvatarRadius)
-				{
+				if (options->wAvatarRadius) {
 					avdr.dwFlags |= AVDRQ_ROUNDEDCORNER;
 					avdr.radius = (unsigned char)options->wAvatarRadius;
 				}
@@ -723,8 +644,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 		}
 	}
 
-	if (true)
-	{
+	if (true) {
 		TCHAR *name = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 
 		if (!options->bSysColors) SelectObject(hdcTemp, g_Options.hfntName);
@@ -735,17 +655,15 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 		lpdis->rcItem.top += sz.cy + 3;
 	}
 
-	if (options->bSecondLine)
-	{
+	if (options->bSecondLine) {
 		DBVARIANT dbv;
 		TCHAR *title;
 		bool bFree = false;
-		if (db_get_ts(hContact, "CList", "StatusMsg", &dbv) || !*dbv.ptszVal)
-		{
+		if (db_get_ts(hContact, "CList", "StatusMsg", &dbv) || !*dbv.ptszVal) {
 			int status = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
 			title = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status, GSMDF_TCHAR);
-		} else
-		{
+		}
+		else {
 			title = dbv.ptszVal;
 			bFree = true;
 		}
@@ -778,7 +696,7 @@ static BOOL sttDrawItem(LPDRAWITEMSTRUCT lpdis, Options *options=NULL)
 	if (!lpdis->itemData)
 		return FALSE;
 
-	if (sttIsGroup(lpdis->itemData))
+	if ( pcli->pfnGetGroupName(lpdis->itemData-1, NULL))
 		return sttDrawItem_Group(lpdis, options);
 
 	if (CallService(MS_DB_CONTACT_IS, lpdis->itemData, 0))
@@ -903,7 +821,7 @@ int sttShowMenu(bool centered)
 				szColumn.cx = szColumn.cy = 0;
 			}
 
-			DWORD groupID = sttGetGroupId(favList[i]->getGroup());
+			DWORD groupID = (DWORD)Clist_GroupExists(favList[i]->getGroup())+1;
 
 			AppendMenu(hMenu,
 				MF_OWNERDRAW|MF_SEPARATOR| ((prevGroup && g_Options.bUseColumns) ? MF_MENUBREAK : 0),
