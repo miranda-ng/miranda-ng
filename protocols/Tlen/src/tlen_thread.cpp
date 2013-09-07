@@ -277,7 +277,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 		if (info->proto->m_iDesiredStatus != ID_STATUS_OFFLINE) {
 
 			info->proto->isConnected = TRUE;
-			TlenForkThread(TlenKeepAliveThread, 0, info->proto);
+			forkthread(TlenKeepAliveThread, 0, info->proto);
 
 			TlenXmlInitState(&xmlState);
 			TlenXmlSetCallback(&xmlState, 1, ELEM_OPEN, (void (__cdecl *)(XmlNode *,void *))TlenProcessStreamOpening, info);
@@ -795,7 +795,7 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 										if (item->group) mir_free(item->group);
 										if ((groupNode=TlenXmlGetChild(itemNode, "group")) != NULL && groupNode->text != NULL) {
 											item->group = TlenGroupDecode(groupNode->text);
-											TlenContactListCreateGroup(item->group);
+											Clist_CreateGroup(0, _A2T(item->group));
 											db_set_s(hContact, "CList", "Group", item->group);
 										}
 										else {
@@ -1353,7 +1353,7 @@ static void TlenProcessV(XmlNode *node, ThreadData *info)
 							if ((p=TlenXmlGetAttrValue(node, "p")) != NULL) {
 								item->ft->wPort = atoi(p);
 								TlenVoiceStart(item->ft, 0);
-								//TlenForkThread((void (__cdecl *)(void*))TlenVoiceReceiveThread, 0, item->ft);
+								//forkthread((void (__cdecl *)(void*))TlenVoiceReceiveThread, 0, item->ft);
 							}
 						}
 					}

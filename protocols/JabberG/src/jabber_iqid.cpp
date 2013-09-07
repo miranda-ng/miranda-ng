@@ -484,7 +484,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 
 		if ( !m_options.IgnoreRosterGroups) {
 			if (item->group != NULL) {
-				JabberContactListCreateGroup(item->group);
+				Clist_CreateGroup(0, item->group);
 
 				// Don't set group again if already correct, or Miranda may show wrong group count in some case
 				DBVARIANT dbv;
@@ -495,8 +495,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 				}
 				else db_set_ts(hContact, "CList", "Group", item->group);
 			}
-			else
-				db_unset(hContact, "CList", "Group");
+			else db_unset(hContact, "CList", "Group");
 		}
 
 		if (hContact != NULL) {

@@ -918,8 +918,8 @@ unsigned __stdcall sttConnectThread( LPVOID arg ) {
 		if ( p->thread_exit == 1 ) return 0;
 		if ( p->thread_exit == 2 ) {
 			// мы в свободном плавании - освободим память и завершим трэд
-			CloseHandle( p->thread );
-			CloseHandle( p->event );
+			CloseHandle(p->thread);
+			CloseHandle(p->event);
 			SAFE_DELETE(p->queue);
 			SAFE_DELETE(p);
 			return 0;

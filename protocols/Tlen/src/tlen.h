@@ -496,8 +496,6 @@ void TlenStringAppend(char **str, int *sizeAlloced, const char *fmt, ...);
 void TlenDBAddEvent(TlenProtocol *proto, HANDLE hContact, int eventType, DWORD flags, PBYTE pBlob, DWORD cbBlob);
 void TlenDBAddAuthRequest(TlenProtocol *proto, char *jid, char *nick);
 HANDLE TlenDBCreateContact(TlenProtocol *proto, char *jid, char *nick, BOOL temporary);
-void TlenContactListCreateGroup(char *groupName);
-unsigned long TlenForkThread(void (__cdecl *threadcode)(void*), unsigned long stacksize, void *arg);
 // tlen_svc.cpp
 int TlenRunSearch(TlenProtocol *proto);
 // tlen_opt.cpp

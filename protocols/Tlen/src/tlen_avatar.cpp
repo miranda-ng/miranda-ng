@@ -298,7 +298,7 @@ void TlenGetAvatar(TlenProtocol *proto, HANDLE hContact) {
 		TLENGETAVATARTHREADDATA *data = (TLENGETAVATARTHREADDATA *)mir_alloc(sizeof(TLENGETAVATARTHREADDATA));
 		data->proto = proto;
 		data->hContact = hContact;
-		TlenForkThread(TlenGetAvatarThread, 0, data);
+		forkthread(TlenGetAvatarThread, 0, data);
 	}
 }
 
@@ -361,7 +361,7 @@ void TlenRemoveAvatar(TlenProtocol *proto) {
 		req->cbSize = sizeof(NETLIBHTTPREQUEST);
 		req->requestType = proto->threadData->tlenConfig.avatarGetMthd;
 		req->szUrl = request;
-		TlenForkThread(TlenRemoveAvatarRequestThread, 0, data);
+		forkthread(TlenRemoveAvatarRequestThread, 0, data);
 	}
 }
 
@@ -401,7 +401,7 @@ void TlenUploadAvatar(TlenProtocol *proto, unsigned char *data, int dataLen, int
 		threadData->data = (char *) mir_alloc(dataLen);
 		memcpy(threadData->data, data, dataLen);
 		threadData->length = dataLen;
-		TlenForkThread(TlenUploadAvatarRequestThread, 0, threadData);
+		forkthread(TlenUploadAvatarRequestThread, 0, threadData);
 	}
 }
 

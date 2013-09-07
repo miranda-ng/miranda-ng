@@ -39,11 +39,7 @@ void CMsnProto::MSN_AddGroup(const char* grpName, const char *grpId, bool init)
 	grpList.insert(p);
 
 	if (init)
-	{
-		TCHAR* szGroupName = mir_utf8decodeT(grpName);
-		CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)szGroupName);
-		mir_free(szGroupName);
-	}
+		Clist_CreateGroup(0, ptrT( mir_utf8decodeT(grpName)));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

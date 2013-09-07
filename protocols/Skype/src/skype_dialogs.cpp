@@ -174,7 +174,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 			if (lstrlen(tstr) > 0)
 			{
 				::db_set_ts(NULL, proto->m_szModuleName, SKYPE_SETTINGS_DEF_GROUP, tstr);
-				::CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)tstr);
+				::Clist_CreateGroup(0, tstr);
 			}
 			else
 				::db_unset(NULL, proto->m_szModuleName, SKYPE_SETTINGS_DEF_GROUP);

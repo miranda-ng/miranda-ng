@@ -21,25 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "..\commonheaders.h"
 
-HANDLE CListFindGroup(LPCSTR pszGroup)
-{
-	CHAR buf[4];
-	BYTE i;
-	DBVARIANT dbv;
-
-	for (i = 0; i < 255; i++) {
-		_itoa(i, buf, 10);
-		if (DB::Setting::GetUString(NULL, "CListGroups", buf, &dbv))
-			break;
-		if (dbv.pszVal && pszGroup && !_stricmp(dbv.pszVal + 1, pszGroup)) {
-			db_free(&dbv);
-			return (HANDLE)(INT_PTR)(i+1);
-		}
-		db_free(&dbv);
-	}
-	return INVALID_HANDLE_VALUE;
-}
-
 /**
  * name:	CExImContactBase
  * class:	CExImContactBase
@@ -280,13 +261,14 @@ HANDLE CExImContactBase::toDB()
 
 		// add group
 		if (_pszGroup) {
-			db_set_utf(_hContact, MOD_CLIST, "Group", _pszGroup);
-			if (CListFindGroup(_pszGroup) == INVALID_HANDLE_VALUE) {
-				WPARAM hGroup = (WPARAM)CallService(MS_CLIST_GROUPCREATE, 0, 0);
+			ptrT ptszGroup( mir_utf8decodeT(_pszGroup));
+			db_set_ts(_hContact, MOD_CLIST, "Group", ptszGroup);
+			if ( Clist_GroupExists(ptszGroup) == NULL) {
+				HANDLE hGroup = Clist_CreateGroup(NULL, NULL);
 				if (hGroup) {
 					// renaming twice is stupid but the only way to avoid error dialog telling shit like
 					// a group with that name does exist
-					CallService(MS_CLIST_GROUPRENAME, (WPARAM)hGroup, (LPARAM)_pszGroup);
+					CallService(MS_CLIST_GROUPRENAME, (WPARAM)hGroup, (LPARAM)ptszGroup);
 				}
 			}
 		}

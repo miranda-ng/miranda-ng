@@ -676,7 +676,6 @@ int    g_OnToolbarInit(WPARAM, LPARAM);
 
 void   JabberChatDllError(void);
 int    JabberCompareJids(const TCHAR *jid1, const TCHAR *jid2);
-void   JabberContactListCreateGroup(TCHAR* groupName);
 TCHAR* EscapeChatTags(TCHAR* pszText);
 TCHAR* UnEscapeChatTags(TCHAR* str_in);
 

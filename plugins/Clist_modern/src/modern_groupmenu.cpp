@@ -200,7 +200,7 @@ INT_PTR CreateGroupHelper(WPARAM wParam,LPARAM lParam)
 {
 	SendMessage((HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0), CLM_SETHIDEEMPTYGROUPS, 0, 0);
 	SendMessage((HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0), CLM_SETUSEGROUPS, 1, 0);
-	CallService(MS_CLIST_GROUPCREATE, 0, 0);
+	Clist_CreateGroup(0, 0);
 	return 0;
 };
 

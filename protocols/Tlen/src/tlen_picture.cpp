@@ -98,7 +98,7 @@ static void TlenPsPost(TlenProtocol *proto, TLEN_LIST_ITEM *item) {
 	TLENPSREQUESTTHREADDATA *threadData = (TLENPSREQUESTTHREADDATA *)mir_alloc(sizeof(TLENPSREQUESTTHREADDATA));
 	threadData->proto = proto;
 	threadData->item = item;
-	TlenForkThread(TlenPsPostThread, 0, threadData);
+	forkthread(TlenPsPostThread, 0, threadData);
 }
 
 static void TlenPsGetThread(void *ptr) {
@@ -171,7 +171,7 @@ static void TlenPsGet(TlenProtocol *proto, TLEN_LIST_ITEM *item) {
 	TLENPSREQUESTTHREADDATA *threadData = (TLENPSREQUESTTHREADDATA *)mir_alloc(sizeof(TLENPSREQUESTTHREADDATA));
 	threadData->proto = proto;
 	threadData->item = item;
-	TlenForkThread(TlenPsGetThread, 0, threadData);
+	forkthread(TlenPsGetThread, 0, threadData);
 }
 
 void TlenProcessPic(XmlNode *node, TlenProtocol *proto) {

@@ -422,7 +422,7 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			if (lstrlen(tstr) > 0)
 			{
 				proto->setTString(FACEBOOK_KEY_DEF_GROUP, tstr);
-				CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)tstr);
+				Clist_CreateGroup( 0, tstr);
 			}
 			else proto->delSetting(FACEBOOK_KEY_DEF_GROUP);
 

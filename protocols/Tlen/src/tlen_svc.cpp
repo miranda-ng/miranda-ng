@@ -359,7 +359,7 @@ static void TlenConnect(TlenProtocol *proto, int initialStatus)
 		oldStatus = proto->m_iStatus;
 		proto->m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(proto->m_szModuleName, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, proto->m_iStatus);
-		thread->hThread = (HANDLE) TlenForkThread((void (__cdecl *)(void*))TlenServerThread, 0, thread);
+		thread->hThread = (HANDLE) forkthread((void (__cdecl *)(void*))TlenServerThread, 0, thread);
 	}
 }
 
@@ -602,7 +602,7 @@ int TlenProtocol::SendMsg(HANDLE hContact, int flags, const char* msgRAW)
 	char msgType[16];
 
 	if (!isOnline || db_get(hContact, m_szModuleName, "jid", &dbv)) {
-		TlenForkThread(TlenSendMessageFailedThread, 0, new SENDACKTHREADDATA(this, hContact, 2));
+		forkthread(TlenSendMessageFailedThread, 0, new SENDACKTHREADDATA(this, hContact, 2));
 		return 2;
 	}
 
@@ -619,11 +619,11 @@ int TlenProtocol::SendMsg(HANDLE hContact, int flags, const char* msgRAW)
 
 	if (!strcmp(msg, "<alert>")) {
 		TlenSend(this, "<m tp='a' to='%s'/>", dbv.pszVal);
-		TlenForkThread(TlenSendMessageAckThread, 0, new SENDACKTHREADDATA(this, hContact, id));
+		forkthread(TlenSendMessageAckThread, 0, new SENDACKTHREADDATA(this, hContact, id));
 	}
 	else if (!strcmp(msg, "<image>")) {
 		TlenSend(this, "<message to='%s' type='%s' crc='%x' idt='%d'/>", dbv.pszVal, "pic", 0x757f044, id);
-		TlenForkThread(TlenSendMessageAckThread, 0, new SENDACKTHREADDATA(this, hContact, id));
+		forkthread(TlenSendMessageAckThread, 0, new SENDACKTHREADDATA(this, hContact, id));
 	}
 	else {
 		if ((msgEnc=TlenTextEncode(msg)) != NULL) {
@@ -645,7 +645,7 @@ int TlenProtocol::SendMsg(HANDLE hContact, int flags, const char* msgRAW)
 				else
 					TlenSend(this, "<message to='%s' type='%s' id='"TLEN_IQID"%d'><body>%s</body><x xmlns='jabber:x:event'><composing/></x></message>", dbv.pszVal, msgType, id, msgEnc);
 
-				TlenForkThread(TlenSendMessageAckThread, 0, new SENDACKTHREADDATA(this, hContact, id));
+				forkthread(TlenSendMessageAckThread, 0, new SENDACKTHREADDATA(this, hContact, id));
 			}
 			else {
 				if ((item=TlenListGetItemPtr(this, LIST_ROSTER, dbv.pszVal)) != NULL)
@@ -705,7 +705,7 @@ INT_PTR TlenProtocol::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 HANDLE TlenProtocol::GetAwayMsg(HANDLE hContact)
 {
 	SENDACKTHREADDATA *tdata = new SENDACKTHREADDATA(this, hContact, 0);
-	TlenForkThread((void (__cdecl *)(void*))TlenGetAwayMsgThread, 0, (void*)tdata);
+	forkthread((void (__cdecl *)(void*))TlenGetAwayMsgThread, 0, (void*)tdata);
 	return (HANDLE)1;
 }
 

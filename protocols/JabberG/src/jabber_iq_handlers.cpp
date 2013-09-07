@@ -608,14 +608,12 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 					}
 					else db_unset(hContact, "CList", "MyHandle");
 
-					if ( !m_options.IgnoreRosterGroups)
-					{
+					if ( !m_options.IgnoreRosterGroups) {
 						if (item->group != NULL) {
-							JabberContactListCreateGroup(item->group);
+							Clist_CreateGroup(0, item->group);
 							db_set_ts(hContact, "CList", "Group", item->group);
 						}
-						else
-							db_unset(hContact, "CList", "Group");
+						else db_unset(hContact, "CList", "Group");
 					}
 				}
 				mir_free(nick);

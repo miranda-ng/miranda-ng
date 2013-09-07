@@ -678,7 +678,6 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   resetServContactAuthState(HANDLE hContact, DWORD dwUin);
 
 	void   FlushSrvGroupsCache();
-	int    getCListGroupHandle(const char *szGroup);
 	int    getCListGroupExists(const char *szGroup);
 	int    moveContactToCListGroup(HANDLE hContact, const char *szGroup); /// TODO: this should be DB function
 

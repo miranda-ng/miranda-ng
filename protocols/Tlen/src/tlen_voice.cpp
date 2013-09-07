@@ -936,11 +936,11 @@ int TlenVoiceStart(TLEN_FILE_TRANSFER *ft, int mode)
 
 	TlenLog(ft->proto, "starting voice %d", mode);
 	if (mode == 0) {
-		TlenForkThread((void (__cdecl *)(void*))TlenVoiceReceiveThread, 0, ft);
+		forkthread((void (__cdecl *)(void*))TlenVoiceReceiveThread, 0, ft);
 	} else if (mode == 1) {
-		TlenForkThread((void (__cdecl *)(void*))TlenVoiceSendingThread, 0, ft);
+		forkthread((void (__cdecl *)(void*))TlenVoiceSendingThread, 0, ft);
 	} else {
-		TlenForkThread((void (__cdecl *)(void*))TlenVoiceDlgThread, 0, ft);
+		forkthread((void (__cdecl *)(void*))TlenVoiceDlgThread, 0, ft);
 	}
 	return 0;
 }
@@ -1065,7 +1065,7 @@ int TlenVoiceAccept(TlenProtocol *proto, const char *id, const char *from)
 					ACCEPTDIALOGDATA *data = (ACCEPTDIALOGDATA *)mir_alloc(sizeof(ACCEPTDIALOGDATA));
 					data->proto = proto;
 					data->item = item;
-					TlenForkThread((void (__cdecl *)(void*))TlenVoiceAcceptDlgThread, 0, data);
+					forkthread((void (__cdecl *)(void*))TlenVoiceAcceptDlgThread, 0, data);
 				} else if (proto->isOnline) {
 					item->ft = TlenFileCreateFT(proto, from);
 					item->ft->iqId = mir_strdup(id);

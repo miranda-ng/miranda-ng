@@ -363,9 +363,7 @@ void InitGroupMenus(void)
 		mi.cbSize=sizeof(mi);
 		mi.position=100000;
 		mi.hIcon=ImageList_GetIcon(hCListImages,NewGroupIconidx,0);
-		//mi.pszService=MS_CLIST_GROUPCREATE;
 		mi.pszService="CLISTMENUSSubGroup/GroupMenuExecProxy";
-		//mi.pszService="CLISTMENUSGroup/ExecService";
 		mi.pszName=LPGEN("&New Group");
 		gmp.lParam=0;gmp.wParam=POPUP_NEWGROUP;
 		hNewGroupMenuItem = (HGENMENU)AddGroupMenuItem((WPARAM)&gmp,(LPARAM)&mi);
@@ -402,10 +400,7 @@ void InitGroupMenus(void)
 		mi.pszService="CLISTMENUSGroup/UseGroupsHelper";
 		mi.pszName=LPGEN("Disable &Groups");
 		hDisableGroupsMenuItem = (HGENMENU)AddGroupMenuItem(0,(LPARAM)&mi);
-
-		//MS_CLIST_GROUPCREATE
-
-	};
+	}
 }
 
 HANDLE hSubGroupMenuObject;

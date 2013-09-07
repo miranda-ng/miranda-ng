@@ -1571,40 +1571,6 @@ void CIcqProto::setServListGroupLinkID(const char *szPath, WORD wGroupID)
 		db_unset(NULL, szModule, szPath);
 }
 
-
-// this function takes all backslashes in szGroup as group-level separators
-int CIcqProto::getCListGroupHandle(const char *szGroup)
-{
-	char *pszGroup = (char*)szGroup;
-	int hParentGroup = 0, hGroup = 0;
-
-	if (!strlennull(szGroup)) return 0; // no group
-
-	if (strrchr(szGroup, '\\'))
-	{ // create parent group
-		char *szSeparator = (char*)strrchr(szGroup, '\\');
-
-		*szSeparator = '\0';
-		hParentGroup = getCListGroupHandle(szGroup);
-		*szSeparator = '\\';
-		// take only sub-group name
-		pszGroup = ++szSeparator;
-	}
-
-	int size = strlennull(szGroup) + 2;
-	TCHAR *tszGroup = (TCHAR*)_alloca(size * sizeof(TCHAR));
-
-	if (utf8_to_tchar_static(pszGroup, tszGroup, size))
-		hGroup = CallService(MS_CLIST_GROUPCREATE, hParentGroup, (LPARAM)tszGroup); // 0.7+
-
-#ifdef _DEBUG
-	NetLog_Server("Obtained CList group \"%s\" handle %x", szGroup, hGroup);
-#endif
-
-	return hGroup;
-}
-
-
 // determine if the specified clist group path exists
 //!! this function is not thread-safe due to the use of cli->pfnGetGroupName()
 int CIcqProto::getCListGroupExists(const char *szGroup)
@@ -1612,7 +1578,6 @@ int CIcqProto::getCListGroupExists(const char *szGroup)
 	if (!szGroup)
 		return 0;
 
-	int hGroup = 0;
 	int size = strlennull(szGroup) + 2;
 	TCHAR *tszGroup = (TCHAR*)_alloca(size * sizeof(TCHAR));
 
@@ -1622,23 +1587,21 @@ int CIcqProto::getCListGroupExists(const char *szGroup)
 			if (!tszGroupName)
 				break;
 
-			if (!_tcscmp(tszGroup, tszGroupName)) {
-				// we have found the group
-				hGroup = i;
-				break;
-			}
+			// we have found the group
+			if (!_tcscmp(tszGroup, tszGroupName))
+				return i;
 		}
 
-	return hGroup;
+	return 0;
 }
 
 
 int CIcqProto::moveContactToCListGroup(HANDLE hContact, const char *szGroup)
 {
-	int hGroup = getCListGroupHandle(szGroup);
+	HANDLE hGroup = Clist_CreateGroup(0, _A2T(szGroup));
 
 	if (ServiceExists(MS_CLIST_CONTACTCHANGEGROUP))
-		return CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)hContact, hGroup);
+		return CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)hContact, (LPARAM)hGroup);
 	else /// TODO: is this neccessary ?
 		return db_set_utf(hContact, "CList", "Group", szGroup);
 }

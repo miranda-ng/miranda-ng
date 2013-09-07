@@ -372,7 +372,7 @@ void create_group(const char *group)
 	if (strcmp(group, AIM_DEFAULT_GROUP) == 0) return;
 
 	TCHAR* szGroupName = mir_utf8decodeT(group);
-	CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)szGroupName);
+	Clist_CreateGroup(0, szGroupName);
 	mir_free(szGroupName);
 }
 

@@ -996,7 +996,7 @@ static int TlenMUCQueryContacts(TlenProtocol *proto, const char *roomId) {
 	MUCSENDQUERYTHREADDATA *threadData = (MUCSENDQUERYTHREADDATA *)mir_alloc(sizeof(MUCSENDQUERYTHREADDATA));
 	threadData->proto = proto;
 	threadData->roomId = mir_strdup(roomId);
-	TlenForkThread(TlenMUCCSendQueryResultThread, 0, (void *)threadData);
+	forkthread(TlenMUCCSendQueryResultThread, 0, (void *)threadData);
 	return 1;
 }
 

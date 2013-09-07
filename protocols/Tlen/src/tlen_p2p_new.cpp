@@ -331,8 +331,8 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 					TlenBindUDPSocket(item->ft);
 					TlenSend(info->proto, "<iq to='%s'><query xmlns='p2p'><dcng  la='%s' lp='%d' pa='%s' pp='%d' i='%s' k='5' s='4'/></query></iq>",
 						item->ft->jid, item->ft->localName, item->ft->wLocalPort, item->ft->localName, item->ft->wLocalPort, item->ft->id2);
-					TlenForkThread((void (__cdecl *)(void*))TlenNewFileReceiveThread, 0, item->ft);
-					TlenForkThread((void (__cdecl *)(void*))TlenNewFileSendThread, 0, item->ft);
+					forkthread((void (__cdecl *)(void*))TlenNewFileReceiveThread, 0, item->ft);
+					forkthread((void (__cdecl *)(void*))TlenNewFileSendThread, 0, item->ft);
 				}
 			} else if (!strcmp(s, "4")) {
 				/* IP and port */
@@ -340,7 +340,7 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 					TlenLog(info->proto, "step = 4");
 					item->ft->hostName = mir_strdup(TlenXmlGetAttrValue(dcng, "pa"));
 					item->ft->wPort = atoi(TlenXmlGetAttrValue(dcng, "pp"));
-					TlenForkThread((void (__cdecl *)(void*))TlenNewFileReceiveThread, 0, item->ft);
+					forkthread((void (__cdecl *)(void*))TlenNewFileReceiveThread, 0, item->ft);
 				}
 			}
 

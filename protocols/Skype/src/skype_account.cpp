@@ -151,7 +151,7 @@ void CSkypeProto::SetAccountSettings()
 	if ( !getTString(SKYPE_SETTINGS_DEF_GROUP, &dbv) && lstrlen(dbv.ptszVal) > 0)
 	{
 		this->Log(L"Setting default group for new contacts");
-		::CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)dbv.ptszVal);
+		::Clist_CreateGroup(0, dbv.ptszVal);
 		::db_free(&dbv);
 	}
 }

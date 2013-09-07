@@ -654,7 +654,7 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 				if ((p=TlenXmlGetAttrValue(node, "i")) != NULL) {
 					if ((item=TlenListGetItemPtr(info->proto, LIST_FILE, p)) != NULL) {
 						if (!strcmp(item->ft->jid, jid))
-							TlenForkThread((void (__cdecl *)(void*))TlenFileSendingThread, 0, item->ft);
+							forkthread((void (__cdecl *)(void*))TlenFileSendingThread, 0, item->ft);
 					}
 				}
 			}
@@ -666,7 +666,7 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 							item->ft->hostName = mir_strdup(p);
 							if ((p=TlenXmlGetAttrValue(node, "p")) != NULL) {
 								item->ft->wPort = atoi(p);
-								TlenForkThread((void (__cdecl *)(void*))TlenFileReceiveThread, 0, item->ft);
+								forkthread((void (__cdecl *)(void*))TlenFileReceiveThread, 0, item->ft);
 							}
 						}
 					}

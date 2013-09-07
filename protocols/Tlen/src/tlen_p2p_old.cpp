@@ -348,7 +348,7 @@ static TLEN_SOCKET TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	strcpy(sb->szHost, inet_ntoa(in));
 	sb->wPort = htons(*(PWORD)(buf+2));
 	ft->s = s;
-	TlenForkThread((void (__cdecl *)(void*))TlenFileBindSocks4Thread, 0, ft);
+	forkthread((void (__cdecl *)(void*))TlenFileBindSocks4Thread, 0, ft);
 	return s;
 }
 
@@ -448,7 +448,7 @@ static TLEN_SOCKET TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	sb->wPort = htons(*(PWORD)(buf+len));
 	ft->s = s;
 
-	TlenForkThread((void (__cdecl *)(void*))TlenFileBindSocks5Thread, 0, ft);
+	forkthread((void (__cdecl *)(void*))TlenFileBindSocks5Thread, 0, ft);
 	return s;
 }
 

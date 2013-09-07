@@ -36,20 +36,6 @@ plugin, originally written by Jörgen Persson
 
 char *szChatIconString = "chaticon";
 
-static HANDLE Clist_GroupExists(TCHAR *tszGroup)
-{
-	for (int i=0; ; i++) {
-		char str[10];
-		_itoa(i, str, 10);
-		ptrT groupName( db_get_tsa(0, "CListGroups", str));
-		if (groupName == NULL)
-			return NULL;
-
-		if (!_tcscmp(tszGroup, &groupName[1]) && lstrlen(tszGroup) == lstrlen(&groupName[1]))
-			return HANDLE(i + 1);
-	}
-}
-
 HANDLE CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* pszDisplayName, int iType)
 {
 	TCHAR pszGroup[50]; *pszGroup = '\0';
@@ -222,9 +208,8 @@ void CList_CreateGroup(TCHAR* group)
 		return;
 
 	g_Settings.hGroup = Clist_GroupExists(group);
-
 	if (g_Settings.hGroup == 0) {
-		g_Settings.hGroup = (HANDLE)CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)group);
+		g_Settings.hGroup = Clist_CreateGroup(0, group);
 
 		if (g_Settings.hGroup) {
 			CallService(MS_CLUI_GROUPADDED, (WPARAM)g_Settings.hGroup, 0);

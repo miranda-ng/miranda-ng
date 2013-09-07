@@ -187,7 +187,7 @@ bool FacebookProto::NegotiateConnection()
 	// Create default group for new contacts
 	ptrT groupName( getTStringA(FACEBOOK_KEY_DEF_GROUP));
 	if (groupName != NULL)
-		CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)groupName);
+		Clist_CreateGroup(0, groupName);
 	
 	return facy.login(user, pass);
 }

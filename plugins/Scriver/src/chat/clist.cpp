@@ -38,33 +38,15 @@ HANDLE CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* p
 	else lstrcpyn( pszGroup, _T("Chat rooms"), 50);
 
 	if (pszGroup[0])
-		CList_CreateGroup(pszGroup);
+		Clist_CreateGroup(0, pszGroup);
 
 	if (hContact) { //contact exist, make sure it is in the right group
 		if (pszGroup[0]) {
-			for (int i = 0;; i++) {
-				char str[50];
-				_itoa(i, str, 10);
-
-				DBVARIANT dbv, dbv2;
-				if (db_get_ts( NULL, "CListGroups", str, &dbv)) {
-					db_set_ts(hContact, "CList", "Group", pszGroup);
-					goto END_GROUPLOOP;
-				}
-
-				if ( !db_get_ts( hContact, "CList", "Group", &dbv2 )) {
-					if ( dbv.ptszVal[0] != '\0' && dbv2.ptszVal[0] != '\0' && !lstrcmpi( dbv.ptszVal + 1, dbv2.ptszVal )) {
-						db_free(&dbv);
-						db_free(&dbv2);
-						goto END_GROUPLOOP;
-					}
-					db_free(&dbv2);
-				}
-				db_free(&dbv);
-			}
+			ptrT grpName( db_get_tsa(hContact, "CList", "Group"));
+			if ( !lstrcmp(pszGroup, grpName))
+				db_set_ts(hContact, "CList", "Group", pszGroup);
 		}
 
-END_GROUPLOOP:
 		db_set_w(hContact, pszModule, "Status", ID_STATUS_OFFLINE);
 		db_set_ts(hContact, pszModule, "Nick", pszDisplayName );
 		return hContact;
@@ -219,37 +201,6 @@ int CList_PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 INT_PTR CList_PrebuildContactMenuSvc(WPARAM wParam, LPARAM lParam)
 {
 	return CList_PrebuildContactMenu(wParam, lParam);
-}
-
-void CList_CreateGroup(TCHAR* group)
-{
-	int i;
-	char str[50];
-	TCHAR name[256];
-	DBVARIANT dbv;
-
-	if (!group)
-		return;
-
-	for (i = 0;; i++) {
-		_itoa(i, str, 10);
-		if ( db_get_ts( NULL, "CListGroups", str, &dbv ))
-			break;
-
-		if ( dbv.pszVal[0] != '\0' && !lstrcmpi(dbv.ptszVal + 1, group)) {
-			db_free(&dbv);
-			return;
-		}
-
-		db_free(&dbv);
-	}
-
-	//	CallService(MS_CLIST_GROUPCREATE, (WPARAM)group, 0);
-	name[0] = 1 | GROUPF_EXPANDED;
-	_tcsncpy(name + 1, group, SIZEOF(name) - 1);
-	name[ lstrlen(group) + 1] = '\0';
-	db_set_ts(NULL, "CListGroups", str, name);
-	CallService(MS_CLUI_GROUPADDED, i + 1, 0);
 }
 
 BOOL CList_AddEvent(HANDLE hContact, HICON Icon, HANDLE event, int type, TCHAR* fmt, ... )

@@ -339,30 +339,6 @@ HANDLE CheckNewContact(char *myProto, char *uid, char *myName)
 	return INVALID_HANDLE_VALUE;
 }
 
-HANDLE Clist_GroupExists(WCHAR *tszGroup)
-{
-	unsigned int i = 0;
-	WCHAR *_t = 0;
-	char str[10];
-	INT_PTR result = 0;
-	DBVARIANT dbv = {0};
-	int match;
-
-	do {
-		_itoa(i, str, 10);
-		result = db_get_ts(0, "CListGroups", str, &dbv);
-		if (!result) {
-			match = (!lstrcmpW(tszGroup, (LPCWSTR)&dbv.ptszVal[1]) && (lstrlenW(tszGroup) == lstrlenW((LPCWSTR)&dbv.ptszVal[1])));
-			db_free(&dbv);
-			if(match)
-				return((HANDLE)(i + 1));
-		}
-		i++;
-	}
-	while(result == 0);
-	return(0);
-}
-
 void importSettings(HANDLE hContact, char *importstring )
 {
 	char module[256] = "", setting[256] = "", *end;
@@ -463,7 +439,7 @@ void importSettings(HANDLE hContact, char *importstring )
 					WCHAR* GroupName = mir_a2u(end+2);
 					if (!GroupName)
 						continue;
-					HANDLE GroupHandle = Clist_GroupExists(GroupName);
+					HANDLE GroupHandle = (HANDLE)CallService(MS_CLIST_GROUPEXISTS, 0, LPARAM(GroupName));
 					if(GroupHandle == 0) {
 						GroupHandle = (HANDLE)CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)GroupName);
 

@@ -406,7 +406,6 @@ INT_PTR       CList_JoinChat(WPARAM wParam, LPARAM lParam);
 INT_PTR       CList_LeaveChat(WPARAM wParam, LPARAM lParam);
 INT_PTR		  CList_PrebuildContactMenuSvc(WPARAM wParam, LPARAM lParam);
 int           CList_PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
-void          CList_CreateGroup(TCHAR* group);
 BOOL          CList_AddEvent(HANDLE hContact, HICON Icon, HANDLE event, int type, TCHAR* fmt, ... ) ;
 HANDLE        CList_FindRoom (const char* pszModule, const TCHAR* pszRoom) ;
 int           WCCmp(TCHAR* wild, TCHAR*string);

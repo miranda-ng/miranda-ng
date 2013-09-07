@@ -20,81 +20,6 @@
 
 #include "gg.h"
 
-////////////////////////////////////////////////////////////////////////////////
-// Checks if a group already exists in Miranda with
-// the specified name.
-// Returns 1 if a group with the name exists, returns 0 otherwise.
-int GroupNameExists(const char *name)
-{
-	char idstr[33];
-	DBVARIANT dbv;
-	int i;
-
-	for (i = 0; ; i++) {
-		_itoa(i, idstr, 10);
-		if (db_get_s(NULL, "CListGroups", idstr, &dbv, DBVT_ASCIIZ)) break;
-		if (!strcmp(dbv.pszVal + 1, name)) {
-			db_free(&dbv);
-			return 1;
-		}
-		db_free(&dbv);
-	}
-	return 0;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-// Creates a group with a specified name in the
-// Miranda contact list.
-// Returns proper group name
-
-char *CreateGroup(char *groupName)
-{
-	int groupId;
-	char groupIdStr[11];
-	char groupName2[127];
-	char *p;
-	DBVARIANT dbv;
-
-	// Cleanup group name from weird characters
-
-	// Skip first break
-	while(*groupName && *groupName == '\\') groupName++;
-
-	p = strrchr(groupName, '\\');
-	// Cleanup end
-	while(p && !(*(p + 1)))
-	{
-		*p = 0;
-		p = strrchr(groupName, '\\');
-	}
-	// Create upper groups
-	if (p)
-	{
-		*p = 0;
-		CreateGroup(groupName);
-		*p = '\\';
-	}
-
-	// Is this a duplicate?
-	if (!GroupNameExists(groupName))
-	{
-		lstrcpynA(groupName2 + 1, groupName, (int)strlen(groupName) + 1);
-
-		// Find an unused id
-		for (groupId = 0; ; groupId++) {
-				_itoa(groupId, groupIdStr,10);
-				if (db_get_s(NULL, "CListGroups", groupIdStr, &dbv, DBVT_ASCIIZ))
-						break;
-				db_free(&dbv);
-		}
-
-		groupName2[0] = 1|GROUPF_EXPANDED;	// 1 is required so we never get '\0'
-		db_set_s(NULL, "CListGroups", groupIdStr, groupName2);
-	}
-	return groupName;
-}
-
 char *gg_makecontacts(GGPROTO *gg, int cr)
 {
 	string_t s = string_init(NULL);
@@ -290,8 +215,11 @@ void GGPROTO::parsecontacts(char *contacts)
 			netlog("parsecontacts(): Found contact %d with nickname \"%s\".", uin, strNick);
 #endif
 			// Write group
-			if (hContact && strGroup)
-				db_set_s(hContact, "CList", "Group", CreateGroup(strGroup));
+			if (hContact && strGroup) {
+				ptrT tszGrpName( mir_a2t(strGroup));
+				Clist_CreateGroup(0, tszGrpName);
+				db_set_ts(hContact, "CList", "Group", tszGrpName);
+			}
 
 			// Write misc data
 			if (hContact && strFirstName){

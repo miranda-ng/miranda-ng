@@ -107,7 +107,7 @@ void TlenResultSetRoster(TlenProtocol *proto, XmlNode *queryNode) {
 							if (item->group) mir_free(item->group);
 							if ((groupNode=TlenXmlGetChild(itemNode, "group")) != NULL && groupNode->text != NULL) {
 								item->group = TlenGroupDecode(groupNode->text);
-								TlenContactListCreateGroup(item->group);
+								Clist_CreateGroup(0, _A2T(item->group));
 								// Don't set group again if already correct, or Miranda may show wrong group count in some case
 								if (!db_get(hContact, "CList", "Group", &dbv)) {
 									if (strcmp(dbv.pszVal, item->group))
@@ -179,7 +179,7 @@ void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 							if (item->group) mir_free(item->group);
 							if ((groupNode=TlenXmlGetChild(itemNode, "group")) != NULL && groupNode->text != NULL) {
 								item->group = TlenGroupDecode(groupNode->text);
-								TlenContactListCreateGroup(item->group);
+								Clist_CreateGroup(0, _A2T(item->group));
 								// Don't set group again if already correct, or Miranda may show wrong group count in some case
 								if (!db_get(hContact, "CList", "Group", &dbv)) {
 									if (strcmp(dbv.pszVal, item->group))

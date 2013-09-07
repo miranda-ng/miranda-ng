@@ -65,55 +65,6 @@ int JabberCompareJids(const TCHAR *jid1, const TCHAR *jid2)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// JabberContactListCreateGroup()
-
-static void JabberContactListCreateClistGroup(TCHAR* groupName)
-{
-	char str[33];
-	int i;
-	DBVARIANT dbv;
-
-	for (i=0;;i++) {
-		_itoa(i, str, 10);
-		if ( db_get_ts(NULL, "CListGroups", str, &dbv))
-			break;
-		TCHAR *name = dbv.ptszVal;
-		if (name[0]!='\0' && !_tcscmp(name+1, groupName)) {
-			// Already exists, no need to create
-			db_free(&dbv);
-			return;
-		}
-		db_free(&dbv);
-	}
-
-	// Create new group with id = i (str is the text representation of i)
-	TCHAR newName[128];
-	newName[0] = 1 | GROUPF_EXPANDED;
-	_tcsncpy(newName+1, groupName, SIZEOF(newName)-1);
-	newName[ SIZEOF(newName)-1] = '\0';
-	db_set_ts(NULL, "CListGroups", str, newName);
-	CallService(MS_CLUI_GROUPADDED, i+1, 0);
-}
-
-void JabberContactListCreateGroup(TCHAR* groupName)
-{
-	TCHAR name[128], *p;
-
-	if (groupName == NULL || groupName[0]=='\0' || groupName[0]=='\\') return;
-
-	_tcsncpy(name, groupName, SIZEOF(name));
-	name[ SIZEOF(name)-1] = '\0';
-	for (p=name; *p!='\0'; p++) {
-		if (*p == '\\') {
-			*p = '\0';
-			JabberContactListCreateClistGroup(name);
-			*p = '\\';
-		}
-	}
-	JabberContactListCreateClistGroup(name);
-}
-
-///////////////////////////////////////////////////////////////////////////////
 // JabberDBAddAuthRequest()
 
 void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)

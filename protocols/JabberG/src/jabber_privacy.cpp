@@ -642,7 +642,6 @@ protected:
 	void CListResetOptions(HWND hwndList);
 	void CListFilter(HWND hwndList);
 	bool CListIsGroup(HANDLE hGroup);
-	HANDLE CListFindGroupByName(TCHAR *name);
 	void CListResetIcons(HWND hwndList, HANDLE hItem, bool hide=false);
 	void CListSetupIcons(HWND hwndList, HANDLE hItem, int iSlot, DWORD dwProcess, BOOL bAction);
 	HANDLE CListAddContact(HWND hwndList, TCHAR *jid);
@@ -1373,29 +1372,6 @@ bool CJabberDlgPrivacyLists::CListIsGroup(HANDLE hGroup)
 	return result;
 }
 
-HANDLE CJabberDlgPrivacyLists::CListFindGroupByName(TCHAR *name)
-{
-	char idstr[33];
-	DBVARIANT dbv;
-
-	HANDLE hGroup = 0;
-
-	for (int i= 0; !hGroup; i++)
-	{
-		_itoa(i, idstr, 10);
-
-		if ( db_get_ts(NULL, "CListGroups", idstr, &dbv))
-			break;
-
-		if ( !_tcscmp(dbv.ptszVal + 1, name))
-			hGroup = (HANDLE)(i+1);
-
-		db_free(&dbv);
-	}
-
-	return hGroup;
-}
-
 void CJabberDlgPrivacyLists::CListResetIcons(HWND, HANDLE hItem, bool hide)
 {
 	for (int i = 0; i < 4; i++)
@@ -1477,7 +1453,7 @@ void CJabberDlgPrivacyLists::CListApplyList(HWND hwndList, CPrivacyList *pList)
 			}
 			case Group:
 			{
-				HANDLE hGroup = CListFindGroupByName(pRule->GetValue());
+				HANDLE hGroup = Clist_GroupExists(pRule->GetValue());
 				hItem = m_clcClist.FindGroup(hGroup);
 				break;
 			}
