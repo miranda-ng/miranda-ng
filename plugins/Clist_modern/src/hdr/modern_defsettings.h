@@ -29,13 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma once
 
-#undef	CLCDEFAULT_GROUPINDENT
-#undef	CLCDEFAULT_SHOWIDLE
-#undef  CLCDEFAULT_TEXTCOLOUR
-#undef  CLCDEFAULT_SELBKCOLOUR
-#undef  SETTING_ONTOP_DEFAULT
-#undef  SETTING_TRAY1CLICK_DEFAULT
-
 #define SETTING_ENABLESKINEDITOR_DEFAULT        0 //"ModernData", "EnableSkinEditor"
 #define SETTING_TOOLWINDOW_DEFAULT              1 //"CList","ToolWindow"
 #define SETTING_ONTOP_DEFAULT                   0 //"CList","OnTop"
@@ -183,8 +176,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SETTING_AVATARWIDTH_DEFAULT             24 //"CList","AvatarsWidth"
 #define SETTINGS_AVATARINSEPARATE_DEFAULT		0 //"CList","AvatarsInSeparateWnd",
 
-
-
 #define SETTING_HIDEICONONAVATAR_DEFAULT            0 //"CList","IconHideOnAvatar"
 #define SETTING_ICONONAVATARPLACE_DEFAULT               0 //"CList","IconDrawOnAvatarSpace"
 #define SETTING_ICONIGNORESIZE_DEFAULT            0 //"CList","IconIgnoreSizeForRownHeight"
@@ -220,7 +211,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SETTING_THIRDLINE_STATUSIFNOAWAY_DEFAULT          0 //"CList","ThirdLineShowStatusIfNoAway"
 #define SETTING_THIRDLINE_LISTENINGIFNOAWAY_DEFAULT   0 //"ThirdLineShowListeningIfNoAway"
 
-
 #define SETTING_TRANSPARENT_DEFAULT               0 //"CList","Transparent"
 #define SETTING_AUTOALPHA_DEFAULT                   150 //"CList","AutoAlpha"
 #define SETTING_CONFIRMDELETE_DEFAULT             1 //"CList","ConfirmDelete"
@@ -232,28 +222,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SETTING_ALWAYSMULTI_DEFAULT               0 //"CList","AlwaysMulti"
 
 #define SETTING_BLENDINACTIVESTATE_DEFAULT  0 //"CLC","BlendInActiveState"
-#define SETTING_BLEND25_DEFAULT                     1 //NOT USED
 
-#define CLCDEFAULT_EXSTYLE           (CLS_EX_EDITLABELS|CLS_EX_TRACKSELECT|CLS_EX_SHOWGROUPCOUNTS|CLS_EX_HIDECOUNTSWHENEMPTY|CLS_EX_TRACKSELECT|CLS_EX_NOTRANSLUCENTSEL)  //plus CLS_EX_NOSMOOTHSCROLL is got from the system
-#define CLCDEFAULT_SCROLLTIME        150 //"CLC","ScrollTime"
-#define CLCDEFAULT_GROUPINDENT       20 //"CLC","SubIndent"
-#define CLCDEFAULT_BKCOLOUR          GetSysColor(COLOR_3DFACE)
-#define CLCDEFAULT_USEBITMAP         0 //"StatusBar","UseBitmap"
-#define CLCDEFAULT_BKBMPUSE          CLB_STRETCH //"StatusBar","BkBmpUse"
-#define CLCDEFAULT_OFFLINEMODES      MODEF_OFFLINE //"CLC","OfflineModes"
-#define CLCDEFAULT_GREYOUTFLAGS      0 //"CLC","GreyoutFlags"
-#define CLCDEFAULT_FULLGREYOUTFLAGS  (MODEF_OFFLINE|PF2_INVISIBLE|GREYF_UNFOCUS)
-#define CLCDEFAULT_SELBKCOLOUR       RGB(100,100,100) //GetSysColor(COLOR_HIGHLIGHT)
-
-
-#define CLCDEFAULT_TEXTCOLOUR        (g_CluiData.fDisableSkinEngine?GetSysColor(COLOR_WINDOWTEXT):RGB(0,0,0))
 #define CLCDEFAULT_MODERN_SELTEXTCOLOUR     (g_CluiData.fDisableSkinEngine?GetSysColor(COLOR_HIGHLIGHTTEXT):RGB(0,0,128))
 #define CLCDEFAULT_MODERN_HOTTEXTCOLOUR     (g_CluiData.fDisableSkinEngine?(IsWinVer98Plus()?CLCDEFAULT_MODERN_SELTEXTCOLOUR:GetSysColor(COLOR_HOTLIGHT)):RGB(0,0,255))
 #define CLCDEFAULT_MODERN_QUICKSEARCHCOLOUR RGB(255,255,0)
-#define CLCDEFAULT_LEFTMARGIN        0 //"CLC","LeftMargin"
-#define CLCDEFAULT_RIGHTMARGIN       2 //"CLC","RightMargin"
-#define CLCDEFAULT_GAMMACORRECT      1 //"CLC","GammaCorrect"
-#define CLCDEFAULT_SHOWIDLE          1 //"CLC","ShowIdle"
 #define CLCDEFAULT_NOVSCROLL         0 //"CLC","NoVScrollBar"
 #define CLCDEFAULT_INFOTIPTIME       750 //"! "CLC","InfoTipHoverTime"
 #define CLCDEFAULT_COLLICONTOLEFT    0 //"! "FrameTitleBar","AlignCOLLIconToLeft"
@@ -264,12 +236,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SKIN_OFFSET_RIGHT_DEFAULT    0 //! "ModernSkin","SizeMarginOffset_Right"
 #define SKIN_SPACEBEFOREGROUP_DEFAULT 0 //! "ModernSkin","SpaceBeforeGroup"
 
-
-
-
-
-
-
 #define SETTINGS_BARBTNWIDTH_DEFAULT	22 //"ModernToolBar", "option_Bar0_BtnWidth"
 #define SETTINGS_BARBTNHEIGHT_DEFAULT	22 //"ModernToolBar", "option_Bar0_BtnHeight"
 #define SETTINGS_BARBTNSPACE_DEFAULT	0  //"ModernToolBar", "option_Bar0_BtnSpace"
@@ -277,7 +243,3 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SETTINGS_BARMULTILINE_DEFAULT	1  //"ModernToolBar", "option_Bar0_Multiline"
 
 #define SETTING_ENABLESOUNDS_DEFAULT 1 // !"Skin", "UseSound", 
-
-
-
-
