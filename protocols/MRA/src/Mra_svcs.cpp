@@ -950,14 +950,24 @@ INT_PTR CMraProto::MraGetMyAvatar(WPARAM wParam, LPARAM lParam)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
+// processes clist group removal
 
-INT_PTR LoadModules(void)
+int CMraProto::OnGroupChanged(WPARAM wParam, LPARAM lParam)
 {
-	DebugPrintCRLFW(L"MRA/LoadModules - DONE");
+	HANDLE hContact = (HANDLE)wParam;
+	if (hContact == NULL) {
+		CLISTGROUPCHANGE *cgc = (CLISTGROUPCHANGE*)lParam;
+		if (cgc->pszOldName != NULL && cgc->pszNewName == NULL) {
+			for (int i=0; i < m_groups.getCount(); i++) {
+				MraGroupItem &p = m_groups[i];
+				if ( _tcscmp(p.m_name, cgc->pszOldName))
+					continue;
+
+				CMStringA szName = p.m_name;
+				DWORD dwFlags = CONTACT_FLAG_GROUP | CONTACT_FLAG_REMOVED;
+				MraModifyContact(NULL, &p.m_id, &dwFlags, 0, &szName, &p.m_name);
+			}
+		}
+	}
 	return 0;
-}
-
-void UnloadModules()
-{
-	DebugPrintCRLFW(L"MRA/UnloadModules - DONE");
 }

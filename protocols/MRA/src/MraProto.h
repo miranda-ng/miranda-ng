@@ -158,6 +158,7 @@ struct CMraProto : public PROTO<CMraProto>
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int __cdecl OnPopupOptInit(WPARAM, LPARAM);
+	int __cdecl OnGroupChanged(WPARAM, LPARAM);
 
 	int __cdecl MraChatGcEventHook(WPARAM, LPARAM);
 

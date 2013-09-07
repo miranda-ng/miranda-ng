@@ -219,7 +219,10 @@ DWORD CMraProto::MraModifyContact(HANDLE hContact, DWORD *pdwID, DWORD *pdwConta
 	CMStringA szEmail, szPhones;
 	CMStringW wszNick, wszCustomName;
 	DWORD dwID, dwGroupID, dwContactFlag;
-	GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, NULL, NULL, &szEmail, &wszNick, &szPhones);
+	if (hContact)
+		GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, NULL, NULL, &szEmail, &wszNick, &szPhones);
+	else
+		dwID = dwGroupID = dwContactFlag = 0;
 
 	if (pdwID) dwID = *pdwID;
 	if (pszEmail) szEmail = *pszEmail;

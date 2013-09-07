@@ -139,8 +139,6 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	MraAntiSpamLoadBadWordsW();
 
-	LoadModules();
-
 	InterlockedExchange((volatile LONG*)&masMraSettings.dwGlobalPluginRunning, TRUE);
 
 	DebugPrintCRLFW(L"OnModulesLoaded - DONE");
@@ -150,8 +148,6 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 int OnPreShutdown(WPARAM wParam, LPARAM lParam)
 {
 	InterlockedExchange((volatile LONG*)&masMraSettings.dwGlobalPluginRunning, FALSE);
-
-	UnloadModules();
 
 	MraAntiSpamFreeBadWords();
 

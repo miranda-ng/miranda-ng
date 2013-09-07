@@ -98,6 +98,7 @@ int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CMraProto::MraDbSettingChanged);
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CMraProto::MraRebuildContactMenu);
 	HookProtoEvent(ME_WAT_NEWSTATUS, &CMraProto::MraMusicChanged);
+	HookProtoEvent(ME_CLIST_GROUPCHANGE, &CMraProto::OnGroupChanged);
 
 	// всех в offline // тк unsaved values сохраняются их нужно инициализировать
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact != NULL; hContact = db_find_next(hContact, m_szModuleName))

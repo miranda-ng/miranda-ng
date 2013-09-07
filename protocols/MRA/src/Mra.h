@@ -221,8 +221,6 @@ extern LIST<CMraProto> g_Instances;
 
 extern HANDLE hXStatusAdvancedStatusIcons[];
 
-INT_PTR LoadModules();
-void    UnloadModules();
 void    InitExtraIcons();
 
 CMStringA MraGetSelfVersionString();
