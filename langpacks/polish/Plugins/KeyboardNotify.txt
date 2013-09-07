@@ -11,7 +11,7 @@ W momencie otrzymania wiadomości, diody na Twojej klawiaturze zaczną migać.
 [Accounts to check]
 Konta do sprawdzenia
 [Events to react on]
-
+Wydarzenia, przy których reagować
 [Incoming messages]
 Przychodzące wiadomości
 [Incoming files]
@@ -27,7 +27,7 @@ Migaj, jeśli okno rozmowy jest otwarte
 [     ... and not in foreground]
      ... i nie na pierwszym planie
 [Only if last is]
-
+Tylko, jeśli ostatnie to
 [sec. old]
 s
 [Flash until]
@@ -39,7 +39,7 @@ jest zaznacza
 [Events are opened]
 Zdarzenia są otwarte
 [End of 'notify when' conditions]
-
+Warunki końca powiadamiania
 [Notify when]
 Powiadamiaj gdy
 [Full Screen mode]
@@ -49,7 +49,7 @@ Wygaszacz jest włączony
 [Workstation is Locked]
 Koputer jest zablokowany
 [Defined programs are running]
-
+Zdefiniowane programy są uruchomione
 [All other situations]
 Pozostałe sytuacje
 [Only notify if status is]
@@ -83,41 +83,41 @@ Rozłączony
 [xStatuses]
 xStatusy
 [Keys to flash]
-
+Klawisze, które powinny świecić
 [Num Lock]
-
+Num Lock
 [Caps Lock]
-
+Caps Lock
 [Scroll Lock]
-
+Scroll Lock
 [Flashing effects]
-
+Efekty mrugania
 [All at the same time]
-
+Wszystkie naraz
 [In turn]
-
+na zmianę
 [In sequence]
-
+sekwencyjnie
 [Custom theme]
 Niestandardowy motyw
 [Accordingly to events' count]
-
+zgodnie z liczbą wydarzeń
 [Wait before starting flashing]
-
+Poczekaj, zanim zaczniesz mrugać
 [Flash speed]
-
+Szybkość mrugania
 [Fast]
-
+Szybko
 [Slow]
-
+Wolno
 [&Preview]
 Podgląd
 [Emulate keypresses (Use this option if you are using an USB keyboard)]
-
+Emuluj naciśnięcia klawiszy (włącz tą funkcji, jeżęli używasz klawiatury na USB)
 [Create/Edit Themes]
-
+Twórz/Edytuj Motywy
 [Theme]
-
+Motyw
 [Test]
 Test
 [Add]
@@ -127,17 +127,17 @@ Aktualizacja
 [Delete]
 Usuń
 [Import/Export]
-
+Importuj/Eksportuj
 [Export...]
 Eksportuj...
 [Import...]
 Importuj...
 [Override existing]
-
+Nadpisz istniejący
 [Set program list]
-
+Ustaw listę programów
 [Program]
-
+Program
 [OK]
 OK
 [Cancel]
@@ -145,21 +145,21 @@ Anuluj
 [Set LEDs for events]
 Ustaw dla zdarzeń (LED)
 [Num]
-
+Num
 [Caps]
-
+Caps
 [Scroll]
-
+Scroll
 [Message events]
-
+Zdarzenia wiadomości
 [File events]
-
+Zdarzenia plików
 [URL events]
 Linki
 [Other events]
 Inne zdarzenia
 [Consider event opened after]
-
+Uznaj zdarzenie za otwarte po
 [Use custom theme]
 Użyj niestandardowej skórki
 [The following events are being ignored:]
@@ -167,7 +167,7 @@ Następujące zdarzenia są ignorowane:
 [Ignore messages]
 Ignoruj wiadomości
 [Ignore URLs]
-
+Ignoruj linki
 [Ignore files]
 Ignoruj pliki
 [Ignore others]
@@ -203,16 +203,16 @@ Zasady
 [Flashing]
 Miganie
 [Themes]
-
+Motywy
 [Protocol]
 Protokół
 [Keyboard Notify Theme]
-
+Motyw Keyboard Notify
 [All Files]
 Wszystkie pliki
 [\n; Automatically generated Keyboard Notify Theme file\n\n\n]
-
+\n; Automatycznie wygenerowany plik motywu Keyboard Notify\n\n\n
 [\n; End of automatically generated Keyboard Notify Theme file\n]
-
+\n; Koniec automatycznie wygenerowanego pliku motywu Keyboard Notify\n
 [None]
 Brak

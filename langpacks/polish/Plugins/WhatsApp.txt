@@ -67,6 +67,6 @@ Opuść I usuń Grupę
 [Leave Group]
 Opuść Grupę
 [Change Group Subject]
-
+Zmień temat grupy
 [Create Group]
-
+Stwórz grupę

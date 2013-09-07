@@ -9,7 +9,7 @@
 Umożliwia łączenie kontaktów tego samego lub różnych protokołów w jeden kontakt.
 ;file \plugins\MetaContacts\res\MetaContacts.rc
 [Add to Existing MetaContact]
-
+Dodaj do istniejącego metakontaktu
 [Please select a MetaContact:]
 Proszę wybrać metakontakt:
 [&OK]
@@ -19,7 +19,7 @@ Anuluj
 [Sort Alphabetically]
 Sortuj alfabetycznie
 [Editing]
-
+Edycja
 [Name:]
 Nazwa:
 [Information]
@@ -112,19 +112,19 @@ Trzymaj historię subkontaktu zsynchornizowaną z metakontaktem
 Historia (** ostrzeżenie - zmieniasz na własne ryzyko**)
 ;file \plugins\MetaContacts\src\addto.cpp
 [Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
-
+Brak metakontaktu w bazie danych (w tym przypadku powinieneś najpierw skonwertować kontakt do metakontaktu)\nlub brak metakontaktu, który może być bazą dla tego kontaktu.\nInnym rozwiązaniem może być konwersja tegokontaktu do nowego metakontaktu.\n\nSkonwertować ten kontakt do nowego metakontaktu?
 [This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
-
+Ten kontaktj estm etakontaktem.\nNie możesz dodać metakontaktu do innego metakontaktu.\n\n\nProszę wybrać inny.
 [MetaContact Conflict]
-
+Konflikt metakontaktu
 [This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts.]
-
+Ten kontakt jest już skojarzony z metakontaktem.\nNiemożesz dodawać kontaktu do wielu metakontaktów.
 [Multiple MetaContacts]
-
+Wiele metakontaktów
 [No suitable MetaContact found]
 Nie znaleziono odpowiedniego MetaKontaktu
 [a contact]
-
+Kontakt
 [Adding %s...]
 Dodawanie %s...
 [Please select a MetaContact]
@@ -132,9 +132,9 @@ Proszę wybrać metakontakt
 [No MetaContact selected]
 Nie zaznaczono metakontaktów
 [Assignment to the MetaContact failed.]
-
+Przypisanie do metakontaktu nieudane.
 [Assignment failure]
-
+Błąd przypisania
 ;file \plugins\MetaContacts\src\edit.cpp
 [(Unknown Contact)]
 (Nieznany kontakt)
@@ -172,7 +172,7 @@ Usuń
 Zamierzasz usunąć wszystkie kontakty skojarzone z tym metakontaktem.\nTo usunie metakontakt.\n\nKontynuować mimo to?
 ;file \plugins\MetaContacts\src\meta_main.cpp
 [Error - Database corruption.\nPlugin disabled.]
-
+Błąd - awaria bazy danych.\nWtyczka została wyłączona.
 [MetaContacts]
 Metakontakty
 ;file \plugins\MetaContacts\src\meta_menu.cpp
@@ -181,7 +181,7 @@ Problem z przydzieleniem kontaktu do metakontaktu
 [Error]
 Błąd
 [This will remove the MetaContact permanently.\n\nProceed Anyway?]
-
+To usunie metakontakt na stałe.\n\nKontynuować?
 [Are you sure?]
 Jesteś pewien?
 [Remove from MetaContact]
@@ -191,9 +191,9 @@ Usuń z metakontaktu
 <domyślny>
 ;file \plugins\MetaContacts\src\meta_services.cpp
 [Meta ID]
-
+Meta ID
 [No online contacts found.]
-
+Nie znaleziono dostępnych kontaktów.
 [Message from %s]
 Wiadomość od %s
 [Toggle MetaContacts Off]
@@ -207,7 +207,7 @@ Ustaw jako domyślny metakontakt
 [Delete MetaContact]
 Usuń metakontakt
 [Context]
-
+Kontekst
 [Toggle MetaContacts On]
 Włącz metakontakty
 [General]
@@ -220,29 +220,29 @@ Historia
 [Sender]
 Nadawca
 [Could not get MetaContact id]
-
+Nie udało się pobrać ID metakontaktu
 [Assignment Error]
 Błąd przydzielania
 [Could not retreive MetaContact contact count]
-
+Nie udało się pobrać liczby kontaktów w metakontakcie
 [Could not retreive contact protocol]
-
+Nieudało się pobrać protokołu kontaktu
 [Could not get unique id of contact]
 Nie można pobrać unikalnego ID kontaktu
 [Contact is 'Not on List' - please add the contact to your contact list before assigning.]
-
+Kontakt nie znajduje się na liście. Dodaj kontakt do listy przed przyporządkowaniem.
 [MetaContact is full]
 Brak wolnych miejsc w metakontakcie
 [Could not write contact protocol to MetaContact]
-
+Nie udało się zapisać protokołu kontaktu w metakontakcie
 [Could not write unique id of contact to MetaContact]
-
+Nie udało się zapisać unikalnego ID kontaktu do metakontaktu.
 [Could not write nickname of contact to MetaContact]
-
+Nie udało się zapisać nicka kontaktu do metakontaktu
 [Subcontact contact number < 0 - deleting MetaContact]
-
+Podkontakt kontakt liczba < 0 - usuwanie metakontaktu
 [Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]
-
+Podkontakt kontakt liczba (%d) > liczba kontaktów w meta (%d) - usuwanie metakontaktu
 [Subcontact's MetaContact not found - deleting MetaContact data]
 Subkontakt metakontaktu nie został znaleziony - usuwanie metakontaktu
 [MetaContact number of contacts < 0 - deleting MetaContact]
@@ -250,10 +250,10 @@ Liczba kontaktów w metakontakcie < 0 - usuwanie metakontaku
 [MetaContact default contact number out of range - deleting MetaContact]
 Domyslna liczba kontaktu poza zakresem - usuwanie metakontaktu
 [MetaId: ]
-
+MetaID:
 [MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
 Metakontakt uszkodzony - liczba subkontaktów jest nieprawidłowa.\n Usuwanie metakontaku.
 [The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
-
+Ukryta grupa  metakontaktu została dodana do listy.\nPrawdopodobnie jest to spowodowane informacjami po stronie serwera. Aby to naprawić, tak by wtyczka MetaContacts mogła działać poprawnie, powinieneś:\nwyłączyć MetaKontakty używając opcji "Wyłącz MetaKontakty" w menu głównym\nprzenieść wszystkie kontakty poza tą grupę\nzsynchronizować kontakty z serwerem\nponownie włączyć metaKontakty
 [MetaContacts Warning]
-
+Ostrzeżenie o MetaKontaktach
