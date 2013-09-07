@@ -88,7 +88,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			TCHAR *grpName;
 			for (int groupId = 1; (grpName = cli.pfnGetGroupName(groupId, NULL)) != NULL; groupId++) {
 				int id = SendDlgItemMessage(hdlg, IDC_GROUP, CB_ADDSTRING, 0, (LPARAM)grpName);
-				SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETITEMDATA , id, groupId+1);
+				SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETITEMDATA, id, groupId);
 			}
 		}
 
@@ -126,8 +126,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 	case WM_COMMAND:
 		acs = (ADDCONTACTSTRUCT *)GetWindowLongPtr(hdlg, GWLP_USERDATA);
 
-		switch (LOWORD(wparam))
-		{
+		switch (LOWORD(wparam)) {
 		case IDC_AUTH:
 			{
 				DWORD flags = CallProtoServiceInt(NULL,acs->szProto, PS_GETCAPS, PFLAGNUM_4, 0);
@@ -148,8 +147,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 		case IDOK:
 			{
 				HANDLE hContact = INVALID_HANDLE_VALUE;
-				switch (acs->handleType)
-				{
+				switch (acs->handleType) {
 				case HANDLE_EVENT:
 					{
 						DBEVENTINFO dbei = { sizeof(dbei) };
@@ -175,8 +173,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 					db_set_ts(hContact, "CList", "MyHandle", szHandle);
 
 				int item = SendDlgItemMessage(hdlg, IDC_GROUP, CB_GETCURSEL, 0, 0);
-				if (item > 0)
-				{
+				if (item > 0) {
 					item = SendDlgItemMessage(hdlg, IDC_GROUP, CB_GETITEMDATA, item, 0);
 					CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)hContact, item);
 				}
@@ -186,13 +183,11 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				if (IsDlgButtonChecked(hdlg, IDC_ADDED))
 					CallContactService(hContact, PSS_ADDED, 0, 0);
 
-				if (IsDlgButtonChecked(hdlg, IDC_AUTH))
-				{
+				if (IsDlgButtonChecked(hdlg, IDC_AUTH)) {
 					DWORD flags = CallProtoServiceInt(NULL,acs->szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 					if (flags & PF4_NOCUSTOMAUTH)
 						CallContactService(hContact, PSS_AUTHREQUESTT, 0, 0);
-					else
-					{
+					else {
 						TCHAR szReason[512];
 						GetDlgItemText(hdlg, IDC_AUTHREQ, szReason, SIZEOF(szReason));
 						CallContactService(hContact, PSS_AUTHREQUESTT, 0, (LPARAM)szReason);
