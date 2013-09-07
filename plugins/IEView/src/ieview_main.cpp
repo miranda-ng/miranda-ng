@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "ieview_common.h"
 
 HINSTANCE hInstance;
+CLIST_INTERFACE *pcli;
 
 char *workingDirUtf8;
 int hLangpack;
@@ -67,6 +68,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	delete workingDir;
 
 	mir_getLP(&pluginInfoEx);
+	mir_getCLI();
 
 	HookEvent(ME_OPT_INITIALISE, IEViewOptInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

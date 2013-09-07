@@ -280,10 +280,10 @@ wchar_t *HTMLBuilder::getContactName(HANDLE hContact, const char *szProto)
 	}
 	if (szName != NULL) return szName;
 
-	TCHAR *szNameStr = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
-	if (szNameStr != NULL) {
-		return szNameStr;
-	}
+	TCHAR *szNameStr = pcli->pfnGetContactDisplayName(hContact, 0);
+	if (szNameStr != NULL)
+		return mir_tstrdup(szNameStr);
+
 	return mir_tstrdup(TranslateT("(Unknown Contact)"));
 }
 
