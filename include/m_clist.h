@@ -468,6 +468,16 @@ typedef struct {
 
 #define ME_CLIST_GROUPCHANGE       "CList/GroupChange"
 
+//checks that a group exists                                v0.1.1.0+
+//wParam = 0 (unused)
+//lParam = (TCHAR*)groupName
+//returns 0 if a group is not found or group handle on success
+#define MS_CLIST_GROUPEXISTS       "CList/GroupExists"
+
+__forceinline HANDLE Clist_GroupExists(LPCTSTR ptszGroupName)
+{	return (HANDLE)CallService(MS_CLIST_GROUPEXISTS, 0, (LPARAM)ptszGroupName);
+}
+
 //creates a new group and calls CLUI to display it          v0.1.1.0+
 //wParam = hParentGroup
 //lParam = groupName
@@ -477,6 +487,10 @@ typedef struct {
 //groupName is a TCHAR* pointing to the group name to create or NULL for
 //API to create unique name by itself
 #define MS_CLIST_GROUPCREATE   "CList/GroupCreate"
+
+__forceinline HANDLE Clist_CreateGroup(HANDLE hParent, LPCTSTR ptszGroupName)
+{	return (HANDLE)CallService(MS_CLIST_GROUPCREATE, (WPARAM)hParent, (LPARAM)ptszGroupName);
+}
 
 //deletes a group and calls CLUI to display the change      v0.1.1.0+
 //wParam = (WPARAM)(HANDLE)hGroup

@@ -466,6 +466,14 @@ const
   ME_CLIST_GROUPCHANGE:PAnsiChar = 'CList/GroupChange';
 
   {
+    checks that a group exists
+    wParam : 0 (unused)
+    lParam : (PWideChar)groupName
+    returns 0 if a group is not found or group handle on success
+  }
+  MS_CLIST_GROUPEXISTS:PAnsiChar = 'CList/GroupExists';
+
+  {
     wParam : HPARENTGROUP
     lParam : 0 or Pointer to new group name
     Affect : Create a new group and calls CLUI to display it, see notes

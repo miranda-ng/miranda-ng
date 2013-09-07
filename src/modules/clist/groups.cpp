@@ -65,17 +65,25 @@ static int GroupNameExists(const TCHAR *name, int skipGroup)
 	return 0;
 }
 
-static INT_PTR CreateGroup(WPARAM wParam, LPARAM lParam)
+static INT_PTR GroupExists(WPARAM, LPARAM lParam)
+{
+	if (lParam == 0)
+		return FALSE;
+
+	return GroupNameExists((LPCTSTR)lParam, -1);
+}
+
+static INT_PTR CreateGroupInternal(INT_PTR iParent, const TCHAR *ptszName)
 {
 	int newId = CountGroups();
 	TCHAR newBaseName[127], newName[128];
 	char str[33];
 	int i;
-	DBVARIANT dbv;
 
-	const TCHAR* grpName = lParam ? (TCHAR*)lParam : TranslateT("New Group");
-	if (wParam) {
-		_itoa(wParam - 1, str, 10);
+	const TCHAR* grpName = ptszName ? ptszName : TranslateT("New Group");
+	if (iParent) {
+		_itoa(iParent - 1, str, 10);
+		DBVARIANT dbv;
 		if (db_get_ts(NULL, "CListGroups", str, &dbv))
 			return 0;
 
@@ -86,7 +94,7 @@ static INT_PTR CreateGroup(WPARAM wParam, LPARAM lParam)
 
 	_itoa(newId, str, 10);
 	lstrcpyn(newName + 1, newBaseName, SIZEOF(newName) - 1);
-	if (lParam) {
+	if (ptszName) {
 		i = GroupNameExists(newBaseName, -1);
 		if (i) newId = i - 1;
 		i = !i;
@@ -107,6 +115,26 @@ static INT_PTR CreateGroup(WPARAM wParam, LPARAM lParam)
 	}
 
 	return newId + 1;
+}
+
+static INT_PTR CreateGroup(WPARAM wParam, LPARAM lParam)
+{
+	if (lParam == 0)
+		return CreateGroupInternal(wParam, NULL);
+
+	LPCTSTR ptszName = (LPCTSTR)lParam;
+	if (ptszName == NULL || ptszName[0] == '\0' || ptszName[0] == '\\')
+		return 0;
+
+	TCHAR *tszName = NEWTSTR_ALLOCA(ptszName);
+	for (TCHAR *p = tszName; *p; p++) {
+		if (*p == '\\') {
+			*p = '\0';
+			CreateGroupInternal(wParam, tszName);
+			*p = '\\';
+		}
+	}
+	return CreateGroupInternal(wParam, tszName);
 }
 
 static INT_PTR GetGroupName2(WPARAM wParam, LPARAM lParam)
@@ -552,6 +580,7 @@ int InitGroupServices(void)
 		db_free(&dbv);
 	}
 
+	CreateServiceFunction(MS_CLIST_GROUPEXISTS, GroupExists);
 	CreateServiceFunction(MS_CLIST_GROUPCREATE, CreateGroup);
 	CreateServiceFunction(MS_CLIST_GROUPDELETE, DeleteGroup);
 	CreateServiceFunction(MS_CLIST_GROUPRENAME, RenameGroup);
