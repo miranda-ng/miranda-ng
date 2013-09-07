@@ -374,7 +374,7 @@ HANDLE CMraProto::MraWPRequestW(HANDLE hContact, DWORD dwAckType, DWORD dwReques
 		buf.SetLPS(tmp);
 	}
 
-	return (HANDLE)MraSendQueueCMD(hSendQueueHandle, 0, hContact, dwAckType, NULL, 0, MRIM_CS_WP_REQUEST, buf.Data(), buf.Len());
+	return (HANDLE)MraSendQueueCMD(hSendQueueHandle, dwRequestFlags, hContact, dwAckType, NULL, 0, MRIM_CS_WP_REQUEST, buf.Data(), buf.Len());
 }
 
 // Поиск контакта по EMail

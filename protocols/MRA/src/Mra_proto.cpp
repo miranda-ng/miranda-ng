@@ -788,8 +788,8 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 
 bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 {
-	DWORD dwAckType; HANDLE hContact; LPBYTE pData; size_t dataLen;
-	if ( MraSendQueueFind(hSendQueueHandle, seq, NULL, &hContact, &dwAckType, &pData, &dataLen)) {
+	DWORD dwAckType, dwFlags; HANDLE hContact; LPBYTE pData; size_t dataLen;
+	if ( MraSendQueueFind(hSendQueueHandle, seq, &dwFlags, &hContact, &dwAckType, &pData, &dataLen)) {
 		MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, 0, TranslateW(L"MRIM_ANKETA_INFO: not found in queue"));
 		return true;
 	}
@@ -1000,8 +1000,11 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 						mralpsUsernameValue = val;
 					}
 					else if (fld == "Domain") { // имя было уже задано ранее
-						buf >> val; 
-						wcsncpy_s(szEmail, _A2T(val + "@" + mralpsUsernameValue), SIZEOF(szEmail));
+						buf >> val;
+						if (dwFlags & MRIM_CS_WP_REQUEST_PARAM_DOMAIN)
+							wcsncpy_s(szEmail, _A2T(val + "@" + mralpsUsernameValue), SIZEOF(szEmail));
+						else
+							wcsncpy_s(szEmail, _A2T(mralpsUsernameValue + "@" + val), SIZEOF(szEmail));
 					}
 					else if (fld == "Nickname") {
 						buf >> valW; 
