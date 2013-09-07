@@ -263,7 +263,7 @@ INT_PTR CMraProto::MraRequestAuthorization(WPARAM wParam, LPARAM lParam)
 		CMStringA szEmail;
 		if ( mraGetStringA(hContact, "e-mail", szEmail)) {
 			BOOL bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);
-			int iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_AUTHREQ, MESSAGE_FLAG_AUTHORIZE, szEmail, wszAuthMessage, NULL, 0);
+			int iRet = MraMessage(bSlowSend, hContact, ACKTYPE_AUTHREQ, MESSAGE_FLAG_AUTHORIZE, szEmail, wszAuthMessage, NULL, 0);
 			if (bSlowSend == FALSE)
 				ProtoBroadcastAck(hContact, ACKTYPE_AUTHREQ, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
 
@@ -414,13 +414,14 @@ int CMraProto::MraContactDeleted(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	if ( IsContactMra(hContact)) {
-		CMStringA szEmail;
 		DWORD dwID, dwGroupID;
-		GetContactBasicInfoW(hContact, &dwID, &dwGroupID, NULL, NULL, NULL, &szEmail, NULL, NULL);
+		GetContactBasicInfoW(hContact, &dwID, &dwGroupID, NULL, NULL, NULL, NULL, NULL, NULL);
 
 		MraSetContactStatus(hContact, ID_STATUS_OFFLINE);
-		if ( !db_get_b(hContact, "CList", "NotOnList", 0) || dwID != -1)
-			MraModifyContactW(hContact, dwID, CONTACT_FLAG_REMOVED, dwGroupID, szEmail, L"", "");
+		if ( !db_get_b(hContact, "CList", "NotOnList", 0) || dwID != -1) {
+			DWORD dwFlags = CONTACT_FLAG_REMOVED;
+			MraModifyContact(hContact, &dwID, &dwFlags);
+		}
 		MraAvatarsDeleteContactAvatarFile(hAvatarsQueueHandle, hContact);
 	}
 	return 0;
@@ -439,14 +440,13 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 
 	// это наш контакт, он не временный (есть в списке на сервере) и его обновление разрешено
 	if ( IsContactMra(hContact) && !db_get_b(hContact, "CList", "NotOnList", 0) && getDword(hContact, "HooksLocked", FALSE) == FALSE) {
-		CMStringA szEmail, szPhones;
-		CMStringW wszNick;
-		DWORD dwID, dwGroupID, dwContactFlag;
+		DWORD dwContactFlag;
 
 		if ( !strcmp(cws->szModule, "CList")) {
 			// MyHandle setting
 			if ( !strcmp(cws->szSetting, "MyHandle")) {
 				// always store custom nick
+				CMStringW wszNick;
 				if (cws->value.type == DBVT_DELETED) {
 					wszNick = GetContactNameW(hContact);
 					db_set_ws(hContact, "CList", "MyHandle", wszNick);
@@ -462,23 +462,28 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 					case DBVT_ASCIIZ:
 						wszNick = ptrW( mir_a2u_cp(cws->value.pszVal, MRA_CODE_PAGE));
 						break;
-					default:
-						break;
 					}
 					if (wszNick.GetLength())
-						if (GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, NULL, NULL, &szEmail, NULL, &szPhones) == NO_ERROR)
-							MraModifyContactW(hContact, dwID, dwContactFlag, dwGroupID, szEmail, wszNick, szPhones);
+						MraModifyContact(hContact, 0, 0, 0, 0, &wszNick);
 				}
 			}
 			// Group setting
 			else if ( !strcmp(cws->szSetting, "Group")) {
+				CMStringW wszGroup;
 				// manage group on server
 				switch (cws->value.type) {
-				case DBVT_ASCIIZ:
+				case DBVT_WCHAR:
+					wszGroup = cws->value.pwszVal;
 					break;
-				case DBVT_DELETED:
+				case DBVT_UTF8:
+					wszGroup = ptrW( mir_utf8decodeW(cws->value.pszVal));
+					break;
+				case DBVT_ASCIIZ:
+					wszGroup = ptrW( mir_a2u_cp(cws->value.pszVal, MRA_CODE_PAGE));
 					break;
 				}
+				if (wszGroup.GetLength())
+					MraMoveContactToGroup(hContact, getDword("GroupID", -1), wszGroup);
 			}
 			// NotOnList setting. Has a temporary contact just been added permanently?
 			else if ( !strcmp(cws->szSetting, "NotOnList")) {
@@ -488,39 +493,39 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 						wszAuthMessage = TranslateW(MRA_DEFAULT_AUTH_MESSAGE);
 
 					db_unset(hContact, "CList", "Hidden");
+
+					CMStringA szEmail, szPhones;
+					CMStringW wszNick;
+					DWORD dwGroupID, dwContactFlag;
 					GetContactBasicInfoW(hContact, NULL, &dwGroupID, &dwContactFlag, NULL, NULL, &szEmail, &wszNick, &szPhones);
-					MraAddContactW(hContact, dwContactFlag, dwGroupID, szEmail, wszNick, szPhones, wszAuthMessage, 0);
+					MraAddContact(hContact, dwContactFlag, dwGroupID, szEmail, wszNick, szPhones, wszAuthMessage, 0);
 				}
 			}
 			// Hidden setting
 			else if ( !strcmp(cws->szSetting, "Hidden")) {
-				GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, NULL, NULL, &szEmail, &wszNick, &szPhones);
 				if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0))
 					dwContactFlag &= ~CONTACT_FLAG_SHADOW;
 				else
 					dwContactFlag |= CONTACT_FLAG_SHADOW;
 
-				MraModifyContactW(hContact, dwID, dwContactFlag, dwGroupID, szEmail, wszNick, szPhones);
+				MraModifyContact(hContact, 0, &dwContactFlag);
 			}
 		}
 		// Ignore section
 		else if ( !strcmp(cws->szModule, "Ignore")) {
 			if ( !strcmp(cws->szSetting, "Mask1")) {
-				GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, NULL, NULL, &szEmail, &wszNick, &szPhones);
 				if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_DWORD && cws->value.dVal&IGNOREEVENT_MESSAGE) == 0)
 					dwContactFlag &= ~CONTACT_FLAG_IGNORE;
 				else
 					dwContactFlag |= CONTACT_FLAG_IGNORE;
 
-				MraModifyContactW(hContact, dwID, dwContactFlag, dwGroupID, szEmail, wszNick, szPhones);
+				MraModifyContact(hContact, 0, &dwContactFlag);
 			}
 		}
 		// User info section
 		else if ( !strcmp(cws->szModule, "UserInfo")) {
-			if ( !strcmp(cws->szSetting, "MyPhone0") || !strcmp(cws->szSetting, "MyPhone1") || !strcmp(cws->szSetting, "MyPhone2")) {
-				GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, NULL, NULL, &szEmail, &wszNick, &szPhones);
-				MraModifyContactW(hContact, dwID, dwContactFlag, dwGroupID, szEmail, wszNick, szPhones);
-			}
+			if ( !strcmp(cws->szSetting, "MyPhone0") || !strcmp(cws->szSetting, "MyPhone1") || !strcmp(cws->szSetting, "MyPhone2"))
+				MraModifyContact(hContact);
 		}
 	}
 	return 0;
@@ -874,7 +879,7 @@ DWORD CMraProto::MraSendNewStatus(DWORD dwStatusMir, DWORD dwXStatusMir, const C
 	else if (pwszStatusTitle.IsEmpty())
 		wszStatusTitle = GetStatusModeDescriptionW(dwStatusMir);
 
-	MraChangeStatusW(dwStatus, lpcszStatusUri[dwXStatus], wszStatusTitle, wszStatusDesc, ((getByte("RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE)? FEATURE_FLAG_RTF_MESSAGE:0)|MRA_FEATURE_FLAGS));
+	MraChangeStatus(dwStatus, lpcszStatusUri[dwXStatus], wszStatusTitle, wszStatusDesc, ((getByte("RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE)? FEATURE_FLAG_RTF_MESSAGE:0)|MRA_FEATURE_FLAGS));
 	return 0;
 }
 
@@ -886,7 +891,7 @@ INT_PTR CMraProto::MraSendNudge(WPARAM wParam, LPARAM lParam)
 
 		CMStringA szEmail;
 		if (mraGetStringA(hContact, "e-mail", szEmail))
-			if (MraMessageW(FALSE, hContact, 0, (MESSAGE_FLAG_RTF|MESSAGE_FLAG_ALARM), szEmail, lpwszAlarmMessage, NULL, 0))
+			if (MraMessage(FALSE, hContact, 0, (MESSAGE_FLAG_RTF|MESSAGE_FLAG_ALARM), szEmail, lpwszAlarmMessage, NULL, 0))
 				return 0;
 	}
 	return 1;

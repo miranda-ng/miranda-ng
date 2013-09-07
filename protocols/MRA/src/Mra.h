@@ -293,7 +293,7 @@ DWORD     FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DW
 DWORD     MemFillRandom(LPVOID lpBuff, size_t dwBuffSize);
 		    
 DWORD     GetMraStatusFromMiradaStatus(DWORD dwMirandaStatus, DWORD dwXStatusMir, DWORD *pdwXStatusMra);
-DWORD     GetMiradaStatusFromMraStatus(DWORD dwMraStatus, DWORD dwXStatusMra, DWORD *pdwXStatusMir);
+DWORD     GetMirandaStatusFromMraStatus(DWORD dwMraStatus, DWORD dwXStatusMra, DWORD *pdwXStatusMir);
 DWORD     GetMraXStatusIDFromMraUriStatus(const char *lpszStatusUri);
 
 INT_PTR CALLBACK DlgProcAccount(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);

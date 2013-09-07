@@ -72,7 +72,7 @@ INT_PTR CMraProto::MraChatSessionNew(HANDLE hContact)
 			DWORD opcode = MULTICHAT_GET_MEMBERS;
 			CMStringA szEmail;
 			mraGetStringA(hContact, "e-mail", szEmail);
-			MraMessageW(FALSE, NULL, 0, MESSAGE_FLAG_MULTICHAT, szEmail, L"", (LPBYTE)&opcode, sizeof(opcode));
+			MraMessage(FALSE, NULL, 0, MESSAGE_FLAG_MULTICHAT, szEmail, L"", (LPBYTE)&opcode, sizeof(opcode));
 			return 0;
 		}
 	}
@@ -229,7 +229,7 @@ int CMraProto::MraChatGcEventHook(WPARAM, LPARAM lParam)
 					if (getByte("RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE) && (MraContactCapabilitiesGet(hContact)&FEATURE_FLAG_RTF_MESSAGE))
 						dwFlags |= MESSAGE_FLAG_RTF;
 
-					INT_PTR iSendRet = MraMessageW(bSlowSend, hContact, ACKTYPE_MESSAGE, dwFlags, szEmail, gch->ptszText, NULL, 0);
+					INT_PTR iSendRet = MraMessage(bSlowSend, hContact, ACKTYPE_MESSAGE, dwFlags, szEmail, gch->ptszText, NULL, 0);
 					if (bSlowSend == FALSE)
 						ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)iSendRet, 0);
 

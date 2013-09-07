@@ -713,7 +713,7 @@ bool CMraProto::CmdUserStatus(BinBuffer &buf)
 		if (bAdded)
 			MraUpdateContactInfo(hContact);
 
-		DWORD dwTemp = GetMiradaStatusFromMraStatus(dwStatus, GetMraXStatusIDFromMraUriStatus(szSpecStatusUri), &dwXStatus);
+		DWORD dwTemp = GetMirandaStatusFromMraStatus(dwStatus, GetMraXStatusIDFromMraUriStatus(szSpecStatusUri), &dwXStatus);
 
 		MraContactCapabilitiesSet(hContact, dwFutureFlags);
 		setByte(hContact, DBSETTING_XSTATUSID, (BYTE)dwXStatus);
@@ -934,7 +934,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 							GetContactBasicInfoW(hContact, &dwID, NULL, NULL, &dwContactSeverFlags, NULL, NULL, NULL, NULL);
 							// для авторизованного нам и так присылают правильный статус
 							if (dwID == -1 || (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED)) {
-								MraSetContactStatus(hContact, GetMiradaStatusFromMraStatus(atoi(val), MRA_MIR_XSTATUS_NONE, NULL));
+								MraSetContactStatus(hContact, GetMirandaStatusFromMraStatus(atoi(val), MRA_MIR_XSTATUS_NONE, NULL));
 								setByte(hContact, DBSETTING_XSTATUSID, (BYTE)MRA_MIR_XSTATUS_NONE);
 							}
 						}
@@ -945,7 +945,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 							DWORD dwID, dwContactSeverFlags, dwXStatus;
 							GetContactBasicInfoW(hContact, &dwID, NULL, NULL, &dwContactSeverFlags, NULL, NULL, NULL, NULL);
 							if (dwID == -1 || (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED)) {
-								MraSetContactStatus(hContact, GetMiradaStatusFromMraStatus(atoi(val), GetMraXStatusIDFromMraUriStatus(val), &dwXStatus));
+								MraSetContactStatus(hContact, GetMirandaStatusFromMraStatus(atoi(val), GetMraXStatusIDFromMraUriStatus(val), &dwXStatus));
 								setByte(hContact, DBSETTING_XSTATUSID, (BYTE)dwXStatus);
 							}
 						}
@@ -1100,6 +1100,8 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 		CMStringA szCustomPhones, szSpecStatusUri, szUserAgentFormatted;
 		CMStringW wszNick, wszString, wszGroupName, wszStatusTitle, wszStatusDesc, wszBlogStatus, wszBlogStatusMusic;
 		buf >> dwGroupsCount >> szGroupMask >> szContactMask;
+
+		int iGroupMode = getByte("GroupMode", 100);
 
 		DebugPrintCRLFW(L"Groups:");
 		DebugPrintCRLFA(szGroupMask);
@@ -1303,7 +1305,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 						DebugBreak();
 					}
 					else {
-						dwTemp = GetMiradaStatusFromMraStatus(dwStatus, GetMraXStatusIDFromMraUriStatus(szSpecStatusUri), &dwXStatus);
+						dwTemp = GetMirandaStatusFromMraStatus(dwStatus, GetMraXStatusIDFromMraUriStatus(szSpecStatusUri), &dwXStatus);
 
 						if (bAdded) { // update user info
 							SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_FLAG|SCBIF_SERVER_FLAG|SCBIF_STATUS|SCBIF_NICK|SCBIF_PHONES), 
@@ -1312,11 +1314,17 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 							MraUpdateContactInfo(hContact);
 						}
 						else { //****deb - check group ID param
+							if (iGroupMode == 100) { // first start
+								ptrT tszGroup( db_get_tsa(hContact, "CList", "Group"));
+								if (tszGroup)
+									dwGroupID = MraMoveContactToGroup(hContact, dwGroupID, tszGroup);
+							}
+
 							SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS),
 								dwID, dwGroupID, dwContactFlag, dwContactSeverFlags, dwTemp, NULL, &wszNick, &szCustomPhones);
 							if (wszNick.IsEmpty()) { // set the server-side nick
 								wszNick = GetContactNameW(hContact);
-								MraModifyContactW(hContact, dwID, dwContactFlag, dwGroupID, szEmail, wszNick, szCustomPhones);
+								MraModifyContact(hContact, &dwID, &dwContactFlag, &dwGroupID, &szEmail, &wszNick, &szCustomPhones);
 							}
 						}
 
@@ -1367,7 +1375,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 						MraSetContactStatus(hContact, ID_STATUS_ONLINE);
 
 						CMStringW wszCustomName = GetContactNameW(hContact);
-						MraAddContactW(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_MULTICHAT|CONTACT_FLAG_UNICODE_NAME),
+						MraAddContact(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_MULTICHAT|CONTACT_FLAG_UNICODE_NAME),
 							-1, szEmail, wszCustomName, "", L"", 0);
 					}
 					else {
@@ -1375,7 +1383,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 							SetExtraIcons(hContact);
 							if (getByte("AutoAddContactsToServer", MRA_DEFAULT_AUTO_ADD_CONTACTS_TO_SERVER)) { //add all contacts to server
 								GetContactBasicInfoW(hContact, NULL, &dwGroupID, NULL, NULL, NULL, NULL, &wszNick, &szPhones);
-								MraAddContactW(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_UNICODE_NAME), dwGroupID, szEmail, wszNick, szPhones, wszAuthMessage, 0);
+								MraAddContact(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_UNICODE_NAME), dwGroupID, szEmail, wszNick, szPhones, wszAuthMessage, 0);
 							}
 						}
 					}
@@ -1383,6 +1391,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 				}
 			}
 		}
+		setByte("GroupMode", 1);
 	}
 	else { // контакт лист почемуто не получили
 		// всех в offline и id в нестандарт
@@ -1778,7 +1787,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 					break;
 				case MULTICHAT_INVITE:
 					MraChatSessionInvite(hContact, lpsEMailInMultiChat, dwTime);// LPS sender
-					MraAddContactW(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_MULTICHAT|CONTACT_FLAG_UNICODE_NAME), -1, plpsFrom, lpsMultichatName, "", L"", 0);
+					MraAddContact(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_MULTICHAT|CONTACT_FLAG_UNICODE_NAME), -1, plpsFrom, lpsMultichatName, "", L"", 0);
 					break;
 				default:
 					DebugBreak();
@@ -1928,7 +1937,7 @@ DWORD GetMraStatusFromMiradaStatus(DWORD dwMirandaStatus, DWORD dwXStatusMir, DW
 	return STATUS_OFFLINE;
 }
 
-DWORD GetMiradaStatusFromMraStatus(DWORD dwMraStatus, DWORD dwXStatusMra, DWORD *pdwXStatusMir)
+DWORD GetMirandaStatusFromMraStatus(DWORD dwMraStatus, DWORD dwXStatusMra, DWORD *pdwXStatusMir)
 {
 	if (pdwXStatusMir) *pdwXStatusMir = 0;
 

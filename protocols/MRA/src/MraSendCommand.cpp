@@ -71,7 +71,7 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-DWORD CMraProto::MraMessageW(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType, DWORD dwFlags, const CMStringA &szEmail, const CMStringW &lpwszMessage, LPBYTE lpbMultiChatData, size_t dwMultiChatDataSize)
+DWORD CMraProto::MraMessage(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType, DWORD dwFlags, const CMStringA &szEmail, const CMStringW &lpwszMessage, LPBYTE lpbMultiChatData, size_t dwMultiChatDataSize)
 {
 	Netlib_Logf(m_hNetlibUser, "Sending message: flags %08x, to '%S', message '%S'\n", dwFlags, szEmail, lpwszMessage);
 
@@ -156,7 +156,7 @@ DWORD CMraProto::MraMessageW(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType,
 }
 
 // Send confirmation
-DWORD CMraProto::MraMessageAskW(DWORD dwMsgID, DWORD dwFlags, const CMStringA &szEmail, const CMStringW &lpwszMessage, const CMStringW &lpwszMessageRTF)
+DWORD CMraProto::MraMessageAsk(DWORD dwMsgID, DWORD dwFlags, const CMStringA &szEmail, const CMStringW &lpwszMessage, const CMStringW &lpwszMessageRTF)
 {
 	if (szEmail.GetLength() <= 4 || lpwszMessage.IsEmpty())
 		return 0;
@@ -184,7 +184,7 @@ DWORD CMraProto::MraMessageRecv(const CMStringA &szFrom, DWORD dwMsgID)
 }
 
 // Adds new contact
-DWORD CMraProto::MraAddContactW(HANDLE hContact, DWORD dwContactFlag, DWORD dwGroupID, const CMStringA &szEmail, const CMStringW &wszCustomName, const CMStringA &szPhones, const CMStringW &wszAuthMessage, DWORD dwActions)
+DWORD CMraProto::MraAddContact(HANDLE hContact, DWORD dwContactFlag, DWORD dwGroupID, const CMStringA &szEmail, const CMStringW &wszCustomName, const CMStringA &szPhones, const CMStringW &wszAuthMessage, DWORD dwActions)
 {
 	if (szEmail.GetLength() <= 4)
 		return 0;
@@ -211,10 +211,22 @@ DWORD CMraProto::MraAddContactW(HANDLE hContact, DWORD dwContactFlag, DWORD dwGr
 }
 
 // change contact
-DWORD CMraProto::MraModifyContactW(HANDLE hContact, DWORD dwID, DWORD dwContactFlag, DWORD dwGroupID, const CMStringA &szEmail, const CMStringW &wszCustomName, const CMStringA &szPhones)
+DWORD CMraProto::MraModifyContact(HANDLE hContact, DWORD *pdwID, DWORD *pdwContactFlag, DWORD *pdwGroupID, const CMStringA *pszEmail, const CMStringW *pwszCustomName, const CMStringA *pszPhones)
 {
-	if (dwID == -1)
+	if (pdwID && *pdwID == -1)
 		return 0;
+
+	CMStringA szEmail, szPhones;
+	CMStringW wszNick, wszCustomName;
+	DWORD dwID, dwGroupID, dwContactFlag;
+	GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, NULL, NULL, &szEmail, &wszNick, &szPhones);
+
+	if (pdwID) dwID = *pdwID;
+	if (pszEmail) szEmail = *pszEmail;
+	if (pszPhones) szPhones = *pszPhones;
+	if (pdwGroupID) dwGroupID = *pdwGroupID;
+	if (pdwContactFlag) dwContactFlag = *pdwContactFlag;
+	if (pwszCustomName) wszCustomName = *pwszCustomName;
 
 	dwContactFlag |= CONTACT_FLAG_UNICODE_NAME;
 
@@ -247,7 +259,7 @@ DWORD CMraProto::MraAuthorize(const CMStringA& szEmail)
 }
 
 // change status
-DWORD CMraProto::MraChangeStatusW(DWORD dwStatus, const CMStringA &szStatusUri, const CMStringW &wszStatusTitle, const CMStringW &wszStatusDesc, DWORD dwFutureFlags)
+DWORD CMraProto::MraChangeStatus(DWORD dwStatus, const CMStringA &szStatusUri, const CMStringW &wszStatusTitle, const CMStringW &wszStatusDesc, DWORD dwFutureFlags)
 {
 	OutBuffer buf;
 	buf.SetUL(dwStatus);

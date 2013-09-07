@@ -248,7 +248,7 @@ int CMraProto::AuthDeny(HANDLE hDBEvent, const TCHAR* szReason)
 	LPSTR lpszLastName = lpszFirstName + lstrlenA(lpszFirstName) + 1;
 	LPSTR szEmail = lpszLastName + lstrlenA(lpszLastName) + 1;
 
-	MraMessageW(FALSE, NULL, 0, 0, szEmail, szReason, NULL, 0);
+	MraMessage(FALSE, NULL, 0, 0, szEmail, szReason, NULL, 0);
 	return 0;
 }
 
@@ -403,7 +403,7 @@ int CMraProto::SendContacts(HANDLE hContact, int flags, int nContacts, HANDLE* h
 			}
 
 			bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);
-			iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_CONTACTS, MESSAGE_FLAG_CONTACT, szEmail, wszData, NULL, 0);
+			iRet = MraMessage(bSlowSend, hContact, ACKTYPE_CONTACTS, MESSAGE_FLAG_CONTACT, szEmail, wszData, NULL, 0);
 			if (bSlowSend == FALSE)
 				ProtoBroadcastAck(hContact, ACKTYPE_CONTACTS, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
 		}
@@ -454,7 +454,7 @@ int CMraProto::SendMsg(HANDLE hContact, int flags, const char *lpszMessage)
 		if ( getByte("RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE) && (MraContactCapabilitiesGet(hContact) & FEATURE_FLAG_RTF_MESSAGE))
 			dwFlags |= MESSAGE_FLAG_RTF;
 
-		iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_MESSAGE, dwFlags, szEmail, lpwszMessage, NULL, 0);
+		iRet = MraMessage(bSlowSend, hContact, ACKTYPE_MESSAGE, dwFlags, szEmail, lpwszMessage, NULL, 0);
 		if (bSlowSend == FALSE)
 			ProtoBroadcastAckAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
 	}
@@ -476,13 +476,8 @@ int CMraProto::SetApparentMode(HANDLE hContact, int mode)
 
 		// Dont send redundant updates
 		if (mode != dwOldMode) {
-			CMStringA szEmail, szPhones;
-			CMStringW wszNick;
-			DWORD dwID, dwGroupID, dwContactFlag = 0;
+			DWORD dwContactFlag = 0;
 
-			GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, NULL, NULL, &szEmail, &wszNick, &szPhones);
-
-			dwContactFlag &= ~(CONTACT_FLAG_INVISIBLE | CONTACT_FLAG_VISIBLE);
 			switch (mode) {
 			case ID_STATUS_OFFLINE:
 				dwContactFlag |= CONTACT_FLAG_INVISIBLE;
@@ -492,7 +487,7 @@ int CMraProto::SetApparentMode(HANDLE hContact, int mode)
 				break;
 			}
 
-			if (MraModifyContactW(hContact, dwID, dwContactFlag, dwGroupID, szEmail, wszNick, szPhones)) {
+			if ( MraModifyContact(hContact, 0, &dwContactFlag)) {
 				SetContactBasicInfoW(hContact, 0, SCBIF_FLAG, 0, 0, dwContactFlag, 0, 0, 0, 0, 0);
 				return 0; // Success
 			}
@@ -617,7 +612,7 @@ int CMraProto::UserIsTyping(HANDLE hContact, int type)
 	CMStringA szEmail;
 	if ( MraGetContactStatus(hContact) != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_INVISIBLE)
 	if ( mraGetStringA(hContact, "e-mail", szEmail))
-		if ( MraMessageW(FALSE, hContact, 0, MESSAGE_FLAG_NOTIFY, szEmail, L" ", NULL, 0))
+		if ( MraMessage(FALSE, hContact, 0, MESSAGE_FLAG_NOTIFY, szEmail, L" ", NULL, 0))
 			return 0;
 
 	return 1;

@@ -297,12 +297,41 @@ BOOL DB_GetContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszVal
 	return(bRet);
 }
 
+DWORD CMraProto::MraMoveContactToGroup(HANDLE hContact, DWORD dwGroupID, LPCTSTR ptszName)
+{
+	MraGroupItem *p = NULL;
+
+	for (int i=0; i < m_groups.getCount(); i++)
+		if (m_groups[i].m_name == ptszName) {
+			p = &m_groups[i];
+			break;
+		}
+
+	if (p == NULL) {
+		if (m_groups.getCount() == 20)
+			return 0;
+
+		DWORD id;
+		for (id=0; id < 20; id++)
+			if (m_groups.find((MraGroupItem*)&id) == NULL)
+				break;
+
+		p = new MraGroupItem(id, CONTACT_FLAG_GROUP, ptszName);
+		m_groups.insert(p);
+	}
+
+	if (dwGroupID != p->m_id) {
+		setDword("GroupID", p->m_id);
+		MraModifyContact(hContact, 0, 0, &p->m_id);
+	}
+	return p->m_id;
+}
+
 DWORD CMraProto::GetContactFlags(HANDLE hContact)
 {
 	DWORD dwRet = 0;
 
-	if (IsContactMra(hContact))
-	{
+	if (IsContactMra(hContact)) {
 		dwRet = getDword(hContact, "ContactFlags", 0);
 		dwRet &= ~(CONTACT_FLAG_REMOVED|CONTACT_FLAG_GROUP|CONTACT_FLAG_INVISIBLE|CONTACT_FLAG_VISIBLE|CONTACT_FLAG_IGNORE|CONTACT_FLAG_SHADOW|CONTACT_FLAG_MULTICHAT);
 		dwRet |= CONTACT_FLAG_UNICODE_NAME;
