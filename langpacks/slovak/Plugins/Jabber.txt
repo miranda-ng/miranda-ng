@@ -473,9 +473,9 @@ Požiadavka na autorizáciu
 
 [Requesting command list. Please wait...]
 
-[Jabber Ad-Hoc commands at]
+[Jabber Ad-Hoc commands at %s]
 
-[Sending Ad-Hoc command to]
+[Sending Ad-Hoc command to %s]
 
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
@@ -611,7 +611,7 @@ Prezívka
 
 [Owners]
 
-[User %s in now banned.]
+[User %s is now banned.]
 
 [User %s changed status to %s with message: %s]
 

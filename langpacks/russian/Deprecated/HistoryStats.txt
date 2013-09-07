@@ -557,8 +557,8 @@ URL (исходящие)
 Файлы (всего)
 [History filtering]
 Фильтрация истории
-[Ignore logged status changes from tabSRMM/Scriver]
-Игнорировать записанные изменения статуса из tabSRMM/Scriver
+[Ignore logged status changes from TabSRMM/Scriver]
+Игнорировать записанные изменения статуса из TabSRMM/Scriver
 [IMPORTANT NOTICE\n\n...]
 ВАЖНОЕ ЗАМЕЧАНИЕ\n\n...
 [Installing libpng on your system has the benefit of being able to let HistoryStats write PNG files for the graphs it generates. This can reduce the size of the generated file and improve the rendering speed when viewing your statistics. Additionally, there are columns that are only available with PNG output.\r\n\r\nMost recent systems already have an installation of libpng. Just check if you can enable the PNG output. If not, download and place "libpng13.dll" (see link below, then Current binaries: GnuWin32, download "libpng-x.x.x-bin.zip") and "zlib1.dll" (see links below) in your Miranda IM folder or in its Plugins folder. Having done so and having restarted Miranda IM, you should be able to enable the PNG output option.]

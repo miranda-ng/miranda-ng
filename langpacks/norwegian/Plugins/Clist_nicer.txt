@@ -531,10 +531,10 @@ Bytter vis påkoblet/frakoblet
 Bytter grupper
 [Find contacts]
 Finn kontakter
-[Show tabSRMM session list]
-Vis tabSRMM øktliste
-[Show tabSRMM menu]
-Vis tabSRMM meny
+[Show TabSRMM session list]
+Vis TabSRMM øktliste
+[Show TabSRMM menu]
+Vis TabSRMM meny
 [Sounds are off]
 Lyder er av
 [Open main menu]

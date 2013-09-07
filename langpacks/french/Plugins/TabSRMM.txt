@@ -311,7 +311,7 @@ sortant
 Ajustement vertical du bas de l'onglet :
 [NOTE: some settings will not affect open containers.]
 Note : certains paramètres n'affecteront pas les conteneurs ouverts.
-[About tabSRMM]
+[About TabSRMM]
 À propos de TabSRMM
 [Load fonts and colors provided by skin]
 Charger les police et couleur du skin
@@ -515,7 +515,7 @@ Voir les popups des sessions inactives
 Sauver la position actuelle de la fenêtre
 [Help]
 Aide
-[About tabSRMM...]
+[About TabSRMM...]
 À propos de TabSRMM
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol Button]
@@ -624,8 +624,8 @@ est %s (était %s)
 [Send a file]
 Envoyer un fichier
 ;file \plugins\TabSRMM\src\infopanel.cpp
-[tabSRMM Information]
-Information de tabSRMM
+[TabSRMM Information]
+Information de TabSRMM
 [Use Global Setting]
 Paramètres généraux
 ;file \plugins\TabSRMM\src\mim.cpp
@@ -789,8 +789,8 @@ Message
 Il y a des messages non lus en attente de confirmation.\nSi vous fermer cette fenêtre maintenant, Miranda-IM tentera de les renvoyer, mais sans pouvoir vous informer des éventuelles erreurs qui pourraient survenir lors de l'envoi.\nVoulez-vous vraiment fermer cette fenêtre de message ?
 ;file \plugins\TabSRMM\src\sidebar.cpp
 ;file \plugins\TabSRMM\src\srmm.cpp
-[tabSRMM Message (%s)]
-Message tabSRMM (%s)
+[TabSRMM Message (%s)]
+Message TabSRMM (%s)
 ;file \plugins\TabSRMM\src\taskbar.cpp
 ;file \plugins\TabSRMM\src\templates.cpp
 [Template Set Editor]
@@ -1162,7 +1162,7 @@ ID unique
 heures
 [Event filter error]
 Erreur dans le filtre d'évènements
-[tabSRMM session list]
-Liste des sessions tabSRMM
-[tabSRMM Menu]
-Menu tabSRMM
+[TabSRMM session list]
+Liste des sessions TabSRMM
+[TabSRMM Menu]
+Menu TabSRMM

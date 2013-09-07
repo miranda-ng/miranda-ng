@@ -691,10 +691,10 @@ URL събития
 Включване/Изключване на групите
 [Find contacts]
 Намери контакти
-[Show tabSRMM session list]
+[Show TabSRMM session list]
 Показване списък на разговорите
-[Show tabSRMM menu]
-Показване на tabSRMM меню
+[Show TabSRMM menu]
+Показване на TabSRMM меню
 [Sounds are off]
 Звука е изключен
 [Reset view mode]

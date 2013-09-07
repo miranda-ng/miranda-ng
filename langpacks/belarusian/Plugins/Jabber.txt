@@ -381,10 +381,10 @@ XML Кансоль
 Выканаць
 [Requesting command list. Please wait...]
 Запыт спісу каманд. Пачакайце...
-[Jabber Ad-Hoc commands at]
-Jabber Ad-Hoc каманды на
-[Sending Ad-Hoc command to]
-Адправіць Ad-Hoc каманду
+[Jabber Ad-Hoc commands at %s]
+Jabber Ad-Hoc каманды на %s
+[Sending Ad-Hoc command to %s]
+Адправіць Ad-Hoc каманду %s
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 Няма паведамлення
@@ -495,7 +495,7 @@ Jabber Ad-Hoc каманды на
 Мадэратар
 [Participants]
 Удзельнікі
-[User %s in now banned.]
+[User %s is now banned.]
 Карыстач %s быў забанены.
 [User %s changed status to %s with message: %s]
 %s змяніў статус на %s: %s

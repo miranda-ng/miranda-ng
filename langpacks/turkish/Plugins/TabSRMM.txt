@@ -353,8 +353,8 @@ dış
 Alt sekmelerin dikey ayarı:
 [NOTE: some settings will not affect open containers.]
 NOT: Açık kutular bazı ayarlardan etkilenmeyecek.
-[About tabSRMM]
-tabSRMM Hakkında
+[About TabSRMM]
+TabSRMM Hakkında
 [Load fonts and colors provided by skin]
 Temayla gelen yazı tipi ve renkleri yükle
 [Load templates provided by skin (use with care, will overwrite your templates)]
@@ -571,8 +571,8 @@ Tüm etkin olmayan oturumlar için açılır pencereleri göster
 Şimdiki Pencere Konumunu Varsayılan Olarak Kaydet
 [Help]
 Yardım
-[About tabSRMM...]
-tabSRMM Hakkında...
+[About TabSRMM...]
+TabSRMM Hakkında...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Message Log Options]
 İleti Günlüğü Seçenekleri
@@ -634,12 +634,12 @@ Alınan (Yeni Oturum)
 Gönderilen
 [Other]
 Diğer
-[TABSRMM: Typing]
-TABSRMM: Yazıyor
-[tabSRMM session list]
-tabSRMM oturum listesi
-[tabSRMM Menu]
-tabSRMM Menüsü
+[TabSRMM: Typing]
+TabSRMM: Yazıyor
+[TabSRMM session list]
+TabSRMM oturum listesi
+[TabSRMM Menu]
+TabSRMM Menüsü
 [&Messaging settings...]
 İ&leti ayarları...
 [Message from %s]
@@ -652,8 +652,8 @@ girdi ve şimdi %s.
 %s olan durum %s oldu
 ;file \plugins\TabSRMM\src\hotkeyhandler.cpp
 ;file \plugins\TabSRMM\src\infopanel.cpp
-[tabSRMM Information]
-tabSRMM Bilgisi
+[TabSRMM Information]
+TabSRMM Bilgisi
 [Use Global Setting]
 Genel Ayarları Kullan
 ;file \plugins\TabSRMM\src\mim.cpp
@@ -815,8 +815,8 @@ Kişi sohbet penceresi kapandıktan sonra bir ileti gönderilemedi. son iletiyi 
 Onay bekleyen gönderilmemiş iletiler var.\nPencereyi şimdi kapatırsanız, Miranda onları göndermeyi deneyecek ancak olabilecek hataları size bildiremeyecek.\nPencereyi kapatmak istiyor musunuz?
 ;file \plugins\TabSRMM\src\sidebar.cpp
 ;file \plugins\TabSRMM\src\srmm.cpp
-[tabSRMM Message (%s)]
-tabSRMM İletisi (%s)
+[TabSRMM Message (%s)]
+TabSRMM İletisi (%s)
 ;file \plugins\TabSRMM\src\taskbar.cpp
 ;file \plugins\TabSRMM\src\templates.cpp
 [Template Set Editor]

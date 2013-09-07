@@ -559,8 +559,8 @@ Pionowe wyrównanie kart na dole:
 INFO: niektóre ustawienia przyniosą efekt po ponownym otwarciu kontenera.
 [Tab layout tweaks]
 Układ kart
-[About tabSRMM]
-O tabSRMM
+[About TabSRMM]
+O TabSRMM
 [Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 
 [Support and latest version information]
@@ -919,8 +919,8 @@ Pokaż popupy dla wszystkich nieaktywnych sesji
 Zapisz obecną pozycję okna jako domyślną
 [Help]
 Pomoc
-[About tabSRMM...]
-O tabSRMM...
+[About TabSRMM...]
+O TabSRMM...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol Button]
 Przycisk protokołu
@@ -1102,11 +1102,11 @@ Błąd wysyłania wiadomości
 Kontakt nie ma opisu.
 [Other]
 Inne
-[TABSRMM: Typing]
+[TabSRMM: Typing]
 Okno rozmowy: Pisanie
-[tabSRMM session list]
+[TabSRMM session list]
 Lista sesji TabSRMM
-[tabSRMM Menu]
+[TabSRMM Menu]
 Menu TabSRMM
 [&Messaging settings...]
 Opcje rozmowy...
@@ -1192,8 +1192,8 @@ Kopiuj do schowka
 \\par\\par\\ul\\b Teraz odtwarza:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 \\par\\par\\ul\\b Klient:\\ul0\\b0  %s
-[tabSRMM Information]
-Informacje o tabSRMM
+[TabSRMM Information]
+Informacje o TabSRMM
 [Set panel visibility for this %s]
 
 [chat room]
@@ -1593,10 +1593,10 @@ Zaawansowany układ awatarów
 [Advanced with avatars, vertical orientation]
 Zaawansowany układ awatarów, orientacja pionowa
 ;file \plugins\TabSRMM\src\srmm.cpp
-[This version of tabSRMM requires Windows 2000 or later.]
+[This version of TabSRMM requires Windows 2000 or later.]
 
-[tabSRMM Message (%s)]
-Wiadomość tabSRMM (%s)
+[TabSRMM Message (%s)]
+Wiadomość TabSRMM (%s)
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not availble when using History++ plugin for message log display.]
 Podgląd nie jest dostępny we wtyczce History++.
@@ -1618,7 +1618,7 @@ To zresetuje zbiór szablonów do domyślnych, wbudowanych ustawień. Na pewno c
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 Zbiór szablonów został zresetowany, zamknij i otwórz wszystkie okna rozmowy. Okno edytora szablonów zostanie teraz zamknięte.
 ;file \plugins\TabSRMM\src\themeio.cpp
-[tabSRMM themes]
+[TabSRMM themes]
 Skórka TabSRMM
 ;file \plugins\TabSRMM\src\themes.cpp
 [No effect]

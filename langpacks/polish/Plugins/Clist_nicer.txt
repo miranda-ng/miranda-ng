@@ -691,9 +691,9 @@ Pokaż/ukryj rozłączonych
 Włącz/wyłącz grupy
 [Find contacts]
 Szukaj kontaktów
-[Show tabSRMM session list]
+[Show TabSRMM session list]
 Pokaż listę sesji TabSRMM
-[Show tabSRMM menu]
+[Show TabSRMM menu]
 Pokaż menu TabSRMM
 [Sounds are off]
 Dźwięki są wyłączone

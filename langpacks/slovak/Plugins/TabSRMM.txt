@@ -559,7 +559,7 @@ Zavrieť
 
 [Tab layout tweaks]
 
-[About tabSRMM]
+[About TabSRMM]
 
 [Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 
@@ -919,7 +919,7 @@ Prednastavené
 
 [Help]
 Pomoc
-[About tabSRMM...]
+[About TabSRMM...]
 
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol Button]
@@ -1102,11 +1102,11 @@ Zobraziť históriu
 
 [Other]
 
-[TABSRMM: Typing]
+[TabSRMM: Typing]
 
-[tabSRMM session list]
+[TabSRMM session list]
 
-[tabSRMM Menu]
+[TabSRMM Menu]
 
 [&Messaging settings...]
 
@@ -1192,7 +1192,7 @@ Správa od %s
 
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 
-[tabSRMM Information]
+[TabSRMM Information]
 
 [Set panel visibility for this %s]
 
@@ -1593,9 +1593,9 @@ Stav
 [Advanced with avatars, vertical orientation]
 
 ;file \plugins\TabSRMM\src\srmm.cpp
-[This version of tabSRMM requires Windows 2000 or later.]
+[This version of TabSRMM requires Windows 2000 or later.]
 
-[tabSRMM Message (%s)]
+[TabSRMM Message (%s)]
 
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not availble when using History++ plugin for message log display.]
@@ -1618,7 +1618,7 @@ Stav
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 
 ;file \plugins\TabSRMM\src\themeio.cpp
-[tabSRMM themes]
+[TabSRMM themes]
 
 ;file \plugins\TabSRMM\src\themes.cpp
 [No effect]

@@ -591,10 +591,10 @@ Mostrar alternar online/offline
 Alternar grupos
 [Find contacts]
 Procurar contatos
-[Show tabSRMM session list]
-Mostrar lista de sessão tabSRMM
-[Show tabSRMM menu]
-Mostrar menu tabSRMM
+[Show TabSRMM session list]
+Mostrar lista de sessão TabSRMM
+[Show TabSRMM menu]
+Mostrar menu TabSRMM
 [Sounds are off]
 Sons estão desligados
 [Setup accounts]

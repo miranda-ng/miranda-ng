@@ -367,9 +367,9 @@ Jabber 心情
 运行
 [Requesting command list. Please wait...]
 正在请求命令列表. 请稍候...
-[Jabber Ad-Hoc commands at]
+[Jabber Ad-Hoc commands at %s]
 Jabber 特别命令于
-[Sending Ad-Hoc command to]
+[Sending Ad-Hoc command to %s]
 发送特别命令到
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
@@ -399,7 +399,7 @@ Jabber 特别命令于
 主持人
 [Moderators]
 管理员
-[User %s in now banned.]
+[User %s is now banned.]
 用户 %s 当前已被封锁. 
 [User %s changed status to %s with message: %s]
 用户 %s 已变更状态至 %s 并附消息: %s

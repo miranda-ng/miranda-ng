@@ -299,8 +299,8 @@ ytre
 Bunnfaner vertikal justering:
 [NOTE: some settings will not affect open containers.]
 MERK: noen innstillinger vil ikke påvirke åpne beholdere.
-[About tabSRMM]
-Om tabSRMM
+[About TabSRMM]
+Om TabSRMM
 [Load fonts and colors provided by skin]
 Last inn skrifter og farger levert av skin
 [Load templates provided by skin (use with care, will overwrite your templates)]
@@ -481,8 +481,8 @@ Vis Popups for alle inaktive økter
 Lagre nåværende Vindusposisjon som Standard
 [Help]
 Hjelp
-[About tabSRMM...]
-Om tabSRMM...
+[About TabSRMM...]
+Om TabSRMM...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Message Log Options]
 Meldingslogg Valg
@@ -558,8 +558,8 @@ logget på og er nå %s.
 Endret status fra %s til %s.
 ;file \plugins\TabSRMM\src\hotkeyhandler.cpp
 ;file \plugins\TabSRMM\src\infopanel.cpp
-[tabSRMM Information]
-tabSRMM Informasjon
+[TabSRMM Information]
+TabSRMM Informasjon
 [Use Global Setting]
 Bruk Global Innstilling
 ;file \plugins\TabSRMM\src\mim.cpp
@@ -705,8 +705,8 @@ En meldingslevering feilet.\nKlikk for å åpne meldingsvinduet.
 Det er usendte meldinger som venter på bekreftelse.\nNår du lukker vinduet, vil Miranda forsøke å sende dem, men kan være ute av stand til å informere deg om mulige leveringsfeil.\nVil du virkelig lukke vinduet(ene)?
 ;file \plugins\TabSRMM\src\sidebar.cpp
 ;file \plugins\TabSRMM\src\srmm.cpp
-[tabSRMM Message (%s)]
-tabSRMM Melding (%s)
+[TabSRMM Message (%s)]
+TabSRMM Melding (%s)
 ;file \plugins\TabSRMM\src\taskbar.cpp
 ;file \plugins\TabSRMM\src\templates.cpp
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
@@ -1044,7 +1044,7 @@ Unik id
 Filteret kan ikke aktiveres fordi det ikke er valgt noen hendelsestyper hverken globalt eller for dette samtalerommet.
 [Event filter error]
 Hendelsesfilter feil
-[tabSRMM session list]
-tabSRMM øktliste
-[tabSRMM Menu]
-tabSRMM Meny
+[TabSRMM session list]
+TabSRMM øktliste
+[TabSRMM Menu]
+TabSRMM Meny

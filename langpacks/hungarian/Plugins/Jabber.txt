@@ -341,9 +341,9 @@ Folyamatban. Kérlek várj...
 Végrehajtás
 [Requesting command list. Please wait...]
 Parancslista lekérése. Kérlek várj...
-[Jabber Ad-Hoc commands at]
+[Jabber Ad-Hoc commands at %s]
 Jabber alkalmi parancsok itt:
-[Sending Ad-Hoc command to]
+[Sending Ad-Hoc command to %s]
 Alkalmi parancs küldése ide:
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
@@ -371,7 +371,7 @@ Látogató
 Résztvevõ
 [Moderator]
 Moderátor
-[User %s in now banned.]
+[User %s is now banned.]
 %s felhasználó nincs tiltva.
 [User %s changed status to %s with message: %s]
 %s felhasználó módosította állapotát erre: %s ezzel az üzenettel: %s

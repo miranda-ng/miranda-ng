@@ -691,9 +691,9 @@ Copyright © 2004-2010 Miranda IM, 2012-2013ў рамках праекта Miran
 Укл/Выкл групы
 [Find contacts]
 Знайсці кантакты
-[Show tabSRMM session list]
+[Show TabSRMM session list]
 Спіс сесій TabSRMM
-[Show tabSRMM menu]
+[Show TabSRMM menu]
 Меню TabSRMM
 [Sounds are off]
 Гукі выкл.

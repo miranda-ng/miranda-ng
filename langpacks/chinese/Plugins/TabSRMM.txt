@@ -489,8 +489,8 @@ ESC 键行为
 注意: 某些设置不会影响已打开容器. 
 [Tab layout tweaks]
 标签布局调整
-[About tabSRMM]
-关于 tabSRMM
+[About TabSRMM]
+关于 TabSRMM
 [Selected skin]
 选定皮肤
 [Reload active skin]
@@ -793,8 +793,8 @@ Ctrl+Enter 发送消息 (总是启用)
 保存当前窗口位置为默认值
 [Help]
 说明
-[About tabSRMM...]
-关于 tabSRMM...
+[About TabSRMM...]
+关于 TabSRMM...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol Button]
 协议按钮
@@ -954,12 +954,12 @@ UID: %s (按 SHIFT 点击 -> 复制到剪贴板)\n点击显示用户详细信息
 无状态消息
 [Other]
 其它
-[TABSRMM: Typing]
-TABSRMM: 键入中
-[tabSRMM session list]
-tabSRMM 会话列表
-[tabSRMM Menu]
-tabSRMM 菜单
+[TabSRMM: Typing]
+TabSRMM: 键入中
+[TabSRMM session list]
+TabSRMM 会话列表
+[TabSRMM Menu]
+TabSRMM 菜单
 [&Messaging settings...]
 通信设置(&M)...
 [&Send later job list...]
@@ -1032,8 +1032,8 @@ tabSRMM 菜单
 \\par\\par\\tab \\ul\\b 聆听信息:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 \\par\\par\\ul\\b 客户端:\\ul0\\b0  %s
-[tabSRMM Information]
-tabSRMM 信息
+[TabSRMM Information]
+TabSRMM 信息
 [Set panel visibility for this %s]
 设置 %s 面板可见性
 [chat room]
@@ -1309,8 +1309,8 @@ History++ 插件
 [Advanced with avatars, vertical orientation]
 高级头像, 垂直方向
 ;file \plugins\TabSRMM\src\srmm.cpp
-[tabSRMM Message (%s)]
-tabSRMM 消息 (%s)
+[TabSRMM Message (%s)]
+TabSRMM 消息 (%s)
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not availble when using History++ plugin for message log display.]
 当消息记录使用 History++ 插件显示时无法预览.

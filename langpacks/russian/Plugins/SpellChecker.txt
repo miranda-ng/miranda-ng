@@ -83,7 +83,7 @@
 Исправление не может быть таким же, как слово с ошибкой!
 [Wrong Correction]
 Неверное исправление
-[Could not find the message dialog. This usually means one of two things:\n- In tabSRMM the checkbox 'Enable event API' is disabled or\n- You are using SRMM (which don't support Spell Checker)]
+[Could not find the message dialog. This usually means one of two things:\n- In TabSRMM the checkbox 'Enable event API' is disabled or\n- You are using SRMM (which don't support Spell Checker)]
 Окно сообщений не найдено. Обычно это происходит в двух случаях:\n- В TabSRMM отключена опция "Включить API"\n- вы используете плагин, который не поддерживает проверку орфографии.
 [Languages]
 Языки

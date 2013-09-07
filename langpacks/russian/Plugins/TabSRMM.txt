@@ -1448,7 +1448,7 @@ ID пользователя в панели статуса
 
 ;Предупреждения TabSRMM
 
-[tabSRMM Warning Message]
+[TabSRMM Warning Message]
 Предупреждение окна сообщений
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
 Предупреждение Aero peek|Вы включили использование особенностей Aero Peek и используете скин окна диалогов\n\nЭто может привести к незначительным визуальным искажениям в быстром просмотре.
@@ -1553,7 +1553,7 @@ ID пользователя в панели статуса
 
 ;Трей
 
-[tabSRMM]
+[TabSRMM]
 Беседы
 [Recent Sessions]
 Последние сеансы

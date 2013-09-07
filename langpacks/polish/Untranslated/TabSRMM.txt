@@ -30,7 +30,7 @@
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
 [Message window warning]
 [The send later feature is not available on this protocol.]
-[This version of tabSRMM requires Windows 2000 or later.]
+[This version of TabSRMM requires Windows 2000 or later.]
 [Milky Glass]
 [Carbon]
 [Silver shadow]

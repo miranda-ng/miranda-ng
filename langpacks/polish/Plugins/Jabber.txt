@@ -475,10 +475,10 @@ Praca w toku. Proszę czekać...
 Wykonaj
 [Requesting command list. Please wait...]
 Żądanie listy poleceń. Proszę czekać...
-[Jabber Ad-Hoc commands at]
-Polecenia Jabber Ad-Hoc w 
-[Sending Ad-Hoc command to]
-Wysyłanie polecenia Ad-Hoc do
+[Jabber Ad-Hoc commands at %s]
+Polecenia Jabber Ad-Hoc w %s
+[Sending Ad-Hoc command to %s]
+Wysyłanie polecenia Ad-Hoc do %s
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 Brak wiadomości
@@ -613,7 +613,7 @@ Uczestnicy
 Moderatorzy
 [Owners]
 Właściciel
-[User %s in now banned.]
+[User %s is now banned.]
 %s został zbanowany.
 [User %s changed status to %s with message: %s]
 Użytkownik %s zminił status na %s wraz z opisem: %s

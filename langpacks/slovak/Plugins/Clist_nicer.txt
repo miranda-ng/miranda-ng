@@ -692,9 +692,9 @@ Podrobne
 
 [Find contacts]
 
-[Show tabSRMM session list]
+[Show TabSRMM session list]
 
-[Show tabSRMM menu]
+[Show TabSRMM menu]
 
 [Sounds are off]
 

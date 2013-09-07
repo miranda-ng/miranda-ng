@@ -47,7 +47,7 @@
 [Add new rooms to group:]
 Добавяне на новите стаи към група:
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
-Чата не е интегриран. Можете да го включите тук, след което Трябва Да Рестартирате Miranda.\n\nНеобходимо е да Изключите Стандартната чат приставка (chat.dll), чийто функции ще бъдат поети от tabSRMM, когато включите поддръжката за групов чат тук.
+Чата не е интегриран. Можете да го включите тук, след което Трябва Да Рестартирате Miranda.\n\nНеобходимо е да Изключите Стандартната чат приставка (chat.dll), чийто функции ще бъдат поети от TabSRMM, когато включите поддръжката за групов чат тук.
 [Log files]
 Дневници (файлове)
 [Enable logging to disk]
@@ -559,8 +559,8 @@ Popups
 Бележка: Някой настройки няма да бъдат приложени за отворените контейнери
 [Tab layout tweaks]
 
-[About tabSRMM]
-Относно tabSRMM
+[About TabSRMM]
+Относно TabSRMM
 [Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 Авторско право © 2004-2011 на проекта Miranda IM, 2012-2013 на проекта Miranda NG.\nПодробности относно правата можете да откриете във включения README файл.
 [Support and latest version information]
@@ -919,8 +919,8 @@ Popups за събития
 Запис на текущата позиция на прозореца като стандартна
 [Help]
 Помощ
-[About tabSRMM...]
-Относно tabSRMM...
+[About TabSRMM...]
+Относно TabSRMM...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol Button]
 Бутон на протокола
@@ -1102,12 +1102,12 @@ UID: %s (SHIFT+ляв бутон = копиране в клипборда)\nЛя
 Няма текст за състоянието
 [Other]
 Друго
-[TABSRMM: Typing]
-TABSRMM: Писане
-[tabSRMM session list]
-tabSRMM списък на разговорите
-[tabSRMM Menu]
-tabSRMM Меню
+[TabSRMM: Typing]
+TabSRMM: Писане
+[TabSRMM session list]
+TabSRMM списък на разговорите
+[TabSRMM Menu]
+TabSRMM Меню
 [&Messaging settings...]
 Настройки на разговорите...
 [&Send later job list...]
@@ -1192,8 +1192,8 @@ tabSRMM Меню
 \\par\\par\\tab \\ul\\b Слуша:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 \\par\\par\\ul\\b Клиент:\\ul0\\b0  %s
-[tabSRMM Information]
-tabSRMM информация
+[TabSRMM Information]
+TabSRMM информация
 [Set panel visibility for this %s]
 Показване на панела за %s
 [chat room]
@@ -1389,7 +1389,7 @@ Latin I
 [History++ plugin]
 Приставката History++
 [You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
-За изобразяване на историята в прозореца за съобщения е избрана приставка различна от tabSRMM. Повечето от настройките които ще намерите тук са само за tabSRMM и няма да окажат ефект. Ако желаете да промените външния вид на дневника ще трябва да го направите от настройките на IEView или History++.
+За изобразяване на историята в прозореца за съобщения е избрана приставка различна от TabSRMM. Повечето от настройките които ще намерите тук са само за TabSRMM и няма да окажат ефект. Ако желаете да промените външния вид на дневника ще трябва да го направите от настройките на IEView или History++.
 [** New contacts **]
 ** Нови контакти **
 [** Unknown contacts **]
@@ -1593,10 +1593,10 @@ Latin I
 [Advanced with avatars, vertical orientation]
 Вертикални бутони с аватари
 ;file \plugins\TabSRMM\src\srmm.cpp
-[This version of tabSRMM requires Windows 2000 or later.]
+[This version of TabSRMM requires Windows 2000 or later.]
 
-[tabSRMM Message (%s)]
-tabSRMM съобщение (%s)
+[TabSRMM Message (%s)]
+TabSRMM съобщение (%s)
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not availble when using History++ plugin for message log display.]
 Миниатюрите не са налични при ползване на приставката History++ за изобразяване на дневника
@@ -1618,8 +1618,8 @@ tabSRMM съобщение (%s)
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 Наборът шаблони беше успешно възстановен, моля затворете всички разговори. Настоящият прозорец ще бъде затворен сега.
 ;file \plugins\TabSRMM\src\themeio.cpp
-[tabSRMM themes]
-Теми за tabSRMM
+[TabSRMM themes]
+Теми за TabSRMM
 ;file \plugins\TabSRMM\src\themes.cpp
 [No effect]
 Без ефект

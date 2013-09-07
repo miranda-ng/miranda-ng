@@ -545,10 +545,10 @@
 切换群组
 [Find contacts]
 查找联系人
-[Show tabSRMM session list]
-显示 tabSRMM 会话列表
-[Show tabSRMM menu]
-显示 tabSRMM 菜单
+[Show TabSRMM session list]
+显示 TabSRMM 会话列表
+[Show TabSRMM menu]
+显示 TabSRMM 菜单
 [Sounds are off]
 声音已关闭
 [Setup accounts]

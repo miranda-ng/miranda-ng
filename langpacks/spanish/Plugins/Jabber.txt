@@ -293,8 +293,8 @@ Hecho
 Ejecutar
 [Requesting command list. Please wait...]
 Solicitud de lista de comandos. Por favor espere ...
-[Jabber Ad-Hoc commands at]
-Jabber Ad-Hoc comandos en
+[Jabber Ad-Hoc commands at %s]
+Jabber Ad-Hoc comandos en %s
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 Ningún mensaje
@@ -325,7 +325,7 @@ Visitantes
 Moderadores
 [Owners]
 Propietarios
-[User %s in now banned.]
+[User %s is now banned.]
 Usuario %s en el ahora prohibido.
 [User %s changed status to %s with message: %s]
 Usuario %s cambiado de estado para %s con el mensaje: %s

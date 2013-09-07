@@ -383,9 +383,9 @@ XML コンソール
 実行
 [Requesting command list. Please wait...]
 コマンドリストのリクエスト中です。お待ちください...
-[Jabber Ad-Hoc commands at]
+[Jabber Ad-Hoc commands at %s]
 Jabber アドホックコマンド :
-[Sending Ad-Hoc command to]
+[Sending Ad-Hoc command to %s]
 アドホックコマンドを送信 :
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
@@ -417,7 +417,7 @@ Jabber アドホックコマンド :
 参加者
 [Moderator]
 司会者
-[User %s in now banned.]
+[User %s is now banned.]
 ユーザー %s は現在排除されています
 [User %s changed status to %s with message: %s]
 ユーザー %s はステータスを %s に変更 メッセージ : %s

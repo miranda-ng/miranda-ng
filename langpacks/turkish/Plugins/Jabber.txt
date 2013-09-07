@@ -347,9 +347,9 @@ Tamam
 Yürüt
 [Requesting command list. Please wait...]
 Komut listesi isteniyor. Lütfen bekleyin...
-[Jabber Ad-Hoc commands at]
+[Jabber Ad-Hoc commands at %s]
 Şuradaki Jabber Ad-Hoc komutları
-[Sending Ad-Hoc command to]
+[Sending Ad-Hoc command to %s]
 Ad-Hoc komutları şuraya gönderiliyor
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
@@ -377,7 +377,7 @@ Ziyaretçi
 Katılımcı
 [Moderator]
 Moderatör
-[User %s in now banned.]
+[User %s is now banned.]
 %s kişisi yasaklandı
 [User %s changed status to %s with message: %s]
 %s kişisi durumu %s yaptı. İleti: %s

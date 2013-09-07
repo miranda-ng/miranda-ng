@@ -555,10 +555,10 @@ Genel
 Grupları aç/kapa
 [Find contacts]
 Kişileri bul
-[Show tabSRMM session list]
-tabSRMM oturum listesini göster
-[Show tabSRMM menu]
-tabsRMM menüsünü göster
+[Show TabSRMM session list]
+TabSRMM oturum listesini göster
+[Show TabSRMM menu]
+TabsRMM menüsünü göster
 [Sounds are off]
 Sesler kapalı
 [Setup accounts]

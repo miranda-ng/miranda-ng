@@ -547,10 +547,10 @@ RTL テキストのみ
 グループの切り替え
 [Find contacts]
 コンタクトを検索
-[Show tabSRMM session list]
-tabSRMM セッションリストを表示
-[Show tabSRMM menu]
-tabSRMM メニューを表示
+[Show TabSRMM session list]
+TabSRMM セッションリストを表示
+[Show TabSRMM menu]
+TabSRMM メニューを表示
 [Sounds are off]
 音声オフ
 [Setup accounts]

@@ -495,8 +495,8 @@ Windows 7 タスクバー拡張機能を使用 ( 要再起動 )
 注意 : いくつかの設定は開いたコンテナでは機能しません
 [Tab layout tweaks]
 タブレイアウトの調整
-[About tabSRMM]
-tabSRMM バージョン情報
+[About TabSRMM]
+TabSRMM バージョン情報
 [Selected skin]
 選択済スキン
 [Reload active skin]
@@ -803,8 +803,8 @@ dummy
 現在のウィンドウ位置をデフォルトとして保存
 [Help]
 ヘルプ
-[About tabSRMM...]
-tabSRMM バージョン情報...
+[About TabSRMM...]
+TabSRMM バージョン情報...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Message Log Options]
 メッセージログオプション
@@ -974,8 +974,8 @@ UID: %s ( SHIFT click -> クリップボードにコピー )\nユーザーの詳
 \\par\\par\\tab \\ul\\b リッスン中 :\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 \\par\\par\\ul\\b クライアント :\\ul0\\b0  %s
-[tabSRMM Information]
-tabSRMM 情報
+[TabSRMM Information]
+TabSRMM 情報
 [Set panel visibility for this %s]
 この %s 用パネルの可視状態を設定
 [chat room]
@@ -1239,8 +1239,8 @@ History++ プラグイン
 \n( 送信遅延 オリジナルタイムスタンプ %s )
 ;file \plugins\TabSRMM\src\sidebar.cpp
 ;file \plugins\TabSRMM\src\srmm.cpp
-[tabSRMM Message (%s)]
-tabSRMM メッセージ ( %s )
+[TabSRMM Message (%s)]
+TabSRMM メッセージ ( %s )
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not availble when using History++ plugin for message log display.]
 メッセージログの表示に History++ プラグインを使用している時はプレビューが利用できません
@@ -1260,8 +1260,8 @@ tabSRMM メッセージ ( %s )
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 テンプレート設定はリセットに成功しました。すべてのメッセージウィンドウを閉じて再度開いてください。このテンプレートエディターのウィンドウは一旦閉じます
 ;file \plugins\TabSRMM\src\themeio.cpp
-[tabSRMM themes]
-tabSRMM テーマ
+[TabSRMM themes]
+TabSRMM テーマ
 ;file \plugins\TabSRMM\src\themes.cpp
 [All message containers need to close before the skin can be changed\nProceed?]
 スキンを変更可能にする前に , 全てのメッセージコンテナを閉じる必要があります\n続行しますか ?
@@ -1816,7 +1816,7 @@ Voiced
 グローバルもしくはこのチャットルームのいずれにもイベントタイプが選択されていないため , フィルターは有効にできません。
 [Event filter error]
 イベントフィルターエラー
-[tabSRMM session list]
-tabSRMMセッションリスト
-[tabSRMM Menu]
-tabSRMMメニュー
+[TabSRMM session list]
+TabSRMMセッションリスト
+[TabSRMM Menu]
+TabSRMMメニュー

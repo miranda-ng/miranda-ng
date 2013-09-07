@@ -475,9 +475,9 @@ Jabber настроение
 Изпълнение
 [Requesting command list. Please wait...]
 Изтегляне на списъка с команди. Моля, изчакайте...
-[Jabber Ad-Hoc commands at]
+[Jabber Ad-Hoc commands at %s]
 
-[Sending Ad-Hoc command to]
+[Sending Ad-Hoc command to %s]
 
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
@@ -613,7 +613,7 @@ Jabber настроение
 Модератори
 [Owners]
 Собственици
-[User %s in now banned.]
+[User %s is now banned.]
 Потребителят %s е баннат.
 [User %s changed status to %s with message: %s]
 Потребителя %s промени състоянието си на "%s" със следното съобщение: %s

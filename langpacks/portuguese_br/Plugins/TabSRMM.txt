@@ -605,18 +605,12 @@ Guias de fundo de ajuste vertical:
 Nota: Algumas definições não afetarão recipientes abertos.
 [NOTE: some settings will not affect open containers.]
 Nota: Algumas definições não afetará recipientes abertos.
-[About tabSRMM]
-Sobre o tabSRMM
-[About tabSRMM]
-Sobre tabSRMM
+[About TabSRMM]
+Sobre o TabSRMM
 [Load fonts and colors provided by skin]
 Fontes de carga e cores oferecidas pela pele
-[Load fonts and colors provided by skin]
-Carregar fontes e cores oferecidas pela skin
 [Load templates provided by skin (use with care, will overwrite your templates)]
 Carga modelos fornecidos pela pele (usar com cuidado, irá substituir os modelos)
-[Load templates provided by skin (use with care, will overwrite your templates)]
-Carregar modelos fornecidos pela skin (use com cuidado, substituirá seus modelos)
 [Icons]
 Ícones
 [Use different icons to mark incoming and outgoing messages]
@@ -1043,10 +1037,8 @@ Salvar posição da janela atual como padrão
 Salvar posição da janela atual como padrão
 [Help]
 Ajuda
-[About tabSRMM...]
-Sobre o tabSRMM...
-[About tabSRMM...]
-Sobre tabSRMM ...
+[About TabSRMM...]
+Sobre o TabSRMM...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol Button]
 Botão do Protocolo
@@ -1192,12 +1184,12 @@ Recebendo (Nova Sessão)
 Enviando
 [Other]
 Outros
-[TABSRMM: Typing]
-TABSRMM: digitando
-[tabSRMM session list]
-lista de sessões tabSRMM
-[tabSRMM Menu]
-Menu tabSRMM
+[TabSRMM: Typing]
+TabSRMM: digitando
+[TabSRMM session list]
+lista de sessões TabSRMM
+[TabSRMM Menu]
+Menu TabSRMM
 [&Messaging settings...]
 E definições de mensagens ...
 [&Messaging settings...]
@@ -1218,10 +1210,8 @@ Estado alterado de %s para %s.
 status alterado de %s para %s.
 ;file \plugins\TabSRMM\src\hotkeyhandler.cpp
 ;file \plugins\TabSRMM\src\infopanel.cpp
-[tabSRMM Information]
-tabSRMM Informação
-[tabSRMM Information]
-Informação do tabSRMM
+[TabSRMM Information]
+Informação do TabSRMM
 [Use Global Setting]
 Usar Configuração Global
 [Use Global Setting]
@@ -1537,10 +1527,8 @@ Existem mensagens não enviadas à espera de confirmação.\nQuando você fechar
 Existem mensagens não enviadas à espera de confirmação.\nQuando você fechar a janela, Miranda vai tentar enviá-las, mas pode ser incapaz de informar sobre possíveis erros de entrega.\n Você realmente deseja fechar a(s) janela(s)?
 ;file \plugins\TabSRMM\src\sidebar.cpp
 ;file \plugins\TabSRMM\src\srmm.cpp
-[tabSRMM Message (%s)]
-Mensagem tabSRMM% (s)
-[tabSRMM Message (%s)]
-Mensagem (%s) tabSRMM
+[TabSRMM Message (%s)]
+Mensagem TabSRMM% (s)
 ;file \plugins\TabSRMM\src\taskbar.cpp
 ;file \plugins\TabSRMM\src\templates.cpp
 [Template Set Editor]

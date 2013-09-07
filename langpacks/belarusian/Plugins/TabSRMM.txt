@@ -559,7 +559,7 @@ Cтатусы для аўтаматычнага стварэння ўклада�
 Некаторыя налады не закрануць адкрытыя кантэйнеры
 [Tab layout tweaks]
 Налады выгляду ўкладак
-[About tabSRMM]
+[About TabSRMM]
 Пра TabSRMM
 [Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 Аўтарскія правы 2004-2011 Miranda IM, 2012-2013 Miranda NG. Падрабязней ў файле Readme.
@@ -911,8 +911,8 @@ Esc зачыняе сесію (інакш - згортвае)
 Захаваць бягучую пазіцыю акна
 [Help]
 Даведка
-[About tabSRMM...]
-Пра модуль tabSRMM...
+[About TabSRMM...]
+Пра модуль TabSRMM...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol Button]
 Меню кантакту
@@ -1092,12 +1092,12 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Няма паведамлення статусу
 [Other]
 Іншае
-[TABSRMM: Typing]
-TABSRMM: Набірае
-[tabSRMM session list]
-Спіс сесій tabSRMM
-[tabSRMM Menu]
-Меню tabSRMM
+[TabSRMM: Typing]
+TabSRMM: Набірае
+[TabSRMM session list]
+Спіс сесій TabSRMM
+[TabSRMM Menu]
+Меню TabSRMM
 [&Messaging settings...]
 Налады гутарак
 [&Send later job list...]
@@ -1182,8 +1182,8 @@ TABSRMM: Набірае
 \\par\\par\\tab \\ul\\b Слухае:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 \\par\\par\\ul\\b Кліент:\\ul0\\b0  %s
-[tabSRMM Information]
-Інфармацыя tabSRMM
+[TabSRMM Information]
+Інфармацыя TabSRMM
 [Set panel visibility for this %s]
 Бачнасць панэлі для %s
 [chat room]
@@ -1562,8 +1562,8 @@ TABSRMM: Набірае
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 Шаблоны скінуты. Калі ласка, зачыніце і адкрыйце зноў усе вокны паведамленняў.  Гэта акно цяпер будзе зачынена.
 ;file \plugins\TabSRMM\src\themeio.cpp
-[tabSRMM themes]
-Тэмы tabSRMM
+[TabSRMM themes]
+Тэмы TabSRMM
 ;file \plugins\TabSRMM\src\themes.cpp
 [No effect]
 Без эфекту

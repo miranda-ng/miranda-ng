@@ -387,10 +387,10 @@ Em andamento. Por favor aguarde...
 Execute
 [Requesting command list. Please wait...]
 Lista de comandos requerente. Aguarde ...
-[Jabber Ad-Hoc commands at]
-Jabber Ad-Hoc comandos AT
-[Sending Ad-Hoc command to]
-Enviando comando Ad-Hoc para
+[Jabber Ad-Hoc commands at %s]
+Jabber Ad-Hoc comandos at %s
+[Sending Ad-Hoc command to %s]
+Enviando comando Ad-Hoc para %s
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 Sem mensagem
@@ -417,7 +417,7 @@ Visitante
 Participante
 [Moderator]
 Moderador
-[User %s in now banned.]
+[User %s is now banned.]
 Usuário %s está agora proibido.
 [User %s changed status to %s with message: %s]
 Usuário %s mudou de status %s com a mensagem: %s

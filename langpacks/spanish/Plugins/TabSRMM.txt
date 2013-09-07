@@ -489,8 +489,8 @@ Inferior etiquetas de ajuste vertical:
 NOTA: algunos ajustes no afectarán a los recipientes abiertos
 [Tab layout tweaks]
 Ficha ajustes de diseño
-[About tabSRMM]
-Acerca de tabSRMM
+[About TabSRMM]
+Acerca de TabSRMM
 [Selected skin]
 Seleccionada la piel
 [Reload active skin]
@@ -779,8 +779,8 @@ Mostrar pop-ups para todas las sesiones inactivas
 Guardar posición de la ventana actual como predeterminado
 [Help]
 Ayuda
-[About tabSRMM...]
-Acerca de tabSRMM ...
+[About TabSRMM...]
+Acerca de TabSRMM ...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol Button]
 Protocolo del botón
@@ -1006,8 +1006,8 @@ Configuración de Sala ...
 \\par\\par\\tab \\ul\\b Extendido la información de estado:\\ul0\\b0 \\par 
 [\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
 \\par\\par\\tab \\ul\\b Escuchando a:\\ul0\\b0 \\par %s
-[tabSRMM Information]
-tabSRMM Información
+[TabSRMM Information]
+TabSRMM Información
 [Set panel visibility for this %s]
 Establecer la visibilidad del panel de este %s
 [chat room]
@@ -1281,8 +1281,8 @@ Avanzado diseño con avatares
 [Advanced with avatars, vertical orientation]
 Avanzada con los avatares, orientación vertical
 ;file \plugins\TabSRMM\src\srmm.cpp
-[tabSRMM Message (%s)]
-tabSRMM Mensaje (%s)
+[TabSRMM Message (%s)]
+TabSRMM Mensaje (%s)
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Chat room %s]
 Chat room %s
@@ -1296,8 +1296,8 @@ Esto restablecerá la plantilla establecida por defecto las plantillas incorpora
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 Conjunto de plantillas que se restableció con éxito, por favor, cierra y vuelve a abrir todas las ventanas de mensajes. Esta ventana del editor de plantilla se cerrará ahora.
 ;file \plugins\TabSRMM\src\themeio.cpp
-[tabSRMM themes]
-tabSRMM themes
+[TabSRMM themes]
+TabSRMM themes
 ;file \plugins\TabSRMM\src\themes.cpp
 [Milky Glass]
 Láctea de vidrio

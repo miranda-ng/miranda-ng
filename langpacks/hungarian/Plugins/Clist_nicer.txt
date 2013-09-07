@@ -539,10 +539,10 @@ Elérhetõ/kilépett mutatás váltogatása
 Csoportok váltogatása
 [Find contacts]
 Partnerek keresése
-[Show tabSRMM session list]
-tabSRMM munkamenetek mutatása
-[Show tabSRMM menu]
-tabSRMM menü mutatása
+[Show TabSRMM session list]
+TabSRMM munkamenetek mutatása
+[Show TabSRMM menu]
+TabSRMM menü mutatása
 [Sounds are off]
 Hangok kikapcsolva
 [Setup accounts]

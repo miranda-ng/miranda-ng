@@ -511,10 +511,10 @@ Afficher En ligne/Hors ligne
 Ouvrir les groupes
 [Find contacts]
 Trouver contacts
-[Show tabSRMM session list]
-Afficher la liste des sessions tabSRMM
-[Show tabSRMM menu]
-Montrer menu tabSRMM
+[Show TabSRMM session list]
+Afficher la liste des sessions TabSRMM
+[Show TabSRMM menu]
+Montrer menu TabSRMM
 [Sounds are off]
 Sons désactivés
 [Open main menu]
