@@ -414,8 +414,13 @@ DWORD CMraProto::SetContactBasicInfoW(HANDLE hContact, DWORD dwSetInfoFlags, DWO
 		mraSetStringExA(hContact, "e-mail", *szEmail);
 
 	// поля изменения которых отслеживаются
-	if (dwFlags & SCBIF_GROUP_ID)
+	if (dwFlags & SCBIF_GROUP_ID) {
 		setDword(hContact, "GroupID", dwGroupID);
+
+		MraGroupItem *grp = m_groups.find((MraGroupItem*)&dwGroupID);
+		if (grp)
+			db_set_ts(hContact, "CList", "Group", grp->m_name);
+	}
 
 	if ((dwFlags & SCBIF_NICK) && wszNick != NULL && !wszNick->IsEmpty()) {
 		if ((dwFlags & SCBIF_FLAG) && ((dwContactFlag & CONTACT_FLAG_UNICODE_NAME) == 0))

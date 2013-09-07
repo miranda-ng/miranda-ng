@@ -494,19 +494,19 @@ bool CMraProto::CmdUserInfo(BinBuffer &buf)
 	CMStringW szStringW;
 	while (!buf.eof()) {
 		buf >> szString;
-		if ( !_strnicmp(szString, "MESSAGES.TOTAL", 14)) {
+		if (szString == "MESSAGES.TOTAL") {
 			buf >> szString;
 			dwEmailMessagesTotal = atoi(szString);
 		}
-		else if ( !_strnicmp(szString, "MESSAGES.UNREAD", 15)) {
+		else if (szString == "MESSAGES.UNREAD") {
 			buf >> szString;
 			m_dwEmailMessagesUnread = atoi(szString);
 		}
-		else if ( !_strnicmp(szString, "MRIM.NICKNAME", 13)) {
+		else if (szString == "MRIM.NICKNAME") {
 			buf >> szStringW;
 			mraSetStringW(NULL, "Nick", szStringW);
 		}
-		else if ( !_strnicmp(szString, "client.endpoint", 15)) {
+		else if (szString == "client.endpoint") {
 			buf >> szStringW;
 			szString = szStringW;
 			int lpszDelimiter = szString.Find(':');
@@ -515,48 +515,48 @@ bool CMraProto::CmdUserInfo(BinBuffer &buf)
 				setDword("IP", ntohl(inet_addr(szAddr.c_str())));
 			}
 		}
-		else if ( !_strnicmp(szString, "connect.xml", 11)) {
+		else if (szString == "connect.xml") {
 			DebugPrintA(szString);
 			buf >> szStringW;
 			DebugPrintCRLFW(szStringW);
 		}
-		else if ( !_strnicmp(szString, "micblog.show_title", 18)) {
+		else if (szString == "micblog.show_title") {
 			DebugPrintA(szString);
 			buf >> szStringW;
 			DebugPrintCRLFW(szStringW);
 		}
-		else if ( !_strnicmp(szString, "micblog.status.id", 17)) {
+		else if (szString == "micblog.status.id") {
 			buf >> szString;
 			DWORDLONG dwBlogStatusID = _atoi64(szString);
 			mraWriteContactSettingBlob(NULL, DBSETTING_BLOGSTATUSID, &dwBlogStatusID, sizeof(DWORDLONG));
 		}
-		else if ( !_strnicmp(szString, "micblog.status.time", 19)) {
+		else if (szString == "micblog.status.time") {
 			buf >> szString;
 			setDword(DBSETTING_BLOGSTATUSTIME, atoi(szString));
 		}
-		else if ( !_strnicmp(szString, "micblog.status.text", 19)) {
+		else if (szString == "micblog.status.text") {
 			buf >> szStringW;
 			mraSetStringW(NULL, DBSETTING_BLOGSTATUS, szStringW);
 		}
-		else if ( !_strnicmp(szString, "HAS_MYMAIL", 10)) {
+		else if (szString == "HAS_MYMAIL") {
 			buf >> szString;
 		}
-		else if ( !_strnicmp(szString, "mrim.status.open_search", 23)) {
+		else if (szString == "mrim.status.open_search") {
 			buf >> szString;
 		}
-		else if ( !_strnicmp(szString, "rb.target.cookie", 16)) {
+		else if (szString == "rb.target.cookie") {
 			buf >> szString;
 		}
-		else if ( !_strnicmp(szString, "show_web_history_link", 21)) {
+		else if (szString == "show_web_history_link") {
 			buf >> szString;
 		}
-		else if ( !_strnicmp(szString, "friends_suggest", 15)) {
+		else if (szString == "friends_suggest") {
 			buf >> szString;
 		}
-		else if ( !_strnicmp(szString, "timestamp", 9)) {
+		else if (szString == "timestamp") {
 			buf >> szString;
 		}
-		else if ( !_strnicmp(szString, "trusted_update", 14)) {
+		else if (szString == "trusted_update") {
 			buf >> szString;
 		}
 		else {
@@ -1090,25 +1090,23 @@ bool CMraProto::CmdGame(BinBuffer &buf)
 
 bool CMraProto::CmdClist2(BinBuffer &buf)
 {
-	DWORD dwTemp; buf >> dwTemp;
+	DWORD dwTemp = buf.getDword();
 	if (dwTemp == GET_CONTACTS_OK) { // received contact list
-		BOOL bAdded;
-		DWORD dwID, dwGroupsCount, dwGroupFlags, dwContactFlag, dwGroupID, dwContactSeverFlags, dwStatus, dwXStatus, dwFutureFlags, dwBlogStatusTime;
-		size_t i, j, dwControlParam;
+		m_groups.destroy();
+
+		DWORD dwGroupsCount, dwContactFlag, dwGroupID, dwContactSeverFlags, dwStatus, dwXStatus, dwFutureFlags, dwBlogStatusTime;
 		ULARGE_INTEGER dwBlogStatusID;
-		
 		CMStringA szGroupMask, szContactMask, szEmail, szString;
 		CMStringA szCustomPhones, szSpecStatusUri, szUserAgentFormatted;
 		CMStringW wszNick, wszString, wszGroupName, wszStatusTitle, wszStatusDesc, wszBlogStatus, wszBlogStatusMusic;
 		buf >> dwGroupsCount >> szGroupMask >> szContactMask;
 
-		char szBuff[200];
 		DebugPrintCRLFW(L"Groups:");
 		DebugPrintCRLFA(szGroupMask);
-		dwID = 0;
-		for (i = 0; i < dwGroupsCount; i++) { //groups handle
-			dwControlParam = 0;
-			for (j = 0; j < szGroupMask.GetLength(); j++) { //enumerating parameters
+		DWORD dwID = 0;
+		for (DWORD i = 0; i < dwGroupsCount; i++) { //groups handle
+			DWORD dwControlParam = 0, dwGroupFlags;
+			for (int j = 0; j < szGroupMask.GetLength(); j++) { //enumerating parameters
 				switch (szGroupMask[j]) {
 				case 's'://LPS
 					buf >> wszString;
@@ -1130,9 +1128,12 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 
 			// add/modify group
 			if (dwControlParam > 1) { // все параметры правильно инициализированны!
+				m_groups.insert( new MraGroupItem(dwID, dwGroupFlags, wszGroupName));
+				Clist_CreateGroup(0, wszGroupName);
 				#ifdef _DEBUG
 					DebugPrintW(wszGroupName);
 
+					char szBuff[200];
 					mir_snprintf(szBuff, SIZEOF(szBuff), ": flags: %lu (", dwGroupFlags);
 					DebugPrintA(szBuff);
 
@@ -1156,105 +1157,102 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 		DebugPrintCRLFA(szContactMask);
 		dwID = 20;
 		while (!buf.eof()) {
-			dwControlParam = 0;
-			for (j = 0; j < szContactMask.GetLength(); j++) { //enumerating parameters
-				switch (szContactMask[j]) {
-				case 's'://LPS
-					break;
-				case 'u'://UL
+			DWORD dwControlParam = 0;
+			for (int j = 0; j < szContactMask.GetLength(); j++) { //enumerating parameters
+				BYTE fieldType = szContactMask[j];
+				if (fieldType == 'u')
 					buf >> dwTemp;
-					break;
-				}
 
-				if (j == 0 && szContactMask[j] == 'u') { // Flags
+				if (j == 0 && fieldType == 'u') { // Flags
 					dwContactFlag = dwTemp;
 					dwControlParam++;
 				}
-				else if (j == 1 && szContactMask[j] == 'u') { // Group id
+				else if (j == 1 && fieldType == 'u') { // Group id
 					dwGroupID = dwTemp;
 					dwControlParam++;
 				}
-				else if (j == 2 && szContactMask[j] == 's') { // Email
+				else if (j == 2 && fieldType == 's') { // Email
 					buf >> szEmail;
 					dwControlParam++;
 				}
-				else if (j == 3 && szContactMask[j] == 's') { // Nick
+				else if (j == 3 && fieldType == 's') { // Nick
 					buf >> wszNick;
 					dwControlParam++;
 				}
-				else if (j == 4 && szContactMask[j] == 'u') { // Server flags
+				else if (j == 4 && fieldType == 'u') { // Server flags
 					dwContactSeverFlags = dwTemp;
 					dwControlParam++;
 				}
-				else if (j == 5 && szContactMask[j] == 'u') { // Status
+				else if (j == 5 && fieldType == 'u') { // Status
 					dwStatus = dwTemp;
 					dwControlParam++;
 				}
-				else if (j == 6 && szContactMask[j] == 's') { // Custom Phone number,
+				else if (j == 6 && fieldType == 's') { // Custom Phone number,
 					buf >> szCustomPhones;
 					dwControlParam++;
 				}
-				else if (j == 7 && szContactMask[j] == 's') { // spec_status_uri
+				else if (j == 7 && fieldType == 's') { // spec_status_uri
 					buf >> szSpecStatusUri;
 					dwControlParam++;
 				}
-				else if (j == 8 && szContactMask[j] == 's') { // status_title
+				else if (j == 8 && fieldType == 's') { // status_title
 					buf >> wszStatusTitle;
 					dwControlParam++;
 				}
-				else if (j == 9 && szContactMask[j] == 's') { // status_desc
+				else if (j == 9 && fieldType == 's') { // status_desc
 					buf >> wszStatusDesc;
 					dwControlParam++;
 				}
-				else if (j == 10 && szContactMask[j] == 'u') { // com_support (future flags)
+				else if (j == 10 && fieldType == 'u') { // com_support (future flags)
 					dwFutureFlags = dwTemp;
 					dwControlParam++;
 				}
-				else if (j == 11 && szContactMask[j] == 's') { // user_agent (formated string)
+				else if (j == 11 && fieldType == 's') { // user_agent (formated string)
 					buf >> szUserAgentFormatted;
 					dwControlParam++;
 				}
-				else if (j == 12 && szContactMask[j] == 'u') { // BlogStatusID
+				else if (j == 12 && fieldType == 'u') { // BlogStatusID
 					dwBlogStatusID.LowPart = dwTemp;
 					dwControlParam++;
 				}
-				else if (j == 13 && szContactMask[j] == 'u') { // BlogStatusID
+				else if (j == 13 && fieldType == 'u') { // BlogStatusID
 					dwBlogStatusID.HighPart = dwTemp;
 					dwControlParam++;
 				}
-				else if (j == 14 && szContactMask[j] == 'u') { // BlogStatusTime
+				else if (j == 14 && fieldType == 'u') { // BlogStatusTime
 					dwBlogStatusTime = dwTemp;
 					dwControlParam++;
 				}
-				else if (j == 15 && szContactMask[j] == 's') { // BlogStatus
+				else if (j == 15 && fieldType == 's') { // BlogStatus
 					buf >> wszBlogStatus;
 					dwControlParam++;
 				}
-				else if (j == 16 && szContactMask[j] == 's') { // BlogStatusMusic
+				else if (j == 16 && fieldType == 's') { // BlogStatusMusic
 					buf >> wszBlogStatusMusic;
 					dwControlParam++;
 				}
-				else if (j == 17 && szContactMask[j] == 's') { // BlogStatusSender // ignory
+				else if (j == 17 && fieldType == 's') { // BlogStatusSender // ignory
 					buf >> szString;
 					dwControlParam++;
 				}
-				else if (j == 18 && szContactMask[j] == 's') { // geo data ?
+				else if (j == 18 && fieldType == 's') { // geo data ?
 					buf >> szString;
 					dwControlParam++;
 				}
-				else if (j == 19 && szContactMask[j] == 's') { // ?????? ?
+				else if (j == 19 && fieldType == 's') { // ?????? ?
 					buf >> szString;
 					dwControlParam++;
 					DebugBreakIf(szString.GetLength());
 				}
 				else {
-					if (szContactMask[j] == 's') {
+					if (fieldType == 's') {
 						buf >> szString;
 						if (szString.GetLength()) {
 							DebugPrintCRLFA(szString);
 						}
 					}
-					else if (szContactMask[j] == 'u') {
+					else if (fieldType == 'u') {
+						char szBuff[50];
 						mir_snprintf(szBuff, SIZEOF(szBuff), "%lu, ", dwTemp);//;
 						DebugPrintCRLFA(szBuff);
 					}
@@ -1263,6 +1261,8 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 			}
 
 			#ifdef _DEBUG
+			{
+				char szBuff[200];
 				mir_snprintf(szBuff, SIZEOF(szBuff), "ID: %lu, Group id: %lu, ", dwID, dwGroupID);
 				DebugPrintA(szBuff);
 				DebugPrintA(szEmail);
@@ -1286,6 +1286,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 				if (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED)
 					DebugPrintA("CONTACT_INTFLAG_NOT_AUTHORIZED, ");
 				DebugPrintCRLFA(")");
+			}
 			#endif
 
 			// add/modify contact
@@ -1293,6 +1294,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 			if ( _strnicmp(szEmail, "phone", 5))
 			if (dwControlParam>5)// все параметры правильно инициализированны!
 			if ((dwContactFlag & (CONTACT_FLAG_GROUP | CONTACT_FLAG_REMOVED)) == 0) {
+				BOOL bAdded;
 				HANDLE hContact = MraHContactFromEmail(szEmail, TRUE, FALSE, &bAdded);
 				if (hContact) {
 					// already in list, remove the duplicate
@@ -1355,7 +1357,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 			if (mraGetStringW(NULL, "AuthMessage", wszAuthMessage) == FALSE) // def auth message
 				wszAuthMessage = TranslateW(MRA_DEFAULT_AUTH_MESSAGE);
 
-			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 				if (GetContactBasicInfoW(hContact, &dwID, NULL, NULL, NULL, NULL, &szEmail, NULL, NULL) == NO_ERROR)
 				if (dwID == -1) {
 					if (IsEMailChatAgent(szEmail)) {// чат: ещё раз запросим авторизацию, пометим как видимый в списке, постоянный
@@ -1384,7 +1386,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 	}
 	else { // контакт лист почемуто не получили
 		// всех в offline и id в нестандарт
-		for (HANDLE hContact = db_find_first();hContact != NULL;hContact = db_find_next(hContact)) {
+		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS),
 				-1, -2, 0, 0, ID_STATUS_OFFLINE, 0, 0, 0);
 			// request user info from server

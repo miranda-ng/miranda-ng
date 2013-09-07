@@ -18,16 +18,18 @@
 
 struct MRA_FILES_QUEUE_ITEM;
 
-BOOL	DB_GetStaticStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
-BOOL	DB_GetStaticStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPWSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
+struct MraGroupItem
+{
+	MraGroupItem(DWORD id, DWORD flags, const CMStringW &name) :
+		m_id(id), m_flags(flags), m_name(name)
+		{}
 
-BOOL	DB_GetStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringA &Ret);
-BOOL	DB_GetStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringW &Ret);
+	~MraGroupItem()
+	{}
 
-BOOL	DB_SetStringExA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringA &value);
-BOOL	DB_SetStringExW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringW &value);
-
-BOOL  DB_GetContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPVOID lpRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
+	DWORD     m_id, m_flags;
+	CMStringW m_name;
+};
 
 struct CMraProto : public PROTO<CMraProto>
 {
@@ -178,6 +180,8 @@ struct CMraProto : public PROTO<CMraProto>
 	DWORD    m_dwThreadWorkerLastPingTime, m_dwNextPingSendTickTime, m_dwPingPeriod;
 	DWORD    m_dwThreadWorkerRunning;
 	DWORD    dwCMDNum;
+
+	OBJLIST<MraGroupItem> m_groups;
 
 	HANDLE   hAvatarsQueueHandle;
 

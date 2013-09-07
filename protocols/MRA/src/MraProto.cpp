@@ -9,7 +9,8 @@ static int MraExtraIconsApplyAll(WPARAM, LPARAM)
 
 CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	PROTO<CMraProto>(_module, _displayName),
-	m_bLoggedIn(false)
+	m_bLoggedIn(false),
+	m_groups(5, NumericKeySortT)
 {
 	InitializeCriticalSectionAndSpinCount(&csCriticalSectionSend, 0);
 	MraSendQueueInitialize(0, &hSendQueueHandle);
@@ -99,7 +100,7 @@ int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_WAT_NEWSTATUS, &CMraProto::MraMusicChanged);
 
 	// всех в offline // тк unsaved values сохран€ютс€ их нужно инициализировать
-	for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
+	for (HANDLE hContact = db_find_first(m_szModuleName); hContact != NULL; hContact = db_find_next(hContact, m_szModuleName))
 		SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, 0, 0, 0);
 
 	// unsaved values
@@ -527,11 +528,10 @@ int CMraProto::SetStatus(int iNewStatus)
 		dwOldStatusMode = InterlockedExchange((volatile LONG*)&m_iStatus, m_iDesiredStatus);
 
 		// всех в offline, только если мы бывали подключены
-		if (dwOldStatusMode > ID_STATUS_OFFLINE) {
-			// функци€ сама провер€ет принадлежность контакта к MRA
-			for (HANDLE hContact = db_find_first();hContact != NULL;hContact = db_find_next(hContact))
+		if (dwOldStatusMode > ID_STATUS_OFFLINE)
+			for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, 0, 0, 0);
-		}
+
 		Netlib_CloseHandle(m_hConnection);
 	}
 	else {

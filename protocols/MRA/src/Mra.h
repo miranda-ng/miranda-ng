@@ -106,8 +106,6 @@ struct MRA_GUID
 	DWORD	id[4];
 };
 
-
-
 struct MRA_ADDR_LIST_ITEM
 {
 	DWORD	dwPort;
@@ -146,6 +144,17 @@ __forceinline BinBuffer& operator >>(BinBuffer& buf, CMStringA &sVar)  { buf.get
 __forceinline BinBuffer& operator >>(BinBuffer& buf, CMStringW &sVar)  { buf.getStringW(sVar);   return buf; }
 
 /////////////////////////////////////////////////////////////////////////////
+
+BOOL DB_GetStaticStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
+BOOL DB_GetStaticStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPWSTR lpszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
+	  
+BOOL DB_GetStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringA &Ret);
+BOOL DB_GetStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, CMStringW &Ret);
+	  
+BOOL DB_SetStringExA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringA &value);
+BOOL DB_SetStringExW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, const CMStringW &value);
+	  
+BOOL DB_GetContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPVOID lpRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
 
 #include "MraConstans.h"
 #include "MraProto.h"
