@@ -498,7 +498,7 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 					CMStringW wszNick;
 					DWORD dwGroupID, dwContactFlag;
 					GetContactBasicInfoW(hContact, NULL, &dwGroupID, &dwContactFlag, NULL, NULL, &szEmail, &wszNick, &szPhones);
-					MraAddContact(hContact, dwContactFlag, dwGroupID, szEmail, wszNick, szPhones, wszAuthMessage, 0);
+					MraAddContact(hContact, dwContactFlag, dwGroupID, szEmail, wszNick, &szPhones, &wszAuthMessage);
 				}
 			}
 			// Hidden setting

@@ -1378,15 +1378,14 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 						MraSetContactStatus(hContact, ID_STATUS_ONLINE);
 
 						CMStringW wszCustomName = GetContactNameW(hContact);
-						MraAddContact(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_MULTICHAT|CONTACT_FLAG_UNICODE_NAME),
-							-1, szEmail, wszCustomName, "", L"", 0);
+						MraAddContact(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_MULTICHAT), -1, szEmail, wszCustomName);
 					}
 					else {
 						if (db_get_b(hContact, "CList", "NotOnList", 0) == 0) { // set extra icons and upload contact
 							SetExtraIcons(hContact);
 							if (getByte("AutoAddContactsToServer", MRA_DEFAULT_AUTO_ADD_CONTACTS_TO_SERVER)) { //add all contacts to server
 								GetContactBasicInfoW(hContact, NULL, &dwGroupID, NULL, NULL, NULL, NULL, &wszNick, &szPhones);
-								MraAddContact(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_UNICODE_NAME), dwGroupID, szEmail, wszNick, szPhones, wszAuthMessage, 0);
+								MraAddContact(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_UNICODE_NAME), dwGroupID, szEmail, wszNick, &szPhones, &wszAuthMessage);
 							}
 						}
 					}
@@ -1790,7 +1789,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 					break;
 				case MULTICHAT_INVITE:
 					MraChatSessionInvite(hContact, lpsEMailInMultiChat, dwTime);// LPS sender
-					MraAddContact(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_MULTICHAT|CONTACT_FLAG_UNICODE_NAME), -1, plpsFrom, lpsMultichatName, "", L"", 0);
+					MraAddContact(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_MULTICHAT|CONTACT_FLAG_UNICODE_NAME), -1, plpsFrom, lpsMultichatName);
 					break;
 				default:
 					DebugBreak();

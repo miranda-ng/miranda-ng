@@ -206,7 +206,7 @@ struct CMraProto : public PROTO<CMraProto>
 	DWORD  MraMessage(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType, DWORD dwFlags, const CMStringA &szEmail, const CMStringW &wszMessage, LPBYTE lpbMultiChatData, size_t dwMultiChatDataSize);
 	DWORD  MraMessageAsk(DWORD dwMsgID, DWORD dwFlags, const CMStringA &szEmail, const CMStringW &wszMessage, const CMStringW &wszMessageRTF);
 	DWORD  MraMessageRecv(const CMStringA &szFrom, DWORD dwMsgID);
-	DWORD  MraAddContact(HANDLE hContact, DWORD dwContactFlag, DWORD dwGroupID, const CMStringA &szEmail, const CMStringW &wszCustomName, const CMStringA &szPhones, const CMStringW &wszAuthMessage, DWORD dwActions);
+	DWORD  MraAddContact(HANDLE hContact, DWORD dwContactFlag, DWORD dwGroupID, const CMStringA &szEmail, const CMStringW &wszCustomName, const CMStringA *szPhones = 0, const CMStringW *wszAuthMessage = 0);
 	DWORD  MraModifyContact(HANDLE hContact, DWORD *pdwID = 0, DWORD *pdwContactFlag = 0, DWORD *pdwGroupID = 0, const CMStringA *pszEmail = 0, const CMStringW *pwszCustomName = 0, const CMStringA *pszPhones = 0);
 	DWORD  MraOfflineMessageDel(DWORDLONG dwMsgUIDL);
 	DWORD  MraMoveContactToGroup(HANDLE hContact, DWORD dwGroupID, LPCTSTR ptszGroup);

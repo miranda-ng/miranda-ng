@@ -316,8 +316,9 @@ DWORD CMraProto::MraMoveContactToGroup(HANDLE hContact, DWORD dwGroupID, LPCTSTR
 			if (m_groups.find((MraGroupItem*)&id) == NULL)
 				break;
 
-		p = new MraGroupItem(id, CONTACT_FLAG_GROUP, ptszName);
+		p = new MraGroupItem(id, CONTACT_FLAG_UNICODE_NAME | CONTACT_FLAG_GROUP, ptszName);
 		m_groups.insert(p);
+		MraAddContact(NULL, (CONTACT_FLAG_UNICODE_NAME | CONTACT_FLAG_GROUP) + (id << 24), 0, ptszName, p->m_name);
 	}
 
 	if (dwGroupID != p->m_id) {

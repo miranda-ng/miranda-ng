@@ -184,7 +184,7 @@ DWORD CMraProto::MraMessageRecv(const CMStringA &szFrom, DWORD dwMsgID)
 }
 
 // Adds new contact
-DWORD CMraProto::MraAddContact(HANDLE hContact, DWORD dwContactFlag, DWORD dwGroupID, const CMStringA &szEmail, const CMStringW &wszCustomName, const CMStringA &szPhones, const CMStringW &wszAuthMessage, DWORD dwActions)
+DWORD CMraProto::MraAddContact(HANDLE hContact, DWORD dwContactFlag, DWORD dwGroupID, const CMStringA &szEmail, const CMStringW &wszCustomName, const CMStringA *szPhones, const CMString* wszAuthMessage)
 {
 	if (szEmail.GetLength() <= 4)
 		return 0;
@@ -196,16 +196,16 @@ DWORD CMraProto::MraAddContact(HANDLE hContact, DWORD dwContactFlag, DWORD dwGro
 	buf.SetUL(dwGroupID);
 	buf.SetLPSLowerCase(szEmail);
 	buf.SetLPSW(wszCustomName);
-	buf.SetLPS(szPhones);
+	buf.SetLPS((szPhones == NULL) ? "" : *szPhones);
 
 	// pack auth message
 	OutBuffer buf2;
 	buf2.SetUL(2);
 	buf2.SetLPSW(L"");//***deb possible nick here
-	buf2.SetLPSW(wszAuthMessage);
+	buf2.SetLPSW((wszAuthMessage == NULL) ? L"" : *wszAuthMessage);
 	buf.SetLPS(CMStringA( ptrA( mir_base64_encode(buf2.Data(), buf2.Len()))));
 
-	buf.SetUL(dwActions);
+	buf.SetUL(0);
 
 	return MraSendQueueCMD(hSendQueueHandle, 0, hContact, ACKTYPE_ADDED, NULL, 0, MRIM_CS_ADD_CONTACT, buf.Data(), buf.Len());
 }
