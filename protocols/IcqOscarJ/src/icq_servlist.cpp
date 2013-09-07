@@ -1598,7 +1598,7 @@ int CIcqProto::getCListGroupExists(const char *szGroup)
 
 int CIcqProto::moveContactToCListGroup(HANDLE hContact, const char *szGroup)
 {
-	HANDLE hGroup = Clist_CreateGroup(0, _A2T(szGroup));
+	HANDLE hGroup = Clist_CreateGroup(0, ptrT( mir_utf8decodeT(szGroup)));
 
 	if (ServiceExists(MS_CLIST_CONTACTCHANGEGROUP))
 		return CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)hContact, (LPARAM)hGroup);
