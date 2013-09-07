@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME				"Ignore state"
 #define __FILENAME					"IgnoreState.dll"
-#define __DESCRIPTION 				"Shows ignore state of contact in contacts list."
+#define __DESCRIPTION 				"Shows ignore state of contact in contact list."
 #define __AUTHOR					"Kildor"
 #define __AUTHOREMAIL				"kostia@ngs.ru"
 #define __AUTHORWEB					"http://miranda-ng.org/p/IgnoreState/"
