@@ -17,8 +17,8 @@ popd
 rem end
 
 rem Set compiler variables
-set Compile32=Inno Setup 5\ISCC.exe" /Dptx86 /DAppVer=%MirVer% /O"Output" "InnoNG_32\MirandaNG.iss"
-set Compile64=Inno Setup 5\ISCC.exe" /DAppVer=%MirVer% /O"Output" "InnoNG_64\MirandaNG.iss"
+set Compile32=Tools\InnoSetup5\ISCC.exe /Dptx86 /DAppVer=%MirVer% /O"Output" "InnoNG_32\MirandaNG.iss"
+set Compile64=Tools\InnoSetup5\ISCC.exe /DAppVer=%MirVer% /O"Output" "InnoNG_64\MirandaNG.iss"
 rem end
 
 :check32
@@ -28,13 +28,8 @@ if not exist InnoNG_64 (goto compileerror) else (goto compile)
 
 rem Make
 :compile
-if defined ProgramFiles(x86) (
-	"%ProgramFiles(x86)%\%Compile32%
-	"%ProgramFiles(x86)%\%Compile64%
-) else (
-	"%ProgramFiles%\%Compile32%
-	"%ProgramFiles%\%Compile64%
-)
+%Compile32%
+%Compile64%
 rem end
 
 rem Error handling
