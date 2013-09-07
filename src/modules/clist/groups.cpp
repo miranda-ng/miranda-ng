@@ -31,36 +31,29 @@ static INT_PTR MoveGroupBefore(WPARAM wParam, LPARAM lParam);
 
 static int CountGroups(void)
 {
-	DBVARIANT dbv;
-	int i;
-	char str[33];
-
-	for (i=0;; i++) {
+	for (int i=0;; i++) {
+		char str[33];
 		_itoa(i, str, 10);
-		if (db_get(NULL, "CListGroups", str, &dbv))
-			break;
-		db_free(&dbv);
+		ptrT grpName( db_get_tsa(NULL, "CListGroups", str));
+		if (grpName == NULL)
+			return i;
 	}
-	return i;
 }
 
 static int GroupNameExists(const TCHAR *name, int skipGroup)
 {
-	char idstr[33];
-	DBVARIANT dbv;
-	int i;
-
-	for (i=0;; i++) {
+	for (int i=0;; i++) {
 		if (i == skipGroup)
 			continue;
+
+		char idstr[33];
 		_itoa(i, idstr, 10);
-		if (db_get_ts(NULL, "CListGroups", idstr, &dbv))
+		ptrT grpName( db_get_tsa(NULL, "CListGroups", idstr));
+		if (grpName == NULL)
 			break;
-		if ( !_tcscmp(dbv.ptszVal + 1, name)) {
-			db_free(&dbv);
+
+		if ( !_tcscmp((TCHAR*)grpName+1, name))
 			return i+1;
-		}
-		db_free(&dbv);
 	}
 	return 0;
 }
