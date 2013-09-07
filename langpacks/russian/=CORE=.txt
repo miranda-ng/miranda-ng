@@ -2166,7 +2166,7 @@ Cвернуть
 [Account Error]
 Ошибка учётной записи
 [Account name has to be unique. Please enter unique name.]
-Имя учётной записи должно быть уникально. Введите уникальное имя.
+Имя учётной записи должно быть уникальным. Введите уникальное имя.
 [Request authorization]
 Запросить авторизацию
 [Grant authorization]

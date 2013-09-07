@@ -13,7 +13,7 @@
 Поддержка протокола Jabber в Miranda NG.
 
 ;  СЕТЬ
-;  Название учётной записи Jabber
+;  Имя учётной записи Jabber
 [Register new user]
 Регистрация
 [Jabber Account Registration]
