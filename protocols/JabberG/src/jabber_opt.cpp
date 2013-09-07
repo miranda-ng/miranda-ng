@@ -1656,7 +1656,7 @@ public:
 	}
 
 protected:
-	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_GTALK, ACC_LJTALK, ACC_FBOOK, ACC_VK, ACC_OK, ACC_SMS };
+	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_GTALK, ACC_LJTALK, ACC_FBOOK, ACC_OK, ACC_SMS };
 
 	void OnInitDialog()
 	{
@@ -1703,7 +1703,6 @@ protected:
 		m_cbType.AddString(TranslateT("Google Talk!"), ACC_GTALK);
 		m_cbType.AddString(TranslateT("LiveJournal Talk"), ACC_LJTALK);
 		m_cbType.AddString(TranslateT("Facebook Chat"), ACC_FBOOK);
-		m_cbType.AddString(TranslateT("Vkontakte"), ACC_VK);
 		m_cbType.AddString(TranslateT("Odnoklassniki"), ACC_OK);
 		m_cbType.AddString(TranslateT("S.ms"), ACC_SMS);
 
@@ -1724,10 +1723,6 @@ protected:
 		}
 		else if ( !lstrcmpA(server, "chat.facebook.com")) {
 			m_cbType.SetCurSel(ACC_FBOOK);
-			m_canregister = false;
-		}
-		else if ( !lstrcmpA(server, "vk.com")) {
-			m_cbType.SetCurSel(ACC_VK);
 			m_canregister = false;
 		}
 		else if ( !lstrcmpA(manualServer, "xmpp.odnoklassniki.ru")) {
@@ -1812,7 +1807,6 @@ protected:
 		case ACC_OK:
 			m_proto->m_options.IgnoreRosterGroups = TRUE;
 
-		case ACC_VK:
 		case ACC_PUBLIC:
 			m_proto->m_options.UseSSL = m_proto->m_options.UseTLS = FALSE;
 			break;
@@ -2032,7 +2026,6 @@ void CJabberDlgAccMgrUI::setupConnection(int type)
 		case ACC_GTALK: setupGoogle(); break;
 		case ACC_LJTALK: setupLJ(); break;
 		case ACC_FBOOK: setupFB(); break;
-		case ACC_VK: setupVK(); break;
 		case ACC_OK: setupOK(); break;
 		case ACC_SMS: setupSMS(); break;
 	}
