@@ -34,7 +34,7 @@
 [Fade:]
 Затемнение:
 [msecs]
-мсек.
+мс
 [Show Splash]
 Пок. заставку
 [Splash:]

@@ -118,7 +118,7 @@
 [keep on screen]
 оставлять видимым
 [x100 msec]
-х100 мсек
+х100 мс
 [Lock manual resize]
 Запретить изменение размера
 [and minimum]
