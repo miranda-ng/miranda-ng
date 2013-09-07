@@ -36,9 +36,6 @@
     <ClCompile Include="src\MraAdvancedSearch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\MraAntiSpam.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\MraAvatars.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -84,9 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Mra.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\MraAntiSpam.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\MraAvatars.h">

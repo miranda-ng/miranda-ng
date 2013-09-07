@@ -171,6 +171,7 @@
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <PrecompiledHeaderFile>Mra.h</PrecompiledHeaderFile>
       <ExceptionHandling>false</ExceptionHandling>
+      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -196,7 +197,6 @@
     <ClCompile Include="src\Mra_proto.cpp" />
     <ClCompile Include="src\Mra_svcs.cpp" />
     <ClCompile Include="src\MraAdvancedSearch.cpp" />
-    <ClCompile Include="src\MraAntiSpam.cpp" />
     <ClCompile Include="src\MraAvatars.cpp" />
     <ClCompile Include="src\MraChat.cpp" />
     <ClCompile Include="src\MraFilesQueue.cpp" />
@@ -213,7 +213,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Mra.h" />
-    <ClInclude Include="src\MraAntiSpam.h" />
     <ClInclude Include="src\MraAvatars.h" />
     <ClInclude Include="src\MraChat.h" />
     <ClInclude Include="src\MraConstans.h" />

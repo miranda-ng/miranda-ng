@@ -286,12 +286,6 @@ struct CMraProto : public PROTO<CMraProto>
 
 	void   SetExtraIcons(HANDLE hContact);
 
-	#define	MESSAGE_NOT_SPAM	1
-	#define	MESSAGE_SPAM		2
-
-	DWORD  MraAntiSpamReceivedMessageW(const CMStringA &szEmail, DWORD dwMessageFlags, const CMStringW &wszMessage);
-	bool   MraAntiSpamHasMessageBadWordsW(const CMStringW &wszMessage);
-
 	void   InitMainMenu();
 	void   InitContactMenu();
 	void   CListCreateMenu(LONG lPosition, LONG lPopupPosition, HICON hMainIcon, LPSTR pszContactOwner, BOOL bIsStatus, const struct GUI_DISPLAY_ITEM *pgdiItems, size_t dwCount, HGENMENU *hResult);

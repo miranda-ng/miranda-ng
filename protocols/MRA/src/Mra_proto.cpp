@@ -5,7 +5,7 @@
 
 DWORD CMraProto::StartConnect()
 {
-	if ( !InterlockedExchangeAdd((volatile LONG*)&masMraSettings.dwGlobalPluginRunning, 0))
+	if (!masMraSettings.dwGlobalPluginRunning)
 		return ERROR_OPERATION_ABORTED;
 
 	// поток ещё/уже не работал, поставили статус что работает и запускаем
@@ -1711,10 +1711,6 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 	Netlib_Logf(m_hNetlibUser, "Processing message: %08X, from '%s', text '%S'\n", dwFlags, plpsFrom.c_str(), wszMessage.c_str());
 
 	// processing
-	if (dwRetErrorCode == NO_ERROR)
-	if (MraAntiSpamReceivedMessageW(plpsFrom, dwFlags, wszMessage) != MESSAGE_NOT_SPAM)
-		return ERROR_ACCESS_DENIED;
-
 	if (dwFlags & (MESSAGE_FLAG_SMS | MESSAGE_SMS_DELIVERY_REPORT)) {// SMS //if (IsPhone(plpsFrom->lpszData, plpsFrom->dwSize))
 		INTERNET_TIME itTime;
 		InternetTimeGetCurrentTime(&itTime);

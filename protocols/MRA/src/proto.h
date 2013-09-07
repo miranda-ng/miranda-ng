@@ -61,7 +61,7 @@ mrim_packet_header_t;
 	#define MESSAGE_SMS_DELIVERY_REPORT	0x00002000
 	#define MESSAGE_FLAG_ALARM			0x00004000
 	#define MESSAGE_FLAG_FLASH			0x00008000
-	#define MESSAGE_FLAG_SPAMF_SPAM		0x00020000	// чтобы пожаловатся на спам - вернуть назад с этим флагом ;клиенту игнорировать, ставится в момент обработки сообщения при передаче внутри кластера
+	#define MESSAGE_FLAG_SPAMF_SPAM		0x00020000  // report spam back to the server
 	#define MESSAGE_FLAG_MULTICHAT		0x00400000	//
 		#define MULTICHAT_MESSAGE		0	// received message (s->c)
 		#define MULTICHAT_GET_MEMBERS	1	// request members list from server (c->s)

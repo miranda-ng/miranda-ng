@@ -137,20 +137,12 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	MraAntiSpamLoadBadWordsW();
-
-	InterlockedExchange((volatile LONG*)&masMraSettings.dwGlobalPluginRunning, TRUE);
-
-	DebugPrintCRLFW(L"OnModulesLoaded - DONE");
+	masMraSettings.dwGlobalPluginRunning = TRUE;
 	return 0;
 }
 
 int OnPreShutdown(WPARAM wParam, LPARAM lParam)
 {
-	InterlockedExchange((volatile LONG*)&masMraSettings.dwGlobalPluginRunning, FALSE);
-
-	MraAntiSpamFreeBadWords();
-
-	DebugPrintCRLFW(L"OnPreShutdown - DONE");
+	masMraSettings.dwGlobalPluginRunning = FALSE;
 	return 0;
 }

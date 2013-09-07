@@ -84,8 +84,6 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,72,263,8
     CONTROL         "Automatically grant authorization to new users",IDC_AUTO_AUTH_GRAND_NEW_USERS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,83,263,8
-    CONTROL         "Disable spam check",IDC_AUTO_AUTH_GRAND_NEW_USERS_DISABLE_SPAM_CHECK,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,94,253,8
     CONTROL         "Notify me when a message delivery has failed",IDC_SLOWSEND,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,107,263,8
     CONTROL         "Notify about new mail if increment",IDC_INCREMENTAL_NEW_MAIL_NOTIFY,
@@ -241,6 +239,28 @@ BEGIN
     EDITTEXT        IDC_XMSG,5,31,179,43,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
 END
 
+IDD_MINIBLOG DIALOGEX 0, 0, 256, 134
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,76,113,50,14,WS_DISABLED
+    PUSHBUTTON      "Cancel",IDCANCEL,130,113,50,14
+    EDITTEXT        IDC_USER_BLOG_STATUS_MSG,7,19,242,38,ES_MULTILINE | ES_READONLY
+    EDITTEXT        IDC_MSG_TO_SEND,7,61,242,38,ES_MULTILINE
+    CONTROL         "Notify",IDC_CHK_NOTIFY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,102,125,9
+    LTEXT           "Writed:",IDC_STATIC_WRITED_TIME,7,7,242,11
+    LTEXT           "0/500",IDC_STATIC_CHARS_COUNTER,211,103,38,11,0,WS_EX_RIGHT
+END
+
+IDD_DIALOG_SELECT_EMAIL DIALOGEX 0, 0, 177, 169
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Select e-mail"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LISTBOX         IDC_LIST_EMAILS,7,7,163,133,LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL | NOT WS_BORDER | WS_VSCROLL | WS_TABSTOP,WS_EX_STATICEDGE
+    DEFPUSHBUTTON   "OK",IDOK,39,147,51,15
+    PUSHBUTTON      "Cancel",IDCANCEL,93,147,51,15
+END
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -267,89 +287,21 @@ BEGIN
     IDD_OPT_ACCOUNT, DIALOG
     BEGIN
     END
-END
-#endif    // APSTUDIO_INVOKED
 
-#endif    // Neutral resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Russian (Russia) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
-LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
-#pragma code_page(1251)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_BLOGSTATUS          ICON                    "BlogStatus.ico"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_OPT_ANTISPAM DIALOGEX 0, 0, 295, 211
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
-EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    GROUPBOX        "Configuration",IDC_GROUPCONFIG,8,6,277,197
-    CONTROL         "Enable anti-spam",IDC_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,18,259,9
-    CONTROL         "Check temp contacts",IDC_CHK_TEMP_CONTACTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,29,248,9
-    CONTROL         "Delete spam bot contacts",IDC_DELETE_SPAMBOT_CONTACT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,34,40,238,9
-    EDITTEXT        IDC_MAX_LANG_CHANGES,23,67,33,12,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "Max. language changes in message (0 - disabled)",IDC_STATIC,59,69,220,11
-    CONTROL         "Show pop up",IDC_SHOWPOPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,82,248,9
-    CONTROL         "Write to system history",IDC_WRITETOSYSTEMHISTORY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,92,248,9
-    CONTROL         "Send spam report to server",IDC_SEND_SPAM_REPORT_TO_SERVER,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,102,248,9
-    LTEXT           "Bad words list",IDC_STATIC,25,115,96,11
-    LISTBOX         IDC_BAD_WORDS_LIST,25,127,121,71,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    EDITTEXT        IDC_EDIT_BAD_WORD,152,171,129,12,ES_AUTOHSCROLL
-    PUSHBUTTON      "Add",IDC_BUTTON_ADD,152,186,42,14
-    PUSHBUTTON      "Remove",IDC_BUTTONREMOVE,198,186,40,14,BS_CENTER
-    PUSHBUTTON      "Default",IDC_BUTTON_DEFAULT,242,186,40,14,BS_CENTER
-    CONTROL         "Ignory non AlphaNumeric characters",IDC_CLN_NON_ALPHNUM,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,56,248,9
-END
-
-IDD_MINIBLOG DIALOGEX 0, 0, 256, 134
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,76,113,50,14,WS_DISABLED
-    PUSHBUTTON      "Cancel",IDCANCEL,130,113,50,14
-    EDITTEXT        IDC_USER_BLOG_STATUS_MSG,7,19,242,38,ES_MULTILINE | ES_READONLY
-    EDITTEXT        IDC_MSG_TO_SEND,7,61,242,38,ES_MULTILINE
-    CONTROL         "Notify",IDC_CHK_NOTIFY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,102,125,9
-    LTEXT           "Writed:",IDC_STATIC_WRITED_TIME,7,7,242,11
-    LTEXT           "0/500",IDC_STATIC_CHARS_COUNTER,211,103,38,11,0,WS_EX_RIGHT
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
-BEGIN
-    IDD_MINIBLOG, DIALOG
+	 IDD_MINIBLOG, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 249
         TOPMARGIN, 7
         BOTTOMMARGIN, 127
+    END
+
+	 IDD_DIALOG_SELECT_EMAIL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 170
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 162
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -382,62 +334,5 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Russian (Russia) resources
+#endif 
 /////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_DIALOG_SELECT_EMAIL DIALOGEX 0, 0, 177, 169
-STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
-CAPTION "Select e-mail"
-FONT 8, "MS Shell Dlg", 0, 0, 0x0
-BEGIN
-    LISTBOX         IDC_LIST_EMAILS,7,7,163,133,LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL | NOT WS_BORDER | WS_VSCROLL | WS_TABSTOP,WS_EX_STATICEDGE
-    DEFPUSHBUTTON   "OK",IDOK,39,147,51,15
-    PUSHBUTTON      "Cancel",IDCANCEL,93,147,51,15
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
-BEGIN
-    IDD_DIALOG_SELECT_EMAIL, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 170
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 162
-    END
-END
-#endif    // APSTUDIO_INVOKED
-
-#endif    // English (United States) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-
-#ifndef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// Generated from the TEXTINCLUDE 3 resource.
-//
-
-
-/////////////////////////////////////////////////////////////////////////////
-#endif    // not APSTUDIO_INVOKED

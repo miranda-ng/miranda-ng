@@ -127,8 +127,6 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, L
 		CHECK_DLG_BUTTON(hWndDlg, IDC_AUTO_AUTH_REQ_ON_LOGON, ppro->getByte("AutoAuthRequestOnLogon", MRA_DEFAULT_AUTO_AUTH_REQ_ON_LOGON));
 		CHECK_DLG_BUTTON(hWndDlg, IDC_AUTO_AUTH_GRAND_IN_CLIST, ppro->getByte("AutoAuthGrandUsersInCList", MRA_DEFAULT_AUTO_AUTH_GRAND_IN_CLIST));
 		CHECK_DLG_BUTTON(hWndDlg, IDC_AUTO_AUTH_GRAND_NEW_USERS, ppro->getByte("AutoAuthGrandNewUsers", MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS));
-		CHECK_DLG_BUTTON(hWndDlg, IDC_AUTO_AUTH_GRAND_NEW_USERS_DISABLE_SPAM_CHECK, ppro->getByte("AutoAuthGrandNewUsersDisableSPAMCheck", MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS_DISABLE_SPAM_CHECK));
-		EnableWindow(GetDlgItem(hWndDlg, IDC_AUTO_AUTH_GRAND_NEW_USERS_DISABLE_SPAM_CHECK), IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_AUTO_AUTH_GRAND_NEW_USERS));
 
 		CHECK_DLG_BUTTON(hWndDlg, IDC_SLOWSEND, ppro->getByte("SlowSend", MRA_DEFAULT_SLOW_SEND));
 		CHECK_DLG_BUTTON(hWndDlg, IDC_INCREMENTAL_NEW_MAIL_NOTIFY, ppro->getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY));
@@ -150,9 +148,6 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, L
 		case IDC_BUTTON_DEFAULT:
 			SET_DLG_ITEM_TEXTA(hWndDlg, IDC_SERVER, MRA_DEFAULT_SERVER);
 			SetDlgItemInt(hWndDlg, IDC_SERVERPORT, MRA_DEFAULT_SERVER_PORT, FALSE);
-			break;
-		case IDC_AUTO_AUTH_GRAND_NEW_USERS:
-			EnableWindow(GetDlgItem(hWndDlg, IDC_AUTO_AUTH_GRAND_NEW_USERS_DISABLE_SPAM_CHECK), IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_AUTO_AUTH_GRAND_NEW_USERS));
 			break;
 		case IDC_TRAYICON_NEW_MAIL_NOTIFY:
 			EnableWindow(GetDlgItem(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY_CLICK_TO_INBOX), IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY));
@@ -201,7 +196,6 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, L
 			ppro->setByte("AutoAuthRequestOnLogon", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_AUTO_AUTH_REQ_ON_LOGON));
 			ppro->setByte("AutoAuthGrandUsersInCList", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_AUTO_AUTH_GRAND_IN_CLIST));
 			ppro->setByte("AutoAuthGrandNewUsers", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_AUTO_AUTH_GRAND_NEW_USERS));
-			ppro->setByte("AutoAuthGrandNewUsersDisableSPAMCheck", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_AUTO_AUTH_GRAND_NEW_USERS_DISABLE_SPAM_CHECK));
 
 			ppro->setByte("SlowSend", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_SLOWSEND));
 			ppro->setByte("IncrementalNewMailNotify", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_INCREMENTAL_NEW_MAIL_NOTIFY));
@@ -236,11 +230,6 @@ int CMraProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.ptszTab = LPGENT("Connections");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONNECTIONS);
 	odp.pfnDlgProc = DlgProcOptsConnections;
-	Options_AddPage(wParam, &odp);
-
-	odp.ptszTab = LPGENT("Anti-spam");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ANTISPAM);
-	odp.pfnDlgProc = MraAntiSpamDlgProcOpts;
 	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Files");

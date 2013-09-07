@@ -192,7 +192,6 @@ extern GUI_DISPLAY_ITEM gdiExtraStatusIconsItems[];
 #include "MraAvatars.h"
 #include "MraIcons.h"
 #include "MraSelectEMail.h"
-#include "MraAntiSpam.h"
 #include "MraMPop.h"
 #include "MraChat.h"
 
