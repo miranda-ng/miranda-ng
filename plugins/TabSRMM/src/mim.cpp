@@ -648,10 +648,12 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 		}
 	}
 	else {
-		if (dbei.eventType == EVENTTYPE_AUTHREQUEST)
+		switch (dbei.eventType) {
+		case EVENTTYPE_AUTHREQUEST:
+		case EVENTTYPE_ADDED:
 			return 0;
 
-		if (dbei.eventType == EVENTTYPE_FILE) {
+		case EVENTTYPE_FILE:
 			tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, 0, 0, 0, dbei.szModule, 0);
 			return 0;
 		}
