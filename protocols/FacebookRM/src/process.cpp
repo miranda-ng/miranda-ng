@@ -212,17 +212,14 @@ void FacebookProto::ProcessFriendList(void* data)
 
 				// Check avatar change
 				CheckAvatarChange(hContact, fbu->image_url);
-			
-				delete fbu;
-				friends.erase(iter);
+
+				// Mark this contact as deleted ("processed") and delete them later (as there may be some duplicit contacts to use)
+				fbu->deleted = true;
 			} else {
 				// Contact was removed from "server-list", notify it
 
 				// Wasnt we already been notified about this contact? And was this real friend?
-				if (!getDword(hContact, FACEBOOK_KEY_DELETED, 0) 
-					&& getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) == CONTACT_FRIEND)
-				{
-
+				if (!getDword(hContact, FACEBOOK_KEY_DELETED, 0) && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) == CONTACT_FRIEND) {
 					setDword(hContact, FACEBOOK_KEY_DELETED, ::time(NULL));
 					setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
 
@@ -245,10 +242,14 @@ void FacebookProto::ProcessFriendList(void* data)
 	// Check remaining contacts in map and add them to contact list
 	for (std::map< std::string, facebook_user* >::iterator iter = friends.begin(); iter != friends.end(); ++iter) {
 		facebook_user *fbu = iter->second;
-		
-		HANDLE hContact = AddToContactList(fbu, CONTACT_FRIEND, true); // This contact is surely new ...are you sure?
+
+		if (!fbu->deleted)
+			HANDLE hContact = AddToContactList(fbu, CONTACT_FRIEND/*, true*/); // This contact is surely new ...am I sure? ...I'm not, so "true" is commented now
+
 		delete fbu;
 	}
+	
+	friends.clear();
 
 	LOG("***** Friend list processed");
 
