@@ -16,8 +16,6 @@ Zobrazit logo
 Zobrazit náhodné logo
 [Play sound]
 Přehrát zvuk
-[Loop sound]
-Opakovaně přehrávat zvuk
 [Show Miranda Version]
 Zobrazit verzi Mirandy
 [Enable]

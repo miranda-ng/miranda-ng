@@ -12,8 +12,8 @@ Při přechodu do vybraného stavu zobrazí v oznamovací oblasti příslušnou 
 Vybrat protokoly
 [OK]
 OK
-[Choose contacts...]
-Vyberte kontakty...
+[Choose contacts]
+Vyberte kontakty
 [Allow tooltip notifications for the following users:]
 U vybraných kontaktů povolit upozornění na změnu stavu:
 [Cancel]
@@ -46,8 +46,8 @@ ms
 Při přechodu do online 2× déle
 [Double click on tooltip]
 Dvojím kliknutím
-[Shows/Hides CList]
-Zobrazit/skrýt seznam
+[Shows/Hides contact list]
+Zobrazit/skrýt seznam kontaktů
 [Opens message dialog]
 Otevřít okno a psát
 [Behavior]

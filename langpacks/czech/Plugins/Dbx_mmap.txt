@@ -142,7 +142,7 @@ Procházení seznamu modulů
 Seznam modulů je poškozen; ignorování dalších položek
 [Unreasonably long module name, skipping]
 Příliš dlouhý název modulu; vynecháno
-[Module name '%s' is not unique: %d duplicates found)]
+[Module name '%s' is not unique: %d duplicates found]
 Název modulu '%s' není jedinečný. Počet duplicit: %d
 [Invalid module name offset, skipping data]
 Neplatný offset názvu modulu; vynechání příslušných dat

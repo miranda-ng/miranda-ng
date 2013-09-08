@@ -583,10 +583,6 @@ Přepnout zvuky
 Minimalizovat seznam
 [Status menu]
 Nabídka stavů
-[tabSRMM session list]
-Seznam relací TabSRMM
-[tabSRMM Menu]
-Nabídka TabSRMM
 [Select view mode]
 Vybrat režim zobrazení
 [Setup view modes]
@@ -695,10 +691,10 @@ Přepnout online/offline
 Přepnout skupiny
 [Find contacts]
 Vyhledat kontakty
-[Show tabSRMM session list]
-Zobrazit seznam relací tabSRMM
-[Show tabSRMM menu]
-Zobrazit nabídku tabSRMM
+[Show TabSRMM session list]
+Zobrazit seznam relací TabSRMM
+[Show TabSRMM menu]
+Zobrazit nabídku TabSRMM
 [Sounds are off]
 Zvuky jsou vypnuté
 [Reset view mode]

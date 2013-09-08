@@ -61,7 +61,6 @@
 [Error occurred when opening local file.\nAborting file upload...]
 [Error occurred when initializing libcurl.\nAborting file upload...]
 [FTP error occurred.\n%s]
-[WAITTING...]
 [Download link:]
 [Do you really want to cancel running upload?]
 [%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]

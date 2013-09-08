@@ -32,8 +32,8 @@ Ignorovat přechod do stavu offline
 Aktivovat funkci 'Zmeškané kontakty'
 [Count times]
 Zaznamenat počet
-[Protocols to watch:]
-Sledovat protokoly:
+[Accounts to watch:]
+Sledovat účty:
 [Use popups]
 Použít oznámení
 [Title]

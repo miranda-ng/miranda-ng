@@ -25,6 +25,7 @@
 [Quote/Rate not changed]
 [Quote Section]
 [Swap button]
+[Non-IM Contacts]
 [Error occurred during html parsing.]
 [Error occurred during site access.]
 [Quote Symbol]

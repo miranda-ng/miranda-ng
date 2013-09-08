@@ -475,9 +475,9 @@ Dokončeno
 Spustit
 [Requesting command list. Please wait...]
 Zjišťování seznamu příkazů. Počkejte prosím...
-[Jabber Ad-Hoc commands at]
+[Jabber Ad-Hoc commands at %s]
 
-[Sending Ad-Hoc command to]
+[Sending Ad-Hoc command to %s]
 
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
@@ -613,7 +613,7 @@ Přihlížející
 Moderátoři
 [Owners]
 Vlastníci
-[User %s in now banned.]
+[User %s is now banned.]
 Uživatel %d je nyní zablokován.
 [User %s changed status to %s with message: %s]
 Uživatel %s změnil status na %s se zprávou: %s
@@ -725,28 +725,28 @@ Zkopírovat &JID
 Zkopírovat JID z místnosti
 [Real &JID: %s]
 Skutečné &JID: %s
-[Send groupchat invitation.]
-Odeslat pozvánku k diskusi.
-[not on roster]
-není v seznamu
-[Member Info:]
-Členské informace:
-[from]
-od
+[%s\nSend groupchat invitation.]
+%s\nOdeslat pozvánku k diskusi.
+[%s (not on roster)]
+%s (není v seznamu)
+[Member Info: %s]
+Členské info: %s
+[Member Information\n%s from %s]
+Členské informace\n%s z %s
 [Real JID not available]
 Skutečné JID není dostupné
-[Reason to kick]
-Důvod k vykopnutí
-[Reason to ban]
-Důvod k zákazu
+[Reason to kick %s]
+Důvod k vykopnutí %s
+[Reason to ban %s]
+Důvod k zákazu %s
 [Invite %s to %s]
 Pozvat %s do %s
-[Set topic for]
-Stanovit téma pro
-[Change nickname in]
-Změnit přezdívku na
-[Reason to destroy]
-Důvod k uzavření
+[Set topic for %s]
+Stanovit téma pro %s
+[Change nickname in %s]
+Změnit přezdívku na %s
+[Reason to destroy %s]
+Důvod k uzavření %s
 ;file \protocols\JabberG\src\jabber_console.cpp
 [Can't send data while you are offline.]
 Nelze odesílat data když jste offline.
@@ -1116,10 +1116,12 @@ Načítání...
 
 [Bookmarks...]
 Záložky...
+[Change nickname in <%s>]
+
 [has set the subject to:]
 nastavil téma na:
-[Incoming groupchat invitation.]
-Příchozí pozvánka k diskusi.
+[%s\nIncoming groupchat invitation.]
+%s\nPříchozí pozvánka k diskusi.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [transport]
 transport
@@ -1204,8 +1206,8 @@ Vyhledávání
 [Privacy]
 Soukromí
 ;file \protocols\JabberG\src\jabber_iqid.cpp
-[Authentication failed for]
-Chyba při ověřování:
+[Authentication failed for %s.]
+Chyba při ověřování %s.
 [Jabber Authentication]
 Jabber :: Ověření
 [Registration successful]
@@ -1231,8 +1233,10 @@ Seznam zakázaných
 Seznam správců
 [Owner List]
 Seznam vlastníků
-[Removing]
-Odebírání
+[Reason to ban]
+Důvod k zákazu
+[Removing %s?]
+Odebrání %s?
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 
@@ -1289,8 +1293,8 @@ Otevřít záložky
 Filtrování kontaktů
 [Service discovery]
 Vyhledání služeb
-[Last active]
-Naposledy aktivní
+[Last active (%s)]
+Naposledy aktivní (%s)
 [No activity yet, use server's choice]
 žádná komunikace, dle serveru
 [Highest priority (server's choice)]
@@ -1705,7 +1709,7 @@ Možnost protokolu Jabber
 Potvrzení hesla
 [Passwords do not match.]
 Hesla se neshodují.
-[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
+[This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
 Opravdu chcete odstranit vybraný účet, tj. seznam kontaktů umístěný na serveru a všechny ostatní související informace?
 [Account removal warning]
 Upozornění: Odstranění účtu
@@ -1838,8 +1842,8 @@ LiveJournal Talk
 [Some changes will take effect the next time you connect to the Jabber network.]
 Některé změny se projeví až při příštím přihlášení do vybrané sítě Jabber.
 ;file \protocols\JabberG\src\jabber_password.cpp
-[Set New Password for]
-Nové heslo pro
+[Set New Password for %s@%S]
+Nové heslo pro %s@%S
 [New password does not match.]
 Zadaná hesla si neodpovídají.
 [Current password is incorrect.]
@@ -2052,8 +2056,8 @@ ukončil komunikaci
 [sent unknown presence type]
 
 ;file \protocols\JabberG\src\jabber_thread.cpp
-[Enter password for]
-Zadejte heslo pro
+[Enter password for %s]
+Zadejte heslo pro %s
 [Error: Not enough memory]
 Chyba: Nedostatek paměti
 [Error: Cannot connect to the server]
@@ -2062,6 +2066,8 @@ Chyba: Nelze navázat spojení se serverem
 Chyba: Spojení nečekaně ukončeno
 [Requesting registration instruction...]
 Požadavek na instrukce k registraci...
+[Authentication failed for %s@%S.]
+
 [Message redirected from: %s\r\n%s]
 
 [Sending registration information...]
@@ -2105,6 +2111,8 @@ Hudba
 oboje
 [to]
 do
+[from]
+od
 [none]
 ---
 [Last logoff time]
@@ -2178,6 +2186,8 @@ Pokročilý stav
 Zadat náladu...
 [Set activity...]
 Zadat činnost...
+[OK (%d)]
+OK (%d)
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 muž

@@ -559,8 +559,8 @@ Svislé odsazení panelů vespod:
 Pozn.: Některá nastavení hned neovlivní otevřené kontejnery.
 [Tab layout tweaks]
 Rozvržení záložek
-[About tabSRMM]
-O tabSRMM
+[About TabSRMM]
+O TabSRMM
 [Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 
 [Support and latest version information]
@@ -919,8 +919,8 @@ Zobrazit oznámení pro neaktivní rozhovory
 Použít umístění okna jako výchozí
 [Help]
 Nápověda
-[About tabSRMM...]
-O tabSRMM...
+[About TabSRMM...]
+O TabSRMM...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol Button]
 Tlačítko protokolu
@@ -1102,8 +1102,12 @@ Chyba při odesílání
 Žádná zpráva stavu
 [Other]
 Ostatní
-[TABSRMM: Typing]
+[TabSRMM: Typing]
 TabSRMM: psaní
+[TabSRMM session list]
+Seznam relací TabSRMM
+[TabSRMM Menu]
+Nabídka TabSRMM
 [&Messaging settings...]
 &Nastavení komunikace...
 [&Send later job list...]
@@ -1188,8 +1192,8 @@ Kopírovat do schránky
 
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 \\par\\par\\ul\\b Klient:\\ul0\\b0  %s
-[tabSRMM Information]
-tabSRMM informace
+[TabSRMM Information]
+TabSRMM informace
 [Set panel visibility for this %s]
 Nastavit viditelnost panelu pro %s
 [chat room]
@@ -1589,10 +1593,10 @@ Rozšířené rozvržení s avatary, horizontální orientace
 [Advanced with avatars, vertical orientation]
 Rozšířené rozvržení s avatary, vertikální orientace
 ;file \plugins\TabSRMM\src\srmm.cpp
-[This version of tabSRMM requires Windows 2000 or later.]
+[This version of TabSRMM requires Windows 2000 or later.]
 
-[tabSRMM Message (%s)]
-tabSRMM zpráva (%s)
+[TabSRMM Message (%s)]
+TabSRMM zpráva (%s)
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not availble when using History++ plugin for message log display.]
 Náhled není dostupný při použití pluginu History++ pro zobrazení záznamu zpráv.
@@ -1614,8 +1618,8 @@ Tato volba obnoví všechny šablony do původního stavu. Opravdu chcete pokra�
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 Sada šablon byla úspěšně obnovena do původního stavu, nyní zavřete a otevřete všechna komunikační okna. Editor šablon bude nyní ukončen. 
 ;file \plugins\TabSRMM\src\themeio.cpp
-[tabSRMM themes]
-tabSRMM témata
+[TabSRMM themes]
+TabSRMM témata
 ;file \plugins\TabSRMM\src\themes.cpp
 [No effect]
 Bez efektu

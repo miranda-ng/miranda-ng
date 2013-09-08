@@ -224,6 +224,25 @@ Poslední rok
 [User-Defined]
 Vlastní
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderBase.cpp
+[upper right corner]
+Pravý horní roh
+[horizontal]
+vodorovné
+[vertical]
+svislé
+[Global Status]
+Globální stav
+[Protocol Status]
+Stav protokolu
+[Maximum width]
+Maximální šířka
+[Width]
+Šířka
+[Plugins]
+Doplňky
+[Non-IM Contacts]
+
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
