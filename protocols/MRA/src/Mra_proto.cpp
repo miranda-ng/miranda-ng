@@ -612,13 +612,13 @@ bool CMraProto::CmdAuthAck(BinBuffer &buf)
 		db_event_add(0, &dbei);
 	}
 
-	DWORD dwTemp;
-	GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwTemp, NULL, NULL, NULL, NULL);
-	dwTemp &= ~CONTACT_INTFLAG_NOT_AUTHORIZED;
-	SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, SCBIF_SERVER_FLAG, 0, 0, 0, dwTemp, 0, 0, 0, 0);
-	setDword(hContact, "HooksLocked", TRUE);
+	DWORD dwFlags = getDword(hContact, "ContactServerFlags", 0);
+	if (dwFlags & CONTACT_INTFLAG_NOT_AUTHORIZED) {
+		dwFlags &= ~CONTACT_INTFLAG_NOT_AUTHORIZED;
+		setDword(hContact, "ContactServerFlags", dwFlags);
+	}
+
 	db_unset(hContact, "CList", "NotOnList");
-	setDword(hContact, "HooksLocked", FALSE);
 	return true;
 }
 
@@ -752,8 +752,15 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 		DWORD dwTemp = buf.getDword();
 		switch (dwTemp) {
 		case CONTACT_OPER_SUCCESS:// ## добавление произведено успешно
-			if (cmd == MRIM_CS_ADD_CONTACT_ACK)
-				SetContactBasicInfoW(hContact, 0, (SCBIF_ID|SCBIF_SERVER_FLAG), buf.getDword(), 0, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, 0, 0, 0, 0);
+			if (cmd == MRIM_CS_ADD_CONTACT_ACK) {
+				DWORD dwFlags = SCBIF_ID | SCBIF_SERVER_FLAG, dwGroupID = 0;
+				ptrT grpName( db_get_tsa(hContact, "CList", "Group"));
+				if (grpName) {
+					dwFlags |= SCBIF_GROUP_ID;
+					dwGroupID = MraMoveContactToGroup(hContact, -1, grpName);
+				}					
+				SetContactBasicInfoW(hContact, 0, dwFlags, buf.getDword(), dwGroupID, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, 0, 0, 0, 0);
+			}
 			break;
 		case CONTACT_OPER_ERROR:// ## переданные данные были некорректны
 			ShowFormattedErrorMessage(L"Data been sent are invalid", NO_ERROR);
@@ -1316,7 +1323,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 							// request user info from server
 							MraUpdateContactInfo(hContact);
 						}
-						else { //****deb - check group ID param
+						else {
 							if (iGroupMode == 100) { // first start
 								ptrT tszGroup( db_get_tsa(hContact, "CList", "Group"));
 								if (tszGroup)

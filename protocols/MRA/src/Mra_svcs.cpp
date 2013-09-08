@@ -440,8 +440,6 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 
 	// это наш контакт, он не временный (есть в списке на сервере) и его обновление разрешено
 	if ( IsContactMra(hContact) && !db_get_b(hContact, "CList", "NotOnList", 0) && getDword(hContact, "HooksLocked", FALSE) == FALSE) {
-		DWORD dwContactFlag;
-
 		if ( !strcmp(cws->szModule, "CList")) {
 			// MyHandle setting
 			if ( !strcmp(cws->szSetting, "MyHandle")) {
@@ -482,27 +480,15 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 					wszGroup = ptrW( mir_a2u_cp(cws->value.pszVal, MRA_CODE_PAGE));
 					break;
 				}
-				if (wszGroup.GetLength())
-					MraMoveContactToGroup(hContact, getDword("GroupID", -1), wszGroup);
-			}
-			// NotOnList setting. Has a temporary contact just been added permanently?
-			else if ( !strcmp(cws->szSetting, "NotOnList")) {
-				if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0)) {
-					CMStringW wszAuthMessage;
-					if ( !mraGetStringW(NULL, "AuthMessage", wszAuthMessage))
-						wszAuthMessage = TranslateW(MRA_DEFAULT_AUTH_MESSAGE);
-
-					db_unset(hContact, "CList", "Hidden");
-
-					CMStringA szEmail, szPhones;
-					CMStringW wszNick;
-					DWORD dwGroupID, dwContactFlag;
-					GetContactBasicInfoW(hContact, NULL, &dwGroupID, &dwContactFlag, NULL, NULL, &szEmail, &wszNick, &szPhones);
-					MraAddContact(hContact, dwContactFlag, dwGroupID, szEmail, wszNick, &szPhones, &wszAuthMessage);
+				if (wszGroup.GetLength()) {
+					DWORD dwGroupID = getDword("GroupID", -1);
+					if (dwGroupID != -1)
+						MraMoveContactToGroup(hContact, dwGroupID, wszGroup);
 				}
 			}
 			// Hidden setting
 			else if ( !strcmp(cws->szSetting, "Hidden")) {
+				DWORD dwContactFlag = GetContactFlags(hContact);
 				if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0))
 					dwContactFlag &= ~CONTACT_FLAG_SHADOW;
 				else
@@ -514,6 +500,7 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 		// Ignore section
 		else if ( !strcmp(cws->szModule, "Ignore")) {
 			if ( !strcmp(cws->szSetting, "Mask1")) {
+				DWORD dwContactFlag = GetContactFlags(hContact);
 				if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_DWORD && cws->value.dVal&IGNOREEVENT_MESSAGE) == 0)
 					dwContactFlag &= ~CONTACT_FLAG_IGNORE;
 				else

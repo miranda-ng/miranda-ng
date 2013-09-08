@@ -402,7 +402,7 @@ DWORD CMraProto::GetContactBasicInfoW(HANDLE hContact, DWORD *pdwID, DWORD *pdwG
 	if (pdwGroupID)
 		*pdwGroupID = getDword(hContact, "GroupID", -1);
 	if (pdwContactSeverFlags)
-		*pdwContactSeverFlags = getDword(hContact, "ContactSeverFlags", 0);
+		*pdwContactSeverFlags = getDword(hContact, "ContactServerFlags", 0);
 	if (pdwStatus)
 		*pdwStatus = MraGetContactStatus(hContact);
 	if (pdwContactFlag)
@@ -477,7 +477,7 @@ DWORD CMraProto::SetContactBasicInfoW(HANDLE hContact, DWORD dwSetInfoFlags, DWO
 		SetContactFlags(hContact, dwContactFlag);
 
 	if (dwFlags & SCBIF_SERVER_FLAG)
-		setDword(hContact, "ContactSeverFlags", dwContactSeverFlags);
+		setDword(hContact, "ContactServerFlags", dwContactSeverFlags);
 
 	if (dwFlags & SCBIF_STATUS)
 		MraSetContactStatus(hContact, dwStatus);

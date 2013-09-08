@@ -110,7 +110,7 @@ int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
 	db_set_resident(m_szModuleName, "ContactID");
 	db_set_resident(m_szModuleName, "GroupID");
 	db_set_resident(m_szModuleName, "ContactFlags");
-	db_set_resident(m_szModuleName, "ContactSeverFlags");
+	db_set_resident(m_szModuleName, "ContactServerFlags");
 	db_set_resident(m_szModuleName, "HooksLocked");
 	db_set_resident(m_szModuleName, DBSETTING_CAPABILITIES);
 	db_set_resident(m_szModuleName, DBSETTING_XSTATUSNAME);
@@ -151,21 +151,35 @@ HANDLE CMraProto::AddToListByEmail(LPCTSTR plpsEMail, LPCTSTR plpsNick, LPCTSTR 
 
 	BOOL bAdded;
 	HANDLE hContact = MraHContactFromEmail(plpsEMail, TRUE, TRUE, &bAdded);
-	if (hContact) {
-		if (plpsNick)
-			mraSetStringW(hContact, "Nick", plpsNick);
-		if (plpsFirstName)
-			mraSetStringW(hContact, "FirstName", plpsFirstName);
-		if (plpsLastName)
-			mraSetStringW(hContact, "LastName", plpsLastName);
+	if (hContact == NULL)
+		return NULL;
 
-		if (dwFlags & PALF_TEMPORARY)
-			db_set_b(hContact, "CList", "Hidden", 1);
-		else
-			db_unset(hContact, "CList", "NotOnList");
+	if (plpsNick)
+		mraSetStringW(hContact, "Nick", plpsNick);
+	if (plpsFirstName)
+		mraSetStringW(hContact, "FirstName", plpsFirstName);
+	if (plpsLastName)
+		mraSetStringW(hContact, "LastName", plpsLastName);
 
-		if (bAdded)
-			MraUpdateContactInfo(hContact);
+	if (dwFlags & PALF_TEMPORARY)
+		db_set_b(hContact, "CList", "Hidden", 1);
+	else {
+		db_unset(hContact, "CList", "Hidden");
+		db_unset(hContact, "CList", "NotOnList");
+	}
+
+	if (bAdded) {
+		CMStringW wszAuthMessage;
+		if ( !mraGetStringW(NULL, "AuthMessage", wszAuthMessage))
+			wszAuthMessage = TranslateW(MRA_DEFAULT_AUTH_MESSAGE);
+
+		CMStringA szEmail;
+		CMStringW wszNick;
+		DWORD dwContactFlag;
+		GetContactBasicInfoW(hContact, NULL, NULL, &dwContactFlag, NULL, NULL, &szEmail, &wszNick, NULL);
+		MraAddContact(hContact, dwContactFlag, 0, szEmail, wszNick, NULL, &wszAuthMessage);
+
+		MraUpdateContactInfo(hContact); // request info update
 	}
 
 	return hContact;
