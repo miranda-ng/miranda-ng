@@ -9,8 +9,6 @@
 [Pop up minimized window when a new tab is created]
 [Automatically switch tabs in minimized windows]
 [Don't announce when dialog is open]
-[Message events]
-[File events]
 [BBCode]
 [dummy]
 [<Separator>]

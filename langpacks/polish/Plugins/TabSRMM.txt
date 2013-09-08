@@ -684,9 +684,9 @@ Notyfikacje:
 [Don't announce when dialog is open]
 
 [Message events]
-
+Zdarzenia wiadomości
 [File events]
-
+Zdarzenia plików
 [URL events]
 Linki
 [Other events]

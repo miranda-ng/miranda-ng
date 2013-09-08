@@ -725,28 +725,28 @@ Kopiuj prawdziwy JID
 Kopiuj JID z pokoju
 [Real &JID: %s]
 Prawdziwy JID: %s
-[Send groupchat invitation.]
-Wyślij zaproszenie do czatu.
-[not on roster]
-nie na liście
-[Member Info:]
-Info członków:
-[from]
-Od
+[%s\nSend groupchat invitation.]
+%s\nWyślij zaproszenie do czatu.
+[%s (not on roster)]
+%s (nie na liście)
+[Member Info: %s]
+Info użytkownika: %s
+[Member Information\n%s from %s]
+Info użytkownika\n%s z %s
 [Real JID not available]
 Prawdziwy JID niedostępny
-[Reason to kick]
-Powód wykopania
-[Reason to ban]
-Powód bana
+[Reason to kick %s]
+Powód wykopania %s
+[Reason to ban %s]
+Powód bana %s
 [Invite %s to %s]
 Zaproś %s do %s
-[Set topic for]
-Wybierz temat dla
-[Change nickname in]
-Zmień nick w
-[Reason to destroy]
-Powód zniszczenia pokoju
+[Set topic for %s]
+Wybierz temat dla %s
+[Change nickname in %s]
+Zmień nick w %s
+[Reason to destroy %s]
+Powód zniszczenia pokoju %s
 ;file \protocols\JabberG\src\jabber_console.cpp
 [Can't send data while you are offline.]
 Nie można przesyłać danych, gdy jesteś rozłączony.
@@ -1116,10 +1116,12 @@ Proszę czekać na pobranie listy pokoi.
 Proszę określić folder konferencji.
 [Bookmarks...]
 Zakładki...
+[Change nickname in <%s>]
+Zmień nick w <%s>
 [has set the subject to:]
 
-[Incoming groupchat invitation.]
-Nadchodzi zaproszenie do czatu.
+[%s\nIncoming groupchat invitation.]
+%s\nNadchodzi zaproszenie do czatu.
 ;file \protocols\JabberG\src\jabber_icolib.cpp
 [transport]
 transport
@@ -1204,8 +1206,8 @@ Usługi
 [Privacy]
 Prywatność
 ;file \protocols\JabberG\src\jabber_iqid.cpp
-[Authentication failed for]
-Autoryzacja nieudana dla 
+[Authentication failed for %s.]
+Autoryzacja nieudana dla %s.
 [Jabber Authentication]
 Jabber - Autoryzacja
 [Registration successful]
@@ -1231,8 +1233,10 @@ Lista banów
 Lista adminów
 [Owner List]
 Lista właścicieli
-[Removing]
-Usuwanie
+[Reason to ban]
+Powód bana
+[Removing %s?]
+Usunąć %s?
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 Pytanie autoryzacji http przyjęte
@@ -1289,8 +1293,8 @@ Otwarcie zakładki
 Lista prywatności
 [Service discovery]
 Usługa informacyjna
-[Last active]
-Ostatnio aktywny
+[Last active (%s)]
+Ostatnio aktywny (%s)
 [No activity yet, use server's choice]
 Brak aktywności, użyj wyboru serwera
 [Highest priority (server's choice)]
@@ -1705,8 +1709,8 @@ Opcje protokołu Jabber
 Powtórz hasło
 [Passwords do not match.]
 Hasła różnią się od siebie.
-[This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
-To polecenie usunie twoje konto, listę kontaktów i wszystkie inne informacje z serwera. Jesteś pewien, że chcesz to zrobić?
+[This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
+To polecenie usunie Twoje konto, listę kontaktów i wszystkie inne informacje z serwera. Jesteś pewien, że chcesz to zrobić?
 [Account removal warning]
 Ostrzeżenie o usuwaniu konta
 [You can change your password only when you are online]
@@ -1838,8 +1842,8 @@ Bezpieczna sieć XMPP (stary styl)
 [Some changes will take effect the next time you connect to the Jabber network.]
 Niektóre zmiany przyniosą efekt po następnym połączeniu z siecią Jabber.
 ;file \protocols\JabberG\src\jabber_password.cpp
-[Set New Password for]
-Ustaw nowe hasło dla
+[Set New Password for %s@%S]
+Ustaw nowe hasło dla %s@%S
 [New password does not match.]
 Nowe hasło nie pasuje.
 [Current password is incorrect.]
@@ -2052,8 +2056,8 @@ Informacja: Odnotowano obecność błędów
 [sent unknown presence type]
 
 ;file \protocols\JabberG\src\jabber_thread.cpp
-[Enter password for]
-Wprowadź hasło dla
+[Enter password for %s]
+Wprowadź hasło dla %s
 [Error: Not enough memory]
 Błąd: Brak pamięci
 [Error: Cannot connect to the server]
@@ -2062,6 +2066,8 @@ Błąd: Nie można połączyć się z serwerem
 Błąd: Utracono połączenie
 [Requesting registration instruction...]
 Żądanie instrukcji rejestracji...
+[Authentication failed for %s@%S.]
+Nieudane uwierzytelnianie dla %s@%S.
 [Message redirected from: %s\r\n%s]
 Wiadomość przekierowana z: %s\r\n%s
 [Sending registration information...]
@@ -2105,6 +2111,8 @@ Teraz odtwarzane
 Obustronna
 [to]
 Do
+[from]
+Od
 [none]
 brak
 [Last logoff time]
@@ -2178,6 +2186,8 @@ Zaawansowany status
 Ustaw nastrój...
 [Set activity...]
 Ustaw aktywność...
+[OK (%d)]
+OK (%d)
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Mężczyzna

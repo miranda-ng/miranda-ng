@@ -13,7 +13,7 @@ Adres IP1
 [IPAddress2]
 Adres IP2
 [Max downloads]
-maks. pobrań
+Maks. pobrań
 [Address]
 Adres
 [Mask]
@@ -29,7 +29,7 @@ Wyświetl ukryte udziały
 [New share]
 Nowy udział
 [Show HTTP server statistics]
-Pokaż statystyki serwera
+Pokaż statystyki serwera HTTP
 [Set to default]
 Przywróć do domyślnych
 [External server name]
@@ -57,7 +57,7 @@ Test
 [Transfer limit (kb/sec)]
 Limit transferu (kb/sec)
 [No control when Away/NA]
-Brak kontroli, gdy zaraz wracam/niedostępny
+Brak kontroli, gdy Zaraz wracam/Niedostępny
 [Connection control]
 Kontrola połączenia
 [Index creation]
@@ -97,7 +97,7 @@ Określ plik do udostępnienia
 [Failed to share new file]
 Nie udało się udostępnić nowego pliku
 [Max Downloads]
-maks. pobierań
+Maks. pobierań
 [Allowed Mask]
 Dozwolone maski
 [Real path]

@@ -224,23 +224,23 @@ Ostatni rok
 [User-Defined]
 
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderBase.cpp 
+;file \plugins\Quotes\src\QuotesProviderBase.cpp
 [upper right corner]
-
+prawy górny róg
 [horizontal]
-
+poziome
 [vertical]
-
+pionowe
 [Global Status]
-
+Globalny status
 [Protocol Status]
-
+Status protokołu
 [Maximum width]
-
+Maks. szerokość
 [Width]
-
+Szerokość
 [Plugins]
-
+Wtyczki
 [Non-IM Contacts]
 
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp

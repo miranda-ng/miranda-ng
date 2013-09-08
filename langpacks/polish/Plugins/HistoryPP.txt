@@ -312,13 +312,13 @@ Włącz przetwarzanie
 [Do you really want to delete ALL items (%.0f) for this contact?]
 Czy na pewno chcesz usunąć wszystkie elementy (%.0f) tego kontaktu?
 [Note: It can take several minutes for large history.]
-Uwaga: to może zająć do kilku minut w przypadku dużej historii
+Uwaga: Może to zająć do kilku minut w przypadku dużej historii.
 [Empty History]
 Pusta Historia
 [Search Up (Ctrl+Up)]
-Szukaj wyżej (ctrl+w górę)
+Szukaj wyżej (Ctrl+w górę)
 [Search Down (Ctrl+Down)]
-Szukaj poniżej (ctrl+w dół)
+Szukaj poniżej (Ctrl+w dół)
 [HTML file (*.html; *.htm)|*.html;*.htm]
 Plik HTML (*.html; *.htm)|*.html;*.htm
 [XML file (*.xml)|*.xml]
@@ -572,7 +572,7 @@ Brak elementów "%s"
 [Cannot load icon pack (%s) from:\\r\\n%s\\r\\nThis can cause no icons will be shown.]
 Nie można załadować paczki ikon (%s) z\\r\\n%s\\r\\nMoże to spowodować, że ikony nie będą pokazywane.
 [You are using old icon pack from:\\r\\n%s\\r\\nThis can cause missing icons, so update the icon pack.]
-Używasz starej paczkiikon z\\r\\n%s\\r\\nMoże to spowodować brak pewnych ikon, zalecana jest więc aktualizacja ikon.
+Używasz starej paczki ikon z\\r\\n%s\\r\\nMoże to spowodować brak pewnych ikon, zalecana jest więc aktualizacja ikon.
 [Speak Message]
 Czytaj wiadomości
 [Next message]
@@ -622,7 +622,7 @@ Prośba o autoryzację od %s (%s%s%d): %s
 [Authorisation Request Sample]
 Przykładowa prośba o autoryzację
 [Change nick and date font for %s.]
-Zmień czcionkę nicka i daty dla%s.
+Zmień czcionkę nicka i daty dla %s.
 [Customize %s]
 Spersonalizuj %s
 [Customize the look of %s Event. Select it's font, font color and background color.]

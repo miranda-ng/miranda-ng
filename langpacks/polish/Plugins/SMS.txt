@@ -122,6 +122,6 @@ Nieprawidłowy numer telefonu
 
 ;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
-
+Przychodząca wiadomość SMS
 [Incoming SMS Confirmation]
 
