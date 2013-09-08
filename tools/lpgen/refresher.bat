@@ -42,11 +42,11 @@ if not "%~2" == "" (
 if "%err%"=="1" (
 	echo.
 	echo ========================
-	echo Usage: refresh.bat language ["old langpack path"]
+	echo Usage: refresher.bat language ["old langpack path"]
 	echo Note:  path to old langpack must be relative to "langpacks\<language>\" folder
 	echo.
-	echo Example 1: refresh.bat czech
-	echo Example 2: refresh.bat czech "Deprecated\old langpack\langpack_czech2.txt"
+	echo Example 1: refresher.bat czech
+	echo Example 2: refresher.bat czech "Deprecated\old langpack\langpack_czech2.txt"
 	echo.
 	echo If you want own script in langpack dir, look at "langpacks\czech\refresh.bat"
 	echo ========================
