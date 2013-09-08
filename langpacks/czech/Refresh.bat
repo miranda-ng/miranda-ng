@@ -8,7 +8,7 @@ set "oldLangpackPath=Deprecated\old langpack\langpack_czech2.txt"
 REM =========================
 
 cd "..\..\tools\lpgen\"
-refresher.bat %language% "%oldLangpackPath%"
+call refresher.bat %language% "%oldLangpackPath%"
 
 REM copy and reload langpack in your Miranda (uncoment next lines + enable cmdline.dll plugin to use it)
  REM echo Copy and refresh Miranda NG langpack
