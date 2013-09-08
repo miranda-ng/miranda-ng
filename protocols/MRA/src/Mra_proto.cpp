@@ -608,7 +608,7 @@ bool CMraProto::CmdAuthAck(BinBuffer &buf)
 		dbei.timestamp = (DWORD)_time32(NULL);
 		dbei.eventType = EVENTTYPE_ADDED;
 		dbei.cbBlob = szBuff.GetLength();
-		dbei.pBlob = (PBYTE)szBuff.GetBuffer();
+		dbei.pBlob = (PBYTE)szBuff.GetString();
 		db_event_add(0, &dbei);
 	}
 
