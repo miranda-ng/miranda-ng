@@ -41,12 +41,6 @@ int GetContactDOB(HANDLE hContact, int &year, int &month, int &day)
 	if ( IsDOBValid(year, month, day))
 		return DOB_USERINFO;
 
-	year = db_get_w(hContact, "mBirthday", "BirthYear", 0);
-	month = db_get_b(hContact, "mBirthday", "BirthMonth", 0);
-	day = db_get_b(hContact, "mBirthday", "BirthDay", 0);
-	if ( IsDOBValid(year, month, day))
-		return DOB_MBIRTHDAY;
-
 	char *szProto = GetContactProto(hContact);
 	year = db_get_w(hContact, szProto, "BirthYear", 0);
 	month = db_get_b(hContact, szProto, "BirthMonth", 0);
@@ -59,6 +53,12 @@ int GetContactDOB(HANDLE hContact, int &year, int &month, int &day)
 	day = db_get_b(hContact, "BirthDay", "BirthDay", 0);
 	if ( IsDOBValid(year, month, day))
 		return DOB_BIRTHDAYREMINDER;
+
+	year = db_get_w(hContact, "mBirthday", "BirthYear", 0);
+	month = db_get_b(hContact, "mBirthday", "BirthMonth", 0);
+	day = db_get_b(hContact, "mBirthday", "BirthDay", 0);
+	if ( IsDOBValid(year, month, day))
+		return DOB_MBIRTHDAY;
 
 	year = db_get_dw(hContact, "micqBirthday", "BirthYear", 0);
 	month = db_get_dw(hContact, "micqBirthday", "BirthMonth", 0);
