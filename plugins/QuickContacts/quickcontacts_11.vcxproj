@@ -100,7 +100,6 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
     </Link>
@@ -132,7 +131,6 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
     </Link>
@@ -159,7 +157,6 @@
       <BaseAddress>0x32100000</BaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -188,7 +185,6 @@
       <BaseAddress>0x32100000</BaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
     </Link>

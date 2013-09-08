@@ -99,7 +99,6 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
@@ -127,7 +126,6 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -157,7 +155,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -187,7 +184,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

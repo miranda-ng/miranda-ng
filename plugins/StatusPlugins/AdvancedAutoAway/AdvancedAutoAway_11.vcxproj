@@ -98,7 +98,6 @@
       <BaseAddress>0x11bd0000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\..\bin11\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
@@ -132,7 +131,6 @@
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\..\bin11\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -180,7 +178,6 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <BaseAddress>0x11bd0000</BaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\..\bin11\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\..\include\msapi</AdditionalIncludeDirectories>
@@ -207,7 +204,6 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <BaseAddress>0x11bd0000</BaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\..\bin11\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\..\include\msapi</AdditionalIncludeDirectories>

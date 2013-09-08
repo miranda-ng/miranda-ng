@@ -88,7 +88,6 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
@@ -113,7 +112,6 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
@@ -141,7 +139,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
@@ -169,7 +166,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>

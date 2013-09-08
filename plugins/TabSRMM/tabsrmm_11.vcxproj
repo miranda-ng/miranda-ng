@@ -103,7 +103,6 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -136,7 +135,6 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -166,7 +164,6 @@
       <SubSystem>Windows</SubSystem>
       <BaseAddress>0x6a540000</BaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
@@ -196,7 +193,6 @@
       <SubSystem>Windows</SubSystem>
       <BaseAddress>0x6a540000</BaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -95,7 +95,6 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -122,7 +121,6 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -153,7 +151,6 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -184,7 +181,6 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

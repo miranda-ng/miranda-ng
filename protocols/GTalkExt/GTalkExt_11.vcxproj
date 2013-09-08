@@ -93,7 +93,6 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
     <ResourceCompile>
@@ -118,7 +117,6 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include;..\..\include\msapi</AdditionalIncludeDirectories>
@@ -145,7 +143,6 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include;..\..\include\msapi</AdditionalIncludeDirectories>
@@ -172,7 +169,6 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>mir_core.dll</DelayLoadDLLs>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include;..\..\include\msapi</AdditionalIncludeDirectories>
