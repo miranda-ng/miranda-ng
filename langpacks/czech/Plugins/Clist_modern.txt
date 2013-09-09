@@ -467,7 +467,7 @@ Levý okraj:
 [Right margin:]
 Pravý okraj:
 [Compact mode\n(Show avatars and additional text on selected contacts only)]
-Kompaktní reýim\n(Zobrazí avatary a další informace pouze u vybraného kontaktu)
+Kompaktní režim\n(Zobrazí avatary a další informace pouze u vybraného kontaktu)
 [Draw border on avatar]
 Orámovat avatary
 [Draw overlay icons]
