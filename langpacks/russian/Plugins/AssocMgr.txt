@@ -1,103 +1,65 @@
 ﻿#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
 ;============================================================
-;  File: assocmgr.dll
-;  Plugin: File Association Manager
-;  Versions: 0.1.1.3
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3458
-;  Source: 
-;  Authors: HeikoH Herkenrath
+;  File: AssocMgr.dll
+;  Plugin: File association manager
+;  Version: 0.1.1.0
+;  Authors: H. Herkenrath
 ;============================================================
 [Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
 Ассоциация расширений файлов и URL-ссылок с протоколами: AIM, Yahoo, Jabber, Gadu-Gadu, Tlen.
-[Associations]
-Ассоциации
-[Feed protocol]
-Новостные ленты
-[Associations for Miranda NG]
-Ассоциации для Miranda NG
-[Miranda NG and its plugins are capable to handle the following\nfile types and website links:]
-Miranda NG и её плагины могут обрабатывать следующие типы файлов, а также гиперссылок:
-[&Enable]
-&Включить
-[&Disable]
-Выключить
-[Extensions]
-Расширения
-[Autostart]
-Автозапуск
-[Miranda NG is not run automatically when the computer is started.]
-Miranda NG не запустится автоматически после загрузки ОС
-[Miranda NG is run automatically when the computer is started.]
-Miranda NG запустится автоматически после загрузки ОС
-[ files]
- файлы
-[&Defaults]
-&Сброс
-[Only associate with Miranda NG while it is &running]
-Ассоциировать только во время &работы программы
-[Associations are available]
-Доступные ассоциации
-[The settings can be modified later on again in Options > Services > Associations]
-Настройки ассоциирования также доступны по пути\nНастройки > Службы > Ассоциации
-[There was an error writing to the registry to modify the autostart list.%n%n%1]
-Ошибка при попытке записи в реестр значения автозапуска.%n%n%1
-[Hyperlink]
-Ссылка
 [Registered associations for Miranda NG:]
 Зарегистрированные ассоциации для Miranda NG:
+[Miscellaneous]
+Miscellaneous
 [&Start Miranda NG automatically when the Computer starts (using current profile)]
 &Загружать программу при запуске компьютера (используя текущий профиль)
-[File Types]
-Типы файлов
+[Only associate with Miranda NG while it is &running]
+Ассоциировать только во время &работы программы
+[%hs files]
+%hs файлы
+[Type]
+Тип
+[Description]
+Описание
 [URLs on Websites]
 Ссылки и сайты
+[File Types]
+Типы файлов
 [File Association Error]
 Ошибка ассоциации файлов
-[Gadu-Gadu Link Protocol]
-Протокол Gadu-Gadu
-[Yahoo Link Protocol]
-Протокол Yahoo
-[MSN Link Protocol]
-Протокол MSN
-[ICQ Link Shortcut]
-Протокол ICQ
-[Jabber Link Protocol]
-Протокол Jabber
-[URL Protocol]
-Ссылки
-[DefaultIcon]
-Стандартный значок
-[Extension]
-Расширение
-[&Add to Contact List...]
-&Добавить в список контактов...
+[There was an error writing to the registry to modify the file/url associations.\nReason: %s]
+Ошибка при попытке записи в реестр ассоциаций файлов/ссылок.\n\nПричина: %s
+[Unknown]
+Неизвестно
+[Autostart Error]
+Ошибка автозагрузки
+[There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
+Ошибка при попытке записи в реестр значения автозапуска.\n\nПричина: %s
+[Services]
+Службы
+[Associations]
+Ассоциации
+[Miranda NG Database]
+База данных Miranda NG
 [Miranda NG could not open file]
 Miranda NG не может открыть файл
 [Miranda NG could not open URL]
 Miranda NG не может открыть ссылку
-[Miranda NG Database]
-База данных Miranda NG
-[There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
-Произошла ошибка записи для модификации списка автозапуска.\n\nПричина: %s
-[There was an error writing to the registry to modify the file/url associations.\nReason: %s]
-Произошла ошибка записи для модификации ассоциаций файлов/ссылок.\n\nПричина: %s
-[The File Association Manager Plugin can not be loaded. It requires Miranda NG %hs or later.]
-Плагин ассоциаций не может быть загружен. Требуется версия Miranda NG %hs или позже.
-[%hs files]
-%hs файлы
-[Autostart Error]
-Ошибка автозагрузки
-[EditFlags]
-Редактировать метки
-[File Types Extension]
-Расширение типов файлов
-[File Types Section Info]
-Информация о типах файлов
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 Доступ запрещён:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
-[SupportedTypes]
-Поддерживаемые типы
-[Trusted Protocols]
-Проверенные протоколы
-[File Association Manager]
-Ассоциации
+[Registry Warning]
+Предупреждение
+[AIM Link Protocol]
+Протокол AIM
+[ICQ Link Shortcut]
+Протокол ICQ
+[&Add to Contact List...]
+&Добавить в список контактов...
+[Yahoo Link Protocol]
+Протокол Yahoo
+[MSN Link Protocol]
+Протокол MSN
+[Gadu-Gadu Link Protocol]
+Протокол Gadu-Gadu
+[Jabber Link Protocol]
+Протокол Jabber
