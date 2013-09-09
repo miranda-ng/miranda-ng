@@ -35,7 +35,7 @@ URL:
 [Open in new browser window]
 Отваряне в нов прозорец
 [Show Options]
-Показване на настройкте
+Показване на настройките
 [Hide offline users]
 Скриване на контактите "Извън линия"
 [Hide empty groups]
@@ -57,7 +57,7 @@ URL:
 [Disable icon blinking]
 Без мигане на икони
 [ms delay]
-мсек времетраене
+ms времетраене
 [Show]
 Показване
 [icon when statuses differ]

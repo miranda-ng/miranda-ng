@@ -95,7 +95,7 @@
 [Status on startup]
 Състояние при стартиране
 [ms]
-мсек
+ms
 [Set after]
 Задай след
 [Timeout]

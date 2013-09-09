@@ -621,7 +621,7 @@ URL (домашна страница на плейъра)
 [Scrobble at]
 
 [Timeout, ms]
-Закъснение, мсек
+Закъснение, ms
 [Get Series Info]
 Инф. за поредицата
 [Episode]

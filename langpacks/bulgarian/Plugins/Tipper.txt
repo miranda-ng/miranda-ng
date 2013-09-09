@@ -177,7 +177,7 @@
 [Expand to second level after:]
 Подсказка второ ниво след:
 [ms]
-мсек
+ms
 [First level tooltip]
 Подсказка първо ниво
 [Second level tooltip]
@@ -468,7 +468,7 @@ Miranda работи от:
 [Sidebar]
 Странична лента
 [Title]
-
+Заглавие
 [Labels]
 Етикети
 [Values]

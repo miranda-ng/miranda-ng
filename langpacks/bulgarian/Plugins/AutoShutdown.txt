@@ -6,7 +6,7 @@
 ;  Authors: H. Herkenrath
 ;============================================================
 [Adds the possibility to shutdown the computer when a specified event occurs.]
-
+Добавя функционалност за изключване на компютъра при определено събитие.
 ;file \plugins\AutoShutdown\res\resource.rc
 [Shutdown]
 
@@ -65,7 +65,7 @@
 [Please click "Cancel" if you would like to abort the process.]
 
 [&Now!]
-
+Сега!
 ;file \plugins\AutoShutdown\src\frame.cpp
 [Shutdown at:]
 

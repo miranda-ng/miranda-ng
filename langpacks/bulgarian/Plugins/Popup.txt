@@ -69,7 +69,7 @@
 [Time (in):]
 
 [ms]
-мсек
+ms
 [Time (out):]
 Избледняване:
 [Limit window amount to:]

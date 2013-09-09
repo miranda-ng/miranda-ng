@@ -87,7 +87,7 @@
 [Disable icon blinking]
 Без мигане на икони
 [ms, delay between icon blinking]
-мсек между две мигания
+ms между две мигания
 [Show]
 Показване
 [icon when statuses differ]
@@ -215,7 +215,7 @@
 [Ignore Empty Extra icons places (arrange to right).]
 Заемане мястото на липсващи допълнителни икони (подреждане вдясно).
 [Hide offline subcontacts.]
-Скриване на подконтактите "Извън линия".
+Скриване на подконтактите, които са "Извън линия"
 [Status Bar]
 Лента за състояние
 [Show status bar]

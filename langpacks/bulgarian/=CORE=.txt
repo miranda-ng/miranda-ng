@@ -997,7 +997,7 @@ Wikipedia
 [Ask me]
 Запитване
 [Rename (append " (1)", etc.)]
-Преименуване (Добавяне на "(1)" и т.тн.)
+Преименуване (наставка (1),(2)...)
 [You will always be asked about files from people not on your contact list]
 Винаги ще бъдете питани за файлове, пратени от хора извън списъка ви с контакти
 ;file \src\core\stdhelp\resource.rc
@@ -1184,7 +1184,7 @@ Miranda
 [Phone:]
 Телефон:
 [Web page:]
-уебстраница:
+уеб страница:
 [Past background:]
 Минало:
 [Interests:]
@@ -1995,7 +1995,7 @@ Popups за изобразяване
 [URL from %s]
 URL адрес от %s
 [Web Page Address (&URL)]
-уебстраница (URL)
+уеб страница (URL)
 [URL]
 URL
 ;file \src\core\stdurl\urldialogs.cpp
@@ -2296,7 +2296,7 @@ URL
 [No times]
 Без час
 [Standard hh:mm:ss times]
-Стандартено чч:мм:сс
+Стандартно чч:мм:сс
 [Times in milliseconds]
 Часът в милисекунди
 [Times in microseconds]
@@ -2460,7 +2460,7 @@ Win +\s
 [Find User]
 Търсене на потребител
 [Send E-mail]
-Изпращане на е-писмо
+Изпращане на имейл
 [SMS]
 SMS
 [Search All]

@@ -9,7 +9,7 @@
 Зарежда и управлява изображения за останалите приставки.
 ;file \plugins\AVS\res\avs.rc
 [The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
-Картинките, които можете да зададете тук се ползват като стандартни аватари\nза контактие, които нямат собствени.\nПолзвайте полетата за отметка, за да включите/изключите аватарите за съответните протоколи.
+Картинките, които можете да зададете тук се ползват като стандартни аватари\nза контактите, които нямат собствени.\nПолзвайте полетата за отметка, за да включите/изключите аватарите за съответните протоколи.
 [Set default picture]
 Задаване на станд. картинка
 [Delete default picture]
@@ -83,19 +83,19 @@
 Протоколите имат различни аватари
 ;file \plugins\AVS\src\main.cpp
 [Global avatar]
-
+Общ аватар
 [Global avatar for %s accounts]
-
+Общ аватар за %s контакти
 [Avatars]
 Аватари
 [My Avatars]
-
+Моите аватари
 [My Global Avatar Cache]
 
 [Fatal error, image services not found. Avatar services will be disabled.]
 
 [Avatar Service]
-
+Услуга за аватари
 ;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
 Конфигуриране на аватар за %s
@@ -116,7 +116,7 @@
 [No avatar]
 Няма аватар
 [Are you sure you want to remove your avatar?]
-Желаете ли аватарът ви да бъде премахнат?
+Желаете ли аватарът Ви да бъде премахнат?
 [Global Avatar]
 Общ аватар
 [Avatar]

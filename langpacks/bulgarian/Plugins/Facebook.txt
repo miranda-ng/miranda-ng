@@ -102,7 +102,7 @@ URL:
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 Проблем с Facebook - вероятно уебсайта е обновен. Очаквайте актуализация на протокола Facebook.
 [Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
-За изпращането на съобщения до дуги клиенти е необходимо потвърждение.\nОтворете уебстраницата на Facebook и опитайте да изпратите съобщението до контакта отново!
+За изпращането на съобщения до дуги клиенти е необходимо потвърждение.\nОтворете уеб страницата на Facebook и опитайте да изпратите съобщението до контакта отново!
 [Timeout when sending message.]
 
 [Status update was successful.]

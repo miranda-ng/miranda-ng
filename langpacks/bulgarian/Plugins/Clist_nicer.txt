@@ -71,7 +71,7 @@ Clist Nicer+
 [Always show status in tooltip]
 Показване на състоянието в подсказка
 [ms]
-мсек
+ms
 [Event area]
 Зона за събития
 [Set base visiblity on the frames menu]
@@ -179,7 +179,7 @@ Clist Nicer+
 [When possible, draw status icons in avatar space]
 Насложено състояние върху аватара, ако е възможно
 [Use metacontact protocol icons instead of subcontacts]
-Замяна на иконите за подконтакт с тези на метапротокола
+Замяна иконите на подконтакти с тези на метапротокола
 [Use Overlay icons on avatars]
 Наслагване на икони върху аватара
 [Dim idle contacts]

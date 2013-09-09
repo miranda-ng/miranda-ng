@@ -6,7 +6,7 @@
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
-Приставката съхранява резерни копия на аватарите на вашите контакти, при промяна и/или ви известява с popup.
+Приставката съхранява резерни копия на аватари на вашите контакти, при промяна и/или ви известява с popup.
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
 [Avatar List Popup]
 
@@ -112,7 +112,7 @@ popup когато контакта промени аватара си
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
 Сигурни ли сте, че желаете архивираният аватар да бъде изтрит?\nПрепратката и аватарът ще бъдат изтрити също.\nВНИМАНИЕ: Възможно да бъдат засегнати и други препратки!
 [Avatar History is empty!]
-Историята на аваатарите е празна!
+Историята на аватарите е празна!
 [avatar path is null.]
 
 [View Avatar History]

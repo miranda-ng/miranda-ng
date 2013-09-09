@@ -46,7 +46,7 @@ mRadio Mod
 [Station Name]
 Име на станцията
 [Timeout, ms (5000)]
-Времетраене, мсек (500)
+Времетраене, ms (500)
 [PreBuf, % (75%)]
 
 [Hallway]
@@ -62,7 +62,7 @@ mRadio Mod
 [To INI]
 .INI файла
 [Buffer, ms (5000)]
-Буфер, мсек (5000)
+Буфер, ms (5000)
 [Add station]
 Добавяне на станцията в:
 [Add Station]

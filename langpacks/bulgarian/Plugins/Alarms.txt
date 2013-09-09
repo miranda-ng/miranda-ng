@@ -6,7 +6,7 @@
 ;  Authors: Scott Ellis
 ;============================================================
 [Sets once-off, daily, weekly and weekday alarms.]
-
+Задавайте еднократни, ежедневни, ежеседмични  аларми или само за събота и неделя.
 ;file \plugins\Alarms\res\resource.rc
 [New]
 Нов
@@ -63,7 +63,7 @@
 [Popup window]
 Рopup прозорец
 [Sound:]
-
+Звук:
 [Run command:]
 
 [Parameters:]
@@ -111,7 +111,7 @@
 [&Suspend]
 
 [&Edit...]
-
+Редактиране
 [&Delete]
 Изтриване
 [&Options...]
@@ -130,19 +130,19 @@
 [Some example text. Example, example, example.]
 
 [5 mins]
-
+5 мин
 [15 mins]
-
+15 мин
 [30 mins]
-
+30 мин
 [1 hour]
 1 час
 [1 day]
 1 ден
 [1 week]
-
+1 седмица
 [Title]
-
+Заглавие
 [Background]
 Фон
 [Window]
@@ -183,10 +183,10 @@
 [Saturday]
 събота
 [Please enter a title for this alarm.]
-
+Моля, въведете заглавие на алармата.
 [Error]
 Грешка
 [The alarm time you have selected is in the past.]
-
+Въведената дата за алармата е в миналото.
 [Events]
 Събития

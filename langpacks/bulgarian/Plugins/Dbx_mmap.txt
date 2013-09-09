@@ -126,7 +126,7 @@
 [Database signature is corrupted, automatic repair is impossible]
 
 [Database is marked as belonging to an unknown version of Miranda]
-Базата от данни принадлежи на неизвесртна версия на Miranda
+Базата от данни принадлежи на неизвестна версия на Miranda
 [Database is newly created and has no data to process]
 Базата от данни е нова и не съдържа данни за обработване
 [Processing completed successfully]

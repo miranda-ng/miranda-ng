@@ -37,7 +37,7 @@
 [Use popups]
 Ползване на popups
 [Title]
-
+Заглавие
 [Text]
 Текст
 [Popup Colors]

@@ -25,7 +25,7 @@
 [Show tooltips*]
 
 [ms]
-мсек
+ms
 [Tooltips]
 Подсказки
 [Miscellaneous]

@@ -92,7 +92,7 @@ Miranda се срина. Можете да намерите доклад за с
 [Cannot upload VersionInfo. Incorrect username or password]
 Качването на информация за версията е невъзможно. Грешно потребителско име или парола.
 [Cannot upload VersionInfo. User is banned]
-Качването на информация за версията е невъзможно. Потребителят е баннат.
+Качването на информация за версията е невъзможно. Потребителят е забранен.
 [Cannot upload VersionInfo. Daily upload limit exceeded]
 Качването на информация за версията е невъзможно. Достигнат е лимита за качвания за 1 ден.
 [Cannot upload VersionInfo. Unknown error]

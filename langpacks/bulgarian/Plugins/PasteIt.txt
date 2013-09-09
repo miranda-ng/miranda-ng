@@ -21,7 +21,7 @@
 [Autosend download link to contact]
 Автоизпращане на връзка за сваляне на контакта
 [Web page settings]
-Настройки за уебстраницата
+Настройки за уеб страницата
 [Web page to configure]
 Уебстраница за настройване
 [Configure]
@@ -145,11 +145,11 @@ HTTP връзки на Paste It
 Файлът "%s" е празен
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
 [Error during sending text to web page: %s]
-Грешка при качването на файла в уебстраницата "%s"
+Грешка при качването на файла в уеб страницата "%s"
 [Error during sending text to web page]
-Грешка при качването на файла в уебстраницата
+Грешка при качването на файла в уеб страницата
 [Error during getting user key from web page: %s]
-Грешка при получаването на потребителския ключ от уебстраницата "%s"
+Грешка при получаването на потребителския ключ от уеб страницата "%s"
 [Paste expire date]
 Изтичане валидността на текста
 [Never]

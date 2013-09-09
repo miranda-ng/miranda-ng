@@ -41,7 +41,7 @@
 [Show tooltip for]
 
 [ms]
-мсек
+ms
 [Duration x2 upon online event]
 
 [Double click on tooltip]

@@ -21,7 +21,7 @@
 [Startup delay]
 
 [ms]
-мсек
+ms
 [User Sessions Management]
 
 [Edit]

@@ -17,7 +17,7 @@
 [Chunk size]
 
 [ms]
-мсек
+ms
 [Delays between sends]
 
 [bytes]

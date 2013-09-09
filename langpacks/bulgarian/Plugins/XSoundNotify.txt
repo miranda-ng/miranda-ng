@@ -9,11 +9,11 @@
 
 ;file \plugins\XSoundNotify\res\XSoundNotify.rc
 [Account:]
-
+Акаунт:
 [Nick:]
 Прякор:
 [Sound:]
-
+Звук:
 [Not set]
 
 [Choose]

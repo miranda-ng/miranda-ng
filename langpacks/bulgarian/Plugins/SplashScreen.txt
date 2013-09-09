@@ -27,7 +27,7 @@
 [Display time:]
 Показване за:
 [msec]
-мсек
+ms
 [Fade in:]
 Изсветляване:
 [steps]

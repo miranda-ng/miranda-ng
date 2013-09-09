@@ -48,7 +48,7 @@
 [Regular statuses]
 
 [Title]
-
+Заглавие
 [Message]
 Съобщение
 [Do you really want to delete selected item?]

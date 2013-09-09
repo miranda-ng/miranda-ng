@@ -62,11 +62,11 @@
 База от данни
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to root miranda folder]
-път до главната папка на miranda
+път до главната папка на Miranda
 [path to current miranda profile]
-път до текущия профил на miranda
+път до текущия профил на Miranda
 [name of current miranda profile (filename, without extension)]
-име на текущия профил на miranda (име без окончание)
+име на текущия профил на Miranda (име без окончание)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 
 [same as environment variable %APPDATA% for currently logged-on Windows user]

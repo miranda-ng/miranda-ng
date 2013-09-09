@@ -1594,7 +1594,7 @@ Latin I
 Вертикални бутони с аватари
 ;file \plugins\TabSRMM\src\srmm.cpp
 [This version of TabSRMM requires Windows 2000 or later.]
-
+TabSRMM изисква Windows версия 2000 или по-нова.
 [TabSRMM Message (%s)]
 TabSRMM съобщение (%s)
 ;file \plugins\TabSRMM\src\taskbar.cpp

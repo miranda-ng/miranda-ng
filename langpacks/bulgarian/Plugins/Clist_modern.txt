@@ -285,7 +285,7 @@
 [Easy move]
 Лесно местене
 [x100 msec]
-x100 мсек
+x100 ms
 [show delay]
 закъснени при показване
 [hide delay]
@@ -357,7 +357,7 @@ x100 мсек
 [Disable icon blinking]
 Без мигане на икони
 [ms, delay between icon blinking]
-мсек между две мигания
+ms между две мигания
 [Show]
 Показване
 [Cycle icons every]
@@ -385,7 +385,7 @@ x100 мсек
 [Hide all 'Extra icons' for subcontacts]
 Без "Допълнителни икони" за подконтактите
 [Hide offline subcontacts.]
-Скриване на подконтактите "Извън линия".
+Скриване на подконтактите, които са "Извън линия"
 [MetaContacts stuff]
 MetaContacts - настройки
 [Additional stuff]

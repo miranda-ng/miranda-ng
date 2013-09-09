@@ -6,7 +6,7 @@
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 [Anti-Boss plugin.]
-
+Приставката позволява с едно натискане на клавиш (или комбинация) да скриете визуално Miranda NG от "любопитни" очи - например шефа!
 ;file \plugins\BossKeyPlus\res\BossKey.rc
 [BossKey]
 BossKey

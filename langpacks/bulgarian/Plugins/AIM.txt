@@ -331,7 +331,7 @@ AIM настройки
 [Error uploading avatar. (Unknown error)]
 
 [A confirmation message has been sent to the new email address. Please follow its instructions.]
-Изпратен еимейл за потвърждаване до новия адрес. Моля, следвайте инструкциите в него.
+Изпратен е имейл за потвърждаване до новия адрес. Моля, следвайте инструкциите в него.
 [A confirmation message has been sent to your email address. Please follow its instructions.]
 Изпратен е имейл за потвърждаване. Моля, следвайте инструкциите в него.
 [Unable to confirm at this time. Please try again later.]
@@ -370,15 +370,15 @@ AOL
 [Background Color]
 Цвят за фон
 [Bold]
-Удебеляване
+Удебелен
 [Not Bold]
-Неполучер
+Неудебелен
 [Italic]
-Наклоняване
+Наклонен
 [Not Italic]
-Некусрсив
+Ненаклонен
 [Underline]
-Подчертаване
+Подчертан
 [Not Underline]
 Неподчертан
 [Subscript]
