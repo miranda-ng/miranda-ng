@@ -223,7 +223,7 @@ BOOL CList_AddEvent(HANDLE hContact, HICON Icon, HANDLE event, int type, const T
 	if (!fmt || lstrlen(fmt) < 1 || lstrlen(fmt) > 2000)
 		return FALSE;
 
-	TCHAR* szBuf = (TCHAR*)alloca(4096 * sizeof(TCHAR));
+	TCHAR* szBuf = (TCHAR*)_alloca(4096 * sizeof(TCHAR));
 
 	va_list marker;
 	va_start(marker, fmt);

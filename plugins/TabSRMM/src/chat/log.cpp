@@ -87,7 +87,7 @@ static int Log_AppendIEView(LOGSTREAMDATA* streamData, BOOL simpleMode, TCHAR **
 {
 	va_list va;
 	int lineLen, textCharsCount=0;
-	TCHAR* line = (TCHAR*)alloca( 8001 * sizeof(TCHAR));
+	TCHAR* line = (TCHAR*)_alloca( 8001 * sizeof(TCHAR));
 	TCHAR* d;
 	MODULEINFO *mi = MM_FindModule(streamData->si->pszModule);
 
@@ -519,7 +519,7 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 	va_list va;
 	int textCharsCount = 0;
 	char *d;
-	TCHAR *line = (TCHAR*)alloca(8001 * sizeof(TCHAR));
+	TCHAR *line = (TCHAR*)_alloca(8001 * sizeof(TCHAR));
 
 	va_start(va, fmt);
 	int lineLen = mir_vsntprintf(line, 8000, fmt, va);

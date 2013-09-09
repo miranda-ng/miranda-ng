@@ -2662,7 +2662,7 @@ LABEL_SHOWWINDOW:
 					ClientToScreen(((LPNMHDR)lParam)->hwndFrom, &pt);
 
 					// fixing stuff for searches
-					TCHAR *pszWord = (TCHAR*)alloca(8192);
+					TCHAR *pszWord = (TCHAR*)_alloca(8192);
 					pszWord[0] = '\0';
 					POINTL ptl = { pt.x, pt.y };
 					ScreenToClient(GetDlgItem(hwndDlg, IDC_CHAT_LOG), (LPPOINT)&ptl);
@@ -2972,7 +2972,7 @@ LABEL_SHOWWINDOW:
 					if (g_Settings.bDoubleClick4Privat ? GetKeyState(VK_SHIFT) & 0x8000 : !(GetKeyState(VK_SHIFT) & 0x8000)) {
 						LRESULT lResult = (LRESULT)SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_GETSEL, 0, 0);
 						int start = LOWORD(lResult);
-						TCHAR* pszName = (TCHAR*)alloca(sizeof(TCHAR) * (lstrlen(ui->pszUID) + 3));
+						TCHAR* pszName = (TCHAR*)_alloca(sizeof(TCHAR) * (lstrlen(ui->pszUID) + 3));
 						if (start == 0)
 							mir_sntprintf(pszName, lstrlen(ui->pszUID) + 3, _T("%s: "), ui->pszUID);
 						else

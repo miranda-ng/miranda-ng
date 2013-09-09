@@ -83,116 +83,99 @@ static int RegisterCustomButton(WPARAM wParam,LPARAM lParam)
 static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 {
 	CustomButtonClickData *cbcd=(CustomButtonClickData *)lParam;
+	if ( strcmp(cbcd->pszModule,"Tabmodplus") || cbcd->dwButtonId != 1)
+		return 0;
 
-	CHARRANGE cr;
-	TCHAR* pszMenu[256]={0};//=NULL;
-	int i=0;
-	TCHAR* pszText = (TCHAR*)_T("");
-	TCHAR* pszFormatedText=NULL;
-	UINT textlenght=0;
-	BBButton bbd={0};
-
-	int state=0;
-
-	if ( strcmp(cbcd->pszModule,"Tabmodplus")||cbcd->dwButtonId!=1 ) return (0);
-
-	bbd.cbSize=sizeof(BBButton);
-	bbd.dwButtonID=1;
+	BBButton bbd = { sizeof(bbd) };
+	bbd.dwButtonID = 1;
 	bbd.pszModuleName = (char *)"Tabmodplus";
 	CallService(MS_BB_GETBUTTONSTATE, wParam, (LPARAM)&bbd);
 
+	TCHAR *pszText = _T("");
+	CHARRANGE cr;
 	cr.cpMin = cr.cpMax = 0;
 	SendDlgItemMessage(cbcd->hwndFrom,IDC_MESSAGE, EM_EXGETSEL, 0, (LPARAM)&cr);
-	textlenght=cr.cpMax-cr.cpMin;
-	if ( textlenght ) {
+	UINT textlenght = cr.cpMax - cr.cpMin;
+	if (textlenght) {
 		pszText = (TCHAR*)mir_alloc((textlenght+1)*sizeof(TCHAR));
 		ZeroMemory(pszText,(textlenght+1)*sizeof(TCHAR));
 		SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE,EM_GETSELTEXT, 0, (LPARAM)pszText);
 	}
 
-	if ( cbcd->flags & BBCF_RIGHTBUTTON )
-		state=1;
-	else if ( textlenght )
+	int state = 0;
+	if (cbcd->flags & BBCF_RIGHTBUTTON)
+		state = 1;
+	else if (textlenght)
 		state = 2;
-	else if ( bbd.bbbFlags & BBSF_PUSHED )
+	else if (bbd.bbbFlags & BBSF_PUSHED)
 		state = 3;
 	else
 		state = 4;
 
+	TCHAR *pszFormatedText = NULL, *pszMenu[256] = {0};
+
+	size_t bufSize;
+
 	switch ( state ) {
-		case 1:
-			{
-				int res=0;
-				int menunum;
-				int menulimit;
-				HMENU hMenu=NULL;
+	case 1:
+		{
+			int menulimit = M.GetByte("tabmodplus","MenuCount", 0);
+			if (menulimit == 0)
+				break;
 
-				menulimit = M.GetByte("tabmodplus","MenuCount", 0);
-				if ( menulimit ) {
-					hMenu = CreatePopupMenu();
-					//pszMenu=mir_alloc(menulimit*sizeof(TCHAR*));
-				} else break;
-				for ( menunum=0;menunum<menulimit;menunum++ ) {
-					pszMenu[menunum]=getMenuEntry(menunum);
-					AppendMenu(hMenu, MF_STRING,menunum+1,  pszMenu[menunum]);
-				}
-				res = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, NULL);
-				if ( res==0 ) break;
+			HMENU hMenu = CreatePopupMenu();
 
-				pszFormatedText = (TCHAR*)mir_alloc((textlenght+lstrlen(pszMenu[res-1])+2)*sizeof(TCHAR));
-				ZeroMemory(pszFormatedText,(textlenght+lstrlen(pszMenu[res-1])+2)*sizeof(TCHAR));
+			for (int menunum=0; menunum < menulimit; menunum++) {
+				pszMenu[menunum] = getMenuEntry(menunum);
+				AppendMenu(hMenu, MF_STRING,menunum+1,  pszMenu[menunum]);
+			}
+			int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, NULL);
+			if (res == 0)
+				break;
 
-				mir_sntprintf(pszFormatedText,(textlenght+lstrlen(pszMenu[res-1])+2)*sizeof(TCHAR),pszMenu[res-1],pszText);
+			bufSize = textlenght + lstrlen(pszMenu[res-1]) + 2;
+			pszFormatedText = (TCHAR*)_alloca(bufSize*sizeof(TCHAR));
+			mir_sntprintf(pszFormatedText, bufSize, pszMenu[res-1], pszText);
+		}
+		break;
 
-			}break;
-		case 2:
-			{
-				pszFormatedText = (TCHAR*)mir_alloc((textlenght+12)*sizeof(TCHAR));
-				ZeroMemory(pszFormatedText,(textlenght+12)*sizeof(TCHAR));
+	case 2:
+		SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_GETSELTEXT, 0, (LPARAM)pszText);
 
-				SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE,EM_GETSELTEXT, 0, (LPARAM)pszText);
-				mir_sntprintf(pszFormatedText,(textlenght+12)*sizeof(TCHAR),_T("[img]%s[/img]"),pszText);
+		bufSize = textlenght+12;
+		pszFormatedText = (TCHAR*)_alloca(bufSize*sizeof(TCHAR));
+		mir_sntprintf(pszFormatedText, bufSize*sizeof(TCHAR), _T("[img]%s[/img]"), pszText);
 
-				bbd.ptszTooltip=0;
-				bbd.hIcon=0;
-				bbd.bbbFlags=BBSF_RELEASED;
-				CallService(MS_BB_SETBUTTONSTATE, wParam, (LPARAM)&bbd);
-			}break;
+		bbd.ptszTooltip = 0;
+		bbd.hIcon = 0;
+		bbd.bbbFlags = BBSF_RELEASED;
+		CallService(MS_BB_SETBUTTONSTATE, wParam, (LPARAM)&bbd);
+		break;
 
-		case 3:
-			{
-				pszFormatedText = (TCHAR*)mir_alloc(6*sizeof(TCHAR));
-				ZeroMemory(pszFormatedText,6*sizeof(TCHAR));
+	case 3:
+		pszFormatedText = _T("[img]");
 
-				mir_sntprintf(pszFormatedText,6*sizeof(TCHAR),_T("%s"),_T("[img]"));
+		bbd.ptszTooltip = TranslateT("Insert [img] tag / surround selected text with [img][/img]");
+		CallService(MS_BB_SETBUTTONSTATE, wParam, (LPARAM)&bbd);
+		break;
 
-				bbd.ptszTooltip = TranslateT("Insert [img] tag / surround selected text with [img][/img]");
-				CallService(MS_BB_SETBUTTONSTATE, wParam, (LPARAM)&bbd);
+	case 4:
+		pszFormatedText = _T("[/img]");
 
-			}break;
-		case 4:
-			{
-
-				pszFormatedText = (TCHAR*)mir_alloc(7*sizeof(TCHAR));
-				ZeroMemory(pszFormatedText,7*sizeof(TCHAR));
-				mir_sntprintf(pszFormatedText,7*sizeof(TCHAR),_T("%s"),_T("[/img]"));
-
-				bbd.ptszTooltip = TranslateT("Insert [img] tag / surround selected text with [img][/img]");
-				CallService(MS_BB_SETBUTTONSTATE, wParam, (LPARAM)&bbd);
-
-			}break;
+		bbd.ptszTooltip = TranslateT("Insert [img] tag / surround selected text with [img][/img]");
+		CallService(MS_BB_SETBUTTONSTATE, wParam, (LPARAM)&bbd);
+		break;
 	}
 
-	while ( pszMenu[i] ) {
+	for (int i=0; pszMenu[i]; i++)
 		mir_free(pszMenu[i]);
-		i++;
-	}
 
-	if ( pszFormatedText ) SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_REPLACESEL, TRUE, (LPARAM)pszFormatedText);
+	if ( pszFormatedText )
+		SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_REPLACESEL, TRUE, (LPARAM)pszFormatedText);
 
-	if ( textlenght ) mir_free(pszText);
-	if ( pszFormatedText ) mir_free(pszFormatedText);
-	return (1);
+	if ( textlenght )
+		mir_free(pszText);
+	return 1;
 
 }
 
