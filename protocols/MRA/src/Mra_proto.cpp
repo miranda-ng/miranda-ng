@@ -1140,8 +1140,10 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 
 			// add/modify group
 			if (dwControlParam > 1) { // все параметры правильно инициализированны!
-				m_groups.insert( new MraGroupItem(dwID, dwGroupFlags, wszGroupName));
-				Clist_CreateGroup(0, wszGroupName);
+				if ( !(dwGroupFlags & CONTACT_FLAG_REMOVED)) {
+					m_groups.insert( new MraGroupItem(dwID, dwGroupFlags, wszGroupName));
+					Clist_CreateGroup(0, wszGroupName);
+				}
 				#ifdef _DEBUG
 					DebugPrintW(wszGroupName);
 

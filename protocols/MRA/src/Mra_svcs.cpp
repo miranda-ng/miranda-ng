@@ -960,17 +960,29 @@ int CMraProto::OnGroupChanged(WPARAM wParam, LPARAM lParam)
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact == NULL) {
 		CLISTGROUPCHANGE *cgc = (CLISTGROUPCHANGE*)lParam;
-		if (cgc->pszOldName != NULL && cgc->pszNewName == NULL) {
-			for (int i=0; i < m_groups.getCount(); i++) {
-				MraGroupItem &p = m_groups[i];
-				if ( _tcscmp(p.m_name, cgc->pszOldName))
-					continue;
+		if (cgc->pszOldName == NULL)
+			return 0;
 
-				CMStringA szName = p.m_name;
-				DWORD dwFlags = CONTACT_FLAG_GROUP | CONTACT_FLAG_REMOVED;
-				MraModifyContact(NULL, &p.m_id, &dwFlags, 0, &szName, &p.m_name);
+		MraGroupItem *pGrp = NULL;
+		for (int i=0; i < m_groups.getCount(); i++) {
+			MraGroupItem &p = m_groups[i];
+			if ( !_tcscmp(p.m_name, cgc->pszOldName)) {
+				pGrp = &p;
+				break;
 			}
 		}
+		if (pGrp == NULL) // no MRA contacts in it
+			return 0;
+
+		DWORD dwFlags = CONTACT_FLAG_GROUP;
+		CMStringW wszGroup;
+		if (cgc->pszNewName != NULL) // renaming group
+			wszGroup = cgc->pszNewName;
+		else { // removing group
+			dwFlags |= CONTACT_FLAG_REMOVED;
+			wszGroup = cgc->pszOldName;
+		}
+		MraModifyContact(NULL, &pGrp->m_id, &dwFlags, 0, 0, &wszGroup);
 	}
 	return 0;
 }

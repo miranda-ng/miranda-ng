@@ -307,6 +307,7 @@ DWORD CMraProto::MraMoveContactToGroup(HANDLE hContact, DWORD dwGroupID, LPCTSTR
 			break;
 		}
 
+	DWORD dwContactFlags = CONTACT_FLAG_UNICODE_NAME | CONTACT_FLAG_GROUP;
 	if (p == NULL) {
 		if (m_groups.getCount() == 20)
 			return 0;
@@ -316,15 +317,16 @@ DWORD CMraProto::MraMoveContactToGroup(HANDLE hContact, DWORD dwGroupID, LPCTSTR
 			if (m_groups.find((MraGroupItem*)&id) == NULL)
 				break;
 
-		DWORD dwContactFlags = (CONTACT_FLAG_UNICODE_NAME | CONTACT_FLAG_GROUP) + (id << 24);
+		dwContactFlags |= (id << 24);
 		p = new MraGroupItem(id, dwContactFlags, ptszName);
 		m_groups.insert(p);
 		MraAddContact(NULL, dwContactFlags, 0, ptszName, p->m_name);
 	}
+	else dwContactFlags |= (p->m_id << 24);
 
 	if (dwGroupID != p->m_id) {
 		setDword("GroupID", p->m_id);
-		MraModifyContact(hContact, 0, 0, &p->m_id);
+		MraModifyContact(hContact, 0, &dwContactFlags, &p->m_id);
 	}
 	return p->m_id;
 }
