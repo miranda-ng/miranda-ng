@@ -1814,9 +1814,6 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 						bAutoGrantAuth = TRUE;
 				}
 
-				if (bAdded)
-					db_set_b(hContact, "CList", "Hidden", 1);
-
 				CMStringA szBlob = CreateBlobFromContact(hContact, wszMessage);
 				if (bAutoGrantAuth) { // auto grant auth
 					DBEVENTINFO dbei = { sizeof(dbei) };

@@ -367,12 +367,12 @@ DWORD CMraProto::SetContactFlags(HANDLE hContact, DWORD dwContactFlag)
 
 	setDword(hContact, "ContactFlags", dwContactFlag);
 
-	if (dwContactFlag&CONTACT_FLAG_SHADOW)
+	if (dwContactFlag & CONTACT_FLAG_SHADOW)
 		db_set_b(hContact, "CList", "Hidden", 1);
 	else
 		db_unset(hContact, "CList", "Hidden");
 
-	switch (dwContactFlag&(CONTACT_FLAG_INVISIBLE|CONTACT_FLAG_VISIBLE)) {
+	switch (dwContactFlag & (CONTACT_FLAG_INVISIBLE|CONTACT_FLAG_VISIBLE)) {
 	case CONTACT_FLAG_INVISIBLE:
 		setWord(hContact, "ApparentMode", ID_STATUS_OFFLINE);
 		break;
@@ -384,7 +384,7 @@ DWORD CMraProto::SetContactFlags(HANDLE hContact, DWORD dwContactFlag)
 		break;
 	}
 
-	if (dwContactFlag&CONTACT_FLAG_IGNORE)
+	if (dwContactFlag & CONTACT_FLAG_IGNORE)
 		CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, IGNOREEVENT_MESSAGE);
 	else
 		CallService(MS_IGNORE_UNIGNORE, (WPARAM)hContact, IGNOREEVENT_MESSAGE);
