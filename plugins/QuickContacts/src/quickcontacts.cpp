@@ -789,7 +789,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			if (!hasNewHotkeyModule)
 				hAcct = LoadAccelerators(hInst, MAKEINTRESOURCE(ACCEL_TABLE));
 
-			hHook = SetWindowsHookEx(WH_MSGFILTER, HookProc, hInst, GetCurrentThreadId());
+			hHook = SetWindowsHookEx(WH_MSGFILTER, HookProc, 0, GetCurrentThreadId());
 
 			// Combo
 			SendMessage(GetDlgItem(hwndDlg, IDC_USERNAME), EM_LIMITTEXT, (WPARAM)119,0);

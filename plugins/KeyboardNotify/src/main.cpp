@@ -991,9 +991,9 @@ int HookWindowsHooks()
 			case ACTIVE_WINDOWS:
 				if (!MyGetLastInputInfo || bEmulateKeypresses) {
 					if (hMouseHook == NULL)
-						hMouseHook = SetWindowsHookEx(WH_MOUSE, MouseHookFunction, hInst, 0);
+						hMouseHook = SetWindowsHookEx(WH_MOUSE, MouseHookFunction, 0, GetCurrentThreadId());
 					if (hKeyBoardHook == NULL)
-						hKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, KeyBoardHookFunction, hInst, 0);
+						hKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, KeyBoardHookFunction, 0, GetCurrentThreadId());
 				}
 				break;
 			case ACTIVE_MIRANDA:

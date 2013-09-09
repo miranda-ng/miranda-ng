@@ -117,7 +117,7 @@ void CMenuBar::obtainHook()
 {
 	releaseHook();
 	if (m_hHook == 0)
-		m_hHook = ::SetWindowsHookEx(WH_MSGFILTER, CMenuBar::MessageHook, g_hInst, 0);
+		m_hHook = ::SetWindowsHookEx(WH_MSGFILTER, CMenuBar::MessageHook, 0, GetCurrentThreadId());
 	m_Owner = this;
 }
 
