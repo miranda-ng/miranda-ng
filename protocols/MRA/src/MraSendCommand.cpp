@@ -387,8 +387,8 @@ HANDLE CMraProto::MraWPRequestByEMail(HANDLE hContact, DWORD dwAckType, CMString
 		return 0;
 
 	int iStart = 0;
-	CMStringA szDomain = szEmail.Tokenize("@", iStart);
 	CMStringA szUser   = szEmail.Tokenize("@", iStart);
+	CMStringA szDomain = szEmail.Tokenize("@", iStart);
 
 	DWORD dwRequestFlags = 0;
 	SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_USER);
