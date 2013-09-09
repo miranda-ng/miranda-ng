@@ -163,25 +163,11 @@ HANDLE CMraProto::AddToListByEmail(LPCTSTR plpsEMail, LPCTSTR plpsNick, LPCTSTR 
 
 	if (dwFlags & PALF_TEMPORARY)
 		db_set_b(hContact, "CList", "Hidden", 1);
-	else {
-		db_unset(hContact, "CList", "Hidden");
+	else
 		db_unset(hContact, "CList", "NotOnList");
-	}
 
-	if (bAdded) {
-		CMStringW wszAuthMessage;
-		if ( !mraGetStringW(NULL, "AuthMessage", wszAuthMessage))
-			wszAuthMessage = TranslateW(MRA_DEFAULT_AUTH_MESSAGE);
-
-		CMStringA szEmail;
-		CMStringW wszNick;
-		DWORD dwContactFlag;
-		GetContactBasicInfoW(hContact, NULL, NULL, &dwContactFlag, NULL, NULL, &szEmail, &wszNick, NULL);
-		MraAddContact(hContact, dwContactFlag, 0, szEmail, wszNick, NULL, &wszAuthMessage);
-
-		MraUpdateContactInfo(hContact); // request info update
-	}
-
+	if (bAdded)
+		MraUpdateContactInfo(hContact);
 	return hContact;
 }
 

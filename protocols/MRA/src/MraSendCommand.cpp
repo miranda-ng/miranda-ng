@@ -190,6 +190,8 @@ DWORD CMraProto::MraAddContact(HANDLE hContact, DWORD dwContactFlag, DWORD dwGro
 		return 0;
 
 	dwContactFlag |= CONTACT_FLAG_UNICODE_NAME;
+	if (dwGroupID == -1)
+		dwGroupID = 0;
 
 	OutBuffer buf;
 	buf.SetUL(dwContactFlag);
@@ -213,9 +215,6 @@ DWORD CMraProto::MraAddContact(HANDLE hContact, DWORD dwContactFlag, DWORD dwGro
 // change contact
 DWORD CMraProto::MraModifyContact(HANDLE hContact, DWORD *pdwID, DWORD *pdwContactFlag, DWORD *pdwGroupID, const CMStringA *pszEmail, const CMStringW *pwszCustomName, const CMStringA *pszPhones)
 {
-	if (pdwID && *pdwID == -1)
-		return 0;
-
 	CMStringA szEmail, szPhones;
 	CMStringW wszNick, wszCustomName;
 	DWORD dwID, dwGroupID, dwContactFlag;
@@ -225,17 +224,18 @@ DWORD CMraProto::MraModifyContact(HANDLE hContact, DWORD *pdwID, DWORD *pdwConta
 		dwID = dwGroupID = dwContactFlag = 0;
 
 	if (pdwID) dwID = *pdwID;
+	if (dwID == -1)
+		return 0;
+
 	if (pszEmail) szEmail = *pszEmail;
 	if (pszPhones) szPhones = *pszPhones;
 	if (pdwGroupID) dwGroupID = *pdwGroupID;
 	if (pdwContactFlag) dwContactFlag = *pdwContactFlag;
 	if (pwszCustomName) wszCustomName = *pwszCustomName;
 
-	dwContactFlag |= CONTACT_FLAG_UNICODE_NAME;
-
 	OutBuffer buf;
 	buf.SetUL(dwID);
-	buf.SetUL(dwContactFlag);
+	buf.SetUL(dwContactFlag | CONTACT_FLAG_UNICODE_NAME);
 	buf.SetUL(dwGroupID);
 	buf.SetLPSLowerCase(szEmail);
 	buf.SetLPSW(wszCustomName);

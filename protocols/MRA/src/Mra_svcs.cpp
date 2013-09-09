@@ -486,6 +486,22 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 						MraMoveContactToGroup(hContact, dwGroupID, wszGroup);
 				}
 			}
+			// NotOnList setting. Has a temporary contact just been added permanently?
+			else if ( !strcmp(cws->szSetting, "NotOnList")) {
+				if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0)) {
+					CMStringW wszAuthMessage;
+					if ( !mraGetStringW(NULL, "AuthMessage", wszAuthMessage))
+						wszAuthMessage = TranslateW(MRA_DEFAULT_AUTH_MESSAGE);
+
+					db_unset(hContact, "CList", "Hidden");
+
+					CMStringA szEmail, szPhones;
+					CMStringW wszNick;
+					DWORD dwGroupID, dwContactFlag;
+					GetContactBasicInfoW(hContact, NULL, &dwGroupID, &dwContactFlag, NULL, NULL, &szEmail, &wszNick, &szPhones);
+					MraAddContact(hContact, dwContactFlag, dwGroupID, szEmail, wszNick, &szPhones, &wszAuthMessage);
+				}
+			}
 			// Hidden setting
 			else if ( !strcmp(cws->szSetting, "Hidden")) {
 				DWORD dwContactFlag = GetContactFlags(hContact);

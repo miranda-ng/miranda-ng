@@ -612,13 +612,13 @@ bool CMraProto::CmdAuthAck(BinBuffer &buf)
 		db_event_add(0, &dbei);
 	}
 
-	DWORD dwFlags = getDword(hContact, "ContactServerFlags", 0);
-	if (dwFlags & CONTACT_INTFLAG_NOT_AUTHORIZED) {
-		dwFlags &= ~CONTACT_INTFLAG_NOT_AUTHORIZED;
-		setDword(hContact, "ContactServerFlags", dwFlags);
-	}
-
+	DWORD dwTemp;
+	GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwTemp, NULL, NULL, NULL, NULL);
+	dwTemp &= ~CONTACT_INTFLAG_NOT_AUTHORIZED;
+	SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, SCBIF_SERVER_FLAG, 0, 0, 0, dwTemp, 0, 0, 0, 0);
+	setDword(hContact, "HooksLocked", TRUE);
 	db_unset(hContact, "CList", "NotOnList");
+	setDword(hContact, "HooksLocked", FALSE);
 	return true;
 }
 
