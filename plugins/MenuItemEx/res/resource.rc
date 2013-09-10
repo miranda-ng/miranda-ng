@@ -79,9 +79,6 @@ BEGIN
     CONTROL         "Trim too long ID",IDC_TRIMID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,150,105,10
     LTEXT           "* Use Ctrl+click to see popup with the copied text",IDC_HINT1,16,164,251,11
     CONTROL         "Hide contact on 'Ignore all'",IDC_IGNOREHIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,42,105,10
-    GROUPBOX        "Other options",IDC_STATIC,7,184,266,27
-    CONTROL         "Automatically refresh contact's details after they come online",IDC_REFRESH_DETAILS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,196,251,10
 END
 
 

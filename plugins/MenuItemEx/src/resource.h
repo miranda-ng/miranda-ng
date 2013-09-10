@@ -21,7 +21,6 @@
 #define IDC_HIDE                        1002
 #define IDC_IGNORE                      1003
 #define IDC_PROTOS                      1004
-#define IDC_REFRESH_DETAILS             1005
 #define IDC_ADDED                       1006
 #define IDC_AUTHREQ                     1007
 #define IDC_COPYID                      1008

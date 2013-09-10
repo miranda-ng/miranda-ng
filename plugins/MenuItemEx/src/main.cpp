@@ -66,14 +66,14 @@ struct {
 	int icon;
 }
 static const ii[] = {
-	{ LPGENT("All"),			IGNOREEVENT_ALL,			SKINICON_OTHER_FILLEDBLOB	},
-	{ LPGENT("Messages"),		IGNOREEVENT_MESSAGE,		SKINICON_EVENT_MESSAGE		},
-	{ LPGENT("URL"),			IGNOREEVENT_URL,			SKINICON_EVENT_URL			},
-	{ LPGENT("Files"),			IGNOREEVENT_FILE,			SKINICON_EVENT_FILE			},
-	{ LPGENT("User Online"),	IGNOREEVENT_USERONLINE,		SKINICON_OTHER_USERONLINE	},
-	{ LPGENT("Authorization"),	IGNOREEVENT_AUTHORIZATION,	SKINICON_AUTH_REQUEST		},
-	{ LPGENT("You Were Added"),	IGNOREEVENT_YOUWEREADDED,	SKINICON_AUTH_ADD			},
-	{ LPGENT("Typing Notify"),	IGNOREEVENT_TYPINGNOTIFY,	SKINICON_OTHER_TYPING		}
+	{ LPGENT("All"),            IGNOREEVENT_ALL,           SKINICON_OTHER_FILLEDBLOB	},
+	{ LPGENT("Messages"),       IGNOREEVENT_MESSAGE,       SKINICON_EVENT_MESSAGE		},
+	{ LPGENT("URL"),            IGNOREEVENT_URL,           SKINICON_EVENT_URL			},
+	{ LPGENT("Files"),          IGNOREEVENT_FILE,          SKINICON_EVENT_FILE			},
+	{ LPGENT("User Online"),    IGNOREEVENT_USERONLINE,    SKINICON_OTHER_USERONLINE	},
+	{ LPGENT("Authorization"),  IGNOREEVENT_AUTHORIZATION, SKINICON_AUTH_REQUEST		},
+	{ LPGENT("You Were Added"), IGNOREEVENT_YOUWEREADDED,  SKINICON_AUTH_ADD			},
+	{ LPGENT("Typing Notify"),  IGNOREEVENT_TYPINGNOTIFY,  SKINICON_OTHER_TYPING		}
 };
 
 PLUGININFOEX pluginInfoEx = {
@@ -979,71 +979,6 @@ static int ContactWindowOpen(WPARAM wparam,LPARAM lParam)
 	return 0; 
 }
 
-//========================================================================================
-
-struct SaveStatus
-{
-	HANDLE hContact;
-	int    iStatus;
-};
-
-static LIST<SaveStatus> saveStatuses(100, (LIST<SaveStatus>::FTSortFunc)HandleKeySortT);
-
-static int ContactSettingChanged( WPARAM wParam, LPARAM lParam )
-{
-	DBCONTACTWRITESETTING *cws = ( DBCONTACTWRITESETTING* )lParam;
-	HANDLE hContact = ( HANDLE )wParam;
-	if (hContact == NULL || lstrcmpA( cws->szSetting, "Status" ))
-		return 0;
-
-	int oldStatus = ID_STATUS_OFFLINE, newStatus = cws->value.wVal;
-
-	SaveStatus tmp = { hContact, 0 }, *p;
-	if (( p = saveStatuses.find( &tmp )) != NULL)
-		oldStatus = p->iStatus;
-	if (oldStatus == newStatus)
-		return 0;
-
-	char *lpzProto = GetContactProto(hContact);
-
-	// ignore chat rooms
-	if (db_get_b(hContact, lpzProto, "ChatRoom", 0))
-		return 0;
-
-	if (oldStatus == ID_STATUS_OFFLINE) { 
-		// set logon timestamp for this contact, only when not set already
-		if (!db_get_dw(hContact, lpzProto, "LogonTS", FALSE))
-			db_set_dw(hContact, lpzProto, "LogonTS", ( DWORD )time(NULL));
-
-		// reset logoff timestamp
-		db_unset(hContact, lpzProto, "LogoffTS");
-	
-		// TESTING: updating user's details
-		if (db_get_dw(NULL, MODULENAME, "flags", vf_default) & VF_REFRESH) {	
-			// don't refresh Hidden or NotOnList contact's details
-			if (!db_get_b(hContact, "CList", "Hidden", 0) && !db_get_b((HANDLE)wParam, "CList", "NotOnList", 0))
-				CallContactService(hContact, PSS_GETINFO, 0, 0 );
-		}
-	}
-	if (newStatus == ID_STATUS_OFFLINE) {
-		// set logoff timestamp for this contact
-		db_set_dw(hContact, lpzProto, "LogoffTS", ( DWORD )time(NULL));
-		// reset logon timestamp
-		db_unset(hContact, lpzProto, "LogonTS");
-	}
-
-	if (p != NULL)
-		p->iStatus = newStatus;
-	else {
-		p = new SaveStatus;
-		p->hContact = hContact;
-		p->iStatus = newStatus;
-		saveStatuses.insert(p);
-	}
-
-	return 0;
-}
-
 static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 {
 	bPopupService = ServiceExists(MS_POPUP_ADDPOPUP);
@@ -1171,7 +1106,6 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU,BuildMenu);
 	HookEvent(ME_OPT_INITIALISE,OptionsInit);
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED,ContactSettingChanged);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, EnumProtoSubmenu);
 	if (HookEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonsInit)) {
 		HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
@@ -1197,10 +1131,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	for (int i=0; i < saveStatuses.getCount(); i++)
-		delete saveStatuses[i];
-	saveStatuses.destroy();
-
 	DestroyIcon(hIcon[3]);
 	DestroyIcon(hIcon[4]);
 	return 0;

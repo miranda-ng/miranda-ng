@@ -1,9 +1,6 @@
 Version 1.3.0.9
 
-[+] Refresh contact info when contact comes online
 [+] Ability to hide contact from contact list when 'Ignore All'
-[+] Saving lastseen datetime of contact (as DWORD in <protocol>\LogoffTS) (reset when offline)
-[+] Saving logon time (as DWORD in <protocol>\LogonTS) (reset when online)
 
 Verison 1.3.0.8
 

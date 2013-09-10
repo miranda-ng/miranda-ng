@@ -4,7 +4,6 @@
 #define _CRT_SECURE_NO_DEPRECATE
 
 #include <windows.h>
-#include <time.h>
 
 #include <newpluginapi.h>
 #include <win2k.h>
@@ -59,7 +58,6 @@ int OptionsInit(WPARAM,LPARAM);
 #define VF_TRIMID	0x00004000
 #define VF_CMV		0x00008000
 #define VF_IGNH		0x00010000
-#define VF_REFRESH  0x00020000
 
 #define CTRL_IS_PRESSED (GetAsyncKeyState(VK_CONTROL)&0x8000)
 
