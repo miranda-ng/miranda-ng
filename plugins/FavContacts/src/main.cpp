@@ -67,7 +67,7 @@ int ProcessSrmmEvent(WPARAM wParam, LPARAM lParam);
 int ProcessSrmmIconClick(WPARAM wParam, LPARAM lParam);
 
 float g_widthMultiplier = 0;
-int g_maxItemWidth = 0;
+UINT  g_maxItemWidth = 0;
 
 CContactCache *g_contactCache = NULL;
 TCHAR g_filter[1024] = {0};
@@ -259,22 +259,16 @@ int ProcessOptInitialise(WPARAM wParam, LPARAM lParam)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
+	mir_getCLI();
 
 	g_contactCache = new CContactCache;
 
-	WNDCLASSEX wcl = {0};
-	wcl.cbSize = sizeof(wcl);
+	WNDCLASSEX wcl = { sizeof(wcl) };
 	wcl.lpfnWndProc = MenuHostWndProc;
-	wcl.style = 0;
-	wcl.cbClsExtra = 0;
-	wcl.cbWndExtra = 0;
 	wcl.hInstance = g_hInst;
-	wcl.hIcon = NULL;
 	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-	wcl.lpszMenuName = NULL;
 	wcl.lpszClassName = _T("FavContactsMenuHostWnd");
-	wcl.hIconSm = NULL;
 	RegisterClassEx(&wcl);
 
 	g_hwndMenuHost = CreateWindow(_T("FavContactsMenuHostWnd"), NULL, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, g_hInst, NULL);
@@ -796,7 +790,7 @@ int sttShowMenu(bool centered)
 	SIZE szMenu = {0};
 	SIZE szColumn = {0};
 	TCHAR *prevGroup = NULL;
-	int i, idItem;
+	int i, idItem = 100;
 	HANDLE hContact;
 
 	favList.build();
@@ -830,7 +824,7 @@ int sttShowMenu(bool centered)
 			mis.itemData = groupID;
 			mis.itemID = idItem;
 			sttMeasureItem(&mis);
-			szColumn.cx = max(szColumn.cx, mis.itemWidth);
+			szColumn.cx = max(szColumn.cx, (int)mis.itemWidth);
 			szColumn.cy += mis.itemHeight;
 		}
 
@@ -839,7 +833,7 @@ int sttShowMenu(bool centered)
 		mis.itemData = (DWORD)hContact;
 		mis.itemID = idItem;
 		sttMeasureItem(&mis);
-		szColumn.cx = max(szColumn.cx, mis.itemWidth);
+		szColumn.cx = max(szColumn.cx, (int)mis.itemWidth);
 		szColumn.cy += mis.itemHeight;
 
 		prevGroup = favList[i]->getGroup();
@@ -848,7 +842,7 @@ int sttShowMenu(bool centered)
 	szMenu.cy = max(szMenu.cy, szColumn.cy);
 	szColumn.cx = szColumn.cy = 0;
 
-	unsigned maxWidth = GetSystemMetrics(SM_CXSCREEN) * db_get_b(NULL, "FavContacts", "MenuWidth", 66) / 100;
+	int maxWidth = GetSystemMetrics(SM_CXSCREEN) * db_get_b(NULL, "FavContacts", "MenuWidth", 66) / 100;
 	if (szMenu.cx > maxWidth) {
 		g_widthMultiplier = (float)maxWidth / szMenu.cx;
 		szMenu.cx *= g_widthMultiplier;
