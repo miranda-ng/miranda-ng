@@ -110,14 +110,6 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					AddRow(pwd, TranslateT("Log on:"), ago, NULL, false, false, false); 
 				}
 
-				// logoff info
-				TCHAR swzLogoff[64];
-				if (TimestampToTimeDifference(NULL, pwd->clcit.szProto, "LogoffTS", swzLogoff, 59)) {
-					TCHAR ago[96];
-					mir_sntprintf(ago, SIZEOF(ago), TranslateT("%s ago"), swzLogoff);
-					AddRow(pwd, TranslateT("Log off:"), ago, NULL, false, false, false); 
-				}
-
 				// number of unread emails
 				TCHAR swzEmailCount[64];
 				if (ProtoServiceExists(pwd->clcit.szProto, "/GetUnreadEmailCount")) {
@@ -1563,12 +1555,6 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						TCHAR ago[96];
 						mir_sntprintf(ago, SIZEOF(ago), TranslateT("%s ago"), buff);
 						AddRow(pwd, TranslateT("Log on:"), ago, NULL, false, false, false); 
-					}
-
-					if (TimestampToTimeDifference(NULL, pwd->clcit.szProto, "LogoffTS", buff, 59)) {
-						TCHAR ago[96];
-						mir_sntprintf(ago, SIZEOF(ago), TranslateT("%s ago"), buff);
-						AddRow(pwd, TranslateT("Log off:"), ago, NULL, false, false, false); 
 					}
 				}
 
