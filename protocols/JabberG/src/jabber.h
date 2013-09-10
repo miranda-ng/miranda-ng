@@ -390,8 +390,8 @@ struct ThreadData
 	void  close(void);
 	void  shutdown(void);
 	int   recv(char* buf, size_t len);
-	int   send(char* buffer, int bufsize);
-	int   send(const char* fmt, ...);
+	int   send(char* buffer, int bufsize = -1);
+//	int   send(const char* fmt, ...);
 	int   send(HXML node);
 
 	int   recvws(char* buffer, size_t bufsize, int flags);

@@ -28,20 +28,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void __cdecl CJabberProto::FileReceiveThread(filetransfer *ft)
 {
-	char* buffer;
-	int datalen;
 	ThreadData info(this, JABBER_SESSION_NORMAL);
 
 	Log("Thread started: type=file_receive server='%s' port='%d'", ft->httpHostName, ft->httpPort);
 
 	ft->type = FT_OOB;
-
-	if ((buffer=(char*)mir_alloc(JABBER_NETWORK_BUFFER_SIZE)) == NULL) {
-		Log("Cannot allocate network buffer, thread ended");
-		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
-		delete ft;
-		return;
-	}
 
 	NETLIBOPENCONNECTION nloc = { 0 };
 	nloc.cbSize = sizeof(nloc);
@@ -52,42 +43,40 @@ void __cdecl CJabberProto::FileReceiveThread(filetransfer *ft)
 	if (info.s == NULL) {
 		Log("Connection failed (%d), thread ended", WSAGetLastError());
 		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
-		mir_free(buffer);
-		delete ft;
-		return;
 	}
+	else {
+		ft->s = info.s;
 
-	ft->s = info.s;
+		char buffer[JABBER_NETWORK_BUFFER_SIZE];
+		int datalen = mir_snprintf(buffer, SIZEOF(buffer), "GET /%s HTTP/1.1\r\nHost: %s\r\n\r\n", ft->httpPath, ft->httpHostName);
+		info.send(buffer, datalen);
+		ft->state = FT_CONNECTING;
 
-	info.send("GET /%s HTTP/1.1\r\nHost: %s\r\n\r\n", ft->httpPath, ft->httpHostName);
-	ft->state = FT_CONNECTING;
+		Log("Entering file_receive recv loop");
 
-	Log("Entering file_receive recv loop");
-	datalen = 0;
+		datalen = 0;
+		while (ft->state != FT_DONE && ft->state != FT_ERROR) {
+			int recvResult, bytesParsed;
 
-	while (ft->state != FT_DONE && ft->state != FT_ERROR) {
-		int recvResult, bytesParsed;
+			Log("Waiting for data...");
+			recvResult = info.recv(buffer+datalen, JABBER_NETWORK_BUFFER_SIZE-datalen);
+			if (recvResult <= 0)
+				break;
+			datalen += recvResult;
 
-		Log("Waiting for data...");
-		recvResult = info.recv(buffer+datalen, JABBER_NETWORK_BUFFER_SIZE-datalen);
-		if (recvResult <= 0)
-			break;
-		datalen += recvResult;
+			bytesParsed = FileReceiveParse(ft, buffer, datalen);
+			if (bytesParsed < datalen)
+				memmove(buffer, buffer+bytesParsed, datalen-bytesParsed);
+			datalen -= bytesParsed;
+		}
 
-		bytesParsed = FileReceiveParse(ft, buffer, datalen);
-		if (bytesParsed < datalen)
-			memmove(buffer, buffer+bytesParsed, datalen-bytesParsed);
-		datalen -= bytesParsed;
+		ft->s = NULL;
+
+		if (ft->state==FT_DONE || (ft->state==FT_RECEIVING && ft->std.currentFileSize < 0))
+			ft->complete();
+
+		Log("Thread ended: type=file_receive server='%s'", ft->httpHostName);
 	}
-
-	ft->s = NULL;
-
-	if (ft->state==FT_DONE || (ft->state==FT_RECEIVING && ft->std.currentFileSize < 0))
-		ft->complete();
-
-	Log("Thread ended: type=file_receive server='%s'", ft->httpHostName);
-
-	mir_free(buffer);
 	delete ft;
 }
 

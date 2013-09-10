@@ -2040,10 +2040,12 @@ int ThreadData::send(char* buffer, int bufsize)
 	if (this == NULL)
 		return 0;
 
-	int result;
+	if (bufsize == -1)
+		bufsize = strlen(buffer);
 
 	WaitForSingleObject(iomutex, 6000);
 
+	int result;
 	if (useZlib)
 		result = zlibSend(buffer, bufsize);
 	else
@@ -2073,7 +2075,7 @@ int ThreadData::send(HXML node)
 	TCHAR *q = str;
 	for (TCHAR *p = str; *p; ++p) {
 
-			WCHAR c = *p;
+		WCHAR c = *p;
 
 		if (c < 0x9 || c > 0x9 && c < 0xA || c > 0xA && c < 0xD || c > 0xD && c < 0x20 || c > 0xD7FF && c < 0xE000 || c > 0xFFFD)
 			continue;
@@ -2083,31 +2085,10 @@ int ThreadData::send(HXML node)
 	*q = 0;
 
 
-		char* utfStr = mir_utf8encodeT(str);
-		int result = send(utfStr, (int)strlen(utfStr));
-		mir_free(utfStr);
+	char* utfStr = mir_utf8encodeT(str);
+	int result = send(utfStr, (int)strlen(utfStr));
+	mir_free(utfStr);
 
 	xi.freeMem(str);
-	return result;
-}
-
-int ThreadData::send(const char* fmt, ...)
-{
-	if (this == NULL)
-		return 0;
-
-	va_list vararg;
-	va_start(vararg, fmt);
-	int size = 512;
-	char* str = (char*)mir_alloc(size);
-	while (mir_vsnprintf(str, size, fmt, vararg) == -1) {
-		size += 512;
-		str = (char*)mir_realloc(str, size);
-	}
-	va_end(vararg);
-
-	int result = send(str, (int)strlen(str));
-
-	mir_free(str);
 	return result;
 }
