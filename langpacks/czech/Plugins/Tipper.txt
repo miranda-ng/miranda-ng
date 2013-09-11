@@ -294,8 +294,6 @@ Klient
 před %s
 [Log on:]
 Přihlášení:
-[Log off:]
-Odhlášení:
 [Unread emails:]
 Nepřečtené e-maily:
 [Status:]
@@ -393,14 +391,6 @@ Název aktivity:
 [jabber.dll] Zpráva aktivity
 [Activity text:]
 Zpráva aktivity:
-[[menuex.dll] Logon time]
-[menuex.dll] Čas přihlášení
-[Logon time:]
-Čas přihlášení:
-[[menuex.dll] Logoff time]
-[menuex.dll] Čas odhlášení
-[Logoff time:]
-Čas odhlášení:
 [[seenplugin.dll] Last seen time]
 [seenplugin.dll] Naposledy spatřen
 [Last seen time:]

@@ -284,7 +284,7 @@ Táhnutí myši
 Vylepšené rolování
 [Easy move]
 Vylepšené přesouvání
-[x100 msec]
+[x100 ms]
 x100 ms
 [show delay]
 prodleva zobrazení

@@ -1215,7 +1215,7 @@ Importovat detaily uživatele z VCard
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Can't create xml file!\n%S]
 Nelze vytvořit xml soubor!\n%S
-[Export took %f msec]
+[Export took %f ms]
 Export zabral %f ms
 [Contact: %s (%S)]
 Kontakt: %s (%S)
@@ -1237,8 +1237,8 @@ Dokončeno
 Kontakt vlastníka byl úspěšně naimportován.
 [Selected XMLCard does not contain an owner contact!]
 Vybraný XMLCard neobsahuje kontakt vlastníka
-[Import took %f msec]
-Import zabral %f msec
+[Import took %f ms]
+Import zabral %f ms
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 přidané kontakty: %u / %u\npřidaná nastavení: %u / %u\npřidané události %u / %u\nzdvojené události: %u
 [FATAL: An exception was thrown while importing contacts from xmlCard!]

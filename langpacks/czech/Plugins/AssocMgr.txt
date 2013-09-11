@@ -12,7 +12,7 @@ Spravuje asociace souborů a URL jako jsou aim, ymsgr, xmpp, wpmsg, gg, tlen.
 Asociace registrované pro Mirandu NG:
 [Miscellaneous]
 Ostatní
-[&Start Miranda NG automatically when the Computer starts (using current profile)]
+[&Start Miranda NG automatically when the computer starts (using current profile)]
 &Spustit Mirandu NG automaticky při startu počítače (použije se aktuální profil)
 [Only associate with Miranda NG while it is &running]
 Aso&ciovat s Mirandou NG jen po dobu jejího běhu

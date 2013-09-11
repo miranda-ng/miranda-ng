@@ -225,24 +225,18 @@ Poslední rok
 Vlastní
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
 ;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[upper right corner]
-Pravý horní roh
-[horizontal]
-vodorovné
-[vertical]
-svislé
-[Global Status]
-Globální stav
-[Protocol Status]
-Stav protokolu
-[Maximum width]
-Maximální šířka
-[Width]
-Šířka
-[Plugins]
-Doplňky
-[Non-IM Contacts]
-
+[Log Files (*.txt,*.log)]
+Záznamové soubory (*.txt,*.log)
+[Enter integer value]
+Zadejte číselnou hodnotu
+[Enter log file name.]
+Zadejte název záznamového souboru.
+[Enter log file format.]
+Zadejte formát záznamového souboru.
+[Enter history format.]
+Zadejte formát historie.
+[Enter popup window format.]
+Zadejte formát oznámení.
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -297,15 +291,3 @@ Doplňky
 [Change]
 Změnit
 ;file \plugins\Quotes\src\SettingsDlg.cpp
-[Log Files (*.txt,*.log)]
-Záznamové soubory (*.txt,*.log)
-[Enter integer value]
-Zadejte číselnou hodnotu
-[Enter log file name.]
-Zadejte název záznamového souboru.
-[Enter log file format.]
-Zadejte formát záznamového souboru.
-[Enter history format.]
-Zadejte formát historie.
-[Enter popup window format.]
-Zadejte formát oznámení.

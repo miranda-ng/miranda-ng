@@ -1834,11 +1834,9 @@ Google Talk!
 [LiveJournal Talk]
 LiveJournal Talk
 [Facebook Chat]
-
-[Vkontakte]
-
+Facebook Chat
 [Odnoklassniki]
-
+Odnoklassniki
 [Some changes will take effect the next time you connect to the Jabber network.]
 Některé změny se projeví až při příštím přihlášení do vybrané sítě Jabber.
 ;file \protocols\JabberG\src\jabber_password.cpp
@@ -2099,8 +2097,8 @@ Operační systém
 Verze operačního systému
 [Software version]
 Verze softwaru
-[Miranda NG core version]
-Verze jádra Mirandy NG
+[Miranda core version]
+Verze jádra Mirandy
 [Mood]
 Nálada
 [Activity]

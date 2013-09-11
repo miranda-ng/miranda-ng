@@ -6,7 +6,7 @@
 ;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
 [Provides a simple way to set status and away messages.]
-
+Umožňuje jednoduchou volbu stavu a stavových zpráv.
 ;file \plugins\SimpleStatusMsg\res\resource.rc
 [%s Message for %s]
 Stav: '%s', uživatel: %s
@@ -17,13 +17,13 @@ Zjištění automatické odpovědi ve stavu '%s'...
 [Co&py to Clipboard]
 Zko&pírovat
 [%s Message (%s)]
-
+Zpráva stavu %s (%s)
 [OK]
 OK
 [Retrieving status message for %s...]
 Zjišťování zprávy stavu pro '%s'...
 [Behaviour on status change]
-
+Chování při změně stavu
 [Apply to all]
 Použít u všech
 [Max length:]
@@ -59,15 +59,15 @@ Aktualizovat proměnné ve zprávě stavu každých
 [seconds]
 sek.
 [Do not update variables during idle]
-
+Neaktualizovat proměnné během nečinnosti
 [Do not update variables on ICQ status message requests]
-
+Neaktualizovat proměnné pro požadavky o zprávu stavu ICQ
 [Leave last played track's title after exiting the player]
 Ponechat název poslední skladby po vypnutí přehrávače
 [Enable status messages parsing by Variables plugin]
-
+Povolit parsování zprávy stavu doplňkem Variables
 [Exclude %date% token from parsing (restart required)]
-
+Neparsovat token %date% (vyžaduje restart)
 [Layout]
 Rozvržení
 [Show status list]
@@ -117,43 +117,43 @@ Stav:
 [Independent setting for each protocol]
 Nastavení pro každý protokol zvlášť
 [Pop up dialog asking for status message]
-
+Zobrazit dialog pro zadání zprávy stavu
 [Fortune]
 
 [?cinfo(contact,property)]
-
+?cinfo(kontakt,vlastnost)
 [?contact(string,property)]
-
+?contact(řetězec,vlastnost)
 [?mstatus(protocol)]
-
+?mstatus(protokol)
 [?lsdate(contact,format)]
-
+?lsdate(kontakt,formát)
 [?lsstatus(contact)]
-
+?lsstatus(kontakt)
 [?lstime(contact,format)]
-
+?lstime(kontakt,formát)
 [?dbsetting(contact,module,setting)]
-
+?dbsetting(kontakt,modul,nastavení)
 [?txtfile(file,line)]
-
+?txtfile(soubor,řádek)
 [?if(condition,true,false)]
-
+?if(podmínka,true,false)
 [?strcmp(string1,string2)]
-
+?strcmp(řetězec1,řetězec2)
 [?stricmp(string1,string2)]
-
+?stricmp(řetězec1,řetězec2)
 [?cdate(format)]
-
+?cdate(formát)
 [?ctime(format)]
-
+?ctime(formát)
 [?replace(sub,string1,string2)]
-
+?replace(podřetězec,řetězec1,řetězec2)
 [?lower(string)]
-
+?lower(řetězec)
 [?upper(string)]
-
+?upper(řetězec)
 [?scroll(string,numchars,numchars)]
-
+?scroll(řetězec,početznaků,početznaků)
 [More variables...]
 Více proměnných...
 [Cut]
@@ -168,7 +168,7 @@ Smazat
 Vybrat vše
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [Failed to retrieve %s message.]
-
+Nepodařilo se získat zprávu stavu %s.
 [&Close]
 &Zavřít
 [Re&ad %s Message]
@@ -182,12 +182,12 @@ Přečíst &autom. odpověď
 [Copy Away Message]
 Zkopírovat zprávu stavu
 [&Go to URL in Away Message]
-
+&Přejít na URL ze zprávy stavu
 ;file \plugins\SimpleStatusMsg\src\main.cpp
 [Change Status Message]
 Změnit zprávu stavu
 [Open Status Message Dialog]
-
+Zobrazit dialog se zprávou stavu
 [Status Message]
 Zpráva stavu
 [Status Message...]
@@ -204,7 +204,7 @@ Miranda
 
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [<startup>]
-
+<při spuštění>
 [<current>]
 <současný>
 [Add to Predefined]
@@ -252,7 +252,7 @@ Poslední zpráva
 [Predefined Message]
 Předdefinovaná zpráva
 [Go to URL in Away Message]
-
+Přejít na URL ze zprávy stavu
 [Simple Status Message]
 
 [I've been away since %time%.]

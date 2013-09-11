@@ -26,7 +26,7 @@ Prefix:
 Vzhled
 [Display time:]
 Doba zobrazení:
-[msec]
+[ms]
 ms
 [Fade in:]
 Náběh:

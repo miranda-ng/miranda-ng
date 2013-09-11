@@ -6,7 +6,7 @@
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
-
+Zaznamenává kdy byl uživatel naposledy spatřen a kteří uživatelé se připojili během vaší nečinnosti.
 ;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 Nastavení
@@ -17,7 +17,7 @@ Zobrazit ikonu
 [Userinfo tab]
 Záložka s informacemi o uživateli
 [Log to file]
-Uložit záznam
+Záznam do souboru
 [Log to history]
 Záznam do historie
 [Maximum size]
@@ -71,7 +71,7 @@ OK
 [You missed following contacts:]
 Zmeškali jste tyto kontakty:
 [Test\nTest]
-
+Test\nTest
 [Alert when user status changes]
 Upozornit při změně stavu
 ;file \plugins\SeenPlugin\src\history.cpp
@@ -84,18 +84,18 @@ Uživatelské menu
 [Send Instant Message]
 Odeslat zprávu
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
-
+Datum: %d.%m.%y(%Y) \n Popis data: %W - %w - %E - %e \n Čas: %H:%M:%S (%h-%p) \n Uživatel: %n - %u \n Stav: %s \n IP: %i - %r
 ;file \plugins\SeenPlugin\src\main.cpp
 [LastSeen]
-
+Naposledy spatřen
 [User status change]
-
+Změna stavu uživatele
 [Changed to Online]
-
+Změna stavu na Online
 [User Logged Off]
-
+Uživatel se odhlásil
 [User Logged In]
-
+Uživatel se přihlásil
 [Last seen]
 Naposledy spatřen
 ;file \plugins\SeenPlugin\src\menu.cpp
@@ -112,11 +112,11 @@ Kontakty
 Oznámení
 ;file \plugins\SeenPlugin\src\seen.h
 [%n is %s (%u)]
-
+%n je %s (%u)
 [%i(%r)%bWas %o]
-
+%i (%r) %b byl %o
 [Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
-
+Jméno:%t%N%bStav:%t%s%bDen:%t%d.%m.%Y%bČas:%t%H:%M:%S%bPředchozí stav:%t%o%b%b%P ID:%t%u%bExterní IP:%t%i%bInterní IP:%t%r%bKlient ID: %t%C%b%bZpráva stavu:%t%T
 [-- Date --]
 -- Datum --
 [year (4 digits)]
@@ -184,9 +184,9 @@ Pozn.:
 [Use]
 Použít
 [for empty string]
-
+pro prázdné řetězce
 [instead of]
-
+namísto
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
 [Sunday]
@@ -264,7 +264,7 @@ lis
 [Dec.]
 pro
 [<never seen>]
-
+<nikdy nespatřen>
 [Idle]
 Nečinnost
 [Unknown]

@@ -72,5 +72,3 @@ Kontakty
 Oblíbené
 [&Favourite Contacts...]
 &Oblíbené kontakty...
-[<No group>]
-<Žádná skupina>
