@@ -2,9 +2,10 @@
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
-;  Version: 2.1.0.1
-;  Authors: 
+;  Version: 2.1.0.5
+;  Authors: Ivan Rozhuk
 ;============================================================
+[Miranda Mail.ru Agent protocol plugin.]
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
 [Password:]
@@ -17,7 +18,6 @@
 [Automatically add contacts to server list on logon]
 [Automatically grant authorization to users in contact list]
 [Automatically grant authorization to new users]
-[Disable spam check]
 [Notify me when a message delivery has failed]
 [Notify about new mail if increment]
 [Notify about new mail tray icon]
@@ -77,25 +77,11 @@
 [Closing in %d]
 [Title:]
 [Message:]
-[Enable anti-spam]
-[Check temp contacts]
-[Delete spam bot contacts]
-[Max. language changes in message (0 - disabled)]
-[Show pop up]
-[Write to system history]
-[Send spam report to server]
-[Bad words list]
-[Add]
-[Remove]
-[Ignory non AlphaNumeric characters]
 [OK]
 [Cancel]
 [Notify]
 [Writed:]
 [Select e-mail]
-;file \protocols\MRA\src\MraAntiSpam.cpp
-[Spam bot blocked]
-[Spam bot contact deleted]
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
 [Avatars]
@@ -175,7 +161,6 @@
 [Network]
 [Account]
 [Connections]
-[Anti-spam]
 [Files]
 ;file \protocols\MRA\src\Mra_proto.cpp
 [Please, setup e-mail in options]

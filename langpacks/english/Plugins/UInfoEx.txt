@@ -627,7 +627,7 @@
 [Import User Details from VCard]
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Can't create xml file!\n%S]
-[Export took %f msec]
+[Export took %f ms]
 [Contact: %s (%S)]
 [Importing %s caused error %d]
 [Loading contact %s from xml failed with error %d]
@@ -638,7 +638,7 @@
 [Complete]
 [Owner contact successfully imported.]
 [Selected XMLCard does not contain an owner contact!]
-[Import took %f msec]
+[Import took %f ms]
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp

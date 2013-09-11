@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MenuEx.dll
 ;  Plugin: Menu item ext
-;  Version: 1.3.0.9
+;  Version: 1.3.0.10
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
 [Adds some useful options to a contacts menu.]
@@ -29,8 +29,6 @@
 [Trim too long ID]
 [* Use Ctrl+click to see popup with the copied text]
 [Hide contact on 'Ignore all']
-[Other options]
-[Automatically refresh contact's details after they come online]
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 [XStatus title]

@@ -932,7 +932,6 @@
 [Google Talk!]
 [LiveJournal Talk]
 [Facebook Chat]
-[Vkontakte]
 [Odnoklassniki]
 [Some changes will take effect the next time you connect to the Jabber network.]
 ;file \protocols\JabberG\src\jabber_password.cpp
@@ -1068,7 +1067,7 @@
 [Operating system]
 [Operating system version]
 [Software version]
-[Miranda NG core version]
+[Miranda core version]
 [Mood]
 [Activity]
 [Tune]

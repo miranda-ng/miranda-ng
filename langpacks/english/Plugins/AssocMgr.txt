@@ -9,7 +9,7 @@
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 [Miscellaneous]
-[&Start Miranda NG automatically when the Computer starts (using current profile)]
+[&Start Miranda NG automatically when the computer starts (using current profile)]
 [Only associate with Miranda NG while it is &running]
 ;file \plugins\AssocMgr\src\assoclist.cpp
 [%hs files]

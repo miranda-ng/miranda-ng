@@ -40,4 +40,3 @@
 [Contacts]
 [Favourites]
 [&Favourite Contacts...]
-[<No group>]

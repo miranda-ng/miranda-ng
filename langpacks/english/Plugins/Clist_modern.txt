@@ -145,7 +145,7 @@
 [Drag to]
 [Easy Scroll]
 [Easy move]
-[x100 msec]
+[x100 ms]
 [show delay]
 [hide delay]
 [Hide method]

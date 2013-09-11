@@ -2268,7 +2268,7 @@
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 [Miscellaneous]
-[&Start Miranda NG automatically when the Computer starts (using current profile)]
+[&Start Miranda NG automatically when the computer starts (using current profile)]
 [Only associate with Miranda NG while it is &running]
 ;file \plugins\AssocMgr\src\assoclist.cpp
 [%hs files]
@@ -3544,7 +3544,7 @@
 [Drag to]
 [Easy Scroll]
 [Easy move]
-[x100 msec]
+[x100 ms]
 [show delay]
 [hide delay]
 [Hide method]
@@ -5053,7 +5053,7 @@
 [Welcome to the Miranda Database Wizard]
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
 [To continue, click Next.]
-[This programme is licenced under the terms of the GNU General Public License.]
+[This program is licenced under the terms of the GNU General Public License.]
 [Miranda Database Tool]
 [< &Back]
 [&Next >]
@@ -5839,7 +5839,6 @@
 [Contacts]
 [Favourites]
 [&Favourite Contacts...]
-[<No group>]
 ﻿#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
 ;============================================================
 ;  File: FileAsMessage.dll
@@ -6193,7 +6192,7 @@
 ;============================================================
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
 ;file \plugins\FTPFileYM\res\ftpfile.rc
-[FTP account]
+[FTP accounts]
 [Host name]
 [User]
 [Password]
@@ -8222,7 +8221,7 @@
 ;  Version: 0.0.3.0
 ;  Authors: Kildor
 ;============================================================
-[Shows ignore state of contact in contacts list.]
+[Shows ignore state of contact in contact list.]
 ;file \plugins\IgnoreState\res\ignore.rc
 [Plugin settings]
 [Filtered events:]
@@ -9722,7 +9721,6 @@
 [Google Talk!]
 [LiveJournal Talk]
 [Facebook Chat]
-[Vkontakte]
 [Odnoklassniki]
 [Some changes will take effect the next time you connect to the Jabber network.]
 ;file \protocols\JabberG\src\jabber_password.cpp
@@ -9858,7 +9856,7 @@
 [Operating system]
 [Operating system version]
 [Software version]
-[Miranda NG core version]
+[Miranda core version]
 [Mood]
 [Activity]
 [Tune]
@@ -10636,7 +10634,7 @@
 ;============================================================
 ;  File: MenuEx.dll
 ;  Plugin: Menu item ext
-;  Version: 1.3.0.9
+;  Version: 1.3.0.10
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
 [Adds some useful options to a contacts menu.]
@@ -10663,8 +10661,6 @@
 [Trim too long ID]
 [* Use Ctrl+click to see popup with the copied text]
 [Hide contact on 'Ignore all']
-[Other options]
-[Automatically refresh contact's details after they come online]
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 [XStatus title]
@@ -11024,9 +11020,10 @@
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
-;  Version: 2.1.0.1
-;  Authors: 
+;  Version: 2.1.0.5
+;  Authors: Ivan Rozhuk
 ;============================================================
+[Miranda Mail.ru Agent protocol plugin.]
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
 [Password:]
@@ -11039,7 +11036,6 @@
 [Automatically add contacts to server list on logon]
 [Automatically grant authorization to users in contact list]
 [Automatically grant authorization to new users]
-[Disable spam check]
 [Notify me when a message delivery has failed]
 [Notify about new mail if increment]
 [Notify about new mail tray icon]
@@ -11099,25 +11095,11 @@
 [Closing in %d]
 [Title:]
 [Message:]
-[Enable anti-spam]
-[Check temp contacts]
-[Delete spam bot contacts]
-[Max. language changes in message (0 - disabled)]
-[Show pop up]
-[Write to system history]
-[Send spam report to server]
-[Bad words list]
-[Add]
-[Remove]
-[Ignory non AlphaNumeric characters]
 [OK]
 [Cancel]
 [Notify]
 [Writed:]
 [Select e-mail]
-;file \protocols\MRA\src\MraAntiSpam.cpp
-[Spam bot blocked]
-[Spam bot contact deleted]
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
 [Avatars]
@@ -11197,7 +11179,6 @@
 [Network]
 [Account]
 [Connections]
-[Anti-spam]
 [Files]
 ;file \protocols\MRA\src\Mra_proto.cpp
 [Please, setup e-mail in options]
@@ -13789,15 +13770,12 @@
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
 ;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[upper right corner]
-[horizontal]
-[vertical]
-[Global Status]
-[Protocol Status]
-[Maximum width]
-[Width]
-[Plugins]
-[Non-IM Contacts]
+[Log Files (*.txt,*.log)]
+[Enter integer value]
+[Enter log file name.]
+[Enter log file format.]
+[Enter history format.]
+[Enter popup window format.]
 ;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
@@ -13827,12 +13805,6 @@
 [Previous Close]
 [Change]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
-[Log Files (*.txt,*.log)]
-[Enter integer value]
-[Enter log file name.]
-[Enter log file format.]
-[Enter history format.]
-[Enter popup window format.]
 ﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
@@ -15748,7 +15720,7 @@
 [Prefix:]
 [Appearance]
 [Display time:]
-[msec]
+[ms]
 [Fade in:]
 [steps]
 [Fade out:]
@@ -16322,11 +16294,11 @@
 [Rename]
 [Create a new container]
 [Create new]
+[Reset]
 [Show in IM chats]
 [Show in chat rooms]
 [Gap between buttons:]
 [Hide if there isn't enough space]
-[Reset]
 [Insert Separator]
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
 [Tabs should be used in the following way]
@@ -17432,7 +17404,6 @@
 [%s (locked)]
 [%s ago]
 [Log on:]
-[Log off:]
 [Unread emails:]
 [Status:]
 [Status message:]
@@ -17482,10 +17453,6 @@
 [Activity title:]
 [[jabber.dll] Activity text]
 [Activity text:]
-[[menuex.dll] Logon time]
-[Logon time:]
-[[menuex.dll] Logoff time]
-[Logoff time:]
 [[seenplugin.dll] Last seen time]
 [Last seen time:]
 [[seenplugin.dll] Last seen status]
@@ -18706,7 +18673,7 @@
 [Import User Details from VCard]
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Can't create xml file!\n%S]
-[Export took %f msec]
+[Export took %f ms]
 [Contact: %s (%S)]
 [Importing %s caused error %d]
 [Loading contact %s from xml failed with error %d]
@@ -18717,7 +18684,7 @@
 [Complete]
 [Owner contact successfully imported.]
 [Selected XMLCard does not contain an owner contact!]
-[Import took %f msec]
+[Import took %f ms]
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
