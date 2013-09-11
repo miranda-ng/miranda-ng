@@ -1803,7 +1803,6 @@ protected:
 		else m_proto->delSetting("LoginPassword");
 
 		switch (m_cbType.GetItemData(m_cbType.GetCurSel())) {
-		case ACC_FBOOK:
 		case ACC_OK:
 			m_proto->m_options.IgnoreRosterGroups = TRUE;
 
@@ -1825,6 +1824,9 @@ protected:
 				}
 			}
 			break;
+
+		case ACC_FBOOK:
+			m_proto->m_options.IgnoreRosterGroups = TRUE;
 
 		case ACC_TLS:
 		case ACC_LJTALK:
