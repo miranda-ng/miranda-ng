@@ -85,66 +85,58 @@ static void ApplyUpdates(void *param)
 	}
 	Netlib_CloseHandle(nlc);
 
-	if (todo.getCount() == 0) {
-LBL_Exit:
-		if (hPipe)
-			CloseHandle(hPipe);
-		DestroyWindow(hDlg);
-		return;
-	}
+	if (todo.getCount() > 0) {
+		TCHAR *tszMirandaPath = Utils_ReplaceVarsT(_T("%miranda_path%"));
 
-	PopupDataText temp;
-	temp.Title = TranslateT("Plugin Updater");
-	temp.Text = tszBuff;
-	lstrcpyn(tszBuff, TranslateT("Download complete. Start updating? All your data will be saved and Miranda NG will be closed."), SIZEOF(tszBuff));
-	int rc = MessageBox(hDlg, temp.Text, temp.Title, MB_YESNO | MB_ICONQUESTION);
-	if (rc != IDYES) {
-		mir_sntprintf(tszBuff, SIZEOF(tszBuff), TranslateT("You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s"), tszFileTemp);
-		ShowPopup(0, LPGENT("Plugin Updater"), tszBuff, 2, 0);
-		goto LBL_Exit;
-	}
+		for (int i = 0; i < todo.getCount(); i++) {
+			if ( !todo[i].bEnabled)
+				continue;
 
-	TCHAR *tszMirandaPath = Utils_ReplaceVarsT(_T("%miranda_path%"));
+			TCHAR tszBackFile[MAX_PATH];
+			FILEINFO& p = todo[i];
+			if (p.bDeleteOnly) { // we need only to backup the old file
+				TCHAR *ptszRelPath = p.tszNewName + _tcslen(tszMirandaPath) + 1;
+				mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, ptszRelPath);
+				BackupFile(p.tszNewName, tszBackFile);
+				continue;
+			}
 
-	for (int i = 0; i < todo.getCount(); i++) {
-		if ( !todo[i].bEnabled)
-			continue;
+			// if file name differs, we also need to backup the old file here
+			// otherwise it would be replaced by unzip
+			if ( _tcsicmp(p.tszOldName, p.tszNewName)) {
+				TCHAR tszSrcPath[MAX_PATH];
+				mir_sntprintf(tszSrcPath, SIZEOF(tszSrcPath), _T("%s\\%s"), tszMirandaPath, p.tszOldName);
+				mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, p.tszOldName);
+				BackupFile(tszSrcPath, tszBackFile);
+			}
 
-		TCHAR tszBackFile[MAX_PATH];
-		FILEINFO& p = todo[i];
-		if (p.bDeleteOnly) { // we need only to backup the old file
-			TCHAR *ptszRelPath = p.tszNewName + _tcslen(tszMirandaPath) + 1;
-			mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, ptszRelPath);
-			BackupFile(p.tszNewName, tszBackFile);
-			continue;
+			if ( unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack))
+				SafeDeleteFile(p.File.tszDiskPath);  // remove .zip after successful update
 		}
 
-		// if file name differs, we also need to backup the old file here
-		// otherwise it would be replaced by unzip
-		if ( _tcsicmp(p.tszOldName, p.tszNewName)) {
-			TCHAR tszSrcPath[MAX_PATH];
-			mir_sntprintf(tszSrcPath, SIZEOF(tszSrcPath), _T("%s\\%s"), tszMirandaPath, p.tszOldName);
-			mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, p.tszOldName);
-			BackupFile(tszSrcPath, tszBackFile);
-		}
+		// Change title of clist
+		#if MIRANDA_VER < 0x0A00
+			ptrT title = db_get_tsa(NULL, "CList", "TitleText");
+			if (!_tcsicmp(title, _T("Miranda IM")))
+				db_set_ts(NULL, "CList", "TitleText", _T("Miranda NG"));
+		#endif
 
-		if ( unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack))
-			SafeDeleteFile(p.File.tszDiskPath);  // remove .zip after successful update
+		opts.bForceRedownload = false;
+		db_unset(NULL, MODNAME, "ForceRedownload");
+
+		db_set_b(NULL, MODNAME, "RestartCount", 5);
+
+		PopupDataText temp;
+		temp.Title = TranslateT("Plugin Updater");
+		temp.Text = tszBuff;
+		lstrcpyn(tszBuff, TranslateT("Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit"), SIZEOF(tszBuff));
+		int rc = MessageBox(hDlg, temp.Text, temp.Title, MB_YESNO | MB_ICONQUESTION);
+		if (rc == IDYES)
+			CallFunctionAsync(RestartMe, 0);
 	}
-
-	// Change title of clist
-	#if MIRANDA_VER < 0x0A00
-		ptrT title = db_get_tsa(NULL, "CList", "TitleText");
-		if (!_tcsicmp(title, _T("Miranda IM")))
-			db_set_ts(NULL, "CList", "TitleText", _T("Miranda NG"));
-	#endif
-
-	opts.bForceRedownload = false;
-	db_unset(NULL, MODNAME, "ForceRedownload");
-
-	db_set_b(NULL, MODNAME, "RestartCount", 5);
-	CallFunctionAsync(RestartMe, 0);
-	goto LBL_Exit;
+	if (hPipe)
+		CloseHandle(hPipe);
+	DestroyWindow(hDlg);
 }
 
 static void ResizeVert(HWND hDlg, int yy)
