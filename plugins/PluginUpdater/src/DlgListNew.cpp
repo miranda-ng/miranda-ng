@@ -38,7 +38,7 @@ static void ApplyDownloads(void *param)
 	// if we need to escalate priviledges, launch a atub
 
 	if ( !PrepareEscalation()) {
-		DestroyWindow(hDlg);
+		EndDialog(hDlg, 0);
 		return;
 	}
 
@@ -118,7 +118,7 @@ static void ApplyDownloads(void *param)
 	if (hPipe)
 		CloseHandle(hPipe);
 	CloseWindow(hDlg);
-	DestroyWindow(hDlg);
+	EndDialog(hDlg, 0);
 	hwndDialog = NULL;
 	return;
 }

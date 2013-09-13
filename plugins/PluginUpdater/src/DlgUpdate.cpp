@@ -45,7 +45,7 @@ static void ApplyUpdates(void *param)
 	// if we need to escalate priviledges, launch a atub
 
 	if ( !PrepareEscalation()) {
-		DestroyWindow(hDlg);
+		EndDialog(hDlg, 0);
 		return;
 	}
 
@@ -136,7 +136,7 @@ static void ApplyUpdates(void *param)
 	}
 	if (hPipe)
 		CloseHandle(hPipe);
-	DestroyWindow(hDlg);
+	EndDialog(hDlg, 0);
 }
 
 static void ResizeVert(HWND hDlg, int yy)
