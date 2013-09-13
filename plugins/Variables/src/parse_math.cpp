@@ -19,31 +19,33 @@
 
 #include "variables.h"
 
-static TCHAR *parseAdd(ARGUMENTSINFO *ai) {
-	if (ai->argc < 3) {
+static TCHAR *parseAdd(ARGUMENTSINFO *ai)
+{
+	if (ai->argc < 3)
 		return NULL;
-	}
+
 	int result = 0;
-	for (unsigned int i=1;i<ai->argc;i++) {
+	for (unsigned int i=1;i<ai->argc;i++)
 		result += ttoi(ai->targv[i]);
-	}
+
 	return itot(result);
 }
 
-static TCHAR *parseDiv(ARGUMENTSINFO *ai) {
-	if (ai->argc != 3) {
+static TCHAR *parseDiv(ARGUMENTSINFO *ai)
+{
+	if (ai->argc != 3)
 		return NULL;
-	}
 
 	int val1 = ttoi(ai->targv[1]);
 	int val2 = ttoi(ai->targv[2]);
-	if (val2 == 0) {
+	if (val2 == 0)
 		return NULL;
-	}
+
 	return itot(val1/val2);
 }
 
-static TCHAR *parseHex(ARGUMENTSINFO *ai) {
+static TCHAR *parseHex(ARGUMENTSINFO *ai)
+{
 	unsigned int i;
 	TCHAR szVal[34];
 
@@ -60,83 +62,75 @@ static TCHAR *parseHex(ARGUMENTSINFO *ai) {
 
 	ZeroMemory(res, (zeros + _tcslen(szVal) + 3)*sizeof(TCHAR));
 	_tcscpy(res, _T("0x"));
-	for (i=0;i<zeros;i++)
-		*(res+2+i) = _T('0');
+	for (i=0; i < zeros; i++)
+		*(res+2+i) = '0';
 
 	_tcscat(res, szVal);
 	return res;
 }
 
-static TCHAR *parseMod(ARGUMENTSINFO *ai) {
-	if (ai->argc != 3) {
+static TCHAR *parseMod(ARGUMENTSINFO *ai)
+{
+	if (ai->argc != 3)
 		return NULL;
-	}
+
 	int val1 = ttoi(ai->targv[1]);
 	int val2 = ttoi(ai->targv[2]);
-	if (val2 == 0) {
+	if (val2 == 0)
 		return NULL;
-	}
 
-	return itot(val1%val2);
+	return itot(val1 % val2);
 }
 
-static TCHAR *parseMul(ARGUMENTSINFO *ai) {
-	unsigned int i;
-
-	if (ai->argc < 3) {
+static TCHAR *parseMul(ARGUMENTSINFO *ai)
+{
+	if (ai->argc < 3)
 		return NULL;
-	}
+
 	int result = ttoi(ai->targv[1]);
-	for (i=2;i<ai->argc;i++) {
+	for (unsigned i=2; i < ai->argc; i++)
 		result *= ttoi(ai->targv[i]);
-	}
 
 	return itot(result);
 }
 
-static TCHAR *parseMuldiv(ARGUMENTSINFO *ai) {
+static TCHAR *parseMuldiv(ARGUMENTSINFO *ai)
+{
+	if (ai->argc != 4)
+		return NULL;
 
-	if (ai->argc != 4) {
+	if (ttoi(ai->targv[3]) == 0)
 		return NULL;
-	}
-	if (ttoi(ai->targv[3]) == 0) {
-		return NULL;
-	}
 
 	return itot((ttoi(ai->targv[1])*ttoi(ai->targv[2]))/ttoi(ai->targv[3]));
 }
 
-static TCHAR *parseMin(ARGUMENTSINFO *ai) {
-	unsigned int i;
-
-	if (ai->argc < 2) {
+static TCHAR *parseMin(ARGUMENTSINFO *ai)
+{
+	if (ai->argc < 2)
 		return NULL;
-	}
+
 	int minVal = ttoi(ai->targv[1]);
-	for (i=2;i<ai->argc;i++) {
+	for (unsigned i=2; i < ai->argc; i++)
 		minVal = min(ttoi(ai->targv[i]), minVal);
-	}
 
 	return itot(minVal);
 }
 
-static TCHAR *parseMax(ARGUMENTSINFO *ai) {
-	unsigned int i;
-
-	if (ai->argc < 2) {
+static TCHAR *parseMax(ARGUMENTSINFO *ai)
+{
+	if (ai->argc < 2)
 		return NULL;
-	}
+
 	int maxVal = ttoi(ai->targv[1]);
-	for (i=2;i<ai->argc;i++) {
+	for (unsigned i=2; i < ai->argc; i++)
 		maxVal = max(ttoi(ai->targv[i]), maxVal);
-	}
 
 	return itot(maxVal);
 }
 
-static TCHAR *parseNum(ARGUMENTSINFO *ai) {
-	unsigned int zeros, i;
-
+static TCHAR *parseNum(ARGUMENTSINFO *ai)
+{
 	if (ai->argc != 3)
 		return NULL;
 
@@ -146,15 +140,15 @@ static TCHAR *parseNum(ARGUMENTSINFO *ai) {
 	if (szVal == NULL)
 		return NULL;
 
-	zeros = max(padding - (signed int)_tcslen(szVal), 0);
+	unsigned zeros = max(padding - (signed int)_tcslen(szVal), 0);
 	TCHAR *res = (TCHAR*)mir_alloc((zeros + _tcslen(szVal) + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
 	ZeroMemory(res, (zeros + _tcslen(szVal) + 1)*sizeof(TCHAR));
 	TCHAR *cur = res;
-	for (i=0;i<zeros;i++)
-		*cur++ = _T('0');
+	for (unsigned i=0; i < zeros; i++)
+		*cur++ = '0';
 
 	_tcscat(res, szVal);
 	mir_free(szVal);
@@ -162,27 +156,25 @@ static TCHAR *parseNum(ARGUMENTSINFO *ai) {
 	return res;
 }
 
-static TCHAR *parseRand(ARGUMENTSINFO *ai) {
-
+static TCHAR *parseRand(ARGUMENTSINFO *ai)
+{
 	return itot(rand());
 }
 
-static TCHAR *parseSub(ARGUMENTSINFO *ai) {
-	unsigned int i;
-
-	if (ai->argc < 3) {
+static TCHAR *parseSub(ARGUMENTSINFO *ai)
+{
+	if (ai->argc < 3)
 		return NULL;
-	}
+
 	int result = ttoi(ai->targv[1]);
-	for (i=2;i<ai->argc;i++) {
+	for (unsigned i=2;i<ai->argc;i++)
 		result -= ttoi(ai->targv[i]);
-	}
 
 	return itot(result);
 }
 
-int registerMathTokens() {
-
+int registerMathTokens()
+{
 	registerIntToken(_T(ADD), parseAdd, TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y ,...)\t"LPGEN("x + y + ..."));
 	registerIntToken(_T(DIV), parseDiv,	TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y)\t"LPGEN("x divided by y"));
 	registerIntToken(_T(HEX), parseHex,	TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y)\t"LPGEN("converts decimal value x to hex value and padds to length y"));

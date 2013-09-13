@@ -257,9 +257,9 @@ static TCHAR *getTokenCategory(TOKENREGISTEREX *tr) {
 		return NULL;
 	}
 	cur = helpText;
-	while (*cur != _T('\0')) {
-		if (*cur == _T('\t')) {
-			*cur = _T('\0');
+	while (*cur != 0) {
+		if (*cur == '\t') {
+			*cur = 0;
 			helpText = ( char* )mir_realloc(helpText, strlen(helpText)+1);
 
 			res = mir_a2t(helpText);
@@ -283,7 +283,7 @@ static TCHAR *getHelpDescription(TOKENREGISTEREX *tr)
 
 	char *cur = tr->szHelpText + strlen(tr->szHelpText);
 	while (cur > tr->szHelpText) {
-		if (*cur == _T('\t')) {
+		if (*cur == '\t') {
 
 			cur = mir_strdup(cur+1);
 			TCHAR *res = mir_a2t(cur);
@@ -316,8 +316,8 @@ static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
 
 	char *cur = helpText;
 	first = second = NULL;
-	while (*cur != _T('\0')) {
-		if (*cur == _T('\t')) {
+	while (*cur != 0) {
+		if (*cur == '\t') {
 			if (first == NULL)
 				first = cur;
 			else if (second == NULL)
@@ -327,7 +327,7 @@ static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
 	}
 
 	if ((first != NULL) && (second != NULL)) {
-		*second = _T('\0');
+		*second = 0;
 		args = first+1;
 	}
 	else args = NULL;
@@ -338,12 +338,12 @@ static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
 		return NULL;
 
 	if (tr->flags&TRF_FIELD)
-		mir_sntprintf(desc, len, _T("%c%s%c"), _T(FIELD_CHAR), tr->szTokenString, _T(FIELD_CHAR));
+		mir_sntprintf(desc, len, _T("%c%s%c"), FIELD_CHAR, tr->szTokenString, FIELD_CHAR);
 	else {
 		if (args != NULL)
 			tArgs = mir_a2t(args);
 
-		mir_sntprintf(desc, len, _T("%c%s%s"), _T(FUNC_CHAR), tr->tszTokenString, (tArgs!=NULL?tArgs:_T("")));
+		mir_sntprintf(desc, len, _T("%c%s%s"), FUNC_CHAR, tr->tszTokenString, (tArgs!=NULL?tArgs:_T("")));
 	}
 	if (tArgs != NULL)
 		mir_free(tArgs);
@@ -540,7 +540,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg,UINT msg,WPARAM wParam
 				break;
 			}
 			ZeroMemory(tokenString, (len+1)*sizeof(TCHAR));
-			mir_sntprintf(tokenString, len + 1, _T("%c%s%c"), (tr->flags & TRF_FIELD ? _T(FIELD_CHAR) : _T(FUNC_CHAR)), tr->tszTokenString, (tr->flags & TRF_FIELD ? _T(FIELD_CHAR) : _T('(')));
+			mir_sntprintf(tokenString, len + 1, _T("%c%s%c"), (tr->flags & TRF_FIELD) ? FIELD_CHAR : FUNC_CHAR, tr->tszTokenString, (tr->flags & TRF_FIELD) ? FIELD_CHAR : '(');
 			SendDlgItemMessage(hwndInputDlg, IDC_TESTSTRING, EM_REPLACESEL, (WPARAM)TRUE, (LPARAM)tokenString);
 			mir_free(tokenString);
 			SetFocus(GetDlgItem(hwndInputDlg, IDC_TESTSTRING));

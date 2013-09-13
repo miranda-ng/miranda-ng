@@ -77,43 +77,44 @@
 #include "parse_variables.h"
 #include "parse_xml.h"
 
-#define MODULENAME				"Variables"
+#define MODULENAME "Variables"
 
-#define SETTING_STARTUPTEXT		"StartupText"
-#define SETTING_STRIPCRLF		"StripCRLF"
-#define SETTING_STRIPWS			"StripWS"
-#define SETTING_STRIPALL		"StripAll"
-#define SETTING_PARSEATSTARTUP	"ParseAtStartup"
-#define SETTING_SPLITTERPOS		"SplitterPos"
-#define SETTING_SUBJECT			"LastSubject"
+#define SETTING_STARTUPTEXT    "StartupText"
+#define SETTING_STRIPCRLF      "StripCRLF"
+#define SETTING_STRIPWS        "StripWS"
+#define SETTING_STRIPALL       "StripAll"
+#define SETTING_PARSEATSTARTUP "ParseAtStartup"
+#define SETTING_SPLITTERPOS    "SplitterPos"
+#define SETTING_SUBJECT        "LastSubject"
 
-#define FIELD_CHAR			'%'
-#define FUNC_CHAR			'?'
-#define FUNC_ONCE_CHAR		'!'
-#define DONTPARSE_CHAR		'`'
-#define TRYPARSE_CHAR_OPEN	'['
-#define TRYPARSE_CHAR_CLOSE	']'
-#define COMMENT_STRING		"#"
+#define FIELD_CHAR          '%'
+#define FUNC_CHAR           '?'
+#define FUNC_ONCE_CHAR      '!'
+#define DONTPARSE_CHAR      '`'
+#define TRYPARSE_CHAR_OPEN	 '['
+#define TRYPARSE_CHAR_CLOSE ']'
+#define COMMENT_STRING      "#"
 
 // special tokens
-#define SUBJECT				"subject"
-#define MIR_EXTRATEXT			"extratext"
+#define SUBJECT       "subject"
+#define MIR_EXTRATEXT "extratext"
 
 // options
-#define IDT_PARSE			1
+#define IDT_PARSE 1
+
 #define DM_SPLITTERMOVED     (WM_USER+15)
 
 // Messages you can send to the help window:
-#define VARM_PARSE          (WM_APP+11) // wParam=lParam=0
-#define VARM_SETINPUTTEXT	(WM_APP+12)
-#define VARM_GETINPUTTEXT	(WM_APP+13)
-#define VARM_GETINPUTTEXTLENGTH	(WM_APP+14)
-#define VARM_SETSUBJECT     (WM_APP+15)
-#define VARM_GETSUBJECT     (WM_APP+16) // wParam=HANDLE hContact
-#define VARM_SETEXTRATEXT   (WM_APP+17)
-#define VARM_GETEXTRATEXT   (WM_APP+18)
+#define VARM_PARSE              (WM_APP+11) // wParam=lParam=0
+#define VARM_SETINPUTTEXT       (WM_APP+12)
+#define VARM_GETINPUTTEXT	     (WM_APP+13)
+#define VARM_GETINPUTTEXTLENGTH (WM_APP+14)
+#define VARM_SETSUBJECT         (WM_APP+15)
+#define VARM_GETSUBJECT         (WM_APP+16) // wParam=HANDLE hContact
+#define VARM_SETEXTRATEXT       (WM_APP+17)
+#define VARM_GETEXTRATEXT       (WM_APP+18)
 #define VARM_GETEXTRATEXTLENGTH (WM_APP+19)
-#define VARM_GETDIALOG		(WM_APP+20)
+#define VARM_GETDIALOG          (WM_APP+20)
 
 // if a different struct internally is used, we can use TOKENREGISTEREX
 #define TOKENREGISTEREX TOKENREGISTER

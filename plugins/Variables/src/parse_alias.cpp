@@ -19,47 +19,42 @@
 
 #include "variables.h"
 
+struct ALIASREGISTER
+{
+	TCHAR *szAlias;
+	unsigned int argc;
+	TCHAR **argv;
+	TCHAR *szTranslation;
+};
+
+static LIST<ALIASREGISTER> arAliases(5);
 static CRITICAL_SECTION csAliasRegister;
-static ALIASREGISTER *ar = NULL;
-static unsigned int arCount = 0;
 
-static ALIASREGISTER *searchAliasRegister(TCHAR *szAlias) {
-
-	ALIASREGISTER *res;
-	unsigned int i;
-
-	res = NULL;
-	if ((szAlias == NULL) || (_tcslen(szAlias) == 0)) {
+static ALIASREGISTER *searchAliasRegister(TCHAR *szAlias)
+{
+	if (szAlias == NULL || *szAlias == 0)
 		return NULL;
-	}
-	EnterCriticalSection(&csAliasRegister);
-	for (i=0;i<arCount;i++) {
-		if (!_tcscmp(ar[i].szAlias, szAlias)) {
-			/* TODO: make a copy here? */
-			res = &ar[i];
-			LeaveCriticalSection(&csAliasRegister);
-			return res;
-		}
-	}
-	LeaveCriticalSection(&csAliasRegister);
-	
+
+	mir_cslock lck(csAliasRegister);
+	for (int i=0; i < arAliases.getCount(); i++)
+		if (!_tcscmp(arAliases[i]->szAlias, szAlias))
+			return arAliases[i];
+
 	return NULL;
 }
 
-static TCHAR *replaceArguments(TCHAR *res, TCHAR *tArg, TCHAR *rArg) {
-
-	unsigned int cur, ecur;
-
+static TCHAR *replaceArguments(TCHAR *res, TCHAR *tArg, TCHAR *rArg)
+{
 	if ( _tcslen(tArg) == 0)
 		return res;
 
-	cur = ecur = 0;
-	while (*(res+cur) != _T('\0')) {
-		if ((*(res+cur) == _T('(')) || (*(res+cur) == _T(','))) {
+	unsigned int cur = 0, ecur = 0;
+	while (*(res+cur) != 0) {
+		if ((*(res+cur) == '(') || (*(res+cur) == ',')) {
 			ecur = ++cur;
-			while ( (*(res+ecur) != _T(')')) && (*(res+ecur) != _T(','))) {
+			while ( (*(res+ecur) != ')') && (*(res+ecur) != ','))
 				ecur++;
-			}
+
 			if (((signed int)_tcslen(tArg) == (ecur-cur)) && (!_tcsncmp(tArg, res+cur, _tcslen(tArg)))) {
 				if ( _tcslen(rArg) > _tcslen(tArg)) {
 					res = (TCHAR*)mir_realloc(res, (_tcslen(res) + (_tcslen(rArg)-_tcslen(tArg)) + 1)*sizeof(TCHAR));
@@ -76,87 +71,73 @@ static TCHAR *replaceArguments(TCHAR *res, TCHAR *tArg, TCHAR *rArg) {
 	return res;
 }
 
-static TCHAR *parseTranslateAlias(ARGUMENTSINFO *ai) {
-
-	unsigned int i;
-	TCHAR *res;
-	ALIASREGISTER *areg;
-	
-	areg = searchAliasRegister(ai->targv[0]);
-	if ((areg == NULL) || (areg->argc != ai->argc-1)) {
+static TCHAR *parseTranslateAlias(ARGUMENTSINFO *ai)
+{
+	ALIASREGISTER *areg = searchAliasRegister(ai->targv[0]);
+	if (areg == NULL || areg->argc != ai->argc-1)
 		return NULL;
-	}
-	res = mir_tstrdup(areg->szTranslation);
-	for (i=0;i<areg->argc;i++) {
+
+	TCHAR *res = mir_tstrdup(areg->szTranslation);
+	for (unsigned i=0; i < areg->argc; i++) {
 		res = replaceArguments(res, areg->argv[i], ai->targv[i+1]);
-		if (res == NULL) {
+		if (res == NULL)
 			return NULL;
-		}
 	}
 
 	return res;
 }
 
-static int addToAliasRegister(TCHAR *szAlias, unsigned int argc, TCHAR** argv, TCHAR *szTranslation) {
-
-	unsigned int i, j;
-
+static int addToAliasRegister(TCHAR *szAlias, unsigned int argc, TCHAR** argv, TCHAR *szTranslation)
+{
 	if (szAlias == NULL || szTranslation == NULL || _tcslen(szAlias) == 0 )
 		return -1;
 
-	EnterCriticalSection(&csAliasRegister);
-	for (i=0;i<arCount;i++) {
-		if (!_tcscmp(ar[i].szAlias, szAlias)) {
-			mir_free(ar[i].szTranslation);
-			ar[i].szTranslation = mir_tstrdup(szTranslation);
-			for (j=0;j<ar[i].argc;j++) {
-				if (ar[i].argv[j] != NULL) {
-					mir_free(ar[i].argv[j]);
-				}
-			}
-			ar[i].argc = argc;
-			ar[i].argv = ( TCHAR** )mir_realloc(ar[i].argv, argc * sizeof(TCHAR*));
-			if (ar[i].argv == NULL) {
-				LeaveCriticalSection(&csAliasRegister);
-				return -1;
-			}
-			for (j=0;j<argc;j++) {
-				if (argv[j] != NULL)
-					ar[i].argv[j] = mir_tstrdup(argv[j]);
-				else
-					ar[i].argv[j] = NULL;
-			}
-			LeaveCriticalSection(&csAliasRegister);
-			return 0;
-		}
-	}
-	ar = ( ALIASREGISTER* )mir_realloc(ar, (arCount+1)*sizeof(ALIASREGISTER));
-	if (ar == NULL) {
-		LeaveCriticalSection(&csAliasRegister);
-		return -1;
-	}
-	ar[arCount].szAlias = mir_tstrdup(szAlias);
-	ar[arCount].szTranslation = mir_tstrdup(szTranslation);
-	ar[arCount].argc = argc;
-	ar[arCount].argv = ( TCHAR** )mir_alloc(argc * sizeof(TCHAR*));
-	if (ar[arCount].argv == NULL) {
-		LeaveCriticalSection(&csAliasRegister);
-		return -1;
-	}
-	for (j=0;j<ar[arCount].argc;j++) {
-		if (argv[j] != NULL)
-			ar[arCount].argv[j] = mir_tstrdup(argv[j]);
-		else
-			ar[arCount].argv[j] = NULL;
-	}
-	arCount += 1;
-	LeaveCriticalSection(&csAliasRegister);
+	mir_cslock lck(csAliasRegister);
+	for (int i=0; i < arAliases.getCount(); i++) {
+		ALIASREGISTER *p = arAliases[i];
+		if ( _tcscmp(p->szAlias, szAlias))
+			continue;
 
+		mir_free(p->szTranslation);
+		p->szTranslation = mir_tstrdup(szTranslation);
+		for (unsigned j=0; j < p->argc; j++)
+			if (p->argv[j] != NULL)
+				mir_free(p->argv[j]);
+
+		p->argc = argc;
+		p->argv = (TCHAR**)mir_realloc(p->argv, argc * sizeof(TCHAR*));
+		if (p->argv == NULL)
+			return -1;
+
+		for (unsigned j=0; j < argc; j++) {
+			if (argv[j] != NULL)
+				p->argv[j] = mir_tstrdup(argv[j]);
+			else
+				p->argv[j] = NULL;
+		}
+		return 0;
+	}
+
+	ALIASREGISTER *p = new ALIASREGISTER;
+	p->szAlias = mir_tstrdup(szAlias);
+	p->szTranslation = mir_tstrdup(szTranslation);
+	p->argc = argc;
+	p->argv = (TCHAR**)mir_alloc(argc * sizeof(TCHAR*));
+	if (p->argv == NULL)
+		return -1;
+
+	for (unsigned j=0; j < p->argc; j++) {
+		if (argv[j] != NULL)
+			p->argv[j] = mir_tstrdup(argv[j]);
+		else
+			p->argv[j] = NULL;
+	}
+	arAliases.insert(p);
 	return 0;
 }
 
-static TCHAR *parseAddAlias(ARGUMENTSINFO *ai) {
-
+static TCHAR *parseAddAlias(ARGUMENTSINFO *ai)
+{
 	int res;
 	int argc, i;
 	TCHAR **argv;
@@ -189,8 +170,7 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai) {
 			_tcscat(szArgs, _T(","));
 	}
 	if ((szArgs != NULL) && (argc > 0)) {
-
-		szArgsA = mir_t2a(szArgs);
+ 		szArgsA = mir_t2a(szArgs);
 
 		size_t size = 32 + strlen(szArgsA);
 		szHelp = (char *)mir_alloc(size);
@@ -220,5 +200,14 @@ int registerAliasTokens()
 void unregisterAliasTokens()
 {
 	DeleteCriticalSection(&csAliasRegister);
-}
 
+	for (int i=0; i < arAliases.getCount(); i++) {
+		ALIASREGISTER *p = arAliases[i];
+		mir_free(p->argv);
+		mir_free(p->szAlias);
+		mir_free(p->szTranslation);
+		delete p;
+	}
+
+	arAliases.destroy();
+}

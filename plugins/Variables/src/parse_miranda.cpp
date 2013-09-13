@@ -82,7 +82,7 @@ static TCHAR *parseContact(ARGUMENTSINFO *ai)
 		return NULL;
 
 	int n = 0;
-	if (ai->argc == 4 && *ai->targv[3] != _T('r'))
+	if (ai->argc == 4 && *ai->targv[3] != 'r')
 		n = ttoi(ai->targv[3]) - 1;
 
 	CONTACTSINFO ci = { 0 };
@@ -93,7 +93,7 @@ static TCHAR *parseContact(ARGUMENTSINFO *ai)
 	if (count == 0 || ci.hContacts == NULL)
 		return NULL;
 
-	if (ai->argc == 4 && *ai->targv[3] == _T('r'))
+	if (ai->argc == 4 && *ai->targv[3] == 'r')
 		n = rand() % count;
 
 	if (count != 1 && ai->argc != 4 ) {
@@ -641,7 +641,7 @@ static TCHAR *parseDbEvent(ARGUMENTSINFO *ai)
 
 	int flags = DBE_MESSAGE;
 	switch (*ai->targv[2]) {
-	case _T('f'):
+	case 'f':
 		flags |= DBE_FIRST;
 		break;
 	default:
@@ -649,10 +649,10 @@ static TCHAR *parseDbEvent(ARGUMENTSINFO *ai)
 		break;
 	}
 	switch (*ai->targv[3]) {
-	case _T('s'):
+	case 's':
 		flags |= DBE_SENT;
 		break;
-	case _T('r'):
+	case 'r':
 		flags |= DBE_RCVD;
 		break;
 	default:
@@ -660,10 +660,10 @@ static TCHAR *parseDbEvent(ARGUMENTSINFO *ai)
 		break;
 	}
 	switch (*ai->targv[4]) {
-	case _T('r'):
+	case 'r':
 		flags |= DBE_READ;
 		break;
-	case _T('u'):
+	case 'u':
 		flags |= DBE_UNREAD;
 		break;
 	default:
@@ -689,8 +689,7 @@ static TCHAR *parseDbEvent(ARGUMENTSINFO *ai)
 	if (hDbEvent == NULL)
 		return NULL;
 
-	DBEVENTINFO dbe = { 0 };
-	dbe.cbSize = sizeof(DBEVENTINFO);
+	DBEVENTINFO dbe = { sizeof(dbe) };
 	dbe.cbBlob = db_event_getBlobSize(hDbEvent);
 	dbe.pBlob = (PBYTE)mir_calloc(dbe.cbBlob);
 	if (db_event_get(hDbEvent, &dbe)) {
