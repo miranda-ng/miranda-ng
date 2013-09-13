@@ -294,8 +294,6 @@ Klient
 %s temu
 [Log on:]
 Zalogowany:
-[Log off:]
-Wyloguj:
 [Unread emails:]
 Nieprzeczytane emaile:
 [Status:]
@@ -393,14 +391,6 @@ Tytuł aktywności:
 [jabber.dll] Tekst aktywności
 [Activity text:]
 Tekst aktywności:
-[[menuex.dll] Logon time]
-[menuex.dll] Czas zalogowania
-[Logon time:]
-Czas zalogowania:
-[[menuex.dll] Logoff time]
-[menuex.dll] Czas wylogowania
-[Logoff time:]
-Czas wylogowania:
 [[seenplugin.dll] Last seen time]
 [seenplugin.dll] Ostatnio widziano
 [Last seen time:]

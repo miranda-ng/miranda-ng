@@ -340,9 +340,7 @@ Rolagem Fácil
 Rolagem Simples
 [Easy move]
 Mover facilmente
-[x100 msec]
-x100 ms
-[x100 msec]
+[x100 ms]
 x100 ms
 [show delay]
 atraso show

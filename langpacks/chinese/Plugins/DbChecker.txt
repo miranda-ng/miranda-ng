@@ -12,7 +12,7 @@
 您可使用此向导压缩您的 Miranda 配置数据库, 移除正常使用中占用的垃圾空间, 还可以修复很多可能影响数据库的问题. 
 [To continue, click Next.]
 继续, 请按 "下一步" . 
-[This programme is licenced under the terms of the GNU General Public License.]
+[This program is licenced under the terms of the GNU General Public License.]
 此程序基于 GNU 通用公共许可证. 
 [Miranda Database Tool]
 Miranda 数据库工具

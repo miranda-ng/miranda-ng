@@ -379,14 +379,6 @@
 (jabber.dll) Тэкст занятку
 [Activity text:]
 Тэкст занятку:
-[[menuex.dll] Logon time]
-(menuex.dll) Час далучэння
-[Logon time:]
-Далучаны з:
-[[menuex.dll] Logoff time]
-(menuex.dll) Час адключэння
-[Logoff time:]
-Адключаны з:
 [[seenplugin.dll] Last seen time]
 (seenplugin.dll) Апошняе з'яўленне
 [Last seen time:]

@@ -620,8 +620,8 @@ vCard (визитные карточки)
 Версия ОС
 [Software version]
 Версия ПО
-[Miranda NG core version]
-Версия Miranda NG
+[Miranda core version]
+Версия Miranda
 [Unicode build]
 Unicode сборка
 [Alpha build]

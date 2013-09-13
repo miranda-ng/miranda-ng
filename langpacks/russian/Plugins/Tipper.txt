@@ -183,10 +183,6 @@ xСтатус
 Кол-во контактов
 [Logon time]
 Время входа
-[Logon time:]
-В сети с:
-[Logoff time:]
-Не в сети с:
 [Unread emails]
 Непрочитанные письма
 [Favourite contacts]
@@ -271,10 +267,6 @@ xСтатус
 (jabber.dll) Заголовок занятия
 [[jabber.dll] Activity text]
 (jabber.dll) Текст занятия
-[[menuex.dll] Logon time]
-(menuex.dll) Время входа
-[[menuex.dll] Logoff time]
-(menuex.dll) Время выхода
 [[weather.dll] Max/Min temperature]
 (weather.dll) Макс/мин температура
 [[weather.dll] Pressure]

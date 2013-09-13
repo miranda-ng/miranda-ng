@@ -194,7 +194,7 @@ Húzás
 Könnyû görgetés
 [Easy move]
 Könnyû mozgatás
-[x100 msec]
+[x100 ms]
 x100 mp
 [show delay]
 mutatás késleltetése

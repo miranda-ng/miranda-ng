@@ -10,7 +10,7 @@
 Options de Splash
 [Display time:]
 Durée d'affichage
-[msec]
+[ms]
 ms
 [Preview...]
 Aperçu...

@@ -72,5 +72,3 @@
 Любими
 [&Favourite Contacts...]
 
-[<No group>]
-

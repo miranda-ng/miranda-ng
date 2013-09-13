@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
-;  Version: 2.0.0.1
-;  Authors: 
+;  Version: 2.1.0.5
+;  Authors: Ivan Rozhuk
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
@@ -28,8 +28,6 @@
 Аўтаматычна аўтарызоўваць карыстачоў са спісу
 [Automatically grant authorization to new users]
 Аўтаматычна аўтарызоўваць новых карыстачоў
-[Disable spam check]
-Не правяраць на спам
 [Notify me when a message delivery has failed]
 Апавясціць, калі паведамленне не дайшло
 [Notify about new mail if increment]
@@ -148,28 +146,6 @@ xСтатус "%s"
 Загаловак:
 [Message:]
 паведамленне:
-[Enable Anti-spam]
-Уключыць антыспам
-[Check temp contacts]
-Правяраць часовыя кантакты са спісу
-[Delete spam bot contacts]
-Выдаляць кантакты спам ботаў са спісу
-[Max. language changes in message (0 - disabled)]
-Макс. колькасць змены моў у паведамленні (0 - выкл)
-[Show pop up]
-Паказваць усплывальныя вокны
-[Write to system history]
-Запісваць у сістэмную гісторыю
-[Send spam report to server]
-Пажаліцца на спам
-[Bad words list]
-Спіс дрэнных слоў
-[Add]
-Дадаць
-[Remove]
-Выдаліць
-[Ignory non AlphaNumeric characters]
-Ігнараваць знакі не якія з'яўляюцца літарай/лічбай пры праверцы
 [OK]
 ОК
 [Cancel]
@@ -180,11 +156,6 @@ xСтатус "%s"
 Напісаў:
 [Select e-mail]
 Выбар электроннай пошты
-;file \protocols\MRA\src\MraAntiSpam.cpp
-[Spam bot blocked]
-Спам бот заблакаваны
-[Spam bot contact deleted]
-Кантакт спам бота выдалены са спісу
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
 Далучэнне плагіна аватараў
@@ -332,8 +303,6 @@ Mail.ru дадаткова
 Конт
 [Connections]
 Злучэнні
-[Anti-spam]
-Антыспам
 [Files]
 Файлы
 ;file \protocols\MRA\src\Mra_proto.cpp

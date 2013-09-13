@@ -212,7 +212,7 @@ W x H: 0 x 0 像素
 容易滚动
 [Easy move]
 容易移动
-[x100 msec]
+[x100 ms]
 x100 毫秒
 [show delay]
 显示延时

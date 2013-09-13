@@ -1581,7 +1581,7 @@ XML для MS Excel (кадзіроўка UTF-8)
 Версія АС
 [Software version]
 Версія ПЗ
-[Miranda NG core version]
+[Miranda core version]
 Версія Miranda
 [Unicode build]
 Unicode зборка

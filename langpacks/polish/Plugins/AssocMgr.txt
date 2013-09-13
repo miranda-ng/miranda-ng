@@ -12,8 +12,8 @@ Obsługuje skojarzenia rozszerzeń plików i linków protokołów AIM, Yahoo, Ja
 Zarejestrowane powiązania dla Mirandy NG
 [Miscellaneous]
 Różne
-[&Start Miranda NG automatically when the Computer starts (using current profile)]
-Automatyczny start Mirandy NG wraz z startem Komputera (użyj bieżącego profilu)
+[&Start Miranda NG automatically when the computer starts (using current profile)]
+Automatyczny start Mirandy NG wraz z startem komputera (użyj bieżącego profilu)
 [Only associate with Miranda NG while it is &running]
 Powiąż tylko podczas działania Mirandy NG
 ;file \plugins\AssocMgr\src\assoclist.cpp

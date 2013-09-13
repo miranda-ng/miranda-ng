@@ -12,7 +12,7 @@
 Зарэгістраваныя асацыяцыі для Miranda NG:
 [Miscellaneous]
 Іншае
-[&Start Miranda NG automatically when the Computer starts (using current profile)]
+[&Start Miranda NG automatically when the сomputer starts (using current profile)]
 &Загружаць праграму пры запуску кампутара (выкарыстоўваючы бягучы профіль)
 [Only associate with Miranda NG while it is &running]
 Асацыяваць толькі падчас &працы праграмы

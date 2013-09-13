@@ -1359,8 +1359,8 @@ Facebook 聊天
 操作系统版本
 [Software version]
 软件版本
-[Miranda NG core version]
-Miranda NG 核心版本
+[Miranda core version]
+Miranda 核心版本
 [Unicode build]
 Unicode 版本
 [Yes]

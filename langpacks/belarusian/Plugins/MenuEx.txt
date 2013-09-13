@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MenuEx.dll
 ;  Plugin: Menu item ext
-;  Version: 1.3.0.9
+;  Version: 1.3.0.10
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
 [Adds some useful options to a contacts menu.]
@@ -52,10 +52,6 @@
 * Выкарыстоўвайце Ctrl+клік для паказу ўсплывальнага акна са скапіяваным тэкстам
 [Hide contact on 'Ignore all']
 Хаваць пры 'Ignore all'
-[Other options]
-Іншыя параметры
-[Automatically refresh contact's details after they come online]
-Аўтаматычна аднаўляць дэталі кантактаў пры далучэнні
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 Паведамленне статусу

@@ -214,7 +214,7 @@ Arrastre
 Easy Scroll
 [Easy move]
 Fácil de mover
-[x100 msec]
+[x100 ms]
 x100 ms
 [show delay]
 mostrar el resultado de retraso

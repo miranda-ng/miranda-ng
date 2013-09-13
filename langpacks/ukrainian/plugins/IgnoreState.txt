@@ -7,7 +7,7 @@
 ;============================================================
 [IgnoreState]
 Стан ігнорування
-[Shows ignore state of contact in contacts list.]
+[Shows ignore state of contact in contact list.]
 Показує стан ігнорування контакт у списку контактів.
 [Filtered events:]
 Фільтр подій:

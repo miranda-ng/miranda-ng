@@ -286,7 +286,7 @@ Zväčšovať smerom hore
 
 [Easy move]
 Jednoduchý presun
-[x100 msec]
+[x100 ms]
 
 [show delay]
 

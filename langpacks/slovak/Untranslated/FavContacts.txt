@@ -27,4 +27,3 @@
 [Show favourite contacts]
 [Favourites]
 [&Favourite Contacts...]
-[<No group>]

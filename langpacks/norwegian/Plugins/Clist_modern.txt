@@ -174,8 +174,8 @@ Lås manuell størrelse
 Dra til
 [Easy move]
 Enkel flytting
-[x100 msec]
-x100 msek
+[x100 ms]
+x100 ms
 [show delay]
 vis forsinkelse
 [hide delay]

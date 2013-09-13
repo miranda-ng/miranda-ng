@@ -12,7 +12,7 @@ Bienvenido al Asistente de base de datos de Miranda
 El uso de este asistente se puede compactar la base de datos de perfil de Miranda para eliminar el espacio muerto creado durante su uso normal, así como la reparación de un gran número de cuestiones que podrían afectar a la base de datos.
 [To continue, click Next.]
 Para continuar, haga clic en Siguiente.]
-[This programme is licenced under the terms of the GNU General Public License.]
+[This program is licenced under the terms of the GNU General Public License.]
 Este programa está disponible bajo los términos de la GNU General Public License
 [Miranda Database Tool]
 Miranda Database Tool

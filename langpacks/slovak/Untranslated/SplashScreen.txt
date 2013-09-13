@@ -8,7 +8,7 @@
 [Prefix:]
 [Appearance]
 [Display time:]
-[msec]
+[ms]
 [Fade in:]
 [steps]
 [Fade out:]

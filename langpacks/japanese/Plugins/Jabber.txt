@@ -1131,8 +1131,8 @@ Miranda NG のシャットダウンを確認してください
 オペレーティングシステムバージョン
 [Software version]
 ソフトウェアバージョン
-[Miranda NG core version]
-Miranda NG コアバージョン
+[Miranda core version]
+Miranda コアバージョン
 [Unicode build]
 Unicode ビルド
 [Yes]

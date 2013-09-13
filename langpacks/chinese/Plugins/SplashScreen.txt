@@ -16,7 +16,7 @@
 显示 Miranda 版本
 [Display time:]
 显示时间:
-[msec]
+[ms]
 毫秒
 [Fade in:]
 淡入:

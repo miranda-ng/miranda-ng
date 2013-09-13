@@ -85,7 +85,7 @@
 Копировать ссылку в лог сообщений
 [Remove national characters from filename]
 Удалить национальные символы из имени файла
-[FTP account]
+[FTP accounts]
 Учётные записи FTP
 [Account name]
 Имя учётной записи

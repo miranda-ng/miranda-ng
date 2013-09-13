@@ -1,8 +1,9 @@
 ﻿#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
 ;============================================================
-;  File: menuex.dll
-;  Module: MenuItemEx
-;  Versions: 1.2.1.11-1.3.0.1
+;  File: MenuEx.dll
+;  Plugin: Menu item ext
+;  Version: 1.3.0.10
+;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
 [Adds some useful options to a contacts menu.]
 Додає додаткові пункти меню контактів.

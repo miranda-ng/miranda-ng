@@ -72,5 +72,3 @@ Kontakty
 
 [&Favourite Contacts...]
 
-[<No group>]
-

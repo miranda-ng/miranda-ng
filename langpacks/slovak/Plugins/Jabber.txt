@@ -1829,8 +1829,6 @@ Podrobne
 
 [Facebook Chat]
 
-[Vkontakte]
-
 [Odnoklassniki]
 
 [Some changes will take effect the next time you connect to the Jabber network.]
@@ -2091,7 +2089,7 @@ Zaslať registračné informácie
 
 [Software version]
 
-[Miranda NG core version]
+[Miranda core version]
 
 [Unicode build]
 

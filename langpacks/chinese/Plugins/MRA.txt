@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
-;  Version: 2.0.0.1
-;  Authors: 
+;  Version: 2.1.0.5
+;  Authors: Ivan Rozhuk
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
@@ -16,8 +16,6 @@
 端口:
 [Default]
 默认
-[Disable spam check]
-禁用垃圾信息检查
 [Notify about new mail if increment]
 如递增则显示新邮件通知
 [Notify about new mail tray icon]
@@ -96,33 +94,12 @@
 文本颜色
 [Closing in %d]
 %d 秒关闭
-[Enable Anti-spam]
-启用垃圾信息检查
-[Check temp contacts]
-检查临时联系人
-[Delete spam bot contacts]
-删除垃圾邮件机器人联系人
-[Max. language changes in message (0 - disabled)]
-消息最大语言更改次数 (0 - 禁用)
-[Show pop up]
-显示弹出
-[Write to system history]
-写入系统历史
-[Send spam report to server]
-向服务器发送垃圾邮件报告
-[Bad words list]
-不良词汇列表
-[Add]
-添加
-[Remove]
-移除
 [OK]
 确定
 [Cancel]
 取消
 [Select e-mail]
 选择邮箱
-;file \protocols\MRA\src\MraAntiSpam.cpp
 ;file \protocols\MRA\src\MraAvatars.cpp
 ;file \protocols\MRA\src\MraChat.cpp
 ;file \protocols\MRA\src\MraConstans.h

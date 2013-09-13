@@ -210,7 +210,7 @@ xStatus アイコンを表示
 簡易スクロール
 [Easy move]
 簡易移動
-[x100 msec]
+[x100 ms]
 x100 ミリ秒
 [show delay]
 遅延を表示

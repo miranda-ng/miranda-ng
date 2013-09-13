@@ -91,7 +91,7 @@
 [Lock manual resize]
 [Drag to]
 [Easy Scroll]
-[x100 msec]
+[x100 ms]
 [show delay]
 [hide delay]
 [Hide method]

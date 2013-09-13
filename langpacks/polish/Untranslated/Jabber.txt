@@ -301,7 +301,6 @@
 [Google Talk!]
 [LiveJournal Talk]
 [Facebook Chat]
-[Vkontakte]
 [Odnoklassniki]
 [Set New Password for %s@%S]
 [Edit rule]

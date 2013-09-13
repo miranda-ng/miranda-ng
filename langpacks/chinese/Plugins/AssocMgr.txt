@@ -10,7 +10,7 @@
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 为 Miranda NG 注册关联:
-[&Start Miranda NG automatically when the Computer starts (using current profile)]
+[&Start Miranda NG automatically when the computer starts (using current profile)]
 电脑启动时自动启动 Miranda NG(使用当前配置文件&S)
 [Only associate with Miranda NG while it is &running]
 仅在 Miranda NG 运行时关联(&R)

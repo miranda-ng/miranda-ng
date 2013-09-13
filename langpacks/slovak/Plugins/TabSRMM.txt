@@ -447,6 +447,8 @@ minút staré
 
 [Create new]
 
+[Reset]
+Reset
 [Show in IM chats]
 
 [Show in chat rooms]
@@ -455,8 +457,6 @@ minút staré
 
 [Hide if there isn't enough space]
 
-[Reset]
-Reset
 [Insert Separator]
 
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]

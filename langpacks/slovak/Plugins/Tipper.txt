@@ -294,8 +294,6 @@ Stav
 
 [Log on:]
 
-[Log off:]
-
 [Unread emails:]
 
 [Status:]
@@ -392,14 +390,6 @@ Meno
 [[jabber.dll] Activity text]
 
 [Activity text:]
-
-[[menuex.dll] Logon time]
-
-[Logon time:]
-
-[[menuex.dll] Logoff time]
-
-[Logoff time:]
 
 [[seenplugin.dll] Last seen time]
 

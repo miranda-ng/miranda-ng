@@ -1215,7 +1215,7 @@ Importuj dane użytkownika z wizytówki
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Can't create xml file!\n%S]
 Nie można utworzyć pliku xml!\n%S
-[Export took %f msec]
+[Export took %f ms]
 
 [Contact: %s (%S)]
 Kontakt: %s (%S)
@@ -1237,7 +1237,7 @@ Zakończony
 
 [Selected XMLCard does not contain an owner contact!]
 
-[Import took %f msec]
+[Import took %f ms]
 
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 Dodano kontaktów: %u / %u\nDodano ustawień: %u / %u\nDodano zdarzeń: %u / %u\nPowielonych zdarzeń: %u

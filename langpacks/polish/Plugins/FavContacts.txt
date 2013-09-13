@@ -72,5 +72,3 @@ Kontakty
 Ulubione
 [&Favourite Contacts...]
 Ulubione kontakty...
-[<No group>]
-<Brak grupy>

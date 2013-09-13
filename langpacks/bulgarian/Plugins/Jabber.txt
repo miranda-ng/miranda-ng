@@ -1831,8 +1831,6 @@ Google Talk!
 LiveJournal Talk
 [Facebook Chat]
 Facebook чат
-[Vkontakte]
-Vkontakte
 [Odnoklassniki]
 
 [Some changes will take effect the next time you connect to the Jabber network.]
@@ -2093,8 +2091,8 @@ Vkontakte
 Версия на ОС
 [Software version]
 Версия на софтуера
-[Miranda NG core version]
-Версия на Miranda NG
+[Miranda core version]
+Версия на Miranda
 [Mood]
 Настроение
 [Activity]

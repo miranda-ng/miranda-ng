@@ -18,8 +18,6 @@
 [Trim too long ID]
 [* Use Ctrl+click to see popup with the copied text]
 [Hide contact on 'Ignore all']
-[Other options]
-[Automatically refresh contact's details after they come online]
 [Status message]
 [XStatus title]
 [XStatus message]

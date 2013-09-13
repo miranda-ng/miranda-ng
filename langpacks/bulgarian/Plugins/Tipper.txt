@@ -294,8 +294,6 @@ Jabber дейност
 
 [Log on:]
 
-[Log off:]
-
 [Unread emails:]
 Непрочетени имейли:
 [Status:]
@@ -393,14 +391,6 @@ Miranda работи от:
 [jabber.dll] Текст на дейността
 [Activity text:]
 Съобщение:
-[[menuex.dll] Logon time]
-
-[Logon time:]
-Време на вписване:
-[[menuex.dll] Logoff time]
-
-[Logoff time:]
-
 [[seenplugin.dll] Last seen time]
 [seenplugin.dll] Последно видян на
 [Last seen time:]

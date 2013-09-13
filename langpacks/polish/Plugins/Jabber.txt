@@ -1835,8 +1835,6 @@ Bezpieczna sieć XMPP (stary styl)
 
 [Facebook Chat]
 
-[Vkontakte]
-
 [Odnoklassniki]
 
 [Some changes will take effect the next time you connect to the Jabber network.]
@@ -2099,8 +2097,8 @@ System operacyjny
 Wersja systemu operacyjnego
 [Software version]
 Wersja komunikatora
-[Miranda NG core version]
-Wersja rdzenia Mirandy NG
+[Miranda core version]
+Wersja rdzenia Mirandy
 [Mood]
 Nastrój
 [Activity]

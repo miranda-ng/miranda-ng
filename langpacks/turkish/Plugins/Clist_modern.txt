@@ -202,7 +202,7 @@ El ile boyutlandırmayı kilitle
 Kolay Kaydır
 [Easy move]
 Kolay taşı
-[x100 msec]
+[x100 ms]
 x100 ms
 [show delay]
 görünme gecikmesi

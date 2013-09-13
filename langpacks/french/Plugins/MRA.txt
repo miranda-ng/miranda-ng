@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
-;  Version: 2.0.0.1
-;  Authors: 
+;  Version: 2.1.0.5
+;  Authors: Ivan Rozhuk
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
@@ -48,13 +48,8 @@ e-mail :
 Texte
 [Closing in %d]
 Fermeture dans %d
-[Add]
-Ajouter
-[Remove]
-Retirer
 [Cancel]
 Annuler
-;file \protocols\MRA\src\MraAntiSpam.cpp
 ;file \protocols\MRA\src\MraAvatars.cpp
 ;file \protocols\MRA\src\MraChat.cpp
 ;file \protocols\MRA\src\MraConstans.h

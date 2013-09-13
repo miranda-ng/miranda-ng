@@ -8,7 +8,7 @@
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
 
 ;file \plugins\FTPFileYM\res\ftpfile.rc
-[FTP account]
+[FTP accounts]
 
 [Host name]
 

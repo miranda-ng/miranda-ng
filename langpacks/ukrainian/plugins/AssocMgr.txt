@@ -43,7 +43,7 @@ Miranda NG запуститься автоматично після завант
 Посилання
 [Registered associations for Miranda NG:]
 Зареєстровані асоціації для Miranda NG:
-[&Start Miranda NG automatically when the Computer starts (using current profile)]
+[&Start Miranda NG automatically when the computer starts (using current profile)]
 &Завантажувати програму при запуску комп'ютера (використовуючи поточний профіль)
 [File Types]
 Типи файлів

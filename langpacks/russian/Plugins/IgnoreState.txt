@@ -11,7 +11,7 @@
 Состояние игнорирования
 [Ignore State]
 Состояние игнорирования
-[Shows ignore state of contact in contacts list.]
+[Shows ignore state of contact in contact list.]
 Показывает состояние игнорирования у контакта в списке контактов.
 [Filtered events:]
 Фильтр событий:

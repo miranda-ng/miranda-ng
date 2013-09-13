@@ -26,7 +26,7 @@ Prefiks:
 Personalizacja
 [Display time:]
 Pojawianie się:
-[msec]
+[ms]
 ms
 [Fade in:]
 Przygasanie poczatkowe:

@@ -640,8 +640,8 @@ Miranda 必须在线才能刷新联系人信息!
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Can't create xml file!\n%S]
 不能创建 XML 文件!\n%S
-[Export took %f msec]
-输出花费 %f msec
+[Export took %f ms]
+输出花费 %f ms
 [Contact: %s (%S)]
 联系人: %s (%S)
 [Importing %s caused error %d]
@@ -662,8 +662,8 @@ UserInfoEx 不支持此版本 XMLCard
 所有联系人成功导入.
 [Selected XMLCard does not contain an owner contact!]
 选定 XMLCard 未包含所有联系人!
-[Import took %f msec]
-导入花费 %f msec
+[Import took %f ms]
+导入花费 %f ms
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 添加联系人: %u / %u\n添加设置: %u / %u\n添加事件 %u / %u\n重复事件: %u
 [FATAL: An exception was thrown while importing contacts from xmlCard!]

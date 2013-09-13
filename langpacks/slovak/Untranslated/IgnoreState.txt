@@ -1,4 +1,4 @@
-﻿[Shows ignore state of contact in contacts list.]
+﻿[Shows ignore state of contact in contact list.]
 [Plugin settings]
 [Filtered events:]
 [Use Miranda ignore settings for All Contacts]

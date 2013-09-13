@@ -8,7 +8,7 @@
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
 Дадатак дазваляе загрузіць файл на FTP сервер з дапамогай Miranda NG і паслаць спасылку сваім кантактам.
 ;file \plugins\FTPFileYM\res\ftpfile.rc
-[FTP account]
+[FTP accounts]
 FTP-конты
 [Host name]
 Імя хаста

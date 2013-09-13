@@ -8,7 +8,7 @@
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
 Качва файл на FTP сървър и изпраща връзка към файла до Ваш контакт. Поддържа автоматично архивиране преди качване и криптиране (SFTP и FTPS).
 ;file \plugins\FTPFileYM\res\ftpfile.rc
-[FTP account]
+[FTP accounts]
 FTP акаунт
 [Host name]
 Име на хоста
