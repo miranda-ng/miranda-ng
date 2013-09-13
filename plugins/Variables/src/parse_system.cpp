@@ -167,7 +167,7 @@ static TCHAR *parseDirectory(ARGUMENTSINFO *ai) {
 		depth = ttoi(ai->targv[2]);
 
 	if (depth <= 0)
-		return ai->targv[1];
+		return mir_tstrdup(ai->targv[1]);
 
 	for (ei = 0; ei < _tcslen(ai->targv[1]); ei++)
 	{

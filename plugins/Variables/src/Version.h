@@ -1,7 +1,7 @@
 #define __MAJOR_VERSION				0
 #define __MINOR_VERSION				2
 #define __RELEASE_NUM				3
-#define __BUILD_NUM					9
+#define __BUILD_NUM					10
 
 #define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
 
