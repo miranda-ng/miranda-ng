@@ -158,7 +158,6 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 static int ListDlg_Resize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {
 	switch (urc->wId) {
-	case IDC_SELALL:
 	case IDC_SELNONE:
 		return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
 
@@ -320,15 +319,10 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			switch(LOWORD(wParam)) {
 			case IDOK:
 				EnableWindow( GetDlgItem(hDlg, IDOK), FALSE);
-				EnableWindow( GetDlgItem(hDlg, IDC_SELALL), FALSE);
 				EnableWindow( GetDlgItem(hDlg, IDC_SELNONE), FALSE);
 
 				mir_forkthread(ApplyDownloads, hDlg);
 				return TRUE;
-
-			case IDC_SELALL:
-				SelectAll(hDlg, true);
-				break;
 
 			case IDC_SELNONE:
 				SelectAll(hDlg, false);

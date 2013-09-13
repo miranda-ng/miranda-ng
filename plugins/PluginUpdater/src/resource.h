@@ -2,21 +2,21 @@
 // Microsoft Visual C++ generated include file.
 // Used by D:\Development\Miranda NG\plugins\PluginUpdater\res\Resource.rc
 //
-#define IDI_MENU                        101
-#define IDD_UPDATE                      102
-#define IDD_OPT_UPDATENOTIFY            104
-#define IDD_POPUP                       105
-#define IDD_POPUPDUMMI                  106
-#define IDD_LIST                        107
-#define IDI_OK                          108
-#define IDI_CANCEL                      109
-#define IDI_INFO                        111
-#define IDI_PLGLIST                     117
+#define IDD_UPDATE                      101
+#define IDD_OPT_UPDATENOTIFY            102
+#define IDD_POPUP                       103
+#define IDD_POPUPDUMMI                  104
+#define IDD_LIST                        105
+#define IDI_MENU                        201
+#define IDI_OK                          202
+#define IDI_CANCEL                      203
+#define IDI_INFO                        204
+#define IDI_PLGLIST                     205
 #define IDC_UPDATETEXT                  1001
+#define IDC_PB                          1002
+#define IDC_LABEL                       1003
 #define IDC_SELALL                      1004
-#define IDC_PB                          1005
 #define IDC_SELNONE                     1005
-#define IDC_LABEL                       1006
 #define IDC_DETAILS                     1006
 #define IDC_USEWINCOLORS                1007
 #define IDC_RC                          1008
