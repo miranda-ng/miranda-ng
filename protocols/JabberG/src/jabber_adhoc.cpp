@@ -537,12 +537,12 @@ int __cdecl CJabberProto::ContactMenuRunCommands(WPARAM wParam, LPARAM lParam)
 	int res = -1;
 
 	if ((hContact != NULL || lParam != 0) && m_bJabberOnline) {
-		DBVARIANT dbv;
-		if (wParam && !getTString(hContact, "jid", &dbv)) {
+		ptrT szJid( getTStringA(hContact, "jid"));
+		if (wParam && szJid != NULL) {
 			JABBER_LIST_ITEM *item = NULL;
 			int selected = 0;
 			TCHAR jid[JABBER_MAX_JID_LEN];
-			_tcsncpy(jid, dbv.ptszVal, SIZEOF(jid));
+			_tcsncpy(jid, szJid, SIZEOF(jid));
 			{
 				mir_cslock lck(m_csLists);
 				item = ListGetItemPtr(LIST_ROSTER, jid);
@@ -551,11 +551,11 @@ int __cdecl CJabberProto::ContactMenuRunCommands(WPARAM wParam, LPARAM lParam)
 						HMENU hMenu = CreatePopupMenu();
 						for (int i=0; i < item->arResources.getCount(); i++)
 							AppendMenu(hMenu,MF_STRING,i+1, item->arResources[i]->resourceName);
-						HWND hwndTemp=CreateWindowEx(WS_EX_TOOLWINDOW,_T("button"),_T("PopupMenuHost"),0,0,0,10,10,NULL,NULL,hInst,NULL);
+						HWND hwndTemp = CreateWindowEx(WS_EX_TOOLWINDOW,_T("button"),_T("PopupMenuHost"),0,0,0,10,10,NULL,NULL,hInst,NULL);
 						SetForegroundWindow(hwndTemp);
+						RECT rc;
 						POINT pt;
 						GetCursorPos(&pt);
-						RECT rc;
 						selected = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndTemp, &rc);
 						DestroyMenu(hMenu);
 						DestroyWindow(hwndTemp);
@@ -573,12 +573,10 @@ int __cdecl CJabberProto::ContactMenuRunCommands(WPARAM wParam, LPARAM lParam)
 				}
 			}
 
-			if ( !item || selected) {
+			if (item == NULL || selected) {
 				CJabberAdhocStartupParams* pStartupParams = new CJabberAdhocStartupParams(this, jid, NULL);
 				CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FORM), NULL, JabberAdHoc_CommandDlgProc, (LPARAM)(pStartupParams));
 			}
-			db_free(&dbv);
-
 		}
 		else if (lParam != 0)
 			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FORM), NULL, JabberAdHoc_CommandDlgProc, lParam);

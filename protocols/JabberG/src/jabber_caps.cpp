@@ -97,7 +97,7 @@ const JabberFeatCapPair g_JabberFeatCapPairsExt[] = {
 void CJabberProto::OnIqResultCapsDiscoInfoSI(HXML, CJabberIqInfo* pInfo)
 {
 	JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID(pInfo->GetFrom());
-	if ( !r)
+	if (r == NULL)
 		return;
 
 	if (r->szCapsNode == NULL)
@@ -149,11 +149,12 @@ void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo* pInfo)
 			if (!featureName)
 				continue;
 
-			for (int j = 0; g_JabberFeatCapPairs[j].szFeature; j++)
+			for (int j = 0; g_JabberFeatCapPairs[j].szFeature; j++) {
 				if ( !_tcscmp(g_JabberFeatCapPairs[j].szFeature, featureName)) {
 					jcbCaps |= g_JabberFeatCapPairs[j].jcbCap;
 					break;
 				}
+			}
 		}
 
 		// no version info support and no XEP-0115 support?

@@ -58,7 +58,6 @@ struct MESSAGESUBDATA
 	TCHAR*  szSearchQuery;
 	TCHAR*  szSearchResult;
 	SESSION_INFO *lastSession;
-	TCHAR  szTabSave[20];
 	BOOL   iSavedSpaces;
 };
 

@@ -260,7 +260,6 @@ int CJabberProto::ListAddResource(JABBER_LIST list, const TCHAR *jid, int status
 			else { // Does not exist, add new resource
 				bIsNewResource = true;
 				r = (JABBER_RESOURCE_STATUS*)mir_calloc( sizeof(JABBER_RESOURCE_STATUS));
-				memset(r, 0, sizeof(JABBER_RESOURCE_STATUS));
 				r->status = status;
 				r->affiliation = AFFILIATION_NONE;
 				r->role = ROLE_NONE;

@@ -1613,7 +1613,7 @@ void CJabberProto::OnIqResultSetBookmarks(HXML iqNode)
 void CJabberProto::OnIqResultLastActivity(HXML iqNode, CJabberIqInfo* pInfo)
 {
 	JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID(pInfo->m_szFrom);
-	if ( !r)
+	if (r == NULL)
 		return;
 
 	time_t lastActivity = -1;

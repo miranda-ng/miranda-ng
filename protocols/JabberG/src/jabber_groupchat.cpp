@@ -1199,7 +1199,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 
 	if (resource != NULL) {
 		JABBER_RESOURCE_STATUS *r = item->findResource(resource);
-		nick = r && r->nick ? r->nick : resource;
+		nick = (r && r->nick) ? r->nick : resource;
 	}
 	else nick = NULL;
 
