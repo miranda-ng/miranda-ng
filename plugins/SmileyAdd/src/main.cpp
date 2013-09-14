@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 //globals
 HINSTANCE g_hInst;
-HANDLE    hEvent1;
+HANDLE    hEvent1, hLogger;
 HGENMENU  hContactMenuItem;
 
 char* metaProtoName;
@@ -89,7 +89,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS)) {
 		ReportError(TranslateT("Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory"));
-
 		return 1;
 	}
 
@@ -98,6 +97,11 @@ extern "C" __declspec(dllexport) int Load(void)
 	g_SmileyCategories.SetSmileyPackStore(&g_SmileyPacks);
 
 	opt.Load();
+
+	// initialize log
+	TCHAR szLogFileName[MAX_PATH];
+	mir_sntprintf(szLogFileName, MAX_PATH, _T("%s\\smiley.log"), VARST(_T("%miranda_profile%")));
+	hLogger = mir_createLog("smileys", _T("Crash log"), szLogFileName, 0);
 
 	// create smiley events
 	hEvent1 = CreateHookableEvent(ME_SMILEYADD_OPTIONSCHANGED);

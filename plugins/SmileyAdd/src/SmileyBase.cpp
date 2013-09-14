@@ -61,6 +61,8 @@ ISmileyBase::ISmileyBase(void)
 	memset(&m_orect, 0, sizeof(m_orect));
 
 	regSmileys.insert(this);
+
+	mir_writeLogA(hLogger, "Possible crash address: %p\n", &m_visible);
 }
 
 ISmileyBase::~ISmileyBase(void)
