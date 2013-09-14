@@ -99,7 +99,7 @@ Umieść CR/LF
 [Paste the Settings to import here.]
 Wklej tu ustawienia do zaimportowania.
 [DBEditor++]
-
+DBEditor++
 [&Main]
 Główne
 [&Refresh Modules]
@@ -169,7 +169,7 @@ Ciąg
 [&Unicode]
 Unicode
 [BL&OB]
-
+BLOB
 [&Convert to]
 Konwertuj do
 [Encyption]
@@ -339,7 +339,7 @@ Nie znaleziono drzewka modułów
 [Contacts]
 Kontakty
 [HANDLE]
-
+HANDLE
 [Add module to contact "%s"]
 Dodaj moduł do kontaktu "%s"
 ;file \plugins\DbEditorPP\src\options.cpp
@@ -355,25 +355,25 @@ Typ
 [Size]
 Rozmiar
 [BLOB]
-
+BLOB
 [BYTE]
-
+BYTE
 [WORD]
-
+WORD
 [DWORD]
-
+DWORD
 [STRING]
-
+STRING
 [UNICODE]
-
+UNICODE
 [<unsupported>]
 <niewspierany>
 [<unknown>]
 <nieznany>
 [Decoded string..]
-
+Dekodowany ciąg..
 [Encoded string..]
-
+Zakodowany ciąg..
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
 [Contact]
 Kontakt

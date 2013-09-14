@@ -92,7 +92,7 @@ Ostatni wynik
 [Own settings]
 Własne ustawienie
 [Array]
-
+Tablica
 [Message title]
 Tytuł wiadomości
 [OK, Cancel]
@@ -122,9 +122,9 @@ Edytor struktury
 [Result as structure]
 Wynik jako struktura
 [Byte Array]
-
+Tablica bajtów
 [Word Array]
-
+Tablica WORD
 [Pointer to bytes]
 Wskaźnik do bajtów
 [Pointer to words]
@@ -180,7 +180,7 @@ Zdarzenie
 [hook sample]
 
 [QWord]
-
+QWord
 [Packed structure]
 
 [NativeInt]
@@ -254,7 +254,7 @@ Natywny
 [8 bytes]
 8 bajtów
 [alias]
-
+alias
 [type]
 typ
 [length]

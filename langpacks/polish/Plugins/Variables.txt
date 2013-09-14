@@ -54,7 +54,7 @@ Zmienne...
 [Token]
 Wyrażenie
 [--- Special characters ---\r\n\r\nThe following characters have a special meaning in a formatting string:\r\n\r\n?<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will be parsed again. Example: Today is ?cdate(yyyy/MM/dd).\r\n\r\n!<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will not be parsed again. Example: Message waiting: !message(,first,rcvd,unread).\r\n\r\n%<field>%\r\nThis will parse the given field. Example: I installed Miranda at: %mirandapath%.\r\n\r\n`<string>`\r\nThis will not parse the given string, any function, field or special character in the string will shown in the result without being translated. Example: Use `%mirandapath%` to show the installation path.\r\n\r\n#<comment>\r\nThis will add a comment in the formatting string. Everything from the # character to the end of the line will be removed. Example: %dbprofile% #this is a useless comment.\r\n\r\n\r\n--- Contacts ---\r\n\r\nWhenever a functions requires a contact as an argument, you can specify it in two ways:\r\n\r\n(1) Using a unique id (UIN for ICQ, email for MSN) or, a protocol id followed by a unique id in the form <PROTOID:UNIQUEID>, for example <MSN:miranda@hotmail.com> or <ICQ:123456789>.\r\n\r\n(2) Using the contact function:\r\n?contact(x,y)\r\nA contact will be searched which will have value x for its property y, y can be one of the following:\r\nfirst, last, nick, email, id or display\r\n\r\nFor example: ?contact(miranda@hotmail.com,email) or ?contact(Miranda,nick). The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.]
-
+--- Znaki specjalne ---\r\n\r\n\Następujące znaki mają specjalne znaczenie w przetwarzaniu zmiennych:\r\n\r\n\?<funkcja>(<argumenty>)\r\n\Przetworzy to podane argumenty funkcji, a wynik zostanie przetworzony ponownie. Przykład: Dzisiaj jest ?cdate(yyyy/MM/dd).\r\n\r\n\!<funkcja>(<argumenty>)\r\n\Przetworzy to podane argumenty funkcji, a wynik nie zostanie przetworzony ponownie. Przykład: Wiadomość oczekująca: !message(,first,rcvd,unread).\r\n\r\n\%<pole>%\r\n\Będzie to przetwarzać dane pole. Przykład: Zainstalowałem Mirandę w: %mirandapath%.\r\n\r\n\`<ciąg>`\r\n\To nie przetworzy podanego ciągu znaków. Każda funkcja, pole czy znak specjalny w ciągu będzie widoczny w wynikach nieprzetworzony. Przykład: Użyj `%mirandapath%`  by pokazać ścieżkę instalacyjną Mirandy.\r\n\r\n\#<komentarz>\r\n\Doda to komentarz w przetwarzanym ciągu znaków. Wszystko od znaku # do końca linii zostanie usunięte. Przykład: %dbprofile% #jest to bezużyteczny komentarz.\r\n\r\n\r\n\--- Kontakty ---\r\n\r\n\Gdy funkcja wymaga kontaktu jako argumentu, to można określić go na dwa sposoby:\r\n\r\n\(1) Użyć unikalnego id (UIN dla ICQ, email dla MSN) albo id protokołu i po nim id kontaktu w postaci <PROTOID:KONTAKTID>, przykładowo <MSN:miranda@hotmail.com> lub <ICQ:123456789>.\r\n\r\n\(2) Używając funkcji kontaktów:\r\n\?contact(x,y)\r\n\Zostanie wyszukany kontakt który będzie zawierał wartość "x" w właściwości "y", przy czym "y" może przyjąć wartość:\r\n\first, last, nick, email, id lub display\r\n\r\n\Przykładowo: ?contact(miranda@hotmail.com,email) lub ?contact(Miranda,nick). Funkcja kontaktu zwróci unikalny kontakt zgodnie z zapytaniem, lub nic, jeżeli nie istnieje kontakt spełniający podane kryteria lub istnieje ich kilka.
 [Tokens]
 Wyrażenia
 [Input]
@@ -76,9 +76,9 @@ Zmienne
 [Alias]
 Alias
 [user defined]
-
+zdefiniowane przez użytkownika
 [stores y as alias named x]
-przechowuje y jako alias o nazwie x
+przechowuje "y" jako alias o nazwie "x"
 ;file \plugins\Variables\src\parse_external.cpp
 [Stopped]
 Zatrzymane
@@ -87,13 +87,13 @@ Zatrzymano
 [External Applications]
 Aplikacje zewnętrzne
 [retrieves song name of the song currently playing in Winamp]
-pobiera nazwę piosenki aktualnie odtwarzanej w Winamp
+pobiera nazwę piosenki aktualnie odtwarzanej w Winamp'ie
 [retrieves current Winamp state (Playing/Paused/Stopped)]
 pobiera aktualny status Winamp (Odtwarzanie/Pauza/Zatrzymanie)
 [retrieves info from AMIP (x is var_<variable> with any AMIP variable)]
-
+pobiera informacje od AMIP'a ("x" jest dowolną zmienną AMIP w formacie var_<zmienna>)
 [retrieves info from AMIP (x is AMIP format string)]
-
+pobiera informacje od AMIP'a ("x" jest ciągiem w formacie AMIP)
 ;file \plugins\Variables\src\parse_inet.cpp
 [Internet Related]
 Spokrewnione z internetem
@@ -109,71 +109,71 @@ konwertuje 32-bitowy numer (w porządku bajtów hosta) do IPv4 oddzielony kropka
 [Logical Expressions]
 Wyrażenia logiczne
 [performs logical AND (x && y && ...)]
-wykonuje logiczne AND (x && y && ...)
+wykonuje operację logiczną AND (x && y && ...)
 [Boolean FALSE]
-
+wartość logiczna FAŁSZ
 [performs w, then shows z and performs y while x is TRUE]
-wykonuje w, następnie pokazuje i wykonuje y, podczas gdy x jest TRUE
+wykonuje "w", następnie pokazuje i wykonuje "y", podczas gdy "x" to PRAWDA
 [shows y if x is TRUE, otherwise it shows z]
-pokaż y jeśli x jest TRUE, w innym wypadku pokaż z
+pokaż "y", jeżeli "x" to PRAWDA, w innym wypadku pokaż "z"
 [shows x if x is TRUE, otherwise it shows y (if(x,x,y))]
-pokaż x jeśli x jest TRUE, w innym wypadku pokaż y (if(x,x,y))
+pokaż "x", jeżeli "x" to PRAWDA, w innym wypadku pokaż "y" (if(x,x,y))
 [the first argument parsed successfully]
-pierwszy argument analizowany z powodzeniem
+pierwszy argument przetworzono z powodzeniem
 [y if w = x, else z]
-y, jeśli w = x, w innym wypadku pokaż z
+jeżeli "w" = "x" to "y", w przeciwnym wypadku "z"
 [y if w > x, else z]
-y, jeśli w > x, w innym wypadku pokaż z
+jeżeli "w" > "x" to "y", w przeciwnym wypadku "z"
 [y if string length of w > x, else z]
-y, jeśli długość ciągu znaków w > x, w innym wypadku pokaż z
+jeżeli długość ciągu "w" > "x" to "y", w przeciwnym wypadku "z"
 [TRUE if x = y]
-TRUE, jeśli x = y
+PRAWDA, jeżeli "x" = "y"
 [TRUE if x > y]
-TRUE, jeśli x > y
+PRAWDA, jeżeli "x" > "y"
 [TRUE if x is longer than y]
-TRUE, jeśli x jest dłuższy niż y
+PRAWDA, jeżeli "x" jest dłuższy niż "y"
 [performs logical NOT (!x)]
-wykonuje logiczny NOT (!x)
+wykonuje operację logiczną NOT (!x)
 [performs logical OR (x || y || ...)]
-wykonuje logiczny OR (x || y || ...)
+wykonuje operację logiczną OR (x || y || ...)
 [Boolean TRUE]
-
+wartość logiczna PRAWDA
 [performs logical XOR (x ^ y)]
-wykonuje logiczny XOR (x ^ y)
+wykonuje operację logiczną XOR (x ^ y)
 ;file \plugins\Variables\src\parse_math.cpp
 [Mathematical Functions]
 Funkcje matematyczne
 [x + y + ...]
-
+"x" dodać "y" dodać ...
 [x divided by y]
-x oddzielonych przez y
+x podzielone przez y
 [converts decimal value x to hex value and padds to length y]
-konwertuje wartości dziesiętne liczby x do wartości hex i długości y
+konwertuje wartości dziesiętne liczby "x" do wartości hex i długości "y"
 [x modulo y (remainder of x divided by y)]
-x modułu y (pozostały x dzieli się przez y)
+"x" modulo "y" (reszta z dzielenia "x" przez "y")
 [x times y]
-x, y razy
+"x" razy "y"
 [x times y divided by z]
-x, y razy oddzielonych przez z
+"x" razy "y" podzielone przez "z"
 [minimum value of (decimal) arguments]
 minimalna wartość argumentu (po przecinku)
 [maximum value of (decimal) arguments]
 maksymalna wartość agrumentu (po przecinku)
 [pads decimal value x to length y with zeros]
-zmienia wartość dziesiętną x do długości y z zerami
+zmienia wartość dziesiętną "x" do długości "y" z zerami
 [random number]
 losowa liczba
 [x - y - ...]
-x - y - ...
+"x" minus "y" minus ...
 ;file \plugins\Variables\src\parse_metacontacts.cpp
 [MetaContacts]
 Metakontakty
 [get parent metacontact of contact x]
-pobiera nadrzędny metakontakt kontaktu x
+pobiera nadrzędny metakontakt kontaktu "x"
 [get default subcontact x]
-pobiera domyślny subkontakt x
+pobiera domyślny subkontakt "x"
 [get the 'most online' subcontact x]
-pobiera 'najczęściej połączone' subkontakty x
+pobiera 'najczęściej połączone' subkontakty "x"
 ;file \plugins\Variables\src\parse_miranda.cpp
 [Miranda Core Global]
 Globalne
@@ -182,17 +182,17 @@ folder docelowy Mirandy
 [path to current miranda profile]
 folder docelowy bieżącego profilu mirandy
 [name of current miranda profile (filename, without extension)]
-nazwa aktualnego profilu mirandy (nazwa pliku bez rozszerzenia)
+nazwa aktualnego profilu Mirandy (nazwa pliku bez rozszerzenia)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
-powróci analizowany ciąg %miranda_profile%\\Profiles\\%miranda_profilename%
+zwróci przetworzony ciąg %miranda_profile%\\Profiles\\%miranda_profilename%
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache]
-powróci analizowany ciąg %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache
+zwróci przetworzony ciąg %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs]
-powróci analizowany ciąg %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs
+zwróci przetworzony ciąg %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs
 [Miranda Core OS]
 OS
 [same as environment variable %APPDATA% for currently logged-on Windows user]
-takie samo zmienne środowisko %APPDATA% dla aktualnie zalogowanego użytkownika Windows
+jak zmienna środowiskowa %APPDATA% dla aktualnie zalogowanego użytkownika Windows
 [username for currently logged-on Windows user]
 nazwa obecnie zalogowanego użytkownika Windows
 ["My Documents" folder for currently logged-on Windows user]
@@ -202,188 +202,188 @@ folder "Pulpit" aktualnie zalogowanego użytkownika Windows
 [Miranda Related]
 Spokrewnione z Mirandą
 [translates status code x into a status description]
-tłumaczenie kodu statusu x do opisu statusu
+tłumaczenie kodu statusu "x" do opisu statusu
 [zth contact with property y described by x, example: (unregistered,nick) (z is optional)]
-
+"z-ty" kontakt z właściwością "y" zawierającą "x", przykładowo: (unregistered,nick) ("z" jest opcjonalne)
 [number of contacts with property y described by x, example: (unregistered,nick)]
-liczba kontaktów y opisanej przez x, przykład: (unregistered,nick)
+liczba kontaktów z właściwością "y" zawierającą "x", przykładowo: (unregistered,nick)
 [info property y of contact x]
-info y kontaktu x
+zawartość właściwości "y" kontaktu "x"
 [db profile name]
 nazwa profilu
 [db profile path]
 folder docelowy profilu
 [db setting z of module y of contact x and return w if z isn't exist (w is optional)]
-ustawienia profilu z, modułu y, kontaktu x oraz powróć jeśli nie istnieje (w jest opcjonalne)
+w profilu, wartość ustawienia "z" modułu "y" dla kontaktu "x", zwróć "w", jeżeli nie istnieje ("w" jest opcjonalne)
 [get event for contact x (optional), according to y,z,w, see documentation]
-pobiera zdarzenia dla kontaktu x (opconajlnie), zgodnie z y,z,w, przeczytaj dokumentację
+pobiera zdarzenia dla kontaktu "x" (opconajlnie), zgodnie z "y", "z", "w", przeczytaj dokumentację
 [get last seen time of contact x in format y (y is optional)]
-pobiera czas ostatnio widzianego kontaktu x w formacie y (y jest opcjonalny) 
+pobiera czas w formacie "y" kiedy kontakt "x" był ostatnio połączony ("y" jest opcjonalne) 
 [get last seen date of contact x in format y (y is optional)]
-pobiera datę ostatnio widzianego kontaktu x w formacie y (y jest opcjonalny) 
+pobiera datę w formacie "y" kiedy kontakt "x" był ostatnio połączony ("y" jest opcjonalne) 
 [get last seen status of contact x]
-pobierz ostatnio widziny status kontaktu x
+pobiera ostatnio widziny status kontaktu "x"
 [path to the Miranda NG executable]
-
+folder pliku wykonywalnego Mirandy NG
 [current status description of protocol x (without x, the global status is retrieved)]
-aktualny opis statusu protokołu x (bez x pobierany jest globalny status)
+aktualny opis protokołu "x" (bez "x" pobierany jest globalny opis)
 [info property y of protocol id x]
-informacje y, id protokołu x
+zawartość właściwości "y" protokołu o id "x"
 [retrieves the subject, depending on situation]
 pobiera temat, w zależncości od sytuacji
 [translates x]
-tłumaczenie x
+przekłada "x"
 [get the version of Miranda]
-wersja Mirandy IM
+wersja Mirandy
 [get the contact display name]
 pobiera nazwę wyświetlaną kontaktu
 [get the date and time (using Miranda format)]
 pobiera datę i godzinę (w formacie Mirandy)
 [TRUE if service function exists]
-
+PRAWDA, jeżeli usługa istnieje
 ;file \plugins\Variables\src\parse_regexp.cpp
 [Regular Expressions]
 Wyrażenia regularne
 [(ANSI input only) the number of substring matches found in y with pattern x]
-
+(wyłącznie tekst ANSI) liczba znalezionych dopasowań w "y" dla wyrażenia "x"
 [(ANSI input only) substring match number z found in subject y with pattern x]
-
+(wyłącznie tekst ANSI) dopasowanie numer "z" znalezione w "y" dla wyrażenia "x"
 ;file \plugins\Variables\src\parse_str.cpp
 [String Functions]
-Funkcje stringów
+Ciągi znaków
 [converts each first letter of a word to uppercase, all others to lowercase]
-
+zamienia pierwsze litery wyrazów na wielkie, a pozostałe litery na małe
 [converts each first letter of a word to uppercase]
-
+zamienia pierwsze litery wyrazów na wielkie
 [inserts 'end of line' character]
-
+wstawia znak końca linii
 [depends on calling plugin]
-
+zależy od wywołującej wtyczki
 [Replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
-
+zastępuje wszystkie wystąpienia \\n (Unix) przez \\r\\n (Windows)
 [cuts x after the first line and appends y (y is optional)]
-
+obcina "x" do pierwszej linii i dopisuje na koniec "y" ("y" jest opcjonalne)
 [replaces all end of line characters by y (y is optional)]
-
+zastępuje wszystkie znaki końca linii przez "y" ("y" jest opcjonalne)
 [inserts string y at position z in string x]
-
+wstawia ciąg "y" do ciągu "x" od pozycji "z"
 [trims x to length y, keeping first y characters]
-przytnij x do długości y, trzymając pierwszy znak y
+przycina "x" do długości "y", zachowuje "y" pierwszych znaków
 [length of x]
-długość x
+długość "x"
 [the number of lines in string x]
-liczba lini w ciągu x
+liczba lini w ciągu "x"
 [the longest string of the arguments]
-
+najdłuższy ciąg znaków spośród argumentów
 [converts x to lowercase]
-
+zamienia "x" na małe litery
 [no operation, x as given]
-
+brak operacji, "x" takie jakie jest
 [pads x to length y prepending character z (z is optional)]
-
+powiększa "x" do długości "y" dopisując na początku znaki "z" ("z" jest opcjonalne, bez niego wstawi spacje)
 [pads x to length y appending character z (z is optional)]
-
+powiększa "x" do długości "y" dopisując na końcu znaki "z" ("z" jest opcjonalne, bez niego wstawi spacje)
 [pads x to length y prepending character z, or cut if x is longer (z is optional)]
-
+powiększa "x" do długości "y" dopisując na początku znaki "z", lub przytnie "x", gdy dłuższe ("z" jest opcjonalne, bez niego wstawi spacje)
 [pads x to length y appending character z, or cut if x is longer (z is optional)]
-
+powiększa "x" do długości "y" dopisując na końcu znaki "z", lub przytnie "x", gdy dłuższe ("z" jest opcjonalne, bez niego wstawi spacje)
 [repeats x y times]
-powtórz x y razy
+powtórz "x" "y" razy
 [replace all occurrences of y in x with z, multiple y and z arguments allowed]
-
+zastępuje wszystkie wystąpienia "y" w "x" przez "z", dozwolone wielokrotne argumenty "y" i "z"
 [trims x to length y, keeping last y characters]
-przytnij x do długości y, trzymając ostatni znak y
+przycina "x" do długości "y", zachowuje "y" ostatnich znaków
 [moves string x, z characters to the left and trims it to y characters]
-
+przesuwa ciąg "x", "z" znaków w lewo i przycina go do "y" znaków
 [TRUE if x equals y]
-TRUE, jeśli x jest równe y
+PRAWDA, jeżeli "x" jest równe "y"
 [TRUE if x equals any of the following arguments]
-
+PRAWDA, jeżeli "x" jest równe któremuś z następujących argumentów
 [TRUE if the first z characters of x equal y]
-
+PRAWDA, jeżeli piersze "z" znaków w "x" jest równe "y"
 [TRUE if x equals y, ignoring case]
-TRUE, jeśli x = y, ignorując przypadek
+PRAWDA, jeżeli "x" jest równe "y", ignorując wielkość liter
 [TRUE if the first z characters of x equal y, ignoring case]
-TRUE, jeśli pierszy znak z spośród x = y, ignorując przypadek
+PRAWDA, jeżeli piersze "z" znaków w "x" jest równe "y", ignorując wielkość liter
 [the shortest string of the arguments]
-
+najkrótszy ciąg znaków spośród argumentów
 [location of first occurrence of character y in string x]
-
+pozycja pierwszego wystąpienia znaku "y" w ciągu "x"
 [location of last occurrence of character y in string x]
-
+pozycja ostatniego wystąpienia znaku "y" w ciągu "x"
 [location of first occurrence of string y in x]
-
+pozycja pierwszego wystąpienia ciągu "y" w ciągu "x"
 [substring of x starting from position y to z]
-
+wydziela ciąg znaków z "x", od pozycji "y" do "z"
 [the xth string of the arguments]
-
+wybiera argument numer "x" z podanych
 [z if y equals x, multiple y and z arguments allowed]
-
+"z", jeżeli "y" równe "x", dozowlone wielokrotne pary argumentów "y" i "z"
 [removes white spaces in before and after x]
-
+usuwa białe znaki z początku i końca "x"
 [inserts x tab characters (x is optional)]
-
+wstawia "x" tabulatorów ("x" jest opcjonalne)
 [converts x to upper case]
-
+zamienia "x" na duże litery
 [words (separated by white spaces) number y to z from string x (z is optional)]
-
+wypisuje z "x" wyrazy (oddzielone spacjami) od numeru "y" do "z" ("z" jest opcjonalne)
 ;file \plugins\Variables\src\parse_system.cpp
 [System Functions]
 Funkcje systemowe
 [computer name]
 nazwa komputera
 [cpu load of process x (without extension) (x is optional)]
-obciążenie cpu procesu x (bez rozszerzenia) (x jest opcjonalne)
+obciążenie cpu procesem "x" (bez rozszerzenia) ("x" jest opcjonalne)
 [current date in format y (y is optional)]
-aktualna data w formacie y (y jest opcjonalne)
+aktualna data w formacie "y" ("y" jest opcjonalne)
 [current time in format y (y is optional)]
-aktualny czas w formacie y (y jest opcjonalne)
+aktualny czas w formacie "y" ("y" jest opcjonalne)
 [the directory y directories above x]
-folder y folderów powyżej x
+folder, "y" folderów powyżej "x"
 [strips y directories from x]
-pasmo y folderu z x
+usuwa "y" folderów z adresu "x"
 [number of seconds between date x and y (x and y in format: M/d/yy H:m:s)]
-liczba sekund pomiędzy datą x i y (x i y w formacie: M/d/yy H:m:s)
+liczba sekund pomiędzy datą "x" i "y" ("x" i "y" w formacie: M/d/yy H:m:s)
 [TRUE if directory x exists]
-TRUE, jeśli folder x istnieje
+PRAWDA, jeżeli folder "x" istnieje
 [TRUE if file x exists]
-TRUE, jeśli plik x istnieje
+PRAWDA, jeżeli plik "x" istnieje
 [window title of first window of class x]
-tytuł pierwszego okna z klasy x
+tytuł pierwszego okna z klasy "x"
 [shows files and directories of directory z, with filter y, separated by z (y and z optional)]
-pokazuje pliki i foldery w folderze z, filtr y, separator z (y i z jest opcjonalne)
+pokazuje pliki i foldery w folderze "z", filtr "y", separator "z" ("y" i "z" jest opcjonalne)
 [TRUE if process x is running]
-TRUE, jeśli proces x jest uruchomiony
+PRAWDA, jeżeli proces "x" jest uruchomiony
 [value y from registry key x (REG_SZ (string) values only)]
-wartość y z klucza rejestru x (REG_SZ (łańcuch)
+wartość "y" z klucza rejestru "x" (tylko wartości REG_SZ (ciągi))
 [formats timestamp x (seconds since 1/1/1970) in date format y]
-format żądania znacznika x (sekund od 1/1/1970) w formacie daty y
+pokazuje datę w foramcie "y" po upływie "x" sekund od 1/1/1970
 [formats timestamp x (seconds since 1/1/1970) in time format y]
-format żądania znacznika x (sekund od 1/1/1970) w formacie czasu y
+pokazuje czas w foramcie "y" po upływie "x" sekund od 1/1/1970
 [y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]
-y > 0: numer linii y z pliku x, y = 0: całego pliku, y < 0: linii y licząc od końca, y = r: losowa linia
+"y" > 0: linia "y" z pliku "x", "y" = 0: całey plik, "y" < 0: linia "y" licząc od końca, "y" = r: losowa linia
 [uptime in seconds]
 czas działania w sekundach
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
 dowolna zmienna środowiskowa zdefiniowana w obecnej sesji Windows (jak %systemroot%, %allusersprofile% itp.)
 [expand environment variable x]
-rozszerzenie zmiennej środowiskowej x
+rozwija zmienną środowiskową "x"
 [user name]
 nazwa użytkownika
 [text from clipboard]
 tekst ze schowka
 ;file \plugins\Variables\src\parse_variables.cpp
 [variable set by put(s) with name x]
-zmienna ustawia put(s) po nazwie x
+wstawia zmienną o nazwie "x"
 [x, and stores y as variable named x]
-x, y przechowuje zmienne o nazwie x
+wstawia "y", oraz przechowuje "y" jako zmienną o nazwie "x"
 [only stores y as variables x]
-y tylko przechowuje zmienne x
+przechowuje "y" jako zmienną o nazwie "x"
 ;file \plugins\Variables\src\parse_xml.cpp
 [XML]
 XML
 [apply stylesheet file x to document file y]
-
+zastosuj plik arkusza stylów "x" do pliku dokumentu "y"
 [apply stylesheet x to document y]
-
+zastosuj arkusz stylów "x" do dokumentu "y"
 ;file \plugins\Variables\src\variables.cpp
