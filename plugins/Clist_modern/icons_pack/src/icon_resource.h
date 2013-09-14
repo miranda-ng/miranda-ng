@@ -3,8 +3,8 @@
 // Used by resources.rc
 //
 #define IDI_STATUSMENU	                105
-#define IDI_HIDEOFFLINE                 110
-#define IDI_SHOWOFFLINE                 111
+#define IDI_SHOWOFFLINE                 110
+#define IDI_HIDEOFFLINE                 111
 #define IDI_BOOKMARKS                   120
 #define IDI_DBEDITOR                    130
 #define IDI_FINDUSER                    140
