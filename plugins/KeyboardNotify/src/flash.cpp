@@ -18,11 +18,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "Common.h"
 
-typedef struct {
+struct FLASHING_SEQUENCE
+{
 	unsigned int size;
 	unsigned int index;
 	BYTE frame[MAX_PATH];
-} FLASHING_SEQUENCE;
+};
 
 
 // Prototypes
@@ -47,11 +48,9 @@ extern WORD wCustomTheme;
 extern BYTE bTrillianLedsMsg; extern BYTE bTrillianLedsURL; extern BYTE bTrillianLedsFile; extern BYTE bTrillianLedsOther;
 extern BYTE bEmulateKeypresses;
 
-
 // TestThread/PreviewThread globals
 extern int nWaitDelay; extern WORD wStartDelay;
 BOOL bTestSemaphore, bPreviewSemaphore, bPreview;
-
 
 void RestoreLEDState(void)
 {
@@ -60,7 +59,6 @@ void RestoreLEDState(void)
 	else
 		ToggleKeyboardLights((BYTE)(LedState(VK_SCROLL) + (LedState(VK_NUMLOCK)<<1) + (LedState(VK_CAPITAL)<<2)));
 }
-
 
 BYTE getBlinkingLeds(void)
 {
@@ -73,39 +71,27 @@ BYTE getBlinkingLeds(void)
 	return pFS->frame[pFS->index++];
 }
 
-
 void setFlashingSequence(void)
 {
 	switch (bFlashEffect) {
-		case FLASH_CUSTOM:
-			pFS = getCustomSeq();
-			break;
-		case FLASH_TRILLIAN:
-			pFS = getTrillianSeq();
-			break;
-		default:
-			pFS = getPredefinedSeq();
+	case FLASH_CUSTOM:
+		pFS = getCustomSeq();
+		break;
+	case FLASH_TRILLIAN:
+		pFS = getTrillianSeq();
+		break;
+	default:
+		pFS = getPredefinedSeq();
 	}
 	bTemporarilyUseExtern = FALSE;
 }
 
-
 FLASHING_SEQUENCE *getCustomSeq(void)
 {
+	ptrT tszSeq( db_get_wsa(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", wCustomTheme)));
+
 	static FLASHING_SEQUENCE Custom = {0};
-
-	DBVARIANT dbv;
-	TCHAR customStr[MAX_PATH+1];
-
-
-	customStr[0] = _T('\0');
-	if (!db_get(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", wCustomTheme), &dbv)) {
-		wcscpy(customStr, dbv.pwszVal);
-		db_free(&dbv);
-	}
-
-	Custom = str2FS(customStr);
-
+	Custom = str2FS((tszSeq != 0) ? tszSeq : L"");
 	return &Custom;
 }
 
@@ -126,33 +112,33 @@ FLASHING_SEQUENCE *getPredefinedSeq(void)
 		pAux = &SameTime;
 	else
 		switch (bFlashEffect) {
+		default:
+		case FLASH_SAMETIME:
+			pAux = &SameTime;
+			break;
+		case FLASH_INTURN:
+			if (Leds2Flash == 3)	// 3 = Num+Scroll
+				pAux = &InSeq;
+			else
+				pAux = &InTurn;
+			break;
+		case FLASH_INSEQUENCE:
+			switch (bSequenceOrder) {
 			default:
-			case FLASH_SAMETIME:
-				pAux = &SameTime;
+			case SEQ_LEFT2RIGHT:
+				pAux = &InSeq;
 				break;
-			case FLASH_INTURN:
-				if (Leds2Flash == 3)	// 3 = Num+Scroll
+			case SEQ_RIGHT2LEFT:
+				pAux = &InSeqRev;
+				break;
+			case SEQ_LIKEKIT:
+				if (Leds2Flash != 7)	// 7 = Num+Caps+Scroll
 					pAux = &InSeq;
 				else
-					pAux = &InTurn;
+					pAux = &InSeqKIT;
 				break;
-			case FLASH_INSEQUENCE:
-				switch (bSequenceOrder) {
-					default:
-					case SEQ_LEFT2RIGHT:
-						pAux = &InSeq;
-						break;
-					case SEQ_RIGHT2LEFT:
-						pAux = &InSeqRev;
-						break;
-					case SEQ_LIKEKIT:
-						if (Leds2Flash != 7)	// 7 = Num+Caps+Scroll
-							pAux = &InSeq;
-						else
-							pAux = &InSeqKIT;
-						break;
-				}
-				break;
+			}
+			break;
 		}
 
 	Predefined.size = Predefined.index = 0;
@@ -207,17 +193,13 @@ void updateTrillianSeq(void)
 			pFS->frame[pFS->size++] = bTrillianLedsOther & Leds2Flash;
 			pFS->frame[pFS->size++] = 0;
 		}
-
 }
-
 
 void useExternSequence(TCHAR *extStr)
 {
 	static FLASHING_SEQUENCE Extern = {0};
 
 	TCHAR externStr[MAX_PATH+1];
-
-
 	wcscpy(externStr, extStr);
 
 	Extern = str2FS(normalizeCustomString(externStr));
@@ -233,34 +215,34 @@ TCHAR *normalizeCustomString(TCHAR *customStr)
 	BOOL used[4];
 	TCHAR strAux[MAX_PATH+1], *str;
 
-	for (wcscpy(str=strAux, customStr); *str; str++)
+	for (wcscpy(str=strAux, customStr); *str; str++) {
 		switch (*str) {
-			case _T('['):
-				if (status == 0) {
-					status = 1;
-					customStr[len++] = *str;
-					used[0] = used [1] = used[2] = used[3] = FALSE;
-				}
-				break;
-			case _T(']'):
-				if (status == 1) {
-					status = 0;
-					customStr[len++] = *str;
-				}
-				break;
-			case _T('0'):
-			case _T('1'):
-			case _T('2'):
-			case _T('3'):
-				if (status == 0)
-					customStr[len++] = *str;
-				else
-					if (!used[*str - _T('0')]) {
-						customStr[len++] = *str;
-						used[*str - _T('0')] = TRUE;
-					}
-				break;
+		case _T('['):
+			if (status == 0) {
+				status = 1;
+				customStr[len++] = *str;
+				used[0] = used [1] = used[2] = used[3] = FALSE;
+			}
+			break;
+		case _T(']'):
+			if (status == 1) {
+				status = 0;
+				customStr[len++] = *str;
+			}
+			break;
+		case _T('0'):
+		case _T('1'):
+		case _T('2'):
+		case _T('3'):
+			if (status == 0)
+				customStr[len++] = *str;
+			else if (!used[*str - _T('0')]) {
+				customStr[len++] = *str;
+				used[*str - _T('0')] = TRUE;
+			}
+			break;
 		}
+	}
 	if (status == 1)
 		customStr[len++] = _T(']');
 	customStr[len] = _T('\0');
@@ -268,87 +250,77 @@ TCHAR *normalizeCustomString(TCHAR *customStr)
 	return customStr;
 }
 
-
-TCHAR *getCurrentSequenceString(void)
+TCHAR* getCurrentSequenceString(void)
 {
 	static TCHAR CurrentSeqString[MAX_PATH+1];
+	TCHAR *str = CurrentSeqString;
 
-	unsigned int i;
-	TCHAR *str;
-
-
-	for (i=0, str=CurrentSeqString; i < pFS->size; i++)
+	for (unsigned i=0; i < pFS->size; i++) {
 		switch (pFS->frame[i]) {
-			case 0:
-				*(str++) = _T('0');
-				break;
-			case 1:
-				*(str++) = _T('3');
-				break;
-			case 2:
-				*(str++) = _T('1');
-				break;
-			case 3:
-				*(str++) = _T('[');
-				*(str++) = _T('1');
-				*(str++) = _T('3');
-				*(str++) = _T(']');
-				break;
-			case 4:
-				*(str++) = _T('2');
-				break;
-			case 5:
-				*(str++) = _T('[');
-				*(str++) = _T('2');
-				*(str++) = _T('3');
-				*(str++) = _T(']');
-				break;
-			case 6:
-				*(str++) = _T('[');
-				*(str++) = _T('1');
-				*(str++) = _T('2');
-				*(str++) = _T(']');
-				break;
-			case 7:
-				*(str++) = _T('[');
-				*(str++) = _T('1');
-				*(str++) = _T('2');
-				*(str++) = _T('3');
-				*(str++) = _T(']');
+		case 0:
+			*(str++) = _T('0');
+			break;
+		case 1:
+			*(str++) = _T('3');
+			break;
+		case 2:
+			*(str++) = _T('1');
+			break;
+		case 3:
+			*(str++) = _T('[');
+			*(str++) = _T('1');
+			*(str++) = _T('3');
+			*(str++) = _T(']');
+			break;
+		case 4:
+			*(str++) = _T('2');
+			break;
+		case 5:
+			*(str++) = _T('[');
+			*(str++) = _T('2');
+			*(str++) = _T('3');
+			*(str++) = _T(']');
+			break;
+		case 6:
+			*(str++) = _T('[');
+			*(str++) = _T('1');
+			*(str++) = _T('2');
+			*(str++) = _T(']');
+			break;
+		case 7:
+			*(str++) = _T('[');
+			*(str++) = _T('1');
+			*(str++) = _T('2');
+			*(str++) = _T('3');
+			*(str++) = _T(']');
 		}
+	}
 	*str = _T('\0');
-
 
 	return CurrentSeqString;
 }
 
-
 void testSequence(TCHAR *testStr)
 {
-	static FLASHING_SEQUENCE Test = {0};
-
-	DWORD threadID = 0;
-
-
 	if (bTestSemaphore) // we try to avoid concurrent test threads
 		return;
+
 	bTestSemaphore = TRUE;
 
+	static FLASHING_SEQUENCE Test = {0};
 	Test = str2FS(testStr);
 	
+	DWORD threadID = 0;
 	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)TestThread, &Test, 0, &threadID);
 }
 
 
 static void TestThread(FLASHING_SEQUENCE *pTest)
 {
-	unsigned int i;
-	DWORD dwEndTest;
-
 	unsigned int testNum = (unsigned int)db_get_b(NULL, KEYBDMODULE, "testnum", DEF_SETTING_TESTNUM);
 	unsigned int testSecs = (unsigned int)db_get_b(NULL, KEYBDMODULE, "testsecs", DEF_SETTING_TESTSECS);
 
-	for (i=0, dwEndTest=GetTickCount()+testSecs*1000; i < testNum || GetTickCount() < dwEndTest; i++)
+	for (unsigned i=0, dwEndTest=GetTickCount()+testSecs*1000; i < testNum || GetTickCount() < dwEndTest; i++)
 		for (pTest->index=0; pTest->index < pTest->size; pTest->index++) {
 			ToggleKeyboardLights(pTest->frame[pTest->index]);
 			Sleep(nWaitDelay);
@@ -362,30 +334,25 @@ static void TestThread(FLASHING_SEQUENCE *pTest)
 
 void previewFlashing(BOOL buttonState)
 {
-	DWORD threadID = 0;
-
 	bPreview = buttonState;
-
 	if (!bPreview || bPreviewSemaphore) // turn off flashing or already running
 		return;
 
 	bPreviewSemaphore = TRUE;
+	DWORD threadID = 0;
 	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)PreviewThread, NULL, 0, &threadID);
 }
 
 
 static void PreviewThread(void *dummy)
 {
-	unsigned int i;
-	BYTE unchangedLeds;
-
 	if (wStartDelay > 0)
 		Sleep(wStartDelay * 1000);
 
-	unchangedLeds = (BYTE)(LedState(VK_SCROLL) * !bFlashLed[2] + ((LedState(VK_NUMLOCK) * !bFlashLed[0])<<1) + ((LedState(VK_CAPITAL) * !bFlashLed[1])<<2));
+	BYTE unchangedLeds = (BYTE)(LedState(VK_SCROLL) * !bFlashLed[2] + ((LedState(VK_NUMLOCK) * !bFlashLed[0])<<1) + ((LedState(VK_CAPITAL) * !bFlashLed[1])<<2));
 
 	while (bPreview)
-		for (i=0; bPreview && i < pFS->size; i++) {
+		for (unsigned i=0; bPreview && i < pFS->size; i++) {
 			ToggleKeyboardLights((BYTE)(pFS->frame[i%pFS->size]|unchangedLeds));
 			Sleep(nWaitDelay);				
 		}
@@ -407,8 +374,8 @@ FLASHING_SEQUENCE str2FS(TCHAR *str)
 			for (str++; *str && *str != _T(']'); str++)
 				Temp.frame[Temp.size - 1] += KbdChar2Byte(*str) & Leds2Flash;
 			if (!*str) break;
-		} else
-			Temp.frame[Temp.size - 1] = KbdChar2Byte(*str) & Leds2Flash;
+		}
+		else Temp.frame[Temp.size - 1] = KbdChar2Byte(*str) & Leds2Flash;
 	}
 
 	return Temp;
@@ -418,12 +385,12 @@ FLASHING_SEQUENCE str2FS(TCHAR *str)
 BYTE KbdChar2Byte(char kbdChar)
 {
 	switch (kbdChar) {
-		case '1': //NumLock
-			return 2;
-		case '2': //CapsLock
-			return 4;
-		case '3': //ScrollLock
-			return 1;
+	case '1': //NumLock
+		return 2;
+	case '2': //CapsLock
+		return 4;
+	case '3': //ScrollLock
+		return 1;
 	}
 	return 0;
 }
