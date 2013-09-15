@@ -18,10 +18,6 @@ public:
 
 	MirfoxData& getMirfoxData();
 
-
-
-	bool onMirandaPluginInfoExCheck(DWORD actualMirandaVersion);
-
 	int onMirandaInterfaceLoad();
 
 	int onMirandaInterfaceUnload();

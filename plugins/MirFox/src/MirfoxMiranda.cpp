@@ -17,28 +17,11 @@ CMirfoxMiranda::~CMirfoxMiranda()
 {
 }
 
-
-MirfoxData&
-CMirfoxMiranda::getMirfoxData(){
+MirfoxData& CMirfoxMiranda::getMirfoxData(){
 	return mirfoxData;
 }
 
-
-bool
-CMirfoxMiranda::onMirandaPluginInfoExCheck(DWORD actualMirandaVersion)
-{
-//	DWORD minimalMirandaVersion = PLUGIN_MAKE_VERSION(0,8,0,0);
-//	if ( actualMirandaVersion < minimalMirandaVersion) {
-//		return false;
-//	} else {
-		return true;
-//	}
-}
-
-
-
-int
-CMirfoxMiranda::onMirandaInterfaceLoad()
+int CMirfoxMiranda::onMirandaInterfaceLoad()
 {
 
 	mirandaUtils->netlibRegister(); //for Miranda logger init
@@ -70,8 +53,7 @@ CMirfoxMiranda::onMirandaInterfaceLoad()
 }
 
 
-int
-CMirfoxMiranda::onMirandaInterfaceUnload()
+int CMirfoxMiranda::onMirandaInterfaceUnload()
 {
 
 	UnhookEvent(mirfoxData.hhook_OpenMW);
@@ -88,9 +70,7 @@ CMirfoxMiranda::onMirandaInterfaceUnload()
 	return 0;
 }
 
-
-void
-CMirfoxMiranda::initializeSharedMemory(MirfoxData& mirfoxData)
+void CMirfoxMiranda::initializeSharedMemory(MirfoxData& mirfoxData)
 {
 
 	//initialize CSM record and MSMs with data from mirfoxData
@@ -105,16 +85,13 @@ CMirfoxMiranda::initializeSharedMemory(MirfoxData& mirfoxData)
 
 }
 
-void
-CMirfoxMiranda::commitSharedMemory()
+void CMirfoxMiranda::commitSharedMemory()
 {
 	//commitSM();
 	sharedMemoryUtils->commitSM();
 }
 
-
-void
-CMirfoxMiranda::initializeSharedMemoryData(MirfoxData& mirfoxData, SharedMemoryUtils* sharedMemoryUtils)
+void CMirfoxMiranda::initializeSharedMemoryData(MirfoxData& mirfoxData, SharedMemoryUtils* sharedMemoryUtils)
 {
 
 	std::wstring visableTo;
@@ -129,16 +106,10 @@ CMirfoxMiranda::initializeSharedMemoryData(MirfoxData& mirfoxData, SharedMemoryU
 	if(result.errorCode != 0){
 		//error
 		if (result.errorCode == -3){  //existing csm version is too high -> i'm too old
-			MessageBox(NULL,
-					   MirandaUtils::getInstance()->mfTranslate(LPGENT("mirfox.msgbox.csmtooold.message"), TEXT("This MirFox (Miranda) plugin is too old. Please update it.")),
-					   MirandaUtils::getInstance()->mfTranslate(LPGENT("mirfox.msgbox.csmtooold.title"), TEXT("MirFox (Miranda) - Error")),
-					   MB_OK | MB_ICONWARNING );
+			MessageBox(NULL, TranslateT("This MirFox (Miranda) plugin is too old. Please update it."), TranslateT("MirFox (Miranda) - Error"), MB_OK | MB_ICONWARNING );
 		}
 		if (result.errorCode == -4){  //existing csm version is too low -> sb is too old
-			MessageBox(NULL,
-					   MirandaUtils::getInstance()->mfTranslate(LPGENT("mirfox.msgbox.csmtoonew.message"), TEXT("This MirFox (Miranda) plugin can not start beacouse some other MirFox component is too old. Please, check and update your MirFox components.")),
-					   MirandaUtils::getInstance()->mfTranslate(LPGENT("mirfox.msgbox.csmtoonew.title"), TEXT("MirFox (Miranda) - Error")),
-					   MB_OK | MB_ICONWARNING );
+			MessageBox(NULL, TranslateT("This MirFox (Miranda) plugin can not start beacouse some other MirFox component is too old. Please, check and update your MirFox components."), TranslateT("MirFox (Miranda) - Error"), MB_OK | MB_ICONWARNING );
 		}
 		mirfoxData.setPluginState(MFENUM_PLUGIN_STATE_ERROR);
 		return;
@@ -182,27 +153,17 @@ CMirfoxMiranda::initializeSharedMemoryData(MirfoxData& mirfoxData, SharedMemoryU
 			sharedMemoryUtils->addContactToSM((uint64_t)mirandaContactsIter->contactHandle, (uint64_t)NULL, (uint64_t)1, mirandaContactsIter->contactNameW);
 		}
 	}
-
-
 }
 
 
 
-void
-CMirfoxMiranda::unloadSharedMemory()
+void CMirfoxMiranda::unloadSharedMemory()
 {
-
 	sharedMemoryUtils->unloadSharedMemory(mirfoxData.processCsmId);
 	//all msm's will be deleted  when miranda process returns
-
 }
 
-
-
-
-
-/*static*/ void
-CMirfoxMiranda::csmThread(void* threadArg)
+void CMirfoxMiranda::csmThread(void* threadArg)
 {
 	Thread_Push(0);
 
@@ -291,11 +252,7 @@ CMirfoxMiranda::csmThread(void* threadArg)
 
 }
 
-
-
-
-void
-CMirfoxMiranda::initializeMessageQueue(MirfoxData& mirfoxData)
+void CMirfoxMiranda::initializeMessageQueue(MirfoxData& mirfoxData)
 {
 
 	MessageQueueUtils* messageQueueUtils = MessageQueueUtils::getInstance();
@@ -315,8 +272,7 @@ CMirfoxMiranda::initializeMessageQueue(MirfoxData& mirfoxData)
 
 }
 
-void
-CMirfoxMiranda::unloadMessageQueue(uint16_t unloadedMQProcessId)
+void CMirfoxMiranda::unloadMessageQueue(uint16_t unloadedMQProcessId)
 {
 
 	MessageQueueUtils* messageQueueUtils = MessageQueueUtils::getInstance();
@@ -324,9 +280,7 @@ CMirfoxMiranda::unloadMessageQueue(uint16_t unloadedMQProcessId)
 
 }
 
-
-/*static*/ void
-CMirfoxMiranda::msgQueueThread(void* threadArg)
+void CMirfoxMiranda::msgQueueThread(void* threadArg)
 {
 	Thread_Push(0);
 
@@ -425,10 +379,7 @@ CMirfoxMiranda::msgQueueThread(void* threadArg)
 					mir_forkthread(MirandaUtils::userActionThread, actionThreadArgPtr);
 
 				}
-
-
 			}
-	
 		}
 
 		i--;
@@ -452,7 +403,4 @@ CMirfoxMiranda::msgQueueThread(void* threadArg)
 	mirfoxDataPtr->workerThreadsCount--;
 	Thread_Pop();
 	return;
-
 }
-
-

@@ -49,11 +49,6 @@ public:
 
 	std::wstring& getDisplayName();
 
-	//description at MirandaUtils.cpp
-	TCHAR* mfTranslate(const TCHAR* msgCode, TCHAR* msgDefault);
-
-	void mfTranslateControl(HWND parentWindowHwnd, long controlId, const TCHAR* msgCode, TCHAR* msgDefault);
-
 	static void userActionThread(void* threadArg);
 
 	static int onProtoAck(WPARAM wParam, LPARAM lParam);

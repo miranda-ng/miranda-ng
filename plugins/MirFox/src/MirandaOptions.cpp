@@ -15,51 +15,29 @@ INT_PTR CALLBACK DlgProcOpts_Tab1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	case WM_INITDIALOG:
 	{
 		//executed once, during each tab initialization during each miranda options open
-
 		mirfoxMiranda.getMirfoxData().setTab1OptionsState(MFENUM_OPTIONS_INIT);
 
+		TranslateDialogDefault(hwndDlg);
 
-		MirandaUtils* mu = MirandaUtils::getInstance();
-
-		mu->mfTranslateControl(hwndDlg, IDC1_LABEL1,
-			LPGENT("mirfox.options.tab1.sendtocontacts"), TEXT("Send to contact action")
-		);
-		mu->mfTranslateControl(hwndDlg, IDC1_LABEL2,
-			LPGENT("mirfox.options.tab1.left"), TEXT("on left mouse button click")
-		);
 		//IDC1_COMBO1
-		SendDlgItemMessage(hwndDlg, IDC1_COMBO1, CB_ADDSTRING, 0, (LPARAM)mu->mfTranslate(LPGENT("mirfox.options.onlysend"), TEXT("just send message")));
-		SendDlgItemMessage(hwndDlg, IDC1_COMBO1, CB_ADDSTRING, 0, (LPARAM)mu->mfTranslate(LPGENT("mirfox.options.sendandshow"), TEXT("send message and open message window")));
-		SendDlgItemMessage(hwndDlg, IDC1_COMBO1, CB_ADDSTRING, 0, (LPARAM)mu->mfTranslate(LPGENT("mirfox.options.onlyshow"), TEXT("show message window with pasted message")));
+		SendDlgItemMessage(hwndDlg, IDC1_COMBO1, CB_ADDSTRING, 0, (LPARAM)TranslateT("just send message"));
+		SendDlgItemMessage(hwndDlg, IDC1_COMBO1, CB_ADDSTRING, 0, (LPARAM)TranslateT("send message and open message window"));
+		SendDlgItemMessage(hwndDlg, IDC1_COMBO1, CB_ADDSTRING, 0, (LPARAM)TranslateT("show message window with pasted message"));
 		SendDlgItemMessage(hwndDlg, IDC1_COMBO1, CB_SETCURSEL, (int)mirfoxMiranda.getMirfoxData().leftClickSendMode - 1, 0);
 
 
-		mu->mfTranslateControl(hwndDlg, IDC1_LABEL3,
-			LPGENT("mirfox.options.tab1.right"), TEXT("on right mouse button click")
-		);
 		//IDC1_COMBO2
-		SendDlgItemMessage(hwndDlg, IDC1_COMBO2, CB_ADDSTRING, 0, (LPARAM)mu->mfTranslate(LPGENT("mirfox.options.onlysend"), TEXT("just send message")));
-		SendDlgItemMessage(hwndDlg, IDC1_COMBO2, CB_ADDSTRING, 0, (LPARAM)mu->mfTranslate(LPGENT("mirfox.options.sendandshow"), TEXT("send message and open message window")));
-		SendDlgItemMessage(hwndDlg, IDC1_COMBO2, CB_ADDSTRING, 0, (LPARAM)mu->mfTranslate(LPGENT("mirfox.options.onlyshow"), TEXT("show message window with pasted message")));
+		SendDlgItemMessage(hwndDlg, IDC1_COMBO2, CB_ADDSTRING, 0, (LPARAM)TranslateT("just send message"));
+		SendDlgItemMessage(hwndDlg, IDC1_COMBO2, CB_ADDSTRING, 0, (LPARAM)TranslateT("send message and open message window"));
+		SendDlgItemMessage(hwndDlg, IDC1_COMBO2, CB_ADDSTRING, 0, (LPARAM)TranslateT("show message window with pasted message"));
 		SendDlgItemMessage(hwndDlg, IDC1_COMBO2, CB_SETCURSEL, (int)mirfoxMiranda.getMirfoxData().rightClickSendMode - 1, 0);
 
-
-		mu->mfTranslateControl(hwndDlg, IDC1_LABEL4,
-			LPGENT("mirfox.options.tab1.middle"), TEXT("on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)")
-		);
 		//IDC1_COMBO3
-		SendDlgItemMessage(hwndDlg, IDC1_COMBO3, CB_ADDSTRING, 0, (LPARAM)mu->mfTranslate(LPGENT("mirfox.options.onlysend"), TEXT("just send message")));
+		SendDlgItemMessage(hwndDlg, IDC1_COMBO3, CB_ADDSTRING, 0, (LPARAM)TranslateT("just send message"));
 		//disabled due to Firefox bug. opening other window while firefox menu is still open -> firefox crash
-		//SendDlgItemMessage(hwndDlg, IDC1_COMBO3, CB_ADDSTRING, 0, (LPARAM)mu->mfTranslate(LPGENT("mirfox.options.sendandshow"), TEXT("send message and open message window")));
-		//SendDlgItemMessage(hwndDlg, IDC1_COMBO3, CB_ADDSTRING, 0, (LPARAM)mu->mfTranslate(LPGENT("mirfox.options.onlyshow"), TEXT("show message window with pasted message")));
+		//SendDlgItemMessage(hwndDlg, IDC1_COMBO3, CB_ADDSTRING, 0, (LPARAM)TranslateT("send message and open message window"));
+		//SendDlgItemMessage(hwndDlg, IDC1_COMBO3, CB_ADDSTRING, 0, (LPARAM)TranslateT("show message window with pasted message"));
 		SendDlgItemMessage(hwndDlg, IDC1_COMBO3, CB_SETCURSEL, (int)mirfoxMiranda.getMirfoxData().middleClickSendMode - 1, 0);
-
-
-
-		mu->mfTranslateControl(hwndDlg, IDC1_CHECK1,
-			LPGENT("mirfox.options.tab1.profiles"), TEXT("Show Miranda menu only in this firefox profiles (comma delimeted)")
-		);
-
 
 
 		//other options initialization
@@ -129,12 +107,8 @@ INT_PTR CALLBACK DlgProcOpts_Tab1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		}
 
 
-		if (((LPNMHDR)lParam)->idFrom == 0 &&
-			((LPNMHDR)lParam)->code == PSN_APPLY
-		){
+		if (((LPNMHDR)lParam)->idFrom == 0 && ((LPNMHDR)lParam)->code == PSN_APPLY){
 			//SaveOptions from tab1 mirfoxData to miranda database
-
-
 			mirfoxMiranda.getMirfoxData().leftClickSendMode = (MFENUM_SEND_MESSAGE_MODE)( 1 + (WORD)SendDlgItemMessage(hwndDlg, IDC1_COMBO1, CB_GETCURSEL, 0, 0));
 			db_set_b(0, PLUGIN_DB_ID, "leftClickSendMode", (int)mirfoxMiranda.getMirfoxData().leftClickSendMode);
 
@@ -143,8 +117,6 @@ INT_PTR CALLBACK DlgProcOpts_Tab1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			mirfoxMiranda.getMirfoxData().middleClickSendMode = (MFENUM_SEND_MESSAGE_MODE)( 1 + (WORD)SendDlgItemMessage(hwndDlg, IDC1_COMBO3, CB_GETCURSEL, 0, 0));
 			db_set_b(0, PLUGIN_DB_ID, "middleClickSendMode", (int)mirfoxMiranda.getMirfoxData().middleClickSendMode);
-
-
 
 			if (IsDlgButtonChecked(hwndDlg, IDC1_CHECK1) == BST_CHECKED){
 				mirfoxMiranda.getMirfoxData().setClientsProfilesFilterCheckbox(true);
@@ -183,13 +155,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	return 0;
 }
 
-
-
-
 //--------------------------------------TAB 2------------------------------------------------------------------
-
-
-
 static void setListContactIcons(HWND hwndList){
 
 
@@ -228,10 +194,6 @@ static void setListContactIcons(HWND hwndList){
 
 
 }
-
-
-
-#define SIZEOF(X) (sizeof(X)/sizeof(X[0]))
 
 static void setListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentItem, int *groupChildCount){
 
@@ -383,14 +345,9 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	switch ( msg ) {
 	case WM_INITDIALOG:
 	{
+		TranslateDialogDefault(hwndDlg);
 
 		mirfoxMiranda.getMirfoxData().setTab2OptionsState(MFENUM_OPTIONS_INIT);
-
-
-		MirandaUtils::getInstance()->mfTranslateControl(hwndDlg, IDC2_LABEL1,
-			LPGENT("mirfox.options.tab2.contacts"), TEXT("Show this contacts in 'Send ... to' option in Firefox")
-		);
-
 
 		//load icons
 		HIMAGELIST hIml;
@@ -421,7 +378,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			CLCINFOITEM cii = {0};
 			cii.cbSize = sizeof(cii);
 			cii.flags = CLCIIF_GROUPFONT;
-			cii.pszText = MirandaUtils::getInstance()->mfTranslate(LPGENT("mirfox.options.tab2.allcontacts"), TEXT("** All contacts **"));
+			cii.pszText =TranslateT("** All contacts **");
 			hItemAll = (HANDLE)SendDlgItemMessage(hwndDlg, IDC2_CONTACTS_LIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 		}
 
@@ -595,10 +552,6 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	return 0;
 }
 
-
-
-
-
 /*
  *	callback function for tab 3 options page
  */
@@ -611,11 +564,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab3(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 		mirfoxMiranda.getMirfoxData().setTab3OptionsState(MFENUM_OPTIONS_INIT);
 
-
-		MirandaUtils::getInstance()->mfTranslateControl(hwndDlg, IDC3_LABEL1,
-			LPGENT("mirfox.options.tab3.accounts"), TEXT("Show this accounts in 'Set status message' option in Firefox")
-		);
-
+		TranslateDialogDefault(hwndDlg);
 
 		//protocol list initialization
 		HWND hAccountsList = GetDlgItem(hwndDlg, IDC3_PROTOCOLS_LIST);
@@ -624,7 +573,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab3(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 		LVCOLUMN lvCol = {0};
 		lvCol.mask = LVCF_WIDTH|LVCF_TEXT;
-		lvCol.pszText=TEXT("Protocol");
+		lvCol.pszText=TranslateT("Protocol");
 		lvCol.cx = 260;	//column width
 		ListView_InsertColumn(hAccountsList, 0, &lvCol);
 
@@ -689,12 +638,10 @@ INT_PTR CALLBACK DlgProcOpts_Tab3(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			((LPNMHDR)lParam)->code == PSN_APPLY
 		){
 			//SaveOptions from tab3 mirfoxData to miranda database
-
-			int i;
 			HWND hList = GetDlgItem(hwndDlg, IDC3_PROTOCOLS_LIST);
 			LVITEM lvItem = {0};
 			lvItem.mask = LVIF_PARAM;
-			for (i=0; i<ListView_GetItemCount(hList); i++) {
+			for (int i=0; i<ListView_GetItemCount(hList); i++) {
 
 				lvItem.iItem = i;
 				lvItem.iSubItem = 0;
@@ -737,22 +684,12 @@ INT_PTR CALLBACK DlgProcOpts_Tab3(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 	}
 	case WM_DESTROY:
-
 		break;
-
 	}
 
 	return 0;
 
 }
-
-
-
-
-
-
-
-
 
 
 /**
@@ -774,19 +711,19 @@ int OptInit(WPARAM wParam, LPARAM lParam) {
 
 	//1 - options
 	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPT1);
-	odp.ptszTab						= MirandaUtils::getInstance()->mfTranslate(LPGENT("mirfox.options.tab1"), TEXT("Options"));
+	odp.ptszTab						= LPGENT("Options");
 	odp.pfnDlgProc					= DlgProcOpts_Tab1;
 	Options_AddPage(wParam, &odp);
 
 	//2 - contacts
 	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPT2);
-	odp.ptszTab						= MirandaUtils::getInstance()->mfTranslate(LPGENT("mirfox.options.tab2"), TEXT("Contacts"));
+	odp.ptszTab						= LPGENT("Contacts");
 	odp.pfnDlgProc					= DlgProcOpts_Tab2;
 	Options_AddPage(wParam, &odp);
 
 	//3 - accounts
 	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPT3);
-	odp.ptszTab						= MirandaUtils::getInstance()->mfTranslate(LPGENT("mirfox.options.tab3"), TEXT("Accounts"));
+	odp.ptszTab						= LPGENT("Accounts");
 	odp.pfnDlgProc					= DlgProcOpts_Tab3;
 	Options_AddPage(wParam, &odp);
 

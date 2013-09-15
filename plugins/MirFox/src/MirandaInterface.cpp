@@ -51,41 +51,22 @@ extern "C" BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpv
 int lowVersionUserAnswer = -1;
 
 extern "C" __declspec (dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion) {
-
-	if(mirfoxMiranda.onMirandaPluginInfoExCheck(mirandaVersion)){
-		return &pluginInfo;
-	} else {
-		if (lowVersionUserAnswer == -1){
-			lowVersionUserAnswer = MessageBox(NULL
-								//, mfTranslate(TEXT("mirfox.too.old.miranda"), TEXT("You use old Miranda version, whitch MirFox was not tested. Do You want to load MirFox plugin ?"))
-								//@langpack:	[mirfox.too.old.miranda] U¿ywasz starszej wersji Mirandy, dla której plugin MirFox nie zosta³ przetestowany. Czy chcesz uruchomiæ ten plugin ?
-								, (LPCWSTR)TEXT("You use old Miranda version, whitch MirFox was not tested. Do You want to load MirFox plugin ?")	//TODO - translation crash here
-								, (LPCWSTR)TEXT("MirFox")
-								, MB_YESNO | MB_ICONWARNING );
-		}
-		if (lowVersionUserAnswer == IDYES){
-			return &pluginInfo;
-		} else {
-			return NULL;
-		}
-	}
-
+	return &pluginInfo;
 }
 
 
 /*
  * hook on ME_SYSTEM_MODULESLOADED at Load()
  */
-static int onModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int onModulesLoaded(WPARAM, LPARAM)
 {
-
 	//init popup classes
 	POPUPCLASS puc = {0};
 	puc.cbSize = sizeof(puc);
 	puc.flags = PCF_TCHAR;
 
 	puc.pszName = "MirFox_Notify";
-	puc.ptszDescription = MirandaUtils::getInstance()->mfTranslate(LPGENT("mirfox.popup.notify.description"), TEXT("MirFox/Notification"));
+	puc.ptszDescription = TranslateT("MirFox/Notification");
 	puc.colorBack = RGB(173, 206, 247); //light blue
 	puc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	puc.iSeconds = 3;
@@ -93,7 +74,7 @@ static int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hPopupNotify = Popup_RegisterClass(&puc);
 
 	puc.pszName = "MirFox_Error";
-	puc.ptszDescription = MirandaUtils::getInstance()->mfTranslate(LPGENT("mirfox.popup.error.description"), TEXT("MirFox/Error"));
+	puc.ptszDescription = TranslateT("MirFox/Error");
 	puc.colorBack = RGB(255, 128, 128); //light red
 	puc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	puc.iSeconds = 20;
@@ -103,9 +84,8 @@ static int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnShutdown(WPARAM wParam, LPARAM lParam)
+static int OnShutdown(WPARAM, LPARAM)
 {
-
 	Popup_UnregisterClass(hPopupError);
 	Popup_UnregisterClass(hPopupNotify);
 
@@ -120,8 +100,6 @@ extern "C" int __declspec(dllexport) Load(void){
 
 	hProtoAck = HookEvent(ME_PROTO_ACK, MirandaUtils::onProtoAck);
 
-
-
 	//Ensure that the common control DLL is loaded. needed to use ICC_LISTVIEW_CLASSES control in options TODO move to InitOptions();?
 	INITCOMMONCONTROLSEX icex = {0};
 	icex.dwSize = sizeof(icex);
@@ -131,7 +109,7 @@ extern "C" int __declspec(dllexport) Load(void){
 	mirfoxMiranda.getMirfoxData().Plugin_Terminated = false;
 	mirfoxMiranda.getMirfoxData().setPluginState(MFENUM_PLUGIN_STATE_INIT);
 	mirfoxMiranda.onMirandaInterfaceLoad();
-	/**MirandaOptions.cpp**/InitOptions();
+	InitOptions();
 	
 	if (mirfoxMiranda.getMirfoxData().getPluginState() != MFENUM_PLUGIN_STATE_ERROR){
 		mirfoxMiranda.getMirfoxData().setPluginState(MFENUM_PLUGIN_STATE_WORK);
