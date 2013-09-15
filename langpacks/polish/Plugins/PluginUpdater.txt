@@ -128,10 +128,8 @@ Wczytywanie listy już rozpoczęte!
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
 Zostanie usunięty!
-[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Pobieranie zakończone. Rozpocząć aktualizacje? Wszystkie Twoje ustawienia zostaną zapisane i Miranda NG zostanie zamknięta.
-[You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
-Wybrałeś aby nie instalować pobranych aktualizacji.\nMożesz zaisntalować je ręcznie z lokalizacji:\n\n%s
+[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit]
+Aktualizacja zakończona. Wciśnij "Tak", aby zrestartować Mirandę teraz lub "Nie", żeby zrobić to później.
 [<< Details]
 << Szczegóły
 [No updates found.]

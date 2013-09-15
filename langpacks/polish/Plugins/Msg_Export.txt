@@ -74,7 +74,7 @@ Ustaw domyślna nazwę pliku
 Kopiuj
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Failed to write to the RichEdit the buffer was to small.]
-Nie udało się zapisać do pola edycji z formatowaniem zbyt mały bufor.
+Nie udało się zapisać do pola edycji z formatowaniem, zbyt mały bufor.
 [Error: Optimal buffer size decrecied to a to low size !!]
 Błąd: optymalny rozmiar bufora został zmniejszony do zbyt małej wartości!
 [Internal error !! (lExtraRead >= 0)]
@@ -90,7 +90,7 @@ Nie udało się otworzyć pliku\r\n%s\r\n\r\nIdentyfikator kontaktu jest niepraw
 [Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
 Nie udało się otworzyć pliku\r\n%s\r\n\r\nBaza danych Mirandy zawiera %d zdarzeń
 [With scroll to bottom %d\n]
-Z przewijaniem w dół %d
+Z przewijaniem w dół %d\n
 [Search string was not found !]
 Szukana fraza nie została znaleziona!
 [Save as RTF]
@@ -111,7 +111,7 @@ Historia zapisana pomyślnie w pliku\r\n
 Nie udało się stworzyć okna historii
 ;file \plugins\Msg_Export\src\Glob.h
 [Miranda NG (Message Export Plugin)]
-Wtyczka eksportu wiadomości Miranda NG
+Wtyczka eksportu wiadomości Mirandy NG
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
 Otwórz eksportowaną historię
@@ -172,13 +172,13 @@ Baza danych: próba pobrania złego typu wartości, ciąg
 [(Unknown Contact)]
 (Nieznany kontakt)
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
-Nazwa pliku dla kontaktu "%s" zmieniła się!\n\nz:\t%s\nna:\t%s\nCzy chcesz zmienić nazwę pliku?\n
+Nazwa pliku dla kontaktu "%s" zmieniła się!\n\nz:\t%s\nna:\t%s\n\nCzy chcesz zmienić nazwę pliku?
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Nie można zmienic nazwy pliku\n\nz:\t%s\nna:\t%s\n\nBłąd: %s
 [\nError: ]
 \nBłąd: 
 [\nMessage has not been saved!\n]
-\nWiadomość nie została zapisana!
+\nWiadomość nie została zapisana!\n
 [Do you wish to save debug information?]
 Czy chcesz zapisać informacje debugowania?
 [All\0*.*\0Text\0*.TXT\0\0]
@@ -188,7 +188,7 @@ Błąd otwierania lub tworzenia pliku :\n
 [Failed to move to the end of the file :\n]
 Nie udało się przenieść do końca pliku"\n
 [Failed to UTF8 byte order code to file :\n]
-Nie udało się zakodować bajtów UTF-8 do pliku:
+Nie udało się zakodować bajtów UTF-8 do pliku:\n
 [      History for\r\n]
       Historia dla\r\n
 [User      : %User%\r\n]
@@ -220,7 +220,7 @@ Strona domowa  : %Homepage%\r\n
 [- About -\r\n%About%\r\n]
 -O kontakcie-\r\n%About%\r\n
 [Failed to write user details to file :\n]
-Nie udało się zapisać danych kontaktu do pliku:
+Nie udało się zapisać danych kontaktu do pliku:\n
 [Failed to write timestamp and username to file :\n]
 Nie udało się zapisać daty i nazwy użytkownika do pliku:\n
 [Failed to write message to the file :\n]

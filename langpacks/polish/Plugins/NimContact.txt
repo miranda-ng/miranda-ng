@@ -6,7 +6,7 @@
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Non-IM Contact allows you to add 'contacts' that can act as shortcuts to other programs, or links to web pages.\r\nThe contacts name can be read from a text file (includes any ASCII file).\r\nThis plugin is a combination of Favorites and Text Reader plugins both made by me)]
-Pozwala dodać \"kontakty\", które mogą działać jako skróty do innych programów lub linki do stron internetowych.\r\nNazwy kontaktów można odczytywać z pliku tekstowego (w tym dowolnego pliku ASCII).
+Pozwala dodać "kontakty", które mogą działać jako skróty do innych programów lub linki do stron internetowych.\r\nNazwy kontaktów można odczytywać z pliku tekstowego (w tym dowolnego pliku ASCII).
 ;file \plugins\Non-IM Contact\res\resource.rc
 [View/Edit Files]
 Pokaż/edytuj pliki
@@ -17,7 +17,7 @@ Dodaj URL
 [Remove Selected File]
 Usuń zaznaczone pliki
 [file(#)]
-Plik
+Plik(#)
 [URL]
 URL
 [Update URL every]
@@ -25,7 +25,7 @@ Aktualizuj link co
 [Intervals]
 Odstępy
 [If the protocol timer is disabled web pages wont be updated]
-Jeżęli timer protokołu jest wyłączony, strony nie będą aktualizowane
+Jeżeli timer protokołu jest wyłączony, strony nie będą aktualizowane
 [contact display info]
 Wyświetlane dane kontaktu
 [Contacts display name]
@@ -85,19 +85,19 @@ Ciąg do przetestowania
 [Returns....]
 Zwraca....
 [line()]
-Linia()
+line()
 [start()]
-początek()
+start()
 [end()]
-koniec()
+end()
 [wholeline()]
-całalinia()
+wholeline()
 [csv()]
 csv()
 [file()]
-plik()
+file()
 [filename()]
-nazwa pliku()
+filename()
 [Help]
 Pomoc
 [Help!!!]
@@ -107,111 +107,111 @@ OK
 [Copy / Export contact]
 Kopiuj / Eksportuj kontakt
 [&Export Non-IM Contact]
-Eksportuj kontakt niekomunikatorowy
+Eksportuj kontakt Non-IM
 [Co&py Non-IM Contact]
-Ko&piuj kontakt niekomunikatorowy
+Ko&piuj kontakt Non-IM
 [Type one replace string per line in the format "origional text,new text"]
-Wpisz1 ciąg zastępczy na linię w formacie "oryginalny tekst,nowy tekst"
+Wpisz 1 ciąg zastępczy na linię w formacie "oryginalny tekst,nowy tekst"
 [EXAMPLE: %fn1,%fn2]
 PRZYKŁAD: %fn1,%fn2
 ;file \plugins\Non-IM Contact\src\contactinfo.cpp
 [Select Folder]
 Wybierz folder
 [New Non-IM Contact]
-Nowy kontakt niekomunikatorowy
+Nowy kontakt Non-IM
 ;file \plugins\Non-IM Contact\src\dialog.cpp
 [String replacing variables....\r\nThe following are all the valid variables that can be used. Refer to the readme for a proper explanation.\r\n\r\n]
-Zmienne zastępujące ciąg....\r\nPoniżej znajdują się wszystkie możliwe do użycia zmienne. Skorzystaj z Readme w celu uzyskania dokładnego objaśnienia.\r\n\r
+Zmienne zastępujące ciąg....\r\nPoniżej znajdują się wszystkie możliwe do użycia zmienne. Skorzystaj z Readme w celu uzyskania dokładnego objaśnienia.\r\n\r\n
 [file(X)\t\t<- specifies the file to read from\r\nMUST be followed by either start() or end() or wholeline()\r\n]
-plik(X)\t\t<- określa plik, z którego powinien nastąpić odczyt\r\nponim musi nastąpić początek(), koniec() lub całalinia()
+file(X)\t\t<- określa plik, z którego nastąpi odczyt\r\n  po nim MUSI nastąpić start(), end() lub wholeline()\r\n\r\n
 [filename(X)\t\t<- copyies the filename of file X.\r\n]
-filename(X)\t\t<- kopiuje nazwę plikux.\r
+filename(X)\t\t<- kopiuje nazwę pliku X.\r\n
 [start(...)\t\t<-specifies where to start copying from.\r\n]
-start(...)\t\t<-określa, z którego miejsca rozpocząć kopiowanie.\rpoczątek(...)\t\t<-określa, z którego miejsca rozpocząć kopiowanie.\r
+start(...)\t\t<- określa, z którego miejsca rozpocząć kopiowanie.\r\n
 [end(...)\t\t<-specifies where to stop copying.\r\n]
-end(...)\t\t<- określa, gdzie należy zaprzestać kopiowania.\r
+end(...)\t\t<- określa, gdzie należy zaprzestać kopiowania.\r\n
 [wholeline(line(...))\t<-specifies a whole line to copy\r\n\r\n]
-całalinia(linia(...))\t< określa całą linię do skopiowania.\r
+wholeline(line(...))\t<- określa całą linię do skopiowania.\r\n\r\n
 [start() and end() explained\r\n.........................\r\n]
-poczatek() i koniec() objaśnione\r\n.........................\r
+Objaśnienie start() i end()\r\n.........................\r\n
 [MUST start with line() followed by a number or a string inside " marks, OR csv(seperatorX) variable\r\n]
-musi zaczynać się od linia(), następnie numer lub ciąg w cudzysłowie lub zmienna csv(seperatorX)\r
+MUSZĄ zaczynać się od line(), następnie numer lub ciąg w cudzysłowie lub zmienna csv(seperatorX)\r\n
 [The number specifies which character in the line to start/end copying.\r\nThe string specifies a string in the line to start/end copying.\r\n]
-liczba określa znak, od którego należy zacząć lub na którym zakończyć kopiowanie.\r\nCiąg określa ciąg w linii, od którego należy zacząć lub na którym zakończyć kopiowanie.\r
+Numer określa znak, od którego należy zacząć lub na którym zakończyć kopiowanie.\r\nCiąg określa ciąg w linii, od którego należy zacząć lub na którym zakończyć kopiowanie.\r\n\r\n
 [csv(seperatorX) explained...\r\nseperator is either "tab" or "space" or any SINGLE character.\r\nX is the Xth seperator to pass before copying, (or to stop before)\r\n\r\n]
-csv(seperatorX) wyjaśniona...\r\nseparaorto tabulacja, spacja lub inny, pojedynczy znak.\r\nX to x-owy separator, który należy podać przed kopiowaniem (lub, po którym należy je zakończyć)\r\n\r
+Objaśnienie csv(seperatorX)...\r\nSeparator to tabulacja, spacja lub inny pojedynczy znak.\r\nX to x-owy separator, który należy podać przed kopiowaniem (lub, po którym należy je zakończyć)\r\n\r\n
 [Lastly the line(...) variable...\r\n]
-na końcu zmienna linia(...)...\r
+Na koniec zmienna line(...) ...\r\n
 [Inside the brackets must be either a number (to specify the line number), or a string inside " marks (to use the line with that string), or lastline(X).\r\nthe X in lastline is the Xth line above the last line. i.e lastline(1) will use the 2nd last line of the file.\r\n]
-W nawiasach kwadratowych musi znajdować się liczba określająca numer linii, ciąg w cudzysłowie, by użyta została linia zawierająca ten ciąg lub ostatnialinia(x).\r\nX w ostatnialinia to x-owa linia powyżej ostatniej linii, czyli ostatnialinia(1) użyje drugiej linii od końca w pliku.\r
+W nawiasach kwadratowych musi znajdować się liczba (określająca numer linii), ciąg w cudzysłowie (by użyta została linia zawierająca ten ciąg) lub lastline(X).\r\nX w lastline to X-owa linia powyżej ostatniej linii, czyli lastline(1) użyje drugiej linii od końca pliku.\r\n
 [If searching for a line with u may put a + or - X after the closing ) i.e line("some words\]
-Jeżeli szukasz linii z u możesz u mieścić znak + lub - za zamykającym nawiasem, czyli linia("jakieś słowa\
+Jeżeli szukasz linii z u możesz umieścić znak "+" lub "-" za zamykającym nawiasem, czyli linia("jakieś słowa\
 [Some Expamples...\r\n\r\n]
-Kilka przykładów\r\n\r
+Kilka przykładów...\r\n\r\n
 [filename(0)     <- will display the filename of the 0th file\r\nfile(0)wholeline(line(0))) <- will display the whole first line of the 0th file\r\nfile(0)wholeline(line("hello\]
-Nazwa pliku(0)wyświetli nazwę zerowego pliku\r\nplik(0)całalinia(linia(0)) wyświetli całą pierwszą linię zerowego pliku\r\nplik(0)całalinia(linia("cześć\
+filename(0)     <- wyświetli nazwę zerowego pliku\r\nfile(0)wholeline(line(0)))     <- wyświetli całą pierwszą linię zerowego pliku\r\nplik(0)całalinia(linia("cześć\
 ;file \plugins\Non-IM Contact\src\files.cpp
 [File couldn't be opened]
 Plik nie mógł zostać otwarty
 [File couldn't be opened,2]
 Plik nie mógł zostać otwarty,2
 [line(%-3d) = | %s]
-linia(%-3d) = | %s
+line(%-3d) = | %s
 ;file \plugins\Non-IM Contact\src\http.cpp
 [Non-IM Contacts]
-Kontakty niekomunikatorowe
+Kontakty Non-IM
 ;file \plugins\Non-IM Contact\src\main.cpp
 [Plugins]
 Wtyczki
 [Main Icon]
 Główna ikona
 [Non-IM Contact]
-Kontakt niekomunikatorowy
+Kontakt Non-IM
 [&Non-IM Contact]
-Kontakt niekomunikatorowy
+Kontakt Non-IM
 [&Add Non-IM Contact]
-Dodaj kontakt niekomunikatorowy
+Dodaj kontakt Non-IM
 [&View/Edit Files]
 zobacz/edytuj pliki
 [&Export all Non-IM Contacts]
-Eksportuj wszystkie kontakty niekomunikatorowe
+Eksportuj wszystkie kontakty Non-IM
 [&Import Non-IM Contacts]
-Importuj kontakty niekomunikatorowe
+Importuj kontakty Non-IM
 [&String Maker]
 &Kreator Ciągów
 [E&dit Contact Settings]
 E&dytuj Ustawienia Kontaktu
 ;file \plugins\Non-IM Contact\src\namereplacing.cpp
 [lastline(]
-ostatnialinia(
+lastline(
 [csv(]
 csv(
 [compare("]
-porównaj("
+compare("
 [save("]
-zapisz("
+save("
 [load("]
-załaduj("
+load("
 [saveN("]
-ZapiszN
+saveN("
 [loadN("]
-ZaładujN
+loadN("
 [lastchecked(file(]
-ostatniosprawdzony(plik(
+lastchecked(file(
 [file(]
-plik(
+file(
 [wholeline(line(]
-całalinia(linia(
+wholeline(line(
 [start(]
-początek(
+start(
 [start(line(]
-początek(linia(
+start(line(
 [end(]
-koniec(
+end(
 [end(line(]
-koniec(linia(
+end(line(
 [filename(]
-nazwa pliku(
+filename(
 [%s - ERROR: no line specified or line not found (in %s)]
 %s -BŁąD: nie ustalono lub nie odnaleziono linii (w %s)
 [%s - ERROR: file couldnt be opened (in %s)]

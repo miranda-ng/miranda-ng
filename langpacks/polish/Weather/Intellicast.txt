@@ -3,7 +3,7 @@
 ;  Module: weather
 ;============================================================
 [Ceiling]
-Pułap
+Pułap chmur
 [Mon]
 pon.
 [Tue]
@@ -13,63 +13,63 @@ wt.
 [Thu]
 czw.
 [Fri]
-pt.
+piąt.
 [Sat]
 sob.
 [Sun]
-n.
+niedz.
 [Full]
-pełny
+Pełnia
 [Sunny]
-słonecznie
+Słonecznie
 [Waning Crescent]
-Księżyc po ostatniej kwarcie
+Po ostatniej kwadrze
 [Waning Gibbous]
-Księżyc po pełni
+Przed ostatnią kwadrą
 [Waxing Crescent]
-Księżyc przed pierwszą kwartą
+Przed pierwszą kwadrą
 [Waxing Gibbous]
-Księżyc po pierwszej kwarcie
+Przed pełnią
 [Last Quarter]
-Ostatnia kwarta
+Ostatnia kwadra
 [First Quarter]
-Pierwsza kwarta
+Pierwsza kwadra
 [Partly Sunny]
-częściowo słonecznie
+Małe zachmurzenie
 [Mostly Sunny]
-Przeważnie słonecznie
+W większości słonecznie
 [Partly Cloudy]
-częściowe zachmurzenie
+Częściowe zachmurzenie
 [Mostly Cloudy]
-przeważnie zachmurzenie
+W większości pochmurnie
 [Mostly Clear]
-Przeważnie bezchmurnie
+W większości przejrzyście
 [Scattered Thunderstorms]
-gdzie niegdzie burze z piorunami
+Gdzieniegdzie burze
 [Feel]
-Uczucie
+Odczuwalna
 [Forecast Day 1]
-Zapowiedź dzień 1
+Prognoza dzień 1
 [Forecast Day 2]
-Zapowiedź dzień 2
+Prognoza dzień 2
 [Forecast Day 3]
-Zapowiedź dzień 3
+Prognoza dzień 3
 [Forecast Day 4]
-Zapowiedź dzień 4
+Prognoza dzień 4
 [Forecast Day 5]
-Zapowiedź dzień 5
+Prognoza dzień 5
 [Forecast Day 6]
-Zapowiedź dzień 6
+Prognoza dzień 6
 [Forecast Day 7]
-Zapowiedź dzień 7
+Prognoza dzień 7
 [Forecast Day 8]
-Zapowiedź dzień 8
+Prognoza dzień 8
 [Forecast Day 9]
-Zapowiedź dzień 9
+Prognoza dzień 9
 [Forecast Day 10]
-Zapowiedź dzień 10
+Prognoza dzień 10
 [Forecast today]
-Zapowiedź na dziś
+Prognoza na dziś
 [Heat Index]
 Wskaźnik upałów
 [Moon]
@@ -89,45 +89,45 @@ Kierunek wiatru
 [Wind Speed]
 Prędkość wiatru
 [N]
-pn.
+północ
 [W]
-pd.
+zachód
 [S]
-zach.
+południe
 [E]
-wsch.
+wschód
 [NW]
-pn. zach.
+północny zachód
 [NE]
-pn. wsch.
+północny wschód
 [SW]
-pd. zach.
+południowy zachód
 [SE]
-pd. wsch.
+południowy wschód
 [NNW]
-pn. pn. zach.
+północno-północny zachód
 [NNE]
-pn. pn. wsch.
+północno-północny wschód
 [SSW]
-pd. pd. zach.
+południowo-południowy zachód
 [SSE]
-pd. pd. wsch.
+południowo-południowy wschód
 [ENE]
-wsch. pn. wsch.
+wschodnio-północny wschód
 [WSW]
-zach. pd. zach.
+zachodnio-południowy zachód
 [WNW]
-zach. pn. zach.
+zachodnio-północny zachód
 [ESE]
-wsch. pd. wsch.
+wschodnio-południowy wschód
 [WindDir1]
 Kierwiatru1
 [WindDir2]
 Kierwiatru2
 [Broken Clouds]
-Pierzaste chmury
+Pochmurnie
 [Scattered Clouds]
-Rozsiane chmury
+Mało chmur
 [North]
 Północ
 [East]
@@ -141,6 +141,6 @@ Północny zachód
 [Northeast]
 Północny wschód
 [Southwest]
-Południowy Zachód
+Południowy zachód
 [Southeast]
 Południowy wschód

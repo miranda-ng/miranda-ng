@@ -15,7 +15,7 @@ Hasło:
 [Create a new Facebook account]
 Stwórz nowe konto na Facebooku
 [What's on your mind?]
-Co masz na mysli?
+Co masz na myśli?
 [Wall:]
 Tablica:
 [Visibility:]
@@ -45,7 +45,7 @@ Opcje kontaktu
 [Use bigger avatars]
 Użyj większych awatarów
 [Load contacts with 'On the Mobile' status]
-Pokazuj kontakty z statusem 'Pod telefonem'
+Pokazuj kontakty z statusem 'Na komórce'
 [Event notifications]
 Zdarzenia
 [Notifications]
