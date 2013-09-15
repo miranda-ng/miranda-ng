@@ -85,7 +85,6 @@ static int cacheSize = 0;
 static CRITICAL_SECTION csContactCache;
 
 static HANDLE hContactSettingChangedHook;
-static HANDLE hGetContactFromStringService;
 
 /*
 	converts a string into a CNF_ type
@@ -395,22 +394,15 @@ static int contactSettingChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR getContactFromStringSvc( WPARAM wParam, LPARAM lParam)
-{
-	return getContactFromString(( CONTACTSINFO* )wParam );
-}
-
 int initContactModule()
 {
 	InitializeCriticalSection(&csContactCache);
 	hContactSettingChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, contactSettingChanged);
-	hGetContactFromStringService = CreateServiceFunction(MS_VARS_GETCONTACTFROMSTRING, getContactFromStringSvc);
 	return 0;
 }
 
 int deinitContactModule()
 {
-	DestroyServiceFunction(hGetContactFromStringService);
 	UnhookEvent(hContactSettingChangedHook);
 	DeleteCriticalSection(&csContactCache);
 	return 0;

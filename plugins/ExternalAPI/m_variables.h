@@ -555,7 +555,6 @@ __inline static int variables_skin_helpbutton(HWND hwndDlg, UINT uIDButton) {
 }
 #endif
 
-
 #define MS_VARS_SHOWHELP    "Vars/ShowHelp"
 
 // WARNING: This service is obsolete, please use MS_VARS_SHOWHELPEX
@@ -585,69 +584,6 @@ __inline static int variables_skin_helpbutton(HWND hwndDlg, UINT uIDButton) {
 
 // Example:
 // CallService(MS_VARS_SHOWHELP, (WPARAM)hwndEdit, (LPARAM)"some initial text");
-
-// --------------------------------------------------------------------------
-// Retrieve a contact's HANDLE given a string
-// --------------------------------------------------------------------------
-
-#define MS_VARS_GETCONTACTFROMSTRING    "Vars/GetContactFromString"
-
-// Searching for contacts in the database. You can find contacts in db by
-// searching for their name, e.g first name.
-
-// Parameters:
-// ------------------------
-// wParam = (WPARAM)(CONTACTSINFO *)&ci
-//   See below.
-// lParam = 0
-
-// Return Value:
-// ------------------------
-// Returns number of contacts found matching the given string representation.
-// The hContacts array of CONTACTSINFO struct contains these hContacts after
-// the call.
-
-// Note: The hContacts array needs to be freed after use using mir_free
-
-typedef struct {
-  int cbSize;  // Set this to sizeof(CONTACTSINFO).
-  union {
-    char *szContact;  // String to search for, e.g. last name (can't be NULL).
-    WCHAR *wszContact;
-    TCHAR *tszContact;
-  };
-  HANDLE *hContacts;  // (output) Array of contacts found.
-  DWORD flags;  // Contact details that will be matched with the search
-                // string (flags can be combined).
-} CONTACTSINFO;
-
-// Possible flags:
-#define CI_PROTOID      0x00000001  // The contact in the string is encoded
-                                    // in the format <PROTOID:UNIQUEID>, e.g.
-                                    // <ICQ:12345678>.
-#define CI_NICK         0x00000002  // Search nick names.
-#define CI_LISTNAME     0x00000004  // Search custom names shown in contact
-                                    // list.
-#define CI_FIRSTNAME    0x00000008  // Search contact's first names (contact
-                                    // details).
-#define CI_LASTNAME     0x00000010  // Search contact's last names (contact
-                                    // details).
-#define CI_EMAIL        0x00000020  // Search contact's email adresses
-                                    // (contact details).
-#define CI_UNIQUEID     0x00000040  // Search unique ids of the contac, e.g.
-                                    // UIN.
-#define CI_CNFINFO	    0x40000000  // Searches one of the CNF_* flags (set
-                                    // flags to CI_CNFINFO|CNF_X), only one
-                                    // CNF_ type possible
-#define CI_UNICODE      0x80000000  // tszContact is a unicode string
-                                    // (WCHAR*).
-
-#if defined(UNICODE) || defined(_UNICODE)
-#define CI_TCHAR    CI_UNICODE  // Strings in structure are TCHAR*.
-#else
-#define CI_TCHAR    0
-#endif
-
 
 
 #endif //__M_VARS
