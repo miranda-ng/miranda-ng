@@ -135,10 +135,10 @@ CAPTION "Component list"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CTEXT           "Here is the complete list of missing Miranda NG components. Check components that you want to download.\n\nClick on info icon to view component info page.",IDC_UPDATETEXT,9,9,223,44
-    DEFPUSHBUTTON   "Download",IDOK,185,218,50,14
+    DEFPUSHBUTTON   "Download",IDOK,175,218,60,14
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,1,58,236,1
     CONTROL         "",IDC_LIST_UPDATES,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,6,64,229,149
-    PUSHBUTTON      "Select &none",IDC_SELNONE,69,218,60,14,NOT WS_TABSTOP
+    PUSHBUTTON      "Select &none",IDC_SELNONE,109,218,60,14,NOT WS_TABSTOP
 END
 
 
