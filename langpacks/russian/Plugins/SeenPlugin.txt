@@ -89,7 +89,7 @@
 [For non-watched protocols]
 Для непросм. протоколов
 [Enable Idle support]
-Вкл. режим ожидания
+Включить режим ожидания
 [Disable CList Notifications]
 Выкл. уведомления списка контактов
 [For watched protocols]
