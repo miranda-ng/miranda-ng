@@ -96,7 +96,7 @@ INT_PTR CALLBACK DlgProcAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			char szPass[MAX_EMAIL_LEN];
 			if (GetDlgItemTextA(hWndDlg, IDC_PASSWORD, szPass, SIZEOF(szPass))) {
 				ppro->SetPassDB(szPass);
-				SecureZeroMemory(szBuff, SIZEOF(szPass));
+				SecureZeroMemory(szPass, SIZEOF(szPass));
 			}
 			return TRUE;
 		}
