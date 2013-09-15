@@ -130,9 +130,7 @@ Ikony
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
 
-[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-
-[You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
+[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit]
 
 [No updates found.]
 

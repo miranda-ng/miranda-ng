@@ -128,10 +128,6 @@ Plugin Updater
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
 Ще бъде изтрито!
-[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Свалянето завърши. Да започне ли актуализиране? Данните Ви ще бъдат съхранени и Miranda NG ще бъде затворена.
-[You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
-Избрахте да инсталирате по-късно свалените актуализации.\nМожете да го направите ръчно от:\n\n%s
 [<< Details]
 <<Подробности
 [No updates found.]
