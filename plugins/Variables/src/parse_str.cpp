@@ -783,7 +783,7 @@ int registerStrTokens() {
 	registerIntToken(_T(MIR_CAPS2), parseCaps2, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("converts each first letter of a word to uppercase"));
 	registerIntToken(_T(MIR_CRLF), parseCrlf, TRF_FUNCTION, LPGEN("String Functions")"\t()\t"LPGEN("inserts 'end of line' character"));
 	registerIntToken(_T(MIR_EXTRATEXT), parseExtratext, TRF_FIELD, LPGEN("String Functions")"\t"LPGEN("depends on calling plugin"));
-	registerIntToken(_T(MIR_EOL2CRLF), parseEolToCrlf, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("Replace all occurrences of \\n (Unix) by \\r\\n (Windows)"));
+	registerIntToken(_T(MIR_EOL2CRLF), parseEolToCrlf, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("replace all occurrences of \\n (Unix) by \\r\\n (Windows)"));
 	registerIntToken(_T(MIR_FIXEOL), parseFixeol, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("cuts x after the first line and appends y (y is optional)"));
 	registerIntToken(_T(MIR_FIXEOL2), parseFixeol2, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("replaces all end of line characters by y (y is optional)"));
 	registerIntToken(_T(MIR_INSERT), parseInsert, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("inserts string y at position z in string x"));

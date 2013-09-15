@@ -879,8 +879,8 @@ int registerSystemTokens() {
 #if _WIN32_WINNT>=0x0500
 	registerIntToken(_T(CPULOAD), parseCpuLoad, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("cpu load of process x (without extension) (x is optional)"));
 #endif
-	registerIntToken(_T(CDATE), parseCurrentDate, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("current date in format y (y is optional)"));
-	registerIntToken(_T(CTIME), parseCurrentTime, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("current time in format y (y is optional)"));
+	registerIntToken(_T(CDATE), parseCurrentDate, TRF_FUNCTION, LPGEN("System Functions")"\t(y)\t"LPGEN("current date in format y (y is optional)"));
+	registerIntToken(_T(CTIME), parseCurrentTime, TRF_FUNCTION, LPGEN("System Functions")"\t(y)\t"LPGEN("current time in format y (y is optional)"));
 	registerIntToken(_T(DIRECTORY), parseDirectory, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("the directory y directories above x"));
 	registerIntToken(_T(DIRECTORY2), parseDirectory2, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("strips y directories from x"));
 	registerIntToken(_T(DIFFTIME), parseDiffTime, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("number of seconds between date x and y (x and y in format: M/d/yy H:m:s)"));
