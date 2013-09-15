@@ -129,7 +129,7 @@ static void ApplyUpdates(void *param)
 		PopupDataText temp;
 		temp.Title = TranslateT("Plugin Updater");
 		temp.Text = tszBuff;
-		lstrcpyn(tszBuff, TranslateT("Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit"), SIZEOF(tszBuff));
+		lstrcpyn(tszBuff, TranslateT("Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit."), SIZEOF(tszBuff));
 		int rc = MessageBox(hDlg, temp.Text, temp.Title, MB_YESNO | MB_ICONQUESTION);
 		if (rc == IDYES)
 			CallFunctionAsync(RestartMe, 0);
