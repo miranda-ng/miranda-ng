@@ -68,7 +68,7 @@ static WORD wMraFilesControlsList[] = {
 void MraFilesQueueDlgEnableDirectConsControls(HWND hWndDlg, BOOL bEnabled)
 {
 	EnableControlsArray(hWndDlg, (WORD*)&wMraFilesControlsList, SIZEOF(wMraFilesControlsList), bEnabled);
-	EnableWindow(GetDlgItem(hWndDlg, IDC_FILE_SEND_EXTRA_ADDRESS), (bEnabled && IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_ADD_EXTRA_ADDRESS)));
+	EnableWindow(GetDlgItem(hWndDlg, IDC_FILE_SEND_EXTRA_ADDRESS), (bEnabled && IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_ADD_EXTRA_ADDRESS)));
 }
 
 INT_PTR CALLBACK MraFilesQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -81,31 +81,31 @@ INT_PTR CALLBACK MraFilesQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam,
 		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, lParam);
 		ppro = (CMraProto*)lParam;
 		{
-			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_ENABLE_DIRECT_CONN, ppro->getByte("FileSendEnableDirectConn", MRA_DEF_FS_ENABLE_DIRECT_CONN));
-			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONRECEIVE, ppro->getByte("FileSendNoOutConnOnRcv", MRA_DEF_FS_NO_OUT_CONN_ON_RCV));
-			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONSEND, ppro->getByte("FileSendNoOutConnOnSend", MRA_DEF_FS_NO_OUT_CONN_ON_SEND));
-			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_IGNORYADDITIONALPORTS, ppro->getByte("FileSendIgnoryAdditionalPorts", MRA_DEF_FS_IGNORY_ADDITIONAL_PORTS));
-			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_HIDE_MY_ADDRESSES, ppro->getByte("FileSendHideMyAddresses", MRA_DEF_FS_HIDE_MY_ADDRESSES));
-			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_ADD_EXTRA_ADDRESS, ppro->getByte("FileSendAddExtraAddresses", MRA_DEF_FS_ADD_EXTRA_ADDRESSES));
+			CheckDlgButton(hWndDlg, IDC_FILE_SEND_ENABLE_DIRECT_CONN, ppro->getByte("FileSendEnableDirectConn", MRA_DEF_FS_ENABLE_DIRECT_CONN));
+			CheckDlgButton(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONRECEIVE, ppro->getByte("FileSendNoOutConnOnRcv", MRA_DEF_FS_NO_OUT_CONN_ON_RCV));
+			CheckDlgButton(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONSEND, ppro->getByte("FileSendNoOutConnOnSend", MRA_DEF_FS_NO_OUT_CONN_ON_SEND));
+			CheckDlgButton(hWndDlg, IDC_FILE_SEND_IGNORYADDITIONALPORTS, ppro->getByte("FileSendIgnoryAdditionalPorts", MRA_DEF_FS_IGNORY_ADDITIONAL_PORTS));
+			CheckDlgButton(hWndDlg, IDC_FILE_SEND_HIDE_MY_ADDRESSES, ppro->getByte("FileSendHideMyAddresses", MRA_DEF_FS_HIDE_MY_ADDRESSES));
+			CheckDlgButton(hWndDlg, IDC_FILE_SEND_ADD_EXTRA_ADDRESS, ppro->getByte("FileSendAddExtraAddresses", MRA_DEF_FS_ADD_EXTRA_ADDRESSES));
 
 			CMStringW szBuff;
 			if (ppro->mraGetStringW(NULL, "FileSendExtraAddresses", szBuff))
-				SET_DLG_ITEM_TEXT(hWndDlg, IDC_FILE_SEND_EXTRA_ADDRESS, szBuff.c_str());
+				SetDlgItemText(hWndDlg, IDC_FILE_SEND_EXTRA_ADDRESS, szBuff.c_str());
 
-			CHECK_DLG_BUTTON(hWndDlg, IDC_FILE_SEND_ENABLE_MRIMPROXY_CONS, ppro->getByte("FileSendEnableMRIMProxyCons", MRA_DEF_FS_ENABLE_MRIM_PROXY_CONS));
+			CheckDlgButton(hWndDlg, IDC_FILE_SEND_ENABLE_MRIMPROXY_CONS, ppro->getByte("FileSendEnableMRIMProxyCons", MRA_DEF_FS_ENABLE_MRIM_PROXY_CONS));
 
 			SetDlgItemInt(hWndDlg, IDC_FILE_SEND_BLOCK_SIZE, ppro->getDword("FileSendBlockSize", MRA_DEFAULT_FILE_SEND_BLOCK_SIZE), FALSE);
 
-			MraFilesQueueDlgEnableDirectConsControls(hWndDlg, IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_ENABLE_DIRECT_CONN));
+			MraFilesQueueDlgEnableDirectConsControls(hWndDlg, IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_ENABLE_DIRECT_CONN));
 		}
 		return TRUE;
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_FILE_SEND_ENABLE_DIRECT_CONN)
-			MraFilesQueueDlgEnableDirectConsControls(hWndDlg, IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_ENABLE_DIRECT_CONN));
+			MraFilesQueueDlgEnableDirectConsControls(hWndDlg, IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_ENABLE_DIRECT_CONN));
 
 		if (LOWORD(wParam) == IDC_FILE_SEND_ADD_EXTRA_ADDRESS)
-			EnableWindow(GetDlgItem(hWndDlg, IDC_FILE_SEND_EXTRA_ADDRESS), IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_ADD_EXTRA_ADDRESS));
+			EnableWindow(GetDlgItem(hWndDlg, IDC_FILE_SEND_EXTRA_ADDRESS), IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_ADD_EXTRA_ADDRESS));
 
 		if ((LOWORD(wParam) == IDC_FILE_SEND_EXTRA_ADDRESS || LOWORD(wParam) == IDC_FILE_SEND_BLOCK_SIZE) && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return FALSE;
 		SendMessage(GetParent(hWndDlg), PSM_CHANGED, 0, 0);
@@ -117,16 +117,16 @@ INT_PTR CALLBACK MraFilesQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam,
 			{
 				WCHAR szBuff[MAX_PATH];
 
-				ppro->setByte("FileSendEnableDirectConn", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_ENABLE_DIRECT_CONN));
-				ppro->setByte("FileSendNoOutConnOnRcv", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONRECEIVE));
-				ppro->setByte("FileSendNoOutConnOnSend", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONSEND));
-				ppro->setByte("FileSendIgnoryAdditionalPorts", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_IGNORYADDITIONALPORTS));
-				ppro->setByte("FileSendHideMyAddresses", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_HIDE_MY_ADDRESSES));
-				ppro->setByte("FileSendAddExtraAddresses", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_ADD_EXTRA_ADDRESS));
-				GET_DLG_ITEM_TEXT(hWndDlg, IDC_FILE_SEND_EXTRA_ADDRESS, szBuff, SIZEOF(szBuff));
+				ppro->setByte("FileSendEnableDirectConn", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_ENABLE_DIRECT_CONN));
+				ppro->setByte("FileSendNoOutConnOnRcv", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONRECEIVE));
+				ppro->setByte("FileSendNoOutConnOnSend", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONSEND));
+				ppro->setByte("FileSendIgnoryAdditionalPorts", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_IGNORYADDITIONALPORTS));
+				ppro->setByte("FileSendHideMyAddresses", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_HIDE_MY_ADDRESSES));
+				ppro->setByte("FileSendAddExtraAddresses", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_ADD_EXTRA_ADDRESS));
+				GetDlgItemText(hWndDlg, IDC_FILE_SEND_EXTRA_ADDRESS, szBuff, SIZEOF(szBuff));
 				ppro->mraSetStringW(NULL, "FileSendExtraAddresses", szBuff);
 				ppro->setDword("FileSendBlockSize", (DWORD)GetDlgItemInt(hWndDlg, IDC_FILE_SEND_BLOCK_SIZE, NULL, FALSE));
-				ppro->setByte("FileSendEnableMRIMProxyCons", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_FILE_SEND_ENABLE_MRIMPROXY_CONS));
+				ppro->setByte("FileSendEnableMRIMProxyCons", IsDlgButtonChecked(hWndDlg, IDC_FILE_SEND_ENABLE_MRIMPROXY_CONS));
 			}
 			return TRUE;
 		}
@@ -887,7 +887,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 							}// end while
 						}else {// err allocating file disk space
 							dwRetErrorCode = GetLastError();
-							mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateW(L"Receive files: cant allocate disk space for file, size %lu bytes, error"), dat->pmfqfFiles[i].dwSize);
+							mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Receive files: cant allocate disk space for file, size %lu bytes, error"), dat->pmfqfFiles[i].dwSize);
 							ShowFormattedErrorMessage(szErrorText, dwRetErrorCode);
 						}
 						CloseHandle(hFile);
@@ -900,14 +900,14 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 						}
 					}else {// err on open file
 						dwRetErrorCode = GetLastError();
-						mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateW(L"Receive files: cant open file %s, error"), wszFileName);
+						mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Receive files: cant open file %s, error"), wszFileName);
 						ShowFormattedErrorMessage(szErrorText, dwRetErrorCode);
 						bFailed = TRUE;
 						break;
 					}
 				}else {// err on send request for file
 					dwRetErrorCode = GetLastError();
-					mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateW(L"Receive files: request for file %s not sended, error"), dat->pmfqfFiles[i].lpwszName);
+					mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Receive files: request for file %s not sended, error"), dat->pmfqfFiles[i].lpwszName);
 					ShowFormattedErrorMessage(szErrorText, NO_ERROR);
 					bFailed = TRUE;
 					break;
@@ -1131,14 +1131,14 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 						}
 						else {// err on open file
 							dwRetErrorCode = GetLastError();
-							mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateW(L"Send files: cant open file %s, error"), dat->pmfqfFiles[j].lpwszName);
+							mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Send files: cant open file %s, error"), dat->pmfqfFiles[j].lpwszName);
 							ShowFormattedErrorMessage(szErrorText, dwRetErrorCode);
 							bFailed = TRUE;
 							break;
 						}
 					}
 					else {
-						mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateW(L"Send files: requested file: %S - not found in send files list."), (((LPSTR)btBuff)+sizeof(MRA_FT_GET_FILE)));
+						mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Send files: requested file: %S - not found in send files list."), (((LPSTR)btBuff)+sizeof(MRA_FT_GET_FILE)));
 						ShowFormattedErrorMessage(szErrorText, NO_ERROR);
 						bFailed = TRUE;
 						break;

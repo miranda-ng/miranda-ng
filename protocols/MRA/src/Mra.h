@@ -235,29 +235,9 @@ CMStringA MraGetSelfVersionString();
 
 #define IsXStatusValid(XStatus) (((XStatus) && (XStatus)<MRA_XSTATUS_COUNT))
 
-#define SEND_DLG_ITEM_MESSAGEW(hDlg, nIDDlgItem, Msg, wParam, lParam)	SendMessageW(GetDlgItem(hDlg, nIDDlgItem), Msg, wParam, lParam)
-#define SEND_DLG_ITEM_MESSAGEA(hDlg, nIDDlgItem, Msg, wParam, lParam)	SendMessageA(GetDlgItem(hDlg, nIDDlgItem), Msg, wParam, lParam)
-#define SEND_DLG_ITEM_MESSAGE(hDlg, nIDDlgItem, Msg, wParam, lParam)	SendMessage(GetDlgItem(hDlg, nIDDlgItem), Msg, wParam, lParam)
-
-#define IS_DLG_BUTTON_CHECKED(hDlg, nIDDlgItem)						SEND_DLG_ITEM_MESSAGE(hDlg, nIDDlgItem, BM_GETCHECK, NULL, NULL)
-#define CHECK_DLG_BUTTON(hDlg, nIDDlgItem, uCheck)					SEND_DLG_ITEM_MESSAGE(hDlg, nIDDlgItem, BM_SETCHECK, (WPARAM)uCheck, NULL)
-
-#define SET_DLG_ITEM_TEXTW(hDlg, nIDDlgItem, lpString)				SEND_DLG_ITEM_MESSAGEW(hDlg, nIDDlgItem, WM_SETTEXT, 0, (LPARAM)lpString)
-#define SET_DLG_ITEM_TEXTA(hDlg, nIDDlgItem, lpString)				SEND_DLG_ITEM_MESSAGEA(hDlg, nIDDlgItem, WM_SETTEXT, 0, (LPARAM)lpString)
-#define SET_DLG_ITEM_TEXT(hDlg, nIDDlgItem, lpString)					SEND_DLG_ITEM_MESSAGE(hDlg, nIDDlgItem, WM_SETTEXT, 0, (LPARAM)lpString)
-
-#define GET_DLG_ITEM_TEXTW(hDlg, nIDDlgItem, lpString, nMaxCount)		SEND_DLG_ITEM_MESSAGEW(hDlg, nIDDlgItem, WM_GETTEXT, (WPARAM)nMaxCount, (LPARAM)lpString)
-#define GET_DLG_ITEM_TEXTA(hDlg, nIDDlgItem, lpString, nMaxCount)		SEND_DLG_ITEM_MESSAGEA(hDlg, nIDDlgItem, WM_GETTEXT, (WPARAM)nMaxCount, (LPARAM)lpString)
-#define GET_DLG_ITEM_TEXT(hDlg, nIDDlgItem, lpString, nMaxCount)		SEND_DLG_ITEM_MESSAGE(hDlg, nIDDlgItem, WM_GETTEXT, (WPARAM)nMaxCount, (LPARAM)lpString)
-
-#define GET_DLG_ITEM_TEXT_LENGTH(hDlg, nIDDlgItem)					SEND_DLG_ITEM_MESSAGE(hDlg, nIDDlgItem, WM_GETTEXTLENGTH, NULL, NULL)
-#define GET_WINDOW_TEXT_LENGTH(hDlg)								SendMessage(hDlg, WM_GETTEXTLENGTH, NULL, NULL)
-
-#define GET_CURRENT_COMBO_DATA(hWndDlg, ControlID)					SEND_DLG_ITEM_MESSAGE(hWndDlg, ControlID, CB_GETITEMDATA, SEND_DLG_ITEM_MESSAGE(hWndDlg, ControlID, CB_GETCURSEL, 0, 0), 0)
+#define GET_CURRENT_COMBO_DATA(hWndDlg, ControlID)					SendDlgItemMessage(hWndDlg, ControlID, CB_GETITEMDATA, SendDlgItemMessage(hWndDlg, ControlID, CB_GETCURSEL, 0, 0), 0)
 
 #define IsFileExist(FileName) (GetFileAttributes(FileName) != INVALID_FILE_ATTRIBUTES)
-#define IsFileExistA(FileName) (GetFileAttributesA(FileName) != INVALID_FILE_ATTRIBUTES)
-#define IsFileExistW(FileName) (GetFileAttributesW(FileName) != INVALID_FILE_ATTRIBUTES)
 
 #define IsThreadAlive(hThread) (GetThreadPriority(hThread) != THREAD_PRIORITY_ERROR_RETURN)
 

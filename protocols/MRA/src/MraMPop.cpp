@@ -129,7 +129,8 @@ DWORD CMraProto::MraMPopSessionQueueStart(HANDLE hMPopSessionQueue)
 			szEmail.MakeLower();
 			szUrl.Format(MRA_MPOP_AUTH_URL, szEmail, pmpsqMPopSessionQueue->lpszMPOPKey, pmpsqi->lpszUrl);
 			CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)szUrl.c_str());
-			DebugPrint(L"Opening URL: ");DebugPrintCRLFA(szUrl);
+			DebugPrint(_T("Opening URL: "));
+			DebugPrintCRLFA(szUrl);
 		}
 		mir_free(pmpsqi);
 	}
@@ -153,7 +154,8 @@ DWORD MraMPopSessionQueueSetNewMPopKey(HANDLE hMPopSessionQueue, const CMStringA
 		memmove(pmpsqMPopSessionQueue->lpszMPOPKey, szKey, szKey.GetLength());
 		(*(pmpsqMPopSessionQueue->lpszMPOPKey + szKey.GetLength())) = 0;
 
-		DebugPrint(L"New MPOP session key: ");DebugPrintCRLFA(pmpsqMPopSessionQueue->lpszMPOPKey);
+		DebugPrint(_T("New MPOP session key: "));
+		DebugPrintCRLFA(pmpsqMPopSessionQueue->lpszMPOPKey);
 		return NO_ERROR;
 	}
 

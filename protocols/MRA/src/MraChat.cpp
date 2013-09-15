@@ -9,7 +9,7 @@ static LPWSTR lpwszStatuses[] = { L"Owners", L"Inviter", L"Visitors" };
 
 void CMraProto::MraChatDllError()
 {
-	MessageBoxW(NULL, TranslateW(L"CHAT plugin is required for conferences. Install it before chatting"), m_tszUserName, (MB_OK|MB_ICONWARNING));
+	MessageBox(NULL, TranslateT("CHAT plugin is required for conferences. Install it before chatting"), m_tszUserName, (MB_OK|MB_ICONWARNING));
 }
 
 bool CMraProto::MraChatRegister()
@@ -43,8 +43,8 @@ INT_PTR CMraProto::MraChatSessionNew(HANDLE hContact)
 		gcw.pszModule = m_szModuleName;
 		gcw.ptszName = GetContactNameW(hContact);
 		gcw.ptszID = wszEMail;
-		gcw.ptszStatusbarText = L"status bar";
-		gcw.dwFlags = GC_UNICODE;
+		gcw.ptszStatusbarText = _T("status bar");
+		gcw.dwFlags = GC_TCHAR;
 		gcw.dwItemData = (DWORD)hContact;
 		if ( !CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw)) {
 			GCDEST gcd = {0};
@@ -58,7 +58,7 @@ INT_PTR CMraProto::MraChatSessionNew(HANDLE hContact)
 			gce.pDest = &gcd;
 			gce.dwFlags = GC_UNICODE;
 			for (int i = 0; i < SIZEOF(lpwszStatuses); i++) {
-				gce.ptszStatus = TranslateW(lpwszStatuses[i]);
+				gce.ptszStatus = TranslateTS(lpwszStatuses[i]);
 				CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 			}
 
@@ -72,7 +72,7 @@ INT_PTR CMraProto::MraChatSessionNew(HANDLE hContact)
 			DWORD opcode = MULTICHAT_GET_MEMBERS;
 			CMStringA szEmail;
 			mraGetStringA(hContact, "e-mail", szEmail);
-			MraMessage(FALSE, NULL, 0, MESSAGE_FLAG_MULTICHAT, szEmail, L"", (LPBYTE)&opcode, sizeof(opcode));
+			MraMessage(FALSE, NULL, 0, MESSAGE_FLAG_MULTICHAT, szEmail, _T(""), (LPBYTE)&opcode, sizeof(opcode));
 			return 0;
 		}
 	}
@@ -155,7 +155,7 @@ INT_PTR CMraProto::MraChatSessionInvite(HANDLE hContactChatSession, const CMStri
 		return 1;
 
 	CMStringW wszBuff;
-	wszBuff.Format(L"[%s]: %s", _A2T(lpszEMailInMultiChat.c_str()), TranslateW(L"invite sender"));
+	wszBuff.Format(L"[%s]: %s", _A2T(lpszEMailInMultiChat.c_str()), TranslateT("invite sender"));
 	return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_ACTION, GCEF_ADDTOLOG, lpszEMailInMultiChat, NULL, wszBuff, 0, dwTime);
 }
 
@@ -165,14 +165,14 @@ INT_PTR CMraProto::MraChatSessionMembersAdd(HANDLE hContactChatSession, const CM
 		return 1;
 
 	CMStringW wszBuff;
-	wszBuff.Format(L"[%s]: %s", _A2T(lpszEMailInMultiChat), TranslateW(L"invite new members"));
+	wszBuff.Format(L"[%s]: %s", _A2T(lpszEMailInMultiChat), TranslateT("invite new members"));
 	return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_ACTION, GCEF_ADDTOLOG, lpszEMailInMultiChat, NULL, wszBuff, 0, dwTime);
 }
 
 INT_PTR CMraProto::MraChatSessionJoinUser(HANDLE hContactChatSession, const CMStringA &lpszEMailInMultiChat, DWORD dwTime)
 {
 	if (hContactChatSession)
-		return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_JOIN, GCEF_ADDTOLOG, lpszEMailInMultiChat, lpwszStatuses[MRA_CHAT_STATUS_VISITOR], L"", 0, dwTime);
+		return MraChatSessionEventSendByHandle(hContactChatSession, GC_EVENT_JOIN, GCEF_ADDTOLOG, lpszEMailInMultiChat, lpwszStatuses[MRA_CHAT_STATUS_VISITOR], _T(""), 0, dwTime);
 
 	return 1;
 }

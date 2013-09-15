@@ -547,7 +547,7 @@ int CMraProto::SetStatus(int iNewStatus)
 		case ID_STATUS_DND:
 		case ID_STATUS_FREECHAT:
 		case ID_STATUS_INVISIBLE:
-			MraSendNewStatus(m_iDesiredStatus, m_iXStatus, L"", L"");
+			MraSendNewStatus(m_iDesiredStatus, m_iXStatus, _T(""), _T(""));
 		case ID_STATUS_CONNECTING:
 			// предотвращаем переход в любой статус (кроме offline) из статуса connecting, если он не вызван самим плагином
 			if (dwOldStatusMode == ID_STATUS_CONNECTING && iNewStatus != m_iDesiredStatus)
@@ -600,7 +600,7 @@ int CMraProto::SetAwayMsg(int m_iStatus, const TCHAR* msg)
 	// не отправляем новый статусный текст для хстатусов, для хстатусов только эвей сообщения
 	if (dwStatus != ID_STATUS_ONLINE || IsXStatusValid(dwXStatus) == FALSE) {
 		dwStatusDescSize = min(dwStatusDescSize, STATUS_DESC_MAX);
-		MraSendNewStatus(dwStatus, dwXStatus, L"", msg);
+		MraSendNewStatus(dwStatus, dwXStatus, _T(""), msg);
 	}
 	return 0;
 }

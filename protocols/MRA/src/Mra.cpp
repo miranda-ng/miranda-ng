@@ -7,11 +7,11 @@ PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	PROTOCOL_DISPLAY_NAME_ORIGA,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	"Mail.ru Agent (MRA) protocol support for Miranda NG.",
-	"Rozhuk Ivan",
-	"Rozhuk_I@mail.ru",
-	"© 2006-2011 Rozhuk Ivan",
-	"http://miranda-ng.org/",
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {E7C48BAB-8ACE-4CB3-8446-D4B73481F497}
 	{ 0xe7c48bab, 0x8ace, 0x4cb3, { 0x84, 0x46, 0xd4, 0xb7, 0x34, 0x81, 0xf4, 0x97 } }
@@ -19,8 +19,8 @@ PLUGININFOEX pluginInfoEx = {
 
 void IconsLoad();
 
-int  OnModulesLoaded(WPARAM wParam, LPARAM lParam);
-int  OnPreShutdown(WPARAM wParam, LPARAM lParam);
+int  OnModulesLoaded(WPARAM, LPARAM);
+int  OnPreShutdown(WPARAM, LPARAM);
 
 BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID Reserved)
 {
@@ -79,24 +79,25 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	IconsLoad();
 
-	size_t dwBuffLen;
-	WCHAR szBuff[MAX_FILEPATH];
+	TCHAR szBuff[MAX_FILEPATH];
 	LPSTR lpszFullFileName = (LPSTR)szBuff;
-	LPWSTR lpwszFileName;
 
 	// load libs
 	if (GetModuleFileName(NULL, szBuff, MAX_FILEPATH)) {
+		LPWSTR lpwszFileName;
 		masMraSettings.dwMirWorkDirPathLen = GetFullPathName(szBuff, MAX_FILEPATH, masMraSettings.szMirWorkDirPath, &lpwszFileName);
 		if (masMraSettings.dwMirWorkDirPathLen) {
 			masMraSettings.dwMirWorkDirPathLen -= lstrlenW(lpwszFileName);
 			masMraSettings.szMirWorkDirPath[masMraSettings.dwMirWorkDirPathLen] = 0;
 
 			// load xstatus icons lib
-			DWORD dwErrorCode = FindFile(masMraSettings.szMirWorkDirPath, (DWORD)masMraSettings.dwMirWorkDirPathLen, L"xstatus_MRA.dll", -1, szBuff, SIZEOF(szBuff), (DWORD*)&dwBuffLen);
+			size_t dwBuffLen;
+			DWORD dwErrorCode = FindFile(masMraSettings.szMirWorkDirPath, (DWORD)masMraSettings.dwMirWorkDirPathLen, _T("xstatus_MRA.dll"), -1, szBuff, SIZEOF(szBuff), (DWORD*)&dwBuffLen);
 			if (dwErrorCode == NO_ERROR) {
 				masMraSettings.hDLLXStatusIcons = LoadLibraryEx(szBuff, NULL, 0);
 				if (masMraSettings.hDLLXStatusIcons) {
-					if ((dwBuffLen = LoadStringW(masMraSettings.hDLLXStatusIcons, IDS_IDENTIFY, szBuff, MAX_FILEPATH)) == 0 || _wcsnicmp(L"# Custom Status Icons #", szBuff, 23)) {
+					dwBuffLen = LoadString(masMraSettings.hDLLXStatusIcons, IDS_IDENTIFY, szBuff, MAX_FILEPATH);
+					if (dwBuffLen == 0 || _tcsnicmp(_T("# Custom Status Icons #"), szBuff, 23)) {
 						FreeLibrary(masMraSettings.hDLLXStatusIcons);
 						masMraSettings.hDLLXStatusIcons = NULL;
 					}
@@ -117,7 +118,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	pd.fnUninit = (pfnUninitProto)mraProtoUninit;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
-	DebugPrintCRLFW(L"Load - DONE");
+	DebugPrintCRLFW(_T("Load - DONE"));
 	return 0;
 }
 
@@ -130,18 +131,18 @@ extern "C" __declspec(dllexport) int Unload(void)
 	}
 
 	g_Instances.destroy();
-	DebugPrintCRLFW(L"Unload - DONE");
+	DebugPrintCRLFW(_T("Unload - DONE"));
 	return 0;
 }
 
 
-static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	masMraSettings.dwGlobalPluginRunning = TRUE;
 	return 0;
 }
 
-int OnPreShutdown(WPARAM wParam, LPARAM lParam)
+int OnPreShutdown(WPARAM, LPARAM)
 {
 	masMraSettings.dwGlobalPluginRunning = FALSE;
 	return 0;

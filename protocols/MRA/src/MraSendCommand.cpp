@@ -87,7 +87,7 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType, 
 	if (dwFlags & MESSAGE_FLAG_AUTHORIZE) {
 		OutBuffer buf;
 		buf.SetUL(2);
-		buf.SetLPSW(L"");//***deb possible nick here
+		buf.SetLPSW(_T(""));//***deb possible nick here
 		buf.SetLPSW(lpwszMessage);
 		lpszMessageConverted = mir_base64_encode(buf.Data(), buf.Len());
 		dwMessageConvertedSize = strlen(lpszMessageConverted);
@@ -203,8 +203,8 @@ DWORD CMraProto::MraAddContact(HANDLE hContact, DWORD dwContactFlag, DWORD dwGro
 	// pack auth message
 	OutBuffer buf2;
 	buf2.SetUL(2);
-	buf2.SetLPSW(L"");//***deb possible nick here
-	buf2.SetLPSW((wszAuthMessage == NULL) ? L"" : *wszAuthMessage);
+	buf2.SetLPSW(_T(""));//***deb possible nick here
+	buf2.SetLPSW((wszAuthMessage == NULL) ? _T("") : *wszAuthMessage);
 	buf.SetLPS(CMStringA( ptrA( mir_base64_encode(buf2.Data(), buf2.Len()))));
 
 	buf.SetUL(0);
@@ -393,7 +393,7 @@ HANDLE CMraProto::MraWPRequestByEMail(HANDLE hContact, DWORD dwAckType, CMString
 	DWORD dwRequestFlags = 0;
 	SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_USER);
 	SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_DOMAIN);
-	return MraWPRequestW(hContact, dwAckType, dwRequestFlags, szUser, szDomain, L"", L"", L"", 0, 0, 0, 0, 0, 0, 0, 0, 0);
+	return MraWPRequestW(hContact, dwAckType, dwRequestFlags, szUser, szDomain, _T(""), _T(""), _T(""), 0, 0, 0, 0, 0, 0, 0, 0, 0);
 }
 
 // Отправка файлов

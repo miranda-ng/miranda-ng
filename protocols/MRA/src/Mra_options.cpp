@@ -12,19 +12,19 @@ INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARA
 		ppro = (CMraProto*)lParam;
 
 		if ( ppro->mraGetStringW(NULL, "e-mail", szBuff))
-			SET_DLG_ITEM_TEXTW(hWndDlg, IDC_LOGIN, szBuff.c_str());
+			SetDlgItemText(hWndDlg, IDC_LOGIN, szBuff.c_str());
 
-		SET_DLG_ITEM_TEXTW(hWndDlg, IDC_PASSWORD, (LPWSTR)L"");
+		SetDlgItemText(hWndDlg, IDC_PASSWORD, _T(""));
 		return TRUE;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_NEW_ACCOUNT_LINK:
-			CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)MRA_REGISTER_URL);
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM) MRA_REGISTER_URL);
 			return TRUE;
 
 		case IDC_LOOKUPLINK:
-			CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)MRA_FORGOT_PASSWORD_URL);
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM) MRA_FORGOT_PASSWORD_URL);
 			return TRUE;
 		}
 		if ((LOWORD(wParam) == IDC_LOGIN || LOWORD(wParam) == IDC_PASSWORD) && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
@@ -36,13 +36,14 @@ INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			WCHAR szBuff[MAX_EMAIL_LEN];
-			GET_DLG_ITEM_TEXT(hWndDlg, IDC_LOGIN, szBuff, SIZEOF(szBuff));
-			ppro->setWString(NULL, "e-mail", szBuff);
+			TCHAR szBuff[MAX_EMAIL_LEN];
+			GetDlgItemText(hWndDlg, IDC_LOGIN, szBuff, SIZEOF(szBuff));
+			ppro->setTString(NULL, "e-mail", szBuff);
 
-			if (GET_DLG_ITEM_TEXTA(hWndDlg, IDC_PASSWORD, (LPSTR)szBuff, SIZEOF(szBuff))) {
-				ppro->SetPassDB((LPSTR)szBuff);
-				SecureZeroMemory(szBuff, sizeof(szBuff));
+			char szPass[MAX_EMAIL_LEN];
+			if (GetDlgItemTextA(hWndDlg, IDC_PASSWORD, szPass, SIZEOF(szPass))) {
+				ppro->SetPassDB(szPass);
+				SecureZeroMemory(szPass, SIZEOF(szPass));
 			}
 			return TRUE;
 		}
@@ -63,15 +64,15 @@ INT_PTR CALLBACK DlgProcAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		ppro = (CMraProto*)lParam;
 
 		if ( ppro->mraGetStringW(NULL, "e-mail", szBuff))
-			SET_DLG_ITEM_TEXTW(hWndDlg, IDC_LOGIN, szBuff.c_str());
+			SetDlgItemText(hWndDlg, IDC_LOGIN, szBuff.c_str());
 
-		SET_DLG_ITEM_TEXTW(hWndDlg, IDC_PASSWORD, (LPWSTR)L"");
+		SetDlgItemText(hWndDlg, IDC_PASSWORD, _T(""));
 		return TRUE;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_NEW_ACCOUNT_LINK:
-			CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)MRA_REGISTER_URL);
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)MRA_REGISTER_URL);
 			return TRUE;
 		}
 		if ( HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
@@ -88,13 +89,14 @@ INT_PTR CALLBACK DlgProcAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			WCHAR szBuff[MAX_EMAIL_LEN];
-			GET_DLG_ITEM_TEXT(hWndDlg, IDC_LOGIN, szBuff, SIZEOF(szBuff));
+			TCHAR szBuff[MAX_EMAIL_LEN];
+			GetDlgItemText(hWndDlg, IDC_LOGIN, szBuff, SIZEOF(szBuff));
 			ppro->mraSetStringW(NULL, "e-mail", szBuff);
 
-			if (GET_DLG_ITEM_TEXTA(hWndDlg, IDC_PASSWORD, (LPSTR)szBuff, SIZEOF(szBuff))) {
-				ppro->SetPassDB((LPSTR)szBuff);
-				SecureZeroMemory(szBuff, sizeof(szBuff));
+			char szPass[MAX_EMAIL_LEN];
+			if (GetDlgItemTextA(hWndDlg, IDC_PASSWORD, szPass, SIZEOF(szPass))) {
+				ppro->SetPassDB(szPass);
+				SecureZeroMemory(szBuff, SIZEOF(szPass));
 			}
 			return TRUE;
 		}
@@ -115,47 +117,47 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, L
 		ppro = (CMraProto*)lParam;
 
 		if (ppro->mraGetStringW(NULL, "Server", szBuff))
-			SET_DLG_ITEM_TEXT(hWndDlg, IDC_SERVER, szBuff.c_str());
+			SetDlgItemText(hWndDlg, IDC_SERVER, szBuff.c_str());
 		else
-			SET_DLG_ITEM_TEXTA(hWndDlg, IDC_SERVER, MRA_DEFAULT_SERVER);
+			SetDlgItemTextA(hWndDlg, IDC_SERVER, MRA_DEFAULT_SERVER);
 
 		SetDlgItemInt(hWndDlg, IDC_SERVERPORT, ppro->getWord("ServerPort", MRA_DEFAULT_SERVER_PORT), FALSE);
 		// if set SSL proxy, setting will ignored
 
-		//CHECK_DLG_BUTTON(hWndDlg, IDC_KEEPALIVE, getByte("keepalive", 0));
-		CHECK_DLG_BUTTON(hWndDlg, IDC_AUTO_ADD_CONTACTS_TO_SERVER, ppro->getByte("AutoAddContactsToServer", MRA_DEFAULT_AUTO_ADD_CONTACTS_TO_SERVER));
-		CHECK_DLG_BUTTON(hWndDlg, IDC_AUTO_AUTH_REQ_ON_LOGON, ppro->getByte("AutoAuthRequestOnLogon", MRA_DEFAULT_AUTO_AUTH_REQ_ON_LOGON));
-		CHECK_DLG_BUTTON(hWndDlg, IDC_AUTO_AUTH_GRAND_IN_CLIST, ppro->getByte("AutoAuthGrandUsersInCList", MRA_DEFAULT_AUTO_AUTH_GRAND_IN_CLIST));
-		CHECK_DLG_BUTTON(hWndDlg, IDC_AUTO_AUTH_GRAND_NEW_USERS, ppro->getByte("AutoAuthGrandNewUsers", MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS));
+		//CheckDlgButton(hWndDlg, IDC_KEEPALIVE, getByte("keepalive", 0));
+		CheckDlgButton(hWndDlg, IDC_AUTO_ADD_CONTACTS_TO_SERVER, ppro->getByte("AutoAddContactsToServer", MRA_DEFAULT_AUTO_ADD_CONTACTS_TO_SERVER));
+		CheckDlgButton(hWndDlg, IDC_AUTO_AUTH_REQ_ON_LOGON, ppro->getByte("AutoAuthRequestOnLogon", MRA_DEFAULT_AUTO_AUTH_REQ_ON_LOGON));
+		CheckDlgButton(hWndDlg, IDC_AUTO_AUTH_GRAND_IN_CLIST, ppro->getByte("AutoAuthGrandUsersInCList", MRA_DEFAULT_AUTO_AUTH_GRAND_IN_CLIST));
+		CheckDlgButton(hWndDlg, IDC_AUTO_AUTH_GRAND_NEW_USERS, ppro->getByte("AutoAuthGrandNewUsers", MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS));
 
-		CHECK_DLG_BUTTON(hWndDlg, IDC_SLOWSEND, ppro->getByte("SlowSend", MRA_DEFAULT_SLOW_SEND));
-		CHECK_DLG_BUTTON(hWndDlg, IDC_INCREMENTAL_NEW_MAIL_NOTIFY, ppro->getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY));
-		CHECK_DLG_BUTTON(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY, ppro->getByte("TrayIconNewMailNotify", MRA_DEFAULT_TRAYICON_NEW_MAIL_NOTIFY));
-		CHECK_DLG_BUTTON(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY_CLICK_TO_INBOX, ppro->getByte("TrayIconNewMailClkToInbox", MRA_DEFAULT_TRAYICON_NEW_MAIL_CLK_TO_INBOX));
+		CheckDlgButton(hWndDlg, IDC_SLOWSEND, ppro->getByte("SlowSend", MRA_DEFAULT_SLOW_SEND));
+		CheckDlgButton(hWndDlg, IDC_INCREMENTAL_NEW_MAIL_NOTIFY, ppro->getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY));
+		CheckDlgButton(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY, ppro->getByte("TrayIconNewMailNotify", MRA_DEFAULT_TRAYICON_NEW_MAIL_NOTIFY));
+		CheckDlgButton(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY_CLICK_TO_INBOX, ppro->getByte("TrayIconNewMailClkToInbox", MRA_DEFAULT_TRAYICON_NEW_MAIL_CLK_TO_INBOX));
 		EnableWindow(GetDlgItem(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY_CLICK_TO_INBOX), ppro->getByte("TrayIconNewMailNotify", MRA_DEFAULT_TRAYICON_NEW_MAIL_NOTIFY));
 
-		CHECK_DLG_BUTTON(hWndDlg, IDC_RTF_RECEIVE_ENABLE, ppro->getByte("RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE));
+		CheckDlgButton(hWndDlg, IDC_RTF_RECEIVE_ENABLE, ppro->getByte("RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE));
 
-		CHECK_DLG_BUTTON(hWndDlg, IDC_RTF_SEND_ENABLE, ppro->getByte("RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE));
+		CheckDlgButton(hWndDlg, IDC_RTF_SEND_ENABLE, ppro->getByte("RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE));
 		EnableWindow(GetDlgItem(hWndDlg, IDC_RTF_SEND_SMART), ppro->getByte("RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE));
 		EnableWindow(GetDlgItem(hWndDlg, IDC_BUTTON_FONT), ppro->getByte("RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE));
 		EnableWindow(GetDlgItem(hWndDlg, IDC_RTF_BGCOLOUR), ppro->getByte("RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE));
-		SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_RTF_BGCOLOUR, CPM_SETCOLOUR, 0, ppro->getDword("RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR));
+		SendDlgItemMessage(hWndDlg, IDC_RTF_BGCOLOUR, CPM_SETCOLOUR, 0, ppro->getDword("RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR));
 		return TRUE;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_BUTTON_DEFAULT:
-			SET_DLG_ITEM_TEXTA(hWndDlg, IDC_SERVER, MRA_DEFAULT_SERVER);
+			SetDlgItemTextA(hWndDlg, IDC_SERVER, MRA_DEFAULT_SERVER);
 			SetDlgItemInt(hWndDlg, IDC_SERVERPORT, MRA_DEFAULT_SERVER_PORT, FALSE);
 			break;
 		case IDC_TRAYICON_NEW_MAIL_NOTIFY:
-			EnableWindow(GetDlgItem(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY_CLICK_TO_INBOX), IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY));
+			EnableWindow(GetDlgItem(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY_CLICK_TO_INBOX), IsDlgButtonChecked(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY));
 			break;
 		case IDC_RTF_SEND_ENABLE:
-			EnableWindow(GetDlgItem(hWndDlg, IDC_RTF_SEND_SMART), IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_RTF_SEND_ENABLE));
-			EnableWindow(GetDlgItem(hWndDlg, IDC_BUTTON_FONT), IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_RTF_SEND_ENABLE));
-			EnableWindow(GetDlgItem(hWndDlg, IDC_RTF_BGCOLOUR), IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_RTF_SEND_ENABLE));
+			EnableWindow(GetDlgItem(hWndDlg, IDC_RTF_SEND_SMART), IsDlgButtonChecked(hWndDlg, IDC_RTF_SEND_ENABLE));
+			EnableWindow(GetDlgItem(hWndDlg, IDC_BUTTON_FONT), IsDlgButtonChecked(hWndDlg, IDC_RTF_SEND_ENABLE));
+			EnableWindow(GetDlgItem(hWndDlg, IDC_RTF_BGCOLOUR), IsDlgButtonChecked(hWndDlg, IDC_RTF_SEND_ENABLE));
 			break;
 		case IDC_BUTTON_FONT:
 			{
@@ -170,7 +172,7 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, L
 					HDC hDC = GetDC(NULL);// kegl
 					lf.lfCharSet = MRA_DEFAULT_RTF_FONT_CHARSET;
 					lf.lfHeight = -MulDiv(MRA_DEFAULT_RTF_FONT_SIZE, GetDeviceCaps(hDC, LOGPIXELSY), 72);
-					lstrcpynW(lf.lfFaceName, MRA_DEFAULT_RTF_FONT_NAME, LF_FACESIZE);
+					lstrcpyn(lf.lfFaceName, MRA_DEFAULT_RTF_FONT_NAME, LF_FACESIZE);
 					ReleaseDC(NULL, hDC);
 				}
 
@@ -188,23 +190,23 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, L
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			WCHAR szBuff[MAX_PATH];
-			GET_DLG_ITEM_TEXT(hWndDlg, IDC_SERVER, szBuff, SIZEOF(szBuff));
+			TCHAR szBuff[MAX_PATH];
+			GetDlgItemText(hWndDlg, IDC_SERVER, szBuff, SIZEOF(szBuff));
 			ppro->mraSetStringW(NULL, "Server", szBuff);
 			ppro->setWord("ServerPort", (WORD)GetDlgItemInt(hWndDlg, IDC_SERVERPORT, NULL, FALSE));
-			ppro->setByte("AutoAddContactsToServer", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_AUTO_ADD_CONTACTS_TO_SERVER));
-			ppro->setByte("AutoAuthRequestOnLogon", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_AUTO_AUTH_REQ_ON_LOGON));
-			ppro->setByte("AutoAuthGrandUsersInCList", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_AUTO_AUTH_GRAND_IN_CLIST));
-			ppro->setByte("AutoAuthGrandNewUsers", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_AUTO_AUTH_GRAND_NEW_USERS));
+			ppro->setByte("AutoAddContactsToServer", IsDlgButtonChecked(hWndDlg, IDC_AUTO_ADD_CONTACTS_TO_SERVER));
+			ppro->setByte("AutoAuthRequestOnLogon", IsDlgButtonChecked(hWndDlg, IDC_AUTO_AUTH_REQ_ON_LOGON));
+			ppro->setByte("AutoAuthGrandUsersInCList", IsDlgButtonChecked(hWndDlg, IDC_AUTO_AUTH_GRAND_IN_CLIST));
+			ppro->setByte("AutoAuthGrandNewUsers", IsDlgButtonChecked(hWndDlg, IDC_AUTO_AUTH_GRAND_NEW_USERS));
 
-			ppro->setByte("SlowSend", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_SLOWSEND));
-			ppro->setByte("IncrementalNewMailNotify", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_INCREMENTAL_NEW_MAIL_NOTIFY));
-			ppro->setByte("TrayIconNewMailNotify", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY));
-			ppro->setByte("TrayIconNewMailClkToInbox", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY_CLICK_TO_INBOX));
+			ppro->setByte("SlowSend", IsDlgButtonChecked(hWndDlg, IDC_SLOWSEND));
+			ppro->setByte("IncrementalNewMailNotify", IsDlgButtonChecked(hWndDlg, IDC_INCREMENTAL_NEW_MAIL_NOTIFY));
+			ppro->setByte("TrayIconNewMailNotify", IsDlgButtonChecked(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY));
+			ppro->setByte("TrayIconNewMailClkToInbox", IsDlgButtonChecked(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY_CLICK_TO_INBOX));
 
-			ppro->setByte("RTFReceiveEnable", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_RTF_RECEIVE_ENABLE));
-			ppro->setByte("RTFSendEnable", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_RTF_SEND_ENABLE));
-			ppro->setDword("RTFBackgroundColour", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_RTF_BGCOLOUR, CPM_GETCOLOUR, 0, 0));
+			ppro->setByte("RTFReceiveEnable", IsDlgButtonChecked(hWndDlg, IDC_RTF_RECEIVE_ENABLE));
+			ppro->setByte("RTFSendEnable", IsDlgButtonChecked(hWndDlg, IDC_RTF_SEND_ENABLE));
+			ppro->setDword("RTFBackgroundColour", SendDlgItemMessage(hWndDlg, IDC_RTF_BGCOLOUR, CPM_GETCOLOUR, 0, 0));
 			return TRUE;
 		}
 		break;

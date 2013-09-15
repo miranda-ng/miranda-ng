@@ -14,42 +14,42 @@ struct FieldNames
 
 static const FieldNames GenderField[] =
 {
-	{1, 		L"Male"},
-	{2, 		L"Female"},
+	{1, 	LPGENT("Male")},
+	{2, 	LPGENT("Female")},
 	{-1, 	NULL}
 };
 
 static const FieldNames MonthField[] =
 {
-	{1, 		L"January"},
-	{2, 		L"February"},
-	{3, 		L"March"},
-	{4, 		L"April"},
-	{5, 		L"May"},
-	{6, 		L"June"},
-	{7, 		L"July"},
-	{8, 		L"August"},
-	{9, 		L"September"},
-	{10, 	L"October"},
-	{11, 	L"November"},
-	{12, 	L"December"},
+	{1, 	LPGENT("January")},
+	{2, 	LPGENT("February")},
+	{3, 	LPGENT("March")},
+	{4, 	LPGENT("April")},
+	{5, 	LPGENT("May")},
+	{6, 	LPGENT("June")},
+	{7, 	LPGENT("July")},
+	{8, 	LPGENT("August")},
+	{9, 	LPGENT("September")},
+	{10, 	LPGENT("October")},
+	{11, 	LPGENT("November")},
+	{12, 	LPGENT("December")},
 	{-1, 	NULL}
 };
 
 static const FieldNames ZodiakField[] =
 {
-	{1, 		L"Aries"},
-	{2, 		L"Taurus"},
-	{3, 		L"Gemini"},
-	{4, 		L"Cancer"},
-	{5, 		L"Leo"},
-	{6, 		L"Virgo"},
-	{7, 		L"Libra"},
-	{8, 		L"Scorpio"},
-	{9, 		L"Sagitarius"},
-	{10, 	L"Capricorn"},
-	{11, 	L"Aquarius"},
-	{12, 	L"Pisces"},
+	{1, 	LPGENT("Aries")},
+	{2, 	LPGENT("Taurus")},
+	{3, 	LPGENT("Gemini")},
+	{4, 	LPGENT("Cancer")},
+	{5, 	LPGENT("Leo")},
+	{6, 	LPGENT("Virgo")},
+	{7, 	LPGENT("Libra")},
+	{8, 	LPGENT("Scorpio")},
+	{9, 	LPGENT("Sagitarius")},
+	{10, 	LPGENT("Capricorn")},
+	{11, 	LPGENT("Aquarius")},
+	{12, 	LPGENT("Pisces")},
 	{-1, 	NULL}
 };
 
@@ -60,10 +60,8 @@ static const FieldNames ZodiakField[] =
 
 void ResetComboBox(HWND hWndCombo)
 {
-	DWORD dwItem;
-
 	SendMessage(hWndCombo, CB_RESETCONTENT, 0, 0);
-	dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)L"");
+	DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)_T(""));
 	SendMessage(hWndCombo, CB_SETITEMDATA, dwItem, 0);
 	SendMessage(hWndCombo, CB_SETCURSEL, dwItem, 0);
 }
@@ -71,13 +69,11 @@ void ResetComboBox(HWND hWndCombo)
 
 void InitComboBox(HWND hWndCombo, FieldNames *lpNames)
 {
-	DWORD dwItem;
-
 	ResetComboBox(hWndCombo);
 
 	for (size_t i = 0;lpNames[i].lpszText;i++)
 	{
-		dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)TranslateW(lpNames[i].lpszText));
+		DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(lpNames[i].lpszText));
 		SendMessage(hWndCombo, CB_SETITEMDATA, dwItem, lpNames[i].dwCode);
 	}
 }
@@ -85,15 +81,13 @@ void InitComboBox(HWND hWndCombo, FieldNames *lpNames)
 
 void InitComboBoxNumders(HWND hWndCombo, DWORD dwStart, DWORD dwEnd)
 {
-	DWORD dwItem;
-	WCHAR szBuff[MAX_PATH];
-
 	ResetComboBox(hWndCombo);
 
 	for (DWORD i = dwStart;i <= dwEnd;i++)
 	{
-		mir_sntprintf(szBuff, SIZEOF(szBuff), L"%lu", i);
-		dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)szBuff);
+		TCHAR szBuff[MAX_PATH];
+		mir_sntprintf(szBuff, SIZEOF(szBuff), _T("%lu"), i);
+		DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)szBuff);
 		SendMessage(hWndCombo, CB_SETITEMDATA, dwItem, i);
 	}
 }
@@ -106,7 +100,6 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 	switch (message) {
 	case WM_INITDIALOG:
 		{
-			HWND hWndCombo;
 			DWORD dwItem;
 			WCHAR wszBuff[MAX_PATH];
 			SYSTEMTIME stTime;
@@ -116,7 +109,7 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 			ppro = (CMraProto*)lParam;
 			//InitComboBox(GetDlgItem(hWndDlg, IDC_EMAIL_DOMAIN), (FieldNames*)DomainField);
 			{
-				hWndCombo = GetDlgItem(hWndDlg, IDC_EMAIL_DOMAIN);
+				HWND hWndCombo = GetDlgItem(hWndDlg, IDC_EMAIL_DOMAIN);
 				ResetComboBox(hWndCombo);
 				for (size_t i = 0;lpcszMailRuDomains[i];i++)
 				{
@@ -132,7 +125,7 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 			InitComboBoxNumders(GetDlgItem(hWndDlg, IDC_BIRTHDAY_YEAR), 1900, (DWORD)stTime.wYear);
 			InitComboBox(GetDlgItem(hWndDlg, IDC_ZODIAK), (FieldNames*)ZodiakField);
 
-			hWndCombo = GetDlgItem(hWndDlg, IDC_COUNTRY);
+			HWND hWndCombo = GetDlgItem(hWndDlg, IDC_COUNTRY);
 			ResetComboBox(hWndCombo);
 			for (size_t i = 0;mrapPlaces[i].lpszData;i++)
 			{
@@ -147,46 +140,46 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 			ResetComboBox(GetDlgItem(hWndDlg, IDC_CITY));
 
 			if ( ppro->getByte("AdvancedSearchRemember", MRA_DEFAULT_SEARCH_REMEMBER)) {
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_GENDER, CB_SETCURSEL, ppro->getWord("AdvancedSearchGender", 0), 0);
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_AGERANGE_FROM, CB_SETCURSEL, ppro->getWord("AdvancedSearchAgeFrom", 0), 0);
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_AGERANGE_TO, CB_SETCURSEL, ppro->getWord("AdvancedSearchAgeTo", 0), 0);
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BIRTHDAY_MONTH, CB_SETCURSEL, ppro->getWord("AdvancedSearchBirthDayMonth", 0), 0);
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BIRTHDAY_DAY, CB_SETCURSEL, ppro->getWord("AdvancedSearchBirthDayDay", 0), 0);
+				SendDlgItemMessage(hWndDlg, IDC_GENDER, CB_SETCURSEL, ppro->getWord("AdvancedSearchGender", 0), 0);
+				SendDlgItemMessage(hWndDlg, IDC_AGERANGE_FROM, CB_SETCURSEL, ppro->getWord("AdvancedSearchAgeFrom", 0), 0);
+				SendDlgItemMessage(hWndDlg, IDC_AGERANGE_TO, CB_SETCURSEL, ppro->getWord("AdvancedSearchAgeTo", 0), 0);
+				SendDlgItemMessage(hWndDlg, IDC_BIRTHDAY_MONTH, CB_SETCURSEL, ppro->getWord("AdvancedSearchBirthDayMonth", 0), 0);
+				SendDlgItemMessage(hWndDlg, IDC_BIRTHDAY_DAY, CB_SETCURSEL, ppro->getWord("AdvancedSearchBirthDayDay", 0), 0);
 
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_ZODIAK, CB_SETCURSEL, ppro->getWord("AdvancedSearchZodiakID", 0), 0);
+				SendDlgItemMessage(hWndDlg, IDC_ZODIAK, CB_SETCURSEL, ppro->getWord("AdvancedSearchZodiakID", 0), 0);
 
 
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_COUNTRY, CB_SETCURSEL, ppro->getWord("AdvancedSearchCountryID", 0), 0);
+				SendDlgItemMessage(hWndDlg, IDC_COUNTRY, CB_SETCURSEL, ppro->getWord("AdvancedSearchCountryID", 0), 0);
 				SendMessageW(hWndDlg, WM_COMMAND, (WPARAM)MAKELONG(IDC_COUNTRY, CBN_SELCHANGE), (LPARAM)GetDlgItem(hWndDlg, IDC_COUNTRY));
 
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_STATE, CB_SETCURSEL, ppro->getWord("AdvancedSearchStateID", 0), 0);
-				SendMessageW(hWndDlg, WM_COMMAND, (WPARAM)MAKELONG(IDC_STATE, CBN_SELCHANGE), (LPARAM)GetDlgItem(hWndDlg, IDC_STATE));
+				SendDlgItemMessage(hWndDlg, IDC_STATE, CB_SETCURSEL, ppro->getWord("AdvancedSearchStateID", 0), 0);
+				SendMessage(hWndDlg, WM_COMMAND, (WPARAM)MAKELONG(IDC_STATE, CBN_SELCHANGE), (LPARAM)GetDlgItem(hWndDlg, IDC_STATE));
 
-				SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_CITY, CB_SETCURSEL, ppro->getWord("AdvancedSearchCityID", 0), 0);
+				SendDlgItemMessage(hWndDlg, IDC_CITY, CB_SETCURSEL, ppro->getWord("AdvancedSearchCityID", 0), 0);
 
 
-				CHECK_DLG_BUTTON(hWndDlg, IDC_ONLINEONLY, ppro->getByte("AdvancedSearchOnlineOnly", FALSE));
-				CHECK_DLG_BUTTON(hWndDlg, IDC_CHK_REMEMBER, TRUE);
+				CheckDlgButton(hWndDlg, IDC_ONLINEONLY, ppro->getByte("AdvancedSearchOnlineOnly", FALSE));
+				CheckDlgButton(hWndDlg, IDC_CHK_REMEMBER, TRUE);
 			}
 			TranslateDialogDefault(hWndDlg);
 		}
 		return TRUE;
 
 	case WM_DESTROY:
-		ppro->setWord("AdvancedSearchGender", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_GENDER, CB_GETCURSEL, 0, 0));
-		ppro->setWord("AdvancedSearchAgeFrom", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_AGERANGE_FROM, CB_GETCURSEL, 0, 0));
-		ppro->setWord("AdvancedSearchAgeTo", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_AGERANGE_TO, CB_GETCURSEL, 0, 0));
-		ppro->setWord("AdvancedSearchBirthDayMonth", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BIRTHDAY_MONTH, CB_GETCURSEL, 0, 0));
-		ppro->setWord("AdvancedSearchBirthDayDay", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BIRTHDAY_DAY, CB_GETCURSEL, 0, 0));
+		ppro->setWord("AdvancedSearchGender", SendDlgItemMessage(hWndDlg, IDC_GENDER, CB_GETCURSEL, 0, 0));
+		ppro->setWord("AdvancedSearchAgeFrom", SendDlgItemMessage(hWndDlg, IDC_AGERANGE_FROM, CB_GETCURSEL, 0, 0));
+		ppro->setWord("AdvancedSearchAgeTo", SendDlgItemMessage(hWndDlg, IDC_AGERANGE_TO, CB_GETCURSEL, 0, 0));
+		ppro->setWord("AdvancedSearchBirthDayMonth", SendDlgItemMessage(hWndDlg, IDC_BIRTHDAY_MONTH, CB_GETCURSEL, 0, 0));
+		ppro->setWord("AdvancedSearchBirthDayDay", SendDlgItemMessage(hWndDlg, IDC_BIRTHDAY_DAY, CB_GETCURSEL, 0, 0));
 
-		ppro->setWord("AdvancedSearchZodiakID", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_ZODIAK, CB_GETCURSEL, 0, 0));
+		ppro->setWord("AdvancedSearchZodiakID", SendDlgItemMessage(hWndDlg, IDC_ZODIAK, CB_GETCURSEL, 0, 0));
 
-		ppro->setWord("AdvancedSearchCityID", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_CITY, CB_GETCURSEL, 0, 0));
-		ppro->setWord("AdvancedSearchStateID", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_STATE, CB_GETCURSEL, 0, 0));
-		ppro->setWord("AdvancedSearchCountryID", SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_COUNTRY, CB_GETCURSEL, 0, 0));
+		ppro->setWord("AdvancedSearchCityID", SendDlgItemMessage(hWndDlg, IDC_CITY, CB_GETCURSEL, 0, 0));
+		ppro->setWord("AdvancedSearchStateID", SendDlgItemMessage(hWndDlg, IDC_STATE, CB_GETCURSEL, 0, 0));
+		ppro->setWord("AdvancedSearchCountryID", SendDlgItemMessage(hWndDlg, IDC_COUNTRY, CB_GETCURSEL, 0, 0));
 
-		ppro->setByte("AdvancedSearchOnlineOnly", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_ONLINEONLY));
-		ppro->setByte("AdvancedSearchRemember", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_CHK_REMEMBER));
+		ppro->setByte("AdvancedSearchOnlineOnly", IsDlgButtonChecked(hWndDlg, IDC_ONLINEONLY));
+		ppro->setByte("AdvancedSearchRemember", IsDlgButtonChecked(hWndDlg, IDC_CHK_REMEMBER));
 		break;
 
 	case WM_COMMAND:
@@ -200,10 +193,8 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 			{
 				if (LOWORD(wParam) == IDC_AGERANGE_FROM)
 				{
-					DWORD dwAgeFrom, dwAgeTo;
-
-					dwAgeFrom = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_AGERANGE_FROM);
-					dwAgeTo = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_AGERANGE_TO);
+					DWORD dwAgeFrom = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_AGERANGE_FROM);
+					DWORD dwAgeTo = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_AGERANGE_TO);
 					if (dwAgeFrom == 0) dwAgeFrom++;
 					InitComboBoxNumders(GetDlgItem(hWndDlg, IDC_AGERANGE_TO), dwAgeFrom, 100);
 					SendMessage(GetDlgItem(hWndDlg, IDC_AGERANGE_TO), CB_SETCURSEL, ((dwAgeTo-dwAgeFrom)+1), 0);
@@ -216,14 +207,13 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 		case IDC_BIRTHDAY_YEAR:
 			if (HIWORD(wParam) == CBN_SELCHANGE)
 			{
-				DWORD dwAge;
 				SYSTEMTIME stTime = {0};
 
 				stTime.wYear = (WORD)GET_CURRENT_COMBO_DATA(hWndDlg, IDC_BIRTHDAY_YEAR);
 				stTime.wMonth = (WORD)GET_CURRENT_COMBO_DATA(hWndDlg, IDC_BIRTHDAY_MONTH);
 				stTime.wDay = (WORD)GET_CURRENT_COMBO_DATA(hWndDlg, IDC_BIRTHDAY_DAY);
 
-				dwAge = GetYears(&stTime);
+				DWORD dwAge = GetYears(&stTime);
 				SendMessage(GetDlgItem(hWndDlg, IDC_AGERANGE_FROM), CB_SETCURSEL, dwAge, 0);
 				SendMessage(GetDlgItem(hWndDlg, IDC_AGERANGE_TO), CB_SETCURSEL, dwAge, 0);
 				SendMessage(GetDlgItem(hWndDlg, IDC_ZODIAK), CB_SETCURSEL, 0, 0);
@@ -232,22 +222,19 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 		case IDC_ZODIAK:
 			if (HIWORD(wParam) == CBN_SELCHANGE)
 			{
-				SendMessage(GetDlgItem(hWndDlg, IDC_BIRTHDAY_DAY), CB_SETCURSEL, 0, 0);
-				SendMessage(GetDlgItem(hWndDlg, IDC_BIRTHDAY_MONTH), CB_SETCURSEL, 0, 0);
-				//SendMessage(GetDlgItem(hWndDlg, IDC_BIRTHDAY_YEAR), CB_SETCURSEL, 0, 0);
+				SendDlgItemMessage(hWndDlg, IDC_BIRTHDAY_DAY, CB_SETCURSEL, 0, 0);
+				SendDlgItemMessage(hWndDlg, IDC_BIRTHDAY_MONTH, CB_SETCURSEL, 0, 0);
+				//SendDlgItemMessage(hWndDlg, IDC_BIRTHDAY_YEAR, CB_SETCURSEL, 0, 0);
 			}
 			break;
 		case IDC_COUNTRY:
 			if (HIWORD(wParam) == CBN_SELCHANGE)
 			{
-				HWND hWndCombo;
-				DWORD dwItem, dwCountryID;
-
-				dwCountryID = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_COUNTRY);
-				hWndCombo = GetDlgItem(hWndDlg, IDC_STATE);
+				DWORD dwCountryID = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_COUNTRY);
+				HWND hWndCombo = GetDlgItem(hWndDlg, IDC_STATE);
 				SendMessage(hWndCombo, CB_RESETCONTENT, 0, 0);
 				ResetComboBox(GetDlgItem(hWndDlg, IDC_CITY));
-				dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)L"");
+				DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)_T(""));
 				SendMessage(hWndCombo, CB_SETITEMDATA, dwItem, 0);
 				SendMessage(hWndCombo, CB_SETCURSEL, dwItem, 0);
 
@@ -264,14 +251,11 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 		case IDC_STATE:
 			if (HIWORD(wParam) == CBN_SELCHANGE)
 			{
-				HWND hWndCombo;
-				DWORD dwItem, dwCountryID, dwStateID;
-
-				dwCountryID = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_COUNTRY);
-				dwStateID = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_STATE);
-				hWndCombo = GetDlgItem(hWndDlg, IDC_CITY);
+				DWORD dwCountryID = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_COUNTRY);
+				DWORD dwStateID = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_STATE);
+				HWND hWndCombo = GetDlgItem(hWndDlg, IDC_CITY);
 				SendMessage(hWndCombo, CB_RESETCONTENT, 0, 0);
-				dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)L"");
+				DWORD dwItem = SendMessage(hWndCombo, CB_ADDSTRING, 0, (LPARAM)_T(""));
 				SendMessage(hWndCombo, CB_SETITEMDATA, dwItem, 0);
 				SendMessage(hWndCombo, CB_SETCURSEL, dwItem, 0);
 
@@ -298,55 +282,53 @@ return FALSE;
 HWND CMraProto::SearchAdvanced(HWND hWndDlg)
 {
 	DWORD dwRequestFlags = 0;
-	CHAR szUser[MAX_PATH], szDomain[MAX_PATH];
-	WCHAR wszNickName[MAX_PATH], wszFirstName[MAX_PATH], wszLastName[MAX_PATH];
-	size_t dwUserSize, dwDomainSize, dwNickNameSize, dwFirstNameSize, dwLastNameSize;
-	DWORD dwSex, dwDate1, dwDate2, dwCityID, dwZodiak, dwBirthdayMonth, dwBirthdayDay, dwCountryID, dwOnline;
+	char szUser[MAX_PATH], szDomain[MAX_PATH];
+	TCHAR wszNickName[MAX_PATH], wszFirstName[MAX_PATH], wszLastName[MAX_PATH];
 
-	dwUserSize = GET_DLG_ITEM_TEXTA(hWndDlg, IDC_EMAIL_USER, szUser, SIZEOF(szUser));
-	dwDomainSize = GET_DLG_ITEM_TEXTA(hWndDlg, IDC_EMAIL_DOMAIN, szDomain, SIZEOF(szDomain));
+	size_t dwUserSize = GetDlgItemTextA(hWndDlg, IDC_EMAIL_USER, szUser, SIZEOF(szUser));
+	size_t dwDomainSize = GetDlgItemTextA(hWndDlg, IDC_EMAIL_DOMAIN, szDomain, SIZEOF(szDomain));
 	if (dwUserSize && dwDomainSize)
 	{
 		SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_USER);
 		SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_DOMAIN);
 	}
 
-	dwNickNameSize = GET_DLG_ITEM_TEXT(hWndDlg, IDC_NICK, wszNickName, SIZEOF(wszNickName));
+	size_t dwNickNameSize = GetDlgItemText(hWndDlg, IDC_NICK, wszNickName, SIZEOF(wszNickName));
 	if (dwNickNameSize) SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_NICKNAME);
 
-	dwFirstNameSize = GET_DLG_ITEM_TEXT(hWndDlg, IDC_FIRSTNAME, wszFirstName, SIZEOF(wszFirstName));
+	size_t dwFirstNameSize = GetDlgItemText(hWndDlg, IDC_FIRSTNAME, wszFirstName, SIZEOF(wszFirstName));
 	if (dwFirstNameSize) SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME);
 
-	dwLastNameSize = GET_DLG_ITEM_TEXT(hWndDlg, IDC_LASTNAME, wszLastName, SIZEOF(wszLastName));
+	size_t dwLastNameSize = GetDlgItemText(hWndDlg, IDC_LASTNAME, wszLastName, SIZEOF(wszLastName));
 	if (dwLastNameSize) SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_LASTNAME);
 
-	dwSex = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_GENDER);
+	DWORD dwSex = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_GENDER);
 	if (dwSex) SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_SEX);
 
-	dwDate1 = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_AGERANGE_FROM);
+	DWORD dwDate1 = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_AGERANGE_FROM);
 	if (dwDate1) SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_DATE1);
 
-	dwDate2 = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_AGERANGE_TO);
+	DWORD dwDate2 = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_AGERANGE_TO);
 	if (dwDate2) SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_DATE2);
 
-	dwCityID = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_CITY);
+	DWORD dwCityID = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_CITY);
 	if (dwCityID == 0) dwCityID = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_STATE);
 	if (dwCityID) SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_CITY_ID);
 
-	dwZodiak = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_ZODIAK);
+	DWORD dwZodiak = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_ZODIAK);
 	if (dwZodiak) SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_ZODIAC);
 
-	dwBirthdayMonth = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_BIRTHDAY_MONTH);
+	DWORD dwBirthdayMonth = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_BIRTHDAY_MONTH);
 	if (dwBirthdayMonth) SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_BIRTHDAY_MONTH);
 
-	dwBirthdayDay = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_BIRTHDAY_DAY);
+	DWORD dwBirthdayDay = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_BIRTHDAY_DAY);
 	if (dwBirthdayMonth) SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_BIRTHDAY_DAY);
 
-	dwCountryID = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_COUNTRY);
+	DWORD dwCountryID = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_COUNTRY);
 	if (dwCountryID) SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_COUNTRY_ID);
 
 
-	dwOnline = IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_ONLINEONLY);
+	DWORD dwOnline = IsDlgButtonChecked(hWndDlg, IDC_ONLINEONLY);
 	if (dwOnline) SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_ONLINE);
 
 	return (HWND)MraWPRequestW(NULL, ACKTYPE_SEARCH, dwRequestFlags, szUser, szDomain, wszNickName, wszFirstName, wszLastName, dwSex, dwDate1, dwDate2, dwCityID, dwZodiak, dwBirthdayMonth, dwBirthdayDay, dwCountryID, dwOnline);

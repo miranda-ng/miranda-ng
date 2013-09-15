@@ -81,7 +81,7 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_EDIT_PROFILE_URL                 "http://win.mail.ru/cgi-bin/userinfo?mra=1"
 #define MRA_CHAT_URL                         "http://chat.mail.ru"
 #define MRA_ZHUKI_URL                        "http://zhuki.mail.ru"
-#define MRA_SEARCH_URL                       "http://go.mail.ru"
+#define MRA_SEARCH_URL                       _T("http://go.mail.ru")
 
 // used spesialy! added: /domain/user
 #define MRA_BLOGS_URL                        "http://blogs.mail.ru"
@@ -91,8 +91,8 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_WORLD_URL                        "http://my.mail.ru"
 
 // without auth
-#define MRA_REGISTER_URL                     "http://win.mail.ru/cgi-bin/signup"
-#define MRA_FORGOT_PASSWORD_URL              "http://win.mail.ru/cgi-bin/passremind"
+#define MRA_REGISTER_URL                     _T("http://win.mail.ru/cgi-bin/signup")
+#define MRA_FORGOT_PASSWORD_URL              _T("http://win.mail.ru/cgi-bin/passremind")
 
 
 // wParam = (WPARAM)hContact
@@ -169,7 +169,7 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_DEFAULT_SLOW_SEND                TRUE
 #define MRA_DEFAULT_CVT_SMILES_TO_TAGS       TRUE
 #define MRA_DEFAULT_MIRVER_RAW               FALSE // hidden option
-#define MRA_DEFAULT_AUTH_MESSAGE             LPGENT("Please authorize me")
+#define MRA_DEFAULT_AUTH_MESSAGE             LPGEN("Please authorize me")
 
 #define MRA_DEFAULT_RTF_RECEIVE_ENABLE       FALSE
 #define MRA_DEFAULT_RTF_SEND_ENABLE          TRUE

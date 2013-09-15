@@ -27,7 +27,8 @@ void AddContactEMailToListParam(HANDLE hContact, BOOL bMRAOnly, LPSTR lpszModule
 			if (bMRAOnly == FALSE || IsEMailMR(szEmail)) {
 				WCHAR wszBuff[MAX_EMAIL_LEN];
 				MultiByteToWideChar(MRA_CODE_PAGE, 0, szEmail, -1, wszBuff, SIZEOF(wszBuff));
-				if (SendMessage(hWndList, LB_FINDSTRING, -1, (LPARAM)wszBuff) == LB_ERR) SendMessage(hWndList, LB_ADDSTRING, 0, (LPARAM)wszBuff);
+				if (SendMessage(hWndList, LB_FINDSTRING, -1, (LPARAM)wszBuff) == LB_ERR)
+					SendMessage(hWndList, LB_ADDSTRING, 0, (LPARAM)wszBuff);
 			}
 		}
 		else if (i > EMAILS_MIN_COUNT)
@@ -44,12 +45,10 @@ INT_PTR CALLBACK MraSelectEMailDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 		TranslateDialogDefault(hWndDlg);
 		dat = (MraSelectEMailDlgData*)lParam;
 		{
-			HWND hWndList;
 			BOOL bMRAOnly;
-			LPSTR lpszProto;
 
 			SetWindowLongPtr(hWndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-			hWndList = GetDlgItem(hWndDlg, IDC_LIST_EMAILS);
+			HWND hWndList = GetDlgItem(hWndDlg, IDC_LIST_EMAILS);
 
 			switch (dat->dwType) {
 			case MRA_SELECT_EMAIL_TYPE_SEND_POSTCARD:
@@ -64,10 +63,7 @@ INT_PTR CALLBACK MraSelectEMailDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 				break;
 			}
 
-			if (dat->hContact)
-				lpszProto = GetContactProto(dat->hContact);
-			else
-				lpszProto = dat->ppro->m_szModuleName;
+			LPSTR lpszProto = dat->hContact ? GetContactProto(dat->hContact) : dat->ppro->m_szModuleName;
 
 			AddContactEMailToListParam(dat->hContact, bMRAOnly, lpszProto, "e-mail", hWndList);
 			AddContactEMailToListParam(dat->hContact, bMRAOnly, "UserInfo", "e-mail", hWndList);

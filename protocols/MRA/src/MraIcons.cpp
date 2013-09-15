@@ -50,7 +50,7 @@ static void AddIcoLibItems(LPWSTR lptszSubSectionName, GUI_DISPLAY_ITEM *pgdiIte
 {
 	TCHAR tszSection[MAX_PATH], tszPath[MAX_FILEPATH];
 	GetModuleFileName(masMraSettings.hInstance, tszPath, SIZEOF(tszPath));
-	mir_sntprintf(tszSection, SIZEOF(tszSection), L"Protocols/MRA/%s", lptszSubSectionName);
+	mir_sntprintf(tszSection, SIZEOF(tszSection), _T("Protocols/MRA/%s"), lptszSubSectionName);
 
 	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszSection = tszSection;
@@ -101,17 +101,17 @@ void IconsLoad()
 
 void InitXStatusIcons()
 {
-	WCHAR wszPath[MAX_FILEPATH];
+	TCHAR tszPath[MAX_FILEPATH];
 	if (masMraSettings.hDLLXStatusIcons)
-		GetModuleFileName(masMraSettings.hDLLXStatusIcons, wszPath, SIZEOF(wszPath));
+		GetModuleFileName(masMraSettings.hDLLXStatusIcons, tszPath, SIZEOF(tszPath));
 	else
-		bzero(wszPath, sizeof(wszPath));
+		bzero(tszPath, sizeof(tszPath));
 
 	SKINICONDESC sid = { sizeof(sid) };
-	sid.pwszSection = L"Protocols/MRA/"LPGENT("Custom Status");
-	sid.pwszDefaultFile = wszPath;
+	sid.ptszSection = LPGENT("Protocols")_T("/")LPGENT("MRA")_T("/")LPGENT("Custom Status");
+	sid.ptszDefaultFile = tszPath;
 	sid.cx = sid.cy = 16;
-	sid.flags = SIDF_ALL_UNICODE;
+	sid.flags = SIDF_ALL_TCHAR;
 
 	hXStatusAdvancedStatusIcons[0] = NULL;
 	for (int i = 1; i < MRA_XSTATUS_COUNT+1; i++) {
@@ -120,7 +120,7 @@ void InitXStatusIcons()
 		sid.pszName = szBuff;
 
 		int iCurIndex = i+IDI_XSTATUS1-1;
-		sid.pwszDescription = lpcszXStatusNameDef[i];
+		sid.ptszDescription = lpcszXStatusNameDef[i];
 		sid.iDefaultIndex = -iCurIndex;
 
 		hXStatusAdvancedStatusIcons[i] = Skin_AddIcon(&sid);

@@ -65,7 +65,7 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 
 	DWORD dwRetErrorCode = FifoMTInitialize(pmraaqAvatarsQueue, 0);
 	if (dwRetErrorCode == NO_ERROR) {
-		CHAR szBuffer[MAX_PATH];
+		char szBuffer[MAX_PATH];
 		mir_snprintf(szBuffer, SIZEOF(szBuffer), "%s %s", m_szModuleName, Translate("Avatars' plugin connections"));
 
 		NETLIBUSER nlu = {0};
@@ -250,7 +250,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 								break;
 
 							default:
-								mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateW(L"Avatars: server return HTTP code: %lu"), dwResultCode);
+								mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Avatars: server return HTTP code: %lu"), dwResultCode);
 								ShowFormattedErrorMessage(szErrorText, NO_ERROR);
 								break;
 							}
@@ -311,7 +311,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 									}
 									else {
 										dwErrorCode = GetLastError();
-										mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateW(L"Avatars: cant open file %s, error"), wszFileName);
+										mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Avatars: cant open file %s, error"), wszFileName);
 										ShowFormattedErrorMessage(szErrorText, dwErrorCode);
 									}
 								}
@@ -467,10 +467,10 @@ bool CMraProto::MraAvatarsGetContactTime(HANDLE hContact, LPSTR lpszValueName, S
 		if (mraGetStringA(hContact, lpszValueName, szBuff))
 		if (InternetTimeGetTime(szBuff, itAvatarLastModifiedTimeLocal) == NO_ERROR) {
 			memmove(pstTime, &itAvatarLastModifiedTimeLocal.stTime, sizeof(SYSTEMTIME));
-			return TRUE;
+			return true;
 		}
 	}
-	return FALSE;
+	return false;
 }
 
 
@@ -503,15 +503,15 @@ DWORD CMraProto::MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HANDLE hConta
 
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
 
-	WCHAR wszBase[MAX_PATH];
+	TCHAR tszBase[MAX_PATH];
 	if (pmraaqAvatarsQueue->hAvatarsPath == NULL)
 		// default path
-		mir_snwprintf(wszBase, SIZEOF(wszBase), _T("%s\\%s\\"), (TCHAR*)VARST( _T("%miranda_avatarcache%")), m_tszUserName);
+		mir_sntprintf(tszBase, MAX_PATH, _T("%s\\%s\\"), VARST( _T("%miranda_avatarcache%")), m_tszUserName);
 	else {
-		FoldersGetCustomPathW(pmraaqAvatarsQueue->hAvatarsPath, wszBase, SIZEOF(wszBase), _T(""));
-		wcscat(wszBase, L"\\");
+		FoldersGetCustomPathT(pmraaqAvatarsQueue->hAvatarsPath, tszBase, MAX_PATH, _T(""));
+		_tcsncat(tszBase, _T("\\"), MAX_PATH);
 	}
-	res = wszBase;
+	res = tszBase;
 
 	// some path in buff and free space for file name is avaible
 	CreateDirectoryTreeT(res);
@@ -622,30 +622,30 @@ INT_PTR CALLBACK MraAvatarsQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wPara
 		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, lParam);
 		ppro = (CMraProto*)lParam;
 		{
-			CHECK_DLG_BUTTON(hWndDlg, IDC_ENABLE, db_get_b(NULL, MRA_AVT_SECT_NAME, "Enable", MRA_AVT_DEFAULT_ENABLE));
+			CheckDlgButton(hWndDlg, IDC_ENABLE, db_get_b(NULL, MRA_AVT_SECT_NAME, "Enable", MRA_AVT_DEFAULT_ENABLE));
 
 			CMStringW szServer;
 			if (DB_GetStringW(NULL, MRA_AVT_SECT_NAME, "Server", szServer))
-				SET_DLG_ITEM_TEXT(hWndDlg, IDC_SERVER, szServer.c_str());
+				SetDlgItemText(hWndDlg, IDC_SERVER, szServer.c_str());
 			else
-				SET_DLG_ITEM_TEXTA(hWndDlg, IDC_SERVER, MRA_AVT_DEFAULT_SERVER);
+				SetDlgItemTextA(hWndDlg, IDC_SERVER, MRA_AVT_DEFAULT_SERVER);
 
 			SetDlgItemInt(hWndDlg, IDC_SERVERPORT, db_get_dw(NULL, MRA_AVT_SECT_NAME, "ServerPort", MRA_AVT_DEFAULT_SERVER_PORT), FALSE);
-			CHECK_DLG_BUTTON(hWndDlg, IDC_USE_KEEPALIVE_CONN, db_get_b(NULL, MRA_AVT_SECT_NAME, "UseKeepAliveConn", MRA_AVT_DEFAULT_USE_KEEPALIVE_CONN));
+			CheckDlgButton(hWndDlg, IDC_USE_KEEPALIVE_CONN, db_get_b(NULL, MRA_AVT_SECT_NAME, "UseKeepAliveConn", MRA_AVT_DEFAULT_USE_KEEPALIVE_CONN));
 			SetDlgItemInt(hWndDlg, IDC_UPD_CHECK_INTERVAL, db_get_dw(NULL, MRA_AVT_SECT_NAME, "CheckInterval", MRA_AVT_DEFAULT_CHK_INTERVAL), FALSE);
-			CHECK_DLG_BUTTON(hWndDlg, IDC_RETURN_ABC_PATH, db_get_b(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", MRA_AVT_DEFAULT_RET_ABC_PATH));
-			CHECK_DLG_BUTTON(hWndDlg, IDC_DELETE_AVT_ON_CONTACT_DELETE, db_get_b(NULL, MRA_AVT_SECT_NAME, "DeleteAvtOnContactDelete", MRA_DELETE_AVT_ON_CONTACT_DELETE));
+			CheckDlgButton(hWndDlg, IDC_RETURN_ABC_PATH, db_get_b(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", MRA_AVT_DEFAULT_RET_ABC_PATH));
+			CheckDlgButton(hWndDlg, IDC_DELETE_AVT_ON_CONTACT_DELETE, db_get_b(NULL, MRA_AVT_SECT_NAME, "DeleteAvtOnContactDelete", MRA_DELETE_AVT_ON_CONTACT_DELETE));
 
-			EnableControlsArray(hWndDlg, (WORD*)&wMraAvatarsControlsList, SIZEOF(wMraAvatarsControlsList), IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_ENABLE));
+			EnableControlsArray(hWndDlg, (WORD*)&wMraAvatarsControlsList, SIZEOF(wMraAvatarsControlsList), IsDlgButtonChecked(hWndDlg, IDC_ENABLE));
 		}
 		return TRUE;
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_ENABLE)
-			EnableControlsArray(hWndDlg, (WORD*)&wMraAvatarsControlsList, SIZEOF(wMraAvatarsControlsList), IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_ENABLE));
+			EnableControlsArray(hWndDlg, (WORD*)&wMraAvatarsControlsList, SIZEOF(wMraAvatarsControlsList), IsDlgButtonChecked(hWndDlg, IDC_ENABLE));
 
 		if (LOWORD(wParam) == IDC_BUTTON_DEFAULT) {
-			SET_DLG_ITEM_TEXTA(hWndDlg, IDC_SERVER, MRA_AVT_DEFAULT_SERVER);
+			SetDlgItemTextA(hWndDlg, IDC_SERVER, MRA_AVT_DEFAULT_SERVER);
 			SetDlgItemInt(hWndDlg, IDC_SERVERPORT, MRA_AVT_DEFAULT_SERVER_PORT, FALSE);
 		}
 
@@ -657,17 +657,16 @@ INT_PTR CALLBACK MraAvatarsQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wPara
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
 			{
-				WCHAR szServer[MAX_PATH];
-
-				db_set_b(NULL, MRA_AVT_SECT_NAME, "Enable", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_ENABLE));
-				db_set_b(NULL, MRA_AVT_SECT_NAME, "DeleteAvtOnContactDelete", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_DELETE_AVT_ON_CONTACT_DELETE));
-				db_set_b(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_RETURN_ABC_PATH));
+				db_set_b(NULL, MRA_AVT_SECT_NAME, "Enable", IsDlgButtonChecked(hWndDlg, IDC_ENABLE));
+				db_set_b(NULL, MRA_AVT_SECT_NAME, "DeleteAvtOnContactDelete", IsDlgButtonChecked(hWndDlg, IDC_DELETE_AVT_ON_CONTACT_DELETE));
+				db_set_b(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", IsDlgButtonChecked(hWndDlg, IDC_RETURN_ABC_PATH));
 				db_set_dw(NULL, MRA_AVT_SECT_NAME, "CheckInterval", GetDlgItemInt(hWndDlg, IDC_UPD_CHECK_INTERVAL, NULL, FALSE));
-				db_set_b(NULL, MRA_AVT_SECT_NAME, "UseKeepAliveConn", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_USE_KEEPALIVE_CONN));
+				db_set_b(NULL, MRA_AVT_SECT_NAME, "UseKeepAliveConn", IsDlgButtonChecked(hWndDlg, IDC_USE_KEEPALIVE_CONN));
 				db_set_dw(NULL, MRA_AVT_SECT_NAME, "ServerPort", GetDlgItemInt(hWndDlg, IDC_SERVERPORT, NULL, FALSE));
 
-				GET_DLG_ITEM_TEXT(hWndDlg, IDC_SERVER, szServer, SIZEOF(szServer));
-				db_set_ws(NULL, MRA_AVT_SECT_NAME, "Server", szServer);
+				TCHAR szServer[MAX_PATH];
+				GetDlgItemText(hWndDlg, IDC_SERVER, szServer, SIZEOF(szServer));
+				db_set_ts(NULL, MRA_AVT_SECT_NAME, "Server", szServer);
 			}
 			return TRUE;
 		}

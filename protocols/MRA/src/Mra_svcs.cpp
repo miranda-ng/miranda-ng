@@ -207,13 +207,13 @@ INT_PTR CMraProto::MraZhuki(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMraProto::MraWebSearch(WPARAM wParam, LPARAM lParam)
 {
-	CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)MRA_SEARCH_URL);
+	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)MRA_SEARCH_URL);
 	return 0;
 }
 
 INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM wParam, LPARAM lParam)
 {
-	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateW(MRA_UPD_ALL_USERS_INFO_STR), MB_YESNO | MB_ICONQUESTION) == IDYES ) {
+	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateTS(MRA_UPD_ALL_USERS_INFO_STR), MB_YESNO | MB_ICONQUESTION) == IDYES ) {
 		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			CMStringA szEmail;
 			if ( mraGetStringA(hContact, "e-mail", szEmail))
@@ -225,7 +225,7 @@ INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMraProto::MraCheckUpdatesUsersAvt(WPARAM wParam, LPARAM lParam)
 {
-	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateW(MRA_CHK_USERS_AVATARS_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
+	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateTS(MRA_CHK_USERS_AVATARS_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			CMStringA szEmail;
 			if (mraGetStringA(hContact, "e-mail", szEmail))
@@ -238,7 +238,7 @@ INT_PTR CMraProto::MraCheckUpdatesUsersAvt(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMraProto::MraRequestAuthForAll(WPARAM wParam, LPARAM lParam)
 {
-	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateW(MRA_REQ_AUTH_FOR_ALL_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
+	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateTS(MRA_REQ_AUTH_FOR_ALL_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 		for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			DWORD dwContactSeverFlags;
 			if (GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwContactSeverFlags, NULL, NULL, NULL, NULL) == NO_ERROR)
@@ -257,7 +257,7 @@ INT_PTR CMraProto::MraRequestAuthorization(WPARAM wParam, LPARAM lParam)
 
 	CMStringW wszAuthMessage;
 	if ( !mraGetStringW(NULL, "AuthMessage", wszAuthMessage))
-		wszAuthMessage = TranslateW(MRA_DEFAULT_AUTH_MESSAGE);
+		wszAuthMessage = TranslateT(MRA_DEFAULT_AUTH_MESSAGE);
 
 	if ( !wszAuthMessage.IsEmpty()) {
 		CMStringA szEmail;
@@ -491,7 +491,7 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 				if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0)) {
 					CMStringW wszAuthMessage;
 					if ( !mraGetStringW(NULL, "AuthMessage", wszAuthMessage))
-						wszAuthMessage = TranslateW(MRA_DEFAULT_AUTH_MESSAGE);
+						wszAuthMessage = TranslateT(MRA_DEFAULT_AUTH_MESSAGE);
 
 					db_unset(hContact, "CList", "Hidden");
 
@@ -602,8 +602,8 @@ int CMraProto::MraRebuildStatusMenu(WPARAM wParam, LPARAM lParam)
 	strncpy(szServiceFunction, m_szModuleName, sizeof(szServiceFunction));
 	pszServiceFunctionName = szServiceFunction + strlen(m_szModuleName);
 
-	WCHAR szItem[MAX_PATH+64];
-	mir_sntprintf(szItem, SIZEOF(szItem), L"%s Custom Status", m_tszUserName);
+	TCHAR szItem[MAX_PATH+64];
+	mir_sntprintf(szItem, SIZEOF(szItem), _T("%s Custom Status"), m_tszUserName);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 2000060000;
@@ -641,7 +641,7 @@ INT_PTR CMraProto::MraSetListeningTo(WPARAM wParam, LPARAM lParam)
 
 	if (pliInfo == NULL || pliInfo->cbSize != sizeof(LISTENINGTOINFO))
 	{
-		MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, L"", 0);
+		MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, _T(""), 0);
 		delSetting(DBSETTING_BLOGSTATUSMUSIC);
 	}
 	else if (pliInfo->dwFlags & LTI_UNICODE) {
@@ -650,7 +650,7 @@ INT_PTR CMraProto::MraSetListeningTo(WPARAM wParam, LPARAM lParam)
 		if ( ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT))
 			wszListeningTo = ptrT((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)L"%track%. %title% - %artist% - %player%", (LPARAM)pliInfo));
 		else
-			wszListeningTo.Format(L"%s. %s - %s - %s", pliInfo->ptszTrack?pliInfo->ptszTrack:L"", pliInfo->ptszTitle?pliInfo->ptszTitle:L"", pliInfo->ptszArtist?pliInfo->ptszArtist:L"", pliInfo->ptszPlayer?pliInfo->ptszPlayer:L"");
+			wszListeningTo.Format(L"%s. %s - %s - %s", pliInfo->ptszTrack?pliInfo->ptszTrack:_T(""), pliInfo->ptszTitle?pliInfo->ptszTitle:_T(""), pliInfo->ptszArtist?pliInfo->ptszArtist:_T(""), pliInfo->ptszPlayer?pliInfo->ptszPlayer:_T(""));
 
 		mraSetStringExW(NULL, DBSETTING_BLOGSTATUSMUSIC, wszListeningTo);
 		MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, wszListeningTo, 0);
@@ -666,7 +666,7 @@ int CMraProto::MraMusicChanged(WPARAM wParam, LPARAM lParam)
 		// stopped
 		if (1 == lParam) {
 			delSetting(DBSETTING_BLOGSTATUSMUSIC);
-			MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, L"", 0);
+			MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, _T(""), 0);
 		}
 		break;
 
@@ -675,7 +675,7 @@ int CMraProto::MraMusicChanged(WPARAM wParam, LPARAM lParam)
 			SONGINFO *psiSongInfo;
 			if (WAT_RES_OK == CallService(MS_WAT_GETMUSICINFO, WAT_INF_UNICODE, (LPARAM)&psiSongInfo)) {
 				CMStringW wszMusic;
-				wszMusic.Format(L"%ld. %s - %s - %s", psiSongInfo->track, psiSongInfo->artist, psiSongInfo->title, psiSongInfo->player);
+				wszMusic.Format(_T("%ld. %s - %s - %s"), psiSongInfo->track, psiSongInfo->artist, psiSongInfo->title, psiSongInfo->player);
 				mraSetStringExW(NULL, DBSETTING_BLOGSTATUSMUSIC, wszMusic);
 				MraChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC, wszMusic, 0);
 			}
@@ -714,7 +714,7 @@ DWORD CMraProto::MraSetXStatusInternal(DWORD dwXStatus)
 	DWORD dwOldStatusMode = InterlockedExchange((volatile LONG*)&m_iXStatus, dwXStatus);
 	setByte(DBSETTING_XSTATUSID, (BYTE)dwXStatus);
 
-	MraSendNewStatus(m_iStatus, dwXStatus, L"", L"");
+	MraSendNewStatus(m_iStatus, dwXStatus, _T(""), _T(""));
 
 	return dwOldStatusMode;
 }
@@ -804,9 +804,9 @@ INT_PTR CMraProto::MraGetXStatusEx(WPARAM wParam, LPARAM lParam)
 				return 1;
 
 			if (pData->flags & CSSF_UNICODE)
-				lstrcpynW(pData->pwszName, lpcszXStatusNameDef[dwXStatus], (STATUS_TITLE_MAX+1));
+				lstrcpyn(pData->ptszName, lpcszXStatusNameDef[dwXStatus], (STATUS_TITLE_MAX+1));
 			else {
-				size_t dwStatusTitleSize = lstrlenW( lpcszXStatusNameDef[dwXStatus] );
+				size_t dwStatusTitleSize = lstrlen( lpcszXStatusNameDef[dwXStatus] );
 				if (dwStatusTitleSize>STATUS_TITLE_MAX) dwStatusTitleSize = STATUS_TITLE_MAX;
 
 				WideCharToMultiByte(MRA_CODE_PAGE, 0, lpcszXStatusNameDef[dwXStatus], (DWORD)dwStatusTitleSize, pData->pszName, MAX_PATH, NULL, NULL );
@@ -868,7 +868,7 @@ DWORD CMraProto::MraSendNewStatus(DWORD dwStatusMir, DWORD dwXStatusMir, const C
 			mir_snprintf(szValueName, SIZEOF(szValueName), "XStatus%ldName", dwXStatusMir);
 			// custom xstatus name
 			if ( !mraGetStringW(NULL, szValueName, wszStatusTitle))
-				wszStatusTitle = TranslateW(lpcszXStatusNameDef[dwXStatusMir]);
+				wszStatusTitle = TranslateTS(lpcszXStatusNameDef[dwXStatusMir]);
 		}
 		else wszStatusTitle = pwszStatusTitle;
 
