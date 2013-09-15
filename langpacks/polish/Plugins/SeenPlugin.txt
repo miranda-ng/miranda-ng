@@ -180,7 +180,7 @@ tabulator
 [line break]
 koniec linii
 [Note:]
-
+Uwaga:
 [Use]
 Użyj
 [for empty string]

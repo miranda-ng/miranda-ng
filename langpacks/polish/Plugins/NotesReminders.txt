@@ -9,57 +9,57 @@
 Notatki i przypomnienia.
 ;file \plugins\NotesAndReminders\res\resource.rc
 [Sticky Notes Options]
-
+Opcje Karteczek
 [Default Note Size]
-
+Domyślny rozmiar notatki
 [Width (Pixels)]
-
+Szerokość (w pikselach)
 [Height (Pixels)]
-
+Wysokość (w pikselach)
 [Notes Appearance]
-
+Wygląd Notatek
 [Show Scrollbars]
-
+Pokazuj Paski Przewijania
 [Show Buttons]
 Pokaż przycisk
 [Title Date]
-
+Tytuł Data
 [Title Time]
-
+Tytuł Czas
 [Startup options]
-
+Opcje Startu
 [Hide notes at startup]
-
+Ukryj notatki przy starcie
 [Add Contact list menu items]
 Dodaj elementy do listy kontaktów
 [(Requires Miranda restart)]
 Wymaga restartu Mirandy
 [Reminder options]
-
+Opcje Przypomnień
 [Add Reminder closes dialog]
-
+Dodanie przypomnienia zamyka okno
 [Use MCI to play alert sounds]
-
+Używaj MCI do odtwarzania dźwięków powiadomień
 [Note Transparency (Minimum Win 2k/XP)]
-
+Przezroczystość Notatki (minimum Windows 2000/XP)
 [Send Reminders through E-mail / SMS :]
-
+Wysyłaj przypomnienia przez E-mail / SMS
 [Open links with this program instead:]
 Otwórz link programem:
 [Reset to defaults]
 Ustaw domyślnie
 [(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
-
+(Używanie MCI pozwala na odtwarzanie jednocześnie wielu dźwięków, może to nie być potrzebne, ani pożądane, gdy zainstalowana jest wtyczka pozwalająca na indywidualne przypisywanie dźwięków.)
 [Add Reminder]
-
+Dodaj Przypomnienie
 [Trigger On Time && Date:]
-
+wywołaj o  czasie && dacie
 [Date]
 Data
 [Time]
 Pokaż czas
 [Reminder Note:]
-
+Notatka Do Przypomnienia:
 [None]
 Brak
 [Daily]
@@ -69,43 +69,43 @@ Tygodniowo
 [Monthly]
 Miesięczie
 [Repeat Alert Sound]
-
+Powtarzaj Dźwięk Powiadomienia
 [Use Sound]
 Użyj dźwięków
 [&Add Reminder]
-
+Dodaj Przypomnienie
 [&Close]
 Zamknij
 [&View Reminders]
-
+Zobacz Przypomnienia
 [reftime]
-
+Czas w sekundach
 [Reminder]
 Przypomnienie
 [After:]
 Po:
 [On Time && Date:]
-
+O czasie&& dacie
 [&Remind Again]
-
+Przypomnij Ponownie
 [&Create Note]
-
+Stwórz Notatkę
 [&Dismiss]
 Zwolnij
 [Reminders]
-
+Przypomnienia
 [Add New]
 Dodaj nowy
 [Edi&t Reminder]
-
+Edy&tuj Przypomnienie
 [New &Reminder]
 Nowe przypomnienie
 [&Delete Reminder]
 Usuń przypomnienie
 [D&elete All Reminders]
-
+U&suń Wszystkie Przypomnienia
 [Context Menu Note Popup]
-
+Popup Menu Kontekstowego Notatki
 [&Hide Note]
 Ukryj notatkę
 [&Always On Top]
@@ -127,9 +127,9 @@ Kolor tekstu
 [Font]
 Czcionka
 [Paste Title]
-
+Wklej Tytuł
 [Reset Title]
-
+Resetuj Tytuł
 [Undo]
 Przywróć
 [&Copy]
@@ -143,7 +143,7 @@ Wyczyść
 [&View Notes]
 Pokaż notatki
 [&Bring All To Front]
-
+&Pokaż Wszystkie Na Wierzchu
 [Edi&t Note]
 Edytuj notatkę
 [&Visible]
@@ -156,14 +156,14 @@ Usuń wszystkie notatki
 Pokaż/ukryj notatkę
 ;file \plugins\NotesAndReminders\src\globals.h
 [Notes & Reminders]
-
+Notatki I Przypomnienia
 ;file \plugins\NotesAndReminders\src\hotkeys.cpp
 [New Note]
 Nowa notatka
 [Toggle Notes Visibility]
-
+Przełącz Widoczność Notatek
 [Bring All Notes to Front]
-
+Pokaż Wszystkie Notatki Na Wierzchu
 [New Reminder]
 Nowe przypomnienie
 ;file \plugins\NotesAndReminders\src\main.cpp
@@ -176,43 +176,43 @@ Usuń wszystkie notatki
 [Show/Hide Notes]
 Pokaż/ukryj notatki
 [On Top Caption Icon]
-
+Ikona nagłówkowa Na Wierzchu
 [Delete All Reminders]
-
+Usuń Wszystkie Przypomnienia
 [View Reminders]
-
+Zobacz Przypomnienia
 [Not on Top Caption Icon]
-
+Ikona Nagłówkowa Nie Na Wierzchu
 [Hide Note Icon]
 Ukryj ikonę notatki
 [Remove Note Icon]
 Usuń ikonę notatki
 [Reminder Icon]
-
+Ikona Przypomnienia
 [Bring All to Front]
-
+Pokaż Wszystkie Na Wierzchu
 [Play Sound Icon]
-
+Ikona Odtwarzania Dźwięku
 [View Notes]
 Pokaż notatki
 [Sticky Notes]
-
+Karteczki
 [Plugins]
 Wtyczki
 [Add New Note]
 Dodaj nową notatkę
 [Add New Reminder]
-
+Dodaj Nowe Przypomnienie
 [Alerts]
 Alarmy
 [Reminder triggered]
-
+Przypomnienie Uruchomione
 [Reminder triggered (Alternative 1)]
-
+Przypomniennie Uruchomione (Alternatywa 1)
 [Reminder triggered (Alternative 2)]
-
+Przypomnienie Uruchomione (Alternatywa 2)
 [Notes && Reminders]
-
+Notatki I Przypomnienia
 [New &Note]
 Nowa notatka
 [Vie&w Notes]
@@ -220,42 +220,42 @@ Pokaż notatki
 [&Delete All Notes]
 Usuń wszystkie notatki
 [&Bring All to Front]
-
+Pokaż Wszystkie Na Wierzchu
 [Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-
+Miranda nie mogła załadować wtyczki Notes&& Reminders, brak pliku RICHED20.dll. Jeżeli używasz Windows95 lub WINE, upewnij się, że posiadasz zainstalowaną bibliotekę RICHED20.dll. Naciśnij "tak", aby kontynuować ładowanie Mirandy.
 ;file \plugins\NotesAndReminders\src\notes.cpp
 [Black]
 Czarny
 [Maroon]
-
+Kasztanowy
 [Green]
 Zielony
 [Olive]
-
+Oliwkowy
 [Navy]
-
+Morski
 [Purple]
-
+Purpura
 [Teal]
-
+niebieski z odcieniem zielonkawym
 [Gray]
-
+Szary
 [Silver]
-
+Srebrny
 [Red]
 Czerwony
 [Orange]
-
+Pomarańczowy
 [Lime]
-
+zielonkawo-żółty
 [Yellow]
 Żółty
 [Blue]
 Niebieski
 [Fuchsia]
-
+kolor fuksji
 [Aqua]
-
+jasno-zielono-niebieski
 [White]
 Biały
 [Are you sure you want to delete this note?]
@@ -263,20 +263,20 @@ Czy na pewno chcesz usunąć tą notatkę?
 [Notes]
 Notatki
 [Note text]
-
+Tekst notatki
 [Date/Title]
 Data/Tytuł
 ;file \plugins\NotesAndReminders\src\options.cpp
 [Sticky Note Caption]
-
+Opis Karteczki
 [Sticky Note Background Color]
-
+Kolor Tła Karteczki
 [Sticky Note Body]
-
+Treść Karteczki
 [Executable Files\0*.exe\0All Files\0*.*\0\0]
-
+Pliki Wykonywalne\0*.exe\0Wszystkie Pliki \0*.*\0\0
 [Select Executable]
-
+Wybierz plik wykonywalny
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [Minutes]
 Minuty
@@ -291,17 +291,17 @@ Dni
 [Week]
 Tydzień
 [The specified time is invalid due to begin of daylight saving (summer time).]
-
+Podany czas jest niepoprawny z powodu rozpoczęcia czasu letniego.
 [The specified time is invalid.]
-
+Podany czas jest niepoprawny.
 [The specified time offset is invalid.]
-
+Podana różnica czasu jest niepoprawna.
 [&Update Reminder]
 Aktualizuj przupomnienia
 [Every]
 Co
 [Seconds]
-
+Sekund
 [Never]
 Nigdy
 [Default]
@@ -311,8 +311,8 @@ Alternatywny 1
 [Alternative 2]
 Alternatywny 2
 [Reminder text]
-
+Tekst Przypomnienia
 [Date of activation]
-
+Data aktywacji
 [Are you sure you want to delete this reminder?]
 Czy na pewno chcesz usunąć to przypomnienie?

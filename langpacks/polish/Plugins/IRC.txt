@@ -157,7 +157,7 @@ Kanały na serwerze
 [&Join]
 Dołącz
 [Filter by]
-
+Filtruj według
 [C&onnect]
 &Połącz
 [&Save]
@@ -267,9 +267,9 @@ Wiadomości
 [Notices]
 Powiadomienia
 [CTCP]
-
+CTCP
 [DCC]
-
+DCC
 [Ignore mask ( nick!user@host )]
 Ignoruj maskę (nazwa!użytkownik@host)
 [Network (*)]
@@ -358,7 +358,7 @@ Funkcja sprawdzania obecności znajomych jest włączona
 [The buddy check function is disabled]
 Funkcja sprawdzania obecności znajomych jest wyłączona
 [Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
-
+Niewłaściwe parametry. Jak używać: /sleep [ms], ms powinno wynosić  więcej niż 0, a mniej niż 4000.
 [Ignore system is enabled]
 System ignorowania jest włączony
 [Ignore system is disabled]
@@ -397,7 +397,7 @@ Wpisz komendę
 Proszę wprowadzić odpowiedź
 ;file \protocols\IRCG\src\irclib.cpp
 [Failed to connect to]
-
+Nie udało się połączyć z
 [DCC ERROR: Unable to bind local port for passive filetransfer]
 BŁĄD DCC: Nie można przypisać lokalnego portu dla pasywnego transferu plików
 ;file \protocols\IRCG\src\ircproto.cpp
@@ -406,7 +406,7 @@ Połączenie %s
 [%s client-to-client connections]
 Połączenie Klient-do-Klienta %s
 [The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
-
+Protokół IRC zależy od innej wtyczki o nazwie "Chat"\n\nCzy chcesz pobrać ją ze strony Mirandy NG teraz?
 [Information]
 Informacje
 [Nickname]
@@ -449,7 +449,7 @@ Okno serwera
 [Show channel]
 Pokaż kanał
 [WhoIs]
-
+WhoIs
 [Incoming DCC Chat]
 Przychodzący czat DCC
 [Logo (48x48)]
@@ -523,9 +523,9 @@ Ignoruj maskę
 [Flags]
 Flagi
 [Add ignore]
-
+Dodaj ignorowanie
 [Edit ignore]
-
+Edytuj ignorowanie
 [Account]
 Konto
 [DCC'n CTCP]
@@ -581,47 +581,47 @@ Zmień ksywkę
 [Please enter a unique nickname]
 Proszę wpisać nową ksywkę
 [Please enter your authentification code]
-
+Proszę podać kod uwierzytelniający
 [Authentificate nick]
-
+Uwierzytelnij nick
 [Are you sure you want to unregister your current nick?]
 Czy na pewno chcesz wyrejestrować aktualny nick?
 [Delete nick]
 Usuń nick
 [Identify nick]
-
+Zidentyfikuj nick
 [Please enter your password]
-
+Proszę podać hasło
 [Please enter your new password]
 Proszę wpisać twoje nowe hasło.
 [Set new password]
-
+Ustaw nowe hasło
 [Please enter desired languageID (numeric value, depends on server)]
-
+Proszę podać żądane ID języka(wartość liczbowa, zależy od serwera)
 [Change language of NickServ messages]
-
+Zmień język wiadomości NickServ
 [Please enter URL that will be linked to your nick]
-
+Proszę wprowadzić adres, który zostanie powiązany z twoim nickiem
 [Set URL, linked to nick]
-
+Ustaw adres, powiązany z nickiem
 [Please enter your e-mail, that will be linked to your nick]
-
+Proszę podać adres e-mail, który będzie powiązany z twoim nickiem
 [Set e-mail, linked to nick]
-
+Ustaw e-mail, powiązany z nickiem
 [Please enter some information about your nick]
-
+Proszę podać informacje o swoim nicku
 [Set information for nick]
 Ustaw informacje dla nicku
 [Please enter nick you want to link to your current nick]
-
+Proszę podać nick, który chcesz powiązać ze swoim obecnym nickiem
 [Link another nick to current nick]
-
+Skojarz inny nick ze swoim obecnym
 [Please enter nick you want to unlink from your current nick]
-
+Proszę podać nick, który chcesz odłączyć od swojego obecnego
 [Unlink another nick from current nick]
-
+Odłącz inny nick od obecnego
 [Please enter nick you want to set as your main nick]
-
+Proszę podać nick, który chcesz ustawić jako główny
 [Set main nick]
 Ustaw główny nick
 [Kick]
@@ -633,13 +633,13 @@ Proszę wpisz nazwę kanału, do którego zaprosić
 [Invite to channel]
 Zaproś na kanał
 [NickServ]
-
+NickServ
 [Register nick]
-
+Zarejestruj nick
 [Auth nick]
-
+Autoryzuj nick
 [Remind password]
-
+Przypomnij hasło
 [Set language]
 Ustaw język
 [Set homepage]
@@ -649,29 +649,29 @@ Ustaw e-mail
 [Set info]
 Ustaw indormacje
 [Hide e-mail from info]
-
+Ukryj e-mail w informacjach
 [Show e-mail in info]
-
+Pokazuj e-mail w informacjach
 [Set security for nick]
-
+Ustaw zabezpieczenia nicka
 [Remove security for nick]
-
+Usuń zabezpieczenia z nicka
 [Link nick to current]
-
+Skojarz nick z obecnym
 [Unlink nick from current]
-
+Odłącz nick od obecnego
 [List all your nicks]
-
+Listuj wszystkie swoje nicki
 [List your channels]
-
+Listuj swoje kanały
 [Kill unauthorized: off]
-
+Zabij nieautoryzowane: wyłączone
 [Kill unauthorized: on]
-
+Zabij nieautoryzowane: włączone
 [Kill unauthorized: quick]
-
+Zabij nieautoryzowane: szybko
 [Hide nick from list]
-
+Ukryj nick na liście
 [Show nick to list]
 Pokaż nick na liście
 [Show the server &window]
@@ -683,11 +683,11 @@ Zaproś na kanału
 [Send &notice]
 Wyślij powiadomienie
 [&Slap]
-
+&Klepnij
 [Nickserv info]
-
+Informacje NickServ
 [Nickserv kill ghost]
-
+Nickserv zabij ducha
 [&Control]
 &Kontrola
 [Give Owner]
@@ -739,13 +739,13 @@ Połącz do
 Rozłączony
 ;file \protocols\IRCG\src\userinfo.cpp
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
-
+Szybciej! Przeszukuje sieć w poszukiwaniu tylko dokładnego dopasowania nicka. Maska hosta jest opcjonalna i zapewnia większe bezpieczeństwo, jeżeli jest używane. Znaki (? oraz *) są dozwolone.
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
-
+Wolniej! przeszukuje sieć w poszukiwaniu nicka pasującego do ciągu znaków. Maska hosta jes obowiązkowa, a w polu nick muszą zostać użyte przynajmniej 4 znaki. Znaki (? oraz *) są dozwolone.
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
-
+Ustawienia nie  mogły zostać zapisane!\n\nPole nick musi zawierać conajmniej 4 znaki, wliczając w to znaki specjalne,\noraz musi ono być zgodne z domyślnym nickiem tego kontaktu.
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
-
+Ustawienia nie mogły zostać zapisane!\n\nPełna maska hosta musi zostać podana, by ten tryb wykrywania dostępności mógł działać.
 ;file \protocols\IRCG\src\windows.cpp
 [Please wait...]
 Proszę czekać...
@@ -756,9 +756,9 @@ Tryb
 [%s - Filtered - %d items]
 %s - Wybrano - %d elementów
 [---- Not listed server ----]
-
+Serwer z poza listy
 [Type new server address here]
-
+Wprowadź nowy adres serwera tutaj
 [Add ban/invite/exception]
 Dodaj ban/zaproszenie/wyjątek
 [Edit selected ban/invite/exception]

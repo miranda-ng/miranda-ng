@@ -10,7 +10,7 @@ Szybkie szukanie
 [Global QuickSearch hotkey]
 Globalne skróty QuickSearch
 [Local QuickSearch hotkey]
-
+Lokalny skrót klawiszowy QuickSearch
 [Show Offline contacts]
 Pokaż Rozłączonych
 [New column]
@@ -38,27 +38,27 @@ Szybkie szukanie
 [Quick search]
 Szybkie szukanie
 [Search on:]
-
+Szukaj na:
 [Quick Search:]
-
+Szybkie Wyszukiwanie:
 [UID:]
 UID:
 [E-mail Address:]
 Adres e-mail:
 [MirandaV]
-
+MirandaV
 [Ext IP]
 IP
 [Last Event]
 Ostatnie zdarzenie
 [Online Since]
-
+Dostępny Od
 [Quick Search Options]
-
+Opcje Szybkiego Wyszukiwania
 [&New]
 Nowy
 [D&n]
-
+D&n
 [Setting:]
 Ustawienia:
 [De&fault]
@@ -120,7 +120,7 @@ UNIKALNYID
 [This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.]
 Pozwala szybko znaleźć kontakty z listy kontaktów poprzez nick, imię, e-mail, UIN, itp.
 [This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.Press F3 for activate...]
-
+Ta wtyczka pozwala Ci szybko wyszukać nick, imię, nazwisko, identyfikator lub adres E-mail na liście kontaktów, a teraz możesz dodać dowolne ustawienie, które ma być wyświetlane - na przykład wersja Mirandy, grupa lub miasto. Naciśnij F3, aby aktywować.
 [New Column]
 Nowa kolumna
 [Save Column]
@@ -142,9 +142,9 @@ Przycisk paska narzędzi
 [Tool Window Style]
 Styl okna narzędzi
 [Global scope hotkey]
-
+Globalny skrót klawiszowy
 [Miranda scope hotkey]
-
+Skrót klawiszowy Mirandy
 [CSV with headers]
 CSV z nagłówkami
 [Skip minimized columns]
@@ -156,11 +156,11 @@ Zapisz wzorzec szukania
 [QuickSearch error]
 Błąd SzybkiegoSzukania
 [Quick Search Mod]
-
+Quick Search Mod
 [Script]
 Skrypt
 [Int]
-
+wewn.
 [ContactInfo]
 O kontakcie
 [LastEvent]
@@ -168,7 +168,7 @@ Ostatnie zdarzenie
 [TimeStamp]
 Sygnatura czasu
 [Script Editor]
-
+Edytor Skryptów
 [Normal foreground]
 Normalne tło pierwszoplanowe
 [Odd background]
@@ -184,17 +184,17 @@ Usuń tło konta
 [Deleted account foreground]
 Usuń tło pierwszoplanowe konta
 [Not-in-list contact background]
-
+Tło kontaktu z poza listy
 [Not-in-list contact foreground]
-
+Pierwszy plan kontaktu z poza listy
 [C&onvert to Meta]
 Konwertuj do Meta
 [Some of selected contacts in different metacontacts already]
-
+Niektóre z wybranych kontaktów są już w różnych metakontaktach
 [Do you really want to delete selected contacts?]
 Czy na pewno chcesz usunąć zaznaczone kontakty?
 [One or more contacts in same Meta already. Try to convert anyway?]
-
+Jeden lub więcej kontaktów jest już w tym samym metakontakcie. Konwertować mimo to?
 [Metacontact background]
 Tło Metakontaktów
 [Metacontact foreground]
@@ -204,7 +204,7 @@ Tło submetakontaktów
 [SubMetacontact foreground]
 Tło pierwszoplanowe submetakontaktów
 [%u users found (%u) Online: %u]
-
+znaleziono %u użytkowników (%u) Dostępnych: %u
 [ users found (]
  znalezionych (
 [) Online: ]

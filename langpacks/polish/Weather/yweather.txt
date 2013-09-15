@@ -1,0 +1,102 @@
+﻿;============================================================
+;  File: yweather.ini
+;  Module: weather
+;============================================================
+[Feel]
+Uczucie
+[Forecast Day 1]
+Zapowiedź dzień 1
+[Forecast Day 1 Condition]
+Zapowiedź Dzień 1 Warunki
+[Forecast Day 1 Date]
+Zapowiedź Dzień 1 Data
+[Forecast Day 1 Day]
+Zapowiedź Dzień 1 Dzień
+[Forecast Day 1 High]
+Zapowiedź Dzień 1 wyż
+[Forecast Day 1 Low]
+Zapowiedź dzień 1 niż
+[Heat Index]
+Wskaźnik upałów
+[Wind Direction]
+Kierunek wiatru
+[Wind Speed]
+Prędkość wiatru
+[Wind Direction Degrees]
+Kierunek wiatru w stopniach
+[Mon]
+pon.
+[Tue]
+wt.
+[Wed]
+śr.
+[Thu]
+czw.
+[Fri]
+pt.
+[Sat]
+sob.
+[Sun]
+n.
+[Sunny]
+słonecznie
+[Partly Sunny]
+częściowo słonecznie
+[Mostly Sunny]
+przeważnie słonecznie
+[Partly Cloudy]
+częściowe zachmurzenie
+[Mostly Cloudy]
+przeważnie zachmurzenie
+[Mostly Clear]
+przeważnie bezchmurnie
+[N]
+pn.
+[W]
+zach.
+[S]
+pd.
+[E]
+wsch.
+[NW]
+pn. zach.
+[NE]
+pn. wsch.
+[SW]
+pd. zach.
+[SE]
+pd. wsch.
+[NNW]
+pn. pn. zach.
+[NNE]
+pn. pn. wsch.
+[SSW]
+pd. pd. zach.
+[SSE]
+pd. pd. wsch.
+[ENE]
+wsch. pn. wsch.
+[WSW]
+zach. pd. zach.
+[WNW]
+zach. pn. zach.
+[ESE]
+wsch. pd. wsch.
+[Scattered Clouds]
+rozproszone chmury
+[North]
+Północ
+[East]
+Wschód
+[South]
+Południe
+[West]
+Zachód
+[Northwest]
+Północny zachód
+[Northeast]
+Północny wschód
+[Southwest]
+Południowy zachód
+[Southeast]
+Południowy wschód

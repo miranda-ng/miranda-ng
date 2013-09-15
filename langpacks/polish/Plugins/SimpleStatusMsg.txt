@@ -119,41 +119,41 @@ Niezależne ustawienia dla każdego protokołu
 [Pop up dialog asking for status message]
 Pokazuj okno ustawiania opisu
 [Fortune]
-
+Fortuna
 [?cinfo(contact,property)]
-
+?cinfo(kontakt,wartość)
 [?contact(string,property)]
-
+?kontakt(ciąg,wartość)
 [?mstatus(protocol)]
-
+?mstatus(protokół)
 [?lsdate(contact,format)]
-
+?lsdata(kontakt,format)
 [?lsstatus(contact)]
-
+?lsstatus(kontakt)
 [?lstime(contact,format)]
-
+?lsczas(kontakt,format)
 [?dbsetting(contact,module,setting)]
-
+?ustawieniebazydanych(kontakt,moduł,ustawienie)
 [?txtfile(file,line)]
-
+?pliktxt(plik,linia)
 [?if(condition,true,false)]
-
+?jeśli(warunek,prwada,fałsz)
 [?strcmp(string1,string2)]
-
+?strcmp(ciąg1,ciąg2)
 [?stricmp(string1,string2)]
-
+?stricmp(ciąg1,ciąg2)
 [?cdate(format)]
-
+?cdata(format)
 [?ctime(format)]
-
+?cczas(format)
 [?replace(sub,string1,string2)]
-
+?zamień(sub,ciąg1,ciąg2)
 [?lower(string)]
-
+?mały(ciąg)
 [?upper(string)]
-
+?wielki(ciąg)
 [?scroll(string,numchars,numchars)]
-
+?przewiń(ciąg,liczbaznaków,liczbaznaków)
 [More variables...]
 Więcej zmiennych...
 [Cut]
@@ -197,11 +197,11 @@ Zmień opis...
 [External Applications]
 Aplikacje zewnętrzne
 [retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
-
+Pobiera tytuł piosenki obecnie granej w Winampie (kompatybilne z Simple Status Message)
 [Miranda Related]
 Spokrewnione z Mirandą
 [get the date (Simple Status Message compatible)]
-
+pobierz datę (kompatybilne z Simple Status Message)
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [<startup>]
 <startowy>

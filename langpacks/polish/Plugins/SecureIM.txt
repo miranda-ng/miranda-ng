@@ -17,7 +17,7 @@ Włącz bezpieczne transfery plików
 [Always show status icons in contact list]
 Zawsze pokazuj ikony statusu na liście kontaktów
 [Context Menu only for "Miranda" clients]
-
+Menu kontekstowe tylko dla klientów Mirandy
 [Status in Context Menu]
 Status w menu kontekstowym
 [Disable encryption for game plugins]
@@ -69,27 +69,27 @@ Eksportuj
 [&Import]
 Importuj
 [Set &keyrings...]
-
+Ustal &klucze.
 [Disable keyrings use]
-
+Wyłącz użycie kluczy
 [Load &Private key]
 Wczytaj klucz prywatny
 [Basic]
 Podstawowe
 [Executable:]
-
+Plik wykonywalny:
 [Home Directory:]
-
+Katalog Domowy:
 [Temp Dir:]
-
+Katalog Tymczasowy:
 [Key Assignment]
-
+Przypisanie Kluczy
 [Debug]
 Analizuj
 [Log to File]
 Zapisz do pliku
 [Save Pass]
-
+Zapisz Hasło
 [Back]
 Wstecz
 [Text]
@@ -125,7 +125,7 @@ Pokaż popup każdej bezpiecznej wysłanej wiadomości
 [Show a popup on each secure receive]
 Pokaż popup każdej bezpiecznej odebranej wiadomości
 [Please type in your password]
-
+Proszę wprowadzić hasło
 [Username:]
 Użytkownik:
 [Password:]
@@ -135,9 +135,9 @@ OK
 [Cancel]
 Anuluj
 [SecureIM plugin Passphrase of private key]
-
+Hasło prywatnego klucza wtyczki SecureIM
 [Enter passphrase for the secret key:]
-
+Wprowadź hasło tajnego klucza
 [Mode]
 Tryb
 [Native SecureIM]
@@ -151,21 +151,21 @@ RSA/AES SecureIM
 [Status]
 Status
 [Always Try to Establish Secure IM]
-
+Zawsze usiłuj nawiązać sesję Secure IM
 [Secure IM Enabled]
 Secure IM włączony
 [Secure IM Disabled]
 Secure IM wyłączony
 [Pre-shared key]
-
+przedwspółdzielony klucz
 [Set key]
 Ustaw klucz
 [Delete key]
 Usuń klucz
 [Set pre-shared key]
-
+Ustal klucz przedwspółdzielony
 [Delete pre-shared key]
-
+Usuń przedwspółdzielony klucz
 [Public key]
 Klucz publiczny
 [Export key]
@@ -173,11 +173,11 @@ Eksportuj klucz
 [Import key]
 Importuj klucz
 [Export public key]
-
+Eksportuj klucz publiczny
 [Import public key]
 Importuj klucz publiczny
 [Delete public key]
-
+Usuń klucz publiczny
 ;file \plugins\SecureIM\src\language.cpp
 [SecureIM established...]
 Ustawiono SecureIM...
@@ -361,7 +361,7 @@ Odebrana bezpieczna wiadomość
 [Sent Secured Message]
 Wysłana bezpieczna wiadomość
 [Menu State]
-
+Stan Menu
 [Always Try]
 Zawsze próbuj
 [Overlays]
@@ -389,7 +389,7 @@ Stauts SecureIM
 [Executable Files]
 Pliki wykonywalne
 [Select GnuPG Executable]
-
+Wybierz Plik Wykonywalny GnuPG
 [ASC files]
 Plik ASC
 [All files]
