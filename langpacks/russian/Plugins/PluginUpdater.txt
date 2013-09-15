@@ -24,8 +24,6 @@
 Ссылка для проверки обновлений не найдена.
 [Downloading version info...]
 Загрузка информации о версиях...
-[You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
-Вы отказались от немедленной установки обновления плагинов.\nВы можете установить это обновление вручную отсюда:\n\n%s
 [No files for update.]
 Нет файлов для обновления.
 [Update checking already started!]
@@ -46,8 +44,8 @@
 * Необходимы включённые действия вспл. окон
 [Not sets for "Message boxes"]
 Не устанавливает для "Диалоги"
-[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-Загрузка завершена. Приступить к обновлению? Все данные будут сохранены, а Miranda NG закрыта.
+[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit]
+Обновление завершено. Нажмите "Да" для немедленной перезагрузки программы или "Нет", чтобы отложить обновление до выхода.
 [Downloading update...]
 Загрузка обновления...
 [Boxes]
