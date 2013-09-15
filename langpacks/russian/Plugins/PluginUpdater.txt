@@ -44,7 +44,7 @@
 * Необходимы включённые действия вспл. окон
 [Not sets for "Message boxes"]
 Не устанавливает для "Диалоги"
-[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit]
+[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Обновление завершено. Нажмите "Да" для немедленной перезагрузки программы или "Нет", чтобы отложить обновление до выхода.
 [Downloading update...]
 Загрузка обновления...
