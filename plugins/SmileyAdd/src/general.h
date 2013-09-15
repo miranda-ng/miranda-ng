@@ -90,7 +90,7 @@ typedef WCMatcher _TMatcher;
 extern HINSTANCE g_hInst;
 extern char* metaProtoName;
 extern HANDLE hNetlibUser;
-extern HANDLE hEvent1, hLogger;
+extern HANDLE hEvent1;
 extern HGENMENU hContactMenuItem;
 extern SmileyCategoryListType g_SmileyCategories;
 extern SmileyPackListType g_SmileyPacks;
