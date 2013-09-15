@@ -258,7 +258,7 @@ static int ModulesLoaded(WPARAM,LPARAM)
 		(CallService(MS_HPP_GETVERSION, 0, 0) >= PLUGIN_MAKE_VERSION(1,5,0,112));
 	//check if MText plugin is installed
 	if (MText.Register) {
-		htuText		= MText.Register("Popup Plus/Text", MTEXT_FANCY_DEFAULT);
+		htuText = MText.Register("Popup Plus/Text", MTEXT_FANCY_DEFAULT);
 		htuTitle	= MText.Register("Popup Plus/Title",MTEXT_FANCY_DEFAULT);
 	}
 	else htuTitle = htuText = NULL;

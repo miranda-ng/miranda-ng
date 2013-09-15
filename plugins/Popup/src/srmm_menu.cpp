@@ -31,9 +31,77 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static HANDLE hDialogsList = NULL;
 
-static int SrmmMenu_ProcessEvent(WPARAM wParam, LPARAM lParam);
-static int SrmmMenu_ProcessIconClick(WPARAM wParam, LPARAM lParam);
+static void SrmmMenu_UpdateIcon(HANDLE hContact)
+{
+	if (!hContact)
+		return;
 
+	int mode = db_get_b(hContact, MODULNAME, "ShowMode", PU_SHOWMODE_AUTO);
+
+	StatusIconData sid = { sizeof(sid) };
+	sid.szModule = MODULNAME;
+
+	for (int i=0; i < 4; i++) {
+		sid.dwId = i;
+		sid.flags = (i == mode) ? 0 : MBF_HIDDEN;
+		Srmm_ModifyIcon(hContact, &sid);
+	}
+}
+
+static int SrmmMenu_ProcessEvent(WPARAM, LPARAM lParam)
+{
+	MessageWindowEventData *mwevent = (MessageWindowEventData *)lParam;
+
+	if (mwevent->uType == MSG_WINDOW_EVT_OPEN) {
+		if (!hDialogsList)
+			hDialogsList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+
+		WindowList_Add(hDialogsList, mwevent->hwndWindow, mwevent->hContact);
+		SrmmMenu_UpdateIcon(mwevent->hContact);
+	}
+	else if (mwevent->uType == MSG_WINDOW_EVT_CLOSING) {
+		if (hDialogsList)
+			WindowList_Remove(hDialogsList, mwevent->hwndWindow);
+	}
+
+	return 0;
+}
+
+static int SrmmMenu_ProcessIconClick(WPARAM wParam, LPARAM lParam)
+{
+	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
+	if (lstrcmpA(sicd->szModule, MODULNAME))
+		return 0;
+
+	HANDLE hContact = (HANDLE)wParam;
+	if (!hContact)
+		return 0;
+
+	int mode = db_get_b(hContact, MODULNAME, "ShowMode", PU_SHOWMODE_AUTO);
+
+	if (sicd->flags & MBCF_RIGHTBUTTON) {
+		HMENU hMenu = CreatePopupMenu();
+
+		AppendMenu(hMenu, MF_STRING, 1+PU_SHOWMODE_AUTO,       TranslateT("Auto"));
+		AppendMenu(hMenu, MF_STRING, 1+PU_SHOWMODE_FAVORITE,   TranslateT("Favourite"));
+		AppendMenu(hMenu, MF_STRING, 1+PU_SHOWMODE_FULLSCREEN, TranslateT("Ignore fullscreen"));
+		AppendMenu(hMenu, MF_STRING, 1+PU_SHOWMODE_BLOCK,      TranslateT("Block"));
+
+		CheckMenuItem(hMenu, 1+mode, MF_BYCOMMAND|MF_CHECKED);
+
+		mode = TrackPopupMenu(hMenu, TPM_RETURNCMD, sicd->clickLocation.x, sicd->clickLocation.y, 0, WindowList_Find(hDialogsList, hContact), NULL);
+		if (mode) {
+			db_set_b(hContact, MODULNAME, "ShowMode", mode-1);
+			SrmmMenu_UpdateIcon(hContact);
+		}
+	}
+	else {
+		db_set_b(hContact, MODULNAME, "ShowMode", (mode == PU_SHOWMODE_AUTO) ? PU_SHOWMODE_BLOCK : PU_SHOWMODE_AUTO);
+		SrmmMenu_UpdateIcon(hContact);
+	}
+
+	return 0;
+}
 
 void SrmmMenu_Load()
 {
@@ -62,77 +130,4 @@ void SrmmMenu_Load()
 	
 	HookEvent(ME_MSG_ICONPRESSED, SrmmMenu_ProcessIconClick);
 	HookEvent(ME_MSG_WINDOWEVENT, SrmmMenu_ProcessEvent);
-}
-
-static void SrmmMenu_UpdateIcon(HANDLE hContact)
-{
-	if (!hContact)
-		return;
-
-	int mode = db_get_b(hContact, MODULNAME, "ShowMode", PU_SHOWMODE_AUTO);
-
-	StatusIconData sid = { sizeof(sid) };
-	sid.szModule = MODULNAME;
-
-	for (int i=0; i < 4; ++i) {
-		sid.dwId = i;
-		sid.flags = (i == mode) ? 0 : MBF_HIDDEN;
-		Srmm_ModifyIcon(hContact, &sid);
-	}
-}
-
-static int SrmmMenu_ProcessEvent(WPARAM, LPARAM lParam)
-{
-	MessageWindowEventData *mwevent = (MessageWindowEventData *)lParam;
-
-	if (mwevent->uType == MSG_WINDOW_EVT_OPEN) {
-		if (!hDialogsList)
-			hDialogsList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
-
-		WindowList_Add(hDialogsList, mwevent->hwndWindow, mwevent->hContact);
-		SrmmMenu_UpdateIcon(mwevent->hContact);
-	}
-	else if (mwevent->uType == MSG_WINDOW_EVT_CLOSING)
-	{
-		if (hDialogsList)
-			WindowList_Remove(hDialogsList, mwevent->hwndWindow);
-	}
-
-	return 0;
-}
-
-static int SrmmMenu_ProcessIconClick(WPARAM wParam, LPARAM lParam)
-{
-	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
-	if (lstrcmpA(sicd->szModule, MODULNAME)) return 0;
-
-	HANDLE hContact = (HANDLE)wParam;
-	if (!hContact) return 0;
-
-	int mode = db_get_b(hContact, MODULNAME, "ShowMode", PU_SHOWMODE_AUTO);
-
-	if (sicd->flags & MBCF_RIGHTBUTTON) {
-		HMENU hMenu = CreatePopupMenu();
-
-		AppendMenu(hMenu, MF_STRING, 1+PU_SHOWMODE_AUTO,		TranslateT("Auto"));
-		AppendMenu(hMenu, MF_STRING, 1+PU_SHOWMODE_FAVORITE,	TranslateT("Favourite"));
-		AppendMenu(hMenu, MF_STRING, 1+PU_SHOWMODE_FULLSCREEN,	TranslateT("Ignore fullscreen"));
-		AppendMenu(hMenu, MF_STRING, 1+PU_SHOWMODE_BLOCK,		TranslateT("Block"));
-
-		CheckMenuItem(hMenu, 1+mode, MF_BYCOMMAND|MF_CHECKED);
-
-		mode = TrackPopupMenu(hMenu, TPM_RETURNCMD, sicd->clickLocation.x, sicd->clickLocation.y, 0, WindowList_Find(hDialogsList, hContact), NULL);
-		
-		if (mode)
-		{
-			db_set_b(hContact, MODULNAME, "ShowMode", mode-1);
-			SrmmMenu_UpdateIcon(hContact);
-		}
-	}
-	else {
-		db_set_b(hContact, MODULNAME, "ShowMode", (mode == PU_SHOWMODE_AUTO) ? PU_SHOWMODE_BLOCK : PU_SHOWMODE_AUTO);
-		SrmmMenu_UpdateIcon(hContact);
-	}
-
-	return 0;
 }
