@@ -46,7 +46,7 @@ static const FieldNames ZodiakField[] =
 	{6, 	LPGENT("Virgo")},
 	{7, 	LPGENT("Libra")},
 	{8, 	LPGENT("Scorpio")},
-	{9, 	LPGENT("Sagitarius")},
+	{9, 	LPGENT("Sagittarius")},
 	{10, 	LPGENT("Capricorn")},
 	{11, 	LPGENT("Aquarius")},
 	{12, 	LPGENT("Pisces")},
