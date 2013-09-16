@@ -33,7 +33,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SETTING_TOOLWINDOW_DEFAULT              1 //"CList","ToolWindow"
 #define SETTING_ONTOP_DEFAULT                   0 //"CList","OnTop"
 #define SETTING_MIN2TRAY_DEFAULT                1 //"CList","Min2Tray"
-#define SETTING_TRAY1CLICK_DEFAULT              1 //"CList","Tray1Click"
 #define SETTING_HIDEOFFLINE_DEFAULT             0 //"CList", "HideOffline"
 #define SETTING_HIDEEMPTYGROUPS_DEFAULT         0 //"CList","HideEmptyGroups"
 #define SETTING_USEGROUPS_DEFAULT               1 //"CList","UseGroups"

@@ -113,7 +113,6 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <ExceptionHandling>false</ExceptionHandling>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
     </ClCompile>
@@ -143,7 +142,6 @@
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <ExceptionHandling>false</ExceptionHandling>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
     </ClCompile>
@@ -173,7 +171,6 @@
       <StringPooling>true</StringPooling>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <ExceptionHandling>false</ExceptionHandling>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
     </ClCompile>
@@ -202,7 +199,6 @@
       <Optimization>Disabled</Optimization>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <ExceptionHandling>false</ExceptionHandling>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
     </ClCompile>

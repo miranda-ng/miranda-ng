@@ -14,11 +14,9 @@
 // Minimum ICMP packet size, in bytes
 #define ICMP_MIN 8
 
-#ifdef _MSC_VER
 // The following two structures need to be packed tightly, but unlike
 // Borland C++, Microsoft C++ does not do this by default.
 #pragma pack(1)
-#endif
 
 // The IP header
 struct IPHeader {
@@ -44,9 +42,7 @@ struct ICMPHeader {
     USHORT seq;
 };
 
-#ifdef _MSC_VER
 #pragma pack()
-#endif
 
 extern USHORT ip_checksum(USHORT* buffer, int size);
 

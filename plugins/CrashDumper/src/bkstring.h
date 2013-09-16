@@ -27,11 +27,7 @@ public:
 	typedef value_type* iterator;
 	typedef const value_type* const_iterator;
 
-#if defined(_MSC_VER) && _MSC_VER > 1200
 	static const size_type npos = size_type(-1);
-#else
-	enum { npos = -1 };
-#endif
 
 private:
 	value_type* buf;

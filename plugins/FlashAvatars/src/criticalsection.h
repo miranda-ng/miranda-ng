@@ -19,9 +19,7 @@
 #if !defined(CRITICAL_SECTION_H)
 #define CRITICAL_SECTION_H
 
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 class CriticalSection  
 {

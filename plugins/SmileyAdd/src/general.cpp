@@ -211,22 +211,18 @@ bool InitGdiPlus(void)
 	static const TCHAR errmsg[] = _T("GDI+ not installed.\n")
 		_T("GDI+ can be downloaded here: http://www.microsoft.com/downloads");
 
-#ifdef _MSC_VER
 	__try 
-#endif
 	{
 		if (g_gdiplusToken == 0 && !gdiPlusFail)
 		{
 			Gdiplus::GdiplusStartup(&g_gdiplusToken, &gdiplusStartupInput, NULL);
 		}
 	}
-#ifdef _MSC_VER
 	__except ( EXCEPTION_EXECUTE_HANDLER ) 
 	{
 		gdiPlusFail = true;
 		ReportError(errmsg);
 	}
-#endif
 
 	return !gdiPlusFail;
 }
@@ -236,13 +232,7 @@ void DestroyGdiPlus(void)
 	if (g_gdiplusToken != 0)
 	{
 		Gdiplus::GdiplusShutdown(g_gdiplusToken);
-#ifdef _MSC_VER
-#if 1200 < _MSC_VER  
 		__FUnloadDelayLoadedDLL2("gdiplus.dll");
-#else
-		__FUnloadDelayLoadedDLL("gdiplus.dll");
-#endif
-#endif
 		g_gdiplusToken = 0;
 	}
 }

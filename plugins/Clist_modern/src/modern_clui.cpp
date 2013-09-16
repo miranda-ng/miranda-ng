@@ -41,20 +41,18 @@ BOOL CALLBACK ProcessCLUIFrameInternalMsg(HWND hwnd, UINT msg, WPARAM wParam, LP
 void DestroyTrayMenu(HMENU hMenu);
 
 // new sources
-#ifdef _MSC_VER
 #include <crtdbg.h>
-#endif
 
 /* Global variables */
 
 UINT    g_dwMainThreadID = 0;
 HANDLE  g_hAwayMsgThread = 0, g_hGetTextAsyncThread = 0, g_hSmoothAnimationThread = 0;
-        
+
 HMENU   g_hMenuMain;
 BOOL    g_bTransparentFlag = FALSE;
 
-BOOL    g_mutex_bChangingMode = FALSE, g_mutex_bSizing = FALSE;        
-        
+BOOL    g_mutex_bChangingMode = FALSE, g_mutex_bSizing = FALSE;
+
 BOOL    g_flag_bOnModulesLoadedCalled = FALSE;
 
 RECT    g_rcEdgeSizingRect={0};
@@ -77,7 +75,7 @@ static BOOL mutex_bAnimationInProgress=FALSE,
             mutex_bDisableAutoUpdate=TRUE,
             mutex_bDuringSizing=FALSE,
             mutex_bDelayedSizing=FALSE;  //TBC is it need?
-            
+
 static BOOL flag_bFirstTimeCall=FALSE;
 
 static BOOL bTransparentFocus=TRUE,
@@ -92,7 +90,7 @@ static int nLastRequiredHeight=0,
            nRequiredHeight=0,
            nMirMenuState=0,
            nStatusMenuState=0;
- 
+
 static RECT rcNewWindowRect={0},
             rcOldWindowRect ={0},
             rcSizingRect={0},

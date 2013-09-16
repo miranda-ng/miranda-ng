@@ -32,13 +32,7 @@ void RemoveExceptionHandler(void)
 
 void UnloadDbgHlp(void)
 {
-#ifdef _MSC_VER
-#if _MSC_VER > 1200
 	__FUnloadDelayLoadedDLL2("dbghelp.dll");
-#else
-	__FUnloadDelayLoadedDLL("dbghelp.dll");
-#endif
-#endif
 }
 
 int myDebugFilter(unsigned int code, PEXCEPTION_POINTERS ep)
@@ -163,7 +157,6 @@ DWORD MirandaThreadFilter(DWORD code, EXCEPTION_POINTERS* info)
 	return threadfltr(code, info);
 }
 
-#if _MSC_VER >= 1400
 void InvalidParameterHandler(const wchar_t*, const wchar_t*, const wchar_t*, unsigned int, UINT_PTR)
 {
 	EXCEPTION_RECORD         ExceptionRecord = {0};
@@ -191,13 +184,10 @@ void InvalidParameterHandler(const wchar_t*, const wchar_t*, const wchar_t*, uns
 
 	myfilterWorker(&info, true);
 }
-#endif
 
 void InitExceptionHandler(void)
 {
-#if _MSC_VER >= 1400
 	_set_invalid_parameter_handler(InvalidParameterHandler);
-#endif
 	threadfltr = Miranda_SetExceptFilter(MirandaThreadFilter);
 	SetExceptionHandler();
 }

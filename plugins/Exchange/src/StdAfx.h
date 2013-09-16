@@ -6,10 +6,7 @@
 #if !defined(AFX_STDAFX_H__B170AF8E_BA64_4233_BF83_B4F0D1F3B775__INCLUDED_)
 #define AFX_STDAFX_H__B170AF8E_BA64_4233_BF83_B4F0D1F3B775__INCLUDED_
 
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
 
 // Insert your headers here
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers

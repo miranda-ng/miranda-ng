@@ -19,9 +19,7 @@
 #if !defined(TIGER_HASH_H)
 #define TIGER_HASH_H
 
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 typedef unsigned __int8 uint8_t;
 typedef unsigned __int32 uint32_t;

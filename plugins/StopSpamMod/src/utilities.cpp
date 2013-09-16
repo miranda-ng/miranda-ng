@@ -222,13 +222,7 @@ tstring GetContactUid(HANDLE hContact, tstring Protocol)
 				mir_free((void *)ci.pszVal);
 			break;
 			case CNFT_DWORD:
-#if defined(_MSC_VER) && _MSC_VER >= 1300
-
-		_itoa_s(ci.dVal,aUid,32,10);
-#else
-		_itoa(ci.dVal,aUid,10);
-
-#endif
+				_itoa_s(ci.dVal,aUid,32,10);
 				OemToChar(aUid, dUid);
 				Uid=dUid;
 			break;
