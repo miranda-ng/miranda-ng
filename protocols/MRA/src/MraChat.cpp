@@ -1,5 +1,4 @@
 #include "Mra.h"
-#include "MraChat.h"
 #include "proto.h"
 
 static LPWSTR lpwszStatuses[] = { L"Owners", L"Inviter", L"Visitors" };

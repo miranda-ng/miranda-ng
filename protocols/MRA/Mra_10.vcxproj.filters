@@ -86,9 +86,6 @@
     <ClInclude Include="src\MraAvatars.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\MraChat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\MraConstans.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -117,9 +114,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\MraSelectEMail.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\MraSendCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\MraSendQueue.h">

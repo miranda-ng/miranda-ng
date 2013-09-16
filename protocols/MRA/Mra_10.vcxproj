@@ -210,7 +210,6 @@
   <ItemGroup>
     <ClInclude Include="src\Mra.h" />
     <ClInclude Include="src\MraAvatars.h" />
-    <ClInclude Include="src\MraChat.h" />
     <ClInclude Include="src\MraConstans.h" />
     <ClInclude Include="src\MraFilesQueue.h" />
     <ClInclude Include="src\MraIcons.h" />
@@ -222,7 +221,6 @@
     <ClInclude Include="src\MraProto.h" />
     <ClInclude Include="src\MraRTFMsg.h" />
     <ClInclude Include="src\MraSelectEMail.h" />
-    <ClInclude Include="src\MraSendCommand.h" />
     <ClInclude Include="src\MraSendQueue.h" />
     <ClInclude Include="src\proto.h" />
     <ClInclude Include="src\resource.h" />

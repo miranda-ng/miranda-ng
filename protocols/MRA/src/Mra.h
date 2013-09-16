@@ -182,7 +182,6 @@ extern GUI_DISPLAY_ITEM gdiContactMenuItems[];
 extern GUI_DISPLAY_ITEM gdiExtraStatusIconsItems[];
 
 #include "proto.h"
-#include "MraSendCommand.h"
 #include "MraMRIMProxy.h"
 #include "MraSendQueue.h"
 #include "MraFilesQueue.h"
@@ -191,7 +190,6 @@ extern GUI_DISPLAY_ITEM gdiExtraStatusIconsItems[];
 #include "MraIcons.h"
 #include "MraSelectEMail.h"
 #include "MraMPop.h"
-#include "MraChat.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //	plugin options
