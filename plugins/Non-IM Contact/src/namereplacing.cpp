@@ -43,8 +43,8 @@ int findWordInString(const char* line, const char* string, int* lengthOfWord, in
 {
 	unsigned int i, j=0;
 	char word[64]="", OpenDivider[8], CloseDivider[8];
-	strcpy(OpenDivider, Translate("(\""));
-	strcpy(CloseDivider, Translate("\")"));
+	strncpy(OpenDivider, "(\"", sizeof(OpenDivider));
+	strncpy(CloseDivider, "\")", sizeof(CloseDivider));
 	/* get the word we r looking for */
 	if (!strncmp(string, OpenDivider, strlen(OpenDivider))) {
 		for (i=2; strncmp(&string[i], CloseDivider, strlen(CloseDivider)); i++) {
@@ -81,8 +81,8 @@ int findLine(char* FileContents[], const char* string, int linesInFile,int start
 	}
 
 	// lastline
-	if (!strncmp(&string[*positionInOldString], Translate("lastline("), strlen(Translate("lastline(")))) {
-		*positionInOldString += (int)strlen(Translate("lastline("));
+	if (!strncmp(&string[*positionInOldString], "lastline(", strlen("lastline("))) {
+		*positionInOldString += (int)strlen("lastline(");
 		i = getNumber(&string[*positionInOldString]);
 		if ( i != -1) {
 			*positionInOldString += (int)strlen(_itoa(i,tmp,10)); 
@@ -111,7 +111,7 @@ int findLine(char* FileContents[], const char* string, int linesInFile,int start
 			}
 			i = -1;
 		}
-		*positionInOldString += (int)(strlen(string2Find) + strlen(Translate("\"\")")));
+		*positionInOldString += (int)(strlen(string2Find) + strlen("\"\")"));
 		if (i==-1) return i;
 		// allow for a +- after the word to go up or down lines
 		if (string[*positionInOldString] == '+') {
@@ -170,10 +170,10 @@ int findChar(char* FileContents[], const char* string, int linesInFile,int start
 	}
 	
 	// csv(
-	if (!strncmp(&string[*positionInOldString], Translate("csv("), strlen(Translate("csv(")))) {
+	if (!strncmp(&string[*positionInOldString], "csv(", strlen("csv("))) {
 		char seperator;
 		int j=0, k=startChar;
-		*positionInOldString += (int)strlen(Translate("csv("));
+		*positionInOldString += (int)strlen("csv(");
 		if (!strncmp(&string[*positionInOldString], "tab", 3)) {
 			*positionInOldString += 3;
 			seperator = '\t';
@@ -206,10 +206,10 @@ void checkStringForcompare(char *str)
 	char *A,*B, *X, *Y , *newStr = (char*)malloc(strlen(str)), *copyOfStr = _strdup(str);
 	unsigned int i, j = 0, s = (int)strlen(str);
 	newStr[0] = '\0';
-	if (!strstr(str,Translate("compare(\""))) return;
+	if (!strstr(str,"compare(\"")) return;
 	for (i=0; i<s; i++) {
-		if (!strncmp(&str[i], Translate("compare(\""), strlen(Translate("compare(\"")))) {
-			i += (int)strlen(Translate("compare(\""));
+		if (!strncmp(&str[i], "compare(\"", strlen("compare(\""))) {
+			i += (int)strlen("compare(\"");
 			A = strtok(&copyOfStr[i], "\",\"");
 			B = strtok(NULL, "\",\"");
 			X = strtok(NULL, "\",\"");
@@ -237,10 +237,10 @@ void checkStringForSave(HANDLE hContact, char* str)
 	char *A,*B,*newStr = (char*)malloc(strlen(str)),*copyOfStr = _strdup(str);
 	unsigned int i, j=0, s = (int)strlen(str);
 	newStr[0] = '\0';
-	if (!strstr(str,Translate("save(\""))) return;
+	if (!strstr(str,"save(\"")) return;
 	for (i=0; i<s; i++) {
-		if (!strncmp(&str[i], Translate("save(\""), strlen(Translate("save(\"")))) {
-			i += (int)strlen(Translate("save(\""));
+		if (!strncmp(&str[i],"save(\"", strlen("save(\""))) {
+			i += (int)strlen("save(\"");
 			A = strtok(&copyOfStr[i], "\",\"");
 			B = strtok(NULL, ",\")");
 			j = B - &copyOfStr[i] + (int)strlen(B)+1;
@@ -263,10 +263,10 @@ void checkStringForLoad(HANDLE hContact, char* str)
 	char *A,*newStr = (char*)malloc(strlen(str)),*copyOfStr = _strdup(str);
 	unsigned int i, j=0, s = (int)strlen(str);
 	newStr[0] = '\0';
-	if (!strstr(str,Translate("load(\""))) return;
+	if (!strstr(str,"load(\"")) return;
 	for (i=0; i<s; i++) {
-		if (!strncmp(&str[i], Translate("load(\""), strlen(Translate("load(\"")))) {
-			i += (int)strlen(Translate("load(\""));
+		if (!strncmp(&str[i], "load(\"", strlen("load(\""))) {
+			i += (int)strlen("load(\"");
 			A = strtok(&copyOfStr[i], "\")");
 			j = A - &copyOfStr[i] + (int)strlen(A)+1;
 			if (A) {
@@ -292,10 +292,10 @@ void checkStringForSaveN(char* str)
 	char *A,*B,*C,*D,*newStr = (char*)malloc(strlen(str)),*copyOfStr = _strdup(str);
 	unsigned int i, j=0, s = (int)strlen(str);
 	newStr[0] = '\0';
-	if (!strstr(str,Translate("saveN(\""))) return;
+	if (!strstr(str,"saveN(\"")) return;
 	for (i=0; i<s; i++) {
-		if (!strncmp(&str[i], Translate("saveN(\""), strlen(Translate("saveN(\"")))) {
-			i += (int)strlen(Translate("saveN(\""));
+		if (!strncmp(&str[i], "saveN(\"", strlen("saveN(\""))) {
+			i += (int)strlen("saveN(\"");
 			A = strtok(&copyOfStr[i], "\",\"");
 			B = strtok(NULL, ",\"");
 			C = strtok(NULL, ",\"");
@@ -337,10 +337,10 @@ void checkStringForLoadN(char* str)
 	char *A,*B,*newStr = (char*)malloc(strlen(str)),*copyOfStr = _strdup(str), temp[32];
 	unsigned int i, j=0, s = (int)strlen(str);
 	newStr[0] = '\0';
-	if (!strstr(str,Translate("loadN(\""))) return;
+	if (!strstr(str,"loadN(\"")) return;
 	for (i=0; i<s; i++) {
-		if (!strncmp(&str[i], Translate("loadN(\""), strlen(Translate("loadN(\"")))) {
-			i += (int)strlen(Translate("loadN(\""));
+		if (!strncmp(&str[i], "loadN(\"", strlen("loadN(\""))) {
+			i += (int)strlen("loadN(\"");
 			A = strtok(&copyOfStr[i], "\",\"");
 			B = strtok(NULL, ",\")");
 			j = B - &copyOfStr[i] + (int)strlen(B)+1;
@@ -398,7 +398,7 @@ BOOL GetLastWriteTime(HANDLE hFile, LPSTR lpszString)
 // do lastchecked(file(X)) returns amount of chars to add to str pointer
 int lastChecked(char *newStr, const char *str)
 {
-	char *szPattern = Translate("lastchecked(file(");
+	char *szPattern = "lastchecked(file(";
 	size_t cbPattern = strlen(szPattern);
 
 	if (!strncmp(str, szPattern, cbPattern)) {
@@ -451,8 +451,8 @@ int stringReplacer(const char* oldString, char* newString, HANDLE hContact)
 	char *fileContents[MAXLINES] = {NULL}, tempString[MAX_STRING_LENGTH];
 
 	//	setup the variable names
-	strcpy(newString, "");
-	strcpy(var_file, Translate("file("));
+	strncpy(newString, "", sizeof(newString));
+	strncpy(var_file, "file(", sizeof(var_file));
 
 	while ((positionInOldString < (int)strlen(oldString)) && (oldString[positionInOldString] != '\0'))
 	{
@@ -475,9 +475,9 @@ int stringReplacer(const char* oldString, char* newString, HANDLE hContact)
 			positionInOldString += (int)strlen(_itoa(tempInt, tempString,10)) + 1; // +1 for the closing )
 
 			// wholeline()
-			if (!strncmp(&oldString[positionInOldString], Translate("wholeline(line("), strlen(Translate("wholeline(line("))))
+			if (!strncmp(&oldString[positionInOldString], "wholeline(line(", strlen("wholeline(line(")))
 			{
-				positionInOldString += (int)strlen(Translate("wholeline(line("));
+				positionInOldString += (int)strlen("wholeline(line(");
 				tempInt = findLine(fileContents,oldString, linesInFile, startLine,&positionInOldString);
 				if (tempInt == -1 || !fileContents[tempInt])
 					return ERROR_NO_LINE_AFTER_VAR_F;
@@ -485,9 +485,9 @@ int stringReplacer(const char* oldString, char* newString, HANDLE hContact)
 				positionInOldString += 3; // add 2 for the )) for wholeline(line())
 			}
 
-			if (!strncmp(&oldString[positionInOldString], Translate("start("), strlen(Translate("start("))))
+			if (!strncmp(&oldString[positionInOldString], "start(", strlen("start(")))
 			{
-				positionInOldString += (int)strlen(Translate("start(line("));
+				positionInOldString += (int)strlen("start(line(");
 				tempInt = findLine(fileContents,oldString, linesInFile, startLine,&positionInOldString);
 				if (tempInt == -1 || !fileContents[tempInt])
 					return ERROR_NO_LINE_AFTER_VAR_F;
@@ -504,9 +504,9 @@ int stringReplacer(const char* oldString, char* newString, HANDLE hContact)
 				}
 				positionInOldString += 2; // add 2 for the )) for start(line())
 			}
-			if (!strncmp(&oldString[positionInOldString], Translate("end("), strlen(Translate("end("))))
+			if (!strncmp(&oldString[positionInOldString], "end(", strlen("end(")))
 			{
-				positionInOldString += (int)strlen(Translate("end(line("));
+				positionInOldString += (int)strlen("end(line(");
 				tempInt = findLine(fileContents,oldString, linesInFile, startLine,&positionInOldString);
 				if (tempInt == -1 || !fileContents[tempInt])
 					return ERROR_NO_LINE_AFTER_VAR_F;
@@ -520,8 +520,8 @@ int stringReplacer(const char* oldString, char* newString, HANDLE hContact)
 				positionInOldString += 2; // add 2 for the )) for end(line())
 			}
 			// check for both start() and end() otherwise, only copying 1 line
-			if (!strstr(oldString, Translate("start("))) startLine = endLine;
-			if (!strstr(oldString, Translate("end("))) endLine = startLine;
+			if (!strstr(oldString, "start(")) startLine = endLine;
+			if (!strstr(oldString, "end(")) endLine = startLine;
 			// after all the options copy the line across and add 2 to positionInOldString for the file(print(....))
 			if (wholeLine >= 0) strcat(newString, fileContents[wholeLine]);
 			else
@@ -545,9 +545,9 @@ int stringReplacer(const char* oldString, char* newString, HANDLE hContact)
 			}
 		}
 		// filename()
-		else if (!strncmp(&oldString[positionInOldString], Translate("filename("), strlen(Translate("filename("))))
+		else if (!strncmp(&oldString[positionInOldString], "filename(", strlen("filename(")))
 		{
-			positionInOldString += (int)strlen(Translate("filename("));
+			positionInOldString += (int)strlen("filename(");
 			tempInt = getNumber(&oldString[positionInOldString]);
 			if (tempInt == -1)
 			{
@@ -563,7 +563,7 @@ int stringReplacer(const char* oldString, char* newString, HANDLE hContact)
 			}
 		}
 		// lastchecked(file(X))
-		else if (!strncmp(&oldString[positionInOldString], Translate("lastchecked(file("), strlen(Translate("lastchecked(file("))))
+		else if (!strncmp(&oldString[positionInOldString], "lastchecked(file(", strlen("lastchecked(file(")))
 		{
 			positionInOldString += lastChecked(newString, &oldString[positionInOldString]);
 		}
