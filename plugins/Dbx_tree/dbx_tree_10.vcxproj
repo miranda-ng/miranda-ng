@@ -212,9 +212,7 @@
     <ClInclude Include="src\lockfree_hashmultimap.h" />
     <ClInclude Include="src\Logger.h" />
     <ClInclude Include="src\MREWSync.h" />
-    <ClInclude Include="src\savestrings_gcc.h" />
     <ClInclude Include="src\sigslot.h" />
-    <ClInclude Include="src\stdint.h" />
     <ClInclude Include="src\Thread.h" />
     <ClInclude Include="src\TLS.h" />
     <ClInclude Include="src\Version.h" />

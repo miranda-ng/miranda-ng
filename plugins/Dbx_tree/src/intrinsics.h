@@ -1,9 +1,7 @@
 #pragma once
 
-#ifdef _MSC_VER
-
 #include <intrin.h>
-#include "stdint.h"
+#include <stdint.h>
 
 #ifdef _M_X64
 
@@ -397,11 +395,5 @@ inline uint32_t ROR_32(uint32_t Value, uint8_t Shift)
 #else
 
 #error unsupported architecture
-
-#endif
-
-#else
-
-#error unsupported compiler
 
 #endif

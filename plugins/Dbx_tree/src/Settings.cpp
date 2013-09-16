@@ -24,9 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Settings.h"
 #include <math.h> // floor function
 #include "Hash.h"
-#ifndef _MSC_VER
-#include "savestrings_gcc.h"
-#endif
 
 TDBTSettingHandle CSettingsTree::_FindSetting(const uint32_t Hash, const char * Name, const uint32_t Length)
 {

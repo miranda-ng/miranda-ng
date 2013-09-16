@@ -23,9 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Interface.h"
 #include "DataBase.h"
 #include "newpluginapi.h"
-#ifndef _MSC_VER
-#include "savestrings_gcc.h"
-#endif
 #include "Logger.h"
 
 CDataBase *gDataBase = NULL;

@@ -26,11 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "FileBTree.h"
 #include "MREWSync.h"
 #include <deque>
-#ifdef _MSC_VER
 #include <hash_set>
-#else
-#include <ext/hash_set>
-#endif
 
 #pragma pack(push, 1)  // push current alignment to stack, set alignment to 1 byte boundary
 
@@ -277,11 +273,7 @@ protected:
 		std::deque<TEntityIterationItem> * q;
 		std::deque<TEntityIterationItem> * parents;
 		std::deque<TEntityIterationItem> * accounts;
-		#ifdef _MSC_VER
-			stdext::hash_set<TDBTEntityHandle> * returned;
-		#else
-			__gnu_cxx::hash_set<TDBTEntityHandle> * returned;
-		#endif
+		stdext::hash_set<TDBTEntityHandle> * returned;
 	} TEntityIteration, *PEntityIteration;
 
 	TDBTEntityHandle m_RootEntity;

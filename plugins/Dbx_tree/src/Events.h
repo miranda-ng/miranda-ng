@@ -33,13 +33,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "EncryptionManager.h"
 #include "sigslot.h"
 
-#ifdef _MSC_VER
 #include <hash_map>
 #include <hash_set>
-#else
-#include <ext/hash_map>
-#include <ext/hash_set>
-#endif
 #include <queue>
 #include <time.h>
 #include <windows.h>
@@ -171,11 +166,7 @@ private:
 		char *   ModuleName;
 		uint32_t EventType;
 	} TEventType, *PEventType;
-	#ifdef _MSC_VER
 	typedef stdext::hash_map<uint32_t, PEventType> TTypeMap;
-	#else
-    typedef __gnu_cxx::hash_map<uint32_t, PEventType> TTypeMap;
-	#endif
 
 	CEntities & m_Entities;
 	CSettings & m_Settings;
@@ -228,12 +219,8 @@ private:
 		uint32_t VirtualCount;
 		TEventKey FirstVirtualUnread;
 	} TEntityEventsRecord, *PEntityEventsRecord;
-	#ifdef _MSC_VER
-		typedef stdext::hash_map<TDBTEntityHandle, TEntityEventsRecord*> TEntityEventsMap;
-	#else
-		typedef __gnu_cxx::hash_map<TDBTEntityHandle, TEntityEventsRecord*> TEntityEventsMap;
-  #endif
-  typedef CIterationHeap<TEventBase::iterator> TEventsHeap;
+	typedef stdext::hash_map<TDBTEntityHandle, TEntityEventsRecord*> TEntityEventsMap;
+	typedef CIterationHeap<TEventBase::iterator> TEventsHeap;
 
 	CBlockManager & m_BlockManager;
 	CEncryptionManager & m_EncryptionManager;

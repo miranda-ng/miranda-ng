@@ -22,10 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "Interface.h"
 #include "Events.h"
-#ifndef _MSC_VER
-#include "savestrings_gcc.h"
-#endif
-
 
 CEventsTypeManager::CEventsTypeManager(CEntities & Entities, CSettings & Settings)
 :	m_Entities(Entities),

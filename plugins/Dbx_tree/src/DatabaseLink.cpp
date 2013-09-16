@@ -22,10 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "Interface.h"
 #include "DatabaseLink.h"
-#ifndef _MSC_VER
-#include "savestrings_gcc.h"
-#endif
-
 
 /*
 	profile: pointer to a string which contains full path + name

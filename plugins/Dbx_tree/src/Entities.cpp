@@ -675,11 +675,7 @@ TDBTEntityIterationHandle CEntities::IterationInit(const TDBTEntityIterFilter & 
 	iter->q = new std::deque<TEntityIterationItem>;
 	iter->parents = new std::deque<TEntityIterationItem>;
 	iter->accounts = new std::deque<TEntityIterationItem>;
-	#ifdef _MSC_VER
-		iter->returned = new stdext::hash_set<TDBTEntityHandle>;
-	#else
-		iter->returned = new __gnu_cxx::hash_set<TDBTEntityHandle>;
-	#endif
+	iter->returned = new stdext::hash_set<TDBTEntityHandle>;
 	iter->returned->insert(hParent);
 
 	TEntityIterationItem it;

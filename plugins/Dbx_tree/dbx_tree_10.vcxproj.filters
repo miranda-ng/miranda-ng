@@ -117,13 +117,7 @@
     <ClInclude Include="src\MREWSync.h">
       <Filter>Utils\HeaderFiles</Filter>
     </ClInclude>
-    <ClInclude Include="src\savestrings_gcc.h">
-      <Filter>Utils\HeaderFiles</Filter>
-    </ClInclude>
     <ClInclude Include="src\sigslot.h">
-      <Filter>Utils\HeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="src\stdint.h">
       <Filter>Utils\HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="src\Thread.h">

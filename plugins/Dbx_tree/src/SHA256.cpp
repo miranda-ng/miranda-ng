@@ -30,11 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 #define SHA_LOOPUNROLL
 
-#ifndef _MSC_VER
-	#define rotr(x,n) (((x)>>(n))|((x)<<(32-(n))))
-#else
-	#define rotr(x,n) _lrotr(x,n)
-#endif
+#define rotr(x,n) _lrotr(x,n)
 
 
 // table of round constants

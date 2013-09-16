@@ -23,10 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Interface.h"
 #include "FileAccess.h"
 #include <vector>
-#ifndef _MSC_VER
-#include "savestrings_gcc.h"
-#define _time32 time
-#endif
 #include "Logger.h"
 
 const uint8_t CFileAccess::cJournalSignature[20] = "Miranda IM Journal!";

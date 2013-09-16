@@ -20,10 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#ifndef _MSC_VER
 #include <stdint.h>
-#else
-#include "stdint.h"
-#endif
 
 uint32_t Hash(const void * Data, uint32_t Length);

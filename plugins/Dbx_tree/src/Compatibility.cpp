@@ -27,9 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_database.h"
 #include "m_db_int.h"
 #undef DB_NOHELPERFUNCTIONS
-#ifndef _MSC_VER
-#include "savestrings_gcc.h"
-#endif
 
 HANDLE gEvents[6] = {0,0,0,0,0,0};
 

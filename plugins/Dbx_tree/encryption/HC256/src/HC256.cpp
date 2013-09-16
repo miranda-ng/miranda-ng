@@ -24,11 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdlib.h>
 #include <string.h>
 
-#ifndef _MSC_VER
-	#define rotr(x,n) (((x)>>(n))|((x)<<(32-(n))))
-#else
-	#define rotr(x,n) _lrotr(x,n)
-#endif
+#define rotr(x,n) _lrotr(x,n)
 
 #define h1(x,y) { \
 	uint8_t a,b,c,d; \

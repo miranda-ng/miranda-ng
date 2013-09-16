@@ -25,23 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stack>
 #include "lockfree_hashmultimap.h"
 #include "sigslot.h"
-#ifdef _MSC_VER
-#include "stdint.h"
-#else
 #include <stdint.h>
-#endif
 
 #include "Logger.h"
-
-#ifndef _MSC_VER
-#ifdef offsetof
-#undef offsetof
-#endif
-#define offsetof(TYPE, MEMBER)                  \
-  ( (reinterpret_cast <size_t>                  \
-    (&reinterpret_cast <const volatile char &>  \
-    (static_cast<TYPE *> (0)->MEMBER))))
-#endif
 
 template <typename TKey, uint16_t SizeParam = 4>
 class CBTree
