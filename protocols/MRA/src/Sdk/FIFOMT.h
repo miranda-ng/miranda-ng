@@ -30,10 +30,7 @@
 #if !defined(AFX_FIFO_MT__H__INCLUDED_)
 #define AFX_FIFO_MT__H__INCLUDED_
 
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
 
 #include "Sdk/ListMT.h"
 #include "Sdk/InterlockedFunctions.h"

@@ -49,9 +49,7 @@
 #include <list>
 
 #ifndef _DEBUG
-#ifdef _MSC_VER
-	#include <crtdbg.h>
-#endif
+#include <crtdbg.h>
 #endif
 
 #ifndef AW_VER_POSITIVE

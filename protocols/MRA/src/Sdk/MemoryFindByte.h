@@ -30,11 +30,7 @@
 #if !defined(AFX_MEMORYFINDBYTE__H__INCLUDED_)
 #define AFX_MEMORYFINDBYTE__H__INCLUDED_
 
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
-
 
 __inline void *MemoryFindByte(size_t dwFrom,const void *pBuff,size_t dwBuffSize,unsigned char chWhatFind)
 {

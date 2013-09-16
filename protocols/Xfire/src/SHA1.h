@@ -30,9 +30,7 @@
 #include <string.h> // Needed for strcat and strcpy
 #include <iostream>
 
-#ifdef _MSC_VER
 #include <stdlib.h>
-#endif
 
 // If you're compiling big endian, just comment out the following line
 #define SHA1_LITTLE_ENDIAN
@@ -46,22 +44,9 @@
 
 #ifndef UINT_32
 
-#ifdef _MSC_VER
-
 #define UINT_8  unsigned __int8
 #define UINT_32 unsigned __int32
 
-#else
-
-#define UINT_8 unsigned char
-
-#if (ULONG_MAX == 0xFFFFFFFF)
-#define UINT_32 unsigned long
-#else
-#define UINT_32 unsigned int
-#endif
-
-#endif
 #endif
 
 

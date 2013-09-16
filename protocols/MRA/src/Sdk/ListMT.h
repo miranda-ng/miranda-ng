@@ -30,21 +30,12 @@
 #if !defined(AFX_LIST_MT__H__INCLUDED_)
 #define AFX_LIST_MT__H__INCLUDED_
 
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
 
 #include "Sdk/InterlockedFunctions.h"
 
-#if defined(_MSC_VER)
-#if _MSC_VER >= 800
-#if _MSC_VER >= 1200
 #pragma warning(push)
-#endif
 #pragma warning(disable:4312) // warning C4312: 'type cast' : conversion from 'LONG' to 'PVOID' of greater size
-#endif
-#endif
 
 
 // структура дл€ работы со списком, элемент списка
@@ -252,18 +243,7 @@ __inline DWORD ListMTIteratorGet(PCLIST_MT_ITERATOR pclmtiIterator,PLIST_MT_ITEM
 return(dwRetErrorCode);
 }
 
-
-
-#if defined(_MSC_VER)
-#if _MSC_VER >= 800
-#if _MSC_VER >= 1200
 #pragma warning(pop)
-#else
 #pragma warning(default:4312) // warning C4312: 'type cast' : conversion from 'LONG' to 'PVOID' of greater size
-#endif
-#endif
-#endif
-
-
 
 #endif // !defined(AFX_LIST_MT__H__INCLUDED_)

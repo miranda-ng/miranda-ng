@@ -37,11 +37,7 @@
 // Windows headers
 // Visual C++ .NET tries to include winsock.h
 // which is very ver bad
-#if (_MSC_VER >= 1300)
 #include <winsock2.h>
-#else
-#include <windows.h>
-#endif
 #include <commctrl.h>
 #include <commdlg.h>
 
@@ -85,11 +81,7 @@
 #include "m_folders.h"
 
 // Visual C++ extras
-#ifdef _MSC_VER
 #define GGINLINE
-#else
-#define GGINLINE inline
-#endif
 
 // Plugin headers
 #include "resource.h"
@@ -300,13 +292,11 @@ struct GGGETAVATARDATA
 #define GG_POPUP_MULTILOGON		16
 
 // Some MSVC compatibility with gcc
-#ifdef _MSC_VER
 #ifndef strcasecmp
 #define strcasecmp _strcmpi
 #endif
 #ifndef strncasecmp
 #define strncasecmp _strnicmp
-#endif
 #endif
 
 // Global variables

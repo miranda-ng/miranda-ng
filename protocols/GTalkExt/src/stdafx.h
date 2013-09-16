@@ -64,9 +64,4 @@
 #include <win2k.h>
 #pragma warning(pop)
 
-#if _MSC_VER < 1400
-	#define _tstoi64 _ttoi
-	#define _tcstoui64(A,B,C) _ttoi(A)
-#endif
-
 extern HINSTANCE g_hInst;

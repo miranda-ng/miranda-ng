@@ -30,11 +30,7 @@
 #define AFX_MEMORYFIND__H__INCLUDED_
 
 
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
-
 
 __inline void *MemoryFind(size_t dwFrom,const void *pBuff,size_t dwBuffSize,const void *pWhatFind,size_t dwWhatFindSize)
 {

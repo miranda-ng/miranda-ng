@@ -25,9 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _JABBER_H_
 #define _JABBER_H_
 
-#ifdef _MSC_VER
-	#pragma warning(disable:4706 4121 4127)
-#endif
+#pragma warning(disable:4706 4121 4127)
 
 #define LISTFOREACH(var__, obj__, list__)	\
 	for (int var__ = 0; (var__ = obj__->ListFindNext(list__, var__)) >= 0; ++var__)

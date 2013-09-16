@@ -18,9 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "aim.h"
 
-#ifdef _MSC_VER
-	#pragma warning( disable: 4706 )
-#endif
+#pragma warning( disable: 4706 )
 
 char* process_status_msg (const char *str, const char* sn)
 {
@@ -901,6 +899,4 @@ aimString::aimString(char* str)
 	}
 }
 
-#ifdef _MSC_VER
-	#pragma warning( default: 4706 )
-#endif
+#pragma warning( default: 4706 )

@@ -29,10 +29,7 @@
 #if !defined(AFX_BUFFTOLOWERCASE__H__INCLUDED_)
 #define AFX_BUFFTOLOWERCASE__H__INCLUDED_
 
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
 
 
 __inline BOOL BuffToLowerCase(LPCVOID lpcOutBuff,LPCVOID lpcBuff,size_t dwLen)

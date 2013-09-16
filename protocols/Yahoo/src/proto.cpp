@@ -22,9 +22,7 @@
 #include "resource.h"
 #include "file_transfer.h"
 
-#ifdef _MSC_VER
-	#pragma warning(disable:4355)
-#endif
+#pragma warning(disable:4355)
 
 CYahooProto::CYahooProto( const char* aProtoName, const TCHAR* aUserName ) :
 	PROTO<CYahooProto>(aProtoName, aUserName),

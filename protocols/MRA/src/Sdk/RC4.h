@@ -30,11 +30,7 @@
 #if !defined(AFX_RC4__H__INCLUDED_)
 #define AFX_RC4__H__INCLUDED_
 
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
-
 
 __inline void RC4(LPBYTE lpBuff,size_t dwBuffSize,LPBYTE lpKey,size_t dwKeySize)
 {// RC4

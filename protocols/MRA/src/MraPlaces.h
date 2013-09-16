@@ -2,10 +2,7 @@
 #define AFX_MRA_PLACES_H__INCLUDED_
 
 
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
 
 #define lpwszOther TEXT("Другое")
 //static LPWSTR lpwszOther = TEXT("Другое");

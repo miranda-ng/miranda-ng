@@ -30,12 +30,7 @@
 #if !defined(AFX_STRHEXTONUM__H__INCLUDED_)
 #define AFX_STRHEXTONUM__H__INCLUDED_
 
-
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
 
 __inline DWORD StrHexToUNum32(LPCSTR lpcszString,size_t dwStringLen)
 {
