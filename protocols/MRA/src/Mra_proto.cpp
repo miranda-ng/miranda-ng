@@ -1008,10 +1008,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 					}
 					else if (fld == "Domain") { // имя было уже задано ранее
 						buf >> val;
-						if (dwFlags & MRIM_CS_WP_REQUEST_PARAM_DOMAIN)
-							wcsncpy_s(szEmail, _A2T(val + "@" + mralpsUsernameValue), SIZEOF(szEmail));
-						else
-							wcsncpy_s(szEmail, _A2T(mralpsUsernameValue + "@" + val), SIZEOF(szEmail));
+						wcsncpy_s(szEmail, _A2T(mralpsUsernameValue + "@" + val), SIZEOF(szEmail));
 					}
 					else if (fld == "Nickname") {
 						buf >> valW; 
