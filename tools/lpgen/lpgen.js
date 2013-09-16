@@ -437,17 +437,19 @@ function ParseSourceFile (FileTextVar,array) {
  //not store ?: functions LPGEN or LPGENT? or Translate(T or W) or _T, than any unnecessary space \s, than not stored ?: "(" followed by ' or " (stored and used as \1) than \S\s - magic with multiline capture, ending with not stored ?= \1 (we get " or ' after "("), than none or few spaces \x20 followed by )/m=multiline g=global
  //var find= /(?:LPGENT?|Translate[TW]?|_T)(?:\s*?\(\s*?L?\s*)(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
  //comment previous line and uncomment following line to output templates without _T() function in source files. Too many garbage from _T()..
- var find= /(?:LPGEN[TW]?|Translate[TW]?)(?:\s*?\(\s*?L?\s*)(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
+ var find= /(?:LPGEN[TW]?|Translate[TW]?)(?:\s*?\(\s*?L?\s*)("[^"\\]*(?:\\[\S\s][^"\\]*)*")(?:\s*?,?\s*?(?:tmp)?\))/mg;
  //now make a job, till end of matching regexp
  while ((string = find.exec(FileTextVar)) != null) {
     //first, init empty var
     var string;
     //replace newlines with "" in second [1] subregexp ([\S\s]*?), and Delphi newlines "'#13#10+" replace 
-    onestring=string[2].replace(/'?(\#13\#10)*?\\?\r\n(\x20*?\')?/g,"");
+    onestring=string[1].replace(/'?(\#13\#10)*?\\?\r\n(\x20*?\')?/g,"");
 	//remove trailing slash from the string. This is a tree item, slesh is a crap :)
 	noslashstring=onestring.replace(/\/(?=$)/g,"");
+	//remove first and last "
+	nofirstlaststring=noslashstring.slice(1, -1)
     //remove escape slashes before ' and "
-    stringtolangpack=noslashstring.replace(/\\(['"])/g,"$1");
+    stringtolangpack=nofirstlaststring.replace(/\\(['"])/g,"$1");
     //if our string still exist, and length more than 1 symbol (nothing to translate if only one symbol)
     if (stringtolangpack.length>1) {
         //brand new _T() crap filtering engine :)
