@@ -788,7 +788,7 @@ void FILEECHO::perform(char *str)
 	int msgId = getMsgId(str);
 	if(msgId == -1)
 	{
-		MakePopupMsg(hDlg, hContact, Translate("Unknown command for \"" SERVICE_TITLE "\" was received"));
+		MakePopupMsg(hDlg, hContact, Translate("Unknown command for \"File As Message\" was received"));
 		return;
 	}
 	if(inSend)
