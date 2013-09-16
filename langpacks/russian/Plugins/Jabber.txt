@@ -273,6 +273,8 @@ TLS
 Конвертировать в контакт
 [Jabber Resource]
 Ресурс
+[Last Active]
+Последний активный
 [Last active (%s)]
 Последний активный (%s)
 [Server's Choice]
