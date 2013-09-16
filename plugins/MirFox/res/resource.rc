@@ -79,7 +79,7 @@ BEGIN
     LTEXT           "on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)",IDC1_LABEL4,48,108,234,30
     COMBOBOX        IDC1_COMBO3,48,132,235,15,CBS_DROPDOWNLIST | WS_TABSTOP
     GROUPBOX        "",IDC1_STATIC_G2,17,162,275,55
-    CONTROL         "Show Miranda menu only in this firefox profiles (comma delimeted)",IDC1_CHECK1,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,27,171,259,20
+    CONTROL         "Show Miranda menu only in this firefox profiles (comma delimited)",IDC1_CHECK1,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,27,171,259,20
     EDITTEXT        IDC1_EDIT1,41,195,242,14,ES_AUTOHSCROLL
     GROUPBOX        "",IDC1_STATIC_G3,19,218,273,10,NOT WS_VISIBLE
 END
@@ -88,7 +88,7 @@ IDD_OPT2 DIALOGEX 0, 0, 310, 230
 STYLE DS_SETFONT | WS_POPUP
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
-    LTEXT           "Show this contacts in 'Send ... to' option in Firefox",IDC2_LABEL1,4,5,301,19
+    LTEXT           "Show these contacts in 'Send ... to' option in Firefox",IDC2_LABEL1,4,5,301,19
     CONTROL         "",IDC2_CONTACTS_LIST,"CListControl",WS_TABSTOP | 0x1d2,4,25,302,201,WS_EX_CLIENTEDGE
 END
 
@@ -97,7 +97,7 @@ STYLE DS_SETFONT | WS_POPUP
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     GROUPBOX        "",IDC3_STATIC_G1,17,18,275,180
-    LTEXT           "Show this accounts in 'Set status message' option in Firefox",IDC3_LABEL1,23,31,261,19
+    LTEXT           "Show these accounts in 'Set status message' option in Firefox",IDC3_LABEL1,23,31,261,19
     CONTROL         "",IDC3_PROTOCOLS_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SORTASCENDING | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,61,52,183,126
 END
 

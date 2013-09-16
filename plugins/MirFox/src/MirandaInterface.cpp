@@ -3,9 +3,6 @@
 #include "mirandaInterface.h"
 
 
-
-
-
 //Miranda - handle from DllMain
 HINSTANCE hInst;
 
@@ -19,13 +16,8 @@ HANDLE hProtoAck;
 HANDLE hPopupNotify;
 HANDLE hPopupError;
 
-
-
-
 //main add-on's object
 CMirfoxMiranda mirfoxMiranda;
-
-
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -47,8 +39,6 @@ extern "C" BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpv
 	return TRUE;
 }
 
-
-int lowVersionUserAnswer = -1;
 
 extern "C" __declspec (dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion) {
 	return &pluginInfo;

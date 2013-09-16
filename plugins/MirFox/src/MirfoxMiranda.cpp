@@ -109,7 +109,7 @@ void CMirfoxMiranda::initializeSharedMemoryData(MirfoxData& mirfoxData, SharedMe
 			MessageBox(NULL, TranslateT("This MirFox (Miranda) plugin is too old. Please update it."), TranslateT("MirFox (Miranda) - Error"), MB_OK | MB_ICONWARNING );
 		}
 		if (result.errorCode == -4){  //existing csm version is too low -> sb is too old
-			MessageBox(NULL, TranslateT("This MirFox (Miranda) plugin can not start beacouse some other MirFox component is too old. Please, check and update your MirFox components."), TranslateT("MirFox (Miranda) - Error"), MB_OK | MB_ICONWARNING );
+			MessageBox(NULL, TranslateT("This MirFox (Miranda) plugin can not start because some other MirFox component is too old. Please, check and update your MirFox components."), TranslateT("MirFox (Miranda) - Error"), MB_OK | MB_ICONWARNING );
 		}
 		mirfoxData.setPluginState(MFENUM_PLUGIN_STATE_ERROR);
 		return;
