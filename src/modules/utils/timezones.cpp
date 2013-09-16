@@ -27,20 +27,6 @@ simple UTC offsets.
 
 TIME_API tmi;
 
-#if _MSC_VER < 1500
-	typedef struct _TIME_DYNAMIC_ZONE_INFORMATION_T {
-		LONG Bias;
-		WCHAR StandardName[ 32 ];
-		SYSTEMTIME StandardDate;
-		LONG StandardBias;
-		WCHAR DaylightName[ 32 ];
-		SYSTEMTIME DaylightDate;
-		LONG DaylightBias;
-		WCHAR TimeZoneKeyName[ 128 ];
-		BOOLEAN DynamicDaylightTimeDisabled;
-	} DYNAMIC_TIME_ZONE_INFORMATION;
-#endif
-
 typedef DWORD 	(WINAPI *pfnGetDynamicTimeZoneInformation_t)(DYNAMIC_TIME_ZONE_INFORMATION *pdtzi);
 static pfnGetDynamicTimeZoneInformation_t pfnGetDynamicTimeZoneInformation;
 
