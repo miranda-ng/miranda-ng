@@ -79,7 +79,7 @@
 [Log to]
 [OutputDebugString()]
 [File]
-[Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
+[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
 [Run now]
 [Show this dialog box when Miranda NG starts]
 [Save as default]
@@ -5873,7 +5873,7 @@
 [Requesting of missing chunks]
 [Receiving...]
 [Sent successfully]
-[Unknown command for "" SERVICE_TITLE "" was received]
+[Unknown command for "File As Message" was received]
 [Incoming file request. Do you want proceed?]
 [Cancelled by remote user]
 [New incoming file request. Do you want proceed?]
@@ -7137,7 +7137,7 @@
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ Protocol
 ;  Version: 0.11.0.1
-;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
 ;file \protocols\IcqOscarJ\res\resources.rc
@@ -10532,7 +10532,7 @@
 [%genre% - Song genre]
 [%length% - Song length]
 [%player% - Player name]
-[%type% - Media type (Music, Radio, Video, etc)]
+[%type% - Media type (Music, Radio, Video, etc.)]
 [When variable not found, use:]
 [Title:]
 [Message:]
@@ -10548,7 +10548,7 @@
 [Send to all protocols]
 [Listening info]
 [Listening info as set in the options]
-[Media type: Music, Video, etc]
+[Media type: Music, Video, etc.]
 [Artist name]
 [Album name]
 [Song name]
@@ -10835,8 +10835,45 @@
 ;  Authors: Szymon Tokarz
 ;============================================================
 [MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
+;file \plugins\MirFox\res\resource.rc
+[Send to contact action]
+[on left mouse button click]
+[on right mouse button click]
+[on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]
+[Show Miranda menu only in this firefox profiles (comma delimeted)]
+[Show this contacts in 'Send ... to' option in Firefox]
+[Show this accounts in 'Set status message' option in Firefox]
+;file \plugins\MirFox\src\MirandaInterface.cpp
+[MirFox/Notification]
+[MirFox/Error]
 ;file \plugins\MirFox\src\MirandaOptions.cpp
+[just send message]
+[send message and open message window]
+[show message window with pasted message]
+[** All contacts **]
+[Protocol]
 [Services]
+[Options]
+[Contacts]
+[Accounts]
+;file \plugins\MirFox\src\MirandaUtils.cpp
+[MirFox log]
+[Message sent to %s (%s)]
+[Message sent]
+[MirFox]
+[Can not send message to %s (%s) - %S]
+[Can not send message - %S]
+[Can not send message to %s (%s)]
+[Can not send message]
+[MirFox error]
+[Status message set on %s]
+[Status message set]
+[Can not set status message on %s]
+[Can not set status message]
+;file \plugins\MirFox\src\MirfoxMiranda.cpp
+[This MirFox (Miranda) plugin is too old. Please update it.]
+[MirFox (Miranda) - Error]
+[This MirFox (Miranda) plugin can not start beacouse some other MirFox component is too old. Please, check and update your MirFox components.]
 ﻿#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
 ;============================================================
 ;  File: MirOTR.dll
@@ -11100,6 +11137,33 @@
 [Notify]
 [Writed:]
 [Select e-mail]
+;file \protocols\MRA\src\MraAdvancedSearch.cpp
+[Male]
+[Female]
+[January]
+[February]
+[March]
+[April]
+[May]
+[June]
+[July]
+[August]
+[September]
+[October]
+[November]
+[December]
+[Aries]
+[Taurus]
+[Gemini]
+[Cancer]
+[Leo]
+[Virgo]
+[Libra]
+[Scorpio]
+[Sagitarius]
+[Capricorn]
+[Aquarius]
+[Pisces]
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
 [Avatars]
@@ -11152,6 +11216,8 @@
 [Main Menu]
 [Contact Menu]
 [Extra status]
+[Protocols]
+[MRA]
 [Custom Status]
 ;file \protocols\MRA\src\MraPopUp.cpp
 [None]
@@ -11171,7 +11237,7 @@
 [Unread mail is available: %lu/%lu messages]
 [From: %S\r\nSubject: %S\r\n%s]
 [No unread mail is available\r\nTotal messages: %lu]
-[Closing in]
+[Closing in %ld]
 [Reply to %s blog status]
 [Set my blog status]
 [Writed]
@@ -12397,7 +12463,6 @@
 [file()]
 [filename()]
 [Help]
-[Help!!!]
 [OK]
 [Copy / Export contact]
 [&Export Non-IM Contact]
@@ -12408,21 +12473,19 @@
 [Select Folder]
 [New Non-IM Contact]
 ;file \plugins\Non-IM Contact\src\dialog.cpp
-[String replacing variables....\r\nThe following are all the valid variables that can be used. Refer to the readme for a proper explanation.\r\n\r\n]
-[file(X)\t\t<- specifies the file to read from\r\nMUST be followed by either start() or end() or wholeline()\r\n]
-[filename(X)\t\t<- copyies the filename of file X.\r\n]
-[start(...)\t\t<-specifies where to start copying from.\r\n]
-[end(...)\t\t<-specifies where to stop copying.\r\n]
-[wholeline(line(...))\t<-specifies a whole line to copy\r\n\r\n]
-[start() and end() explained\r\n.........................\r\n]
-[MUST start with line() followed by a number or a string inside " marks, OR csv(seperatorX) variable\r\n]
-[The number specifies which character in the line to start/end copying.\r\nThe string specifies a string in the line to start/end copying.\r\n]
-[csv(seperatorX) explained...\r\nseperator is either "tab" or "space" or any SINGLE character.\r\nX is the Xth seperator to pass before copying, (or to stop before)\r\n\r\n]
-[Lastly the line(...) variable...\r\n]
-[Inside the brackets must be either a number (to specify the line number), or a string inside " marks (to use the line with that string), or lastline(X).\r\nthe X in lastline is the Xth line above the last line. i.e lastline(1) will use the 2nd last line of the file.\r\n]
-[If searching for a line with u may put a + or - X after the closing ) i.e line("some words\]
-[Some Expamples...\r\n\r\n]
-[filename(0)     <- will display the filename of the 0th file\r\nfile(0)wholeline(line(0))) <- will display the whole first line of the 0th file\r\nfile(0)wholeline(line("hello\]
+[String replacing variables....\r\nThe following are all the valid variables that can be used. Refer to the readme for a proper explanation.\r\n\r\n\
+file(X)\t\t<- specifies the file to read from\r\nMUST be followed by either start() or end() or wholeline()\r\n\
+filename(X)\t\t<- copyies the filename of file X.\r\n\
+start(...)\t\t<-specifies where to start copying from.\r\n\
+end(...)\t\t<-specifies where to stop copying.\r\n\
+wholeline(line(...))\t<-specifies a whole line to copy\r\n\r\n\
+start() and end() explained\r\n.........................\r\n\
+MUST start with line() followed by a number or a string inside " marks, OR csv(seperatorX) variable\r\n\
+The number specifies which character in the line to start/end copying.\r\nThe string specifies a string in the line to start/end copying.\r\n\
+csv(seperatorX) explained...\r\nseperator is either "tab" or "space" or any SINGLE character.\r\nX is the Xth seperator to pass before copying, (or to stop before)\r\n\r\n\
+Lastly the line(...) variable...\r\n\
+Inside the brackets must be either a number (to specify the line number), or a string inside " marks (to use the line with that string), or lastline(X).\r\nthe X in lastline is the Xth line above the last line. i.e lastline(1) will use the 2nd last line of the file.\r\n\
+If searching for a line with u may put a + or - X after the closing ) i.e line("some words\]
 ;file \plugins\Non-IM Contact\src\files.cpp
 [File couldn't be opened]
 [File couldn't be opened,2]
@@ -13110,7 +13173,7 @@
 [Plugin updater for Miranda NG.]
 ;file \plugins\PluginUpdater\res\Resource.rc
 [Updates found!]
-[PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information]
+[PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
 [Update]
 [Details >>]
 [Cancel]
@@ -13170,7 +13233,7 @@
 [List loading already started!]
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
-[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit]
+[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 [<< Details]
 [No updates found.]
 [Update checking already started!]
@@ -13422,13 +13485,13 @@
 ;file \plugins\Popup\src\skin.cpp
 [The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
 ;file \plugins\Popup\src\srmm_menu.cpp
+[Auto]
+[Favourite]
+[Block]
 [Popup Mode: Auto]
 [Popup Mode: Favourite]
 [Popup Mode: Ignore fullscreen]
 [Popup Mode: Block contact]
-[Auto]
-[Favourite]
-[Block]
 ﻿#muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
 ;============================================================
 ;  File: QuickContacts.dll
@@ -14891,7 +14954,7 @@
 [Misc]
 [Exclude hidden contacts from session on exit]
 [Warn, when some of LastSession contacts are hidden]
-[Show other warnings ("session already opened" etc...)]
+[Show other warnings ("session already opened" etc.)]
 [Crash Recovery mode]
 [Restore Session]
 [&Restore Session]
@@ -18839,7 +18902,7 @@
 [converts each first letter of a word to uppercase]
 [inserts 'end of line' character]
 [depends on calling plugin]
-[Replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
+[replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
 [cuts x after the first line and appends y (y is optional)]
 [replaces all end of line characters by y (y is optional)]
 [inserts string y at position z in string x]

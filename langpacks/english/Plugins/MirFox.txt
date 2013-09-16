@@ -6,5 +6,42 @@
 ;  Authors: Szymon Tokarz
 ;============================================================
 [MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com]
+;file \plugins\MirFox\res\resource.rc
+[Send to contact action]
+[on left mouse button click]
+[on right mouse button click]
+[on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]
+[Show Miranda menu only in this firefox profiles (comma delimeted)]
+[Show this contacts in 'Send ... to' option in Firefox]
+[Show this accounts in 'Set status message' option in Firefox]
+;file \plugins\MirFox\src\MirandaInterface.cpp
+[MirFox/Notification]
+[MirFox/Error]
 ;file \plugins\MirFox\src\MirandaOptions.cpp
+[just send message]
+[send message and open message window]
+[show message window with pasted message]
+[** All contacts **]
+[Protocol]
 [Services]
+[Options]
+[Contacts]
+[Accounts]
+;file \plugins\MirFox\src\MirandaUtils.cpp
+[MirFox log]
+[Message sent to %s (%s)]
+[Message sent]
+[MirFox]
+[Can not send message to %s (%s) - %S]
+[Can not send message - %S]
+[Can not send message to %s (%s)]
+[Can not send message]
+[MirFox error]
+[Status message set on %s]
+[Status message set]
+[Can not set status message on %s]
+[Can not set status message]
+;file \plugins\MirFox\src\MirfoxMiranda.cpp
+[This MirFox (Miranda) plugin is too old. Please update it.]
+[MirFox (Miranda) - Error]
+[This MirFox (Miranda) plugin can not start beacouse some other MirFox component is too old. Please, check and update your MirFox components.]

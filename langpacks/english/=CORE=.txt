@@ -78,7 +78,7 @@
 [Log to]
 [OutputDebugString()]
 [File]
-[Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
+[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
 [Run now]
 [Show this dialog box when Miranda NG starts]
 [Save as default]

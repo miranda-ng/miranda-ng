@@ -138,7 +138,7 @@
 [converts each first letter of a word to uppercase]
 [inserts 'end of line' character]
 [depends on calling plugin]
-[Replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
+[replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
 [cuts x after the first line and appends y (y is optional)]
 [replaces all end of line characters by y (y is optional)]
 [inserts string y at position z in string x]
