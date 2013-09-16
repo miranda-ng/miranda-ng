@@ -84,7 +84,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,173,104,122,16
     CONTROL         "Warn, when some of LastSession contacts are hidden",IDC_LASTHIDDENWARN,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,173,121,122,20
-    CONTROL         "Show other warnings (""session already opened"" etc...)",IDC_WARNINGS,
+    CONTROL         "Show other warnings (""session already opened"" etc.)",IDC_WARNINGS,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,173,143,122,17
     CONTROL         "Crash Recovery mode",IDC_CRASHRECOVERY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,173,162,122,17
 END

@@ -90,7 +90,7 @@ BEGIN
     LTEXT           "%genre% - Song genre",IDC_GENRE_L,148,75,129,8
     LTEXT           "%length% - Song length",IDC_LENGTH_L,11,87,129,8
     LTEXT           "%player% - Player name",IDC_PLAYER_L,148,87,129,8
-    LTEXT           "%type% - Media type (Music, Radio, Video, etc)",IDC_TYPE_L,11,99,265,8
+    LTEXT           "%type% - Media type (Music, Radio, Video, etc.)",IDC_TYPE_L,11,99,265,8
     LTEXT           "When variable not found, use:",IDC_UNKNOWN_L,11,117,108,10
     EDITTEXT        IDC_UNKNOWN,122,114,152,13,ES_AUTOHSCROLL
     GROUPBOX        "XStatus",IDC_XSTATUS_G,3,137,282,79

@@ -363,7 +363,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 		tr.tszTokenString = _T("listening_type");
 		tr.parseFunctionT = VariablesParseType;
-		tr.szHelpText = LPGEN("Listening info")"\t"LPGEN("Media type: Music, Video, etc");
+		tr.szHelpText = LPGEN("Listening info")"\t"LPGEN("Media type: Music, Video, etc.");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("listening_artist");
