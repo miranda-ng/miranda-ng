@@ -37,8 +37,8 @@ KB
 当前在线
 [Total online]
 在线总计
-[General]
-常规
+[General/]
+常规/
 [Draw frame as skin element]
 绘制框架类皮肤元素
 [Show tooltip in traffic window]

@@ -31,6 +31,8 @@
 %s файл
 [%s Icons]
 %s значки
+[Status Icons/]
+Значки статуса/
 [%s is Online]
 %s в сети
 [%s Message for %s]
@@ -1047,7 +1049,7 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Загрузка сообщения "%s"...
 [Run now]
 Зап. сейчас
-[Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
+[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
 Запустить программу при запуске (например, tail -f, dbgview и т.д.):
 [Running plugin]
 Запущенный плагин

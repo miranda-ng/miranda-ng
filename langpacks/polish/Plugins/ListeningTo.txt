@@ -82,7 +82,7 @@ Zmienne:
 %length% - Długość ścieżki
 [%player% - Player name]
 %player% - Nazwa odtwarzacza
-[%type% - Media type (Music, Radio, Video, etc)]
+[%type% - Media type (Music, Radio, Video, etc.)]
 %type% - Typ (muzyka, radio, wideo, itp.)
 [When variable not found, use:]
 Jeśli nie znajdziesz zmiennej użyj:
@@ -113,8 +113,8 @@ Wyślij do wszystkich protokołów
 Teraz odtwarzane
 [Listening info as set in the options]
 Informacje określone w opcjach
-[Media type: Music, Video, etc]
-Tryb odtwarzania: Muzyka, Wideo, itp
+[Media type: Music, Video, etc.]
+Tryb odtwarzania: Muzyka, Wideo, itp.
 [Artist name]
 Artysta
 [Album name]

@@ -259,7 +259,7 @@ zamienia pierwsze litery wyrazów na wielkie
 wstawia znak końca linii
 [depends on calling plugin]
 zależy od wywołującej wtyczki
-[Replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
+[replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
 zastępuje wszystkie wystąpienia \\n (Unix) przez \\r\\n (Windows)
 [cuts x after the first line and appends y (y is optional)]
 obcina "x" do pierwszej linii i dopisuje na koniec "y" ("y" jest opcjonalne)

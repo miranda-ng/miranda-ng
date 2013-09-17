@@ -100,8 +100,6 @@ file()
 filename()
 [Help]
 Pomoc
-[Help!!!]
-Pomocy!!!
 [OK]
 OK
 [Copy / Export contact]
@@ -120,36 +118,8 @@ Wybierz folder
 [New Non-IM Contact]
 Nowy kontakt Non-IM
 ;file \plugins\Non-IM Contact\src\dialog.cpp
-[String replacing variables....\r\nThe following are all the valid variables that can be used. Refer to the readme for a proper explanation.\r\n\r\n]
-Zmienne zastępujące ciąg....\r\nPoniżej znajdują się wszystkie możliwe do użycia zmienne. Skorzystaj z Readme w celu uzyskania dokładnego objaśnienia.\r\n\r\n
-[file(X)\t\t<- specifies the file to read from\r\nMUST be followed by either start() or end() or wholeline()\r\n]
-file(X)\t\t<- określa plik, z którego nastąpi odczyt\r\n  po nim MUSI nastąpić start(), end() lub wholeline()\r\n\r\n
-[filename(X)\t\t<- copyies the filename of file X.\r\n]
-filename(X)\t\t<- kopiuje nazwę pliku X.\r\n
-[start(...)\t\t<-specifies where to start copying from.\r\n]
-start(...)\t\t<- określa, z którego miejsca rozpocząć kopiowanie.\r\n
-[end(...)\t\t<-specifies where to stop copying.\r\n]
-end(...)\t\t<- określa, gdzie należy zaprzestać kopiowania.\r\n
-[wholeline(line(...))\t<-specifies a whole line to copy\r\n\r\n]
-wholeline(line(...))\t<- określa całą linię do skopiowania.\r\n\r\n
-[start() and end() explained\r\n.........................\r\n]
-Objaśnienie start() i end()\r\n.........................\r\n
-[MUST start with line() followed by a number or a string inside " marks, OR csv(seperatorX) variable\r\n]
-MUSZĄ zaczynać się od line(), następnie numer lub ciąg w cudzysłowie lub zmienna csv(seperatorX)\r\n
-[The number specifies which character in the line to start/end copying.\r\nThe string specifies a string in the line to start/end copying.\r\n]
-Numer określa znak, od którego należy zacząć lub na którym zakończyć kopiowanie.\r\nCiąg określa ciąg w linii, od którego należy zacząć lub na którym zakończyć kopiowanie.\r\n\r\n
-[csv(seperatorX) explained...\r\nseperator is either "tab" or "space" or any SINGLE character.\r\nX is the Xth seperator to pass before copying, (or to stop before)\r\n\r\n]
-Objaśnienie csv(seperatorX)...\r\nSeparator to tabulacja, spacja lub inny pojedynczy znak.\r\nX to x-owy separator, który należy podać przed kopiowaniem (lub, po którym należy je zakończyć)\r\n\r\n
-[Lastly the line(...) variable...\r\n]
-Na koniec zmienna line(...) ...\r\n
-[Inside the brackets must be either a number (to specify the line number), or a string inside " marks (to use the line with that string), or lastline(X).\r\nthe X in lastline is the Xth line above the last line. i.e lastline(1) will use the 2nd last line of the file.\r\n]
-W nawiasach kwadratowych musi znajdować się liczba (określająca numer linii), ciąg w cudzysłowie (by użyta została linia zawierająca ten ciąg) lub lastline(X).\r\nX w lastline to X-owa linia powyżej ostatniej linii, czyli lastline(1) użyje drugiej linii od końca pliku.\r\n
-[If searching for a line with u may put a + or - X after the closing ) i.e line("some words\]
-Jeżeli szukasz linii z u możesz umieścić znak "+" lub "-" za zamykającym nawiasem, czyli linia("jakieś słowa\
-[Some Expamples...\r\n\r\n]
-Kilka przykładów...\r\n\r\n
-[filename(0)     <- will display the filename of the 0th file\r\nfile(0)wholeline(line(0))) <- will display the whole first line of the 0th file\r\nfile(0)wholeline(line("hello\]
-filename(0)     <- wyświetli nazwę zerowego pliku\r\nfile(0)wholeline(line(0)))     <- wyświetli całą pierwszą linię zerowego pliku\r\nplik(0)całalinia(linia("cześć\
+[String replacing variables....\r\nThe following are all the valid variables that can be used. Refer to the readme for a proper explanation.\r\n\r\nfile(X)\t\t<- specifies the file to read from. MUST be followed by either start() or end() or wholeline()\r\nfilename(X)\t<- copyies the filename of file X.\r\nstart(...)\t\t<- specifies where to start copying from.\r\nend(...)\t\t<- specifies where to stop copying.\r\nwholeline(line(...))\t<- specifies a whole line to copy\r\n\r\nstart() and end() explained\r\n.........................\r\nMUST start with line() followed by a number or a string inside " marks, OR csv(seperatorX) variable. The number specifies which character in the line to start/end copying. The string specifies a string in the line to start/end copying.\r\n\r\ncsv(seperatorX) explained...\r\nSeperator is either "tab" or "space" or any SINGLE character. X is the Xth seperator to pass before copying, (or to stop before).\r\n\r\nLastly the line(...) variable...\r\nInside the brackets must be either a number (to specify the line number), or a string inside " marks (to use the line with that string), or lastline(X). The X in lastline is the Xth line above the last line. i.e lastline(1) will use the 2nd last line of the file. If searching for a line with "some words" you may put a + or - X after the closing ) i.e line("some words")+3 to go 3 lines after the line with "some words".\r\n\r\nSome Expamples...\r\nfilename(0)    <- will display the filename of the 0th file\r\nfile(0)wholeline(line(0)))    <- will display the whole first line of the 0th file\r\nfile(0)wholeline(line("hello")-1)))    <- the wholeline above the first occurance of "hello" in the file\r\nfile(0)start(line(lastline(1))csv(tab2))end(line(lastline())csv(tab4)))    <- starts at the 2nd last line of the file, from the 2nd tab variable, untill the 4th tab variable in the last line (in the 0th file)\r\nfile(0)start(line("hello")+1"zzzz")end(line(6)17))    <- starts from the first occurance of zzzz in the line after the first occurance of hello, untill the 17th character in the 6th line (starting from line 0) of the 0th file.\r\n]
+Zmienne zastępujące ciąg....\r\nPoniżej znajdują się wszystkie możliwe do użycia zmienne. Skorzystaj z Readme w celu uzyskania dokładnego objaśnienia.\r\n\r\nfile(X)\t\t<- określa plik, z którego nastąpi odczyt. Po nim MUSI nastąpić start(), end() lub wholeline()\r\n\filename(X)\t<- kopiuje nazwę pliku X.\r\nstart(...)\t\t<- określa, z którego miejsca rozpocząć kopiowanie.\r\nend(...)\t\t<- określa, gdzie należy zaprzestać kopiowania.\r\nwholeline(line(...))\t<- określa całą linię do skopiowania.\r\n\r\nObjaśnienie start() i end()\r\n.........................\r\nMUSZĄ zaczynać się od line(), następnie numer lub ciąg w cudzysłowie lub zmienna csv(seperatorX).Numer określa znak, od którego należy zacząć lub na którym zakończyć kopiowanie. Ciąg określa ciąg w linii, od którego należy zacząć lub na którym zakończyć kopiowanie.\r\n\r\nObjaśnienie csv(seperatorX)...\r\nSeparator to tabulacja, spacja lub inny pojedynczy znak. X to x-owy separator, który należy podać przed kopiowaniem (lub, po którym należy je zakończyć)\r\n\r\nNa koniec zmienna line(...) ...\r\nW nawiasach kwadratowych musi znajdować się liczba (określająca numer linii), ciąg w cudzysłowie (by użyta została linia zawierająca ten ciąg) lub lastline(X). X w lastline to X-owa linia powyżej ostatniej linii, czyli lastline(1) użyje drugiej linii od końca pliku. Jeżeli szukasz linii z u możesz umieścić znak "+" lub "-" za zamykającym nawiasem, czyli linia("some words")+3.\r\n\r\nKilka przykładów...\r\n\filename(0)     <- wyświetli nazwę zerowego pliku\r\nfile(0)wholeline(line(0)))     <- wyświetli całą pierwszą linię zerowego pliku\r\nplik(0)całalinia(linia("cześć")-1))).\r\n
 ;file \plugins\Non-IM Contact\src\files.cpp
 [File couldn't be opened]
 Plik nie mógł zostać otwarty
@@ -182,36 +152,6 @@ Importuj kontakty Non-IM
 [E&dit Contact Settings]
 E&dytuj Ustawienia Kontaktu
 ;file \plugins\Non-IM Contact\src\namereplacing.cpp
-[lastline(]
-lastline(
-[csv(]
-csv(
-[compare("]
-compare("
-[save("]
-save("
-[load("]
-load("
-[saveN("]
-saveN("
-[loadN("]
-loadN("
-[lastchecked(file(]
-lastchecked(file(
-[file(]
-file(
-[wholeline(line(]
-wholeline(line(
-[start(]
-start(
-[start(line(]
-start(line(
-[end(]
-end(
-[end(line(]
-end(line(
-[filename(]
-filename(
 [%s - ERROR: no line specified or line not found (in %s)]
 %s -BŁąD: nie ustalono lub nie odnaleziono linii (w %s)
 [%s - ERROR: file couldnt be opened (in %s)]

@@ -267,7 +267,7 @@ y, если w > x, иначе z
 Настройки анализа
 [Automatically strip all non-parsing characters]
 Автоматически обрезать все не анализированные символы
-[Replace all occurrences of \n (Unix) by \r\n (Windows)]
+[replace all occurrences of \n (Unix) by \r\n (Windows)]
 замена всех вхождений '\n' (Unix) на '\r\n' (Windows)
 [TRUE if x equals any of the following arguments]
 ПРАВДА, если x равен любому из следующих аргументов
@@ -392,7 +392,7 @@ y, если w = x, иначе z
 Песня
 [Track number]
 Номер песни
-[Media type: Music, Video, etc]
+[Media type: Music, Video, etc.]
 Тип: музыка, видео и т.д.
 [Song year]
 Год

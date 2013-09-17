@@ -404,6 +404,12 @@ Powiadomienia
 [The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
 Skórka, którą próbujesz załadować jest zaprojektowana\r\ndla nowszej wersji Popup+. I nie będzie\r\nwyświetlać się poprawnie.\r\n\r\nProszę wybrać inną skórkę.
 ;file \plugins\Popup\src\srmm_menu.cpp
+[Auto]
+Automatyczny
+[Favourite]
+Ulubiony
+[Block]
+Blokuj
 [Popup Mode: Auto]
 Tryb Popup: Auto
 [Popup Mode: Favourite]
@@ -412,9 +418,3 @@ Tryb Popupów: ulubione
 Tryb Popup: Ignoruj pełny ekran
 [Popup Mode: Block contact]
 Tryb Popup: Zablokuj kontakt
-[Auto]
-Automatyczny
-[Favourite]
-Ulubiony
-[Block]
-Blokuj

@@ -290,7 +290,7 @@ Popups
 
 [No unread mail is available\r\nTotal messages: %lu]
 
-[Closing in]
+[Closing in %ld]
 
 [Reply to %s blog status]
 

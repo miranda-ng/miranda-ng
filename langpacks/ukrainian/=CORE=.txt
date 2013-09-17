@@ -152,7 +152,7 @@
 Писати в
 [File]
 Файл
-[Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
+[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
 Запустити програму при запуску Miranda (напр., tail -f, dbgview):
 [Run now]
 Запустити

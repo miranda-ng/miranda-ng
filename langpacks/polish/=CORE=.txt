@@ -157,7 +157,7 @@ Zapisz do
 OutputDebugString()
 [File]
 Plik
-[Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
+[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
 Uruchom program podczas uruchamiania Mirandy NG (np tail -f, dbgview, itp):
 [Run now]
 Uruchom teraz
@@ -2523,6 +2523,8 @@ Zablokowany status
 Ikony statusu
 [%s Icons]
 %s ikony
+[Status Icons/]
+Ikony statusu/
 [Main Icons]
 Główne ikony 
 ;file \src\modules\skin\sounds.cpp

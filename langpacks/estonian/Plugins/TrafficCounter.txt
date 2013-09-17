@@ -9,8 +9,8 @@
 [Accounts]
 Kontod
 ;file \plugins\TrafficCounter\src\options.cpp
-[General]
-Üldine
+[General/]
+Üldine/
 [Options]
 Valikud
 ;file \plugins\TrafficCounter\src\statistics.cpp

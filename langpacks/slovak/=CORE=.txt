@@ -157,7 +157,7 @@ Zobraziť
 
 [File]
 Súbor
-[Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
+[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
 
 [Run now]
 
@@ -2507,6 +2507,8 @@ Pomoc
 
 [%s Icons]
 %s ikon
+[Status Icons/]
+
 [Main Icons]
 Moje ikony
 ;file \src\modules\skin\sounds.cpp

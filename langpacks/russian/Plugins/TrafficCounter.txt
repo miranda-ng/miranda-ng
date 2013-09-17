@@ -197,8 +197,8 @@
 Получить дату последнего сброса
 [Traffic counter]
 Счётчик трафика
-[Visible accounts]
-Отображаемые учётные записи
+[Visible accounts/]
+Отображаемые учётные записи/
 [Summary traffic for active accounts]
 Суммарный трафик активных учётных записей
 [Summary traffic for visible accounts]

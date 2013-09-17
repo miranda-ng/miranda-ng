@@ -74,7 +74,7 @@ foobar2000 (усталюйце плагін уручную)
 %length% - даўжыня песні
 [%player% - Player name]
 %player% - назва плэера
-[%type% - Media type (Music, Radio, Video, etc)]
+[%type% - Media type (Music, Radio, Video, etc.)]
 %type% - тып прайграванага (музыка, відэа, радыё і г.д.)
 [When variable not found, use:]
 Калі зменная невядомая, адсылаць:
@@ -105,7 +105,7 @@ foobar2000 (усталюйце плагін уручную)
 Музыка ў статусе
 [Listening info as set in the options]
 Інфармацыя пра праслухоўванне ўсталяваная ў наладах
-[Media type: Music, Video, etc]
+[Media type: Music, Video, etc.]
 Тып: музыка, відэа і г.д.
 [Artist name]
 Выканаўца

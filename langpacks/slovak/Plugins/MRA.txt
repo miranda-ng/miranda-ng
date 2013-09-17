@@ -158,6 +158,60 @@ Notifikácia
 
 [Select e-mail]
 
+;file \protocols\MRA\src\MraAdvancedSearch.cpp
+
+[Male]
+
+[Female]
+
+[January]
+
+[February]
+
+[March]
+
+[April]
+
+[May]
+
+[June]
+
+[July]
+
+[August]
+
+[September]
+
+[October]
+
+[November]
+
+[December]
+
+[Aries]
+
+[Taurus]
+
+[Gemini]
+
+[Cancer]
+
+[Leo]
+
+[Virgo]
+
+[Libra]
+
+[Scorpio]
+
+[Sagittarius]
+
+[Capricorn]
+
+[Aquarius]
+
+[Pisces]
+
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
 
@@ -257,6 +311,10 @@ Notifikácia
 
 [Extra status]
 
+[Protocols]
+
+[MRA]
+
 [Custom Status]
 
 ;file \protocols\MRA\src\MraPopUp.cpp
@@ -292,7 +350,7 @@ Chyba
 
 [No unread mail is available\r\nTotal messages: %lu]
 
-[Closing in]
+[Closing in %ld]
 
 [Reply to %s blog status]
 

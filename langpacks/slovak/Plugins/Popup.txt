@@ -404,6 +404,12 @@ Notifikácia
 [The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
 
 ;file \plugins\Popup\src\srmm_menu.cpp
+[Auto]
+
+[Favourite]
+
+[Block]
+
 [Popup Mode: Auto]
 
 [Popup Mode: Favourite]
@@ -411,10 +417,3 @@ Notifikácia
 [Popup Mode: Ignore fullscreen]
 
 [Popup Mode: Block contact]
-
-[Auto]
-
-[Favourite]
-
-[Block]
-

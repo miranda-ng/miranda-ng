@@ -46,7 +46,7 @@
 Выключыць утоеныя кантакты з сесіі пры выйсці
 [Warn, when some of LastSession contacts are hidden]
 Паказаць, калі апошняя сесія мае ўтоеныя кантакты
-[Show other warnings ("session already opened" etc...)]
+[Show other warnings ("session already opened" etc.)]
 Паказваць дадатковыя папярэджанні
 [Crash Recovery mode]
 Аднаўляць пасля збояў

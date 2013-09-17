@@ -366,15 +366,15 @@ History++ для гісторыі вокнаў
 Апавяшчэнне
 ;file \plugins\Popup\src\skin.cpp
 ;file \plugins\Popup\src\srmm_menu.cpp
-[Popup Mode: Auto]
-Рэжым усплывальных вокнаў: па змаўчанні
-[Popup Mode: Ignore fullscreen]
-Рэжым усплывальных вокнаў: ігнараваць поўнаэкранныя прыкладанні
-[Popup Mode: Block contact]
-Рэжым усплывальных вокнаў: блакаваць
 [Auto]
 Аўта
 [Favourite]
 Абранае
 [Block]
 Заблакаваць
+[Popup Mode: Auto]
+Рэжым усплывальных вокнаў: па змаўчанні
+[Popup Mode: Ignore fullscreen]
+Рэжым усплывальных вокнаў: ігнараваць поўнаэкранныя прыкладанні
+[Popup Mode: Block contact]
+Рэжым усплывальных вокнаў: блакаваць

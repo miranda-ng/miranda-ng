@@ -10,7 +10,7 @@ Aktualizator wtyczek dla Mirandy NG
 ;file \plugins\PluginUpdater\res\Resource.rc
 [Updates found!]
 Znaleziono aktualizacje!
-[PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information]
+[PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
 PluginUpdater wykrył aktualizacje komponentów. Kliknij w przycisk "Szczegóły" po więcej informacji.
 [Update]
 Aktualizacja
@@ -128,7 +128,7 @@ Wczytywanie listy już rozpoczęte!
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
 Zostanie usunięty!
-[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit]
+[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Aktualizacja zakończona. Wciśnij "Tak", aby zrestartować Mirandę teraz lub "Nie", żeby zrobić to później.
 [<< Details]
 << Szczegóły

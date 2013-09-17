@@ -158,6 +158,60 @@ Powiadomienia
 
 [Select e-mail]
 
+;file \protocols\MRA\src\MraAdvancedSearch.cpp
+
+[Male]
+
+[Female]
+
+[January]
+
+[February]
+
+[March]
+
+[April]
+
+[May]
+
+[June]
+
+[July]
+
+[August]
+
+[September]
+
+[October]
+
+[November]
+
+[December]
+
+[Aries]
+
+[Taurus]
+
+[Gemini]
+
+[Cancer]
+
+[Leo]
+
+[Virgo]
+
+[Libra]
+
+[Scorpio]
+
+[Sagittarius]
+
+[Capricorn]
+
+[Aquarius]
+
+[Pisces]
+
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
 
@@ -257,6 +311,10 @@ Menu główne
 Menu kontaktu
 [Extra status]
 xStatus
+[Protocols]
+
+[MRA]
+
 [Custom Status]
 Niestandardowy status
 ;file \protocols\MRA\src\MraPopUp.cpp
@@ -292,8 +350,8 @@ Adres e-mail
 Od: %S\r\nTemat: %S\r\n%s
 [No unread mail is available\r\nTotal messages: %lu]
 
-[Closing in]
-Zamykanie w
+[Closing in %ld]
+Zamykanie w %ld
 [Reply to %s blog status]
 
 [Set my blog status]

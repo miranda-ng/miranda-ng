@@ -157,8 +157,8 @@
 Выснова адладкавых радкоў
 [File]
 Файл
-[Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
-Запусціць праграму пры запуску (напрыклад, tail -f, dbgview, etc):
+[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
+Запусціць праграму пры запуску (напрыклад, tail -f, dbgview, etc.):
 [Run now]
 Зап. цяпер
 [Show this dialog box when Miranda NG starts]

@@ -62,7 +62,7 @@ foobar2000 (需要手动安装插件)
 %length% - 歌曲长度
 [%player% - Player name]
 %player% - 播放程序名称
-[%type% - Media type (Music, Radio, Video, etc)]
+[%type% - Media type (Music, Radio, Video, etc.)]
 %type% - 媒体类型 (音乐, 广播, 视频等)
 [When variable not found, use:]
 找不到变量时, 使用: 
@@ -83,7 +83,7 @@ foobar2000 (需要手动安装插件)
 聆听信息
 [Listening info as set in the options]
 选项中设定的聆听信息
-[Media type: Music, Video, etc]
+[Media type: Music, Video, etc.]
 媒体类型: 音乐, 视频, 其它
 [Artist name]
 演唱者姓名

@@ -11,18 +11,8 @@ Contas
 [Custom]
 Padrão
 ;file \plugins\TrafficCounter\src\options.cpp
-[General]
-Geral
-[General]
-Geral
-[General]
-Geral
-[Options]
-Opções
-[Options]
-Opções
-[Options]
-Opções
+[General/]
+Geral/
 [Options]
 Opções
 [Statistics]

@@ -11,8 +11,8 @@ Fiókok
 [Custom]
 Egyedi
 ;file \plugins\TrafficCounter\src\options.cpp
-[General]
-Általános
+[General/]
+Általános/
 [Options]
 Beállítások
 [Popups]

@@ -11,8 +11,8 @@
 [Custom]
 カスタム
 ;file \plugins\TrafficCounter\src\options.cpp
-[General]
-全般
+[General/]
+全般/
 [Options]
 オプション
 [Popups]

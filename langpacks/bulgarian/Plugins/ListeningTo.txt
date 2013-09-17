@@ -82,7 +82,7 @@ mRadio
 %length% - Времетраене на песента
 [%player% - Player name]
 %player% - Име на плейъра
-[%type% - Media type (Music, Radio, Video, etc)]
+[%type% - Media type (Music, Radio, Video, etc.)]
 %type% - Тип (Музика, Радио, Видео и други)
 [When variable not found, use:]
 При липса на променлива:
@@ -113,7 +113,7 @@ ListeningTo
 Слуша (информация)
 [Listening info as set in the options]
 Слуша информация според настройките
-[Media type: Music, Video, etc]
+[Media type: Music, Video, etc.]
 Тип: музика, видео и др.
 [Artist name]
 Име на изпълнителя

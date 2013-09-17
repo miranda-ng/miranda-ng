@@ -57,7 +57,7 @@ Odosielam...
 Prijímam...
 [Sent successfully]
 
-[Unknown command for "" SERVICE_TITLE "" was received]
+[Unknown command for "File As Message" was received]
 
 [Incoming file request. Do you want proceed?]
 

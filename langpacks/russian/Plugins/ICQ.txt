@@ -5,7 +5,7 @@
 ;  Versions: 0.10.0.2
 ;  URL: http://code.google.com/p/miranda/downloads/list
 ;  Source: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IcqOscarJ/
-;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 
 ;  Versions: 0.3.10.67
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4312

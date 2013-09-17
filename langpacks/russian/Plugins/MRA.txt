@@ -161,6 +161,58 @@ MRIM_CS_CONTACT_LIST2: внутренняя ошибка сервера
 Не удалось выделить буфер для преобразования в юникод
 [Select e-mail]
 Выбор электронной почты
+[Male]
+Мужской
+[Female]
+Женский
+[January]
+Январь
+[February]
+Февраль
+[March]
+Март
+[April]
+Апрель
+[May]
+Май
+[June]
+Июнь
+[July]
+Июль
+[August]
+Август
+[September]
+Сентябрь
+[October]
+Октябрь
+[November]
+Ноябрь
+[December]
+Декабрь
+[Aries]
+Овен
+[Taurus]
+Телец
+[Gemini]
+Близнецы
+[Cancer]
+Рак
+[Leo]
+Лев
+[Virgo]
+Дева
+[Libra]
+Весы
+[Scorpio]
+Скорпион
+[Sagittarius]
+Стрелец
+[Capricorn]
+Козерог
+[Aquarius]
+Водолей
+[Pisces]
+Рыбы
 [Your contact wakes you]
 Ваш собеседник будит вас
 [invisible status changed]
@@ -330,6 +382,8 @@ MRA подключение
 Уведомить меня, если сообщение не доставлено
 [Extra status]
 Дополнительный статус
+[Protocols]
+Протоколы
 [My Blog Status]
 Статус в блоге
 [Blog status message]

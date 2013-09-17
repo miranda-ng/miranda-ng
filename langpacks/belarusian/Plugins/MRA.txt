@@ -288,8 +288,8 @@ Mail.ru дадаткова
 Ад: %S\r\nТэма: %S\r\n%s
 [No unread mail is available\r\nTotal messages: %lu]
 Непрачытанай пошты няма\r\nУсiх паведамленняў: %lu
-[Closing in]
-Зачынена
+[Closing in %ld]
+Зачынена %ld
 [Reply to %s blog status]
 Адказаць на статус блога %s
 [Set my blog status]

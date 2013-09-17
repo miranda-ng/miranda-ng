@@ -157,8 +157,8 @@ Inscription dans...
 Débogage de paramètres de sortie
 [File]
 Fichier
-[Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
-Exécuter un programme lorsque Miranda NG démarre (ex tail -f, dbgview, etc...):
+[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
+Exécuter un programme lorsque Miranda NG démarre (ex tail -f, dbgview, etc.):
 [Run now]
 Exécuter maintenant
 [Show this dialog box when Miranda NG starts]

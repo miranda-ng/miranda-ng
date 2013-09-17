@@ -19,8 +19,8 @@ Ad hoc
 [Show now]
 Mostra ora
 ;file \plugins\TrafficCounter\src\options.cpp
-[General]
-Generale
+[General/]
+Generale/
 [Hide now]
 Nascondi ora
 [Month]

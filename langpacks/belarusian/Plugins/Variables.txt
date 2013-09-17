@@ -259,7 +259,7 @@ z кантакт з уласцівасцю y, апісанай у x, прыкл�
 устаўляе знак EOL
 [depends on calling plugin]
 залежыць ад модуля, які выклікае токен
-[Replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
+[replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
 замяніць усе супадзенні \\n (Unix) на \\r\\n (Windows)
 [cuts x after the first line and appends y (y is optional)]
 абразае x пасля першай лініі, і дадае y (у неабавязкова)

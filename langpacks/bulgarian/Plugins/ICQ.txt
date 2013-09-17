@@ -3,7 +3,7 @@
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ Protocol
 ;  Version: 0.11.0.1
-;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
 Осигурява комуникация чрез протокола ICQ в Miranda NG.

@@ -404,6 +404,12 @@ Popup Plus Предупреждение
 [The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
 
 ;file \plugins\Popup\src\srmm_menu.cpp
+[Auto]
+Авто
+[Favourite]
+Любим
+[Block]
+Блокиране
 [Popup Mode: Auto]
 Popup режим: Автоматичен
 [Popup Mode: Favourite]
@@ -412,9 +418,3 @@ Popup режим: Автоматичен
 
 [Popup Mode: Block contact]
 Popup режим: Блокиране на контакта
-[Auto]
-Авто
-[Favourite]
-Любим
-[Block]
-Блокиране

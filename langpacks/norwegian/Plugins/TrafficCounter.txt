@@ -11,12 +11,10 @@ Selvvalgt
 [Custom]
 Selvvalgt
 ;file \plugins\TrafficCounter\src\options.cpp
-[General]
-Generelt
+[General/]
+Generelt/
 [Options]
 Valg
-[Popups]
-Popups
 [Popups]
 Popups
 ;file \plugins\TrafficCounter\src\statistics.cpp

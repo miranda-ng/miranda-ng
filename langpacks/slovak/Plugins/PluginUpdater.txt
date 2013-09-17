@@ -10,7 +10,7 @@
 ;file \plugins\PluginUpdater\res\Resource.rc
 [Updates found!]
 
-[PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information]
+[PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
 
 [Update]
 
@@ -130,7 +130,7 @@ Ikony
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
 
-[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit]
+[Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 
 [No updates found.]
 

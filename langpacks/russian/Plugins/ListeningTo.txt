@@ -59,7 +59,7 @@
 %length% - длина песни
 [%player% - Player name]
 %player% - название плеера
-[%type% - Media type (Music, Radio, Video, etc)]
+[%type% - Media type (Music, Radio, Video, etc.)]
 %type% - тип воспроизводимого (музыка, видео, радио и т.д.)
 [When variable not found, use:]
 Если переменная неизвестна, отсылать:

@@ -58,7 +58,7 @@
 Виключити приховані контакти з сесії при виході
 [Warn, when some of LastSession contacts are hidden]
 Показати, якщо остання сесія має приховані контакти
-[Show other warnings ("session already opened" etc...)]
+[Show other warnings ("session already opened" etc.)]
 Показувати додаткові попередження
 [Crash Recovery mode]
 Відновлення після збоїв

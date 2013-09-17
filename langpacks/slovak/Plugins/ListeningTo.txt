@@ -82,7 +82,7 @@ sekúnd
 
 [%player% - Player name]
 
-[%type% - Media type (Music, Radio, Video, etc)]
+[%type% - Media type (Music, Radio, Video, etc.)]
 
 [When variable not found, use:]
 
@@ -113,7 +113,7 @@ Názov:
 
 [Listening info as set in the options]
 
-[Media type: Music, Video, etc]
+[Media type: Music, Video, etc.]
 
 [Artist name]
 

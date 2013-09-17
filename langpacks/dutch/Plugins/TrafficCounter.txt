@@ -9,8 +9,8 @@
 [Custom]
 Aangepast
 ;file \plugins\TrafficCounter\src\options.cpp
-[General]
-Algemeen
+[General/]
+Algemeen/
 [Options]
 Opties
 [Popups]

@@ -57,7 +57,7 @@ Wysyłanie prośby o brakujące kawałki
 Otrzymywanie...
 [Sent successfully]
 Wysłano pomyślnie
-[Unknown command for "" SERVICE_TITLE "" was received]
+[Unknown command for "File As Message" was received]
 Otrzymano nieznaną komendę dla tytułu usługi
 [Incoming file request. Do you want proceed?]
 Przychodzący transfer pliku. Czy chcesz kontynuować?

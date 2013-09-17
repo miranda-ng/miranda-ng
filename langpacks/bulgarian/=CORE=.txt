@@ -157,7 +157,7 @@ Miranda NG диспечер на профили
 
 [File]
 Файл
-[Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
+[Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
 
 [Run now]
 Стартиране

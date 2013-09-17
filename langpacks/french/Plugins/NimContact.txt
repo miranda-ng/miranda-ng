@@ -54,8 +54,6 @@ Faire un ligne
 &Quitter
 [Help]
 Aide
-[Help!!!]
-Aide!!!
 [Copy / Export contact]
 Copier/Exporter le contact
 [&Export Non-IM Contact]

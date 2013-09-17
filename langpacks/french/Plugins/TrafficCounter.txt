@@ -19,8 +19,8 @@ Défini
 [Show now]
 Voir maintenant
 ;file \plugins\TrafficCounter\src\options.cpp
-[General]
-Général
+[General/]
+Général/
 [Show tooltip in traffic window]
 Afficher les outils dans la fenêtre de trafic
 [Hide now]

@@ -259,7 +259,7 @@ Pomoc
 
 [depends on calling plugin]
 
-[Replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
+[replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
 
 [cuts x after the first line and appends y (y is optional)]
 
