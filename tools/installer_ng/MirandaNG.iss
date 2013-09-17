@@ -373,8 +373,8 @@ cz.PortTypeInstLabel=Profily a uživatelská data jsou uložena ve složce spolu
 
 cz.ProfileUninst=VAROVÁNÍ!!!%nChystáte se odstranit složku s profily, která obsahuje všechno vaše nastavení, kontakty a historii komunikace!%nOpravdu si přejete odstranit vaše data?%n(V budoucnu se vám ještě mohou hodit.)
 
-cz.FolderExists1=Složka
-cz.FolderExists2=již existuje. Pokračovat v instalaci?
+cs.FolderExists1=Složka 
+cs.FolderExists2=již existuje. Tento instalátor slouží pouze pro prvotní instalaci! Zvolte prosím jinou složku, pokud si přejete provést novou instalaci.%nPokud si přejete aktualizovat vaši stávající verzi, použijte doplněk PluginUpdater%n(položka "Zkontrolovat aktualizace" v hlavní nabídce Mirandy).
 
 cz.PercentDone=% dokončeno
 
