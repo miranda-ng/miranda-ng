@@ -538,7 +538,7 @@ pl.PortTypeInstLabel=Profile i pliki danych użytkownika są przechowywane w fol
 pl.ProfileUninst=UWAGA!!!%nZamierzasz usunąć folder z profilami, zawierający wszystkie Twoje ustawienia, kontakty i historię rozmów.%nCzy na pewno chcesz go usunąć?%n(Możesz go później potrzebować)
 
 pl.FolderExists1=Folder
-pl.FolderExists2=już istnieje. Kontynuować instalację?
+pl.FolderExists2=już istnieje. Ten instalator służy tylko do czystej instalacji! Wybierz inny folder aby zainstalować program.%nJeżeli chcesz zaktualizować Mirandę, użyj do tego celu wtyczki PluginUpdater%n(wybierając "Sprawdź aktualizacje" z menu głównego Mirandy)
 
 pl.PercentDone=% ukończono
 
