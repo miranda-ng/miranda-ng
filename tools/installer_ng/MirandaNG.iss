@@ -527,6 +527,88 @@ de.LangPolishDescription=Übersetzung der Miranda-NG-Benutzeroberfläche ins Pol
 de.LangGermanDescription=Übersetzung der Miranda-NG-Benutzeroberfläche ins Deutsche.
 de.LangEnglishDescription=Original-Miranda-NG-Benutzeroberfläche auf Englisch.
 
+; Polish
+pl.InstTypeHeader=Typ instalacji
+pl.InstTypeText=Wybierz typ instalacji
+pl.DefTypeInstRadio=Normalna (zalecana)
+pl.PortTypeInstRadio=Przenośna
+pl.DefTypeInstLabel=Profile i pliki danych użytkownika są przechowywane w folderze Dane aplikacji.%nZgodne z Kontrolą konta uzytkownika (Windows Vista/7/8)
+pl.PortTypeInstLabel=Profile i pliki danych użytkownika są przechowywane w folderze programu.%nWersja do instalowania na urządzeniach przenośnych (takich jak pamięć przenośna)%n(Nie instaluj w Program files/Pliki programów z włączoną Kontrolą konta użytkownika!!!)
+
+pl.ProfileUninst=UWAGA!!!%nZamierzasz usunąć folder z profilami, zawierający wszystkie Twoje ustawienia, kontakty i historię rozmów.%nCzy na pewno chcesz go usunąć?%n(Możesz go później potrzebować)
+
+pl.FolderExists1=Folder
+pl.FolderExists2=już istnieje. Kontynuować instalację?
+
+pl.PercentDone=% ukończono
+
+pl.TypeRegular=Typowa instalacja
+pl.TypeMinimal=Minimalna instalacja
+pl.TypeExtended=Rozszerzona instalacja
+pl.TypeCustom=Własna instalacja
+
+pl.Program=Pliki rdzenia
+pl.Sounds=Dźwięki
+pl.Protocols=Protokoły
+pl.Aim=AIM
+pl.Facebook=Facebook
+pl.GG=GG
+pl.Icq=ICQ
+pl.Irc=IRC
+pl.Jabber=Jabber
+pl.Msn=MSN
+pl.Yahoo=Yahoo
+pl.Clists=Lista kontaktów
+pl.StdClist=Lista klasyczna (Classic)
+pl.BlindClist=Dla niewidomych (Blind)
+pl.NicerClist=Lista Nicer
+pl.ModernClist=Lista Modern
+pl.MessageWin=Okno wiadomości
+pl.StdMsg=SRMM i Chat
+pl.Scriver=Scriver
+pl.Tabsrmm=TabSRMM
+pl.Dbx=Sterownik bazy danych
+pl.Mmap=Dbx_mmap (zalecany)
+pl.Dbx_3x=Dbx_3x
+pl.Lang=Język interfejsu
+pl.LangRussian=rosyjski
+pl.LangCzech=czeski
+pl.LangPolish=polski
+pl.LangGerman=niemiecki
+pl.LangEnglish=angielski
+
+pl.DescriptionTitle=Opis
+pl.InfoCaption=Najedź na element w celu dodatkowych informacji
+pl.CoreFilesDescription=Pliki konieczne do uruchomienia Mirandy.
+pl.SoundsDescription=Paczka predefiniowanych dźwięków dla różnych zdarzeń.
+pl.ProtocolsDescription=Wtyczki zapewniające wspracie dla różnych protokołów.
+pl.ProtocolsAIMDescription=Zapewnia obsługę protokołu AOL Instant Messenger (AIM).
+pl.ProtocolsFbDescription=Zapewnia obsługę protokołu Facebook. Dostarcza więcej niż czat facebooka przez XMPP. Wspiera ustawianie statusu, zatwierdzanie znajomości, wyszukiwanie kontaktów i wiele inncyh.
+pl.ProtocolsGGDescription=Zapewnia obsługę protokołu Gadu-Gadu.
+pl.ProtocolsICQDescription=Zapewnia obsługę protokołu ICQ (OSCAR).
+pl.ProtocolsIRCDescription=Zapewnia obsługę protokołu Internet Relay Chat (IRC).
+pl.ProtocolsJabberDescription=Zapewnia obsługę protokołu Jabber/XMPP.
+pl.ProtocolsMSNDescription=Zapewnia obsługę protokołu Microsoft Network (MSN).
+pl.ProtocolsYahooDescription=Zapewnia obsługę protokołu Yahoo.
+pl.ClistsDescription=Wtyczki listy kontaktów.
+pl.StdClistDescription=Podstawowy moduł listy kontaktów zawarty w rdzeniu.
+pl.BlindClistDescription=Jest to lista kontaktów dla ludzi niewidomych. Używa kontrolki listy, aby pokazać wszystkie kontakty, dzięki temu czytnik ekranu może "czytać" listę użtkownikowi.
+pl.ModernClistDescription=Wspiera skórki. Wyświetla kontakty, powiadomienia zdarzeń, statusy protokołów z dobrymi modyfikacjami wizualnymi. Wspierane zmiany z MW, rozszerzona współpraca z metakontaktami.
+pl.NicerClistDescription=Wyświetla kontakty, powiadomienia zdarzeń, statusy protokołów.
+pl.MessageWinDescription=Wtyczki okna wiadomości.
+pl.StdMsgDescription=Podstawowe moduły rdzenia do wiadomości i czatu. Brak wsparcia zakładek.
+pl.ScriverDescription=Łatwa i lekka wtyczka rozmów.
+pl.TabsrmmDescription=Zaawansowana wtyczka rozmów z modułem czatu. Wspiera skórki.
+pl.DBXDescription=Różna sterowniki baz danych (obsługują profile).
+pl.MMAPDescription=Zapewnia wsparcie profilu Mirandy: ustawień globalnych, kontaktów, historii, ustawień dla każdego kontaktu z osobna. (Zalecana)
+pl.DBX_3xDescription=Zapewnia wsparcie profilu Mirandy: ustawień globalnych, kontaktów, historii, ustawień dla każdego kontaktu z osobna.
+pl.LangDescription=Pakiety językowe dla Mirandy NG.
+pl.LangRussianDescription=Tłumaczy interfejs Mirandy na język rosyjski.
+pl.LangCzechDescription=Tłumaczy interfejs Mirandy na język czeski.
+pl.LangPolishDescription=Tłumaczy interfejs Mirandy na język polski.
+pl.LangGermanDescription=Tłumaczy interfejs Mirandy na język niemiecki.
+pl.LangEnglishDescription=Domyślny (angielski) język interfejsu.
+
 [Languages]
 Name: "en"; MessagesFile: "compiler:Default.isl"
 Name: "ru"; MessagesFile: "compiler:Languages\Russian.isl"
