@@ -49,7 +49,7 @@
 удалил(а) свой аватар
 [Avatar History: Select how to store history avatars]
 История аватаров: выберите, как хранить историю аватаров
-[Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.]
+[Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 Выберите, каким образом сохранять историю аватаров контактов. Это настройку НЕЛЬЗЯ будет изменить в будущем, т.к. все предыдущие события истории будут потеряны.
 [Store history in miranda history and all history avatars in same folder]
 Сохранять историю в истории Miranda и все аватары в одной папке

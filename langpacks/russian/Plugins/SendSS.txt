@@ -130,6 +130,8 @@ HTTP Server не загружен!
 Miranda NG выходит
 [Could not create main dialog.]
 Невозможно создать главный диалог.
+[Can't create a Screenshot]
+Невозможно создать скриншот
 [Close all capture dialogs and edit windows now, after that press OK.]
 Закрыть все диалоги захвата и окна редактора, после нажатия OK.
 [Not a supported file type.]

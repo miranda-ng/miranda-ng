@@ -251,8 +251,6 @@ DCC-запрос на передачу файла послан %s [%s]
 Выберите IRC сеть. Эта сеть будет выбрана по умолчанию.
 [Default network]
 Сеть по умолчанию
-[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and Name).]
-Соединение не установлено. Вы не заполнили необходимые поля (Ник, ID и Имя)
 [The protocol is not online]
 Протокол не в сети
 [The dcc chat connection is not active]
@@ -667,8 +665,8 @@ Nickserv убить фантома
 Отцепить ник от текущего
 [Type new server address here]
 Новый адрес сервера
-[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
-Невозможно установить подключение. Вы не ввели все необходимые данные (ник, User ID и имя)
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+Невозможно установить подключение. Вы не ввели все необходимые данные (ник, User ID и имя).
 [Alternate nick]
 Альтернативный ник
 [Add ignore]

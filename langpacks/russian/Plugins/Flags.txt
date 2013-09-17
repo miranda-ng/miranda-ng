@@ -19,7 +19,7 @@
 Использовать базу IP для определения страны
 [In following contact list &column:]
 В следующем слоте:
-[Use &unknown flag if the country can not be determined]
+[Use &unknown flag if the country cannot be determined]
 Показ. неизв. флаг, если страну нельзя определить
 [Faroe Islands]
 О-ва Фаро

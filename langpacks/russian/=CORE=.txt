@@ -291,7 +291,7 @@ ANSI плагин
 Применить
 [Are you sure you want to delete %s?]
 Удалить %s из списка?
-[Are you sure you want to delete group '%s'? This operation can not be undone.]
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
 Вы уверены, что хотите удалить группу "%s"? Операция не может быть отменена.
 [Are you sure you want to delete this history item?]
 Удалить эту запись из истории?
@@ -993,7 +993,7 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Проблема с поиском
 [Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_3x.dll]
 Проблема: Не найден ни один драйвер базы данных, вы не можете создать новый профиль, вам необходим файл dbx_3x.dll
-[Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
 Проблема: Не найден ни один драйвер базы данных, вы не можете создать новый профиль, вам необходим файл dbx_mmap.dll
 [Profile]
 Профиль

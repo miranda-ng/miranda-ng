@@ -13683,7 +13683,7 @@
 [Next item]
 [Open main window]
 [Frame background]
-﻿#muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
+﻿#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
 ;============================================================
 ;  File: Quotes.dll
 ;  Plugin: Quotes

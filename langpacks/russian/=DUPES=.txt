@@ -3937,7 +3937,7 @@ xСтатусы
 Клиент (нужен плагин fingerprint)
 [Never]
 Никогда
-[Use &unknown flag if country can not be determined]
+[Use &unknown flag if country cannot be determined]
 Показать неизвестный флаг, если страна не определена
 [Country Flags]
 Флаги стран

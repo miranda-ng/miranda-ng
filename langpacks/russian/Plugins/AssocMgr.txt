@@ -35,6 +35,8 @@ Miscellaneous
 Ошибка автозагрузки
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
 Ошибка при попытке записи в реестр значения автозапуска.\n\nПричина: %s
+[Miranda NG was not able to open "%S".\n\nThe given URL is invalid and cannot be parsed.]
+Miranda NG не может открыть "%S".\n\nДанная ссылка не может быть прочитана и обработана.
 [Services]
 Службы
 [Associations]
