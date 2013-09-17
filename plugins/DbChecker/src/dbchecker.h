@@ -30,12 +30,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_database.h>
 #include <m_db_int.h>
 #include <m_langpack.h>
+#include <win2k.h>
 
 #include "resource.h"
 #include "version.h"
-
-#define WinVerMajor()      LOBYTE(LOWORD(GetVersion()))
-#define IsWinVerXPPlus()   (WinVerMajor()>=5 && LOWORD(GetVersion())!=5)
 
 #define WZM_GOTOPAGE   (WM_USER+1)
 #define WZN_PAGECHANGING  (WM_USER+1221)
@@ -73,8 +71,6 @@ INT_PTR CALLBACK WelcomeDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM l
 INT_PTR CALLBACK OpenErrorDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 void OpenDatabase(HWND hdlg, INT iNextPage);
-
-#define SIZEOF(X) (sizeof(X)/sizeof(X[0]))
 
 #define STATUS_CLASSMASK  0x0f
 void AddToStatus(int flags, const TCHAR* fmt, ...);
