@@ -26,80 +26,79 @@ BOOL (WINAPI *pUpdateLayeredWindow)
 // Globals
 
 // TODO: move to some more approriate place, probably part of Thumbs manager
-static void	LoadContacts			( void );
-static void LoadContact				( HANDLE hContact );
+static void	LoadContacts(void);
+static void LoadContact(HANDLE hContact);
 
 // Internal funcs
-static void	RepaintWindow			( HWND hwnd, HDC hdc );
-static void	LoadMenus				();
-static void	CreateThumbWnd			( TCHAR *ptszName, HANDLE hContact, int nX, int nY );
-static void	RegisterWindowClass		( void );
-static void	UnregisterWindowClass	( void );
-static void LoadDBSettings			( void );
-static void CreateThumbsFont		( void );
-static void CreateBackgroundBrush	( void );
-static int	GetContactStatus		( HANDLE hContact );
-static void	GetScreenRect			( void );
-extern void SetThumbsOpacity		( BYTE btAlpha );
-static int	ClcStatusToPf2			( int status );
-
-static LRESULT __stdcall CommWndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
-static LRESULT __stdcall newMirandaWndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+static void	RepaintWindow(HWND hwnd, HDC hdc);
+static void	LoadMenus();
+static void	CreateThumbWnd(TCHAR *ptszName, HANDLE hContact, int nX, int nY);
+static void	RegisterWindowClass(void);
+static void	UnregisterWindowClass(void);
+static void LoadDBSettings(void);
+static void CreateThumbsFont(void);
+static void CreateBackgroundBrush(void);
+static int  GetContactStatus(HANDLE hContact);
+static void GetScreenRect(void);
+extern void SetThumbsOpacity(BYTE btAlpha);
+static int  ClcStatusToPf2(int status);
 
 static VOID CALLBACK ToTopTimerProc ( HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 
-HINSTANCE	hInst				 =  NULL;
-HFONT		hFont[FLT_FONTIDS]	 =  {NULL};
-COLORREF	tColor[FLT_FONTIDS]	 =  {0};
-HIMAGELIST	himl				 =  NULL;
-HANDLE		hNewContact			 =  NULL;
+HINSTANCE  hInst;
+HFONT      hFont[FLT_FONTIDS];
+COLORREF   tColor[FLT_FONTIDS];
+HIMAGELIST himl;
+HANDLE     hNewContact;
 
-HPEN		hLTEdgesPen			 =  NULL;
-HPEN		hRBEdgesPen			 =  NULL;
-HBRUSH		hBkBrush			 =  NULL;
-DWORD		bkColor				 =  0;
-HBITMAP		hBmpBackground		 =  NULL;
-WORD		nBackgroundBmpUse	 =  CLB_STRETCH;
+HPEN       hLTEdgesPen;
+HPEN       hRBEdgesPen;
+HBRUSH     hBkBrush;
+DWORD      bkColor;
+HBITMAP    hBmpBackground;
+WORD       nBackgroundBmpUse = CLB_STRETCH;
+HANDLE     hwndList;
 
-HWND		hwndMiranda			 =  NULL;
-BOOL		bVersionOK			 =  FALSE;
-BOOL		bDockHorz			 =  TRUE;
-//UINT		nStatus				 =  0;
-HMENU		hContactMenu		 =  NULL;
-RECT		rcScreen;
-DWORD		dwOfflineModes		 =  0;
-BOOL		bEnableTip			 =  FALSE;
-UINT_PTR	ToTopTimerID		 =  0;
-BOOL		bIsCListShow		 =  TRUE;
+HWND       hwndMiranda;
+BOOL       bVersionOK;
+BOOL       bDockHorz = TRUE;
+HMENU      hContactMenu;
+RECT       rcScreen;
+DWORD      dwOfflineModes;
+BOOL       bEnableTip;
+UINT_PTR   ToTopTimerID;
+BOOL       bIsCListShow;
 
 HGENMENU	hMenuItemRemove, hMenuItemHideAll, hMainMenuItemHideAll;
 
 int hLangpack;
 
-pfnSHAutoComplete fnSHAutoComplete = NULL;
+pfnSHAutoComplete fnSHAutoComplete;
 
 //Options
 
 FCOptions fcOpt = {0};
 
-static void InitOptions() {
-	fcOpt.thumbAlpha			 =  255;
-	fcOpt.bHideOffline			 =  FALSE;
-	fcOpt.bHideAll				 =  FALSE;
-	fcOpt.bHideWhenFullscreen	 =  FALSE;
-	fcOpt.bMoveTogether			 =  FALSE;
-	fcOpt.bFixedWidth			 =  FALSE;
-	fcOpt.nThumbWidth			 =  0;
-	fcOpt.bShowTip				 =  TRUE;
-	fcOpt.TimeIn				 =  0;
-	fcOpt.bToTop				 =  TRUE;
-	fcOpt.ToTopTime				 =  TOTOPTIME_DEF;
-	fcOpt.bHideWhenCListShow	 =  FALSE;
-	fcOpt.bUseSingleClick		 =  FALSE;
-	fcOpt.bShowIdle				 =  TRUE;
+static void InitOptions()
+{
+	fcOpt.thumbAlpha = 255;
+	fcOpt.bHideOffline = FALSE;
+	fcOpt.bHideAll = FALSE;
+	fcOpt.bHideWhenFullscreen = FALSE;
+	fcOpt.bMoveTogether = FALSE;
+	fcOpt.bFixedWidth = FALSE;
+	fcOpt.nThumbWidth = 0;
+	fcOpt.bShowTip = TRUE;
+	fcOpt.TimeIn = 0;
+	fcOpt.bToTop = TRUE;
+	fcOpt.ToTopTime = TOTOPTIME_DEF;
+	fcOpt.bHideWhenCListShow = FALSE;
+	fcOpt.bUseSingleClick = FALSE;
+	fcOpt.bShowIdle = TRUE;
 }
 
-PLUGININFOEX pluginInfoEx  = {
+PLUGININFOEX pluginInfoEx =
+{
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -142,26 +141,23 @@ static LPCTSTR s_fonts[FLT_FONTIDS]  =
 ///////////////////////////////////////////////////////
 // Hooked events
 
-static int OnContactDeleted( WPARAM wParam, LPARAM lParam )
+static int OnContactDeleted(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE		hContact	 =  ( HANDLE )wParam;
-	ThumbInfo	*pThumb		 =  thumbList.FindThumbByContact( hContact );
-	if (!pThumb) return 0;
-
-	pThumb->DeleteContactPos();
-	thumbList.RemoveThumb(pThumb);
-
+	HANDLE hContact = (HANDLE)wParam;
+	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
+	if (pThumb) {
+		pThumb->DeleteContactPos();
+		thumbList.RemoveThumb(pThumb);
+	}
 	return 0;
 }
 
-
-static int OnContactIconChanged( WPARAM wParam, LPARAM lParam )
+static int OnContactIconChanged(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE     hContact = ( HANDLE )wParam;
-	ThumbInfo *pThumb = thumbList.FindThumbByContact( hContact );
-
-	if ( pThumb ) {
-		pThumb->RefreshContactIcon( ( int )lParam );
+	HANDLE hContact = (HANDLE)wParam;
+	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
+	if (pThumb) {
+		pThumb->RefreshContactIcon((int)lParam);
 		//pThumb->ThumbSelect( FALSE );
 		//SetTimer( pThumb->hwnd, TIMERID_SELECT_T, 1000, NULL );
 	}
@@ -169,48 +165,43 @@ static int OnContactIconChanged( WPARAM wParam, LPARAM lParam )
 	return 0;
 }
 
-
-static int OnContactDrag( WPARAM wParam, LPARAM lParam )
+static int OnContactDrag(WPARAM wParam, LPARAM lParam)
 {
-	ThumbInfo	*pNewThumb	 =  NULL;
-	HANDLE		hContact	 =  ( HANDLE )wParam;
-	ThumbInfo	*pThumb		 =  thumbList.FindThumbByContact( hContact );
-	TCHAR		*ptName		 =  (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, (LPARAM)GCDNF_TCHAR );
-	int			idStatus	 =  ID_STATUS_OFFLINE;
+	ThumbInfo *pNewThumb = NULL;
+	HANDLE hContact = (HANDLE)wParam;
+	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
+	TCHAR *ptName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, (LPARAM)GCDNF_TCHAR );
+	int idStatus = ID_STATUS_OFFLINE;
 	POINT pt;
 	GetCursorPos(&pt);
 
-	if ( pThumb == NULL ) {
-		idStatus = GetContactStatus( hContact );
+	if (pThumb == NULL) {
+		idStatus = GetContactStatus(hContact);
 
 		if ( !fcOpt.bHideAll && !HideOnFullScreen() && ( !fcOpt.bHideOffline || IsStatusVisible( idStatus ))  && (!fcOpt.bHideWhenCListShow || !bIsCListShow)) {
-			CreateThumbWnd( ptName, hContact, pt.x, pt.y );
-			pNewThumb = thumbList.FindThumbByContact( hContact );
-			ShowWindow( pNewThumb->hwnd, SW_SHOWNA );
+			CreateThumbWnd(ptName, hContact, pt.x, pt.y);
+			pNewThumb = thumbList.FindThumbByContact(hContact);
+			ShowWindow(pNewThumb->hwnd, SW_SHOWNA);
 			hNewContact = hContact;
 
 			OnStatusChanged();
 		}
 	}
-	else if ( hContact == hNewContact )
+	else if (hContact == hNewContact)
 		pThumb->PositionThumb(pt.x - 5, pt.y - 5);
 
-	return( hNewContact != NULL ? 1 : 0 );
+	return hNewContact != NULL;
 }
 
-
-
-static int OnContactDrop( WPARAM wParam, LPARAM lParam )
+static int OnContactDrop(WPARAM wParam, LPARAM lParam)
 {
-	RECT	rcMiranda;
-	RECT	rcThumb;
-//	RECT	rcOverlap;
+	RECT rcMiranda;
+	RECT rcThumb;
 
-	HANDLE	hContact	 =  ( HANDLE )wParam;
-	ThumbInfo *pThumb	 =  thumbList.FindThumbByContact( hContact );
+	HANDLE hContact = (HANDLE)wParam;
+	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 
-	if ( ( hNewContact == hContact ) && ( pThumb != NULL ))
-	{
+	if (hNewContact == hContact && pThumb != NULL) {
 		hNewContact = NULL;
 
 		GetWindowRect( hwndMiranda, &rcMiranda );
@@ -219,15 +210,13 @@ static int OnContactDrop( WPARAM wParam, LPARAM lParam )
 
 	SaveContactsPos();
 
-	return( 1 );
+	return 1;
 }
 
-
-static int OnContactDragStop( WPARAM wParam, LPARAM lParam )
+static int OnContactDragStop(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = ( HANDLE )wParam;
-	ThumbInfo *pThumb = thumbList.FindThumbByContact( hContact );
-
+	HANDLE hContact = (HANDLE)wParam;
+	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	if (pThumb != NULL && hNewContact == hContact ) {
 		thumbList.RemoveThumb( pThumb );
 		hNewContact = NULL;
@@ -236,11 +225,10 @@ static int OnContactDragStop( WPARAM wParam, LPARAM lParam )
 	return 0;
 }
 
-
-static int OnSkinIconsChanged( WPARAM wParam, LPARAM lParam )
+static int OnSkinIconsChanged(WPARAM wParam, LPARAM lParam)
 {
 	// Get handle to the image list
-	himl = ( HIMAGELIST )CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0 );
+	himl = ( HIMAGELIST )CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
 
 	// Update thumbs
 	for (int i = 0; i < thumbList.getCount(); ++i)
@@ -249,19 +237,15 @@ static int OnSkinIconsChanged( WPARAM wParam, LPARAM lParam )
 	return 0;
 }
 
-
-
-static int OnContactSettingChanged( WPARAM wParam, LPARAM lParam )
+static int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE		hContact	 =  ( HANDLE )wParam;
-	ThumbInfo	*pThumb		 =  thumbList.FindThumbByContact( hContact );
-	int			idStatus	 =  ID_STATUS_OFFLINE;
-	BOOL		bRefresh	 =  TRUE;
-	DBCONTACTWRITESETTING* pdbcws = ( DBCONTACTWRITESETTING* )lParam;
+	HANDLE hContact = (HANDLE)wParam;
+	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
+	int idStatus = ID_STATUS_OFFLINE;
+	BOOL bRefresh = TRUE;
+	DBCONTACTWRITESETTING* pdbcws = (DBCONTACTWRITESETTING*)lParam;
 
-
-	if ( hContact == NULL )
-	{
+	if (hContact == NULL) {
 		if (( 0 == _stricmp( pdbcws->szModule, "CLC" )) || ( 0 == _stricmp( pdbcws->szModule, MODULE )) ) {
 			LoadDBSettings();
 			ApplyOptionsChanges();
@@ -270,52 +254,46 @@ static int OnContactSettingChanged( WPARAM wParam, LPARAM lParam )
 		return 0;
 	}
 
-	if ( pThumb == NULL ) return 0;
+	if ( pThumb == NULL )
+		return 0;
 
 	// Only on these 2 events we need to refresh
-	if ( 0 == _stricmp( pdbcws->szSetting, "Status" ))
+	if (0 == _stricmp(pdbcws->szSetting, "Status"))
 	{
 		idStatus = pdbcws->value.wVal;
 	}
-	else if ( 0 == _stricmp( pdbcws->szSetting, "Nick" ))
+	else if (0 == _stricmp(pdbcws->szSetting, "Nick"))
 	{
-		idStatus = GetContactStatus( hContact );
+		idStatus = GetContactStatus(hContact);
 	}
-	else if ( 0 == _stricmp( pdbcws->szSetting, "MyHandle" ))
+	else if (0 == _stricmp(pdbcws->szSetting, "MyHandle"))
 	{
-		idStatus = GetContactStatus( hContact );
+		idStatus = GetContactStatus(hContact);
 	}
-	else if ( fcOpt.bShowIdle && 0 == _stricmp( pdbcws->szSetting, "IdleTS" ))
+	else if (fcOpt.bShowIdle && 0 == _stricmp( pdbcws->szSetting, "IdleTS"))
 	{
-		idStatus = GetContactStatus( hContact );
+		idStatus = GetContactStatus(hContact);
 	}
 	else
 	{
 		bRefresh = FALSE;
 	}
 
-	if ( bRefresh )
-	{
-		// Detach call
-		PostMessage( pThumb->hwnd, WM_REFRESH_CONTACT, 0, idStatus );
-	}
+	// Detach call
+	if (bRefresh)
+		PostMessage(pThumb->hwnd, WM_REFRESH_CONTACT, 0, idStatus);
 
 	return 0;
 }
 
-
-static int OnStatusModeChange( WPARAM wParam, LPARAM lParam )
+static int OnStatusModeChange(WPARAM wParam, LPARAM lParam)
 {
-	int			idStatus;
-
-	//nStatus = (int)wParam;
-
-	for (int i = 0; i < thumbList.getCount(); ++i)
-	{
-		idStatus = GetContactStatus( thumbList[i]->hContact );
-		thumbList[i]->RefreshContactStatus( idStatus );
+	for (int i = 0; i < thumbList.getCount(); ++i) {
+		int idStatus = GetContactStatus( thumbList[i]->hContact );
+		thumbList[i]->RefreshContactStatus(idStatus);
 	}
-	if ( wParam == ID_STATUS_OFFLINE )
+
+	if (wParam == ID_STATUS_OFFLINE)
 	{
 		// Floating status window will use this
 	}
@@ -323,40 +301,35 @@ static int OnStatusModeChange( WPARAM wParam, LPARAM lParam )
 	return 0;
 }
 
-
-
-static int OnPrebuildContactMenu( WPARAM wParam, LPARAM lParam )
+static int OnPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	ThumbInfo *pThumb = thumbList.FindThumbByContact( (HANDLE) wParam );
+	ThumbInfo *pThumb = thumbList.FindThumbByContact((HANDLE) wParam );
 
 	Menu_ShowItem(hMenuItemRemove, pThumb != NULL);
 	Menu_ShowItem(hMenuItemHideAll, !fcOpt.bHideAll);
 	return 0;
 }
 
-
-
-
 ///////////////////////////////////////////////////////
 // General functions
 
 static void LoadDBSettings()
 {
-	fcOpt.thumbAlpha			 =  (BYTE)((double)db_get_b( NULL, MODULE, "Opacity", 100 ) * 2.55 );
-	fcOpt.bHideOffline			 =  (BOOL)db_get_b( NULL, MODULE, "HideOffline", 0 );
-	fcOpt.bHideAll				 =  (BOOL)db_get_b( NULL, MODULE, "HideAll", 0 );
-	fcOpt.bHideWhenFullscreen	 =  (BOOL)db_get_b( NULL, MODULE, "HideWhenFullscreen", 0 );
-	fcOpt.bMoveTogether			 =  (BOOL)db_get_b( NULL, MODULE, "MoveTogether", 0 );
-	fcOpt.bFixedWidth			 =  (BOOL)db_get_b( NULL, MODULE, "FixedWidth", 0 );
-	fcOpt.nThumbWidth			 =  (DWORD)db_get_dw( NULL, MODULE, "Width", 0 );
-	dwOfflineModes				 =  db_get_dw( NULL, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES );
-	fcOpt.bShowTip				 =  (BOOL)db_get_b( NULL, MODULE, "ShowTip", 1 );
-	fcOpt.TimeIn				 =  (WORD)db_get_w( NULL, MODULE, "TimeIn", 0 );
-	fcOpt.bToTop				 =  (BOOL)db_get_b( NULL, MODULE, "ToTop", 0 );
-	fcOpt.ToTopTime				 =  (WORD)db_get_w( NULL, MODULE, "ToTopTime", TOTOPTIME_DEF );
-	fcOpt.bHideWhenCListShow	 =  (BOOL)db_get_b( NULL, MODULE, "HideWhenCListShow", 0 );
-	fcOpt.bUseSingleClick		 =  (BOOL)db_get_b( NULL, MODULE, "UseSingleClick", 0 );
-	fcOpt.bShowIdle				 =  (BOOL)db_get_b( NULL, MODULE, "ShowIdle", 0 );
+	fcOpt.thumbAlpha = (BYTE)((double)db_get_b( NULL, MODULE, "Opacity", 100 ) * 2.55);
+	fcOpt.bHideOffline = (BOOL)db_get_b( NULL, MODULE, "HideOffline", 0);
+	fcOpt.bHideAll = (BOOL)db_get_b( NULL, MODULE, "HideAll", 0);
+	fcOpt.bHideWhenFullscreen = (BOOL)db_get_b( NULL, MODULE, "HideWhenFullscreen", 0);
+	fcOpt.bMoveTogether = (BOOL)db_get_b( NULL, MODULE, "MoveTogether", 0);
+	fcOpt.bFixedWidth = (BOOL)db_get_b( NULL, MODULE, "FixedWidth", 0);
+	fcOpt.nThumbWidth = (DWORD)db_get_dw( NULL, MODULE, "Width", 0);
+	dwOfflineModes = db_get_dw( NULL, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES);
+	fcOpt.bShowTip = (BOOL)db_get_b( NULL, MODULE, "ShowTip", 1);
+	fcOpt.TimeIn = (WORD)db_get_w( NULL, MODULE, "TimeIn", 0);
+	fcOpt.bToTop = (BOOL)db_get_b( NULL, MODULE, "ToTop", 0);
+	fcOpt.ToTopTime = (WORD)db_get_w( NULL, MODULE, "ToTopTime", TOTOPTIME_DEF);
+	fcOpt.bHideWhenCListShow = (BOOL)db_get_b( NULL, MODULE, "HideWhenCListShow", 0);
+	fcOpt.bUseSingleClick = (BOOL)db_get_b( NULL, MODULE, "UseSingleClick", 0);
+	fcOpt.bShowIdle = (BOOL)db_get_b( NULL, MODULE, "ShowIdle", 0);
 
 	if (db_get_b(NULL, "ModernData", "HideBehind", 0))
 		bIsCListShow = (db_get_b(NULL, "ModernData", "BehindEdge", 0) == 0);
@@ -367,52 +340,42 @@ static void LoadDBSettings()
 void SendMsgDialog( HWND hwnd, TCHAR *pText )
 {
 	ThumbInfo *pThumb = thumbList.FindThumb( hwnd );
-
 	if ( pThumb != NULL )
 		CallService(MS_MSG_SENDMESSAGET, (WPARAM)pThumb->hContact, (LPARAM)pText );
 }
 
-
 static void ShowContactMenu( HWND hwnd, POINT pt )
 {
-	ThumbInfo	*pThumb		 =  thumbList.FindThumb( hwnd );
-
-	if ( pThumb != NULL )
-	{
-		hContactMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)pThumb->hContact, 0 );
-
-		if ( hContactMenu == NULL ) return;
+	ThumbInfo *pThumb = thumbList.FindThumb( hwnd );
+	if ( pThumb != NULL ) {
+		hContactMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)pThumb->hContact, 0);
+		if ( hContactMenu == NULL )
+			return;
 
 		int idCommand = TrackPopupMenu( hContactMenu, TPM_RIGHTALIGN | TPM_TOPALIGN | TPM_RETURNCMD, pt.x, pt.y, 0 , hwnd, NULL );
 		CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM( idCommand , MPCF_CONTACTMENU), (LPARAM)pThumb->hContact );
 	}
 }
 
-static LRESULT __stdcall CommWndProc(	HWND	hwnd,
-										UINT	uMsg,
-										WPARAM	wParam,
-										LPARAM  lParam	)
+static LRESULT __stdcall CommWndProc(HWND	hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	LRESULT		lResult		 =  0;
-	ThumbInfo	*pThumb		 =  thumbList.FindThumb( hwnd );
+	LRESULT lResult = 0;
+	ThumbInfo *pThumb = thumbList.FindThumb(hwnd);
 
-	switch( uMsg )
-	{
+	switch(uMsg) {
 	case WM_RBUTTONUP:
 		{
 			POINT pt;
-			pt.x = LOWORD(lParam );
-			pt.y = HIWORD(lParam );
+			pt.x = LOWORD(lParam);
+			pt.y = HIWORD(lParam);
 
-			if (pThumb) pThumb->ThumbDeselect( TRUE );
+			if (pThumb) pThumb->ThumbDeselect(TRUE);
 
 			ClientToScreen(hwnd, &pt);
 			ShowContactMenu( hwnd, pt );
 		}
-
 		break;
 
-//#if 0
 	case WM_NCPAINT:
 		if (pThumb){
 			HDC hdc = GetWindowDC( hwnd );
@@ -440,14 +403,13 @@ static LRESULT __stdcall CommWndProc(	HWND	hwnd,
 			//RepaintWindow(hwnd, (HDC)wParam);
 			break;
 		}
-//#endif
 
 	case WM_MEASUREITEM:
-		lResult = CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam );
+		lResult = CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
 		break;
 
 	case WM_DRAWITEM:
-		lResult = CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam );
+		lResult = CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
 		break;
 
 	case WM_LBUTTONDOWN:
@@ -472,80 +434,66 @@ static LRESULT __stdcall CommWndProc(	HWND	hwnd,
 		break;
 
 	case WM_RBUTTONDOWN:
-		if (bEnableTip && fcOpt.bShowTip && pThumb) pThumb->KillTip();
+		if (bEnableTip && fcOpt.bShowTip && pThumb)
+			pThumb->KillTip();
 		break;
+
 	case WM_REFRESH_CONTACT:
-		if (pThumb)
-		{
-			_tcsncpy( pThumb->ptszName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)pThumb->hContact, (LPARAM)GCDNF_TCHAR ), USERNAME_LEN - 1 );
-			pThumb->RefreshContactStatus( (int)lParam );
+		if (pThumb) {
+			_tcsncpy( pThumb->ptszName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)pThumb->hContact, (LPARAM)GCDNF_TCHAR ), USERNAME_LEN - 1);
+			pThumb->RefreshContactStatus((int)lParam);
 			pThumb->ResizeThumb();
 		}
 		break;
 
 	case WM_TIMER:
-		if (pThumb)pThumb->OnTimer(wParam);
+		if (pThumb)
+			pThumb->OnTimer(wParam);
 		break;
 
 	case WM_HOTKEY:
-		{
-			ThumbInfo *pThumb = thumbList.FindThumb( ( HWND )wParam );
-
-			if (pThumb)	pThumb->PopupMessageDialog();
-		}
-
-	default:
-		break;
+		ThumbInfo *pThumb = thumbList.FindThumb((HWND)wParam);
+		if (pThumb)
+			pThumb->PopupMessageDialog();
 	}
 
-	lResult = DefWindowProc( hwnd, uMsg, wParam, lParam );
-
-	return( lResult );
+	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
-
-
 
 extern void SetThumbsOpacity( BYTE btAlpha )
 {
 	for (int i = 0; i < thumbList.getCount(); ++i)
-		thumbList[i]->SetThumbOpacity( btAlpha );
+		thumbList[i]->SetThumbOpacity(btAlpha);
 }
-
-
 
 static void GetScreenRect()
 {
-	rcScreen.left	 =  GetSystemMetrics( SM_XVIRTUALSCREEN );
-	rcScreen.top	 =  GetSystemMetrics( SM_YVIRTUALSCREEN );
-	rcScreen.right	 =  GetSystemMetrics( SM_CXVIRTUALSCREEN ) + rcScreen.left;
-	rcScreen.bottom	 =  GetSystemMetrics( SM_CYVIRTUALSCREEN ) + rcScreen.top;
+	rcScreen.left = GetSystemMetrics( SM_XVIRTUALSCREEN );
+	rcScreen.top = GetSystemMetrics( SM_YVIRTUALSCREEN );
+	rcScreen.right = GetSystemMetrics( SM_CXVIRTUALSCREEN ) + rcScreen.left;
+	rcScreen.bottom = GetSystemMetrics( SM_CYVIRTUALSCREEN ) + rcScreen.top;
 }
-
-
 
 void OnStatusChanged()
 {
-	int			idStatus	 =  ID_STATUS_OFFLINE;
+	int idStatus = ID_STATUS_OFFLINE;
 
-	for (int i = 0; i < thumbList.getCount(); ++i)
-	{
+	for (int i = 0; i < thumbList.getCount(); ++i) {
 		idStatus = GetContactStatus( thumbList[i]->hContact );
 		thumbList[i]->RefreshContactStatus( idStatus );
 	}
 }
-
-
 
 void ApplyOptionsChanges()
 {
 	CreateThumbsFont();
 	CreateBackgroundBrush();
 
-//	dwOfflineModes	 =  db_get_dw( NULL, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES );
-	if (!fcOpt.bToTop && ToTopTimerID){
+	if (!fcOpt.bToTop && ToTopTimerID) {
 		KillTimer(NULL, ToTopTimerID);
 		ToTopTimerID = 0;
 	}
+
 	if (fcOpt.bToTop){
 		if (ToTopTimerID) KillTimer(NULL, ToTopTimerID);
 		fcOpt.ToTopTime = (fcOpt.ToTopTime<1)?1:fcOpt.ToTopTime;
@@ -559,34 +507,20 @@ void ApplyOptionsChanges()
 		thumbList[i]->ResizeThumb();
 }
 
-
-
 ///////////////////////////////////////////////////////
 // Window creation
+
 static void RegisterWindowClass()
 {
-	WNDCLASSEX	wcx;
-	ZeroMemory( &wcx, sizeof( wcx ));
-
-	wcx.cbSize			 = 	sizeof( WNDCLASSEX );
-	wcx.style			 = 	CS_VREDRAW | CS_HREDRAW | CS_DBLCLKS;
-	wcx.lpfnWndProc		 = 	CommWndProc;
-	wcx.cbClsExtra		 = 	0;
-	wcx.cbWndExtra		 = 	0;
-	wcx.hInstance		 = 	hInst;
-	wcx.hIcon			 = 	NULL;
-	wcx.hCursor			 = 	NULL;
-	wcx.hbrBackground	 = 	GetSysColorBrush(COLOR_3DFACE);
-	wcx.lpszMenuName	 = 	NULL;
-	wcx.lpszClassName	 = 	WND_CLASS;
-	wcx.hIconSm			 = 	NULL;
-
-	SetLastError( 0 );
-
-	RegisterClassEx( &wcx );
+	WNDCLASSEX wcx = { 0 };
+	wcx.cbSize = sizeof(WNDCLASSEX);
+	wcx.style = CS_VREDRAW | CS_HREDRAW | CS_DBLCLKS;
+	wcx.lpfnWndProc = CommWndProc;
+	wcx.hInstance = hInst;
+	wcx.hbrBackground = GetSysColorBrush(COLOR_3DFACE);
+	wcx.lpszClassName	= WND_CLASS;
+	RegisterClassEx(&wcx);
 }
-
-
 
 static void UnregisterWindowClass()
 {
@@ -595,7 +529,7 @@ static void UnregisterWindowClass()
 
 static void CreateThumbWnd(TCHAR *ptszName, HANDLE hContact, int nX, int nY)
 {
-	ThumbInfo *pThumb = thumbList.FindThumbByContact( hContact );
+	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 	if (pThumb != NULL)
 		return;
 
@@ -605,16 +539,18 @@ static void CreateThumbWnd(TCHAR *ptszName, HANDLE hContact, int nX, int nY)
 	if (hwnd == NULL)
 		return;
 
-	pThumb = thumbList.AddThumb( hwnd, ptszName, hContact );
-	SetWindowLongPtr( hwnd, GWLP_USERDATA, (long)pThumb );
+	pThumb = thumbList.AddThumb(hwnd, ptszName, hContact);
+	SetWindowLongPtr(hwnd, GWLP_USERDATA, (long)pThumb);
 	pThumb->ResizeThumb();
 
-	pThumb->SetThumbOpacity( fcOpt.thumbAlpha );
-	ShowWindow( hwnd, ( fcOpt.bHideAll || HideOnFullScreen() || fcOpt.bHideOffline  || (fcOpt.bHideWhenCListShow && bIsCListShow))? SW_HIDE : SW_SHOWNA );
+	pThumb->SetThumbOpacity(fcOpt.thumbAlpha);
+	ShowWindow( hwnd, (fcOpt.bHideAll || HideOnFullScreen() || fcOpt.bHideOffline || (fcOpt.bHideWhenCListShow && bIsCListShow)) ? SW_HIDE : SW_SHOWNA);
 	pThumb->PositionThumb(nX, nY);
 
 	// force repaint
 	pThumb->UpdateContent();
+
+	WindowList_Add(hwndList, hwnd, hContact);
 }
 
 static void CreateThumbsFont()
@@ -681,13 +617,13 @@ static void CreateBackgroundBrush()
 	nBackgroundBmpUse = (WORD)db_get_w(NULL, MODULE, "BkBitmapOpt", FLT_DEFAULT_BKGNDBITMAPOPT);
 
 	// Create brush
-	hBkBrush	 =  CreateSolidBrush(bkColor);
+	hBkBrush	 = CreateSolidBrush(bkColor);
 
 	// Attach brush to the window
 	SetClassLong((HWND)WND_CLASS, GCLP_HBRBACKGROUND, (LONG)hBkBrush);
 }
 
-static int GetContactStatus( HANDLE hContact )
+static int GetContactStatus(HANDLE hContact)
 {
 	if (hContact == NULL) {
 		assert( !"Contact is NULL" );
@@ -702,7 +638,7 @@ static int GetContactStatus( HANDLE hContact )
 }
 
 
-static int ClcStatusToPf2( int status )
+static int ClcStatusToPf2(int status)
 {
 	switch(status) {
 		case ID_STATUS_ONLINE: return PF2_ONLINE;
@@ -719,14 +655,14 @@ static int ClcStatusToPf2( int status )
 	return 0;
 }
 
-BOOL IsStatusVisible( int status )
+BOOL IsStatusVisible(int status)
 {
-	return ( 0 == ( dwOfflineModes & ClcStatusToPf2( status )) );
+	return (0 == (dwOfflineModes & ClcStatusToPf2(status)));
 }
 
-void RegHotkey( HANDLE hContact, HWND hwnd )
+void RegHotkey(HANDLE hContact, HWND hwnd)
 {
-	char szBuf[ MAX_PATH ] =  {0};
+	char szBuf[MAX_PATH] = {0};
 
 	DBVARIANT dbv;
 	if (db_get_s(hContact, MODULE, "Hotkey", &dbv)) return;
@@ -737,7 +673,7 @@ void RegHotkey( HANDLE hContact, HWND hwnd )
 		UINT nModifiers = 0;
 		char chKey = 0;
 		char szMod[2][20] = {0};
-		char szKey[20] =  {0};
+		char szKey[20] = {0};
 
 		sscanf( szBuf, "%[^'+']+%[^'+']+%[^'+']", szMod[0], szMod[1], szKey );
 
@@ -763,30 +699,27 @@ void RegHotkey( HANDLE hContact, HWND hwnd )
 
 void SaveContactsPos()
 {
-	RECT					rc;
+	for (int i = 0; i < thumbList.getCount(); ++i) {
+		SetLastError( 0);
 
-	for (int i = 0; i < thumbList.getCount(); ++i)
-	{
-		SetLastError( 0 );
-
-		thumbList[i]->GetThumbRect( &rc );
+		RECT rc;
+		thumbList[i]->GetThumbRect(&rc);
 
 		if ( 0 == GetLastError())
 			db_set_dw( thumbList[i]->hContact, MODULE, "ThumbsPos", DB_POS_MAKE_XY(rc.left, rc.top));
 	}
 }
 
-
 static void LoadContacts()
 {
 	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-		LoadContact( hContact );
+		LoadContact(hContact);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Menus
 
-static INT_PTR OnMainMenu_HideAll( WPARAM wParam, LPARAM lParam )
+static INT_PTR OnMainMenu_HideAll(WPARAM wParam, LPARAM lParam)
 {
 	fcOpt.bHideAll = !fcOpt.bHideAll;
 	db_set_b(NULL, MODULE, "HideAll", (BYTE)fcOpt.bHideAll);
@@ -800,10 +733,10 @@ static INT_PTR OnMainMenu_HideAll( WPARAM wParam, LPARAM lParam )
 	return 0;
 }
 
-static INT_PTR OnContactMenu_Remove( WPARAM wParam, LPARAM lParam )
+static INT_PTR OnContactMenu_Remove(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = ( HANDLE )wParam;
-	ThumbInfo *pThumb = thumbList.FindThumbByContact( hContact );
+	HANDLE hContact = (HANDLE)wParam;
+	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
 
 	if (pThumb) {
 		pThumb->DeleteContactPos();
@@ -814,7 +747,7 @@ static INT_PTR OnContactMenu_Remove( WPARAM wParam, LPARAM lParam )
 	return 0;
 }
 
-static INT_PTR OnHotKey_HideWhenCListShow( WPARAM wParam, LPARAM lParam )
+static INT_PTR OnHotKey_HideWhenCListShow(WPARAM wParam, LPARAM lParam)
 {
 	fcOpt.bHideWhenCListShow = !fcOpt.bHideWhenCListShow;
 	db_set_b(NULL, MODULE, "HideWhenCListShow", (BYTE)fcOpt.bHideWhenCListShow);
@@ -863,23 +796,22 @@ static void LoadMenus()
 
 static void LoadContact( HANDLE hContact )
 {
-	ThumbInfo *pThumb = thumbList.FindThumbByContact( hContact );
-	if ( hContact == NULL )
+	ThumbInfo *pThumb = thumbList.FindThumbByContact(hContact);
+	if (hContact == NULL)
 		return;
 
-	DWORD	dwPos = db_get_dw( hContact, MODULE, "ThumbsPos", (DWORD)-1 );
-	if ( dwPos != -1 ) {
-		TCHAR	*ptName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, (LPARAM)GCDNF_TCHAR );
+	DWORD	dwPos = db_get_dw( hContact, MODULE, "ThumbsPos", (DWORD)-1);
+	if ( dwPos != -1) {
+		TCHAR	*ptName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, (LPARAM)GCDNF_TCHAR);
 		if ( ptName != NULL ) {
 			int nX = DB_POS_GETX( dwPos );
 			int nY = DB_POS_GETY( dwPos );
 
-			CreateThumbWnd( ptName, hContact, nX, nY );
+			CreateThumbWnd(ptName, hContact, nX, nY);
 			pThumb->PositionThumb(nX, nY);
 		}
 	}
 }
-
 
 BOOL HideOnFullScreen()
 {
@@ -929,21 +861,21 @@ void ShowThumbsOnHideCList()
 
 	for (int i = 0; i < thumbList.getCount(); ++i)
 		if ( !fcOpt.bHideOffline || IsStatusVisible( GetContactStatus(thumbList[i]->hContact)))
-			ShowWindow( thumbList[i]->hwnd, SW_SHOWNA );
+			ShowWindow(thumbList[i]->hwnd, SW_SHOWNA);
 }
 
 
 void HideThumbsOnShowCList()
 {
-	if (!fcOpt.bHideWhenCListShow || fcOpt.bHideAll || HideOnFullScreen())return;
+	if (!fcOpt.bHideWhenCListShow || fcOpt.bHideAll || HideOnFullScreen()) return;
 	for (int i = 0; i < thumbList.getCount(); ++i)
 		ShowWindow( thumbList[i]->hwnd, SW_HIDE );
 }
 
-static LRESULT __stdcall newMirandaWndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
+static LRESULT __stdcall newMirandaWndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	if (uMsg == WM_WINDOWPOSCHANGED) {
-		WINDOWPOS *wp = (WINDOWPOS *)lParam;
+		WINDOWPOS *wp = (WINDOWPOS*)lParam;
 		if (wp->flags & SWP_HIDEWINDOW) {
 			bIsCListShow = FALSE;
 			ShowThumbsOnHideCList();
@@ -978,7 +910,7 @@ static LRESULT __stdcall newMirandaWndProc( HWND hwnd, UINT uMsg, WPARAM wParam,
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int OnModulesLoded( WPARAM wParam, LPARAM lParam )
+static int OnModulesLoded(WPARAM wParam, LPARAM lParam)
 {
 	HookEvent(ME_CLIST_CONTACTICONCHANGED, OnContactIconChanged);
 	HookEvent(ME_SKIN_ICONSCHANGED, OnSkinIconsChanged);
@@ -1014,9 +946,17 @@ static int OnModulesLoded( WPARAM wParam, LPARAM lParam )
 	return 0;
 }
 
+static int OnPreshutdown(WPARAM, LPARAM)
+{
+	WindowList_Broadcast(hwndList, WM_DESTROY, 0, 0);
+	return 0;
+}
+
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfoEx);
+
+	hwndList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
 	InitOptions();
 
@@ -1034,6 +974,7 @@ extern "C" int __declspec(dllexport) Load()
 	}
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreshutdown);
 
 	HMODULE hUserDll = GetModuleHandleA("user32.dll");
 	if (hUserDll) {

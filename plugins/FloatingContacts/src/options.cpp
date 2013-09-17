@@ -119,19 +119,19 @@ static INT_PTR APIENTRY OptWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 				fcOpt.bFixedWidth = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_WIDTH);
 				db_set_b(NULL, MODULE, "FixedWidth", (BYTE)fcOpt.bFixedWidth);
-				fcOpt.nThumbWidth	 =  GetDlgItemInt(hwndDlg, IDC_TXT_WIDTH, &bSuccess, FALSE);
+				fcOpt.nThumbWidth	 = GetDlgItemInt(hwndDlg, IDC_TXT_WIDTH, &bSuccess, FALSE);
 				db_set_dw(NULL, MODULE, "Width", fcOpt.nThumbWidth );
 
 				if (bEnableTip) {
 					fcOpt.bShowTip = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_TIP);
 					db_set_b(NULL, MODULE, "ShowTip", (BYTE)fcOpt.bShowTip);
-					fcOpt.TimeIn	 =  GetDlgItemInt(hwndDlg, IDC_TXT_TIMEIN, &bSuccess, FALSE);
+					fcOpt.TimeIn	 = GetDlgItemInt(hwndDlg, IDC_TXT_TIMEIN, &bSuccess, FALSE);
 					db_set_w(NULL, MODULE, "TimeIn", fcOpt.TimeIn );
 				}
 
 				fcOpt.bToTop = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_TOTOP);
 				db_set_b(NULL, MODULE, "ToTop", (BYTE)fcOpt.bToTop);
-				fcOpt.ToTopTime	 =  GetDlgItemInt(hwndDlg, IDC_TXT_TOTOPTIME, &bSuccess, FALSE);
+				fcOpt.ToTopTime	 = GetDlgItemInt(hwndDlg, IDC_TXT_TOTOPTIME, &bSuccess, FALSE);
 				db_set_w(NULL, MODULE, "ToTopTime", fcOpt.ToTopTime );
 
 				fcOpt.bHideWhenCListShow = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDE_WHEN_CLISTSHOW);

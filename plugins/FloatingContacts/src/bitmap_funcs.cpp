@@ -1053,7 +1053,7 @@ bool MyBitmap::loadFromFile_png(const char *fn, const char *fnAlpha)
 		BYTE *pDibBits;
 		if ((hFile = CreateFileA(fn, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL)) != INVALID_HANDLE_VALUE)
 			if ((hMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL)) != NULL)
-					if ((ppMap = (BYTE*)MapViewOfFile( hMap, FILE_MAP_READ, 0, 0, 0 )) != NULL)
+					if ((ppMap = (BYTE*)MapViewOfFile( hMap, FILE_MAP_READ, 0, 0, 0)) != NULL)
 						cbFileSize = GetFileSize(hFile, NULL);
 		if (cbFileSize)
 		{
@@ -1096,10 +1096,10 @@ bool MyBitmap::loadFromFile_png(const char *fn, const char *fnAlpha)
 				BYTE *p1 = (BYTE *)bits + (bi->bmiHeader.biHeight-y-1)*bi->bmiHeader.biWidth*4;
 				for (int x = 0; x<bi->bmiHeader.biWidth; ++x)
 				{
-					p1[0] =  p2[0];
-					p1[1] =  p2[1];
-					p1[2] =  p2[2];
-					p1[3] =  p2[3];
+					p1[0] = p2[0];
+					p1[1] = p2[1];
+					p1[2] = p2[2];
+					p1[3] = p2[3];
 					p1 += 4;
 					p2 += 4;
 				}
@@ -1143,7 +1143,7 @@ bool MyBitmap::loadFromFile_default(const char *fn, const char *fnAlpha)
 		(alpha.getHeight() == height))
 	{
 		for (int i = 0; i < width*height; i++)
-			bits[i] = (bits[i] & 0x00ffffff) | ( (alpha.bits[i] & 0x000000ff) << 24 );
+			bits[i] = (bits[i] & 0x00ffffff) | ((alpha.bits[i] & 0x000000ff) << 24 );
 		premultipleChannels();
 	} else
 	{

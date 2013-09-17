@@ -49,8 +49,8 @@ HRESULT STDMETHODCALLTYPE CDropTarget::DragOver( DWORD fKeyState, POINTL pt, DWO
 
 HRESULT STDMETHODCALLTYPE CDropTarget::DragEnter( IDataObject *pData, DWORD fKeyState, POINTL pt, DWORD *pdwEffect)
 {
-	FORMATETC	feFile	 =  { CF_HDROP, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
-	FORMATETC	feText	 =  { CF_TEXT, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
+	FORMATETC	feFile	 = { CF_HDROP, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
+	FORMATETC	feText	 = { CF_TEXT, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
 
 	if ( S_OK == pData->QueryGetData( &feFile ) ||
 		 S_OK == pData->QueryGetData( &feText ))
@@ -154,9 +154,9 @@ HRESULT STDMETHODCALLTYPE CDropTarget::Drop( IDataObject *pData,DWORD fKeyState,
 
 BOOL OnDropFiles( HDROP hDrop, ThumbInfo *pThumb )
 {
-	UINT nDroppedItemsCount = DragQueryFile( hDrop, 0xFFFFFFFF, NULL, 0 );
+	UINT nDroppedItemsCount = DragQueryFile( hDrop, 0xFFFFFFFF, NULL, 0);
 
-	char **ppDroppedItems = ( char** )malloc( sizeof(char*)*( nDroppedItemsCount + 1 ));
+	char **ppDroppedItems = ( char** )malloc( sizeof(char*)*( nDroppedItemsCount + 1));
 	
 	if ( ppDroppedItems == NULL )
 	{
@@ -165,7 +165,7 @@ BOOL OnDropFiles( HDROP hDrop, ThumbInfo *pThumb )
 
 	ppDroppedItems[ nDroppedItemsCount ] = NULL;
 	
-	char  szFilename[ MAX_PATH ];
+	char  szFilename[MAX_PATH];
 	for (UINT iItem = 0; iItem < nDroppedItemsCount; ++iItem ) 
 	{
 		DragQueryFileA( hDrop, iItem, szFilename, sizeof( szFilename ));
@@ -174,7 +174,7 @@ BOOL OnDropFiles( HDROP hDrop, ThumbInfo *pThumb )
 	
 	UINT nFilesCount = CountDroppedFiles( ppDroppedItems, nDroppedItemsCount );
 	
-	char **ppFiles = ( char** )malloc( sizeof( char *)* ( nFilesCount+1 ));
+	char **ppFiles = ( char** )malloc( sizeof( char *)* ( nFilesCount+1));
 	
 	if ( ppFiles == NULL )
 	{
@@ -220,11 +220,11 @@ static int CountFiles( char *szItem )
 			if ( fd.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY )
 			{
 				// Skip parent directories
-				if ( ( 0 != strcmp( fd.cFileName, "." )) &&
+				if (( 0 != strcmp( fd.cFileName, "." )) &&
 					 ( 0 != strcmp( fd.cFileName, ".." )) )
 				{
-					char szDirName[ MAX_PATH ];
-					strncpy( szDirName, szItem, MAX_PATH - 1 );
+					char szDirName[MAX_PATH];
+					strncpy( szDirName, szItem, MAX_PATH - 1);
 
 					if ( NULL != strstr( szItem, "*.*" ))
 					{
@@ -262,11 +262,11 @@ static void SaveFiles( char *szItem, char **ppFiles, int *pnCount )
 			if ( fd.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY )
 			{
 				// Skip parent directories
-				if ( ( 0 != strcmp( fd.cFileName, "." )) &&
+				if (( 0 != strcmp( fd.cFileName, "." )) &&
 					 ( 0 != strcmp( fd.cFileName, ".." )) )
 				{
-					char szDirName[ MAX_PATH ];
-					strncpy( szDirName, szItem, MAX_PATH - 1 );
+					char szDirName[MAX_PATH];
+					strncpy( szDirName, szItem, MAX_PATH - 1);
 
 					if ( NULL != strstr( szItem, "*.*" ))
 					{
@@ -287,12 +287,12 @@ static void SaveFiles( char *szItem, char **ppFiles, int *pnCount )
 				size_t nSize = sizeof(char) * ( strlen( szItem ) + strlen( fd.cFileName ) + sizeof( char ));
 				char  *szFile = (char*) malloc( nSize ) ;
 				
-				strncpy( szFile, szItem, nSize - 1 ); 
+				strncpy( szFile, szItem, nSize - 1); 
 				
 				if ( NULL != strstr( szFile, "*.*" ))
 				{
 					szFile[ strlen( szFile ) - 3 ] = '\0';
-					strncat( szFile, fd.cFileName, MAX_PATH - 1 );
+					strncat( szFile, fd.cFileName, MAX_PATH - 1);
 				}
 								
 				ppFiles[ *pnCount ] = szFile;
