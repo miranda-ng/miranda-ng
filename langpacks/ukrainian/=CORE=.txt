@@ -280,7 +280,7 @@
 напр., Miranda Database
 [Driver]
 Драйвер
-[Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
 Проблема: Не знайдено жодного драйвера бази даних. Неможливо створити новий профиль, вам необхідний файл dbx_3x.dll
 [Download more plugins]
 Завантажити більше плагінів
@@ -2019,7 +2019,7 @@ xСтатус
 Тонке налаштування
 [New Group]
 Нова група
-[Are you sure you want to delete group '%s'? This operation can not be undone.]
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
 Справді бажаєте видалити групу "%s"?\nРезультати цієї дії є незворотніми.
 [Delete Group]
 Видалити групу

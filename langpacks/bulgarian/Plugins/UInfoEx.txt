@@ -298,7 +298,7 @@ popup за годишнина
 Ползване на задията за аватар
 [Country Flags]
 Държавни знамена
-[Use &unknown flag if country can not be determined]
+[Use &unknown flag if country cannot be determined]
 "Непознато знаме", ако не може да се определи държавата
 [Show country flag as &status icon on message window]
 Знамето като икона за състояние в прозореца за съобщения

@@ -155,11 +155,11 @@ Równoległe sesje logowania %s\nWyświetl informacje o aktywnych równoległych
 [Sign out all sessions]
 Wyloguj wszystkie sesje
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
-[Can not create avatars cache directory. ERROR: %d: %s\n%s]
+[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
 Nie można utowrzyć folderu cache awatarów. BŁĄD: %d: %s\n%s
-[Can not create avatar file. ERROR: %d: %s\n%s]
+[Cannot create avatar file. ERROR: %d: %s\n%s]
 Nie można utowrzyć pliku awatara. BŁĄD: %d: %s\n%s
-[Can not open avatar file. ERROR: %d: %s\n%s]
+[Cannot open avatar file. ERROR: %d: %s\n%s]
 Nie można otworzyć pliku awatara. BŁĄD: %d: %s\n%s
 ;file \protocols\Gadu-Gadu\src\core.cpp
 [Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
@@ -248,9 +248,9 @@ Twoje dane zostały wysłane do katalogu publicznego.
 [You have to be logged in before you can change your details.]
 Musisz być zalogowany, żeby zmienić swoje dane.
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
-[Can not create transfer file. ERROR: %d: %s (dcc)\n%s]
+[Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Nie można utowrzyć transferu plików. BŁĄD: %d: %s (dcc)\n%s
-[Can not create transfer file. ERROR: %d: %s (dcc7)\n%s]
+[Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
 Nie można utowrzyć transferu plików. BŁĄD: %d: %s (dcc7)\n%s
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed memory]
@@ -349,11 +349,11 @@ Obrazek od %s
 Obrazek dla %s
 [Select picture to send]
 Wybierz obrazek do wysłania
-[Can not create image cache directory. ERROR: %d: %s\n%s]
+[Cannot create image cache directory. ERROR: %d: %s\n%s]
 Nie można utworzyć folderu cache obrazków. BŁĄD: %d: %s\n%s
 [Cannot save received image to file. ERROR: %d: %s\n%s]
 Nie można zapisać otrzymanego obrazka do pliku. BŁĄD: %d: %s\n%s
-[Can not open image file. ERROR: %d: %s\n%s]
+[Cannot open image file. ERROR: %d: %s\n%s]
 Nie można otworzyć pliku obrazka. BŁĄD: %d: %s\n%s
 [Image exceeds maximum allowed size of 255 KB.]
 Rozmiar pliku obrazka przekracza maksymalny dozwolony rozmiar 255 KB.
@@ -400,9 +400,9 @@ Powiadomienia
 [Error]
 Błąd
 ;file \protocols\Gadu-Gadu\src\services.cpp
-[Can not remove old avatar file before refresh. ERROR: %d: %s\n%s]
+[Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]
 Nie można usunąć pliku starego awatara podczas odświeżania. BŁĄD: %d: %s\n%s
-[Can not remove old avatar file. ERROR: %d: %s\n%s]
+[Cannot remove old avatar file. ERROR: %d: %s\n%s]
 Nie można usunąć pliku starego awatara. BŁĄD: %d: %s\n%s
 [To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
 Aby usunąć swój awatar z Gadu-Gadu, musisz użyć strony gg.pl.

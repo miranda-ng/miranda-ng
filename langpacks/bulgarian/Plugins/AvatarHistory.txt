@@ -72,8 +72,8 @@ popup когато контакта промени аватара си
 Преглед
 [Avatar History: Select how to store history avatars]
 История на аватари: Изберете начин за съхраняване на историята
-[Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.]
-Моля, изберете как да бъде съхранявана историята на аватарите. Настройки НЕ могат да бъдат променяни, защото цялата натрупана история ще бъде загубена.
+[Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
+Моля, изберете как да бъде съхранявана историята на аватарите. Настройки НЕ МОГАТ да бъдат променяни, защото цялата натрупана история ще бъде загубена.
 [Store history in miranda history and all history avatars in same folder]
 Запис на историята в историята на Miranda и всички аватари в една папка.
 [Store history in miranda history and history avatars in per protocol folders]

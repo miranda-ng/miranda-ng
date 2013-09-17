@@ -27,7 +27,7 @@
 [Avatar removal:]
 [Preview]
 [Avatar History: Select how to store history avatars]
-[Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.]
+[Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 [Store history in miranda history and all history avatars in same folder]
 [Store history in miranda history and history avatars in per protocol folders]
 [Store history in miranda history and history avatars in per contact folders using shortcuts]

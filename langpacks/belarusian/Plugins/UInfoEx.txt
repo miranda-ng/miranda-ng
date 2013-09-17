@@ -284,7 +284,7 @@ E-Mail
 Пункт меню "Перазапуск"
 [Country Flags]
 Сцягі краін
-[Use &unknown flag if country can not be determined]
+[Use &unknown flag if country cannot be determined]
 Паказаць невядомы сцяг, калі краіна не вызначана
 [Show country flag as &status icon on message window]
 Паказваць сцяг, як абразок статусу ў вакне гутаркі

@@ -285,7 +285,7 @@ URL адреси
 напр. db3x mmap driver
 [Driver]
 Драйвер
-[Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
 Проблем: Не е намерен нито един драйвер за базата данни. Поради това не можете да създадете нов профил. Необходим е dbx_mmap.dll
 [Download more plugins]
 Сваляне на още приставки
@@ -2110,7 +2110,7 @@ URL
 ;file \src\modules\clist\groups.cpp
 [New Group]
 Нова група
-[Are you sure you want to delete group '%s'? This operation can not be undone.]
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
 Сигурни ли сте, че желаете групата '%s' да бъде изтрита? Това действие не може да бъде отменено.
 [Delete Group]
 Изтриване на групата

@@ -285,7 +285,7 @@ Możesz użyć innego sterownika profilu, oferującego więcej funkcji lub możl
 np. Profil Mirandy
 [Driver]
 Sterownik
-[Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
 Problem: Nie znaleziono żadnego sterownika bazy danych, co oznacza, że nie można stworzyć profilu. Pobierz jakiś sterownik np: dbx_mmap.dll
 [Download more plugins]
 Pobierz więcej wtyczek
@@ -2110,7 +2110,7 @@ Personalizacja
 ;file \src\modules\clist\groups.cpp
 [New Group]
 Nowa grupa
-[Are you sure you want to delete group '%s'? This operation can not be undone.]
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
 Czy napewno chcesz usunąć grupę '%s'? Ta operacja nie może być odwrócona.
 [Delete Group]
 Usuń grupę

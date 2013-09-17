@@ -70,7 +70,7 @@
 Тэст
 [Avatar History: Select how to store history avatars]
 Гісторыя аватараў: абярыце, як захоўваць гісторыю аватараў
-[Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.]
+[Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 Абярыце, якім чынам захоўваць гісторыю аватараў кантактаў. Гэта наладу НЕЛЬГА будзе змяніць у будучыні, бо ўсе папярэднія падзеі гісторыі будуць страчаны.
 [Store history in miranda history and all history avatars in same folder]
 Захоўваць гісторыю ў гісторыі Miranda і ўсе аватары ў адной тэчцы

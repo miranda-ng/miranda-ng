@@ -16,7 +16,7 @@ Pokaż ikonę kraju w oknie rozmowy
 Pokaż flagę kraju jako dodatkową ikonę na liście kontaków
 [Use &IP-to-country database for country detection]
 Użyj IP kraju do wykrycia flagi
-[Use &unknown flag if the country can not be determined]
+[Use &unknown flag if the country cannot be determined]
 Użyj pustej flagi jeżeli nie rozpoznano kraju
 ;file \plugins\CountryFlags\src\extraimg.cpp
 [Country flag]

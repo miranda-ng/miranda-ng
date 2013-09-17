@@ -419,7 +419,7 @@ DCC-запыт на перадачу файла пасланы %s [%s]
 Злучэнне DCC-чата неактыўна
 [Please choose an IRC-network to go online. This network will be the default.]
 Абярыце IRC сетка. Гэта сетка будзе абрана па змаўчанні.
-[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 Немагчыма ўсталяваць далучэнне. Вы не ўвялі ўсе неабходныя дадзеныя (нік, User ID і імя)
 ;file \protocols\IRCG\src\options.cpp
 [Main]

@@ -72,7 +72,7 @@ Usunięcie awataru:
 Podgląd
 [Avatar History: Select how to store history avatars]
 Historia awataru: Wybierz sposób przechowywania awatarów
-[Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.]
+[Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 Proszę wybrać sposób przechowywania historii awatarów. Te ustawienia NIE będą mogły być zmienione, ponieważ spowodowałoby to utratę całej poprzedniej historii
 [Store history in miranda history and all history avatars in same folder]
 Przechowuj historię w profilu Mirandy, a wszystkie awatary w tym samym folderze

@@ -17,7 +17,7 @@
 Використовувати базу IP для визначення країни
 [In following contact list &column:]
 У наступному слоті:
-[Use &unknown flag if the country can not be determined]
+[Use &unknown flag if the country cannot be determined]
 Показати невід. прапор, якщо країну не можна визначити
 [Faroe Islands]
 Фарерські О-ви

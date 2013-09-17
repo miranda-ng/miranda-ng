@@ -90,7 +90,7 @@
 [Fill description textbox.]
 [Delete after send]
 [Capture]
-[Cant create a Screenshot]
+[Can't create a Screenshot]
 [Select a target window.]
 [Screenshot ]
 [for Client area ]

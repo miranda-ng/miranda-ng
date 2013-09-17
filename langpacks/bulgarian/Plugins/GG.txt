@@ -155,11 +155,11 @@ Gadu-Gadu номер:
 [Sign out all sessions]
 Отписване от всички сесии
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
-[Can not create avatars cache directory. ERROR: %d: %s\n%s]
+[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
 
-[Can not create avatar file. ERROR: %d: %s\n%s]
+[Cannot create avatar file. ERROR: %d: %s\n%s]
 
-[Can not open avatar file. ERROR: %d: %s\n%s]
+[Cannot open avatar file. ERROR: %d: %s\n%s]
 
 ;file \protocols\Gadu-Gadu\src\core.cpp
 [Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
@@ -248,9 +248,9 @@ Gadu-Gadu номер:
 [You have to be logged in before you can change your details.]
 Трябва да се впишете преда да промените подробностите за себе си.
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
-[Can not create transfer file. ERROR: %d: %s (dcc)\n%s]
+[Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 
-[Can not create transfer file. ERROR: %d: %s (dcc7)\n%s]
+[Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
 
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed memory]
@@ -349,11 +349,11 @@ Gadu-Gadu номер
 Изображение за %s
 [Select picture to send]
 Изберете изображение за изпращане
-[Can not create image cache directory. ERROR: %d: %s\n%s]
+[Cannot create image cache directory. ERROR: %d: %s\n%s]
 
 [Cannot save received image to file. ERROR: %d: %s\n%s]
 
-[Can not open image file. ERROR: %d: %s\n%s]
+[Cannot open image file. ERROR: %d: %s\n%s]
 
 [Image exceeds maximum allowed size of 255 KB.]
 Изображението надвишава максималния размер от 255kB.
@@ -400,9 +400,9 @@ Gadu-Gadu номер
 [Error]
 Грешка
 ;file \protocols\Gadu-Gadu\src\services.cpp
-[Can not remove old avatar file before refresh. ERROR: %d: %s\n%s]
+[Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]
 
-[Can not remove old avatar file. ERROR: %d: %s\n%s]
+[Cannot remove old avatar file. ERROR: %d: %s\n%s]
 
 [To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
 

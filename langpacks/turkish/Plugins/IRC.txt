@@ -355,7 +355,7 @@ Protokol çevrim içi değil
 DCC sohbet bağlantısı etkin değil
 [Please choose an IRC-network to go online. This network will be the default.]
 Çevrim içi olacağınız  bir IRC ağı seçin. Bu ağ varsayılan olacak.
-[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 Bağlantı kurulamadı. Tüm gerekli alanları doldurmadınız (Kısa ad, Kullanıcı Kimliği ve m_name).
 ;file \protocols\IRCG\src\options.cpp
 [Add]

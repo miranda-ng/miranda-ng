@@ -373,7 +373,7 @@ O protocolo não está online
 A conexão DCC bate-papo não está ativa
 [Please choose an IRC-network to go online. This network will be the default.]
 Por favor, escolha uma rede de IRC para estar online. Esta rede será a padrão.
-[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 A conexão não pode ser estabelecida! Você não completou todos os campos necessários (Apelido, ID de usuário e m_nome).
 ;file \protocols\IRCG\src\options.cpp
 [Add]

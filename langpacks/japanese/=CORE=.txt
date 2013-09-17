@@ -1996,7 +1996,7 @@ Fax
 ;file \src\modules\clist\groups.cpp
 [New Group]
 新規グループ
-[Are you sure you want to delete group '%s'? This operation can not be undone.]
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
 本当にグループ ' %s ' を削除しますか ? この操作は元に戻せません
 [Delete Group]
 グループの削除

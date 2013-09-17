@@ -16,7 +16,7 @@
 Показване на знамена в списъка с контакти
 [Use &IP-to-country database for country detection]
 Определяне на държава по IP
-[Use &unknown flag if the country can not be determined]
+[Use &unknown flag if the country cannot be determined]
 "Непознато знаме", ако не може да се определи държавата
 ;file \plugins\CountryFlags\src\extraimg.cpp
 [Country flag]

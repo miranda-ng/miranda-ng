@@ -16,7 +16,7 @@
 Паказваць сцяг, як дап. значок у кантакт-лісце
 [Use &IP-to-country database for country detection]
 Выкарыстоўваць базу IP для вызначэння краіны
-[Use &unknown flag if the country can not be determined]
+[Use &unknown flag if the country cannot be determined]
 Паказаць невядомы сцяг, калі краіну нельга вызначыць
 ;file \plugins\CountryFlags\src\extraimg.cpp
 [Country flag]

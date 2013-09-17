@@ -340,9 +340,9 @@ HTTP невядомая памылка
 [Error]
 Памылка
 ;file \protocols\Gadu-Gadu\src\services.cpp
-[Can not remove old avatar file before refresh. ERROR: %d: %s\n%s]
+[Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]
 Немагчыма выдаліць стары файл аватара да абнаўлення. Памылка: %d: %s\n%s
-[Can not remove old avatar file. ERROR: %d: %s\n%s]
+[Cannot remove old avatar file. ERROR: %d: %s\n%s]
 Немагчыма выдаліць стары файл аватара. Памылка: %d: %s\n%s
 [To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
 Для выдалення Gadu-Gadu аватара скарыстайцеся сайтам gg.pl.

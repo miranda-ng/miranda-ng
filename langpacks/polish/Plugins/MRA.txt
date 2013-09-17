@@ -218,7 +218,7 @@ Ryby
 Awatary
 [Avatars: server return HTTP code: %lu]
 
-[Avatars: cant open file %s, error]
+[Avatars: can't open file %s, error]
 
 ;file \protocols\MRA\src\MraChat.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
@@ -293,13 +293,13 @@ Nowy e-mail w skrzynce
 [Please authorize me]
 Proszę o autoryzację
 ;file \protocols\MRA\src\MraFilesQueue.cpp
-[Receive files: cant allocate disk space for file, size %lu bytes, error]
+[Receive files: can't allocate disk space for file, size %lu bytes, error]
 
-[Receive files: cant open file %s, error]
+[Receive files: can't open file %s, error]
 
 [Receive files: request for file %s not sended, error]
 
-[Send files: cant open file %s, error]
+[Send files: can't open file %s, error]
 
 [Send files: requested file: %S - not found in send files list.]
 
@@ -375,7 +375,7 @@ Proszę uzupełnić hasło w opcjach
 
 [MRIM_CS_MESSAGE_STATUS: not found in queue]
 
-[Server error: cant get MPOP key for web authorize]
+[Server error: can't get MPOP key for web authorize]
 
 [MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
 

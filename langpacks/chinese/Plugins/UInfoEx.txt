@@ -214,7 +214,7 @@
 邮箱
 [Show 'Restart' menu item]
 显示 '重启' 菜单项目
-[Use &unknown flag if country can not be determined]
+[Use &unknown flag if country cannot be determined]
 如不能确定国籍则使用未知标志(&U)
 [Age:]
 年龄: 

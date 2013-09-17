@@ -355,7 +355,7 @@ Ez a protokoll nem elérhetõ
 A dcc csevegési kapcsolat nem aktív
 [Please choose an IRC-network to go online. This network will be the default.]
 Kérlek válassz egy IRC-hálózatot a csatlakozáshoz. Ez lesz az alapért. hálózat.
-[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 Csatlakozás sikertelen! Nem töltöttél ki minden szükséges mezõt (Becenév, Felhasználó azonosító és m_név).
 ;file \protocols\IRCG\src\options.cpp
 [Add]

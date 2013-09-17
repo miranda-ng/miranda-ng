@@ -229,7 +229,7 @@ Uzupełnij pole z opisem.
 Usuń po wysłaniu
 [Capture]
 Uchwyć
-[Cant create a Screenshot]
+[Can't create a Screenshot]
 Nie można utworzyć zrzutu ekranu
 [Select a target window.]
 Wybierz okno.

@@ -285,7 +285,7 @@ Choisissez le pilote de profil désiré suivant ses fonctionnalités et possibil
 ex : Miranda Database
 [Driver]
 Pilote
-[Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
 
 [Download more plugins]
 Télécharger plus de plugins
@@ -2104,7 +2104,7 @@ Apparence
 ;file \src\modules\clist\groups.cpp
 [New Group]
 Nouveau groupe
-[Are you sure you want to delete group '%s'? This operation can not be undone.]
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
 
 [Delete Group]
 Effacer un groupe

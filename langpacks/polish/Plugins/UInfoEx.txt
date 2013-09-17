@@ -298,7 +298,7 @@ Pokaż 'Restart' w menu
 Użyj znak zodiaku jako domyślny awatar
 [Country Flags]
 Flagi krajów
-[Use &unknown flag if country can not be determined]
+[Use &unknown flag if country cannot be determined]
 Użyj pustej flagi, jeśli nie może zostać zidentyfokowana
 [Show country flag as &status icon on message window]
 Pokaż ikone kraju w oknie rozmowy

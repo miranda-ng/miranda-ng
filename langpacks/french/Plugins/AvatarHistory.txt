@@ -50,7 +50,7 @@ Avatar changé :
 Avatar effacé :
 [Avatar History: Select how to store history avatars]
 Avatar History : Méthode d'enregistrement des avatars.
-[Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.]
+[Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 Veuillez choisir comment l'historique des avatars sera stocker. Ce choix NE POURRAS PAS être modifier, sauf si vous voulez perdre tous les historiques.
 [Store history in miranda history and all history avatars in same folder]
 Stocker dans l'historique de Miranda-IM et tous les avatars dans un répertoire unique.

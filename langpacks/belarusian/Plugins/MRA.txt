@@ -163,7 +163,7 @@ xСтатус "%s"
 Аватары
 [Avatars: server return HTTP code: %lu]
 Аватары: сервер вярнуў HTTP код: %lu
-[Avatars: cant open file %s, error]
+[Avatars: can't open file %s, error]'
 Аватары: немагчыма адчыніць файл %s, памылка
 ;file \protocols\MRA\src\MraChat.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
@@ -238,11 +238,11 @@ xСтатус "%s"
 [Please authorize me]
 Калі ласка, аўтарызуй
 ;file \protocols\MRA\src\MraFilesQueue.cpp
-[Receive files: cant open file %s, error]
+[Receive files: can't open file %s, error]
 Атрыманне файлаў: немагчыма адкрыць файл %s, памылка
 [Receive files: request for file %s not sended, error]
 Атрыманне файлаў:запыт для файла %sне адпраўлены, памылка
-[Send files: cant open file %s, error]
+[Send files: can't open file %s, error]
 Адпраўка файла: немагчыма адкрыць файл %s, памылка
 [Send files: requested file: %S - not found in send files list.]
 Адпраўка файлаў: запытаны файл: %S - не знойдзены сярод файлаў падрыхтаваных да адпраўкі
@@ -314,7 +314,7 @@ Mail.ru дадаткова
 Памылка пры праверкі імя карыстача/пароля
 [MRIM_CS_MESSAGE_STATUS: not found in queue]
 MRIM_CS_MESSAGE_STATUS: не знойдзены ў чэргі
-[Server error: cant get MPOP key for web authorize]
+[Server error: can't get MPOP key for web authorize]
 Памылка сервера: не магчыма атрымаць MPOP ключ для вэб аўтарызацыі
 [MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
 MRIM_CS_FILE_TRANSFER_ACK: невядомая памылка, код: %lu

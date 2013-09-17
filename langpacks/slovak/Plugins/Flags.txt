@@ -16,7 +16,7 @@
 
 [Use &IP-to-country database for country detection]
 
-[Use &unknown flag if the country can not be determined]
+[Use &unknown flag if the country cannot be determined]
 
 ;file \plugins\CountryFlags\src\extraimg.cpp
 [Country flag]

@@ -12,7 +12,7 @@
 在联系人列表中显示国旗为额外图像(&E)
 [Use &IP-to-country database for country detection]
 国籍检测使用 &IP-to-country 数据库
-[Use &unknown flag if the country can not be determined]
+[Use &unknown flag if the country cannot be determined]
 如国籍无法确定则使用未知国旗(&U)
 ;file \plugins\CountryFlags\src\extraimg.cpp
 ;file \plugins\CountryFlags\src\options.cpp

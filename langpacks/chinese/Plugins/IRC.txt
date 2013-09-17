@@ -363,7 +363,7 @@ DCC 错误: 无法监听本地端口
 DCC 聊天连接尚未使用
 [Please choose an IRC-network to go online. This network will be the default.]
 请选择要上线的 IRC 网络. 此网络将设为默认值. 
-[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 无法建立连接! 您尚未完成所有必需项 (昵称, 用户 ID 及 m_name). 
 ;file \protocols\IRCG\src\options.cpp
 [Add]

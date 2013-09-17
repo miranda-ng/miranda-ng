@@ -285,7 +285,7 @@
 напрыклад, dbx_mmap
 [Driver]
 Драйвер
-[Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
 Не знойдзены рухавікі базы дадзеных, вы не можаце стварыць новы профіль. Вам неабходны файл dbx_mmap.dll
 [Download more plugins]
 Запампаваць іншыя плагіны
@@ -2108,7 +2108,7 @@ URL ад %s
 ;file \src\modules\clist\groups.cpp
 [New Group]
 Новая група
-[Are you sure you want to delete group '%s'? This operation can not be undone.]
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
 Вы ўпэўнены, што жадаеце выдаліць групу "%s"? Аперацыя не можа быць адменена.
 [Delete Group]
 Выдаленне групы

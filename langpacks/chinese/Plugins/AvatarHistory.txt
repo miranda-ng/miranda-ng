@@ -56,7 +56,7 @@
 头像移除: 
 [Avatar History: Select how to store history avatars]
 头像历史: 选择如何保存历史头像
-[Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.]
+[Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 请选择头像历史应如何保存. 此设置将 "不能" 被变更, 因为它会导致所有旧历史丢失. 
 [Store history in miranda history and all history avatars in same folder]
 把历史保存至 Miranda 历史, 而所有历史头像保存至相同文件夹
