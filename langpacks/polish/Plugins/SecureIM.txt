@@ -69,7 +69,7 @@ Eksportuj
 [&Import]
 Importuj
 [Set &keyrings...]
-Ustal &klucze.
+Ustal &klucze...
 [Disable keyrings use]
 Wyłącz użycie kluczy
 [Load &Private key]
@@ -137,7 +137,7 @@ Anuluj
 [SecureIM plugin Passphrase of private key]
 Hasło prywatnego klucza wtyczki SecureIM
 [Enter passphrase for the secret key:]
-Wprowadź hasło tajnego klucza
+Wprowadź hasło tajnego klucza:
 [Mode]
 Tryb
 [Native SecureIM]
@@ -157,15 +157,15 @@ Secure IM włączony
 [Secure IM Disabled]
 Secure IM wyłączony
 [Pre-shared key]
-przedwspółdzielony klucz
+Przed-współdzielony klucz
 [Set key]
 Ustaw klucz
 [Delete key]
 Usuń klucz
 [Set pre-shared key]
-Ustal klucz przedwspółdzielony
+Ustal klucz przed-współdzielony
 [Delete pre-shared key]
-Usuń przedwspółdzielony klucz
+Usuń przed-współdzielony klucz
 [Public key]
 Klucz publiczny
 [Export key]

@@ -93,7 +93,6 @@
 [we have secret key for this public key, do not removing from GPG keyring]
 [info]
 [Key removed from GPG keyring]
-[Export public key]
 [.asc pubkey file]
 [Choose gpg.exe]
 [Turn off encryption]

@@ -15,7 +15,6 @@
 [Supports New_GPG plugin for Miranda NG]
 [Enter the text you see]
 [Outcast]
-[&Slap]
 [Add to roster]
 [Items request error]
 [One or more addresses for communication related to abusive traffic]

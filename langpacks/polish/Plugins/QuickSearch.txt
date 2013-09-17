@@ -112,7 +112,7 @@ O
 [GENDER]
 PŁEĆ
 [AGE]
-Wiek
+WIEK
 [FIRSTLAST]
 IMIĘNAZWISKO
 [UNIQUEID]
@@ -120,7 +120,7 @@ UNIKALNYID
 [This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.]
 Pozwala szybko znaleźć kontakty z listy kontaktów poprzez nick, imię, e-mail, UIN, itp.
 [This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.Press F3 for activate...]
-Ta wtyczka pozwala Ci szybko wyszukać nick, imię, nazwisko, identyfikator lub adres E-mail na liście kontaktów, a teraz możesz dodać dowolne ustawienie, które ma być wyświetlane - na przykład wersja Mirandy, grupa lub miasto. Naciśnij F3, aby aktywować.
+Ta wtyczka pozwala Ci szybko wyszukać nick, imię, nazwisko, identyfikator lub adres E-mail na liście kontaktów. A teraz możesz dodać dowolne ustawienie, które ma być wyświetlane - na przykład wersja Mirandy, grupa lub miasto. Naciśnij F3, aby aktywować.
 [New Column]
 Nowa kolumna
 [Save Column]
@@ -160,7 +160,7 @@ Quick Search Mod
 [Script]
 Skrypt
 [Int]
-wewn.
+Wewn.
 [ContactInfo]
 O kontakcie
 [LastEvent]

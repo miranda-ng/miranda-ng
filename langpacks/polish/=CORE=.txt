@@ -158,7 +158,7 @@ OutputDebugString()
 [File]
 Plik
 [Run program when Miranda NG starts (eg tail -f, dbgview, etc.):]
-Uruchom program podczas uruchamiania Mirandy NG (np tail -f, dbgview, itp):
+Uruchom program podczas uruchamiania Mirandy NG (np tail -f, dbgview, itp.):
 [Run now]
 Uruchom teraz
 [Show this dialog box when Miranda NG starts]

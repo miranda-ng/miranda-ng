@@ -3,19 +3,19 @@
 ;  Module: weather
 ;============================================================
 [Feel]
-Uczucie
+Odczuwalna
 [Forecast Day 1]
-Zapowiedź dzień 1
+Prognoza na 1 dzień
 [Forecast Day 1 Condition]
-Zapowiedź Dzień 1 Warunki
+Prognoza dzień 1 - Warunki
 [Forecast Day 1 Date]
-Zapowiedź Dzień 1 Data
+Prognoza dzień 1 - Data
 [Forecast Day 1 Day]
-Zapowiedź Dzień 1 Dzień
+Prognoza dzień 1 - Dzień tyg.
 [Forecast Day 1 High]
-Zapowiedź Dzień 1 wyż
+Prognoza dzień 1 - Temperatura maksymalna
 [Forecast Day 1 Low]
-Zapowiedź dzień 1 niż
+Prognoza dzień 1 - Temperatura minimalna
 [Heat Index]
 Wskaźnik upałów
 [Wind Direction]
@@ -33,57 +33,57 @@ wt.
 [Thu]
 czw.
 [Fri]
-pt.
+piąt.
 [Sat]
 sob.
 [Sun]
-n.
+niedz.
 [Sunny]
-słonecznie
+Słonecznie
 [Partly Sunny]
-częściowo słonecznie
+Małe zachmurzenie
 [Mostly Sunny]
-przeważnie słonecznie
+W większości słonecznie
 [Partly Cloudy]
-częściowe zachmurzenie
+Częściowe zachmurzenie
 [Mostly Cloudy]
-przeważnie zachmurzenie
+W większości pochmurnie
 [Mostly Clear]
-przeważnie bezchmurnie
+W większości przejrzyście
 [N]
-pn.
+północ
 [W]
-zach.
+zachód
 [S]
-pd.
+południe
 [E]
-wsch.
+wschód
 [NW]
-pn. zach.
+północny zachód
 [NE]
-pn. wsch.
+północny wschód
 [SW]
-pd. zach.
+południowy zachód
 [SE]
-pd. wsch.
+południowy wschód
 [NNW]
-pn. pn. zach.
+północno-północny zachód
 [NNE]
-pn. pn. wsch.
+północno-północny wschód
 [SSW]
-pd. pd. zach.
+południowo-południowy zachód
 [SSE]
-pd. pd. wsch.
+południowo-południowy wschód
 [ENE]
-wsch. pn. wsch.
+wschodnio-północny wschód
 [WSW]
-zach. pd. zach.
+zachodnio-południowy zachód
 [WNW]
-zach. pn. zach.
+zachodnio-północny zachód
 [ESE]
-wsch. pd. wsch.
+wschodnio-południowy wschód
 [Scattered Clouds]
-rozproszone chmury
+Mało chmur
 [North]
 Północ
 [East]

@@ -682,7 +682,7 @@ Porozmawiajmy
 [&Leave chat session]
 Opuść pokój
 [&Slap]
-
+&Klepnij
 [&User details]
 Dane kontaktu
 [Member &info]

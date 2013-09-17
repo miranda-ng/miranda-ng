@@ -58,7 +58,7 @@ Otrzymywanie...
 [Sent successfully]
 Wysłano pomyślnie
 [Unknown command for "File As Message" was received]
-Otrzymano nieznaną komendę dla tytułu usługi
+Otrzymano nieznaną komendę dla usługi "File As Message"
 [Incoming file request. Do you want proceed?]
 Przychodzący transfer pliku. Czy chcesz kontynuować?
 [Cancelled by remote user]

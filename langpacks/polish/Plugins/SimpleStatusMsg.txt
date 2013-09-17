@@ -9,7 +9,7 @@
 Umożliwia zmianę statusu i opisów w prosty sposób.
 ;file \plugins\SimpleStatusMsg\res\resource.rc
 [%s Message for %s]
-Opis statusu "%s" - %s
+Opis "%s" dla %s
 [&Cancel]
 Anuluj
 [Retrieving %s message...]
@@ -121,9 +121,9 @@ Pokazuj okno ustawiania opisu
 [Fortune]
 Fortuna
 [?cinfo(contact,property)]
-?cinfo(kontakt,wartość)
+?cinfo(kontakt,właściwość)
 [?contact(string,property)]
-?kontakt(ciąg,wartość)
+?kontakt(ciąg,właściwość)
 [?mstatus(protocol)]
 ?mstatus(protokół)
 [?lsdate(contact,format)]
@@ -131,29 +131,29 @@ Fortuna
 [?lsstatus(contact)]
 ?lsstatus(kontakt)
 [?lstime(contact,format)]
-?lsczas(kontakt,format)
+?lstime(kontakt,format)
 [?dbsetting(contact,module,setting)]
-?ustawieniebazydanych(kontakt,moduł,ustawienie)
+?dbsetting(kontakt,moduł,ustawienie)
 [?txtfile(file,line)]
-?pliktxt(plik,linia)
+?txtfile(plik,linia)
 [?if(condition,true,false)]
-?jeśli(warunek,prwada,fałsz)
+?if(warunek,prwada,fałsz)
 [?strcmp(string1,string2)]
 ?strcmp(ciąg1,ciąg2)
 [?stricmp(string1,string2)]
 ?stricmp(ciąg1,ciąg2)
 [?cdate(format)]
-?cdata(format)
+?cdate(format)
 [?ctime(format)]
-?cczas(format)
+?ctime(format)
 [?replace(sub,string1,string2)]
-?zamień(sub,ciąg1,ciąg2)
+?replace(sub,ciąg1,ciąg2)
 [?lower(string)]
-?mały(ciąg)
+?lower(ciąg)
 [?upper(string)]
-?wielki(ciąg)
+?upper(ciąg)
 [?scroll(string,numchars,numchars)]
-?przewiń(ciąg,liczbaznaków,liczbaznaków)
+?scroll(ciąg,liczbaznaków,liczbaznaków)
 [More variables...]
 Więcej zmiennych...
 [Cut]
@@ -197,7 +197,7 @@ Zmień opis...
 [External Applications]
 Aplikacje zewnętrzne
 [retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
-Pobiera tytuł piosenki obecnie granej w Winampie (kompatybilne z Simple Status Message)
+pobiera tytuł piosenki obecnie granej w Winampie (kompatybilne z Simple Status Message)
 [Miranda Related]
 Spokrewnione z Mirandą
 [get the date (Simple Status Message compatible)]
@@ -270,10 +270,10 @@ Tak, jestem tu.
 [Nope, not here.]
 Nie, nie tutaj.
 [I'm hiding from the mafia.]
-Ukrywam się przed mafią.
+Jak zrobię tak, to mnie nie widać.
 [That'll be the phone.]
 Muszę odebrać telefon.
 [Mmm...food.]
-Mmm... jedzenie.
+Mmm... jedzonko.
 [idleeeeeeee]
 Bezczynnyyyyyyy
