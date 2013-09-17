@@ -142,7 +142,7 @@
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 [e.g. Miranda Database]
 [Driver]
-[Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
 [Download more plugins]
 [Description:]
 [Author(s):]
@@ -1085,7 +1085,7 @@
 [Customize]
 ;file \src\modules\clist\groups.cpp
 [New Group]
-[Are you sure you want to delete group '%s'? This operation can not be undone.]
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
 [Delete Group]
 [You already have a group with that name. Please enter a unique name for the group.]
 [Rename Group]

@@ -1,4 +1,4 @@
-﻿#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+﻿#muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
 ;============================================================
 ;  File: Quotes.dll
 ;  Plugin: Quotes
@@ -120,6 +120,7 @@
 [Last Year]
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
 [Error occurred during site access.]

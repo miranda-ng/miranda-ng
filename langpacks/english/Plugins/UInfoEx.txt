@@ -152,7 +152,7 @@
 [Show 'Restart' menu item]
 [Use Zodiac as default avatar]
 [Country Flags]
-[Use &unknown flag if country can not be determined]
+[Use &unknown flag if country cannot be determined]
 [Show country flag as &status icon on message window]
 [Birthday]
 [Age:]

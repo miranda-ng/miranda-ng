@@ -143,7 +143,7 @@
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 [e.g. Miranda Database]
 [Driver]
-[Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
+[Problem: Unable to find any database drivers, this means you cannot create a new profile, you need to get dbx_mmap.dll]
 [Download more plugins]
 [Description:]
 [Author(s):]
@@ -1086,7 +1086,7 @@
 [Customize]
 ;file \src\modules\clist\groups.cpp
 [New Group]
-[Are you sure you want to delete group '%s'? This operation can not be undone.]
+[Are you sure you want to delete group '%s'? This operation cannot be undone.]
 [Delete Group]
 [You already have a group with that name. Please enter a unique name for the group.]
 [Rename Group]
@@ -2291,7 +2291,7 @@
 [Miranda NG was not able to open "%S".\n\nThe file could not be processed.]
 [Miranda NG could not open URL]
 [Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
-[Miranda NG was not able to open "%S".\n\nThe given URL is invalid and can not be parsed.]
+[Miranda NG was not able to open "%S".\n\nThe given URL is invalid and cannot be parsed.]
 ;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 [Registry Warning]
@@ -2487,7 +2487,7 @@
 [Avatar removal:]
 [Preview]
 [Avatar History: Select how to store history avatars]
-[Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.]
+[Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 [Store history in miranda history and all history avatars in same folder]
 [Store history in miranda history and history avatars in per protocol folders]
 [Store history in miranda history and history avatars in per contact folders using shortcuts]
@@ -6059,7 +6059,7 @@
 [Show country flag as &status icon on message window]
 [Show country flag as &extra image on contact list]
 [Use &IP-to-country database for country detection]
-[Use &unknown flag if the country can not be determined]
+[Use &unknown flag if the country cannot be determined]
 ;file \plugins\CountryFlags\src\extraimg.cpp
 [Country flag]
 ;file \plugins\CountryFlags\src\options.cpp
@@ -6410,9 +6410,9 @@
 [Concurrent %s Login Sessions\nView information on active concurrent sessions]
 [Sign out all sessions]
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
-[Can not create avatars cache directory. ERROR: %d: %s\n%s]
-[Can not create avatar file. ERROR: %d: %s\n%s]
-[Can not open avatar file. ERROR: %d: %s\n%s]
+[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
+[Cannot create avatar file. ERROR: %d: %s\n%s]
+[Cannot open avatar file. ERROR: %d: %s\n%s]
 ;file \protocols\Gadu-Gadu\src\core.cpp
 [Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
@@ -6458,8 +6458,8 @@
 [Your details has been uploaded to the public directory.]
 [You have to be logged in before you can change your details.]
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
-[Can not create transfer file. ERROR: %d: %s (dcc)\n%s]
-[Can not create transfer file. ERROR: %d: %s (dcc7)\n%s]
+[Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
+[Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [HTTP failed memory]
 [HTTP failed connecting]
@@ -6511,9 +6511,9 @@
 [Image from %s]
 [Image for %s]
 [Select picture to send]
-[Can not create image cache directory. ERROR: %d: %s\n%s]
+[Cannot create image cache directory. ERROR: %d: %s\n%s]
 [Cannot save received image to file. ERROR: %d: %s\n%s]
-[Can not open image file. ERROR: %d: %s\n%s]
+[Cannot open image file. ERROR: %d: %s\n%s]
 [Image exceeds maximum allowed size of 255 KB.]
 ;file \protocols\Gadu-Gadu\src\import.cpp
 [You have to be connected before you can import/export contacts from/to server.]
@@ -6539,8 +6539,8 @@
 [Notify]
 [Error]
 ;file \protocols\Gadu-Gadu\src\services.cpp
-[Can not remove old avatar file before refresh. ERROR: %d: %s\n%s]
-[Can not remove old avatar file. ERROR: %d: %s\n%s]
+[Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]
+[Cannot remove old avatar file. ERROR: %d: %s\n%s]
 [To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
 ;file \protocols\Gadu-Gadu\src\sessions.cpp
 [Client Name]
@@ -8602,7 +8602,7 @@
 [The protocol is not online]
 [The dcc chat connection is not active]
 [Please choose an IRC-network to go online. This network will be the default.]
-[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 ;file \protocols\IRCG\src\options.cpp
 [Main]
 [Add]
@@ -10629,7 +10629,7 @@
 [&Check Lotus]
 [Lotus Notify]
 [New Lotus document detected]
-[LotusNotify.dll can not work with 64bit Miranda. (Lotus client is 32bit only)]
+[LotusNotify.dll cannot work with 64bit Miranda. (Lotus client is 32bit only)]
 [LotusNotify]
 ﻿#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
 ;============================================================
@@ -10841,9 +10841,9 @@
 [on left mouse button click]
 [on right mouse button click]
 [on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]
-[Show Miranda menu only in this firefox profiles (comma delimeted)]
-[Show this contacts in 'Send ... to' option in Firefox]
-[Show this accounts in 'Set status message' option in Firefox]
+[Show Miranda menu only in this firefox profiles (comma delimited)]
+[Show these contacts in 'Send ... to' option in Firefox]
+[Show these accounts in 'Set status message' option in Firefox]
 ;file \plugins\MirFox\src\MirandaInterface.cpp
 [MirFox/Notification]
 [MirFox/Error]
@@ -10862,19 +10862,19 @@
 [Message sent to %s (%s)]
 [Message sent]
 [MirFox]
-[Can not send message to %s (%s) - %S]
-[Can not send message - %S]
-[Can not send message to %s (%s)]
-[Can not send message]
+[Cannot send message to %s (%s) - %S]
+[Cannot send message - %S]
+[Cannot send message to %s (%s)]
+[Cannot send message]
 [MirFox error]
 [Status message set on %s]
 [Status message set]
-[Can not set status message on %s]
-[Can not set status message]
+[Cannot set status message on %s]
+[Cannot set status message]
 ;file \plugins\MirFox\src\MirfoxMiranda.cpp
 [This MirFox (Miranda) plugin is too old. Please update it.]
 [MirFox (Miranda) - Error]
-[This MirFox (Miranda) plugin can not start beacouse some other MirFox component is too old. Please, check and update your MirFox components.]
+[This MirFox (Miranda) plugin cannot start because some other MirFox component is too old. Please, check and update your MirFox components.]
 ﻿#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
 ;============================================================
 ;  File: MirOTR.dll
@@ -11161,7 +11161,7 @@
 [Virgo]
 [Libra]
 [Scorpio]
-[Sagitarius]
+[Sagittarius]
 [Capricorn]
 [Aquarius]
 [Pisces]
@@ -11169,7 +11169,7 @@
 [Avatars' plugin connections]
 [Avatars]
 [Avatars: server return HTTP code: %lu]
-[Avatars: cant open file %s, error]
+[Avatars: can't open file %s, error]
 ;file \protocols\MRA\src\MraChat.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
 [invite sender]
@@ -11208,10 +11208,10 @@
 [New E-mail available in Inbox]
 [Please authorize me]
 ;file \protocols\MRA\src\MraFilesQueue.cpp
-[Receive files: cant allocate disk space for file, size %lu bytes, error]
-[Receive files: cant open file %s, error]
+[Receive files: can't allocate disk space for file, size %lu bytes, error]
+[Receive files: can't open file %s, error]
 [Receive files: request for file %s not sended, error]
-[Send files: cant open file %s, error]
+[Send files: can't open file %s, error]
 [Send files: requested file: %S - not found in send files list.]
 ;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
@@ -11252,7 +11252,7 @@
 [Please, setup password in options]
 [Logon error: invalid login/password]
 [MRIM_CS_MESSAGE_STATUS: not found in queue]
-[Server error: cant get MPOP key for web authorize]
+[Server error: can't get MPOP key for web authorize]
 [MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
 [invisible status changed]
 [MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu]
@@ -13683,7 +13683,7 @@
 [Next item]
 [Open main window]
 [Frame background]
-﻿#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+﻿#muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
 ;============================================================
 ;  File: Quotes.dll
 ;  Plugin: Quotes
@@ -13805,6 +13805,7 @@
 [Last Year]
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [Error occurred during html parsing.]
 [Error occurred during site access.]
@@ -14892,7 +14893,7 @@
 [Fill description textbox.]
 [Delete after send]
 [Capture]
-[Cant create a Screenshot]
+[Can't create a Screenshot]
 [Select a target window.]
 [Screenshot ]
 [for Client area ]
@@ -18232,7 +18233,7 @@
 [Show 'Restart' menu item]
 [Use Zodiac as default avatar]
 [Country Flags]
-[Use &unknown flag if country can not be determined]
+[Use &unknown flag if country cannot be determined]
 [Show country flag as &status icon on message window]
 [Birthday]
 [Age:]
