@@ -376,6 +376,10 @@ static LRESULT __stdcall CommWndProc(HWND	hwnd, UINT uMsg, WPARAM wParam, LPARAM
 		}
 		break;
 
+	case WM_CLOSE:
+		DestroyWindow(hwnd);
+		break;
+
 	case WM_NCPAINT:
 		if (pThumb){
 			HDC hdc = GetWindowDC( hwnd );
@@ -948,7 +952,7 @@ static int OnModulesLoded(WPARAM wParam, LPARAM lParam)
 
 static int OnPreshutdown(WPARAM, LPARAM)
 {
-	WindowList_Broadcast(hwndList, WM_DESTROY, 0, 0);
+	WindowList_Broadcast(hwndList, WM_CLOSE, 0, 0);
 	return 0;
 }
 
