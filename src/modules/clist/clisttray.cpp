@@ -738,13 +738,11 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 				cli.pfnShowHide(0, 0);
 		}
 		else if (msg->lParam == WM_RBUTTONUP) {
-			MENUITEMINFO mi;
-			POINT pt;
 			HMENU hMainMenu = LoadMenu(cli.hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 			HMENU hMenu = GetSubMenu(hMainMenu, 0);
 			TranslateMenu(hMenu);
 
-			ZeroMemory(&mi, sizeof(mi));
+			MENUITEMINFO mi = { 0 };
 			mi.cbSize = MENUITEMINFO_V4_SIZE;
 			mi.fMask = MIIM_SUBMENU | MIIM_TYPE;
 			mi.fType = MFT_STRING;
@@ -758,6 +756,8 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 
 			SetForegroundWindow(msg->hwnd);
 			SetFocus(msg->hwnd);
+
+			POINT pt;
 			GetCursorPos(&pt);
 			TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN, pt.x, pt.y, 0, msg->hwnd, NULL);
 

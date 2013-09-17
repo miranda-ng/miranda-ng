@@ -109,10 +109,6 @@ static void removeHook(MSubclassData *p, int idx)
 	for (int i=idx+1; i < p->m_iHooks; i++)
 		p->m_hooks[i-1] = p->m_hooks[i];
 	p->m_iHooks--;
-
-	// emulate window destruction
-	saveProc(p->m_hWnd, WM_DESTROY, 0, 0);
-	saveProc(p->m_hWnd, WM_NCDESTROY, 0, 0);
 }
 
 MIR_CORE_DLL(void) mir_unsubclassWindow(HWND hWnd, WNDPROC wndProc)
