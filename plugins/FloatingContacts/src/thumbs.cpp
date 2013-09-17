@@ -39,7 +39,7 @@ ThumbInfo::ThumbInfo()
 
 ThumbInfo::~ThumbInfo()
 {
-	if (pThumbMouseIn == this){
+	if (pThumbMouseIn == this) {
 		pThumbMouseIn = NULL;
 		KillTimer(hwnd, TIMERID_LEAVE_T);
 	}
@@ -62,18 +62,10 @@ void ThumbInfo::PositionThumb(int nX, int nY)
 	hdwp = BeginDeferWindowPos(1);
 
 	ThumbInfo *pThumb = this;
-	while (pThumb)
-	{
+	while (pThumb) {
 		pThumb->PositionThumbWorker(pos.x, pos.y, &pos);
 
-		DeferWindowPos(	hdwp,
-						pThumb->hwnd, 
-						HWND_TOPMOST, 
-						pos.x, 
-						pos.y, 
-						0, 
-						0,
-						SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE );
+		DeferWindowPos(hdwp, pThumb->hwnd, HWND_TOPMOST, pos.x, pos.y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
 
 		pThumb->ptPos = pos;
 		pos.x += pThumb->szSize.cx;
@@ -86,21 +78,21 @@ void ThumbInfo::PositionThumb(int nX, int nY)
 
 void ThumbInfo::PositionThumbWorker(int nX, int nY, POINT *newPos)
 {
-	RECT		rc;
-	RECT		rcThumb;
-	int			nNewX;
-	int			nNewY;
-	int			nWidth;
-	int			nHeight;
-	POINT		pt;
-	RECT		rcLeft;
-	RECT		rcTop;
-	RECT		rcRight;
-	RECT		rcBottom;
-	BOOL		bDocked;
-	BOOL		bDockedLeft;
-	BOOL		bDockedRight;
-	BOOL		bLeading;
+	RECT  rc;
+	RECT  rcThumb;
+	int   nNewX;
+	int   nNewY;
+	int   nWidth;
+	int   nHeight;
+	POINT pt;
+	RECT	rcLeft;
+	RECT	rcTop;
+	RECT	rcRight;
+	RECT	rcBottom;
+	BOOL	bDocked;
+	BOOL	bDockedLeft;
+	BOOL	bDockedRight;
+	BOOL	bLeading;
 
 	// Get thumb dimnsions
 	GetThumbRect( &rcThumb );
@@ -113,160 +105,124 @@ void ThumbInfo::PositionThumbWorker(int nX, int nY, POINT *newPos)
 	bLeading = dockOpt.hwndRight != NULL;
 
 	if ( fcOpt.bMoveTogether )
-	{
 		UndockThumbs( this, thumbList.FindThumb( dockOpt.hwndLeft ));
-	}
 
+	for (int i = 0; i < thumbList.getCount(); ++i) {
+		ThumbInfo *pCurThumb	= &thumbList[i];
+		if (pCurThumb == this)
+			continue;
 
-	for (int i = 0; i < thumbList.getCount(); ++i)
-	{
-		ThumbInfo *pCurThumb	 = thumbList[i];
-
-		if ( pCurThumb != this )
-		{
-			GetThumbRect( &rcThumb );
-			OffsetRect( &rcThumb, nX - rcThumb.left, nY - rcThumb.top );
+		GetThumbRect( &rcThumb );
+		OffsetRect( &rcThumb, nX - rcThumb.left, nY - rcThumb.top );
 			
-			pCurThumb->GetThumbRect( &rc );
+		pCurThumb->GetThumbRect( &rc );
 
-			// These are rects we will dock into
+		// These are rects we will dock into
 					
-			rcLeft.left		 = rc.left - nOffs;
-			rcLeft.top		 = rc.top - nOffs;
-			rcLeft.right	 = rc.left + nOffs;
-			rcLeft.bottom	 = rc.bottom + nOffs;
+		rcLeft.left		 = rc.left - nOffs;
+		rcLeft.top		 = rc.top - nOffs;
+		rcLeft.right	 = rc.left + nOffs;
+		rcLeft.bottom	 = rc.bottom + nOffs;
 						
-			rcTop.left		 = rc.left - nOffs;
-			rcTop.top		 = rc.top - nOffs;
-			rcTop.right		 = rc.right + nOffs;
-			rcTop.bottom	 = rc.top + nOffs;
+		rcTop.left		 = rc.left - nOffs;
+		rcTop.top		 = rc.top - nOffs;
+		rcTop.right		 = rc.right + nOffs;
+		rcTop.bottom	 = rc.top + nOffs;
 
-			rcRight.left	 = rc.right - nOffs;
-			rcRight.top		 = rc.top - nOffs;
-			rcRight.right	 = rc.right + nOffs;
-			rcRight.bottom	 = rc.bottom + nOffs;
+		rcRight.left	 = rc.right - nOffs;
+		rcRight.top		 = rc.top - nOffs;
+		rcRight.right	 = rc.right + nOffs;
+		rcRight.bottom	 = rc.bottom + nOffs;
 
-			rcBottom.left	 = rc.left - nOffs;
-			rcBottom.top	 = rc.bottom - nOffs;
-			rcBottom.right	 = rc.right + nOffs;
-			rcBottom.bottom = rc.bottom + nOffs;
-
+		rcBottom.left	 = rc.left - nOffs;
+		rcBottom.top	 = rc.bottom - nOffs;
+		rcBottom.right	 = rc.right + nOffs;
+		rcBottom.bottom = rc.bottom + nOffs;
 			
-			bDockedLeft		 = FALSE;
-			bDockedRight	 = FALSE;
+		bDockedLeft = bDockedRight	= FALSE;
 
-			// Upper-left
-			pt.x	 = rcThumb.left;
-			pt.y	 = rcThumb.top;
-			bDocked	 = FALSE;
+		// Upper-left
+		pt.x = rcThumb.left;
+		pt.y = rcThumb.top;
+		bDocked = FALSE;
 			
-			if ( PtInRect( &rcRight, pt ))
-			{
-				nNewX	 = rc.right;
+		if ( PtInRect(&rcRight, pt)) {
+			nNewX	 = rc.right;
+			bDocked = TRUE;
+		}
+			
+		if ( PtInRect(&rcBottom, pt)) {
+			nNewY = rc.bottom;
+			if ( PtInRect( &rcLeft, pt))
+				nNewX = rc.left;
+		}
+
+		if ( PtInRect(&rcTop, pt)) {
+			nNewY		 = rc.top;
+			bDockedLeft	 = bDocked;
+		}
+			
+		// Upper-right
+		pt.x = rcThumb.right;
+		pt.y = rcThumb.top;
+		bDocked = FALSE;
+
+		if ( !bLeading && PtInRect( &rcLeft, pt)) {
+			if (!bDockedLeft) {
+				nNewX	 = rc.left - nWidth;
+				bDocked	 = TRUE;
+			}
+			else if ( rc.right == rcThumb.left )
 				bDocked = TRUE;
-			}
-			
-			if ( PtInRect( &rcBottom, pt ))
-			{
-				nNewY = rc.bottom;
-
-				if ( PtInRect( &rcLeft, pt ))
-				{
-					nNewX = rc.left;
-				}
-			}
-
-			if ( PtInRect( &rcTop, pt ))
-			{
-				nNewY		 = rc.top;
-				bDockedLeft	 = bDocked;
-			}
-			
-			// Upper-right
-			pt.x	 = rcThumb.right;
-			pt.y	 = rcThumb.top;
-			bDocked	 = FALSE;
-
-			if ( !bLeading && PtInRect( &rcLeft, pt ))
-			{
-				if ( !bDockedLeft )
-				{
-					nNewX	 = rc.left - nWidth;
-					bDocked	 = TRUE;
-				}
-				else if ( rc.right == rcThumb.left )
-				{
-					bDocked = TRUE;
-				}
-			}
+		}
 			
 
-			if ( PtInRect( &rcBottom, pt ))
-			{
-				nNewY = rc.bottom;
+		if ( PtInRect( &rcBottom, pt)) {
+			nNewY = rc.bottom;
+			if ( PtInRect( &rcRight, pt))
+				nNewX = rc.right - nWidth;
+		}
 
-				if ( PtInRect( &rcRight, pt ))
-				{
-					nNewX = rc.right - nWidth;
-				}
-			}
-
-			if ( !bLeading && PtInRect( &rcTop, pt ))
-			{
-				nNewY			 = rc.top;
-				bDockedRight	 = bDocked;
-			}
+		if ( !bLeading && PtInRect( &rcTop, pt)) {
+			nNewY = rc.top;
+			bDockedRight = bDocked;
+		}
 			
-			if ( fcOpt.bMoveTogether )
-			{
-				if ( bDockedRight )
-				{
-					DockThumbs( this, pCurThumb, TRUE );
-				}
+		if ( fcOpt.bMoveTogether ) {
+			if (bDockedRight)
+				DockThumbs(this, pCurThumb, TRUE);
 				
-				if ( bDockedLeft )
-				{
-					DockThumbs( pCurThumb, this, FALSE );
-				}
-			}									
+			if (bDockedLeft)
+				DockThumbs(pCurThumb, this, FALSE);
+		}									
 
-			// Lower-left
-			pt.x = rcThumb.left;
-			pt.y = rcThumb.bottom;
+		// Lower-left
+		pt.x = rcThumb.left;
+		pt.y = rcThumb.bottom;
 
-			if ( PtInRect( &rcRight, pt ))
-			{
-				nNewX = rc.right;
-			}
+		if ( PtInRect( &rcRight, pt))
+			nNewX = rc.right;
 
-			if ( PtInRect( &rcTop, pt ))
-			{
-				nNewY = rc.top - nHeight;
-
-				if ( PtInRect( &rcLeft, pt ))
-				{
-					nNewX = rc.left;
-				}
-			}
+		if ( PtInRect( &rcTop, pt)) {
+			nNewY = rc.top - nHeight;
+			if ( PtInRect( &rcLeft, pt))
+				nNewX = rc.left;
+		}
 			
 
-			// Lower-right
-			pt.x = rcThumb.right;
-			pt.y = rcThumb.bottom;
+		// Lower-right
+		pt.x = rcThumb.right;
+		pt.y = rcThumb.bottom;
 
-			if ( !bLeading && PtInRect( &rcLeft, pt ))
+		if ( !bLeading && PtInRect( &rcLeft, pt))
+			nNewX = rc.left - nWidth;
+
+		if ( !bLeading && PtInRect( &rcTop, pt)) {
+			nNewY = rc.top - nHeight;
+
+			if ( PtInRect( &rcRight, pt))
 			{
-				nNewX = rc.left - nWidth;
-			}
-
-			if ( !bLeading && PtInRect( &rcTop, pt ))
-			{
-				nNewY = rc.top - nHeight;
-
-				if ( PtInRect( &rcRight, pt ))
-				{
-					nNewX = rc.right - nWidth;
-				}
+				nNewX = rc.right - nWidth;
 			}
 		}
 	}
@@ -280,26 +236,25 @@ void ThumbInfo::PositionThumbWorker(int nX, int nY, POINT *newPos)
 
 void ThumbInfo::ResizeThumb()
 {
-	HDC		hdc			 = NULL;
-	HFONT	hOldFont	 = NULL;
+	HDC hdc = NULL;
+	HFONT	hOldFont = NULL;
 	POINT	ptText;
 	SIZEL	sizeIcon;
 	SIZEL	sizeText;
-	RECT	rcThumb;
-	int		index		 = FLT_FONTID_NOTONLIST;
+	RECT rcThumb;
+	int index = FLT_FONTID_NOTONLIST;
 
 	ThumbInfo *pNextThumb = NULL;
 	
-	himl = ( HIMAGELIST )CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
+	himlMiranda = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
+	if (himlMiranda == NULL)
+		return;
 	
-	if ( himl == NULL ) return;
-	
-	ImageList_GetIconSize_my(himl, sizeIcon);
+	ImageList_GetIconSize_my(himlMiranda, sizeIcon);
 
 	hdc = GetWindowDC(hwnd);
 
-	if (!db_get_b(hContact, "CList", "NotOnList", 0))
-	{
+	if (!db_get_b(hContact, "CList", "NotOnList", 0)) {
 		int nStatus;
 		int nContactStatus;
 		int nApparentMode;
@@ -313,33 +268,21 @@ void ThumbInfo::ResizeThumb()
 			nContactStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 			nApparentMode = db_get_w(hContact, szProto, "ApparentMode", 0);
 			
-			if (	(nStatus == ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_ONLINE)
-				||	(nStatus != ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_OFFLINE)
-				)
+			if ((nStatus == ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_ONLINE) ||
+				 (nStatus != ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_OFFLINE))
 			{
 				if (ID_STATUS_OFFLINE == nContactStatus)
-				{
 					index = FLT_FONTID_OFFINVIS;
-				}
 				else
-				{
-					index  = 	FLT_FONTID_INVIS;
-				}
+					index = FLT_FONTID_INVIS;
 			}
 			else if (ID_STATUS_OFFLINE == nContactStatus)
-			{
 				index = FLT_FONTID_OFFLINE;
-			}
 			else
-			{
 				index = FLT_FONTID_CONTACTS;
-			}
 		}
 	}
-	else
-	{
-		index = FLT_FONTID_NOTONLIST;
-	}
+	else index = FLT_FONTID_NOTONLIST;
 
 	hOldFont = (HFONT)SelectObject( hdc, hFont[ index ] );
 	
@@ -352,26 +295,18 @@ void ThumbInfo::ResizeThumb()
 	ptText.x = sizeText.cx;
 	ptText.y = sizeText.cy;
 	LPtoDP( hdc, &ptText, 1);
-
 	
 	szSize.cx = fcOpt.bFixedWidth ? fcOpt.nThumbWidth : sizeIcon.cx + ptText.x + 10;
 	szSize.cy = (( sizeIcon.cy > ptText.y ) ? sizeIcon.cy : ptText.y ) + 4;
 
-	SetWindowPos(	hwnd, 
-					HWND_TOPMOST, 
-					0, 
-					0, 
-					szSize.cx, 
-					szSize.cy,
-					SWP_NOMOVE | /*SWP_NOZORDER |*/ SWP_NOACTIVATE );
+	SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, szSize.cx, szSize.cy, SWP_NOMOVE | SWP_NOACTIVATE);
 	
 	RefreshContactIcon(0xFFFFFFFF);
 	
 	ReleaseDC( hwnd, hdc );
 
 	// Move the docked widnow if needed
-	if (pNextThumb = thumbList.FindThumb(dockOpt.hwndRight))
-	{
+	if (pNextThumb = thumbList.FindThumb(dockOpt.hwndRight)) {
 		GetThumbRect( &rcThumb );
 		pNextThumb->PositionThumb(rcThumb.right, rcThumb.top);
 	}
@@ -379,59 +314,44 @@ void ThumbInfo::ResizeThumb()
 
 void ThumbInfo::RefreshContactIcon(int iIcon)
 {
-	if ( iIcon == 0xFFFFFFFF || ImageList_GetImageCount(himl)<=iIcon )
-	{
+	if (iIcon == 0xFFFFFFFF || ImageList_GetImageCount(himlMiranda) <= iIcon)
 		this->iIcon = CallService(MS_CLIST_GETCONTACTICON, (WPARAM)hContact, 0);	
-	}
 	else
-	{
 		this->iIcon = iIcon;
-	}
 
 	UpdateContent();
 }
 
 void ThumbInfo::RefreshContactStatus(int idStatus)
 {
-	if ( IsStatusVisible( idStatus ))
-	{
+	if ( IsStatusVisible(idStatus))
 		RegisterFileDropping( hwnd, dropTarget );
-	}
 	else
-	{
 		UnregisterFileDropping( hwnd );
-	}
 
 	ShowWindow( hwnd, fcOpt.bHideAll || HideOnFullScreen() || ( fcOpt.bHideOffline && ( !IsStatusVisible( idStatus )) ) || (fcOpt.bHideWhenCListShow && bIsCListShow) ? SW_HIDE : SW_SHOWNA );
 }
 
 void ThumbInfo::DeleteContactPos()
 {
-	db_unset( hContact, MODULE, "ThumbsPos" );
+	db_unset(hContact, MODULE, "ThumbsPos");
 }
 
 void ThumbInfo::OnLButtonDown(int nX, int nY)
 {
-	RECT rc;
-
-	if (bEnableTip && fcOpt.bShowTip) KillTip();
-
-//	ptOld.x = nX;
-//	ptOld.y = nY;
-	
-//	ClientToScreen( hwnd, &ptOld );
+	if (bEnableTip && fcOpt.bShowTip)
+		KillTip();
 
 	GetCursorPos(&ptOld);
+
+	RECT rc;
 	GetThumbRect(&rc);
 	
 	nLeft	 = rc.left;
 	nTop	 = rc.top;
 	
-	//bMouseIn	 = FALSE;
 	bMouseDown	 = TRUE;
 	bMouseMoved	 = FALSE;
-
-//	SetCapture(hwnd);
 }
 
 void ThumbInfo::OnLButtonUp()
@@ -440,25 +360,19 @@ void ThumbInfo::OnLButtonUp()
 	RECT	rcThumb;
 	RECT	rcOverlap;
 
-	if (!bMouseMoved && fcOpt.bUseSingleClick && bMouseIn){
+	if (!bMouseMoved && fcOpt.bUseSingleClick && bMouseIn)
 		PopupMessageDialog();
-	}
 
-	//ThumbDeselect( TRUE );
-
-	if ( bMouseDown )
-	{
+	if (bMouseDown) {
 		bMouseDown = FALSE;
-		SetCursor( LoadCursor( NULL, IDC_ARROW ));
+		SetCursor( LoadCursor(NULL, IDC_ARROW));
 	
 		// Check whether we shoud remove the window
 		GetWindowRect( hwndMiranda, &rcMiranda );
 		GetThumbRect( &rcThumb );
 
-		if ( IntersectRect( &rcOverlap, &rcMiranda, &rcThumb ))
-		{
-			if ( IsWindowVisible( hwndMiranda ))
-			{
+		if ( IntersectRect(&rcOverlap, &rcMiranda, &rcThumb)) {
+			if ( IsWindowVisible(hwndMiranda)) {
 				DeleteContactPos();
 				thumbList.RemoveThumb(this);
 			}
@@ -470,17 +384,13 @@ void ThumbInfo::OnLButtonUp()
 
 void ThumbInfo::OnMouseMove(int nX, int nY, WPARAM wParam)
 {
-//	if (bMouseDown && !wParam&MK_LBUTTON) OnLButtonUp();
-
 	int		dX;
 	int		dY;
 	POINT	ptNew;
 
 	// Position thumb
 	
-	if ( bMouseDown )
-	{
-
+	if (bMouseDown) {
 		ptNew.x = nX;
 		ptNew.y = nY;
 
@@ -489,7 +399,7 @@ void ThumbInfo::OnMouseMove(int nX, int nY, WPARAM wParam)
 		dX = ptNew.x - ptOld.x;
 		dY = ptNew.y - ptOld.y;
 		
-		if (dX || dY){
+		if (dX || dY) {
 			bMouseMoved	 = TRUE;
 
 			nLeft	+= dX;
@@ -500,20 +410,17 @@ void ThumbInfo::OnMouseMove(int nX, int nY, WPARAM wParam)
 
 		ptOld = ptNew;
 	}
-	else
-	{
-		SetCursor( LoadCursor( NULL, IDC_ARROW ));
-	}
+	else SetCursor( LoadCursor(NULL, IDC_ARROW));
 
 	// Update selection status
-	if ( !pThumbMouseIn )//
-	{
+	if ( !pThumbMouseIn ) {
 	    SetTimer( hwnd, TIMERID_LEAVE_T, 10, NULL ); 
 		pThumbMouseIn = this;
 
-		ThumbSelect( TRUE );
+		ThumbSelect(TRUE);
 	}
-	if (bEnableTip && fcOpt.bShowTip && !bMouseDown){
+	
+	if (bEnableTip && fcOpt.bShowTip && !bMouseDown) {
 		WORD tmpTimeIn;
 		POINT pt;
 		RECT rc;
@@ -524,17 +431,16 @@ void ThumbInfo::OnMouseMove(int nX, int nY, WPARAM wParam)
 			KillTip();
 			return;
 		}
-		if (fTipTimerActive && abs(pt.x-ptTipSt.x)<5 && abs(pt.y-ptTipSt.x)<5){
+		if (fTipTimerActive && abs(pt.x-ptTipSt.x)<5 && abs(pt.y-ptTipSt.x)<5)
 			return;
-		}
+
 		ptTipSt = pt;
 
-		if (fTipTimerActive) {
+		if (fTipTimerActive)
 			KillTimer(hwnd, TIMERID_HOVER_T);
-		}
-		if (fTipActive) {
+
+		if (fTipActive)
 			return;
-		}
 
 		tmpTimeIn = (fcOpt.TimeIn>0)?fcOpt.TimeIn:CallService(MS_CLC_GETINFOTIPHOVERTIME, 0, 0);
 		SetTimer(hwnd, TIMERID_HOVER_T, tmpTimeIn, 0);
@@ -544,30 +450,27 @@ void ThumbInfo::OnMouseMove(int nX, int nY, WPARAM wParam)
 
 void ThumbInfo::ThumbSelect(BOOL bMouse)
 {
-	if ( bMouse )
-	{
+	if (bMouse) {
 		bMouseIn = TRUE;
-		SetCapture( hwnd );
+		SetCapture(hwnd);
 	}
 
-	SetThumbOpacity( 255 );
+	SetThumbOpacity(255);
 }
 
 void ThumbInfo::ThumbDeselect(BOOL bMouse)
 {
-	if ( bMouse )
-	{
+	if (bMouse) {
 		bMouseIn = FALSE;
 		ReleaseCapture();
 	}
 	
-	SetThumbOpacity( fcOpt.thumbAlpha );
+	SetThumbOpacity(fcOpt.thumbAlpha);
 }
 
 void ThumbInfo::SetThumbOpacity(BYTE bAlpha)
 {
-	if ( pUpdateLayeredWindow && (bAlpha != btAlpha))
-	{
+	if (pUpdateLayeredWindow && (bAlpha != btAlpha)) {
 		btAlpha = bAlpha;
 		UpdateContent();
 	}
@@ -575,14 +478,12 @@ void ThumbInfo::SetThumbOpacity(BYTE bAlpha)
 
 void ThumbInfo::KillTip()
 {
-	if (fTipTimerActive)
-	{
+	if (fTipTimerActive) {
 		KillTimer(hwnd, TIMERID_HOVER_T);
 		fTipTimerActive = FALSE;
 	}
 
-	if (fTipActive)
-	{
+	if (fTipActive) {
 		CallService("mToolTip/HideTip", 0, 0);
 		fTipActive = FALSE;
 	}
@@ -592,59 +493,48 @@ void ThumbInfo::UpdateContent()
 {
 	bmpContent.allocate(szSize.cx, szSize.cy);
 
-	HFONT	hOldFont;
-	SIZE	size;
-	RECT	rc;
-	RECT	rcText;
-	DWORD	oldColor;
-	int		oldBkMode, index = 0;// nStatus;
+	HFONT hOldFont;
+	SIZE  size;
+	RECT  rc, rcText;
+	DWORD oldColor;
+	int   oldBkMode, index = 0;// nStatus;
 	UINT	fStyle = ILD_NORMAL;
 	
 	HDC		hdcDraw	 = bmpContent.getDC();
 	SetRect(&rc, 0, 0, szSize.cx, szSize.cy);
 
-	if ( NULL != hBmpBackground )
-	{
+	if (NULL != hBmpBackground) {
 		RECT rcBkgnd;
 		BITMAP bmp;
-		HDC hdcBmp;
-		HBITMAP hbmTmp;
 		int x,y;
 		int maxx,maxy;
 		int destw,desth;
-		int width;
-		int height;
 
 		SetRect(&rcBkgnd, 0, 0, szSize.cx, szSize.cy);
 		if (NULL != hLTEdgesPen)
 			InflateRect(&rcBkgnd, -1, -1);
-		width = rcBkgnd.right - rcBkgnd.left;
-		height = rcBkgnd.bottom - rcBkgnd.top;
+		int width = rcBkgnd.right - rcBkgnd.left;
+		int height = rcBkgnd.bottom - rcBkgnd.top;
 
 		GetObject(hBmpBackground, sizeof(bmp), &bmp);
-		hdcBmp	 = CreateCompatibleDC( hdcDraw );
-		hbmTmp = (HBITMAP)SelectObject( hdcBmp, hBmpBackground );
+		HDC hdcBmp = CreateCompatibleDC(hdcDraw);
+		HBITMAP hbmTmp = (HBITMAP)SelectObject(hdcBmp, hBmpBackground);
 
 		maxx = (0 != (nBackgroundBmpUse & CLBF_TILEH) ? rcBkgnd.right : rcBkgnd.left + 1);
 		maxy = (0 != (nBackgroundBmpUse & CLBF_TILEV) ? rcBkgnd.bottom : rcBkgnd.top + 1);
-		switch (nBackgroundBmpUse & CLBM_TYPE)
-		{
+		switch (nBackgroundBmpUse & CLBM_TYPE) {
 		case CLB_STRETCH:
-			if (0 != (nBackgroundBmpUse & CLBF_PROPORTIONAL))
-			{
-				if (width * bmp.bmHeight < height * bmp.bmWidth)
-				{
+			if (0 != (nBackgroundBmpUse & CLBF_PROPORTIONAL)) {
+				if (width * bmp.bmHeight < height * bmp.bmWidth) {
 					desth = height;
 					destw = desth * bmp.bmWidth / bmp.bmHeight;
 				}
-				else
-				{
+				else {
 					destw = width;
 					desth = destw * bmp.bmHeight / bmp.bmWidth;
 				}
 			}
-			else
-			{
+			else {
 				destw = width;
 				desth = height;
 			}
@@ -674,24 +564,16 @@ void ThumbInfo::UpdateContent()
 		SetStretchBltMode(hdcBmp, STRETCH_HALFTONE);
 
 		for (x = rcBkgnd.left; x < maxx; x += destw)
-		{
 			for (y = rcBkgnd.top; y < maxy; y += desth)
-			{
 				StretchBlt( hdcDraw, x, y, destw, desth, hdcBmp, 0, 0, bmp.bmWidth, bmp.bmHeight, SRCCOPY );
-			}
-		}
 
-		SelectObject( hdcBmp, hbmTmp );
-		DeleteDC( hdcBmp );
+		SelectObject(hdcBmp, hbmTmp);
+		DeleteDC(hdcBmp);
 	}
-	else
-	{
-		FillRect( hdcDraw, &rc, hBkBrush );
-	}
+	else FillRect(hdcDraw, &rc, hBkBrush);
 
-	if (NULL != hLTEdgesPen)
-	{
-		HPEN  hOldPen = (HPEN)SelectObject( hdcDraw, hLTEdgesPen );
+	if (NULL != hLTEdgesPen) {
+		HPEN  hOldPen = (HPEN)SelectObject(hdcDraw, hLTEdgesPen);
 
 		MoveToEx(hdcDraw, 0, 0, NULL);
 		LineTo(hdcDraw, szSize.cx, 0);
@@ -706,69 +588,54 @@ void ThumbInfo::UpdateContent()
 		LineTo(hdcDraw, szSize.cx - 1, 0);
 
 		SelectObject(hdcDraw, hOldPen);
-		//InflateRect(&rc, -1, -1);
 	}
 
 	bmpContent.setAlpha(btAlpha);
 
-	ImageList_GetIconSize_my( himl, size );
+	ImageList_GetIconSize_my(himlMiranda, size);
 
-	oldBkMode	 = SetBkMode( hdcDraw, TRANSPARENT );
+	oldBkMode = SetBkMode(hdcDraw, TRANSPARENT);
 
-	if (!db_get_b(hContact, "CList", "NotOnList", 0))
-	{
+	if (!db_get_b(hContact, "CList", "NotOnList", 0)) {
 		int nStatus;
 		int nContactStatus;
 		int nApparentMode;
-		char* szProto;
-
-
-		szProto = GetContactProto(hContact);
-		
-		if ( NULL != szProto )
-		{
-			nStatus			 = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
-			nContactStatus	 = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-			nApparentMode	 = db_get_w(hContact, szProto, "ApparentMode", 0);
+		char* szProto = GetContactProto(hContact);
+		if (NULL != szProto) {
+			nStatus        = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+			nContactStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+			nApparentMode  = db_get_w(hContact, szProto, "ApparentMode", 0);
 			
-			if (	(nStatus == ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_ONLINE) ||
-					(nStatus != ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_OFFLINE))
+			if ((nStatus == ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_ONLINE) ||
+				 (nStatus != ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_OFFLINE))
 			{
 				if (ID_STATUS_OFFLINE == nContactStatus)
-				{
 					index = FLT_FONTID_OFFINVIS;
-				}
-				else
-				{
+				else {
 					index  = 	FLT_FONTID_INVIS;
-					if (fcOpt.bShowIdle && db_get_dw(hContact, szProto, "IdleTS", 0)) {
-						fStyle|=ILD_BLEND50;
-					}
+					if (fcOpt.bShowIdle && db_get_dw(hContact, szProto, "IdleTS", 0))
+						fStyle |= ILD_BLEND50;
 				}
 			}
-			else if (ID_STATUS_OFFLINE == nContactStatus)
-			{
+			else if (ID_STATUS_OFFLINE == nContactStatus) {
 				index = FLT_FONTID_OFFLINE;
 			}
-			else
-			{
+			else {
 				index = FLT_FONTID_CONTACTS;
-				if (fcOpt.bShowIdle && db_get_dw(hContact, szProto, "IdleTS", 0)) {
-					fStyle|=ILD_BLEND50;
-				}
+				if (fcOpt.bShowIdle && db_get_dw(hContact, szProto, "IdleTS", 0))
+					fStyle |= ILD_BLEND50;
 			}
 
 		}
 	}
-	else
-	{
+	else {
 		index = FLT_FONTID_NOTONLIST;
-		fStyle|=ILD_BLEND50;
+		fStyle |= ILD_BLEND50;
 	}
 
-	oldColor = SetTextColor( hdcDraw, tColor[ index ] );
+	oldColor = SetTextColor(hdcDraw, tColor[index]);
 	
-	HICON icon = ImageList_GetIcon(himl, iIcon, ILD_NORMAL);
+	HICON icon = ImageList_GetIcon(himlMiranda, iIcon, ILD_NORMAL);
 	MyBitmap bmptmp(size.cx, size.cy);
 	bmptmp.DrawIcon(icon,0,0);//bmpContent
 	BLENDFUNCTION blend;
@@ -782,7 +649,7 @@ void ThumbInfo::UpdateContent()
 	SetRect(&rcText, 0, 0, szSize.cx, szSize.cy);
 	rcText.left += size.cx + 4;
 
-	hOldFont = (HFONT)SelectObject( hdcDraw, hFont[ index ] );
+	hOldFont = (HFONT)SelectObject(hdcDraw, hFont[index]);
 
 	SIZE szText;
 	GetTextExtentPoint32(hdcDraw, ptszName, (DWORD)_tcslen(ptszName), &szText);
@@ -801,13 +668,12 @@ void ThumbInfo::UpdateContent()
 	SetTextColor(hdcDraw, tColor[index]);
 	bmpContent.DrawText(ptszName, rcText.left, (rcText.top + rcText.bottom - szText.cy)/2);
 	
-	SelectObject( hdcDraw, hOldFont );
+	SelectObject(hdcDraw, hOldFont);
 	
-	SetTextColor( hdcDraw, oldColor );
-	SetBkMode( hdcDraw, oldBkMode );
+	SetTextColor(hdcDraw, oldColor);
+	SetBkMode(hdcDraw, oldBkMode);
 
-	if (pUpdateLayeredWindow)
-	{
+	if (pUpdateLayeredWindow) {
 		SetWindowLongPtr( hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED );
 
 		RECT rc; GetWindowRect(hwnd, &rc);
@@ -815,14 +681,14 @@ void ThumbInfo::UpdateContent()
 		POINT ptSrc = {0, 0};
 
 		BLENDFUNCTION blend;
-		blend.BlendOp =            AC_SRC_OVER;
-		blend.BlendFlags =         0;
+		blend.BlendOp = AC_SRC_OVER;
+		blend.BlendFlags = 0;
 		blend.SourceConstantAlpha = 255;
-		blend.AlphaFormat =        AC_SRC_ALPHA;
+		blend.AlphaFormat = AC_SRC_ALPHA;
 
 		pUpdateLayeredWindow(hwnd, NULL, &ptDst, &szSize, bmpContent.getDC(), &ptSrc, 0xffffffff, &blend, ULW_ALPHA);
-	} else
-	{
+	}
+	else {
 		RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
 		UpdateWindow(hwnd);
 	}
@@ -835,11 +701,11 @@ void ThumbInfo::PopupMessageDialog( )
 
 void ThumbInfo::OnTimer(BYTE idTimer)
 {
-	if (idTimer == TIMERID_SELECT_T){
+	if (idTimer == TIMERID_SELECT_T) {
 		KillTimer( hwnd, TIMERID_SELECT_T );
 		ThumbDeselect( FALSE );
 	}
-	if (idTimer == TIMERID_LEAVE_T && !bMouseDown){
+	if (idTimer == TIMERID_LEAVE_T && !bMouseDown) {
 		POINT pt;
 		RECT rc;
 
@@ -851,7 +717,7 @@ void ThumbInfo::OnTimer(BYTE idTimer)
 			ThumbDeselect( TRUE );
 		}
 	}
-	if (bEnableTip && fcOpt.bShowTip && idTimer == TIMERID_HOVER_T){
+	if (bEnableTip && fcOpt.bShowTip && idTimer == TIMERID_HOVER_T) {
 		POINT pt;
 		CLCINFOTIP ti = {0};
 		ti.cbSize = sizeof(ti);
@@ -859,7 +725,7 @@ void ThumbInfo::OnTimer(BYTE idTimer)
 		KillTimer(hwnd, TIMERID_HOVER_T);
 		fTipTimerActive = FALSE;
 		GetCursorPos(&pt);
-		if (abs(pt.x-ptTipSt.x)<5 && abs(pt.y-ptTipSt.y)<5){
+		if (abs(pt.x-ptTipSt.x)<5 && abs(pt.y-ptTipSt.y)<5) {
 			ti.ptCursor = pt;
 
 			fTipActive = TRUE;
@@ -873,109 +739,85 @@ void ThumbInfo::OnTimer(BYTE idTimer)
 
 void DockThumbs( ThumbInfo *pThumbLeft, ThumbInfo *pThumbRight, BOOL bMoveLeft )
 {
-	if (( pThumbRight->dockOpt.hwndLeft == NULL ) && ( pThumbLeft->dockOpt.hwndRight == NULL ))
-	{
+	if (pThumbRight->dockOpt.hwndLeft == NULL && pThumbLeft->dockOpt.hwndRight == NULL) {
 		pThumbRight->dockOpt.hwndLeft	 = pThumbLeft->hwnd;
 		pThumbLeft->dockOpt.hwndRight	 = pThumbRight->hwnd;
 	}
 }
 
 
-void UndockThumbs( ThumbInfo *pThumb1, ThumbInfo *pThumb2 )
+void UndockThumbs(ThumbInfo *pThumb1, ThumbInfo *pThumb2)
 {
-	if (( pThumb1 == NULL ) || ( pThumb2 == NULL ))
-	{
+	if (pThumb1 == NULL || pThumb2 == NULL)
 		return;
-	}
 
-	if ( pThumb1->dockOpt.hwndRight == pThumb2->hwnd )
-	{
+	if (pThumb1->dockOpt.hwndRight == pThumb2->hwnd)
 		pThumb1->dockOpt.hwndRight = NULL;
-	}
 
-	if ( pThumb1->dockOpt.hwndLeft == pThumb2->hwnd )
-	{
+	if (pThumb1->dockOpt.hwndLeft == pThumb2->hwnd)
 		pThumb1->dockOpt.hwndLeft = NULL;
-	}
 	
-	if ( pThumb2->dockOpt.hwndRight == pThumb1->hwnd )
-	{
+	if (pThumb2->dockOpt.hwndRight == pThumb1->hwnd)
 		pThumb2->dockOpt.hwndRight = NULL;
-	}
 
-	if ( pThumb2->dockOpt.hwndLeft == pThumb1->hwnd )
-	{
+	if (pThumb2->dockOpt.hwndLeft == pThumb1->hwnd)
 		pThumb2->dockOpt.hwndLeft = NULL;
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // ThumbList
-ThumbList::ThumbList(): LIST<ThumbInfo>(1, cmp)
+
+ThumbList::ThumbList(): OBJLIST<ThumbInfo>(1, HandleKeySortT)
 {
 }
 
 ThumbList::~ThumbList()
 {
-	for (int i = 0; i < getCount(); ++i)
-		delete (*this)[i];
-	destroy();
 }
 
 ThumbInfo *ThumbList::AddThumb(HWND hwnd, TCHAR *ptszName, HANDLE hContact)
 {
-	ThumbInfo *pThumb	 = NULL;
+	if (ptszName == NULL || hContact == NULL || hwnd == NULL)
+		return NULL;
 
-	if ( ptszName == NULL )	return( NULL );
-	if ( hContact == NULL ) return( NULL );
-	if ( hwnd == NULL )		return( NULL );
-
-	pThumb = new ThumbInfo;
-	 
-	if ( pThumb != NULL )
-	{
+	ThumbInfo *pThumb = new ThumbInfo;
+	if (pThumb != NULL) {
 		_tcsncpy( pThumb->ptszName, ptszName, USERNAME_LEN - 1);
-		pThumb->hContact	 = hContact;
-		pThumb->hwnd		 = hwnd;
+		pThumb->hContact = hContact;
+		pThumb->hwnd = hwnd;
 		
-		pThumb->dockOpt.hwndLeft	 = NULL;
-		pThumb->dockOpt.hwndRight	 = NULL;
+		pThumb->dockOpt.hwndLeft = NULL;
+		pThumb->dockOpt.hwndRight = NULL;
 
 		pThumb->fTipActive = FALSE;
-
-//		RegHotkey(szName, hwnd);
 		RegHotkey(hContact, hwnd);
 	}
 
 	insert(pThumb);
-
-	return( pThumb );
+	return pThumb;
 }
 
 void ThumbList::RemoveThumb(ThumbInfo *pThumb)
 {
 	if (!pThumb) return;
 
-	if (fcOpt.bMoveTogether)
-	{
+	if (fcOpt.bMoveTogether) {
 		UndockThumbs(pThumb, FindThumb(pThumb->dockOpt.hwndLeft));
 		UndockThumbs(pThumb, FindThumb(pThumb->dockOpt.hwndRight));
 	}
 
+	UnregisterFileDropping(pThumb->hwnd);
+	DestroyWindow(pThumb->hwnd);
 	remove(pThumb);
-
-	UnregisterFileDropping( pThumb->hwnd );
-	DestroyWindow( pThumb->hwnd );
-	delete pThumb;
 }
 
-ThumbInfo *ThumbList::FindThumb(HWND hwnd)
+ThumbInfo* ThumbList::FindThumb(HWND hwnd)
 {
 	if (!hwnd) return NULL;
 
 	for (int i = 0; i < getCount(); ++i)
-		if ((*this)[i]->hwnd == hwnd)
-			return (*this)[i];
+		if (items[i]->hwnd == hwnd)
+			return items[i];
 
 	return NULL;
 }
@@ -985,15 +827,8 @@ ThumbInfo *ThumbList::FindThumbByContact(HANDLE hContact)
 	if (!hContact) return NULL;
 
 	for (int i = 0; i < getCount(); ++i)
-		if ((*this)[i]->hContact == hContact)
-			return (*this)[i];
+		if (items[i]->hContact == hContact)
+			return items[i];
 
 	return NULL;
-}
-
-int ThumbList::cmp(const ThumbInfo *p1, const ThumbInfo *p2)
-{
-	if ((DWORD)p1->hContact < (DWORD)p2->hContact) return -1;
-	if ((DWORD)p1->hContact > (DWORD)p2->hContact) return +1;
-	return 0;
 }

@@ -94,7 +94,7 @@ extern BOOL			bEnableTip;
 
 extern BOOL			bIsCListShow;
 extern HWND			hwndMiranda;
-extern HIMAGELIST	himl;
+extern HIMAGELIST	himlMiranda;
 extern RECT			rcScreen;
 
 extern HFONT		hFont[FLT_FONTIDS];
@@ -137,7 +137,6 @@ extern BOOL (WINAPI *pUpdateLayeredWindow)
 
 
 /////////////////////////////////////////////////////////////////////////////
-//
 
 static __forceinline BOOL ImageList_GetIconSize_my(HIMAGELIST himl, SIZE &sz)
 {
