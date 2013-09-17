@@ -203,8 +203,8 @@ Panna
 Waga
 [Scorpio]
 Skorpion
-[Sagitarius]
-
+[Sagittarius]
+Strzelec
 [Capricorn]
 Koziorożec
 [Aquarius]
