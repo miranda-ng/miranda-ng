@@ -108,7 +108,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | 
 CAPTION "Avatar History: Select how to store history avatars"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LTEXT           "Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.",IDC_STATIC,15,7,416,23
+    LTEXT           "Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.",IDC_STATIC,15,7,416,23
     CONTROL         "Store history in miranda history and all history avatars in same folder",IDC_MIR_SAME,
                     "Button",BS_AUTORADIOBUTTON | WS_GROUP,15,32,416,11
     CONTROL         "Store history in miranda history and history avatars in per protocol folders",IDC_MIR_PROTO,

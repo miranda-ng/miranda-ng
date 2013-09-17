@@ -56,7 +56,7 @@ static void __stdcall UrlActionAsync(void *param)
 			ShowInfoMessage(NIIF_ERROR,Translate("Miranda NG could not open URL"),Translate("Miranda NG was not able to open \"%S\".\n\nThere is no registered handler for this URL type."),pszUrl);
 			break;
 		default:
-			ShowInfoMessage(NIIF_ERROR,Translate("Miranda NG could not open URL"),Translate("Miranda NG was not able to open \"%S\".\n\nThe given URL is invalid and can not be parsed."),pszUrl);
+			ShowInfoMessage(NIIF_ERROR,Translate("Miranda NG could not open URL"),Translate("Miranda NG was not able to open \"%S\".\n\nThe given URL is invalid and cannot be parsed."),pszUrl);
 	}
 	mir_free(pszUrl); /* async param */
 }

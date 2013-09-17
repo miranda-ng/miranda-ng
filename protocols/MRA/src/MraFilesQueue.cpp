@@ -887,7 +887,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 							}// end while
 						}else {// err allocating file disk space
 							dwRetErrorCode = GetLastError();
-							mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Receive files: cant allocate disk space for file, size %lu bytes, error"), dat->pmfqfFiles[i].dwSize);
+							mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Receive files: can't allocate disk space for file, size %lu bytes, error"), dat->pmfqfFiles[i].dwSize);
 							ShowFormattedErrorMessage(szErrorText, dwRetErrorCode);
 						}
 						CloseHandle(hFile);
@@ -900,7 +900,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 						}
 					}else {// err on open file
 						dwRetErrorCode = GetLastError();
-						mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Receive files: cant open file %s, error"), wszFileName);
+						mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Receive files: can't open file %s, error"), wszFileName);
 						ShowFormattedErrorMessage(szErrorText, dwRetErrorCode);
 						bFailed = TRUE;
 						break;
@@ -1131,7 +1131,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 						}
 						else {// err on open file
 							dwRetErrorCode = GetLastError();
-							mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Send files: cant open file %s, error"), dat->pmfqfFiles[j].lpwszName);
+							mir_sntprintf(szErrorText, SIZEOF(szErrorText), TranslateT("Send files: can't open file %s, error"), dat->pmfqfFiles[j].lpwszName);
 							ShowFormattedErrorMessage(szErrorText, dwRetErrorCode);
 							bFailed = TRUE;
 							break;

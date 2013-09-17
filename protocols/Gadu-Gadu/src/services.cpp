@@ -243,7 +243,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 			if (_tremove(pai->filename) != 0){
 				netlog("getavatarinfo(): refresh. _tremove 1 file %S error. errno=%d: %s", pai->filename, errno, strerror(errno));
 				TCHAR error[512];
-				mir_sntprintf(error, SIZEOF(error), TranslateT("Can not remove old avatar file before refresh. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai->filename);
+				mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai->filename);
 				showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 			}
 			setString(pai->hContact, GG_KEY_AVATARHASH, AvatarHash);
@@ -258,7 +258,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 			if (_tremove(pai->filename) != 0){
 				netlog("getavatarinfo(): delete. _tremove file %S error. errno=%d: %s", pai->filename, errno, strerror(errno));
 				TCHAR error[512];
-				mir_sntprintf(error, SIZEOF(error), TranslateT("Can not remove old avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai->filename);
+				mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot remove old avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai->filename);
 				showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 			}
 			delSetting(pai->hContact, GG_KEY_AVATARHASH);

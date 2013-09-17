@@ -455,7 +455,7 @@ BEGIN
     CONTROL         "Use Zodiac as default avatar",CHECK_OPT_ZODIACAVATAR,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,161,129,131,10
     LTEXT           "Country Flags",TXT_OPT_FLAGS,161,148,131,8
-    CONTROL         "Use &unknown flag if country can not be determined",CHECK_OPT_FLAGSUNKNOWN,
+    CONTROL         "Use &unknown flag if country cannot be determined",CHECK_OPT_FLAGSUNKNOWN,
                     "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_GROUP | WS_TABSTOP,161,183,131,16
     CONTROL         "Show country flag as &status icon on message window",CHECK_OPT_FLAGSMSGSTATUS,
                     "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_GROUP | WS_TABSTOP,161,203,131,16

@@ -1698,7 +1698,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
 {
 #ifdef _WIN64
 	MessageBox(NULL
-		, TranslateT("LotusNotify.dll can not work with 64bit Miranda. (Lotus client is 32bit only)")
+		, TranslateT("LotusNotify.dll cannot work with 64bit Miranda. (Lotus client is 32bit only)")
 		, TranslateT("LotusNotify")
 		, MB_OK | MB_ICONWARNING );
 	return NULL;

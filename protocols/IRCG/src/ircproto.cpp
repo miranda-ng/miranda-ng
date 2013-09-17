@@ -906,7 +906,7 @@ int CIrcProto::SetStatusInternal( int iNewStatus, bool bIsInternal )
 		msn.cbSize = sizeof( MIRANDASYSTRAYNOTIFY );
 		msn.szProto = m_szModuleName;
 		msn.tszInfoTitle = TranslateT( "IRC error" );
-		msn.tszInfo = TranslateT( "Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name)." );
+		msn.tszInfo = TranslateT( "Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name)." );
 		msn.dwInfoFlags = NIIF_ERROR | NIIF_INTERN_UNICODE;
 		msn.uTimeout = 15000;
 		CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&msn);

@@ -830,7 +830,7 @@ int GGPROTO::img_displayasmsg(HANDLE hContact, void *img)
 		} else {
 			netlog("img_displayasmsg(): Can not create directory for image cache: %S. errno=%d: %s", szPath, errno, strerror(errno));
 			TCHAR error[512];
-			mir_sntprintf(error, SIZEOF(error), TranslateT("Can not create image cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szPath);
+			mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot create image cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szPath);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
 		}
 	}
@@ -985,7 +985,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 			free(dat);
 			netlog("img_loadpicture(): fopen(\"%S\", \"rb\") failed. errno=%d: %s", szFileName, errno, strerror(errno));
 			TCHAR error[512];
-			mir_sntprintf(error, SIZEOF(error), TranslateT("Can not open image file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szFileName);
+			mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot open image file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szFileName);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 			return NULL;
 		}

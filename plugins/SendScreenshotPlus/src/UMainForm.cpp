@@ -637,7 +637,7 @@ LRESULT TfrmMain::UMevent(WPARAM wParam, LPARAM lParam) {
 	switch (lParam) {
 		case EVT_CaptureDone:
 			if (!m_Screenshot) {
-				TCHAR *err = TranslateT("Cant create a Screenshot");
+				TCHAR *err = TranslateT("Can't create a Screenshot");
 				MessageBox(m_hWnd,err,ERROR_TITLE,MB_OK|MB_ICONWARNING);
 				Show();
 				return FALSE;

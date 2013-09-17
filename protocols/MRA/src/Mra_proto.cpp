@@ -632,7 +632,7 @@ bool CMraProto::CmdPopSession(BinBuffer &buf)
 		MraMPopSessionQueueStart(hMPopSessionQueue);
 	}
 	else { //error
-		MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, 0, TranslateT("Server error: cant get MPOP key for web authorize"));
+		MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, 0, TranslateT("Server error: can't get MPOP key for web authorize"));
 		MraMPopSessionQueueFlush(hMPopSessionQueue);
 	}
 	return true;

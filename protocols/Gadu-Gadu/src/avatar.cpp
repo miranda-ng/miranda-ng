@@ -45,7 +45,7 @@ void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 		else {
 			netlog("getAvatarFilename(): Can not create directory for avatar cache: %S. errno=%d: %s", pszDest, errno, strerror(errno));
 			TCHAR error[512];
-			mir_sntprintf(error, SIZEOF(error), TranslateT("Can not create avatars cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pszDest);
+			mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot create avatars cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pszDest);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
 		}
 	}
@@ -259,7 +259,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 					} else {
 						netlog("avatarrequestthread(): _topen file %S error. errno=%d: %s", pai.filename, errno, strerror(errno));
 						TCHAR error[512];
-						mir_sntprintf(error, SIZEOF(error), TranslateT("Can not create avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai.filename);
+						mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot create avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai.filename);
 						showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 					}
 				}
@@ -358,7 +358,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	if (file_fd == -1) {
 		netlog("setavatarthread(): Failed to open avatar file errno=%d: %s.", errno, strerror(errno));
 		TCHAR error[512];
-		mir_sntprintf(error, SIZEOF(error), TranslateT("Can not open avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szFilename);
+		mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot open avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szFilename);
 		showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 		mir_free(szFilename);
 		int prevType = getByte(GG_KEY_AVATARTYPEPREV, -1);

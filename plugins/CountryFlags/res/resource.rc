@@ -95,7 +95,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,12,27,206,10
     CONTROL         "Use &IP-to-country database for country detection",IDC_CHECK_USEIPTOCOUNTRY,
                     "Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,12,42,206,12
-    CONTROL         "Use &unknown flag if the country can not be determined",IDC_CHECK_USEUNKNOWNFLAG,
+    CONTROL         "Use &unknown flag if the country cannot be determined",IDC_CHECK_USEUNKNOWNFLAG,
                     "Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,12,54,206,10
 END
 
