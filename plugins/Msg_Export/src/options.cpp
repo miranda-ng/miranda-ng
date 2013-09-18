@@ -961,7 +961,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					sBrowseInfo.pidlRoot = NULL;
 					sBrowseInfo.pszDisplayName = lpDestDir;
 					sBrowseInfo.lpszTitle = TranslateT("Select Destination Directory");
-					sBrowseInfo.ulFlags = BIF_NEWDIALOGSTYLE | BIF_EDITBOX;;
+					sBrowseInfo.ulFlags = BIF_NEWDIALOGSTYLE | BIF_EDITBOX;
 					sBrowseInfo.lpfn = NULL;
 					sBrowseInfo.lParam = 0;
 					sBrowseInfo.iImage = 0;

@@ -109,7 +109,7 @@ void msgQueue_add(HANDLE hContact, int id, const TCHAR* szMsg, HANDLE hDbEvent)
 void msgQueue_processack(HANDLE hContact, int id, BOOL success, const char* szErr)
 {
 	int i;
-	TMsgQueue* item = NULL;;
+	TMsgQueue* item = NULL;
 
 	EnterCriticalSection(&csMsgQueue);
 

@@ -438,7 +438,7 @@ INT_PTR CallProtoServiceInt(HANDLE hContact, const char *szModule, const char *s
 			}
 			case 12: return (INT_PTR)ppi->GetCaps(wParam, (HANDLE)lParam);
 			case 13: return (INT_PTR)Proto_GetIcon(ppi, wParam);
-			case 14: return (INT_PTR)ppi->GetInfo(hContact, wParam);;
+			case 14: return (INT_PTR)ppi->GetInfo(hContact, wParam);
 			case 15:
 				if (ppi->m_iVersion > 1)
 					return (INT_PTR)ppi->SearchBasic(StrConvT((char*)lParam));

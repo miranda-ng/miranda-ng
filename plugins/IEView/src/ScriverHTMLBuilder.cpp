@@ -129,7 +129,7 @@ char *ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 	szResult[0] = '\0';
 	format[0] = '\0';
 
-	dbtts.cbDest = 70;;
+	dbtts.cbDest = 70;
 	dbtts.szDest = str;
 	dbtts.szFormat = format;
 

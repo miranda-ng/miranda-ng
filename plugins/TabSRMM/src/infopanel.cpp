@@ -570,7 +570,7 @@ void CInfoPanel::RenderIPStatus(const HDC hdc, RECT& rcItem)
 		GetTextExtentPoint32(hdc, szResult, lstrlen(szResult), &sTime);
 	}
 
-	m_dat->panelStatusCX = 3 + sStatus.cx + sProto.cx + 14 + (m_dat->hClientIcon ? 20 : 0) + sTime.cx + 13;;
+	m_dat->panelStatusCX = 3 + sStatus.cx + sProto.cx + 14 + (m_dat->hClientIcon ? 20 : 0) + sTime.cx + 13;
 
 	if (m_dat->panelStatusCX != oldPanelStatusCX) {
 		SendMessage(m_dat->hwnd, WM_SIZE, 0, 0);

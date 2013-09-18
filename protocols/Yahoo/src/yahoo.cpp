@@ -739,7 +739,7 @@ void CYahooProto::ext_rejected(const char *who, const char *msg)
 
 void CYahooProto::ext_buddy_added(char *myid, char *who, char *group, int status, int auth)
 {
-	HANDLE hContact=getbuddyH(who);;
+	HANDLE hContact=getbuddyH(who);
 	
 	LOG(("[ext_buddy_added] %s authorized you as %s group: %s status: %d auth: %d", who, myid, group, status, auth));
 	

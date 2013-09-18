@@ -136,7 +136,7 @@ void ISmileyBase::SetPosition(HWND hwnd, LPCRECT lpRect)
 		else if (lpRect->bottom == -1)
 		{
 			m_orect.top = lpRect->top;
-			m_orect.bottom = lpRect->top + m_sizeExtent.cy;;
+			m_orect.bottom = lpRect->top + m_sizeExtent.cy;
 		}
 		else
 		{

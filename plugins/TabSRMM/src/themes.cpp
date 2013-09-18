@@ -1499,7 +1499,7 @@ void CSkin::Load(void)
 	m_sidebarTopOffset = GetPrivateProfileInt(_T("ClientArea"), _T("SidebarTop"), -1, m_tszFileName);
 	m_sidebarBottomOffset = GetPrivateProfileInt(_T("ClientArea"), _T("SidebarBottom"), -1, m_tszFileName);
 
-	m_bClipBorder = GetPrivateProfileInt(_T("WindowFrame"), _T("ClipFrame"), 0, m_tszFileName) ? true : false;;
+	m_bClipBorder = GetPrivateProfileInt(_T("WindowFrame"), _T("ClipFrame"), 0, m_tszFileName) ? true : false;
 
 	BYTE radius_tl, radius_tr, radius_bl, radius_br;
 	TCHAR 	szFinalName[MAX_PATH];
@@ -2230,7 +2230,7 @@ bool __fastcall CSkin::DrawItem(const HDC hdc, const RECT *rc, const CSkinItem *
 	if (!item->IGNORED) {
 		::DrawAlpha(hdc, const_cast<RECT *>(rc), item->COLOR, item->ALPHA, item->COLOR2, item->COLOR2_TRANSPARENT,
 				  item->GRADIENT, item->CORNER, item->BORDERSTYLE, item->imageItem);
-		return true;;
+		return true;
 	}
 	return false;
 }
@@ -2306,7 +2306,7 @@ void CSkin::RenderToolbarBG(const TWindowData *dat, HDC hdc, const RECT &rcWindo
 		bool	 fTbColorsValid = PluginConfig.m_tbBackgroundHigh && PluginConfig.m_tbBackgroundLow;
 		BYTE	 bAlphaOffset = 0;
 		BOOL 	fMustDrawNonThemed = ((bAero || fTbColorsValid) && !M.GetByte(SRMSGMOD_T, "forceThemedToolbar", 0));
-		RECT 	rc, rcToolbar;;
+		RECT 	rc, rcToolbar;
 		POINT	pt;
 
 		if (!(dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR)) {

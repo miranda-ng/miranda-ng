@@ -891,7 +891,7 @@ void MyBitmap::DrawText(TCHAR *str, int x, int y, int blur, int strength)
 				COLOR32 rlx,glx,blx;
 				COLOR32 axx = geta(cl);
 				COLOR32 mmx = (bx+gx+rx)/3;
-				COLOR32 nx = mmx;;//pbGammaWeight[mx];//
+				COLOR32 nx = mmx; //pbGammaWeight[mx];//
 				{
 					//Normalize components	to alpha level
 					bx = (nx*(255-axx)+bx*axx)/255;

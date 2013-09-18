@@ -239,7 +239,7 @@ begin
   if Str <> '' then
   begin
     Cipher.Reset;
-    Result := Cipher.DecryptString(Str);;
+    Result := Cipher.DecryptString(Str);
   end;
 end;
 

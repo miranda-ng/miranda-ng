@@ -1838,7 +1838,7 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 
 	case WM_SIZING:
-		return DefWindowProc(m_hWnd, msg, wParam, lParam);;
+		return DefWindowProc(m_hWnd, msg, wParam, lParam);
 
 	case WM_MOVE:
 		{
@@ -2127,7 +2127,7 @@ LRESULT CLUI::OnParentNotify(UINT msg, WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 	}
-	return DefWindowProc(m_hWnd, msg, wParam, lParam);;
+	return DefWindowProc(m_hWnd, msg, wParam, lParam);
 }
 
 LRESULT CLUI::OnSetFocus(UINT msg, WPARAM wParam, LPARAM lParam)

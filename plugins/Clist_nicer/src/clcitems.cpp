@@ -318,7 +318,7 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 
 	if (p->hTimeZone == NULL)
 		TZ_LoadTimeZone(hContact, p, szProto);
-	return p->bStatusMsgValid;;
+	return p->bStatusMsgValid;
 }
 
 /*

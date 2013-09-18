@@ -39,7 +39,7 @@ static INT_PTR Service_SetStatus(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR Service_GetName(WPARAM wParam, LPARAM lParam)
 {
-	lstrcpynA((char *) lParam, YAMN_DBMODULE, wParam);;
+	lstrcpynA((char *) lParam, YAMN_DBMODULE, wParam);
 	return 0;
 }
 

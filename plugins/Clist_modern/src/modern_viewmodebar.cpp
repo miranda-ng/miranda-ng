@@ -1086,7 +1086,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				POINT Offset;
 				GetWindowRect(hwnd,&MyRect);
 				GetWindowRect(GetDlgItem(hwnd, _buttons[i]),&childRect);
-				Offset.x = childRect.left-MyRect.left;;
+				Offset.x = childRect.left-MyRect.left;
 				Offset.y = childRect.top-MyRect.top;
 				SendMessage(GetDlgItem(hwnd, _buttons[i]),BUTTONDRAWINPARENT,(WPARAM)hdc2,(LPARAM)&Offset);
 			}

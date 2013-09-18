@@ -2523,7 +2523,7 @@ void CProtoIntDlgBase::UpdateProtoTitle(TCHAR *szText)
 	if (szText)
 	{
 		curText = szText;
-		curLength = lstrlen(curText);;
+		curLength = lstrlen(curText);
 	} else
 	{
 		curLength = GetWindowTextLength(m_hwnd) + 1;

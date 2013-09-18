@@ -273,7 +273,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					CallProtoService(dbei.szModule, PS_AUTHDENYT, (WPARAM)hDbEvent, 0);
 			}
 			DestroyWindow(hwndDlg);
-			break;;
+			break;
 		}
 		break;
 

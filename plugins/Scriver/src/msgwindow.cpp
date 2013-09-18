@@ -1225,11 +1225,11 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 					hlRect.right-=GetSystemMetrics(SM_CXEDGE);
 				} else {
 					if (atTop) {
-						hlRect.top += GetSystemMetrics(SM_CYEDGE);;
-						hlRect.bottom += GetSystemMetrics(SM_CYEDGE);;
+						hlRect.top += GetSystemMetrics(SM_CYEDGE);
+						hlRect.bottom += GetSystemMetrics(SM_CYEDGE);
 					} else {
-						hlRect.top -= GetSystemMetrics(SM_CYEDGE);;
-						hlRect.bottom -= GetSystemMetrics(SM_CYEDGE);;
+						hlRect.top -= GetSystemMetrics(SM_CYEDGE);
+						hlRect.bottom -= GetSystemMetrics(SM_CYEDGE);
 					}
 				}
 				FrameRect(lpDIS->hDC, &hlRect, GetSysColorBrush(COLOR_HIGHLIGHT));

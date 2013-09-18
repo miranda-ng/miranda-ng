@@ -631,7 +631,7 @@ begin
   Si.Position := 500060000;
   Si.szName.a := pAnsiChar(AnsiString(Format(WideStringToString(GetLangStr('IMButtonCaption'), CP_ACP), [htdPluginShortName])));
   Si.pszService := MS_MHTD_SHOWHISTORY;//MS_HISTORY_SHOWCONTACTHISTORY;
-  Si.hIcon := LoadImage(hInstance,'ICON_0',IMAGE_ICON,16,16,0);;
+  Si.hIcon := LoadImage(hInstance,'ICON_0',IMAGE_ICON,16,16,0);
   HookSystemHistoryMenu := CallService(MS_CLIST_ADDMAINMENUITEM,0,LPARAM(@Si));
   //{$endif REPLDEFHISTMOD}
   // Создаем свой пункт в меню контакта

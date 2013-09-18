@@ -1437,7 +1437,7 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	case WM_USER + 100:
 		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPIN, UDM_SETRANGE, 0, MAKELONG(10, 0));
 		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPIN, UDM_SETPOS, 0, (int)M.GetByte(CSkin::m_skinEnabled ? "S_tborder" : "tborder", 2));
-		SetDlgItemInt(hwndDlg, IDC_TABBORDER, (int)M.GetByte(CSkin::m_skinEnabled ? "S_tborder" : "tborder", 2), FALSE);;
+		SetDlgItemInt(hwndDlg, IDC_TABBORDER, (int)M.GetByte(CSkin::m_skinEnabled ? "S_tborder" : "tborder", 2), FALSE);
 
 		SendDlgItemMessage(hwndDlg, IDC_BOTTOMTABADJUSTSPIN, UDM_SETRANGE, 0, MAKELONG(3, -3));
 		SendDlgItemMessage(hwndDlg, IDC_BOTTOMTABADJUSTSPIN, UDM_SETPOS, 0, PluginConfig.tabConfig.m_bottomAdjust);
@@ -1461,8 +1461,8 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		SendDlgItemMessage(hwndDlg, IDC_SPIN3, UDM_SETRANGE, 0, MAKELONG(10, 1));
 		SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETPOS, 0, (LPARAM)M.GetByte("y-pad", 3));
 		SendDlgItemMessage(hwndDlg, IDC_SPIN3, UDM_SETPOS, 0, (LPARAM)M.GetByte("x-pad", 4));
-		SetDlgItemInt(hwndDlg, IDC_TABPADDING, (int)M.GetByte("y-pad", 3), FALSE);;
-		SetDlgItemInt(hwndDlg, IDC_HTABPADDING, (int)M.GetByte("x-pad", 4), FALSE);;
+		SetDlgItemInt(hwndDlg, IDC_TABPADDING, (int)M.GetByte("y-pad", 3), FALSE);
+		SetDlgItemInt(hwndDlg, IDC_HTABPADDING, (int)M.GetByte("x-pad", 4), FALSE);
 		return 0;
 
 	case WM_NOTIFY:
@@ -1545,7 +1545,7 @@ int TSAPI RegisterTabCtrlClass(void)
 	RegisterClassEx(&wc);
 
 	wc.lpszClassName  = _T("TS_SideBarClass");
-	wc.lpfnWndProc    = CSideBar::wndProcStub;;
+	wc.lpfnWndProc    = CSideBar::wndProcStub;
 	wc.hCursor        = LoadCursor(NULL, IDC_ARROW);
 	wc.cbWndExtra     = sizeof(void*);
 	wc.style          = CS_GLOBALCLASS;// | CS_DBLCLKS; // | CS_PARENTDC;

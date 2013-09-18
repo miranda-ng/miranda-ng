@@ -340,7 +340,7 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BYTE bInitIconsOn
 				// no valid icon library
 				else {
 					bNeedFree = true;
-					sid.hDefaultIcon = ImageList_GetIcon(hIml, 0, ILD_NORMAL);;
+					sid.hDefaultIcon = ImageList_GetIcon(hIml, 0, ILD_NORMAL);
 					sid.iDefaultIndex = -1;
 				}
 			}

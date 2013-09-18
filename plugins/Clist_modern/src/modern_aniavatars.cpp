@@ -882,7 +882,7 @@ static void _AniAva_LoadOptions()
 		((0) ? AAO_OPAQUE :0);
 
 	if (s_bFlags & AAO_HAS_BORDER)
-		s_borderColor = (COLORREF)db_get_dw(NULL,"CList","AvatarsBorderColor",SETTINGS_AVATARBORDERCOLOR_DEFAULT);;
+		s_borderColor = (COLORREF)db_get_dw(NULL,"CList","AvatarsBorderColor",SETTINGS_AVATARBORDERCOLOR_DEFAULT);
 	if (s_bFlags & AAO_ROUND_CORNERS)
 		s_cornerRadius = db_get_b(NULL,"CList","AvatarsUseCustomCornerSize",SETTINGS_AVATARUSECUTOMCORNERSIZE_DEFAULT)? db_get_w(NULL,"CList","AvatarsCustomCornerSize",SETTINGS_AVATARCORNERSIZE_DEFAULT) : 0;
 	if (s_bFlags & AAO_HAS_OVERLAY) {

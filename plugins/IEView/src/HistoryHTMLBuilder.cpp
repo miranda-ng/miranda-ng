@@ -83,7 +83,7 @@ char *HistoryHTMLBuilder::timestampToString(DWORD dwFlags, time_t check) {
 	static char szResult[512];
 	char str[80];
 	DBTIMETOSTRING dbtts;
-	dbtts.cbDest = 70;;
+	dbtts.cbDest = 70;
 	dbtts.szDest = str;
 	szResult[0] = '\0';
 	dbtts.szFormat = (char *)"d t";

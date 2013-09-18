@@ -58,7 +58,7 @@ bool CSendLaterJob::isPersistentJob()
 bool CSendLaterJob::mustDelete()
 {
 	if (fSuccess)
-		return true;;
+		return true;
 	
 	if (fFailed && bCode == JOB_REMOVABLE)
 		return true;

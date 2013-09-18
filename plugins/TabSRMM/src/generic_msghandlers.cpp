@@ -880,7 +880,7 @@ void TSAPI DM_SetDBButtonStates(HWND hwndChild, TWindowData *dat)
 	ButtonItem *buttonItem = dat->pContainer->buttonItems;
 	HANDLE hContact = dat->hContact, hFinalContact = 0;
 	char *szModule, *szSetting;
-	HWND hwndContainer = dat->pContainer->hwnd;;
+	HWND hwndContainer = dat->pContainer->hwnd;
 
 	while (buttonItem) {
 		BOOL result = FALSE;

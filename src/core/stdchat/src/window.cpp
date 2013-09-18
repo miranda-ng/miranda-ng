@@ -1107,7 +1107,7 @@ static int RestoreWindowPosition(HWND hwnd, HANDLE hContact, char * szModule, ch
 {
 	WINDOWPLACEMENT wp;
 	char szSettingName[64];
-	int x,y, width, height;;
+	int x,y, width, height;
 
 	wp.length=sizeof(wp);
 	GetWindowPlacement(hwnd,&wp);

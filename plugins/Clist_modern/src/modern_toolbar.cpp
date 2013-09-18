@@ -254,7 +254,7 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				POINT Offset;
 				TTBCtrlButton* mtbi = (TTBCtrlButton*)pMTBInfo->pButtonList->items[i];
 				GetWindowRect(mtbi->hWindow, &childRect);
-				Offset.x = childRect.left - MyRect.left;;
+				Offset.x = childRect.left - MyRect.left;
 				Offset.y = childRect.top - MyRect.top;
 				SendMessage(mtbi->hWindow, BUTTONDRAWINPARENT, (WPARAM)hDC, (LPARAM)&Offset);
 			}	

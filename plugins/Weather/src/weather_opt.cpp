@@ -413,7 +413,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			opt.UpdateOnlyConditionChanged = (BYTE)IsDlgButtonChecked(hdlg, IDC_UPDCONDCHG);
 			opt.RemoveOldData = IsDlgButtonChecked(hdlg, IDC_REMOVEOLD);
 			opt.MakeItalic = IsDlgButtonChecked(hdlg, IDC_MAKEI);
-			opt.AvatarSize = GetDlgItemInt(hdlg, IDC_AVATARSIZE, NULL, FALSE);;
+			opt.AvatarSize = GetDlgItemInt(hdlg, IDC_AVATARSIZE, NULL, FALSE);
 			opt.DoNotAppendUnit = IsDlgButtonChecked(hdlg, IDC_DONOTAPPUNITS);
 			opt.NoFrac = IsDlgButtonChecked(hdlg, IDC_NOFRAC);
 			UpdateMenu(opt.AutoUpdate);

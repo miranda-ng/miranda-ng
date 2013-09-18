@@ -292,7 +292,7 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 													r += r > 0x80 ? -40 : 40;
 													g += g > 0x80 ? -40 : 40;
 													b += b > 0x80 ? -40 : 40;
-													lplvcd->clrTextBk = RGB(r, g, b);;
+													lplvcd->clrTextBk = RGB(r, g, b);
 												}
 												SetWindowLong(hwndDlg, DWLP_MSGRESULT, CDRF_NEWFONT);
 												return TRUE;

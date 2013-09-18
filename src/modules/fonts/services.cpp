@@ -216,7 +216,7 @@ int CreateFromFontSettings(FontSettingsT* fs, LOGFONT* lf)
 	lf->lfWeight = fs->style & DBFONTF_BOLD ? FW_BOLD : FW_NORMAL;
 	lf->lfItalic = (fs->style & DBFONTF_ITALIC) != 0;
 	lf->lfUnderline = (fs->style & DBFONTF_UNDERLINE) != 0;
-	lf->lfStrikeOut = (fs->style & DBFONTF_STRIKEOUT) != 0;;
+	lf->lfStrikeOut = (fs->style & DBFONTF_STRIKEOUT) != 0;
 	lf->lfCharSet = fs->charset;
 	lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
 	lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;

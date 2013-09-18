@@ -177,7 +177,7 @@ void TlenBindUDPSocket(TLEN_FILE_TRANSFER *ft)
 		int len = sizeof(struct sockaddr);
 		memset((char *)&sin,0,sizeof(sin));
 		sin.sin_family = AF_INET;
-		sin.sin_addr.s_addr = htonl(INADDR_ANY);;
+		sin.sin_addr.s_addr = htonl(INADDR_ANY);
 		sin.sin_port = 0;
 		if (bind(ft->udps, (struct sockaddr *)&sin, sizeof(sin)) >= 0) {
 			if (!getsockname((SOCKET)ft->udps,(SOCKADDR *)&sin,&len)) {

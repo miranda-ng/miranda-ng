@@ -662,8 +662,8 @@ begin
   HToDB := FindWindow(nil, pWideChar(WinName));
   if HToDB <> 0 then
   begin
-    copyDataStruct.dwData := {$IFDEF WIN32}Integer{$ELSE}LongInt{$ENDIF}(cdtString);;
-    copyDataStruct.cbData := Length(EncryptMsg) * SizeOf(Char);;
+    copyDataStruct.dwData := {$IFDEF WIN32}Integer{$ELSE}LongInt{$ENDIF}(cdtString);
+    copyDataStruct.cbData := Length(EncryptMsg) * SizeOf(Char);
     copyDataStruct.lpData := PChar(EncryptMsg);
     SendMessage(HToDB, WM_COPYDATA, 0, {$IFDEF WIN32}Integer{$ELSE}LongInt{$ENDIF}(@copyDataStruct));
     if EnableDebug then WriteInLog(ProfilePath, FormatDateTime('dd.mm.yy hh:mm:ss', Now) + ' - Функция OnSendMessageToAllComponent: Отправка запроса "' + Msg + '" окну ' + WinName, 2);
@@ -673,8 +673,8 @@ begin
   HToDB := FindWindow(nil, pWideChar(WinName));
   if HToDB <> 0 then
   begin
-    copyDataStruct.dwData := {$IFDEF WIN32}Integer{$ELSE}LongInt{$ENDIF}(cdtString);;
-    copyDataStruct.cbData := Length(EncryptMsg) * SizeOf(Char);;
+    copyDataStruct.dwData := {$IFDEF WIN32}Integer{$ELSE}LongInt{$ENDIF}(cdtString);
+    copyDataStruct.cbData := Length(EncryptMsg) * SizeOf(Char);
     copyDataStruct.lpData := PChar(EncryptMsg);
     SendMessage(HToDB, WM_COPYDATA, 0, {$IFDEF WIN32}Integer{$ELSE}LongInt{$ENDIF}(@copyDataStruct));
     if EnableDebug then WriteInLog(ProfilePath, FormatDateTime('dd.mm.yy hh:mm:ss', Now) + ' - Функция OnSendMessageToAllComponent: Отправка запроса "' + Msg + '" окну ' + WinName, 2);
@@ -684,8 +684,8 @@ begin
   HToDB := FindWindow(nil, pWideChar(WinName));
   if HToDB <> 0 then
   begin
-    copyDataStruct.dwData := {$IFDEF WIN32}Integer{$ELSE}LongInt{$ENDIF}(cdtString);;
-    copyDataStruct.cbData := Length(EncryptMsg) * SizeOf(Char);;
+    copyDataStruct.dwData := {$IFDEF WIN32}Integer{$ELSE}LongInt{$ENDIF}(cdtString);
+    copyDataStruct.cbData := Length(EncryptMsg) * SizeOf(Char);
     copyDataStruct.lpData := PChar(EncryptMsg);
     SendMessage(HToDB, WM_COPYDATA, 0, {$IFDEF WIN32}Integer{$ELSE}LongInt{$ENDIF}(@copyDataStruct));
     if EnableDebug then WriteInLog(ProfilePath, FormatDateTime('dd.mm.yy hh:mm:ss', Now) + ' - Функция OnSendMessageToAllComponent: Отправка запроса "' + Msg + '" окну ' + WinName, 2);
@@ -695,8 +695,8 @@ begin
   HToDB := FindWindow(nil, pWideChar(WinName));
   if HToDB <> 0 then
   begin
-    copyDataStruct.dwData := {$IFDEF WIN32}Integer{$ELSE}LongInt{$ENDIF}(cdtString);;
-    copyDataStruct.cbData := Length(EncryptMsg) * SizeOf(Char);;
+    copyDataStruct.dwData := {$IFDEF WIN32}Integer{$ELSE}LongInt{$ENDIF}(cdtString);
+    copyDataStruct.cbData := Length(EncryptMsg) * SizeOf(Char);
     copyDataStruct.lpData := PChar(EncryptMsg);
     SendMessage(HToDB, WM_COPYDATA, 0, {$IFDEF WIN32}Integer{$ELSE}LongInt{$ENDIF}(@copyDataStruct));
     if EnableDebug then WriteInLog(ProfilePath, FormatDateTime('dd.mm.yy hh:mm:ss', Now) + ' - Функция OnSendMessageToAllComponent: Отправка запроса "' + Msg + '" окну ' + WinName, 2);

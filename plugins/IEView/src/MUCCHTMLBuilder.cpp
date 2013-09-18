@@ -83,7 +83,7 @@ char *MUCCHTMLBuilder::timestampToString(DWORD dwData, time_t check)
 
 	DBTIMETOSTRING dbtts;
 
-	dbtts.cbDest = 70;;
+	dbtts.cbDest = 70;
 	dbtts.szDest = str;
 
 	szResult[0] = '\0';

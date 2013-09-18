@@ -404,7 +404,7 @@ BOOL checkNotesIniFile(BOOL bInfo)
 	strncpy_s(tmp1,_countof(tmp1),tmp,sizeof(tmp1));//copy temporary
 	assert(strlen(tmp1)>0);
 
-	char* PLUGINNAME_lower = _strlwr(mir_strdup(PLUGINNAME));;
+	char* PLUGINNAME_lower = _strlwr(mir_strdup(PLUGINNAME));
 
 	//is there our plugin as safe?
 	if(strstr(tmp1,PLUGINNAME_lower) == NULL)

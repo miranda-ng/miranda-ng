@@ -59,7 +59,7 @@ bool CMsnProto::loadHttpAvatar(AvatarQueueEntry *p)
 
 	NETLIBHTTPREQUEST nlhr = { sizeof(nlhr) };
 	nlhr.requestType = REQUEST_GET;
-	nlhr.flags = NLHRF_HTTP11 | NLHRF_REDIRECT;;
+	nlhr.flags = NLHRF_HTTP11 | NLHRF_REDIRECT;
 	nlhr.szUrl = p->pszUrl;
 	nlhr.headers = (NETLIBHTTPHEADER*)&nlbhHeaders;
 	nlhr.headersCount = 1;

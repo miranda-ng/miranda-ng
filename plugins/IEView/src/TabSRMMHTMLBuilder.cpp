@@ -164,7 +164,7 @@ char *TabSRMMHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int isG
 	time_t now = time(NULL);
 	time_t today;
 
-	dbtts.cbDest = 70;;
+	dbtts.cbDest = 70;
 	dbtts.szDest = str;
 
 	if (!isGroupBreak || !(dwFlags & MWF_LOG_SHOWDATES)) {

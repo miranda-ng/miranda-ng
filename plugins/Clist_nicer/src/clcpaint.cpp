@@ -1046,9 +1046,9 @@ bgskipped:
 			qLeft = rc.left;
 		}
 		else {
-			qLeft = rcContent.left + (indent == 0 && iconXSpace == 0 ? 2 : 0);;
+			qLeft = rcContent.left + (indent == 0 && iconXSpace == 0 ? 2 : 0);
 			rc.left = qLeft;
-			rc.right = min(rc.left + textSize.cx, clRect->right - dat->rightMargin);;
+			rc.right = min(rc.left + textSize.cx, clRect->right - dat->rightMargin);
 			DrawText(hdcMem, contact->szText, -1, &rc, DT_VCENTER | DT_NOPREFIX | DT_SINGLELINE | DT_WORD_ELLIPSIS);
 			rightLineStart = qLeft + textSize.cx + 2;
 		}

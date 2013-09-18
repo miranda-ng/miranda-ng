@@ -543,7 +543,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			SetTimer(hwnd, TIMER_ID, 1000, TimerProc);
 
 		PostMessage(hwnd, WM_SIZE, 0, 0);
-		return TRUE;;
+		return TRUE;
 
 	case WM_ACTIVATE:
 		if(wParam==WA_INACTIVE) {

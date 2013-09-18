@@ -215,7 +215,7 @@ static BOOL
 FillBackgroundBitmap(FIBITMAP *dib, const RGBQUAD *color, int options) {
 
 	if ((!dib) || (FreeImage_GetImageType(dib) != FIT_BITMAP)) {
-		return FALSE;;
+		return FALSE;
 	}
 	
 	if (!color) {

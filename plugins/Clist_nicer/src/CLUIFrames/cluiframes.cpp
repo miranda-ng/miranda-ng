@@ -30,7 +30,7 @@ HFONT __fastcall ChangeToFont(HDC hdc, struct ClcData *dat, int id, int *fontHei
 extern HWND g_hwndViewModeFrame, g_hwndEventArea;
 extern int mf_updatethread_running;
 
-extern HANDLE hThreadMFUpdate;;
+extern HANDLE hThreadMFUpdate;
 
 void MF_UpdateThread(LPVOID);
 
@@ -2127,7 +2127,7 @@ int CLUIFramesResize(const RECT newsize)
 	int clientfrm, clientframe = -1;
 	int i, j;
 	int sepw;
-	int topOff = 0, botOff = 0, last_bottomtop;;
+	int topOff = 0, botOff = 0, last_bottomtop;
 
 	GapBetweenFrames = cfg::dat.gapBetweenFrames;
 	sepw = GapBetweenFrames;
@@ -2894,7 +2894,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 						oldframeheight = Frames[Framemod].height;
 						SetCapture(hwnd);
 						ulockfrm();
-						break;;
+						break;
 					}
 					newh = oldframeheight + direction * (ypos - lbypos);
 					if (newh > 0) {

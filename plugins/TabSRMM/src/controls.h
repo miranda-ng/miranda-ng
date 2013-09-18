@@ -98,7 +98,7 @@ private:
    HWND     m_hwndToolbar;
    RECT     m_rcClient;
    TContainerData *m_pContainer;
-   HMENU    m_activeMenu, m_activeSubMenu;;
+   HMENU    m_activeMenu, m_activeSubMenu;
    int      m_activeID;
    bool     m_fTracking;
    bool     m_isContactMenu;

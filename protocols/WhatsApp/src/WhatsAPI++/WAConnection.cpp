@@ -561,7 +561,7 @@ void WAConnection::sendMessageWithMedia(FMessage* message)  throw (WAException) 
 
 	if (message->media_wa_type == FMessage::WA_TYPE_LOCATION) {
 		(*attribs)["latitude"] = Utilities::doubleToStr(message->latitude);
-		(*attribs)["longitude"] = Utilities::doubleToStr(message->longitude);;
+		(*attribs)["longitude"] = Utilities::doubleToStr(message->longitude);
 	} else {
 		if (message->media_wa_type != FMessage::WA_TYPE_CONTACT && !message->media_name.empty() && !message->media_url.empty() && message->media_size > 0L) {
 			(*attribs)["file"] = message->media_name;

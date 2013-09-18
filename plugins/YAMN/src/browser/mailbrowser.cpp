@@ -1516,7 +1516,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 		//but we have only one static control (for now);
 		SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
 		SetTextColor((HDC)wParam, GetSysColor(COLOR_WINDOWTEXT));
-		return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);;
+		return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
 
 	case WM_DESTROY:
 		{

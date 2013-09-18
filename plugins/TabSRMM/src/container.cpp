@@ -2303,7 +2303,7 @@ void TSAPI AdjustTabClientRect(TContainerData *pContainer, RECT *rc)
 				}
 			}
 			else {
-				rc->top += (dwTopPad - 2);;
+				rc->top += (dwTopPad - 2);
 				rc->bottom = rcTabOrig.bottom;
 			}
 		}
@@ -2311,7 +2311,7 @@ void TSAPI AdjustTabClientRect(TContainerData *pContainer, RECT *rc)
 			if (pContainer->dwFlags & CNT_TABSBOTTOM)
 				rc->bottom = rcTab.bottom + 2;
 			else {
-				rc->top += (dwTopPad - 2);;
+				rc->top += (dwTopPad - 2);
 				rc->bottom = rcTabOrig.bottom;
 			}
 		}

@@ -357,7 +357,7 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 	BOOL bShow = FALSE;
 
 	int iVisibleState = GetWindowVisibleState(pcli->hwndContactList, 0, 0);
-	int method = db_get_b(NULL, "ModernData", "HideBehind", SETTING_HIDEBEHIND_DEFAULT);; //(0-none, 1-leftedge, 2-rightedge);
+	int method = db_get_b(NULL, "ModernData", "HideBehind", SETTING_HIDEBEHIND_DEFAULT); //(0-none, 1-leftedge, 2-rightedge);
 	if (method) {
 		if ( db_get_b(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT) == 0 && lParam != 1)
 			CLUI_HideBehindEdge(); //hide
