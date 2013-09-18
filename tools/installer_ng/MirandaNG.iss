@@ -456,7 +456,7 @@ de.PortTypeInstLabel=Profil- und Benutzerdaten werden im Programmverzeichnis ges
 de.ProfileUninst=WARNUNG!%nSie sind dabei, Ihr Profil mitsamt all Ihren Einstellungen, Kontakten und Nachrichten zu löschen!%nSind Sie sich sicher, dass Sie das Profil löschen möchten?%n(Sie könnten es später brauchen.)
 
 de.FolderExists1=Verzeichnis
-de.FolderExists2=existiert bereits. Installation fortsetzen?
+de.FolderExists2=ist bereits vorhanden. Dieses Installationsprogramm ist nur für die erstmalige Installation geeignet! Bitte wählen Sie ein anderes Verzeichnis für eine Neuinstallation aus.%nFalls Sie Ihre aktuelle Installation aktualisieren möchten, verwenden Sie bitte den Plugin-Updater%n("Auf Plugin-Aktualisierungen prüfen" im Miranda-Hauptmenü).
 
 de.PercentDone=% erledigt
 
@@ -538,7 +538,7 @@ pl.PortTypeInstLabel=Profile i pliki danych użytkownika są przechowywane w fol
 pl.ProfileUninst=UWAGA!!!%nZamierzasz usunąć folder z profilami, zawierający wszystkie Twoje ustawienia, kontakty i historię rozmów.%nCzy na pewno chcesz go usunąć?%n(Możesz go później potrzebować)
 
 pl.FolderExists1=Folder
-pl.FolderExists2=już istnieje. Ten instalator służy tylko do czystej instalacji! Wybierz inny folder aby zainstalować program.%nJeżeli chcesz zaktualizować Mirandę, użyj do tego celu wtyczki PluginUpdater%n(wybierając "Sprawdź aktualizacje" z menu głównego Mirandy)
+pl.FolderExists2=już istnieje. Ten instalator służy tylko do czystej instalacji! Wybierz inny folder aby zainstalować program.%nJeżeli chcesz zaktualizować Mirandę, użyj do tego celu wtyczki PluginUpdater%n(wybierając "Sprawdź aktualizacje" z menu głównego Mirandy).
 
 pl.PercentDone=% ukończono
 
