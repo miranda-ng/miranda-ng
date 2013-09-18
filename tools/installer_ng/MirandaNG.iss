@@ -210,7 +210,7 @@ en.PortTypeInstLabel=Profiles and user data files are stored in program folder.%
 en.ProfileUninst=WARNING!!!%nYou are about to delete profile folder containing all your settings, contacts and message history!%nAre you sure you want to remove profile?%n(You may need it later)
 
 en.FolderExists1=Folder
-en.FolderExists2=already exists. This installer is for a first time install only! Please select another folder for a new installation.%nIf you wish to upgrade your current program, please use PluginUpdater%n("Check for plugin updates" item in Miranda's main menu).
+en.FolderExists2=already exists. This installer is for a first time install only! Please select another folder for a new installation.%nIf you wish to upgrade your current program, please use PluginUpdater ("Check for plugin updates" item in Miranda's main menu).
 
 en.PercentDone=% done
 
@@ -292,7 +292,7 @@ ru.PortTypeInstLabel=Профиль и файлы пользователя на�
 ru.ProfileUninst=ПРЕДУПРЕЖДЕНИЕ!!!%nВы можете удалить папку профиля, включающую в себя настройки, контакты и историю переписки!%nВы действительно хотите удалить файлы профиля?%n(Может понадобиться в дальнейшем)
 
 ru.FolderExists1=Выбранная папка
-ru.FolderExists2=включает в себя предыдущую установку! Установщик не предназначен для обновления.%nПожалуйста, выберите иную папку для новой установки.%nДля обновления уже установленной программы воспользуйтесь плагином PluginUpdater%n(Пункт "Проверить обновления плагинов" в главном меню).
+ru.FolderExists2=включает в себя предыдущую установку! Установщик не предназначен для обновления. Пожалуйста, выберите иную папку для новой установки.%nДля обновления уже установленной программы воспользуйтесь плагином PluginUpdater (Пункт "Проверить обновления плагинов" в главном меню).
 
 ru.PercentDone=% выполнено
 
@@ -374,7 +374,7 @@ cz.PortTypeInstLabel=Profily a uživatelská data jsou uložena ve složce spolu
 cz.ProfileUninst=VAROVÁNÍ!!!%nChystáte se odstranit složku s profily, která obsahuje všechno vaše nastavení, kontakty a historii komunikace!%nOpravdu si přejete odstranit vaše data?%n(V budoucnu se vám ještě mohou hodit.)
 
 cz.FolderExists1=Složka
-cz.FolderExists2=již existuje. Tento instalátor slouží pouze pro prvotní instalaci! Zvolte prosím jinou složku, pokud si přejete provést novou instalaci.%nPokud si přejete aktualizovat vaši stávající verzi, použijte doplněk PluginUpdater%n(položka "Zkontrolovat aktualizace" v hlavní nabídce Mirandy).
+cz.FolderExists2=již existuje. Tento instalátor slouží pouze pro prvotní instalaci! Zvolte prosím jinou složku, pokud si přejete provést novou instalaci.%nPokud si přejete aktualizovat vaši stávající verzi, použijte doplněk PluginUpdater (položka "Zkontrolovat aktualizace" v hlavní nabídce Mirandy).
 
 cz.PercentDone=% dokončeno
 
@@ -456,7 +456,7 @@ de.PortTypeInstLabel=Profil- und Benutzerdaten werden im Programmverzeichnis ges
 de.ProfileUninst=WARNUNG!%nSie sind dabei, Ihr Profil mitsamt all Ihren Einstellungen, Kontakten und Nachrichten zu löschen!%nSind Sie sich sicher, dass Sie das Profil löschen möchten?%n(Sie könnten es später brauchen.)
 
 de.FolderExists1=Verzeichnis
-de.FolderExists2=ist bereits vorhanden. Dieses Installationsprogramm ist nur für die erstmalige Installation geeignet! Bitte wählen Sie ein anderes Verzeichnis für eine Neuinstallation aus.%nFalls Sie Ihre aktuelle Installation aktualisieren möchten, verwenden Sie bitte den Plugin-Updater%n("Auf Plugin-Aktualisierungen prüfen" im Miranda-Hauptmenü).
+de.FolderExists2=ist bereits vorhanden. Dieses Installationsprogramm ist nur für die erstmalige Installation geeignet! Bitte wählen Sie ein anderes Verzeichnis für eine Neuinstallation aus.%nFalls Sie Ihre aktuelle Installation aktualisieren möchten, verwenden Sie bitte den Plugin-Updater ("Auf Plugin-Aktualisierungen prüfen" im Miranda-Hauptmenü).
 
 de.PercentDone=% erledigt
 
@@ -538,7 +538,7 @@ pl.PortTypeInstLabel=Profile i pliki danych użytkownika są przechowywane w fol
 pl.ProfileUninst=UWAGA!!!%nZamierzasz usunąć folder z profilami, zawierający wszystkie Twoje ustawienia, kontakty i historię rozmów.%nCzy na pewno chcesz go usunąć?%n(Możesz go później potrzebować)
 
 pl.FolderExists1=Folder
-pl.FolderExists2=już istnieje. Ten instalator służy tylko do czystej instalacji! Wybierz inny folder aby zainstalować program.%nJeżeli chcesz zaktualizować Mirandę, użyj do tego celu wtyczki PluginUpdater%n(wybierając "Sprawdź aktualizacje" z menu głównego Mirandy).
+pl.FolderExists2=już istnieje. Ten instalator służy tylko do czystej instalacji! Wybierz inny folder aby zainstalować program.%nJeżeli chcesz zaktualizować Mirandę, użyj do tego celu wtyczki PluginUpdater (wybierając "Sprawdź aktualizacje" z menu głównego Mirandy).
 
 pl.PercentDone=% ukończono
 
