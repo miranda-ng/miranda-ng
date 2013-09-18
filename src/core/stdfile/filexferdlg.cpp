@@ -99,17 +99,16 @@ void FillSendData(FileDlgData* dat, DBEVENTINFO& dbei)
 static void __cdecl RunVirusScannerThread(struct virusscanthreadstartinfo *info)
 {
 	PROCESS_INFORMATION pi;
-	STARTUPINFO si = {0};
 	DBVARIANT dbv;
-	TCHAR szCmdLine[768];
 
 	if ( !db_get_ts(NULL, "SRFile", "ScanCmdLine", &dbv))
 	{
 		if (dbv.ptszVal[0])
 		{
-			TCHAR *pszReplace;
+			STARTUPINFO si = {0};
 			si.cb = sizeof(si);
-			pszReplace = _tcsstr(dbv.ptszVal, _T("%f"));
+			TCHAR *pszReplace = _tcsstr(dbv.ptszVal, _T("%f"));
+			TCHAR szCmdLine[768];
 			if (pszReplace)
 			{
 				if (info->szFile[_tcslen(info->szFile) - 1] == '\\')
@@ -266,24 +265,28 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					dat->waitingForAcceptance = 0;
 				}
 			}
-			{	LOGFONT lf;
-				HFONT hFont;
-				hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_CONTACTNAME, WM_GETFONT, 0, 0);
+			{
+				LOGFONT lf;
+				HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_CONTACTNAME, WM_GETFONT, 0, 0);
 				GetObject(hFont, sizeof(lf), &lf);
 				lf.lfWeight = FW_BOLD;
 				hFont = CreateFontIndirect(&lf);
 				SendDlgItemMessage(hwndDlg, IDC_CONTACTNAME, WM_SETFONT, (WPARAM)hFont, 0);
 			}
 
-			{	SHFILEINFO shfi = {0};
+			{
+				SHFILEINFO shfi = {0};
 				SHGetFileInfo(_T(""), FILE_ATTRIBUTE_DIRECTORY, &shfi, sizeof(shfi), SHGFI_USEFILEATTRIBUTES|SHGFI_ICON|SHGFI_SMALLICON);
 				dat->hIconFolder = shfi.hIcon;
 			}
 
 			dat->hIcon = NULL;
+			{
+				char *szProto=GetContactProto(dat->hContact);
+				WORD status = db_get_w(dat->hContact,szProto,"Status",ID_STATUS_ONLINE);
+				SendDlgItemMessage(hwndDlg, IDC_CONTACT, BM_SETIMAGE, IMAGE_ICON,(LPARAM)LoadSkinnedProtoIcon(szProto, status));
+			}
 
-			SendDlgItemMessage(hwndDlg, IDC_CONTACT, BM_SETIMAGE, IMAGE_ICON,
-				(LPARAM)LoadSkinnedProtoIcon(GetContactProto(dat->hContact), ID_STATUS_ONLINE));
 			SendDlgItemMessage(hwndDlg, IDC_CONTACT, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Contact menu"), 0);
 			SendDlgItemMessage(hwndDlg, IDC_CONTACT, BUTTONSETASFLATBTN, TRUE, 0);
 
@@ -306,7 +309,8 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			if (dat->bytesRecvedHistorySize < SIZEOF(dat->bytesRecvedHistory))
 				dat->bytesRecvedHistorySize++;
 
-			{	TCHAR szSpeed[32], szTime[32], szDisplay[96];
+			{
+				TCHAR szSpeed[32], szTime[32], szDisplay[96];
 				SYSTEMTIME st;
 				ULARGE_INTEGER li;
 				FILETIME ft;

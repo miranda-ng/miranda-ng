@@ -82,11 +82,10 @@ static void DoAnnoyingShellCommand(HWND hwnd, const TCHAR *szFilename, int cmd, 
 								break;
 							}
 							case C_CONTEXTMENU:
-							{	HMENU hMenu;
-								hMenu = CreatePopupMenu();
+							{
+								HMENU hMenu = CreatePopupMenu();
 								if (SUCCEEDED(pContextMenu->QueryContextMenu(hMenu, 0, 1000, 65535, (GetKeyState(VK_SHIFT)&0x8000?CMF_EXTENDEDVERBS:0)|CMF_NORMAL))) {
-									int cmd;
-									cmd = TrackPopupMenu(hMenu, TPM_RETURNCMD, ptCursor->x, ptCursor->y, 0, hwnd, NULL);
+									int cmd = TrackPopupMenu(hMenu, TPM_RETURNCMD, ptCursor->x, ptCursor->y, 0, hwnd, NULL);
 									if (cmd) {
 										CMINVOKECOMMANDINFO ici = {0};
 										ici.cbSize = sizeof(ici);
@@ -121,12 +120,11 @@ static LRESULT CALLBACK IconCtrlSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		ShellExecute(hwnd, NULL, pft->tszCurrentFile, NULL, NULL, SW_SHOW);
 		break;
 	case WM_RBUTTONUP:
-		{	POINT pt;
+		POINT pt;
 		pt.x = (short)LOWORD(lParam); pt.y = (short)HIWORD(lParam);
 		ClientToScreen(hwnd, &pt);
 		DoAnnoyingShellCommand(hwnd, pft->tszCurrentFile, C_CONTEXTMENU, &pt);
 		return 0;
-		}
 	}
 	return mir_callNextSubclass(hwnd, IconCtrlSubclassProc, msg, wParam, lParam);
 }
@@ -142,15 +140,13 @@ void __cdecl LoadIconsAndTypesThread(void* param)
 	SHFILEINFO fileInfo;
 
 	if (SHGetFileInfo(info->szFilename, 0, &fileInfo, sizeof(fileInfo), SHGFI_TYPENAME|SHGFI_ICON|SHGFI_LARGEICON)) {
-		TCHAR *pszExtension, *pszFilename;
-		TCHAR szExtension[64];
-		TCHAR szIconFile[MAX_PATH];
+		TCHAR szExtension[64], szIconFile[MAX_PATH];
 
-		pszFilename = _tcsrchr(info->szFilename, '\\');
+		TCHAR *pszFilename = _tcsrchr(info->szFilename, '\\');
 		if (pszFilename == NULL)
 			pszFilename = info->szFilename;
 
-		pszExtension = _tcsrchr(pszFilename, '.');
+		TCHAR *pszExtension = _tcsrchr(pszFilename, '.');
 		if (pszExtension)
 			lstrcpyn(szExtension, pszExtension+1, SIZEOF(szExtension));
 		else {
@@ -191,15 +187,12 @@ void __cdecl LoadIconsAndTypesThread(void* param)
 
 INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	PROTOFILETRANSFERSTATUS *fts;
-
-	fts = (PROTOFILETRANSFERSTATUS*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	PROTOFILETRANSFERSTATUS *fts = (PROTOFILETRANSFERSTATUS*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch(msg) {
 	case WM_INITDIALOG:
 	{
 		TCHAR szSize[64];
 		struct _stati64 statbuf;
-		HWND hwndFocus;
 		struct TDlgProcFileExistsParam *dat = (struct TDlgProcFileExistsParam *)lParam;
 
 		SetPropA(hwndDlg, "Miranda.Preshutdown", HookEventMessage(ME_SYSTEM_PRESHUTDOWN, hwndDlg, M_PRESHUTDOWN));
@@ -216,7 +209,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 		mir_subclassWindow( GetDlgItem(hwndDlg, IDC_EXISTINGICON), IconCtrlSubclassProc);
 
-		hwndFocus = GetDlgItem(hwndDlg, IDC_RESUME);
+		HWND hwndFocus = GetDlgItem(hwndDlg, IDC_RESUME);
 		if (_tstati64(fts->tszCurrentFile, &statbuf) == 0) {
 			SetControlToUnixTime(hwndDlg, IDC_EXISTINGDATE, statbuf.st_mtime);
 			GetSensiblyFormattedSize(statbuf.st_size, szSize, SIZEOF(szSize), 0, 1, NULL);
@@ -309,8 +302,8 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		default:
 			return FALSE;
 		}
-		{	PROTOFILERESUME *pfrCopy;
-			pfrCopy = (PROTOFILERESUME*)mir_alloc(sizeof(pfr));
+		{
+			PROTOFILERESUME *pfrCopy = (PROTOFILERESUME*)mir_alloc(sizeof(pfr));
 			CopyMemory(pfrCopy, &pfr, sizeof(pfr));
 			PostMessage((HWND)GetPropA(hwndDlg, "Miranda.ParentWnd"), M_FILEEXISTSDLGREPLY, (WPARAM)mir_tstrdup(fts->tszCurrentFile), (LPARAM)pfrCopy);
 			DestroyWindow(hwndDlg);
