@@ -1,7 +1,7 @@
 ﻿#ifdef ptx86
    #define MirName "Miranda32.exe"
    #define MirGroupName "Miranda NG"
-   #define MirPtf ""
+   #define MirOutName "miranda-ng-alpha-latest"
    #define ArcAllow ""
    #define VcRedistName "vcredist_x86.exe"
    #define Ptf "x86"
@@ -10,7 +10,7 @@
 #else
    #define MirName "Miranda64.exe"
    #define MirGroupName "Miranda NG x64"
-   #define MirPtf "_x64"
+   #define MirOutName "miranda-ng-alpha-latest_x64"
    #define ArcAllow "x64"
    #define VcRedistName "vcredist_x64.exe"
    #define Ptf "x64"
@@ -40,7 +40,7 @@ Compression=lzma2/max
 SolidCompression=yes
 PrivilegesRequired=poweruser
 OutputDir=..\
-OutputBaseFilename=miranda-ng-v{#SetupSetting("AppVersion")}{#MirPtf}
+OutputBaseFilename={#MirOutName}
 WizardImageFile=Installer\WizModernImage-IS.bmp
 WizardSmallImageFile=Installer\SetupMNGSmall.bmp
 SetupIconFile=Installer\mng_installer.ico
@@ -136,6 +136,7 @@ Source: "Files\Plugins\Dbx_3x.dll"; DestDir: "{app}\Plugins"; Components: dbx\3x
 Source: "Files\Settings\mirandaboot_default.ini"; DestDir: "{app}"; Components: program; DestName: "mirandaboot.ini"; Check: IsDefault(); Flags: ignoreversion onlyifdoesntexist; AfterInstall: ShowPercent() 
 Source: "Files\Settings\mirandaboot_portable.ini"; DestDir: "{app}"; Components: program; DestName: "mirandaboot.ini"; Check: IsPortable(); Flags: ignoreversion onlyifdoesntexist; AfterInstall: ShowPercent() 
 Source: "Files\Settings\autoexec_sounds.ini"; DestDir: "{app}"; Components: sounds; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\autoexec_nightly_pu.ini"; DestDir: "{app}"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 
 ; Installer add-ons
 Source: "Installer\ISWin7.dll"; Flags: dontcopy 
@@ -616,7 +617,7 @@ Name: "pl"; MessagesFile: "compiler:Languages\Polish.isl"
 Name: "de"; MessagesFile: "compiler:Languages\German.isl"
 
 [Code]
-//глобальные переменные
+// Global variables
 var
   DefTypeInstLabel, PortTypeInstLabel, ProgressLabel: TLabel;
   DefTypeInstRadio, PortTypeInstRadio: TRadioButton;
@@ -624,9 +625,9 @@ var
   ComponentInfo: TNewStaticText;
   ComponentList: TStringList;
 
-//--Функции из внешних длл--
+//--Functions called from external DLLs--
 
-//Aero эффект
+// Aero effects
 procedure iswin7_add_glass(Handle:HWND; Left, Top, Right, Bottom : Integer; GDIPLoadMode: boolean);
 external 'iswin7_add_glass@files:iswin7.dll stdcall';
 procedure iswin7_add_button(Handle:HWND);
@@ -634,21 +635,21 @@ external 'iswin7_add_button@files:iswin7.dll stdcall';
 procedure iswin7_free;
 external 'iswin7_free@files:iswin7.dll stdcall';
 
-//Описание компонентов
+// Components description
 function EnableDescription(ComponentsListHandle: HWND; DescLabelHandle: HWND; DescStrings: PAnsiChar): BOOL;
 external 'enabledesc@files:descctrl.dll stdcall';
 function DisableDescription: BOOL;
 external 'disabledesc@files:descctrl.dll stdcall';
 
-//Получение всех логических дисков
+// Getting a list of all logical disk drives
 function GetLogicalDriveStrings(nLenDrives: LongInt; lpDrives: ansistring): integer;
 external 'GetLogicalDriveStringsA@kernel32.dll stdcall';
 
-//Получение типа диска
+// Determine disk drive type (removable, fixed, CD-ROM, RAM disk, or network)
 function GetDriveType(lpDisk: ansistring): integer;
 external 'GetDriveTypeA@kernel32.dll stdcall';
 
-//константы типов дисков
+// Drive constants
 const
   DRIVE_UNKNOWN = 0;     // The drive type cannot be determined.
   DRIVE_NO_ROOT_DIR = 1; // The root path is invalid. For example, no volume is mounted at the path.
@@ -658,27 +659,27 @@ const
   DRIVE_CDROM = 5;       // The drive is a CD-ROM drive.
   DRIVE_RAMDISK = 6;     // The drive is a RAM disk.
 
-//проверка версии установки по дефолту
+// Default install check
 function IsDefault: Boolean;
 begin
   if (DefTypeInstRadio.Checked) then
     Result:= True;
 end;
 
-//проверка версии установки портативной
+// Portable install check
 function IsPortable: Boolean;
 begin
   if (PortTypeInstRadio.Checked) then
     Result:= True;
 end;
 
-//vc redist installation check
+// Visual C++ redistributable package installation check
 function RedistIsNotInstalled: Boolean;
 begin
    Result := not RegKeyExists{#RedistRegChk};
 end;
 
-//создание страницы установки с типами установки (обычная или портативная)
+// Installation type page creation (default or portable)
 procedure CreateInstallTypePage();
 begin
   InstallTypePage:=CreateCustomPage(wpLicense, ExpandConstant('{cm:InstTypeHeader}'), ExpandConstant('{cm:InstTypeText}'));
@@ -720,7 +721,7 @@ begin
   end;
 end;
 
-// Панель информации о компонентах
+// Components info-panel 
 procedure CreateComponentsInfoPanel();
 var
   InfoCaption: TNewStaticText;
@@ -756,7 +757,7 @@ begin
   ComponentInfo.WordWrap := true;
 end;
 
-//выбор папки установки
+// Choosing installation folder
 procedure CheckFolder();
 var
   drivesletters, drive: ansistring;
@@ -768,22 +769,22 @@ begin
 
   if (PortTypeInstRadio.Checked) then
   begin
-    //получаем все диски системы
+    // Getting all the disk drives
     drivesletters := StringOfChar(' ', 64);
     lenletters := GetLogicalDriveStrings(63, drivesletters);
     SetLength(drivesletters , lenletters);
     drive := '';
     n := 0;
-    //перебираем все диски в цикле
+    // Checking all disks in cycle
     while ((Length(drivesletters) > 0)) do
     begin
       posnull := Pos(#0, drivesletters);
         if posnull > 0 then
         begin
         drive:= UpperCase(Copy(drivesletters, 1, posnull - 1));
-        // получаем тип диска
+        // Getting disk drive type
         disktype := GetDriveType(drive);
-        //если съемный, то проверяем совбодное место и предлагаем поставить на него
+        // If removable, checking available space and suggesting to install on it
         if  (disktype = DRIVE_REMOVABLE) then
         begin
           GetSpaceOnDisk(drive, True, FreeMB, TotalMB);
@@ -802,7 +803,7 @@ begin
   end;
 end;
 
-//выбор группы меню
+// Start Menu group
 procedure CheckGroup();
 begin
   if DefTypeInstRadio.Checked then
@@ -812,7 +813,7 @@ begin
     WizardForm.NoIconsCheck.Checked := True;
 end;
 
-// Проверка выбора протоколов
+// Checking if at least one protocol selected to be installed
 procedure ComponentOnClick(Sender: TObject);
 begin
   if (Pos(ExpandConstant('{cm:Protocols}'), ' ' + WizardSelectedComponents(True)) = 0) then
@@ -823,7 +824,7 @@ begin
     WizardForm.NextButton.Enabled := True;
 end;
 
-// Проверка выбора протоколов
+// Checking if at least one protocol selected to be installed
 procedure ComponentOnKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = ' ' then
@@ -835,19 +836,19 @@ begin
       WizardForm.NextButton.Enabled := True;
 end;
 
-//рассчет и вывод процентов установки в лейбл
+// Calculation and output of installation process in percents to progress label
 procedure ShowPercent();
 begin
   with WizardForm.ProgressGauge do
     ProgressLabel.Caption:= IntToStr((Position-Min)/((Max - Min)/100)) + ExpandConstant('{cm:PercentDone}');
 end;
 
-//начальная инициализация
+// Initialization beginning
 procedure InitializeWizard();
 var
   Version: TWindowsVersion;
 begin
-  // Для более красивого отображения уменьшаем нижнюю границу
+  // Shrinking bottom border (looks nicer this way)
   WizardForm.Bevel.Height := 1;
 
   GetWindowsVersionEx(Version);
@@ -855,15 +856,15 @@ begin
      (Version.Major <= 6) and
      (Version.Minor < 2) then
   begin
-    // Инициализируем библиотеку
+    // Initializing library
     iswin7_add_button(WizardForm.BackButton.Handle);
     iswin7_add_button(WizardForm.NextButton.Handle);
     iswin7_add_button(WizardForm.CancelButton.Handle);
-    // Параметр True не трогать он для htuos ))
+    //Do not touch 'True' parameter, it's for htuos ))
     iswin7_add_glass(WizardForm.Handle, 0, 0, 0, 47, True);
   end;
 
-  // Компоненты
+  // Component list
   ComponentList := TStringList.Create();
   with ComponentList do
   begin
@@ -899,17 +900,17 @@ begin
   end;
 
   WizardForm.NoIconsCheck.Visible:=True;
-  // Создание страниц
+  // Pages creation
   CreateInstallTypePage(); //страница выбора типа установки (обычная или портативная)
 
-  //добавление описаний к компонентам установки
+  // Adding component descriptions
   CreateComponentsInfoPanel();
 
-  //обработчики проверки выбора хотя бы 1 протокола
+  // 'At least 1 protocol selected' event handlers
   WizardForm.ComponentsList.OnClick := @ComponentOnClick;
   WizardForm.ComponentsList.OnKeyPress := @ComponentOnKeyPress;
 
-  //создание лейбла для вывода процентов установки
+  // Creating label for displaying percents of installation progress
   ProgressLabel := TLabel.Create(WizardForm);
   with WizardForm.ProgressGauge do
   begin
@@ -921,7 +922,7 @@ begin
   end;
 end;
 
-//пропуск неиспользуемых страниц
+// Skipping unused pages
 function ShouldSkipPage(PageID: Integer): Boolean;
 begin
   if ((PageID = wpSelectProgramGroup) or (PageID = wpSelectTasks)) and (PortTypeInstRadio.Checked) then
@@ -930,10 +931,10 @@ end;
 
 procedure CurPageChanged(CurPageID: Integer);
 begin
-  //кастыль, чтобы обойти создание тасков
+  // Tasks creation preventing clutch
   if CurPageID = wpSelectTasks then
     WizardForm.TasksList.CheckItem(1, coCheck);
-  //langpack selection
+  // Langpack selection
   if CurPageID = wpSelectComponents then
   begin
     if ActiveLanguage = 'en' then
@@ -949,7 +950,7 @@ begin
   end;
 end;
 
-//обработчик нажатия кнопки Далее
+// Next button click handler
 function NextButtonClick(CurPage: Integer): Boolean;
 begin
   Result:=true;
@@ -1010,7 +1011,7 @@ begin
   end;
 end;
 
-//Деинсталляция
+// Uninstall
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 begin
   if CurUninstallStep=usPostUninstall then
@@ -1023,7 +1024,7 @@ begin
   end;
 end;
 
-//Деинициализация установки
+// Setup deinitialization
 procedure DeinitializeSetup();
 var
   Version: TWindowsVersion;
@@ -1033,7 +1034,7 @@ begin
      (Version.Major <= 6) and
      (Version.Minor < 2) then
   begin
-    // Отключаем библиотеку
+    // Deinitializing library
     iswin7_free;
   end;
   DisableDescription();
