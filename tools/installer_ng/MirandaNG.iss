@@ -649,7 +649,7 @@ external 'GetLogicalDriveStringsA@kernel32.dll stdcall';
 function GetDriveType(lpDisk: ansistring): integer;
 external 'GetDriveTypeA@kernel32.dll stdcall';
 
-// Drive constants
+// Drive type constants
 const
   DRIVE_UNKNOWN = 0;     // The drive type cannot be determined.
   DRIVE_NO_ROOT_DIR = 1; // The root path is invalid. For example, no volume is mounted at the path.
