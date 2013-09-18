@@ -659,14 +659,14 @@ const
   DRIVE_CDROM = 5;       // The drive is a CD-ROM drive.
   DRIVE_RAMDISK = 6;     // The drive is a RAM disk.
 
-// Default install check
+// Default installation check
 function IsDefault: Boolean;
 begin
   if (DefTypeInstRadio.Checked) then
     Result:= True;
 end;
 
-// Portable install check
+// Portable installation check
 function IsPortable: Boolean;
 begin
   if (PortTypeInstRadio.Checked) then
