@@ -332,7 +332,7 @@ INT_PTR GGPROTO::remove_server(WPARAM wParam, LPARAM lParam)
 	{
 		TCHAR error[128];
 		gg_LeaveCriticalSection(&sess_mutex, "remove_server", 66, 1, "sess_mutex", 1);
-		mir_sntprintf(error, SIZEOF(error), TranslateT("List cannot be removeed because of error: %s (Error: %d)"), _tcserror(errno), errno);
+		mir_sntprintf(error, SIZEOF(error), TranslateT("List cannot be removed because of error: %s (Error: %d)"), _tcserror(errno), errno);
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
 		netlog("remove_server(): Cannot remove list. errno=%d: %s", errno, strerror(errno));
 	}
@@ -350,7 +350,6 @@ INT_PTR GGPROTO::import_text(WPARAM wParam, LPARAM lParam)
 	TCHAR str[MAX_PATH];
 	TCHAR filter[512], *pfilter;
 	struct _stat st;
-	FILE *f;
 
 	OPENFILENAME ofn = {0};
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
@@ -391,7 +390,7 @@ INT_PTR GGPROTO::import_text(WPARAM wParam, LPARAM lParam)
 #endif
 	if (!GetOpenFileName(&ofn)) return 0;
 
-	f = _tfopen(str, _T("r"));
+	FILE *f = _tfopen(str, _T("r"));
 	_tstat(str, &st);
 
 	if (f && st.st_size)
@@ -420,7 +419,6 @@ INT_PTR GGPROTO::export_text(WPARAM wParam, LPARAM lParam)
 	TCHAR str[MAX_PATH];
 	OPENFILENAME ofn = {0};
 	TCHAR filter[512], *pfilter;
-	FILE *f;
 
 	_tcsncpy(str, TranslateT("contacts"), SIZEOF(str));
 	_tcsncat(str, _T(".txt"), SIZEOF(str) - _tcslen(str));
@@ -457,7 +455,8 @@ INT_PTR GGPROTO::export_text(WPARAM wParam, LPARAM lParam)
 #endif
 	if (!GetSaveFileName(&ofn)) return 0;
 
-	if (f = _tfopen(str, _T("w"))) {
+	FILE *f = _tfopen(str, _T("w"));
+	if (f) {
 		char *contacts = gg_makecontacts(this, 0);
 		fwrite(contacts, sizeof(char), strlen(contacts), f);
 		fclose(f);
@@ -481,10 +480,6 @@ INT_PTR GGPROTO::export_text(WPARAM wParam, LPARAM lParam)
 
 INT_PTR GGPROTO::export_server(WPARAM wParam, LPARAM lParam)
 {
-	char *password, *contacts;
-	uin_t uin;
-	DBVARIANT dbv;
-
 	// Check if connected
 	if (!isonline())
 	{
@@ -496,19 +491,20 @@ INT_PTR GGPROTO::export_server(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Readup password
-	if (!getString(GG_KEY_PASSWORD, &dbv))
-	{
-		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
-		password = _strdup(dbv.pszVal);
-		db_free(&dbv);
-	}
-	else return 0;
+	DBVARIANT dbv;
+	if (getString(GG_KEY_PASSWORD, &dbv))
+		return 0;
 
-	if (!(uin = getDword(GG_KEY_UIN, 0)))
+	CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
+	char *password = _strdup(dbv.pszVal);
+	db_free(&dbv);
+
+	uin_t uin = getDword(GG_KEY_UIN, 0);
+	if (!uin)
 		return 0;
 
 	// Making contacts list
-	contacts = gg_makecontacts(this, 1);
+	char *contacts = gg_makecontacts(this, 1);
 
 #ifdef DEBUGMODE
 		netlog("export_server(): gg_userlist_request(%s).", contacts);
