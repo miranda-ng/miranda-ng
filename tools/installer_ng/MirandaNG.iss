@@ -1,7 +1,7 @@
 ﻿#ifdef ptx86
    #define MirName "Miranda32.exe"
    #define MirGroupName "Miranda NG"
-   #define MirOutName "miranda-ng-alpha-latest"
+   #define MirPtf ""
    #define ArcAllow ""
    #define VcRedistName "vcredist_x86.exe"
    #define Ptf "x86"
@@ -10,7 +10,7 @@
 #else
    #define MirName "Miranda64.exe"
    #define MirGroupName "Miranda NG x64"
-   #define MirOutName "miranda-ng-alpha-latest_x64"
+   #define MirPtf "_x64"
    #define ArcAllow "x64"
    #define VcRedistName "vcredist_x64.exe"
    #define Ptf "x64"
@@ -40,7 +40,7 @@ Compression=lzma2/max
 SolidCompression=yes
 PrivilegesRequired=poweruser
 OutputDir=..\
-OutputBaseFilename={#MirOutName}
+OutputBaseFilename=miranda-ng-v{#SetupSetting("AppVersion")}{#MirPtf}
 WizardImageFile=Installer\WizModernImage-IS.bmp
 WizardSmallImageFile=Installer\SetupMNGSmall.bmp
 SetupIconFile=Installer\mng_installer.ico
@@ -136,7 +136,6 @@ Source: "Files\Plugins\Dbx_3x.dll"; DestDir: "{app}\Plugins"; Components: dbx\3x
 Source: "Files\Settings\mirandaboot_default.ini"; DestDir: "{app}"; Components: program; DestName: "mirandaboot.ini"; Check: IsDefault(); Flags: ignoreversion onlyifdoesntexist; AfterInstall: ShowPercent() 
 Source: "Files\Settings\mirandaboot_portable.ini"; DestDir: "{app}"; Components: program; DestName: "mirandaboot.ini"; Check: IsPortable(); Flags: ignoreversion onlyifdoesntexist; AfterInstall: ShowPercent() 
 Source: "Files\Settings\autoexec_sounds.ini"; DestDir: "{app}"; Components: sounds; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\autoexec_nightly_pu.ini"; DestDir: "{app}"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 
 ; Installer add-ons
 Source: "Installer\ISWin7.dll"; Flags: dontcopy 
