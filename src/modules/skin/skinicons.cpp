@@ -109,7 +109,7 @@ const char mainIconsFmt[] = "core_main_";
 const char statusIconsFmt[] = "core_status_";
 const char protoIconsFmt[] = LPGEN("%s Icons");
 
-#define PROTOCOLS_PREFIX LPGEN("Status Icons")"/"
+#define PROTOCOLS_PREFIX LPGEN("Status Icons/")
 #define GLOBAL_PROTO_NAME "*"
 
 // load small icon (shared) it's not need to be destroyed
