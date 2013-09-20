@@ -551,7 +551,6 @@ int CLUI_ShowWindowMod(HWND hWnd, int nCmd)
 		 &&  !g_mutex_bChangingMode
 		 &&  nCmd == SW_HIDE
 		 &&  !g_CluiData.fLayered
-		 &&  IsWinVerXPPlus()
 		 &&  db_get_b(NULL,"CList","WindowShadow",SETTING_WINDOWSHADOW_DEFAULT))
 	{
 		ShowWindow(hWnd,SW_MINIMIZE); //removing of shadow
@@ -561,7 +560,6 @@ int CLUI_ShowWindowMod(HWND hWnd, int nCmd)
 		 &&  !g_mutex_bChangingMode
 		 &&  nCmd == SW_RESTORE
 		 &&  !g_CluiData.fLayered
-		 &&  IsWinVerXPPlus()
 		 &&  g_CluiData.fSmoothAnimation
 		 &&  !g_bTransparentFlag)
 	{

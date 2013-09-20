@@ -2978,7 +2978,7 @@ HICON ske_ImageList_GetIcon(HIMAGELIST himl, int i, UINT fStyle)
 {
 	IMAGEINFO imi = {0};
 	BITMAP bm = {0};
-	if ( IsWinVerXPPlus()  && i != -1 )
+	if (i != -1)
 	{
 		ImageList_GetImageInfo(himl,i,&imi);
 		GetObject(imi.hbmImage,sizeof(bm),&bm);
@@ -4327,7 +4327,7 @@ HICON ske_CreateJoinedIcon(HICON hBottom, HICON hTop, BYTE alpha)
 	GetObject(iciTop.hbmColor,sizeof(BITMAP),&bmp_top);
 	GetObject(iciTop.hbmMask,sizeof(BITMAP),&bmp_top_mask);
 
-	if (bmp_bottom.bmBitsPixel == 32  && bmp_top.bmBitsPixel == 32 && IsWinVerXPPlus())
+	if (bmp_bottom.bmBitsPixel == 32  && bmp_top.bmBitsPixel == 32)
 	{
 		BYTE * BottomBuffer, * TopBuffer, * BottomMaskBuffer, * TopMaskBuffer;
 		BYTE * bb, * tb, * bmb, * tmb;

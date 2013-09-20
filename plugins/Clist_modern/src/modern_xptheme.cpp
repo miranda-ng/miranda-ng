@@ -14,101 +14,40 @@ typedef struct _tagXPTObject
 
 static OBJLIST<XPTObject> xptObjectList(1);
 static CRITICAL_SECTION xptCS;
-static BOOL xptModuleLoaded = FALSE;
 
-
-static HMODULE _xpt_ThemeAPIHandle = NULL; // handle to uxtheme.dll
-static HANDLE   (WINAPI *_xpt_OpenThemeData)(HWND, LPCWSTR) = NULL;
-static HRESULT  (WINAPI *_xpt_CloseThemeData)(HANDLE) = NULL;
-static BOOL     (WINAPI *_xpt_IsThemeBackgroundPartiallyTransparent)(HANDLE, int,int) = NULL;
-static BOOL	    (WINAPI *_xpt_EnableThemeDialogTexture)(HANDLE, DWORD) = NULL;
-static HRESULT  (WINAPI *_xpt_GetThemePartSize)(HTHEME hTheme, HDC hdc, int iPartId, int iStateId, RECT *prc, int eSize, SIZE *psz ) = NULL;
-static HRESULT  (WINAPI *_xpt_DrawThemeParentBackground)(HWND, HDC, const RECT *) = NULL;
-static HRESULT  (WINAPI *_xpt_DrawThemeBackground)(HANDLE, HDC, int, int,const RECT *, const RECT *) = NULL;								 
-static HRESULT  (WINAPI *_xpt_DrawThemeText)(HANDLE, HDC, int, int, LPCWSTR, int,DWORD, DWORD, const RECT *) = NULL;
-
-
-#undef  MGPROC
-#define MGPROC(x) GetProcAddress(_xpt_ThemeAPIHandle,x)
-
-#define xptcheck  if ( !xptModuleLoaded) return
 #define xptlock() EnterCriticalSection(&xptCS)
 #define xptunlock() LeaveCriticalSection(&xptCS)
 
-static void _sttXptObjectDestructor (void * pt)
-{
-	mir_free(pt);
-}
-
-static int _xpt_ThemeSupport()
-{
-	if (IsWinVerXPPlus()) {
-		if ( !_xpt_ThemeAPIHandle) {
-			_xpt_ThemeAPIHandle = GetModuleHandleA("uxtheme");
-			if (_xpt_ThemeAPIHandle) {
-				_xpt_OpenThemeData = (HANDLE(WINAPI *)(HWND, LPCWSTR))MGPROC("OpenThemeData");
-				_xpt_CloseThemeData = (HRESULT(WINAPI *)(HANDLE))MGPROC("CloseThemeData");
-				_xpt_IsThemeBackgroundPartiallyTransparent = (BOOL(WINAPI *)(HANDLE, int, int))MGPROC("IsThemeBackgroundPartiallyTransparent");
-				_xpt_DrawThemeParentBackground = (HRESULT(WINAPI *)(HWND, HDC, const RECT *))MGPROC("DrawThemeParentBackground");
-				_xpt_DrawThemeBackground = (HRESULT(WINAPI *)(HANDLE, HDC, int, int, const RECT *, const RECT *))MGPROC("DrawThemeBackground");
-				_xpt_DrawThemeText = (HRESULT(WINAPI *)(HANDLE, HDC, int, int, LPCWSTR, int, DWORD, DWORD, const RECT *))MGPROC("DrawThemeText");				
-				_xpt_GetThemePartSize = (HRESULT(WINAPI *)(HTHEME , HDC , int , int , RECT *, int , SIZE * ))MGPROC("GetThemePartSize");
-				_xpt_EnableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD)) MGPROC("EnableThemeDialogTexture");
-			}
-		}
-		// Make sure all of these methods are valid (i would hope either all or none work)
-		if (_xpt_OpenThemeData && 
-			_xpt_CloseThemeData && 
-			_xpt_IsThemeBackgroundPartiallyTransparent && 
-			_xpt_DrawThemeParentBackground && 
-			_xpt_DrawThemeBackground && 
-			_xpt_DrawThemeText && 
-			_xpt_GetThemePartSize) 
-		{
-			return 1;
-		}
-	}
-	return 0;
-}
-
 static void _sttXptCloseThemeData(XPTObject * xptObject)
 {
-	_xpt_CloseThemeData(xptObject->hThemeHandle);
+	CloseThemeData(xptObject->hThemeHandle);
 	xptObject->hThemeHandle = NULL;
 }
 static void _sttXptReloadThemeData(XPTObject * xptObject)
 {
-	_xpt_CloseThemeData(xptObject->hThemeHandle);
-	xptObject->hThemeHandle = _xpt_OpenThemeData(xptObject->hOwnerWindow, xptObject->lpcwClassObject);
+	CloseThemeData(xptObject->hThemeHandle);
+	xptObject->hThemeHandle = OpenThemeData(xptObject->hOwnerWindow, xptObject->lpcwClassObject);
 }
 
 
 HRESULT XPThemesLoadModule()
 {
-	if (_xpt_ThemeSupport()) 
-	{
-		InitializeCriticalSection(&xptCS);
-		xptModuleLoaded = TRUE;
-	}
+	InitializeCriticalSection(&xptCS);
 	return S_OK;
 }
 
 void XPThemesUnloadModule()
 {
-	xptcheck;
 	xptlock();
-	xptModuleLoaded = FALSE;
 	xptunlock();
 	xptObjectList.destroy();
 	DeleteCriticalSection(&xptCS);
-	FreeLibrary(_xpt_ThemeAPIHandle);
 }
 
 
 BOOL xpt_IsThemed(XPTHANDLE xptHandle)
 {
 	BOOL res = FALSE;
-	xptcheck FALSE;
 	if ( !xptHandle) return FALSE;
 	xptlock();
 	{
@@ -122,7 +61,6 @@ BOOL xpt_IsThemed(XPTHANDLE xptHandle)
 BOOL xpt_IsValidHandle(XPTHANDLE xptHandle)
 {
 	BOOL res = FALSE;
-	xptcheck FALSE;
 	if ( !xptHandle) return FALSE;
 	xptlock();
 	{
@@ -136,7 +74,6 @@ BOOL xpt_IsValidHandle(XPTHANDLE xptHandle)
 XPTHANDLE xpt_AddThemeHandle(HWND hwnd, LPCWSTR className)
 {
 	XPTHANDLE res = NULL;
-	xptcheck NULL;
 	xptlock();
 	{
 		XPTObject* xptObject = new XPTObject;
@@ -152,20 +89,18 @@ XPTHANDLE xpt_AddThemeHandle(HWND hwnd, LPCWSTR className)
 
 void xpt_FreeThemeHandle(XPTHANDLE xptHandle)
 {
-   xptcheck;
    xptlock();
    if (xpt_IsValidHandle(xptHandle))
    {
 	   XPTObject* xptObject = (XPTObject*)xptHandle;
 	   _sttXptCloseThemeData(xptObject);
-	   _sttXptObjectDestructor((void *) xptHandle);
+	   mir_free(xptHandle);
 		xptObjectList.remove( xptObjectList.indexOf(xptObject));
    }
    xptunlock();
 }
 void xpt_FreeThemeForWindow(HWND hwnd)
 {
-	xptcheck;
 	xptlock();
 	{
 		for (int i=0; i < xptObjectList.getCount(); )
@@ -184,7 +119,6 @@ void xpt_FreeThemeForWindow(HWND hwnd)
 
 void xpt_OnWM_THEMECHANGED()
 {
-	xptcheck;
 	xptlock();
 	{
 		for (int i=0; i < xptObjectList.getCount(); i++)
@@ -192,41 +126,36 @@ void xpt_OnWM_THEMECHANGED()
 	}
 	xptunlock();
 }
+
 HRESULT	xpt_DrawThemeBackground(XPTHANDLE xptHandle, HDC hdc, int type, int state, const RECT *sizeRect, const RECT *clipRect)
 {
 	HRESULT res = S_FALSE;
-	xptcheck S_FALSE;
 	xptlock();
 	if (xpt_IsThemed(xptHandle))
-		res = _xpt_DrawThemeBackground(((XPTObject*)xptHandle)->hThemeHandle, hdc, type, state, sizeRect, clipRect);
+		res = DrawThemeBackground(((XPTObject*)xptHandle)->hThemeHandle, hdc, type, state, sizeRect, clipRect);
 	xptunlock();
 	return res;
 }
-HRESULT	xpt_DrawThemeParentBackground(HWND hWnd, HDC hdc, const RECT *sizeRect)
-{
-	xptcheck S_FALSE;
-	return xpt_DrawThemeParentBackground(hWnd, hdc, sizeRect);
-}
+
 BOOL xpt_IsThemeBackgroundPartiallyTransparent(XPTHANDLE xptHandle, int type,  int state)
 {
 	BOOL res = FALSE;
-	xptcheck FALSE;
 	xptlock();
 	if (xpt_IsThemed(xptHandle))
-		res = _xpt_IsThemeBackgroundPartiallyTransparent(((XPTObject*)xptHandle)->hThemeHandle,  type, state);
+		res = IsThemeBackgroundPartiallyTransparent(((XPTObject*)xptHandle)->hThemeHandle,  type, state);
 	xptunlock();
 	return res;
 }
+
 HRESULT	xpt_DrawTheme(XPTHANDLE xptHandle, HWND hwnd, HDC hdc, int type, int state, const RECT *sizeRect, const RECT *clipRect)
 {
 	HRESULT res = S_FALSE;
-	xptcheck S_FALSE;
 	xptlock();
 	if (xpt_IsThemed(xptHandle))
 	{
-		if (_xpt_IsThemeBackgroundPartiallyTransparent(((XPTObject*)xptHandle)->hThemeHandle,  type, state))
-			res = _xpt_DrawThemeParentBackground(hwnd,hdc,sizeRect);
-			res = _xpt_DrawThemeBackground(((XPTObject*)xptHandle)->hThemeHandle, hdc, type, state, sizeRect, clipRect);
+		if (IsThemeBackgroundPartiallyTransparent(((XPTObject*)xptHandle)->hThemeHandle,  type, state))
+			res = DrawThemeParentBackground(hwnd,hdc,sizeRect);
+			res = DrawThemeBackground(((XPTObject*)xptHandle)->hThemeHandle, hdc, type, state, sizeRect, clipRect);
 	}
 	xptunlock();
 	return res;
@@ -235,10 +164,9 @@ HRESULT	xpt_DrawTheme(XPTHANDLE xptHandle, HWND hwnd, HDC hdc, int type, int sta
 HRESULT xpt_DrawThemeText(XPTHANDLE xptHandle, HDC hdc, int type, int state, LPCTSTR lpStr, int len, DWORD flag1, DWORD flag2, const RECT *textRect)
 {
 	HRESULT res = S_FALSE;
-	xptcheck S_FALSE;
 	xptlock();
 	if (xpt_IsThemed(xptHandle))
-		_xpt_DrawThemeText(((XPTObject*)xptHandle)->hThemeHandle,  hdc,  type,  state,  (LPCWSTR)lpStr,  len,  flag1,  flag2,  textRect);
+		DrawThemeText(((XPTObject*)xptHandle)->hThemeHandle,  hdc,  type,  state,  (LPCWSTR)lpStr,  len,  flag1,  flag2,  textRect);
 	else
 		ske_DrawText(hdc,lpStr,len, (RECT*)textRect, flag1);
 	xptunlock();
@@ -247,9 +175,8 @@ HRESULT xpt_DrawThemeText(XPTHANDLE xptHandle, HDC hdc, int type, int state, LPC
 BOOL xpt_EnableThemeDialogTexture(HWND hwnd, DWORD flags)
 {
 	BOOL res = FALSE;
-	xptcheck res;
 	xptlock();
-	res = _xpt_EnableThemeDialogTexture(hwnd, flags);
+	res = EnableThemeDialogTexture(hwnd, flags);
 	xptunlock();
 	return res;
 }
