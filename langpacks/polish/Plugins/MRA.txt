@@ -6,7 +6,7 @@
 ;  Authors: Ivan Rozhuk
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
-
+Wtyczka protokołu Mail.ru Agent dla Mirandy.
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
 E-mail:
@@ -23,23 +23,23 @@ Port:
 [Default]
 Domyślny
 [Automatically request authorization on logon]
-
+Automatycznie poproś o autoryzację podczas logowania
 [Automatically add contacts to server list on logon]
-
+Automatycznie dodaj kontakty do listy serwera podczas logowania
 [Automatically grant authorization to users in contact list]
-
+Automatycznie udziel autoryzacji kontaktom na liście
 [Automatically grant authorization to new users]
-
+Automatycznie udziel autoryzacji nowym kontaktom
 [Notify me when a message delivery has failed]
 Powiadom mnie jeśli nie uda się dostarczyć wiadomości
 [Notify about new mail if increment]
-
+Powiadom o nowej poczcie, gdy wiadomości jest więcej niż
 [Notify about new mail tray icon]
-
+Powiadom o nowej poczcie ikoną w zasobniku
 [Click to Inbox]
-
+Kliknij, by przejść do skrzynki odbiorczej
 [Show received formatted text (receive RTF)]
-
+Pokazuj sformatowany tekst po odebraniu (przyjmuj RTF)
 [Send formatted text (send RTF)]
 Wyślij sformatowany tekst (RTF)
 [Background colour]
@@ -65,7 +65,7 @@ do:
 [Birthday:]
 Urodziny:
 [Zodiak:]
-
+Zodiak:
 [Location]
 Miejsce
 [Country:]
@@ -77,55 +77,55 @@ Szukaj tylko wśród połączonych
 [City:]
 Miasto:
 [Remember]
-
+Pamiętaj
 [Enable avatars support (loading)]
-
+Włącz wsparcie dla awatarów (ładowanie)
 [Server:]
 Serwer:
 [Updates check interval, min]
-
+Sprawdzaj aktualizacje co, min
 [Return absolute path]
-
+Zwróć ścieżkę absolutną
 [Delete avatar file with contact]
-
+Usuń plik awataru wraz z kontaktem
 [Use keep-alive connections]
-
+Używaj podtrzymanych połączeń
 [Files exchange]
-
+Wymiana plików
 [No out connection on send]
-
+Brak połączenia wychodzącego podczas wysyłania
 [No out connection on receive]
-
+Brak połączenia wychodzącego podczas odbierania
 [Out connections: ignory additional ports (443, 2041)]
-
+Połączenia wychodzące: ignoruj dodatkowe porty (443, 2041)
 [Hide my IP addresses]
-
+Ukryj moje adresy IP
 [Add extra address]
-
+Dodaj adres dodatkowy
 [Your host (or router):]
 Twój host(lub router):
 [File send block size:]
-
+Rozmiar bloku wysyłanego pliku:
 [512 - 65536 bytes]
 512 - 65536 bajtów
 [Enable direct connections]
-
+Włącz połączenia bezpośrednie
 [Enable MRIM proxy connections]
-
+Włącz połączenia przez serwer proxy MRIM
 [Mail.ru Agent]
-
+Mail.ru Agent
 [Full e-mail:]
 E-mail:
 [Example: Petrov_Ivan@mail.ru]
-
+Przykład: petrov_Ivan@mail.ru
 [Create a new Mail.ru account using the Mail.ru website]
 Utwórz nowe konto Mail.ru używając strony Mail.ru
 [Retrieve a lost password]
-
+Odzyskaj zapomniane hasło
 [Leave empty if you dont want change password]
-
+Pozostaw to pole puste, jeśli nie chcesz zmieniać hasła
 [Popup type]
-
+Typ Popupu
 [Popup settings]
 Ustawienia popup
 [Enable]
@@ -141,7 +141,7 @@ Wyświetlaj
 [Previe&w]
 Podgląd
 [Custom Status "%s" Details]
-
+Szczegóły własnego statusu "%s"
 [Closing in %d]
 Zamykanie w %d
 [Title:]
@@ -155,9 +155,9 @@ Anuluj
 [Notify]
 Powiadomienia
 [Writed:]
-
+Napisane:
 [Select e-mail]
-
+Wybierz e-mail
 ;file \protocols\MRA\src\MraAdvancedSearch.cpp
 [Male]
 Mężczyzna
@@ -213,27 +213,27 @@ Wodnik
 Ryby
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars' plugin connections]
-
+Połączenia wtyczki Avatars
 [Avatars]
 Awatary
 [Avatars: server return HTTP code: %lu]
-
+Awatary: serwer zwrócił kod http: %lu
 [Avatars: can't open file %s, error]
-
+Awatary: nie można otworzyć pliku %s, błąd
 ;file \protocols\MRA\src\MraChat.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
 Żeby móc brać udział w konferencjach musisz zainstalować wtyczkę CHAT
 [invite sender]
-
+Zaproś nadawcę
 [invite new members]
 zaproś nowego członka
 ;file \protocols\MRA\src\MraConstans.h
 [Your contact wakes you]
-
+Twój kontakt budzi cię
 [Display &Inbox]
-
+Wyświetl skrzynkę odbiorczą
 [Display &Inbox status]
-
+Wyświetl status skrzynki odbiorczej
 [Edit &Profile]
 Edytuj profil
 [My Album]
@@ -247,17 +247,17 @@ Moje wideo
 [My Answers]
 Moje odpowiedzi
 [My World]
-
+Mój świat
 [Zhuki]
-
+Zhuki
 [Web search]
-
+Szukaj w internecie
 [Update all users info]
 Zaktualizuj infromacje wszystkich użytkowników
 [Check updates users avatars]
 Sprawdź aktualizacje awatarów
 [Request authorization for all]
-
+Poproś wszystkich o autoryzację
 [Request authorization]
 Poproś o autoryzację
 [Grant authorization]
@@ -269,13 +269,13 @@ Pokaż album
 [&Read Blog]
 Czytaj blog
 [Reply Blog Status]
-
+Odpowiedz na status na blogu
 [View Video]
 Pokaż wideo
 [Answers]
 Odpowiedzi
 [World]
-
+Świat
 [Send &Nudge]
 Wyślij nudge
 [Mail box deleted]
@@ -285,24 +285,24 @@ Kontaktu nie ma na serwerze
 [Not authorized]
 Nie autoryzowany
 [Phone/SMS only contact]
-
+Kontakt tylko telefonicznie lub przez SMS
 [Blog status message]
-
+Opis na blogu
 [New E-mail available in Inbox]
 Nowy e-mail w skrzynce
 [Please authorize me]
 Proszę o autoryzację
 ;file \protocols\MRA\src\MraFilesQueue.cpp
 [Receive files: can't allocate disk space for file, size %lu bytes, error]
-
+Odbieranie plików: nie można znaleźć miejsca na plik, rozmiar %lu bajtów, błąd
 [Receive files: can't open file %s, error]
-
+Odbieranie plików: nie można otworzyć pliku %s, błąd
 [Receive files: request for file %s not sended, error]
-
+Odbieranie plików: nie wysłano prośby o plik, błąd
 [Send files: can't open file %s, error]
-
+Wysyłanie plików: nie można otworzyć pliku %s, błąd
 [Send files: requested file: %S - not found in send files list.]
-
+Wysyłanie plików: żądany plik: %s -nie został znaleziony na liście wysyłanych plików.
 ;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
 Menu główne
@@ -330,40 +330,40 @@ Ostrzeżenie
 [Error]
 Błąd
 [NewMail]
-
+Nowy e-mail
 [Popups]
 Popupy
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
 Połączenie %s
 [Mail.ru Xstatus]
-
+Xstatus Mail.ru
 [Mail.ru extra info]
-
+Mail.ru dodatkowe informacje
 [E-mail address]
 Adres e-mail
 ;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
-
+Dostępne są nieczytane wiadomości: %lu/%lu wiadomości
 [From: %S\r\nSubject: %S\r\n%s]
 Od: %S\r\nTemat: %S\r\n%s
 [No unread mail is available\r\nTotal messages: %lu]
-
+Brak nieczytanych wiadomości\r\nWszystkich wiadomości: %lu
 [Closing in %ld]
 Zamykanie w %ld
 [Reply to %s blog status]
-
+Odpowiedz na status na blogu %s
 [Set my blog status]
-
+Ustaw status na moim blogu
 [Writed]
-
+Napisano
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Protokoły
 [Account]
 Konto
 [Connections]
-
+Połączenia
 [Files]
 Pliki
 ;file \protocols\MRA\src\Mra_proto.cpp
@@ -372,29 +372,29 @@ Proszę uzupełnić e-mail w opcjach
 [Please, setup password in options]
 Proszę uzupełnić hasło w opcjach
 [Logon error: invalid login/password]
-
+Błąd logowania: niepoprawny login lub hasło
 [MRIM_CS_MESSAGE_STATUS: not found in queue]
-
+MRIM_CS_MESSAGE_STATUS: nie znaleziono w kolejce
 [Server error: can't get MPOP key for web authorize]
-
+Błąd serwera: nie można pobrać klucza MPOP w celu autoryzacji web
 [MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
-
+MRIM_CS_FILE_TRANSFER_ACK: nieznany błąd, kod: %lu
 [invisible status changed]
-
+Zmieniono status niewidoczny
 [MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu]
-
+MRIM_CS_*_CONTACT_ACK: nieznany błąd serwera, kod: %lu
 [MRIM_CS_*_CONTACT_ACK: not found in queue]
-
+MRIM_CS_*_CONTACT_ACK: nie znaleziono w kolejce
 [MRIM_ANKETA_INFO: not found in queue]
-
+MRIM_ANKETA_INFO: nie znaleziono w kolejce
 [MRIM_CS_GAME: unknown internal game message code: %lu]
-
+MRIM_CS_GAME: nieznana wiadomość wewnętrzna gry kod: %lu
 [MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu]
-
+MRIM_CS_CONTACT_LIST2: błąd serwera, kod: %lu
 [MRIM_CS_SMS_ACK: not found in queue]
-
+MRIM_CS_SMS_ACK: nie znaleziono w kolejce
 [Mail.ru System notify]
-
+Powiadomienie systemowe Mail.ru
 ;file \protocols\MRA\src\Mra_svcs.cpp
 [Sick]
 Chory
@@ -403,23 +403,23 @@ Dom
 [Eating]
 Jedzenie
 [Compass]
-
+Kompas
 [On WC]
 W toalecie
 [Cooking]
 Gotuję
 [Walking]
-
+Chodzenie
 [Alien]
 Obcy
 [Shrimp]
-
+Krewetka
 [Got lost]
-
+Zgubił się
 [Crazy]
 Zwariowany
 [Duck]
-
+Kaczka
 [Playing]
 Gra
 [Smoking]
@@ -429,7 +429,7 @@ Biuro
 [Meeting]
 Spotkanie
 [Beer]
-
+Piwo
 [Coffee]
 Kawa
 [Working]
@@ -439,60 +439,60 @@ Relaks
 [On the phone]
 Pod telefonem
 [In institute]
-
+W instytucie
 [At school]
-
+W szkole
 [Wrong number]
-
+Zły numer
 [Laughing]
-
+śmieję się
 [Malicious]
-
+Złośliwy
 [Imp]
-
+Goblin
 [Blind]
-
+Niewidomy
 [Disappointed]
 Zawiedziony
 [Almost crying]
-
+Prawie płacze
 [Fearful]
-
+Bojaźliwy
 [Angry]
 Rozgniewany
 [Vampire]
-
+Wampir
 [Ass]
-
+Dupa
 [Love]
 Miłość
 [Sleeping]
 Śpiący
 [Cool!]
-
+Cool
 [Peace!]
-
+Pokój
 [Cock a snook]
-
+Gra na nosie
 [Get out]
-
+Wyjdź
 [Death]
-
+Śmierć
 [Rocket]
-
+Rakieta
 [Devil-fish]
-
+Diabeł-ryba
 [Heavy metal]
-
+Heavy metal
 [Things look bad]
-
+To wygląda źle
 [Squirrel]
-
+Wiewiórka
 [Star]
-
+Gwiazda
 [Music]
 Muzyka
 [Dating]
-
+Randkowanie
 [Are you sure?]
 Jesteś pewien?

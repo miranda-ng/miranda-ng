@@ -15,11 +15,11 @@ Odpowiedz
 [&Close]
 Zamknij
 [Read Next]
-
+Przeczytaj następną
 [From:]
 Od:
 [Message received:]
-
+Otrzymano wiadomość:
 [Number:]
 Numer:
 [Send SMS]
@@ -33,13 +33,13 @@ Dodaj numer do listy
 [Save number]
 Zapisz numer
 [Multiple >>]
-
+Wiele
 [Enter message:]
 Wpisz wiadomość:
 [Chars:]
-
+Znaków:
 [%d/160]
-
+%d/160
 [&Send]
 Wyślij
 [SMS Message Didn't Send]
@@ -49,19 +49,19 @@ Spróbuj ponownie
 [&Cancel]
 Anuluj
 [The SMS message send timed out]
-
+Przekroczono czas wysyłania wiadomości
 [SMS Plugin]
 Wtyczka SMS
 [Begining]
-
+Początku
 [End]
 Zamknij
 [Put signature at the:]
-
+Wstaw podpis na:
 [Use Signature]
 Użyj sygnatury
 [Show server notifications]
-
+Pokazuj powiadomienia serwera
 [Auto popup on new message]
 Popup przy nowej wiadomości
 [Save window position per contact]
@@ -71,9 +71,9 @@ Wysłana wiadomość SMS
 [&OK]
 &OK
 [Message ID:]
-
+ID wiadomości:
 [Source:]
-
+Źródło:
 [Network:]
 Protokół:
 ;file \plugins\SMS\src\options.cpp
@@ -81,47 +81,47 @@ Protokół:
 Od %s:\r\n\r\n
 ;file \plugins\SMS\src\receive.cpp
 [SMS message didn't send by %S to %s because: %S]
-
+Wiadomość SMS nie została wysłana przez %s do %s, ponieważ: %s
 [SMS Message from %s]
 Wiadomość SMS od %s
 [SMS Confirmation from %s]
-
+Potwierdzenie wiadomości SMS od %s
 ;file \plugins\SMS\src\recvdlg.cpp
 [Received SMS Confirmation]
-
+Otrzymano potwierdzenie wiadomości
 ;file \plugins\SMS\src\senddlg.cpp
 [View User's History]
 Zobacz historię użytkownika
 [Add Number To The Multiple List]
-
+Dodaj numer do listy wielokrotnego wyboru
 [Save Number To The User's Details Phonebook]
-
+Zapisz numer do książki telefonicznej danych kontaktu
 [Show/Hide Multiple List]
-
+Pokaż/ukryj listę wielokrotnego wyboru
 [Shows How Much Chars You've Typed]
-
+Pokaż, ile znaków napisałeś
 [The SMS message send to %s timed out.]
-
+Przekroczono czas wysyłania wiadomości do %s.
 [The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only.]
-
+Numer telefonu powinien zaczynać się od znaku + oraz składać się tylko i wyłącznie z cyfr, spacji, nawiasów kwadratowych oraz myślników.
 [Invalid Phone Number]
 Nieprawidłowy numer telefonu 
 [Message is too long, press OK to continue.]
-
+Wiadomość jest zbyt długa. Naciśnij OK, aby kontynuować.
 [Error - Message too long]
-
+Błąd - wiadomość zbyt długa
 [There must be numbers in the list first.]
-
+Najpierw na liśćie muszą znajdować się numery.
 [No Numbers]
-
+Brak numerów
 [Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
-
+Poprawne numery telefonu zapisujemy w formacie "+(kod kraju)(numer telefonu)". Część poświęcona na numer telefonu zależy od formatu numeru telefonu w danym kraju, ale często pomija wiodące 0.
 [Invalid phone number]
-
+Nieprawidłowy numer telefonu
 [<< Single]
-
+<< Pojedynczy
 ;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
 Przychodząca wiadomość SMS
 [Incoming SMS Confirmation]
-
+Przychodzące potwierdzenie SMS

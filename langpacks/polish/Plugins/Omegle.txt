@@ -13,31 +13,31 @@ Serwer:
 [Language:]
 Język:
 [Visible name:]
-
+Widoczna nazwa:
 [Meet strangers with common interests (separated by commas):]
-
+Spotykaj obcych o wspólnych zainteresowaniach (oddzielone przecinkami):
 [Automatically send this message to stranger after connection:]
-
+Automatycznie wysyłaj tą wiadomość obcemu po połączeniu:
 [This text will be sent when you use "/asl" message:]
-
+Ten tekst zostanie wysłany po wpisaniu komendy /asl:
 [Last used question (Question mode):]
-
+Ostatnio użyte pytanie (tryb pytań):
 [I want Omegle to reuse my questions if they are good enough (Question mode)]
-
+Chcę, by Omegle używało moich pytań ponownie, jeżeli były wystarczająco dobre (tryb pytań)
 [Automatically connect to stranger when protocol is turned online]
-
+Automatycznie połącz z obcym po uzyskaniu połączenia z protokołem
 [Automatically connect to another stranger when current disconnects]
-
+Automatyczniełącz z innym obcym, gdy obecny się rozłączy
 [Don't clear chat before connecting to new stranger]
-
+Nie czyść czatu przed połączeniem z nowym obcym
 [Load count of users on actual server after connection]
-
+Ładuj liczbę użytkowników obecnego serwera po połączeniu
 [Enable logging for debugging purposes]
 Włącz logowanie w celu debugowania
 [Meet strangers with common interests]
-
+Spotykaj obcych o wspólnych zainteresowaniach
 [Your interests (separated by commas):]
-
+Twoje zainteresowania (oddzielone przecinkami):
 ;file \protocols\Omegle\src\chat.cpp
 [Server]
 Serwer
@@ -46,83 +46,83 @@ Ostatnie pytanie jest puste.
 [Your question is too short.]
 Twoje pytanie jest za któtkie.
 [Your '/asl' setting is empty.]
-
+Twoje ustawienie "/asl" jest puste.
 [There are three different modes of chatting:\n1) Standard mode\t - You chat with random stranger privately\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\n\nSend '/commands' for available commands.]
-
+Istnieją trzy różne tryby czatowania:\n1) Tryb standardowy\t - czatujesz z przypadkową osobą prywatnie\n2) Tryb pytań\t - zadajesz pytanie dwóm przypadkowym osobom, a następnie obserwujesz ich dyskusję nad tym pytaniem (nie możesz przyłączyć się do konwersacji, a jedynie oglądać ją z boku)\n3) Tryb szpiega\t - ty oraz przypadkowa osoba otrzymujecie pytanie od osoby trzeciej (niemoże ona przyłączyć się do rozmowy, jedynie oglądać jej przebieg)\n\nNapisz /commands, by uzyskać listę dostępnych komend.
 [You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
-
+Możesz używać różnych komend:\n/help\t - pokazuje informacje o trybach czatu\n/new\t- rozpoczyna czat w trybie standardowym\n/ask <pytanie> - rozpoczyna czat w trybie pytań używając podanego przez Ciebie pytania\n/ask\t- rozpoczyna czat w trybie pytań używając ostatnio zadanego przez Ciebie pytania\n/spy\t - rozpoczyna czat w trybie szpiega\n/quit\t - rozłącza się z obcym lub zaprzestaje łączenia\n/asl\t - wysyła zdefiniowaną wiadomość ASL\n\nUwaga: możesz nawiązać połączenie z nową osobą nie rozłączając się uprzednio z tą, z którą rozmawiasz obecnie
 [Unknown command. Send '/commands' for list.]
-
+Nieznana komenda. Napisz "/commands", aby uzyskać listę komend.
 [You aren't connected to any stranger. Send '/help' or '/commands' for help.]
-
+Nie jesteś z nikim połączony. Napisz "/help" lub "/commands", aby uzyskać pomoc.
 [You can't send messages in question mode.]
-
+Nie możesz wysyłać wiadomości w trybie pytań.
 [Omegle is a great way of meeting new friends!]
-
+Omegle to świetny sposób na nawiązywanie nowych znajomości!
 [You]
-
+Ty
 ;file \protocols\Omegle\src\communication.cpp
 [Connection error.]
-
+Błąd połączenia
 [Connected to server %s. There are %s users online now.]
-
+Połączono z serwerem %s. Obecnie znajduje się na nim %s osób.
 [Connected to server %s.]
-
+Połączono z serwerem %s.
 [Stranger 1]
-
+Obcy 1
 [Stranger 2]
-
+Obcy2
 [Stranger]
-
+Obcy
 [You and the Stranger both like: ]
-
+Zarówno ty jak i obcy lubicie:
 [Stranger is typing.]
-
+Obcy pisze
 [Stranger stopped typing.]
-
+Obcy przestał pisać
 [%s disconnected.]
 %s rozłączono.
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
-
+Recaptcha jest wymagana.\nOtwórz http://omegle.com, podaj kod wyświetlony na obrazku i spróbuj jeszcze raz.
 [Error: ]
 Błąd:
 [We are still waiting...]
-
+Wciąż czekamy...
 ;file \protocols\Omegle\src\connection.cpp
 [Connecting canceled.]
-
+łączenie anulowane.
 [Disconnecting...]
-
+Rozłączanie...
 [We are already waiting for new stranger...]
-
+Czekamy już na nowego obcego...
 [Connecting...]
 Łączenie...
 [Waiting for Stranger...]
-
+Oczekiwanie na obcego...
 ;file \protocols\Omegle\src\constants.h
 [Random]
-
+Losowy
 [Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
-
+Obcy używa mobilnej strony Omegle(omegle.com na telefonie lub tablecie)
 [You both speak the same language.]
-
+Oboje mówicie w tym samym języku.
 ;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
 Połączenie %s
 [Unable to get Netlib connection for Omegle]
-
+Nie udało się uzyskać połączenia Netlib dla Omegle
 [Stranger typing]
-
+Obcy pisze
 [Stranger stopped typing]
-
+Obcy przestał pisać
 [Changing stranger]
-
+Zmienianie obcego
 [Visible name]
-
+Widoczna nazwa
 [Network]
 Protokoły
 [Account]
 Konto
 ;file \protocols\Omegle\src\theme.cpp
 [Omegle Icon]
-
+Ikona Omegle

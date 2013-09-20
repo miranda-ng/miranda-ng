@@ -43,7 +43,7 @@ Automatycznie zastępuj sugestiami ze słownika
 [Ignore words with numbers]
 Ignoruj słowa z cyframi
 [Ignore words in UPPER CASE]
-
+Ignoruj słowa pisane WIELKIMI LITERAMI
 [Ask before sending a message with spelling errors]
 Pytaj przed wysłaniem wiadomości z błędami ortograficznymi
 [Download more dictionaries]
@@ -68,20 +68,20 @@ Użyj słownika z innego programu
 Unikaj usuwania podkreślenia (spawalnia sprawdzanie długich tekstów)
 ;file \plugins\SpellChecker\src\ardialog.cpp
 [The wrong word can't be empty!]
-
+Błędne słowo nie może być puste
 [Wrong Correction]
 Zła korekta
 [The correction can't be empty!]
-
+Poprawka nie może być pusta
 [The correction can't be equal to the wrong word!]
-
+Poprawka nie może być identyczna do słowa błędnego
 ;file \plugins\SpellChecker\src\dictionary.cpp
 [tl_PH]
-
+tl_PH
 [Tagalog (Philippines)]
-
+Tagalog (Filipiny)
 [de_frami_neu]
-
+de_frami_neu
 [German (Germany)]
 Niemcy
 ;file \plugins\SpellChecker\src\options.cpp
@@ -124,7 +124,7 @@ Wyłączone
 [There are %d spelling errors. Are you sure you want to send this message?]
 Znaleziono %d błędów. Czy na pewno chcesz wysłać tę wiadomość?
 [Your message window does not support SpellChecker Plugin.\nIf you use SRMM, TabSRMM or Scriver, please update them to the latest version,\notherwise ask the author of your message window plugin to add support for Spell Checker.]
-
+Twoje okno rozmowy nie wspiera wtyczki SpellChecker.\nJeśli używasz SRMM, TabSRMM lub Scriver, zaktualizuj je do najnowszej wersji,\nw przeciwnym razie poproś autora twojego okna rozmowy o dodanie wsparcia dla SpellChecker.
 [Other...]
 Inne...
 [Always replace with]

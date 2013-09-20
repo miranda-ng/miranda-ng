@@ -35,19 +35,19 @@ krok
 [Fade out:]
 Przygasanie końcowe:
 [Advaimg library not found. Please get it from nigtlies to be able to use images.]
-
+Nie znaleziono biblioteki Advaimg. Zdobądź ją z wersji nightly, aby móc wyświetlać obrazki.
 [Preview...]
 Podgląd...
 ;file \plugins\SplashScreen\src\main.cpp
 [Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
-
+Twoja kopia Advaimg.dll jest przestarzała lub uszkodzona. Zdobądź najnowszą wersję z kompilacji Alfa Mirandy.
 [Error]
 Błąd
 [Call Splash Service]
-
+Wywołaj usługę Splash
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
-
+Pliki graficzne
 [Sound Files]
 Dźwięki
 [Skins]

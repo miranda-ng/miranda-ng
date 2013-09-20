@@ -6,12 +6,12 @@
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
-
+Rozszerzony moduł danych kontaktów dla Miranda NG. Dostarcza interfejs do edycji wszystkich danych kontaktów.
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit Contact Information]
 Edytuj informacje o kontakcie
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
-
+Edytuj informacje o kontakcie\nTA lista daje Ci pewien obraz wszystkich rocznic kontaktu
 [Origin]
 Pochodzenie
 [&Update]
@@ -45,7 +45,7 @@ Mężczyzna
 [Marital status:]
 Stan cywilny:
 [Partner:]
-
+Partner:
 [Language skills]
 Znane języki
 [Street:]
@@ -167,7 +167,7 @@ Zainteresowanie
 [Delete]
 Usuń
 [Anniversary Editor]
-
+Edytor rocznic
 [Anniversary Editor\nAdd/Edit your anniversary here.]
 Edytor Rocznic\nDodaj/Edytuj rocznice tutaj.
 [Enter a name for the anniversary here please:]
@@ -251,7 +251,7 @@ Importowanie...\nProszę poczekać!
 [Setting/Event (20/100)]
 Ustawienia/Zdarzenia (20/100)
 [John Doe (1/10)]
-
+Jan Kowalski (1/10)
 [Dialog]
 Okno
 [All]
@@ -317,7 +317,7 @@ Nie przypominaj mi o tej rocznicy.
 [Refresh Contact Details]
 Odśwież dane kontaktu
 [Preparing...]
-
+Przygotowywanie...
 [Hide]
 Ukryj
 [What do you want to export?]
@@ -366,12 +366,12 @@ Ryby
 [Update custom birthday]
 Aktualizacja rocznic
 [Keeps your custom birthday up to date.]
-
+Utrzymuje twoją własną datę urodzin na bieżąco.
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 [Due to a parameter error, one of the treeitems can't be added!]
-
+Zpowodu błędu parametru, jeden z elementów drzewa nie może zostać dodany.
 [An fatal error occured on adding a property sheet page!\nDialog creation aborted!]
-
+Wystąpił krytyczny błąd podczas dodawania strony właściwości!\nAnulowano tworzenie okna!
 [Rename Item]
 Zmień nazwę elementu
 [Hide Item]
@@ -382,11 +382,11 @@ Pokaż element:
 Ustaw domyślnie
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 [Creating unique name for a page failed with %d and error code %d]
-
+Tworzenie unikalnej nazwy strony nie powiodło się z %d oraz kodem błędu%d
 [Creating the label for a page failed with %d and error code %d]
-
+Tworzenie etykiety strony nie powiodło się z %d oraz kodem błędu %d
 [The dialog template type is no longer supported]
-
+Typ szablonu okna nie jest już wspierany
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 Dodaj nową rocznicę
@@ -410,7 +410,7 @@ Dodaj nowy, niestandardowy element.
 [Delete the selected item.]
 Skasuj zaznaczony element.
 [CRITICAL: Unable to edit current entry!\nThis should not happen!]
-
+Krytyczny: nie można edytować obecnego wpisu!\nNie powinno się to zdarzyć!
 [Do you really want to delete the current selected item?\n\t%s\n\t%s]
 Czy na prawdę chcesz skasować obecnie zaznaczony element?\n\t%s\n\t%s
 [Other]
@@ -420,7 +420,7 @@ Inne
 <Nieokreślony>
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
-
+ETA
 [Contact]
 Kontakt
 [Proto]
@@ -449,7 +449,7 @@ Tak
 [No]
 Nie
 [Abord]
-
+Anuluj
 [Ignore]
 Ignorowanie
 [Error]
@@ -464,15 +464,15 @@ Obecnie nie jesteś podłączony do sieci ICQ.\n Musisz być połączony aby uak
 [Uploading]
 Wysyłanie
 [Creating the imagelist failed!]
-
+Tworzenie listy obrazów nie powiodło się!
 [Could not find contact's protocol. Maybe it is not active!]
-
+Nie udało się znaleźć protokołu kontaktu. Być może nie jest aktywny!
 [No pages have been added. Canceling dialog creation!]
-
+Żadne strony nie zostały dodane. Anulowanie tworzenia okna!
 [Details dialog failed to be created. Returning error is %d.]
-
+Nie udało się stworzyć okna szczegółów. Zwrócony błąd to %d.
 [The Page to add has invalid size %d bytes!]
-
+Strona, którą chcesz dodać ma nieprawidłowy rozmiar %d bajtów!
 [General]
 Ogólne
 [Contact (private)]
@@ -496,11 +496,11 @@ Importuj z pliku
 [Owner]
 Właściciel
 [Upload ICQ Details]
-
+Załaduj dane ICQ
 [Upload failed]
 Błąd wysyłania
 [Your details were not uploaded successfully.\nThey were written to database only.]
-
+Twoje dane nie zostały załadowane pomyślnie.\nZostały one zapisane tylko w bazie danych.
 ;file \plugins\UserInfoEx\src\init.cpp
 [Fatal error, image services not found. Flags Module will be disabled.]
 Błąd, nie znaleziono wtyczki 'advaimg.dll'. Usługa Flag zostanie wyłączona.
@@ -542,7 +542,7 @@ Idź do
 [Fax]
 Fax
 [Cellular]
-
+Telefon komórkowy
 [Custom Phone]
 Telefon
 [e-mail]
@@ -648,9 +648,9 @@ Moje notatki:
 O sobie:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid Description first!]
-
+Proszę najpierw podać prawidłowy opis!
 [No valid date selected for editing!]
-
+Nie wybrano prawidłowej daty do edycji
 [Do you really want to delete the %s?]
 Czy na prawdę chcesz skasować %s?
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
@@ -672,13 +672,13 @@ Spółka
 [Question]
 Pytanie
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
-
+To usunie wszystkie ustawienia jakie zrobiłeś!\nWszystkie ustawienia drzewa, położenie okna oraz wszystkie inne ustawienia!\n\nCzy napewno chcesz kontynuować?
 [Ready]
 Gotowy
 [Everything is done!]
-
+Wszystko gotowe!
 [All settings are reset to default values now!]
-
+Wszystkie ustawienia są teraz przywrócone do wartości domyślnych!
 [Reminder disabled]
 Przypominanie wyłączone 
 [Bithdays only]
@@ -686,7 +686,7 @@ Tylko rocznice
 [everything]
 Wszystko
 [mBirthday]
-
+mBirthday
 [UserInfo (default)]
 UserInfo (domyślny)
 [This is the reminder message]
@@ -701,17 +701,17 @@ Szczegóły okna
 Popupy
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
-
+Przeszłość
 [Affiliation]
 Przynależność
 [Interest]
 Zainteresowanie
 [Sorry, but there is a problem with adding a new item of type "%s"]
-
+Przepraszamy, ale wystąpił problem dodania nowego elementu typu "%s"
 [<empty>]
  <pusty>
 [Add Affliation]
-
+Dodaj przynależność
 [Edit Category]
 Edytuj kategorię
 [Edit Value]
@@ -866,203 +866,203 @@ Jidysz
 [Yoruba]
 Joruba
 [Academic]
-
+Akademicka
 [Administrative]
-
+Administracja
 [Art/Entertainment]
-
+Sztuka i rozrywka
 [College Student]
-
+Student
 [Computers]
-
+Komputery
 [Community & Social]
-
+Społeczność
 [Education]
-
+Edukacja
 [Engineering]
-
+Inżynieria
 [Financial Services]
-
+Usługi Finansowe
 [Government]
-
+Rząd
 [High School Student]
-
+Uczeń
 [ICQ - Providing Help]
-
+Wsparcie techniczne ICQ
 [Law]
-
+Prawo
 [Managerial]
-
+Zarządzanie
 [Manufacturing]
-
+Produkcja
 [Medical/Health]
-
+Medyczna/Zdrowie
 [Military]
-
+Wojsko
 [Non-Government Organization]
-
+Organizacja Pozarządowa
 [Professional]
-
+Zawodowa
 [Retail]
-
+Sprzedaż
 [Retired]
-
+Emeryt
 [Science & Research]
-
+Badania Naukowe
 [Sports]
-
+Sport
 [Technical]
 Techniczne
 [University Student]
-
+Student Uczelni
 [Web Building]
-
+Budowanie Stron Internetowych
 [Other Services]
-
+Inne Usługi
 [Art]
-
+Sztuka
 [Cars]
-
+Samochody
 [Celebrity Fans]
-
+Fani Celebryty
 [Collections]
-
+Kolekcje
 [Culture & Literature]
-
+Kultura i Literatura
 [Fitness]
-
+Fitness
 [Games]
 Gry
 [Hobbies]
 Hobbi
 [Internet]
-
+Internet
 [Lifestyle]
-
+Styl Życia
 [Movies/TV]
-
+Filmy/Telewizja
 [Music]
 Muzyka
 [Outdoor Activities]
-
+Rekreacja
 [Parenting]
-
+Rodzicielstwo
 [Pets/Animals]
-
+Zwierzęta
 [Religion]
-
+Religia
 [Science/Technology]
-
+Nauka/Technologia
 [Skills]
-
+Umiejętności
 [Web Design]
-
+Web Design
 [Nature and Environment]
-
+Natura i Środowisko
 [News & Media]
-
+Wiadomości i Media
 [Business & Economy]
-
+Biznes i Ekonomia
 [Mystics]
-
+Mistyczne
 [Travel]
-
+Podróże
 [Astronomy]
-
+Astronomia
 [Space]
-
+Kosmos
 [Clothing]
-
+Ubrania
 [Parties]
-
+Imprezy
 [Women]
 Kobieta
 [Social science]
-
+Nauka społeczna
 [60's]
-
+Lata 60te
 [70's]
-
+Lata 70te
 [80's]
-
+Lata 80te
 [50's]
-
+Lata 50te
 [Finance and corporate]
-
+Finansowe i korporacyjne
 [Entertainment]
-
+Rozrywka
 [Consumer electronics]
-
+Elektronika konsumencka
 [Retail stores]
-
+Sklepy detaliczne
 [Health and beauty]
-
+Zdrowie i uroda
 [Media]
-
+Media
 [Household products]
-
+Produkty gospodarstwa domowego
 [Mail order catalog]
-
+Katalog wysyłkowy
 [Business services]
-
+Usługi dla biznesu
 [Audio and visual]
-
+audiowizualne
 [Sporting and athletic]
-
+Sport i atletyka
 [Publishing]
-
+Wydawnictwo
 [Home automation]
-
+Automatyka domu
 [Alumni Org.]
-
+Organizacja absolwencka
 [Charity Org.]
-
+Organizacja charytatywna
 [Club/Social Org.]
-
+Klub społeczny
 [Community Org.]
-
+Społeczność
 [Cultural Org.]
-
+Organizacja kulturowa
 [Fan Clubs]
-
+Fankluby
 [Fraternity/Sorority]
-
+Bractwo/stowarzyszenie żeńskie
 [Hobbyists Org.]
-
+Organizacja hobbystyczna
 [International Org.]
-
+Organizacja międzynarodowa
 [Nature and Environment Org.]
-
+Organizacja naturalno-środowiskowa
 [Professional Org.]
-
+Organizacja zawodowa
 [Scientific/Technical Org.]
-
+Organizacja naukowo-technologiczna
 [Self Improvement Group]
-
+Grupa samodoskonalenia
 [Spiritual/Religious Org.]
-
+Organizacja duchowo-religijna
 [Sports Org.]
-
+Organizacja sportowa
 [Support Org.]
-
+Organizacja wsparcia
 [Trade and Business Org.]
-
+Organizacja biznesowo-handlowa
 [Union]
-
+Związek
 [Volunteer Org.]
-
+Organizacja wolontariacka
 [Elementary School]
-
+Szkoła podstawowa
 [High School]
-
+Szkoła średnia
 [College]
-
+College
 [University]
-
+Szkoła wyższa
 [TmplPast Work Place]
-
+dawne miejsce pracy
 [TmplPast Organization]
-
+Dawna organizacja
 [Single]
 Singiel
 [Close relationships]
@@ -1078,9 +1078,9 @@ W separacji
 [Widowed]
 Wdowa/Wdowiec
 [jun.]
-
+Junior
 [sen.]
-
+Senior
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
 "(Nieznany kontakt)"
@@ -1090,10 +1090,10 @@ Wyślij e-mail
 [Memory allocation error!]
 Błąd alokacji pamięci!
 [E-mail (uinfoex)]
-
+E-mail (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_gender.cpp
 [Gender (uinfoex)]
-
+Płeć (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 Użytkownik nie podał strony domowej
@@ -1105,18 +1105,18 @@ Strona domowa
 Strona domowa (uinfoex)
 ;file \plugins\UserInfoEx\src\svc_phone.cpp
 [(uinfoex)]
-
+(uinfoex)
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaning]
-[b]%s (%S)...[/b]\n%d do odświeżenia
+[b]%s (%S)...[/b]\n%d Kontaktów pozostało
 [Abort Refreshing Contact Details]
-
+Przerwij odświeżanie danych kontaktu
 [Do you want to cancel the current refresh procedure?]
 Czy chcesz anulować aktualną procedurę odświeżania?
 [Miranda must be online for refreshing contact information!]
-
+Miranda musi być online, aby odświeżyć dane kontaktu!
 [The function caused an exception!]
-
+Funkcja spowodowała wyjątek!
 ;file \plugins\UserInfoEx\src\svc_reminder.cpp
 [%s has %s today.]
 %s ma %s dziś.
@@ -1129,7 +1129,7 @@ Ona
 [He/She]
 On/Ona
 [%s has the following anniversaries:\0]
-
+%s ma następujące rocznice:\0
 [%d. %s today\0]
 %d. %s dziś\0
 [%d. %s tomorrow\0]
@@ -1160,16 +1160,16 @@ Przypominanie o rocznicach
 [contact identificaion]
 identyfikacja kontaktu
 [The contact %s(%s) has no unique id in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
-
+Kontakt %s (%s) nie posiada unikalnego ID w wizytówce,\nistnieje natomiast kontakt o tym samym nicku i protokole.\nCzy chcesz użyć tego kontaktu?
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 [Importing a new contact was aborted!]
-
+Importowanie nowego kontaktu zostało przerwane!
 [You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]
-
+Przerwałeś importowanie nowego kontaktu.\nMoże brakować pewnych informacji o tym kontakcie.\n\nCzy chcesz usunąć niekompletny kontakt?
 [Importing a new meta subcontact failed!]
-
+Importowanie nowego podmetakontaktu nieudane!
 [The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
-
+Nowo-stworzony podmetakontakt "%s"\nnie mógł zostać dodany do metakontaktu "%s"!\n\nCzy chcesz usunąć ten kontakt?
 [Settings: %S]
 Ustawienie: %S
 [Events: %S]
@@ -1189,22 +1189,22 @@ Pokaż folder instalacyjny Mirandy
 [Shows the directory with all your Miranda's profiles.]
 Pokaż folder wszystkich twoich profili.
 [The OpenFileDialog returned an error: %d!]
-
+Okno otwierania pliku zwróciło błąd:%d!
 [The SaveFileDialog returned an error: %d!]
-
+Okno zapisywania pliku zwróciło błąd: %d!
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 [The ini-file "%s"\nfor saving contact information could not be opened.]
-
+Plik ini "%s",\ndo którego miały zostać zapisane dane kontaktu, nie mógł zostać otwarty.
 [None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
-
+Żaden z%d kontaktów zapisanych w pliku ini nie pasuje do wybranego kontaktu!\nNic nie zostanie zaimportowane
 [Import complete]
 Import zakończony
 [Some basic statistics]
-
+Pewne podstawowe statystyki
 [Added %d of %d contacts stored in the ini-file.]
-
+Dodano %d z %d kontaktów zapisanych w pliku ini.
 [The ini-file "%s"\nfor reading contact information could not be opened.]
-
+Plik ini "%s",\nz którego miały zostać odczytane dane kontaktu, nie mógł zostać otwarty.
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 Wszystkie kontakty
@@ -1216,33 +1216,33 @@ Importuj dane użytkownika z wizytówki
 [Can't create xml file!\n%S]
 Nie można utworzyć pliku xml!\n%S
 [Export took %f ms]
-
+Eksport zajął %f ms
 [Contact: %s (%S)]
 Kontakt: %s (%S)
 [Importing %s caused error %d]
-
+Importowanie %s spowodowało błąd %d
 [Loading contact %s from xml failed with error %d]
 Błąd wczytywania kontaktu %s z pliku xml z błędem %d
 [Importing Owner caused error %d]
-
+Importowanie właściciela spowodowało błąd %d
 [Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
-
+Parser nie jest w stanie załadować wizytówki XML "%s"\nBłąd: %d\nOpis: %s
 [The selected file is no valid XMLCard]
-
+Wybrany plik nie jest prawidłową wizytówką XML
 [The version of the XMLCard is not supported by UserInfoEx]
-
+Wersja wizytówki XML nie jest wspierana przez uinfoex
 [Complete]
 Zakończony
 [Owner contact successfully imported.]
-
+Kontakt właściciela zaimportowany pomyślnie.
 [Selected XMLCard does not contain an owner contact!]
-
+Wybrana wizytówka XML nie zawiera informacji o właścicielu!
 [Import took %f ms]
-
+Importowanie zajęło %f ms
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 Dodano kontaktów: %u / %u\nDodano ustawień: %u / %u\nDodano zdarzeń: %u / %u\nPowielonych zdarzeń: %u
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
-
+Krytyczny: wyjątek został zwrócony podczas importowania kontaktów z wizytówki XML!
 ;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
 [Flags (uinfoex)]
 Flagi (uinfoex)

@@ -16,63 +16,63 @@ Opcje
 [Automatically reconnect after unintentional disconnection]
 Automatycznie łącz po niezamierzonym rozłączeniu
 [Leave status message after disconnection]
-
+Po rozłączeniu zostaw opis
 [Ignore advertisements]
-
+Ignoruj reklamy
 [Automatically delete contacts not in my roster]
 Automatycznie usuwaj kontakty spoza mojej listy
 [Show offline users with status messages as invisible in contact list]
-
+Pokazuj kontakty niedostępne z opisami jako niewidoczne na liście kontaktów
 [Enable avatars]
 Włącz obsługę awatarów
 [Send and receive client version information]
-
+Wysyłaj i odbieraj informacje o wersji klienta
 [Alert policy]
-
+Polityka alertów
 [Use Nudge plugin]
 Użyj wtyczki Nudge
 [Log alerts as messages]
-
+Zapisuj alerty jako wiadomości
 [Group chat policy]
-
+Polityka czatów grupowych
 [Image transfer policy]
-
+Polityka przesyłania obrazków
 [Voice Chats]
-
+Czaty głosowe
 [Voice chat policy]
-
+Polityka czatów głosowych
 [Recording device:]
-
+Urządzenie nagrywania:
 [Playback device:]
-
+Urządzenie odtwarzania:
 [Expert Options]
-
+Opcje zaawansowane
 [Login server:]
 Serwer:
 [Connection Host:]
-
+Host połączenia:
 [Port:]
 Port:
 [Keep connection alive]
 Utrzymuj połączenie
 [Enable encryption]
-
+Włącz szyfrowanie
 [Enable Always Visible and Never Visible]
-
+Włącz Zawsze Widoczny oraz Nigdy Niewidoczny
 [P2P Connections]
-
+Połączenia P2P
 [Use proxy for incoming connections]
-
+Używaj proxy dla połączeń przychodzących
 [Proxy type:]
-
+Typ proxy:
 [Proxy server:]
-
+Serwer proxy:
 [Proxy requires authorization]
-
+Proxy wymaga uwierzytelnienia
 [Mail Notification]
-
+Powiadomienie o poczcie
 [Enable incoming mail notification]
-
+Włącz powiadomienia o przychodzącej poczcie
 [Colours]
 Kolory
 [Background]
@@ -84,9 +84,9 @@ Wyświetlaj
 [&From Popup plugin]
 Z wtyczki PopUp
 [&Custom]
-
+Własne
 [P&ermanent]
-
+S&tałe
 [Preview]
 Podgląd
 [Tlen Password]
@@ -106,19 +106,19 @@ E-mail:
 [Gender:]
 Płeć:
 [Year of birth:]
-
+Rok urodzenia:
 [City:]
 Miasto:
 [School:]
-
+Szkoła:
 [Occupation:]
 Zawód:
 [Looking for:]
-
+Szukam:
 [Voice chats]
-
+Czaty głosowe
 [Publicly visible status]
-
+Publicznie widoczny status
 [Save changes]
 Zapisz zmiany
 [Avatar]
@@ -126,11 +126,11 @@ Awatar
 [Avatar Options]
 Opcje awatara
 [Public avatar]
-
+AWatar publiczny
 [Tlen login:]
-
+Login Tlen:
 [Subscription:]
-
+Subskrypcja:
 [Software:]
 Oprogramowanie:
 [Version:]
@@ -138,7 +138,7 @@ Wersja:
 [System:]
 System:
 [Personal Information]
-
+Informacje osobiste
 [Nickname:]
 Nick:
 [Age:]
@@ -146,60 +146,60 @@ Wiek:
 [to]
 Do
 [Extra Search Criterias]
-
+Dodatkowe kryteria wyszukiwania
 [Status:]
 Status:
 [Plan:]
-
+Plan:
 [Tlen Voice Chat]
-
+Czat głosowy Tlen
 [Quality]
-
+Jakość
 [In]
 W
 [Out]
-
+Wyjście
 [Finish]
 Zakończ
 [Tlen Voice Chat Invitation]
-
+Zaproszenie do rozmowy głosowej w Tlen
 [&Accept]
 Akceptuj
 [From:]
 Od:
 [The following invitation to join a voice chat is received.]
-
+Otrzymano następujące zaproszenie do dołączenia do rozmowy głosowej
 ;file \protocols\Tlen\src\tlen.cpp
 [Protocol icon]
 Ikona protokołu
 [Tlen inbox]
-
+Skrzynka odbiorcza Tlen
 [Group chats]
 Rozmowy grupowe
 [Tlen chats]
-
+Czaty Tlen
 [Voice chat]
-
+Rozmowa Głosowa
 [Microphone]
-
+Mikrofon
 [Speaker]
-
+Głośniki
 [Send image]
 Wyślij obrazek
 [Incoming mail]
-
+Przychodząca wiadomość e-mail
 [Alert]
-
+Alert
 [Tlen Chats]
-
+Czaty Tlen
 [Multi-User Conference]
 Konferencja
 [Tlen Mail]
-
+Poczta Tlen
 [Send picture]
 Wyślij obrazek
 [Voice Chat]
-
+Rozmowa głosowa
 [Request authorization]
 Poproś o autoryzację
 [Grant authorization]
@@ -216,29 +216,29 @@ Autoryzacja nieudana dla
 Autoryzacja Tlen
 ;file \protocols\Tlen\src\tlen_muc.cpp
 [You have been kicked. Reason: %s ]
-
+Zostałeś wykopany. Powód: %s 
 [You cannot join this chat room, because you are banned.]
-
+Nie  możesz dołączyć do tego pokoju, ponieważ zostałeś zbanowany.
 [Chat room not found.]
 Pokój czatowy nie znaleziony.
 [This is a private chat room and you are not one of the members.]
-
+To jest pokój prywatny, a ty nie jesteś jednym z jego członków.
 [You cannot send any message unless you join this chat room.]
-
+Nie możesz wysłać żadnej wiadomości dopóki nie dołączysz do tego pokoju.
 [Chat room with already created.]
 Pokój czatowy już istnieje.
 [Nickname '%s' is already registered.]
-
+Nick "%s" jest już zarejestrowany.
 [Nickname already in use, please try another one. Hint: '%s' is free.]
-
+Nick już w użyciu, spróbuj innego. Porada: "%s" jest wolny.
 [You cannot register more than %s nicknames.]
-
+Nie możesz zarejestrować więcej niż %s nicków.
 [You cannot create more than %s chat rooms.]
-
+Nie możesz stworzyć więcej niż %s pokoi.
 [You cannot join more than %s chat rooms.]
-
+Nie możesz dołączyć do więcej niż %s pokoi.
 [Anonymous nicknames are not allowed in this chat room.]
-
+Anonimowe nicki nie są dozwolone w tym pokoju.
 [Unknown error code : %d]
 Kod nieznanego błędu: %d
 ;file \protocols\Tlen\src\tlen_opt.cpp
@@ -251,9 +251,9 @@ Powiadomienia
 [Network]
 Protokoły
 [These changes will take effect the next time you connect to the Tlen network.]
-
+Te zmiany wejdą w życie po ponownym połączeniu się z siecią Tlen.
 [Tlen Protocol Option]
-
+Opcja protokołu Tlen
 [Accept all alerts]
 Akceptuj wszystkie alarmy
 [Ignore alerts from unauthorized contacts]
@@ -261,13 +261,13 @@ Ignoruj alarmy od nieautoryzowanych kontaktów
 [Ignore all alerts]
 Ignoruj wszystkie alarmy
 [Always ask me]
-
+Zawsze pytaj
 [Accept invitations from authorized contacts]
-
+Akceptuj zaproszenia od autoryzowanych kontaktów
 [Accept all invitations]
 Akceptuj wszystkie zaproszenia
 [Ignore invitations from unauthorized contacts]
-
+Ignoruj zaproszenia od nieautoryzowanych kontaktów
 [Ignore all invitation]
 Ignoruj wszystkie zaproszenia
 [Accept all images]
@@ -277,15 +277,15 @@ Ignoruj obrazki od nieautoryzowanych kontaktów
 [Ignore all images]
 Ignoruj wszystkie obrazki
 [<Last message>]
-
+Ostatnia wiadomość
 [Forwarding]
-
+Przekierowanie
 [SOCKS4]
 SOCKS4
 [SOCKS5]
 SOCKS5
 [%s mail]
-
+%s mail
 ;file \protocols\Tlen\src\tlen_picture.cpp
 [Image sent file://%s]
 Wysłany obrazek://%s
@@ -293,12 +293,12 @@ Wysłany obrazek://%s
 Otrzymany obrazek://%s
 ;file \protocols\Tlen\src\tlen_svc.cpp
 [Tlen login]
-
+Logowanie Tlen
 ;file \protocols\Tlen\src\tlen_thread.cpp
 [Enter password for]
 Wprowadź hasło dla
 [Tlen Connection Error]
-
+Błąd połączenia Tlen
 [Windows Server 2003]
 Windows Server 2003
 [Windows XP]
@@ -316,17 +316,17 @@ Windows ME
 [Windows]
 Windows
 [%s Web Messages]
-
+%s wiadomości w przeglądarce
 [Web message]
-
+Wiadomość w przeglądarce
 [From]
 Od
 [E-mail]
 E-mail
 [An alert has been received.]
-
+Otrzymano alert.
 [Private conference]
-
+Prywatna konferencja
 [Subject]
 Temat
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
@@ -357,4 +357,4 @@ Domyślny
 [%s connection]
 Połączenie %s
 [%s SOCKS connection]
-
+%s połączenie SOCKS

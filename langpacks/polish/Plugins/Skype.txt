@@ -19,31 +19,31 @@ Anuluj
 [Add]
 Dodaj
 [Create conference]
-
+Utwórz konferencję
 [&Create]
 Utwórz
 [Topic:]
-
+Temat:
 [Guideline:]
-
+Regulamin:
 [Enable joining]
-
+Włącz dołączanie
 [New members join with role:]
-
+Nowi członkowie dołączają w roli:
 [Create with password]
-
+Utwórz z hasłem
 [Password:]
 Hasło:
 [Confirmation:]
-
+Potwierdzenie:
 [Password hint:]
-
+Wskazówka dotycząca hasła:
 [Configure conference]
-
+Konfiguruj konferencję
 [&OK]
 &OK
 [Join role:]
-
+Dołącz w roli:
 [Set password]
 Ustaw/zmień hasło
 [Hint:]
@@ -79,17 +79,17 @@ O sobie:
 [Mood:]
 Nastrój:
 [E-mail 1:]
-
+E-mail 1:
 [E-mail 2:]
-
+E-mail 2:
 [E-mail 3:]
-
+E-mail 3:
 [Mobile phone:]
-
+Telefon komórkowy:
 [Home phone:]
-
+Telefon domowy:
 [Office phone:]
-
+Telefon służbowy:
 [City:]
 Miasto:
 [State:]
@@ -99,11 +99,11 @@ Kraj:
 [Timezone:]
 Strefa czasowa:
 [Skype credit:]
-
+Stan konta Skype:
 [Change password]
 Zmień hasło
 [Old password:]
-
+Stare hasło:
 [New password:]
 Nowe hasło:
 [Register new account]
@@ -123,97 +123,97 @@ Domyślna grupa:
 [Block]
 Blokuj
 [Allow IMs from...]
-
+Przyjmuj wiadomości od...
 [Anyone]
-
+Każdego
 [People in my Contact list only]
-
+Tylko osób z listy kontaktów
 [Allow calls from...]
-
+Przyjmuj rozmowy od:
 [Automatically receive video and share screens with...]
-
+Automatycznie odbieraj video i dziel się ekranem z
 [No one]
-
+Nikim
 [Show avatars]
 Pokaż awatar
 [Contacts count]
-
+Liczba kontaktów
 [Local time]
-
+Czas lokalny
 [Allow my online status to be shown on the web]
-
+Zezwalaj na pokazywanie mojego statusu w internecie
 [Block this person]
-
+Zablokuj tę osobę
 [Remove from your Contact List]
-
+Usuń z listy kontaktów
 [Abuse]
-
+Nadużycie
 [You can also report abuse from this user.]
-
+Możesz także zgłosić nadużycie przez tego użytkownika
 [Report abuse]
-
+Zgłoś nadużycie
 ;file \protocols\Skype\src\skype.cpp
 [Did not unpack SkypeKit.exe.]
-
+Nie wypakowano SkypeKit.exe
 ;file \protocols\Skype\src\skype_account.cpp
 [LOGOUT_CALLED]
-
+LOGOUT_CALLED
 [HTTPS proxy authentication failed]
-
+Autoryzacja serwera HTTPS proxy nie powiodła się
 [SOCKS proxy authentication failed]
-
+Autoryzacja serwera SOCKS proxy nie powiodła się
 [P2P connection failed]
-
+Połączenie P2P nieudane
 [SERVER_CONNECT_FAILED]
-
+Połączenie z serwerem nie powiodło się
 [Server is overloaded]
-
+Serwer jest przeciążony
 [SkypeKit database already in use]
-
+Baza danych SkypeKit już w użyciu
 [Invalid Skype name]
-
+Nieprawidłowa nazwa użytkownika Skype
 [Invalid email]
-
+Nieprawidłowy adres E-mail
 [Unacceptable password]
-
+Nieakceptowane hasło
 [Skype name is taken]
-
+Nazwa użytkownika jest już zajęta
 [REJECTED_AS_UNDERAGE]
-
+Odrzucony jako niepełnoletni
 [NO_SUCH_IDENTITY]
-
+Brak takiej tożsamości
 [Incorrect password]
-
+Nieprawidłowe hasło
 [Too many login attempts]
-
+Zbyt wiele prób logowania
 [Password has changed]
-
+Hasło zmieniło się
 [PERIODIC_UIC_UPDATE_FAILED]
-
+Okresowa aktualizacjaUIC nie powiodła się
 [DB_DISK_FULL]
-
+Dysk bazy danych jest pełny
 [DB_IO_ERROR]
-
+Błąd bazy danych
 [SkypeKit database is corrupt]
-
+Baza danych SkypeKit jest uszkodzona
 [DB_FAILURE]
-
+Błąd bazy danych
 [Invalid application ID]
-
+Nieprawidłowe ID aplikacji
 [APP_ID_FAILURE]
-
+Błąd ID aplikacji
 [Version is unsupported]
-
+Wersja nie jest wspierana
 [Account blocked]
-
+Konto zablokowane
 [Logout from another instance]
-
+Wyloguj się z innego miejsca
 [ACCESS_TOKEN_RENEWAL_FAILED]
-
+Odnowienie tokenu dostępu nie powiodło się
 [Password successfully changed]
-
+Pomyślnie zmieniono hasło
 [Password changing]
-
+Zmienianie hasła
 [Old password was incorrect]
 Stare hasło jest niepoprawne
 [Failed to verify password. No connection to server]
@@ -227,10 +227,10 @@ Nowe hasło nie zostało zaakceptowane
 [Account was currently not logged in]
 Zaloguj się aby zmienić hasło
 [You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
-
+Nie podałeś nazwy użytkownika Skype.\nSkonfiguruj ją w opcjach > Protokoły i spróbuj jeszcze raz.
 ;file \protocols\Skype\src\skype_blocked.cpp
 [Are you sure you want to block "%s" (%s)? They won't be able to contact you and won't appear in your Contact List.]
-
+Czy napewno chcesz zablokować "%s" (%s)? Nie będzie on/ona w stanie zadzwonić do Ciebie, ani pokazywać się na twojej liście kontaktów.
 [Name]
 Nazwa
 ;file \protocols\Skype\src\skype_bookmarks.cpp
@@ -240,77 +240,77 @@ Czaty
 [&User details]
 Dane kontaktu
 [&Request auth]
-
+Poproś o szczegółowe dane
 [Invite to conference]
 Zaproś do czatu
 [Set &role]
 Wybierz rolę
 [&Master]
-
+&Pan
 [&Helper]
-
+&Pomocnik
 [&User]
 &Użytkownik
 [&Listener]
-
+&Słuchacz
 [&Add]
 Dodaj
 [&Kick]
 Wyrzuć
 [Outlaw (&ban)]
-
+Przestępca (&ban)
 [Copy &skypename]
-
+Skopiuj &nazwę użytkownika Skype
 [Copy room &uri]
-
+Skopiuj &URI pokoju
 [Creator]
-
+Twórca
 [Master]
-
+Pan
 [Helper]
-
+Pomocnik
 [User]
 Użytkownika
 [Listener]
-
+Słuchacz
 [Applicant]
-
+Aplikant
 [Retried]
-
+spróbowany ponownie
 [Outlaw]
-
+Przestępca
 [me]
-
+Ja
 [waits to join]
-
+czeka, by dołączyć
 [Incoming group call finished]
-
+Przychodząca rozmowa grupowa zakończona
 [The password is incorrect]
-
+Hasło jest nieprawidłowe
 [Your application to join the conference was denied]
-
+Twój wniosek o dołączenie do pokoju został odrzucony
 [Incoming group call started]
-
+Rozpoczęto przychodzącą rozmowę grupową
 [You did not select any contact]
-
+Nie wybrałeś żadnych kontaktów
 [Hi! I'd like to add you to my contact list]
-
+Cześć! Chciałbym dodać Cię do mojej listy kontaktów
 ;file \protocols\Skype\src\skype_contacts.cpp
 [Contact already in your contact list]
 Kontakt jest już na liście kontaktów
 [Contacts received]
-
+Otrzymano kontakty
 ;file \protocols\Skype\src\skype_dialogs.cpp
 [Enter a password for %s:]
-
+Podaj hasło dla %s:
 [Password can't be empty.]
-
+Hasło nie może być puste
 [Old password is not correct.]
-
+Stare hasło jest nieprawidłowe.
 [New password is same as old password.]
-
+Nowe hasło jest takie samo jak stare.
 [New password and confirmation must be same.]
-
+Nowe hasło oraz potwierdzenie muszą być takie same.
 [<not specified>]
 <nieokreślone>
 [Male]
@@ -318,14 +318,14 @@ Mężczyzna
 [Female]
 Kobieta
 [You are not currently connected to the Skype network. You must be online in order to update your information on the server.]
-
+Nie jesteś obecnie połączony z siecią Skype. Musisz być online, aby zaktualizować informacje na serwerze.
 ;file \protocols\Skype\src\skype_events.cpp
 [Spawn conference]
-
+Uruchom konferencję
 [Network]
 Protokoły
 [Blocked contacts]
-
+Zablokowane kontakty
 [Privacy]
 Prywatność
 [Contacts]
@@ -335,16 +335,16 @@ Dom
 [General]
 Ogólne
 [Skype account]
-
+Konto Skype
 ;file \protocols\Skype\src\skype_icons.cpp
 [Protocol icon]
 Ikona protokołu
 [Call]
-
+Zadzwoń
 [Conference]
 Konferencja
 [Send contact]
-
+Wyślij kontakt
 [Contact]
 Kontakt
 [Delete]
@@ -354,18 +354,18 @@ Protokoły
 ;file \protocols\Skype\src\skype_ignore_list.cpp
 ;file \protocols\Skype\src\skype_instances.cpp
 [Skype protocol plugin only permit you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
-
+Wtyczka protokołu Skype pozwala na zalogowanie się tylko do jednego konta. Dodawanie wielu kont jest zabronione w licencji oraz warunkach standardowej dystrybucji SkypeKit.
 [Initialization key corrupted or not valid.]
-
+Klucz inicjalizacji uszkodzony lub niepoprawny..
 [SkypeKit did not initialize (%d).]
-
+SkypeKit nie zainicjowany (%d).
 [SkypeKit did not start.]
-
+SkypeKit nie uruchomił się.
 ;file \protocols\Skype\src\skype_menus.cpp
 [Unblock this person...]
-
+Odblokuj tę osobę...
 [Block this person...]
-
+Zablokuj tę osobę...
 [Request authorization]
 Poproś o autoryzację
 [Grant authorization]
@@ -373,79 +373,79 @@ Udziel autoryzacji
 [Revoke authorization]
 Cofnij autoryzację
 [View old messages...]
-
+Zobacz starsze wiadomości...
 [for last day]
-
+Z wczoraj
 [for last week]
-
+Z ostatnich 7 dni
 [for last month]
-
+Z ostatnich 30 dni
 [for last 3 month]
-
+Z ostatnich 3 miesięcy
 [for last year]
-
+Z ostatniego roku
 [for all time]
-
+Wszystkie
 ;file \protocols\Skype\src\skype_messages.cpp
 [Incoming call started]
-
+Rozpoczęto rozmowę przychodzącą
 [Incoming call finished]
-
+Zakończono rozmowę przychodzącą
 [history synchronization]
-
+Synchronizacja historii
 [Done!]
-
+Gotowe!
 ;file \protocols\Skype\src\skype_netlib.cpp
 [%s connection]
 Połączenie %s
 ;file \protocols\Skype\src\skype_proto.cpp
 [Skype name]
-
+Nazwa użytkownika Skype
 ;file \protocols\Skype\src\skype_transfers.cpp
 [SENDER_NOT_AUTHORISED]
-
+Nieautoryzowany nadawca
 [REMOTELY_CANCELLED]
-
+Zdalnie anulowane
 [FAILED_READ]
-
+Odczyt nieudany
 [FAILED_REMOTE_READ]
-
+Odczyt zdalny nieudany
 [FAILED_WRITE]
-
+Zapis nieudany
 [FAILED_REMOTE_WRITE]
-
+Zdalny zapis nieudany
 [REMOTE_DOES_NOT_SUPPORT_FT]
-
+Odbiorca nie obsługuje transferów pliku
 [REMOTE_OFFLINE_FOR_TOO_LONG]
-
+Odbiorca jest zbyt długo offline
 [TOO_MANY_PARALLEL]
-
+Zbyt wiele jednoczesnych transferów
 [PLACEHOLDER_TIMEOUT]
-
+Przekroczono czas oczekiwania na znacznik
 ;file \protocols\Skype\src\skype_utils.cpp
 [NOT_VALIDATED]
-
+Niezatwierdzony
 [Validation succeeded]
-
+Potwierdzanie powiodło się
 [Password is too short]
-
+Hasło jest zbyt krótkie
 [The value exceeds max size limit for the given property]
-
+Wartość przekracza maksymalny limit rozmiaru dla wybranej właściwości
 [Value contains illegal characters]
-
+Wartość zawiera niedozwolone znaki
 [Value contains whitespace]
-
+Wartość zawiera białe spacje
 [Password cannot be the same as Skype name]
-
+Hasło nie możę być takie samo jak nazwa użytkownika
 [Value has invalid format]
-
+Wartość ma niepoprawny format
 [Value contains invalid word]
-
+Wartość zawiera niedozwolone słowo
 [Password is too simple]
-
+Hasło jest zbyt proste
 [Value starts with an invalid character]
-
+Wartość zaczyna się od niepoprawnego znaku
 [Avatars]
 Awatary
 [Command "%s" is unsupported]
-
+Komenda "%s" nie jest wspierana

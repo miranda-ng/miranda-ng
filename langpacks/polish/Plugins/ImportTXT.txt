@@ -24,9 +24,9 @@ Plik tekstowy (*.txt)
 [All files (*.*)]
 Wszystkie pliki (*.*)
 [Error in cfg file: ]
-
+Błąd w pliku konfiguracyjnym: 
 [No Files Patterns Found]
-
+Nie znaleziono szablonów plików
 [No messages in this file]
 Brak wiadomości w tym pliku
 [Import started...]
@@ -40,13 +40,13 @@ W: %d:%d:%d
 [Import not finished. Do you realy want close?]
 Import przerwany. Czy chcesz zamknąć?
 [Error adding message to DB]
-
+Błąd dodawania wiadomości do bazy danych
 [Error opening file]
 Błąd otwierania pliku
 [Error mapping file]
-
+Błąd mapowania pliku
 [Error mapping]
-
+Błąd mapowania
 [Header not found]
 Brak nagłówka
 [Import Text Files Wizard]
@@ -54,7 +54,7 @@ Kreator importowania plików tekstowych
 [This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
 Ten kreator pomoże ci zaimportować historię rozmów z innych komunikatorów i wtyczek Mirandy, zapisaną w plikach tekstowych.
 [Click ""Next"" to choose the information you wish to import, or click ""Cancel"" to exit the wizard and continue using Miranda.]
-
+Naciśnij ""Dalej"", by wybrać informacje, które chcesz zaimportować, lub ""Anuluj"", by zamknąć kreator i używać Mirandy.
 [Choose type of imported files:]
 Wybierz typ importowanych plików:
 [Select files or the whole directory for import:]
@@ -68,23 +68,23 @@ Wszystkie poprzednie wybrane pliki będą importowane do tego protokołu.
 [Select protocol or account:]
 Zaznacz protokół lub konto:
 [Click "Next" to start Import or "Cancel" to Abort.]
-
+Naciśnij "Dalej", by rozpocząć importowanie lub "Anuluj", by przerwać operację.
 [Select folder for import...]
-
+Wybierz folder, z którego chcesz importować.
 [File: %s]
 Plik: %s
 [To: %s]
 Do: %s
 [Can''t determine destination contact]
-
+Nie udało się ustalić kontaktu docelowego
 [Default extension]
-
+Domyślne rozszerzenie
 [Its not %s file]
-
+To Nie jest plik %s
 [Duplicate:]
-
+Duplikuj:
 [Your version of Miranda don't support XML parsing]
-
+Twoja wersja Mirandy nie wspiera przetwarzania XML
 [Check for duplicates]
 Sprawdź duplikaty
 [Check messages for duplicates]
@@ -92,7 +92,7 @@ Sprawdź czy istnieją duplikaty wiadomości
 [Show duplicates]
 Pokaż duplikaty
 [Error at initialization XML parser]
-
+Błąd inicjalizacji parsera XML
 [Import history to %s (%s)]
 Importuj historię %s (%s)
 [Can't determine destination contact]
