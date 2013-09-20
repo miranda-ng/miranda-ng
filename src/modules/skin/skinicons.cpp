@@ -109,7 +109,7 @@ const char mainIconsFmt[] = "core_main_";
 const char statusIconsFmt[] = "core_status_";
 const char protoIconsFmt[] = LPGEN("%s Icons");
 
-#define PROTOCOLS_PREFIX LPGEN("Status Icons/")
+#define PROTOCOLS_PREFIX LPGEN("Status Icons")
 #define GLOBAL_PROTO_NAME "*"
 
 // load small icon (shared) it's not need to be destroyed
@@ -272,7 +272,7 @@ HICON LoadSkinProtoIcon(const char* szProto, int status, bool big)
 			//  Queried protocol isn't in list, adding
 			//
 			TCHAR tszSection[MAX_PATH];
-			mir_sntprintf(tszSection, SIZEOF(tszSection), _T("%s%s"), _T(PROTOCOLS_PREFIX), pa->tszAccountName);
+			mir_sntprintf(tszSection, SIZEOF(tszSection), _T(PROTOCOLS_PREFIX)_T("/%s"), pa->tszAccountName);
 
 			SKINICONDESC sid = { sizeof(sid) };
 			sid.ptszSection = tszSection;
@@ -484,7 +484,7 @@ int LoadSkinIcons(void)
 	//
 	// Add global icons to list
 	//
-	sid.pszSection = PROTOCOLS_PREFIX LPGEN("Global");
+	sid.pszSection = PROTOCOLS_PREFIX LPGEN("Global") "/";
 	//
 	// Asterisk is used, to avoid conflict with proto-plugins
 	// 'coz users can't rename it to name with '*'
