@@ -37,33 +37,31 @@ JABBER_LIST_ITEM::JABBER_LIST_ITEM() :
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void JabberListFreeResourceInternal(JABBER_RESOURCE_STATUS *r)
+JABBER_RESOURCE_STATUS::~JABBER_RESOURCE_STATUS()
 {
-	mir_free(r->resourceName);
-	mir_free(r->nick);
-	mir_free(r->statusMessage);
-	mir_free(r->software);
-	mir_free(r->version);
-	mir_free(r->system);
-	mir_free(r->szCapsNode);
-	mir_free(r->szCapsVer);
-	mir_free(r->szCapsExt);
-	mir_free(r->szRealJid);
+	mir_free(resourceName);
+	mir_free(nick);
+	mir_free(statusMessage);
+	mir_free(software);
+	mir_free(version);
+	mir_free(system);
+	mir_free(szCapsNode);
+	mir_free(szCapsVer);
+	mir_free(szCapsExt);
+	mir_free(szRealJid);
 	
-	if (r->pSoftwareInfo)
-		delete r->pSoftwareInfo;
+	if (pSoftwareInfo)
+		delete pSoftwareInfo;
 }
 
 JABBER_LIST_ITEM::~JABBER_LIST_ITEM()
 {
-	for (int i=0; i < arResources.getCount(); i++) {
-		JABBER_RESOURCE_STATUS *r = arResources[i];
-		JabberListFreeResourceInternal(r);
-		mir_free(r);
-	}
+	for (int i=0; i < arResources.getCount(); i++)
+		delete arResources[i];
 	arResources.destroy();
 
-	JabberListFreeResourceInternal(&itemResource);
+	if (m_pItemResource)
+		delete m_pItemResource;
 
 	if (photoFileName) {
 		if (list == LIST_VCARD_TEMP)
@@ -130,9 +128,12 @@ JABBER_LIST_ITEM *CJabberProto::ListAdd(JABBER_LIST list, const TCHAR *jid)
 	item = new JABBER_LIST_ITEM();
 	item->list = list;
 	item->jid = s;
-	item->itemResource.status = ID_STATUS_OFFLINE;
 	item->resourceMode = RSMODE_LASTSEEN;
 	item->bUseResource = bUseResource;
+	if (!bUseResource) {
+		item->m_pItemResource = new JABBER_RESOURCE_STATUS();
+		item->m_pItemResource->status = ID_STATUS_OFFLINE;
+	}
 	m_lstRoster.insert(item);
 	lck.unlock();
 
@@ -259,7 +260,7 @@ int CJabberProto::ListAddResource(JABBER_LIST list, const TCHAR *jid, int status
 			}
 			else { // Does not exist, add new resource
 				bIsNewResource = true;
-				r = (JABBER_RESOURCE_STATUS*)mir_calloc( sizeof(JABBER_RESOURCE_STATUS));
+				r = new JABBER_RESOURCE_STATUS();
 				r->status = status;
 				r->affiliation = AFFILIATION_NONE;
 				r->role = ROLE_NONE;
@@ -273,8 +274,9 @@ int CJabberProto::ListAddResource(JABBER_LIST list, const TCHAR *jid, int status
 	}
 	// No resource, update the main statusMessage
 	else {
-		LI->itemResource.status = status;
-		replaceStrT(LI->itemResource.statusMessage, statusMessage);
+		LI->m_pItemResource = new JABBER_RESOURCE_STATUS();
+		LI->m_pItemResource->status = status;
+		replaceStrT(LI->m_pItemResource->statusMessage, statusMessage);
 	}
 
 	lck.unlock();
@@ -304,18 +306,16 @@ void CJabberProto::ListRemoveResource(JABBER_LIST list, const TCHAR *jid)
 		LI->pLastSeenResource = NULL;
 
 	// update manually selected resource ID
-	if (LI->resourceMode == RSMODE_MANUAL) {
-		if (LI->pManualResource == r) {
-			LI->resourceMode = RSMODE_LASTSEEN;
-			LI->pManualResource = NULL;
-		}
+	if (LI->resourceMode == RSMODE_MANUAL && LI->pManualResource == r) {
+		LI->resourceMode = RSMODE_LASTSEEN;
+		LI->pManualResource = NULL;
 	}
 
 	// Update MirVer due to possible resource changes
 	UpdateMirVer(LI);
 
 	LI->arResources.remove(r);
-	JabberListFreeResourceInternal(r);
+	delete r;
 	lck.unlock();
 
 	MenuUpdateSrmmIcon(LI);

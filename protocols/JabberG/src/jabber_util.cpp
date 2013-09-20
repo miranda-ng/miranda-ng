@@ -161,7 +161,7 @@ JABBER_RESOURCE_STATUS* CJabberProto::ResourceInfoFromJID(const TCHAR *jid)
 
 	const TCHAR *p = _tcschr(jid, '/');
 	if (p == NULL)
-		return &item->itemResource;
+		return item->m_pItemResource;
 
 	return item->findResource(p+1);
 }

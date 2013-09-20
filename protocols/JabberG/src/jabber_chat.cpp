@@ -559,9 +559,9 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 		sttSetupGcMenuItem(gcmi, 0, FALSE);
 
 		int idx = IDM_LINK0;
-		if (item->itemResource.statusMessage && *item->itemResource.statusMessage) {
+		if (item->m_pItemResource && item->m_pItemResource->statusMessage && *item->m_pItemResource->statusMessage) {
 			TCHAR *bufPtr = url_buf;
-			for (TCHAR *p = _tcsstr(item->itemResource.statusMessage, _T("http://")); p && *p; p = _tcsstr(p+1, _T("http://"))) {
+			for (TCHAR *p = _tcsstr(item->m_pItemResource->statusMessage, _T("http://")); p && *p; p = _tcsstr(p+1, _T("http://"))) {
 				lstrcpyn(bufPtr, p, SIZEOF(url_buf) - (bufPtr - url_buf));
 				gc_item *pItem = sttFindGcMenuItem(gcmi, idx);
 				pItem->pszDesc = bufPtr;
@@ -1312,18 +1312,18 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 	case IDM_TOPIC:
 		mir_sntprintf(szCaption, SIZEOF(szCaption), TranslateT("Set topic for %s"), gch->pDest->ptszID);
 		{	
-			size_t cbLen = 2048 + lstrlen(item->itemResource.statusMessage)*2;
+			size_t cbLen = 2048 + lstrlen(item->m_pItemResource->statusMessage)*2;
 			ptrT ptszBuf((TCHAR*)mir_alloc( sizeof(TCHAR) * cbLen));
-			if (item->itemResource.statusMessage) {
+			if (item->m_pItemResource->statusMessage) {
 				TCHAR *d = ptszBuf;
 				for (int i = 0; i < (int)cbLen; i++) {
-					if (item->itemResource.statusMessage[ i ] != _T('\n') || (i && item->itemResource.statusMessage[ i - 1 ] == _T('\r')))
-						*d++ = item->itemResource.statusMessage[ i ];
+					if (item->m_pItemResource->statusMessage[ i ] != _T('\n') || (i && item->m_pItemResource->statusMessage[ i - 1 ] == _T('\r')))
+						*d++ = item->m_pItemResource->statusMessage[ i ];
 					else {
 						*d++ = _T('\r');
 						*d++ = _T('\n');
 					}
-					if ( !item->itemResource.statusMessage[ i ])
+					if ( !item->m_pItemResource->statusMessage[ i ])
 						break;
 				}
 				*d = 0;
@@ -1410,7 +1410,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 	case IDM_LINK5: case IDM_LINK6: case IDM_LINK7: case IDM_LINK8: case IDM_LINK9:
 	{
 		unsigned idx = IDM_LINK0;
-		for (TCHAR *p = _tcsstr(item->itemResource.statusMessage, _T("http://")); p && *p; p = _tcsstr(p+1, _T("http://")))
+		for (TCHAR *p = _tcsstr(item->m_pItemResource->statusMessage, _T("http://")); p && *p; p = _tcsstr(p+1, _T("http://")))
 		{
 			if (idx == gch->dwData)
 			{
@@ -1432,7 +1432,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 		JabberCopyText((HWND)CallService(MS_CLUI_GETHWND, 0, 0), item->jid);
 		break;
 	case IDM_CPY_TOPIC:
-		JabberCopyText((HWND)CallService(MS_CLUI_GETHWND, 0, 0), item->itemResource.statusMessage);
+		JabberCopyText((HWND)CallService(MS_CLUI_GETHWND, 0, 0), item->m_pItemResource->statusMessage);
 		break;
 	}
 }

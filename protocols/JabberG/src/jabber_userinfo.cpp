@@ -212,7 +212,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 {
 	TCHAR buf[256];
 	HTREEITEM htiResource = htiRoot;
-	JABBER_RESOURCE_STATUS *res = resource ? item->arResources[resource-1] : &item->itemResource;
+	JABBER_RESOURCE_STATUS *res = resource ? item->arResources[resource-1] : item->m_pItemResource;
 
 	if (res->resourceName && *res->resourceName)
 		htiResource = sttFillInfoLine(hwndTree, htiRoot, LoadSkinnedProtoIcon(ppro->m_szModuleName, res->status),
@@ -365,12 +365,12 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 	}
 
 	// logoff
-	if (item->itemResource.idleStartTime > 0) {
-		lstrcpyn(buf, _tctime(&item->itemResource.idleStartTime), SIZEOF(buf));
+	if (item->m_pItemResource->idleStartTime > 0) {
+		lstrcpyn(buf, _tctime(&item->m_pItemResource->idleStartTime), SIZEOF(buf));
 		int len = lstrlen(buf);
 		if (len > 0) buf[len-1] = 0;
 	}
-	else if ( !item->itemResource.idleStartTime)
+	else if ( !item->m_pItemResource->idleStartTime)
 		lstrcpyn(buf, TranslateT("unknown"), SIZEOF(buf));
 	else
 		lstrcpyn(buf, TranslateT("<not specified>"), SIZEOF(buf));
@@ -381,7 +381,7 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 
 	// logoff msg
 	sttFillInfoLine(hwndTree, htiRoot, NULL, TranslateT("Logoff message"),
-		item->itemResource.statusMessage ? item->itemResource.statusMessage : TranslateT("<not specified>"), sttInfoLineId(0, INFOLINE_LOGOFF_MSG));
+		item->m_pItemResource->statusMessage ? item->m_pItemResource->statusMessage : TranslateT("<not specified>"), sttInfoLineId(0, INFOLINE_LOGOFF_MSG));
 
 	// activity
 	if (item->pLastSeenResource)
@@ -397,7 +397,7 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 		for (int i = 0; i < item->arResources.getCount(); i++)
 			sttFillResourceInfo(ppro, hwndTree, htiRoot, item, i+1);
 	}
-	else if ( !_tcschr(item->jid, _T('@')) || (item->itemResource.status != ID_STATUS_OFFLINE))
+	else if ( !_tcschr(item->jid, _T('@')) || (item->m_pItemResource->status != ID_STATUS_OFFLINE))
 		sttFillResourceInfo(ppro, hwndTree, htiRoot, item, 0);
 
 	sttCleanupInfo(hwndTree, 1);

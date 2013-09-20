@@ -1163,7 +1163,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 				*(TCHAR*)(--tmptr) = 0;
 				resource = tmpnick;
 		}	}
-		replaceStrT(item->itemResource.statusMessage, msgText);
+		replaceStrT(item->m_pItemResource->statusMessage, msgText);
 	}
 	else {
 		if ((n = xmlGetChildByTag(node , "body", "xml:lang", m_tszSelectedLang)) == NULL)

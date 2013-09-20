@@ -587,7 +587,7 @@ INT_PTR __cdecl CJabberProto::OnMenuTransportLogin(WPARAM wParam, LPARAM)
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid.ptszVal);
 	if (item != NULL) {
 		XmlNode p(_T("presence")); xmlAddAttr(p, _T("to"), item->jid);
-		if (item->itemResource.status == ID_STATUS_ONLINE)
+		if (item->m_pItemResource->status == ID_STATUS_ONLINE)
 			xmlAddAttr(p, _T("type"), _T("unavailable"));
 		m_ThreadInfo->send(p);
 	}
@@ -1032,9 +1032,11 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
 
 		ptrT jid( getTStringA(event->hContact, "jid"));
-		JABBER_LIST_ITEM *pItem = (jid == NULL) ? NULL : ListGetItemPtr(LIST_ROSTER, jid);
-		if (pItem && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_ARCHIVE_AUTO) && m_options.EnableMsgArchive)
-			RetrieveMessageArchive(event->hContact, pItem);
+		if (jid != NULL) {
+			JABBER_LIST_ITEM *pItem = ListGetItemPtr(LIST_ROSTER, jid);
+			if (pItem && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_ARCHIVE_AUTO) && m_options.EnableMsgArchive)
+				RetrieveMessageArchive(event->hContact, pItem);
+		}
 	}
 	else if (event->uType == MSG_WINDOW_EVT_CLOSING) {
 		if (hDialogsList)
@@ -1045,7 +1047,8 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 		if ( !db_get(event->hContact, "SRMsg", "SupportTyping", &dbv)) {
 			bSupportTyping = dbv.bVal == 1;
 			db_free(&dbv);
-		} else if ( !db_get(NULL, "SRMsg", "DefaultTyping", &dbv)) {
+		}
+		else if ( !db_get(NULL, "SRMsg", "DefaultTyping", &dbv)) {
 			bSupportTyping = dbv.bVal == 1;
 			db_free(&dbv);
 		}

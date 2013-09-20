@@ -872,8 +872,8 @@ public:
 					HANDLE hContact = m_proto->HContactFromJID(item->jid);
 					if (hContact != NULL) {
 						if (bChecked) {
-							if (item->itemResource.status != m_proto->getWord(hContact, "Status", ID_STATUS_OFFLINE)) {
-								m_proto->setWord(hContact, "Status", (WORD)item->itemResource.status);
+							if (item->m_pItemResource->status != m_proto->getWord(hContact, "Status", ID_STATUS_OFFLINE)) {
+								m_proto->setWord(hContact, "Status", (WORD)item->m_pItemResource->status);
 						}	}
 						else if (m_proto->getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 							m_proto->setWord(hContact, "Status", ID_STATUS_OFFLINE);

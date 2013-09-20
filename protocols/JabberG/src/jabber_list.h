@@ -73,8 +73,10 @@ struct JABBER_XEP0232_SOFTWARE_INFO : public MZeroedObject
 	ptrT tszOs, tszOsVersion, tszSoftware, tszSoftwareVersion, tszXMirandaCoreVersion;
 };
 
-struct JABBER_RESOURCE_STATUS
+struct JABBER_RESOURCE_STATUS : public MZeroedObject
 {
+	~JABBER_RESOURCE_STATUS();
+
 	int status;
 	TCHAR* resourceName;
 	TCHAR* nick;
@@ -122,7 +124,7 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 	JABBER_RESOURCE_STATUS
 		*pLastSeenResource, // resource which was last seen active
 		*pManualResource,   // manually set resource
-		itemResource;       // resource for jids without /resource node
+		*m_pItemResource;      // resource for jids without /resource node
 
 	JABBER_SUBSCRIPTION subscription;
 	TCHAR* group;

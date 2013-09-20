@@ -761,7 +761,7 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 				}
 			}
 		}
-		else if ( !item->itemResource.dwVersionRequestTime) {
+		else if ( !item->m_pItemResource->dwVersionRequestTime) {
 			XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, item->jid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
 			iq4 << XQUERY(JABBER_FEAT_VERSION);
 			m_ThreadInfo->send(iq4);
@@ -1337,8 +1337,8 @@ void __cdecl CJabberProto::GetAwayMsgThread(void* hContact)
 				return;
 			}
 
-			if (item->itemResource.statusMessage != NULL) {
-				ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)item->itemResource.statusMessage);
+			if (item->m_pItemResource->statusMessage != NULL) {
+				ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)item->m_pItemResource->statusMessage);
 				return;
 			}
 		}

@@ -1523,17 +1523,19 @@ void CJabberProto::OnProcessPresenceCapabilites(HXML node)
 void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 {
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
-	if ( !item) return;
+	if (item == NULL)
+		return;
 	HANDLE hContact = HContactFromJID(jid);
-	if ( !hContact) return;
+	if (hContact == NULL)
+		return;
 
 	int status = ID_STATUS_OFFLINE;
 	if ( !item->arResources.getCount()) {
 		// set offline only if jid has resources
 		if (_tcschr(jid, '/') == NULL)
-			status = item->itemResource.status;
-		if (item->itemResource.statusMessage)
-			db_set_ts(hContact, "CList", "StatusMsg", item->itemResource.statusMessage);
+			status = item->m_pItemResource->status;
+		if (item->m_pItemResource->statusMessage)
+			db_set_ts(hContact, "CList", "StatusMsg", item->m_pItemResource->statusMessage);
 		else
 			db_unset(hContact, "CList", "StatusMsg");
 	}
@@ -1553,7 +1555,7 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 				nSelectedResource = i;
 		}
 	}
-	item->itemResource.status = status;
+	item->m_pItemResource->status = status;
 	if (nSelectedResource != -1) {
 		JABBER_RESOURCE_STATUS *r = item->arResources[nSelectedResource];
 		Log("JabberUpdateJidDbSettings: updating jid %S to rc %S", item->jid, r->resourceName);
@@ -1569,12 +1571,11 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 		if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != status)
 			setWord(hContact, "Status", (WORD)status);
 
-	if (status == ID_STATUS_OFFLINE)
-	{ // remove x-status icon
+	 // remove x-status icon
+	if (status == ID_STATUS_OFFLINE) {
 		delSetting(hContact, DBSETTING_XSTATUSID);
 		delSetting(hContact, DBSETTING_XSTATUSNAME);
 		delSetting(hContact, DBSETTING_XSTATUSMSG);
-		//JabberUpdateContactExtraIcon(hContact);
 	}
 
 	MenuUpdateSrmmIcon(item);
@@ -1723,8 +1724,8 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 
 			// set status only if no more available resources
 			if ( !item->arResources.getCount()) {
-				item->itemResource.status = ID_STATUS_OFFLINE;
-				replaceStrT(item->itemResource.statusMessage, xmlGetText( xmlGetChild(node , "status")));
+				item->m_pItemResource->status = ID_STATUS_OFFLINE;
+				replaceStrT(item->m_pItemResource->statusMessage, xmlGetText( xmlGetChild(node , "status")));
 			}
 		}
 		else Log("SKIP Receive presence offline from %S (who is not in my roster)", from);
