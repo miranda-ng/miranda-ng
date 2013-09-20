@@ -859,8 +859,6 @@ struct CJabberProto : public PROTO<CJabberProto>
 	bool   ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info);
 
 	//---- jabber_util.c -----------------------------------------------------------------
-
-	JABBER_LIST_ITEM* GetItemFromContact(HANDLE hContact);
 	JABBER_RESOURCE_STATUS* ResourceInfoFromJID(const TCHAR *jid);
 
 	void   SerialInit(void);

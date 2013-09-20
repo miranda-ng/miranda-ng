@@ -166,17 +166,6 @@ JABBER_RESOURCE_STATUS* CJabberProto::ResourceInfoFromJID(const TCHAR *jid)
 	return item->findResource(p+1);
 }
 
-JABBER_LIST_ITEM* CJabberProto::GetItemFromContact(HANDLE hContact)
-{
-	DBVARIANT dbv;
-	if (getTString(hContact, "jid", &dbv))
-		return NULL;
-
-	JABBER_LIST_ITEM *pItem = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
-	db_free(&dbv);
-	return pItem;
-}
-
 TCHAR* JabberPrepareJid(LPCTSTR jid)
 {
 	if ( !jid) return NULL;

@@ -795,7 +795,7 @@ LPTSTR CJabberSysInterface::GetBestResourceName(LPCTSTR jid)
 
 LPTSTR CJabberSysInterface::GetResourceList(LPCTSTR jid)
 {
-	if ( !jid)
+	if (jid == NULL)
 		return NULL;
 
 	mir_cslock lck(m_psProto->m_csLists);
@@ -808,23 +808,14 @@ LPTSTR CJabberSysInterface::GetResourceList(LPCTSTR jid)
 	if (!item->arResources.getCount())
 		return NULL;
 
-	int i;
-	int iLen = 1; // 1 for extra zero terminator at the end of the string
-	// calculate total necessary string length
-	for (i=0; i<item->arResources.getCount(); i++)
-		iLen += lstrlen(item->arResources[i]->resourceName) + 1;
-
-	// allocate memory and fill it
-	LPTSTR str = (LPTSTR)mir_alloc(iLen * sizeof(TCHAR));
-	LPTSTR p = str;
-	for (i=0; i<item->arResources.getCount(); i++) {
-		JABBER_RESOURCE_STATUS *r = item->arResources[i];
-		lstrcpy(p, r->resourceName);
-		p += lstrlen(r->resourceName) + 1;
+	CMString res;
+	for (int i=0; i < item->arResources.getCount(); i++) {
+		res.Append(item->arResources[i]->resourceName);
+		res.AppendChar(0);
 	}
-	*p = 0; // extra zero terminator
+	res.AppendChar(0);
 
-	return str;
+	return mir_tstrndup(res, res.GetLength());
 }
 
 char *CJabberSysInterface::GetModuleName() const

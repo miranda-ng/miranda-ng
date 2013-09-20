@@ -2041,7 +2041,7 @@ int ThreadData::send(char* buffer, int bufsize)
 		return 0;
 
 	if (bufsize == -1)
-		bufsize = strlen(buffer);
+		bufsize = (int)strlen(buffer);
 
 	WaitForSingleObject(iomutex, 6000);
 

@@ -1031,7 +1031,8 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 			hDialogsList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
 
-		JABBER_LIST_ITEM *pItem = GetItemFromContact(event->hContact);
+		ptrT jid( getTStringA(event->hContact, "jid"));
+		JABBER_LIST_ITEM *pItem = (jid == NULL) ? NULL : ListGetItemPtr(LIST_ROSTER, jid);
 		if (pItem && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_ARCHIVE_AUTO) && m_options.EnableMsgArchive)
 			RetrieveMessageArchive(event->hContact, pItem);
 	}
