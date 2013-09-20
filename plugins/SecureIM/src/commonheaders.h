@@ -25,6 +25,7 @@
 #include <commdlg.h>
 #include <commctrl.h>
 #include <shlwapi.h>
+#include <Uxtheme.h>
 
 #include <malloc.h>
 #include <process.h>

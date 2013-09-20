@@ -91,28 +91,25 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	switch(msg) {
 	case WM_INITDIALOG:
 		{
-			RECT rcClient;
-			GetClientRect(hwnd, &rcClient);
-
 			iInit = TRUE;
 			tci.mask = TCIF_PARAM|TCIF_TEXT;
 
 			tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_TAB_GENERAL),hwnd,DlgProcOptionsGeneral);
 			tci.pszText = (LPSTR)sim201;
 			TC_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 0, &tci);
-			MoveWindow((HWND)tci.lParam,5,26,rcClient.right-8,rcClient.bottom-29,1);
+			EnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
 
 			tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_TAB_PROTO),hwnd,DlgProcOptionsProto);
 			tci.pszText = (LPSTR)sim202;
 			TC_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 2, &tci);
-			MoveWindow((HWND)tci.lParam,5,26,rcClient.right-8,rcClient.bottom-29,1);
+			EnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
 			ShowWindow((HWND)tci.lParam, SW_HIDE);
 
 			if (bPGP && bPGPloaded) {
 				tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_TAB_PGP),hwnd,DlgProcOptionsPGP);
 				tci.pszText = (LPSTR)sim214;
 				TC_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 3, &tci);
-				MoveWindow((HWND)tci.lParam,5,26,rcClient.right-8,rcClient.bottom-29,1);
+				EnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
 				ShowWindow((HWND)tci.lParam, SW_HIDE);
 			}
 
@@ -120,7 +117,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_TAB_GPG),hwnd,DlgProcOptionsGPG);
 				tci.pszText = (LPSTR)sim226;
 				TC_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 4, &tci);
-				MoveWindow((HWND)tci.lParam,5,26,rcClient.right-8,rcClient.bottom-29,1);
+				EnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
 				ShowWindow((HWND)tci.lParam, SW_HIDE);
 			}
 

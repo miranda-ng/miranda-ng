@@ -2,8 +2,8 @@
 // Microsoft Visual C++ generated include file.
 // Used by resource.rc
 //
-#define ID_FIRSTICON			1
-#define ID_LASTICON			17
+#define ID_FIRSTICON                    1
+#define ID_LASTICON                     17
 #define ID_DISABLED                     111
 #define ID_ENABLED                      112
 #define ID_ALWAYS                       113
@@ -17,21 +17,18 @@
 #define ID_DELPUBL                      121
 #define ID_EXPPUBL                      122
 #define ID_IMPPUBL                      123
-
-#define ID_SIM_NATIVE			130
+#define ID_SIM_NATIVE                   130
 #define ID_SIM_PGP                      131
 #define ID_SIM_GPG                      132
 #define ID_SIM_RSAAES                   133
 #define ID_SIM_RSA                      134
-
-#define IDM_CLIST0                    	150
-#define IDM_CLIST1                    	151
-#define IDM_CLIST2                    	152
-#define IDM_CLIST01                    	153
-#define IDM_CLIST02                    	154
-#define IDM_CLIST11                    	155
-#define IDM_CLIST12                    	156
-
+#define IDM_CLIST0                      150
+#define IDM_CLIST1                      151
+#define IDM_CLIST2                      152
+#define IDM_CLIST01                     153
+#define IDM_CLIST02                     154
+#define IDM_CLIST11                     155
+#define IDM_CLIST12                     156
 #define IDD_OPTIONSTAB                  501
 #define IDD_TAB_GENERAL                 502
 #define IDD_TAB_PROTO                   503
@@ -39,9 +36,8 @@
 #define IDD_TAB_GPG                     505
 #define IDD_TAB_MESSAGES                506
 #define IDD_POPUP                       507
-#define IDD_PSK				508
-#define IDD_PASSPHRASE			509
-
+#define IDD_PSK                         508
+#define IDD_PASSPHRASE                  509
 #define IDC_STD_USERLIST                1001
 #define IDC_TIMEOUT                     1002
 #define IDC_BACKKEY                     1003
@@ -98,12 +94,10 @@
 #define IDC_RSA_EXP                     1055
 #define IDC_RSA_EXPPRIV                 1056
 #define IDC_RSA_IMPPRIV                 1057
-#define IDC_PASSPHRASE			1058
-
+#define IDC_PASSPHRASE                  1058
 #define IDC_NO_PGP                      1100
 #define IDC_PGP                         1101
 #define IDC_GPG                         1102
-
 #define IDC_PGP_SDK                     1200
 #define IDC_PGP_USERLIST                1201
 #define IDC_SET_KEYRINGS                1202
@@ -111,7 +105,6 @@
 #define IDC_PGP_PRIVKEY                 1204
 #define IDC_LOAD_PRIVKEY                1205
 #define IDC_NO_KEYRINGS                 1206
-
 #define IDC_GPGEXECUTABLE_EDIT          1300
 #define IDC_BROWSEEXECUTABLE_BTN        1301
 #define IDC_GPGHOME_EDIT                1302
@@ -125,7 +118,6 @@
 #define IDC_SAVEPASS_CBOX               1310
 #define IDC_TMPPATHON_CBOX              1311
 #define IDC_GPGTMPPATH_EDIT             1312
-
 #define ID_ENCRYPTION                   40001
 
 // Next default values for new objects
