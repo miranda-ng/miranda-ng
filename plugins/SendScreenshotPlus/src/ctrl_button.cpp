@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA	02111-1307, USA.
 #define BUTTON_POLLID			 100
 #define BUTTON_POLLDELAY		50
 
-#define MGPROC(x) GetProcAddress(themeAPIHandle,x)
-
 typedef struct TMBCtrl{
 	HWND		hwnd;
 	HANDLE		hThemeButton;
@@ -47,53 +45,6 @@ typedef struct TMBCtrl{
 // External theme methods and properties
 CRITICAL_SECTION csTips;
 HWND hwndToolTips = NULL;
-HMODULE	themeAPIHandle = NULL;
-
-// theme procedures
-HANDLE	(WINAPI *OpenThemeData)(HWND,LPCWSTR);
-HRESULT	(WINAPI *CloseThemeData)(HANDLE);
-BOOL	(WINAPI *IsThemeBackgroundPartiallyTransparent)(HANDLE,INT,INT);
-HRESULT	(WINAPI *DrawThemeParentBackground)(HWND,HDC,RECT *);
-HRESULT	(WINAPI *DrawThemeBackground)(HANDLE,HDC,INT,INT,const RECT *,const RECT *);
-HRESULT	(WINAPI *DrawThemeText)(HANDLE,HDC,INT,INT,LPCWSTR,INT,DWORD,DWORD,const RECT *);
-HRESULT	(WINAPI *GetThemeTextExtent)(HANDLE,HDC,INT,INT,LPCWSTR,INT,DWORD,OPTIONAL const RECT*, RECT *);
-HRESULT	(WINAPI *GetThemeBackgroundRegion)(HANDLE,HDC,INT,INT,const RECT *,HRGN *);
-
-/**
- * name:	ThemeSupport
- * desc:	Loads the uxtheme functions, if supported by the os
- * param:	none
- * return:	TRUE if themes are supported, FALSE if not
- **/
-BOOLEAN __fastcall ThemeSupport() {
-	if (IsWinVerXPPlus()) {
-		if (!themeAPIHandle) {
-			themeAPIHandle = GetModuleHandleA("uxtheme");
-			if (themeAPIHandle) {
-				OpenThemeData = (HANDLE (WINAPI *)(HWND,LPCWSTR))MGPROC("OpenThemeData");
-				CloseThemeData = (HRESULT (WINAPI *)(HANDLE))MGPROC("CloseThemeData");
-				IsThemeBackgroundPartiallyTransparent = (BOOL (WINAPI *)(HANDLE,INT,INT))MGPROC("IsThemeBackgroundPartiallyTransparent");
-				DrawThemeParentBackground = (HRESULT (WINAPI *)(HWND,HDC,RECT *))MGPROC("DrawThemeParentBackground");
-				DrawThemeBackground = (HRESULT (WINAPI *)(HANDLE,HDC,INT,INT,const RECT *,const RECT *))MGPROC("DrawThemeBackground");
-				DrawThemeText = (HRESULT (WINAPI *)(HANDLE,HDC,INT,INT,LPCWSTR,INT,DWORD,DWORD,const RECT *))MGPROC("DrawThemeText");
-				GetThemeTextExtent = (HRESULT (WINAPI *)(HANDLE,HDC,INT,INT,LPCWSTR,INT,DWORD,OPTIONAL const RECT*, RECT *))MGPROC("GetThemeTextExtent");
-				GetThemeBackgroundRegion = (HRESULT (WINAPI *)(HANDLE,HDC,INT,INT,const RECT *,HRGN *))MGPROC("GetThemeBackgroundRegion");
-			}
-		}
-		// Make sure all of these methods are valid (i would hope either all or none work)
-		if (OpenThemeData
-			&& CloseThemeData
-			&& IsThemeBackgroundPartiallyTransparent
-			&& DrawThemeParentBackground
-			&& DrawThemeBackground
-			&& DrawThemeText
-			&& GetThemeTextExtent)
-		{
-			return TRUE;
-		}
-	}
-	return FALSE;
-}
 
 /**
  * name:	DestroyTheme
@@ -101,7 +52,8 @@ BOOLEAN __fastcall ThemeSupport() {
  * param:	ctl - BTNCTRL structure with the information about the theme to close
  * return:	nothing
  **/
-static VOID __fastcall DestroyTheme(BTNCTRL *ctl) {
+static VOID __fastcall DestroyTheme(BTNCTRL *ctl)
+{
 	if (ctl->hThemeButton) {
 		CloseThemeData(ctl->hThemeButton);
 		ctl->hThemeButton = NULL;
@@ -118,12 +70,11 @@ static VOID __fastcall DestroyTheme(BTNCTRL *ctl) {
  * param:	ctl - BTNCTRL structure with the information about the theme to load
  * return:	nothing
  **/
-static VOID __fastcall LoadTheme(BTNCTRL *ctl) {
-	if (ThemeSupport()) {
-		DestroyTheme(ctl);
-		ctl->hThemeButton = OpenThemeData(ctl->hwnd,L"BUTTON");
-		ctl->hThemeToolbar = OpenThemeData(ctl->hwnd,L"TOOLBAR");
-	}
+static VOID __fastcall LoadTheme(BTNCTRL *ctl)
+{
+	DestroyTheme(ctl);
+	ctl->hThemeButton = OpenThemeData(ctl->hwnd,L"BUTTON");
+	ctl->hThemeToolbar = OpenThemeData(ctl->hwnd,L"TOOLBAR");
 }
 
 /**

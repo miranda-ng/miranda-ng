@@ -284,7 +284,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 		// create imagelist
 		metrics.x = GetSystemMetrics(SM_CXSMICON);
 		metrics.y = GetSystemMetrics(SM_CYSMICON);
-		if ((psh._hImages = ImageList_Create(metrics.x, metrics.y, (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16) | ILC_MASK, 0, 1)) == NULL) {
+		if ((psh._hImages = ImageList_Create(metrics.x, metrics.y, ILC_COLOR32 | ILC_MASK, 0, 1)) == NULL) {
 			MsgErr(NULL, LPGENT("Creating the imagelist failed!"));
 			return 1;
 		}
@@ -585,7 +585,7 @@ void DlgContactInfoInitTreeIcons()
 
 		metrics.x = GetSystemMetrics(SM_CXSMICON);
 		metrics.y = GetSystemMetrics(SM_CYSMICON);
-		if (psh._hImages = ImageList_Create(metrics.x, metrics.y, (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16) | ILC_MASK, 0, 1)) {
+		if (psh._hImages = ImageList_Create(metrics.x, metrics.y, ILC_COLOR32 | ILC_MASK, 0, 1)) {
 			HICON hDefIcon = IcoLib_GetIcon(ICO_TREE_DEFAULT);
 			if (!hDefIcon)
 			{

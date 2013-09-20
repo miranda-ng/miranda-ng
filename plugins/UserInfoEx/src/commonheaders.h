@@ -44,6 +44,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include <Richedit.h>
 #include <dlgs.h>
 #include <assert.h>
+#include <UxTheme.h>
 #include <string>
 
 using namespace std;

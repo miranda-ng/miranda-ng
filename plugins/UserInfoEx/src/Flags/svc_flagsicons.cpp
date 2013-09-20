@@ -302,14 +302,7 @@ void InitIcons()
 	if (NULL == (dib = LoadResource(IDB_FLAGSPNG,_T("PNG"))))
 		return;
 
-	if		(IsWinVerXPPlus())		bitDest = bit = ILC_COLOR32;
-	else if	(IsWinVer2000Plus())	bitDest = ILC_COLOR24;
-	else if	(IsWinVerMEPlus())		bitDest = ILC_COLOR16;
-	/*else	preset					bitDest = ILC_COLOR8;*/
-
-	//we work always with 24bit if bitDest < xp+
-	//coz we cannot perform paste operations between palettized images,
-	//unless both src and dst images use the same palette.
+	bitDest = bit = ILC_COLOR32;
 
 	if (FIP->FI_GetBPP(dib) != bit)
 		if (NULL == (dib = ConvertTo(dib, bit, 0))) return;

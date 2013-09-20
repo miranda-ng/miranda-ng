@@ -135,7 +135,6 @@ struct ParseOptions {
 	BOOL bStripAll;
 };
 
-extern BOOL (WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD);
 extern HINSTANCE hInst;
 extern struct ParseOptions gParseOpts;
 extern int hLangpack;

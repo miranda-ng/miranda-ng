@@ -903,8 +903,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 			tci.mask = TCIF_TEXT|TCIF_PARAM;
 			tci.pszText = TranslateT("Tokens");
 			hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_TOKENS_DIALOG), hwndDlg, tokenHelpDlgProc, (LPARAM)GetParent(hwndDlg));
-			if (pfnEnableThemeDialogTexture)
-				pfnEnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
+			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 
 			tci.lParam = (LPARAM)hPage;
 			MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2*iFrameX, (rcTabs.bottom - rcTabs.top) - 2*iFrameY, TRUE);
@@ -917,9 +916,8 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 			tci.mask = TCIF_TEXT|TCIF_PARAM;
 			tci.pszText = TranslateT("Input");
 			dat->hwndInputDlg = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_INPUT_DIALOG), hwndDlg, inputDlgProc, (LPARAM)GetParent(hwndDlg));
-			if (pfnEnableThemeDialogTexture) {
-				pfnEnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
-			}
+			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
+
 			tci.lParam = (LPARAM)hPage;
 			MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2*iFrameX, (rcTabs.bottom - rcTabs.top) - 2*iFrameY, TRUE);
 			ShowWindow(hPage, SW_HIDE);
@@ -954,9 +952,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 			((dat->vhs->flags&VHF_INPUT) && (((dat->vhs->fi != NULL) && (dat->vhs->fi->hContact != NULL)) || (dat->vhs->flags&VHF_SETLASTSUBJECT)))) {
 			// subject window is created, but not necessarily shown
 			dat->hwndSubjectDlg = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CLIST_DIALOG), hwndDlg, clistDlgProc, (LPARAM)GetParent(hwndDlg));
-			if (pfnEnableThemeDialogTexture) {
-				pfnEnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
-			}
+			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 
 			MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2*iFrameX, (rcTabs.bottom - rcTabs.top) - 2*iFrameY, TRUE);
 			ShowWindow(hPage, SW_HIDE);
@@ -979,8 +975,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 			((dat->vhs->flags&VHF_INPUT) && (dat->vhs->fi != NULL) && (dat->vhs->fi->tszExtraText != NULL))) {
 			// extratext window is created, but not necessarily shown
 			dat->hwndExtraTextDlg = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EXTRATEXT_DIALOG), hwndDlg, extratextDlgProc, (LPARAM)GetParent(hwndDlg));
-			if (pfnEnableThemeDialogTexture)
-				pfnEnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
+			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 
 			MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2*iFrameX, (rcTabs.bottom - rcTabs.top) - 2*iFrameY, TRUE);
 			ShowWindow(hPage, SW_HIDE);
@@ -1009,8 +1004,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 			tci.mask = TCIF_TEXT|TCIF_PARAM;
 			tci.pszText = TranslateT("Help");
 			hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_HELPINFO_DIALOG), hwndDlg, helpInfoDlgProc, (LPARAM)GetParent(hwndDlg));
-			if (pfnEnableThemeDialogTexture)
-				pfnEnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
+			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 
 			tci.lParam = (LPARAM)hPage;
 			MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2*iFrameX, (rcTabs.bottom - rcTabs.top) - 2*iFrameY, TRUE);

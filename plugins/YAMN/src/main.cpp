@@ -56,60 +56,7 @@ HGENMENU hMenuItemMain = 0;
 HGENMENU hMenuItemCont = 0;
 HGENMENU hMenuItemContApp = 0;
 
-HMODULE hUxTheme = 0;
-BOOL (WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD) = 0;
-
-// function pointers, use typedefs for casting to shut up the compiler when using GetProcAddress()
-
-typedef BOOL (WINAPI *PITA)();
-typedef HANDLE (WINAPI *POTD)(HWND, LPCWSTR);
-typedef UINT (WINAPI *PDTB)(HANDLE, HDC, int, int, RECT *, RECT *);
-typedef UINT (WINAPI *PCTD)(HANDLE);
-typedef UINT (WINAPI *PDTT)(HANDLE, HDC, int, int, LPCWSTR, int, DWORD, DWORD, RECT *);
-
-PITA pfnIsThemeActive = 0;
-POTD pfnOpenThemeData = 0;
-PDTB pfnDrawThemeBackground = 0;
-PCTD pfnCloseThemeData = 0;
-PDTT pfnDrawThemeText = 0;
-
 #define FIXED_TAB_SIZE 100                  // default value for fixed width tabs
-
-/*
- * visual styles support (XP+)
- * returns 0 on failure
- */
-
-int InitVSApi()
-{
-	if ((hUxTheme = LoadLibraryA("uxtheme.dll"))  ==  0)
-		return 0;
-
-	pfnIsThemeActive = (PITA)GetProcAddress(hUxTheme, "IsThemeActive");
-	pfnOpenThemeData = (POTD)GetProcAddress(hUxTheme, "OpenThemeData");
-	pfnDrawThemeBackground = (PDTB)GetProcAddress(hUxTheme, "DrawThemeBackground");
-	pfnCloseThemeData = (PCTD)GetProcAddress(hUxTheme, "CloseThemeData");
-	pfnDrawThemeText = (PDTT)GetProcAddress(hUxTheme, "DrawThemeText");
-
-	MyEnableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
-	if (pfnIsThemeActive != 0 && pfnOpenThemeData != 0 && pfnDrawThemeBackground != 0 && pfnCloseThemeData != 0 && pfnDrawThemeText != 0)
-		return 1;
-
-	return 0;
-}
-
-/*
- * unload uxtheme.dll
- */
-
-int FreeVSApi()
-{
-	if (hUxTheme != 0)
-		FreeLibrary(hUxTheme);
-	return 0;
-}
-
-//--------------------------------------------------------------------------------------------------
 
 static void GetProfileDirectory(TCHAR *szPath, int cbPath)
 //This is copied from Miranda's sources. In 0.2.1.0 it is needed, in newer vesions of Miranda use MS_DB_GETPROFILEPATH service
@@ -386,7 +333,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	LoadIcons();
 	LoadPlugins();
-	InitVSApi();
 
 	HOTKEYDESC hkd = {0};
 	hkd.cbSize = sizeof(hkd);
@@ -431,8 +377,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 	CloseHandle(NoWriterEV);
 	CloseHandle(WriteToFileEV);
 	CloseHandle(ExitEV);
-
-	FreeVSApi();
 
 	DeleteCriticalSection(&AccountStatusCS);
 	DeleteCriticalSection(&FileWritingCS);

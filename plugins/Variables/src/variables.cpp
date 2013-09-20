@@ -19,7 +19,6 @@
 
 #include "variables.h"
 
-BOOL (WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD) = 0;
 static BOOL bWarningShown = FALSE; // unicode on ansi warning
 
 /* some handles */
@@ -513,12 +512,6 @@ int LoadVarModule()
 	hRegisterVariableService = CreateServiceFunction(MS_VARS_REGISTERTOKEN, registerToken);
 	// help dialog
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
-
-	if(IsWinVerXPPlus()) {
-		HMODULE hUxTheme = GetModuleHandle(_T("uxtheme.dll"));
-		if (hUxTheme)
-			pfnEnableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
-	}
 
 	hShowHelpService = CreateServiceFunction(MS_VARS_SHOWHELP, showHelpService);
 	hShowHelpExService = CreateServiceFunction(MS_VARS_SHOWHELPEX, showHelpExService);

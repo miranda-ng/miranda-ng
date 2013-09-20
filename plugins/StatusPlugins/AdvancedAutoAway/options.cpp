@@ -21,16 +21,6 @@
 #include "../resource.h"
 #include <commctrl.h>
 
-static BOOL (WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD) = 0;
-
-// Thanks to TioDuke for cleaning up the ListView handling
-#ifndef ListView_GetCheckState
-#define ListView_GetCheckState(w,i) ((((UINT)(SNDMSG((w),LVM_GETITEMSTATE,(WPARAM)(i),LVIS_STATEIMAGEMASK)))>>12)-1)
-#endif
-#ifndef ListView_SetCheckState
-#define ListView_SetCheckState(w,i,f) ListView_SetItemState(w,i,INDEXTOSTATEIMAGEMASK((f)+1),LVIS_STATEIMAGEMASK)
-#endif
-
 int LoadAutoAwaySetting(TAAAProtoSetting& autoAwaySetting, char* protoName);
 
 INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -452,8 +442,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayTabs(HWND hwndDlg, UINT msg, WPARAM wPara
 			tci.mask = TCIF_TEXT|TCIF_PARAM;
 			tci.pszText = TranslateT("General");
 			hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_OPT_GENAUTOAWAY), hwndDlg, DlgProcAutoAwayGeneralOpts, (LPARAM)GetParent(hwndDlg));
-			if (pfnEnableThemeDialogTexture)
-				pfnEnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
+			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 
 			tci.lParam = (LPARAM)hPage;
 			GetClientRect(hPage, &rcPage);
@@ -465,8 +454,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayTabs(HWND hwndDlg, UINT msg, WPARAM wPara
 			tci.mask = TCIF_TEXT|TCIF_PARAM;
 			tci.pszText = TranslateT("Rules");
 			hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_OPT_AUTOAWAY), hwndDlg, DlgProcAutoAwayRulesOpts, (LPARAM)GetParent(hwndDlg));
-			if (pfnEnableThemeDialogTexture)
-				pfnEnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
+			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 
 			tci.lParam = (LPARAM)hPage;
 			GetClientRect(hPage, &rcPage);
@@ -477,8 +465,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayTabs(HWND hwndDlg, UINT msg, WPARAM wPara
 			tci.mask = TCIF_TEXT|TCIF_PARAM;
 			tci.pszText = TranslateT("Status Messages");
 			hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_OPT_AUTOAWAYMSG), hwndDlg, DlgProcAutoAwayMsgOpts, (LPARAM)GetParent(hwndDlg));
-			if (pfnEnableThemeDialogTexture)
-				pfnEnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
+			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 
 			tci.lParam = (LPARAM)hPage;
 			GetClientRect(hPage, &rcPage);
@@ -533,13 +520,6 @@ static INT_PTR CALLBACK DlgProcAutoAwayTabs(HWND hwndDlg, UINT msg, WPARAM wPara
 
 int AutoAwayOptInitialise(WPARAM wParam,LPARAM lParam)
 {
-	HMODULE hUxTheme = NULL;
-	if(IsWinVerXPPlus()) {
-		hUxTheme = GetModuleHandle(_T("uxtheme.dll"));
-		if (hUxTheme)
-			pfnEnableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
-	}
-
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.position = 1000000000;

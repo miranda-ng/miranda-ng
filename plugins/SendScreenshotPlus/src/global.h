@@ -40,6 +40,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include <Shlwapi.h>
 #include <gdiplus.h>
 #include <mapi.h>
+#include <UxTheme.h>
+
 #include <map>
 #include <string>
 using namespace std;

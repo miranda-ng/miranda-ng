@@ -20,16 +20,6 @@
 #include "keepstatus.h"
 #include "../resource.h"
 
-static BOOL (WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD) = 0;
-
-// Thanks to TioDuke for cleaning up the ListView handling
-#ifndef ListView_GetCheckState
-#define ListView_GetCheckState(w,i) ((((UINT)(SNDMSG((w),LVM_GETITEMSTATE,(WPARAM)(i),LVIS_STATEIMAGEMASK)))>>12)-1)
-#endif
-#ifndef ListView_SetCheckState
-#define ListView_SetCheckState(w,i,f) ListView_SetItemState(w,i,INDEXTOSTATEIMAGEMASK((f)+1),LVIS_STATEIMAGEMASK)
-#endif
-
 // prototypes
 INT_PTR CALLBACK OptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam);
 INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam);
@@ -292,8 +282,7 @@ static INT_PTR CALLBACK DlgProcKsTabs(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			tci.mask = TCIF_TEXT|TCIF_PARAM;
 			tci.pszText = TranslateT("Basic");
 			hShow = hBasicTab = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_OPT_KS_BASIC), hwndDlg, DlgProcKSBasicOpts, (LPARAM)GetParent(hwndDlg));
-			if (pfnEnableThemeDialogTexture)
-				pfnEnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
+			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 
 			tci.lParam = (LPARAM)hPage;
 			GetClientRect(hPage, &rcPage);
@@ -305,9 +294,8 @@ static INT_PTR CALLBACK DlgProcKsTabs(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			tci.mask = TCIF_TEXT|TCIF_PARAM;
 			tci.pszText = TranslateT("Advanced");
 			hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_OPT_KS_ADV), hwndDlg, DlgProcKSAdvOpts, (LPARAM)GetParent(hwndDlg));
-			if (pfnEnableThemeDialogTexture) {
-				pfnEnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
-			}
+			EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
+
 			tci.lParam = (LPARAM)hPage;
 			GetClientRect(hPage, &rcPage);
 			MoveWindow(hPage, (rcTabs.left - rcOptions.left) + ((rcTabs.right-rcTabs.left)-(rcPage.right-rcPage.left))/2, 10 + (rcTabs.top - rcOptions.top) + ((rcTabs.bottom-rcTabs.top)-(rcPage.bottom-rcPage.top))/2, rcPage.right-rcPage.left, rcPage.bottom-rcPage.top, TRUE);
@@ -577,12 +565,6 @@ INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 
 int OptionsInit(WPARAM wparam,LPARAM lparam)
 {
-	if ( IsWinVerXPPlus()) {
-		HMODULE hUxTheme = GetModuleHandle(_T("uxtheme.dll"));
-		if (hUxTheme)
-			pfnEnableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
-	}
-
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize    = sizeof(odp);
 	odp.hInstance = hInst;

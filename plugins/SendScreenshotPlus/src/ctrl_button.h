@@ -24,20 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA	02111-1307, USA.
 #ifndef _UINFOEX_BOTTONS_H_INCLUDED_
 #define _UINFOEX_BOTTONS_H_INCLUDED_ 1
 
-// theme procedures
-extern HANDLE	(WINAPI *OpenThemeData)(HWND,LPCWSTR);
-extern HRESULT	(WINAPI *CloseThemeData)(HANDLE);
-extern BOOL		(WINAPI *IsThemeBackgroundPartiallyTransparent)(HANDLE,INT,INT);
-extern HRESULT	(WINAPI *DrawThemeParentBackground)(HWND,HDC,RECT *);
-extern HRESULT	(WINAPI *DrawThemeBackground)(HANDLE,HDC,INT,INT,const RECT *,const RECT *);
-extern HRESULT	(WINAPI *DrawThemeText)(HANDLE,HDC,INT,INT,LPCWSTR,INT,DWORD,DWORD,const RECT *);
-extern HRESULT	(WINAPI *GetThemeTextExtent)(HANDLE,HDC,INT,INT,LPCWSTR,INT,DWORD,OPTIONAL const RECT*, RECT *);
-extern HRESULT	(WINAPI *GetThemeBackgroundRegion)(HANDLE,HDC,INT,INT,const RECT *,HRGN *);
-
-
 VOID CtrlButtonLoadModule();
 VOID CtrlButtonUnloadModule();
-
-BOOLEAN __fastcall ThemeSupport();
 
 #endif /* _UINFOEX_BOTTONS_H_INCLUDED_ */
