@@ -20,44 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define IDI_BLANK			200
 
-#ifndef ETDT_ENABLE
-#define ETDT_ENABLE			0x00000002
-#endif
-#ifndef ETDT_USETABTEXTURE
-#define ETDT_USETABTEXTURE	0x00000004
-#endif
-#ifndef ETDT_ENABLETAB
-#define ETDT_ENABLETAB		(ETDT_ENABLE|ETDT_USETABTEXTURE)
-#endif
-
-#ifndef ListView_SetCheckState
-#define ListView_SetCheckState(hLv, iItem, bCheck) \
-	ListView_SetItemState(hLv, iItem, bCheck ? INDEXTOSTATEIMAGEMASK(2) : INDEXTOSTATEIMAGEMASK(1), LVIS_STATEIMAGEMASK)
-#endif
-
-#ifndef TVS_NOHSCROLL
-#define TVS_NOHSCROLL		0x8000
-#endif
-
-#ifndef TVM_GETITEMSTATE
-#define TVM_GETITEMSTATE	(TV_FIRST+39)
-#endif
-
-#ifndef TreeView_SetItemState
-#define TreeView_SetItemState(hwndTv, hti, data, _mask) \
-	{ TVITEM _TVI; \
-	  _TVI.mask = TVIF_STATE; \
-	  _TVI.hItem = hti; \
-	  _TVI.stateMask = _mask; \
-	  _TVI.state = data; \
-	  SendMessageA((hwndTv), TVM_SETITEM, 0, (LPARAM)&_TVI); }
-#endif
-
-#ifndef TreeView_GetItemState
-#define TreeView_GetItemState(hwndTv, hti, mask) \
-	(UINT)SendMessageA((hwndTv), TVM_GETITEMSTATE, (WPARAM)(hti), (LPARAM)(mask))
-#endif
-
 void LoadSettings(void);
 int InitializeOptions(WPARAM,LPARAM);
 INT_PTR CALLBACK DlgProcOptions(HWND, UINT, WPARAM, LPARAM);
@@ -124,20 +86,11 @@ PROCESS_LIST ProcessListAux;
 XSTATUS_INFO *XstatusListAux;
 BYTE trillianLedsMsg, trillianLedsURL, trillianLedsFile, trillianLedsOther;
 
-static BOOL (WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD) = 0;
-
-
 // **
 // ** Initialize the Miranda options page
 // **
 int InitializeOptions(WPARAM wParam,LPARAM lParam)
 {
-	if (bWindowsNT && dWinVer >= 5.01) {
-		HMODULE hUxTheme = GetModuleHandle(L"uxtheme.dll");
-		if(hUxTheme)
-			pfnEnableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
-	}
-
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.position = 0;
@@ -158,7 +111,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
-            HWND tc;
+			HWND tc;
 			TCITEM tci;
 			tc = GetDlgItem(hwndDlg, IDC_TABS);
 			tci.mask = TCIF_TEXT;
@@ -172,27 +125,22 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			TabCtrl_InsertItem(tc, 3, &tci);
 			tci.pszText = TranslateT("Ignore");
 			TabCtrl_InsertItem(tc, 4, &tci);
-			
+
 			hwndProto = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_PROTO_OPTIONS), hwndDlg, DlgProcProtoOptions, (LPARAM) NULL);
-			if(hwndProto && pfnEnableThemeDialogTexture)
-				pfnEnableThemeDialogTexture(hwndProto, ETDT_ENABLETAB);
+			EnableThemeDialogTexture(hwndProto, ETDT_ENABLETAB);
 			SetWindowPos(hwndProto, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 			ShowWindow(hwndProto, SW_SHOW);
 			hwndBasic = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_BASIC_OPTIONS), hwndDlg, DlgProcBasicOptions, (LPARAM) NULL);
-			if(hwndBasic && pfnEnableThemeDialogTexture)
-				pfnEnableThemeDialogTexture(hwndBasic, ETDT_ENABLETAB);
+			EnableThemeDialogTexture(hwndBasic, ETDT_ENABLETAB);
 			SetWindowPos(hwndBasic, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 			hwndEffect = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EFFECT_OPTIONS), hwndDlg, DlgProcEffectOptions, (LPARAM) NULL);
-			if(hwndEffect && pfnEnableThemeDialogTexture)
-				pfnEnableThemeDialogTexture(hwndEffect, ETDT_ENABLETAB);
+			EnableThemeDialogTexture(hwndEffect, ETDT_ENABLETAB);
 			SetWindowPos(hwndEffect, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 			hwndTheme = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_THEME_OPTIONS), hwndDlg, DlgProcThemeOptions, (LPARAM) NULL);
-			if(hwndTheme && pfnEnableThemeDialogTexture)
-				pfnEnableThemeDialogTexture(hwndTheme, ETDT_ENABLETAB);
+			EnableThemeDialogTexture(hwndTheme, ETDT_ENABLETAB);
 			SetWindowPos(hwndTheme, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 			hwndIgnore = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_IGNORE_OPTIONS), hwndDlg, DlgProcIgnoreOptions, (LPARAM) NULL);
-			if(hwndIgnore && pfnEnableThemeDialogTexture)
-				pfnEnableThemeDialogTexture(hwndIgnore, ETDT_ENABLETAB);
+			EnableThemeDialogTexture(hwndIgnore, ETDT_ENABLETAB);
 			SetWindowPos(hwndIgnore, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 			hwndCurrentTab = hwndProto;
 			return TRUE;
@@ -204,7 +152,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		{
 			switch (((LPNMHDR) lParam)->code) {
 			case TCN_SELCHANGE:
-                switch (wParam) {
+				switch (wParam) {
 				case IDC_TABS:
 					{
 						HWND hwnd;
@@ -318,7 +266,7 @@ INT_PTR CALLBACK DlgProcProtoOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 								ListView_GetItem(hList, &lvItem);
 								db_set_b(NULL, KEYBDMODULE, (char *)lvItem.lParam, (BYTE)!!ListView_GetCheckState(hList, lvItem.iItem));
 							}
-						}			
+						}
 
 						LoadSettings();
 
@@ -340,7 +288,7 @@ INT_PTR CALLBACK DlgProcProtoOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				} //switch idFrom
 			}
 			break; //End WM_NOTIFY
-					
+
 			default:
 			break;
 	}
