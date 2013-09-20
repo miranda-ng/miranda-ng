@@ -802,27 +802,13 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 		case WM_CTLCOLORSTATIC:
 			/* use same text color for header as for group boxes (WinXP+) */
 			if(GetDlgCtrlID((HWND)lParam) == IDC_HEADERTEXT) {
-				HMODULE hUxThemeDLL;
-				HBRUSH hBrush;
-				hUxThemeDLL = LoadLibraryA("UXTHEME"); /* all ascii,  already loaded */
 				lParam = (LPARAM)GetDlgItem(hwndDlg, IDC_MISCLABEL);
-				hBrush = (HBRUSH)SendMessage(hwndDlg, msg, wParam, lParam);
-				if(hUxThemeDLL!= NULL) {
-					HTHEME (WINAPI *pfnGetWindowTheme)(HWND);
-					HRESULT (WINAPI *pfnGetThemeColor)(HTHEME, int, int, int, COLORREF*);
-					COLORREF clr;
-					*(PROC*)&pfnGetWindowTheme = GetProcAddress(hUxThemeDLL, "GetWindowTheme");
-					*(PROC*)&pfnGetThemeColor = GetProcAddress(hUxThemeDLL, "GetThemeColor");
-					if(pfnGetWindowTheme!= NULL && pfnGetThemeColor!= NULL) {
-						HTHEME hTheme;
-						hTheme = pfnGetWindowTheme((HWND)lParam);
-						if(hTheme!= NULL)
-							if (!pfnGetThemeColor(hTheme, BP_GROUPBOX, GBS_NORMAL, TMT_TEXTCOLOR, &clr)) {
-								SetBkMode((HDC)wParam, TRANSPARENT);
-								SetTextColor((HDC)wParam, clr);
-							}
-					}
-					FreeLibrary(hUxThemeDLL);
+				HBRUSH hBrush = (HBRUSH)SendMessage(hwndDlg, msg, wParam, lParam);
+				COLORREF clr;
+				HTHEME hTheme = GetWindowTheme((HWND)lParam);
+				if(hTheme!= NULL && !GetThemeColor(hTheme, BP_GROUPBOX, GBS_NORMAL, TMT_TEXTCOLOR, &clr)) {
+					SetBkMode((HDC)wParam, TRANSPARENT);
+					SetTextColor((HDC)wParam, clr);
 				}
 				return (BOOL)hBrush;
 			}

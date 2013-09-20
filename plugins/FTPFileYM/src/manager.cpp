@@ -75,7 +75,7 @@ void Manager::initImageList()
 {
 	char buff[256];
 
-	this->himlStates = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, ServerList::FTP_COUNT + 4, 0);
+	this->himlStates = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, ServerList::FTP_COUNT + 4, 0);
 	ImageList_AddIcon(himlStates, LoadSkinnedIcon(SKINICON_OTHER_DELETE)); // image index 0 is useless for INDEXTOSTATEIMAGEMASK
 	ImageList_AddIcon(himlStates, LoadSkinnedIcon(SKINICON_OTHER_DELETE));
 	ImageList_AddIcon(himlStates, LoadSkinnedIcon(SKINICON_OTHER_NOTICK));

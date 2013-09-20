@@ -32,7 +32,6 @@ extern DeleteTimer &deleteTimer;
 extern ServerList &ftpList;
 extern Options &opt;
 
-BOOL (WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD) = 0;
 int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 void PrebuildMainMenu();
 int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam);
@@ -477,13 +476,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	hServiceContactMenu = CreateServiceFunction(MS_FTPFILE_CONTACTMENU, ContactMenuService);
 	hServiceMainMenu = CreateServiceFunction(MS_FTPFILE_MAINMENU, MainMenuService);
 	hServiceShareFile = CreateServiceFunction(MS_FTPFILE_SHAREFILE, ShareFileService);
-
-	if (IsWinVerXPPlus()) 
-	{
-		HMODULE hUxTheme = GetModuleHandle(_T("uxtheme.dll"));
-		if (hUxTheme)
-			MyEnableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
-	}
 
 	opt.loadOptions();
 	deleteTimer.init();

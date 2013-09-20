@@ -221,7 +221,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			HWND hwndList = GetDlgItem(hwnd, IDC_ACTIONS);
 			ListView_SetExtendedListViewStyleEx(hwndList, 0, LVS_EX_CHECKBOXES|LVS_EX_LABELTIP);
-			HIMAGELIST hImgList = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus()? ILC_COLOR32 : ILC_COLOR16), 10, 1);
+			HIMAGELIST hImgList = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 10, 1);
 			ListView_SetImageList(hwndList, hImgList, LVSIL_SMALL);
 
 			LVCOLUMN column = {0};
@@ -230,8 +230,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			column.cx = 175;
 			ListView_InsertColumn(hwndList, 0, &column);
 
-			if (IsWinVerXPPlus())
-				ListView_EnableGroupView(hwndList, TRUE);
+			ListView_EnableGroupView(hwndList, TRUE);
 
 			LIST<char> groups(1, strcmp);
 
@@ -244,7 +243,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 				int grpId = 0;
 
-				if (IsWinVerXPPlus() && ((grpId = groups.getIndex(szGroup)) < 0))
+				if ((grpId = groups.getIndex(szGroup)) < 0)
 				{
 					LVGROUP group = {0};
 					group.cbSize = sizeof(group);
@@ -265,10 +264,8 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				item.pszText = TranslateTS(tszName);
 				item.iImage = ImageList_AddIcon(hImgList, gActions[i]->lchIcon);
 				item.lParam = i;
-				if (IsWinVerXPPlus()) {
-					item.mask |= LVIF_GROUPID;
-					item.iGroupId = grpId;
-				}
+				item.mask |= LVIF_GROUPID;
+				item.iGroupId = grpId;
 				item.iIndent = 0;
 				ListView_InsertItemW(hwndList, &item);
 

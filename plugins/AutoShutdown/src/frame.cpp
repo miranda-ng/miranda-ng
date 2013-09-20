@@ -588,25 +588,16 @@ static int FrameModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
 	if(ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		LOGFONT lf;
-		COLORREF clr;
-		HMODULE hUxThemeDLL;
-		BOOL (WINAPI *pfnIsThemeActive)(VOID);
 		/* built-in font module is not available before this hook */
-		clr=GetDefaultColor(FRAMEELEMENT_TEXT);
+		COLORREF clr = GetDefaultColor(FRAMEELEMENT_TEXT);
 		FontService_RegisterFont("AutoShutdown","CountdownFont",LPGENT("Automatic Shutdown"),LPGENT("Countdown on Frame"),LPGENT("Automatic Shutdown"),LPGENT("Background"),0,FALSE,GetDefaultFont(&lf),clr);
 		clr=GetDefaultColor(FRAMEELEMENT_BKGRND);
 		FontService_RegisterColor("AutoShutdown","BkgColor",LPGENT("Automatic Shutdown"),LPGENT("Background"),clr);
-		/* progressbar color can only be changed in windows classic theme */
-		/* FIXME: should be registered/unregistered on WM_THEMECHANGED/ME_OPT_INITIALISE msg,
-		 * currently not possible as no such font service exists */
-		hUxThemeDLL=LoadLibraryA("UXTHEME"); /* all ascii */
-		*(PROC*)&pfnIsThemeActive=(hUxThemeDLL!=NULL)?GetProcAddress(hUxThemeDLL,"IsThemeActive"):NULL;
-		if(pfnIsThemeActive==NULL || !pfnIsThemeActive()) {
+		if( !IsThemeActive()) {
 			/* progressbar color can only be changed with classic theme */
-				clr=GetDefaultColor(FRAMEELEMENT_BAR);
+			clr=GetDefaultColor(FRAMEELEMENT_BAR);
 			FontService_RegisterColor("AutoShutdown","ProgressColor",TranslateT("Automatic Shutdown"),TranslateT("Progress Bar"),clr);
 		}
-		if(hUxThemeDLL!=NULL) FreeLibrary(hUxThemeDLL);
 	}
 	return 0;
 }

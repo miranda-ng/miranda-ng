@@ -607,19 +607,6 @@ void Check_ReorderPopups(HWND hwnd) {
 	if (hwnd) CheckDlgButton(hwnd, IDC_REORDERPOPUPS, PopupOptions.ReorderPopups);
 }
 
-void ThemeDialogBackground(HWND hwnd)
-{
-	if (IsWinVerXPPlus()) {
-		static HMODULE hThemeAPI = NULL;
-		if (!hThemeAPI) hThemeAPI = GetModuleHandleA("uxtheme");
-		if (hThemeAPI) {
-			HRESULT (STDAPICALLTYPE *MyEnableThemeDialogTexture)(HWND,DWORD) = (HRESULT (STDAPICALLTYPE*)(HWND,DWORD))GetProcAddress(hThemeAPI,"EnableThemeDialogTexture");
-			if (MyEnableThemeDialogTexture)
-				MyEnableThemeDialogTexture(hwnd,0x00000002|0x00000004); //0x00000002|0x00000004=ETDT_ENABLETAB
-		}
-	}
-}
-
 INT_PTR CALLBACK PositionBoxDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	LOGFONT lf;
@@ -627,7 +614,7 @@ INT_PTR CALLBACK PositionBoxDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		ThemeDialogBackground(hwndDlg);
+		EnableThemeDialogTexture(hwndDlg, ETDT_ENABLETAB);
 
 		GetObject((HFONT)SendMessage(GetDlgItem(hwndDlg, IDC_TITLE), WM_GETFONT, 0, 0), sizeof(lf), &lf);
 		lf.lfWeight = FW_BOLD;

@@ -39,12 +39,6 @@ static HIMAGELIST CreateRadioImages(COLORREF clrBk, COLORREF clrText)
 	HBITMAP hbm, hbmPrev;
 	HIMAGELIST himl = NULL;
 
-	/* the WinXP+ themed way */
-	HTHEME  (WINAPI *pfnOpenThemeData)(HWND, const WCHAR*);
-	HTHEME  (WINAPI *pfnCloseThemeData)(HTHEME);
-	HRESULT (WINAPI *pfnDrawThemeBackground)(HTHEME, HDC, int, int, const RECT*, const RECT*);
-	HMODULE hUxThemeDLL = LoadLibrary(_T("UXTHEME")); /* all ascii */
-
 	/* draw bitmap */
 	hdcScreen = GetDC(NULL);
 	if (hdcScreen!=NULL) {
@@ -57,27 +51,16 @@ static HIMAGELIST CreateRadioImages(COLORREF clrBk, COLORREF clrText)
 			if (hbm!=NULL) {
 				hbmPrev = (HBITMAP)SelectObject(hdc, hbm);
 				if (hbmPrev!=NULL) { /* error on select? */
-					/* the WinXP+ themed way */
-					if (hUxThemeDLL!=NULL) {
-						*(PROC*)&pfnOpenThemeData = GetProcAddress(hUxThemeDLL, "OpenThemeData");
-						*(PROC*)&pfnCloseThemeData = GetProcAddress(hUxThemeDLL, "CloseThemeData");
-						*(PROC*)&pfnDrawThemeBackground = GetProcAddress(hUxThemeDLL, "DrawThemeBackground");
-						if (pfnOpenThemeData!=NULL && pfnCloseThemeData!=NULL && pfnDrawThemeBackground!=NULL) {
-							HTHEME hTheme;
-							hTheme = pfnOpenThemeData(NULL, L"Button");
-							if (hTheme!=NULL) {
-								SetRect(&rc, 0, 0, size.cx, size.cy);
-								/* unchecked */
-								if (!pfnDrawThemeBackground(hTheme, hdc, BP_RADIOBUTTON, RBS_UNCHECKEDNORMAL, &rc, NULL)) {
-									/* checked */
-									OffsetRect(&rc, size.cx, 0);
-									if (!pfnDrawThemeBackground(hTheme, hdc, BP_RADIOBUTTON, RBS_CHECKEDNORMAL, &rc, NULL))
-										himl = ImageList_Create(size.cx, size.cy, ILC_COLOR32|ILC_MASK, 3, 0);
-								}
-								pfnCloseThemeData(hTheme);
-							}
-						}
+					HTHEME hTheme = OpenThemeData(NULL, L"Button");
+					SetRect(&rc, 0, 0, size.cx, size.cy);
+					/* unchecked */
+					if (!DrawThemeBackground(hTheme, hdc, BP_RADIOBUTTON, RBS_UNCHECKEDNORMAL, &rc, NULL)) {
+						/* checked */
+						OffsetRect(&rc, size.cx, 0);
+						if (!DrawThemeBackground(hTheme, hdc, BP_RADIOBUTTON, RBS_CHECKEDNORMAL, &rc, NULL))
+							himl = ImageList_Create(size.cx, size.cy, ILC_COLOR32|ILC_MASK, 3, 0);
 					}
+					CloseThemeData(hTheme);
 					/* the classic way */
 					if (himl == NULL) {
 						register HDC hdcMono;
@@ -144,7 +127,6 @@ static HIMAGELIST CreateRadioImages(COLORREF clrBk, COLORREF clrText)
 		ReleaseDC(NULL, hdcScreen);
 	}
 
-	if (hUxThemeDLL!=NULL) FreeLibrary(hUxThemeDLL);
 	return himl;
 }
 

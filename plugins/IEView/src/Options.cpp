@@ -33,7 +33,6 @@ static ProtocolSettings *chatCurrentProtoItem = NULL;
 static ProtocolSettings *historyCurrentProtoItem = NULL;
 static HIMAGELIST hProtocolImageList = NULL;
 static HIMAGELIST hImageList = NULL;
-static BOOL (WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD) = 0;
 
 struct
 {
@@ -1471,14 +1470,6 @@ void Options::init()
 	if (isInited) return;
 	isInited = true;
 	DBVARIANT dbv;
-
-	HMODULE			  hUxTheme = 0;
-	if(IsWinVerXPPlus()) {
-		hUxTheme = GetModuleHandle(_T("uxtheme.dll"));
-		if(hUxTheme)
-			pfnEnableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
-	}
-
 
 	generalFlags = db_get_dw(NULL, ieviewModuleName, DBS_BASICFLAGS, 13);
 

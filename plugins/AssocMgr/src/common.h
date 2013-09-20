@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <shlobj.h>            /* for SHChangeNotify() */
 #include <Vssym32.h>
 #include <malloc.h>
+#include <Uxtheme.h>
 
 #include <newpluginapi.h>
 #include <m_database.h>

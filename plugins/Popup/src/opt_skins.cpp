@@ -34,7 +34,7 @@ void RegisterOptPrevBox()
 	WNDCLASSEX wcl;
 	wcl.cbSize = sizeof(wcl);
 	wcl.lpfnWndProc = (WNDPROC)BoxPreviewWndProc;
-	wcl.style = IsWinVerXPPlus() ? CS_DROPSHADOW : 0;
+	wcl.style = CS_DROPSHADOW;
 	wcl.cbClsExtra = 0;
 	wcl.cbWndExtra = 0;
 	wcl.hInstance = hInst;
@@ -57,7 +57,7 @@ void RegisterOptPrevBox()
 	GetClassInfoEx(hInst, _T("#32770"), &wcl);
 	wcl.hInstance = hInst;
 	wcl.lpszClassName = _T("PopupPlusDlgBox");
-	wcl.style |= IsWinVerXPPlus() ? CS_DROPSHADOW : 0;
+	wcl.style |= CS_DROPSHADOW;
 	g_wndClass.cPopupPlusDlgBox = RegisterClassEx(&wcl);
 	err = GetLastError();
 	if (!g_wndClass.cPopupPlusDlgBox) {
@@ -219,12 +219,10 @@ int SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos,
 			bCheck = PopupOptions.DisplayTime;
 			break;
 		case 1:
-			if (!IsWinVerXPPlus()) continue;
 			*dwGlobalOptions |= PopupOptions.DropShadow ? (1 << i) : 0;
 			bCheck = PopupOptions.DropShadow;
 			break;
 		case 2:
-			if (!IsWinVerXPPlus()) continue;
 			*dwGlobalOptions |= PopupOptions.EnableFreeformShadows ? (1 << i) : 0;
 			bCheck = PopupOptions.EnableFreeformShadows;
 			break;

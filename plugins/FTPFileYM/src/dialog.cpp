@@ -24,13 +24,12 @@ UploadDialog *uDlg = NULL;
 Mutex UploadDialog::mutexTabs;
 
 extern Options &opt;
-extern BOOL (WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD);
 
 UploadDialog::UploadDialog()
 {
 	this->hwnd = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DLG_UPLOAD), 0, UploadDlgProc);
 	this->hwndTabs = GetDlgItem(this->hwnd, IDC_TAB);
-	MyEnableThemeDialogTexture(this->hwnd, ETDT_ENABLETAB);
+	EnableThemeDialogTexture(this->hwnd, ETDT_ENABLETAB);
 
 	MONITORINFO mi = {0};
 	mi.cbSize = sizeof(mi);

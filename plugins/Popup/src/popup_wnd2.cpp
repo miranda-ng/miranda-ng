@@ -76,40 +76,36 @@ bool	LoadPopupWnd2()
 	}
 
 	// register custom class for edit box with drop-shadow attribute
-	if (IsWinVerXPPlus())
-	{
-		
-			#define MyRegisterClassExW RegisterClassExW
-			#define MyGetClassInfoExW  GetClassInfoExW
-		
-		WNDCLASSEXW wclw = {0};
-		wclw.cbSize = sizeof(wclw);
-		if (!MyGetClassInfoExW(NULL, L"EDIT", &wclw))
-			MSGERROR(TranslateT("Failed to GetClassInfoExW from EDIT class."));
-		wclw.hInstance = hInst;
-		wclw.lpszClassName = L"PopupEditBox";
-		wclw.style |= CS_DROPSHADOW;
-		g_wndClass.cPopupEditBox = MyRegisterClassExW(&wclw);
-		err = GetLastError();
-		if (!g_wndClass.cPopupEditBox) {
-			TCHAR msg[2048];
-			mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n"),
-				wclw.cbSize,		//UINT        cbSize;
-				wclw.style,			//UINT        style;
-				wclw.lpfnWndProc,	//WNDPROC     lpfnWndProc;
-				wclw.cbClsExtra,	//int         cbClsExtra;
-				wclw.cbWndExtra,	//int         cbWndExtra;
-				wclw.hInstance,		//HINSTANCE   hInstance;
-				wclw.hIcon,			//HICON       hIcon;
-				wclw.hCursor,		//HCURSOR     hCursor;
-				wclw.hbrBackground,	//HBRUSH      hbrBackground;
-				wclw.lpszMenuName,	//LPCWSTR     lpszMenuName;
-				wclw.lpszClassName,	//LPCWSTR     lpszClassName;
-				wclw.hIconSm		//HICON       hIconSm;
-				);
+	#define MyRegisterClassExW RegisterClassExW
+	#define MyGetClassInfoExW  GetClassInfoExW
 
-			MSGERROR(msg);
-		}
+	WNDCLASSEXW wclw = {0};
+	wclw.cbSize = sizeof(wclw);
+	if (!MyGetClassInfoExW(NULL, L"EDIT", &wclw))
+		MSGERROR(TranslateT("Failed to GetClassInfoExW from EDIT class."));
+	wclw.hInstance = hInst;
+	wclw.lpszClassName = L"PopupEditBox";
+	wclw.style |= CS_DROPSHADOW;
+	g_wndClass.cPopupEditBox = MyRegisterClassExW(&wclw);
+	err = GetLastError();
+	if (!g_wndClass.cPopupEditBox) {
+		TCHAR msg[2048];
+		mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n"),
+			wclw.cbSize,		//UINT        cbSize;
+			wclw.style,			//UINT        style;
+			wclw.lpfnWndProc,	//WNDPROC     lpfnWndProc;
+			wclw.cbClsExtra,	//int         cbClsExtra;
+			wclw.cbWndExtra,	//int         cbWndExtra;
+			wclw.hInstance,		//HINSTANCE   hInstance;
+			wclw.hIcon,			//HICON       hIcon;
+			wclw.hCursor,		//HCURSOR     hCursor;
+			wclw.hbrBackground,	//HBRUSH      hbrBackground;
+			wclw.lpszMenuName,	//LPCWSTR     lpszMenuName;
+			wclw.lpszClassName,	//LPCWSTR     lpszClassName;
+			wclw.hIconSm		//HICON       hIconSm;
+			);
+
+		MSGERROR(msg);
 	}
 
 	ZeroMemory(&wcl, sizeof(wcl));
@@ -207,15 +203,13 @@ void PopupWnd2::create()
 		(LPVOID)this);
 
 	// Shadows
-	if (IsWinVerXPPlus()) {
-		ULONG_PTR style = GetClassLongPtr(m_hwnd, GCL_STYLE);
-		if (m_options->DropShadow && !(style & CS_DROPSHADOW))
-			style |= CS_DROPSHADOW;
-		else if (!m_options->DropShadow && (style & CS_DROPSHADOW))
-			style &= ~CS_DROPSHADOW;
+	ULONG_PTR style = GetClassLongPtr(m_hwnd, GCL_STYLE);
+	if (m_options->DropShadow && !(style & CS_DROPSHADOW))
+		style |= CS_DROPSHADOW;
+	else if (!m_options->DropShadow && (style & CS_DROPSHADOW))
+		style &= ~CS_DROPSHADOW;
 
-		SetClassLongPtr(m_hwnd, GCL_STYLE, style);
-	}
+	SetClassLongPtr(m_hwnd, GCL_STYLE, style);
 
 	// tooltips
 	m_hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL,

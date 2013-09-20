@@ -60,6 +60,7 @@ http://miranda-ng.org/distr/
 #include <commctrl.h>
 #include <shellapi.h>
 #include <malloc.h>
+#include <Uxtheme.h>
 
 #include <newpluginapi.h>
 #include <win2k.h>
