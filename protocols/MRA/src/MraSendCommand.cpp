@@ -9,6 +9,7 @@ class OutBuffer
 
 public:
 	OutBuffer() : m_buf(0), m_max(0), m_actual(0) {}
+	~OutBuffer() { if (m_buf) free(m_buf); }
 
 	void* Allocate(size_t len)
 	{
