@@ -51,7 +51,7 @@ Kontynuuj
 [Home directory:]
 Katalog domowy:
 [GnuPG binary:]
-Plik binarny GnuPG
+Plik binarny GnuPG:
 [Browse]
 Przeglądaj
 [Turn on key autoexchange]
@@ -135,7 +135,7 @@ Wybierz własny klucz
 [Turn on debug log]
 Włącz log debugowania
 [Use jabber api on Miranda NG (recomended)]
-UżywajAPI Jabbera w Mirandzie NG (zalecane)
+Używaj API Jabbera w Mirandzie NG (zalecane)
 [Default key]
 Domyślny klucz
 [Encrypt file transfers]
@@ -197,7 +197,7 @@ Domyślny
 [key id]
 id klucza
 [not set]
-Nie ustawiono
+nie ustawiono
 [Default private key id]
 Domyślny prywatny id klucza
 [Failed to open file]
@@ -225,7 +225,7 @@ Info
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 Twoja wersja GPG jest wspierana. Znaleziono plik językowy.\nWtyczka GPG powinna działać poprawnie.\nNaciśnij OK, aby kontynuować.
 [gpg binary does not exists.\nplease choose another location]
-Plik binarny gpg nie istnieje.\nProszę wybrać inną lokalizację
+Plik binarny gpg nie istnieje.\nProszę wybrać inną lokalizację.
 [please choose gpg binary location]
 Proszę wybrać lokalizację pliku binarnego gpg
 [please set keyring's home directory]
@@ -257,15 +257,15 @@ Generuj nowy klucz, proszę czekać...
 [Failed to export public key.]
 Błąd eksportu kluczu publicznego.
 [GPG binary is set and valid (this is good).\n]
-Plik binarny GPG został ustawiony i jest poprawny (to dobrze).
+Plik binarny GPG został ustawiony i jest poprawny (to dobrze).\n
 [GPG binary unset or invalid (plugin will not work).\n]
-Nie ustawiono pliku binarnego GPG lub jest on niepoprawny (wtyczka nie będzie działać).
+Nie ustawiono pliku binarnego GPG lub jest on niepoprawny (wtyczka nie będzie działać).\n
 [Home dir write access granted (this is good).\n]
-Udzielono prawa zapisu do katalogu domowego(to dobrze).Udzielono prawa zapisu w katalogu domowym (to dobrze).
+Udzielono prawa zapisu w katalogu domowym (to dobrze).\n
 [Home dir have not write access (plugin most probably will not work).\n]
-Nie udzielono prawa zapisu w katalogu domowym (najprawdopodobniej wtyczka nie będzie działać).Nie udzielono prawa zapisu w katalogu domowym (najprawdopodobniej wtyczka nie będzie działać).Nie udzielono prawa zapisu w katalogu domowym (najprawdopodobniej wtyczka nie będzie działać).Nie udzielono prawa zapisu w katalogu domowym (najprawdopodobniej wtyczka nie będzie działać).
+Nie udzielono prawa zapisu w katalogu domowym (najprawdopodobniej wtyczka nie będzie działać).\n
 [Temp dir write access granted (this is good).\n]
-Udzielono prawa zapisu w katalogu tymczasowym (to dobrze).Udzielono prawa zapisu w katalogu tymczasowym (to dobrze).
+Udzielono prawa zapisu w katalogu tymczasowym (to dobrze).\n
 [Temp dir have not write access (plugin should work, but may have some problems, filetransfers will not work).]
 Nie udzielono prawa zapisu w katalogu tymczasowym (wtyczka powinna działać, ale możesz napotkać na pewne problemy. Transfery plików nie będą działać).
 [\nGPG will be disabled until you solve this problems]
@@ -275,9 +275,9 @@ Problemy wtyczki GPG
 [Your secret key whith id: ]
 Twój tajny klucz z id:
 [ for account ]
- dla konta 
+ dla konta\s
 [ deleted from gpg secret keyring\nDo you want to set another key ?]
-Usunięto z tajnego breloka GPG\nCzy chcesz ustawić inny klucz?
+ usunięto z tajnego breloka GPG\nCzy chcesz ustawić inny klucz?
 [Own secret key warning]
 Ostrzeżenie o kluczu własnym
 [ expired and will not work\nDo you want to set another key ?]
@@ -296,11 +296,11 @@ Otrzymaliśmy zaszyfrowaną wiadomość od kontaktu, dla którego szyfrowanie je
 [Do you want try to decrypt encrypted message ?]
 Czy chcesz spróbować odszyfrować zaszyfrowaną wiadomość?
 [failed to decrypt message, GPG returned error, turn on debug log for more details]
-Nie udało się odszyfrować wiadomości, GPG zwrócił błąd, włącz log debugowania, aby uzyskać więcej szczegółów
+Nie udało się odszyfrować wiadomości, GPG zwrócił błąd, włącz log debugowania, aby uzyskać więcej szczegółów.
 [We trying to encrypt with untrusted key, do you want to trust this key permanently ?]
-Próbujemy zaszyfrować niezaufanym kluczem, czy chcesz stale zaufać temu kluczowi ?
+Próbujemy zaszyfrować niezaufanym kluczem, czy chcesz na stałe zaufać temu kluczowi?
 [failed o encrypt message, GPG returned error, turn on debug log for more details]
-Nie udało się zaszyfrować wiadomości, GPG zwrócił błąd, włącz log debugowania, aby uzyskać więcej informacji
+Nie udało się zaszyfrować wiadomości, GPG zwrócił błąd, włącz log debugowania, aby uzyskać więcej informacji.
 [Something wrong, gpg does not understand us, aborting encryption.]
 Coś jest nie tak, gpg nas nie rozumie, anulowanie szyfrowania.
 ;file \plugins\New_GPG\src\options.cpp
@@ -349,15 +349,15 @@ Wczytaj klucz publiczny GPG dla
 [Turn off encryption]
 Wyłącz szyfrowanie
 [ found in prescense, and exists in keyring.)]
-Znaleziono w obecności, a także istnieje w breloku
+ znaleziono w obecności, a także istnieje w breloku.)
 [Load Public GPG Key (Key ID: ]
 Wczytaj klucz publiczny GPG (ID klucza: 
 [ found in prescense.)]
-Znaleziono w obecności
+ znaleziono w obecności.)
 [This is not public or private key]
 To nie jest prywatny, ani publiczny klucz
 [Key already in scret key ring.]
-Klucz znajduje się już w tajnym breloku
+Klucz znajduje się już w tajnym breloku.
 [Set file containing GPG public key]
 Ustaw plik zawierający publiczny klucz GPG
 [GPG public key file]
@@ -372,11 +372,11 @@ Wyślij klucz publiczny
 [Target file exists, do you want to replace it ?]
 Plik docelowy istnieje, czy chcesz go zamienić?
 [Capability to decrypt file not found on other side\nRecipient may be unable to decrypt file(s)\nDo you want to encrypt file(s) anyway?]
-Nie znaleziono możliwośći odszyfrowania pliku po drugiej stronie\nOdbiorca może nie być w stanie odszyfrować pliku(ków)\nCzy mimo to chcesz zaszyfrować (plik)(i)?
+Nie znaleziono możliwośći odszyfrowania pliku po drugiej stronie.\nOdbiorca może nie być w stanie odszyfrować pliku(ków).\nCzy mimo to chcesz zaszyfrować plik(i)?
 [Filetransfer warning]
 Ostrzeżenie o transferze pliku
 [Unable to check encryption support on other side\nRecipient may be unable to decrypt file(s)\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with new_gpg used on other side.\nDo you want to encrypt file(s) anyway?]
-Nie udało się sprawdzić wsparcia dla odszyfrowania po drugiej stronie\nOdbiorca może nie być w stanie odszyfrować pliku(ków)\nObecnie możliwość sprawdzana jest dla protokołów ICQ oraz Jabber.\nZadziała to także w innych protokołach, jeżęli po drugiej stronie używana jest Miranda z new_gpg.\nCzy mimo to chcesz zaszyfrować plik(i)?
+Nie udało się sprawdzić wsparcia dla odszyfrowania po drugiej stronie.\nOdbiorca może nie być w stanie odszyfrować pliku(ków).\nObecnie możliwość sprawdzana jest dla protokołów ICQ oraz Jabber.\nZadziała to także w innych protokołach, jeżeli po drugiej stronie używana jest Miranda z new_gpg.\nCzy mimo to chcesz zaszyfrować plik(i)?
 [encrypting file for transfer]
 Szyfrowanie pliku do wysłania
 [we have succesfully exported]

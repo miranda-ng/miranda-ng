@@ -68,13 +68,13 @@ Użyj słownika z innego programu
 Unikaj usuwania podkreślenia (spawalnia sprawdzanie długich tekstów)
 ;file \plugins\SpellChecker\src\ardialog.cpp
 [The wrong word can't be empty!]
-Błędne słowo nie może być puste
+Błędne słowo nie może być puste!
 [Wrong Correction]
 Zła korekta
 [The correction can't be empty!]
-Poprawka nie może być pusta
+Poprawka nie może być pusta!
 [The correction can't be equal to the wrong word!]
-Poprawka nie może być identyczna do słowa błędnego
+Poprawka nie może być identyczna do słowa błędnego!
 ;file \plugins\SpellChecker\src\dictionary.cpp
 [tl_PH]
 tl_PH

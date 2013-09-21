@@ -6,12 +6,12 @@
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
-Rozszerzony moduł danych kontaktów dla Miranda NG. Dostarcza interfejs do edycji wszystkich danych kontaktów.
+Rozszerzony moduł danych kontaktów dla Mirandy NG. Dostarcza interfejs do edycji wszystkich danych kontaktów.
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit Contact Information]
 Edytuj informacje o kontakcie
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
-Edytuj informacje o kontakcie\nTA lista daje Ci pewien obraz wszystkich rocznic kontaktu
+Edytuj informacje o kontakcie\nTa lista daje Ci pewien obraz wszystkich rocznic kontaktu.
 [Origin]
 Pochodzenie
 [&Update]
@@ -369,7 +369,7 @@ Aktualizacja rocznic
 Utrzymuje twoją własną datę urodzin na bieżąco.
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 [Due to a parameter error, one of the treeitems can't be added!]
-Zpowodu błędu parametru, jeden z elementów drzewa nie może zostać dodany.
+Z powodu błędu parametru, jeden z elementów drzewa nie może zostać dodany!
 [An fatal error occured on adding a property sheet page!\nDialog creation aborted!]
 Wystąpił krytyczny błąd podczas dodawania strony właściwości!\nAnulowano tworzenie okna!
 [Rename Item]
@@ -382,7 +382,7 @@ Pokaż element:
 Ustaw domyślnie
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 [Creating unique name for a page failed with %d and error code %d]
-Tworzenie unikalnej nazwy strony nie powiodło się z %d oraz kodem błędu%d
+Tworzenie unikalnej nazwy strony nie powiodło się z %d oraz kodem błędu %d
 [Creating the label for a page failed with %d and error code %d]
 Tworzenie etykiety strony nie powiodło się z %d oraz kodem błędu %d
 [The dialog template type is no longer supported]
@@ -650,7 +650,7 @@ O sobie:
 [Please enter a valid Description first!]
 Proszę najpierw podać prawidłowy opis!
 [No valid date selected for editing!]
-Nie wybrano prawidłowej daty do edycji
+Nie wybrano prawidłowej daty do edycji!
 [Do you really want to delete the %s?]
 Czy na prawdę chcesz skasować %s?
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
@@ -1006,7 +1006,7 @@ Katalog wysyłkowy
 [Business services]
 Usługi dla biznesu
 [Audio and visual]
-audiowizualne
+Audiowizualne
 [Sporting and athletic]
 Sport i atletyka
 [Publishing]
@@ -1060,7 +1060,7 @@ College
 [University]
 Szkoła wyższa
 [TmplPast Work Place]
-dawne miejsce pracy
+Dawne miejsce pracy
 [TmplPast Organization]
 Dawna organizacja
 [Single]
@@ -1189,14 +1189,14 @@ Pokaż folder instalacyjny Mirandy
 [Shows the directory with all your Miranda's profiles.]
 Pokaż folder wszystkich twoich profili.
 [The OpenFileDialog returned an error: %d!]
-Okno otwierania pliku zwróciło błąd:%d!
+Okno otwierania pliku zwróciło błąd: %d!
 [The SaveFileDialog returned an error: %d!]
 Okno zapisywania pliku zwróciło błąd: %d!
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 [The ini-file "%s"\nfor saving contact information could not be opened.]
 Plik ini "%s",\ndo którego miały zostać zapisane dane kontaktu, nie mógł zostać otwarty.
 [None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
-Żaden z%d kontaktów zapisanych w pliku ini nie pasuje do wybranego kontaktu!\nNic nie zostanie zaimportowane
+Żaden z %d kontaktów zapisanych w pliku ini nie pasuje do wybranego kontaktu!\nNic nie zostanie zaimportowane.
 [Import complete]
 Import zakończony
 [Some basic statistics]
@@ -1230,7 +1230,7 @@ Parser nie jest w stanie załadować wizytówki XML "%s"\nBłąd: %d\nOpis: %s
 [The selected file is no valid XMLCard]
 Wybrany plik nie jest prawidłową wizytówką XML
 [The version of the XMLCard is not supported by UserInfoEx]
-Wersja wizytówki XML nie jest wspierana przez uinfoex
+Wersja wizytówki XML nie jest wspierana przez UserInfoEx
 [Complete]
 Zakończony
 [Owner contact successfully imported.]

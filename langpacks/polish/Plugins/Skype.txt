@@ -129,9 +129,9 @@ Każdego
 [People in my Contact list only]
 Tylko osób z listy kontaktów
 [Allow calls from...]
-Przyjmuj rozmowy od:
+Przyjmuj rozmowy od...
 [Automatically receive video and share screens with...]
-Automatycznie odbieraj video i dziel się ekranem z
+Automatycznie odbieraj video i dziel się ekranem z...
 [No one]
 Nikim
 [Show avatars]
@@ -143,18 +143,18 @@ Czas lokalny
 [Allow my online status to be shown on the web]
 Zezwalaj na pokazywanie mojego statusu w internecie
 [Block this person]
-Zablokuj tę osobę
+Blokuj tą osobę
 [Remove from your Contact List]
 Usuń z listy kontaktów
 [Abuse]
 Nadużycie
 [You can also report abuse from this user.]
-Możesz także zgłosić nadużycie przez tego użytkownika
+Możesz także zgłosić nadużycie przez tego użytkownika.
 [Report abuse]
 Zgłoś nadużycie
 ;file \protocols\Skype\src\skype.cpp
 [Did not unpack SkypeKit.exe.]
-Nie wypakowano SkypeKit.exe
+Nie wypakowano SkypeKit.exe.
 ;file \protocols\Skype\src\skype_account.cpp
 [LOGOUT_CALLED]
 LOGOUT_CALLED
@@ -189,7 +189,7 @@ Zbyt wiele prób logowania
 [Password has changed]
 Hasło zmieniło się
 [PERIODIC_UIC_UPDATE_FAILED]
-Okresowa aktualizacjaUIC nie powiodła się
+Okresowa aktualizacja UIC nie powiodła się
 [DB_DISK_FULL]
 Dysk bazy danych jest pełny
 [DB_IO_ERROR]
@@ -227,7 +227,7 @@ Nowe hasło nie zostało zaakceptowane
 [Account was currently not logged in]
 Zaloguj się aby zmienić hasło
 [You have not entered a Skype name.\nConfigure this in Options->Network->%s and try again.]
-Nie podałeś nazwy użytkownika Skype.\nSkonfiguruj ją w opcjach > Protokoły i spróbuj jeszcze raz.
+Nie podałeś nazwy użytkownika Skype.\nSkonfiguruj ją w Opcje -> Protokoły, i spróbuj jeszcze raz.
 ;file \protocols\Skype\src\skype_blocked.cpp
 [Are you sure you want to block "%s" (%s)? They won't be able to contact you and won't appear in your Contact List.]
 Czy napewno chcesz zablokować "%s" (%s)? Nie będzie on/ona w stanie zadzwonić do Ciebie, ani pokazywać się na twojej liście kontaktów.
@@ -276,7 +276,7 @@ Słuchacz
 [Applicant]
 Aplikant
 [Retried]
-spróbowany ponownie
+Ponowiona
 [Outlaw]
 Przestępca
 [me]
@@ -304,7 +304,7 @@ Otrzymano kontakty
 [Enter a password for %s:]
 Podaj hasło dla %s:
 [Password can't be empty.]
-Hasło nie może być puste
+Hasło nie może być puste.
 [Old password is not correct.]
 Stare hasło jest nieprawidłowe.
 [New password is same as old password.]
@@ -318,7 +318,7 @@ Mężczyzna
 [Female]
 Kobieta
 [You are not currently connected to the Skype network. You must be online in order to update your information on the server.]
-Nie jesteś obecnie połączony z siecią Skype. Musisz być online, aby zaktualizować informacje na serwerze.
+Nie jesteś obecnie połączony z siecią Skype. Musisz być połączony, aby zaktualizować informacje na serwerze.
 ;file \protocols\Skype\src\skype_events.cpp
 [Spawn conference]
 Uruchom konferencję
@@ -356,7 +356,7 @@ Protokoły
 [Skype protocol plugin only permit you to login to one account at a time. Adding multiple accounts is prohibited in the licence agreement and standard distribution terms of SkypeKit.]
 Wtyczka protokołu Skype pozwala na zalogowanie się tylko do jednego konta. Dodawanie wielu kont jest zabronione w licencji oraz warunkach standardowej dystrybucji SkypeKit.
 [Initialization key corrupted or not valid.]
-Klucz inicjalizacji uszkodzony lub niepoprawny..
+Klucz inicjalizacji uszkodzony lub niepoprawny.
 [SkypeKit did not initialize (%d).]
 SkypeKit nie zainicjowany (%d).
 [SkypeKit did not start.]
@@ -375,24 +375,24 @@ Cofnij autoryzację
 [View old messages...]
 Zobacz starsze wiadomości...
 [for last day]
-Z wczoraj
+z wczoraj
 [for last week]
-Z ostatnich 7 dni
+z ostatnich 7 dni
 [for last month]
-Z ostatnich 30 dni
+z ostatnich 30 dni
 [for last 3 month]
-Z ostatnich 3 miesięcy
+z ostatnich 3 miesięcy
 [for last year]
-Z ostatniego roku
+z ostatniego roku
 [for all time]
-Wszystkie
+wszystkie
 ;file \protocols\Skype\src\skype_messages.cpp
 [Incoming call started]
 Rozpoczęto rozmowę przychodzącą
 [Incoming call finished]
 Zakończono rozmowę przychodzącą
 [history synchronization]
-Synchronizacja historii
+synchronizacja historii
 [Done!]
 Gotowe!
 ;file \protocols\Skype\src\skype_netlib.cpp
@@ -436,7 +436,7 @@ Wartość zawiera niedozwolone znaki
 [Value contains whitespace]
 Wartość zawiera białe spacje
 [Password cannot be the same as Skype name]
-Hasło nie możę być takie samo jak nazwa użytkownika
+Hasło nie może być takie samo jak nazwa użytkownika
 [Value has invalid format]
 Wartość ma niepoprawny format
 [Value contains invalid word]

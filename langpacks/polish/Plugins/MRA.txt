@@ -6,7 +6,7 @@
 ;  Authors: Ivan Rozhuk
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
-Wtyczka protokołu Mail.ru Agent dla Mirandy.
+Zapewnia obsługę protokołu Mail.ru Agent (MRA).
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
 E-mail:
@@ -117,7 +117,7 @@ Mail.ru Agent
 [Full e-mail:]
 E-mail:
 [Example: Petrov_Ivan@mail.ru]
-Przykład: petrov_Ivan@mail.ru
+Przykład: Petrov_Ivan@mail.ru
 [Create a new Mail.ru account using the Mail.ru website]
 Utwórz nowe konto Mail.ru używając strony Mail.ru
 [Retrieve a lost password]
@@ -125,7 +125,7 @@ Odzyskaj zapomniane hasło
 [Leave empty if you dont want change password]
 Pozostaw to pole puste, jeśli nie chcesz zmieniać hasła
 [Popup type]
-Typ Popupu
+Typ popupu
 [Popup settings]
 Ustawienia popup
 [Enable]
@@ -217,14 +217,14 @@ Połączenia wtyczki Avatars
 [Avatars]
 Awatary
 [Avatars: server return HTTP code: %lu]
-Awatary: serwer zwrócił kod http: %lu
+Awatary: serwer zwrócił kod HTTP: %lu
 [Avatars: can't open file %s, error]
 Awatary: nie można otworzyć pliku %s, błąd
 ;file \protocols\MRA\src\MraChat.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
 Żeby móc brać udział w konferencjach musisz zainstalować wtyczkę CHAT
 [invite sender]
-Zaproś nadawcę
+zaproś nadawcę
 [invite new members]
 zaproś nowego członka
 ;file \protocols\MRA\src\MraConstans.h
@@ -298,11 +298,11 @@ Odbieranie plików: nie można znaleźć miejsca na plik, rozmiar %lu bajtów, b
 [Receive files: can't open file %s, error]
 Odbieranie plików: nie można otworzyć pliku %s, błąd
 [Receive files: request for file %s not sended, error]
-Odbieranie plików: nie wysłano prośby o plik, błąd
+Odbieranie plików: nie wysłano prośby o plik %s, błąd
 [Send files: can't open file %s, error]
 Wysyłanie plików: nie można otworzyć pliku %s, błąd
 [Send files: requested file: %S - not found in send files list.]
-Wysyłanie plików: żądany plik: %s -nie został znaleziony na liście wysyłanych plików.
+Wysyłanie plików: żądany plik: %S - nie został znaleziony na liście wysyłanych plików.
 ;file \protocols\MRA\src\MraIcons.cpp
 [Main Menu]
 Menu główne
@@ -352,7 +352,7 @@ Brak nieczytanych wiadomości\r\nWszystkich wiadomości: %lu
 [Closing in %ld]
 Zamykanie w %ld
 [Reply to %s blog status]
-Odpowiedz na status na blogu %s
+Odpowiedz na status %s na blogu
 [Set my blog status]
 Ustaw status na moim blogu
 [Writed]
@@ -380,7 +380,7 @@ Błąd serwera: nie można pobrać klucza MPOP w celu autoryzacji web
 [MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
 MRIM_CS_FILE_TRANSFER_ACK: nieznany błąd, kod: %lu
 [invisible status changed]
-Zmieniono status niewidoczny
+zmieniono status niewidoczny
 [MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu]
 MRIM_CS_*_CONTACT_ACK: nieznany błąd serwera, kod: %lu
 [MRIM_CS_*_CONTACT_ACK: not found in queue]
@@ -388,7 +388,7 @@ MRIM_CS_*_CONTACT_ACK: nie znaleziono w kolejce
 [MRIM_ANKETA_INFO: not found in queue]
 MRIM_ANKETA_INFO: nie znaleziono w kolejce
 [MRIM_CS_GAME: unknown internal game message code: %lu]
-MRIM_CS_GAME: nieznana wiadomość wewnętrzna gry kod: %lu
+MRIM_CS_GAME: nieznana wiadomość wewnętrzna gry, kod: %lu
 [MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu]
 MRIM_CS_CONTACT_LIST2: błąd serwera, kod: %lu
 [MRIM_CS_SMS_ACK: not found in queue]
@@ -445,7 +445,7 @@ W szkole
 [Wrong number]
 Zły numer
 [Laughing]
-śmieję się
+Śmieję się
 [Malicious]
 Złośliwy
 [Imp]
@@ -469,9 +469,9 @@ Miłość
 [Sleeping]
 Śpiący
 [Cool!]
-Cool
+Cool!
 [Peace!]
-Pokój
+Pokój!
 [Cock a snook]
 Gra na nosie
 [Get out]

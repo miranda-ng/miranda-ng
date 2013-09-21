@@ -126,7 +126,7 @@ Awatar
 [Avatar Options]
 Opcje awatara
 [Public avatar]
-AWatar publiczny
+Awatar publiczny
 [Tlen login:]
 Login Tlen:
 [Subscription:]
@@ -168,7 +168,7 @@ Akceptuj
 [From:]
 Od:
 [The following invitation to join a voice chat is received.]
-Otrzymano następujące zaproszenie do dołączenia do rozmowy głosowej
+Otrzymano następujące zaproszenie do dołączenia do rozmowy głosowej.
 ;file \protocols\Tlen\src\tlen.cpp
 [Protocol icon]
 Ikona protokołu
@@ -277,7 +277,7 @@ Ignoruj obrazki od nieautoryzowanych kontaktów
 [Ignore all images]
 Ignoruj wszystkie obrazki
 [<Last message>]
-Ostatnia wiadomość
+<Ostatnia wiadomość>
 [Forwarding]
 Przekierowanie
 [SOCKS4]

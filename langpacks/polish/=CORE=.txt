@@ -182,7 +182,7 @@ Lokalizacja:
 [Name:]
 Nazwa:
 [Enable sound events]
-Włącz dźwięk wydarzeń
+Włącz dźwięki wydarzeń
 [Icons]
 Ikony
 [Show category:]

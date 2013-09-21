@@ -53,11 +53,11 @@ Opcje zaawansowane
 [Disable Download Protection]
 Wyłącz ochronę przed pobieraniem
 [(Not Recommended)]
-Niezalecane
+(Niezalecane)
 [Display Data in Popup on Alert]
-Wyświetl dane w Popupie przy powiadomieniu
+Wyświetl dane w popupie przy powiadomieniu
 [Display Data in Popup]
-Wyświetl dane w Popupie
+Wyświetl dane w popupie
 [You may need to restart Miranda NG for this change to take effect.]
 Restart Mirandy NG, może być potrzebny by te zmiany weszły w życie.
 [Contact name:]
@@ -234,9 +234,9 @@ Ciąg
 [has been found on the web page]
 został znaleziony na stronie
 [Download successful; about to process data...]
-Pobieranie pomyślne; rozpoczynam przetwarzanie danych.
+Pobieranie pomyślne; rozpoczynam przetwarzanie danych...
 [Unknown Alert Type.]
-Nieznany typ powiadomienia
+Nieznany typ powiadomienia.
 [Cannot read from file]
 Nie można odczytać z pliku
 [Cannot write to file 1]
@@ -280,7 +280,7 @@ Nieprawidłowe parametry wyszukiwania.
 [Both search strings not found or strings not set.]
 Obydwa ciągi wyszukiwania nie zostały znalezione lub nie zostały ustawione.
 [at the time]
-O czasie
+o czasie
 [Processing data (Stage 1)]
 Przetwarzanie danych (Etap 1)
 [Processing data stopped by user.]
@@ -300,7 +300,7 @@ Przetwarzanie danych (Etap 7)
 [Processing data (Stage 8)]
 Przetwarzanie danych (Etap 8)
 [Alert!]
-Powiadomienie
+Powiadomienie!
 [Online]
 Dostępny
 [A site is already downloading, try again in a moment.]
@@ -354,7 +354,7 @@ Nieprawidłowy symbol znajduje się w nazwie kontaktu.
 [Cache folder does not exist.]
 Folder Cache nie istnieje.
 [Missing "psite.bat" file.]
-Brak pliku "psite.bat"
+Brak pliku "psite.bat".
 [Site URL]
 Adres strony
 [Please select site in Find/Add Contacts...]

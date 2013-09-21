@@ -70,7 +70,7 @@ Zaznacz protokół lub konto:
 [Click "Next" to start Import or "Cancel" to Abort.]
 Naciśnij "Dalej", by rozpocząć importowanie lub "Anuluj", by przerwać operację.
 [Select folder for import...]
-Wybierz folder, z którego chcesz importować.
+Wybierz folder do importu...
 [File: %s]
 Plik: %s
 [To: %s]
@@ -80,9 +80,9 @@ Nie udało się ustalić kontaktu docelowego
 [Default extension]
 Domyślne rozszerzenie
 [Its not %s file]
-To Nie jest plik %s
+To nie jest plik %s
 [Duplicate:]
-Duplikuj:
+Duplikat:
 [Your version of Miranda don't support XML parsing]
 Twoja wersja Mirandy nie wspiera przetwarzania XML
 [Check for duplicates]

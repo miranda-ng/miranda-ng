@@ -54,7 +54,7 @@ Miranda NG nie była w stanie otworzyć "%S".\n\nPlik nie mógł zostać przetwo
 Miranda NG nie mogła otworzyć linku
 [Miranda NG was not able to open "%S".\n\nThere is no registered handler for this URL type.]
 Miranda NG nie była w stanie otworzyć "%S".\n\nNie zarejestrowano obsługi dla tego typu linków.
-[Miranda NG was not able to open "%S".\n\nThe given URL is invalid and can not be parsed.]
+[Miranda NG was not able to open "%S".\n\nThe given URL is invalid and cannot be parsed.]
 Miranda NG nie była w stanie otworzyć "%S".\n\nPodany adres jest nieprawidłowy i nie mógł zostać przetworzony.
 ;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]

@@ -6,7 +6,7 @@
 ;  Authors: vu1tur
 ;============================================================
 [Anti-spam plugin with captcha and Bayes filtering.]
-Antyspam dla Mirandy NG z captcha i filtrowaniem Bayesa.
+Antyspam dla ICQ w Mirandzie NG, z captcha i filtrowaniem Bayesa.
 ;file \plugins\Spamotron\res\spamotron.rc
 [Do not send challenge request if message score above]
 Nie wysyłaj prośby o rozwiązanie zadania, jeśli wynik wiadomości powyżej
@@ -73,7 +73,7 @@ Loguj akcje do historii systemowej
 [Mode:]
 Tryb:
 [Responses: (saved in %response%, %response-n% variables)]
-Odpowiedzi: (zapisane w zmiennych %response%,%response-n)
+Odpowiedzi: (zapisane w zmiennych %response%, %response-n)
 [will be saved in %mathexpr%]
 zostaną zapisane w %mathexpr%
 [Reset to defaults]
@@ -91,7 +91,7 @@ Wyślij zadanie w odpowiedzi na przychodzącą wiadomość:
 [and mark them unread after approval]
 i oznacz ją jako nieprzeczytaną po zatwierdzeniu
 [Enable popup notifications]
-Włącz Popupy
+Włącz popupy
 [Contact blocked]
 Kontakt zablokowany
 [Contact approved]

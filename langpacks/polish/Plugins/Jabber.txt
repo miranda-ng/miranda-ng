@@ -197,9 +197,9 @@ Dom
 [Work]
 Praca
 [Internet]
-
+Internet
 [X400]
-
+X400
 [Jabber vCard: Add Phone Number]
 vCard Jabbera: Dodaj numer telefonu
 [Phone number:]
@@ -213,13 +213,13 @@ Strona
 [Text/Messaging]
 Tekst/Wiadomość
 [Cellular]
-
+Telefon komórkowy
 [Video]
 Wideo
 [BBS]
 BBS
 [Modem]
-
+Modem
 [ISDN]
 ISDN
 [PCS]

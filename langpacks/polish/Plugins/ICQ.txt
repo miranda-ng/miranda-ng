@@ -249,7 +249,7 @@ Inne informacje
 [Category:]
 Kategoria:
 [Past]
-
+Przeszłość
 [Homepage]
 Strona WWW
 [Other]
@@ -263,7 +263,7 @@ Szukaj tylko wśród połączonych
 [Synchronize]
 Synchronizacja
 [Custom Status "%s" Details]
-
+Szczegóły własnego statusu "%s"
 [Closing in %d]
 Zamykanie w %d
 [Title:]
@@ -901,17 +901,17 @@ Zambia
 [Zimbabwe]
 Zimbabwe
 [50's]
-
+Lata 50te
 [60's]
-
+Lata 60te
 [70's]
-
+Lata 70te
 [80's]
-
+Lata 80te
 [Art]
-
+Sztuka
 [Astronomy]
-
+Astronomia
 [Audio and Visual]
 
 [Business]
@@ -919,25 +919,25 @@ Sprawy biznesowe
 [Business Services]
 
 [Cars]
-
+Samochody
 [Celebrity Fans]
-
+Fani Celebryty
 [Clothing]
-
+Ubrania
 [Collections]
-
+Kolekcje
 [Computers]
-
+Komputery
 [Culture]
 
 [Ecology]
 
 [Entertainment]
-
+Rozrywka
 [Finance and Corporate]
 
 [Fitness]
-
+Fitness
 [Health and Beauty]
 
 [Hobbies]
@@ -949,55 +949,55 @@ Hobbi
 [Games]
 Gry
 [Government]
-
+Rząd
 [ICQ - Help]
 
 [Internet]
-
+Internet
 [Lifestyle]
-
+Styl Życia
 [Mail Order Catalog]
 
 [Media]
-
+Media
 [Movies and TV]
 
 [Music]
 Muzyka
 [Mystics]
-
+Mistyczne
 [News and Media]
 
 [Outdoors]
 
 [Parenting]
-
+Rodzicielstwo
 [Parties]
-
+Imprezy
 [Pets and Animals]
 
 [Publishing]
-
+Wydawnictwo
 [Religion]
-
+Religia
 [Retail Stores]
 
 [Science]
 
 [Skills]
-
+Umiejętności
 [Social science]
-
+Nauka społeczna
 [Space]
-
+Kosmos
 [Sporting and Athletic]
 
 [Sports]
-
+Sport
 [Travel]
-
+Podróże
 [Web Design]
-
+Web Design
 [Women]
 Kobieta
 [Afrikaans]
@@ -1145,15 +1145,15 @@ Jidysz
 [Yoruba]
 Joruba
 [Elementary School]
-
+Szkoła podstawowa
 [High School]
-
+Szkoła średnia
 [College]
-
+College
 [University]
-
+Szkoła wyższa
 [Military]
-
+Wojsko
 [Past Work Place]
 
 [Past Organization]
@@ -1189,7 +1189,7 @@ Uniwersytet
 [Corporate Services]
 
 [Education]
-
+Edukacja
 [Finance]
 
 [High Tech]
@@ -1197,7 +1197,7 @@ Uniwersytet
 [Legal]
 
 [Manufacturing]
-
+Produkcja
 [Medical & Health Care]
 
 [Non-Profit Organization Management]
@@ -1209,87 +1209,87 @@ Uniwersytet
 [Transportation]
 
 [Academic]
-
+Akademicka
 [Administrative]
-
+Administracja
 [Art/Entertainment]
-
+Sztuka i rozrywka
 [College Student]
-
+Student
 [Community & Social]
-
+Społeczność
 [Engineering]
-
+Inżynieria
 [Financial Services]
-
+Usługi Finansowe
 [High School Student]
-
+Uczeń
 [Home]
 Dom
 [ICQ - Providing Help]
-
+Wsparcie techniczne ICQ
 [Law]
-
+Prawo
 [Managerial]
-
+Zarządzanie
 [Medical/Health]
-
+Medyczna/Zdrowie
 [Non-Government Organization]
-
+Organizacja Pozarządowa
 [Professional]
-
+Zawodowa
 [Retail]
-
+Sprzedaż
 [Retired]
-
+Emeryt
 [Science & Research]
-
+Badania Naukowe
 [Technical]
 Techniczne
 [University Student]
-
+Student Uczelni
 [Web Building]
-
+Budowanie Stron Internetowych
 [Other Services]
-
+Inne Usługi
 [Alumni Org.]
-
+Organizacja absolwencka
 [Charity Org.]
-
+Organizacja charytatywna
 [Club/Social Org.]
-
+Klub społeczny
 [Community Org.]
-
+Społeczność
 [Cultural Org.]
-
+Organizacja kulturowa
 [Fan Clubs]
-
+Fankluby
 [Fraternity/Sorority]
-
+Bractwo/stowarzyszenie żeńskie
 [Hobbyists Org.]
-
+Organizacja hobbystyczna
 [International Org.]
-
+Organizacja międzynarodowa
 [Nature and Environment Org.]
-
+Organizacja naturalno-środowiskowa
 [Professional Org.]
-
+Organizacja zawodowa
 [Scientific/Technical Org.]
-
+Organizacja naukowo-technologiczna
 [Self Improvement Group]
-
+Grupa samodoskonalenia
 [Spiritual/Religious Org.]
-
+Organizacja duchowo-religijna
 [Sports Org.]
-
+Organizacja sportowa
 [Support Org.]
-
+Organizacja wsparcia
 [Trade and Business Org.]
-
+Organizacja biznesowo-handlowa
 [Union]
-
+Związek
 [Volunteer Org.]
-
+Organizacja wolontariacka
 [60-above]
 powyżej 60
 [Single]
@@ -1563,7 +1563,7 @@ Różowa dama
 [Up yours]
 Do ciebie
 [Laughing]
-
+Śmieję się
 [Dog]
 Pies
 [Candy]

@@ -33,7 +33,7 @@ Dodaj numer do listy
 [Save number]
 Zapisz numer
 [Multiple >>]
-Wiele
+Wiele >>
 [Enter message:]
 Wpisz wiadomość:
 [Chars:]
@@ -81,7 +81,7 @@ Protokół:
 Od %s:\r\n\r\n
 ;file \plugins\SMS\src\receive.cpp
 [SMS message didn't send by %S to %s because: %S]
-Wiadomość SMS nie została wysłana przez %s do %s, ponieważ: %s
+Wiadomość SMS nie została wysłana przez %S do %s, ponieważ: %S
 [SMS Message from %s]
 Wiadomość SMS od %s
 [SMS Confirmation from %s]

@@ -1,8 +1,6 @@
 ﻿[Jabber]
 [Data form test]
-[Internet]
 [X400]
-[Cellular]
 [Modem]
 [You are invited to conference room by]
 [Slap:]
