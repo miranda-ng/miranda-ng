@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -1085,8 +1082,7 @@ panel_found:
 					LONG dwNewLeft;
 					BOOL skinnedMode = bSkinned;
 
-					if (CMimAPI::m_pfnIsThemeActive)
-						skinnedMode |= (CMimAPI::m_pfnIsThemeActive() ? 1 : 0);
+					skinnedMode |= (IsThemeActive() ? 1 : 0);
 
 					GetWindowRect(hwndDlg, &rc);
 
@@ -1184,17 +1180,15 @@ panel_found:
 				int monitorXOffset = 0;
 				WINDOWPLACEMENT wp = {0};
 
-				if (CMimAPI::m_pfnMonitorFromWindow && CMimAPI::m_pfnGetMonitorInfoA) {
-					HMONITOR hMonitor = CMimAPI::m_pfnMonitorFromWindow(hwndDlg, 2);
-					if (hMonitor) {
-						MONITORINFO mi = { 0 };
-						mi.cbSize = sizeof(mi);
-						CMimAPI::m_pfnGetMonitorInfoA(hMonitor, &mi);
-						rcDesktop = mi.rcWork;
-						OffsetRect(&rcDesktop, -mi.rcMonitor.left, -mi.rcMonitor.top);
-						monitorXOffset = mi.rcMonitor.left;
-						fDesktopValid = TRUE;
-					}
+				HMONITOR hMonitor = MonitorFromWindow(hwndDlg, 2);
+				if (hMonitor) {
+					MONITORINFO mi = { 0 };
+					mi.cbSize = sizeof(mi);
+					GetMonitorInfoA(hMonitor, &mi);
+					rcDesktop = mi.rcWork;
+					OffsetRect(&rcDesktop, -mi.rcMonitor.left, -mi.rcMonitor.top);
+					monitorXOffset = mi.rcMonitor.left;
+					fDesktopValid = TRUE;
 				}
 				if (!fDesktopValid)
 					SystemParametersInfo(SPI_GETWORKAREA, 0, &rcDesktop, 0);
@@ -1427,8 +1421,8 @@ panel_found:
 		if (LOWORD(wParam == WA_INACTIVE) && (HWND)lParam != PluginConfig.g_hwndHotkeyHandler && GetParent((HWND)lParam) != hwndDlg) {
 			BOOL fTransAllowed = !bSkinned || PluginConfig.m_bIsVista;
 
-			if (pContainer->dwFlags & CNT_TRANSPARENCY && CMimAPI::m_pSetLayeredWindowAttributes != NULL && fTransAllowed) {
-				CMimAPI::m_pSetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (BYTE)HIWORD(pContainer->settings->dwTransparency), (pContainer->dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
+			if (pContainer->dwFlags & CNT_TRANSPARENCY && fTransAllowed) {
+				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (BYTE)HIWORD(pContainer->settings->dwTransparency), (pContainer->dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
 			}
 		}
 		pContainer->hwndSaved = 0;
@@ -1463,9 +1457,9 @@ panel_found:
 				SendMessage(hwndDlg, WM_SIZE, 0, 0);
 			}
 
-			if (pContainer->dwFlags & CNT_TRANSPARENCY && CMimAPI::m_pSetLayeredWindowAttributes != NULL && fTransAllowed) {
+			if (pContainer->dwFlags & CNT_TRANSPARENCY && fTransAllowed) {
 				DWORD trans = LOWORD(pContainer->settings->dwTransparency);
-				CMimAPI::m_pSetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (BYTE)trans, (pContainer->dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
+				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (BYTE)trans, (pContainer->dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
 			}
 			if (pContainer->dwFlags & CNT_NEED_UPDATETITLE) {
 				HANDLE hContact = 0;
@@ -1651,7 +1645,7 @@ panel_found:
 			pContainer->tBorder_outer_bottom = g_ButtonSet.bottom + M.GetByte((bSkinned ? "S_tborder_outer_bottom" : "tborder_outer_bottom"), 2);
 			sBarHeight = (UINT)M.GetByte((bSkinned ? "S_sbarheight" : "sbarheight"), 0);
 
-			if (LOBYTE(LOWORD(GetVersion())) >= 5  && CMimAPI::m_pSetLayeredWindowAttributes != NULL) {
+			if (LOBYTE(LOWORD(GetVersion())) >= 5) {
 				BOOL  fTransAllowed = !bSkinned || PluginConfig.m_WinVerMajor >= 6;
 				DWORD exold;
 
@@ -1663,7 +1657,7 @@ panel_found:
 				SetWindowLongPtr(hwndDlg, GWL_EXSTYLE, ex);
 				if (pContainer->dwFlags & CNT_TRANSPARENCY && fTransAllowed) {
 					DWORD trans = LOWORD(pContainer->settings->dwTransparency);
-					CMimAPI::m_pSetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (BYTE)trans, (/* pContainer->bSkinned ? LWA_COLORKEY : */ 0) | (pContainer->dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
+					SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (BYTE)trans, (/* pContainer->bSkinned ? LWA_COLORKEY : */ 0) | (pContainer->dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
 				}
 			}
 
@@ -2550,9 +2544,6 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg)
 
 void TSAPI FlashContainer(TContainerData *pContainer, int iMode, int iCount)
 {
-	if (CMimAPI::m_MyFlashWindowEx == NULL)
-		return;
-
 	if (pContainer->dwFlags & CNT_NOFLASH)                  // container should never flash
 		return;
 
@@ -2573,7 +2564,7 @@ void TSAPI FlashContainer(TContainerData *pContainer, int iMode, int iCount)
 
 	fwi.hwnd = pContainer->hwnd;
 	pContainer->dwFlashingStarted = GetTickCount();
-	CMimAPI::m_MyFlashWindowEx(&fwi);
+	FlashWindowEx(&fwi);
 }
 
 void TSAPI ReflashContainer(TContainerData *pContainer)

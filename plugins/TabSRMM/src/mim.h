@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -42,43 +39,27 @@ extern  FI_INTERFACE *FIF;
  * - dwmapi
  * - some GDI functions (AlphaBlend()..)
  */
-typedef BOOL 	(WINAPI *SMI)( HMENU hmenu, LPCMENUINFO lpcmi );
+//dwmapi
 typedef HRESULT (WINAPI *DEFICA)(HWND hwnd, const MARGINS *margins);
 typedef HRESULT (WINAPI *DICE)(BOOL *);
-typedef DWORD 	(WINAPI *PSLWA)(HWND, DWORD, BYTE, DWORD);
-typedef BOOL 	(WINAPI *PULW)(HWND, HDC, POINT *, SIZE *, HDC, POINT *, COLORREF, BLENDFUNCTION *, DWORD);
-typedef BOOL 	(WINAPI *PFWEX)(FLASHWINFO *);
-typedef BOOL 	(WINAPI *PAB)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION);
-typedef BOOL 	(WINAPI *PGF)(HDC, PTRIVERTEX, ULONG, PVOID, ULONG, ULONG);
-
-typedef BOOL 	(WINAPI *PITA)();
-typedef HANDLE	(WINAPI *POTD)(HWND, LPCWSTR);
-typedef UINT	(WINAPI *PDTB)(HANDLE, HDC, int, int, RECT *, RECT *);
-typedef UINT	(WINAPI *PCTD)(HANDLE);
-typedef UINT	(WINAPI *PDTT)(HANDLE, HDC, int, int, LPCWSTR, int, DWORD, DWORD, RECT *);
-typedef UINT	(WINAPI *PDTTE)(HANDLE, HDC, int, int, LPCWSTR, int, DWORD, RECT *, const DTTOPTS *);
-typedef BOOL 	(WINAPI *PITBPT)(HANDLE, int, int);
-typedef HRESULT	(WINAPI *PDTPB)(HWND, HDC, RECT *);
-typedef HRESULT	(WINAPI *PGTBCR)(HANDLE, HDC, int, int, const RECT *, const RECT *);
-
-typedef HMONITOR(WINAPI *MMFW)(HWND, DWORD);
-typedef BOOL	(WINAPI *GMIA)(HMONITOR, LPMONITORINFO);
 typedef HRESULT	(WINAPI *DRT)(HWND, HWND, PHTHUMBNAIL);
-typedef BOOL	(WINAPI *ETDT)(HANDLE, DWORD);
-typedef HANDLE  (WINAPI *BBP)(HDC, RECT *, BP_BUFFERFORMAT, BP_PAINTPARAMS *, HDC *);
-typedef HRESULT (WINAPI *EBP)(HANDLE, BOOL);
-typedef HRESULT (WINAPI *BPI)(void);
-typedef HRESULT (WINAPI *BPU)(void);
 typedef HRESULT (WINAPI *BBW)(HWND, DWM_BLURBEHIND *);
 typedef HRESULT (WINAPI *DGC)(DWORD *, BOOL *);
-typedef HRESULT (WINAPI *BPSA)(HANDLE, const RECT *, BYTE);
-typedef int		(WINAPI *GLIX)(LPCWSTR, LCTYPE, LPCWSTR, int);
-typedef HRESULT (WINAPI *DWMSWA)(HWND, DWORD, LPCVOID, DWORD);
 typedef HRESULT (WINAPI *DWMIIB)(HWND);
+typedef HRESULT (WINAPI *DWMSWA)(HWND, DWORD, LPCVOID, DWORD);
 typedef HRESULT (WINAPI *DWMUT)(HTHUMBNAIL, DWM_THUMBNAIL_PROPERTIES *);
 typedef HRESULT (WINAPI *DURT)(HTHUMBNAIL);
 typedef HRESULT (WINAPI *DSIT)(HWND, HBITMAP, DWORD);
 typedef HRESULT (WINAPI *DSILP)(HWND, HBITMAP, POINT *, DWORD);
+//uxtheme
+typedef UINT	(WINAPI *PDTTE)(HANDLE, HDC, int, int, LPCWSTR, int, DWORD, RECT *, const DTTOPTS *);
+typedef HANDLE  (WINAPI *BBP)(HDC, RECT *, BP_BUFFERFORMAT, BP_PAINTPARAMS *, HDC *);
+typedef HRESULT (WINAPI *EBP)(HANDLE, BOOL);
+typedef HRESULT (WINAPI *BPI)(void);
+typedef HRESULT (WINAPI *BPU)(void);
+typedef HRESULT (WINAPI *BPSA)(HANDLE, const RECT *, BYTE);
+//kernel32
+typedef int		(WINAPI *GLIX)(LPCWSTR, LCTYPE, LPCWSTR, int);
 
 /*
  * used to encapsulate some parts of the Miranda API
@@ -169,7 +150,6 @@ public:
 	 * os dependant stuff (aero, visual styles etc.)
 	 */
 
-	const bool isVSAPIState() const { return m_VsAPI; }
 	/**
 	 * return status of Vista Aero
 	 *
@@ -220,24 +200,9 @@ public:
 	/*
 	 various function pointers
 	*/
-	static PITA   m_pfnIsThemeActive;
-	static POTD   m_pfnOpenThemeData;
-	static PDTB   m_pfnDrawThemeBackground;
-	static PCTD   m_pfnCloseThemeData;
-	static PDTT   m_pfnDrawThemeText;
 	static PDTTE  m_pfnDrawThemeTextEx;
-	static PITBPT m_pfnIsThemeBackgroundPartiallyTransparent;
-	static PDTPB  m_pfnDrawThemeParentBackground;
-	static PGTBCR m_pfnGetThemeBackgroundContentRect;
-	static ETDT   m_pfnEnableThemeDialogTexture;
-	static PSLWA  m_pSetLayeredWindowAttributes;
-	static PFWEX  m_MyFlashWindowEx;
-	static PAB    m_MyAlphaBlend;
-	static PGF    m_MyGradientFill;
 	static DEFICA m_pfnDwmExtendFrameIntoClientArea;
 	static DICE   m_pfnDwmIsCompositionEnabled;
-	static MMFW   m_pfnMonitorFromWindow;
-	static GMIA   m_pfnGetMonitorInfoA;
 	static DRT    m_pfnDwmRegisterThumbnail;
 	static BPI    m_pfnBufferedPaintInit;
 	static BPU    m_pfnBufferedPaintUninit;
@@ -246,7 +211,6 @@ public:
 	static BBW    m_pfnDwmBlurBehindWindow;
 	static DGC    m_pfnDwmGetColorizationColor;
 	static BPSA   m_pfnBufferedPaintSetAlpha;
-	static GLIX   m_pfnGetLocaleInfoEx;
 	static DWMSWA m_pfnDwmSetWindowAttribute;
 	static DWMIIB m_pfnDwmInvalidateIconicBitmaps;
 	static DWMUT  m_pfnDwmUpdateThumbnailProperties;
@@ -258,7 +222,7 @@ public:
 private:
 	TCHAR   m_szProfilePath[MAX_PATH + 2], m_szSkinsPath[MAX_PATH + 2], m_szSavedAvatarsPath[MAX_PATH + 2], m_szChatLogsPath[MAX_PATH + 2];
 	HMODULE m_hUxTheme, m_hDwmApi;
-	bool    m_VsAPI, m_isAero, m_DwmActive, m_isVsThemed;
+	bool    m_isAero, m_DwmActive, m_isVsThemed;
 	HANDLE  m_hDataPath, m_hSkinsPath, m_hAvatarsPath, m_hChatLogsPath;
 	__int64 m_tStart, m_tStop, m_tFreq;
 	double  m_dFreq;

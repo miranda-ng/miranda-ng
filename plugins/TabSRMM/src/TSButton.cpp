@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -165,9 +162,9 @@ flat_themed:
 			}
 			if (ctl->hThemeToolbar && ctl->bIsThemed && 1 == dat->pContainer->bTBRenderingMode) {
 				if (bAero || PluginConfig.m_WinVerMajor >= 6)
-					CMimAPI::m_pfnDrawThemeBackground(ctl->hThemeToolbar, hdcMem, 8, RBStateConvert2Flat(state), &rcClient, &rcClient);
+					DrawThemeBackground(ctl->hThemeToolbar, hdcMem, 8, RBStateConvert2Flat(state), &rcClient, &rcClient);
 				else
-					CMimAPI::m_pfnDrawThemeBackground(ctl->hThemeToolbar, hdcMem, TP_BUTTON, TBStateConvert2Flat(state), &rcClient, &rcClient);
+					DrawThemeBackground(ctl->hThemeToolbar, hdcMem, TP_BUTTON, TBStateConvert2Flat(state), &rcClient, &rcClient);
 			}
 			else {
 				CSkin::m_switchBarItem->setAlphaFormat(AC_SRC_ALPHA, state == PBS_HOT ? 220 : 180);
@@ -209,8 +206,8 @@ nonflat_themed:
 			int state = IsWindowEnabled(ctl->hwnd) ? (ctl->stateId == PBS_NORMAL && ctl->bIsDefault ? PBS_DEFAULTED : ctl->stateId) : PBS_DISABLED;
 
 			if (ctl->hThemeButton && ctl->bIsThemed && 0 == PluginConfig.m_fillColor) {
-				CMimAPI::m_pfnDrawThemeBackground(ctl->hThemeButton, hdcMem, BP_PUSHBUTTON, state, &rcClient, &rcClient);
-				CMimAPI::m_pfnGetThemeBackgroundContentRect(ctl->hThemeToolbar, hdcMem, BP_PUSHBUTTON, PBS_NORMAL, &rcClient, &rcContent);
+				DrawThemeBackground(ctl->hThemeButton, hdcMem, BP_PUSHBUTTON, state, &rcClient, &rcClient);
+				GetThemeBackgroundContentRect(ctl->hThemeToolbar, hdcMem, BP_PUSHBUTTON, PBS_NORMAL, &rcClient, &rcContent);
 			}
 			else {
 				CSkin::m_switchBarItem->setAlphaFormat(AC_SRC_ALPHA, state == PBS_NORMAL ? 140 : 240);
@@ -262,7 +259,7 @@ nonflat_themed:
 		if (ctl->bDimmed && PluginConfig.m_IdleDetect)
 			CSkin::DrawDimmedIcon(hdcMem, ix, iy, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, hIconNew, 180);
 		else {
-			if (ctl->stateId != PBS_DISABLED || CMimAPI::m_MyAlphaBlend == 0) {
+			if (ctl->stateId != PBS_DISABLED) {
 				DrawIconEx(hdcMem, ix, iy, hIconNew, 16, 16, 0, 0, DI_NORMAL);
 				if (ctl->overlay)
 					DrawIconEx(hdcMem, ix, iy, ctl->overlay, 16, 16, 0, 0, DI_NORMAL);
@@ -272,7 +269,7 @@ nonflat_themed:
 				DrawIconEx(hdc_buttonglyph, 0, 0, hIconNew, 16, 16, 0, 0, DI_NORMAL);
 				if (ctl->overlay)
 					DrawIconEx(hdc_buttonglyph, 0, 0, ctl->overlay, 16, 16, 0, 0, DI_NORMAL);
- 				CMimAPI::m_MyAlphaBlend(hdcMem, ix, iy, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, hdc_buttonglyph, 0, 0, 16, 16, bf_buttonglyph);
+ 				GdiAlphaBlend(hdcMem, ix, iy, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, hdc_buttonglyph, 0, 0, 16, 16, bf_buttonglyph);
 			}
 		}
 	}
@@ -356,7 +353,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, 
 			BITMAP bm;
 			GetObject(ii.hbmColor, sizeof(bm), &bm);
 			if (bm.bmWidth != PluginConfig.m_smcxicon || bm.bmHeight != PluginConfig.m_smcyicon) {
-				HIMAGELIST hImageList = ImageList_Create(PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, PluginConfig.m_bIsXP ? ILC_COLOR32 | ILC_MASK : ILC_COLOR16 | ILC_MASK, 1, 0);
+				HIMAGELIST hImageList = ImageList_Create(PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, ILC_COLOR32 | ILC_MASK, 1, 0);
 				ImageList_AddIcon(hImageList, (HICON)lParam);
 				bct->hIconPrivate = ImageList_GetIcon(hImageList, 0, ILD_NORMAL);
 				ImageList_RemoveAll(hImageList);
@@ -520,7 +517,7 @@ void CustomizeButton(HWND hwndButton)
 	mir_subclassWindow(hwndButton, TSButtonWndProc);
 
 	TSButtonCtrl *bct = (TSButtonCtrl*)GetWindowLongPtr(hwndButton, 0);
-	if (bct && M.isVSAPIState())
-		bct->hThemeToolbar = (M.isAero() || IsWinVerVistaPlus()) ? CMimAPI::m_pfnOpenThemeData(bct->hwnd, L"MENU") : CMimAPI::m_pfnOpenThemeData(bct->hwnd, L"TOOLBAR");
+	if (bct)
+		bct->hThemeToolbar = (M.isAero() || IsWinVerVistaPlus()) ? OpenThemeData(bct->hwnd, L"MENU") : OpenThemeData(bct->hwnd, L"TOOLBAR");
 
 }

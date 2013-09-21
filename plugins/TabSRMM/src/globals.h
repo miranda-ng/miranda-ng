@@ -124,7 +124,7 @@ public:
    BYTE        g_iButtonsBarGap;
    BYTE        m_WinVerMajor;
    BYTE        m_WinVerMinor;
-   bool        m_bIsXP, m_bIsVista, m_bIsWin7;
+   bool        m_bIsVista, m_bIsWin7;
    HWND        m_hwndClist;
    int         m_TabAppearance;
    myTabCtrl   tabConfig;

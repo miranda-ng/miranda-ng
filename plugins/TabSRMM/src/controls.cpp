@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -241,7 +238,7 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 					m_rcItem.bottom -= 4;
 					m_hbmDraw = CSkin::CreateAeroCompatibleBitmap(m_rcItem, nmtb->nmcd.hdc);
 					m_hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(m_hdcDraw, m_hbmDraw));
-					m_hTheme = M.isAero() || M.isVSThemed() ? CMimAPI::m_pfnOpenThemeData(m_hwndToolbar, L"REBAR") : 0;
+					m_hTheme = M.isAero() || M.isVSThemed() ? OpenThemeData(m_hwndToolbar, L"REBAR") : 0;
 					m_hOldFont = reinterpret_cast<HFONT>(::SelectObject(m_hdcDraw, reinterpret_cast<HFONT>(::GetStockObject(DEFAULT_GUI_FONT))));
 					if (m_isAero) {
 						nm->rc.bottom--;
@@ -258,7 +255,7 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 							if (PluginConfig.m_fillColor)
 								CSkin::FillBack(m_hdcDraw, &m_rcItem);
 							else if (M.isVSThemed())
-								M.m_pfnDrawThemeBackground(m_hTheme, m_hdcDraw, 6, 1, &m_rcItem, &m_rcItem);
+								DrawThemeBackground(m_hTheme, m_hdcDraw, 6, 1, &m_rcItem, &m_rcItem);
 							else
 								FillRect(m_hdcDraw, &m_rcItem, GetSysColorBrush(COLOR_3DFACE));
 						}
@@ -352,7 +349,7 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 				::DeleteDC(m_hdcDraw);
 				m_hdcDraw = 0;
 				if (m_hTheme)
-					CMimAPI::m_pfnCloseThemeData(m_hTheme);
+					CloseThemeData(m_hTheme);
 				return(CDRF_SKIPDEFAULT);
 			}
 			else
@@ -770,7 +767,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			COLORREF		clr = 0;
 
 			BOOL			bAero = M.isAero();
-			HANDLE  		hTheme = bAero ? CMimAPI::m_pfnOpenThemeData(hWnd, L"ButtonStyle") : 0;
+			HANDLE  		hTheme = bAero ? OpenThemeData(hWnd, L"ButtonStyle") : 0;
 			TWindowData *dat = 0;
 
 			if (pContainer)
@@ -911,7 +908,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			}
 
 			if (hTheme)
-				CMimAPI::m_pfnCloseThemeData(hTheme);
+				CloseThemeData(hTheme);
 
 			EndPaint(hWnd, &ps);
 		}

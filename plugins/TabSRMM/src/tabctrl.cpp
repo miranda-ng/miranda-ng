@@ -1,6 +1,4 @@
-/* astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
+/*
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -218,7 +216,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 			if (tabdat->iHoveredCloseIcon != nItem)
 				CSkin::m_default_bf.SourceConstantAlpha = 150;
 
-			CMimAPI::m_MyAlphaBlend(dc, rcItem->right - 16 - tabdat->m_xpad, (rcItem->bottom + rcItem->top - 16) / 2, 16, 16, CSkin::m_tabCloseHDC,
+			GdiAlphaBlend(dc, rcItem->right - 16 - tabdat->m_xpad, (rcItem->bottom + rcItem->top - 16) / 2, 16, 16, CSkin::m_tabCloseHDC,
 									0, 0, 16, 16, CSkin::m_default_bf);
 
 			rcItem->right -= (18 + tabdat->m_xpad);
@@ -316,7 +314,7 @@ b_nonskinned:
 					FillRect(dc, rcItem, CSkin::m_BrushBack);
 				else
 					CSkin::FillBack(dc, rcItem);
-				CMimAPI::m_pfnDrawThemeBackground(tabdat->hThemeButton, dc, 1, nHint & HINT_ACTIVE_ITEM ? 3 : (nHint & HINT_HOTTRACK ? 2 : 1), rcItem, rcItem);
+				DrawThemeBackground(tabdat->hThemeButton, dc, 1, nHint & HINT_ACTIVE_ITEM ? 3 : (nHint & HINT_HOTTRACK ? 2 : 1), rcItem, rcItem);
 			}
 			return;
 		}
@@ -423,9 +421,8 @@ static HRESULT DrawThemesPartWithAero(const TabControlData *tabdat, HDC hDC, int
 		if (iStateId != PBS_NORMAL)
 			tabdat->helperGlowItem->Render(hDC, prcBox, true);
 	}
-	else if (CMimAPI::m_pfnDrawThemeBackground) {
-		if (tabdat->hTheme != 0)
-			hResult = CMimAPI::m_pfnDrawThemeBackground(tabdat->hTheme, hDC, iPartId, iStateId, prcBox, NULL);
+	else if (tabdat->hTheme != 0) {
+		hResult = DrawThemeBackground(tabdat->hTheme, hDC, iPartId, iStateId, prcBox, NULL);
 	}
 
 	return hResult;
@@ -438,11 +435,8 @@ static HRESULT DrawThemesPart(const TabControlData *tabdat, HDC hDC, int iPartId
 {
 	HRESULT hResult = 0;
 
-	if (CMimAPI::m_pfnDrawThemeBackground == 0)
-		return 0;
-
 	if (tabdat->hTheme != 0)
-		hResult = CMimAPI::m_pfnDrawThemeBackground(tabdat->hTheme, hDC, iPartId, iStateId, prcBox, NULL);
+		hResult = DrawThemeBackground(tabdat->hTheme, hDC, iPartId, iStateId, prcBox, NULL);
 
 	return hResult;
 }
@@ -1006,19 +1000,14 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 	case EM_THEMECHANGED:
 		tabdat->m_xpad = M.GetByte("x-pad", 3);
 		tabdat->m_VisualStyles = FALSE;
-		if (PluginConfig.m_bIsXP && M.isVSAPIState()) {
-			if (CMimAPI::m_pfnIsThemeActive != 0)
-				if (CMimAPI::m_pfnIsThemeActive()) {
-					tabdat->m_VisualStyles = TRUE;
-					if (tabdat->hTheme != 0 && CMimAPI::m_pfnCloseThemeData != 0) {
-						CMimAPI::m_pfnCloseThemeData(tabdat->hTheme);
-						CMimAPI::m_pfnCloseThemeData(tabdat->hThemeButton);
-					}
-					if (CMimAPI::m_pfnOpenThemeData != 0) {
-						if ((tabdat->hTheme = CMimAPI::m_pfnOpenThemeData(hwnd, L"TAB")) == 0 || (tabdat->hThemeButton = CMimAPI::m_pfnOpenThemeData(hwnd, L"BUTTON")) == 0)
-							tabdat->m_VisualStyles = FALSE;
-					}
-				}
+		if (IsThemeActive()) {
+			tabdat->m_VisualStyles = TRUE;
+			if (tabdat->hTheme != 0) {
+				CloseThemeData(tabdat->hTheme);
+				CloseThemeData(tabdat->hThemeButton);
+			}
+			if ((tabdat->hTheme = OpenThemeData(hwnd, L"TAB")) == 0 || (tabdat->hThemeButton = OpenThemeData(hwnd, L"BUTTON")) == 0)
+				tabdat->m_VisualStyles = FALSE;
 		}
 		return 0;
 
@@ -1075,9 +1064,9 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 	case WM_DESTROY:
 		if (tabdat) {
-			if (tabdat->hTheme != 0 && CMimAPI::m_pfnCloseThemeData != 0) {
-				CMimAPI::m_pfnCloseThemeData(tabdat->hTheme);
-				CMimAPI::m_pfnCloseThemeData(tabdat->hThemeButton);
+			if (tabdat->hTheme != 0) {
+				CloseThemeData(tabdat->hTheme);
+				CloseThemeData(tabdat->hThemeButton);
 			}
 		}
 		break;
@@ -1186,7 +1175,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 						tabdat->hwndDrag = (HWND)tc.lParam;
 						tabdat->dragDat = dat;
 						tabdat->fSavePos = TRUE;
-						tabdat->himlDrag = ImageList_Create(16, 16, ILC_MASK | (PluginConfig.m_bIsXP ? ILC_COLOR32 : ILC_COLOR16), 1, 0);
+						tabdat->himlDrag = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 1, 0);
 						ImageList_AddIcon(tabdat->himlDrag, dat->hTabIcon);
 						ImageList_BeginDrag(tabdat->himlDrag, 0, 8, 8);
 						ImageList_DragEnter(hwnd, tci.pt.x, tci.pt.y);
@@ -1219,7 +1208,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 						tabdat->iBeginIndex = i;
 						tabdat->hwndDrag = (HWND)tc.lParam;
 						tabdat->dragDat = dat;
-						tabdat->himlDrag = ImageList_Create(16, 16, ILC_MASK | (PluginConfig.m_bIsXP ? ILC_COLOR32 : ILC_COLOR16), 1, 0);
+						tabdat->himlDrag = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 1, 0);
 						tabdat->fSavePos = FALSE;
 						ImageList_AddIcon(tabdat->himlDrag, dat->hTabIcon);
 						ImageList_BeginDrag(tabdat->himlDrag, 0, 8, 8);

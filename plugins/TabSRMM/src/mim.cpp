@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -33,24 +30,9 @@
 
 #include "commonheaders.h"
 
-PITA 	CMimAPI::m_pfnIsThemeActive = 0;
-POTD 	CMimAPI::m_pfnOpenThemeData = 0;
-PDTB 	CMimAPI::m_pfnDrawThemeBackground = 0;
-PCTD 	CMimAPI::m_pfnCloseThemeData = 0;
-PDTT 	CMimAPI::m_pfnDrawThemeText = 0;
 PDTTE	CMimAPI::m_pfnDrawThemeTextEx = 0;
-PITBPT 	CMimAPI::m_pfnIsThemeBackgroundPartiallyTransparent = 0;
-PDTPB  	CMimAPI::m_pfnDrawThemeParentBackground = 0;
-PGTBCR 	CMimAPI::m_pfnGetThemeBackgroundContentRect = 0;
-ETDT 	CMimAPI::m_pfnEnableThemeDialogTexture = 0;
-PSLWA 	CMimAPI::m_pSetLayeredWindowAttributes = 0;
-PFWEX	CMimAPI::m_MyFlashWindowEx = 0;
-PAB		CMimAPI::m_MyAlphaBlend = 0;
-PGF		CMimAPI::m_MyGradientFill = 0;
 DEFICA	CMimAPI::m_pfnDwmExtendFrameIntoClientArea = 0;
 DICE	CMimAPI::m_pfnDwmIsCompositionEnabled = 0;
-MMFW	CMimAPI::m_pfnMonitorFromWindow = 0;
-GMIA	CMimAPI::m_pfnGetMonitorInfoA = 0;
 DRT		CMimAPI::m_pfnDwmRegisterThumbnail = 0;
 BPI		CMimAPI::m_pfnBufferedPaintInit = 0;
 BPU		CMimAPI::m_pfnBufferedPaintUninit = 0;
@@ -59,7 +41,6 @@ EBP		CMimAPI::m_pfnEndBufferedPaint = 0;
 BBW		CMimAPI::m_pfnDwmBlurBehindWindow = 0;
 DGC		CMimAPI::m_pfnDwmGetColorizationColor = 0;
 BPSA	CMimAPI::m_pfnBufferedPaintSetAlpha = 0;
-GLIX	CMimAPI::m_pfnGetLocaleInfoEx = 0;
 DWMIIB  CMimAPI::m_pfnDwmInvalidateIconicBitmaps = 0;
 DWMSWA	CMimAPI::m_pfnDwmSetWindowAttribute = 0;
 DWMUT	CMimAPI::m_pfnDwmUpdateThumbnailProperties = 0;
@@ -307,7 +288,7 @@ bool CMimAPI::getAeroState()
 		m_isAero = (CSkin::m_skinEnabled == false) && GetByte("useAero", 1) && CSkin::m_fAeroSkinsValid && m_DwmActive;
 
 	}
-	m_isVsThemed = (m_VsAPI && m_pfnIsThemeActive && m_pfnIsThemeActive());
+	m_isVsThemed = IsThemeActive();
 	return m_isAero;
 }
 
@@ -319,47 +300,10 @@ bool CMimAPI::getAeroState()
 void CMimAPI::InitAPI()
 {
 	m_hUxTheme = 0;
-	m_VsAPI = false;
-
-	HMODULE hDLL = GetModuleHandleA("user32");
-	m_pSetLayeredWindowAttributes = (PSLWA) GetProcAddress(hDLL, "SetLayeredWindowAttributes");
-	m_MyFlashWindowEx = (PFWEX) GetProcAddress(hDLL, "FlashWindowEx");
-
-	m_MyAlphaBlend = (PAB) GetProcAddress(GetModuleHandleA("gdi32"), "GdiAlphaBlend");
-	if (m_MyAlphaBlend == 0)
-		m_MyAlphaBlend = (PAB) GetProcAddress(LoadLibraryA("msimg32.dll"), "AlphaBlend");
-
-	m_MyGradientFill = (PGF) GetProcAddress(GetModuleHandleA("gdi32"), "GdiGradientFill");
-	if (m_MyGradientFill == 0)
-		m_MyGradientFill = (PGF) GetProcAddress(GetModuleHandleA("msimg32"), "GradientFill");
-
-	m_pfnMonitorFromWindow = (MMFW)GetProcAddress(GetModuleHandleA("USER32"), "MonitorFromWindow");
-	m_pfnGetMonitorInfoA = (GMIA)GetProcAddress(GetModuleHandleA("USER32"), "GetMonitorInfoA");
-
-	if (IsWinVerXPPlus()) {
-		if ((m_hUxTheme = Utils::loadSystemLibrary(L"\\uxtheme.dll")) != 0) {
-			m_pfnIsThemeActive = (PITA)GetProcAddress(m_hUxTheme, "IsThemeActive");
-			m_pfnOpenThemeData = (POTD)GetProcAddress(m_hUxTheme, "OpenThemeData");
-			m_pfnDrawThemeBackground = (PDTB)GetProcAddress(m_hUxTheme, "DrawThemeBackground");
-			m_pfnCloseThemeData = (PCTD)GetProcAddress(m_hUxTheme, "CloseThemeData");
-			m_pfnDrawThemeText = (PDTT)GetProcAddress(m_hUxTheme, "DrawThemeText");
-			m_pfnIsThemeBackgroundPartiallyTransparent = (PITBPT)GetProcAddress(m_hUxTheme, "IsThemeBackgroundPartiallyTransparent");
-			m_pfnDrawThemeParentBackground = (PDTPB)GetProcAddress(m_hUxTheme, "DrawThemeParentBackground");
-			m_pfnGetThemeBackgroundContentRect = (PGTBCR)GetProcAddress(m_hUxTheme, "GetThemeBackgroundContentRect");
-			m_pfnEnableThemeDialogTexture = (ETDT)GetProcAddress(m_hUxTheme, "EnableThemeDialogTexture");
-
-			if (m_pfnIsThemeActive != 0 && m_pfnOpenThemeData != 0 && m_pfnDrawThemeBackground != 0 && m_pfnCloseThemeData != 0
-				&& m_pfnDrawThemeText != 0 && m_pfnIsThemeBackgroundPartiallyTransparent != 0 && m_pfnDrawThemeParentBackground != 0
-				&& m_pfnGetThemeBackgroundContentRect != 0) {
-					m_VsAPI = true;
-			}
-		}
-	}
 
 	/*
 	* vista+ DWM API
 	*/
-
 	m_hDwmApi = 0;
 	if (IsWinVerVistaPlus())  {
 		m_hDwmApi = Utils::loadSystemLibrary(L"\\dwmapi.dll");
@@ -379,6 +323,7 @@ void CMimAPI::InitAPI()
 		/*
 		* additional uxtheme APIs (Vista+)
 		*/
+		m_hUxTheme = Utils::loadSystemLibrary(L"\\uxtheme.dll");
 		if (m_hUxTheme) {
 			m_pfnDrawThemeTextEx = (PDTTE)GetProcAddress(m_hUxTheme, "DrawThemeTextEx");
 			m_pfnBeginBufferedPaint = (BBP)GetProcAddress(m_hUxTheme, "BeginBufferedPaint");
@@ -390,7 +335,6 @@ void CMimAPI::InitAPI()
 			if (m_haveBufferedPaint)
 				m_pfnBufferedPaintInit();
 		}
-		m_pfnGetLocaleInfoEx = (GLIX)GetProcAddress(GetModuleHandleA("kernel32"), "GetLocaleInfoEx");
 	}
 	else m_haveBufferedPaint = false;
 }

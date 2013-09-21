@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -240,9 +237,9 @@ static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
 	HWND hwndTab = GetParent(hwndDlg);
 
 	if (msg == WM_ACTIVATE) {
-		if (dat->pContainer->dwFlags & CNT_TRANSPARENCY && CMimAPI::m_pSetLayeredWindowAttributes != NULL) {
+		if (dat->pContainer->dwFlags & CNT_TRANSPARENCY) {
 			DWORD trans = LOWORD(dat->pContainer->settings->dwTransparency);
-			CMimAPI::m_pSetLayeredWindowAttributes(dat->pContainer->hwnd, CSkin::m_ContainerColorKey, (BYTE)trans, (dat->pContainer->dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
+			SetLayeredWindowAttributes(dat->pContainer->hwnd, CSkin::m_ContainerColorKey, (BYTE)trans, (dat->pContainer->dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
 		}
 	}
 
@@ -1957,7 +1954,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 			GetMYUIN(dat);
 			GetMyNick(dat);
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETASTHEMEDBTN, PluginConfig.m_bIsXP, 0);
+			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETASTHEMEDBTN, 1, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETASFLATBTN, FALSE, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETASTOOLBARBUTTON, TRUE, 0);

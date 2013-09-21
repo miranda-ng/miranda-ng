@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -488,16 +485,14 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 			TabCtrl_InsertItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), 0, &tci);
 			MoveWindow((HWND)tci.lParam, 6, DPISCALEY_S(32), rcClient.right - 12, rcClient.bottom - DPISCALEY_S(80), 1);
 			ShowWindow((HWND)tci.lParam, SW_SHOW);
-			if (CMimAPI::m_pfnEnableThemeDialogTexture)
-				CMimAPI::m_pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
+			EnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
 
 			tci.lParam = (LPARAM)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_USERPREFS1), hwndDlg, DlgProcUserPrefsLogOptions, (LPARAM)hContact);
 			tci.pszText = TranslateT("Message Log");
 			TabCtrl_InsertItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), 1, &tci);
 			MoveWindow((HWND)tci.lParam, 6, DPISCALEY_S(32), rcClient.right - 12, rcClient.bottom - DPISCALEY_S(80), 1);
 			ShowWindow((HWND)tci.lParam, SW_HIDE);
-			if (CMimAPI::m_pfnEnableThemeDialogTexture)
-				CMimAPI::m_pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
+			EnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
 		}
 		TabCtrl_SetCurSel(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), 0);
 		ShowWindow(hwndDlg, SW_SHOW);

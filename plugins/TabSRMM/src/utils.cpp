@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -883,8 +880,7 @@ HICON Utils::iconFromAvatar(const TWindowData *dat)
 			LONG	ix = (lIconSize - (LONG)dNewWidth) / 2;
 			LONG	iy = (lIconSize - (LONG)dNewHeight) / 2;
 			CSkin::m_default_bf.SourceConstantAlpha = M.GetByte("taskBarIconAlpha", 255);
-			CMimAPI::m_MyAlphaBlend(dc, ix, iy, (LONG)dNewWidth, (LONG)dNewHeight, dcResized,
-									0, 0, (LONG)dNewWidth, (LONG)dNewHeight, CSkin::m_default_bf);
+			GdiAlphaBlend(dc, ix, iy, (LONG)dNewWidth, (LONG)dNewHeight, dcResized, 0, 0, (LONG)dNewWidth, (LONG)dNewHeight, CSkin::m_default_bf);
 
 			CSkin::m_default_bf.SourceConstantAlpha = 255;
 			::SelectObject(dc, hbmOld);

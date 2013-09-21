@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -1959,14 +1956,9 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 								 rb.max_width, rb.max_height, SWP_SHOWWINDOW | SWP_ASYNCWINDOWPOS | SWP_DEFERERASE | SWP_NOSENDCHANGING);
 				}
 				else {
-					if (CMimAPI::m_MyAlphaBlend) {
-						CMimAPI::m_MyAlphaBlend(dis->hDC, rcClient.left + rcFrame.left + border_off, rcClient.top + rcFrame.top + border_off,
+					GdiAlphaBlend(dis->hDC, rcClient.left + rcFrame.left + border_off, rcClient.top + rcFrame.top + border_off,
 												rb.max_width, rb.max_height, hdcMem, 0, 0,
 												rb.max_width, rb.max_height, CSkin::m_default_bf);
-					}
-					else
-						CSkin::MY_AlphaBlend(dis->hDC, rcClient.left + rcFrame.left + border_off, rcClient.top + rcFrame.top + border_off,
-											 rb.max_width, rb.max_height, rb.max_width, rb.max_height, hdcMem);
 				}
 				SelectObject(hdcMem, hbmMem);
 				//DeleteObject(hbmMem);
@@ -1979,9 +1971,19 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 				LONG width_off = 0; //= CSkin::m_bAvatarBorderType ? 0 : 2;
 
 				SetStretchBltMode(hdcDraw, HALFTONE);
-				if (aceFlags & AVS_PREMULTIPLIED)
-					CSkin::MY_AlphaBlend(hdcDraw, xy_off, top + xy_off, (int)dNewWidth + width_off,
-										 iMaxHeight + width_off, bminfo.bmWidth, bminfo.bmHeight, hdcMem);
+				if (aceFlags & AVS_PREMULTIPLIED) {
+					HDC hdcTemp = CreateCompatibleDC(hdcDraw);
+					HBITMAP hbmTemp = CreateCompatibleBitmap(hdcMem, bminfo.bmWidth, bminfo.bmHeight);
+					HBITMAP hbmOld = (HBITMAP)SelectObject(hdcTemp, hbmTemp);
+
+					SetStretchBltMode(hdcTemp, HALFTONE);
+					StretchBlt(hdcTemp, 0, 0, bminfo.bmWidth, bminfo.bmHeight, hdcDraw, xy_off, top + xy_off, (int)dNewWidth + width_off, iMaxHeight + width_off, SRCCOPY);
+					GdiAlphaBlend(hdcTemp, 0, 0, bminfo.bmWidth, bminfo.bmHeight, hdcMem, 0, 0, bminfo.bmWidth, bminfo.bmHeight, CSkin::m_default_bf);
+					StretchBlt(hdcDraw, xy_off, top + xy_off, (int)dNewWidth + width_off, iMaxHeight + width_off, hdcTemp, 0, 0, bminfo.bmWidth, bminfo.bmHeight, SRCCOPY);
+					SelectObject(hdcTemp, hbmOld);
+					DeleteObject(hbmTemp);
+					DeleteDC(hdcTemp);
+				}
 				else
 					StretchBlt(hdcDraw, xy_off, top + xy_off, (int)dNewWidth + width_off,
 							   iMaxHeight + width_off, hdcMem, 0, 0, bminfo.bmWidth, bminfo.bmHeight, SRCCOPY);

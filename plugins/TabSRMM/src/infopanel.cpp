@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -1596,7 +1593,7 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 					CSkin::ApplyAeroEffect(hdcMem, &rcText, CSkin::AERO_EFFECT_AREA_MENUBAR, 0);
 					::FillRect(hdcMem, &m_rcRich, br);
 
-					hTheme = CMimAPI::m_pfnOpenThemeData(m_hwnd, L"BUTTON");
+					hTheme = OpenThemeData(m_hwnd, L"BUTTON");
 					MARGINS m;
 					m.cxLeftWidth = LEFT_BORDER + m_leftWidth;
 					m.cxRightWidth = RIGHT_BORDER;
@@ -1627,7 +1624,7 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 				CSkin::RenderText(hdcMem, hTheme, szTitle, &rcText, DT_SINGLELINE|DT_END_ELLIPSIS|DT_VCENTER, CSkin::m_glowSize, clr);
 				if (hTheme)
-					CMimAPI::m_pfnCloseThemeData(hTheme);
+					CloseThemeData(hTheme);
 				::SelectObject(hdcMem, hOldFont);
 				::BitBlt(hdc, 0, 0, cx, cy, hdcMem, 0, 0, SRCCOPY);
 				::SelectObject(hdcMem, hbmOld);

@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -76,7 +73,6 @@ void CGlobals::reloadSystemStartup()
 
 	m_WinVerMajor = WinVerMajor();
 	m_WinVerMinor = WinVerMinor();
-	m_bIsXP = IsWinVerXPPlus();
 	m_bIsVista = IsWinVerVistaPlus();
 	m_bIsWin7 = IsWinVer7Plus();
 

@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -324,9 +321,9 @@ static void MsgWindowUpdateState(TWindowData *dat, UINT msg)
 		HWND hwndTab = GetParent(hwndDlg);
 
 		if (msg == WM_ACTIVATE) {
-			if (dat->pContainer->dwFlags & CNT_TRANSPARENCY && CMimAPI::m_pSetLayeredWindowAttributes != NULL) {
+			if (dat->pContainer->dwFlags & CNT_TRANSPARENCY) {
 				DWORD trans = LOWORD(dat->pContainer->settings->dwTransparency);
-				CMimAPI::m_pSetLayeredWindowAttributes(dat->pContainer->hwnd, 0, (BYTE)trans, (dat->pContainer->dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
+				SetLayeredWindowAttributes(dat->pContainer->hwnd, 0, (BYTE)trans, (dat->pContainer->dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
 			}
 		}
 #if defined(__FEAT_EXP_AUTOSPLITTER)
@@ -1266,7 +1263,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		{
 			RECT rc;
 			int i;
-			BOOL	isThemed = PluginConfig.m_bIsXP;
+			BOOL	isThemed = TRUE;
 			int		dwLocalSmAdd = 0;
 			DBVARIANT dbv = {0};
 

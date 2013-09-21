@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -281,8 +278,7 @@ void CSideBarButton::renderIconAndNick(const HDC hdc, const RECT *rcItem) const
 			if (m_sideBar->getHoveredClose() != this)
 				CSkin::m_default_bf.SourceConstantAlpha = 150;
 
-			CMimAPI::m_MyAlphaBlend(hdc, rc.right - 20, (rc.bottom + rc.top - 16) / 2, 16, 16, CSkin::m_tabCloseHDC,
-									0, 0, 16, 16, CSkin::m_default_bf);
+			GdiAlphaBlend(hdc, rc.right - 20, (rc.bottom + rc.top - 16) / 2, 16, 16, CSkin::m_tabCloseHDC, 0, 0, 16, 16, CSkin::m_default_bf);
 
 			rc.right -= 19;
 			CSkin::m_default_bf.SourceConstantAlpha = 255;
@@ -1032,16 +1028,16 @@ void __fastcall CSideBar::m_DefaultBackgroundRenderer(const HDC hdc, const RECT 
 		else {
 			CSkin::FillBack(hdc, rcDraw);
 
-			if (CMimAPI::m_pfnIsThemeBackgroundPartiallyTransparent(item->m_buttonControl->hThemeToolbar, TP_BUTTON, stateId))
-				CMimAPI::m_pfnDrawThemeParentBackground(item->getHwnd(), hdc, rcDraw);
+			if (IsThemeBackgroundPartiallyTransparent(item->m_buttonControl->hThemeToolbar, TP_BUTTON, stateId))
+				DrawThemeParentBackground(item->getHwnd(), hdc, rcDraw);
 
 			if (M.isAero() || PluginConfig.m_WinVerMajor >= 6) {
 				stateId = (fIsActiveItem ? PBS_PRESSED : PBS_HOT);
-				CMimAPI::m_pfnDrawThemeBackground(item->m_buttonControl->hThemeToolbar, hdc, 8, RBStateConvert2Flat(stateId), rcDraw, rcDraw);
+				DrawThemeBackground(item->m_buttonControl->hThemeToolbar, hdc, 8, RBStateConvert2Flat(stateId), rcDraw, rcDraw);
 			}
 			else {
 				stateId = (fIsActiveItem ? PBS_PRESSED : PBS_HOT);
-				CMimAPI::m_pfnDrawThemeBackground(item->m_buttonControl->hThemeToolbar, hdc, TP_BUTTON, TBStateConvert2Flat(stateId), rcDraw, rcDraw);
+				DrawThemeBackground(item->m_buttonControl->hThemeToolbar, hdc, TP_BUTTON, TBStateConvert2Flat(stateId), rcDraw, rcDraw);
 			}
 		}
 	}
@@ -1114,7 +1110,7 @@ void __fastcall CSideBar::m_AdvancedContentRenderer(const HDC hdc, const RECT *r
 			LONG	xOff = (cx - maxHeight) + (maxHeight - (LONG)dNewWidth) / 2 - 4;
 			LONG	yOff = (cy - (LONG)dNewHeight) / 2;
 
-			CMimAPI::m_MyAlphaBlend(hdc, xOff, yOff, (LONG)dNewWidth, (LONG)dNewHeight, dc, 0, 0, (LONG)dNewWidth, (LONG)dNewHeight, CSkin::m_default_bf);
+			GdiAlphaBlend(hdc, xOff, yOff, (LONG)dNewWidth, (LONG)dNewHeight, dc, 0, 0, (LONG)dNewWidth, (LONG)dNewHeight, CSkin::m_default_bf);
 			::SelectObject(dc, hbmOld);
 			if (hbmResized != dat->ace->hbmPic)
 				::DeleteObject(hbmResized);

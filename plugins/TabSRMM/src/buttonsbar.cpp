@@ -526,7 +526,7 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 	POINT ptSplitter;
 	int splitterY;
 	BYTE gap = DPISCALEX_S(PluginConfig.g_iButtonsBarGap);
-	BOOL isThemed = PluginConfig.m_bIsXP;
+	BOOL isThemed = TRUE;
 	int cx = 0, cy = 0;
 	int lcount = LButtonsList->realCount;
 	int rcount = RButtonsList->realCount;

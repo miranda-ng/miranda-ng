@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -1227,19 +1224,17 @@ LRESULT TSAPI DM_MouseWheelHandler(HWND hwnd, HWND hwndParent, TWindowData *mwda
 void TSAPI DM_FreeTheme(TWindowData *dat)
 {
 	if (dat) {
-		if (CMimAPI::m_pfnCloseThemeData) {
-			if (dat->hTheme) {
-				CMimAPI::m_pfnCloseThemeData(dat->hTheme);
-				dat->hTheme = 0;
-			}
-			if (dat->hThemeIP) {
-				CMimAPI::m_pfnCloseThemeData(dat->hThemeIP);
-				dat->hThemeIP = 0;
-			}
-			if (dat->hThemeToolbar) {
-				CMimAPI::m_pfnCloseThemeData(dat->hThemeToolbar);
-				dat->hThemeToolbar = 0;
-			}
+		if (dat->hTheme) {
+			CloseThemeData(dat->hTheme);
+			dat->hTheme = 0;
+		}
+		if (dat->hThemeIP) {
+			CloseThemeData(dat->hThemeIP);
+			dat->hThemeIP = 0;
+		}
+		if (dat->hThemeToolbar) {
+			CloseThemeData(dat->hThemeToolbar);
+			dat->hThemeToolbar = 0;
 		}
 	}
 }
@@ -1251,7 +1246,7 @@ LRESULT TSAPI DM_ThemeChanged(TWindowData *dat)
 
 	HWND	hwnd = dat->hwnd;
 
-	dat->hTheme = (M.isVSAPIState() && CMimAPI::m_pfnOpenThemeData) ? CMimAPI::m_pfnOpenThemeData(hwnd, L"EDIT") : 0;
+	dat->hTheme = OpenThemeData(hwnd, L"EDIT");
 
 	if (dat->bType == SESSIONTYPE_IM) {
 		if (dat->hTheme != 0 || (CSkin::m_skinEnabled && !item_log->IGNORED))
@@ -1267,8 +1262,8 @@ LRESULT TSAPI DM_ThemeChanged(TWindowData *dat)
 		if (dat->hTheme != 0 || (CSkin::m_skinEnabled && !item_msg->IGNORED))
 			SetWindowLongPtr(GetDlgItem(hwnd, IDC_CHAT_MESSAGE), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwnd, IDC_CHAT_MESSAGE), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
 	}
-	dat->hThemeIP = M.isAero() ? CMimAPI::m_pfnOpenThemeData(hwnd, L"ButtonStyle") : 0;
-	dat->hThemeToolbar = (M.isAero() || (!CSkin::m_skinEnabled && M.isVSThemed())) ? CMimAPI::m_pfnOpenThemeData(hwnd, L"REBAR") : 0;
+	dat->hThemeIP = M.isAero() ? OpenThemeData(hwnd, L"ButtonStyle") : 0;
+	dat->hThemeToolbar = (M.isAero() || (!CSkin::m_skinEnabled && M.isVSThemed())) ? OpenThemeData(hwnd, L"REBAR") : 0;
 
 	return 0;
 }

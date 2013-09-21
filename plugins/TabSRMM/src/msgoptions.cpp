@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -52,7 +49,7 @@ static HIMAGELIST g_himlStates = 0;
 HIMAGELIST CreateStateImageList()
 {
 	if (g_himlStates == 0) {
-		g_himlStates = ImageList_Create(16, 16, PluginConfig.m_bIsXP ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 4, 0);
+		g_himlStates = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 4, 0);
 		ImageList_AddIcon(g_himlStates, PluginConfig.g_IconFolder);
 		ImageList_AddIcon(g_himlStates, PluginConfig.g_IconFolder);
 		ImageList_AddIcon(g_himlStates, PluginConfig.g_IconUnchecked);

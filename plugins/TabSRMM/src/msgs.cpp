@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda NG: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2009 Miranda ICQ/IM project,
@@ -873,7 +870,7 @@ void TSAPI CreateImageList(BOOL bInitial)
 	 */
 
 	if (bInitial) {
-		PluginConfig.g_hImageList = ImageList_Create(16, 16, PluginConfig.m_bIsXP ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 2, 0);
+		PluginConfig.g_hImageList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 2, 0);
 		HICON hIcon = CreateIcon(g_hInst, 16, 16, 1, 4, NULL, NULL);
 		ImageList_AddIcon(PluginConfig.g_hImageList, hIcon);
 		DestroyIcon(hIcon);
