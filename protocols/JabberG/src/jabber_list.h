@@ -67,12 +67,6 @@ typedef enum {			// initial default to RSMODE_LASTSEEN
 	RSMODE_MANUAL		// specify resource manually (see the defaultResource field - must not be NULL)
 } JABBER_RESOURCE_MODE;
 
-
-struct JABBER_XEP0232_SOFTWARE_INFO : public MZeroedObject
-{
-	ptrT tszOs, tszOsVersion, tszSoftware, tszSoftwareVersion, tszXMirandaCoreVersion;
-};
-
 class JABBER_RESOURCE_STATUS : public MZeroedObject
 {
 	LONG m_refCount;
@@ -100,17 +94,17 @@ public:
 	ptrT  m_tszCapsNode;
 	ptrT  m_tszCapsVer;
 	ptrT  m_tszCapsExt;
-	ptrT  m_tszSoftware;
-	ptrT  m_tszVersion;
-	ptrT  m_tszSystem;
 	DWORD m_dwVersionRequestTime, m_dwDiscoInfoRequestTime;
+
 	JabberCapsBits m_jcbCachedCaps;
 	JabberCapsBits m_jcbManualDiscoveredCaps;
 
+	// XEP-232 support
+	ptrT  m_tszOs, m_tszOsVersion;
+	ptrT  m_tszSoftware, m_tszSoftwareVersion, m_tszXMirandaCoreVersion;
+
 	// XEP-0085 gone event support
 	BOOL m_bMessageSessionActive;
-
-	JABBER_XEP0232_SOFTWARE_INFO *m_pSoftwareInfo;
 };
 
 class pResourceStatus

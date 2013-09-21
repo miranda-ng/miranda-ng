@@ -403,10 +403,10 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, TCHAR *buf, int bufSi
 	// jabber:iq:version info requested and exists?
 	if (resource->m_dwVersionRequestTime && resource->m_tszSoftware) {
 		Log("JabberUpdateMirVer: for iq:version rc %S: %S", resource->m_tszResourceName, resource->m_tszSoftware);
-		if ( !resource->m_tszVersion || _tcsstr(resource->m_tszSoftware, resource->m_tszVersion))
+		if ( !resource->m_tszSoftwareVersion || _tcsstr(resource->m_tszSoftware, resource->m_tszSoftwareVersion))
 			lstrcpyn(buf, resource->m_tszSoftware, bufSize);
 		else
-			mir_sntprintf(buf, bufSize, _T("%s %s"), resource->m_tszSoftware, resource->m_tszVersion);
+			mir_sntprintf(buf, bufSize, _T("%s %s"), resource->m_tszSoftware, resource->m_tszSoftwareVersion);
 	}
 	// no version info and no caps info? set MirVer = resource name
 	else if ( !resource->m_tszCapsNode || !resource->m_tszCapsVer) {

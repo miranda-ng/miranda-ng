@@ -739,7 +739,7 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 
 		if (item && item->arResources.getCount()) {
 			for (int i = 0; i < item->arResources.getCount(); i++) {
-				JABBER_RESOURCE_STATUS *r = item->arResources[i];
+				pResourceStatus r(item->arResources[i]);
 				TCHAR szp1[JABBER_MAX_JID_LEN], tmp[JABBER_MAX_JID_LEN];
 				JabberStripJid(jid, szp1, SIZEOF(szp1));
 				mir_sntprintf(tmp, SIZEOF(tmp), _T("%s/%s"), szp1, r->m_tszResourceName);
@@ -748,16 +748,16 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 				iq3 << XQUERY(JABBER_FEAT_LAST_ACTIVITY);
 				m_ThreadInfo->send(iq3);
 
+				if (r->m_jcbCachedCaps & JABBER_CAPS_DISCO_INFO) {
+					XmlNodeIq iq5(m_iqManager.AddHandler(&CJabberProto::OnIqResultCapsDiscoInfoSI, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
+					iq5 << XQUERY(JABBER_FEAT_DISCO_INFO);
+					m_ThreadInfo->send(iq5);
+				}
+
 				if ( !r->m_dwVersionRequestTime) {
 					XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
 					iq4 << XQUERY(JABBER_FEAT_VERSION);
 					m_ThreadInfo->send(iq4);
-				}
-
-				if ( !r->m_pSoftwareInfo) {
-					XmlNodeIq iq5(m_iqManager.AddHandler(&CJabberProto::OnIqResultCapsDiscoInfoSI, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
-					iq5 << XQUERY(JABBER_FEAT_DISCO_INFO);
-					m_ThreadInfo->send(iq5);
 				}
 			}
 		}

@@ -1813,8 +1813,8 @@ void CJabberProto::OnIqResultVersion(HXML /*node*/, CJabberIqInfo *pInfo)
 	r->m_dwVersionRequestTime = -1;
 
 	r->m_tszSoftware = NULL;
-	r->m_tszVersion = NULL;
-	r->m_tszSystem = NULL;
+	r->m_tszSoftwareVersion = NULL;
+	r->m_tszOs = NULL;
 
 	HXML queryNode = pInfo->GetChildNode();
 
@@ -1823,9 +1823,9 @@ void CJabberProto::OnIqResultVersion(HXML /*node*/, CJabberIqInfo *pInfo)
 		if ((n = xmlGetChild(queryNode , "name")) != NULL && xmlGetText(n))
 			r->m_tszSoftware = mir_tstrdup(xmlGetText(n));
 		if ((n = xmlGetChild(queryNode , "version")) != NULL && xmlGetText(n))
-			r->m_tszVersion = mir_tstrdup(xmlGetText(n));
+			r->m_tszSoftwareVersion = mir_tstrdup(xmlGetText(n));
 		if ((n = xmlGetChild(queryNode , "os")) != NULL && xmlGetText(n))
-			r->m_tszSystem = mir_tstrdup(xmlGetText(n));
+			r->m_tszOs = mir_tstrdup(xmlGetText(n));
 	}
 
 	GetResourceCapabilites(pInfo->GetFrom(), TRUE);
