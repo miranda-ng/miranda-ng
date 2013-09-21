@@ -48,7 +48,7 @@ static BOOL WinNT_SetPrivilege(TCHAR *pszPrivName,BOOL bEnable)
 	TOKEN_PRIVILEGES tkp;
 	/* get a token for this process */
 	if(OpenProcessToken(GetCurrentProcess(),TOKEN_ADJUST_PRIVILEGES|TOKEN_QUERY,&hToken)) {
-		tkp.PrivilegeCount=1; /* one privilege is to set */   
+		tkp.PrivilegeCount=1; /* one privilege is to set */
 		/* get the LUID for the shutdown privilege */
 		if(LookupPrivilegeValue(NULL,pszPrivName,&tkp.Privileges[0].Luid)) {
 			tkp.Privileges[0].Attributes=bEnable?SE_PRIVILEGE_ENABLED:0;
@@ -62,10 +62,7 @@ static BOOL WinNT_SetPrivilege(TCHAR *pszPrivName,BOOL bEnable)
 
 static void BroadcastEndSession(DWORD dwRecipients,LPARAM lParam)
 {
-	LONG (WINAPI *pfnBroadcastSystemMessage)(DWORD,DWORD*,UINT,WPARAM,LPARAM);
-	*(PROC*)&pfnBroadcastSystemMessage=GetProcAddress(GetModuleHandleA("USER32"),"BroadcastSystemMessageW");
-	if(pfnBroadcastSystemMessage)
-		pfnBroadcastSystemMessage(BSF_FORCEIFHUNG,&dwRecipients,WM_ENDSESSION,TRUE,lParam);
+	BroadcastSystemMessage(BSF_FORCEIFHUNG,&dwRecipients,WM_ENDSESSION,TRUE,lParam);
 }
 
 static BOOL WinNT_IsWorkStationLocked(void)
@@ -79,7 +76,7 @@ static BOOL WinNT_IsWorkStationLocked(void)
 	bLocked=(!GetUserObjectInformation(hDesk,UOI_NAME,szName,SIZEOF(szName),&cbName) || lstrcmpi(szName,_T("default"))!=0);
 	CloseDesktop(hDesk);
 	return bLocked;
-} 
+}
 
 /************************* Workers ************************************/
 static BOOL IsShutdownTypeEnabled(BYTE shutdownType)
@@ -133,7 +130,7 @@ static BOOL IsShutdownTypeEnabled(BYTE shutdownType)
 				else if(IsWinVerNT()) /* for WinNT4 */
 					bReturn=SearchPath(NULL,_T("LOGIN.SCR"),NULL,0,NULL,NULL)!=0;
 			}
-			break;	
+			break;
 		case SDSDT_CLOSERASCONNECTIONS:
 			/* check if RAS installed/available */
 			bReturn=SearchPath(NULL,_T("RASAPI32"),_T(".DLL"),0,NULL,NULL)!=0;
@@ -143,7 +140,7 @@ static BOOL IsShutdownTypeEnabled(BYTE shutdownType)
 			bReturn=TRUE; /* always possible */
 			break;
 		case SDSDT_REBOOT:
-		case SDSDT_SHUTDOWN: 
+		case SDSDT_SHUTDOWN:
 			/* test privileges */
 			if(IsWinVerNT()) {
 				bReturn=WinNT_SetPrivilege(SE_SHUTDOWN_NAME,TRUE);
@@ -309,7 +306,7 @@ static DWORD ShutdownNow(BYTE shutdownType)
 				*(PROC*)&pfnInitiateSystemShutdown=GetProcAddress(GetModuleHandleA("ADVAPI32"),"InitiateSystemShutdownW");
 				if(pfnInitiateSystemShutdownEx!=NULL || pfnInitiateSystemShutdown!=NULL) {
 					WinNT_SetPrivilege(SE_SHUTDOWN_NAME,TRUE);
-			
+
 					/* does not send out WM_ENDSESSION messages, so we do it manually to
 					 * give the applications the chance to save their data */
 					WinNT_SetPrivilege(SE_TCB_NAME,TRUE); /* for BSM_ALLDESKTOPS */
@@ -343,7 +340,7 @@ static DWORD ShutdownNow(BYTE shutdownType)
 					/* EWX_FORCE does not send out WM_ENDSESSION messages, so we do it
 					 * manually to give the applications the chance to save their data */
 					BroadcastEndSession(BSM_APPLICATIONS,(shutdownType==SDSDT_LOGOFF)?ENDSESSION_LOGOFF:0);
-				
+
 					/* Windows Me/98/95 (msdn): Because of the design of the shell,
 					 * calling ExitWindowsEx with EWX_FORCE fails to completely log off
 					 * the user (the system terminates the applications and displays the
@@ -376,7 +373,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			hwndShutdownDlg=hwndDlg;
 			SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG)lParam);
 			TranslateDialogDefault(hwndDlg);
-			
+
 			if(lParam==SDSDT_SHUTDOWN || lParam==SDSDT_REBOOT || lParam==SDSDT_LOGOFF)
 				ShowWindow(GetDlgItem(hwndDlg,IDC_TEXT_UNSAVEDWARNING),SW_SHOW);
 			SendDlgItemMessage(hwndDlg,IDC_ICON_HEADER,STM_SETIMAGE,IMAGE_ICON,(LPARAM)Skin_GetIcon("AutoShutdown_Header"));
@@ -398,7 +395,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			SkinPlaySound("AutoShutdown_Countdown");
 			if(!SetTimer(hwndDlg,1,1000,NULL)) PostMessage(hwndDlg,M_START_SHUTDOWN,0,0);
 			Utils_RestoreWindowPositionNoSize(hwndDlg,NULL,"AutoShutdown","ConfirmDlg_");
-			
+
 			/* disallow foreground window changes (WinMe/2000+) */
 			SetForegroundWindow(hwndDlg);
 			*(PROC*)&pfnLockSetForegroundWindow=GetProcAddress(GetModuleHandleA("USER32"),"LockSetForegroundWindow");
