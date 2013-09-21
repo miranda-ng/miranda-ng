@@ -58,13 +58,6 @@ TIME_API tmi;
 
 CLIST_INTERFACE* pcli;
 
-/////////////////////////////////////////////////////////////////////////////
-// Theme API
-BOOL (WINAPI *JabberAlphaBlend)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION) = NULL;
-BOOL (WINAPI *JabberIsThemeActive)() = NULL;
-HRESULT (WINAPI *JabberDrawThemeParentBackground)(HWND, HDC, RECT *) = NULL;
-/////////////////////////////////////////////////////////////////////////////
-
 BOOL   jabberChatDllPresent = FALSE;
 
 HANDLE hExtraActivity = NULL;
@@ -207,19 +200,6 @@ extern "C" int __declspec(dllexport) Load()
 	pd.fnUninit = (pfnUninitProto)jabberProtoUninit;
 	pd.type = PROTOTYPE_PROTOCOL;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
-
-	// Load some fuctions
-	HMODULE hDll;
-	if (hDll = GetModuleHandleA("gdi32.dll"))
-		JabberAlphaBlend = (BOOL (WINAPI *)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION)) GetProcAddress(hDll, "GdiAlphaBlend");
-	if (JabberAlphaBlend == NULL && (hDll = LoadLibraryA("msimg32.dll")))
-		JabberAlphaBlend = (BOOL (WINAPI *)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION)) GetProcAddress(hDll, "AlphaBlend");
-
-	if (IsWinVerXPPlus()) {
-		if (hDll = GetModuleHandleA("uxtheme")) {
-			JabberDrawThemeParentBackground = (HRESULT (WINAPI *)(HWND,HDC,RECT *))GetProcAddress(hDll, "DrawThemeParentBackground");
-			JabberIsThemeActive = (BOOL (WINAPI *)())GetProcAddress(hDll, "IsThemeActive");
-	}	}
 
 	g_IconsInit();
 	g_XstatusIconsInit();

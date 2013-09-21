@@ -175,29 +175,6 @@ void InitExtraIcons(void)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Themes
-
-#define MGPROC(x) GetProcAddress(themeAPIHandle,x)
-
-HMODULE  themeAPIHandle = NULL; // handle to uxtheme.dll
-HANDLE   (WINAPI *MyOpenThemeData)(HWND,LPCWSTR) = 0;
-HRESULT  (WINAPI *MyCloseThemeData)(HANDLE) = 0;
-HRESULT  (WINAPI *MyDrawThemeBackground)(HANDLE,HDC,int,int,const RECT *,const RECT *) = 0;
-
-void InitThemeSupport(void)
-{
-	if (!IsWinVerXPPlus()) return;
-
-	themeAPIHandle = GetModuleHandleA("uxtheme");
-	if (themeAPIHandle)
-	{
-		MyOpenThemeData = (HANDLE (WINAPI *)(HWND,LPCWSTR))MGPROC("OpenThemeData");
-		MyCloseThemeData = (HRESULT (WINAPI *)(HANDLE))MGPROC("CloseThemeData");
-		MyDrawThemeBackground = (HRESULT (WINAPI *)(HANDLE,HDC,int,int,const RECT *,const RECT *))MGPROC("DrawThemeBackground");
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // OnPreBuildContactMenu
 
 int CAimProto::OnPreBuildContactMenu(WPARAM wParam,LPARAM /*lParam*/)

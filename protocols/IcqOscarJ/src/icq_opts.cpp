@@ -41,8 +41,6 @@ static const char* szLogLevelDescr[] = {
 	LPGEN("Do not display any problems (not recommended)")
 };
 
-static BOOL (WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD) = 0;
-
 static void LoadDBCheckState(CIcqProto* ppro, HWND hwndDlg, int idCtrl, const char* szSetting, BYTE bDef)
 {
 	CheckDlgButton(hwndDlg, idCtrl, ppro->getByte(szSetting, bDef));
@@ -571,12 +569,6 @@ INT_PTR CALLBACK DlgProcIcqPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
-	if (IsWinVerXPPlus()) {
-		HMODULE hUxTheme = GetModuleHandleA("uxtheme.dll");
-		if (hUxTheme)
-			pfnEnableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
-	}
-
 	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof(odp);
 	odp.position = -800000000;

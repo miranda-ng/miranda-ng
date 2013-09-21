@@ -132,10 +132,10 @@ void TreeList_Create(HWND hwnd)
 	ListView_SetExtendedListViewStyle(hwnd, LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER | LVS_EX_GRIDLINES | LVS_EX_INFOTIP);
 
 	HIMAGELIST hIml;
-	hIml = ImageList_Create(16, 16, ILC_MASK + (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16), 2, 1);
+	hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 2, 1);
 	ListView_SetImageList (hwnd, hIml, LVSIL_SMALL);
 
-	hIml = ImageList_Create(16, 16, ILC_MASK + (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16), 2, 1);
+	hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 2, 1);
 	ImageList_AddIcon_Icolib(hIml, (HICON)CallService(MS_SKIN_LOADICON, SKINICON_OTHER_GROUPOPEN, 0));
 	ImageList_AddIcon_Icolib(hIml, (HICON)CallService(MS_SKIN_LOADICON, SKINICON_OTHER_GROUPSHUT, 0));
 	ImageList_AddIcon_Icolib(hIml, (HICON)CallService(MS_SKIN_LOADICON, SKINICON_OTHER_DOWNARROW, 0));

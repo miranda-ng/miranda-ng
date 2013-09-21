@@ -439,17 +439,17 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			RECT rc;
 			GetClientRect(hwndCanvas, &rc);
-			if (JabberIsThemeActive && JabberDrawThemeParentBackground && JabberIsThemeActive())
-				JabberDrawThemeParentBackground(hwndCanvas, hdcCanvas, &rc);
+			if (IsThemeActive())
+				DrawThemeParentBackground(hwndCanvas, hdcCanvas, &rc);
 			else
 				FillRect(hdcCanvas, &rc, (HBRUSH)GetSysColorBrush(COLOR_BTNFACE));
 
-			if (JabberAlphaBlend && (bm.bmBitsPixel == 32)) {
+			if (bm.bmBitsPixel == 32) {
 				BLENDFUNCTION bf = {0};
 				bf.AlphaFormat = AC_SRC_ALPHA;
 				bf.BlendOp = AC_SRC_OVER;
 				bf.SourceConstantAlpha = 255;
-				JabberAlphaBlend(hdcCanvas, pt.x, pt.y, ptFitSize.x, ptFitSize.y, hdcMem, ptOrg.x, ptOrg.y, ptSize.x, ptSize.y, bf);
+				GdiAlphaBlend(hdcCanvas, pt.x, pt.y, ptFitSize.x, ptFitSize.y, hdcMem, ptOrg.x, ptOrg.y, ptSize.x, ptSize.y, bf);
 			}
 			else {
 				SetStretchBltMode(hdcCanvas, COLORONCOLOR);

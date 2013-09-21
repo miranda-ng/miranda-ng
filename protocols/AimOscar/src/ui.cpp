@@ -47,7 +47,7 @@ void DrawMyControl(HDC hDC, HWND /*hwndButton*/, HANDLE hTheme, UINT iState, REC
 		}
 		rect.top-=1;
 		rect.left-=1;
-		MyDrawThemeBackground(hTheme, hDC, BP_PUSHBUTTON,state, &rect, NULL);
+		DrawThemeBackground(hTheme, hDC, BP_PUSHBUTTON,state, &rect, NULL);
 	}
 	else
 	{
@@ -219,11 +219,8 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 	case WM_DRAWITEM:
 		{
-			if (themeAPIHandle)
-			{
-				MyCloseThemeData (hThemeButton);
-				hThemeButton = MyOpenThemeData (GetDlgItem(hwndDlg, IDC_BOLD), L"Button");
-			}
+			CloseThemeData(hThemeButton);
+			hThemeButton = OpenThemeData(GetDlgItem(hwndDlg, IDC_BOLD), L"Button");
 			LPDRAWITEMSTRUCT lpDIS = (LPDRAWITEMSTRUCT) lParam;
 			if (lpDIS->CtlID == IDC_SUPERSCRIPT)
 			{

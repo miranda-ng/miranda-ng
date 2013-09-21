@@ -24,9 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber.h"
 #include "jabber_secur.h"
 
-typedef BYTE (WINAPI *GetUserNameExType)(int NameFormat, LPTSTR lpNameBuffer, PULONG nSize);
-
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // ntlm auth - LanServer based authorization
 
@@ -67,23 +64,13 @@ TNtlmAuth::~TNtlmAuth()
 
 bool TNtlmAuth::getSpn(TCHAR* szSpn, size_t dwSpnLen)
 {
-	HMODULE hDll = GetModuleHandle(_T("secur32.dll"));
-	if ( !hDll)
-		hDll = LoadLibrary(_T("secur32.dll"));
-	if ( !hDll)
-		return false;
-
-	GetUserNameExType myGetUserNameEx =
-		(GetUserNameExType)GetProcAddress(hDll, "GetUserNameExW");
-
-	if ( !myGetUserNameEx) return false;
 
 	TCHAR szFullUserName[128] = _T("");
 	ULONG szFullUserNameLen = SIZEOF(szFullUserName);
-	if ( !myGetUserNameEx(12, szFullUserName, &szFullUserNameLen)) {
+	if ( !GetUserNameEx(NameDnsDomain, szFullUserName, &szFullUserNameLen)) {
 		szFullUserName[ 0 ] = 0;
 		szFullUserNameLen = SIZEOF(szFullUserName);
-		myGetUserNameEx(2, szFullUserName, &szFullUserNameLen);
+		GetUserNameEx(NameSamCompatible, szFullUserName, &szFullUserNameLen);
 	}
 
 	TCHAR *name = _tcsrchr(szFullUserName, '\\');

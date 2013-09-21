@@ -33,7 +33,6 @@
 // Windows includes
 #include <windows.h>
 #include <commctrl.h>
-#include <uxtheme.h>
 
 // Standard includes
 #include <stdio.h>

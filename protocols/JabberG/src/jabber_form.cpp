@@ -741,6 +741,8 @@ static INT_PTR CALLBACK JabberFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				// Set instruction field
 				if (jfi->xNode != NULL && (n = xmlGetChild(jfi->xNode , "instructions")) != NULL && xmlGetText(n) != NULL)
 					JabberFormSetInstruction(hwndDlg, xmlGetText(n));
+				else if (jfi->xNode != NULL && (n = xmlGetChild(jfi->xNode , "label")) != NULL && xmlGetText(n) != NULL)
+					JabberFormSetInstruction(hwndDlg, xmlGetText(n));
 				else
 				{
 					if (jfi->xNode != NULL && (n = xmlGetChild(jfi->xNode , "title")) != NULL && xmlGetText(n) != NULL)

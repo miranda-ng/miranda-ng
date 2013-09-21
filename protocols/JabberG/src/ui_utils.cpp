@@ -238,20 +238,9 @@ int CDlgBase::GlobalDlgResizer(HWND hwnd, LPARAM, UTILRESIZECONTROL *urc)
 	return wnd->Resizer(urc);
 }
 
-CDlgBase::pfnEnableThemeDialogTexture CDlgBase::MyEnableThemeDialogTexture = NULL;
 void CDlgBase::ThemeDialogBackground(BOOL tabbed)
 {
-	if ( !MyEnableThemeDialogTexture && IsWinVerXPPlus())
-	{
-		HMODULE hThemeAPI = GetModuleHandleA("uxtheme");
-		if (hThemeAPI)
-			MyEnableThemeDialogTexture = (pfnEnableThemeDialogTexture)GetProcAddress(hThemeAPI,"EnableThemeDialogTexture");
-	}
-
-	if (MyEnableThemeDialogTexture)
-	{
-		MyEnableThemeDialogTexture(m_hwnd,(tabbed?0x00000002:0x00000001)|0x00000004); //0x00000002|0x00000004=ETDT_ENABLETAB
-	}
+	EnableThemeDialogTexture(m_hwnd, (tabbed ? ETDT_ENABLE : ETDT_DISABLE) | ETDT_USETABTEXTURE);
 }
 
 void CDlgBase::AddControl(CCtrlBase *ctrl)
@@ -868,7 +857,7 @@ HIMAGELIST CCtrlListView::CreateImageList(int iImageList)
 	if (hIml = GetImageList(iImageList))
 		return hIml;
 
-	hIml = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32|ILC_MASK : ILC_COLOR16|ILC_MASK, 0, 1);
+	hIml = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 1);
 	SetImageList(hIml, iImageList);
 	return hIml;
 }
@@ -886,16 +875,13 @@ void CCtrlListView::AddColumn(int iSubItem, TCHAR *name, int cx)
 
 void CCtrlListView::AddGroup(int iGroupId, TCHAR *name)
 {
-	if (IsWinVerXPPlus())
-	{
-		LVGROUP lvg = {0};
-		lvg.cbSize = sizeof(lvg);
-		lvg.mask = LVGF_HEADER|LVGF_GROUPID;
-		lvg.pszHeader = name;
-		lvg.cchHeader = lstrlen(lvg.pszHeader);
-		lvg.iGroupId = iGroupId;
-		InsertGroup(-1, &lvg);
-	}
+	LVGROUP lvg = {0};
+	lvg.cbSize = sizeof(lvg);
+	lvg.mask = LVGF_HEADER|LVGF_GROUPID;
+	lvg.pszHeader = name;
+	lvg.cchHeader = lstrlen(lvg.pszHeader);
+	lvg.iGroupId = iGroupId;
+	InsertGroup(-1, &lvg);
 }
 
 int CCtrlListView::AddItem(TCHAR *text, int iIcon, LPARAM lParam, int iGroupId)
@@ -908,7 +894,7 @@ int CCtrlListView::AddItem(TCHAR *text, int iIcon, LPARAM lParam, int iGroupId)
 	lvi.lParam = lParam;
 
 
-	if ((iGroupId >= 0) && IsWinVerXPPlus())
+	if ((iGroupId >= 0))
 	{
 		lvi.mask |= LVIF_GROUPID;
 		lvi.iGroupId = iGroupId;
@@ -2126,7 +2112,7 @@ void CCtrlPages::AddPage(TCHAR *ptszName, HICON hIcon, CCallback<void> onCreate,
 	{
 		if ( !m_hIml)
 		{
-			m_hIml = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32|ILC_MASK : ILC_COLOR16|ILC_MASK, 0, 1);
+			m_hIml = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 1);
 			TabCtrl_SetImageList(m_hwnd, m_hIml);
 		}
 

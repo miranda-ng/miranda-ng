@@ -324,9 +324,6 @@ private:
 
 	static INT_PTR CALLBACK GlobalDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static int GlobalDlgResizer(HWND hwnd, LPARAM lParam, UTILRESIZECONTROL *urc);
-
-	typedef HRESULT (STDAPICALLTYPE *pfnEnableThemeDialogTexture)(HWND,DWORD);
-	static pfnEnableThemeDialogTexture MyEnableThemeDialogTexture;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

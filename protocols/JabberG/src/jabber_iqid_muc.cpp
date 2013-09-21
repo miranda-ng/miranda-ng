@@ -33,9 +33,8 @@ void CJabberProto::SetMucConfig(HXML node, void *from)
 		HXML query = iq << XQUERY(JABBER_FEAT_MUC_OWNER);
 		xmlAddChild(query, node);
 		m_ThreadInfo->send(iq);
-}	}
-
-void LaunchForm(HXML node);
+	}
+}
 
 void CJabberProto::OnIqResultGetMuc(HXML iqNode)
 {
@@ -57,7 +56,11 @@ void CJabberProto::OnIqResultGetMuc(HXML iqNode)
 					if ( !lstrcmp(str, JABBER_FEAT_DATA_FORMS))
 						//LaunchForm(xNode);
 						FormCreateDialog(xNode, _T("Jabber Conference Room Configuration"), &CJabberProto::SetMucConfig, mir_tstrdup(from));
-}	}	}	}	}
+				}
+			}
+		}
+	}
+}
 
 static void sttFillJidList(HWND hwndDlg)
 {

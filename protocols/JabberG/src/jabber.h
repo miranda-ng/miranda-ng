@@ -42,6 +42,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <commctrl.h>
 #include <uxtheme.h>
 #include <richedit.h>
+#define SECURITY_WIN32
+#include <Security.h>
 
 #include <ctype.h>
 #include <fcntl.h>
@@ -584,11 +586,6 @@ extern BOOL   jabberChatDllPresent;
 
 extern HANDLE hExtraMood;
 extern HANDLE hExtraActivity;
-
-// Theme API
-extern BOOL (WINAPI *JabberAlphaBlend)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION);
-extern BOOL (WINAPI *JabberIsThemeActive)();
-extern HRESULT (WINAPI *JabberDrawThemeParentBackground)(HWND, HDC, RECT *);
 
 extern TCHAR szCoreVersion[];
 

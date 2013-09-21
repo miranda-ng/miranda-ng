@@ -285,7 +285,7 @@ void CJabberDlgBookmarks::OnInitDialog()
 	m_btnEdit.Disable();
 	m_btnRemove.Disable();
 
-	m_lvBookmarks.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES|LVS_EX_HEADERDRAGDROP | (IsWinVerXPPlus() ? LVS_EX_DOUBLEBUFFER : 0));
+	m_lvBookmarks.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES|LVS_EX_HEADERDRAGDROP | LVS_EX_DOUBLEBUFFER);
 
 	HIMAGELIST hIml = m_lvBookmarks.CreateImageList(LVSIL_SMALL);
 	ImageList_AddIcon_Icolib(hIml, m_proto->LoadIconEx("group"));

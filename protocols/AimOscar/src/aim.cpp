@@ -112,7 +112,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.fnUninit = protoUninit;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM) & pd);
 
-	InitThemeSupport();
 	InitIcons();
 
 	return 0;

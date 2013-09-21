@@ -31,7 +31,6 @@
 #include <stdio.h>
 #include <time.h>
 #include <commctrl.h>
-#include <uxtheme.h>
 
 #define bzero(pvDst, count) memset(pvDst, 0, count)
 
