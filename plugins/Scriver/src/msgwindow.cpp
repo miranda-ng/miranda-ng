@@ -35,12 +35,14 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 extern TCHAR *GetNickname(HANDLE hContact, const char* szProto);
 
-void SubclassTabCtrl(HWND hwnd) {
+void SubclassTabCtrl(HWND hwnd)
+{
 	mir_subclassWindow(hwnd, TabCtrlProc);
 	SendMessage(hwnd, EM_SUBCLASSED, 0, 0);
 }
 
-void UnsubclassTabCtrl(HWND hwnd) {
+void UnsubclassTabCtrl(HWND hwnd)
+{
 	SendMessage(hwnd, EM_UNSUBCLASSED, 0, 0);
 }
 
@@ -205,7 +207,6 @@ static int GetTabFromHWND(ParentWindowData *dat, HWND child)
 		}
 	}
 	return -1;
-
 }
 
 static MessageWindowTabData * GetChildFromTab(HWND hwndTabs, int tabId)
@@ -274,37 +275,37 @@ static void SetupStatusBar(ParentWindowData *dat)
 	SendMessage(dat->hwndStatus, SB_SETTEXT, (WPARAM)(SBT_NOBORDERS) | 3, 0);
 }
 
-static int AddOrReplaceIcon(HIMAGELIST hList, int prevIndex, HICON hIcon) {
-    int usageIdx = -1;
-    int i;
-    for (i = 0; i < g_dat.tabIconListUsageSize; i++) {
+static int AddOrReplaceIcon(HIMAGELIST hList, int prevIndex, HICON hIcon)
+{
+	int usageIdx = -1;
+	for (int i = 0; i < g_dat.tabIconListUsageSize; i++) {
 		if (!g_dat.tabIconListUsage[i].used && usageIdx == -1) {
-            usageIdx = i;
+			usageIdx = i;
 		}
-        if (g_dat.tabIconListUsage[i].index == prevIndex) {
-            usageIdx = i;
-            break;
-        }
-    }
-    if (usageIdx == -1) {
-        usageIdx = g_dat.tabIconListUsageSize;
-        g_dat.tabIconListUsage = (ImageListUsageEntry*) mir_realloc(g_dat.tabIconListUsage, sizeof(ImageListUsageEntry) * (g_dat.tabIconListUsageSize + 1));
-        g_dat.tabIconListUsageSize++;
-    } else {
-        prevIndex = g_dat.tabIconListUsage[usageIdx].index;
-    }
-    g_dat.tabIconListUsage[usageIdx].used = 1;
-    g_dat.tabIconListUsage[usageIdx].index = (int) ImageList_ReplaceIcon(hList, prevIndex, hIcon);
-    return g_dat.tabIconListUsage[usageIdx].index;
+		if (g_dat.tabIconListUsage[i].index == prevIndex) {
+			usageIdx = i;
+			break;
+		}
+	}
+	if (usageIdx == -1) {
+		usageIdx = g_dat.tabIconListUsageSize;
+		g_dat.tabIconListUsage = (ImageListUsageEntry*) mir_realloc(g_dat.tabIconListUsage, sizeof(ImageListUsageEntry) * (g_dat.tabIconListUsageSize + 1));
+		g_dat.tabIconListUsageSize++;
+	} else {
+		prevIndex = g_dat.tabIconListUsage[usageIdx].index;
+	}
+	g_dat.tabIconListUsage[usageIdx].used = 1;
+	g_dat.tabIconListUsage[usageIdx].index = (int) ImageList_ReplaceIcon(hList, prevIndex, hIcon);
+	return g_dat.tabIconListUsage[usageIdx].index;
 }
 
-static void ReleaseIcon(int index) {
-    int i;
-    for (i = 0; i < g_dat.tabIconListUsageSize; i++) {
-        if (g_dat.tabIconListUsage[i].index == index) {
-            g_dat.tabIconListUsage[i].used = 0;
-        }
-    }
+static void ReleaseIcon(int index)
+{
+	for (int i = 0; i < g_dat.tabIconListUsageSize; i++) {
+		if (g_dat.tabIconListUsage[i].index == index) {
+			g_dat.tabIconListUsage[i].used = 0;
+		}
+	}
 }
 
 static void ActivateChild(ParentWindowData *dat, HWND child) {
@@ -312,8 +313,8 @@ static void ActivateChild(ParentWindowData *dat, HWND child) {
 	RECT rcChild;
 	GetChildWindowRect(dat, &rcChild);
 	SetWindowPos(child, HWND_TOP, rcChild.left, rcChild.top, rcChild.right-rcChild.left, rcChild.bottom - rcChild.top, SWP_NOSIZE);
-	
-    i = GetTabFromHWND(dat, child);
+
+	i = GetTabFromHWND(dat, child);
 	if ( i == -1 )
 		return;
 	else {
@@ -359,8 +360,7 @@ static void AddChild(ParentWindowData *dat, HWND hwnd, HANDLE hContact)
 	SetWindowPos(mwtd->hwnd, HWND_TOP, dat->childRect.left, dat->childRect.top, dat->childRect.right-dat->childRect.left, dat->childRect.bottom - dat->childRect.top, SWP_HIDEWINDOW);
 	SendMessage(dat->hwnd, WM_SIZE, 0, 0);
 
-	if (MyEnableThemeDialogTexture)
-		MyEnableThemeDialogTexture(hwnd, ETDT_ENABLETAB);
+	EnableThemeDialogTexture(hwnd, ETDT_ENABLETAB);
 }
 
 static void RemoveChild(ParentWindowData *dat, HWND child)
@@ -1153,7 +1153,7 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 			int bSelected = lpDIS->itemState & ODS_SELECTED;
 			int atTop = (GetWindowLongPtr(hwnd, GWL_STYLE) & TCS_BOTTOM) == 0;
 			UINT dwFormat;
-			if (!MyIsAppThemed || !MyIsAppThemed()) {
+			if (!IsAppThemed()) {
 				FillRect(lpDIS->hDC, &rect, GetSysColorBrush(COLOR_BTNFACE));
 			}
 			else
@@ -1170,10 +1170,10 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 				if (!bSelected)
 					InflateRect(&rectTab, 1, 1);
 
-				hTheme = MyOpenThemeData(hwnd, L"TAB");
-				if (MyIsThemeBackgroundPartiallyTransparent(hTheme, TABP_TABITEM, tstate))
-					MyDrawThemeParentBackground(hwnd, lpDIS->hDC, &rectTab);
- 				MyDrawThemeBackground(hTheme, lpDIS->hDC, TABP_TABITEM, tstate, &rectTab, NULL);
+				hTheme = OpenThemeData(hwnd, L"TAB");
+				if (IsThemeBackgroundPartiallyTransparent(hTheme, TABP_TABITEM, tstate))
+					DrawThemeParentBackground(hwnd, lpDIS->hDC, &rectTab);
+				DrawThemeBackground(hTheme, lpDIS->hDC, TABP_TABITEM, tstate, &rectTab, NULL);
 			}
 			if (atTop) {
 				dwFormat = DT_SINGLELINE|DT_TOP|DT_CENTER|DT_NOPREFIX|DT_NOCLIP;
@@ -1185,10 +1185,10 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 					rect.left = rIcon.left + (info.rcImage.right - info.rcImage.left);
 				}
 				if (dat->flags2 & SMF2_TABCLOSEBUTTON) {
-                    ImageList_GetImageInfo(g_dat.hButtonIconList, 0, &info);
-                    rIcon.left = rect.right - GetSystemMetrics(SM_CXEDGE) - (bSelected ? 6 : 2) - (info.rcImage.right - info.rcImage.left);
-                    ImageList_DrawEx(g_dat.hButtonIconList, 0, lpDIS->hDC, rIcon.left, rIcon.top, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
-                    rect.right = rIcon.left - 1;
+					ImageList_GetImageInfo(g_dat.hButtonIconList, 0, &info);
+					rIcon.left = rect.right - GetSystemMetrics(SM_CXEDGE) - (bSelected ? 6 : 2) - (info.rcImage.right - info.rcImage.left);
+					ImageList_DrawEx(g_dat.hButtonIconList, 0, lpDIS->hDC, rIcon.left, rIcon.top, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
+					rect.right = rIcon.left - 1;
 				}
 				rect.top += GetSystemMetrics(SM_CYEDGE) + 2;
 			} else {
@@ -1201,17 +1201,17 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 					rect.left = rIcon.left + (info.rcImage.right - info.rcImage.left);
 				}
 				if (dat->flags2 & SMF2_TABCLOSEBUTTON) {
-                    ImageList_GetImageInfo(g_dat.hButtonIconList, 0, &info);
-                    rIcon.top = rect.bottom - (info.rcImage.bottom - info.rcImage.top) - 2;
-                    rIcon.left = rect.right - GetSystemMetrics(SM_CXEDGE) - (bSelected ? 6 : 2) - (info.rcImage.right - info.rcImage.left);
-                    ImageList_DrawEx(g_dat.hButtonIconList, 0, lpDIS->hDC, rIcon.left, rIcon.top, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
-                    rect.right = rIcon.left - 1;
+					ImageList_GetImageInfo(g_dat.hButtonIconList, 0, &info);
+					rIcon.top = rect.bottom - (info.rcImage.bottom - info.rcImage.top) - 2;
+					rIcon.left = rect.right - GetSystemMetrics(SM_CXEDGE) - (bSelected ? 6 : 2) - (info.rcImage.right - info.rcImage.left);
+					ImageList_DrawEx(g_dat.hButtonIconList, 0, lpDIS->hDC, rIcon.left, rIcon.top, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
+					rect.right = rIcon.left - 1;
 				}
 				rect.bottom -= GetSystemMetrics(SM_CYEDGE) + 2;
 			}
 			if (hTheme) {
 
-				MyDrawThemeText(hTheme, lpDIS->hDC, TABP_TABITEM, tstate, szLabel, -1, dwFormat, 0, &rect);
+				DrawThemeText(hTheme, lpDIS->hDC, TABP_TABITEM, tstate, szLabel, -1, dwFormat, 0, &rect);
 
 			}
 			else
@@ -1239,7 +1239,8 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 				hlRect.bottom--;
 				FrameRect(lpDIS->hDC, &hlRect, GetSysColorBrush(COLOR_HIGHLIGHT));
 			}
-			if (hTheme) MyCloseThemeData(hTheme);
+			if (hTheme)
+				CloseThemeData(hTheme);
 		}
 	}
 }
@@ -1248,16 +1249,16 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TabCtrlData *dat;
 	dat = (TabCtrlData *) GetWindowLongPtr(hwnd, GWLP_USERDATA);
-    switch(msg) {
-    	case EM_SUBCLASSED:
+	switch(msg) {
+		case EM_SUBCLASSED:
 			dat = (TabCtrlData *) mir_alloc(sizeof(TabCtrlData));
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR) dat);
 			dat->bDragging = FALSE;
 			dat->bDragged = FALSE;
 			dat->srcTab = -1;
 			dat->destTab = -1;
-	        return 0;
-        case WM_MBUTTONDOWN:
+			return 0;
+		case WM_MBUTTONDOWN:
 		{
 			TCITEM tci;
 			int tabId;
@@ -1273,10 +1274,10 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (mwtd != NULL) {
 					SendMessage(mwtd->hwnd, WM_CLOSE, 0, 0);
 					dat->srcTab = -1;
-    			}
+				}
 			}
-	        return 0;
-        }
+			return 0;
+		}
 		case WM_LBUTTONDBLCLK:
 		{
 			TCHITTESTINFO thinfo;
@@ -1408,7 +1409,7 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 								NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_OPENING);
 								NotifyLocalWinEvent(hContact, hChild, MSG_WINDOW_EVT_OPEN);
 								ShowWindow(hParent, SW_SHOWNA);
-                                EnableWindow(hParent, TRUE);
+								EnableWindow(hParent, TRUE);
 							}
 						}
 					} else {
@@ -1532,7 +1533,7 @@ LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				}
 			}
 			break;
-       	case EM_UNSUBCLASSED:
+		case EM_UNSUBCLASSED:
 			mir_free(dat);
 			return 0;
 	}

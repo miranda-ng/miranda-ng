@@ -24,7 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SRMM_RICHUTIL_H
 
 #define RWinVerMajor()      LOBYTE(LOWORD(GetVersion()))
-#define RIsWinVerXPPlus()   (RWinVerMajor()>=5 && LOWORD(GetVersion())!=5)
 
 typedef struct {
 	HWND hwnd;
@@ -35,17 +34,5 @@ typedef struct {
 void RichUtil_Load();
 void RichUtil_Unload();
 int RichUtil_SubClass(HWND hwndEdit);
-
-extern HMODULE mTheme;
-extern BOOL    (WINAPI *MyIsAppThemed)(VOID);
-extern BOOL    (WINAPI *MyIsThemeActive)();
-extern BOOL    (WINAPI *MyIsThemeBackgroundPartiallyTransparent)(HANDLE,int,int);
-extern HANDLE  (WINAPI *MyOpenThemeData)(HWND,LPCWSTR);
-extern HRESULT (WINAPI *MyCloseThemeData)(HANDLE);
-extern HRESULT (WINAPI *MyDrawThemeBackground)(HANDLE,HDC,int,int,const RECT*,const RECT *);
-extern HRESULT (WINAPI *MyGetThemeBackgroundContentRect)(HANDLE,HDC,int,int,const RECT *,RECT *);
-extern HRESULT (WINAPI *MyDrawThemeParentBackground)(HWND,HDC,RECT*);
-extern HRESULT (WINAPI *MyDrawThemeText)(HANDLE, HDC, int, int, LPCWSTR, int, DWORD, DWORD, const RECT *);
-extern HRESULT (WINAPI *MyEnableThemeDialogTexture)(HWND, DWORD);
 
 #endif

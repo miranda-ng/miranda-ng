@@ -116,7 +116,7 @@ static INT_PTR Service_GetInfo(WPARAM wParam,LPARAM lParam)
 
 void LoadModuleIcons(MODULEINFO *mi)
 {
-	HIMAGELIST hList = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 0, 0);
+	HIMAGELIST hList = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 0);
 
 	int overlayIcon = ImageList_AddIcon(hList, GetCachedIcon("chat_overlay"));
 	ImageList_SetOverlayImage(hList, overlayIcon, 1);
