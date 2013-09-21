@@ -652,18 +652,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			TCHAR *lastPage = NULL, *lastGroup = NULL, *lastTab = NULL;
 			DBVARIANT dbv;
 
-			typedef BOOL (STDAPICALLTYPE *pfnGetComboBoxInfo)(HWND, PCOMBOBOXINFO);
-			pfnGetComboBoxInfo getComboBoxInfo = (pfnGetComboBoxInfo)GetProcAddress(GetModuleHandleA("user32"), "GetComboBoxInfo");
-			if (getComboBoxInfo) {
-				COMBOBOXINFO cbi;
-				cbi.cbSize = sizeof(COMBOBOXINFO);
-				getComboBoxInfo( GetDlgItem(hdlg, IDC_KEYWORD_FILTER), &cbi);
-				mir_subclassWindow(cbi.hwndItem, OptionsFilterSubclassProc);
+			COMBOBOXINFO cbi;
+			cbi.cbSize = sizeof(COMBOBOXINFO);
+			GetComboBoxInfo( GetDlgItem(hdlg, IDC_KEYWORD_FILTER), &cbi);
+			mir_subclassWindow(cbi.hwndItem, OptionsFilterSubclassProc);
 
-				if (IsAeroMode()) {
-					mir_subclassWindow(cbi.hwndCombo, AeroPaintSubclassProc);
-					mir_subclassWindow(cbi.hwndItem, AeroPaintSubclassProc);
-				}
+			if (IsAeroMode()) {
+				mir_subclassWindow(cbi.hwndCombo, AeroPaintSubclassProc);
+				mir_subclassWindow(cbi.hwndItem, AeroPaintSubclassProc);
 			}
 
 			Utils_RestoreWindowPositionNoSize(hdlg, NULL, "Options", "");

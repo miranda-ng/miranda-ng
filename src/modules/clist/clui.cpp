@@ -28,7 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define TM_AUTOALPHA  1
 #define MENU_MIRANDAMENU         0xFFFF1234
 
-extern BOOL(WINAPI * MySetProcessWorkingSetSize) (HANDLE, SIZE_T, SIZE_T);
 extern HANDLE hEventExtraClick;
 
 static HMODULE hUserDll;
@@ -546,8 +545,8 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			}
 			else db_set_b(NULL, "CList", "State", SETTING_STATE_MINIMIZED);
 
-			if (MySetProcessWorkingSetSize != NULL && db_get_b(NULL, "CList", "DisableWorkingSet", 1))
-				MySetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
+			if (db_get_b(NULL, "CList", "DisableWorkingSet", 1))
+				SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 		}
 		// drop thru
 	case WM_MOVE:
@@ -639,7 +638,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			break;
 		if (noRecurse)
 			break;
-		if ( !db_get_b(NULL, "CLUI", "FadeInOut", 0) || !IsWinVer2000Plus())
+		if ( !db_get_b(NULL, "CLUI", "FadeInOut", 0))
 			break;
 		if (GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_LAYERED) {
 			DWORD thisTick, startTick;
@@ -696,8 +695,8 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				ShowWindow(hwnd, SW_HIDE);
 				db_set_b(NULL, "CList", "State", SETTING_STATE_HIDDEN);
 
-				if (MySetProcessWorkingSetSize != NULL && db_get_b(NULL, "CList", "DisableWorkingSet", 1))
-					MySetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
+				if (db_get_b(NULL, "CList", "DisableWorkingSet", 1))
+					SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 
 				return 0;
 			}

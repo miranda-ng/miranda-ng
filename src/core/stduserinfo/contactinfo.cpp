@@ -223,7 +223,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			hEmailFont = CreateFontIndirect(&lf);
 		}
 		if (hHandCursor == NULL)
-			hHandCursor = ( IsWinVer2000Plus()) ? LoadCursor(NULL, IDC_HAND) : LoadCursor(hInst, MAKEINTRESOURCE(IDC_HYPERLINKHAND));
+			hHandCursor = LoadCursor(NULL, IDC_HAND);
 		{
 			LVCOLUMN lvc;
 			RECT rc;

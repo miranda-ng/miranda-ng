@@ -44,7 +44,6 @@ int InitClistHotKeys(void);
 
 HANDLE hContactDoubleClicked, hContactIconChangedEvent;
 HIMAGELIST hCListImages;
-BOOL(WINAPI * MySetProcessWorkingSetSize) (HANDLE, SIZE_T, SIZE_T);
 
 extern BYTE nameOrder[];
 
@@ -414,8 +413,8 @@ int fnShowHide(WPARAM, LPARAM)
 			db_set_b(NULL, "CList", "State", SETTING_STATE_MINIMIZED);
 		}
 
-		if (MySetProcessWorkingSetSize != NULL && db_get_b(NULL, "CList", "DisableWorkingSet", 1))
-			MySetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
+		if (db_get_b(NULL, "CList", "DisableWorkingSet", 1))
+			SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 	}
 	return 0;
 }
@@ -510,8 +509,6 @@ int LoadContactListModule2(void)
 	CreateServiceFunction(MS_CLIST_DOCKINGISDOCKED, Docking_IsDocked);
 	CreateServiceFunction(MS_CLIST_HOTKEYSPROCESSMESSAGE, HotkeysProcessMessageStub);
 	CreateServiceFunction(MS_CLIST_GETCONTACTICON, GetContactIcon);
-
-	MySetProcessWorkingSetSize = (BOOL(WINAPI *) (HANDLE, SIZE_T, SIZE_T)) GetProcAddress(GetModuleHandleA("kernel32"), "SetProcessWorkingSetSize");
 
 	InitDisplayNameCache();
 	InitCListEvents();

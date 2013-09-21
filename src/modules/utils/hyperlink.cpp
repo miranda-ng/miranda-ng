@@ -260,8 +260,7 @@ int InitHyperlink(void)
 	wcl.cbClsExtra = 0;
 	wcl.cbWndExtra = sizeof(struct HyperlinkWndData*);
 	wcl.hInstance = hInst;
-	if (IsWinVer2000Plus()) wcl.hCursor = NULL;
-	else wcl.hCursor = LoadCursor(wcl.hInstance, MAKEINTRESOURCE(IDC_HYPERLINKHAND));
+	wcl.hCursor = NULL;
 	wcl.lpszClassName = WNDCLASS_HYPERLINK;
 	wcl.hbrBackground = NULL;
 	wcl.hIcon = NULL;

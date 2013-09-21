@@ -30,18 +30,6 @@ TIME_API tmi;
 typedef DWORD 	(WINAPI *pfnGetDynamicTimeZoneInformation_t)(DYNAMIC_TIME_ZONE_INFORMATION *pdtzi);
 static pfnGetDynamicTimeZoneInformation_t pfnGetDynamicTimeZoneInformation;
 
-typedef HRESULT	(WINAPI *pfnSHLoadIndirectString_t)(LPCWSTR pszSource, LPWSTR pszOutBuf, UINT cchOutBuf,  void **ppvReserved);
-static pfnSHLoadIndirectString_t pfnSHLoadIndirectString;
-
-typedef LANGID (WINAPI *pfnGetUserDefaultUILanguage_t)(void);
-static pfnGetUserDefaultUILanguage_t pfnGetUserDefaultUILanguage;
-
-typedef LANGID (WINAPI *pfnGetSystemDefaultUILanguage_t)(void);
-static pfnGetSystemDefaultUILanguage_t pfnGetSystemDefaultUILanguage;
-
-typedef LPARAM (WINAPI *pfnSendMessageW_t)(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
-static pfnSendMessageW_t pfnSendMessageW;
-
 typedef struct _REG_TZI_FORMAT
 {
 	LONG Bias;
@@ -74,7 +62,6 @@ typedef struct
 } TZ_INT_INFO;
 
 static TZ_INT_INFO myInfo;
-bool muiInstalled;
 
 static OBJLIST<MIM_TIMEZONE>  g_timezones(55, NumericKeySortT);
 static LIST<MIM_TIMEZONE>     g_timezonesBias(55, MIM_TIMEZONE::compareBias);
@@ -411,11 +398,7 @@ static int timeapiPrepareList(HANDLE hContact, HWND hWnd, DWORD dwFlags)
 	{
 		MIM_TIMEZONE *tz = g_timezonesBias[i];
 
-		if (pfnSendMessageW)
-			pfnSendMessageW(hWnd, lstMsg->addStr, 0, (LPARAM)tz->szDisplay);
-		else
-			SendMessage(hWnd, lstMsg->addStr, 0, (LPARAM)StrConvTu(tz->szDisplay));
-
+		SendMessage(hWnd, lstMsg->addStr, 0, (LPARAM)tz->szDisplay);
 		SendMessage(hWnd, lstMsg->setData, i + 1, (LPARAM)tz);
 	}
 
@@ -496,27 +479,9 @@ static INT_PTR TimestampToStringA(WPARAM wParam, LPARAM lParam)
 
 void GetLocalizedString(HKEY hSubKey, const TCHAR *szName, wchar_t *szBuf, DWORD cbLen)
 {
-	szBuf[0] = 0;
-	if (muiInstalled)
-	{
-		TCHAR tszTempBuf[MIM_TZ_NAMELEN], tszName[30];
-		mir_sntprintf(tszName, SIZEOF(tszName), _T("MUI_%s"), szName);
-		DWORD dwLength = cbLen * sizeof(TCHAR);
-		if (ERROR_SUCCESS == RegQueryValueEx(hSubKey, tszName, NULL, NULL, (unsigned char *)tszTempBuf, &dwLength))
-		{
-			tszTempBuf[min(dwLength / sizeof(TCHAR), cbLen - 1)] = 0;
-			if (pfnSHLoadIndirectString)
-				pfnSHLoadIndirectString(StrConvU(tszTempBuf), szBuf, cbLen, NULL);
-		}
-	}
-	if (szBuf[0] == 0)
-	{
-		DWORD dwLength = cbLen * sizeof(wchar_t);
-
-
-		RegQueryValueEx(hSubKey, szName, NULL, NULL, (unsigned char *)szBuf, &dwLength);
-		szBuf[min(dwLength / sizeof(TCHAR), cbLen - 1)] = 0;
-	}
+	DWORD dwLength = cbLen * sizeof(wchar_t);
+	RegQueryValueEx(hSubKey, szName, NULL, NULL, (unsigned char *)szBuf, &dwLength);
+	szBuf[min(dwLength / sizeof(TCHAR), cbLen - 1)] = 0;
 }
 
 extern "C" __declspec(dllexport) void RecalculateTime(void)
@@ -558,9 +523,7 @@ void InitTimeZones(void)
 	REG_TZI_FORMAT	tzi;
 	HKEY			hKey;
 
-	const TCHAR *tszKey = IsWinVerNT() ?
-		_T("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones") :
-		_T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Time Zones");
+	const TCHAR *tszKey = _T("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones");
 
 	/*
 	 * use GetDynamicTimeZoneInformation() on Vista+ - this will return a structure with
@@ -569,16 +532,6 @@ void InitTimeZones(void)
 	 */
 	if (IsWinVerVistaPlus())
 		pfnGetDynamicTimeZoneInformation = (pfnGetDynamicTimeZoneInformation_t)GetProcAddress(GetModuleHandle(_T("kernel32")), "GetDynamicTimeZoneInformation");
-
-	if (IsWinVer2000Plus())
-	{
-		pfnSHLoadIndirectString = (pfnSHLoadIndirectString_t)GetProcAddress(GetModuleHandle(_T("shlwapi")), "SHLoadIndirectString");
-		pfnGetSystemDefaultUILanguage = (pfnGetSystemDefaultUILanguage_t)GetProcAddress(GetModuleHandle(_T("kernel32")), "GetSystemDefaultUILanguage");
-		pfnGetUserDefaultUILanguage = (pfnGetUserDefaultUILanguage_t)GetProcAddress(GetModuleHandle(_T("kernel32")), "GetUserDefaultUILanguage");
-		muiInstalled = pfnSHLoadIndirectString && pfnGetSystemDefaultUILanguage() != pfnGetUserDefaultUILanguage();
-	}
-
-	pfnSendMessageW = (pfnSendMessageW_t)GetProcAddress(GetModuleHandle(_T("user32")), "SendMessageW");
 
 	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, tszKey, 0, KEY_ENUMERATE_SUB_KEYS, &hKey))
 	{

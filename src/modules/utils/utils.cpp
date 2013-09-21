@@ -448,15 +448,6 @@ static INT_PTR GenerateRandom(WPARAM wParam, LPARAM lParam)
 				pfnRtlGenRandom = NULL;
 		}
 	}
-	if (pfnRtlGenRandom == NULL)
-	{
-		srand(GetTickCount());
-		unsigned short* buf = (unsigned short*)lParam;
-		for (; (long)(wParam-=2) >= 0;)
-			*(buf++) = (unsigned short)rand();
-		if (lParam < 0)
-			*(char*)buf = (char)(rand() & 0xFF);
-	}
 	return 0;
 }
 

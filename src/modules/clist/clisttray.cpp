@@ -27,7 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define TOOLTIP_TOLERANCE 5
 
 extern HIMAGELIST hCListImages;
-extern BOOL(WINAPI * MySetProcessWorkingSetSize) (HANDLE, SIZE_T, SIZE_T);
 
 int GetAverageMode(int* pNetProtoCount = NULL);
 
@@ -590,8 +589,7 @@ static VOID CALLBACK TrayIconAutoHideTimer(HWND hwnd, UINT, UINT_PTR idEvent, DW
 	HWND hwndClui = cli.hwndContactList;
 	if (GetActiveWindow() != hwndClui) {
 		ShowWindow(hwndClui, SW_HIDE);
-		if (MySetProcessWorkingSetSize != NULL)
-			MySetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
+		SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 	}
 }
 
