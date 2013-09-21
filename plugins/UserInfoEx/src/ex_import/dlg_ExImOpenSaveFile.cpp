@@ -34,54 +34,50 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  **/
 static void InitAlteredPlacesBar()
 {
-	// do not try it on a win9x Box
-	if (IsWinVer2000Plus())
-	{
-		HKEY hkMiranda;
-		LONG result;
+	HKEY hkMiranda;
+	LONG result;
 
-		// create or open temporary hive for miranda specific places
-		result = RegCreateKey(HKEY_CURRENT_USER, HKEY_MIRANDA_PLACESBAR, &hkMiranda);
+	// create or open temporary hive for miranda specific places
+	result = RegCreateKey(HKEY_CURRENT_USER, HKEY_MIRANDA_PLACESBAR, &hkMiranda);
+	if (SUCCEEDED(result)) 
+	{
+		HKEY hkPlacesBar;
+
+		// map the current users registry
+		RegOverridePredefKey(HKEY_CURRENT_USER, hkMiranda);
+		// open the policy key
+		result = RegCreateKey(HKEY_CURRENT_USER, HKEY_WINPOL_PLACESBAR, &hkPlacesBar);
+		// install the places bar
 		if (SUCCEEDED(result)) 
 		{
-			HKEY hkPlacesBar;
+			DWORD dwFolderID;
+			LPSTR p;
+			CHAR szMirandaPath[MAX_PATH];
+			CHAR szProfilePath[MAX_PATH];
 
-			// map the current users registry
-			RegOverridePredefKey(HKEY_CURRENT_USER, hkMiranda);
-			// open the policy key
-			result = RegCreateKey(HKEY_CURRENT_USER, HKEY_WINPOL_PLACESBAR, &hkPlacesBar);
-			// install the places bar
-			if (SUCCEEDED(result)) 
+			// default places: Desktop, My Documents, My Computer
+			dwFolderID = 0;	 RegSetValueEx(hkPlacesBar, _T("Place0"), 0, REG_DWORD, (PBYTE)&dwFolderID, sizeof(DWORD));
+			dwFolderID = 5;	RegSetValueEx(hkPlacesBar, _T("Place1"), 0, REG_DWORD, (PBYTE)&dwFolderID, sizeof(DWORD));
+			dwFolderID = 17; RegSetValueEx(hkPlacesBar, _T("Place2"), 0, REG_DWORD, (PBYTE)&dwFolderID, sizeof(DWORD));
+
+			// Miranda's installation path
+			GetModuleFileNameA(GetModuleHandle(NULL), szMirandaPath, SIZEOF(szMirandaPath)); 
+			p = mir_strrchr(szMirandaPath, '\\');
+			if (p) 
 			{
-				DWORD dwFolderID;
-				LPSTR p;
-				CHAR szMirandaPath[MAX_PATH];
-				CHAR szProfilePath[MAX_PATH];
-
-				// default places: Desktop, My Documents, My Computer
-				dwFolderID = 0;	 RegSetValueEx(hkPlacesBar, _T("Place0"), 0, REG_DWORD, (PBYTE)&dwFolderID, sizeof(DWORD));
-				dwFolderID = 5;	RegSetValueEx(hkPlacesBar, _T("Place1"), 0, REG_DWORD, (PBYTE)&dwFolderID, sizeof(DWORD));
-				dwFolderID = 17; RegSetValueEx(hkPlacesBar, _T("Place2"), 0, REG_DWORD, (PBYTE)&dwFolderID, sizeof(DWORD));
-
-				// Miranda's installation path
-				GetModuleFileNameA(GetModuleHandle(NULL), szMirandaPath, SIZEOF(szMirandaPath)); 
-				p = mir_strrchr(szMirandaPath, '\\');
-				if (p) 
-				{
-					RegSetValueExA(hkPlacesBar, "Place3", 0, REG_SZ, (PBYTE)szMirandaPath, (p - szMirandaPath) + 1);
-				}
-
-				// Miranda's profile path
-				if (!CallService(MS_DB_GETPROFILEPATH, SIZEOF(szProfilePath), (LPARAM)szProfilePath))
-				{
-					// only add if different from profile path
-					RegSetValueExA(hkPlacesBar, "Place4", 0, REG_SZ, (PBYTE)szProfilePath, (DWORD)strlen(szProfilePath) + 1);
-				}
-
-				RegCloseKey(hkPlacesBar);
+				RegSetValueExA(hkPlacesBar, "Place3", 0, REG_SZ, (PBYTE)szMirandaPath, (p - szMirandaPath) + 1);
 			}
-			RegCloseKey(hkMiranda);
+
+			// Miranda's profile path
+			if (!CallService(MS_DB_GETPROFILEPATH, SIZEOF(szProfilePath), (LPARAM)szProfilePath))
+			{
+				// only add if different from profile path
+				RegSetValueExA(hkPlacesBar, "Place4", 0, REG_SZ, (PBYTE)szProfilePath, (DWORD)strlen(szProfilePath) + 1);
+			}
+
+			RegCloseKey(hkPlacesBar);
 		}
+		RegCloseKey(hkMiranda);
 	}
 }
 
@@ -94,12 +90,8 @@ static void InitAlteredPlacesBar()
  **/
 static void ResetAlteredPlaceBars()
 {
-	// make sure not to call the following on a Win9x Box
-	if (IsWinVer2000Plus()) 
-	{
-		RegOverridePredefKey(HKEY_CURRENT_USER, NULL);
-		SHDeleteKey(HKEY_CURRENT_USER, HKEY_MIRANDA_PLACESBAR);
-	}
+	RegOverridePredefKey(HKEY_CURRENT_USER, NULL);
+	SHDeleteKey(HKEY_CURRENT_USER, HKEY_MIRANDA_PLACESBAR);
 }
 
 /**
@@ -275,17 +267,9 @@ static void InitOpenFileNameStruct(OPENFILENAMEA *pofn, HWND hWndParent, LPCSTR 
 
 	GetInitialDir(pszInitialDir);
 	pofn->lpstrInitialDir = pszInitialDir;
-
-
-	if (IsWinVer2000Plus()) {
-		pofn->lStructSize = sizeof (OPENFILENAME);
-		pofn->Flags		 |= OFN_ENABLEHOOK|OFN_EXPLORER;
-		pofn->lpfnHook		= (LPOFNHOOKPROC)OpenSaveFileDialogHook;
-	}
-	else {
-		pofn->lStructSize = OPENFILENAME_SIZE_VERSION_400;
-	}
-
+	pofn->lStructSize = sizeof (OPENFILENAME);
+	pofn->Flags		 |= OFN_ENABLEHOOK|OFN_EXPLORER;
+	pofn->lpfnHook		= (LPOFNHOOKPROC)OpenSaveFileDialogHook;
 }
 
 

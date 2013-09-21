@@ -212,8 +212,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SMIL
 	// Get real height of the line
 	text_height = DrawText(hdcMem, _T("A"), 1, &tmp_rc, DT_CALCRECT | uTextFormat);
 
-	if (IsWinVer2000Plus())
-		SaveAlpha(&free_rc);
+	SaveAlpha(&free_rc);
 
 	// Just draw ellipsis
 	if (free_rc.right <= free_rc.left)
@@ -306,8 +305,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SMIL
 		}
 	}
 
-	if (IsWinVer2000Plus())
-		RestoreAlpha(&free_rc);
+	RestoreAlpha(&free_rc);
 }
 
 void DestroySmileyList(SortedList* p_list)

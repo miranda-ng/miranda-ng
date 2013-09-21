@@ -311,8 +311,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	ctrls.dwICC = ICC_DATE_CLASSES;
 	InitCommonControlsEx(&ctrls);
 
-	g_isWin2kPlus = IsWinVer2000Plus();
-
 	hRichedDll = LoadLibrary(_T("RICHED20.DLL"));
 	if (!hRichedDll) {
 		if (MessageBox(0, TranslateT("Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda."), _T(SECTIONNAME), MB_YESNO | MB_ICONINFORMATION) != IDYES)

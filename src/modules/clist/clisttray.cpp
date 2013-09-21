@@ -80,10 +80,7 @@ TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 	initcheck NULL;
 
 	mir_cslock lck(trayLockCS);
-	if ( !mToolTipTrayTips)
-		szSeparator = (IsWinVerMEPlus()) ? szSeparator = _T("\n") : _T(" | ");
-	else
-		szSeparator = _T("\n");
+	szSeparator = _T("\n");
 
 	if (szProto == NULL) {
 		if (accounts.getCount() == 0)

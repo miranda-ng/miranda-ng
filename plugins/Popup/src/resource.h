@@ -66,7 +66,6 @@
 #define IDC_AVT_SIZE_SLIDE              1057
 #define IDC_AVT_SIZE                    1058
 #define IDC_AVT_REQUEST                 1059
-#define IDC_TRANS_9X                    1062
 #define IDC_TRANS                       1063
 #define IDC_TRANS_TXT1                  1064
 #define IDC_TRANS_SLIDER                1065

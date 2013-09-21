@@ -836,7 +836,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 			}
 
-			HIMAGELIST himlStates = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 3, 0);
+			HIMAGELIST himlStates = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 3, 0);
 			ImageList_AddIcon(himlStates, LoadSkinnedIcon(SKINICON_OTHER_NOTICK));
 			ImageList_AddIcon(himlStates, LoadSkinnedIcon(SKINICON_OTHER_NOTICK));
 			ImageList_AddIcon(himlStates, LoadSkinnedIcon(SKINICON_OTHER_TICK));
@@ -2150,7 +2150,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_ITEMS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_ITEMS), GWL_STYLE) | TVS_NOHSCROLL);
 
 			HIMAGELIST himlCheckBoxes;
-			himlCheckBoxes = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 3, 0);
+			himlCheckBoxes = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 3, 0);
 			ImageList_AddIcon(himlCheckBoxes, LoadSkinnedIcon(SKINICON_OTHER_NOTICK));
 			ImageList_AddIcon(himlCheckBoxes, LoadSkinnedIcon(SKINICON_OTHER_NOTICK));
 			ImageList_AddIcon(himlCheckBoxes, LoadSkinnedIcon(SKINICON_OTHER_TICK));

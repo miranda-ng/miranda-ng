@@ -128,7 +128,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		p_Db = (CDbxMmapSA*)lParam;
 		{
-			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus()? ILC_COLOR32 : ILC_COLOR16), 2, 0);
+			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 2, 0);
 			ImageList_AddIcon(hIml, LoadSkinnedIcon(SKINICON_OTHER_LOADED));
 			ImageList_AddIcon(hIml, LoadSkinnedIcon(SKINICON_OTHER_NOTLOADED));
 			ListView_SetImageList( hwndList, hIml, LVSIL_SMALL );

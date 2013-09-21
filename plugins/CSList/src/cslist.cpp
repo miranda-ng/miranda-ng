@@ -345,7 +345,7 @@ void CSWindow::initIcons()
 		return;
 
 	m_statusCount = (int)iNumStatuses;
-	if (NULL == (m_icons = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR16 | ILC_MASK, m_statusCount, 0)))
+	if (NULL == (m_icons = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, m_statusCount, 0)))
 		return;
 
 	for (int i=1; i <= m_statusCount; i++) {

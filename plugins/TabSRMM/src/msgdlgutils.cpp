@@ -180,14 +180,9 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 	TCHAR filter[MAX_PATH];
 	mir_sntprintf(filter, SIZEOF(filter), _T("%s%c*.bmp;*.png;*.jpg;*.gif%c%c"), TranslateT("Image files"), 0, 0, 0);
 	ofn.lpstrFilter = filter;
-	if (IsWinVer2000Plus()) {
-		ofn.Flags = OFN_HIDEREADONLY | OFN_EXPLORER | OFN_ENABLESIZING | OFN_ENABLEHOOK;
-		ofn.lpfnHook = (LPOFNHOOKPROC)OpenFileSubclass;
-		ofn.lStructSize = sizeof(ofn);
-	} else {
-		ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-		ofn.Flags = OFN_HIDEREADONLY;
-	}
+	ofn.Flags = OFN_HIDEREADONLY | OFN_EXPLORER | OFN_ENABLESIZING | OFN_ENABLEHOOK;
+	ofn.lpfnHook = (LPOFNHOOKPROC)OpenFileSubclass;
+	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = 0;
 	ofn.lpstrFile = szFinalFilename;
 	ofn.lpstrInitialDir = szFinalPath;

@@ -137,10 +137,7 @@ static INT_PTR avSetAvatar(HANDLE hContact, TCHAR *tszPath)
 		filter[0] = '\0';
 		CallService(MS_UTILS_GETBITMAPFILTERSTRINGST, SIZEOF(filter), ( LPARAM )filter);
 
-		if (IsWinVer2000Plus())
-			ofn.lStructSize = sizeof(ofn);
-		else
-			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
+		ofn.lStructSize = sizeof(ofn);
 		ofn.hwndOwner = 0;
 		ofn.lpstrFile = FileName;
 		ofn.lpstrFilter = filter;
@@ -774,10 +771,7 @@ INT_PTR avSetMyAvatar( char* protocol, TCHAR* tszPath )
 
 		FoldersGetCustomPathT(hMyAvatarsFolder, inipath, SIZEOF(inipath), _T("."));
 
-		if (IsWinVer2000Plus())
-			ofn.lStructSize = sizeof(ofn);
-		else
-			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
+		ofn.lStructSize = sizeof(ofn);
 		ofn.hwndOwner = 0;
 		ofn.lpstrFile = FileName;
 		ofn.lpstrFilter = filter;

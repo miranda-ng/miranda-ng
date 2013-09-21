@@ -94,7 +94,7 @@ static BOOL IsShutdownTypeEnabled(BYTE shutdownType)
 				}
 			}
 			/* test privilege */
-			if(bReturn && IsWinVerNT()) {
+			if(bReturn) {
 				bReturn=WinNT_SetPrivilege(SE_SHUTDOWN_NAME,TRUE);
 				if(bReturn) WinNT_SetPrivilege(SE_SHUTDOWN_NAME,FALSE);
 			}
@@ -127,7 +127,7 @@ static BOOL IsShutdownTypeEnabled(BYTE shutdownType)
 						RegCloseKey(hKey);
 					}
 				}
-				else if(IsWinVerNT()) /* for WinNT4 */
+				else
 					bReturn=SearchPath(NULL,_T("LOGIN.SCR"),NULL,0,NULL,NULL)!=0;
 			}
 			break;
@@ -142,11 +142,9 @@ static BOOL IsShutdownTypeEnabled(BYTE shutdownType)
 		case SDSDT_REBOOT:
 		case SDSDT_SHUTDOWN:
 			/* test privileges */
-			if(IsWinVerNT()) {
-				bReturn=WinNT_SetPrivilege(SE_SHUTDOWN_NAME,TRUE);
-				if(bReturn) WinNT_SetPrivilege(SE_SHUTDOWN_NAME,FALSE);
-			}
-			else bReturn=TRUE;
+			bReturn=WinNT_SetPrivilege(SE_SHUTDOWN_NAME,TRUE);
+			if(bReturn)
+				WinNT_SetPrivilege(SE_SHUTDOWN_NAME,FALSE);
 			break;
 	}
 	return bReturn;
@@ -192,7 +190,7 @@ static DWORD ShutdownNow(BYTE shutdownType)
 				if(pfnLockWorkStation!=NULL) /* Win2000+ */
 					if(!pfnLockWorkStation() && !WinNT_IsWorkStationLocked())
 						dwErrCode=GetLastError();
-				else if(IsWinVerNT()) { /* WinNT4 */
+				else {
 					HKEY hKey;
 					/* start LOGON.SCR screensaver (locks workstation on NT4) */
 					if(!SearchPath(NULL,_T("LOGIN.SCR"),NULL,0,NULL,NULL)) {
@@ -332,7 +330,7 @@ static DWORD ShutdownNow(BYTE shutdownType)
 					case SDSDT_REBOOT: flags=EWX_REBOOT; break;
 					default:           flags=EWX_SHUTDOWN|EWX_POWEROFF;
 				}
-				if(shutdownType==SDSDT_LOGOFF && IsWinVer2000Plus() && !WinNT_IsWorkStationLocked())
+				if(shutdownType==SDSDT_LOGOFF && !WinNT_IsWorkStationLocked())
 					flags|=EWX_FORCEIFHUNG; /* only considered for WM_ENDSESSION messages */
 				else flags|=EWX_FORCE; /* must be used when workstation locked */
 

@@ -589,11 +589,6 @@ end;
 function CLCDEFAULT_HOTTEXTCOLOUR:dword;
   {$IFDEF AllowInline}inline;{$ENDIF}
 begin
-{
-  if IsWinVer98Plus then
-    result:=RGB(0,0,255)
-  else
-}
-    result:=GetSysColor(COLOR_HOTLIGHT);
+  result:=RGB(0,0,255);
 end;
 {$ENDIF}

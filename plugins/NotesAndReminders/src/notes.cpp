@@ -1018,22 +1018,17 @@ static BOOL DoContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam)
 
 	// NOTE: names used for FindMenuItem would need to include & chars if such shortcuts are added to the menus
 
-	// color preset menu items uses features that require win2k or later, I'm too lazy to make a fallback path
-	// for obsolete OS versions (win95/98/ME users can still use the "Custom" menu option)
-	if (g_isWin2kPlus)
+	n = FindMenuItem(FhMenu, _T("Appearance"));
+	if (n >= 0 && (hSub = GetSubMenu(FhMenu, n)))
 	{
-		n = FindMenuItem(FhMenu, _T("Appearance"));
-		if (n >= 0 && (hSub = GetSubMenu(FhMenu, n)))
-		{
-			HMENU hBg = GetSubMenu(hSub, FindMenuItem(hSub, _T("Background Color")));
-			HMENU hFg = GetSubMenu(hSub, FindMenuItem(hSub, _T("Text Color")));
+		HMENU hBg = GetSubMenu(hSub, FindMenuItem(hSub, _T("Background Color")));
+		HMENU hFg = GetSubMenu(hSub, FindMenuItem(hSub, _T("Text Color")));
 
-			for (i=0; i<SIZEOF(clrPresets); i++)
-				InsertMenu(hBg, i, MF_BYPOSITION|MF_OWNERDRAW, IDM_COLORPRESET_BG+i, TranslateTS(clrPresets[i].szName));
+		for (i=0; i<SIZEOF(clrPresets); i++)
+			InsertMenu(hBg, i, MF_BYPOSITION|MF_OWNERDRAW, IDM_COLORPRESET_BG+i, TranslateTS(clrPresets[i].szName));
 
-			for (i=0; i<SIZEOF(clrPresets); i++)
-				InsertMenu(hFg, i, MF_BYPOSITION|MF_OWNERDRAW, IDM_COLORPRESET_FG+i, TranslateTS(clrPresets[i].szName));
-		}
+		for (i=0; i<SIZEOF(clrPresets); i++)
+			InsertMenu(hFg, i, MF_BYPOSITION|MF_OWNERDRAW, IDM_COLORPRESET_FG+i, TranslateTS(clrPresets[i].szName));
 	}
 
     CallService(MS_LANGPACK_TRANSLATEMENU,(DWORD)FhMenu,0);
@@ -1274,17 +1269,9 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 			rect = wr;
 			OffsetRect(&rect, -wr.left, -wr.top);
 
-			if (g_isWin2kPlus)
-			{
-				hBkBrush = (HBRUSH)GetStockObject(DC_BRUSH);
-				SetDCBrushColor(hdc, GetCaptionColor((SN && SN->BgColor) ? SN->BgColor : BodyColor));
-			}
-			else
-			{
-				hBkBrush = (HBRUSH)CreateSolidBrush( GetCaptionColor((SN && SN->BgColor) ? SN->BgColor : BodyColor) );
-			}
+			hBkBrush = (HBRUSH)GetStockObject(DC_BRUSH);
+			SetDCBrushColor(hdc, GetCaptionColor((SN && SN->BgColor) ? SN->BgColor : BodyColor));
 
-			//FillRect(hdc, &rect, hBkBrush);
 			// draw all frame sides separately to avoid filling client area (which flickers)
 			{
 			// top
@@ -1302,7 +1289,6 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 			r.left = rect.right - 3; r.right = rect.right;
 			FillRect(hdc, &r, hBkBrush);
 			}
-			if (hBkBrush && !g_isWin2kPlus) DeleteObject(hBkBrush);
 
 			// paint title bar contents (time stamp and buttons)
 

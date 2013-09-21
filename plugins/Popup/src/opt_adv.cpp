@@ -61,7 +61,6 @@ void LoadOption_AdvOpts()
 	PopupOptions.Monitor = db_get_b(NULL, MODULNAME, "Monitor", SETTING_MONITOR_DEFAULT);
 
 	//Transparency
-	PopupOptions.Enable9xTransparency = db_get_b(NULL, MODULNAME, "EnableRegionTransparency", TRUE);
 	PopupOptions.UseTransparency = db_get_b(NULL, MODULNAME, "UseTransparency", TRUE);
 	PopupOptions.Alpha = db_get_b(NULL, MODULNAME, "Alpha", SETTING_ALPHA_DEFAULT);
 	PopupOptions.OpaqueOnHover = db_get_b(NULL, MODULNAME, "OpaqueOnHover", TRUE);
@@ -154,10 +153,6 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		}
 		//Group: Transparency
 		{
-			//9x/ME
-			CheckDlgButton(hwnd, IDC_TRANS_9X, PopupOptions.Enable9xTransparency);
-			//EnableWindow(GetDlgItem(hwnd, IDC_TRANS_9X), !IsWinVer2000Plus());
-			ShowWindow(GetDlgItem(hwnd, IDC_TRANS_9X), IsWinVer2000Plus() ? SW_HIDE : SW_SHOW);
 			//win2k+
 			CheckDlgButton(hwnd, IDC_TRANS, PopupOptions.UseTransparency);
 			SendDlgItemMessage(hwnd, IDC_TRANS_SLIDER, TBM_SETRANGE, FALSE, MAKELONG(1,255));
@@ -175,7 +170,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				EnableWindow(GetDlgItem(hwnd, IDC_TRANS_PERCENT), how && PopupOptions.UseTransparency);
 				EnableWindow(GetDlgItem(hwnd, IDC_TRANS_OPAQUEONHOVER), how && PopupOptions.UseTransparency);
 			}
-			ShowWindow(GetDlgItem(hwnd, IDC_TRANS), IsWinVer2000Plus() ? SW_SHOW : SW_HIDE);
+			ShowWindow(GetDlgItem(hwnd, IDC_TRANS), SW_SHOW);
 		}
 		//Group: Effects
 		{
@@ -293,11 +288,6 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			case IDC_ACTIVEWND:
 				PopupOptions.Monitor = MN_ACTIVE;
-				SendMessage(GetParent(hwnd), PSM_CHANGED,0,0);
-				break;
-
-			case IDC_TRANS_9X:
-				PopupOptions.Enable9xTransparency = !PopupOptions.Enable9xTransparency;
 				SendMessage(GetParent(hwnd), PSM_CHANGED,0,0);
 				break;
 
@@ -515,7 +505,6 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				//Monitor
 				db_set_b(NULL, MODULNAME, "Monitor", PopupOptions.Monitor);
 				//Transparency
-				db_set_b(NULL, MODULNAME, "EnableRegionTransparency", PopupOptions.Enable9xTransparency);
 				db_set_b(NULL, MODULNAME, "UseTransparency", PopupOptions.UseTransparency);
 				db_set_b(NULL, MODULNAME, "Alpha", PopupOptions.Alpha);
 				db_set_b(NULL, MODULNAME, "OpaqueOnHover", PopupOptions.OpaqueOnHover);

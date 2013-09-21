@@ -1429,11 +1429,7 @@ void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto
 			MENUITEMINFO mii = {0};
 
 			mii.cbSize = sizeof(mii);
-
-			if (!IsWinVer98Plus())
-				mii.fMask = MIIM_TYPE;
-			else
-				mii.fMask = MIIM_STRING;
+			mii.fMask = MIIM_STRING;
 
 			GetMenuItemInfo(menu, i, TRUE, &mii);
 

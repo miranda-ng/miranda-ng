@@ -680,7 +680,7 @@ BOOL AddRegClass(const char *pszClassName,const TCHAR *pszTypeDescription,const 
 		return FALSE;
 	}
 	/* try to open interactive user's classes key */
-	if (!IsWinVer2000Plus() || RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_CREATE_SUB_KEY,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_CREATE_SUB_KEY,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT; /* might be write protected by security settings */
 
 	/* class */
@@ -772,7 +772,7 @@ BOOL RemoveRegClass(const char *pszClassName)
 	TCHAR *ptszClassName,*ptszPrevRunCmd;
 
 	/* try to open interactive user's classes key */
-	if (!IsWinVer2000Plus() || RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,DELETE,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,DELETE,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT;
 
 	/* class name */
@@ -902,7 +902,7 @@ BOOL AddRegFileExt(const char *pszFileExt,const char *pszClassName,const char *p
 		return FALSE;
 
 	/* try to open interactive user's classes key */
-	if (!IsWinVer2000Plus() || RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_CREATE_SUB_KEY,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_CREATE_SUB_KEY,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT;
 
 	/* file ext */
@@ -943,7 +943,7 @@ void RemoveRegFileExt(const char *pszFileExt,const char *pszClassName)
 	BOOL fRestored=FALSE;
 
 	/* try to open interactive user's classes key */
-	if (!IsWinVer2000Plus() || RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,DELETE,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,DELETE,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT;
 
 	/* file ext */
@@ -1019,7 +1019,7 @@ BOOL AddRegMimeType(const char *pszMimeType,const char *pszFileExt,const TCHAR *
 		return FALSE;
 
 	/* try to open interactive user's classes key */
-	if (!IsWinVer2000Plus() || RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_QUERY_VALUE,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_QUERY_VALUE,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT;
 
 	/* database */
@@ -1047,7 +1047,7 @@ void RemoveRegMimeType(const char *pszMimeType,const char *pszFileExt)
 	BOOL fDelete=TRUE;
 
 	/* try to open interactive user's classes key */
-	if (!IsWinVer2000Plus() || RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_QUERY_VALUE,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_QUERY_VALUE,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT;
 
 	/* database */
@@ -1078,7 +1078,7 @@ void AddRegOpenWith(const TCHAR *pszAppFileName,BOOL fAllowOpenWith,const TCHAR 
 	HKEY hRootKey,hAppsKey,hExeKey,hShellKey,hVerbKey,hDdeKey;
 
 	/* try to open interactive user's classes key */
-	if (!IsWinVer2000Plus() || RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_QUERY_VALUE,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_QUERY_VALUE,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT;
 
 	/* database */
@@ -1131,7 +1131,7 @@ void RemoveRegOpenWith(const TCHAR *pszAppFileName)
 	HKEY hRootKey,hAppsKey,hExeKey,hShellKey,hVerbKey,hDdeKey;
 
 	/* try to open interactive user's classes key */
-	if (!IsWinVer2000Plus() || RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_QUERY_VALUE,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_QUERY_VALUE,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT;
 
 	/* applications */
@@ -1182,7 +1182,7 @@ void AddRegOpenWithExtEntry(const TCHAR *pszAppFileName,const char *pszFileExt,c
 	HKEY hRootKey,hAppsKey,hExeKey,hTypesKey;
 
 	/* try to open interactive user's classes key */
-	if (!IsWinVer2000Plus() || RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_QUERY_VALUE,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_QUERY_VALUE,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT;
 
 	/* applications */
@@ -1212,7 +1212,7 @@ void RemoveRegOpenWithExtEntry(const TCHAR *pszAppFileName,const char *pszFileEx
 	HKEY hRootKey,hAppsKey,hExeKey,hTypesKey;
 
 	/* try to open interactive user's classes key */
-	if (!IsWinVer2000Plus() || RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_QUERY_VALUE,&hRootKey))
+	if (RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Classes"),0,KEY_QUERY_VALUE,&hRootKey))
 		hRootKey=HKEY_CLASSES_ROOT;
 
 	/* applications */

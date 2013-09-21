@@ -1733,7 +1733,7 @@ void CSkypeProto::ChatRoomParseUriComands(const wchar_t *commands)
 static void appendString(bool bIsTipper, const TCHAR *tszTitle, const TCHAR *tszValue, TCHAR* buf, size_t bufSize)
 {
 	if (*buf) {
-		const TCHAR *szSeparator = (bIsTipper) ? _T("\n") : ((IsWinVerMEPlus()) ? _T("\r\n") : _T(" | "));
+		const TCHAR *szSeparator = bIsTipper ? _T("\n") : _T("\r\n");
  		_tcsncat(buf, szSeparator, bufSize);
 	}
 

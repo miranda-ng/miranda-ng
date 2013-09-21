@@ -108,7 +108,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		TranslateDialogDefault( hwndDlg );
 		hwndList = GetDlgItem(hwndDlg, IDC_LIST);
 		{
-			HIMAGELIST hIml = ImageList_Create( GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), (IsWinVerXPPlus()?ILC_COLOR32:ILC_COLOR16)|ILC_MASK, 2, 2);
+			HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
 			ImageList_AddIcon(hIml, hIconKeep);
 			ImageList_AddIcon(hIml, hIconRemove);
 			SendMessage(hwndList, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);

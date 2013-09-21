@@ -18,7 +18,6 @@ int g_NoteTitleDate, g_NoteTitleTime;
 int g_NoteWidth,g_NoteHeight;
 int g_Transparency;
 char *g_RemindSMS = NULL;
-BOOL g_isWin2kPlus = TRUE;
 
 TCHAR *g_lpszAltBrowser = NULL;
 
@@ -479,13 +478,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 				ofn.nMaxFile = SIZEOF(s);
 				ofn.lpstrTitle = TranslateT("Select Executable");
 				ofn.lpstrInitialDir = _T(".");
-				ofn.Flags = OFN_FILEMUSTEXIST|OFN_LONGNAMES;
-				if ( IsWinVer98Plus() )
-				{
-					ofn.Flags |= OFN_ENABLESIZING;
-					if (g_isWin2kPlus)
-						ofn.Flags |= OFN_DONTADDTORECENT;
-				}
+				ofn.Flags = OFN_FILEMUSTEXIST | OFN_LONGNAMES | OFN_ENABLESIZING | OFN_DONTADDTORECENT;
 
 				SendDlgItemMessage(hdlg,IDC_EDIT_ALTBROWSER,WM_GETTEXT,(WPARAM)ofn.nMaxFile,(LPARAM)s);
 

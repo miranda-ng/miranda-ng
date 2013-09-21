@@ -138,7 +138,7 @@ bool AddContactDlgAccounts(HWND hdlg, ADDCONTACTSTRUCT* acs)
 		RECT rc;
 		int iIndex = 0, cbWidth = 0;
 
-		HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16) | ILC_MASK, iAccCount, 0);
+		HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, iAccCount, 0);
 		ImageList_Destroy((HIMAGELIST)SendDlgItemMessage(hdlg, IDC_PROTO, CBEM_SETIMAGELIST, 0, (LPARAM)hIml));
 		SendDlgItemMessage(hdlg, IDC_PROTO, CB_RESETCONTENT, 0, 0);
 

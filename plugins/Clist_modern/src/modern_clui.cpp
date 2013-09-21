@@ -338,7 +338,7 @@ HRESULT CLUI::LoadDllsRuntime()
 		g_proc_SetLayeredWindowAttributesNew = (BOOL (WINAPI *)(HWND,COLORREF,BYTE,DWORD))GetProcAddress(m_hUserDll, "SetLayeredWindowAttributes");
 
 		g_CluiData.fLayered = (g_proc_UpdateLayeredWindow != NULL) && !db_get_b(NULL,"ModernData","DisableEngine", SETTING_DISABLESKIN_DEFAULT);
-		g_CluiData.fSmoothAnimation = IsWinVer2000Plus() && db_get_b(NULL, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT);
+		g_CluiData.fSmoothAnimation = db_get_b(NULL, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT);
 		g_CluiData.fLayered = (g_CluiData.fLayered*db_get_b(NULL, "ModernData", "EnableLayering", g_CluiData.fLayered)) && !db_get_b(NULL,"ModernData","DisableEngine", SETTING_DISABLESKIN_DEFAULT);
 	}
 
@@ -604,31 +604,29 @@ static BOOL CLUI_WaitThreadsCompletion(HWND hwnd)
 void CLUI_UpdateLayeredMode()
 {
 	g_CluiData.fDisableSkinEngine = db_get_b(NULL,"ModernData","DisableEngine", SETTING_DISABLESKIN_DEFAULT);
-	if ( IsWinVer2000Plus()) {
-		BOOL tLayeredFlag = TRUE;
-		tLayeredFlag &= ( db_get_b(NULL, "ModernData", "EnableLayering", tLayeredFlag) && !g_CluiData.fDisableSkinEngine);
+	BOOL tLayeredFlag = TRUE;
+	tLayeredFlag &= ( db_get_b(NULL, "ModernData", "EnableLayering", tLayeredFlag) && !g_CluiData.fDisableSkinEngine);
 
-		if (g_CluiData.fLayered != tLayeredFlag) {
-			BOOL fWasVisible = IsWindowVisible(pcli->hwndContactList);
-			if (fWasVisible)
-				ShowWindow(pcli->hwndContactList,SW_HIDE);
+	if (g_CluiData.fLayered != tLayeredFlag) {
+		BOOL fWasVisible = IsWindowVisible(pcli->hwndContactList);
+		if (fWasVisible)
+			ShowWindow(pcli->hwndContactList,SW_HIDE);
 
-			//change layered mode
-			LONG exStyle = GetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE);
-			if (tLayeredFlag)
-				exStyle |= WS_EX_LAYERED;
-			else
-				exStyle &= ~WS_EX_LAYERED;
+		//change layered mode
+		LONG exStyle = GetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE);
+		if (tLayeredFlag)
+			exStyle |= WS_EX_LAYERED;
+		else
+			exStyle &= ~WS_EX_LAYERED;
 
-			SetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE,exStyle&~WS_EX_LAYERED);
-			SetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE,exStyle);
-			g_CluiData.fLayered = tLayeredFlag;
-			Sync(CLUIFrames_SetLayeredMode, tLayeredFlag,pcli->hwndContactList);
-			CLUI_ChangeWindowMode();
-			Sync(CLUIFrames_OnClistResize_mod, 0, 0 );
-			if (fWasVisible)
-				ShowWindow(pcli->hwndContactList,SW_SHOW);
-		}
+		SetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE,exStyle&~WS_EX_LAYERED);
+		SetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE,exStyle);
+		g_CluiData.fLayered = tLayeredFlag;
+		Sync(CLUIFrames_SetLayeredMode, tLayeredFlag,pcli->hwndContactList);
+		CLUI_ChangeWindowMode();
+		Sync(CLUIFrames_OnClistResize_mod, 0, 0 );
+		if (fWasVisible)
+			ShowWindow(pcli->hwndContactList,SW_SHOW);
 	}
 }
 
@@ -669,8 +667,8 @@ void CLUI_ChangeWindowMode()
 	if ( !pcli->hwndContactList) return;
 
 	g_mutex_bChangingMode = TRUE;
-	g_bTransparentFlag = IsWinVer2000Plus() && db_get_b( NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT);
-	g_CluiData.fSmoothAnimation = IsWinVer2000Plus() && db_get_b(NULL, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT);
+	g_bTransparentFlag = db_get_b( NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT);
+	g_CluiData.fSmoothAnimation = db_get_b(NULL, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT);
 	if (g_bTransparentFlag == 0 && g_CluiData.bCurrentAlpha != 0)
 		g_CluiData.bCurrentAlpha = 255;
 	//2- Calculate STYLES and STYLESEX
@@ -1333,7 +1331,7 @@ int CLUI_IconsChanged(WPARAM wParam,LPARAM lParam)
 
 void CLUI_cli_LoadCluiGlobalOpts()
 {
-	BOOL tLayeredFlag = IsWinVer2000Plus();
+	BOOL tLayeredFlag = TRUE;
 	tLayeredFlag &= db_get_b(NULL, "ModernData", "EnableLayering", tLayeredFlag);
 	if (tLayeredFlag) {
 		if ( db_get_b(NULL,"CList","WindowShadow",SETTING_WINDOWSHADOW_DEFAULT) == 1)

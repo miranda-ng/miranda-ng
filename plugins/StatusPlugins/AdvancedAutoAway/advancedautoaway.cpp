@@ -587,7 +587,7 @@ int CSModuleLoaded(WPARAM wParam, LPARAM lParam)
 	openInputDesktop = ( pfnOpenInputDesktop )GetProcAddress (hUser32, "OpenInputDesktop");
 	closeDesktop = ( pfnCloseDesktop )GetProcAddress (hUser32, "CloseDesktop");
 
-	if ( IsWinVer2000Plus() && !db_get_b(NULL, MODULENAME, SETTING_IGNLOCK, FALSE))
+	if (!db_get_b(NULL, MODULENAME, SETTING_IGNLOCK, FALSE))
 		MyGetLastInputInfo = (BOOL (WINAPI *)(PLASTINPUTINFO))GetProcAddress(GetModuleHandleA("user32"),"GetLastInputInfo");
 	else
 		MyGetLastInputInfo = NULL;

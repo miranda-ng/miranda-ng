@@ -542,126 +542,121 @@ HICON __fastcall CreateJoinedIcon(HICON hBottom, HICON hTop)
 	nImage = CreateBitmap32Point(16, 16, (LPVOID*)&ptPixels);
 	oImage = (HBITMAP)SelectObject(tempDC, nImage);
 
-//	if (ptPixels) memset(ptPixels, 0, 16 * 16 * 4);
+	ICONINFO iciBottom = { 0 };
+	ICONINFO iciTop = { 0 };
 
-	if (IsWinVerXPPlus())
+	BITMAP bmp_top = { 0 };
+	BITMAP bmp_top_mask = { 0 };
+
+	BITMAP bmp_bottom = { 0 };
+	BITMAP bmp_bottom_mask = { 0 };
+
+	GetIconInfo(hBottom, &iciBottom);
+	GetObject(iciBottom.hbmColor, sizeof(BITMAP), &bmp_bottom);
+	GetObject(iciBottom.hbmMask, sizeof(BITMAP), &bmp_bottom_mask);
+
+	GetIconInfo(hTop, &iciTop);
+	GetObject(iciTop.hbmColor, sizeof(BITMAP), &bmp_top);
+	GetObject(iciTop.hbmMask, sizeof(BITMAP), &bmp_top_mask);
+
+	if (bmp_bottom.bmBitsPixel == 32 && bmp_top.bmBitsPixel == 32)
 	{
-		ICONINFO iciBottom = { 0 };
-		ICONINFO iciTop = { 0 };
+		LPBYTE BottomBuffer, TopBuffer, BottomMaskBuffer, TopMaskBuffer;
+		LPBYTE bb, tb, bmb, tmb;
+		LPBYTE db = ptPixels;
+		int vstep_d = 16 * 4;
+		int vstep_b = bmp_bottom.bmWidthBytes;
+		int vstep_t = bmp_top.bmWidthBytes;
+		int vstep_bm = bmp_bottom_mask.bmWidthBytes;
+		int vstep_tm = bmp_top_mask.bmWidthBytes;
 
-		BITMAP bmp_top = { 0 };
-		BITMAP bmp_top_mask = { 0 };
-
-		BITMAP bmp_bottom = { 0 };
-		BITMAP bmp_bottom_mask = { 0 };
-
-		GetIconInfo(hBottom, &iciBottom);
-		GetObject(iciBottom.hbmColor, sizeof(BITMAP), &bmp_bottom);
-		GetObject(iciBottom.hbmMask, sizeof(BITMAP), &bmp_bottom_mask);
-
-		GetIconInfo(hTop, &iciTop);
-		GetObject(iciTop.hbmColor, sizeof(BITMAP), &bmp_top);
-		GetObject(iciTop.hbmMask, sizeof(BITMAP), &bmp_top_mask);
-
-		if (bmp_bottom.bmBitsPixel == 32 && bmp_top.bmBitsPixel == 32)
+		if (bmp_bottom.bmBits)
+			bb = BottomBuffer = (LPBYTE)bmp_bottom.bmBits;
+		else
 		{
-			LPBYTE BottomBuffer, TopBuffer, BottomMaskBuffer, TopMaskBuffer;
-			LPBYTE bb, tb, bmb, tmb;
-			LPBYTE db = ptPixels;
-			int vstep_d = 16 * 4;
-			int vstep_b = bmp_bottom.bmWidthBytes;
-			int vstep_t = bmp_top.bmWidthBytes;
-			int vstep_bm = bmp_bottom_mask.bmWidthBytes;
-			int vstep_tm = bmp_top_mask.bmWidthBytes;
+			BottomBuffer = (LPBYTE)_alloca(bmp_bottom.bmHeight * bmp_bottom.bmWidthBytes);
+			GetBitmapBits(iciBottom.hbmColor, bmp_bottom.bmHeight * bmp_bottom.bmWidthBytes, BottomBuffer);
+			bb = BottomBuffer + vstep_b * (bmp_bottom.bmHeight - 1);
+			vstep_b = -vstep_b;
+		}
+		if (bmp_top.bmBits)
+			tb = TopBuffer = (LPBYTE)bmp_top.bmBits;
+		else
+		{
+			TopBuffer = (LPBYTE)_alloca(bmp_top.bmHeight * bmp_top.bmWidthBytes);
+			GetBitmapBits(iciTop.hbmColor, bmp_top.bmHeight * bmp_top.bmWidthBytes, TopBuffer);
+			tb = TopBuffer + vstep_t * (bmp_top.bmHeight - 1);
+			vstep_t = -vstep_t;
+		}
+		if (bmp_bottom_mask.bmBits)
+			bmb = BottomMaskBuffer = (LPBYTE)bmp_bottom_mask.bmBits;
+		else
+		{
+			BottomMaskBuffer = (LPBYTE)_alloca(bmp_bottom_mask.bmHeight * bmp_bottom_mask.bmWidthBytes);
+			GetBitmapBits(iciBottom.hbmMask, bmp_bottom_mask.bmHeight * bmp_bottom_mask.bmWidthBytes, BottomMaskBuffer);
+			bmb = BottomMaskBuffer + vstep_bm * (bmp_bottom_mask.bmHeight - 1);
+			vstep_bm = -vstep_bm;
+		}
+		if (bmp_top_mask.bmBits)
+			tmb = TopMaskBuffer = (LPBYTE)bmp_top_mask.bmBits;
+		else
+		{
+			TopMaskBuffer = (LPBYTE)_alloca(bmp_top_mask.bmHeight * bmp_top_mask.bmWidthBytes);
+			GetBitmapBits(iciTop.hbmMask, bmp_top_mask.bmHeight * bmp_top_mask.bmWidthBytes, TopMaskBuffer);
+			tmb = TopMaskBuffer + vstep_tm * (bmp_top_mask.bmHeight - 1);
+			vstep_tm = -vstep_tm;
+		}
+		{
+			int x; int y;
+			BOOL topHasAlpha = checkHasAlfa(TopBuffer, bmp_top.bmWidth, bmp_top.bmHeight);
+			BOOL bottomHasAlpha = checkHasAlfa(BottomBuffer, bmp_bottom.bmWidth, bmp_bottom.bmHeight);
+			BOOL topMaskUsed = !topHasAlpha && checkMaskUsed(TopMaskBuffer);
+			BOOL bottomMaskUsed = !bottomHasAlpha && checkMaskUsed(BottomMaskBuffer);
 
-			if (bmp_bottom.bmBits)
-				bb = BottomBuffer = (LPBYTE)bmp_bottom.bmBits;
-			else
+			for(y = 0; y < 16; y++)
 			{
-				BottomBuffer = (LPBYTE)_alloca(bmp_bottom.bmHeight * bmp_bottom.bmWidthBytes);
-				GetBitmapBits(iciBottom.hbmColor, bmp_bottom.bmHeight * bmp_bottom.bmWidthBytes, BottomBuffer);
-				bb = BottomBuffer + vstep_b * (bmp_bottom.bmHeight - 1);
-				vstep_b = -vstep_b;
-			}
-			if (bmp_top.bmBits)
-				tb = TopBuffer = (LPBYTE)bmp_top.bmBits;
-			else
-			{
-				TopBuffer = (LPBYTE)_alloca(bmp_top.bmHeight * bmp_top.bmWidthBytes);
-				GetBitmapBits(iciTop.hbmColor, bmp_top.bmHeight * bmp_top.bmWidthBytes, TopBuffer);
-				tb = TopBuffer + vstep_t * (bmp_top.bmHeight - 1);
-				vstep_t = -vstep_t;
-			}
-			if (bmp_bottom_mask.bmBits)
-				bmb = BottomMaskBuffer = (LPBYTE)bmp_bottom_mask.bmBits;
-			else
-			{
-				BottomMaskBuffer = (LPBYTE)_alloca(bmp_bottom_mask.bmHeight * bmp_bottom_mask.bmWidthBytes);
-				GetBitmapBits(iciBottom.hbmMask, bmp_bottom_mask.bmHeight * bmp_bottom_mask.bmWidthBytes, BottomMaskBuffer);
-				bmb = BottomMaskBuffer + vstep_bm * (bmp_bottom_mask.bmHeight - 1);
-				vstep_bm = -vstep_bm;
-			}
-			if (bmp_top_mask.bmBits)
-				tmb = TopMaskBuffer = (LPBYTE)bmp_top_mask.bmBits;
-			else
-			{
-				TopMaskBuffer = (LPBYTE)_alloca(bmp_top_mask.bmHeight * bmp_top_mask.bmWidthBytes);
-				GetBitmapBits(iciTop.hbmMask, bmp_top_mask.bmHeight * bmp_top_mask.bmWidthBytes, TopMaskBuffer);
-				tmb = TopMaskBuffer + vstep_tm * (bmp_top_mask.bmHeight - 1);
-				vstep_tm = -vstep_tm;
-			}
-			{
-				int x; int y;
-				BOOL topHasAlpha = checkHasAlfa(TopBuffer, bmp_top.bmWidth, bmp_top.bmHeight);
-				BOOL bottomHasAlpha = checkHasAlfa(BottomBuffer, bmp_bottom.bmWidth, bmp_bottom.bmHeight);
-				BOOL topMaskUsed = !topHasAlpha && checkMaskUsed(TopMaskBuffer);
-				BOOL bottomMaskUsed = !bottomHasAlpha && checkMaskUsed(BottomMaskBuffer);
-
-				for(y = 0; y < 16; y++)
+				for(x = 0; x < 16; x++)
 				{
-					for(x = 0; x < 16; x++)
+					DWORD bottom_d = ((LPDWORD)bb)[x];
+					DWORD top_d = ((LPDWORD)tb)[x];
+
+					if (topMaskUsed)
 					{
-						DWORD bottom_d = ((LPDWORD)bb)[x];
-						DWORD top_d = ((LPDWORD)tb)[x];
-
-						if (topMaskUsed)
-						{
-							if (GetMaskBit(tmb, x))
-								top_d &= 0x00FFFFFF;
-							else
-								top_d |= 0xFF000000;
-						}
-						else if (!topHasAlpha)
+						if (GetMaskBit(tmb, x))
+							top_d &= 0x00FFFFFF;
+						else
 							top_d |= 0xFF000000;
-
-						if (bottomMaskUsed)
-						{
-							if (GetMaskBit(bmb, x))
-								bottom_d &= 0x00FFFFFF;
-							else
-								bottom_d |= 0xFF000000;
-						}
-						else if (!bottomHasAlpha)
-							bottom_d |= 0xFF000000;
-
-						((LPDWORD)db)[x] = blend(bottom_d, top_d);
 					}
-					bb += vstep_b;
-					tb += vstep_t;
-					bmb += vstep_bm;
-					tmb += vstep_tm;
-					db += vstep_d;
-				}
-			}
+					else if (!topHasAlpha)
+						top_d |= 0xFF000000;
 
-			drawn = TRUE;
+					if (bottomMaskUsed)
+					{
+						if (GetMaskBit(bmb, x))
+							bottom_d &= 0x00FFFFFF;
+						else
+							bottom_d |= 0xFF000000;
+					}
+					else if (!bottomHasAlpha)
+						bottom_d |= 0xFF000000;
+
+					((LPDWORD)db)[x] = blend(bottom_d, top_d);
+				}
+				bb += vstep_b;
+				tb += vstep_t;
+				bmb += vstep_bm;
+				tmb += vstep_tm;
+				db += vstep_d;
+			}
 		}
 
-		DeleteObject(iciBottom.hbmColor);
-		DeleteObject(iciTop.hbmColor);
-		DeleteObject(iciBottom.hbmMask);
-		DeleteObject(iciTop.hbmMask);
+		drawn = TRUE;
 	}
+
+	DeleteObject(iciBottom.hbmColor);
+	DeleteObject(iciTop.hbmColor);
+	DeleteObject(iciBottom.hbmMask);
+	DeleteObject(iciTop.hbmMask);
 
 	if (!drawn) {
 		DrawIconEx(tempDC, 0, 0, hBottom, 16, 16, 0, NULL, DI_NORMAL);

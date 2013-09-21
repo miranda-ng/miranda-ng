@@ -48,67 +48,79 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		case WM_INITDIALOG:
 		{
 			TranslateDialogDefault(hwndDlg);
-			if (!png2dibavail)
-			{
+			if (!png2dibavail) {
 				ShowWindow(GetDlgItem(hwndDlg, IDC_PNG2DIBWARN), SW_SHOW);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ACTIVE), false);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_RANDOM), false);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SPLASHPATH), false);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CHOOSESPLASH), false);
-			}
-			ReadDbConfig();
-			TCHAR inBuf[80];
-			DBVARIANT dbv = {0};
-			db_get_ts(NULL, MODNAME, "Path", &dbv);
-			if (lstrcmp(dbv.ptszVal, NULL) == 0)
-			{
-				_tcscpy_s(inBuf, _T("splash\\splash.png"));
-				db_free(&dbv);
-			}
-			else
-				_tcscpy_s(inBuf, dbv.ptszVal);
-			dbv.ptszVal = NULL;
-			SetWindowText(GetDlgItem(hwndDlg, IDC_SPLASHPATH),inBuf);
-			db_get_ts(NULL, MODNAME, "Sound", &dbv);
-			if (lstrcmp(dbv.ptszVal, NULL) == 0)
-			{
-				_tcscpy_s(inBuf, _T("sounds\\startup.wav"));
-				db_free(&dbv);
-			}
-			else
-				_tcscpy_s(inBuf, dbv.ptszVal);
-			dbv.ptszVal = NULL;
-			SetWindowText(GetDlgItem(hwndDlg, IDC_SNDPATH),inBuf);
-			db_get_ts(NULL, MODNAME, "VersionPrefix", &dbv);
-			if (lstrcmp(dbv.ptszVal, NULL) == 0)
-			{
-				_tcscpy_s(inBuf, _T(""));
-				db_free(&dbv);
-			}
-			else
-				_tcscpy_s(inBuf, dbv.ptszVal);
-			dbv.ptszVal = NULL;
-			SetWindowText(GetDlgItem(hwndDlg, IDC_VERSIONPREFIX), inBuf);
-			if (options.active)	CheckDlgButton(hwndDlg, IDC_ACTIVE, BST_CHECKED);
-			if (options.playsnd && !options.inheritGS) CheckDlgButton(hwndDlg, IDC_PLAYSND, BST_INDETERMINATE);
-			else if (options.playsnd) CheckDlgButton(hwndDlg, IDC_PLAYSND, BST_CHECKED);
-			//if (options.loopsnd) CheckDlgButton(hwndDlg, IDC_LOOPSOUND, BST_CHECKED);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_LOOPSOUND), false);
-			if (options.fadein)	CheckDlgButton(hwndDlg, IDC_FADEIN, BST_CHECKED);
-			if (options.fadeout) CheckDlgButton(hwndDlg, IDC_FADEOUT, BST_CHECKED);
-			if (options.random)	CheckDlgButton(hwndDlg, IDC_RANDOM, BST_CHECKED);
-			if (options.showversion) CheckDlgButton(hwndDlg, IDC_SHOWVERSION, BST_CHECKED);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWVERSION), false);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_VERSIONPREFIX), false);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWTIME), false);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_ST_SPIN), false);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_FADEIN), false);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_FISTEP), false);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_FI_SPIN), false);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_FADEOUT), false);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_FOSTEP), false);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_FO_SPIN), false);
+			} else {
+				ReadDbConfig();
+				TCHAR inBuf[80];
+				DBVARIANT dbv = {0};
+				db_get_ts(NULL, MODNAME, "Path", &dbv);
+				if (lstrcmp(dbv.ptszVal, NULL) == 0)
+				{
+					_tcscpy_s(inBuf, _T("splash\\splash.png"));
+					db_free(&dbv);
+				}
+				else
+					_tcscpy_s(inBuf, dbv.ptszVal);
+				dbv.ptszVal = NULL;
+				SetWindowText(GetDlgItem(hwndDlg, IDC_SPLASHPATH),inBuf);
+				db_get_ts(NULL, MODNAME, "Sound", &dbv);
+				if (lstrcmp(dbv.ptszVal, NULL) == 0)
+				{
+					_tcscpy_s(inBuf, _T("sounds\\startup.wav"));
+					db_free(&dbv);
+				}
+				else
+					_tcscpy_s(inBuf, dbv.ptszVal);
+				dbv.ptszVal = NULL;
+				SetWindowText(GetDlgItem(hwndDlg, IDC_SNDPATH),inBuf);
 
-			SetWindowText(GetDlgItem(hwndDlg, IDC_SHOWTIME), _itot(options.showtime, inBuf, 10));
-			SetWindowText(GetDlgItem(hwndDlg, IDC_FISTEP), _itot(options.fisteps, inBuf, 10));
-			SetWindowText(GetDlgItem(hwndDlg, IDC_FOSTEP), _itot(options.fosteps, inBuf, 10));
+				db_get_ts(NULL, MODNAME, "VersionPrefix", &dbv);
+				if (lstrcmp(dbv.ptszVal, NULL) == 0)
+				{
+					_tcscpy_s(inBuf, _T(""));
+					db_free(&dbv);
+				}
+				else
+					_tcscpy_s(inBuf, dbv.ptszVal);
+				dbv.ptszVal = NULL;
+				SetWindowText(GetDlgItem(hwndDlg, IDC_VERSIONPREFIX), inBuf);
+				if (options.active)
+					CheckDlgButton(hwndDlg, IDC_ACTIVE, BST_CHECKED);
+				if (options.playsnd && !options.inheritGS)
+					CheckDlgButton(hwndDlg, IDC_PLAYSND, BST_INDETERMINATE);
+				else if (options.playsnd)
+					CheckDlgButton(hwndDlg, IDC_PLAYSND, BST_CHECKED);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_LOOPSOUND), false);
+				if (options.fadein)
+					CheckDlgButton(hwndDlg, IDC_FADEIN, BST_CHECKED);
+				if (options.fadeout)
+					CheckDlgButton(hwndDlg, IDC_FADEOUT, BST_CHECKED);
+				if (options.random)
+					CheckDlgButton(hwndDlg, IDC_RANDOM, BST_CHECKED);
+				if (options.showversion)
+					CheckDlgButton(hwndDlg, IDC_SHOWVERSION, BST_CHECKED);
 
-			SendDlgItemMessage(hwndDlg, IDC_SHOWTIME, EM_LIMITTEXT, 5, 0);
-			/*
-			SendDlgItemMessage(hwndDlg, IDC_ST_SPIN, UDM_SETRANGE32, 0, 20000);
-			SendDlgItemMessage(hwndDlg, IDC_FI_SPIN, UDM_SETRANGE32, 1, 7);
-			SendDlgItemMessage(hwndDlg, IDC_FO_SPIN, UDM_SETRANGE32, 1, 7);
-			*/
+				SetWindowText(GetDlgItem(hwndDlg, IDC_SHOWTIME), _itot(options.showtime, inBuf, 10));
+				SetWindowText(GetDlgItem(hwndDlg, IDC_FISTEP), _itot(options.fisteps, inBuf, 10));
+				SetWindowText(GetDlgItem(hwndDlg, IDC_FOSTEP), _itot(options.fosteps, inBuf, 10));
+
+				SendDlgItemMessage(hwndDlg, IDC_SHOWTIME, EM_LIMITTEXT, 5, 0);
+			}
 
 			return TRUE;
 		}

@@ -180,38 +180,36 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 					NULL);
 			if(dat->hwndTime==NULL) return -1; /* creation failed, calls WM_DESTROY */
 			/* create tooltips */
-			if(IsWinVer98Plus() || IsWinVer2000Plus()) {
-				TTTOOLINFO ti;
-				dat->hwndToolTip=CreateWindowEx(WS_EX_TOPMOST,
-						TOOLTIPS_CLASS,
-						NULL,
-						WS_POPUP|TTS_ALWAYSTIP|TTS_NOPREFIX,
-						CW_USEDEFAULT, CW_USEDEFAULT,
-						CW_USEDEFAULT, CW_USEDEFAULT,
-						hwndFrame,
-						NULL,
-						params->hInstance,
-						NULL);
-				if(dat->hwndToolTip!=NULL) {
-					SetWindowPos(dat->hwndToolTip,HWND_TOPMOST,0,0,0,0,SWP_NOMOVE|SWP_NOSIZE|SWP_NOACTIVATE);
-					ZeroMemory(&ti,sizeof(ti));
-					ti.cbSize=sizeof(ti);
-					ti.hwnd=hwndFrame;
-					ti.uFlags=TTF_IDISHWND|TTF_SUBCLASS|TTF_TRANSPARENT;
-					ti.lpszText=LPSTR_TEXTCALLBACK; /* commctl 4.70+ */
-					ti.uId=(UINT)dat->hwndTime; /* in-place tooltip */
+			TTTOOLINFO ti;
+			dat->hwndToolTip=CreateWindowEx(WS_EX_TOPMOST,
+					TOOLTIPS_CLASS,
+					NULL,
+					WS_POPUP|TTS_ALWAYSTIP|TTS_NOPREFIX,
+					CW_USEDEFAULT, CW_USEDEFAULT,
+					CW_USEDEFAULT, CW_USEDEFAULT,
+					hwndFrame,
+					NULL,
+					params->hInstance,
+					NULL);
+			if(dat->hwndToolTip!=NULL) {
+				SetWindowPos(dat->hwndToolTip,HWND_TOPMOST,0,0,0,0,SWP_NOMOVE|SWP_NOSIZE|SWP_NOACTIVATE);
+				ZeroMemory(&ti,sizeof(ti));
+				ti.cbSize=sizeof(ti);
+				ti.hwnd=hwndFrame;
+				ti.uFlags=TTF_IDISHWND|TTF_SUBCLASS|TTF_TRANSPARENT;
+				ti.lpszText=LPSTR_TEXTCALLBACK; /* commctl 4.70+ */
+				ti.uId=(UINT)dat->hwndTime; /* in-place tooltip */
+				SendMessage(dat->hwndToolTip,TTM_ADDTOOL,0,(LPARAM)&ti);
+				ti.uFlags&=~TTF_TRANSPARENT;
+				ti.uId=(UINT)dat->hwndProgress;
+				SendMessage(dat->hwndToolTip,TTM_ADDTOOL,0,(LPARAM)&ti);
+				if(dat->hwndDesc!=NULL) {
+					ti.uId=(UINT)dat->hwndDesc;
 					SendMessage(dat->hwndToolTip,TTM_ADDTOOL,0,(LPARAM)&ti);
-					ti.uFlags&=~TTF_TRANSPARENT;
-					ti.uId=(UINT)dat->hwndProgress;
+				}
+				if(dat->hwndIcon!=NULL) {
+					ti.uId=(UINT)dat->hwndIcon;
 					SendMessage(dat->hwndToolTip,TTM_ADDTOOL,0,(LPARAM)&ti);
-					if(dat->hwndDesc!=NULL) {
-						ti.uId=(UINT)dat->hwndDesc;
-						SendMessage(dat->hwndToolTip,TTM_ADDTOOL,0,(LPARAM)&ti);
-					}
-					if(dat->hwndIcon!=NULL) {
-						ti.uId=(UINT)dat->hwndIcon;
-						SendMessage(dat->hwndToolTip,TTM_ADDTOOL,0,(LPARAM)&ti);
-					}
 				}
 			}
 			/* init layout */
@@ -471,7 +469,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			if(((NMHDR*)lParam)->hwndFrom==dat->hwndToolTip)
 				switch(((NMHDR*)lParam)->code) {
 					case TTN_SHOW: /* 'in-place' tooltip on dat->hwndTime */
-						if(dat->flags&FWPDF_TIMEISCLIPPED && (HWND)wParam==dat->hwndTime && IsWinVer2000Plus()) {
+						if(dat->flags&FWPDF_TIMEISCLIPPED && (HWND)wParam==dat->hwndTime) {
 							RECT rc;
 							if(GetWindowRect(dat->hwndTime,&rc)) {
 								SetWindowLongPtr(dat->hwndToolTip, GWL_STYLE, GetWindowLongPtr(dat->hwndToolTip, GWL_STYLE) | TTS_NOANIMATE);

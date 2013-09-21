@@ -1029,7 +1029,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 			HWND hwndList = GetDlgItem(hwndDlg, IDC_PROTOCOLS);
 			ListView_SetExtendedListViewStyleEx(hwndList, 0, LVS_EX_SUBITEMIMAGES);
 
-			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus()? ILC_COLOR32 : ILC_COLOR16), 4, 0);
+			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 4, 0);
 			ListView_SetImageList(hwndList, hIml, LVSIL_SMALL);
 
 			LVCOLUMN lvc = {0};

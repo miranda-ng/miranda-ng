@@ -103,7 +103,6 @@ BEGIN
     CONTROL         "Miranda's window",IDC_MIRANDAWND,"Button",BS_AUTORADIOBUTTON,21,172,115,10
     CONTROL         "the active window",IDC_ACTIVEWND,"Button",BS_AUTORADIOBUTTON,21,183,115,10
     GROUPBOX        "Transparency",IDC_STATIC,151,3,146,56
-    CONTROL         "Enable Win 9x/Me transparency",IDC_TRANS_9X,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,15,136,8
     CONTROL         "Use transparency",IDC_TRANS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,157,15,136,8
     RTEXT           "opacity:",IDC_TRANS_TXT1,157,25,59,12,SS_CENTERIMAGE
     CONTROL         "",IDC_TRANS_SLIDER,"msctls_trackbar32",WS_TABSTOP,218,25,56,12

@@ -121,8 +121,6 @@ extern int g_Transparency;
 
 extern char *g_RemindSMS;
 
-extern BOOL g_isWin2kPlus;
-
 extern TCHAR *g_lpszAltBrowser;
 
 extern int g_reminderListGeom[4];

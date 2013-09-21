@@ -57,7 +57,7 @@ MsgEditCtrl;
 
 HIMAGELIST AddOtherIconsToImageList(struct MsgBoxData *data)
 {
-	HIMAGELIST himlIcons = ImageList_Create(16, 16, (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16) | ILC_MASK, 4, 0);
+	HIMAGELIST himlIcons = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 4, 0);
 
 	for (int i = 0; i < 5; ++i)
 		ImageList_AddIcon(himlIcons, data->icon[i]);
@@ -75,7 +75,7 @@ HIMAGELIST AddStatusIconsToImageList(const char *szProto, int status_flags)
 	for (i = 0; i < 9; ++i)
 		if (Proto_Status2Flag(ID_STATUS_ONLINE + i) & status_flags)	num_icons++;
 
-	HIMAGELIST himlIcons = ImageList_Create(16, 16, (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16) | ILC_MASK, num_icons, 0);
+	HIMAGELIST himlIcons = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, num_icons, 0);
 	HICON hicon = LoadSkinnedProtoIcon(szProto, ID_STATUS_OFFLINE);
 	ImageList_AddIcon(himlIcons, hicon);
 	Skin_ReleaseIcon(hicon);

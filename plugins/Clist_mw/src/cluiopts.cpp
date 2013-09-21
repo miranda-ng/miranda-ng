@@ -131,12 +131,7 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			dbv.pszVal = NULL;
 		}
 		}
-		if ( !IsWinVer2000Plus()) {
-			EnableWindow(GetDlgItem(hwndDlg,IDC_FADEINOUT),FALSE);
-			EnableWindow(GetDlgItem(hwndDlg,IDC_TRANSPARENT),FALSE);
-			EnableWindow(GetDlgItem(hwndDlg,IDC_DROPSHADOW),FALSE);
-		}
-		else CheckDlgButton(hwndDlg,IDC_TRANSPARENT,db_get_b(NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT)?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_TRANSPARENT, db_get_b(NULL, "CList", "Transparent", SETTING_TRANSPARENT_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 		if ( !IsDlgButtonChecked(hwndDlg,IDC_TRANSPARENT)) {
 			EnableWindow(GetDlgItem(hwndDlg,IDC_STATIC11),FALSE);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_STATIC12),FALSE);

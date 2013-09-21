@@ -728,7 +728,7 @@ void SettingsListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
 
 			LVHITTESTINFO hti;
 			hti.pt=((NMLISTVIEW*)lParam)->ptAction;
-			if (db_get_b(NULL,modname,"DontAllowInLineEdit",0) || !IsWinVer2000Plus()) /* fix for TioDuke and win98 */
+			if (db_get_b(NULL,modname,"DontAllowInLineEdit",0))
 				break;
 			if (info && ListView_SubItemHitTest(GetDlgItem(hwnd,IDC_SETTINGS),&hti) >-1)
 			{
@@ -772,7 +772,7 @@ void SettingsListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
 			hti.pt=((NMLISTVIEW*)lParam)->ptAction;
 			if (info && ListView_SubItemHitTest(GetDlgItem(hwnd,IDC_SETTINGS),&hti) >-1)
 			{
-				if ((hti.iSubItem > 1 || hti.flags == LVHT_ONITEMICON) || (db_get_b(NULL,modname,"DontAllowInLineEdit",0) || !IsWinVer2000Plus()/* fix for TioDuke and win98 */ ))
+				if ((hti.iSubItem > 1 || hti.flags == LVHT_ONITEMICON) || (db_get_b(NULL,modname,"DontAllowInLineEdit",0)))
 				{
 					char setting[256];
 					SendMessage(info->hwnd2Edit,WM_COMMAND,MAKEWPARAM(IDOK,0),0);

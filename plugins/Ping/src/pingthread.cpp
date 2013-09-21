@@ -609,7 +609,8 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		static int noRecurse=0;
 		if(lParam) break;
 		if(noRecurse) break;
-		if(!db_get_b(NULL,"CLUI","FadeInOut",0) || !IsWinVer2000Plus()) break;
+		if(!db_get_b(NULL,"CLUI","FadeInOut",0))
+			break;
 #ifdef WS_EX_LAYERED
 		if(GetWindowLong(hwnd,GWL_EXSTYLE)&WS_EX_LAYERED) {
 			DWORD thisTick,startTick;

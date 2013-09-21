@@ -1278,7 +1278,7 @@ skipbg:
 				return DefWindowProc(hwnd, msg, wParam, lParam);
 			if (noRecurse)
 				return DefWindowProc(hwnd, msg, wParam, lParam);
-			if ( !cfg::dat.fadeinout || !IsWinVer2000Plus())
+			if ( !cfg::dat.fadeinout)
 				return DefWindowProc(hwnd, msg, wParam, lParam);
 
 			g_fading_active = 1;

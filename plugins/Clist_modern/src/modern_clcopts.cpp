@@ -1239,12 +1239,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 				dbv.pszVal = NULL;
 			}
 		}
-		if ( !IsWinVer2000Plus()) {
-			EnableWindow(GetDlgItem(hwndDlg,IDC_FADEINOUT),FALSE);
-			EnableWindow(GetDlgItem(hwndDlg,IDC_TRANSPARENT),FALSE);
-			EnableWindow(GetDlgItem(hwndDlg,IDC_DROPSHADOW),FALSE);
-		}
-		else CheckDlgButton(hwndDlg,IDC_TRANSPARENT,db_get_b(NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT)?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_TRANSPARENT, db_get_b(NULL, "CList", "Transparent", SETTING_TRANSPARENT_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 		if ( !IsDlgButtonChecked(hwndDlg,IDC_TRANSPARENT)) {
 			EnableWindow(GetDlgItem(hwndDlg,IDC_STATIC11),FALSE);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_STATIC12),FALSE);
@@ -1394,7 +1389,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			}
 			AniAva_UpdateParent();
 			db_set_b(NULL,"CLUI","FadeInOut",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_FADEINOUT));
-			g_CluiData.fSmoothAnimation = IsWinVer2000Plus() && (BYTE)IsDlgButtonChecked(hwndDlg,IDC_FADEINOUT);
+			g_CluiData.fSmoothAnimation = (BYTE)IsDlgButtonChecked(hwndDlg,IDC_FADEINOUT);
 			{
 				int i1 = SendDlgItemMessage(hwndDlg,IDC_FRAMESSPIN,UDM_GETPOS, 0, 0);
 				int i2 = SendDlgItemMessage(hwndDlg,IDC_CAPTIONSSPIN,UDM_GETPOS, 0, 0);
@@ -1883,12 +1878,6 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			EnableWindow(GetDlgItem(hwndDlg,IDC_HIDETIMESPIN),IsDlgButtonChecked(hwndDlg,IDC_AUTOHIDE));
 			SendDlgItemMessage(hwndDlg,IDC_HIDETIMESPIN,UDM_SETRANGE, 0, MAKELONG(900, 1));
 			SendDlgItemMessage(hwndDlg,IDC_HIDETIMESPIN,UDM_SETPOS, 0, MAKELONG(db_get_w(NULL,"CList","HideTime",SETTING_HIDETIME_DEFAULT),0));
-
-			if ( !IsWinVer2000Plus()) {
-				EnableWindow(GetDlgItem(hwndDlg,IDC_FADEINOUT),FALSE);
-				EnableWindow(GetDlgItem(hwndDlg,IDC_TRANSPARENT),FALSE);
-				EnableWindow(GetDlgItem(hwndDlg,IDC_DROPSHADOW),FALSE);
-			}
 
 			if ( !IsDlgButtonChecked(hwndDlg,IDC_TRANSPARENT)) {
 				EnableWindow(GetDlgItem(hwndDlg,IDC_STATIC11),FALSE);

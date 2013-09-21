@@ -241,7 +241,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			// image list
 			int numberOfIcons = 0;
-			himl = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 10, 0);
+			himl = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 10, 0);
 			if (himl != NULL) {
 				if (AddIconToList(himl, LoadSkinnedDBEIcon(ICO_SETTINGS)))
 					numberOfIcons++;
@@ -271,7 +271,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				himl2 = NULL;
 				numberOfIcons = 0;
 
-				if (himl2 = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 5, 0)) {
+				if (himl2 = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 5, 0)) {
 					if (AddIconToList(himl2, LoadIcon(hInst, MAKEINTRESOURCE(ICO_BINARY))))
 						numberOfIcons++;
 					if (AddIconToList(himl2, LoadIcon(hInst, MAKEINTRESOURCE(ICO_BYTE))))

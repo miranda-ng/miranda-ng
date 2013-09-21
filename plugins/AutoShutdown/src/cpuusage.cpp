@@ -90,15 +90,9 @@ static void WinNT_PollThread(void *vparam)
 	LARGE_INTEGER liPrevCounterValue={0},liCurrentCounterValue={0},liPrevPerfTime100nSec={0};
 
 	/* init */
-	if(IsWinVer2000Plus()) {     /* Win2000+: */
-		dwObjectId=238;             /*'Processor' object */
-		dwCounterId=6;              /* '% processor time' counter */
-		pwszInstanceName=L"_Total"; /* '_Total' instance */
-	} else {                     /* WinNT4: */
-		dwObjectId=2;               /* 'System' object */
-		dwCounterId=240;            /* '% Total processor time' counter */
-		pwszInstanceName=NULL;
-	}
+	dwObjectId=238;             /*'Processor' object */
+	dwCounterId=6;              /* '% processor time' counter */
+	pwszInstanceName=L"_Total"; /* '_Total' instance */
 	_itot_s(dwObjectId, wszValueName, 10);
 	fSwitched = WinNT_PerfStatsSwitch(_T("PerfOS"), FALSE);
 

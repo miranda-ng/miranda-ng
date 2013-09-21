@@ -80,7 +80,6 @@ typedef struct tagPOPUPOPTIONS {
 	//Monitor
 	BYTE Monitor;
 	//Transparency
-	BYTE Enable9xTransparency;
 	BYTE UseTransparency;
 	BYTE Alpha;
 	BYTE OpaqueOnHover;

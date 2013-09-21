@@ -93,7 +93,7 @@ HIMAGELIST GetStatusIconsImgList(char *szProto)
 	HIMAGELIST hList = NULL;
 	if (szProto)
 	{
-		hList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16 | ILC_MASK, STATUS_COUNT, 0);
+		hList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, STATUS_COUNT, 0);
 		if (hList != NULL) 
 		{
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++)
@@ -489,7 +489,7 @@ INT_PTR CALLBACK DlgProcFiltering(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		{
 			TranslateDialogDefault(hwndDlg);
 
-			HIMAGELIST hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16 | ILC_MASK, 3, 3);
+			HIMAGELIST hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 3, 3);
 
 			ImageList_AddIcon(hImageList, LoadIcon(hInst,MAKEINTRESOURCE(IDI_SOUND)));
 			SendDlgItemMessage(hwndDlg,IDC_SOUNDICON,STM_SETICON, (WPARAM)ImageList_GetIcon(hImageList, EXTRA_IMAGE_SOUND, ILD_NORMAL), 0);

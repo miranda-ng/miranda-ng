@@ -2857,7 +2857,7 @@ int LoadCLUIFramesModule(void)
 
 	//container helper
 	WNDCLASS cntclass;
-	cntclass.style         = CS_DBLCLKS|CS_HREDRAW|CS_VREDRAW|( IsWinVerXPPlus()  ? CS_DROPSHADOW : 0);
+	cntclass.style         = CS_DBLCLKS | CS_HREDRAW | CS_VREDRAW | CS_DROPSHADOW;
 	cntclass.lpfnWndProc   = CLUIFrameContainerWndProc;
 	cntclass.cbClsExtra    = 0;
 	cntclass.cbWndExtra    = 0;
