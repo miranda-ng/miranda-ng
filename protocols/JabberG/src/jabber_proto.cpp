@@ -728,7 +728,7 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 			}
 			JABBER_LIST_ITEM *tmpItem = NULL;
 			if (pDelimiter && (tmpItem  = ListGetItemPtr(LIST_CHATROOM, szBareJid))) {
-				JABBER_RESOURCE_STATUS *him = tmpItem->findResource(pDelimiter);
+				pResourceStatus him( tmpItem->findResource(pDelimiter));
 				if (him) {
 					item = ListAdd(LIST_VCARD_TEMP, jid);
 					ListAddResource(LIST_VCARD_TEMP, jid, him->status, him->statusMessage, him->priority);
@@ -1150,7 +1150,7 @@ int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc
 	}
 	mir_free(msg);
 
-	JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID(szClientJid);
+	pResourceStatus r( ResourceInfoFromJID(szClientJid));
 	if (r)
 		r->bMessageSessionActive = TRUE;
 

@@ -1612,7 +1612,7 @@ void CJabberProto::OnIqResultSetBookmarks(HXML iqNode)
 // last activity (XEP-0012) support
 void CJabberProto::OnIqResultLastActivity(HXML iqNode, CJabberIqInfo* pInfo)
 {
-	JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID(pInfo->m_szFrom);
+	pResourceStatus r( ResourceInfoFromJID(pInfo->m_szFrom));
 	if (r == NULL)
 		return;
 

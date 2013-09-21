@@ -35,25 +35,6 @@ JABBER_LIST_ITEM::JABBER_LIST_ITEM() :
 {
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-JABBER_RESOURCE_STATUS::~JABBER_RESOURCE_STATUS()
-{
-	mir_free(resourceName);
-	mir_free(nick);
-	mir_free(statusMessage);
-	mir_free(software);
-	mir_free(version);
-	mir_free(system);
-	mir_free(szCapsNode);
-	mir_free(szCapsVer);
-	mir_free(szCapsExt);
-	mir_free(szRealJid);
-	
-	if (pSoftwareInfo)
-		delete pSoftwareInfo;
-}
-
 JABBER_LIST_ITEM::~JABBER_LIST_ITEM()
 {
 	for (int i=0; i < arResources.getCount(); i++)
@@ -79,6 +60,43 @@ JABBER_LIST_ITEM::~JABBER_LIST_ITEM()
 	mir_free(password);
 	if (list == LIST_ROSTER && ft)
 		delete ft;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+JABBER_RESOURCE_STATUS::JABBER_RESOURCE_STATUS() :
+	m_refCount(1)
+{
+}
+
+JABBER_RESOURCE_STATUS::~JABBER_RESOURCE_STATUS()
+{
+	mir_free(resourceName);
+	mir_free(nick);
+	mir_free(statusMessage);
+	mir_free(software);
+	mir_free(version);
+	mir_free(system);
+	mir_free(szCapsNode);
+	mir_free(szCapsVer);
+	mir_free(szCapsExt);
+	mir_free(szRealJid);
+	
+	if (pSoftwareInfo)
+		delete pSoftwareInfo;
+}
+
+void JABBER_RESOURCE_STATUS::AddRef()
+{
+	if (this != NULL)
+		::InterlockedIncrement(&m_refCount);
+}
+
+void JABBER_RESOURCE_STATUS::Release()
+{
+	if (this != NULL)
+		if (::InterlockedDecrement(&m_refCount) == 0)
+			delete this;	
 }
 
 void CJabberProto::ListWipe(void)
@@ -212,7 +230,7 @@ int CJabberProto::ListFindNext(JABBER_LIST list, int fromOffset)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Resource related code
 
-JABBER_RESOURCE_STATUS* JABBER_LIST_ITEM::findResource(const TCHAR *resourceName) const
+pResourceStatus JABBER_LIST_ITEM::findResource(const TCHAR *resourceName) const
 {
 	if (arResources.getCount() == 0 || resourceName == NULL || *resourceName == 0)
 		return NULL;
@@ -226,7 +244,7 @@ JABBER_RESOURCE_STATUS* JABBER_LIST_ITEM::findResource(const TCHAR *resourceName
 	return NULL;
 }
 
-JABBER_RESOURCE_STATUS* CJabberProto::ListFindResource(JABBER_LIST list, const TCHAR *jid)
+pResourceStatus CJabberProto::ListFindResource(JABBER_LIST list, const TCHAR *jid)
 {
 	mir_cslock lck(m_csLists);
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(list, jid);
@@ -238,12 +256,12 @@ JABBER_RESOURCE_STATUS* CJabberProto::ListFindResource(JABBER_LIST list, const T
 	return (q == NULL) ? NULL : LI->findResource(q+1);
 }
 
-int CJabberProto::ListAddResource(JABBER_LIST list, const TCHAR *jid, int status, const TCHAR *statusMessage, char priority, const TCHAR *nick)
+bool CJabberProto::ListAddResource(JABBER_LIST list, const TCHAR *jid, int status, const TCHAR *statusMessage, char priority, const TCHAR *nick)
 {
 	mir_cslockfull lck(m_csLists);
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(list, jid);
 	if (LI == NULL)
-		return NULL;
+		return false;
 
 	bool bIsNewResource = false;
 
@@ -252,7 +270,7 @@ int CJabberProto::ListAddResource(JABBER_LIST list, const TCHAR *jid, int status
 	if (q) {
 		const TCHAR *resource = q+1;
 		if (resource[0]) {
-			JABBER_RESOURCE_STATUS *r = LI->findResource(resource);
+			pResourceStatus r( LI->findResource(resource));
 			if (r != NULL) { // Already exists, update status and statusMessage
 				r->status = status;
 				replaceStrT(r->statusMessage, statusMessage);
@@ -297,7 +315,7 @@ void CJabberProto::ListRemoveResource(JABBER_LIST list, const TCHAR *jid)
 	if (q == NULL)
 		return;
 
-	JABBER_RESOURCE_STATUS *r = LI->findResource(q+1);
+	pResourceStatus r( LI->findResource(q+1));
 	if (r == NULL)
 		return;
 
@@ -315,13 +333,13 @@ void CJabberProto::ListRemoveResource(JABBER_LIST list, const TCHAR *jid)
 	UpdateMirVer(LI);
 
 	LI->arResources.remove(r);
-	delete r;
+	r->Release();
 	lck.unlock();
 
 	MenuUpdateSrmmIcon(LI);
 }
 
-JABBER_RESOURCE_STATUS* JABBER_LIST_ITEM::getBestResource() const
+pResourceStatus JABBER_LIST_ITEM::getBestResource() const
 {
 	if (!arResources.getCount())
 		return NULL;
@@ -354,7 +372,7 @@ TCHAR* CJabberProto::ListGetBestClientResourceNamePtr(const TCHAR *jid)
 	if (LI == NULL)
 		return NULL;
 
-	JABBER_RESOURCE_STATUS *r = LI->getBestResource();
+	pResourceStatus r( LI->getBestResource());
 	if (r != NULL)
 		return r->resourceName;
 

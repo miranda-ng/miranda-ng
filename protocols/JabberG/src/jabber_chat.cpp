@@ -194,7 +194,7 @@ void CJabberProto::GcLogCreate(JABBER_LIST_ITEM *item)
 	GcInit(item);
 }
 
-void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, JABBER_RESOURCE_STATUS *user, TJabberGcLogInfoType type)
+void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus &user, TJabberGcLogInfoType type)
 {
 	if ( !item || !user || (item->bChatActive != 2)) return;
 
@@ -309,6 +309,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const TCHAR *
 		gce.ptszStatus = TranslateT("Moderator");
 		break;
 	default:
+		mir_cslock lck(m_csLists);
 		for (int i=0; i < item->arResources.getCount(); i++) {
 			JABBER_RESOURCE_STATUS *JS = item->arResources[i];
 			if ( !lstrcmp(resource, JS->resourceName)) {
@@ -539,7 +540,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 	if (item == NULL)
 		return 0;
 
-	JABBER_RESOURCE_STATUS *me = NULL, *him = NULL;
+	pResourceStatus me(NULL), him(NULL);
 	for (int i=0; i < item->arResources.getCount(); i++) {
 		JABBER_RESOURCE_STATUS *p = item->arResources[i];
 		if ( !lstrcmp(p->resourceName, item->nick))   me = p;
@@ -1027,9 +1028,7 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* gch)
 {
-	JABBER_RESOURCE_STATUS
-		*me = item->findResource(item->nick),
-		*him = item->findResource(gch->ptszUID);
+	pResourceStatus me( item->findResource(item->nick)), him( item->findResource(gch->ptszUID));
 	if (him == NULL || me == NULL)
 		return;
 
@@ -1446,7 +1445,7 @@ static void sttSendPrivateMessage(CJabberProto *ppro, JABBER_LIST_ITEM *item, co
 	mir_sntprintf(szFullJid, SIZEOF(szFullJid), _T("%s/%s"), item->jid, nick);
 	HANDLE hContact = ppro->DBCreateContact(szFullJid, NULL, TRUE, FALSE);
 	if (hContact != NULL) {
-		JABBER_RESOURCE_STATUS *r = item->findResource(nick);
+		pResourceStatus r( item->findResource(nick));
 		if (r)
 			ppro->setWord(hContact, "Status", r->status);
 

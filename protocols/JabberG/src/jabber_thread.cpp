@@ -1098,7 +1098,7 @@ HANDLE CJabberProto::CreateTemporaryContact(const TCHAR *szJid, JABBER_LIST_ITEM
 			p = szJid;
 		hContact = DBCreateContact(szJid, p, TRUE, FALSE);
 
-		JABBER_RESOURCE_STATUS *r = chatItem->findResource(p);
+		pResourceStatus r( chatItem->findResource(p));
 		if (r)
 			setWord(hContact, "Status", r->status);
 	}
@@ -1122,7 +1122,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 		return;
 
 	LPCTSTR idStr = xmlGetAttrValue(node, _T("id"));
-	JABBER_RESOURCE_STATUS *pFromResource = ResourceInfoFromJID(from);
+	pResourceStatus pFromResource( ResourceInfoFromJID(from));
 
 	// Message receipts delivery request. Reply here, before a call to HandleMessagePermanent() to make sure message receipts are handled for external plugins too.
 	if ((!type || _tcsicmp(type, _T("error"))) && xmlGetChildByTag(node, "request", "xmlns", JABBER_FEAT_MESSAGE_RECEIPTS)) {
@@ -1494,8 +1494,9 @@ void CJabberProto::OnProcessPresenceCapabilites(HXML node)
 
 	Log("presence: for jid %S", from);
 
-	JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID(from);
-	if (r == NULL) return;
+	pResourceStatus r( ResourceInfoFromJID(from));
+	if (r == NULL)
+		return;
 
 	HXML n;
 
@@ -1544,7 +1545,7 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 	int nSelectedResource = -1, i = 0;
 	int nMaxPriority = -999; // -128...+127 valid range
 	for (i = 0; i < item->arResources.getCount(); i++) {
-		JABBER_RESOURCE_STATUS *r = item->arResources[i];
+		pResourceStatus r(item->arResources[i]);
 		if (r->priority > nMaxPriority) {
 			nMaxPriority = r->priority;
 			status = r->status;
@@ -1557,7 +1558,7 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 	}
 	item->m_pItemResource->status = status;
 	if (nSelectedResource != -1) {
-		JABBER_RESOURCE_STATUS *r = item->arResources[nSelectedResource];
+		pResourceStatus r(item->arResources[nSelectedResource]);
 		Log("JabberUpdateJidDbSettings: updating jid %S to rc %S", item->jid, r->resourceName);
 		if (r->statusMessage)
 			db_set_ts(hContact, "CList", "StatusMsg", r->statusMessage);
@@ -1805,8 +1806,9 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 
 void CJabberProto::OnIqResultVersion(HXML /*node*/, CJabberIqInfo *pInfo)
 {
-	JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID(pInfo->GetFrom());
-	if (r == NULL) return;
+	pResourceStatus r( ResourceInfoFromJID(pInfo->GetFrom()));
+	if (r == NULL)
+		return;
 
 	r->dwVersionRequestTime = -1;
 

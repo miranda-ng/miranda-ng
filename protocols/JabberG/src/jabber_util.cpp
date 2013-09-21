@@ -148,7 +148,7 @@ TCHAR* __stdcall JabberNickFromJID(const TCHAR *jid)
 	return nick;
 }
 
-JABBER_RESOURCE_STATUS* CJabberProto::ResourceInfoFromJID(const TCHAR *jid)
+pResourceStatus CJabberProto::ResourceInfoFromJID(const TCHAR *jid)
 {
 	if ( !jid)
 		return NULL;
@@ -908,7 +908,7 @@ TCHAR* CJabberProto::GetClientJID(const TCHAR *jid, TCHAR *dest, size_t destLen)
 		}
 
 		if (p == NULL) {
-			JABBER_RESOURCE_STATUS *r = LI->getBestResource();
+			pResourceStatus r( LI->getBestResource());
 			if (r != NULL)
 				mir_sntprintf(dest, destLen, _T("%s/%s"), jid, r->resourceName);
 		}

@@ -448,7 +448,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 						m_phMenuResourceItems[i] = Menu_AddContactMenuItem(&mi);
 					}
 					if (i < item->arResources.getCount()) {
-						JABBER_RESOURCE_STATUS *r = item->arResources[i];
+						pResourceStatus r(item->arResources[i]);
 						CLISTMENUITEM clmi = { sizeof(clmi) };
 						clmi.flags = CMIM_NAME|CMIM_FLAGS | CMIF_CHILDPOPUP|CMIF_TCHAR;
 						if ((item->resourceMode == RSMODE_MANUAL) && (item->pManualResource == r))
@@ -1057,7 +1057,7 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 
 		TCHAR jid[JABBER_MAX_JID_LEN];
 		if ( GetClientJID(event->hContact, jid, SIZEOF(jid))) {
-			JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID(jid);
+			pResourceStatus r( ResourceInfoFromJID(jid));
 			if (r && r->bMessageSessionActive) {
 				r->bMessageSessionActive = FALSE;
 

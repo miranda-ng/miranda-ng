@@ -73,9 +73,16 @@ struct JABBER_XEP0232_SOFTWARE_INFO : public MZeroedObject
 	ptrT tszOs, tszOsVersion, tszSoftware, tszSoftwareVersion, tszXMirandaCoreVersion;
 };
 
-struct JABBER_RESOURCE_STATUS : public MZeroedObject
+class JABBER_RESOURCE_STATUS : public MZeroedObject
 {
+	LONG m_refCount;
+
+public:
+	JABBER_RESOURCE_STATUS();
 	~JABBER_RESOURCE_STATUS();
+
+	void AddRef();
+	void Release();
 
 	int status;
 	TCHAR* resourceName;
@@ -105,6 +112,37 @@ struct JABBER_RESOURCE_STATUS : public MZeroedObject
 	JABBER_XEP0232_SOFTWARE_INFO* pSoftwareInfo;
 };
 
+class pResourceStatus
+{
+	JABBER_RESOURCE_STATUS *m_pStatus;
+
+public:
+	__forceinline pResourceStatus(JABBER_RESOURCE_STATUS *pStatus) :
+		m_pStatus(pStatus)
+	{	pStatus->AddRef();
+	}
+
+	__forceinline pResourceStatus(const pResourceStatus &r)
+	{	m_pStatus = r.m_pStatus;
+		m_pStatus->AddRef();
+	}
+
+	__forceinline ~pResourceStatus()
+	{	m_pStatus->Release();
+	}
+
+	__forceinline operator JABBER_RESOURCE_STATUS*() const { return m_pStatus; }
+	__forceinline JABBER_RESOURCE_STATUS* operator->() const { return m_pStatus; }
+
+	__forceinline void operator=(const pResourceStatus &r) {
+		m_pStatus->Release();
+		m_pStatus = r.m_pStatus;
+		m_pStatus->AddRef();
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
 struct JABBER_LIST_ITEM : public MZeroedObject
 {
 	JABBER_LIST_ITEM();
@@ -117,14 +155,14 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 	// jid = jid of the contact
 	TCHAR* nick;
 
-	JABBER_RESOURCE_STATUS* findResource(const TCHAR *resourceName) const;
-	JABBER_RESOURCE_STATUS* getBestResource() const;
+	pResourceStatus findResource(const TCHAR *resourceName) const;
+	pResourceStatus getBestResource() const;
 	JABBER_RESOURCE_MODE resourceMode;
 	LIST<JABBER_RESOURCE_STATUS> arResources; // array of resources
 	JABBER_RESOURCE_STATUS
 		*pLastSeenResource, // resource which was last seen active
 		*pManualResource,   // manually set resource
-		*m_pItemResource;      // resource for jids without /resource node
+		*m_pItemResource;   // resource for jids without /resource node
 
 	JABBER_SUBSCRIPTION subscription;
 	TCHAR* group;
@@ -171,6 +209,8 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 	BOOL bUseResource;
 	BOOL bHistoryRead;
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 struct JABBER_HTTP_AVATARS
 {

@@ -96,7 +96,7 @@ const JabberFeatCapPair g_JabberFeatCapPairsExt[] = {
 
 void CJabberProto::OnIqResultCapsDiscoInfoSI(HXML, CJabberIqInfo* pInfo)
 {
-	JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID(pInfo->GetFrom());
+	pResourceStatus r( ResourceInfoFromJID(pInfo->GetFrom()));
 	if (r == NULL)
 		return;
 
@@ -138,7 +138,7 @@ void CJabberProto::OnIqResultCapsDiscoInfoSI(HXML, CJabberIqInfo* pInfo)
 
 void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo* pInfo)
 {
-	JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID(pInfo->GetFrom());
+	pResourceStatus r( ResourceInfoFromJID(pInfo->GetFrom()));
 
 	HXML query = pInfo->GetChildNode();
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT && query) {
@@ -222,7 +222,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites(const TCHAR *jid, BOOL appen
 	else
 		_tcsncpy(fullJid, jid, SIZEOF(fullJid));
 
-	JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID(fullJid);
+	pResourceStatus r( ResourceInfoFromJID(fullJid));
 	if (r == NULL)
 		return JABBER_RESOURCE_CAPS_ERROR;
 

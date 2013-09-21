@@ -445,7 +445,7 @@ struct CJabberProto : public PROTO<CJabberProto>
 	int    GcInit(JABBER_LIST_ITEM *item);
 	void   GcLogCreate(JABBER_LIST_ITEM *item);
 	void   GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const TCHAR *resource, const TCHAR *nick, const TCHAR *jid, int action, HXML reason, int nStatusCode = -1);
-	void   GcLogShowInformation(JABBER_LIST_ITEM *item, JABBER_RESOURCE_STATUS *user, TJabberGcLogInfoType type);
+	void   GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus &user, TJabberGcLogInfoType type);
 	void   GcQuit(JABBER_LIST_ITEM* jid, int code, HXML reason);
 
 	void   FilterList(HWND hwndList);
@@ -650,8 +650,9 @@ struct CJabberProto : public PROTO<CJabberProto>
 	void   ListRemoveByIndex(int index);
 	int    ListFindNext(JABBER_LIST list, int fromOffset);
 
-	JABBER_RESOURCE_STATUS *CJabberProto::ListFindResource(JABBER_LIST list, const TCHAR *jid);
-	int    ListAddResource(JABBER_LIST list, const TCHAR *jid, int status, const TCHAR *statusMessage, char priority = 0, const TCHAR *nick = NULL);
+	pResourceStatus ListFindResource(JABBER_LIST list, const TCHAR *jid);
+
+	bool   ListAddResource(JABBER_LIST list, const TCHAR *jid, int status, const TCHAR *statusMessage, char priority = 0, const TCHAR *nick = NULL);
 	void   ListRemoveResource(JABBER_LIST list, const TCHAR *jid);
 	TCHAR* ListGetBestClientResourceNamePtr(const TCHAR *jid);
 
@@ -703,9 +704,9 @@ struct CJabberProto : public PROTO<CJabberProto>
 	void   GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen);
 	void   ResolveTransportNicks(const TCHAR *jid);
 	void   SetServerStatus(int iNewStatus);
-	void   FormatMirVer(JABBER_RESOURCE_STATUS *resource, TCHAR *buf, int bufSize);
+	void   FormatMirVer(pResourceStatus &resource, TCHAR *buf, int bufSize);
 	void   UpdateMirVer(JABBER_LIST_ITEM *item);
-	void   UpdateMirVer(HANDLE hContact, JABBER_RESOURCE_STATUS *resource);
+	void   UpdateMirVer(HANDLE hContact, pResourceStatus &resource);
 	void   UpdateSubscriptionInfo(HANDLE hContact, JABBER_LIST_ITEM *item);
 	void   SetContactOfflineStatus(HANDLE hContact);
 	void   InitCustomFolders(void);
@@ -859,7 +860,7 @@ struct CJabberProto : public PROTO<CJabberProto>
 	bool   ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info);
 
 	//---- jabber_util.c -----------------------------------------------------------------
-	JABBER_RESOURCE_STATUS* ResourceInfoFromJID(const TCHAR *jid);
+	pResourceStatus ResourceInfoFromJID(const TCHAR *jid);
 
 	void   SerialInit(void);
 	void   SerialUninit(void);

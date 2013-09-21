@@ -396,7 +396,7 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 	if (item == NULL)
 		return 0;  //no room found
 
-	JABBER_RESOURCE_STATUS *info = item->findResource((TCHAR*)lParam);
+	pResourceStatus info( item->findResource((TCHAR*)lParam));
 	if (info == NULL)
 		return 0; //no info found
 

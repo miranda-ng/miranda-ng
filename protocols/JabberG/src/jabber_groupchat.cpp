@@ -864,7 +864,7 @@ void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const TCHAR *ol
 	if (newNick == NULL)
 		return;
 
-	JABBER_RESOURCE_STATUS *r = item->findResource(oldNick);
+	pResourceStatus r( item->findResource(oldNick));
 	if (r == NULL)
 		return;
 
@@ -914,7 +914,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 	if (item == NULL)
 		return;
 
-	JABBER_RESOURCE_STATUS *r = item->findResource(resource);
+	pResourceStatus r( item->findResource(resource));
 
 	HXML nNode = xmlGetChildByTag(node, "nick", "xmlns", JABBER_FEAT_NICK);
 	if (nNode == NULL)
@@ -959,9 +959,9 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 			priority = (char)_ttoi(ptszPriority);
 
 		bool bStatusChanged = false, bRoomCreated = false, bAffiliationChanged = false, bRoleChanged = false;
-		int newRes = (ListAddResource(LIST_CHATROOM, from, status, str, priority, cnick) == 0) ? 0 : GC_EVENT_JOIN;
+		int  newRes = ListAddResource(LIST_CHATROOM, from, status, str, priority, cnick) ? GC_EVENT_JOIN : 0;
 
-		if (JABBER_RESOURCE_STATUS *oldRes = ListFindResource(LIST_CHATROOM, from))
+		if (pResourceStatus oldRes = ListFindResource(LIST_CHATROOM, from))
 			if ((oldRes->status != status) || lstrcmp_null(oldRes->statusMessage, str))
 				bStatusChanged = true;
 
@@ -1013,7 +1013,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 
 		// show status change if needed
 		if (bStatusChanged)
-			if (JABBER_RESOURCE_STATUS *res = ListFindResource(LIST_CHATROOM, from))
+			if (pResourceStatus res = ListFindResource(LIST_CHATROOM, from))
 				GcLogShowInformation(item, res, INFO_STATUS);
 
 		// Update groupchat log window
@@ -1198,7 +1198,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 		msgTime = now;
 
 	if (resource != NULL) {
-		JABBER_RESOURCE_STATUS *r = item->findResource(resource);
+		pResourceStatus r( item->findResource(resource));
 		nick = (r && r->nick) ? r->nick : resource;
 	}
 	else nick = NULL;
