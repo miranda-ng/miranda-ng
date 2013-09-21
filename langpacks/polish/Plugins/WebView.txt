@@ -6,34 +6,34 @@
 ;  Authors: Vincent Joyce
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
-
+Dodaje strony internetowe jako kontakty do listy i może wyświetlać ich tekst lub generować powiadomienia o zmianach na nich w oknie.
 ;file \plugins\WebView\res\webview.rc
 [Webview]
-
+Webview
 [Update data every]
-
+Aktualizuj dane co
 [minutes]
 minut
 [Delay update on start]
-
+Opóźniaj aktualizację przy starcie
 [seconds]
 s
 [Hide icon on status bar]
-
+Ukryj ikonę w pasku stanu
 [Disable main menu items]
-
+Wyłącz elementy menu głównego
 [Load Page on Window Open]
-
+Ładuj stronę po otwarciu okna
 [Update data on start-up]
-
+Aktualizuj dane przy starcie
 [Only Update Window on Alert]
-
+Aktualizuj okno tylko przy powiadomieniu
 [Window Appearance]
-
+Wygląd okna
 [Background Color:]
-
+Kolor tła:
 [Text Color:]
-
+Kolor tekstu:
 [Bold]
 Pogrubienie
 [Italic]
@@ -41,51 +41,51 @@ Kursywa
 [Underline]
 Podkreślenie
 [Save Individual Window Positions]
-
+Zapisuj indywidualne położenia okien
 [Error Messages]
-
+Komunikaty o błędach
 [Suppress error messages]
-
+Ignoruj komunikaty o błędach
 [Display using Popup or OSD plugin]
-
+Wyświetlaj używając wtyczki Popup lub OSD
 [Expert Options]
-
+Opcje zaawansowane
 [Disable Download Protection]
-
+Wyłącz ochronę przed pobieraniem
 [(Not Recommended)]
-
+Niezalecane
 [Display Data in Popup on Alert]
-
+Wyświetl dane w Popupie przy powiadomieniu
 [Display Data in Popup]
-
+Wyświetl dane w Popupie
 [You may need to restart Miranda NG for this change to take effect.]
-
+Restart Mirandy NG, może być potrzebny by te zmiany weszły w życie.
 [Contact name:]
-
+Nazwa kontaktu:
 [URL:]
 URL:
 [Display]
 Wyświetlanie
 [Between Start and End strings]
-
+Pomiędzy ciągami rozpoczęcia i zakończenia
 [Whole web page]
-
+Cała strona
 [Start:]
-
+Początek:
 [End:]
-
+Koniec:
 [Copy Strings to Alerts]
-
+Kopiuj ciągi do powiadomień
 [Double click action]
-
+Akcja po podwójnym kliknięciu
 [Opens Web page]
-
+Otwiera stronę
 [Opens Data Window]
-
+Otwiera okno z danymi
 [Display Clean-up]
-
+Wyświetl czyszczenie
 [Remove HTML]
-
+Usuń HTML
 [OK]
 OK
 [Cancel]
@@ -99,49 +99,49 @@ szukaj następnego
 [Find What:]
 Szukaj:
 [Search was completed.]
-
+Wyszukiwanie zostało ukończone.
 [Alert Options]
-
+Opcje powiadomień
 [Events And Alerts]
-
+Zdarzenia i powiadomienia
 [Enable Alerts]
-
+Włącz powiadomienia
 [Always Log To File]
-
+Zawsze zapisuj do pliku
 [Add Time And Date Of Alert To Contact Name]
-
+Dodaj datę i czas powiadomienia do nazwy kontaktu
 [Use 24 hour time format instead of 12 hour]
-
+Używaj 24-godzinnego formatu czasu zamiast 12-godzinnego
 [Add As Prefix]
-
+Dodaj jako prefiks
 [Add As Suffix]
-
+Dodaj jako sufiks
 [Alert When:]
-
+Powiadom, gdy:
 [Alert Type:]
-
+Typ powiadomienia:
 [Test Conditions]
-
+Sprawdź warunki
 [Alert When String Is Present On Web Page]
-
+Powiadom, gdy ciąg jest dostępny na stronie
 [String:]
-
+Ciąg:
 [Alert When Specific Area Of Web Page Changes]
-
+Powiadom, gdy określony obszar strony się zmieni
 [Log To file]
-
+Zapisuj do pliku
 [Log File:]
-
+Plik logu:
 [Append data to file]
 Dołączanie danych do pliku
 [Save as raw data]
-
+Zapisz jako dane nieprzetworzone
 [Popup Delay]
 Wyświetlanie Popup
 [Delay]
 Wyświetlaj
 [From Popup Plugin]
-
+Z wtyczki Popup
 [Permanent]
 Stałe
 [Preview]
@@ -149,7 +149,7 @@ Podgląd
 [Colors]
 Kolory
 [Use Custom Colors]
-
+Używaj własnych kolorów
 [Background]
 Tło
 [Text]
@@ -157,17 +157,17 @@ Tekst
 [Use Windows Colors]
 Użyj kolorów Windows
 [Use Same Colors As Data Window]
-
+Używaj tych samych kolorów co okno z danymi
 [Left Click Action]
-
+Akcja po kliknięciu lewym przyciskiem myszy
 [Open Data Display Window]
-
+Otwórz okno wyświetlania danych
 [Open Web Page]
-
+Otwórz stronę
 [Dismiss Popup]
 Odrzuć popup
 [Right Click Action]
-
+Akcja po kliknięciu prawym przyciskiem myszy
 [Log]
 Dziennik
 [&Copy]
@@ -183,179 +183,179 @@ Kopiuj wszystko
 [&Select All]
 Wszystkie
 [C&lear All]
-
+W&yczyść wszystko
 ;file \plugins\WebView\src\main.cpp
 [Alert Event]
-
+Zdarzenie do powiadomienia
 [Auto Update Disabled]
 Autoaktualizacja wyłączona
 [Auto Update Enabled]
 Autoaktualizacja włączona
 [Update All Webview Sites]
-
+Zaktualizuj wszystkie strony w Webview
 [Mark All Webview Sites Read]
-
+Zaznacz wszystkie strony w Webview jako przeczytane
 [Open Cache Folder]
-
+Otwórz folder Cache
 [%d Minutes to Update]
-
+%d minut do aktualizacji
 [Open web page]
-
+Otwórz stronę
 [Open/Close window]
-
+Otwórz/Zamknij okno
 [Update Data]
-
+Zaktualizuj Dane
 [Contact Options]
-
+Opcje kontaktu
 [Contact Alert Options]
-
+Opcje powiadomień kontaktu
 [Ping Web Site]
-
+Pinguj Stronę
 [Stop Data Processing]
-
+Zakończ przetwarzanie danych
 ;file \plugins\WebView\src\webview.cpp
 [All Webview sites have been updated.]
-
+Wszystkie strony w Webview zostały zaktualizowane.
 [Network]
 Protokoły
 [Popups]
 Popupy
 ;file \plugins\WebView\src\webview_alerts.cpp
 [Cannot write to file]
-
+Nie można zapisać w pliku
 [Last updated on]
-
+Ostatnia aktualizacja w dniu
 [Start/end strings not found or strings not set.]
-
+Nie znaleziono ciągów początku i końca lub nie zostały one ustawione.
 [Alert start/end strings not found or strings not set.]
-
+Nie znaleziono ciągów początku i końca dla powiadomień lub nie zostały one ustawione.
 [The string]
-
+Ciąg
 [has been found on the web page]
-
+został znaleziony na stronie
 [Download successful; about to process data...]
-
+Pobieranie pomyślne; rozpoczynam przetwarzanie danych.
 [Unknown Alert Type.]
-
+Nieznany typ powiadomienia
 [Cannot read from file]
-
+Nie można odczytać z pliku
 [Cannot write to file 1]
-
+Nie można zapisać w pliku 1
 [The Web Page Has Changed.]
-
+Strona zmieniła się.
 [Cannot write to file 2]
-
+Nie można zapisać w pliku 2
 [Specific Part Of The Web Page Has Changed.]
-
+Określona część strony zmieniła się.
 [Cannot read from cache file]
-
+Nie można odczytać z pliku Cache
 [Loaded From Cache]
-
+Załadowano z Cache
 ;file \plugins\WebView\src\webview_datawnd.cpp
 [ERROR: You have two or more Webview contacts with the same URL and contact name.]
-
+Błąd: masz dwa lub więcej kontaktów w Webview o tym samym adresie i nazwie.
 [Stop Processing]
-
+Zakończ przetwarzanie
 [Click here to open this URL in a browser window.]
-
+Kliknij tu, aby otworzyć ten adres w oknie przeglądarki.
 [Stick to the front]
-
+Trzymaj się wierzchu
 [Disable Stick to the Front]
-
+Wyłącz utrzymywanie wierzchu
 [Disable Stick to the front]
-
+Wyłącz utrzymywanie na wierzchu
 ;file \plugins\WebView\src\webview_getdata.cpp
 [URL not supplied]
-
+Nie podano adresu
 [Download in progress, please wait...]
-
+Pobieranie w toku, proszę czekać...
 [Updating...]
-
+Aktualizowanie...
 [The server replied with a failure code]
-
+Serwer odpowiedział kodem błędu
 [The server is down or lagging.]
-
+Serwer jest nieosiągalny lub działa wolno.
 [Invalid search parameters.]
-
+Nieprawidłowe parametry wyszukiwania.
 [Both search strings not found or strings not set.]
-
+Obydwa ciągi wyszukiwania nie zostały znalezione lub nie zostały ustawione.
 [at the time]
-
+O czasie
 [Processing data (Stage 1)]
-
+Przetwarzanie danych (Etap 1)
 [Processing data stopped by user.]
-
+Przetwarzanie danych zatrzymane przez użytkownika.
 [Processing data (Stage 2)]
-
+Przetwarzanie danych (Etap 2)
 [Processing data (Stage 3)]
-
+Przetwarzanie danych (Etap 3)
 [Processing data (Stage 4)]
-
+Przetwarzanie danych (etap 4)
 [Processing data (Stage 5)]
-
+Przetwarzanie danych (etap 5)
 [Processing data (Stage 6)]
-
+Przetwarzanie danych (etap 6)
 [Processing data (Stage 7)]
-
+Przetwarzanie danych (Etap 7)
 [Processing data (Stage 8)]
-
+Przetwarzanie danych (Etap 8)
 [Alert!]
-
+Powiadomienie
 [Online]
 Dostępny
 [A site is already downloading, try again in a moment.]
-
+Strona jest właśnie pobierana. Spróbuj ponownie za chwilę.
 [Bytes in display]
-
+bajtów wyświetlanych
 [Bytes downloaded]
-
+bajtów pobranych
 [Alert test conditions not met; press the refresh button to view content.]
-
+Nie spełniono warunków testowych powiadomienia; naciśnij przycisk odśwież, by przejrzeć zawartość.
 ;file \plugins\WebView\src\webview_opts.cpp
 [No whitespace removal]
-
+Brak usuwania białych spacji
 [Minimal level of whitespace removal]
-
+Minimalny poziom usuwania białych spacji
 [Medium level of whitespace removal]
-
+Średni poziom usuwania białych spacji
 [Large level of whitespace removal]
-
+Duży poziom usuwania białych spacji
 [Remove all whitespace]
-
+Usuń wszystkie białe spacje
 [Popup Plugin]
-
+Wtyczka Popup
 [Log To File]
-
+Zapisuj do pliku
 [Use OSD Plugin]
-
+Używaj wtyczki OSD
 [A String Is Present]
-
+Ciąg jest dostępny
 [The Web Page Changes]
-
+Strona zmienia się
 [A Specific Part of Web Page Changes]
-
+Określona część strony zmienia się
 [This is a preview popup.]
-
+To jest okienko podglądu.
 [You need to supply a search string.]
-
+Musisz podać ciąg wyszukiwania.
 [You need to supply a start string.]
-
+Musisz podać ciąg początku.
 [You need to supply an end string.]
-
+Musisz podać ciąg końca.
 [You need to supply a file name and path.]
-
+Musisz podać nazwę oraz ścieżkę pliku.
 [You need to supply a URL.]
-
+Musisz podać adres.
 [You need to supply a name for the contact.]
-
+Musisz podać nazwę kontaktu.
 [Invalid symbol present in contact name.]
-
+Nieprawidłowy symbol znajduje się w nazwie kontaktu.
 ;file \plugins\WebView\src\webview_services.cpp
 [Cache folder does not exist.]
-
+Folder Cache nie istnieje.
 [Missing "psite.bat" file.]
-
+Brak pliku "psite.bat"
 [Site URL]
-
+Adres strony
 [Please select site in Find/Add Contacts...]
-
+Proszę wybrać stronę w Szukaj/Dodaj kontakty...

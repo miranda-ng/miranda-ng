@@ -9,93 +9,93 @@
 Antyspam dla Mirandy NG z captcha i filtrowaniem Bayesa.
 ;file \plugins\Spamotron\res\spamotron.rc
 [Do not send challenge request if message score above]
-
+Nie wysyłaj prośby o rozwiązanie zadania, jeśli wynik wiadomości powyżej
 [Auto-learn messages from approved contacts as ham]
-
+Automatycznie ucz się wiadomości od zatwierdzonych kontaktów jako wysyłanych przez człowieka
 [Filtering options]
-
+Opcje filtrowania
 [Learning options]
-
+Opcje uczenia się
 [Auto-learn outgoing messages as ham]
-
+Automatycznie ucz się wiadomości wychodzących jako wysyłanych przez człowieka
 [Spam]
-
+Spam
 [Ham]
-
+Wysłane przez człowieka
 [Learn message:]
-
+Naucz się wiadomości:
 [Auto approve contact if message score below]
-
+Automatycznie zatwierdź kontakt, gdy wynik wiadomości poniżej
 [Do not enable any of these options until Spam-o-tron have learned at least 20 of ham and 50 of spam messages.]
-
+Nie włączaj żadnej z tych opcji dopóki Spam-o-tron nie nauczy się przynajmniej 20 wiadomości wysyłanych przez człowieka oraz 50 wiadomości spam.
 [Learned ham messages:]
-
+Wiadomośći przyswojone jako wysyłane przez człowieka:
 [Learned spam messages:]
-
+Wiadomości przyswojone jako spam:
 [Analyze]
-
+Analizuj
 [Auto-learn messages from contacts if not approved in]
-
+Automatycznie ucz się wiadomości od kontaktów, jeżeli niezatwierdzone w
 [days as spam]
-
+dni jako spam
 [Enabled]
 Włączony
 [and learn as ham]
-
+i ucz się jako wysyłanych przez człowieka
 [Enabled accounts:]
-
+Włączone konta:
 [Do not reply to messages with words in this list:]
-
+Nie odpowiadaj na wiadomości zawierające słowa z tej listy:
 [Do not reply to the same message more than]
-
+Nie odpowiadaj na tę samą wiadomość więcej niż
 [Flood protection]
-
+Ochrona przed floodem
 [Do not send more than]
 Nie wysyłaj więcej niż
 [messages to one contact per day]
-
+wiadomości do jednego kontaktu dziennie
 [times a day]
-
+razy dziennie
 [Settings]
 Ustawienia
 [Outgoing message]
 Wychodząca wiadomość
 [Incoming message with any word from list:]
-
+Wiadomość przychodząca z jakimkolwiek słowem z listy:
 [Auto approve on:]
-
+Zatwierdzaj automatycznie, gdy:
 [Hide contact until verified]
-
+Ukryj kontakt dopóki nie zostanie zweryfikowany
 [Add permanently to list on verified]
-
+Dodaj na stałe do listy po zweryfikowaniu
 [Log actions to system history]
-
+Loguj akcje do historii systemowej
 [Mode:]
-
+Tryb:
 [Responses: (saved in %response%, %response-n% variables)]
-
+Odpowiedzi: (zapisane w zmiennych %response%,%response-n)
 [will be saved in %mathexpr%]
-
+zostaną zapisane w %mathexpr%
 [Reset to defaults]
 Ustaw domyślnie
 [Reply on success:]
-
+Odpowiedz po osiągnięciu sukcesu:
 [Send challenge on authorization request:]
-
+Wyślij zadanie przy prośbie o autoryzację:
 [Keep blocked messages in contact history]
-
+Przechowuj zablokowane wiadomości w historii kontaktu
 [Case-sensitive]
-
+Wielkość liter ma znaczenie
 [Send challenge on incoming message:]
-
+Wyślij zadanie w odpowiedzi na przychodzącą wiadomość:
 [and mark them unread after approval]
-
+i oznacz ją jako nieprzeczytaną po zatwierdzeniu
 [Enable popup notifications]
-
+Włącz Popupy
 [Contact blocked]
-
+Kontakt zablokowany
 [Contact approved]
-
+Kontakt zatwierdzony
 [Appearance]
 Personalizacja
 [Foreground]
@@ -107,42 +107,42 @@ Wyświetlaj
 [Default colors]
 Domyślne kolory
 [Default timeout]
-
+Domyślny czas oczekiwania
 [Preview]
 Podgląd
 [Windows colors]
 Kolory Windows
 [Challenge sent]
-
+Zadanie wysłane
 ;file \plugins\Spamotron\src\bayes.cpp
 [Bayes database path]
-
+Ścieżka do bazy danych Bayes
 ;file \plugins\Spamotron\src\common.h
 [Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
-
+Spam-o-tron musi zweryfikować czy nie jesteś botem. Odpowiedz pisząc "%response%" bez cudzysłowia.
 [Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
-
+Spam-o-tron musi zweryfikować czy nie jesteś botem. Odpowiedz podając wynik działania %mathexpr%.
 [Verified.]
-
+Zweryfikowany.
 [Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
-
+Spam-o-tron opóźnił prośbę o autoryzację. Najpierw odpowiedz pisząc "%response%" bez cudzysłowia.
 [Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
-
+Spam-o-tron opóźnił prośbę o autoryzację. Najpierw odpowiedz podając wynik działania %mathexpr%.
 ;file \plugins\Spamotron\src\options.cpp
 [Simple]
-
+Prosty
 [Math expression]
-
+Działanie matematyczne
 [Round-robin]
-
+System kołowy
 [Random]
-
+Przypadkowy
 [Will be automatically evaluated from %mathexpr%]
-
+Zostanie automatycznie obliczony z %mathexpr%
 [Invalid regular expression.\nKeeping previous value.]
-
+Niepoprawne wyrażenie regularne.\nUtrzymuję starą wartość.
 [Message score]
-
+Wynik wiadomości
 [Message Sessions]
 Okno rozmowy
 [Messages]
@@ -153,30 +153,30 @@ Bajtów
 Popupy
 ;file \plugins\Spamotron\src\popups.cpp
 [Message blocked due to preview action]
-
+Wiadomość zablokowana z powodu akcji sprawdzającej
 [Message approved due to preview action]
-
+Wiadomość zatwierdzona z powodu akcji sprawdzającej
 [Challenge sent to preview contact]
-
+Wysłano zadanie, aby sprawdzić kontakt
 ;file \plugins\Spamotron\src\spamotron.cpp
 [Contact %s approved.]
-
+Zatwierdzono kontakt %s.
 [Message from %s rejected because it reached a maximum for challenge requests per day.]
-
+Wiadomość od %s została odrzucona, ponieważ przekroczyła maksymalną, dzienną ilość próśb o rozwiązanie zadania.
 [Message from %s rejected because it reached a maximum for same responses per day.]
-
+Wiadomość od %s została odrzucona, ponieważ przekroczyła maksymalną ilość tych samych odpowiedzi dziennie.
 [Message from %s dropped because it has a word from black list.]
-
+Wiadomość od %s usunięta, ponieważ zawiera ona słowo z czarnej listy.
 [Message from %s dropped because of high spam score.]
-
+Wiadomość od %s usunięta, ponieważ zawiera ona duży wynik spamu.
 [Sending plain challenge to %s.]
-
+Wysyłanie czystego zadania do %s.
 [Sending round-robin challenge to %s.]
-
+Wysyłanie zadania w systemie kołowym do %s.
 [Sending random challenge to %s.]
-
+Wysyłanie losowego zadania do %s.
 [Sending math expression challenge to %s.]
-
+Wysyłanie działania matematycznego do %s.
 ;file \plugins\Spamotron\src\utils.cpp
 [Their message was]
-
+Jego wiadomość to
