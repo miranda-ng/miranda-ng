@@ -484,7 +484,7 @@ int LoadSkinIcons(void)
 	//
 	// Add global icons to list
 	//
-	sid.pszSection = PROTOCOLS_PREFIX LPGEN("Global") "/";
+	sid.pszSection = PROTOCOLS_PREFIX "/" LPGEN("Global");
 	//
 	// Asterisk is used, to avoid conflict with proto-plugins
 	// 'coz users can't rename it to name with '*'
