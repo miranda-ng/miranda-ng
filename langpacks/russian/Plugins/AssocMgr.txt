@@ -10,7 +10,7 @@
 [Registered associations for Miranda NG:]
 Зарегистрированные ассоциации для Miranda NG:
 [Miscellaneous]
-Miscellaneous
+Прочее
 [&Start Miranda NG automatically when the computer starts (using current profile)]
 &Загружать программу при запуске компьютера (используя текущий профиль)
 [Only associate with Miranda NG while it is &running]

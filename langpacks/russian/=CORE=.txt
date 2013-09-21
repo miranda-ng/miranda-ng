@@ -488,9 +488,9 @@ ANSI плагин
 [Down Arrow]
 Вниз
 [Download more icons]
-Загрузить из Сети
+Загрузить с сайта Miranda NG
 [Download more sounds]
-Загрузить из Сети
+Загрузить с сайта Miranda NG
 [Drag icons to main list to assign them:]
 Перетащите значок в главное окно для замены:
 [Driver]
@@ -848,7 +848,7 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 [Name]
 Имя
 [Netlib Log Options]
-Настройки Журналирования Сети
+Настройки журналирования сети
 [Network]
 Сеть
 [Never, do not use virus scanning]
