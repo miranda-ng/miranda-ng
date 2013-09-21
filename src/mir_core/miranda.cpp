@@ -67,12 +67,10 @@ static void LoadCoreModule(void)
 	icce.dwICC = ICC_WIN95_CLASSES | ICC_USEREX_CLASSES;
 	InitCommonControlsEx(&icce);
 
-	if ( IsWinVerXPPlus()) {
-		hAPCWindow=CreateWindowEx(0, _T("ComboLBox"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
-		SetClassLongPtr(hAPCWindow, GCL_STYLE, GetClassLongPtr(hAPCWindow, GCL_STYLE) | CS_DROPSHADOW);
-		DestroyWindow(hAPCWindow);
-		hAPCWindow = NULL;
-	}
+	hAPCWindow=CreateWindowEx(0, _T("ComboLBox"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+	SetClassLongPtr(hAPCWindow, GCL_STYLE, GetClassLongPtr(hAPCWindow, GCL_STYLE) | CS_DROPSHADOW);
+	DestroyWindow(hAPCWindow);
+	hAPCWindow = NULL;
 
 	hAPCWindow = CreateWindowEx(0, _T("STATIC"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
 	SetWindowLongPtr(hAPCWindow, GWLP_WNDPROC, (LONG_PTR)APCWndProc);
