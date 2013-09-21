@@ -96,28 +96,29 @@ public:
 class TemplateMap {
 private:
 	static TemplateMap *mapList;
-	char *				name;
-	char *				filename;
-	bool    			grouping;
-	bool				rtl;
-	Template *			entries;
-	TemplateMap *       next;
+	char *name;
+	char *filename;
+	bool  grouping;
+	bool  rtl;
+	Template *entries;
+	TemplateMap *next;
 	TemplateMap(const char *name);
-	void				addTemplate(const char *name, const char *text);
-	void				setFilename(const char *filename);
-	void                clear();
-	static TemplateMap*	add(const char *id, const char *filename);
-	static void 		appendText(char **str, int *sizeAlloced, const char *fmt, ...);
-	static TemplateMap*	loadTemplateFile(const char *proto, const char *filename, bool onlyInfo);
+	void addTemplate(const char *name, const char *text);
+	void setFilename(const char *filename);
+	void clear();
+	static TemplateMap* add(const char *id, const char *filename);
+	static void appendText(char **str, int *sizeAlloced, const char *fmt, ...);
+	static TemplateMap* loadTemplateFile(const char *proto, const char *filename, bool onlyInfo);
 public:
 	~TemplateMap();
-	static Template *	getTemplate(const char *id, const char *name);
-	static TemplateMap *getTemplateMap(const char *id);
+	static Template* getTemplate(const char *id, const char *name);
+	static TemplateMap* getTemplateMap(const char *id);
 	static TemplateMap* loadTemplates(const char *id, const char *filename, bool onlyInfo);
-	Template *          getTemplate(const char *text);
-	const char *		getFilename();
-	bool        		isGrouping();
-	bool        		isRTL();
+	static void dropTemplates();
+	Template* getTemplate(const char *text);
+	const char* getFilename();
+	bool isGrouping();
+	bool isRTL();
 };
 
 

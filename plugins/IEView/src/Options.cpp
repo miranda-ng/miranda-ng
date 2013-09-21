@@ -644,7 +644,7 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			ProtocolSettings *proto = (ProtocolSettings *)GetItemParam((HWND)wParam, (HTREEITEM) lParam);
 			if (proto != NULL)
 				if (strcmpi(proto->getProtocolName(), "_default_"))
-					proto->setSRMMEnableTemp( TreeView_GetCheckState((HWND)wParam, (HTREEITEM) lParam));
+					proto->setSRMMEnableTemp(0 != TreeView_GetCheckState((HWND)wParam, (HTREEITEM) lParam));
 
 			if ((HTREEITEM) lParam != TreeView_GetSelection((HWND)wParam))
 				TreeView_SelectItem((HWND)wParam, (HTREEITEM) lParam);
@@ -777,7 +777,7 @@ static INT_PTR CALLBACK IEViewHistoryOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			ProtocolSettings *proto = (ProtocolSettings *)GetItemParam((HWND)wParam, (HTREEITEM) lParam);
 			if (proto != NULL)
 				if (strcmpi(proto->getProtocolName(), "_default_"))
-					proto->setHistoryEnableTemp(TreeView_GetCheckState((HWND)wParam, (HTREEITEM) lParam));
+					proto->setHistoryEnableTemp(0 != TreeView_GetCheckState((HWND)wParam, (HTREEITEM) lParam));
 
 			if ((HTREEITEM) lParam != TreeView_GetSelection((HWND)wParam))
 				TreeView_SelectItem((HWND)wParam, (HTREEITEM) lParam);
@@ -911,7 +911,7 @@ static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARA
 			ProtocolSettings *proto = (ProtocolSettings *)GetItemParam((HWND)wParam, (HTREEITEM) lParam);
 			if (proto != NULL)
 				if (strcmpi(proto->getProtocolName(), "_default_"))
-					proto->setChatEnableTemp(TreeView_GetCheckState((HWND)wParam, (HTREEITEM) lParam));
+					proto->setChatEnableTemp(0 != TreeView_GetCheckState((HWND)wParam, (HTREEITEM) lParam));
 
 			if ((HTREEITEM) lParam != TreeView_GetSelection((HWND)wParam)) {
 				TreeView_SelectItem((HWND)wParam, (HTREEITEM) lParam);
@@ -1495,7 +1495,7 @@ void Options::init()
 		}
 		/* SRMM settings */
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_ENABLE);
-		proto->setSRMMEnable(i==0 ? true : db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
+		proto->setSRMMEnable(i==0 ? true : 0 != db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_MODE);
 		proto->setSRMMMode(db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_SRMM_FLAGS);
@@ -1528,7 +1528,7 @@ void Options::init()
 
 		/* Group chat settings */
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_ENABLE);
-		proto->setChatEnable(i==0 ? true : db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
+		proto->setChatEnable(i==0 ? true : 0 != db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_MODE);
 		proto->setChatMode(db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_CHAT_FLAGS);
@@ -1561,7 +1561,7 @@ void Options::init()
 
 		/* History settings */
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_ENABLE);
-		proto->setHistoryEnable(i==0 ? true : db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
+		proto->setHistoryEnable(i==0 ? true : 0 != db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_MODE);
 		proto->setHistoryMode(db_get_b(NULL, ieviewModuleName, dbsName, FALSE));
 		mir_snprintf(dbsName, SIZEOF(dbsName), "%s.%s", proto->getProtocolName(), DBS_HISTORY_FLAGS);
@@ -1600,8 +1600,8 @@ void Options::init()
 		lastProto = proto;
 	}
 
-	bMathModule = (bool) ServiceExists(MTH_GET_GIF_UNICODE);
-	bSmileyAdd = (bool) ServiceExists(MS_SMILEYADD_BATCHPARSE);
+	bMathModule = 0 != ServiceExists(MTH_GET_GIF_UNICODE);
+	bSmileyAdd = 0 != ServiceExists(MS_SMILEYADD_BATCHPARSE);
 	avatarServiceFlags = 0;
 	if (ServiceExists(MS_AV_GETAVATARBITMAP))
 		avatarServiceFlags = AVATARSERVICE_PRESENT;
@@ -1614,6 +1614,7 @@ void Options::uninit()
 		p1 = p->getNext();
 		delete p;
 	}
+	TemplateMap::dropTemplates();
 	if (hImageList != NULL)
 		ImageList_Destroy(hImageList);
 	if (hProtocolImageList != NULL)
@@ -1626,7 +1627,7 @@ void Options::setGeneralFlags(int flags)
 	db_set_dw(NULL, ieviewModuleName, DBS_BASICFLAGS, (DWORD) flags);
 }
 
-int	Options::getGeneralFlags()
+int Options::getGeneralFlags()
 {
 	return generalFlags;
 }

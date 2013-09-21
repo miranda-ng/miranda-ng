@@ -315,9 +315,9 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 		int outputSize;
 		char *output = NULL;
 		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_FILE || eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_STATUSCHANGE) {
-			int isGroupBreak = TRUE;
-			int isSent = (eventData->dwFlags & IEEDF_SENT);
-			int isRTL = eventData->dwFlags & IEEDF_RTL;
+			bool isGroupBreak = true;
+			bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
+			bool isRTL = (eventData->dwFlags & IEEDF_RTL) != 0;
 			int isHistory = (eventData->time < (DWORD)getStartedTime() && (eventData->dwFlags & IEEDF_READ || eventData->dwFlags & IEEDF_SENT));
 		  	if (dwFlags & MWF_LOG_GROUPMODE && eventData->dwFlags == LOWORD(getLastEventType()) &&
 					eventData->iType == IEED_EVENT_MESSAGE && HIWORD(getLastEventType()) == IEED_EVENT_MESSAGE &&

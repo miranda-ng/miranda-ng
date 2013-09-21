@@ -42,10 +42,7 @@ Token::Token(int type, const char *text, int escape)
 	next = NULL;
 	this->type = type;
 	this->escape = escape;
-	if (text!=NULL)
-		this->text = mir_strdup(text);
-	else
-		this->text = NULL;
+	this->text = mir_strdup(text);
 }
 
 Token::~Token()
@@ -373,10 +370,7 @@ TemplateMap* TemplateMap::loadTemplateFile(const char *id, const char *filename,
 			if (wasTemplate)
 				tmap->addTemplate(lastTemplate, templateText);
 
-			if (templateText != NULL)
-				free (templateText);
-
-			templateText = NULL;
+			replaceStr(templateText, NULL);
 			templateTextSize = 0;
 			wasTemplate = true;
 			sscanf(store, "<!--%[^-]", lastTemplate);
@@ -386,6 +380,7 @@ TemplateMap* TemplateMap::loadTemplateFile(const char *id, const char *filename,
 	}
 	if (wasTemplate)
 		tmap->addTemplate(lastTemplate, templateText);
+	replaceStr(templateText, NULL);
 
 	fclose(fh);
 	static const char *groupTemplates[] = {"MessageInGroupStart", "MessageInGroupInner",
@@ -429,19 +424,18 @@ Template* TemplateMap::getTemplate(const char *text)
 	return 0;
 }
 
-Template* TemplateMap::getTemplate(const char *proto, const char *text) {
-	TemplateMap *ptr;
-	for (ptr=mapList; ptr!=NULL; ptr=ptr->next) {
-		if (!strcmp(ptr->name, proto)) {
+Template* TemplateMap::getTemplate(const char *proto, const char *text)
+{
+	for (TemplateMap *ptr = mapList; ptr != NULL; ptr = ptr->next)
+		if (!strcmp(ptr->name, proto))
 			return ptr->getTemplate(text);
-		}
-	}
+
 	return NULL;
 }
 
 TemplateMap* TemplateMap::getTemplateMap(const char *proto)
 {
-	for (TemplateMap *ptr=mapList; ptr != NULL; ptr = ptr->next)
+	for (TemplateMap *ptr = mapList; ptr != NULL; ptr = ptr->next)
 		if (!strcmp(ptr->name, proto))
 			return ptr;
 
@@ -464,4 +458,10 @@ TemplateMap* TemplateMap::loadTemplates(const char *id, const char *filename, bo
 	return loadTemplateFile(id, filename, onlyInfo);
 }
 
-
+void TemplateMap::dropTemplates()
+{
+	for (TemplateMap *p = mapList, *p1; p != NULL; p = p1) {
+		p1 = p->next;
+		delete p;
+	}
+}

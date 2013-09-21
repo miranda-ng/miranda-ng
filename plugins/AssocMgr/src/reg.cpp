@@ -535,37 +535,39 @@ static void DeleteRegTreeBackup(const char *pszSubKey,const char *pszDbPrefix)
 
 void CleanupRegTreeBackupSettings(void)
 {
+	/* delete old bak_* settings and try to restore backups */
 	int nSettingsCount;
 	char **ppszSettings;
-	char *pszClassName,*pszBuf,*pszFileExt;
-	int i,j;
+	if ( !EnumDbPrefixSettings("AssocMgr", "bak_", &ppszSettings, &nSettingsCount))
+		return;
 
-	/* delete old bak_* settings and try to restore backups */
-	if (EnumDbPrefixSettings("AssocMgr","bak_",&ppszSettings,&nSettingsCount)) {
-		for(i=0;i<nSettingsCount;++i) {
-			pszClassName=&ppszSettings[i][4];
-			pszBuf=strchr(pszClassName,'\\');
-			if (pszBuf!=NULL) {
-				*pszBuf='\0';
-				/* remove others in list with same class name */
-				for(j=i;j<nSettingsCount;++j) {
-					pszBuf=strchr(&ppszSettings[j][4],'\\');
-					if (pszBuf!=NULL) *pszBuf='\0';
-					if (lstrcmpA(pszClassName,&ppszSettings[j][4])) continue;
-					MoveMemory(&ppszSettings[j],&ppszSettings[j+1],((--nSettingsCount)-j)*sizeof(TCHAR*));
-					--j; /* reiterate current index */
-				}
-				/* no longer registered? */
-				if (!IsRegisteredAssocItem(pszClassName)) {
-					if (IsFileClassName(pszClassName,&pszFileExt))
-						RemoveRegFileExt(pszFileExt,pszClassName);
-					else RemoveRegClass(pszClassName);
-				}
+	for(int i=0; i < nSettingsCount; ++i) {
+		char *pszClassName = &ppszSettings[i][4];
+		char *pszBuf = strchr(pszClassName,'\\');
+		if (pszBuf != NULL) {
+			*pszBuf = '\0';
+			/* remove others in list with same class name */
+			for(int j=i; j < nSettingsCount; ++j) {
+				pszBuf = strchr(&ppszSettings[j][4],'\\');
+				if (pszBuf != NULL) *pszBuf='\0';
+				if ( lstrcmpA(pszClassName, &ppszSettings[j][4])) continue;
+
+				mir_free(ppszSettings[j]);
+				MoveMemory(&ppszSettings[j],&ppszSettings[j+1],((--nSettingsCount)-j)*sizeof(TCHAR*));
+				--j; /* reiterate current index */
 			}
-			mir_free(ppszSettings[i]);
+			/* no longer registered? */
+			if ( !IsRegisteredAssocItem(pszClassName)) {
+				char *pszFileExt;
+				if ( IsFileClassName(pszClassName, &pszFileExt))
+					RemoveRegFileExt(pszFileExt, pszClassName);
+				else
+					RemoveRegClass(pszClassName);
+			}
 		}
-		mir_free(ppszSettings);
+		mir_free(ppszSettings[i]);
 	}
+	mir_free(ppszSettings);
 }
 
 /************************* Opera Support **************************/
