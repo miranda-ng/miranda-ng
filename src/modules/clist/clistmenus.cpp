@@ -490,7 +490,7 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 							mi.fMask = MIIM_STRING | MIIM_STATE;
 							if (timi->iconId != -1) {
 								mi.fMask |= MIIM_BITMAP;
-								if (IsWinVerVistaPlus() && isThemeActive()) {
+								if (IsWinVerVistaPlus() && IsThemeActive()) {
 									if (timi->hBmp == NULL)
 										timi->hBmp = ConvertIconToBitmap(NULL, timi->parent->m_hMenuIcons, timi->iconId);
 									mi.hbmpItem = timi->hBmp;

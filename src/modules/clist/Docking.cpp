@@ -36,17 +36,14 @@ static POINT dockPos;
 
 static void Docking_GetMonitorRectFromPoint(LPPOINT pt, LPRECT rc)
 {
-	if (MyMonitorFromPoint)
-	{
-		MONITORINFO monitorInfo;
-		HMONITOR hMonitor = MyMonitorFromPoint(*pt, MONITOR_DEFAULTTONEAREST); // always returns a valid value
-		monitorInfo.cbSize = sizeof(monitorInfo);
+	MONITORINFO monitorInfo;
+	HMONITOR hMonitor = MonitorFromPoint(*pt, MONITOR_DEFAULTTONEAREST); // always returns a valid value
+	monitorInfo.cbSize = sizeof(monitorInfo);
 
-		if (MyGetMonitorInfo(hMonitor, &monitorInfo))
-		{
-			*rc = monitorInfo.rcMonitor;
-			return;
-		}
+	if (GetMonitorInfo(hMonitor, &monitorInfo))
+	{
+		*rc = monitorInfo.rcMonitor;
+		return;
 	}
 
 	// "generic" win95/NT support, also serves as failsafe

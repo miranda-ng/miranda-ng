@@ -253,7 +253,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			HWND hwndList = GetDlgItem(hwndDlg, IDC_PLUGLIST);
 			mir_subclassWindow(hwndList, PluginListWndProc);
 
-			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus()? ILC_COLOR32 : ILC_COLOR16), 4, 0);
+			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 4, 0);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_UNICODE);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_ANSI);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_LOADED);

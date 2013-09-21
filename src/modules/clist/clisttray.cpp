@@ -865,18 +865,6 @@ int fnCListTrayNotify(MIRANDASYSTRAYNOTIFY* msn)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-typedef struct _DllVersionInfo
-{
-	DWORD cbSize;
-	DWORD dwMajorVersion;       // Major version
-	DWORD dwMinorVersion;       // Minor version
-	DWORD dwBuildNumber;        // Build number
-	DWORD dwPlatformID;         // DLLVER_PLATFORM_*
-}
-	DLLVERSIONINFO;
-
-typedef HRESULT(CALLBACK * DLLGETVERSIONPROC) (DLLVERSIONINFO *);
-
 static DLLVERSIONINFO dviShell;
 
 static INT_PTR pfnCListTrayNotifyStub(WPARAM, LPARAM lParam)

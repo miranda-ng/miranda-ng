@@ -205,11 +205,8 @@ static void ShowAdvancedSearchDlg(HWND hwndDlg, FindAddDlgData *dat)
 		SetWindowPos(dat->hwndAdvSearch, 0, rc.left, rc.top, 0, 0, SWP_NOZORDER|SWP_NOSIZE);
 	}
 
-	if (animateWindow) {
-		animateWindow(dat->hwndAdvSearch, 150, AW_ACTIVATE|AW_SLIDE|AW_HOR_POSITIVE);
-		RedrawWindow(dat->hwndAdvSearch, NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ALLCHILDREN);
-	}
-	else ShowWindow(dat->hwndAdvSearch, SW_SHOW);
+	AnimateWindow(dat->hwndAdvSearch, 150, AW_ACTIVATE|AW_SLIDE|AW_HOR_POSITIVE);
+	RedrawWindow(dat->hwndAdvSearch, NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ALLCHILDREN);
 
 	CheckDlgButton(hwndDlg, IDC_ADVANCED, BST_CHECKED);
 }
@@ -251,10 +248,7 @@ static void HideAdvancedSearchDlg(HWND hwndDlg, FindAddDlgData *dat)
 	if (dat->hwndAdvSearch == NULL)
 		return;
 
-	if (animateWindow && IsWinVerXPPlus())  //blending is quite slow on win2k
-		animateWindow(dat->hwndAdvSearch, 150, AW_HIDE|AW_BLEND);
-	else
-		ShowWindow(dat->hwndAdvSearch, SW_HIDE);
+	AnimateWindow(dat->hwndAdvSearch, 150, AW_HIDE|AW_BLEND);
 	CheckDlgButton(hwndDlg, IDC_ADVANCED, BST_UNCHECKED);
 }
 
@@ -357,7 +351,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (caps & PF1_BASICSEARCH || caps & PF1_EXTSEARCH || caps & PF1_SEARCHBYEMAIL || caps & PF1_SEARCHBYNAME)
 					netProtoCount++;
 			}
-			dat->himlComboIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), (IsWinVerXPPlus()?ILC_COLOR32:ILC_COLOR16)|ILC_MASK, netProtoCount+1, netProtoCount+1);
+			dat->himlComboIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, netProtoCount+1, netProtoCount+1);
 			SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CBEM_SETIMAGELIST, 0, (LPARAM)dat->himlComboIcons);
 
 			COMBOBOXEXITEM cbei;

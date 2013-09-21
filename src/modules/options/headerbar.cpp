@@ -35,7 +35,7 @@ static BOOL IsAeroMode()
 
 static BOOL IsVSMode()
 {
-	return isThemeActive && IsWinVerVistaPlus() && isThemeActive();
+	return IsWinVerVistaPlus() && IsThemeActive();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -213,7 +213,7 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit, UINT  msg, 
 		dto.dwFlags = DTT_COMPOSITED|DTT_GLOWSIZE;
 		dto.iGlowSize = 10;
 
-		HANDLE hTheme = openThemeData(hwndDlg, L"Window");
+		HANDLE hTheme = OpenThemeData(hwndDlg, L"Window");
 		textRect.left = 50;
 		hOldFont = (HFONT)SelectObject(tempDC, hFntBold);
 
@@ -229,7 +229,7 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit, UINT  msg, 
 			drawThemeTextEx(hTheme, tempDC, WP_CAPTION, CS_ACTIVE, szSubTitleW, -1, DT_BOTTOM|DT_LEFT|DT_SINGLELINE|DT_NOPREFIX|DT_NOCLIP|DT_END_ELLIPSIS, &textRect, &dto);
 			mir_free(szSubTitleW);
 		}
-		closeThemeData(hTheme);
+		CloseThemeData(hTheme);
 	}
 	else {
 		textRect.left = 50;

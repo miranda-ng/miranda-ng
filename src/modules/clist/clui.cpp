@@ -287,8 +287,7 @@ int LoadCLUIModule(void)
 	wndclass.hIconSm = NULL;
 	RegisterClassEx(&wndclass);
 
-	wndclass.style = CS_HREDRAW | CS_VREDRAW | ((IsWinVerXPPlus() &&
-		db_get_b(NULL, "CList", "WindowShadow", 0) == 1) ? CS_DROPSHADOW : 0);
+	wndclass.style = CS_HREDRAW | CS_VREDRAW | ((db_get_b(NULL, "CList", "WindowShadow", 0) == 1) ? CS_DROPSHADOW : 0);
 	wndclass.lpfnWndProc = ContactListWndProc;
 	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = 0;
@@ -381,12 +380,27 @@ int LoadCLUIModule(void)
 
 void fnDrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon)
 {
-	if ( !IsWinVerXPPlus()) {
-		FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_MENU));
-		if (dis->itemState & ODS_HOTLIGHT)
-			DrawEdge(dis->hDC, &dis->rcItem, BDR_RAISEDINNER, BF_RECT);
-		else if (dis->itemState & ODS_SELECTED)
-			DrawEdge(dis->hDC, &dis->rcItem, BDR_SUNKENOUTER, BF_RECT);
+	HBRUSH hBr;
+	BOOL bfm = FALSE;
+	SystemParametersInfo(SPI_GETFLATMENU, 0, &bfm, 0);
+	if (bfm) {
+		/* flat menus: fill with COLOR_MENUHILIGHT and outline with COLOR_HIGHLIGHT, otherwise use COLOR_MENUBAR */
+		if (dis->itemState & ODS_SELECTED || dis->itemState & ODS_HOTLIGHT) {
+			/* selected or hot lighted, no difference */
+			hBr = GetSysColorBrush(COLOR_MENUHILIGHT);
+			FillRect(dis->hDC, &dis->rcItem, hBr);
+			DeleteObject(hBr);
+			/* draw the frame */
+			hBr = GetSysColorBrush(COLOR_HIGHLIGHT);
+			FrameRect(dis->hDC, &dis->rcItem, hBr);
+			DeleteObject(hBr);
+		} else {
+			/* flush the DC with the menu bar colour (only supported on XP) and then draw the icon */
+			hBr = GetSysColorBrush(COLOR_MENUBAR);
+			FillRect(dis->hDC, &dis->rcItem, hBr);
+			DeleteObject(hBr);
+		} //if
+		/* draw the icon */
 		if (eventIcon != 0) {
 			DrawState(dis->hDC, NULL, NULL, (LPARAM) eventIcon, 0, 2, (dis->rcItem.bottom + dis->rcItem.top - g_IconHeight) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), 0, 0, DST_ICON | (dis->itemState & ODS_INACTIVE ? DSS_DISABLED : DSS_NORMAL));
 			DrawState(dis->hDC, NULL, NULL, (LPARAM) hIcon, 0, 4 + g_IconWidth, (dis->rcItem.bottom + dis->rcItem.top - g_IconHeight) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), 0, 0, DST_ICON | (dis->itemState & ODS_INACTIVE ? DSS_DISABLED : DSS_NORMAL));
@@ -394,47 +408,18 @@ void fnDrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon)
 		else DrawState(dis->hDC, NULL, NULL, (LPARAM) hIcon, 0, (dis->rcItem.right + dis->rcItem.left - g_IconWidth) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), (dis->rcItem.bottom + dis->rcItem.top - g_IconHeight) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), 0, 0, DST_ICON | (dis->itemState & ODS_INACTIVE ? DSS_DISABLED : DSS_NORMAL));
 	}
 	else {
-		HBRUSH hBr;
-		BOOL bfm = FALSE;
-		SystemParametersInfo(SPI_GETFLATMENU, 0, &bfm, 0);
-		if (bfm) {
-			/* flat menus: fill with COLOR_MENUHILIGHT and outline with COLOR_HIGHLIGHT, otherwise use COLOR_MENUBAR */
-			if (dis->itemState & ODS_SELECTED || dis->itemState & ODS_HOTLIGHT) {
-				/* selected or hot lighted, no difference */
-				hBr = GetSysColorBrush(COLOR_MENUHILIGHT);
-				FillRect(dis->hDC, &dis->rcItem, hBr);
-				DeleteObject(hBr);
-				/* draw the frame */
-				hBr = GetSysColorBrush(COLOR_HIGHLIGHT);
-				FrameRect(dis->hDC, &dis->rcItem, hBr);
-				DeleteObject(hBr);
-			} else {
-				/* flush the DC with the menu bar colour (only supported on XP) and then draw the icon */
-				hBr = GetSysColorBrush(COLOR_MENUBAR);
-				FillRect(dis->hDC, &dis->rcItem, hBr);
-				DeleteObject(hBr);
-			} //if
-			/* draw the icon */
-			if (eventIcon != 0) {
-				DrawState(dis->hDC, NULL, NULL, (LPARAM) eventIcon, 0, 2, (dis->rcItem.bottom + dis->rcItem.top - g_IconHeight) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), 0, 0, DST_ICON | (dis->itemState & ODS_INACTIVE ? DSS_DISABLED : DSS_NORMAL));
-				DrawState(dis->hDC, NULL, NULL, (LPARAM) hIcon, 0, 4 + g_IconWidth, (dis->rcItem.bottom + dis->rcItem.top - g_IconHeight) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), 0, 0, DST_ICON | (dis->itemState & ODS_INACTIVE ? DSS_DISABLED : DSS_NORMAL));
-			}
-			else DrawState(dis->hDC, NULL, NULL, (LPARAM) hIcon, 0, (dis->rcItem.right + dis->rcItem.left - g_IconWidth) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), (dis->rcItem.bottom + dis->rcItem.top - g_IconHeight) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), 0, 0, DST_ICON | (dis->itemState & ODS_INACTIVE ? DSS_DISABLED : DSS_NORMAL));
-		}
-		else {
-			/* non-flat menus, flush the DC with a normal menu colour */
-			FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_MENU));
-			if (dis->itemState & ODS_HOTLIGHT)
-				DrawEdge(dis->hDC, &dis->rcItem, BDR_RAISEDINNER, BF_RECT);
-			else if (dis->itemState & ODS_SELECTED)
-				DrawEdge(dis->hDC, &dis->rcItem, BDR_SUNKENOUTER, BF_RECT);
+		/* non-flat menus, flush the DC with a normal menu colour */
+		FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_MENU));
+		if (dis->itemState & ODS_HOTLIGHT)
+			DrawEdge(dis->hDC, &dis->rcItem, BDR_RAISEDINNER, BF_RECT);
+		else if (dis->itemState & ODS_SELECTED)
+			DrawEdge(dis->hDC, &dis->rcItem, BDR_SUNKENOUTER, BF_RECT);
 
-			if (eventIcon != 0) {
-				DrawState(dis->hDC, NULL, NULL, (LPARAM) eventIcon, 0, 2, (dis->rcItem.bottom + dis->rcItem.top - g_IconHeight) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), 0, 0, DST_ICON | (dis->itemState & ODS_INACTIVE ? DSS_DISABLED : DSS_NORMAL));
-				DrawState(dis->hDC, NULL, NULL, (LPARAM) hIcon, 0, 4 + g_IconWidth, (dis->rcItem.bottom + dis->rcItem.top - g_IconHeight) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), 0, 0, DST_ICON | (dis->itemState & ODS_INACTIVE ? DSS_DISABLED : DSS_NORMAL));
-			}
-			else DrawState(dis->hDC, NULL, NULL, (LPARAM) hIcon, 0, (dis->rcItem.right + dis->rcItem.left - g_IconWidth) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), (dis->rcItem.bottom + dis->rcItem.top - g_IconHeight) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), 0, 0, DST_ICON | (dis->itemState & ODS_INACTIVE ? DSS_DISABLED : DSS_NORMAL));
+		if (eventIcon != 0) {
+			DrawState(dis->hDC, NULL, NULL, (LPARAM) eventIcon, 0, 2, (dis->rcItem.bottom + dis->rcItem.top - g_IconHeight) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), 0, 0, DST_ICON | (dis->itemState & ODS_INACTIVE ? DSS_DISABLED : DSS_NORMAL));
+			DrawState(dis->hDC, NULL, NULL, (LPARAM) hIcon, 0, 4 + g_IconWidth, (dis->rcItem.bottom + dis->rcItem.top - g_IconHeight) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), 0, 0, DST_ICON | (dis->itemState & ODS_INACTIVE ? DSS_DISABLED : DSS_NORMAL));
 		}
+		else DrawState(dis->hDC, NULL, NULL, (LPARAM) hIcon, 0, (dis->rcItem.right + dis->rcItem.left - g_IconWidth) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), (dis->rcItem.bottom + dis->rcItem.top - g_IconHeight) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), 0, 0, DST_ICON | (dis->itemState & ODS_INACTIVE ? DSS_DISABLED : DSS_NORMAL));
 	}
 
 	DestroyIcon(hIcon);
@@ -491,8 +476,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 		if (cluiopt.transparent) {
 			SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
-			if (setLayeredWindowAttributes)
-				setLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE) cluiopt.alpha, LWA_ALPHA);
+			SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE) cluiopt.alpha, LWA_ALPHA);
 		}
 		transparentFocus = 1;
 		return FALSE;
@@ -595,8 +579,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		else {
 			if (cluiopt.transparent) {
 				KillTimer(hwnd, TM_AUTOALPHA);
-				if (setLayeredWindowAttributes)
-					setLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE) cluiopt.alpha, LWA_ALPHA);
+				SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE) cluiopt.alpha, LWA_ALPHA);
 				transparentFocus = 1;
 			}
 		}
@@ -604,8 +587,8 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_SETCURSOR:
 		if (cluiopt.transparent) {
-			if ( !transparentFocus && GetForegroundWindow() != hwnd && setLayeredWindowAttributes) {
-				setLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE)cluiopt.alpha, LWA_ALPHA);
+			if ( !transparentFocus && GetForegroundWindow() != hwnd) {
+				SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE)cluiopt.alpha, LWA_ALPHA);
 				transparentFocus = 1;
 				SetTimer(hwnd, TM_AUTOALPHA, 250, NULL);
 			}
@@ -639,12 +622,12 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				hwndPt = WindowFromPoint(pt);
 				inwnd = (hwndPt == hwnd || GetParent(hwndPt) == hwnd);
 			}
-			if (inwnd != transparentFocus && setLayeredWindowAttributes) {        //change
+			if (inwnd != transparentFocus) {        //change
 				transparentFocus = inwnd;
 				if (transparentFocus)
-					setLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE) cluiopt.alpha, LWA_ALPHA);
+					SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE) cluiopt.alpha, LWA_ALPHA);
 				else
-					setLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE) db_get_b(NULL, "CList", "AutoAlpha", SETTING_AUTOALPHA_DEFAULT), LWA_ALPHA);
+					SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE) db_get_b(NULL, "CList", "AutoAlpha", SETTING_AUTOALPHA_DEFAULT), LWA_ALPHA);
 			}
 			if ( !transparentFocus)
 				KillTimer(hwnd, TM_AUTOALPHA);
@@ -664,7 +647,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			if (wParam) {
 				sourceAlpha = 0;
 				destAlpha = (BYTE) cluiopt.alpha;
-				setLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 0, LWA_ALPHA);
+				SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 0, LWA_ALPHA);
 				noRecurse = 1;
 				ShowWindow(hwnd, SW_SHOW);
 				noRecurse = 0;
@@ -677,15 +660,15 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				thisTick = GetTickCount();
 				if (thisTick >= startTick + 200)
 					break;
-				setLayeredWindowAttributes(hwnd, RGB(0, 0, 0),
+				SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0),
 					(BYTE) (sourceAlpha + (destAlpha - sourceAlpha) * (int)(thisTick - startTick) / 200), LWA_ALPHA);
 			}
-			setLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE) destAlpha, LWA_ALPHA);
+			SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE) destAlpha, LWA_ALPHA);
 		}
 		else {
 			if (wParam)
 				SetForegroundWindow(hwnd);
-			animateWindow(hwnd, 200, AW_BLEND | (wParam ? 0 : AW_HIDE));
+			AnimateWindow(hwnd, 200, AW_BLEND | (wParam ? 0 : AW_HIDE));
 			SetWindowPos(cli.hwndContactTree, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
 		}
 		break;
@@ -857,14 +840,11 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					GetWindowRect(cli.hwndContactTree, &rcTree);
 
 					SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, FALSE);
-					if (MyMonitorFromWindow)
-					{
- 						HMONITOR hMon = MyMonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
-						MONITORINFO mi;
-						mi.cbSize = sizeof(mi);
-						if (MyGetMonitorInfo(hMon, &mi))
- 							rcWorkArea = mi.rcWork;
-					}
+					HMONITOR hMon = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+					MONITORINFO mi;
+					mi.cbSize = sizeof(mi);
+					if (GetMonitorInfo(hMon, &mi))
+						rcWorkArea = mi.rcWork;
 
 					newHeight = max(nmc->pt.y, 9) + 1 + (rcWindow.bottom - rcWindow.top) - (rcTree.bottom - rcTree.top);
 					if (newHeight > (rcWorkArea.bottom - rcWorkArea.top) * maxHeight / 100)

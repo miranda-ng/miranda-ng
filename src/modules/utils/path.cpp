@@ -131,7 +131,7 @@ static __forceinline char *GetProfileDirX(char*)
 static __forceinline char *SHGetSpecialFolderPathX(int iCSIDL, char* var)
 {
 	char result[512];
-	if (shGetSpecialFolderPathA && shGetSpecialFolderPathA(NULL, result, iCSIDL, FALSE))
+	if (SHGetSpecialFolderPathA(NULL, result, iCSIDL, FALSE))
 		return mir_strdup(result);
 	return NULL;
 }
@@ -209,7 +209,7 @@ static __forceinline TCHAR *GetEnvironmentVariableX(TCHAR *variable)
 static __forceinline TCHAR *SHGetSpecialFolderPathX(int iCSIDL, TCHAR* var)
 {
 	TCHAR result[512];
-	if (shGetSpecialFolderPath && shGetSpecialFolderPath(NULL, result, iCSIDL, FALSE))
+	if (SHGetSpecialFolderPath(NULL, result, iCSIDL, FALSE))
 		return mir_tstrdup(result);
 	return NULL;
 }

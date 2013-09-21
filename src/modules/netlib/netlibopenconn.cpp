@@ -549,7 +549,7 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 			NetlibLogf(nlc->nlu, "(%p) Connecting to proxy %s:%d ....", nlc, nlc->szProxyServer, nlc->wProxyPort);
 
 		_itoa(nlc->wProxyPort, szPort, 10);
-		if (MyGetaddrinfo(nlc->szProxyServer, szPort, &hints, &air)) {
+		if (GetAddrInfoA(nlc->szProxyServer, szPort, &hints, &air)) {
 			NetlibLogf(nlc->nlu, "%s %d: %s() for host %s failed (%u)", __FILE__, __LINE__, "getaddrinfo", nlc->szProxyServer, WSAGetLastError());
 			return false;
 		}
@@ -562,7 +562,7 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 
 		_itoa(nlc->nloc.wPort, szPort, 10);
 
-		if (MyGetaddrinfo(nlc->nloc.szHost, szPort, &hints, &air)) {
+		if (GetAddrInfoA(nlc->nloc.szHost, szPort, &hints, &air)) {
 			NetlibLogf(nlc->nlu, "%s %d: %s() for host %s failed (%u)", __FILE__, __LINE__, "getaddrinfo", nlc->nloc.szHost, WSAGetLastError());
 			return false;
 		}
@@ -659,7 +659,7 @@ retry:
 		nlc->s = INVALID_SOCKET;
 	}
 
-	MyFreeaddrinfo(air);
+	FreeAddrInfoA(air);
 
 	notblocking = 0;
 	if (nlc->s != INVALID_SOCKET) ioctlsocket(nlc->s, FIONBIO, &notblocking);
@@ -669,7 +669,7 @@ retry:
 
 static bool my_connect(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 {
-	return MyGetaddrinfo && MyFreeaddrinfo ? my_connectIPv6(nlc, nloc) : my_connectIPv4(nlc, nloc);
+	return my_connectIPv6(nlc, nloc);
 }
 
 static int NetlibHttpFallbackToDirect(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)

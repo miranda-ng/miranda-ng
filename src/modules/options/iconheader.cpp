@@ -35,7 +35,7 @@ static BOOL IsAeroMode()
 
 static BOOL IsVSMode()
 {
-	return isThemeActive && IsWinVerVistaPlus() && isThemeActive();
+	return IsWinVerVistaPlus() && IsThemeActive();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -196,13 +196,13 @@ static void MIcoTab_DrawItem(HWND hwnd, HDC hdc, MIcoTabCtrl *dat, MIcoTab *tab,
 			rc.top = iTopSpace;
 			rc.right = itemX + dat->itemWidth;
 			rc.bottom = iTopSpace + dat->itemHeight;
-			HANDLE hTheme = openThemeData(hwnd, L"ListView");
+			HANDLE hTheme = OpenThemeData(hwnd, L"ListView");
 			if (dat->nHotIdx == i || GetFocus() == hwnd)
-				drawThemeBackground(hTheme, hdc, LVP_LISTITEM, LISS_HOTSELECTED, &rc, NULL);
+				DrawThemeBackground(hTheme, hdc, LVP_LISTITEM, LISS_HOTSELECTED, &rc, NULL);
 			else
-				drawThemeBackground(hTheme, hdc, LVP_LISTITEM, LISS_SELECTED, &rc, NULL);
+				DrawThemeBackground(hTheme, hdc, LVP_LISTITEM, LISS_SELECTED, &rc, NULL);
 
-			closeThemeData(hTheme);
+			CloseThemeData(hTheme);
 		}
 		else {
 			MIcoTab_FillRect(hdc, itemX, ITC_BORDER_SIZE, dat->itemWidth, dat->itemHeight, dat->clSelBorder);
@@ -217,10 +217,10 @@ static void MIcoTab_DrawItem(HWND hwnd, HDC hdc, MIcoTabCtrl *dat, MIcoTab *tab,
 			rc.top = iTopSpace;
 			rc.right = itemX + dat->itemWidth;
 			rc.bottom = iTopSpace + dat->itemHeight;
-			setWindowTheme(hwnd, L"explorer", NULL);
-			HANDLE hTheme = openThemeData(hwnd, L"ListView");
-			drawThemeBackground(hTheme, hdc, LVP_LISTITEM, LISS_HOT, &rc, NULL);
-			closeThemeData(hTheme);
+			SetWindowTheme(hwnd, L"explorer", NULL);
+			HANDLE hTheme = OpenThemeData(hwnd, L"ListView");
+			DrawThemeBackground(hTheme, hdc, LVP_LISTITEM, LISS_HOT, &rc, NULL);
+			CloseThemeData(hTheme);
 		}
 		else {
 			MIcoTab_FillRect(hdc, itemX, ITC_BORDER_SIZE, dat->itemWidth, dat->itemHeight, dat->clHotBorder);
@@ -242,11 +242,11 @@ static void MIcoTab_DrawItem(HWND hwnd, HDC hdc, MIcoTabCtrl *dat, MIcoTab *tab,
 		dto.dwSize = sizeof(dto);
 		dto.dwFlags = DTT_COMPOSITED|DTT_GLOWSIZE;
 		dto.iGlowSize = 10;
-		HANDLE hTheme = openThemeData(hwnd, L"Window");
+		HANDLE hTheme = OpenThemeData(hwnd, L"Window");
 		wchar_t *tcsNameW = mir_t2u(tab->tcsName);
 		drawThemeTextEx(hTheme, hdc, WP_CAPTION, CS_ACTIVE, tcsNameW, -1, DT_VCENTER|DT_CENTER|DT_END_ELLIPSIS, &textRect, &dto);
 		mir_free(tcsNameW);
-		closeThemeData(hTheme);
+		CloseThemeData(hTheme);
 	}
 	else DrawText(hdc, tab->tcsName, -1, &textRect, DT_VCENTER|DT_CENTER|DT_END_ELLIPSIS);
 

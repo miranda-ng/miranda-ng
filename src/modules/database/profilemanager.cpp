@@ -74,8 +74,7 @@ void SetServiceModePlugin(pluginEntry* p);
 
 static void ThemeDialogBackground(HWND hwnd)
 {
-	if (enableThemeDialogTexture)
-		enableThemeDialogTexture(hwnd, ETDT_ENABLETAB);
+	EnableThemeDialogTexture(hwnd, ETDT_ENABLETAB);
 }
 
 static int findProfiles(TCHAR *szProfileDir, ENUMPROFILECALLBACK callback, LPARAM lParam)
@@ -397,7 +396,7 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			ListView_InsertColumn(hwndList, 2, &col);
 
 			// icons
-			HIMAGELIST hImgList = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16), 2, 1);
+			HIMAGELIST hImgList = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 2, 1);
 			ImageList_AddIcon_NotShared(hImgList, MAKEINTRESOURCE(IDI_USERDETAILS));
 			ImageList_AddIcon_NotShared(hImgList, MAKEINTRESOURCE(IDI_DELETE));
 

@@ -182,8 +182,7 @@ static void SaveOptionsTreeState(HWND hdlg)
 
 static void ThemeDialogBackground(HWND hwnd, BOOL tabbed)
 {
-	if (enableThemeDialogTexture)
-		enableThemeDialogTexture(hwnd, (tabbed ? ETDT_ENABLE : ETDT_DISABLE) | ETDT_USETABTEXTURE);
+	EnableThemeDialogTexture(hwnd, (tabbed ? ETDT_ENABLE : ETDT_DISABLE) | ETDT_USETABTEXTURE);
 }
 
 static int lstrcmpnull(TCHAR *str1, TCHAR *str2)
@@ -282,31 +281,29 @@ static LRESULT CALLBACK OptionsFilterSubclassProc(HWND hWnd, UINT message, WPARA
 
 	int oldMode = SetBkMode(hdc, TRANSPARENT);
 
-	if (openThemeData) {
-		HTHEME hTheme = openThemeData(hWnd, L"EDIT");
-		if (hTheme) {
-			if (isThemeBackgroundPartiallyTransparent(hTheme, EP_EDITTEXT, ETS_NORMAL))
-				drawThemeParentBackground(hWnd, hdc, &rc);
+	HTHEME hTheme = OpenThemeData(hWnd, L"EDIT");
+	if (hTheme) {
+		if (IsThemeBackgroundPartiallyTransparent(hTheme, EP_EDITTEXT, ETS_NORMAL))
+			DrawThemeParentBackground(hWnd, hdc, &rc);
 
-			RECT rc2;
-			getThemeBackgroundContentRect(hTheme, hdc, EP_EDITTEXT, ETS_NORMAL, &rc, &rc2);
-			rc2.top = 2 * rc.top    - rc2.top;
-			rc2.left = 2 * rc.left   - rc2.left;
-			rc2.bottom = 2 * rc.bottom - rc2.bottom;
-			rc2.right = 2 * rc.right  - rc2.right;
+		RECT rc2;
+		GetThemeBackgroundContentRect(hTheme, hdc, EP_EDITTEXT, ETS_NORMAL, &rc, &rc2);
+		rc2.top = 2 * rc.top    - rc2.top;
+		rc2.left = 2 * rc.left   - rc2.left;
+		rc2.bottom = 2 * rc.bottom - rc2.bottom;
+		rc2.right = 2 * rc.right  - rc2.right;
 
-			drawThemeBackground(hTheme, hdc, EP_EDITTEXT, ETS_NORMAL, &rc2, &rc);
-			HFONT hFont = (HFONT) SendMessage(hWnd, WM_GETFONT, 0, 0);
-			HFONT oldFont = (HFONT) SelectObject(hdc, hFont);
+		DrawThemeBackground(hTheme, hdc, EP_EDITTEXT, ETS_NORMAL, &rc2, &rc);
+		HFONT hFont = (HFONT) SendMessage(hWnd, WM_GETFONT, 0, 0);
+		HFONT oldFont = (HFONT) SelectObject(hdc, hFont);
 
-			wchar_t *bufW = mir_t2u(buf);
-			drawThemeText(hTheme, hdc,  EP_EDITTEXT, ETS_DISABLED, bufW, -1, 0, 0, &rc);
-			mir_free(bufW);
+		wchar_t *bufW = mir_t2u(buf);
+		DrawThemeText(hTheme, hdc,  EP_EDITTEXT, ETS_DISABLED, bufW, -1, 0, 0, &rc);
+		mir_free(bufW);
 
-			SelectObject(hdc, oldFont);
-			closeThemeData(hTheme);
-			bDrawnByTheme = TRUE;
-		}
+		SelectObject(hdc, oldFont);
+		CloseThemeData(hTheme);
+		bDrawnByTheme = TRUE;
 	}
 
 	SetBkMode(hdc, oldMode);

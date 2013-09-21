@@ -512,8 +512,7 @@ INT_PTR MO_CreateNewMenuObject(WPARAM, LPARAM lParam)
 	p->Name = mir_strdup(pmp->name);
 	p->CheckService = mir_strdup(pmp->CheckService);
 	p->ExecService = mir_strdup(pmp->ExecService);
-	p->m_hMenuIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON),
-		(IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16) | ILC_MASK, 15, 100);
+	p->m_hMenuIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 15, 100);
 	g_menus.insert(p);
 	return p->id;
 }
@@ -960,7 +959,7 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 			mii.fMask = MIIM_DATA | MIIM_ID | MIIM_STRING;
 			if (pmi->iconId != -1) {
 				mii.fMask |= MIIM_BITMAP;
-				if (IsWinVerVistaPlus() && isThemeActive()) {
+				if (IsWinVerVistaPlus() && IsThemeActive()) {
 					if (pmi->hBmp == NULL)
 						pmi->hBmp = ConvertIconToBitmap(NULL, pmi->parent->m_hMenuIcons, pmi->iconId);
 					mii.hbmpItem = pmi->hBmp;

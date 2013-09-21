@@ -325,13 +325,11 @@ int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	GetWindowRect(hWnd, &rcWin);
 
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, FALSE);
-	if (MyMonitorFromWindow) {
-		HMONITOR hMon = MyMonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
-		MONITORINFO mi;
-		mi.cbSize = sizeof(mi);
-		if (MyGetMonitorInfo(hMon, &mi))
-			rcWorkArea = mi.rcWork;
-	}
+	HMONITOR hMon = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
+	MONITORINFO mi;
+	mi.cbSize = sizeof(mi);
+	if (GetMonitorInfo(hMon, &mi))
+		rcWorkArea = mi.rcWork;
 
 	IntersectRect(&rc, &rcWin, &rcWorkArea);
 
@@ -520,7 +518,7 @@ int LoadContactListModule2(void)
 	InitGroupServices();
 	cli.pfnInitTray();
 
-	hCListImages = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus()? ILC_COLOR32 : ILC_COLOR16), 13, 0);
+	hCListImages = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 13, 0);
 	HookEvent(ME_SKIN_ICONSCHANGED, CListIconsChanged);
 	CreateServiceFunction(MS_CLIST_GETICONSIMAGELIST, GetIconsImageList);
 

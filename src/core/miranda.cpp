@@ -31,37 +31,8 @@ int LoadDefaultModules(void);
 void UnloadNewPluginsModule(void);
 void UnloadDefaultModules(void);
 
-pfnMyMonitorFromPoint MyMonitorFromPoint;
-pfnMyMonitorFromRect MyMonitorFromRect;
-pfnMyMonitorFromWindow MyMonitorFromWindow;
-pfnMyGetMonitorInfo MyGetMonitorInfo;
-
-typedef DWORD (WINAPI *pfnMsgWaitForMultipleObjectsEx)(DWORD, CONST HANDLE*, DWORD, DWORD, DWORD);
-pfnMsgWaitForMultipleObjectsEx msgWaitForMultipleObjectsEx;
-
-pfnSHAutoComplete shAutoComplete;
-pfnSHGetSpecialFolderPathA shGetSpecialFolderPathA;
-pfnSHGetSpecialFolderPathW shGetSpecialFolderPathW;
-
-pfnOpenInputDesktop openInputDesktop;
-pfnCloseDesktop closeDesktop;
-
-pfnAnimateWindow animateWindow;
-pfnSetLayeredWindowAttributes setLayeredWindowAttributes;
-
-pfnOpenThemeData openThemeData;
-pfnIsThemeBackgroundPartiallyTransparent isThemeBackgroundPartiallyTransparent;
-pfnDrawThemeParentBackground drawThemeParentBackground;
-pfnDrawThemeBackground drawThemeBackground;
-pfnDrawThemeText drawThemeText;
 pfnDrawThemeTextEx drawThemeTextEx;
-pfnGetThemeBackgroundContentRect getThemeBackgroundContentRect;
-pfnGetThemeFont getThemeFont;
-pfnCloseThemeData closeThemeData;
-pfnEnableThemeDialogTexture enableThemeDialogTexture;
-pfnSetWindowTheme setWindowTheme;
 pfnSetWindowThemeAttribute setWindowThemeAttribute;
-pfnIsThemeActive isThemeActive;
 pfnBufferedPaintInit bufferedPaintInit;
 pfnBufferedPaintUninit bufferedPaintUninit;
 pfnBeginBufferedPaint beginBufferedPaint;
@@ -70,11 +41,6 @@ pfnGetBufferedPaintBits getBufferedPaintBits;
 
 pfnDwmExtendFrameIntoClientArea dwmExtendFrameIntoClientArea;
 pfnDwmIsCompositionEnabled dwmIsCompositionEnabled;
-
-LPFN_GETADDRINFO MyGetaddrinfo;
-LPFN_FREEADDRINFO MyFreeaddrinfo;
-LPFN_WSASTRINGTOADDRESSA MyWSAStringToAddress;
-LPFN_WSAADDRESSTOSTRINGA MyWSAAddressToString;
 
 ITaskbarList3 * pTaskbarInterface;
 
@@ -232,45 +198,16 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	#endif
 
-	HINSTANCE hUser32 = GetModuleHandleA("user32");
-	openInputDesktop = (pfnOpenInputDesktop)GetProcAddress (hUser32, "OpenInputDesktop");
-	closeDesktop = (pfnCloseDesktop)GetProcAddress (hUser32, "CloseDesktop");
-	msgWaitForMultipleObjectsEx = (pfnMsgWaitForMultipleObjectsEx)GetProcAddress(hUser32, "MsgWaitForMultipleObjectsEx");
-	animateWindow = (pfnAnimateWindow)GetProcAddress(hUser32, "AnimateWindow");
-	setLayeredWindowAttributes = (pfnSetLayeredWindowAttributes)GetProcAddress(hUser32, "SetLayeredWindowAttributes");
-
-	MyMonitorFromPoint = (pfnMyMonitorFromPoint)GetProcAddress(hUser32, "MonitorFromPoint");
-	MyMonitorFromRect = (pfnMyMonitorFromRect)GetProcAddress(hUser32, "MonitorFromRect");
-	MyMonitorFromWindow = (pfnMyMonitorFromWindow)GetProcAddress(hUser32, "MonitorFromWindow");
-	MyGetMonitorInfo = (pfnMyGetMonitorInfo)GetProcAddress(hUser32, "GetMonitorInfoW");
-
-	HINSTANCE hShFolder = GetModuleHandleA("shell32");
-	shGetSpecialFolderPathA = (pfnSHGetSpecialFolderPathA)GetProcAddress(hShFolder, "SHGetSpecialFolderPathA");
-	shGetSpecialFolderPathW = (pfnSHGetSpecialFolderPathW)GetProcAddress(hShFolder, "SHGetSpecialFolderPathW");
-	if (shGetSpecialFolderPathA == NULL) {
-		HINSTANCE hShFolder = LoadLibraryA("ShFolder.dll");
-		shGetSpecialFolderPathA = (pfnSHGetSpecialFolderPathA)GetProcAddress(hShFolder, "SHGetSpecialFolderPathA");
-		shGetSpecialFolderPathW = (pfnSHGetSpecialFolderPathW)GetProcAddress(hShFolder, "SHGetSpecialFolderPathW");
-	}
-
-	shAutoComplete = (pfnSHAutoComplete)GetProcAddress(GetModuleHandleA("shlwapi"), "SHAutoComplete");
-
-	if ( IsWinVerXPPlus()) {
+	if ( IsWinVerVistaPlus()) {
+		HINSTANCE hDwmApi = LoadLibraryA("dwmapi.dll");
+		if (hDwmApi) {
+			dwmExtendFrameIntoClientArea = (pfnDwmExtendFrameIntoClientArea)GetProcAddress(hDwmApi, "DwmExtendFrameIntoClientArea");
+			dwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled)GetProcAddress(hDwmApi, "DwmIsCompositionEnabled");
+		}
 		HINSTANCE hThemeAPI = LoadLibraryA("uxtheme.dll");
 		if (hThemeAPI) {
-			openThemeData = (pfnOpenThemeData)GetProcAddress(hThemeAPI, "OpenThemeData");
-			isThemeBackgroundPartiallyTransparent = (pfnIsThemeBackgroundPartiallyTransparent)GetProcAddress(hThemeAPI, "IsThemeBackgroundPartiallyTransparent");
-			drawThemeParentBackground = (pfnDrawThemeParentBackground)GetProcAddress(hThemeAPI, "DrawThemeParentBackground");
-			drawThemeBackground = (pfnDrawThemeBackground)GetProcAddress(hThemeAPI, "DrawThemeBackground");
-			drawThemeText = (pfnDrawThemeText)GetProcAddress(hThemeAPI, "DrawThemeText");
 			drawThemeTextEx = (pfnDrawThemeTextEx)GetProcAddress(hThemeAPI, "DrawThemeTextEx");
-			getThemeBackgroundContentRect = (pfnGetThemeBackgroundContentRect)GetProcAddress(hThemeAPI , "GetThemeBackgroundContentRect");
-			getThemeFont = (pfnGetThemeFont)GetProcAddress(hThemeAPI, "GetThemeFont");
-			closeThemeData = (pfnCloseThemeData)GetProcAddress(hThemeAPI, "CloseThemeData");
-			enableThemeDialogTexture = (pfnEnableThemeDialogTexture)GetProcAddress(hThemeAPI, "EnableThemeDialogTexture");
-			setWindowTheme = (pfnSetWindowTheme)GetProcAddress(hThemeAPI, "SetWindowTheme");
 			setWindowThemeAttribute = (pfnSetWindowThemeAttribute)GetProcAddress(hThemeAPI, "SetWindowThemeAttribute");
-			isThemeActive = (pfnIsThemeActive)GetProcAddress(hThemeAPI, "IsThemeActive");
 			bufferedPaintInit = (pfnBufferedPaintInit)GetProcAddress(hThemeAPI, "BufferedPaintInit");
 			bufferedPaintUninit = (pfnBufferedPaintUninit)GetProcAddress(hThemeAPI, "BufferedPaintUninit");
 			beginBufferedPaint = (pfnBeginBufferedPaint)GetProcAddress(hThemeAPI, "BeginBufferedPaint");
@@ -278,20 +215,6 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 			getBufferedPaintBits = (pfnGetBufferedPaintBits)GetProcAddress(hThemeAPI, "GetBufferedPaintBits");
 		}
 	}
-
-	if ( IsWinVerVistaPlus()) {
-		HINSTANCE hDwmApi = LoadLibraryA("dwmapi.dll");
-		if (hDwmApi) {
-			dwmExtendFrameIntoClientArea = (pfnDwmExtendFrameIntoClientArea)GetProcAddress(hDwmApi, "DwmExtendFrameIntoClientArea");
-			dwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled)GetProcAddress(hDwmApi, "DwmIsCompositionEnabled");
-		}
-	}
-
-	HMODULE hWinSock = GetModuleHandleA("ws2_32");
-	MyGetaddrinfo = (LPFN_GETADDRINFO)GetProcAddress(hWinSock, "getaddrinfo");
-	MyFreeaddrinfo = (LPFN_FREEADDRINFO)GetProcAddress(hWinSock, "freeaddrinfo");
-	MyWSAStringToAddress = (LPFN_WSASTRINGTOADDRESSA)GetProcAddress(hWinSock, "WSAStringToAddressA");
-	MyWSAAddressToString = (LPFN_WSAADDRESSTOSTRINGA)GetProcAddress(hWinSock, "WSAAddressToStringA");
 
 	if (bufferedPaintInit)
 		bufferedPaintInit();

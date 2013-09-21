@@ -351,23 +351,14 @@ static INT_PTR AssertInsideScreen(WPARAM wParam, LPARAM lParam)
 	RECT rcScreen;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rcScreen, FALSE);
 
-	if (MyMonitorFromWindow)
-	{
-		if (MyMonitorFromRect(rc, MONITOR_DEFAULTTONULL))
-			return 0;
+	if (MonitorFromRect(rc, MONITOR_DEFAULTTONULL))
+		return 0;
 
-		MONITORINFO mi = {0};
-		HMONITOR hMonitor = MyMonitorFromRect(rc, MONITOR_DEFAULTTONEAREST);
-		mi.cbSize = sizeof(mi);
-		if (MyGetMonitorInfo(hMonitor, &mi))
-			rcScreen = mi.rcWork;
-	}
-	else
-	{
-		RECT rcDest;
-		if (IntersectRect(&rcDest, &rcScreen, rc))
-			return 0;
-	}
+	MONITORINFO mi = {0};
+	HMONITOR hMonitor = MonitorFromRect(rc, MONITOR_DEFAULTTONEAREST);
+	mi.cbSize = sizeof(mi);
+	if (GetMonitorInfo(hMonitor, &mi))
+		rcScreen = mi.rcWork;
 
 	if (rc->top >= rcScreen.bottom)
 		OffsetRect(rc, 0, rcScreen.bottom - rc->bottom);

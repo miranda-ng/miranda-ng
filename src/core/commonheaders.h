@@ -38,6 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <uxtheme.h>
 #include <commctrl.h>
 #include <vssym32.h>
+#include <Shlwapi.h>
 
 #include <map>
 #include <vector>

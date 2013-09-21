@@ -217,33 +217,18 @@ bool NetlibStringToAddress(const char* str, SOCKADDR_INET_M* addr)
 {
 	if ( !str) return false;
 
-	if (MyWSAStringToAddress)
-	{
-		int len = sizeof(SOCKADDR_INET_M);
-		return !MyWSAStringToAddress((char*)str, AF_INET6, NULL, (PSOCKADDR)addr, &len);
-	}
-	else
-	{
-		unsigned iaddr = inet_addr(str);
-		if ( !iaddr) return false;
-
-		addr->Ipv4.sin_addr.s_addr = iaddr;
-		addr->Ipv4.sin_family = AF_INET;
-		return true;
-	}
+	int len = sizeof(SOCKADDR_INET_M);
+	return !WSAStringToAddressA((char*)str, AF_INET6, NULL, (PSOCKADDR)addr, &len);
 }
 
 char* NetlibAddressToString(SOCKADDR_INET_M* addr)
 {
 	char saddr[128];
 
-	if (MyWSAAddressToString)
-	{
-		DWORD len = sizeof(saddr);
-		if ( !MyWSAAddressToString((PSOCKADDR)addr, sizeof(*addr), NULL, saddr, &len))
-			return mir_strdup(saddr);
-	}
-	else if (addr->si_family == AF_INET)
+	DWORD len = sizeof(saddr);
+	if ( !WSAAddressToStringA((PSOCKADDR)addr, sizeof(*addr), NULL, saddr, &len))
+		return mir_strdup(saddr);
+	if (addr->si_family == AF_INET)
 	{
 		char *szIp = inet_ntoa(addr->Ipv4.sin_addr);
 		if (addr->Ipv4.sin_port != 0)
@@ -290,7 +275,7 @@ static NETLIBIPLIST* GetMyIpv6(unsigned flags)
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_flags = AI_PASSIVE;
 
-	if (MyGetaddrinfo(szMyHost, NULL, &hints, &air))
+	if (GetAddrInfoA(szMyHost, NULL, &hints, &air))
 		return NULL;
 
 	unsigned n = 0;
@@ -320,7 +305,7 @@ static NETLIBIPLIST* GetMyIpv6(unsigned flags)
 			mir_free(szIp);
 		}
 	}
-	MyFreeaddrinfo(air);
+	FreeAddrInfoA(air);
 	return addr;
 }
 
@@ -345,5 +330,5 @@ static NETLIBIPLIST* GetMyIpv4(void)
 
 NETLIBIPLIST* GetMyIp(unsigned flags)
 {
-	return (MyGetaddrinfo && MyFreeaddrinfo) ? GetMyIpv6(flags) : GetMyIpv4();
+	return GetMyIpv6(flags);
 }

@@ -433,7 +433,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 		HotkeyEditCreate( GetDlgItem(hwndDlg, IDC_HOTKEY));
 		{
-			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK + (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16), 3, 1);
+			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 3, 1);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_WINDOWS);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_MIRANDA);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_WINDOW);

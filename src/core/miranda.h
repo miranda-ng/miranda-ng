@@ -23,72 +23,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define OPTIONPAGE_OLD_SIZE offsetof(OPTIONSDIALOGPAGE,hLangpack)
 
-typedef HMONITOR (WINAPI *pfnMyMonitorFromPoint)(POINT, DWORD);
-extern pfnMyMonitorFromPoint MyMonitorFromPoint;
-
-typedef HMONITOR (WINAPI *pfnMyMonitorFromRect)(LPCRECT, DWORD);
-extern pfnMyMonitorFromRect MyMonitorFromRect;
-
-typedef HMONITOR(WINAPI *pfnMyMonitorFromWindow) (HWND, DWORD);
-extern pfnMyMonitorFromWindow MyMonitorFromWindow;
-
-typedef BOOL(WINAPI *pfnMyGetMonitorInfo) (HMONITOR, LPMONITORINFO);
-extern pfnMyGetMonitorInfo MyGetMonitorInfo;
-
-typedef HRESULT (STDAPICALLTYPE *pfnSHAutoComplete)(HWND, DWORD);
-extern pfnSHAutoComplete shAutoComplete;
-
-typedef HRESULT (STDAPICALLTYPE *pfnSHGetSpecialFolderPathA)(HWND, LPSTR,  int, BOOL);
-typedef HRESULT (STDAPICALLTYPE *pfnSHGetSpecialFolderPathW)(HWND, LPWSTR, int, BOOL);
-extern pfnSHGetSpecialFolderPathA shGetSpecialFolderPathA;
-extern pfnSHGetSpecialFolderPathW shGetSpecialFolderPathW;
-
-#define shGetSpecialFolderPath shGetSpecialFolderPathW
-
-typedef HDESK (WINAPI* pfnOpenInputDesktop)(DWORD, BOOL, DWORD);
-extern pfnOpenInputDesktop openInputDesktop;
-
-typedef HDESK (WINAPI* pfnCloseDesktop)(HDESK);
-extern pfnCloseDesktop closeDesktop;
-
-typedef BOOL (WINAPI* pfnAnimateWindow)(HWND, DWORD, DWORD);
-extern pfnAnimateWindow animateWindow;
-
-typedef BOOL (WINAPI * pfnSetLayeredWindowAttributes) (HWND, COLORREF, BYTE, DWORD);
-extern pfnSetLayeredWindowAttributes setLayeredWindowAttributes;
-
-typedef HTHEME  (STDAPICALLTYPE *pfnOpenThemeData)(HWND, LPCWSTR);
-typedef HRESULT (STDAPICALLTYPE *pfnIsThemeBackgroundPartiallyTransparent)(HTHEME, int, int);
-typedef HRESULT (STDAPICALLTYPE *pfnDrawThemeParentBackground)(HWND, HDC, const RECT *);
-typedef HRESULT (STDAPICALLTYPE *pfnDrawThemeBackground)(HTHEME, HDC, int, int, const RECT *, const RECT *);
-typedef HRESULT (STDAPICALLTYPE *pfnDrawThemeText)(HTHEME, HDC, int, int, LPCWSTR, int, DWORD, DWORD, const RECT *);
 typedef HRESULT (STDAPICALLTYPE *pfnDrawThemeTextEx)(HTHEME, HDC, int, int, LPCWSTR, int, DWORD, LPRECT, const struct _DTTOPTS *);
-typedef HRESULT (STDAPICALLTYPE *pfnGetThemeBackgroundContentRect)(HTHEME, HDC, int, int, LPCRECT, LPRECT);
-typedef HRESULT (STDAPICALLTYPE *pfnGetThemeFont)(HTHEME, HDC, int, int, int, LOGFONT *);
-typedef HRESULT (STDAPICALLTYPE *pfnCloseThemeData)(HTHEME);
-typedef HRESULT (STDAPICALLTYPE *pfnEnableThemeDialogTexture)(HWND hwnd, DWORD dwFlags);
-typedef HRESULT (STDAPICALLTYPE *pfnSetWindowTheme)(HWND, LPCWSTR, LPCWSTR);
 typedef HRESULT (STDAPICALLTYPE *pfnSetWindowThemeAttribute)(HWND, enum WINDOWTHEMEATTRIBUTETYPE, PVOID, DWORD);
-typedef BOOL    (STDAPICALLTYPE *pfnIsThemeActive)();
 typedef HRESULT (STDAPICALLTYPE *pfnBufferedPaintInit)(void);
 typedef HRESULT (STDAPICALLTYPE *pfnBufferedPaintUninit)(void);
 typedef HANDLE  (STDAPICALLTYPE *pfnBeginBufferedPaint)(HDC, RECT *, BP_BUFFERFORMAT, BP_PAINTPARAMS *, HDC *);
 typedef HRESULT (STDAPICALLTYPE *pfnEndBufferedPaint)(HANDLE, BOOL);
 typedef HRESULT (STDAPICALLTYPE *pfnGetBufferedPaintBits)(HANDLE, RGBQUAD **, int *);
 
-extern pfnOpenThemeData openThemeData;
-extern pfnIsThemeBackgroundPartiallyTransparent isThemeBackgroundPartiallyTransparent;
-extern pfnDrawThemeParentBackground drawThemeParentBackground;
-extern pfnDrawThemeBackground drawThemeBackground;
-extern pfnDrawThemeText drawThemeText;
 extern pfnDrawThemeTextEx drawThemeTextEx;
-extern pfnGetThemeBackgroundContentRect getThemeBackgroundContentRect;
-extern pfnGetThemeFont getThemeFont;
-extern pfnCloseThemeData closeThemeData;
-extern pfnEnableThemeDialogTexture enableThemeDialogTexture;
-extern pfnSetWindowTheme setWindowTheme;
 extern pfnSetWindowThemeAttribute setWindowThemeAttribute;
-extern pfnIsThemeActive isThemeActive;
 extern pfnBufferedPaintInit bufferedPaintInit;
 extern pfnBufferedPaintUninit bufferedPaintUninit;
 extern pfnBeginBufferedPaint beginBufferedPaint;
@@ -102,11 +46,6 @@ typedef HRESULT (STDAPICALLTYPE *pfnDwmIsCompositionEnabled)(BOOL *);
 
 extern pfnDwmExtendFrameIntoClientArea dwmExtendFrameIntoClientArea;
 extern pfnDwmIsCompositionEnabled dwmIsCompositionEnabled;
-
-extern LPFN_GETADDRINFO MyGetaddrinfo;
-extern LPFN_FREEADDRINFO MyFreeaddrinfo;
-extern LPFN_WSASTRINGTOADDRESSA MyWSAStringToAddress;
-extern LPFN_WSAADDRESSTOSTRINGA MyWSAAddressToString;
 
 /**** database.cpp *********************************************************************/
 

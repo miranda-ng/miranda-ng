@@ -228,15 +228,12 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 					textColor = dat->disableColor;
 				}
 				if (GetClientRect(hwnd, &rc) && GetWindowText(hwnd, szText, SIZEOF(szText))) {
-					if (drawThemeParentBackground && IsWinVerXPPlus())
-					{
-						BOOL fSmoothing;
-						UINT fSmoothingType;
-						SystemParametersInfo(SPI_GETFONTSMOOTHING, 0, &fSmoothing, 0);
-						SystemParametersInfo(SPI_GETFONTSMOOTHINGTYPE, 0, &fSmoothingType, 0);
-						if (fSmoothing && fSmoothingType == FE_FONTSMOOTHINGCLEARTYPE)
-							drawThemeParentBackground(hwnd, hdc, &rc);
-					}
+					BOOL fSmoothing;
+					UINT fSmoothingType;
+					SystemParametersInfo(SPI_GETFONTSMOOTHING, 0, &fSmoothing, 0);
+					SystemParametersInfo(SPI_GETFONTSMOOTHINGTYPE, 0, &fSmoothingType, 0);
+					if (fSmoothing && fSmoothingType == FE_FONTSMOOTHINGCLEARTYPE)
+						DrawThemeParentBackground(hwnd, hdc, &rc);
 					SetBkMode(hdc, TRANSPARENT);
 					SetTextColor(hdc, textColor);
 					alignFlag = (GetWindowLongPtr(hwnd, GWL_STYLE)&(SS_CENTER|SS_RIGHT|SS_LEFT));

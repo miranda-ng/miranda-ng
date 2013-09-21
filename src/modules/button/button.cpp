@@ -44,27 +44,23 @@ static BOOL bModuleInitialized = FALSE;
 
 static void DestroyTheme(MButtonCtrl *ctl)
 {
-	if (closeThemeData) {
-		if (ctl->hThemeButton) {
-			closeThemeData(ctl->hThemeButton);
-			ctl->hThemeButton = NULL;
-		}
-		if (ctl->hThemeToolbar) {
-			closeThemeData(ctl->hThemeToolbar);
-			ctl->hThemeToolbar = NULL;
-		}
-		ctl->bIsThemed = false;
+	if (ctl->hThemeButton) {
+		CloseThemeData(ctl->hThemeButton);
+		ctl->hThemeButton = NULL;
 	}
+	if (ctl->hThemeToolbar) {
+		CloseThemeData(ctl->hThemeToolbar);
+		ctl->hThemeToolbar = NULL;
+	}
+	ctl->bIsThemed = false;
 }
 
 static void LoadTheme(MButtonCtrl *ctl)
 {
 	DestroyTheme(ctl);
-	if (openThemeData) {
-		ctl->hThemeButton = openThemeData(ctl->hwnd, L"BUTTON");
-		ctl->hThemeToolbar = openThemeData(ctl->hwnd, L"TOOLBAR");
-		ctl->bIsThemed = true;
-	}
+	ctl->hThemeButton = OpenThemeData(ctl->hwnd, L"BUTTON");
+	ctl->hThemeToolbar = OpenThemeData(ctl->hwnd, L"TOOLBAR");
+	ctl->bIsThemed = true;
 }
 
 static void SetHwndPropInt(MButtonCtrl* bct, DWORD idObject, DWORD idChild, MSAAPROPID idProp, int val)
@@ -115,9 +111,9 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 	if (ctl->bIsFlat) {
 		if (ctl->hThemeToolbar && ctl->bIsThemed) {
 			int state = IsWindowEnabled(ctl->hwnd)?(ctl->stateId == PBS_NORMAL && ctl->bIsDefault ? PBS_DEFAULTED : ctl->stateId):PBS_DISABLED;
-			if (isThemeBackgroundPartiallyTransparent(ctl->hThemeToolbar, TP_BUTTON, TBStateConvert2Flat(state)))
-				drawThemeParentBackground(ctl->hwnd, hdcMem, &rcClient);
-			drawThemeBackground(ctl->hThemeToolbar, hdcMem, TP_BUTTON, TBStateConvert2Flat(state), &rcClient, &rcClient);
+			if (IsThemeBackgroundPartiallyTransparent(ctl->hThemeToolbar, TP_BUTTON, TBStateConvert2Flat(state)))
+				DrawThemeParentBackground(ctl->hwnd, hdcMem, &rcClient);
+			DrawThemeBackground(ctl->hThemeToolbar, hdcMem, TP_BUTTON, TBStateConvert2Flat(state), &rcClient, &rcClient);
 		}
 		else {
 			HBRUSH hbr;
@@ -150,10 +146,10 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 		if (ctl->hThemeButton && ctl->bIsThemed) {
 			int state = IsWindowEnabled(ctl->hwnd)?(ctl->stateId == PBS_NORMAL && ctl->bIsDefault ? PBS_DEFAULTED : ctl->stateId) : PBS_DISABLED;
 
-			if (isThemeBackgroundPartiallyTransparent(ctl->hThemeButton, BP_PUSHBUTTON, state))
-				drawThemeParentBackground(ctl->hwnd, hdcMem, &rcClient);
+			if (IsThemeBackgroundPartiallyTransparent(ctl->hThemeButton, BP_PUSHBUTTON, state))
+				DrawThemeParentBackground(ctl->hwnd, hdcMem, &rcClient);
 
-			drawThemeBackground(ctl->hThemeButton, hdcMem, BP_PUSHBUTTON, state, &rcClient, &rcClient);
+			DrawThemeBackground(ctl->hThemeButton, hdcMem, BP_PUSHBUTTON, state, &rcClient, &rcClient);
 		}
 		else {
 			UINT uState = DFCS_BUTTONPUSH | ((ctl->stateId == PBS_HOT) ? DFCS_HOT : 0) | ((ctl->stateId == PBS_PRESSED) ? DFCS_PUSHED : 0);
@@ -183,7 +179,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 			iy++;
 		}
 
-		HIMAGELIST hImageList = ImageList_Create(g_cxsmIcon, g_cysmIcon, ILC_MASK | (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16), 1, 0);
+		HIMAGELIST hImageList = ImageList_Create(g_cxsmIcon, g_cysmIcon, ILC_MASK | ILC_COLOR32, 1, 0);
 		ImageList_AddIcon(hImageList, ctl->hIcon);
 		HICON hIconNew = ImageList_GetIcon(hImageList, 0, ILD_NORMAL);
 		DrawState(hdcMem, NULL, NULL, (LPARAM) hIconNew, 0, ix, iy, g_cxsmIcon, g_cysmIcon, DST_ICON | (IsWindowEnabled(ctl->hwnd) ? DSS_NORMAL : DSS_DISABLED));
