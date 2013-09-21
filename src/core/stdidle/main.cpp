@@ -29,11 +29,6 @@ TIME_API tmi;
 HINSTANCE hInst;
 int hLangpack;
 
-pfnMyMonitorFromWindow MyMonitorFromWindow;
-pfnMyGetMonitorInfo MyGetMonitorInfo;
-pfnOpenInputDesktop openInputDesktop;
-pfnCloseDesktop closeDesktop;
-
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -65,13 +60,6 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 	mir_getTMI(&tmi);
-
-	HINSTANCE hUser32 = GetModuleHandleA("user32");
-	openInputDesktop = (pfnOpenInputDesktop)GetProcAddress (hUser32, "OpenInputDesktop");
-	closeDesktop = (pfnCloseDesktop)GetProcAddress (hUser32, "CloseDesktop");
-
-	MyMonitorFromWindow = (pfnMyMonitorFromWindow)GetProcAddress(hUser32, "MonitorFromWindow");
-	MyGetMonitorInfo = (pfnMyGetMonitorInfo)GetProcAddress(hUser32, "GetMonitorInfoW");
 	mir_getCLI();
 
 	LoadIdleModule();

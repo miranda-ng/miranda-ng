@@ -1487,7 +1487,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						if (db_get_dw(dat->hContact, dat->szProto, "IdleTS", 0)) {
 							HIMAGELIST hImageList;
 
-							hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON), IsWinVerXPPlus()? ILC_COLOR32 | ILC_MASK : ILC_COLOR16 | ILC_MASK, 1, 0);
+							hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 1, 0);
 							ImageList_AddIcon(hImageList, hIcon);
 							ImageList_DrawEx(hImageList, 0, dis->hDC, dis->rcItem.left, dis->rcItem.top, 0, 0, CLR_NONE, CLR_NONE, ILD_SELECTED);
 							ImageList_Destroy(hImageList);

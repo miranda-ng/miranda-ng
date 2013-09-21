@@ -105,24 +105,7 @@ typedef enum _WTS_INFO_CLASS {
 
 #endif
 
-VOID (WINAPI *_WTSFreeMemory)(PVOID);
-BOOL (WINAPI *_WTSQuerySessionInformation)(HANDLE, DWORD, WTS_INFO_CLASS, PVOID, DWORD*);
-
-BOOL bIsWTSApiPresent = FALSE;
-
 static BOOL bModuleInitialized = FALSE;
-
-BOOL InitWTSAPI()
-{
-	HMODULE hDll = LoadLibraryA("wtsapi32.dll");
-	if (hDll) {
-		_WTSFreeMemory = (VOID (WINAPI *)(PVOID))GetProcAddress(hDll, "WTSFreeMemory");
-		_WTSQuerySessionInformation = (BOOL (WINAPI *)(HANDLE, DWORD, WTS_INFO_CLASS, PVOID, DWORD*))GetProcAddress(hDll, "WTSQuerySessionInformationW");
-
-		if (_WTSFreeMemory && _WTSQuerySessionInformation) return 1;
-	}
-	return 0;
-}
 
 BOOL IsTerminalDisconnected()
 {
@@ -130,17 +113,13 @@ BOOL IsTerminalDisconnected()
 	DWORD pBytesReturned = 0;
 	BOOL result = FALSE;
 
-	if ( !bIsWTSApiPresent)
-		return FALSE;
-
-	if (_WTSQuerySessionInformation(WTS_CURRENT_SERVER_HANDLE, WTS_CURRENT_SESSION, WTSConnectState, &pBuffer, &pBytesReturned)) {
+	if (WTSQuerySessionInformation(WTS_CURRENT_SERVER_HANDLE, WTS_CURRENT_SESSION, WTSConnectState, (LPTSTR *)&pBuffer, &pBytesReturned)) {
 		if (*(PDWORD)pBuffer == WTSDisconnected)
 			result = TRUE;
 	}
-	else bIsWTSApiPresent = FALSE;
 
 	if (pBuffer)
-		_WTSFreeMemory(pBuffer);
+		WTSFreeMemory(pBuffer);
 	return result;
 }
 
@@ -233,13 +212,11 @@ static bool IsWorkstationLocked (void)
 {
 	bool rc = false;
 
-	if (openInputDesktop != NULL) {
-		HDESK hDesk = openInputDesktop(0, FALSE, DESKTOP_SWITCHDESKTOP);
-		if (hDesk == NULL)
-			rc = true;
-		else if (closeDesktop != NULL)
-			closeDesktop(hDesk);
-	}
+	HDESK hDesk = OpenInputDesktop(0, FALSE, DESKTOP_SWITCHDESKTOP);
+	if (hDesk == NULL)
+		rc = true;
+	else
+		CloseDesktop(hDesk);
 	return rc;
 }
 
@@ -257,13 +234,11 @@ bool IsFullScreen(void)
 	rcScreen.right = GetSystemMetrics(SM_CXSCREEN);
 	rcScreen.bottom = GetSystemMetrics(SM_CYSCREEN);
 
-	if (MyMonitorFromWindow) {
-		HMONITOR hMon = MyMonitorFromWindow(pcli->hwndContactList, MONITOR_DEFAULTTONEAREST);
-		MONITORINFO mi;
-		mi.cbSize = sizeof(mi);
-		if (MyGetMonitorInfo(hMon, &mi))
-			rcScreen = mi.rcMonitor;
-	}
+	HMONITOR hMon = MonitorFromWindow(pcli->hwndContactList, MONITOR_DEFAULTTONEAREST);
+	MONITORINFO mi;
+	mi.cbSize = sizeof(mi);
+	if (GetMonitorInfo(hMon, &mi))
+		rcScreen = mi.rcMonitor;
 
 	HWND hWndDesktop = GetDesktopWindow();
 	HWND hWndShell = GetShellWindow();
@@ -358,10 +333,7 @@ static INT_PTR CALLBACK IdleOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		CheckDlgButton(hwndDlg, IDC_LOCKED, db_get_b(NULL, IDLEMOD, IDL_IDLEONLOCK, 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_IDLEPRIVATE, db_get_b(NULL, IDLEMOD, IDL_IDLEPRIVATE, 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_IDLESTATUSLOCK, db_get_b(NULL, IDLEMOD, IDL_IDLESTATUSLOCK, 0) ? BST_CHECKED : BST_UNCHECKED);
-		if ( !bIsWTSApiPresent)
-			EnableWindow(GetDlgItem(hwndDlg, IDC_IDLETERMINAL), FALSE);
-		else
-			CheckDlgButton(hwndDlg, IDC_IDLETERMINAL, db_get_b(NULL, IDLEMOD, IDL_IDLEONTSDC, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IDLETERMINAL, db_get_b(NULL, IDLEMOD, IDL_IDLEONTSDC, 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_IDLESOUNDSOFF, db_get_b(NULL, IDLEMOD, IDL_IDLESOUNDSOFF, 1) ? BST_CHECKED : BST_UNCHECKED);
 		SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_IDLE1STTIME), 0);
 		SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETRANGE32, 1, 60);
@@ -500,8 +472,6 @@ int LoadIdleModule(void)
 {
 	bModuleInitialized = TRUE;
 
-	bIsWTSApiPresent = InitWTSAPI();
-	MyGetLastInputInfo = (BOOL (WINAPI *)(LASTINPUTINFO*))GetProcAddress(GetModuleHandleA("user32"), "GetLastInputInfo");
 	hIdleEvent = CreateHookableEvent(ME_IDLE_CHANGED);
 	IdleObject_Create(&gIdleObject);
 	CreateServiceFunction(MS_IDLE_GETIDLEINFO, IdleGetInfo);

@@ -28,8 +28,6 @@ TIME_API tmi;
 HINSTANCE hInst;
 int hLangpack;
 
-pfnEnableThemeDialogTexture enableThemeDialogTexture;
-
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -62,12 +60,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 	mir_getTMI(&tmi);
 	mir_getCLI();
-
-	if ( IsWinVerXPPlus()) {
-		HINSTANCE hThemeAPI = LoadLibraryA("uxtheme.dll");
-		if (hThemeAPI)
-			enableThemeDialogTexture = (pfnEnableThemeDialogTexture)GetProcAddress(hThemeAPI, "EnableThemeDialogTexture");
-	}
 
 	LoadUserInfoModule();
 	return 0;

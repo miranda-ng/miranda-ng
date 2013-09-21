@@ -75,6 +75,3 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../stdplug.h"
 
 extern HINSTANCE hInst;
-
-typedef HRESULT (STDAPICALLTYPE *pfnEnableThemeDialogTexture)(HWND hwnd, DWORD dwFlags);
-extern pfnEnableThemeDialogTexture enableThemeDialogTexture;

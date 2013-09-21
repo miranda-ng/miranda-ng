@@ -95,7 +95,7 @@
       <AdditionalIncludeDirectories>..\..\..\include\msapi;..\..\..\include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>miranda32.lib;ws2_32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>miranda32.lib;ws2_32.lib;comctl32.lib;Wtsapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -128,7 +128,7 @@
       <AdditionalIncludeDirectories>..\..\..\include\msapi;..\..\..\include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>miranda32.lib;ws2_32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>miranda32.lib;ws2_32.lib;comctl32.lib;Wtsapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <BaseAddress>0x3ae00000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -160,7 +160,7 @@
       <AdditionalIncludeDirectories>..\..\..\include\msapi;..\..\..\include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>miranda64.lib;ws2_32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>miranda64.lib;ws2_32.lib;comctl32.lib;Wtsapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -192,7 +192,7 @@
       <AdditionalIncludeDirectories>..\..\..\include\msapi;..\..\..\include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>miranda64.lib;ws2_32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>miranda64.lib;ws2_32.lib;comctl32.lib;Wtsapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <BaseAddress>0x3ae00000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -203,10 +203,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="commonheaders.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="idle.cpp" />
     <ClCompile Include="main.cpp" />

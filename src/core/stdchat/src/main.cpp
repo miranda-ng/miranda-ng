@@ -113,7 +113,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 	DestroyHookableEvents();
 	FreeIcons();
 	OptionsUnInit();
-	FreeLibrary(GetModuleHandle(_T("riched20.dll")));
 	UnhookEvents();
 	return 0;
 }
@@ -179,8 +178,8 @@ void LoadIcons(void)
 	LoadLogIcons();
 	LoadMsgLogBitmaps();
 
-	hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),IsWinVerXPPlus()? ILC_COLOR32 | ILC_MASK : ILC_COLOR16 | ILC_MASK,0,3);
-	hIconsList = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),IsWinVerXPPlus()? ILC_COLOR32 | ILC_MASK : ILC_COLOR16 | ILC_MASK,0,100);
+	hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 0, 3);
+	hIconsList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 0, 100);
 	ImageList_AddIcon(hIconsList,LoadSkinnedIcon( SKINICON_EVENT_MESSAGE));
 	ImageList_AddIcon(hIconsList,LoadIconEx( "overlay", FALSE ));
 	ImageList_SetOverlayImage(hIconsList, 1, 1);

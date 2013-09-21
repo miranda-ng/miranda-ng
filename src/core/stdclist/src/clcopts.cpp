@@ -312,12 +312,8 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			CheckDlgButton(hwndDlg, IDC_SCROLL, bmpUse & CLBF_SCROLL ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_PROPORTIONAL, bmpUse & CLBF_PROPORTIONAL ? BST_CHECKED : BST_UNCHECKED);
 		}
-		{
-			HRESULT(STDAPICALLTYPE * MySHAutoComplete) (HWND, DWORD);
-			MySHAutoComplete = (HRESULT(STDAPICALLTYPE *) (HWND, DWORD)) GetProcAddress(GetModuleHandleA("shlwapi"), "SHAutoComplete");
-			if (MySHAutoComplete)
-				MySHAutoComplete(GetDlgItem(hwndDlg, IDC_FILENAME), 1);
-		}
+
+		SHAutoComplete(GetDlgItem(hwndDlg, IDC_FILENAME), 1);
 		return TRUE;
 	case WM_USER + 10:
 		EnableWindow(GetDlgItem(hwndDlg, IDC_FILENAME), IsDlgButtonChecked(hwndDlg, IDC_BITMAP));

@@ -28,7 +28,6 @@ TIME_API tmi;
 HINSTANCE hInst;
 int hLangpack;
 
-pfnSHAutoComplete shAutoComplete;
 ITaskbarList3 * pTaskbarInterface;
 
 PLUGININFOEX pluginInfo = {
@@ -66,8 +65,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	if ( IsWinVer7Plus())
 		CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);
-
-	shAutoComplete = (pfnSHAutoComplete)GetProcAddress(GetModuleHandleA("shlwapi"), "SHAutoComplete");
 
 	LoadSendRecvFileModule();
 	return 0;

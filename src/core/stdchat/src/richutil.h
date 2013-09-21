@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SRMM_RICHUTIL_H
 
 #define RWinVerMajor()      LOBYTE(LOWORD(GetVersion()))
-#define RIsWinVerXPPlus()   (RWinVerMajor()>=5 && LOWORD(GetVersion())!=5)
 
 #ifndef WM_THEMECHANGED
 #define WM_THEMECHANGED		0x031A

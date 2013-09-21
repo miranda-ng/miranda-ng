@@ -137,12 +137,6 @@ static int GetRealStatus(struct ClcContact *contact, int status)
 	return status;
 }
 
-static HMODULE themeAPIHandle = NULL; // handle to uxtheme.dll
-static HANDLE(WINAPI * MyOpenThemeData) (HWND, LPCWSTR);
-static HRESULT(WINAPI * MyCloseThemeData) (HANDLE);
-static HRESULT(WINAPI * MyDrawThemeBackground) (HANDLE, HDC, int, int, const RECT *, const RECT *);
-
-#define MGPROC(x) GetProcAddress(themeAPIHandle,x)
 void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 {
 	HDC hdcMem;
@@ -357,34 +351,18 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			//checkboxes
 			if (checkboxWidth) {
 				RECT rc;
-				HANDLE hTheme = NULL;
-
-				// THEME
-				if (IsWinVerXPPlus()) {
-					if (!themeAPIHandle) {
-						themeAPIHandle = GetModuleHandleA("uxtheme");
-						if (themeAPIHandle) {
-							MyOpenThemeData = (HANDLE(WINAPI *) (HWND, LPCWSTR)) MGPROC("OpenThemeData");
-							MyCloseThemeData = (HRESULT(WINAPI *) (HANDLE)) MGPROC("CloseThemeData");
-							MyDrawThemeBackground =
-								(HRESULT(WINAPI *) (HANDLE, HDC, int, int, const RECT *, const RECT *)) MGPROC("DrawThemeBackground");
-						}
-					}
-					// Make sure all of these methods are valid (i would hope either all or none work)
-					if (MyOpenThemeData && MyCloseThemeData && MyDrawThemeBackground)
-						hTheme = MyOpenThemeData(hwnd, L"BUTTON");
-				}
+				HANDLE hTheme = OpenThemeData(hwnd, L"BUTTON");
 				rc.left = dat->leftMargin + indent * dat->groupIndent;
 				rc.right = rc.left + dat->checkboxSize;
 				rc.top = y + ((dat->rowHeight - dat->checkboxSize) >> 1);
 				rc.bottom = rc.top + dat->checkboxSize;
 				if (hTheme)
-					MyDrawThemeBackground(hTheme, hdcMem, BP_CHECKBOX, group->cl.items[group->scanIndex]->flags & CONTACTF_CHECKED ? (hottrack ? CBS_CHECKEDHOT : CBS_CHECKEDNORMAL) : (hottrack ? CBS_UNCHECKEDHOT : CBS_UNCHECKEDNORMAL), &rc, &rc);
+					DrawThemeBackground(hTheme, hdcMem, BP_CHECKBOX, group->cl.items[group->scanIndex]->flags & CONTACTF_CHECKED ? (hottrack ? CBS_CHECKEDHOT : CBS_CHECKEDNORMAL) : (hottrack ? CBS_UNCHECKEDHOT : CBS_UNCHECKEDNORMAL), &rc, &rc);
 				else
 					DrawFrameControl(hdcMem, &rc, DFC_BUTTON, DFCS_BUTTONCHECK | DFCS_FLAT | (group->cl.items[group->scanIndex]->flags & CONTACTF_CHECKED ? DFCS_CHECKED : 0) | (hottrack ? DFCS_HOT : 0));
 
-				if (hTheme && MyCloseThemeData) {
-					MyCloseThemeData(hTheme);
+				if (hTheme) {
+					CloseThemeData(hTheme);
 					hTheme = NULL;
 				}
 			}

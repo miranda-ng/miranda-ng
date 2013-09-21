@@ -233,8 +233,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			SetDlgItemText(hwndDlg, IDC_FROM, contactName);
 			GetContactReceivedFilesDir(dat->hContact, szPath, SIZEOF(szPath), TRUE);
 			SetDlgItemText(hwndDlg, IDC_FILEDIR, szPath);
-			if (shAutoComplete)
-				shAutoComplete(GetWindow(GetDlgItem(hwndDlg, IDC_FILEDIR), GW_CHILD), 1);
+			SHAutoComplete(GetWindow(GetDlgItem(hwndDlg, IDC_FILEDIR), GW_CHILD), 1);
 
 			for (int i=0; i < MAX_MRU_DIRS; i++) {
 				char idstr[32];

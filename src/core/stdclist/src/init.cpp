@@ -28,8 +28,6 @@ CLIST_INTERFACE* pcli = NULL;
 HIMAGELIST himlCListClc = NULL;
 int hLangpack;
 
-BOOL(WINAPI * MySetLayeredWindowAttributes) (HWND, COLORREF, BYTE, DWORD) = NULL;
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // external functions
 
@@ -138,9 +136,6 @@ extern "C" __declspec(dllexport) int CListInitialise()
 
 	pcli->hInst = g_hInst;
 	pcli->pfnPaintClc = PaintClc;
-
-	MySetLayeredWindowAttributes = (BOOL(WINAPI *) (HWND, COLORREF, BYTE, DWORD)) GetProcAddress(
-		LoadLibraryA("user32.dll"), "SetLayeredWindowAttributes");
 
 	CreateServiceFunction(MS_CLIST_GETSTATUSMODE, GetStatusMode);
 

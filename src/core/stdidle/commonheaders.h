@@ -28,9 +28,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <tchar.h>
 #include <winsock2.h>
 #include <shlobj.h>
-#include <uxtheme.h>
 #include <commctrl.h>
 #include <vssym32.h>
+#include <Wtsapi32.h>
 
 #include <stdio.h>
 #include <time.h>
@@ -75,15 +75,3 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../stdplug.h"
 
 extern HINSTANCE hInst;
-
-typedef HDESK (WINAPI* pfnOpenInputDesktop)(DWORD, BOOL, DWORD);
-extern pfnOpenInputDesktop openInputDesktop;
-
-typedef HDESK (WINAPI* pfnCloseDesktop)(HDESK);
-extern pfnCloseDesktop closeDesktop;
-
-typedef HMONITOR(WINAPI *pfnMyMonitorFromWindow) (HWND, DWORD);
-extern pfnMyMonitorFromWindow MyMonitorFromWindow;
-
-typedef BOOL(WINAPI *pfnMyGetMonitorInfo) (HMONITOR, LPMONITORINFO);
-extern pfnMyGetMonitorInfo MyGetMonitorInfo;

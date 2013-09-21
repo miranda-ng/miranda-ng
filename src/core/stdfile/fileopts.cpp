@@ -62,8 +62,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		{
 			TranslateDialogDefault(hwndDlg);
 
-			if (shAutoComplete)
-				shAutoComplete(GetDlgItem(hwndDlg, IDC_FILEDIR), SHACF_FILESYS_DIRS);
+			SHAutoComplete(GetDlgItem(hwndDlg, IDC_FILEDIR), SHACF_FILESYS_DIRS);
 
 			{
 				TCHAR str[MAX_PATH];
