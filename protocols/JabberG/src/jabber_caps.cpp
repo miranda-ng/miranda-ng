@@ -179,7 +179,7 @@ void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo* pInfo)
 
 JabberCapsBits CJabberProto::GetTotalJidCapabilites(const TCHAR *jid)
 {
-	if ( !jid)
+	if (jid == NULL)
 		return JABBER_RESOURCE_CAPS_NONE;
 
 	TCHAR szBareJid[JABBER_MAX_JID_LEN];

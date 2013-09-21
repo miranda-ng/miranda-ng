@@ -772,7 +772,7 @@ int CJabberSysInterface::CompareJIDs(LPCTSTR jid1, LPCTSTR jid2)
 
 HANDLE CJabberSysInterface::ContactFromJID(LPCTSTR jid)
 {
-	if ( !jid) return NULL;
+	if (jid == NULL) return NULL;
 	return m_psProto->HContactFromJID(jid);
 }
 

@@ -29,26 +29,9 @@ extern CRITICAL_SECTION mutex;
 
 extern int bSecureIM, bMirOTR, bNewGPG, bPlatform;
 
-void CJabberProto::SerialInit(void)
-{
-	InitializeCriticalSection(&m_csSerial);
-	m_nSerial = 0;
-}
-
-void CJabberProto::SerialUninit(void)
-{
-	DeleteCriticalSection(&m_csSerial);
-}
-
 int CJabberProto::SerialNext(void)
 {
-	unsigned int ret;
-
-	EnterCriticalSection(&m_csSerial);
-	ret = m_nSerial;
-	m_nSerial++;
-	LeaveCriticalSection(&m_csSerial);
-	return ret;
+	return ::InterlockedIncrement(&m_nSerial);
 }
 
 void CJabberProto::Log(const char* fmt, ...)
@@ -82,7 +65,8 @@ HANDLE CJabberProto::ChatRoomHContactFromJID(const TCHAR *jid)
 			db_free(&dbv);
 			if ( !result && isChatRoom(hContact))
 				return hContact;
-	}	}
+		}
+	}
 
 	return NULL;
 }
@@ -130,7 +114,8 @@ HANDLE CJabberProto::HContactFromJID(const TCHAR *jid , BOOL bStripResource)
 
 TCHAR* __stdcall JabberNickFromJID(const TCHAR *jid)
 {
-	if ( !jid) return mir_tstrdup(_T(""));
+	if (jid == NULL)
+		return mir_tstrdup(_T(""));
 
 	const TCHAR *p;
 	TCHAR *nick;
@@ -150,7 +135,7 @@ TCHAR* __stdcall JabberNickFromJID(const TCHAR *jid)
 
 pResourceStatus CJabberProto::ResourceInfoFromJID(const TCHAR *jid)
 {
-	if ( !jid)
+	if (jid == NULL)
 		return NULL;
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_VCARD_TEMP, jid);
@@ -168,7 +153,7 @@ pResourceStatus CJabberProto::ResourceInfoFromJID(const TCHAR *jid)
 
 TCHAR* JabberPrepareJid(LPCTSTR jid)
 {
-	if ( !jid) return NULL;
+	if (jid == NULL) return NULL;
 	TCHAR *szNewJid = mir_tstrdup(jid);
 	if ( !szNewJid) return NULL;
 	TCHAR *pDelimiter = _tcschr(szNewJid, _T('/'));
@@ -187,7 +172,7 @@ void strdel(char* parBuffer, int len)
 	p[ -len ] = '\0';
 }
 
-char* __stdcall JabberUrlDecode(char* str)
+char* __stdcall JabberUrlDecode(char *str)
 {
 	char* p, *q;
 
@@ -197,41 +182,36 @@ char* __stdcall JabberUrlDecode(char* str)
 	for (p=q=str; *p!='\0'; p++,q++) {
 		if (*p == '<') {
 			// skip CDATA
-			if ( !strncmp(p, "<![CDATA[", 9))
-			{
+			if ( !strncmp(p, "<![CDATA[", 9)) {
 				p += 9;
 				char *tail = strstr(p, "]]>");
 				size_t count = tail ? (tail-p) : strlen(p);
 				memmove(q, p, count);
 				q += count-1;
 				p = (tail ? (tail+3) : (p+count)) - 1;
-			} else
-			{
-				*q = *p;
 			}
-		} else
-		if (*p == '&') {
+			else *q = *p;
+		}
+		else if (*p == '&') {
 			if ( !strncmp(p, "&amp;", 5)) {	*q = '&'; p += 4; }
 			else if ( !strncmp(p, "&apos;", 6)) { *q = '\''; p += 5; }
 			else if ( !strncmp(p, "&gt;", 4)) { *q = '>'; p += 3; }
 			else if ( !strncmp(p, "&lt;", 4)) { *q = '<'; p += 3; }
 			else if ( !strncmp(p, "&quot;", 6)) { *q = '"'; p += 5; }
 			else { *q = *p;	}
-		} else
-		{
-			*q = *p;
 		}
+		else *q = *p;
 	}
 	*q = '\0';
 	return str;
 }
 
-void __stdcall JabberUrlDecodeW(WCHAR* str)
+void __stdcall JabberUrlDecodeW(WCHAR *str)
 {
 	if (str == NULL)
 		return;
 
-	WCHAR* p, *q;
+	WCHAR *p, *q;
 	for (p=q=str; *p!='\0'; p++,q++) {
 		if (*p == '&') {
 			if ( !wcsncmp(p, L"&amp;", 5)) {	*q = '&'; p += 4; }
@@ -248,7 +228,7 @@ void __stdcall JabberUrlDecodeW(WCHAR* str)
 	*q = '\0';
 }
 
-char* __stdcall JabberUrlEncode(const char* str)
+char* __stdcall JabberUrlEncode(const char *str)
 {
 	char* s, *p, *q;
 	int c;
@@ -256,7 +236,7 @@ char* __stdcall JabberUrlEncode(const char* str)
 	if (str == NULL)
 		return NULL;
 
-	for (c=0,p=(char*)str; *p!='\0'; p++) {
+	for (c=0,p=(char*)str; *p != '\0'; p++) {
 		switch (*p) {
 			case '&': c += 5; break;
 			case '\'': c += 6; break;
@@ -297,7 +277,7 @@ char* __stdcall JabberUrlEncode(const char* str)
 	return s;
 }
 
-void __stdcall JabberUtfToTchar(const char* pszValue, size_t cbLen, LPTSTR& dest)
+void __stdcall JabberUtfToTchar(const char *pszValue, size_t cbLen, LPTSTR &dest)
 {
 	char* pszCopy = NULL;
 	bool  bNeedsFree = false;
@@ -344,7 +324,8 @@ char* __stdcall JabberSha1(char* str)
 
 TCHAR* __stdcall JabberStrFixLines(const TCHAR *str)
 {
-	if ( !str) return NULL;
+	if (str == NULL)
+		return NULL;
 
 	const TCHAR *p;
 	int add = 0;
@@ -358,8 +339,7 @@ TCHAR* __stdcall JabberStrFixLines(const TCHAR *str)
 	TCHAR *buf = (TCHAR *)mir_alloc((lstrlen(str) + add + 1) * sizeof(TCHAR));
 	TCHAR *res = buf;
 
-	for (p = str; p && *p; ++p)
-	{
+	for (p = str; p && *p; ++p) {
 		if (*p == _T('\n') && !prev_r)
 			*res++ = _T('\r');
 		if (*p != _T('\r') && *p != _T('\n') && prev_r)
@@ -408,10 +388,10 @@ WCHAR* __stdcall JabberUnixToDosW(const WCHAR* str)
 	WCHAR* q, *res;
 	int extra = 0;
 
-	for (p = str; *p!='\0'; p++) {
+	for (p = str; *p!='\0'; p++)
 		if (*p == '\n')
 			extra++;
-	}
+
 	if ((res = (WCHAR*)mir_alloc(sizeof(WCHAR)*(wcslen(str) + extra + 1))) != NULL) {
 		for (p = str,q=res; *p!='\0'; p++,q++) {
 			if (*p == '\n') {
@@ -425,7 +405,7 @@ WCHAR* __stdcall JabberUnixToDosW(const WCHAR* str)
 	return res;
 }
 
-void __stdcall JabberHttpUrlDecode(TCHAR* str)
+void __stdcall JabberHttpUrlDecode(TCHAR *str)
 {
 	TCHAR *p, *q;
 	unsigned int code;
@@ -437,9 +417,8 @@ void __stdcall JabberHttpUrlDecode(TCHAR* str)
 			*q = (unsigned char) code;
 			p += 2;
 		}
-		else {
-			*q = *p;
-	}	}
+		else *q = *p;
+	}
 
 	*q = '\0';
 }
@@ -822,7 +801,8 @@ void CJabberProto::SendIqGoogleSharedStatus(int status, const TCHAR *msg) {
 	if (status == ID_STATUS_INVISIBLE) {
 		query << XCHILD(_T("show"), _T("default"));
 		query << XCHILD(_T("invisible")) << XATTR(_T("value"), _T("true"));
-	} else {
+	}
+	else {
 		if (status == ID_STATUS_DND)
 			query << XCHILD(_T("show"), _T("dnd"));
 		else

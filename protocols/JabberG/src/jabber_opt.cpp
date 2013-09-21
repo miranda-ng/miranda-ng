@@ -1045,7 +1045,7 @@ void CJabberProto::_RosterHandleGetRequest(HXML node)
 				break;
 
 			const TCHAR *jid = xmlGetAttrValue(item, _T("jid"));
-			if ( !jid)
+			if (jid == NULL)
 				continue;
 
 			const TCHAR *name = xmlGetAttrValue(item, _T("name"));

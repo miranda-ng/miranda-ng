@@ -241,7 +241,7 @@ struct CJabberProto : public PROTO<CJabberProto>
 	HANDLE m_hThreadHandle;
 
 	TCHAR *m_szJabberJID;
-	char*  m_szStreamId;
+	char  *m_szStreamId;
 	BOOL   m_bJabberOnline; // XMPP connection initialized and we can send XMPP packets
 	int    m_nJabberSearchID;
 	time_t m_tmJabberLoggedInTime;
@@ -249,11 +249,9 @@ struct CJabberProto : public PROTO<CJabberProto>
 	UINT   m_nJabberCodePage;
 	TCHAR *m_tszSelectedLang;
 
-	CMString m_szCurrentEntityCapsHash;
-
 	CRITICAL_SECTION m_csModeMsgMutex;
 	JABBER_MODEMSGS m_modeMsgs;
-	BOOL m_bModeMsgStatusChangePending;
+	BOOL   m_bModeMsgStatusChangePending;
 
 	BOOL   m_bChangeStatusMessageOnly;
 	BOOL   m_bSendKeepAlive;
@@ -862,8 +860,6 @@ struct CJabberProto : public PROTO<CJabberProto>
 	//---- jabber_util.c -----------------------------------------------------------------
 	pResourceStatus ResourceInfoFromJID(const TCHAR *jid);
 
-	void   SerialInit(void);
-	void   SerialUninit(void);
 	int    SerialNext(void);
 
 	HANDLE HContactFromJID(const TCHAR *jid , BOOL bStripResource = 3);
@@ -957,8 +953,7 @@ private:
 	HANDLE  m_hJabberAvatarsFolder;
 	BOOL    m_bFoldersInitDone;
 
-	CRITICAL_SECTION m_csSerial;
-	unsigned int m_nSerial;
+	LONG    m_nSerial;
 
 	HGENMENU m_hPrivacyMenuRoot;
 	BOOL     m_menuItemsStatus;

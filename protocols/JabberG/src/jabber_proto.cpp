@@ -148,7 +148,6 @@ CJabberProto::CJabberProto(const char* aProtoName, const TCHAR *aUserName) :
 	GlobalMenuInit();
 	WsInit();
 	IqInit();
-	SerialInit();
 	ConsoleInit();
 	InitCustomFolders();
 
@@ -188,7 +187,6 @@ CJabberProto::~CJabberProto()
 {
 	WsUninit();
 	IqUninit();
-	SerialUninit();
 	ConsoleUninit();
 	GlobalMenuUninit();
 
