@@ -204,11 +204,10 @@ void CMsnProto::MSN_GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cb
 	InitCustomFolders();
 
 	TCHAR* path = (TCHAR*)alloca(cbLen * sizeof(TCHAR));
-	if (hMSNAvatarsFolder == NULL || FoldersGetCustomPathT(hMSNAvatarsFolder, path, (int)cbLen, _T("")))
-	{
+	if (hMSNAvatarsFolder == NULL || FoldersGetCustomPathT(hMSNAvatarsFolder, path, (int)cbLen, _T(""))) {
 		TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
 		TCHAR *sztModuleName = mir_a2t(m_szModuleName);
-		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\Avatars\\%s"), tmpPath, sztModuleName);
+		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\AvatarCache\\%s"), tmpPath, sztModuleName);
 		mir_free(sztModuleName);
 		mir_free(tmpPath);
 	}
@@ -265,7 +264,10 @@ void CMsnProto::MSN_GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cb
 
 		if (!found) pszDest[0] = 0;
 	}
-	else mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, ext);
+	else {
+		tPathLen--;
+		mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, ext);
+	}
 }
 
 int CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen)
