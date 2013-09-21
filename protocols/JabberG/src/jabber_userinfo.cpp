@@ -214,26 +214,26 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 	HTREEITEM htiResource = htiRoot;
 	JABBER_RESOURCE_STATUS *res = resource ? item->arResources[resource-1] : item->m_pItemResource;
 
-	if (res->resourceName && *res->resourceName)
-		htiResource = sttFillInfoLine(hwndTree, htiRoot, LoadSkinnedProtoIcon(ppro->m_szModuleName, res->status),
-			TranslateT("Resource"), res->resourceName, sttInfoLineId(resource, INFOLINE_NAME), true);
+	if (res->m_tszResourceName && *res->m_tszResourceName)
+		htiResource = sttFillInfoLine(hwndTree, htiRoot, LoadSkinnedProtoIcon(ppro->m_szModuleName, res->m_iStatus),
+			TranslateT("Resource"), res->m_tszResourceName, sttInfoLineId(resource, INFOLINE_NAME), true);
 
 	// StatusMsg
 	sttFillInfoLine(hwndTree, htiResource, NULL /*LoadSkinnedIcon(SKINICON_EVENT_MESSAGE)*/,
-		TranslateT("Message"), res->statusMessage ? res->statusMessage : TranslateT("<not specified>"),
+		TranslateT("Message"), res->m_tszStatusMessage ? res->m_tszStatusMessage : TranslateT("<not specified>"),
 		sttInfoLineId(resource, INFOLINE_MESSAGE));
 
 	// Software
 	HICON hIcon = NULL;
 	if (ServiceExists(MS_FP_GETCLIENTICONT)) {
-		if (res->software != NULL) {
-			mir_sntprintf(buf, SIZEOF(buf), _T("%s %s"), res->software, res->version);
+		if (res->m_tszSoftware != NULL) {
+			mir_sntprintf(buf, SIZEOF(buf), _T("%s %s"), res->m_tszSoftware, res->m_tszVersion);
 			hIcon = Finger_GetClientIcon(buf, 0);
 		}
 	}
 
 	sttFillInfoLine(hwndTree, htiResource, hIcon, TranslateT("Software"),
-		res->software ? res->software : TranslateT("<not specified>"),
+		res->m_tszSoftware ? res->m_tszSoftware : TranslateT("<not specified>"),
 		sttInfoLineId(resource, INFOLINE_SOFTWARE));
 
 	if (hIcon)
@@ -241,26 +241,26 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 
 	// Version
 	sttFillInfoLine(hwndTree, htiResource, NULL, TranslateT("Version"),
-		res->version ? res->version : TranslateT("<not specified>"),
+		res->m_tszVersion ? res->m_tszVersion : TranslateT("<not specified>"),
 		sttInfoLineId(resource, INFOLINE_VERSION));
 
 	// System
 	sttFillInfoLine(hwndTree, htiResource, NULL, TranslateT("System"),
-		res->system ? res->system : TranslateT("<not specified>"),
+		res->m_tszSystem ? res->m_tszSystem : TranslateT("<not specified>"),
 		sttInfoLineId(resource, INFOLINE_SYSTEM));
 
 	// Resource priority
 	TCHAR szPriority[128];
-	mir_sntprintf(szPriority, SIZEOF(szPriority), _T("%d"), (int)res->priority);
+	mir_sntprintf(szPriority, SIZEOF(szPriority), _T("%d"), (int)res->m_iPriority);
 	sttFillInfoLine(hwndTree, htiResource, NULL, TranslateT("Resource priority"), szPriority, sttInfoLineId(resource, INFOLINE_PRIORITY));
 
 	// Idle
-	if (res->idleStartTime > 0) {
-		lstrcpyn(buf, _tctime(&res->idleStartTime), SIZEOF(buf));
+	if (res->m_dwIdleStartTime > 0) {
+		lstrcpyn(buf, _tctime(&res->m_dwIdleStartTime), SIZEOF(buf));
 		int len = lstrlen(buf);
 		if (len > 0) buf[len-1] = 0;
 	}
-	else if ( !res->idleStartTime)
+	else if ( !res->m_dwIdleStartTime)
 		lstrcpyn(buf, TranslateT("unknown"), SIZEOF(buf));
 	else
 		lstrcpyn(buf, TranslateT("<not specified>"), SIZEOF(buf));
@@ -268,7 +268,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 	sttFillInfoLine(hwndTree, htiResource, NULL, TranslateT("Idle since"), buf, sttInfoLineId(resource, INFOLINE_IDLE));
 
 	// caps
-	mir_sntprintf(buf, SIZEOF(buf), _T("%s/%s"), item->jid, res->resourceName);
+	mir_sntprintf(buf, SIZEOF(buf), _T("%s/%s"), item->jid, res->m_tszResourceName);
 	JabberCapsBits jcb = ppro->GetResourceCapabilites(buf, TRUE);
 
 	if ( !(jcb & JABBER_RESOURCE_CAPS_ERROR)) {
@@ -296,10 +296,10 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 	}
 
 	// Software info
-	if (res->pSoftwareInfo) {
+	if (res->m_pSoftwareInfo) {
 		HTREEITEM htiSoftwareInfo = sttFillInfoLine(hwndTree, htiResource, ppro->LoadIconEx("main"), NULL, TranslateT("Software information"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION));
 		int nLineId = 0;
-		JABBER_XEP0232_SOFTWARE_INFO *p = res->pSoftwareInfo;
+		JABBER_XEP0232_SOFTWARE_INFO *p = res->m_pSoftwareInfo;
 		if (p->tszOs)
 			sttFillInfoLine(hwndTree, htiSoftwareInfo, NULL, TranslateT("Operating system"), p->tszOs, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
 		if (p->tszOsVersion)
@@ -365,12 +365,12 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 	}
 
 	// logoff
-	if (item->m_pItemResource->idleStartTime > 0) {
-		lstrcpyn(buf, _tctime(&item->m_pItemResource->idleStartTime), SIZEOF(buf));
+	if (item->m_pItemResource->m_dwIdleStartTime > 0) {
+		lstrcpyn(buf, _tctime(&item->m_pItemResource->m_dwIdleStartTime), SIZEOF(buf));
 		int len = lstrlen(buf);
 		if (len > 0) buf[len-1] = 0;
 	}
-	else if ( !item->m_pItemResource->idleStartTime)
+	else if ( !item->m_pItemResource->m_dwIdleStartTime)
 		lstrcpyn(buf, TranslateT("unknown"), SIZEOF(buf));
 	else
 		lstrcpyn(buf, TranslateT("<not specified>"), SIZEOF(buf));
@@ -381,11 +381,11 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 
 	// logoff msg
 	sttFillInfoLine(hwndTree, htiRoot, NULL, TranslateT("Logoff message"),
-		item->m_pItemResource->statusMessage ? item->m_pItemResource->statusMessage : TranslateT("<not specified>"), sttInfoLineId(0, INFOLINE_LOGOFF_MSG));
+		item->m_pItemResource->m_tszStatusMessage ? item->m_pItemResource->m_tszStatusMessage : TranslateT("<not specified>"), sttInfoLineId(0, INFOLINE_LOGOFF_MSG));
 
 	// activity
-	if (item->pLastSeenResource)
-		lstrcpyn(buf, item->pLastSeenResource->resourceName, SIZEOF(buf));
+	if (item->m_pLastSeenResource)
+		lstrcpyn(buf, item->m_pLastSeenResource->m_tszResourceName, SIZEOF(buf));
 	else
 		lstrcpyn(buf, TranslateT("<no information available>"), SIZEOF(buf));
 
@@ -397,7 +397,7 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 		for (int i = 0; i < item->arResources.getCount(); i++)
 			sttFillResourceInfo(ppro, hwndTree, htiRoot, item, i+1);
 	}
-	else if ( !_tcschr(item->jid, _T('@')) || (item->m_pItemResource->status != ID_STATUS_OFFLINE))
+	else if ( !_tcschr(item->jid, _T('@')) || (item->m_pItemResource->m_iStatus != ID_STATUS_OFFLINE))
 		sttFillResourceInfo(ppro, hwndTree, htiRoot, item, 0);
 
 	sttCleanupInfo(hwndTree, 1);

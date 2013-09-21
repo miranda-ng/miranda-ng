@@ -414,11 +414,8 @@ void NetlibLogf(NetlibUser* nlu, const char *fmt, ...)
 
 void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int flags)
 {
-	int isText = 1;
 	char szTitleLine[128];
 	char *szBuf;
-	int titleLineLen;
-	NetlibUser *nlu;
 	bool useStack = false;
 
 	// This section checks a number of conditions and aborts
@@ -439,8 +436,8 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 		return;
 
 	WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
-	nlu = nlc ? nlc->nlu : NULL;
-	titleLineLen = mir_snprintf(szTitleLine, SIZEOF(szTitleLine), "(%p:%u) Data %s%s\r\n", 
+	NetlibUser *nlu = nlc ? nlc->nlu : NULL;
+	int titleLineLen = mir_snprintf(szTitleLine, SIZEOF(szTitleLine), "(%p:%u) Data %s%s\r\n", 
 		nlc, nlc ? nlc->s : 0, sent ? "sent" : "received", flags & MSG_DUMPPROXY ? " (proxy)" : "");
 	ReleaseMutex(hConnectionHeaderMutex);
 
@@ -452,18 +449,19 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 	else if ( !nlu->toLog)
 		return;
 
+	bool isText = true;
 	if ( !logOptions.textDumps)
-		isText = 0;
+		isText = false;
 	else if ( !(flags & MSG_DUMPASTEXT)) {
 		if (logOptions.autoDetectText) {
 			for (int i=0; i < len; i++) {
 				if ((buf[i] < ' ' && buf[i] != '\t' && buf[i] != '\r' && buf[i] != '\n') || buf[i] >= 0x80) {
-					isText = 0;
+					isText = false;
 					break;
 				}
 			}
 		}
-		else isText = 0;
+		else isText = false;
 	}
 
 	// Text data
@@ -507,13 +505,13 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 			}
 
 			for (col = 0; col < colsInLine; col++)
-				*pszBuf++=buf[line+col]<' '?'.':(char)buf[line+col];
+				*pszBuf++ = (buf[line+col] < ' ') ? '.' : (char)buf[line+col];
 
 			if (len-line <= 16)
 				break;
 
-			*pszBuf++='\r'; // End each line with a break
-			*pszBuf++='\n'; // End each line with a break
+			*pszBuf++ = '\r'; // End each line with a break
+			*pszBuf++ = '\n'; // End each line with a break
 		}
 		*pszBuf = '\0';
 	}

@@ -413,28 +413,28 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 	bool bIsTipper = db_get_b(NULL, "Tab_SRMsg", "adv_TipperTooltip", 0) && ServiceExists("mToolTip/HideTip");
 
 	//JID:
-	if (_tcschr(info->resourceName, _T('@')) != NULL)
-		appendString(bIsTipper, _T("JID:"), info->resourceName, outBuf, SIZEOF(outBuf));
+	if (_tcschr(info->m_tszResourceName, _T('@')) != NULL)
+		appendString(bIsTipper, _T("JID:"), info->m_tszResourceName, outBuf, SIZEOF(outBuf));
 	else if (lParam) //or simple nick
 		appendString(bIsTipper, _T("Nick:"), (TCHAR*) lParam, outBuf, SIZEOF(outBuf));
 
 	// status
-	if (info->status >= ID_STATUS_OFFLINE && info->status <= ID_STATUS_IDLE )
-		appendString(bIsTipper, _T("Status:"), pcli->pfnGetStatusModeDescription(info->status, 0), outBuf, SIZEOF(outBuf));
+	if (info->m_iStatus >= ID_STATUS_OFFLINE && info->m_iStatus <= ID_STATUS_IDLE )
+		appendString(bIsTipper, _T("Status:"), pcli->pfnGetStatusModeDescription(info->m_iStatus, 0), outBuf, SIZEOF(outBuf));
 
 	// status text
-	if (info->statusMessage)
-		appendString(bIsTipper, _T("Status text:"), info->statusMessage, outBuf, SIZEOF(outBuf));
+	if (info->m_tszStatusMessage)
+		appendString(bIsTipper, _T("Status text:"), info->m_tszStatusMessage, outBuf, SIZEOF(outBuf));
 
 	// Role
-	appendString(bIsTipper, _T("Role:"), TranslateTS(JabberEnum2RoleStr[info->role]), outBuf, SIZEOF(outBuf));
+	appendString(bIsTipper, _T("Role:"), TranslateTS(JabberEnum2RoleStr[info->m_role]), outBuf, SIZEOF(outBuf));
 
 	// Affiliation
-	appendString(bIsTipper, _T("Affiliation:"), TranslateTS(JabberEnum2AffilationStr[info->affiliation]), outBuf, SIZEOF(outBuf));
+	appendString(bIsTipper, _T("Affiliation:"), TranslateTS(JabberEnum2AffilationStr[info->m_affiliation]), outBuf, SIZEOF(outBuf));
 
 	// real jid
-	if (info->szRealJid)
-		appendString(bIsTipper, _T("Real JID:"), info->szRealJid, outBuf, SIZEOF(outBuf));
+	if (info->m_tszRealJid)
+		appendString(bIsTipper, _T("Real JID:"), info->m_tszRealJid, outBuf, SIZEOF(outBuf));
 
 	return (INT_PTR)(outBuf[0] == 0 ? NULL : mir_tstrdup(outBuf));
 }
@@ -810,7 +810,7 @@ LPTSTR CJabberSysInterface::GetResourceList(LPCTSTR jid)
 
 	CMString res;
 	for (int i=0; i < item->arResources.getCount(); i++) {
-		res.Append(item->arResources[i]->resourceName);
+		res.Append(item->arResources[i]->m_tszResourceName);
 		res.AppendChar(0);
 	}
 	res.AppendChar(0);

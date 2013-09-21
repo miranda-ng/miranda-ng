@@ -1627,10 +1627,10 @@ void CJabberProto::OnIqResultLastActivity(HXML iqNode, CJabberIqInfo* pInfo)
 
 		LPCTSTR szLastStatusMessage = XPathT(iqNode, "query[@xmlns='jabber:iq:last']");
 		if (szLastStatusMessage) // replace only if it exists
-			replaceStrT(r->statusMessage, szLastStatusMessage);
+			r->m_tszStatusMessage = mir_tstrdup(szLastStatusMessage);
 	}
 
-	r->idleStartTime = lastActivity;
+	r->m_dwIdleStartTime = lastActivity;
 
 	JabberUserInfoUpdate(pInfo->GetHContact());
 }

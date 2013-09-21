@@ -71,19 +71,8 @@ JABBER_RESOURCE_STATUS::JABBER_RESOURCE_STATUS() :
 
 JABBER_RESOURCE_STATUS::~JABBER_RESOURCE_STATUS()
 {
-	mir_free(resourceName);
-	mir_free(nick);
-	mir_free(statusMessage);
-	mir_free(software);
-	mir_free(version);
-	mir_free(system);
-	mir_free(szCapsNode);
-	mir_free(szCapsVer);
-	mir_free(szCapsExt);
-	mir_free(szRealJid);
-	
-	if (pSoftwareInfo)
-		delete pSoftwareInfo;
+	if (m_pSoftwareInfo)
+		delete m_pSoftwareInfo;
 }
 
 void JABBER_RESOURCE_STATUS::AddRef()
@@ -150,7 +139,7 @@ JABBER_LIST_ITEM *CJabberProto::ListAdd(JABBER_LIST list, const TCHAR *jid)
 	item->bUseResource = bUseResource;
 	if (!bUseResource) {
 		item->m_pItemResource = new JABBER_RESOURCE_STATUS();
-		item->m_pItemResource->status = ID_STATUS_OFFLINE;
+		item->m_pItemResource->m_iStatus = ID_STATUS_OFFLINE;
 	}
 	m_lstRoster.insert(item);
 	lck.unlock();
@@ -237,7 +226,7 @@ pResourceStatus JABBER_LIST_ITEM::findResource(const TCHAR *resourceName) const
 
 	for (int i=0; i < arResources.getCount(); i++) {
 		JABBER_RESOURCE_STATUS *r = arResources[i];
-		if ( !_tcscmp(r->resourceName, resourceName))
+		if ( !_tcscmp(r->m_tszResourceName, resourceName))
 			return r;
 	}
 
@@ -272,29 +261,29 @@ bool CJabberProto::ListAddResource(JABBER_LIST list, const TCHAR *jid, int statu
 		if (resource[0]) {
 			pResourceStatus r( LI->findResource(resource));
 			if (r != NULL) { // Already exists, update status and statusMessage
-				r->status = status;
-				replaceStrT(r->statusMessage, statusMessage);
-				r->priority = priority;
+				r->m_iStatus = status;
+				r->m_tszStatusMessage = mir_tstrdup(statusMessage);
+				r->m_iPriority = priority;
 			}
 			else { // Does not exist, add new resource
 				bIsNewResource = true;
 				r = new JABBER_RESOURCE_STATUS();
-				r->status = status;
-				r->affiliation = AFFILIATION_NONE;
-				r->role = ROLE_NONE;
-				r->resourceName = mir_tstrdup(resource);
-				r->nick = mir_tstrdup(nick);
+				r->m_iStatus = status;
+				r->m_affiliation = AFFILIATION_NONE;
+				r->m_role = ROLE_NONE;
+				r->m_tszResourceName = mir_tstrdup(resource);
+				r->m_tszNick = mir_tstrdup(nick);
 				if (statusMessage)
-					r->statusMessage = mir_tstrdup(statusMessage);
-				r->priority = priority;
+					r->m_tszStatusMessage = mir_tstrdup(statusMessage);
+				r->m_iPriority = priority;
 				LI->arResources.insert(r);
 		}	}
 	}
 	// No resource, update the main statusMessage
 	else {
 		LI->m_pItemResource = new JABBER_RESOURCE_STATUS();
-		LI->m_pItemResource->status = status;
-		replaceStrT(LI->m_pItemResource->statusMessage, statusMessage);
+		LI->m_pItemResource->m_iStatus = status;
+		LI->m_pItemResource->m_tszStatusMessage = mir_tstrdup(statusMessage);
 	}
 
 	lck.unlock();
@@ -320,13 +309,13 @@ void CJabberProto::ListRemoveResource(JABBER_LIST list, const TCHAR *jid)
 		return;
 
 	// Found last seen resource ID to be removed
-	if (LI->pLastSeenResource == r)
-		LI->pLastSeenResource = NULL;
+	if (LI->m_pLastSeenResource == r)
+		LI->m_pLastSeenResource = NULL;
 
 	// update manually selected resource ID
-	if (LI->resourceMode == RSMODE_MANUAL && LI->pManualResource == r) {
+	if (LI->resourceMode == RSMODE_MANUAL && LI->m_pManualResource == r) {
 		LI->resourceMode = RSMODE_LASTSEEN;
-		LI->pManualResource = NULL;
+		LI->m_pManualResource = NULL;
 	}
 
 	// Update MirVer due to possible resource changes
@@ -348,16 +337,16 @@ pResourceStatus JABBER_LIST_ITEM::getBestResource() const
 		return arResources[0];
 
 	if (resourceMode == RSMODE_LASTSEEN)
-		return pLastSeenResource;
+		return m_pLastSeenResource;
 
 	if (resourceMode == RSMODE_MANUAL)
-		return pManualResource;
+		return m_pManualResource;
 
 	int nBestPos = -1, nBestPri = -200;
 	for (int i=0; i < arResources.getCount(); i++) {
 		JABBER_RESOURCE_STATUS *r = arResources[i];
-		if (r->priority > nBestPri) {
-			nBestPri = r->priority;
+		if (r->m_iPriority > nBestPri) {
+			nBestPri = r->m_iPriority;
 			nBestPos = i;
 		}
 	}
@@ -374,14 +363,14 @@ TCHAR* CJabberProto::ListGetBestClientResourceNamePtr(const TCHAR *jid)
 
 	pResourceStatus r( LI->getBestResource());
 	if (r != NULL)
-		return r->resourceName;
+		return r->m_tszResourceName;
 
 	int status = ID_STATUS_OFFLINE;
 	TCHAR *res = NULL;
 	for (int i=0; i < LI->arResources.getCount(); i++) {
 		r = LI->arResources[i];
 		bool foundBetter = false;
-		switch (r->status) {
+		switch (r->m_iStatus) {
 		case ID_STATUS_FREECHAT:
 			foundBetter = true;
 			break;
@@ -403,8 +392,8 @@ TCHAR* CJabberProto::ListGetBestClientResourceNamePtr(const TCHAR *jid)
 			break;
 		}
 		if (foundBetter) {
-			res = r->resourceName;
-			status = r->status;
+			res = r->m_tszResourceName;
+			status = r->m_iStatus;
 		}
 	}
 

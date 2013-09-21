@@ -1100,7 +1100,7 @@ HANDLE CJabberProto::CreateTemporaryContact(const TCHAR *szJid, JABBER_LIST_ITEM
 
 		pResourceStatus r( chatItem->findResource(p));
 		if (r)
-			setWord(hContact, "Status", r->status);
+			setWord(hContact, "Status", r->m_iStatus);
 	}
 	else {
 		TCHAR *nick = JabberNickFromJID(szJid);
@@ -1131,7 +1131,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 				<< XCHILDNS(_T("received"), JABBER_FEAT_MESSAGE_RECEIPTS) << XATTR(_T("id"), idStr));
 
 		if (pFromResource)
-			pFromResource->jcbManualDiscoveredCaps |= JABBER_CAPS_MESSAGE_RECEIPTS;
+			pFromResource->m_jcbManualDiscoveredCaps |= JABBER_CAPS_MESSAGE_RECEIPTS;
 	}
 
 	if (m_messageManager.HandleMessagePermanent(node, info))
@@ -1199,7 +1199,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 
 	// check chatstates availability
 	if (pFromResource && xmlGetChildByTag(node, "active", "xmlns", JABBER_FEAT_CHATSTATES))
-		pFromResource->jcbManualDiscoveredCaps |= JABBER_CAPS_CHATSTATES;
+		pFromResource->m_jcbManualDiscoveredCaps |= JABBER_CAPS_CHATSTATES;
 
 	// chatstates composing event
 	if (hContact && xmlGetChildByTag(node, "composing", "xmlns", JABBER_FEAT_CHATSTATES))
@@ -1213,7 +1213,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 	if (hContact && xmlGetChildByTag(node, "inactive", "xmlns", JABBER_FEAT_CHATSTATES)) {
 		CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, PROTOTYPE_CONTACTTYPING_OFF);
 		if (pFromResource)
-			pFromResource->bMessageSessionActive = false;
+			pFromResource->m_bMessageSessionActive = false;
 	}
 
 	// message receipts delivery notification
@@ -1318,7 +1318,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 				jcbCaps = JABBER_RESOURCE_CAPS_NONE;
 			// FIXME: disabled due to expired XEP-0022 and problems with bombus delivery checks
 //			if (jcbCaps && pFromResource && (!(jcbCaps & JABBER_CAPS_MESSAGE_EVENTS)))
-//				pFromResource->jcbManualDiscoveredCaps |= (JABBER_CAPS_MESSAGE_EVENTS | JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY);
+//				pFromResource->m_jcbManualDiscoveredCaps |= (JABBER_CAPS_MESSAGE_EVENTS | JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY);
 
 			if (bodyNode == NULL) {
 				HXML idNode = xmlGetChild(xNode , "id");
@@ -1449,10 +1449,10 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 
 	if (item != NULL) {
 		if (pFromResource) {
-			pFromResource->bMessageSessionActive = TRUE;
+			pFromResource->m_bMessageSessionActive = TRUE;
 
-			JABBER_RESOURCE_STATUS *pLast = item->pLastSeenResource;
-			item->pLastSeenResource = pFromResource;
+			JABBER_RESOURCE_STATUS *pLast = item->m_pLastSeenResource;
+			item->m_pLastSeenResource = pFromResource;
 			if (item->resourceMode == RSMODE_LASTSEEN && pLast == pFromResource)
 				UpdateMirVer(item);
 		}
@@ -1508,9 +1508,9 @@ void CJabberProto::OnProcessPresenceCapabilites(HXML node)
 		const TCHAR *szVer = xmlGetAttrValue(n, _T("ver"));
 		const TCHAR *szExt = xmlGetAttrValue(n, _T("ext"));
 		if (szNode && szVer) {
-			replaceStrT(r->szCapsNode, szNode);
-			replaceStrT(r->szCapsVer, szVer);
-			replaceStrT(r->szCapsExt, szExt);
+			r->m_tszCapsNode = mir_tstrdup(szNode);
+			r->m_tszCapsVer = mir_tstrdup(szVer);
+			r->m_tszCapsExt = mir_tstrdup(szExt);
 			HANDLE hContact = HContactFromJID(from);
 			if (hContact)
 				UpdateMirVer(hContact, r);
@@ -1534,9 +1534,9 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 	if ( !item->arResources.getCount()) {
 		// set offline only if jid has resources
 		if (_tcschr(jid, '/') == NULL)
-			status = item->m_pItemResource->status;
-		if (item->m_pItemResource->statusMessage)
-			db_set_ts(hContact, "CList", "StatusMsg", item->m_pItemResource->statusMessage);
+			status = item->m_pItemResource->m_iStatus;
+		if (item->m_pItemResource->m_tszStatusMessage)
+			db_set_ts(hContact, "CList", "StatusMsg", item->m_pItemResource->m_tszStatusMessage);
 		else
 			db_unset(hContact, "CList", "StatusMsg");
 	}
@@ -1546,22 +1546,22 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 	int nMaxPriority = -999; // -128...+127 valid range
 	for (i = 0; i < item->arResources.getCount(); i++) {
 		pResourceStatus r(item->arResources[i]);
-		if (r->priority > nMaxPriority) {
-			nMaxPriority = r->priority;
-			status = r->status;
+		if (r->m_iPriority > nMaxPriority) {
+			nMaxPriority = r->m_iPriority;
+			status = r->m_iStatus;
 			nSelectedResource = i;
 		}
-		else if (r->priority == nMaxPriority) {
-			if ((status = JabberCombineStatus(status, r->status)) == r->status)
+		else if (r->m_iPriority == nMaxPriority) {
+			if ((status = JabberCombineStatus(status, r->m_iStatus)) == r->m_iStatus)
 				nSelectedResource = i;
 		}
 	}
-	item->m_pItemResource->status = status;
+	item->m_pItemResource->m_iStatus = status;
 	if (nSelectedResource != -1) {
 		pResourceStatus r(item->arResources[nSelectedResource]);
-		Log("JabberUpdateJidDbSettings: updating jid %S to rc %S", item->jid, r->resourceName);
-		if (r->statusMessage)
-			db_set_ts(hContact, "CList", "StatusMsg", r->statusMessage);
+		Log("JabberUpdateJidDbSettings: updating jid %S to rc %S", item->jid, r->m_tszResourceName);
+		if (r->m_tszStatusMessage)
+			db_set_ts(hContact, "CList", "StatusMsg", r->m_tszStatusMessage);
 		else
 			db_unset(hContact, "CList", "StatusMsg");
 		UpdateMirVer(hContact, r);
@@ -1725,8 +1725,8 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 
 			// set status only if no more available resources
 			if ( !item->arResources.getCount()) {
-				item->m_pItemResource->status = ID_STATUS_OFFLINE;
-				replaceStrT(item->m_pItemResource->statusMessage, xmlGetText( xmlGetChild(node , "status")));
+				item->m_pItemResource->m_iStatus = ID_STATUS_OFFLINE;
+				item->m_pItemResource->m_tszStatusMessage = mir_tstrdup(xmlGetText( xmlGetChild(node , "status")));
 			}
 		}
 		else Log("SKIP Receive presence offline from %S (who is not in my roster)", from);
@@ -1810,22 +1810,22 @@ void CJabberProto::OnIqResultVersion(HXML /*node*/, CJabberIqInfo *pInfo)
 	if (r == NULL)
 		return;
 
-	r->dwVersionRequestTime = -1;
+	r->m_dwVersionRequestTime = -1;
 
-	replaceStrT(r->software, NULL);
-	replaceStrT(r->version, NULL);
-	replaceStrT(r->system, NULL);
+	r->m_tszSoftware = NULL;
+	r->m_tszVersion = NULL;
+	r->m_tszSystem = NULL;
 
 	HXML queryNode = pInfo->GetChildNode();
 
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT && queryNode) {
 		HXML n;
 		if ((n = xmlGetChild(queryNode , "name")) != NULL && xmlGetText(n))
-			r->software = mir_tstrdup(xmlGetText(n));
+			r->m_tszSoftware = mir_tstrdup(xmlGetText(n));
 		if ((n = xmlGetChild(queryNode , "version")) != NULL && xmlGetText(n))
-			r->version = mir_tstrdup(xmlGetText(n));
+			r->m_tszVersion = mir_tstrdup(xmlGetText(n));
 		if ((n = xmlGetChild(queryNode , "os")) != NULL && xmlGetText(n))
-			r->system = mir_tstrdup(xmlGetText(n));
+			r->m_tszSystem = mir_tstrdup(xmlGetText(n));
 	}
 
 	GetResourceCapabilites(pInfo->GetFrom(), TRUE);

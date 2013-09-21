@@ -451,14 +451,14 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 						pResourceStatus r(item->arResources[i]);
 						CLISTMENUITEM clmi = { sizeof(clmi) };
 						clmi.flags = CMIM_NAME|CMIM_FLAGS | CMIF_CHILDPOPUP|CMIF_TCHAR;
-						if ((item->resourceMode == RSMODE_MANUAL) && (item->pManualResource == r))
+						if ((item->resourceMode == RSMODE_MANUAL) && (item->m_pManualResource == r))
 							clmi.flags |= CMIF_CHECKED;
 						if (ServiceExists(MS_FP_GETCLIENTICONT)) {
 							clmi.flags |= CMIM_ICON;
 							FormatMirVer(r, szTmp, SIZEOF(szTmp));
 							clmi.hIcon = Finger_GetClientIcon(szTmp, 0);
 						}
-						mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%s [%s, %d]"), r->resourceName, pcli->pfnGetStatusModeDescription(r->status, 0), r->priority);
+						mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%s [%s, %d]"), r->m_tszResourceName, pcli->pfnGetStatusModeDescription(r->m_iStatus, 0), r->m_iPriority);
 						clmi.ptszName = szTmp;
 						Menu_ModifyItem(m_phMenuResourceItems[i], &clmi);
 						DestroyIcon(clmi.hIcon);
@@ -587,7 +587,7 @@ INT_PTR __cdecl CJabberProto::OnMenuTransportLogin(WPARAM wParam, LPARAM)
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid.ptszVal);
 	if (item != NULL) {
 		XmlNode p(_T("presence")); xmlAddAttr(p, _T("to"), item->jid);
-		if (item->m_pItemResource->status == ID_STATUS_ONLINE)
+		if (item->m_pItemResource->m_iStatus == ID_STATUS_ONLINE)
 			xmlAddAttr(p, _T("type"), _T("unavailable"));
 		m_ThreadInfo->send(p);
 	}
@@ -1058,8 +1058,8 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 		TCHAR jid[JABBER_MAX_JID_LEN];
 		if ( GetClientJID(event->hContact, jid, SIZEOF(jid))) {
 			pResourceStatus r( ResourceInfoFromJID(jid));
-			if (r && r->bMessageSessionActive) {
-				r->bMessageSessionActive = FALSE;
+			if (r && r->m_bMessageSessionActive) {
+				r->m_bMessageSessionActive = FALSE;
 
 				if (GetResourceCapabilites(jid, TRUE) & JABBER_CAPS_CHATSTATES)
 					m_ThreadInfo->send(
@@ -1096,34 +1096,34 @@ int CJabberProto::OnProcessSrmmIconClick(WPARAM wParam, LPARAM lParam)
 	TCHAR buf[256];
 
 	mir_sntprintf(buf, SIZEOF(buf), TranslateT("Last active (%s)"),
-		LI->pLastSeenResource ? LI->pLastSeenResource->resourceName : TranslateT("No activity yet, use server's choice"));
+		LI->m_pLastSeenResource ? LI->m_pLastSeenResource->m_tszResourceName : TranslateT("No activity yet, use server's choice"));
 	AppendMenu(hMenu, MF_STRING, MENUITEM_LASTSEEN, buf);
 
 	AppendMenu(hMenu, MF_STRING, MENUITEM_SERVER, TranslateT("Highest priority (server's choice)"));
 
 	AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
 	for (int i = 0; i < LI->arResources.getCount(); i++)
-		AppendMenu(hMenu, MF_STRING, MENUITEM_RESOURCES+i, LI->arResources[i]->resourceName);
+		AppendMenu(hMenu, MF_STRING, MENUITEM_RESOURCES+i, LI->arResources[i]->m_tszResourceName);
 
 	if (LI->resourceMode == RSMODE_LASTSEEN)
 		CheckMenuItem(hMenu, MENUITEM_LASTSEEN, MF_BYCOMMAND|MF_CHECKED);
 	else if (LI->resourceMode == RSMODE_SERVER)
 		CheckMenuItem(hMenu, MENUITEM_SERVER, MF_BYCOMMAND|MF_CHECKED);
-	else if (LI->pManualResource)
-		CheckMenuItem(hMenu, MENUITEM_RESOURCES + LI->arResources.indexOf(LI->pManualResource), MF_BYCOMMAND|MF_CHECKED);
+	else if (LI->m_pManualResource)
+		CheckMenuItem(hMenu, MENUITEM_RESOURCES + LI->arResources.indexOf(LI->m_pManualResource), MF_BYCOMMAND|MF_CHECKED);
 
 	int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, sicd->clickLocation.x, sicd->clickLocation.y, 0, WindowList_Find(hDialogsList, hContact), NULL);
 
 	if (res == MENUITEM_LASTSEEN) {
-		LI->pManualResource = NULL;
+		LI->m_pManualResource = NULL;
 		LI->resourceMode = RSMODE_LASTSEEN;
 	}
 	else if (res == MENUITEM_SERVER) {
-		LI->pManualResource = NULL;
+		LI->m_pManualResource = NULL;
 		LI->resourceMode = RSMODE_SERVER;
 	}
 	else if (res >= MENUITEM_RESOURCES) {
-		LI->pManualResource = LI->arResources[res - MENUITEM_RESOURCES];
+		LI->m_pManualResource = LI->arResources[res - MENUITEM_RESOURCES];
 		LI->resourceMode = RSMODE_MANUAL;
 	}
 
@@ -1151,15 +1151,15 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleResource(WPARAM wParam, LPARAM, LPARAM
 		return 0;
 
 	if (res == MENUITEM_LASTSEEN) {
-		LI->pManualResource = NULL;
+		LI->m_pManualResource = NULL;
 		LI->resourceMode = RSMODE_LASTSEEN;
 	}
 	else if (res == MENUITEM_SERVER) {
-		LI->pManualResource = NULL;
+		LI->m_pManualResource = NULL;
 		LI->resourceMode = RSMODE_SERVER;
 	}
 	else if (res >= MENUITEM_RESOURCES) {
-		LI->pManualResource = LI->arResources[res - MENUITEM_RESOURCES];
+		LI->m_pManualResource = LI->arResources[res - MENUITEM_RESOURCES];
 		LI->resourceMode = RSMODE_MANUAL;
 	}
 

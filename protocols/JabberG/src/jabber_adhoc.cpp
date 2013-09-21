@@ -550,7 +550,7 @@ int __cdecl CJabberProto::ContactMenuRunCommands(WPARAM wParam, LPARAM lParam)
 					if (item->arResources.getCount() > 1) {
 						HMENU hMenu = CreatePopupMenu();
 						for (int i=0; i < item->arResources.getCount(); i++)
-							AppendMenu(hMenu,MF_STRING,i+1, item->arResources[i]->resourceName);
+							AppendMenu(hMenu,MF_STRING,i+1, item->arResources[i]->m_tszResourceName);
 						HWND hwndTemp = CreateWindowEx(WS_EX_TOOLWINDOW,_T("button"),_T("PopupMenuHost"),0,0,0,10,10,NULL,NULL,hInst,NULL);
 						SetForegroundWindow(hwndTemp);
 						RECT rc;
@@ -566,7 +566,7 @@ int __cdecl CJabberProto::ContactMenuRunCommands(WPARAM wParam, LPARAM lParam)
 						JABBER_RESOURCE_STATUS *r = item->arResources[selected-1];
 						if (r) {
 							_tcsncat(jid, _T("/"),SIZEOF(jid));
-							_tcsncat(jid, r->resourceName, SIZEOF(jid));
+							_tcsncat(jid, r->m_tszResourceName, SIZEOF(jid));
 						}
 						selected = 1;
 					}

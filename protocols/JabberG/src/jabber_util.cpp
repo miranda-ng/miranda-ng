@@ -902,7 +902,7 @@ TCHAR* CJabberProto::GetClientJID(const TCHAR *jid, TCHAR *dest, size_t destLen)
 	mir_cslock lck(m_csLists);
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, jid);
 	if (LI != NULL) {
-		if (LI->arResources.getCount() == 1 && !lstrcmp(LI->arResources[0]->szCapsNode, _T("http://talk.google.com/xmpp/bot/caps"))) {
+		if (LI->arResources.getCount() == 1 && !lstrcmp(LI->arResources[0]->m_tszCapsNode, _T("http://talk.google.com/xmpp/bot/caps"))) {
 			if (p) *p = 0;
 			return dest;
 		}
@@ -910,7 +910,7 @@ TCHAR* CJabberProto::GetClientJID(const TCHAR *jid, TCHAR *dest, size_t destLen)
 		if (p == NULL) {
 			pResourceStatus r( LI->getBestResource());
 			if (r != NULL)
-				mir_sntprintf(dest, destLen, _T("%s/%s"), jid, r->resourceName);
+				mir_sntprintf(dest, destLen, _T("%s/%s"), jid, r->m_tszResourceName);
 		}
 	}
 

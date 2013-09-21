@@ -85,13 +85,13 @@ struct TFilterInfo
 
 struct CJabberSysInterface: public IJabberSysInterface
 {
-	int STDMETHODCALLTYPE		GetVersion() const;							// Returns version of IJabberSysInterface.
-	int STDMETHODCALLTYPE		CompareJIDs(LPCTSTR jid1, LPCTSTR jid2);	// Strips resource names from given JIDs and returns result of comparison for these JIDs.
-	HANDLE STDMETHODCALLTYPE	ContactFromJID(LPCTSTR jid);				// Returns contact handle for given JID.
-	LPTSTR STDMETHODCALLTYPE	ContactToJID(HANDLE hContact);				// Returns JID of hContact. You must free the result using mir_free().
-	LPTSTR STDMETHODCALLTYPE	GetBestResourceName(LPCTSTR jid);			// Returns best resource name for given JID. You must free the result using mir_free().
-	LPTSTR STDMETHODCALLTYPE	GetResourceList(LPCTSTR jid);				// Returns all resource names for a given JID in format "resource1\0resource2\0resource3\0\0" (all resources are separated by \0 character and the whole string is terminated with two \0 characters). You must free the string using mir_free().
-	char* STDMETHODCALLTYPE		GetModuleName() const;						// Returns Jabber module name.
+	int    STDMETHODCALLTYPE GetVersion() const;                      // Returns version of IJabberSysInterface.
+	int    STDMETHODCALLTYPE CompareJIDs(LPCTSTR jid1, LPCTSTR jid2); // Strips resource names from given JIDs and returns result of comparison for these JIDs.
+	HANDLE STDMETHODCALLTYPE ContactFromJID(LPCTSTR jid);             // Returns contact handle for given JID.
+	LPTSTR STDMETHODCALLTYPE ContactToJID(HANDLE hContact);           // Returns JID of hContact. You must free the result using mir_free().
+	LPTSTR STDMETHODCALLTYPE GetBestResourceName(LPCTSTR jid);        // Returns best resource name for given JID. You must free the result using mir_free().
+	LPTSTR STDMETHODCALLTYPE GetResourceList(LPCTSTR jid);            // Returns all resource names for a given JID in format "resource1\0resource2\0resource3\0\0" (all resources are separated by \0 character and the whole string is terminated with two \0 characters). You must free the string using mir_free().
+	char*  STDMETHODCALLTYPE GetModuleName() const;                   // Returns Jabber module name.
 
 	CJabberProto *m_psProto;
 };
@@ -483,12 +483,12 @@ struct CJabberProto : public PROTO<CJabberProto>
 	void   OnIqResultServiceDiscoveryRootInfo(HXML iqNode, CJabberIqInfo* pInfo);
 	void   OnIqResultServiceDiscoveryRoot(HXML iqNode, CJabberIqInfo* pInfo);
 	void   OnIqResultServiceDiscoveryRootItems(HXML iqNode, CJabberIqInfo* pInfo);
-	BOOL   SendInfoRequest(CJabberSDNode* pNode, HXML parent);
-	BOOL   SendBothRequests(CJabberSDNode* pNode, HXML parent);
+	BOOL   SendInfoRequest(CJabberSDNode *pNode, HXML parent);
+	BOOL   SendBothRequests(CJabberSDNode *pNode, HXML parent);
 	void   PerformBrowse(HWND hwndDlg);
 	BOOL   IsNodeRegistered(CJabberSDNode *pNode);
 	void   ApplyNodeIcon(HTREELISTITEM hItem, CJabberSDNode *pNode);
-	BOOL   SyncTree(HTREELISTITEM hIndex, CJabberSDNode* pNode);
+	BOOL   SyncTree(HTREELISTITEM hIndex, CJabberSDNode *pNode);
 	void   ServiceDiscoveryShowMenu(CJabberSDNode *node, HTREELISTITEM hItem, POINT pt);
 
 	int    SetupServiceDiscoveryDlg(TCHAR* jid);

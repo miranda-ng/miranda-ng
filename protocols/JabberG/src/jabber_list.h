@@ -84,32 +84,33 @@ public:
 	void AddRef();
 	void Release();
 
-	int status;
-	TCHAR* resourceName;
-	TCHAR* nick;
-	TCHAR* statusMessage;
-	TCHAR* software;
-	TCHAR* version;
-	TCHAR* system;
-	signed char priority; // resource priority, -128..+127
-	time_t idleStartTime;// XEP-0012 support
-	JABBER_GC_AFFILIATION affiliation;
-	JABBER_GC_ROLE role;
-	TCHAR* szRealJid; // real jid for jabber conferences
+	int    m_iStatus;
+	ptrT   m_tszResourceName;
+	ptrT   m_tszStatusMessage;
+	int    m_iPriority; // resource priority, -128..+127
+	time_t m_dwIdleStartTime;// XEP-0012 support
+
+	// groupchat support
+	JABBER_GC_AFFILIATION m_affiliation;
+	JABBER_GC_ROLE m_role;
+	ptrT  m_tszNick;
+	ptrT  m_tszRealJid; // real jid for jabber conferences
 
 	// XEP-0115 support
-	TCHAR* szCapsNode;
-	TCHAR* szCapsVer;
-	TCHAR* szCapsExt;
-	DWORD dwVersionRequestTime;
-	DWORD dwDiscoInfoRequestTime;
-	JabberCapsBits jcbCachedCaps;
-	JabberCapsBits jcbManualDiscoveredCaps;
+	ptrT  m_tszCapsNode;
+	ptrT  m_tszCapsVer;
+	ptrT  m_tszCapsExt;
+	ptrT  m_tszSoftware;
+	ptrT  m_tszVersion;
+	ptrT  m_tszSystem;
+	DWORD m_dwVersionRequestTime, m_dwDiscoInfoRequestTime;
+	JabberCapsBits m_jcbCachedCaps;
+	JabberCapsBits m_jcbManualDiscoveredCaps;
 
 	// XEP-0085 gone event support
-	BOOL bMessageSessionActive;
+	BOOL m_bMessageSessionActive;
 
-	JABBER_XEP0232_SOFTWARE_INFO* pSoftwareInfo;
+	JABBER_XEP0232_SOFTWARE_INFO *m_pSoftwareInfo;
 };
 
 class pResourceStatus
@@ -160,9 +161,9 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 	JABBER_RESOURCE_MODE resourceMode;
 	LIST<JABBER_RESOURCE_STATUS> arResources; // array of resources
 	JABBER_RESOURCE_STATUS
-		*pLastSeenResource, // resource which was last seen active
-		*pManualResource,   // manually set resource
-		*m_pItemResource;   // resource for jids without /resource node
+		*m_pLastSeenResource, // resource which was last seen active
+		*m_pManualResource,   // manually set resource
+		*m_pItemResource;     // resource for jids without /resource node
 
 	JABBER_SUBSCRIPTION subscription;
 	TCHAR* group;

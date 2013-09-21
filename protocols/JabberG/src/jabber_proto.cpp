@@ -731,7 +731,7 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 				pResourceStatus him( tmpItem->findResource(pDelimiter));
 				if (him) {
 					item = ListAdd(LIST_VCARD_TEMP, jid);
-					ListAddResource(LIST_VCARD_TEMP, jid, him->status, him->statusMessage, him->priority);
+					ListAddResource(LIST_VCARD_TEMP, jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
 				}
 			}
 			else item = ListAdd(LIST_VCARD_TEMP, jid);
@@ -742,26 +742,26 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 				JABBER_RESOURCE_STATUS *r = item->arResources[i];
 				TCHAR szp1[JABBER_MAX_JID_LEN], tmp[JABBER_MAX_JID_LEN];
 				JabberStripJid(jid, szp1, SIZEOF(szp1));
-				mir_sntprintf(tmp, SIZEOF(tmp), _T("%s/%s"), szp1, r->resourceName);
+				mir_sntprintf(tmp, SIZEOF(tmp), _T("%s/%s"), szp1, r->m_tszResourceName);
 
 				XmlNodeIq iq3(m_iqManager.AddHandler(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM));
 				iq3 << XQUERY(JABBER_FEAT_LAST_ACTIVITY);
 				m_ThreadInfo->send(iq3);
 
-				if ( !r->dwVersionRequestTime) {
+				if ( !r->m_dwVersionRequestTime) {
 					XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
 					iq4 << XQUERY(JABBER_FEAT_VERSION);
 					m_ThreadInfo->send(iq4);
 				}
 
-				if ( !r->pSoftwareInfo) {
+				if ( !r->m_pSoftwareInfo) {
 					XmlNodeIq iq5(m_iqManager.AddHandler(&CJabberProto::OnIqResultCapsDiscoInfoSI, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
 					iq5 << XQUERY(JABBER_FEAT_DISCO_INFO);
 					m_ThreadInfo->send(iq5);
 				}
 			}
 		}
-		else if ( !item->m_pItemResource->dwVersionRequestTime) {
+		else if ( !item->m_pItemResource->m_dwVersionRequestTime) {
 			XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, item->jid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
 			iq4 << XQUERY(JABBER_FEAT_VERSION);
 			m_ThreadInfo->send(iq4);
@@ -1152,7 +1152,7 @@ int __cdecl CJabberProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc
 
 	pResourceStatus r( ResourceInfoFromJID(szClientJid));
 	if (r)
-		r->bMessageSessionActive = TRUE;
+		r->m_bMessageSessionActive = TRUE;
 
 	JabberCapsBits jcb = GetResourceCapabilites(szClientJid, TRUE);
 
@@ -1312,9 +1312,9 @@ void __cdecl CJabberProto::GetAwayMsgThread(void* hContact)
 				size_t len = msgCount = 0;
 				for (i=0; i < item->arResources.getCount(); i++) {
 					JABBER_RESOURCE_STATUS *r = item->arResources[i];
-					if (r->statusMessage) {
+					if (r->m_tszStatusMessage) {
 						msgCount++;
-						len += (_tcslen(r->resourceName) + _tcslen(r->statusMessage) + 8);
+						len += (_tcslen(r->m_tszResourceName) + _tcslen(r->m_tszStatusMessage) + 8);
 					}
 				}
 
@@ -1322,14 +1322,14 @@ void __cdecl CJabberProto::GetAwayMsgThread(void* hContact)
 				str[0] = str[len] = '\0';
 				for (i=0; i < item->arResources.getCount(); i++) {
 					JABBER_RESOURCE_STATUS *r = item->arResources[i];
-					if (r->statusMessage) {
+					if (r->m_tszStatusMessage) {
 						if (str[0] != '\0') _tcscat(str, _T("\r\n"));
 						if (msgCount > 1) {
 							_tcscat(str, _T("("));
-							_tcscat(str, r->resourceName);
+							_tcscat(str, r->m_tszResourceName);
 							_tcscat(str, _T("): "));
 						}
-						_tcscat(str, r->statusMessage);
+						_tcscat(str, r->m_tszStatusMessage);
 					}
 				}
 
@@ -1337,8 +1337,8 @@ void __cdecl CJabberProto::GetAwayMsgThread(void* hContact)
 				return;
 			}
 
-			if (item->m_pItemResource->statusMessage != NULL) {
-				ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)item->m_pItemResource->statusMessage);
+			if (item->m_pItemResource->m_tszStatusMessage != NULL) {
+				ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)item->m_pItemResource->m_tszStatusMessage);
 				return;
 			}
 		}

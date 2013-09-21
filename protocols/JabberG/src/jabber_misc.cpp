@@ -386,9 +386,9 @@ void CJabberProto::UpdateMirVer(JABBER_LIST_ITEM *item)
 
 	pResourceStatus p(NULL);
 	if (item->resourceMode == RSMODE_LASTSEEN)
-		p = item->pLastSeenResource;
+		p = item->m_pLastSeenResource;
 	else if (item->resourceMode == RSMODE_MANUAL)
-		p = item->pManualResource;
+		p = item->m_pManualResource;
 
 	if (p)
 		UpdateMirVer(hContact, p);
@@ -401,75 +401,75 @@ void CJabberProto::FormatMirVer(pResourceStatus &resource, TCHAR *buf, int bufSi
 	if ( !resource) return;
 
 	// jabber:iq:version info requested and exists?
-	if (resource->dwVersionRequestTime && resource->software) {
-		Log("JabberUpdateMirVer: for iq:version rc %S: %S", resource->resourceName, resource->software);
-		if ( !resource->version || _tcsstr(resource->software, resource->version))
-			lstrcpyn(buf, resource->software, bufSize);
+	if (resource->m_dwVersionRequestTime && resource->m_tszSoftware) {
+		Log("JabberUpdateMirVer: for iq:version rc %S: %S", resource->m_tszResourceName, resource->m_tszSoftware);
+		if ( !resource->m_tszVersion || _tcsstr(resource->m_tszSoftware, resource->m_tszVersion))
+			lstrcpyn(buf, resource->m_tszSoftware, bufSize);
 		else
-			mir_sntprintf(buf, bufSize, _T("%s %s"), resource->software, resource->version);
+			mir_sntprintf(buf, bufSize, _T("%s %s"), resource->m_tszSoftware, resource->m_tszVersion);
 	}
 	// no version info and no caps info? set MirVer = resource name
-	else if ( !resource->szCapsNode || !resource->szCapsVer) {
-		Log("JabberUpdateMirVer: for rc %S: %S", resource->resourceName, resource->resourceName);
-		if (resource->resourceName)
-			lstrcpyn(buf, resource->resourceName, bufSize);
+	else if ( !resource->m_tszCapsNode || !resource->m_tszCapsVer) {
+		Log("JabberUpdateMirVer: for rc %S: %S", resource->m_tszResourceName, resource->m_tszResourceName);
+		if (resource->m_tszResourceName)
+			lstrcpyn(buf, resource->m_tszResourceName, bufSize);
 	}
 	// XEP-0115 caps mode
 	else {
-		Log("JabberUpdateMirVer: for rc %S: %S#%S", resource->resourceName, resource->szCapsNode, resource->szCapsVer);
+		Log("JabberUpdateMirVer: for rc %S: %S#%S", resource->m_tszResourceName, resource->m_tszCapsNode, resource->m_tszCapsVer);
 
 		int i;
 
 		// search through known software list
 		for (i = 0; i < SIZEOF(sttCapsNodeToName_Map); i++)
-			if (_tcsstr(resource->szCapsNode, sttCapsNodeToName_Map[i].node))
+			if (_tcsstr(resource->m_tszCapsNode, sttCapsNodeToName_Map[i].node))
 			{
-				mir_sntprintf(buf, bufSize, _T("%s %s"), sttCapsNodeToName_Map[i].name, resource->szCapsVer);
+				mir_sntprintf(buf, bufSize, _T("%s %s"), sttCapsNodeToName_Map[i].name, resource->m_tszCapsVer);
 				break;
 			}
 
 		// unknown software
 		if (i == SIZEOF(sttCapsNodeToName_Map))
-			mir_sntprintf(buf, bufSize, _T("%s %s"), resource->szCapsNode, resource->szCapsVer);
+			mir_sntprintf(buf, bufSize, _T("%s %s"), resource->m_tszCapsNode, resource->m_tszCapsVer);
 	}
 
 	// attach additional info for fingerprint plguin
-	if (resource->szCapsExt && _tcsstr(resource->szCapsExt, _T(JABBER_EXT_PLATFORMX86)) && !_tcsstr(buf, _T("x86")))
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_PLATFORMX86)) && !_tcsstr(buf, _T("x86")))
 	{
 		int offset = lstrlen(buf);
 		mir_sntprintf(buf + offset, bufSize - offset, _T(" x86"));
 	}
 
-	if (resource->szCapsExt && _tcsstr(resource->szCapsExt, _T(JABBER_EXT_PLATFORMX64)) && !_tcsstr(buf, _T("x64")))
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_PLATFORMX64)) && !_tcsstr(buf, _T("x64")))
 	{
 		int offset = lstrlen(buf);
 		mir_sntprintf(buf + offset, bufSize - offset, _T(" x64"));
 	}
 
-	if (resource->szCapsExt && _tcsstr(resource->szCapsExt, _T(JABBER_EXT_SECUREIM)) && !_tcsstr(buf, _T("(SecureIM)")))
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_SECUREIM)) && !_tcsstr(buf, _T("(SecureIM)")))
 	{
 		int offset = lstrlen(buf);
 		mir_sntprintf(buf + offset, bufSize - offset, _T(" (SecureIM)"));
 	}
 
-	if (resource->szCapsExt && _tcsstr(resource->szCapsExt, _T(JABBER_EXT_MIROTR)) && !_tcsstr(buf, _T("(MirOTR)")))
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_MIROTR)) && !_tcsstr(buf, _T("(MirOTR)")))
 	{
 		int offset = lstrlen(buf);
 		mir_sntprintf(buf + offset, bufSize - offset, _T(" (MirOTR)"));
 	}
 
-	if (resource->szCapsExt && _tcsstr(resource->szCapsExt, _T(JABBER_EXT_NEWGPG)) && !_tcsstr(buf, _T("(New_GPG)")))
+	if (resource->m_tszCapsExt && _tcsstr(resource->m_tszCapsExt, _T(JABBER_EXT_NEWGPG)) && !_tcsstr(buf, _T("(New_GPG)")))
 	{
 		int offset = lstrlen(buf);
 		mir_sntprintf(buf + offset, bufSize - offset, _T(" (New_GPG)"));
 	}
 
-	if (resource->resourceName && !_tcsstr(buf, resource->resourceName))
+	if (resource->m_tszResourceName && !_tcsstr(buf, resource->m_tszResourceName))
 	{
 		if (_tcsstr(buf, _T("Miranda IM")) || _tcsstr(buf, _T("Miranda NG")) || m_options.ShowForeignResourceInMirVer)
 		{
 			int offset = lstrlen(buf);
-			mir_sntprintf(buf + offset, bufSize - offset, _T(" [%s]"), resource->resourceName);
+			mir_sntprintf(buf + offset, bufSize - offset, _T(" [%s]"), resource->m_tszResourceName);
 		}
 	}
 }
@@ -487,8 +487,8 @@ void CJabberProto::UpdateMirVer(HANDLE hContact, pResourceStatus &resource)
 	DBVARIANT dbv;
 	if ( !getTString(hContact, "jid", &dbv)) {
 		TCHAR szFullJid[JABBER_MAX_JID_LEN];
-		if (resource->resourceName)
-			mir_sntprintf(szFullJid, SIZEOF(szFullJid), _T("%s/%s"), dbv.ptszVal, resource->resourceName);
+		if (resource->m_tszResourceName)
+			mir_sntprintf(szFullJid, SIZEOF(szFullJid), _T("%s/%s"), dbv.ptszVal, resource->m_tszResourceName);
 		else
 			lstrcpyn(szFullJid, dbv.ptszVal, SIZEOF(szFullJid));
 		setTString(hContact, DBSETTING_DISPLAY_UID, szFullJid);

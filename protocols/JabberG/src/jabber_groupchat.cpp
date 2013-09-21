@@ -868,7 +868,7 @@ void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const TCHAR *ol
 	if (r == NULL)
 		return;
 
-	replaceStrT(r->resourceName, newNick);
+	r->m_tszResourceName = mir_tstrdup(newNick);
 
 	if ( !lstrcmp(item->nick, oldNick)) {
 		replaceStrT(item->nick, newNick);
@@ -921,11 +921,11 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 		nNode = xmlGetChildByTag(node, "nick:nick", "xmlns:nick", JABBER_FEAT_NICK);
 
 	const TCHAR *cnick = xmlGetText(nNode);
-	const TCHAR *nick = cnick ? cnick : (r && r->nick ? r->nick : resource);
+	const TCHAR *nick = cnick ? cnick : (r && r->m_tszNick ? r->m_tszNick : resource);
 
 	// process custom nick change
-	if (cnick && r && r->nick && _tcscmp(cnick, r->nick))
-		replaceStrT(r->nick, cnick);
+	if (cnick && r && r->m_tszNick && _tcscmp(cnick, r->m_tszNick))
+		r->m_tszNick = mir_tstrdup(cnick);
 
 	HXML xNode = xmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_MUC_USER);
 	HXML xUserNode = xmlGetChildByTag(node, "user:x", "xmlns:user", JABBER_FEAT_MUC_USER);
@@ -962,7 +962,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 		int  newRes = ListAddResource(LIST_CHATROOM, from, status, str, priority, cnick) ? GC_EVENT_JOIN : 0;
 
 		if (pResourceStatus oldRes = ListFindResource(LIST_CHATROOM, from))
-			if ((oldRes->status != status) || lstrcmp_null(oldRes->statusMessage, str))
+			if ((oldRes->m_iStatus != status) || lstrcmp_null(oldRes->m_tszStatusMessage, str))
 				bStatusChanged = true;
 
 		// Check additional MUC info for this user
@@ -970,8 +970,8 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 			if (r == NULL)
 				r = item->findResource(resource);
 			if (r != NULL) {
-				JABBER_GC_AFFILIATION affiliation = r->affiliation;
-				JABBER_GC_ROLE role = r->role;
+				JABBER_GC_AFFILIATION affiliation = r->m_affiliation;
+				JABBER_GC_ROLE role = r->m_role;
 
 				if ((str = xmlGetAttrValue(itemNode, _T("affiliation"))) != NULL) {
 					     if ( !_tcscmp(str, _T("owner")))       affiliation = AFFILIATION_OWNER;
@@ -992,19 +992,19 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 					if ( !newRes) newRes = GC_EVENT_ADDSTATUS;
 				}
 
-				if (affiliation != r->affiliation) {
-					r->affiliation = affiliation;
+				if (affiliation != r->m_affiliation) {
+					r->m_affiliation = affiliation;
 					bAffiliationChanged = true;
 				}
 
-				if (role != r->role) {
-					r->role = role;
-					if (r->role != ROLE_NONE)
+				if (role != r->m_role) {
+					r->m_role = role;
+					if (r->m_role != ROLE_NONE)
 						bRoleChanged = true;
 				}
 
 				if (str = xmlGetAttrValue(itemNode, _T("jid")))
-					replaceStrT(r->szRealJid, str);
+					r->m_tszRealJid = mir_tstrdup(str);
 			}
 		}
 
@@ -1162,8 +1162,9 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 			if (tmptr != NULL && *tmptr != 0) {
 				*(TCHAR*)(--tmptr) = 0;
 				resource = tmpnick;
-		}	}
-		replaceStrT(item->m_pItemResource->statusMessage, msgText);
+			}
+		}
+		item->m_pItemResource->m_tszStatusMessage = mir_tstrdup(msgText);
 	}
 	else {
 		if ((n = xmlGetChildByTag(node , "body", "xml:lang", m_tszSelectedLang)) == NULL)
@@ -1199,7 +1200,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 
 	if (resource != NULL) {
 		pResourceStatus r( item->findResource(resource));
-		nick = (r && r->nick) ? r->nick : resource;
+		nick = (r && r->m_tszNick) ? r->m_tszNick : resource;
 	}
 	else nick = NULL;
 
