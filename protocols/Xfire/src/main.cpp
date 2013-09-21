@@ -121,7 +121,6 @@ HANDLE	 hookgamestart = NULL;
 char statusmessage[2][1024];
 BOOL sendonrecieve=FALSE;
 HANDLE hNetlib=NULL;
-pGetExtendedUdpTable _GetExtendedUdpTable=NULL;
 extern LPtsrGetServerInfo tsrGetServerInfo;
 
 //eventhandles
@@ -1064,8 +1063,6 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
-	//void* init = GetProcAddress(LoadLibrary("atl"),"AtlAxWinInit"); _asm call init;
-
 	//keine protoversion in der db, dann wohl der erste start von xfire
 	if(db_get_b(NULL,protocolname,"protover",0)==0)
 	{
@@ -1338,10 +1335,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	HookEvent( ME_CLIST_PREBUILDCONTACTMENU, RebuildContactMenu );
 
-	//lade GetExtendedUdpTable Funktion
-	HMODULE hmod=LoadLibraryA("IpHlpApi.dll");
-	_GetExtendedUdpTable=(pGetExtendedUdpTable)GetProcAddress(hmod,"GetExtendedUdpTable");
-	if(_GetExtendedUdpTable==NULL&&db_get_b(NULL,protocolname,"ipportdetec",0))
+	if(db_get_b(NULL,protocolname,"ipportdetec",0))
 	{
 		//MessageBoxA(0,"GetExtendedUdpTable not found. ServerIP/Port detection feature will be disabled.","Miranda XFire Protocol Plugin",MB_OK|MB_ICONINFORMATION);
 		db_set_b(NULL,protocolname,"ipportdetec",0);

@@ -87,12 +87,8 @@ private:
 	HMODULE tsrDLL;
 	//tsrGetServerInfo funktion vom tsremotedll
 	LPtsrGetServerInfo tsrGetServerInfo;
-	//GetExtendedTcpTable für mumble
-	pGetExtendedTcpTable GetExtendedTcpTable;
 	//pid für mumble
 	DWORD pid;
-	//IpHlperApi Module
-	HMODULE IpHlpApiDLL;
 public:
 	Xfire_voicechat();
 	~Xfire_voicechat();

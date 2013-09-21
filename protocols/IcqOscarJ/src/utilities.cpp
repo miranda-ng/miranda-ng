@@ -1888,22 +1888,12 @@ const char* ExtractFileName(const char *fullname)
 
 char* FileNameToUtf(const TCHAR *filename)
 {
-	// reasonable only on NT systems
-	HINSTANCE hKernel = GetModuleHandle(_T("KERNEL32"));
-	DWORD (CALLBACK *RealGetLongPathName)(LPCWSTR, LPWSTR, DWORD);
+	WCHAR *usFileName = NULL;
+	int wchars = GetLongPathName(filename, usFileName, 0);
+	usFileName = (WCHAR*)_alloca((wchars + 1) * sizeof(WCHAR));
+	GetLongPathName(filename, usFileName, wchars);
 
-	*(FARPROC *)&RealGetLongPathName = GetProcAddress(hKernel, "GetLongPathNameW");
-
-	if (RealGetLongPathName)
-	{ // the function is available (it is not on old NT systems)
-		WCHAR *usFileName = NULL;
-		int wchars = RealGetLongPathName(filename, usFileName, 0);
-		usFileName = (WCHAR*)_alloca((wchars + 1) * sizeof(WCHAR));
-		RealGetLongPathName(filename, usFileName, wchars);
-
-		return make_utf8_string(usFileName);
-	}
-	return make_utf8_string(filename);
+	return make_utf8_string(usFileName);
 }
 
 

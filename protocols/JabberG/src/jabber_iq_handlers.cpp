@@ -113,7 +113,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	#define PRODUCT_UNLICENSED                        0xABCDABCD
 #endif
 
-typedef void (WINAPI *PGNSI)(LPSYSTEM_INFO);
 typedef BOOL (WINAPI *PGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 
 #define StringCchCopy(x,y,z)      lstrcpyn((x),(z),(y))
@@ -124,7 +123,6 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 {
 	OSVERSIONINFOEX osvi;
 	SYSTEM_INFO si;
-	PGNSI pGNSI;
 	PGPI pGPI;
 
 	DWORD dwType;
@@ -142,13 +140,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 			return FALSE;
 	}
 
-	// Call GetNativeSystemInfo if supported or GetSystemInfo otherwise.
-	HMODULE hKernel = GetModuleHandle(TEXT("kernel32.dll"));
-	pGNSI = (PGNSI) GetProcAddress(hKernel, "GetNativeSystemInfo");
-	if (pGNSI != NULL)
-		pGNSI(&si);
-	else
-		GetSystemInfo(&si);
+	GetNativeSystemInfo(&si);
 
 	// Some code from Crash Dumper Plugin :-)
 	if (VER_PLATFORM_WIN32_NT == osvi.dwPlatformId && osvi.dwMajorVersion > 4)
@@ -182,6 +174,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 				break;
 			}
 
+			HMODULE hKernel = GetModuleHandle(TEXT("kernel32.dll"));
 			pGPI = (PGPI) GetProcAddress(hKernel, "GetProductInfo");
 			if (pGPI != NULL)
 				pGPI(osvi.dwMajorVersion, osvi.dwMinorVersion, 0, 0, &dwType);

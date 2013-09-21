@@ -6,39 +6,25 @@ Xfire_voicechat::Xfire_voicechat() {
 	this->resetCurrentvoicestatus();
 	ipport=NULL;
 	tsrDLL=NULL;
-	IpHlpApiDLL=NULL;
 	tsrGetServerInfo=NULL;
-	GetExtendedTcpTable=NULL;
 	pid=0;
 }
 
 //dekonstruktor
-Xfire_voicechat::~Xfire_voicechat() {
+Xfire_voicechat::~Xfire_voicechat()
+{
 	//geladene tsr remote dll freigeben
 	if(tsrDLL) {
 		FreeLibrary(tsrDLL);
 		tsrDLL=NULL;
 	}
-	//geladene iphlper freigeben
-	if(IpHlpApiDLL) {
-		FreeLibrary(IpHlpApiDLL);
-		IpHlpApiDLL=NULL;
-	}
 }
 
 //init
-void Xfire_voicechat::initVoicechat() {
+void Xfire_voicechat::initVoicechat()
+{
 	//tsremotedll laden
 	tsrDLL=this->loadTSR();
-	//weitere dll's laden
-	IpHlpApiDLL=LoadLibraryA("IpHlpApi.dll");
-	if(IpHlpApiDLL) {
-		GetExtendedTcpTable=(pGetExtendedTcpTable)GetProcAddress(IpHlpApiDLL,"GetExtendedTcpTable");
-	}
-	else
-	{
-		XFireLog("IpHlpApi.dll load failed!");
-	}
 }
 
 //prüft ob das paket schonmal versendet wurde, soll unnötigen nwtraffic reduzieren, *ÜBERLEGUNG* ob wirklich notwendig
@@ -343,12 +329,12 @@ BOOL Xfire_voicechat::checkforMumble(SendGameStatus2Packet* packet) {
 	DWORD size=0;
 	MIB_TCPTABLE_OWNER_PID* ptab=NULL;
 	//tcptabelle holen
-	this->GetExtendedTcpTable(NULL,&size,FALSE, AF_INET, TCP_TABLE_OWNER_PID_CONNECTIONS, 0);
+	GetExtendedTcpTable(NULL, &size, FALSE, AF_INET, TCP_TABLE_OWNER_PID_CONNECTIONS, 0);
 	//überhaupt was drin?
 	if(size) {
 		ptab=(MIB_TCPTABLE_OWNER_PID*)malloc(size);
 		//liste auslesen
-		if(GetExtendedTcpTable(ptab,&size,FALSE, AF_INET, TCP_TABLE_OWNER_PID_CONNECTIONS, 0)==NO_ERROR)
+		if(GetExtendedTcpTable(ptab, &size, FALSE, AF_INET, TCP_TABLE_OWNER_PID_CONNECTIONS, 0) == NO_ERROR)
 		{
 			for(unsigned int i=0;i<ptab->dwNumEntries;i++)
 			{

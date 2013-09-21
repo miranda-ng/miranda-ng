@@ -328,10 +328,6 @@ BOOL FindTeamSpeak(DWORD*pid,int*vid) {
 	return found;
 }
 
-//funktion wird in main gesetzt
-extern pGetExtendedUdpTable _GetExtendedUdpTable;
-
-
 #include <vector>
 
 #define maxuppackets 4
@@ -347,13 +343,6 @@ BOOL GetServerIPPort(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1,
 
 	//DUMP("***Suche IP/Port***","");
 
-	//wenn die funktion nicht initialisiert werden konnte, könne wir nicht serverip und port rausbekommen
-	if(_GetExtendedUdpTable==NULL)
-	{
-		XFireLog("no GetExtendedUdpTable function");
-		return FALSE;
-	}
-
 	if(pid!=lastpid)
 	{
 		lastip=lastport=0;
@@ -363,9 +352,9 @@ BOOL GetServerIPPort(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1,
 	DWORD size=0;
 	MIB_UDPTABLE_OWNER_PID * ptab=NULL;
 
-	_GetExtendedUdpTable(NULL,&size,FALSE, AF_INET, UDP_TABLE_OWNER_PID, 0);
+	GetExtendedUdpTable(NULL, &size, FALSE, AF_INET, UDP_TABLE_OWNER_PID, 0);
 	ptab=(MIB_UDPTABLE_OWNER_PID*)malloc(size);
-	int ret=_GetExtendedUdpTable(ptab,&size,FALSE, AF_INET, UDP_TABLE_OWNER_PID, 0);
+	int ret = GetExtendedUdpTable(ptab, &size, FALSE, AF_INET, UDP_TABLE_OWNER_PID, 0);
 	//alle grad geöffnet updverb nach der pid vom spiel suchen, um an den port ranzukommen
 	if(ret==NO_ERROR)
 	{
@@ -563,10 +552,6 @@ BOOL GetServerIPPort2(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1
 	static int lastpid=0;
 	static int lastport=0;
 
-	//wenn die funktion nicht initialisiert werden konnte, könne wir nicht serverip und port rausbekommen
-	if(_GetExtendedUdpTable==NULL)
-		return FALSE;
-
 	if(pid!=lastpid)
 	{
 		lastip=lastport=0;
@@ -576,9 +561,9 @@ BOOL GetServerIPPort2(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1
 	DWORD size=0;
 	MIB_UDPTABLE_OWNER_PID * ptab=NULL;
 
-	_GetExtendedUdpTable(NULL,&size,FALSE, AF_INET, UDP_TABLE_OWNER_PID, 0);
+	GetExtendedUdpTable(NULL, &size, FALSE, AF_INET, UDP_TABLE_OWNER_PID, 0);
 	ptab=(MIB_UDPTABLE_OWNER_PID*)malloc(size);
-	int ret=_GetExtendedUdpTable(ptab,&size,FALSE, AF_INET, UDP_TABLE_OWNER_PID, 0);
+	int ret = GetExtendedUdpTable(ptab, &size, FALSE, AF_INET, UDP_TABLE_OWNER_PID, 0);
 	//alle grad geöffnet updverb nach der pid vom spiel suchen, um an den port ranzukommen
 	if(ret==NO_ERROR)
 	{

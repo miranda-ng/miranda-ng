@@ -624,18 +624,9 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 	return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 }
 
-typedef BOOL (WINAPI *LWS)(VOID);
-
 int CJabberProto::AdhocLockWSHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession)
 {
-	BOOL bOk = FALSE;
-	HMODULE hLibrary = LoadLibrary(_T("user32.dll"));
-	if (hLibrary) {
-		LWS pLws = (LWS)GetProcAddress(hLibrary, "LockWorkStation");
-		if (pLws)
-			bOk = pLws();
-		FreeLibrary(hLibrary);
-	}
+	BOOL bOk = LockWorkStation();
 
 	TCHAR szMsg[ 1024 ];
 	if (bOk)

@@ -87,25 +87,6 @@
 //=======================================================
 #define protocolname		"XFire" //no spaces here :)
 
-/* */
-typedef DWORD (*pGetExtendedTcpTable)(
-	__out_bcount_opt(*pdwSize)    PVOID           pTcpTable,
-    __inout                       PDWORD          pdwSize,
-    __in                          BOOL            bOrder,
-    __in                          ULONG           ulAf,
-    __in                          TCP_TABLE_CLASS TableClass,
-    __in                          ULONG           Reserved
-    ); 
-
-typedef DWORD (*pGetExtendedUdpTable)(
-    __out_bcount_opt(*pdwSize)    PVOID           pUdpTable,
-    __inout                       PDWORD          pdwSize,
-    __in                          BOOL            bOrder,
-    __in                          ULONG           ulAf,
-    __in                          UDP_TABLE_CLASS TableClass,
-    __in                          ULONG           Reserved
-    );
-
 //=======================================================
 //	Defines
 //=======================================================

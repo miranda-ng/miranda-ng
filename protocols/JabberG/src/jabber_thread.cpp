@@ -146,9 +146,6 @@ void CJabberProto::OnPingReply(HXML, CJabberIqInfo* pInfo)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-typedef DNS_STATUS (WINAPI *DNSQUERYA)(IN PCSTR pszName, IN WORD wType, IN DWORD Options, IN PIP4_ARRAY aipServers OPTIONAL, IN OUT PDNS_RECORDA *ppQueryResults OPTIONAL, IN OUT PVOID *pReserved OPTIONAL);
-typedef void (WINAPI *DNSFREELIST)(IN OUT PDNS_RECORDA pRecordList, IN DNS_FREE_TYPE FreeType);
-
 static int CompareDNS(const DNS_SRV_DATAA* dns1, const DNS_SRV_DATAA* dns2)
 {
 	return (int)dns1->wPriority - (int)dns2->wPriority;
@@ -159,23 +156,11 @@ void ThreadData::xmpp_client_query(void)
 	if (inet_addr(server) != INADDR_NONE)
 		return;
 
-	HMODULE hDnsapi = LoadLibraryA("dnsapi.dll");
-	if (hDnsapi == NULL)
-		return;
-
-	DNSQUERYA pDnsQuery = (DNSQUERYA)GetProcAddress(hDnsapi, "DnsQuery_A");
-	DNSFREELIST pDnsRecordListFree = (DNSFREELIST)GetProcAddress(hDnsapi, "DnsRecordListFree");
-	if (pDnsQuery == NULL) {
-		//dnsapi.dll is not the needed dnsapi ;)
-		FreeLibrary(hDnsapi);
-		return;
-	}
-
 	char temp[256];
 	mir_snprintf(temp, SIZEOF(temp), "_xmpp-client._tcp.%s", server);
 
 	DNS_RECORDA *results = NULL;
-	DNS_STATUS status = pDnsQuery(temp, DNS_TYPE_SRV, DNS_QUERY_STANDARD, NULL, &results, NULL);
+	DNS_STATUS status = DnsQuery_A(temp, DNS_TYPE_SRV, DNS_QUERY_STANDARD, NULL, (PDNS_RECORD *)&results, NULL);
 	if (SUCCEEDED(status) && results) {
 		LIST<DNS_SRV_DATAA> dnsList(5, CompareDNS);
 
@@ -196,12 +181,10 @@ void ThreadData::xmpp_client_query(void)
 				break;
 		}	}
 		dnsList.destroy();
-		pDnsRecordListFree(results, DnsFreeRecordList);
+		DnsRecordListFree(results, DnsFreeRecordList);
 	}
 	else
 		proto->Log("%s not resolved", temp);
-
-	FreeLibrary(hDnsapi);
 }
 
 void CJabberProto::xmlStreamInitialize(char *szWhich)

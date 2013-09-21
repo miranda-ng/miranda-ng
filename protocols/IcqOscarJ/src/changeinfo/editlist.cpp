@@ -30,7 +30,6 @@
 
 static ChangeInfoData *dataListEdit = NULL;
 static HWND hwndListEdit = NULL;
-static BOOL (WINAPI *MyAnimateWindow)(HWND,DWORD,DWORD);
 
 static LRESULT CALLBACK ListEditSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
 {
@@ -129,13 +128,7 @@ void ChangeInfoData::BeginListEdit(int iItem, RECT *rc, int iSetting, WORD wVKey
 		if (itemHeight * listCount < 150)
 			SetWindowPos(hwndListEdit, 0, 0, 0, rc->right - rc->left, itemHeight * listCount + GetSystemMetrics(SM_CYBORDER) * 2, SWP_NOZORDER|SWP_NOMOVE);
 		mir_subclassWindow(hwndListEdit, ListEditSubclassProc);
-		if (MyAnimateWindow = (BOOL (WINAPI*)(HWND,DWORD,DWORD))GetProcAddress(GetModuleHandleA("user32"), "AnimateWindow")) 
-		{
-			BOOL enabled;
-
-			SystemParametersInfo(SPI_GETCOMBOBOXANIMATION, 0, &enabled, FALSE);
-			if (enabled) MyAnimateWindow(hwndListEdit, 200, AW_SLIDE|AW_ACTIVATE|AW_VER_POSITIVE);
-		}
+		AnimateWindow(hwndListEdit, 200, AW_SLIDE|AW_ACTIVATE|AW_VER_POSITIVE);
 		ShowWindow(hwndListEdit, SW_SHOW);
 		SetFocus(hwndListEdit);
 		if (wVKey)
