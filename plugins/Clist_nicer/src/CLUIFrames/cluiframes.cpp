@@ -1,7 +1,4 @@
 /*
-astyle --force-indent=tab=4 --brackets=linux --indent-switches
-		--pad=oper --one-line=keep-blocks  --unpad=paren
-
 Miranda IM: the free IM client for Microsoft* Windows*
 
 Copyright 2000-2003 Miranda ICQ/IM project,
@@ -3285,7 +3282,7 @@ void RegisterCLUIFrameClasses()
 	wndclass.lpszClassName = CLUIFrameTitleBarClassName;
 	RegisterClass(&wndclass);
 
-	cntclass.style         = CS_DBLCLKS/*|CS_HREDRAW|CS_VREDRAW*/ | (IsWinVerXPPlus()  ? CS_DROPSHADOW : 0);
+	cntclass.style         = CS_DBLCLKS/*|CS_HREDRAW|CS_VREDRAW*/ | CS_DROPSHADOW;
 	cntclass.lpfnWndProc   = CLUIFrameContainerWndProc;
 	cntclass.cbClsExtra    = 0;
 	cntclass.cbWndExtra    = 0;

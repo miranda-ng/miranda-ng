@@ -338,7 +338,7 @@ static int __fastcall DrawAvatar(HDC hdcMem, RECT *rc, ClcContact *contact, int 
 	else {
 		SetStretchBltMode(hdcTempAV, HALFTONE);
 		StretchBlt(hdcTempAV, 0, 0, bmWidth, bmHeight, hdcMem, leftoffset + rc->left, y + topoffset, (int)newWidth, (int)newHeight, SRCCOPY);
-		API::pfnAlphaBlend(hdcTempAV, 0, 0, bmWidth, bmHeight, hdcAvatar, 0, 0, bmWidth, bmHeight, bf);
+		GdiAlphaBlend(hdcTempAV, 0, 0, bmWidth, bmHeight, hdcAvatar, 0, 0, bmWidth, bmHeight, bf);
 		StretchBlt(hdcMem, leftoffset + rc->left - (g_RTL ? 1 : 0), y + topoffset, (int)newWidth, (int)newHeight, hdcTempAV, 0, 0, bmWidth, bmHeight, SRCCOPY);
 	}
 	SelectObject(hdcAV, hbmOldAV);
@@ -382,10 +382,10 @@ static int __fastcall DrawAvatar(HDC hdcMem, RECT *rc, ClcContact *contact, int 
 			hdcTemp = CreateCompatibleDC(g_HDC);
 			hbmTemp = CreateCompatibleBitmap(g_HDC, rcTemp.right, rcTemp.bottom);
 			hbmOld = reinterpret_cast<HBITMAP>(SelectObject(hdcTemp, hbmTemp));
-			API::pfnSetLayout(hdcTemp, LAYOUT_RTL);
+			SetLayout(hdcTemp, LAYOUT_RTL);
 			BitBlt(hdcTemp, 0, 0, rcTemp.right, rcTemp.bottom,
 				hdcMem, rcFrame.left, rcFrame.top, SRCCOPY);
-			API::pfnSetLayout(hdcTemp, 0);
+			SetLayout(hdcTemp, 0);
 			DrawAlpha(hdcTemp, &rcTemp, item->COLOR, item->ALPHA, item->COLOR2, item->COLOR2_TRANSPARENT, item->GRADIENT,
 				item->CORNER, item->BORDERSTYLE, item->imageItem);
 			BitBlt(hdcMem, rcFrame.left, rcFrame.top, rcFrame.right - rcFrame.left, rcFrame.bottom - rcFrame.top,
@@ -462,7 +462,7 @@ void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int in
 		goto set_bg_l;
 
 	if (type == CLCIT_CONTACT && (cEntry->dwCFlags & ECF_RTLNICK || mirror_always)) {
-		if (API::pfnSetLayout != NULL && (mirror_rtl || mirror_always)) {
+		if (mirror_rtl || mirror_always) {
 			g_RTL = TRUE;
 			bg_indent_r = cfg::dat.bApplyIndentToBg ? indent * dat->groupIndent : 0;
 		}
@@ -472,7 +472,7 @@ void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int in
 		}
 		else bg_indent_l = cfg::dat.bApplyIndentToBg ? indent * dat->groupIndent : 0;
 	}
-	else if (type == CLCIT_GROUP && API::pfnSetLayout != NULL) {
+	else if (type == CLCIT_GROUP) {
 		if ((contact->isRtl && cfg::dat.bGroupAlign == CLC_GROUPALIGN_AUTO) || cfg::dat.bGroupAlign == CLC_GROUPALIGN_RIGHT) {
 			g_RTL = TRUE;
 			bg_indent_r = cfg::dat.bApplyIndentToBg ? indent * dat->groupIndent : 0;
@@ -852,7 +852,7 @@ set_bg_l:
 	}
 
 	if (g_RTL)
-		API::pfnSetLayout(hdcMem, LAYOUT_RTL | LAYOUT_BITMAPORIENTATIONPRESERVED);
+		SetLayout(hdcMem, LAYOUT_RTL | LAYOUT_BITMAPORIENTATIONPRESERVED);
 
 bgskipped:
 	rcContent.top = y + g_padding_y;
@@ -867,7 +867,7 @@ bgskipped:
 	if (checkboxWidth) {
 		HANDLE hTheme = 0;
 		if (IS_THEMED)
-			hTheme = API::pfnOpenThemeData(hwnd, L"BUTTON");
+			hTheme = OpenThemeData(hwnd, L"BUTTON");
 
 		RECT rc;
 		rc.left = leftX;
@@ -875,8 +875,8 @@ bgskipped:
 		rc.top = y + ((rowHeight - dat->checkboxSize) >> 1);
 		rc.bottom = rc.top + dat->checkboxSize;
 		if (hTheme) {
-			API::pfnDrawThemeBackground(hTheme, hdcMem, BP_CHECKBOX, flags & CONTACTF_CHECKED ? (g_hottrack ? CBS_CHECKEDHOT : CBS_CHECKEDNORMAL) : (g_hottrack ? CBS_UNCHECKEDHOT : CBS_UNCHECKEDNORMAL), &rc, &rc);
-			API::pfnCloseThemeData(hTheme);
+			DrawThemeBackground(hTheme, hdcMem, BP_CHECKBOX, flags & CONTACTF_CHECKED ? (g_hottrack ? CBS_CHECKEDHOT : CBS_CHECKEDNORMAL) : (g_hottrack ? CBS_UNCHECKEDHOT : CBS_UNCHECKEDNORMAL), &rc, &rc);
+			CloseThemeData(hTheme);
 			hTheme = 0;
 		}
 		else DrawFrameControl(hdcMem, &rc, DFC_BUTTON, DFCS_BUTTONCHECK | DFCS_FLAT | (flags & CONTACTF_CHECKED ? DFCS_CHECKED : 0) | (g_hottrack ? DFCS_HOT : 0));
@@ -1258,7 +1258,7 @@ nodisplay:
 	}
 
 	if (g_RTL)
-		API::pfnSetLayout(hdcMem, 0);
+		SetLayout(hdcMem, 0);
 }
 
 void SkinDrawBg(HWND hwnd, HDC hdc)
@@ -1301,7 +1301,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 	GetSystemTime(&cfg::dat.st);
 	SystemTimeToFileTime(&cfg::dat.st, &cfg::dat.ft);
 
-	cfg::dat.bUseFastGradients = cfg::dat.bWantFastGradients && (API::pfnGradientFill != 0);
+	cfg::dat.bUseFastGradients = cfg::dat.bWantFastGradients && (GdiGradientFill != 0);
 
 	av_left = (cfg::dat.dwFlags & CLUI_FRAME_AVATARSLEFT);
 	av_right = (cfg::dat.dwFlags & CLUI_FRAME_AVATARSRIGHT);

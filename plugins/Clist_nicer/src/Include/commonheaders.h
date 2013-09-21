@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda IM: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2010 Miranda ICQ/IM project,

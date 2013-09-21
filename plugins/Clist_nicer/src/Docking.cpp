@@ -1,5 +1,4 @@
 /*
-
 Miranda IM: the free IM client for Microsoft* Windows*
 
 Copyright 2000-2003 Miranda ICQ/IM project, 
@@ -38,15 +37,13 @@ extern RECT cluiPos;
 
 static void Docking_GetMonitorRectFromPoint(POINT pt, RECT *rc)
 {
-	if ( API::pfnMonitorFromPoint ) {
-		MONITORINFO monitorInfo;
-		HMONITOR hMonitor = API::pfnMonitorFromPoint(pt, MONITOR_DEFAULTTONEAREST); // always returns a valid value
-		monitorInfo.cbSize = sizeof(MONITORINFO);
+	MONITORINFO monitorInfo;
+	HMONITOR hMonitor = MonitorFromPoint(pt, MONITOR_DEFAULTTONEAREST); // always returns a valid value
+	monitorInfo.cbSize = sizeof(MONITORINFO);
 
-		if ( API::pfnGetMonitorInfo( hMonitor, &monitorInfo )) {
-			CopyMemory(rc, &monitorInfo.rcMonitor, sizeof(RECT));
-			return;
-		}
+	if (GetMonitorInfo(hMonitor, &monitorInfo)) {
+		CopyMemory(rc, &monitorInfo.rcMonitor, sizeof(RECT));
+		return;
 	}
 
 	// "generic" win95/NT support, also serves as failsafe

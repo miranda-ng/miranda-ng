@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda IM: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2010 Miranda ICQ/IM project,
@@ -40,27 +37,6 @@
 #define IS_THEMED (API::sysState.isThemed)
 #define IS_AERO (API::sysState.isAero)
 
-typedef  int  (__cdecl *pfnDrawAvatar)(HDC hdcOrig, HDC hdcMem, RECT *rc, ClcContact *contact, int y, struct ClcData *dat, int selected, WORD cstatus, int rowHeight);
-typedef BOOL 		(WINAPI *pfnSetLayeredWindowAttributes_t)(HWND, COLORREF, BYTE, DWORD);
-typedef BOOL 		(WINAPI *pfnUpdateLayeredWindow_t)(HWND, HDC, POINT *, SIZE *, HDC, POINT *, COLORREF, BLENDFUNCTION *, DWORD);
-typedef HMONITOR 	(WINAPI *pfnMonitorFromPoint_t)(POINT,DWORD);
-typedef HMONITOR 	(WINAPI *pfnMonitorFromWindow_t)(HWND,DWORD);
-typedef BOOL     	(WINAPI *pfnGetMonitorInfo_t)(HMONITOR,LPMONITORINFO);
-typedef BOOL     	(WINAPI *pfnTrackMouseEvent_t)(LPTRACKMOUSEEVENT);
-typedef DWORD 		(WINAPI *pfnSetLayout_t )(HDC, DWORD);
-typedef void 		(__cdecl *pfnDrawAlpha_t)(HDC hdcwnd, PRECT rc, DWORD basecolor, BYTE alpha, DWORD basecolor2, BOOL transparent, DWORD FLG_GRADIENT, DWORD FLG_CORNER, DWORD BORDERSTYLE, ImageItem *item);
-typedef BOOL 		(WINAPI *pfnAlphaBlend_t)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION);
-
-typedef BOOL 		(WINAPI *pfnIsThemeActive_t)();
-typedef HANDLE		(WINAPI *pfnOpenThemeData_t)(HWND, LPCWSTR);
-typedef UINT		(WINAPI *pfnDrawThemeBackground_t)(HANDLE, HDC, int, int, RECT *, RECT *);
-typedef UINT		(WINAPI *pfnCloseThemeData_t)(HANDLE);
-typedef UINT		(WINAPI *pfnDrawThemeText_t)(HANDLE, HDC, int, int, LPCWSTR, int, DWORD, DWORD, RECT *);
-typedef UINT		(WINAPI *pfnDrawThemeTextEx_t)(HANDLE, HDC, int, int, LPCWSTR, int, DWORD, RECT *, const DTTOPTS *);
-typedef BOOL 		(WINAPI *pfnIsThemeBackgroundPartiallyTransparent_t)(HANDLE, int, int);
-typedef HRESULT		(WINAPI *pfnDrawThemeParentBackground_t)(HWND, HDC, RECT *);
-typedef HRESULT		(WINAPI *pfnGetThemeBackgroundContentRect_t)(HANDLE, HDC, int, int, const RECT *, const RECT *);
-typedef BOOL		(WINAPI *pfnEnableThemeDialogTexture_t)(HANDLE, DWORD);
 typedef HRESULT 	(WINAPI *pfnDwmExtendFrameIntoClientArea_t)(HWND hwnd, const MARGINS *margins);
 typedef HRESULT 	(WINAPI *pfnDwmIsCompositionEnabled_t)(BOOL *);
 
@@ -122,9 +98,6 @@ public:
 struct TSysConfig {
 	bool			isVistaPlus;
 	bool			isSevenPlus;
-	bool			isXPPlus;
-	bool			uxThemeValid;
-	bool			isWin2KPlus;
 };
 
 struct TSysState {
@@ -137,46 +110,12 @@ class API
 {
 public:
 	static void			onInit						();
-	static void			onUnload					();
 	static void			updateState					();
 
 	static void 			Ex_CopyEditToClipboard		(HWND hWnd);
 	static INT_PTR CALLBACK Ex_DlgProc					(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	static void 			Ex_Handler					();
 	static int 				Ex_ShowDialog				(EXCEPTION_POINTERS *ep, const char *szFile, int line, TCHAR* szReason, bool fAllowContinue);
-
-
-	/*
-	 * helpers
-	 */
-
-	static BOOL				SetLayeredWindowAttributes(HWND hWnd, COLORREF clr, BYTE alpha, DWORD dwFlags);
-
-	static pfnSetLayeredWindowAttributes_t 	pfnSetLayeredWindowAttributes;
-	static pfnUpdateLayeredWindow_t			pfnUpdateLayeredWindow;
-	static pfnMonitorFromPoint_t  			pfnMonitorFromPoint;
-	static pfnMonitorFromWindow_t 			pfnMonitorFromWindow;
-	static pfnGetMonitorInfo_t    			pfnGetMonitorInfo;
-	static pfnTrackMouseEvent_t   			pfnTrackMouseEvent;
-	// static pfnDrawAlpha_t 					pfnDrawAlpha;
-	static pfnSetLayout_t					pfnSetLayout;
-	static PGF 								pfnGradientFill;
-	static pfnAlphaBlend_t					pfnAlphaBlend;
-
-	/*
-	 * uxtheme
-	 */
-
-	static pfnIsThemeActive_t 							pfnIsThemeActive;
-	static pfnOpenThemeData_t 							pfnOpenThemeData;
-	static pfnDrawThemeBackground_t 					pfnDrawThemeBackground;
-	static pfnCloseThemeData_t			 				pfnCloseThemeData;
-	static pfnDrawThemeText_t 							pfnDrawThemeText;
-	static pfnDrawThemeTextEx_t							pfnDrawThemeTextEx;
-	static pfnIsThemeBackgroundPartiallyTransparent_t 	pfnIsThemeBackgroundPartiallyTransparent;
-	static pfnDrawThemeParentBackground_t 	 			pfnDrawThemeParentBackground;
-	static pfnGetThemeBackgroundContentRect_t 			pfnGetThemeBackgroundContentRect;
-	static pfnEnableThemeDialogTexture_t 				pfnEnableThemeDialogTexture;
 
 	static pfnDwmExtendFrameIntoClientArea_t			pfnDwmExtendFrameIntoClientArea;
 	static pfnDwmIsCompositionEnabled_t					pfnDwmIsCompositionEnabled;
@@ -192,7 +131,7 @@ public:
 	static int				exLine;
 	static bool				exAllowContinue;
 
-	static HMODULE			hUxTheme, hDwm;
+	static HMODULE			hDwm;
 };
 
 

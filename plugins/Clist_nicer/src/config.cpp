@@ -1,7 +1,4 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
  * Miranda IM: the free IM client for Microsoft* Windows*
  *
  * Copyright 2000-2010 Miranda ICQ/IM project,
@@ -40,30 +37,8 @@ LIST<TExtraCache> cfg::arCache(100, LIST<TExtraCache>::FTSortFunc(HandleKeySortT
 
 bool cfg::shutDown = false;
 
-pfnSetLayeredWindowAttributes_t 	API::pfnSetLayeredWindowAttributes = 0;
-pfnUpdateLayeredWindow_t			API::pfnUpdateLayeredWindow = 0;
-pfnMonitorFromPoint_t  				API::pfnMonitorFromPoint = 0;
-pfnMonitorFromWindow_t 				API::pfnMonitorFromWindow = 0;
-pfnGetMonitorInfo_t    				API::pfnGetMonitorInfo = 0;
-pfnTrackMouseEvent_t   				API::pfnTrackMouseEvent = 0;
-//pfnDrawAlpha_t 						API::pfnDrawAlpha = 0;
-PGF 								API::pfnGradientFill = 0;
-pfnSetLayout_t						API::pfnSetLayout = 0;
-pfnAlphaBlend_t						API::pfnAlphaBlend = 0;
-
 TSysConfig							API::sysConfig = {0};
 TSysState							API::sysState = {0};
-
-pfnIsThemeActive_t 							API::pfnIsThemeActive = 0;
-pfnOpenThemeData_t 							API::pfnOpenThemeData = 0;
-pfnDrawThemeBackground_t 					API::pfnDrawThemeBackground = 0;
-pfnCloseThemeData_t			 				API::pfnCloseThemeData = 0;
-pfnDrawThemeText_t 							API::pfnDrawThemeText = 0;
-pfnDrawThemeTextEx_t						API::pfnDrawThemeTextEx = 0;
-pfnIsThemeBackgroundPartiallyTransparent_t 	API::pfnIsThemeBackgroundPartiallyTransparent = 0;
-pfnDrawThemeParentBackground_t 	 			API::pfnDrawThemeParentBackground = 0;
-pfnGetThemeBackgroundContentRect_t 			API::pfnGetThemeBackgroundContentRect = 0;
-pfnEnableThemeDialogTexture_t 				API::pfnEnableThemeDialogTexture = 0;
 
 pfnDwmExtendFrameIntoClientArea_t			API::pfnDwmExtendFrameIntoClientArea = 0;
 pfnDwmIsCompositionEnabled_t				API::pfnDwmIsCompositionEnabled = 0;
@@ -75,7 +50,7 @@ char			 API::exSzFile[MAX_PATH] = "";
 TCHAR			 API::exReason[256] = _T("");
 int				 API::exLine = 0;
 bool			 API::exAllowContinue = false;
-HMODULE			 API::hUxTheme = 0, API::hDwm = 0;
+HMODULE			 API::hDwm = 0;
 
 void cfg::init()
 {
@@ -252,52 +227,9 @@ void CSH_Destroy()
 
 void API::onInit()
 {
-	HMODULE hUserDll = 0;
-
-	pfnSetLayout = (DWORD ( WINAPI *)(HDC, DWORD))GetProcAddress( GetModuleHandleA( "GDI32.DLL" ), "SetLayout" );
-
-	hUserDll = GetModuleHandleA("user32.dll");
-	if (hUserDll) {
-		pfnMonitorFromPoint = ( pfnMonitorFromPoint_t )GetProcAddress(hUserDll, "MonitorFromPoint");
-		pfnMonitorFromWindow = ( pfnMonitorFromWindow_t )GetProcAddress(hUserDll, "MonitorFromWindow");
-		pfnGetMonitorInfo = ( pfnGetMonitorInfo_t )GetProcAddress(hUserDll, "GetMonitorInfoA");
-		pfnSetLayeredWindowAttributes = ( pfnSetLayeredWindowAttributes_t )GetProcAddress(hUserDll, "SetLayeredWindowAttributes");
-		pfnUpdateLayeredWindow = ( pfnUpdateLayeredWindow_t )GetProcAddress(hUserDll, "UpdateLayeredWindow");
-		pfnTrackMouseEvent = ( pfnTrackMouseEvent_t )GetProcAddress(hUserDll, "TrackMouseEvent");
-	}
-
-	pfnAlphaBlend = (pfnAlphaBlend_t) GetProcAddress(GetModuleHandleA("gdi32"), "GdiAlphaBlend");
-	pfnGradientFill = (PGF) GetProcAddress(GetModuleHandleA("gdi32"), "GdiGradientFill");
-	if (0 == pfnAlphaBlend) {
-		HMODULE hMsImgDll = LoadLibraryA("msimg32.dll");
-		pfnAlphaBlend = (pfnAlphaBlend_t)GetProcAddress(hMsImgDll, "AlphaBlend");
-		pfnGradientFill = (PGF) GetProcAddress(hMsImgDll, "GradientFill");
-	}
-
 	sysConfig.isVistaPlus = (IsWinVerVistaPlus() ? true : false);
 	sysConfig.isSevenPlus = (IsWinVer7Plus() ? true : false);
-	sysConfig.isXPPlus = (IsWinVerXPPlus() ? true : false);
-	sysConfig.isWin2KPlus = (IsWinVer2000Plus() ? true : false);
 
-	if (sysConfig.isXPPlus) {
-		if ((hUxTheme = Utils::loadSystemLibrary(_T("\\uxtheme.dll")), true) != 0) {
-			pfnIsThemeActive = (pfnIsThemeActive_t)GetProcAddress(hUxTheme, "IsThemeActive");
-			pfnOpenThemeData = (pfnOpenThemeData_t)GetProcAddress(hUxTheme, "OpenThemeData");
-			pfnDrawThemeBackground = (pfnDrawThemeBackground_t)GetProcAddress(hUxTheme, "DrawThemeBackground");
-			pfnCloseThemeData = (pfnCloseThemeData_t)GetProcAddress(hUxTheme, "CloseThemeData");
-			pfnDrawThemeText = (pfnDrawThemeText_t)GetProcAddress(hUxTheme, "DrawThemeText");
-			pfnIsThemeBackgroundPartiallyTransparent = (pfnIsThemeBackgroundPartiallyTransparent_t)GetProcAddress(hUxTheme, "IsThemeBackgroundPartiallyTransparent");
-			pfnDrawThemeParentBackground = (pfnDrawThemeParentBackground_t)GetProcAddress(hUxTheme, "DrawThemeParentBackground");
-			pfnGetThemeBackgroundContentRect = (pfnGetThemeBackgroundContentRect_t)GetProcAddress(hUxTheme, "GetThemeBackgroundContentRect");
-			pfnEnableThemeDialogTexture = (pfnEnableThemeDialogTexture_t)GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
-
-			if (pfnIsThemeActive != 0 && pfnOpenThemeData != 0 && pfnDrawThemeBackground != 0 && pfnCloseThemeData != 0
-				&& pfnDrawThemeText != 0 && pfnIsThemeBackgroundPartiallyTransparent != 0 && pfnDrawThemeParentBackground != 0
-				&& pfnGetThemeBackgroundContentRect != 0) {
-				sysConfig.uxThemeValid = true;
-			}
-		}
-	}
 	if (sysConfig.isVistaPlus) {
 		if ((hDwm = Utils::loadSystemLibrary(_T("\\dwmapi.dll")), true) != 0) {
 			pfnDwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled_t)GetProcAddress(hDwm, "DwmIsCompositionEnabled");
@@ -306,12 +238,6 @@ void API::onInit()
 	}
 
 	updateState();
-}
-
-void API::onUnload()
-{
-	if (hUxTheme)
-		FreeLibrary(hUxTheme);
 }
 
 /**
@@ -326,21 +252,12 @@ void API::updateState()
 
 	::ZeroMemory(&sysState, sizeof(TSysState));
 
-	if (sysConfig.uxThemeValid)
-		sysState.isThemed = pfnIsThemeActive() ? true : false;
+	sysState.isThemed = IsThemeActive() ? true : false;
 
 	if (sysConfig.isVistaPlus) {
 		sysState.isDwmActive = (pfnDwmIsCompositionEnabled && (pfnDwmIsCompositionEnabled(&result) == S_OK) && result) ? true : false;
 		sysState.isAero = /* (CSkin::m_skinEnabled == false) && */ cfg::getByte("CLUI", "useAero", 1) /* && CSkin::m_fAeroSkinsValid */ && sysState.isDwmActive;
 	}
-}
-
-BOOL API::SetLayeredWindowAttributes(HWND hWnd, COLORREF clr, BYTE alpha, DWORD dwFlags)
-{
-	if (sysConfig.isWin2KPlus)
-		return(pfnSetLayeredWindowAttributes(hWnd, clr, alpha, dwFlags));
-
-	return(FALSE);
 }
 
 /**

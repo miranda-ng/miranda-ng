@@ -176,10 +176,10 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 				RECT rc = rcClient;
 				int state = IsWindowEnabled(ctl->hwnd) ? (ctl->stateId == PBS_NORMAL && ctl->bIsDefault ? PBS_DEFAULTED : ctl->stateId) : PBS_DISABLED;
 				SkinDrawBg(ctl->hwnd, hdcMem);
-				if (API::pfnIsThemeBackgroundPartiallyTransparent(ctl->hThemeToolbar, TP_BUTTON, TBStateConvert2Flat(state))) {
-					API::pfnDrawThemeParentBackground(ctl->hwnd, hdcMem, &rc);
+				if (IsThemeBackgroundPartiallyTransparent(ctl->hThemeToolbar, TP_BUTTON, TBStateConvert2Flat(state))) {
+					DrawThemeParentBackground(ctl->hwnd, hdcMem, &rc);
 				}
-				API::pfnDrawThemeBackground(ctl->hThemeToolbar, hdcMem, TP_BUTTON, TBStateConvert2Flat(state), &rc, &rc);
+				DrawThemeBackground(ctl->hThemeToolbar, hdcMem, TP_BUTTON, TBStateConvert2Flat(state), &rc, &rc);
 			} else {
 				HBRUSH hbr;
 				RECT rc = rcClient;
@@ -201,7 +201,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 					if (imgItem)
 						DrawAlpha(hdcMem, &rc, 0, 0, 0, 0, 0, 0, 0, imgItem);
 					if (g_glyphItem) {
-						API::pfnAlphaBlend(hdcMem, (rc.right - glyphMetrics[2]) / 2, (rc.bottom - glyphMetrics[3]) / 2,
+						GdiAlphaBlend(hdcMem, (rc.right - glyphMetrics[2]) / 2, (rc.bottom - glyphMetrics[3]) / 2,
 							glyphMetrics[2], glyphMetrics[3], g_glyphItem->hdc,
 							glyphMetrics[0], glyphMetrics[1], glyphMetrics[2],
 							glyphMetrics[3], g_glyphItem->bf);
@@ -284,10 +284,10 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 				ScreenToClient(pcli->hwndContactList, &pt);
 				BitBlt(hdcMem, 0, 0, rcClient.right, rcClient.bottom, cfg::dat.hdcBg, pt.x, pt.y, SRCCOPY);
 
-				if (API::pfnIsThemeBackgroundPartiallyTransparent(ctl->hThemeButton, BP_PUSHBUTTON, state)) {
-					API::pfnDrawThemeParentBackground(ctl->hwnd, hdcMem, &rcClient);
+				if (IsThemeBackgroundPartiallyTransparent(ctl->hThemeButton, BP_PUSHBUTTON, state)) {
+					DrawThemeParentBackground(ctl->hwnd, hdcMem, &rcClient);
 				}
-				API::pfnDrawThemeBackground(ctl->hThemeButton, hdcMem, BP_PUSHBUTTON, state, &rcClient, &rcClient);
+				DrawThemeBackground(ctl->hThemeButton, hdcMem, BP_PUSHBUTTON, state, &rcClient, &rcClient);
 			} else {
 				UINT uState = DFCS_BUTTONPUSH | ((ctl->stateId == PBS_HOT) ? DFCS_HOT : 0) | ((ctl->stateId == PBS_PRESSED) ? DFCS_PUSHED : 0);
 				if (ctl->bIsDefault && ctl->stateId == PBS_NORMAL)
@@ -403,7 +403,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			GetObject(ii.hbmColor, sizeof(bm), &bm);
 			if (bm.bmWidth > g_cxsmIcon || bm.bmHeight > g_cysmIcon) {
 				HIMAGELIST hImageList;
-				hImageList = ImageList_Create(g_cxsmIcon, g_cysmIcon, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR16 | ILC_MASK, 1, 0);
+				hImageList = ImageList_Create(g_cxsmIcon, g_cysmIcon, ILC_COLOR32 | ILC_MASK, 1, 0);
 				ImageList_AddIcon(hImageList, (HICON) lParam);
 				bct->hIconPrivate = ImageList_GetIcon(hImageList, 0, ILD_NORMAL);
 				ImageList_RemoveAll(hImageList);

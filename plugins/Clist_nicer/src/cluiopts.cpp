@@ -1,5 +1,4 @@
 /*
-
 Miranda IM: the free IM client for Microsoft* Windows*
 
 Copyright 2000-2003 Miranda ICQ/IM project,
@@ -98,16 +97,9 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					SetDlgItemTextA(hwndDlg, IDC_TITLETEXT, MIRANDANAME);
 			}
 
-			if ( !API::sysConfig.isWin2KPlus) {
-				Utils::enableDlgControl(hwndDlg, IDC_FADEINOUT, FALSE);
-				Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENT, FALSE);
-				Utils::enableDlgControl(hwndDlg, IDC_DROPSHADOW, FALSE);
-				Utils::enableDlgControl(hwndDlg, IDC_FULLTRANSPARENT, FALSE);
-			}
-			else {
-				CheckDlgButton(hwndDlg, IDC_TRANSPARENT, cfg::dat.isTransparent ? BST_CHECKED : BST_UNCHECKED);
-				CheckDlgButton(hwndDlg, IDC_FULLTRANSPARENT, cfg::dat.bFullTransparent ? BST_CHECKED : BST_UNCHECKED);
-			}
+			CheckDlgButton(hwndDlg, IDC_TRANSPARENT, cfg::dat.isTransparent ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_FULLTRANSPARENT, cfg::dat.bFullTransparent ? BST_CHECKED : BST_UNCHECKED);
+
 			if ( !IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT)) {
 				Utils::enableDlgControl(hwndDlg, IDC_STATIC11, FALSE);
 				Utils::enableDlgControl(hwndDlg, IDC_STATIC12, FALSE);
@@ -300,17 +292,15 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				cfg::dat.colorkey = RGB(255, 0, 255);
 			}
 			if (cfg::dat.isTransparent || cfg::dat.bFullTransparent) {
-				if (API::sysConfig.isWin2KPlus) {
-					SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
-					SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
-					API::SetLayeredWindowAttributes(pcli->hwndContactList, 0, 255, LWA_ALPHA | LWA_COLORKEY);
-					API::SetLayeredWindowAttributes(pcli->hwndContactList,
-						(COLORREF)(cfg::dat.bFullTransparent ? cfg::dat.colorkey : 0),
-						(BYTE)(cfg::dat.isTransparent ? cfg::dat.autoalpha : 255),
-						(DWORD)((cfg::dat.isTransparent ? LWA_ALPHA : 0L) | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0L)));
-				}
+				SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
+				SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
+				SetLayeredWindowAttributes(pcli->hwndContactList, 0, 255, LWA_ALPHA | LWA_COLORKEY);
+				SetLayeredWindowAttributes(pcli->hwndContactList,
+					(COLORREF)(cfg::dat.bFullTransparent ? cfg::dat.colorkey : 0),
+					(BYTE)(cfg::dat.isTransparent ? cfg::dat.autoalpha : 255),
+					(DWORD)((cfg::dat.isTransparent ? LWA_ALPHA : 0L) | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0L)));
 			} else {
-				API::SetLayeredWindowAttributes(pcli->hwndContactList, RGB(0, 0, 0), (BYTE)255, LWA_ALPHA);
+				SetLayeredWindowAttributes(pcli->hwndContactList, RGB(0, 0, 0), (BYTE)255, LWA_ALPHA);
 				if ( !cfg::dat.bLayeredHack)
 					SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
 			}

@@ -1216,7 +1216,7 @@ void IMG_LoadItems()
 		cfg::writeByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_NOBORDER);
 		ApplyCLUIBorderStyle(pcli->hwndContactList);
 		SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
-		API::SetLayeredWindowAttributes(pcli->hwndContactList, cfg::dat.colorkey, 0, LWA_COLORKEY);
+		SetLayeredWindowAttributes(pcli->hwndContactList, cfg::dat.colorkey, 0, LWA_COLORKEY);
 	}
 	CoolSB_SetupScrollBar();
 }
@@ -1606,7 +1606,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			MoveWindow((HWND)tci.lParam,5,25,rcClient.right-9,rcClient.bottom-60,1);
 			ShowWindow((HWND)tci.lParam, oPage == 0 ? SW_SHOW : SW_HIDE);
 			if (IS_THEMED)
-				API::pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
+				EnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
 
 			if ( ServiceExists(MS_CLNSE_INVOKE)) {
 				SKINDESCRIPTION sd = { 0 };
@@ -1626,7 +1626,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				ShowWindow(hwndSkinEdit, oPage == 1 ? SW_SHOW : SW_HIDE);
 				TabCtrl_SetCurSel(GetDlgItem(hwnd, IDC_OPTIONSTAB), oPage);
 				if (IS_THEMED)
-					API::pfnEnableThemeDialogTexture(hwndSkinEdit, ETDT_ENABLETAB);
+					EnableThemeDialogTexture(hwndSkinEdit, ETDT_ENABLETAB);
 			}
 
 			TabCtrl_SetCurSel(GetDlgItem(hwnd, IDC_OPTIONSTAB), oPage);
