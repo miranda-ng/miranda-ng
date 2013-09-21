@@ -198,7 +198,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 		SendDlgItemMessage(hwnd, IDC_MINDMSG, EM_LIMITTEXT, FACEBOOK_MIND_LIMIT, 0);
 		SendDlgItemMessage(hwnd, IDC_URL, EM_LIMITTEXT, 1024, 0);
 
-		ptrT place = data->proto->getTStringA(FACEBOOK_KEY_PLACE);
+		ptrT place( data->proto->getTStringA(FACEBOOK_KEY_PLACE));
 		SetDlgItemText(hwnd, IDC_PLACE, place != NULL ? place : _T("Miranda NG"));
 
 		bShowContacts = data->proto->getByte("PostStatusExpand", 0) > 0;
@@ -307,7 +307,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			HWND hwndList = GetDlgItem(hwnd, IDC_CCLIST);
 			GetSelectedContacts(data->proto, NULL, hwndList, &status->users);
 
-			ptrA narrow = mir_utf8encodeT(mindMessageT);		
+			ptrA narrow( mir_utf8encodeT(mindMessageT));
 			status->text = narrow;
 
 			if (status->user_id == data->proto->facy.self_.user_id && data->proto->last_status_msg_ != (char *)narrow)

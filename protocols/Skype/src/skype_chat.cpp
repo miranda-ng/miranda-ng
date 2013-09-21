@@ -195,7 +195,7 @@ wchar_t *ChatRoom::GetUri()
 {
 	SEString data;
 	this->conversation->GetJoinBlob(data);
-	ptrW blob = ::mir_utf8decodeW(data);
+	ptrW blob( ::mir_utf8decodeW(data));
 				
 	wchar_t *uri = (wchar_t *)::mir_alloc(sizeof(wchar_t) * MAX_PATH);
 	::mir_sntprintf(uri, SIZEOF(uri), L"skype:?chat&blob=%s", blob);
@@ -279,7 +279,7 @@ void ChatRoom::Start(const ConversationRef &conversation, bool showWindow)
 	if ( !::CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci))
 	{
 		this->hContact = gci.hContact;
-		ptrW cid = ::db_get_wsa(gci.hContact, ppro->m_szModuleName, SKYPE_SETTINGS_SID);
+		ptrW cid( ::db_get_wsa(gci.hContact, ppro->m_szModuleName, SKYPE_SETTINGS_SID));
 		if (cid == NULL)
 		{
 			this->conversation->GetPropIdentity(data);
@@ -295,7 +295,7 @@ void ChatRoom::Start(const ConversationRef &conversation, bool showWindow)
 		auto participant = participants[i];
 
 		participant->GetPropIdentity(data);
-		ptrW sid = ::mir_utf8decodeW(data);
+		ptrW sid( ::mir_utf8decodeW(data));
 
 		ChatMember member(sid);
 		member.SetRank(participant->GetUintProp(Participant::P_RANK));
@@ -310,7 +310,7 @@ void ChatRoom::Start(const ConversationRef &conversation, bool showWindow)
 		contact->GetPropFullname(data);
 		if (data.length() != 0)
 		{
-			ptrW nick = ::mir_utf8decodeW(data);
+			ptrW nick( ::mir_utf8decodeW(data));
 			member.SetNick(nick);
 		}
 
@@ -660,10 +660,10 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 			SEString data;
 
 			message->GetPropAuthor(data);
-			ptrW sid = ::mir_utf8decodeW(data);
+			ptrW sid( ::mir_utf8decodeW(data));
 
 			message->GetPropBodyXml(data);
-			ptrW text =::mir_utf8decodeW( ptrA(CSkypeProto::RemoveHtml(data)));
+			ptrW text( ::mir_utf8decodeW( ptrA(CSkypeProto::RemoveHtml(data))));
 
 			uint timestamp;
 			message->GetPropTimestamp(timestamp);
@@ -716,7 +716,7 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 						ptrW nick(::mir_utf8decodeW(data));
 						if (data.length() != 0)
 						{
-							ptrW nick = ::mir_utf8decodeW(data);
+							ptrW nick( ::mir_utf8decodeW(data));
 							member.SetNick(nick);
 						}
 						
@@ -787,7 +787,7 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 				message->GetPropTimestamp(timestamp);
 
 				message->GetPropAuthor(data);
-				ptrW author = ::mir_utf8decodeW(data);
+				ptrW author( ::mir_utf8decodeW(data));
 
 				message->GetPropIdentities(data);
 				char *identities = ::mir_strdup(data);
@@ -825,7 +825,7 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 				message->GetPropTimestamp(timestamp);
 
 				message->GetPropAuthor(data);
-				ptrW sid = ::mir_utf8decodeW(data);
+				ptrW sid( ::mir_utf8decodeW(data));
 
 				this->RemoveMember(sid, timestamp);
 			}
@@ -900,7 +900,7 @@ void ChatRoom::OnEvent(const ConversationRef &conversation, const MessageRef &me
 			//	break;
 
 			message->GetPropAuthor(data);	
-			ptrW sid = ::mir_utf8decodeW(data);
+			ptrW sid( ::mir_utf8decodeW(data));
 
 			uint timestamp;
 			message->GetPropTimestamp(timestamp);
@@ -1437,7 +1437,7 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 				HANDLE hContact = this->GetContactBySid(gch->ptszUID);
 				if (!hContact)
 				{
-					ptrW sid = ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID);
+					ptrW sid( ::db_get_wsa(hContact, this->m_szModuleName, SKYPE_SETTINGS_SID));
 					if (sid != NULL)
 						CSkypeProto::CopyToClipboard(sid);
 				}
@@ -1651,11 +1651,11 @@ void __cdecl CSkypeProto::LoadChatList(void*)
 			if (status == Conversation::APPLICANT || status == Conversation::CONSUMER )
 			{
 				conversation->GetPropIdentity(data);
-				ptrW cid = ::mir_utf8decodeW(data);
+				ptrW cid( ::mir_utf8decodeW(data));
 				CSkypeProto::ReplaceSpecialChars(cid);
 
 				conversation->GetPropDisplayname(data);
-				ptrW name = ::mir_utf8decodeW(data);
+				ptrW name( ::mir_utf8decodeW(data));
 
 				ChatRoom *room = new ChatRoom(cid, name, this);
 				chatRooms.insert(room);
@@ -1674,7 +1674,7 @@ void CSkypeProto::OnChatEvent(const ConversationRef &conversation, const Message
 
 	SEString data;
 	conversation->GetPropIdentity(data);
-	ptrW cid = ::mir_utf8decodeW(data);
+	ptrW cid( ::mir_utf8decodeW(data));
 	CSkypeProto::ReplaceSpecialChars(cid);
 
 	ChatRoom *room = this->FindChatRoom(cid);
@@ -1691,7 +1691,7 @@ void CSkypeProto::OnChatEvent(const ConversationRef &conversation, const Message
 			SEString data;
 
 			conversation->GetPropDisplayname(data);
-			ptrW name = ::mir_utf8decodeW(data);
+			ptrW name( ::mir_utf8decodeW(data));
 
 			ChatRoom *room = new ChatRoom(cid, name, this);
 			chatRooms.insert(room);
@@ -1711,13 +1711,13 @@ void CSkypeProto::OnConversationListChange(
 		SEString data;
 
 		conversation->GetPropIdentity(data);
-		ptrW cid = ::mir_utf8decodeW(data);
+		ptrW cid( ::mir_utf8decodeW(data));
 		CSkypeProto::ReplaceSpecialChars(cid);
 
 		if ( !this->FindChatRoom(cid))
 		{
 			conversation->GetPropDisplayname(data);
-			ptrW name = ::mir_utf8decodeW(data);
+			ptrW name( ::mir_utf8decodeW(data));
 
 			ChatRoom *room = new ChatRoom(cid, name, this);
 			chatRooms.insert(room);

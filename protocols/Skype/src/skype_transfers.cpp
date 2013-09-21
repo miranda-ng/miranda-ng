@@ -131,7 +131,7 @@ void CSkypeProto::OnFileEvent(const ConversationRef &conversation, const Message
 	FileTransferParam ftp;
 	ftp.pfts.flags = PFTS_RECEIVING | PFTS_UNICODE;
 	ftp.pfts.hContact = this->AddContact(author, true);
-	ftp.pfts.totalFiles = transfers.size();
+	ftp.pfts.totalFiles = (int)transfers.size();
 	ftp.pfts.ptszFiles = new wchar_t*[transfers.size() + 1];
 
 	int nifc = 0;

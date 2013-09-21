@@ -806,11 +806,11 @@ void FacebookProto::SearchAckThread(void *targ)
 				if (id.empty() || id == facy.self_.user_id)
 					continue;
 
-				ptrT tid = mir_utf8decodeT(id.c_str());
-				ptrT tname = mir_utf8decodeT(utils::text::special_expressions_decode(name).c_str());
-				ptrT tsurname = mir_utf8decodeT(utils::text::special_expressions_decode(surname).c_str());
-				ptrT tnick = mir_utf8decodeT(utils::text::special_expressions_decode(nick).c_str());
-				ptrT tcommon = mir_utf8decodeT(utils::text::special_expressions_decode(common).c_str());
+				ptrT tid( mir_utf8decodeT(id.c_str()));
+				ptrT tname( mir_utf8decodeT(utils::text::special_expressions_decode(name).c_str()));
+				ptrT tsurname( mir_utf8decodeT(utils::text::special_expressions_decode(surname).c_str()));
+				ptrT tnick( mir_utf8decodeT(utils::text::special_expressions_decode(nick).c_str()));
+				ptrT tcommon( mir_utf8decodeT(utils::text::special_expressions_decode(common).c_str()));
 
 				PROTOSEARCHRESULT isr = {0};
 				isr.cbSize = sizeof(isr);
@@ -874,9 +874,9 @@ void FacebookProto::SearchIdAckThread(void *targ)
 
 			// ignore self contact and empty ids
 			if (!id.empty() && id != facy.self_.user_id){
-				ptrT tid = mir_utf8decodeT(id.c_str());
-				ptrT tname = mir_utf8decodeT(name.c_str());
-				ptrT tsurname = mir_utf8decodeT(surname.c_str());
+				ptrT tid( mir_utf8decodeT(id.c_str()));
+				ptrT tname( mir_utf8decodeT(name.c_str()));
+				ptrT tsurname( mir_utf8decodeT(surname.c_str()));
 
 				PROTOSEARCHRESULT isr = {0};
 				isr.cbSize = sizeof(isr);

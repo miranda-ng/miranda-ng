@@ -155,7 +155,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				else if ( IsDlgButtonChecked(hwndDlg, IDC_TRUNK))
 					db_set_s(NULL, MODNAME, "UpdateURL", DEFAULT_UPDATE_URL_TRUNK);
 				else if ( IsDlgButtonChecked(hwndDlg, IDC_TRUNK_SYMBOLS)) {
-					ptrA oldUrl = db_get_sa(NULL, MODNAME, "UpdateURL");
+					ptrA oldUrl( db_get_sa(NULL, MODNAME, "UpdateURL"));
 					if (strcmp(oldUrl, DEFAULT_UPDATE_URL_TRUNK_SYMBOLS)) {
 						opts.bForceRedownload = true;
 						db_set_b(NULL, MODNAME, "ForceRedownload", 1);

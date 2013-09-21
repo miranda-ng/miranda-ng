@@ -64,9 +64,9 @@ static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai)
 	if (ai->argc != 4)
 		return NULL;
 
-	ptrA arg1 = mir_t2a(ai->targv[1]);
-	ptrA arg2 = mir_t2a(ai->targv[2]);
-	ptrA arg3 = mir_t2a(ai->targv[3]);
+	ptrA arg1( mir_t2a(ai->targv[1]));
+	ptrA arg2( mir_t2a(ai->targv[2]));
+	ptrA arg3( mir_t2a(ai->targv[3]));
 
 	number = atoi(arg3);
 	if (number < 0)

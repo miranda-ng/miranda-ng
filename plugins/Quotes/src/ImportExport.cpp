@@ -94,7 +94,7 @@ namespace
 				sType = g_pszXmlTypeBlob;
 				if(dbv.pbVal)
 				{
-					ptrA buf = mir_base64_encode(dbv.pbVal, dbv.cpbVal);
+					ptrA buf( mir_base64_encode(dbv.pbVal, dbv.cpbVal));
 					if (buf) {
 						sValue << buf;
 					}

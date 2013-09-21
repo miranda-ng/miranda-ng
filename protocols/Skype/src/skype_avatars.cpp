@@ -58,7 +58,7 @@ INT_PTR __cdecl CSkypeProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 	if (this->getDword(pai->hContact, "AvatarTS", 0))
 		return GAIR_NOAVATAR;
 
-	ptrW sid = ::db_get_wsa(pai->hContact, this->m_szModuleName, SKYPE_SETTINGS_SID);
+	ptrW sid( ::db_get_wsa(pai->hContact, this->m_szModuleName, SKYPE_SETTINGS_SID));
 	if (sid)
 	{
 		ptrW path( this->GetContactAvatarFilePath(pai->hContact));

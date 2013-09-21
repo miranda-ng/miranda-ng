@@ -50,7 +50,7 @@ static int compareListItems(const JABBER_LIST_ITEM *p1, const JABBER_LIST_ITEM *
 	return lstrcmpi(szp1, szp2);
 }
 
-CJabberProto::CJabberProto(const char* aProtoName, const TCHAR *aUserName) :
+CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
 	PROTO<CJabberProto>(aProtoName, aUserName),
 	m_options(this),
 	m_lstTransports(50, compareTransports),

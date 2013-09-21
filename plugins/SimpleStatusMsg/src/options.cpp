@@ -137,7 +137,7 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 						val = db_get_b(NULL, "SimpleStatusMsg", (char *)StatusModeToDbSetting(i, "Flags"), STATUS_DEFAULT);
 						data->status_msg[0].flags[i - ID_STATUS_ONLINE] = val;
-						ptrT text = db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(i, "Default"));
+						ptrT text( db_get_tsa(NULL, "SRAway", StatusModeToDbSetting(i, "Default")));
 						lstrcpyn(data->status_msg[0].msg[i - ID_STATUS_ONLINE], (text == NULL) ? GetDefaultMessage(i) : text, 1024);
 
 						for (j = 0; j < accounts->count; j++)

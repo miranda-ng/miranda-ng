@@ -241,9 +241,9 @@ HANDLE FacebookProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* first
 
 HANDLE FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	ptrA id = mir_t2a_cp(psr->id, CP_UTF8);
-	ptrA name = mir_t2a_cp(psr->firstName, CP_UTF8);
-	ptrA surname = mir_t2a_cp(psr->lastName, CP_UTF8);
+	ptrA id( mir_t2a_cp(psr->id, CP_UTF8));
+	ptrA name( mir_t2a_cp(psr->firstName, CP_UTF8));
+	ptrA surname( mir_t2a_cp(psr->lastName, CP_UTF8));
 
 	if (id == NULL)
 		return NULL;
@@ -683,7 +683,7 @@ void FacebookProto::OpenUrl(std::string url)
 		url = (useHttps ? HTTP_PROTO_SECURE : HTTP_PROTO_REGULAR) + facy.get_server_type() + url;
 	}
 
-	ptrT data = mir_utf8decodeT(url.c_str());
+	ptrT data( mir_utf8decodeT(url.c_str()));
 	CallService(MS_UTILS_OPENURL, (WPARAM)OUF_TCHAR, (LPARAM)data);
 }
 

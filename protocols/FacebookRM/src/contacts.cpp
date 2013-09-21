@@ -86,7 +86,7 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, boo
 
 			db_unset(hContact, "CList", "MyHandle");
 
-			ptrT group = getTStringA(NULL, FACEBOOK_KEY_DEF_GROUP);
+			ptrT group( getTStringA(NULL, FACEBOOK_KEY_DEF_GROUP));
 			if (group)
 				db_set_ts(hContact, "CList", "Group", group);
 
@@ -122,7 +122,7 @@ void FacebookProto::SetAllContactStatuses(int status, bool reset_client)
 			continue;
 
 		if (reset_client) {
-			ptrT mirver = getTStringA(hContact, "MirVer");
+			ptrT mirver( getTStringA(hContact, "MirVer"));
 			if (!mirver || _tcscmp(mirver, _T(FACEBOOK_NAME)))
 				setTString(hContact, "MirVer", _T(FACEBOOK_NAME));
 
@@ -317,7 +317,7 @@ void FacebookProto::SendPokeWorker(void *p)
 				utils::text::slashu_to_utf8(
 					utils::text::source_get_value(&resp.data, 3, "\"body\":", "__html\":\"", "\"}"))));
 
-		ptrT tmessage = mir_utf8decodeT(message.c_str());
+		ptrT tmessage( mir_utf8decodeT(message.c_str()));
 		NotifyEvent(m_tszUserName, tmessage, NULL, FACEBOOK_EVENT_OTHER);
 	}
 
