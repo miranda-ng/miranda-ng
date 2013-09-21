@@ -31,9 +31,9 @@ HANDLE hNetlibUser;
 // szUrl = URL of the webpage to be retrieved
 // return value = 0 for success, 1 or HTTP error code for failure
 // global var used: szData, szInfo = containing the retrieved data
-int InternetDownloadFile (CHAR *szUrl) 
+int InternetDownloadFile (char *szUrl) 
 {
-	NETLIBHTTPREQUEST nlhr={0}, *nlhrReply;
+	NETLIBHTTPREQUEST nlhr={0};
 
 	// initialize the netlib request
 	nlhr.cbSize=sizeof(nlhr);
@@ -48,11 +48,11 @@ int InternetDownloadFile (CHAR *szUrl)
 	nlhr.headers[nlhr.headersCount-1].szValue="Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)";
 
 	// download the page
-	nlhrReply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,(WPARAM)hNetlibUser,(LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,(WPARAM)hNetlibUser,(LPARAM)&nlhr);
 	if (nlhrReply) {
 		// return error code if the recieved code is neither 200 OK or 302 Moved
 		if (nlhrReply->resultCode != 200 && nlhrReply->resultCode != 302)
-			return (int)nlhrReply->resultCode;
+			return nlhrReply->resultCode;
 		// if the recieved code is 200 OK
 		else if (nlhrReply->resultCode == 200) 
 		{
@@ -92,12 +92,11 @@ int InternetDownloadFile (CHAR *szUrl)
 
 //============  NETLIB INITIALIZATION  ============
 
-// initialize netlib support from weather protocol
 void NetlibInit() {
 	NETLIBUSER nlu={0};
 	nlu.cbSize=sizeof(nlu);
-	nlu.flags=NUF_OUTGOING|NUF_HTTPCONNS|NUF_NOHTTPSOPTION;
+	nlu.flags=NUF_OUTGOING|NUF_HTTPCONNS|NUF_NOHTTPSOPTION|NUF_TCHAR;
 	nlu.szSettingsModule= MODNAME;
-	nlu.szDescriptiveName= Translate("Non-IM Contacts");
+	nlu.ptszDescriptiveName= TranslateT("Non-IM Contacts");
 	hNetlibUser=(HANDLE)CallService(MS_NETLIB_REGISTERUSER,0,(LPARAM)&nlu);
 }

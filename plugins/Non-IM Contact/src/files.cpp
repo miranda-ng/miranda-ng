@@ -7,7 +7,7 @@ INT_PTR exportContacts(WPARAM wParam,LPARAM lParam)
 		return 0;
 
 	FILE* file;
-	if (MessageBoxA(0, "Do you want to overwrite the contents of the file?\r\n\r\nPressing No will append these contacts to the end of the file.",modFullname, MB_YESNO) == IDYES)
+	if (MessageBox(0, TranslateT("Do you want to overwrite the contents of the file?\r\n\r\nPressing No will append these contacts to the end of the file."),_T(modFullname), MB_YESNO) == IDYES)
 		file = fopen(fn, "w");
 	else
 		file = fopen(fn, "a");
@@ -107,7 +107,7 @@ void readFile(HWND hwnd)
 	int lineNumber, fileLength=0, width=0;
 	char temp[MAX_STRING_LENGTH], szFileName[512], temp1[MAX_STRING_LENGTH], fn[8];
 	FILE* filen;
-	int fileNumber = SendMessage(GetDlgItem(hwnd, IDC_FILE_LIST),CB_GETCURSEL, 0,0);
+	int fileNumber = SendDlgItemMessage(hwnd, IDC_FILE_LIST,CB_GETCURSEL, 0,0);
 	mir_snprintf(fn, SIZEOF(fn), "fn%d", fileNumber);
 	if (!db_get_static(NULL, MODNAME, fn, szFileName)) {
 		msg(Translate("File couldn't be opened"),fn);
@@ -123,7 +123,7 @@ void readFile(HWND hwnd)
 		return;
 	}
 	lineNumber = 0;
-	SendMessage(GetDlgItem(hwnd, IDC_FILE_CONTENTS),LB_RESETCONTENT, 0,0);
+	SendDlgItemMessage(hwnd, IDC_FILE_CONTENTS,LB_RESETCONTENT, 0,0);
 	while (lineNumber < (MAXLINES) && (fgets(temp, MAX_STRING_LENGTH, filen)))
 	{
 		if (temp[0] == '\t') temp[0] = ' ';
@@ -133,11 +133,11 @@ void readFile(HWND hwnd)
 			temp[strlen(temp)-1]='\0';
         else temp[strlen(temp)]='\0';
 		mir_snprintf(temp1, SIZEOF(temp1), Translate("line(%-3d) = | %s"), lineNumber, temp);
-		SendMessageA(GetDlgItem(hwnd, IDC_FILE_CONTENTS),LB_ADDSTRING,0,(LPARAM)(char*)temp1);
+		SendDlgItemMessageA(hwnd, IDC_FILE_CONTENTS,LB_ADDSTRING,0,(LPARAM)temp1);
 		lineNumber++;
 		fileLength++;
-		if ((unsigned int)SendMessage(GetDlgItem(hwnd, IDC_FILE_CONTENTS),LB_GETHORIZONTALEXTENT,0,0) <= (strlen(temp1)*db_get_b(NULL, MODNAME, "WidthMultiplier", 5)))
-			SendMessage(GetDlgItem(hwnd, IDC_FILE_CONTENTS),LB_SETHORIZONTALEXTENT,(strlen(temp1)*db_get_b(NULL, MODNAME, "WidthMultiplier", 5)),0);
+		if ((unsigned int)SendDlgItemMessage(hwnd, IDC_FILE_CONTENTS,LB_GETHORIZONTALEXTENT,0,0) <= (strlen(temp1)*db_get_b(NULL, MODNAME, "WidthMultiplier", 5)))
+			SendDlgItemMessage(hwnd, IDC_FILE_CONTENTS,LB_SETHORIZONTALEXTENT,(strlen(temp1)*db_get_b(NULL, MODNAME, "WidthMultiplier", 5)),0);
 	}
 	fclose(filen);
 	
@@ -153,9 +153,9 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			char fn[MAX_PATH], string[MAX_STRING_LENGTH], tmp[MAX_STRING_LENGTH];
 			reloadFiles(GetDlgItem(hwnd, IDC_FILE_LIST));
-			int i = SendMessage(GetDlgItem(hwnd, IDC_FILE_LIST),CB_GETCURSEL, 0 ,0);
+			int i = SendDlgItemMessage(hwnd, IDC_FILE_LIST,CB_GETCURSEL, 0 ,0);
 			mir_snprintf(fn, SIZEOF(fn), "fn%d", i);
-			SendMessage(GetDlgItem(hwnd, IDC_FILE_CONTENTS),LB_RESETCONTENT, 0,0);
+			SendDlgItemMessage(hwnd, IDC_FILE_CONTENTS,LB_RESETCONTENT, 0,0);
 			if (db_get_static(NULL, MODNAME, fn, string) )
 			{
 				if ( (!strncmp("http://", string, strlen("http://"))) || (!strncmp("https://", string, strlen("https://"))) )
@@ -230,8 +230,8 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				{
 					db_set_s(NULL, MODNAME, fn, file);
 					index = SendMessageA(GetDlgItem(hwnd, IDC_FILE_LIST),CB_ADDSTRING,0,(LPARAM)(char*)file);
-					SendMessage(GetDlgItem(hwnd, IDC_FILE_LIST),CB_SETITEMDATA,index,(LPARAM)(int)i);
-					SendMessage(GetDlgItem(hwnd, IDC_FILE_LIST),CB_SETCURSEL, index ,0);
+					SendDlgItemMessage(hwnd, IDC_FILE_LIST,CB_SETITEMDATA,index,(LPARAM)(int)i);
+					SendDlgItemMessage(hwnd, IDC_FILE_LIST,CB_SETCURSEL, index ,0);
 					SetDlgItemTextA(hwnd, IDC_FN, _itoa(i, fn, 10));
 					mir_snprintf(fn, SIZEOF(fn), "fn%d", index);
 					readFile(hwnd);
@@ -241,18 +241,18 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		case IDC_DEL_FILE:
 			{
-				int index = SendMessage(GetDlgItem(hwnd, IDC_FILE_LIST),CB_GETCURSEL, 0,0),i= (int)SendMessage(GetDlgItem(hwnd, IDC_FILE_LIST),CB_GETITEMDATA, index,0);
+				int index = SendDlgItemMessage(hwnd, IDC_FILE_LIST,CB_GETCURSEL, 0,0),i= (int)SendDlgItemMessage(hwnd, IDC_FILE_LIST,CB_GETITEMDATA, index,0);
 				char fn[6], fn1[4], tmp[256];
-				int count = SendMessage(GetDlgItem(hwnd, IDC_FILE_LIST),CB_GETCOUNT, 0,0) -1;
+				int count = SendDlgItemMessage(hwnd, IDC_FILE_LIST,CB_GETCOUNT, 0,0) -1;
 				if (index == count)
 				{
 					mir_snprintf(fn, SIZEOF(fn), "fn%d", index);
 					db_unset(NULL, MODNAME, fn);
-					SendMessage(GetDlgItem(hwnd, IDC_FILE_LIST),CB_DELETESTRING, index ,0);
+					SendDlgItemMessage(hwnd, IDC_FILE_LIST,CB_DELETESTRING, index ,0);
 					SendMessage(hwnd, WM_RELOADWINDOW, 0,0);
 					if (!index) {
-						SetDlgItemTextA(hwnd, IDC_FN,"");
-						SetDlgItemTextA(hwnd, IDC_FILE_CONTENTS,"");
+						SetDlgItemText(hwnd, IDC_FN,_T(""));
+						SetDlgItemText(hwnd, IDC_FILE_CONTENTS,_T(""));
 					}
 
 				}
@@ -267,7 +267,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					}
 					mir_snprintf(fn, SIZEOF(fn), "fn%d", --i);
 					db_unset(NULL, MODNAME, fn);
-					SendMessage(GetDlgItem(hwnd, IDC_FILE_LIST),CB_DELETESTRING, index ,0);
+					SendDlgItemMessage(hwnd, IDC_FILE_LIST,CB_DELETESTRING, index ,0);
 					SendMessage(hwnd, WM_RELOADWINDOW, 0,0);
 				}
 
@@ -278,7 +278,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_FILE_LIST:
 			if (HIWORD(wParam) == CBN_SELCHANGE )
 			{
-				int index = SendMessage(GetDlgItem(hwnd, IDC_FILE_LIST),CB_GETCURSEL, 0,0);
+				int index = SendDlgItemMessage(hwnd, IDC_FILE_LIST,CB_GETCURSEL, 0,0);
 				char fn[6], tmp[MAX_PATH];
 				SetDlgItemTextA(hwnd, IDC_FN, _itoa(index, fn, 10));
 				mir_snprintf(fn, SIZEOF(fn), "fn%d", index);
@@ -291,8 +291,8 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					}
 					else 
 					{
-						SetDlgItemTextA(hwnd,IDC_URL, "");
-						SetDlgItemTextA(hwnd, IDC_WWW_TIMER,"");
+						SetDlgItemText(hwnd,IDC_URL, _T(""));
+						SetDlgItemText(hwnd, IDC_WWW_TIMER,_T(""));
 					}
 					readFile(hwnd);
 				}
@@ -309,14 +309,14 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				int i = SendMessage(GetDlgItem(hwnd, IDC_FILE_LIST),CB_GETCURSEL, 0 ,0);
+				int i = SendDlgItemMessage(hwnd, IDC_FILE_LIST,CB_GETCURSEL, 0 ,0);
 				int timer;
 				char fn[MAX_PATH], string[1000];
 				mir_snprintf(fn, SIZEOF(fn), "fn%d", i);
 				if (GetWindowTextLength(GetDlgItem(hwnd,IDC_WWW_TIMER))) {
-					char text[5];
-					GetDlgItemTextA(hwnd,IDC_WWW_TIMER,text,sizeof(text));
-					timer = atoi(text);
+					TCHAR text[5];
+					GetDlgItemText(hwnd,IDC_WWW_TIMER,text,SIZEOF(text));
+					timer = _ttoi(text);
 				}
 				else timer = 60;
 

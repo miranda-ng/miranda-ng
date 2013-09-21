@@ -112,35 +112,42 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	switch(msg) {
 	case WM_INITDIALOG:
 		{
-			int i;
-			char string[512];
 			HANDLE hContact = (HANDLE)((PROPSHEETPAGE*)lParam)->lParam;
 			TranslateDialogDefault(hwnd);
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LPARAM)(HANDLE)hContact);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LPARAM)hContact);
 			if (!hContact)
 				break;
 
 			/* link*/
-			if (db_get_static(hContact, MODNAME, "ProgramString", string))
-				SetDlgItemTextA(hwnd, IDC_LINK, string);
+			DBVARIANT dbv;
+			if (!db_get_ts(hContact, MODNAME, "ProgramString", &dbv))
+			{
+				SetDlgItemText(hwnd, IDC_LINK, dbv.ptszVal);
+				db_free(&dbv);
+			}
 
-			if (db_get_static(hContact, MODNAME, "ProgramParamsString", string))
-				SetDlgItemTextA(hwnd, IDC_PARAMS, string);
+			if (!db_get_ts(hContact, MODNAME, "ProgramParamsString", &dbv))
+			{
+				SetDlgItemText(hwnd, IDC_PARAMS, dbv.ptszVal);
+				db_free(&dbv);
+			}
 
 			/* group*/
 			TCHAR *szGroup;
-			for (i=1; (szGroup = pcli->pfnGetGroupName(i, NULL)) != NULL; i++)
-				SendMessage(GetDlgItem(hwnd, IDC_GROUP), CB_INSERTSTRING,0, LPARAM(szGroup));
+			for (int i=1; (szGroup = pcli->pfnGetGroupName(i, NULL)) != NULL; i++)
+				SendDlgItemMessage(hwnd, IDC_GROUP, CB_INSERTSTRING,0, LPARAM(szGroup));
 
-			DBVARIANT dbv;
-			if (!db_get(hContact, "CList", "Group", &dbv))
-				SetDlgItemTextA(hwnd, IDC_GROUP, dbv.pszVal);
+			if (!db_get_ts(hContact, "CList", "Group", &dbv))
+			{
+				SetDlgItemText(hwnd, IDC_GROUP, dbv.ptszVal);
+				db_free(&dbv);
+			}
 
 			/* icons */
 			CheckRadioButton(hwnd, 40072, 40080, db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE));
 			SetWindowLongPtr(GetDlgItem(hwnd, CHK_ONLINE), GWLP_USERDATA, (LONG)LoadSkinnedProtoIcon(MODNAME, ID_STATUS_ONLINE));
 			g_PrevBtnWndProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hwnd, CHK_ONLINE), GWLP_WNDPROC, (LPARAM)ButtWndProc);
-			for (i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 				SetWindowLongPtr(GetDlgItem(hwnd, i), GWLP_USERDATA, (LPARAM)LoadSkinnedProtoIcon(MODNAME, i));
 				SetWindowLongPtr(GetDlgItem(hwnd, i), GWLP_WNDPROC, (LPARAM)ButtWndProc);
 			}
@@ -150,12 +157,13 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			if (db_get_w(hContact, MODNAME ,"Timer", 15)) {
 				CheckDlgButton(hwnd, CHK_USE_TIMER,1);
 				EnableWindow(GetDlgItem(hwnd, IDC_TIMER), 1);
-				SetDlgItemTextA(hwnd, IDC_TIMER, _itoa(db_get_w(hContact, MODNAME ,"Timer", 15), string, 10));
+				TCHAR string[512];
+				SetDlgItemText(hwnd, IDC_TIMER, _itot(db_get_w(hContact, MODNAME ,"Timer", 15), string, 10));
 				if (!db_get_w(NULL, MODNAME ,"Timer", 1))
-					SetDlgItemTextA(hwnd,IDC_TIMER_INTERVAL_MSG, "Non-IM Contact protocol timer is Disabled");
+					SetDlgItemText(hwnd,IDC_TIMER_INTERVAL_MSG, TranslateT("Non-IM Contact protocol timer is Disabled"));
 				else {
-					mir_snprintf(string, sizeof(string), "Timer intervals... Non-IM Contact Protocol timer is %d seconds",db_get_w(NULL, MODNAME ,"Timer", 1));
-					SetDlgItemTextA(hwnd,IDC_TIMER_INTERVAL_MSG, string);
+					mir_sntprintf(string, SIZEOF(string), TranslateT("Timer intervals... Non-IM Contact Protocol timer is %d seconds"),db_get_w(NULL, MODNAME ,"Timer", 1));
+					SetDlgItemText(hwnd,IDC_TIMER_INTERVAL_MSG, string);
 				}
 			}
 			/* always visible */
@@ -253,9 +261,9 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 				if (IsDlgButtonChecked(hwnd, CHK_USE_TIMER)) {
 					if (GetWindowTextLength(GetDlgItem(hwnd,IDC_TIMER))) {
-						char text[512];
-						GetDlgItemTextA(hwnd,IDC_TIMER,text,sizeof(text));
-						db_set_w(hContact, MODNAME, "Timer", (WORD)atoi(text));
+						TCHAR text[512];
+						GetDlgItemText(hwnd,IDC_TIMER,text,SIZEOF(text));
+						db_set_w(hContact, MODNAME, "Timer", (WORD)_ttoi(text));
 					}
 					else db_set_w(hContact, MODNAME, "Timer", 15);
 				}
@@ -446,7 +454,6 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 void ExportContact(HANDLE hContact)
 {
-	FILE* file;
 	char szFileName[MAX_PATH];
 	char DBVar[1024];
 	int tmp;
@@ -456,7 +463,7 @@ void ExportContact(HANDLE hContact)
 		//	if (tmp = MessageBox(0, "Do you want to overwrite the contents of the file?\r\n\r\nPressing No will append this contact to the end of the file.",modFullname, MB_YESNO) == IDYES)
 		//		file = fopen(szFileName, "w");
 		//	else 
-		file = fopen(szFileName, "a");
+		FILE *file = fopen(szFileName, "a");
 		if (file)
 		{
 			if (db_get_static(hContact, MODNAME, "Name", DBVar))

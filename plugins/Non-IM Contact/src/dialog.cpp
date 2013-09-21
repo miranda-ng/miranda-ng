@@ -1,18 +1,18 @@
 #include "commonheaders.h"
 
-#define NIM_HELP_TEXT LPGEN("String replacing variables....\r\nThe following are all the valid variables that can be used. Refer to the readme for a proper explanation.\r\n\r\n\
+#define NIM_HELP_TEXT TranslateT("String replacing variables....\r\nThe following are all the valid variables that can be used. Refer to the readme for a proper explanation.\r\n\r\n\
 file(X)\t\t<- specifies the file to read from. MUST be followed by either start() or end() or wholeline()\r\n\
-filename(X)\t<- copyies the filename of file X.\r\n\
+filename(X)\t<- copies the filename of file X.\r\n\
 start(...)\t\t<- specifies where to start copying from.\r\n\
 end(...)\t\t<- specifies where to stop copying.\r\n\
 wholeline(line(...))\t<- specifies a whole line to copy\r\n\r\n\
 start() and end() explained\r\n.........................\r\n\
-MUST start with line() followed by a number or a string inside \" marks, OR csv(seperatorX) variable. The number specifies which character in the line to start/end copying. The string specifies a string in the line to start/end copying.\r\n\r\n\
+MUST start with line() followed by a number or a string inside \" marks, OR csv(separatorX) variable. The number specifies which character in the line to start/end copying. The string specifies a string in the line to start/end copying.\r\n\r\n\
 csv(seperatorX) explained...\r\nSeperator is either \"tab\" or \"space\" or any SINGLE character. X is the Xth seperator to pass before copying, (or to stop before).\r\n\r\n\
 Lastly the line(...) variable...\r\n\
 Inside the brackets must be either a number (to specify the line number), or a string inside \" marks (to use the line with that string), or lastline(X). The X in lastline is the Xth line above the last line. i.e lastline(1) will use the 2nd last line of the file. If searching for a line with \"some words\" you may put a + or - X after the closing ) i.e line(\"some words\")+3 to go 3 lines after the line with \"some words\".\r\n\r\n\
-Some Expamples...\r\n\
-filename(0)    <- will display the filename of the 0th file\r\nfile(0)wholeline(line(0)))    <- will display the whole first line of the 0th file\r\nfile(0)wholeline(line(\"hello\")-1)))    <- the wholeline above the first occurance of \"hello\" in the file\r\nfile(0)start(line(lastline(1))csv(tab2))end(line(lastline())csv(tab4)))    <- starts at the 2nd last line of the file, from the 2nd tab variable, untill the 4th tab variable in the last line (in the 0th file)\r\nfile(0)start(line(\"hello\")+1\"zzzz\")end(line(6)17))    <- starts from the first occurance of zzzz in the line after the first occurance of hello, untill the 17th character in the 6th line (starting from line 0) of the 0th file.\r\n")
+Some Examples...\r\n\
+filename(0)    <- will display the filename of the 0th file\r\nfile(0)wholeline(line(0)))    <- will display the whole first line of the 0th file\r\nfile(0)wholeline(line(\"hello\")-1)))    <- the wholeline above the first occurance of \"hello\" in the file\r\nfile(0)start(line(lastline(1))csv(tab2))end(line(lastline())csv(tab4)))    <- starts at the 2nd last line of the file, from the 2nd tab variable, until the 4th tab variable in the last line (in the 0th file)\r\nfile(0)start(line(\"hello\")+1\"zzzz\")end(line(6)17))    <- starts from the first occurance of zzzz in the line after the first occurance of hello, untill the 17th character in the 6th line (starting from line 0) of the 0th file.\r\n")
 
 
 INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -20,13 +20,13 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	switch(msg) {
 	case WM_INITDIALOG:
 		{
-			char tmp[5];
+			TCHAR tmp[5];
 			TranslateDialogDefault(hwnd);
 			CheckDlgButton(hwnd, IDC_AWAYISNOTONLINE, db_get_b(NULL, MODNAME, "AwayAsStatus", 0));
 			if (db_get_w(NULL, MODNAME, "Timer", 1))
 			{
 				EnableWindow(GetDlgItem(hwnd,IDC_TIMER_INT),1);
-				SetDlgItemTextA(hwnd, IDC_TIMER_INT, _itoa(db_get_w(NULL, MODNAME, "Timer", 1),tmp,10));
+				SetDlgItemText(hwnd, IDC_TIMER_INT, _itot(db_get_w(NULL, MODNAME, "Timer", 1),tmp,10));
 				EnableWindow(GetDlgItem(hwnd,IDC_TIMER_TEXT),1);
 			}
 			else 
@@ -52,7 +52,7 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				EnableWindow(GetDlgItem(hwnd,IDC_TIMER_TEXT),1);
 				EnableWindow(GetDlgItem(hwnd,IDC_TIMER_INT),1);
 				if (!GetWindowTextLength(GetDlgItem(hwnd, IDC_TIMER_INT)))
-					SetDlgItemTextA(hwnd, IDC_TIMER_INT,"1");
+					SetDlgItemText(hwnd, IDC_TIMER_INT,_T("1"));
 			}
 			break;
 
@@ -65,11 +65,11 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				char tmp[5];
+				TCHAR tmp[5];
 				db_set_b(NULL, MODNAME, "AwayAsStatus", (BYTE)IsDlgButtonChecked(hwnd, IDC_AWAYISNOTONLINE));
 				if (!IsDlgButtonChecked(hwnd, IDC_DISABLETIMER) && GetWindowTextLength(GetDlgItem(hwnd, IDC_TIMER_INT))) {
-					GetDlgItemTextA(hwnd, IDC_TIMER_INT, tmp, 4);
-					db_set_w(NULL, MODNAME, "Timer",(WORD)atoi(tmp));
+					GetDlgItemText(hwnd, IDC_TIMER_INT, tmp, 4);
+					db_set_w(NULL, MODNAME, "Timer",(WORD)_ttoi(tmp));
 				}
 				else db_set_w(NULL, MODNAME, "Timer",0);
 				return TRUE;
@@ -105,7 +105,7 @@ INT_PTR CALLBACK HelpWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 {
 	switch(msg) {
 	case WM_INITDIALOG:
-		SetDlgItemTextA(hwnd, IDC_HELPTEXT, NIM_HELP_TEXT);
+		SetDlgItemText(hwnd, IDC_HELPTEXT, NIM_HELP_TEXT);
 		TranslateDialogDefault(hwnd);
 		return TRUE;
 
@@ -251,7 +251,7 @@ void DoPropertySheet(HANDLE hContact, HINSTANCE hInst)
 	psp[0].pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_INFO);
 	psp[0].pszIcon = NULL; 
 	psp[0].pfnDlgProc = DlgProcContactInfo;
-	psp[0].pszTitle = "Contacts Display Info";
+	psp[0].pszTitle = Translate("Contacts Display Info");
 	psp[0].lParam = (LPARAM)hContact;
 	psp[0].pfnCallback = NULL;
 
@@ -262,7 +262,7 @@ void DoPropertySheet(HANDLE hContact, HINSTANCE hInst)
 	psp[1].pszTemplate = MAKEINTRESOURCEA(IDD_OTHER_STUFF);
 	psp[1].pszIcon = NULL; 
 	psp[1].pfnDlgProc = DlgProcOtherStuff;
-	psp[1].pszTitle = "Link and CList Settings";
+	psp[1].pszTitle = Translate("Link and CList Settings");
 	psp[1].lParam = (LPARAM)hContact;
 	psp[1].pfnCallback = NULL;
 
@@ -273,7 +273,7 @@ void DoPropertySheet(HANDLE hContact, HINSTANCE hInst)
 	psp[2].pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_COPYEXPORT);
 	psp[2].pszIcon = NULL; 
 	psp[2].pfnDlgProc = DlgProcCopy;
-	psp[2].pszTitle = "Copy Contact";
+	psp[2].pszTitle = Translate("Copy Contact");
 	psp[2].lParam = (LPARAM)hContact;
 	psp[2].pfnCallback = NULL;
 
@@ -284,7 +284,7 @@ void DoPropertySheet(HANDLE hContact, HINSTANCE hInst)
 	psp[3].pszTemplate = MAKEINTRESOURCEA(IDD_ADD_FILE);
 	psp[3].pszIcon = NULL; 
 	psp[3].pfnDlgProc = DlgProcFiles;
-	psp[3].pszTitle = "Files";
+	psp[3].pszTitle = Translate("Files");
 	psp[3].lParam = 0;
 	psp[3].pfnCallback = NULL;
 
@@ -294,7 +294,7 @@ void DoPropertySheet(HANDLE hContact, HINSTANCE hInst)
 	psh.hInstance = hInst;
 	psh.pszIcon = MAKEINTRESOURCEA(IDI_MAIN);
 	db_get_static(hContact, MODNAME, "Nick", nick);
-	mir_snprintf(title, SIZEOF(title), "Edit Non-IM Contact \"%s\"", nick);
+	mir_snprintf(title, SIZEOF(title), Translate("Edit Non-IM Contact \"%s\""), nick);
 	psh.pszCaption = title;
 	psh.nPages = SIZEOF(psp);
 	psh.ppsp = (LPCPROPSHEETPAGEA)&psp;
@@ -310,7 +310,7 @@ INT_PTR addContact(WPARAM wParam,LPARAM lParam)
 	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
 	CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)hContact,(LPARAM)MODNAME);
 	CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, IGNOREEVENT_USERONLINE);
-	db_set_s(hContact, MODNAME, "Nick", Translate("New Non-IM Contact"));
+	db_set_ts(hContact, MODNAME, "Nick", TranslateT("New Non-IM Contact"));
 	DoPropertySheet(hContact, hInst);
 	if (!db_get_static(hContact, MODNAME, "Name", tmp))
 		CallService(MS_DB_CONTACT_DELETE,(WPARAM)hContact,0);
