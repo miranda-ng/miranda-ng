@@ -84,10 +84,9 @@ INT_PTR ModifyStatusIcon(WPARAM wParam, LPARAM lParam)
 	HANDLE hContact = (HANDLE)wParam;
 	if (hContact == NULL) {
 		mir_free(p->sid.szModule);
+		mir_free(p->sid.szTooltip);
 		memcpy(&p->sid, sid, sizeof(p->sid));
 		p->sid.szModule = mir_strdup(sid->szModule);
-
-		mir_free(p->sid.szTooltip);
 		p->sid.tszTooltip = (sid->flags & MBF_UNICODE) ? mir_u2t(sid->wszTooltip) : mir_a2t(sid->szTooltip);
 
 		NotifyEventHooks(hHookIconsChanged, NULL, (LPARAM)p);
