@@ -360,7 +360,7 @@ TemplateMap* TemplateMap::loadTemplateFile(const char *id, const char *filename,
 		if (sscanf(store, "%s", tmp2) == EOF) continue;
 		//template start
 		bool bFound = false;
-		for (unsigned i = 0; i < sizeof(templateNames) / sizeof (templateNames[0]); i++) {
+		for (unsigned i = 0; i < SIZEOF(templateNames); i++) {
 			if (!strncmp(store, templateNames[i].tokenString, templateNames[i].tokenLen)) {
 				bFound = true;
 				break;
@@ -370,7 +370,8 @@ TemplateMap* TemplateMap::loadTemplateFile(const char *id, const char *filename,
 			if (wasTemplate)
 				tmap->addTemplate(lastTemplate, templateText);
 
-			replaceStr(templateText, NULL);
+			if (templateText)
+				free(templateText), templateText = NULL;
 			templateTextSize = 0;
 			wasTemplate = true;
 			sscanf(store, "<!--%[^-]", lastTemplate);
@@ -380,7 +381,8 @@ TemplateMap* TemplateMap::loadTemplateFile(const char *id, const char *filename,
 	}
 	if (wasTemplate)
 		tmap->addTemplate(lastTemplate, templateText);
-	replaceStr(templateText, NULL);
+	if (templateText)
+		free(templateText), templateText = NULL;
 
 	fclose(fh);
 	static const char *groupTemplates[] = {"MessageInGroupStart", "MessageInGroupInner",
