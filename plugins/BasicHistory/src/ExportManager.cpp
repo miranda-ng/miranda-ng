@@ -60,21 +60,15 @@ std::wstring GetFile(const TCHAR* ext, HWND hwnd, bool open)
 	ofn.lpstrTitle = open ? TranslateT("Import") : TranslateT("Export");
 	ofn.nMaxFile = 1024;
 	ofn.lpstrDefExt = ext;
-	if (open)
-	{
+	if (open) {
 		ofn.Flags = OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
 		if (GetOpenFileName(&ofn))
-		{
 			return stzFilePath;
-		}
 	}
-	else
-	{
+	else {
 		ofn.Flags = OFN_NOREADONLYRETURN | OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR;
 		if (GetSaveFileName(&ofn))
-		{
 			return stzFilePath;
-		}
 	}
 
 	return L"";
@@ -83,8 +77,7 @@ std::wstring GetFile(const TCHAR* ext, HWND hwnd, bool open)
 std::wstring ReplaceExt(const std::wstring& file, const TCHAR* ext)
 {
 	size_t pos = file.find(_T("<ext>"));
-	if (pos < file.length())
-	{
+	if (pos < file.length()) {
 		std::wstring fileName = file.substr(0, pos);
 		fileName += ext;
 		fileName += file.substr(pos + 5);
@@ -100,8 +93,7 @@ bool ExportManager::Export(IExport::ExportType type)
 	UINT cp;
 	std::wstring encoding;
 	bool isBin = false;
-	switch(type)
-	{
+	switch(type) {
 	case IExport::Txt:
 		exp = new TxtExport();
 		cp = Options::instance->codepageTxt;
@@ -142,16 +134,13 @@ bool ExportManager::Export(IExport::ExportType type)
 	if (file.empty())
 		fileName = GetFile(exp->GetExt(), hwnd, false);
 	else
-	{
 		fileName = ReplaceExt(file, exp->GetExt());
-	}
 
 	if (fileName.empty())
 		return false;
 
 	std::wofstream* stream;
-	if (!isBin)
-	{
+	if (!isBin) {
 		stream = new std::wofstream (fileName.c_str());
 		if (!stream->is_open())
 			return false;
@@ -160,8 +149,7 @@ bool ExportManager::Export(IExport::ExportType type)
 		stream->imbue(filelocale);
 		exp->SetStream(stream);
 	}
-	else
-	{
+	else {
 		std::ofstream* cstream = new std::ofstream (fileName.c_str(), std::ios_base::binary);
 		if (!cstream->is_open())
 			return false;
@@ -175,13 +163,11 @@ bool ExportManager::Export(IExport::ExportType type)
 	RefreshEventList();
 
 	exp->WriteFooter();
-	if (!isBin)
-	{
+	if (!isBin) {
 		stream->close();
 		delete stream;
 	}
-	else
-	{
+	else {
 		std::ofstream* cstream = (std::ofstream*)stream;
 		cstream->close();
 		delete cstream;
@@ -194,8 +180,7 @@ bool ExportManager::Export(IExport::ExportType type)
 const TCHAR* ExportManager::GetExt(IImport::ImportType type)
 {
 	IImport* imp = NULL;
-	switch(type)
-	{
+	switch(type) {
 	case IImport::Binary:
 		imp = new BinaryExport();
 		break;
@@ -214,8 +199,7 @@ const TCHAR* ExportManager::GetExt(IImport::ImportType type)
 int ExportManager::Import(IImport::ImportType type, const std::vector<HANDLE>& contacts)
 {
 	IImport* imp = NULL;
-	switch(type)
-	{
+	switch(type) {
 	case IImport::Binary:
 		imp = new BinaryExport();
 		break;
@@ -252,8 +236,7 @@ int ExportManager::Import(IImport::ImportType type, const std::vector<HANDLE>& c
 bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::ExternalMessage>& eventList, std::wstring* err, bool* differentContact, std::vector<HANDLE>* contacts)
 {
 	IImport* imp = NULL;
-	switch(type)
-	{
+	switch(type) {
 	case IImport::Binary:
 		imp = new BinaryExport();
 		break;
@@ -268,9 +251,7 @@ bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::Extern
 	if (file.empty())
 		file = fileName = GetFile(imp->GetExt(), hwnd, true);
 	else
-	{
 		fileName = ReplaceExt(file, imp->GetExt());
-	}
 
 	std::ifstream* stream = new std::ifstream (fileName.c_str(), std::ios_base::binary);
 	if (!stream->is_open())
@@ -281,29 +262,25 @@ bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::Extern
 	v.push_back(hContact);
 	bool ret = true;
 	int contInFile = imp->IsContactInFile(v);
-	if (contInFile == -1)
-	{
+	if (contInFile == -1) {
 		ret = false;
 		if (err != NULL)
 			*err = TranslateT("File do not contain selected contact");
-		if (contacts != NULL && differentContact != NULL)
-		{
+		
+		if (contacts != NULL && differentContact != NULL) {
 			contInFile = imp->IsContactInFile(*contacts);
-			if (contInFile >= 0)
-			{
+			if (contInFile >= 0) {
 				*differentContact = true;
 				hContact = (*contacts)[contInFile];
 			}
 		}
 	}
-	else if (contInFile == 0 || contInFile == -3)
-	{
+	else if (contInFile == 0 || contInFile == -3) {
 		ret = imp->GetEventList(eventList);
 		if (!ret && err != NULL)
 			*err = TranslateT("File is corrupted");
 	}
-	else
-	{
+	else {
 		ret = false;
 		if (err != NULL)
 			*err = TranslateT("File is corrupted");
@@ -318,6 +295,7 @@ void ExportManager::AddGroup(bool isMe, const std::wstring &time, const std::wst
 {
 	if (exp == NULL)
 		return;
+	
 	exp->WriteGroup(isMe, time, user, eventText);
 	TCHAR str[MAXSELECTSTR + 8]; // for safety reason
 	str[0] = 0;
@@ -327,31 +305,25 @@ void ExportManager::AddGroup(bool isMe, const std::wstring &time, const std::wst
 	EventData data;
 	std::deque<EventIndex> revDeq;
 	std::deque<EventIndex>& deq = eventList.back();
-	if (!oldOnTop && Options::instance->messagesNewOnTop)
-	{
+	if (!oldOnTop && Options::instance->messagesNewOnTop) {
 		revDeq.insert(revDeq.begin(), deq.rbegin(), deq.rend());
 		deq = revDeq;
 	}
-	for(std::deque<EventIndex>::iterator it = deq.begin(); it != deq.end(); ++it)
-	{
+	for (std::deque<EventIndex>::iterator it = deq.begin(); it != deq.end(); ++it) {
 		EventIndex hDbEvent = *it;
-		if (GetEventData(hDbEvent, data))
-		{
+		if (GetEventData(hDbEvent, data)) {
 			lastMe = data.isMe;
 
 			TCHAR* formatDate = Options::instance->messagesShowSec ? _T("d s") : _T("d t");
 			TCHAR* longFormatDate = Options::instance->messagesShowSec ? _T("d s") : _T("d t");
-			if (!Options::instance->messagesShowDate)
-			{
-				if (isFirst)
-				{
+			if (!Options::instance->messagesShowDate) {
+				if (isFirst) {
 					isFirst = false;
 					formatDate = Options::instance->messagesShowSec ? _T("s") : _T("t");
 					time_t tt = data.timestamp;
 					localtime_s(&lastTime,  &tt);
 				}
-				else
-				{
+				else {
 					time_t tt = data.timestamp;
 					tm t;
 					localtime_s(&t,  &tt);
@@ -377,9 +349,7 @@ void ExportManager::AddGroup(bool isMe, const std::wstring &time, const std::wst
 				continue;
 
 			if (hDbEvent.isExternal)
-			{
 				GetExtEventDBei(hDbEvent);
-			}
 
 			exp->WriteMessage(lastMe, longDate, shortDate, user, strMessage, gdbei);
 		}
@@ -388,13 +358,9 @@ void ExportManager::AddGroup(bool isMe, const std::wstring &time, const std::wst
 
 void ExportManager::DeleteExportedEvents()
 {
-	for(size_t j = 0; j < eventList.size(); ++j)
-	{
-		for(size_t i = 0; i < eventList[j].size(); ++i)
-		{
+	for (size_t j = 0; j < eventList.size(); ++j)
+		for (size_t i = 0; i < eventList[j].size(); ++i)
 			DeleteEvent(eventList[j][i]);
-		}
-	}
 }
 
 void ExportManager::SetDeleteWithoutExportEvents(int _deltaTime, DWORD _now)

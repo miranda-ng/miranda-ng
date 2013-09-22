@@ -131,8 +131,7 @@ void InitTaskMenuItems()
 
 		std::vector<TaskOptions>::iterator taskIt = Options::instance->taskOptions.begin();
 		std::vector<HGENMENU>::iterator it = taskMenus.begin();
-		for(; it != taskMenus.end() && taskIt != Options::instance->taskOptions.end(); ++it, ++taskIt)
-		{
+		for (; it != taskMenus.end() && taskIt != Options::instance->taskOptions.end(); ++it, ++taskIt) {
 			memset(&mi, 0, sizeof(mi));
 			mi.cbSize = sizeof(mi);
 			mi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
@@ -141,8 +140,7 @@ void InitTaskMenuItems()
 			Menu_ModifyItem((HGENMENU)*it, &mi);
 		}
 
-		for(; it != taskMenus.end(); ++it)
-		{
+		for (; it != taskMenus.end(); ++it) {
 			memset(&mi, 0, sizeof(mi));
 			mi.cbSize = sizeof(mi);
 			mi.flags = CMIM_FLAGS | CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | CMIF_HIDDEN;
@@ -151,8 +149,7 @@ void InitTaskMenuItems()
 		}
 
 		int pos = (int)taskMenus.size();
-		for(; taskIt != Options::instance->taskOptions.end(); ++taskIt)
-		{
+		for (; taskIt != Options::instance->taskOptions.end(); ++taskIt) {
 			memset(&mi, 0, sizeof(mi));
 			mi.cbSize = sizeof(mi);
 			mi.flags = CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
@@ -164,8 +161,7 @@ void InitTaskMenuItems()
 			taskMenus.push_back(menu);
 		}
 	}
-	else if (hTaskMainMenu != NULL)
-	{
+	else if (hTaskMainMenu != NULL) {
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_FLAGS | CMIF_ROOTPOPUP | CMIF_HIDDEN;
 		Menu_ModifyItem(hTaskMainMenu, &mi);
@@ -223,26 +219,20 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	InitMenuItems();
 	
 	TCHAR ftpExe[MAX_PATH];
-	if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES, NULL, SHGFP_TYPE_CURRENT, ftpExe)))
-	{
+	if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES, NULL, SHGFP_TYPE_CURRENT, ftpExe))) {
 		_tcscat_s(ftpExe, _T("\\WinSCP\\WinSCP.exe"));
 		DWORD atr = GetFileAttributes(ftpExe);
-		if (atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY)
-		{
+		if (atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY) {
 #ifdef _WIN64
-			if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILESX86, NULL, SHGFP_TYPE_CURRENT, ftpExe)))
-			{
+			if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILESX86, NULL, SHGFP_TYPE_CURRENT, ftpExe))) {
 				_tcscat_s(ftpExe, _T("\\WinSCP\\WinSCP.exe"));
 				atr = GetFileAttributes(ftpExe);
 				if (!(atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY))
-				{
 					Options::instance->ftpExePathDef = ftpExe;
-				}
 			}
 #endif
 		}
-		else
-			Options::instance->ftpExePathDef = ftpExe;
+		else Options::instance->ftpExePathDef = ftpExe;
 	}
 
 	TCHAR* log = _T("%miranda_logpath%\\BasicHistory\\ftplog.txt");
@@ -310,17 +300,14 @@ extern "C" int __declspec(dllexport) Unload(void)
 	
 	EventList::Deinit();
 	
-	if (Options::instance != NULL)
-	{
+	if (Options::instance != NULL) {
 		Options::instance->Unload();
 		delete Options::instance;
 		Options::instance = NULL;
 	}
 
 	if (hEventIcons != NULL)
-	{
 		delete [] hEventIcons;
-	}
 
 	return 0;
 }

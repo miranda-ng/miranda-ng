@@ -36,11 +36,9 @@ std::wstring MakeTextHtmled(const std::wstring& message, std::queue<std::pair<si
 	size_t start = 0;
 	size_t find;
 	size_t currentAdd = 0;
-	while((find = message.find_first_of(search, start)) < message.length())
-	{
+	while((find = message.find_first_of(search, start)) < message.length()) {
 		ret += message.substr(start, find - start);
-		switch(message[find])
-		{
+		switch(message[find]) {
 		case _T('&'):
 			ret += _T("&amp;");
 			break;
@@ -59,11 +57,9 @@ std::wstring MakeTextHtmled(const std::wstring& message, std::queue<std::pair<si
 		}
 
 		start = find + 1;
-		if (positionMap != NULL)
-		{
+		if (positionMap != NULL) {
 			size_t len = ret.length() - start - currentAdd;
-			if (len != 0)
-			{
+			if (len != 0) {
 				positionMap->push(std::pair<size_t, size_t>(start + currentAdd, len));
 				currentAdd += len;
 			}
@@ -81,16 +77,14 @@ std::wstring UrlHighlightHtml(const std::wstring& message, bool& isUrl)
 	std::wstring search = _T("://");
 	size_t start = 0;
 	size_t find;
-	while((find = message.find(search, start)) < message.length())
-	{
+	while((find = message.find(search, start)) < message.length()) {
 		size_t urlStart = message.find_last_of(htmlStop, find);
 		size_t urlEnd = message.find_first_of(htmlStop, find + 3);
 		if (urlStart >= message.length())
 			urlStart = -1;
 		if (urlEnd >= message.length())
 			urlEnd = message.length();
-		if (((int)urlEnd -3 - (int)find > 0) && ((int)find - (int)urlStart -1 > 0))
-		{
+		if (((int)urlEnd -3 - (int)find > 0) && ((int)find - (int)urlStart -1 > 0)) {
 			ret += message.substr(start, (urlStart + 1) - start);
 			std::wstring url = message.substr(urlStart + 1, urlEnd - urlStart - 1);
 			start = urlEnd;
@@ -98,8 +92,7 @@ std::wstring UrlHighlightHtml(const std::wstring& message, bool& isUrl)
 			ret += url + _T("\">") + url + _T("</a>");
 			isUrl = true;
 		}
-		else
-		{
+		else {
 			ret += message.substr(start, (find + 3) - start);
 			start = find + 3;
 		}
@@ -113,9 +106,7 @@ std::wstring RemoveExt(const std::wstring &fileName)
 {
 	size_t find = fileName.find_last_of(L'.');
 	if (find < fileName.length())
-	{
 		return fileName.substr(0, find);
-	}
 
 	return fileName;
 }
@@ -124,9 +115,7 @@ std::wstring GetName(const std::wstring &path)
 {
 	size_t find = path.find_last_of(L"\\/");
 	if (find < path.length())
-	{
 		return path.substr(find + 1);
-	}
 
 	return path;
 }
@@ -134,18 +123,14 @@ std::wstring GetName(const std::wstring &path)
 void ExtractFile(short int res, const std::wstring &fileName)
 {
 	HRSRC rSrc = FindResource(hInst, MAKEINTRESOURCE(res), MAKEINTRESOURCE(CUSTOMRES));
-	if (rSrc != NULL)
-	{
+	if (rSrc != NULL) {
 		HGLOBAL res = LoadResource(hInst, rSrc);
 		int size = SizeofResource(hInst, rSrc);
-		if (res != NULL)
-		{
+		if (res != NULL) {
 			char* resData = (char*)LockResource(res);
-			if (resData != NULL)
-			{
+			if (resData != NULL) {
 				std::ofstream stream (fileName.c_str(), std::ios_base::binary);
-				if (stream.is_open())
-				{
+				if (stream.is_open()) {
 					stream.write(resData, size);
 					stream.close();
 				}
@@ -189,9 +174,9 @@ void IcoSave(const std::wstring &fileName, HICON hicon)
 	std::ofstream store (fileName.c_str(), std::ios_base::binary);
 	if (!store.is_open())
 		return;
-	ICONINFO		ii;
-	if (!GetIconInfo(hicon,&ii))
-	{
+
+	ICONINFO	ii;
+	if ( !GetIconInfo(hicon, &ii)) {
 		store.close();
 		return;
 	}
@@ -200,14 +185,12 @@ void IcoSave(const std::wstring &fileName, HICON hicon)
 	HBITMAP hbmColor = ii.hbmColor;
 	BITMAP  bmiMask;
 	BITMAP  bmiColor;
-	if (
-	GetObject(hbmColor,sizeof(bmiColor),&bmiColor) &&
-	GetObject(hbmMask,sizeof(bmiMask),&bmiMask) &&
-	(bmiColor.bmWidth==bmiMask.bmWidth) &&
-	(bmiColor.bmHeight==bmiMask.bmHeight) &&
-	(bmiMask.bmHeight) > 0 &&
-	(bmiMask.bmWidth) > 0
-	)
+	if (GetObject(hbmColor,sizeof(bmiColor),&bmiColor) &&
+		GetObject(hbmMask,sizeof(bmiMask),&bmiMask) &&
+		(bmiColor.bmWidth==bmiMask.bmWidth) &&
+		(bmiColor.bmHeight==bmiMask.bmHeight) &&
+		(bmiMask.bmHeight) > 0 &&
+		(bmiMask.bmWidth) > 0)
 	{
 		BITMAPINFOHEADER  icobmi = {0};
 		MYBITMAPINFO info1 = {0};
@@ -308,9 +291,7 @@ void RichHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstrin
 	std::wstring css =  folder + _T("\\history.css");
 	BOOL cssCopied = FALSE;
 	if (!Options::instance->extCssHtml2.empty())
-	{
 		cssCopied = CopyFile(Options::instance->extCssHtml2.c_str(), css.c_str(), FALSE);
-	}
 
 	if (!cssCopied)
 		ExtractFile(IDR_CSS, css);
@@ -360,23 +341,15 @@ void RichHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstrin
 	EXP_FILE << _T("<h4>") << TranslateT("History Log") << _T("</h4>\n<h3>");
 	EXP_FILE << MakeTextHtmled(myName);
 	if (proto1.length() || myId.length())
-	{
 		EXP_FILE << _T(" (") << MakeTextHtmled(proto1) << _T(": ") << MakeTextHtmled(myId) << _T(") - ");
-	}
 	else
-	{
 		EXP_FILE << _T(" - ");
-	}
 
 	EXP_FILE << MakeTextHtmled(name1);
 	if (proto1.length() || id1.length())
-	{
 		EXP_FILE << _T(" (") << MakeTextHtmled(proto1) << _T(": ") << MakeTextHtmled(id1) << _T(")</h3>\n");
-	}
 	else
-	{
 		EXP_FILE << _T("</h3>\n");
-	}
 
 	EXP_FILE << _T("<h6>") << TranslateT("Filter:") << _T(" ") << MakeTextHtmled(filterName) << _T("</h6>\n");
 	groupId = 0;
@@ -385,9 +358,7 @@ void RichHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstrin
 void RichHtmlExport::WriteFooter()
 {
 	if (groupId > 0)
-	{
 		EXP_FILE << _T("</div>\n");
-	}
 
 	EXP_FILE << _T("<div class=mes id=bottom></div>\n</body></html>\n");
 }
@@ -397,9 +368,7 @@ void RichHtmlExport::WriteGroup(bool isMe, const std::wstring &time, const std::
 	TCHAR *id = isMe ? _T("out") : _T("inc");
 	TCHAR* ev = (isMe ? _T("1") : _T("0"));
 	if (groupId > 0)
-	{
 		EXP_FILE << _T("</div>\n");
-	}
 	
 	bool isUrl = false;
 	std::wstring& mes = ReplaceSmileys(isMe, eventText, isUrl);
@@ -433,114 +402,91 @@ void RichHtmlExport::WriteMessage(bool isMe, const std::wstring &longDate, const
 
 std::wstring RichHtmlExport::ReplaceSmileys(bool isMe, const std::wstring &msg, bool &isUrl)
 {
-	if (Options::instance->exportHtml2UseSmileys && g_SmileyAddAvail)
-	{
-		TCHAR* msgbuf = new TCHAR[msg.length() + 1];
-		memcpy_s(msgbuf, (msg.length() + 1) * sizeof(TCHAR), msg.c_str(), (msg.length() + 1) * sizeof(TCHAR));
-		SMADD_BATCHPARSE2 sp = {0};
-		SMADD_BATCHPARSERES *spr;
-		sp.cbSize = sizeof(sp);
-		sp.Protocolname = baseProto.length() == 0 ? NULL : baseProto.c_str();
-		sp.str = msgbuf;
-		sp.flag = SAFL_TCHAR | SAFL_PATH | (isMe ? SAFL_OUTGOING : 0);
-		spr = (SMADD_BATCHPARSERES*)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
-		delete[] msgbuf;
-
-		if (spr == NULL || (INT_PTR)spr == CALLSERVICE_NOTFOUND)
-		{
-			// Did not find a simley
-			return UrlHighlightHtml(MakeTextHtmled(msg), isUrl);
-		}
-
-		std::queue<std::pair<size_t, size_t> > positionMap;
-		std::wstring newMsg = MakeTextHtmled(msg, &positionMap);
-		std::wstring smileyMsg;
-		
-		size_t last_pos=0;
-		std::pair<size_t, size_t> pos(0, 0);
-		size_t currentAdd = 0;
-		if (!positionMap.empty())
-		{
-			pos = positionMap.front();
-			positionMap.pop();
-		}
-
-		for (unsigned i = 0; i < sp.numSmileys; ++i)
-		{
-			size_t startChar = spr[i].startChar + currentAdd;
-			while(startChar >= pos.first && pos.second)
-			{
-				startChar += pos.second;
-				currentAdd += pos.second;
-				if (!positionMap.empty())
-				{
-					pos = positionMap.front();
-					positionMap.pop();
-				}
-				else
-				{
-					pos = std::pair<size_t, size_t>(0, 0);
-				}
-			}
-
-			size_t endChar = spr[i].startChar + spr[i].size + currentAdd;
-			while(endChar >= pos.first && pos.second)
-			{
-				endChar += pos.second;
-				currentAdd += pos.second;
-				if (!positionMap.empty())
-				{
-					pos = positionMap.front();
-					positionMap.pop();
-				}
-				else
-				{
-					pos = std::pair<size_t, size_t>(0, 0);
-				}
-			}
-
-			size_t size = endChar - startChar;
-
-			if (spr[i].filepath != NULL)	// For deffective smileypacks
-			{
-				// Add text
-				if (startChar - last_pos > 0)
-				{
-					smileyMsg += newMsg.substr(last_pos, startChar - last_pos);
-				}
-
-				std::wstring smileyName = GetName(spr[i].filepath);
-				if (smileys.find(smileyName) == smileys.end())
-				{
-					smileys.insert(smileyName);
-					CopyFile(spr[i].filepath, (folder + _T("\\") + smileyName).c_str(), FALSE);
-				}
-
-				std::wstring smileyText = newMsg.substr(startChar, size);
-				smileyMsg += _T("<img class=smiley src=\"");
-				smileyMsg += folderName;
-				smileyMsg += _T("\\");
-				smileyMsg += smileyName;
-				smileyMsg += _T("\" alt=\"");
-				smileyMsg += smileyText;
-				smileyMsg += _T("\"/>");
-			}
-
-			// Get next
-			last_pos = endChar;
-		}
-
-		// Add rest of text
-		if (last_pos < newMsg.length())
-		{
-			smileyMsg += newMsg.substr(last_pos);
-		}
-
-		CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)spr);
-		return UrlHighlightHtml(smileyMsg, isUrl);
-	}
-	else
-	{
+	if (!Options::instance->exportHtml2UseSmileys || !g_SmileyAddAvail)
 		return UrlHighlightHtml(MakeTextHtmled(msg), isUrl);
+
+	TCHAR* msgbuf = new TCHAR[msg.length() + 1];
+	memcpy_s(msgbuf, (msg.length() + 1) * sizeof(TCHAR), msg.c_str(), (msg.length() + 1) * sizeof(TCHAR));
+	SMADD_BATCHPARSE2 sp = {0};
+	SMADD_BATCHPARSERES *spr;
+	sp.cbSize = sizeof(sp);
+	sp.Protocolname = baseProto.length() == 0 ? NULL : baseProto.c_str();
+	sp.str = msgbuf;
+	sp.flag = SAFL_TCHAR | SAFL_PATH | (isMe ? SAFL_OUTGOING : 0);
+	spr = (SMADD_BATCHPARSERES*)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
+	delete[] msgbuf;
+
+	// Did not find a simley
+	if (spr == NULL || (INT_PTR)spr == CALLSERVICE_NOTFOUND)
+		return UrlHighlightHtml(MakeTextHtmled(msg), isUrl);
+
+	std::queue<std::pair<size_t, size_t> > positionMap;
+	std::wstring newMsg = MakeTextHtmled(msg, &positionMap);
+	std::wstring smileyMsg;
+		
+	size_t last_pos=0;
+	std::pair<size_t, size_t> pos(0, 0);
+	size_t currentAdd = 0;
+	if (!positionMap.empty()) {
+		pos = positionMap.front();
+		positionMap.pop();
 	}
+
+	for (unsigned i = 0; i < sp.numSmileys; ++i) {
+		size_t startChar = spr[i].startChar + currentAdd;
+		while(startChar >= pos.first && pos.second) {
+			startChar += pos.second;
+			currentAdd += pos.second;
+			if (!positionMap.empty()) {
+				pos = positionMap.front();
+				positionMap.pop();
+			}
+			else pos = std::pair<size_t, size_t>(0, 0);
+		}
+
+		size_t endChar = spr[i].startChar + spr[i].size + currentAdd;
+		while(endChar >= pos.first && pos.second) {
+			endChar += pos.second;
+			currentAdd += pos.second;
+			if (!positionMap.empty()) {
+				pos = positionMap.front();
+				positionMap.pop();
+			}
+			else pos = std::pair<size_t, size_t>(0, 0);
+		}
+
+		size_t size = endChar - startChar;
+
+		if (spr[i].filepath != NULL) { // For deffective smileypacks
+			// Add text
+			if (startChar - last_pos > 0) {
+				smileyMsg += newMsg.substr(last_pos, startChar - last_pos);
+			}
+
+			std::wstring smileyName = GetName(spr[i].filepath);
+			if (smileys.find(smileyName) == smileys.end()) {
+				smileys.insert(smileyName);
+				CopyFile(spr[i].filepath, (folder + _T("\\") + smileyName).c_str(), FALSE);
+			}
+
+			std::wstring smileyText = newMsg.substr(startChar, size);
+			smileyMsg += _T("<img class=smiley src=\"");
+			smileyMsg += folderName;
+			smileyMsg += _T("\\");
+			smileyMsg += smileyName;
+			smileyMsg += _T("\" alt=\"");
+			smileyMsg += smileyText;
+			smileyMsg += _T("\"/>");
+		}
+
+		// Get next
+		last_pos = endChar;
+	}
+
+	// Add rest of text
+	if (last_pos < newMsg.length())
+		smileyMsg += newMsg.substr(last_pos);
+
+	CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)spr);
+	return UrlHighlightHtml(smileyMsg, isUrl);
 }

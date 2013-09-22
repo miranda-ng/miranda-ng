@@ -55,14 +55,11 @@ DatExport::~DatExport()
 {
 }
 
-
 int DatExport::WriteString(const std::wstring &str)
 {
 	int conv = WideCharToMultiByte(CP_UTF8, 0, str.c_str(), (int)str.length() + 1, NULL, 0, NULL, NULL);
 	if (conv > (int)memBuf.size())
-	{
 		memBuf.resize(conv);
-	}
 
 	conv = WideCharToMultiByte(CP_UTF8, 0, str.c_str(), (int)str.length() + 1, (char*)memBuf.c_str(), conv, NULL, NULL);
 	return conv;
@@ -102,16 +99,14 @@ void DatExport::WriteMessage(bool isMe, const std::wstring &longDate, const std:
 	header.timestamp = dbei.timestamp;
 	header.szModule = 0;
 	header.pBlob = 0;
-	if (dbei.flags & 0x800)
-	{
+	if (dbei.flags & 0x800) {
 		//Imported
 		header.flags |= DBEF_UTF;
 		header.cbBlob = WriteString(message);
 		EXP_FILE.write((char*)&header, header.cbSize);
 		EXP_FILE.write(memBuf.c_str(), header.cbBlob);
 	}
-	else
-	{
+	else {
 		//Internal
 		header.cbBlob = dbei.cbBlob;
 		EXP_FILE.write((char*)&header, header.cbSize);
@@ -126,6 +121,7 @@ bool ReadHeader(MCHeader& header, std::istream* stream)
 	stream->read((char*)&header, sizeof(MCHeader));
 	if (!stream->good())
 		return false;
+
 	if (memcmp(header.signature, "HB", 2) != 0)
 		return false;
 
@@ -139,9 +135,7 @@ int DatExport::IsContactInFile(const std::vector<HANDLE>& contacts)
 		return -2;
 	
 	if (contacts.size() == 1)
-	{
 		hContact = contacts[0];
-	}
 	
 	IMP_FILE.seekg(0, std::ios_base::beg);
 	return -3;
@@ -152,6 +146,7 @@ bool DatExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList)
 	MCHeader header;
 	if (!ReadHeader(header, IImport::stream))
 		return false;
+
 	dataSize = header.dataSize;
 	DBEVENTINFO86 messageHeader;
 	DBEVENTINFO info = {0};
@@ -159,8 +154,7 @@ bool DatExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList)
 	info.szModule = GetContactProto(hContact);
 	TCHAR _str[MAXSELECTSTR + 8]; // for safety reason
 	std::multimap<DWORD, IImport::ExternalMessage> sortedEvents;
-	while(dataSize > 0)
-	{
+	while(dataSize > 0) {
 		messageHeader.cbSize = 0;
 		IMP_FILE.read((char*)&messageHeader, sizeof(DBEVENTINFO86));
 		if (!IMP_FILE.good())
@@ -170,18 +164,14 @@ bool DatExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList)
 			return false;
 
 		if (messageHeader.cbSize > sizeof(DBEVENTINFO86))
-		{
 			IMP_FILE.seekg(messageHeader.cbSize - sizeof(DBEVENTINFO86), std::ios_base::cur);
-		}
 
 		IImport::ExternalMessage exMsg;
 		exMsg.eventType = messageHeader.eventType;
 		exMsg.flags = messageHeader.flags;
 		exMsg.timestamp = messageHeader.timestamp;
 		if (messageHeader.cbBlob > memBuf.size())
-		{
 			memBuf.resize(messageHeader.cbBlob);
-		}
 
 		IMP_FILE.read((char*)memBuf.c_str(), messageHeader.cbBlob);
 		if (!IMP_FILE.good())
@@ -201,10 +191,8 @@ bool DatExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList)
 	memBuf.resize(0);
 	memBuf.shrink_to_fit();
 
-	for(std::multimap<DWORD, IImport::ExternalMessage>::iterator it = sortedEvents.begin(); it != sortedEvents.end(); ++it)
-	{
+	for (std::multimap<DWORD, IImport::ExternalMessage>::iterator it = sortedEvents.begin(); it != sortedEvents.end(); ++it)
 		eventList.push_back(it->second);
-	}
 
 	return true;
 }

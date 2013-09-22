@@ -53,23 +53,15 @@ void PlainHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstri
 	EXP_FILE << _T("--></style>\n</head><body>\n<h4>") << TranslateT("History Log") << _T("</h4>\n<h3>");
 	EXP_FILE << MakeTextHtmled(myName);
 	if (proto1.length() || myId.length())
-	{
 		EXP_FILE << _T(" (") << MakeTextHtmled(proto1) << _T(": ") << MakeTextHtmled(myId) << _T(") - ");
-	}
 	else
-	{
 		EXP_FILE << _T(" - ");
-	}
 
 	EXP_FILE << MakeTextHtmled(name1);
 	if (proto1.length() || id1.length())
-	{
 		EXP_FILE << _T(" (") << MakeTextHtmled(proto1) << _T(": ") << MakeTextHtmled(id1) << _T(")</h3>\n");
-	}
 	else
-	{
 		EXP_FILE << _T("</h3>\n");
-	}
 
 	EXP_FILE << _T("<h6>") << TranslateT("Filter:") << _T(" ") << MakeTextHtmled(filterName) << _T("</h6>\n");
 }

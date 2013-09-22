@@ -32,7 +32,8 @@ struct EventNamesType
 {
 	int id;
 	TCHAR* name;
-} EventNames[] = 
+}
+EventNames[] = 
 {
 	EVENTTYPE_MESSAGE, LPGENT("Message"),
 	EVENTTYPE_FILE, LPGENT("File transfer"),
@@ -250,8 +251,7 @@ void Options::Load(void)
 	strncpy_s(fid.dbSettingsGroup, "BasicHistory_Fonts", SIZEOF(fid.dbSettingsGroup));
 	_tcsncpy_s(fid.backgroundGroup, _T("History"), SIZEOF(fid.backgroundGroup));
 	_tcsncpy_s(fid.group, LPGENT("History"), SIZEOF(fid.group));
-	for(int i = 0; i < g_fontsSize; ++i)
-	{
+	for (int i = 0; i < g_fontsSize; ++i) {
 		fid.order = i;
 		_tcsncpy_s(fid.deffontsettings.szFace, g_FontOptionsList[i].szDefFace, LF_FACESIZE);
 		fid.deffontsettings.size = g_FontOptionsList[i].defSize; 
@@ -267,8 +267,7 @@ void Options::Load(void)
 	
 	strncpy_s(cid.dbSettingsGroup, "BasicHistory_Fonts", SIZEOF(fid.dbSettingsGroup));
 	_tcsncpy_s(cid.group, LPGENT("History"), SIZEOF(fid.group));
-	for(int i = 0; i < g_colorsSize; ++i)
-	{
+	for (int i = 0; i < g_colorsSize; ++i) {
 		_tcsncpy_s(cid.name, g_ColorOptionsList[i].tszName, SIZEOF(cid.name));
 		mir_snprintf(cid.setting, SIZEOF(cid.setting), "Color%d", i);
 		cid.order = i;
@@ -277,8 +276,7 @@ void Options::Load(void)
 	}
 
 	hid.dwFlags = HKD_TCHAR;
-	for(int i = 0; i < g_hotkeysSize; ++i)
-	{
+	for (int i = 0; i < g_hotkeysSize; ++i) {
 		hid.pszName = g_HotkeyOptionsList[i].pszName;
 		hid.ptszDescription = g_HotkeyOptionsList[i].ptszDescription;
 		hid.ptszSection = g_HotkeyOptionsList[i].ptszSection;
@@ -321,14 +319,12 @@ void Options::Load(void)
 
 	defFilter = db_get_b(0, MODULE, "defFilter", defFilter);
 	int filtersCount = db_get_dw(0, MODULE, "customFiltersCount", 0);
-	for(int i = 0; i < filtersCount; ++i)
-	{
+	for (int i = 0; i < filtersCount; ++i) {
 		char buf[256];
 		FilterOptions fo;
 		mir_snprintf(buf, SIZEOF(buf), "filterName_%d", i);
 		DBVARIANT nameV;
-		if (!db_get_ws(0, MODULE, buf, &nameV))
-		{
+		if (!db_get_ws(0, MODULE, buf, &nameV)) {
 			fo.name = nameV.pwszVal;
 			db_free(&nameV);
 		}
@@ -341,14 +337,11 @@ void Options::Load(void)
 			fo.onlyOutgoing = true;
 		mir_snprintf(buf, SIZEOF(buf), "filterEvents_%d", i);
 		DBVARIANT eventsV;
-		if (!db_get_s(0, MODULE, buf, &eventsV))
-		{
+		if (!db_get_s(0, MODULE, buf, &eventsV)) {
 			int k = 0;
 			char* id = eventsV.pszVal;
-			while(eventsV.pszVal[k])
-			{
-				if (eventsV.pszVal[k] == ';')
-				{
+			while(eventsV.pszVal[k]) {
+				if (eventsV.pszVal[k] == ';') {
 					eventsV.pszVal[k] = 0;
 					fo.events.push_back(strtol(id, NULL, 16));
 					id = eventsV.pszVal + k + 1;
@@ -363,18 +356,14 @@ void Options::Load(void)
 		customFilters.insert(customFilters.end(), fo);
 	}
 
-	if (defFilter > 1)
-	{
+	if (defFilter > 1) {
 		defFilter = 0;
 		
 		DBVARIANT defFilterStrV;
-		if (!db_get_ws(0, MODULE, "defFilterStr", &defFilterStrV))
-		{
+		if (!db_get_ws(0, MODULE, "defFilterStr", &defFilterStrV)) {
 			std::wstring filterName = defFilterStrV.pwszVal;
-			for(int i = 0; i < (int)customFilters.size(); ++i)
-			{
-				if (filterName == customFilters[i].name)
-				{
+			for (int i = 0; i < (int)customFilters.size(); ++i) {
+				if (filterName == customFilters[i].name) {
 					defFilter = i + 2;
 					break;
 				}
@@ -387,62 +376,43 @@ void Options::Load(void)
 	codepageHtml1 = db_get_dw(0, MODULE, "codepageHtml1", CP_UTF8);
 	codepageHtml2 = db_get_dw(0, MODULE, "codepageHtml2", CP_UTF8);
 	DBVARIANT encodingV;
-	if (!db_get_ws(0, MODULE, "encodingTxt", &encodingV))
-	{
+	if (!db_get_ws(0, MODULE, "encodingTxt", &encodingV)) {
 		encodingTxt = encodingV.pwszVal;
 		db_free(&encodingV);
 	}
-	else
-	{
-		encodingTxt = _T("UTF-8");
-	}
-	if (!db_get_ws(0, MODULE, "encodingHtml1", &encodingV))
-	{
+	else encodingTxt = _T("UTF-8");
+
+	if (!db_get_ws(0, MODULE, "encodingHtml1", &encodingV)) {
 		encodingHtml1 = encodingV.pwszVal;
 		db_free(&encodingV);
 	}
-	else
-	{
-		encodingHtml1 = _T("UTF-8");
-	}
-	if (!db_get_ws(0, MODULE, "encodingHtml2", &encodingV))
-	{
+	else encodingHtml1 = _T("UTF-8");
+
+	if (!db_get_ws(0, MODULE, "encodingHtml2", &encodingV)) {
 		encodingHtml2 = encodingV.pwszVal;
 		db_free(&encodingV);
 	}
-	else
-	{
-		encodingHtml2 = _T("UTF-8");
-	}
+	else encodingHtml2 = _T("UTF-8");
 
 	exportHtml1ShowDate = db_get_b(0, MODULE, "exportHtml1ShowDate", 1) ? true : false;
 	exportHtml2ShowDate = db_get_b(0, MODULE, "exportHtml2ShowDate", 0) ? true : false;
 	exportHtml2UseSmileys = db_get_b(0, MODULE, "exportHtml2UseSmileys", 1) ? true : false;
-	if (!db_get_ws(0, MODULE, "extCssHtml2", &encodingV))
-	{
+	if (!db_get_ws(0, MODULE, "extCssHtml2", &encodingV)) {
 		extCssHtml2 = encodingV.pwszVal;
 		db_free(&encodingV);
 	}
-	else
-	{
-		extCssHtml2 = _T("");
-	}
+	else extCssHtml2 = _T("");
 
-	if (!db_get_ws(0, MODULE, "ftpLogPath", &encodingV))
-	{
+	if (!db_get_ws(0, MODULE, "ftpLogPath", &encodingV)) {
 		ftpLogPath = encodingV.pwszVal;
 		db_free(&encodingV);
 	}
 
-	if (!db_get_ws(0, MODULE, "ftpExePath", &encodingV))
-	{
+	if (!db_get_ws(0, MODULE, "ftpExePath", &encodingV)) {
 		ftpExePath = encodingV.pwszVal;
 		db_free(&encodingV);
 	}
-	else
-	{
-		ftpExePath = ftpExePathDef;
-	}
+	else ftpExePath = ftpExePathDef;
 	
 	LoadTasks();
 }
@@ -475,11 +445,14 @@ void Options::Save()
 	db_set_b(0, MODULE, "groupShowTime", groupShowTime ? 1 : 0);
 	db_set_b(0, MODULE, "groupShowName", groupShowName ? 1 : 0);
 	db_set_b(0, MODULE, "groupShowMessage", groupShowMessage ? 1 : 0);
-	if (groupMessageLen < 5) groupMessageLen = 5;
+	if (groupMessageLen < 5)
+		groupMessageLen = 5;
 	db_set_dw(0, MODULE, "groupMessageLen", groupMessageLen);
-	if (groupTime < 1) groupTime = 1;
+	if (groupTime < 1)
+		groupTime = 1;
 	db_set_dw(0, MODULE, "groupTime", groupTime);
-	if (groupMessagesNumber < 1) groupMessagesNumber = 1;
+	if (groupMessagesNumber < 1)
+		groupMessagesNumber = 1;
 	db_set_dw(0, MODULE, "groupMessagesNumber", groupMessagesNumber);
 	db_set_b(0, MODULE, "messagesNewOnTop", messagesNewOnTop ? 1 : 0);
 	db_set_b(0, MODULE, "messagesShowDate", messagesShowDate ? 1 : 0);
@@ -497,21 +470,20 @@ void Options::Save()
 	db_set_b(0, MODULE, "searchAllContacts", searchAllContacts ? 1 : 0);
 	db_set_b(0, MODULE, "schedulerAlerts", schedulerAlerts ? 1 : 0);
 	db_set_b(0, MODULE, "schedulerHistoryAlerts", schedulerHistoryAlerts ? 1 : 0);
-	if (defFilter < 0 || defFilter - 2 >= (int)customFilters.size()) defFilter = 0;
+	if (defFilter < 0 || defFilter - 2 >= (int)customFilters.size())
+		defFilter = 0;
 	db_set_b(0, MODULE, "defFilter", defFilter < 2 ? defFilter : 2);
 	if (defFilter >= 2)
 		db_set_ws(0, MODULE, "defFilterStr", customFilters[defFilter - 2].name.c_str());
 	db_set_dw(0, MODULE, "customFiltersCount", (DWORD)customFilters.size());
-	for(int i = 0 ; i < (int)customFilters.size(); ++i)
-	{
+	for (int i = 0 ; i < (int)customFilters.size(); ++i) {
 		char buf[256];
 		mir_snprintf(buf, SIZEOF(buf), "filterName_%d", i);
 		db_set_ws(0, MODULE, buf, customFilters[i].name.c_str());
 		mir_snprintf(buf, SIZEOF(buf), "filterInOut_%d", i);
 		db_set_b(0, MODULE, buf, customFilters[i].onlyIncomming ? 1 : (customFilters[i].onlyOutgoing ? 2 : 0));
 		std::string events;
-		for(std::vector<int>::iterator it = customFilters[i].events.begin(); it != customFilters[i].events.end(); ++it)
-		{
+		for (std::vector<int>::iterator it = customFilters[i].events.begin(); it != customFilters[i].events.end(); ++it) {
 			_itoa_s(*it, buf, 16);
 			events += buf;
 			events += ";";
@@ -533,13 +505,9 @@ void Options::Save()
 	db_set_ws(0, MODULE, "extCssHtml2", extCssHtml2.c_str());
 	db_set_ws(0, MODULE, "ftpLogPath", ftpLogPath.c_str());
 	if (ftpExePath != ftpExePathDef)
-	{
 		db_set_ws(0, MODULE, "ftpExePath", ftpExePath.c_str());
-	}
 	else
-	{
 		db_unset(0, MODULE, "ftpExePath");
-	}
 }
 
 void Options::SaveTasks(std::list<TaskOptions>* tasks)
@@ -549,7 +517,7 @@ void Options::SaveTasks(std::list<TaskOptions>* tasks)
 	taskOptions.clear();
 	int i = 0;
 	char buf[256];
-	for(std::list<TaskOptions>::iterator it = tasks->begin(); it != tasks->end(); ++it) {
+	for (std::list<TaskOptions>::iterator it = tasks->begin(); it != tasks->end(); ++it) {
 		mir_snprintf(buf, SIZEOF(buf), "Task_compress_%d", i);
 		db_set_b(0, MODULE, buf, it->compress);
 		mir_snprintf(buf, SIZEOF(buf), "Task_useFtp_%d", i);
@@ -601,7 +569,7 @@ void Options::SaveTasks(std::list<TaskOptions>* tasks)
 		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			db_unset(hContact, MODULE, buf);
 
-		for(size_t j = 0; j < it->contacts.size(); ++j)
+		for (size_t j = 0; j < it->contacts.size(); ++j)
 			db_set_b(it->contacts[j], MODULE, buf, 1);
 
 		it->orderNr = i++;
@@ -610,7 +578,7 @@ void Options::SaveTasks(std::list<TaskOptions>* tasks)
 
 	db_set_dw(0, MODULE, "Task_count", i);
 	
-	for(i = (int)tasks->size(); i < oldTaskNr; ++i) {
+	for (i = (int)tasks->size(); i < oldTaskNr; ++i) {
 		mir_snprintf(buf, SIZEOF(buf), "Task_compress_%d", i);
 		db_unset(NULL, MODULE, buf);
 		mir_snprintf(buf, SIZEOF(buf), "Task_useFtp_%d", i);
@@ -674,8 +642,7 @@ void Options::LoadTasks()
 {
 	int taskCount = db_get_dw(0, MODULE, "Task_count", 0);
 	char buf[256];
-	for(int i = 0; i < taskCount; ++i)
-	{
+	for (int i = 0; i < taskCount; ++i) {
 		TaskOptions to;
 		mir_snprintf(buf, SIZEOF(buf), "Task_compress_%d", i);
 		to.compress = db_get_b(0, MODULE, buf, to.compress) != 0;
@@ -716,32 +683,27 @@ void Options::LoadTasks()
 		to.lastExport |= ((unsigned long long int)db_get_dw(0, MODULE, buf, le >> 32)) << 32;
 		mir_snprintf(buf, SIZEOF(buf), "Task_ftpName_%d", i);
 		DBVARIANT var;
-		if (!db_get_ws(0, MODULE, buf, &var))
-		{
+		if (!db_get_ws(0, MODULE, buf, &var)) {
 			to.ftpName = var.ptszVal;
 			db_free(&var);
 		}
 		mir_snprintf(buf, SIZEOF(buf), "Task_filterName_%d", i);
-		if (!db_get_ws(0, MODULE, buf, &var))
-		{
+		if (!db_get_ws(0, MODULE, buf, &var)) {
 			to.filterName = var.ptszVal;
 			db_free(&var);
 		}
 		mir_snprintf(buf, SIZEOF(buf), "Task_filePath_%d", i);
-		if (!db_get_ws(0, MODULE, buf, &var))
-		{
+		if (!db_get_ws(0, MODULE, buf, &var)) {
 			to.filePath = var.ptszVal;
 			db_free(&var);
 		}
 		mir_snprintf(buf, SIZEOF(buf), "Task_taskName_%d", i);
-		if (!db_get_ws(0, MODULE, buf, &var))
-		{
+		if (!db_get_ws(0, MODULE, buf, &var)) {
 			to.taskName = var.ptszVal;
 			db_free(&var);
 		}
 		mir_snprintf(buf, SIZEOF(buf), "Task_zipPassword_%d", i);
-		if (!db_get_s(0, MODULE, buf, &var))
-		{
+		if (!db_get_s(0, MODULE, buf, &var)) {
 			to.zipPassword = var.pszVal;
 			db_free(&var);
 		}
@@ -767,35 +729,27 @@ void SetEventCB(HWND hwndCB, int eventId)
 {
 	int cpCount = SIZEOF(EventNames);
 	int selCpIdx = -1;
-	for(int i = 0; i < cpCount; ++i)
-	{
+	for (int i = 0; i < cpCount; ++i)
 		if (EventNames[i].id == eventId)
 			selCpIdx = i;
-	}
 
-	if (selCpIdx == -1)
-	{
+	if (selCpIdx == -1) {
 		TCHAR buf[24];
 		mir_sntprintf(buf, SIZEOF(buf), _T("%d"), eventId);
 		ComboBox_SetText(hwndCB, buf);	
 	}
-	else
-	{
-		ComboBox_SetCurSel(hwndCB, selCpIdx);	
-	}
+	else ComboBox_SetCurSel(hwndCB, selCpIdx);	
 }
 
 int GetEventCB(HWND hwndCB, bool errorReport, int &eventId)
 {
 	int selCpIdx = ComboBox_GetCurSel(hwndCB);
-	if (selCpIdx < 0)
-	{
+	if (selCpIdx < 0) {
 		TCHAR text[24];
 		ComboBox_GetText(hwndCB, text, 24);
 		TCHAR * stopOn = NULL;
 		long cp = _tcstol(text, &stopOn, 10);
-		if (errorReport && (stopOn == text || *stopOn != '\0' || cp < 0))
-		{
+		if (errorReport && (stopOn == text || *stopOn != '\0' || cp < 0)) {
 			MessageBox(GetParent(hwndCB), TranslateT("Invalid event number"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 			SetFocus(hwndCB);
 			return -1;
@@ -821,34 +775,25 @@ void ReloadEventLB(HWND hwndLB, const FilterOptions &sel)
 {
 	while(ListBox_GetCount(hwndLB) > 0)
 		ListBox_DeleteString(hwndLB, 0);
-	if (sel.onlyIncomming && !sel.onlyOutgoing)
-	{
-		ListBox_AddString(hwndLB, TranslateT("Incoming events"));
-	}
-	else if (sel.onlyOutgoing && !sel.onlyIncomming)
-	{
-		ListBox_AddString(hwndLB, TranslateT("Outgoing events"));
-	}
 
-	for(std::vector<int>::const_iterator it = sel.events.begin(); it != sel.events.end(); ++it)
-	{
+	if (sel.onlyIncomming && !sel.onlyOutgoing)
+		ListBox_AddString(hwndLB, TranslateT("Incoming events"));
+	else if (sel.onlyOutgoing && !sel.onlyIncomming)
+		ListBox_AddString(hwndLB, TranslateT("Outgoing events"));
+
+	for (std::vector<int>::const_iterator it = sel.events.begin(); it != sel.events.end(); ++it) {
 		int cpCount = SIZEOF(EventNames);
 		int selCpIdx = -1;
-		for(int i = 0; i < cpCount; ++i)
-		{
+		for (int i = 0; i < cpCount; ++i)
 			if (EventNames[i].id == *it)
 				selCpIdx = i;
-		}
-		if (selCpIdx == -1)
-		{
+
+		if (selCpIdx == -1) {
 			TCHAR buf[24];
 			mir_sntprintf(buf, SIZEOF(buf), _T("%d"), *it);
 			ListBox_AddString(hwndLB, buf);	
 		}
-		else
-		{
-			ListBox_AddString(hwndLB, TranslateTS(EventNames[selCpIdx].name));	
-		}
+		else ListBox_AddString(hwndLB, TranslateTS(EventNames[selCpIdx].name));	
 	}
 }
 
@@ -857,8 +802,7 @@ bool CheckFile(HWND hwndEdit)
 	TCHAR buf[MAX_PATH];
 	Edit_GetText(hwndEdit, buf, MAX_PATH);
 	DWORD atr = GetFileAttributes(buf);
-	if (atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY)
-	{
+	if (atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY) {
 		MessageBox(GetParent(hwndEdit), TranslateT("File do not exist. Enter correct file path."), TranslateT("Invalid file"), MB_OK | MB_ICONERROR);
 		SetFocus(hwndEdit);
 		return false;
@@ -886,14 +830,12 @@ bool OpenFileDlg(HWND hwndDlg, HWND hwndEdit, const TCHAR* defName, const TCHAR*
 	TCHAR stzFilePath[1024];
 
 	Edit_GetText(hwndEdit, stzFilePath, 1023);
-	if (stzFilePath[0] == 0)
-	{
+	if (stzFilePath[0] == 0) {
 		_tcscpy_s(stzFilePath, defName);
 		len = _tcslen(stzFilePath) + 1;
 		stzFilePath[len] = 0;
 	}
-	else
-	{
+	else {
 		len = _tcslen(stzFilePath) + 1;
 		stzFilePath[len] = 0;
 	}
@@ -907,20 +849,16 @@ bool OpenFileDlg(HWND hwndDlg, HWND hwndEdit, const TCHAR* defName, const TCHAR*
 	ofn.lpstrTitle = title;
 	ofn.nMaxFile = 1024;
 	ofn.lpstrDefExt = ext;
-	if (open)
-	{
+	if (open) {
 		ofn.Flags = OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
-		if (GetOpenFileName(&ofn))
-		{
+		if (GetOpenFileName(&ofn)) {
 			Edit_SetText(hwndEdit, stzFilePath);
 			return true;
 		}
 	}
-	else
-	{
+	else {
 		ofn.Flags = OFN_NOREADONLYRETURN | OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR;
-		if (GetSaveFileName(&ofn))
-		{
+		if (GetSaveFileName(&ofn)) {
 			Edit_SetText(hwndEdit, stzFilePath);
 			return true;
 		}
@@ -931,11 +869,10 @@ bool OpenFileDlg(HWND hwndDlg, HWND hwndEdit, const TCHAR* defName, const TCHAR*
 
 INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) 
-	{
-		case WM_INITDIALOG:
+	switch(msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
-			TranslateDialogDefault(hwndDlg);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)FALSE);
 			CheckDlgButton(hwndDlg, IDC_SHOWCONTACTS, instance->showContacts ? 1 : 0);
 			CheckDlgButton(hwndDlg, IDC_SHOWCONTACTGROUPS, instance->showContactGroups ? 1 : 0);
@@ -947,10 +884,8 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 			HWND ftpLog = GetDlgItem(hwndDlg, IDC_WINSCPLOG);
 			ComboBox_AddString(events, TranslateT("Incoming events"));
 			ComboBox_AddString(events, TranslateT("Outgoing events"));
-			for(int i = 0 ; i < SIZEOF(EventNames); ++i)
-			{
+			for (int i = 0 ; i < SIZEOF(EventNames); ++i)
 				ComboBox_AddString(events, TranslateTS(EventNames[i].name));
-			}
 
 			ComboBox_AddString(defFilter, TranslateT("Default history events"));
 			ComboBox_AddString(defFilter, TranslateT("All events"));
@@ -959,8 +894,7 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			instance->customFiltersTemp.clear();
 			instance->customFiltersTemp.insert(instance->customFiltersTemp.begin(), instance->customFilters.begin(), instance->customFilters.end());
-			for(std::vector<FilterOptions>::iterator it = instance->customFiltersTemp.begin(); it != instance->customFiltersTemp.end(); ++it)
-			{
+			for (std::vector<FilterOptions>::iterator it = instance->customFiltersTemp.begin(); it != instance->customFiltersTemp.end(); ++it) {
 				ComboBox_AddString(defFilter, it->name.c_str());
 				ListBox_AddString(listFilter, it->name.c_str());
 			}
@@ -975,35 +909,31 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 			Edit_SetText(ftp, instance->ftpExePath.c_str());
 			Edit_SetText(ftpLog, instance->ftpLogPath.c_str());
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)TRUE);
-			return TRUE;
 		}
-		case WM_COMMAND:
+		return TRUE;
+
+	case WM_COMMAND:
 		{
 			BOOL init = (BOOL)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-			if (HIWORD(wParam) == BN_CLICKED)
-			{
+			if (HIWORD(wParam) == BN_CLICKED) {
 				HWND listFilter = GetDlgItem(hwndDlg, IDC_LIST_FILTERS);
 				HWND listEvents = GetDlgItem(hwndDlg, IDC_LIST_EVENTS);
 				HWND nameFilter = GetDlgItem(hwndDlg, IDC_FILTER_NAME);
 				HWND defFilter = GetDlgItem(hwndDlg, IDC_DEFFILTER);
 				HWND eventCB = GetDlgItem(hwndDlg, IDC_EVENT);
-				switch(LOWORD(wParam))
-				{
+				switch(LOWORD(wParam)) {
 				case IDC_ADD_FILTER:
 					{
 						TCHAR name[24];
 						Edit_GetText(nameFilter, name, 24);
-						if (name[0] == 0)
-						{
+						if (name[0] == 0) {
 							MessageBox(hwndDlg, TranslateT("Enter filter name"), TranslateT("Error"), MB_ICONERROR);
 							return TRUE;
 						}
-						
+
 						FilterOptions fo(name);
-						for(std::vector<FilterOptions>::iterator it = instance->customFiltersTemp.begin(); it != instance->customFiltersTemp.end(); ++it)
-						{
-							if (it->name == fo.name)
-							{
+						for (std::vector<FilterOptions>::iterator it = instance->customFiltersTemp.begin(); it != instance->customFiltersTemp.end(); ++it) {
+							if (it->name == fo.name) {
 								MessageBox(hwndDlg, TranslateT("Filter name exists"), TranslateT("Error"), MB_ICONERROR);
 								return TRUE;
 							}
@@ -1022,24 +952,22 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 						EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE_EVENT), FALSE);
 					}
 					break;
+
 				case IDC_DELETE_FILTER:
 					{
 						int sel = ListBox_GetCurSel(listFilter);
 						if (sel < 0)
 							return TRUE;
-						for(size_t i = sel; i < instance->customFiltersTemp.size() - 1; ++i)
-						{
+
+						for (size_t i = sel; i < instance->customFiltersTemp.size() - 1; ++i)
 							instance->customFiltersTemp[i] = instance->customFiltersTemp[i + 1];
-						}
 
 						instance->customFiltersTemp.resize(instance->customFiltersTemp.size() - 1);
 						ListBox_DeleteString(listFilter, sel);
 						ComboBox_DeleteString(defFilter, sel + 2);
 						if (ComboBox_GetCurSel(defFilter) < 0)
-						{
 							ComboBox_SetCurSel(defFilter, 0);
-						}
-						
+
 						ClearLB(listEvents);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE_FILTER), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_EVENT), FALSE);
@@ -1047,19 +975,20 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 						EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE_EVENT), FALSE);
 					}
 					break;
+
 				case IDC_ADD_EVENT:
 					{
 						int sel = ListBox_GetCurSel(listFilter);
 						if (sel < 0)
 							return TRUE;
+
 						int eventId;
 						int selCB = GetEventCB(eventCB, true, eventId);
 						if (selCB < 0)
 							return TRUE;
-						if (selCB == 1)
-						{
-							if (instance->customFiltersTemp[sel].onlyIncomming)
-							{
+
+						if (selCB == 1) {
+							if (instance->customFiltersTemp[sel].onlyIncomming) {
 								MessageBox(hwndDlg, TranslateT("Event already exists"), TranslateT("Error"), MB_ICONERROR);
 								return TRUE;
 							}
@@ -1069,23 +998,19 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 							else
 								instance->customFiltersTemp[sel].onlyIncomming = true;
 						}
-						else if (selCB == 2)
-						{
-							if (instance->customFiltersTemp[sel].onlyOutgoing)
-							{
+						else if (selCB == 2) {
+							if (instance->customFiltersTemp[sel].onlyOutgoing) {
 								MessageBox(hwndDlg, TranslateT("Event already exists"), TranslateT("Error"), MB_ICONERROR);
 								return TRUE;
 							}
-							
+
 							if (instance->customFiltersTemp[sel].onlyIncomming)
 								instance->customFiltersTemp[sel].onlyIncomming = false;
 							else
 								instance->customFiltersTemp[sel].onlyOutgoing = true;
 						}
-						else
-						{
-							if (std::find(instance->customFiltersTemp[sel].events.begin(), instance->customFiltersTemp[sel].events.end(), eventId) != instance->customFiltersTemp[sel].events.end())
-							{
+						else {
+							if (std::find(instance->customFiltersTemp[sel].events.begin(), instance->customFiltersTemp[sel].events.end(), eventId) != instance->customFiltersTemp[sel].events.end()) {
 								MessageBox(hwndDlg, TranslateT("Event already exists"), TranslateT("Error"), MB_ICONERROR);
 								return TRUE;
 							}
@@ -1098,29 +1023,28 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 						EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE_EVENT), FALSE);
 					}
 					break;
+
 				case IDC_DELETE_EVENT:
 					{
 						int sel = ListBox_GetCurSel(listFilter);
 						if (sel < 0)
 							return TRUE;
+
 						int eventSel = ListBox_GetCurSel(listEvents);
 						if (eventSel < 0)
 							return TRUE;
+
 						int stId = 0;
 						if (instance->customFiltersTemp[sel].onlyIncomming || instance->customFiltersTemp[sel].onlyOutgoing)
 							++stId;
-						if (eventSel >= stId)
-						{
+						if (eventSel >= stId) {
 							--eventSel;
-							for(int i = eventSel; i < (int)instance->customFiltersTemp[sel].events.size() - 1; ++i)
-							{
+							for (int i = eventSel; i < (int)instance->customFiltersTemp[sel].events.size() - 1; ++i)
 								instance->customFiltersTemp[sel].events[i] = instance->customFiltersTemp[sel].events[i + 1];
-							}
 
 							instance->customFiltersTemp[sel].events.resize(instance->customFiltersTemp[sel].events.size() - 1);
 						}
-						else
-						{
+						else {
 							instance->customFiltersTemp[sel].onlyIncomming = false;
 							instance->customFiltersTemp[sel].onlyOutgoing = false;
 						}
@@ -1129,24 +1053,19 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 						EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE_EVENT), FALSE);
 					}
 					break;
+
 				case IDC_WINSCP_BROWSE:
 					if (!OpenFileDlg(hwndDlg, GetDlgItem(hwndDlg, IDC_WINSCP), _T("WinSCP.exe"), _T("exe"), TranslateT("Browse WinSCP file"), true))
-					{
 						return TRUE;
-					}
-
 					break;
+
 				case IDC_WINSCPLOG_BROWSE:
 					if (!OpenFileDlg(hwndDlg, GetDlgItem(hwndDlg, IDC_WINSCPLOG), _T("ftplog.txt"), _T("txt"), TranslateT("Save WinSCP log file"), false))
-					{
 						return TRUE;
-					}
-
 					break;
 				}
 			}
-			else if (HIWORD(wParam) == CBN_SELCHANGE && LOWORD(wParam) == IDC_LIST_FILTERS)
-			{
+			else if (HIWORD(wParam) == CBN_SELCHANGE && LOWORD(wParam) == IDC_LIST_FILTERS) {
 				HWND listFilter = GetDlgItem(hwndDlg, IDC_LIST_FILTERS);
 				HWND listEvents = GetDlgItem(hwndDlg, IDC_LIST_EVENTS);
 				int sel = ListBox_GetCurSel(listFilter);
@@ -1159,8 +1078,7 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ADD_EVENT), sel >= 0);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE_EVENT), FALSE);
 			}
-			else if (HIWORD(wParam) == CBN_SELCHANGE && LOWORD(wParam) == IDC_LIST_EVENTS)
-			{
+			else if (HIWORD(wParam) == CBN_SELCHANGE && LOWORD(wParam) == IDC_LIST_EVENTS) {
 				HWND listEvents = GetDlgItem(hwndDlg, IDC_LIST_EVENTS);
 				int sel = ListBox_GetCurSel(listEvents);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE_EVENT), sel >= 0);
@@ -1170,35 +1088,32 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			return TRUE;
 		}
-		case WM_NOTIFY:
-		{
-			if (((LPNMHDR)lParam)->code == PSN_APPLY) 
-			{
-				HWND ftp = GetDlgItem(hwndDlg, IDC_WINSCP);
-				TCHAR buf[MAX_PATH];
-				Edit_GetText(ftp, buf, MAX_PATH);
-				if (buf[0] != 0 && !CheckFile(ftp))
-				{
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, PSNRET_INVALID_NOCHANGEPAGE);
-					return TRUE;
-				}
 
-				instance->ftpExePath = buf;
-				Edit_GetText(GetDlgItem(hwndDlg, IDC_WINSCPLOG), buf, MAX_PATH);
-				instance->ftpLogPath = buf;
-
-				instance->showContacts = IsDlgButtonChecked(hwndDlg, IDC_SHOWCONTACTS) ? true : false;
-				instance->showContactGroups = IsDlgButtonChecked(hwndDlg, IDC_SHOWCONTACTGROUPS) ? true : false;
-				instance->noFindBorder = IsDlgButtonChecked(hwndDlg, IDC_FINDNOBORDER) ? true : false;
-				instance->defFilter = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_DEFFILTER));
-				instance->customFilters.clear();
-				instance->customFilters.insert(instance->customFilters.begin(), instance->customFiltersTemp.begin(), instance->customFiltersTemp.end());
-				Options::instance->Save();
-				OptionsMainChanged();
+	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
+			HWND ftp = GetDlgItem(hwndDlg, IDC_WINSCP);
+			TCHAR buf[MAX_PATH];
+			Edit_GetText(ftp, buf, MAX_PATH);
+			if (buf[0] != 0 && !CheckFile(ftp)) {
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, PSNRET_INVALID_NOCHANGEPAGE);
+				return TRUE;
 			}
-			return TRUE;
+
+			instance->ftpExePath = buf;
+			Edit_GetText(GetDlgItem(hwndDlg, IDC_WINSCPLOG), buf, MAX_PATH);
+			instance->ftpLogPath = buf;
+
+			instance->showContacts = IsDlgButtonChecked(hwndDlg, IDC_SHOWCONTACTS) ? true : false;
+			instance->showContactGroups = IsDlgButtonChecked(hwndDlg, IDC_SHOWCONTACTGROUPS) ? true : false;
+			instance->noFindBorder = IsDlgButtonChecked(hwndDlg, IDC_FINDNOBORDER) ? true : false;
+			instance->defFilter = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_DEFFILTER));
+			instance->customFilters.clear();
+			instance->customFilters.insert(instance->customFilters.begin(), instance->customFiltersTemp.begin(), instance->customFiltersTemp.end());
+			Options::instance->Save();
+			OptionsMainChanged();
 		}
+		return TRUE;
 	}
 
 	return FALSE;
@@ -1217,11 +1132,10 @@ public:
 
 INT_PTR CALLBACK Options::DlgProcOptsGroupList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) 
-	{
-		case WM_INITDIALOG:
+	switch(msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
-			TranslateDialogDefault(hwndDlg);
 			OptsData* optsData = new OptsData();
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)optsData);
 
@@ -1239,20 +1153,18 @@ INT_PTR CALLBACK Options::DlgProcOptsGroupList(HWND hwndDlg, UINT msg, WPARAM wP
 			SetDlgItemInt(hwndDlg, IDC_LIMITMESSAGES, instance->groupMessagesNumber, FALSE);
 
 			optsData->init = true;
-			return TRUE;
 		}
-		case WM_COMMAND:
+		return TRUE;
+
+	case WM_COMMAND:
 		{
 			OptsData* optsData = (OptsData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-			if (HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_SHOWMESSAGE)
-			{
-				if (IsDlgButtonChecked(hwndDlg, IDC_SHOWMESSAGE))
-				{
+			if (HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_SHOWMESSAGE) {
+				if (IsDlgButtonChecked(hwndDlg, IDC_SHOWMESSAGE)) {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_MESSAGELEN), TRUE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_MESSAGELEN_DESC), TRUE);
 				}
-				else
-				{
+				else {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_MESSAGELEN), FALSE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_MESSAGELEN_DESC), FALSE);
 				}
@@ -1261,25 +1173,22 @@ INT_PTR CALLBACK Options::DlgProcOptsGroupList(HWND hwndDlg, UINT msg, WPARAM wP
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			return TRUE;
 		}
-		case WM_NOTIFY:
-		{
-			if (((LPNMHDR)lParam)->code == PSN_APPLY) 
-			{
-				instance->groupNewOnTop = IsDlgButtonChecked(hwndDlg, IDC_NEWONTOP) ? true : false;
-				instance->groupShowEvents = IsDlgButtonChecked(hwndDlg, IDC_SHOWEVENTS) ? true : false;
-				instance->groupShowTime = IsDlgButtonChecked(hwndDlg, IDC_SHOWTIME) ? true : false;
-				instance->groupShowName = IsDlgButtonChecked(hwndDlg, IDC_SHOWNAME) ? true : false;
-				instance->groupShowMessage = IsDlgButtonChecked(hwndDlg, IDC_SHOWMESSAGE) ? true : false;
-				BOOL success;
-				instance->groupMessageLen = GetDlgItemInt(hwndDlg, IDC_MESSAGELEN, &success, FALSE);
-				instance->groupTime = GetDlgItemInt(hwndDlg, IDC_GROUPTIME, &success, FALSE);
-				instance->groupMessagesNumber = GetDlgItemInt(hwndDlg, IDC_LIMITMESSAGES, &success, FALSE);
-				
-				Options::instance->Save();
-				OptionsGroupChanged();
-			}
-			return TRUE;
+	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
+			instance->groupNewOnTop = IsDlgButtonChecked(hwndDlg, IDC_NEWONTOP) ? true : false;
+			instance->groupShowEvents = IsDlgButtonChecked(hwndDlg, IDC_SHOWEVENTS) ? true : false;
+			instance->groupShowTime = IsDlgButtonChecked(hwndDlg, IDC_SHOWTIME) ? true : false;
+			instance->groupShowName = IsDlgButtonChecked(hwndDlg, IDC_SHOWNAME) ? true : false;
+			instance->groupShowMessage = IsDlgButtonChecked(hwndDlg, IDC_SHOWMESSAGE) ? true : false;
+			BOOL success;
+			instance->groupMessageLen = GetDlgItemInt(hwndDlg, IDC_MESSAGELEN, &success, FALSE);
+			instance->groupTime = GetDlgItemInt(hwndDlg, IDC_GROUPTIME, &success, FALSE);
+			instance->groupMessagesNumber = GetDlgItemInt(hwndDlg, IDC_LIMITMESSAGES, &success, FALSE);
+
+			Options::instance->Save();
+			OptionsGroupChanged();
 		}
+		return TRUE;
 	}
 
 	return FALSE;
@@ -1287,44 +1196,38 @@ INT_PTR CALLBACK Options::DlgProcOptsGroupList(HWND hwndDlg, UINT msg, WPARAM wP
 
 INT_PTR CALLBACK Options::DlgProcOptsMessages(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) 
-	{
-		case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwndDlg);
+	switch(msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 
-			CheckDlgButton(hwndDlg, IDC_NEWONTOP, instance->messagesNewOnTop ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_SHOWDATE, instance->messagesShowDate ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_SHOWSECOND, instance->messagesShowSec ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_SHOWNAME, instance->messagesShowName ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_SHOWEVENTS, instance->messagesShowEvents ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_SHOWSMILEYS, instance->messagesUseSmileys ? 1 : 0);
-			if (!g_SmileyAddAvail)
-				EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWSMILEYS), FALSE);
-			return TRUE;
+		CheckDlgButton(hwndDlg, IDC_NEWONTOP, instance->messagesNewOnTop ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_SHOWDATE, instance->messagesShowDate ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_SHOWSECOND, instance->messagesShowSec ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_SHOWNAME, instance->messagesShowName ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_SHOWEVENTS, instance->messagesShowEvents ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_SHOWSMILEYS, instance->messagesUseSmileys ? 1 : 0);
+		if (!g_SmileyAddAvail)
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWSMILEYS), FALSE);
+		return TRUE;
+
+	case WM_COMMAND:
+		if (HIWORD(wParam) == BN_CLICKED)
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		return TRUE;
+
+	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
+			instance->messagesNewOnTop = IsDlgButtonChecked(hwndDlg, IDC_NEWONTOP) ? true : false;
+			instance->messagesShowDate = IsDlgButtonChecked(hwndDlg, IDC_SHOWDATE) ? true : false;
+			instance->messagesShowSec = IsDlgButtonChecked(hwndDlg, IDC_SHOWSECOND) ? true : false;
+			instance->messagesShowName = IsDlgButtonChecked(hwndDlg, IDC_SHOWNAME) ? true : false;
+			instance->messagesShowEvents = IsDlgButtonChecked(hwndDlg, IDC_SHOWEVENTS) ? true : false;
+			instance->messagesUseSmileys = IsDlgButtonChecked(hwndDlg, IDC_SHOWSMILEYS) ? true : false;
+
+			Options::instance->Save();
+			OptionsMessageChanged();
 		}
-		case WM_COMMAND:
-		{
-			if (HIWORD(wParam) == BN_CLICKED)
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			return TRUE;
-		}
-		case WM_NOTIFY:
-		{
-			if (((LPNMHDR)lParam)->code == PSN_APPLY) 
-			{
-				instance->messagesNewOnTop = IsDlgButtonChecked(hwndDlg, IDC_NEWONTOP) ? true : false;
-				instance->messagesShowDate = IsDlgButtonChecked(hwndDlg, IDC_SHOWDATE) ? true : false;
-				instance->messagesShowSec = IsDlgButtonChecked(hwndDlg, IDC_SHOWSECOND) ? true : false;
-				instance->messagesShowName = IsDlgButtonChecked(hwndDlg, IDC_SHOWNAME) ? true : false;
-				instance->messagesShowEvents = IsDlgButtonChecked(hwndDlg, IDC_SHOWEVENTS) ? true : false;
-				instance->messagesUseSmileys = IsDlgButtonChecked(hwndDlg, IDC_SHOWSMILEYS) ? true : false;
-				
-				Options::instance->Save();
-				OptionsMessageChanged();
-			}
-			return TRUE;
-		}
+		return TRUE;
 	}
 
 	return FALSE;
@@ -1332,61 +1235,49 @@ INT_PTR CALLBACK Options::DlgProcOptsMessages(HWND hwndDlg, UINT msg, WPARAM wPa
 
 INT_PTR CALLBACK Options::DlgProcOptsSearching(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) 
-	{
-		case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwndDlg);
+	switch(msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 
-			CheckDlgButton(hwndDlg, IDC_FORLIST, instance->searchForInList ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_FORMES, instance->searchForInMess ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_MATCHCASE, instance->searchMatchCase ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_MATCHWHOLE, instance->searchMatchWhole ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_ONLYIN, instance->searchOnlyIn ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_ONLYOUT, instance->searchOnlyOut ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_ONLYGROUP, instance->searchOnlyGroup ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_ALLCONTACTS, instance->searchAllContacts ? 1 : 0);
-			return TRUE;
-		}
-		case WM_COMMAND:
-		{
-			if (HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_ONLYIN)
-			{
-				if (IsDlgButtonChecked(hwndDlg, IDC_ONLYIN) && IsDlgButtonChecked(hwndDlg, IDC_ONLYOUT))
-				{
-					CheckDlgButton(hwndDlg, IDC_ONLYOUT, 0);
-				}
-			}
-			else if (HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_ONLYOUT)
-			{
-				if (IsDlgButtonChecked(hwndDlg, IDC_ONLYOUT) && IsDlgButtonChecked(hwndDlg, IDC_ONLYIN))
-				{
-					CheckDlgButton(hwndDlg, IDC_ONLYIN, 0);
-				}
-			}
+		CheckDlgButton(hwndDlg, IDC_FORLIST, instance->searchForInList ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_FORMES, instance->searchForInMess ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_MATCHCASE, instance->searchMatchCase ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_MATCHWHOLE, instance->searchMatchWhole ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_ONLYIN, instance->searchOnlyIn ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_ONLYOUT, instance->searchOnlyOut ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_ONLYGROUP, instance->searchOnlyGroup ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_ALLCONTACTS, instance->searchAllContacts ? 1 : 0);
+		return TRUE;
 
-			if (HIWORD(wParam) == BN_CLICKED)
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			return TRUE;
+	case WM_COMMAND:
+		if (HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_ONLYIN) {
+			if (IsDlgButtonChecked(hwndDlg, IDC_ONLYIN) && IsDlgButtonChecked(hwndDlg, IDC_ONLYOUT))
+				CheckDlgButton(hwndDlg, IDC_ONLYOUT, 0);
 		}
-		case WM_NOTIFY:
-		{
-			if (((LPNMHDR)lParam)->code == PSN_APPLY) 
-			{
-				instance->searchForInList = IsDlgButtonChecked(hwndDlg, IDC_FORLIST) ? true : false;
-				instance->searchForInMess = IsDlgButtonChecked(hwndDlg, IDC_FORMES) ? true : false;
-				instance->searchMatchCase = IsDlgButtonChecked(hwndDlg, IDC_MATCHCASE) ? true : false;
-				instance->searchMatchWhole = IsDlgButtonChecked(hwndDlg, IDC_MATCHWHOLE) ? true : false;
-				instance->searchOnlyIn = IsDlgButtonChecked(hwndDlg, IDC_ONLYIN) ? true : false;
-				instance->searchOnlyOut = IsDlgButtonChecked(hwndDlg, IDC_ONLYOUT) ? true : false;
-				instance->searchOnlyGroup = IsDlgButtonChecked(hwndDlg, IDC_ONLYGROUP) ? true : false;
-				instance->searchAllContacts = IsDlgButtonChecked(hwndDlg, IDC_ALLCONTACTS) ? true : false;
-				
-				Options::instance->Save();
-				OptionsSearchingChanged();
-			}
-			return TRUE;
+		else if (HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_ONLYOUT) {
+			if (IsDlgButtonChecked(hwndDlg, IDC_ONLYOUT) && IsDlgButtonChecked(hwndDlg, IDC_ONLYIN))
+				CheckDlgButton(hwndDlg, IDC_ONLYIN, 0);
 		}
+
+		if (HIWORD(wParam) == BN_CLICKED)
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		return TRUE;
+
+	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
+			instance->searchForInList = IsDlgButtonChecked(hwndDlg, IDC_FORLIST) ? true : false;
+			instance->searchForInMess = IsDlgButtonChecked(hwndDlg, IDC_FORMES) ? true : false;
+			instance->searchMatchCase = IsDlgButtonChecked(hwndDlg, IDC_MATCHCASE) ? true : false;
+			instance->searchMatchWhole = IsDlgButtonChecked(hwndDlg, IDC_MATCHWHOLE) ? true : false;
+			instance->searchOnlyIn = IsDlgButtonChecked(hwndDlg, IDC_ONLYIN) ? true : false;
+			instance->searchOnlyOut = IsDlgButtonChecked(hwndDlg, IDC_ONLYOUT) ? true : false;
+			instance->searchOnlyGroup = IsDlgButtonChecked(hwndDlg, IDC_ONLYGROUP) ? true : false;
+			instance->searchAllContacts = IsDlgButtonChecked(hwndDlg, IDC_ALLCONTACTS) ? true : false;
+
+			Options::instance->Save();
+			OptionsSearchingChanged();
+		}
+		return TRUE;
 	}
 
 	return FALSE;
@@ -1397,23 +1288,18 @@ void InitCodepageCB(HWND hwndCB, unsigned int codepage, const std::wstring& name
 	int cpCount = sizeof(cpTable) / sizeof(cpTable[0]);
 	int selCpIdx = -1;
 	ComboBox_LimitText(hwndCB, 256);
-	for(int i = 0; i < cpCount; ++i)
-	{
+	for (int i = 0; i < cpCount; ++i) {
 		ComboBox_AddString(hwndCB, TranslateTS(cpTable[i].cpName));
 		if (cpTable[i].cpId == codepage && name == cpTable[i].cpName)
 			selCpIdx = i;
 	}
 
-	if (selCpIdx == -1)
-	{
+	if (selCpIdx == -1) {
 		TCHAR buf[300];
 		mir_sntprintf(buf, 300, _T("%d;%s"), codepage, name.c_str());
 		ComboBox_SetText(hwndCB, buf);	
 	}
-	else
-	{
-		ComboBox_SetCurSel(hwndCB, selCpIdx);	
-	}
+	else ComboBox_SetCurSel(hwndCB, selCpIdx);	
 
 	ComboBox_LimitText(hwndCB, 127);
 }
@@ -1421,25 +1307,21 @@ void InitCodepageCB(HWND hwndCB, unsigned int codepage, const std::wstring& name
 unsigned int GetCodepageCB(HWND hwndCB, bool errorReport, unsigned int defCp, const std::wstring& defName, std::wstring& name)
 {
 	int selCpIdx = ComboBox_GetCurSel(hwndCB);
-	if (selCpIdx < 0)
-	{
+	if (selCpIdx < 0) {
 		TCHAR text[128];
 		ComboBox_GetText(hwndCB, text, 128);
 		std::wstring str = text;
 		name = _T("");
 		size_t pos = str.find_first_of(_T(';'));
-		if (pos < str.length())
-		{
+		if (pos < str.length()) {
 			text[pos] = 0;
 			name = str.substr(pos + 1);
 		}
 
 		TCHAR * stopOn = NULL;
 		long cp = _tcstol(text, &stopOn, 10);
-		if ((pos >= str.length() || name.empty() || stopOn == text || *stopOn != '\0' || cp < 0 || cp > 0xffff))
-		{
-			if (errorReport)
-			{
+		if ((pos >= str.length() || name.empty() || stopOn == text || *stopOn != '\0' || cp < 0 || cp > 0xffff)) {
+			if (errorReport) {
 				MessageBox(GetParent(hwndCB), TranslateT("You've entered invalid codepage. Select codepage from combo box or enter correct number."), TranslateT("Invalid codepage"), MB_OK | MB_ICONERROR);
 				SetFocus(hwndCB);
 			}
@@ -1450,8 +1332,7 @@ unsigned int GetCodepageCB(HWND hwndCB, bool errorReport, unsigned int defCp, co
 
 		return cp;
 	}
-	else
-	{
+	else {
 		name = cpTable[selCpIdx].cpName;
 		return cpTable[selCpIdx].cpId;
 	}
@@ -1459,114 +1340,97 @@ unsigned int GetCodepageCB(HWND hwndCB, bool errorReport, unsigned int defCp, co
 
 INT_PTR CALLBACK Options::DlgProcOptsExport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) 
-	{
-		case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwndDlg);
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)FALSE);
-			InitCodepageCB(GetDlgItem(hwndDlg, IDC_TXTENC), instance->codepageTxt, instance->encodingTxt);
-			InitCodepageCB(GetDlgItem(hwndDlg, IDC_HTML1ENC), instance->codepageHtml1, instance->encodingHtml1);
-			InitCodepageCB(GetDlgItem(hwndDlg, IDC_HTML2ENC), instance->codepageHtml2, instance->encodingHtml2);
-			CheckDlgButton(hwndDlg, IDC_HTML1DATE, instance->exportHtml1ShowDate ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_HTML2DATE, instance->exportHtml2ShowDate ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_HTML2SHOWSMILEYS, instance->exportHtml2UseSmileys ? 1 : 0);
-			Edit_LimitText(GetDlgItem(hwndDlg, IDC_HTML2EXTCSSFILE), MAX_PATH);
-			if (instance->extCssHtml2.empty())
-			{
-				EnableWindow(GetDlgItem(hwndDlg, IDC_HTML2EXTCSSFILE), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_CSS_BROWSE), FALSE);
-			}
-			else
-			{
-				CheckDlgButton(hwndDlg, IDC_HTML2EXTCSS, TRUE);
-				Edit_SetText(GetDlgItem(hwndDlg, IDC_HTML2EXTCSSFILE), instance->extCssHtml2.c_str());
-			}
-
-			if (!g_SmileyAddAvail)
-				EnableWindow(GetDlgItem(hwndDlg, IDC_HTML2SHOWSMILEYS), FALSE);
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)TRUE);
-			return TRUE;
+	switch(msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)FALSE);
+		InitCodepageCB(GetDlgItem(hwndDlg, IDC_TXTENC), instance->codepageTxt, instance->encodingTxt);
+		InitCodepageCB(GetDlgItem(hwndDlg, IDC_HTML1ENC), instance->codepageHtml1, instance->encodingHtml1);
+		InitCodepageCB(GetDlgItem(hwndDlg, IDC_HTML2ENC), instance->codepageHtml2, instance->encodingHtml2);
+		CheckDlgButton(hwndDlg, IDC_HTML1DATE, instance->exportHtml1ShowDate ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_HTML2DATE, instance->exportHtml2ShowDate ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_HTML2SHOWSMILEYS, instance->exportHtml2UseSmileys ? 1 : 0);
+		Edit_LimitText(GetDlgItem(hwndDlg, IDC_HTML2EXTCSSFILE), MAX_PATH);
+		if (instance->extCssHtml2.empty()) {
+			EnableWindow(GetDlgItem(hwndDlg, IDC_HTML2EXTCSSFILE), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CSS_BROWSE), FALSE);
 		}
-		case WM_COMMAND:
+		else {
+			CheckDlgButton(hwndDlg, IDC_HTML2EXTCSS, TRUE);
+			Edit_SetText(GetDlgItem(hwndDlg, IDC_HTML2EXTCSSFILE), instance->extCssHtml2.c_str());
+		}
+
+		if (!g_SmileyAddAvail)
+			EnableWindow(GetDlgItem(hwndDlg, IDC_HTML2SHOWSMILEYS), FALSE);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)TRUE);
+
+		return TRUE;
+
+	case WM_COMMAND:
 		{
 			BOOL init = (BOOL)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-			if (HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_HTML2EXTCSS)
-			{
+			if (HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_HTML2EXTCSS) {
 				BOOL en = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_HTML2EXTCSS);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_HTML2EXTCSSFILE), en);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CSS_BROWSE), en);
 			}
-			else if (HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_CSS_BROWSE)
-			{
+			else if (HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_CSS_BROWSE) {
 				if (!OpenFileDlg(hwndDlg, GetDlgItem(hwndDlg, IDC_HTML2EXTCSSFILE), _T(""), _T("css"), TranslateT("Browse CSS file"), true))
-				{
 					return TRUE;
-				}
 			}
 
 			if (init && (HIWORD(wParam) == BN_CLICKED || HIWORD(wParam)==CBN_SELCHANGE || HIWORD(wParam)==CBN_EDITCHANGE || HIWORD(wParam) == EN_CHANGE))
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			return TRUE;
 		}
-		case WM_NOTIFY:
-		{
-			if (((LPNMHDR)lParam)->code == PSN_APPLY) 
-			{
-				std::wstring newName1, newName2, newName3;
-				unsigned int cp1 = GetCodepageCB(GetDlgItem(hwndDlg, IDC_TXTENC), true, instance->codepageTxt, instance->encodingTxt, newName1);
-				if (cp1 == -1)
-				{
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, PSNRET_INVALID_NOCHANGEPAGE);
-					return TRUE;
-				}
-				unsigned int cp2 = GetCodepageCB(GetDlgItem(hwndDlg, IDC_HTML1ENC), true, instance->codepageHtml1, instance->encodingHtml1, newName2);
-				if (cp2 == -1)
-				{
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, PSNRET_INVALID_NOCHANGEPAGE);
-					return TRUE;
-				}
-				unsigned int cp3 = GetCodepageCB(GetDlgItem(hwndDlg, IDC_HTML2ENC), true, instance->codepageHtml2, instance->encodingHtml2, newName3);
-				if (cp3 == -1)
-				{
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, PSNRET_INVALID_NOCHANGEPAGE);
-					return TRUE;
-				}
-				if (IsDlgButtonChecked(hwndDlg, IDC_HTML2EXTCSS))
-				{
-					if (!CheckFile(GetDlgItem(hwndDlg, IDC_HTML2EXTCSSFILE)))
-					{
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-						SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, PSNRET_INVALID_NOCHANGEPAGE);
-						return TRUE;
-					}
+		return TRUE;
 
-					TCHAR buf[MAX_PATH];
-					Edit_GetText(GetDlgItem(hwndDlg, IDC_HTML2EXTCSSFILE), buf, MAX_PATH);
-					instance->extCssHtml2 = buf;
-				}
-				else
-				{
-					instance->extCssHtml2 = _T("");
-				}
-
-				instance->codepageTxt = cp1;
-				instance->encodingTxt = newName1;
-				instance->codepageHtml1 = cp2;
-				instance->encodingHtml1 = newName2;
-				instance->codepageHtml2 = cp3;
-				instance->encodingHtml2 = newName3;
-				instance->exportHtml1ShowDate = IsDlgButtonChecked(hwndDlg, IDC_HTML1DATE) ? true : false;
-				instance->exportHtml2ShowDate = IsDlgButtonChecked(hwndDlg, IDC_HTML2DATE) ? true : false;
-				instance->exportHtml2UseSmileys = IsDlgButtonChecked(hwndDlg, IDC_HTML2SHOWSMILEYS) ? true : false;
-
-				Options::instance->Save();
+	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
+			std::wstring newName1, newName2, newName3;
+			unsigned int cp1 = GetCodepageCB(GetDlgItem(hwndDlg, IDC_TXTENC), true, instance->codepageTxt, instance->encodingTxt, newName1);
+			if (cp1 == -1) {
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, PSNRET_INVALID_NOCHANGEPAGE);
+				return TRUE;
 			}
-			return TRUE;
+			unsigned int cp2 = GetCodepageCB(GetDlgItem(hwndDlg, IDC_HTML1ENC), true, instance->codepageHtml1, instance->encodingHtml1, newName2);
+			if (cp2 == -1) {
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, PSNRET_INVALID_NOCHANGEPAGE);
+				return TRUE;
+			}
+			unsigned int cp3 = GetCodepageCB(GetDlgItem(hwndDlg, IDC_HTML2ENC), true, instance->codepageHtml2, instance->encodingHtml2, newName3);
+			if (cp3 == -1) {
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, PSNRET_INVALID_NOCHANGEPAGE);
+				return TRUE;
+			}
+			if (IsDlgButtonChecked(hwndDlg, IDC_HTML2EXTCSS)) {
+				if (!CheckFile(GetDlgItem(hwndDlg, IDC_HTML2EXTCSSFILE))) {
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, PSNRET_INVALID_NOCHANGEPAGE);
+					return TRUE;
+				}
+
+				TCHAR buf[MAX_PATH];
+				Edit_GetText(GetDlgItem(hwndDlg, IDC_HTML2EXTCSSFILE), buf, MAX_PATH);
+				instance->extCssHtml2 = buf;
+			}
+			else instance->extCssHtml2 = _T("");
+
+			instance->codepageTxt = cp1;
+			instance->encodingTxt = newName1;
+			instance->codepageHtml1 = cp2;
+			instance->encodingHtml1 = newName2;
+			instance->codepageHtml2 = cp3;
+			instance->encodingHtml2 = newName3;
+			instance->exportHtml1ShowDate = IsDlgButtonChecked(hwndDlg, IDC_HTML1DATE) ? true : false;
+			instance->exportHtml2ShowDate = IsDlgButtonChecked(hwndDlg, IDC_HTML2DATE) ? true : false;
+			instance->exportHtml2UseSmileys = IsDlgButtonChecked(hwndDlg, IDC_HTML2SHOWSMILEYS) ? true : false;
+
+			Options::instance->Save();
 		}
+		return TRUE;
 	}
 
 	return FALSE;
@@ -1581,137 +1445,117 @@ struct DlgTaskOpt
 
 INT_PTR CALLBACK Options::DlgProcOptsScheduler(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) 
-	{
-		case WM_INITDIALOG:
+	std::list<TaskOptions>* tasks = (std::list<TaskOptions>*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch(msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
-			TranslateDialogDefault(hwndDlg);
-			std::list<TaskOptions>* tasks = new std::list<TaskOptions>(Options::instance->taskOptions.begin(), Options::instance->taskOptions.end());
+			tasks = new std::list<TaskOptions>(Options::instance->taskOptions.begin(), Options::instance->taskOptions.end());
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)tasks);
 			HWND listTasks = GetDlgItem(hwndDlg, IDC_LIST_TASKS);
-			for(std::list<TaskOptions>::iterator it = tasks->begin(); it != tasks->end(); ++it)
-			{
+			for (std::list<TaskOptions>::iterator it = tasks->begin(); it != tasks->end(); ++it)
 				ListBox_AddString(listTasks, it->taskName.c_str());
-			}
 
 			if (!bPopupsEnabled)
-			{
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SCHEDULER_ALERTS), FALSE);
-			}
 
 			CheckDlgButton(hwndDlg, IDC_SCHEDULER_ALERTS, instance->schedulerAlerts ? 1 : 0);
 			CheckDlgButton(hwndDlg, IDC_SCHEDULER_HISTORY_ALERTS, instance->schedulerHistoryAlerts ? 1 : 0);
-			
+
 			EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_TASK), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE_TASK), FALSE);
-			return TRUE;
 		}
-		case WM_COMMAND:
-		{
-			if (HIWORD(wParam) == BN_CLICKED)
-			{
-				std::list<TaskOptions>* tasks = (std::list<TaskOptions>*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				HWND listTasks = GetDlgItem(hwndDlg, IDC_LIST_TASKS);
-				int sel = ListBox_GetCurSel(listTasks);
-				TaskOptions toAdd;
-				TaskOptions* to = &toAdd;
-				switch(LOWORD(wParam))
-				{
-				case IDC_EDIT_TASK:
-					if (sel >= 0)
-					{
-						std::list<TaskOptions>::iterator it = tasks->begin();
-						while(sel-- > 0 && it != tasks->end())
-							++it;
-						if (it == tasks->end())
-							break;
-						to = &(*it);
-					}
-					else
+		return TRUE;
+
+	case WM_COMMAND:
+		if (HIWORD(wParam) == BN_CLICKED) {
+			HWND listTasks = GetDlgItem(hwndDlg, IDC_LIST_TASKS);
+			int sel = ListBox_GetCurSel(listTasks);
+			TaskOptions toAdd;
+			TaskOptions* to = &toAdd;
+			switch(LOWORD(wParam)) {
+			case IDC_EDIT_TASK:
+				if (sel >= 0) {
+					std::list<TaskOptions>::iterator it = tasks->begin();
+					while(sel-- > 0 && it != tasks->end())
+						++it;
+					if (it == tasks->end())
 						break;
-				case IDC_ADD_TASK:
-					{
-						DlgTaskOpt top;
-						top.tasks = tasks;
-						top.to = to;
-						if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_TASK), hwndDlg, DlgProcOptsTask, (LPARAM)&top) == IDOK)
-						{
-							if (LOWORD(wParam) == IDC_ADD_TASK)
-							{
-								tasks->push_back(*to); 
-								ListBox_AddString(listTasks, to->taskName.c_str());
-								ListBox_SetCurSel(listTasks, tasks->size() - 1);
-							}
-							else
-							{
-								sel = ListBox_GetCurSel(listTasks);
-								ListBox_DeleteString(listTasks, sel);
-								ListBox_InsertString(listTasks, sel, to->taskName.c_str());
-								ListBox_SetCurSel(listTasks, sel);
-							}
-							EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_TASK), TRUE);
-							EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE_TASK), TRUE);
-							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-						}
-					}
-
-					break;
-				case IDC_DELETE_TASK:
-					if (sel >= 0)
-					{
-						ListBox_DeleteString(listTasks, sel);
-						std::list<TaskOptions>::iterator it = tasks->begin();
-						while(sel-- > 0 && it != tasks->end())
-							++it;
-						if (it != tasks->end())
-							tasks->erase(it);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_TASK), FALSE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE_TASK), FALSE);
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					}
-
-					break;
-				default:
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					to = &(*it);
 				}
-			}
-			else if (HIWORD(wParam) == CBN_SELCHANGE && LOWORD(wParam) == IDC_LIST_TASKS)
-			{
-				HWND listTasks = GetDlgItem(hwndDlg, IDC_LIST_TASKS);
-				int sel = ListBox_GetCurSel(listTasks);
-				if (sel < 0)
+				else break;
+
+			case IDC_ADD_TASK:
 				{
+					DlgTaskOpt top;
+					top.tasks = tasks;
+					top.to = to;
+					if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_TASK), hwndDlg, DlgProcOptsTask, (LPARAM)&top) == IDOK) {
+						if (LOWORD(wParam) == IDC_ADD_TASK) {
+							tasks->push_back(*to); 
+							ListBox_AddString(listTasks, to->taskName.c_str());
+							ListBox_SetCurSel(listTasks, tasks->size() - 1);
+						}
+						else {
+							sel = ListBox_GetCurSel(listTasks);
+							ListBox_DeleteString(listTasks, sel);
+							ListBox_InsertString(listTasks, sel, to->taskName.c_str());
+							ListBox_SetCurSel(listTasks, sel);
+						}
+						EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_TASK), TRUE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE_TASK), TRUE);
+						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					}
+				}
+				break;
+
+			case IDC_DELETE_TASK:
+				if (sel >= 0) {
+					ListBox_DeleteString(listTasks, sel);
+					std::list<TaskOptions>::iterator it = tasks->begin();
+					while(sel-- > 0 && it != tasks->end())
+						++it;
+					if (it != tasks->end())
+						tasks->erase(it);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_TASK), FALSE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE_TASK), FALSE);
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
-				else
-				{
-					EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_TASK), TRUE);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE_TASK), TRUE);
-				}
+				break;
+
+			default:
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
-			return TRUE;
 		}
-		case WM_NOTIFY:
-		{
-			if (((LPNMHDR)lParam)->code == PSN_APPLY) 
-			{
-				std::list<TaskOptions>* tasks = (std::list<TaskOptions>*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				instance->schedulerAlerts = IsDlgButtonChecked(hwndDlg, IDC_SCHEDULER_ALERTS) ? true : false;
-				instance->schedulerHistoryAlerts = IsDlgButtonChecked(hwndDlg, IDC_SCHEDULER_HISTORY_ALERTS) ? true : false;
-				Options::instance->SaveTasks(tasks);
-				OptionsSchedulerChanged();
-				InitTaskMenuItems();
+		else if (HIWORD(wParam) == CBN_SELCHANGE && LOWORD(wParam) == IDC_LIST_TASKS) {
+			HWND listTasks = GetDlgItem(hwndDlg, IDC_LIST_TASKS);
+			int sel = ListBox_GetCurSel(listTasks);
+			if (sel < 0) {
+				EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_TASK), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE_TASK), FALSE);
 			}
-			return TRUE;
+			else {
+				EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_TASK), TRUE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE_TASK), TRUE);
+			}
 		}
-		case WM_DESTROY:
-		{
-			std::list<TaskOptions>* tasks = (std::list<TaskOptions>*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-			delete tasks;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, NULL);
-			break;
+		return TRUE;
+
+	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
+			instance->schedulerAlerts = IsDlgButtonChecked(hwndDlg, IDC_SCHEDULER_ALERTS) ? true : false;
+			instance->schedulerHistoryAlerts = IsDlgButtonChecked(hwndDlg, IDC_SCHEDULER_HISTORY_ALERTS) ? true : false;
+			Options::instance->SaveTasks(tasks);
+			OptionsSchedulerChanged();
+			InitTaskMenuItems();
 		}
+		return TRUE;
+
+	case WM_DESTROY:
+		delete tasks;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, NULL);
+		break;
 	}
 
 	return FALSE;
@@ -1732,12 +1576,9 @@ void RebuildList(HWND hwnd, HANDLE hSystem, TaskOptions* to)
 {
 	HANDLE hItem;
 	if (to->isSystem && hSystem)
-	{
 		SendMessage(hwnd, CLM_SETCHECKMARK, (WPARAM) hSystem, 1);
-	}
 
-	for(size_t i = 0; i < to->contacts.size(); ++i)
-	{
+	for (size_t i = 0; i < to->contacts.size(); ++i) {
 		hItem = (HANDLE) SendMessage(hwnd, CLM_FINDCONTACT, (WPARAM) to->contacts[i], 0);
 		if (hItem)
 			SendMessage(hwnd, CLM_SETCHECKMARK, (WPARAM) hItem, 1);
@@ -1766,11 +1607,10 @@ bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top = NULL, std::wstri
 INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static HANDLE hSystem;
-	switch(msg) 
-	{
-		case WM_INITDIALOG:
+	switch(msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
-			TranslateDialogDefault(hwndDlg);
 			DlgTaskOpt* top = (DlgTaskOpt*)lParam;
 			TaskOptions* to = top->to;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
@@ -1794,7 +1634,7 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 			HWND star = GetDlgItem(hwndDlg, IDC_TASK_STAR);
 			HWND password = GetDlgItem(hwndDlg, IDC_PASSWORD);
 			HWND expImp = GetDlgItem(hwndDlg, IDC_EXPIMP);
-			
+
 			Edit_LimitText(name, 16);
 			Edit_SetText(name, to->taskName.c_str());
 
@@ -1822,14 +1662,11 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 			if (selFilter > 1)
 				selFilter = 0;
 			int i = 1;
-			for(std::vector<FilterOptions>::iterator it = instance->customFilters.begin(); it != instance->customFilters.end(); ++it)
-			{
+			for (std::vector<FilterOptions>::iterator it = instance->customFilters.begin(); it != instance->customFilters.end(); ++it) {
 				++i;
 				ComboBox_AddString(filter, it->name.c_str());
 				if (to->filterId > 1 && it->name == to->filterName)
-				{
 					selFilter = i;
-				}
 			}
 			ComboBox_SetCurSel(filter, selFilter);
 
@@ -1856,12 +1693,11 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 			Button_SetCheck(compress, to->compress);
 			Edit_LimitText(password, 99);
 			SetWindowTextA(password, to->zipPassword.c_str());
-			
+
 			Edit_LimitText(exportPath, MAX_PATH);
 			Edit_SetText(exportPath, to->filePath.c_str());
-			
-			if (!FTPAvail())
-			{
+
+			if (!FTPAvail()) {
 				EnableWindow(ftpFile, FALSE);
 				EnableWindow(ftpFileButton, FALSE);
 				to->useFtp = false;
@@ -1878,16 +1714,15 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 			ComboBox_AddString(weekList, TranslateT("Saturday"));
 			ComboBox_AddString(weekList, TranslateT("Sunday"));
 			ComboBox_SetCurSel(weekList, to->dayOfWeek);
-			
+
 			Edit_LimitText(day, 2);
 			SetDlgItemInt(hwndDlg, IDC_TRIGER_DAY, to->dayOfMonth, FALSE);
 
 			Edit_LimitText(deltaTime, 4);
 			SetDlgItemInt(hwndDlg, IDC_TRIGER_DELTA_TIME, to->deltaTime, FALSE);
-			
+
 			TCHAR timeFormat[10];
-			if (GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_SSHORTTIME, timeFormat, 10) == 0)
-			{
+			if (GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_SSHORTTIME, timeFormat, 10) == 0) {
 				TCHAR sep = _T(':');
 				if (GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_STIME, timeFormat, 10) > 0)
 					sep = timeFormat[0];
@@ -1917,229 +1752,194 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 			SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_COMPRESS, BN_CLICKED), NULL);
 			SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_UPLOAD, BN_CLICKED), NULL);
 			SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_COMPRESS, BN_CLICKED), NULL);
-			return TRUE;
 		}
-		case WM_COMMAND:
-		{
-			if (HIWORD(wParam) == BN_CLICKED) 
-			{
-				if (LOWORD(wParam) == IDOK)
-				{
-					DlgTaskOpt* top = (DlgTaskOpt*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-					TaskOptions* to = top->to;
-					TaskOptions toCp(*to);
-					toCp.taskName.resize(17);
-					int nameLen = Edit_GetText(GetDlgItem(hwndDlg, IDC_TASK_NAME), (wchar_t*)toCp.taskName.c_str(), 17);
-					toCp.taskName.resize(nameLen);
-					toCp.active = Button_GetCheck(GetDlgItem(hwndDlg, IDC_TASK_ACTIVE)) != 0;
-					toCp.exportImported = Button_GetCheck(GetDlgItem(hwndDlg, IDC_EXPIMP)) != 0;
-					toCp.type = (enum TaskOptions::TaskType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_TASK_TYPE));
-					toCp.filterId = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_TASK_FILTER));
-					if (toCp.filterId > 1)
-						toCp.filterName = instance->customFilters[toCp.filterId - 2].name;
-					BOOL isOK = FALSE;
-					toCp.eventDeltaTime = GetDlgItemInt(hwndDlg, IDC_EVENT_TIME, &isOK, TRUE);
-					if (!isOK)
-					{
+		return TRUE;
+
+	case WM_COMMAND:
+		if (HIWORD(wParam) == BN_CLICKED) {
+			if (LOWORD(wParam) == IDOK) {
+				DlgTaskOpt* top = (DlgTaskOpt*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				TaskOptions* to = top->to;
+				TaskOptions toCp(*to);
+				toCp.taskName.resize(17);
+				int nameLen = Edit_GetText(GetDlgItem(hwndDlg, IDC_TASK_NAME), (wchar_t*)toCp.taskName.c_str(), 17);
+				toCp.taskName.resize(nameLen);
+				toCp.active = Button_GetCheck(GetDlgItem(hwndDlg, IDC_TASK_ACTIVE)) != 0;
+				toCp.exportImported = Button_GetCheck(GetDlgItem(hwndDlg, IDC_EXPIMP)) != 0;
+				toCp.type = (enum TaskOptions::TaskType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_TASK_TYPE));
+				toCp.filterId = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_TASK_FILTER));
+				if (toCp.filterId > 1)
+					toCp.filterName = instance->customFilters[toCp.filterId - 2].name;
+				BOOL isOK = FALSE;
+				toCp.eventDeltaTime = GetDlgItemInt(hwndDlg, IDC_EVENT_TIME, &isOK, TRUE);
+				if (!isOK) {
+					TCHAR msg[256];
+					mir_sntprintf(msg, SIZEOF(msg), TranslateT("Invalid '%s' value."), TranslateT("Events older than"));
+					MessageBox(hwndDlg, msg, TranslateT("Error"), MB_ICONERROR);
+					break;
+				}
+				toCp.eventUnit = (enum TaskOptions::EventUnit)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_EVENT_UNIT));
+				toCp.trigerType = (enum TaskOptions::TrigerType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_TRIGER_TYPE));
+				toCp.exportType = (enum IExport::ExportType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_EXPORT_TYPE));
+				toCp.importType = (enum IImport::ImportType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_IMPORT_TYPE));
+				toCp.compress = Button_GetCheck(GetDlgItem(hwndDlg, IDC_COMPRESS)) != 0;
+				char bufC[100];
+				GetWindowTextA(GetDlgItem(hwndDlg, IDC_PASSWORD), bufC, 100);
+				toCp.zipPassword = bufC;
+				HWND exportPath = GetDlgItem(hwndDlg, IDC_EXPORT_PATH);
+				int exLen = Edit_GetTextLength(exportPath);
+				toCp.filePath.resize(exLen + 1);
+				Edit_GetText(exportPath, (wchar_t*)toCp.filePath.c_str(), exLen + 1);
+				toCp.filePath.resize(exLen);
+				toCp.useFtp = Button_GetCheck(GetDlgItem(hwndDlg, IDC_UPLOAD)) != 0;
+				HWND ftpFile = GetDlgItem(hwndDlg, IDC_FTP);
+				exLen = Edit_GetTextLength(ftpFile);
+				toCp.ftpName.resize(exLen + 1);
+				Edit_GetText(ftpFile, (wchar_t*)toCp.ftpName.c_str(), exLen + 1);
+				toCp.ftpName.resize(exLen);
+				SYSTEMTIME st;
+				DateTime_GetSystemtime(GetDlgItem(hwndDlg, IDC_TRIGER_TIME), &st);
+				toCp.dayTime = st.wHour * 60 + st.wMinute;
+				toCp.dayOfWeek = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_TRIGER_WEEK));
+				toCp.dayOfMonth = GetDlgItemInt(hwndDlg, IDC_TRIGER_DAY, &isOK, FALSE);
+				if (!isOK) {
+					if (toCp.trigerType == TaskOptions::Monthly) {
 						TCHAR msg[256];
-						mir_sntprintf(msg, SIZEOF(msg), TranslateT("Invalid '%s' value."), TranslateT("Events older than"));
+						mir_sntprintf(msg, SIZEOF(msg), TranslateT("Invalid '%s' value."), TranslateT("Day"));
 						MessageBox(hwndDlg, msg, TranslateT("Error"), MB_ICONERROR);
 						break;
 					}
-					toCp.eventUnit = (enum TaskOptions::EventUnit)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_EVENT_UNIT));
-					toCp.trigerType = (enum TaskOptions::TrigerType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_TRIGER_TYPE));
-					toCp.exportType = (enum IExport::ExportType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_EXPORT_TYPE));
-					toCp.importType = (enum IImport::ImportType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_IMPORT_TYPE));
-					toCp.compress = Button_GetCheck(GetDlgItem(hwndDlg, IDC_COMPRESS)) != 0;
-					char bufC[100];
-					GetWindowTextA(GetDlgItem(hwndDlg, IDC_PASSWORD), bufC, 100);
-					toCp.zipPassword = bufC;
-					HWND exportPath = GetDlgItem(hwndDlg, IDC_EXPORT_PATH);
-					int exLen = Edit_GetTextLength(exportPath);
-					toCp.filePath.resize(exLen + 1);
-					Edit_GetText(exportPath, (wchar_t*)toCp.filePath.c_str(), exLen + 1);
-					toCp.filePath.resize(exLen);
-					toCp.useFtp = Button_GetCheck(GetDlgItem(hwndDlg, IDC_UPLOAD)) != 0;
-					HWND ftpFile = GetDlgItem(hwndDlg, IDC_FTP);
-					exLen = Edit_GetTextLength(ftpFile);
-					toCp.ftpName.resize(exLen + 1);
-					Edit_GetText(ftpFile, (wchar_t*)toCp.ftpName.c_str(), exLen + 1);
-					toCp.ftpName.resize(exLen);
-					SYSTEMTIME st;
-					DateTime_GetSystemtime(GetDlgItem(hwndDlg, IDC_TRIGER_TIME), &st);
-					toCp.dayTime = st.wHour * 60 + st.wMinute;
-					toCp.dayOfWeek = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_TRIGER_WEEK));
-					toCp.dayOfMonth = GetDlgItemInt(hwndDlg, IDC_TRIGER_DAY, &isOK, FALSE);
-					if (!isOK)
-					{
-						if (toCp.trigerType == TaskOptions::Monthly)
-						{
-							TCHAR msg[256];
-							mir_sntprintf(msg, SIZEOF(msg), TranslateT("Invalid '%s' value."), TranslateT("Day"));
-							MessageBox(hwndDlg, msg, TranslateT("Error"), MB_ICONERROR);
-							break;
-						}
-						else
-							toCp.dayOfMonth = to->dayOfMonth;
-					}
-					toCp.deltaTime = GetDlgItemInt(hwndDlg, IDC_TRIGER_DELTA_TIME, &isOK, FALSE);
-					if (!isOK)
-					{
-						if (toCp.trigerType == TaskOptions::DeltaMin || toCp.trigerType == TaskOptions::DeltaHour)
-						{
-							TCHAR msg[256];
-							mir_sntprintf(msg, SIZEOF(msg), TranslateT("Invalid '%s' value."), TranslateT("Delta time"));
-							MessageBox(hwndDlg, msg, TranslateT("Error"), MB_ICONERROR);
-							break;
-						}
-						else
-							toCp.deltaTime = to->deltaTime;
-					}
-					SaveList(GetDlgItem(hwndDlg, IDC_LIST_CONTACTSEX), hSystem, &toCp);
-					std::wstring err;
-					std::wstring errDescr;
-					std::wstring lastName = to->taskName;
-					to->taskName = L"";
-					if (!IsValidTask(toCp, top->tasks, &err, &errDescr))
-					{
-						to->taskName = lastName;
+					else toCp.dayOfMonth = to->dayOfMonth;
+				}
+				toCp.deltaTime = GetDlgItemInt(hwndDlg, IDC_TRIGER_DELTA_TIME, &isOK, FALSE);
+				if (!isOK) {
+					if (toCp.trigerType == TaskOptions::DeltaMin || toCp.trigerType == TaskOptions::DeltaHour) {
 						TCHAR msg[256];
-						if (err.empty())
-							_tcscpy_s(msg, TranslateT("Some value is invalid"));
-						else if (errDescr.empty())
-						{
-							mir_sntprintf(msg, SIZEOF(msg), TranslateT("Invalid '%s' value."), err.c_str());
-						}
-						else
-						{
-							mir_sntprintf(msg, SIZEOF(msg), TranslateT("Invalid '%s' value.\n%s"), err.c_str(), errDescr.c_str());
-						}
-
+						mir_sntprintf(msg, SIZEOF(msg), TranslateT("Invalid '%s' value."), TranslateT("Delta time"));
 						MessageBox(hwndDlg, msg, TranslateT("Error"), MB_ICONERROR);
 						break;
 					}
-
-					toCp.lastExport = time(NULL);
-
-					*to = toCp;
-					EndDialog(hwndDlg, IDOK);
+					else toCp.deltaTime = to->deltaTime;
 				}
-				else if (LOWORD(wParam) == IDCANCEL)
-				{
-					EndDialog(hwndDlg, IDCANCEL);
-				}
-				else if (LOWORD(wParam) == IDC_UPLOAD)
-				{
-					if (Button_GetCheck(GetDlgItem(hwndDlg, IDC_UPLOAD)) == 0)
-					{
-						EnableWindow(GetDlgItem(hwndDlg, IDC_FTP), FALSE);
-					}
+				SaveList(GetDlgItem(hwndDlg, IDC_LIST_CONTACTSEX), hSystem, &toCp);
+				std::wstring err;
+				std::wstring errDescr;
+				std::wstring lastName = to->taskName;
+				to->taskName = L"";
+				if (!IsValidTask(toCp, top->tasks, &err, &errDescr)) {
+					to->taskName = lastName;
+					TCHAR msg[256];
+					if (err.empty())
+						_tcscpy_s(msg, TranslateT("Some value is invalid"));
+					else if (errDescr.empty())
+						mir_sntprintf(msg, SIZEOF(msg), TranslateT("Invalid '%s' value."), err.c_str());
 					else
-					{
-						EnableWindow(GetDlgItem(hwndDlg, IDC_FTP), TRUE);
-					}
+						mir_sntprintf(msg, SIZEOF(msg), TranslateT("Invalid '%s' value.\n%s"), err.c_str(), errDescr.c_str());
+					MessageBox(hwndDlg, msg, TranslateT("Error"), MB_ICONERROR);
+					break;
 				}
-				else if (LOWORD(wParam) == IDC_COMPRESS)
-				{
-					if (Button_GetCheck(GetDlgItem(hwndDlg, IDC_COMPRESS)) == 0)
-					{
-						EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), FALSE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD_LABEL), FALSE);
-					}
-					else
-					{
-						EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD_LABEL), TRUE);
-					}
-				}
+
+				toCp.lastExport = time(NULL);
+
+				*to = toCp;
+				EndDialog(hwndDlg, IDOK);
 			}
-			else if (HIWORD(wParam) == CBN_SELCHANGE) 
+			else if (LOWORD(wParam) == IDCANCEL) {
+				EndDialog(hwndDlg, IDCANCEL);
+			}
+			else if (LOWORD(wParam) == IDC_UPLOAD) {
+				if (Button_GetCheck(GetDlgItem(hwndDlg, IDC_UPLOAD)) == 0)
+					EnableWindow(GetDlgItem(hwndDlg, IDC_FTP), FALSE);
+				else
+					EnableWindow(GetDlgItem(hwndDlg, IDC_FTP), TRUE);
+			}
+			else if (LOWORD(wParam) == IDC_COMPRESS)
 			{
-				if (LOWORD(wParam) == IDC_TASK_TYPE)
-				{
-					TaskOptions::TaskType sel = (enum TaskOptions::TaskType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_TASK_TYPE));
-					int show = sel == TaskOptions::Delete ? SW_HIDE : SW_SHOW;
-					int showFilter = (sel == TaskOptions::Import || sel == TaskOptions::ImportAndMarge) ? SW_HIDE : SW_SHOW;
-					int showImport = (sel == TaskOptions::Import || sel == TaskOptions::ImportAndMarge) ? SW_SHOW : SW_HIDE;
-					ShowWindow(GetDlgItem(hwndDlg, IDC_EXPORT_TYPE), show);  
-					ShowWindow(GetDlgItem(hwndDlg, IDC_EXPORT_TYPE_LABEL), show); 
-					ShowWindow(GetDlgItem(hwndDlg, IDC_COMPRESS), show); 
-					ShowWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), show); 
-					ShowWindow(GetDlgItem(hwndDlg, IDC_PASSWORD_LABEL), show); 
-					ShowWindow(GetDlgItem(hwndDlg, IDC_EXPORT_PATH), show); 
-					ShowWindow(GetDlgItem(hwndDlg, IDC_EXPORT_PATH_LABEL), show); 
-					ShowWindow(GetDlgItem(hwndDlg, IDC_FTP), show); 
-					ShowWindow(GetDlgItem(hwndDlg, IDC_UPLOAD), show); 
-					ShowWindow(GetDlgItem(hwndDlg, IDC_FTP_LABEL), show); 
-					ShowWindow(GetDlgItem(hwndDlg, IDC_EXPIMP), show);  
-					ShowWindow(GetDlgItem(hwndDlg, IDC_TASK_FILTER), showFilter); 
-					ShowWindow(GetDlgItem(hwndDlg, IDC_TASK_FILTER_LABEL), showFilter); 
-					ShowWindow(GetDlgItem(hwndDlg, IDC_EVENT_TIME), showFilter); 
-					ShowWindow(GetDlgItem(hwndDlg, IDC_EVENT_UNIT), showFilter); 
-					ShowWindow(GetDlgItem(hwndDlg, IDC_EVENT_LABEL), showFilter); 
-					if (show != showFilter)
-					{
-						ShowWindow(GetDlgItem(hwndDlg, IDC_EXPORT_TYPE), SW_HIDE);
-						ShowWindow(GetDlgItem(hwndDlg, IDC_EXPIMP), SW_HIDE);
-					}
-
-					ShowWindow(GetDlgItem(hwndDlg, IDC_IMPORT_TYPE), showImport);
-					std::wstring str;
-					TCHAR* compressText = TranslateT("Compress output files");
-					TCHAR* uploadText = TranslateT("Upload to FTP (WinSCP requred)");
-					TCHAR* typeText = TranslateT("Export to");
-					if (showFilter == SW_HIDE)
-					{
-						str = TranslateT("** Use <ext> to insert extension, <contact> to insert contact name");
-						compressText = TranslateT("Input files are compressed");
-						uploadText = TranslateT("Download from FTP (WinSCP requred)");
-						typeText = TranslateT("Import from");
-					}
-					else if (show == SW_HIDE)
-					{
-						str = TranslateT("* Use negative values to filter younger events");
-					}
-					else
-					{
-						str = TranslateT("* Use negative values to filter younger events");
-						str += _T("\n");
-						str += TranslateT("** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name");
-					}
-					
-					Static_SetText(GetDlgItem(hwndDlg, IDC_TASK_STAR), str.c_str());
-					Button_SetText(GetDlgItem(hwndDlg, IDC_COMPRESS), compressText);
-					Button_SetText(GetDlgItem(hwndDlg, IDC_UPLOAD), uploadText);
-					Static_SetText(GetDlgItem(hwndDlg, IDC_EXPORT_TYPE_LABEL), typeText);
+				if (Button_GetCheck(GetDlgItem(hwndDlg, IDC_COMPRESS)) == 0) {
+					EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), FALSE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD_LABEL), FALSE);
 				}
-				else if (LOWORD(wParam) == IDC_TRIGER_TYPE)
-				{
-					TaskOptions::TrigerType sel = (enum TaskOptions::TrigerType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_TRIGER_TYPE));
-					int showT = (sel == TaskOptions::Daily || sel == TaskOptions::Weekly || sel == TaskOptions::Monthly) ? SW_SHOW : SW_HIDE;
-					int showW = sel == TaskOptions::Weekly ? SW_SHOW : SW_HIDE;
-					int showM = sel == TaskOptions::Monthly ? SW_SHOW : SW_HIDE;
-					int showDT = (sel == TaskOptions::DeltaMin || sel == TaskOptions::DeltaHour) ? SW_SHOW : SW_HIDE;
-					ShowWindow(GetDlgItem(hwndDlg, IDC_TRIGER_TIME), showT);  
-					ShowWindow(GetDlgItem(hwndDlg, IDC_TRIGER_TIME_LABEL), showT);  
-					ShowWindow(GetDlgItem(hwndDlg, IDC_TRIGER_WEEK), showW);  
-					ShowWindow(GetDlgItem(hwndDlg, IDC_TRIGER_WEEK_LABEL), showW);  
-					ShowWindow(GetDlgItem(hwndDlg, IDC_TRIGER_DAY), showM);  
-					ShowWindow(GetDlgItem(hwndDlg, IDC_TRIGER_DAY_LABEL), showM);  
-					ShowWindow(GetDlgItem(hwndDlg, IDC_TRIGER_DELTA_TIME), showDT);  
-					ShowWindow(GetDlgItem(hwndDlg, IDC_TRIGER_DELTA_TIME_LABEL), showDT);  
+				else {
+					EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD_LABEL), TRUE);
 				}
 			}
-			return TRUE;
 		}
-		case WM_NOTIFY:
-		{
-			NMHDR* nmhdr = (NMHDR *) lParam;
-			if (nmhdr->idFrom == IDC_LIST_CONTACTSEX && nmhdr->code == CLN_OPTIONSCHANGED) 
-			{
-				ResetListOptions(hwndDlg);
-			}
+		else if (HIWORD(wParam) == CBN_SELCHANGE) {
+			if (LOWORD(wParam) == IDC_TASK_TYPE) {
+				TaskOptions::TaskType sel = (enum TaskOptions::TaskType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_TASK_TYPE));
+				int show = sel == TaskOptions::Delete ? SW_HIDE : SW_SHOW;
+				int showFilter = (sel == TaskOptions::Import || sel == TaskOptions::ImportAndMarge) ? SW_HIDE : SW_SHOW;
+				int showImport = (sel == TaskOptions::Import || sel == TaskOptions::ImportAndMarge) ? SW_SHOW : SW_HIDE;
+				ShowWindow(GetDlgItem(hwndDlg, IDC_EXPORT_TYPE), show);  
+				ShowWindow(GetDlgItem(hwndDlg, IDC_EXPORT_TYPE_LABEL), show); 
+				ShowWindow(GetDlgItem(hwndDlg, IDC_COMPRESS), show); 
+				ShowWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), show); 
+				ShowWindow(GetDlgItem(hwndDlg, IDC_PASSWORD_LABEL), show); 
+				ShowWindow(GetDlgItem(hwndDlg, IDC_EXPORT_PATH), show); 
+				ShowWindow(GetDlgItem(hwndDlg, IDC_EXPORT_PATH_LABEL), show); 
+				ShowWindow(GetDlgItem(hwndDlg, IDC_FTP), show); 
+				ShowWindow(GetDlgItem(hwndDlg, IDC_UPLOAD), show); 
+				ShowWindow(GetDlgItem(hwndDlg, IDC_FTP_LABEL), show); 
+				ShowWindow(GetDlgItem(hwndDlg, IDC_EXPIMP), show);  
+				ShowWindow(GetDlgItem(hwndDlg, IDC_TASK_FILTER), showFilter); 
+				ShowWindow(GetDlgItem(hwndDlg, IDC_TASK_FILTER_LABEL), showFilter); 
+				ShowWindow(GetDlgItem(hwndDlg, IDC_EVENT_TIME), showFilter); 
+				ShowWindow(GetDlgItem(hwndDlg, IDC_EVENT_UNIT), showFilter); 
+				ShowWindow(GetDlgItem(hwndDlg, IDC_EVENT_LABEL), showFilter); 
+				if (show != showFilter) {
+					ShowWindow(GetDlgItem(hwndDlg, IDC_EXPORT_TYPE), SW_HIDE);
+					ShowWindow(GetDlgItem(hwndDlg, IDC_EXPIMP), SW_HIDE);
+				}
 
-			return TRUE;
+				ShowWindow(GetDlgItem(hwndDlg, IDC_IMPORT_TYPE), showImport);
+				std::wstring str;
+				TCHAR* compressText = TranslateT("Compress output files");
+				TCHAR* uploadText = TranslateT("Upload to FTP (WinSCP requred)");
+				TCHAR* typeText = TranslateT("Export to");
+				if (showFilter == SW_HIDE) {
+					str = TranslateT("** Use <ext> to insert extension, <contact> to insert contact name");
+					compressText = TranslateT("Input files are compressed");
+					uploadText = TranslateT("Download from FTP (WinSCP requred)");
+					typeText = TranslateT("Import from");
+				}
+				else if (show == SW_HIDE)
+					str = TranslateT("* Use negative values to filter younger events");
+				else {
+					str = TranslateT("* Use negative values to filter younger events");
+					str += _T("\n");
+					str += TranslateT("** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name");
+				}
+
+				Static_SetText(GetDlgItem(hwndDlg, IDC_TASK_STAR), str.c_str());
+				Button_SetText(GetDlgItem(hwndDlg, IDC_COMPRESS), compressText);
+				Button_SetText(GetDlgItem(hwndDlg, IDC_UPLOAD), uploadText);
+				Static_SetText(GetDlgItem(hwndDlg, IDC_EXPORT_TYPE_LABEL), typeText);
+			}
+			else if (LOWORD(wParam) == IDC_TRIGER_TYPE) {
+				TaskOptions::TrigerType sel = (enum TaskOptions::TrigerType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_TRIGER_TYPE));
+				int showT = (sel == TaskOptions::Daily || sel == TaskOptions::Weekly || sel == TaskOptions::Monthly) ? SW_SHOW : SW_HIDE;
+				int showW = sel == TaskOptions::Weekly ? SW_SHOW : SW_HIDE;
+				int showM = sel == TaskOptions::Monthly ? SW_SHOW : SW_HIDE;
+				int showDT = (sel == TaskOptions::DeltaMin || sel == TaskOptions::DeltaHour) ? SW_SHOW : SW_HIDE;
+				ShowWindow(GetDlgItem(hwndDlg, IDC_TRIGER_TIME), showT);  
+				ShowWindow(GetDlgItem(hwndDlg, IDC_TRIGER_TIME_LABEL), showT);  
+				ShowWindow(GetDlgItem(hwndDlg, IDC_TRIGER_WEEK), showW);  
+				ShowWindow(GetDlgItem(hwndDlg, IDC_TRIGER_WEEK_LABEL), showW);  
+				ShowWindow(GetDlgItem(hwndDlg, IDC_TRIGER_DAY), showM);  
+				ShowWindow(GetDlgItem(hwndDlg, IDC_TRIGER_DAY_LABEL), showM);  
+				ShowWindow(GetDlgItem(hwndDlg, IDC_TRIGER_DELTA_TIME), showDT);  
+				ShowWindow(GetDlgItem(hwndDlg, IDC_TRIGER_DELTA_TIME_LABEL), showDT);  
+			}
 		}
+		return TRUE;
+
+	case WM_NOTIFY:
+		NMHDR* nmhdr = (NMHDR *) lParam;
+		if (nmhdr->idFrom == IDC_LIST_CONTACTSEX && nmhdr->code == CLN_OPTIONSCHANGED) 
+			ResetListOptions(hwndDlg);
+
+		return TRUE;
 	}
 
 	return FALSE;
