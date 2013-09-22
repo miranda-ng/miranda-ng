@@ -9,7 +9,6 @@
 [Snow Rain Mist]
 [Light Ice Pellets Mist]
 [Ice Pellets]
-[Alert]
 [longer]
 [Visible Light Length]
 [Light Showers Rain Snow]

@@ -1,0 +1,316 @@
+﻿;============================================================
+;  File: weatherxml.ini
+;  Module: weather
+;============================================================
+[Fair]
+
+[Mostly Sunny]
+W większości słonecznie
+[Light Thunderstorm Rain]
+Lekka burza z opadami
+[Thunderstorm Rain]
+Burza z opadami
+[N/a]
+Niedostępny
+[Thunderstorm]
+Burza
+[Overcast]
+Pochmurno
+[Fog]
+Mgła
+[Mist]
+Mgła
+[Light Rain]
+Lekki deszcz
+[Light Showers Rain]
+Lekkie przelotne opady deszczu
+[Showers Rain]
+Przelotne opady deszczu
+[Shallow Fog]
+Cienka warstwa mgły
+[Snow]
+Śnieg
+[Partly Sunny]
+Małe zachmurzenie
+[Partly Cloudy]
+Częściowe zachmurzenie
+[Mostly Cloudy]
+W większości pochmurnie
+[Mostly Clear]
+W większości przejrzyście
+[Showers]
+
+[Sunny]
+Słonecznie
+[Light Rain Shower]
+
+[rising]
+
+[steady]
+
+[falling]
+
+[Moderate]
+
+[N]
+północ
+[W]
+zachód
+[S]
+południe
+[E]
+wschód
+[NW]
+północny zachód
+[NE]
+północny wschód
+[SW]
+południowy zachód
+[SE]
+południowy wschód
+[NNW]
+północno-północny zachód
+[NNE]
+północno-północny wschód
+[SSW]
+południowo-południowy zachód
+[SSE]
+południowo-południowy wschód
+[ENE]
+wschodnio-północny wschód
+[WSW]
+zachodnio-południowy zachód
+[WNW]
+zachodnio-północny zachód
+[ESE]
+wschodnio-południowy wschód
+[New Moon]
+Nów
+[Last Quarter]
+Ostatnia kwadra
+[First Quarter]
+Pierwsza kwadra
+[Full Moon]
+Pełnia
+[Waning Crescent]
+Po ostatniej kwadrze
+[Waning Gibbous]
+Przed ostatnią kwadrą
+[Waxing Crescent]
+Przed pierwszą kwadrą
+[Waxing Gibbous]
+Przed pełnią
+[Night]
+Noc
+[Feel]
+Odczuwalna
+[Forcast Update]
+
+[Forcast Update VAR]
+
+[Forecast Day 0]
+Prognoza dzień 0
+[Forecast Day 1]
+Prognoza dzień 1
+[Forecast Day 2]
+Prognoza dzień 2
+[Forecast Day 3]
+Prognoza dzień 3
+[Forecast Day 4]
+Prognoza dzień 4
+[Forecast Day 5]
+Prognoza dzień 5
+[Forecast Day 6]
+Prognoza dzień 6
+[Forecast Day 7]
+Prognoza dzień 7
+[Forecast Day 8]
+Prognoza dzień 8
+[Forecast Day 9]
+Prognoza dzień 9
+[N/A%]
+
+[Heat Index]
+Wskaźnik upałów
+[Latitude]
+Szerokość geograficzna
+[Longitude]
+Długość geograficzna
+[Local Time]
+Czas lokalny
+[Moon]
+Księżyc
+[Observatory]
+
+[Pressure Tendency]
+Tendencja
+[Update VAR]
+
+[UV]
+UV
+[UV Index]
+Index UV
+[UVI]
+UVI
+[Wind Direction]
+Kierunek wiatru
+[Wind Direction DEG]
+Kierunek wiatru DEG
+[Wind Speed]
+Prędkość wiatru
+[WindDir]
+Kierunek wiatru
+[Cloudy]
+
+[Scattered Snow Showers]
+
+[Few Snow Showers]
+
+[Snow Shower]
+
+[Am Snow Showers]
+
+[Light Snow]
+Lekkie opady śniegu
+[Drifting Snow]
+
+[Pm Snow Showers]
+
+[Am Clouds / Pm Sun]
+
+[Snow Shower / Wind]
+
+[Cloudy / Wind]
+
+[Heavy Snow And Windy]
+
+[Snow / Wind]
+
+[Snow Showers Early]
+
+[Am Snow Showers / Wind]
+
+[Light Snow And Windy]
+
+[Snow Showers / Wind Early]
+
+[Partly Cloudy And Windy]
+
+[Mostly Cloudy And Windy]
+
+[Rain / Snow / Wind]
+
+[Rain / Snow]
+
+[Clouds Early / Clearing Late]
+
+[Snow Showers Late]
+
+[Rain / Snow Showers]
+
+[Showers Late]
+
+[Scattered Showers]
+
+[Am Showers]
+
+[Am Rain / Snow Showers]
+
+[Few Showers]
+
+[Few Showers / Wind]
+
+[Pm Light Rain]
+
+[Mostly Cloudy]
+W większości pochmurnie
+[Mostly Cloudy / Wind]
+
+[Rain]
+Deszcz
+[Light Rain Shower And Windy]
+
+[Am Showers / Wind]
+
+[Isolated T-Storms]
+
+[Showers Early]
+
+[T-Storm]
+
+[Rain / Snow Showers Late]
+
+[Pm Showers]
+
+[Snow To Rain]
+
+[Light Snow Shower]
+
+[Fair And Windy]
+
+[Pm T-Storms]
+
+[Scattered T-Storms]
+
+[Light Rain Late]
+
+[Am Light Rain]
+
+[Jun]
+
+[T-Storms]
+
+[Rain / Thunder]
+
+[Thunder In The Vicinity]
+
+[Light Rain With Thunder]
+
+[Light Rain Early]
+
+[Light Rain / Wind]
+
+[Light Drizzle]
+Lekka mżawka
+[Haze]
+Mgiełka
+[Smoke]
+
+[Rain To Snow]
+
+[Rain And Snow]
+
+[Rain / Snow Showers Early]
+
+[Heavy Snow Shower]
+
+[Showers / Wind]
+
+[Snow Shower And Windy]
+
+[Light Snow Shower And Windy]
+
+[Light Rain And Windy]
+
+[Sleet]
+
+[Sleet And Windy]
+
+[Cloudy And Windy]
+
+[Light Drizzle And Windy]
+
+[Light Drizzle And Fog]
+
+[Fog And Windy]
+
+[Light Snow Early]
+
+[Heavy Snow]
+Cieżkie opady śniegu
+[Snow Early]
+
+[Light Snow Late]
+
+[Snow And Sleet]
+

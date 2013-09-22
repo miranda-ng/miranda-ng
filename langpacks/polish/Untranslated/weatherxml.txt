@@ -1,6 +1,5 @@
 ﻿[Fair]
 [Showers]
-[Sunny]
 [Light Rain Shower]
 [rising]
 [steady]

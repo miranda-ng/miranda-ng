@@ -786,7 +786,7 @@ Odśwież gałąź
 [Add to favorites]
 Dodaj do ulubionych
 [Add to roster]
-
+Dodaj do rostera
 [Bookmark chatroom]
 Zakładki czatów
 [Add search directory]
@@ -1608,7 +1608,7 @@ Rosyjski
 [Sanskrit]
 
 [Serbian]
-
+Serbski
 [Croatian]
 Chorwacki
 [Sinhala; Sinhalese]

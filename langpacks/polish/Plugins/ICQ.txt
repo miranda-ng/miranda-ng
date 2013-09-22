@@ -83,9 +83,9 @@ Sprawdź ważność awataru przed zapisaniem *
 [Load avatars automatically (like ICQ Lite)]
 Wczytuj awatary automatycznie (jak ICQ Lite)
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
-
+Musisz ponownie połączyć się z siecią ICQ żeby zmiany na tej stronie przyniosły rezultat.
 [You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
-
+Nie możesz włączyć/wyłączyć listy kontaktów po stronie serwera kiedy jesteś połączony z ICQ.
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
 Uwaga: Opcje oznaczone gwiazdką mają istotne skutki uboczne lub zastrzeżenia, które nie mogą być początkowo widoczne w dokumentacji pomocy.
 [Messaging]
@@ -173,7 +173,7 @@ Ostrzeżenie
 [Error]
 Błąd
 [Fatal]
-
+Krytyczny
 [Spam detected]
 Wykryto spam
 [&Use Windows colors]
@@ -185,21 +185,21 @@ Podgląd
 [Use default colours]
 Użyj domyślnych kolorów
 [UIN:]
-
+UIN:
 [External IP:]
-
+Zewnętrzne IP:
 [Internal IP:]
 IP wewnętrzne:
 [Protocol Version:]
 Wersja protokołu:
 [User Client:]
-
+Klient:
 [Online since:]
 Połączony od:
 [System up since:]
-
+System działa od:
 [Idle since:]
-
+Bezczynny od:
 [Status:]
 Status:
 [Summary]
@@ -219,7 +219,7 @@ Wiek:
 [Marital status:]
 Stan cywilny:
 [Keywords:]
-
+Słowa kluczowe:
 [Work]
 Praca
 [Occupation:]
@@ -231,7 +231,7 @@ Wydział:
 [Position:]
 Pozycja:
 [Organisation:]
-
+Organizacja:
 [Location]
 Miejsce
 [Language:]
@@ -245,7 +245,7 @@ Miasto:
 [Background info]
 Inne informacje
 [Interests]
-
+Zainteresowania
 [Category:]
 Kategoria:
 [Past]
@@ -257,9 +257,9 @@ Inne
 [Search online users only]
 Szukaj tylko wśród połączonych
 [Manage ICQ Server Contacts]
-
+Zarządzaj kontaktami ICQ na serwerze
 [Select contacts to store:]
-
+Kontakty do zapisania:
 [Synchronize]
 Synchronizacja
 [Custom Status "%s" Details]
@@ -271,15 +271,15 @@ Nazwa:
 [Message:]
 Wiadomość:
 [Retrieving custom status details...]
-
+Odbieranie szczegółów własnego statusu...
 [&Save changes]
 Zapisz zmiany
 [Confirm Password Change]
 Zatwierdź zmianę hasła
 [Please re-type your new password:]
-
+Podaj jeszcze raz nowe hasło:
 [Enter your current password:]
-
+Wprowadź obecne hasło:
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
 [Unable to connect to migrated ICQ communication server]
 
@@ -313,7 +313,7 @@ Zatwierdź zmianę hasła
 
 ;file \protocols\IcqOscarJ\src\fam_01service.cpp
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
-
+Migracja serwera nie powiodła się, ponieważ serwer zwrócił błędne dane. Musisz połączyć się ponownie ręcznie.
 [Failed to request offline messages. They may be received next time you log in.]
 
 ;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
@@ -325,29 +325,29 @@ Zatwierdź zmianę hasła
 [Incoming URL:]
 
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
-
+Za szybko wysyłasz. Poczekaj chwilę i spróbuj ponownie. \r\nSNAC(4.1) Błąd x02
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x03]
-
+Za szybko wysyłasz. Poczekaj chwilę i spróbuj ponownie. \r\nSNAC(4.1) Błąd x03
 [The contact does not support receiving offline messages.]
-
+Kontakt nie obsługuje otrzymywania wiadomości kiedy jest niepołączony.
 [The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
-
+Użytkownik się wylogował. Wybierz 'Spróbuj ponownie' żeby wysłać wiadomość do niepołączonego.\r\nSNAC(4.1) Błąd x04
 [The messaging service is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x05]
-
+Usługa wysyłania wiadomości jest czasowo niedostępna. Poczekaj chwilę i spróbuj ponownie.\r\nSNAC(4.1) Błąd x05
 [The receiving client does not support this type of message.\r\nSNAC(4.1) Error x09]
-
+Program rozmówcy nie akceptuje wiadomości tego typu.\r\nSNAC(4.1) Błąd x09
 [You sent too long message. The receiving client does not support it.\r\nSNAC(4.1) Error x0A]
-
+Wysyłasz za długą wiadomość. Program rozmówcy tego nie akceptuje.\r\nSNAC(4.1) Błąd x0A
 [The SNAC format was rejected by the server.\nSNAC(4.1) Error x0E]
-
+Format SNAC został odrzucony przez serwer.\nSNAC(4.1) Błąd x0E
 [The user is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x13]
-
+Użytkownik jest tymczasowo niedostępny. Poczekaj chwilę i spróbuj ponownie.\r\nSNAC(4.1) Błąd x13
 [SNAC(4.1) SENDMSG Error (x%02x)]
-
+SNAC(4.1) Błąd SENDMSG (x%02x)
 [Contact "%s" has closed the message window.]
-
+Kontakt "%s" zamknął okno rozmowy.
 [ICQ Note]
-
+Notatka ICQ
 ;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
 [Server contact list is unavailable, Miranda will use local contact list.]
 
@@ -372,11 +372,11 @@ Błąd usuwania grupy z listy na serwerze.
 [Renaming of server group failed.]
 
 [Contact "%s" was authorized in the server list.]
-
+Kontakt "%s" został za autoryzowany na liście serwera. 
 [Contact "%s" lost its authorization in the server list.]
-
+Kontakt "%s" stracił autoryzacje na liście serwera.
 [User "%s" was removed from server list.]
-
+Użytkownik "%s" został usunięty z listy serwera.
 ;file \protocols\IcqOscarJ\src\fam_17signon.cpp
 [Secure login failed.\nInvalid server response.]
 Błąd bezpiecznego logowania.\nSerwer nie odpowiada.
@@ -388,13 +388,13 @@ Czy na pewno chcesz cofnąć autoryzację?
 [Confirmation]
 Potwierdź
 [** This message was blocked by the ICQ server ** The message was invalid.]
-
+** Wiadomość odrzucona przez serwer ICQ ** Wiadomość była nieprawidłowa.
 [** This message was blocked by the ICQ server ** The message was too long.]
-
+** Wiadomość odrzucona przez serwer ICQ ** Wiadomość była za długa
 [** This message was blocked by the ICQ server ** The sender has flooded the server.]
-
+** Wiadomość odrzucona przez serwer ICQ ** Nadawca flooduje serwer.
 [** This message was blocked by the ICQ server ** You are too evil.]
-
+** Wiadomość odrzucona przez serwer ICQ ** Jesteś zbyt zły.
 [** Unknown missed message event.]
 ** Nieznana wiaodmość
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
@@ -471,9 +471,9 @@ Botswana
 [Brazil]
 Brazylia
 [British Virgin Islands]
-
+Brytyjskie Wyspy Dziewicze
 [Brunei]
-
+Brunei
 [Bulgaria]
 Bułgaria
 [Burkina Faso]
@@ -487,7 +487,7 @@ Kamerun
 [Canada]
 Kanada
 [Canary Islands]
-
+Wyspy Kanaryjskie
 [Cape Verde Islands]
 Wyspy Zielonego Przylądka
 [Cayman Islands]
@@ -525,7 +525,7 @@ Czechy
 [Denmark]
 Dania
 [Diego Garcia]
-
+Diego Garcia
 [Djibouti]
 Dżibuti
 [Dominica]
@@ -639,7 +639,7 @@ Kuwejt
 [Kyrgyzstan]
 Kirgistan
 [Laos]
-
+Laos
 [Latvia]
 Łotwa
 [Lebanon]
@@ -681,7 +681,7 @@ Mauretania
 [Mauritius]
 Mauritius
 [Mayotte Island]
-
+Majotta
 [Mexico]
 Meksyk
 [Micronesia, Federated States of]
@@ -769,7 +769,7 @@ Rosja
 [Rwanda]
 Rwanda
 [Samoa (USA)]
-
+Samoa (USA)
 [Samoa, Western]
 Samoa Zachodnia
 [Saint Helena]
@@ -831,7 +831,7 @@ Tajwan
 [Tajikistan]
 Tadżykistan
 [Tanzania]
-
+Tanzania
 [Thailand]
 Tajlandia
 [Timor, East]
@@ -867,7 +867,7 @@ Zjednoczone Królestwo
 [Uruguay]
 Urugwaj
 [USA]
-
+USA
 [Uzbekistan]
 Uzbekistan
 [Vanuatu]
@@ -891,7 +891,7 @@ Jemen
 [Yugoslavia]
 Jugosławia
 [Serbia, Republic of]
-
+Serbia
 [Kosovo, Republic of]
 Kosowo
 [Montenegro, Republic of]
@@ -1105,7 +1105,7 @@ Rumuński
 [Russian]
 Rosyjski
 [Serbian]
-
+Serbski
 [Sindhi]
 Sindhi
 [Slovak]
@@ -1155,9 +1155,9 @@ Szkoła wyższa
 [Military]
 Wojsko
 [Past Work Place]
-
+Wcześniejsze miejsce pracy
 [Past Organization]
-
+Wcześniejsza organizacja
 [Female]
 Kobieta
 [Male]
@@ -1389,12 +1389,12 @@ Połączenie Klient-do-Klienta %s
 [User ID]
 ID użytkownika
 [You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
-
+Nie możesz wpisać numeru ICQ.\nSkonfiguruj to w Opcje->Sieć->ICQ i spróbuj ponownie.
 ;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server, SSL could not be negotiated]
 
 [Unable to connect to ICQ login server]
-
+Nie można połączyć się z serwerem logowania ICQ
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
 
 [Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
@@ -1416,23 +1416,23 @@ ID użytkownika
 [LIST FULL]
 PEŁNA LISTA
 [FAILED]
-
+NIEPOWODZENIE
 [Select contacts you want to store on server.]
-
+Wybierz kontakty, które chcesz zapisać na serwerze.
 [Ready...]
 Gotów...
 [Server rate warning -> slowing down the process.]
-
+Ocena serwera ostrzeżenie -> spowolnienie procesu.
 [Adding group "%s"...]
 Dodaj grupę "%s"...
 [Uploading %s...]
-
+Wysyłanie %s...
 [No upload group available]
-
+Dostępne grupy nie załadowane
 [Deleting %s...]
 Usuwanie %s...
 [Moving %s to group "%s"...]
-
+Przenoszenie %s do grupy "%s"...
 [Adding %s to visible list...]
 Dodaj %s do listy widoczności...
 [Adding %s to invisible list...]
@@ -1442,17 +1442,17 @@ Usuwanie %s z listy widocznych...
 [Deleting %s from invisible list...]
 Usuwanie %s z listy niewidocznych...
 [Cleaning groups]
-
+Czyszczenie grup
 [Updating group "%s"...]
-
+Aktualizowanie grupy "%s"...
 [Deleting group "%s"...]
-Usuwanie grupy '%s'...
+Usuwanie grupy "%s"...
 [All operations complete]
 Wszystkie operacje zakończone
 [Close]
 Zamknij
 [You have to be online to sychronize the server-list !]
-
+Musisz być połączony żeby zsynchronizować listę serwera!
 [** All contacts **]
 ** Wszystkie kontakty **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
@@ -1533,7 +1533,7 @@ Cyklop
 [Monkey]
 Małpa
 [Birdie]
-
+Ptaszek
 [Cool]
 Chłodny
 [Evil]
@@ -1547,9 +1547,9 @@ Maska
 [Money]
 Pieniądze
 [Pilot]
-
+Pilot
 [Afro]
-
+Afro
 [St. Patrick]
 Św. Patryk
 [Headmaster]
@@ -1571,7 +1571,7 @@ Cukierki
 [Crazy Professor]
 Szalony profesor
 [Ninja]
-
+Ninja
 [Cocktail]
 Koktajl
 [Punch]
@@ -1601,7 +1601,7 @@ Truskawka
 [Angel]
 Anioł
 [Pizza]
-
+Pizza
 [Snoring]
 Chrapanie
 [On my mobile]
@@ -1632,29 +1632,29 @@ Brak
 Niestandardowy status
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
-
+Kartka powitalna:
 ;file \protocols\IcqOscarJ\src\init.cpp
 [ICQ XStatus]
-
+ICQ XStatus
 ;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
-
+Ostrzeżenie ICQ
 [ICQ Error]
-
+Błąd ICQ
 [ICQ Fatal]
-
+Krytyczny błąd ICQ
 [The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
-
+Serwer nie odpowiedział na próbę połączenia w rozsądnym czasie, możliwe, że jest tymczasowo niedostępny. Spróbuj później.
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
 Podczas próby nawiązania połaczenia z serwerem łączność została przerwana. Być może straciłeś połączenie z internetem.
 [Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
-
+Miranda nie mogła ustalić adresu IP serwera na podstawie podanej nazwy. Może to być spowodowane utratą połączenia (np. jeśli twój modem się rozłączył), ale jeśli używasz proxy, spróbuj włączyć opcję "Ustalaj nazwy hostów przez proxy" w M -> Opcje -> Sieć.
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
 Miranda nie była w stanie nawiązać połaczenia z serwerem. Prawdopodobnie serwer jest nieosiągalny. Odczekaj chwilę i spróbuj ponownie.
 [Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
-
+Twoje proxy odrzuciło podaną nazwę użytkownika i hasło. Sprawdź je w M -> Opcje -> Sieć.
 [The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
-
+Serwer, z którym próbujesz się połączyć nie istnieje. Sprawdź pisownię w M -> Opcje -> Sieć -> ICQ.
 [error]
 błąd
 ;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
@@ -1669,7 +1669,7 @@ błąd
 [The file transfer failed: Proxy unavailable]
 
 [Failed to Initialize File Transfer. No valid files were specified.]
-
+Nie udało się zainicjować transferu. Nie wybrano żadnych plików.
 [The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
 
 [Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
@@ -1685,103 +1685,103 @@ błąd
 <niepoprawny>
 ;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
 [GMT-12:00 Eniwetok; Kwajalein]
-
+GMT-12:00 Atol Eniwetok; Atol Kwajalein
 [GMT-11:30]
-
+GMT-11:30
 [GMT-11:00 Midway Island; Samoa]
-
+GMT-11:00 Wyspa Midway; Samoa
 [GMT-10:30]
-
+GMT-10:30
 [GMT-10:00 Hawaii]
-
+GMT-10:00 Hawaje
 [GMT-9:30]
-
+GMT-9:30
 [GMT-9:00 Alaska]
-
+GMT-9:00 Alaska
 [GMT-8:30]
-
+GMT-8:30
 [GMT-8:00 Pacific Time; Tijuana]
-
+GMT-8:00 Czas pacyficzny; Tijuana
 [GMT-7:30]
-
+GMT-7:30
 [GMT-7:00 Arizona; Mountain Time]
-
+GMT-7:00 Arizona; Czas górski
 [GMT-6:30]
-
+GMT-6:30
 [GMT-6:00 Central Time; Central America; Saskatchewan]
-
+GMT-6:00 Czas środkowy; Ameryka Środkowa; Saskatchewan
 [GMT-5:30]
-
+GMT-5:30
 [GMT-5:00 Eastern Time; Bogota; Lima; Quito]
-
+GMT-5:00 Czas wschodni; Bogota; Lima; Quito
 [GMT-4:30]
-
+GMT-4:30
 [GMT-4:00 Atlantic Time; Santiago; Caracas; La Paz]
-
+GMT-4:00 Czas atlantycki; Santiago; Caracas; La Paz
 [GMT-3:30 Newfoundland]
-
+GMT-3:30 Nowa Fundlandia
 [GMT-3:00 Greenland; Buenos Aires; Georgetown]
-
+GMT-3:00 Grenlandia; Buenos Aires; Georgetown
 [GMT-2:30]
-
+GMT-2:30
 [GMT-2:00 Mid-Atlantic]
-
+GMT-2:00 Środkowy Atlantyk
 [GMT-1:30]
-
+GMT-1:30
 [GMT-1:00 Cape Verde Islands; Azores]
-
+GMT-1:00 ; Wyspy Zielonego Przylądka; Azory
 [GMT-0:30]
-
+GMT-0:30
 [GMT+0:00 London; Dublin; Edinburgh; Lisbon; Casablanca]
-
+GMT+0:00 Londyn; Dublin; Edynburg; Lizbona; Casablanca
 [GMT+0:30]
-
+GMT+0:30
 [GMT+1:00 Central European Time; West Central Africa; Warsaw]
-
+GMT+1:00 Czas środkowoeuropejski; Afryka Środkowozachodnia; Warszawa
 [GMT+1:30]
-
+GMT+1:30
 [GMT+2:00 Jerusalem; Helsinki; Harare; Cairo; Bucharest; Athens]
-
+GMT+2:00 Jerozolima; Helsinki; Harare; Kair; Bukareszt; Ateny
 [GMT+2:30]
-
+GMT+2:30
 [GMT+3:00 Moscow; St. Petersburg; Nairobi; Kuwait; Baghdad]
-
+GMT+3:00 Moskwa; Sankt Petersburg; Nairobi; Kuwejt; Bagdad
 [GMT+3:30 Tehran]
-
+GMT+3:30 Teheran
 [GMT+4:00 Baku; Tbilisi; Yerevan; Abu Dhabi; Muscat]
-
+GMT+4:00 Baku; Tbilisi; Erywań; Abu Dabi; Maskat
 [GMT+4:30 Kabul]
-
+GMT+4:30 Kabul
 [GMT+5:00 Calcutta; Chennai; Mumbai; New Delhi; Ekaterinburg]
-
+GMT+5:00 Kalkuta; Chennai; Bombaj; Nowe Delhi; Jekaterinburg
 [GMT+5:30]
-
+GMT+5:30
 [GMT+6:00 Astana; Dhaka; Almaty; Novosibirsk; Sri Jayawardenepura]
-
+GMT+6:00 Astana; Dakka; Ałma-Ata; Nowosybirsk; Sri Jayawardenepura
 [GMT+6:30 Rangoon]
-
+GMT+6:30 Rangun
 [GMT+7:00 Bankok; Hanoi; Jakarta; Krasnoyarsk]
-
+GMT+7:00 Bangkok; Hanoi; Dżakarta; Krasnojarsk
 [GMT+7:30]
-
+GMT+7:30
 [GMT+8:00 Perth; Taipei; Singapore; Hong Kong; Beijing]
-
+GMT+8:00 
 [GMT+8:30]
-
+GMT+8:30
 [GMT+9:00 Tokyo; Osaka; Seoul; Sapporo; Yakutsk]
-
+GMT+9:00 Tokio; Osaka; Seul; Sapporo; Jakuck
 [GMT+9:30 Darwin; Adelaide]
-
+GMT+9:30 Darwin; Adelajda
 [GMT+10:00 East Australia; Guam; Vladivostok]
-
+GMT+10:00 Wschodnia Australia; Guam; Władywostok
 [GMT+10:30]
-
+GMT+10:30
 [GMT+11:00 Magadan; Solomon Is.; New Caledonia]
-
+GMT+11:00 Magadan; W. Salomona; Nowa Kaledonia
 [GMT+11:30]
-
+GMT+11:30
 [GMT+12:00 Auckland; Wellington; Fiji; Kamchatka; Marshall Is.]
-
+GMT+12:00 Auckland; Wellington; Fidżi; Kamczatka; W. Marshalla
 [January]
 Styczeń
 [February]
@@ -1829,7 +1829,7 @@ Drugi e-mail
 [Tertiary e-mail]
 Trzeci e-mail
 [Street]
-
+Ulica
 [City]
 Miasto
 [State]
@@ -1839,108 +1839,108 @@ ZIP/Kod
 [Country]
 Kraj
 [Phone number]
-
+Numer telefonu
 [Fax number]
 Numer faksu
 [Cellular number]
-
+Numer komórkowy
 [Personal Detail]
-
+Dane osobiste
 [Timezone]
 Strefa czasowa
 [Year of birth]
-
+Rok urodzenia
 [Month of birth]
-
+Miesiąc urodzenia
 [Day of birth]
-
+Dzień urodzenia
 [Marital Status]
-
+Stan cywilny
 [Spoken language 1]
-
+Znany język 1
 [Spoken language 2]
-
+Znany język 2
 [Spoken language 3]
-
+Znany język 3
 [Originally from]
-
+Pochodzi z
 [Level]
 
 [Institute]
-
+Instytut
 [Degree]
-
+Stopień
 [Graduation Year]
-
+Rok ukończenia
 [Company name]
-
+Nazwa firmy
 [Company homepage]
-
+Strona firmy
 [Company street]
-
+Ulica firmy
 [Company city]
-
+Miasto firmy
 [Company state]
-
+Województwo firmy
 [Company phone]
-
+Telefon firmy
 [Company fax]
-
+Faks Firmy
 [Company ZIP/postcode]
-
+Kod pocztowy firmy
 [Company country]
-
+Państwo firmy
 [Company department]
-
+Departament firmy
 [Company position]
-
+Pozycja w firmie
 [Company industry]
 
 [Personal Interests]
-
+Zainteresowania
 [Interest category 1]
-
+Kat. zainteresowań 1
 [Interest areas 1]
-
+Zainteresowania 1
 [Interest category 2]
-
+Kat. zainteresowań 2
 [Interest areas 2]
-
+Zainteresowania 2
 [Interest category 3]
-
+Kat. zainteresowań 3
 [Interest areas 3]
-
+Zainteresowania 3
 [Interest category 4]
-
+Kat. zainteresowań 4
 [Interest areas 4]
-
+Zainteresowania 4
 ;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
 [The password does not match your current password. Check Caps Lock and try again.]
-
+To hasło nie odpowiada obecnemu. Sprawdź klawisz Caps Lock i spróbuj ponownie.
 [Change ICQ Details]
-
+Zmień dane ICQ
 [The password does not match the password you originally entered. Check Caps Lock and try again.]
-
+Hasło nie odpowiada temu wprowadzonemu wcześniej. Sprawdź klawisz Caps Lock i spróbuj ponownie.
 [The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
-
+Serwer ICQ nie obsługuje haseł dłuższych niż 8 znaków. Wybierz krótsze hasło.
 ;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
 [<unremovable once applied>]
-
+<nieusuwalne po zastosowaniu>
 [<empty>]
- <pusty>
+<pusty>
 [Unknown value]
-
+Nieznana wartość
 [You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
-
+Wprowadziłeś zmiany w szczegółach ICQ, ale nie zapisałeś ich na serwer. Czy na pewno chcesz zamknąć to okno?
 [Upload in progress...]
 Wysyłanie w trakcie...
 [Upload complete]
 Wysyłanie zakończone
 [Upload FAILED]
-
+NIE wysłano
 ;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
-
+W tej chwili nie jesteś połączony z siecią ICQ. Musisz być połączony żeby zaktualizować informacje na serwerze.
 ;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
 [Please authorize me to add you to my contact list.]
 Proszę autoryzuj mnie, bym mógł dodać Cię do swoich kontaktów.
@@ -1949,12 +1949,12 @@ Proszę autoryzuj mnie, bym mógł dodać Cię do swoich kontaktów.
 Wpisz hasło dla UIN %u:
 ;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
 [ (DC Established)]
-
+ (nawiązano DC)
 [ScreenName:]
-
+Nazwa:
 [<not specified>]
 <nieokreślone>
 [Member since:]
-
+Członek od:
 [%s Details]
 %s Detale
