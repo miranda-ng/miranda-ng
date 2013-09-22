@@ -168,7 +168,7 @@ static LRESULT CALLBACK PlacesBarSubclassProc(HWND hWnd, UINT uMsg, WPARAM wPara
  *				lParam	- message dependend parameter
  * return:		depends on message
  **/
-static LRESULT CALLBACK OpenSaveFileDialogHook(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static UINT_PTR CALLBACK OpenSaveFileDialogHook(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
 	case WM_NOTIFY:
@@ -257,7 +257,6 @@ static void InitOpenFileNameStruct(OPENFILENAMEA *pofn, HWND hWndParent, LPCSTR 
 {
 	ZeroMemory(pofn, sizeof(OPENFILENAME));
 
-	pofn->Flags				= OFN_NONETWORKBUTTON|OFN_ENABLESIZING;
 	pofn->hwndOwner			= hWndParent;
 	pofn->lpstrTitle		= pszTitle;
 	pofn->lpstrFilter		= pszFilter;
@@ -268,8 +267,8 @@ static void InitOpenFileNameStruct(OPENFILENAMEA *pofn, HWND hWndParent, LPCSTR 
 	GetInitialDir(pszInitialDir);
 	pofn->lpstrInitialDir = pszInitialDir;
 	pofn->lStructSize = sizeof (OPENFILENAME);
-	pofn->Flags		 |= OFN_ENABLEHOOK|OFN_EXPLORER;
-	pofn->lpfnHook		= (LPOFNHOOKPROC)OpenSaveFileDialogHook;
+	pofn->Flags = OFN_NONETWORKBUTTON|OFN_ENABLESIZING|OFN_ENABLEHOOK|OFN_EXPLORER;
+	pofn->lpfnHook = OpenSaveFileDialogHook;
 }
 
 

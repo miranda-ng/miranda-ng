@@ -243,7 +243,7 @@ string sCreateLink(const char * pszSrvPath) {
 // Developer       : KN, Houdini
 /////////////////////////////////////////////////////////////////////
 
-UINT CALLBACK ShareNewFileDialogHook(
+UINT_PTR CALLBACK ShareNewFileDialogHook(
   HWND hDlg,      // handle to child dialog box
   UINT uiMsg,     // message identifier
   WPARAM wParam,  // message parameter
@@ -456,7 +456,7 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare) {
 	ofn.hInstance = hInstance;
 	ofn.lpstrTitle = TranslateT("Specify a file to share");
 	ofn.lpTemplateName =  MAKEINTRESOURCE(IDD_NEW_SHARE_PROPERTIES);
-	ofn.lpfnHook = (LPOFNHOOKPROC)ShareNewFileDialogHook;
+	ofn.lpfnHook = ShareNewFileDialogHook;
 	ofn.lCustData = (LPARAM)pstNewShare;
 
 	if (!GetOpenFileName(&ofn)) {

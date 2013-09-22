@@ -73,7 +73,7 @@ struct OpenFileSubclassData {
 	BYTE setView;
 };
 
-BOOL CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	OpenFileSubclassData *data= (OpenFileSubclassData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
@@ -149,7 +149,7 @@ static INT_PTR avSetAvatar(HANDLE hContact, TCHAR *tszPath)
 		ofn.lpstrDefExt = _T("");
 		ofn.hInstance = g_hInst;
 		ofn.lpTemplateName = MAKEINTRESOURCE(IDD_OPENSUBCLASS);
-		ofn.lpfnHook = (LPOFNHOOKPROC)OpenFileSubclass;
+		ofn.lpfnHook = OpenFileSubclass;
 		locking_request = is_locked;
 		ofn.lCustData = (LPARAM)&locking_request;
 		if (GetOpenFileName(&ofn)) {
