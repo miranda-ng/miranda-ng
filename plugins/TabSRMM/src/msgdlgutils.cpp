@@ -111,7 +111,7 @@ void TSAPI RearrangeTab(HWND hwndDlg, const TWindowData *dat, int iMode, BOOL fS
  * or later
  */
 
-static BOOL CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 		case WM_INITDIALOG: {
@@ -141,19 +141,17 @@ static BOOL CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 {
-	TCHAR szFinalPath[MAX_PATH];
 	TCHAR szFinalFilename[MAX_PATH];
-	TCHAR szBaseName[MAX_PATH];
-	TCHAR szTimestamp[100];
-	OPENFILENAME ofn = {0};
 	time_t t = time(NULL);
 	struct tm *lt = localtime(&t);
 	DWORD setView = 1;
 
+	TCHAR szTimestamp[100];
 	mir_sntprintf(szTimestamp, SIZEOF(szTimestamp), _T("%04u %02u %02u_%02u%02u"), lt->tm_year + 1900, lt->tm_mon, lt->tm_mday, lt->tm_hour, lt->tm_min);
 
 	TCHAR *szProto = mir_a2t(dat->cache->getActiveProto());
 
+	TCHAR szFinalPath[MAX_PATH];
 	mir_sntprintf(szFinalPath, SIZEOF(szFinalPath), _T("%s\\%s"), M.getSavedAvatarPath(), szProto);
 	mir_free(szProto);
 
@@ -164,12 +162,15 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 			return;
 		}
 	}
+
+	TCHAR szBaseName[MAX_PATH];
 	if (isOwnPic)
 		mir_sntprintf(szBaseName, MAX_PATH,_T("My Avatar_%s"), szTimestamp);
 	else
 		mir_sntprintf(szBaseName, MAX_PATH, _T("%s_%s"), dat->cache->getNick(), szTimestamp);
 
 	mir_sntprintf(szFinalFilename, MAX_PATH, _T("%s.png"), szBaseName);
+	OPENFILENAME ofn = {0};
 	ofn.lpstrDefExt = _T("png");
 
 	/*
@@ -181,7 +182,7 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 	mir_sntprintf(filter, SIZEOF(filter), _T("%s%c*.bmp;*.png;*.jpg;*.gif%c%c"), TranslateT("Image files"), 0, 0, 0);
 	ofn.lpstrFilter = filter;
 	ofn.Flags = OFN_HIDEREADONLY | OFN_EXPLORER | OFN_ENABLESIZING | OFN_ENABLEHOOK;
-	ofn.lpfnHook = (LPOFNHOOKPROC)OpenFileSubclass;
+	ofn.lpfnHook = OpenFileSubclass;
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = 0;
 	ofn.lpstrFile = szFinalFilename;
