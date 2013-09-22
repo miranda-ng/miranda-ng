@@ -425,7 +425,7 @@ void HistoryWindow::OptionsSearchingChanged()
 	}
 }
 
-INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM wParam, LPARAM lParam)
+INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM wParam, LPARAM)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	HWND hWnd = NULL;
@@ -475,15 +475,13 @@ INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM wParam, LPARAM lParam)
 	if (MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_OKCANCEL | MB_ICONERROR) != IDOK)
 		return FALSE;
 
-	std::deque<HANDLE> toRemove;
-	HANDLE hDbEvent = db_event_first(hContact);
-	while ( hDbEvent != NULL ) {
-		toRemove.push_back(hDbEvent);
-		hDbEvent = db_event_next(hDbEvent);
+	CallService(MS_DB_SETSAFETYMODE, FALSE, 0);
+	HANDLE hDbEvent = db_event_last(hContact);
+	while (hDbEvent != NULL) {
+		HANDLE hPrevEvent = db_event_prev(hDbEvent);
+		hDbEvent = ( db_event_delete(hContact, hDbEvent) == 0) ? hPrevEvent : NULL;
 	}
-	
-	for(std::deque<HANDLE>::iterator it = toRemove.begin(); it != toRemove.end(); ++it)
-		db_event_delete(hContact, *it);
+	CallService(MS_DB_SETSAFETYMODE, TRUE, 0);
 
 	if (EventList::IsImportedHistory(hContact)) {
 		TCHAR *message = TranslateT("Do you want delete all imported messages for this contact?\nNote that next scheduler task import this messages again.");
@@ -2249,40 +2247,27 @@ void HistoryWindow::Delete(int what)
 		toDelete = (int)end;
 	}
 	else {
-		if (eventList.size() == 0)
-			return;
-		toDelete = 1;
+		DeleteAllUserHistory((WPARAM)hContact, 0);
+		return;
 	}
 
 	if (toDelete == 0)
 		return;
+
 	TCHAR message[256];
-	if (what == 2)
-		_tcscpy_s(message, TranslateT("This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?"));
-	else
-		mir_sntprintf(message, SIZEOF(message), TranslateT("Number of history items to delete: %d.\nAre you sure you want to do this?"), toDelete);
+	mir_sntprintf(message, SIZEOF(message), TranslateT("Number of history items to delete: %d.\nAre you sure you want to do this?"), toDelete);
 	if (MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_OKCANCEL | MB_ICONERROR) != IDOK)
 		return;
 
 	bool areImpMessages = false;
 	bool rebuild = false;
-	if (what == 2) {
-		for(size_t j = 0; j < eventList.size(); ++j)
-			for(size_t i = 0; i < eventList[j].size(); ++i)
-				DeleteEvent(eventList[j][i]);
-		
-		areImpMessages = EventList::IsImportedHistory(hContact);
-		rebuild = true;
+	for(size_t i = start; i < end; ++i) {
+		EventIndex& ev = eventList[selected][i];
+		DeleteEvent(ev);
+		areImpMessages |= ev.isExternal;
 	}
-	else {
-		for(size_t i = start; i < end; ++i) {
-			EventIndex& ev = eventList[selected][i];
-			DeleteEvent(ev);
-			areImpMessages |= ev.isExternal;
-		}
 
-		rebuild = (start == 0 && end == currentGroup.size());
-	}
+	rebuild = (start == 0 && end == currentGroup.size());
 
 	if (areImpMessages) {
 		TCHAR *message = TranslateT("Do you want delete all imported messages for this contact?\nNote that next scheduler task import this messages again.");
