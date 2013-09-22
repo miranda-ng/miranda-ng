@@ -362,23 +362,24 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 	}
 
 	// logoff
-	if (item->m_pItemResource->m_dwIdleStartTime > 0) {
-		lstrcpyn(buf, _tctime(&item->m_pItemResource->m_dwIdleStartTime), SIZEOF(buf));
-		int len = lstrlen(buf);
-		if (len > 0) buf[len-1] = 0;
+	if (item->m_pItemResource) {
+		if (item->m_pItemResource->m_dwIdleStartTime > 0) {
+			lstrcpyn(buf, _tctime(&item->m_pItemResource->m_dwIdleStartTime), SIZEOF(buf));
+			int len = lstrlen(buf);
+			if (len > 0) buf[len-1] = 0;
+		}
+		else if ( !item->m_pItemResource->m_dwIdleStartTime)
+			lstrcpyn(buf, TranslateT("unknown"), SIZEOF(buf));
+		else
+			lstrcpyn(buf, TranslateT("<not specified>"), SIZEOF(buf));
+
+		sttFillInfoLine(hwndTree, htiRoot, NULL,
+			(item->jid && _tcschr(item->jid, _T('@'))) ? TranslateT("Last logoff time") : TranslateT("Uptime"), buf,
+			sttInfoLineId(0, INFOLINE_LOGOFF));
+
+		sttFillInfoLine(hwndTree, htiRoot, NULL, TranslateT("Logoff message"),
+			item->m_pItemResource->m_tszStatusMessage ? item->m_pItemResource->m_tszStatusMessage : TranslateT("<not specified>"), sttInfoLineId(0, INFOLINE_LOGOFF_MSG));
 	}
-	else if ( !item->m_pItemResource->m_dwIdleStartTime)
-		lstrcpyn(buf, TranslateT("unknown"), SIZEOF(buf));
-	else
-		lstrcpyn(buf, TranslateT("<not specified>"), SIZEOF(buf));
-
-	sttFillInfoLine(hwndTree, htiRoot, NULL,
-		(item->jid && _tcschr(item->jid, _T('@'))) ? TranslateT("Last logoff time") : TranslateT("Uptime"), buf,
-		sttInfoLineId(0, INFOLINE_LOGOFF));
-
-	// logoff msg
-	sttFillInfoLine(hwndTree, htiRoot, NULL, TranslateT("Logoff message"),
-		item->m_pItemResource->m_tszStatusMessage ? item->m_pItemResource->m_tszStatusMessage : TranslateT("<not specified>"), sttInfoLineId(0, INFOLINE_LOGOFF_MSG));
 
 	// activity
 	if (item->m_pLastSeenResource)
