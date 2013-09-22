@@ -54,7 +54,7 @@
 Показывать текст статуса во вкладке
 [Prefer xStatus icons when available]
 Показывать значок хСтатуса, когда доступен (вместо статуса)
-[Detailed tooltip on tabs (requires mToolTip or Tipper plugin)]
+[Detailed tooltip on tabs (requires Tipper plugin)]
 Показывать подсказку на вкладках (требуется плагин Tipper)
 [How to create tabs and windows for incoming messages]
 Настройки создания вкладок и окон для входящих сообщений
