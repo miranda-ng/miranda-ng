@@ -58,11 +58,6 @@ TAAAProtoSetting::~TAAAProtoSetting()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-typedef HDESK (WINAPI* pfnOpenInputDesktop)( DWORD, BOOL, DWORD );
-static pfnOpenInputDesktop openInputDesktop = NULL;
-typedef HDESK (WINAPI* pfnCloseDesktop)( HDESK );
-static pfnCloseDesktop closeDesktop = NULL;
-
 extern HANDLE hStateChangedEvent;
 
 static BOOL ignoreLockKeys = FALSE;
@@ -86,7 +81,6 @@ static UINT_PTR hAutoAwayTimer;
 // prototypes
 extern DWORD StatusModeToProtoFlag(int status);
 extern int InitCommonStatus();
-static BOOL (WINAPI * MyGetLastInputInfo)(PLASTINPUTINFO);
 void LoadOptions(TAAAProtoSetting** loadSettings, BOOL override);
 static int HookWindowsHooks(int hookMiranda, int hookAll);
 static int UnhookWindowsHooks();
@@ -135,7 +129,7 @@ void LoadOptions( OBJLIST<TAAAProtoSetting>& loadSettings, BOOL override)
 		if (!override) {
 			if (loadSettings[i].optionFlags & FLAG_MONITORMIRANDA)
 				monitorMiranda = TRUE;
-			else if ( (MyGetLastInputInfo==NULL) || ignoreLockKeys || ignoreSysKeys || ignoreAltCombo || (monitorMouse != monitorKeyboard))
+			else if (ignoreLockKeys || ignoreSysKeys || ignoreAltCombo || (monitorMouse != monitorKeyboard))
 				monitorAll = TRUE;
 	}	}
 
@@ -221,13 +215,11 @@ static BOOL IsWorkstationLocked (void)
 {
 	BOOL rc = FALSE;
 
-	if (openInputDesktop != NULL) {
-		HDESK hDesk = openInputDesktop(0, FALSE, DESKTOP_SWITCHDESKTOP);
-		if (hDesk == NULL)
-			rc = TRUE;
-		else if (closeDesktop != NULL)
-			closeDesktop(hDesk);
-	}
+	HDESK hDesk = OpenInputDesktop(0, FALSE, DESKTOP_SWITCHDESKTOP);
+	if (hDesk == NULL)
+		rc = TRUE;
+	else
+		CloseDesktop(hDesk);
 	return rc;
 }
 
@@ -291,13 +283,10 @@ static VOID CALLBACK AutoAwayTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD
 		if ( aas.optionFlags & FLAG_MONITORMIRANDA )
 			mouseStationaryTimer = (GetTickCount() - lastMirandaInput)/1000;
 		else {
-			if (MyGetLastInputInfo!=NULL) {
-				LASTINPUTINFO lii = { 0 };
-				lii.cbSize = sizeof(lii);
-				MyGetLastInputInfo(&lii);
-				mouseStationaryTimer = (GetTickCount()-lii.dwTime)/1000;
-			}
-			else mouseStationaryTimer = (GetTickCount() - lastInput)/1000;
+			LASTINPUTINFO lii = { 0 };
+			lii.cbSize = sizeof(lii);
+			GetLastInputInfo(&lii);
+			mouseStationaryTimer = (GetTickCount()-lii.dwTime)/1000;
 		}
 
 		int sts1Time = aas.awayTime * SECS_PER_MINUTE;
@@ -422,7 +411,6 @@ static int HookWindowsHooks(int hookMiranda, int hookAll)
 			hMirandaMouseHook = SetWindowsHookEx(WH_MOUSE,MirandaMouseHookFunction,NULL,GetCurrentThreadId());
 	}
 	if (hookAll) {
-		MyGetLastInputInfo=NULL;
 		if ( monitorKeyboard && hKeyBoardHook == NULL )
 			hKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, KeyBoardHookFunction, 0, GetCurrentThreadId());
 		if ( monitorMouse && hMouseHook == NULL )
@@ -583,15 +571,6 @@ static int AutoAwayShutdown(WPARAM wParam,LPARAM lParam)
 
 int CSModuleLoaded(WPARAM wParam, LPARAM lParam)
 {
-	HMODULE hUser32 = GetModuleHandleA("user32");
-	openInputDesktop = ( pfnOpenInputDesktop )GetProcAddress (hUser32, "OpenInputDesktop");
-	closeDesktop = ( pfnCloseDesktop )GetProcAddress (hUser32, "CloseDesktop");
-
-	if (!db_get_b(NULL, MODULENAME, SETTING_IGNLOCK, FALSE))
-		MyGetLastInputInfo = (BOOL (WINAPI *)(PLASTINPUTINFO))GetProcAddress(GetModuleHandleA("user32"),"GetLastInputInfo");
-	else
-		MyGetLastInputInfo = NULL;
-
 	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccChanged);
 	HookEvent(ME_OPT_INITIALISE, AutoAwayOptInitialise);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, AutoAwayShutdown);

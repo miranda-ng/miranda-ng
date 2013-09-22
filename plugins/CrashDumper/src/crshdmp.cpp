@@ -24,7 +24,6 @@ HINSTANCE hInst;
 DWORD mirandaVersion;
 LCID packlcid;
 HANDLE hCrashLogFolder, hVerInfoFolder;
-HMODULE hRichModule;
 
 TCHAR* vertxt;
 TCHAR* profname;
@@ -128,8 +127,6 @@ INT_PTR UploadVersionInfo(WPARAM, LPARAM lParam)
 
 INT_PTR ViewVersionInfo(WPARAM wParam, LPARAM)
 {
-	if (hRichModule == NULL && GetModuleHandle(TEXT("Riched20.dll")) == NULL)
-		hRichModule = LoadLibrary(TEXT("Riched20.dll"));
 	if(hViewWnd)
 	{
 		SetForegroundWindow(hViewWnd);
@@ -368,7 +365,6 @@ extern "C" int __declspec(dllexport) Load(void)
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	DestroyAllWindows();
-	FreeLibrary(hRichModule);
 
 	DestroyExceptionHandler();
 

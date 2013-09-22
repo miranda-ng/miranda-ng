@@ -40,8 +40,6 @@ void destroyXstatusListAux(void);
 
 
 extern HINSTANCE hInst;
-extern double dWinVer;
-extern BOOL bWindowsNT;
 
 extern BYTE bFlashOnMsg;
 extern BYTE bFlashOnURL;
@@ -317,8 +315,6 @@ INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			CheckDlgButton(hwndDlg, IDC_FSCREEN, bFullScreenMode ? BST_CHECKED:BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_SSAVER, bScreenSaverRunning ? BST_CHECKED:BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_LOCKED, bWorkstationLocked ? BST_CHECKED:BST_UNCHECKED);
-			if (!bWindowsNT)
-				EnableWindow(GetDlgItem(hwndDlg, IDC_LOCKED), FALSE);
 			CheckDlgButton(hwndDlg, IDC_PGMS, bProcessesAreRunning ? BST_CHECKED:BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_ACTIVE, bWorkstationActive ? BST_CHECKED:BST_UNCHECKED);
 
@@ -1362,7 +1358,7 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				if (ProtoList.protoInfo[i].enabled && XstatusListAux[i].count)
 					imageCount += XstatusListAux[i].count;
 	
-			hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), (bWindowsNT && dWinVer >= 5.01?ILC_COLOR32:ILC_COLOR16)|ILC_MASK, imageCount, imageCount);
+			hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, imageCount, imageCount);
 			TreeView_SetImageList(hwndTree, hImageList, TVSIL_NORMAL);
 
 			ImageList_AddIcon(hImageList, hIconAux=(HICON)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 0, 0, 0));

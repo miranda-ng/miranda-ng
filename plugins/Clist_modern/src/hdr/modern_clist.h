@@ -30,15 +30,6 @@ HTREEITEM GetTreeItemByHContact(HANDLE hContact);
 void cli_ChangeContactIcon(HANDLE hContact,int iIcon,int add);
 int GetContactInfosForSort(HANDLE hContact,char **Proto,TCHAR **Name,int *Status);
 
-typedef HMONITOR ( WINAPI *pfnMyMonitorFromPoint )(POINT,DWORD);
-extern pfnMyMonitorFromPoint MyMonitorFromPoint;
-
-typedef HMONITOR( WINAPI *pfnMyMonitorFromWindow) (HWND, DWORD);
-extern pfnMyMonitorFromWindow MyMonitorFromWindow;
-
-typedef BOOL(WINAPI *pfnMyGetMonitorInfo) (HMONITOR, LPMONITORINFO);
-extern pfnMyGetMonitorInfo MyGetMonitorInfo;
-
 ///////////////////////////////////////////////////////////////////////////////
 
 class CSmileyString

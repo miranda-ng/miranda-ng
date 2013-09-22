@@ -18,21 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "utils.h"
 
-static HMODULE hKernel = GetModuleHandle(TEXT("kernel32.dll")); 
-
-tGetNativeSystemInfo pGetNativeSystemInfo = (tGetNativeSystemInfo)GetProcAddress(hKernel, "GetNativeSystemInfo");
-tGetProductInfo pGetProductInfo = (tGetProductInfo) GetProcAddress(hKernel, "GetProductInfo");
-tGlobalMemoryStatusEx pGlobalMemoryStatusEx = (tGlobalMemoryStatusEx) GetProcAddress(hKernel, "GlobalMemoryStatusEx");
-tGetUserDefaultUILanguage pGetUserDefaultUILanguage = (tGetUserDefaultUILanguage) GetProcAddress(hKernel, "GetUserDefaultUILanguage");
-tGetSystemDefaultUILanguage pGetSystemDefaultUILanguage = (tGetSystemDefaultUILanguage) GetProcAddress(hKernel, "GetSystemDefaultUILanguage");
-tIsWow64Process pIsWow64Process = (tIsWow64Process) GetProcAddress(hKernel, "IsWow64Process");
-tIsProcessorFeaturePresent pIsProcessorFeaturePresent = (tIsProcessorFeaturePresent) GetProcAddress(hKernel, "IsProcessorFeaturePresent");
-
-
-tGetDiskFreeSpaceEx pGetDiskFreeSpaceEx = (tGetDiskFreeSpaceEx) GetProcAddress(hKernel, "GetDiskFreeSpaceExW");
-
-
-
 void CheckForOtherCrashReportingPlugins(void)
 {
 	HMODULE hModule = GetModuleHandle(TEXT("attache.dll"));
@@ -64,10 +49,7 @@ void GetOSDisplayString(bkstring& buffer)
 			return;
 	}
 
-	// Call GetNativeSystemInfo if supported or GetSystemInfo otherwise.
-	pGetNativeSystemInfo = (tGetNativeSystemInfo)GetProcAddress(hKernel, "GetNativeSystemInfo");
-	if (NULL != pGetNativeSystemInfo) pGetNativeSystemInfo(&si);
-	else GetSystemInfo(&si);
+	GetNativeSystemInfo(&si);
 
 	if (VER_PLATFORM_WIN32_NT == osvi.dwPlatformId && osvi.dwMajorVersion > 4)
 	{
@@ -100,8 +82,7 @@ void GetOSDisplayString(bkstring& buffer)
 				break;
 			}
 
-			pGetProductInfo = (tGetProductInfo) GetProcAddress(hKernel, "GetProductInfo");
-			if (pGetProductInfo != NULL) pGetProductInfo(6, 0, 0, 0, &dwType);
+			GetProductInfo(6, 0, 0, 0, &dwType);
 
 			switch(dwType)
 			{
@@ -472,7 +453,7 @@ void GetProcessorString(bkstring& buffer)
 	TrimMultiSpaces(cpuName);
 	buffer.appendfmt(TEXT("CPU: %s [%s]"), cpuName, cpuIdent);
 
-	if (pIsProcessorFeaturePresent && pIsProcessorFeaturePresent(PF_NX_ENABLED))
+	if (IsProcessorFeaturePresent(PF_NX_ENABLED))
 		buffer.append(TEXT(" [DEP Enabled]"));
 
 	SYSTEM_INFO si = {0};
@@ -485,40 +466,17 @@ void GetProcessorString(bkstring& buffer)
 void GetFreeMemoryString(bkstring& buffer)
 {
 	unsigned ram;
-	if (pGlobalMemoryStatusEx)
-	{
-		MEMORYSTATUSEX ms = {0};
-		ms.dwLength = sizeof(ms);
-		pGlobalMemoryStatusEx(&ms);
-		ram = (unsigned int) ((ms.ullTotalPhys / (1024 * 1024)) + 1);
-	}
-	else
-	{
-		MEMORYSTATUS ms = {0};
-		ZeroMemory(&ms, sizeof(ms));
-		ms.dwLength = sizeof(ms);
-		GlobalMemoryStatus(&ms);
-		ram = (unsigned int)(ms.dwTotalPhys/(1024*1024))+1;
-	}
+	MEMORYSTATUSEX ms = {0};
+	ms.dwLength = sizeof(ms);
+	GlobalMemoryStatusEx(&ms);
+	ram = (unsigned int) ((ms.ullTotalPhys / (1024 * 1024)) + 1);
 	buffer.appendfmt(TEXT("Installed RAM: %u MBytes"), ram);
 }
 
 void GetFreeDiskString(LPCTSTR dirname, bkstring& buffer)
 {
 	ULARGE_INTEGER tnb, tfb, fs = {0};
-	if (pGetDiskFreeSpaceEx)
-		pGetDiskFreeSpaceEx(dirname, &fs, &tnb, &tfb);
-	else
-	{
-		DWORD SectorsPerCluster, BytesPerSector;
-		DWORD NumberOfFreeClusters, TotalNumberOfClusters;
-
-		GetDiskFreeSpace(dirname, &SectorsPerCluster, &BytesPerSector, 
-			&NumberOfFreeClusters, &TotalNumberOfClusters);
-
-		fs.QuadPart = BytesPerSector * SectorsPerCluster;
-		fs.QuadPart *= NumberOfFreeClusters;
-	}
+	GetDiskFreeSpaceEx(dirname, &fs, &tnb, &tfb);
 	fs.QuadPart /= (1024*1024);
 
 	buffer.appendfmt(TEXT("Free disk space on Miranda partition: %u MBytes"), fs.LowPart);
@@ -663,16 +621,8 @@ void GetLanguageString(bkstring& buffer)
 	GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_SENGLANGUAGE, name1, 256);
 	GetLocaleInfo(LOCALE_SYSTEM_DEFAULT, LOCALE_SENGLANGUAGE, name2, 256);
 
-	if (pGetUserDefaultUILanguage && pGetSystemDefaultUILanguage)
-	{
-		GetLocaleInfo(MAKELCID(pGetUserDefaultUILanguage(), SORT_DEFAULT), LOCALE_SENGLANGUAGE, name3, 256);
-		GetLocaleInfo(MAKELCID(pGetSystemDefaultUILanguage(), SORT_DEFAULT), LOCALE_SENGLANGUAGE, name4, 256);
-	}
-	else
-	{
-		_tcscpy(name3, name1);
-		_tcscpy(name4, name2);
-	}
+	GetLocaleInfo(MAKELCID(GetUserDefaultUILanguage(), SORT_DEFAULT), LOCALE_SENGLANGUAGE, name3, 256);
+	GetLocaleInfo(MAKELCID(GetSystemDefaultUILanguage(), SORT_DEFAULT), LOCALE_SENGLANGUAGE, name4, 256);
 
 	buffer.appendfmt(TEXT("OS Languages: (UI | Locale (User/System)) : %s/%s | %s/%s"), name3, name4, name1, name2);
 }
@@ -738,12 +688,9 @@ void GetLanguagePackString(bkstring& buffer)
 void GetWow64String(bkstring& buffer)
 {
 	BOOL wow64 = 0;
-	if (pIsWow64Process)
+	if (!IsWow64Process(GetCurrentProcess(), &wow64))
 	{
-		if (!pIsWow64Process(GetCurrentProcess(), &wow64))
-		{
-			wow64 = 0;
-		}
+		wow64 = 0;
 	}
 	if (wow64) buffer.append(TEXT(" [running inside WOW64]")); 
 }

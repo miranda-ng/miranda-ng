@@ -27,10 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "hdr/modern_clui.h"
 #include <m_modernopt.h>
 
-pfnMyMonitorFromPoint  MyMonitorFromPoint = NULL;
-pfnMyMonitorFromWindow MyMonitorFromWindow = NULL;
-pfnMyGetMonitorInfo    MyGetMonitorInfo = NULL;
-
 int OnLoadLangpack(WPARAM, LPARAM);
 
 int CListMod_HideWindow(HWND hwndContactList, int mode);
@@ -52,8 +48,6 @@ void InitTrayMenus(void);
 void UninitTrayMenu();
 
 HIMAGELIST hCListImages = NULL;
-
-BOOL (WINAPI *MySetProcessWorkingSetSize)(HANDLE,SIZE_T,SIZE_T);
 
 //returns normal icon or combined with status overlay. Needs to be destroyed.
 HICON cliGetIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
@@ -186,16 +180,6 @@ HRESULT  CluiLoadModule()
 	CreateServiceFunction(MS_CLIST_TOGGLESOUNDS,ToggleSounds);
 	CreateServiceFunction(MS_CLIST_SETUSEGROUPS,SetUseGroups);
 
-	MySetProcessWorkingSetSize = (BOOL (WINAPI*)(HANDLE,SIZE_T,SIZE_T))GetProcAddress(GetModuleHandle(_T("kernel32")),"SetProcessWorkingSetSize");
-	hCListImages = ImageList_Create(16, 16, ILC_MASK|ILC_COLOR32, 32, 0);
-	InitCustomMenus();
-	InitTray();
-	
-	HINSTANCE hUser = GetModuleHandleA("USER32");
-	MyMonitorFromPoint  = ( pfnMyMonitorFromPoint )GetProcAddress( hUser,"MonitorFromPoint");
-	MyMonitorFromWindow = ( pfnMyMonitorFromWindow )GetProcAddress( hUser, "MonitorFromWindow");
-	MyGetMonitorInfo = ( pfnMyGetMonitorInfo )GetProcAddress( hUser, "GetMonitorInfoW");
-	
 	CLUI::InitClui();
 	return S_OK;
 }
@@ -318,7 +302,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 					}
 					//hAux = GetParent(hAux);
 					hAuxOld = hAux;
-					hAux = fnGetAncestor(hAux,GA_ROOTOWNER);
+					hAux = GetAncestor(hAux, GA_ROOTOWNER);
 					if (hAuxOld == hAux)
 					{
 						TCHAR buf[255];
@@ -431,8 +415,7 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 			}
 		}
 
-		if (MySetProcessWorkingSetSize != NULL) 
-			MySetProcessWorkingSetSize(GetCurrentProcess(),-1,-1);
+		SetProcessWorkingSetSize(GetCurrentProcess(),-1,-1);
 	}
 	return 0;
 }

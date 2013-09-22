@@ -57,8 +57,6 @@ BOOL    g_flag_bOnModulesLoadedCalled = FALSE;
 
 RECT    g_rcEdgeSizingRect={0};
 
-BOOL (WINAPI *g_proc_SetLayeredWindowAttributesNew)(HWND,COLORREF,BYTE,DWORD);
-
 /* Module global variables */
 
 static BYTE bAlphaEnd;
@@ -290,7 +288,6 @@ HRESULT CLUI::CreateCluiFrames()
 }
 
 CLUI::CLUI() :
-	m_hUserDll( NULL ),
 	m_hDwmapiDll( NULL )
 {
 	m_pCLUI = this;
@@ -323,22 +320,15 @@ CLUI::CLUI() :
 
 CLUI::~CLUI()
 {
-	FreeLibrary(m_hUserDll);
 	FreeLibrary(m_hDwmapiDll);
 	m_pCLUI = NULL;
 }
 
 HRESULT CLUI::LoadDllsRuntime()
 {
-	m_hUserDll = LoadLibrary(_T("user32.dll"));
-	if (m_hUserDll) {
-		g_proc_UpdateLayeredWindow = (BOOL (WINAPI *)(HWND,HDC,POINT*,SIZE*,HDC,POINT*,COLORREF,BLENDFUNCTION*,DWORD))GetProcAddress(m_hUserDll, "UpdateLayeredWindow");
-		g_proc_SetLayeredWindowAttributesNew = (BOOL (WINAPI *)(HWND,COLORREF,BYTE,DWORD))GetProcAddress(m_hUserDll, "SetLayeredWindowAttributes");
-
-		g_CluiData.fLayered = (g_proc_UpdateLayeredWindow != NULL) && !db_get_b(NULL,"ModernData","DisableEngine", SETTING_DISABLESKIN_DEFAULT);
-		g_CluiData.fSmoothAnimation = db_get_b(NULL, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT);
-		g_CluiData.fLayered = (g_CluiData.fLayered*db_get_b(NULL, "ModernData", "EnableLayering", g_CluiData.fLayered)) && !db_get_b(NULL,"ModernData","DisableEngine", SETTING_DISABLESKIN_DEFAULT);
-	}
+	g_CluiData.fLayered = !db_get_b(NULL,"ModernData","DisableEngine", SETTING_DISABLESKIN_DEFAULT);
+	g_CluiData.fSmoothAnimation = db_get_b(NULL, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT);
+	g_CluiData.fLayered = (g_CluiData.fLayered*db_get_b(NULL, "ModernData", "EnableLayering", g_CluiData.fLayered)) && !db_get_b(NULL,"ModernData","DisableEngine", SETTING_DISABLESKIN_DEFAULT);
 
 	if ( IsWinVerVistaPlus()) {
 		m_hDwmapiDll = LoadLibrary(_T("dwmapi.dll"));
@@ -470,15 +460,11 @@ HRESULT CLUI::CreateCLC()
 
 HRESULT CLUI::SnappingToEdge( WINDOWPOS *lpWindowPos )
 {
-	//by ZORG
-	if ( MyMonitorFromWindow == NULL || MyGetMonitorInfo == NULL )
-		return S_FALSE;
-
 	if ( db_get_b(NULL, "CLUI", "SnapToEdges", SETTING_SNAPTOEDGES_DEFAULT)) {
-		HMONITOR curMonitor = MyMonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
+		HMONITOR curMonitor = MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST);
 		MONITORINFO monInfo;
 		monInfo.cbSize = sizeof(monInfo);
-		MyGetMonitorInfo(curMonitor, &monInfo);
+		GetMonitorInfo(curMonitor, &monInfo);
 
 		RECT* dr = &(monInfo.rcWork);
 
@@ -524,7 +510,7 @@ BOOL CLUI_CheckOwnedByClui(HWND hWnd)
 		return FALSE;
 
 	HWND hWndClui = pcli->hwndContactList;
-	HWND hWndMid = fnGetAncestor(hWnd,GA_ROOTOWNER);
+	HWND hWndMid = GetAncestor(hWnd, GA_ROOTOWNER);
 	if (hWndMid == hWndClui)
 		return TRUE;
 
@@ -1153,9 +1139,6 @@ static int CLUI_DrawMenuBackGround(HWND hwnd, HDC hdc, int item, int state)
 	RECT ra,r1;
 	HRGN treg,treg2;
 
-	if ( !fnGetMenuBarInfo )
-		return 1;
-
 	ClcData *dat = (ClcData*)GetWindowLongPtr(pcli->hwndContactTree,0);
 	if ( !dat)
 		return 1;
@@ -1163,7 +1146,7 @@ static int CLUI_DrawMenuBackGround(HWND hwnd, HDC hdc, int item, int state)
 	GetWindowRect(hwnd, &ra);
 
 	MENUBARINFO mbi = { sizeof(MENUBARINFO) };
-	fnGetMenuBarInfo(hwnd,OBJID_MENU, 0, &mbi);
+	GetMenuBarInfo(hwnd, OBJID_MENU, 0, &mbi);
 	if ( !(mbi.rcBar.right-mbi.rcBar.left > 0 && mbi.rcBar.bottom-mbi.rcBar.top > 0))
 		return 1;
 
@@ -1173,7 +1156,7 @@ static int CLUI_DrawMenuBackGround(HWND hwnd, HDC hdc, int item, int state)
 		treg = CreateRectRgn(mbi.rcBar.left,mbi.rcBar.top,mbi.rcBar.right,r1.bottom);
 		if (item == 0) { //should remove item clips
 			for (int t = 1; t <= 2; t++) {
-				fnGetMenuBarInfo(hwnd,OBJID_MENU, t, &mbi);
+				GetMenuBarInfo(hwnd, OBJID_MENU, t, &mbi);
 				treg2 = CreateRectRgn(mbi.rcBar.left,mbi.rcBar.top,mbi.rcBar.right,mbi.rcBar.bottom);
 				CombineRgn(treg,treg,treg2,RGN_DIFF);
 				DeleteObject(treg2);
@@ -1181,7 +1164,7 @@ static int CLUI_DrawMenuBackGround(HWND hwnd, HDC hdc, int item, int state)
 		}
 	}
 	else {
-		fnGetMenuBarInfo(hwnd,OBJID_MENU, item, &mbi);
+		GetMenuBarInfo(hwnd, OBJID_MENU, item, &mbi);
 		treg = CreateRectRgn(mbi.rcBar.left,mbi.rcBar.top,mbi.rcBar.right,mbi.rcBar.bottom+!db_get_b(NULL,"CLUI","LineUnderMenu",SETTING_LINEUNDERMENU_DEFAULT));
 	}
 	OffsetRgn(treg,-ra.left,-ra.top);
@@ -1524,8 +1507,8 @@ static int CLUI_SmoothAlphaThreadTransition(HWND hwnd)
 int CLUI_SmoothAlphaTransition(HWND hwnd, BYTE GoalAlpha, BOOL wParam)
 {
 
-	if ((!g_CluiData.fLayered
-		 &&  (!g_CluiData.fSmoothAnimation && !g_bTransparentFlag)) || !g_proc_SetLayeredWindowAttributesNew)
+	if (!g_CluiData.fLayered
+		 &&  (!g_CluiData.fSmoothAnimation && !g_bTransparentFlag))
 	{
 		if (GoalAlpha>0 && wParam != 2)
 		{
@@ -1919,8 +1902,7 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 					db_set_b(NULL,"CList","State",SETTING_STATE_HIDDEN);
 				}
 				else db_set_b(NULL,"CList","State",SETTING_STATE_MINIMIZED);
-				if (MySetProcessWorkingSetSize != NULL)
-					MySetProcessWorkingSetSize(GetCurrentProcess(),-1,-1);
+				SetProcessWorkingSetSize(GetCurrentProcess(),-1,-1);
 			}
 
 			return TRUE;
@@ -2487,12 +2469,10 @@ LRESULT CLUI::OnListSizeChangeNotify( NMCLISTCONTROL * pnmc )
 	winstyle = GetWindowLongPtr(pcli->hwndContactTree,GWL_STYLE);
 
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea,FALSE);
-	if (MyMonitorFromWindow) {
- 		HMONITOR hMon = MyMonitorFromWindow(pcli->hwndContactTree, MONITOR_DEFAULTTONEAREST);
-		MONITORINFO mi = { sizeof(mi) };
-		if (MyGetMonitorInfo(hMon, &mi))
- 			rcWorkArea = mi.rcWork;
-	}
+	HMONITOR hMon = MonitorFromWindow(pcli->hwndContactTree, MONITOR_DEFAULTTONEAREST);
+	MONITORINFO mi = { sizeof(mi) };
+	if (GetMonitorInfo(hMon, &mi))
+		rcWorkArea = mi.rcWork;
 
 	if (pnmc->pt.y>(rcWorkArea.bottom-rcWorkArea.top))
 		pnmc->pt.y = (rcWorkArea.bottom-rcWorkArea.top);

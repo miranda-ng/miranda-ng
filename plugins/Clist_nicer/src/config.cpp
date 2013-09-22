@@ -406,6 +406,6 @@ void CRTException::display() const
 	TCHAR  	tszBoxMsg[500];
 
 	mir_sntprintf(tszBoxMsg, 500, _T("%s\n\n(%s)"), tszMsg, m_szParam);
-	::MessageBox(0, tszBoxMsg, _T("TabSRMM runtime error"), MB_OK | MB_ICONERROR);
+	::MessageBox(0, tszBoxMsg, _T("Clist_nicer runtime error"), MB_OK | MB_ICONERROR);
 	mir_free(tszMsg);
 }

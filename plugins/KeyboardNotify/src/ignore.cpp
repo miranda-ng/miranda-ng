@@ -25,10 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static const DWORD ignoreIdToPf1[IGNOREEVENT_MAX] = {PF1_IMRECV, PF1_URLRECV, PF1_FILERECV, 0xFFFFFFFF};
 
-extern double dWinVer;
-extern BOOL bWindowsNT;
-
-
 static DWORD GetMask(HANDLE hContact)
 {
 	DWORD mask = db_get_dw(hContact, KEYBDMODULE, "Mask1", (DWORD)(-1));
@@ -214,7 +210,7 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			TranslateDialogDefault(hwndDlg);
 			{	int i;
 				HIMAGELIST hIml;
-				hIml=ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ((bWindowsNT && dWinVer >= 5.01)?ILC_COLOR32:ILC_COLOR16)|ILC_MASK, 3+IGNOREEVENT_MAX, 3+IGNOREEVENT_MAX);
+				hIml=ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 3+IGNOREEVENT_MAX, 3+IGNOREEVENT_MAX);
 				ImageList_AddIcon(hIml, LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_SMALLDOT)));
 				ImageList_AddIcon(hIml, LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_FILLEDBLOB)));
 				ImageList_AddIcon(hIml, LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_EMPTYBLOB)));

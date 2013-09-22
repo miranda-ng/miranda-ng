@@ -130,12 +130,6 @@ FCOptions;
 
 extern FCOptions fcOpt;
 
-extern BOOL (WINAPI *pSetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD);
-extern BOOL (WINAPI *pUpdateLayeredWindow)
-	(HWND hwnd, HDC hdcDST, POINT *pptDst, SIZE *psize, HDC hdcSrc, POINT *pptSrc,
-	 COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags);
-
-
 /////////////////////////////////////////////////////////////////////////////
 
 static __forceinline BOOL ImageList_GetIconSize_my(HIMAGELIST himl, SIZE &sz)
@@ -163,9 +157,6 @@ void SetThumbsOpacity(BYTE btAlpha);
 int OnOptionsInitialize(WPARAM wParam, LPARAM lParam);
 
 /////////////////////////////////////////////////////////////////////////////
-
-typedef HRESULT (STDAPICALLTYPE *pfnSHAutoComplete)(HWND,DWORD);
-extern pfnSHAutoComplete fnSHAutoComplete;
 
 #endif	// #ifndef __FLTCONT_H__
 

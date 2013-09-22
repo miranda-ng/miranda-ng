@@ -490,15 +490,6 @@ static BOOL sttDrawItem_Group(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 
 void ImageList_DrawDimmed(HIMAGELIST himl, int i, HDC hdc, int left, int top, UINT fStyle)
 {
-	typedef BOOL (WINAPI *TFnAlphaBlend)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION);
-	static TFnAlphaBlend pfnAlphaBlend = NULL;
-
-	bool load_funcs = true;
-	if (load_funcs) {
-		pfnAlphaBlend = (TFnAlphaBlend)GetProcAddress(GetModuleHandleA("msimg32"), "AlphaBlend");
-		load_funcs = false;
-	}
-
 	int dx, dy;
 	ImageList_GetIconSize(himl, &dx, &dy);
 
@@ -507,15 +498,9 @@ void ImageList_DrawDimmed(HIMAGELIST himl, int i, HDC hdc, int left, int top, UI
 	HBITMAP hbmOld = (HBITMAP)SelectObject(dcMem, hbm);
 	BitBlt(dcMem, 0, 0, dx, dx, hdc, left, top, SRCCOPY);
 	ImageList_Draw(himl, i, dcMem, 0, 0, fStyle);
-	if (pfnAlphaBlend) {
-		BLENDFUNCTION bf = {0};
-		bf.SourceConstantAlpha = 180;
-		pfnAlphaBlend(hdc, left, top, dx, dy, dcMem, 0, 0, dx, dy, bf);
-	}
-	else {
-		SetStretchBltMode(hdc, HALFTONE);
-		StretchBlt(hdc, left, top, dx, dy, dcMem, 0, 0, dx, dy, SRCCOPY);
-	}
+	BLENDFUNCTION bf = {0};
+	bf.SourceConstantAlpha = 180;
+	GdiAlphaBlend(hdc, left, top, dx, dy, dcMem, 0, 0, dx, dy, bf);
 	SelectObject(dcMem, hbmOld);
 	DeleteObject(hbm);
 	DeleteDC(dcMem);

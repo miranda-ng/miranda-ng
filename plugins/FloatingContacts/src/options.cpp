@@ -192,8 +192,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			CheckDlgButton(hwndDlg, IDC_TILEV, ((bmpUse & CLBF_TILEV) ? BST_CHECKED : BST_UNCHECKED));
 			CheckDlgButton(hwndDlg, IDC_PROPORTIONAL, ((bmpUse & CLBF_PROPORTIONAL) ? BST_CHECKED : BST_UNCHECKED));
 
-			if (fnSHAutoComplete)
-				fnSHAutoComplete(GetDlgItem(hwndDlg, IDC_FILENAME), 1);
+			SHAutoComplete(GetDlgItem(hwndDlg, IDC_FILENAME), 1);
 
 			// Windows 2K/XP
 			BYTE btOpacity = (BYTE)db_get_b(NULL, MODULE, "Opacity", 100);
@@ -203,8 +202,8 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			mir_snprintf(szPercent, SIZEOF(szPercent), "%d%%", btOpacity);
 			SetDlgItemTextA(hwndDlg, IDC_OPACITY, szPercent);
 
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SLIDER_OPACITY), pSetLayeredWindowAttributes != 0);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_OPACITY), pSetLayeredWindowAttributes != 0);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SLIDER_OPACITY), SetLayeredWindowAttributes != 0);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_OPACITY), SetLayeredWindowAttributes != 0);
 		}
 		return TRUE;
 

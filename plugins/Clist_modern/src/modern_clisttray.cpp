@@ -303,8 +303,7 @@ static VOID CALLBACK TrayIconAutoHideTimer(HWND hwnd,UINT message,UINT_PTR idEve
 	if (CLUI_CheckOwnedByClui(ActiveWindow)) return;
 
 	CListMod_HideWindow(hwndClui, SW_HIDE);
-	if (MySetProcessWorkingSetSize != NULL)
-		MySetProcessWorkingSetSize(GetCurrentProcess(),-1,-1);
+	SetProcessWorkingSetSize(GetCurrentProcess(),-1,-1);
 }
 
 int cliTrayIconPauseAutoHide(WPARAM wParam,LPARAM lParam)

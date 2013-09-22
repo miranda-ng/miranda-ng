@@ -18,11 +18,6 @@ No warranty for any misbehaviour.
 
 #include "../Utils/mir_fonts.h"
 
-BOOL (WINAPI *pSetLayeredWindowAttributes)(HWND, COLORREF, BYTE, DWORD);
-BOOL (WINAPI *pUpdateLayeredWindow)
-	(HWND hwnd, HDC hdcDST, POINT *pptDst, SIZE *psize, HDC hdcSrc, POINT *pptSrc,
-	 COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags);
-
 // Globals
 
 // TODO: move to some more approriate place, probably part of Thumbs manager
@@ -72,8 +67,6 @@ HGENMENU	hMenuItemRemove, hMenuItemHideAll, hMainMenuItemHideAll;
 
 int hLangpack;
 CLIST_INTERFACE *pcli;
-
-pfnSHAutoComplete fnSHAutoComplete;
 
 //Options
 
@@ -960,21 +953,6 @@ extern "C" int __declspec(dllexport) Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreshutdown);
 
-	HMODULE hUserDll = GetModuleHandleA("user32.dll");
-	if (hUserDll) {
-		pSetLayeredWindowAttributes  =
-			(BOOL (WINAPI *)(HWND, COLORREF, BYTE, DWORD))
-			GetProcAddress(hUserDll, "SetLayeredWindowAttributes");
-		pUpdateLayeredWindow  =
-			(BOOL (WINAPI *)(HWND, HDC, POINT *, SIZE *, HDC, POINT *, COLORREF, BLENDFUNCTION *, DWORD))
-			GetProcAddress(hUserDll, "UpdateLayeredWindow");
-	}
-	else {
-		pSetLayeredWindowAttributes = NULL;
-		pUpdateLayeredWindow = NULL;
-	}
-
-	fnSHAutoComplete = (pfnSHAutoComplete)GetProcAddress(GetModuleHandle(_T("shlwapi")), "SHAutoComplete");
 	return 0;
 }
 

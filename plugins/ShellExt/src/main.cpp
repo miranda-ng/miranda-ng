@@ -28,9 +28,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 		hInst = hinstDLL;
 		DisableThreadLibraryCalls(hinstDLL);
-
-		extern bool VistaOrLater;
-		VistaOrLater = GetProcAddress( GetModuleHandleA("kernel32.dll"), "GetProductInfo") != NULL;
 	}
 
 	return TRUE;

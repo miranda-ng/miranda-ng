@@ -21,7 +21,4 @@ typedef struct {
 	TCHAR **szFileName;
 } PROCESS_LIST;
 
-
-void LoadProcsLibrary(void);
-void UnloadProcsLibrary(void);
 BOOL areThereProcessesRunning(void);

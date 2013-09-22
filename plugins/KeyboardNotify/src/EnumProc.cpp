@@ -24,70 +24,7 @@ BOOL WINAPI Enum16(DWORD, WORD, WORD, TCHAR *, TCHAR *, LPARAM);
 
 
 // Globals
-extern double dWinVer;
-extern BOOL bWindowsNT;
 extern PROCESS_LIST ProcessList;
-
-HINSTANCE hInstLib, hInstLib2;
-HANDLE (WINAPI *lpfCreateToolhelp32Snapshot)(DWORD, DWORD);
-BOOL (WINAPI *lpfProcess32First)(HANDLE, LPPROCESSENTRY32);
-BOOL (WINAPI *lpfProcess32Next)(HANDLE, LPPROCESSENTRY32);
-BOOL (WINAPI *lpfEnumProcesses)(DWORD *, DWORD, DWORD *);
-BOOL (WINAPI *lpfEnumProcessModules)(HANDLE, HMODULE *, DWORD, LPDWORD);
-DWORD (WINAPI *lpfGetModuleBaseName)(HANDLE, HMODULE, LPTSTR, DWORD);
-INT (WINAPI *lpfVDMEnumTaskWOWEx)(DWORD, TASKENUMPROCEX, LPARAM);
-
-
-void LoadProcsLibrary(void)
-{
-	if (bWindowsNT && dWinVer < 5) {
-
-		if (!(hInstLib = LoadLibraryA("PSAPI.DLL")))
-			return;
-
-		if (!(hInstLib2 = LoadLibraryA("VDMDBG.DLL")))
-			return;
-
-		lpfEnumProcesses = (BOOL (WINAPI *)(DWORD *, DWORD, DWORD*)) GetProcAddress(hInstLib, "EnumProcesses");
-		lpfEnumProcessModules = (BOOL (WINAPI *)(HANDLE, HMODULE *, DWORD, LPDWORD)) GetProcAddress(hInstLib, "EnumProcessModules");
-		lpfGetModuleBaseName = (DWORD (WINAPI *)(HANDLE, HMODULE, LPTSTR, DWORD)) GetProcAddress(hInstLib, "GetModuleBaseNameA");
-
-		lpfVDMEnumTaskWOWEx = (INT (WINAPI *)(DWORD, TASKENUMPROCEX, LPARAM)) GetProcAddress(hInstLib2, "VDMEnumTaskWOWEx");
-	} else {
-
-		if (!(hInstLib = LoadLibraryA("Kernel32.DLL")))
-			return;
-
-		if (bWindowsNT && !(hInstLib2 = LoadLibraryA("VDMDBG.DLL")))
-			return;
- 
-		lpfCreateToolhelp32Snapshot = (HANDLE (WINAPI *)(DWORD,DWORD)) GetProcAddress(hInstLib, "CreateToolhelp32Snapshot");
-		lpfProcess32First = (BOOL (WINAPI *)(HANDLE,LPPROCESSENTRY32)) GetProcAddress(hInstLib, "Process32First");
-		lpfProcess32Next = (BOOL (WINAPI *)(HANDLE,LPPROCESSENTRY32)) GetProcAddress(hInstLib, "Process32Next");
-
-		if (bWindowsNT)
-			lpfVDMEnumTaskWOWEx = (INT (WINAPI *)(DWORD, TASKENUMPROCEX, LPARAM)) GetProcAddress(hInstLib2, "VDMEnumTaskWOWEx");
-	}
-}
-
-
-void UnloadProcsLibrary(void)
-{
-	if (hInstLib)
-		FreeLibrary(hInstLib);
-	if (hInstLib2)
-		FreeLibrary(hInstLib2);
-
-	hInstLib = hInstLib = NULL;
-	lpfCreateToolhelp32Snapshot = NULL;
-	lpfProcess32First = NULL;
-	lpfProcess32Next = NULL;
-	lpfEnumProcesses = NULL;
-	lpfEnumProcessModules = NULL;
-	lpfGetModuleBaseName = NULL;
-	lpfVDMEnumTaskWOWEx = NULL;
-}
-
 
 BOOL areThereProcessesRunning(void)
 {
@@ -95,122 +32,34 @@ BOOL areThereProcessesRunning(void)
 	LPDWORD        lpdwPIDs  = NULL;
 	PROCESSENTRY32 procentry;
 	BOOL           bFlag;
-	DWORD          dwSize;
-	DWORD          dwSize2;
-	DWORD          dwIndex;
-	HMODULE        hMod;
-	HANDLE         hProcess;
-	TCHAR           szFileName[MAX_PATH+1];
 
 
 	if (!ProcessList.count) // Process list is empty
 		return FALSE;
 
-	// If Windows NT 4.0
-	if (bWindowsNT && dWinVer < 5) {
+	// Get a handle to a Toolhelp snapshot of all processes.
+    if ((hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0)) == INVALID_HANDLE_VALUE)
+		return FALSE;
 
-		if (!lpfEnumProcesses || !lpfEnumProcessModules || !lpfGetModuleBaseName || !lpfVDMEnumTaskWOWEx)
-			return FALSE;
+    // While there are processes, keep looping.
+    for (procentry.dwSize=sizeof(PROCESSENTRY32), bFlag=Process32First(hSnapShot, &procentry); bFlag; procentry.dwSize=sizeof(PROCESSENTRY32), bFlag=Process32Next(hSnapShot, &procentry)) {
+		TCHAR *szFileNameAux = filename(procentry.szExeFile);
 
-		//
-		// Call the PSAPI function EnumProcesses to get all of the ProcID's currently in the system.
-		//
-		// NOTE: In the documentation, the third parameter of EnumProcesses is named cbNeeded, which implies that you
-		// can call the function once to find out how much space to allocate for a buffer and again to fill the buffer.
-		// This is not the case. The cbNeeded parameter returns the number of PIDs returned, so if your buffer size is
-		// zero cbNeeded returns zero.
-		//
-		// NOTE: The "HeapAlloc" loop here ensures that we actually allocate a buffer large enough for all the
-		// PIDs in the system.
-		//
-		dwSize2 = 256 * sizeof(DWORD);
-		do {
-			if (lpdwPIDs) {
-				HeapFree(GetProcessHeap(), 0, lpdwPIDs);
-				dwSize2 *= 2;
-			}
-        		if (!(lpdwPIDs = (LPDWORD)HeapAlloc(GetProcessHeap(), 0, dwSize2)))
-               			return FALSE;
-			if (!lpfEnumProcesses(lpdwPIDs, dwSize2, &dwSize)) {
-				HeapFree(GetProcessHeap(), 0, lpdwPIDs);
-				return FALSE;
-			}
-		} while (dwSize == dwSize2);
+		// Search szFileName in user-defined list
+		if (findFilename(szFileNameAux))
+			return TRUE;
 
-		// How many ProcID's did we get?
-		dwSize /= sizeof(DWORD);
+		// Did we just bump into an NTVDM?
+		if (!_wcsicmp(szFileNameAux, L"NTVDM.EXE")) {
+			BOOL bFound = FALSE;
 
-		// Loop through each ProcID.
-		for (dwIndex = 0; dwIndex < dwSize; dwIndex++) {
-			TCHAR *szFileNameAux;
-			szFileName[0] = '\0';
+			// Enum the 16-bit stuff.
+			VDMEnumTaskWOWEx(procentry.th32ProcessID, (TASKENUMPROCEX)Enum16, (LPARAM)&bFound);
 
-			// Open the process (if we can... security does not permit every process in the system to be opened).
-			hProcess = OpenProcess(PROCESS_QUERY_INFORMATION|PROCESS_VM_READ, FALSE, lpdwPIDs[dwIndex]);
-			if (hProcess) {
-				// Here we call EnumProcessModules to get only the first module in the process. This will be the
-				// EXE module for which we will retrieve the name.
-				if (lpfEnumProcessModules(hProcess, &hMod, sizeof(hMod), &dwSize2)) {
-					// Get the module name
-					if (!lpfGetModuleBaseName(hProcess, hMod, szFileName, sizeof(szFileName)))
-						szFileName[0] = '\0';
-				}
-				CloseHandle(hProcess);
- 			}
-			szFileNameAux = filename(szFileName);
-
-			// Search szFileName in user-defined list
-			if (findFilename(szFileNameAux)) {
-				HeapFree(GetProcessHeap(), 0, lpdwPIDs);
+			// Did we find any user-defined process?
+			if (bFound)
 				return TRUE;
-			}
-
-			// Did we just bump into an NTVDM?
-			if (!_wcsicmp(szFileNameAux, L"NTVDM.EXE")) {
-				BOOL bFound = FALSE;
-
-				// Enum the 16-bit stuff.
-				lpfVDMEnumTaskWOWEx(lpdwPIDs[dwIndex], (TASKENUMPROCEX) Enum16, (LPARAM)&bFound);
-
-				// Did we find any user-defined process?
-				if (bFound) {
-					HeapFree(GetProcessHeap(), 0, lpdwPIDs);
-					return TRUE;
-				}
-			}
 		}
-		HeapFree(GetProcessHeap(), 0, lpdwPIDs);
-
-	// If any OS other than Windows NT 4.0.
-	} else {
-
-		if (!lpfProcess32Next || !lpfProcess32First || !lpfCreateToolhelp32Snapshot)
-			return FALSE;
-
-			// Get a handle to a Toolhelp snapshot of all processes.
-         	if ((hSnapShot = lpfCreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0)) == INVALID_HANDLE_VALUE)
-				return FALSE;
-
-         	// While there are processes, keep looping.
-         	for (procentry.dwSize=sizeof(PROCESSENTRY32), bFlag=lpfProcess32First(hSnapShot, &procentry); bFlag; procentry.dwSize=sizeof(PROCESSENTRY32), bFlag=lpfProcess32Next(hSnapShot, &procentry)) {
-				TCHAR *szFileNameAux = filename(procentry.szExeFile);
-
-				// Search szFileName in user-defined list
-				if (findFilename(szFileNameAux))
-					return TRUE;
-
-				// Did we just bump into an NTVDM?
-				if (lpfVDMEnumTaskWOWEx && !_wcsicmp(szFileNameAux, L"NTVDM.EXE")) {
-					BOOL bFound = FALSE;
-
-					// Enum the 16-bit stuff.
-					lpfVDMEnumTaskWOWEx(procentry.th32ProcessID, (TASKENUMPROCEX)Enum16, (LPARAM)&bFound);
-
-					// Did we find any user-defined process?
-					if (bFound)
-						return TRUE;
-				}
-			}
 	}
 
 	return FALSE;

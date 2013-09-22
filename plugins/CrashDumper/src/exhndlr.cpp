@@ -8,23 +8,15 @@ static PVOID exchndlr, exchndlrv;
 static pfnExceptionFilter  threadfltr;
 static PEXCEPTION_POINTERS lastptr;
 
-static HMODULE hKernel = GetModuleHandle(TEXT("kernel32.dll"));
-
-tAddVectoredExceptionHandler pAddVectoredExceptionHandler = (tAddVectoredExceptionHandler)GetProcAddress(hKernel, "AddVectoredExceptionHandler");
-tRemoveVectoredExceptionHandler pRemoveVectoredExceptionHandler = (tRemoveVectoredExceptionHandler)GetProcAddress(hKernel, "RemoveVectoredExceptionHandler");
-tRtlCaptureContext pRtlCaptureContext = (tRtlCaptureContext)GetProcAddress(hKernel, "RtlCaptureContext");
-
 void SetExceptionHandler(void)
 {
-//	if (pAddVectoredExceptionHandler && !exchndlrv)
-//		exchndlrv = pAddVectoredExceptionHandler(0, myfilterv);
 	exchndlr = SetUnhandledExceptionFilter(myfilter);
 }
 
 void RemoveExceptionHandler(void)
 {
-	if (pRemoveVectoredExceptionHandler && exchndlrv)
-		pRemoveVectoredExceptionHandler(exchndlrv);
+	if (exchndlrv)
+		RemoveVectoredExceptionHandler(exchndlrv);
 	SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)exchndlr);
 	exchndlr = NULL;
 	exchndlrv = NULL;
@@ -163,13 +155,7 @@ void InvalidParameterHandler(const wchar_t*, const wchar_t*, const wchar_t*, uns
 	CONTEXT                  ContextRecord = {0};
 	EXCEPTION_POINTERS info = { &ExceptionRecord, &ContextRecord };
 
-	if (pRtlCaptureContext)
-		pRtlCaptureContext(&ContextRecord);
-	else
-	{
-		ContextRecord.ContextFlags = CONTEXT_ALL;
-		GetThreadContext(GetCurrentThread(), &ContextRecord);
-	}
+	RtlCaptureContext(&ContextRecord);
 
 #if defined(_AMD64_)
 	ExceptionRecord.ExceptionAddress = (PVOID)ContextRecord.Rip;

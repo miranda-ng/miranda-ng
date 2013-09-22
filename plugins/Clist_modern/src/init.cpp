@@ -41,12 +41,6 @@ int hLangpack;
 
 TIME_API tmi;
 
-pfnTryEnterCriticalSection fnTryEnterCriticalSection;
-
-pfnGetAncestor fnGetAncestor;
-pfnGetMenuBarInfo fnGetMenuBarInfo;
-pfnGetScrollBarInfo fnGetScrollBarInfo;
-
 static HRESULT SubclassClistInterface();
 static HRESULT CreateHookableEvents();
 int EventArea_UnloadModule();
@@ -83,15 +77,6 @@ extern "C" __declspec(dllexport) int CListInitialise()
 {
 	mir_getLP( &pluginInfo );
 	mir_getTMI(&tmi);
-
-	HMODULE hKernel = GetModuleHandleA("kernel32.dll");
-	fnTryEnterCriticalSection = ( pfnTryEnterCriticalSection )GetProcAddress( hKernel, "TryEnterCriticalSection");
-
-	HMODULE hUser = GetModuleHandleA("user32.dll");
-	fnGetMenuBarInfo = ( pfnGetMenuBarInfo )GetProcAddress( hUser, "GetMenuBarInfo");
-	fnGetScrollBarInfo = ( pfnGetScrollBarInfo )GetProcAddress( hUser, "GetScrollBarInfo");
-	if (( fnGetAncestor = ( pfnGetAncestor )GetProcAddress( hUser, "GetAncestor")) == NULL )
-		fnGetAncestor = MyGetAncestor;
 
 	g_dwMainThreadID = GetCurrentThreadId();
 

@@ -42,19 +42,14 @@ static int dock_drag_dy = 0;
 
 static void Docking_GetMonitorRectFromPoint(POINT pt,RECT *rc)
 {
-	HMODULE hUserInstance = GetModuleHandle(_T("user32"));
+	MONITORINFO monitorInfo;
+	HMONITOR hMonitor = MonitorFromPoint(pt,MONITOR_DEFAULTTONEAREST); // always returns a valid value
+	monitorInfo.cbSize = sizeof(MONITORINFO);
 
-	if ( MyMonitorFromPoint )
+	if (GetMonitorInfo(hMonitor, &monitorInfo))
 	{
-		MONITORINFO monitorInfo;
-		HMONITOR hMonitor = MyMonitorFromPoint(pt,MONITOR_DEFAULTTONEAREST); // always returns a valid value
-		monitorInfo.cbSize = sizeof(MONITORINFO);
-
-		if ( MyGetMonitorInfo(hMonitor,&monitorInfo))
-		{
-			CopyMemory(rc,&monitorInfo.rcMonitor,sizeof(RECT));
-			return;
-		}
+		CopyMemory(rc,&monitorInfo.rcMonitor,sizeof(RECT));
+		return;
 	}
 
 	// "generic" win95/NT support, also serves as failsafe

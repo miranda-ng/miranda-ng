@@ -349,7 +349,7 @@ void AniAva_UpdateParent()
 {
 	aacheck;
 	mir_cslock lck(s_CS);
-	HWND parent = fnGetAncestor(pcli->hwndContactList, GA_PARENT);
+	HWND parent = GetAncestor(pcli->hwndContactList, GA_PARENT);
 	for (int i=0; i < s_Objects.getCount(); i++) {
 		ANIAVA_OBJECT * pai = (ANIAVA_OBJECT *)s_Objects[i];
 		SendMessage(pai->hWindow, AAM_SETPARENT, (WPARAM)parent,0);
@@ -399,7 +399,7 @@ int AniAva_SetAvatarPos(HANDLE hContact, RECT *rc, int overlayIdx, BYTE bAlpha)
 			tszName = mir_a2t( szName );
 			hwnd = _AniAva_CreateAvatarWindowSync(tszName);
 			mir_free( tszName );
-			parent = fnGetAncestor(pcli->hwndContactList,GA_PARENT);
+			parent = GetAncestor(pcli->hwndContactList, GA_PARENT);
 			pai->hWindow = hwnd;
 			SendMessage(hwnd,AAM_SETPARENT,(WPARAM)parent,0);
 			if (_AniAva_GetAvatarImageInfo(pai->dwAvatarUniqId,&avii))
@@ -814,14 +814,14 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /*= NULL
 					ske_AlphaBlend( hdcParent, rcInParent->left, rcInParent->top, szWnd.cx, szWnd.cy, copyFromDC, pt_from.x, pt_from.y, szWnd.cx, szWnd.cy, abf);
 				}
 			}
-			else if ( !g_proc_UpdateLayeredWindow(dat->hWindow, hDC_animation, &ptWnd, &szWnd, copyFromDC, &pt_from, RGB(0, 0, 0), &bf, ULW_ALPHA )) {
+			else if ( !UpdateLayeredWindow(dat->hWindow, hDC_animation, &ptWnd, &szWnd, copyFromDC, &pt_from, RGB(0, 0, 0), &bf, ULW_ALPHA )) {
 				LONG exStyle;
 				exStyle = GetWindowLongPtr(dat->hWindow,GWL_EXSTYLE);
 				exStyle |= WS_EX_LAYERED;
 				SetWindowLongPtr(dat->hWindow,GWL_EXSTYLE,exStyle);
 				if ( !IMMEDIATE_DRAW )
 					SetWindowPos( pcli->hwndContactTree, dat->hWindow, 0, 0, 0, 0, SWP_ASYNCWINDOWPOS | SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOSENDCHANGING );
-				g_proc_UpdateLayeredWindow(dat->hWindow, hDC_animation, &ptWnd, &szWnd, copyFromDC, &pt_from, RGB(0, 0, 0), &bf, ULW_ALPHA );
+				UpdateLayeredWindow(dat->hWindow, hDC_animation, &ptWnd, &szWnd, copyFromDC, &pt_from, RGB(0, 0, 0), &bf, ULW_ALPHA );
 			}
 
 			g_CluiData.fAeroGlass = false;
@@ -1081,25 +1081,3 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 #undef aacheck
 #undef aalock
 #undef aaunlock
-
-/////////////////////////////////////////////////////////////////
-// some stub
-
-HWND WINAPI MyGetAncestor( HWND hWnd, UINT option )
-{
-	if (option == GA_PARENT)
-		return GetParent(hWnd);
-
-	if (option == GA_ROOTOWNER) {
-		HWND result = hWnd;
-		while(true) {
-			HWND hParent = GetParent(result);
-			if (!hParent)
-				return result;
-
-			result = hParent;
-		}
-	}
-
-	return NULL;
-}

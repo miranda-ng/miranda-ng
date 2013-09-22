@@ -470,7 +470,7 @@ void ThumbInfo::ThumbDeselect(BOOL bMouse)
 
 void ThumbInfo::SetThumbOpacity(BYTE bAlpha)
 {
-	if (pUpdateLayeredWindow && (bAlpha != btAlpha)) {
+	if (bAlpha != btAlpha) {
 		btAlpha = bAlpha;
 		UpdateContent();
 	}
@@ -673,25 +673,18 @@ void ThumbInfo::UpdateContent()
 	SetTextColor(hdcDraw, oldColor);
 	SetBkMode(hdcDraw, oldBkMode);
 
-	if (pUpdateLayeredWindow) {
-		SetWindowLongPtr( hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED );
+	SetWindowLongPtr( hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED );
 
-		RECT rc; GetWindowRect(hwnd, &rc);
-		POINT ptDst = {rc.left, rc.top};
-		POINT ptSrc = {0, 0};
+	GetWindowRect(hwnd, &rc);
+	POINT ptDst = {rc.left, rc.top};
+	POINT ptSrc = {0, 0};
 
-		BLENDFUNCTION blend;
-		blend.BlendOp = AC_SRC_OVER;
-		blend.BlendFlags = 0;
-		blend.SourceConstantAlpha = 255;
-		blend.AlphaFormat = AC_SRC_ALPHA;
+	blend.BlendOp = AC_SRC_OVER;
+	blend.BlendFlags = 0;
+	blend.SourceConstantAlpha = 255;
+	blend.AlphaFormat = AC_SRC_ALPHA;
 
-		pUpdateLayeredWindow(hwnd, NULL, &ptDst, &szSize, bmpContent.getDC(), &ptSrc, 0xffffffff, &blend, ULW_ALPHA);
-	}
-	else {
-		RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
-		UpdateWindow(hwnd);
-	}
+	UpdateLayeredWindow(hwnd, NULL, &ptDst, &szSize, bmpContent.getDC(), &ptSrc, 0xffffffff, &blend, ULW_ALPHA);
 }
 
 void ThumbInfo::PopupMessageDialog( )

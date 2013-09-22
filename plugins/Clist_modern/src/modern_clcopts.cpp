@@ -612,10 +612,7 @@ static INT_PTR CALLBACK DlgProcStatusBarBkgOpts(HWND hwndDlg, UINT msg, WPARAM w
 			CheckDlgButton(hwndDlg,IDC_PROPORTIONAL,bmpUse&CLBF_PROPORTIONAL?BST_CHECKED:BST_UNCHECKED);
 			CheckDlgButton(hwndDlg,IDC_TILEVROWH,bmpUse&CLBF_TILEVTOROWHEIGHT?BST_CHECKED:BST_UNCHECKED);
 
-			HRESULT (STDAPICALLTYPE *MySHAutoComplete)(HWND,DWORD);
-			MySHAutoComplete = (HRESULT (STDAPICALLTYPE*)(HWND,DWORD))GetProcAddress(GetModuleHandle(_T("shlwapi")),"SHAutoComplete");
-			if (MySHAutoComplete)
-				MySHAutoComplete(GetDlgItem(hwndDlg,IDC_FILENAME),1);
+			SHAutoComplete(GetDlgItem(hwndDlg, IDC_FILENAME), 1);
 		}
 		return TRUE;
 	
@@ -1204,8 +1201,8 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 		CheckDlgButton(hwndDlg, IDC_DISABLEENGINE, db_get_b(NULL,"ModernData","DisableEngine", SETTING_DISABLESKIN_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_AEROGLASS, db_get_b(NULL,"ModernData","AeroGlass",SETTING_AEROGLASS_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 
-		EnableWindow(GetDlgItem(hwndDlg,IDC_LAYERENGINE),(g_proc_UpdateLayeredWindow != NULL && !db_get_b(NULL,"ModernData","DisableEngine", SETTING_DISABLESKIN_DEFAULT))?TRUE:FALSE);
-		CheckDlgButton(hwndDlg, IDC_LAYERENGINE, (( db_get_b(NULL,"ModernData","EnableLayering",SETTING_ENABLELAYERING_DEFAULT) && g_proc_UpdateLayeredWindow != NULL) && !db_get_b(NULL,"ModernData","DisableEngine", SETTING_DISABLESKIN_DEFAULT)) ? BST_UNCHECKED:BST_CHECKED);
+		EnableWindow(GetDlgItem(hwndDlg,IDC_LAYERENGINE), !db_get_b(NULL,"ModernData","DisableEngine", SETTING_DISABLESKIN_DEFAULT) ? TRUE : FALSE);
+		CheckDlgButton(hwndDlg, IDC_LAYERENGINE, (db_get_b(NULL,"ModernData","EnableLayering",SETTING_ENABLELAYERING_DEFAULT) && !db_get_b(NULL,"ModernData","DisableEngine", SETTING_DISABLESKIN_DEFAULT)) ? BST_UNCHECKED:BST_CHECKED);
 
 		{
 			DBVARIANT dbv = {0};
@@ -1281,7 +1278,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			EnableWindow(GetDlgItem(hwndDlg,IDC_ROUNDCORNERS),fEnabled);
 			if (LOWORD(wParam) == IDC_DISABLEENGINE)
 			{
-				EnableWindow(GetDlgItem(hwndDlg,IDC_LAYERENGINE),!IsDlgButtonChecked(hwndDlg,IDC_DISABLEENGINE) && g_proc_UpdateLayeredWindow != NULL);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_LAYERENGINE), !IsDlgButtonChecked(hwndDlg, IDC_DISABLEENGINE));
 				if (IsDlgButtonChecked(hwndDlg,IDC_DISABLEENGINE))
 					CheckDlgButton(hwndDlg,IDC_LAYERENGINE,BST_CHECKED);
 			}
@@ -1340,7 +1337,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			db_set_b(NULL,"ModernData","AeroGlass",IsDlgButtonChecked(hwndDlg,IDC_AEROGLASS));
 			if ( !IsDlgButtonChecked(hwndDlg,IDC_DISABLEENGINE))
 			{
-				if (g_proc_UpdateLayeredWindow != NULL && IsDlgButtonChecked(hwndDlg,IDC_LAYERENGINE))
+				if (IsDlgButtonChecked(hwndDlg,IDC_LAYERENGINE))
 					db_set_b(NULL,"ModernData","EnableLayering",0);
 				else
 					db_unset(NULL,"ModernData","EnableLayering");
@@ -1504,11 +1501,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		}
 		SendMessage(hList, CB_SETCURSEL, 0, 0);
 		PostMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_BKGRLIST, CBN_SELCHANGE), 0);
-		{
-			HRESULT (STDAPICALLTYPE *MySHAutoComplete)(HWND,DWORD);
-			MySHAutoComplete = (HRESULT (STDAPICALLTYPE*)(HWND,DWORD))GetProcAddress(GetModuleHandleA("shlwapi"),"SHAutoComplete");
-			if (MySHAutoComplete) MySHAutoComplete(GetDlgItem(hwndDlg,IDC_FILENAME),1);
-		}
+		SHAutoComplete(GetDlgItem(hwndDlg, IDC_FILENAME), 1);
 		return TRUE;
 	}
 	case WM_DESTROY:

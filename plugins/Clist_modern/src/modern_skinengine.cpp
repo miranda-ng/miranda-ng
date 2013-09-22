@@ -42,8 +42,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 SKINOBJECTSLIST g_SkinObjectList = {0};
 CURRWNDIMAGEDATA * g_pCachedWindow = NULL;
 
-BOOL (WINAPI *g_proc_UpdateLayeredWindow)(HWND,HDC,POINT*,SIZE*,HDC,POINT*,COLORREF,BLENDFUNCTION*,DWORD);
-
 BOOL    g_flag_bPostWasCanceled  = FALSE;
 BOOL	g_flag_bFullRepaint      = FALSE;
 BOOL    g_mutex_bLockUpdating    = FALSE;
@@ -3543,7 +3541,7 @@ static int ske_ValidateSingleFrameImage(FRAMEWND * Frame, BOOL SkipBkgBlitting) 
 			//MyAlphaBlend(g_pCachedWindow->hImageDC,x+x1,y+y1,w1,h1,hdc,x1,y1,w1,h1,bf);
 		}
 
-		if ( fnGetScrollBarInfo && (GetWindowLongPtr(Frame->hWnd,GWL_STYLE) & WS_VSCROLL))
+		if (GetWindowLongPtr(Frame->hWnd,GWL_STYLE) & WS_VSCROLL)
 		{
 			//Draw vertical scroll bar
 			//
@@ -3554,7 +3552,7 @@ static int ske_ValidateSingleFrameImage(FRAMEWND * Frame, BOOL SkipBkgBlitting) 
 			int dx,dy;
 			SCROLLBARINFO si = {0};
 			si.cbSize = sizeof(SCROLLBARINFO);
-			fnGetScrollBarInfo(Frame->hWnd,OBJID_VSCROLL,&si);
+			GetScrollBarInfo(Frame->hWnd, OBJID_VSCROLL, &si);
 			rLine = (si.rcScrollBar);
 			rUpBtn = rLine;
 			rDnBtn = rLine;
@@ -3841,10 +3839,10 @@ void ske_ApplyTransluency()
 	IsTransparancy = g_CluiData.fSmoothAnimation || g_bTransparentFlag;
 	if ( !g_bTransparentFlag && !g_CluiData.fSmoothAnimation && g_CluiData.bCurrentAlpha != 0)
 		g_CluiData.bCurrentAlpha = 255;
-	if ( !g_CluiData.fLayered && (/*(g_CluiData.bCurrentAlpha == 255) || */(g_proc_SetLayeredWindowAttributesNew && IsTransparancy)))
+	if ( !g_CluiData.fLayered && IsTransparancy)
 	{
 		if ( !layered) SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
-		if (g_proc_SetLayeredWindowAttributesNew) g_proc_SetLayeredWindowAttributesNew(hwnd, RGB(0, 0, 0), (BYTE)g_CluiData.bCurrentAlpha, LWA_ALPHA);
+		SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE)g_CluiData.bCurrentAlpha, LWA_ALPHA);
 	}
 
 	AniAva_RedrawAllAvatars(FALSE);
@@ -3884,13 +3882,13 @@ int ske_JustUpdateWindowImageRect(RECT *rty)
 	dest.y = rect.top;
 	sz.cx = rect.right-rect.left;
 	sz.cy = rect.bottom-rect.top;
-	if (g_proc_UpdateLayeredWindow && g_CluiData.fLayered)
+	if (g_CluiData.fLayered)
 	{
 		if ( !(GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE)&WS_EX_LAYERED))
 			SetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) |WS_EX_LAYERED);
 		Sync( SetAlpha, g_CluiData.bCurrentAlpha );
 
-		res = g_proc_UpdateLayeredWindow(pcli->hwndContactList,g_pCachedWindow->hScreenDC,&dest,&sz,g_pCachedWindow->hImageDC,&src,RGB(1,1,1),&bf,ULW_ALPHA);
+		res = UpdateLayeredWindow(pcli->hwndContactList,g_pCachedWindow->hScreenDC,&dest,&sz,g_pCachedWindow->hImageDC,&src,RGB(1,1,1),&bf,ULW_ALPHA);
 		g_CluiData.fAeroGlass = false;
 		CLUI_UpdateAeroGlass();
 	}

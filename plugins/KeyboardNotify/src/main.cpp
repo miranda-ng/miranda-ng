@@ -68,9 +68,6 @@ BYTE bEmulateKeypresses = 0;
 DWORD dwLastInput = 0;
 POINT lastGlobalMousePos = {0, 0};
 
-static BOOL (WINAPI * MyGetLastInputInfo)(PLASTINPUTINFO);
-
-
 BYTE bFlashOnMsg;
 BYTE bFlashOnURL;
 BYTE bFlashOnFile;
@@ -103,9 +100,6 @@ BYTE bTrillianLedsOther;
 
 PROTOCOL_LIST ProtoList = {0, NULL};
 PROCESS_LIST ProcessList = {0, NULL};
-
-double dWinVer;
-BOOL bWindowsNT;
 
 int nWaitDelay;
 unsigned int nExternCount = 0;
@@ -178,24 +172,9 @@ BOOL checkOpenWindow(HANDLE hContact)
 	return FALSE;
 }
 
-
-BOOL IsSaverOnNT4()
-{
-	HDESK hd = OpenDesktop(_T("screen-saver"), 0, FALSE, MAXIMUM_ALLOWED);
-
-	if(hd == NULL)
-		return GetLastError()==ERROR_ACCESS_DENIED;
-
-	CloseDesktop(hd);
-	return TRUE;
-}
-
-
 BOOL isScreenSaverRunning()
 {
 	BOOL screenSaverIsRunning=FALSE;
-
-	if (bWindowsNT && dWinVer < 5) return IsSaverOnNT4();
 
 	SystemParametersInfo(SPI_GETSCREENSAVERRUNNING, 0, &screenSaverIsRunning, FALSE);
 	return screenSaverIsRunning;
@@ -207,8 +186,6 @@ BOOL isWorkstationLocked()
 {
 	HDESK hd;
 	char buf[MAX_PATH];
-
-	if (!bWindowsNT) return FALSE;
 
 	hd = OpenInputDesktop(0, FALSE, MAXIMUM_ALLOWED); /* if it fails then the workstation is prolly locked anyway */
 	if (hd == NULL) return TRUE;
@@ -410,11 +387,11 @@ static void FlashThreadFunction()
 			if ((bFlashUntil & UNTIL_NBLINKS) && GetTickCount() > (dwFlashStarted + wBlinksNumber * 1000))
 				break;
 			if (bFlashUntil & UNTIL_REATTENDED) {
-				if (bMirandaOrWindows == ACTIVE_WINDOWS && MyGetLastInputInfo && !bEmulateKeypresses) {
+				if (bMirandaOrWindows == ACTIVE_WINDOWS && !bEmulateKeypresses) {
 					LASTINPUTINFO lii;
 					ZeroMemory(&lii, sizeof(lii));
 					lii.cbSize = sizeof(lii);
-					MyGetLastInputInfo(&lii);
+					GetLastInputInfo(&lii);
 					dwLastInput = lii.dwTime;
 				}
 				if (dwLastInput > dwEventStarted)
@@ -706,7 +683,7 @@ void LoadSettings(void)
 	bFlashOnOther = db_get_b(NULL, KEYBDMODULE, "onother", DEF_SETTING_OTHER);
 	bFullScreenMode = db_get_b(NULL, KEYBDMODULE, "fscreenmode", DEF_SETTING_FSCREEN);
 	bScreenSaverRunning = db_get_b(NULL, KEYBDMODULE, "ssaverrunning", DEF_SETTING_SSAVER);
-	bWorkstationLocked = (bWindowsNT ? db_get_b(NULL, KEYBDMODULE, "wstationlocked", DEF_SETTING_LOCKED):0);
+	bWorkstationLocked = db_get_b(NULL, KEYBDMODULE, "wstationlocked", DEF_SETTING_LOCKED);
 	bProcessesAreRunning = db_get_b(NULL, KEYBDMODULE, "procsrunning", DEF_SETTING_PROCS);
 	bWorkstationActive = db_get_b(NULL, KEYBDMODULE, "wstationactive", DEF_SETTING_ACTIVE);
 	bFlashIfMsgOpen = db_get_b(NULL, KEYBDMODULE, "ifmsgopen", DEF_SETTING_IFMSGOPEN);
@@ -776,8 +753,6 @@ void GetWindowsVersion(void)
 		if (!GetVersionEx((OSVERSIONINFO *)&osvi))
 			osvi.dwPlatformId = VER_PLATFORM_WIN32_WINDOWS;
 	}
-	bWindowsNT = osvi.dwPlatformId==VER_PLATFORM_WIN32_NT;
-	dWinVer = osvi.dwMajorVersion + osvi.dwMinorVersion / 10.0;
 }
 
 
@@ -868,12 +843,6 @@ void createEventPrefix(TCHAR *prefixName, size_t maxLen)
 static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR eventPrefix[MAX_PATH+1], eventName[MAX_PATH+1];
-
-	LoadProcsLibrary();
-	if (bWindowsNT && dWinVer >= 5)
-		MyGetLastInputInfo = (BOOL (WINAPI *)(PLASTINPUTINFO)) GetProcAddress(GetModuleHandle(_T("user32")), "GetLastInputInfo");
-	else
-		MyGetLastInputInfo = NULL;
 
 	createProtocolList();
 	LoadSettings();
@@ -972,7 +941,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 	RestoreLEDState();
 	CloseKeyboardDevice();
 
-	UnloadProcsLibrary();
 	destroyProcessList();
 	destroyProtocolList();
 
@@ -989,7 +957,7 @@ int HookWindowsHooks()
 	if (bFlashUntil & UNTIL_REATTENDED)
 		switch (bMirandaOrWindows) {
 			case ACTIVE_WINDOWS:
-				if (!MyGetLastInputInfo || bEmulateKeypresses) {
+				if (bEmulateKeypresses) {
 					if (hMouseHook == NULL)
 						hMouseHook = SetWindowsHookEx(WH_MOUSE, MouseHookFunction, 0, GetCurrentThreadId());
 					if (hKeyBoardHook == NULL)

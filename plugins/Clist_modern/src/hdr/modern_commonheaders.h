@@ -199,19 +199,6 @@ extern BOOL ske_ResetTextEffect(HDC hdc);
 extern BOOL ske_SelectTextEffect(HDC hdc, BYTE EffectID, DWORD FirstColor, DWORD SecondColor);
 extern void IvalidateDisplayNameCache(DWORD mode);
 
-typedef BOOL (WINAPI *pfnTryEnterCriticalSection)( LPCRITICAL_SECTION );
-extern pfnTryEnterCriticalSection fnTryEnterCriticalSection;
-
-typedef BOOL (WINAPI *pfnGetScrollBarInfo)( HWND, LONG, PSCROLLBARINFO );
-extern pfnGetScrollBarInfo fnGetScrollBarInfo;
-
-typedef HWND (WINAPI *pfnGetAncestor)( HWND, UINT );
-extern pfnGetAncestor fnGetAncestor;
-HWND WINAPI MyGetAncestor( HWND, UINT );
-
-typedef BOOL (WINAPI *pfnGetMenuBarInfo)( HWND, LONG, LONG, PMENUBARINFO );
-extern pfnGetMenuBarInfo fnGetMenuBarInfo;
-
 extern SortedList *clistCache;
 
 HICON LoadSmallIcon(HINSTANCE hInstance, int idx);

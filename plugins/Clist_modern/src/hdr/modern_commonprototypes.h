@@ -315,10 +315,6 @@ ClcContact*    cliCreateClcContact( void );
 ClcCacheEntry* cliCreateCacheItem(HANDLE hContact);
 ClcCacheEntry* cliGetCacheEntry(HANDLE hContact);
 
-// FUNCTION POINTERS
-extern BOOL (WINAPI *g_proc_UpdateLayeredWindow)(HWND,HDC,POINT*,SIZE*,HDC,POINT*,COLORREF,BLENDFUNCTION*,DWORD);
-extern BOOL (WINAPI *g_proc_SetLayeredWindowAttributesNew)(HWND,COLORREF,BYTE,DWORD);
-
 #define WM_DWMCOMPOSITIONCHANGED  0x031E
 
 #define DWM_BB_ENABLE               0x00000001
@@ -334,7 +330,6 @@ struct DWM_BLURBEHIND
 extern HRESULT (WINAPI *g_proc_DWMEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind);
 
 extern tPaintCallbackProc CLCPaint_PaintCallbackProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN rgn, DWORD dFlags, void * CallBackData);
-extern BOOL (WINAPI *MySetProcessWorkingSetSize)(HANDLE,SIZE_T,SIZE_T);
 
 /* SkinEngine.c */
 

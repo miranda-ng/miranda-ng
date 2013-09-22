@@ -104,15 +104,3 @@ typedef struct _IMAGEHLP_MODULEW64_V2 {
 #ifdef DBGHELP_TRANSLATE_TCHAR
 #define IMAGEHLP_MODULE64_V2 IMAGEHLP_MODULEW64_V2
 #endif
-
-typedef void (WINAPI *tGetNativeSystemInfo)(LPSYSTEM_INFO);
-typedef BOOL (WINAPI *tGetProductInfo)(DWORD, DWORD, DWORD, DWORD, PDWORD);
-typedef BOOL (WINAPI *tGlobalMemoryStatusEx)(LPMEMORYSTATUSEX lpBuffer);
-typedef BOOL (WINAPI *tGetDiskFreeSpaceEx)(LPCTSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULARGE_INTEGER);
-typedef LANGID (WINAPI *tGetUserDefaultUILanguage)(void);
-typedef LANGID (WINAPI *tGetSystemDefaultUILanguage)(void);
-typedef BOOL (WINAPI *tIsWow64Process)(HANDLE, PBOOL);
-typedef PVOID (WINAPI *tAddVectoredExceptionHandler)(ULONG FirstHandler, PVECTORED_EXCEPTION_HANDLER VectoredHandler);
-typedef ULONG (WINAPI *tRemoveVectoredExceptionHandler)(PVOID Handler);
-typedef BOOL (WINAPI *tIsProcessorFeaturePresent)(DWORD ProcessorFeature);
-typedef VOID (WINAPI *tRtlCaptureContext)(PCONTEXT ContextRecord);

@@ -145,28 +145,25 @@ int SetAlpha(BYTE Alpha)
 		if ( !g_pfwFrames[i].floating && g_pfwFrames[i].OwnerWindow != NULL  && g_pfwFrames[i].OwnerWindow != (HWND)-2 && g_pfwFrames[i].visible && !g_pfwFrames[i].needhide )
 		{
 			HWND hwnd = g_pfwFrames[i].OwnerWindow;
-			if (g_proc_SetLayeredWindowAttributesNew)
+			long l;
+			l = GetWindowLongPtr(hwnd,GWL_EXSTYLE);
+			if ( !(l&WS_EX_LAYERED))
 			{
-				long l;
-				l = GetWindowLongPtr(hwnd,GWL_EXSTYLE);
-				if ( !(l&WS_EX_LAYERED))
+				HWND parent = NULL;
+				if (g_CluiData.fOnDesktop)
 				{
-					HWND parent = NULL;
-					if (g_CluiData.fOnDesktop)
-					{
-						HWND hProgMan = FindWindow(_T("Progman"),NULL);
-						if (IsWindow(hProgMan))
-							parent = hProgMan;
-					}
-
-					CLUI_ShowWindowMod(hwnd,SW_HIDE);
-					SetParent(hwnd,NULL);
-					SetWindowLongPtr(hwnd,GWL_EXSTYLE,l|WS_EX_LAYERED);
-					SetParent(hwnd,parent);
-					if (l&WS_VISIBLE)  CLUI_ShowWindowMod(hwnd,SW_SHOW);
+					HWND hProgMan = FindWindow(_T("Progman"),NULL);
+					if (IsWindow(hProgMan))
+						parent = hProgMan;
 				}
-				g_proc_SetLayeredWindowAttributesNew(hwnd, g_CluiData.dwKeyColor,Alpha, LWA_ALPHA|LWA_COLORKEY);
+
+				CLUI_ShowWindowMod(hwnd,SW_HIDE);
+				SetParent(hwnd,NULL);
+				SetWindowLongPtr(hwnd,GWL_EXSTYLE,l|WS_EX_LAYERED);
+				SetParent(hwnd,parent);
+				if (l&WS_VISIBLE)  CLUI_ShowWindowMod(hwnd,SW_SHOW);
 			}
+			SetLayeredWindowAttributes(hwnd, g_CluiData.dwKeyColor,Alpha, LWA_ALPHA|LWA_COLORKEY);
 		}
 	}
 	AniAva_RedrawAllAvatars(FALSE);
@@ -3520,7 +3517,7 @@ static LRESULT CALLBACK CLUIFrameSubContainerProc(HWND hwnd, UINT msg, WPARAM wP
 static HWND CreateSubContainerWindow(HWND parent,int x,int y,int width,int height)
 {
 	HWND hwnd;
-	hwnd = CreateWindowEx(g_proc_SetLayeredWindowAttributesNew ? WS_EX_LAYERED:0, CLUIFrameSubContainerClassName,_T("SubContainerWindow"),WS_POPUP|(!g_CluiData.fLayered ? WS_BORDER : 0),x,y,width,height,parent, 0, g_hInst,0);
+	hwnd = CreateWindowEx(WS_EX_LAYERED, CLUIFrameSubContainerClassName,_T("SubContainerWindow"),WS_POPUP|(!g_CluiData.fLayered ? WS_BORDER : 0),x,y,width,height,parent, 0, g_hInst,0);
 	SetWindowLongPtr(hwnd,GWL_STYLE,GetWindowLongPtr(hwnd,GWL_STYLE)&~(WS_CAPTION|WS_BORDER));
 	if (g_CluiData.fOnDesktop)
 	{

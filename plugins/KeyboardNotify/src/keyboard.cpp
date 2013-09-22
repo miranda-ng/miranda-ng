@@ -19,7 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Common.h"
 
 // Globals
-extern BOOL bWindowsNT;
 extern BYTE bEmulateKeypresses;
 HANDLE hKbdDev[10] = {INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE};
 
@@ -51,9 +50,6 @@ BOOL OpenKeyboardDevice()
 	int i = 0;
 	TCHAR aux1[MAX_PATH+1], aux2[MAX_PATH+1];
 
-	if (!bWindowsNT)
-		return TRUE;
-
 	do {
 		mir_sntprintf(aux1, SIZEOF(aux1), _T("Kbd%d"), i);
 		mir_sntprintf(aux2, SIZEOF(aux2), _T("\\Device\\KeyboardClass%d"), i);
@@ -77,13 +73,6 @@ BOOL ToggleKeyboardLights(BYTE byte)
 	if (bEmulateKeypresses)
 		return keypresses_ToggleKeyboardLights(byte);
 	
-	if (!bWindowsNT) {
-		outportb(0x60, 0xED);
-		Sleep(10);
-		outportb(0x60, byte);
-		return TRUE;
-	}
-
 	InputBuffer.UnitId = 0;
 	InputBuffer.LedFlags = byte;
 
@@ -97,9 +86,6 @@ void CloseKeyboardDevice()
 {
 	int i = 0;
 	TCHAR aux[MAX_PATH+1];
-
-	if (!bWindowsNT)
-		return;
 
 	do {
 		if (hKbdDev[i] != INVALID_HANDLE_VALUE)

@@ -113,22 +113,18 @@ static BOOL IsShutdownTypeEnabled(BYTE shutdownType)
 			}
 			break;
 		case SDSDT_LOCKWORKSTATION:
-			{	void (WINAPI *pfnLockWorkStation)(void);
-				*(PROC*)&pfnLockWorkStation=GetProcAddress(GetModuleHandleA("USER32"),"LockWorkStation");
-				if(pfnLockWorkStation) {
-					HKEY hKey;
-					DWORD dwSize,dwSetting;
-					/* DisableLockWorkstation is DWORD on Win2000+ */
-					bReturn=TRUE;
-					if(RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System"),0,KEY_QUERY_VALUE,&hKey)==ERROR_SUCCESS) {
-						dwSize=sizeof(dwSetting);
-						if(!RegQueryValueEx(hKey, _T("DisableLockWorkstation"), 0, NULL, (LPBYTE)&dwSetting, &dwSize))
-							if(dwSetting) bReturn=FALSE;
-						RegCloseKey(hKey);
-					}
+			{
+				HKEY hKey;
+				DWORD dwSize,dwSetting;
+				/* DisableLockWorkstation is DWORD on Win2000+ */
+				bReturn=TRUE;
+				if(RegOpenKeyEx(HKEY_CURRENT_USER,_T("Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System"),0,KEY_QUERY_VALUE,&hKey)==ERROR_SUCCESS) {
+					dwSize=sizeof(dwSetting);
+					if(!RegQueryValueEx(hKey, _T("DisableLockWorkstation"), 0, NULL, (LPBYTE)&dwSetting, &dwSize))
+						if(dwSetting)
+							bReturn=FALSE;
+					RegCloseKey(hKey);
 				}
-				else
-					bReturn=SearchPath(NULL,_T("LOGIN.SCR"),NULL,0,NULL,NULL)!=0;
 			}
 			break;
 		case SDSDT_CLOSERASCONNECTIONS:
@@ -185,42 +181,9 @@ static DWORD ShutdownNow(BYTE shutdownType)
 			WinNT_SetPrivilege(SE_SHUTDOWN_NAME,FALSE);
 			break;
 		case SDSDT_LOCKWORKSTATION:
-			{	BOOL (WINAPI *pfnLockWorkStation)(void);
-				*(PROC*)&pfnLockWorkStation=GetProcAddress(GetModuleHandleA("USER32"),"LockWorkStation");
-				if(pfnLockWorkStation!=NULL) /* Win2000+ */
-					if(!pfnLockWorkStation() && !WinNT_IsWorkStationLocked())
-						dwErrCode=GetLastError();
-				else {
-					HKEY hKey;
-					/* start LOGON.SCR screensaver (locks workstation on NT4) */
-					if(!SearchPath(NULL,_T("LOGIN.SCR"),NULL,0,NULL,NULL)) {
-						if(RegCreateKeyEx(HKEY_CURRENT_USER,_T("Control Panel\\Desktop"),0,NULL,REG_OPTION_VOLATILE,KEY_QUERY_VALUE|KEY_SET_VALUE,NULL,&hKey,NULL)==ERROR_SUCCESS) {
-							TCHAR szScreenSaveActive[2],szScreenSaverIsSecure[2],szScrnsaveExe[MAX_PATH];
-							DWORD dwSize;
-							/* save old settings */
-							dwSize=sizeof(szScreenSaveActive); /* in bytes */
-							ZeroMemory(&szScreenSaveActive,dwSize);
-							RegQueryValueEx(hKey, _T("ScreenSaveActive"), 0, NULL, (LPBYTE)szScreenSaveActive, &dwSize);
-							dwSize=sizeof(szScreenSaverIsSecure); /* in bytes */
-							ZeroMemory(&szScreenSaverIsSecure, dwSize);
-							RegQueryValueEx(hKey, _T("ScreenSaverIsSecure"), 0, NULL, (LPBYTE)szScreenSaverIsSecure, &dwSize);
-							dwSize=sizeof(szScrnsaveExe); /* in bytes */
-							ZeroMemory(&szScrnsaveExe, dwSize);
-							RegQueryValueEx(hKey, _T("SCRNSAVE.EXE"), 0, NULL, (LPBYTE)szScrnsaveExe, &dwSize);
-							/* set LOGON.SCR data */
-							if(!RegSetValueEx(hKey, _T("ScreenSaveActive"), 0, REG_SZ, (LPBYTE)_T("1"), 2) &&
-							   !RegSetValueEx(hKey, _T("ScreenSaverIsSecure"), 0, REG_SZ, (LPBYTE)"1", 2) &&
-							   !RegSetValueEx(hKey, _T("SCRNSAVE.EXE"), 0, REG_SZ, (LPBYTE)_T("LOGIN.SCR"), 10))
-									SendMessage(GetForegroundWindow(), WM_SYSCOMMAND, SC_SCREENSAVE, 0);
-							else dwErrCode=GetLastError();
-							/* restore old settings */
-							RegSetValueEx(hKey, _T("ScreenSaveActive"), 0, REG_SZ, (BYTE*)szScreenSaveActive, (lstrlen(szScreenSaveActive)+1)*sizeof(TCHAR));
-							RegSetValueEx(hKey, _T("ScreenSaverIsSecure"), 0, REG_SZ, (BYTE*)szScreenSaverIsSecure, (lstrlen(szScreenSaverIsSecure)+1)*sizeof(TCHAR));
-							RegSetValueEx(hKey, _T("SCRNSAVE.EXE"), 0, REG_SZ, (BYTE*)szScrnsaveExe, (lstrlen(szScrnsaveExe)+1)*sizeof(TCHAR));
-							RegCloseKey(hKey);
-						} else dwErrCode=GetLastError();
-					} else dwErrCode=GetLastError();
-				} else dwErrCode=GetLastError();
+			{
+				if(!WinNT_IsWorkStationLocked())
+					dwErrCode=GetLastError();
 			}
 			break;
 		case SDSDT_CLOSERASCONNECTIONS:
@@ -298,29 +261,21 @@ static DWORD ShutdownNow(BYTE shutdownType)
 				break;
 			}
 			/* WinNT4/2000/XP */
-			{	BOOL (WINAPI *pfnInitiateSystemShutdownEx)(const TCHAR*,const TCHAR*,DWORD,BOOL,BOOL,DWORD);
-				BOOL (WINAPI *pfnInitiateSystemShutdown)(const TCHAR*,const TCHAR*,DWORD,BOOL,BOOL);
-				*(PROC*)&pfnInitiateSystemShutdownEx=GetProcAddress(GetModuleHandleA("ADVAPI32"),"InitiateSystemShutdownExW");
-				*(PROC*)&pfnInitiateSystemShutdown=GetProcAddress(GetModuleHandleA("ADVAPI32"),"InitiateSystemShutdownW");
-				if(pfnInitiateSystemShutdownEx!=NULL || pfnInitiateSystemShutdown!=NULL) {
-					WinNT_SetPrivilege(SE_SHUTDOWN_NAME,TRUE);
+			{
+				WinNT_SetPrivilege(SE_SHUTDOWN_NAME,TRUE);
 
-					/* does not send out WM_ENDSESSION messages, so we do it manually to
-					 * give the applications the chance to save their data */
-					WinNT_SetPrivilege(SE_TCB_NAME,TRUE); /* for BSM_ALLDESKTOPS */
-					BroadcastEndSession(BSM_APPLICATIONS|BSM_ALLDESKTOPS,ENDSESSION_CLOSEAPP); /* app should close itself */
-					WinNT_SetPrivilege(SE_TCB_NAME,FALSE);
+				/* does not send out WM_ENDSESSION messages, so we do it manually to
+					* give the applications the chance to save their data */
+				WinNT_SetPrivilege(SE_TCB_NAME,TRUE); /* for BSM_ALLDESKTOPS */
+				BroadcastEndSession(BSM_APPLICATIONS|BSM_ALLDESKTOPS,ENDSESSION_CLOSEAPP); /* app should close itself */
+				WinNT_SetPrivilege(SE_TCB_NAME,FALSE);
 
-					if(pfnInitiateSystemShutdownEx!=NULL) {
-						if(!pfnInitiateSystemShutdownEx(NULL,TranslateT("AutoShutdown"),0,TRUE,shutdownType==SDSDT_REBOOT,SHTDN_REASON_MAJOR_OTHER|SHTDN_REASON_MINOR_OTHER|SHTDN_REASON_FLAG_PLANNED))
-							dwErrCode=GetLastError();
-					} else if(!pfnInitiateSystemShutdown(NULL,TranslateT("AutoShutdown"),0,TRUE,shutdownType==SDSDT_REBOOT))
-						dwErrCode=GetLastError();
+				if(!InitiateSystemShutdownEx(NULL,TranslateT("AutoShutdown"),0,TRUE,shutdownType==SDSDT_REBOOT,SHTDN_REASON_MAJOR_OTHER|SHTDN_REASON_MINOR_OTHER|SHTDN_REASON_FLAG_PLANNED))
+					dwErrCode=GetLastError();
 
-					/* cleanly close Miranda */
-					if(!dwErrCode) ShutdownNow(SDSDT_CLOSEMIRANDA);
-					break;
-				}
+				/* cleanly close Miranda */
+				if(!dwErrCode) ShutdownNow(SDSDT_CLOSEMIRANDA);
+				break;
 			}
 			/* fall through for Win9x */
 		case SDSDT_LOGOFF:
@@ -364,7 +319,6 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 {
 	BYTE shutdownType=(BYTE)GetWindowLongPtr(hwndDlg, DWLP_USER);
 	WORD countdown=(WORD)GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TEXT_HEADER), GWLP_USERDATA);
-	static BOOL (WINAPI *pfnLockSetForegroundWindow)(UINT);
 
 	switch(msg) {
 		case WM_INITDIALOG:
@@ -396,9 +350,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 
 			/* disallow foreground window changes (WinMe/2000+) */
 			SetForegroundWindow(hwndDlg);
-			*(PROC*)&pfnLockSetForegroundWindow=GetProcAddress(GetModuleHandleA("USER32"),"LockSetForegroundWindow");
-			if(pfnLockSetForegroundWindow!=NULL)
-				pfnLockSetForegroundWindow(LSFW_LOCK);
+			LockSetForegroundWindow(LSFW_LOCK);
 
 			SendMessage(hwndDlg,WM_NEXTDLGCTL,(WPARAM)GetDlgItem(hwndDlg,IDCANCEL),TRUE);
 			return FALSE; /* focus set on cancel */
@@ -407,7 +359,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			hwndShutdownDlg=NULL;
 			ShowWindow(hwndDlg,SW_HIDE);
 			/* reallow foreground window changes (WinMe/2000+) */
-			if(pfnLockSetForegroundWindow) pfnLockSetForegroundWindow(LSFW_UNLOCK);
+			LockSetForegroundWindow(LSFW_UNLOCK);
 			Utils_SaveWindowPosition(hwndDlg,NULL,"AutoShutdown","ConfirmDlg_");
 			HICON hIcon=(HICON)SendDlgItemMessage(hwndDlg,IDC_ICON_HEADER,STM_SETIMAGE,IMAGE_ICON,0);
 			HFONT hFont=(HFONT)SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_GETFONT,0,0);

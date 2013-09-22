@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <assert.h>
 #include <math.h>
+#include <Shlwapi.h>
 
 #include <newpluginapi.h>
 #include <m_system_cpp.h>
