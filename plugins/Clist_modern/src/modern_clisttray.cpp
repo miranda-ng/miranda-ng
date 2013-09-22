@@ -323,7 +323,7 @@ void DestroyTrayMenu(HMENU hMenu)
 	int cnt = GetMenuItemCount(hMenu);
 	for (int i=0; i < cnt; ++i) {
 		HMENU hSubMenu = GetSubMenu(hMenu, i);
-		if (hSubMenu == hStatusMenu || hSubMenu == hMainMenu)
+		if (hSubMenu && hSubMenu == hStatusMenu || hSubMenu == hMainMenu)
 			RemoveMenu(hMenu, i--, MF_BYPOSITION);
 	}
 	DestroyMenu(hMenu);
@@ -604,12 +604,6 @@ void UninitTrayMenu()
 	if (hTrayMenuObject && ServiceExists(MO_REMOVEMENUOBJECT))
 		CallService(MO_REMOVEMENUOBJECT,(WPARAM)hTrayMenuObject,0);
 	hTrayMenuObject = NULL;
-}
-
-void InitTray(void)
-{
-	InitTrayMenus();
-	return;
 }
 
 //////////////////////////////END TRAY MENU/////////////////////////

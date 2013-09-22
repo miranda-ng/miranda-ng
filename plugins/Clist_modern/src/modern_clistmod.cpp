@@ -180,6 +180,10 @@ HRESULT  CluiLoadModule()
 	CreateServiceFunction(MS_CLIST_TOGGLESOUNDS,ToggleSounds);
 	CreateServiceFunction(MS_CLIST_SETUSEGROUPS,SetUseGroups);
 
+	hCListImages = ImageList_Create(16, 16, ILC_MASK|ILC_COLOR32, 32, 0);
+	InitCustomMenus();
+	InitTrayMenus();
+	
 	CLUI::InitClui();
 	return S_OK;
 }
