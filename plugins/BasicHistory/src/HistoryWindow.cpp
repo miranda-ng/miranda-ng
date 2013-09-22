@@ -2160,8 +2160,8 @@ void HistoryWindow::DoImport(IImport::ImportType type)
 	std::wstring err;
 	std::vector<HANDLE> contacts;
 
-	for(hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-		contacts.push_back(hContact);
+	for(HANDLE _hContact = db_find_first(); _hContact != NULL; _hContact = db_find_next(_hContact))
+		contacts.push_back(_hContact);
 
 	bool changeContact = false;
 	HANDLE lastContact = hContact;
