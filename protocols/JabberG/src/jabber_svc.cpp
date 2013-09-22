@@ -43,7 +43,7 @@ INT_PTR __cdecl CJabberProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 	TCHAR *szStatus = NULL;
 	INT_PTR nRetVal = 0;
 
-	EnterCriticalSection(&m_csModeMsgMutex);
+	mir_cslock lck(m_csModeMsgMutex);
 	switch (wParam ? (int)wParam : m_iStatus) {
 	case ID_STATUS_ONLINE:
 		szStatus = m_modeMsgs.szOnline;
@@ -63,13 +63,11 @@ INT_PTR __cdecl CJabberProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 	case ID_STATUS_FREECHAT:
 		szStatus = m_modeMsgs.szFreechat;
 		break;
-	default:
-		// Should not reach here
+	default: // Should not reach here
 		break;
 	}
 	if (szStatus)
 		nRetVal = (lParam & SGMA_UNICODE) ? (INT_PTR)mir_t2u(szStatus) : (INT_PTR)mir_t2a(szStatus);
-	LeaveCriticalSection(&m_csModeMsgMutex);
 
 	return nRetVal;
 }

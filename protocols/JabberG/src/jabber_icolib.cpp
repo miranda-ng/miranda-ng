@@ -321,7 +321,7 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 	if ( !hAdvancedStatusIcon)
 		hAdvancedStatusIcon=(HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST,0,0);
 
-	EnterCriticalSection(&m_csModeMsgMutex);
+	mir_cslock lck(m_csModeMsgMutex);
 	for (int i=0; i < ID_STATUS_ONTHEPHONE-ID_STATUS_OFFLINE; i++) {
 		BOOL needFree;
 		int n = skinStatusToJabberStatus[i];
@@ -330,13 +330,14 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 		HICON hicon = LoadTransportIcon(defFile,-skinIconStatusToResourceId[i],Uname,Group,descr,-(n+ID_STATUS_OFFLINE),&needFree);
 		int index = (m_transportProtoTableStartIndex[iID] == -1)?-1:m_transportProtoTableStartIndex[iID]+n;
 		int added = ImageList_ReplaceIcon(hAdvancedStatusIcon,index,hicon?hicon:empty);
-		if (first == -1) first = added;
-		if (hicon && needFree) DestroyIcon(hicon);
+		if (first == -1)
+			first = added;
+		if (hicon && needFree)
+			DestroyIcon(hicon);
 	}
 
 	if (m_transportProtoTableStartIndex[iID] == -1)
 		m_transportProtoTableStartIndex[iID] = first;
-	LeaveCriticalSection(&m_csModeMsgMutex);
 	return 0;
 }
 
@@ -405,8 +406,7 @@ INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM wParam, LPARAM)
 	int iID = GetTransportProtoID(dbv.ptszVal);
 	db_free(&dbv);
 	if (iID >= 0) {
-		WORD Status = ID_STATUS_OFFLINE;
-		Status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+		WORD Status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 		if (Status < ID_STATUS_OFFLINE)
 			Status = ID_STATUS_OFFLINE;
 		else if (Status > ID_STATUS_INVISIBLE)
@@ -438,18 +438,17 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const TCHAR *jid, HANDLE hContact
 	if (resourcepos != NULL)
 		*resourcepos = '\0';
 
-	for (int i=0; i < SIZEOF(TransportProtoTable); i++) {
+	for (int i=0; i < SIZEOF(TransportProtoTable); i++)
 		if (MatchMask(domain, TransportProtoTable[i].mask)) {
 			GetTransportStatusIconIndex(GetTransportProtoID(domain), ID_STATUS_OFFLINE);
 			isTransported = TRUE;
 			break;
-	}	}
+		}
 
-	if (m_lstTransports.getIndex(domain) == -1) {
-		if (isAgent) {
-			m_lstTransports.insert(mir_tstrdup(domain));
-			setByte(hContact, "IsTransport", 1);
-	}	}
+	if (m_lstTransports.getIndex(domain) == -1 && isAgent) {
+		m_lstTransports.insert( mir_tstrdup(domain));
+		setByte(hContact, "IsTransport", 1);
+	}
 
 	if (isTransported) {
 		setTString(hContact, "Transport", domain);
@@ -461,11 +460,9 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const TCHAR *jid, HANDLE hContact
 void CJabberProto::CheckAllContactsAreTransported()
 {
 	for (HANDLE hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		DBVARIANT dbv;
-		if ( !getTString(hContact, "jid", &dbv)) {
-			DBCheckIsTransportedContact(dbv.ptszVal, hContact);
-			db_free(&dbv);
-		}
+		ptrT jid( getTStringA(hContact, "jid"));
+		if (jid)
+			DBCheckIsTransportedContact(jid, hContact);
 	}
 }
 
@@ -474,62 +471,62 @@ void CJabberProto::CheckAllContactsAreTransported()
 
 static IconItem sharedIconList1[] =
 {
-	{   LPGEN("Privacy Lists"),         "privacylists",     IDI_PRIVACY_LISTS      },
-	{   LPGEN("Bookmarks"),             "bookmarks",        IDI_BOOKMARKS          },
-	{   LPGEN("Notes"),                 "notes",            IDI_NOTES              },
-	{   LPGEN("Multi-User Conference"), "group",            IDI_GROUP              },
-	{   LPGEN("Agents list"),           "Agents",           IDI_AGENTS             },
-	{   LPGEN("Transports"),            "transport",        IDI_TRANSPORT          },
-	{   LPGEN("Registered transports"), "transport_loc",    IDI_TRANSPORTL         },
-	{   LPGEN("Change password"),       "key",              IDI_KEYS               },
-	{   LPGEN("Personal vCard"),        "vcard",            IDI_VCARD              },
-	{   LPGEN("Convert to room"),       "convert",          IDI_USER2ROOM          },
-	{   LPGEN("Login/logout"),          "trlogonoff",       IDI_LOGIN              },
-	{   LPGEN("Resolve nicks"),         "trresolve",        IDI_REFRESH            },
-	{   LPGEN("Send note"),             "sendnote",         IDI_SEND_NOTE,         },
-	{   LPGEN("Service Discovery"),     "servicediscovery", IDI_SERVICE_DISCOVERY  },
-	{   LPGEN("AdHoc Command"),         "adhoc",            IDI_COMMAND            },
-	{   LPGEN("XML Console"),           "xmlconsole",       IDI_CONSOLE            },
-	{   LPGEN("OpenID Request"),        "openid",           IDI_HTTP_AUTH          }
+	{ LPGEN("Privacy Lists"),         "privacylists",     IDI_PRIVACY_LISTS      },
+	{ LPGEN("Bookmarks"),             "bookmarks",        IDI_BOOKMARKS          },
+	{ LPGEN("Notes"),                 "notes",            IDI_NOTES              },
+	{ LPGEN("Multi-User Conference"), "group",            IDI_GROUP              },
+	{ LPGEN("Agents list"),           "Agents",           IDI_AGENTS             },
+	{ LPGEN("Transports"),            "transport",        IDI_TRANSPORT          },
+	{ LPGEN("Registered transports"), "transport_loc",    IDI_TRANSPORTL         },
+	{ LPGEN("Change password"),       "key",              IDI_KEYS               },
+	{ LPGEN("Personal vCard"),        "vcard",            IDI_VCARD              },
+	{ LPGEN("Convert to room"),       "convert",          IDI_USER2ROOM          },
+	{ LPGEN("Login/logout"),          "trlogonoff",       IDI_LOGIN              },
+	{ LPGEN("Resolve nicks"),         "trresolve",        IDI_REFRESH            },
+	{ LPGEN("Send note"),             "sendnote",         IDI_SEND_NOTE,         },
+	{ LPGEN("Service Discovery"),     "servicediscovery", IDI_SERVICE_DISCOVERY  },
+	{ LPGEN("AdHoc Command"),         "adhoc",            IDI_COMMAND            },
+	{ LPGEN("XML Console"),           "xmlconsole",       IDI_CONSOLE            },
+	{ LPGEN("OpenID Request"),        "openid",           IDI_HTTP_AUTH          }
 };
 
 static IconItem sharedIconList2[] =
 {
-	{   LPGEN("Discovery succeeded"),   "disco_ok",         IDI_DISCO_OK           },
-	{   LPGEN("Discovery failed"),      "disco_fail",       IDI_DISCO_FAIL         },
-	{   LPGEN("Discovery in progress"), "disco_progress",   IDI_DISCO_PROGRESS     },
-	{   LPGEN("View as tree"),          "sd_view_tree",     IDI_VIEW_TREE          },
-	{   LPGEN("View as list"),          "sd_view_list",     IDI_VIEW_LIST          },
-	{   LPGEN("Apply filter"),          "sd_filter_apply",  IDI_FILTER_APPLY       },
-	{   LPGEN("Reset filter"),          "sd_filter_reset",  IDI_FILTER_RESET       }
+	{ LPGEN("Discovery succeeded"),   "disco_ok",         IDI_DISCO_OK           },
+	{ LPGEN("Discovery failed"),      "disco_fail",       IDI_DISCO_FAIL         },
+	{ LPGEN("Discovery in progress"), "disco_progress",   IDI_DISCO_PROGRESS     },
+	{ LPGEN("View as tree"),          "sd_view_tree",     IDI_VIEW_TREE          },
+	{ LPGEN("View as list"),          "sd_view_list",     IDI_VIEW_LIST          },
+	{ LPGEN("Apply filter"),          "sd_filter_apply",  IDI_FILTER_APPLY       },
+	{ LPGEN("Reset filter"),          "sd_filter_reset",  IDI_FILTER_RESET       }
 };
 
 static IconItem sharedIconList3[] =
 {
-	{   LPGEN("Navigate home"),         "sd_nav_home",      IDI_NAV_HOME           },
-	{   LPGEN("Refresh node"),          "sd_nav_refresh",   IDI_NAV_REFRESH        },
-	{   LPGEN("Browse node"),           "sd_browse",        IDI_BROWSE             },
-	{   LPGEN("RSS service"),           "node_rss",         IDI_NODE_RSS           },
-	{   LPGEN("Server"),                "node_server",      IDI_NODE_SERVER        },
-	{   LPGEN("Storage service"),       "node_store",       IDI_NODE_STORE         },
-	{   LPGEN("Weather service"),       "node_weather",     IDI_NODE_WEATHER       }
+	{ LPGEN("Navigate home"),         "sd_nav_home",      IDI_NAV_HOME           },
+	{ LPGEN("Refresh node"),          "sd_nav_refresh",   IDI_NAV_REFRESH        },
+	{ LPGEN("Browse node"),           "sd_browse",        IDI_BROWSE             },
+	{ LPGEN("RSS service"),           "node_rss",         IDI_NODE_RSS           },
+	{ LPGEN("Server"),                "node_server",      IDI_NODE_SERVER        },
+	{ LPGEN("Storage service"),       "node_store",       IDI_NODE_STORE         },
+	{ LPGEN("Weather service"),       "node_weather",     IDI_NODE_WEATHER       }
 };
 
 static IconItem sharedIconList4[] =
 {
-	{   LPGEN("Generic privacy list"),  "pl_list_any",      IDI_PL_LIST_ANY        },
-	{   LPGEN("Active privacy list"),   "pl_list_active",   IDI_PL_LIST_ACTIVE     },
-	{   LPGEN("Default privacy list"),  "pl_list_default",  IDI_PL_LIST_DEFAULT    },
-	{   LPGEN("Move up"),               "arrow_up",         IDI_ARROW_UP           },
-	{   LPGEN("Move down"),             "arrow_down",       IDI_ARROW_DOWN         },
-	{   LPGEN("Allow Messages"),        "pl_msg_allow",     IDI_PL_MSG_ALLOW       },
-	{   LPGEN("Allow Presences (in)"),  "pl_prin_allow",    IDI_PL_PRIN_ALLOW      },
-	{   LPGEN("Allow Presences (out)"), "pl_prout_allow",   IDI_PL_PROUT_ALLOW     },
-	{   LPGEN("Allow Queries"),         "pl_iq_allow",      IDI_PL_QUERY_ALLOW     },
-	{   LPGEN("Deny Messages"),         "pl_msg_deny",      IDI_PL_MSG_DENY        },
-	{   LPGEN("Deny Presences (in)"),   "pl_prin_deny",     IDI_PL_PRIN_DENY       },
-	{   LPGEN("Deny Presences (out)"),  "pl_prout_deny",    IDI_PL_PROUT_DENY      },
-	{   LPGEN("Deny Queries"),          "pl_iq_deny",       IDI_PL_QUERY_DENY      }
+	{ LPGEN("Generic privacy list"),  "pl_list_any",      IDI_PL_LIST_ANY        },
+	{ LPGEN("Active privacy list"),   "pl_list_active",   IDI_PL_LIST_ACTIVE     },
+	{ LPGEN("Default privacy list"),  "pl_list_default",  IDI_PL_LIST_DEFAULT    },
+	{ LPGEN("Move up"),               "arrow_up",         IDI_ARROW_UP           },
+	{ LPGEN("Move down"),             "arrow_down",       IDI_ARROW_DOWN         },
+	{ LPGEN("Allow Messages"),        "pl_msg_allow",     IDI_PL_MSG_ALLOW       },
+	{ LPGEN("Allow Presences (in)"),  "pl_prin_allow",    IDI_PL_PRIN_ALLOW      },
+	{ LPGEN("Allow Presences (out)"), "pl_prout_allow",   IDI_PL_PROUT_ALLOW     },
+	{ LPGEN("Allow Queries"),         "pl_iq_allow",      IDI_PL_QUERY_ALLOW     },
+	{ LPGEN("Deny Messages"),         "pl_msg_deny",      IDI_PL_MSG_DENY        },
+	{ LPGEN("Deny Presences (in)"),   "pl_prin_deny",     IDI_PL_PRIN_DENY       },
+	{ LPGEN("Deny Presences (out)"),  "pl_prout_deny",    IDI_PL_PROUT_DENY      },
+	{ LPGEN("Deny Queries"),          "pl_iq_deny",       IDI_PL_QUERY_DENY      }
 };
 
 void g_IconsInit()

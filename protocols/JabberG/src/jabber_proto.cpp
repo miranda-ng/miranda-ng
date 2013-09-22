@@ -714,7 +714,7 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 		if ((item = ListGetItemPtr(LIST_VCARD_TEMP, jid)) == NULL)
 			item = ListGetItemPtr(LIST_ROSTER, jid);
 
-		if ( !item) {
+		if (item == NULL) {
 			TCHAR szBareJid[JABBER_MAX_JID_LEN];
 			_tcsncpy(szBareJid, jid, SIZEOF(szBareJid));
 			TCHAR *pDelimiter = _tcschr(szBareJid, _T('/'));
@@ -735,34 +735,36 @@ int __cdecl CJabberProto::GetInfo(HANDLE hContact, int /*infoType*/)
 			else item = ListAdd(LIST_VCARD_TEMP, jid);
 		}
 
-		if (item && item->arResources.getCount()) {
-			for (int i = 0; i < item->arResources.getCount(); i++) {
-				pResourceStatus r(item->arResources[i]);
-				TCHAR szp1[JABBER_MAX_JID_LEN], tmp[JABBER_MAX_JID_LEN];
-				JabberStripJid(jid, szp1, SIZEOF(szp1));
-				mir_sntprintf(tmp, SIZEOF(tmp), _T("%s/%s"), szp1, r->m_tszResourceName);
+		if (item != NULL) {
+			if (item->arResources.getCount()) {
+				for (int i = 0; i < item->arResources.getCount(); i++) {
+					pResourceStatus r(item->arResources[i]);
+					TCHAR szp1[JABBER_MAX_JID_LEN], tmp[JABBER_MAX_JID_LEN];
+					JabberStripJid(jid, szp1, SIZEOF(szp1));
+					mir_sntprintf(tmp, SIZEOF(tmp), _T("%s/%s"), szp1, r->m_tszResourceName);
 
-				XmlNodeIq iq3(m_iqManager.AddHandler(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM));
-				iq3 << XQUERY(JABBER_FEAT_LAST_ACTIVITY);
-				m_ThreadInfo->send(iq3);
+					XmlNodeIq iq3(m_iqManager.AddHandler(&CJabberProto::OnIqResultLastActivity, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM));
+					iq3 << XQUERY(JABBER_FEAT_LAST_ACTIVITY);
+					m_ThreadInfo->send(iq3);
 
-				if (r->m_jcbCachedCaps & JABBER_CAPS_DISCO_INFO) {
-					XmlNodeIq iq5(m_iqManager.AddHandler(&CJabberProto::OnIqResultCapsDiscoInfoSI, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
-					iq5 << XQUERY(JABBER_FEAT_DISCO_INFO);
-					m_ThreadInfo->send(iq5);
-				}
+					if (r->m_jcbCachedCaps & JABBER_CAPS_DISCO_INFO) {
+						XmlNodeIq iq5(m_iqManager.AddHandler(&CJabberProto::OnIqResultCapsDiscoInfoSI, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE | JABBER_IQ_PARSE_HCONTACT));
+						iq5 << XQUERY(JABBER_FEAT_DISCO_INFO);
+						m_ThreadInfo->send(iq5);
+					}
 
-				if ( !r->m_dwVersionRequestTime) {
-					XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
-					iq4 << XQUERY(JABBER_FEAT_VERSION);
-					m_ThreadInfo->send(iq4);
+					if ( !r->m_dwVersionRequestTime) {
+						XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, tmp, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
+						iq4 << XQUERY(JABBER_FEAT_VERSION);
+						m_ThreadInfo->send(iq4);
+					}
 				}
 			}
-		}
-		else if ( !item->m_pItemResource->m_dwVersionRequestTime) {
-			XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, item->jid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
-			iq4 << XQUERY(JABBER_FEAT_VERSION);
-			m_ThreadInfo->send(iq4);
+			else if (item->m_pItemResource && item->m_pItemResource->m_dwVersionRequestTime == 0) {
+				XmlNodeIq iq4(m_iqManager.AddHandler(&CJabberProto::OnIqResultVersion, JABBER_IQ_TYPE_GET, item->jid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_HCONTACT | JABBER_IQ_PARSE_CHILD_TAG_NODE));
+				iq4 << XQUERY(JABBER_FEAT_VERSION);
+				m_ThreadInfo->send(iq4);
+			}
 		}
 	}
 
@@ -1377,9 +1379,8 @@ int __cdecl CJabberProto::SetAwayMsg(int status, const TCHAR *msg)
 {
 	Log("SetAwayMsg called, wParam=%d lParam=%S", status, msg);
 
-	EnterCriticalSection(&m_csModeMsgMutex);
-
 	TCHAR **szMsg;
+	mir_cslockfull lck(m_csModeMsgMutex);
 
 	switch (status) {
 	case ID_STATUS_ONLINE:
@@ -1408,7 +1409,6 @@ int __cdecl CJabberProto::SetAwayMsg(int status, const TCHAR *msg)
 		break;
 
 	default:
-		LeaveCriticalSection(&m_csModeMsgMutex);
 		return 1;
 	}
 
@@ -1418,7 +1418,6 @@ int __cdecl CJabberProto::SetAwayMsg(int status, const TCHAR *msg)
 		(*szMsg != NULL && newModeMsg != NULL && !lstrcmp(*szMsg, newModeMsg))) {
 		// Message is the same, no update needed
 		mir_free(newModeMsg);
-		LeaveCriticalSection(&m_csModeMsgMutex);
 	}
 	else {
 		// Update with the new mode message
@@ -1426,7 +1425,7 @@ int __cdecl CJabberProto::SetAwayMsg(int status, const TCHAR *msg)
 			mir_free(*szMsg);
 		*szMsg = newModeMsg;
 		// Send a presence update if needed
-		LeaveCriticalSection(&m_csModeMsgMutex);
+		lck.unlock();
 		if (status == m_iStatus)
 			SendPresence(m_iStatus, true);
 	}

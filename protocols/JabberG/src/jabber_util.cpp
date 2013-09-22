@@ -619,80 +619,52 @@ void CJabberProto::SendPresenceTo(int status, TCHAR* to, HXML extra, const TCHAR
 	HXML c = p << XCHILDNS(_T("c"), JABBER_FEAT_ENTITY_CAPS) << XATTR(_T("node"), JABBER_CAPS_MIRANDA_NODE)
 		<< XATTR(_T("ver"), szCoreVersion);
 
-	TCHAR szExtCaps[ 512 ] = _T("");
-
+	LIST<TCHAR> arrExtCaps(5);
 	if (m_bGoogleTalk)
-		_tcscat(szExtCaps, _T(JABBER_EXT_GTALK_PMUC));
+		arrExtCaps.insert( _T(JABBER_EXT_GTALK_PMUC));
 
-	if (bSecureIM) {
-		if (szExtCaps[0])
-			_tcscat(szExtCaps, _T(" "));
-		_tcscat(szExtCaps, _T(JABBER_EXT_SECUREIM));
-	}
+	if (bSecureIM)
+		arrExtCaps.insert( _T(JABBER_EXT_SECUREIM));
 
-	if (bMirOTR) {
-		if (szExtCaps[0])
-			_tcscat(szExtCaps, _T(" "));
-		_tcscat(szExtCaps, _T(JABBER_EXT_MIROTR));
-	}
+	if (bMirOTR)
+		arrExtCaps.insert( _T(JABBER_EXT_MIROTR));
 
-	if (bNewGPG) {
-		if (szExtCaps[0])
-			_tcscat(szExtCaps, _T(" "));
-		_tcscat(szExtCaps, _T(JABBER_EXT_NEWGPG));
-	}
+	if (bNewGPG)
+		arrExtCaps.insert( _T(JABBER_EXT_NEWGPG));
 
-	if (bPlatform) {
-		if (szExtCaps[0])
-			_tcscat(szExtCaps, _T(" "));
-		_tcscat(szExtCaps, _T(JABBER_EXT_PLATFORMX64));
-	} else {
-		if (szExtCaps[0])
-			_tcscat(szExtCaps, _T(" "));
-		_tcscat(szExtCaps, _T(JABBER_EXT_PLATFORMX86));
-	}
+	if (bPlatform)
+		arrExtCaps.insert( _T(JABBER_EXT_PLATFORMX64));
+	else
+		arrExtCaps.insert( _T(JABBER_EXT_PLATFORMX86));
 
-	if (m_options.EnableRemoteControl) {
-		if (szExtCaps[0])
-			_tcscat(szExtCaps, _T(" "));
-		_tcscat(szExtCaps, _T(JABBER_EXT_COMMANDS));
-	}
+	if (m_options.EnableRemoteControl)
+		arrExtCaps.insert( _T(JABBER_EXT_COMMANDS));
 
-	if (m_options.EnableUserMood) {
-		if (szExtCaps[0])
-			_tcscat(szExtCaps, _T(" "));
-		_tcscat(szExtCaps, _T(JABBER_EXT_USER_MOOD));
-	}
+	if (m_options.EnableUserMood)
+		arrExtCaps.insert( _T(JABBER_EXT_USER_MOOD));
 
-	if (m_options.EnableUserTune) {
-		if (szExtCaps[0])
-			_tcscat(szExtCaps, _T(" "));
-		_tcscat(szExtCaps, _T(JABBER_EXT_USER_TUNE));
-	}
+	if (m_options.EnableUserTune)
+		arrExtCaps.insert( _T(JABBER_EXT_USER_TUNE));
 
-	if (m_options.EnableUserActivity) {
-		if (szExtCaps[0])
-			_tcscat(szExtCaps, _T(" "));
-		_tcscat(szExtCaps, _T(JABBER_EXT_USER_ACTIVITY));
-	}
+	if (m_options.EnableUserActivity)
+		arrExtCaps.insert( _T(JABBER_EXT_USER_ACTIVITY));
 
-	if (m_options.AcceptNotes) {
-		if (szExtCaps[0])
-			_tcscat(szExtCaps, _T(" "));
-		_tcscat(szExtCaps, _T(JABBER_EXT_MIR_NOTES));
-	}
+	if (m_options.AcceptNotes)
+		arrExtCaps.insert( _T(JABBER_EXT_MIR_NOTES));
 
 	// add features enabled through IJabberNetInterface::AddFeatures()
-	for (int i = 0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++) {
-		if (m_uEnabledFeatCapsDynamic & m_lstJabberFeatCapPairsDynamic[i]->jcbCap) {
-			if (szExtCaps[0])
-				_tcscat(szExtCaps, _T(" "));
-			_tcscat(szExtCaps, m_lstJabberFeatCapPairsDynamic[i]->szExt);
-		}
-	}
+	for (int i = 0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)
+		if (m_uEnabledFeatCapsDynamic & m_lstJabberFeatCapPairsDynamic[i]->jcbCap)
+			arrExtCaps.insert(m_lstJabberFeatCapPairsDynamic[i]->szExt);
 
-	if (szExtCaps[0])
+	if (arrExtCaps.getCount()) {
+		CMString szExtCaps = arrExtCaps[0];
+		for (int i=1; i < arrExtCaps.getCount(); i++) {
+			szExtCaps.AppendChar(' ');
+			szExtCaps += arrExtCaps[i];
+		}
 		xmlAddAttr(c, _T("ext"), szExtCaps);
+	}
 
 	if (m_options.EnableAvatars) {
 		HXML x = p << XCHILDNS(_T("x"), _T("vcard-temp:x:update"));
@@ -703,46 +675,46 @@ void CJabberProto::SendPresenceTo(int status, TCHAR* to, HXML extra, const TCHAR
 		else
 			x << XCHILD(_T("photo"));
 	}
+	{
+		mir_cslock lck(m_csModeMsgMutex);
+		switch (status) {
+		case ID_STATUS_ONLINE:
+			if (!msg) msg = m_modeMsgs.szOnline;
+			break;
+		case ID_STATUS_INVISIBLE:
+			if (!m_bGoogleSharedStatus)
+				p << XATTR(_T("type"), _T("invisible"));
+			break;
+		case ID_STATUS_AWAY:
+		case ID_STATUS_ONTHEPHONE:
+		case ID_STATUS_OUTTOLUNCH:
+			p << XCHILD(_T("show"), _T("away"));
+			if (!msg) msg = m_modeMsgs.szAway;
+			break;
+		case ID_STATUS_NA:
+			p << XCHILD(_T("show"), _T("xa"));
+			if (!msg) msg = m_modeMsgs.szNa;
+			break;
+		case ID_STATUS_DND:
+		case ID_STATUS_OCCUPIED:
+			p << XCHILD(_T("show"), _T("dnd"));
+			if (!msg) msg = m_modeMsgs.szDnd;
+			break;
+		case ID_STATUS_FREECHAT:
+			p << XCHILD(_T("show"), _T("chat"));
+			if (!msg) msg = m_modeMsgs.szFreechat;
+			break;
+		default: // Should not reach here
+			break;
+		}
 
-	EnterCriticalSection(&m_csModeMsgMutex);
-	switch (status) {
-	case ID_STATUS_ONLINE:
-		if ( !msg) msg = m_modeMsgs.szOnline;
-		break;
-	case ID_STATUS_INVISIBLE:
-		if ( !m_bGoogleSharedStatus) p << XATTR(_T("type"), _T("invisible"));
-		break;
-	case ID_STATUS_AWAY:
-	case ID_STATUS_ONTHEPHONE:
-	case ID_STATUS_OUTTOLUNCH:
-		p << XCHILD(_T("show"), _T("away"));
-		if ( !msg) msg = m_modeMsgs.szAway;
-		break;
-	case ID_STATUS_NA:
-		p << XCHILD(_T("show"), _T("xa"));
-		if ( !msg) msg = m_modeMsgs.szNa;
-		break;
-	case ID_STATUS_DND:
-	case ID_STATUS_OCCUPIED:
-		p << XCHILD(_T("show"), _T("dnd"));
-		if ( !msg) msg = m_modeMsgs.szDnd;
-		break;
-	case ID_STATUS_FREECHAT:
-		p << XCHILD(_T("show"), _T("chat"));
-		if ( !msg) msg = m_modeMsgs.szFreechat;
-		break;
-	default:
-		// Should not reach here
-		break;
+		if (msg)
+			p << XCHILD(_T("status"), msg);
+
+		if (m_bGoogleSharedStatus && !to)
+			SendIqGoogleSharedStatus(status, msg);
 	}
 
-	if (msg)
-		p << XCHILD(_T("status"), msg);
-
-	if (m_bGoogleSharedStatus && !to)
-		SendIqGoogleSharedStatus(status, msg);
-
-	LeaveCriticalSection(&m_csModeMsgMutex);
 	m_ThreadInfo->send(p);
 }
 
