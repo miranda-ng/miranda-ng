@@ -353,7 +353,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BasicHistory", "..\plugins\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BASS_interface", "..\plugins\BASS_interface\Bass_interface_10.vcxproj", "{3933E789-D185-41DC-8169-9FF4365B6015}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_blind", "..\plugins\Clist_blind\Clist_blind_10.vcxproj", "{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_blind", "..\plugins\Clist_blind\Clist_blind_10.vcxproj", "{2E15C462-A150-4A37-ACD6-FBAECF1724F5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StartPosition", "..\plugins\StartPosition\StartPosition_10.vcxproj", "{046C5F80-ABE5-488F-BFC8-B024D4AACC8C}"
 EndProject
@@ -1616,14 +1616,14 @@ Global
 		{3933E789-D185-41DC-8169-9FF4365B6015}.Release|Win32.Build.0 = Release|Win32
 		{3933E789-D185-41DC-8169-9FF4365B6015}.Release|x64.ActiveCfg = Release|x64
 		{3933E789-D185-41DC-8169-9FF4365B6015}.Release|x64.Build.0 = Release|x64
-		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Debug|Win32.ActiveCfg = Debug|Win32
-		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Debug|Win32.Build.0 = Debug|Win32
-		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Debug|x64.ActiveCfg = Debug|x64
-		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Debug|x64.Build.0 = Debug|x64
-		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Release|Win32.ActiveCfg = Release|Win32
-		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Release|Win32.Build.0 = Release|Win32
-		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Release|x64.ActiveCfg = Release|x64
-		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Release|x64.Build.0 = Release|x64
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Debug|Win32.Build.0 = Debug|Win32
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Debug|x64.ActiveCfg = Debug|x64
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Debug|x64.Build.0 = Debug|x64
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Release|Win32.ActiveCfg = Release|Win32
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Release|Win32.Build.0 = Release|Win32
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Release|x64.ActiveCfg = Release|x64
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Release|x64.Build.0 = Release|x64
 		{046C5F80-ABE5-488F-BFC8-B024D4AACC8C}.Debug|Win32.ActiveCfg = Debug|Win32
 		{046C5F80-ABE5-488F-BFC8-B024D4AACC8C}.Debug|Win32.Build.0 = Debug|Win32
 		{046C5F80-ABE5-488F-BFC8-B024D4AACC8C}.Debug|x64.ActiveCfg = Debug|x64

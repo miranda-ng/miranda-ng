@@ -956,7 +956,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 			str_event.insert(0, toUTF8(outopentag));
 			str_event.append(toUTF8(outclosetag));
 			dbei->pBlob = (PBYTE)mir_strdup(str_event.c_str());
-			dbei->cbBlob = str_event.length() + 1;
+			dbei->cbBlob = (DWORD)str_event.length() + 1;
 		}
 
 		return 0;

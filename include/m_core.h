@@ -899,6 +899,11 @@ MIR_CORE_DLL(void)    KillModuleSubclassing(HMODULE hInst);
 
 ///////////////////////////////////////////////////////////////////////////////
 
+MIR_CORE_DLL(BOOL)    IsWinVerVistaPlus();
+MIR_CORE_DLL(BOOL)    IsWinVer7Plus();
+
+///////////////////////////////////////////////////////////////////////////////
+
 MIR_CORE_DLL(void) UnloadCoreModule(void);
 
 #if defined(__cplusplus)

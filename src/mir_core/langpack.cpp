@@ -455,8 +455,7 @@ MIR_CORE_DLL(void) TranslateMenu_LP(HMENU hMenu, int hLangpack)
 {
 	MUUID *uuid = Langpack_LookupUuid(hLangpack);
 
-	MENUITEMINFO mii;
-	mii.cbSize = MENUITEMINFO_V4_SIZE;
+	MENUITEMINFO mii = { sizeof(mii) };
 	for (int i = GetMenuItemCount(hMenu)-1; i >= 0; i--) {
 		TCHAR str[256];
 		mii.fMask = MIIM_TYPE|MIIM_SUBMENU;
@@ -470,9 +469,11 @@ MIR_CORE_DLL(void) TranslateMenu_LP(HMENU hMenu, int hLangpack)
 				mii.dwTypeData = result;
 				mii.fMask = MIIM_TYPE;
 				SetMenuItemInfo(hMenu, i, TRUE, &mii);
-		}	}
+			}
+		}
 
-		if (mii.hSubMenu != NULL) TranslateMenu_LP(mii.hSubMenu, hLangpack);
+		if (mii.hSubMenu != NULL)
+			TranslateMenu_LP(mii.hSubMenu, hLangpack);
 	}
 }
 

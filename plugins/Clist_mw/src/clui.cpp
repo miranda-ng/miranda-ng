@@ -81,9 +81,7 @@ void RegisterProtoIconsForAllProtoIconLib();
 
 static int CluiModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
-	MENUITEMINFO mii;
-	ZeroMemory(&mii,sizeof(mii));
-	mii.cbSize = MENUITEMINFO_V4_SIZE;
+	MENUITEMINFO mii = { sizeof(mii) };
 	mii.fMask = MIIM_SUBMENU;
 	mii.hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN,0,0);
 	SetMenuItemInfo(hMenuMain,0,TRUE,&mii);

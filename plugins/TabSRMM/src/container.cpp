@@ -1646,13 +1646,10 @@ panel_found:
 			sBarHeight = (UINT)M.GetByte((bSkinned ? "S_sbarheight" : "sbarheight"), 0);
 
 			if (LOBYTE(LOWORD(GetVersion())) >= 5) {
-				BOOL  fTransAllowed = !bSkinned || PluginConfig.m_WinVerMajor >= 6;
-				DWORD exold;
+				BOOL fTransAllowed = !bSkinned || PluginConfig.m_WinVerMajor >= 6;
 
 				ex = exold = GetWindowLongPtr(hwndDlg, GWL_EXSTYLE);
-				ex =  (pContainer->dwFlags & CNT_TRANSPARENCY && (!CSkin::m_skinEnabled || fTransAllowed)) ? ex | WS_EX_LAYERED : ex & ~(WS_EX_LAYERED);
-				//if (bAero && !pContainer->bSkinned && IsWinVerVistaPlus())
-				//	ex = ex | (WS_EX_COMPOSITED);//|WS_EX_LAYERED); // | WS_EX_COMPOSITED);			// faster/smoother redrawing on Vista+, especially with skins
+				ex = (pContainer->dwFlags & CNT_TRANSPARENCY && (!CSkin::m_skinEnabled || fTransAllowed)) ? ex | WS_EX_LAYERED : ex & ~(WS_EX_LAYERED);
 
 				SetWindowLongPtr(hwndDlg, GWL_EXSTYLE, ex);
 				if (pContainer->dwFlags & CNT_TRANSPARENCY && fTransAllowed) {

@@ -112,6 +112,7 @@
     <ClCompile Include="threads.cpp" />
     <ClCompile Include="utf.cpp" />
     <ClCompile Include="utils.cpp" />
+    <ClCompile Include="winver.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>mir_core</ProjectName>

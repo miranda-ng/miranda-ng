@@ -740,8 +740,7 @@ PMO_IntMenuItem MO_AddOldNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 
 static int WhereToPlace(HMENU hMenu, PMO_MenuItem mi)
 {
-	MENUITEMINFO mii = { 0 };
-	mii.cbSize = MENUITEMINFO_V4_SIZE;
+	MENUITEMINFO mii = { sizeof(mii) };
 	mii.fMask = MIIM_SUBMENU | MIIM_DATA;
 	for (int i = GetMenuItemCount(hMenu)-1; i >= 0; i--) {
 		GetMenuItemInfo(hMenu, i, TRUE, &mii);
@@ -760,8 +759,7 @@ static int WhereToPlace(HMENU hMenu, PMO_MenuItem mi)
 
 static DWORD GetMenuItemType(HMENU hMenu, int uItem)
 {
-	MENUITEMINFO mii = { 0 };
-	mii.cbSize = MENUITEMINFO_V4_SIZE;
+	MENUITEMINFO mii = { sizeof(mii) };
 	mii.fMask = MIIM_TYPE;
 	GetMenuItemInfo(hMenu, uItem, TRUE, &mii);
 	return mii.fType;
@@ -769,8 +767,7 @@ static DWORD GetMenuItemType(HMENU hMenu, int uItem)
 
 static UINT GetMenuItemTypeData(HMENU hMenu, int uItem, PMO_IntMenuItem& p)
 {
-	MENUITEMINFO mii = { 0 };
-	mii.cbSize = MENUITEMINFO_V4_SIZE;
+	MENUITEMINFO mii = { sizeof(mii) };
 	mii.fMask = MIIM_DATA | MIIM_TYPE;
 	GetMenuItemInfo(hMenu, uItem, TRUE, &mii);
 	p = MO_GetIntMenuItem((HGENMENU)mii.dwItemData);
@@ -779,8 +776,7 @@ static UINT GetMenuItemTypeData(HMENU hMenu, int uItem, PMO_IntMenuItem& p)
 
 static void InsertSeparator(HMENU hMenu, int uItem)
 {
-	MENUITEMINFO mii;
-	mii.cbSize = MENUITEMINFO_V4_SIZE;
+	MENUITEMINFO mii = { sizeof(mii) };
 	mii.fMask = MIIM_TYPE;
 	mii.fType = MFT_SEPARATOR;
 	InsertMenuItem(hMenu, uItem, TRUE, &mii);
@@ -944,28 +940,19 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 		if (rootlevel != (int)pmi->mi.root)
 			continue;
 
-		MENUITEMINFO mii = { 0 };
-		mii.dwItemData = (LPARAM)pmi;
-
 		int i = WhereToPlace(hMenu, mi);
 
-		if ( !IsWinVer98Plus()) {
-			mii.cbSize = MENUITEMINFO_V4_SIZE;
-			mii.fMask = MIIM_DATA | MIIM_TYPE | MIIM_ID;
-			mii.fType = MFT_STRING;
-		}
-		else {
-			mii.cbSize = sizeof(mii);
-			mii.fMask = MIIM_DATA | MIIM_ID | MIIM_STRING;
-			if (pmi->iconId != -1) {
-				mii.fMask |= MIIM_BITMAP;
-				if (IsWinVerVistaPlus() && IsThemeActive()) {
-					if (pmi->hBmp == NULL)
-						pmi->hBmp = ConvertIconToBitmap(NULL, pmi->parent->m_hMenuIcons, pmi->iconId);
-					mii.hbmpItem = pmi->hBmp;
-				}
-				else mii.hbmpItem = HBMMENU_CALLBACK;
+		MENUITEMINFO mii = { sizeof(mii) };
+		mii.dwItemData = (LPARAM)pmi;
+		mii.fMask = MIIM_DATA | MIIM_ID | MIIM_STRING;
+		if (pmi->iconId != -1) {
+			mii.fMask |= MIIM_BITMAP;
+			if (IsWinVerVistaPlus() && IsThemeActive()) {
+				if (pmi->hBmp == NULL)
+					pmi->hBmp = ConvertIconToBitmap(NULL, pmi->parent->m_hMenuIcons, pmi->iconId);
+				mii.hbmpItem = pmi->hBmp;
 			}
+			else mii.hbmpItem = HBMMENU_CALLBACK;
 		}
 
 		mii.fMask |= MIIM_STATE;

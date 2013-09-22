@@ -32,33 +32,12 @@ To make myself clear, you are supposed to use the sdk, this is just a work aroun
 
 All constants are normally declared in winuser.h
 
-File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
+File created by Christian Kostner, and tweaked a bit by Richard Hughes*/
 
-//Windows versions in order of feature presence is:
-//95, NT4, 98, ME, 2000, XP
-//This is chronological order of release except for ME/2000. ME is barely an
-//improvement on 98.
-//These macros use the above order, not release order.
 #define WinVerMajor()      LOBYTE(LOWORD(GetVersion()))
 #define WinVerMinor()      HIBYTE(LOWORD(GetVersion()))
-#define IsWinVerNT()       ((GetVersion()&0x80000000) == 0)
-// IsWinVerNT4Plus() is buggy, Windows 98 is 4.10.1998
-#define IsWinVerNT4Plus()  (WinVerMajor()>=5 || WinVerMinor()>0 || IsWinVerNT())
-#define IsWinVer98Plus()   (LOWORD(GetVersion()) != 4)
-#define IsWinVerMEPlus()   (WinVerMajor()>=5 || WinVerMinor()>10)
-#define IsWinVer2000Plus() (WinVerMajor()>=5 && IsWinVerNT())
-#define IsWinVerXPPlus()   (WinVerMajor()>=5 && LOWORD(GetVersion()) != 5)
-#define IsWinVerVistaPlus() (WinVerMajor()>=6)
-#define IsWinVer7Plus()     (WinVerMajor()>6 || (WinVerMajor() == 6 && WinVerMinor()>=1))
 
 // put stuff that's not apart of any SDKs but is used nonetheless
-
-#ifdef _WIN64
-#define MENUITEMINFO_V4_SIZE sizeof(MENUITEMINFO)
-#else
-//mii was extended for NT5/Win98, so need the old length for some stuff
-#define MENUITEMINFO_V4_SIZE (offsetof(MENUITEMINFO, cch)+sizeof((*((MENUITEMINFO*)0)).cch))
-#endif
 
 #if _MSC_VER >= 1300
 #define NOWIN2K

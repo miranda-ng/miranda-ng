@@ -470,7 +470,6 @@ static INT_PTR BuildGroupMenu(WPARAM, LPARAM)
 	int nextMenuId = 100;
 	TCHAR *pBackslash, *pNextField, szThisField[128], szThisMenuItem[128];
 	int menuId, compareResult, menuItemCount;
-	MENUITEMINFO mii = { 0 };
 
 	if (db_get_utf(NULL, "CListGroups", "0", &dbv))
 		return (INT_PTR) (HMENU) NULL;
@@ -483,7 +482,8 @@ static INT_PTR BuildGroupMenu(WPARAM, LPARAM)
 
 		pNextField = dbv.ptszVal + 1;
 		hThisMenu = hRootMenu;
-		mii.cbSize = MENUITEMINFO_V4_SIZE;
+
+		MENUITEMINFO mii = { sizeof(mii) };
 		do {
 			pBackslash = _tcschr(pNextField, '\\');
 			if (pBackslash == NULL) {

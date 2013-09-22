@@ -25,9 +25,6 @@ HFONT hFont = 0;
 COLORREF bk_col = RGB(255, 255, 255);
 
 ////////////////
-#define WinVerMajor()      LOBYTE(LOWORD(GetVersion()))
-#define WinVerMinor()      HIBYTE(LOWORD(GetVersion()))
-
 static HMODULE hUserDll;
 BOOL (WINAPI *MySetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD);
 BOOL (WINAPI *MyAnimateWindow)(HWND hWnd,DWORD dwTime,DWORD dwFlags);

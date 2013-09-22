@@ -29,15 +29,12 @@ bool metaIsProtoMetaContacts(HANDLE hContact)
     return false;
 }
 
-
 bool metaIsDefaultSubContact(HANDLE hContact) 
 {
-
     if(bMetaContacts)
 		return (HANDLE)CallService(MS_MC_GETDEFAULTCONTACT,(WPARAM)CallService(MS_MC_GETMETACONTACT,(WPARAM)hContact,0),0)==hContact;
     return false;
 }
-
 
 HANDLE metaGetContact(HANDLE hContact) 
 {
@@ -46,13 +43,13 @@ HANDLE metaGetContact(HANDLE hContact)
 			return (HANDLE)CallService(MS_MC_GETMETACONTACT,(WPARAM)hContact,0);
     return NULL;
 }
+
 bool metaIsSubcontact(HANDLE hContact)
 {
 	if(bMetaContacts)
-		return (HANDLE)CallService(MS_MC_GETMETACONTACT,(WPARAM)hContact,0);
+		return CallService(MS_MC_GETMETACONTACT,(WPARAM)hContact,0) != 0;
     return false;
 }
-
 
 HANDLE metaGetMostOnline(HANDLE hContact) 
 {
@@ -62,6 +59,7 @@ HANDLE metaGetMostOnline(HANDLE hContact)
 			return (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)hContact,0);
     return NULL;
 }
+
 HANDLE metaGetDefault(HANDLE hContact) 
 {
 
@@ -71,13 +69,13 @@ HANDLE metaGetDefault(HANDLE hContact)
     return NULL;
 }
 
-
 DWORD metaGetContactsNum(HANDLE hContact)
 {
 	if(bMetaContacts)
 		return CallService(MS_MC_GETNUMCONTACTS, (WPARAM)hContact, 0);
 	return 0;
 }
+
 HANDLE metaGetSubcontact(HANDLE hContact, int num)
 {
 	if(bMetaContacts)

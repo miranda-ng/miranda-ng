@@ -33,6 +33,8 @@ void CheckLogs();
 void InitLogs();
 void UninitLogs();
 
+void InitWinver();
+
 int hLangpack = 0;
 HINSTANCE hInst = 0;
 
@@ -67,7 +69,7 @@ static void LoadCoreModule(void)
 	icce.dwICC = ICC_WIN95_CLASSES | ICC_USEREX_CLASSES;
 	InitCommonControlsEx(&icce);
 
-	hAPCWindow=CreateWindowEx(0, _T("ComboLBox"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+	hAPCWindow = CreateWindowEx(0, _T("ComboLBox"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
 	SetClassLongPtr(hAPCWindow, GCL_STYLE, GetClassLongPtr(hAPCWindow, GCL_STYLE) | CS_DROPSHADOW);
 	DestroyWindow(hAPCWindow);
 	hAPCWindow = NULL;
@@ -85,6 +87,7 @@ static void LoadCoreModule(void)
 	#endif
 	RecalculateTime = (void (*)()) GetProcAddress(mirInst, "RecalculateTime");
 
+	InitWinver();
 	InitPathUtils();
 	InitLogs();
 	InitialiseModularEngine();

@@ -406,8 +406,7 @@ BOOL FindMenuHandleByGlobalID(HMENU hMenu, PMO_IntMenuItem id, MenuItemData* itd
 	if ( !itdat)
 		return FALSE;
 
-	MENUITEMINFO mii = {0};
-	mii.cbSize = MENUITEMINFO_V4_SIZE;
+	MENUITEMINFO mii = { sizeof(mii) };
 	mii.fMask = MIIM_SUBMENU | MIIM_DATA;
 	for (int i = GetMenuItemCount(hMenu)-1; i >= 0; i--) {
 		GetMenuItemInfo(hMenu, i, TRUE, &mii);
@@ -480,24 +479,16 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 						TCHAR d[100];
 						GetMenuString(it.OwnerMenu, it.position, d, SIZEOF(d), MF_BYPOSITION);
 
-						if ( !IsWinVer98Plus()) {
-							mi.cbSize = MENUITEMINFO_V4_SIZE;
-							mi.fMask = MIIM_TYPE | MIIM_STATE;
-							mi.fType = MFT_STRING;
-						}
-						else {
-							mi.cbSize = sizeof(mi);
-							mi.fMask = MIIM_STRING | MIIM_STATE;
-							if (timi->iconId != -1) {
-								mi.fMask |= MIIM_BITMAP;
-								if (IsWinVerVistaPlus() && IsThemeActive()) {
-									if (timi->hBmp == NULL)
-										timi->hBmp = ConvertIconToBitmap(NULL, timi->parent->m_hMenuIcons, timi->iconId);
-									mi.hbmpItem = timi->hBmp;
-								}
-								else
-									mi.hbmpItem = HBMMENU_CALLBACK;
+						mi.cbSize = sizeof(mi);
+						mi.fMask = MIIM_STRING | MIIM_STATE;
+						if (timi->iconId != -1) {
+							mi.fMask |= MIIM_BITMAP;
+							if (IsWinVerVistaPlus() && IsThemeActive()) {
+								if (timi->hBmp == NULL)
+									timi->hBmp = ConvertIconToBitmap(NULL, timi->parent->m_hMenuIcons, timi->iconId);
+								mi.hbmpItem = timi->hBmp;
 							}
+							else mi.hbmpItem = HBMMENU_CALLBACK;
 						}
 
 						mi.fState |= (check && !reset ? MFS_CHECKED : MFS_UNCHECKED);
@@ -710,8 +701,7 @@ BOOL FindMenuHanleByGlobalID(HMENU hMenu, PMO_IntMenuItem id, MenuItemData* itda
 
 	BOOL inSub = FALSE;
 
-	MENUITEMINFO mii = {0};
-	mii.cbSize = MENUITEMINFO_V4_SIZE;
+	MENUITEMINFO mii = { sizeof(mii) };
 	mii.fMask = MIIM_SUBMENU | MIIM_DATA;
 	for (int i = GetMenuItemCount(hMenu)-1; i >= 0; i--) {
 		GetMenuItemInfo(hMenu, i, TRUE, &mii);
@@ -1395,8 +1385,7 @@ void InitCustomMenus(void)
 	cli.currentStatusMenuItem = ID_STATUS_OFFLINE;
 	cli.currentDesiredStatusMode = ID_STATUS_OFFLINE;
 
-	if (IsWinVer98Plus())
-		HookEvent(ME_SKIN_ICONSCHANGED, MenuIconsChanged);
+	HookEvent(ME_SKIN_ICONSCHANGED, MenuIconsChanged);
 }
 
 void UninitCustomMenus(void)

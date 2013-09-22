@@ -555,10 +555,10 @@ int AddNewMailsToListView(HWND hListView,HACCOUNT ActualAccount,struct CMailNumb
 			Extracted=TRUE;
 
 			if ((UnicodeHeader.From != NULL) && (UnicodeHeader.FromNick != NULL)) {
-				int size = wcslen(UnicodeHeader.From) + wcslen(UnicodeHeader.FromNick) + 4;
-				FromStr=new WCHAR[size];
+				size_t size = wcslen(UnicodeHeader.From) + wcslen(UnicodeHeader.FromNick) + 4;
+				FromStr = new WCHAR[size];
 				mir_sntprintf(FromStr, size, L"%s <%s>", UnicodeHeader.FromNick, UnicodeHeader.From);
-				FromStrNew=TRUE;
+				FromStrNew = TRUE;
 			}
 			else if (UnicodeHeader.From != NULL)
 				FromStr=UnicodeHeader.From;
@@ -1476,7 +1476,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 			ShowWindow(GetDlgItem(hDlg, IDC_SPLITTER),(MailParam->mail->Flags & YAMN_MSG_BODYRECEIVED)?SW_SHOW:SW_HIDE);
 			ShowWindow(hEdit,(MailParam->mail->Flags & YAMN_MSG_BODYRECEIVED)?SW_SHOW:SW_HIDE);
 			WCHAR *title=0;
-			int size = (From ? wcslen(From) : 0) + (Subj ? wcslen(Subj) : 0) + 4;
+			size_t size = (From ? wcslen(From) : 0) + (Subj ? wcslen(Subj) : 0) + 4;
 			title = new WCHAR[size];
 			if (From&&Subj)
 				mir_sntprintf(title, size, L"%s (%s)", Subj, From);

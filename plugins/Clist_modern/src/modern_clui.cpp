@@ -261,17 +261,15 @@ INT_PTR CLUI::Service_Menu_HideContactAvatar(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-
-
 HRESULT CLUI::CreateCluiFrames()
 {
 	g_hMenuMain = GetMenu(pcli->hwndContactList);
-	MENUITEMINFO mii;
-	ZeroMemory(&mii,sizeof(mii));
-	mii.cbSize = MENUITEMINFO_V4_SIZE;
+
+	MENUITEMINFO mii = { sizeof(mii) };
 	mii.fMask = MIIM_SUBMENU;
 	mii.hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
 	SetMenuItemInfo(g_hMenuMain, 0, TRUE,&mii);
+
 	mii.hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
 	SetMenuItemInfo(g_hMenuMain,1,TRUE,&mii);
 
@@ -2059,9 +2057,7 @@ LRESULT CLUI::OnCreate(UINT msg, WPARAM wParam, LPARAM lParam)
 	DrawMenuBar(m_hWnd);
 	cliCluiProtocolStatusChanged(0, 0);
 
-	MENUITEMINFO mii;
-	ZeroMemory(&mii,sizeof(mii));
-	mii.cbSize = MENUITEMINFO_V4_SIZE;
+	MENUITEMINFO mii = { sizeof(mii) };
 	mii.fMask = MIIM_TYPE|MIIM_DATA;
 	mii.dwItemData = MENU_MIRANDAMENU;
 	mii.fType = MFT_OWNERDRAW;

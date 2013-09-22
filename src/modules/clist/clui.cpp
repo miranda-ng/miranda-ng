@@ -58,8 +58,7 @@ void fnLoadCluiGlobalOpts()
 static int CluiModulesLoaded(WPARAM, LPARAM)
 {
 	if (cli.hMenuMain) {
-		MENUITEMINFO mii = { 0 };
-		mii.cbSize = MENUITEMINFO_V4_SIZE;
+		MENUITEMINFO mii = { sizeof(mii) };
 		mii.fMask = MIIM_SUBMENU;
 		mii.hSubMenu = (HMENU) CallService(MS_CLIST_MENUGETMAIN, 0, 0);
 		SetMenuItemInfo(cli.hMenuMain, 0, TRUE, &mii);
@@ -449,7 +448,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	switch (msg) {
 	case WM_NCCREATE:
 		{
-			MENUITEMINFO mii = { MENUITEMINFO_V4_SIZE };
+			MENUITEMINFO mii = { sizeof(mii) };
 			mii.fMask = MIIM_TYPE | MIIM_DATA;
 			mii.dwItemData = MENU_MIRANDAMENU;
 			mii.fType = MFT_OWNERDRAW;
@@ -931,7 +930,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			POINT pt;
 			GetCursorPos(&pt);
 			if ((pos == 0 || pos == 1) && (HIWORD(wParam) & MF_POPUP) && ( !(HIWORD(wParam) & MF_MOUSESELECT) || MenuItemFromPoint(hwnd, cli.hMenuMain, pt) != -1)) {
-				MENUITEMINFO mii = { MENUITEMINFO_V4_SIZE };
+				MENUITEMINFO mii = { sizeof(mii) };
 				mii.fMask = MIIM_SUBMENU;
 				mii.hSubMenu = (HMENU)CallService((pos == 0) ? MS_CLIST_MENUGETMAIN : MS_CLIST_MENUGETSTATUS, 0, 0);
 				SetMenuItemInfo(cli.hMenuMain, pos, TRUE, &mii);
