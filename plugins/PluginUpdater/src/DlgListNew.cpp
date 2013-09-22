@@ -349,6 +349,17 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
+	case WM_GETMINMAXINFO: 
+		{
+			LPMINMAXINFO mmi = (LPMINMAXINFO)lParam;
+
+			// The minimum width in points
+			mmi->ptMinTrackSize.x = 370;
+			// The minimum height in points
+			mmi->ptMinTrackSize.y = 300;
+		}
+		break;
+
 	case WM_DESTROY:
 		Utils_SaveWindowPosition(hDlg, NULL, MODNAME, "ListWindow");
 		Skin_ReleaseIcon((HICON)SendMessage(hDlg, WM_SETICON, ICON_BIG, 0));
